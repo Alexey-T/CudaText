@@ -7,12 +7,12 @@
 
 + add: reduce flickering on typing with lexer, e.g. in Markdown; note: it is possibly breaking change so report any bugs (thanks @kvichans)
 + add: add some API for 'Highlight Occurrences' plugin (thanks @Shovel)
-+ add: commands "current document font size: bigger/smaller/reset" show statusbar msg (thanks @kvichans)
 + add: file viewer: Find-dialog is supported for viewer
 + add: file viewer: viewer masks high-ANSI char codes 0x7F...0xFF with '?'
 + add: file viewer: viewer handles commands "current document font size: bigger/smaller/reset"
-+ add: file viewer: keep the position after the viewer 'mode' changes
-+ add: file viewer: save/restore viewer 'mode' to/from session
++ add: file viewer: viewer keeps scroll-position after 'mode' changes
++ add: file viewer: viewer 'mode' is saved/restored to/from session
++ add: commands "current document font size: bigger/smaller/reset" show statusbar msg (thanks @kvichans)
 - fix: action 'trim spaces' was removing too much chars: codes 0x00...0x1F (thanks @JairoMartinezA)
 - fix: clicking after 1024'th char gave bad caret placement, now with "caret_after_end":false (thanks @Shovel)
 
