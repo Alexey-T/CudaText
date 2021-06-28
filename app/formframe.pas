@@ -1472,12 +1472,6 @@ var
   bTypedChar: boolean;
   NValue: integer;
 begin
-  Ed:= Sender as TATSynEdit;
-  if Ed.Carets.Count<>1 then exit;
-  Caret:= Ed.Carets[0];
-  if not Ed.Strings.IsIndexValid(Caret.PosY) then exit;
-  bTypedChar:= false;
-
   if IsBinary then
   begin
     case ACommand of
@@ -1497,6 +1491,12 @@ begin
     end;
     exit;
   end;
+
+  Ed:= Sender as TATSynEdit;
+  if Ed.Carets.Count<>1 then exit;
+  Caret:= Ed.Carets[0];
+  if not Ed.Strings.IsIndexValid(Caret.PosY) then exit;
+  bTypedChar:= false;
 
   //some commands affect FTextCharsTyped
   case ACommand of
