@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.135.1 (2021/06)
+1.136.0 (2021/06)
 
 + add: add some API for 'Highlight Occurrences' plugin (thanks @Shovel)
 + add: file viewer: Find-dialog is supported for viewer
