@@ -7,7 +7,7 @@
 
 + add: add some API for 'Highlight Occurrences' plugin (thanks @Shovel)
 + add: file viewer: Find-dialog is supported for viewer
-+ add: file viewer: viewer masks high-ANSI chars 0x7F...0xFF; added option "viewer_unprinted" for this
++ add: file viewer: viewer masks ANSI chars 0x7F...0xFF by '?'; added option "viewer_unprinted" for this feature
 + add: file viewer: viewer handles commands "current document font size: bigger/smaller/reset"
 + add: file viewer: viewer keeps scroll-position after 'mode' changes
 + add: file viewer: viewer 'mode' is saved/restored to/from session
