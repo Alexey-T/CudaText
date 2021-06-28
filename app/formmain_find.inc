@@ -552,8 +552,11 @@ end;
 
 procedure TfmMain.DoFindFirst;
 var
+  Frame: TEditorFrame;
   ok, bChanged: boolean;
 begin
+  Frame:= CurrentFrame;
+  if Frame=nil then exit;
   //if Assigned(fmFind) then
   //  FFinder.StrFind:= fmFind.edFind.Text;
 
@@ -563,7 +566,13 @@ begin
     Exit
   end;
 
-  FFinder.Editor:= CurrentEditor;
+  if Frame.IsBinary then
+  begin
+    FindDialogDone(Frame, afoFindFirst, false);
+    exit;
+  end;
+
+  FFinder.Editor:= Frame.Editor;
   FFinder.OptBack:= false;
   FFinder.OptFromCaret:= false;
 
@@ -574,8 +583,12 @@ end;
 
 procedure TfmMain.DoFindNext(ANext: boolean);
 var
+  Frame: TEditorFrame;
+  Op: TAppFinderOperation;
   ok, bChanged: boolean;
 begin
+  Frame:= CurrentFrame;
+  if Frame=nil then exit;
   InitFormFind;
 
   ////always update Finder string when "Find next" called. issue #2182
@@ -588,7 +601,17 @@ begin
     Exit
   end;
 
-  FFinder.Editor:= CurrentEditor;
+  if Frame.IsBinary then
+  begin
+    if ANext then
+      Op:= afoFindNext
+    else
+      Op:= afoFindPrev;
+    FindDialogDone(Frame, Op, false);
+    exit;
+  end;
+
+  FFinder.Editor:= Frame.Editor;
   FFinder.OptFromCaret:= true;
   FFinder.OptBack:= not ANext;
 
