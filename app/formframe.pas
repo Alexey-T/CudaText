@@ -1469,9 +1469,7 @@ procedure TEditorFrame.EditorOnCommandAfter(Sender: TObject; ACommand: integer;
 var
   Ed: TATSynEdit;
   Caret: TATCaretItem;
-  SLexerName: string;
-  STextW: UnicodeString;
-  bTypedChar, bWordChar, bIdentChar: boolean;
+  bTypedChar: boolean;
   NValue: integer;
 begin
   Ed:= Sender as TATSynEdit;
@@ -1479,6 +1477,26 @@ begin
   Caret:= Ed.Carets[0];
   if not Ed.Strings.IsIndexValid(Caret.PosY) then exit;
   bTypedChar:= false;
+
+  if IsBinary then
+  begin
+    case ACommand of
+      cCommand_ZoomIn:
+        begin
+          Binary.IncreaseFontSize(true);
+        end;
+      cCommand_ZoomOut:
+        begin
+          Binary.IncreaseFontSize(false);
+        end;
+      cCommand_ZoomReset:
+        begin
+          Binary.Font.Size:= EditorOps.OpFontSize;
+          Binary.Redraw;
+        end;
+    end;
+    exit;
+  end;
 
   //some commands affect FTextCharsTyped
   case ACommand of
