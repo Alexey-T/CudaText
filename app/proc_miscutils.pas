@@ -632,6 +632,7 @@ begin
   V.Color:= GetAppColor(apclEdTextBg);
   V.TextColorGutter:= GetAppColor(apclEdGutterBg);
   V.TextColorURL:= GetAppColor(apclEdLinks);
+  V.TextColorHi:= GetAppColor(apclEdMarkers);
 
   St:= GetAppStyle(apstSectionBG1);
   V.TextColorHexBack:= St.BgColor;
