@@ -103,13 +103,15 @@ procedure TfmMain.UpdateToolbarButtons(F: TEditorFrame);
 var
   Ed: TATSynEdit;
   bEditable: boolean;
+  bShowNonPrinted: boolean;
 begin
   if F=nil then exit;
   Ed:= F.Editor;
   bEditable:= not Ed.ModeReadOnly;
+  bShowNonPrinted:= (F.IsText and Ed.OptUnprintedVisible) or (F.IsBinary and F.Binary.TextNonPrintable);
 
   UpdateToolbarButton(ToolbarMain, cCommand_ToggleMinimap, Ed.OptMinimapVisible, true);
-  UpdateToolbarButton(ToolbarMain, cCommand_ToggleUnprinted, Ed.OptUnprintedVisible, true);
+  UpdateToolbarButton(ToolbarMain, cCommand_ToggleUnprinted, bShowNonPrinted, true);
 
   UpdateToolbarButton(ToolbarMain, cCommand_ClipboardCut, false, bEditable);
   UpdateToolbarButton(ToolbarMain, cCommand_ClipboardPaste, false, bEditable);
