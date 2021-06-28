@@ -5,7 +5,6 @@
 
 1.135.1 (2021/06)
 
-+ add: reduce flickering on typing with lexer, e.g. in Markdown; note: it is possibly breaking change so report any bugs (thanks @kvichans)
 + add: add some API for 'Highlight Occurrences' plugin (thanks @Shovel)
 + add: file viewer: Find-dialog is supported for viewer
 + add: file viewer: viewer masks high-ANSI chars 0x7F...0xFF; added option "viewer_unprinted" for this
