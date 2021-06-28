@@ -3136,6 +3136,14 @@ begin
               Result:= ReturnNone;
           end;
 
+        PROP_TAB_UI_SHOW:
+          begin
+            if Assigned(F) then
+              Result:= PyBool_FromLong(Ord(F.TabVisible))
+            else
+              Result:= ReturnNone;
+          end;
+
         PROP_ENC:
           begin
             Str:= AppEncodingFullnameToShortname(Ed.EncodingName);
@@ -3818,6 +3826,12 @@ begin
           begin
             if Assigned(F) then
               F.TabPinned:= ValueBool;
+          end;
+
+        PROP_TAB_UI_SHOW:
+          begin
+            if Assigned(F) then
+              F.TabVisible:= ValueBool;
           end;
 
         PROP_ENC:

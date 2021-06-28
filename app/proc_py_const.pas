@@ -214,6 +214,7 @@ const
   PROP_SAVING_TRIM_FINAL_EMPTY_LINES = 95;
   PROP_ZEBRA                     = 96;
   PROP_ZEBRA_STEP                = 97;
+  PROP_TAB_UI_SHOW               = 98;
   PROP_LINE_STATES               = 99;
   PROP_LINE_STATES_UPDATED       = 100;
   PROP_FOLD_TOOLTIP_SHOW         = 101;

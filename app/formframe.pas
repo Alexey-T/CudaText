@@ -218,6 +218,7 @@ type
     function GetSplitPosCurrent: double;
     function GetSplitted: boolean;
     function GetTabKeyCollectMarkers: boolean;
+    function GetTabVisible: boolean;
     function GetUnprintedEnds: boolean;
     function GetUnprintedEndsDetails: boolean;
     function GetUnprintedShow: boolean;
@@ -240,6 +241,7 @@ type
     procedure SetTabColor(AColor: TColor);
     procedure SetTabPinned(AValue: boolean);
     procedure SetTabImageIndex(AValue: integer);
+    procedure SetTabVisible(AValue: boolean);
     procedure SetUnprintedEnds(AValue: boolean);
     procedure SetUnprintedEndsDetails(AValue: boolean);
     procedure SetUnprintedShow(AValue: boolean);
@@ -299,6 +301,7 @@ type
     property TabCaptionFromApi: boolean read FTabCaptionFromApi write FTabCaptionFromApi;
     property TabId: integer read FTabId;
     property TabIsPreview: boolean read GetIsPreview write SetIsPreview;
+    property TabVisible: boolean read GetTabVisible write SetTabVisible;
 
     property CachedTreeViewInited[Ed: TATSynEdit]: boolean read GetCachedTreeviewInited;
     property CachedTreeView[Ed: TATSynEdit]: TTreeView read GetCachedTreeview;
@@ -3614,6 +3617,38 @@ begin
   if Assigned(D) then
   begin
     D.TabImageIndex:= AValue;
+    Pages.Tabs.Invalidate;
+  end;
+end;
+
+
+function TEditorFrame.GetTabVisible: boolean;
+var
+  Gr: TATGroups;
+  Pages: TATPages;
+  NLocalGroup, NGlobalGroup, NTab: integer;
+  D: TATTabData;
+begin
+  GetFrameLocation(Self, Gr, Pages, NLocalGroup, NGlobalGroup, NTab);
+  D:= Pages.Tabs.GetTabData(NTab);
+  if Assigned(D) then
+    Result:= D.TabVisible
+  else
+    Result:= true;
+end;
+
+procedure TEditorFrame.SetTabVisible(AValue: boolean);
+var
+  Gr: TATGroups;
+  Pages: TATPages;
+  NLocalGroup, NGlobalGroup, NTab: integer;
+  D: TATTabData;
+begin
+  GetFrameLocation(Self, Gr, Pages, NLocalGroup, NGlobalGroup, NTab);
+  D:= Pages.Tabs.GetTabData(NTab);
+  if Assigned(D) then
+  begin
+    D.TabVisible:= AValue;
     Pages.Tabs.Invalidate;
   end;
 end;
