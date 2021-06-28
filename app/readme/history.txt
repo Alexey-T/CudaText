@@ -9,6 +9,7 @@
 + add: add some API for 'Highlight Occurrences' plugin (thanks @Shovel)
 + add: commands "current document font size: bigger/smaller/reset" show statusbar msg (thanks @kvichans)
 + add: file viewer: Find-dialog is supported for viewer
++ add: file viewer: viewer masks high-ANSI char codes 0x7F...0xFF with '?'
 + add: file viewer: viewer handles commands "current document font size: bigger/smaller/reset"
 + add: file viewer: keep the position after the viewer 'mode' changes
 + add: file viewer: save/restore viewer 'mode' to/from session
