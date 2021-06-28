@@ -2256,6 +2256,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_TAB_ICON: int: index of tab icon, ie index in imagelist, which handle you can get via app_proc(PROC_GET_TAB_IMAGELIST).
 * PROP_TAB_PINNED: bool: tab is "pinned" (shows additional confirmation on closing).
 * PROP_TAB_ID: int: unique tab's identifier (one number for main/secondary editors in tab), it is not changed when tab is moved.
+* PROP_TAB_UI_SHOW: bool: tab header is visible on the tabs-bar.
 * PROP_INDENT_SIZE: int: size of indent for Indent/Unindent commands. N>0: indent in spaces, N<0: indent in tabs, N=0: indent from PROP_TAB_SIZE/PROP_TAB_SPACES.
 * PROP_INDENT_KEEP_ALIGN: bool: command Unindent keeps alignment of block edge, ie don't unindent if any line reached column 0.
 * PROP_INDENT_AUTO: bool: makes next line also indented on Enter command.
@@ -2398,6 +2399,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 * PROP_TAB_TITLE: str: title of tab, useful for untitled tabs.
 * PROP_TAB_ICON: int: index of tab icon, ie index in imagelist, which handle you can get via app_proc(PROC_GET_TAB_IMAGELIST).
 * PROP_TAB_PINNED: bool: tab is "pinned" (shows additional confirmation on closing).
+* PROP_TAB_UI_SHOW: bool: tab header is visible on the tabs-bar.
 * PROP_INDENT_SIZE: int: size of indent for Indent/Unindent commands. N>0: indent in spaces, N<0: indent in tabs, N=0: indent from PROP_TAB_SIZE/PROP_TAB_SPACES.
 * PROP_INDENT_KEEP_ALIGN: bool: command Unindent keeps alignment of block edge, ie don't unindent if any line reached column 0.
 * PROP_INDENT_AUTO: bool: makes next line also indented on Enter command.
@@ -4372,9 +4374,10 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * deprecate: toolbar_proc() special string handle "top"
 * deprecate: statusbar_proc() special string handle "main"
 
-1.0.396 (app 1.135.1)
+1.0.397 (app 1.135.2)
 * add: Editor.get_wrapinfo: add optional params to specify lines range
 * add: Editor.convert: CONVERT_OFFSET_TO_CARET
 * add: Editor.convert: CONVERT_CARET_TO_OFFSET
+* add: Editor.get_prop/set_prop: PROP_TAB_UI_SHOW
 
 [[Category:CudaText]]
