@@ -12,6 +12,7 @@
 + add: file viewer: viewer keeps scroll-position after 'mode' changes
 + add: file viewer: viewer 'mode' is saved/restored to/from session
 + add: commands "current document font size: bigger/smaller/reset" show statusbar msg (thanks @kvichans)
++ add: if lexer needs sub-lexer N, and N is not installed, app shows the error in Console
 - fix: action 'trim spaces' was removing too much chars: codes 0x00...0x1F (thanks @JairoMartinezA)
 - fix: clicking after 1024'th char gave bad caret placement, now with "caret_after_end":false (thanks @Shovel)
 
