@@ -56,7 +56,7 @@ var
   bTreeCached: boolean;
 begin
   Ed:= Sender as TATSynEdit;
-  F:= Ed.Parent as TEditorFrame;
+  F:= GetEditorFrame(Ed);
 
   F.GetTabGroups.PagesCurrent:= F.GetTabPages;
 

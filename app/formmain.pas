@@ -1283,12 +1283,18 @@ begin
   {$endif}
 end;
 
-function GetEditorFrame(Ed: TATSynEdit): TEditorFrame; inline;
+function GetEditorFrame(Ed: TATSynEdit): TEditorFrame;
+//1st parent is TFormDummy, 2nd parent is TEditorFrame
+var
+  Ctl: TWinControl;
 begin
-  if Assigned(Ed) and (Ed.Parent is TEditorFrame) then
-    Result:= TEditorFrame(Ed.Parent)
-  else
-    Result:= nil;
+  Result:= nil;
+  if Ed=nil then exit;
+  Ctl:= Ed.Parent;
+  if Ctl=nil then exit;
+  Ctl:= Ctl.Parent;
+  if Ctl is TEditorFrame then
+    Result:= TEditorFrame(Ctl);
 end;
 
 function GetEditorBrother(Ed: TATSynEdit): TATSynEdit;
@@ -2904,7 +2910,7 @@ begin
 
     bEditorActive:=
       (ActiveControl is TATSynEdit) and
-      (ActiveControl.Parent is TEditorFrame);
+      (ActiveControl.Parent is TFormDummy);
     bConsoleActive:=
       Assigned(fmConsole) and
       (fmConsole.EdInput.Focused or

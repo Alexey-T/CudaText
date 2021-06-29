@@ -55,6 +55,7 @@ uses
   proc_py_const,
   proc_miscutils,
   proc_lexer_styles,
+  proc_customdialog_dummy,
   ec_SyntAnal,
   ec_proc_lexer,
   ec_lexerlist,
@@ -95,6 +96,7 @@ type
     procedure TimerChangeTimer(Sender: TObject);
   private
     { private declarations }
+    FFormDummy: TFormDummy;
     Adapter1: TATAdapterEControl;
     Adapter2: TATAdapterEControl;
     PanelInfo: TPanel;
@@ -1652,7 +1654,7 @@ end;
 procedure TEditorFrame.InitEditor(var ed: TATSynEdit);
 begin
   ed:= TATSynEdit.Create(Self);
-  ed.Parent:= Self;
+  ed.Parent:= FFormDummy;
 
   ed.DoubleBuffered:= UiOps.DoubleBuffered;
 
@@ -1709,6 +1711,15 @@ end;
 constructor TEditorFrame.Create(AOwner: TComponent; AApplyCentering: boolean);
 begin
   inherited Create(AOwner);
+
+  //we need TFormDummy object to allow working with controls via API dlg_proc
+  FFormDummy:= TFormDummy.Create(Self);
+  FFormDummy.Visible:= false;
+  FFormDummy.BorderStyle:= bsNone;
+  FFormDummy.Align:= alClient;
+  FFormDummy.Parent:= Self;
+  FFormDummy.Visible:= true;
+  Splitter.Parent:= FFormDummy;
 
   FFileName:= '';
   FFileName2:= '';
@@ -2062,7 +2073,7 @@ begin
     FBin.OnScroll:= @BinaryOnScroll;
     FBin.OnOptionsChange:= @BinaryOnScroll;
     FBin.OnSearchProgress:= @BinaryOnProgress;
-    FBin.Parent:= Self;
+    FBin.Parent:= FFormDummy;
     FBin.Align:= alClient;
     FBin.BorderStyle:= bsNone;
     FBin.ResizeFollowTail:= false; //fixes scrolling to the end on file loading
@@ -2107,7 +2118,7 @@ begin
   if not Assigned(FImageBox) then
   begin
     FImageBox:= TATImageBox.Create(Self);
-    FImageBox.Parent:= Self;
+    FImageBox.Parent:= FFormDummy;
     FImageBox.Align:= alClient;
     FImageBox.BorderStyle:= bsNone;
     FImageBox.OptFitToWindow:= true;
