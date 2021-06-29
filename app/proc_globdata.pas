@@ -3039,8 +3039,8 @@ procedure AppLoadLexers;
 var
   cfg: TJsonConfig;
   SErrorLines: string;
-  SError: string;
-  SList: TStringList;
+  SErrorItem: string;
+  Sep: TATStringSeparator;
 {
 var
   NCountNormal, NCountLite: integer;
@@ -3081,15 +3081,9 @@ begin
 
   if SErrorLines<>'' then
   begin
-    SList:= TStringList.Create;
-    try
-      SList.TextLineBreakStyle:= tlbsLF;
-      SList.Text:= SErrorLines;
-      for SError in SList do
-        MsgLogConsole('ERROR: '+SError);
-    finally
-      FreeAndNil(SList);
-    end;
+    Sep.Init(SErrorLines, #10);
+    while Sep.GetItemStr(SErrorItem) do
+      MsgLogConsole('ERROR: '+SErrorItem);
   end;
 
   {
