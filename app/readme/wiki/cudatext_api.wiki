@@ -4379,5 +4379,6 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * add: Editor.convert: CONVERT_OFFSET_TO_CARET
 * add: Editor.convert: CONVERT_CARET_TO_OFFSET
 * add: Editor.get_prop/set_prop: PROP_TAB_UI_SHOW
+* add: editors in ui-tabs are now placed on a hidden form to support dlg_proc() API, you can get this form's handle via PROP_HANDLE_PARENT
 
 [[Category:CudaText]]
