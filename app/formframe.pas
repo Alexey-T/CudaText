@@ -55,6 +55,7 @@ uses
   proc_py_const,
   proc_miscutils,
   proc_lexer_styles,
+  proc_customdialog,
   proc_customdialog_dummy,
   ec_SyntAnal,
   ec_proc_lexer,
@@ -88,7 +89,6 @@ type
   TEditorFrame = class(TFrame)
     MenuItem1: TMenuItem;
     MenuItem2: TMenuItem;
-    Splitter: TSplitter;
     TimerChange: TTimer;
     procedure btnReloadNoneClick(Sender: TObject);
     procedure btnReloadNoClick(Sender: TObject);
@@ -225,7 +225,7 @@ type
     function GetUnprintedEndsDetails: boolean;
     function GetUnprintedShow: boolean;
     function GetUnprintedSpaces: boolean;
-    procedure InitEditor(var ed: TATSynEdit);
+    procedure InitEditor(var ed: TATSynEdit; const AName: string);
     procedure InitPanelReload(Index: integer);
     procedure InitPanelInfo(const AText: string; AOnClick: TNotifyEvent);
     procedure PanelInfoClick(Sender: TObject);
@@ -279,6 +279,7 @@ type
     { public declarations }
     Ed1: TATSynEdit;
     Ed2: TATSynEdit;
+    Splitter: TSplitter;
     Groups: TATGroups;
     FileProps: TAppFileProps;
     FileProps2: TAppFileProps;
@@ -1651,10 +1652,12 @@ begin
   SplitPos:= SplitPos;
 end;
 
-procedure TEditorFrame.InitEditor(var ed: TATSynEdit);
+procedure TEditorFrame.InitEditor(var ed: TATSynEdit; const AName: string);
 begin
   ed:= TATSynEdit.Create(FFormDummy);
+  ed.Name:= AName;
   ed.Parent:= FFormDummy;
+  DoControl_InitPropsObject(ed, FFormDummy, 'editor');
 
   ed.DoubleBuffered:= UiOps.DoubleBuffered;
 
@@ -1719,7 +1722,15 @@ begin
   FFormDummy.Align:= alClient;
   FFormDummy.Parent:= Self;
   FFormDummy.Visible:= true;
+
+  Splitter:= TSplitter.Create(FFormDummy);
   Splitter.Parent:= FFormDummy;
+  Splitter.Name:= 'split';
+  Splitter.Align:= alBottom;
+  Splitter.AutoSnap:= false;
+  Splitter.ResizeStyle:= rsPattern;
+  Splitter.MinSize:= 100;
+  DoControl_InitPropsObject(Splitter, FFormDummy, 'splitter');
 
   FFileName:= '';
   FFileName2:= '';
@@ -1744,8 +1755,8 @@ begin
   FBracketSymbols:= EditorOps.OpBracketSymbols;
   FBracketMaxDistance:= EditorOps.OpBracketDistance;
 
-  InitEditor(Ed1);
-  InitEditor(Ed2);
+  InitEditor(Ed1, 'ed1');
+  InitEditor(Ed2, 'ed2');
 
   Ed1.Strings.GutterDecor1:= Ed1.GutterDecor;
   Ed1.Strings.GutterDecor2:= Ed2.GutterDecor;

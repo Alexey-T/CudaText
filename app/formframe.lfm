@@ -3,23 +3,9 @@ object EditorFrame: TEditorFrame
   Height = 346
   Top = 0
   Width = 594
-  ClientHeight = 346
-  ClientWidth = 594
   TabOrder = 0
   DesignLeft = 59
   DesignTop = 27
-  object Splitter: TSplitter
-    Cursor = crVSplit
-    Left = 0
-    Height = 5
-    Top = 341
-    Width = 594
-    Align = alBottom
-    AutoSnap = False
-    MinSize = 100
-    ResizeAnchor = akBottom
-    ResizeStyle = rsPattern
-  end
   object TimerChange: TTimer
     Enabled = False
     Interval = 2000
