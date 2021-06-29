@@ -1653,7 +1653,7 @@ end;
 
 procedure TEditorFrame.InitEditor(var ed: TATSynEdit);
 begin
-  ed:= TATSynEdit.Create(Self);
+  ed:= TATSynEdit.Create(FFormDummy);
   ed.Parent:= FFormDummy;
 
   ed.DoubleBuffered:= UiOps.DoubleBuffered;
@@ -2067,7 +2067,7 @@ begin
     FBin.OpenStream(nil)
   else
   begin
-    FBin:= TATBinHex.Create(Self);
+    FBin:= TATBinHex.Create(FFormDummy);
     FBin.Hide; //reduce flicker with initial size
     FBin.OnKeyDown:= @BinaryOnKeyDown;
     FBin.OnScroll:= @BinaryOnScroll;
@@ -2117,7 +2117,7 @@ begin
 
   if not Assigned(FImageBox) then
   begin
-    FImageBox:= TATImageBox.Create(Self);
+    FImageBox:= TATImageBox.Create(FFormDummy);
     FImageBox.Parent:= FFormDummy;
     FImageBox.Align:= alClient;
     FImageBox.BorderStyle:= bsNone;
