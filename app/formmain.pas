@@ -914,6 +914,7 @@ type
     function IsThemeNameExist(const AName: string; AThemeUI: boolean): boolean;
     procedure PopupToolbarCaseOnPopup(Sender: TObject);
     procedure PopupToolbarCommentOnPopup(Sender: TObject);
+    procedure MenuRecent_RemoveFilename(const fn: string);
     procedure MenuRecentsClear(Sender: TObject);
     procedure MenuRecentsPopup(Sender: TObject);
     procedure MenuRecentItemClick(Sender: TObject);
@@ -5362,6 +5363,7 @@ var
 begin
   Frame:= GetEditorFrame(Ed);
   if Frame=nil then exit;
+
   if not Frame.EditorsLinked then
   begin
     MsgStatus(msgCannotHandleSplittedTab);
@@ -5382,7 +5384,10 @@ begin
        msgConfirmCloseAndDeleteFile+#10+fn,
        MB_OKCANCEL or MB_ICONWARNING)=ID_OK then
     if Groups.CloseTabs(tabCloseCurrent, false) then
+    begin
       DeleteFileUTF8(fn);
+      MenuRecent_RemoveFilename(fn);
+    end;
 end;
 
 procedure TfmMain.DoFileNew;
@@ -5412,6 +5417,18 @@ begin
   else
   begin
     MsgBox(msgCannotFindFile+#10+fn, MB_OK or MB_ICONERROR);
+    AppListRecents.Delete(n);
+    UpdateMenuRecent(nil);
+  end;
+end;
+
+procedure TfmMain.MenuRecent_RemoveFilename(const fn: string);
+var
+  n: integer;
+begin
+  n:= AppListRecents.IndexOf(AppCollapseHomeDirInFilename(fn));
+  if n>=0 then
+  begin
     AppListRecents.Delete(n);
     UpdateMenuRecent(nil);
   end;
