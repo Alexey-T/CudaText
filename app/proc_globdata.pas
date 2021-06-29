@@ -3038,6 +3038,9 @@ end;
 procedure AppLoadLexers;
 var
   cfg: TJsonConfig;
+  SErrorLines: string;
+  SError: string;
+  SList: TStringList;
 {
 var
   NCountNormal, NCountLite: integer;
@@ -3074,7 +3077,20 @@ begin
   //NTickNormal:= GetTickCount64;
 
   AppManager.OnLexerLoaded:= @AppOnLexerLoaded;
-  AppManager.InitLibrary(AppDir_Lexers);
+  AppManager.InitLibrary(AppDir_Lexers, SErrorLines);
+
+  if SErrorLines<>'' then
+  begin
+    SList:= TStringList.Create;
+    try
+      SList.TextLineBreakStyle:= tlbsLF;
+      SList.Text:= SErrorLines;
+      for SError in SList do
+        MsgLogConsole('ERROR: '+SError);
+    finally
+      FreeAndNil(SList);
+    end;
+  end;
 
   {
   NTickNormal:= GetTickCount64-NTickNormal;
