@@ -856,6 +856,7 @@ class DialogMK2:
         listbox_proc(self._h_list, LISTBOX_SET_HEADER_IMAGELIST, text=h_iml)
 
 
+        edt.set_prop(PROP_RO, True)
         edt.set_prop(PROP_GUTTER_ALL, False)
         edt.set_prop(PROP_MINIMAP, False)
         edt.set_prop(PROP_MICROMAP, False)
@@ -1124,7 +1125,8 @@ class DialogMK2:
 
         self._cur_opt_name = self._list_opt_names[_sel_ind]
         self._cur_opt = self.optman.get_opt(self._cur_opt_name)
-        self.opt_comment_ed.set_text_all(self._cur_opt.get('cmt', ''))
+        with ignore_edit(id_dlg, self.opt_comment_ed):
+            self.opt_comment_ed.set_text_all(self._cur_opt.get('cmt', ''))
 
         # if have a change for this option -- show it
         is_opt_modified = False
