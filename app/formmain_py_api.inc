@@ -6674,6 +6674,7 @@ var
   Sep: TATStringSeparator;
   Obj: TObject;
   ObjData: TATRangeInCodeTree;
+  NPosX, NPosY: integer;
   i: integer;
 begin
   with AppPython.Engine do
@@ -6980,6 +6981,17 @@ begin
           begin
             TreeNode.MakeVisible;
             Result:= ReturnNone;
+          end;
+
+        TREE_FIND_FOR_TEXT_POS:
+          begin
+            Sep.Init(StrText, ',');
+            Sep.GetItemInt(NPosX, -1);
+            Sep.GetItemInt(NPosY, -1);
+            if (NPosX<0) or (NPosY<0) then
+              exit(ReturnNone);
+            TreeNode:= CodetreeFindItemForPosition(TreeContainer.Tree, NPosX, NPosY);
+            Result:= PyHelper_ObjectHandle(TreeNode);
           end;
 
         TREE_GET_IMAGELIST:
