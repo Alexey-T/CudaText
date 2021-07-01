@@ -1512,7 +1512,7 @@ Possible values of "id_action":
 * TREE_ITEM_UNFOLD: Unfolds item w/o subitems.
 * TREE_ITEM_UNFOLD_DEEP: Unfolds item with subitems. Root-item allowed too.
 
-* TREE_FIND_FOR_TEXT_POS: For the treeview, filled with code-tree information (it can be plugin-created treeview), finds the tree-item corresponding to given text position. Param "id_item" is ignored, param "text" must be 2-tuple (column, line). Returns handle of tree-item. Returns None if "text" doesn't contain valid text position. Returns 0 if tree-item is not found.
+* TREE_FIND_FOR_TEXT_POS: For the treeview, filled with code-tree information (it can be plugin-created treeview), finds the tree-item corresponding to given text position. Param "id_item" is ignored, param "text" must be 2-tuple of int (column, line). Returns handle of tree-item. Returns None if "text" doesn't contain valid text position. Returns 0 if tree-item is not found.
 
 * TREE_GET_IMAGELIST: Returns int handle of imagelist object.
 * TREE_PROP_SHOW_ROOT: This allows to hide lines for invisible root-item. If hidden, tree (folded) looks like listbox. Param text: "0"/"1" to hide/show.
