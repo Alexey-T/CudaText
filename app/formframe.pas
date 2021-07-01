@@ -1719,6 +1719,7 @@ begin
   FFormDummy:= TFormDummy.Create(Self);
   FFormDummy.Visible:= false;
   FFormDummy.BorderStyle:= bsNone;
+  FFormDummy.KeyPreview:= false;
   FFormDummy.Align:= alClient;
   FFormDummy.Parent:= Self;
   FFormDummy.Visible:= true;
