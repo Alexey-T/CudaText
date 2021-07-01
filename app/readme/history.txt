@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.136.0 (2021/06)
+1.136.0 (2021/07)
 
 + add: added API for 'Highlight Occurrences' plugin (thanks @Shovel)
 + add: added API for embedding UI-controls near the editor inside UI-tab (thanks @Shovel)

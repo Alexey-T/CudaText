@@ -58,14 +58,14 @@ const
   msgCallbackBad = 'Bad API callback, report to plugin author: %s'; //no i18n
   msgCallbackDeprecated = 'Deprecated API callback, report to plugin author: %s'; //no i18n
   msgApiDeprecated = 'Deprecated API usage: %s'; //no i18n
-  msgErrorInTheme = 'NOTE: theme "%s" misses item "%s"';
+  msgErrorInTheme = 'NOTE: Theme "%s" misses item "%s"';
   msgCmdPalettePrefixHelp = '#p – plugins'+EOL+'#l – lexers'+EOL+'#f – opened files'+EOL+'#r – recent files';
   msgRescannedAllPlugins = 'Rescanned all plugins';
   msgWelcomeTabTitle = '(welcome)';
   msgSavedPythonLibOption = 'Saved the option "pylib'+cOptionSystemSuffix+'". Restart CudaText to apply it.';
   msgSearchingInDir = 'Searching:';
 
-  msgErrorPluginIgnored = 'NOTE: plugin %s is in ignore-list, please remove it';
+  msgErrorPluginIgnored = 'NOTE: Plugin %s is in ignore-list, please remove it';
   msgErrorTooManyFileTabs = 'NOTE: Too many editor-tabs are opened, cannot add tab';
   msgCannotFindLexers = 'NOTE: Cannot find lexers: %s';
   msgCannotFindData = 'NOTE: Cannot find data: %s';

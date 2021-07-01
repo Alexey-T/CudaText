@@ -270,7 +270,7 @@ begin
       if Frame.IsEmpty then Continue;
       if GetAppFilenameIsIgnoredForSession(Frame.FileName) then
       begin
-        MsgLogConsole(Format('NOTE: file "%s" is not saved to session', [Frame.FileName]));
+        MsgLogConsole(Format('NOTE: File "%s" is not saved to session', [Frame.FileName]));
         Continue;
       end;
 

@@ -3083,7 +3083,7 @@ begin
   begin
     Sep.Init(SErrorLines, #10);
     while Sep.GetItemStr(SErrorItem) do
-      MsgLogConsole('ERROR: '+SErrorItem);
+      MsgLogConsole('NOTE: '+SErrorItem);
   end;
 
   {
