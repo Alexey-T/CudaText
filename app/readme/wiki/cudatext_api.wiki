@@ -1511,6 +1511,9 @@ Possible values of "id_action":
 * TREE_ITEM_FOLD_LEVEL: Folds all items (id_item ignored) from level with specified index, 1 or bigger. (This is what CudaText commands "fold level N" do for code-tree).
 * TREE_ITEM_UNFOLD: Unfolds item w/o subitems.
 * TREE_ITEM_UNFOLD_DEEP: Unfolds item with subitems. Root-item allowed too.
+
+* TREE_FIND_FOR_TEXT_POS: For the treeview, filled with code-tree information (it can be plugin-created treeview), finds the tree-item corresponding to given text position. Param "id_item" is ignored, param "text" must be 2-tuple (column, line). Returns handle of tree-item. Returns None if "text" doesn't contain valid text position. Returns 0 if tree-item is not found.
+
 * TREE_GET_IMAGELIST: Returns int handle of imagelist object.
 * TREE_PROP_SHOW_ROOT: This allows to hide lines for invisible root-item. If hidden, tree (folded) looks like listbox. Param text: "0"/"1" to hide/show.
 * TREE_LOCK: Disables repainting of control.
@@ -4380,5 +4383,8 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * add: Editor.convert: CONVERT_CARET_TO_OFFSET
 * add: Editor.get_prop/set_prop: PROP_TAB_UI_SHOW
 * add: editors in ui-tabs are now placed on a hidden form to support dlg_proc() API, you can get this form's handle via PROP_HANDLE_PARENT
+
+1.0.398 (app 1.136.1)
+* add: tree_proc: TREE_FIND_FOR_TEXT_POS
 
 [[Category:CudaText]]
