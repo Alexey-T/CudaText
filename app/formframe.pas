@@ -1719,7 +1719,7 @@ begin
   FFormDummy:= TFormDummy.Create(Self);
   FFormDummy.Visible:= false;
   FFormDummy.BorderStyle:= bsNone;
-  FFormDummy.KeyPreview:= false;
+  FFormDummy.KeyPreview:= false; //to not break the 'cancel carets (Esc)' command
   FFormDummy.Align:= alClient;
   FFormDummy.Parent:= Self;
   FFormDummy.Visible:= true;
