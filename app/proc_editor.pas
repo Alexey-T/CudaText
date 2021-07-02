@@ -2283,7 +2283,8 @@ begin
     bIdentChar:= bWordChar and not IsCharDigit(AText[1]);
     if (ACharsTyped=0) and (not bIdentChar) then exit;
 
-    //check that we are not inside comment/string
+    //check that we are not inside comment/string,
+    //but allow autocomplete in HTML strings like in <a href="url" target="_bl|
     if not bLexerHTML then
       if EditorCaretInsideCommentOrString(Ed, Caret.PosX, Caret.PosY) then exit;
 
