@@ -109,6 +109,7 @@ type
     IsDlgCustom: boolean;
     IsDlgModalEmulated: boolean;
     IsDlgCounterIgnored: boolean;
+    IsEditorFrame: boolean;
     IdClicked: integer;
     FEventOnClose: string;
     FEventOnCloseQuery: string;

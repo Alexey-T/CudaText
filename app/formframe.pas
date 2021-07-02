@@ -1718,7 +1718,7 @@ begin
   //we need TFormDummy object to allow working with controls via API dlg_proc
   FFormDummy:= TFormDummy.Create(Self);
   FFormDummy.Visible:= false;
-  FFormDummy.Caption:= '(frame)';
+  FFormDummy.IsEditorFrame:= true;
   FFormDummy.BorderStyle:= bsNone;
   FFormDummy.KeyPreview:= false; //to not break the 'cancel carets (Esc)' command
   FFormDummy.Align:= alClient;
