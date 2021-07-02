@@ -3,6 +3,11 @@
   - fixed
   * changed
 
+1.136.1 (2021/07)
+
++ add: some API (thanks @Shovel)
+- fix: option "autocomplete_autoshow_chars" didn't work in HTML (thanks @eltonfabricio10)
+
 1.136.0 (2021/07)
 
 + add: added API for 'Highlight Occurrences' plugin (thanks @Shovel)
