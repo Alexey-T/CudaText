@@ -2274,26 +2274,7 @@ begin
 
   SLexerName:= EditorLexerNameAtPos(Ed, Point(Caret.PosX, Caret.PosY));
 
-  //autoshow for HTML
-  if UiOps.AutocompleteHtml and (Pos('HTML', SLexerName)>0) then
-  begin
-    if Ed.Strings.LineCharAt(Caret.PosY, Caret.PosX-1)='<' then
-      Ed.DoCommand(ACmdAutoComplete);
-    exit;
-  end;
-
-  (*
-  //autoshow for CSS
-  //seems bad, so commented, CSS must work like other lexers with AutoshowCharCount
-  if UiOps.AutocompleteCss and (SLexerName='CSS') then
-  begin
-    if EditorIsAutocompleteCssPosition(Ed, Caret.PosX-1, Caret.PosY) then
-      Ed.DoCommand(ACmdAutoComplete);
-    exit;
-  end;
-  *)
-
-  //autoshow for others, when typed N chars
+  //autoshow for all, when typed N chars
   if (Ed.OptAutocompleteAutoshowCharCount>0) then
   begin
     //ignore if number typed
@@ -2313,6 +2294,25 @@ begin
   end
   else
     ACharsTyped:= 0;
+
+  //autoshow for HTML
+  if UiOps.AutocompleteHtml and (Pos('HTML', SLexerName)>0) then
+  begin
+    if Ed.Strings.LineCharAt(Caret.PosY, Caret.PosX-1)='<' then
+      Ed.DoCommand(ACmdAutoComplete);
+    exit;
+  end;
+
+  (*
+  //autoshow for CSS
+  //seems bad, so commented, CSS must work like other lexers with AutoshowCharCount
+  if UiOps.AutocompleteCss and (SLexerName='CSS') then
+  begin
+    if EditorIsAutocompleteCssPosition(Ed, Caret.PosX-1, Caret.PosY) then
+      Ed.DoCommand(ACmdAutoComplete);
+    exit;
+  end;
+  *)
 
   Result:= false;
 end;
