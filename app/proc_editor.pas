@@ -2243,10 +2243,14 @@ var
   STextW: UnicodeString;
   SLexerName: string;
   bWordChar, bIdentChar: boolean;
+  bLexerHTML: boolean;
 begin
   Result:= true;
   if Ed.Carets.Count=0 then exit;
   Caret:= Ed.Carets[0];
+
+  SLexerName:= EditorLexerNameAtPos(Ed, Point(Caret.PosX, Caret.PosY));
+  bLexerHTML:= Pos('HTML', SLexerName)>0;
 
   //autoshow by trigger chars
   if (Ed.OptAutocompleteTriggerChars<>'') and
@@ -2272,8 +2276,6 @@ begin
     end;
   end;
 
-  SLexerName:= EditorLexerNameAtPos(Ed, Point(Caret.PosX, Caret.PosY));
-
   //autoshow for all, when typed N chars
   if (Ed.OptAutocompleteAutoshowCharCount>0) then
   begin
@@ -2282,7 +2284,8 @@ begin
     if (ACharsTyped=0) and (not bIdentChar) then exit;
 
     //check that we are not inside comment/string
-    if EditorCaretInsideCommentOrString(Ed, Caret.PosX, Caret.PosY) then exit;
+    if not bLexerHTML then
+      if EditorCaretInsideCommentOrString(Ed, Caret.PosX, Caret.PosY) then exit;
 
     Inc(ACharsTyped);
     if ACharsTyped=Ed.OptAutocompleteAutoshowCharCount then
@@ -2296,7 +2299,7 @@ begin
     ACharsTyped:= 0;
 
   //autoshow for HTML
-  if UiOps.AutocompleteHtml and (Pos('HTML', SLexerName)>0) then
+  if UiOps.AutocompleteHtml and bLexerHTML then
   begin
     if Ed.Strings.LineCharAt(Caret.PosY, Caret.PosX-1)='<' then
       Ed.DoCommand(ACmdAutoComplete);
