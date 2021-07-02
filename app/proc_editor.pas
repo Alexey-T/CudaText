@@ -2284,7 +2284,7 @@ begin
     if (ACharsTyped=0) and (not bIdentChar) then exit;
 
     //check that we are not inside comment/string,
-    //but allow autocomplete in HTML strings like in <a href="url" target="_bl|
+    //but allow autocomplete in HTML strings like in <a target="_bl|"
     if not bLexerHTML then
       if EditorCaretInsideCommentOrString(Ed, Caret.PosX, Caret.PosY) then exit;
 
