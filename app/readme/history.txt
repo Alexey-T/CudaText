@@ -5,6 +5,12 @@
 
 1.136.1 (2021/07)
 
++ add: auto-completion in HTML: insert not only 'value=' but 'value="|"' (thanks @eltonfabricio10) 
+- fix: auto-completion in HTML: option "autocomplete_autoshow_chars" didn't work (thanks @eltonfabricio10)
+- fix: regression in 1.136.0: Esc-key in Console didn't close the Console, Esc-key in editor didn't run "cancel carets"
+
+1.136.0 (2021/07)
+
 + add: added API for 'Highlight Occurrences' plugin (thanks @Shovel)
 + add: added API for embedding UI-controls near the editor inside UI-tab (thanks @Shovel)
 + add: file viewer: Find-dialog is supported for viewer
@@ -14,8 +20,6 @@
 + add: file viewer: viewer 'mode' is saved/restored to/from session
 + add: commands "current document font size: bigger/smaller/reset" show statusbar msg (thanks @kvichans)
 + add: if lexer needs sub-lexer N, and N is not installed, app shows the error in Console
-- fix: regression in 1.136.0: Esc-key in Console didn't close the Console, Esc-key in editor didn't run "cancel carets"
-- fix: option "autocomplete_autoshow_chars" didn't work in HTML (thanks @eltonfabricio10)
 - fix: action "trim spaces" was removing too much chars: codes 0x00...0x1F (thanks @JairoMartinezA)
 - fix: clicking after 1024'th char gave bad caret placement, now with "caret_after_end":false (thanks @Shovel)
 
