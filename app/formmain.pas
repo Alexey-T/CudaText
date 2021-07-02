@@ -1285,6 +1285,18 @@ begin
 end;
 
 function GetEditorFrame(Ed: TATSynEdit): TEditorFrame;
+var
+  F: TCustomFrame;
+begin
+  F:= Ed.CudatextFrame;
+  if Assigned(F) then
+    Result:= F as TEditorFrame
+  else
+    Result:= nil;
+end;
+
+(*
+function GetEditorFrame(Ed: TATSynEdit): TEditorFrame;
 //1st parent is TFormDummy, 2nd parent is TEditorFrame
 var
   Ctl: TWinControl;
@@ -1297,6 +1309,7 @@ begin
   if Ctl is TEditorFrame then
     Result:= TEditorFrame(Ctl);
 end;
+*)
 
 function GetEditorBrother(Ed: TATSynEdit): TATSynEdit;
 var
