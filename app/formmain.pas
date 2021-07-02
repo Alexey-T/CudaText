@@ -2911,7 +2911,8 @@ begin
 
     bEditorActive:=
       (ActiveControl is TATSynEdit) and
-      (ActiveControl.Parent is TFormDummy);
+      (ActiveControl.Parent is TFormDummy) and
+      (TFormDummy(ActiveControl.Parent).Caption='(frame)');
     bConsoleActive:=
       Assigned(fmConsole) and
       (fmConsole.EdInput.Focused or
