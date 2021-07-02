@@ -2912,6 +2912,7 @@ procedure TfmMain.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState
 var
   bEditorActive,
   bConsoleActive: boolean;
+  Ctl: TWinControl;
 begin
   if (Key=VK_ESCAPE) and (Shift=[]) then
   begin
@@ -2922,10 +2923,10 @@ begin
       exit
     end;
 
+    Ctl:= ActiveControl;
     bEditorActive:=
-      (ActiveControl is TATSynEdit) and
-      (ActiveControl.Parent is TFormDummy) and
-      (TFormDummy(ActiveControl.Parent).IsEditorFrame);
+      (Ctl is TATSynEdit) and
+      Assigned(TATSynEdit(Ctl).CudatextFrame);
     bConsoleActive:=
       Assigned(fmConsole) and
       (fmConsole.EdInput.Focused or
