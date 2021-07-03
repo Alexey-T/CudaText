@@ -791,7 +791,13 @@ Some lexers (e.g. PHP, Pascal, Clojure) provide .acp files, which are fixed set 
 
 ===Special HTML auto-completion===
 
-Lexer HTML (and lexers with "HTML" in name, see the option "autocomplete_html_lexers") has its special logic, which is built-in in CudaText. It uses data files in the folder "data/autocompletespec". Completion listbox shows different information depending on context: 
+Lexer HTML (and lexers with "HTML" in name, see the option "autocomplete_html_lexers") has its special logic, which is built-in in CudaText. It uses data files in the folder "data/autocompletespec" plus built-in code.
+
+Note: what is "tag", "attribute", "value" below? HTML lines has the form like:
+
+ <tag attribute1="value1" attribute2="value2" ...> some text </tag>
+
+Completion listbox shows different information depending on context: 
 
 * Caret is on empty space or after "<". Listbox shows list of tags.
 * Caret is on tag name (opening or closing). Listbox shows list of tags (beginning with typed tag).
