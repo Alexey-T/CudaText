@@ -3,6 +3,10 @@
   - fixed
   * changed
 
+1.136.2 (2021/07)
+
++ add: auto-completion in HTML: recently chosen items are shown on top (thanks @eltonfabricio10)
+
 1.136.1 (2021/07)
 
 + add: auto-completion in HTML: insert chosen attrib with caret inside quotes: <tag attrib="|"> (thanks @eltonfabricio10) 
