@@ -2,9 +2,9 @@
 
 You can add/remove code comments, via "Comments" plugin. Plugin is preinstalled in CudaText. It gives about 6 commands in menu "Plugins / Comments". Plugin supports only adding/removing of comments, not syntax highlighting for them (highlighting is lexer's work).
 
-* '''Line comments''': from some position to line-end. E.g. in C lexer: "//text here", in Python lexer: "# text here".
-* '''Comments for range''' ('''Stream comments'''): from offset to another offset. E.g. in C lexer: "/* text here */".
-* '''Comments for full lines''': from newline to another newline. Rarely used, e.g. used in PowerShell.
+* '''Line comments''': from some position to the nearest end-of-line. E.g. in C lexer: "//text here", in Python lexer: "# text here".
+* '''Comments for range''' ('''Stream comments'''): from some text position to some bigger text position, often in the different line. E.g. in C lexer: "/* text here */".
+* '''Comments for full lines''': from newline to another newline, ie comment for several whole lines. Rarely used, e.g. used in PowerShell.
 
 For example, Python lexer supports only line comment, and don't support stream comments. PowerShell lexer supports comments for full lines, while don't support comments for any range.
 
