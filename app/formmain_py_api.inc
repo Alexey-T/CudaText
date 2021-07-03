@@ -2314,7 +2314,7 @@ begin
         fmMain.FPyCompletionProps.CaretPos:= Point(PosX, PosY);
 
       DoApplyCompletionListboxStyle(Bool(NAltOrder));
-      DoEditorCompletionListbox(Ed, @fmMain.PyCompletionOnGetProp, nil, '_', NSelIndex);
+      EditorShowCompletionListbox(Ed, @fmMain.PyCompletionOnGetProp, nil, '_', NSelIndex);
 
       Result:= ReturnNone;
     end
@@ -2346,7 +2346,7 @@ begin
         fmMain.FPyCompletionProps.CaretPos:= Point(PosX, PosY);
 
       DoApplyCompletionListboxStyle(false);
-      DoEditorCompletionListbox(Ed, @fmMain.PyCompletionOnGetProp, @fmMain.PyCompletionOnResult, StrId, NSelIndex);
+      EditorShowCompletionListbox(Ed, @fmMain.PyCompletionOnGetProp, @fmMain.PyCompletionOnResult, StrId, NSelIndex);
 
       Result:= ReturnNone;
     end
