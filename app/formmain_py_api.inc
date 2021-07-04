@@ -8472,6 +8472,18 @@ begin
             Result:= PyHelper_ObjectHandle(ImgList);
           end;
 
+        STATUSBAR_SET_PADDING:
+          begin
+            FBar.Padding:= StrToIntDef(StrValue, FBar.Padding);
+            FBar.Invalidate;
+            Result:= ReturnNone;
+          end;
+
+        STATUSBAR_GET_PADDING:
+          begin
+            Result:= PyLong_FromLong(FBar.Padding);
+          end;
+
         STATUSBAR_SET_CELL_SIZE:
           begin
             Data:= FBar.GetPanelData(NIndex);
