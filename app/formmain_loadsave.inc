@@ -849,6 +849,8 @@ var
   List: TStringList;
   s: string;
 begin
+  Application.MainFormOnTaskBar:= cfg.GetValue('ui_main_form_on_taskbar', Application.MainFormOnTaskBar);
+
   OptEditorFlickerReducingPause:= cfg.GetValue('renderer_anti_flicker', OptEditorFlickerReducingPause);
   OptEditorTextoutNeedsOffsets:= cfg.GetValue(OpStr_TextoutNeedsOffsets, OptEditorTextoutNeedsOffsets);
   OptEditorCharSizeProportional:= cfg.GetValue('unicode_proportional', OptEditorCharSizeProportional);
