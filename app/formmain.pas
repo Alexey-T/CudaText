@@ -1054,7 +1054,7 @@ type
     procedure InitFormFind;
     function IsFocusedBottom: boolean;
     function IsFocusedFind: boolean;
-    procedure PyCompletionOnGetProp(Sender: TObject; out AText: string; out ACharsLeft, ACharsRight: integer);
+    procedure PyCompletionOnGetProp(Sender: TObject; AContent: TStringList; out ACharsLeft, ACharsRight: integer);
     procedure PyCompletionOnResult(Sender: TObject; const ASnippetId: string; ASnippetIndex: integer);
     procedure DoPyCommand_ByPluginIndex(AIndex: integer);
     procedure SetFrameEncoding(Ed: TATSynEdit; const AEnc: string; AAlsoReloadFile: boolean);

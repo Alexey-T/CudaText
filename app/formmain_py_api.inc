@@ -2203,15 +2203,15 @@ begin
     end;
 end;
 
-procedure TfmMain.PyCompletionOnGetProp(Sender: TObject; out AText: string; out
-  ACharsLeft, ACharsRight: integer);
+procedure TfmMain.PyCompletionOnGetProp(Sender: TObject; AContent: TStringList;
+  out ACharsLeft, ACharsRight: integer);
 var
   Ed: TATSynEdit;
   Caret: TATCaretItem;
   PrevCharsLeft: integer;
   Params: TAppVariantArray;
 begin
-  AText:= '';
+  AContent.Clear;
   ACharsLeft:= 0;
   ACharsRight:= 0;
 
@@ -2230,7 +2230,7 @@ begin
     //MsgStatus(Format('prev %d now %d', [PrevCharsLeft, FPyComplete_CharsLeft]));
     if Abs(PrevCharsLeft-FPyCompletionProps.CharsLeft)<>1 then exit;
 
-    AText:= FPyCompletionProps.Text;
+    AContent.Text:= FPyCompletionProps.Text;
     ACharsLeft:= FPyCompletionProps.CharsLeft;
     ACharsRight:= FPyCompletionProps.CharsRight;
     exit
@@ -2241,7 +2241,7 @@ begin
      (Caret.PosY<>FPyCompletionProps.CaretPos.Y) then
     exit;
 
-  AText:= FPyCompletionProps.Text;
+  AContent.Text:= FPyCompletionProps.Text;
   ACharsLeft:= FPyCompletionProps.CharsLeft;
   ACharsRight:= FPyCompletionProps.CharsRight;
 end;
