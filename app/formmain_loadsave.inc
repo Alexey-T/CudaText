@@ -849,6 +849,12 @@ var
   List: TStringList;
   s: string;
 begin
+  OptEditorFlickerReducingPause:= cfg.GetValue('renderer_anti_flicker', OptEditorFlickerReducingPause);
+  OptEditorTextoutNeedsOffsets:= cfg.GetValue(OpStr_TextoutNeedsOffsets, OptEditorTextoutNeedsOffsets);
+  OptEditorCharSizeProportional:= cfg.GetValue('unicode_proportional', OptEditorCharSizeProportional);
+  OptEditorCharScaleFullWidth:= cfg.GetValue('unicode_full_width', OptEditorCharScaleFullWidth);
+  OptBookmarksAutoDelete:= cfg.GetValue('auto_delete_bookmarks', OptBookmarksAutoDelete);
+
   List:= TStringList.Create;
   try
     cfg.EnumValues('/plugin_groups', List);
@@ -894,12 +900,6 @@ begin
   Op.OpActiveBorderInControls:= Op.OpActiveBorderRaw > 0;
   Op.OpActiveBorderInEditor:= Op.OpActiveBorderRaw >= 100;
   Op.OpActiveBorderWidth:= Op.OpActiveBorderRaw mod 100;
-
-  OptEditorFlickerReducingPause:= cfg.GetValue('renderer_anti_flicker', OptEditorFlickerReducingPause);
-  OptEditorTextoutNeedsOffsets:= cfg.GetValue(OpStr_TextoutNeedsOffsets, OptEditorTextoutNeedsOffsets);
-  OptEditorCharSizeProportional:= cfg.GetValue('unicode_proportional', OptEditorCharSizeProportional);
-  OptEditorCharScaleFullWidth:= cfg.GetValue('unicode_full_width', OptEditorCharScaleFullWidth);
-  OptBookmarksAutoDelete:= cfg.GetValue('auto_delete_bookmarks', OptBookmarksAutoDelete);
 
   Op.OpScrollbarsNew:= cfg.GetValue('scrollbar_themed', Op.OpScrollbarsNew);
   Op.OpSpacingY:= cfg.GetValue('spacing_y'+cOptionSystemSuffix, Op.OpSpacingY);
