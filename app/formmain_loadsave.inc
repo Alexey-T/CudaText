@@ -890,14 +890,13 @@ begin
   Op.OpFontQuality:= TFontQuality(cfg.GetValue(OpStr_FontQuality, Ord(Op.OpFontQuality)));
   Op.OpFontLigatures:= cfg.GetValue(OpStr_FontLigatures, Op.OpFontLigatures);
 
-  OptEditorFlickerReducingPause:= cfg.GetValue('renderer_anti_flicker', OptEditorFlickerReducingPause);
-
   Op.OpActiveBorderRaw:= cfg.GetValue('ui_active_border', Op.OpActiveBorderRaw);
   Op.OpActiveBorderInControls:= Op.OpActiveBorderRaw > 0;
   Op.OpActiveBorderInEditor:= Op.OpActiveBorderRaw >= 100;
   Op.OpActiveBorderWidth:= Op.OpActiveBorderRaw mod 100;
 
-  OptCanvasTextoutNeedsOffsets:= cfg.GetValue(OpStr_TextoutNeedsOffsets, OptCanvasTextoutNeedsOffsets);
+  OptEditorFlickerReducingPause:= cfg.GetValue('renderer_anti_flicker', OptEditorFlickerReducingPause);
+  OptEditorTextoutNeedsOffsets:= cfg.GetValue(OpStr_TextoutNeedsOffsets, OptEditorTextoutNeedsOffsets);
   OptCharSizeProportional:= cfg.GetValue('unicode_proportional', OptCharSizeProportional);
   OptCharScaleFullWidth:= cfg.GetValue('unicode_full_width', OptCharScaleFullWidth);
 
