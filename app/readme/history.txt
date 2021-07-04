@@ -6,7 +6,8 @@
 1.136.2 (2021/07)
 
 + add: auto-completion in HTML: recently chosen items are shown on top (thanks @eltonfabricio10)
-+ add: option "renderer_anti_flicker"
++ add: option "renderer_anti_flicker" (thanks @kvichans)
++ add: option "ui_main_form_on_taskbar" (thanks @kvichans)
 
 1.136.1 (2021/07)
 
