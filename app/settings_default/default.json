@@ -105,11 +105,13 @@
   "ui_font_statusbar_size__mac" : 0,
 
   //[Renderer]
-  //If >0, it specifies the delay of timer to reduce flickering on typing in Markdown documents.
-  //Value 15...40 seems OK for slow PCs.
-  //If 0, feature is disabled.
+  //If >0, it specifies the delay of timer to reduce flickering on typing
+  //in Markdown documents. [has suffix]
+  //Value 15...40 seems OK for slow PCs. If 0, feature is disabled.
   //Note: this option is global, not per-lexer.
   "renderer_anti_flicker": 0,
+  "renderer_anti_flicker__linux": 0,
+  "renderer_anti_flicker__mac": 0,
 
   //Text rendering needs "offsets for characters" [has suffix]
   //Set "true" if you see that syntax elements are rendered too wide/narrow.
@@ -140,11 +142,13 @@
   //Allow to run only one instance (main window) of CudaText
   "ui_one_instance": true,
 
-  //How to show main window on taskbar.
+  //How to show main window on taskbar [has suffix]
   //If on (default): App is minimized/restored with proper Windows OS animation.
   //   But Windows Alt+Tab will show additional cells for opened modal dialogs.
   //If off: Alt+Tab will not show additional cells for dialogs, which is useful.
   "ui_taskbar_mode": true,
+  "ui_taskbar_mode__linux": true,
+  "ui_taskbar_mode__mac": true,
 
   //Show modal plugin's dialogs with separate taskbar button [has suffix]
   //Note: Linux desktop Cinnamon has problem if you set 'false'.
