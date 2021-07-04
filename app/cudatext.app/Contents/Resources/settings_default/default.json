@@ -140,17 +140,17 @@
   //Allow to run only one instance (main window) of CudaText
   "ui_one_instance": true,
 
-  //Show modal plugin's dialogs with separate taskbar button [has suffix]
-  //Note: Linux desktop Cinnamon has problem if you set 'false'
-  "ui_dialogs_in_taskbar": false,
-  "ui_dialogs_in_taskbar__linux": true,
-  "ui_dialogs_in_taskbar__mac": true,
-
-  //How to show windows on taskbar.
+  //How to show main window on taskbar.
   //If on (default): App is minimized/restored with proper Windows OS animation.
   //   But Windows Alt+Tab will show additional cells for opened modal dialogs.
   //If off: Alt+Tab will not show additional cells for dialogs, which is useful.
   "ui_taskbar_mode": true,
+
+  //Show modal plugin's dialogs with separate taskbar button [has suffix]
+  //Note: Linux desktop Cinnamon has problem if you set 'false'.
+  "ui_dialogs_in_taskbar": false,
+  "ui_dialogs_in_taskbar__linux": true,
+  "ui_dialogs_in_taskbar__mac": true,
 
   //On clicking hyperlinks, show additional confirmation button, over clicked position
   "ui_links_confirm": true,
