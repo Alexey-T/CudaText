@@ -1816,8 +1816,8 @@ Param "id_action" can be:
 * STATUSBAR_GET_IMAGELIST: Returns handle of imagelist object, attached to statusbar, or 0 for none.
 * STATUSBAR_SET_IMAGELIST: Sets handle if imagelist object. Param "value": handle.
 
-* STATUSBAR_GET_PADDING: Returns value of cells padding (left and right, in pixels).
-* STATUSBAR_SET_PADDING: Sets calls padding.
+* STATUSBAR_GET_PADDING: Returns cells padding (left and right, in pixels).
+* STATUSBAR_SET_PADDING: Sets cells padding. Param "value": int value.
 
 * STATUSBAR_GET_COLOR_BACK: Returns color of background.
 * STATUSBAR_GET_COLOR_FONT: Returns color of font.
