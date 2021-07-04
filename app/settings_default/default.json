@@ -557,6 +557,7 @@
   //Undo: For which files Undo is saved to disk (files in .cudatext folder).
   //Value can be "": disabled, "*": enabled for all files,
   //or ","-separated file extensions like "c,h,txt".
+  //Note: this option is global, not per-lexer.
   "undo_persistent": "",
 
   //Undo: Pause (in msec) for Undo/Redo commands, to show minimalistic animation.
