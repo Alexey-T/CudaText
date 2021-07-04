@@ -437,7 +437,6 @@ const
   OpStr_UiFontStatusbarSize = 'ui_font_statusbar_size'+cOptionSystemSuffix;
   OpStr_UiDoubleBuffered = 'ui_buffered'+cOptionSystemSuffix;
   OpStr_DefEncodingIsUtf8 = 'def_encoding_utf8'+cOptionSystemSuffix;
-  OpStr_TextoutNeedsOffsets = 'renderer_offsets'+cOptionSystemSuffix;
 
 type
   TEditorOps = record

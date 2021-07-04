@@ -852,7 +852,7 @@ begin
   Application.MainFormOnTaskBar:= cfg.GetValue('ui_taskbar_mode', Application.MainFormOnTaskBar);
 
   OptEditorFlickerReducingPause:= cfg.GetValue('renderer_anti_flicker', OptEditorFlickerReducingPause);
-  OptEditorTextoutNeedsOffsets:= cfg.GetValue(OpStr_TextoutNeedsOffsets, OptEditorTextoutNeedsOffsets);
+  OptEditorTextoutNeedsOffsets:= cfg.GetValue('renderer_offsets'+cOptionSystemSuffix, OptEditorTextoutNeedsOffsets);
   OptEditorCharSizeProportional:= cfg.GetValue('unicode_proportional', OptEditorCharSizeProportional);
   OptEditorCharScaleFullWidth:= cfg.GetValue('unicode_full_width', OptEditorCharScaleFullWidth);
   OptEditorBookmarksAutoDelete:= cfg.GetValue('auto_delete_bookmarks', OptEditorBookmarksAutoDelete);
