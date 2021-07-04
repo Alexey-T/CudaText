@@ -106,14 +106,16 @@
 
   //[Renderer]
   //If >0, it specifies the delay of timer to reduce flickering on typing in Markdown documents.
-  //Value 20...40 seems OK for slow PC.
+  //Value 15...40 seems OK for slow PCs.
   //If 0, feature is disabled.
+  //Note: this option is global, not per-lexer.
   "renderer_anti_flicker": 0,
 
   //Text rendering needs "offsets for characters" [has suffix]
   //Set "true" if you see that syntax elements are rendered too wide/narrow.
   //On Windows and macOS, "true" doesn't decrease rendering speed, it seems.
   //On Linux GTK2, "true" decreases rendering speed.
+  //Note: this option is global, not per-lexer.
   "renderer_offsets": true,
   "renderer_offsets__linux": false,
   "renderer_offsets__mac": true,
