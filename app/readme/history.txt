@@ -6,6 +6,10 @@
 1.136.2 (2021/07)
 
 + add: auto-completion in HTML: recently chosen items are shown on top (thanks @eltonfabricio10)
++ add: option "renderer_anti_flicker"
+
+1.136.1 (2021/07)
+
 + add: auto-completion in HTML: insert chosen attrib with caret inside quotes: <tag attrib="|"> (thanks @eltonfabricio10) 
 - fix: auto-completion in HTML: option "autocomplete_autoshow_chars" didn't work (thanks @eltonfabricio10)
 - fix: regression in 1.136.0: Esc-key in Console didn't close the Console, Esc-key in editor didn't run "cancel carets"

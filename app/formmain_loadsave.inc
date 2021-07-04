@@ -890,6 +890,8 @@ begin
   Op.OpFontQuality:= TFontQuality(cfg.GetValue(OpStr_FontQuality, Ord(Op.OpFontQuality)));
   Op.OpFontLigatures:= cfg.GetValue(OpStr_FontLigatures, Op.OpFontLigatures);
 
+  OptEditorFlickerReducingPause:= cfg.GetValue('renderer_anti_flicker', OptEditorFlickerReducingPause);
+
   Op.OpActiveBorderRaw:= cfg.GetValue('ui_active_border', Op.OpActiveBorderRaw);
   Op.OpActiveBorderInControls:= Op.OpActiveBorderRaw > 0;
   Op.OpActiveBorderInEditor:= Op.OpActiveBorderRaw >= 100;
