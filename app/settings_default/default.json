@@ -60,6 +60,11 @@
   //Option has effect only on Windows. On Unix: on, or depends on OS.
   "font_ligatures": true,
 
+  //If >0, it specifies the delay of timer to reduce flickering on typing in Markdown documents.
+  //Value 20...40 seems OK for slow PC.
+  //If 0, feature is disabled.
+  "renderer_anti_flicker": 0,
+
   //Text rendering needs "offsets for characters" [has suffix]
   //Set "true" if you see that syntax elements are rendered too wide/narrow.
   //On Windows and macOS, "true" doesn't decrease rendering speed, it seems.
