@@ -897,8 +897,8 @@ begin
 
   OptEditorFlickerReducingPause:= cfg.GetValue('renderer_anti_flicker', OptEditorFlickerReducingPause);
   OptEditorTextoutNeedsOffsets:= cfg.GetValue(OpStr_TextoutNeedsOffsets, OptEditorTextoutNeedsOffsets);
-  OptCharSizeProportional:= cfg.GetValue('unicode_proportional', OptCharSizeProportional);
-  OptCharScaleFullWidth:= cfg.GetValue('unicode_full_width', OptCharScaleFullWidth);
+  OptEditorCharSizeProportional:= cfg.GetValue('unicode_proportional', OptEditorCharSizeProportional);
+  OptEditorCharScaleFullWidth:= cfg.GetValue('unicode_full_width', OptEditorCharScaleFullWidth);
 
   Op.OpScrollbarsNew:= cfg.GetValue('scrollbar_themed', Op.OpScrollbarsNew);
   Op.OpSpacingY:= cfg.GetValue('spacing_y'+cOptionSystemSuffix, Op.OpSpacingY);
