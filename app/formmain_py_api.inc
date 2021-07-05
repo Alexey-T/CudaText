@@ -8484,6 +8484,18 @@ begin
             Result:= PyLong_FromLong(FBar.Padding);
           end;
 
+        STATUSBAR_SET_SEPARATOR:
+          begin
+            FBar.SeparatorString:= StrValue;
+            FBar.Invalidate;
+            Result:= ReturnNone;
+          end;
+
+        STATUSBAR_GET_SEPARATOR:
+          begin
+            Result:= PyUnicodeFromString(FBar.SeparatorString);
+          end;
+
         STATUSBAR_SET_CELL_SIZE:
           begin
             Data:= FBar.GetPanelData(NIndex);
