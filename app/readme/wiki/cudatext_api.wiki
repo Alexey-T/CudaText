@@ -1815,9 +1815,10 @@ Param "id_action" can be:
 
 * STATUSBAR_GET_IMAGELIST: Returns handle of imagelist object, attached to statusbar, or 0 for none.
 * STATUSBAR_SET_IMAGELIST: Sets handle if imagelist object. Param "value": handle.
-
 * STATUSBAR_GET_PADDING: Returns cells padding (left and right, in pixels).
 * STATUSBAR_SET_PADDING: Sets cells padding. Param "value": int value.
+* STATUSBAR_GET_SEPARATOR: Returns inter-cell separator string.
+* STATUSBAR_SET_SEPARATOR: Sets inter-cell separator string. Param "value": string value.
 
 * STATUSBAR_GET_COLOR_BACK: Returns color of background.
 * STATUSBAR_GET_COLOR_FONT: Returns color of font.
@@ -4393,5 +4394,9 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 1.0.399 (app 1.136.2)
 * add: statusbar_proc: STATUSBAR_GET_PADDING
 * add: statusbar_proc: STATUSBAR_SET_PADDING
+
+1.0.400 (app 1.137.1)
+* add: statusbar_proc: STATUSBAR_GET_SEPARATOR
+* add: statusbar_proc: STATUSBAR_SET_SEPARATOR
 
 [[Category:CudaText]]
