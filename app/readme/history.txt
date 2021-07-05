@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.136.2 (2021/07)
+1.137.0 (2021/07)
 
 + add: option "renderer_anti_flicker" (thanks @kvichans)
 + add: option "ui_taskbar_mode" (thanks @kvichans)
