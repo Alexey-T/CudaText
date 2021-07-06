@@ -1823,6 +1823,7 @@ Param "id_action" can be:
 * STATUSBAR_GET_COLOR_BACK: Returns color of background.
 * STATUSBAR_GET_COLOR_FONT: Returns color of font.
 * STATUSBAR_GET_COLOR_BORDER_TOP: Returns color of border-top.
+* STATUSBAR_GET_COLOR_BORDER_BOTTOM: Returns color of border-bottom.
 * STATUSBAR_GET_COLOR_BORDER_L: Returns color of border-left.
 * STATUSBAR_GET_COLOR_BORDER_R: Returns color of border-right.
 * STATUSBAR_GET_COLOR_BORDER_U: Returns color of border-up.
@@ -1831,6 +1832,7 @@ Param "id_action" can be:
 * STATUSBAR_SET_COLOR_BACK: Sets color of background. Param "value": int color.
 * STATUSBAR_SET_COLOR_FONT: Sets color of font.
 * STATUSBAR_SET_COLOR_BORDER_TOP: Sets color of border-top.
+* STATUSBAR_SET_COLOR_BORDER_BOTTOM: Sets color of border-bottom.
 * STATUSBAR_SET_COLOR_BORDER_L: Sets color of border-left.
 * STATUSBAR_SET_COLOR_BORDER_R: Sets color of border-right.
 * STATUSBAR_SET_COLOR_BORDER_U: Sets color of border-up.
@@ -4398,5 +4400,7 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 1.0.400 (app 1.137.1)
 * add: statusbar_proc: STATUSBAR_GET_SEPARATOR
 * add: statusbar_proc: STATUSBAR_SET_SEPARATOR
+* add: statusbar_proc: STATUSBAR_GET_COLOR_BOTTOM
+* add: statusbar_proc: STATUSBAR_SET_COLOR_BOTTOM
 
 [[Category:CudaText]]
