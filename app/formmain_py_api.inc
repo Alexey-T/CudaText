@@ -8831,8 +8831,6 @@ begin
             if FBar.IsIndexOk(NIndex) then
             begin
               Rect:= FBar.GetPanelRect(NIndex);
-              if FBar.OverflowLeft then
-                OffsetRect(Rect, -FBar.OverflowScrollX, 0);
               Result:= PyHelper_Rect(Rect);
             end
             else
