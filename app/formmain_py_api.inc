@@ -8825,6 +8825,11 @@ begin
             Result:= PyLong_FromLong(FBar.ColorBorderTop);
           end;
 
+        STATUSBAR_GET_COLOR_BORDER_BOTTOM:
+          begin
+            Result:= PyLong_FromLong(FBar.ColorBorderBottom);
+          end;
+
         STATUSBAR_GET_COLOR_BORDER_L:
           begin
             Result:= PyLong_FromLong(FBar.ColorBorderL);
@@ -8856,6 +8861,13 @@ begin
         STATUSBAR_SET_COLOR_BORDER_TOP:
           begin
             FBar.ColorBorderTop:= StrToIntDef(StrValue, FBar.ColorBorderTop);
+            FBar.Invalidate;
+            Result:= ReturnNone;
+          end;
+
+        STATUSBAR_SET_COLOR_BORDER_BOTTOM:
+          begin
+            FBar.ColorBorderBottom:= StrToIntDef(StrValue, FBar.ColorBorderBottom);
             FBar.Invalidate;
             Result:= ReturnNone;
           end;
