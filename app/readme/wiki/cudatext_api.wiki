@@ -1820,6 +1820,9 @@ Param "id_action" can be:
 * STATUSBAR_GET_SEPARATOR: Returns inter-cell separator string.
 * STATUSBAR_SET_SEPARATOR: Sets inter-cell separator string. Param "value": string value.
 
+* STATUSBAR_GET_OVERFLOW_LEFT: Returns bool flag "overflow to left". This flag takes action when sum of cells widths overflows the entire statusbar width - flag pushes "reduntant" cells to the left. 
+* STATUSBAR_SET_OVERFLOW_LEFT: Sets bool flag "overflow to left". Param "value": bool value.
+
 * STATUSBAR_GET_COLOR_BACK: Returns color of background.
 * STATUSBAR_GET_COLOR_FONT: Returns color of font.
 * STATUSBAR_GET_COLOR_BORDER_TOP: Returns color of entire-border-top.
@@ -4397,10 +4400,12 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * add: statusbar_proc: STATUSBAR_GET_PADDING
 * add: statusbar_proc: STATUSBAR_SET_PADDING
 
-1.0.400 (app 1.137.1)
+1.0.401 (app 1.137.1)
 * add: statusbar_proc: STATUSBAR_GET_SEPARATOR
 * add: statusbar_proc: STATUSBAR_SET_SEPARATOR
-* add: statusbar_proc: STATUSBAR_GET_COLOR_BOTTOM
-* add: statusbar_proc: STATUSBAR_SET_COLOR_BOTTOM
+* add: statusbar_proc: STATUSBAR_GET_COLOR_BORDER_BOTTOM
+* add: statusbar_proc: STATUSBAR_SET_COLOR_BORDER_BOTTOM
+* add: statusbar_proc: STATUSBAR_GET_OVERFLOW_LEFT
+* add: statusbar_proc: STATUSBAR_SET_OVERFLOW_LEFT
 
 [[Category:CudaText]]
