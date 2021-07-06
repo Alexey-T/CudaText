@@ -1820,7 +1820,7 @@ Param "id_action" can be:
 * STATUSBAR_GET_SEPARATOR: Returns inter-cell separator string.
 * STATUSBAR_SET_SEPARATOR: Sets inter-cell separator string. Param "value": string value.
 
-* STATUSBAR_GET_OVERFLOW_LEFT: Returns bool flag "overflow to left". This flag takes action when sum of cells widths overflows the entire statusbar width - flag pushes "reduntant" cells to the left. 
+* STATUSBAR_GET_OVERFLOW_LEFT: Returns bool flag "overflow to left". This flag takes action when sum of cells widths overflows the entire statusbar width - flag pushes "redundant first cells" to the left side.
 * STATUSBAR_SET_OVERFLOW_LEFT: Sets bool flag "overflow to left". Param "value": bool value.
 
 * STATUSBAR_GET_COLOR_BACK: Returns color of background.
