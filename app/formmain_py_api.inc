@@ -8496,6 +8496,18 @@ begin
             Result:= PyUnicodeFromString(FBar.SeparatorString);
           end;
 
+        STATUSBAR_SET_OVERFLOW_LEFT:
+          begin
+            FBar.OverflowLeft:= AppStrToBool(StrValue);
+            FBar.Invalidate;
+            Result:= ReturnNone;
+          end;
+
+        STATUSBAR_GET_OVERFLOW_LEFT:
+          begin
+            Result:= PyBool_FromLong(Ord(FBar.OverflowLeft));
+          end;
+
         STATUSBAR_SET_CELL_SIZE:
           begin
             Data:= FBar.GetPanelData(NIndex);
