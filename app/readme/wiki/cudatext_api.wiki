@@ -1841,7 +1841,8 @@ Param "id_action" can be:
 * STATUSBAR_SET_COLOR_BORDER_U: Sets color of cells-border-up.
 * STATUSBAR_SET_COLOR_BORDER_D: Sets color of cells-border-down.
 
-* STATUSBAR_GET_CELL_SIZE: Returns width of cell.
+* STATUSBAR_GET_CELL_RECT: Returns rectangle of cell coordinates (related to control) as 4-tuple of int, or None.
+* STATUSBAR_GET_CELL_SIZE: Returns width of cell, or None.
 * STATUSBAR_GET_CELL_AUTOSIZE: Returns auto-size of cell, bool. Auto-size: adjust width of cell to its icon+text.
 * STATUSBAR_GET_CELL_AUTOSTRETCH: Returns auto-stretch of cell, bool. Auto-stretch: stretch cell to fill entire statusbar width.
 * STATUSBAR_GET_CELL_ALIGN: Returns alignment of cell. One of str values: "L" (left), "C" (center), "R" (right).
@@ -4407,5 +4408,6 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * add: statusbar_proc: STATUSBAR_SET_COLOR_BORDER_BOTTOM
 * add: statusbar_proc: STATUSBAR_GET_OVERFLOW_LEFT
 * add: statusbar_proc: STATUSBAR_SET_OVERFLOW_LEFT
+* add: statusbar_proc: STATUSBAR_GET_CELL_RECT
 
 [[Category:CudaText]]
