@@ -8402,6 +8402,7 @@ var
   NTag: Int64;
   ImgList: TImageList;
   Data: TATStatusData;
+  Rect: TRect;
 begin
   with AppPython.Engine do
   begin
@@ -8821,6 +8822,19 @@ begin
             Data:= FBar.GetPanelData(NIndex);
             if Assigned(Data) then
               Result:= PyUnicodeFromString(Data.OverlayText)
+            else
+              Result:= ReturnNone;
+          end;
+
+        STATUSBAR_GET_CELL_RECT:
+          begin
+            if FBar.IsIndexOk(NIndex) then
+            begin
+              Rect:= FBar.GetPanelRect(NIndex);
+              if FBar.OverflowLeft then
+                OffsetRect(Rect, -FBar.OverflowScrollX, 0);
+              Result:= PyHelper_Rect(Rect);
+            end
             else
               Result:= ReturnNone;
           end;
