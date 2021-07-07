@@ -5677,6 +5677,7 @@ end;
 
 
 function api_ed_get_sublexer_ranges(Self, Args: PPyObject): PPyObject; cdecl;
+//func returns string, and cudatext.py code makes final Py objects from string
 var
   H: Int64;
   Ed: TATSynEdit;
