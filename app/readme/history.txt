@@ -6,7 +6,7 @@
 1.137.2 (2021/07)
 
 + add: more API for the new 'Breadcrumbs' plugin (thanks @Shovel)
-- fix: changed hotkeys were not updated in the menu (thanks @balaamster at linux.org.ru)
+- fix: changed hotkeys were not updated in the menu (thanks @balaamster)
 - fix: menu checkmarks in '=' menu were not updated (thanks @wandrien at linux.org.ru)
 
 1.137.0 (2021/07)
