@@ -54,10 +54,11 @@ var
 begin
   F:= GetEditorFrame(Ed);
   //support editors in frames, activate tab too
-  if Assigned(F) then
+  if Assigned(F) and F.Visible and F.Enabled then
   begin
     fmMain.SetFrame(F);
     F.SetFocus;
+    EditorFocus(Ed);
     fmMain.UpdateFrameEx(F, false);
     fmMain.UpdateStatusbar;
   end
