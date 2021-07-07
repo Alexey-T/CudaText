@@ -4399,7 +4399,10 @@ begin
   end;
 
   if bKeysChanged then
+  begin
+    UpdateMenuHotkeys;
     UpdateMenuPlugins_Shortcuts(true);
+  end;
 end;
 
 
