@@ -3383,8 +3383,15 @@ begin
       if AndApplyTheme then
       begin
         Ada:= TATAdapterEControl(F.Adapter[F.Ed1]);
-        if Assigned(Ada) then
-          Ada.UpdateRangesFoldAndColored;
+        if Assigned(Ada) and Assigned(Ada.AnClient) then
+        begin
+          Ada.AnClient.CriSecForData.Enter;
+          try
+            Ada.UpdateRangesFoldAndColored;
+          finally
+            Ada.AnClient.CriSecForData.Leave;
+          end;
+        end;
       end;
     end;
 
@@ -3399,8 +3406,15 @@ begin
         if AndApplyTheme then
         begin
           Ada:= TATAdapterEControl(F.Adapter[F.Ed2]);
-          if Assigned(Ada) then
-            Ada.UpdateRangesFoldAndColored;
+          if Assigned(Ada) and Assigned(Ada.AnClient) then
+          begin
+            Ada.AnClient.CriSecForData.Enter;
+            try
+              Ada.UpdateRangesFoldAndColored;
+            finally
+              Ada.AnClient.CriSecForData.Leave;
+            end;
+          end;
         end;
       end;
     end;
