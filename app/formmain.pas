@@ -8054,6 +8054,7 @@ begin
   FDisableTreeClearing:= true;
   try
     Groups.Mode:= AMode;
+    FNeedUpdateMenuChecks:= true;
   finally
     FDisableTreeClearing:= false;
   end;
