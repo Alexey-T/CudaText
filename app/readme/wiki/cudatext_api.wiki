@@ -1843,9 +1843,9 @@ Param "id_action" can be:
 
 * STATUSBAR_GET_CELL_RECT: Returns rectangle of cell coordinates (related to control) as 4-tuple of int, or None.
 * STATUSBAR_GET_CELL_SIZE: Returns width of cell, or None.
-* STATUSBAR_GET_CELL_AUTOSIZE: Returns auto-size of cell, bool. Auto-size: adjust width of cell to its icon+text.
-* STATUSBAR_GET_CELL_AUTOSTRETCH: Returns auto-stretch of cell, bool. Auto-stretch: stretch cell to fill entire statusbar width.
-* STATUSBAR_GET_CELL_ALIGN: Returns alignment of cell. One of str values: "L" (left), "C" (center), "R" (right).
+* STATUSBAR_GET_CELL_AUTOSIZE: Returns auto-size property of cell, bool. Auto-size: adjust width of cell to its icon+text.
+* STATUSBAR_GET_CELL_AUTOSTRETCH: Returns auto-stretch property of cell, bool. Auto-stretch: stretch cell to fill the entire statusbar width.
+* STATUSBAR_GET_CELL_ALIGN: Returns alignment of cell's content. One of str values: "L" (left), "C" (center), "R" (right).
 * STATUSBAR_GET_CELL_TEXT: Returns text of cell.
 * STATUSBAR_GET_CELL_HINT: Returns hint of cell.
 * STATUSBAR_GET_CELL_IMAGEINDEX: Returns icon index (inside imagelist) of cell, -1 for none.
@@ -1855,7 +1855,7 @@ Param "id_action" can be:
 * STATUSBAR_GET_CELL_COLOR_LINE2: Returns line-bottom color of cell, COLOR_NONE if not set.
 * STATUSBAR_GET_CELL_FONT_NAME: Returns special font name of cell (if empty str, not used).
 * STATUSBAR_GET_CELL_FONT_SIZE: Returns special font size of cell (if <=0, not used).
-* STATUSBAR_GET_CELL_TAG: Returns int tag of cell.
+* STATUSBAR_GET_CELL_TAG: Returns int tag of cell. Tag is some plugin-defined int value.
 * STATUSBAR_GET_CELL_CALLBACK: Returns callback string of cell.
 * STATUSBAR_GET_CELL_OVERLAY: Returns overlay string of cell.
 
