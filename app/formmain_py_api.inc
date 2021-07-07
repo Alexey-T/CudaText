@@ -5693,21 +5693,28 @@ begin
       if not (Ed.AdapterForHilite is TATAdapterEControl) then
         exit(ReturnNone);
       Adapter:= (Ed.AdapterForHilite as TATAdapterEControl);
+      if Adapter.AnClient=nil then
+        exit(ReturnNone);
 
-      NLen:= Adapter.SublexerRangeCount;
-      if NLen>0 then
-      begin
-        Str:= '';
-        for i:= 0 to NLen-1 do
-          if Adapter.SublexerRangeProps(i, PntStart, PntEnd, LexName) then
-            Str:= Str + Format('%d,%d,%d,%d,%s;',
-              [ PntStart.X, PntStart.Y,
-                PntEnd.X, PntEnd.Y,
-                LexName ]);
-        Result:= PyUnicodeFromString(Str);
-      end
-      else
-        Result:= ReturnNone;
+      Adapter.AnClient.CriSecForData.Enter;
+      try
+        NLen:= Adapter.SublexerRangeCount;
+        if NLen>0 then
+        begin
+          Str:= '';
+          for i:= 0 to NLen-1 do
+            if Adapter.SublexerRangeProps(i, PntStart, PntEnd, LexName) then
+              Str:= Str + Format('%d,%d,%d,%d,%s;',
+                [ PntStart.X, PntStart.Y,
+                  PntEnd.X, PntEnd.Y,
+                  LexName ]);
+          Result:= PyUnicodeFromString(Str);
+        end
+        else
+          Result:= ReturnNone;
+      finally
+        Adapter.AnClient.CriSecForData.Leave;
+      end;
     end
   else
     Result:= ReturnNone;
