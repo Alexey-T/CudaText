@@ -948,6 +948,11 @@ begin
     if Bool(PyArg_ParseTuple(Args, 'L:get_carets', @H)) then
     begin
       Ed:= PyHelper_EditorFromHandle(H);
+      if Ed=nil then
+      begin
+        MsgLogConsole('ERROR: API "ed" is Nil, report to author what are you doing please');
+        exit(PyList_New(0));
+      end;
       NLen:= Ed.Carets.Count;
       Result:= PyList_New(NLen);
       if not Assigned(Result) then
