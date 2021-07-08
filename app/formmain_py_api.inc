@@ -8980,7 +8980,8 @@ begin
         Obj:= TObject(PtrInt(FormHandle));
         if not (Obj is TFormDummy) then
         begin
-          MsgLogConsole('ERROR: dlg_proc() gets bad handle of type '+Obj.ClassName);
+          if Assigned(Obj) then
+            MsgLogConsole('ERROR: dlg_proc() gets bad handle of type '+Obj.ClassName);
           exit(ReturnNone);
         end;
         Form:= TFormDummy(Obj);
