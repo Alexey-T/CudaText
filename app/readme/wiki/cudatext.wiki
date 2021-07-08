@@ -1731,11 +1731,9 @@ Encoding detection works by this pseudo-code:
 
 <pre>
   // Corresponding source code is in repository ATSynEdit, file atstrings_load.inc,
-  // procedure DoDetectStreamEncoding and procedure TATStrings.DoLoadFromStream
+  // procedure DoDetectStreamEncoding and
+  // procedure TATStrings.DoLoadFromStream
 
-  if file_size > 50M then
-    return(UTF8)
-  
   if file_has_signature(UTF8) then
     return(UTF8)
 
@@ -1751,25 +1749,30 @@ Encoding detection works by this pseudo-code:
   if file_has_signature(UTF16_BE) then
     return(UTF16_BE)
 
+  if file_size > 50M then
+    return(UTF8)
+
   if option "def_encoding_utf8":true then
     enc = UTF8
   else
-    enc = ANSI // OS depentant
+    enc = ANSI // "ANSI" codepage is OS dependant
    
   detect = file_detect_utf8_content
   // it can get 3 values: 
-  //     Unknown (only ASCII chars present)
-  //     Yes (correct UTF8, non-ASCII, chars present)
-  //     No (broken UTF8 chars present)
-  if detect == Yes then
+  //     UTF8_Unknown: only ASCII chars present
+  //     UTF8_ok: correct UTF8, non-ASCII, chars present
+  //     UTF8_broken: broken UTF8 chars present
+  if detect == UTF8_ok then
     return(UTF8)
-  if detect == No then
+  if detect == UTF8_broken then
     enc = ANSI
 
   if file_detect_by_python_standard(detect) then
+  // it returns detected encoding in "detect" param
     return(detect)
 
   if file_detect_utf16_content(detect) then
+  // it returns detected encoding in "detect" param
     return(detect)
   
   return(enc)
