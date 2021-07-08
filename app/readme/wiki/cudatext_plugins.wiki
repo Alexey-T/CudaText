@@ -909,7 +909,7 @@ Create the file "[CudaText]/settings/lsp_py.json" with text like this:
   },
   "cmd_windows": ["C:\\Python_folder\\pyls.exe"],
   "cmd_macos": ["pyls"],
-  "cmd_unix": ["/home/user/.local/bin/pyls"]
+  "cmd_unix": ["~/.local/bin/pyls"]
 }
 </syntaxhighlight>
 
@@ -963,6 +963,22 @@ Server should be compiled. To use the server in LSP Client, create the file "lsp
     "path_to_server/server/out/node/cssServerMain.js",
     "--stdio"
 ]
+</syntaxhighlight>
+
+==LSP server for Nim==
+
+Server from https://github.com/PMunch/nimlsp works good. Config "lsp_nim.json":
+
+<syntaxhighlight lang="json">
+{
+    "name": "nim-lsp",
+    "lexers": {
+        "Nim": "nim"
+    },
+    "cmd_unix": [
+      "~/.nimble/bin/nimlsp"
+    ]
+}
 </syntaxhighlight>
 
 [[Category:CudaText]]
