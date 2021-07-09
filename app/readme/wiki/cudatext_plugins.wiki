@@ -981,4 +981,16 @@ Server from https://github.com/PMunch/nimlsp works good. Config "lsp_nim.json":
 }
 </syntaxhighlight>
 
+==LSP server for Rust==
+
+Q: I've successfully configured several language servers with this plugin, but rls ( https://github.com/rust-lang/rls ) seems to be unresponsive. Does this work for anyone else?
+
+A: Seems to be a rls issue: https://github.com/rust-lang/rls/issues/536 . A workaround is to comment out the line in <cudatext>/py/cuda_lsp/sansio_lsp_client/io_handler.py, replace this:
+
+        "Content-Type": f"application/vscode-jsonrpc; charset={encoding}",
+
+with this
+
+        #"Content-Type": f"application/vscode-jsonrpc; charset={encoding}",
+
 [[Category:CudaText]]
