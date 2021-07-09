@@ -7,6 +7,7 @@
 
 + add: more API for the new 'Breadcrumbs' plugin (thanks @Shovel)
 + add: special highlight (using 'Markers' color) of Git merge conflict markers: <<<<<<< ======= >>>>>>>
++ add: 'Close and delete file' should delete nnnn.cuda-pic too (thanks @MiroslavMatas)
 - fix: rare crash in parser, when option "bracket_highlight" is on (thanks @tonydunn)
 - fix: changed hotkeys were not updated in the menu (thanks @balaamster)
 - fix: menu checkmarks in '=' menu were not updated (thanks @wandrien at linux.org.ru)
