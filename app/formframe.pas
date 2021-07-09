@@ -1551,6 +1551,14 @@ begin
     cCommand_TextInsert:
       begin
         if AText='' then exit;
+
+        //auto-pair of tag on typing '<tagname>'
+        if AText='>' then
+        begin
+          EditorAutoPairOpeningTagInHtml(Ed, Caret.PosX, Caret.PosY);
+          exit;
+        end;
+
         //autoshow autocompletion after typing N letters
         bTypedChar:= (Length(AText)=1) or (UTF8Length(AText)=1);
         if bTypedChar then

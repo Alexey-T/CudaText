@@ -34,6 +34,7 @@ uses
   proc_globdata,
   proc_colors,
   proc_msg,
+  proc_str,
   ec_SyntAnal,
   ec_syntax_format,
   math;
@@ -139,6 +140,8 @@ procedure EditorHighlightAllMatches(AFinder: TATEditorFinder;
 
 function EditorAutoCompletionAfterTypingChar(Ed: TATSynEdit;
   const AText: string; var ACharsTyped: integer; ACmdAutoComplete: integer): boolean;
+function EditorGetLefterHtmlTag(Ed: TATSynEdit; AX, AY: integer): UnicodeString;
+procedure EditorAutoPairOpeningTagInHtml(Ed: TATSynEdit; AX, AY: integer);
 
 implementation
 
@@ -2319,6 +2322,60 @@ begin
   *)
 
   Result:= false;
+end;
+
+function IsValidHtmlTagChar(ch: WideChar): boolean;
+begin
+  case ch of
+    'a'..'z',
+    'A'..'Z',
+    '0'..'9',
+    ':', '_':
+      Result:= true;
+    else
+      Result:= false;
+  end;
+end;
+
+function EditorGetLefterHtmlTag(Ed: TATSynEdit; AX, AY: integer): UnicodeString;
+var
+  St: TATStrings;
+  NLen, NStart, i: integer;
+  SLine: UnicodeString;
+begin
+  Result:= '';
+  St:= Ed.Strings;
+  if not St.IsIndexValid(AY) then exit;
+  SLine:= St.Lines[AY];
+  NLen:= Length(SLine);
+  if AX<3 then exit; //need at least <h>
+  if AX>NLen then exit;
+  NStart:= RPosEX('<', SLine, AX);
+  if NStart=0 then exit;
+  SLine:= Copy(SLine, NStart+1, AX-NStart-1);
+  for i:= 1 to Length(SLine) do
+    if not IsValidHtmlTagChar(SLine[i]) then exit;
+  Result:= SLine;
+end;
+
+procedure EditorAutoPairOpeningTagInHtml(Ed: TATSynEdit; AX, AY: integer);
+var
+  SValue: UnicodeString;
+  SLexer: string;
+begin
+  if not UiOps.AutocompleteHtml then exit;
+  if Ed.AdapterForHilite=nil then exit;
+  SLexer:= Ed.AdapterForHilite.GetLexerName;
+  if SLexer='' then exit;
+
+  SValue:= EditorGetLefterHtmlTag(Ed, AX, AY);
+  if SValue='' then exit;
+
+  if SRegexMatchesString(SLexer, UiOps.AutocompleteHtml_Lexers, false) then
+  begin
+    Ed.TextInsertAtCarets('</'+SValue+'>', true{AKeepCaret}, false, false);
+    Ed.DoEventChange(AY);
+  end;
 end;
 
 end.
