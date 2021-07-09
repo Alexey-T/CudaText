@@ -2353,8 +2353,12 @@ begin
   NStart:= RPosEX('<', SLine, AX);
   if NStart=0 then exit;
   SLine:= Copy(SLine, NStart+1, AX-NStart-1);
-  for i:= 1 to Length(SLine) do
+
+  if not IsCharWordA(SLine[1]) then exit;
+  if not IsCharWordA(SLine[Length(SLine)]) then exit;
+  for i:= 2 to Length(SLine)-1 do
     if not IsValidHtmlTagChar(SLine[i]) then exit;
+
   Result:= SLine;
 end;
 
