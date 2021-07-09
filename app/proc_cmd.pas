@@ -476,7 +476,7 @@ begin
   M.Add(cmd_CopyFilenameDir, 'clipboard: copy filepath only', [], []);
   M.Add(cmd_CopyFilenameName, 'clipboard: copy filename only', [], []);
 
-  M.Add(cmd_ToggleTabUsesSpaces, 'toggle tabulation-key uses spaces', [], []);
+  M.Add(cmd_ToggleTabUsesSpaces, 'toggle "tabulation-key uses spaces"', [], []);
   M.Add(cmd_ConvertTabsToSpaces, 'convert tabs (all) to spaces', [], []);
   M.Add(cmd_ConvertTabsToSpacesLeading, 'convert tabs (leading) to spaces', [], []);
   M.Add(cmd_ConvertSpacesToTabsLeading, 'convert spaces (leading) to tabs', [], []);
@@ -532,10 +532,10 @@ begin
 
   M.Add(cmd_SetTabColor, 'ui: set tab color...', [], []);
   M.Add(cmd_ResetTabColor, 'ui: reset tab color', [], []);
-  M.Add(cmd_ToggleTabPinned, 'ui: toggle tab pinned state', [], []);
+  M.Add(cmd_ToggleTabPinned, 'ui: toggle tab "pinned" state', [], []);
 
-  M.Add(cmd_SplitTabToggle, 'split tab: toggle splitted state', [], []);
-  M.Add(cmd_SplitTabHorzVert, 'split tab: toggle horizontally/vertically', [], []);
+  M.Add(cmd_SplitTabToggle, 'split tab: toggle "splitted" state', [], []);
+  M.Add(cmd_SplitTabHorzVert, 'split tab: toggle "horizontally"/"vertically"', [], []);
   M.Add(cmd_SplitTabNo, 'split tab: do not split', [], []);
   M.Add(cmd_SplitTabHorz, 'split tab: split horizontally', [], []);
   M.Add(cmd_SplitTabVert, 'split tab: split vertically', [], []);
@@ -652,9 +652,9 @@ begin
   M.Add(cmd_TreeFilterFocus, 'code tree: focus filter', [], []);
   M.Add(cmd_TreeFocus, 'code tree: focus treeview', [], []);
 
-  M.Add(cmd_BracketHighlightOn, 'brackets: pair highlight: on', [], []);
-  M.Add(cmd_BracketHighlightOff, 'brackets: pair highlight: off', [], []);
-  M.Add(cmd_BracketHighlightToggle, 'brackets: pair highlight: toggle', [], []);
+  M.Add(cmd_BracketHighlightOn, 'brackets: pair highlight: set on', [], []);
+  M.Add(cmd_BracketHighlightOff, 'brackets: pair highlight: set off', [], []);
+  M.Add(cmd_BracketHighlightToggle, 'brackets: pair highlight: toggle on/off', [], []);
   M.Add(cmd_BracketJump, 'brackets: jump to pair', [], []);
   M.Add(cmd_BracketSelect, 'brackets: select to pair', [], []);
   M.Add(cmd_BracketSelectInside, 'brackets: select to pair, inside', [], []);
