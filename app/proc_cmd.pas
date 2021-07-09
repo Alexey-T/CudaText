@@ -652,8 +652,8 @@ begin
   M.Add(cmd_TreeFilterFocus, 'code tree: focus filter', [], []);
   M.Add(cmd_TreeFocus, 'code tree: focus treeview', [], []);
 
-  M.Add(cmd_BracketHighlightOn, 'brackets: pair highlight: set on', [], []);
-  M.Add(cmd_BracketHighlightOff, 'brackets: pair highlight: set off', [], []);
+  M.Add(cmd_BracketHighlightOn, 'brackets: pair highlight: turn on', [], []);
+  M.Add(cmd_BracketHighlightOff, 'brackets: pair highlight: turn off', [], []);
   M.Add(cmd_BracketHighlightToggle, 'brackets: pair highlight: toggle on/off', [], []);
   M.Add(cmd_BracketJump, 'brackets: jump to pair', [], []);
   M.Add(cmd_BracketSelect, 'brackets: select to pair', [], []);
