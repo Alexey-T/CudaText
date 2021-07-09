@@ -5391,7 +5391,7 @@ end;
 procedure TfmMain.DoFileCloseAndDelete(Ed: TATSynEdit);
 var
   Frame: TEditorFrame;
-  fn: string;
+  fn, fnPic: string;
 begin
   Frame:= GetEditorFrame(Ed);
   if Frame=nil then exit;
@@ -5418,6 +5418,12 @@ begin
     if Groups.CloseTabs(tabCloseCurrent, false) then
     begin
       DeleteFileUTF8(fn);
+
+      //delete helper file from 'Insert Pics' plugin
+      fnPic:= fn+'.cuda-pic';
+      if FileExists(fnPic) then
+        DeleteFileUTF8(fnPic);
+
       MenuRecent_RemoveFilename(fn);
     end;
 end;
