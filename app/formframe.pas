@@ -1550,10 +1550,9 @@ begin
 
     cCommand_TextInsert:
       begin
+        if AText='' then exit;
         //autoshow autocompletion after typing N letters
-        bTypedChar:=
-          (AText<>'') and
-          ((Length(AText)=1) or (UTF8Length(AText)=1));
+        bTypedChar:= (Length(AText)=1) or (UTF8Length(AText)=1);
         if bTypedChar then
           if EditorAutoCompletionAfterTypingChar(Ed, AText, FTextCharsTyped, cmd_AutoComplete) then
             exit;
