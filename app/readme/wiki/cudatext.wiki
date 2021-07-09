@@ -45,6 +45,7 @@ Screenshot on Windows:
 * Better support for encodings, including UTF-32
 * Better support national keyboards on Linux
 * Correctly saves binary files
+* API for inter-line gaps, helping to several plugins (Differ, Insert Pics, Embedded Editor)
 * [[#File_viewer|Viewer for files of unlimited size]]
 * [[#Program_perfomance|Program performance]]
 * [[#Hex_display_of_special_chars|Hex display of special chars]]
