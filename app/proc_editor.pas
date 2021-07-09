@@ -2367,7 +2367,7 @@ var
   SValue: UnicodeString;
   SLexer: string;
 begin
-  if not UiOps.AutocompleteHtml then exit;
+  if not (UiOps.AutocompleteHtml and UiOps.AutocompleteHtmlAutoPair) then exit;
   if Ed.AdapterForHilite=nil then exit;
   SLexer:= Ed.AdapterForHilite.GetLexerName;
   if SLexer='' then exit;

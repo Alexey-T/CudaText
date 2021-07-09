@@ -213,6 +213,7 @@ type
     MaxStatusbarMessages: integer;
 
     AutocompleteHtml: boolean;
+    AutocompleteHtmlAutoPair: boolean;
     AutocompleteCss: boolean;
     AutocompleteHtml_Lexers: string;
     AutocompleteCss_Lexers: string;
@@ -1647,6 +1648,7 @@ begin
 
     AutocompleteCss:= true;
     AutocompleteHtml:= true;
+    AutocompleteHtmlAutoPair:= true;
     AutocompleteHtml_Lexers:= '.*HTML.*|\bPHP\b';
     AutocompleteCss_Lexers:= 'CSS';
     AutocompleteFileURI:= true;
