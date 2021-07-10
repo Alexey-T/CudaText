@@ -1049,17 +1049,19 @@ These are also properties of forms.
 * "on_hide": Called after form hides.
 * "on_act": Called after form is activated (gets focus).
 * "on_deact": Called after form is deactivated (lost focus).
-* "on_minimize": Called after form is minimized.
 * "on_mouse_enter": Called when mouse cursor enters form area.
 * "on_mouse_exit": Called when mouse cursor leaves form area.
+
+* "on_form_state": Called after form is minimized/maximized/restored.
+** param "id_ctl": string constant for current form state, one of: "norm", "min", "max", "fullscr" ("full screen", this should never happen).
 
 * "on_key_down": Called when key is pressed in form (form should have "keypreview":True). If plugin returns False, key is blocked.
 ** param "id_ctl": int key code.
 ** param "data": key-state string: few chars, "c" for Ctrl, "a" for Alt, "s" for Shift, "m" for Meta.
 
-* "on_key_up": Called when key is depressed (after on_key_down). If plugin returns False, depressing of key is blocked.
+* "on_key_up": Called when key is depressed (after "on_key_down"). If plugin returns False, depressing of key is blocked.
 
-How to get nice key description in on_key_down, e.g. "Ctrl+Alt+Esc" from id_ctl=27 and data="ca":
+How to get nice key description in "on_key_down", e.g. "Ctrl+Alt+Esc" from id_ctl=27 and data="ca":
 
 <syntaxhighlight lang="python">
     str_key =\
@@ -4412,6 +4414,6 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * add: statusbar_proc: STATUSBAR_GET_CELL_RECT
 
 1.0.402 (app 1.137.3)
-* add: dlg_proc: forms have the "on_minimize" event
+* add: dlg_proc: forms have the "on_form_state" event
 
 [[Category:CudaText]]
