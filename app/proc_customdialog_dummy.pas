@@ -122,7 +122,7 @@ type
     FEventOnMouseExit: string;
     FEventOnShow: string;
     FEventOnHide: string;
-    FEventOnMinimize: string;
+    FEventOnFormState: string;
     TagString: string;
     PrevForms: TFPList;
     PrevBorderStyle: TFormBorderStyle;
@@ -562,6 +562,10 @@ begin
 end;
 
 procedure TFormDummy.DoOnFormWindowStateChange(Sender: TObject);
+const
+  cParamStr: array[TWindowState] of string = ('norm', 'min', 'max', 'fullscr');
+var
+  Param: TAppVariant;
 begin
   //this is for https://github.com/Alexey-T/CudaText/issues/3078
   //prevent minimizing the modal-emulated form
@@ -572,8 +576,8 @@ begin
       Show;
     end;
 
-  if WindowState=wsMinimized then
-    DoEvent(-1, FEventOnMinimize, AppVariantNil);
+  Param:= AppVariant(cParamStr[WindowState]);
+  DoEvent(-1, FEventOnFormState, Param);
 end;
 
 procedure TFormDummy.DoOnControlMenu(Sender: TObject; MousePos: TPoint;
