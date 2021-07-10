@@ -12,7 +12,7 @@ unit proc_customdialog_dummy;
 interface
 
 uses
-  Classes, SysUtils, Controls, Graphics,
+  Classes, SysUtils, Controls, Graphics, LMessages,
   StdCtrls, Forms, ComCtrls, ExtCtrls, Math,
   LCLType,
   LCLIntf,
@@ -106,6 +106,7 @@ type
     procedure Activate; override;
     procedure Deactivate; override;
     procedure DoClose(var CloseAction: TCloseAction); override;
+    procedure LMSize(var Msg: TLMessage); message LM_SIZE;
   public
     IsDlgCustom: boolean;
     IsDlgModalEmulated: boolean;
@@ -122,6 +123,7 @@ type
     FEventOnMouseExit: string;
     FEventOnShow: string;
     FEventOnHide: string;
+    FEventOnMinimize: string;
     TagString: string;
     PrevForms: TFPList;
     PrevBorderStyle: TFormBorderStyle;
@@ -596,6 +598,13 @@ begin
   DoEmulatedModalClose;
   IdClicked:= -1;
   DoEvent(-1, FEventOnClose, AppVariantNil);
+end;
+
+procedure TFormDummy.LMSize(var Msg: TLMessage);
+begin
+  inherited;
+  if Msg.WParam and 127 = SIZE_MINIMIZED then
+    DoEvent(-1, FEventOnMinimize, AppVariantNil);
 end;
 
 function TFormDummy.IdFocused: integer;

@@ -2351,6 +2351,9 @@ begin
   if AName='on_hide' then
     F.FEventOnHide:= AValue
   else
+  if AName='on_minimize' then
+    F.FEventOnMinimize:= AValue
+  else
   if AName='vis' then
     F.Visible:= AppStrToBool(AValue)
   else
@@ -2403,6 +2406,7 @@ begin
   _SetDictKey(Result, 'on_mouse_exit', F.FEventOnMouseExit);
   _SetDictKey(Result, 'on_show', F.FEventOnShow);
   _SetDictKey(Result, 'on_hide', F.FEventOnHide);
+  _SetDictKey(Result, 'on_minimize', F.FEventOnMinimize);
 end;
 
 
