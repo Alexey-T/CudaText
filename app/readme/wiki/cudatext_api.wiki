@@ -474,7 +474,7 @@ Positions of group splitters (G1, G2, G3, G4, G5) are determined by grouping vie
 
 ====app_proc - Show/Hide/Undock UI elements====
 
-Actions can get/set state of UI elements (pass "0"/"1" or False/True):
+Actions get/set state of UI elements, "value" must be False/True:
 
 * PROC_SHOW_STATUSBAR_GET: for main statusbar (on the bottom).
 * PROC_SHOW_STATUSBAR_SET
