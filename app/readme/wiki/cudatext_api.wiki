@@ -476,30 +476,30 @@ Positions of group splitters (G1, G2, G3, G4, G5) are determined by grouping vie
 
 Actions can get/set state of UI elements (pass "0"/"1" or False/True):
 
-* PROC_SHOW_STATUSBAR_GET
+* PROC_SHOW_STATUSBAR_GET: for main statusbar (on the bottom).
 * PROC_SHOW_STATUSBAR_SET
-* PROC_SHOW_TOOLBAR_GET
+* PROC_SHOW_TOOLBAR_GET: for horizontal toolbar (on the top).
 * PROC_SHOW_TOOLBAR_SET
-* PROC_SHOW_SIDEBAR_GET
+* PROC_SHOW_SIDEBAR_GET: for vertical sidebar.
 * PROC_SHOW_SIDEBAR_SET
-* PROC_SHOW_SIDEPANEL_GET
+* PROC_SHOW_SIDEPANEL_GET: for panels near the sidebar (Code-Tree, Project Manager etc).
 * PROC_SHOW_SIDEPANEL_SET
-* PROC_SHOW_BOTTOMPANEL_GET
+* PROC_SHOW_BOTTOMPANEL_GET: for panels near the statusbar (Console, Output etc.)
 * PROC_SHOW_BOTTOMPANEL_SET
-* PROC_SHOW_TABS_GET
+* PROC_SHOW_TABS_GET: for UI-tabs bar (can be placed at all 4 sides).
 * PROC_SHOW_TABS_SET
-* PROC_SHOW_TREEFILTER_GET
+* PROC_SHOW_TREEFILTER_GET: for Code-Tree "filter" input field.
 * PROC_SHOW_TREEFILTER_SET
-* PROC_SHOW_FLOATGROUP1_GET
+* PROC_SHOW_FLOATGROUP1_GET: for "floating group 1", which is activated by moving some UI-tabs there, from UI-tab context menu.
 * PROC_SHOW_FLOATGROUP1_SET
-* PROC_SHOW_FLOATGROUP2_GET
+* PROC_SHOW_FLOATGROUP2_GET: for "floating group 2".
 * PROC_SHOW_FLOATGROUP2_SET
-* PROC_SHOW_FLOATGROUP3_GET
+* PROC_SHOW_FLOATGROUP3_GET: for "floating group 3".
 * PROC_SHOW_FLOATGROUP3_SET
 
-* PROC_FLOAT_SIDE_GET
+* PROC_FLOAT_SIDE_GET: "floating" property of side panels.
 * PROC_FLOAT_SIDE_SET
-* PROC_FLOAT_BOTTOM_GET
+* PROC_FLOAT_BOTTOM_GET: "floating" property of bottom panels.
 * PROC_FLOAT_BOTTOM_SET
 
 ====app_proc - Screen coordinates====
