@@ -6,6 +6,7 @@
 1.137.3
 
 + add: new option "autocomplete_html_autoclose": auto-insertion of closing tag after typing <tagname> (thanks @MOPKOBKA at linux.org.ru)
+* change: folding ranges containing only 2 lines, are useless, so now they don't show the gutter [-] marks
 
 1.137.2 (2021/07)
 
