@@ -1047,8 +1047,9 @@ These are also properties of forms.
 
 * "on_show": Called after form shows.
 * "on_hide": Called after form hides.
-* "on_act": Called when form is activated.
-* "on_deact": Called when form is deactivated.
+* "on_act": Called after form is activated (gets focus).
+* "on_deact": Called after form is deactivated (lost focus).
+* "on_minimize": Called after form is minimized.
 * "on_mouse_enter": Called when mouse cursor enters form area.
 * "on_mouse_exit": Called when mouse cursor leaves form area.
 
@@ -4409,5 +4410,8 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * add: statusbar_proc: STATUSBAR_GET_OVERFLOW_LEFT
 * add: statusbar_proc: STATUSBAR_SET_OVERFLOW_LEFT
 * add: statusbar_proc: STATUSBAR_GET_CELL_RECT
+
+1.0.402 (app 1.137.3)
+* add: dlg_proc: forms have the "on_minimize" event
 
 [[Category:CudaText]]
