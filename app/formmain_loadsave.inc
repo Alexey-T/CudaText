@@ -287,11 +287,14 @@ begin
       cfg.SetValue(path+'/group', nLocalGroup+1); //support old sessions with 1-based index
       cfg.SetDeleteValue(path+'/pinned', Frame.TabPinned, false);
 
-      if Frame.IsText then value:= ''
-      else
-      if Frame.IsBinary then value:= 'bin,'+IntToStr(Ord(Frame.Binary.Mode))
-      else
-      if Frame.IsPicture then value:= 'pic';
+      case Frame.FrameKind of
+        efkEditor:
+          value:= '';
+        efkBinaryViewer:
+          value:= 'bin,'+IntToStr(Ord(Frame.Binary.Mode));
+        efkImageViewer:
+          value:= 'pic';
+      end;
       cfg.SetValue(path+'/kind', value);
 
       {

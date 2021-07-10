@@ -80,6 +80,19 @@ type
     cOpenModeViewUHex
     );
 
+  TATEditorFrameKind = (
+    efkEditor,
+    efkBinaryViewer,
+    efkImageViewer
+    );
+
+const
+  cATEditorFrameKindStr: array[TATEditorFrameKind] of string = (
+    'text',
+    'bin',
+    'pic'
+    );
+
 type
   TFrameGetSaveDialog = procedure(var ASaveDlg: TSaveDialog) of object;
 
@@ -346,10 +359,8 @@ type
     function IsEmpty: boolean;
     procedure ApplyTheme;
     function IsEditorFocused: boolean;
+    function FrameKind: TATEditorFrameKind;
     procedure SetFocus; reintroduce;
-    function IsText: boolean;
-    function IsPicture: boolean;
-    function IsBinary: boolean;
     function PictureSizes: TPoint;
     property PictureScale: integer read GetPictureScale write SetPictureScale;
     property Binary: TATBinHex read FBin;
@@ -1234,7 +1245,7 @@ var
   al: TAlign;
 begin
   FSplitHorz:= AValue;
-  if not IsText then exit;
+  if FrameKind<>efkEditor then exit;
 
   al:= cSplitHorzToAlign[AValue];
   Splitter.Align:= al;
@@ -1250,7 +1261,7 @@ const
 var
   N: integer;
 begin
-  if not IsText then exit;
+  if FrameKind<>efkEditor then exit;
   if not Splitted then exit;
 
   AValue:= Max(0.0, Min(1.0, AValue));
@@ -1272,7 +1283,7 @@ end;
 
 procedure TEditorFrame.SetSplitted(AValue: boolean);
 begin
-  if not IsText then exit;
+  if FrameKind<>efkEditor then exit;
   if GetSplitted=AValue then exit;
 
   if not AValue and Ed2.Focused then
@@ -1480,7 +1491,7 @@ var
 begin
   Ed:= Sender as TATSynEdit;
 
-  if IsBinary then
+  if FrameKind=efkBinaryViewer then
   begin
     case ACommand of
       cCommand_ZoomIn:
@@ -1937,21 +1948,15 @@ begin
   Result:= Ed1.Focused or Ed2.Focused;
 end;
 
-function TEditorFrame.IsText: boolean;
+function TEditorFrame.FrameKind: TATEditorFrameKind;
 begin
-  Result:=
-    not IsPicture and
-    not IsBinary;
-end;
-
-function TEditorFrame.IsPicture: boolean;
-begin
-  Result:= Assigned(FImageBox) and FImageBox.Visible;
-end;
-
-function TEditorFrame.IsBinary: boolean;
-begin
-  Result:= Assigned(FBin) and FBin.Visible;
+  if Assigned(FBin) and FBin.Visible then
+    Result:= efkBinaryViewer
+  else
+  if Assigned(FImageBox) and FImageBox.Visible then
+    Result:= efkImageViewer
+  else
+    Result:= efkEditor;
 end;
 
 
@@ -2406,7 +2411,7 @@ var
   Params: TAppVariantArray;
 begin
   Result:= true;
-  if not IsText then exit(true); //disable saving, but close
+  if FrameKind<>efkEditor then exit(true); //disable saving, but close
 
   SetLength(Params, 0);
   EventRes:= DoPyEvent(Ed, cEventOnSaveBefore, Params);
@@ -2573,7 +2578,7 @@ begin
     (PrevCaretY=Ed.Strings.Count-1);
 
   Mode:= cOpenModeEditor;
-  if IsBinary then
+  if FrameKind=efkBinaryViewer then
     case FBin.Mode of
       vbmodeText:
         Mode:= cOpenModeViewText;
@@ -3883,23 +3888,23 @@ begin
 
   if Visible and Enabled then
   begin
-    if IsText then
+   case FrameKind of
+    efkEditor:
     begin
       if Editor.Visible and Editor.Enabled then
         EditorFocus(Editor);
-    end
-    else
-    if IsBinary then
+    end;
+    efkBinaryViewer:
     begin
       if Assigned(FBin) and FBin.Visible and FBin.CanFocus then
         EditorFocus(FBin);
-    end
-    else
-    if IsPicture then
+    end;
+    efkImageViewer:
     begin
       if Assigned(FImageBox) and FImageBox.Visible and FImageBox.CanFocus then
         FImageBox.SetFocus;
     end;
+   end;
   end;
 end;
 

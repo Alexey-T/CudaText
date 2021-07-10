@@ -1681,7 +1681,7 @@ begin
 
       if F=nil then
         exit(ReturnNone);
-      if F.IsText or (Pos('*', StrOps)>0) then
+      if (F.FrameKind=efkEditor) or (Pos('*', StrOps)>0) then
         Str:= F.GetFileName(Ed)
       else
         Str:= '?';
@@ -3209,13 +3209,7 @@ begin
         PROP_KIND:
           begin
             if not Assigned(F) then exit(ReturnNone);
-            if F.IsBinary then
-              Str:= 'bin'
-            else
-            if F.IsPicture then
-              Str:= 'pic'
-            else
-              Str:= 'text';
+            Str:= cATEditorFrameKindStr[F.FrameKind];
             Result:= PyUnicodeFromString(Str);
           end;
 
@@ -3373,7 +3367,7 @@ begin
 
         PROP_PICTURE:
           begin
-            if (F=nil) or (F.IsText) then
+            if (F=nil) or (F.FrameKind<>efkImageViewer) then
               Result:= ReturnNone
             else
             begin
@@ -3606,7 +3600,7 @@ begin
 
         PROP_V_MODE:
           begin
-            if Assigned(F) and F.IsBinary then
+            if Assigned(F) and (F.FrameKind=efkBinaryViewer) then
               Num1:= Ord(F.Binary.Mode)
             else
               Num1:= VMODE_NONE;
@@ -3616,7 +3610,7 @@ begin
         PROP_V_POS:
           begin
             if not Assigned(F) then exit(ReturnNone);
-            if F.IsBinary then
+            if F.FrameKind=efkBinaryViewer then
               Result:= PyLong_FromLongLong(F.Binary.PosOffset)
             else
               Result:= ReturnNone;
@@ -3625,7 +3619,7 @@ begin
         PROP_V_SEL_START:
           begin
             if not Assigned(F) then exit(ReturnNone);
-            if F.IsBinary then
+            if F.FrameKind=efkBinaryViewer then
               Result:= PyLong_FromLongLong(F.Binary.SelStart)
             else
               Result:= ReturnNone;
@@ -3634,7 +3628,7 @@ begin
         PROP_V_SEL_LEN:
           begin
             if not Assigned(F) then exit(ReturnNone);
-            if F.IsBinary then
+            if F.FrameKind=efkBinaryViewer then
               Result:= PyLong_FromLongLong(F.Binary.SelLength)
             else
               Result:= ReturnNone;
@@ -3643,7 +3637,7 @@ begin
         PROP_V_WIDTH:
           begin
             if not Assigned(F) then exit(ReturnNone);
-            if F.IsBinary then
+            if F.FrameKind=efkBinaryViewer then
               Result:= PyLong_FromLong(F.Binary.TextWidth)
             else
               Result:= ReturnNone;
@@ -3652,7 +3646,7 @@ begin
         PROP_V_WIDTH_HEX:
           begin
             if not Assigned(F) then exit(ReturnNone);
-            if F.IsBinary then
+            if F.FrameKind=efkBinaryViewer then
               Result:= PyLong_FromLong(F.Binary.TextWidthHex)
             else
               Result:= ReturnNone;
@@ -3661,7 +3655,7 @@ begin
         PROP_V_WIDTH_UHEX:
           begin
             if not Assigned(F) then exit(ReturnNone);
-            if F.IsBinary then
+            if F.FrameKind=efkBinaryViewer then
               Result:= PyLong_FromLong(F.Binary.TextWidthUHex)
             else
               Result:= ReturnNone;
@@ -4206,7 +4200,7 @@ begin
             if not Assigned(F) then exit(ReturnNone);
             if ValueInt=VMODE_NONE then
             begin
-              if F.IsBinary then
+              if F.FrameKind=efkBinaryViewer then
               begin
                 Str:= F.FileName;
                 F.DoFileClose;
@@ -4216,7 +4210,7 @@ begin
             else
             if (ValueInt>=0) and (ValueInt<=Ord(High(TATBinHexMode))) then
             begin
-              if F.IsBinary then
+              if F.FrameKind=efkBinaryViewer then
                 F.Binary.Mode:= TATBinHexMode(ValueInt)
               else
               begin
@@ -4233,14 +4227,14 @@ begin
         PROP_V_POS:
           begin
             if not Assigned(F) then exit(ReturnNone);
-            if F.IsBinary then
+            if F.FrameKind=efkBinaryViewer then
               F.Binary.PosOffset:= ValueInt;
           end;
 
         PROP_V_SEL_START:
           begin
             if not Assigned(F) then exit(ReturnNone);
-            if F.IsBinary then
+            if F.FrameKind=efkBinaryViewer then
               F.Binary.SetSelection(
                 ValueInt,
                 F.Binary.SelLength,
@@ -4250,7 +4244,7 @@ begin
         PROP_V_SEL_LEN:
           begin
             if not Assigned(F) then exit(ReturnNone);
-            if F.IsBinary then
+            if F.FrameKind=efkBinaryViewer then
               F.Binary.SetSelection(
                 F.Binary.SelStart,
                 ValueInt,
@@ -4260,7 +4254,7 @@ begin
         PROP_V_WIDTH:
           begin
             if not Assigned(F) then exit(ReturnNone);
-            if F.IsBinary then
+            if F.FrameKind=efkBinaryViewer then
             begin
               F.Binary.TextWidth:= ValueInt;
               F.Binary.Redraw();
@@ -4270,7 +4264,7 @@ begin
         PROP_V_WIDTH_HEX:
           begin
             if not Assigned(F) then exit(ReturnNone);
-            if F.IsBinary then
+            if F.FrameKind=efkBinaryViewer then
             begin
               F.Binary.TextWidthHex:= ValueInt;
               F.Binary.Redraw();
@@ -4280,7 +4274,7 @@ begin
         PROP_V_WIDTH_UHEX:
           begin
             if not Assigned(F) then exit(ReturnNone);
-            if F.IsBinary then
+            if F.FrameKind=efkBinaryViewer then
             begin
               F.Binary.TextWidthUHex:= ValueInt;
               F.Binary.Redraw();

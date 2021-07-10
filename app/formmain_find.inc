@@ -133,7 +133,7 @@ begin
 
   if Category in [afcFind, afcReplaceOne] then
   begin
-    if Frame.IsPicture then exit;
+    if Frame.FrameKind=efkImageViewer then exit;
     if Frame.Editor.Carets.Count=0 then
     begin
       MsgStatus(msgCannotFindWithoutCaret);
@@ -143,7 +143,7 @@ begin
 
   if Category=afcReplaceOne then
   begin
-    if not Frame.IsText then exit;
+    if Frame.FrameKind<>efkEditor then exit;
     if Frame.Editor.ModeReadOnly then exit;
   end;
 
@@ -188,7 +188,7 @@ begin
     bHiliteAll:= chkHiAll.Checked;
   end;
 
-  if Frame.IsBinary then
+  if Frame.FrameKind=efkBinaryViewer then
   begin
     UpdateAppForSearch(true, false, true, AEnableUpdateAll);
     Application.ProcessMessages;
@@ -288,7 +288,7 @@ begin
       for IndexFrame:= 0 to FrameCount-1 do
       begin
         FrameNew:= Frames[IndexFrame];
-        if not FrameNew.IsText then Continue;
+        if FrameNew.FrameKind<>efkEditor then Continue;
 
         if bChangeFrame then
           SetFrame(FrameNew);
@@ -523,10 +523,10 @@ var
   bBinaryPrev, bBinaryNow: boolean;
 begin
   bEnabledPrev:= fmFind.Enabled;
-  bEnabledNow:= Frame.IsText or Frame.IsBinary;
+  bEnabledNow:= Frame.FrameKind in [efkEditor, efkBinaryViewer];
 
   bBinaryPrev:= fmFind.FForViewer;
-  bBinaryNow:= Frame.IsBinary;
+  bBinaryNow:= Frame.FrameKind=efkBinaryViewer;
 
   fmFind.Enabled:= bEnabledNow;
   fmFind.FForViewer:= bBinaryNow;
@@ -566,7 +566,7 @@ begin
     Exit
   end;
 
-  if Frame.IsBinary then
+  if Frame.FrameKind=efkBinaryViewer then
   begin
     FindDialogDone(Frame, afoFindFirst, false);
     exit;
@@ -601,7 +601,7 @@ begin
     Exit
   end;
 
-  if Frame.IsBinary then
+  if Frame.FrameKind=efkBinaryViewer then
   begin
     if ANext then
       Op:= afoFindNext

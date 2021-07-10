@@ -108,7 +108,15 @@ begin
   if F=nil then exit;
   Ed:= F.Editor;
   bEditable:= not Ed.ModeReadOnly;
-  bShowNonPrinted:= (F.IsText and Ed.OptUnprintedVisible) or (F.IsBinary and F.Binary.TextNonPrintable);
+
+  case F.FrameKind of
+    efkEditor:
+      bShowNonPrinted:= Ed.OptUnprintedVisible;
+    efkBinaryViewer:
+      bShowNonPrinted:= F.Binary.TextNonPrintable;
+    else
+      bShowNonPrinted:= false;
+  end;
 
   UpdateToolbarButton(ToolbarMain, cCommand_ToggleMinimap, Ed.OptMinimapVisible, true);
   UpdateToolbarButton(ToolbarMain, cCommand_ToggleUnprinted, bShowNonPrinted, true);
@@ -152,21 +160,23 @@ var
   Ed: TATSynEdit;
   S, fmt: string;
   Size: TPoint;
+  FrameKind: TATEditorFrameKind;
 begin
   Ed:= F.Editor;
+  FrameKind:= F.FrameKind;
 
   //hide hints for pictures/viewer
-  AStatus.ShowHint:= F.IsText;
+  AStatus.ShowHint:= FrameKind=efkEditor;
 
-  if not F.IsText then
+  if FrameKind<>efkEditor then
   begin
-    if F.IsBinary then
+    if FrameKind=efkBinaryViewer then
       S:= IntToStr(F.Binary.PosPercent)+'%'
     else
       S:= '';
     DoStatusbarTextByTag(AStatus, StatusbarTag_Caret, S);
 
-    if F.IsBinary then
+    if FrameKind=efkBinaryViewer then
     begin
       S:= cEncConvNames[F.Binary.TextEncoding];
     end
@@ -176,20 +186,20 @@ begin
 
     DoStatusbarTextByTag(AStatus, StatusbarTag_LineEnds, '');
 
-    if F.IsBinary then
+    if FrameKind=efkBinaryViewer then
       S:= msgViewer+': '+msgViewerModes[F.Binary.Mode]
     else
-    if F.IsPicture then
+    if FrameKind=efkImageViewer then
     begin
       Size:= F.PictureSizes;
       S:= Format(msgStatusPictureNxN, [Size.X, Size.Y]);
     end;
     DoStatusbarTextByTag(AStatus, StatusbarTag_Lexer, S);
 
-    if F.IsBinary then
+    if FrameKind=efkBinaryViewer then
       S:= ''
     else
-    if F.IsPicture then
+    if FrameKind=efkImageViewer then
       S:= IntToStr(F.PictureScale)+'%';
     DoStatusbarTextByTag(AStatus, StatusbarTag_TabSize, S);
 
@@ -557,7 +567,7 @@ begin
 
   Frame:= GetEditorFrame(Ed);
   if Frame=nil then exit;
-  if not Frame.IsText then exit;
+  if Frame.FrameKind<>efkEditor then exit;
 
   SFileName:= Frame.GetFileName(Ed);
   if SFileName='' then exit;

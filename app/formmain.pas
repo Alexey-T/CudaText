@@ -1721,7 +1721,7 @@ begin
         CurFrame:= TEditorFrame(AppFrameList2[i]);
         if CurFrame.FileName='' then Continue;
         if not CurFrame.NotifEnabled then Continue;
-        if not CurFrame.IsText then Continue;
+        if CurFrame.FrameKind<>efkEditor then Continue;
         HandleOneFrame;
       end;
     finally
@@ -1744,7 +1744,7 @@ var
 begin
   F:= CurrentFrame;
   if F=nil then exit;
-  if not F.IsBinary then exit;
+  if F.FrameKind<>efkBinaryViewer then exit;
   F.Binary.Mode:= TATBinHexMode((Sender as TComponent).Tag);
   UpdateStatusbar;
 end;
@@ -2029,7 +2029,7 @@ begin
   Data:= Status.GetPanelData(AIndex);
   if Data=nil then exit;
 
-  if Frame.IsPicture then
+  if Frame.FrameKind=efkImageViewer then
   begin
     case Data.Tag of
       StatusbarTag_TabSize:
@@ -2041,7 +2041,7 @@ begin
     exit;
   end;
 
-  if Frame.IsBinary then
+  if Frame.FrameKind=efkBinaryViewer then
   begin
     case Data.Tag of
       StatusbarTag_Caret:
@@ -4105,7 +4105,7 @@ begin
       end;
 
       if IsFilenameForLexerDetecter(AFileName) then
-        if F.IsText and (F.LexerName[F.Ed1]='') then
+        if (F.FrameKind=efkEditor) and (F.LexerName[F.Ed1]='') then
         begin
           if bEnableEventOpenedNone then
             DoPyEvent(F.Ed1, cEventOnOpenNone, Params);
@@ -4149,7 +4149,7 @@ begin
 
   if bEnableEventOpenedNone then
     if IsFilenameForLexerDetecter(AFileName) then
-      if F.IsText and (F.LexerName[F.Ed1]='') then
+      if (F.FrameKind=efkEditor) and (F.LexerName[F.Ed1]='') then
         DoPyEvent(F.Ed1, cEventOnOpenNone, Params);
 
   if bEnableEventOpened then
@@ -4485,20 +4485,21 @@ begin
   Frame:= CurrentFrame;
   Ed:= Frame.Editor;
 
-  if Frame.IsBinary then
-  begin
-    if ViewerGotoFromString(Frame.Binary, AInput) then
-      MsgStatus('')
-    else
-      MsgStatus(msgStatusBadLineNum);
-  end
-  else
-  if Frame.IsText then
-  begin
-    if EditorGotoFromString(Ed, AInput) then
-      MsgStatus('')
-    else
-      MsgStatus(msgStatusBadLineNum);
+  case Frame.FrameKind of
+    efkBinaryViewer:
+    begin
+      if ViewerGotoFromString(Frame.Binary, AInput) then
+        MsgStatus('')
+      else
+        MsgStatus(msgStatusBadLineNum);
+    end;
+    efkEditor:
+    begin
+      if EditorGotoFromString(Ed, AInput) then
+        MsgStatus('')
+      else
+        MsgStatus(msgStatusBadLineNum);
+    end;
   end;
 
   Frame.SetFocus;
@@ -5053,7 +5054,7 @@ function TfmMain.GetStatusbarPrefix(Frame: TEditorFrame): string;
 begin
   Result:= '';
   if Frame=nil then exit;
-  if Frame.IsText then
+  if Frame.FrameKind=efkEditor then
   begin
     if Frame.ReadOnly[Frame.Editor] then
       Result+= msgStatusReadonly+' ';
@@ -6628,7 +6629,7 @@ var
   F: TEditorFrame;
 begin
   F:= CurrentFrame;
-  if F.IsPicture then
+  if F.FrameKind=efkImageViewer then
   begin
     F.PictureScale:= (Sender as TComponent).Tag;
   end;
