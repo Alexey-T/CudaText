@@ -3081,6 +3081,16 @@ procedure TfmMain.FormShow(Sender: TObject);
       }
   end;
   //
+  procedure _Init_CheckExePath;
+  const
+    BadStr: PChar = 'c:\Program Files';
+  begin
+    {$ifdef windows}
+    if strlicomp(PChar(Application.ExeName), BadStr, Length(BadStr))=0 then
+      MsgLogConsole('ERROR: CudaText cannot save configs if it''s copied to "Program Files" folder');
+    {$endif}
+  end;
+  //
 begin
   _Init_FixSplitters;
 
@@ -3146,6 +3156,8 @@ begin
 
   FHandledOnShowFully:= true;
   FNeedUpdateMenuChecks:= true;
+
+  _Init_CheckExePath;
 end;
 
 procedure TfmMain.ShowWelcomeInfo;
