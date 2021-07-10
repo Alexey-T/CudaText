@@ -91,6 +91,7 @@ type
   TFormDummy = class(TForm)
   private
     IsFormShownAlready: boolean;
+    FDeactivated: boolean;
     procedure DoOnFormWindowStateChange(Sender: TObject);
     procedure _HandleClickEvent(Sender: TObject; ADblClick: boolean);
     procedure _HandleMouseEvent(Sender: TObject;
@@ -377,13 +378,18 @@ end;
 procedure TFormDummy.Activate;
 begin
   inherited;
+  FDeactivated:= false;
   DoEvent(-1, FEventOnActivate, AppVariantNil);
 end;
 
 procedure TFormDummy.Deactivate;
 begin
   inherited;
-  DoEvent(-1, FEventOnDeactivate, AppVariantNil);
+  //fixing https://github.com/halfbrained/cuda_breadcrumbs/issues/35
+  //avoid multiple on_deact events
+  if not FDeactivated then
+    DoEvent(-1, FEventOnDeactivate, AppVariantNil);
+  FDeactivated:= true;
 end;
 
 procedure TFormDummy._HandleClickEvent(Sender: TObject; ADblClick: boolean);
