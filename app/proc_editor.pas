@@ -2346,10 +2346,14 @@ begin
   Result:= '';
   St:= Ed.Strings;
   if not St.IsIndexValid(AY) then exit;
-  SLine:= St.LineSub(AY, 1, AX);
+  SLine:= St.LineSub(AY, 1, AX+1);
   NLen:= Length(SLine);
   if AX<3 then exit; //need at least <h>
   if AX>NLen then exit;
+
+  //don't work if next text is some tag
+  if (AX<NLen) and (SLine[AX+1]='<') then exit;
+
   NStart:= RPosEX('<', SLine, AX);
   if NStart=0 then exit;
   SLine:= Copy(SLine, NStart+1, AX-NStart-1);
