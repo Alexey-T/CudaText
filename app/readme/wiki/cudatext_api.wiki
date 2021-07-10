@@ -1021,6 +1021,7 @@ Additional types, supported only by "dlg_proc":
 * "h_min", "h_max": int: Constraints for height, min/max value.
 * "p": int: Handle of parent form, or 0 if no parent.
 * "tag": str: Any string, set by plugin.
+
 * "border": int: Sets border of form, DBORDER_nnn constants. Don't specify it together with deprecated "resize".
 ** DBORDER_NONE: No visible border, not resizable
 ** DBORDER_SIZE: Standard resizable border (on Windows: with Minimize/Maximize buttons)
@@ -1028,6 +1029,7 @@ Additional types, supported only by "dlg_proc":
 ** DBORDER_DIALOG: Standard dialog box border, not resizable (on Windows: form has no icon nor Minimize button)
 ** DBORDER_TOOL: Like DBORDER_SINGLE but with a smaller caption
 ** DBORDER_TOOLSIZE: Like DBORDER_SIZE but with a smaller caption
+
 * "topmost": bool: Makes form stay on top of other forms in CudaText.
 * "vis": bool: Visible state.
 * "color": int: Background color.
@@ -1035,6 +1037,7 @@ Additional types, supported only by "dlg_proc":
 * "keypreview": bool: If on, then key press calls on_key_down before passing key to focused control. Should be True if form needs to handle on_key_down.
 * "p": int: Parent handle. Set this property to int handle of any windowed UI control or form, this control/form will be parent of form.
 * "focused" (only for reading): index of currently focused control.
+* "form_state" (only for reading): current form state, string: "norm" for normal, "min" for minimized, "max" for maximized, "fullscr" for full-screen.
 * (deprecated) "resize": bool: Border of form has "resizable" style.
 
 ====dlg_proc - Forms events====
@@ -4415,5 +4418,6 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 
 1.0.402 (app 1.137.3)
 * add: dlg_proc: forms have the "on_form_state" event
+* add: dlg_proc: forms have additional property "form_state"
 
 [[Category:CudaText]]
