@@ -170,37 +170,41 @@ begin
 
   if FrameKind<>efkEditor then
   begin
-    if FrameKind=efkBinaryViewer then
-      S:= IntToStr(F.Binary.PosPercent)+'%'
-    else
-      S:= '';
+    case FrameKind of
+      efkBinaryViewer:
+        S:= IntToStr(F.Binary.PosPercent)+'%';
+      else
+        S:= '';
+    end;
     DoStatusbarTextByTag(AStatus, StatusbarTag_Caret, S);
 
-    if FrameKind=efkBinaryViewer then
-    begin
-      S:= cEncConvNames[F.Binary.TextEncoding];
-    end
-    else
-      S:= '';
+    case FrameKind of
+      efkBinaryViewer:
+        S:= cEncConvNames[F.Binary.TextEncoding];
+      else
+        S:= '';
+    end;
     DoStatusbarTextByTag(AStatus, StatusbarTag_Enc, S);
 
     DoStatusbarTextByTag(AStatus, StatusbarTag_LineEnds, '');
 
-    if FrameKind=efkBinaryViewer then
-      S:= msgViewer+': '+msgViewerModes[F.Binary.Mode]
-    else
-    if FrameKind=efkImageViewer then
-    begin
-      Size:= F.PictureSizes;
-      S:= Format(msgStatusPictureNxN, [Size.X, Size.Y]);
+    case FrameKind of
+      efkBinaryViewer:
+        S:= msgViewer+': '+msgViewerModes[F.Binary.Mode];
+      efkImageViewer:
+        begin
+          Size:= F.PictureSizes;
+          S:= Format(msgStatusPictureNxN, [Size.X, Size.Y]);
+        end;
     end;
     DoStatusbarTextByTag(AStatus, StatusbarTag_Lexer, S);
 
-    if FrameKind=efkBinaryViewer then
-      S:= ''
-    else
-    if FrameKind=efkImageViewer then
-      S:= IntToStr(F.PictureScale)+'%';
+    case FrameKind of
+      efkBinaryViewer:
+        S:= '';
+      efkImageViewer:
+        S:= IntToStr(F.PictureScale)+'%';
+    end;
     DoStatusbarTextByTag(AStatus, StatusbarTag_TabSize, S);
 
     DoStatusbarTextByTag(AStatus, StatusbarTag_InsOvr, '');
