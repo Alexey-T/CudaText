@@ -739,9 +739,6 @@ type
     procedure PopupBottomCopyClick(Sender: TObject);
     procedure PopupBottomSelectAllClick(Sender: TObject);
     procedure PopupBottomWrapClick(Sender: TObject);
-    procedure UpdateFindDialogEnabled(Frame: TEditorFrame);
-    procedure UpdateGlobalProgressbar(AValue: integer; AVisible: boolean; AMaxValue: integer=100);
-    procedure UpdateLexerProgressbar(AValue: integer; AVisible: boolean; AMaxValue: integer=100);
     procedure ConfirmButtonOkClick(Sender: TObject);
     procedure ConfirmPanelMouseLeave(Sender: TObject);
     procedure FindDialogFocusEditor(Sender: TObject);
@@ -1067,6 +1064,10 @@ type
     procedure SetShowTabsMain(AValue: boolean);
     procedure SplitterOnPaintDummy(Sender: TObject);
     procedure StopAllTimers;
+
+    procedure UpdateFindDialogEnabled(Frame: TEditorFrame);
+    procedure UpdateGlobalProgressbar(AValue: integer; AVisible: boolean; AMaxValue: integer=100);
+    procedure UpdateLexerProgressbar(AValue: integer; AVisible: boolean; AMaxValue: integer=100);
     procedure UpdateGroupsMode(AMode: TATGroupsMode);
     procedure UpdateMenuTheming(AMenu: TPopupMenu);
     procedure UpdateMenuTheming_MainMenu(AllowResize: boolean);
@@ -1085,27 +1086,6 @@ type
     procedure UpdateMenuPlugins_Shortcuts_Work(AForceUpdate: boolean);
     procedure UpdateMenuChecks(F: TEditorFrame);
     procedure UpdateMenuEnc(AMenu: TMenuItem);
-    procedure DoApplyUiOps;
-    procedure DoApplyUiOpsToGroups(G: TATGroups);
-    procedure DoApplyInitialGroupSizes;
-    procedure DoApplyInitialSidebarPanel;
-    procedure DoApplyInitialWindowPos;
-    procedure InitConfirmPanel;
-    procedure InitPyEngine;
-    procedure InitFrameEvents(F: TEditorFrame);
-    procedure InitStatusbarControls;
-    procedure FrameOnChangeCaption(Sender: TObject);
-    procedure FrameOnUpdateStatusbar(Sender: TObject);
-    procedure FrameOnUpdateState(Sender: TObject);
-    function CreateTab(APages: TATPages; const ACaption: string;
-      AndActivate: boolean=true;
-      AAllowNearCurrent: boolean=true): TATTabData;
-    procedure FrameOnEditorFocus(Sender: TObject);
-    function GetFrame(AIndex: integer): TEditorFrame;
-    procedure SetFrame(Frame: TEditorFrame);
-    procedure DoTooltipHide;
-    procedure DoTooltipShow(const AText: string; ASeconds: integer;
-      APosition: TAppTooltipPos; AGotoBracket: boolean; APosX, APosY: integer);
     procedure UpdateFrameLineEnds(Frame: TEditorFrame; AValue: TATLineEnds);
     procedure UpdateSomeStates(F: TEditorFrame);
     procedure UpdateStatusbarPanelsFromString(const AText: string);
@@ -1129,6 +1109,28 @@ type
     procedure UpdateAppForSearch(AStart, AEdLock, AFindMode, AUpdateEnableAll: boolean);
     procedure UpdateStatusbar;
     procedure UpdateTreeFilter;
+
+    procedure DoApplyUiOps;
+    procedure DoApplyUiOpsToGroups(G: TATGroups);
+    procedure DoApplyInitialGroupSizes;
+    procedure DoApplyInitialSidebarPanel;
+    procedure DoApplyInitialWindowPos;
+    procedure InitConfirmPanel;
+    procedure InitPyEngine;
+    procedure InitFrameEvents(F: TEditorFrame);
+    procedure InitStatusbarControls;
+    procedure FrameOnChangeCaption(Sender: TObject);
+    procedure FrameOnUpdateStatusbar(Sender: TObject);
+    procedure FrameOnUpdateState(Sender: TObject);
+    function CreateTab(APages: TATPages; const ACaption: string;
+      AndActivate: boolean=true;
+      AAllowNearCurrent: boolean=true): TATTabData;
+    procedure FrameOnEditorFocus(Sender: TObject);
+    function GetFrame(AIndex: integer): TEditorFrame;
+    procedure SetFrame(Frame: TEditorFrame);
+    procedure DoTooltipHide;
+    procedure DoTooltipShow(const AText: string; ASeconds: integer;
+      APosition: TAppTooltipPos; AGotoBracket: boolean; APosX, APosY: integer);
     procedure DoOnDeleteLexer(Sender: TObject; const ALexerName: string);
   public
     { public declarations }
