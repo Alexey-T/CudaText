@@ -2021,15 +2021,17 @@ end;
 procedure TfmMain.StatusPanelClick(Sender: TObject; AIndex: Integer);
 var
   Frame: TEditorFrame;
+  FrameKind: TATEditorFrameKind;
   Data: TATStatusData;
 begin
   Frame:= CurrentFrame;
   if Frame=nil then exit;
+  FrameKind:= Frame.FrameKind;
 
   Data:= Status.GetPanelData(AIndex);
   if Data=nil then exit;
 
-  if Frame.FrameKind=efkImageViewer then
+  if FrameKind=efkImageViewer then
   begin
     case Data.Tag of
       StatusbarTag_TabSize:
@@ -2041,7 +2043,7 @@ begin
     exit;
   end;
 
-  if Frame.FrameKind=efkBinaryViewer then
+  if FrameKind=efkBinaryViewer then
   begin
     case Data.Tag of
       StatusbarTag_Caret:
