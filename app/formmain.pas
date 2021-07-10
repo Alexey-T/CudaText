@@ -929,9 +929,11 @@ type
     procedure MenuLexerClick(Sender: TObject);
     procedure MenuMainClick(Sender: TObject);
     procedure MsgLogDebug(const AText: string);
+    procedure MsgStatus(AText: string; AFinderMessage: boolean=false);
+    procedure MsgStatusErrorInRegex;
     procedure MsgLogToFilename(const AText, AFilename: string; AWithTime: boolean);
-    function GetStatusbarPrefix(Frame: TEditorFrame): string;
     procedure MsgStatusFileOpened(const AFileName1, AFileName2: string);
+    function GetStatusbarPrefix(Frame: TEditorFrame): string;
     procedure SearcherDirectoryEnter(FileIterator: TFileIterator);
     procedure SetShowFloatGroup1(AValue: boolean);
     procedure SetShowFloatGroup2(AValue: boolean);
@@ -1090,6 +1092,8 @@ type
     procedure DoApplyInitialWindowPos;
     procedure InitConfirmPanel;
     procedure InitPyEngine;
+    procedure InitFrameEvents(F: TEditorFrame);
+    procedure InitStatusbarControls;
     procedure FrameOnChangeCaption(Sender: TObject);
     procedure FrameOnUpdateStatusbar(Sender: TObject);
     procedure FrameOnUpdateState(Sender: TObject);
@@ -1099,12 +1103,10 @@ type
     procedure FrameOnEditorFocus(Sender: TObject);
     function GetFrame(AIndex: integer): TEditorFrame;
     procedure SetFrame(Frame: TEditorFrame);
-    procedure UpdateFrameLineEnds(Frame: TEditorFrame; AValue: TATLineEnds);
-    procedure MsgStatus(AText: string; AFinderMessage: boolean=false);
+    procedure DoTooltipHide;
     procedure DoTooltipShow(const AText: string; ASeconds: integer;
       APosition: TAppTooltipPos; AGotoBracket: boolean; APosX, APosY: integer);
-    procedure DoTooltipHide;
-    procedure MsgStatusErrorInRegex;
+    procedure UpdateFrameLineEnds(Frame: TEditorFrame; AValue: TATLineEnds);
     procedure UpdateSomeStates(F: TEditorFrame);
     procedure UpdateStatusbarPanelsFromString(const AText: string);
     procedure UpdateStatusbarHints;
@@ -1121,15 +1123,13 @@ type
     procedure UpdateTreeImagelistActivity;
     procedure UpdateCaption;
     procedure UpdateEnabledAll(b: boolean);
-    procedure InitFrameEvents(F: TEditorFrame);
     procedure UpdateInputForm(Form: TForm; AndHeight: boolean= true);
     procedure UpdateFrameEx(F: TEditorFrame; AUpdatedText: boolean);
     procedure UpdateCurrentFrame(AUpdatedText: boolean= false);
     procedure UpdateAppForSearch(AStart, AEdLock, AFindMode, AUpdateEnableAll: boolean);
     procedure UpdateStatusbar;
-    procedure InitStatusbarControls;
-    procedure DoOnDeleteLexer(Sender: TObject; const ALexerName: string);
     procedure UpdateTreeFilter;
+    procedure DoOnDeleteLexer(Sender: TObject; const ALexerName: string);
   public
     { public declarations }
     CodeTree: TAppTreeContainer;
