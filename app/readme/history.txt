@@ -3,6 +3,10 @@
   - fixed
   * changed
 
+1.137.3
+
++ add: auto-insertion of HTML closing tag after typing the opening <tagname>; it works when option "autocomplete_html" is on (thanks @MOPKOBKA at linux.org.ru)
+
 1.137.2 (2021/07)
 
 + add: more API for the new 'Breadcrumbs' plugin (thanks @Shovel)
