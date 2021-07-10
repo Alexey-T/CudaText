@@ -1555,7 +1555,7 @@ begin
         //auto-pair of tag on typing '<tagname>'
         if AText='>' then
         begin
-          EditorAutoPairOpeningTagInHtml(Ed, Caret.PosX, Caret.PosY);
+          EditorAutoPairOpeningHtmlTag(Ed, Caret.PosX, Caret.PosY);
           exit;
         end;
 

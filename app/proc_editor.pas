@@ -141,7 +141,7 @@ procedure EditorHighlightAllMatches(AFinder: TATEditorFinder;
 function EditorAutoCompletionAfterTypingChar(Ed: TATSynEdit;
   const AText: string; var ACharsTyped: integer; ACmdAutoComplete: integer): boolean;
 function EditorGetLefterHtmlTag(Ed: TATSynEdit; AX, AY: integer): UnicodeString;
-procedure EditorAutoPairOpeningTagInHtml(Ed: TATSynEdit; AX, AY: integer);
+procedure EditorAutoPairOpeningHtmlTag(Ed: TATSynEdit; AX, AY: integer);
 
 implementation
 
@@ -2363,7 +2363,7 @@ begin
   Result:= SLine;
 end;
 
-procedure EditorAutoPairOpeningTagInHtml(Ed: TATSynEdit; AX, AY: integer);
+procedure EditorAutoPairOpeningHtmlTag(Ed: TATSynEdit; AX, AY: integer);
 var
   SValue: UnicodeString;
   SLexer: string;
