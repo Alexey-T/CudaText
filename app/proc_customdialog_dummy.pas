@@ -184,6 +184,8 @@ type
 
 function IsEventItemListed(const SItem, SList: string): boolean;
 
+const
+  cAppFormStateStr: array[TWindowState] of string = ('norm', 'min', 'max', 'fullscr');
 
 implementation
 
@@ -556,8 +558,6 @@ begin
 end;
 
 procedure TFormDummy.DoOnFormWindowStateChange(Sender: TObject);
-const
-  cParamStr: array[TWindowState] of string = ('norm', 'min', 'max', 'fullscr');
 var
   Param: TAppVariant;
 begin
@@ -570,7 +570,7 @@ begin
       Show;
     end;
 
-  Param:= AppVariant(cParamStr[WindowState]);
+  Param:= AppVariant(cAppFormStateStr[WindowState]);
   DoEvent(-1, FEventOnFormState, Param);
 end;
 
