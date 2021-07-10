@@ -567,7 +567,7 @@ begin
 
   Frame:= GetEditorFrame(Ed);
   if Frame=nil then exit;
-  if Frame.FrameKind<>efkEditor then exit;
+  //if Frame.FrameKind<>efkEditor then exit;
 
   SFileName:= Frame.GetFileName(Ed);
   if SFileName='' then exit;
