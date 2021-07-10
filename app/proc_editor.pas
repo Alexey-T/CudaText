@@ -141,7 +141,7 @@ procedure EditorHighlightAllMatches(AFinder: TATEditorFinder;
 function EditorAutoCompletionAfterTypingChar(Ed: TATSynEdit;
   const AText: string; var ACharsTyped: integer; ACmdAutoComplete: integer): boolean;
 function EditorGetLefterHtmlTag(Ed: TATSynEdit; AX, AY: integer): UnicodeString;
-procedure EditorAutoPairOpeningHtmlTag(Ed: TATSynEdit; AX, AY: integer);
+procedure EditorAutoCloseOpeningHtmlTag(Ed: TATSynEdit; AX, AY: integer);
 
 implementation
 
@@ -2363,12 +2363,12 @@ begin
   Result:= SLine;
 end;
 
-procedure EditorAutoPairOpeningHtmlTag(Ed: TATSynEdit; AX, AY: integer);
+procedure EditorAutoCloseOpeningHtmlTag(Ed: TATSynEdit; AX, AY: integer);
 var
   SValue: UnicodeString;
   SLexer: string;
 begin
-  if not (UiOps.AutocompleteHtml and UiOps.AutocompleteHtmlAutoPair) then exit;
+  if not (UiOps.AutocompleteHtml and UiOps.AutocompleteHtmlAutoClose) then exit;
   if Ed.AdapterForHilite=nil then exit;
   SLexer:= Ed.AdapterForHilite.GetLexerName;
   if SLexer='' then exit;

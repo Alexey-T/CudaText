@@ -1563,10 +1563,9 @@ begin
       begin
         if AText='' then exit;
 
-        //auto-pair of tag on typing '<tagname>'
         if AText='>' then
         begin
-          EditorAutoPairOpeningHtmlTag(Ed, Caret.PosX, Caret.PosY);
+          EditorAutoCloseOpeningHtmlTag(Ed, Caret.PosX, Caret.PosY);
           exit;
         end;
 
