@@ -1505,7 +1505,7 @@ begin
     exit;
   end;
 
-  if Ed.Carets.Count<>1 then exit;
+  if Ed.Carets.Count=0 then exit; //allow multi-carets, for auto-pairing of tags
   Caret:= Ed.Carets[0];
   if not Ed.Strings.IsIndexValid(Caret.PosY) then exit;
   bTypedChar:= false;
