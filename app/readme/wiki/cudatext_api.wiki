@@ -1053,7 +1053,7 @@ These are also properties of forms.
 * "on_mouse_exit": Called when mouse cursor leaves form area.
 
 * "on_form_state": Called after form is minimized/maximized/restored.
-** param "id_ctl": string constant for current form state, one of: "norm", "min", "max", "fullscr" ("full screen", this should never happen).
+** param "data": string constant for current form state, one of: "norm", "min", "max", "fullscr" ("full screen", this should never happen).
 
 * "on_key_down": Called when key is pressed in form (form should have "keypreview":True). If plugin returns False, key is blocked.
 ** param "id_ctl": int key code.
