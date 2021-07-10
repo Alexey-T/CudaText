@@ -4097,6 +4097,7 @@ begin
       //tick:= (GetTickCount64-tick) div 1000;
 
       UpdateStatusbar;
+      UpdateFindDialogEnabled(F);
       //if tick>2 then
       //  msg:= msg+' ('+IntToStr(tick)+'s)';
       MsgStatusFileOpened(AFileName, AFileName2);
@@ -4127,6 +4128,7 @@ begin
     end;
   end;
 
+  //did not find frame to reuse, create new frame
   D:= CreateTab(APages, ExtractFileName(AFileName), bAndActivate, bAllowNear);
   if not Assigned(D) then
   begin
@@ -4144,6 +4146,7 @@ begin
   Result:= F;
 
   UpdateStatusbar;
+  UpdateFindDialogEnabled(F);
   MsgStatusFileOpened(AFileName, AFileName2);
 
   SetLength(Params, 0);

@@ -522,6 +522,8 @@ var
   bEnabledPrev, bEnabledNow: boolean;
   bBinaryPrev, bBinaryNow: boolean;
 begin
+  if fmFind=nil then exit;
+
   bEnabledPrev:= fmFind.Enabled;
   bEnabledNow:= Frame.FrameKind in [efkEditor, efkBinaryViewer];
 
