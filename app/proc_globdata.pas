@@ -213,9 +213,9 @@ type
     MaxStatusbarMessages: integer;
 
     AutocompleteHtml: boolean;
-    AutocompleteHtmlAutoClose: boolean;
-    AutocompleteCss: boolean;
+    AutocompleteHtml_AutoClose: boolean;
     AutocompleteHtml_Lexers: string;
+    AutocompleteCss: boolean;
     AutocompleteCss_Lexers: string;
     AutocompleteFileURI: boolean;
     AutocompleteInComments: boolean;
@@ -1646,10 +1646,10 @@ begin
     Win32GetUserFont(ThemedMainMenuFontName, ThemedMainMenuFontSize);
     {$endif}
 
-    AutocompleteCss:= true;
     AutocompleteHtml:= true;
-    AutocompleteHtmlAutoClose:= true; //after typing <tagname> auto add </tagname>
+    AutocompleteHtml_AutoClose:= true;
     AutocompleteHtml_Lexers:= '.*HTML.*|\bPHP\b';
+    AutocompleteCss:= true;
     AutocompleteCss_Lexers:= 'CSS';
     AutocompleteFileURI:= true;
     AutocompleteInComments:= false;

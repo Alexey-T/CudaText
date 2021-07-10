@@ -1238,8 +1238,9 @@ begin
   UiOps.MaxFileSizeForLexer:= cfg.GetValue('ui_max_size_lexer', UiOps.MaxFileSizeForLexer);
 
   UiOps.AutocompleteHtml:= cfg.GetValue('autocomplete_html', UiOps.AutocompleteHtml);
-  UiOps.AutocompleteCss:= cfg.GetValue('autocomplete_css', UiOps.AutocompleteCss);
+  UiOps.AutocompleteHtml_AutoClose:= cfg.GetValue('autocomplete_html_autoclose', UiOps.AutocompleteHtml_AutoClose);
   UiOps.AutocompleteHtml_Lexers:= cfg.GetValue('autocomplete_html_lexers', UiOps.AutocompleteHtml_Lexers);
+  UiOps.AutocompleteCss:= cfg.GetValue('autocomplete_css', UiOps.AutocompleteCss);
   UiOps.AutocompleteCss_Lexers:= cfg.GetValue('autocomplete_css_lexers', UiOps.AutocompleteCss_Lexers);
   UiOps.AutocompleteFileURI:= cfg.GetValue('autocomplete_file_uri', UiOps.AutocompleteFileURI);
 
