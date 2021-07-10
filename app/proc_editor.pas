@@ -2353,6 +2353,7 @@ begin
   NStart:= RPosEX('<', SLine, AX);
   if NStart=0 then exit;
   SLine:= Copy(SLine, NStart+1, AX-NStart-1);
+  if SLine='' then exit;
 
   if not IsCharWordA(SLine[1]) then exit;
   if not IsCharWordA(SLine[Length(SLine)]) then exit;
