@@ -302,15 +302,4 @@ begin
       fmFind.UpdateHiAll(false);
 end;
 
-procedure TfmMain.FrameOnCallAutoCompletion(Sender: TObject);
-var
-  Ed: TATSynEdit;
-begin
-  Ed:= Sender as TATSynEdit;
-
-  DoAutoComplete(Ed);
-
-  //don't run it via timer, it gives issue #3535
-  //Ed.DoCommand(cmd_AutoComplete);
-end;
 

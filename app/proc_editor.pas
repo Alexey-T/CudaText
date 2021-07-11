@@ -62,6 +62,7 @@ function EditorLexerNameAtPos(Ed: TATSynEdit; APos: TPoint): string;
 
 type
   TEdSelType = (selNo, selSmall, selStream, selCol, selCarets);
+  TEditorSimpleEvent = procedure(Ed: TATSynEdit) of object;
 
 function EditorGetStatusType(ed: TATSynEdit): TEdSelType;
 function EditorFormatStatus(ed: TATSynEdit; const str: string): string;
@@ -139,7 +140,7 @@ procedure EditorHighlightAllMatches(AFinder: TATEditorFinder;
   AEnableFindNext: boolean; out AMatchesCount: integer; ACaretPos: TPoint);
 
 function EditorAutoCompletionAfterTypingChar(Ed: TATSynEdit;
-  const AText: string; var ACharsTyped: integer; AOnAutoCompletion: TNotifyEvent): boolean;
+  const AText: string; var ACharsTyped: integer; AOnAutoCompletion: TEditorSimpleEvent): boolean;
 function EditorGetLefterHtmlTag(Ed: TATSynEdit; AX, AY: integer): UnicodeString;
 procedure EditorAutoCloseOpeningHtmlTag(Ed: TATSynEdit; AX, AY: integer);
 
@@ -2240,7 +2241,7 @@ begin
 end;
 
 function EditorAutoCompletionAfterTypingChar(Ed: TATSynEdit;
-  const AText: string; var ACharsTyped: integer; AOnAutoCompletion: TNotifyEvent): boolean;
+  const AText: string; var ACharsTyped: integer; AOnAutoCompletion: TEditorSimpleEvent): boolean;
 var
   Caret: TATCaretItem;
   STextW: UnicodeString;

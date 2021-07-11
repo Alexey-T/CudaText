@@ -133,6 +133,7 @@ type
     FCodetreeFilterHistory: TStringList;
     FEnabledCodeTree: array[0..1] of boolean;
     FNotifEnabled: boolean;
+    FOnCallAutoCompletion: TEditorSimpleEvent;
     FOnChangeCaption: TNotifyEvent;
     FOnChangeSlow: TNotifyEvent;
     FOnProgress: TATFinderProgress;
@@ -297,7 +298,6 @@ type
     FileProps: TAppFileProps;
     FileProps2: TAppFileProps;
     MacroStrings: TStringList;
-    OnCallAutoCompletion: TNotifyEvent;
 
     constructor Create(AOwner: TComponent; AApplyCentering: boolean); reintroduce;
     destructor Destroy; override;
@@ -442,6 +442,7 @@ type
     property OnInitAdapter: TNotifyEvent read FOnInitAdapter write FOnInitAdapter;
     property OnLexerChange: TATEditorEvent read FOnLexerChange write FOnLexerChange;
     property OnAppClickLink: TATSynEditClickLinkEvent read FOnAppClickLink write FOnAppClickLink;
+    property OnCallAutoCompletion: TEditorSimpleEvent read FOnCallAutoCompletion write FOnCallAutoCompletion;
   end;
 
 procedure GetFrameLocation(Frame: TEditorFrame;
