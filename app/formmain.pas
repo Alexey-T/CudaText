@@ -468,6 +468,7 @@ type
     procedure FormResize(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FrameAddRecent(Sender: TObject);
+    procedure FrameOnCallAutoCompletion(Sender: TObject);
     procedure FrameOnMsgStatus(Sender: TObject; const AStr: string);
     procedure FrameOnEditorChangeCaretPos(Sender: TObject);
     procedure FrameOnEditorScroll(Sender: TObject);

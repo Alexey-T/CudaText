@@ -302,3 +302,11 @@ begin
       fmFind.UpdateHiAll(false);
 end;
 
+procedure TfmMain.FrameOnCallAutoCompletion(Sender: TObject);
+var
+  Ed: TATSynEdit;
+begin
+  Ed:= Sender as TATSynEdit;
+  Ed.DoCommand(cmd_AutoComplete);
+end;
+

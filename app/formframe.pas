@@ -297,6 +297,7 @@ type
     FileProps: TAppFileProps;
     FileProps2: TAppFileProps;
     MacroStrings: TStringList;
+    OnCallAutoCompletion: TNotifyEvent;
 
     constructor Create(AOwner: TComponent; AApplyCentering: boolean); reintroduce;
     destructor Destroy; override;
@@ -1572,7 +1573,7 @@ begin
         //autoshow autocompletion after typing N letters
         bTypedChar:= (Length(AText)=1) or (UTF8Length(AText)=1);
         if bTypedChar then
-          if EditorAutoCompletionAfterTypingChar(Ed, AText, FTextCharsTyped, cmd_AutoComplete) then
+          if EditorAutoCompletionAfterTypingChar(Ed, AText, FTextCharsTyped, OnCallAutoCompletion) then
             exit;
       end;
   end; //case ACommand of

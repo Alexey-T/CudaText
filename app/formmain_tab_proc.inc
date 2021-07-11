@@ -26,6 +26,7 @@ begin
   F.OnInitAdapter:= @FrameOnInitAdapter;
   F.OnLexerChange:= @FrameLexerChange;
   F.OnAppClickLink:= @FrameConfirmLink;
+  F.OnCallAutoCompletion:= @FrameOnCallAutoCompletion;
 
   F.Groups:= Groups;
   F.LexerChooseFunc:= @DoDialogMenuLexerChoose;
