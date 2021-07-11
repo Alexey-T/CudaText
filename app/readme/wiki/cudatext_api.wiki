@@ -4430,5 +4430,6 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 1.0.402 (app 1.137.3)
 * add: dlg_proc: forms have the "on_form_state" event
 * add: dlg_proc: forms have additional property "form_state"
+* deleted deprecated: MENU_LIST, MENU_LIST_ALT, MENU_NO_FUZZY, MENU_NO_FULLFILTER, MENU_CENTERED, MENU_EDITORFONT
 
 [[Category:CudaText]]

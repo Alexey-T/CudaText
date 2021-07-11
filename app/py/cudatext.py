@@ -72,14 +72,6 @@ WRAP_ON_WINDOW = 1
 WRAP_ON_MARGIN = 2
 
 #dlg_menu
-###deprecated-- were used until API 362-- to delete after 2021.04
-MENU_LIST     = 0
-MENU_LIST_ALT = 1
-MENU_NO_FUZZY = 16
-MENU_NO_FULLFILTER = 32
-MENU_CENTERED = 64
-MENU_EDITORFONT = 128
-###new OK constants
 DMENU_LIST          = 0
 DMENU_LIST_ALT      = 1
 DMENU_NO_FUZZY      = 16
