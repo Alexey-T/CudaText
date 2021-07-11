@@ -1,4 +1,4 @@
-object SyntAnal19: TLibSyntAnalyzer
+object SyntAnal18: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Head'
@@ -147,16 +147,14 @@ object SyntAnal19: TLibSyntAnalyzer
     item
       DisplayName = 'Head'
       StyleName = 'Head'
-      Expression = 
-        '^[\*\#=\-\+\^\"`~!"'#39']{2,}$ \z '#13#10'^[\x20\w].*$ \z '#13#10'^[\*\#=\-\+\^\' +
-        '"`~!"'#39']{2,}$'
+      Expression = '^(([\*\#=\-\+\^`~!"'#39':\._])\2+)$ \z '#13#10'^[\x20\w].*$ \z '#13#10'^\1$'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
-      DisplayName = 'Head 2'
+      DisplayName = 'Head simpler'
       StyleName = 'Head'
-      Expression = '^\w.+$ \z'#13#10'^[\*\#=\-\+\^\"`~!"'#39']{2,}$)'
+      Expression = '^\w.+$ \z'#13#10'^([\*\#=\-\+\^`~!"'#39':\._])\1+$'
       ColumnFrom = 0
       ColumnTo = 0
     end
