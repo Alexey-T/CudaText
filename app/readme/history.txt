@@ -8,6 +8,7 @@
 + add: auto-completion in CSS now supports file-path completions in 'url()' (thanks @eltonfabricio10)
 + add: new option "autocomplete_html_autoclose": after typing <tagname>, auto-insert </tagname> (thanks @MOPKOBKA at linux.org.ru)
 * change: folding ranges of only 2 lines are useless, so they do not appear now
+- fix: when option "autocomplete_autoshow_chars" was on, it shown the listbox after a pause, that gave race condition
 - fix: lexer reST: fixed rules for headers
 
 1.137.2 (2021/07)
