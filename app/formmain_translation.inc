@@ -485,6 +485,8 @@ begin
     CompletionOpsCss.PrefixProp:= CompletionOpsHtml.PrefixAttrib;
     CompletionOpsCss.PrefixAtRule:= CompletionOpsHtml.PrefixValue;
     CompletionOpsCss.PrefixPseudo:= CompletionOpsHtml.PrefixValue;
+    CompletionOpsCss.PrefixFile:= CompletionOpsHtml.PrefixFile;
+    CompletionOpsCss.PrefixDir:= CompletionOpsHtml.PrefixDir;
 
     CompletionOpsFile.PrefixDir:= CompletionOpsHtml.PrefixDir;
     CompletionOpsFile.PrefixFile:= CompletionOpsHtml.PrefixFile;
