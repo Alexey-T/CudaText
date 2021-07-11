@@ -2241,6 +2241,12 @@ end;
 
 function EditorAutoCompletionAfterTypingChar(Ed: TATSynEdit;
   const AText: string; var ACharsTyped: integer; ACmdAutoComplete: integer): boolean;
+  //
+  procedure CallCompletion;
+  begin
+    Ed.DoCommand(ACmdAutoComplete);
+  end;
+  //
 var
   Caret: TATCaretItem;
   STextW: UnicodeString;
@@ -2263,7 +2269,7 @@ begin
     if EditorCaretInsideCommentOrString(Ed, Caret.PosX, Caret.PosY) then exit;
 
     ACharsTyped:= 0;
-    Ed.DoCommand(ACmdAutoComplete);
+    CallCompletion;
     exit;
   end;
 
@@ -2295,7 +2301,7 @@ begin
     if ACharsTyped=Ed.OptAutocompleteAutoshowCharCount then
     begin
       ACharsTyped:= 0;
-      Ed.DoCommand(ACmdAutoComplete);
+      CallCompletion;
       exit;
     end;
   end
@@ -2306,7 +2312,7 @@ begin
   if UiOps.AutocompleteHtml and bLexerHTML then
   begin
     if Ed.Strings.LineCharAt(Caret.PosY, Caret.PosX-1)='<' then
-      Ed.DoCommand(ACmdAutoComplete);
+      CallCompletion;
     exit;
   end;
 
@@ -2316,7 +2322,7 @@ begin
   if UiOps.AutocompleteCss and (SLexerName='CSS') then
   begin
     if EditorIsAutocompleteCssPosition(Ed, Caret.PosX-1, Caret.PosY) then
-      Ed.DoCommand(ACmdAutoComplete);
+      CallCompletion;
     exit;
   end;
   *)
