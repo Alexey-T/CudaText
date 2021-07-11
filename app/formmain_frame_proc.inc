@@ -307,6 +307,10 @@ var
   Ed: TATSynEdit;
 begin
   Ed:= Sender as TATSynEdit;
-  Ed.DoCommand(cmd_AutoComplete);
+
+  DoAutoComplete(Ed);
+
+  //don't run it via timer, it gives issue #3535
+  //Ed.DoCommand(cmd_AutoComplete);
 end;
 
