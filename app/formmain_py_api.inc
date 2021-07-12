@@ -6680,7 +6680,7 @@ type
 
 function api_tree_proc(Self, Args: PPyObject): PPyObject; cdecl;
 var
-  IdTree, IdItem: Int64;
+  IdTree, IdItem, IdImgList: Int64;
   IdAction, NIndex, NImageIndex: integer;
   Pnt1, Pnt2: TPoint;
   PtrText, PtrData: PChar;
@@ -7014,6 +7014,20 @@ begin
         TREE_GET_IMAGELIST:
           begin
             Result:= PyHelper_ObjectHandle(TreeContainer.Tree.Images);
+          end;
+
+        TREE_SET_IMAGELIST:
+          begin
+            IdImgList:= StrToInt64Def(StrText, 0);
+            Obj:= TObject(IdImgList);
+            if Assigned(Obj) and not (Obj is TImageList) then
+            begin
+              MsgLogConsole('ERROR: tree_proc() gets bad handle of image-list, of type '+Obj.ClassName);
+              exit(ReturnNone);
+            end;
+            TreeContainer.Tree.Images:= TImageList(Obj);
+            Obj:= nil;
+            Result:= ReturnNone;
           end;
 
         TREE_LOCK:
