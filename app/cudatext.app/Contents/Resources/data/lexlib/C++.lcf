@@ -547,6 +547,7 @@ object SyntAnal5: TLibSyntAnalyzer
           TokenTypes = 14216
         end>
       BlockOffset = -1
+      NotCollapsed = True
       NameFmt = '%s-5'
       GroupFmt = '%s-1\%s-3'
       RefToCondEnd = True
@@ -624,6 +625,7 @@ object SyntAnal5: TLibSyntAnalyzer
           TokenTypes = 14216
         end>
       BlockOffset = -1
+      NotCollapsed = True
       NameFmt = '%s-3'
       GroupFmt = '%s-1'
       RefToCondEnd = True
@@ -708,6 +710,7 @@ object SyntAnal5: TLibSyntAnalyzer
           TokenTypes = 14216
         end>
       BlockOffset = -1
+      NotCollapsed = True
       NameFmt = '%s-1'
       RefToCondEnd = True
       HighlightPos = cpBound
