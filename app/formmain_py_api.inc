@@ -391,7 +391,7 @@ begin
       exit(TMenuItem(Obj))
     else
     begin
-      MsgLogConsole('ERROR: menu_proc() gets bad handle of type '+Obj.ClassName);
+      MsgLogConsole('ERROR: menu_proc() gets bad handle, of type '+Obj.ClassName);
       exit;
     end;
   end;
@@ -5940,7 +5940,7 @@ begin
       Obj:= TObject(PtrInt(IdList));
       if not (Obj is TATListbox) then
       begin
-        MsgLogConsole('ERROR: listbox_proc() gets bad handle of type '+Obj.ClassName);
+        MsgLogConsole('ERROR: listbox_proc() gets bad handle, of type '+Obj.ClassName);
         exit(ReturnNone);
       end;
       Listbox:= TATListbox(Obj);
@@ -6243,7 +6243,7 @@ begin
             Obj:= TObject(PtrInt(StrToInt64Def(StrText, 0)));
             if not (Obj is TImageList) then
             begin
-              MsgLogConsole('ERROR: listbox_proc(LISTBOX_SET_HEADER_IMAGELIST) gets bad handle of type '+Obj.ClassName);
+              MsgLogConsole('ERROR: listbox_proc(LISTBOX_SET_HEADER_IMAGELIST) gets bad handle, of type '+Obj.ClassName);
               exit(ReturnNone);
             end;
             Listbox.HeaderImages:= TImageList(Obj);
@@ -6289,7 +6289,7 @@ begin
       Obj:= TObject(PtrInt(IdBtn));
       if not (Obj is TATButton) then
       begin
-        MsgLogConsole('ERROR: button_proc() gets bad handle of type '+Obj.ClassName);
+        MsgLogConsole('ERROR: button_proc() gets bad handle, of type '+Obj.ClassName);
         exit(ReturnNone);
       end;
       Btn:= TATButton(Obj);
@@ -6622,7 +6622,7 @@ begin
       Obj2:= TObject(PtrInt(IdList));
       if not (Obj2 is TImageList) then
       begin
-        MsgLogConsole('ERROR: imagelist_proc() gets bad handle of type '+Obj2.ClassName);
+        MsgLogConsole('ERROR: imagelist_proc() gets bad handle, of type '+Obj2.ClassName);
         exit(ReturnNone);
       end;
       List:= TImageList(Obj2);
@@ -9028,7 +9028,7 @@ begin
         if not (Obj is TFormDummy) then
         begin
           if Assigned(Obj) then
-            MsgLogConsole('ERROR: dlg_proc() gets bad handle of type '+Obj.ClassName);
+            MsgLogConsole('ERROR: dlg_proc() gets bad handle, of type '+Obj.ClassName);
           exit(ReturnNone);
         end;
         Form:= TFormDummy(Obj);
