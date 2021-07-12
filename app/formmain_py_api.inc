@@ -7853,6 +7853,7 @@ var
   Kind: TATEditorBracketKind;
   AllowedSymbols: string;
   Distance: integer;
+  Obj: TObject;
   Ok: boolean;
   NX, NY, N1, N2: integer;
 begin
@@ -7940,15 +7941,21 @@ begin
         EDACTION_CODETREE_FILL:
           begin
             if NValue=0 then
-              exit(PyBool_FromLong(0));
-            TreeContainer:= TAppTreeContainer(PtrInt(NValue));
+              exit(ReturnFalse);
+            Obj:= TObject(PtrInt(NValue));
+            if not (Obj is TAppTreeContainer) then
+            begin
+              MsgLogConsole('ERROR: Editor.action(EDACTION_CODETREE_FILL) gets bad handle of tree, of type '+Obj.ClassName);
+              exit(ReturnFalse);
+            end;
+            TreeContainer:= TAppTreeContainer(Obj);
             if Ed.AdapterForHilite is TATAdapterEControl then
             begin
               TATAdapterEControl(Ed.AdapterForHilite).TreeFill(TreeContainer.Tree);
-              Result:= PyBool_FromLong(1);
+              Result:= ReturnTrue;
             end
             else
-              Result:= PyBool_FromLong(0);
+              Result:= ReturnFalse;
           end;
 
         EDACTION_LEXER_SCAN:
