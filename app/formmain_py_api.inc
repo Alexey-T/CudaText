@@ -70,13 +70,22 @@ end;
 //func at begin
 function PyHelper_EditorFromHandle(Handle: Int64): TATSynEdit;
 var
+  Obj: TObject;
   nTab: Integer;
 begin
   Result:= nil;
   if not Assigned(fmMain) then exit;
 
   if (Handle<0) or (Handle>cPyEditorHandleMax) then
-    exit(TATSynEdit(PtrInt(Handle))); //Access Violation for incorrect handle
+  begin
+    Obj:= TObject(PtrInt(Handle));
+    if not (Obj is TATSynEdit) then
+    begin
+      MsgLogConsole('ERROR: Editor() gets bad handle, of type '+Obj.ClassName);
+      exit;
+    end;
+    exit(TATSynEdit(Obj)); //Access Violation for incorrect handle
+  end;
 
   case Handle of
     0: //"ed"
