@@ -6240,7 +6240,13 @@ begin
 
         LISTBOX_SET_HEADER_IMAGELIST:
           begin
-            Listbox.HeaderImages:= TImageList(PtrInt(StrToInt64Def(StrText, 0)));
+            Obj:= TObject(PtrInt(StrToInt64Def(StrText, 0)));
+            if not (Obj is TImageList) then
+            begin
+              MsgLogConsole('ERROR: listbox_proc(LISTBOX_SET_HEADER_IMAGELIST) gets bad handle of type '+Obj.ClassName);
+              exit(ReturnNone);
+            end;
+            Listbox.HeaderImages:= TImageList(Obj);
             Result:= ReturnNone;
           end;
 
