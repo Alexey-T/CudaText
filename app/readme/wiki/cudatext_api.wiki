@@ -1529,7 +1529,7 @@ Possible values of "id_action":
 * TREE_ITEM_GET_RANGE: Should be used only for code-tree. Returns range, stored in tree-item, as 4-tuple (start_x, start_y, end_x, end_y). If range is not set, returns (-1,-1,-1,-1).
 * TREE_ITEM_SET_RANGE: Should be used only for code-tree. Sets range for tree-item. Param "text" must be 4-tuple of int (start_x, start_y, end_x, end_y).
 
-Example of fast treeview filling with DLG_LOCK:
+Example of fast treeview filling, with locking to prevert treeview repaints:
 
 <syntaxhighlight lang="python">
     tree_proc(h_tree, TREE_LOCK)
