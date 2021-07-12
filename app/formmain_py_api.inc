@@ -6603,7 +6603,15 @@ begin
         if Num64=0 then
           Obj:= fmMain
         else
-          Obj:= TComponent(PtrInt(Num64));
+        begin
+          Obj2:= TObject(PtrInt(Num64));
+          if not (Obj2 is TComponent) then
+          begin
+            MsgLogConsole('ERROR: imagelist_proc(IMAGELIST_CREATE) gets bad owner handle, of type '+Obj2.ClassName);
+            exit(ReturnNone);
+          end;
+          Obj:= TComponent(Obj2);
+        end;
         List:= TImageList.Create(Obj);
         exit(PyHelper_ObjectHandle(List));
       end;
