@@ -7951,6 +7951,7 @@ begin
             TreeContainer:= TAppTreeContainer(Obj);
             if Ed.AdapterForHilite is TATAdapterEControl then
             begin
+              fmMain.InitImageListCodetree;
               TATAdapterEControl(Ed.AdapterForHilite).TreeFill(TreeContainer.Tree);
               Result:= ReturnTrue;
             end
