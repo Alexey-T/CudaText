@@ -9332,6 +9332,7 @@ var
   Caret: TATCaretItem;
   OldX, OldY: integer;
   OldFromCaret, OldBack: boolean;
+  Obj: TObject;
   i: integer;
 begin
   with AppPython.Engine do
@@ -9342,7 +9343,14 @@ begin
 
       if (IdFinder=0) and (IdAction<>FINDER_CREATE) then
         exit(ReturnNone);
-      Finder:= TATEditorFinder(PtrInt(IdFinder));
+
+      Obj:= TObject(PtrInt(IdFinder));
+      if not (Obj is TATEditorFinder) then
+      begin
+        MsgLogConsole('ERROR: finder_proc() gets bad handle, of type '+Obj.ClassName);
+        exit(ReturnNone);
+      end;
+      Finder:= TATEditorFinder(Obj);
 
       if IdAction in [
          FINDER_FIND,
