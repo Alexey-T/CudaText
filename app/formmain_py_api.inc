@@ -9200,7 +9200,15 @@ begin
             if NIndex=0 then
               Form.Parent:= fmMain
             else
-              Form.Parent:= TForm(PtrInt(NIndex));
+            begin
+              Obj:= TObject(PtrInt(NIndex));
+              if not (Obj is TForm) then
+              begin
+                MsgLogConsole('ERROR: dlg_proc(DLG_DOCK) gets bad form handle, of type '+Obj.ClassName);
+                exit(ReturnNone);
+              end;
+              Form.Parent:= TForm(Obj);
+            end;
 
             if StrProp='L' then Form.Align:= alLeft else
              if StrProp='R' then Form.Align:= alRight else
