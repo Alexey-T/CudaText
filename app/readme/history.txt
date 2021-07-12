@@ -5,7 +5,8 @@
 
 1.138.0 (2021/07)
 
-+ add: auto-completion in CSS supports file-path completions in 'url()' (thanks @eltonfabricio10)
++ add: auto-completion in CSS supports file path completions in 'url()' (thanks @eltonfabricio10)
++ add: auto-completion in CSS supports filenames with ()[] characters
 + add: new option "autocomplete_html_autoclose": after typing <tagname>, it auto-insert </tagname> (thanks @MOPKOBKA at linux.org.ru)
 + add: folding ranges of only 2 lines are useless, so they do not appear now
 - fix: when option "autocomplete_autoshow_chars" was on, it shown the listbox after a pause, that gave race condition
