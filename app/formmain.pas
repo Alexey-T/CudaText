@@ -1138,8 +1138,8 @@ type
     CodeTreeFilter: TTreeFilterEdit;
     CodeTreeFilterInput: TATComboEdit;
     CodeTreeFilterReset: TATButton;
-    PanelCodeTreeAll: TATPanelSimple;
-    PanelCodeTreeTop: TATPanelSimple;
+    PanelCodeTreeAll: TFormDummy;
+    PanelCodeTreeTop: TPanel;
     //LexerProgress: TATGauge;
     LexersDetected: TStringList;
     function FrameCount: integer;
@@ -2448,11 +2448,14 @@ begin
   InitAppleMenu;
   InitToolbar;
 
-  PanelCodeTreeAll:= TATPanelSimple.Create(Self);
+  PanelCodeTreeAll:= TFormDummy.Create(Self);
+  PanelCodeTreeAll.Name:= 'PanelCodeTreeAll';
+  PanelCodeTreeAll.BorderStyle:= bsNone;
   PanelCodeTreeAll.OnEnter:= @DoCodetree_PanelOnEnter;
-  PanelCodeTreeAll.Focusable:= true;
 
-  CodeTree:= TAppTreeContainer.Create(Self);
+  CodeTree:= TAppTreeContainer.Create(PanelCodeTreeAll);
+  CodeTree.Name:= 'CodeTree';
+  DoControl_InitPropsObject(CodeTree, PanelCodeTreeAll, 'treeview');
   CodeTree.Parent:= PanelCodeTreeAll;
   CodeTree.Align:= alClient;
   CodeTree.Themed:= true;
@@ -2462,9 +2465,14 @@ begin
   CodeTree.Tree.OnContextPopup:= @DoCodetree_OnContextPopup;
   CodeTree.Tree.OnAdvancedCustomDrawItem:=@DoCodetree_OnAdvDrawItem;
 
-  PanelCodeTreeTop:= TATPanelSimple.Create(Self);
+  PanelCodeTreeTop:= TPanel.Create(PanelCodeTreeAll);
+  PanelCodeTreeTop.Name:= 'PanelCodeTreeTop';
+  DoControl_InitPropsObject(PanelCodeTreeTop, PanelCodeTreeAll, 'panel');
   PanelCodeTreeTop.Parent:= PanelCodeTreeAll;
   PanelCodeTreeTop.Align:= alTop;
+  PanelCodeTreeTop.BorderStyle:= bsNone;
+  PanelCodeTreeTop.BevelInner:= bvNone;
+  PanelCodeTreeTop.BevelOuter:= bvNone;
   PanelCodeTreeTop.Height:= UiOps.InputHeight;
 
   CodeTreeFilter:= TTreeFilterEdit.Create(Self);
