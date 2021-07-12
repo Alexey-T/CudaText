@@ -832,12 +832,27 @@ To use auto-completion of CLASS= and ID= names (ie suggest mentioned names for p
 
 ===Special CSS auto-completion===
 
-Lexer CSS (see the option "autocomplete_css_lexers") has its special logic, which is built-in in CudaText. It uses data files in the folder "data/autocompletespec".
+Lexer CSS (see the option "autocomplete_css_lexers") has its special logic, which is built-in CudaText. It uses data files in the folder "data/autocompletespec". Several possible cases are handled:
 
-* Caret is on CSS property name, inside {} brackets. Listbox shows list of properties (beginning with typed value).
-* Caret is after CSS property (with fixed set of values) and ":", inside {} brackets. Listbox shows list of values for that property (beginning with typed value).
+1) Caret is inside {} brackets:
+
+* Caret is on CSS property name. Listbox shows list of properties (beginning with the typed value).
+* Caret is after CSS property and ":". If that CSS property has fixed set of values, listbox shows list of those values (beginning with the typed value).
+
+2) Caret is outside of {} brackets:
+
 * Caret is after tag name with char "@". Listbox shows list of CSS at-rules.
 * Caret is after tag name with char ":". Listbox shows list of CSS pseudo-elements, beginning with ":" and "::".
+
+3) Caret is in URL specifier (which is used to specify relative filename of a picture):
+
+ url(path|)
+ url("path|")
+ url('path|')
+
+Listbox shows folder/file names, if "path" lefter than the caret contains valid partial path. Slashes must be forward ones.
+For example, url("./|") shows folders/files from the document's folder.
+For example, url("subdir/|") shows files/folders from the subfolder "subdir".
 
 ===File URI auto-completion===
 
