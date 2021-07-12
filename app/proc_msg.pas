@@ -17,7 +17,7 @@ uses
   ATSynEdit;
 
 const
-  cAppExeVersion = '1.137.3.2';
+  cAppExeVersion = '1.137.3.3';
   cAppApiVersion = 403;
 
 const
