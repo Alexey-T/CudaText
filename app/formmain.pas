@@ -2475,10 +2475,14 @@ begin
   PanelCodeTreeTop.BevelOuter:= bvNone;
   PanelCodeTreeTop.Height:= UiOps.InputHeight;
 
-  CodeTreeFilter:= TTreeFilterEdit.Create(Self);
+  CodeTreeFilter:= TTreeFilterEdit.Create(PanelCodeTreeAll);
+  CodeTreeFilter.Name:= 'CodeTreeFilter';
+  DoControl_InitPropsObject(CodeTreeFilter, PanelCodeTreeAll, 'tree_filter_edit');
   CodeTreeFilter.Hide;
 
-  CodeTreeFilterReset:= TATButton.Create(Self);
+  CodeTreeFilterReset:= TATButton.Create(PanelCodeTreeAll);
+  CodeTreeFilterReset.Name:= 'CodeTreeFilterReset';
+  DoControl_InitPropsObject(CodeTreeFilterReset, PanelCodeTreeAll, 'button_ex');
   CodeTreeFilterReset.Parent:= PanelCodeTreeTop;
   CodeTreeFilterReset.Align:= alRight;
   CodeTreeFilterReset.Width:= UiOps.ScrollbarWidth;
@@ -2490,7 +2494,9 @@ begin
   CodeTreeFilterReset.Hint:= msgTooltipClearFilter;
   CodeTreeFilterReset.OnClick:= @CodeTreeFilter_ResetOnClick;
 
-  CodeTreeFilterInput:= TATComboEdit.Create(Self);
+  CodeTreeFilterInput:= TATComboEdit.Create(PanelCodeTreeAll);
+  CodeTreeFilterInput.Name:= 'CodeTreeFilterInput';
+  DoControl_InitPropsObject(CodeTreeFilterInput, PanelCodeTreeAll, 'editor_combo');
   CodeTreeFilterInput.Parent:= PanelCodeTreeTop;
   CodeTreeFilterInput.Align:= alClient;
   CodeTreeFilterInput.OnChange:= @CodeTreeFilter_OnChange;
