@@ -1375,11 +1375,11 @@ begin
             if (FItem.PosX<0) or
                (FItem.PosY<0) or
                (FItem.EndX<0) or
-               (FItem.EndY<0) then exit(PyBool_FromLong(0));
+               (FItem.EndY<0) then exit(ReturnFalse);
             FItem.Tag:= NTag;
             FItem.TagString:= StrTag;
             Ed.Hotspots.Add(FItem);
-            Result:= PyBool_FromLong(1);
+            Result:= ReturnTrue;
           end;
 
         HOTSPOT_GET_LIST:
@@ -2027,7 +2027,7 @@ begin
         DECOR_SET:
           begin
             if not Ed.Strings.IsIndexValid(NLine) then
-              exit(PyBool_FromLong(0));
+              exit(ReturnFalse);
 
             FillChar(Data, SizeOf(Data), 0);
             Data.LineNum:= NLine;
@@ -2041,7 +2041,7 @@ begin
 
             Ed.GutterDecor.Add(Data);
             Ed.Update;
-            Result:= PyBool_FromLong(1);
+            Result:= ReturnTrue;
           end;
 
         DECOR_DELETE_ALL:
@@ -3170,7 +3170,7 @@ begin
             if Assigned(F) then
               Result:= PyBool_FromLong(Ord(F.InSession))
             else
-              Result:= PyBool_FromLong(0);
+              Result:= ReturnFalse;
           end;
 
         PROP_IN_HISTORY:
@@ -3178,7 +3178,7 @@ begin
             if Assigned(F) then
               Result:= PyBool_FromLong(Ord(F.InHistory))
             else
-              Result:= PyBool_FromLong(0);
+              Result:= ReturnFalse;
           end;
 
         PROP_NEWLINE:
@@ -3337,7 +3337,7 @@ begin
             if Assigned(F) then
               Result:= PyBool_FromLong(Ord(F.EnabledCodeTree[Ed]))
             else
-              Result:= PyBool_FromLong(0);
+              Result:= ReturnFalse;
           end;
 
         PROP_EDITORS_LINKED:
@@ -3345,7 +3345,7 @@ begin
             if Assigned(F) then
               Result:= PyBool_FromLong(Ord(F.EditorsLinked))
             else
-              Result:= PyBool_FromLong(0);
+              Result:= ReturnFalse;
           end;
 
         PROP_ACTIVATION_TIME:
@@ -3421,7 +3421,7 @@ begin
             if Assigned(F) then
               Result:= PyBool_FromLong(Ord(F.SaveHistory))
             else
-              Result:= PyBool_FromLong(0);
+              Result:= ReturnFalse;
           end;
 
         PROP_PREVIEW:
@@ -3429,7 +3429,7 @@ begin
             if Assigned(F) then
               Result:= PyBool_FromLong(Ord(F.TabIsPreview))
             else
-              Result:= PyBool_FromLong(0);
+              Result:= ReturnFalse;
           end;
 
         PROP_UNDO_GROUPED:
@@ -3576,7 +3576,7 @@ begin
             if Ed.AdapterForHilite is TATAdapterEControl then
               Result:= PyBool_FromLong(Ord((Ed.AdapterForHilite as TATAdapterEControl).EnabledSublexerTreeNodes))
             else
-              Result:= PyBool_FromLong(0);
+              Result:= ReturnFalse;
           end;
 
         PROP_FONT:
@@ -5330,7 +5330,7 @@ begin
       'typ',
       ObjTypes,
       'en',
-      PyBool_FromLong(1),
+      ReturnTrue,
       'c_line',
       PChar(An.CommentLine),
       'c_str',
@@ -7624,13 +7624,13 @@ begin
                   end;
 
                 Ed.Update;
-                Result:= PyBool_FromLong(1);
+                Result:= ReturnTrue;
               end
               else
-                Result:= PyBool_FromLong(0);
+                Result:= ReturnFalse;
             end
             else
-              Result:= PyBool_FromLong(0);
+              Result:= ReturnFalse;
           end;
 
         GAP_DELETE:
@@ -7755,7 +7755,7 @@ begin
       else
       begin
         if Finder.IsRegexBad then
-          Result:= PyBool_FromLong(0)
+          Result:= ReturnFalse
         else
           Result:= ReturnNone;
       end;
@@ -7785,7 +7785,7 @@ begin
 
       if NCount=0 then
         if Finder.IsRegexBad then
-          exit(PyBool_FromLong(0));
+          exit(ReturnFalse);
 
       Result:= PyLong_FromLong(NCount);
     end;
@@ -7816,7 +7816,7 @@ begin
 
     if ResList.Count=0 then
       if Finder.IsRegexBad then
-        exit(AppPython.Engine.PyBool_FromLong(0));
+        exit(AppPython.Engine.ReturnFalse);
 
     with AppPython.Engine do
     begin
@@ -8134,10 +8134,10 @@ begin
                 Ed.Fold.Add(NX+1, NY, NY2, Bool(NStaple), StrText);
 
               Ed.Update(true);
-              Result:= PyBool_FromLong(1);
+              Result:= ReturnTrue;
             end
             else
-              Result:= PyBool_FromLong(0);
+              Result:= ReturnFalse;
           end;
 
         FOLDING_DELETE:
@@ -8264,14 +8264,14 @@ begin
             Timer.Enabled:= false;
             Timer.Interval:= NInterval;
             Timer.Enabled:= true;
-            Exit(PyBool_FromLong(1));
+            Exit(ReturnTrue);
           end;
 
         TIMER_STOP,
         TIMER_DELETE:
           begin
             if Timer=nil then
-              Exit(PyBool_FromLong(0));
+              Exit(ReturnFalse);
             Timer.Enabled:= false;
 
             if NIdAction=TIMER_DELETE then
@@ -8282,7 +8282,7 @@ begin
                 fmMain.FListTimers.Delete(N);
             end;
 
-            Exit(PyBool_FromLong(1));
+            Exit(ReturnTrue);
           end;
 
         else
@@ -9468,7 +9468,7 @@ begin
             end
             else
             if Finder.IsRegexBad then
-              Result:= PyBool_FromLong(0)
+              Result:= ReturnFalse
             else
               Result:= ReturnNone;
           end;
@@ -9496,7 +9496,7 @@ begin
             end
             else
             if Finder.IsRegexBad then
-              Result:= PyBool_FromLong(0)
+              Result:= ReturnFalse
             else
               Result:= ReturnNone;
           end;
@@ -9507,7 +9507,7 @@ begin
             try
               Finder.DoAction_FindAll(ResList, true);
               if (ResList.Count=0) and Finder.IsRegexBad then
-                Result:= PyBool_FromLong(0)
+                Result:= ReturnFalse
               else
               begin
                 Result:= PyList_New(ResList.Count);
@@ -9534,7 +9534,7 @@ begin
           begin
             i:= Finder.DoAction_CountAll(false);
             if (i=0) and Finder.IsRegexBad then
-              Result:= PyBool_FromLong(0)
+              Result:= ReturnFalse
             else
               Result:= PyLong_FromLong(i);
           end;
@@ -9543,7 +9543,7 @@ begin
           begin
             i:= Finder.DoAction_ReplaceAll;
             if (i=0) and Finder.IsRegexBad then
-              Result:= PyBool_FromLong(0)
+              Result:= ReturnFalse
             else
             begin
               Finder.Editor.Update(i>0);
@@ -9567,7 +9567,7 @@ begin
               if not bResult then
               begin
                 if Finder.IsRegexBad then
-                  exit(PyBool_FromLong(0))
+                  exit(ReturnFalse)
                 else
                   exit(PyList_New(0));
               end;

@@ -645,10 +645,10 @@ begin
       Result:= PyUnicodeFromString( Copy(S, 2, Length(S)-2) )
     else
     if S='False' then
-      Result:= PyBool_FromLong(0)
+      Result:= ReturnFalse
     else
     if S='True' then
-      Result:= PyBool_FromLong(1)
+      Result:= ReturnTrue
     else
     if TryStrToInt64(S, Num) then
       Result:= PyLong_FromLongLong(Num)
