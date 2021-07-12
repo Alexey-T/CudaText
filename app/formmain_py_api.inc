@@ -7455,7 +7455,15 @@ begin
         if Num64=0 then
           Obj:= fmMain
         else
-          Obj:= TComponent(PtrInt(Num64));
+        begin
+          Obj2:= TObject(PtrInt(Num64));
+          if not (Obj2 is TComponent) then
+          begin
+            MsgLogConsole('ERROR: image_proc(IMAGE_CREATE) gets bad owner handle, of type '+Obj2.ClassName);
+            exit(ReturnNone);
+          end;
+          Obj:= TComponent(Obj2);
+        end;
         Image:= TImage.Create(Obj);
         exit(PyHelper_ObjectHandle(Image));
       end;
@@ -7467,7 +7475,7 @@ begin
       Obj2:= TObject(PtrInt(IdImage));
       if not (Obj2 is TImage) then
       begin
-        MsgLogConsole('ERROR: image_proc() gets bad image handle');
+        MsgLogConsole('ERROR: image_proc() gets bad image handle, of type '+Obj2.ClassName);
         exit(ReturnNone);
       end;
       Image:= TImage(Obj2);
