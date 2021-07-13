@@ -1353,7 +1353,8 @@ For zip file (only first filename is checked for it), returns True only if zip f
 ** If it has "/nononeevent", then "on_open_none" event won't fire.
 ** If it has "/silent", then zipped add-on will install w/o prompt and report.
 ** If it has "/passive", then tab will not activate, it will be passive tab.
-** If it has "/nonear", then app option "ui_tab_new_near_current" will be ignored, tab will append to end.
+** If it has "/nonear", then app option "ui_tab_new_near_current" will be ignored, tab will be appended to the end.
+** If it has "/donear", then app option "ui_tab_new_near_current" will be ignored, tab will be opened near the active one.
 ** If it has "/nozip", then .zip files will not be handled specially.
 ** If it has "/nopictures", then picture files will not be handled specially.
 ** If it has "/view-text', then file will open in internal viewer, text (variable width) mode.
@@ -4437,5 +4438,6 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 1.0.403 (app 1.137.3)
 * add: code-tree is compatible with dlg_proc() API, you can get its form handle via app_proc(PROC_SIDEPANEL_GET_CONTROL, 'Code tree')
 * add: tree_proc: TREE_SET_IMAGELIST
+* add: file_open: option "/donear"
 
 [[Category:CudaText]]
