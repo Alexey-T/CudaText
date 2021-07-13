@@ -1514,6 +1514,7 @@ begin
   begin
     NColorBG:= GetAppColor(apclEdTextBg);
     edFind.Colors.TextBG:= NColorBG;
+    edFind.Update;
     exit;
   end;
 
@@ -1523,6 +1524,7 @@ begin
   begin
     NColorBG:= GetAppColor(apclEdTextBg);
     edFind.Colors.TextBG:= NColorBG;
+    edFind.Update;
   end;
 
   if edFind.Text='' then exit;
