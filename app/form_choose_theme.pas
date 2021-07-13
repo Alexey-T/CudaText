@@ -34,6 +34,8 @@ type
     procedure ListboxSyntaxClick(Sender: TObject);
     procedure ListboxUIClick(Sender: TObject);
   private
+    FBusyClickUi: boolean;
+    FBusyClickSyntax: boolean;
     procedure Localize;
     function GetEnableLexerThemes: boolean;
     function GetEnableSync: boolean;
@@ -122,6 +124,9 @@ var
   N: integer;
   S: string;
 begin
+  if FBusyClickUi then exit;
+  FBusyClickUi:= true;
+
   N:=ListboxUi.ItemIndex;
   if N>0 then
     S:= ListboxUi.Items[N]
@@ -129,8 +134,7 @@ begin
     S:= '';
   ThemeUiSetter(S);
 
-  if chkSync.Checked and chkEnableLex.Checked
-    and Assigned(Sender) then //check Sender to not do recursion
+  if chkSync.Checked and chkEnableLex.Checked then
   begin
     if S='' then
       N:= 0
@@ -142,6 +146,8 @@ begin
       ListboxSyntaxClick(Self);
     end;
   end;
+
+  FBusyClickUi:= false;
 end;
 
 procedure TfmChooseTheme.ListboxSyntaxClick(Sender: TObject);
@@ -149,6 +155,9 @@ var
   N: integer;
   S: string;
 begin
+  if FBusyClickSyntax then exit;
+  FBusyClickSyntax:= true;
+
   N:= ListboxSyntax.ItemIndex;
   if N>0 then
     S:= ListboxSyntax.Items[N]
@@ -165,9 +174,11 @@ begin
     if N>=0 then
     begin
       ListboxUI.ItemIndex:= N;
-      ListboxUIClick(nil); //nil: don't do recursion
+      ListboxUIClick(Self);
     end;
   end;
+
+  FBusyClickSyntax:= false;
 end;
 
 procedure TfmChooseTheme.Localize;
