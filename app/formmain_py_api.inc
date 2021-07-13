@@ -7971,6 +7971,9 @@ begin
 
         EDACTION_CODETREE_FILL:
           begin
+            Frame:= GetEditorFrame(Ed);
+            if Frame=nil then
+              exit(ReturnFalse);
             if NValue=0 then
               exit(ReturnFalse);
             Obj:= TObject(PtrInt(NValue));
@@ -7983,7 +7986,8 @@ begin
             if Ed.AdapterForHilite is TATAdapterEControl then
             begin
               fmMain.InitImageListCodetree;
-              TATAdapterEControl(Ed.AdapterForHilite).TreeFill(TreeContainer.Tree);
+              if not fmMain.RunTreeHelper(Frame, TreeContainer.Tree) then
+                TATAdapterEControl(Ed.AdapterForHilite).TreeFill(TreeContainer.Tree);
               Result:= ReturnTrue;
             end
             else
