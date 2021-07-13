@@ -18,6 +18,7 @@ uses
   ATButtons,
   ATPanelSimple,
   ATStringProc,
+  ATCanvasPrimitives,
   ATSynEdit,
   ATSynEdit_Carets,
   ATSynEdit_Edits,
@@ -1552,9 +1553,12 @@ begin
       if UiOps.FindShowNoResultsByInputBgColor then
       begin
         if NMatches=0 then
-          NColorBG:= GetAppColor(apclButtonBgDisabled)
+          NColorBG:= ColorBlendHalf(
+                       GetAppColor(apclEdTextBg),
+                       GetAppColor(apclButtonBgDisabled))
         else
           NColorBG:= GetAppColor(apclEdTextBg);
+
         edFind.Colors.TextBG:= NColorBG;
         edFind.Update;
       end;
