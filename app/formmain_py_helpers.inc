@@ -193,7 +193,7 @@ begin
 end;
 
 
-function TfmMain.RunTreeHelper(Frame: TEditorFrame): boolean;
+function TfmMain.RunTreeHelper(Frame: TEditorFrame; Tree: TTreeView): boolean;
 var
   Ed: TATSynEdit;
   CurLexer, CurFilename: string;
@@ -212,7 +212,7 @@ begin
   if Ed.Strings.Count>MaxLinesWhenParserEnablesFolding then exit;
 
   //Pascal tree-helpers
-  Result:= DoCodetree_ApplyTreeHelperInPascal(Ed, CurLexer);
+  Result:= DoCodetree_ApplyTreeHelperInPascal(Ed, Tree, CurLexer);
   if Result then exit;
 
   //Python tree-helpers
@@ -232,7 +232,7 @@ begin
         try
           //refresh CodeTree only if TreeData is list
           if PyObject_TypeCheck(TreeData, PyList_Type) then
-            DoCodetree_ApplyTreeHelperResults(TreeData);
+            DoCodetree_ApplyTreeHelperResults(Tree, TreeData);
         finally
           Py_DECREF(TreeData);
         end;

@@ -1060,7 +1060,7 @@ begin
     DoPyEvent_AppState(APPSTATE_CODETREE_BEFORE_FILL);
 
     FCodetreeModifiedVersion:= Ed.Strings.ModifiedVersion;
-    if not RunTreeHelper(Frame) then
+    if not RunTreeHelper(Frame, CodeTree.Tree) then
     begin
       if not Assigned(FCodetreeBuffer) then
         FCodetreeBuffer:= TTreeView.Create(Self);

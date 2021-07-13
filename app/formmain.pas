@@ -822,8 +822,9 @@ type
     procedure DoCodetree_OnMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
     procedure DoCodetree_OnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure DoCodetree_GotoBlockForCurrentNode(AndSelect: boolean);
-    procedure DoCodetree_ApplyTreeHelperResults(Data: PPyObject);
-    function DoCodetree_ApplyTreeHelperInPascal(Ed: TATSynEdit; const ALexer: string): boolean;
+    procedure DoCodetree_ApplyTreeHelperResults(Tree: TTreeView; Data: PPyObject);
+    function DoCodetree_ApplyTreeHelperInPascal(Ed: TATSynEdit; Tree: TTreeView;
+      const ALexer: string): boolean;
     procedure DoSidebar_OnCloseFloatForm(Sender: TObject; var CloseAction: TCloseAction);
     function DoSidebar_GetFormTitle(const ACaption: string): string;
     procedure DoSidebar_OnPythonCall(const ACallback: string);
@@ -1169,7 +1170,7 @@ type
     procedure DoPyEvent_AppState(AState: integer);
     procedure DoPyEvent_AppActivate(AEvent: TAppPyEvent);
     procedure DoPyCommand(const AModule, AMethod: string; const AParams: TAppVariantArray);
-    function RunTreeHelper(Frame: TEditorFrame): boolean;
+    function RunTreeHelper(Frame: TEditorFrame; Tree: TTreeView): boolean;
     function DoPyLexerDetection(const Filename: string; Lexers: TStringList): integer;
     procedure FinderOnGetToken(Sender: TObject; AX, AY: integer; out AKind: TATTokenKind);
     procedure FinderOnConfirmReplace(Sender: TObject; APos1, APos2: TPoint;
@@ -7611,9 +7612,8 @@ end;
   end;
 *)
 
-procedure TfmMain.DoCodetree_ApplyTreeHelperResults(Data: PPyObject);
+procedure TfmMain.DoCodetree_ApplyTreeHelperResults(Tree: TTreeView; Data: PPyObject);
 var
-  Tree: TTreeView;
   DataItem, DataPos, DataLevel, DataTitle, DataIcon: PPyObject;
   NCount, NX1, NY1, NX2, NY2, NLevel, NLevelPrev, NIcon: integer;
   STitle: string;
@@ -7621,7 +7621,6 @@ var
   Range: TATRangeInCodeTree;
   iItem, iLevel: integer;
 begin
-  Tree:= CodeTree.Tree;
   Tree.BeginUpdate;
   try
     Tree.Items.Clear;
@@ -7679,9 +7678,9 @@ end;
 
 
 function TfmMain.DoCodetree_ApplyTreeHelperInPascal(Ed: TATSynEdit;
+  Tree: TTreeView;
   const ALexer: string): boolean;
 var
-  Tree: TTreeView;
   Data: TATTreeHelperRecords;
   DataItem: PATTreeHelperRecord;
   NX1, NY1, NX2, NY2, NLevel, NLevelPrev, NIcon: integer;
@@ -7690,7 +7689,6 @@ var
   Range: TATRangeInCodeTree;
   iItem, iLevel: integer;
 begin
-  Tree:= CodeTree.Tree;
   Data:= TATTreeHelperRecords.Create;
   Tree.BeginUpdate;
   try
