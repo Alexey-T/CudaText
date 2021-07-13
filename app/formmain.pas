@@ -965,6 +965,7 @@ type
     procedure DoOps_LoadHistory_GroupView(cfg: TJsonConfig);
     function DoOps_SaveSession(const AFileName: string; ASaveModifiedTabs: boolean): boolean;
     function DoOps_LoadSession(const AFileName: string; AllowShowPanels: boolean): boolean;
+    procedure DoOps_SaveSessionsBackups(const ASessionFilename: string);
     procedure DoOps_LoadOptionsAndApplyAll;
     procedure DoOps_LoadOptionsLexerSpecific(F: TEditorFrame; Ed: TATSynEdit);
     procedure DoOps_OpenFile_LexerSpecific;

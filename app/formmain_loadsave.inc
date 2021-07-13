@@ -114,6 +114,7 @@ procedure TfmMain.DoOps_SaveHistory(ASaveModifiedTabs: boolean);
 var
   cfg: TJSONConfig;
   bMax: boolean;
+  fnBase: string;
 begin
   cfg:= TJSONConfig.Create(nil);
   try
@@ -207,9 +208,34 @@ begin
     //// see http://synwrite.sourceforge.net/forums/viewtopic.php?f=20&t=2576
     //// @tmsg wants to save session always, even with -ns cmdline opt
   then
-    DoOps_SaveSession(GetSessionFilename, ASaveModifiedTabs);
+  begin
+    fnBase:= GetSessionFilename;
+    DoOps_SaveSessionsBackups(fnBase);
+    DoOps_SaveSession(fnBase, ASaveModifiedTabs)
+  end;
 end;
 
+
+procedure TfmMain.DoOps_SaveSessionsBackups(const ASessionFilename: string);
+//keep backups of last n unnamed sessions as 'history session.n.cuda-session'
+var
+  fnTemp, fnTemp2: string;
+  i: integer;
+begin
+  for i:= UiOps.BackupLastSessions downto 1 do
+  begin
+    fnTemp:= ChangeFileExt(ASessionFilename, Format('.%d.cuda-session', [i]));
+    if i>1 then
+      fnTemp2:= ChangeFileExt(ASessionFilename, Format('.%d.cuda-session', [i-1]))
+    else
+      fnTemp2:= ASessionFilename;
+    if i>=UiOps.BackupLastSessions then
+      if FileExists(fnTemp) then
+        DeleteFile(fnTemp);
+    if FileExists(fnTemp2) then
+      RenameFile(fnTemp2, fnTemp);
+  end;
+end;
 
 function TfmMain.DoOps_SaveSession(const AFileName: string;
   ASaveModifiedTabs: boolean): boolean;

@@ -369,6 +369,7 @@ type
     ReopenSession: boolean;
     ReopenSessionWithCmdLine: boolean;
     AutoSaveSession: boolean;
+    BackupLastSessions: integer;
     SaveModifiedTabsOnClose: boolean;
 
     ShowFormsOnTop: boolean;
@@ -1825,6 +1826,7 @@ begin
     ReopenSession:= true;
     ReopenSessionWithCmdLine:= false;
     AutoSaveSession:= false;
+    BackupLastSessions:= 4;
     SaveModifiedTabsOnClose:= true;
 
     ShowFormsOnTop:= false;
