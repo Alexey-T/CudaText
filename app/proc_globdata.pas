@@ -78,6 +78,12 @@ var
   AppApiDialogCounter: integer = 0;
 
 type
+  TApp3States = (
+    a3sOff,
+    a3sOn,
+    a3sPassive
+    );
+
   TAppHistoryElement = (
     ahhText,
     ahhCaret,

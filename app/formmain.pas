@@ -1125,7 +1125,7 @@ type
     procedure FrameOnUpdateState(Sender: TObject);
     function CreateTab(APages: TATPages; const ACaption: string;
       AndActivate: boolean=true;
-      AAllowNearCurrent: boolean=true): TATTabData;
+      AAllowNearCurrent: TApp3States=a3sPassive): TATTabData;
     procedure FrameOnEditorFocus(Sender: TObject);
     function GetFrame(AIndex: integer): TEditorFrame;
     procedure SetFrame(Frame: TEditorFrame);
@@ -3850,8 +3850,9 @@ var
   bSilent, bPreviewTab, bEnableHistory, bEnableLoadUndo,
   bEnableEventPre, bEnableEventOpened, bEnableEventOpenedNone,
   bAllowZip, bAllowPics, bAllowLexerDetect, bDetectedPics,
-  bAndActivate, bAllowNear: boolean;
+  bAndActivate: boolean;
   bFileTooBig, bFileTooBig2: boolean;
+  AllowNear: TApp3States;
   OpenMode, NonTextMode: TAppOpenMode;
   CurGroups: TATGroups;
   Params: TAppVariantArray;
@@ -3886,9 +3887,15 @@ begin
   bEnableEventOpenedNone:= Pos('/nononeevent', AOptions)=0;
   bAndActivate:= Pos('/passive', AOptions)=0;
   bAllowLexerDetect:= Pos('/nolexerdetect', AOptions)=0;
-  bAllowNear:= Pos('/nonear', AOptions)=0;
   bAllowZip:= Pos('/nozip', AOptions)=0;
   bAllowPics:= Pos('/nopictures', AOptions)=0;
+
+  AllowNear:= a3sPassive;
+  if Pos('/donear', AOptions)>0 then
+    AllowNear:= a3sOn
+  else
+  if Pos('/nonear', AOptions)>0 then
+    AllowNear:= a3sOff;
 
   if Pos('/view-text', AOptions)>0 then
     OpenMode:= cOpenModeViewText
@@ -3932,7 +3939,7 @@ begin
 
   if AFileName='' then
   begin
-    D:= CreateTab(APages, '', bAndActivate, bAllowNear);
+    D:= CreateTab(APages, '', bAndActivate, AllowNear);
     if not Assigned(D) then
     begin
       D:= Groups.Pages1.Tabs.GetTabData(0);
@@ -4080,7 +4087,7 @@ begin
       if UiOps.TabsDisabled then
         D:= APages.Tabs.GetTabData(0)
       else
-        D:= CreateTab(APages, 'pre', true, false);
+        D:= CreateTab(APages, 'pre', true, a3sOff);
       if not Assigned(D) then exit;
       UpdateTabPreviewStyle(D, true);
       Result:= D.TabObject as TEditorFrame;
@@ -4156,7 +4163,7 @@ begin
   end;
 
   //did not find frame to reuse, create new frame
-  D:= CreateTab(APages, ExtractFileName(AFileName), bAndActivate, bAllowNear);
+  D:= CreateTab(APages, ExtractFileName(AFileName), bAndActivate, AllowNear);
   if not Assigned(D) then
   begin
     D:= Groups.Pages1.Tabs.GetTabData(0);

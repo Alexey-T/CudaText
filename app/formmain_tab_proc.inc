@@ -42,11 +42,12 @@ begin
 end;
 
 function TfmMain.CreateTab(APages: TATPages; const ACaption: string;
-  AndActivate: boolean; AAllowNearCurrent: boolean): TATTabData;
+  AndActivate: boolean; AAllowNearCurrent: TApp3States): TATTabData;
 var
   F: TEditorFrame;
   Data: TATTabData;
   NToIndex: integer;
+  bAllowNear: boolean;
 begin
   if (Groups.Pages1.Tabs.TabCount>0) and UiOps.TabsDisabled then
     exit(nil);
@@ -64,8 +65,17 @@ begin
 
   InitFrameEvents(F);
 
+  case AAllowNearCurrent of
+    a3sOff:
+      bAllowNear:= false;
+    a3sOn:
+      bAllowNear:= true;
+    a3sPassive:
+      bAllowNear:= UiOps.TabNewNearCurrent;
+  end;
+
   NToIndex:= -1;
-  if AAllowNearCurrent and UiOps.TabNewNearCurrent then
+  if bAllowNear then
     if APages.Tabs.TabIndex<APages.Tabs.TabCount-1 then
       NToIndex:= APages.Tabs.TabIndex+1;
 
