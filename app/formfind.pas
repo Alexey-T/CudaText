@@ -805,29 +805,21 @@ end;
 
 
 procedure TfmFind.UpdateFonts;
+  //
+  procedure UpdateEdFont(Ed: TATSynEdit);
+  begin
+    Ed.Font.Name:= EditorOps.OpFontName;
+    Ed.Font.Size:= EditorOps.OpFontSize;
+    Ed.Font.Quality:= EditorOps.OpFontQuality;
+    Ed.OptBorderFocusedActive:= EditorOps.OpActiveBorderInControls;
+    Ed.OptBorderWidthFocused:= AppScale(EditorOps.OpActiveBorderWidth);
+    EditorApplyTheme(Ed);
+    Ed.Update;
+  end;
+  //
 begin
-  with edFind do
-  begin
-    Font.Name:= EditorOps.OpFontName;
-    Font.Size:= EditorOps.OpFontSize;
-    Font.Quality:= EditorOps.OpFontQuality;
-    OptBorderFocusedActive:= EditorOps.OpActiveBorderInControls;
-    OptBorderWidthFocused:= AppScale(EditorOps.OpActiveBorderWidth);
-    EditorApplyTheme(edFind);
-    Update;
-  end;
-
-  with edRep do
-  begin
-    Font.Name:= EditorOps.OpFontName;
-    Font.Size:= EditorOps.OpFontSize;
-    Font.Quality:= EditorOps.OpFontQuality;
-    OptBorderFocusedActive:= EditorOps.OpActiveBorderInControls;
-    OptBorderWidthFocused:= AppScale(EditorOps.OpActiveBorderWidth);
-    EditorApplyTheme(edRep);
-    Update;
-  end;
-
+  UpdateEdFont(edFind);
+  UpdateEdFont(edRep);
   //bCancel.Font.Assign(LabelFind.Font);
 end;
 
