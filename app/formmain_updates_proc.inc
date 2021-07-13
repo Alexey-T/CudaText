@@ -1062,23 +1062,23 @@ begin
     FCodetreeModifiedVersion:= Ed.Strings.ModifiedVersion;
     if not RunTreeHelper(Frame) then
     begin
-     if not Assigned(FCodetreeBuffer) then
-       FCodetreeBuffer:= TTreeView.Create(Self);
-     Ada.TreeFill(FCodetreeBuffer);
+      if not Assigned(FCodetreeBuffer) then
+        FCodetreeBuffer:= TTreeView.Create(Self);
+      Ada.TreeFill(FCodetreeBuffer);
 
-     if FCodetreeBuffer.Items.Count>0 then
-       DoTreeviewCopy(FCodetreeBuffer, Frame.CachedTreeview[Ed]);
+      if FCodetreeBuffer.Items.Count>0 then
+        DoTreeviewCopy(FCodetreeBuffer, Frame.CachedTreeview[Ed]);
 
-     //Lazarus dont sort new items
-     if CodeTree.Tree.SortType<>stNone then
-       FCodetreeBuffer.AlphaSort;
+      //Lazarus dont sort new items
+      if CodeTree.Tree.SortType<>stNone then
+        FCodetreeBuffer.AlphaSort;
 
-     DoTreeviewCopy(FCodetreeBuffer, CodeTree.Tree);
-     CodeTree.SourceObject:= Ed;
+      DoTreeviewCopy(FCodetreeBuffer, CodeTree.Tree);
+      CodeTree.SourceObject:= Ed;
 
-     //force update scrollbar
-     CodeTree.Tree.Font.Size:= AppScaleFont(UiOps.VarFontSize);
-     CodeTree.Tree.Perform(CM_CHANGED, 0, 0);
+      //force update scrollbar
+      CodeTree.Tree.Font.Size:= AppScaleFont(UiOps.VarFontSize);
+      CodeTree.Tree.Perform(CM_CHANGED, 0, 0);
     end;
 
     DoPyEvent_AppState(APPSTATE_CODETREE_AFTER_FILL);
