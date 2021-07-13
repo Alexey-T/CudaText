@@ -1114,6 +1114,10 @@
   //program will save modified documents to the session, on closing, without confirmation.
   "ui_auto_save_session": false,
 
+  //If value>0, app creates backups of session files on closing: 'history session.X.cuda-session'.
+  //You can open these backups using plugin Session Manager.
+  "ui_backup_sessions": 4,
+
   //Pause of hint, of command "show function-hint"
   "ui_alt_hint_time": 9,
 
