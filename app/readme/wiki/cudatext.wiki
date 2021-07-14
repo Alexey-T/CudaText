@@ -1967,12 +1967,12 @@ The following UI theme items allow "none" values, it means that JSON theme-file 
 * StatusFont: when "none", it falls back to ButtonFont 
 * StatusBg: when "none", it falls back to TabBg
 
-Plus the following items, which colorize the main menu on Windows, they fall back to OS colors:
+Plus the following items, which colorize the main menu on Windows:
 
-* MenuFont: when "none", it falls back to TabFont 
-* MenuFontHotkey: when "none", it falls back to MenuFont, then to TabFontMod  
-* MenuFontDisabled: when "none", it falls back to TabBorderPassive 
-* MenuBg: when "none", it falls back to TabBg 
+* MenuFont: when "none", it falls back to TabFont
+* MenuFontHotkey: when "none", it falls back to MenuFont, then to TabFontMod
+* MenuFontDisabled: when "none", it falls back to TabBorderPassive
+* MenuBg: when "none", it falls back to TabBg
 * MenuSelBg: when "none", it falls back to TabOver
 
 ===How to create theme package===
