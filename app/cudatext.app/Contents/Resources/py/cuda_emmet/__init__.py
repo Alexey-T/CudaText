@@ -144,13 +144,14 @@ def is_abr_before_caret(ed):
     x1 = x
     while (x>0) and s[x-1].isalnum():
         x -= 1
-    if x==0: return
 
-    if s[x-1] in ' \t':
-        word = s[x:x1]
-        #print('Emmet word:', word)
-        if word in HTML_TAGS:
-            return True
+    if (x>0) and (s[x-1] not in ' \t'):
+        return True
+    
+    word = s[x:x1]
+    #print('Emmet word:', word)
+    if word in HTML_TAGS:
+        return True
 
 
 def get_syntax():
