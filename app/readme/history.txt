@@ -7,8 +7,8 @@
 
 + add: auto-completion in CSS: support completion of file paths in 'url(|)' (thanks @eltonfabricio10)
 + add: auto-completion in HTML: insert '<' on calling e.g. after "    li|" (thanks @eltonfabricio10)
++ add: new option "autocomplete_html_autoclose": after typing <tag>, it auto-inserts </tag> (thanks @MOPKOBKA at linux.org.ru)
 + add: new option "ui_backup_sessions" (thanks @tmsg)
-+ add: new option "autocomplete_html_autoclose": after typing <tagname>, it auto-insert </tagname> (thanks @MOPKOBKA at linux.org.ru)
 + add: avoid Emmet plugin to expand usual words by Tab (thanks @eltonfabricio10)
 + add: API to access 'form' and 'controls' of Code-Tree (thanks @Shovel)
 + add: Wiki topic https://wiki.freepascal.org/CudaText#UI_theme_empty_values
