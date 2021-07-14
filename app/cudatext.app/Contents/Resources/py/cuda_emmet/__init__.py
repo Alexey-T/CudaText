@@ -12,6 +12,146 @@ lexers_css = ['CSS', 'SCSS', 'SASS', 'Sass', 'Stylus', 'LESS']
 
 filename_help = os.path.join(os.path.dirname(__file__), 'help.html')
 
+HTML_TAGS = (
+  'a',
+  'abbr',
+  'address',
+  'area',
+  'article',
+  'aside',
+  'audio',
+  'b',
+  'base',
+  'bdi',
+  'bdo',
+  'blockquote',
+  'body',
+  'br',
+  'button',
+  'canvas',
+  'caption',
+  'cite',
+  'code',
+  'col',
+  'colgroup',
+  'data',
+  'datalist',
+  'dd',
+  'del',
+  'details',
+  'dfn',
+  'dialog',
+  'div',
+  'dl',
+  'dt',
+  'em',
+  'embed',
+  'fieldset',
+  'figcaption',
+  'figure',
+  'footer',
+  'form',
+  'h1',
+  'h2',
+  'h3',
+  'h4',
+  'h5',
+  'h6',
+  'head',
+  'header',
+  'hgroup',
+  'hr',
+  'html',
+  'i',
+  'iframe',
+  'img',
+  'input',
+  'ins',
+  'kbd',
+  'label',
+  'legend',
+  'li',
+  'link',
+  'main',
+  'map',
+  'mark',
+  'menu',
+  'meta',
+  'meter',
+  'nav',
+  'noscript',
+  'object',
+  'ol',
+  'optgroup',
+  'option',
+  'output',
+  'p',
+  'param',
+  'picture',
+  'pre',
+  'progress',
+  'q',
+  'rp',
+  'rt',
+  'ruby',
+  's',
+  'samp',
+  'script',
+  'section',
+  'select',
+  'slot',
+  'small',
+  'source',
+  'span',
+  'strong',
+  'style',
+  'sub',
+  'summary',
+  'sup',
+  'table',
+  'tbody',
+  'td',
+  'template',
+  'textarea',
+  'tfoot',
+  'th',
+  'thead',
+  'time',
+  'title',
+  'tr',
+  'track',
+  'u',
+  'ul',
+  'var',
+  'video',
+  'wbr',
+  )
+
+
+def is_abr_before_caret(ed):
+
+    carets = ed.get_carets()
+    if len(carets)==0: return
+    if len(carets)>1: return
+    x, y, x1, y1 = carets[0]
+
+    if y>=ed.get_line_count(): return
+    s = ed.get_text_line(y)
+    if not s.strip(): return
+    if x>len(s): return
+    if x==0: return
+
+    x1 = x
+    while (x>0) and s[x-1].isalnum():
+        x -= 1
+    if x==0: return
+
+    if s[x-1] in ' \t':
+        word = s[x:x1]
+        #print('Emmet word:', word)
+        if word in HTML_TAGS:
+            return True
+
 
 def get_syntax():
 
@@ -162,4 +302,5 @@ class Command:
     def on_key(self, ed_self, key, state):
 
         if key==9 and state=='':
-            return self.expand_ex(False)
+            if is_abr_before_caret(ed_self):
+                return self.expand_ex(False)
