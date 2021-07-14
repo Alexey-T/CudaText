@@ -12,6 +12,7 @@
 + add: new option "autocomplete_html_autoclose": after typing <tagname>, it auto-insert </tagname> (thanks @MOPKOBKA at linux.org.ru)
 + add: API to access 'form' and 'controls' of Code-Tree (thanks @Shovel)
 + add: Wiki topic https://wiki.freepascal.org/CudaText#UI_theme_empty_values
+- fix: regression: clicking at exact line ends made caret-pos bigger by 1 char
 - fix: when option "autocomplete_autoshow_chars" was on, it shown the listbox after a pause, that gave race condition
 - fix: lexer reST: fixed rules for headers
 
