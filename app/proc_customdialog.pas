@@ -2338,6 +2338,9 @@ begin
   if AName= 'on_key_up' then
     F.FEventOnKeyUp:= AValue
   else
+  if AName='on_key_press' then
+    F.FEventOnKeyPress:= AValue
+  else
   if AName= 'on_act' then
     F.FEventOnActivate:= AValue
   else
@@ -2407,6 +2410,7 @@ begin
   _SetDictKey(Result, 'on_close_query', F.FEventOnCloseQuery);
   _SetDictKey(Result, 'on_key_down', F.FEventOnKeyDown);
   _SetDictKey(Result, 'on_key_up', F.FEventOnKeyUp);
+  _SetDictKey(Result, 'on_key_press', F.FEventOnKeyPress);
   _SetDictKey(Result, 'on_resize', F.FEventOnResize);
   _SetDictKey(Result, 'on_mouse_enter', F.FEventOnMouseEnter);
   _SetDictKey(Result, 'on_mouse_exit', F.FEventOnMouseExit);

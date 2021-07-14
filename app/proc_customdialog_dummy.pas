@@ -98,6 +98,7 @@ type
   protected
     procedure KeyDown(var Key: Word; Shift: TShiftState); override;
     procedure KeyUp(var Key: Word; Shift: TShiftState); override;
+    procedure UTF8KeyPress(var UTF8Key: TUTF8Char); override;
     procedure MouseEnter; override;
     procedure MouseLeave; override;
     procedure DoShow; override;
@@ -114,6 +115,7 @@ type
     FEventOnCloseQuery: string;
     FEventOnKeyDown: string;
     FEventOnKeyUp: string;
+    FEventOnKeyPress: string;
     FEventOnResize: string;
     FEventOnActivate: string;
     FEventOnDeactivate: string;
@@ -538,6 +540,22 @@ begin
   if not DoEvent(Key, FEventOnKeyUp, Data) then
   begin
     Key:= 0;
+    exit;
+  end;
+end;
+
+procedure TFormDummy.UTF8KeyPress(var UTF8Key: TUTF8Char);
+var
+  Data: TAppVariant;
+  SWide: UnicodeString;
+begin
+  inherited;
+  Data:= AppVariant(ConvertShiftStateToString(GetKeyShiftState));
+
+  SWide:= UTF8Decode(UTF8Key);
+  if not DoEvent(Ord(SWide[1]), FEventOnKeyPress, Data) then
+  begin
+    UTF8Key:= #0;
     exit;
   end;
 end;
