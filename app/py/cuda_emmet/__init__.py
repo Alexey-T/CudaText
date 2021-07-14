@@ -3,7 +3,6 @@ import string
 from cudatext import *
 from cudax_lib import get_translation
 from .proc_snip_insert import *
-from .dlg_emmet import DialogEmmet
 
 _   = get_translation(__file__)  # I18N
 
@@ -306,6 +305,7 @@ class Command:
 
     def dialog(self):
 
+        from .dlg_emmet import DialogEmmet
         if not self.dlg:
             self.dlg = DialogEmmet(do_expand_abbrev, self.insert_text_at_caret)
         self.dlg.show()
