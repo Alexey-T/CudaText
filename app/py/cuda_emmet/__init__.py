@@ -1,5 +1,6 @@
 import os
 import webbrowser
+import string
 from cudatext import *
 from cudax_lib import get_translation
 from .proc_snip_insert import *
@@ -142,13 +143,22 @@ def is_abr_before_caret(ed):
     if x==0: return
 
     x1 = x
-    while (x>0) and s[x-1].isalnum():
-        x -= 1
+    x2 = x
+    CH = string.punctuation+string.digits
+    while (x1>0) and (s[x1-1] in CH):
+        x1 -= 1
+    if x1==0: return
+    if s[x1-1] in ' \t': return
 
-    if (x>0) and (s[x-1] not in ' \t'):
+    x1 = x
+    x2 = x
+    while (x1>0) and s[x1-1].isalnum():
+        x1 -= 1
+
+    if (x1>0) and (s[x1-1] not in ' \t'):
         return True
     
-    word = s[x:x1]
+    word = s[x1:x2]
     #print('Emmet word:', word)
     if word in HTML_TAGS:
         return True
