@@ -1959,7 +1959,7 @@ Don't configure custom lexer styles in the Lexer Properties dialog, if option "u
 
 ===UI theme empty values===
 
-The following UI theme items allow "none" values, it means that .json file stores the empty value for them, and plugin API returns COLOR_NONE value for them.
+The following UI theme items allow "none" values, it means that JSON theme-file stores the empty value for them, and plugin API returns COLOR_NONE value for them.
 
 * EdBlockStapleActive: when "none", it falls back to EdBlockStaple
 * TabFontActive: when "none", it falls back to TabFont
