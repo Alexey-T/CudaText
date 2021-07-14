@@ -78,7 +78,10 @@ type
     function ValueToString(Obj: PPyObject; QuoteStrings: boolean): string;
     procedure ValueToRecord(Obj: PPyObject; out R: TAppPyEventResult);
     function ObjectToPyInt(Obj: TObject): PPyObject;
+
     procedure SetDictKey(Obj: PPyObject; const AKey, AValue: string);
+    procedure SetDictKey(Obj: PPyObject; const AKey: string; AValue: integer);
+    procedure SetDictKey(Obj: PPyObject; const AKey: string; AValue: TObject);
 
     procedure SetPath(const Dirs: array of string; DoAdd: boolean);
     procedure ClearCache;
@@ -738,6 +741,18 @@ procedure TAppPython.SetDictKey(Obj: PPyObject; const AKey, AValue: string);
 begin
   with FEngine do
     PyDict_SetItemString(Obj, PChar(AKey), PyUnicodeFromString(AValue));
+end;
+
+procedure TAppPython.SetDictKey(Obj: PPyObject; const AKey: string; AValue: integer);
+begin
+  with FEngine do
+    PyDict_SetItemString(Obj, PChar(AKey), PyLong_FromLong(AValue));
+end;
+
+procedure TAppPython.SetDictKey(Obj: PPyObject; const AKey: string; AValue: TObject);
+begin
+  with FEngine do
+    PyDict_SetItemString(Obj, PChar(AKey), ObjectToPyInt(AValue));
 end;
 
 

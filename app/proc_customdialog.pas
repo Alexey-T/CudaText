@@ -2504,16 +2504,16 @@ begin
       if TListView(C).LargeImages=nil then
         TListView(C).LargeImages:= TImageList.Create(C);
 
-      PyDict_SetItemString(Result, 'imagelist_small', AppPython.ObjectToPyInt(TListView(C).SmallImages));
-      PyDict_SetItemString(Result, 'imagelist_large', AppPython.ObjectToPyInt(TListView(C).LargeImages));
+      AppPython.SetDictKey(Result, 'imagelist_small', TListView(C).SmallImages);
+      AppPython.SetDictKey(Result, 'imagelist_large', TListView(C).LargeImages);
 
       SColumns:= DoControl_GetIcons_ListView(TListView(C));
-      PyDict_SetItemString(Result, 'imageindexes', PyUnicodeFromString(SColumns));
+      AppPython.SetDictKey(Result, 'imageindexes', SColumns);
     end;
 
     N:= DoControl_GetIndexHovered(C);
     if N>=0 then
-      PyDict_SetItemString(Result, 'tab_hovered', PyLong_FromLong(N));
+      AppPython.SetDictKey(Result, 'tab_hovered', N);
 
     _SetDictKey(Result, 'on_change', Props.FEventOnChange);
     _SetDictKey(Result, 'on_click', Props.FEventOnClick);
