@@ -5,8 +5,8 @@
 
 1.138.0 (2021/07)
 
-+ add: new option "ui_backup_sessions", to keep backup copies of last unnamed sessions
-+ add: avoid Emmet plugin to expand usual words by Tab (still works by calling Emmet command from menu)
++ add: new option "ui_backup_sessions", to keep backups of last session (thanks @tmsg)
++ add: avoid Emmet plugin to expand usual words by Tab (thanks @eltonfabricio10)
 + add: auto-completion in CSS: support completion of file paths in 'url(|)' (thanks @eltonfabricio10)
 + add: auto-completion in HTML: insert '<' on calling e.g. after "    li|" (thanks @eltonfabricio10)
 + add: new option "autocomplete_html_autoclose": after typing <tagname>, it auto-insert </tagname> (thanks @MOPKOBKA at linux.org.ru)
