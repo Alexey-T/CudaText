@@ -1957,6 +1957,24 @@ Two dialogs allow to paint these kinds of themes. To paint a theme:
 
 Don't configure custom lexer styles in the Lexer Properties dialog, if option "ui_lexer_themes" is on (usually it's on), because syntax-theme will override all your colors from that dialog. You can configure colors there, if option is off.
 
+===UI theme empty values===
+
+The following UI theme items allow "none" values, it means that .json file stores the empty value for them, and plugin API returns COLOR_NONE value for them.
+
+* EdBlockStapleActive: when "none", it falls back to EdBlockStaple
+* TabFontActive: when "none", it falls back to TabFont
+* TabCloseBg: when "none", tab 'x' background is not painted
+* StatusFont: when "none", it falls back to ButtonFont 
+* StatusBg: when "none", it falls back to TabBg
+
+Plus the following items, which colorize the main menu on Windows, they fall back to OS colors:
+
+* MenuFont
+* MenuFontHotkey
+* MenuFontDisabled
+* MenuBg
+* MenuSelBg
+
 ===How to create theme package===
 
 * Make such file "install.inf":
