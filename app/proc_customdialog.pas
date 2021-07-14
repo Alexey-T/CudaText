@@ -2103,12 +2103,17 @@ begin
     and C.Enabled
     and C.Visible then
     if C is TWinControl then
+    begin
       if TWinControl(C).CanFocus then
       try
-        F.ActiveControl:= TWinControl(C);
+        if C is TAppTreeContainer then
+          F.ActiveControl:= TAppTreeContainer(C).Tree
+        else
+          F.ActiveControl:= TWinControl(C);
       except
         //supress Pascal exception in Py API
       end;
+    end;
 end;
 
 procedure DoForm_ScaleAuto(F: TForm; ASimpleResize: boolean=false);
@@ -2443,7 +2448,10 @@ begin
 
   if C is TWinControl then
   begin
-    bFocused:= TWinControl(C).Focused;
+    if C is TAppTreeContainer then
+      bFocused:= TAppTreeContainer(C).Tree.Focused
+    else
+      bFocused:= TWinControl(C).Focused;
     bTabStop:= TWinControl(C).TabStop;
     nTabOrder:= TWinControl(C).TabOrder;
   end;
