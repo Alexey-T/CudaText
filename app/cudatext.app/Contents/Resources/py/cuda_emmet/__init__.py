@@ -1,5 +1,4 @@
 import os
-import webbrowser
 import string
 from cudatext import *
 from cudax_lib import get_translation
@@ -249,6 +248,7 @@ class Command:
 
     def help(self):
 
+        import webbrowser
         webbrowser.open_new_tab('file://'+filename_help)
         msg_status(_('Opened browser'))
 
