@@ -1064,6 +1064,10 @@ These are also properties of forms.
 
 * "on_key_up": Called when key is depressed (after "on_key_down"). If plugin returns False, depressing of key is blocked.
 
+* "on_key_press": Called when character-key is pressed (additional to "on_key_down"). If plugin returns False, pressing of key is blocked.
+** param "id_ctl": int character code.
+** param "data": key-state string, like in "on_key_down".
+
 How to get nice key description in "on_key_down", e.g. "Ctrl+Alt+Esc" from id_ctl=27 and data="ca":
 
 <syntaxhighlight lang="python">
@@ -4439,5 +4443,8 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * add: code-tree is compatible with dlg_proc() API, you can get its form handle via app_proc(PROC_SIDEPANEL_GET_CONTROL, 'Code tree')
 * add: tree_proc: TREE_SET_IMAGELIST
 * add: file_open: option "/donear"
+
+1.0.404 (app 1.137.7)
+* add: forms now have "on_key_press" event
 
 [[Category:CudaText]]
