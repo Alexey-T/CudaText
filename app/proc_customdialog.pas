@@ -76,7 +76,7 @@ type
 const
   cControlBorderStyles: array[boolean] of TBorderStyle = (bsNone, bsSingle);
 
-procedure _SetDictKey(Obj: PPyObject; const AKey, AValue: string);
+procedure SetDictKey_NotEmpty(Obj: PPyObject; const AKey, AValue: string);
 begin
   if AValue<>'' then
     AppPython.SetDictKey(Obj, AKey, AValue);
@@ -2405,17 +2405,17 @@ begin
       );
   end;
 
-  _SetDictKey(Result, 'on_close', F.FEventOnClose);
-  _SetDictKey(Result, 'on_close_query', F.FEventOnCloseQuery);
-  _SetDictKey(Result, 'on_key_down', F.FEventOnKeyDown);
-  _SetDictKey(Result, 'on_key_up', F.FEventOnKeyUp);
-  _SetDictKey(Result, 'on_key_press', F.FEventOnKeyPress);
-  _SetDictKey(Result, 'on_resize', F.FEventOnResize);
-  _SetDictKey(Result, 'on_mouse_enter', F.FEventOnMouseEnter);
-  _SetDictKey(Result, 'on_mouse_exit', F.FEventOnMouseExit);
-  _SetDictKey(Result, 'on_show', F.FEventOnShow);
-  _SetDictKey(Result, 'on_hide', F.FEventOnHide);
-  _SetDictKey(Result, 'on_form_state', F.FEventOnFormState);
+  SetDictKey_NotEmpty(Result, 'on_close', F.FEventOnClose);
+  SetDictKey_NotEmpty(Result, 'on_close_query', F.FEventOnCloseQuery);
+  SetDictKey_NotEmpty(Result, 'on_key_down', F.FEventOnKeyDown);
+  SetDictKey_NotEmpty(Result, 'on_key_up', F.FEventOnKeyUp);
+  SetDictKey_NotEmpty(Result, 'on_key_press', F.FEventOnKeyPress);
+  SetDictKey_NotEmpty(Result, 'on_resize', F.FEventOnResize);
+  SetDictKey_NotEmpty(Result, 'on_mouse_enter', F.FEventOnMouseEnter);
+  SetDictKey_NotEmpty(Result, 'on_mouse_exit', F.FEventOnMouseExit);
+  SetDictKey_NotEmpty(Result, 'on_show', F.FEventOnShow);
+  SetDictKey_NotEmpty(Result, 'on_hide', F.FEventOnHide);
+  SetDictKey_NotEmpty(Result, 'on_form_state', F.FEventOnFormState);
 end;
 
 
@@ -2515,28 +2515,28 @@ begin
     if N>=0 then
       AppPython.SetDictKey(Result, 'tab_hovered', N);
 
-    _SetDictKey(Result, 'on_change', Props.FEventOnChange);
-    _SetDictKey(Result, 'on_click', Props.FEventOnClick);
-    _SetDictKey(Result, 'on_click_dbl', Props.FEventOnClickDbl);
-    _SetDictKey(Result, 'on_focus_enter', Props.FEventOnFocusEnter);
-    _SetDictKey(Result, 'on_focus_exit', Props.FEventOnFocusExit);
-    _SetDictKey(Result, 'on_menu', Props.FEventOnMenu);
-    _SetDictKey(Result, 'on_select', Props.FEventOnSelect);
-    _SetDictKey(Result, 'on_fold', Props.FEventOnFold);
-    _SetDictKey(Result, 'on_unfold', Props.FEventOnUnfold);
-    _SetDictKey(Result, 'on_listbox_draw_item', Props.FEventOnListboxDrawItem);
-    _SetDictKey(Result, 'on_mouse_enter', Props.FEventOnMouseEnter);
-    _SetDictKey(Result, 'on_mouse_exit', Props.FEventOnMouseExit);
-    _SetDictKey(Result, 'on_mouse_down', Props.FEventOnMouseDown);
-    _SetDictKey(Result, 'on_mouse_up', Props.FEventOnMouseUp);
-    _SetDictKey(Result, 'on_editor_caret', Props.FEventOnEditorCaret);
-    _SetDictKey(Result, 'on_editor_scroll', Props.FEventOnEditorScroll);
-    _SetDictKey(Result, 'on_editor_key_down', Props.FEventOnEditorKeyDown);
-    _SetDictKey(Result, 'on_editor_key_up', Props.FEventOnEditorKeyUp);
-    _SetDictKey(Result, 'on_editor_click_gutter', Props.FEventOnEditorClickGutter);
-    _SetDictKey(Result, 'on_editor_click_gap', Props.FEventOnEditorClickGap);
-    _SetDictKey(Result, 'on_editor_click_link', Props.FEventOnEditorClickLink);
-    _SetDictKey(Result, 'on_editor_paste', Props.FEventOnEditorPaste);
+    SetDictKey_NotEmpty(Result, 'on_change', Props.FEventOnChange);
+    SetDictKey_NotEmpty(Result, 'on_click', Props.FEventOnClick);
+    SetDictKey_NotEmpty(Result, 'on_click_dbl', Props.FEventOnClickDbl);
+    SetDictKey_NotEmpty(Result, 'on_focus_enter', Props.FEventOnFocusEnter);
+    SetDictKey_NotEmpty(Result, 'on_focus_exit', Props.FEventOnFocusExit);
+    SetDictKey_NotEmpty(Result, 'on_menu', Props.FEventOnMenu);
+    SetDictKey_NotEmpty(Result, 'on_select', Props.FEventOnSelect);
+    SetDictKey_NotEmpty(Result, 'on_fold', Props.FEventOnFold);
+    SetDictKey_NotEmpty(Result, 'on_unfold', Props.FEventOnUnfold);
+    SetDictKey_NotEmpty(Result, 'on_listbox_draw_item', Props.FEventOnListboxDrawItem);
+    SetDictKey_NotEmpty(Result, 'on_mouse_enter', Props.FEventOnMouseEnter);
+    SetDictKey_NotEmpty(Result, 'on_mouse_exit', Props.FEventOnMouseExit);
+    SetDictKey_NotEmpty(Result, 'on_mouse_down', Props.FEventOnMouseDown);
+    SetDictKey_NotEmpty(Result, 'on_mouse_up', Props.FEventOnMouseUp);
+    SetDictKey_NotEmpty(Result, 'on_editor_caret', Props.FEventOnEditorCaret);
+    SetDictKey_NotEmpty(Result, 'on_editor_scroll', Props.FEventOnEditorScroll);
+    SetDictKey_NotEmpty(Result, 'on_editor_key_down', Props.FEventOnEditorKeyDown);
+    SetDictKey_NotEmpty(Result, 'on_editor_key_up', Props.FEventOnEditorKeyUp);
+    SetDictKey_NotEmpty(Result, 'on_editor_click_gutter', Props.FEventOnEditorClickGutter);
+    SetDictKey_NotEmpty(Result, 'on_editor_click_gap', Props.FEventOnEditorClickGap);
+    SetDictKey_NotEmpty(Result, 'on_editor_click_link', Props.FEventOnEditorClickLink);
+    SetDictKey_NotEmpty(Result, 'on_editor_paste', Props.FEventOnEditorPaste);
   end;
 end;
 
