@@ -78,6 +78,7 @@ type
     function ValueToString(Obj: PPyObject; QuoteStrings: boolean): string;
     procedure ValueToRecord(Obj: PPyObject; out R: TAppPyEventResult);
     function ObjectToPyInt(Obj: TObject): PPyObject;
+    procedure SetDictKey(Obj: PPyObject; const AKey, AValue: string);
 
     procedure SetPath(const Dirs: array of string; DoAdd: boolean);
     procedure ClearCache;
@@ -731,6 +732,12 @@ end;
 function TAppPython.ObjectToPyInt(Obj: TObject): PPyObject;
 begin
   Result:= FEngine.PyLong_FromLongLong(Int64(PtrInt(Obj)))
+end;
+
+procedure TAppPython.SetDictKey(Obj: PPyObject; const AKey, AValue: string);
+begin
+  with FEngine do
+    PyDict_SetItemString(Obj, PChar(AKey), PyUnicodeFromString(AValue));
 end;
 
 

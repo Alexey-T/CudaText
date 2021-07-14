@@ -79,8 +79,7 @@ const
 procedure _SetDictKey(Obj: PPyObject; const AKey, AValue: string);
 begin
   if AValue<>'' then
-    with AppPython.Engine do
-      PyDict_SetItemString(Obj, PChar(AKey), PyUnicodeFromString(AValue));
+    AppPython.SetDictKey(Obj, AKey, AValue);
 end;
 
 function DoControl_Target(C: TControl): TControl; inline;
