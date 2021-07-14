@@ -1826,7 +1826,7 @@ begin
     ReopenSession:= true;
     ReopenSessionWithCmdLine:= false;
     AutoSaveSession:= false;
-    BackupLastSessions:= 4;
+    BackupLastSessions:= 0;
     SaveModifiedTabsOnClose:= true;
 
     ShowFormsOnTop:= false;
