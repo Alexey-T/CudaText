@@ -5,14 +5,14 @@
 
 1.138.0 (2021/07)
 
-+ add: new option "ui_backup_sessions", to keep backups of last session (thanks @tmsg)
-+ add: avoid Emmet plugin to expand usual words by Tab (thanks @eltonfabricio10)
 + add: auto-completion in CSS: support completion of file paths in 'url(|)' (thanks @eltonfabricio10)
 + add: auto-completion in HTML: insert '<' on calling e.g. after "    li|" (thanks @eltonfabricio10)
++ add: new option "ui_backup_sessions" (thanks @tmsg)
 + add: new option "autocomplete_html_autoclose": after typing <tagname>, it auto-insert </tagname> (thanks @MOPKOBKA at linux.org.ru)
++ add: avoid Emmet plugin to expand usual words by Tab (thanks @eltonfabricio10)
 + add: API to access 'form' and 'controls' of Code-Tree (thanks @Shovel)
 + add: Wiki topic https://wiki.freepascal.org/CudaText#UI_theme_empty_values
-- fix: regression: clicking at exact line ends made caret-pos bigger by 1 char
+- fix: regression: clicking at exact line end made caret-pos bigger by 1 char
 - fix: when option "autocomplete_autoshow_chars" was on, it shown the listbox after a pause, that gave race condition
 - fix: lexer reST: fixed rules for headers
 
