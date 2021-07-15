@@ -7,6 +7,7 @@
 
 + add: auto-completion in CSS: support completion of file paths in url(|) function (thanks @eltonfabricio10)
 + add: auto-completion in CSS: append ';' to line after choosing (thanks @eltonfabricio10)
++ add: auto-completion in CSS: support '!important'
 + add: auto-completion in HTML: insert '<' on calling after "  tag|" (thanks @eltonfabricio10)
 + add: new option "autocomplete_html_autoclose": after typing <tag>, it auto-inserts </tag> (thanks @MOPKOBKA at linux.org.ru)
 + add: new option "ui_backup_sessions" (thanks @tmsg)
