@@ -2560,7 +2560,8 @@ add_values = [
     'inherit', 
     'initial', 
     'unset', 
-    'var()'
+    'var()',
+    '!important'
     ]
 
 def get_data(name):
