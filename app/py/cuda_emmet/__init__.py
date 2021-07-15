@@ -140,6 +140,9 @@ def is_abr_before_caret(ed):
     if x>len(s): return
     if x==0: return
 
+    # '!' is a special Emmet snippet
+    if s[x-1]=='!': return True
+
     x1 = x
     x2 = x
     CH = string.punctuation+string.digits
@@ -155,7 +158,7 @@ def is_abr_before_caret(ed):
 
     if (x1>0) and (s[x1-1] not in ' \t'):
         return True
-    
+
     word = s[x1:x2]
     #print('Emmet word:', word)
     if word in HTML_TAGS:
