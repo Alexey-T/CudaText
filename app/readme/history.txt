@@ -13,6 +13,7 @@
 + add: avoid Emmet plugin to expand usual words by Tab (thanks @eltonfabricio10)
 + add: API to access 'form' and 'controls' of Code-Tree (thanks @Shovel)
 + add: Wiki topic https://wiki.freepascal.org/CudaText#UI_theme_empty_values
+- fix: fixed Emmet plugin to support up to 1000 tab-stops, e.g. for 'li*1000'
 - fix: regression: clicking at exact line end made caret-pos bigger by 1 char
 - fix: when option "autocomplete_autoshow_chars" was on, it shown the listbox after a pause, that gave race condition
 - fix: lexer reST: fixed rules for headers
