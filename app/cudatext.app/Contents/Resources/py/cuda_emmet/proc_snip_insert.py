@@ -48,7 +48,7 @@ def insert_snip_into_editor(ed, snip_lines):
 
             try:
                 digit = int(s[n+2:digit_end])
-            except:
+            except ValueError:
                 break
 
             #text in tabstop
