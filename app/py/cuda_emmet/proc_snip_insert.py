@@ -1,6 +1,9 @@
 import cudatext as ct
 import cudatext_cmd
 
+# 0 must be first, others are from Max to 1
+MARKS_INDEXES = [0] + list(reversed(range(1, 1000)))
+
 
 def insert_snip_into_editor(ed, snip_lines):
     items = list(snip_lines) #copy list value
@@ -69,7 +72,7 @@ def insert_snip_into_editor(ed, snip_lines):
     mark_placed = False
     ed.markers(ct.MARKERS_DELETE_ALL)
 
-    for digit in [0,9,8,7,6,5,4,3,2,1]:
+    for digit in MARKS_INDEXES:
         for stop in reversed(stops):
             if stop[0]==digit:
                 pos_x = stop[3]
