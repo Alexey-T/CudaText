@@ -3,6 +3,11 @@
   - fixed
   * changed
 
+1.138.1 (2021/07)
+
+- fix: minimap should be repainted more rarely, to prevent flicker on text typing (thanks anon at linux.org.ru)
+- fix: regression: Emmet plugin failed call by Tab-key in CSS (thanks @eltonfabricio10)
+
 1.138.0 (2021/07)
 
 + add: auto-completion in CSS: support completion of file paths in url(|) function (thanks @eltonfabricio10)
