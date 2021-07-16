@@ -7042,7 +7042,7 @@ begin
         TREE_SET_IMAGELIST:
           begin
             IdImgList:= StrToInt64Def(StrText, 0);
-            Obj:= TObject(IdImgList);
+            Obj:= TObject(PtrInt(IdImgList));
             if Assigned(Obj) and not (Obj is TImageList) then
             begin
               MsgLogConsole('ERROR: tree_proc() gets bad handle of image-list, of type '+Obj.ClassName);
