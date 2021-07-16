@@ -5,7 +5,8 @@
 
 1.138.1 (2021/07)
 
-- fix: the minimap flickering on text typing (thanks anon at linux.org.ru)
+- fix: selection-frame must not be painted after a right-click
+- fix: minimap flickering on text typing (thanks anon at linux.org.ru)
 - fix: regression: Emmet plugin failed in CSS when using Tab-key (thanks @eltonfabricio10)
 
 1.138.0 (2021/07)
