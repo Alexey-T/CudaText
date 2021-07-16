@@ -470,6 +470,7 @@ Most of them are located in Addons Manager "Install" list.
 * NSL Assembler
 * Oberon
 * Objective-C
+* OneC (1C)
 * OpenCL
 * OpenEdge
 * OpenSCAD
