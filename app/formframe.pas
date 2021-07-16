@@ -1751,6 +1751,7 @@ begin
   Splitter.AutoSnap:= false;
   Splitter.ResizeStyle:= rsPattern;
   Splitter.MinSize:= 100;
+  Splitter.Color:= GetAppColor(apclSplitMain);
   DoControl_InitPropsObject(Splitter, FFormDummy, 'splitter');
 
   FFileName:= '';
@@ -1942,6 +1943,8 @@ begin
     ViewerApplyTheme(FBin);
     FBin.Redraw();
   end;
+
+  Splitter.Color:= GetAppColor(apclSplitMain);
 end;
 
 function TEditorFrame.IsEditorFocused: boolean;
