@@ -161,7 +161,11 @@ def is_abr_before_caret(ed):
 
     word = s[x1:x2]
     #print('Emmet word:', word)
-    if word in HTML_TAGS:
+    if 'HTML' in ed.get_prop(PROP_LEXER_CARET):
+        if word in HTML_TAGS:
+            return True
+    else:
+        # return True for CSS and PHP lexers
         return True
 
 
