@@ -56,12 +56,16 @@ type
     FUpdateInterval: Cardinal;
     FEnabled: Boolean;
     FPriorInstanceRunning: Boolean;
+    {$ifdef PollIPCMessage}
+    Timer: TTimer;
+    {$endif}
     procedure ReceiveMessage(Sender: TObject);
     {$ifdef PollIPCMessage}
     procedure CheckMessage(Sender: TObject);
     {$endif}
   public
     constructor Create(AOwner: TComponent); override;
+    destructor Destroy; override;
     property PriorInstanceRunning: Boolean read FPriorInstanceRunning;
     procedure Loaded(const AParams: array of string); reintroduce; //Alexey
   published
@@ -107,9 +111,6 @@ end;
 procedure TUniqueInstance.Loaded(const AParams: array of string);
 var
   IPCClient: TSimpleIPCClient;
-  {$ifdef PollIPCMessage}
-  Timer: TTimer;
-  {$endif}
 begin
   if not (csDesigning in ComponentState) and FEnabled then
   begin
@@ -137,7 +138,7 @@ begin
       //there's no more need for IPCClient
       IPCClient.Destroy;
       {$ifdef PollIPCMessage}
-      if Assigned(FOnOtherInstance) then
+      if Assigned(FOnOtherInstance) and (Timer=nil) then
       begin
         Timer := TTimer.Create(Self);
         Timer.Interval := FUpdateInterval;
@@ -153,6 +154,17 @@ constructor TUniqueInstance.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
   FUpdateInterval := 1000;
+end;
+
+destructor TUniqueInstance.Destroy;
+begin
+  if Assigned(Timer) then
+  begin
+    Timer.Enabled := False;
+    Timer.OnTimer := nil;
+    FreeAndNil(Timer);
+  end;
+  inherited Destroy;
 end;
 
 end.
