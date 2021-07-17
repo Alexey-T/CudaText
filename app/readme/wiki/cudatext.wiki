@@ -2560,9 +2560,9 @@ CudaText: Use option
 
 ==How to highlight pair brackets?==
 
-ST3: Use plugin, e.g. https://packagecontrol.io/packages/BracketHighlighter
+ST3: Brackets highlight is built-in feature, turned on by default.
 
-CudaText: Use several "bracket_" options, see in the "Options Editor" plugin.
+CudaText: Brackets highlight is built-in, but it's off by defualt. Use several "bracket_" options, see comments in the "Options Editor" plugin.
 
 ==How to highlight pair HTML tags?==
 
