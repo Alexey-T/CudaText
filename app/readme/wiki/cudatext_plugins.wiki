@@ -557,6 +557,18 @@ Tools, which call file-compare utility, to compare 2 files: active files in grou
 * Encoding: utf_8
 * Pattern: \s*File "(?P<file>.+)", line (?P<line>\d+)
 
+=== Tool to preview HTML file in Chrome ===
+
+* Name: Preview in Chrome
+* File name:
+** on Windows: C:\Program Files\Google\Chrome\Application\chrome.exe
+* Shell command:
+** on Windows: unchecked
+* Parameters: "{FileName}"
+* Initial folder: (empty)
+* Lexers: HTML
+* Capture output: Ignore
+
 === Tool to open PHP documentation with given topic ===
 
 Tool to open PHP documentation, in .chm format, for the word under editor's caret. For Windows only. You need to install KeyHH from http://keyworks.helpmvp.com/ , it is stable tool mentioned on several sites. Program "keyhh.exe" will be in your system PATH.
