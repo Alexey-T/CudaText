@@ -3,6 +3,10 @@
   - fixed
   * changed
 
+1.138.2 (2021/07)
+
++ add: auto-completion in CSS: support completion of 'custom CSS properties' in 'var()' function
+
 1.138.1 (2021/07)
 
 + add: auto-completion in CSS: support completion of file paths in url(|) function (thanks @eltonfabricio10)
