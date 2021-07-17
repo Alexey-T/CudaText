@@ -566,6 +566,7 @@ class DialogMK2:
         self.set_filter(_filter_val)
         if _filter_val:
             self.toggle_filter(show=True)
+            self._filter_ed.set_caret(0,0, len(_filter_val),0)  # select filter text on start
 
         # restore selected-option (+show it)
         last_sel_opt = self._state.get(STATE_KEY_SEL_OPT)
