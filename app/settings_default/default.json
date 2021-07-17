@@ -956,8 +956,8 @@
   //Select entire line, when line number on gutter is clicked
   "mouse_gutter_click_sel": true,
 
-  //Allow to zoom text using Ctrl+wheel
-  "mouse_wheel_zoom": false,
+  //Allow to zoom text using Ctrl+[mouse wheel up/down]
+  "mouse_wheel_zoom": true,
 
   //Mouse wheel scrolling speed, vertical (in lines)
   "mouse_wheel_speed_vert": 3,

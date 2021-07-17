@@ -1558,7 +1558,7 @@ begin
     OpMouseEnableColumnSelection:= true;
     OpMouseHideCursorOnType:= false;
     OpMouseGutterClickSelectedLine:= true;
-    OpMouseWheelZoom:= false;
+    OpMouseWheelZoom:= true;
     OpMouseWheelSpeedVert:= 3;
     OpMouseWheelSpeedHorz:= 10;
     OpMouseClickNumberSelectsEol:= true;
