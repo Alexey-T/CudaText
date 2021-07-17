@@ -1530,7 +1530,7 @@ begin
     OpShowHintOnVertScroll:= false;
     OpSmoothScroll:= true;
     OpCenteringWidth:= 0;
-    OpCenteringForDistractionFree:= 100;
+    OpCenteringForDistractionFree:= 0;
     OpScrollStyleHorz:= 2; //hide, show, auto
     OpLexerDynamicHiliteEnabled:= false;
     OpLexerDynamicHiliteMaxLines:= 2000;
