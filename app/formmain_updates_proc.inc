@@ -20,14 +20,14 @@ begin
     if F.EditorsLinked then
     begin
       if F.FileName<>'' then
-        SName:= msgModified[F.Ed1.Modified]+F.FileName
+        SName:= msgModified[F.Ed1.Modified]+ AppCollapseHomeDirInFilename(F.FileName)
       else
         SName:= F.TabCaption;
     end
     else
     begin
-      Name1:= F.GetFileName(F.Ed1);
-      Name2:= F.GetFileName(F.Ed2);
+      Name1:= AppCollapseHomeDirInFilename(F.GetFileName(F.Ed1));
+      Name2:= AppCollapseHomeDirInFilename(F.GetFileName(F.Ed2));
       if Name1='' then Name1:= msgUntitledTab;
       if Name2='' then Name2:= msgUntitledTab;
       Name1:= msgModified[F.Ed1.Modified]+Name1;
