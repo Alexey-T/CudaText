@@ -6,6 +6,7 @@
 1.138.2 (2021/07)
 
 + add: auto-completion in CSS: support completion of 'custom CSS properties' in 'var()' function
+* change: default of option "centering_for_distrantion_free" changed to 0
 
 1.138.1 (2021/07)
 
