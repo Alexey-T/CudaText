@@ -1748,8 +1748,7 @@ begin
     FindMultiLineScale:= 2.5;
     FindSeparateForm:= false;
     FindHiAll_MaxLines:= 1000;
-    FindHiAll_TagValue:= 505; //some rarely used int tag
-    //FindHiAll_MoveCaret:= true;
+    FindHiAll_TagValue:= 99; //GET_UNIQUE_TAG starts with 120
 
     AllowProgramUpdates:= true;
     EscapeClose:= false;
