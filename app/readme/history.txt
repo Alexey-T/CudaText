@@ -7,6 +7,7 @@
 
 + add: auto-completion in CSS: support completion of 'custom CSS properties' in 'var()' function
 * change: default of option "centering_for_distrantion_free" changed to 0
+* change: default of option "mouse_wheel_zoom" changed to 'true'
 
 1.138.1 (2021/07)
 
