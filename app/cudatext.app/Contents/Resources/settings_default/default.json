@@ -1094,7 +1094,7 @@
   "ui_statusbar_time": 5,
 
   //[Ui]
-  //Show full file path in window title
+  //Show full file path in the window title
   "ui_title_path": false,
 
   //[Ui/History]
