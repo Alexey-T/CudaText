@@ -2852,8 +2852,8 @@ var
   Pages: TATPages;
   i: integer;
 begin
-  //support mac: it drops file too early
-  //(dbl-click on file in Finder)
+  //support macOS: it drops file too early
+  //(dbl-click on a file in Finder)
   if not FHandledOnShowPartly then
   begin
     SetLength(FFileNamesDroppedInitially, Length(FileNames));
