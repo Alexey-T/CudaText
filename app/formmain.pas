@@ -732,8 +732,6 @@ type
     procedure DoCodetree_OnAdvDrawItem(Sender: TCustomTreeView;
       Node: TTreeNode; State: TCustomDrawState; Stage: TCustomDrawStage;
       var PaintImages, DefaultDraw: Boolean);
-    procedure GetFinderResultIndexes(out AIndex, ACount: integer);
-    function GetFinderResultIndexesString: string;
     function IsTooManyTabsOpened: boolean;
     function GetUntitledNumberedCaption: string;
     procedure PopupBottomOnPopup(Sender: TObject);
@@ -950,7 +948,6 @@ type
     procedure SetFullScreen_Win32(AValue: boolean);
     procedure SetThemeSyntax(const AValue: string);
     procedure SetThemeUi(const AValue: string);
-    function FinderOptionsToHint: string;
     procedure DoOps_ShowEventPlugins;
     procedure DoOps_LoadPluginFromInf(const fn_inf: string; IniPlugins: TMemIniFile);
     procedure DoOps_LoadSidebarIcons;
@@ -1040,6 +1037,9 @@ type
     procedure DoToggleToolbar;
     procedure DoToggleStatusbar;
     procedure DoToggleUiTabs;
+    procedure FinderGetHiAllIndexes(out AIndex, ACount: integer);
+    function FinderGetHiAllIndexesString: string;
+    function FinderOptionsToHint: string;
     function FinderReplaceAll(Ed: TATSynEdit; AResetCaret: boolean): integer;
     procedure FinderShowReplaceReport(ACounter, ATime: integer);
     procedure FindDialogDone(Sender: TObject; Res: TAppFinderOperation; AEnableUpdateAll: boolean);

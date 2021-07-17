@@ -714,7 +714,7 @@ begin
   Result:= ' ('+Result+')';
 end;
 
-procedure TfmMain.GetFinderResultIndexes(out AIndex, ACount: integer);
+procedure TfmMain.FinderGetHiAllIndexes(out AIndex, ACount: integer);
 var
   Ed: TATSynEdit;
   Pnt: TPoint;
@@ -745,12 +745,12 @@ begin
   end;
 end;
 
-function TfmMain.GetFinderResultIndexesString: string;
+function TfmMain.FinderGetHiAllIndexesString: string;
 var
   NCurrent, NTotal: integer;
 begin
   Result:= '';
-  GetFinderResultIndexes(NCurrent, NTotal);
+  FinderGetHiAllIndexes(NCurrent, NTotal);
   if NCurrent>=0 then
     Result:= Format(' [%d/%d]', [NCurrent+1, NTotal])
 end;
@@ -760,7 +760,7 @@ begin
   if ok then
   begin
     MsgStatus(
-      msgStatusFoundNextMatch+GetFinderResultIndexesString+FinderOptionsToHint,
+      msgStatusFoundNextMatch+FinderGetHiAllIndexesString+FinderOptionsToHint,
       true);
 
     FFinder.Editor.EndUpdate;
@@ -786,7 +786,7 @@ end;
 procedure TfmMain.ShowFinderResultSimple(ok: boolean);
 begin
   if ok then
-    MsgStatus(msgStatusFoundNextMatch{+GetFinderResultIndexesString}, true)
+    MsgStatus(msgStatusFoundNextMatch{+FinderGetHiAllIndexesString}, true)
   else
     ShowFinderResult(false);
 end;
