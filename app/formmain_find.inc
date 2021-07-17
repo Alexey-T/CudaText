@@ -714,12 +714,53 @@ begin
   Result:= ' ('+Result+')';
 end;
 
+procedure TfmMain.GetFinderResultIndexes(out AIndex, ACount: integer);
+var
+  Ed: TATSynEdit;
+  Pnt: TPoint;
+  ItemPtr: PATMarkerItem;
+  NTagValue: Int64;
+  iItem: integer;
+begin
+  AIndex:= -1;
+  ACount:= 0;
+
+  Ed:= FFinder.Editor;
+  if Ed=nil then exit;
+
+  NTagValue:= UiOps.FindHiAll_TagValue;
+
+  Pnt:= FFinder.MatchEdPos;
+  if Pnt.Y<0 then exit;
+
+  for iItem:= 0 to Ed.Attribs.Count-1 do
+  begin
+    ItemPtr:= Ed.Attribs.ItemPtr(iItem);
+    if ItemPtr^.Tag<>NTagValue then Continue;
+    Inc(ACount);
+    if AIndex<0 then
+      if ItemPtr^.PosY=Pnt.Y then
+        if ItemPtr^.PosX=Pnt.X then
+          AIndex:= ACount-1;
+  end;
+end;
+
+function TfmMain.GetFinderResultIndexesString: string;
+var
+  NCurrent, NTotal: integer;
+begin
+  Result:= '';
+  GetFinderResultIndexes(NCurrent, NTotal);
+  if NCurrent>=0 then
+    Result:= Format(' [%d/%d]', [NCurrent+1, NTotal])
+end;
+
 procedure TfmMain.ShowFinderResult(ok: boolean);
 begin
   if ok then
   begin
     MsgStatus(
-      msgStatusFoundNextMatch+FinderOptionsToHint,
+      msgStatusFoundNextMatch+GetFinderResultIndexesString+FinderOptionsToHint,
       true);
 
     FFinder.Editor.EndUpdate;
@@ -745,7 +786,7 @@ end;
 procedure TfmMain.ShowFinderResultSimple(ok: boolean);
 begin
   if ok then
-    MsgStatus(msgStatusFoundNextMatch, true)
+    MsgStatus(msgStatusFoundNextMatch{+GetFinderResultIndexesString}, true)
   else
     ShowFinderResult(false);
 end;
