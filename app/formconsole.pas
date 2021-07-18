@@ -283,7 +283,6 @@ begin
   FAdapter.OnGetLineColor:= @DoGetLineColor;
 
   EdInput:= TATComboEdit.Create(Self);
-  EdInput.IsRepaintEnabled:= false;
   EdInput.Name:= 'input';
   EdInput.Parent:= Self;
   EdInput.Align:= alBottom;
@@ -297,7 +296,6 @@ begin
   EdInput.OptBorderWidthFocused:= 1;
 
   EdMemo:= TATSynEdit.Create(Self);
-  EdMemo.IsRepaintEnabled:= false;
   EdMemo.Name:= 'memo';
   EdMemo.Parent:= Self;
   EdMemo.Align:= alClient;
@@ -337,9 +335,6 @@ begin
   EdMemo.OnCommand:= @MemoCommand;
   //after DoControl_InitPropsObject, because it did set custom OnContextMenu
   EdMemo.OnContextPopup:= @MemoContextPopup;
-
-  EdInput.IsRepaintEnabled:= true;
-  EdMemo.IsRepaintEnabled:= true;
 end;
 
 

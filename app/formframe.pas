@@ -1674,7 +1674,6 @@ end;
 procedure TEditorFrame.InitEditor(var ed: TATSynEdit; const AName: string);
 begin
   ed:= TATSynEdit.Create(FFormDummy);
-  ed.IsRepaintEnabled:= false; //block too early repaints
   ed.CudatextFrame:= Self;
   ed.Name:= AName;
   ed.Parent:= FFormDummy;
@@ -1825,10 +1824,6 @@ begin
   //must clear Modified, it was set on initing
   Ed1.Modified:= false;
   Ed2.Modified:= false;
-
-  //allow repaints
-  Ed1.IsRepaintEnabled:= true;
-  Ed2.IsRepaintEnabled:= true;
 end;
 
 destructor TEditorFrame.Destroy;

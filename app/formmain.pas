@@ -2499,7 +2499,6 @@ begin
   CodeTreeFilterReset.OnClick:= @CodeTreeFilter_ResetOnClick;
 
   CodeTreeFilterInput:= TATComboEdit.Create(PanelCodeTreeAll);
-  CodeTreeFilterInput.IsRepaintEnabled:= false;
   CodeTreeFilterInput.Name:= 'CodeTreeFilterInput';
   DoControl_InitPropsObject(CodeTreeFilterInput, PanelCodeTreeAll, 'editor_combo');
   CodeTreeFilterInput.Parent:= PanelCodeTreeTop;
@@ -2509,13 +2508,9 @@ begin
 
   InitBottomEditor(fmOutput);
   InitBottomEditor(fmValidate);
-  fmOutput.Ed.IsRepaintEnabled:= false;
-  fmValidate.Ed.IsRepaintEnabled:= false;
 
   NTick:= GetTickCount64;
   InitConsole;
-  fmConsole.EdInput.IsRepaintEnabled:= false;
-  fmConsole.EdMemo.IsRepaintEnabled:= false;
   fmConsole.OnConsoleNav:= @DoPyEvent_ConsoleNav;
   fmConsole.OnNumberChange:= @DoOnConsoleNumberChange;
   if UiOps.LogConsoleDetailedStartupTime then
@@ -2596,12 +2591,6 @@ begin
   //option is applied only once at app start
   if not UiOps.ShowMenubar then
     ShowMenu:= false;
-
-  fmOutput.Ed.IsRepaintEnabled:= true;
-  fmValidate.Ed.IsRepaintEnabled:= true;
-  fmConsole.EdInput.IsRepaintEnabled:= true;
-  fmConsole.EdMemo.IsRepaintEnabled:= true;
-  CodeTreeFilterInput.IsRepaintEnabled:= true;
 end;
 
 procedure TfmMain.DoOps_OnCreate;
