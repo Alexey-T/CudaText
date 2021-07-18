@@ -294,6 +294,8 @@ begin
       Inc(nCountFiles);
       Frame:= Frames[i];
       if Frame.IsEmpty then Continue;
+      if Frame.TabCaption=msgWelcomeTabTitle then Continue; //avoid reopening of '(welcome)' filler text
+
       if GetAppFilenameIsIgnoredForSession(Frame.FileName) then
       begin
         MsgLogConsole(Format('NOTE: File "%s" is not saved to session', [Frame.FileName]));
