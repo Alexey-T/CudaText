@@ -466,6 +466,7 @@ type
     OpScrollAnimationSteps: integer;
     OpScrollAnimationSleep: integer;
 
+    OpNoneSelFontColor: boolean;
     OpScrollbarsNew: boolean;
     OpSpacingY: integer;
     OpTabSize: integer;
@@ -1406,6 +1407,7 @@ begin
     OpScrollAnimationSteps:= cInitScrollAnimationSteps;
     OpScrollAnimationSleep:= cInitScrollAnimationSleep;
 
+    OpNoneSelFontColor:= false;
     OpScrollbarsNew:= true;
     OpSpacingY:= 1;
 

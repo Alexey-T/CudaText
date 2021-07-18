@@ -934,6 +934,7 @@ begin
   Op.OpActiveBorderInEditor:= Op.OpActiveBorderRaw >= 100;
   Op.OpActiveBorderWidth:= Op.OpActiveBorderRaw mod 100;
 
+  Op.OpNoneSelFontColor:= cfg.GetValue('none_sel_font', Op.OpNoneSelFontColor);
   Op.OpScrollbarsNew:= cfg.GetValue('scrollbar_themed', Op.OpScrollbarsNew);
   Op.OpSpacingY:= cfg.GetValue('spacing_y'+cOptionSystemSuffix, Op.OpSpacingY);
 

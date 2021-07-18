@@ -139,7 +139,6 @@ type
 const
   cAppThemeColorsWhichAllowNone: set of TAppThemeColorId =
     [
-    apclEdSelFont,
     apclEdBlockStapleActive,
     apclTabFontActive,
     apclTabCloseBg,
@@ -220,7 +219,7 @@ procedure AppThemeInit(var D: TAppTheme);
 procedure AppThemeLoadFromFile(const AFileName: string; var D: TAppTheme; IsThemeUI: boolean);
 procedure AppThemeSaveToFile(const AFileName: string; const D: TAppTheme; IsThemeUI: boolean);
 
-function GetAppColor(id: TAppThemeColorId): TColor; inline;
+function GetAppColor(id: TAppThemeColorId): TColor;
 function GetAppStyle(id: TAppThemeStyleId): TecSyntaxFormat; inline;
 
 implementation
@@ -557,6 +556,9 @@ end;
 
 function GetAppColor(id: TAppThemeColorId): TColor;
 begin
+  if id=apclEdSelFont then
+    if EditorOps.OpNoneSelFontColor then
+      exit(clNone);
   Result:= AppTheme.Colors[id].Color;
 end;
 
