@@ -466,7 +466,6 @@ type
     OpScrollAnimationSteps: integer;
     OpScrollAnimationSleep: integer;
 
-    OpNoneSelFontColor: boolean;
     OpScrollbarsNew: boolean;
     OpSpacingY: integer;
     OpTabSize: integer;
@@ -579,6 +578,7 @@ type
     OpCaretKeepVisibleOnScroll: boolean;
 
     //general
+    OpKeepSelFontColor: boolean;
     OpShowCurLine: boolean;
     OpShowCurLineMinimal: boolean;
     OpShowCurLineOnlyFocused: boolean;
@@ -1407,7 +1407,6 @@ begin
     OpScrollAnimationSteps:= cInitScrollAnimationSteps;
     OpScrollAnimationSleep:= cInitScrollAnimationSleep;
 
-    OpNoneSelFontColor:= false;
     OpScrollbarsNew:= true;
     OpSpacingY:= 1;
 
@@ -1515,6 +1514,7 @@ begin
     OpCaretKeepVisibleOnScroll:= true;
     OpCaretsPrimitiveColumnSel:= true;
 
+    OpKeepSelFontColor:= false;
     OpShowCurLine:= false;
     OpShowCurLineMinimal:= true;
     OpShowCurLineOnlyFocused:= false;

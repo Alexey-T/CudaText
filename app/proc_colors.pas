@@ -557,7 +557,7 @@ end;
 function GetAppColor(id: TAppThemeColorId): TColor;
 begin
   if id=apclEdSelFont then
-    if EditorOps.OpNoneSelFontColor then
+    if EditorOps.OpKeepSelFontColor then
       exit(clNone);
   Result:= AppTheme.Colors[id].Color;
 end;

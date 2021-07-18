@@ -204,7 +204,7 @@
 
   //[Text/Look]
   //Keep original font colors of text in selected block
-  "none_sel_font": false,
+  "keep_sel_font_color": false,
 
   //Highlight background of lines with carets
   "show_cur_line": false,

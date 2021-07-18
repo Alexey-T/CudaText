@@ -934,7 +934,6 @@ begin
   Op.OpActiveBorderInEditor:= Op.OpActiveBorderRaw >= 100;
   Op.OpActiveBorderWidth:= Op.OpActiveBorderRaw mod 100;
 
-  Op.OpNoneSelFontColor:= cfg.GetValue('none_sel_font', Op.OpNoneSelFontColor);
   Op.OpScrollbarsNew:= cfg.GetValue('scrollbar_themed', Op.OpScrollbarsNew);
   Op.OpSpacingY:= cfg.GetValue('spacing_y'+cOptionSystemSuffix, Op.OpSpacingY);
 
@@ -1071,6 +1070,7 @@ begin
   Op.OpCaretsPrimitiveColumnSel:= cfg.GetValue('carets_primitive_column_sel', Op.OpCaretsPrimitiveColumnSel);
   Op.OpCaretKeepVisibleOnScroll:= cfg.GetValue('caret_keep_visible_on_scroll', Op.OpCaretKeepVisibleOnScroll);
 
+  Op.OpKeepSelFontColor:= cfg.GetValue('keep_sel_font_color', Op.OpKeepSelFontColor);
   Op.OpShowCurLine:= cfg.GetValue('show_cur_line', Op.OpShowCurLine);
   Op.OpShowCurLineMinimal:= cfg.GetValue('show_cur_line_minimal', Op.OpShowCurLineMinimal);
   Op.OpShowCurLineOnlyFocused:= cfg.GetValue('show_cur_line_only_focused', Op.OpShowCurLineOnlyFocused);
