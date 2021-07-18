@@ -6,6 +6,7 @@
 1.138.2 (2021/07)
 
 + add: auto-completion in CSS: support completion of 'custom CSS properties' in 'var()' function
++ add: auto-completion in HTML: detect url() inside this: <tag style="... url('') ..."> (thanks @Shovel)
 + add: Find dialog with 'Hi' option: find-next shows also the '[1/20]' in the statusbar (thanks @tmsg)
 * change: default of option "centering_for_distrantion_free" changed to 0
 * change: default of option "mouse_wheel_zoom" changed to 'true'
