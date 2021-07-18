@@ -139,6 +139,7 @@ type
 const
   cAppThemeColorsWhichAllowNone: set of TAppThemeColorId =
     [
+    apclEdSelFont,
     apclEdBlockStapleActive,
     apclTabFontActive,
     apclTabCloseBg,
