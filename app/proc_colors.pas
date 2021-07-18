@@ -556,10 +556,10 @@ end;
 
 function GetAppColor(id: TAppThemeColorId): TColor;
 begin
-  if id=apclEdSelFont then
-    if EditorOps.OpKeepSelFontColor then
-      exit(clNone);
-  Result:= AppTheme.Colors[id].Color;
+  if (id=apclEdSelFont) and EditorOps.OpKeepSelFontColor then
+    Result:= clNone
+  else
+    Result:= AppTheme.Colors[id].Color;
 end;
 
 function GetAppStyle(id: TAppThemeStyleId): TecSyntaxFormat;
