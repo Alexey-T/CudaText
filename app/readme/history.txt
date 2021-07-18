@@ -5,6 +5,7 @@
 
 1.138.2 (2021/07)
 
++ add: allow "none" color for theme item "editor, selection, font"
 + add: auto-completion in CSS: support completion of 'custom CSS properties' in var() function
 + add: auto-completion in HTML: support completion in url('') inside <tag style="..."> (thanks @Shovel)
 + add: Find dialog with 'Hi' option: find-next shows also the '[1/20]' in the statusbar (thanks @tmsg)
