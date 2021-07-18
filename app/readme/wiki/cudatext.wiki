@@ -1962,6 +1962,7 @@ Don't configure custom lexer styles in the Lexer Properties dialog, if option "u
 
 The following UI theme items allow "none" values, it means that JSON theme-file stores the empty value for them, and plugin API returns COLOR_NONE value for them.
 
+* EdSelFont: when "none", selection doesn't change the font color (requires CudaText 1.138.2+)
 * EdBlockStapleActive: when "none", it falls back to EdBlockStaple
 * TabFontActive: when "none", it falls back to TabFont
 * TabCloseBg: when "none", tab 'x' background is not painted
