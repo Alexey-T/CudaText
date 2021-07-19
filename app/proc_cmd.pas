@@ -563,7 +563,7 @@ begin
 
   M.Add(cmd_FoldingEnable, 'folding: enable folding functionality', [], []);
   M.Add(cmd_FoldingDisable, 'folding: disable folding functionality', [], []);
-  M.Add(cmd_DeleteNewColorAttrs, 'delete new color attribs (added in plugins)', [], []);
+  M.Add(cmd_DeleteNewColorAttrs, 'clear custom color attributes (added in plugins)', [], []);
 
   M.Add(cmd_Encoding_utf8bom_NoReload, 'change encoding, no reload: utf8 bom', [], []);
   M.Add(cmd_Encoding_utf8nobom_NoReload, 'change encoding, no reload: utf8 no bom', [], []);
