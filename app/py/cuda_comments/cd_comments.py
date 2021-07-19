@@ -3,7 +3,7 @@ Authors:
     Andrey Kvichansky (kvichans on github.com)
     Alexey Torgashin (CudaText)
 Version:
-    '0.8.9 2021-04-05'
+    '0.9.0 2021-07-20'
 '''
 
 import  os
@@ -27,6 +27,7 @@ class Command:
         save_bd_col = apx.get_opt('comment_save_column'         , False)
         at_min_bd   = apx.get_opt('comment_equal_column'        , False)
         move_down   = apx.get_opt('comment_move_down'           , True)
+        skip_blank  = apx.get_opt('comment_skip_blank'          , False)
 
         save_s      = _('(Line commands) Try to keep text position after (un)commenting')
         save_h      = _('Try to replace only blank(s) to keep text positions:'
@@ -49,20 +50,25 @@ class Command:
                         '\r·#····foo3'
                         )
         down_s      = _('(All) Move caret to next line')
-        aid,vals,chds   = dlg_wrapper(_('Config commenting commands'), 610, 110,     #NOTE: dlg-cmnt
+        skip_s      = _('(Line commands) Skip blank lines')
+        
+        aid,vals,chds   = dlg_wrapper(_('Config commenting commands'), 610, 135,     #NOTE: dlg-cmnt
              [dict(cid='save',tp='ch'   ,t=5    ,l=5    ,w=600      ,cap=save_s ,hint=save_h) #
              ,dict(cid='vert',tp='ch'   ,t=5+25 ,l=5    ,w=600      ,cap=vert_s ,hint=vert_h) #
              ,dict(cid='down',tp='ch'   ,t=5+50 ,l=5    ,w=600      ,cap=down_s             ) #
-             ,dict(cid='!'   ,tp='bt'   ,t=80   ,l=610-165-5,w=80   ,cap=_('OK'),ex0='1'                                                          ) #     default
-             ,dict(cid='-'   ,tp='bt'   ,t=80   ,l=610 -80-5,w=80   ,cap=_('Cancel')                                                                )
+             ,dict(cid='skip',tp='ch'   ,t=5+75 ,l=5    ,w=600      ,cap=skip_s             ) #
+             ,dict(cid='!'   ,tp='bt'   ,t=105  ,l=610-165-5,w=80   ,cap=_('OK'),ex0='1'                                                          ) #     default
+             ,dict(cid='-'   ,tp='bt'   ,t=105  ,l=610 -80-5,w=80   ,cap=_('Cancel')                                                                )
              ], dict(save=save_bd_col
                     ,vert=at_min_bd
                     ,down=move_down
+                    ,skip=skip_blank
              ), focus_cid='save')
         if aid is None or aid=='-': return
         if vals['save'] != save_bd_col: apx.set_opt('comment_save_column'       , vals['save'])
         if vals['vert'] != at_min_bd:   apx.set_opt('comment_equal_column'      , vals['vert'])
         if vals['down'] != move_down:   apx.set_opt('comment_move_down'         , vals['down'])
+        if vals['skip'] != skip_blank:  apx.set_opt('comment_skip_blank'        , vals['skip'])
        #def dlg_config
 
     def cmt_toggle_line_1st(self):
@@ -136,6 +142,7 @@ class Command:
         # Work
         save_bd_col = apx.get_opt('comment_save_column' , False)
         at_min_bd   = apx.get_opt('comment_equal_column', False)
+        skip_blank  = apx.get_opt('comment_skip_blank', False)
         col_min_bd  = 1000 # infinity
         col_kept    = False # plugin applied the "Try to keep text position"
         if at_min_bd:
@@ -150,6 +157,9 @@ class Command:
         pass;                  #log('rWrks,do_uncmt, save_cols, at_min_bd, col_min_bd={}', (rWrks,do_uncmt,save_bd_col,at_min_bd,col_min_bd))
         for rWrk in rWrks:
             line    = ed_.get_text_line(rWrk)
+            if skip_blank and not line.strip():
+                lines += [line]
+                continue
             pos_body= line.index(line.lstrip())
             pos_body= len(line) if 0==len(line.lstrip()) else pos_body
             pass;              #LOG and log('rWrk,pos_body,line={}', (rWrk,pos_body,line))
