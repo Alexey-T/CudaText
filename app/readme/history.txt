@@ -7,13 +7,13 @@
 
 + add: option "keep_sel_font_color" to keep original font color in selection
 + add: auto-completion in CSS: support completion of 'custom CSS properties' in var() function
-+ add: auto-completion in HTML: support completion in url('') inside <tag style="..."> (thanks @Shovel)
++ add: auto-completion in HTML: support completion in url('') inside <tag style="..."> (thanks @halfbrained)
 + add: Find dialog with 'Hi' option: find-next shows also the '[1/20]' in the statusbar (thanks @tmsg)
 + add: option "show_cur_line" is now ignored for carets with selection, like in Sublime
 * change: rename command "delete new color attribs" to "clear custom color attributes"
 * change: default of option "centering_for_distraction_free" changed to 0
 * change: default of option "mouse_wheel_zoom" changed to 'true'
-- fix: command "find current word next" failed with Find dlg 'Hi' option (thanks @Shovel)
+- fix: command "find current word next" failed with Find dlg 'Hi' option (thanks @halfbrained)
 
 1.138.1 (2021/07)
 
@@ -25,7 +25,7 @@
 + add: new option "ui_backup_sessions" (thanks @tmsg)
 + add: Emmet plugin: avoid to expand usual words by Tab (thanks @eltonfabricio10)
 + add: Emmet plugin: support up to 1000 tab-stops, e.g. for 'li*1000'
-+ add: API to access 'form' and 'controls' of Code-Tree (thanks @Shovel)
++ add: API to access 'form' and 'controls' of Code-Tree (thanks @halfbrained)
 + add: better support for lexer 'OneC (1C)' which requires handling of Russian chars
 + add: Wiki topic https://wiki.freepascal.org/CudaText#UI_theme_empty_values
 - fix: mouse selection frame must not be painted after a right-click
@@ -36,7 +36,7 @@
 
 1.137.2 (2021/07)
 
-+ add: more API for the new 'Breadcrumbs' plugin (thanks @Shovel)
++ add: more API for the new 'Breadcrumbs' plugin (thanks @halfbrained)
 + add: special highlight (using 'Markers' color) of Git merge conflict markers: <<<<<<< ======= >>>>>>>
 + add: 'Close and delete file' should delete nnnn.cuda-pic too (thanks @MiroslavMatas)
 - fix: rare crash in parser, when option "bracket_highlight" is on (thanks @tonydunn)
@@ -55,8 +55,8 @@
 
 1.136.0 (2021/07)
 
-+ add: added API for 'Highlight Occurrences' plugin (thanks @Shovel)
-+ add: added API for embedding UI-controls near the editor inside UI-tab (thanks @Shovel)
++ add: added API for 'Highlight Occurrences' plugin (thanks @halfbrained)
++ add: added API for embedding UI-controls near the editor inside UI-tab (thanks @halfbrained)
 + add: file viewer: Find-dialog is supported for viewer
 + add: file viewer: viewer masks ANSI chars 0x7F...0xFF by '?'; added option "viewer_unprinted" for this feature
 + add: file viewer: viewer handles commands "current document font size: bigger/smaller/reset"
@@ -65,12 +65,12 @@
 + add: commands "current document font size: bigger/smaller/reset" show statusbar msg (thanks @kvichans)
 + add: if lexer needs sub-lexer N, and N is not installed, app shows the error in Console
 - fix: action "trim spaces" was removing too much chars: codes 0x00...0x1F (thanks @JairoMartinezA)
-- fix: clicking after 1024'th char gave bad caret placement, now with "caret_after_end":false (thanks @Shovel)
+- fix: clicking after 1024'th char gave bad caret placement, now with "caret_after_end":false (thanks @halfbrained)
 
 1.135.0 (2021/06)
 
 + add: option "max_line_len_parsed" is now also used as limit for pair-bracket finder; it gives smoother work with huge lines >1M chars
-+ add: Linux: when saving file to a system folder, program runs helper tool 'pkexec' as 'root', to do it (thanks @Shovel)
++ add: Linux: when saving file to a system folder, program runs helper tool 'pkexec' as 'root', to do it (thanks @halfbrained)
 + add: Linux: gtk2 version has improved IME support (again patch by @rasberryrabbit)
 + add: command "open folder containing the current file" (thanks @ertank)
 + add: command "open file in default application"
@@ -88,12 +88,12 @@
 
 1.134.0 (2021/06)
 
-* change: plugin "Options Editor" was replaced with "Options Editor Lite", written by @Shovel. You must reassign hotkey to the new plugin, if such a hotkey exists. New plugin is more lite and much easier to maintain.
+* change: plugin "Options Editor" was replaced with "Options Editor Lite", written by @halfbrained. You must reassign hotkey to the new plugin, if such a hotkey exists. New plugin is more lite and much easier to maintain.
 + add: incremental search in the Find dialog works more like in Sublime now (thanks @xcme, @tmsg) 
 + add: handle file-save errors (resulting file is empty) on smb shares on Linux (thanks @mdsystems)
 + add: command "ui: toggle file-change notifications" (thanks @ertank)
 + add: Linux gtk2 version has improved IME support (patch by @rasberryrabbit)
-+ add: floating bottom/side panels now have 'stay on top' style (thanks @Shovel)
++ add: floating bottom/side panels now have 'stay on top' style (thanks @halfbrained)
 + add: lexer C++: better code-tree; support all kinds if C++11 strings
 + add: lexer YAML fixes 
 - fix: without bookmarks, 'go to next bookmark' hangs (thanks @rayhester)
@@ -101,8 +101,8 @@
 - fix: regression: Find dialog cannot scroll to the search result, in huge line in word-wrap mode
 - fix: single-instance default was not changed to 'true' for Windows (thanks @JairoMartinezA)
 - fix: flickering in CudaExt plugin commands with option "dim_unfocused" (thanks @kvichans)
-- fix: auto-reloading cannot reload paired file, when ui-tab is splitted (thanks @Shovel)
-- fix: minor API issues (thanks @Shovel, @OlehL)
+- fix: auto-reloading cannot reload paired file, when ui-tab is splitted (thanks @halfbrained)
+- fix: minor API issues (thanks @halfbrained, @OlehL)
 - fix: stability of multi-threaded parser
 
 1.133.0 (2021/05)
@@ -114,8 +114,8 @@
 + add: lexer C++: show more items in code-tree (thanks @X547)
 + add: lexer PHP: support some features of PHP 8.1 (octal numbers, enums, 'noreturn')
 + add: lexer YAML: highlight %vars%, blocks in () brackets
-* change: hotkey Ctrl+Right reassigned from command "go to word next" to "go to word end", to be like in other editors (thanks @Shovel)
-- fix: plugin exceptions were not handled good, e.g. if exception occured on button-press in plugin dialog (thanks @Shovel, @pyscripter)
+* change: hotkey Ctrl+Right reassigned from command "go to word next" to "go to word end", to be like in other editors (thanks @halfbrained)
+- fix: plugin exceptions were not handled good, e.g. if exception occured on button-press in plugin dialog (thanks @halfbrained, @pyscripter)
 - fix: undo of "paste 50-lines block" action was giving the huge pause
 - fix: "find current word, next" didn't scroll to found match in some cases (thanks @king.midas)
 
@@ -126,7 +126,7 @@
 
 1.132.0 (2021/04)
 
-+ add: support for the "LSP Client" new plugin (thanks @Shovel)
++ add: support for the "LSP Client" new plugin (thanks @halfbrained)
 + add: Wiki topic https://wiki.freepascal.org/CudaText_plugins#LSP_Client
 + add: Wiki topic https://wiki.freepascal.org/CudaText_plugins#Runner
 + add: Wiki topic https://wiki.freepascal.org/CudaText_plugins#Configure_Menu
@@ -147,7 +147,7 @@
 + add: option "dim_unfocused" allows value<0 (thanks @kvichans)
 + add: Undo for commands "move selected lines up/down" undoes all commands by single step (thanks @xcme)
 + add: Linux/BSD: app locates config in ~/.config if it was run from /opt/AnyDir (thanks linux.org.ru)
-+ add: handle plugin exceptions in Command.__init__ (thanks @Shovel)
++ add: handle plugin exceptions in Command.__init__ (thanks @halfbrained)
 * change: renamed option "undo_for_caret_jump" to "undo_mouse_clicks", changed its default (thanks @xcme)
 * change: changed default of "renderer_offsets__linux" to true for Qt5 version (thanks @Maia-Everett)
 - fix: option "undo_persistent" did not work when file was loaded from session
@@ -171,7 +171,7 @@
 + add: command "reset tab color"
 + add: command "toggle tab pinned state"
 + add: better work of the feature which shows UI-tab titles like "test.txt * folder1" / "test.txt * folder2" (thanks @kvichans)
-+ add: better statusbar "message" cell: instead of hiding the text it dims it; floating tooltip for that cell shows 30 last messages (thanks @Shovel)
++ add: better statusbar "message" cell: instead of hiding the text it dims it; floating tooltip for that cell shows 30 last messages (thanks @halfbrained)
 + add: app updates 'enabled state' of toolbar buttons (visible on colorful toolbar theme)
 - fix: calculating width of some Unicode chars (thanks @cser)
 
@@ -193,7 +193,7 @@
 
 + add: handle config JSON files with UTF-8 BOM (patch goes to FreePascal as well)
 + add: better logic of brackets auto-closing (and selection surrounding) for case of multi-carets (thanks @xcme)
-+ add: command "Install from GitHub" / "Download as zip" supports all branch names (thanks @Shovel) 
++ add: command "Install from GitHub" / "Download as zip" supports all branch names (thanks @halfbrained) 
 * change: paint end-of-line text marks ("LF", "CRLF", "CR", "EOF") by lines, not by font
 - fix: crash in last change in "Help / Check for updates"
 
@@ -204,7 +204,7 @@
 + add: better logic of skipping brackets on typing: skip ')' in case 'f(|)' but don't skip in case 'f(text|)' (thanks @xcme)
 + add: option "auto_close_brackets" supports more chars: ~ * # <
 + add: detect Debian/Ubuntu to download deb-file in "Help / Check for updates" (thanks @ildarkhasanshin)
-+ add: API to show "masked password" editor fields and "numbers only" editor fields (thanks @Shovel)
++ add: API to show "masked password" editor fields and "numbers only" editor fields (thanks @halfbrained)
 - fix: Find dialog had reset "O" option after restart (thanks @xcme)
 - fix: minor issue with "Don't save" choice in "Save tabs?" dialog (thanks @GHNewbiee)
 - fix: regression with option "ui_lexer_themes":false (thanks @MiroslavMatas)
@@ -213,7 +213,7 @@
 1.128.0 (2021/03)
 
 + add: load lexers using multi-threading, this improved loading speed by 15-20%
-+ add: update app icon (by @Shovel)
++ add: update app icon (by @halfbrained)
 + add: option "key_up_down_allow_edge" (thanks @kvichans)
 + add: UI-tabs: paint < > scroll arrows dimmed, when no scrolling is needed (thanks @d7_2_laz)
 + add: clicking on editor's scrollbar puts focus to editor (thanks @GHNewbiee)
@@ -229,18 +229,18 @@
 + add: when UI-tabs are not 'angled', they have rounded corners (no option yet)
 * change: UI-tabs are now not 'angled' by default
 * change: 'angled' UI-tabs were not painted ok on some OS/desktops, so disabled them yet: on Linux Qt5, on macOS
-* change: partially revert changes for tab-group splitters from 1.126.0 (thanks @Shovel)
+* change: partially revert changes for tab-group splitters from 1.126.0 (thanks @halfbrained)
 * change: remove lexer VBScript to add-ons
 - fix: work with minimap after click on minimap-current-view-area (thanks @xcme)
 - fix: some pixel artifacts on 'flat' UI-tabs (thanks @JairoMartinezA)
-- fix: error when PHP auto-completion is called after e.g. "0~" (thanks @Shovel)
+- fix: error when PHP auto-completion is called after e.g. "0~" (thanks @halfbrained)
 - fix: regression, option "renderer_offsets" was ignored
 - fix: coloring of code-blocks in e.g. reST lexer
 
 1.126.4 (2021/02)
 
 + add: internal optimizations in renderer, pls report any bugs
-+ add: on opening user.json or default.json, program shows information panel about "Options Editor" (thanks @Shovel)
++ add: on opening user.json or default.json, program shows information panel about "Options Editor" (thanks @halfbrained)
 + add: option "autocomplete_autoshow_chars" now works with national letters (thanks @tmsg)
 + add: Addon Manager: don't reinstall CudaLint/CudaFormatter when a linter/formatter is installing
 - fix: with word-wrap, click on parts of huge line with CJK, gave wrong caret position
@@ -252,7 +252,7 @@
 + add: added built-in tree-helper for reStructuredText, and plugin cuda_tree_rest is in ignore-list now
 + add: better handle splitters moving in tab-group modes '3 vert', '3 horz', '6 grid' (not yet in modes '4v', '4h', '6v', '6h')
 + add: UI-tabs in "multi-line" style can now be scrolled too, vertically (thanks @GHNewbiee)
-+ add: added API useful for plugin "Terminal Plus" (thanks @Shovel)
++ add: added API useful for plugin "Terminal Plus" (thanks @halfbrained)
 + add: Addon Manager: auto-install CudaLint/CudaFormatter when a linter/formatter is installing
 + add: lexer PHP: support attributes of PHP 8: #[Name]
 - fix: keys Up/Down, with selection overlapping editor border, caused wrong horizontal scrolling
@@ -262,7 +262,7 @@
 
 + add: auto-completion for file URI file:///, controlled by new option "autocomplete_file_uri"
 + add: Wiki topic https://wiki.freepascal.org/CudaText#File_URI_auto-completion
-+ add: API to support new plugin "Terminal Plus" (thanks @Shovel)
++ add: API to support new plugin "Terminal Plus" (thanks @halfbrained)
 + add: on window resizing, editor keeps "index of top line"
 + add: option "ui_cmdpalette_filter_keep" (thanks @JairoMartinezA)
 + add: feature "plugin_groups": char '&' is now stripped before RegEx check (thanks @JairoMartinezA)
@@ -287,7 +287,7 @@
 + add: command "split tab: split horizontally" (thanks @JairoMartinezA)
 + add: command "split tab: split vertically"
 + add: command "split tab: don't split"
-+ add: API allows much more access to Console panel fields (thanks @Shovel)
++ add: API allows much more access to Console panel fields (thanks @halfbrained)
 + add: allow multi-selections to touch, without joining them (thanks @JairoMartinezA, @cser)
 + add: lexer Batch: highlight `tick_blocks`; highlight variables with chars ~.,()
 * change: hide micromap when there is only one line (in multi-line editors)
@@ -304,7 +304,7 @@
 + add: Wiki topic https://wiki.freepascal.org/CudaText#Show_pictures_in_the_text
 + add: commands 'type a char'/'backspace'/'delete'/'undo'/'redo'/'left'/'right', when with multi-carets, should not scroll to first(last) caret (thanks @JairoMartinezA)
 + add: commands 'indent selection'/'unindent selection' now support multi-carets
-+ add: auto scale 'margin lines' width (thanks @Shovel)
++ add: auto scale 'margin lines' width (thanks @halfbrained)
 + add: Project Manager: big speed up of "Go to file" with ~1000 files (thanks @dopm)
 + add: dialogs "Themes", "Color theme" are now resizable; dialog "Themes" is now scalable (thanks @Lastique)
 - fix: Qt5 version: plugin dialogs flickering (thanks @Lastique)
@@ -329,8 +329,8 @@
 - fix: command "duplicate lines" with forward/backward selection gave different selections (thanks @JairoMartinezA)
 - fix: Lexer Detecter didn't detect 'Dockerfile'
 - fix: when selection is performed with Ctrl+drag, unpressing of Ctrl gave the weird effect (thanks @tiun)
-- fix: editor snaps twice to line specified as command line param, e.g. 'cudatext my.cpp:20' (thanks @Shovel)
-- fix: regression: not working Python, if "pylib__linux" has some special form (thanks @sikmir, @Shovel)
+- fix: editor snaps twice to line specified as command line param, e.g. 'cudatext my.cpp:20' (thanks @halfbrained)
+- fix: regression: not working Python, if "pylib__linux" has some special form (thanks @sikmir, @halfbrained)
 
 1.122.0 (2021/01)
 
@@ -387,7 +387,7 @@
 + add: option "ui_menu_themed_font_size", Windows only (thanks @dinkumoil)
 + add: wiki topic: https://wiki.freepascal.org/CudaText#Activating_internet_links
 - fix: command "delete to file end" was very slow on huge files; renamed this command to "delete to document end"
-- fix: options "auto_close_brackets" and all "autocomplete_*" were working bad with lexer-specific configs (thanks @Shovel)
+- fix: options "auto_close_brackets" and all "autocomplete_*" were working bad with lexer-specific configs (thanks @halfbrained)
 - fix: caret shape was reset with Vim Mode plugin started (thanks @acicovic)
 - fix: Windows: error in "Addons Manager / Install from GitHub" (thanks @acicovic)
 - fix: lexer JS: tokenizing of some new JS operators
@@ -399,7 +399,7 @@
 + add: support translation for more std plugins: ProjManager, TabsList, MakePlugin (patch by Markus)
 + add: support Python 3.9 on macOS (thanks @neurolabusc)
 - fix: lexer Bash: (( #text ))
-- fix: issue in API on_state (thanks @Shovel)
+- fix: issue in API on_state (thanks @halfbrained)
 - fix: hex viewer cannot scroll big file to the end
 
 1.117.6 (2020/11)
