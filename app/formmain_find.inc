@@ -959,7 +959,7 @@ end;
 procedure TfmMain.DoFindCurrentWordOrSel(Ed: TATSynEdit; ANext, AWordOrSel: boolean);
 var
   Str: UnicodeString;
-  ok, bCase: boolean;
+  ok, bCase, bHiAll: boolean;
 begin
   bCase:= true;
   case UiOps.FindCurrentWordCaseSensitive of
@@ -974,18 +974,39 @@ begin
       end;
   end;
 
+  //'Hi' dialog option messes up with our new search, issue #3572
+  bHiAll:= false;
+  if Assigned(fmFind) then
+  begin
+    bHiAll:= fmFind.chkHiAll.Checked;
+    if bHiAll then
+    begin
+      fmFind.chkHiAll.Checked:= false;
+      fmFind.UpdateHiAll(true);
+    end;
+  end;
+
   ok:= EditorFindCurrentWordOrSel(Ed, ANext, AWordOrSel, bCase, FFinder.OptWrapped, Str);
   ShowFinderResultSimple(ok);
 
   //sync Find dialog with text
   if Assigned(fmFind) then
+  begin
     if fmFind.edFind.Text<>Str then //issue #3353
       fmFind.UpdateInputFind(Str);
+  end;
 
   //make command "find next" working with new text, issue #2803
   FFinder.StrFind:= Str;
   //and clear regex option (issue #2812)
   FFinder.OptRegex:= false;
+
+  if Assigned(fmFind) then
+    if bHiAll then
+    begin
+      fmFind.chkHiAll.Checked:= true;
+      //fmFind.UpdateHiAll(true); //breaks issue #3572
+    end;
 end;
 
 
