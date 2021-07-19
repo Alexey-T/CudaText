@@ -12,6 +12,7 @@
 * change: rename command "delete new color attribs" to "clear custom color attributes"
 * change: default of option "centering_for_distraction_free" changed to 0
 * change: default of option "mouse_wheel_zoom" changed to 'true'
+- fix: command "find current word next" failed with Find dlg 'Hi' option (thanks @eltonfabricio10)
 
 1.138.1 (2021/07)
 
