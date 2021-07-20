@@ -2998,6 +2998,8 @@ Performs some action in editor. Possible values of "id":
 
 * EDACTION_LEXER_SCAN: Run lexer parsing (if lexer is set) from line index, given by "param1". Waits until parsing finishes.
 
+* EDACTION_APPLY_THEME: Apply current UI-theme colors to editor control. So you don't have to apply all COLOR_ID_nnn properties via Editor.set_prop().
+
 * EDACTION_EXPORT_HTML: Create HTML file from editor's text with syntax highlighting. Returns bool: file is created. Param "param1" must be dict with the following keys:
 ** "file_name": str: Full path of file.
 ** "title": str: HTML page title.
@@ -4446,5 +4448,8 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 
 1.0.404 (app 1.137.7)
 * add: forms now have "on_key_press" event
+
+1.0.405 (app 1.139.0)
+* add: Editor.action: EDACTION_APPLY_THEME
 
 [[Category:CudaText]]
