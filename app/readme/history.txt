@@ -6,7 +6,8 @@
 1.138.2 (2021/07)
 
 + add: option "keep_sel_font_color" to keep original font color in selection
-+ add: plugin Comments has new option "Skip blank lines" (thanks @APEC)
++ add: plugin Comments: new option "Skip blank lines" (thanks @APEC)
++ add: plugin Comments: new option "Toggle: detect action by 1st non-blank line" (thanks @kvichans)
 + add: auto-completion in CSS: support completion of 'custom CSS properties' in var() function
 + add: auto-completion in HTML: support completion in url('') inside <tag style="..."> (thanks @halfbrained)
 + add: Find dialog with 'Hi' option: find-next shows also the '[1/20]' in the statusbar (thanks @tmsg)

@@ -28,6 +28,7 @@ class Command:
         at_min_bd   = apx.get_opt('comment_equal_column'        , False)
         move_down   = apx.get_opt('comment_move_down'           , True)
         skip_blank  = apx.get_opt('comment_skip_blank'          , False)
+        by_1st      = apx.get_opt('comment_by_1st_nonempty'     , False)
 
         save_s      = _('(Line commands) Try to keep text position after (un)commenting')
         save_h      = _('Try to replace only blank(s) to keep text positions:'
@@ -51,24 +52,28 @@ class Command:
                         )
         down_s      = _('(All) Move caret to next line')
         skip_s      = _('(Line commands) Skip blank lines')
+        by1st_s     = _('"Toggle line comment" detects action by first non-blank line')
 
-        aid,vals,chds   = dlg_wrapper(_('Config commenting commands'), 610, 135,     #NOTE: dlg-cmnt
+        aid,vals,chds   = dlg_wrapper(_('Config commenting commands'), 610, 160,
              [dict(cid='save',tp='ch'   ,t=5    ,l=5    ,w=600      ,cap=save_s ,hint=save_h) #
              ,dict(cid='vert',tp='ch'   ,t=5+25 ,l=5    ,w=600      ,cap=vert_s ,hint=vert_h) #
              ,dict(cid='down',tp='ch'   ,t=5+50 ,l=5    ,w=600      ,cap=down_s             ) #
              ,dict(cid='skip',tp='ch'   ,t=5+75 ,l=5    ,w=600      ,cap=skip_s             ) #
-             ,dict(cid='!'   ,tp='bt'   ,t=105  ,l=610-165-5,w=80   ,cap=_('OK'),ex0='1'                                                          ) #     default
-             ,dict(cid='-'   ,tp='bt'   ,t=105  ,l=610 -80-5,w=80   ,cap=_('Cancel')                                                                )
+             ,dict(cid='by1st',tp='ch'  ,t=5+100,l=5    ,w=600      ,cap=by1st_s            ) #
+             ,dict(cid='!'   ,tp='bt'   ,t=130  ,l=610-165-5,w=80   ,cap=_('OK'), ex0='1'   ) # default
+             ,dict(cid='-'   ,tp='bt'   ,t=130  ,l=610 -80-5,w=80   ,cap=_('Cancel')        )
              ], dict(save=save_bd_col
                     ,vert=at_min_bd
                     ,down=move_down
                     ,skip=skip_blank
+                    ,by1st=by_1st
              ), focus_cid='save')
         if aid is None or aid=='-': return
         if vals['save'] != save_bd_col: apx.set_opt('comment_save_column'       , vals['save'])
         if vals['vert'] != at_min_bd:   apx.set_opt('comment_equal_column'      , vals['vert'])
         if vals['down'] != move_down:   apx.set_opt('comment_move_down'         , vals['down'])
         if vals['skip'] != skip_blank:  apx.set_opt('comment_skip_blank'        , vals['skip'])
+        if vals['by1st'] != by_1st:     apx.set_opt('comment_by_1st_nonempty'   , vals['by1st'])
        #def dlg_config
 
     def cmt_toggle_line_1st(self):
@@ -135,15 +140,26 @@ class Command:
         y1,y2       = (rWrks[0],rWrks[-1]) if use_rep_lines else (y1,y2)
         pass;                  #LOG and log('y1,y2,lines={}', (y1,y2,lines))
 
-        # find index of first non-blank line
-        row1st = -1
-        for i in range(y1, y2+1):
-            if ed_.get_text_line(i).strip():
-                row1st = i
-                break
-        if row1st<0:
-            app.msg_status(_('Cannot handle range of blank lines'))
-            return
+        # read options
+        save_bd_col = apx.get_opt('comment_save_column' , False)
+        at_min_bd   = apx.get_opt('comment_equal_column', False)
+        skip_blank  = apx.get_opt('comment_skip_blank', False)
+        by_1st      = apx.get_opt('comment_by_1st_nonempty', False)
+        col_min_bd  = 1000 # infinity
+        col_kept    = False # plugin applied the "Try to keep text position"
+
+        if by_1st:
+            # find index of first non-blank line
+            row1st = -1
+            for i in range(y1, y2+1):
+                if ed_.get_text_line(i).strip():
+                    row1st = i
+                    break
+            if row1st<0:
+                app.msg_status(_('Cannot handle blank lines only'))
+                return
+        else:
+            row1st = rWrks[0]
 
         # detect: do we need to 'comment' or 'uncomment'
         do_uncmt    = ed_.get_text_line(row1st).lstrip().startswith(cmt_sgn) \
@@ -152,11 +168,6 @@ class Command:
                         if cmt_act=='del' else \
                       False
         # Work
-        save_bd_col = apx.get_opt('comment_save_column' , False)
-        at_min_bd   = apx.get_opt('comment_equal_column', False)
-        skip_blank  = apx.get_opt('comment_skip_blank', False)
-        col_min_bd  = 1000 # infinity
-        col_kept    = False # plugin applied the "Try to keep text position"
         if at_min_bd:
             for rWrk in rWrks:
                 line        = ed_.get_text_line(rWrk)
