@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.138.2 (2021/07)
+1.139.0 (2021/07)
 
 + add: option "keep_sel_font_color" to keep original font color in selection
 + add: plugin Comments: new option "Skip blank lines" (thanks @APEC)
