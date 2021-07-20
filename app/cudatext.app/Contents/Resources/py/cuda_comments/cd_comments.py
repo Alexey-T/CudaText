@@ -110,7 +110,7 @@ class Command:
         cmt_sgn     = prop['c_line']
         pass;                  #log('cmt_type, lex, cmt_sgn={}', (cmt_type, lex, cmt_sgn))
         if not cmt_sgn:
-            return app.msg_status(f(_('Lexer "{}" don\'t support "line comments"'), lex))
+            return app.msg_status(f(_('Lexer "{}" doesn\'t support "line comments"'), lex))
         # Analize
         empty_sel   = False
         rWrks       = []
@@ -145,8 +145,6 @@ class Command:
         at_min_bd   = apx.get_opt('comment_equal_column', False)
         skip_blank  = apx.get_opt('comment_skip_blank', False)
         by_1st      = apx.get_opt('comment_by_1st_nonempty', False)
-        col_min_bd  = 1000 # infinity
-        col_kept    = False # plugin applied the "Try to keep text position"
 
         if by_1st:
             # find index of first non-blank line
@@ -161,13 +159,15 @@ class Command:
         else:
             row1st = rWrks[0]
 
-        # detect: do we need to 'comment' or 'uncomment'
+        # do we need to 'comment' or 'uncomment'?
         do_uncmt    = ed_.get_text_line(row1st).lstrip().startswith(cmt_sgn) \
                         if cmt_act=='bgn' else \
                       True \
                         if cmt_act=='del' else \
                       False
-        # Work
+        # work
+        col_min_bd  = 1000 # infinity
+        col_kept    = False # plugin applied the "Try to keep text position"
         if at_min_bd:
             for rWrk in rWrks:
                 line        = ed_.get_text_line(rWrk)
