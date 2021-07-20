@@ -28,7 +28,7 @@ class Command:
         at_min_bd   = apx.get_opt('comment_equal_column'        , False)
         move_down   = apx.get_opt('comment_move_down'           , True)
         skip_blank  = apx.get_opt('comment_skip_blank'          , False)
-        by_1st      = apx.get_opt('comment_toggle_by_1st'       , False)
+        by_1st      = apx.get_opt('comment_toggle_by_nonempty'  , False)
 
         save_s      = _('(Line commands) Try to keep text position after (un)commenting')
         save_h      = _('Try to replace only blank(s) to keep text positions:'
@@ -73,7 +73,7 @@ class Command:
         if vals['vert'] != at_min_bd:   apx.set_opt('comment_equal_column'      , vals['vert'])
         if vals['down'] != move_down:   apx.set_opt('comment_move_down'         , vals['down'])
         if vals['skip'] != skip_blank:  apx.set_opt('comment_skip_blank'        , vals['skip'])
-        if vals['by1st'] != by_1st:     apx.set_opt('comment_toggle_by_1st'     , vals['by1st'])
+        if vals['by1st'] != by_1st:     apx.set_opt('comment_toggle_by_nonempty', vals['by1st'])
        #def dlg_config
 
     def cmt_toggle_line_1st(self):
@@ -144,7 +144,7 @@ class Command:
         save_bd_col = apx.get_opt('comment_save_column' , False)
         at_min_bd   = apx.get_opt('comment_equal_column', False)
         skip_blank  = apx.get_opt('comment_skip_blank', False)
-        by_1st      = apx.get_opt('comment_toggle_by_1st', False)
+        by_1st      = apx.get_opt('comment_toggle_by_nonempty', False)
 
         if by_1st:
             # find index of first non-blank line
