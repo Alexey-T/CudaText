@@ -419,7 +419,7 @@ begin
   if AThemed then
   begin
     C.Font.Name:= UiOps.VarFontName;
-    C.Font.Size:= UiOps.VarFontSize;
+    C.Font.Size:= AppScaleFont(UiOps.VarFontSize);
     C.Font.Color:= GetAppColor(apclTreeFont);
     C.BackgroundColor:= GetAppColor(apclTreeBg);
     C.SelectionFontColor:= GetAppColor(apclTreeSelFont);
