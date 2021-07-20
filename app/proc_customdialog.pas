@@ -659,6 +659,9 @@ end;
 procedure DoControl_ApplyEditorProps(Ed: TATSynEdit; AForm: TFormDummy;
   AApplyUnprintedAndWrap, AApplyTabSize, AApplyCentering, AOneLiner: boolean);
 begin
+  Ed.Font.Name:= EditorOps.OpFontName;
+  Ed.Font.Size:= EditorOps.OpFontSize;
+
   Ed.DoubleBuffered:= UiOps.DoubleBuffered;
   Ed.OnChange:= @AForm.DoOnEditorChange;
   Ed.OnChangeCaretPos:= @AForm.DoOnEditorChangeCaretPos;
