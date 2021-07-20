@@ -51,7 +51,7 @@ class Command:
                         )
         down_s      = _('(All) Move caret to next line')
         skip_s      = _('(Line commands) Skip blank lines')
-        
+
         aid,vals,chds   = dlg_wrapper(_('Config commenting commands'), 610, 135,     #NOTE: dlg-cmnt
              [dict(cid='save',tp='ch'   ,t=5    ,l=5    ,w=600      ,cap=save_s ,hint=save_h) #
              ,dict(cid='vert',tp='ch'   ,t=5+25 ,l=5    ,w=600      ,cap=vert_s ,hint=vert_h) #
@@ -134,7 +134,19 @@ class Command:
         pass;                  #log('rWrks={}', (rWrks))
         y1,y2       = (rWrks[0],rWrks[-1]) if use_rep_lines else (y1,y2)
         pass;                  #LOG and log('y1,y2,lines={}', (y1,y2,lines))
-        do_uncmt    = ed_.get_text_line(rWrks[0]).lstrip().startswith(cmt_sgn) \
+
+        # find index of first non-blank line
+        row1st = -1
+        for i in range(y1, y2+1):
+            if ed_.get_text_line(i).strip():
+                row1st = i
+                break
+        if row1st<0:
+            app.msg_status(_('Cannot handle range of blank lines'))
+            return
+
+        # detect: do we need to 'comment' or 'uncomment'
+        do_uncmt    = ed_.get_text_line(row1st).lstrip().startswith(cmt_sgn) \
                         if cmt_act=='bgn' else \
                       True \
                         if cmt_act=='del' else \
