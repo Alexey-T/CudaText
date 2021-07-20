@@ -54,7 +54,7 @@ class Command:
         skip_s      = _('(Line commands) Skip blank lines')
         by1st_s     = _('"Toggle line comment" detects action by first non-blank line')
 
-        aid,vals,chds   = dlg_wrapper(_('Config commenting commands'), 610, 160,
+        aid,vals,chds   = dlg_wrapper(_('Configure commenting commands'), 610, 160,
              [dict(cid='save',tp='ch'   ,t=5    ,l=5    ,w=600      ,cap=save_s ,hint=save_h) #
              ,dict(cid='vert',tp='ch'   ,t=5+25 ,l=5    ,w=600      ,cap=vert_s ,hint=vert_h) #
              ,dict(cid='down',tp='ch'   ,t=5+50 ,l=5    ,w=600      ,cap=down_s             ) #
