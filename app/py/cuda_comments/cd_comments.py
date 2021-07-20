@@ -40,15 +40,15 @@ class Command:
                         '\r···#foo2'
                         )
         vert_s      = _('(Line "at non-space") If selected few lines, insert comment at maximal common indent')
-        vert_h      = _('Use max same column to comment:'
+        vert_h      = _('Use maximal common column of first non-blank char:'
                         '\rUncommented lines:'
                         '\r··foo1'
                         '\r····foo2'
                         '\r······foo3'
                         '\rCommented lines:'
-                        '\r·#foo1'
-                        '\r·#··foo2'
-                        '\r·#····foo3'
+                        '\r··#foo1'
+                        '\r··#··foo2'
+                        '\r··#····foo3'
                         )
         down_s      = _('(All) Move caret to next line')
         skip_s      = _('(Line commands) Skip blank lines')
