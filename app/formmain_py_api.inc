@@ -8024,6 +8024,12 @@ begin
             Result:= ReturnNone;
           end;
 
+        EDACTION_APPLY_THEME:
+          begin
+            EditorApplyTheme(Ed);
+            Result:= ReturnNone;
+          end;
+
         EDACTION_EXPORT_HTML:
           begin
             Ok:= PyHelper_ExportHtml(Ed, StrText1);
