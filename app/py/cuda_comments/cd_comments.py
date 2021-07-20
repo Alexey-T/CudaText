@@ -87,13 +87,13 @@ class Command:
         return self._cmt_toggle_line('del')
 
     def _cmt_toggle_line(self, cmt_act, cmt_type='', ed_=ed):
-        ''' Add/Remove full line comment
+        ''' Add/Remove line-comments
             Params
-                cmt_act     'del'   uncomment all lines
-                            'add'   comment all lines
-                            'bgn'   (un)comment all as toggled first line
-                cmt_type    '1st'   at begin of line
-                            'bod'   at first not blank
+                cmt_act     'del' - uncomment all lines
+                            'add' - comment all lines
+                            'bgn' - comment or uncomment, detect it by the 1st selected line
+                cmt_type    '1st' - at begin of line
+                            'bod' - at first non-blank char
         '''
 #       if not apx._check_API('1.0.108'):    return
         lex         = ed_.get_prop(app.PROP_LEXER_CARET)
