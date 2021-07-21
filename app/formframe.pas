@@ -1953,6 +1953,12 @@ begin
   end;
 
   Splitter.Color:= GetAppColor(apclSplitMain);
+
+  if Assigned(PanelInfo) then
+  begin
+    PanelInfo.Color:= GetAppColor(apclListBg);
+    PanelInfo.Font.Color:= GetAppColor(apclListFont);
+  end;
 end;
 
 function TEditorFrame.IsEditorFocused: boolean;
