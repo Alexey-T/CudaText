@@ -181,6 +181,7 @@ type
     FOnGetSaveDialog: TFrameGetSaveDialog;
     FOnAppClickLink: TATSynEditClickLinkEvent;
 
+    procedure ApplyThemeToInfoPanel(APanel: TPanel);
     procedure BinaryOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure BinaryOnScroll(Sender: TObject);
     procedure BinaryOnProgress(const ACurrentPos, AMaximalPos: Int64;
@@ -1941,6 +1942,14 @@ begin
       EditorIsEmpty(Ed1) and EditorIsEmpty(Ed2);
 end;
 
+procedure TEditorFrame.ApplyThemeToInfoPanel(APanel: TPanel);
+begin
+  APanel.Font.Name:= UiOps.VarFontName;
+  APanel.Font.Size:= AppScaleFont(UiOps.VarFontSize);
+  APanel.Color:= GetAppColor(apclListBg);
+  APanel.Font.Color:= GetAppColor(apclListFont);
+end;
+
 procedure TEditorFrame.ApplyTheme;
 begin
   EditorApplyTheme(Ed1);
@@ -1955,10 +1964,7 @@ begin
   Splitter.Color:= GetAppColor(apclSplitMain);
 
   if Assigned(PanelInfo) then
-  begin
-    PanelInfo.Color:= GetAppColor(apclListBg);
-    PanelInfo.Font.Color:= GetAppColor(apclListFont);
-  end;
+    ApplyThemeToInfoPanel(PanelInfo);
 end;
 
 function TEditorFrame.IsEditorFocused: boolean;
@@ -3728,10 +3734,7 @@ begin
     PanelInfo.BevelOuter:= bvNone;
   end;
 
-  PanelInfo.Color:= GetAppColor(apclListBg);
-  PanelInfo.Font.Name:= UiOps.VarFontName;
-  PanelInfo.Font.Size:= AppScaleFont(UiOps.VarFontSize);
-  PanelInfo.Font.Color:= GetAppColor(apclListFont);
+  ApplyThemeToInfoPanel(PanelInfo);
 
   PanelInfo.Caption:= AText;
   PanelInfo.OnClick:= AOnClick;
@@ -3823,11 +3826,7 @@ begin
   Index:= EditorObjToIndex(Ed);
   if Index<0 then exit;
   InitPanelReload(Index);
-
-  PanelReload[Index].Color:= GetAppColor(apclListBg);
-  PanelReload[Index].Font.Name:= UiOps.VarFontName;
-  PanelReload[Index].Font.Size:= AppScaleFont(UiOps.VarFontSize);
-  PanelReload[Index].Font.Color:= GetAppColor(apclListFont);
+  ApplyThemeToInfoPanel(PanelReload[Index]);
 
   btnReloadYes[Index].Caption:= msgConfirmReloadYes;
   btnReloadNo[Index].Caption:= msgButtonCancel;
