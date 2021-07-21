@@ -36,6 +36,7 @@ end;
 procedure TfmMain.FrameOnUpdateState(Sender: TObject);
 begin
   FNeedUpdateMenuChecks:= true;
+  FNeedUpdateStatuses:= true;
   //real updating will run on TimerAppIdle work
 end;
 

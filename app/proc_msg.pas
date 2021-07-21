@@ -240,6 +240,7 @@ const
   msgStatusbarHintTabSize: string = 'Tabulation width, by space-chars';
   msgStatusbarHintInsOvr: string = 'Insert/Overwrite mode';
   msgStatusbarHintWrap: string = 'Word wrap (off, by window, by fixed margin)';
+  msgStatusbarHintZoom: string = 'Zoom value';
 
   msgStatusI18nEnglishAfterRestart: string = 'English translation will be applied after program restart';
   msgStatusI18nPluginsMenuAfterRestart: string = 'Translations of Plugins menu and plugin''s dialogs will be applied after program restart';

@@ -151,6 +151,7 @@ begin
   DoStatusbarHintByTag(Status, StatusbarTag_TabSize, msgStatusbarHintTabSize);
   DoStatusbarHintByTag(Status, StatusbarTag_InsOvr, msgStatusbarHintInsOvr);
   DoStatusbarHintByTag(Status, StatusbarTag_WrapMode, msgStatusbarHintWrap);
+  DoStatusbarHintByTag(Status, StatusbarTag_Zoom, msgStatusbarHintZoom);
 end;
 
 procedure TfmMain.UpdateStatusbar_ForFrame(AStatus: TATStatus; F: TEditorFrame);
@@ -158,6 +159,7 @@ var
   Ed: TATSynEdit;
   S, fmt: string;
   Size: TPoint;
+  N: integer;
   FrameKind: TATEditorFrameKind;
 begin
   Ed:= F.Editor;
@@ -252,6 +254,10 @@ begin
   //------
   DoStatusbarTextByTag(AStatus, StatusbarTag_SelMode, msgStatusbarCellColumnMarks[Ed.OptMouseColumnSelectionWithoutKey]);
   DoStatusbarTextByTag(AStatus, StatusbarTag_WrapMode, msgStatusbarWrapStates[Ord(Ed.OptWrapMode)]);
+
+  N:= Ed.OptScaleFont;
+  if N=0 then N:= 100;
+  DoStatusbarTextByTag(AStatus, StatusbarTag_Zoom, IntToStr(N)+'%');
 
   //to update '[Read only]' in the message
   DoStatusbarTextByTag(AStatus, StatusbarTag_Msg, GetStatusbarPrefix(F)+FLastStatusbarMessage);
@@ -1203,6 +1209,7 @@ begin
       'msg':     begin NTag:= StatusbarTag_Msg; bStretch:= true; end;
       'selmode': begin NTag:= StatusbarTag_SelMode; bHotTrack:= true; end;
       'wrap':    begin NTag:= StatusbarTag_WrapMode; bHotTrack:= true; end;
+      'zoom':    begin NTag:= StatusbarTag_Zoom; bHotTrack:= false; end;
       else Continue;
     end;
 

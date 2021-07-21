@@ -1227,6 +1227,7 @@ const
   StatusbarTag_InsOvr = 15;
   StatusbarTag_SelMode = 16;
   StatusbarTag_WrapMode = 17;
+  StatusbarTag_Zoom = 18;
   StatusbarTag_Msg = 20;
 
 const
