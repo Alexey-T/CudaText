@@ -2375,6 +2375,13 @@ procedure EditorAutoCloseOpeningHtmlTag(Ed: TATSynEdit; AX, AY: integer);
 var
   SValue: UnicodeString;
   SLexer: string;
+const
+  SingletonTags: array of UnicodeString = (
+    'area', 'base', 'br', 'col', 'embed',
+    'hr', 'img', 'input', 'link', 'meta',
+    'param', 'source', 'track', 'wbr',
+    'command', 'keygen', 'menuitem'
+  );
 begin
   if not (UiOps.AutocompleteHtml and UiOps.AutocompleteHtml_AutoClose) then exit;
   if Ed.AdapterForHilite=nil then exit;
@@ -2382,7 +2389,7 @@ begin
   if SLexer='' then exit;
 
   SValue:= EditorGetLefterHtmlTag(Ed, AX, AY);
-  if SValue='' then exit;
+  if (SValue='') or (SValue in SingletonTags) then exit;
 
   if SRegexMatchesString(SLexer, UiOps.AutocompleteHtml_Lexers, false) then
   begin
