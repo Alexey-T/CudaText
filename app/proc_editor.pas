@@ -2389,7 +2389,7 @@ begin
   if SLexer='' then exit;
 
   SValue:= EditorGetLefterHtmlTag(Ed, AX, AY);
-  if (SValue='') or (SValue in SingletonTags) then exit;
+  if (SValue='') or (LowerCase(SValue) in SingletonTags) then exit;
 
   if SRegexMatchesString(SLexer, UiOps.AutocompleteHtml_Lexers, false) then
   begin
