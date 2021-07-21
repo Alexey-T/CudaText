@@ -139,6 +139,7 @@ type
     FOnProgress: TATFinderProgress;
     FOnUpdateStatusbar: TNotifyEvent;
     FOnUpdateState: TNotifyEvent;
+    FOnUpdateZoom: TNotifyEvent;
     FOnFocusEditor: TNotifyEvent;
     FOnEditorCommand: TATSynEditCommandEvent;
     FOnEditorChangeCaretPos: TNotifyEvent;
@@ -192,6 +193,7 @@ type
     procedure DoImageboxScroll(Sender: TObject);
     procedure DoOnChangeCaption;
     procedure DoOnUpdateState;
+    procedure DoOnUpdateZoom;
     procedure DoOnUpdateStatusbar;
     procedure EditorClickEndSelect(Sender: TObject; APrevPnt, ANewPnt: TPoint);
     procedure EditorClickMoveCaret(Sender: TObject; APrevPnt, ANewPnt: TPoint);
@@ -201,6 +203,7 @@ type
     procedure EditorOnChangeModified(Sender: TObject);
     procedure EditorOnChangeCaretPos(Sender: TObject);
     procedure EditorOnChangeState(Sender: TObject);
+    procedure EditorOnChangeZoom(Sender: TObject);
     procedure EditorOnClick(Sender: TObject);
     procedure EditorOnClickGap(Sender: TObject; AGapItem: TATGapItem; APos: TPoint);
     procedure EditorOnClickGutter(Sender: TObject; ABand, ALine: integer);
@@ -433,6 +436,7 @@ type
     property OnChangeSlow: TNotifyEvent read FOnChangeSlow write FOnChangeSlow;
     property OnUpdateStatusbar: TNotifyEvent read FOnUpdateStatusbar write FOnUpdateStatusbar;
     property OnUpdateState: TNotifyEvent read FOnUpdateState write FOnUpdateState;
+    property OnUpdateZoom: TNotifyEvent read FOnUpdateZoom write FOnUpdateZoom;
     property OnEditorCommand: TATSynEditCommandEvent read FOnEditorCommand write FOnEditorCommand;
     property OnEditorChangeCaretPos: TNotifyEvent read FOnEditorChangeCaretPos write FOnEditorChangeCaretPos;
     property OnEditorScroll: TNotifyEvent read FOnEditorScroll write FOnEditorScroll;
@@ -1357,6 +1361,11 @@ begin
   DoOnUpdateState;
 end;
 
+procedure TEditorFrame.EditorOnChangeZoom(Sender: TObject);
+begin
+  DoOnUpdateZoom;
+end;
+
 procedure TEditorFrame.UpdateModified(Ed: TATSynEdit; AWithEvent: boolean);
 begin
   //when modified, remove "Preview tab" style (italic caption)
@@ -1714,8 +1723,9 @@ begin
   ed.OnEnter:= @EditorOnEnter;
   ed.OnChange:= @EditorOnChange;
   ed.OnChangeModified:= @EditorOnChangeModified;
-  ed.OnChangeState:= @EditorOnChangeState;
   ed.OnChangeCaretPos:= @EditorOnChangeCaretPos;
+  ed.OnChangeState:= @EditorOnChangeState;
+  ed.OnChangeZoom:= @EditorOnChangeZoom;
   ed.OnCommand:= @EditorOnCommand;
   ed.OnCommandAfter:= @EditorOnCommandAfter;
   ed.OnClickGutter:= @EditorOnClickGutter;
@@ -2867,6 +2877,12 @@ procedure TEditorFrame.DoOnUpdateState;
 begin
   if Assigned(FOnUpdateState) then
     FOnUpdateState(Self);
+end;
+
+procedure TEditorFrame.DoOnUpdateZoom;
+begin
+  if Assigned(FOnUpdateZoom) then
+    FOnUpdateZoom(Self);
 end;
 
 procedure TEditorFrame.EditorClickMoveCaret(Sender: TObject; APrevPnt, ANewPnt: TPoint);

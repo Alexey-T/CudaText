@@ -14,6 +14,7 @@ begin
   F.OnChangeSlow:= @FrameOnChangeSlow;
   F.OnUpdateStatusbar:= @FrameOnUpdateStatusbar;
   F.OnUpdateState:= @FrameOnUpdateState;
+  F.OnUpdateZoom:= @FrameOnUpdateZoom;
   F.OnEditorCommand:= @FrameOnEditorCommand;
   F.OnEditorChangeCaretPos:= @FrameOnEditorChangeCaretPos;
   F.OnEditorScroll:= @FrameOnEditorScroll;

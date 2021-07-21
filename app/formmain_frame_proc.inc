@@ -36,8 +36,13 @@ end;
 procedure TfmMain.FrameOnUpdateState(Sender: TObject);
 begin
   FNeedUpdateMenuChecks:= true;
-  FNeedUpdateStatuses:= true;
   //real updating will run on TimerAppIdle work
+end;
+
+procedure TfmMain.FrameOnUpdateZoom(Sender: TObject);
+begin
+  //update statusbar w/o delays
+  UpdateStatusbar_RealWork;
 end;
 
 procedure TfmMain.DoCodetree_StopUpdate;

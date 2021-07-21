@@ -1126,6 +1126,7 @@ type
     procedure FrameOnChangeCaption(Sender: TObject);
     procedure FrameOnUpdateStatusbar(Sender: TObject);
     procedure FrameOnUpdateState(Sender: TObject);
+    procedure FrameOnUpdateZoom(Sender: TObject);
     function CreateTab(APages: TATPages; const ACaption: string;
       AndActivate: boolean=true;
       AAllowNearCurrent: TApp3States=a3sPassive): TATTabData;
