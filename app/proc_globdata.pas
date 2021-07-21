@@ -1547,7 +1547,7 @@ begin
 
     OpIndentAuto:= true;
     OpIndentAutoKind:= Ord(cIndentAsPrevLine);
-    OpIndentSize:= 2;
+    OpIndentSize:= 0;
     OpIndentAutoRule:= '';
     OpUnIndentKeepsAlign:= false;
     OpIndentMakesWholeLineSel:= false;
