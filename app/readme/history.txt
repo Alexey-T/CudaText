@@ -4,7 +4,8 @@
   * changed
 
 
-+ add: option "ui_statusbar_panels" allows new panel: 'zoom' 
++ add: option "ui_statusbar_panels" allows new panel 'zoom'
+- fix: wrong default value of "indent_size":2 (thanks @halfbrained) 
 
 1.139.0 (2021/07)
 
