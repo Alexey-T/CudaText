@@ -974,9 +974,9 @@ Server should be compiled. To use the server in LSP Client, create the file "lsp
     "name": "vsc-css",
     "lexers": {
     	"CSS": "css",
-    	"SCSS": "less",
-    	"Sass": "scss",
-    	"LESS": "sass",
+    	"SCSS": "scss",
+    	"Sass": "sass",
+    	"LESS": "less",
     },
     "cmd_unix": [
         "node",
