@@ -3,8 +3,10 @@
   - fixed
   * changed
 
+1.139.1 (2021/07)
 
 + add: option "ui_statusbar_panels" allows new panel 'zoom'
++ add: avoid auto-closing of 'singleton' HTML tags like <br> (thanks @memstream)
 - fix: wrong default value of "indent_size", must be 0 (thanks @halfbrained) 
 
 1.139.0 (2021/07)
