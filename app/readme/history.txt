@@ -3,6 +3,9 @@
   - fixed
   * changed
 
+
++ add: option "ui_statusbar_panels" allows new panel: 'zoom' 
+
 1.139.0 (2021/07)
 
 + add: option "keep_sel_font_color" to keep original font color in selection
