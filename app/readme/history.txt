@@ -3,6 +3,8 @@
   - fixed
   * changed
 
++ add: special value of "renderer_anti_flicker":1000 makes special anti-flicker handling
+
 1.139.1 (2021/07)
 
 + add: option "ui_statusbar_panels" allows new panel 'zoom'
