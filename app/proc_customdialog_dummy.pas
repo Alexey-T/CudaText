@@ -191,6 +191,14 @@ const
 
 implementation
 
+function DoControl_Target(C: TControl): TControl;
+begin
+  if C is TAppTreeContainer then
+    Result:= TAppTreeContainer(C).Tree
+  else
+    Result:= C;
+end;
+
 function AppVariant_KeyData(AKey: word; AShift: TShiftState): TAppVariant;
 begin
   FillChar(Result{%H-}, SizeOf(Result), 0);
@@ -650,7 +658,7 @@ begin
       (Ctl is TATSynEdit) then
     begin
       if Ctl.Enabled and Ctl.Visible and (Ctl as TWinControl).CanFocus then
-        (Ctl as TWinControl).SetFocus;
+        (DoControl_Target(Ctl) as TWinControl).SetFocus;
       Break;
     end;
   end;

@@ -2108,10 +2108,7 @@ begin
     begin
       if TWinControl(C).CanFocus then
       try
-        if C is TAppTreeContainer then
-          F.ActiveControl:= TAppTreeContainer(C).Tree
-        else
-          F.ActiveControl:= TWinControl(C);
+        F.ActiveControl:= DoControl_Target(C) as TWinControl;
       except
         //supress Pascal exception in Py API
       end;
@@ -2454,10 +2451,7 @@ begin
 
   if C is TWinControl then
   begin
-    if C is TAppTreeContainer then
-      bFocused:= TAppTreeContainer(C).Tree.Focused
-    else
-      bFocused:= TWinControl(C).Focused;
+    bFocused:= TWinControl(DoControl_Target(C)).Focused;
     bTabStop:= TWinControl(C).TabStop;
     nTabOrder:= TWinControl(C).TabOrder;
   end;
