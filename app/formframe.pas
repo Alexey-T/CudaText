@@ -1365,6 +1365,7 @@ end;
 procedure TEditorFrame.EditorOnChangeZoom(Sender: TObject);
 begin
   DoOnUpdateZoom;
+  DoPyEventState(Sender as TATSynEdit, EDSTATE_ZOOM);
 end;
 
 procedure TEditorFrame.UpdateModified(Ed: TATSynEdit; AWithEvent: boolean);
