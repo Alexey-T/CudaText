@@ -4453,6 +4453,7 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * add: Editor.action: EDACTION_APPLY_THEME
 
 1.0.406 (app 1.139.1)
-* add: on_state_ed is fired with EDSTATE_ZOOM when editor-font-scale is changed
+* add: on_state_ed is fired with EDSTATE_ZOOM
+* add: on_state_ed is fired with EDSTATE_BOOKMARK
 
 [[Category:CudaText]]

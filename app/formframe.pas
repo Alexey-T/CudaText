@@ -204,6 +204,7 @@ type
     procedure EditorOnChangeModified(Sender: TObject);
     procedure EditorOnChangeCaretPos(Sender: TObject);
     procedure EditorOnChangeState(Sender: TObject);
+    procedure EditorOnChangeBookmarks(Sender: TObject);
     procedure EditorOnChangeZoom(Sender: TObject);
     procedure EditorOnClick(Sender: TObject);
     procedure EditorOnClickGap(Sender: TObject; AGapItem: TATGapItem; APos: TPoint);
@@ -1362,6 +1363,11 @@ begin
   DoOnUpdateState;
 end;
 
+procedure TEditorFrame.EditorOnChangeBookmarks(Sender: TObject);
+begin
+  DoPyEventState(Sender as TATSynEdit, EDSTATE_BOOKMARK);
+end;
+
 procedure TEditorFrame.EditorOnChangeZoom(Sender: TObject);
 begin
   DoOnUpdateZoom;
@@ -1728,6 +1734,7 @@ begin
   ed.OnChangeCaretPos:= @EditorOnChangeCaretPos;
   ed.OnChangeState:= @EditorOnChangeState;
   ed.OnChangeZoom:= @EditorOnChangeZoom;
+  ed.OnChangeBookmarks:= @EditorOnChangeBookmarks;
   ed.OnCommand:= @EditorOnCommand;
   ed.OnCommandAfter:= @EditorOnCommandAfter;
   ed.OnClickGutter:= @EditorOnClickGutter;
