@@ -8,6 +8,7 @@
 + add: option "ui_statusbar_panels" allows new panel 'zoom'
 + add: avoid auto-closing of 'singleton' HTML tags like <br> (thanks @memstream)
 - fix: wrong default value of "indent_size", must be 0 (thanks @halfbrained) 
+- fix: wrong rendering, when file is restored from session with 'zoom' set, eg 150%
 
 1.139.0 (2021/07)
 
