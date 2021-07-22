@@ -3,12 +3,12 @@
   - fixed
   * changed
 
-+ add: special value of "renderer_anti_flicker":1000 makes special anti-flicker handling
+1.139.2 (2021/07)
 
-1.139.1 (2021/07)
-
++ add: special value of "renderer_anti_flicker":1000 makes special anti-flicker trick
 + add: option "ui_statusbar_panels" allows new panel 'zoom'
 + add: avoid auto-closing of 'singleton' HTML tags like <br> (thanks @memstream)
+- fix: regression in 1.134: broken rendering of scrolled single-line inputs (thanks @JairoMartinezA)
 - fix: wrong default value of "indent_size", must be 0 (thanks @halfbrained) 
 - fix: wrong rendering, when file is restored from session with 'zoom' set, eg 150%
 
