@@ -105,9 +105,10 @@
   "ui_font_statusbar_size__mac" : 0,
 
   //[Renderer]
-  //If >0, it specifies the delay of timer to reduce flickering on typing
-  //in Markdown documents. [has suffix]
-  //Value 15...40 seems OK for slow PCs. If 0, feature is disabled.
+  //Specifies the delay to reduce flickering on editing. [has suffix]
+  //Value 0: feature is disabled.
+  //Value 1...999: it's timer delay in msec. 15...40 seems OK for slow systems.
+  //Value 1000: use special anti-flickering code, works better on some systems.
   //Note: this option is global, not per-lexer.
   "renderer_anti_flicker": 0,
   "renderer_anti_flicker__linux": 0,
