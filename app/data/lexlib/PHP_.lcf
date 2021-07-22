@@ -601,6 +601,7 @@ object SyntAnal14: TLibSyntAnalyzer
             'private'
             'protected'
             'public'
+            'readonly'
             'static')
           TokenTypes = 2
         end>
