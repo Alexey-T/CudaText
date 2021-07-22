@@ -1515,6 +1515,7 @@ begin
   EditorOps.OpFontSize_b := Max(cMinSize, EditorOps.OpFontSize_b +AIncrement);
   EditorOps.OpFontSize_bi:= Max(cMinSize, EditorOps.OpFontSize_bi+AIncrement);
   DoApplyFont_Text;
+  DoPyEvent_EdState(nil, EDSTATE_ZOOM);
 end;
 
 procedure TfmMain.DoOps_FontSizeReset;
@@ -1524,6 +1525,7 @@ begin
   EditorOps.OpFontSize_b:= EditorOps.OpFontSize_original_b;
   EditorOps.OpFontSize_bi:= EditorOps.OpFontSize_original_bi;
   DoApplyFont_Text;
+  DoPyEvent_EdState(nil, EDSTATE_ZOOM);
 end;
 
 

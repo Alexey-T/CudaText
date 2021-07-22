@@ -1172,6 +1172,7 @@ type
     function DoPyEvent_Message(const AText: string): boolean;
     function DoPyEvent_Macro(Frame: TEditorFrame; const AText: string): boolean;
     procedure DoPyEvent_AppState(AState: integer);
+    procedure DoPyEvent_EdState(Ed: TATSynEdit; AState: integer);
     procedure DoPyEvent_AppActivate(AEvent: TAppPyEvent);
     procedure DoPyCommand(const AModule, AMethod: string; const AParams: TAppVariantArray);
     function RunTreeHelper(Frame: TEditorFrame; Tree: TTreeView): boolean;
@@ -2693,6 +2694,15 @@ begin
   SetLength(Params, 1);
   Params[0]:= AppVariant(AState);
   DoPyEvent(nil, cEventOnState, Params);
+end;
+
+procedure TfmMain.DoPyEvent_EdState(Ed: TATSynEdit; AState: integer);
+var
+  Params: TAppVariantArray;
+begin
+  SetLength(Params, 1);
+  Params[0]:= AppVariant(AState);
+  DoPyEvent(Ed, cEventOnStateEd, Params);
 end;
 
 procedure TfmMain.DoPyEvent_AppActivate(AEvent: TAppPyEvent);
