@@ -2082,7 +2082,9 @@ Versions for gtk2/qt5/etc are compiled for different widget-sets, all functions 
 
 So far, different widget-sets are supported for Linux only.
 
-===Linux keyboard input is duplicated===
+===Linux keyboard input problems===
+
+1) Keyboard input is duplicated.
 
 This is known problem, related to some Input Methods (IM) in Linux.
 To see what is your active IM, open Terminal and enter:
@@ -2090,7 +2092,13 @@ To see what is your active IM, open Terminal and enter:
  echo $GTK_IM_MODULE
 
 Known IMs with problems: scim, xim.
-To fix: change IM from e.g."XIM" to "none" in the Language Support settings, then chars should not duplicate.
+To fix: change IM from e.g. "XIM" to "none" in the Language Support settings, then chars should not duplicate.
+
+2) Keyboard input misses accent chars.
+
+On some systems, national keyboards (e.g. French) may miss entering of accent chars.
+This can be solved by changing the Input Method (IM) in the system.
+[https://forum.endeavouros.com/t/ibus-and-qt-applications/15125 See here] for example.
 
 ===How to use middle-click paste on Linux===
 
