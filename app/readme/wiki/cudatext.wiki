@@ -2100,6 +2100,13 @@ On some systems, national keyboards (e.g. French) may miss entering of accent ch
 This can be solved by changing the Input Method (IM) in the system.
 [https://forum.endeavouros.com/t/ibus-and-qt-applications/15125 See here] for example.
 
+In short:
+
+* Install "ibus" package
+* In the OS environment file, set 2 variables (for 2 builds of CudaText, gtk2 and qt5):
+** GTK_IM_MODULE=ibus
+** QT_IM_MODULE=ibus
+
 ===How to use middle-click paste on Linux===
 
 * Set option "mouse_mid_click_paste" to true (in user.json).
