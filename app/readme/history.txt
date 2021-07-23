@@ -3,6 +3,8 @@
   - fixed
   * changed
 
+- fix: regression: crash with option "mouse_rt_click_moves_caret":true (thanks @dinkumoil)
+
 1.139.2 (2021/07)
 
 + add: special value of "renderer_anti_flicker":1000 makes special anti-flicker trick
