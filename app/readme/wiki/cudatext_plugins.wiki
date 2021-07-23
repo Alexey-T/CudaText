@@ -962,7 +962,7 @@ The CSS (and SCSS, LESS) server is not easy to install, so here is the instructi
 * Install dependencies and TypeScript. In Terminal:
 
  npm install
- npm install typescript
+ npm install -g typescript
 
 * Compile it. In Terminal:
 
@@ -1021,7 +1021,7 @@ with this
 * Install dependencies and TypeScript. In Terminal:
 
  npm install
- npm install typescript
+ npm install -g typescript
 
 * Enter the directory "server", and compile the server. In Terminal:
 
