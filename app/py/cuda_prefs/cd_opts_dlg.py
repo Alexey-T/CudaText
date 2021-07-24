@@ -475,7 +475,7 @@ class OptEdD:
         """ Prepares values for and calls - `do_setv()`
             * action -- set, remove
             * scope -- m.for_ulf -- 'u','l','f' (user, lexer, file)
-            * opname -- optio nname -- m.cur_op
+            * opname -- option name -- m.cur_op
             * lexer -- m.lexr
             * apply_ -- apply options - set True on last option  or  on btn_apply
         """

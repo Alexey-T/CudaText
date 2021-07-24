@@ -68,7 +68,7 @@ Command ECHO |Display text on screen
 Command EDIT |Text editor in MS-DOS 5+ (requires QBASIC)
 Command EDLIN |Line editor in MS-DOS 4-
 Command ENDLOCAL |Terminate local environment
-Command EPAL |Elevated Priviliges Application Launcher (free Microsoft download)
+Command EPAL |Elevated Privileges Application Launcher (free Microsoft download)
 Command ERASE |Delete one or more files
 Command EVENTCREATE |Write an event in one of the event logs
 Command EVENTQUERY.VBS |List events and event properties
@@ -88,7 +88,7 @@ Command FINDSTR |Search files or standard output with advanced options
 Command FOR |Loop through a set of files or variables
 Command FORCEDOS |Force XP to start the specified program in the MS-DOS subsystem
 Command FORFILES |Selects and executes a command on a file or set of files
-Command FORMAT |Format disks (intialize file system)
+Command FORMAT |Format disks (initialize file system)
 Command FSUTIL |Manage FAT and NTFS file systems (XP)
 Command FTP |File Transfer Protocol client
 Command FTYPE |Display or define the "Open" command for a file type
@@ -188,7 +188,7 @@ Command ROUTE |Display and modify the entries in the local IP routing table
 Command RUNAS |Run a command with different credentials (will always prompt for a password; use CPAU if you need to make this unattended)
 Command RUNDLL |Command line wrapper for 16-bit DLL routines
 Command RUNDLL32 |Command line wrapper for 32-bit DLL routines
-Command SC |Command line services managment (XP)
+Command SC |Command line services management (XP)
 Command SCHTASKS |Command line task scheduler (XP)
 Command SECEDIT |Configure and analyze system security by comparing your current configuration to a template (Windows 2000+)
 Command SET |Manipulate environment variables

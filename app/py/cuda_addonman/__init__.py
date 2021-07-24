@@ -190,7 +190,7 @@ class Command:
 
         text = _('Download complete') if not self.stopped_force else _('Download stopped ')+self.stopped_msg
         if err>0:
-            text += _('\nErrors occured, see Python console')
+            text += _('\nErrors occurred, see Python console')
         msg_box(text, MB_OK+MB_ICONINFO)
 
 

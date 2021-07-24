@@ -27,8 +27,8 @@ def bom_type(file):
     if (b[0:3] == b'\xef\xbb\xbf'):
         return "utf8"
 
-    # Python automatically detects endianess if utf-16 bom is present
-    # write endianess generally determined by endianess of CPU
+    # Python automatically detects endianness if utf-16 bom is present
+    # write endianness generally determined by endianness of CPU
     if ((b[0:2] == b'\xfe\xff') or (b[0:2] == b'\xff\xfe')):
         return "utf16"
 
