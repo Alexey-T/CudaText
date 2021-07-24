@@ -862,6 +862,8 @@ class DialogMK2:
 
 
         edt.set_prop(PROP_RO, True)
+        edt.set_prop(PROP_RULER, False)
+        edt.set_prop(PROP_MARGIN, 2000)
         edt.set_prop(PROP_GUTTER_ALL, False)
         edt.set_prop(PROP_MINIMAP, False)
         edt.set_prop(PROP_MICROMAP, False)
