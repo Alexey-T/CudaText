@@ -15,13 +15,17 @@ begin
         DoApplyThemeToListbox(C as ATListbox.TATListbox);
         }
 
+    if C is TATSynEdit then
+      if TATSynEdit(C).OptThemed then
+        EditorApplyTheme(TATSynEdit(C));
+
     if C is TAppTreeContainer then
-      if (C as TAppTreeContainer).Themed then
-        DoApplyThemeToTreeview((C as TAppTreeContainer).Tree, true, false);
+      if TAppTreeContainer(C).Themed then
+        DoApplyThemeToTreeview(TAppTreeContainer(C).Tree, true, false);
 
     if C is TATFlatToolbar then
-      if (C as TATFlatToolbar).Themed then
-        DoApplyThemeToToolbar(C as TATFlatToolbar);
+      if TATFlatToolbar(C).Themed then
+        DoApplyThemeToToolbar(TATFlatToolbar(C));
   end;
 end;
 

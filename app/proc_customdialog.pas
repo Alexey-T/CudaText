@@ -677,7 +677,9 @@ begin
   Ed.OptBorderFocusedActive:= EditorOps.OpActiveBorderInEditor;
   Ed.OptBorderWidthFocused:= AppScale(EditorOps.OpActiveBorderWidth);
 
+  Ed.OptThemed:= true;
   EditorApplyTheme(Ed);
+
   if not AOneLiner then
     EditorApplyOps(Ed, EditorOps, AApplyUnprintedAndWrap, AApplyTabSize, AApplyCentering, AOneLiner)
   else
