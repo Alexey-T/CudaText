@@ -2355,6 +2355,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_RECT_MICROMAP: 4-tuple of int: rectangle of "micromap" editor area, relative to editor. It is (0,0,0,0) if area is hidden.
 * PROP_RECT_RULER: 4-tuple of int: rectangle of "horizontal ruler" editor area, relative to editor. It is (0,0,0,0) if area is hidden.
 
+* PROP_THEMED: bool: for editors out of UI-tabs, allows to automatically apply current theme on app theme changing.
 * PROP_COMBO_ITEMS: only for "editor_combo" control, contents of drop-down list. On getting: list of str. On setting: value must be str with '\n'-separated items.
 
 * PROP_MASKCHAR: str: character to show in masked-mode.
@@ -2476,6 +2477,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 * PROP_SAVING_TRIM_SPACES: bool: on saving file, trim trailing whitespaces.
 * PROP_SAVING_TRIM_FINAL_EMPTY_LINES: bool: on saving file, trim redundant empty lines at end of document.
 
+* PROP_THEMED: bool: for editors out of UI-tabs, allows to automatically apply current theme on app theme changing.
 * PROP_COMBO_ITEMS: only for "editor_combo" control, contents of drop-down list. On getting: list of str. On setting: value must be str with '\n'-separated items.
 
 * PROP_MASKCHAR: str: character to show in masked-mode.
@@ -4455,5 +4457,8 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 1.0.406 (app 1.139.1)
 * add: on_state_ed is fired with EDSTATE_ZOOM
 * add: on_state_ed is fired with EDSTATE_BOOKMARK
+
+1.0.407 (app 1.139.2)
+* add: Editor.get_prop/set_prop: PROP_THEMED
 
 [[Category:CudaText]]
