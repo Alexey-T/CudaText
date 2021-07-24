@@ -3569,6 +3569,11 @@ begin
             Result:= PyHelper_Rect(Ed.RectRuler);
           end;
 
+        PROP_THEMED:
+          begin
+            Result:= PyBool_FromLong(Ord(Ed.OptThemed));
+          end;
+
         PROP_COMBO_ITEMS:
           begin
             if Ed is TATComboEdit then
@@ -4167,6 +4172,9 @@ begin
             Ed.OptMouseClickOpensURL:= ValueInt=1;
             Ed.OptMouse2ClickOpensURL:= ValueInt=2;
           end;
+
+        PROP_THEMED:
+          Ed.OptThemed:= ValueBool;
 
         PROP_COMBO_ITEMS:
           begin
