@@ -117,7 +117,7 @@ object SyntAnal8: TLibSyntAnalyzer
   SampleText.Strings = (
     ';Cmt'
     '#Cmt'
-    '[seciton]'
+    '[section]'
     'aa=test=val'
     'bb=#test'
     'Incorrect')
