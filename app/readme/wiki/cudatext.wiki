@@ -498,6 +498,7 @@ Most of them are located in Addons Manager "Install" list.
 * Puppet
 * PyMOL
 * Python
+* QML (Qt Modeling Language)
 * R
 * R Markdown
 * Racket
