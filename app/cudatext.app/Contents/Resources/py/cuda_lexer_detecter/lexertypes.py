@@ -303,6 +303,8 @@ TYPES = {
     "q": ['Apache Hive'],
     "qbe": ['Visual dBase'],
     "ql": ['Apache Hive'],
+    "qml": ['QML'],
+    "qmlproject": ['QML'],
     "r": ['R'],
     "rake": ['Ruby'],
     "raku": ['Raku'],
