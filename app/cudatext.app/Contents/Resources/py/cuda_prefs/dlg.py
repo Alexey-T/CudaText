@@ -46,7 +46,7 @@ import time
 #TODO:
 
 ?
-* different color fo unapplied propery value in editor?
+* different color fo unapplied property value in editor?
 * list changes in dlg-statusbar + hover popup
 * editor line state coloring for modified/unapplied("saved") options?
 * show user/lexer/file option-values for selected option?
@@ -1036,7 +1036,7 @@ class DialogMK2:
             if val == _old_val: # no change - ignore
                 return
         else:  ### removing value
-            if _old_val is None: # no chage - ignore
+            if _old_val is None: # no change - ignore
                 return
 
         # if resetting value -- ask confirmation

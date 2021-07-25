@@ -245,9 +245,9 @@ def get_desktop_environment():
         return "win"
     elif sys.platform == "darwin":
         return "mac"
-    else: #Most likely either a POSIX system or something not much common
+    else: #Most likely either a POSIX system or something less common
         desktop_session = os.environ.get("DESKTOP_SESSION")
-        if desktop_session is not None: #easier to match if we doesn't have  to deal with caracter cases
+        if desktop_session is not None: #easier to match if we don' have to deal with character cases
             desktop_session = desktop_session.lower()
             if desktop_session in ["gnome","unity", "cinnamon", "mate", "xfce4", "lxde", "fluxbox", 
                                    "blackbox", "openbox", "icewm", "jwm", "afterstep","trinity", "kde"]:
@@ -360,7 +360,7 @@ def dlg_wrapper(title, w, h, cnts, in_vals={}, focus_cid=None):
             title, w, h     Title, Width, Height 
             cnts            List of static control properties
                                 [{cid:'*', tp:'*', t:1,l:1,w:1,r:1,b;1,h:1,tid:'cid', cap:'*', hint:'*', en:'0', props:'*', items:[*], act='0'}]
-                                cid         (opt)(str) C(ontrol)id. Need only for buttons and conrols with value (and for tid)
+                                cid         (opt)(str) C(ontrol)id. Need only for buttons and controls with value (and for tid)
                                 tp               (str) Control types from wiki or short names
                                 t           (opt)(int) Top
                                 tid         (opt)(str) Ref to other control cid for horz-align text in both controls
@@ -826,7 +826,7 @@ class BaseDlgAgent:
             return {'ctrls':  [(name,{...})]    #   To change controls with the names
                    ,'form':   {...}             #   To change form
                    ,'focused':name_to_focus     #   To set focus
-                   }                            #   Any key ('ctrls','form','focused') can be ommited.
+                   }                            #   Any key ('ctrls','form','focused') can be omitted.
     Callback cannot add new controls or change type values.
     
     Useful methods of agent
@@ -999,7 +999,7 @@ class BaseDlgAgent:
                         , DLG_CTL_ADD_SET
                         , name=cfg_ctrl['type']
                         , prop=self._prepare_c_pr(name, cfg_ctrl))
-            pass;              #cfg_ctrl['_idc']    = ind_c         # While API bug: name isnot work if contorl is in panel
+            pass;              #cfg_ctrl['_idc']    = ind_c         # While API bug: name isnot work if control is in panel
             pass;              #log('ind_c,cfg_ctrl[type]={}',(ind_c,cfg_ctrl['type']))
            #for cnt
         
@@ -1390,10 +1390,10 @@ class DlgAgent(BaseDlgAgent):
         live-attr - actual attribute     (key and value taked from dlg_proc)
     
     Rules
-    1. All conrols have conf-attr 'cid'|'name'. It must be unique.
-    2. All conrols have conf-attr 'tp'|'type'. 
+    1. All controls have conf-attr 'cid'|'name'. It must be unique.
+    2. All controls have conf-attr 'tp'|'type'. 
         Value of 'tp'|'type' can be any API values or shortened variants from REDUCTIONS.
-    3. Conrol position can be set 
+    3. Control position can be set 
         - directly by x,y,w,h
         - computed by enough subset of l,r,w,t,b,h (x=l, y=t, l+w=r, t+h=b)
         - computed by tid (refer to cid|name of control, from which to get t and add a bit to align texts)
@@ -1427,7 +1427,7 @@ class DlgAgent(BaseDlgAgent):
                    ,'form':{...}                #   To change form attributes
                    ,'focused':name_to_focus     #   To change focus
                    ,'fid':cid_to_focus          #   To change focus
-                   }                            #   Any key ('ctrls','vals','form','fid','focused') can be ommited.
+                   }                            #   Any key ('ctrls','vals','form','fid','focused') can be omitted.
         Callback cannot add/del controls or change cid,type,a,aid
         Callback have to conside the form as it has initial size - agent will recalculate to actual state.
         Useful methods of agent
@@ -1508,7 +1508,7 @@ class DlgAgent(BaseDlgAgent):
         return {cid:self.cattr(cid, 'val', live=live) for cid in cids}
     
     def _setup(self, ctrls, vals=None, form=None, fid=None):
-        """ Arrange and fill all: controls static/dinamic attrs, form attrs, focus.
+        """ Arrange and fill all: controls static/dynamic attrs, form attrs, focus.
             Params
                 ctrls   [{}]
                 vals    {cid:v}
@@ -1548,7 +1548,7 @@ class DlgAgent(BaseDlgAgent):
                         , DLG_CTL_ADD_SET
                         , name=cfg_ctrl['type']
                         , prop=self._prepare_c_pr(cid, cfg_ctrl))
-            pass;              #cfg_ctrl['_idc']    = ind_c         # While API bug: name isnot work if contorl is in panel
+            pass;              #cfg_ctrl['_idc']    = ind_c         # While API bug: name isnot work if control is in panel
            #for cnt
 
         # Resize callback
@@ -1763,7 +1763,7 @@ class DlgAgent(BaseDlgAgent):
                 trg_h   = prTrg['w'], prTrg['h']
             prOld   = dlg_proc_wpr(self.id_dlg, app.DLG_CTL_PROP_GET, name=cid)
             pass;              #prOld   = prOld if prOld else \
-                     #dlg_proc_wpr(self.id_dlg, app.DLG_CTL_PROP_GET, index=self.ctrls[cid]['_idc'])    # While API bug: name isnot work if contorl is in panel
+                     #dlg_proc_wpr(self.id_dlg, app.DLG_CTL_PROP_GET, index=self.ctrls[cid]['_idc'])    # While API bug: name isnot work if control is in panel
             pass;               logb=cid in ('tolx', 'tofi')
             pass;              #nat_prOld=app.dlg_proc(self.id_dlg, app.DLG_CTL_PROP_GET, name=cid)
             pass;              #log('cid,nat-prOld={}',(cid,{k:v for k,v in nat_prOld.items() if k in ('x','y','w','h','_ready_h')})) if logb else 0

@@ -259,7 +259,7 @@ begin
     Obj.ModifierI:= not ACaseSensitive;
     Obj.ModifierS:= false; //don't catch all text by .*
     Obj.ModifierM:= true; //allow to work with ^$
-    Obj.ModifierX:= false; //don't ingore spaces
+    Obj.ModifierX:= false; //don't ignore spaces
     Result:= Obj.Exec(ASubject) and (Obj.MatchPos[0]=1);
   finally
     Obj.Free;
@@ -278,7 +278,7 @@ begin
     Obj.ModifierI:= not ACaseSensitive;
     Obj.ModifierS:= false; //don't catch all text by .*
     Obj.ModifierM:= true; //allow to work with ^$
-    Obj.ModifierX:= false; //don't ingore spaces
+    Obj.ModifierX:= false; //don't ignore spaces
     NPos:= 1;
     Result:= Obj.Match(UTF8Decode(ASubject), NPos);
   finally

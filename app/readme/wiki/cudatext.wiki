@@ -47,7 +47,7 @@ Screenshot on Windows:
 * Correctly saves binary files
 * API for inter-line gaps, helping to several plugins (Differ, Insert Pics, Embedded Editor)
 * [[#File_viewer|Viewer for files of unlimited size]]
-* [[#Program_perfomance|Program performance]]
+* [[#Program_performance|Program performance]]
 * [[#Hex_display_of_special_chars|Hex display of special chars]]
 * [[#Tabs_features|Colored UI tabs]]
 * Plugin "Options Editor" to configure CudaText via GUI
@@ -84,7 +84,7 @@ Screenshot on Windows:
 
 = Configs =
 
-CudaText has configuration system in JSON files: call menu item "Options / Settings - default" and you'll see the '''default config'''. You should copy lines from this file to the file from "Options / Settings - user" and edit this '''user config''' - this is the actial config file. Default config is not read by CudaText, it's only to show possible options.
+CudaText has configuration system in JSON files: call menu item "Options / Settings - default" and you'll see the '''default config'''. You should copy lines from this file to the file from "Options / Settings - user" and edit this '''user config''' - this is the actual config file. Default config is not read by CudaText, it's only to show possible options.
 
 You can copy JSON comments too. In the user config, include useful lines in the curly braces "{ }", this is JSON format. Trailing comma before "}" is allowed here.
 
@@ -290,7 +290,7 @@ Dialog "Lexer library" has hotkeys:
 === Lexers on SourceForge ===
 
 Preinstalled lexer library has limited set of lexers.
-Other lexers, which are compatiable with SynWrite editor, are hosted on SF.net:
+Other lexers, which are compatible with SynWrite editor, are hosted on SF.net:
 http://sourceforge.net/projects/synwrite-addons/files/Lexers/
 
 These zip packages can be installed in CudaText: open any zip file via "File / Open" and confirm installation.
@@ -1182,7 +1182,7 @@ But it works only for "editor frame", and don't work for: Console read-only edit
 
 There are two menu items in the View menu:
 
-* Toggle '''Full-screen'''. This maximizes app window (in a special way, OS-dependant, even OS taskbar hides), and also, optionally, turns off some UI elements: toolbar, statusbar, sidebar, side panels (Tree, Project, FTP), bottom panels (Console) etc. Option "ui_fullscreen" has set of chars, each char for one UI element to hide. E.g. option value "tp" hides 2 UI elements ("t" for toolbar, "p" for side panels).
+* Toggle '''Full-screen'''. This maximizes app window (in a special way, OS-dependent, even OS taskbar hides), and also, optionally, turns off some UI elements: toolbar, statusbar, sidebar, side panels (Tree, Project, FTP), bottom panels (Console) etc. Option "ui_fullscreen" has set of chars, each char for one UI element to hide. E.g. option value "tp" hides 2 UI elements ("t" for toolbar, "p" for side panels).
 * Toggle '''Distraction-free'''. Like full-screen, but also all UI elements hide (gutter, statusbar, toolbar, sidebar, side panels). No option currently to configure which elements hide.
 
 Notes:
@@ -1514,7 +1514,7 @@ After markers are placed by Snippets plugin, Tab-key works in special way - it r
 
 Dialog "Save tabs?" shows on CudaText closing, if at least one document is modified and not saved to disk.
 Dialog lists all modified file-tabs (usually one file per one file-tab, but it's allowed to have 2 files in a single file-tab). Checkmarks (all checked by default) are used to check/uncheck file-tabs which will be saved on pressing "Save" button. For untitled documents to be saved, program will show "Save as" prompts.
-Button "Don't save" closes dialog and program, loosing modifications.
+Button "Don't save" closes dialog and program, losing modifications.
 Button "Cancel" closes the dialog, but not the program.
 
 CudaText has the option "ui_reopen_session". When it is true, dialog "Save tabs?" shows additional button: "Don't save / Keep in session", which doesn't save disk files, but stores modified documents to active "session" file. Program will read it on start.
@@ -1662,7 +1662,7 @@ You can make Pull-Request there, if needed.
 
 =Tech topics=
 
-==Program perfomance==
+==Program performance==
 
 ===Startup time===
 
@@ -1672,7 +1672,7 @@ If no additional plugins are installed, or Python engine is disabled (ie not con
 If configuration/history are clean, it starts faster.
 If bottom panel is hidden on start, via option "ui_bottom_on_start":2, it starts faster.
 
-===Perfomance of loading huge files===
+===Performance of loading huge files===
 
 It's interesting how fast Linux editors open huge log files.
 Test file has about 300M size, 4M ASCII lines, it's created by Python script:
@@ -1694,7 +1694,7 @@ PC is HP Pavilion g6, CPU AMD A10 x64, 4 cores, RAM 8G, Ubuntu 18.04. Each time 
 * Emacs GUI 25.2.2: 2 sec., after showing confirmation for big file
 * Bluefish 2.2.10: 24 sec.
 
-===Perfomance on huge lines===
+===Performance on huge lines===
 
 It's interesting how some Linux editors handle huge lines. Tested several editors on Ubuntu 19.10 on Intel i3 CPU. With XML file with a single line of length 4M. XML file contains line like <id name="nnnnnnnnnnnnnnn"> with the huge "name" value of 4M.
 
@@ -1725,7 +1725,7 @@ f.write('">\n')
 
 *    Bluefish 2.2.10. On opening file, gives the warning about too long lines, on choosing "don't split lines" it hanged, waited for 30sec.
 
-===Perfomance of built-in sorting===
+===Performance of built-in sorting===
 
 Test on ~100M text file with short ASCII lines.
 Test on Ubuntu 19.10 on Intel i3 CPU.
@@ -1772,7 +1772,7 @@ Encoding detection works by this pseudo-code:
   if option "def_encoding_utf8":true then
     enc = UTF8
   else
-    enc = ANSI // "ANSI" codepage is OS dependant
+    enc = ANSI // "ANSI" codepage is OS dependent
    
   detect = file_detect_utf8_content
   // it can get 3 values: 
@@ -2184,7 +2184,7 @@ What CudaText folder to pack?
 * On macOS: ~/Library/Application Support/CudaText.
 * On Linux, other Unixes: ~/.config/cudatext, or $XDG_CONFIG_HOME/cudatext if this OS variable is set.
 
-Make the bug reproducable on your CudaText folder on your test file(s). Put your test file(s) in ZIP too. If needed to reproduce the bug, create the [[#Sessions|session]] using Session Manager plugin (bug may be visible only with some session). Put session file in ZIP too (usually it's already in the "settings" subfolder).
+Make the bug reproducible on your CudaText folder on your test file(s). Put your test file(s) in ZIP too. If needed to reproduce the bug, create the [[#Sessions|session]] using Session Manager plugin (bug may be visible only with some session). Put session file in ZIP too (usually it's already in the "settings" subfolder).
 
 ==Behaviour of column selection==
 
@@ -2205,7 +2205,7 @@ Even more weird look happens when user selects column block over word-wrapped li
 Here is the program's logic in all these cases (with full-width characters and with word-wrapped lines). Program calculates (line1, column1) text position of column block left-top edge. Then program calculates (line2, column2) text position of column block right-bottom edge. Then program selects characters in range column1...column2 in all those affected lines line1...line2. And this program logic produces so weird look in word-wrapped mode.
 
 ==How to replace from/to text containing line-breaks==
-There are several ways to perfrom it:
+There are several ways to perform it:
 
 1. The simplest way: set multi-line mode in the Find/Replace dialog, using "+" button. Input fields will become tall and multi-line. To enter line-breaks there, press Ctrl+Enter.
 
@@ -2434,7 +2434,7 @@ Plugin should add sections "bottombar*" ("*" means any substring) to perform the
 
 ====Install.inf lexer lists====
 
-If plugin has many [itemN] sections, it is possible to set list of lexers using vairable (not to write each time "lexers=name,name2,name3"). Declare list of lexers in [info] section like this, any variable name:
+If plugin has many [itemN] sections, it is possible to set list of lexers using variable (not to write each time "lexers=name,name2,name3"). Declare list of lexers in [info] section like this, any variable name:
 
 <syntaxhighlight lang="ini">
 [info]
@@ -2577,7 +2577,7 @@ CudaText: Use option
 
 ST3: Brackets highlight is built-in feature, turned on by default.
 
-CudaText: Brackets highlight is built-in, but it's off by defualt. Use several "bracket_" options, see comments in the "Options Editor" plugin.
+CudaText: Brackets highlight is built-in, but it's off by default. Use several "bracket_" options, see comments in the "Options Editor" plugin.
 
 ==How to highlight pair HTML tags?==
 

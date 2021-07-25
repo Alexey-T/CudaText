@@ -1654,7 +1654,7 @@ bool imap_close(resource $imap_stream [, int $flag=0]) |Close an IMAP stream (PH
 bool imap_createmailbox(resource $imap_stream, string $mailbox) |Create a new mailbox (PHP 4, PHP 5)
 bool imap_delete(resource $imap_stream, int $msg_number [, int $options=0]) |Mark a message for deletion from current mailbox (PHP 4, PHP 5)
 bool imap_deletemailbox(resource $imap_stream, string $mailbox) |Delete a mailbox (PHP 4, PHP 5)
-array imap_errors() |Returns all of the IMAP errors that have occured (PHP 4, PHP 5)
+array imap_errors() |Returns all of the IMAP errors that have occurred (PHP 4, PHP 5)
 bool imap_expunge(resource $imap_stream) |Delete all messages marked for deletion (PHP 4, PHP 5)
 array imap_fetch_overview(resource $imap_stream, string $sequence [, int $options=0]) |Read an overview of the information in the headers of the given message (PHP 4, PHP 5)
 string imap_fetchbody(resource $imap_stream, int $msg_number, string $section [, int $options=0]) |Fetch a particular section of the body of the message (PHP 4, PHP 5)
@@ -2367,7 +2367,7 @@ int mysqli_thread_id(mysqli $link) |The mysqli_thread_id() function returns the 
 bool mysqli_thread_safe(void) |Tells whether the client library is compiled as thread-safe. (PHP 5, PHP 7)
 mysqli_result mysqli_use_result(mysqli $link) |Used to initiate the retrieval of a result set from the last query executed using the mysqli_real_query() function on the database connection. (PHP 5, PHP 7)
 #Summary of mysqli_stmt methods
-int mysqli_stmt_affected_rows(mysqli_stmt $stmt) |mysqli_stmt::$affected_rows -- mysqli_stmt_affected_rows — Returns the total number of rows changed, deleted, or inserted by the last executed statement. (PHP 5, PHP 7)
+int mysqli_stmt_affected_rows(mysqli_stmt $stmt) |mysqli_stmt::$affected_rows -- mysqli_stmt_affected_rows ï¿½ Returns the total number of rows changed, deleted, or inserted by the last executed statement. (PHP 5, PHP 7)
 int mysqli_stmt_errno(mysqli_stmt $stmt) |Returns the error code for the most recently invoked statement function that can succeed or fail. (PHP 5, PHP 7)
 string mysqli_stmt_error(mysqli_stmt $stmt) |Returns a string containing the error message for the most recently invoked statement function that can succeed or fail. (PHP 5, PHP 7)
 int mysqli_stmt_field_count(mysqli_stmt $stmt) |Returns the number of field in the given statement. (PHP 5, PHP 7)

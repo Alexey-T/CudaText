@@ -780,7 +780,7 @@ You can control what should be printed via several options:
 ``--headers, -h``   Only the response headers are printed.
 ``--body, -b``      Only the response body is printed.
 ``--verbose, -v``   Print the whole HTTP exchange (request and response).
-                    This option also enables ``--all`` (see bellow).
+                    This option also enables ``--all`` (see below).
 ``--print, -p``     Selects parts of the HTTP exchange.
 =================   =====================================================
 
@@ -838,7 +838,7 @@ Print request and response headers:
 Viewing Intermediary Requests/Responses
 ---------------------------------------
 
-To see *all* the HTTP communication, i.e. the final request/resposne as
+To see *all* the HTTP communication, i.e. the final request/response as
 well as any possible  intermediary requests/responses, use the **``--all``**
 option. The intermediary HTTP communication include followed redirects
 (with ``--follow``), the first unauthorized request when HTTP digest

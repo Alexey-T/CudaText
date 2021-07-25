@@ -732,7 +732,7 @@ procedure TEditorFrame.DoShow;
 var
   an: TecSyntAnalyzer;
 begin
-  //analize file, when frame is shown for the 1st time
+  //analyze file, when frame is shown for the 1st time
   if UiOps.AllowFrameParsing and not FWasVisible then
   begin
     FWasVisible:= true;

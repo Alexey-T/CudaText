@@ -818,7 +818,7 @@ begin
   if AppPanels[cPaneSide].LastActivePanel<>'' then exit;
 
   S:= FOption_SidebarTab;
-  //if plugin didnt load, caption not valid
+  //if plugin didn't load, caption not valid
   if AppPanels[cPaneSide].CaptionToButtonIndex(S)<0 then
     S:= msgPanelTree_Init;
 

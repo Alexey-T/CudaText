@@ -171,7 +171,7 @@ begin
         end;
       end;
 
-    //Analize table
+    //Analyze table
     if DetectOEM then
       if Result and (TableSize > 0) then
         for i:= Low(Table) to High(Table) do

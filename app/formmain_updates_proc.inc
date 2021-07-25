@@ -409,7 +409,7 @@ begin
   end;
 
   ////removed to fix issue:
-  ////search fails, but OnCaret fired and Highlight Occurences gives statusbar message "hilited N matches"
+  ////search fails, but OnCaret fired and Highlight Occurrences gives statusbar message "hilited N matches"
   //Ed.DoEventCarets;
 end;
 

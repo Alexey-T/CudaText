@@ -351,7 +351,7 @@ def dlg_wrapper(title, w, h, cnts, in_vals={}, focus_cid=None):
             title, w, h     Title, Width, Height 
             cnts            List of static control properties
                                 [{cid:'*', tp:'*', t:1,l:1,w:1,r:1,b;1,h:1,tid:'cid', cap:'*', hint:'*', en:'0', props:'*', items:[*], act='0'}]
-                                cid         (opt)(str) C(ontrol)id. Need only for buttons and conrols with value (and for tid)
+                                cid         (opt)(str) C(ontrol)id. Need only for buttons and controls with value (and for tid)
                                 tp               (str) Control types from wiki or short names
                                 t           (opt)(int) Top
                                 tid         (opt)(str) Ref to other control cid for horz-align text in both controls

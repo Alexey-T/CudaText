@@ -2269,7 +2269,7 @@ ToDo
 [+][kv-kv][02apr17] History for cond
 [-][kv-kv][02apr17] ? Chapters list and "chap" attr into kinfo
 [-][kv-kv][02apr17] ? Tags list and "tag" attr into kinfo
-[-][kv-kv][02apr17] ? Delimeter row in table
+[-][kv-kv][02apr17] ? Delimiter row in table
 [ ][kv-kv][02apr17] "Need restart" in Comments
 [+][kv-kv][02apr17] ? Calc Format by Def_val
 [ ][kv-kv][02apr17] int_mm for min+max
@@ -2299,7 +2299,7 @@ ToDo
 [?][kv-kv][20mar18] Allow to add/remove opt in user/lex
 [?][kv-kv][21mar18] ? Allow to meta keys in user.json: 
                         "_fif_LOG__comment":"Comment for fif_LOG"
-[+][kv-kv][22mar18] Set conrol's tab_order to always work Alt+E for "Valu&e"
+[+][kv-kv][22mar18] Set control's tab_order to always work Alt+E for "Valu&e"
 [ ][kv-kv][26mar18] Use 'editor' for comment
 [+][kv-kv][26mar18] Increase w for one col when user increases w of dlg (if no h-scroll)
 [+][kv-kv][13apr18] DClick on Def-col - focus to Reset

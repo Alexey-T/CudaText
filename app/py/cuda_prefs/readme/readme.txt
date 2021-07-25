@@ -9,7 +9,7 @@ Options are shown in a table, after clicking an option you can see its current v
 - For boolean opts, checkbox is shown to change.
 - For string/number opts, input is shown to change.
 - For opts with limited count of values, combobox is used to choose one variant.
-- For font-name opts, combobox is shown (it lists special OS-dependant "default" font and OS fonts).
+- For font-name opts, combobox is shown (it lists special OS-dependent "default" font and OS fonts).
 
 Clicking on the list header displays a menu to choose visible columns and configure widths.
 

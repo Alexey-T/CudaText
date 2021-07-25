@@ -9,7 +9,7 @@ This is API for [[CudaText]] in Python.
 
 =Event plugins=
 
-To make plugin react to some program event, add method to class Command. For example, method "Command.on_save" will be called by program event "on_save" - if plugin is subscribed to that event. Event methods have param "ed_self": this is Editor object in which event occured. This object is the same as object "ed" in most cases ("ed" always refers to focused editor), but in some cases event occurs in inactive editor, e.g. command "Save all tabs" calls event "on_save" for passive tabs.
+To make plugin react to some program event, add method to class Command. For example, method "Command.on_save" will be called by program event "on_save" - if plugin is subscribed to that event. Event methods have param "ed_self": this is Editor object in which event occurred. This object is the same as object "ed" in most cases ("ed" always refers to focused editor), but in some cases event occurs in inactive editor, e.g. command "Save all tabs" calls event "on_save" for passive tabs.
 
 Plugin can subscribe to events in several ways:
 
@@ -113,7 +113,7 @@ Callback parameter is supported in several API functions: dlg_proc, timer_proc, 
 
 Parameter can be in these forms:
 
-* callable, ie name of a Python function, or just "lambda". Internally, callable will be converted to a weird string. Note that some functions do not support "callable form". You can detect this support by reading the code of "py/cudatext.py" module, which performs the convertions from callable to string.
+* callable, ie name of a Python function, or just "lambda". Internally, callable will be converted to a weird string. Note that some functions do not support "callable form". You can detect this support by reading the code of "py/cudatext.py" module, which performs the conversions from callable to string.
 * string "module=mmm;cmd=nnn;" - to call method nnn (in class Command) in plugin mmm, where mmm is usually sub-dir in the "cudatext/py", but can be any module name
 * string "module=mmm;cmd=nnn;info=iii;" - the same, and callback will get param "info" with your value
 * string "mmm.nnn" - the same, to call method, short form
@@ -183,8 +183,8 @@ Parameter "text" is usually string, but can be of other types (bool, int, float,
 ====app_proc - Misc properties====
 
 * PROC_GET_LANG: Returns string id of active app translation. E.g. "ru_RU" if translation file is "ru_RU.ini", or "translation template" if such file is used. Returns empty string if built-in English translation is used.
-* PROC_GET_GROUPING: Returns grouping mode in program, one of GROUPS_nnnn int contants.
-* PROC_SET_GROUPING: Sets grouping mode in program, one of GROUPS_nnnn int contants.
+* PROC_GET_GROUPING: Returns grouping mode in program, one of GROUPS_nnnn int constants.
+* PROC_SET_GROUPING: Sets grouping mode in program, one of GROUPS_nnnn int constants.
 * PROC_PROGRESSBAR: Changes state of the progress-bar (hidden by default), which is located on the status-bar right corner. Int value<0: progressbar hides, value in 0..100: progressbar shows with the given value.
 
 * PROC_SET_FOLDER: Sets path of folder which will be used as initial folder in program's Open/Save-as dialogs.
@@ -962,7 +962,7 @@ Properties "ex0"..."ex9" are control-specific. They have different simple type (
 ** "ex0": bool: paint border
 ** "ex1": bool: on mouse drag, use instant repainting (else splitter paints after mouse released)
 ** "ex2": bool: auto jump to edge, when size of linked control becomes < min size
-** "ex3": int: mininal size of linked control (controlled by splitter)
+** "ex3": int: minimal size of linked control (controlled by splitter)
 
 ====dlg_custom - Return value====
 
@@ -2157,7 +2157,7 @@ Deletes whole lines from index y1 to y2, then inserts new lines from specified l
 
 * Index y1 must be valid index (0 to count-1)
 * Index y2 can be less than y1 (to not delete), and can be too big (to delete lines to end)
-* Param lines is list/tuple of str. Can be empty list to just delete lines. Inside items should not be "\n" and "\r": "\n" will generate additonal lines, "\r" not handled.
+* Param lines is list/tuple of str. Can be empty list to just delete lines. Inside items should not be "\n" and "\r": "\n" will generate additional lines, "\r" not handled.
 
 Returns bool: index y1 correct, replace done.
 
@@ -2496,7 +2496,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 
 ===props vs options===
 
-Many get_prop/set_prop ids correspond to CudaText options. List of correspoding pairs:
+Many get_prop/set_prop ids correspond to CudaText options. List of corresponding pairs:
 
 * PROP_CARET_VIRTUAL - "caret_after_end"
 * PROP_GUTTER_ALL - "gutter_show"
@@ -2650,7 +2650,7 @@ Returns list of ranges which belong to nested lexers (sublexers of current lexer
 
  get_token(id, index1=0, index2=0)
 
-Returns info about lexer "tokens". "Token" is minimal text fragment for lexer, e.g. one indentifier, one operator, one whole comment, one whole string. Each token has its color from lexer properties or color theme. Function returns None if no lexer is active in editor.
+Returns info about lexer "tokens". "Token" is minimal text fragment for lexer, e.g. one identifier, one operator, one whole comment, one whole string. Each token has its color from lexer properties or color theme. Function returns None if no lexer is active in editor.
 
 Possible values of "id":
 
@@ -2992,7 +2992,7 @@ Performs some action in editor. Possible values of "id":
 ** "param2": String with allowed bracket pairs. Can have these pairs: () [] {} <>.
 ** "param3": Max distance, in lines, to the pair bracket. Must be 32-bit signed int.
 
-* EDACTION_SHOW_POS: Make text position visible without caret moving. Returns True if params correct and scrolling occured, returns False if params correct and no scrolling occured, returns None if params not correct.
+* EDACTION_SHOW_POS: Make text position visible without caret moving. Returns True if params correct and scrolling occurred, returns False if params correct and no scrolling occurred, returns None if params not correct.
 ** "param1": Text position as 2-tuple (column, line).
 ** "param2": Indentation of text position from edges as 2-tuple (indent_horz, indent_vert). Values meaning is like for CudaText options "find_indent_horz", "find_indent_vert".
 

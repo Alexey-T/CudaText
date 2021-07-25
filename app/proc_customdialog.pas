@@ -2112,7 +2112,7 @@ begin
       try
         F.ActiveControl:= DoControl_Target(C) as TWinControl;
       except
-        //supress Pascal exception in Py API
+        //suppress Pascal exception in Py API
       end;
     end;
 end;

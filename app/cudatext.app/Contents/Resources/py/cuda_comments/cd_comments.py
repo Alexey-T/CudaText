@@ -111,7 +111,7 @@ class Command:
         pass;                  #log('cmt_type, lex, cmt_sgn={}', (cmt_type, lex, cmt_sgn))
         if not cmt_sgn:
             return app.msg_status(f(_('Lexer "{}" doesn\'t support "line comments"'), lex))
-        # Analize
+        # Analyze
         empty_sel   = False
         rWrks       = []
         use_rep_lines = True # use API replace_lines()

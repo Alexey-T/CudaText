@@ -80,7 +80,7 @@ Any project can have "main file", you can choose it in the context menu: "Select
 * "Use preview tab on item clicking": If option is on, single click on treeview file item, will open file in "preview tab". Preview tab is single such tab, it's shared by all files, it has italic+underlined tab title. If option is off, clicking file item will open normal tab, separate normal tabs per each file.
 * "Open file after 'Go to file' command": If turned on, command "Project Manager: Go to file" will not only jump to chosen file in the treeview, but also open that file in editor.
 * "Open files by double-click": If turned on, only double-click in the treeview will open file for editing, but not the single click.
-* "On opening file in Git/SVN repo...": On opening any file, Project Manager will check if this file is in the Git/SVN repository (by presense of folder ".git" or ".svn" near the file, or in upper level folders). If yes, Project Manager will create the project from that repository and open it. This gives some slowdown of course.
+* "On opening file in Git/SVN repo...": On opening any file, Project Manager will check if this file is in the Git/SVN repository (by presence of folder ".git" or ".svn" near the file, or in upper level folders). If yes, Project Manager will create the project from that repository and open it. This gives some slowdown of course.
 * "File type icons": Set of file/folder icons for treeview. You can install additional themes from Addons Manager, see category "filetypeicons" there. Example of such theme: "VSCode Material 24x24". This option shows  themes, which are present in the folder "data/filetypeicons".
 * "Toolbar theme": Set of icons for Project Manager toolbar buttons. You can install additional themes from Addon Manager, see the category "projtoolbaricons" there. This option shows themes, which are present in the folder "data/projtoolbaricons".
 
@@ -210,7 +210,7 @@ Snippets are stored in separate files with extensions:
 * .cuda-snippet or .synw-snippet: main format.
 * .cuda-snips: compact format for collections of tiny snippets.
 
-Encoding is UTF-8, no BOM. Files can be placed in any subfolder of "data/snippets" folder, file/folder names have no meaning, but it's recommented to name subfolders like AuthorName.SyntaxName, so users can easily find newly installed snippets.
+Encoding is UTF-8, no BOM. Files can be placed in any subfolder of "data/snippets" folder, file/folder names have no meaning, but it's recommended to name subfolders like AuthorName.SyntaxName, so users can easily find newly installed snippets.
 
 ====Format of .cuda-snippet====
 
@@ -734,7 +734,7 @@ if __name__ == '__main__':
 
 =FindInFiles=
 
-==FiF3 and FiF4: comparision and future==
+==FiF3 and FiF4: comparison and future==
 CudaText now has two plugins to search in files/tabs:
 
 * FindInFiles-v3 (FiF3)
@@ -870,7 +870,7 @@ LSP Client gives several commands in the "Plugins / LSP Client", and all these c
 Some of LSP commands are:
 
 * Auto-completion: integrated with CudaText command "Auto-completion menu" (in the Command Palette).
-* Go to defintion: integrated with CudaText command "Go to definition" (in the Command Palette, and in the editor context menu).
+* Go to definition: integrated with CudaText command "Go to definition" (in the Command Palette, and in the editor context menu).
 * Function signature help: integrated with CudaText command "Show function hint" (in the Command Palette).
 * Hover: shows the tooltip when you hover mouse above identifiers. You need the Ctrl key pressed while you hover.
 * Find references: finds all locations where an identifier (under first caret) is used and shows menu with locations.
@@ -899,7 +899,7 @@ LSP Client also has the settings file, use menu item to open it: "Options / Sett
 Python server has [https://github.com/palantir/python-language-server this homepage] and supports:
 
 * Auto-completion
-* Go to defintion
+* Go to definition
 * Function signature help
 * Hover
 * Find references
