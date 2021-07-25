@@ -242,7 +242,7 @@ procedure TfmLexerProp.SaveChangedLexer;
 var
   i: integer;
 begin
-  FAnalyzer.Extentions:= edTypes.Text;
+  FAnalyzer.Extensions:= edTypes.Text;
 
   for i:= 0 to FAnalyzer.Formats.Count-1 do
     FAnalyzer.Formats.Items[i].Assign(FFormats[i]);
@@ -495,7 +495,7 @@ begin
 
     F.FAnalyzer:= An;
     F.edName.Text:= An.LexerName;
-    F.edTypes.Text:= An.Extentions;
+    F.edTypes.Text:= An.Extensions;
     F.edCmtLine.Text:= An.LineComment;
     F.edNotes.Lines.AddStrings(An.Notes);
 
@@ -521,7 +521,7 @@ begin
     if Result then
     begin
       //An.LexerName:= F.edName.Text; //read-only
-      An.Extentions:= F.edTypes.Text;
+      An.Extensions:= F.edTypes.Text;
       An.LineComment:= F.edCmtLine.Text;
       //An.Notes.Clear;
       //An.Notes.AddStrings(F.edNotes.Lines);

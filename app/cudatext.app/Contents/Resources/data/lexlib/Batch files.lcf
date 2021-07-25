@@ -480,7 +480,7 @@ object SyntAnal3: TLibSyntAnalyzer
     'Symbol'
     'Var'
     'Exec')
-  Extentions = 'bat cmd'
+  Extensions = 'bat cmd'
   LexerName = 'Batch files'
   SkipSpaces = False
   Notes.Strings = (

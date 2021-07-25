@@ -435,7 +435,7 @@ object SyntAnal18: TLibSyntAnalyzer
     'Table begin'
     'Table end'
     'List head')
-  Extentions = 'rst'
+  Extensions = 'rst'
   LexerName = 'reStructuredText'
   SkipSpaces = False
   Notes.Strings = (

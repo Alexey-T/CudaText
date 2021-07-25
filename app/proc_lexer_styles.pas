@@ -129,7 +129,7 @@ begin
       conf.Formatted:= true;
       conf.FileName:= Filename;
 
-      conf.SetDeleteValue('/files', an.Extentions, an_orig.Extentions);
+      conf.SetDeleteValue('/files', an.Extensions, an_orig.Extensions);
 
       for i:= 0 to an.Formats.Count-1 do
       begin
@@ -229,7 +229,7 @@ begin
     try
       conf.FileName:= Filename;
 
-      an.Extentions:= conf.GetValue('/files', an.Extentions);
+      an.Extensions:= conf.GetValue('/files', an.Extensions);
       if NoStyles then exit;
 
       for i:= 0 to an.Formats.Count-1 do

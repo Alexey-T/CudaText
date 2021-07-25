@@ -363,7 +363,7 @@ object SyntAnal21: TLibSyntAnalyzer
     'Timestamp'
     '^Symbol'
     'Symbol ()')
-  Extentions = 'yml yaml'
+  Extensions = 'yml yaml'
   LexerName = 'YAML'
   Notes.Strings = (
     'Alexey (CudaText)')

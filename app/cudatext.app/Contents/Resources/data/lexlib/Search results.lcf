@@ -144,7 +144,7 @@ object SyntAnal19: TLibSyntAnalyzer
     'Text'
     'String'
     '^Coord')
-  Extentions = 'cuda-findres'
+  Extensions = 'cuda-findres'
   LexerName = 'Search results'
   SkipSpaces = False
   Notes.Strings = (

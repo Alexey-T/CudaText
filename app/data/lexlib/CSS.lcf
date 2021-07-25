@@ -2330,7 +2330,7 @@ object SyntAnal6: TLibSyntAnalyzer
     'PHP tag'
     'Prop'
     'ValueUnit')
-  Extentions = 'css'
+  Extensions = 'css'
   LexerName = 'CSS'
   Notes.Strings = (
     'Alexey (CudaText)'

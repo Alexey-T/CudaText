@@ -806,7 +806,7 @@ object SyntAnal3: TLibSyntAnalyzer
     'String'
     'Number'
     'Segment')
-  Extentions = 'asm'
+  Extensions = 'asm'
   LexerName = 'Assembly'
   SkipSpaces = False
   Notes.Strings = (

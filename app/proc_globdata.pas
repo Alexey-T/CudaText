@@ -2006,7 +2006,7 @@ begin
   if res<>'' then
     exit(AppManager.FindLexerByName(res));
 
-  //detect by extention
+  //detect by extension
   ext:= ExtractFileExt(AFilename);
   if ext<>'' then
   begin

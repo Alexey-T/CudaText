@@ -5256,7 +5256,7 @@ begin
     List:= TStringList.Create;
     try
       List.LineBreak:= ' ';
-      List.Text:= An.Extentions;
+      List.Text:= An.Extensions;
       ObjTypes:= StringsToPyList(List);
 
       List.LineBreak:= ',';

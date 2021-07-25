@@ -263,7 +263,7 @@ object SyntAnal11: TLibSyntAnalyzer
     'String'
     'Number'
     'Symbol {}')
-  Extentions = 
+  Extensions = 
     'avsc babelrc bowerrc geojson gltf ipynb jscsrc jshintrc jslintrc' +
     ' json jsonl jsonld ldj ldjson schema topojson webapp sublime-build'
   LexerName = 'JSON'

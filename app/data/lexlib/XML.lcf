@@ -485,7 +485,7 @@ object SyntAnal22: TLibSyntAnalyzer
     'Comment doc'
     'Attrib value'
     'CDATA end')
-  Extentions = 
+  Extensions = 
     'xml appxmanifest axl bdsproj csproj dae dproj fsproj fxml jsproj' +
     ' kml lpi lpk manifest menu mmpa mmpr msc mxml owl plist props rd' +
     'f rss sqlproj sti storyboard sublime-snippet svg targets tmLangu' +

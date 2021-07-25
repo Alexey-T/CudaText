@@ -1126,7 +1126,7 @@ object SyntAnal2: TLibSyntAnalyzer
     ')'
     '{'
     '}')
-  Extentions = 
+  Extensions = 
     'sh bash zsh fish csh command /.bashrc /.zshrc /.bash_aliases /.b' +
     'ash_completions /.bash_functions /.bash_login /.bash_logout /.ba' +
     'sh_profile /.bash_variables /.profile /.textmate_init'

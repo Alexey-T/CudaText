@@ -692,7 +692,7 @@ object SyntAnal12: TLibSyntAnalyzer
     '-'
     'Preprocessor'
     'Func name')
-  Extentions = 'lua'
+  Extensions = 'lua'
   LexerName = 'Lua'
   Notes.Strings = (
     'Alexey (CudaText)'

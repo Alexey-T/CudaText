@@ -900,7 +900,7 @@ object SyntAnal9: TLibSyntAnalyzer
     'Symbol ( )'
     'Symbol { }'
     'Id after.')
-  Extentions = 'js htc es6 pjs mjs'
+  Extensions = 'js htc es6 pjs mjs'
   LexerName = 'JavaScript'
   Notes.Strings = (
     'Based on lexer from EControl'

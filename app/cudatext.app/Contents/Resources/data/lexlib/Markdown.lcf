@@ -735,7 +735,7 @@ object SyntAnal13: TLibSyntAnalyzer
     '~end'
     'Table begin'
     'Table end')
-  Extentions = 'md markdown mkd'
+  Extensions = 'md markdown mkd'
   LexerName = 'Markdown'
   SkipSpaces = False
   Notes.Strings = (

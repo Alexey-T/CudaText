@@ -862,7 +862,7 @@ object SyntAnal11: TLibSyntAnalyzer
     'Open Tag'
     'Close Tag'
     'Include Tag')
-  Extentions = 
+  Extensions = 
     'html htm htt hta htx htc htd shtml phtml xhtml asp aspx ascx asm' +
     'x jsp hhc dtd'
   LexerName = 'HTML'

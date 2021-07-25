@@ -886,7 +886,7 @@ object SyntAnal5: TLibSyntAnalyzer
     'Goto label'
     'Id after ~'
     'Id after ::~')
-  Extentions = 'cpp cxx h hh hpp hxx inl cc cp c++ h++ inl ipp'
+  Extensions = 'cpp cxx h hh hpp hxx inl cc cp c++ h++ inl ipp'
   LexerName = 'C++'
   Notes.Strings = (
     'Alexey (CudaText)')

@@ -686,7 +686,7 @@ object SyntAnal16: TLibSyntAnalyzer
     '^Id='
     '^@Id'
     '^Id tree class')
-  Extentions = 'py pyw rpy cpy sconstruct pyi'
+  Extensions = 'py pyw rpy cpy sconstruct pyi'
   LexerName = 'Python'
   Notes.Strings = (
     'Python lexer by Alexey (CudaText)')

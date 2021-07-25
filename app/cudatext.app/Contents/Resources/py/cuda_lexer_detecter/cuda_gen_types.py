@@ -27,7 +27,7 @@ def cuda_gen_types(src_dir, trg_file):
                     body    = body.replace(r"\'", "'").replace(r'\n', '\n').replace(r'\r', '\r')
                     body    = re.sub(r'\s*=\s*', '=', body)
                     body    = re.sub(r"'\s*\+\s*'", '', body)
-                    mt      = re.search(r"Extentions='([^']+)'", body)
+                    mt      = re.search(r"Extensions='([^']+)'", body)
                     ext_s   = mt.group(1) if mt else ''
                     pass;      #log('ext_s={}',(ext_s))
                     
