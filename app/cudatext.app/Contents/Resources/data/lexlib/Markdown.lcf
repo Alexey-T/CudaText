@@ -656,7 +656,7 @@ object SyntAnal13: TLibSyntAnalyzer
       '[reference][ref] and [reference] [ref]. <HTML> syntax and specia' +
       'l &harr; '
     'chars are highlighted, [Hyperlink text](url "title") '
-    'and ![alternative text](image adress "title"). '
+    'and ![alternative text](image address "title"). '
     'test: ~~~~crossed~ and ~crossed~~~ is supported '
     '- - -'
     '*  *  *'
