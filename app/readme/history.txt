@@ -3,6 +3,9 @@
   - fixed
   * changed
 
+1.139.3 (2021/07)
+
++ add: reduce flickering of folding-bar on editing: folding-bar is not refreshed until the entire document is parsed
 + add: Project Manager: faster open huge folders (patch by @memstream)
 
 1.139.2 (2021/07)
