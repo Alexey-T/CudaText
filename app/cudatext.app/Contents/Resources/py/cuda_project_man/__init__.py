@@ -543,22 +543,23 @@ class Command:
                 return
 
         for path in nodes:            
-            # DirEntry or Path? 
+            # DirEntry or Path?
             if isinstance(path, Path):
                 spath = str(path)
             else:
                 spath = path.path
+            is_dir = path.is_dir() 
             sname = path.name
             if is_win_root(spath):
                 sname = spath
             elif self.options.get("no_hidden", True) and is_hidden(spath):
                 continue
-            elif self.is_filename_ignored(spath):
+            elif self.is_filename_ignored(spath, is_dir):
                 continue
 
             if is_locked(spath):
                 imageindex = self.ICON_BAD
-            elif path.is_dir():
+            elif is_dir:
                 imageindex = self.ICON_DIR
             elif is_simple_listed(path.name, MASKS_IMAGES):
                 imageindex = self.ICON_IMG
@@ -832,8 +833,8 @@ class Command:
             if self.project_file_path:
                 self.action_save_project_as(self.project_file_path)
 
-    def is_filename_ignored(self, fn):
-        if os.path.isdir(fn):
+    def is_filename_ignored(self, fn, is_dir):
+        if is_dir:
             msk = self.options.get("no_dirs", "")
         else:
             msk = self.options.get("no_files", "")
