@@ -493,11 +493,14 @@ class Command:
 
         # it was hard to add TREE_LOCK/UNLOCK directly into action_refresh_int
         tree_proc(self.tree, TREE_LOCK)
-        self.action_refresh_int(parent)
-        tree_proc(self.tree, TREE_UNLOCK)
+        try:
+            self.action_refresh_int(parent)
+        finally:
+            tree_proc(self.tree, TREE_UNLOCK)
 
 
     def action_refresh_int(self, parent=None):
+
         unfold = parent is None
         if parent is None:
             # clear tree
