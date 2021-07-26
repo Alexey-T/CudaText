@@ -355,6 +355,12 @@ class Command:
         # sort folders first, then by extension
         path = Path(node)
         return path.is_file(), path.suffix.upper(), path.name.upper()
+    
+    @staticmethod
+    def node_ordering_direntry(path):
+        # node_ordering() for DirEntry
+        _, suffix = os.path.splitext(path.name)
+        return path.is_file(), suffix.upper(), path.name.upper()
 
     def add_node(self, path):
         if path:
@@ -524,20 +530,24 @@ class Command:
             items_root = tree_proc(self.tree, TREE_ITEM_ENUM, 0)
             tree_proc(self.tree, TREE_ITEM_SELECT, items_root[0][0])
 
-            nodes = self.project["nodes"]
+            nodes = map(Path, self.project["nodes"])
             self.top_nodes = {}
         else:
             fn = self.get_location_by_index(parent)
             if not fn: return
             #print('Reading dir:', fn)
             try:
-                nodes = sorted(Path(fn).iterdir(), key=Command.node_ordering)
+                nodes = sorted(os.scandir(fn), key=Command.node_ordering_direntry)
             except:
                 tree_proc(self.tree, TREE_ITEM_SET_ICON, parent, image_index=self.ICON_BAD)
                 return
 
-        for path in map(Path, nodes):
-            spath = str(path)
+        for path in nodes:            
+            # DirEntry or Path? 
+            if isinstance(path, Path):
+                spath = str(path)
+            else:
+                spath = path.path
             sname = path.name
             if is_win_root(spath):
                 sname = spath
@@ -573,7 +583,7 @@ class Command:
                 data=spath
                 )
             if nodes is self.project["nodes"]:
-                self.top_nodes[index] = path
+                self.top_nodes[index] = Path(spath)
 
             # dummy nested node for folders
             if imageindex == self.ICON_DIR:
