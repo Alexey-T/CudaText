@@ -3,12 +3,13 @@
   - fixed
   * changed
 
++ add: Project Manager: faster open huge folders (patch by @memstream)
 
 1.139.2 (2021/07)
 
 + add: special value of "renderer_anti_flicker":1000 makes special anti-flicker trick
 + add: option "ui_statusbar_panels" allows new panel 'zoom'
-+ add: avoid auto-closing of 'singleton' HTML tags like <br> (thanks @memstream)
++ add: avoid auto-closing of 'singleton' HTML tags like <br> (patch by @memstream)
 + add: lexer Python: better code-tree, now with icons
 - fix: regression: crash with option "mouse_rt_click_moves_caret":true (thanks @dinkumoil)
 - fix: regression in 1.134: broken rendering of scrolled single-line inputs (thanks @JairoMartinezA)
