@@ -1027,18 +1027,39 @@ with this
 
  npx tsc
 
-Server should be compiled now. To use the server in LSP Client, create the file "lsp_ahk.json" with such content:
+Server should be compiled now. To use the server in LSP Client, create the file "lsp_ahk.json" in the "settings" with such content:
 <syntaxhighlight lang="json">
 {
     "name": "AutoHotkey2",
     "lexers": {
-        "AutoHotkey": "ahk",
+        "AutoHotkey": "ahk"
     },
     "cmd_unix": [
         "node",
         "path_to_server/server/out/server.js",
-        "--stdio",
-    ],
+        "--stdio"
+    ]
+}
+</syntaxhighlight>
+
+==LSP server for JavaScript/ReactJS==
+
+* Install TypeScript and the LSP server. In Terminal:
+
+ npm install -g typescript typescript-language-server
+
+To use the server in LSP Client, create a file "lsp_js.json" in the "settings" directory with such content:
+<syntaxhighlight lang="json">
+{
+    "name": "JavaScript",
+    "lexers": {
+        "JavaScript": "javascript",
+        "JavaScript Babel": "javascriptreact"
+    },
+    "cmd_unix": [
+        "typescript-language-server",
+        "--stdio"
+    ]
 }
 </syntaxhighlight>
 
