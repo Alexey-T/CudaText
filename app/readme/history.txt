@@ -7,6 +7,7 @@
 
 + add: reduce flickering of folding-bar on editing: now folding-bar is not refreshed until the entire document is parsed
 + add: Project Manager: faster open huge folders (patch by @memstream)
++ add: better find conflicts of hotkeys, e.g. 'Ctrl+K' vs 'Ctrl+K * Ctrl+M' (thanks @veksha)
 
 1.139.2 (2021/07)
 
