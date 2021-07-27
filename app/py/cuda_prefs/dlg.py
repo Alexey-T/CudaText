@@ -412,7 +412,9 @@ class DialogMK2:
 
         if os.path.exists(FORMS_CFG_JSON):
             with open(FORMS_CFG_JSON, 'r', encoding='utf-8') as f:
-                j_form = json.load(f).get(self.title)
+                j = json.load(f)
+                _old_title = _('CudaText options lite')
+                j_form = j.get(self.title, j.get(_old_title))
             if j_form:
                 self._form_rect = {k:v for k,v in j_form.items()
                                         if v  and  k in {'x', 'y', 'w', 'h'}}
@@ -627,7 +629,7 @@ class DialogMK2:
         ###### FORM #######################
         dlg_proc(h, DLG_PROP_SET, prop={
                 'cap': self.title,
-                'w': 600, 'h': 400,
+                'w': 848, 'h': 576,
                 'w_min': 550, 'h_min': 250,
                 'border': DBORDER_SIZE,
                 'color': color_form_bg,
