@@ -233,6 +233,8 @@ begin
   if GetKeyState(VK_LBUTTON) < 0 then Include(Result, ssLeft);
   if GetKeyState(VK_RBUTTON) < 0 then Include(Result, ssRight);
   if GetKeyState(VK_MBUTTON) < 0 then Include(Result, ssMiddle);
+  if GetKeyState(VK_XBUTTON1) < 0 then Include(Result, ssExtra1);
+  if GetKeyState(VK_XBUTTON2) < 0 then Include(Result, ssExtra2);
 end;
 
 function ConvertShiftStateToString(const Shift: TShiftState): string;
@@ -245,6 +247,8 @@ begin
   if ssLeft in Shift then Result+= 'L';
   if ssRight in Shift then Result+= 'R';
   if ssMiddle in Shift then Result+= 'M';
+  if ssExtra1 in Shift then Result+= '4';
+  if ssExtra2 in Shift then Result+= '5';
 end;
 
 
