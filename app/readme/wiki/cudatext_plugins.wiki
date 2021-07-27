@@ -1044,6 +1044,7 @@ Server should be compiled now. To use the server in LSP Client, create the file 
 
 ==LSP server for JavaScript/ReactJS==
 
+* In "Addons Manager", install the lexer for ReactJS: "JavaScript Babel".
 * Install TypeScript and the LSP server. In Terminal:
 
  npm install -g typescript typescript-language-server
