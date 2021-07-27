@@ -312,6 +312,8 @@ Actions work with props of Find/Replace dialog, and props of low-level search en
 ** "L" for left mouse button
 ** "R" for right mouse button
 ** "M" for middle mouse button
+** "4" for the 4th mouse button
+** "5" for the 5th mouse button
 * PROC_HOTKEY_STR_TO_INT: Converts given string hotkey to int. Returns 0 for incorrect string. Example: converts "alt+shift+z" to 41050.
 * PROC_HOTKEY_INT_TO_STR: Converts given int hotkey to string. Returns empty str for unknown code. Example: converts 41050 to "Shift+Alt+Z".
 
@@ -4460,5 +4462,6 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 
 1.0.407 (app 1.139.2)
 * add: Editor.get_prop/set_prop: PROP_THEMED
+* add: app_proc: PROC_GET_KEYSTATE returns flags for 4th/5th mouse buttons 
 
 [[Category:CudaText]]
