@@ -2425,6 +2425,8 @@ function Keymap_CheckDuplicateForCommand(
 var
   Map: TATKeymap;
   MapItem: TATKeymapItem;
+  ShortKeys1: TATKeyArray;
+  ShortKeys2: TATKeyArray;
   StrId: string;
   NKeyIndex: integer;
   iCmd: integer;
@@ -2434,11 +2436,30 @@ begin
   Map:= AppKeymapMain;
   NKeyIndex:= 0;
 
+  ShortKeys1.Clear;
+  ShortKeys2.Clear;
+  if AKeymapItem.Keys1.Length>1 then
+    ShortKeys1:= AKeymapItem.ShortenedKeys1;
+  if AKeymapItem.Keys2.Length>1 then
+    ShortKeys2:= AKeymapItem.ShortenedKeys2;
+
   for iCmd:= 0 to Map.Count-1 do
   begin
     MapItem:= Map.Items[iCmd];
     if MapItem.Command=AKeymapItem.Command then Continue;
 
+    if (ShortKeys1.Length>0) and (ShortKeys1=MapItem.Keys1) then
+      NKeyIndex:= 0
+    else
+    if (ShortKeys2.Length>0) and (ShortKeys2=MapItem.Keys1) then
+      NKeyIndex:= 0
+    else
+    if (ShortKeys1.Length>0) and (ShortKeys1=MapItem.Keys2) then
+      NKeyIndex:= 1
+    else
+    if (ShortKeys2.Length>0) and (ShortKeys2=MapItem.Keys2) then
+      NKeyIndex:= 1
+    else
     if (AKeymapItem.Keys1=MapItem.Keys1) or
        (AKeymapItem.Keys2=MapItem.Keys1) then
        NKeyIndex:= 0
