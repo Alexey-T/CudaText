@@ -33,12 +33,12 @@ var
   Map: TATKeymap;
 begin
   Result:= false;
-  if not AppCommandHasConfigurableHotkey(ACmd) then exit;
+  if not TAppPluginHelper.CommandHasConfigurableHotkey(ACmd) then exit;
 
   CmdIndex:= AKeymap.IndexOf(ACmd);
   if CmdIndex<0 then exit;
 
-  StrId:= DoOps_CommandCode_To_HotkeyStringId(ACmd);
+  StrId:= TAppPluginHelper.CommandCode_To_HotkeyStringId(ACmd);
 
   Form:= TfmKeys.Create(nil);
   try

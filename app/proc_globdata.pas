@@ -718,9 +718,6 @@ function Keymap_CheckDuplicateForCommand(
 function Keymap_GetForLexer(const ALexer: string): TATKeymap;
 procedure Keymap_LoadConfig(AKeymap: TATKeymap; const AFileName: string; AForLexer: boolean);
 
-function DoOps_HotkeyStringId_To_CommandCode(const AId: string): integer;
-function DoOps_CommandCode_To_HotkeyStringId(ACmd: integer): string;
-
 procedure KeymapItem_SaveToConfig(K: TATKeymapItem; const path, ALexerName: string; ALexerSpecific: boolean);
 procedure KeymapItem_DeleteInConfig(K: TATKeymapItem; const path, ALexerName: string; ALexerSpecific: boolean);
 function Keymap_SaveKey_ForPlugin(AKeymap: TATKeymap; AOverwriteKey: boolean;
@@ -958,16 +955,25 @@ type
     TagString: string;
   end;
 
-function AppCommandCategory(Cmd: integer): TAppCommandCategory;
-function AppCommandHasConfigurableHotkey(Cmd: integer): boolean;
-procedure AppCommandsClearButKeepApiItems;
-function AppEventIsUsed(AEvent: TAppPyEvent): boolean;
-procedure AppEventStringToEventData(const AEventStr: string;
-  out AEvents: TAppPyEvents;
-  out AEventsPrior: TAppPyEventsPrior;
-  out AEventsLazy: TAppPyEventsLazy);
-procedure AppEventsUpdate(const AModuleName, AEventStr, ALexerStr, AKeyStr: string);
-procedure AppEventsMaxPrioritiesUpdate;
+type
+  { TAppPluginHelper }
+
+  TAppPluginHelper = class
+  public
+    class function CommandCategory(Cmd: integer): TAppCommandCategory;
+    class function CommandHasConfigurableHotkey(Cmd: integer): boolean;
+    class procedure CommandsClearButKeepApiItems;
+    class function EventIsUsed(AEvent: TAppPyEvent): boolean;
+    class procedure EventStringToEventData(const AEventStr: string;
+      out AEvents: TAppPyEvents;
+      out AEventsPrior: TAppPyEventsPrior;
+      out AEventsLazy: TAppPyEventsLazy);
+    class procedure EventsUpdate(const AModuleName, AEventStr, ALexerStr, AKeyStr: string);
+    class procedure EventsMaxPrioritiesUpdate;
+    class function CommandCode_To_HotkeyStringId(ACmd: integer): string;
+    class function HotkeyStringId_To_CommandCode(const AId: string): integer;
+  end;
+
 
 function CommandPlugins_GetIndexFromModuleAndMethod(const AText: string): integer;
 procedure CommandPlugins_UpdateSubcommands(const AText: string);
@@ -1944,7 +1950,7 @@ begin
 end;
 
 
-function DoOps_HotkeyStringId_To_CommandCode(const AId: string): integer;
+class function TAppPluginHelper.HotkeyStringId_To_CommandCode(const AId: string): integer;
 begin
   //plugin item 'module,method'
   if Pos(',', AId)>0 then
@@ -2050,9 +2056,9 @@ begin
   Result:= AppManager.FindLexerByFilename(AFilename, AChooseFunc);
 end;
 
-function DoOps_CommandCode_To_HotkeyStringId(ACmd: integer): string;
+class function TAppPluginHelper.CommandCode_To_HotkeyStringId(ACmd: integer): string;
 begin
-  if AppCommandCategory(ACmd) in [categ_Plugin, categ_PluginSub] then
+  if CommandCategory(ACmd) in [categ_Plugin, categ_PluginSub] then
     Result:= TAppCommandInfo(AppCommandList[ACmd-cmdFirstPluginCommand]).CommaStr
   else
     Result:= IntToStr(ACmd);
@@ -2477,7 +2483,7 @@ begin
       //clear item in ALL existing keymaps
       Keymap_ClearKeyInAll(iCmd, NKeyIndex);
 
-      StrId:= DoOps_CommandCode_To_HotkeyStringId(MapItem.Command);
+      StrId:= TAppPluginHelper.CommandCode_To_HotkeyStringId(MapItem.Command);
 
       //save to "keys.json"
       KeymapItem_SaveToConfig(MapItem, StrId, '', false);
@@ -2529,7 +2535,7 @@ begin
     for i:= 0 to slist.count-1 do
     begin
       StrId:= slist[i];
-      ncmd:= DoOps_HotkeyStringId_To_CommandCode(StrId);
+      ncmd:= TAppPluginHelper.HotkeyStringId_To_CommandCode(StrId);
       if ncmd<0 then Continue;
 
       nitem:= AKeymap.IndexOf(ncmd);
@@ -2877,7 +2883,7 @@ begin
 end;
 
 
-function AppCommandCategory(Cmd: integer): TAppCommandCategory;
+class function TAppPluginHelper.CommandCategory(Cmd: integer): TAppCommandCategory;
 var
   N: integer;
 begin
@@ -2901,9 +2907,9 @@ begin
   end;
 end;
 
-function AppCommandHasConfigurableHotkey(Cmd: integer): boolean;
+class function TAppPluginHelper.CommandHasConfigurableHotkey(Cmd: integer): boolean;
 begin
-  Result:= AppCommandCategory(Cmd) in [categ_Normal, categ_Plugin, categ_PluginSub];
+  Result:= CommandCategory(Cmd) in [categ_Normal, categ_Plugin, categ_PluginSub];
 end;
 
 procedure InitBasicCommandLineOptions;
@@ -2931,7 +2937,7 @@ begin
   end;
 end;
 
-function AppEventIsUsed(AEvent: TAppPyEvent): boolean;
+class function TAppPluginHelper.EventIsUsed(AEvent: TAppPyEvent): boolean;
 var
   NPlugin: integer;
   Plugin: TAppEventInfo;
@@ -2945,7 +2951,7 @@ begin
   end;
 end;
 
-procedure AppEventStringToEventData(const AEventStr: string;
+class procedure TAppPluginHelper.EventStringToEventData(const AEventStr: string;
   out AEvents: TAppPyEvents;
   out AEventsPrior: TAppPyEventsPrior;
   out AEventsLazy: TAppPyEventsLazy);
@@ -2994,7 +3000,7 @@ begin
 end;
 
 
-procedure AppEventsUpdate(const AModuleName, AEventStr, ALexerStr, AKeyStr: string);
+class procedure TAppPluginHelper.EventsUpdate(const AModuleName, AEventStr, ALexerStr, AKeyStr: string);
 var
   EventItem: TAppEventInfo;
   i: integer;
@@ -3020,15 +3026,15 @@ begin
   begin
     if ItemModule='' then
       ItemModule:= AModuleName;
-    AppEventStringToEventData(AEventStr, ItemEvents, ItemEventsPrior, ItemEventsLazy);
+    EventStringToEventData(AEventStr, ItemEvents, ItemEventsPrior, ItemEventsLazy);
     ItemLexers:= ALexerStr;
     ItemKeys:= AKeyStr;
   end;
 
-  AppEventsMaxPrioritiesUpdate;
+  EventsMaxPrioritiesUpdate;
 end;
 
-procedure AppCommandsClearButKeepApiItems;
+class procedure TAppPluginHelper.CommandsClearButKeepApiItems;
 var
   i: integer;
 begin
@@ -3038,7 +3044,7 @@ begin
         AppCommandList.Delete(i);
 end;
 
-procedure AppEventsMaxPrioritiesUpdate;
+class procedure TAppPluginHelper.EventsMaxPrioritiesUpdate;
 var
   ev: TAppPyEvent;
   Plugin: TAppEventInfo;
