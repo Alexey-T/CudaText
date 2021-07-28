@@ -1637,6 +1637,16 @@ Additional options are:
 * "minimap_scale": it scales minimap only, independant from other options.
 * "unprinted_symbols_scale": it scales graphics rendered for non-printable stuff: spaces, tabs, EOL text markers.
 
+If you scale UI, you may want to scale the icons as well.
+But icons are PNG images and cannot be resized, so the solution here is additional icon sets.
+In the menu "Plugins / Addons Manager / Install" you will find several categories of icon sets:
+
+* category "sidebartheme" - configured by option "ui_sidebar_theme"
+* category "toolbartheme" - configured by option "ui_toolbar_theme"
+* category "codetreeicons" - configured by option "ui_tree_theme"
+* category "projtoolbaricons" - configured by dialog of Project Manager
+* category "filetypeicons" - configured by dialog of Project Manager
+
 =Add-ons=
 
 ==Python API==
