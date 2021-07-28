@@ -110,7 +110,7 @@ function DoDialogHotkeys_Plugin(AKeymap: TATKeymap;
 var
   N: integer;
 begin
-  N:= CommandPlugins_GetIndexFromModuleAndMethod(AModuleAndMethod);
+  N:= TAppPluginHelper.CommandGetIndexFromModuleAndMethod(AModuleAndMethod);
   if N>=0 then
     Result:= DoDialogHotkeys(AKeymap, N+cmdFirstPluginCommand, ALexerName)
   else

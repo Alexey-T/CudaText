@@ -963,6 +963,9 @@ type
     class function CommandCategory(Cmd: integer): TAppCommandCategory;
     class function CommandHasConfigurableHotkey(Cmd: integer): boolean;
     class procedure CommandsClearButKeepApiItems;
+    class function CommandGetIndexFromModuleAndMethod(const AText: string): integer;
+    class procedure CommandUpdateSubcommands(const AText: string);
+
     class function EventIsUsed(AEvent: TAppPyEvent): boolean;
     class procedure EventStringToEventData(const AEventStr: string;
       out AEvents: TAppPyEvents;
@@ -970,13 +973,11 @@ type
       out AEventsLazy: TAppPyEventsLazy);
     class procedure EventsUpdate(const AModuleName, AEventStr, ALexerStr, AKeyStr: string);
     class procedure EventsMaxPrioritiesUpdate;
+
     class function CommandCode_To_HotkeyStringId(ACmd: integer): string;
     class function HotkeyStringId_To_CommandCode(const AId: string): integer;
   end;
 
-
-function CommandPlugins_GetIndexFromModuleAndMethod(const AText: string): integer;
-procedure CommandPlugins_UpdateSubcommands(const AText: string);
 
 function AppEncodingShortnameToFullname(const S: string): string;
 function AppEncodingFullnameToShortname(const S: string): string;
@@ -1955,7 +1956,7 @@ begin
   //plugin item 'module,method'
   if Pos(',', AId)>0 then
   begin
-    Result:= CommandPlugins_GetIndexFromModuleAndMethod(AId);
+    Result:= CommandGetIndexFromModuleAndMethod(AId);
     if Result>=0 then
       Inc(Result, cmdFirstPluginCommand);
   end
@@ -2231,7 +2232,7 @@ begin
 end;
 }
 
-function CommandPlugins_GetIndexFromModuleAndMethod(const AText: string): integer;
+class function TAppPluginHelper.CommandGetIndexFromModuleAndMethod(const AText: string): integer;
 var
   Sep: TATStringSeparator;
   SModule, SProc, SProcParam: string;
@@ -2259,7 +2260,7 @@ begin
 end;
 
 
-procedure CommandPlugins_UpdateSubcommands(const AText: string);
+class procedure TAppPluginHelper.CommandUpdateSubcommands(const AText: string);
 const
   cSepRoot=';';
   cSepParams=#10;
@@ -2365,7 +2366,7 @@ begin
     NCode:= StrToIntDef(ACmdString, 0)
   else
   begin
-    NIndex:= CommandPlugins_GetIndexFromModuleAndMethod(ACmdString);
+    NIndex:= TAppPluginHelper.CommandGetIndexFromModuleAndMethod(ACmdString);
     if NIndex<0 then exit;
     NCode:= NIndex+cmdFirstPluginCommand;
   end;
@@ -2394,7 +2395,7 @@ begin
     NCode:= StrToIntDef(SCmd, 0)
   else
   begin
-    NIndex:= CommandPlugins_GetIndexFromModuleAndMethod(SCmd);
+    NIndex:= TAppPluginHelper.CommandGetIndexFromModuleAndMethod(SCmd);
     if NIndex<0 then exit;
     NCode:= NIndex+cmdFirstPluginCommand;
   end;

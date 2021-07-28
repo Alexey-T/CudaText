@@ -4614,7 +4614,7 @@ begin
 
         APP_PROC_SET_SUBCOMMANDS:
           begin
-            CommandPlugins_UpdateSubcommands(Str);
+            TAppPluginHelper.CommandUpdateSubcommands(Str);
             TKeymapHelper.UpdateDynamic(categ_PluginSub);
             Result:= ReturnNone;
           end;
