@@ -2814,9 +2814,9 @@ begin
     begin
       StrTitle:= string(PtrTitle);
 
-      TKeymapHelper.UpdateDynamic(categ_Lexer);
-      TKeymapHelper.UpdateDynamic(categ_OpenedFile);
-      TKeymapHelper.UpdateDynamic(categ_RecentFile);
+      TKeymapHelperMain.UpdateDynamic(categ_Lexer);
+      TKeymapHelperMain.UpdateDynamic(categ_OpenedFile);
+      TKeymapHelperMain.UpdateDynamic(categ_RecentFile);
 
       FillChar(Props, SizeOf(Props), 0);
       Props.Caption:= StrTitle;
@@ -4570,9 +4570,9 @@ begin
 
         APP_PROC_GET_COMMANDS:
           begin
-            TKeymapHelper.UpdateDynamic(categ_Lexer);
-            TKeymapHelper.UpdateDynamic(categ_OpenedFile);
-            TKeymapHelper.UpdateDynamic(categ_RecentFile);
+            TKeymapHelperMain.UpdateDynamic(categ_Lexer);
+            TKeymapHelperMain.UpdateDynamic(categ_OpenedFile);
+            TKeymapHelperMain.UpdateDynamic(categ_RecentFile);
             Result:= PyHelper_CommandList;
           end;
 
@@ -4615,7 +4615,7 @@ begin
         APP_PROC_SET_SUBCOMMANDS:
           begin
             TPluginHelper.CommandUpdateSubcommands(Str);
-            TKeymapHelper.UpdateDynamic(categ_PluginSub);
+            TKeymapHelperMain.UpdateDynamic(categ_PluginSub);
             Result:= ReturnNone;
           end;
 
@@ -4924,11 +4924,11 @@ begin
 
         APP_PROC_GET_HOTKEY:
           begin
-            Result:= PyUnicodeFromString(TAppKeymapHelper.GetHotkey(AppKeymapMain, Str));
+            Result:= PyUnicodeFromString(TKeymapHelper.GetHotkey(AppKeymapMain, Str));
           end;
         APP_PROC_SET_HOTKEY:
           begin
-            Result:= PyBool_FromLong(Ord(TAppKeymapHelper.SetHotkey(AppKeymapMain, Str, true)));
+            Result:= PyBool_FromLong(Ord(TKeymapHelper.SetHotkey(AppKeymapMain, Str, true)));
           end;
 
         APP_PROC_GET_KEYSTATE:

@@ -373,7 +373,7 @@ begin
             if Keymap.GetCommandFromHotkeyString(s_hotkey, '|')>=0 then
               AReport:= Format(msgStatusPluginHotkeyBusy, [s_hotkey])+#10+AReport
             else
-              TAppKeymapHelper.SaveKey_ForPlugin(Keymap, false, 'plugin: '+s_caption_nice, s_module, s_method, '', s_hotkey)
+              TKeymapHelper.SaveKey_ForPlugin(Keymap, false, 'plugin: '+s_caption_nice, s_module, s_method, '', s_hotkey)
           end
           else
           begin
@@ -381,11 +381,11 @@ begin
             Sep.Init(s_lexers);
             while Sep.GetItemStr(s_lexer_item) do
             begin
-              Keymap:= TAppKeymapHelper.GetForLexer(s_lexer_item);
+              Keymap:= TKeymapHelper.GetForLexer(s_lexer_item);
               if Keymap.GetCommandFromHotkeyString(s_hotkey, '|')>=0 then
                 AReport:= Format(msgStatusPluginHotkeyBusy, [s_hotkey])+#10+AReport
               else
-                TAppKeymapHelper.SaveKey_ForPlugin(Keymap, false, 'plugin: '+s_caption_nice, s_module, s_method, s_lexer_item, s_hotkey);
+                TKeymapHelper.SaveKey_ForPlugin(Keymap, false, 'plugin: '+s_caption_nice, s_module, s_method, s_lexer_item, s_hotkey);
             end;
           end;
         end;

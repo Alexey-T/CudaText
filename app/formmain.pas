@@ -1480,9 +1480,9 @@ begin
 end;
 
 type
-  { TKeymapHelper }
+  { TKeymapHelperMain }
 
-  TKeymapHelper = class
+  TKeymapHelperMain = class
   public
     class procedure DeleteCategoryWithHotkeyBackup(AKeymap: TATKeymap; ABackup: TAppHotkeyBackup; ACategory: TAppCommandCategory);
     class procedure AddPluginsWithHotkeyBackup(AKeymap: TATKeymap; ABackup: TAppHotkeyBackup; ACategory: TAppCommandCategory);
@@ -1490,7 +1490,7 @@ type
     class procedure UpdateDynamic(ACategory: TAppCommandCategory);
   end;
 
-class procedure TKeymapHelper.DeleteCategoryWithHotkeyBackup(AKeymap: TATKeymap; ABackup: TAppHotkeyBackup; ACategory: TAppCommandCategory);
+class procedure TKeymapHelperMain.DeleteCategoryWithHotkeyBackup(AKeymap: TATKeymap; ABackup: TAppHotkeyBackup; ACategory: TAppCommandCategory);
 var
   MapItem: TATKeymapItem;
   CmdItem: TAppCommandInfo;
@@ -1518,7 +1518,7 @@ begin
   end;
 end;
 
-class procedure TKeymapHelper.AddPluginsWithHotkeyBackup(AKeymap: TATKeymap; ABackup: TAppHotkeyBackup; ACategory: TAppCommandCategory);
+class procedure TKeymapHelperMain.AddPluginsWithHotkeyBackup(AKeymap: TATKeymap; ABackup: TAppHotkeyBackup; ACategory: TAppCommandCategory);
 var
   CmdItem: TAppCommandInfo;
   i: integer;
@@ -1539,7 +1539,7 @@ begin
   end;
 end;
 
-class procedure TKeymapHelper.UpdateDynamicEx(AKeymap: TATKeymap; ACategory: TAppCommandCategory);
+class procedure TKeymapHelperMain.UpdateDynamicEx(AKeymap: TATKeymap; ACategory: TAppCommandCategory);
 var
   Frame: TEditorFrame;
   An: TecSyntAnalyzer;
@@ -1617,7 +1617,7 @@ begin
   FreeAndNil(KeysBackup);
 end;
 
-class procedure TKeymapHelper.UpdateDynamic(ACategory: TAppCommandCategory);
+class procedure TKeymapHelperMain.UpdateDynamic(ACategory: TAppCommandCategory);
 var
   Map: TATKeymap;
   i: integer;
@@ -3042,8 +3042,8 @@ procedure TfmMain.FormShow(Sender: TObject);
   begin
     //load keymap-main
     //after loading plugins (to apply plugins keys)
-    TAppKeymapHelper.SetHotkey(AppKeymapMain, 'cuda_comments,cmt_toggle_line_body|Ctrl+/|', false);
-    TAppKeymapHelper.LoadConfig(AppKeymapMain, AppFile_Hotkeys, false);
+    TKeymapHelper.SetHotkey(AppKeymapMain, 'cuda_comments,cmt_toggle_line_body|Ctrl+/|', false);
+    TKeymapHelper.LoadConfig(AppKeymapMain, AppFile_Hotkeys, false);
   end;
   //
   procedure _Init_KeymapNoneForEmpty;
@@ -4329,9 +4329,9 @@ begin
   F:= CurrentFrame;
   Ed:= F.Editor;
 
-  TKeymapHelper.UpdateDynamic(categ_Lexer);
-  TKeymapHelper.UpdateDynamic(categ_OpenedFile);
-  TKeymapHelper.UpdateDynamic(categ_RecentFile);
+  TKeymapHelperMain.UpdateDynamic(categ_Lexer);
+  TKeymapHelperMain.UpdateDynamic(categ_OpenedFile);
+  TKeymapHelperMain.UpdateDynamic(categ_RecentFile);
 
   FillChar(Props, SizeOf(Props), 0);
   Props.Caption:= '';
@@ -7066,7 +7066,7 @@ begin
     end;
 
   //apply lexer-specific keymap
-  Keymap:= TAppKeymapHelper.GetForLexer(SLexerName);
+  Keymap:= TKeymapHelper.GetForLexer(SLexerName);
 
   if Frame.EditorsLinked then
   begin
