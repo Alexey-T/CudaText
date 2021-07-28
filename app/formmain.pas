@@ -1299,6 +1299,8 @@ begin
 end;
 
 type
+  { TGroupsHelper }
+
   TGroupsHelper = class
   public
     class function GetEditorFrame(Ed: TATSynEdit): TEditorFrame;
