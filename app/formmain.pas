@@ -8281,17 +8281,17 @@ var
   PntScreen, PntLocal: TPoint;
   Ed: TATSynEdit;
   Params: TAppVariantArray;
-  i: integer;
+  iGroup: integer;
 begin
   //call API event on_mouse_stop
   PntScreen:= Mouse.CursorPos;
+  if PtInRect(BoundsRect, PntScreen) then
   if _IsPointsDiffByDelta(PntScreen, FLastMousePos, cPixelDelta) then
   begin
     FLastMousePos:= PntScreen;
-    if PtInRect(BoundsRect, PntScreen) then
-    for i:= 0 to cAppMaxGroup do
+    for iGroup:= 0 to cAppMaxGroup do
     begin
-      Ed:= GetEditorActiveInGroup(i);
+      Ed:= GetEditorActiveInGroup(iGroup);
       if Ed=nil then Continue; //not Break: support 3 floating grps
       if not Ed.Visible then Continue;
       PntLocal:= Ed.ScreenToClient(PntScreen);
