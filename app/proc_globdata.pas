@@ -736,6 +736,7 @@ procedure DoWriteStringToFile(const AFilename, AText: string);
 
 function AppCollapseHomeDirInFilename(const fn: string): string;
 function AppExpandHomeDirInFilename(const fn: string): string;
+function AppExpandFileNameWithDir(const AFileName, ADir: string): string;
 
 var
   AppManager: TecLexerList = nil;
@@ -1121,6 +1122,16 @@ begin
   if SBeginsWith(Result, '~'+DirectorySeparator) then
     Result:= AppDir_Home+Copy(Result, 3, MaxInt);
   {$endif}
+end;
+
+function AppExpandFileNameWithDir(const AFileName, ADir: string): string;
+var
+  S: string;
+begin
+  S:= GetCurrentDir;
+  SetCurrentDir(ADir);
+  Result:= ExpandFileName(AFileName);
+  SetCurrentDir(S);
 end;
 
 

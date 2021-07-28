@@ -711,7 +711,6 @@ var
   cfg: TJSONConfig;
   bFlag: boolean;
   NTick: QWord;
-  S: string;
 begin
   NTick:= GetTickCount64;
 
@@ -796,10 +795,7 @@ begin
       AppSessionName:= cfg.GetValue('session', AppSessionName);
       if not IsDefaultSessionActive then
       begin
-        S:= GetCurrentDir;
-        SetCurrentDir(AppDir_Settings);
-        AppSessionName:= ExpandFileName(AppSessionName);
-        SetCurrentDir(S);
+        AppSessionName:= AppExpandFileNameWithDir(AppSessionName, AppDir_Settings);
         if not FileExists(AppSessionName) then
           AppSessionName:= '';
       end;
