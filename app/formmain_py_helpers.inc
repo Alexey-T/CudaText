@@ -94,7 +94,7 @@ begin
 
   if Assigned(AEd) then
   begin
-    Frame:= GetEditorFrame(AEd);
+    Frame:= TGroupsHelper.GetEditorFrame(AEd);
     if Frame=nil then
     begin
       if not (AEvent in cTheseEventsDontRequireFrame) then

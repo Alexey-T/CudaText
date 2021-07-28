@@ -27,7 +27,7 @@ begin
       Continue;
   end;
 
-  Frame:= GetEditorFrame(Ed);
+  Frame:= TGroupsHelper.GetEditorFrame(Ed);
 
   //support floating groups
   if Assigned(Frame) then
@@ -714,7 +714,7 @@ begin
   if not Groups.Enabled then Exit;
 
   Ed:= Sender as TATSynEdit;
-  Frame:= GetEditorFrame(Ed);
+  Frame:= TGroupsHelper.GetEditorFrame(Ed);
 
   if Assigned(Frame) and Frame.MacroRecord then
     if not AppPython.IsRunning then

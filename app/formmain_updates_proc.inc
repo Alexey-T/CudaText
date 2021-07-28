@@ -570,7 +570,7 @@ begin
     exit;
   end;
 
-  Frame:= GetEditorFrame(Ed);
+  Frame:= TGroupsHelper.GetEditorFrame(Ed);
   if Frame=nil then exit;
   //if Frame.FrameKind<>efkEditor then exit;
 

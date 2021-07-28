@@ -269,7 +269,7 @@ begin
 
     for i:= 0 to cAppMaxGroup do
     begin
-      Pages:= GetPagesOfGroupIndex(i);
+      Pages:= TGroupsHelper.GetPagesOfGroupIndex(i);
       if Pages=nil then Continue;
       cfg.SetValue('/tab_index/g'+IntToStr(i), Pages.Tabs.TabIndex);
     end;

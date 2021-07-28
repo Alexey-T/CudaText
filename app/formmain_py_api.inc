@@ -52,7 +52,7 @@ procedure PyHelper_EditorFocus(Ed: TATSynEdit);
 var
   F: TEditorFrame;
 begin
-  F:= GetEditorFrame(Ed);
+  F:= TGroupsHelper.GetEditorFrame(Ed);
   //support editors in frames, activate tab too
   if Assigned(F) then //don't check F.Visible and F.Enabled, issue #3543
   begin
@@ -750,7 +750,7 @@ begin
       Pages:= nil;
       if (Num>=0) and (Num<=cAppMaxGroup) then
       begin
-        Pages:= GetPagesOfGroupIndex(Num);
+        Pages:= TGroupsHelper.GetPagesOfGroupIndex(Num);
         if Pages=nil then
           Pages:= fmMain.Groups.Pages[0];
       end;
@@ -776,7 +776,7 @@ begin
     if Bool(PyArg_ParseTuple(Args, 'Ls:save', @H, @PtrName)) then
     begin
       Ed:= PyHelper_EditorFromHandle(H);
-      Frame:= GetEditorFrame(Ed);
+      Frame:= TGroupsHelper.GetEditorFrame(Ed);
       if Frame=nil then exit(ReturnNone);
       StrName:= string(PtrName);
 
@@ -1685,7 +1685,7 @@ begin
     if Bool(PyArg_ParseTuple(Args, 'Ls:get_filename', @H, @PtrOps)) then
     begin
       Ed:= PyHelper_EditorFromHandle(H);
-      F:= GetEditorFrame(Ed);
+      F:= TGroupsHelper.GetEditorFrame(Ed);
       StrOps:= string(PtrOps);
 
       if F=nil then
@@ -2116,7 +2116,7 @@ begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'i:ed_group', @Index)) then
     begin
-      Ed:= GetEditorActiveInGroup(Index);
+      Ed:= TGroupsHelper.GetEditorActiveInGroup(Index);
       if Ed=nil then
         Result:= ReturnNone
       else
@@ -2996,7 +2996,7 @@ begin
       if Ed=nil then
         exit(ReturnNone);
       Str:= string(Ptr);
-      F:= GetEditorFrame(Ed);
+      F:= TGroupsHelper.GetEditorFrame(Ed);
 
       //Application.MainForm.Caption:= 'get_prop '+IntToStr(id)+', filename: '+Ed.FileName;
 
@@ -3707,7 +3707,7 @@ begin
       Ed:= PyHelper_EditorFromHandle(H);
       if Ed=nil then
         exit(ReturnNone);
-      F:= GetEditorFrame(Ed);
+      F:= TGroupsHelper.GetEditorFrame(Ed);
       Str:= string(Ptr);
 
       ValueBool:= AppStrToBool(Str);
@@ -7979,7 +7979,7 @@ begin
 
         EDACTION_CODETREE_FILL:
           begin
-            Frame:= GetEditorFrame(Ed);
+            Frame:= TGroupsHelper.GetEditorFrame(Ed);
             if Frame=nil then
               exit(ReturnFalse);
             if NValue=0 then
@@ -8012,7 +8012,7 @@ begin
 
               if Ada=nil then
               begin
-                Frame:= GetEditorFrame(Ed);
+                Frame:= TGroupsHelper.GetEditorFrame(Ed);
                 //maybe frame was not yet shown-> its FInitialLexer is not yet used-> force using it
                 if Assigned(Frame) and not Frame.WasVisible then
                 begin

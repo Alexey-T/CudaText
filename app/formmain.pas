@@ -1298,7 +1298,17 @@ begin
   {$endif}
 end;
 
-function GetEditorFrame(Ed: TATSynEdit): TEditorFrame;
+type
+  TGroupsHelper = class
+  public
+    class function GetEditorFrame(Ed: TATSynEdit): TEditorFrame;
+    class function GetEditorBrother(Ed: TATSynEdit): TATSynEdit;
+    class function GetEditorFirstSecond(Ed: TATSynEdit; AFirst: boolean): TATSynEdit;
+    class function GetPagesOfGroupIndex(AIndex: integer): TATPages;
+    class function GetEditorActiveInGroup(AIndex: integer): TATSynEdit;
+  end;
+
+class function TGroupsHelper.GetEditorFrame(Ed: TATSynEdit): TEditorFrame;
 var
   F: TCustomFrame;
 begin
@@ -1325,7 +1335,7 @@ begin
 end;
 *)
 
-function GetEditorBrother(Ed: TATSynEdit): TATSynEdit;
+class function TGroupsHelper.GetEditorBrother(Ed: TATSynEdit): TATSynEdit;
 var
   F: TEditorFrame;
 begin
@@ -1337,7 +1347,7 @@ begin
     Result:= F.Ed1;
 end;
 
-function GetEditorFirstSecond(Ed: TATSynEdit; AFirst: boolean): TATSynEdit;
+class function TGroupsHelper.GetEditorFirstSecond(Ed: TATSynEdit; AFirst: boolean): TATSynEdit;
 var
   F: TEditorFrame;
 begin
@@ -1350,7 +1360,7 @@ begin
 end;
 
 
-function GetPagesOfGroupIndex(AIndex: integer): TATPages;
+class function TGroupsHelper.GetPagesOfGroupIndex(AIndex: integer): TATPages;
 begin
   Result:= nil;
   case AIndex of
@@ -1374,7 +1384,7 @@ begin
   end;
 end;
 
-function GetEditorActiveInGroup(AIndex: integer): TATSynEdit;
+class function TGroupsHelper.GetEditorActiveInGroup(AIndex: integer): TATSynEdit;
 var
   Pages: TATPages;
   Data: TATTabData;
@@ -1401,7 +1411,7 @@ begin
   Item.Tabs:= nil;
   Item.TabIndex:= -1;
 
-  Frame:= GetEditorFrame(Ed);
+  Frame:= TGroupsHelper.GetEditorFrame(Ed);
   if Assigned(Frame) then
   begin
     Item.EdIndex:= Frame.EditorObjToIndex(Ed);
@@ -2600,7 +2610,7 @@ var
 begin
   for nGroup:= 0 to cAppMaxGroup do
   begin
-    Pages:= GetPagesOfGroupIndex(nGroup);
+    Pages:= TGroupsHelper.GetPagesOfGroupIndex(nGroup);
     if Pages=nil then Continue;
     if not Pages.Visible then Continue;
     Tabs:= Pages.Tabs;
@@ -3585,7 +3595,7 @@ begin
   //no need for ToolbarMain and buttons
   for i:= 0 to cAppMaxGroup do
   begin
-    Pages:= GetPagesOfGroupIndex(i);
+    Pages:= TGroupsHelper.GetPagesOfGroupIndex(i);
     if Pages=nil then Continue;
     Pages.Tabs.DoubleBuffered:= UiOps.DoubleBuffered;
   end;
@@ -4887,7 +4897,7 @@ procedure TfmMain.SetFrameEncoding(Ed: TATSynEdit; const AEnc: string;
 var
   Frame: TEditorFrame;
 begin
-  Frame:= GetEditorFrame(Ed);
+  Frame:= TGroupsHelper.GetEditorFrame(Ed);
   if Frame=nil then exit;
 
   if SameText(Ed.EncodingName, AEnc) then exit;
@@ -5329,7 +5339,7 @@ var
   bPrevRO, bChangedRO: boolean;
   PrevLexer: string;
 begin
-  F:= GetEditorFrame(Ed);
+  F:= TGroupsHelper.GetEditorFrame(Ed);
   if F=nil then exit;
 
   fn:= F.GetFileName(Ed);
@@ -5423,7 +5433,7 @@ var
   Frame: TEditorFrame;
   fn, fnPic: string;
 begin
-  Frame:= GetEditorFrame(Ed);
+  Frame:= TGroupsHelper.GetEditorFrame(Ed);
   if Frame=nil then exit;
 
   if not Frame.EditorsLinked then
@@ -5779,7 +5789,7 @@ var
   bSaveAs, bUntitled, bFileExists: boolean;
   SFilename: string;
 begin
-  Frame:= GetEditorFrame(Ed);
+  Frame:= TGroupsHelper.GetEditorFrame(Ed);
   if Frame=nil then exit;
 
   InitSaveDlg;
@@ -5807,7 +5817,7 @@ procedure TfmMain.DoFileSaveAs(Ed: TATSynEdit);
 var
   Frame: TEditorFrame;
 begin
-  Frame:= GetEditorFrame(Ed);
+  Frame:= TGroupsHelper.GetEditorFrame(Ed);
   if Frame=nil then exit;
 
   InitSaveDlg;
@@ -6057,7 +6067,7 @@ var
   F: TEditorFrame;
   CountUsual, CountLite: integer;
 begin
-  F:= GetEditorFrame(Ed);
+  F:= TGroupsHelper.GetEditorFrame(Ed);
   if F=nil then exit;
 
   CountUsual:= AppManager.LexerCount;
@@ -6115,7 +6125,7 @@ var
   bNeedCss, bNeedHtml, bNeedAcp: boolean;
   bWithLexer: boolean;
 begin
-  Frame:= GetEditorFrame(Ed);
+  Frame:= TGroupsHelper.GetEditorFrame(Ed);
   if Frame=nil then exit;
 
   if Ed.Carets.Count=0 then exit;
@@ -6408,7 +6418,7 @@ var
   Frame: TEditorFrame;
   NLocalGroup: integer;
 begin
-  Frame:= GetEditorFrame(Ed);
+  Frame:= TGroupsHelper.GetEditorFrame(Ed);
   if Assigned(Frame) and Assigned(Frame.Parent) then
     GetFrameLocation(Frame, Gr, Pages, NLocalGroup, AGroupIndex, ATabIndex)
   else
@@ -7011,7 +7021,7 @@ var
   bDisFree: boolean;
 begin
   Ed:= Sender;
-  Frame:= GetEditorFrame(Ed);
+  Frame:= TGroupsHelper.GetEditorFrame(Ed);
   if Frame=nil then exit;
 
   bDisFree:= ShowDistractionFree;
@@ -7782,7 +7792,7 @@ begin
   try
     for iGroup:= 0 to cAppMaxGroup do
     begin
-      Pages:= GetPagesOfGroupIndex(iGroup);
+      Pages:= TGroupsHelper.GetPagesOfGroupIndex(iGroup);
       if Pages=nil then Continue;
       for iTab:= 0 to Pages.Tabs.TabCount-1 do
       begin
@@ -8291,7 +8301,7 @@ begin
     FLastMousePos:= PntScreen;
     for iGroup:= 0 to cAppMaxGroup do
     begin
-      Ed:= GetEditorActiveInGroup(iGroup);
+      Ed:= TGroupsHelper.GetEditorActiveInGroup(iGroup);
       if Ed=nil then Continue; //not Break: support 3 floating grps
       if not Ed.Visible then Continue;
       PntLocal:= Ed.ScreenToClient(PntScreen);
