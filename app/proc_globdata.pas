@@ -956,9 +956,9 @@ type
   end;
 
 type
-  { TAppPluginHelper }
+  { TPluginHelper }
 
-  TAppPluginHelper = class
+  TPluginHelper = class
   public
     class function CommandCategory(Cmd: integer): TAppCommandCategory;
     class function CommandHasConfigurableHotkey(Cmd: integer): boolean;
@@ -1951,7 +1951,7 @@ begin
 end;
 
 
-class function TAppPluginHelper.HotkeyStringId_To_CommandCode(const AId: string): integer;
+class function TPluginHelper.HotkeyStringId_To_CommandCode(const AId: string): integer;
 begin
   //plugin item 'module,method'
   if Pos(',', AId)>0 then
@@ -2057,7 +2057,7 @@ begin
   Result:= AppManager.FindLexerByFilename(AFilename, AChooseFunc);
 end;
 
-class function TAppPluginHelper.CommandCode_To_HotkeyStringId(ACmd: integer): string;
+class function TPluginHelper.CommandCode_To_HotkeyStringId(ACmd: integer): string;
 begin
   if CommandCategory(ACmd) in [categ_Plugin, categ_PluginSub] then
     Result:= TAppCommandInfo(AppCommandList[ACmd-cmdFirstPluginCommand]).CommaStr
@@ -2232,7 +2232,7 @@ begin
 end;
 }
 
-class function TAppPluginHelper.CommandGetIndexFromModuleAndMethod(const AText: string): integer;
+class function TPluginHelper.CommandGetIndexFromModuleAndMethod(const AText: string): integer;
 var
   Sep: TATStringSeparator;
   SModule, SProc, SProcParam: string;
@@ -2260,7 +2260,7 @@ begin
 end;
 
 
-class procedure TAppPluginHelper.CommandUpdateSubcommands(const AText: string);
+class procedure TPluginHelper.CommandUpdateSubcommands(const AText: string);
 const
   cSepRoot=';';
   cSepParams=#10;
@@ -2366,7 +2366,7 @@ begin
     NCode:= StrToIntDef(ACmdString, 0)
   else
   begin
-    NIndex:= TAppPluginHelper.CommandGetIndexFromModuleAndMethod(ACmdString);
+    NIndex:= TPluginHelper.CommandGetIndexFromModuleAndMethod(ACmdString);
     if NIndex<0 then exit;
     NCode:= NIndex+cmdFirstPluginCommand;
   end;
@@ -2395,7 +2395,7 @@ begin
     NCode:= StrToIntDef(SCmd, 0)
   else
   begin
-    NIndex:= TAppPluginHelper.CommandGetIndexFromModuleAndMethod(SCmd);
+    NIndex:= TPluginHelper.CommandGetIndexFromModuleAndMethod(SCmd);
     if NIndex<0 then exit;
     NCode:= NIndex+cmdFirstPluginCommand;
   end;
@@ -2484,7 +2484,7 @@ begin
       //clear item in ALL existing keymaps
       Keymap_ClearKeyInAll(iCmd, NKeyIndex);
 
-      StrId:= TAppPluginHelper.CommandCode_To_HotkeyStringId(MapItem.Command);
+      StrId:= TPluginHelper.CommandCode_To_HotkeyStringId(MapItem.Command);
 
       //save to "keys.json"
       KeymapItem_SaveToConfig(MapItem, StrId, '', false);
@@ -2536,7 +2536,7 @@ begin
     for i:= 0 to slist.count-1 do
     begin
       StrId:= slist[i];
-      ncmd:= TAppPluginHelper.HotkeyStringId_To_CommandCode(StrId);
+      ncmd:= TPluginHelper.HotkeyStringId_To_CommandCode(StrId);
       if ncmd<0 then Continue;
 
       nitem:= AKeymap.IndexOf(ncmd);
@@ -2884,7 +2884,7 @@ begin
 end;
 
 
-class function TAppPluginHelper.CommandCategory(Cmd: integer): TAppCommandCategory;
+class function TPluginHelper.CommandCategory(Cmd: integer): TAppCommandCategory;
 var
   N: integer;
 begin
@@ -2908,7 +2908,7 @@ begin
   end;
 end;
 
-class function TAppPluginHelper.CommandHasConfigurableHotkey(Cmd: integer): boolean;
+class function TPluginHelper.CommandHasConfigurableHotkey(Cmd: integer): boolean;
 begin
   Result:= CommandCategory(Cmd) in [categ_Normal, categ_Plugin, categ_PluginSub];
 end;
@@ -2938,7 +2938,7 @@ begin
   end;
 end;
 
-class function TAppPluginHelper.EventIsUsed(AEvent: TAppPyEvent): boolean;
+class function TPluginHelper.EventIsUsed(AEvent: TAppPyEvent): boolean;
 var
   NPlugin: integer;
   Plugin: TAppEventInfo;
@@ -2952,7 +2952,7 @@ begin
   end;
 end;
 
-class procedure TAppPluginHelper.EventStringToEventData(const AEventStr: string;
+class procedure TPluginHelper.EventStringToEventData(const AEventStr: string;
   out AEvents: TAppPyEvents;
   out AEventsPrior: TAppPyEventsPrior;
   out AEventsLazy: TAppPyEventsLazy);
@@ -3001,7 +3001,7 @@ begin
 end;
 
 
-class procedure TAppPluginHelper.EventsUpdate(const AModuleName, AEventStr, ALexerStr, AKeyStr: string);
+class procedure TPluginHelper.EventsUpdate(const AModuleName, AEventStr, ALexerStr, AKeyStr: string);
 var
   EventItem: TAppEventInfo;
   i: integer;
@@ -3035,7 +3035,7 @@ begin
   EventsMaxPrioritiesUpdate;
 end;
 
-class procedure TAppPluginHelper.CommandsClearButKeepApiItems;
+class procedure TPluginHelper.CommandsClearButKeepApiItems;
 var
   i: integer;
 begin
@@ -3045,7 +3045,7 @@ begin
         AppCommandList.Delete(i);
 end;
 
-class procedure TAppPluginHelper.EventsMaxPrioritiesUpdate;
+class procedure TPluginHelper.EventsMaxPrioritiesUpdate;
 var
   ev: TAppPyEvent;
   Plugin: TAppEventInfo;

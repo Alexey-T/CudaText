@@ -43,7 +43,7 @@ begin
   end;
 
   //commands: don't clear all, leave items from API
-  TAppPluginHelper.CommandsClearButKeepApiItems;
+  TPluginHelper.CommandsClearButKeepApiItems;
 
   //events: clear all
   AppEventList.Clear;
@@ -99,7 +99,7 @@ begin
       FreeAndNil(BackupMain);
   end;
 
-  TAppPluginHelper.EventsMaxPrioritiesUpdate;
+  TPluginHelper.EventsMaxPrioritiesUpdate;
   TKeymapHelper.UpdateDynamic(categ_Plugin);
   TKeymapHelper.UpdateDynamic(categ_PluginSub);
 end;
@@ -235,7 +235,7 @@ begin
 
               EventItem:= TAppEventInfo.Create;
               EventItem.ItemModule:= s_module;
-              TAppPluginHelper.EventStringToEventData(s_events,
+              TPluginHelper.EventStringToEventData(s_events,
                 EventItem.ItemEvents,
                 EventItem.ItemEventsPrior,
                 EventItem.ItemEventsLazy
@@ -260,7 +260,7 @@ begin
     begin
       EventItem:= TAppEventInfo.Create;
       EventItem.ItemModule:= s_module;
-      TAppPluginHelper.EventStringToEventData(s_events,
+      TPluginHelper.EventStringToEventData(s_events,
         EventItem.ItemEvents,
         EventItem.ItemEventsPrior,
         EventItem.ItemEventsLazy

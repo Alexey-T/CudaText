@@ -33,12 +33,12 @@ var
   Map: TATKeymap;
 begin
   Result:= false;
-  if not TAppPluginHelper.CommandHasConfigurableHotkey(ACmd) then exit;
+  if not TPluginHelper.CommandHasConfigurableHotkey(ACmd) then exit;
 
   CmdIndex:= AKeymap.IndexOf(ACmd);
   if CmdIndex<0 then exit;
 
-  StrId:= TAppPluginHelper.CommandCode_To_HotkeyStringId(ACmd);
+  StrId:= TPluginHelper.CommandCode_To_HotkeyStringId(ACmd);
 
   Form:= TfmKeys.Create(nil);
   try
@@ -110,7 +110,7 @@ function DoDialogHotkeys_Plugin(AKeymap: TATKeymap;
 var
   N: integer;
 begin
-  N:= TAppPluginHelper.CommandGetIndexFromModuleAndMethod(AModuleAndMethod);
+  N:= TPluginHelper.CommandGetIndexFromModuleAndMethod(AModuleAndMethod);
   if N>=0 then
     Result:= DoDialogHotkeys(AKeymap, N+cmdFirstPluginCommand, ALexerName)
   else

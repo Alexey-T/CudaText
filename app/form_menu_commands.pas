@@ -319,7 +319,7 @@ var
 begin
   DoMsgStatus('');
 
-  if not TAppPluginHelper.CommandHasConfigurableHotkey(Cmd) then
+  if not TPluginHelper.CommandHasConfigurableHotkey(Cmd) then
   begin
     DoMsgStatus(msgCannotSetHotkey);
     exit
@@ -529,7 +529,7 @@ begin
   Result:= false;
 
   NCmd:= Item.Command;
-  Category:= TAppPluginHelper.CommandCategory(NCmd);
+  Category:= TPluginHelper.CommandCategory(NCmd);
 
   //filter by options
   if (Category=categ_Plugin) and not OptShowPlugins then exit(false);

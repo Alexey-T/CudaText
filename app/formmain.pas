@@ -1502,7 +1502,7 @@ begin
     MapItem:= AKeymap[i];
     Cmd:= MapItem.Command;
     if Cmd<cmdFirstAppCommand then Break;
-    if TAppPluginHelper.CommandCategory(Cmd)=ACategory then
+    if TPluginHelper.CommandCategory(Cmd)=ACategory then
     begin
       //backup hotkeys of plugins
       //this function must not loose any hotkeys!
@@ -2172,7 +2172,7 @@ begin
     exit;
   end;
 
-  TimerMouseStop.Enabled:= TAppPluginHelper.EventIsUsed(cEventOnMouseStop);
+  TimerMouseStop.Enabled:= TPluginHelper.EventIsUsed(cEventOnMouseStop);
 
   //flush saved Python "print" results to console
   if Assigned(fmConsole) and not AppConsoleQueue.IsEmpty() then
@@ -4370,7 +4370,7 @@ begin
   AProps.LexerName:= F.LexerName[F.Editor];
   NCmd:= DoDialogCommands_Custom(F.Editor, AProps);
   if NCmd<=0 then exit;
-  Category:= TAppPluginHelper.CommandCategory(NCmd);
+  Category:= TPluginHelper.CommandCategory(NCmd);
 
   case Category of
     //PluginSub is needed here, e.g. for ExtTools plugin with its subcommands

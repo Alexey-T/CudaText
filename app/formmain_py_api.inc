@@ -4340,7 +4340,7 @@ begin
       for i:= 0 to NLen-1 do
       begin
         Item:= AppKeymapMain[i];
-        case TAppPluginHelper.CommandCategory(Item.Command) of
+        case TPluginHelper.CommandCategory(Item.Command) of
           categ_Lexer:
             begin
               PyList_SetItem(Result, i,
@@ -4608,13 +4608,13 @@ begin
             Sep.GetItemStr(StrCmd); //events
             Sep.GetItemStr(StrCaption); //lexers
             Sep.GetItemStr(StrIndex); //keys
-            TAppPluginHelper.EventsUpdate(StrId, StrCmd, StrCaption, StrIndex);
+            TPluginHelper.EventsUpdate(StrId, StrCmd, StrCaption, StrIndex);
             Result:= ReturnNone;
           end;
 
         APP_PROC_SET_SUBCOMMANDS:
           begin
-            TAppPluginHelper.CommandUpdateSubcommands(Str);
+            TPluginHelper.CommandUpdateSubcommands(Str);
             TKeymapHelper.UpdateDynamic(categ_PluginSub);
             Result:= ReturnNone;
           end;
