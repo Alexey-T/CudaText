@@ -1621,6 +1621,22 @@ Screenshot shows all 3 variants in different CudaText windows:
 
 [[File:cudatext-color-underline.png]]
 
+==UI scaling==
+
+UI can be scaled by these options:
+
+* "ui_scale" (needs suffix for OS): it scales the sizes of UI controls only.
+* "ui_scale_font" (needs suffix for OS): it scales fonts sizes only (both editor text font and UI font).
+
+Auto-detection of current OS scale is implemented for Windows only.
+And you can ignore the Windows scale auto-detection, by setting the above options.
+
+Additional options are:
+
+* "ui_tab_scale": it scales UI-tabs font, independent from other options.
+* "minimap_scale": it scales minimap only, independant from other options.
+* "unprinted_symbols_scale": it scales graphics rendered for non-printable stuff: spaces, tabs, EOL text markers.
+
 =Add-ons=
 
 ==Python API==
