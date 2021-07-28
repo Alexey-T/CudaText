@@ -2172,6 +2172,8 @@ begin
     exit;
   end;
 
+  TimerMouseStop.Enabled:= AppEventIsUsed(cEventOnMouseStop);
+
   //flush saved Python "print" results to console
   if Assigned(fmConsole) and not AppConsoleQueue.IsEmpty() then
   begin

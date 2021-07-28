@@ -961,6 +961,7 @@ type
 function AppCommandCategory(Cmd: integer): TAppCommandCategory;
 function AppCommandHasConfigurableHotkey(Cmd: integer): boolean;
 procedure AppCommandsClearButKeepApiItems;
+function AppEventIsUsed(AEvent: TAppPyEvent): boolean;
 procedure AppEventStringToEventData(const AEventStr: string;
   out AEvents: TAppPyEvents;
   out AEventsPrior: TAppPyEventsPrior;
@@ -2927,6 +2928,20 @@ begin
         AppServerId:= S;
       Continue;
     end;
+  end;
+end;
+
+function AppEventIsUsed(AEvent: TAppPyEvent): boolean;
+var
+  NPlugin: integer;
+  Plugin: TAPpEventInfo;
+begin
+  Result:= false;
+  for NPlugin:= 0 to AppEventList.Count-1 do
+  begin
+    Plugin:= TAppEventInfo(AppEventList[NPlugin]);
+    if AEvent in Plugin.ItemEvents then
+      exit(true);
   end;
 end;
 
