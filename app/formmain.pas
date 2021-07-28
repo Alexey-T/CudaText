@@ -8288,6 +8288,7 @@ begin
   if _IsPointsDiffByDelta(PntScreen, FLastMousePos, cPixelDelta) then
   begin
     FLastMousePos:= PntScreen;
+    if PtInRect(BoundsRect, PntScreen) then
     for i:= 0 to cAppMaxGroup do
     begin
       Ed:= GetEditorActiveInGroup(i);
