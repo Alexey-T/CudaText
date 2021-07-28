@@ -108,6 +108,7 @@ type
     );
 
 const
+  cAppSessionDefault = 'history session.json';
   cAppHistoryElementChar: array[TAppHistoryElement] of char =
     'tchsTeblwMmrunSfkCFi';
 
@@ -689,6 +690,7 @@ function GetAppLexerOpsFilename(const ALexName: string): string;
 function GetAppLexerAcpFilename(const ALexName: string): string;
 function GetAppLexerSpecificConfig(ALexer: string; ADefaultConfig: boolean=false): string;
 function GetAppFilenameIsIgnoredForSession(const AFilename: string): boolean;
+function IsDefaultSessionActive: boolean;
 
 function MsgBox(const Str: string; Flags: Longint): integer;
 procedure MsgBadConfig(const fn: string);
@@ -3131,6 +3133,13 @@ begin
   if AStyleHash<0 then exit;
   st:= AppTheme.Styles[TAppThemeStyleId(AStyleHash)];
   ApplyPartStyleFromEcontrolStyle(APart, st);
+end;
+
+function IsDefaultSessionActive: boolean;
+begin
+  Result:=
+    (AppSessionName='') or
+    (AppSessionName=cAppSessionDefault);
 end;
 
 

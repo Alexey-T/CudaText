@@ -195,7 +195,7 @@ begin
 
     ////state
     cfg.SetValue('lang', UiOps.LangName);
-    cfg.SetValue('session', IfThen(UiOps.ReopenSession, AppSessionName, ''));
+    cfg.SetValue('session', IfThen(UiOps.ReopenSession, ExtractRelativePath(AppFile_OptionsUser, AppSessionName), ''));
     cfg.SetValue('last_cmd', FLastSelectedCommand);
 
     DoOps_SaveHistory_GroupView(cfg);
@@ -711,6 +711,7 @@ var
   cfg: TJSONConfig;
   bFlag: boolean;
   NTick: QWord;
+  S: string;
 begin
   NTick:= GetTickCount64;
 
@@ -793,6 +794,16 @@ begin
     if FOption_AllowSessionLoad=aalsEnable then
     begin
       AppSessionName:= cfg.GetValue('session', AppSessionName);
+      if not IsDefaultSessionActive then
+      begin
+        S:= GetCurrentDir;
+        SetCurrentDir(AppDir_Settings);
+        AppSessionName:= ExpandFileName(AppSessionName);
+        SetCurrentDir(S);
+        if not FileExists(AppSessionName) then
+          AppSessionName:= '';
+      end;
+
       FLastSelectedCommand:= cfg.GetValue('last_cmd', FLastSelectedCommand);
       DoOps_LoadHistory_GroupView(cfg);
     end;

@@ -747,7 +747,6 @@ type
     procedure FormEnter(Sender: TObject);
     procedure GetParamsForUniqueInstance(out AParams: TAppStringArray);
     function GetShowDistractionFree: boolean;
-    function IsDefaultSessionActive: boolean;
     procedure PythonEngineAfterInit(Sender: TObject);
     procedure PythonIOSendUniData(Sender: TObject; const Data: UnicodeString);
     procedure PythonModuleInitialization(Sender: TObject);
@@ -1216,9 +1215,6 @@ const
   cThreadSleepTime = 50;
   cThreadSleepCount = 20;
   //SleepTime*SleepCount ~= 1 sec
-
-const
-  cAppSessionDefault = 'history session.json';
 
 const
   StatusbarTag_Caret = 10;
@@ -2343,13 +2339,6 @@ begin
     Result:= cAppSessionDefault;
   if ExtractFileDir(Result)='' then
     Result:= AppDir_Settings+DirectorySeparator+Result;
-end;
-
-function TfmMain.IsDefaultSessionActive: boolean;
-begin
-  Result:=
-    (AppSessionName='') or
-    (AppSessionName=cAppSessionDefault);
 end;
 
 procedure TfmMain.InitAppleMenu;
