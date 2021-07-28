@@ -9,7 +9,7 @@
 + add: Project Manager: faster open huge folders (patch by @memstream)
 + add: better find conflicts of hotkeys, e.g. 'Ctrl+K' vs 'Ctrl+K * Ctrl+M' (thanks @veksha)
 + add: save history key 'session' as relative to the path of the 'settings' dir (thanks @veksha)
-- fix: on Windows, plugin 'LSP Client' didn't receive 'on_mouse_stop' (thanks @veksha)
+- fix: on Windows, plugin 'LSP Client' could not show its hover-dialog (thanks @veksha)
 
 1.139.2 (2021/07)
 
