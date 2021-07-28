@@ -2934,7 +2934,7 @@ end;
 function AppEventIsUsed(AEvent: TAppPyEvent): boolean;
 var
   NPlugin: integer;
-  Plugin: TAPpEventInfo;
+  Plugin: TAppEventInfo;
 begin
   Result:= false;
   for NPlugin:= 0 to AppEventList.Count-1 do
