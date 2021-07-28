@@ -707,21 +707,31 @@ procedure AppUpdateWatcherFrames;
 procedure FixFormPositionToDesktop(F: TForm);
 procedure FixRectPositionToDesktop(var F: TRect);
 
-function Keymap_GetHotkey(AKeymap: TATKeymap; const ACmdString: string): string;
-function Keymap_SetHotkey(AKeymap: TATKeymap; const AParams: string; AndSaveFile: boolean): boolean;
+type
+  { TAppKeymapHelper }
 
-function Keymap_CheckDuplicateForCommand(
-  AKeymapItem: TATKeymapItem;
-  const ALexerName: string;
-  AOverwriteAndSave: boolean): integer;
+  TAppKeymapHelper = class
+  public
+    class procedure ClearKey(AKeymap: TATKeymap; AItemIndex, AKeyIndex: integer);
+    class procedure ClearKeyInAll(AItemIndex, AKeyIndex: integer);
 
-function Keymap_GetForLexer(const ALexer: string): TATKeymap;
-procedure Keymap_LoadConfig(AKeymap: TATKeymap; const AFileName: string; AForLexer: boolean);
+    class function GetHotkey(AKeymap: TATKeymap; const ACmdString: string): string;
+    class function SetHotkey(AKeymap: TATKeymap; const AParams: string; AndSaveFile: boolean): boolean;
 
-procedure KeymapItem_SaveToConfig(K: TATKeymapItem; const path, ALexerName: string; ALexerSpecific: boolean);
-procedure KeymapItem_DeleteInConfig(K: TATKeymapItem; const path, ALexerName: string; ALexerSpecific: boolean);
-function Keymap_SaveKey_ForPlugin(AKeymap: TATKeymap; AOverwriteKey: boolean;
-  const AMenuitemCaption, AModuleName, AMethodName, ALexerName, AHotkey: string): boolean;
+    class function CheckDuplicateForCommand(
+      AKeymapItem: TATKeymapItem;
+      const ALexerName: string;
+      AOverwriteAndSave: boolean): integer;
+
+    class function GetForLexer(const ALexer: string): TATKeymap;
+    class procedure LoadConfig(AKeymap: TATKeymap; const AFileName: string; AForLexer: boolean);
+
+    class procedure ItemSaveToConfig(K: TATKeymapItem; const path, ALexerName: string; ALexerSpecific: boolean);
+    class procedure ItemDeleteInConfig(K: TATKeymapItem; const path, ALexerName: string; ALexerSpecific: boolean);
+
+    class function SaveKey_ForPlugin(AKeymap: TATKeymap; AOverwriteKey: boolean;
+      const AMenuitemCaption, AModuleName, AMethodName, ALexerName, AHotkey: string): boolean;
+  end;
 
 function DoLexerDetectByFilenameOrContent(const AFilename: string;
   AChooseFunc: TecLexerChooseFunc): TecSyntAnalyzer;
@@ -2065,7 +2075,7 @@ begin
     Result:= IntToStr(ACmd);
 end;
 
-procedure KeymapItem_SaveToConfig(K: TATKeymapItem; const path, ALexerName: string;
+class procedure TAppKeymapHelper.ItemSaveToConfig(K: TATKeymapItem; const path, ALexerName: string;
   ALexerSpecific: boolean);
 var
   SFilename: string;
@@ -2112,7 +2122,7 @@ begin
 end;
 
 
-procedure KeymapItem_DeleteInConfig(K: TATKeymapItem; const path, ALexerName: string;
+class procedure TAppKeymapHelper.ItemDeleteInConfig(K: TATKeymapItem; const path, ALexerName: string;
   ALexerSpecific: boolean);
 var
   SFilename: string;
@@ -2140,7 +2150,7 @@ begin
 end;
 
 
-function Keymap_SaveKey_ForPlugin(AKeymap: TATKeymap;
+class function TAppKeymapHelper.SaveKey_ForPlugin(AKeymap: TATKeymap;
   AOverwriteKey: boolean;
   const AMenuitemCaption, AModuleName, AMethodName, ALexerName, AHotkey: string): boolean;
 const
@@ -2357,7 +2367,7 @@ begin
     ExtractFileName(fn)+Ext[IsRedo];
 end;
 
-function Keymap_GetHotkey(AKeymap: TATKeymap; const ACmdString: string): string;
+class function TAppKeymapHelper.GetHotkey(AKeymap: TATKeymap; const ACmdString: string): string;
 var
   NCode, NIndex: integer;
 begin
@@ -2378,7 +2388,7 @@ begin
 end;
 
 
-function Keymap_SetHotkey(AKeymap: TATKeymap; const AParams: string; AndSaveFile: boolean): boolean;
+class function TAppKeymapHelper.SetHotkey(AKeymap: TATKeymap; const AParams: string; AndSaveFile: boolean): boolean;
 var
   Sep: TATStringSeparator;
   NCode, NIndex: integer;
@@ -2410,13 +2420,13 @@ begin
     //save to keys.json
     //Py API: no need lexer-specific
     if AndSaveFile then
-      KeymapItem_SaveToConfig(AKeymap[NIndex], SCmd, '', false);
+      ItemSaveToConfig(AKeymap[NIndex], SCmd, '', false);
   end;
   Result:= true;
 end;
 
 
-procedure Keymap_ClearKey(AKeymap: TATKeymap; AItemIndex, AKeyIndex: integer);
+class procedure TAppKeymapHelper.ClearKey(AKeymap: TATKeymap; AItemIndex, AKeyIndex: integer);
 begin
   with AKeymap do
     if IsIndexValid(AItemIndex) then
@@ -2427,19 +2437,19 @@ begin
           Keys2.Clear;
 end;
 
-procedure Keymap_ClearKeyInAll(AItemIndex, AKeyIndex: integer);
+class procedure TAppKeymapHelper.ClearKeyInAll(AItemIndex, AKeyIndex: integer);
 var
   iMap: integer;
 begin
-  Keymap_ClearKey(AppKeymapMain, AItemIndex, AKeyIndex);
+  ClearKey(AppKeymapMain, AItemIndex, AKeyIndex);
 
   for iMap:= 0 to AppKeymapLexers.Count-1 do
-    Keymap_ClearKey(
+    ClearKey(
       TATKeymap(AppKeymapLexers.Objects[iMap]),
       AItemIndex, AKeyIndex);
 end;
 
-function Keymap_CheckDuplicateForCommand(
+class function TAppKeymapHelper.CheckDuplicateForCommand(
   AKeymapItem: TATKeymapItem;
   const ALexerName: string;
   AOverwriteAndSave: boolean): integer;
@@ -2482,16 +2492,16 @@ begin
     if AOverwriteAndSave then
     begin
       //clear item in ALL existing keymaps
-      Keymap_ClearKeyInAll(iCmd, NKeyIndex);
+      ClearKeyInAll(iCmd, NKeyIndex);
 
       StrId:= TPluginHelper.CommandCode_To_HotkeyStringId(MapItem.Command);
 
       //save to "keys.json"
-      KeymapItem_SaveToConfig(MapItem, StrId, '', false);
+      ItemSaveToConfig(MapItem, StrId, '', false);
 
       //save to "keys nn.json"
       if ALexerName<>'' then
-        KeymapItem_SaveToConfig(MapItem, StrId, ALexerName, true);
+        ItemSaveToConfig(MapItem, StrId, ALexerName, true);
     end
     else
       Result:= MapItem.Command;
@@ -2500,7 +2510,7 @@ begin
   end;
 end;
 
-procedure Keymap_LoadConfig(AKeymap: TATKeymap; const AFileName: string; AForLexer: boolean);
+class procedure TAppKeymapHelper.LoadConfig(AKeymap: TATKeymap; const AFileName: string; AForLexer: boolean);
 var
   cfg: TJSONConfig;
   slist, skeys: TStringList;
@@ -2554,7 +2564,7 @@ begin
 end;
 
 
-function Keymap_GetForLexer(const ALexer: string): TATKeymap;
+class function TAppKeymapHelper.GetForLexer(const ALexer: string): TATKeymap;
 var
   Keymap: TATKeymap;
   N: integer;
@@ -2570,7 +2580,7 @@ begin
   Keymap.Assign(AppKeymapMain);
   AppKeymapLexers.AddObject(ALexer, Keymap);
 
-  Keymap_LoadConfig(Keymap,
+  LoadConfig(Keymap,
     AppFile_HotkeysForLexer(ALexer), true);
 
   Result:= Keymap;

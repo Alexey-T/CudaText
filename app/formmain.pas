@@ -3042,8 +3042,8 @@ procedure TfmMain.FormShow(Sender: TObject);
   begin
     //load keymap-main
     //after loading plugins (to apply plugins keys)
-    Keymap_SetHotkey(AppKeymapMain, 'cuda_comments,cmt_toggle_line_body|Ctrl+/|', false);
-    Keymap_LoadConfig(AppKeymapMain, AppFile_Hotkeys, false);
+    TAppKeymapHelper.SetHotkey(AppKeymapMain, 'cuda_comments,cmt_toggle_line_body|Ctrl+/|', false);
+    TAppKeymapHelper.LoadConfig(AppKeymapMain, AppFile_Hotkeys, false);
   end;
   //
   procedure _Init_KeymapNoneForEmpty;
@@ -7066,7 +7066,7 @@ begin
     end;
 
   //apply lexer-specific keymap
-  Keymap:= Keymap_GetForLexer(SLexerName);
+  Keymap:= TAppKeymapHelper.GetForLexer(SLexerName);
 
   if Frame.EditorsLinked then
   begin

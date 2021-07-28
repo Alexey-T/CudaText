@@ -4924,11 +4924,11 @@ begin
 
         APP_PROC_GET_HOTKEY:
           begin
-            Result:= PyUnicodeFromString(Keymap_GetHotkey(AppKeymapMain, Str));
+            Result:= PyUnicodeFromString(TAppKeymapHelper.GetHotkey(AppKeymapMain, Str));
           end;
         APP_PROC_SET_HOTKEY:
           begin
-            Result:= PyBool_FromLong(Ord(Keymap_SetHotkey(AppKeymapMain, Str, true)));
+            Result:= PyBool_FromLong(Ord(TAppKeymapHelper.SetHotkey(AppKeymapMain, Str, true)));
           end;
 
         APP_PROC_GET_KEYSTATE:

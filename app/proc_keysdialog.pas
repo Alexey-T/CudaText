@@ -62,7 +62,7 @@ begin
         AKeymap[CmdIndex].LexerSpecific:= true;
 
         //save to 'keys nn.json'
-        KeymapItem_SaveToConfig(AKeymap[CmdIndex], StrId, ALexerName, true);
+        TAppKeymapHelper.ItemSaveToConfig(AKeymap[CmdIndex], StrId, ALexerName, true);
       end
       else
       begin
@@ -91,11 +91,11 @@ begin
         end;
 
         //delete in 'keys nn.json'
-        KeymapItem_DeleteInConfig(AKeymap[CmdIndex], StrId, ALexerName, true);
+        TAppKeymapHelper.ItemDeleteInConfig(AKeymap[CmdIndex], StrId, ALexerName, true);
 
         //save to keys.json
         if AppKeymapMain.IsIndexValid(CmdIndex) then
-          KeymapItem_SaveToConfig(AppKeymapMain[CmdIndex], StrId, '', false);
+          TAppKeymapHelper.ItemSaveToConfig(AppKeymapMain[CmdIndex], StrId, '', false);
       end;
     end;
   finally
