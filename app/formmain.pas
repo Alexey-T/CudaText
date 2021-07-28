@@ -8297,6 +8297,8 @@ end;
 
 
 procedure TfmMain.TimerMouseStopTimer(Sender: TObject);
+//call API event on_mouse_stop.
+//we cannot reuse the TIdleTimer because it's not fired when Ctrl/Alt/Shift are holded.
 const
   cPixelDelta = 7;
 var
@@ -8305,7 +8307,6 @@ var
   Params: TAppVariantArray;
   iGroup: integer;
 begin
-  //call API event on_mouse_stop
   PntScreen:= Mouse.CursorPos;
   if PtInRect(BoundsRect, PntScreen) then
   if _IsPointsDiffByDelta(PntScreen, FLastMousePos, cPixelDelta) then
