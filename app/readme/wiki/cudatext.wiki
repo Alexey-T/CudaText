@@ -68,7 +68,8 @@ Screenshot on Windows:
 * Can split single UI-tab, for single file or 2 different files (helps to work with Differ plugin)
 * Option for "zebra mode"
 * Can drag-and-drop block of text inside the editor
-* Can plug-in a different Python engine (packages in add-ons)
+* Color themes do not affect syntax parser results
+* Windows version can use different Python engine (packages in add-ons)
 * Add-ons do not disappear due to GitHub repository deletions
 
 = Download =
