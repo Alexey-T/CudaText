@@ -24,8 +24,31 @@ begin
   end;
 end;
 
+type
+  { TAppToolbarHelper }
 
-procedure DoToolbar_Clear(AToolbar: TATFlatToolbar);
+  TAppToolbarHelper = class
+  public
+    class procedure Clear(AToolbar: TATFlatToolbar);
+    class procedure DeleteButton(AToolbar: TATFlatToolbar; AButtonIndex: integer);
+    class function GetChecked(AToolbar: TATFlatToolbar; AButtonIndex: integer): boolean;
+    class function AddMenu(
+      AToolbar: TATFlatToolbar;
+      const ACaption: string;
+      const ACommand: string;
+      const AHint: string;
+      AButtonIndex: integer;
+      AImageIndex: integer): TATButton;
+    class function AddButton(
+      AToolbar: TATFlatToolbar;
+      const ACaption: string;
+      const ACommand: string;
+      const AHint: string;
+      AButtonIndex: integer;
+      AImageIndex: integer): TATButton;
+  end;
+
+class procedure TAppToolbarHelper.Clear(AToolbar: TATFlatToolbar);
 var
   i: integer;
 begin
@@ -34,14 +57,14 @@ begin
   AToolbar.UpdateControls;
 end;
 
-procedure DoToolbar_DeleteButton(AToolbar: TATFlatToolbar; AButtonIndex: integer);
+class procedure TAppToolbarHelper.DeleteButton(AToolbar: TATFlatToolbar; AButtonIndex: integer);
 begin
   if (AButtonIndex>=0) and (AButtonIndex<AToolbar.ButtonCount) then
     AToolbar.Buttons[AButtonIndex].Free;
   AToolbar.UpdateControls;
 end;
 
-function DoToolbar_GetChecked(AToolbar: TATFlatToolbar; AButtonIndex: integer): boolean;
+class function TAppToolbarHelper.GetChecked(AToolbar: TATFlatToolbar; AButtonIndex: integer): boolean;
 begin
   if (AButtonIndex>=0) and (AButtonIndex<AToolbar.ButtonCount) then
     Result:= AToolbar.Buttons[AButtonIndex].Checked
@@ -50,7 +73,7 @@ begin
 end;
 
 
-function DoToolbar_AddMenu(
+class function TAppToolbarHelper.AddMenu(
   AToolbar: TATFlatToolbar;
   const ACaption: string;
   const ACommand: string;
@@ -69,7 +92,7 @@ begin
 end;
 
 
-function DoToolbar_AddButton(
+class function TAppToolbarHelper.AddButton(
   AToolbar: TATFlatToolbar;
   const ACaption: string;
   const ACommand: string;
@@ -84,7 +107,7 @@ begin
   else
   if SBeginsWith(ACommand, 'toolmenu:') then
   begin
-    Result:= DoToolbar_AddMenu(AToolbar, ACaption, ACommand, AHint, AButtonIndex, AImageIndex);
+    Result:= AddMenu(AToolbar, ACaption, ACommand, AHint, AButtonIndex, AImageIndex);
   end
   else
   begin

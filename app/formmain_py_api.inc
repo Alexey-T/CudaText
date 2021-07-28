@@ -8404,26 +8404,26 @@ begin
 
         TOOLBAR_DELETE_ALL:
           begin
-            DoToolbar_Clear(FToolbar);
+            TAppToolbarHelper.Clear(FToolbar);
             Result:= ReturnNone;
           end;
 
         TOOLBAR_DELETE_BUTTON:
           begin
-            DoToolbar_DeleteButton(FToolbar, NIndex1);
+            TAppToolbarHelper.DeleteButton(FToolbar, NIndex1);
             Result:= ReturnNone;
           end;
 
         TOOLBAR_ADD_ITEM:
           begin
             Result:= PyHelper_ObjectHandle(
-              DoToolbar_AddButton(FToolbar, '', '', '', NIndex1, -1));
+              TAppToolbarHelper.AddButton(FToolbar, '', '', '', NIndex1, -1));
           end;
 
         TOOLBAR_ADD_MENU:
           begin
             Result:= PyHelper_ObjectHandle(
-              DoToolbar_AddMenu(FToolbar, '', '', '', NIndex1, -1));
+              TAppToolbarHelper.AddMenu(FToolbar, '', '', '', NIndex1, -1));
           end;
 
         TOOLBAR_GET_VERTICAL:
