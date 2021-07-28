@@ -826,4 +826,10 @@ object fmMain: TfmMain
     Left = 392
     Top = 32
   end
+  object TimerMouseStop: TTimer
+    Interval = 1400
+    OnTimer = TimerMouseStopTimer
+    Left = 392
+    Top = 144
+  end
 end

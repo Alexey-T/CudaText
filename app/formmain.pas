@@ -252,6 +252,7 @@ type
     mnuViewFloatSide: TMenuItem;
     mnuViewFloatBottom: TMenuItem;
     mnuOpDefaultUser: TMenuItem;
+    TimerMouseStop: TTimer;
     TimerStatusWork: TTimer;
     TimerAppIdle: TIdleTimer;
     ImageListTabs: TImageList;
@@ -526,6 +527,7 @@ type
     procedure StatusPanelClick(Sender: TObject; AIndex: Integer);
     procedure TimerAppIdleTimer(Sender: TObject);
     procedure TimerCmdTimer(Sender: TObject);
+    procedure TimerMouseStopTimer(Sender: TObject);
     procedure TimerTooltipTimer(Sender: TObject);
     procedure TimerStatusWorkTimer(Sender: TObject);
     procedure TimerStatusClearTimer(Sender: TObject);
@@ -1236,6 +1238,13 @@ const
     'cuda_tree_rest', //built-in
     'cuda_brackets_hilite' //built-in
     );
+
+function _IsPointsDiffByDelta(const P1, P2: TPoint; Delta: integer): boolean; inline;
+begin
+  Result:=
+    (Abs(P1.X-P2.X)>=Delta) or
+    (Abs(P1.Y-P2.Y)>=Delta);
+end;
 
 function GetAppColorOfStatusbarFont: TColor;
 begin
@@ -2129,10 +2138,7 @@ end;
 
 procedure TfmMain.TimerAppIdleTimer(Sender: TObject);
 var
-  PntScreen, PntLocal: TPoint;
-  Ed: TATSynEdit;
   S: UnicodeString;
-  Params: TAppVariantArray;
   Frame: TEditorFrame;
   NCnt, i: integer;
 begin
@@ -2159,28 +2165,6 @@ begin
     end;
 
     fmConsole.DoUpdateMemo;
-  end;
-
-  //call API event on_mouse_stop
-  PntScreen:= Mouse.CursorPos;
-  if PntScreen<>FLastMousePos then
-  begin
-    FLastMousePos:= PntScreen;
-    for i:= 0 to cAppMaxGroup do
-    begin
-      Ed:= GetEditorActiveInGroup(i);
-      if Ed=nil then Continue; //not Break: support 3 floating grps
-      if not Ed.Visible then Continue;
-      PntLocal:= Ed.ScreenToClient(PntScreen);
-      if PtInRect(Ed.ClientRect, PntLocal) then
-      begin
-        SetLength(Params, 2);
-        Params[0]:= AppVariant(PntLocal.X);
-        Params[1]:= AppVariant(PntLocal.Y);
-        DoPyEvent(Ed, cEventOnMouseStop, Params);
-        Break;
-      end;
-    end;
   end;
 
   AppUpdateWatcherFrames;
@@ -8286,6 +8270,39 @@ begin
   begin
     FLastProjectPath:= APath;
     DoPyEvent_AppState(APPSTATE_PROJECT);
+  end;
+end;
+
+
+procedure TfmMain.TimerMouseStopTimer(Sender: TObject);
+const
+  cPixelDelta = 7;
+var
+  PntScreen, PntLocal: TPoint;
+  Ed: TATSynEdit;
+  Params: TAppVariantArray;
+  i: integer;
+begin
+  //call API event on_mouse_stop
+  PntScreen:= Mouse.CursorPos;
+  if _IsPointsDiffByDelta(PntScreen, FLastMousePos, cPixelDelta) then
+  begin
+    FLastMousePos:= PntScreen;
+    for i:= 0 to cAppMaxGroup do
+    begin
+      Ed:= GetEditorActiveInGroup(i);
+      if Ed=nil then Continue; //not Break: support 3 floating grps
+      if not Ed.Visible then Continue;
+      PntLocal:= Ed.ScreenToClient(PntScreen);
+      if PtInRect(Ed.ClientRect, PntLocal) then
+      begin
+        SetLength(Params, 2);
+        Params[0]:= AppVariant(PntLocal.X);
+        Params[1]:= AppVariant(PntLocal.Y);
+        DoPyEvent(Ed, cEventOnMouseStop, Params);
+        Break;
+      end;
+    end;
   end;
 end;
 
