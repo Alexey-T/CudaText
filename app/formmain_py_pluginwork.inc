@@ -31,14 +31,14 @@ begin
     BackupLexers:= TFPList.Create;
 
     //save hotkey-backup of main keymap
-    Keymap_DeleteCategoryWithHotkeyBackup(AppKeymapMain, BackupMain, categ_Plugin);
+    TKeymapHelper.DeleteCategoryWithHotkeyBackup(AppKeymapMain, BackupMain, categ_Plugin);
 
     //save hotkey-backup of lexers keymaps
     for i:= 0 to AppKeymapLexers.Count-1 do
     begin
       BackupTemp:= TAppHotkeyBackup.Create;
       BackupLexers.Add(BackupTemp);
-      Keymap_DeleteCategoryWithHotkeyBackup(AppKeymapLexers.Objects[i] as TATKeymap, BackupTemp, categ_Plugin);
+      TKeymapHelper.DeleteCategoryWithHotkeyBackup(AppKeymapLexers.Objects[i] as TATKeymap, BackupTemp, categ_Plugin);
     end;
   end;
 
@@ -75,13 +75,13 @@ begin
     if AKeepHotkeys then
     begin
       //restore hotkey-backup of main keymap
-      Keymap_AddPluginsWithHotkeyBackup(AppKeymapMain, BackupMain, categ_Plugin);
+      TKeymapHelper.AddPluginsWithHotkeyBackup(AppKeymapMain, BackupMain, categ_Plugin);
 
       //restore hotkey-backup of lexers keymaps
       for i:= 0 to AppKeymapLexers.Count-1 do
       begin
         BackupTemp:= TAppHotkeyBackup(BackupLexers[i]);
-        Keymap_AddPluginsWithHotkeyBackup(AppKeymapLexers.Objects[i] as TATKeymap, BackupTemp, categ_Plugin);
+        TKeymapHelper.AddPluginsWithHotkeyBackup(AppKeymapLexers.Objects[i] as TATKeymap, BackupTemp, categ_Plugin);
       end;
     end;
 
@@ -100,8 +100,8 @@ begin
   end;
 
   AppEventsMaxPrioritiesUpdate;
-  Keymap_UpdateDynamic(categ_Plugin);
-  Keymap_UpdateDynamic(categ_PluginSub);
+  TKeymapHelper.UpdateDynamic(categ_Plugin);
+  TKeymapHelper.UpdateDynamic(categ_PluginSub);
 end;
 
 

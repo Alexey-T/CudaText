@@ -2814,9 +2814,9 @@ begin
     begin
       StrTitle:= string(PtrTitle);
 
-      Keymap_UpdateDynamic(categ_Lexer);
-      Keymap_UpdateDynamic(categ_OpenedFile);
-      Keymap_UpdateDynamic(categ_RecentFile);
+      TKeymapHelper.UpdateDynamic(categ_Lexer);
+      TKeymapHelper.UpdateDynamic(categ_OpenedFile);
+      TKeymapHelper.UpdateDynamic(categ_RecentFile);
 
       FillChar(Props, SizeOf(Props), 0);
       Props.Caption:= StrTitle;
@@ -4570,9 +4570,9 @@ begin
 
         APP_PROC_GET_COMMANDS:
           begin
-            Keymap_UpdateDynamic(categ_Lexer);
-            Keymap_UpdateDynamic(categ_OpenedFile);
-            Keymap_UpdateDynamic(categ_RecentFile);
+            TKeymapHelper.UpdateDynamic(categ_Lexer);
+            TKeymapHelper.UpdateDynamic(categ_OpenedFile);
+            TKeymapHelper.UpdateDynamic(categ_RecentFile);
             Result:= PyHelper_CommandList;
           end;
 
@@ -4615,7 +4615,7 @@ begin
         APP_PROC_SET_SUBCOMMANDS:
           begin
             CommandPlugins_UpdateSubcommands(Str);
-            Keymap_UpdateDynamic(categ_PluginSub);
+            TKeymapHelper.UpdateDynamic(categ_PluginSub);
             Result:= ReturnNone;
           end;
 

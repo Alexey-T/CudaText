@@ -1479,7 +1479,18 @@ begin
   Result:= acgOkCommand;
 end;
 
-procedure Keymap_DeleteCategoryWithHotkeyBackup(AKeymap: TATKeymap; ABackup: TAppHotkeyBackup; ACategory: TAppCommandCategory);
+type
+  { TKeymapHelper }
+
+  TKeymapHelper = class
+  public
+    class procedure DeleteCategoryWithHotkeyBackup(AKeymap: TATKeymap; ABackup: TAppHotkeyBackup; ACategory: TAppCommandCategory);
+    class procedure AddPluginsWithHotkeyBackup(AKeymap: TATKeymap; ABackup: TAppHotkeyBackup; ACategory: TAppCommandCategory);
+    class procedure UpdateDynamicEx(AKeymap: TATKeymap; ACategory: TAppCommandCategory);
+    class procedure UpdateDynamic(ACategory: TAppCommandCategory);
+  end;
+
+class procedure TKeymapHelper.DeleteCategoryWithHotkeyBackup(AKeymap: TATKeymap; ABackup: TAppHotkeyBackup; ACategory: TAppCommandCategory);
 var
   MapItem: TATKeymapItem;
   CmdItem: TAppCommandInfo;
@@ -1507,7 +1518,7 @@ begin
   end;
 end;
 
-procedure Keymap_AddPluginsWithHotkeyBackup(AKeymap: TATKeymap; ABackup: TAppHotkeyBackup; ACategory: TAppCommandCategory);
+class procedure TKeymapHelper.AddPluginsWithHotkeyBackup(AKeymap: TATKeymap; ABackup: TAppHotkeyBackup; ACategory: TAppCommandCategory);
 var
   CmdItem: TAppCommandInfo;
   i: integer;
@@ -1528,7 +1539,7 @@ begin
   end;
 end;
 
-procedure Keymap_UpdateDynamicEx(AKeymap: TATKeymap; ACategory: TAppCommandCategory);
+class procedure TKeymapHelper.UpdateDynamicEx(AKeymap: TATKeymap; ACategory: TAppCommandCategory);
 var
   Frame: TEditorFrame;
   An: TecSyntAnalyzer;
@@ -1537,7 +1548,7 @@ var
   i: integer;
 begin
   KeysBackup:= TAppHotkeyBackup.Create;
-  Keymap_DeleteCategoryWithHotkeyBackup(AKeymap, KeysBackup, ACategory);
+  DeleteCategoryWithHotkeyBackup(AKeymap, KeysBackup, ACategory);
 
   case ACategory of
     categ_Lexer:
@@ -1577,7 +1588,7 @@ begin
     categ_Plugin,
     categ_PluginSub:
       begin
-        Keymap_AddPluginsWithHotkeyBackup(AKeymap, KeysBackup, ACategory);
+        AddPluginsWithHotkeyBackup(AKeymap, KeysBackup, ACategory);
       end;
 
     categ_OpenedFile:
@@ -1606,18 +1617,17 @@ begin
   FreeAndNil(KeysBackup);
 end;
 
-
-procedure Keymap_UpdateDynamic(ACategory: TAppCommandCategory);
+class procedure TKeymapHelper.UpdateDynamic(ACategory: TAppCommandCategory);
 var
   Map: TATKeymap;
   i: integer;
 begin
-  Keymap_UpdateDynamicEx(AppKeymapMain, ACategory);
+  UpdateDynamicEx(AppKeymapMain, ACategory);
 
   for i:= 0 to AppKeymapLexers.Count-1 do
   begin
     Map:= TATKeymap(AppKeymapLexers.Objects[i]);
-    Keymap_UpdateDynamicEx(Map, ACategory);
+    UpdateDynamicEx(Map, ACategory);
   end;
 end;
 
@@ -4317,9 +4327,9 @@ begin
   F:= CurrentFrame;
   Ed:= F.Editor;
 
-  Keymap_UpdateDynamic(categ_Lexer);
-  Keymap_UpdateDynamic(categ_OpenedFile);
-  Keymap_UpdateDynamic(categ_RecentFile);
+  TKeymapHelper.UpdateDynamic(categ_Lexer);
+  TKeymapHelper.UpdateDynamic(categ_OpenedFile);
+  TKeymapHelper.UpdateDynamic(categ_RecentFile);
 
   FillChar(Props, SizeOf(Props), 0);
   Props.Caption:= '';
