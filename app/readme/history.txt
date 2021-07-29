@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-- fix: additional fix for multi-threaded parser (bad blocking of the editor rendering)
+- fix: additional fix for multi-threaded parser (bad blocking of the editor rendering with "renderer_anti_flicker":1000)
 
 1.139.5 (2021/07)
 
