@@ -42,7 +42,7 @@ FONT_LST    = ['default'] \
                 for font in app.app_proc(app.PROC_ENUM_FONTS, '')
                 if not font.startswith('@')]
 
-NO_CHAP = _('_no_') #TODO MY: handle dupe
+NO_CHAP = _('_no_')
 
 pass;                          #FONT_LST=FONT_LST[:3]
 
@@ -938,7 +938,7 @@ class Command:
         defs_json   = apx.get_opt('dlg_cuda_options.defs_json', 'default.json')
         defs_json   = defs_json     if os.sep in defs_json else     apx.get_def_setting_dir()+os.sep+defs_json
         opted = OptEdD(path_keys_info=defs_json, subset='df.')
-        opted.show(_('CudaText options lite'))
+        opted.show(_('Options Editor Lite'))
        #def _dlg_opt
    #class Command
 
