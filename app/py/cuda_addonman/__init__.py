@@ -205,6 +205,11 @@ class Command:
 
         if not is_item_installed(item):
             return ''
+
+        if item['kind']=='plugin':
+            if os.path.isdir(DIR_PY+'/'+item['module']+'/.git'):
+                return ' ◄git►'
+
         v_remote = item.get('v', '')
         v_local = work_local.get_addon_version(item.get('url', ''))
         if not v_remote or v_local>=v_remote:
@@ -276,7 +281,7 @@ class Command:
         name = info['name']
         req = info.get('req', '')
         req_names = req.split(',')
-        
+
         if info['kind']=='linter':
             if not 'cuda_lint' in installed_modules:
                 req_names.append('plugin.CudaLint')
@@ -446,8 +451,8 @@ class Command:
                     s = s[:n]
             return s
 
-        dir_data = app_path(APP_DIR_DATA)
-        dir_py = app_path(APP_DIR_PY)
+        dir_data = DIR_DATA
+        dir_py = DIR_PY
 
         msg_status(_('Downloading list...'))
         addons = get_remote_addons_list(opt.ch_def+opt.ch_user)
@@ -563,7 +568,7 @@ class Command:
             m = a.get('module', '')
             if m:
                 # special update for Git repos
-                m_dir = os.path.join(app_path(APP_DIR_PY), m)
+                m_dir = os.path.join(DIR_PY, m)
                 if os.path.isdir(os.path.join(m_dir, '.git')):
                     msg_status(_('Running "git pull" in "%s"')%m_dir, True)
                     try:

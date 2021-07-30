@@ -9,6 +9,9 @@ from cudatext import *
 from cudax_lib import get_translation
 _   = get_translation(__file__)  # i18n
 
+DIR_PY = app_path(APP_DIR_PY)
+DIR_DATA = app_path(APP_DIR_DATA)
+
 README_NAMES = (
     'readme.txt',
     'readme.md',
@@ -60,28 +63,28 @@ def get_props_of_zip_filename(zip_fn):
 
 def get_readme_of_module(mod):
     for name in README_NAMES:
-        fn = os.path.join(app_path(APP_DIR_PY), mod, 'readme', name)
+        fn = os.path.join(DIR_PY, mod, 'readme', name)
         if os.path.isfile(fn):
             return fn
-        fn = os.path.join(app_path(APP_DIR_PY), mod, name)
+        fn = os.path.join(DIR_PY, mod, name)
         if os.path.isfile(fn):
             return fn
 
 def get_history_of_module(mod):
     for name in HISTORY_NAMES:
-        fn = os.path.join(app_path(APP_DIR_PY), mod, 'readme', name)
+        fn = os.path.join(DIR_PY, mod, 'readme', name)
         if os.path.isfile(fn):
             return fn
-        fn = os.path.join(app_path(APP_DIR_PY), mod, name)
+        fn = os.path.join(DIR_PY, mod, name)
         if os.path.isfile(fn):
             return fn
 
 
 def get_installinf_of_module(mod):
-    return os.path.join(app_path(APP_DIR_PY), mod, 'install.inf')
+    return os.path.join(DIR_PY, mod, 'install.inf')
 
 def get_initpy_of_module(mod):
-    return os.path.join(app_path(APP_DIR_PY), mod, '__init__.py')
+    return os.path.join(DIR_PY, mod, '__init__.py')
 
 def get_name_of_module(mod):
     fn_ini = get_installinf_of_module(mod)
@@ -101,7 +104,7 @@ def do_remove_dir(dir):
     if not os.path.isdir(dir):
         return
 
-    dir_trash = os.path.join(app_path(APP_DIR_PY), '__trash')
+    dir_trash = os.path.join(DIR_PY, '__trash')
     dir_dest = os.path.join(dir_trash, os.path.basename(dir))
     while os.path.isdir(dir_dest):
         dir_dest += '_'
@@ -121,7 +124,7 @@ def get_installed_modules():
     """
     gets list of py-modules inside "py"
     """
-    d = app_path(APP_DIR_PY)
+    d = DIR_PY
     l = os.listdir(d)
     l = [s for s in l if not s.startswith('__')]
     l = [s for s in l if os.path.isfile(os.path.join(d, s, 'install.inf'))]
@@ -152,7 +155,7 @@ def get_installed_addons(ignore={}):
     exclude_snippets = ignore.get('snippets', [])
     exclude_snippetsx = ignore.get('snippetsx', [])
 
-    d = app_path(APP_DIR_PY)
+    d = DIR_PY
     l = get_installed_modules()
     l = [i for i in l if not i in exclude_modules]
     res = [{
@@ -164,8 +167,8 @@ def get_installed_addons(ignore={}):
             ],
         } for i in l]
 
-    d = os.path.join(app_path(APP_DIR_DATA), 'lexlib')
-    d_acp = os.path.join(app_path(APP_DIR_DATA), 'autocomplete')
+    d = os.path.join(DIR_DATA, 'lexlib')
+    d_acp = os.path.join(DIR_DATA, 'autocomplete')
     if os.path.isdir(d):
         l = os.listdir(d)
         l = [i.split('.')[0] for i in l if i.endswith('.lcf')]
@@ -181,7 +184,7 @@ def get_installed_addons(ignore={}):
                 ],
             } for i in l]
 
-    d = os.path.join(app_path(APP_DIR_DATA), 'lexliblite')
+    d = os.path.join(DIR_DATA, 'lexliblite')
     if os.path.isdir(d):
         l = os.listdir(d)
         l = [i.split('.')[0] for i in l if i.endswith('.cuda-litelexer')]
@@ -195,7 +198,7 @@ def get_installed_addons(ignore={}):
                 ],
             } for i in l]
 
-    d = os.path.join(app_path(APP_DIR_DATA), 'snippets')
+    d = os.path.join(DIR_DATA, 'snippets')
     if os.path.isdir(d):
         l = os.listdir(d)
         l = [i for i in l if not i in exclude_snippets]
@@ -208,7 +211,7 @@ def get_installed_addons(ignore={}):
                 ],
             } for i in l]
 
-    d = os.path.join(app_path(APP_DIR_DATA), 'snippetsx')
+    d = os.path.join(DIR_DATA, 'snippetsx')
     if os.path.isdir(d):
         l = os.listdir(d)
         l = [i for i in l if not i in exclude_snippetsx]
@@ -221,7 +224,7 @@ def get_installed_addons(ignore={}):
                 ],
             } for i in l]
 
-    d = os.path.join(app_path(APP_DIR_DATA), 'themes')
+    d = os.path.join(DIR_DATA, 'themes')
     if os.path.isdir(d):
         l = os.listdir(d)
         l = [i.split('.')[0] for i in l if i.endswith('.cuda-theme-syntax') or i.endswith('.cuda-theme-ui')]
@@ -237,7 +240,7 @@ def get_installed_addons(ignore={}):
                 ],
             } for i in l]
 
-    d = os.path.join(app_path(APP_DIR_DATA), 'lang')
+    d = os.path.join(DIR_DATA, 'lang')
     if os.path.isdir(d):
         l = os.listdir(d)
         l = [i.split('.')[0] for i in l if i.endswith('.ini')]
