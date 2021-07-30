@@ -5,6 +5,7 @@
 
 1.139.6 (2021/07)
 
++ add: config option "detect" supports double extensions too (filename.ext1.ext2)
 + add: lexer Markdown: minor improvements
 + add: Addon Manager: shot ◄git► label in addon menus
 - fix: additional fix for multi-threaded parser

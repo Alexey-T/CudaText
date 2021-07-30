@@ -111,7 +111,7 @@ Section "detect" in user.json. Specifies mapping from "file name" to "lexer name
   },
 </syntaxhighlight>
 
-* Key name: File mask. Must be full name without path, or extension together with leading "*.". More complex masks are not yet supported.
+* Key name: File mask. Must be full name without path, or extension with leading "*." like "*.ext", or double extension like "*.ext1.ext2". More complex masks are not yet supported.
 * Key value: Lexer name. Value "-" means "don't activate lexer".
 
 Another method to specify this mapping is dialog "Lexer properties", in which you can add extension or name+extension to a lexer. But dialog is more limited: it saves option to the lexer file (data/lexlib/lexername.lcf), so setting will be reset on reinstalling lexer.
