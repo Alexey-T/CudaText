@@ -16,8 +16,6 @@ interface
 uses
   {$ifdef windows}
   Windows,
-  {$else}
-  //BaseUnix,
   {$endif}
   Classes, SysUtils, Forms, Controls, Menus,
   Dialogs, Graphics,
