@@ -21,6 +21,7 @@ uses
   {$endif}
   Classes, SysUtils, Forms, Controls, Menus,
   Dialogs, Graphics,
+  StrUtils,
   syncobjs,
   gqueue,
   Math,
@@ -2028,17 +2029,34 @@ function DoLexerDetectByFilenameOrContent(const AFilename: string;
 const
   cSignUTF8: string = #$EF#$BB#$BF;
 var
+  SNameOnly: string;
   Item: TAppKeyValue;
   ext, sLine, res: string;
   i: integer;
 begin
+  SNameOnly:= ExtractFileName(AFilename);
+
   //detect by filename
-  res:= AppConfig_Detect.GetValue(ExtractFileName(AFilename), '');
+  res:= AppConfig_Detect.GetValue(SNameOnly, '');
   if res<>'' then
     exit(AppManager.FindLexerByName(res));
 
-  //detect by extention
-  ext:= ExtractFileExt(AFilename);
+  //detect by double extention
+  if SFindCharCount(SNameOnly, '.')>1 then
+  begin
+    i:= RPos('.', SNameOnly);
+    i:= RPosEx('.', SNameOnly, i-1);
+    ext:= Copy(SNameOnly, i, MaxInt);
+    if ext<>'' then
+    begin
+      res:= AppConfig_Detect.GetValue('*'+ext, '');
+      if res<>'' then
+        exit(AppManager.FindLexerByName(res));
+    end;
+  end;
+
+  //detect by usual extention
+  ext:= ExtractFileExt(SNameOnly);
   if ext<>'' then
   begin
     res:= AppConfig_Detect.GetValue('*'+ext, '');
