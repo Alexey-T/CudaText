@@ -632,9 +632,15 @@ object SyntAnal14: TLibSyntAnalyzer
     end
     item
       DisplayName = 'YAML front matter'
-      StartExpression = '\A---$'
+      StartExpression = '\A---(\s*yaml)?$'
       EndExpression = '^---$'
       SyntAnalyzer = SyntAnal23
+    end
+    item
+      DisplayName = 'JSON front matter'
+      StartExpression = '\A---\s*json$'
+      EndExpression = '^---$'
+      SyntAnalyzer = SyntAnal12
     end>
   SampleText.Strings = (
     '---'
