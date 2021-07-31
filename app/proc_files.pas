@@ -34,22 +34,25 @@ implementation
 
 uses
   Classes, SysUtils, LCLIntf,
-  FileUtil, LazFileUtils,
+  FileUtil, LazFileUtils, LCLType,
   ATStrings,
   proc_globdata,
+  proc_msg,
   win32linkfiles;
 
 function AppCreateFile(const fn: string): boolean;
 var
   L: TStringList;
 begin
+  Result:= false;
   L:= TStringList.Create;
   try
     try
       L.SaveToFile(fn);
       Result:= true;
     except
-      Result:= false;
+      on E: EFCreateError do
+        MsgBox(msgCannotSaveFile+' '+fn, MB_OK or MB_ICONERROR);
     end;
   finally
     FreeAndNil(L);
