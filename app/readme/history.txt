@@ -6,7 +6,8 @@
 1.139.6 (2021/07)
 
 + add: option "detect" supports double extensions too: "*.ext1.ext2"
-+ add: Addon Manager: shot ◄git► label in addon menus
++ add: Addon Manager: shot '◄git►' label in addon menus
++ add: if "cudatext filename" cannot create a new file, it shows an error 
 + add: lexer Markdown: minor improvements
 - fix: additional fix for multi-threaded parser
 
