@@ -691,7 +691,7 @@ object SyntAnal16: TLibSyntAnalyzer
   Notes.Strings = (
     'Python lexer by Alexey (CudaText)')
   RestartFromLineStart = True
-  LineComment = '# '
+  LineComment = '#'
   Charset = DEFAULT_CHARSET
   Left = 144
   Top = 184
