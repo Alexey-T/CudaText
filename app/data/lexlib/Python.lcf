@@ -241,7 +241,7 @@ object SyntAnal16: TLibSyntAnalyzer
       DisplayName = 'Comment'
       StyleName = 'Comment'
       TokenType = 1
-      Expression = '\#.*'
+      Expression = '\# .*'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -636,7 +636,7 @@ object SyntAnal16: TLibSyntAnalyzer
   CodeTemplates = <>
   SubAnalyzers = <>
   SampleText.Strings = (
-    '#comment'
+    '# comment'
     'test = u"""doc'
     'string""" + r"""doc'
     'string""" + "long \'
@@ -649,7 +649,7 @@ object SyntAnal16: TLibSyntAnalyzer
     'str = r'#39'\test\test'#39' + u'#39'test'#39' + r"\test"'
     'func = lambda x: x'
     ''
-    'def func(num):      #cmt  '
+    'def func(num):      # comment  '
     '    for n in range(len(sys.argv)):'
     '      print("Arg %s" % s)'
     '      if n>2:'
@@ -691,7 +691,7 @@ object SyntAnal16: TLibSyntAnalyzer
   Notes.Strings = (
     'Python lexer by Alexey (CudaText)')
   RestartFromLineStart = True
-  LineComment = '#'
+  LineComment = '# '
   Charset = DEFAULT_CHARSET
   Left = 144
   Top = 184
