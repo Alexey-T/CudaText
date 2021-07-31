@@ -1,4 +1,4 @@
-object SyntAnal14: TLibSyntAnalyzer
+object SyntAnal15: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Heading'
@@ -172,6 +172,15 @@ object SyntAnal14: TLibSyntAnalyzer
       BgColor = clYellow
     end
     item
+      DisplayName = 'Mark-comment'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+      BgColor = clFuchsia
+    end
+    item
       DisplayName = 'Symbols'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clMaroon
@@ -323,6 +332,37 @@ object SyntAnal14: TLibSyntAnalyzer
       StatesAbsent = 3
       TokenType = 9
       Expression = '(?s)<[/!]?[\[\w].*?>'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Mark-added'
+      StyleName = 'Mark-added'
+      TokenType = 14
+      Expression = '\{\+\+|\+\+\}'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Mark-deleted'
+      TokenType = 14
+      Expression = '\{\-\-|\-\-\}'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Mark-edited'
+      StyleName = 'Mark-edited'
+      TokenType = 14
+      Expression = '\{~~|~~\}|~>'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Mark-comment'
+      StyleName = 'Mark-comment'
+      TokenType = 14
+      Expression = '\{>>|<<\}|\{==|==\}'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -484,33 +524,6 @@ object SyntAnal14: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Mark-added'
-      StyleName = 'Mark-added'
-      StatesAbsent = 3
-      TokenType = 14
-      Expression = '\{\+\+[^\+\}]+\+\+\}'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
-      DisplayName = 'Mark-deleted'
-      StyleName = 'Mark-deleted'
-      StatesAbsent = 3
-      TokenType = 14
-      Expression = '\{\-\-[^\-\}]+\-\-\}'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
-      DisplayName = 'Mark-edited'
-      StyleName = 'Mark-edited'
-      StatesAbsent = 3
-      TokenType = 14
-      Expression = '\{~~[^~\}]+~~\}'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
       DisplayName = 'Text'
       StyleName = 'Text'
       StatesAbsent = 3
@@ -605,6 +618,146 @@ object SyntAnal14: TLibSyntAnalyzer
         end>
       HighlightPos = cpAny
       IgnoreAsParent = False
+    end
+    item
+      DisplayName = '{++'
+      StyleName = 'Mark-added'
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '{++')
+          TokenTypes = 16384
+        end>
+      BlockEnd = '++}'
+      NotCollapsed = True
+      DisplayInTree = False
+      DynHighlight = dhRange
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = '++}'
+      BlockType = btRangeEnd
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '++}')
+          TokenTypes = 16384
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = '{--'
+      StyleName = 'Mark-deleted'
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '{--')
+          TokenTypes = 16384
+        end>
+      BlockEnd = '--}'
+      NotCollapsed = True
+      DisplayInTree = False
+      DynHighlight = dhRange
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = '--}'
+      BlockType = btRangeEnd
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '--}')
+          TokenTypes = 16384
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = '{~~'
+      StyleName = 'Mark-edited'
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '{~~')
+          TokenTypes = 16384
+        end>
+      BlockEnd = '~~}'
+      NotCollapsed = True
+      DisplayInTree = False
+      DynHighlight = dhRange
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = '~~}'
+      BlockType = btRangeEnd
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '~~}')
+          TokenTypes = 16384
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = '{>>'
+      StyleName = 'Mark-comment'
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '{>>')
+          TokenTypes = 16384
+        end>
+      BlockEnd = '<<}'
+      NotCollapsed = True
+      DisplayInTree = False
+      DynHighlight = dhRange
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = '<<}'
+      BlockType = btRangeEnd
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '<<}')
+          TokenTypes = 16384
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = '{=='
+      StyleName = 'Mark-comment'
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '{==')
+          TokenTypes = 16384
+        end>
+      BlockEnd = '==}'
+      NotCollapsed = True
+      DisplayInTree = False
+      DynHighlight = dhRange
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = '==}'
+      BlockType = btRangeEnd
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '==}')
+          TokenTypes = 16384
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
     end>
   CodeTemplates = <>
   SubAnalyzers = <
@@ -613,7 +766,7 @@ object SyntAnal14: TLibSyntAnalyzer
       StatesAbsent = 3
       StartExpression = '<\?'
       EndExpression = '\?>'
-      SyntAnalyzer = SyntAnal15
+      SyntAnalyzer = SyntAnal16
       IncludeBounds = True
     end
     item
@@ -621,7 +774,7 @@ object SyntAnal14: TLibSyntAnalyzer
       StatesAbsent = 3
       StartExpression = '(?s)<script\b.*?>'
       EndExpression = '</script>'
-      SyntAnalyzer = SyntAnal10
+      SyntAnalyzer = SyntAnal11
     end
     item
       DisplayName = 'CSS'
@@ -634,13 +787,13 @@ object SyntAnal14: TLibSyntAnalyzer
       DisplayName = 'YAML front matter'
       StartExpression = '\A---(\s*yaml)?$'
       EndExpression = '^---$'
-      SyntAnalyzer = SyntAnal23
+      SyntAnalyzer = SyntAnal24
     end
     item
       DisplayName = 'JSON front matter'
       StartExpression = '\A---\s*json$'
       EndExpression = '^---$'
-      SyntAnalyzer = SyntAnal12
+      SyntAnalyzer = SyntAnal13
     end>
   SampleText.Strings = (
     '---'
@@ -648,6 +801,15 @@ object SyntAnal14: TLibSyntAnalyzer
     'title: Some text'
     '---'
     '[![Test](link here)](link here)'
+    ''
+    
+      'Additional {++[Link](https://foo.bar)++} and {++![Image](images/' +
+      'image.png)++}.'
+    
+      'This is a {-- deletion --} and {~~substitute~>with~~striked~~tex' +
+      't~~}'
+    'This is a {>> comment <<}.'
+    'This is an {== information ==} {>> comment <<}.'
     ''
     '# Header'
     '<!-- This is a comment -->'
