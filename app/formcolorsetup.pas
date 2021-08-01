@@ -53,8 +53,10 @@ type
     procedure OKButtonClick(Sender: TObject);
   private
     { private declarations }
+    FChanged: boolean;
     FColorBg: TColor;
     procedure UpdateList;
+    procedure UpdateChanged;
     procedure Localize;
   public
     { public declarations }
@@ -118,6 +120,12 @@ begin
   List.Invalidate;
 end;
 
+procedure TfmColorSetup.UpdateChanged;
+begin
+  ButtonPanel1.OKButton.Enabled:= FChanged;
+  ButtonPanel1.HelpButton.Enabled:= FChanged;
+end;
+
 procedure TfmColorSetup.bChangeClick(Sender: TObject);
 begin
   ColorDialog1.Color:= PtrInt(List.Items.Objects[List.ItemIndex]);
@@ -125,6 +133,9 @@ begin
   begin
     Data.Colors[TAppThemeColorId(List.ItemIndex)].color:= ColorDialog1.Color;
     UpdateList;
+
+    FChanged:= true;
+    UpdateChanged;
   end;
 end;
 
@@ -132,6 +143,9 @@ procedure TfmColorSetup.bNoneClick(Sender: TObject);
 begin
   Data.Colors[TAppThemeColorId(List.ItemIndex)].color:= clNone;
   UpdateList;
+
+  FChanged:= true;
+  UpdateChanged;
 end;
 
 procedure TfmColorSetup.bStyleClick(Sender: TObject);
@@ -160,6 +174,9 @@ begin
 
     if ShowModal=mrOk then
     begin
+      FChanged:= true;
+      UpdateChanged;
+
       st.Font.Color:= edColorFont.Selected;
       st.BgColor:= edColorBG.Selected;
       st.BorderColorBottom:= edColorBorder.Selected;
@@ -217,6 +234,8 @@ begin
   else
   if PanelSyntax.Visible then
     ActiveControl:= ListStyles;
+
+  UpdateChanged;
 end;
 
 procedure TfmColorSetup.HelpButtonClick(Sender: TObject);
