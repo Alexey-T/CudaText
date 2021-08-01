@@ -7,7 +7,7 @@
 
 + add: option "detect" supports double extensions too: "*.ext1.ext2"
 + add: Addon Manager: show '◄git►' label in addon menus
-+ add: if "cudatext filename" cannot create a new file, it shows an error (thanks @tmsg) 
++ add: when "cudatext /etc/something" cannot create a new file, it shows an error (thanks @tmsg) 
 + add: lexer Markdown: minor fixes, support CriticMarkup marks of 5 kinds
 - fix: regression with option "underline_color_size":11 (thanks @bogen85)
 - fix: regression with rendering 'hex form of non-ASCII chars'
