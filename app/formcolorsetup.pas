@@ -183,12 +183,14 @@ end;
 
 procedure TfmColorSetup.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
-  FormHistorySave(Self, '/pos/colortheme', false);
+  ////disabled yet, to quick solve issue #3626
+  //FormHistorySave(Self, '/pos/colortheme', false);
 end;
 
 procedure TfmColorSetup.FormCreate(Sender: TObject);
 begin
-  FormHistoryLoad(Self, '/pos/colortheme', false);
+  ////disabled yet, to quick solve issue #3626
+  //FormHistoryLoad(Self, '/pos/colortheme', false);
 end;
 
 procedure TfmColorSetup.FormShow(Sender: TObject);

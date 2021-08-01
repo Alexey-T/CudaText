@@ -14,7 +14,7 @@ object fmColorSetup: TfmColorSetup
   OnShow = FormShow
   Position = poMainFormCenter
   ShowInTaskBar = stNever
-  LCLVersion = '2.1.0.0'
+  LCLVersion = '2.3.0.0'
   object ButtonPanel1: TButtonPanel
     Left = 6
     Height = 29
