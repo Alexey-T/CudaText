@@ -9,6 +9,7 @@
 + add: Addon Manager: show '◄git►' label in addon menus
 + add: when "cudatext /etc/something" cannot create a new file, it shows an error (thanks @tmsg) 
 + add: lexer Markdown: minor fixes, support CriticMarkup marks of 5 kinds
+- fix: UI bugs in the "Settings - theme - ui" dialog (thanks @bogen85)
 - fix: regression with option "underline_color_size":11 (thanks @bogen85)
 - fix: regression with rendering 'hex form of non-ASCII chars'
 - fix: additional fix in multi-threaded parser
