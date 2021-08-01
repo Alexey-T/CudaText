@@ -894,6 +894,7 @@ begin
   OptEditorCharSizeProportional:= cfg.GetValue('unicode_proportional', OptEditorCharSizeProportional);
   OptEditorCharScaleFullWidth:= cfg.GetValue('unicode_full_width', OptEditorCharScaleFullWidth);
   OptEditorBookmarksAutoDelete:= cfg.GetValue('auto_delete_bookmarks', OptEditorBookmarksAutoDelete);
+  OptEditorDebugTiming:= cfg.GetValue('log_timing', OptEditorDebugTiming);
 
   List:= TStringList.Create;
   try
