@@ -940,6 +940,7 @@ procedure RectSetFromString(var R: TRect; const S: string; AOnlySize: boolean);
 var
   Sep: TATStringSeparator;
   X, Y, W, H: integer;
+  BigRect: TRect;
 begin
   if S='' then exit;
   Sep.Init(S);
@@ -947,6 +948,13 @@ begin
   Sep.GetItemInt(Y, R.Top);
   Sep.GetItemInt(W, R.Width);
   Sep.GetItemInt(H, R.Height);
+
+  //prevert LCL exceptions when numbers are too big, CudaText issue #3626
+  BigRect:= Screen.DesktopRect;
+  X:= Min(X, BigRect.Right-50);
+  Y:= Min(Y, BigRect.Bottom-50);
+  W:= Min(W, BigRect.Width);
+  H:= Min(H, BigRect.Height);
 
   if AOnlySize then
   begin
