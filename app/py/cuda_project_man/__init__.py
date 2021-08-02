@@ -533,13 +533,14 @@ class Command:
             nodes = map(Path, self.project["nodes"])
             self.top_nodes = {}
         else:
-            fn = self.get_location_by_index(parent)
+            fn = str(self.get_location_by_index(parent)) # str() is required for old Python 3.5 for os.scandir()
             if not fn: return
             #print('Reading dir:', fn)
             try:
                 nodes = sorted(os.scandir(fn), key=Command.node_ordering_direntry)
             except:
                 tree_proc(self.tree, TREE_ITEM_SET_ICON, parent, image_index=self.ICON_BAD)
+                raise # good to see the error
                 return
 
         for path in nodes:            
