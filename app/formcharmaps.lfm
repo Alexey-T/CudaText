@@ -17,7 +17,7 @@ object fmCharmaps: TfmCharmaps
   OnShow = FormShow
   Position = poMainFormCenter
   ShowInTaskBar = stNever
-  LCLVersion = '2.1.0.0'
+  LCLVersion = '2.3.0.0'
   object Grid: TStringGrid
     Left = 6
     Height = 430
@@ -52,7 +52,7 @@ object fmCharmaps: TfmCharmaps
       Left = 6
       Height = 31
       Top = 2
-      Width = 330
+      Width = 350
       Anchors = [akLeft, akBottom]
       BorderSpacing.Around = 6
       DropDownCount = 30
@@ -67,7 +67,7 @@ object fmCharmaps: TfmCharmaps
       Left = 6
       Height = 27
       Top = 6
-      Width = 330
+      Width = 350
       Anchors = [akLeft, akBottom]
       BorderSpacing.Around = 6
       DropDownCount = 30
@@ -98,10 +98,10 @@ object fmCharmaps: TfmCharmaps
       AnchorSideTop.Side = asrCenter
       AnchorSideRight.Control = PanelInfo
       AnchorSideRight.Side = asrBottom
-      Left = 420
+      Left = 421
       Height = 24
       Top = 7
-      Width = 90
+      Width = 89
       Anchors = [akTop, akRight]
       BorderSpacing.Right = 6
       Caption = 'Hex titles'
@@ -140,7 +140,6 @@ object fmCharmaps: TfmCharmaps
       Top = 13
       Width = 12
       Caption = '---'
-      ParentColor = False
     end
     object btnAnsi: TButton
       AnchorSideRight.Control = btnUnicode
