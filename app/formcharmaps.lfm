@@ -53,7 +53,7 @@ object fmCharmaps: TfmCharmaps
       Left = 6
       Height = 31
       Top = 6
-      Width = 350
+      Width = 360
       Anchors = [akLeft, akBottom]
       BorderSpacing.Around = 6
       DropDownCount = 30
@@ -68,7 +68,7 @@ object fmCharmaps: TfmCharmaps
       Left = 6
       Height = 27
       Top = 10
-      Width = 350
+      Width = 360
       Anchors = [akLeft, akBottom]
       BorderSpacing.Around = 6
       DropDownCount = 30
