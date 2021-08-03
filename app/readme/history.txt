@@ -4,6 +4,7 @@
   * changed
 
 + add: better calculation of font color for HTML colors like #rrggbb (patch by @bogen85)
+- fix: fix RegEx engine, which was failing in AArch64 version (and Solaris OS) 
 
 1.140.0 (2021/08)
 
