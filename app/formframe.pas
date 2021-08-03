@@ -863,6 +863,7 @@ begin
   red := AColor and $FF;
   green := AColor shr 8 and $FF;
   blue := AColor shr 16 and $FF;
+  // Scale red and green to account for perceived intensity. Addresses issue #3624
   bLight := (red*2) + (green*6) + blue > $500;
   Result:= UiOps.HtmlBackgroundColorPair[bLight];
 end;
