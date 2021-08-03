@@ -3,6 +3,8 @@
   - fixed
   * changed
 
++ add: better calculation of 'contrast color' for HTML color-tokens (patch by @bogen85)
+
 1.140.0 (2021/08)
 
 + add: option "detect" supports double extensions too: "*.ext1.ext2"
