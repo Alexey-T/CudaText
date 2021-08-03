@@ -394,15 +394,6 @@ object SyntAnal15: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Codeblock indented'
-      StyleName = 'Codeblock'
-      StatesAbsent = 3
-      TokenType = 4
-      Expression = '^(\x20{4,}|\x09{1,}) [^`<>\n\r].*$'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
       DisplayName = 'List'
       StyleName = 'List'
       StatesAbsent = 3
@@ -410,6 +401,15 @@ object SyntAnal15: TLibSyntAnalyzer
       Expression = 
         '^[\x20\x09]*( \d{1,3}\. '#13#10'| [\-\+\*]'#13#10'| \(?\w?[\.\)]'#13#10') \x20(\[[' +
         '\x20xX]\]\x20)? #GitHub: [ ] [x] [X]'#13#10'| ^\(@[^\)]*\)#pandoc list'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Codeblock indented'
+      StyleName = 'Codeblock'
+      StatesAbsent = 3
+      TokenType = 4
+      Expression = '^(\x20{4,}|\x09{1,}) [^`<>\n\r].*$'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -787,7 +787,7 @@ object SyntAnal15: TLibSyntAnalyzer
       DisplayName = 'YAML front matter'
       StartExpression = '\A---(\s*yaml)?$'
       EndExpression = '^---$'
-      SyntAnalyzer = SyntAnal24
+      SyntAnalyzer = SyntAnal25
     end
     item
       DisplayName = 'JSON front matter'
