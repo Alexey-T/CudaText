@@ -1,4 +1,4 @@
-object SyntAnal13: TLibSyntAnalyzer
+object SyntAnal15: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Heading'
@@ -286,7 +286,7 @@ object SyntAnal13: TLibSyntAnalyzer
       DisplayName = 'Heading'
       StyleName = 'Heading'
       StatesAbsent = 3
-      Expression = '^\#+ \x20 .+ |'#13#10'.+\z(-+|=+)$'
+      Expression = '^\#{1,6}\x20.+ |'#13#10'.+\z(-+|=+)$'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -767,7 +767,7 @@ object SyntAnal13: TLibSyntAnalyzer
       StatesAbsent = 3
       StartExpression = '<\?'
       EndExpression = '\?>'
-      SyntAnalyzer = SyntAnal14
+      SyntAnalyzer = SyntAnal16
       IncludeBounds = True
     end
     item
@@ -775,7 +775,7 @@ object SyntAnal13: TLibSyntAnalyzer
       StatesAbsent = 3
       StartExpression = '(?s)<script\b.*?>'
       EndExpression = '</script>'
-      SyntAnalyzer = SyntAnal9
+      SyntAnalyzer = SyntAnal11
     end
     item
       DisplayName = 'CSS'
@@ -788,13 +788,13 @@ object SyntAnal13: TLibSyntAnalyzer
       DisplayName = 'YAML front matter'
       StartExpression = '\A---(\s*yaml)?$'
       EndExpression = '^---$'
-      SyntAnalyzer = SyntAnal21
+      SyntAnalyzer = SyntAnal25
     end
     item
       DisplayName = 'JSON front matter'
       StartExpression = '\A---\s*json$'
       EndExpression = '^---$'
-      SyntAnalyzer = SyntAnal11
+      SyntAnalyzer = SyntAnal13
     end>
   SampleText.Strings = (
     '---'
