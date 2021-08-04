@@ -1,4 +1,4 @@
-object SyntAnal15: TLibSyntAnalyzer
+object SyntAnal13: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Heading'
@@ -399,8 +399,9 @@ object SyntAnal15: TLibSyntAnalyzer
       StatesAbsent = 3
       TokenType = 13
       Expression = 
-        '^[\x20\x09]*( \d{1,3}\. '#13#10'| [\-\+\*]'#13#10'| \(?\w?[\.\)]'#13#10') \x20(\[[' +
-        '\x20xX]\]\x20)? #GitHub: [ ] [x] [X]'#13#10'| ^\(@[^\)]*\)#pandoc list'
+        '^[\x20\x09]*( \d{1,9}[\.\)] '#13#10'| [\-\+\*]'#13#10'| \(?\w?[\.\)]'#13#10') \x20' +
+        '(\[[\x20xX]\]\x20)? #GitHub: [ ] [x] [X]'#13#10'| ^\(@[^\)]*\)#pandoc ' +
+        'list'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -766,7 +767,7 @@ object SyntAnal15: TLibSyntAnalyzer
       StatesAbsent = 3
       StartExpression = '<\?'
       EndExpression = '\?>'
-      SyntAnalyzer = SyntAnal16
+      SyntAnalyzer = SyntAnal14
       IncludeBounds = True
     end
     item
@@ -774,7 +775,7 @@ object SyntAnal15: TLibSyntAnalyzer
       StatesAbsent = 3
       StartExpression = '(?s)<script\b.*?>'
       EndExpression = '</script>'
-      SyntAnalyzer = SyntAnal11
+      SyntAnalyzer = SyntAnal9
     end
     item
       DisplayName = 'CSS'
@@ -787,13 +788,13 @@ object SyntAnal15: TLibSyntAnalyzer
       DisplayName = 'YAML front matter'
       StartExpression = '\A---(\s*yaml)?$'
       EndExpression = '^---$'
-      SyntAnalyzer = SyntAnal25
+      SyntAnalyzer = SyntAnal21
     end
     item
       DisplayName = 'JSON front matter'
       StartExpression = '\A---\s*json$'
       EndExpression = '^---$'
-      SyntAnalyzer = SyntAnal13
+      SyntAnalyzer = SyntAnal11
     end>
   SampleText.Strings = (
     '---'
