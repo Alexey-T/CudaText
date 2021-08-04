@@ -4,7 +4,8 @@
   * changed
 
 + add: better calculation of font color for HTML colors like #rrggbb (patch by @bogen85)
-- fix: fix RegEx engine, which was failing in AArch64 version (and Solaris OS) 
+- fix: Options Editor gave an error with older Python 3.5
+- fix: RegEx engine was failing in AArch64 version (and Solaris OS) 
 
 1.140.0 (2021/08)
 
