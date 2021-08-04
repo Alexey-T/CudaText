@@ -40,7 +40,7 @@ begin
   NLen:= Length(S);
   while (r<NLen) and (S[r+1]='#') do
     Inc(r);
-  if (r<NLen) and (S[r+1]=' ') then
+  if (r<NLen) and (r<=6) and (S[r+1]=' ') then
     Result:= r;
 end;
 
