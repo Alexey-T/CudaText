@@ -11,52 +11,6 @@ import traceback
 # dbg
 import time
 
-"""
-#DONE
-* search
-* OK,Cancel,Apply
-* sorts
-* scope change - update current value
-* value editing for different values
-* update list on opt change
-* fix val display: int2s, str2s
-* list columns choice
-* ctrl+f for filter + hide/show
-* column widths
-* remember UI
-* filter history
-* user keys for numbers are sorted before others
-* fisx sorting
-* format other scope values
-* edit and combo - fonts size
-* focus to filter on filter
-* <Escape> in filter to unfilter and hide filter
-* better way to get option value+scoped
-* options subsets
-* opted 3d-party api
-* test subset options
-* test loading opted's state
-* test with translation
-* add help
-* some options not applied (font)
-* os scale
-* change to modal dialog
-* readme
-
-#TODO:
-
-?
-* different color fo unapplied property value in editor?
-* list changes in dlg-statusbar + hover popup
-* editor line state coloring for modified/unapplied("saved") options?
-* show user/lexer/file option-values for selected option?
-* indicate qued option change in list?
-* different filter background?
-
-
-file:///mnt/H/cuda/__FM/data/themes/cobalt.cuda-theme-ui
-"""
-
 _   = apx.get_translation(__file__)  # I18N
 
 
@@ -1349,14 +1303,10 @@ class DialogMK2:
 
             val = dlg_color(int_col)
 
-            print(f' dlg color: {str(val)}')
             if val is not None:
                 try:
                     val = apx.int_to_html_color(val)
-
-                    print(f' proper color: {val}')
                 except:
-                    print(f' Exception color!')
                     val = None
 
         elif prop_type == 'file':

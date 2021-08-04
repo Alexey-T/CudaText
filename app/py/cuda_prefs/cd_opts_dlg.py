@@ -858,7 +858,7 @@ class OptionsMan:
                 if ival == val:
                     return opt['jdc'][i]
             else:
-                raise Exception(f'No matching "dct" value for [{val}] --- {opt}')
+                raise Exception('No matching "dct" value for [{}] --- {}'.format(val, opt))
         else:
             return val
 
