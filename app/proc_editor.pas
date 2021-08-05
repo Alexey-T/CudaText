@@ -27,6 +27,7 @@ uses
   ATSynEdit_Adapters,
   ATSynEdit_Adapter_EControl,
   ATSynEdit_Adapter_LiteLexer,
+  ATSynEdit_Bookmarks,
   ATSynEdit_Finder,
   ATStrings,
   ATStringProc,
@@ -49,6 +50,8 @@ procedure EditorFocus(C: TWinControl);
 procedure EditorMouseClick_AtCursor(Ed: TATSynEdit; AAndSelect: boolean);
 procedure EditorMouseClick_NearCaret(Ed: TATSynEdit; const AParams: string; AAndSelect: boolean);
 procedure EditorSetFont(F: TFont; const AParams: string);
+function EditorBookmarksToString(Ed: TATSynEdit): string;
+procedure EditorStringToBookmarks(Ed: TATSynEdit; const AValue: string);
 
 procedure EditorClear(Ed: TATSynEdit);
 function EditorGetCurrentChar(Ed: TATSynEdit): Widechar;
@@ -2395,6 +2398,50 @@ begin
   begin
     Ed.TextInsertAtCarets('</'+SValue+'>', true{AKeepCaret}, false, false);
     Ed.DoEventChange(AY);
+  end;
+end;
+
+function EditorBookmarksToString(Ed: TATSynEdit): string;
+var
+  List: TStringList;
+  Bm: PATBookmarkItem;
+  i: integer;
+begin
+  List:= TStringList.Create;
+  List.Delimiter:= ' ';
+  for i:= 0 to Ed.Strings.Bookmarks.Count-1 do
+  begin
+    Bm:= Ed.Strings.Bookmarks[i];
+    //save usual bookmarks and numbered bookmarks (kind=1..10)
+    if Bm^.Data.Kind>10 then Continue;
+    List.Add(IntToStr(Bm^.Data.LineNum)+','+IntToStr(Bm^.Data.Kind));
+  end;
+  Result:= List.DelimitedText;
+end;
+
+procedure EditorStringToBookmarks(Ed: TATSynEdit; const AValue: string);
+var
+  Sep, Sep2: TATStringSeparator;
+  StrItem: string;
+  nLine, nKind: integer;
+  Bm: TATBookmarkData;
+begin
+  FillChar(Bm, SizeOf(Bm), 0);
+  Bm.ShowInBookmarkList:= true;
+
+  Sep.Init(AValue, ' ');
+  while Sep.GetItemStr(StrItem) do
+  begin
+    Sep2.Init(StrItem, ',');
+    if not Sep2.GetItemInt(nLine, -1) then Continue;
+    if not Sep2.GetItemInt(nKind, 0, 0, 10) then Continue;
+    if Ed.Strings.IsIndexValid(nLine) then
+    begin
+      Bm.LineNum:= nLine;
+      Bm.Kind:= nKind;
+      Bm.AutoDelete:= bmadOption;
+      Ed.Strings.Bookmarks.Add(Bm);
+    end;
   end;
 end;
 
