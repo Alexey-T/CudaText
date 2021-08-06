@@ -2231,6 +2231,8 @@ begin
   ACharsRight:= 0;
 
   Ed:= FPyCompletionProps.Editor; //can be not CurrentEditor
+  if Ed=nil then exit;
+  if Ed.Carets.Count=0 then exit;
   Caret:= Ed.Carets[0];
 
   //if caret moved by 1 char: repeat auto-complete
