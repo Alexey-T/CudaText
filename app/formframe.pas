@@ -1490,10 +1490,15 @@ begin
     cCommand_KeyHome_Sel,
     cCommand_KeyEnd,
     cCommand_KeyEnd_Sel,
+    cCommand_KeyPageUp,
+    cCommand_KeyPageUp_Sel,
+    cCommand_KeyPageDown,
+    cCommand_KeyPageDown_Sel,
     cCommand_TextDeleteWordNext,
     cCommand_TextDeleteWordPrev:
       begin
         FTextCharsTyped:= 0;
+        OnCallAutoCompletion(Ed, false);
       end;
 
     cCommand_ClipboardPaste,
