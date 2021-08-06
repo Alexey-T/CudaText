@@ -1530,7 +1530,7 @@ Possible values of "id_action":
 * TREE_GET_IMAGELIST: Returns handle of imagelist object, int value.
 * TREE_SET_IMAGELIST: Sets handle of imagelist object. Param "text" must be int handle, it can be 0 to remove current imagelist.
 
-* TREE_PROP_SHOW_ROOT: This allows to hide lines for invisible root-item. If hidden, tree (folded) looks like listbox. Param text: "0"/"1" to hide/show.
+* TREE_PROP_SHOW_ROOT: Allows to change "show root-item" property. When root-item is hidden, treeview (folded) looks like a listbox. Param "text" must be bool value.
 * TREE_LOCK: Disables repainting of control.
 * TREE_UNLOCK: Enables repainting of control.
 * TREE_THEME: Applies current color theme to control.
