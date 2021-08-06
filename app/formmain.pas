@@ -706,6 +706,7 @@ type
     FMenuVisible: boolean;
     FNewClickedEditor: TATSynEdit;
     FPyCompletionProps: TAppCompletionApiProps;
+    FNeedAutoComplete: boolean;
     FNeedUpdateStatuses: boolean;
     FNeedUpdateMenuChecks: boolean;
     FLastDirOfOpenDlg: string;
@@ -841,6 +842,7 @@ type
     function DoAutoComplete_FromPlugins(Ed: TATSynEdit): boolean;
     function DoAutoComplete_PosOnBadToken(Ed: TATSynEdit; AX, AY: integer): boolean;
     procedure DoAutoComplete(Ed: TATSynEdit);
+    procedure DoAutoComplete_Delayed(Ed: TATSynEdit);
     procedure DoPyCommand_Cudaxlib(Ed: TATSynEdit; const AMethod: string);
     procedure DoDialogCharMap;
     procedure DoFindActionFromString(const AStr: string);
@@ -2210,6 +2212,12 @@ begin
   begin
     FNeedUpdateMenuChecks:= false;
     UpdateMenuChecks(Frame);
+  end;
+
+  if FNeedAutoComplete then
+  begin
+    FNeedAutoComplete:= false;
+    DoAutoComplete(Frame.Editor);
   end;
 
   if Assigned(Frame) and not (Frame.IsTreeBusy or Frame.IsParsingBusy) then
@@ -6129,6 +6137,12 @@ begin
         Result:= not UiOps.AutocompleteInStrings;
     end;
   end;
+end;
+
+procedure TfmMain.DoAutoComplete_Delayed(Ed: TATSynEdit);
+//avoid immediate call of DoAutoComplete(), to solve issue #3639
+begin
+  FNeedAutoComplete:= true;
 end;
 
 procedure TfmMain.DoAutoComplete(Ed: TATSynEdit);
