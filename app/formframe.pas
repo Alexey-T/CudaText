@@ -1602,8 +1602,19 @@ begin
         //autoshow autocompletion after typing N letters
         bTypedChar:= (Length(AText)=1) or (UTF8Length(AText)=1);
         if bTypedChar then
-          if EditorAutoCompletionAfterTypingChar(Ed, AText, FTextCharsTyped, OnCallAutoCompletion) then
-            exit;
+        begin
+          if Length(AText)=1 then
+            bTypedChar:= IsCharWordA(AText[1])
+          else
+            bTypedChar:= IsCharWord(UTF8Decode(AText)[1], Ed.OptNonWordChars);
+          if bTypedChar then
+          begin
+            if EditorAutoCompletionAfterTypingChar(Ed, AText, FTextCharsTyped, OnCallAutoCompletion) then
+              exit;
+          end
+          else
+            OnCallAutoCompletion(Ed, false);
+        end;
       end;
   end; //case ACommand of
 
