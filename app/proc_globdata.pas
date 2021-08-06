@@ -1799,7 +1799,7 @@ begin
     TreeTimeFill:= 2000;
     //TreeTimeCaret:= 300;
     TreeShowIcons:= true;
-    TreeShowTooltips:= true;
+    TreeShowTooltips:= {$ifdef LCLQt5} false; {$else} true; {$endif} //solve issue #3642
     TreeFilterLayout:= 1;
     TreeSublexers:= false;
     TreeIconFilenames:= 'dir,st1,st2,st3,box,fx,ar1,ar2,';
