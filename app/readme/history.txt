@@ -3,6 +3,8 @@
   - fixed
   * changed
 
+1.140.5 (2021/08)
+
 + add: better calculation of font color for HTML colors like #rrggbb (patch by @bogen85)
 * change: option "autocomplete_autoshow_chars" now calls the listbox less agressively (ie in the app-idle event)
 - fix: "autocomplete_autoshow_chars" gave a crash (thanks @halfbrained, @demanuel)
