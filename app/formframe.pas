@@ -627,7 +627,7 @@ begin
   Ed:= Sender as TATSynEdit;
 
   StateString:= ConvertShiftStateToString(KeyboardStateToShiftState);
-  FTextCharsTyped:= 0; //reset count for option "autocomplete_autoshow_chars"
+  CancelAutocompleteAutoshow(Ed);
 
   if UiOps.MouseGotoDefinition<>'' then
     if StateString=UiOps.MouseGotoDefinition then
@@ -1562,7 +1562,10 @@ begin
     cCommand_KeyBackspace:
       begin
         if FTextCharsTyped>0 then
+        begin
           Dec(FTextCharsTyped);
+          CancelAutocompleteAutoshow(Ed);
+        end;
         exit;
       end;
 
