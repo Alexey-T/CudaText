@@ -66,6 +66,7 @@ function EditorLexerNameAtPos(Ed: TATSynEdit; APos: TPoint): string;
 type
   TEdSelType = (selNo, selSmall, selStream, selCol, selCarets);
   TEditorSimpleEvent = procedure(Ed: TATSynEdit) of object;
+  TEditorBooleanEvent = procedure(Ed: TATSynEdit; AValue: boolean) of object;
 
 function EditorGetStatusType(ed: TATSynEdit): TEdSelType;
 function EditorFormatStatus(ed: TATSynEdit; const str: string): string;
@@ -143,7 +144,7 @@ procedure EditorHighlightAllMatches(AFinder: TATEditorFinder;
   AEnableFindNext: boolean; out AMatchesCount: integer; ACaretPos: TPoint);
 
 function EditorAutoCompletionAfterTypingChar(Ed: TATSynEdit;
-  const AText: string; var ACharsTyped: integer; AOnAutoCompletion: TEditorSimpleEvent): boolean;
+  const AText: string; var ACharsTyped: integer; AOnAutoCompletion: TEditorBooleanEvent): boolean;
 function EditorGetLefterHtmlTag(Ed: TATSynEdit; AX, AY: integer): UnicodeString;
 procedure EditorAutoCloseOpeningHtmlTag(Ed: TATSynEdit; AX, AY: integer);
 
@@ -2247,7 +2248,8 @@ begin
 end;
 
 function EditorAutoCompletionAfterTypingChar(Ed: TATSynEdit;
-  const AText: string; var ACharsTyped: integer; AOnAutoCompletion: TEditorSimpleEvent): boolean;
+  const AText: string; var ACharsTyped: integer;
+  AOnAutoCompletion: TEditorBooleanEvent): boolean;
 var
   Caret: TATCaretItem;
   STextW: UnicodeString;
@@ -2270,7 +2272,7 @@ begin
     if EditorCaretInsideCommentOrString(Ed, Caret.PosX, Caret.PosY) then exit;
 
     ACharsTyped:= 0;
-    AOnAutoCompletion(Ed);
+    AOnAutoCompletion(Ed, true);
     exit;
   end;
 
@@ -2302,7 +2304,7 @@ begin
     if ACharsTyped=Ed.OptAutocompleteAutoshowCharCount then
     begin
       ACharsTyped:= 0;
-      AOnAutoCompletion(Ed);
+      AOnAutoCompletion(Ed, true);
       exit;
     end;
   end
@@ -2313,7 +2315,7 @@ begin
   if UiOps.AutocompleteHtml and bLexerHTML then
   begin
     if Ed.Strings.LineCharAt(Caret.PosY, Caret.PosX-1)='<' then
-      AOnAutoCompletion(Ed);
+      AOnAutoCompletion(Ed, true);
     exit;
   end;
 
