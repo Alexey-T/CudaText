@@ -6140,7 +6140,9 @@ begin
 end;
 
 procedure TfmMain.DoAutoComplete_Delayed(Ed: TATSynEdit);
-//avoid immediate call of DoAutoComplete(), to solve issue #3639
+//avoid immediate call of DoAutoComplete(),
+//it is fired too often with "autocomplete_autoshow_chars":3,
+//and with slow LSP Client it makes the work slower
 begin
   FNeedAutoComplete:= true;
 end;
