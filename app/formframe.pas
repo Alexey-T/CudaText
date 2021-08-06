@@ -186,6 +186,7 @@ type
     procedure BinaryOnScroll(Sender: TObject);
     procedure BinaryOnProgress(const ACurrentPos, AMaximalPos: Int64;
       var AContinueSearching: Boolean);
+    procedure CancelAutocompleteAutoshow(Ed: TATSynEdit);
     procedure DoDeactivatePictureMode;
     procedure DoDeactivateViewerMode;
     procedure DoFileOpen_Ex(Ed: TATSynEdit; const AFileName: string;
@@ -1497,8 +1498,7 @@ begin
     cCommand_TextDeleteWordNext,
     cCommand_TextDeleteWordPrev:
       begin
-        FTextCharsTyped:= 0;
-        OnCallAutoCompletion(Ed, false);
+        CancelAutocompleteAutoshow(Ed);
       end;
 
     cCommand_ClipboardPaste,
@@ -1619,8 +1619,7 @@ begin
               exit;
           end
           else
-          //typed non-word char, avoid auto-completion
-            OnCallAutoCompletion(Ed, false);
+            CancelAutocompleteAutoshow(Ed);
         end;
       end;
   end; //case ACommand of
@@ -4233,5 +4232,10 @@ begin
   AppPython.RunCommand('cuda_prefs', 'dlg_cuda_options', []);
 end;
 
+procedure TEditorFrame.CancelAutocompleteAutoshow(Ed: TATSynEdit);
+begin
+  FTextCharsTyped:= 0;
+  OnCallAutoCompletion(Ed, false);
+end;
 
 end.
