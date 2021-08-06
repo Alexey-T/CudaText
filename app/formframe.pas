@@ -1518,6 +1518,7 @@ var
   Caret: TATCaretItem;
   bTypedChar: boolean;
   NValue: integer;
+  charW: WideChar;
 begin
   Ed:= Sender as TATSynEdit;
 
@@ -1604,15 +1605,16 @@ begin
         if bTypedChar then
         begin
           if Length(AText)=1 then
-            bTypedChar:= IsCharWordA(AText[1])
+            charW:= WideChar(Ord(AText[1]))
           else
-            bTypedChar:= IsCharWord(UTF8Decode(AText)[1], Ed.OptNonWordChars);
-          if bTypedChar then
+            charW:= UTF8Decode(AText)[1];
+          if IsCharWord(charW, Ed.OptNonWordChars) then
           begin
             if EditorAutoCompletionAfterTypingChar(Ed, AText, FTextCharsTyped, OnCallAutoCompletion) then
               exit;
           end
           else
+          //typed non-word char, avoid auto-completion
             OnCallAutoCompletion(Ed, false);
         end;
       end;
