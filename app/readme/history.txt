@@ -9,7 +9,8 @@
 * change: option "autocomplete_autoshow_chars" now calls the listbox less agressively (ie in the app-idle event)
 - fix: "autocomplete_autoshow_chars" gave a crash (thanks @halfbrained, @demanuel)
 - fix: Options Editor gave an error with older Python 3.5
-- fix: RegEx engine was failing in AArch64 version (and Solaris OS) 
+- fix: RegEx engine was failing in AArch64 version (and Solaris OS)
+- fix: minor fixes in lexers Markdown, reST
 
 1.140.0 (2021/08)
 
@@ -18,7 +19,7 @@
 + add: Project Manager: faster open huge folders (patch by @memstream)
 + add: better find conflicts of hotkeys, e.g. 'Ctrl+K' vs 'Ctrl+K * Ctrl+M' (thanks @veksha)
 + add: save history key 'session' as relative to the path of the 'settings' dir (thanks @veksha)
-+ add: when "cudatext /etc/something" cannot create a new file, it shows an error (thanks @tmsg) 
++ add: when "cudatext /etc/something" cannot create a new file, it shows an error (thanks @tmsg)
 + add: Addon Manager: show '◄git►' label in addon menus
 + add: lexer Markdown: minor fixes, support CriticMarkup marks of 5 kinds
 + add: Wiki topic https://wiki.freepascal.org/CudaText#UI_scaling
@@ -36,7 +37,7 @@
 + add: lexer Python: better code-tree, now with icons
 - fix: regression: crash with option "mouse_rt_click_moves_caret":true (thanks @dinkumoil)
 - fix: regression in 1.134: broken rendering of scrolled single-line inputs (thanks @JairoMartinezA)
-- fix: wrong default value of "indent_size", must be 0 (thanks @halfbrained) 
+- fix: wrong default value of "indent_size", must be 0 (thanks @halfbrained)
 - fix: wrong rendering, when file is restored from session with 'zoom' set, eg 150%
 
 1.139.0 (2021/07)
@@ -89,7 +90,7 @@
 + add: option "renderer_anti_flicker" (thanks @kvichans)
 + add: option "ui_taskbar_mode" (thanks @kvichans)
 + add: auto-completion in HTML: recently chosen items are shown on top (thanks @eltonfabricio10)
-+ add: auto-completion in HTML: insert chosen attrib with caret inside quotes: <tag attrib="|"> (thanks @eltonfabricio10) 
++ add: auto-completion in HTML: insert chosen attrib with caret inside quotes: <tag attrib="|"> (thanks @eltonfabricio10)
 - fix: auto-completion in HTML: option "autocomplete_autoshow_chars" didn't work (thanks @eltonfabricio10)
 - fix: regression in 1.136.0: Esc-key in Console didn't close the Console, Esc-key in editor didn't run "cancel carets"
 
@@ -129,13 +130,13 @@
 1.134.0 (2021/06)
 
 * change: plugin "Options Editor" was replaced with "Options Editor Lite", written by @halfbrained. You must reassign hotkey to the new plugin, if such a hotkey exists. New plugin is more lite and much easier to maintain.
-+ add: incremental search in the Find dialog works more like in Sublime now (thanks @xcme, @tmsg) 
++ add: incremental search in the Find dialog works more like in Sublime now (thanks @xcme, @tmsg)
 + add: handle file-save errors (resulting file is empty) on smb shares on Linux (thanks @mdsystems)
 + add: command "ui: toggle file-change notifications" (thanks @ertank)
 + add: Linux gtk2 version has improved IME support (patch by @rasberryrabbit)
 + add: floating bottom/side panels now have 'stay on top' style (thanks @halfbrained)
 + add: lexer C++: better code-tree; support all kinds if C++11 strings
-+ add: lexer YAML fixes 
++ add: lexer YAML fixes
 - fix: without bookmarks, 'go to next bookmark' hangs (thanks @rayhester)
 - fix: regression: crash on pressing Tab in the Snippets' plugin dialog (thanks @sigzero)
 - fix: regression: Find dialog cannot scroll to the search result, in huge line in word-wrap mode
@@ -223,7 +224,7 @@
 + add: wiki topic https://wiki.freepascal.org/CudaText#Brackets_auto-pairing_logic
 - fix: problem with "CudaExt / Code-Tree Symbol list" and non-ASCII file text (thanks @kvichans)
 - fix: command 'Redo' could not work sometimes (thanks @xcme)
-- fix: crash after installing lexer, while lite-lexer SQL^ was active (thanks @JairoMartinezA) 
+- fix: crash after installing lexer, while lite-lexer SQL^ was active (thanks @JairoMartinezA)
 - fix: regression since 1.124.0: Console's right-click menu is incomplete (thanks @kvichans)
 - fix: regression since 1.127.0: broken work of lite lexers with minimap (thanks @tmsg)
 - fix: regression since 1.128.0: app crashes on start, if lexers have 'grammar' (examples: C#, Pascal, SQL)
@@ -233,7 +234,7 @@
 
 + add: handle config JSON files with UTF-8 BOM (patch goes to FreePascal as well)
 + add: better logic of brackets auto-closing (and selection surrounding) for case of multi-carets (thanks @xcme)
-+ add: command "Install from GitHub" / "Download as zip" supports all branch names (thanks @halfbrained) 
++ add: command "Install from GitHub" / "Download as zip" supports all branch names (thanks @halfbrained)
 * change: paint end-of-line text marks ("LF", "CRLF", "CR", "EOF") by lines, not by font
 - fix: crash in last change in "Help / Check for updates"
 
