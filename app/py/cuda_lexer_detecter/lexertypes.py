@@ -3,6 +3,7 @@ TYPES = {
     "/.htpasswd": ['Apache config'],
     "/Dockerfile": ['Dockerfile'],
     "/PKGBUILD": ['PKGBUILD'],
+    "/config.nims": ['Nim'],
     "/configure.ac": ['Autoconf M4'],
     "/configure.in": ['Autoconf M4'],
     "/fluentd.conf": ['Apache config'],
