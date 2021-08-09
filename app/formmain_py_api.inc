@@ -1716,7 +1716,7 @@ begin
       Ed:= PyHelper_EditorFromHandle(H);
       Str:= string(Ptr);
 
-      Ed.DoCommand(NCode, UTF8Decode(Str));
+      Ed.DoCommand(NCode, cInvokeAppAPI, UTF8Decode(Str));
 
       //many commands use timer, so immediate quit is not ok, app didn't finish command yet.
       //example of bug: plugin Differ uses ed.cmd(cmd_FileClose) and immediately after that it calls
@@ -8220,13 +8220,13 @@ begin
 
         FOLDING_FOLD_ALL:
           begin
-            Ed.DoCommand(cCommand_FoldAll);
+            Ed.DoCommand(cCommand_FoldAll, cInvokeAppAPI);
             Result:= ReturnNone;
           end;
 
         FOLDING_UNFOLD_ALL:
           begin
-            Ed.DoCommand(cCommand_UnfoldAll);
+            Ed.DoCommand(cCommand_UnfoldAll, cInvokeAppAPI);
             Result:= ReturnNone;
           end;
 

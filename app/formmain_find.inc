@@ -483,8 +483,8 @@ begin
       StrSuggested:= StrWord;
 
     MsgLogDebug('find dlg: select all in input');
-    edFind.DoCommand(cCommand_SelectAll);
-    edRep.DoCommand(cCommand_SelectAll);
+    edFind.DoCommand(cCommand_SelectAll, cInvokeAppInternal);
+    edRep.DoCommand(cCommand_SelectAll, cInvokeAppInternal);
 
     chkCase.Checked:= FFinder.OptCase;
     chkWords.Checked:= FFinder.OptWords;
@@ -647,7 +647,7 @@ begin
       end;
     markingBookmarks:
       begin
-        Ed.DoCommand(cmd_BookmarkClearAll);
+        Ed.DoCommand(cmd_BookmarkClearAll, cInvokeAppInternal);
       end;
     else
       begin end;

@@ -215,7 +215,7 @@ begin
   begin
     //we added some lines directly to EdMemo.Strings, so update WrapInfo
     UpdateWrapInfo(true);
-    DoCommand(cCommand_GotoTextEnd);
+    DoCommand(cCommand_GotoTextEnd, cInvokeAppInternal);
     ColumnLeft:= 0;
   end;
 end;
@@ -384,8 +384,8 @@ end;
 
 procedure TfmConsole.DoClearInput(Sender: TObject);
 begin
-  EdInput.DoCommand(cCommand_GotoTextBegin);
-  EdInput.DoCommand(cCommand_TextDeleteToTextEnd);
+  EdInput.DoCommand(cCommand_GotoTextBegin, cInvokeAppInternal);
+  EdInput.DoCommand(cCommand_TextDeleteToTextEnd, cInvokeAppInternal);
   EdInput.DoCaretSingle(0, 0);
 end;
 

@@ -4358,7 +4358,7 @@ begin
   if NCmd>0 then
   begin
     FLastSelectedCommand:= NCmd;
-    Ed.DoCommand(NCmd);
+    Ed.DoCommand(NCmd, cInvokeAppPalette);
     UpdateCurrentFrame;
   end;
 end;
@@ -6073,7 +6073,7 @@ begin
       DoPyCallbackFromAPI(SCallback, Params, []);
   end
   else
-    F.Editor.DoCommand(NCommand);
+    F.Editor.DoCommand(NCommand, cInvokeMenu);
 
   if (NCommand<>-1)
     and (NCommand<>cmd_FileClose)
@@ -6746,7 +6746,7 @@ begin
   F:= FrameOfPopup;
   if F=nil then exit;
 
-  F.Editor.DoCommand(cmd_CopyFilenameDir);
+  F.Editor.DoCommand(cmd_CopyFilenameDir, cInvokeMenu);
 end;
 
 procedure TfmMain.mnuTabCopyFullPathClick(Sender: TObject);
@@ -6756,7 +6756,7 @@ begin
   F:= FrameOfPopup;
   if F=nil then exit;
 
-  F.Editor.DoCommand(cmd_CopyFilenameFull);
+  F.Editor.DoCommand(cmd_CopyFilenameFull, cInvokeMenu);
 end;
 
 procedure TfmMain.mnuTabCopyNameClick(Sender: TObject);
@@ -6766,7 +6766,7 @@ begin
   F:= FrameOfPopup;
   if F=nil then exit;
 
-  F.Editor.DoCommand(cmd_CopyFilenameName);
+  F.Editor.DoCommand(cmd_CopyFilenameName, cInvokeMenu);
 end;
 
 procedure DoParseOutputLine(const AForm: TAppFormWithEditor;
@@ -6922,7 +6922,7 @@ var
 begin
   Ed:= CurrentEditor;
   if Ed.Carets.Count=0 then exit;
-  Ed.DoCommand(cCommand_TextInsert, Utf8Decode(AStr));
+  Ed.DoCommand(cCommand_TextInsert, cInvokeAppCharMap, Utf8Decode(AStr));
 
   UpdateCurrentFrame(true);
   UpdateStatusbar;
@@ -7110,7 +7110,7 @@ begin
   NCmd:= StrToIntDef(SData, 0);
 
   if NCmd>0 then
-    CurrentEditor.DoCommand(NCmd)
+    CurrentEditor.DoCommand(NCmd, cInvokeMenu)
   else
   begin
     SetLength(Params, 0);
@@ -7588,7 +7588,7 @@ end;
 
 procedure TfmMain.MenuitemClick_CommandFromTag(Sender: TObject);
 begin
-  CurrentEditor.DoCommand((Sender as TComponent).Tag);
+  CurrentEditor.DoCommand((Sender as TComponent).Tag, cInvokeMenu);
 end;
 
 procedure TfmMain.MenuitemClick_CommandFromHint(Sender: TObject);
@@ -8253,7 +8253,7 @@ var
   Ed: TATSynEdit;
 begin
   Ed:= (Sender as TMenuItem).Owner as TATSynEdit;
-  Ed.DoCommand(cCommand_ClipboardCopy);
+  Ed.DoCommand(cCommand_ClipboardCopy, cInvokeMenu);
 end;
 
 procedure TfmMain.PopupBottomSelectAllClick(Sender: TObject);
@@ -8261,7 +8261,7 @@ var
   Ed: TATSynEdit;
 begin
   Ed:= (Sender as TMenuItem).Owner as TATSynEdit;
-  Ed.DoCommand(cCommand_SelectAll);
+  Ed.DoCommand(cCommand_SelectAll, cInvokeMenu);
 end;
 
 procedure TfmMain.PopupBottomWrapClick(Sender: TObject);
@@ -8269,7 +8269,7 @@ var
   Ed: TATSynEdit;
 begin
   Ed:= (Sender as TMenuItem).Owner as TATSynEdit;
-  Ed.DoCommand(cCommand_ToggleWordWrap);
+  Ed.DoCommand(cCommand_ToggleWordWrap, cInvokeMenu);
 end;
 
 

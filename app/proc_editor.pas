@@ -1838,7 +1838,7 @@ begin
             Finder.MatchEdEnd.X,
             Finder.MatchEdEnd.Y
             );
-        Ed.DoCommand(cCommand_ScrollToCaretBottom);
+        Ed.DoCommand(cCommand_ScrollToCaretBottom, cInvokeAppInternal);
       end;
     finally
       FreeAndNil(Finder);
@@ -1862,7 +1862,7 @@ begin
   if AWordOrSel then
   begin
     Str:= Ed.TextCurrentWord;
-    Ed.DoCommand(cCommand_SelectWords);
+    Ed.DoCommand(cCommand_SelectWords, cInvokeAppInternal);
   end
   else
   begin
@@ -1870,7 +1870,7 @@ begin
     if Str='' then
     begin
       Str:= Ed.TextCurrentWord;
-      Ed.DoCommand(cCommand_SelectWords);
+      Ed.DoCommand(cCommand_SelectWords, cInvokeAppInternal);
     end;
   end;
   if Str='' then exit;
