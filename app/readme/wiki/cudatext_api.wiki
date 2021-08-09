@@ -2368,18 +2368,18 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 
 * PROP_COMMAND_LOG: list of last executed commands, as list of dict. Dict keys are:
 ** "code": Integer command code.
-*** Special codes: code=1 means 'plugin started', code=2 means 'plugin returned'. For these codes, "text" key has the value "py:module,method" or "py:module,method,param".
+*** Special codes: value cmd_PluginRun means 'plugin started', value cmd_PluginEnd means 'plugin returned'. For these codes, "text" key has the value "py:module,method" or "py:module,method,param".
 ** "invoke": String, how the command was invoked. One of values:
-*** "int"
-*** "key"
-*** "menu_ctx"
-*** "menu_main"
-*** "app_int"
-*** "app_pal"
-*** "app_toolbar"
-*** "app_charmap"
-*** "app_api"
-** "text": Text of command, if needed.
+*** "int": Internal calling from core components.
+*** "key": Calling via some hotkey.
+*** "menu_ctx": Calling from some context menu.
+*** "menu_main": Calling from the main menu.
+*** "app_int": Internal calling from high-level CudaText code.
+*** "app_pal": Calling from the Command Palette.
+*** "app_toolbar": Calling via toolbar buttons.
+*** "app_charmap": Calling via Char Map dialog.
+*** "app_api": Calling from some Python API handler.
+** "text": Text of command. It's not empty only in few cases, e.g. for command codes cCommand_TextInsert / cmd_PluginRun / cmd_PluginEnd.
 
 * PROP_V_MODE: int: mode of binary viewer. Reading it for editor, returns VMODE_NONE. Reading it for viewer, returns one of: VMODE_TEXT, VMODE_BINARY, VMODE_HEX, VMODE_UNICODE, VMODE_UNICODE_HEX.
 * PROP_V_POS: int: for binary viewer, scroll position.
