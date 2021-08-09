@@ -23,8 +23,7 @@ begin
   if Frame.MacroRecord then
     Frame.MacroStrings.Add(SPyText);
 
-  if Ed.OptCommandLogEnabled then
-    Ed.CommandLog.Add(cmd_PluginRun, cInvokeAppInternal, SPyText);
+  Ed.CommandLog.Add(cmd_PluginRun, cInvokeAppInternal, SPyText);
 
   Ed.Strings.BeginUndoGroup;
   try
@@ -34,8 +33,7 @@ begin
       Ed.Strings.EndUndoGroup;
   end;
 
-  if Ed.OptCommandLogEnabled then
-    Ed.CommandLog.Add(cmd_PluginEnd, cInvokeAppInternal, SPyText);
+  Ed.CommandLog.Add(cmd_PluginEnd, cInvokeAppInternal, SPyText);
 end;
 
 

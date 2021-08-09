@@ -604,6 +604,7 @@ type
     OpZebra: integer;
     OpZebraStep: integer;
     OpDimUnfocused: integer;
+    OpCommandLogMaxCount: integer;
 
     OpNonWordChars: UnicodeString;
     OpFoldStyle: integer;
@@ -1570,6 +1571,7 @@ begin
     OpZebra:= 0;
     OpZebraStep:= 2;
     OpDimUnfocused:= 0;
+    OpCommandLogMaxCount:= 200;
 
     OpNonWordChars:= cDefaultNonWordChars;
     OpFoldStyle:= 1;
