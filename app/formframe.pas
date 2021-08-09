@@ -1747,6 +1747,7 @@ begin
   ed.OptUnprintedVisible:= EditorOps.OpUnprintedShow;
   ed.OptRulerVisible:= EditorOps.OpRulerShow;
   ed.OptBorderVisible:= false;
+  ed.OptCommandLogEnabled:= true;
 
   SetLength(ed.Micromap.Columns, 2);
   ed.Micromap.Columns[1].NWidthPercents:= 40; //for marks from Spell Checker, Highlight Occur
