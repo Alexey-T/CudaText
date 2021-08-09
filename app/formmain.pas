@@ -6073,7 +6073,7 @@ begin
       DoPyCallbackFromAPI(SCallback, Params, []);
   end
   else
-    F.Editor.DoCommand(NCommand, cInvokeMenu);
+    F.Editor.DoCommand(NCommand, cInvokeMenuMain);
 
   if (NCommand<>-1)
     and (NCommand<>cmd_FileClose)
@@ -6746,7 +6746,7 @@ begin
   F:= FrameOfPopup;
   if F=nil then exit;
 
-  F.Editor.DoCommand(cmd_CopyFilenameDir, cInvokeMenu);
+  F.Editor.DoCommand(cmd_CopyFilenameDir, cInvokeMenuContext);
 end;
 
 procedure TfmMain.mnuTabCopyFullPathClick(Sender: TObject);
@@ -6756,7 +6756,7 @@ begin
   F:= FrameOfPopup;
   if F=nil then exit;
 
-  F.Editor.DoCommand(cmd_CopyFilenameFull, cInvokeMenu);
+  F.Editor.DoCommand(cmd_CopyFilenameFull, cInvokeMenuContext);
 end;
 
 procedure TfmMain.mnuTabCopyNameClick(Sender: TObject);
@@ -6766,7 +6766,7 @@ begin
   F:= FrameOfPopup;
   if F=nil then exit;
 
-  F.Editor.DoCommand(cmd_CopyFilenameName, cInvokeMenu);
+  F.Editor.DoCommand(cmd_CopyFilenameName, cInvokeMenuContext);
 end;
 
 procedure DoParseOutputLine(const AForm: TAppFormWithEditor;
@@ -7110,7 +7110,7 @@ begin
   NCmd:= StrToIntDef(SData, 0);
 
   if NCmd>0 then
-    CurrentEditor.DoCommand(NCmd, cInvokeMenu)
+    CurrentEditor.DoCommand(NCmd, cInvokeAppToolbar)
   else
   begin
     SetLength(Params, 0);
@@ -7588,7 +7588,7 @@ end;
 
 procedure TfmMain.MenuitemClick_CommandFromTag(Sender: TObject);
 begin
-  CurrentEditor.DoCommand((Sender as TComponent).Tag, cInvokeMenu);
+  CurrentEditor.DoCommand((Sender as TComponent).Tag, cInvokeAppToolbar);
 end;
 
 procedure TfmMain.MenuitemClick_CommandFromHint(Sender: TObject);
@@ -8253,7 +8253,7 @@ var
   Ed: TATSynEdit;
 begin
   Ed:= (Sender as TMenuItem).Owner as TATSynEdit;
-  Ed.DoCommand(cCommand_ClipboardCopy, cInvokeMenu);
+  Ed.DoCommand(cCommand_ClipboardCopy, cInvokeMenuContext);
 end;
 
 procedure TfmMain.PopupBottomSelectAllClick(Sender: TObject);
@@ -8261,7 +8261,7 @@ var
   Ed: TATSynEdit;
 begin
   Ed:= (Sender as TMenuItem).Owner as TATSynEdit;
-  Ed.DoCommand(cCommand_SelectAll, cInvokeMenu);
+  Ed.DoCommand(cCommand_SelectAll, cInvokeMenuContext);
 end;
 
 procedure TfmMain.PopupBottomWrapClick(Sender: TObject);
@@ -8269,7 +8269,7 @@ var
   Ed: TATSynEdit;
 begin
   Ed:= (Sender as TMenuItem).Owner as TATSynEdit;
-  Ed.DoCommand(cCommand_ToggleWordWrap, cInvokeMenu);
+  Ed.DoCommand(cCommand_ToggleWordWrap, cInvokeMenuContext);
 end;
 
 
