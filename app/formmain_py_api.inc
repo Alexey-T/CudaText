@@ -2978,6 +2978,30 @@ begin
   end;
 end;
 
+function PyHelper_GetCommandLog(Ed: TATSynEdit): PPyObject;
+var
+  Item: TATEditorCommandLogItem;
+  NCount, i: integer;
+begin
+  with AppPython.Engine do
+  begin
+    NCount:= Ed.CommandLog.Size();
+    Result:= PyList_New(NCount);
+    for i:= 0 to NCount-1 do
+    begin
+      Item:= Ed.CommandLog.Items[i];
+      PyList_SetItem(Result, i, Py_BuildValue('{sissss}',
+        'code',
+        Item.ItemCode,
+        'invoke',
+        PChar(cEditorCommandInvoke[Item.ItemInvoke]),
+        'text',
+        PChar(Item.ItemText)
+        ));
+    end;
+  end;
+end;
+
 function api_ed_get_prop(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
@@ -3613,6 +3637,9 @@ begin
           Result:= PyBool_FromLong(Ord(Ed.OptInputNumberOnly));
         PROP_NUMBERS_NEGATIVE:
           Result:= PyBool_FromLong(Ord(Ed.OptInputNumberAllowNegative));
+
+        PROP_COMMAND_LOG:
+          Result:= PyHelper_GetCommandLog(Ed);
 
         PROP_V_MODE:
           begin
