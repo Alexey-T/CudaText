@@ -1747,8 +1747,6 @@ begin
   ed.OptUnprintedVisible:= EditorOps.OpUnprintedShow;
   ed.OptRulerVisible:= EditorOps.OpRulerShow;
   ed.OptBorderVisible:= false;
-
-  ed.CommandLog.Enabled:= true;
   ed.CommandLog.MaxCount:= EditorOps.OpCommandLogMaxCount;
 
   SetLength(ed.Micromap.Columns, 2);
