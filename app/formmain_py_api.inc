@@ -3640,6 +3640,8 @@ begin
 
         PROP_COMMAND_LOG:
           Result:= PyHelper_GetCommandLog(Ed);
+        PROP_COMMAND_LOG_COUNT:
+          Result:= PyLong_FromLong(Ed.CommandLog.MaxCount);
 
         PROP_V_MODE:
           begin
@@ -4240,6 +4242,9 @@ begin
 
         PROP_NUMBERS_NEGATIVE:
           Ed.OptInputNumberAllowNegative:= ValueBool;
+
+        PROP_COMMAND_LOG_COUNT:
+          Ed.CommandLog.MaxCount:= ValueInt;
 
         PROP_V_MODE:
           begin
