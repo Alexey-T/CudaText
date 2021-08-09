@@ -1,6 +1,9 @@
 #prefix cCommand: commands of editor core ATSynEdit
 #prefix cmd: high-level commands of CudaText
 
+cmd_PluginRun = 1
+cmd_PluginEnd = 2
+
 _CmdFlag_SelKeep    = 0x10000 #cmd continues selection (new caret pos makes bigger selection)
 _CmdFlag_SelReset   = 0x20000 #before command, reset selection
 _CmdFlag_MovesCaret = 0x80000 #cmd moves caret and makes new undo-group
@@ -222,9 +225,6 @@ cCommand_CaretsExtendDownToEnd = 2012
 cCommand_CaretsExtendUpLine = 2013
 cCommand_CaretsExtendUpPage = 2014
 cCommand_CaretsExtendUpToTop = 2015
-
-cmd_PluginRun = 2475
-cmd_PluginEnd = 2476
 
 cmd_MouseClickAtCursor = 2480
 cmd_MouseClickAtCursorAndSelect = 2481

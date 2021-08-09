@@ -31,6 +31,11 @@ type
     );
 
 const
+  cmd_PluginRun = 1;
+  cmd_PluginEnd = 2;
+
+  cmd_GotoLastEditingPos = 2006;
+
   cmdFirstAppCommand = 2500;
   cmdFirstLexerCommand = 6000;
   cmdLastLexerCommand = 6400-1;
@@ -41,11 +46,6 @@ const
   cmdFirstRecentCommand = 8800;
   cmdLastRecentCommand = 9000-1;
   cmdLastAppCommand = cmdLastRecentCommand;
-
-  cmd_GotoLastEditingPos = 2006;
-
-  cmd_PluginRun = 2475;
-  cmd_PluginEnd = 2476;
 
   //for macros, must be before cmdFirstAppCommand
   cmd_MouseClickAtCursor = 2480;
