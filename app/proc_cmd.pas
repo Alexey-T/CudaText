@@ -42,13 +42,17 @@ const
   cmdLastRecentCommand = 9000-1;
   cmdLastAppCommand = cmdLastRecentCommand;
 
+  cmd_GotoLastEditingPos = 2006;
+
+  cmd_PluginRun = 2475;
+  cmd_PluginEnd = 2476;
+
   //for macros, must be before cmdFirstAppCommand
   cmd_MouseClickAtCursor = 2480;
   cmd_MouseClickAtCursorAndSelect = 2481;
   cmd_MouseClickNearCaret = 2490;
   cmd_MouseClickNearCaretAndSelect = 2491;
   cmd_FinderAction = 2492;
-  cmd_GotoLastEditingPos = 2006;
 
   //normal commands
   cmd_FileNew            = 2500;

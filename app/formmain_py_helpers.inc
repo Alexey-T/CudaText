@@ -5,7 +5,7 @@ procedure TfmMain.DoPyCommand(const AModule, AMethod: string; const AParams: TAp
 var
   Frame: TEditorFrame;
   Ed: TATSynEdit;
-  SParam: string;
+  SParam, SPyText: string;
 begin
   if not AppPython.Inited then exit;
   PyEditorMaybeDeleted:= false;
@@ -15,13 +15,16 @@ begin
   Ed:= Frame.Editor;
   if Ed=nil then exit;
 
+  SParam:= '';
+  if Length(AParams)>0 then
+    SParam:= AppVariantToString(AParams[0]);
+  SPyText:= 'py:'+AModule+','+AMethod+','+SParam;
+
   if Frame.MacroRecord then
-  begin
-    SParam:= '';
-    if Length(AParams)>0 then
-      SParam:= AppVariantToString(AParams[0]);
-    Frame.MacroStrings.Add('py:'+AModule+','+AMethod+','+SParam);
-  end;
+    Frame.MacroStrings.Add(SPyText);
+
+  if Ed.OptCommandLogEnabled then
+    Ed.CommandLog.Add(cmd_PluginRun, cInvokeAppInternal, SPyText);
 
   Ed.Strings.BeginUndoGroup;
   try
@@ -30,6 +33,9 @@ begin
     if not PyEditorMaybeDeleted then
       Ed.Strings.EndUndoGroup;
   end;
+
+  if Ed.OptCommandLogEnabled then
+    Ed.CommandLog.Add(cmd_PluginEnd, cInvokeAppInternal, SPyText);
 end;
 
 

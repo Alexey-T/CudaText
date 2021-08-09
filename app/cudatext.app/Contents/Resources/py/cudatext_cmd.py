@@ -223,6 +223,9 @@ cCommand_CaretsExtendUpLine = 2013
 cCommand_CaretsExtendUpPage = 2014
 cCommand_CaretsExtendUpToTop = 2015
 
+cmd_PluginRun = 2475
+cmd_PluginEnd = 2476
+
 cmd_MouseClickAtCursor = 2480
 cmd_MouseClickAtCursorAndSelect = 2481
 cmd_MouseClickNearCaret = 2490
