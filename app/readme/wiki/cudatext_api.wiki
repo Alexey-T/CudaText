@@ -2366,6 +2366,21 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_NUMBERS_ONLY: bool: allow to input only numbers.
 * PROP_NUMBERS_NEGATIVE: bool: additional to PROP_NUMBERS_ONLY, allow negative numbers<0.
 
+* PROP_COMMAND_LOG: list of last executed commands, as list of dict. Dict keys are:
+** "code": Integer command code.
+*** Special codes: code=1 means 'plugin started', code=2 means 'plugin returned'. For these codes, "text" key has the value "py:module,method" or "py:module,method,param".
+** "invoke": String, how the command was invoked. One of values:
+*** "int"
+*** "key"
+*** "menu_ctx"
+*** "menu_main"
+*** "app_int"
+*** "app_pal"
+*** "app_toolbar"
+*** "app_charmap"
+*** "app_api"
+** "text": Text of command, if needed.
+
 * PROP_V_MODE: int: mode of binary viewer. Reading it for editor, returns VMODE_NONE. Reading it for viewer, returns one of: VMODE_TEXT, VMODE_BINARY, VMODE_HEX, VMODE_UNICODE, VMODE_UNICODE_HEX.
 * PROP_V_POS: int: for binary viewer, scroll position.
 * PROP_V_SEL_START: int: for binary viewer, selection start offset.
@@ -4463,5 +4478,8 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 1.0.407 (app 1.139.2)
 * add: Editor.get_prop/set_prop: PROP_THEMED
 * add: app_proc: PROC_GET_KEYSTATE returns flags for 4th/5th mouse buttons 
+
+1.0.408 (app 1.140.6)
+* add: Editor.get_prop: PROP_COMMAND_LOG
 
 [[Category:CudaText]]
