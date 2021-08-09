@@ -544,7 +544,7 @@ object SyntAnal16: TLibSyntAnalyzer
       DrawStaple = True
       GroupIndex = 20
       CollapseFmt = '%s0 %s-1...'
-      TreeItemImage = 0
+      TreeItemImage = 1
       IgnoreAsParent = False
     end
     item
