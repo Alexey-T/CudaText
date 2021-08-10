@@ -1045,11 +1045,6 @@ begin
 
   if AFill then
   begin
-    if Assigned(Ada.Lexer) then
-      FCodetreeLexer:= Ada.Lexer.LexerName
-    else
-      FCodetreeLexer:= '';
-
     InitImageListCodetree;
     UpdateTreeImagelistActivity;
     DoPyEvent_AppState(APPSTATE_CODETREE_BEFORE_FILL);
@@ -1069,7 +1064,9 @@ begin
         FCodetreeBuffer.AlphaSort;
 
       DoTreeviewCopy(FCodetreeBuffer, CodeTree.Tree);
+
       FCodetreeForEditor:= Ed;
+      FCodetreeForLexer:= EditorLexerNameAtPos(Ed, Point(-1, -1));
 
       //force update scrollbar
       CodeTree.Tree.Font.Size:= AppScaleFont(UiOps.VarFontSize);

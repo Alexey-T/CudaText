@@ -89,7 +89,9 @@ begin
         DoPyEvent_AppState(APPSTATE_CODETREE_AFTER_FILL);
         UpdateTreeFilter;
         UpdateTreeSelection(F, Ed);
+
         FCodetreeForEditor:= Ed;
+        FCodetreeForLexer:= EditorLexerNameAtPos(Ed, Point(-1, -1));
       end;
     end;
 

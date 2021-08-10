@@ -2228,6 +2228,7 @@ begin
 end;
 
 function EditorLexerNameAtPos(Ed: TATSynEdit; APos: TPoint): string;
+// APos.Y=-1 means 'get lexer for entire document'
 var
   CurAdapter: TATAdapterHilite;
   an: TecSyntAnalyzer;
@@ -2238,7 +2239,10 @@ begin
 
   if CurAdapter is TATAdapterEControl then
   begin
-    an:= TATAdapterEControl(CurAdapter).LexerAtPos(APos);
+    if APos.Y<0 then
+      an:= TATAdapterEControl(CurAdapter).Lexer
+    else
+      an:= TATAdapterEControl(CurAdapter).LexerAtPos(APos);
     if Assigned(an) then
       Result:= an.LexerName;
   end

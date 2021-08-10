@@ -696,11 +696,11 @@ type
     FFileNameLogDebug: string;
     FFileNameLogConsole: string;
     FCodetreeForEditor: TATSynEdit;
+    FCodetreeForLexer: string;
     FCodetreeBuffer: TTreeView;
     FCodetreeDblClicking: boolean;
     FCodetreeModifiedVersion: integer;
     FCodetreeNeedsSelJump: boolean;
-    FCodetreeLexer: string;
     FCfmPanel: TPanel;
     FCfmLink: string;
     FMenuVisible: boolean;
@@ -2340,7 +2340,7 @@ begin
     CodeTree.Tree.Items.Clear;
 
     FCodetreeForEditor:= nil;
-    FCodetreeLexer:= '';
+    FCodetreeForLexer:= '';
     FCodetreeNeedsSelJump:= false;
   end;
 end;
@@ -6538,7 +6538,7 @@ var
   NColor: TColor;
   NLen, i: integer;
 begin
-  DefaultDraw:= not ((FCodetreeLexer='CSS') and (Stage=cdPostPaint));
+  DefaultDraw:= not ((FCodetreeForLexer='CSS') and (Stage=cdPostPaint));
   if DefaultDraw then exit;
 
   NColor:= clNone;
