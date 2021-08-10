@@ -361,6 +361,7 @@ Most of them are located in Addons Manager "Install" list.
 * CoffeeScript
 * ColdFusion
 * CRF files
+* Crystal
 * CSS
 * CUDA C++
 * D
