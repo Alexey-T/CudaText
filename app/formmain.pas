@@ -2349,11 +2349,10 @@ procedure TfmMain.DoCodetree_Clear;
 begin
   if CodeTree.Tree.Items.Count>0 then
   begin
-    DoPyEvent_AppState(APPSTATE_CODETREE_CLEAR);
     CodeTree.Tree.Items.Clear;
-
     DoCodetree_UpdateVersion(nil);
     FCodetreeNeedsSelJump:= false;
+    DoPyEvent_AppState(APPSTATE_CODETREE_CLEAR);
   end;
 end;
 

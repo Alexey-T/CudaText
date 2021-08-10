@@ -6894,7 +6894,7 @@ begin
             begin
               //handle code-tree clearing via API
               if TreeContainer=fmMain.CodeTree then
-                fmMain.DoPyEvent_AppState(APPSTATE_CODETREE_CLEAR);
+                fmMain.DoCodetree_Clear;
 
               TreeContainer.Tree.Items.Clear;
             end;
