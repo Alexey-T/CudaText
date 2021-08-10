@@ -1529,11 +1529,11 @@ Also CudaText gives the command "dialog: save tabs" in the Command Palette. It s
 
 ==Hex display of special chars==
 
-Editor shows some characters in a "hex form", like "x2000" for character U+2000. For codes below 0xFF, hex form is shorter, like "x01". If single-byte encoding is used (e.g. cp437), then only codes below 0xFF will be shown. Hex form is painted with different font color.
+Editor shows some characters in a "hex form", like "x2000" for character U+2000. For codes below 0x100, hex form is shorter, like "x01" for character U+0001. If single-byte encoding is used (e.g. cp437), then only the short hex form is used. Hex form is rendered with different font color.
 
 [[File:cudatext-hex-chars.png]]
 
-Special characters are:
+Special characters which are always rendered in the hex form (this is not configurable):
 
 * U+0000...U+001F, except Tab-char U+0009
 * U+2000...U+200F: white spaces + specials
