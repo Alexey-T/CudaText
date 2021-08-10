@@ -1076,7 +1076,7 @@ begin
         FCodetreeBuffer.AlphaSort;
 
       DoTreeviewCopy(FCodetreeBuffer, CodeTree.Tree);
-      CodeTree.SourceObject:= Ed;
+      FCodetreeForEditor:= Ed;
 
       //force update scrollbar
       CodeTree.Tree.Font.Size:= AppScaleFont(UiOps.VarFontSize);

@@ -695,6 +695,7 @@ type
     FFileNamesDroppedInitially: array of string;
     FFileNameLogDebug: string;
     FFileNameLogConsole: string;
+    FCodetreeForEditor: TATSynEdit;
     FCodetreeBuffer: TTreeView;
     FCodetreeDblClicking: boolean;
     FCodetreeModifiedVersion: integer;

@@ -147,7 +147,8 @@ begin
   begin
     //prevent ListIndexError on file_open(..)
     if not FDisableTreeClearing then
-      DoCodetree_Clear;
+      if F.Editor<>FCodetreeForEditor then
+        DoCodetree_Clear;
 
     if F.CanFocus and F.CanSetFocus then
       F.SetFocus;
