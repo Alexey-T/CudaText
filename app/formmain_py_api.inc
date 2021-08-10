@@ -6894,9 +6894,9 @@ begin
             begin
               //handle code-tree clearing via API
               if TreeContainer=fmMain.CodeTree then
-                fmMain.DoCodetree_Clear;
-
-              TreeContainer.Tree.Items.Clear;
+                fmMain.DoCodetree_Clear
+              else
+                TreeContainer.Tree.Items.Clear;
             end;
 
             TreeContainer.Tree.Invalidate;
