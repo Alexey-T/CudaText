@@ -2339,6 +2339,11 @@ begin
   begin
     DoPyEvent_AppState(APPSTATE_CODETREE_CLEAR);
     CodeTree.Tree.Items.Clear;
+
+    FCodetreeForEditor:= nil;
+    FCodetreeLexer:= '';
+    FCodetreeLexerCSS:= false;
+    FCodetreeNeedsSelJump:= false;
   end;
 end;
 
