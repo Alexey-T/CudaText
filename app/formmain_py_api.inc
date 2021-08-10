@@ -3609,7 +3609,12 @@ begin
           end;
 
         PROP_CODETREE_MODIFIED_VERSION:
-          Result:= PyLong_FromLong(fmMain.FCodetreeModifiedVersion);
+          begin
+            if Assigned(fmMain.FCodetreeForEditor) then
+              Result:= PyLong_FromLong(fmMain.FCodetreeForEditor.Strings.ModifiedVersion)
+            else
+              Result:= PyLong_FromLong(0);
+          end;
 
         PROP_CODETREE_SUBLEXER:
           begin

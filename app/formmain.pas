@@ -699,7 +699,6 @@ type
     FCodetreeForLexer: string;
     FCodetreeBuffer: TTreeView;
     FCodetreeDblClicking: boolean;
-    FCodetreeModifiedVersion: integer;
     FCodetreeNeedsSelJump: boolean;
     FCfmPanel: TPanel;
     FCfmLink: string;
@@ -2271,12 +2270,10 @@ begin
   if Assigned(Ed) then
   begin
     FCodetreeForLexer:= EditorLexerNameAtPos(Ed, Point(-1, -1));
-    FCodetreeModifiedVersion:= Ed.Strings.ModifiedVersion;
   end
   else
   begin
     FCodetreeForLexer:= '';
-    FCodetreeModifiedVersion:= 0;
   end;
 end;
 
