@@ -1353,7 +1353,9 @@ In the above "ui_statusbar_" options, macros are supported:
 * {_linesel}: localized string "lines sel"
 * {_carets}: localized string "carets"
 
-Also the option exists to change the delay for showing messages in statusbar. Plugin API allows to colorize statusbar cells (used in Vim Mode plugin), and to show icons there.
+An option exists to change the delay of messages in the statusbar.
+
+This is not used in the main statusbar, but plugin API allows to colorize statusbar cells (used by Vim Mode plugin), and to show icons there.
 
 ==File viewer==
 CudaText has internal file viewer, for files on unlimited size. Only visible portion of file is loaded into memory, so viewer is fast for all files. Viewer has several modes:
