@@ -1050,13 +1050,6 @@ begin
     else
       FCodetreeLexer:= '';
 
-    case FCodetreeLexer of
-      'CSS': //we can add more lexers, but not needed yet
-        FCodetreeLexerCSS:= true;
-      else
-        FCodetreeLexerCSS:= false;
-    end;
-
     InitImageListCodetree;
     UpdateTreeImagelistActivity;
     DoPyEvent_AppState(APPSTATE_CODETREE_BEFORE_FILL);

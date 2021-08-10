@@ -701,7 +701,6 @@ type
     FCodetreeModifiedVersion: integer;
     FCodetreeNeedsSelJump: boolean;
     FCodetreeLexer: string;
-    FCodetreeLexerCSS: boolean;
     FCfmPanel: TPanel;
     FCfmLink: string;
     FMenuVisible: boolean;
@@ -2342,7 +2341,6 @@ begin
 
     FCodetreeForEditor:= nil;
     FCodetreeLexer:= '';
-    FCodetreeLexerCSS:= false;
     FCodetreeNeedsSelJump:= false;
   end;
 end;
@@ -6540,7 +6538,7 @@ var
   NColor: TColor;
   NLen, i: integer;
 begin
-  DefaultDraw:= not (FCodetreeLexerCSS and (Stage=cdPostPaint));
+  DefaultDraw:= not ((FCodetreeLexer='CSS') and (Stage=cdPostPaint));
   if DefaultDraw then exit;
 
   NColor:= clNone;
