@@ -147,11 +147,7 @@ begin
   begin
     //prevent ListIndexError on file_open(..)
     if not FDisableTreeClearing then
-    begin
-      if CodeTree.Tree.Items.Count>0 then
-        DoPyEvent_AppState(APPSTATE_CODETREE_CLEAR);
-      CodeTree.Tree.Items.Clear;
-    end;
+      DoCodetree_Clear;
 
     if F.CanFocus and F.CanSetFocus then
       F.SetFocus;
@@ -361,11 +357,7 @@ begin
 
     if not Application.Terminated then
       if bNeedTreeUpd then
-      begin
-        if CodeTree.Tree.Items.Count>0 then
-          DoPyEvent_AppState(APPSTATE_CODETREE_CLEAR);
-        CodeTree.Tree.Items.Clear;
-      end;
+        DoCodetree_Clear;
 
     FNeedUpdateStatuses:= true;
   end;

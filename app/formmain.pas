@@ -815,6 +815,7 @@ type
     //procedure DoOnTabOver(Sender: TObject; ATabIndex: Integer);
     procedure DoOnTabPopup(Sender: TObject; APages: TATPages; ATabIndex: integer);
     function DoOnTabGetTick(Sender: TObject; ATabObject: TObject): Int64;
+    procedure DoCodetree_Clear;
     procedure DoCodetree_PanelOnEnter(Sender: TObject);
     procedure DoCodetree_StopUpdate;
     procedure DoCodetree_OnContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
@@ -2328,6 +2329,15 @@ begin
   else
   begin
     MsgLogConsole('ERROR: tree_proc(... TREE_ITEM_SET_RANGE ...) gets wrong node type: '+DataObj.ClassName);
+  end;
+end;
+
+procedure TfmMain.DoCodetree_Clear;
+begin
+  if CodeTree.Tree.Items.Count>0 then
+  begin
+    DoPyEvent_AppState(APPSTATE_CODETREE_CLEAR);
+    CodeTree.Tree.Items.Clear;
   end;
 end;
 

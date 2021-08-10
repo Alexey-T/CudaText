@@ -1017,9 +1017,7 @@ begin
   Ada:= Frame.Adapter[Ed];
   if (Ada=nil) or (Ada.AnClient=nil) then
   begin
-    if CodeTree.Tree.Items.Count>0 then
-      DoPyEvent_AppState(APPSTATE_CODETREE_CLEAR);
-    CodeTree.Tree.Items.Clear;
+    DoCodetree_Clear;
     exit
   end;
 
@@ -1034,9 +1032,7 @@ begin
   NRanges:= Ada.AnClient.RangeCount;
   if (NRanges>UiOps.MaxRangesForCodeTree) then
   begin
-    if CodeTree.Tree.Items.Count>0 then
-      DoPyEvent_AppState(APPSTATE_CODETREE_CLEAR);
-    ClearTreeviewWithData(CodeTree.Tree);
+    DoCodetree_Clear;
     exit;
   end;
   }
