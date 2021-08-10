@@ -1320,6 +1320,7 @@ Statusbar is fully configurable: you can change order/visibility of cells, width
 * Mouse selection mode: "-" for normal mode, "||" for column mode (mouse dragging makes column selection even without Alt+ key)
 * Word-wrap mode: off, wrap at window edge, wrap at fixed margin
 * Message from program or plugins (usually it's last auto-sized cell)
+* Font zoom value (in %)
 
 The cell "carets info" shows value of one of options:
 
