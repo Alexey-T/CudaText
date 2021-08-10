@@ -1068,10 +1068,7 @@ begin
     CodeTree.Tree.Font.Size:= AppScaleFont(UiOps.VarFontSize);
     CodeTree.Tree.Perform(CM_CHANGED, 0, 0);
 
-    FCodetreeForEditor:= Ed;
-    FCodetreeForLexer:= EditorLexerNameAtPos(Ed, Point(-1, -1));
-    FCodetreeModifiedVersion:= Ed.Strings.ModifiedVersion;
-
+    DoCodetree_UpdateVersion(Ed);
     DoPyEvent_AppState(APPSTATE_CODETREE_AFTER_FILL);
   end;
 

@@ -732,9 +732,6 @@ type
     FOption_SidebarTab: string;
     FCmdlineFileCount: integer;
 
-    procedure DoCodetree_OnAdvDrawItem(Sender: TCustomTreeView;
-      Node: TTreeNode; State: TCustomDrawState; Stage: TCustomDrawStage;
-      var PaintImages, DefaultDraw: Boolean);
     function IsTooManyTabsOpened: boolean;
     function GetUntitledNumberedCaption: string;
     procedure PopupBottomOnPopup(Sender: TObject);
@@ -815,6 +812,7 @@ type
     //procedure DoOnTabOver(Sender: TObject; ATabIndex: Integer);
     procedure DoOnTabPopup(Sender: TObject; APages: TATPages; ATabIndex: integer);
     function DoOnTabGetTick(Sender: TObject; ATabObject: TObject): Int64;
+    procedure DoCodetree_UpdateVersion(Ed: TATSynEdit);
     procedure DoCodetree_Clear;
     procedure DoCodetree_PanelOnEnter(Sender: TObject);
     procedure DoCodetree_StopUpdate;
@@ -828,6 +826,9 @@ type
     procedure DoCodetree_ApplyTreeHelperResults(Tree: TTreeView; Data: PPyObject);
     function DoCodetree_ApplyTreeHelperInPascal(Ed: TATSynEdit; Tree: TTreeView;
       const ALexer: string): boolean;
+    procedure DoCodetree_OnAdvDrawItem(Sender: TCustomTreeView;
+      Node: TTreeNode; State: TCustomDrawState; Stage: TCustomDrawStage;
+      var PaintImages, DefaultDraw: Boolean);
     procedure DoSidebar_OnCloseFloatForm(Sender: TObject; var CloseAction: TCloseAction);
     function DoSidebar_GetFormTitle(const ACaption: string): string;
     procedure DoSidebar_OnPythonCall(const ACallback: string);
@@ -2264,6 +2265,21 @@ begin
   UpdateTree(true);
 end;
 
+procedure TfmMain.DoCodetree_UpdateVersion(Ed: TATSynEdit);
+begin
+  FCodetreeForEditor:= Ed;
+  if Assigned(Ed) then
+  begin
+    FCodetreeForLexer:= EditorLexerNameAtPos(Ed, Point(-1, -1));
+    FCodetreeModifiedVersion:= Ed.Strings.ModifiedVersion;
+  end
+  else
+  begin
+    FCodetreeForLexer:= '';
+    FCodetreeModifiedVersion:= 0;
+  end;
+end;
+
 procedure TfmMain.DoCodetree_OnDblClick(Sender: TObject);
 var
   Ed: TATSynEdit;
@@ -2339,8 +2355,7 @@ begin
     DoPyEvent_AppState(APPSTATE_CODETREE_CLEAR);
     CodeTree.Tree.Items.Clear;
 
-    FCodetreeForEditor:= nil;
-    FCodetreeForLexer:= '';
+    DoCodetree_UpdateVersion(nil);
     FCodetreeNeedsSelJump:= false;
   end;
 end;
