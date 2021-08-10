@@ -95,6 +95,7 @@ TYPES = {
     "coffee": ['CoffeeScript'],
     "coffee.erb": ['CoffeeScript'],
     "cpp": ['GLSL'],
+    "cr": ['Crystal'],
     "crf": ['CRF'],
     "cs": ['C#', 'GLSL'],
     "cshtml": ['Razor'],
