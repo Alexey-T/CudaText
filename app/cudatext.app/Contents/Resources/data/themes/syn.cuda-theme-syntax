@@ -160,10 +160,10 @@
     "Border" : "0,0,0,0"
   },
   "Lex_IncludeBG1" : {
-    "Type" : 2,
+    "Type" : 3,
     "Styles" : "",
-    "CFont" : "#008080",
-    "CBack" : "#FFFFFF",
+    "CFont" : "#000000",
+    "CBack" : "#C0DCC0",
     "CBorder" : "",
     "Border" : "0,0,0,0"
   },
