@@ -2377,6 +2377,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 *** "app_int": Internal calling from high-level CudaText code.
 *** "app_pal": Calling from the Command Palette.
 *** "app_toolbar": Calling via toolbar buttons.
+*** "app_sidebar": Calling via sidebar buttons.
 *** "app_charmap": Calling via Char Map dialog.
 *** "app_api": Calling from some Python API handler.
 ** "text": Text of command. It's not empty only in few cases, e.g. for command codes cCommand_TextInsert / cmd_PluginRun / cmd_PluginEnd.
