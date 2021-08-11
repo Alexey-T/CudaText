@@ -704,8 +704,8 @@ class Command:
         global global_project_info
         global_project_info['filename'] = str(self.project_file_path) if self.project_file_path else ''
         global_project_info['nodes'] = self.project['nodes']
-        global_project_info['vars'] = self.project.get('vars', [])
-        global_project_info['mainfile'] = self.project.get('mainfile', '')
+        global_project_info['vars'] = self.project.setdefault('vars', [])
+        global_project_info['mainfile'] = self.project.setdefault('mainfile', '')
 
     def get_info(self, index):
         if index is None:
