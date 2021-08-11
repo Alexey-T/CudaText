@@ -1,4 +1,4 @@
-object SyntAnal14: TLibSyntAnalyzer
+object SyntAnal15: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Comment'
@@ -391,7 +391,7 @@ object SyntAnal14: TLibSyntAnalyzer
             'integer'
             'iterable'
             'mixed'
-            'noreturn'
+            'never'
             'null'
             'numeric'
             'object'
