@@ -136,7 +136,7 @@ begin
   begin
     SSplitByChar(ACallback, '.', SModule, SMethod);
     SetLength(Params, 0);
-    DoPyCommand(SModule, SMethod, Params, cInvokeAppToolbar);
+    DoPyCommand(SModule, SMethod, Params, cInvokeAppSidebar);
   end;
 end;
 
