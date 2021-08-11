@@ -2990,15 +2990,15 @@ begin
     for i:= 0 to NCount-1 do
     begin
       Item:= Ed.CommandLog.Items[i];
-      PyList_SetItem(Result, i, Py_BuildValue('{sisssssL}',
+      PyList_SetItem(Result, i, Py_BuildValue('{sissss}',
         'code',
         Item.ItemCode,
         'invoke',
         PChar(cEditorCommandInvoke[Item.ItemInvoke]),
         'text',
-        PChar(Item.ItemText),
-        'ticks',
-        Item.ItemTicks
+        PChar(Item.ItemText)
+        //'ticks',
+        //Item.ItemTicks
         ));
     end;
   end;
