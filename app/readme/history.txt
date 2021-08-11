@@ -5,7 +5,7 @@
 
 1.140.7 (2021/08)
 
-+ add: better calculation of font color for HTML colors like #rrggbb (patch by @bogen85)
++ add: better calculation of font color for highlighted HTML color tokens, like #rrggbb (patch by @bogen85)
 * change: option "autocomplete_autoshow_chars" now calls the listbox less agressively (now it's called in the application-idle event)
 - fix: UI issue when code-tree is clicked, then UI-tab title is clicked
 - fix: option "autocomplete_autoshow_chars" gave a crash (thanks @halfbrained, @demanuel)
