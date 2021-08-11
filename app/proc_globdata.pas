@@ -65,6 +65,7 @@ type
     Code: integer;
     Tabs: TATTabs;
     TabIndex: integer;
+    Invoke: TATEditorCommandInvoke;
     EdAddress: pointer;
     EdIndex: integer;
   end;

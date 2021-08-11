@@ -1405,18 +1405,20 @@ begin
 end;
 
 
-procedure AppCommandPut(Ed: TATSynEdit; ACommand: integer; AForceTimer: boolean);
+procedure AppCommandPut(Ed: TATSynEdit; ACommand: integer; AInvoke: TATEditorCommandInvoke; AForceTimer: boolean);
 var
   Frame: TEditorFrame;
   Item: TAppCommandDelayed;
   D: TATTabData;
   N: integer;
 begin
+  FillChar(Item, SizeOf(Item), 0);
   Item.Code:= ACommand;
   Item.EdAddress:= Ed;
   Item.EdIndex:= 0;
   Item.Tabs:= nil;
   Item.TabIndex:= -1;
+  Item.Invoke:= AInvoke;
 
   Frame:= TGroupsHelper.GetEditorFrame(Ed);
   if Assigned(Frame) then
@@ -1450,7 +1452,8 @@ end;
 type
   TAppCommandGetStatus = (acgNoCommands, acgBadCommand, acgOkCommand);
 
-function AppCommandGet(out AEditor: TATSynEdit; out ACommand: integer): TAppCommandGetStatus;
+function AppCommandGet(out AEditor: TATSynEdit; out ACommand: integer;
+  out AInvoke: TATEditorCommandInvoke): TAppCommandGetStatus;
 var
   Item: TAppCommandDelayed;
   TabData: TATTabData;
@@ -1459,6 +1462,7 @@ var
 begin
   AEditor:= nil;
   ACommand:= 0;
+  AInvoke:= cInvokeAppInternal;
   if AppCommandsDelayed.IsEmpty() then
     exit(acgNoCommands);
 
@@ -1481,6 +1485,7 @@ begin
 
   AEditor:= EdTemp;
   ACommand:= Item.Code;
+  AInvoke:= Item.Invoke;
   Result:= acgOkCommand;
 end;
 

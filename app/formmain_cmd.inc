@@ -10,6 +10,7 @@ Copyright (c) Alexey Torgashin
 procedure TfmMain.TimerCmdTimer(Sender: TObject);
 var
   Cmd: integer;
+  CmdInvoke: TATEditorCommandInvoke;
   Frame: TEditorFrame;
   Ed: TATSynEdit;
   EdGrp: TATGroups;
@@ -20,7 +21,7 @@ begin
  TimerCmd.Enabled:= false;
 
  repeat
-  case AppCommandGet(Ed, Cmd) of
+  case AppCommandGet(Ed, Cmd, CmdInvoke) of
     acgNoCommands:
       Break;
     acgBadCommand:
@@ -1136,7 +1137,7 @@ begin
   if (ACommand>=cmdFirstAppCommand) and
      (ACommand<=cmdLastAppCommand) then
   begin
-    AppCommandPut(Ed, ACommand, false);
+    AppCommandPut(Ed, ACommand, AInvoke, false);
     exit;
   end;
 
