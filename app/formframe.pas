@@ -291,7 +291,7 @@ type
     procedure DoSaveUndo(Ed: TATSynEdit; const AFileName: string);
     procedure DoLoadUndo(Ed: TATSynEdit);
     procedure DoSaveHistory_Caret(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString);
-    procedure DoSaveHistory_Bookmarks(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString);
+    procedure DoSaveHistory_Bookmarks(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString; AForSession: boolean);
 
   protected
     procedure DoOnResize; override;
@@ -411,7 +411,7 @@ type
     procedure DoLexerFromFilename(Ed: TATSynEdit; const AFileName: string);
     //history
     procedure DoSaveHistory(Ed: TATSynEdit);
-    procedure DoSaveHistoryEx(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString);
+    procedure DoSaveHistoryEx(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString; AForSession: boolean);
     procedure DoLoadHistory(Ed: TATSynEdit; AllowEnc: boolean);
     procedure DoLoadHistoryEx(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString; AllowEnc: boolean);
     procedure DoLoadHistory_Bookmarks(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString);
@@ -3149,7 +3149,7 @@ begin
       FreeAndNil(items);
     end;
 
-    DoSaveHistoryEx(Ed, cfg, path);
+    DoSaveHistoryEx(Ed, cfg, path, false);
   finally
     cfg.Free;
   end;
@@ -3188,7 +3188,6 @@ var
   BmData: TATBookmarkData;
   nTop, nKind, i: integer;
   SKey, SValue: UnicodeString;
-  cfg_bk: TJSONConfig;
 begin
   //loading bookmarks - deprecated, delete after 2021.10
 
@@ -3223,31 +3222,18 @@ begin
   //loading bookmarks - modern
   if Ed.FileName<>'' then
   begin
-    cfg_bk:= TJSONConfig.Create(nil);
-    try
-      try
-        cfg_bk.Formatted:= true;
-        cfg_bk.Filename:= AppFile_HistoryBookmarks;
-      except
-        MsgBadConfig(AppFile_HistoryBookmarks);
-        exit
-      end;
-
-      SKey:= SMaskFilenameSlashes(AppCollapseHomeDirInFilename(Ed.FileName));
-      SValue:= cfg_bk.GetValue(SKey, '');
-      if SValue<>'' then
-        EditorStringToBookmarks(Ed, SValue);
-    finally
-      FreeAndNil(cfg_bk);
-    end;
+    SKey:= '/bookmarks/'+SMaskFilenameSlashes(AppCollapseHomeDirInFilename(Ed.FileName));
+    SValue:= c.GetValue(SKey, '');
+    if SValue<>'' then
+      EditorStringToBookmarks(Ed, SValue);
   end;
 end;
 
-procedure TEditorFrame.DoSaveHistory_Bookmarks(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString);
+procedure TEditorFrame.DoSaveHistory_Bookmarks(Ed: TATSynEdit; c: TJsonConfig;
+  const path: UnicodeString; AForSession: boolean);
 var
   items, items2: TStringList;
   bookmark: PATBookmarkItem;
-  cfg_bk: TJSONConfig;
   SKey: UnicodeString;
   i: integer;
 begin
@@ -3280,30 +3266,18 @@ begin
   end;
 
   //saving bookmarks - modern
-  if Ed.FileName<>'' then
+  if (not AForSession) and (Ed.FileName<>'') then
   begin
-    cfg_bk:= TJSONConfig.Create(nil);
-    try
-      try
-        cfg_bk.Formatted:= true;
-        cfg_bk.Filename:= AppFile_HistoryBookmarks;
-      except
-        MsgBadConfig(AppFile_HistoryBookmarks);
-        exit
-      end;
-
-      SKey:= SMaskFilenameSlashes(AppCollapseHomeDirInFilename(Ed.FileName));
-      if Ed.Strings.Bookmarks.Count>0 then
-        cfg_bk.SetValue(SKey, EditorBookmarksToString(Ed))
-      else
-        cfg_bk.DeleteValue(SKey);
-    finally
-      FreeAndNil(cfg_bk);
-    end;
+    SKey:= '/bookmarks/'+SMaskFilenameSlashes(AppCollapseHomeDirInFilename(Ed.FileName));
+    if Ed.Strings.Bookmarks.Count>0 then
+      c.SetValue(SKey, EditorBookmarksToString(Ed))
+    else
+      c.DeleteValue(SKey);
   end;
 end;
 
-procedure TEditorFrame.DoSaveHistoryEx(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString);
+procedure TEditorFrame.DoSaveHistoryEx(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString;
+  AForSession: boolean);
 begin
   //save 'split' value only when we have single file splitted,
   //but not 2 different files (like user.json + default.json)
@@ -3393,7 +3367,7 @@ begin
   }
 
   if UiOps.HistoryItems[ahhBookmarks] then
-    DoSaveHistory_Bookmarks(Ed, c, path);
+    DoSaveHistory_Bookmarks(Ed, c, path, AForSession);
 
   if UiOps.HistoryItems[ahhCodeTreeFilter] then
   begin

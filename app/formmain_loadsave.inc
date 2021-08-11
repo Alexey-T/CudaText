@@ -340,7 +340,7 @@ begin
           cfg.SetValue(path+'/file_date', FormatFileDateAsNiceString(Frame.FileName));
       end;
 
-      Frame.DoSaveHistoryEx(Frame.Ed1, cfg, path);
+      Frame.DoSaveHistoryEx(Frame.Ed1, cfg, path, true{AForSession});
 
       //save info about paired-tab to subkey "pair"
       if (not Frame.EditorsLinked) and (Frame.FileName2<>'') then
@@ -358,7 +358,7 @@ begin
           cfg.SetValue(path+'/file_date', FormatFileDateAsNiceString(Frame.FileName2));
          end;
 
-        Frame.DoSaveHistoryEx(Frame.Ed2, cfg, path);
+        Frame.DoSaveHistoryEx(Frame.Ed2, cfg, path, true{AForSession});
       end;
     end;
 
