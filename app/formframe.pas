@@ -415,6 +415,7 @@ type
     procedure DoLoadHistory(Ed: TATSynEdit; AllowEnc: boolean);
     procedure DoLoadHistoryEx(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString; AllowEnc: boolean);
     procedure DoLoadHistory_Bookmarks(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString);
+    function AppConfigKeyForBookmarks(Ed: TATSynEdit): string;
     //misc
     function DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent; const AParams: TAppVariantArray): TAppPyEventResult;
     procedure DoPyEventState(Ed: TATSynEdit; AState: integer);
@@ -3222,11 +3223,19 @@ begin
   //loading bookmarks - modern
   if Ed.FileName<>'' then
   begin
-    SKey:= '/bookmarks/'+SMaskFilenameSlashes(AppCollapseHomeDirInFilename(Ed.FileName));
+    SKey:= AppConfigKeyForBookmarks(Ed);
     SValue:= c.GetValue(SKey, '');
     if SValue<>'' then
       EditorStringToBookmarks(Ed, SValue);
   end;
+end;
+
+function TEditorFrame.AppConfigKeyForBookmarks(Ed: TATSynEdit): string;
+begin
+  if Ed.FileName<>'' then
+    Result:= '/bookmarks/'+SMaskFilenameSlashes(AppCollapseHomeDirInFilename(Ed.FileName))
+  else
+    Result:= '';
 end;
 
 procedure TEditorFrame.DoSaveHistory_Bookmarks(Ed: TATSynEdit; c: TJsonConfig;
@@ -3268,7 +3277,7 @@ begin
   //saving bookmarks - modern
   if (not AForSession) and (Ed.FileName<>'') then
   begin
-    SKey:= '/bookmarks/'+SMaskFilenameSlashes(AppCollapseHomeDirInFilename(Ed.FileName));
+    SKey:= AppConfigKeyForBookmarks(Ed);
     if Ed.Strings.Bookmarks.Count>0 then
       c.SetValue(SKey, EditorBookmarksToString(Ed))
     else
