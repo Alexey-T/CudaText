@@ -2935,7 +2935,7 @@ begin
   begin
     SName:= FileNames[i];
     if DirectoryExistsUTF8(SName) then
-      DoFolderOpen(SName, False, cInvokeAppInternal)
+      DoFolderOpen(SName, False, cInvokeAppDragDrop)
     else
     if FileExists(SName) then
       DoFileOpen(SName, '', Pages);
@@ -2977,7 +2977,7 @@ begin
   begin
     SName:= FileNames[i];
     if DirectoryExistsUTF8(SName) then
-      DoFolderOpen(SName, False, cInvokeAppInternal)
+      DoFolderOpen(SName, False, cInvokeAppDragDrop)
     else
     if FileExists(SName) then
       DoFileOpen(SName, '', Gr.Pages[0]);
