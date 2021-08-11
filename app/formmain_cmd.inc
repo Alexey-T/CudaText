@@ -703,7 +703,7 @@ begin
 end;
 
 procedure TfmMain.FrameOnEditorCommand(Sender: TObject; ACommand: integer;
-  const AText: string; var AHandled: boolean);
+  AInvoke: TATEditorCommandInvoke; const AText: string; var AHandled: boolean);
 var
   Ed: TATSynEdit;
   Frame: TEditorFrame;

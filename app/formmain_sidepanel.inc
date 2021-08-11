@@ -103,7 +103,7 @@ end;
 
 
 procedure TfmMain.CodeTreeFilter_OnCommand(Sender: TObject; ACmd: integer;
-  const AText: string; var AHandled: boolean);
+  AInvoke: TATEditorCommandInvoke; const AText: string; var AHandled: boolean);
 var
   Ed: TATComboEdit;
   F: TEditorFrame;

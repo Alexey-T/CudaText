@@ -213,7 +213,7 @@ type
     procedure EditorOnClickDouble(Sender: TObject; var AHandled: boolean);
     procedure EditorOnClickLink(Sender: TObject; const ALink: string);
     procedure EditorOnClickMicroMap(Sender: TObject; AX, AY: integer);
-    procedure EditorOnCommand(Sender: TObject; ACmd: integer; const AText: string; var AHandled: boolean);
+    procedure EditorOnCommand(Sender: TObject; ACmd: integer; AInvoke: TATEditorCommandInvoke; const AText: string; var AHandled: boolean);
     procedure EditorOnCommandAfter(Sender: TObject; ACommand: integer; const AText: string);
     procedure EditorOnDrawBookmarkIcon(Sender: TObject; C: TCanvas; ALineNum: integer; const ARect: TRect);
     procedure EditorOnEnter(Sender: TObject);
@@ -1435,7 +1435,7 @@ begin
 end;
 
 procedure TEditorFrame.EditorOnCommand(Sender: TObject; ACmd: integer;
-  const AText: string; var AHandled: boolean);
+  AInvoke: TATEditorCommandInvoke; const AText: string; var AHandled: boolean);
 var
   Ed: TATSynEdit;
   NCarets: integer;
@@ -1513,7 +1513,7 @@ begin
   end;
 
   if Assigned(FOnEditorCommand) then
-    FOnEditorCommand(Sender, ACmd, AText, AHandled);
+    FOnEditorCommand(Sender, ACmd, AInvoke, AText, AHandled);
 end;
 
 procedure TEditorFrame.EditorOnCommandAfter(Sender: TObject; ACommand: integer;

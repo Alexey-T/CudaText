@@ -751,7 +751,8 @@ type
     procedure PythonModuleInitialization(Sender: TObject);
     procedure CodeTreeFilter_OnChange(Sender: TObject);
     procedure CodeTreeFilter_ResetOnClick(Sender: TObject);
-    procedure CodeTreeFilter_OnCommand(Sender: TObject; ACmd: integer; const AText: string; var AHandled: boolean);
+    procedure CodeTreeFilter_OnCommand(Sender: TObject; ACmd: integer; AInvoke: TATEditorCommandInvoke;
+      const AText: string; var AHandled: boolean);
     procedure DisablePluginMenuItems(AddFindLibraryItem: boolean);
     procedure DoApplyNewdocLexer(F: TEditorFrame);
     procedure DoApplyCenteringOption;
@@ -1007,7 +1008,8 @@ type
     procedure DoShowOutput(AndFocus: boolean);
     procedure DoShowValidate(AndFocus: boolean);
     function FrameOfPopup: TEditorFrame;
-    procedure FrameOnEditorCommand(Sender: TObject; ACommand: integer; const AText: string; var AHandled: boolean);
+    procedure FrameOnEditorCommand(Sender: TObject; ACommand: integer; AInvoke: TATEditorCommandInvoke;
+      const AText: string; var AHandled: boolean);
     function DoFileCloseAll(AWithCancel: boolean): boolean;
     procedure DoDialogFind(AReplaceMode: boolean);
     procedure DoDialogFind_Hide;

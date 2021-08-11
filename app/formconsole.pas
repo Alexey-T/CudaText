@@ -58,11 +58,11 @@ type
     mnuTextClear: TMenuItem;
     mnuTextNav: TMenuItem;
     mnuTextWrap: TMenuItem;
-    procedure InputOnCommand(Sender: TObject; ACmd: integer; const AText: string; var AHandled: boolean);
+    procedure InputOnCommand(Sender: TObject; ACmd: integer; AInvoke: TATEditorCommandInvoke; const AText: string; var AHandled: boolean);
     procedure InputOnChange(Sender: TObject);
     procedure DoGetLineColor(Ed: TATSynEdit; ALineIndex: integer; var AColorFont, AColorBg: TColor);
     procedure MemoClickDbl(Sender: TObject; var AHandled: boolean);
-    procedure MemoCommand(Sender: TObject; ACmd: integer; const AText: string; var AHandled: boolean);
+    procedure MemoCommand(Sender: TObject; ACmd: integer; AInvoke: TATEditorCommandInvoke; const AText: string; var AHandled: boolean);
     procedure MemoContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
     procedure DoNavigate(Sender: TObject);
     procedure DoToggleWrap(Sender: TObject);
@@ -345,7 +345,7 @@ begin
 end;
 
 procedure TfmConsole.InputOnCommand(Sender: TObject; ACmd: integer;
-  const AText: string; var AHandled: boolean);
+  AInvoke: TATEditorCommandInvoke; const AText: string; var AHandled: boolean);
 var
   s: string;
 begin
@@ -465,7 +465,7 @@ begin
 end;
 
 procedure TfmConsole.MemoCommand(Sender: TObject; ACmd: integer;
-  const AText: string; var AHandled: boolean);
+  AInvoke: TATEditorCommandInvoke; const AText: string; var AHandled: boolean);
 begin
   if ACmd=cCommand_KeyEnter then
   begin
