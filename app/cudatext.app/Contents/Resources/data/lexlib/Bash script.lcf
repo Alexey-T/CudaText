@@ -302,7 +302,15 @@ object SyntAnal2: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Escaped'
+      DisplayName = 'Leading \'
+      StyleName = 'Symbol'
+      TokenType = 4
+      Expression = '^[\x20\x09]*\\'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Escaped char'
       StyleName = 'Symbol'
       TokenType = 4
       Expression = '\\.?'
