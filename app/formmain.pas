@@ -769,8 +769,9 @@ type
     procedure DoFindOptions_OnChange(Sender: TObject);
     procedure DoFindOptions_ApplyDict(const AText: string);
     function DoFindOptions_GetDict: PPyObject;
-    procedure DoFolderOpen(const ADirName: string; ANewProject: boolean);
-    procedure DoFolderAdd;
+    procedure DoFolderOpen(const ADirName: string; ANewProject: boolean;
+      AInvoke: TATEditorCommandInvoke);
+    procedure DoFolderAdd(AInvoke: TATEditorCommandInvoke);
     procedure DoGetSaveDialog(var ASaveDlg: TSaveDialog);
     procedure DoGroupsChangeMode(Sender: TObject);
     procedure DoOnLexerParseProgress(Sender: TObject; AProgress: integer);
@@ -845,7 +846,8 @@ type
     function DoAutoComplete_PosOnBadToken(Ed: TATSynEdit; AX, AY: integer): boolean;
     procedure DoAutoComplete(Ed: TATSynEdit);
     procedure DoAutoComplete_Delayed(Ed: TATSynEdit; AValue: boolean);
-    procedure DoPyCommand_Cudaxlib(Ed: TATSynEdit; const AMethod: string);
+    procedure DoPyCommand_Cudaxlib(Ed: TATSynEdit; const AMethod: string;
+      AInvoke: TATEditorCommandInvoke);
     procedure DoDialogCharMap;
     procedure DoFindActionFromString(const AStr: string);
     procedure DoGotoFromInput(const AInput: string);
@@ -870,7 +872,8 @@ type
     function DoFileInstallZip(const fn: string; out DirTarget: string; ASilent: boolean): boolean;
     procedure DoFileCloseAndDelete(Ed: TATSynEdit);
     procedure DoFileNew;
-    procedure DoFileNewMenu(Sender: TObject);
+    procedure DoFileNewMenu_ToolbarClick(Sender: TObject);
+    procedure DoFileNewMenu(Sender: TObject; AInvoke: TATEditorCommandInvoke);
     procedure DoFileNewFrom(const fn: string);
     procedure DoFileSave(Ed: TATSynEdit);
     procedure DoFileSaveAs(Ed: TATSynEdit);
@@ -879,7 +882,7 @@ type
     procedure DoSwitchTabSimply(ANext: boolean);
     procedure DoSwitchTabToRecent;
     procedure DoPyTimerTick(Sender: TObject);
-    procedure DoPyRunLastPlugin;
+    procedure DoPyRunLastPlugin(AInvoke: TATEditorCommandInvoke);
     procedure DoPyResetPlugins;
     procedure DoPyRescanPlugins;
     function DoSplitter_StringToId(const AStr: string): integer;
@@ -1065,7 +1068,8 @@ type
     function IsFocusedFind: boolean;
     procedure PyCompletionOnGetProp(Sender: TObject; AContent: TStringList; out ACharsLeft, ACharsRight: integer);
     procedure PyCompletionOnResult(Sender: TObject; const ASnippetId: string; ASnippetIndex: integer);
-    procedure DoPyCommand_ByPluginIndex(AIndex: integer);
+    procedure DoPyCommand_ByPluginIndex(AIndex: integer;
+      AInvoke: TATEditorCommandInvoke);
     procedure SetFrameEncoding(Ed: TATSynEdit; const AEnc: string; AAlsoReloadFile: boolean);
     procedure SetFrameLexerByIndex(Ed: TATSynEdit; AIndex: integer);
     procedure SetShowStatus(AValue: boolean);
@@ -1180,7 +1184,8 @@ type
     procedure DoPyEvent_AppState(AState: integer);
     procedure DoPyEvent_EdState(Ed: TATSynEdit; AState: integer);
     procedure DoPyEvent_AppActivate(AEvent: TAppPyEvent);
-    procedure DoPyCommand(const AModule, AMethod: string; const AParams: TAppVariantArray);
+    procedure DoPyCommand(const AModule, AMethod: string; const AParams: TAppVariantArray;
+      AInvoke: TATEditorCommandInvoke);
     function RunTreeHelper(Frame: TEditorFrame; Tree: TTreeView): boolean;
     function DoPyLexerDetection(const Filename: string; Lexers: TStringList): integer;
     procedure FinderOnGetToken(Sender: TObject; AX, AY: integer; out AKind: TATTokenKind);
@@ -2930,7 +2935,7 @@ begin
   begin
     SName:= FileNames[i];
     if DirectoryExistsUTF8(SName) then
-      DoFolderOpen(SName, False)
+      DoFolderOpen(SName, False, cInvokeAppInternal)
     else
     if FileExists(SName) then
       DoFileOpen(SName, '', Pages);
@@ -2972,7 +2977,7 @@ begin
   begin
     SName:= FileNames[i];
     if DirectoryExistsUTF8(SName) then
-      DoFolderOpen(SName, False)
+      DoFolderOpen(SName, False, cInvokeAppInternal)
     else
     if FileExists(SName) then
       DoFileOpen(SName, '', Gr.Pages[0]);
@@ -3786,7 +3791,8 @@ begin
 end;
 
 
-procedure TfmMain.DoFolderOpen(const ADirName: string; ANewProject: boolean);
+procedure TfmMain.DoFolderOpen(const ADirName: string; ANewProject: boolean;
+  AInvoke: TATEditorCommandInvoke);
 var
   Params: TAppVariantArray;
 begin
@@ -3794,10 +3800,10 @@ begin
   Params[0]:= AppVariant(ADirName);
   Params[1]:= AppVariant(ANewProject);
 
-  DoPyCommand('cuda_project_man', 'open_dir', Params);
+  DoPyCommand('cuda_project_man', 'open_dir', Params, AInvoke);
 end;
 
-procedure TfmMain.DoFolderAdd;
+procedure TfmMain.DoFolderAdd(AInvoke: TATEditorCommandInvoke);
 var
   Params: TAppVariantArray;
 begin
@@ -3808,7 +3814,7 @@ begin
   end;
 
   SetLength(Params, 0);
-  DoPyCommand('cuda_project_man', 'new_project_open_dir', Params);
+  DoPyCommand('cuda_project_man', 'new_project_open_dir', Params, AInvoke);
 end;
 
 procedure TfmMain.DoGroupsChangeMode(Sender: TObject);
@@ -5650,14 +5656,15 @@ begin
   DoOps_SaveOptionBool('/ui_tab_show', ShowTabsMain);
 end;
 
-procedure TfmMain.DoPyCommand_Cudaxlib(Ed: TATSynEdit; const AMethod: string);
+procedure TfmMain.DoPyCommand_Cudaxlib(Ed: TATSynEdit; const AMethod: string;
+  AInvoke: TATEditorCommandInvoke);
 var
   Params: TAppVariantArray;
 begin
   Ed.Strings.BeginUndoGroup;
   try
     SetLength(Params, 0);
-    DoPyCommand('cudax_lib', AMethod, Params);
+    DoPyCommand('cudax_lib', AMethod, Params, AInvoke);
   finally
     Ed.Strings.EndUndoGroup;
   end;
@@ -7399,7 +7406,12 @@ begin
   mi.Free;
 end;
 
-procedure TfmMain.DoFileNewMenu(Sender: TObject);
+procedure TfmMain.DoFileNewMenu_ToolbarClick(Sender: TObject);
+begin
+  DoFileNewMenu(Sender, cInvokeAppToolbar);
+end;
+
+procedure TfmMain.DoFileNewMenu(Sender: TObject; AInvoke: TATEditorCommandInvoke);
 var
   Params: TAppVariantArray;
 begin
@@ -7410,7 +7422,7 @@ begin
   end;
 
   SetLength(Params, 0);
-  DoPyCommand('cuda_new_file', 'menu', Params);
+  DoPyCommand('cuda_new_file', 'menu', Params, AInvoke);
 end;
 
 procedure TfmMain.DoCommandsMsgStatus(Sender: TObject; const ARes: string);
@@ -7633,7 +7645,7 @@ begin
   Sep.GetItemStr(SModule);
   Sep.GetItemStr(SProc);
   SetLength(Params, 0);
-  DoPyCommand(SModule, SProc, Params);
+  DoPyCommand(SModule, SProc, Params, cInvokeAppToolbar);
 end;
 
 

@@ -1,7 +1,8 @@
 {$ifdef nn}begin end;{$endif}
 
 
-procedure TfmMain.DoPyCommand(const AModule, AMethod: string; const AParams: TAppVariantArray);
+procedure TfmMain.DoPyCommand(const AModule, AMethod: string;
+  const AParams: TAppVariantArray; AInvoke: TATEditorCommandInvoke);
 var
   Frame: TEditorFrame;
   Ed: TATSynEdit;
@@ -23,7 +24,7 @@ begin
   if Frame.MacroRecord then
     Frame.MacroStrings.Add(SPyText);
 
-  Ed.CommandLog.Add(cmd_PluginRun, cInvokeAppInternal, SPyText);
+  Ed.CommandLog.Add(cmd_PluginRun, AInvoke, SPyText);
 
   Ed.Strings.BeginUndoGroup;
   try
@@ -33,11 +34,11 @@ begin
       Ed.Strings.EndUndoGroup;
   end;
 
-  Ed.CommandLog.Add(cmd_PluginEnd, cInvokeAppInternal, SPyText);
+  Ed.CommandLog.Add(cmd_PluginEnd, AInvoke, SPyText);
 end;
 
 
-procedure TfmMain.DoPyCommand_ByPluginIndex(AIndex: integer);
+procedure TfmMain.DoPyCommand_ByPluginIndex(AIndex: integer; AInvoke: TATEditorCommandInvoke);
 var
   F: TEditorFrame;
   CurLexer: string;
@@ -65,7 +66,7 @@ begin
   else
     SetLength(Params, 0);
 
-  DoPyCommand(CmdItem.ItemModule, CmdItem.ItemProc, Params);
+  DoPyCommand(CmdItem.ItemModule, CmdItem.ItemProc, Params, AInvoke);
 end;
 
 
@@ -428,7 +429,7 @@ begin
   MsgStatus(msgRescannedAllPlugins);
 end;
 
-procedure TfmMain.DoPyRunLastPlugin;
+procedure TfmMain.DoPyRunLastPlugin(AInvoke: TATEditorCommandInvoke);
 var
   Params: TAppVariantArray;
 begin
@@ -442,7 +443,7 @@ begin
   else
     SetLength(Params, 0);
 
-  DoPyCommand(AppPython.LastCommandModule, AppPython.LastCommandMethod, Params);
+  DoPyCommand(AppPython.LastCommandModule, AppPython.LastCommandMethod, Params, AInvoke);
 end;
 
 

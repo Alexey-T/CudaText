@@ -70,7 +70,7 @@ begin
       DoFileNew;
 
     cmd_FileNewMenu:
-      DoFileNewMenu(nil);
+      DoFileNewMenu(nil, CmdInvoke);
 
     cmd_FileOpen:
       DoFileOpenDialog;
@@ -85,7 +85,7 @@ begin
       DoFileOpenDialog('/view-unicode /nozip /nopictures');
 
     cmd_FileOpenFolder:
-      DoFolderAdd;
+      DoFolderAdd(CmdInvoke);
 
     cmd_FileOpen_NoPlugins:
       DoFileOpenDialog_NoPlugins;
@@ -412,7 +412,7 @@ begin
       DoPyResetPlugins;
 
     cmd_RunLastCommandPlugin:
-      DoPyRunLastPlugin;
+      DoPyRunLastPlugin(CmdInvoke);
 
     cmd_RescanPythonPluginsInfFiles:
       DoPyRescanPlugins;
@@ -507,7 +507,7 @@ begin
 
     cmd_DuplicateLineEx:
       begin
-        DoPyCommand_Cudaxlib(Ed, 'duplicate');
+        DoPyCommand_Cudaxlib(Ed, 'duplicate', CmdInvoke);
       end;
 
     cmd_AutoComplete:
@@ -666,7 +666,7 @@ begin
         if UiOps.AllowProgramUpdates then
         begin
           SetLength(Params, 0);
-          DoPyCommand('cuda_addonman', 'check_cudatext_updates', Params);
+          DoPyCommand('cuda_addonman', 'check_cudatext_updates', Params, CmdInvoke);
         end;
       end;
 
@@ -676,7 +676,7 @@ begin
 
     cmdFirstPluginCommand..
     cmdLastPluginCommand:
-      DoPyCommand_ByPluginIndex(Cmd-cmdFirstPluginCommand);
+      DoPyCommand_ByPluginIndex(Cmd-cmdFirstPluginCommand, CmdInvoke);
 
     cmdFirstFileCommand..
     cmdLastFileCommand:

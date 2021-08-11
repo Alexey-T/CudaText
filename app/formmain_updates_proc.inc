@@ -1238,7 +1238,7 @@ begin
   ToolbarMain.Images.AllocBy:= 20;
 
   ToolbarMain.AddButton(0, @DoToolbarClick, 'f_new', 'New file', IntToStr(cmd_FileNew), false);
-  ToolbarMain.AddDropdown(-1, nil, @DoFileNewMenu);
+  ToolbarMain.AddDropdown(-1, nil, @DoFileNewMenu_ToolbarClick);
   ToolbarMain.AddButton(1, @DoToolbarClick, 'f_open', 'Open file', IntToStr(cmd_FileOpen), false);
   ToolbarMain.AddDropdown(-1, PopupRecents);
   ToolbarMain.AddButton(2, @DoToolbarClick, 'f_save', 'Save file', IntToStr(cmd_FileSave), false);

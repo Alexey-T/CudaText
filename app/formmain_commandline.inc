@@ -206,7 +206,7 @@ begin
     //if folder, open it in ProjManager
     if DirectoryExistsUTF8(SParam) then
     begin
-      DoFolderOpen(SParam, False);
+      DoFolderOpen(SParam, False, cInvokeAppInternal);
     end
     else
     if FileExists(SParam) then

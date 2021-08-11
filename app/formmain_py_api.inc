@@ -4702,7 +4702,7 @@ begin
             else
               SetLength(Params, 0);
 
-            fmMain.DoPyCommand(Str1, Str2, Params);
+            fmMain.DoPyCommand(Str1, Str2, Params, cInvokeAppAPI);
             Result:= ReturnNone;
           end;
 
