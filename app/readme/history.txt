@@ -3,14 +3,16 @@
   - fixed
   * changed
 
-1.140.5 (2021/08)
+1.140.7 (2021/08)
 
 + add: better calculation of font color for HTML colors like #rrggbb (patch by @bogen85)
 * change: option "autocomplete_autoshow_chars" now calls the listbox less agressively (now it's called in the application-idle event)
-- fix: "autocomplete_autoshow_chars" gave a crash (thanks @halfbrained, @demanuel)
-- fix: Options Editor gave an error with older Python 3.5
+- fix: UI issue when code-tree is clicked, then UI-tab title is clicked
+- fix: option "autocomplete_autoshow_chars" gave a crash (thanks @halfbrained, @demanuel)
+- fix: plugin Options Editor gave an error with old Python 3.5
 - fix: RegEx engine was failing in AArch64 version (and Solaris OS)
-- fix: minor fixes in lexers Markdown, reST
+- fix: lexer Bash: issue with '\' leading in line
+- fix: lexers Markdown, reST: minor issues
 
 1.140.0 (2021/08)
 
