@@ -678,6 +678,7 @@ var
   AppFile_OptionsUser: string;
   AppFile_History: string;
   AppFile_HistoryFiles: string;
+  AppFile_HistoryBookmarks: string;
   AppFile_Hotkeys: string;
   AppFile_PluginsIni: string;
 
@@ -1376,6 +1377,7 @@ begin
   AppFile_OptionsUser:= AppDir_Settings+DirectorySeparator+'user.json';
   AppFile_History:= AppDir_Settings+DirectorySeparator+'history.json';
   AppFile_HistoryFiles:= AppDir_Settings+DirectorySeparator+'history files.json';
+  AppFile_HistoryBookmarks:= AppDir_Settings+DirectorySeparator+'history bk.json';
   AppFile_Hotkeys:= AppDir_Settings+DirectorySeparator+'keys.json';
   AppFile_PluginsIni:= AppDir_Settings+DirectorySeparator+'plugins.ini';
 

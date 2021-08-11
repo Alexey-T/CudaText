@@ -3187,7 +3187,11 @@ var
   items, items2: TStringList;
   BmData: TATBookmarkData;
   nTop, nKind, i: integer;
+  SKey, SValue: UnicodeString;
+  cfg_bk: TJSONConfig;
 begin
+  //loading bookmarks - deprecated, delete after 2021.10
+
   FillChar(BmData, SizeOf(BmData), 0);
   BmData.ShowInBookmarkList:= true;
 
@@ -3215,14 +3219,39 @@ begin
     FreeAndNil(items2);
     FreeAndNil(items);
   end;
+
+  //loading bookmarks - modern
+  if Ed.FileName<>'' then
+  begin
+    cfg_bk:= TJSONConfig.Create(nil);
+    try
+      try
+        cfg_bk.Formatted:= true;
+        cfg_bk.Filename:= AppFile_HistoryBookmarks;
+      except
+        MsgBadConfig(AppFile_HistoryBookmarks);
+        exit
+      end;
+
+      SKey:= SMaskFilenameSlashes(AppCollapseHomeDirInFilename(Ed.FileName));
+      SValue:= cfg_bk.GetValue(SKey, '');
+      if SValue<>'' then
+        EditorStringToBookmarks(Ed, SValue);
+    finally
+      FreeAndNil(cfg_bk);
+    end;
+  end;
 end;
 
 procedure TEditorFrame.DoSaveHistory_Bookmarks(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString);
 var
   items, items2: TStringList;
   bookmark: PATBookmarkItem;
+  cfg_bk: TJSONConfig;
+  SKey: UnicodeString;
   i: integer;
 begin
+  //saving bookmarks - deprecated, delete after 2021.10
   items:= TStringList.Create;
   items2:= TStringList.Create;
   try
@@ -3248,6 +3277,29 @@ begin
   finally
     FreeAndNil(items2);
     FreeAndNil(items);
+  end;
+
+  //saving bookmarks - modern
+  if Ed.FileName<>'' then
+  begin
+    cfg_bk:= TJSONConfig.Create(nil);
+    try
+      try
+        cfg_bk.Formatted:= true;
+        cfg_bk.Filename:= AppFile_HistoryBookmarks;
+      except
+        MsgBadConfig(AppFile_HistoryBookmarks);
+        exit
+      end;
+
+      SKey:= SMaskFilenameSlashes(AppCollapseHomeDirInFilename(Ed.FileName));
+      if Ed.Strings.Bookmarks.Count>0 then
+        cfg_bk.SetValue(SKey, EditorBookmarksToString(Ed))
+      else
+        cfg_bk.DeleteValue(SKey);
+    finally
+      FreeAndNil(cfg_bk);
+    end;
   end;
 end;
 
