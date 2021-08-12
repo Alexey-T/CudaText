@@ -1,4 +1,4 @@
-object SyntAnal3: TLibSyntAnalyzer
+object SyntAnal1: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Comment'
@@ -132,7 +132,7 @@ object SyntAnal3: TLibSyntAnalyzer
       DisplayName = 'Hex'
       StyleName = 'Number'
       TokenType = 5
-      Expression = '[\da-f]+h \b | [01]+b \b'
+      Expression = '[\da-f]+h\b | [01]+b\b | 0x\h+\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
