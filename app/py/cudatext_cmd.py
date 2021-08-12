@@ -5,6 +5,15 @@ cmd_PluginRun = 1
 cmd_PluginEnd = 2
 cmd_None = 99
 
+cmd_FirstLexerCommand = 6000
+cmd_LastLexerCommand = 6400-1
+cmd_FirstPluginCommand = 6400
+cmd_LastPluginCommand = 8000-1
+cmd_FirstFileCommand = 8000
+cmd_LastFileCommand = 8800-1
+cmd_FirstRecentCommand = 8800
+cmd_LastRecentCommand = 9000-1
+
 _CmdFlag_SelKeep    = 0x10000 #cmd continues selection (new caret pos makes bigger selection)
 _CmdFlag_SelReset   = 0x20000 #before command, reset selection
 _CmdFlag_MovesCaret = 0x80000 #cmd moves caret and makes new undo-group
