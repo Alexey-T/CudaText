@@ -11,6 +11,7 @@
 + add: lexer C++: support _asm/__asm blocks for MSVC
 + add: lexer Bash: support '\' char leading in line (it's not escape)
 * change: option "autocomplete_autoshow_chars" now calls the listbox less agressively (now it's called in the application-idle event)
+- fix: Indent/UnIndent were skipping whitespace-only lines (thanks @halfbrained)
 - fix: UI issue when code-tree is clicked, then UI-tab title is clicked
 - fix: API of Project Manager: fix for getting project variables (by @halfbrained)
 - fix: option "autocomplete_autoshow_chars" gave a crash (thanks @halfbrained, @demanuel)
