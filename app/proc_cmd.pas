@@ -33,6 +33,7 @@ type
 const
   cmd_PluginRun = 1;
   cmd_PluginEnd = 2;
+  cmd_None = 99;
 
   cmd_GotoLastEditingPos = 2006;
 

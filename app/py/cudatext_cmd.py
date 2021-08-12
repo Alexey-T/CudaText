@@ -3,6 +3,7 @@
 
 cmd_PluginRun = 1
 cmd_PluginEnd = 2
+cmd_None = 99
 
 _CmdFlag_SelKeep    = 0x10000 #cmd continues selection (new caret pos makes bigger selection)
 _CmdFlag_SelReset   = 0x20000 #before command, reset selection
