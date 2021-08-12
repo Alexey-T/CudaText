@@ -808,17 +808,17 @@ object SyntAnal5: TLibSyntAnalyzer
   CodeTemplates = <>
   SubAnalyzers = <
     item
-      DisplayName = 'asm block'
+      DisplayName = '__asm block'
       StyleName = 'Asm BG'
-      StartExpression = '\b_{0,2}asm\x20*\{'
+      StartExpression = '\b__?asm\x20*\{'
       EndExpression = '\}'
       SyntAnalyzer = SyntAnal1
     end
     item
-      DisplayName = 'asm line'
+      DisplayName = '__asm line'
       StyleName = 'Asm BG'
-      StartExpression = '\b_{0,2}asm\x20*(?=\w)'
-      EndExpression = '\x20*(;|\b_{0,2}asm\b)'
+      StartExpression = '\b__?asm\x20*(?=\w)'
+      EndExpression = '\x20*(;|\b__?asm\b)'
       SyntAnalyzer = SyntAnal1
     end>
   SampleText.Strings = (
