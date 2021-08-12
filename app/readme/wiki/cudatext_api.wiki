@@ -2368,7 +2368,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 
 * PROP_COMMAND_LOG: list of last executed commands, as list of dict. Dict keys are:
 ** "code": Integer command code.
-*** Special codes: value cmd_PluginRun means 'plugin started', value cmd_PluginEnd means 'plugin returned'. For these codes, "text" key has the value "py:module,method" or "py:module,method,param".
+*** Special codes: value cmd_PluginRun means 'plugin started', value cmd_PluginEnd means 'plugin returned'. For these codes, "text" key has the value "py:module,method," or "py:module,method,param".
 ** "invoke": String, how the command was invoked. One of values:
 *** "int": Internal calling from core components.
 *** "key": Calling via some hotkey.
