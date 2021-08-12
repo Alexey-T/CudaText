@@ -745,6 +745,7 @@ procedure DoWriteStringToFile(const AFilename, AText: string);
 function AppCollapseHomeDirInFilename(const fn: string): string;
 function AppExpandHomeDirInFilename(const fn: string): string;
 function AppExpandFileNameWithDir(const AFileName, ADir: string): string;
+function AppConfigKeyForBookmarks(Ed: TATSynEdit): string;
 
 var
   AppManager: TecLexerList = nil;
@@ -3202,6 +3203,15 @@ begin
   Result:=
     (AppSessionName='') or
     (AppSessionName=cAppSessionDefault);
+end;
+
+
+function AppConfigKeyForBookmarks(Ed: TATSynEdit): string;
+begin
+  if Ed.FileName<>'' then
+    Result:= '/bookmarks/'+SMaskFilenameSlashes(AppCollapseHomeDirInFilename(Ed.FileName))
+  else
+    Result:= '';
 end;
 
 
