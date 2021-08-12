@@ -1,4 +1,4 @@
-object SyntAnal16: TLibSyntAnalyzer
+object SyntAnal17: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Number'
@@ -59,7 +59,7 @@ object SyntAnal16: TLibSyntAnalyzer
     item
       DisplayName = 'Id function'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clGreen
+      Font.Color = clBlue
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
@@ -84,6 +84,14 @@ object SyntAnal16: TLibSyntAnalyzer
       DisplayName = 'Id exception'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clOlive
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Id const'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clGreen
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
@@ -164,6 +172,14 @@ object SyntAnal16: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
+      DisplayName = '^Id const'
+      StyleName = 'Id const'
+      TokenType = 2
+      Expression = '(?-i)[A-Z_][A-Z0-9_]+\b'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
       DisplayName = '^Id='
       StyleName = 'Id'
       TokenType = 15
@@ -175,7 +191,7 @@ object SyntAnal16: TLibSyntAnalyzer
       DisplayName = 'Id func name'
       StyleName = 'Id func name'
       TokenType = 13
-      Expression = '(?r)(?<=\bclass\x20+)\w+ |'#13#10'(?r)(?<=\bdef\x20+)\w+'
+      Expression = '(?r-i)(?<=\bclass\x20+)\w+ |'#13#10'(?r-i)(?<=\bdef\x20+)\w+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -642,7 +658,7 @@ object SyntAnal16: TLibSyntAnalyzer
     'string""" + "long \'
     'string"; #end'
     '11_22_3.44_5 + 0x_FF_aa_b_0 + 0b10_1_0'
-    '+ 3. + .3 + 3.0 + 1.2e-3'
+    '+ 3. + .3 + 3.0 + 1.2e-3 + CONST'
     ''
     'import sys, sys2, sys3'
     'from csv import aa, bb'

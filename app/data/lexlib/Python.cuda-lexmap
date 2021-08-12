@@ -16,4 +16,5 @@ Id function=Id4
 Id func name=Label
 Id types=Id2
 Id exception=Id3
+Id const=TagId
 Decorator=TagId
