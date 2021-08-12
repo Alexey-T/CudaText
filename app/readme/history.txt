@@ -7,6 +7,7 @@
 
 + add: duplicate bookmarks history to another key inside "history files.json"; later only this new key will be used and old bookmarks-history in session files will be ignored (thanks @MiroslavMatas)
 + add: better calculation of font color for highlighted HTML color tokens, like #rrggbb (patch by @bogen85)
++ add: lexer Python: highlight UPPERCASE words
 + add: lexer C++: support _asm/__asm blocks for MSVC
 + add: lexer Bash: support '\' char leading in line (it's not escape)
 * change: option "autocomplete_autoshow_chars" now calls the listbox less agressively (now it's called in the application-idle event)
