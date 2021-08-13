@@ -12,7 +12,7 @@ styles_str=Quote,Text,Bold,Italic,Bold-Italic,Heading,Link,Definition,Crossed ou
 4=JSON
 
 [map]
-Heading=IdKeyword
+Heading=Label
 Comment=Comment
 Quote BG=IncludeBG3
 Text=Id
