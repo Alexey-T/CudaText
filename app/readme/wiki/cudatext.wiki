@@ -360,6 +360,7 @@ Most of them are located in Addons Manager "Install" list.
 * CodeVisionAVR
 * CoffeeScript
 * ColdFusion
+* Coq
 * CRF files
 * Crystal
 * CSS
