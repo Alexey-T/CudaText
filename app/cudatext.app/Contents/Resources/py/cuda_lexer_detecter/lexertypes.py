@@ -395,7 +395,7 @@ TYPES = {
     "tx": ['Textile'],
     "uml": ['PlantUML'],
     "usf": ['HLSL'],
-    "v": ['V', 'Verilog HDL'],
+    "v": ['Coq', 'V', 'Verilog HDL'],
     "v3": ['Virgil'],
     "vala": ['Vala'],
     "vbhtml": ['Razor'],
