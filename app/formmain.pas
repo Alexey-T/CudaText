@@ -4331,14 +4331,18 @@ begin
       begin
         fn:= dlg.Files[i];
         if not FileExists(fn) then Continue;
+
         bZip:= bZipAllowed and (ExtractFileExt(fn)='.zip');
         if bZip then
-        begin
           Inc(NCountZip);
+
+        DoFileOpen(fn, '', nil, AOptions + SOptionPassive + IfThen(bZip, SOptionSilent));
+
+        if bZip or (i mod 10 = 0) then
+        begin
           UpdateGlobalProgressbar(i+1, true, NFileCount);
           Application.ProcessMessages;
         end;
-        DoFileOpen(fn, '', nil, AOptions + SOptionPassive + IfThen(bZip, SOptionSilent));
       end;
 
       UpdateGlobalProgressbar(0, false);
