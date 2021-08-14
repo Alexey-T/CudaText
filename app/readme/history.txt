@@ -4,6 +4,7 @@
   * changed
 
 + add: HTML lexer and auto-completion: support about 25 'boolean' attribs (attribs without '=' and value)
+- fix: crash on closing single tab in group-2 with '2 groups view'
 
 1.141.0 (2021/08)
 
