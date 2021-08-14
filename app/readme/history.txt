@@ -3,6 +3,8 @@
   - fixed
   * changed
 
++ add: HTML auto-completion: support about 20 'boolean' attributes (without '=' and value)
+
 1.141.0 (2021/08)
 
 + add: duplicate bookmarks history to another key inside "history files.json"; later only this new key will be used and old bookmarks-history in session files will be ignored (thanks @MiroslavMatas)
