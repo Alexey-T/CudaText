@@ -920,40 +920,40 @@ begin
     case AStr[i] of
       '#':
         begin
-          //don't allow word-char before
-          if (i>1) and IsCharWord(AStr[i-1], cDefaultNonWordChars) then Continue;
-
           //find #rgb, #rrggbb
           if IsCharHexDigit(AStr[i+1]) then
           begin
+            //don't allow word-char before
+            if (i>1) and IsCharWord(AStr[i-1], cDefaultNonWordChars) then Continue;
+
             NColor:= TATHtmlColorParserW.ParseTokenRGB(@AStr[i+1], NLen, clNone);
             Inc(NLen);
           end;
         end;
       'r':
         begin
-          //don't allow word-char before
-          if (i>1) and IsCharWord(AStr[i-1], cDefaultNonWordChars) then Continue;
-
           //find rgb(...), rgba(...)
           if (AStr[i+1]='g') and
             (AStr[i+2]='b')
           then
           begin
+            //don't allow word-char before
+            if (i>1) and IsCharWord(AStr[i-1], cDefaultNonWordChars) then Continue;
+
             NColor:= TATHtmlColorParserW.ParseFunctionRGB(AStr, i, NLen);
             bFoundBrackets:= true;
           end;
         end;
       'h':
         begin
-          //don't allow word-char before
-          if (i>1) and IsCharWord(AStr[i-1], cDefaultNonWordChars) then Continue;
-
           //find hsl(...), hsla(...)
           if (AStr[i+1]='s') and
             (AStr[i+2]='l')
           then
           begin
+            //don't allow word-char before
+            if (i>1) and IsCharWord(AStr[i-1], cDefaultNonWordChars) then Continue;
+
             NColor:= TATHtmlColorParserW.ParseFunctionHSL(AStr, i, NLen);
             bFoundBrackets:= true;
           end;
