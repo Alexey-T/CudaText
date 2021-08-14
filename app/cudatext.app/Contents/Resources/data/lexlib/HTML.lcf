@@ -1,4 +1,4 @@
-object SyntAnal11: TLibSyntAnalyzer
+object SyntAnal9: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Text'
@@ -236,7 +236,11 @@ object SyntAnal11: TLibSyntAnalyzer
       StyleName = 'Tag prop'
       BlockName = 'Tag begin'
       TokenType = 2
-      Expression = '\b(defer|async|readonly)\b'
+      Expression = 
+        '\b(allowfullscreen|allowpaymentrequest|async|autofocus|autoplay|' +
+        'checked|controls|default|defer|disabled|formnovalidate|hidden|is' +
+        'map|itemscope|loop|multiple|muted|nomodule|novalidate|open|plays' +
+        'inline|readonly|required|reversed|selected|truespeed)\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -790,7 +794,7 @@ object SyntAnal11: TLibSyntAnalyzer
       AlwaysEnabled = True
       StartExpression = '(?si)<style[^>]*>'
       EndExpression = '</style>'
-      SyntAnalyzer = SyntAnal6
+      SyntAnalyzer = SyntAnal8
     end
     item
       DisplayName = 'VBScript'
@@ -798,22 +802,23 @@ object SyntAnal11: TLibSyntAnalyzer
       AlwaysEnabled = True
       StartExpression = '(?si)<script[^>]*vbscript[^>]*>\s*(<!--)?'
       EndExpression = '(?i)(-->)?\s*</script>'
-      SyntAnalyzer = SyntAnal28
     end
     item
       DisplayName = 'JavaScript'
       StyleName = 'Sublexer BG'
       AlwaysEnabled = True
-      StartExpression = '(?si)<script\s[^>]*(j|java|ecma|paper)script [^>\?]*> \s*(<!\-\-)?'
+      StartExpression = 
+        '(?si)<script\s[^>]*(j|java|ecma|paper)script [^>\?]*> \s*(<!\-\-' +
+        ')?'
       EndExpression = '(?i)(//)?(\-\->)?\s*</script\s*>'
-      SyntAnalyzer = SyntAnal13
+      SyntAnalyzer = SyntAnal11
     end
     item
       DisplayName = 'JavaScript simple'
       StyleName = 'Sublexer BG'
       StartExpression = '<script\s*>'
       EndExpression = '</script\s*>'
-      SyntAnalyzer = SyntAnal13
+      SyntAnalyzer = SyntAnal11
     end
     item
       DisplayName = 'ASP'
@@ -821,7 +826,6 @@ object SyntAnal11: TLibSyntAnalyzer
       AlwaysEnabled = True
       StartExpression = '<%'
       EndExpression = '%>'
-      SyntAnalyzer = SyntAnal28
     end>
   SampleText.Strings = (
     '<!doctype test="123">'
