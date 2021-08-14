@@ -41,14 +41,18 @@ begin
     cmd_FileClose:
       begin
         EdGrp.CloseTabs(tabCloseCurrent, false);
-        CurrentFrame.SetFocus;
+        Frame:= CurrentFrame;
+        if Assigned(Frame) then
+          Frame.SetFocus;
       end;
 
     cmd_FileCloseAll:
       begin
         //EdGrp.CloseTabs(tabCloseAll, false);
         DoCloseAllTabs;
-        CurrentFrame.SetFocus;
+        Frame:= CurrentFrame;
+        if Assigned(Frame) then
+          Frame.SetFocus;
       end;
 
     cmd_FileCloseOtherThis:
