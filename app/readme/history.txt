@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-+ add: HTML auto-completion: support about 20 'boolean' attributes (without '=' and value)
++ add: HTML lexer and auto-completion: support about 25 'boolean' attribs (attribs without '=' and value)
 
 1.141.0 (2021/08)
 
