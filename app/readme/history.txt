@@ -7,6 +7,7 @@
 
 + add: HTML auto-completion: support "type" attribute which must contain media-type (MIME-type), show media-types as values (thanks @eltonfabricio10)
 + add: HTML lexer and auto-completion: support all ~25 boolean attribs (ie attribs without '=' and value)
++ add: better render characters 'jy' with "spacing_y":-1 or -2 (thanks @halfbrained)
 - fix: regression: crash on closing single tab in group-2 with '2 groups view'
 
 1.141.0 (2021/08)
