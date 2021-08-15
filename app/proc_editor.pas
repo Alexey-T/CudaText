@@ -29,6 +29,7 @@ uses
   ATSynEdit_Adapter_LiteLexer,
   ATSynEdit_Bookmarks,
   ATSynEdit_Finder,
+  ATSynEdit_Cmp_HTML,
   ATStrings,
   ATStringProc,
   ATStringProc_Separator,
@@ -2384,13 +2385,6 @@ procedure EditorAutoCloseOpeningHtmlTag(Ed: TATSynEdit; AX, AY: integer);
 var
   SValue: UnicodeString;
   SLexer: string;
-const
-  SingletonTags: array of UnicodeString = (
-    'area', 'base', 'br', 'col', 'embed',
-    'hr', 'img', 'input', 'link', 'meta',
-    'param', 'source', 'track', 'wbr',
-    'command', 'keygen', 'menuitem'
-  );
 begin
   if not (UiOps.AutocompleteHtml and UiOps.AutocompleteHtml_AutoClose) then exit;
   if Ed.AdapterForHilite=nil then exit;
@@ -2398,7 +2392,8 @@ begin
   if SLexer='' then exit;
 
   SValue:= EditorGetLefterHtmlTag(Ed, AX, AY);
-  if (SValue='') or (LowerCase(SValue) in SingletonTags) then exit;
+  if SValue='' then exit;
+  if not IsTagNeedsClosingTag(LowerCase(SValue)) then exit;
 
   if SRegexMatchesString(SLexer, UiOps.AutocompleteHtml_Lexers, false) then
   begin
