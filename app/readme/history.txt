@@ -7,7 +7,7 @@
 
 + add: HTML auto-completion: support "type" attribute which must contain MIME-type, show possible MIME-types as completion values (thanks @eltonfabricio10)
 + add: HTML lexer and auto-completion: support all ~25 boolean attribs (ie attribs without '=' and value)
-+ add: better render characters 'jy' with "spacing_y":-1 or -2 (thanks @halfbrained)
++ add: better render tall letters like 'jy' with "spacing_y":-1 or -2 (thanks @halfbrained)
 + add: Project Manager: additional 'gear' toolbar icon for 'Project properties' dialog
 - fix: regression: Project Manager: cannot remove a root node sometimes (thanks @MiroslavMatas)
 - fix: regression: crash on closing single tab in group-2 with '2 groups view'
