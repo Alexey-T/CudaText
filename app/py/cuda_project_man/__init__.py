@@ -655,6 +655,9 @@ class Command:
         if str(path) in self.project["nodes"]:
             self.project["nodes"].remove(str(path))
 
+        if index in self.top_nodes:
+            self.top_nodes.pop(index)
+
         if self.project_file_path:
             self.action_save_project_as(self.project_file_path)
 
