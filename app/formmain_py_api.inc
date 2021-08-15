@@ -8308,6 +8308,7 @@ var
   PtrCallback, PtrTag: PChar;
   StrCallback, StrTag: string;
   Timer: TTimer;
+  Obj: TObject;
   SAll, SItem: string;
 begin
   with AppPython.Engine do
@@ -8369,7 +8370,12 @@ begin
               Timer.Free;
               N:= fmMain.FListTimers.IndexOfObject(Timer);
               if N>=0 then
+              begin
+                Obj:= fmMain.FListTimers.Objects[N];
+                if Assigned(Obj) then
+                  Obj.Free;
                 fmMain.FListTimers.Delete(N);
+              end;
             end;
 
             Exit(ReturnTrue);
