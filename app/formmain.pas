@@ -2891,11 +2891,21 @@ end;
 
 procedure TfmMain.FormDestroy(Sender: TObject);
 var
+  Obj: TObject;
   i: integer;
 begin
   FreeAndNil(FLastStatusbarMessages);
+
   for i:= 0 to FListTimers.Count-1 do
-    TTimer(FListTimers.Objects[i]).Enabled:= false;
+  begin
+    Obj:= FListTimers.Objects[i];
+    if Assigned(Obj) then
+    begin
+      TTimer(Obj).Enabled:= false;
+      Obj.Free;
+    end;
+  end;
+  FListTimers.Clear;
   FreeAndNil(FListTimers);
 end;
 
