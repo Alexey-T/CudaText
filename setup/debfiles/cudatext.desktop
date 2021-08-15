@@ -7,5 +7,5 @@ Terminal=false
 Type=Application
 StartupNotify=true
 MimeType=text/plain;
-Categories=Utility;TextEditor;
+Categories=Development;TextEditor;
 Icon=cudatext-512
