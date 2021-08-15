@@ -6242,7 +6242,6 @@ begin
     CompletionOpsHtml.FilenameHtmlGlobals:= AppDir_DataAutocompleteSpec+DirectorySeparator+'html_globals.ini';
     CompletionOpsHtml.FilenameHtmlEntities:= AppDir_DataAutocompleteSpec+DirectorySeparator+'html_entities.ini';
     CompletionOpsHtml.FilenameHtmlMediaTypes:= AppDir_DataAutocompleteSpec+DirectorySeparator+'html_mediatypes.ini';
-    CompletionOpsHtml.FilenameHtmlBooleanAttribs:= AppDir_DataAutocompleteSpec+DirectorySeparator+'html_boolattr.ini';
 
     //allow autocompletion with multi-carets only in HTML
     if Ed.Carets.Count>1 then
