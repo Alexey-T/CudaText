@@ -448,8 +448,8 @@
   "minimap_sel_border": true,
 
   //Minimap: Width of minimap area
-  //  value=0: auto-size according to current window width
-  //  value>0: use specified fixed width, in chars
+  //  value=0: minimap is auto-sized, according to current window width and gutter width
+  //  value>0: minimap has specified fixed width, in average char cells
   "minimap_char_width": 0,
 
   //Minimap: Place minimap to the left side
