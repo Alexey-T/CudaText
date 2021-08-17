@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.141.2 (2021/08)
+1.141.5 (2021/08)
 
 + add: HTML auto-completion: support "type" attribute which must contain MIME-type, show possible MIME-types as completion values (thanks @eltonfabricio10)
 + add: HTML lexer and auto-completion: support all ~25 boolean attribs, ie attribs without '=' and value
