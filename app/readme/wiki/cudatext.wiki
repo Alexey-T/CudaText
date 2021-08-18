@@ -1677,21 +1677,25 @@ You can make Pull-Request there, if needed.
 
 * "tree helpers": Plugins which show Code-Tree structure for some lexer (useful if language is complex, and lexer cannot handle all language complexity).
 
-* "snippets". Collections of text fragments, for Snippets plugin. Install Snippets plugin first. Each addon supports some lexer(s). See details in the [[CudaText_plugins#Snippets]].
+* "snippets_ct". Collections of text fragments, for "Snippets" plugin (which is required to use snippets). See details in the [[CudaText_plugins#Snippets]].
 
-* "translations". CudaText UI translations. For ex, JP translation changes all menuitems + dialogs to JP language. Dialogs of plugins are not affected (but authors can support translation in their plugins).
+* "translations". CudaText UI translations. For ex, JP translation changes all menuitems + dialogs to JP language. Dialogs of plugins are not affected.
+
+* "plugintranslation": Translation of plugin strings to different languages. This includes translation of strings from Python code, and strings from "install.inf" files.
 
 * "themes". UI/syntax themes for the "Options / Color themes" menu. UI themes change colors of CudaText interface. Syntax themes change colors of words in syntax highlighted files.
 
-* "sidebar themes": Icon sets for the sidebar (vertical row of buttons on the left side).
+* Icons:
+** "sidebar themes": Icon sets for the sidebar (vertical row of buttons on the left side).
+** "toolbar themes": Icon sets for the main toolbar (horizontal row of buttons on the top).
+** "toolbar x icons": Icon sets for plugin "Config Toolbar", for user-added buttons.
+** "file type icons": Icon sets for the file list of "Project Manager" plugin. Usually these are repackaged icons for VS Code editor.
+** "proj toolbar icons": Icon sets for the toolbar of "Project Manager" plugin.
+** "code-tree icons": Icon sets for the Code-Tree (icons are visible in the Code-Tree with some lexers, e.g. C#).
 
-* "toolbar themes": Icon sets for the main toolbar (horizontal row of buttons on the top).
+* "build systems": Configuration files for different external tools, for the Runner plugin. Runner plugin supports build-systems for Sublime Text 3 (only JSON configs, without support for additional Python codes).
 
-* "toolbar x icons": Icon sets for plugin "Config Toolbar", for user-added buttons.
-
-* "file type icons": Icon sets for the "Project Manager" file list. Most popular lexers have icons here.
-
-* "code-tree icons": Icon sets for the Code-Tree (icons are visible in the Code-Tree with some lexers, e.g. C#).
+* "packages": Packages with possible binary files, which will be unpacked to the CudaText installation folder. For the date 2021.08, these are only Python engines, for CudaText Windows build.
 
 =Tech topics=
 
