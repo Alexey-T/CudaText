@@ -197,7 +197,10 @@ type
     apstTextBold,
     apstTextItalic,
     apstTextBoldItalic,
-    apstTextCross
+    apstTextCross,
+    apstTextCrossBold,
+    apstTextCrossItalic,
+    apstTextCrossBoldItalic
     );
 
 const
@@ -519,6 +522,9 @@ begin
   SetStyle(apstTextItalic, 'TextItalic', clBlack, clNone, clNone, [fsItalic], blNone, blNone, blNone, blNone, ftFontAttr);
   SetStyle(apstTextBoldItalic, 'TextBoldItalic', clBlack, clNone, clNone, [fsBold, fsItalic], blNone, blNone, blNone, blNone, ftFontAttr);
   SetStyle(apstTextCross, 'TextCross', clBlack, clNone, clNone, [fsStrikeOut], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(apstTextCrossBold, 'TextCrossBold', clBlack, clNone, clNone, [fsBold, fsStrikeOut], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(apstTextCrossItalic, 'TextCrossItalic', clBlack, clNone, clNone, [fsItalic, fsStrikeOut], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(apstTextCrossBoldItalic, 'TextCrossBoldItalic', clBlack, clNone, clNone, [fsBold, fsItalic, fsStrikeOut], blNone, blNone, blNone, blNone, ftFontAttr);
 end;
 
 procedure AppThemeSaveToFile(const AFileName: string; const D: TAppTheme; IsThemeUI: boolean);
@@ -571,7 +577,7 @@ var
 begin
   Result:= AppTheme.Styles[id];
 
-  if id in [apstTextBold..apstTextCross] then
+  if id in [apstTextBold..High(TAppThemeStyleId)] then
   begin
     styleId:= AppTheme.Styles[apstId];
     Result.Font.Color:= styleId.Font.Color;
