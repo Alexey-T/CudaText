@@ -6177,17 +6177,31 @@ end;
 function TfmMain.DoAutoComplete_PosOnBadToken(Ed: TATSynEdit; AX, AY: integer): boolean;
 var
   TokenKind: TATTokenKind;
+  bLexerHTML: boolean;
 begin
   Result:= false;
+
   if not UiOps.AutocompleteInComments or
+    not UiOps.AutocompleteInCommentsHTML or
     not UiOps.AutocompleteInStrings then
   begin
     TokenKind:= EditorGetTokenKind(Ed, AX, AY);
     case TokenKind of
       atkComment:
-        Result:= not UiOps.AutocompleteInComments;
+        begin
+          bLexerHTML:= false;
+          if Assigned(Ed.AdapterForHilite) then
+            bLexerHTML:= Pos('HTML', Ed.AdapterForHilite.GetLexerName)>0;
+
+          if bLexerHTML then
+            Result:= not UiOps.AutocompleteInCommentsHTML
+          else
+            Result:= not UiOps.AutocompleteInComments;
+        end;
       atkString:
-        Result:= not UiOps.AutocompleteInStrings;
+        begin
+          Result:= not UiOps.AutocompleteInStrings;
+        end;
     end;
   end;
 end;

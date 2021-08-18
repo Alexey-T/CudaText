@@ -226,6 +226,7 @@ type
     AutocompleteCss_Lexers: string;
     AutocompleteFileURI: boolean;
     AutocompleteInComments: boolean;
+    AutocompleteInCommentsHTML: boolean;
     AutocompleteInStrings: boolean;
 
     HtmlBackgroundColorPair: array[boolean] of TColor;
@@ -1696,6 +1697,7 @@ begin
     AutocompleteCss_Lexers:= 'CSS';
     AutocompleteFileURI:= true;
     AutocompleteInComments:= false;
+    AutocompleteInCommentsHTML:= true;
     AutocompleteInStrings:= true;
 
     HtmlBackgroundColorPair[false]:= $F0F0F0;
