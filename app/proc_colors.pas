@@ -200,6 +200,9 @@ type
     apstTextCross
     );
 
+const
+  apstLastStyle = Pred(apstTextBold);
+
 type
   TAppThemeColor = record
     color: TColor;
@@ -220,7 +223,7 @@ procedure AppThemeLoadFromFile(const AFileName: string; var D: TAppTheme; IsThem
 procedure AppThemeSaveToFile(const AFileName: string; const D: TAppTheme; IsThemeUI: boolean);
 
 function GetAppColor(id: TAppThemeColorId): TColor;
-function GetAppStyle(id: TAppThemeStyleId): TecSyntaxFormat; inline;
+function GetAppStyle(id: TAppThemeStyleId): TecSyntaxFormat;
 
 implementation
 
@@ -276,7 +279,7 @@ begin
     end
     else
     begin
-      for iStyle:= Low(iStyle) to High(iStyle) do
+      for iStyle:= Low(iStyle) to apstLastStyle do
       begin
         st:= d.Styles[iStyle];
         if not DoLoadLexerStyleFromFile_JsonTheme(st, cfg, 'Lex_'+st.DisplayName) then
@@ -543,7 +546,7 @@ begin
     end
     else
     begin
-      for iStyle:= Low(iStyle) to High(iStyle) do
+      for iStyle:= Low(iStyle) to apstLastStyle do
       begin
         st:= d.Styles[iStyle];
         DoSaveLexerStyleToFile_JsonTheme(st, cfg, 'Lex_'+st.DisplayName);
@@ -563,8 +566,16 @@ begin
 end;
 
 function GetAppStyle(id: TAppThemeStyleId): TecSyntaxFormat;
+var
+  styleId: TecSyntaxFormat;
 begin
   Result:= AppTheme.Styles[id];
+
+  if id in [apstTextBold..apstTextCross] then
+  begin
+    styleId:= AppTheme.Styles[apstId];
+    Result.Font.Color:= styleId.Font.Color;
+  end;
 end;
 
 initialization

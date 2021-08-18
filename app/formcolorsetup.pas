@@ -109,7 +109,7 @@ begin
     List.Items.AddObject(Data.Colors[iColor].desc, TObject(PtrInt(Data.Colors[iColor].color)));
 
   if ListStyles.Count=0 then
-    for iStyle:= Low(iStyle) to High(iStyle) do
+    for iStyle:= Low(iStyle) to apstLastStyle do
     begin
       st:= Data.Styles[iStyle];
       ListStyles.Items.AddObject(st.DisplayName, st);
