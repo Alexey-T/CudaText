@@ -843,6 +843,7 @@ Lexer CSS (see the option "autocomplete_css_lexers") has its special logic, whic
 
 * Caret is on CSS property name. Listbox shows list of properties (beginning with the typed value).
 * Caret is after CSS property and ":". If that CSS property has fixed set of values, listbox shows list of those values (beginning with the typed value).
+* Special case is "custom CSS properties", which start with double dashes, like "--my-var1". App supports completion of these names, when caret in inside "var()" function. App searches for all custom properties names mentioned in the current document.
 
 2) Caret is outside of {} brackets:
 
