@@ -5,7 +5,7 @@
 
 1.141.6 (2021/08)
 
-+ add: syntax-theme now has hidden last styles TextBold, TextItalic, TextBoldItalic; and added 3 new hidden styles: TextCrossBold, TextCrossItalic, TextCrossBoldItalic
++ add: syntax-theme now has not-configurable last styles TextBold, TextItalic, TextBoldItalic; and added 3 new not-configurable styles: TextCrossBold, TextCrossItalic, TextCrossBoldItalic
 - fix: search backwards used incorrect start position with RegEx like '[abcd]' (thanks @halfbrained)
 
 1.141.5 (2021/08)
