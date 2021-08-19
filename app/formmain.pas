@@ -2893,6 +2893,7 @@ end;
 
 procedure TfmMain.FormDestroy(Sender: TObject);
 var
+  Frame: TEditorFrame;
   Obj: TObject;
   i: integer;
 begin
@@ -2909,6 +2910,10 @@ begin
   end;
   FListTimers.Clear;
   FreeAndNil(FListTimers);
+
+  if Assigned(AppUniqInst) then
+    FreeAndNil(AppUniqInst);
+
 end;
 
 procedure TfmMain.FormDropFiles(Sender: TObject;
