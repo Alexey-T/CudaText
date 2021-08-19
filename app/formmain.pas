@@ -3554,7 +3554,10 @@ end;
 procedure TfmMain.UpdateFrameLineEnds(Frame: TEditorFrame; AValue: TATLineEnds);
 begin
   if Assigned(Frame) then
+  begin
     Frame.LineEnds[Frame.Editor]:= AValue;
+    Frame.UpdateModified(Frame.Editor);
+  end;
   UpdateStatusbar;
   MsgStatus(msgStatusEndsChanged);
 end;
