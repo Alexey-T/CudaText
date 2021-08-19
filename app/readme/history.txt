@@ -6,6 +6,7 @@
 1.141.6 (2021/08)
 
 + add: syntax-theme now has hidden last styles (TextBold, TextItalic, TextBoldItalic) and added 3 new hidden styles (CrossBold, CrossItalic, CrossBoldItalic)
+- fix: search backwards used incorrect position of start with regex like '[<<<>>>]' (thanks @halfbrained)
 
 1.141.5 (2021/08)
 
