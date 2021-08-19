@@ -123,7 +123,8 @@ var
   NLine, NColumn, i: integer;
   bReadOnly: boolean;
   bAllowCreate: boolean;
-  sEncoding: string;
+  sEncoding, sCli: string;
+  SepCli: TATStringSeparator;
   List: TStringList;
 begin
   bReadOnly:= false;
@@ -164,6 +165,19 @@ begin
     if SBeginsWith(SParam, '-e=') then
     begin
       sEncoding:= AppEncodingShortnameToFullname( Copy(SParam, 4, MaxInt) );
+      Continue;
+    end;
+
+    if SBeginsWith(SParam, '-p=') then
+    begin
+      SepCli.Init(Copy(SParam, 4, MaxInt), '#');
+      SepCli.GetItemStr(FOption_CLI_Plugin);
+      SetLength(FOption_CLI_Params, 0);
+      while SepCli.GetItemStr(sCli) do
+      begin
+        SetLength(FOption_CLI_Params, Length(FOption_CLI_Params)+1);
+        FOption_CLI_Params[High(FOption_CLI_Params)]:= sCli;
+      end;
       Continue;
     end;
 

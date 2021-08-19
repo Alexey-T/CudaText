@@ -729,6 +729,8 @@ type
     FOption_GroupSizes: TATGroupsPoints;
     FOption_GroupPanelSize: TPoint;
     FOption_SidebarTab: string;
+    FOption_CLI_Plugin: string;
+    FOption_CLI_Params: array of string;
     FCmdlineFileCount: integer;
 
     function IsTooManyTabsOpened: boolean;
@@ -3173,6 +3175,21 @@ procedure TfmMain.FormShow(Sender: TObject);
     {$endif}
   end;
   //
+  procedure _Init_CheckCliParams;
+  var
+    Params: TAppVariantArray;
+    i: integer;
+  begin
+    if (FOption_CLI_Plugin<>'') then
+    begin
+      MsgStdout(Format('Calling on_cli for "%s" with %d params', [FOption_CLI_Plugin, Length(FOption_CLI_Params)]));
+      SetLength(Params, Length(FOption_CLI_Params));
+      for i:= 0 to High(FOption_CLI_Params) do
+        Params[i]:= AppVariant(FOption_CLI_Params[i]);
+      DoPyCommand(FOption_CLI_Plugin, 'on_cli', Params, cInvokeAppAPI);
+    end;
+  end;
+  //
 begin
   _Init_FixSplitters;
 
@@ -3240,6 +3257,7 @@ begin
   FNeedUpdateMenuChecks:= true;
 
   _Init_CheckExePath;
+  _Init_CheckCliParams;
 end;
 
 procedure TfmMain.ShowWelcomeInfo;
