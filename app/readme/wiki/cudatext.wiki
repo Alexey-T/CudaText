@@ -176,7 +176,7 @@ Supported keys:
 * -i - Read the contents of stdin to a new document. Unix only. It can be used in Unix shell like: "ls -l | cudatext -i"
 * -id=name - Set "group" for single-instance mode, so that program with one "group" will not interfere and find instances with another "group". Unix only. Default value is "cudatext.0".
 * -w=left,top,width,height - Set position/size of window (up to 4 numbers should be specified, any can be skipped to keep previous value)
-* -p=cuda_somename#param1#param2... - Run the specified plugin module, and pass to its "on_cli" event specified param strings. Count of that params must be expected by the plugin, e.g. Differ plugin supports "on_cli" and expects 2 existing filenames here. If params contain spaces, you must double-quote that part, e.g.
+* -p=cuda_somename#param1#param2... - Run the specified plugin module, and pass to its "on_cli" event specified param strings. Count of params must be expected by plugin, e.g. Differ plugin supports "on_cli" and expects 2 filenames. If params contain spaces, you must double-quote that part, e.g.
  cudatext "-p=cuda_differ#~/my name 1#~/my name 2"
 
 Notes:
