@@ -4491,7 +4491,7 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * add: Editor.get_prop: PROP_COMMAND_LOG
 * add: Editor.get_prop/set_prop: PROP_COMMAND_LOG_LIMIT
 
-1.0.409 (app 1.141.6)
+1.0.409 (app 1.142.0)
 * change: auto-completion is allowed in comments, if lexer name has 'HTML'
 * add: event "on_cli", called by command-line parameter -p=cuda_somename#param1#param2...
 
