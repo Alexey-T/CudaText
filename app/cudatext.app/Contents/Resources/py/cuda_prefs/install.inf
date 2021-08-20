@@ -4,7 +4,7 @@ desc=View and change options from user.json
 type=cudatext-plugin
 subdir=cuda_prefs
 homepage=https://github.com/halfbrained/cuda_prefs
-api=1.0.391
+api=1.0.405
 
 [item10]
 section=commands

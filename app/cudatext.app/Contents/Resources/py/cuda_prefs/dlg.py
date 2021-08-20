@@ -109,8 +109,6 @@ COLS_LIST = [
 opt_col_cfg = [("Option", 70), ("Value", 100)]
 
 ui_max_history_edits = 20
-font_name = None
-font_size = None
 
 filter_history = []
 
@@ -250,16 +248,10 @@ class DialogMK2:
             - how.get('only_with_def', False) # Forbid to switch fo User+Lexer ops
         """
         global ui_max_history_edits
-        global font_name
-        global font_size
 
         #TODO get value from options if not present
         ui_max_history_edits = optman.get_scope_value('ui_max_history_edits', scope='u',
                                                         default=ui_max_history_edits)
-        _os_suffix = app_proc(PROC_GET_OS_SUFFIX, '')
-        font_name = apx.get_opt('font_name'+_os_suffix)
-        font_size = apx.get_opt('font_size'+_os_suffix)
-
         self._form_rect = {} # dict - x,y,w,h
         self._state = {}
 
@@ -840,12 +832,6 @@ class DialogMK2:
         self.scope_ed = Editor(h_scope_ed)
         self.scope_ed.set_prop(PROP_RO, True)
         self.scope_ed.set_prop(PROP_COMBO_ITEMS, '\n'.join(scopes))
-
-        font = (font_name, font_size)  if font_name and font_size else  None
-        if font:
-            edt.set_prop(PROP_FONT, font)
-            self.scope_ed.set_prop(PROP_FONT, font)
-            self._filter_ed.set_prop(PROP_FONT, font)
 
         dlg_proc(h, DLG_SCALE)
 
@@ -1665,8 +1651,6 @@ class ValueEds:
                 h_ed = dlg_proc(h, DLG_CTL_HANDLE, index=n)
                 self._ctl_names[n] = name
                 self.val_edit = Editor(h_ed)
-                if font_size and font_name:
-                    self.val_edit.set_prop(PROP_FONT, (font_name, font_size))
 
             # resetting to defaults
             _props = {**default_props,
@@ -1688,8 +1672,6 @@ class ValueEds:
                 self._ctl_names[n] = name
                 self.val_combo = Editor(h_ed)
                 self.val_combo.set_prop(PROP_RO, True)
-                if font_size and font_name:
-                    self.val_combo.set_prop(PROP_FONT, (font_name, font_size))
 
         elif name == M.WGT_NAME__CHECK:
             n = dlg_proc(h, DLG_CTL_FIND, prop=name)
