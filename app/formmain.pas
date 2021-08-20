@@ -2910,8 +2910,10 @@ begin
   FListTimers.Clear;
   FreeAndNil(FListTimers);
 
+  {$ifdef unix}
   if Assigned(AppUniqInst) then
     FreeAndNil(AppUniqInst);
+  {$endif}
 end;
 
 procedure TfmMain.FormDropFiles(Sender: TObject;
