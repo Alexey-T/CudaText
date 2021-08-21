@@ -6149,7 +6149,11 @@ begin
   begin
     SetLength(Params, 0);
     if SCallback<>'' then
+    begin
+      F.Editor.CommandLog.Add(cmd_PluginRun, cInvokeMenuAPI, SCallback);
       DoPyCallbackFromAPI(SCallback, Params, []);
+      F.Editor.CommandLog.Add(cmd_PluginEnd, cInvokeMenuAPI, SCallback);
+    end;
   end
   else
     F.Editor.DoCommand(NCommand, cInvokeMenuMain);
