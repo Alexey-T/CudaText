@@ -220,7 +220,7 @@ def json_update(path, key, val):
 def format_opt_change(ch):
     scope_str = ch.scope
     if   ch.scope=='u': scope_str = ui_column(COL_VAL_USER)
-    elif ch.scope=='l': scope_str = ui_column(COL_VAL_LEX) + str(ch.lexer)
+    elif ch.scope=='l': scope_str = ui_column(COL_VAL_LEX) +': '+str(ch.lexer)
     elif ch.scope=='f': scope_str = ui_column(COL_VAL_FILE)+': '+os.path.basename(ed.get_filename())
 
     if ch.value is None:    val_str = _('reset')
@@ -994,7 +994,7 @@ class DialogMK2:
         lex = ed.get_prop(PROP_LEXER_FILE)  if scope == 'l' else None
         opt_change = OptChange(name,  scope,  val,  lexer=lex,  old_value=_old_val)
         pass;       LOG and print('NOTE: new option change: '+str(opt_change))
-        msg_status(_('Preference: ') + format_opt_change(opt_change))
+        msg_status(_('Option: ') + format_opt_change(opt_change))
         self._opt_changes.append(opt_change)
 
 
