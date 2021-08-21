@@ -6109,11 +6109,26 @@ var
   bFindFocused, bPanelFocused: boolean;
   NTag: PtrInt;
   NCommand: integer;
-  SCallback: string;
+  SCaption, SCallback: string;
   Params: TAppVariantArray;
+  mi: TMenuItem;
 begin
   NTag:= (Sender as TComponent).Tag;
   if NTag=0 then exit;
+
+  SCaption:= '';
+  if Sender is TMenuItem then
+  begin
+    mi:= Sender as TMenuItem;
+    SCaption:= mi.Caption;
+    repeat
+      mi:= mi.Parent;
+      if mi=nil then Break;
+      if mi.Caption='' then Break;
+      SCaption:= mi.Caption+'>'+SCaption;
+    until false;
+    SCaption:= 'menuitem='+SCaption+';';
+  end;
 
   NCommand:= TAppMenuProps(NTag).CommandCode;
   SCallback:= TAppMenuProps(NTag).CommandString;
@@ -6150,9 +6165,9 @@ begin
     SetLength(Params, 0);
     if SCallback<>'' then
     begin
-      F.Editor.CommandLog.Add(cmd_PluginRun, cInvokeMenuAPI, SCallback);
+      F.Editor.CommandLog.Add(cmd_PluginRun, cInvokeMenuAPI, SCaption+SCallback);
       DoPyCallbackFromAPI(SCallback, Params, []);
-      F.Editor.CommandLog.Add(cmd_PluginEnd, cInvokeMenuAPI, SCallback);
+      F.Editor.CommandLog.Add(cmd_PluginEnd, cInvokeMenuAPI, SCaption+SCallback);
     end;
   end
   else
