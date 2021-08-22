@@ -2998,9 +2998,7 @@ begin
         'invoke',
         PChar(cEditorCommandInvoke[Item.ItemInvoke]),
         'text',
-        PChar(Item.ItemText)
-        //'ticks',
-        //Item.ItemTicks
+        PChar(string(Item.ItemText))
         ));
     end;
   end;
