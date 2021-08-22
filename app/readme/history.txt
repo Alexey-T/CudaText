@@ -3,6 +3,11 @@
   - fixed
   * changed
 
+1.142.1 (2021/08)
+
++ add: command "delete final end-of-line"
++ add: more API for "Commands History" plugin
+
 1.142.0 (2021/08)
 
 + add: new command-line parameter '-p', allows to run for example Differ plugin with 2 file names
