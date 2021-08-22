@@ -895,7 +895,7 @@ begin
                 UiOps.FindIndentHorz,
                 UiOps.FindIndentVert,
                 false,
-                (NOptions and CARET_OPTION_UNFOLD)<>0
+                true //(NOptions and CARET_OPTION_UNFOLD)<>0
                 );
 
             Result:= ReturnNone;
