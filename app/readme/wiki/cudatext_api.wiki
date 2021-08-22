@@ -4494,4 +4494,7 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * change: auto-completion is allowed in comments, if lexer name has 'HTML'
 * add: event "on_cli"
 
+1.0.410 (app 1.142.1)
+* deprecate: option CARET_OPTION_UNFOLD
+
 [[Category:CudaText]]
