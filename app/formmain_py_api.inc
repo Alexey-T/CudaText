@@ -4657,6 +4657,7 @@ begin
           begin
             TPluginHelper.CommandUpdateSubcommands(Str);
             TKeymapHelperMain.UpdateDynamic(categ_PluginSub);
+            fmMain.FNeedAppState_SubCommands:= true;
             Result:= ReturnNone;
           end;
 
@@ -5805,6 +5806,7 @@ begin
         MENU_CLEAR:
           begin
             fmMain.DoMenuClear(StrMenu);
+            fmMain.FNeedAppState_MenuRemove:= true;
             Result:= ReturnNone;
           end;
 
@@ -5816,12 +5818,14 @@ begin
         MENU_ADD:
           begin
             StrResult:= fmMain.DoMenuAdd_Params(StrMenu, StrCmd, StrCaption, StrHotkey, StrTag, NIndex);
+            fmMain.FNeedAppState_MenuAdd:= true;
             Result:= PyUnicodeFromString(StrResult);
           end;
 
         MENU_REMOVE:
           begin
             fmMain.DoMenu_Remove(StrMenu);
+            fmMain.FNeedAppState_MenuRemove:= true;
             Result:= ReturnNone;
           end;
 
@@ -5837,6 +5841,7 @@ begin
             PopupItem:= PyHelper_MenuItemFromId(StrMenu);
             if Assigned(PopupItem) then
               PopupItem.Caption:= StrCmd;
+            fmMain.FNeedAppState_MenuChange:= true;
             Result:= ReturnNone;
           end;
 
@@ -5845,6 +5850,7 @@ begin
             PopupItem:= PyHelper_MenuItemFromId(StrMenu);
             if Assigned(PopupItem) then
               PopupItem.Visible:= AppStrToBool(StrCmd);
+            fmMain.FNeedAppState_MenuChange:= true;
             Result:= ReturnNone;
           end;
 
@@ -5853,6 +5859,7 @@ begin
             PopupItem:= PyHelper_MenuItemFromId(StrMenu);
             if Assigned(PopupItem) then
               PopupItem.Enabled:= AppStrToBool(StrCmd);
+            fmMain.FNeedAppState_MenuChange:= true;
             Result:= ReturnNone;
           end;
 
@@ -5861,6 +5868,7 @@ begin
             PopupItem:= PyHelper_MenuItemFromId(StrMenu);
             if Assigned(PopupItem) then
               PopupItem.Checked:= AppStrToBool(StrCmd);
+            fmMain.FNeedAppState_MenuChange:= true;
             Result:= ReturnNone;
           end;
 
@@ -5869,6 +5877,7 @@ begin
             PopupItem:= PyHelper_MenuItemFromId(StrMenu);
             if Assigned(PopupItem) then
               PopupItem.RadioItem:= AppStrToBool(StrCmd);
+            fmMain.FNeedAppState_MenuChange:= true;
             Result:= ReturnNone;
           end;
 
@@ -5877,6 +5886,7 @@ begin
             PopupItem:= PyHelper_MenuItemFromId(StrMenu);
             if Assigned(PopupItem) then
               PopupItem.ShortCut:= TextToShortCut(StrCmd);
+            fmMain.FNeedAppState_MenuChange:= true;
             Result:= ReturnNone;
           end;
 
@@ -5934,6 +5944,7 @@ begin
             PopupItem:= PyHelper_MenuItemFromId(StrMenu);
             if Assigned(PopupItem) then
               PopupItem.ImageIndex:= NIndex;
+            fmMain.FNeedAppState_MenuChange:= true;
             Result:= ReturnNone;
           end;
 

@@ -708,6 +708,10 @@ type
     FNeedAutoComplete: boolean;
     FNeedUpdateStatuses: boolean;
     FNeedUpdateMenuChecks: boolean;
+    FNeedAppState_SubCommands: boolean;
+    FNeedAppState_MenuAdd: boolean;
+    FNeedAppState_MenuRemove: boolean;
+    FNeedAppState_MenuChange: boolean;
     FLastDirOfOpenDlg: string;
     FLastLexerForPluginsMenu: string;
     FLastStatusbarMessage: string;
@@ -2246,6 +2250,27 @@ begin
   begin
     FInvalidateShortcuts:= false;
     UpdateMenuPlugins_Shortcuts_Work(FInvalidateShortcutsForce);
+  end;
+
+  if FNeedAppState_MenuAdd then
+  begin
+    FNeedAppState_MenuAdd:= false;
+    DoPyEvent_AppState(APPSTATE_API_MENU_ADD);
+  end;
+  if FNeedAppState_MenuRemove then
+  begin
+    FNeedAppState_MenuRemove:= false;
+    DoPyEvent_AppState(APPSTATE_API_MENU_REMOVE);
+  end;
+  if FNeedAppState_MenuChange then
+  begin
+    FNeedAppState_MenuChange:= false;
+    DoPyEvent_AppState(APPSTATE_API_MENU_CHANGE);
+  end;
+  if FNeedAppState_SubCommands then
+  begin
+    FNeedAppState_SubCommands:= false;
+    DoPyEvent_AppState(APPSTATE_API_SUBCOMMANDS);
   end;
 end;
 
