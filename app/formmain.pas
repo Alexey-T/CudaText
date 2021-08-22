@@ -6152,7 +6152,7 @@ begin
       if mi.Caption='' then Break;
       SCaption:= mi.Caption+'>'+SCaption;
     until false;
-    SCaption:= 'menu='+SCaption+';';
+    SCaption:= 'm='+SCaption+';';
   end;
 
   NCommand:= TAppMenuProps(NTag).CommandCode;
