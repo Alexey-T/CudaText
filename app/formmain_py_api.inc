@@ -938,7 +938,9 @@ begin
           Result:= ReturnNone;
       end;
 
-      if Ed.Carets.Count>0 then //don't fire when no carets, plugin will add caret
+      //don't fire on_caret when no carets left,
+      //plugin must add caret ASAP, and it will fire on_caret
+      if Ed.Carets.Count>0 then
         Ed.DoEventCarets;
     end
   else
