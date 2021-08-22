@@ -2059,7 +2059,6 @@ Controls carets. Possible values of "id":
 Param "options" must be 0 or sum of the following flags:
 
 * CARET_OPTION_NO_SCROLL: Don't scroll to new caret position. For id=CARET_SET_ONE.
-* CARET_OPTION_UNFOLD: If caret placed into folded line, unfold that line. For id=CARET_SET_ONE.
 
 ==Text read/write==
 
