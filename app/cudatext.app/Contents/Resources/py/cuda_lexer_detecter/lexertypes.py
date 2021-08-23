@@ -316,6 +316,8 @@ TYPES = {
     "rb": ['Ruby'],
     "rc": ['GHS Script', 'Windows Resource Script', 'Rust'],
     "rc2": ['Windows Resource Script'],
+    "re": ['ReasonML'],
+    "rei": ['ReasonML'],
     "rex": ['Rexx'],
     "rhtml": ['HTML Ruby-ERB'],
     "rkt": ['Racket'],
