@@ -7,6 +7,7 @@
 
 + add: command "delete final end-of-line"
 + add: more API for "Commands History" plugin
++ add: command line parameter -p supports "single instance" mode (thanks @2colours)
 - fix: regression: sometimes app crashes on closing tabs (thanks @JordanL2)
 
 1.142.0 (2021/08)
