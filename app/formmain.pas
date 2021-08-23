@@ -733,8 +733,6 @@ type
     FOption_GroupSizes: TATGroupsPoints;
     FOption_GroupPanelSize: TPoint;
     FOption_SidebarTab: string;
-    FOption_CLI_Plugin: string;
-    FOption_CLI_Params: array of string;
     FCmdlineFileCount: integer;
 
     function IsTooManyTabsOpened: boolean;
@@ -760,6 +758,7 @@ type
     procedure CodeTreeFilter_OnCommand(Sender: TObject; ACmd: integer; AInvoke: TATEditorCommandInvoke;
       const AText: string; var AHandled: boolean);
     procedure DisablePluginMenuItems(AddFindLibraryItem: boolean);
+    procedure DoApplyCli(const ACliModule: string; const ACliParams: TAppStringArray);
     procedure DoApplyNewdocLexer(F: TEditorFrame);
     procedure DoApplyCenteringOption;
     procedure DoApplyLexerStyleMaps(AndApplyTheme: boolean);
@@ -3084,6 +3083,22 @@ begin
   AppPanels[cPaneOut].UpdateSplitter;
 end;
 
+procedure TfmMain.DoApplyCli(const ACliModule: string; const ACliParams: TAppStringArray);
+var
+  Params: TAppVariantArray;
+  i: integer;
+begin
+  if ACliModule<>'' then
+  begin
+    SetLength(Params, Length(ACliParams));
+    for i:= 0 to High(ACliParams) do
+      Params[i]:= AppVariant(ACliParams[i]);
+
+    MsgStdout(Format('Calling on_cli for "%s" with %d params', [ACliModule, Length(ACliParams)]));
+    DoPyCommand(ACliModule, 'on_cli', Params, cInvokeAppAPI);
+  end;
+end;
+
 procedure TfmMain.FormShow(Sender: TObject);
   //
   procedure _Init_FixSplitters;
@@ -3205,21 +3220,6 @@ procedure TfmMain.FormShow(Sender: TObject);
     {$endif}
   end;
   //
-  procedure _Init_CheckCliParams;
-  var
-    Params: TAppVariantArray;
-    i: integer;
-  begin
-    if (FOption_CLI_Plugin<>'') then
-    begin
-      MsgStdout(Format('Calling on_cli for "%s" with %d params', [FOption_CLI_Plugin, Length(FOption_CLI_Params)]));
-      SetLength(Params, Length(FOption_CLI_Params));
-      for i:= 0 to High(FOption_CLI_Params) do
-        Params[i]:= AppVariant(FOption_CLI_Params[i]);
-      DoPyCommand(FOption_CLI_Plugin, 'on_cli', Params, cInvokeAppAPI);
-    end;
-  end;
-  //
 begin
   _Init_FixSplitters;
 
@@ -3287,7 +3287,6 @@ begin
   FNeedUpdateMenuChecks:= true;
 
   _Init_CheckExePath;
-  _Init_CheckCliParams;
 end;
 
 procedure TfmMain.ShowWelcomeInfo;

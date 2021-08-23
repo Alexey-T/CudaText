@@ -120,6 +120,8 @@ procedure TfmMain.DoLoadCommandParams(const AParams: array of string; AOpenOptio
 var
   Frame: TEditorFrame;
   SParam: string;
+  CliModule: string;
+  CliParams: TAppStringArray;
   NLine, NColumn, i: integer;
   bReadOnly: boolean;
   bAllowCreate: boolean;
@@ -171,13 +173,14 @@ begin
     if SBeginsWith(SParam, '-p=') then
     begin
       SepCli.Init(Copy(SParam, 4, MaxInt), '#');
-      SepCli.GetItemStr(FOption_CLI_Plugin);
-      SetLength(FOption_CLI_Params, 0);
+      SepCli.GetItemStr(CliModule);
+      SetLength(CliParams, 0);
       while SepCli.GetItemStr(sCli) do
       begin
-        SetLength(FOption_CLI_Params, Length(FOption_CLI_Params)+1);
-        FOption_CLI_Params[High(FOption_CLI_Params)]:= sCli;
+        SetLength(CliParams, Length(CliParams)+1);
+        CliParams[High(CliParams)]:= sCli;
       end;
+      DoApplyCli(CliModule, CliParams);
       Continue;
     end;
 
