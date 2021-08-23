@@ -510,7 +510,9 @@ Most of them are located in Addons Manager "Install" list.
 * Ragel
 * Raku (Perl 6)
 * Razor
+* ReasonML
 * reStructuredText
+* Rexx
 * RON
 * RPG/IV
 * RTF (RichText)
