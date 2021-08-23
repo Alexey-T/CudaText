@@ -3,11 +3,11 @@
   - fixed
   * changed
 
-1.142.1 (2021/08)
+1.142.2 (2021/08)
 
++ add: command line parameter '-p' supports 'single instance' mode (thanks @2colours)
 + add: command "delete final end-of-line"
 + add: more API for "Commands History" plugin
-+ add: command line parameter -p supports "single instance" mode (thanks @2colours)
 - fix: regression: sometimes app crashes on closing tabs (thanks @JordanL2)
 
 1.142.0 (2021/08)
