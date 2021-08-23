@@ -302,6 +302,7 @@ These zip packages can be installed in CudaText: open any zip file via "File / O
 The following lexers (counting only important ones) exist for SynWrite and CudaText.
 Most of them are located in Addons Manager "Install" list.
 
+* 1C
 * ABAP
 * Abaqus Keywords
 * ABC Notation
@@ -474,7 +475,6 @@ Most of them are located in Addons Manager "Install" list.
 * NSL Assembler
 * Oberon
 * Objective-C
-* OneC (1C)
 * OpenCL
 * OpenEdge
 * OpenSCAD
