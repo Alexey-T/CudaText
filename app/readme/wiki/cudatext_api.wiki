@@ -4495,6 +4495,6 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 
 1.0.410 (app 1.142.1)
 * deprecate: option CARET_OPTION_UNFOLD (it's always On now)
-* add: event "on_state" is now fired with more states: APPSTATE_API_SUBCOMMANDS, APPSTATE_MENU_xxxx
+* add: event "on_state" is now fired with more states: APPSTATE_API_SUBCOMMANDS, APPSTATE_API_MENU_xxxx
 
 [[Category:CudaText]]
