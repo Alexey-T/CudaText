@@ -3,7 +3,8 @@
   - fixed
   * changed
 
-- fix: sometimes app cannot load UTF8 file property and activates ANSI codepage (thanks @Al-Muhandis)
++ add: show special statusbar error, when app fails to load UTF-8 text
+- fix: failed to load some UTF-8 texts, and activated ANSI codepage (thanks @Al-Muhandis)
 
 1.142.2 (2021/08)
 
