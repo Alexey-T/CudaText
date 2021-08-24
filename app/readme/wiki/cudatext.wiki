@@ -300,7 +300,7 @@ These zip packages can be installed in CudaText: open any zip file via "File / O
 === List of lexers ===
 
 The following lexers (counting only important ones) exist for SynWrite and CudaText.
-Most of them are located in Addons Manager "Install" list.
+Most of them are located in the Addons Manager "Install" list.
 
 * 1C
 * ABAP
