@@ -3,6 +3,9 @@
   - fixed
   * changed
 
+1.142.3 (2021/08)
+
++ add: scrollbars moving bars are now rounded
 + add: show special statusbar error, when app fails to load UTF-8 text
 - fix: failed to load some UTF-8 texts, and activated ANSI codepage (thanks @Al-Muhandis)
 
