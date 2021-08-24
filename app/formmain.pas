@@ -3095,7 +3095,7 @@ begin
       Params[i]:= AppVariant(ACliParams[i]);
 
     MsgStdout(Format('Calling on_cli for "%s" with %d params', [ACliModule, Length(ACliParams)]));
-    DoPyCommand(ACliModule, 'on_cli', Params, cInvokeAppAPI);
+    DoPyCommand(ACliModule, cAppPyEvent[cEventOnCLI], Params, cInvokeAppAPI);
   end;
 end;
 
