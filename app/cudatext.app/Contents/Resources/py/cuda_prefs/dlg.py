@@ -1485,7 +1485,7 @@ class ValueEds:
 
         # unsupported option format
         if newtype not in M.type_map:
-            print(_('PreferenesError: unsupported option type: ')+str(newtype))
+            print(_('OptionsError: unsupported option type: ')+str(newtype))
             return
 
 
