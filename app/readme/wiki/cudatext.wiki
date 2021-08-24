@@ -352,7 +352,6 @@ Most of them are located in Addons Manager "Install" list.
 * C#
 * C++
 * Caffe Prototxt
-* Caml
 * Clarion
 * Clavier
 * Clipper
@@ -475,6 +474,7 @@ Most of them are located in Addons Manager "Install" list.
 * NSL Assembler
 * Oberon
 * Objective-C
+* OCaml
 * OpenCL
 * OpenEdge
 * OpenSCAD
