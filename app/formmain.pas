@@ -5020,17 +5020,22 @@ procedure TfmMain.SetFrameEncoding(Ed: TATSynEdit; const AEnc: string;
   AAlsoReloadFile: boolean);
 var
   Frame: TEditorFrame;
+  bBadUTF8: boolean;
 begin
   Frame:= TGroupsHelper.GetEditorFrame(Ed);
   if Frame=nil then exit;
 
   if SameText(Ed.EncodingName, AEnc) then exit;
   Ed.EncodingName:= AEnc;
+  bBadUTF8:= false;
 
   if AAlsoReloadFile then
   begin
     if Frame.GetFileName(Ed)<>'' then
-      Frame.DoFileReload_DisableDetectEncoding(Ed)
+    begin
+      Frame.DoFileReload_DisableDetectEncoding(Ed);
+      bBadUTF8:= Ed.Strings.LoadingForcedANSI and (Ed.Strings.Encoding=cEncAnsi);
+    end
     else
       MsgBox(msgCannotReloadUntitledTab, MB_OK or MB_ICONWARNING);
   end
@@ -5043,7 +5048,11 @@ begin
   Ed.DoEventChange(0); //reanalyze all file
   UpdateFrameEx(Frame, false);
   UpdateStatusbar;
-  MsgStatus(msgStatusEncChanged);
+
+  if bBadUTF8 then
+    MsgStatus(msgCannotLoadFileInUTF8)
+  else
+    MsgStatus(msgStatusEncChanged);
 end;
 
 procedure TfmMain.MenuLexerClick(Sender: TObject);

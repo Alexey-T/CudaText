@@ -205,6 +205,7 @@ const
   msgCannotSaveFile: string = 'Cannot save file:';
   msgCannotSaveFileWithEnc: string = 'Could not save file because encoding "%s" cannot handle Unicode text. Program has saved file in UTF-8 encoding.';
   msgCannotSaveUserConf: string = 'Cannot save user config (read only?)';
+  msgCannotLoadFileInUTF8: string = 'Cannot load file in UTF-8, incorrect UTF-8 sequence';
   msgCannotReadConfig: string = 'Cannot read/parse config:';
   msgCannotReloadUntitledTab: string = 'Cannot reopen untitled tab';
   msgCannotFindInMultiSel: string = 'Cannot find in multi-selections, yet';
