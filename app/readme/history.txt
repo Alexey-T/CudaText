@@ -3,6 +3,8 @@
   - fixed
   * changed
 
+- fix: sometimes app cannot load UTF8 file property and activates ANSI codepage (thanks @Al-Muhandis)
+
 1.142.2 (2021/08)
 
 + add: command line parameter '-p' supports 'single instance' mode (thanks @2colours)
