@@ -344,6 +344,7 @@ Most of them are located in the Addons Manager "Install" list.
 * Bash script
 * Batch files
 * BibTeX
+* Bicep
 * Bitsquid SJSON
 * Bohemia SQF
 * Boo
