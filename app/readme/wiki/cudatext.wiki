@@ -509,7 +509,7 @@ Most of them are located in the Addons Manager "Install" list.
 * Racket
 * Rainmeter
 * Ragel
-* Raku (Perl 6)
+* Raku
 * Razor
 * ReasonML
 * reStructuredText
