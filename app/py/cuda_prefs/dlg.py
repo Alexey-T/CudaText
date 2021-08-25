@@ -671,6 +671,7 @@ class DialogMK2:
                 'p': 'panel_right',
                 'align': ALIGN_BOTTOM,
                 'h': 120,
+                'y': 4000,  # https://github.com/Alexey-T/CudaText/issues/3679#issuecomment-904845613
                 'sp_t': PAD,
                 })
         # scope combo ##########
@@ -736,7 +737,7 @@ class DialogMK2:
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
                 'p': 'panel_right',
                 'align': ALIGN_BOTTOM,
-                'x': 0, 'y': 50, 'h': 4,
+                'x': 0, 'y': 4000, 'h': 4,
                 'color': COL_SPLITTER,
                 })
         # tree--list
