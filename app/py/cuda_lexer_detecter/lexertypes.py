@@ -67,6 +67,7 @@ TYPES = {
     "bat": ['TakeCommand'],
     "bi": ['FreeBASIC'],
     "bib": ['BibTeX'],
+    "bicep": ['Bicep'],
     "blade.php": ['HTML Laravel Blade'],
     "boo": ['Boo'],
     "btm": ['TakeCommand'],
