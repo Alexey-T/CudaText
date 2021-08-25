@@ -695,7 +695,7 @@ function GetAppFilenameIsIgnoredForSession(const AFilename: string): boolean;
 function IsDefaultSessionActive: boolean;
 
 function MsgBox(const Str: string; Flags: Longint): integer;
-procedure MsgBadConfig(const fn: string);
+procedure MsgBadConfig(const fn, msg: string);
 procedure MsgStdout(const Str: string; AllowMsgBox: boolean = false);
 procedure MsgLogConsole(const AText: string);
 
@@ -1042,9 +1042,10 @@ begin
   Result:= Application.MessageBox(PChar(Str), PChar(msgTitle), Flags);
 end;
 
-procedure MsgBadConfig(const fn: string);
+procedure MsgBadConfig(const fn, msg: string);
 begin
-  MsgBox(msgCannotReadConfig+#10+fn, MB_OK+MB_ICONERROR);
+  //MsgBox(msgCannotReadConfig+#10+fn+#10#10+msg, MB_OK+MB_ICONERROR);
+  MsgLogConsole('ERROR: '+msgCannotReadConfig+' '+ExtractFileName(fn)+'; '+msg);
 end;
 
 function InitPyLibraryPath: string;

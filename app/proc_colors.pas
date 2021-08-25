@@ -271,8 +271,11 @@ begin
     try
       cfg.Filename:= AFileName;
     except
-      MsgBadConfig(AFileName);
-      Exit
+      on E: Exception do
+      begin
+        MsgBadConfig(AFileName, E.Message);
+        Exit
+      end;
     end;
 
     if IsThemeUI then
@@ -541,8 +544,11 @@ begin
       cfg.Filename:= AFileName;
       cfg.Clear; //avoid file deletion, to support symlinks for files
     except
-      MsgBadConfig(AFileName);
-      exit;
+      on E: Exception do
+      begin
+        MsgBadConfig(AFileName, E.Message);
+        exit;
+      end;
     end;
 
     if IsThemeUI then

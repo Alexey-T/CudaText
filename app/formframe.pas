@@ -3139,8 +3139,11 @@ begin
       cfg.Formatted:= true;
       cfg.Filename:= AppFile_HistoryFiles;
     except
-      MsgBadConfig(AppFile_HistoryFiles);
-      exit
+      on E: Exception do
+      begin
+        MsgBadConfig(AppFile_HistoryFiles, E.Message);
+        exit
+      end;
     end;
 
     items:= TStringList.Create;
@@ -3437,8 +3440,11 @@ begin
       cfg.Formatted:= true;
       cfg.Filename:= AppFile_HistoryFiles;
     except
-      MsgBadConfig(AppFile_HistoryFiles);
-      exit
+      on E: Exception do
+      begin
+        MsgBadConfig(AppFile_HistoryFiles, E.Message);
+        exit
+      end;
     end;
 
     DoLoadHistoryEx(Ed, cfg, path, AllowEnc);
