@@ -827,7 +827,7 @@ properties_dict = {
         '<color>',
         '<gradient>',
         '<position>',
-        '<repeat_style>'
+        '<repeat_style>',
         '<uri>',
         'fixed',
         'scroll',
