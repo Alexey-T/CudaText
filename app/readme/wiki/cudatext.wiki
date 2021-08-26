@@ -1808,12 +1808,12 @@ Encoding detection works by this pseudo-code:
   if file_has_signature(UTF16_BE) then
     return(UTF16_BE)
 
+  if file_size > 50M then
+    return(UTF8)
+
   if encoding_saved_to_history_file(enc) then
     // it returns the "enc" param
     return(enc)
-
-  if file_size > 50M then
-    return(UTF8)
 
   if option "def_encoding_utf8":true then
     enc = UTF8
