@@ -50,6 +50,7 @@ TYPES = {
     "ahk": ['AutoHotkey'],
     "am": ['Automake'],
     "applescript": ['AppleScript'],
+    "arr": ['Pyret'],
     "as": ['ActionScript', 'Haskell'],
     "asciidoc": ['AsciiDoc'],
     "ash": ['Assembly FASM'],
