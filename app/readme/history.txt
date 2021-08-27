@@ -3,6 +3,10 @@
   - fixed
   * changed
 
+1.142.6 (2021/08)
+
+- fix: crash on using option "auto_fold_comments" and opening many files
+
 1.142.5 (2021/08)
 
 + add: scrollbars' moving rectangles have rounded corners
