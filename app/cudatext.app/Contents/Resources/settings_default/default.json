@@ -693,8 +693,9 @@
   //UI tabs: global visible flag for ui-tabs
   "ui_tab_show": true,
 
-  //UI tabs: use tab switcher dialog on Ctrl+Tab, Ctrl+Shift+Tab;
-  //otherwise switch tab ignoring recently used order
+  //UI tabs: use "Tab switcher" dialog on Ctrl+Tab, Ctrl+Shift+Tab. This dialog
+  //sorts tabs by recently used order. If option is off: switch tabs without dialog,
+  //and ignoring recently used order.
   "ui_tab_switcher_dialog": true,
 
   //UI tabs: Use Single Document Interface, ie don't create tabs except the first one
