@@ -1,4 +1,4 @@
-object SyntAnal12: TLibSyntAnalyzer
+object SyntAnal15: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Comment'
@@ -92,7 +92,7 @@ object SyntAnal12: TLibSyntAnalyzer
     end>
   TokenRules = <
     item
-      DisplayName = 'CommLongBracket'
+      DisplayName = 'Cmt long bracket'
       StyleName = 'Comment'
       TokenType = 1
       Expression = '(?s)-- \[\[ .*? (\]\] | \Z)'
@@ -100,7 +100,7 @@ object SyntAnal12: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'CommLongBracket2'
+      DisplayName = 'Cmt long bracket2'
       StyleName = 'Comment'
       TokenType = 1
       Expression = '(?s)-- \[(=+)\[ .*? (\]\1\] | \Z)'
@@ -108,7 +108,7 @@ object SyntAnal12: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Comm'
+      DisplayName = 'Cmt'
       StyleName = 'Comment'
       TokenType = 1
       Expression = '--.*$'
@@ -116,7 +116,7 @@ object SyntAnal12: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'StrLongBracket'
+      DisplayName = 'Str long bracket'
       StyleName = 'String2'
       TokenType = 4
       Expression = '(?s)\[\[ .*? (\]\] | \Z)'
@@ -124,7 +124,7 @@ object SyntAnal12: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'StrLongBracket2'
+      DisplayName = 'Str long bracket2'
       StyleName = 'String2'
       TokenType = 4
       Expression = '(?s)\[(=+)\[ .*? (\]\1\] | \Z)'
@@ -143,7 +143,7 @@ object SyntAnal12: TLibSyntAnalyzer
       DisplayName = 'Label'
       StyleName = 'Label'
       TokenType = 6
-      Expression = '(?<=goto\x20+)\w+ | ::\w+::'
+      Expression = '(?-i)(?<=goto\x20+)\w+ | ::\w+::'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -151,15 +151,15 @@ object SyntAnal12: TLibSyntAnalyzer
       DisplayName = 'Id'
       StyleName = 'Id'
       TokenType = 2
-      Expression = '[a-zA-Z_][\w\d]*'
+      Expression = '[a-z_]\w*'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
-      DisplayName = 'Shebang cmt'
+      DisplayName = 'Cmt shebang'
       StyleName = 'Comment'
       TokenType = 1
-      Expression = '^\#!.+'
+      Expression = '\A\#!.+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -180,7 +180,7 @@ object SyntAnal12: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'NumFloat'
+      DisplayName = 'Num float'
       StyleName = 'Number'
       TokenType = 5
       Expression = '\d+\. | (\.\d+|\d+\.?\d*) (e[\+\-]?\d+)?\b'
@@ -196,7 +196,7 @@ object SyntAnal12: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'NumHex'
+      DisplayName = 'Num hex'
       StyleName = 'Number'
       TokenType = 5
       Expression = '0x\h+\.\h+\b | 0x\h+\b\.?'
@@ -204,7 +204,7 @@ object SyntAnal12: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'NumInt'
+      DisplayName = 'Num dec'
       StyleName = 'Number'
       TokenType = 5
       Expression = '\d+\b'
@@ -639,6 +639,7 @@ object SyntAnal12: TLibSyntAnalyzer
   CodeTemplates = <>
   SubAnalyzers = <>
   SampleText.Strings = (
+    '#!/bin/lua'
     '--Str'
     '--test'
     ' s = '#39'ww\'#39'ww'#39', "ww\"ww", '#39'alo\n123"'#39

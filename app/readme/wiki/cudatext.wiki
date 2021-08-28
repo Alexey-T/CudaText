@@ -126,7 +126,7 @@ Section "detect_line" in user.json. Allows to detect lexer by first line of file
   },
 </syntaxhighlight>
 
-* Key name: Reg-ex for first line. Case sensitive, but you can use (?i) modifier in reg-ex.
+* Key name: Reg-ex for the first file line. Case sensitive, but you can use (?i) modifier in reg-ex. Note that this is a reg-ex, using syntax similar to Perl reg-ex, so for example "#" char must be escaped with a backslash, and instead of file-mask "*" you must write ".*". Also note that current implemenation cannot handle forward slashes "/" good, so escape these slashes or use "." instead of them.
 * Key value: Lexer name. Value "-" means "don't activate lexer".
 
 == Plugin groups config ==
@@ -176,6 +176,7 @@ Supported keys:
 * -i - Read the contents of stdin to a new document. Unix only. It can be used in Unix shell like: "ls -l | cudatext -i"
 * -id=name - Set "group" for single-instance mode, so that program with one "group" will not interfere and find instances with another "group". Unix only. Default value is "cudatext.0".
 * -w=left,top,width,height - Set position/size of window (up to 4 numbers should be specified, any can be skipped to keep previous value)
+* -p=cuda_somename#param1#param2... - Run the specified plugin module, and pass to its "on_cli" event specified param strings. Count of params must be expected by plugin, e.g. Differ plugin supports "on_cli" and expects 2 filenames. If params contain spaces, you must double-quote the part of the command-line beginning with -p: "-p=......".
 
 Notes:
 
@@ -299,8 +300,9 @@ These zip packages can be installed in CudaText: open any zip file via "File / O
 === List of lexers ===
 
 The following lexers (counting only important ones) exist for SynWrite and CudaText.
-Most of them are located in Addons Manager "Install" list.
+Most of them are located in the Addons Manager "Install" list.
 
+* 1C
 * ABAP
 * Abaqus Keywords
 * ABC Notation
@@ -342,6 +344,7 @@ Most of them are located in Addons Manager "Install" list.
 * Bash script
 * Batch files
 * BibTeX
+* Bicep
 * Bitsquid SJSON
 * Bohemia SQF
 * Boo
@@ -350,7 +353,6 @@ Most of them are located in Addons Manager "Install" list.
 * C#
 * C++
 * Caffe Prototxt
-* Caml
 * Clarion
 * Clavier
 * Clipper
@@ -473,7 +475,7 @@ Most of them are located in Addons Manager "Install" list.
 * NSL Assembler
 * Oberon
 * Objective-C
-* OneC (1C)
+* OCaml
 * OpenCL
 * OpenEdge
 * OpenSCAD
@@ -500,6 +502,7 @@ Most of them are located in Addons Manager "Install" list.
 * Pug
 * Puppet
 * PyMOL
+* Pyret
 * Python
 * QML (Qt Modeling Language)
 * R
@@ -507,9 +510,11 @@ Most of them are located in Addons Manager "Install" list.
 * Racket
 * Rainmeter
 * Ragel
-* Raku (Perl 6)
+* Raku
 * Razor
+* ReasonML
 * reStructuredText
+* Rexx
 * RON
 * RPG/IV
 * RTF (RichText)
@@ -843,6 +848,7 @@ Lexer CSS (see the option "autocomplete_css_lexers") has its special logic, whic
 
 * Caret is on CSS property name. Listbox shows list of properties (beginning with the typed value).
 * Caret is after CSS property and ":". If that CSS property has fixed set of values, listbox shows list of those values (beginning with the typed value).
+* Special case is "custom CSS properties", which start with double dashes, like "--my-var1". App supports completion of these names, when caret in inside "var()" function. App searches for all custom properties names mentioned in the current document.
 
 2) Caret is outside of {} brackets:
 
@@ -1677,21 +1683,25 @@ You can make Pull-Request there, if needed.
 
 * "tree helpers": Plugins which show Code-Tree structure for some lexer (useful if language is complex, and lexer cannot handle all language complexity).
 
-* "snippets". Collections of text fragments, for Snippets plugin. Install Snippets plugin first. Each addon supports some lexer(s). See details in the [[CudaText_plugins#Snippets]].
+* "snippets_ct". Collections of text fragments, for "Snippets" plugin (which is required to use snippets). See details in the [[CudaText_plugins#Snippets]].
 
-* "translations". CudaText UI translations. For ex, JP translation changes all menuitems + dialogs to JP language. Dialogs of plugins are not affected (but authors can support translation in their plugins).
+* "translations". CudaText UI translations. For ex, JP translation changes all menuitems + dialogs to JP language. Dialogs of plugins are not affected.
+
+* "plugintranslation": Translation of plugin strings to different languages. This includes translation of strings from Python code, and strings from "install.inf" files.
 
 * "themes". UI/syntax themes for the "Options / Color themes" menu. UI themes change colors of CudaText interface. Syntax themes change colors of words in syntax highlighted files.
 
-* "sidebar themes": Icon sets for the sidebar (vertical row of buttons on the left side).
+* Icons:
+** "sidebar themes": Icon sets for the sidebar (vertical row of buttons on the left side).
+** "toolbar themes": Icon sets for the main toolbar (horizontal row of buttons on the top).
+** "toolbar x icons": Icon sets for plugin "Config Toolbar", for user-added buttons.
+** "file type icons": Icon sets for the file list of "Project Manager" plugin. Usually these are repackaged icons for VS Code editor.
+** "proj toolbar icons": Icon sets for the toolbar of "Project Manager" plugin.
+** "code-tree icons": Icon sets for the Code-Tree (icons are visible in the Code-Tree with some lexers, e.g. C#).
 
-* "toolbar themes": Icon sets for the main toolbar (horizontal row of buttons on the top).
+* "build systems": Configuration files for different external tools, for the Runner plugin. Runner plugin supports build-systems for Sublime Text 3 (only JSON configs, without support for additional Python codes).
 
-* "toolbar x icons": Icon sets for plugin "Config Toolbar", for user-added buttons.
-
-* "file type icons": Icon sets for the "Project Manager" file list. Most popular lexers have icons here.
-
-* "code-tree icons": Icon sets for the Code-Tree (icons are visible in the Code-Tree with some lexers, e.g. C#).
+* "packages": Packages with possible binary files, which will be unpacked to the CudaText installation folder. For the date 2021.08, these are only Python engines, for CudaText Windows build.
 
 =Tech topics=
 
@@ -1801,6 +1811,10 @@ Encoding detection works by this pseudo-code:
 
   if file_size > 50M then
     return(UTF8)
+
+  if encoding_saved_to_history_file(enc) then
+    // it returns the "enc" param
+    return(enc)
 
   if option "def_encoding_utf8":true then
     enc = UTF8

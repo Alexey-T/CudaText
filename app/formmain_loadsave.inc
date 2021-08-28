@@ -261,8 +261,11 @@ begin
       cfg.Formatted:= true;
       cfg.Filename:= AFileName;
     except
-      MsgBadConfig(AFileName);
-      exit;
+      on E: Exception do
+      begin
+        MsgBadConfig(AFileName, E.Message);
+        exit;
+      end;
     end;
 
     DoOps_SaveHistory_GroupView(cfg);
@@ -438,9 +441,12 @@ begin
     try
       cfg.Filename:= AFileName;
     except
-      MsgBadConfig(AFileName);
-      DoPyEvent_AppState(APPSTATE_SESSION_LOAD_FAIL);
-      exit;
+      on E: Exception do
+      begin
+        MsgBadConfig(AFileName, E.Message);
+        DoPyEvent_AppState(APPSTATE_SESSION_LOAD_FAIL);
+        exit;
+      end;
     end;
 
     FSessionIsLoading:= true;
@@ -1421,7 +1427,7 @@ begin
     except
       on E: Exception do
       begin
-        MsgBadConfig(fn+#10#10+E.Message);
+        MsgBadConfig(fn, E.Message);
         Exit
       end;
     end;

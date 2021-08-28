@@ -174,7 +174,7 @@ begin
   Ed.OptScrollAnimationSleep:= Op.OpScrollAnimationSleep;
 
   Ed.OptScrollbarsNew:= Op.OpScrollbarsNew;
-  Ed.OptCharSpacingY:= Op.OpSpacingY;
+  Ed.OptSpacingY:= Op.OpSpacingY;
 
   if AApplyTabSize then
   begin

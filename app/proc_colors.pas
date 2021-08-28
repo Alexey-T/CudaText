@@ -197,8 +197,14 @@ type
     apstTextBold,
     apstTextItalic,
     apstTextBoldItalic,
-    apstTextCross
+    apstTextCross,
+    apstTextCrossBold,
+    apstTextCrossItalic,
+    apstTextCrossBoldItalic
     );
+
+const
+  apstLastStyle = Pred(apstTextBold);
 
 type
   TAppThemeColor = record
@@ -220,7 +226,7 @@ procedure AppThemeLoadFromFile(const AFileName: string; var D: TAppTheme; IsThem
 procedure AppThemeSaveToFile(const AFileName: string; const D: TAppTheme; IsThemeUI: boolean);
 
 function GetAppColor(id: TAppThemeColorId): TColor;
-function GetAppStyle(id: TAppThemeStyleId): TecSyntaxFormat; inline;
+function GetAppStyle(id: TAppThemeStyleId): TecSyntaxFormat;
 
 implementation
 
@@ -265,8 +271,11 @@ begin
     try
       cfg.Filename:= AFileName;
     except
-      MsgBadConfig(AFileName);
-      Exit
+      on E: Exception do
+      begin
+        MsgBadConfig(AFileName, E.Message);
+        Exit
+      end;
     end;
 
     if IsThemeUI then
@@ -276,7 +285,7 @@ begin
     end
     else
     begin
-      for iStyle:= Low(iStyle) to High(iStyle) do
+      for iStyle:= Low(iStyle) to apstLastStyle do
       begin
         st:= d.Styles[iStyle];
         if not DoLoadLexerStyleFromFile_JsonTheme(st, cfg, 'Lex_'+st.DisplayName) then
@@ -516,6 +525,9 @@ begin
   SetStyle(apstTextItalic, 'TextItalic', clBlack, clNone, clNone, [fsItalic], blNone, blNone, blNone, blNone, ftFontAttr);
   SetStyle(apstTextBoldItalic, 'TextBoldItalic', clBlack, clNone, clNone, [fsBold, fsItalic], blNone, blNone, blNone, blNone, ftFontAttr);
   SetStyle(apstTextCross, 'TextCross', clBlack, clNone, clNone, [fsStrikeOut], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(apstTextCrossBold, 'TextCrossBold', clBlack, clNone, clNone, [fsBold, fsStrikeOut], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(apstTextCrossItalic, 'TextCrossItalic', clBlack, clNone, clNone, [fsItalic, fsStrikeOut], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(apstTextCrossBoldItalic, 'TextCrossBoldItalic', clBlack, clNone, clNone, [fsBold, fsItalic, fsStrikeOut], blNone, blNone, blNone, blNone, ftFontAttr);
 end;
 
 procedure AppThemeSaveToFile(const AFileName: string; const D: TAppTheme; IsThemeUI: boolean);
@@ -532,8 +544,11 @@ begin
       cfg.Filename:= AFileName;
       cfg.Clear; //avoid file deletion, to support symlinks for files
     except
-      MsgBadConfig(AFileName);
-      exit;
+      on E: Exception do
+      begin
+        MsgBadConfig(AFileName, E.Message);
+        exit;
+      end;
     end;
 
     if IsThemeUI then
@@ -543,7 +558,7 @@ begin
     end
     else
     begin
-      for iStyle:= Low(iStyle) to High(iStyle) do
+      for iStyle:= Low(iStyle) to apstLastStyle do
       begin
         st:= d.Styles[iStyle];
         DoSaveLexerStyleToFile_JsonTheme(st, cfg, 'Lex_'+st.DisplayName);
@@ -563,8 +578,16 @@ begin
 end;
 
 function GetAppStyle(id: TAppThemeStyleId): TecSyntaxFormat;
+var
+  styleId: TecSyntaxFormat;
 begin
   Result:= AppTheme.Styles[id];
+
+  if id in [apstTextBold..High(TAppThemeStyleId)] then
+  begin
+    styleId:= AppTheme.Styles[apstId];
+    Result.Font.Color:= styleId.Font.Color;
+  end;
 end;
 
 initialization

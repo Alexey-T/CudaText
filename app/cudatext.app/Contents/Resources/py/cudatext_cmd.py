@@ -69,6 +69,7 @@ cCommand_KeyEnter = 154
 cCommand_KeyTab = 155
 
 cCommand_ForceFinalEndOfLine = 160
+cCommand_DeleteFinalEndOfLine = 161
 
 cCommand_TextDeleteSelection = 170
 cCommand_TextDeleteLine = 171

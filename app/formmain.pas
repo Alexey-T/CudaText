@@ -708,6 +708,10 @@ type
     FNeedAutoComplete: boolean;
     FNeedUpdateStatuses: boolean;
     FNeedUpdateMenuChecks: boolean;
+    FNeedAppState_SubCommands: boolean;
+    FNeedAppState_MenuAdd: boolean;
+    FNeedAppState_MenuRemove: boolean;
+    FNeedAppState_MenuChange: boolean;
     FLastDirOfOpenDlg: string;
     FLastLexerForPluginsMenu: string;
     FLastStatusbarMessage: string;
@@ -754,6 +758,7 @@ type
     procedure CodeTreeFilter_OnCommand(Sender: TObject; ACmd: integer; AInvoke: TATEditorCommandInvoke;
       const AText: string; var AHandled: boolean);
     procedure DisablePluginMenuItems(AddFindLibraryItem: boolean);
+    procedure DoApplyCli(const ACliModule: string; const ACliParams: TAppStringArray);
     procedure DoApplyNewdocLexer(F: TEditorFrame);
     procedure DoApplyCenteringOption;
     procedure DoApplyLexerStyleMaps(AndApplyTheme: boolean);
@@ -2245,6 +2250,27 @@ begin
     FInvalidateShortcuts:= false;
     UpdateMenuPlugins_Shortcuts_Work(FInvalidateShortcutsForce);
   end;
+
+  if FNeedAppState_MenuAdd then
+  begin
+    FNeedAppState_MenuAdd:= false;
+    DoPyEvent_AppState(APPSTATE_API_MENU_ADD);
+  end;
+  if FNeedAppState_MenuRemove then
+  begin
+    FNeedAppState_MenuRemove:= false;
+    DoPyEvent_AppState(APPSTATE_API_MENU_REMOVE);
+  end;
+  if FNeedAppState_MenuChange then
+  begin
+    FNeedAppState_MenuChange:= false;
+    DoPyEvent_AppState(APPSTATE_API_MENU_CHANGE);
+  end;
+  if FNeedAppState_SubCommands then
+  begin
+    FNeedAppState_SubCommands:= false;
+    DoPyEvent_AppState(APPSTATE_API_SUBCOMMANDS);
+  end;
 end;
 
 procedure TfmMain.TimerStatusClearTimer(Sender: TObject);
@@ -2907,6 +2933,11 @@ begin
   end;
   FListTimers.Clear;
   FreeAndNil(FListTimers);
+
+  {$ifdef unix}
+  if Assigned(AppUniqInst) then
+    FreeAndNil(AppUniqInst);
+  {$endif}
 end;
 
 procedure TfmMain.FormDropFiles(Sender: TObject;
@@ -3050,6 +3081,22 @@ begin
   //issue #1814
   AppPanels[cPaneSide].UpdateSplitter;
   AppPanels[cPaneOut].UpdateSplitter;
+end;
+
+procedure TfmMain.DoApplyCli(const ACliModule: string; const ACliParams: TAppStringArray);
+var
+  Params: TAppVariantArray;
+  i: integer;
+begin
+  if ACliModule<>'' then
+  begin
+    SetLength(Params, Length(ACliParams));
+    for i:= 0 to High(ACliParams) do
+      Params[i]:= AppVariant(ACliParams[i]);
+
+    MsgStdout(Format('Calling on_cli for "%s" with %d params', [ACliModule, Length(ACliParams)]));
+    DoPyCommand(ACliModule, cAppPyEvent[cEventOnCLI], Params, cInvokeAppAPI);
+  end;
 end;
 
 procedure TfmMain.FormShow(Sender: TObject);
@@ -3554,7 +3601,10 @@ end;
 procedure TfmMain.UpdateFrameLineEnds(Frame: TEditorFrame; AValue: TATLineEnds);
 begin
   if Assigned(Frame) then
+  begin
     Frame.LineEnds[Frame.Editor]:= AValue;
+    Frame.UpdateModified(Frame.Editor);
+  end;
   UpdateStatusbar;
   MsgStatus(msgStatusEndsChanged);
 end;
@@ -4970,17 +5020,22 @@ procedure TfmMain.SetFrameEncoding(Ed: TATSynEdit; const AEnc: string;
   AAlsoReloadFile: boolean);
 var
   Frame: TEditorFrame;
+  bBadUTF8: boolean;
 begin
   Frame:= TGroupsHelper.GetEditorFrame(Ed);
   if Frame=nil then exit;
 
   if SameText(Ed.EncodingName, AEnc) then exit;
   Ed.EncodingName:= AEnc;
+  bBadUTF8:= false;
 
   if AAlsoReloadFile then
   begin
     if Frame.GetFileName(Ed)<>'' then
-      Frame.DoFileReload_DisableDetectEncoding(Ed)
+    begin
+      Frame.DoFileReload_DisableDetectEncoding(Ed);
+      bBadUTF8:= Ed.Strings.LoadingForcedANSI and (Ed.Strings.Encoding=cEncAnsi);
+    end
     else
       MsgBox(msgCannotReloadUntitledTab, MB_OK or MB_ICONWARNING);
   end
@@ -4993,7 +5048,11 @@ begin
   Ed.DoEventChange(0); //reanalyze all file
   UpdateFrameEx(Frame, false);
   UpdateStatusbar;
-  MsgStatus(msgStatusEncChanged);
+
+  if bBadUTF8 then
+    MsgStatus(msgCannotLoadFileInUTF8)
+  else
+    MsgStatus(msgStatusEncChanged);
 end;
 
 procedure TfmMain.MenuLexerClick(Sender: TObject);
@@ -6083,11 +6142,26 @@ var
   bFindFocused, bPanelFocused: boolean;
   NTag: PtrInt;
   NCommand: integer;
-  SCallback: string;
+  SCaption, SCallback: string;
   Params: TAppVariantArray;
+  mi: TMenuItem;
 begin
   NTag:= (Sender as TComponent).Tag;
   if NTag=0 then exit;
+
+  SCaption:= '';
+  if Sender is TMenuItem then
+  begin
+    mi:= Sender as TMenuItem;
+    SCaption:= mi.Caption;
+    repeat
+      mi:= mi.Parent;
+      if mi=nil then Break;
+      if mi.Caption='' then Break;
+      SCaption:= mi.Caption+'>'+SCaption;
+    until false;
+    SCaption:= 'm='+SCaption+';';
+  end;
 
   NCommand:= TAppMenuProps(NTag).CommandCode;
   SCallback:= TAppMenuProps(NTag).CommandString;
@@ -6123,7 +6197,11 @@ begin
   begin
     SetLength(Params, 0);
     if SCallback<>'' then
+    begin
+      F.Editor.CommandLog.Add(cmd_PluginRun, cInvokeMenuAPI, SCallback+SCaption);
       DoPyCallbackFromAPI(SCallback, Params, []);
+      F.Editor.CommandLog.Add(cmd_PluginEnd, cInvokeMenuAPI, SCallback+SCaption);
+    end;
   end
   else
     F.Editor.DoCommand(NCommand, cInvokeMenuMain);
@@ -6177,17 +6255,31 @@ end;
 function TfmMain.DoAutoComplete_PosOnBadToken(Ed: TATSynEdit; AX, AY: integer): boolean;
 var
   TokenKind: TATTokenKind;
+  bLexerHTML: boolean;
 begin
   Result:= false;
+
   if not UiOps.AutocompleteInComments or
+    not UiOps.AutocompleteInCommentsHTML or
     not UiOps.AutocompleteInStrings then
   begin
     TokenKind:= EditorGetTokenKind(Ed, AX, AY);
     case TokenKind of
       atkComment:
-        Result:= not UiOps.AutocompleteInComments;
+        begin
+          bLexerHTML:= false;
+          if Assigned(Ed.AdapterForHilite) then
+            bLexerHTML:= Pos('HTML', Ed.AdapterForHilite.GetLexerName)>0;
+
+          if bLexerHTML then
+            Result:= not UiOps.AutocompleteInCommentsHTML
+          else
+            Result:= not UiOps.AutocompleteInComments;
+        end;
       atkString:
-        Result:= not UiOps.AutocompleteInStrings;
+        begin
+          Result:= not UiOps.AutocompleteInStrings;
+        end;
     end;
   end;
 end;

@@ -32,9 +32,6 @@ object fmCommands: TfmCommands
     OnChange = editChange
     WantTabs = False
     WantReturns = False
-    OptTextOffsetLeft = 2
-    OptTextOffsetTop = 5
-    OptTextOffsetFromLine = 0
     OptScrollStyleHorz = aessHide
     OptScrollStyleVert = aessHide
     OptScrollIndentCaretHorz = 0

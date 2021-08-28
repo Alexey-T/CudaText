@@ -35,6 +35,7 @@ Event handlers (Command.on_nnnnn methods) return-value is ignored is many cases,
 * on_exit(self, ed_self): Called on exiting application. This event is lazy, ie it's called only for already loaded plugins. ed_self is None.
 * on_app_activate(self, ed_self): Called when application window gets focus. ed_self is None.
 * on_app_deactivate(self, ed_self): Called when application window looses focus. ed_self is None.
+* on_cli(self, param1, param2...): Called when application gets command-line parameter "-p=cuda_pluginname#param1#param2...". Count of params is plugin-defined, e.g. Differ plugin needs 2 params. This event is not sent to all plugins, but only to the single specified plugin.
 
 ==Events - Tabs==
 
@@ -2058,7 +2059,6 @@ Controls carets. Possible values of "id":
 Param "options" must be 0 or sum of the following flags:
 
 * CARET_OPTION_NO_SCROLL: Don't scroll to new caret position. For id=CARET_SET_ONE.
-* CARET_OPTION_UNFOLD: If caret placed into folded line, unfold that line. For id=CARET_SET_ONE.
 
 ==Text read/write==
 
@@ -2382,7 +2382,6 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 *** "app_dragdrop": Calling via drag-and-drop.
 *** "app_api": Calling from some Python API handler.
 ** "text": Text of command. It's not empty only in few cases, e.g. for command codes cCommand_TextInsert / cmd_PluginRun / cmd_PluginEnd.
-** "ticks": Number of milliseconds elapsed since the system was started.
 
 * PROP_COMMAND_LOG_LIMIT: int: maximal count of items in the list returned by PROP_COMMAND_LOG.
 
@@ -4489,5 +4488,13 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 1.0.408 (app 1.140.6)
 * add: Editor.get_prop: PROP_COMMAND_LOG
 * add: Editor.get_prop/set_prop: PROP_COMMAND_LOG_LIMIT
+
+1.0.409 (app 1.142.0)
+* change: auto-completion is allowed in comments, if lexer name has 'HTML'
+* add: event "on_cli"
+
+1.0.410 (app 1.142.1)
+* deprecate: option CARET_OPTION_UNFOLD (it's always On now)
+* add: event "on_state" is now fired with more states: APPSTATE_API_SUBCOMMANDS, APPSTATE_API_MENU_xxxx
 
 [[Category:CudaText]]

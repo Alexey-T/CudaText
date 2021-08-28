@@ -168,7 +168,7 @@ begin
     except
       on E: Exception do
       begin
-        MsgBadConfig(AppFile_OptionsUser+#10#10+E.Message);
+        MsgBadConfig(AppFile_OptionsUser, E.Message);
         Exit;
       end;
     end;

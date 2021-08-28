@@ -172,8 +172,6 @@ object fmFind: TfmFind
       OnChange = edFindChange
       OnCommand = edFindCommand
       WantTabs = False
-      OptTextOffsetLeft = 2
-      OptTextOffsetTop = 5
       OptScrollStyleHorz = aessHide
       OptScrollStyleVert = aessHide
       OptScrollIndentCaretHorz = 0
@@ -217,8 +215,6 @@ object fmFind: TfmFind
       OnKeyDown = edFindKeyDown
       OnCommand = edFindCommand
       WantTabs = False
-      OptTextOffsetLeft = 2
-      OptTextOffsetTop = 5
       OptScrollStyleHorz = aessHide
       OptScrollStyleVert = aessHide
       OptScrollIndentCaretHorz = 0

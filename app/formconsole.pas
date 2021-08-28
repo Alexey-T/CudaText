@@ -495,5 +495,9 @@ begin
   AHandled:= true;
 end;
 
+finalization
+  if Assigned(fmConsole) then
+    FreeAndNil(fmConsole);
+
 end.
 

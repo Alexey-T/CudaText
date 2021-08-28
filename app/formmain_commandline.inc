@@ -120,10 +120,13 @@ procedure TfmMain.DoLoadCommandParams(const AParams: array of string; AOpenOptio
 var
   Frame: TEditorFrame;
   SParam: string;
+  CliModule: string;
+  CliParams: TAppStringArray;
   NLine, NColumn, i: integer;
   bReadOnly: boolean;
   bAllowCreate: boolean;
-  sEncoding: string;
+  sEncoding, sCli: string;
+  SepCli: TATStringSeparator;
   List: TStringList;
 begin
   bReadOnly:= false;
@@ -164,6 +167,20 @@ begin
     if SBeginsWith(SParam, '-e=') then
     begin
       sEncoding:= AppEncodingShortnameToFullname( Copy(SParam, 4, MaxInt) );
+      Continue;
+    end;
+
+    if SBeginsWith(SParam, '-p=') then
+    begin
+      SepCli.Init(Copy(SParam, 4, MaxInt), '#');
+      SepCli.GetItemStr(CliModule);
+      SetLength(CliParams, 0);
+      while SepCli.GetItemStr(sCli) do
+      begin
+        SetLength(CliParams, Length(CliParams)+1);
+        CliParams[High(CliParams)]:= sCli;
+      end;
+      DoApplyCli(CliModule, CliParams);
       Continue;
     end;
 

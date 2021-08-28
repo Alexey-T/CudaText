@@ -17,8 +17,8 @@ uses
   ATSynEdit;
 
 const
-  cAppExeVersion = '1.141.1.0';
-  cAppApiVersion = 408;
+  cAppExeVersion = '1.142.6.0';
+  cAppApiVersion = 410;
 
 const
   cOptionSystemSuffix =
@@ -205,7 +205,8 @@ const
   msgCannotSaveFile: string = 'Cannot save file:';
   msgCannotSaveFileWithEnc: string = 'Could not save file because encoding "%s" cannot handle Unicode text. Program has saved file in UTF-8 encoding.';
   msgCannotSaveUserConf: string = 'Cannot save user config (read only?)';
-  msgCannotReadConfig: string = 'Cannot read/parse config:';
+  msgCannotLoadFileInUTF8: string = 'Cannot load file in UTF-8, incorrect UTF-8 sequence';
+  msgCannotReadConfig: string = 'Cannot parse config:';
   msgCannotReloadUntitledTab: string = 'Cannot reopen untitled tab';
   msgCannotFindInMultiSel: string = 'Cannot find in multi-selections, yet';
   msgCannotFindMatch: string = 'Cannot find';
@@ -346,6 +347,7 @@ const
       '  -i              - Open contents of stdin in new tab (Unix only)'+EOL+
       '  -id=name - Set single-instance id, for groups of instances (Unix, default: cudatext.0)'+EOL+
       '  -w=left,top,width,height - Set position/size of app window'+EOL+
+      '  -p=cuda_somename#param1#param2... - Run plugin action via command-line'+EOL+
       ''+EOL+
       'Filenames can be with ":line" or ":line:column" suffix to place caret.'+EOL+
       'Folder can be passed, will be opened in Project Manager plugin.'+EOL+

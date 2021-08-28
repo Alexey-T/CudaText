@@ -642,16 +642,24 @@ class Command:
 
     def action_remove_node(self):
         index = self.selected
-        while index and index not in self.top_nodes:
-            index = tree_proc(self.tree, TREE_ITEM_GET_PROPS, index)["parent"]
+        while True:
+            prop = tree_proc(self.tree, TREE_ITEM_GET_PROPS, index)
+            if prop["level"] == 0:
+                return
+            if prop["level"] == 1:
+                path = prop["data"]
+                break
+            index = prop["parent"]
+
+        tree_proc(self.tree, TREE_ITEM_DELETE, index)
+        if str(path) in self.project["nodes"]:
+            self.project["nodes"].remove(str(path))
 
         if index in self.top_nodes:
-            tree_proc(self.tree, TREE_ITEM_DELETE, index)
-            path = self.top_nodes.pop(index)
-            if str(path) in self.project["nodes"]:
-                self.project["nodes"].remove(str(path))
-            if self.project_file_path:
-                self.action_save_project_as(self.project_file_path)
+            self.top_nodes.pop(index)
+
+        if self.project_file_path:
+            self.action_save_project_as(self.project_file_path)
 
     def action_clear_project(self):
         self.project["nodes"].clear()

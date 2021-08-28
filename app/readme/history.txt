@@ -3,10 +3,33 @@
   - fixed
   * changed
 
-1.141.2 (2021/08)
+1.142.6 (2021/08)
 
-+ add: HTML auto-completion: support "type" attribute which must contain media-type (MIME-type), show media-types as values (thanks @eltonfabricio10)
-+ add: HTML lexer and auto-completion: support all ~25 boolean attribs (ie attribs without '=' and value)
++ add: scrollbars' moving rectangles have rounded corners
++ add: show special statusbar error, when app fails to load UTF-8 text
+* change: write errors about JSON config to Console now
++ add: command line parameter '-p' supports 'single instance' mode (thanks @2colours)
++ add: command "delete final end-of-line"
++ add: more API for "Commands History" plugin
+- fix: crash on using option "auto_fold_comments" with several opened files
+- fix: fail to load some UTF-8 texts, activated ANSI codepage instead (thanks @Al-Muhandis)
+- fix: regression: sometimes app crashes on closing tabs (thanks @JordanL2)
+
+1.142.0 (2021/08)
+
++ add: new command-line parameter '-p', allows to run for example Differ plugin with 2 file names
++ add: syntax-theme now has not-configurable last styles TextBold, TextItalic, TextBoldItalic; and added 3 new not-configurable styles: TextCrossBold, TextCrossItalic, TextCrossBoldItalic
++ add: for HTML* lexers, auto-completion works in comments, to support new plugin "Complete HTML Text" (thanks @halfbrained)
+- fix: search backwards used incorrect start position with RegEx like '[abcd]' (thanks @halfbrained)
+
+1.141.5 (2021/08)
+
++ add: HTML auto-completion: support "type" attribute which must contain MIME-type, show possible MIME-types as completion values (thanks @eltonfabricio10)
++ add: HTML lexer and auto-completion: support all ~25 boolean attribs, ie attribs without '=' and value
++ add: better render tall letters like 'jy' with "spacing_y":-1 or -2 (thanks @halfbrained)
++ add: Project Manager: additional 'gear' toolbar icon for 'Project properties' dialog
+- fix: incorrect position of micromap when "scrollbar_themed":false
+- fix: Project Manager: cannot remove a root node sometimes after app restart (thanks @MiroslavMatas)
 - fix: regression: crash on closing single tab in group-2 with '2 groups view'
 
 1.141.0 (2021/08)

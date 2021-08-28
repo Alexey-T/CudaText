@@ -32,8 +32,6 @@ object fmGoto: TfmGoto
     TabStop = True
     WantTabs = False
     WantReturns = False
-    OptTextOffsetLeft = 2
-    OptTextOffsetTop = 5
     OptScrollStyleHorz = aessHide
     OptScrollStyleVert = aessHide
     OptScrollIndentCaretHorz = 0

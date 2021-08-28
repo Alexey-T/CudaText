@@ -19,6 +19,7 @@
 *.lps
 *.pyc
 *.dll
+link*.res
 python*.zip
 
 dlls/
