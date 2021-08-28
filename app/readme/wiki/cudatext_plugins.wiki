@@ -1064,4 +1064,26 @@ To use the server in LSP Client, create a file "lsp_js.json" in the "settings" d
 }
 </syntaxhighlight>
 
+==LSP servers for C/C++==
+
+Install one of the servers following the instructions:
+* clangd: https://clangd.llvm.org/installation.html
+* ccls: https://github.com/MaskRay/ccls/wiki/Install
+
+To use the server in LSP Client, create a file "lsp_c.json" in the "settings" directory with such content:
+<syntaxhighlight lang="json">
+{
+  "lexers": {
+    "C++": "cpp",
+    "C": "c"
+  },
+  "cmd_unix": [
+      "clangd-9",
+  ],
+}
+</syntaxhighlight>
+
+Replacing "clangd-9" with "ccls" if it was chosen.
+
+
 [[Category:CudaText]]
