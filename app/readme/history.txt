@@ -5,17 +5,14 @@
 
 1.142.6 (2021/08)
 
-- fix: crash on using option "auto_fold_comments" and opening many files
-
-1.142.5 (2021/08)
-
 + add: scrollbars' moving rectangles have rounded corners
 + add: show special statusbar error, when app fails to load UTF-8 text
 * change: write errors about JSON config to Console now
 + add: command line parameter '-p' supports 'single instance' mode (thanks @2colours)
 + add: command "delete final end-of-line"
 + add: more API for "Commands History" plugin
-- fix: failed to load some UTF-8 texts, and activated ANSI codepage (thanks @Al-Muhandis)
+- fix: crash on using option "auto_fold_comments" with several opened files
+- fix: fail to load some UTF-8 texts, activated ANSI codepage instead (thanks @Al-Muhandis)
 - fix: regression: sometimes app crashes on closing tabs (thanks @JordanL2)
 
 1.142.0 (2021/08)
