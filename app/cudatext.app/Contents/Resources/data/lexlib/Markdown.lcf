@@ -150,6 +150,14 @@ object SyntAnal15: TLibSyntAnalyzer
       Font.Style = [fsBold, fsItalic, fsStrikeOut]
     end
     item
+      DisplayName = 'Symbol font styles'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clOlive
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+    end
+    item
       DisplayName = 'Definition'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -167,14 +175,6 @@ object SyntAnal15: TLibSyntAnalyzer
       Font.Name = 'Courier New'
       Font.Style = []
       BgColor = 16763594
-    end
-    item
-      DisplayName = 'Crossed out'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'Courier New'
-      Font.Style = [fsStrikeOut]
     end
     item
       DisplayName = 'Mark-added'
@@ -288,28 +288,36 @@ object SyntAnal15: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Style bold-italic on'
+      DisplayName = 'Separator line'
       StyleName = 'Symbols'
+      TokenType = 15
+      Expression = '^[_\*\x20]+$'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Style bold-italic on'
+      StyleName = 'Symbol font styles'
       StatesAdd = 3
       StatesAbsent = 3075
       TokenType = 15
-      Expression = '\*\*\*|___'
+      Expression = '(?<!\w)(\*\*\*|___)'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
       DisplayName = 'Style bold on'
-      StyleName = 'Symbols'
+      StyleName = 'Symbol font styles'
       StatesAdd = 1
       StatesAbsent = 3073
       TokenType = 15
-      Expression = '\*\*|__'
+      Expression = '(?<!\w)(\*\*|__)'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
       DisplayName = 'Style bold off'
-      StyleName = 'Symbols'
+      StyleName = 'Symbol font styles'
       StatesRemove = 1
       StatesPresent = 1
       StatesAbsent = 3072
@@ -320,17 +328,17 @@ object SyntAnal15: TLibSyntAnalyzer
     end
     item
       DisplayName = 'Style italic on'
-      StyleName = 'Symbols'
+      StyleName = 'Symbol font styles'
       StatesAdd = 2
       StatesAbsent = 3074
       TokenType = 15
-      Expression = '\*|_'
+      Expression = '(?<!\w)(\*|_)'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
       DisplayName = 'Style italic off'
-      StyleName = 'Symbols'
+      StyleName = 'Symbol font styles'
       StatesRemove = 2
       StatesPresent = 2
       StatesAbsent = 3072
@@ -341,22 +349,22 @@ object SyntAnal15: TLibSyntAnalyzer
     end
     item
       DisplayName = 'Style crossed on'
-      StyleName = 'Symbols'
+      StyleName = 'Symbol font styles'
       StatesAdd = 4
       StatesAbsent = 3076
       TokenType = 15
-      Expression = '~+'
+      Expression = '~+(?![>\}~])'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
       DisplayName = 'Style crossed off'
-      StyleName = 'Symbols'
+      StyleName = 'Symbol font styles'
       StatesRemove = 4
       StatesPresent = 4
       StatesAbsent = 3072
       TokenType = 15
-      Expression = '~+'
+      Expression = '~+(?![>\}~])'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -984,7 +992,7 @@ object SyntAnal15: TLibSyntAnalyzer
     #9'1. But not for numbered'
     #9'-  or unordered lists'
     '    '#9'+ with several indentions'
-    '        '#9'* leading digit, + - * '
+    '        '#9'* leading digit '
     '123. note: unordered needs a sign & blank'
     #9'(a) extended Pandoc interpretation is supported'
     '    '#9'i) with roman numbering (i)    '
