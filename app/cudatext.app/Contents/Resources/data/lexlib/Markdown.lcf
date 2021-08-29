@@ -56,7 +56,7 @@ object SyntAnal15: TLibSyntAnalyzer
     item
       DisplayName = 'Link'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = 3289830
+      Font.Color = clRed
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
@@ -64,7 +64,7 @@ object SyntAnal15: TLibSyntAnalyzer
     item
       DisplayName = 'Image'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = 15086130
+      Font.Color = clBlue
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
@@ -94,28 +94,60 @@ object SyntAnal15: TLibSyntAnalyzer
       Font.Style = []
     end
     item
-      DisplayName = 'Bold'
+      DisplayName = 'Style bold'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
+      Font.Color = clBlack
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsBold]
     end
     item
-      DisplayName = 'Italic'
+      DisplayName = 'Style italic'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
+      Font.Color = clBlack
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsItalic]
     end
     item
-      DisplayName = 'Bold-Italic'
+      DisplayName = 'Style bold-italic'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
+      Font.Color = clBlack
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsBold, fsItalic]
+    end
+    item
+      DisplayName = 'Style cross'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsStrikeOut]
+    end
+    item
+      DisplayName = 'Style bold-cross'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold, fsStrikeOut]
+    end
+    item
+      DisplayName = 'Style italic-cross'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsItalic, fsStrikeOut]
+    end
+    item
+      DisplayName = 'Style bold-italic-cross'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold, fsItalic, fsStrikeOut]
     end
     item
       DisplayName = 'Definition'
@@ -256,29 +288,75 @@ object SyntAnal15: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Bold-Italic'
-      StyleName = 'Bold-Italic'
-      StatesAbsent = 3072
-      TokenType = 1
-      Expression = '(\*\*\*|___) [^\n\r\x20\*_\\](`.+?`|.)*? \1'
+      DisplayName = 'Style bold-italic on'
+      StyleName = 'Symbols'
+      StatesAdd = 3
+      StatesAbsent = 3075
+      TokenType = 15
+      Expression = '\*\*\*|___'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
-      DisplayName = 'Bold'
-      StyleName = 'Bold'
-      StatesAbsent = 3072
-      TokenType = 1
-      Expression = '(\*\*|__) [^\n\r\x20\*_\\](`.+?`|.)*? \1'
+      DisplayName = 'Style bold on'
+      StyleName = 'Symbols'
+      StatesAdd = 1
+      StatesAbsent = 3073
+      TokenType = 15
+      Expression = '\*\*|__'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
-      DisplayName = 'Italic'
-      StyleName = 'Italic'
+      DisplayName = 'Style bold off'
+      StyleName = 'Symbols'
+      StatesRemove = 1
+      StatesPresent = 1
       StatesAbsent = 3072
-      TokenType = 1
-      Expression = '\* [^\n\r\x20\*_\\](`.+?`|.)*? \*'
+      TokenType = 15
+      Expression = '\*\*|__'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Style italic on'
+      StyleName = 'Symbols'
+      StatesAdd = 2
+      StatesAbsent = 3074
+      TokenType = 15
+      Expression = '\*|_'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Style italic off'
+      StyleName = 'Symbols'
+      StatesRemove = 2
+      StatesPresent = 2
+      StatesAbsent = 3072
+      TokenType = 15
+      Expression = '\*|_'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Style crossed on'
+      StyleName = 'Symbols'
+      StatesAdd = 4
+      StatesAbsent = 3076
+      TokenType = 15
+      Expression = '~+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Style crossed off'
+      StyleName = 'Symbols'
+      StatesRemove = 4
+      StatesPresent = 4
+      StatesAbsent = 3072
+      TokenType = 15
+      Expression = '~+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -464,15 +542,6 @@ object SyntAnal15: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Crossed text'
-      StyleName = 'Crossed out'
-      StatesAbsent = 3072
-      TokenType = 1
-      Expression = '(?s)~+[^\x20\x09\n\r~\\][^\n\r~\\]*? ~+'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
       DisplayName = 'Footnote Inline'
       StyleName = 'Footnote'
       StatesAbsent = 3072
@@ -525,11 +594,81 @@ object SyntAnal15: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Text'
+      DisplayName = 'Text bold-italic-cross'
+      StyleName = 'Style bold-italic-cross'
+      StatesPresent = 7
+      StatesAbsent = 3072
+      TokenType = 1
+      Expression = '(?r)[a-z0-9'#1072'-'#1103#1040'-'#1071']+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Text bold-cross'
+      StyleName = 'Style bold-cross'
+      StatesPresent = 5
+      StatesAbsent = 3072
+      TokenType = 1
+      Expression = '(?r)[a-z0-9'#1072'-'#1103#1040'-'#1071']+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Text italic-cross'
+      StyleName = 'Style italic-cross'
+      StatesPresent = 6
+      StatesAbsent = 3072
+      TokenType = 1
+      Expression = '(?r)[a-z0-9'#1072'-'#1103#1040'-'#1071']+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Text bold-italic'
+      StyleName = 'Style bold-italic'
+      StatesPresent = 3
+      StatesAbsent = 3072
+      TokenType = 1
+      Expression = '(?r)[a-z0-9'#1072'-'#1103#1040'-'#1071']+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Text bold'
+      StyleName = 'Style bold'
+      StatesPresent = 1
+      StatesAbsent = 3072
+      TokenType = 1
+      Expression = '(?r)[a-z0-9'#1072'-'#1103#1040'-'#1071']+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Text italic'
+      StyleName = 'Style italic'
+      StatesPresent = 2
+      StatesAbsent = 3072
+      TokenType = 1
+      Expression = '(?r)[a-z0-9'#1072'-'#1103#1040'-'#1071']+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Text cross'
+      StyleName = 'Style cross'
+      StatesPresent = 4
+      StatesAbsent = 3072
+      TokenType = 1
+      Expression = '(?r)[a-z0-9'#1072'-'#1103#1040'-'#1071']+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Text normal'
       StyleName = 'Text'
       StatesAbsent = 3072
       TokenType = 1
-      Expression = '(?r)\w+'
+      Expression = '(?r)[a-z0-9'#1072'-'#1103#1040'-'#1071']+'
       ColumnFrom = 0
       ColumnTo = 0
     end>
