@@ -3,6 +3,8 @@
   - fixed
   * changed
 
++ add: lexer Markdown: support all combinations of font-style modifiers: bold, italic, crossed, bold+italic, bold+crossed, italic+crossed, bold+italic+crossed
+
 1.142.6 (2021/08)
 
 + add: scrollbars' moving rectangles have rounded corners
