@@ -607,7 +607,7 @@ object SyntAnal15: TLibSyntAnalyzer
       StatesPresent = 7
       StatesAbsent = 3072
       TokenType = 1
-      Expression = '(?r)[a-z0-9'#1072'-'#1103#1040'-'#1071'\x20\.,:;\-\(\)]+'
+      Expression = '(?r)[a-z0-9'#1072'-'#1103#1040'-'#1071'\x20\.,:;\(\)]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -617,7 +617,7 @@ object SyntAnal15: TLibSyntAnalyzer
       StatesPresent = 5
       StatesAbsent = 3072
       TokenType = 1
-      Expression = '(?r)[a-z0-9'#1072'-'#1103#1040'-'#1071'\x20\.,:;\-\(\)]+'
+      Expression = '(?r)[a-z0-9'#1072'-'#1103#1040'-'#1071'\x20\.,:;\(\)]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -627,7 +627,7 @@ object SyntAnal15: TLibSyntAnalyzer
       StatesPresent = 6
       StatesAbsent = 3072
       TokenType = 1
-      Expression = '(?r)[a-z0-9'#1072'-'#1103#1040'-'#1071'\x20\.,:;\-\(\)]+'
+      Expression = '(?r)[a-z0-9'#1072'-'#1103#1040'-'#1071'\x20\.,:;\(\)]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -637,7 +637,7 @@ object SyntAnal15: TLibSyntAnalyzer
       StatesPresent = 3
       StatesAbsent = 3072
       TokenType = 1
-      Expression = '(?r)[a-z0-9'#1072'-'#1103#1040'-'#1071'\x20\.,:;\-\(\)]+'
+      Expression = '(?r)[a-z0-9'#1072'-'#1103#1040'-'#1071'\x20\.,:;\(\)]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -647,7 +647,7 @@ object SyntAnal15: TLibSyntAnalyzer
       StatesPresent = 1
       StatesAbsent = 3072
       TokenType = 1
-      Expression = '(?r)[a-z0-9'#1072'-'#1103#1040'-'#1071'\x20\.,:;\-\(\)]+'
+      Expression = '(?r)[a-z0-9'#1072'-'#1103#1040'-'#1071'\x20\.,:;\(\)]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -657,7 +657,7 @@ object SyntAnal15: TLibSyntAnalyzer
       StatesPresent = 2
       StatesAbsent = 3072
       TokenType = 1
-      Expression = '(?r)[a-z0-9'#1072'-'#1103#1040'-'#1071'\x20\.,:;\-\(\)]+'
+      Expression = '(?r)[a-z0-9'#1072'-'#1103#1040'-'#1071'\x20\.,:;\(\)]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -667,7 +667,7 @@ object SyntAnal15: TLibSyntAnalyzer
       StatesPresent = 4
       StatesAbsent = 3072
       TokenType = 1
-      Expression = '(?r)[a-z0-9'#1072'-'#1103#1040'-'#1071'\x20\.,:;\-\(\)]+'
+      Expression = '(?r)[a-z0-9'#1072'-'#1103#1040'-'#1071'\x20\.,:;\(\)]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -676,7 +676,7 @@ object SyntAnal15: TLibSyntAnalyzer
       StyleName = 'Text'
       StatesAbsent = 3072
       TokenType = 1
-      Expression = '(?r)[a-z0-9'#1072'-'#1103#1040'-'#1071'\x20\.,:;\-\(\)]+'
+      Expression = '(?r)[a-z0-9'#1072'-'#1103#1040'-'#1071'\x20\.,:;\(\)]+'
       ColumnFrom = 0
       ColumnTo = 0
     end>
