@@ -312,7 +312,7 @@ object SyntAnal15: TLibSyntAnalyzer
       StatesAdd = 3
       StatesAbsent = 3075
       TokenType = 15
-      Expression = '(?<![a-z0-9])(\*\*\*|___)'
+      Expression = '\*\*\*(?=[a-z0-9~\(]) |'#13#10'(?<![\w\)])___(?=[a-z0-9~\(])'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -322,7 +322,7 @@ object SyntAnal15: TLibSyntAnalyzer
       StatesAdd = 1
       StatesAbsent = 3073
       TokenType = 15
-      Expression = '(?<![a-z0-9])(\*\*|__)'
+      Expression = '\*\*(?=[\w~\(]) |'#13#10'(?<![\w\)])__(?=[a-z0-9~\*\(])'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -333,7 +333,7 @@ object SyntAnal15: TLibSyntAnalyzer
       StatesPresent = 1
       StatesAbsent = 3072
       TokenType = 15
-      Expression = '\*\*|__'
+      Expression = '(?<=[\w~\*\)])__(?![a-z0-9]) |'#13#10'(?<=[\w~\)])\*\*'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -343,7 +343,7 @@ object SyntAnal15: TLibSyntAnalyzer
       StatesAdd = 2
       StatesAbsent = 3074
       TokenType = 15
-      Expression = '(?<![a-z0-9\)])_(?=[a-z0-9\(]) |'#13#10'\*(?=[a-z0-9\(])'
+      Expression = '(?<![\w\)])_(?=[a-z0-9~\*\(]) |'#13#10'\*(?=[\w~\(])'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -354,7 +354,7 @@ object SyntAnal15: TLibSyntAnalyzer
       StatesPresent = 2
       StatesAbsent = 3072
       TokenType = 15
-      Expression = '(?<=[a-z0-9\)])_(?![a-z0-9]) |'#13#10'(?<=[a-z0-9\)])\*'
+      Expression = '(?<=[\w~\*\)])_(?![a-z0-9]) |'#13#10'(?<=[\w~\)\*])\*'
       ColumnFrom = 0
       ColumnTo = 0
     end
