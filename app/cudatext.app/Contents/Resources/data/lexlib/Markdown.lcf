@@ -7,7 +7,6 @@ object SyntAnal15: TLibSyntAnalyzer
       Font.Height = -19
       Font.Name = 'Consolas'
       Font.Style = [fsBold]
-      FormatType = ftCustomFont
     end
     item
       DisplayName = 'Comment'
@@ -372,7 +371,7 @@ object SyntAnal15: TLibSyntAnalyzer
       DisplayName = 'Heading'
       StyleName = 'Heading'
       StatesAbsent = 3072
-      Expression = '^\#{1,6}\x20.+ |'#13#10'.+\z(-+|=+)$'
+      Expression = '^\#{1,6}\x20*.* |'#13#10'.+\z\x20{0,3}((\-[\-\x20]*)|(=[=\x20]*))$'
       ColumnFrom = 0
       ColumnTo = 0
     end
