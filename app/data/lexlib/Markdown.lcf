@@ -79,7 +79,7 @@ object SyntAnal15: TLibSyntAnalyzer
     item
       DisplayName = 'Footnote'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = 3277030
+      Font.Color = clFuchsia
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
