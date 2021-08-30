@@ -292,6 +292,7 @@ object SyntAnal15: TLibSyntAnalyzer
       DisplayName = 'Separator line'
       StyleName = 'Symbols'
       StatesRemove = 7
+      StatesAbsent = 3072
       TokenType = 15
       Expression = '^(_[_\x20]+|\-[\-\x20]+|\*[\*\x20]+)$'
       ColumnFrom = 0
@@ -447,6 +448,7 @@ object SyntAnal15: TLibSyntAnalyzer
     item
       DisplayName = 'Mark-added'
       StyleName = 'Mark-added'
+      StatesAbsent = 3072
       TokenType = 14
       Expression = '\{\+\+|\+\+\}'
       ColumnFrom = 0
@@ -454,6 +456,7 @@ object SyntAnal15: TLibSyntAnalyzer
     end
     item
       DisplayName = 'Mark-deleted'
+      StatesAbsent = 3072
       TokenType = 14
       Expression = '\{\-\-|\-\-\}'
       ColumnFrom = 0
@@ -462,6 +465,7 @@ object SyntAnal15: TLibSyntAnalyzer
     item
       DisplayName = 'Mark-edited'
       StyleName = 'Mark-edited'
+      StatesAbsent = 3072
       TokenType = 14
       Expression = '\{~~|~~\}|~>'
       ColumnFrom = 0
@@ -470,6 +474,7 @@ object SyntAnal15: TLibSyntAnalyzer
     item
       DisplayName = 'Mark-comment'
       StyleName = 'Mark-comment'
+      StatesAbsent = 3072
       TokenType = 14
       Expression = '\{>>|<<\}|\{==|==\}'
       ColumnFrom = 0
@@ -581,6 +586,7 @@ object SyntAnal15: TLibSyntAnalyzer
     item
       DisplayName = 'Table begin'
       StyleName = 'Symbols'
+      StatesAbsent = 3072
       TokenType = 20
       Expression = '^\|'
       ColumnFrom = 0
@@ -589,6 +595,7 @@ object SyntAnal15: TLibSyntAnalyzer
     item
       DisplayName = 'Table end'
       StyleName = 'Symbols'
+      StatesAbsent = 3072
       TokenType = 21
       Expression = '\|$'
       ColumnFrom = 0
