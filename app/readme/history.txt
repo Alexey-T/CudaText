@@ -19,7 +19,7 @@
 
 1.142.0 (2021/08)
 
-+ add: new command-line parameter '-p', allows to run for example Differ plugin with 2 file names
++ add: new command-line parameter '-p', allows to run for example Differ plugin with 2 file names (thanks @2colours, @OlehL)
 + add: syntax-theme now has not-configurable last styles TextBold, TextItalic, TextBoldItalic; and added 3 new not-configurable styles: TextCrossBold, TextCrossItalic, TextCrossBoldItalic
 + add: for HTML* lexers, auto-completion works in comments, to support new plugin "Complete HTML Text" (thanks @halfbrained)
 - fix: search backwards used incorrect start position with RegEx like '[abcd]' (thanks @halfbrained)
