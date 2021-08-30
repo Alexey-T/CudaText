@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-+ add: lexer Markdown: support all combinations of font-style modifiers: bold, italic, crossed, bold+italic, bold+crossed, italic+crossed, bold+italic+crossed
++ add: lexer Markdown: support all combinations of font-style modifiers: bold, italic, crossed, bold+italic, bold+crossed, italic+crossed, bold+italic+crossed; improve rule for 'headers'
 
 1.142.6 (2021/08)
 
