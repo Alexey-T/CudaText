@@ -1067,7 +1067,14 @@ object SyntAnal15: TLibSyntAnalyzer
   SkipSpaces = False
   Notes.Strings = (
     'By Alexey (CudaText)'
-    'Partly based on lexer by NoSi (2014), but fully reworked')
+    'Parser states used:'
+    '- 1: italic'
+    '- 2: bold'
+    '- 4: crossed'
+    '(some rules reset 7=1+2+4)'
+    '- 1024: ```-fenced blocks'
+    '- 2048: ~~~-fenced blocks'
+    '(many rules need missed 3072=1024+2048)')
   RestartFromLineStart = True
   Charset = DEFAULT_CHARSET
 end
