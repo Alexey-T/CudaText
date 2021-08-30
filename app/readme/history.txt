@@ -4,6 +4,7 @@
   * changed
 
 + add: lexer Markdown: support all combinations of font-style modifiers: bold, italic, crossed, bold+italic, bold+crossed, italic+crossed, bold+italic+crossed; improve rule for 'headers'
+- fix: minor fix for "auto_fold_comments" option
 
 1.142.6 (2021/08)
 
