@@ -290,7 +290,19 @@ object SyntAnal15: TLibSyntAnalyzer
       DisplayName = 'Separator line'
       StyleName = 'Symbols'
       TokenType = 15
-      Expression = '^[_\*\x20]+$'
+      Expression = '^(_[_\x20]+|\-[\-\x20]+|\*[\*\x20]+)$'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'List'
+      StyleName = 'List'
+      StatesAbsent = 3072
+      TokenType = 13
+      Expression = 
+        '^[\x20\x09]*( \d{1,9}[\.\)] '#13#10'| [\-\+\*]'#13#10'| \(?\w?[\.\)]'#13#10') \x20' +
+        '(\[[\x20xX]\]\x20)? #GitHub: [ ] [x] [X]'#13#10'| ^\(@[^\)]*\)#pandoc ' +
+        'list'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -331,7 +343,7 @@ object SyntAnal15: TLibSyntAnalyzer
       StatesAdd = 2
       StatesAbsent = 3074
       TokenType = 15
-      Expression = '(?<![a-z0-9])(\*|_)'
+      Expression = '(?<![a-z0-9\)])_(?=[a-z0-9\(]) |'#13#10'\*(?=[a-z0-9\(])'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -342,7 +354,7 @@ object SyntAnal15: TLibSyntAnalyzer
       StatesPresent = 2
       StatesAbsent = 3072
       TokenType = 15
-      Expression = '\*|_'
+      Expression = '(?<=[a-z0-9\)])_(?![a-z0-9]) |'#13#10'(?<=[a-z0-9\)])\*'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -479,18 +491,6 @@ object SyntAnal15: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'List'
-      StyleName = 'List'
-      StatesAbsent = 3072
-      TokenType = 13
-      Expression = 
-        '^[\x20\x09]*( \d{1,9}[\.\)] '#13#10'| [\-\+\*]'#13#10'| \(?\w?[\.\)]'#13#10') \x20' +
-        '(\[[\x20xX]\]\x20)? #GitHub: [ ] [x] [X]'#13#10'| ^\(@[^\)]*\)#pandoc ' +
-        'list'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
       DisplayName = 'Codeblock indented'
       StyleName = 'Codeblock'
       StatesAbsent = 3072
@@ -587,7 +587,7 @@ object SyntAnal15: TLibSyntAnalyzer
       StyleName = 'Symbols'
       StatesAbsent = 3072
       TokenType = 15
-      Expression = '[<>]|[\|\+=%!&]+'
+      Expression = '[<>]|[\|\+\-=%!&]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -955,7 +955,9 @@ object SyntAnal15: TLibSyntAnalyzer
     
       'This is a {-- deletion --} and {~~substitute~>with~~striked~~tex' +
       't~~}'
-    'This is a {>> comment <<}.'
+    
+      'This is a {>> comment <<} and {++added text++} and  {~~edited te' +
+      'xt~~}'
     'This is an {== information ==} {>> comment <<}.'
     ''
     '# Header'
@@ -966,13 +968,15 @@ object SyntAnal15: TLibSyntAnalyzer
     '`get_prop` id "token_type"; optional `get_prop` param'
     ''
     '`Inline Code` inside a paragraph with *italic*, '
-    '**bold** and ***bold italic***, [^footnote] and + '
+    '**bold** and ***bold italic***, [^footnote] and '
     
       '[reference][ref] and [reference] [ref]. <HTML> syntax and specia' +
       'l &harr; '
     'chars are highlighted, [Hyperlink text](url "title") '
     'and ![alternative text](image address "title"). '
-    'test: ~~~~crossed~ and ~crossed~~~ is supported '
+    'test: ~~~~crossed~ and ~crossed~~~ is supported'
+    'Separators:'
+    ' '
     '- - -'
     '*  *  *'
     '_  _  _  _'
@@ -1022,11 +1026,7 @@ object SyntAnal15: TLibSyntAnalyzer
     ''
     '/* Optional */'
     'header'
-    '='
-    ''
-    
-      'Test {++added++} and {--deleted--} and {~~edited text~~} end.   ' +
-      ' ')
+    '=')
   TokenTypeNames.Strings = (
     'Heading'
     'Text'
