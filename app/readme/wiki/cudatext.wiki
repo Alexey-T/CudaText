@@ -1561,15 +1561,16 @@ Control of UI tabs is named ATTabs, and has many features:
 
 [[File:cudatext-tabs-left_.png]]
 
-* Layout of "arrows" is customizable. Option "ui_tab_button_layout". Button "+" is available, to replace "+" pseudo-tab, this button is always visible (pseudo-tab can be scrolled away). Button "x" is available, to close current tab.
+* Layout of "arrows" is customizable. Option "ui_tab_button_layout". Button "+" is available, to replace "+" pseudo-tab, this button is always visible (pseudo-tab can be scrolled away). Button "x" is available, to close the current tab. Screenshot shows the layout with all possible buttons placed on the left.
 
 [[File:cudatext-tabs-layout.png]]
 
-* Tabs can be multi-line. Height of all tabs is limited by 2/3 of window height. Option "ui_tab_multiline".
+* Tabs can be multi-line. In multi-line mode, tabs-control changes its own height. But this height is limited by 2/3 of window height. Option "ui_tab_multiline".
 
 [[File:cudatext-tabs-multiline.png]]
 
-* Tabs can have fixed or variable width. Option "ui_tab_variable_width". Minimal/maximal width of fixed tabs is customizable.
+* Tabs can have fixed or variable width. "Variable width" means that tabs are auto-stretched to fit the longer title. Option "ui_tab_variable_width". Minimal/maximal width of fixed tabs is customizable.
+
 * Tabs can be shaped/bordered, or can be flat. Option "ui_tab_flat". Flat tabs are painted with additional colored underline for the active document.
 
 [[File:cudatext-tabs-flat.png]]
@@ -1588,6 +1589,10 @@ Control of UI tabs is named ATTabs, and has many features:
 * Tabs can show "path suffix" when there are several tabs for the same base filename. In the example picture, we have opened files "t.txt" from 3 different folders, and tabs show that folders after a bullet-char. Feature can show "path suffix" for up to 4 folder levels.
 
 [[File:cudatext-tabs-path-suffix.png]]
+
+* When too many tabs are opened, so that they don't fit by width/height, the reddish "scroll marker" appears at the edge of tab-control. Screenshot shows 2 windows with the marker: one with single-line tabs, another is with multi-line tabs.
+
+[[File:cudatext-tabs-red-marker.png]]
 
 * Tabs can be made "pinned" using tab's context menu item "Pinned" (CudaText 1.130 or newer). Pinned tab caption renders with a "!" prefix char. Commands "Close all tabs" and "Close other tabs" skip pinned tabs. Closing of a pinned tab shows additional confirmation like "Tab is pinned... Are you sure you want to close it?".
 
