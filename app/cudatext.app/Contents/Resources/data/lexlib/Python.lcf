@@ -197,7 +197,7 @@ object SyntAnal17: TLibSyntAnalyzer
     end
     item
       DisplayName = 'Id after .'
-      StyleName = 'Id'
+      StyleName = 'Id function'
       TokenType = 14
       Expression = '(?r)(?<=\.)[a-z_]\w*'
       ColumnFrom = 0
