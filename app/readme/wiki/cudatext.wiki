@@ -1565,7 +1565,7 @@ Control of UI tabs is named ATTabs, and has many features:
 
 [[File:cudatext-tabs-layout.png]]
 
-* Tabs can be multi-line. In multi-line mode, tabs-control changes its own height. But this height is limited by 2/3 of window height. Option "ui_tab_multiline".
+* Tabs can be multi-line. In multi-line mode, tabs-control changes its own height. But this height is limited by 2/3 of the window height. Option "ui_tab_multiline".
 
 [[File:cudatext-tabs-multiline.png]]
 
@@ -1590,11 +1590,13 @@ Control of UI tabs is named ATTabs, and has many features:
 
 [[File:cudatext-tabs-path-suffix.png]]
 
-* When too many tabs are opened, so that they don't fit by width/height, the reddish "scroll marker" appears at the edge of tab-control. Screenshot shows 2 windows with the marker: one with single-line tabs, another is with multi-line tabs.
+* When too many tabs are opened, so that they don't fit by width/height:
+** the left/right "arrow" icons become working, they scroll the tabs-control; 
+** the reddish "scroll marker" appears at the edge of the tab-control. Picture shows 2 windows with the scroll marker: one with single-line tabs, another is with multi-line tabs.
 
 [[File:cudatext-tabs-red-marker.png]]
 
-* Tabs can be made "pinned" using tab's context menu item "Pinned" (CudaText 1.130 or newer). Pinned tab caption renders with a "!" prefix char. Commands "Close all tabs" and "Close other tabs" skip pinned tabs. Closing of a pinned tab shows additional confirmation like "Tab is pinned... Are you sure you want to close it?".
+* Tabs can be made "pinned" using tab's context menu item "Pinned". Pinned tab caption renders with a "!" prefix char. Commands "Close all tabs" and "Close other tabs" skip pinned tabs. Closing of a pinned tab shows additional confirmation like "Tab is pinned... Are you sure you want to close it?".
 
 ==Show pictures in the text==
 CudaText gives the plugin API to show pictures between the text lines.
