@@ -1220,7 +1220,8 @@
   //Enable special HTML auto-completion, if lexer name matches this reg.ex.
   "autocomplete_html_lexers": ".*HTML.*|\bPHP\b",
 
-  //Enable to auto-add </tagname> after typing an opening tag <tagname>
+  //Enable to auto-add </tagname> after typing an opening tag <tagname>.
+  //Also, enable auto-closing of last opened tag when you type "</".
   "autocomplete_html_autoclose": true,
 
   //Enable special CSS auto-completion, see wiki
