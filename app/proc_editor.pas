@@ -149,6 +149,7 @@ function EditorAutoCompletionAfterTypingChar(Ed: TATSynEdit;
   const AText: string; var ACharsTyped: integer; AOnAutoCompletion: TEditorBooleanEvent): boolean;
 function EditorGetLefterHtmlTag(Ed: TATSynEdit; AX, AY: integer): UnicodeString;
 procedure EditorAutoCloseOpeningHtmlTag(Ed: TATSynEdit; AX, AY: integer);
+function EditorFindHtmlLastOpenedTagInText(const AText: UnicodeString): string;
 
 implementation
 
@@ -2474,6 +2475,34 @@ begin
     obj.Free;
   end;
 end;
+
+function EditorFindHtmlLastOpenedTagInText(const AText: UnicodeString): string;
+var
+  tags: TEditorHtmlTagsArray;
+  i, j: integer;
+begin
+  Result:= '';
+  EditorFindHtmlTagsInText(AText, tags);
+
+  //delete pairs <tag> - </tag>
+  for i:= High(tags) downto 0 do
+  begin
+    if not tags[i].bClosing then
+      for j:= i+1 to High(tags) do
+        if tags[j].bClosing and SameText(tags[i].sTagName, tags[j].sTagName) then
+        begin
+          Delete(tags, j, 1);
+          Delete(tags, i, 1);
+          Break;
+        end;
+  end;
+
+  //take last opened tag
+  for i:= High(tags) downto 0 do
+    if not tags[i].bClosing then
+      exit(tags[i].sTagName);
+end;
+
 
 end.
 
