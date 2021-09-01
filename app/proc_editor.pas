@@ -2516,7 +2516,10 @@ begin
     //take last opened tag
     for i:= tags.Count-1 downto 0 do
       if not tags[i].bClosing then
-        exit(tags[i].sTagName);
+      begin
+        Result:= tags[i].sTagName;
+        Break
+      end;
   finally
     FreeAndNil(tags);
   end;
