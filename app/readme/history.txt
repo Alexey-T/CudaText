@@ -7,6 +7,7 @@
 
 + add: option "autocomplete_html_autoclose" has additional function: on typing '</' it inserts the name of last opened tag (thanks @eltonfabricio10)
 + add: lexer Markdown: support all combinations of font-style modifiers: bold, italic, crossed, bold+italic, bold+crossed, italic+crossed, bold+italic+crossed; improve rule for 'headers'
++ add: preinstalled toolbar theme "light_24x24" (from @effeotto)
 - fix: HTML auto-completion didn't show the listbox after '</'
 - fix: minor bug in "auto_fold_comments" option
 
