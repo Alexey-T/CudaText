@@ -2488,6 +2488,13 @@ begin
   for i:= High(tags) downto 0 do
   begin
     if not tags[i].bClosing then
+    begin
+      if not IsTagNeedsClosingTag(tags[i].sTagName) then
+      begin
+        Delete(tags, i, 1);
+        Continue;
+      end;
+
       for j:= i+1 to High(tags) do
         if tags[j].bClosing and SameText(tags[i].sTagName, tags[j].sTagName) then
         begin
@@ -2495,6 +2502,7 @@ begin
           Delete(tags, i, 1);
           Break;
         end;
+    end;
   end;
 
   //take last opened tag
