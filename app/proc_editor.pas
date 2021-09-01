@@ -2454,11 +2454,14 @@ type
     sTagName: UnicodeString;
   end;
 
-procedure EditorFindHtmlTagsInText(const AText: UnicodeString; out ARes: TEditorHtmlTagsArray);
+procedure EditorFindHtmlTagsInText(const AText: UnicodeString;
+  out ARes: TEditorHtmlTagsArray; AllowSingletonTags: boolean);
 const
   cRegexTags = '<(/?)([\w\-:]+).*?>';
 var
   obj: TRegExpr;
+  sTag: UnicodeString;
+  bClosing: boolean;
 begin
   SetLength(ARes, 0);
   obj:= TRegExpr.Create(cRegexTags);
@@ -2467,9 +2470,15 @@ begin
     obj.InputString:= AText;
     if obj.ExecPos(1) then
     repeat
+      bClosing:= obj.Match[1]<>'';
+      sTag:= obj.Match[2];
+
+      if not AllowSingletonTags then
+        if not IsTagNeedsClosingTag(sTag) then Continue;
+
       SetLength(ARes, Length(ARes)+1);
-      ARes[High(ARes)].bClosing:= obj.Match[1]<>'';
-      ARes[High(ARes)].sTagName:= obj.Match[2];
+      ARes[High(ARes)].bClosing:= bClosing;
+      ARes[High(ARes)].sTagName:= sTag;
     until not obj.ExecNext;
   finally
     obj.Free;
@@ -2482,19 +2491,12 @@ var
   i, j: integer;
 begin
   Result:= '';
-  EditorFindHtmlTagsInText(AText, tags);
+  EditorFindHtmlTagsInText(AText, tags, false);
 
   //delete pairs <tag> - </tag>
   for i:= High(tags) downto 0 do
   begin
     if not tags[i].bClosing then
-    begin
-      if not IsTagNeedsClosingTag(tags[i].sTagName) then
-      begin
-        Delete(tags, i, 1);
-        Continue;
-      end;
-
       for j:= i+1 to High(tags) do
         if tags[j].bClosing and SameText(tags[i].sTagName, tags[j].sTagName) then
         begin
@@ -2502,7 +2504,6 @@ begin
           Delete(tags, i, 1);
           Break;
         end;
-    end;
   end;
 
   //take last opened tag
