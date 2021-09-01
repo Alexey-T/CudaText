@@ -30,6 +30,7 @@ uses
   ATSynEdit_Bookmarks,
   ATSynEdit_Finder,
   ATSynEdit_Cmp_HTML,
+  ATSynEdit_RegExpr,
   ATStrings,
   ATStringProc,
   ATStringProc_Separator,
@@ -2443,6 +2444,34 @@ begin
       Bm.AutoDelete:= bmadOption;
       Ed.Strings.Bookmarks.Add(Bm);
     end;
+  end;
+end;
+
+type
+  TEditorHtmlTagsArray = array of record
+    bClosing: boolean;
+    sTagName: string;
+  end;
+
+procedure EditorFindHtmlTagsInText(const AText: UnicodeString; out ARes: TEditorHtmlTagsArray);
+const
+  cRegexTags = '<(/?)([\w\-:]+).*?>';
+var
+  obj: TRegExpr;
+begin
+  SetLength(ARes, 0);
+  obj:= TRegExpr.Create(cRegexTags);
+  try
+    obj.Compile;
+    obj.InputString:= AText;
+    if obj.ExecPos(1) then
+    repeat
+      SetLength(ARes, Length(ARes)+1);
+      ARes[High(ARes)].bClosing:= obj.Match[1]<>'';
+      ARes[High(ARes)].sTagName:= obj.Match[2];
+    until not obj.ExecNext;
+  finally
+    obj.Free;
   end;
 end;
 
