@@ -1615,6 +1615,13 @@ begin
           exit;
         end;
 
+        if AText='/' then
+        begin
+          EditorAutoCloseClosingHtmlTag(Ed, Caret.PosX, Caret.PosY);
+          Ed.Update;
+          exit;
+        end;
+
         //autoshow autocompletion after typing N letters
         bTypedChar:= (Length(AText)=1) or (UTF8Length(AText)=1);
         if bTypedChar then

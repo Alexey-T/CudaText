@@ -149,7 +149,7 @@ function EditorAutoCompletionAfterTypingChar(Ed: TATSynEdit;
   const AText: string; var ACharsTyped: integer; AOnAutoCompletion: TEditorBooleanEvent): boolean;
 function EditorGetLefterHtmlTag(Ed: TATSynEdit; AX, AY: integer): UnicodeString;
 procedure EditorAutoCloseOpeningHtmlTag(Ed: TATSynEdit; AX, AY: integer);
-function EditorFindHtmlLastOpenedTagInText(const AText: UnicodeString): string;
+procedure EditorAutoCloseClosingHtmlTag(Ed: TATSynEdit; AX, AY: integer);
 
 implementation
 
@@ -2451,7 +2451,7 @@ end;
 type
   TEditorHtmlTagsArray = array of record
     bClosing: boolean;
-    sTagName: string;
+    sTagName: UnicodeString;
   end;
 
 procedure EditorFindHtmlTagsInText(const AText: UnicodeString; out ARes: TEditorHtmlTagsArray);
@@ -2476,7 +2476,7 @@ begin
   end;
 end;
 
-function EditorFindHtmlLastOpenedTagInText(const AText: UnicodeString): string;
+function EditorFindHtmlLastOpenedTagInText(const AText: UnicodeString): UnicodeString;
 var
   tags: TEditorHtmlTagsArray;
   i, j: integer;
@@ -2503,6 +2503,36 @@ begin
       exit(tags[i].sTagName);
 end;
 
+
+procedure EditorAutoCloseClosingHtmlTag(Ed: TATSynEdit; AX, AY: integer);
+var
+  SText: UnicodeString;
+  STag: UnicodeString;
+  SLexer: string;
+  ch: WideChar;
+begin
+  if Ed.Carets.Count<>1 then exit; //don't support multi-carets
+  if not (UiOps.AutocompleteHtml and UiOps.AutocompleteHtml_AutoClose) then exit;
+  if Ed.AdapterForHilite=nil then exit;
+  SLexer:= Ed.AdapterForHilite.GetLexerName;
+  if SLexer='' then exit;
+
+  if not Ed.Strings.IsIndexValid(AY) then exit;
+  if AX<2 then exit;
+  ch:= Ed.Strings.LineCharAt(AY, AX);
+  if ch<>'/' then exit;
+  ch:= Ed.Strings.LineCharAt(AY, AX-1);
+  if ch<>'<' then exit;
+
+  if not SRegexMatchesString(SLexer, UiOps.AutocompleteHtml_Lexers, false) then exit;
+
+  SText:= Ed.Strings.TextSubstring(0, 0, AX-2, AY);
+  STag:= EditorFindHtmlLastOpenedTagInText(SText);
+  if STag='' then exit;
+
+  Ed.TextInsertAtCarets(STag+'>', false{AKeepCaret}, false, false);
+  Ed.DoEventChange(AY);
+end;
 
 end.
 
