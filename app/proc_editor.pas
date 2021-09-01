@@ -8,6 +8,7 @@ Copyright (c) Alexey Torgashin
 unit proc_editor;
 
 {$mode objfpc}{$H+}
+{$ModeSwitch advancedrecords}
 
 interface
 
@@ -31,6 +32,7 @@ uses
   ATSynEdit_Finder,
   ATSynEdit_Cmp_HTML,
   ATSynEdit_RegExpr,
+  ATSynEdit_FGL,
   ATStrings,
   ATStringProc,
   ATStringProc_Separator,
@@ -2449,21 +2451,28 @@ begin
 end;
 
 type
-  TEditorHtmlTagsArray = array of record
+
+  { TEditorHtmlTagRecord }
+
+  TEditorHtmlTagRecord = record
     bClosing: boolean;
-    sTagName: UnicodeString;
+    sTagName: string[30];
+    class operator =(const a, b: TEditorHtmlTagRecord): boolean;
   end;
 
+  TEditorHtmlTagList = specialize TFPGList<TEditorHtmlTagRecord>;
+
 procedure EditorFindHtmlTagsInText(const AText: UnicodeString;
-  out ARes: TEditorHtmlTagsArray; AllowSingletonTags: boolean);
+  AList: TEditorHtmlTagList; AllowSingletonTags: boolean);
 const
   cRegexTags = '<(/?)([\w\-:]+).*?>';
 var
   obj: TRegExpr;
   sTag: UnicodeString;
   bClosing: boolean;
+  TagRecord: TEditorHtmlTagRecord;
 begin
-  SetLength(ARes, 0);
+  AList.Clear;
   obj:= TRegExpr.Create(cRegexTags);
   try
     obj.Compile;
@@ -2476,40 +2485,45 @@ begin
       if not AllowSingletonTags then
         if not IsTagNeedsClosingTag(sTag) then Continue;
 
-      SetLength(ARes, Length(ARes)+1);
-      ARes[High(ARes)].bClosing:= bClosing;
-      ARes[High(ARes)].sTagName:= sTag;
+      TagRecord.bClosing:= bClosing;
+      TagRecord.sTagName:= sTag;
+      AList.Add(TagRecord);
     until not obj.ExecNext;
   finally
     obj.Free;
   end;
 end;
 
-function EditorFindHtmlLastOpenedTagInText(const AText: UnicodeString): UnicodeString;
+function EditorFindHtmlLastOpenedTagInText(const AText: UnicodeString): string;
 var
-  tags: TEditorHtmlTagsArray;
+  tags: TEditorHtmlTagList;
   i, j: integer;
 begin
   Result:= '';
-  EditorFindHtmlTagsInText(AText, tags, false);
+  tags:= TEditorHtmlTagList.Create;
+  try
+    EditorFindHtmlTagsInText(AText, tags, false);
 
-  //delete pairs <tag> - </tag>
-  for i:= High(tags) downto 0 do
-  begin
-    if not tags[i].bClosing then
-      for j:= i+1 to High(tags) do
-        if tags[j].bClosing and SameText(tags[i].sTagName, tags[j].sTagName) then
-        begin
-          Delete(tags, j, 1);
-          Delete(tags, i, 1);
-          Break;
-        end;
+    //delete pairs <tag> - </tag>
+    for i:= tags.Count-1 downto 0 do
+    begin
+      if not tags[i].bClosing then
+        for j:= i+1 to tags.Count-1 do
+          if tags[j].bClosing and SameText(tags[i].sTagName, tags[j].sTagName) then
+          begin
+            tags.Delete(j);
+            tags.Delete(i);
+            Break;
+          end;
+    end;
+
+    //take last opened tag
+    for i:= tags.Count-1 downto 0 do
+      if not tags[i].bClosing then
+        exit(tags[i].sTagName);
+  finally
+    FreeAndNil(tags);
   end;
-
-  //take last opened tag
-  for i:= High(tags) downto 0 do
-    if not tags[i].bClosing then
-      exit(tags[i].sTagName);
 end;
 
 
@@ -2541,6 +2555,13 @@ begin
 
   Ed.TextInsertAtCarets(STag+'>', false{AKeepCaret}, false, false);
   Ed.DoEventChange(AY);
+end;
+
+{ TEditorHtmlTagRecord }
+
+class operator TEditorHtmlTagRecord.=(const a, b: TEditorHtmlTagRecord): boolean;
+begin
+  Result:= false;
 end;
 
 end.
