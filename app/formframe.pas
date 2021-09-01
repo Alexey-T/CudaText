@@ -1612,13 +1612,14 @@ begin
         if AText='>' then
         begin
           EditorAutoCloseOpeningHtmlTag(Ed, Caret.PosX, Caret.PosY);
+          Ed.Update; //fix missed repainting
           exit;
         end;
 
         if AText='/' then
         begin
           EditorAutoCloseClosingHtmlTag(Ed, Caret.PosX, Caret.PosY);
-          Ed.Update;
+          Ed.Update; //fix missed repainting
           exit;
         end;
 
