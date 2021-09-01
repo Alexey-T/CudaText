@@ -2468,8 +2468,6 @@ const
   cRegexTags = '<(/?)([\w\-:]+).*?>';
 var
   obj: TRegExpr;
-  sTag: UnicodeString;
-  bClosing: boolean;
   TagRecord: TEditorHtmlTagRecord;
 begin
   AList.Clear;
@@ -2479,14 +2477,12 @@ begin
     obj.InputString:= AText;
     if obj.ExecPos(1) then
     repeat
-      bClosing:= obj.Match[1]<>'';
-      sTag:= obj.Match[2];
+      TagRecord.bClosing:= obj.Match[1]<>'';
+      TagRecord.sTagName:= obj.Match[2];
 
       if not AllowSingletonTags then
-        if not IsTagNeedsClosingTag(sTag) then Continue;
+        if not IsTagNeedsClosingTag(TagRecord.sTagName) then Continue;
 
-      TagRecord.bClosing:= bClosing;
-      TagRecord.sTagName:= sTag;
       AList.Add(TagRecord);
     until not obj.ExecNext;
   finally
