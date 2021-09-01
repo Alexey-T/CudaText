@@ -1,1 +1,1 @@
-See the file [app/readme/history.txt](./blob/master/app/readme/history.txt) in the GitHub repo.
+See the file [app/readme/history.txt](./app/readme/history.txt) in the GitHub repo.
