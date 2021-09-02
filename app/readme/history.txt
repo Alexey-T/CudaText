@@ -8,6 +8,7 @@
 + add: option "autocomplete_html_autoclose" has additional function: on typing '</' it inserts the name of last opened tag (thanks @eltonfabricio10)
 + add: for huge lines (length>4K) in e.g. HTML, syntax highlighting still must be calculated, to consider e.g. JS/CSS included blocks 
 + add: lexer Markdown: rework to support all font-style modifiers in all combinations (bold, italic, crossed, bold+italic, bold+crossed, italic+crossed, bold+italic+crossed); improve rule for 'headers'
++ add: lexer HTML: fix to support <script> with JSON
 + add: preinstalled toolbar theme "light_24x24" (from @effeotto)
 - fix: range-check error on re-wrapping (CudaExt plugin command) big file
 - fix: HTML auto-completion didn't show the listbox after '</'
