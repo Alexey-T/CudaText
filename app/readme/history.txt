@@ -9,7 +9,7 @@
 + add: lexer Markdown: rework to support all font-style modifiers in all combinations (bold, italic, crossed, bold+italic, bold+crossed, italic+crossed, bold+italic+crossed); improve rule for 'headers'
 + add: preinstalled toolbar theme "light_24x24" (from @effeotto)
 - fix: if huge lines (length>4K) exist in e.g. HTML, syntax highlighting was broken after them
-- fix: range-check error on re-wrapping (CudaExt) big HTML file
+- fix: range-check error on re-wrapping (CudaExt plugin command) big file
 - fix: HTML auto-completion didn't show the listbox after '</'
 - fix: minor bug in "auto_fold_comments" option
 
