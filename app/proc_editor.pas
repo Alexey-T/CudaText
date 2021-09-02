@@ -2473,7 +2473,7 @@ procedure EditorFindHtmlTagsInText(var AText: UnicodeString;
 const
   cRegexComment = '(?s)<!--.*?-->';
   cRegexScript = '(?s)<script\b.+?</script>';
-  cRegexTags = '<(?s)(/?)([a-z][\w\-:]*).*?>';
+  cRegexTags = '(?s)<(/?)([a-z][\w:]*).*?>';
 var
   obj: TRegExpr;
   TagRecord: TEditorHtmlTagRecord;
