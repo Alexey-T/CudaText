@@ -2451,16 +2451,21 @@ begin
 end;
 
 type
-
   { TEditorHtmlTagRecord }
 
+  PEditorHtmlTagRecord = ^TEditorHtmlTagRecord;
   TEditorHtmlTagRecord = record
     bClosing: boolean;
     sTagName: string[30];
     class operator =(const a, b: TEditorHtmlTagRecord): boolean;
   end;
 
-  TEditorHtmlTagList = specialize TFPGList<TEditorHtmlTagRecord>;
+  { TEditorHtmlTagList }
+
+  TEditorHtmlTagList = class(specialize TFPGList<TEditorHtmlTagRecord>)
+  public
+    function ItemPtr(AIndex: integer): PEditorHtmlTagRecord;
+  end;
 
 procedure EditorFindHtmlTagsInText(const AText: UnicodeString;
   AList: TEditorHtmlTagList; AllowSingletonTags: boolean);
@@ -2493,6 +2498,7 @@ end;
 function EditorFindHtmlLastOpenedTagInText(const AText: UnicodeString): string;
 var
   tags: TEditorHtmlTagList;
+  tagPtr, tagPtr2: PEditorHtmlTagRecord;
   i, j: integer;
 begin
   Result:= '';
@@ -2503,23 +2509,30 @@ begin
     //delete pairs <tag> - </tag>
     for i:= tags.Count-1 downto 0 do
     begin
-      if not tags[i].bClosing then
+      tagPtr:= tags.ItemPtr(i);
+      if not tagPtr^.bClosing then
         for j:= i+1 to tags.Count-1 do
-          if tags[j].bClosing and SameText(tags[i].sTagName, tags[j].sTagName) then
+        begin
+          tagPtr2:= tags.ItemPtr(j);
+          if tagPtr2^.bClosing and SameText(tagPtr^.sTagName, tagPtr2^.sTagName) then
           begin
             tags.Delete(j);
             tags.Delete(i);
             Break;
           end;
+        end;
     end;
 
     //take last opened tag
     for i:= tags.Count-1 downto 0 do
-      if not tags[i].bClosing then
+    begin
+      tagPtr:= tags.ItemPtr(i);
+      if not tagPtr^.bClosing then
       begin
-        Result:= tags[i].sTagName;
+        Result:= tagPtr^.sTagName;
         Break
       end;
+    end;
   finally
     FreeAndNil(tags);
   end;
@@ -2554,6 +2567,13 @@ begin
 
   Ed.TextInsertAtCarets(STag+'>', false{AKeepCaret}, false, false);
   Ed.DoEventChange(AY);
+end;
+
+{ TEditorHtmlTagList }
+
+function TEditorHtmlTagList.ItemPtr(AIndex: integer): PEditorHtmlTagRecord;
+begin
+  Result:= PEditorHtmlTagRecord(InternalGet(AIndex));
 end;
 
 { TEditorHtmlTagRecord }
