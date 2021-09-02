@@ -2467,15 +2467,38 @@ type
     function ItemPtr(AIndex: integer): PEditorHtmlTagRecord;
   end;
 
-procedure EditorFindHtmlTagsInText(const AText: UnicodeString;
+
+procedure EditorFindHtmlTagsInText(var AText: UnicodeString;
   AList: TEditorHtmlTagList; AllowSingletonTags: boolean);
 const
+  cRegexComment = '(?s)<!--.*?-->';
+  cRegexScript = '(?s)<script\b.+?</script>';
   cRegexTags = '<(/?)([a-z][\w\-:]*).*?>';
 var
   obj: TRegExpr;
   TagRecord: TEditorHtmlTagRecord;
 begin
   AList.Clear;
+
+  //remove HTML comments
+  obj:= TRegExpr.Create(cRegexComment);
+  try
+    obj.Compile;
+    AText:= obj.Replace(AText, ' ');
+  finally
+    FreeAndNil(obj);
+  end;
+
+  //remove JS/CSS blocks
+  obj:= TRegExpr.Create(cRegexScript);
+  try
+    obj.Compile;
+    AText:= obj.Replace(AText, ' ');
+  finally
+    FreeAndNil(obj);
+  end;
+
+  //find tags
   obj:= TRegExpr.Create(cRegexTags);
   try
     obj.Compile;
@@ -2491,11 +2514,12 @@ begin
       AList.Add(TagRecord);
     until not obj.ExecNext;
   finally
-    obj.Free;
+    FreeAndNil(obj);
   end;
 end;
 
-function EditorFindHtmlLastOpenedTagInText(const AText: UnicodeString): string;
+
+function EditorFindHtmlLastOpenedTagInText(var AText: UnicodeString): string;
 var
   tags: TEditorHtmlTagList;
   tagPtr, tagPtr2: PEditorHtmlTagRecord;
