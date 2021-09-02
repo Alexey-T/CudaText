@@ -2470,7 +2470,7 @@ type
 procedure EditorFindHtmlTagsInText(const AText: UnicodeString;
   AList: TEditorHtmlTagList; AllowSingletonTags: boolean);
 const
-  cRegexTags = '<(/?)([\w\-:]+).*?>';
+  cRegexTags = '<(/?)([a-z][\w\-:]*).*?>';
 var
   obj: TRegExpr;
   TagRecord: TEditorHtmlTagRecord;
