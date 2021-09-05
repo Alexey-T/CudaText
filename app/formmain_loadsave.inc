@@ -1032,6 +1032,7 @@ begin
   Op.OpMinimapDragImmediately:= cfg.GetValue('minimap_drag_immediately', Op.OpMinimapDragImmediately);
 
   Op.OpMicromapShow:= cfg.GetValue('micromap_show', Op.OpMicromapShow);
+  Op.OpMicromapOnScrollbar:= cfg.GetValue('micromap_on_scrollbar', Op.OpMicromapOnScrollbar);
 
   Op.OpMarginFixed:= cfg.GetValue('margin', Op.OpMarginFixed);
   Op.OpMarginString:= cfg.GetValue('margin_string', Op.OpMarginString);

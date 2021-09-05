@@ -18,6 +18,7 @@ uses
   GraphUtil, IniFiles,
   ATTabs,
   ATGroups,
+  ATScrollBar,
   ATSynEdit,
   ATSynEdit_Finder,
   ATSynEdit_Keymap_Init,
@@ -200,6 +201,9 @@ type
     procedure EditorClickEndSelect(Sender: TObject; APrevPnt, ANewPnt: TPoint);
     procedure EditorClickMoveCaret(Sender: TObject; APrevPnt, ANewPnt: TPoint);
     procedure EditorDrawMicromap(Sender: TObject; ACanvas: TCanvas; const ARect: TRect);
+    procedure EditorDrawScrollbarVert(Sender: TObject;
+      AType: TATScrollbarElemType; ACanvas: TCanvas; const ARect,
+      ARect2: TRect; var ACanDraw: boolean);
     function EditorObjToTreeviewIndex(Ed: TATSynEdit): integer; inline;
     procedure EditorOnChange(Sender: TObject);
     procedure EditorOnChangeModified(Sender: TObject);
@@ -1796,6 +1800,7 @@ begin
   ed.OnScroll:=@EditorOnScroll;
   ed.OnHotspotEnter:=@EditorOnHotspotEnter;
   ed.OnHotspotExit:=@EditorOnHotspotExit;
+  ed.ScrollbarVert.OnOwnerDraw:= @EditorDrawScrollbarVert;
 end;
 
 constructor TEditorFrame.Create(AOwner: TComponent; AApplyCentering: boolean);
@@ -2969,6 +2974,22 @@ begin
   PaintMicromap(Sender as TATSynEdit, ACanvas, ARect);
 end;
 
+procedure TEditorFrame.EditorDrawScrollbarVert(Sender: TObject;
+  AType: TATScrollbarElemType; ACanvas: TCanvas; const ARect, ARect2: TRect;
+  var ACanDraw: boolean);
+var
+  Ed: TATSynEdit;
+begin
+  Ed:= (Sender as TATScrollBar).Parent as TATSynEdit;
+  if Ed.OptMicromapVisible and Ed.OptMicromapOnScrollbar and (AType=aseBackAndThumbV) then
+  begin
+    ACanDraw:= false;
+    PaintMicromap(Ed, ACanvas, ARect);
+  end
+  else
+    ACanDraw:= true;
+end;
+
 procedure TEditorFrame.PaintMicromap(Ed: TATSynEdit; ACanvas: TCanvas; const ARect: TRect);
 type
   TAppMicromapMark = (markColumn, markFull, markLeft, markRight);
@@ -2981,8 +3002,8 @@ var
 //
   function GetItemRect(AColumn, NLine1, NLine2: integer; APos: TAppMicromapMark): TRect; inline;
   begin
-    Result:= Ed.RectMicromapMark(AColumn, NLine1, NLine2);
-    OffsetRect(Result, -ARect.Left, -ARect.Top);
+    Result:= Ed.RectMicromapMark(AColumn, NLine1, NLine2, ARect);
+    OffsetRect(Result, 0, -ARect.Top);
     case APos of
       markLeft:
         Result.Right:= Result.Left + NWidthSmall;
@@ -3060,7 +3081,7 @@ begin
     if NColor<>clNone then
     begin
       XColor.FromColor(NColor);
-      R1:= Ed.RectMicromapMark(i, -1, -1);
+      R1:= Ed.RectMicromapMark(i, -1, -1, ARect);
       FMicromapBmp.FillRect(R1, XColor);
     end;
   end;

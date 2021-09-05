@@ -5839,6 +5839,7 @@ begin
     ShowTabsMain:= FOrigShowTabs;
     Ed.OptMinimapVisible:= EditorOps.OpMinimapShow;
     Ed.OptMicromapVisible:= EditorOps.OpMicromapShow;
+    Ed.OptMicromapOnScrollbar:= EditorOps.OpMicromapOnScrollbar;
     Ed.OptTextCenteringCharWidth:= IfThen(Groups.Mode=gmOne, EditorOps.OpCenteringWidth, 0);
     DoApplyGutterVisible(EditorOps.OpGutterShow);
   end;
