@@ -2992,12 +2992,11 @@ procedure TEditorFrame.PaintMicromap(Ed: TATSynEdit; ACanvas: TCanvas; const ARe
     column_0: width 50% of char cell, it's not used
     column_1: width 50% of char cell, it's used for plugins marks
   and 2 edge columns:
-    left_edge: NWidthSmall pixels, it's used for line-states
-    right_edge: NWidthSmall pixels, it's used for selections
+    right_edge: width 50% of char cell, it's used for selections
   so, for different micromap rect widths, some columns may overlap, e.g. right_edge and column_1
 }
 type
-  TAppMicromapMarkPos = (markColumn, markFull, markLeft, markRight);
+  TAppMicromapMarkPos = (markColumn, markFull, markRight);
 const
   cTagOccurrences = 101; //see plugin 'Highlight Occurrences'
   cTagSpellChecker = 105; //see plugin 'Spell Checker'
@@ -3010,11 +3009,6 @@ var
     Result:= Ed.RectMicromapMark(AColumn, NLine1, NLine2, ARect);
     OffsetRect(Result, 0, -ARect.Top);
     case AMarkPos of
-      markLeft:
-        begin
-          Result.Left:= 0;
-          Result.Right:= 0 + NWidthSmall;
-        end;
       markRight:
         begin
           Result.Right:= ARect.Width;
@@ -3072,7 +3066,7 @@ begin
       cLineStateSaved: XColor.FromColor(Ed.Colors.StateSaved);
       else Continue;
     end;
-    FMicromapBmp.FillRect(GetItemRect(0, i, i, markLeft), XColor);
+    FMicromapBmp.FillRect(GetItemRect(0{column_0}, i, i, markColumn), XColor);
   end;
 
   //paint selections
