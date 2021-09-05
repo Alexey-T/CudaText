@@ -248,6 +248,7 @@ type
     procedure InitEditor(var ed: TATSynEdit; const AName: string);
     procedure InitPanelReload(Index: integer);
     procedure InitPanelInfo(const AText: string; AOnClick: TNotifyEvent);
+    procedure PaintMicromap(Ed: TATSynEdit; ACanvas: TCanvas; const ARect: TRect);
     procedure PanelInfoClick(Sender: TObject);
     procedure SetBracketHilite(AValue: boolean);
     procedure SetEnabledCodeTree(Ed: TATSynEdit; AValue: boolean);
@@ -2964,14 +2965,18 @@ begin
 end;
 
 procedure TEditorFrame.EditorDrawMicromap(Sender: TObject; ACanvas: TCanvas; const ARect: TRect);
+begin
+  PaintMicromap(Sender as TATSynEdit, ACanvas, ARect);
+end;
+
+procedure TEditorFrame.PaintMicromap(Ed: TATSynEdit; ACanvas: TCanvas; const ARect: TRect);
 type
   TAppMicromapMark = (markColumn, markFull, markLeft, markRight);
 const
-  cTagOccurrences = 101; //see plugin Hilite Occurrences
-  cTagSpellChecker = 105; //see plugin SpellChecker
+  cTagOccurrences = 101; //see plugin 'Highlight Occurrences'
+  cTagSpellChecker = 105; //see plugin 'Spell Checker'
   cTagColumnFullsized = -2;
 var
-  Ed: TATSynEdit;
   NWidthSmall: integer;
 //
   function GetItemRect(AColumn, NLine1, NLine2: integer; APos: TAppMicromapMark): TRect; inline;
@@ -3002,7 +3007,6 @@ var
   NLine1, NLine2, NIndex, i: integer;
   Obj: TATLinePartClass;
 begin
-  Ed:= Sender as TATSynEdit;
   St:= Ed.Strings;
   if St.Count=0 then exit;
   NWidthSmall:= EditorScale(EditorOps.OpMicromapWidthSmall);
