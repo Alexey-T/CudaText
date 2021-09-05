@@ -2992,7 +2992,7 @@ end;
 
 procedure TEditorFrame.PaintMicromap(Ed: TATSynEdit; ACanvas: TCanvas; const ARect: TRect);
 type
-  TAppMicromapMark = (markColumn, markFull, markLeft, markRight);
+  TAppMicromapMarkPos = (markColumn, markFull, markLeft, markRight);
 const
   cTagOccurrences = 101; //see plugin 'Highlight Occurrences'
   cTagSpellChecker = 105; //see plugin 'Spell Checker'
@@ -3000,11 +3000,11 @@ const
 var
   NWidthSmall: integer;
 //
-  function GetItemRect(AColumn, NLine1, NLine2: integer; APos: TAppMicromapMark): TRect;
+  function GetItemRect(AColumn, NLine1, NLine2: integer; AMarkPos: TAppMicromapMarkPos): TRect;
   begin
     Result:= Ed.RectMicromapMark(AColumn, NLine1, NLine2, ARect);
     OffsetRect(Result, 0, -ARect.Top);
-    case APos of
+    case AMarkPos of
       markLeft:
         begin
           Result.Left:= 0;
