@@ -1769,11 +1769,6 @@ begin
   ed.OptBorderVisible:= false;
   ed.CommandLog.MaxCount:= EditorOps.OpCommandLogMaxCount;
 
-  SetLength(ed.Micromap.Columns, 2);
-  ed.Micromap.Columns[0].NWidthPercents:= 50; //dummy
-  ed.Micromap.Columns[1].NWidthPercents:= 50; //for marks from Spell Checker, Highlight Occur
-  ed.Micromap.Columns[1].NTag:= 1;
-
   ed.OnClick:= @EditorOnClick;
   ed.OnClickLink:=@EditorOnClickLink;
   ed.OnClickDouble:= @EditorOnClickDouble;
