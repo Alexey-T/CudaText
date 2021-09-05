@@ -3,6 +3,10 @@
   - fixed
   * changed
 
+1.143.2 (2021/09)
+
++ add: new option "micromap_on_scrollbar" 
+
 1.143.0 (2021/09)
 
 + add: option "autocomplete_html_autoclose" has additional function: on typing '</' it inserts the name of last opened tag (thanks @eltonfabricio10)
