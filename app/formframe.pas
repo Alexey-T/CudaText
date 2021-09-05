@@ -3080,7 +3080,7 @@ begin
     FMicromapBmp.FillRect(R1, XColorSelected);
   end;
 
-  //paint background of columns
+  //paint background of columns added from Py API
   for i:= 2{after default columns} to Length(Ed.Micromap.Columns)-1 do
   begin
     NColor:= Ed.Micromap.Columns[i].NColor;
