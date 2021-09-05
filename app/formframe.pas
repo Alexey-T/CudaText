@@ -2991,6 +2991,15 @@ begin
 end;
 
 procedure TEditorFrame.PaintMicromap(Ed: TATSynEdit; ACanvas: TCanvas; const ARect: TRect);
+{
+  micromap has 2 predefined columns:
+    column_0: width 100% of char cell, it's not used
+    column_1: width 40% of char cell, it's used for plugins marks
+  and 2 edge columns:
+    left_edge: NWidthSmall pixels, it's used for line-states
+    right_edge: NWidthSmall pixels, it's used for selections
+  so, for different micromap rect widths, some columns may overlap, e.g. right_edge and column_1
+}
 type
   TAppMicromapMarkPos = (markColumn, markFull, markLeft, markRight);
 const
