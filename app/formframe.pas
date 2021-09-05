@@ -3107,12 +3107,12 @@ begin
     case Mark.Tag of
       cTagSpellChecker:
         begin
-          R1:= GetItemRect(1{column-1}, NLine1, NLine2, markColumn);
+          R1:= GetItemRect(1{column_1}, NLine1, NLine2, markColumn);
           FMicromapBmp.FillRect(R1, XColorSpell);
         end;
       cTagOccurrences:
         begin
-          R1:= GetItemRect(1{column-1}, NLine1, NLine2, markColumn);
+          R1:= GetItemRect(1{column_1}, NLine1, NLine2, markColumn);
           FMicromapBmp.FillRect(R1, XColorOccur);
         end;
       else
