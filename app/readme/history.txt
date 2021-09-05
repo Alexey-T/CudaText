@@ -5,7 +5,8 @@
 
 1.143.2 (2021/09)
 
-+ add: new option "micromap_on_scrollbar" 
++ add: new option "micromap_on_scrollbar"
+- fix: sometimes after PageDown command, app cannot underline links (thanks @OmlineEditor) 
 
 1.143.0 (2021/09)
 
