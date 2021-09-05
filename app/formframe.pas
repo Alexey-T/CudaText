@@ -3000,15 +3000,21 @@ const
 var
   NWidthSmall: integer;
 //
-  function GetItemRect(AColumn, NLine1, NLine2: integer; APos: TAppMicromapMark): TRect; inline;
+  function GetItemRect(AColumn, NLine1, NLine2: integer; APos: TAppMicromapMark): TRect;
   begin
     Result:= Ed.RectMicromapMark(AColumn, NLine1, NLine2, ARect);
     OffsetRect(Result, 0, -ARect.Top);
     case APos of
       markLeft:
-        Result.Right:= Result.Left + NWidthSmall;
+        begin
+          Result.Left:= 0;
+          Result.Right:= 0 + NWidthSmall;
+        end;
       markRight:
-        Result.Left:= Result.Right - NWidthSmall;
+        begin
+          Result.Right:= ARect.Width;
+          Result.Left:= Result.Right - NWidthSmall;
+        end;
       markFull:
         begin
           Result.Left:= 0;
