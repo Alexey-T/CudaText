@@ -404,6 +404,11 @@
   //Numbers: 0: normal position of arrows; 1: both below; 2: both above; 3: hide arrows.
   "scrollbar_arrows": "0,0",
 
+  //Allows to perform direct jump to the clicked position, when clicking scrollbar's
+  //"page up"/"page down" areas. If option is off, clicking on those areas does
+  //"page up"/"page down" scrolling.
+  "scrollbar_click_jump": false,
+
   //[Text/Look]
   //Marker size (Wiki "Markers" topic), in percents of line height
   "marker_size": 30,

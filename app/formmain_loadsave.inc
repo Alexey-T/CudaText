@@ -977,6 +977,9 @@ begin
         ATScrollbarTheme.ArrowStyleV:= TATScrollbarArrowsStyle(N);
   end;
 
+  ATScrollbarTheme.DirectJumpOnClickPageUpDown:= cfg.GetValue('scrollbar_click_jump',
+    ATScrollbarTheme.DirectJumpOnClickPageUpDown);
+
   Op.OpTabSize:= cfg.GetValue('tab_size', Op.OpTabSize);
   Op.OpTabSpaces:= cfg.GetValue('tab_spaces', Op.OpTabSpaces);
   Op.OpTabMaxPosExpanded:= cfg.GetValue('tab_max_pos_expanded', Op.OpTabMaxPosExpanded);
