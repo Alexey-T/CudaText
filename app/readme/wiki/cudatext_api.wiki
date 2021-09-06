@@ -2050,11 +2050,11 @@ Example shows text of first caret's selection:
 
 Controls carets. Possible values of "id":
 
-* CARET_SET_ONE: Removes multi-carets and sets single caret with given position (posx, posy, endx, endy). To place caret without selection, set both "endx", "endy" to -1.
-* CARET_ADD: Adds caret (multi-carets feature) with given position. Returns number of carets after that.
-* CARET_DELETE_ALL: Deletes all carets. Note: you must add caret then to enable text editing to user.
-* CARET_SET_INDEX + N, where N is 0...1e6: Changes single caret with index N to given position.
-* CARET_DELETE_INDEX + N, where N is 0...1e6: Deletes single caret with index N.
+* CARET_SET_ONE: Removes multi-carets and sets single caret to the given position (posx, posy, endx, endy). To place caret without selection, set both "endx", "endy" to -1.
+* CARET_ADD: Adds caret (multi-carets feature) with given position (posx, posy, endx, endy). Returns number of carets after that.
+* CARET_DELETE_ALL: Deletes all carets. Parameters "posx", "posy", "endx", "endy" are ignored here. Note: you must add caret(s) later, to enable text editing to user.
+* CARET_SET_INDEX + N, where N is 0...1e6: Places single caret, with index N, to the given position (posx, posy, endx, endy).
+* CARET_DELETE_INDEX + N, where N is 0...1e6: Deletes single caret, with index N. Parameters "posx", "posy", "endx", "endy" are ignored here.
 
 Param "options" must be 0 or sum of the following flags:
 
