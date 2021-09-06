@@ -6,6 +6,7 @@
 1.143.2 (2021/09)
 
 + add: micromap can be rendered on vertical scrollbar area: new option "micromap_on_scrollbar"
++ add: option "scrollbar_click_jump" (thanks @JairoMartinezA)
 - fix: sometimes after PageDown command, app cannot underline links (thanks @OmlineEditor) 
 
 1.143.0 (2021/09)
