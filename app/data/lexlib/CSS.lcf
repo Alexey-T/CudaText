@@ -2147,7 +2147,7 @@ object SyntAnal6: TLibSyntAnalyzer
       RefToCondEnd = True
       HighlightPos = cpAny
       CancelNextRules = True
-      CollapseFmt = '%s0 { ... }'
+      CollapseFmt = '%s0~[{]1 { ... }'
       IgnoreAsParent = False
     end
     item
