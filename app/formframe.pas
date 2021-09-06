@@ -18,6 +18,7 @@ uses
   GraphUtil, IniFiles,
   ATTabs,
   ATGroups,
+  ATScrollBar,
   ATSynEdit,
   ATSynEdit_Finder,
   ATSynEdit_Keymap_Init,
@@ -200,6 +201,9 @@ type
     procedure EditorClickEndSelect(Sender: TObject; APrevPnt, ANewPnt: TPoint);
     procedure EditorClickMoveCaret(Sender: TObject; APrevPnt, ANewPnt: TPoint);
     procedure EditorDrawMicromap(Sender: TObject; ACanvas: TCanvas; const ARect: TRect);
+    procedure EditorDrawScrollbarVert(Sender: TObject;
+      AType: TATScrollbarElemType; ACanvas: TCanvas; const ARect,
+      ARect2: TRect; var ACanDraw: boolean);
     function EditorObjToTreeviewIndex(Ed: TATSynEdit): integer; inline;
     procedure EditorOnChange(Sender: TObject);
     procedure EditorOnChangeModified(Sender: TObject);
@@ -248,6 +252,7 @@ type
     procedure InitEditor(var ed: TATSynEdit; const AName: string);
     procedure InitPanelReload(Index: integer);
     procedure InitPanelInfo(const AText: string; AOnClick: TNotifyEvent);
+    procedure PaintMicromap(Ed: TATSynEdit; ACanvas: TCanvas; const ARect: TRect);
     procedure PanelInfoClick(Sender: TObject);
     procedure SetBracketHilite(AValue: boolean);
     procedure SetEnabledCodeTree(Ed: TATSynEdit; AValue: boolean);
@@ -1612,6 +1617,14 @@ begin
         if AText='>' then
         begin
           EditorAutoCloseOpeningHtmlTag(Ed, Caret.PosX, Caret.PosY);
+          Ed.Update; //fix missed repainting
+          exit;
+        end;
+
+        if AText='/' then
+        begin
+          EditorAutoCloseClosingHtmlTag(Ed, Caret.PosX, Caret.PosY);
+          Ed.Update; //fix missed repainting
           exit;
         end;
 
@@ -1756,10 +1769,6 @@ begin
   ed.OptBorderVisible:= false;
   ed.CommandLog.MaxCount:= EditorOps.OpCommandLogMaxCount;
 
-  SetLength(ed.Micromap.Columns, 2);
-  ed.Micromap.Columns[1].NWidthPercents:= 40; //for marks from Spell Checker, Highlight Occur
-  ed.Micromap.Columns[1].NTag:= 1;
-
   ed.OnClick:= @EditorOnClick;
   ed.OnClickLink:=@EditorOnClickLink;
   ed.OnClickDouble:= @EditorOnClickDouble;
@@ -1787,6 +1796,7 @@ begin
   ed.OnScroll:=@EditorOnScroll;
   ed.OnHotspotEnter:=@EditorOnHotspotEnter;
   ed.OnHotspotExit:=@EditorOnHotspotExit;
+  ed.ScrollbarVert.OnOwnerDraw:= @EditorDrawScrollbarVert;
 end;
 
 constructor TEditorFrame.Create(AOwner: TComponent; AApplyCentering: boolean);
@@ -2956,25 +2966,54 @@ begin
 end;
 
 procedure TEditorFrame.EditorDrawMicromap(Sender: TObject; ACanvas: TCanvas; const ARect: TRect);
-type
-  TAppMicromapMark = (markColumn, markFull, markLeft, markRight);
-const
-  cTagOccurrences = 101; //see plugin Hilite Occurrences
-  cTagSpellChecker = 105; //see plugin SpellChecker
-  cTagColumnFullsized = -2;
+begin
+  PaintMicromap(Sender as TATSynEdit, ACanvas, ARect);
+end;
+
+procedure TEditorFrame.EditorDrawScrollbarVert(Sender: TObject;
+  AType: TATScrollbarElemType; ACanvas: TCanvas; const ARect, ARect2: TRect;
+  var ACanDraw: boolean);
 var
   Ed: TATSynEdit;
+begin
+  Ed:= (Sender as TATScrollBar).Parent as TATSynEdit;
+  if Ed.OptMicromapVisible and Ed.OptMicromapOnScrollbar and (AType=aseBackAndThumbV) then
+  begin
+    ACanDraw:= false;
+    PaintMicromap(Ed, ACanvas, ARect);
+  end
+  else
+    ACanDraw:= true;
+end;
+
+procedure TEditorFrame.PaintMicromap(Ed: TATSynEdit; ACanvas: TCanvas; const ARect: TRect);
+{
+  micromap has 2 predefined columns:
+    column_0: width 50% of char cell, it's not used
+    column_1: width 50% of char cell, it's used for plugins marks
+  and 2 edge columns:
+    right_edge: width 50% of char cell, it's used for selections
+  so, for different micromap rect widths, some columns may overlap, e.g. right_edge and column_1
+}
+type
+  TAppMicromapMarkPos = (markColumn, markFull, markRight);
+const
+  cTagOccurrences = 101; //see plugin 'Highlight Occurrences'
+  cTagSpellChecker = 105; //see plugin 'Spell Checker'
+  cTagColumnFullsized = -2;
+var
   NWidthSmall: integer;
 //
-  function GetItemRect(AColumn, NLine1, NLine2: integer; APos: TAppMicromapMark): TRect; inline;
+  function GetItemRect(AColumn, NLine1, NLine2: integer; AMarkPos: TAppMicromapMarkPos): TRect;
   begin
-    Result:= Ed.RectMicromapMark(AColumn, NLine1, NLine2);
-    OffsetRect(Result, -ARect.Left, -ARect.Top);
-    case APos of
-      markLeft:
-        Result.Right:= Result.Left + NWidthSmall;
+    Result:= Ed.RectMicromapMark(AColumn, NLine1, NLine2, ARect);
+    OffsetRect(Result, 0, -ARect.Top);
+    case AMarkPos of
       markRight:
-        Result.Left:= Result.Right - NWidthSmall;
+        begin
+          Result.Right:= ARect.Width;
+          Result.Left:= Result.Right - NWidthSmall;
+        end;
       markFull:
         begin
           Result.Left:= 0;
@@ -2994,10 +3033,9 @@ var
   NLine1, NLine2, NIndex, i: integer;
   Obj: TATLinePartClass;
 begin
-  Ed:= Sender as TATSynEdit;
   St:= Ed.Strings;
   if St.Count=0 then exit;
-  NWidthSmall:= EditorScale(EditorOps.OpMicromapWidthSmall);
+  NWidthSmall:= Ed.TextCharSize.X * EditorOps.OpMicromapSmallMarkSizePercents div 100;
 
   if FMicromapBmp=nil then
     FMicromapBmp:= TBGRABitmap.Create;
@@ -3028,7 +3066,7 @@ begin
       cLineStateSaved: XColor.FromColor(Ed.Colors.StateSaved);
       else Continue;
     end;
-    FMicromapBmp.FillRect(GetItemRect(0, i, i, markLeft), XColor);
+    FMicromapBmp.FillRect(GetItemRect(0{column_0}, i, i, markColumn), XColor);
   end;
 
   //paint selections
@@ -3041,14 +3079,14 @@ begin
     FMicromapBmp.FillRect(R1, XColorSelected);
   end;
 
-  //paint background of columns
+  //paint background of columns added from Py API
   for i:= 2{after default columns} to Length(Ed.Micromap.Columns)-1 do
   begin
     NColor:= Ed.Micromap.Columns[i].NColor;
     if NColor<>clNone then
     begin
       XColor.FromColor(NColor);
-      R1:= Ed.RectMicromapMark(i, -1, -1);
+      R1:= Ed.RectMicromapMark(i, -1, -1, ARect);
       FMicromapBmp.FillRect(R1, XColor);
     end;
   end;
@@ -3068,12 +3106,12 @@ begin
     case Mark.Tag of
       cTagSpellChecker:
         begin
-          R1:= GetItemRect(1{column-1}, NLine1, NLine2, markColumn);
+          R1:= GetItemRect(1{column_1}, NLine1, NLine2, markColumn);
           FMicromapBmp.FillRect(R1, XColorSpell);
         end;
       cTagOccurrences:
         begin
-          R1:= GetItemRect(1{column-1}, NLine1, NLine2, markColumn);
+          R1:= GetItemRect(1{column_1}, NLine1, NLine2, markColumn);
           FMicromapBmp.FillRect(R1, XColorOccur);
         end;
       else

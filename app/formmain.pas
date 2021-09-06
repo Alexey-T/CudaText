@@ -3817,6 +3817,7 @@ begin
   ATScrollbar.ATScrollbarTheme.InitialSize:= UiOps.ScrollbarWidth;
   ATScrollbar.ATScrollbarTheme.BorderSize:= UiOps.ScrollbarBorderSize;
   ATScrollbar.ATScrollbarTheme.ScalePercents:= UiOps.Scale;
+  ATScrollbar.ATScrollbarTheme.BorderSize:= 1;
 
   CompletionOps.FormSizeX:= AppScale(UiOps.ListboxCompleteSizeX);
   CompletionOps.FormSizeY:= AppScale(UiOps.ListboxCompleteSizeY);
@@ -5838,6 +5839,7 @@ begin
     ShowTabsMain:= FOrigShowTabs;
     Ed.OptMinimapVisible:= EditorOps.OpMinimapShow;
     Ed.OptMicromapVisible:= EditorOps.OpMicromapShow;
+    Ed.OptMicromapOnScrollbar:= EditorOps.OpMicromapOnScrollbar;
     Ed.OptTextCenteringCharWidth:= IfThen(Groups.Mode=gmOne, EditorOps.OpCenteringWidth, 0);
     DoApplyGutterVisible(EditorOps.OpGutterShow);
   end;

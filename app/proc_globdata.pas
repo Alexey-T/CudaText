@@ -529,7 +529,8 @@ type
     OpMinimapDragImmediately: boolean;
 
     OpMicromapShow: boolean;
-    OpMicromapWidthSmall: integer;
+    OpMicromapOnScrollbar: boolean;
+    OpMicromapSmallMarkSizePercents: integer;
     OpMarginFixed: integer;
     OpMarginString: string;
 
@@ -1505,7 +1506,8 @@ begin
     OpMinimapDragImmediately:= false;
 
     OpMicromapShow:= false;
-    OpMicromapWidthSmall:= 4;
+    OpMicromapOnScrollbar:= false;
+    OpMicromapSmallMarkSizePercents:= 50;
 
     OpMarginFixed:= 2000; //hide margin
     OpMarginString:= '';

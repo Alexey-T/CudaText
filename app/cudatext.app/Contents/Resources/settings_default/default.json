@@ -339,8 +339,7 @@
   "max_line_len_for_accurate_width": 500,
 
   //[Lexers]
-  //Maximal line length, which will be parsed (and syntax highlighted) by lexers.
-  //Also, maximal line length, which is handled by pair-brackets finder.
+  //Maximal line length, which is handled by pair-brackets finder
   "max_line_len_parsed": 4000,
 
   //[View/Gutter]
@@ -475,6 +474,10 @@
   //[View/Micromap]
   //Micromap (small vertical bar at the right side, showing "line states"): show
   "micromap_show": false,
+
+  //Place micromap on the vertical scrollbar, instead of separate narrow panel.
+  //Note: you may hide arrows of the vertical scrollbar, by "scrollbar_arrows" option.
+  "micromap_on_scrollbar": false,
 
   //[Text/VerticalLines]
   //Show additional vertical lines at all carets positions
@@ -1220,7 +1223,8 @@
   //Enable special HTML auto-completion, if lexer name matches this reg.ex.
   "autocomplete_html_lexers": ".*HTML.*|\bPHP\b",
 
-  //Enable to auto-add </tagname> after typing an opening tag <tagname>
+  //Enable to auto-add </tagname> after typing an opening tag <tagname>.
+  //Also, enable auto-closing of last opened tag when you type "</".
   "autocomplete_html_autoclose": true,
 
   //Enable special CSS auto-completion, see wiki

@@ -127,7 +127,7 @@ object SyntAnal17: TLibSyntAnalyzer
       TokenType = 10
       Expression = 
         '(?-i)(?<=^[\x20\x09]*) (if|else|elif|for|async\x20+for|while|try' +
-        '|except|finally|switch|case|with|async\x20+with)\b'
+        '|except|finally|switch|case|with|async\x20+with|match)\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -365,7 +365,6 @@ object SyntAnal17: TLibSyntAnalyzer
             'apply'
             'ascii'
             'bin'
-            'buffer'
             'callable'
             'chr'
             'cmp'
@@ -378,7 +377,6 @@ object SyntAnal17: TLibSyntAnalyzer
             'eval'
             'exec'
             'execfile'
-            'file'
             'filter'
             'format'
             'getattr'
@@ -395,7 +393,6 @@ object SyntAnal17: TLibSyntAnalyzer
             'iter'
             'len'
             'locals'
-            'long'
             'max'
             'min'
             'next'
@@ -413,11 +410,9 @@ object SyntAnal17: TLibSyntAnalyzer
             'round'
             'self'
             'setattr'
-            'slice'
             'sorted'
             'sum'
             'unichr'
-            'unicode'
             'vars'
             'xrange'
             'zip')
@@ -433,7 +428,9 @@ object SyntAnal17: TLibSyntAnalyzer
       ConditionList = <
         item
           TagList.Strings = (
+            'basestring'
             'bool'
+            'buffer'
             'bytearray'
             'bytes'
             'classmethod'
@@ -441,10 +438,12 @@ object SyntAnal17: TLibSyntAnalyzer
             'dict'
             'Ellipsis'
             'False'
+            'file'
             'float'
             'frozenset'
             'int'
             'list'
+            'long'
             'map'
             'memoryview'
             'None'
@@ -452,12 +451,14 @@ object SyntAnal17: TLibSyntAnalyzer
             'object'
             'property'
             'set'
+            'slice'
             'staticmethod'
             'str'
             'super'
             'True'
             'tuple'
-            'type')
+            'type'
+            'unicode')
           TokenTypes = 516
         end>
       HighlightPos = cpAny

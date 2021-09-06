@@ -7,7 +7,6 @@ object SyntAnal15: TLibSyntAnalyzer
       Font.Height = -19
       Font.Name = 'Consolas'
       Font.Style = [fsBold]
-      FormatType = ftCustomFont
     end
     item
       DisplayName = 'Comment'
@@ -56,7 +55,7 @@ object SyntAnal15: TLibSyntAnalyzer
     item
       DisplayName = 'Link'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = 3289830
+      Font.Color = clRed
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
@@ -64,7 +63,7 @@ object SyntAnal15: TLibSyntAnalyzer
     item
       DisplayName = 'Image'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = 15086130
+      Font.Color = clBlue
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
@@ -80,7 +79,7 @@ object SyntAnal15: TLibSyntAnalyzer
     item
       DisplayName = 'Footnote'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = 3277030
+      Font.Color = clFuchsia
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
@@ -94,28 +93,68 @@ object SyntAnal15: TLibSyntAnalyzer
       Font.Style = []
     end
     item
-      DisplayName = 'Bold'
+      DisplayName = 'Style bold'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
+      Font.Color = clBlack
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsBold]
     end
     item
-      DisplayName = 'Italic'
+      DisplayName = 'Style italic'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
+      Font.Color = clBlack
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsItalic]
     end
     item
-      DisplayName = 'Bold-Italic'
+      DisplayName = 'Style bold-italic'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
+      Font.Color = clBlack
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsBold, fsItalic]
+    end
+    item
+      DisplayName = 'Style cross'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsStrikeOut]
+    end
+    item
+      DisplayName = 'Style bold-cross'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold, fsStrikeOut]
+    end
+    item
+      DisplayName = 'Style italic-cross'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsItalic, fsStrikeOut]
+    end
+    item
+      DisplayName = 'Style bold-italic-cross'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold, fsItalic, fsStrikeOut]
+    end
+    item
+      DisplayName = 'Symbol font styles'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clOlive
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
     end
     item
       DisplayName = 'Definition'
@@ -135,14 +174,6 @@ object SyntAnal15: TLibSyntAnalyzer
       Font.Name = 'Courier New'
       Font.Style = []
       BgColor = 16763594
-    end
-    item
-      DisplayName = 'Crossed out'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'Courier New'
-      Font.Style = [fsStrikeOut]
     end
     item
       DisplayName = 'Mark-added'
@@ -220,8 +251,9 @@ object SyntAnal15: TLibSyntAnalyzer
     item
       DisplayName = '`begin'
       StyleName = '``` edge'
-      StatesAdd = 1
-      StatesAbsent = 1
+      StatesAdd = 1024
+      StatesRemove = 7
+      StatesAbsent = 1024
       TokenType = 16
       Expression = '^[\x20\x09]*`{3,}\x20*.*$'
       ColumnFrom = 0
@@ -230,8 +262,8 @@ object SyntAnal15: TLibSyntAnalyzer
     item
       DisplayName = '`end'
       StyleName = '``` edge'
-      StatesRemove = 1
-      StatesPresent = 1
+      StatesRemove = 1024
+      StatesPresent = 1024
       TokenType = 17
       Expression = '^[\x20\x09]*`{3,}\x20*$'
       ColumnFrom = 0
@@ -240,7 +272,8 @@ object SyntAnal15: TLibSyntAnalyzer
     item
       DisplayName = '~begin'
       StyleName = '``` edge'
-      StatesAdd = 2
+      StatesAdd = 2048
+      StatesRemove = 7
       TokenType = 18
       Expression = '^[\x20\x09]*~{3,}\x20*\w+.*$'
       ColumnFrom = 0
@@ -249,154 +282,26 @@ object SyntAnal15: TLibSyntAnalyzer
     item
       DisplayName = '~end'
       StyleName = '``` edge'
-      StatesRemove = 2
+      StatesRemove = 2048
       TokenType = 19
       Expression = '^[\x20\x09]*~{3,}\x20*$'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
-      DisplayName = 'Bold-Italic'
-      StyleName = 'Bold-Italic'
-      StatesAbsent = 3
-      TokenType = 1
-      Expression = '(\*\*\*|___) [^\n\r\x20\*_\\](`.+?`|.)*? \1'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
-      DisplayName = 'Bold'
-      StyleName = 'Bold'
-      StatesAbsent = 3
-      TokenType = 1
-      Expression = '(\*\*|__) [^\n\r\x20\*_\\](`.+?`|.)*? \1'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
-      DisplayName = 'Italic'
-      StyleName = 'Italic'
-      StatesAbsent = 3
-      TokenType = 1
-      Expression = '\* [^\n\r\x20\*_\\](`.+?`|.)*? \*'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
-      DisplayName = 'Heading'
-      StyleName = 'Heading'
-      StatesAbsent = 3
-      Expression = '^\#{1,6}\x20.+ |'#13#10'.+\z(-+|=+)$'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
-      DisplayName = 'Comment'
-      StyleName = 'Comment'
-      StatesAbsent = 3
-      TokenType = 2
-      Expression = '(?s)\<!--.*?--\>  |'#13#10'(?s)/\*.*?\*/'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
-      DisplayName = 'Quote'
-      StyleName = 'Quote BG'
-      StatesAbsent = 3
-      TokenType = 3
-      Expression = '^[\x20\x09]*(>[\x20=])+'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
-      DisplayName = 'HTML pre'
-      StyleName = 'Codeblock'
-      StatesAbsent = 3
-      TokenType = 4
-      Expression = '(?s) <pre\b .+? </pre>'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
-      DisplayName = 'HTML entity'
+      DisplayName = 'Separator line'
       StyleName = 'Symbols'
-      StatesAbsent = 3
-      TokenType = 9
-      Expression = '\&\#?\w+;'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
-      DisplayName = 'HTML tag'
-      StyleName = 'HTML Code'
-      StatesAbsent = 3
-      TokenType = 9
-      Expression = '(?s)<[/!]?[\[\w].*?>'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
-      DisplayName = 'Mark-added'
-      StyleName = 'Mark-added'
-      TokenType = 14
-      Expression = '\{\+\+|\+\+\}'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
-      DisplayName = 'Mark-deleted'
-      TokenType = 14
-      Expression = '\{\-\-|\-\-\}'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
-      DisplayName = 'Mark-edited'
-      StyleName = 'Mark-edited'
-      TokenType = 14
-      Expression = '\{~~|~~\}|~>'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
-      DisplayName = 'Mark-comment'
-      StyleName = 'Mark-comment'
-      TokenType = 14
-      Expression = '\{>>|<<\}|\{==|==\}'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
-      DisplayName = 'Link github'
-      StyleName = 'Link'
-      StatesAbsent = 3
-      TokenType = 11
-      Expression = '\[! \[ [^\]]+ \]\( [^\)]+ \) \] \( [^\)]+ \)'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
-      DisplayName = 'Link usual'
-      StyleName = 'Image'
-      StatesAbsent = 3
-      TokenType = 11
-      Expression = '(?s)(?<=\])\( (\([^\)]*\)|.)*?\) (\{.*?\})?'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
-      DisplayName = 'Break line'
-      StyleName = 'Comment'
-      StatesAbsent = 3
-      TokenType = 2
-      Expression = '^(([\-\*_])\x20+)+\2?$'
+      StatesRemove = 7
+      StatesAbsent = 3072
+      TokenType = 15
+      Expression = '^(_[_\x20]+|\-[\-\x20]+|\*[\*\x20]+)$'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
       DisplayName = 'List'
       StyleName = 'List'
-      StatesAbsent = 3
+      StatesAbsent = 3072
       TokenType = 13
       Expression = 
         '^[\x20\x09]*( \d{1,9}[\.\)] '#13#10'| [\-\+\*]'#13#10'| \(?\w?[\.\)]'#13#10') \x20' +
@@ -406,9 +311,206 @@ object SyntAnal15: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
+      DisplayName = 'Style bold-italic on'
+      StyleName = 'Symbol font styles'
+      StatesAdd = 3
+      StatesAbsent = 3075
+      TokenType = 15
+      Expression = '\*\*\*(?=[a-z0-9~\(]) |'#13#10'(?<![\w\)])___(?=[a-z0-9~\(])'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Style bold on'
+      StyleName = 'Symbol font styles'
+      StatesAdd = 1
+      StatesAbsent = 3073
+      TokenType = 15
+      Expression = '\*\*(?=[\w~\(]) |'#13#10'(?<![\w\)])__(?=[a-z0-9~\*\(])'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Style bold off'
+      StyleName = 'Symbol font styles'
+      StatesRemove = 1
+      StatesPresent = 1
+      StatesAbsent = 3072
+      TokenType = 15
+      Expression = '(?<=[\w~\*\)>])__(?![a-z0-9]) |'#13#10'(?<=[\w~\)>])\*\*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Style italic on'
+      StyleName = 'Symbol font styles'
+      StatesAdd = 2
+      StatesAbsent = 3074
+      TokenType = 15
+      Expression = '(?<![\w\)])_(?=[a-z0-9~\*\(]) |'#13#10'\*(?=[\w~\(])'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Style italic off'
+      StyleName = 'Symbol font styles'
+      StatesRemove = 2
+      StatesPresent = 2
+      StatesAbsent = 3072
+      TokenType = 15
+      Expression = '(?<=[\w~\*\)>])_(?![a-z0-9]) |'#13#10'(?<=[\w~\)>\*])\*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Bad style marker'
+      StyleName = 'Symbols'
+      StatesAbsent = 3072
+      TokenType = 15
+      Expression = '\*{1,3}|_{1,3}'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Style crossed on'
+      StyleName = 'Symbol font styles'
+      StatesAdd = 4
+      StatesAbsent = 3076
+      TokenType = 15
+      Expression = '~+(?![>\}~])'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Style crossed off'
+      StyleName = 'Symbol font styles'
+      StatesRemove = 4
+      StatesPresent = 4
+      StatesAbsent = 3072
+      TokenType = 15
+      Expression = '~+(?![>\}~])'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Heading'
+      StyleName = 'Heading'
+      StatesAbsent = 3072
+      Expression = '^\#{1,6}\x20*.* |'#13#10'.+\z\x20{0,3}((\-[\-\x20]*)|(=[=\x20]*))$'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Comment'
+      StyleName = 'Comment'
+      StatesAbsent = 3072
+      TokenType = 2
+      Expression = '(?s)\<!--.*?--\>  |'#13#10'(?s)/\*.*?\*/'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Quote'
+      StyleName = 'Quote BG'
+      StatesAbsent = 3072
+      TokenType = 3
+      Expression = '^[\x20\x09]*(>[\x20=])+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'HTML pre'
+      StyleName = 'Codeblock'
+      StatesAbsent = 3072
+      TokenType = 4
+      Expression = '(?s) <pre\b .+? </pre>'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'HTML entity'
+      StyleName = 'Symbols'
+      StatesAbsent = 3072
+      TokenType = 9
+      Expression = '\&\#?\w+;'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'HTML tag'
+      StyleName = 'HTML Code'
+      StatesAbsent = 3072
+      TokenType = 9
+      Expression = '(?s)<[/!]?[\[\w].*?>'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Mark-added'
+      StyleName = 'Mark-added'
+      StatesAbsent = 3072
+      TokenType = 14
+      Expression = '\{\+\+|\+\+\}'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Mark-deleted'
+      StatesAbsent = 3072
+      TokenType = 14
+      Expression = '\{\-\-|\-\-\}'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Mark-edited'
+      StyleName = 'Mark-edited'
+      StatesAbsent = 3072
+      TokenType = 14
+      Expression = '\{~~|~~\}|~>'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Mark-comment'
+      StyleName = 'Mark-comment'
+      StatesAbsent = 3072
+      TokenType = 14
+      Expression = '\{>>|<<\}|\{==|==\}'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Link github'
+      StyleName = 'Link'
+      StatesAbsent = 3072
+      TokenType = 11
+      Expression = '\[! \[ [^\]]+ \]\( [^\)]+ \) \] \( [^\)]+ \)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Link usual'
+      StyleName = 'Image'
+      StatesAbsent = 3072
+      TokenType = 11
+      Expression = '(?s)(?<=\])\( (\([^\)]*\)|.)*?\) (\{.*?\})?'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Break line'
+      StyleName = 'Comment'
+      StatesAbsent = 3072
+      TokenType = 2
+      Expression = '^(([\-\*_])\x20+)+\2?$'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
       DisplayName = 'Codeblock indented'
       StyleName = 'Codeblock'
-      StatesAbsent = 3
+      StatesAbsent = 3072
       TokenType = 4
       Expression = '^(\x20{4,}|\x09{1,}) [^`<>\n\r].*$'
       ColumnFrom = 0
@@ -417,7 +519,7 @@ object SyntAnal15: TLibSyntAnalyzer
     item
       DisplayName = 'Footnote'
       StyleName = 'Footnote'
-      StatesAbsent = 3
+      StatesAbsent = 3072
       TokenType = 7
       Expression = '^\[\^[^\]\^]+\]:.*?($|\z) |'#13#10'\[\^[^\]]+\]'
       ColumnFrom = 0
@@ -426,7 +528,7 @@ object SyntAnal15: TLibSyntAnalyzer
     item
       DisplayName = 'Reference'
       StyleName = 'Reference'
-      StatesAbsent = 3
+      StatesAbsent = 3072
       TokenType = 6
       Expression = 
         '^\x20{0,3}\[[^\]\^]+\]:.*?($|\z) |'#13#10'(?<=\]\x20?)\[.*?\] (\{.*?\}' +
@@ -437,7 +539,7 @@ object SyntAnal15: TLibSyntAnalyzer
     item
       DisplayName = 'Definition'
       StyleName = 'Definition'
-      StatesAbsent = 3
+      StatesAbsent = 3072
       TokenType = 10
       Expression = '^[\x20\x09]*:\ .* '#13#10'# Pandoc Style (:\ \ \ )'
       ColumnFrom = 0
@@ -446,7 +548,7 @@ object SyntAnal15: TLibSyntAnalyzer
     item
       DisplayName = 'Link desc text'
       StyleName = 'Link'
-      StatesAbsent = 3
+      StatesAbsent = 3072
       TokenType = 11
       Expression = '!?\[ (\[[^\]]*\]|`.+?`|.)*? \]'#13#10'#allow nested [text] and `text`'
       ColumnFrom = 0
@@ -455,7 +557,7 @@ object SyntAnal15: TLibSyntAnalyzer
     item
       DisplayName = 'Codeblock raw'
       StyleName = 'Block'
-      StatesAbsent = 3
+      StatesAbsent = 3072
       TokenType = 5
       Expression = 
         '(?s) (`+) .+? (\1|\z\z)'#13#10'#to-fix: SublimeText syntax test has ma' +
@@ -464,18 +566,9 @@ object SyntAnal15: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Crossed text'
-      StyleName = 'Crossed out'
-      StatesAbsent = 3
-      TokenType = 1
-      Expression = '(?s)~+[^\x20\x09\n\r~\\][^\n\r~\\]*? ~+'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
       DisplayName = 'Footnote Inline'
       StyleName = 'Footnote'
-      StatesAbsent = 3
+      StatesAbsent = 3072
       TokenType = 7
       Expression = '\^\[.+?\] #Pandoc Inline-Style'
       ColumnFrom = 0
@@ -484,7 +577,7 @@ object SyntAnal15: TLibSyntAnalyzer
     item
       DisplayName = 'Escaped char'
       StyleName = 'Symbols'
-      StatesAbsent = 3
+      StatesAbsent = 3072
       TokenType = 15
       Expression = '\\.'
       ColumnFrom = 0
@@ -493,6 +586,7 @@ object SyntAnal15: TLibSyntAnalyzer
     item
       DisplayName = 'Table begin'
       StyleName = 'Symbols'
+      StatesAbsent = 3072
       TokenType = 20
       Expression = '^\|'
       ColumnFrom = 0
@@ -501,6 +595,7 @@ object SyntAnal15: TLibSyntAnalyzer
     item
       DisplayName = 'Table end'
       StyleName = 'Symbols'
+      StatesAbsent = 3072
       TokenType = 21
       Expression = '\|$'
       ColumnFrom = 0
@@ -509,27 +604,97 @@ object SyntAnal15: TLibSyntAnalyzer
     item
       DisplayName = 'Symbols'
       StyleName = 'Symbols'
-      StatesAbsent = 3
+      StatesAbsent = 3072
       TokenType = 15
-      Expression = '[<>]|[\|\+=%\*!~&]+'
+      Expression = '[<>]|[\|\+\-=%!&]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
       DisplayName = 'Math block'
       StyleName = 'Math BG'
-      StatesAbsent = 3
+      StatesAbsent = 3072
       TokenType = 3
       Expression = '(\${1,2}).+\1'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
-      DisplayName = 'Text'
-      StyleName = 'Text'
-      StatesAbsent = 3
+      DisplayName = 'Text bold-italic-cross'
+      StyleName = 'Style bold-italic-cross'
+      StatesPresent = 7
+      StatesAbsent = 3072
       TokenType = 1
-      Expression = '(?r)\w+'
+      Expression = '(?r)[a-z0-9'#1072'-'#1103#1040'-'#1071'\x20\.,:;\(\)]+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Text bold-cross'
+      StyleName = 'Style bold-cross'
+      StatesPresent = 5
+      StatesAbsent = 3072
+      TokenType = 1
+      Expression = '(?r)[a-z0-9'#1072'-'#1103#1040'-'#1071'\x20\.,:;\(\)]+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Text italic-cross'
+      StyleName = 'Style italic-cross'
+      StatesPresent = 6
+      StatesAbsent = 3072
+      TokenType = 1
+      Expression = '(?r)[a-z0-9'#1072'-'#1103#1040'-'#1071'\x20\.,:;\(\)]+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Text bold-italic'
+      StyleName = 'Style bold-italic'
+      StatesPresent = 3
+      StatesAbsent = 3072
+      TokenType = 1
+      Expression = '(?r)[a-z0-9'#1072'-'#1103#1040'-'#1071'\x20\.,:;\(\)]+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Text bold'
+      StyleName = 'Style bold'
+      StatesPresent = 1
+      StatesAbsent = 3072
+      TokenType = 1
+      Expression = '(?r)[a-z0-9'#1072'-'#1103#1040'-'#1071'\x20\.,:;\(\)]+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Text italic'
+      StyleName = 'Style italic'
+      StatesPresent = 2
+      StatesAbsent = 3072
+      TokenType = 1
+      Expression = '(?r)[a-z0-9'#1072'-'#1103#1040'-'#1071'\x20\.,:;\(\)]+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Text cross'
+      StyleName = 'Style cross'
+      StatesPresent = 4
+      StatesAbsent = 3072
+      TokenType = 1
+      Expression = '(?r)[a-z0-9'#1072'-'#1103#1040'-'#1071'\x20\.,:;\(\)]+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Text normal'
+      StyleName = 'Text'
+      StatesAbsent = 3072
+      TokenType = 1
+      Expression = '(?r)[a-z0-9'#1072'-'#1103#1040'-'#1071'\x20\.,:;\(\)]+'
       ColumnFrom = 0
       ColumnTo = 0
     end>
@@ -788,7 +953,7 @@ object SyntAnal15: TLibSyntAnalyzer
       DisplayName = 'YAML front matter'
       StartExpression = '\A---(\s*yaml)?$'
       EndExpression = '^---$'
-      SyntAnalyzer = SyntAnal25
+      SyntAnalyzer = SyntAnal26
     end
     item
       DisplayName = 'JSON front matter'
@@ -809,7 +974,9 @@ object SyntAnal15: TLibSyntAnalyzer
     
       'This is a {-- deletion --} and {~~substitute~>with~~striked~~tex' +
       't~~}'
-    'This is a {>> comment <<}.'
+    
+      'This is a {>> comment <<} and {++added text++} and  {~~edited te' +
+      'xt~~}'
     'This is an {== information ==} {>> comment <<}.'
     ''
     '# Header'
@@ -820,13 +987,15 @@ object SyntAnal15: TLibSyntAnalyzer
     '`get_prop` id "token_type"; optional `get_prop` param'
     ''
     '`Inline Code` inside a paragraph with *italic*, '
-    '**bold** and ***bold italic***, [^footnote] and + '
+    '**bold** and ***bold italic***, [^footnote] and '
     
       '[reference][ref] and [reference] [ref]. <HTML> syntax and specia' +
       'l &harr; '
     'chars are highlighted, [Hyperlink text](url "title") '
     'and ![alternative text](image address "title"). '
-    'test: ~~~~crossed~ and ~crossed~~~ is supported '
+    'test: ~~~~crossed~ and ~crossed~~~ is supported'
+    'Separators:'
+    ' '
     '- - -'
     '*  *  *'
     '_  _  _  _'
@@ -845,7 +1014,7 @@ object SyntAnal15: TLibSyntAnalyzer
     #9'1. But not for numbered'
     #9'-  or unordered lists'
     '    '#9'+ with several indentions'
-    '        '#9'* leading digit, + - * '
+    '        '#9'* leading digit '
     '123. note: unordered needs a sign & blank'
     #9'(a) extended Pandoc interpretation is supported'
     '    '#9'i) with roman numbering (i)    '
@@ -876,11 +1045,7 @@ object SyntAnal15: TLibSyntAnalyzer
     ''
     '/* Optional */'
     'header'
-    '='
-    ''
-    
-      'Test {++added++} and {--deleted--} and {~~edited text~~} end.   ' +
-      ' ')
+    '=')
   TokenTypeNames.Strings = (
     'Heading'
     'Text'
@@ -908,8 +1073,15 @@ object SyntAnal15: TLibSyntAnalyzer
   LexerName = 'Markdown'
   SkipSpaces = False
   Notes.Strings = (
-    'Based on original lexer by NoSi (2014)'
-    'Fully reworked by Alexey (CudaText)')
+    'By Alexey (CudaText)'
+    'Parser states used:'
+    '- 1: italic'
+    '- 2: bold'
+    '- 4: crossed'
+    '(some rules reset 7=1+2+4)'
+    '- 1024: ```-fenced blocks'
+    '- 2048: ~~~-fenced blocks'
+    '(many rules need missed 3072=1024+2048)')
   RestartFromLineStart = True
   Charset = DEFAULT_CHARSET
 end

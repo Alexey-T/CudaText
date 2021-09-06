@@ -63,6 +63,7 @@ begin
   with ATScrollbarTheme do
   begin
     ColorBG:= GetAppColor(apclScrollBack);
+    ColorBorder:= ColorBG;
     ColorThumbBorder:= GetAppColor(apclScrollRect);
     ColorThumbFill:= GetAppColor(apclScrollFill);
     ColorThumbFillOver:= ColorThumbFill;

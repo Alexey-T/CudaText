@@ -8,6 +8,7 @@ Copyright (c) Alexey Torgashin
 unit proc_editor;
 
 {$mode objfpc}{$H+}
+{$ModeSwitch advancedrecords}
 
 interface
 
@@ -30,6 +31,8 @@ uses
   ATSynEdit_Bookmarks,
   ATSynEdit_Finder,
   ATSynEdit_Cmp_HTML,
+  ATSynEdit_RegExpr,
+  ATSynEdit_FGL,
   ATStrings,
   ATStringProc,
   ATStringProc_Separator,
@@ -148,6 +151,7 @@ function EditorAutoCompletionAfterTypingChar(Ed: TATSynEdit;
   const AText: string; var ACharsTyped: integer; AOnAutoCompletion: TEditorBooleanEvent): boolean;
 function EditorGetLefterHtmlTag(Ed: TATSynEdit; AX, AY: integer): UnicodeString;
 procedure EditorAutoCloseOpeningHtmlTag(Ed: TATSynEdit; AX, AY: integer);
+procedure EditorAutoCloseClosingHtmlTag(Ed: TATSynEdit; AX, AY: integer);
 
 implementation
 
@@ -240,6 +244,7 @@ begin
 
     if not Ed.IsModifiedMicromapVisible then
       Ed.OptMicromapVisible:= Op.OpMicromapShow;
+    Ed.OptMicromapOnScrollbar:= Op.OpMicromapOnScrollbar;
 
     Ed.OptMarginRight:= Op.OpMarginFixed;
     Ed.OptMarginString:= Op.OpMarginString;
@@ -2444,6 +2449,163 @@ begin
       Ed.Strings.Bookmarks.Add(Bm);
     end;
   end;
+end;
+
+type
+  { TEditorHtmlTagRecord }
+
+  PEditorHtmlTagRecord = ^TEditorHtmlTagRecord;
+  TEditorHtmlTagRecord = record
+    bClosing: boolean;
+    sTagName: string[30];
+    class operator =(const a, b: TEditorHtmlTagRecord): boolean;
+  end;
+
+  { TEditorHtmlTagList }
+
+  TEditorHtmlTagList = class(specialize TFPGList<TEditorHtmlTagRecord>)
+  public
+    function ItemPtr(AIndex: integer): PEditorHtmlTagRecord;
+  end;
+
+
+procedure EditorFindHtmlTagsInText(var AText: UnicodeString;
+  AList: TEditorHtmlTagList; AllowSingletonTags: boolean);
+const
+  cRegexComment = '(?s)<!--.*?-->';
+  cRegexScript = '(?s)<script\b.+?</script>';
+  cRegexTags = '(?s)<(/?)([a-z][\w:]*).*?>';
+var
+  obj: TRegExpr;
+  TagRecord: TEditorHtmlTagRecord;
+begin
+  AList.Clear;
+
+  //remove HTML comments
+  obj:= TRegExpr.Create(cRegexComment);
+  try
+    obj.Compile;
+    AText:= obj.Replace(AText, ' ');
+  finally
+    FreeAndNil(obj);
+  end;
+
+  //remove JS/CSS blocks
+  obj:= TRegExpr.Create(cRegexScript);
+  try
+    obj.Compile;
+    AText:= obj.Replace(AText, ' ');
+  finally
+    FreeAndNil(obj);
+  end;
+
+  //find tags
+  obj:= TRegExpr.Create(cRegexTags);
+  try
+    obj.Compile;
+    obj.InputString:= AText;
+    if obj.ExecPos(1) then
+    repeat
+      TagRecord.bClosing:= obj.Match[1]<>'';
+      TagRecord.sTagName:= obj.Match[2];
+
+      if not AllowSingletonTags then
+        if not IsTagNeedsClosingTag(TagRecord.sTagName) then Continue;
+
+      AList.Add(TagRecord);
+    until not obj.ExecNext;
+  finally
+    FreeAndNil(obj);
+  end;
+end;
+
+
+function EditorFindHtmlLastOpenedTagInText(var AText: UnicodeString): string;
+var
+  tags: TEditorHtmlTagList;
+  tagPtr, tagPtr2: PEditorHtmlTagRecord;
+  i, j: integer;
+begin
+  Result:= '';
+  tags:= TEditorHtmlTagList.Create;
+  try
+    EditorFindHtmlTagsInText(AText, tags, false);
+
+    //delete pairs <tag> - </tag>
+    for i:= tags.Count-1 downto 0 do
+    begin
+      tagPtr:= tags.ItemPtr(i);
+      if not tagPtr^.bClosing then
+        for j:= i+1 to tags.Count-1 do
+        begin
+          tagPtr2:= tags.ItemPtr(j);
+          if tagPtr2^.bClosing and SameText(tagPtr^.sTagName, tagPtr2^.sTagName) then
+          begin
+            tags.Delete(j);
+            tags.Delete(i);
+            Break;
+          end;
+        end;
+    end;
+
+    //take last opened tag
+    for i:= tags.Count-1 downto 0 do
+    begin
+      tagPtr:= tags.ItemPtr(i);
+      if not tagPtr^.bClosing then
+      begin
+        Result:= tagPtr^.sTagName;
+        Break
+      end;
+    end;
+  finally
+    FreeAndNil(tags);
+  end;
+end;
+
+
+procedure EditorAutoCloseClosingHtmlTag(Ed: TATSynEdit; AX, AY: integer);
+var
+  SText: UnicodeString;
+  STag: UnicodeString;
+  SLexer: string;
+  ch: WideChar;
+begin
+  if Ed.Carets.Count<>1 then exit; //don't support multi-carets
+  if not (UiOps.AutocompleteHtml and UiOps.AutocompleteHtml_AutoClose) then exit;
+  if Ed.AdapterForHilite=nil then exit;
+  SLexer:= Ed.AdapterForHilite.GetLexerName;
+  if SLexer='' then exit;
+
+  if not Ed.Strings.IsIndexValid(AY) then exit;
+  if AX<2 then exit;
+  ch:= Ed.Strings.LineCharAt(AY, AX);
+  if ch<>'/' then exit;
+  ch:= Ed.Strings.LineCharAt(AY, AX-1);
+  if ch<>'<' then exit;
+
+  if not SRegexMatchesString(SLexer, UiOps.AutocompleteHtml_Lexers, false) then exit;
+
+  SText:= Ed.Strings.TextSubstring(0, 0, AX-2, AY);
+  STag:= EditorFindHtmlLastOpenedTagInText(SText);
+  if STag='' then exit;
+
+  Ed.TextInsertAtCarets(STag+'>', false{AKeepCaret}, false, false);
+  Ed.DoEventChange(AY);
+end;
+
+{ TEditorHtmlTagList }
+
+function TEditorHtmlTagList.ItemPtr(AIndex: integer): PEditorHtmlTagRecord;
+begin
+  Result:= PEditorHtmlTagRecord(InternalGet(AIndex));
+end;
+
+{ TEditorHtmlTagRecord }
+
+class operator TEditorHtmlTagRecord.=(const a, b: TEditorHtmlTagRecord): boolean;
+begin
+  Result:= false;
 end;
 
 end.
