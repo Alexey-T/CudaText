@@ -396,7 +396,9 @@ object SyntAnal14: TLibSyntAnalyzer
       DisplayName = 'Heading'
       StyleName = 'Heading'
       StatesAbsent = 3072
-      Expression = '^\#{1,6}\x20*.* |'#13#10'.+\z\x20{0,3}((\-[\-\x20]*)|(=[=\x20]*))$'
+      Expression = 
+        '^\x20*\#{1,6}.* |'#13#10'^\x20*\w.*\z\x20{0,3}((\-[\-\x20]*)|(=[=\x20]' +
+        '*))$'
       ColumnFrom = 0
       ColumnTo = 0
     end
