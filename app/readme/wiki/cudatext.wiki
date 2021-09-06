@@ -961,9 +961,12 @@ You can type those "hash tags" at begin or end of the field, even without separa
 
 Lexer parser uses EControl regex engine. You use this regex syntax only in the "Lexer Properties" dialog in SynWrite, not in the CudaText normal usage. EControl regex has custom features:
 
-* classes \A, \Z: begin/end of document
+* class \A: begin of the document
+* class \Z: end of the document
+* class \l: Unicode word-char except the underscore char
+* class \L: inversion to \l
 * lookahead/lookbehind can find match of variable length
-* modifier (?r): treat \w as all national characters too
+* modifier (?r): \w catches all Unicode letters too
 * modifier (?g): greedy
 
 CudaText search/replace uses [https://regex.sorokin.engineer/en/latest/regular_expressions.html TRegExpr engine] (by Sorokin, later improved by Alexey Torgashin).
