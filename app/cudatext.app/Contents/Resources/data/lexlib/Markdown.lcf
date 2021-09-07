@@ -377,7 +377,7 @@ object SyntAnal14: TLibSyntAnalyzer
       StatesAdd = 4
       StatesAbsent = 3076
       TokenType = 15
-      Expression = '~+(?![>\}~@])'
+      Expression = '~+(?![>\}~])'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -388,7 +388,7 @@ object SyntAnal14: TLibSyntAnalyzer
       StatesPresent = 4
       StatesAbsent = 3072
       TokenType = 15
-      Expression = '~+(?![>\}~@])'
+      Expression = '~+(?![>\}~])'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -443,7 +443,7 @@ object SyntAnal14: TLibSyntAnalyzer
       StyleName = 'HTML Code'
       StatesAbsent = 3072
       TokenType = 9
-      Expression = '(?s)<[/!]?[\[\w].*?>'
+      Expression = '(?s)<[/!]?[\[\w~].*?>'
       ColumnFrom = 0
       ColumnTo = 0
     end
