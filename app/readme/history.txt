@@ -7,7 +7,7 @@
 
 + add: micromap can be rendered on vertical scrollbar area: new option "micromap_on_scrollbar"
 + add: option "scrollbar_click_jump" (thanks @JairoMartinezA)
-- fix: lexer Markdown: font-style modifiers worked bad with Unicode letters (thanks @MiroslavMatas)
+- fix: lexer Markdown: font-style modifiers worked bad with Unicode letters (thanks @MiroslavMatas); for this fix the modifier /l was added to the EControl RegEx syntax
 - fix: lexer Markdown: fix header rule
 - fix: lexer Markdown: highlight of <~mail@site.com> (thanks @l1ving)
 - fix: sometimes after PageDown command, app cannot underline links (thanks @OmlineEditor) 
