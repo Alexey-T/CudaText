@@ -255,7 +255,7 @@ object SyntAnal14: TLibSyntAnalyzer
       StatesRemove = 7
       StatesAbsent = 1024
       TokenType = 16
-      Expression = '^[\x20\x09]*`{3,}\x20*.*$'
+      Expression = '^[\x20\x09]{0,3}`{3,}\x20*.*$'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -265,7 +265,7 @@ object SyntAnal14: TLibSyntAnalyzer
       StatesRemove = 1024
       StatesPresent = 1024
       TokenType = 17
-      Expression = '^[\x20\x09]*`{3,}\x20*$'
+      Expression = '^[\x20\x09]{0,3}`{3,}\x20*$'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -275,7 +275,7 @@ object SyntAnal14: TLibSyntAnalyzer
       StatesAdd = 2048
       StatesRemove = 7
       TokenType = 18
-      Expression = '^[\x20\x09]*~{3,}\x20*\w+.*$'
+      Expression = '^[\x20\x09]{0,3}~{3,}\x20*\w+.*$'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -284,17 +284,27 @@ object SyntAnal14: TLibSyntAnalyzer
       StyleName = '``` edge'
       StatesRemove = 2048
       TokenType = 19
-      Expression = '^[\x20\x09]*~{3,}\x20*$'
+      Expression = '^[\x20\x09]{0,3}~{3,}\x20*$'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
       DisplayName = 'Separator line'
+      Enabled = False
       StyleName = 'Symbols'
       StatesRemove = 7
       StatesAbsent = 3072
       TokenType = 15
       Expression = '^(_[_\x20]+|\-[\-\x20]+|\*[\*\x20]+)$'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Separator line 2'
+      StyleName = 'Comment'
+      StatesAbsent = 3072
+      TokenType = 2
+      Expression = '^(([\-\*_])\x20+)+\2?$'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -497,15 +507,6 @@ object SyntAnal14: TLibSyntAnalyzer
       StatesAbsent = 3072
       TokenType = 11
       Expression = '(?s)(?<=\])\( (\([^\)]*\)|.)*?\) (\{.*?\})?'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
-      DisplayName = 'Break line'
-      StyleName = 'Comment'
-      StatesAbsent = 3072
-      TokenType = 2
-      Expression = '^(([\-\*_])\x20+)+\2?$'
       ColumnFrom = 0
       ColumnTo = 0
     end
