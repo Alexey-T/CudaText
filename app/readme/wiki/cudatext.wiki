@@ -2174,6 +2174,18 @@ Setting the following environment variable solves the issue:
 
  IBUS_USE_PORTAL="1"
 
+===Program takes 60 seconds to start===
+
+Q: When I open any Lazarus/GTK2 application, I get a blank window that will timeout after 60 sec and the application will appear then. If I kill this blank window, the application lauches directly and the CRITICAL output resulting from my kill is always the same:
+
+    (app_name:1299276): Gtk-CRITICAL **: 19:03:24.607: IA__gtk_widget_hide: assertion 'GTK_IS_WIDGET (widget)' failed
+    (app_name:1299276): Gtk-CRITICAL **: 19:03:24.607: IA__gtk_widget_destroy: assertion 'GTK_IS_WIDGET (widget)' failed
+
+If I wait for the timeout there is no output and everything works fine.
+This issue appeared to me when I tried to use CudaText.
+
+A: Start the application with "-disableaccurateframe" parameter.
+
 ===How to use middle-click paste on Linux===
 
 * Set option "mouse_mid_click_paste" to true (in user.json).
