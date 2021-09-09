@@ -285,6 +285,7 @@ object SyntAnal6: TLibSyntAnalyzer
           TagList.Strings = (
             'above'
             'absolute'
+            'accent-color'
             'active'
             'add'
             'additive'
