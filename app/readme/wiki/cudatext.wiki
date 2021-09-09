@@ -2216,6 +2216,14 @@ For CudaText Qt5 version, library libQt5Pas is required, version 1.2.8 or newer.
 
 You need the latest libQt5Pas [https://github.com/davidbannon/libqt5pas/releases from these packages].
 
+On Ubuntu:
+
+ $ sudo apt install libqt5pas-dev
+
+On Manjaro:
+
+ $ sudo pamac install qt5pas
+
 ===App cannot run on FreeBSD===
 
 If you run app in Terminal, you'll see an error about missing .so file. Reason of this error: FreeBSD version was compiled on Linux with different .so files. To fix error, run command in Terminal:
