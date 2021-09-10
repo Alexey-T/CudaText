@@ -2222,7 +2222,7 @@ On Ubuntu:
 
 On Manjaro:
 
- $ sudo pamac install qt5pas
+ $ pamac install qt5pas
 
 ===App cannot run on FreeBSD===
 
