@@ -554,6 +554,16 @@ add_values = [
     '!important'
     ]
 
+
+# pre-process keys which have " | " separators
+for k in properties_dict.copy(): # copy() is required
+    if ' | ' in k:
+        val = properties_dict[k]
+        del properties_dict[k]
+        for kk in k.split(' | '):
+            properties_dict[kk] = val
+
+
 def get_data(name):
     #get list of properties
     if not name:

@@ -275,7 +275,8 @@ properties_dict = {
         'table-column-group', 'table-footer-group', 'table-header-group',
         'table-row', 'table-row-group', 'table-caption', 'flex',
         'inline-flex', 'grid', 'inline-grid', 'ruby', 'ruby-base',
-        'ruby-text', 'ruby-base-container', 'ruby-text-container', 'run-in'
+        'ruby-text', 'ruby-base-container', 'ruby-text-container', 'run-in',
+        'flow', 'flow-root', 'revert'
     ],
     'dominant-baseline': [
         'auto', 'middle', 'central', 'text-before-edge',
@@ -552,6 +553,16 @@ add_values = [
     'var()',
     '!important'
     ]
+
+
+# pre-process keys which have " | " separators
+for k in properties_dict.copy(): # copy() is required
+    if ' | ' in k:
+        val = properties_dict[k]
+        del properties_dict[k]
+        for kk in k.split(' | '):
+            properties_dict[kk] = val
+
 
 def get_data(name):
     #get list of properties
