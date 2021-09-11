@@ -8,6 +8,7 @@
 + add: micromap can be rendered on vertical scrollbar area: new option "micromap_on_scrollbar"
 + add: option "scrollbar_click_jump" (thanks @JairoMartinezA)
 + add: lexer Python: support for future keywords "match" with "case"
+- fix: major bug in cudax_css.py: must consider " | " separators
 - fix: lexer Markdown: font-style modifiers worked bad with Unicode letters (thanks @MiroslavMatas); for this fix the class \l was added to the lexer RegEx syntax
 - fix: lexer Markdown: fix header rule
 - fix: lexer Markdown: highlight of <~mail@site.com> (thanks @l1ving)
