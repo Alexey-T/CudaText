@@ -275,7 +275,8 @@ properties_dict = {
         'table-column-group', 'table-footer-group', 'table-header-group',
         'table-row', 'table-row-group', 'table-caption', 'flex',
         'inline-flex', 'grid', 'inline-grid', 'ruby', 'ruby-base',
-        'ruby-text', 'ruby-base-container', 'ruby-text-container', 'run-in'
+        'ruby-text', 'ruby-base-container', 'ruby-text-container', 'run-in',
+        'flow', 'flow-root', 'revert'
     ],
     'dominant-baseline': [
         'auto', 'middle', 'central', 'text-before-edge',
