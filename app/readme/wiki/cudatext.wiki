@@ -367,6 +367,7 @@ Most of them are located in the Addons Manager "Install" list.
 * Crystal
 * CSS
 * CUDA C++
+* Cython
 * D
 * Dart
 * Delphi resources
