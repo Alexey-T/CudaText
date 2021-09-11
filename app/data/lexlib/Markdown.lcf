@@ -290,18 +290,8 @@ object SyntAnal14: TLibSyntAnalyzer
     end
     item
       DisplayName = 'Separator line'
-      Enabled = False
-      StyleName = 'Symbols'
-      StatesRemove = 7
-      StatesAbsent = 3072
-      TokenType = 15
-      Expression = '^(_[_\x20]+|\-[\-\x20]+|\*[\*\x20]+)$'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
-      DisplayName = 'Separator line 2'
       StyleName = 'Comment'
+      StatesRemove = 7
       StatesAbsent = 3072
       TokenType = 2
       Expression = '^(([\-\*_])\x20+)+\2?$'
@@ -311,6 +301,7 @@ object SyntAnal14: TLibSyntAnalyzer
     item
       DisplayName = 'List'
       StyleName = 'List'
+      StatesRemove = 7
       StatesAbsent = 3072
       TokenType = 13
       Expression = 
@@ -405,6 +396,7 @@ object SyntAnal14: TLibSyntAnalyzer
     item
       DisplayName = 'Heading'
       StyleName = 'Heading'
+      StatesRemove = 7
       StatesAbsent = 3072
       Expression = 
         '^\x20{0,3}\#{1,6}.* |'#13#10'^\x20{0,3}\w.*\z\x20{0,3}((\-[\-\x20]*)|(' +
@@ -424,6 +416,7 @@ object SyntAnal14: TLibSyntAnalyzer
     item
       DisplayName = 'Quote'
       StyleName = 'Quote BG'
+      StatesRemove = 7
       StatesAbsent = 3072
       TokenType = 3
       Expression = '^[\x20\x09]*(>[\x20=])+'
@@ -513,6 +506,7 @@ object SyntAnal14: TLibSyntAnalyzer
     item
       DisplayName = 'Codeblock indented'
       StyleName = 'Codeblock'
+      StatesRemove = 7
       StatesAbsent = 3072
       TokenType = 4
       Expression = '^(\x20{4,}|\x09{1,}) [^`<>\n\r].*$'
