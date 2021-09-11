@@ -12,7 +12,7 @@
 # An exception is made for files in readable text which contain their own license information, or files where an accompanying file exists (in the same directory) with a “-license” suffix added to the base-name name of the original file, and an extension of txt, html, or similar. For example “tidy” is accompanied by “tidy-license.txt”.
 #############
 
-common_values = {
+COMMONS = {
     'animation_direction': [
         'alternate', 'alternate-reverse', 'normal', 'reverse'
     ],
@@ -150,7 +150,7 @@ common_values = {
     'uri': [['url()', 'url($1)']],
 }
 
-properties_dict = {
+PROPS = {
     'align-content': [
         'center', 'flex-end', 'flex-start', 'space-around', 'space-between',
         'stretch'
@@ -546,7 +546,7 @@ properties_dict = {
 }
 
 
-add_values = [
+FOR_ALL = [
     'inherit',
     'initial',
     'unset',
@@ -556,26 +556,26 @@ add_values = [
 
 
 # pre-process keys which have " | " separators
-for k in properties_dict.copy(): # copy() is required
+for k in PROPS.copy(): # copy() is required
     if ' | ' in k:
-        val = properties_dict[k]
-        del properties_dict[k]
+        val = PROPS[k]
+        del PROPS[k]
         for kk in k.split(' | '):
-            properties_dict[kk] = val
+            PROPS[kk] = val
 
 
 def get_data(name):
     #get list of properties
     if not name:
-        return list(properties_dict.keys())
+        return list(PROPS.keys())
 
     #get list of values for property
     r = []
-    values = properties_dict.get(name, [])
+    values = PROPS.get(name, [])
     for val in values:
         if type(val) is str:
             if val.startswith('<') and val.endswith('>'):
-                more = common_values.get(val[1:-1], [])
+                more = COMMONS.get(val[1:-1], [])
                 for m in more:
                     if type(m) is str:
                         r.append(m)
@@ -585,5 +585,5 @@ def get_data(name):
                 r.append(val)
         elif type(val) is list:
             r.append(val[0])
-    r += add_values
+    r += FOR_ALL
     return r
