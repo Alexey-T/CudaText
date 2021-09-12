@@ -1676,6 +1676,16 @@ In the menu "Plugins / Addons Manager / Install" you will find several categorie
 * category "projtoolbaricons" - configured by dialog of Project Manager
 * category "filetypeicons" - configured by dialog of Project Manager
 
+==Themed top menu==
+
+Top menu (together with some context menus and menu from the "hamburger" icon) can be themed. Only on Windows. This needs the option "ui_menu_themed":true (it's 'true' by default). When option is on, menu font/background/selection/checkmarks become colored from other CudaText UI theme colors. Also, option "ui_menu_themed_font_size" allows to change the font size.
+
+You can also set colors of menu elements directly; dialog "Options / Settings - theme - ui" provides theme items for this. For example, to set the font-color of the top menu, change the color of element "top menu, font" in the dialog.
+
+[[File:cudatext-menu-colorsetup.png]]
+
+By default, elements "top menu, ...." in the dialog have the "none" color (crossed rectangles), it means that custom colors are taken from other UI-theme elements.
+
 =Add-ons=
 
 ==Python API==
