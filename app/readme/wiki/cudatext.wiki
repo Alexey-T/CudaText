@@ -76,7 +76,7 @@ Screenshot on Windows:
 
 * Homepage: http://uvviewsoft.com/cudatext/
 * Downloads: https://www.fosshub.com/CudaText.html . It has builds for:
-** Windows (x32, x64)
+** Windows (x86, x64)
 ** Linux (x64, ARM, AArch64)
 ** macOS (x64)
 ** several BSD systems (x64)
