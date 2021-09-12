@@ -1182,6 +1182,13 @@ Micromap shows tiny colored marks:
 
 Plugins can place marks on micromap, e.g. plugin "Highlight Occurrences" places marks for highlighted fragments, plugin "Spell Checker" places marks for misspelled words.
 
+In the CudaText version 1.144 or newer, micromap can be rendered directly on the vertical scrollbar. To use that, you need 2 options:
+
+* "scrollbar_themed": true
+* "micromap_on_scrollbar": true
+
+[[File:cudatext-micromap-on-scrollbar.png]]
+
 == Paste with middle-button-click ==
 
 To paste like in Linux, with middle-click, you need
