@@ -9,11 +9,11 @@
 + add: option "scrollbar_click_jump" (thanks @JairoMartinezA)
 + add: lexer Python: support for future keywords "match" with "case"
 - fix: major bug in CSS auto-completion (must consider " | " separators in cudax_css.py)
-- fix: command "Undo" sometimes could break the syntax highlight (thanks @eltonfabricio10)
 - fix: lexer Markdown: font-style modifiers worked bad with Unicode letters (thanks @MiroslavMatas); for this fix the class \l was added to the lexer RegEx syntax
 - fix: lexer Markdown: fix header rule
 - fix: lexer Markdown: highlight of <~mail@site.com> (thanks @l1ving)
-- fix: sometimes after PageDown command, app cannot underline links (thanks @OmlineEditor)
+- fix: sometimes command "Undo" breaks the syntax highlight (thanks @eltonfabricio10)
+- fix: sometimes after PageDown command, app doesn't underline links (thanks @OmlineEditor)
 
 1.143.0 (2021/09)
 
