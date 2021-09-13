@@ -9,7 +9,7 @@
 + add: option "scrollbar_click_jump" (thanks @JairoMartinezA)
 + add: lexer Python: support for future keywords "match" with "case"
 - fix: major bug in CSS auto-completion (must consider " | " separators in cudax_css.py)
-- fix: command 'Undo' sometimes breaks the syntax highlight, if used with plugin "Commands History" (thanks @eltonfabricio10)
+- fix: command "Undo" sometimes could break the syntax highlight (thanks @eltonfabricio10)
 - fix: lexer Markdown: font-style modifiers worked bad with Unicode letters (thanks @MiroslavMatas); for this fix the class \l was added to the lexer RegEx syntax
 - fix: lexer Markdown: fix header rule
 - fix: lexer Markdown: highlight of <~mail@site.com> (thanks @l1ving)
