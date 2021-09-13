@@ -453,7 +453,7 @@ begin
   M.Add(cmd_DialogGotoBookmark, 'dialog: go to bookmark', [cXControl+'+B'], []);
   M.Add(cmd_DialogLexerProp, 'dialog: lexer properties', [], []);
   M.Add(cmd_DialogLexerLib, 'dialog: lexer library', [], []);
-  M.Add(cmd_DialogLexerStyleMap, 'dialog: lexer styles map', [], []);
+  M.Add(cmd_DialogLexerStyleMap, 'dialog: lexer styles mapping', [], []);
   M.Add(cmd_DialogThemeUi, 'dialog: config ui-theme', [], []);
   M.Add(cmd_DialogThemeSyntax, 'dialog: config syntax-theme', [], []);
   M.Add(cmd_DialogCharMap, 'dialog: char map', [], []);
