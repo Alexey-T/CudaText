@@ -893,7 +893,13 @@ Some of LSP commands are:
 * Go to definition: integrated with CudaText command "Go to definition" (in the Command Palette, and in the editor context menu).
 * Function signature help: integrated with CudaText command "Show function hint" (in the Command Palette).
 * Hover: shows the tooltip when you hover mouse above identifiers. You need the Ctrl key pressed while you hover.
+
+[[File:cudatext-lsp-hover_.png]]
+
 * Find references: finds all locations where an identifier (under first caret) is used and shows menu with locations.
+
+[[File:cudatext-lsp-refs.png]]
+
 * Code linting: checks the syntax of code, and places underlines and/or bookmarks on "incorrect lines".
 * Document formatting.
 
