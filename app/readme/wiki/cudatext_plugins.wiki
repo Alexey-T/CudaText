@@ -376,7 +376,7 @@ Formatters may change entire file text or only selected text. If selection is ma
 
 == External Tools ==
 
-=== Introduction ===
+=== Introduction to External Tools ===
 
 Plugin "External Tools" (ExtTools) can be installed from Addon Manager. It allows to run external programs, catch their output, and display this output in the Output/Validate panels of CudaText. Or to insert/replace some text in the editor.
 Plugin adds "Tools" top menu (near "Plugins"), it has item to configure all tools, and items for individual tools.
