@@ -1,4 +1,4 @@
-object SyntAnal14: TLibSyntAnalyzer
+object SyntAnal15: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Heading'
@@ -317,7 +317,9 @@ object SyntAnal14: TLibSyntAnalyzer
       StatesAdd = 3
       StatesAbsent = 3075
       TokenType = 15
-      Expression = '\*\*\*(?=[\l~\(]) |'#13#10'(?<![\l_\)])___(?=[\l~\(])'
+      Expression = 
+        '\*\*\*(?=[\l\x{2026}\?!~\(]) |'#13#10'(?<![\l_\x{2026}\?!\)])___(?=[\l' +
+        '\x{2026}\?!~\(])'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -327,7 +329,9 @@ object SyntAnal14: TLibSyntAnalyzer
       StatesAdd = 1
       StatesAbsent = 3073
       TokenType = 15
-      Expression = '\*\*(?=[\l_~\(]) |'#13#10'(?<![\l_\)])__(?=[\l~\*\(])'
+      Expression = 
+        '\*\*(?=[\l_\x{2026}\?!~\(]) |'#13#10'(?<![\l_\x{2026}\?!\)])__(?=[\l\x' +
+        '{2026}\?!~\*\(])'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -338,7 +342,9 @@ object SyntAnal14: TLibSyntAnalyzer
       StatesPresent = 1
       StatesAbsent = 3072
       TokenType = 15
-      Expression = '(?<=[\l_~\*\)>])__(?!\l) |'#13#10'(?<=[\l_~\)>])\*\*'
+      Expression = 
+        '(?<=[\l_\x{2026}\?!~\*\)>])__(?!\l\x{2026}\?!) |'#13#10'(?<=[\l_\x{202' +
+        '6}\?!~\)>])\*\*'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -348,7 +354,9 @@ object SyntAnal14: TLibSyntAnalyzer
       StatesAdd = 2
       StatesAbsent = 3074
       TokenType = 15
-      Expression = '(?<![\l_\)])_(?=[\l~\*\(]) |'#13#10'\*(?=[\l_~\(])'
+      Expression = 
+        '(?<![\l_\x{2026}\?!\)])_(?=[\l\x{2026}\?!~\*\(]) |'#13#10'\*(?=[\l_\x{' +
+        '2026}\?!~\(])'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -359,7 +367,9 @@ object SyntAnal14: TLibSyntAnalyzer
       StatesPresent = 2
       StatesAbsent = 3072
       TokenType = 15
-      Expression = '(?<=[\l_~\*\)>])_(?!\l) |'#13#10'(?<=[\l_~\)>\*])\*'
+      Expression = 
+        '(?<=[\l_\x{2026}\?!~\*\)>])_(?!\l\x{2026}\?!) |'#13#10'(?<=[\l_\x{2026' +
+        '}\?!~\)>\*])\*'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -622,7 +632,7 @@ object SyntAnal14: TLibSyntAnalyzer
       StatesPresent = 7
       StatesAbsent = 3072
       TokenType = 1
-      Expression = '[\l\x20\.,:;\(\)]+'
+      Expression = '[\l\x20\.,:;\(\)\?!\x{2026}]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -632,7 +642,7 @@ object SyntAnal14: TLibSyntAnalyzer
       StatesPresent = 5
       StatesAbsent = 3072
       TokenType = 1
-      Expression = '[\l\x20\.,:;\(\)]+'
+      Expression = '[\l\x20\.,:;\(\)\?!\x{2026}]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -642,7 +652,7 @@ object SyntAnal14: TLibSyntAnalyzer
       StatesPresent = 6
       StatesAbsent = 3072
       TokenType = 1
-      Expression = '[\l\x20\.,:;\(\)]+'
+      Expression = '[\l\x20\.,:;\(\)\?!\x{2026}]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -652,7 +662,7 @@ object SyntAnal14: TLibSyntAnalyzer
       StatesPresent = 3
       StatesAbsent = 3072
       TokenType = 1
-      Expression = '[\l\x20\.,:;\(\)]+'
+      Expression = '[\l\x20\.,:;\(\)\?!\x{2026}]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -662,7 +672,7 @@ object SyntAnal14: TLibSyntAnalyzer
       StatesPresent = 1
       StatesAbsent = 3072
       TokenType = 1
-      Expression = '[\l\x20\.,:;\(\)]+'
+      Expression = '[\l\x20\.,:;\(\)\?!\x{2026}]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -672,7 +682,7 @@ object SyntAnal14: TLibSyntAnalyzer
       StatesPresent = 2
       StatesAbsent = 3072
       TokenType = 1
-      Expression = '[\l\x20\.,:;\(\)]+'
+      Expression = '[\l\x20\.,:;\(\)\?!\x{2026}]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -682,7 +692,7 @@ object SyntAnal14: TLibSyntAnalyzer
       StatesPresent = 4
       StatesAbsent = 3072
       TokenType = 1
-      Expression = '[\l\x20\.,:;\(\)]+'
+      Expression = '[\l\x20\.,:;\(\)\?!\x{2026}]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -691,7 +701,7 @@ object SyntAnal14: TLibSyntAnalyzer
       StyleName = 'Text'
       StatesAbsent = 3072
       TokenType = 1
-      Expression = '[\l\x20\.,:;\(\)]+'
+      Expression = '[\l\x20\.,:;\(\)\?!\x{2026}]+'
       ColumnFrom = 0
       ColumnTo = 0
     end>
@@ -929,7 +939,7 @@ object SyntAnal14: TLibSyntAnalyzer
       StatesAbsent = 3
       StartExpression = '<\?'
       EndExpression = '\?>'
-      SyntAnalyzer = SyntAnal16
+      SyntAnalyzer = SyntAnal17
       IncludeBounds = True
     end
     item
@@ -937,7 +947,7 @@ object SyntAnal14: TLibSyntAnalyzer
       StatesAbsent = 3
       StartExpression = '(?s)<script\b.*?>'
       EndExpression = '</script>'
-      SyntAnalyzer = SyntAnal9
+      SyntAnalyzer = SyntAnal10
     end
     item
       DisplayName = 'CSS'
@@ -950,13 +960,13 @@ object SyntAnal14: TLibSyntAnalyzer
       DisplayName = 'YAML front matter'
       StartExpression = '\A---(\s*yaml)?$'
       EndExpression = '^---$'
-      SyntAnalyzer = SyntAnal23
+      SyntAnalyzer = SyntAnal24
     end
     item
       DisplayName = 'JSON front matter'
       StartExpression = '\A---\s*json$'
       EndExpression = '^---$'
-      SyntAnalyzer = SyntAnal11
+      SyntAnalyzer = SyntAnal12
     end>
   SampleText.Strings = (
     '---'
