@@ -94,9 +94,11 @@ Preview tab can be dragged to another tab-group, it should work there too, it wi
 
 === Switch between projects ===
 
-There is a way to quickly switch between several projects, even if Project Manager cannot open more than a single project at a time.
+To switch to different project, Plugin Manager gives the context menu: "Project File / Recent projects / name.cuda-proj".
 
-* Install plugins: "Config Toolbar" and "External Tools".
+There is also a way to quickly switch between often used projects:
+
+* Install plugins "Config Toolbar" and "External Tools". Restart CudaText.
 * Set CudaText option "ui_one_instance": true.
 * In "External Tools" make a tool which starts CudaText (yes, from within CudaText) with parameter: full path of a project. The command line can look like: "c:\Apps\cudatext.exe "c:\Apps\some_project.cuda-proj"". You can add here additional parameter: full path of a session file, *.cuda-session / *.json. So this external tool will open given project (and maybe a session too). It will open it inside the same CudaText instance (because "ui_one_instance":true).
 * Add more such external tools in the "External Tools", for different projects (and maybe sessions).
