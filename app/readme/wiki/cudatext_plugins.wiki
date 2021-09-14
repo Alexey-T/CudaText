@@ -97,9 +97,11 @@ Preview tab can be dragged to another tab-group, it should work there too, it wi
 
 === Switch between projects ===
 
-To switch to different project, Plugin Manager gives the context menu: "Project File / Recent projects / name.cuda-proj".
+1) To switch to different project, Plugin Manager gives the context menu: "Project File / Recent projects / name.cuda-proj".
 
-There is also a way to quickly switch between often used projects:
+2) Another way is using the plugin "Favorites". It gives the dialog (can be called by a hotkey), with 2 tabs: "Files" and "Projects", so you can choose one of your favorite projects from a listbox.
+
+3) There is also a way to quickly switch between projects:
 
 * Install plugins "Config Toolbar" and "External Tools". Restart CudaText.
 * Set CudaText option "ui_one_instance": true.
