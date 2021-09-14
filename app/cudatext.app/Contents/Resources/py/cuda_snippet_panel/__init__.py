@@ -136,3 +136,4 @@ class Command:
             listbox_proc(self.h_list, LISTBOX_ADD, index=-1, text=i['name'])
 
         listbox_proc(self.h_list, LISTBOX_SET_SEL, index=0)
+        listbox_proc(self.h_list, LISTBOX_SET_TOP, index=0)
