@@ -124,6 +124,7 @@ end;
 
 procedure TfmMain.DoSidebar_OnShowCodeTree(Sender: TObject);
 begin
+  PanelCodeTreeAll.Show;
   UpdateTreeByTimer;
 end;
 
