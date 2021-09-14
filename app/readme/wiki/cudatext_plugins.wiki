@@ -92,7 +92,7 @@ Preview tab is always created in the first tab-group. Even if the focused editor
 It was made so to avoid the situation when preview tab jumps from one tab-group to another.
 Preview tab can be dragged to another tab-group, it should work there too, it will show there all "previewed" files.
 
-=== Quickly swith between projects ===
+=== Switch between projects ===
 
 There is a way to quickly switch between several projects, even if Project Manager cannot open more than a single project at a time.
 
