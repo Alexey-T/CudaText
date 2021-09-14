@@ -102,6 +102,8 @@ There is a way to quickly switch between several projects, even if Project Manag
 * Add more such external tools in the "External Tools", for different projects (and maybe sessions).
 * Using the plugin "Config Toolbar", add the toolbar drop-down menu, with menu-items referring to different external tools.
 
+[[File:cudatext-tools-and-projects.png]]
+
 == Snippets ==
 
 To use snippets you need:
