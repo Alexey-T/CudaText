@@ -390,6 +390,10 @@ Some external tools configs are shown in topics below. Enter these strings in th
 The disadvantage of the plugin: it cannot show tool output lines immediately when they appear, it waits until tool is terminated.
 Consider to use the [[#Runner]] plugin which supports this.
 
+Notes:
+
+* If you see that running of tools makes the Output panel visible, you need to fix the "Capture output" option of those tools, set it to "Ignore".
+
 === Tool to compile by GCC ===
 
 You can test how this tool works on any Linux, because GCC is preinstalled. Test the tool on C++ example, which is created from CudaText by menu "File / New from template / C++".
