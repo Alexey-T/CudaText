@@ -101,10 +101,13 @@ There is also a way to quickly switch between often used projects:
 * Install plugins "Config Toolbar" and "External Tools". Restart CudaText.
 * Set CudaText option "ui_one_instance": true.
 * In "External Tools" make a tool which starts CudaText (yes, from within CudaText) with parameter: full path of a project. The command line can look like: "c:\Apps\cudatext.exe "c:\Apps\some_project.cuda-proj"". You can add here additional parameter: full path of a session file, *.cuda-session / *.json. So this external tool will open given project (and maybe a session too). It will open it inside the same CudaText instance (because "ui_one_instance":true).
-* Add more such external tools in the "External Tools", for different projects (and maybe sessions).
-* Using the plugin "Config Toolbar", add the toolbar drop-down menu, with menu-items referring to different external tools.
+* Add more such tools in the "External Tools", for different projects (and maybe sessions).
 
 [[File:cudatext-tools-and-projects.png]]
+
+* In the plugin "Config Toolbar", add the toolbar drop-down menu, with menu-items referring to different tools. Or add the individual menu-items for separate tools.
+
+[[File:cudatext-tools-and-projects-config.png]]
 
 == Snippets ==
 
