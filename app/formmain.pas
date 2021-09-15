@@ -1138,7 +1138,10 @@ type
     procedure InitConfirmPanel;
     procedure InitPyEngine;
     procedure InitFrameEvents(F: TEditorFrame);
+    procedure InitStatusbar;
     procedure InitStatusbarControls;
+    procedure InitGroups;
+    procedure InitFinder;
     procedure FrameOnChangeCaption(Sender: TObject);
     procedure FrameOnUpdateStatusbar(Sender: TObject);
     procedure FrameOnUpdateState(Sender: TObject);
@@ -2503,6 +2506,44 @@ begin
   CodeTreeFilterInput.OnCommand:= @CodeTreeFilter_OnCommand;
 end;
 
+procedure TfmMain.InitStatusbar;
+begin
+  Status:= TATStatus.Create(Self);
+  Status.Parent:= Self;
+  Status.Align:= alBottom;
+  Status.Top:= Height;
+  Status.ScaleFromFont:= true; //statusbar is autosized via its font size
+  Status.OnPanelClick:= @StatusPanelClick;
+  Status.ShowHint:= true;
+  Status.Theme:= @AppThemeStatusbar;
+end;
+
+procedure TfmMain.InitGroups;
+begin
+  Groups:= TATGroups.Create(Self);
+  Groups.Parent:= PanelEditors;
+  Groups.Align:= alClient;
+  Groups.Mode:= gmOne;
+  Groups.Images:= ImageListTabs;
+  Groups.OnChangeMode:=@DoGroupsChangeMode;
+  Groups.OnTabFocus:= @DoOnTabFocus;
+  Groups.OnTabAdd:= @DoOnTabAdd;
+  Groups.OnTabClose:= @DoOnTabClose;
+  Groups.OnTabMove:= @DoOnTabMove;
+  Groups.OnTabPopup:= @DoOnTabPopup;
+  //Groups.OnTabOver:= @DoOnTabOver;
+  Groups.OnTabGetTick:= @DoOnTabGetTick;
+end;
+
+procedure TfmMain.InitFinder;
+begin
+  FFinder:= TATEditorFinder.Create;
+  FFinder.OnConfirmReplace:= @FinderOnConfirmReplace;
+  FFinder.OnProgress:= @FinderOnProgress;
+  FFinder.OnFound:=@FinderOnFound;
+  FFinder.OnGetToken:= @FinderOnGetToken;
+end;
+
 procedure TfmMain.FormCreate(Sender: TObject);
 var
   NTick: QWord;
@@ -2609,35 +2650,9 @@ begin
   FLastStatusbarMessages:= TStringList.Create;
   FLastStatusbarMessages.TextLineBreakStyle:= tlbsLF;
 
-  Status:= TATStatus.Create(Self);
-  Status.Parent:= Self;
-  Status.Align:= alBottom;
-  Status.Top:= Height;
-  Status.ScaleFromFont:= true; //statusbar is autosized via its font size
-  Status.OnPanelClick:= @StatusPanelClick;
-  Status.ShowHint:= true;
-  Status.Theme:= @AppThemeStatusbar;
-
-  Groups:= TATGroups.Create(Self);
-  Groups.Parent:= PanelEditors;
-  Groups.Align:= alClient;
-  Groups.Mode:= gmOne;
-  Groups.Images:= ImageListTabs;
-  Groups.OnChangeMode:=@DoGroupsChangeMode;
-  Groups.OnTabFocus:= @DoOnTabFocus;
-  Groups.OnTabAdd:= @DoOnTabAdd;
-  Groups.OnTabClose:= @DoOnTabClose;
-  Groups.OnTabMove:= @DoOnTabMove;
-  Groups.OnTabPopup:= @DoOnTabPopup;
-  //Groups.OnTabOver:= @DoOnTabOver;
-  Groups.OnTabGetTick:= @DoOnTabGetTick;
-
-  FFinder:= TATEditorFinder.Create;
-  FFinder.OnConfirmReplace:= @FinderOnConfirmReplace;
-  FFinder.OnProgress:= @FinderOnProgress;
-  FFinder.OnFound:=@FinderOnFound;
-  FFinder.OnGetToken:= @FinderOnGetToken;
-
+  InitStatusbar;
+  InitGroups;
+  InitFinder;
   InitStatusbarControls;
 
   FFindStop:= false;
