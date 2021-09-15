@@ -920,6 +920,7 @@ type
     procedure InitSaveDlg;
     procedure InitSidebar;
     procedure InitToolbar;
+    procedure InitCodeTree;
     function IsWindowMaximizedOrFullscreen: boolean;
     function IsAllowedToOpenFileNow: boolean;
     function IsThemeNameExist(const AName: string; AThemeUI: boolean): boolean;
@@ -2445,6 +2446,63 @@ begin
 end;
 
 
+procedure TfmMain.InitCodeTree;
+begin
+  PanelCodeTreeAll:= TFormDummy.Create(Self);
+  PanelCodeTreeAll.Name:= 'PanelCodeTreeAll';
+  PanelCodeTreeAll.BorderStyle:= bsNone;
+  PanelCodeTreeAll.OnEnter:= @DoCodetree_PanelOnEnter;
+
+  CodeTree:= TAppTreeContainer.Create(PanelCodeTreeAll);
+  CodeTree.Name:= 'CodeTree';
+  DoControl_InitPropsObject(CodeTree, PanelCodeTreeAll, 'treeview');
+  CodeTree.Parent:= PanelCodeTreeAll;
+  CodeTree.Align:= alClient;
+  CodeTree.Themed:= true;
+  CodeTree.Tree.OnDblClick:= @DoCodetree_OnDblClick;
+  CodeTree.Tree.OnMouseMove:= @DoCodetree_OnMouseMove;
+  CodeTree.Tree.OnKeyDown:= @DoCodetree_OnKeyDown;
+  CodeTree.Tree.OnContextPopup:= @DoCodetree_OnContextPopup;
+  CodeTree.Tree.OnAdvancedCustomDrawItem:=@DoCodetree_OnAdvDrawItem;
+
+  PanelCodeTreeTop:= TPanel.Create(PanelCodeTreeAll);
+  PanelCodeTreeTop.Name:= 'PanelCodeTreeTop';
+  DoControl_InitPropsObject(PanelCodeTreeTop, PanelCodeTreeAll, 'panel');
+  PanelCodeTreeTop.Parent:= PanelCodeTreeAll;
+  PanelCodeTreeTop.Align:= alTop;
+  PanelCodeTreeTop.BorderStyle:= bsNone;
+  PanelCodeTreeTop.BevelInner:= bvNone;
+  PanelCodeTreeTop.BevelOuter:= bvNone;
+  PanelCodeTreeTop.Height:= UiOps.InputHeight;
+
+  CodeTreeFilter:= TTreeFilterEdit.Create(PanelCodeTreeAll);
+  CodeTreeFilter.Name:= 'CodeTreeFilter';
+  DoControl_InitPropsObject(CodeTreeFilter, PanelCodeTreeAll, 'tree_filter_edit');
+  CodeTreeFilter.Hide;
+
+  CodeTreeFilterReset:= TATButton.Create(PanelCodeTreeAll);
+  CodeTreeFilterReset.Name:= 'CodeTreeFilterReset';
+  DoControl_InitPropsObject(CodeTreeFilterReset, PanelCodeTreeAll, 'button_ex');
+  CodeTreeFilterReset.Parent:= PanelCodeTreeTop;
+  CodeTreeFilterReset.Align:= alRight;
+  CodeTreeFilterReset.Width:= UiOps.ScrollbarWidth;
+  CodeTreeFilterReset.Caption:= '';
+  CodeTreeFilterReset.Arrow:= true;
+  CodeTreeFilterReset.ArrowKind:= abakCross;
+  CodeTreeFilterReset.Focusable:= false;
+  CodeTreeFilterReset.ShowHint:= true;
+  CodeTreeFilterReset.Hint:= msgTooltipClearFilter;
+  CodeTreeFilterReset.OnClick:= @CodeTreeFilter_ResetOnClick;
+
+  CodeTreeFilterInput:= TATComboEdit.Create(PanelCodeTreeAll);
+  CodeTreeFilterInput.Name:= 'CodeTreeFilterInput';
+  DoControl_InitPropsObject(CodeTreeFilterInput, PanelCodeTreeAll, 'editor_combo');
+  CodeTreeFilterInput.Parent:= PanelCodeTreeTop;
+  CodeTreeFilterInput.Align:= alClient;
+  CodeTreeFilterInput.OnChange:= @CodeTreeFilter_OnChange;
+  CodeTreeFilterInput.OnCommand:= @CodeTreeFilter_OnCommand;
+end;
+
 procedure TfmMain.FormCreate(Sender: TObject);
 var
   NTick: QWord;
@@ -2522,61 +2580,7 @@ begin
 
   InitAppleMenu;
   InitToolbar;
-
-  PanelCodeTreeAll:= TFormDummy.Create(Self);
-  PanelCodeTreeAll.Name:= 'PanelCodeTreeAll';
-  PanelCodeTreeAll.BorderStyle:= bsNone;
-  PanelCodeTreeAll.OnEnter:= @DoCodetree_PanelOnEnter;
-
-  CodeTree:= TAppTreeContainer.Create(PanelCodeTreeAll);
-  CodeTree.Name:= 'CodeTree';
-  DoControl_InitPropsObject(CodeTree, PanelCodeTreeAll, 'treeview');
-  CodeTree.Parent:= PanelCodeTreeAll;
-  CodeTree.Align:= alClient;
-  CodeTree.Themed:= true;
-  CodeTree.Tree.OnDblClick:= @DoCodetree_OnDblClick;
-  CodeTree.Tree.OnMouseMove:= @DoCodetree_OnMouseMove;
-  CodeTree.Tree.OnKeyDown:= @DoCodetree_OnKeyDown;
-  CodeTree.Tree.OnContextPopup:= @DoCodetree_OnContextPopup;
-  CodeTree.Tree.OnAdvancedCustomDrawItem:=@DoCodetree_OnAdvDrawItem;
-
-  PanelCodeTreeTop:= TPanel.Create(PanelCodeTreeAll);
-  PanelCodeTreeTop.Name:= 'PanelCodeTreeTop';
-  DoControl_InitPropsObject(PanelCodeTreeTop, PanelCodeTreeAll, 'panel');
-  PanelCodeTreeTop.Parent:= PanelCodeTreeAll;
-  PanelCodeTreeTop.Align:= alTop;
-  PanelCodeTreeTop.BorderStyle:= bsNone;
-  PanelCodeTreeTop.BevelInner:= bvNone;
-  PanelCodeTreeTop.BevelOuter:= bvNone;
-  PanelCodeTreeTop.Height:= UiOps.InputHeight;
-
-  CodeTreeFilter:= TTreeFilterEdit.Create(PanelCodeTreeAll);
-  CodeTreeFilter.Name:= 'CodeTreeFilter';
-  DoControl_InitPropsObject(CodeTreeFilter, PanelCodeTreeAll, 'tree_filter_edit');
-  CodeTreeFilter.Hide;
-
-  CodeTreeFilterReset:= TATButton.Create(PanelCodeTreeAll);
-  CodeTreeFilterReset.Name:= 'CodeTreeFilterReset';
-  DoControl_InitPropsObject(CodeTreeFilterReset, PanelCodeTreeAll, 'button_ex');
-  CodeTreeFilterReset.Parent:= PanelCodeTreeTop;
-  CodeTreeFilterReset.Align:= alRight;
-  CodeTreeFilterReset.Width:= UiOps.ScrollbarWidth;
-  CodeTreeFilterReset.Caption:= '';
-  CodeTreeFilterReset.Arrow:= true;
-  CodeTreeFilterReset.ArrowKind:= abakCross;
-  CodeTreeFilterReset.Focusable:= false;
-  CodeTreeFilterReset.ShowHint:= true;
-  CodeTreeFilterReset.Hint:= msgTooltipClearFilter;
-  CodeTreeFilterReset.OnClick:= @CodeTreeFilter_ResetOnClick;
-
-  CodeTreeFilterInput:= TATComboEdit.Create(PanelCodeTreeAll);
-  CodeTreeFilterInput.Name:= 'CodeTreeFilterInput';
-  DoControl_InitPropsObject(CodeTreeFilterInput, PanelCodeTreeAll, 'editor_combo');
-  CodeTreeFilterInput.Parent:= PanelCodeTreeTop;
-  CodeTreeFilterInput.Align:= alClient;
-  CodeTreeFilterInput.OnChange:= @CodeTreeFilter_OnChange;
-  CodeTreeFilterInput.OnCommand:= @CodeTreeFilter_OnCommand;
-
+  InitCodeTree;
   InitBottomEditor(fmOutput);
   InitBottomEditor(fmValidate);
 
