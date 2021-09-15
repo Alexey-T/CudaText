@@ -1142,6 +1142,7 @@ type
     procedure InitStatusbarControls;
     procedure InitGroups;
     procedure InitFinder;
+    procedure InitBookmarkSetup;
     procedure FrameOnChangeCaption(Sender: TObject);
     procedure FrameOnUpdateStatusbar(Sender: TObject);
     procedure FrameOnUpdateState(Sender: TObject);
@@ -2544,9 +2545,19 @@ begin
   FFinder.OnGetToken:= @FinderOnGetToken;
 end;
 
-procedure TfmMain.FormCreate(Sender: TObject);
+procedure TfmMain.InitBookmarkSetup;
 var
   i: integer;
+begin
+  AppBookmarkImagelist.AddImages(ImageListBm);
+  for i:= 2 to 9 do
+  begin
+    AppBookmarkSetup[i].Color:= clDefault;
+    AppBookmarkSetup[i].ImageIndex:= i-1;
+  end;
+end;
+
+procedure TfmMain.FormCreate(Sender: TObject);
 begin
   OnEnter:= @FormEnter;
 
@@ -2623,19 +2634,11 @@ begin
   InitCodeTree;
   InitBottomEditor(fmOutput);
   InitBottomEditor(fmValidate);
-
   InitConsole;
   fmConsole.OnConsoleNav:= @DoPyEvent_ConsoleNav;
   fmConsole.OnNumberChange:= @DoOnConsoleNumberChange;
-
   InitSidebar; //after initing PanelCodeTreeAll, EditorOutput, EditorValidate, fmConsole
-
-  AppBookmarkImagelist.AddImages(ImageListBm);
-  for i:= 2 to 9 do
-  begin
-    AppBookmarkSetup[i].Color:= clDefault;
-    AppBookmarkSetup[i].ImageIndex:= i-1;
-  end;
+  InitBookmarkSetup;
 
   FMenuVisible:= true;
   AppSessionName:= '';
