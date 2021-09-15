@@ -268,6 +268,7 @@ begin
   //place StatusProgress+ButtonCancel onto Statusbar and anchor to right
   with StatusProgress do
   begin
+    Visible:= false;
     Parent:= Status;
     AnchorSideRight.Control:= Status;
     AnchorSideRight.Side:= asrBottom;
@@ -301,6 +302,7 @@ begin
 
   with ButtonCancel do
   begin
+    Visible:= false;
     Parent:= Status;
     AnchorSideRight.Control:= StatusProgress;
     AnchorSideBottom.Control:= StatusProgress;
@@ -313,7 +315,6 @@ begin
 
   //UpdateLexerProgressbar(0, false);
   UpdateGlobalProgressbar(0, false);
-  ButtonCancel.Hide;
 end;
 
 procedure TfmMain.UpdateCurrentFrame(AUpdatedText: boolean = false); inline;
