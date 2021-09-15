@@ -2546,7 +2546,6 @@ end;
 
 procedure TfmMain.FormCreate(Sender: TObject);
 var
-  NTick: QWord;
   i: integer;
 begin
   OnEnter:= @FormEnter;
@@ -2625,15 +2624,9 @@ begin
   InitBottomEditor(fmOutput);
   InitBottomEditor(fmValidate);
 
-  NTick:= GetTickCount64;
   InitConsole;
   fmConsole.OnConsoleNav:= @DoPyEvent_ConsoleNav;
   fmConsole.OnNumberChange:= @DoOnConsoleNumberChange;
-  if UiOps.LogConsoleDetailedStartupTime then
-  begin
-    NTick:= GetTickCount64-NTick;
-    MsgLogConsole(Format('Loaded console form: %dms', [NTick]));
-  end;
 
   InitSidebar; //after initing PanelCodeTreeAll, EditorOutput, EditorValidate, fmConsole
 
