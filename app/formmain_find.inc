@@ -332,7 +332,7 @@ begin
           finally
             Ed.DoEventChange;
           end;
-          FrameNew.TabCaption:= msgRegexMatchesCaption;
+          FrameNew.TabCaption:= msgFinderRegexMatchesNumbered;
         end
         else
           ShowFinderResult(false);
