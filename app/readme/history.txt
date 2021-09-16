@@ -3,6 +3,12 @@
   - fixed
   * changed
 
+1.144.1 (2021/09)
+
++ add: consider Find dialog option "Case sensitive" on "Extract RegEx matches"
++ add: lexer JS: folding for brackets () []
++ add: lexer PHP: small fix
+
 1.144.0 (2021/09)
 
 + add: micromap can be rendered on vertical scrollbar area: new option "micromap_on_scrollbar"
