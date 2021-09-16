@@ -1,4 +1,4 @@
-object SyntAnal15: TLibSyntAnalyzer
+object SyntAnal19: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Comment'
@@ -228,7 +228,7 @@ object SyntAnal15: TLibSyntAnalyzer
       DisplayName = 'Symbol op'
       StyleName = 'Symbol operator'
       TokenType = 4
-      Expression = '[!/\+\-\*:=<>&/\|\^~\@\%\?]+'
+      Expression = '[!/\+\-\*:=<>&/\|\^~\@\%\?]+|\.\.\.'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -322,6 +322,7 @@ object SyntAnal15: TLibSyntAnalyzer
             'else'
             'elseif'
             'empty'
+            'end'
             'enddeclare'
             'endfor'
             'endforeach'
@@ -341,6 +342,7 @@ object SyntAnal15: TLibSyntAnalyzer
             'goto'
             'if'
             'implements'
+            'import'
             'include'
             'include_once'
             'instanceof'
