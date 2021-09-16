@@ -137,6 +137,7 @@ const
   msgFinderHintWrapped: string = 'wrapped';
   msgFinderHintInSel: string = 'in-sel';
   msgFinderHintFromCaret: string = 'from-caret';
+  msgFinderExtractRegexCaption: string = 'RegEx matches';
 
   msgButtonOk: string = 'OK';
   msgButtonCancel: string = 'Cancel';
@@ -418,6 +419,7 @@ const
   msgFindHint_HiAll: string = 'Highlight all matches';
 
 function msgTranslatedPanelCaption(const ACaption: string): string;
+function msgRegexMatchesCaption: string;
 
 
 implementation
@@ -442,6 +444,14 @@ begin
     else
       Result:= ACaption;
   end;
+end;
+
+function msgRegexMatchesCaption: string;
+const
+  AppRegexCaption: integer = 0;
+begin
+  Inc(AppRegexCaption);
+  Result:= msgFinderExtractRegexCaption+' '+IntToStr(AppRegexCaption);
 end;
 
 
