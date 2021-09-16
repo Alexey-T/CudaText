@@ -10,6 +10,7 @@
 + add: lexer PHP: update word lists; keywords+classes must be case-insensitive
 + add: lexer Ini: highlight keywords "true"/"false" and numbers, support comments in the middle of a line
 - fix: lexer YAML: fix string-rule, add \-escaped rule
+- fix: command "toggle side panel" sometimes shows empty panel
 
 1.144.0 (2021/09)
 
