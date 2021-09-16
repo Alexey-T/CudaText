@@ -325,6 +325,7 @@ begin
         if ListFound.Count>0 then
         begin
           FrameNew:= DoFileOpen('', '');
+          FrameNew.TabCaptionUntitled:= msgFinderRegexMatchesNumbered;
           Ed:= FrameNew.Editor;
           try
             Ed.Strings.LoadFromStrings(ListFound, cEndUnix);
@@ -332,7 +333,6 @@ begin
           finally
             Ed.DoEventChange;
           end;
-          FrameNew.TabCaption:= msgFinderRegexMatchesNumbered;
         end
         else
           ShowFinderResult(false);
