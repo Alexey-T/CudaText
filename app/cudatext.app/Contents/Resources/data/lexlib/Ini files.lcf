@@ -61,7 +61,15 @@ object SyntAnal9: TLibSyntAnalyzer
       DisplayName = 'Comment'
       StyleName = 'Comment'
       TokenType = 1
-      Expression = '[;\#].*'
+      Expression = '\#.*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Comment2'
+      StyleName = 'Comment'
+      TokenType = 1
+      Expression = '^;.*'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -160,7 +168,7 @@ object SyntAnal9: TLibSyntAnalyzer
     '#comment'
     '[section]'
     'aa=2'
-    'bb=true'
+    'bb=true ; not comment'
     'dd=value  #comment'
     'Incorrect')
   TokenTypeNames.Strings = (
