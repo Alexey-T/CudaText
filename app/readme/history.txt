@@ -7,7 +7,7 @@
 
 + add: consider Find dialog option "Case sensitive" on "Extract RegEx matches"
 + add: lexer JS: folding for brackets () []
-+ add: lexer PHP: small fix
++ add: lexer PHP: update word lists; keywords+classes are case-insensitive
 
 1.144.0 (2021/09)
 
