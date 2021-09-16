@@ -8,6 +8,7 @@
 + add: consider Find dialog option "Case sensitive" on "Extract RegEx matches"
 + add: lexer JS: folding for brackets ()[] (thanks @GHNewbiee)
 + add: lexer PHP: update word lists; keywords+classes must be case-insensitive
+- fix: lexer YAML: fix string-rule, add \-escaped rule
 
 1.144.0 (2021/09)
 
