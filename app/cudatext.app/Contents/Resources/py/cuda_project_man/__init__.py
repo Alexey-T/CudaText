@@ -176,6 +176,7 @@ class Command:
     tree = None
     h_dlg = None
     h_menu = None
+    h_menu_cfg = None
 
     def __init__(self):
         settings_dir = Path(app_path(APP_DIR_SETTINGS))
@@ -228,8 +229,7 @@ class Command:
         _toolbar_add_btn(self.h_bar, hint=_('Add file'), icon=icon_add_file, command='cuda_project_man.action_add_file' )
         _toolbar_add_btn(self.h_bar, hint=_('Remove node'), icon=icon_del, command='cuda_project_man.action_remove_node' )
         _toolbar_add_btn(self.h_bar, hint='-' )
-        _toolbar_add_btn(self.h_bar, hint=_('Project properties'), icon=icon_cfg, command='cuda_project_man.action_project_properties' )
-        _toolbar_add_btn(self.h_bar, hint=_('Configure Project Manager'), icon=icon_cfg, command='cuda_project_man.action_config' )
+        _toolbar_add_btn(self.h_bar, hint=_('Configure'), icon=icon_cfg, command='cuda_project_man.menu_cfg')
         toolbar_proc(self.h_bar, TOOLBAR_UPDATE)
 
         n = dlg_proc(self.h_dlg, DLG_CTL_ADD, prop='treeview')
@@ -708,6 +708,14 @@ class Command:
 
     def action_config(self):
         self.config()
+
+    def menu_cfg(self):
+        if self.h_menu_cfg is None:
+            self.h_menu_cfg = menu_proc(0, MENU_CREATE)
+            menu_proc(self.h_menu_cfg, MENU_ADD, command='cuda_project_man.action_project_properties', caption=_('Project properties...'))
+            menu_proc(self.h_menu_cfg, MENU_ADD, command='cuda_project_man.action_config', caption=_('Configure Project Manager...'))
+
+        menu_proc(self.h_menu_cfg, MENU_SHOW)
 
     def update_global_data(self):
         global global_project_info
