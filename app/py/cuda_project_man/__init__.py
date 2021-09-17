@@ -713,7 +713,7 @@ class Command:
         if self.h_menu_cfg is None:
             self.h_menu_cfg = menu_proc(0, MENU_CREATE)
             menu_proc(self.h_menu_cfg, MENU_ADD, command='cuda_project_man.action_project_properties', caption=_('Project properties...'))
-            menu_proc(self.h_menu_cfg, MENU_ADD, command='cuda_project_man.action_config', caption=_('Configure Project Manager...'))
+            menu_proc(self.h_menu_cfg, MENU_ADD, command='cuda_project_man.action_config', caption=_('Project Manager options...'))
 
         menu_proc(self.h_menu_cfg, MENU_SHOW)
 
