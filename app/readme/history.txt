@@ -12,6 +12,7 @@
 + add: lexer YAML: fix string-rule, add \-escaped rule
 - fix: Project Manager: right-click must not open a file (thanks @GHNewbiee)
 - fix: Options Editor Lite: issue with arrow keys (thanks @GHNewbiee)
+- fix: API on_scroll was not called by "scroll ..." commands (thanks @OlehL)
 - fix: command "toggle side panel" sometimes shows empty panel
 
 1.144.0 (2021/09)
