@@ -10,7 +10,8 @@
 + add: lexer PHP: update word lists; keywords+classes must be case-insensitive
 + add: lexer Ini: highlight keywords "true"/"false" and numbers, support comments in the middle of a line
 + add: lexer YAML: fix string-rule, add \-escaped rule
-- fix: plugin Options Editor Lite: issue with arrow keys (thanks @GHNewbiee)
+- fix: Project Manager: right-click must not open a file (thanks @GHNewbiee)
+- fix: Options Editor Lite: issue with arrow keys (thanks @GHNewbiee)
 - fix: command "toggle side panel" sometimes shows empty panel
 
 1.144.0 (2021/09)
