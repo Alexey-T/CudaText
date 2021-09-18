@@ -6623,7 +6623,7 @@ end;
 
 procedure TfmMain.DoHelpWiki;
 begin
-  OpenURL('http://wiki.freepascal.org/CudaText');
+  OpenURL('https://wiki.freepascal.org/CudaText');
 end;
 
 procedure TfmMain.DoCodetree_OnKeyDown(Sender: TObject; var Key: Word;
