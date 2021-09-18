@@ -404,6 +404,7 @@ TYPES = {
     "v": ['Coq', 'V', 'Verilog HDL'],
     "v3": ['Virgil'],
     "vala": ['Vala'],
+    "vapi": ['Vala'],
     "vbhtml": ['Razor'],
     "vert": ['GLSL'],
     "vhdl": ['VHDL'],
