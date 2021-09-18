@@ -4109,14 +4109,14 @@ begin
   if OpenMode=cOpenModeEditor then
   begin
     //zip files
-    if bAllowZip then
-    if ExtractFileExt(AFileName)='.zip' then
+    if bAllowZip and (ExtractFileExt(AFileName)='.zip') then
     begin
       if DoFileInstallZip(AFileName, AppDir_LastInstalledAddon, bSilent) then
         Result:= CurrentFrame;
       exit
     end;
 
+    //session files
     if ExtractFileExt(AFileName)='.cuda-session' then
     begin
       DoOps_LoadSession(AFileName, true);
