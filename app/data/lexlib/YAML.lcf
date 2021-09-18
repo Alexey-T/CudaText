@@ -1,4 +1,4 @@
-object SyntAnal27: TLibSyntAnalyzer
+object SyntAnal26: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Comment'
@@ -170,8 +170,8 @@ object SyntAnal27: TLibSyntAnalyzer
       StyleName = 'Number'
       TokenType = 5
       Expression = 
-        '0b[01_]+ |'#13#10'0o[0-7]+ |'#13#10'0x[0-9a-f_]+ |'#13#10'\d[\d_]* |'#13#10'[0-9_]+ \. e' +
-        ' [\+\-]? [0-9_]+ |'#13#10'[0-9_]+ \. [0-9_]+ |'#13#10
+        '0b[01_]+\b |'#13#10'0o[0-7_]+\b |'#13#10'0x[0-9a-f_]+\b |'#13#10'\d[\d_]* \. e [\+' +
+        '\-]? [\d_]+\b |'#13#10'\d[\d_]* \. [\d_]+\b |'#13#10'\d[\d_]*\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
