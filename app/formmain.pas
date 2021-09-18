@@ -4117,6 +4117,13 @@ begin
       exit
     end;
 
+    if ExtractFileExt(AFileName)='.cuda-session' then
+    begin
+      DoOps_LoadSession(AFileName, true);
+      Result:= CurrentFrame;
+      exit
+    end;
+
     //py event
     if bEnableEventPre then
     begin
