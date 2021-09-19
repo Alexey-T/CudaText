@@ -282,6 +282,7 @@ const
   cRegex_SignCommand = 'module=(.+?);cmd=(.+?);(info=(.+?);)?$';
   cRegex_SignFunc = 'module=(.+?);func=(.+?);(info=(.+?);)?$';
   cRegex_CommaCommand = '([a-z_]\w*),([a-z_]\w*)(,(.+))?$'; //compatible with menu_proc, with 3rd param
+  cPrefixModule = 'module=';
   cPrefixExec = 'exec=';
 var
   FParamObjs: array of PPyObject;
@@ -299,6 +300,7 @@ begin
   //avoid log error on standard ids
   if SBeginsWith(ACallback, 'top-') then exit;
 
+  //-----------------------------------------------------
   if SBeginsWith(ACallback, cPrefixExec) then
   begin
     StrArray:= Copy(ACallback, Length(cPrefixExec)+1, MaxInt).Split(' ', '"', '"', TStringSplitOptions.ExcludeEmpty);
@@ -318,6 +320,7 @@ begin
   end;
 
   //-----------------------------------------------------
+  if SBeginsWith(ACallback, cPrefixModule) then
   if SRegexFindParts(cRegex_SignCommand, ACallback, RegexParts) then
   begin
     SModule:= RegexParts[1].Str;
@@ -340,6 +343,7 @@ begin
   end;
 
   //-----------------------------------------------------
+  if SBeginsWith(ACallback, cPrefixModule) then
   if SRegexFindParts(cRegex_SignFunc, ACallback, RegexParts) then
   begin
     SModule:= RegexParts[1].Str;
