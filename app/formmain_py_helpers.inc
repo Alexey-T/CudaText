@@ -289,6 +289,7 @@ var
   SModule, SFunc, SParam, SInfo: string;
   RegexParts: TRegexParts;
   Obj: PPyObject;
+  StrArray: TStringArray;
   i: integer;
 begin
   Result:= true;
@@ -296,6 +297,14 @@ begin
 
   //avoid log error on standard ids
   if SBeginsWith(ACallback, 'top-') then exit;
+
+  if SBeginsWith(ACallback, 'exec:') then
+  begin
+    StrArray:= Copy(ACallback, Length('exec:')+1, MaxInt).Split(' ', '"', '"', TStringSplitOptions.ExcludeEmpty);
+    fmMain.DoLoadCommandParams(StrArray, '');
+    fmMain.UpdateCaption;
+    exit;
+  end;
 
   //-----------------------------------------------------
   if SRegexFindParts(cRegex_DotCommand, ACallback, RegexParts) then
