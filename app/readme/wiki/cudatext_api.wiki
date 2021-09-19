@@ -1987,12 +1987,12 @@ Possible values of "id_action":
 * BTN_SET_FOCUSABLE: Sets focusable state. Param "value" must be bool.
 * BTN_GET_FLAT: Returns flat state, bool.
 * BTN_SET_FLAT: Sets flat state. Param "value" must be bool.
-* BTN_GET_DATA1: Returns data1 string. Data1 contains:
-** str(integer_command_code) to run command by number like Editor.cmd()
-** or string with [[#Callback_parameter]]. Note: not any callback form, only string callback form
-* BTN_SET_DATA1: Sets data1 string. See BTN_GET_DATA1.
-* BTN_GET_DATA2: Returns data2 string. Data2 is currently not used by CudaText.
-* BTN_SET_DATA2: Sets data2 string. See BTN_GET_DATA2.
+* BTN_GET_DATA1: Returns data1 string.
+* BTN_SET_DATA1: Sets data1 string. It must contain one of the following:
+** str(command_code) to run command by its integer code, like Editor.cmd() API does.
+** string with [[#Callback_parameter]]. Note: only string callback forms are allowed here, ie callable form is not allowed.
+* BTN_GET_DATA2: Returns data2 string. This string is not used by CudaText, but is used by plugins.
+* BTN_SET_DATA2: Sets data2 string.
 * BTN_GET_WIDTH: Returns width (in pixels).
 * BTN_SET_WIDTH: Sets width.
 * BTN_GET_ITEMS: Returns choice items, used for kind=BTNKIND_TEXT_CHOICE, as "\n"-separated strings.
