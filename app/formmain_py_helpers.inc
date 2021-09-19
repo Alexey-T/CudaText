@@ -320,8 +320,7 @@ begin
   end;
 
   //-----------------------------------------------------
-  if SBeginsWith(ACallback, cPrefixModule) then
-  if SRegexFindParts(cRegex_SignCommand, ACallback, RegexParts) then
+  if SBeginsWith(ACallback, cPrefixModule) and SRegexFindParts(cRegex_SignCommand, ACallback, RegexParts) then
   begin
     SModule:= RegexParts[1].Str;
     SFunc:= RegexParts[2].Str;
@@ -343,8 +342,7 @@ begin
   end;
 
   //-----------------------------------------------------
-  if SBeginsWith(ACallback, cPrefixModule) then
-  if SRegexFindParts(cRegex_SignFunc, ACallback, RegexParts) then
+  if SBeginsWith(ACallback, cPrefixModule) and SRegexFindParts(cRegex_SignFunc, ACallback, RegexParts) then
   begin
     SModule:= RegexParts[1].Str;
     SFunc:= RegexParts[2].Str;
