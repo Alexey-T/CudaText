@@ -282,6 +282,7 @@ const
   cRegex_SignCommand = 'module=(.+?);cmd=(.+?);(info=(.+?);)?$';
   cRegex_SignFunc = 'module=(.+?);func=(.+?);(info=(.+?);)?$';
   cRegex_CommaCommand = '([a-z_]\w*),([a-z_]\w*)(,(.+))?$'; //compatible with menu_proc, with 3rd param
+  cPrefixExec = 'exec=';
 var
   FParamObjs: array of PPyObject;
   FParamNames: array of string;
@@ -298,9 +299,9 @@ begin
   //avoid log error on standard ids
   if SBeginsWith(ACallback, 'top-') then exit;
 
-  if SBeginsWith(ACallback, 'exec:') then
+  if SBeginsWith(ACallback, cPrefixExec) then
   begin
-    StrArray:= Copy(ACallback, Length('exec:')+1, MaxInt).Split(' ', '"', '"', TStringSplitOptions.ExcludeEmpty);
+    StrArray:= Copy(ACallback, Length(cPrefixExec)+1, MaxInt).Split(' ', '"', '"', TStringSplitOptions.ExcludeEmpty);
     fmMain.DoLoadCommandParams(StrArray, '');
     fmMain.UpdateCaption;
     exit;

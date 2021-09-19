@@ -115,11 +115,12 @@ Callback parameter is supported in several API functions: dlg_proc, timer_proc, 
 Parameter can be in these forms:
 
 * callable, ie name of a Python function, or just "lambda". Internally, callable will be converted to a weird string. Note that some functions do not support "callable form". You can detect this support by reading the code of "py/cudatext.py" module, which performs the conversions from callable to string.
-* string "module=mmm;cmd=nnn;" - to call method nnn (in class Command) in plugin mmm, where mmm is usually sub-dir in the "cudatext/py", but can be any module name
-* string "module=mmm;cmd=nnn;info=iii;" - the same, and callback will get param "info" with your value
-* string "mmm.nnn" - the same, to call method, short form
-* string "module=mmm;func=nnn;" - to call function nnn in root of module mmm
-* string "module=mmm;func=nnn;info=iii;" - the same, and callback will get param "info" with your value
+* string "module=mmm;cmd=nnn;" - to call method nnn (in class Command) in plugin mmm, where mmm is usually sub-dir in the "cudatext/py", but can be any module name.
+* string "module=mmm;cmd=nnn;info=iii;" - the same, and callback will get param "info" with your value.
+* string "mmm.nnn" - the same, to call method, short form.
+* string "module=mmm;func=nnn;" - to call function nnn in root of module mmm.
+* string "module=mmm;func=nnn;info=iii;" - the same, and callback will get param "info" with your value.
+* string "exec=command_line_params_here" - to handle the contents of callback (after prefix "exec=") as a command line passed to CudaText process. For example, here you can pass filenames of text/picture files, of .cuda-proj project files, of .cuda-session session files.
 
 For example:
 
@@ -4496,5 +4497,8 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 1.0.410 (app 1.142.1)
 * deprecate: option CARET_OPTION_UNFOLD (it's always On now)
 * add: event "on_state" is now fired with more states: APPSTATE_API_SUBCOMMANDS, APPSTATE_API_MENU_xxxx
+
+1.0.411 (app 1.145.1)
+* add: callbacks (e.g. in toolbar buttons) can have form "exec=command_line_here"
 
 [[Category:CudaText]]
