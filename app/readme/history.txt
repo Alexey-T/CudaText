@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.144.5 (2021/09)
+1.145.0 (2021/09)
 
 + add: consider Find dialog option "Case sensitive" on "Extract RegEx matches"
 + add: command "scroll to left edge"
