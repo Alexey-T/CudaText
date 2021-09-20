@@ -116,7 +116,7 @@ Preview tab can be dragged to another tab-group, it should work there too, it wi
 
 4) There is a method for CudaText 1.145.1 or newer.
 
-* Install plugin "Config Toolbar" (only 1 plugin here, comparing the the method-3).
+* Install plugin "Config Toolbar" (only 1 plugin here, comparing to the previous method).
 * CudaText option "ui_one_instance" can be any.
 * In the plugin "Config Toolbar", add the toolbar button which will switch the project and/or session. The properties of this button are tricky. In the "Command" property of the button, you must enter "exec=path_of_project_file path_of_session file". You cannot type this directly to the dialog field, but you should press the "Enter command line..." button in the dialog and enter the command line contents (full path of .cuda-proj file and/or full path of .cuda-session file). "Config Toolbar" will store your command line with the "exec=" prefix.
 * CudaText will use the new command-line which you entered after "exec=".
