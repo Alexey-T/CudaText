@@ -38,7 +38,7 @@ class Command:
         dlg_proc(self.h_wait, DLG_PROP_SET, prop={
             'cap':_('CudaText Multi Installer'),
             'w': 360,
-            'h': 410,
+            'h': 430,
             })
 
         n = dlg_proc(self.h_wait, DLG_CTL_ADD, prop='label')
