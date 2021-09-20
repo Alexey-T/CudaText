@@ -794,6 +794,7 @@ begin
 
     cmd_ChooseTranslation,
     cmd_ChooseThemeUI,
+    cmd_ParseCommandLineParams,
 
     cmd_AutoComplete,
     cmd_GotoDefinition,
