@@ -160,8 +160,8 @@ class Command:
         RES_NEXT = 5
 
         res = dlg_custom(_('CudaText Multi Installer'), 360, 430, '\n'.join([
-            '\1'.join(['type=label','pos=5,5,350,0','cap='+_('Select groups of add-ons needed for you.')]),
-            '\1'.join(['type=label','pos=5,25,350,0','cap='+_('Next steps will suggest group items.')]),
+            '\1'.join(['type=label','pos=5,5,350,0','cap='+_('Check groups of add-ons needed for you.')]),
+            '\1'.join(['type=label','pos=5,25,350,0','cap='+_('Plugin will suggest items for checked groups.')]),
             '\1'.join(['type=label','pos=5,45,350,0','cap='+_('Note: only ~30% of all plugins are here.')]),
             '\1'.join(['type=checklistbox','pos=5,68,355,390','items='+
                 '\t'.join(langs)
