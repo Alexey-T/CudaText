@@ -361,4 +361,12 @@ begin
   DoLoadCommandParams(Params, Options);
 end;
 
+procedure TfmMain.DoLoadCommandLine_FromString(const AText: string);
+var
+  StrArray: TStringArray;
+begin
+  StrArray:= AText.Split(' ', '"', '"', TStringSplitOptions.ExcludeEmpty);
+  DoLoadCommandParams(StrArray, '');
+  UpdateCaption;
+end;
 

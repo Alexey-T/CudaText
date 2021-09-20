@@ -232,6 +232,7 @@ const
   cmd_LineEndUnix       = 2678;
   cmd_LineEndMac        = 2679;
 
+  cmd_ParseCommandLineParams = 2682;
   cmd_DeleteNewColorAttrs    = 2683;
   cmd_FoldingEnable          = 2684;
   cmd_FoldingDisable         = 2685;

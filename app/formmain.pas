@@ -1039,6 +1039,7 @@ type
       out AFileFolderCount: integer);
     procedure DoLoadCommandParams(const AParams: array of string; AOpenOptions: string);
     procedure DoLoadCommandLine;
+    procedure DoLoadCommandLine_FromString(const AText: string);
     //procedure DoToggleMenu;
     procedure DoToggleFloatSide;
     procedure DoToggleFloatBottom;

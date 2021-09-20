@@ -34,6 +34,12 @@ begin
       Ed.Strings.EndUndoGroup;
   end;
 
+  //if command "close all tabs" was run, Ed may be destroyed
+  Frame:= CurrentFrame;
+  if Frame=nil then exit;
+  Ed:= Frame.Editor;
+  if Ed=nil then exit;
+
   Ed.CommandLog.Add(cmd_PluginEnd, AInvoke, SPyText);
 end;
 
@@ -291,7 +297,6 @@ var
   SModule, SFunc, SParam, SInfo: string;
   RegexParts: TRegexParts;
   Obj: PPyObject;
-  StrArray: TStringArray;
   i: integer;
 begin
   Result:= true;
@@ -303,9 +308,8 @@ begin
   //-----------------------------------------------------
   if SBeginsWith(ACallback, cPrefixExec) then
   begin
-    StrArray:= Copy(ACallback, Length(cPrefixExec)+1, MaxInt).Split(' ', '"', '"', TStringSplitOptions.ExcludeEmpty);
-    fmMain.DoLoadCommandParams(StrArray, '');
-    fmMain.UpdateCaption;
+    SParam:= Copy(ACallback, Length(cPrefixExec)+1, MaxInt);
+    fmMain.DoLoadCommandLine_FromString(SParam);
     exit;
   end;
 
