@@ -139,9 +139,8 @@ begin
     if SParam='' then
       Continue;
 
-    //must remove " quotes, CudaText issue #3726
-    if StartsStr('"', SParam) and EndsStr('"', SParam) then
-      SParam:= Copy(SParam, 2, Length(SParam)-2);
+    //remove " quotes, CudaText issue #3726
+    SParam:= SParam.DeQuotedString('"');
 
     if SParam='-r' then
     begin
