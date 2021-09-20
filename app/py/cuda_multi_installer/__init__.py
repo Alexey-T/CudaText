@@ -155,8 +155,9 @@ class Command:
         for i in CLASSES:
             to_install[i] = []
 
-        RES_LIST = 2
-        RES_NEXT = 4
+        # must update these numbers after adding/removing controls!
+        RES_LIST = 3
+        RES_NEXT = 5
 
         res = dlg_custom(_('CudaText Multi Installer'), 360, 430, '\n'.join([
             '\1'.join(['type=label','pos=5,5,350,0','cap='+_('Select groups of add-ons needed for you.')]),
