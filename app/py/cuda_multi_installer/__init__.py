@@ -190,69 +190,117 @@ class Command:
 
         res_list = res[RES_LIST].split(';')[1].split(',')
         res_list = list(map(str_to_bool,res_list))
-        step_count = sum(map(int,res_list))+1
-        step_index = 2
+        step_count = sum(map(int,res_list))
 
-        for i,f in enumerate(res_list):
-            if f:
-                cl = 0
-                line = 0
-                UI = []
-                UI_reg = [()]
-                for curr_class in CLASSES:
-                        pls = PLUGINS[langs[i]].setdefault(curr_class)
-                        if pls:
-                            if line in (COLUMN_LEN,COLUMN_LEN-1):
+        def step_to_lang_index(step):
+            langs_temp = [item for i, item in enumerate(langs) if res_list[i]]
+            return langs.index(langs_temp[step])
+
+        def show_one_step(step):
+            nonlocal step_count
+            nonlocal to_install
+            cl = 0
+            line = 0
+            UI = []
+            UI_reg = [(), ()] # 2 items because we have 2 buttons Back/Next before checkboxes
+            lang_index = step_to_lang_index(step)
+
+            for curr_class in CLASSES:
+                    pls = PLUGINS[langs[lang_index]].setdefault(curr_class)
+                    if pls:
+                        if line in (COLUMN_LEN,COLUMN_LEN-1):
+                            cl+=1
+                            line = 0
+                        UI.append('\1'.join([
+                                        'type=label',
+                                        'pos=%d,%d,%d,%d'%(5+COLUMN_W*cl, line*h+5, COLUMN_W*(cl+1), line*20+25),
+                                        'cap='+CLASSES_MSGS[curr_class]
+                                        ]))
+                        UI_reg.append(())
+                        line+=1
+                        for pl in pls:
+                            if line==COLUMN_LEN:
                                 cl+=1
                                 line = 0
+                            flag_en = not self.is_installed(curr_class,pl)
                             UI.append('\1'.join([
-                                            'type=label',
-                                            'pos=%d,%d,%d,%d'%(5+COLUMN_W*cl, line*h+5, COLUMN_W*(cl+1), line*20+25),
-                                            'cap='+CLASSES_MSGS[curr_class]
+                                            'type=check',
+                                            'pos=%d,%d,%d,%d'%(5+COLUMN_W*cl, line*h, COLUMN_W*(cl+1), line*20+25),
+                                            'cap='+pl.replace('_',' '),
+                                            'en='+bool_to_str(flag_en)
                                             ]))
-                            UI_reg.append(())
+                            UI_reg.append((curr_class,pl))
                             line+=1
-                            for pl in pls:
-                                if line==COLUMN_LEN:
-                                    cl+=1
-                                    line = 0
-                                flag_en = not self.is_installed(curr_class,pl)
-                                UI.append('\1'.join([
-                                                'type=check',
-                                                'pos=%d,%d,%d,%d'%(5+COLUMN_W*cl, line*h, COLUMN_W*(cl+1), line*20+25),
-                                                'cap='+pl.replace('_',' '),
-                                                'en='+bool_to_str(flag_en)
-                                                ]))
-                                UI_reg.append((curr_class,pl))
-                                line+=1
-                if cl!=0:
-                    line=COLUMN_LEN
-                UI = ['\1'.join([
-                            'type=button',
-                            'pos=%d,%d,%d,%d'%(COLUMN_W*(cl+1)-86, line*h+5, COLUMN_W*(cl+1)-6, line*20+25),
-                            'cap='+_('Next')
-                            ])] +\
-                    UI +\
-                    ['\1'.join([
-                            'type=label',
-                            'pos=%d,%d,%d,0'%(COLUMN_W*(cl+1)-180, line*h+8, COLUMN_W*(cl+1)-90),
-                            'cap='+_('Step {} of {}').format(step_index,step_count)
-                            ])]
-                line+=1
-                cl+=1
-                step_index += 1
-                res2 = dlg_custom(
-                        _('Select add-ons - ')+langs[i],
-                        COLUMN_W*cl,
-                        line*h+15,
-                        '\n'.join(UI),
-                        get_dict=True
-                        )
-                if res2:
-                    if res2['clicked']==0:
-                        for ii in range(len(UI_reg)):
-                            if UI_reg[ii] and res2[ii]=='1':
-                                to_install[UI_reg[ii][0]].append(UI_reg[ii][1])
+
+            if cl!=0:
+                line=COLUMN_LEN
+            cl = max(cl,1)
+            UI = ['\1'.join([
+                        'type=button',
+                        'pos=%d,%d,%d,%d'%(COLUMN_W*(cl+1)-86-86, line*h+5, COLUMN_W*(cl+1)-6-86, line*20+25),
+                        'cap='+_('Back'),
+                        'en='+bool_to_str(step>0),
+                        ])] +\
+                ['\1'.join([
+                        'type=button',
+                        'pos=%d,%d,%d,%d'%(COLUMN_W*(cl+1)-86, line*h+5, COLUMN_W*(cl+1)-6, line*20+25),
+                        'cap='+_('Next'),
+                        ])] +\
+                UI +\
+                ['\1'.join([
+                        'type=label',
+                        'pos=%d,%d,%d,0'%(200, line*h+8, 100),
+                        'cap='+_('Step {} of {}').format(step+2, step_count+1)
+                        ])]
+            line+=1
+            cl+=1
+            res2 = dlg_custom(
+                    _('Select add-ons - ')+langs[lang_index],
+                    COLUMN_W*cl,
+                    line*h+15,
+                    '\n'.join(UI),
+                    get_dict=True
+                    )
+
+            if res2:
+                res_clicked = res2['clicked']
+                if res_clicked in [0, 1]: # two results: 0 for Back, 1 for Next
+                    # remove all items (maybe added by Back/Next buttons)
+                    for ii in range(len(UI_reg)):
+                        if UI_reg[ii]:
+                            key = UI_reg[ii][0]
+                            val = UI_reg[ii][1]
+                            if val in to_install[key]:
+                                to_install[key].remove(val)
+
+                    # add checked items
+                    for ii in range(len(UI_reg)):
+                        if UI_reg[ii] and res2[ii]=='1':
+                            key = UI_reg[ii][0]
+                            val = UI_reg[ii][1]
+                            to_install[key].append(val)
+
+                    #print('to_install', to_install)
+                    return res_clicked
+        # end show_one_step()
+
+        if not res_list:
+            return
+        step = 0
+        while True:
+            # print('show for step', step+1, 'of', step_count)
+            res = show_one_step(step)
+            if res is None:
+                return
+            elif res == 0: # 0 for Back
+                step -= 1
+            elif res == 1: # 1 for Next
+                step += 1
+                if step >= step_count:
+                    break
+
+        #print('to install:', to_install)
+        #return
 
         fill = False
         for k,v in to_install.items():
