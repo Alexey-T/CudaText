@@ -34,7 +34,9 @@ begin
       Ed.Strings.EndUndoGroup;
   end;
 
-  //if command "close all tabs" was run, Ed may be destroyed
+  //if command "close all tabs" was run,
+  //or Session Manager command "Forget session and close all files" was run,
+  //Ed may be destroyed, so here is additional check
   Frame:= CurrentFrame;
   if Frame=nil then exit;
   Ed:= Frame.Editor;
