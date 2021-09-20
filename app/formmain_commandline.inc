@@ -269,7 +269,7 @@ begin
     end
     else
     //file not exists? suggest to create it
-    if bAllowCreate and not AppFileExtentionNotCreatable(SParam) then
+    if bAllowCreate and AppFileExtentionCreatable(SParam) then
       if MsgBox(Format(msgConfirmCreateNewFile, [SParam]),
               MB_OKCANCEL or MB_ICONQUESTION) = ID_OK then
         if AppCreateFile(SParam) then
