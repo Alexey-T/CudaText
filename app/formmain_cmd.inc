@@ -925,13 +925,6 @@ begin
         exit
       end;
 
-    cmd_ParseCommandLineParams:
-      begin
-        DoLoadCommandLine_FromString(AText);
-        AHandled:= true;
-        exit;
-      end;
-
     cmd_DeleteNewColorAttrs:
       begin
         EditorDeleteNewColorAttribs(Ed);

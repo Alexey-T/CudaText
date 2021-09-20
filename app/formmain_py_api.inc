@@ -4719,6 +4719,12 @@ begin
             Result:= ReturnNone;
           end;
 
+        APP_PROC_PARSE_COMMAND_LINE:
+          begin
+            fmMain.DoLoadCommandLine_FromString(Str);
+            Result:= ReturnNone;
+          end;
+
         APP_PROC_GET_FINDER_PROP:
           begin
             Result:= fmMain.DoFindOptions_GetDict;

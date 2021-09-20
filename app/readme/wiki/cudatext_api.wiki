@@ -4500,6 +4500,6 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 
 1.0.411 (app 1.145.1)
 * add: callbacks (e.g. in toolbar buttons) can have form "exec=command_line_here"
-* add: command cmd_ParseCommandLineParams (not visible in Command Palette)
+* add: app_proc: PROC_PARSE_COMMAND_LINE
 
 [[Category:CudaText]]
