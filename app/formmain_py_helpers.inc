@@ -5,7 +5,7 @@ procedure TfmMain.DoPyCommand(const AModule, AMethod: string;
   const AParams: TAppVariantArray; AInvoke: TATEditorCommandInvoke);
 var
   Frame: TEditorFrame;
-  Ed, Ed2: TATSynEdit;
+  Ed: TATSynEdit;
   SParam, SPyText: string;
 begin
   if not AppPython.Inited then exit;
@@ -37,11 +37,9 @@ begin
   //if command "close all tabs" was run,
   //or Session Manager command "Forget session and close all files" was run,
   //Ed may be destroyed, so here is additional check
-  Ed2:= CurrentEditor;
-  if Ed2=nil then exit;
-  if Ed<>Ed2 then exit;
+  if Ed<>CurrentEditor then exit;
 
-  Ed2.CommandLog.Add(cmd_PluginEnd, AInvoke, SPyText);
+  Ed.CommandLog.Add(cmd_PluginEnd, AInvoke, SPyText);
 end;
 
 
