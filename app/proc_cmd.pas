@@ -798,6 +798,7 @@ begin
 
     cmd_AutoComplete,
     cmd_GotoDefinition,
+    cmd_ShowFunctionHint,
 
     cmd_HelpAbout,
     cmd_HelpForum,
