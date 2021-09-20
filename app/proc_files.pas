@@ -28,6 +28,7 @@ procedure AppFileAttrRestore(const fn: string; attr: Longint);
 
 function AppExpandFilename(const fn: string): string;
 procedure AppBrowseToFilenameInShell(const fn: string);
+function AppFileExtentionNotCreatable(const fn: string): boolean;
 
 
 implementation
@@ -287,6 +288,27 @@ begin
   {$else}
   OpenURL(ExtractFileDir(fn));
   {$endif}
+end;
+
+function AppFileExtentionNotCreatable(const fn: string): boolean;
+begin
+  case ExtractFileExt(fn) of
+    '.zip',
+    '.rar',
+    '.xz',
+    '.png',
+    '.gif',
+    '.jpg',
+    '.jpeg',
+    '.bmp',
+    '.ico',
+    '.icns',
+    '.cuda-proj',
+    '.cuda-session':
+      Result:= true;
+    else
+      Result:= false;
+  end;
 end;
 
 end.
