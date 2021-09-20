@@ -5,8 +5,8 @@
 
 1.145.1 (2021/09)
 
-+ add: plugin Multi Installer UI improved, added 'Back' button (thanks @GHNewbiee)
-+ add: API to parse command-line by the Config Toolbar plugin
++ add: plugin Multi Installer: added 'Back' buttons (thanks @GHNewbiee)
++ add: API which allows toolbar buttons (Config Toolbar plugin) set the command-line
 
 1.145.0 (2021/09)
 
