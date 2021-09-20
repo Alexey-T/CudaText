@@ -3,6 +3,11 @@
   - fixed
   * changed
 
+1.145.1 (2021/09)
+
++ add: plugin Multi Installer UI improved, added 'Back' button (thanks @GHNewbiee)
++ add: API to parse command-line by the Config Toolbar plugin
+
 1.145.0 (2021/09)
 
 + add: consider Find dialog option "Case sensitive" on "Extract RegEx matches"
