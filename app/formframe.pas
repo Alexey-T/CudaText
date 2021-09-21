@@ -3027,6 +3027,8 @@ var
   Caret: TATCaretItem;
   State: TATLineState;
   Mark: TATMarkerItem;
+  Bookmarks: TATBookmarks;
+  BookmarkPtr: PATBookmarkItem;
   XColor, XColorSelected, XColorOccur, XColorSpell: TBGRAPixel;
   NColor: TColor;
   R1: TRect;
@@ -3087,6 +3089,20 @@ begin
     begin
       XColor.FromColor(NColor);
       R1:= Ed.RectMicromapMark(i, -1, -1, ARect);
+      FMicromapBmp.FillRect(R1, XColor);
+    end;
+  end;
+
+  //paint bookmarks
+  if Ed.OptMicromapBookmarks then
+  begin
+    Bookmarks:= Ed.Strings.Bookmarks;
+    XColor.FromColor(Ed.Colors.StateAdded); //not sure what color to take
+    for i:= 0 to Bookmarks.Count-1 do
+    begin
+      BookmarkPtr:= Bookmarks.ItemPtr[i];
+      NIndex:= BookmarkPtr^.Data.LineNum;
+      R1:= Ed.RectMicromapMark(1{column}, NIndex, NIndex, ARect);
       FMicromapBmp.FillRect(R1, XColor);
     end;
   end;

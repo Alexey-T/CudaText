@@ -477,12 +477,15 @@
   "minimap_drag_immediately": false,
 
   //[View/Micromap]
-  //Micromap (small vertical bar at the right side, showing "line states"): show
+  //Show micromap (small vertical bar at the right side, showing "line states")
   "micromap_show": false,
 
   //Place micromap on the vertical scrollbar, instead of separate narrow panel.
   //Note: you may hide arrows of the vertical scrollbar, by "scrollbar_arrows" option.
   "micromap_on_scrollbar": false,
+
+  //Also show bookmarks on micromap
+  "micromap_bookmarks": false,
 
   //[Text/VerticalLines]
   //Show additional vertical lines at all carets positions
