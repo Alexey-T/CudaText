@@ -13,7 +13,7 @@
 + add: API allows toolbar buttons (Config Toolbar plugin) set the command-line (thanks @GHNewbiee)
 + add: plugin Multi Installer: add 'Back' buttons (thanks @GHNewbiee)
 + add: lexer Bash: support float-numbers (thanks @eltonfabricio10)
-+ add: macOS: with the Zoe Peterson's patch to Lazarus, rendering is 2x faster, but only if you use "renderer_offsets__mac":false
++ add: macOS: with the Zoe Peterson's patch to Lazarus, rendering is 2x faster, but only if you use "renderer_offsets__mac":false; so changed the default of this option to 'false'
 
 1.145.0 (2021/09)
 
