@@ -5,7 +5,9 @@
 
 1.145.1 (2021/09)
 
-+ add: command "cancel carets, keep last caret"
++ add: command "cancel carets, but keep selection"
++ add: command "cancel carets, but keep last caret"
++ add: command "cancel carets, but keep last caret + selection"
 + add: bookmarks can be shown on micromap: new option "micromap_bookmarks" (thanks @JairoMartinezA)
 + add: plugin Multi Installer: add 'Back' buttons (thanks @GHNewbiee)
 + add: API which allows toolbar buttons (Config Toolbar plugin) set the command-line
