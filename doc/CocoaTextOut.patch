@@ -1,0 +1,77 @@
+diff --git a/lcl/interfaces/cocoa/cocoagdiobjects.pas b/lcl/interfaces/cocoa/cocoagdiobjects.pas
+index 7155e09ff2..fb90ee45cb 100644
+--- a/lcl/interfaces/cocoa/cocoagdiobjects.pas
++++ b/lcl/interfaces/cocoa/cocoagdiobjects.pas
+@@ -2172,8 +2172,20 @@ begin
+ end;
+ 
+ procedure TCocoaContext.TextOut(X, Y: Integer; Options: Longint; Rect: PRect; UTF8Chars: PChar; Count: Integer; CharsDelta: PInteger);
++
++  function lColorToNSColor(aColor: TColor): NSColor;
++  begin
++    Result := SysColorToNSColor(SysColorToSysColorIndex(aColor));
++    if Result = nil then
++      Result := ColorToNSColor(ColorToRGB(aColor));
++  end;
++
+ var
+   BrushSolid, FillBg: Boolean;
++  AttribStr: NSAttributedString;
++  Str: NSString;
++  Context: NSGraphicsContext;
++  Sz: NSSize;
+ begin
+   CGContextSaveGState(CGContext());
+ 
+@@ -2200,11 +2212,46 @@ begin
+ 
+   if (Count > 0) then
+   begin
+-    FillBg := BkMode = OPAQUE;
+-    if FillBg then
+-      FText.BackgroundColor := BkBrush.ColorRef;
+-    FText.SetText(UTF8Chars, Count);
+-    FText.Draw(ctx, X, Y, FillBg, CharsDelta);
++    FillBg := (BkMode = OPAQUE) and
++      (not Assigned(Rect) or (Options and ETO_OPAQUE = 0));
++
++    // Use optimized path for usual case
++    if (CharsDelta = nil) and (Font.RotationDeg=0) then
++    begin
++      if not ctx.isFlipped then
++        Context := NSGraphicsContext.graphicsContextWithGraphicsPort_flipped(ctx.graphicsPort, True)
++      else
++        Context := ctx;
++
++      NSGraphicsContext.classSaveGraphicsState;
++      NSGraphicsContext.setCurrentContext(Context);
++      ctx.setShouldAntialias(Font.Antialiased);
++
++      Str := NSString.alloc.initWithBytes_length_encoding(UTF8Chars, Count,
++        NSUTF8StringEncoding);
++      AttribStr := NSAttributedString.alloc.initWithString_attributes(Str,
++        NSDictionary.dictionaryWithObjectsAndKeys(
++          Font.Font, NSFontAttributeName,
++          lColorToNSColor(FText.ForegroundColor), NSForegroundColorAttributeName,
++          nil));
++      Str.release;
++
++      if FillBg then
++      begin
++        ColorToNSColor(BkBrush.ColorRef).SetFill;
++        Sz := AttribStr.size;
++        NSRectFill(NSMakeRect(X, Y, Sz.width, Sz.height));
++      end;
++      AttribStr.drawAtPoint(NSMakePoint(X, Y));
++      AttribStr.release;
++      NSGraphicsContext.classRestoreGraphicsState;
++    end
++    else begin
++      if FillBg then
++        FText.BackgroundColor := BkBrush.ColorRef;
++      FText.SetText(UTF8Chars, Count);
++      FText.Draw(ctx, X, Y, FillBg, CharsDelta);
++    end;
+   end;
+ 
+   CGContextRestoreGState(CGContext());
