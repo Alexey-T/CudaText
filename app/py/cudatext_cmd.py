@@ -224,6 +224,7 @@ cCommand_FoldingUnfoldAtCurLine = 1041
 cCommand_FoldingToggleAtCurLine = 1042
 cCommand_FoldingFoldSelection = 1043
 
+cCommand_CancelKeepLast = 2000
 cCommand_Cancel = 2001
 cCommand_RepeatTextCommand = 2002
 cCommand_ZoomIn = 2003
