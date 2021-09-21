@@ -5,6 +5,7 @@
 
 1.145.5 (2021/09)
 
++ add: option "ui_button_hover"
 + add: command "cancel carets, but keep selection"
 + add: command "cancel carets, but keep last caret"
 + add: command "cancel carets, but keep last caret + selection"

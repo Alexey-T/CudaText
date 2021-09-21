@@ -176,6 +176,10 @@
   //  2: show if editor is modified
   "ui_notif_confirm": 1,
 
+  //Enable coloring of themed buttons on mouse-hover. It's off by default because
+  //feature is buggy on some platforms (Windows, GTK2).
+  "ui_button_hover": false,
+
   //[File/NonText]
   //Non-text files: behaviour on opening such files
   //  0: show confirmation with choices
