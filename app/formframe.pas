@@ -3025,7 +3025,7 @@ var
 var
   St: TATStrings;
   Caret: TATCaretItem;
-  State: TATLineState;
+  LineState: TATLineState;
   Marker: TATMarkerItem;
   Bookmarks: TATBookmarks;
   BookmarkPtr: PATBookmarkItem;
@@ -3060,8 +3060,8 @@ begin
   if St.Count>=Ed.OptMicromapShowForMinCount then
   for i:= 0 to St.Count-1 do
   begin
-    State:= St.LinesState[i];
-    case State of
+    LineState:= St.LinesState[i];
+    case LineState of
       cLineStateNone: Continue;
       cLineStateAdded: XColor.FromColor(Ed.Colors.StateAdded);
       cLineStateChanged: XColor.FromColor(Ed.Colors.StateChanged);
