@@ -116,12 +116,13 @@
 
   //Text rendering needs "offsets for characters" [has suffix]
   //Set "true" if you see that syntax elements are rendered too wide/narrow.
-  //On Windows and macOS, "true" doesn't decrease rendering speed, it seems.
+  //On Windows, "true" doesn't decrease rendering speed.
   //On Linux GTK2, "true" decreases rendering speed.
+  //On macOS, "true" decreases (2x) renderind speed.
   //Note: this option is global, not per-lexer.
   "renderer_offsets": true,
   "renderer_offsets__linux": false,
-  "renderer_offsets__mac": true,
+  "renderer_offsets__mac": false,
 
   //Allows to use width of Unicode characters proportional to font.
   //Note: this option is global, not per-lexer.
