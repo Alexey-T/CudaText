@@ -890,8 +890,10 @@ end;
 
 procedure TfmMain.DoOps_LoadOptions_Global(cfg: TJSONConfig);
 var
+  Sep: TATStringSeparator;
   List: TStringList;
   s: string;
+  N: integer;
 begin
   Application.MainFormOnTaskBar:= cfg.GetValue('ui_taskbar_mode'+cOptionSystemSuffix, Application.MainFormOnTaskBar);
 
@@ -904,6 +906,22 @@ begin
 
   ATFlatTheme.EnableColorBgOver:= cfg.GetValue('ui_button_hover', ATFlatTheme.EnableColorBgOver);
 
+  s:= cfg.GetValue('scrollbar_arrows', '');
+  if s<>'' then
+  begin
+    Sep.Init(s);
+    if Sep.GetItemInt(N, -1) then
+      if (N>=0) and (N<=Ord(High(TATScrollbarArrowsStyle))) then
+        ATScrollbarTheme.ArrowStyleH:= TATScrollbarArrowsStyle(N);
+    if Sep.GetItemInt(N, -1) then
+      if (N>=0) and (N<=Ord(High(TATScrollbarArrowsStyle))) then
+        ATScrollbarTheme.ArrowStyleV:= TATScrollbarArrowsStyle(N);
+  end;
+
+  ATScrollbarTheme.DirectJumpOnClickPageUpDown:= cfg.GetValue('scrollbar_click_jump',
+    ATScrollbarTheme.DirectJumpOnClickPageUpDown);
+
+  //additional complex options with sub-keys
   List:= TStringList.Create;
   try
     cfg.EnumValues('/plugin_groups', List);
@@ -926,7 +944,6 @@ procedure TfmMain.DoOps_LoadOptions_Editor(cfg: TJSONConfig; var Op: TEditorOps)
 var
   Sep: TATStringSeparator;
   Str: string;
-  N: integer;
 begin
   Op.OpFontName:= cfg.GetValue(OpStr_FontName, Op.OpFontName);
   Op.OpFontName_i:= cfg.GetValue(OpStr_FontName_i, Op.OpFontName_i);
@@ -952,35 +969,6 @@ begin
 
   Op.OpScrollbarsNew:= cfg.GetValue('scrollbar_themed', Op.OpScrollbarsNew);
   Op.OpSpacingY:= cfg.GetValue('spacing_y'+cOptionSystemSuffix, Op.OpSpacingY);
-
-  {
-  Str:= cfg.GetValue('scroll_animation', '');
-  if Str<>'' then
-  begin
-    Sep.Init(Str);
-    if Sep.GetItemInt(N, -1) then
-      if (N>=0) then
-        Op.OpScrollAnimationSteps:= N;
-    if Sep.GetItemInt(N, -1) then
-      if (N>=0) then
-        Op.OpScrollAnimationSleep:= N;
-  end;
-  }
-
-  Str:= cfg.GetValue('scrollbar_arrows', '');
-  if Str<>'' then
-  begin
-    Sep.Init(Str);
-    if Sep.GetItemInt(N, -1) then
-      if (N>=0) and (N<=Ord(High(TATScrollbarArrowsStyle))) then
-        ATScrollbarTheme.ArrowStyleH:= TATScrollbarArrowsStyle(N);
-    if Sep.GetItemInt(N, -1) then
-      if (N>=0) and (N<=Ord(High(TATScrollbarArrowsStyle))) then
-        ATScrollbarTheme.ArrowStyleV:= TATScrollbarArrowsStyle(N);
-  end;
-
-  ATScrollbarTheme.DirectJumpOnClickPageUpDown:= cfg.GetValue('scrollbar_click_jump',
-    ATScrollbarTheme.DirectJumpOnClickPageUpDown);
 
   Op.OpTabSize:= cfg.GetValue('tab_size', Op.OpTabSize);
   Op.OpTabSpaces:= cfg.GetValue('tab_spaces', Op.OpTabSpaces);
