@@ -904,6 +904,10 @@ begin
   OptEditorBookmarksAutoDelete:= cfg.GetValue('auto_delete_bookmarks', OptEditorBookmarksAutoDelete);
   OptEditorDebugTiming:= cfg.GetValue('log_timing', OptEditorDebugTiming);
 
+  cSpeedScrollAutoVert:= cfg.GetValue('mouse_scroll_speed_vert', cSpeedScrollAutoVert);
+
+  MaxLinesWhenParserEnablesFolding:= cfg.GetValue('lexer_folding_max_lines', MaxLinesWhenParserEnablesFolding);
+
   ATFlatTheme.EnableColorBgOver:= cfg.GetValue('ui_button_hover', ATFlatTheme.EnableColorBgOver);
 
   s:= cfg.GetValue('scrollbar_arrows', '');
@@ -1103,14 +1107,10 @@ begin
   Op.OpLexerDynamicHiliteEnabled:= cfg.GetValue('lexer_dynamic_hilite', Op.OpLexerDynamicHiliteEnabled);
   Op.OpLexerDynamicHiliteMaxLines:= cfg.GetValue('lexer_dynamic_hilite_max_lines', Op.OpLexerDynamicHiliteMaxLines);
   Op.OpLexerLineSeparators:= false; //cfg.GetValue('lexer_line_separators', Op.OpLexerLineSeparators);
-  MaxLinesWhenParserEnablesFolding:= cfg.GetValue('lexer_folding_max_lines', MaxLinesWhenParserEnablesFolding);
 
   Op.OpZebra:= cfg.GetValue('zebra', Op.OpZebra);
   Op.OpZebraStep:= cfg.GetValue('zebra_step', Op.OpZebraStep);
   Op.OpDimUnfocused:= cfg.GetValue('dim_unfocused', Op.OpDimUnfocused);
-
-  //enable when 'atomic save' will be implemented
-  //Op.OpAtomicFileSave:= cfg.GetValue('atomic_save', Op.OpAtomicFileSave);
 
   Op.OpNonWordChars:= cfg.GetValue('nonword_chars', Op.OpNonWordChars);
   Op.OpFoldStyle:= cfg.GetValue('fold_style', Op.OpFoldStyle);
@@ -1136,7 +1136,6 @@ begin
   Op.OpMouseWheelSpeedHorz:= cfg.GetValue('mouse_wheel_speed_horz', Op.OpMouseWheelSpeedHorz);
   Op.OpMouseClickNumberSelectsEol:= cfg.GetValue('mouse_click_number_selects_eol', Op.OpMouseClickNumberSelectsEol);
   Op.OpMouseClickLinks:= cfg.GetValue('mouse_click_links', Op.OpMouseClickLinks);
-  cSpeedScrollAutoVert:= cfg.GetValue('mouse_scroll_speed_vert', cSpeedScrollAutoVert);
 
   Op.OpKeyBackspaceUnindent:= cfg.GetValue('key_bksp_unindent', Op.OpKeyBackspaceUnindent);
   Op.OpKeyBackspaceWrap:= cfg.GetValue('key_bksp_wrap', Op.OpKeyBackspaceWrap);
