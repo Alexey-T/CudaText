@@ -1178,7 +1178,7 @@ Micromap has several thin columns (from column 1 to column 3, but this can be ch
 * on column 2: marks from plugins: Spell Checker, Highlight Occurrences, etc; also marks for bookmarks (if option "micromap_bookmarks" is set).
 * on column 3: marks for selections, useful for example when command "Find / Select all" makes many selections.
 
-[[File:cudatext-micromap.png]]
+[[File:cudatext-micromap_.png]]
 
 Plugins can place marks on micromap, e.g. plugin "Highlight Occurrences" places marks for highlighted fragments, plugin "Spell Checker" places marks for misspelled words.
 
