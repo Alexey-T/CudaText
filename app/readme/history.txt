@@ -3,14 +3,14 @@
   - fixed
   * changed
 
-1.145.1 (2021/09)
+1.145.5 (2021/09)
 
 + add: command "cancel carets, but keep selection"
 + add: command "cancel carets, but keep last caret"
 + add: command "cancel carets, but keep last caret + selection"
 + add: bookmarks can be shown on micromap: new option "micromap_bookmarks" (thanks @JairoMartinezA)
++ add: API allows toolbar buttons (Config Toolbar plugin) set the command-line (thanks @GHNewbiee)
 + add: plugin Multi Installer: add 'Back' buttons (thanks @GHNewbiee)
-+ add: API which allows toolbar buttons (Config Toolbar plugin) set the command-line
 + add: lexer Bash: support float-numbers (thanks @eltonfabricio10)
 
 1.145.0 (2021/09)
