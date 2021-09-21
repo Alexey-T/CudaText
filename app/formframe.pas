@@ -3026,14 +3026,14 @@ var
   St: TATStrings;
   Caret: TATCaretItem;
   State: TATLineState;
-  Mark: TATMarkerItem;
+  Marker: TATMarkerItem;
   Bookmarks: TATBookmarks;
   BookmarkPtr: PATBookmarkItem;
+  LinePartObj: TATLinePartClass;
   XColor, XColorSelected, XColorOccur, XColorSpell: TBGRAPixel;
   NColor: TColor;
   R1: TRect;
   NLine1, NLine2, NIndex, i: integer;
-  Obj: TATLinePartClass;
 begin
   St:= Ed.Strings;
   if St.Count=0 then exit;
@@ -3110,16 +3110,16 @@ begin
   //paint marks for plugins
   for i:= 0 to Ed.Attribs.Count-1 do
   begin
-    Mark:= Ed.Attribs[i];
-    Obj:= TATLinePartClass(Mark.Ptr);
+    Marker:= Ed.Attribs[i];
+    LinePartObj:= TATLinePartClass(Marker.Ptr);
 
-    NLine1:= Mark.PosY;
+    NLine1:= Marker.PosY;
     NLine2:= NLine1;
-    //negative LenX means we need multiline mark, its height is abs(LenX)
-    if Mark.SelX<0 then
-      Inc(NLine2, -Mark.SelX-1);
+    //negative LenX means we need multiline Marker, its height is abs(LenX)
+    if Marker.SelX<0 then
+      Inc(NLine2, -Marker.SelX-1);
 
-    case Mark.Tag of
+    case Marker.Tag of
       cTagSpellChecker:
         begin
           R1:= GetItemRect(1{column_1}, NLine1, NLine2, markColumn);
@@ -3132,26 +3132,26 @@ begin
         end;
       else
         begin
-          if Obj.ColumnTag>0 then
+          if LinePartObj.ColumnTag>0 then
           begin
-            NIndex:= Ed.Micromap.ColumnFromTag(Obj.ColumnTag);
+            NIndex:= Ed.Micromap.ColumnFromTag(LinePartObj.ColumnTag);
             if NIndex>=0 then
             begin
               //if ColorBG=none, it may be find-all-matches with custom border color, use border color
-              if Obj.Data.ColorBG<>clNone then
-                XColor.FromColor(Obj.Data.ColorBG)
+              if LinePartObj.Data.ColorBG<>clNone then
+                XColor.FromColor(LinePartObj.Data.ColorBG)
               else
-                XColor.FromColor(Obj.Data.ColorBorder);
+                XColor.FromColor(LinePartObj.Data.ColorBorder);
               R1:= GetItemRect(NIndex, NLine1, NLine2, markColumn);
               FMicromapBmp.FillRect(R1, XColor);
             end;
           end
           else
-          if Obj.ColumnTag=cTagColumnFullsized then
+          if LinePartObj.ColumnTag=cTagColumnFullsized then
           begin
             R1:= GetItemRect(0, NLine1, NLine2, markFull);
             //todo: not tested with BGRABitmap - it must give inverted colors
-            XColor.FromColor(Obj.Data.ColorBG);
+            XColor.FromColor(LinePartObj.Data.ColorBG);
             FMicromapBmp.FillRect(R1, XColor, dmDrawWithTransparency, $8000);
           end;
         end;
