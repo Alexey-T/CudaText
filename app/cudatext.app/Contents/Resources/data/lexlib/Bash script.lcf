@@ -446,7 +446,7 @@ object SyntAnal2: TLibSyntAnalyzer
       DisplayName = 'Number octal'
       StyleName = 'Number'
       TokenType = 6
-      Expression = '\b0[0-7]+\b'
+      Expression = '\b0[0-7]*\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
