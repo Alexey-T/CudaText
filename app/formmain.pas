@@ -1022,9 +1022,9 @@ type
     function DoFileCloseAll(AWithCancel: boolean): boolean;
     procedure DoDialogFind(AReplaceMode: boolean);
     procedure DoDialogFind_Hide;
-    procedure ShowFinderResult(ok: boolean; AFinder: TATEditorFinder);
-    procedure ShowFinderResultSimple(ok: boolean; AFinder: TATEditorFinder);
-    procedure ShowFinderMatchesCount(AMatchCount, ATime: integer);
+    procedure FinderShowResult(ok: boolean; AFinder: TATEditorFinder);
+    procedure FinderShowResultSimple(ok: boolean; AFinder: TATEditorFinder);
+    procedure FinderShowMatchesCount(AMatchCount, ATime: integer);
     procedure DoFindFirst;
     procedure DoFindNext(ANext: boolean);
     procedure DoFindMarkAll(AMode: TATFindMarkingMode);

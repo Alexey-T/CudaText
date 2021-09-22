@@ -197,7 +197,7 @@ begin
       afoFindFirst:
         begin
           ok:= Frame.BinaryFindFirst(FFinder, bHiliteAll);
-          ShowFinderResultSimple(ok, FFinder);
+          FinderShowResultSimple(ok, FFinder);
         end;
 
       afoFindNext,
@@ -207,7 +207,7 @@ begin
             ok:= Frame.BinaryFindFirst(FFinder, bHiliteAll)
           else
             ok:= Frame.BinaryFindNext(Res=afoFindPrev);
-          ShowFinderResultSimple(ok, FFinder);
+          FinderShowResultSimple(ok, FFinder);
         end;
     end;
 
@@ -253,7 +253,7 @@ begin
       ok:= FFinder.DoAction_FindOrReplace(
         false, false, bChanged, true);
       FinderUpdateEditor(false);
-      ShowFinderResult(ok, FFinder);
+      FinderShowResult(ok, FFinder);
     end;
 
     afoReplace,
@@ -266,7 +266,7 @@ begin
         if ok then
           ok:= FFinder.DoAction_FindOrReplace(false, false, bChanged, true);
       FinderUpdateEditor(true);
-      ShowFinderResult(ok, FFinder);
+      FinderShowResult(ok, FFinder);
     end;
 
     afoReplaceAll:
@@ -335,7 +335,7 @@ begin
           end;
         end
         else
-          ShowFinderResult(false, FFinder);
+          FinderShowResult(false, FFinder);
       finally
         FreeAndNil(ListFound);
       end;
@@ -395,7 +395,7 @@ begin
     fmFind.OnFocusEditor:= @FindDialogFocusEditor;
     fmFind.OnGetMainEditor:= @FindDialogGetMainEditor;
     fmFind.OnGetToken:= @FinderOnGetToken;
-    fmFind.OnShowMatchesCount:= @ShowFinderMatchesCount;
+    fmFind.OnShowMatchesCount:= @FinderShowMatchesCount;
     fmFind.Color:= GetAppColor(apclTabBg);
     fmFind.UpdateInitialCaretPos;
 
@@ -580,7 +580,7 @@ begin
 
   ok:= FFinder.DoAction_FindOrReplace(false, false, bChanged, true);
   FinderUpdateEditor(false);
-  ShowFinderResult(ok, FFinder);
+  FinderShowResult(ok, FFinder);
 end;
 
 procedure TfmMain.DoFindNext(ANext: boolean);
@@ -619,7 +619,7 @@ begin
 
   ok:= FFinder.DoAction_FindOrReplace(false, false, bChanged, true);
   FinderUpdateEditor(false);
-  ShowFinderResult(ok, FFinder);
+  FinderShowResult(ok, FFinder);
   UpdateAppForSearch(false, false, true, true); //hide search progressbar
 
   //add string to history, issue #3326
@@ -663,7 +663,7 @@ begin
 
   if FFinder.StrFind='' then
   begin
-    ShowFinderResult(false, FFinder);
+    FinderShowResult(false, FFinder);
     Exit
   end;
 
@@ -755,7 +755,7 @@ begin
     Result:= Format(' [%d/%d]', [NCurrent+1, NTotal])
 end;
 
-procedure TfmMain.ShowFinderResult(ok: boolean; AFinder: TATEditorFinder);
+procedure TfmMain.FinderShowResult(ok: boolean; AFinder: TATEditorFinder);
 begin
   if ok then
   begin
@@ -783,15 +783,15 @@ begin
       true);
 end;
 
-procedure TfmMain.ShowFinderResultSimple(ok: boolean; AFinder: TATEditorFinder);
+procedure TfmMain.FinderShowResultSimple(ok: boolean; AFinder: TATEditorFinder);
 begin
   if ok then
     MsgStatus(msgStatusFoundNextMatch{+FinderGetHiAllIndexesString}, true)
   else
-    ShowFinderResult(false, AFinder);
+    FinderShowResult(false, AFinder);
 end;
 
-procedure TfmMain.ShowFinderMatchesCount(AMatchCount, ATime: integer);
+procedure TfmMain.FinderShowMatchesCount(AMatchCount, ATime: integer);
 var
   S: string;
 begin
@@ -987,7 +987,7 @@ begin
   end;
 
   ok:= EditorFindCurrentWordOrSel(Ed, ANext, AWordOrSel, bCase, FFinder.OptWrapped, Str);
-  ShowFinderResultSimple(ok, FFinder);
+  FinderShowResultSimple(ok, FFinder);
 
   //sync Find dialog with text
   if Assigned(fmFind) then

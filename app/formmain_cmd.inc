@@ -377,7 +377,7 @@ begin
       DoFindCurrentWordOrSel(Ed, false, false);
 
     cmd_SelectExpandToWord:
-      EditorExpandSelectionToWord(Ed, @ShowFinderResultSimple);
+      EditorExpandSelectionToWord(Ed, @FinderShowResultSimple);
 
     cmd_OpsClearRecent:
       DoOps_ClearConfigHistory([acheRecentFiles]);
