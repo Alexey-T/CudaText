@@ -7,7 +7,7 @@
 
 1.145.5 (2021/09)
 
-+ add: bookmarks can be shown on micromap: new option "micromap_bookmarks" (thanks @JairoMartinezA)
++ add: bookmarks can be shown on micromap: new option "micromap_bookmarks" (thanks @JairoMartinezA); it uses UI-theme color "editor, line states, added"
 + add: API allows toolbar buttons (Config Toolbar plugin) set the command-line (thanks @GHNewbiee)
 + add: plugin Multi Installer: add 'Back' buttons (thanks @GHNewbiee)
 + add: option "ui_button_hover" (note: sometimes it's buggy on Windows/GTK2)
