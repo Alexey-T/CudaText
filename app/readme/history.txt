@@ -3,6 +3,8 @@
   - fixed
   * changed
 
+- fix: Project Manager: cannot show dot-files in 'Go to file' (thanks @loziniak)
+
 1.145.5 (2021/09)
 
 + add: bookmarks can be shown on micromap: new option "micromap_bookmarks" (thanks @JairoMartinezA)
