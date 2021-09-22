@@ -1022,8 +1022,8 @@ type
     function DoFileCloseAll(AWithCancel: boolean): boolean;
     procedure DoDialogFind(AReplaceMode: boolean);
     procedure DoDialogFind_Hide;
-    procedure ShowFinderResult(ok: boolean);
-    procedure ShowFinderResultSimple(ok: boolean);
+    procedure ShowFinderResult(ok: boolean; AFinder: TATEditorFinder);
+    procedure ShowFinderResultSimple(ok: boolean; AFinder: TATEditorFinder);
     procedure ShowFinderMatchesCount(AMatchCount, ATime: integer);
     procedure DoFindFirst;
     procedure DoFindNext(ANext: boolean);
@@ -1053,9 +1053,10 @@ type
     procedure DoToggleToolbar;
     procedure DoToggleStatusbar;
     procedure DoToggleUiTabs;
-    procedure FinderGetHiAllIndexes(out AIndex, ACount: integer);
-    function FinderGetHiAllIndexesString: string;
-    function FinderOptionsToHint: string;
+    procedure FinderGetHiAllIndexes(AFinder: TATEditorFinder; out AIndex,
+      ACount: integer);
+    function FinderGetHiAllIndexesString(AFinder: TATEditorFinder): string;
+    function FinderOptionsToHint(AFinder: TATEditorFinder): string;
     function FinderReplaceAll(Ed: TATSynEdit; AResetCaret: boolean): integer;
     procedure FinderShowReplaceReport(ACounter, ATime: integer);
     procedure FindDialogDone(Sender: TObject; Res: TAppFinderOperation; AEnableUpdateAll: boolean);

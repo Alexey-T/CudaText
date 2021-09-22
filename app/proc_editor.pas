@@ -139,8 +139,11 @@ procedure EditorBracket_FindOpeningBracketBackward(Ed: TATSynEdit;
   MaxDistance: integer;
   out FoundX, FoundY: integer);
 
+type
+  TATEditorFinderCallback = procedure(AFound: boolean; AFinder: TATEditorFinder) of object;
+
 function EditorGetTokenKind(Ed: TATSynEdit; AX, AY: integer): TATTokenKind;
-function EditorExpandSelectionToWord(Ed: TATSynEdit): boolean;
+function EditorExpandSelectionToWord(Ed: TATSynEdit; AFinderResultCallback: TATEditorFinderCallback): boolean;
 function EditorFindCurrentWordOrSel(Ed: TATSynEdit;
   ANext, AWordOrSel, AOptCase, AOptWrapped: boolean;
   out Str: UnicodeString): boolean;
@@ -1774,7 +1777,8 @@ begin
   end;
 end;
 
-function EditorExpandSelectionToWord(Ed: TATSynEdit): boolean;
+function EditorExpandSelectionToWord(Ed: TATSynEdit;
+  AFinderResultCallback: TATEditorFinderCallback): boolean;
 var
   Caret: TATCaretItem;
   Finder: TATEditorFinder;
@@ -1824,6 +1828,7 @@ begin
       Finder.OptCase:= true;
       Finder.OptBack:= false;
       Finder.OptFromCaret:= false;
+      Finder.OptWrapped:= true; //wrapped search, like in Sublime
       Finder.OptInSelection:= false;
       Finder.OptTokens:= cTokensAll;
 
@@ -1847,6 +1852,8 @@ begin
             );
         Ed.DoCommand(cCommand_ScrollToCaretBottom, cInvokeAppInternal);
       end;
+
+      AFinderResultCallback(Result, Finder);
     finally
       FreeAndNil(Finder);
     end;
