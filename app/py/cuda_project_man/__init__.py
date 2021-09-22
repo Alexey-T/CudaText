@@ -1184,8 +1184,7 @@ class Command:
             if os.path.isdir(root):
                 #f = glob.glob(os.path.join(root, '**', '*'), recursive=True)
                 ## glob.glob cannot find dot-files, so using Path().glob instead:
-                f = [str(f) for f in Path(root).glob('**/*')]
-                f = [fn for fn in f if os.path.isfile(fn)]
+                f = [str(f) for f in Path(root).glob('**/*') if f.is_file()]
                 files.extend(f)
             elif os.path.isfile(root):
                 files.append(root)
