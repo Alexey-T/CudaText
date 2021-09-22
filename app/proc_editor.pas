@@ -1828,7 +1828,7 @@ begin
       Finder.OptCase:= true;
       Finder.OptBack:= false;
       Finder.OptFromCaret:= false;
-      Finder.OptWrapped:= true; //wrapped search, like in Sublime
+      //Finder.OptWrapped:= true; //wrapped search, like in Sublime
       Finder.OptInSelection:= false;
       Finder.OptTokens:= cTokensAll;
 
