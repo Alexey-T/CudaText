@@ -1173,9 +1173,11 @@ Micromap is thin (about 12 pixels) vertical bar near editor's right side. It is 
 
 Micromap has several thin columns (from column 1 to column 3, but this can be changed by plugins) for different categories of marks. It shows:
 
-* full-width single mark: current visible area of editor
+* full-width single mark: current visible area of editor.
 * on column 1 (leftmost): [[#Line_states]] marks.
-* on column 2: marks from plugins: Spell Checker, Highlight Occurrences, etc; also marks for bookmarks (if option "micromap_bookmarks" is set).
+* on column 2:
+** marks from plugins: Spell Checker, Highlight Occurrences, etc;
+** marks for bookmarks, if option "micromap_bookmarks" is set; these marks use UI-theme color "editor, line states, added".
 * on column 3: marks for selections, useful for example when command "Find / Select all" makes many selections.
 
 [[File:cudatext-micromap_.png]]
