@@ -1182,7 +1182,9 @@ class Command:
 
         for root in self.project['nodes']:
             if os.path.isdir(root):
-                f = glob.glob(os.path.join(root, '**', '*'), recursive=True)
+                #f = glob.glob(os.path.join(root, '**', '*'), recursive=True)
+                ## glob.glob cannot find dot-files, so using Path().glob instead:
+                f = [str(f) for f in Path(root).glob('**/*')]
                 f = [fn for fn in f if os.path.isfile(fn)]
                 files.extend(f)
             elif os.path.isfile(root):
