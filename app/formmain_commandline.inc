@@ -365,6 +365,11 @@ procedure TfmMain.DoLoadCommandLine_FromString(const AText: string);
 var
   StrArray: TStringArray;
 begin
+  if Trim(AText)='' then exit;
+
+  if not IsDefaultSessionActive then
+    DoOps_SaveSession(GetSessionFilename, false);
+
   StrArray:= AText.Split(' ', '"', '"', TStringSplitOptions.ExcludeEmpty);
   DoLoadCommandParams(StrArray, '');
   UpdateCaption;
