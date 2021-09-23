@@ -199,7 +199,7 @@ object SyntAnal9: TLibSyntAnalyzer
       DisplayName = 'String ticks'
       StyleName = 'String ticks'
       TokenType = 4
-      Expression = '(?s)`(\\`|.)*?(`|\Z)'
+      Expression = '(?s)`(\\`|\$\{ (\$\{.*?\}|.)*?\}|.)*?(`|\Z)'
       ColumnFrom = 0
       ColumnTo = 0
     end
