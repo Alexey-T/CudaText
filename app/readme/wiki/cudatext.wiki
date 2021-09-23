@@ -1274,7 +1274,7 @@ In the gutter bar, you can see colored thin bars next to line numbers: greenish,
 * added: newly inserted lines
 * saved: previously changed/added but saved on last saving
 
-[[File:cudatext-line-states.png]]
+[[File:cudatext-line-states_.png]]
 
 Line states help to see which lines were edited since the last opening of a file / last saving of a file. CudaExt plugin gives few commands for line states:
 
