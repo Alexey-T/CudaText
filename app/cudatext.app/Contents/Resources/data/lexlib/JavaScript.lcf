@@ -1,4 +1,4 @@
-object SyntAnal10: TLibSyntAnalyzer
+object SyntAnal9: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Symbol'
@@ -129,6 +129,14 @@ object SyntAnal10: TLibSyntAnalyzer
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
+    end
+    item
+      DisplayName = 'String ticks'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = 7513169
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
     end>
   TokenRules = <
     item
@@ -189,7 +197,7 @@ object SyntAnal10: TLibSyntAnalyzer
     end
     item
       DisplayName = 'String ticks'
-      StyleName = 'String regex'
+      StyleName = 'String ticks'
       TokenType = 4
       Expression = '(?s)`(\\`|.)*?(`|\Z)'
       ColumnFrom = 0
@@ -880,13 +888,13 @@ object SyntAnal10: TLibSyntAnalyzer
       DisplayName = 'PHP'
       StartExpression = '<\?(php)?'
       EndExpression = '\?>'
-      SyntAnalyzer = SyntAnal17
+      SyntAnalyzer = SyntAnal14
     end
     item
       DisplayName = 'JSDoc'
       StartExpression = '/\*\*[^/\*]'
       EndExpression = '\*/'
-      SyntAnalyzer = SyntAnal11
+      SyntAnalyzer = SyntAnal10
     end>
   SampleText.Strings = (
     '#!/bin/bash                         '
