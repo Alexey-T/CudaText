@@ -1269,9 +1269,10 @@ Note: Please remember to change your version in the variable string to match the
 
 In the gutter bar, you can see colored thin bars next to line numbers: greenish, yellowish. It is line states. They show state of lines:
 
-* normal lines (not changed since last saving)
-* changed lines (edited since last saving)
-* newly inserted/added lines
+* normal: they have no special color on gutter
+* changed: edited since last saving
+* added: newly inserted lines
+* saved: previously changed/added but saved on last saving
 
 [[File:cudatext-line-states.png]]
 
