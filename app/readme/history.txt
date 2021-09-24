@@ -3,7 +3,10 @@
   - fixed
   * changed
 
+1.146.0
+
 - fix: Project Manager: cannot show dot-files in 'Go to file' (thanks @loziniak)
+- fix: caret can hide when block is folded in the splitted-tab-view (thanks @GHNewbiee)
 
 1.145.5 (2021/09)
 
