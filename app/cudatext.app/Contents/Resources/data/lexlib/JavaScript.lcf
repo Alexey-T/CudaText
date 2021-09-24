@@ -151,7 +151,7 @@ object SyntAnal9: TLibSyntAnalyzer
       DisplayName = 'Comment doc'
       StyleName = 'Comment doc'
       TokenType = 1
-      Expression = '(?s)/\*\*.+?\*/'
+      Expression = '(?s)/\*\*.*?(\*/|\Z)'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -893,7 +893,7 @@ object SyntAnal9: TLibSyntAnalyzer
     item
       DisplayName = 'JSDoc'
       StartExpression = '/\*\*[^/\*]'
-      EndExpression = '\*/'
+      EndExpression = '[^/\*\n\r]*?\*/'
       SyntAnalyzer = SyntAnal10
     end>
   SampleText.Strings = (
@@ -965,6 +965,7 @@ object SyntAnal9: TLibSyntAnalyzer
   Notes.Strings = (
     'Based on lexer from EControl'
     'Reworked by Alexey (CudaText)')
+  RestartFromLineStart = True
   LineComment = '//'
   Charset = DEFAULT_CHARSET
 end
