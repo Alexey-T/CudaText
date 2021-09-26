@@ -2594,7 +2594,7 @@ begin
   LexerProgress.Parent:= Status;
   }
 
-  OnLexerParseProgress:= @DoOnLexerParseProgress;
+  EControlOptions.OnLexerParseProgress:= @DoOnLexerParseProgress;
   CustomDialog_DoPyCallback:= @DoPyCallbackFromAPI;
   CustomDialog_OnEditorCommand:= @FrameOnEditorCommand;
   FFileNameLogDebug:= AppDir_Settings+DirectorySeparator+'app.log';

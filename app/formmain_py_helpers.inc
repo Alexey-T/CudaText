@@ -219,7 +219,7 @@ begin
   if CurLexer='' then exit;
 
   //don't run tree-helper on huge files
-  if Ed.Strings.Count>MaxLinesWhenParserEnablesFolding then exit;
+  if Ed.Strings.Count > EControlOptions.MaxLinesWhenParserEnablesFolding then exit;
 
   //Pascal tree-helpers
   Result:= DoCodetree_ApplyTreeHelperInPascal(Ed, Tree, CurLexer);

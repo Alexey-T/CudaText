@@ -906,7 +906,8 @@ begin
 
   cSpeedScrollAutoVert:= cfg.GetValue('mouse_scroll_speed_vert', cSpeedScrollAutoVert);
 
-  MaxLinesWhenParserEnablesFolding:= cfg.GetValue('lexer_folding_max_lines', MaxLinesWhenParserEnablesFolding);
+  EControlOptions.MaxLinesWhenParserEnablesFolding:= cfg.GetValue('lexer_folding_max_lines',
+    EControlOptions.MaxLinesWhenParserEnablesFolding);
 
   ATFlatTheme.EnableColorBgOver:= cfg.GetValue('ui_button_hover', ATFlatTheme.EnableColorBgOver);
 
