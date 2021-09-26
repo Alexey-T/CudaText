@@ -5,6 +5,7 @@
 
 1.146.0
 
++ add: option "auto_fold_comments": now several comments separated with a blank line, make several fold-ranges (thanks @GHNewbiee)
 + add: lexer JS: "auto_fold_comments" works also for JS 'template strings' (thanks @GHNewbiee)
 - fix: Project Manager: cannot show dot-files in 'Go to file' (thanks @loziniak)
 - fix: splitted view: caret in editor-2 can hide if it's in folding in editor-1 (thanks @GHNewbiee)
