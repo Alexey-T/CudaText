@@ -139,6 +139,9 @@ begin
     if SParam='' then
       Continue;
 
+    //remove " quotes, CudaText issue #3726
+    SParam:= SParam.DeQuotedString('"');
+
     if SParam='-r' then
     begin
       bReadOnly:= true;
@@ -266,7 +269,7 @@ begin
     end
     else
     //file not exists? suggest to create it
-    if bAllowCreate then
+    if bAllowCreate and AppFileExtentionCreatable(SParam) then
       if MsgBox(Format(msgConfirmCreateNewFile, [SParam]),
               MB_OKCANCEL or MB_ICONQUESTION) = ID_OK then
         if AppCreateFile(SParam) then
@@ -358,4 +361,17 @@ begin
   DoLoadCommandParams(Params, Options);
 end;
 
+procedure TfmMain.DoLoadCommandLine_FromString(const AText: string);
+var
+  StrArray: TStringArray;
+begin
+  if Trim(AText)='' then exit;
+
+  if not IsDefaultSessionActive then
+    DoOps_SaveSession(GetSessionFilename, false);
+
+  StrArray:= AText.Split(' ', '"', '"', TStringSplitOptions.ExcludeEmpty);
+  DoLoadCommandParams(StrArray, '');
+  UpdateCaption;
+end;
 

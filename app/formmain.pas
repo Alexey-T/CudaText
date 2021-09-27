@@ -920,6 +920,7 @@ type
     procedure InitSaveDlg;
     procedure InitSidebar;
     procedure InitToolbar;
+    procedure InitCodeTree;
     function IsWindowMaximizedOrFullscreen: boolean;
     function IsAllowedToOpenFileNow: boolean;
     function IsThemeNameExist(const AName: string; AThemeUI: boolean): boolean;
@@ -1021,9 +1022,9 @@ type
     function DoFileCloseAll(AWithCancel: boolean): boolean;
     procedure DoDialogFind(AReplaceMode: boolean);
     procedure DoDialogFind_Hide;
-    procedure ShowFinderResult(ok: boolean);
-    procedure ShowFinderResultSimple(ok: boolean);
-    procedure ShowFinderMatchesCount(AMatchCount, ATime: integer);
+    procedure FinderShowResult(ok: boolean; AFinder: TATEditorFinder);
+    procedure FinderShowResultSimple(ok: boolean; AFinder: TATEditorFinder);
+    procedure FinderShowMatchesCount(AMatchCount, ATime: integer);
     procedure DoFindFirst;
     procedure DoFindNext(ANext: boolean);
     procedure DoFindMarkAll(AMode: TATFindMarkingMode);
@@ -1038,6 +1039,7 @@ type
       out AFileFolderCount: integer);
     procedure DoLoadCommandParams(const AParams: array of string; AOpenOptions: string);
     procedure DoLoadCommandLine;
+    procedure DoLoadCommandLine_FromString(const AText: string);
     //procedure DoToggleMenu;
     procedure DoToggleFloatSide;
     procedure DoToggleFloatBottom;
@@ -1051,9 +1053,10 @@ type
     procedure DoToggleToolbar;
     procedure DoToggleStatusbar;
     procedure DoToggleUiTabs;
-    procedure FinderGetHiAllIndexes(out AIndex, ACount: integer);
-    function FinderGetHiAllIndexesString: string;
-    function FinderOptionsToHint: string;
+    procedure FinderGetHiAllIndexes(AFinder: TATEditorFinder; out AIndex,
+      ACount: integer);
+    function FinderGetHiAllIndexesString(AFinder: TATEditorFinder): string;
+    function FinderOptionsToHint(AFinder: TATEditorFinder): string;
     function FinderReplaceAll(Ed: TATSynEdit; AResetCaret: boolean): integer;
     procedure FinderShowReplaceReport(ACounter, ATime: integer);
     procedure FindDialogDone(Sender: TObject; Res: TAppFinderOperation; AEnableUpdateAll: boolean);
@@ -1137,7 +1140,11 @@ type
     procedure InitConfirmPanel;
     procedure InitPyEngine;
     procedure InitFrameEvents(F: TEditorFrame);
+    procedure InitStatusbar;
     procedure InitStatusbarControls;
+    procedure InitGroups;
+    procedure InitFinder;
+    procedure InitBookmarkSetup;
     procedure FrameOnChangeCaption(Sender: TObject);
     procedure FrameOnUpdateStatusbar(Sender: TObject);
     procedure FrameOnUpdateState(Sender: TObject);
@@ -2445,84 +2452,8 @@ begin
 end;
 
 
-procedure TfmMain.FormCreate(Sender: TObject);
-var
-  NTick: QWord;
-  i: integer;
+procedure TfmMain.InitCodeTree;
 begin
-  OnEnter:= @FormEnter;
-
-  mnuHelpCheckUpd.Enabled:= UiOps.AllowProgramUpdates;
-
-  with AppPanels[cPaneSide] do
-  begin
-    PanelRoot:= Self.PanelMain;
-    Toolbar:= ToolbarSideTop;
-    DefaultPanel:= msgPanelTree_Init;
-    OnCommand:= @DoSidebar_OnPythonCall;
-    OnCloseFloatForm:= @DoSidebar_OnCloseFloatForm;
-    OnGetTranslatedTitle:= @DoSidebar_GetFormTitle;
-    Init(Self, alLeft);
-    Splitter.OnPaint:= @SplitterOnPaintDummy;
-  end;
-
-  with AppPanels[cPaneOut] do
-  begin
-    PanelRoot:= Self.PanelAll;
-    Toolbar:= ToolbarSideLow;
-    OnHide:= @DoBottom_OnHide;
-    OnCommand:= @DoSidebar_OnPythonCall;
-    OnCloseFloatForm:= @DoBottom_OnCloseFloatForm;
-    OnGetTranslatedTitle:= @DoSidebar_GetFormTitle;
-    Init(Self, alBottom);
-    Splitter.OnPaint:= @SplitterOnPaintDummy;
-  end;
-
-  {
-  LexerProgress:= TATGauge.Create(Self);
-  LexerProgress.Parent:= Status;
-  }
-
-  OnLexerParseProgress:= @DoOnLexerParseProgress;
-  CustomDialog_DoPyCallback:= @DoPyCallbackFromAPI;
-  CustomDialog_OnEditorCommand:= @FrameOnEditorCommand;
-  FFileNameLogDebug:= AppDir_Settings+DirectorySeparator+'app.log';
-  FFileNameLogConsole:= AppDir_Settings+DirectorySeparator+'console.log';
-
-  DoMenuitemEllipsis(mnuOpThemeUi);
-  DoMenuitemEllipsis(mnuOpThemeSyntax);
-  //DoMenuitemEllipsis(mnuOpKeys);
-  DoMenuitemEllipsis(mnuOpThemes);
-  DoMenuitemEllipsis(mnuOpLangs);
-
-  PopupToolbarCase:= TPopupMenu.Create(Self);
-  PopupToolbarCase.OnPopup:= @PopupToolbarCaseOnPopup;
-
-  PopupToolbarComment:= TPopupMenu.Create(Self);
-  PopupToolbarComment.OnPopup:= @PopupToolbarCommentOnPopup;
-
-  {$ifdef windows}
-  if not AppAlwaysNewInstance and IsSetToOneInstance then
-    with TInstanceManage.GetInstance do
-      case Status of
-        isFirst:
-          begin
-            SetFormHandleForActivate(Self.Handle);
-            OnSecondInstanceSentData := @SecondInstance;
-          end;
-      end;
-  {$endif}
-
-  FBoundsMain:= Rect(100, 100, 900, 700);;
-  AppPanels[cPaneSide].FormFloatBounds:= Rect(650, 50, 900, 700);
-  AppPanels[cPaneOut].FormFloatBounds:= Rect(50, 480, 900, 700);
-  FBoundsFloatGroups1:= Rect(300, 100, 800, 700);
-  FBoundsFloatGroups2:= Rect(320, 120, 820, 720);
-  FBoundsFloatGroups3:= Rect(340, 140, 840, 740);
-
-  InitAppleMenu;
-  InitToolbar;
-
   PanelCodeTreeAll:= TFormDummy.Create(Self);
   PanelCodeTreeAll.Name:= 'PanelCodeTreeAll';
   PanelCodeTreeAll.BorderStyle:= bsNone;
@@ -2576,35 +2507,10 @@ begin
   CodeTreeFilterInput.Align:= alClient;
   CodeTreeFilterInput.OnChange:= @CodeTreeFilter_OnChange;
   CodeTreeFilterInput.OnCommand:= @CodeTreeFilter_OnCommand;
+end;
 
-  InitBottomEditor(fmOutput);
-  InitBottomEditor(fmValidate);
-
-  NTick:= GetTickCount64;
-  InitConsole;
-  fmConsole.OnConsoleNav:= @DoPyEvent_ConsoleNav;
-  fmConsole.OnNumberChange:= @DoOnConsoleNumberChange;
-  if UiOps.LogConsoleDetailedStartupTime then
-  begin
-    NTick:= GetTickCount64-NTick;
-    MsgLogConsole(Format('Loaded console form: %dms', [NTick]));
-  end;
-
-  InitSidebar; //after initing PanelCodeTreeAll, EditorOutput, EditorValidate, fmConsole
-
-  AppBookmarkImagelist.AddImages(ImageListBm);
-  for i:= 2 to 9 do
-  begin
-    AppBookmarkSetup[i].Color:= clDefault;
-    AppBookmarkSetup[i].ImageIndex:= i-1;
-  end;
-
-  FMenuVisible:= true;
-  AppSessionName:= '';
-  FListTimers:= TStringList.Create;
-  FLastStatusbarMessages:= TStringList.Create;
-  FLastStatusbarMessages.TextLineBreakStyle:= tlbsLF;
-
+procedure TfmMain.InitStatusbar;
+begin
   Status:= TATStatus.Create(Self);
   Status.Parent:= Self;
   Status.Align:= alBottom;
@@ -2613,7 +2519,10 @@ begin
   Status.OnPanelClick:= @StatusPanelClick;
   Status.ShowHint:= true;
   Status.Theme:= @AppThemeStatusbar;
+end;
 
+procedure TfmMain.InitGroups;
+begin
   Groups:= TATGroups.Create(Self);
   Groups.Parent:= PanelEditors;
   Groups.Align:= alClient;
@@ -2627,13 +2536,121 @@ begin
   Groups.OnTabPopup:= @DoOnTabPopup;
   //Groups.OnTabOver:= @DoOnTabOver;
   Groups.OnTabGetTick:= @DoOnTabGetTick;
+end;
 
+procedure TfmMain.InitFinder;
+begin
   FFinder:= TATEditorFinder.Create;
   FFinder.OnConfirmReplace:= @FinderOnConfirmReplace;
   FFinder.OnProgress:= @FinderOnProgress;
   FFinder.OnFound:=@FinderOnFound;
   FFinder.OnGetToken:= @FinderOnGetToken;
+end;
 
+procedure TfmMain.InitBookmarkSetup;
+var
+  i: integer;
+begin
+  AppBookmarkImagelist.AddImages(ImageListBm);
+  for i:= 2 to 9 do
+  begin
+    AppBookmarkSetup[i].Color:= clDefault;
+    AppBookmarkSetup[i].ImageIndex:= i-1;
+  end;
+end;
+
+procedure TfmMain.FormCreate(Sender: TObject);
+begin
+  OnEnter:= @FormEnter;
+
+  mnuHelpCheckUpd.Enabled:= UiOps.AllowProgramUpdates;
+
+  with AppPanels[cPaneSide] do
+  begin
+    PanelRoot:= Self.PanelMain;
+    Toolbar:= ToolbarSideTop;
+    DefaultPanel:= msgPanelTree_Init;
+    OnCommand:= @DoSidebar_OnPythonCall;
+    OnCloseFloatForm:= @DoSidebar_OnCloseFloatForm;
+    OnGetTranslatedTitle:= @DoSidebar_GetFormTitle;
+    Init(Self, alLeft);
+    Splitter.OnPaint:= @SplitterOnPaintDummy;
+  end;
+
+  with AppPanels[cPaneOut] do
+  begin
+    PanelRoot:= Self.PanelAll;
+    Toolbar:= ToolbarSideLow;
+    OnHide:= @DoBottom_OnHide;
+    OnCommand:= @DoSidebar_OnPythonCall;
+    OnCloseFloatForm:= @DoBottom_OnCloseFloatForm;
+    OnGetTranslatedTitle:= @DoSidebar_GetFormTitle;
+    Init(Self, alBottom);
+    Splitter.OnPaint:= @SplitterOnPaintDummy;
+  end;
+
+  {
+  LexerProgress:= TATGauge.Create(Self);
+  LexerProgress.Parent:= Status;
+  }
+
+  EControlOptions.OnLexerParseProgress:= @DoOnLexerParseProgress;
+  CustomDialog_DoPyCallback:= @DoPyCallbackFromAPI;
+  CustomDialog_OnEditorCommand:= @FrameOnEditorCommand;
+  FFileNameLogDebug:= AppDir_Settings+DirectorySeparator+'app.log';
+  FFileNameLogConsole:= AppDir_Settings+DirectorySeparator+'console.log';
+
+  DoMenuitemEllipsis(mnuOpThemeUi);
+  DoMenuitemEllipsis(mnuOpThemeSyntax);
+  //DoMenuitemEllipsis(mnuOpKeys);
+  DoMenuitemEllipsis(mnuOpThemes);
+  DoMenuitemEllipsis(mnuOpLangs);
+
+  PopupToolbarCase:= TPopupMenu.Create(Self);
+  PopupToolbarCase.OnPopup:= @PopupToolbarCaseOnPopup;
+
+  PopupToolbarComment:= TPopupMenu.Create(Self);
+  PopupToolbarComment.OnPopup:= @PopupToolbarCommentOnPopup;
+
+  {$ifdef windows}
+  if not AppAlwaysNewInstance and IsSetToOneInstance then
+    with TInstanceManage.GetInstance do
+      case Status of
+        isFirst:
+          begin
+            SetFormHandleForActivate(Self.Handle);
+            OnSecondInstanceSentData := @SecondInstance;
+          end;
+      end;
+  {$endif}
+
+  FBoundsMain:= Rect(100, 100, 900, 700);;
+  AppPanels[cPaneSide].FormFloatBounds:= Rect(650, 50, 900, 700);
+  AppPanels[cPaneOut].FormFloatBounds:= Rect(50, 480, 900, 700);
+  FBoundsFloatGroups1:= Rect(300, 100, 800, 700);
+  FBoundsFloatGroups2:= Rect(320, 120, 820, 720);
+  FBoundsFloatGroups3:= Rect(340, 140, 840, 740);
+
+  InitAppleMenu;
+  InitToolbar;
+  InitCodeTree;
+  InitBottomEditor(fmOutput);
+  InitBottomEditor(fmValidate);
+  InitConsole;
+  fmConsole.OnConsoleNav:= @DoPyEvent_ConsoleNav;
+  fmConsole.OnNumberChange:= @DoOnConsoleNumberChange;
+  InitSidebar; //after initing PanelCodeTreeAll, EditorOutput, EditorValidate, fmConsole
+  InitBookmarkSetup;
+
+  FMenuVisible:= true;
+  AppSessionName:= '';
+  FListTimers:= TStringList.Create;
+  FLastStatusbarMessages:= TStringList.Create;
+  FLastStatusbarMessages.TextLineBreakStyle:= tlbsLF;
+
+  InitStatusbar;
+  InitGroups;
+  InitFinder;
   InitStatusbarControls;
 
   FFindStop:= false;
@@ -4094,11 +4111,18 @@ begin
   if OpenMode=cOpenModeEditor then
   begin
     //zip files
-    if bAllowZip then
-    if ExtractFileExt(AFileName)='.zip' then
+    if bAllowZip and (ExtractFileExt(AFileName)='.zip') then
     begin
       if DoFileInstallZip(AFileName, AppDir_LastInstalledAddon, bSilent) then
         Result:= CurrentFrame;
+      exit
+    end;
+
+    //session files
+    if ExtractFileExt(AFileName)='.cuda-session' then
+    begin
+      DoOps_LoadSession(AFileName, true);
+      Result:= CurrentFrame;
       exit
     end;
 
@@ -6608,7 +6632,7 @@ end;
 
 procedure TfmMain.DoHelpWiki;
 begin
-  OpenURL('http://wiki.freepascal.org/CudaText');
+  OpenURL('https://wiki.freepascal.org/CudaText');
 end;
 
 procedure TfmMain.DoCodetree_OnKeyDown(Sender: TObject; var Key: Word;

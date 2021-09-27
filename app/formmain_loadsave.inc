@@ -890,8 +890,10 @@ end;
 
 procedure TfmMain.DoOps_LoadOptions_Global(cfg: TJSONConfig);
 var
+  Sep: TATStringSeparator;
   List: TStringList;
   s: string;
+  N: integer;
 begin
   Application.MainFormOnTaskBar:= cfg.GetValue('ui_taskbar_mode'+cOptionSystemSuffix, Application.MainFormOnTaskBar);
 
@@ -902,6 +904,29 @@ begin
   OptEditorBookmarksAutoDelete:= cfg.GetValue('auto_delete_bookmarks', OptEditorBookmarksAutoDelete);
   OptEditorDebugTiming:= cfg.GetValue('log_timing', OptEditorDebugTiming);
 
+  cSpeedScrollAutoVert:= cfg.GetValue('mouse_scroll_speed_vert', cSpeedScrollAutoVert);
+
+  EControlOptions.MaxLinesWhenParserEnablesFolding:= cfg.GetValue('lexer_folding_max_lines',
+    EControlOptions.MaxLinesWhenParserEnablesFolding);
+
+  ATFlatTheme.EnableColorBgOver:= cfg.GetValue('ui_button_hover', ATFlatTheme.EnableColorBgOver);
+
+  s:= cfg.GetValue('scrollbar_arrows', '');
+  if s<>'' then
+  begin
+    Sep.Init(s);
+    if Sep.GetItemInt(N, -1) then
+      if (N>=0) and (N<=Ord(High(TATScrollbarArrowsStyle))) then
+        ATScrollbarTheme.ArrowStyleH:= TATScrollbarArrowsStyle(N);
+    if Sep.GetItemInt(N, -1) then
+      if (N>=0) and (N<=Ord(High(TATScrollbarArrowsStyle))) then
+        ATScrollbarTheme.ArrowStyleV:= TATScrollbarArrowsStyle(N);
+  end;
+
+  ATScrollbarTheme.DirectJumpOnClickPageUpDown:= cfg.GetValue('scrollbar_click_jump',
+    ATScrollbarTheme.DirectJumpOnClickPageUpDown);
+
+  //additional complex options with sub-keys
   List:= TStringList.Create;
   try
     cfg.EnumValues('/plugin_groups', List);
@@ -924,7 +949,6 @@ procedure TfmMain.DoOps_LoadOptions_Editor(cfg: TJSONConfig; var Op: TEditorOps)
 var
   Sep: TATStringSeparator;
   Str: string;
-  N: integer;
 begin
   Op.OpFontName:= cfg.GetValue(OpStr_FontName, Op.OpFontName);
   Op.OpFontName_i:= cfg.GetValue(OpStr_FontName_i, Op.OpFontName_i);
@@ -950,32 +974,6 @@ begin
 
   Op.OpScrollbarsNew:= cfg.GetValue('scrollbar_themed', Op.OpScrollbarsNew);
   Op.OpSpacingY:= cfg.GetValue('spacing_y'+cOptionSystemSuffix, Op.OpSpacingY);
-
-  {
-  Str:= cfg.GetValue('scroll_animation', '');
-  if Str<>'' then
-  begin
-    Sep.Init(Str);
-    if Sep.GetItemInt(N, -1) then
-      if (N>=0) then
-        Op.OpScrollAnimationSteps:= N;
-    if Sep.GetItemInt(N, -1) then
-      if (N>=0) then
-        Op.OpScrollAnimationSleep:= N;
-  end;
-  }
-
-  Str:= cfg.GetValue('scrollbar_arrows', '');
-  if Str<>'' then
-  begin
-    Sep.Init(Str);
-    if Sep.GetItemInt(N, -1) then
-      if (N>=0) and (N<=Ord(High(TATScrollbarArrowsStyle))) then
-        ATScrollbarTheme.ArrowStyleH:= TATScrollbarArrowsStyle(N);
-    if Sep.GetItemInt(N, -1) then
-      if (N>=0) and (N<=Ord(High(TATScrollbarArrowsStyle))) then
-        ATScrollbarTheme.ArrowStyleV:= TATScrollbarArrowsStyle(N);
-  end;
 
   Op.OpTabSize:= cfg.GetValue('tab_size', Op.OpTabSize);
   Op.OpTabSpaces:= cfg.GetValue('tab_spaces', Op.OpTabSpaces);
@@ -1033,6 +1031,7 @@ begin
 
   Op.OpMicromapShow:= cfg.GetValue('micromap_show', Op.OpMicromapShow);
   Op.OpMicromapOnScrollbar:= cfg.GetValue('micromap_on_scrollbar', Op.OpMicromapOnScrollbar);
+  Op.OpMicromapBookmarks:= cfg.GetValue('micromap_bookmarks', Op.OpMicromapBookmarks);
 
   Op.OpMarginFixed:= cfg.GetValue('margin', Op.OpMarginFixed);
   Op.OpMarginString:= cfg.GetValue('margin_string', Op.OpMarginString);
@@ -1109,14 +1108,10 @@ begin
   Op.OpLexerDynamicHiliteEnabled:= cfg.GetValue('lexer_dynamic_hilite', Op.OpLexerDynamicHiliteEnabled);
   Op.OpLexerDynamicHiliteMaxLines:= cfg.GetValue('lexer_dynamic_hilite_max_lines', Op.OpLexerDynamicHiliteMaxLines);
   Op.OpLexerLineSeparators:= false; //cfg.GetValue('lexer_line_separators', Op.OpLexerLineSeparators);
-  MaxLinesWhenParserEnablesFolding:= cfg.GetValue('lexer_folding_max_lines', MaxLinesWhenParserEnablesFolding);
 
   Op.OpZebra:= cfg.GetValue('zebra', Op.OpZebra);
   Op.OpZebraStep:= cfg.GetValue('zebra_step', Op.OpZebraStep);
   Op.OpDimUnfocused:= cfg.GetValue('dim_unfocused', Op.OpDimUnfocused);
-
-  //enable when 'atomic save' will be implemented
-  //Op.OpAtomicFileSave:= cfg.GetValue('atomic_save', Op.OpAtomicFileSave);
 
   Op.OpNonWordChars:= cfg.GetValue('nonword_chars', Op.OpNonWordChars);
   Op.OpFoldStyle:= cfg.GetValue('fold_style', Op.OpFoldStyle);
@@ -1142,7 +1137,6 @@ begin
   Op.OpMouseWheelSpeedHorz:= cfg.GetValue('mouse_wheel_speed_horz', Op.OpMouseWheelSpeedHorz);
   Op.OpMouseClickNumberSelectsEol:= cfg.GetValue('mouse_click_number_selects_eol', Op.OpMouseClickNumberSelectsEol);
   Op.OpMouseClickLinks:= cfg.GetValue('mouse_click_links', Op.OpMouseClickLinks);
-  cSpeedScrollAutoVert:= cfg.GetValue('mouse_scroll_speed_vert', cSpeedScrollAutoVert);
 
   Op.OpKeyBackspaceUnindent:= cfg.GetValue('key_bksp_unindent', Op.OpKeyBackspaceUnindent);
   Op.OpKeyBackspaceWrap:= cfg.GetValue('key_bksp_wrap', Op.OpKeyBackspaceWrap);

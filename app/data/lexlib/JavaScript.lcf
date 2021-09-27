@@ -1,4 +1,4 @@
-object SyntAnal10: TLibSyntAnalyzer
+object SyntAnal9: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Symbol'
@@ -129,6 +129,14 @@ object SyntAnal10: TLibSyntAnalyzer
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
+    end
+    item
+      DisplayName = 'String ticks'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = 7513169
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
     end>
   TokenRules = <
     item
@@ -143,7 +151,7 @@ object SyntAnal10: TLibSyntAnalyzer
       DisplayName = 'Comment doc'
       StyleName = 'Comment doc'
       TokenType = 1
-      Expression = '(?s)/\*\*.+?\*/'
+      Expression = '(?s)/\*\*.*?(\*/|\Z)'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -189,9 +197,9 @@ object SyntAnal10: TLibSyntAnalyzer
     end
     item
       DisplayName = 'String ticks'
-      StyleName = 'String regex'
+      StyleName = 'String ticks'
       TokenType = 4
-      Expression = '(?s)`(\\`|.)*?(`|\Z)'
+      Expression = '(?s)`(\\`|\$\{ (\$\{.*?\}|.)*?\}|.)*?(`|\Z)'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -821,6 +829,58 @@ object SyntAnal10: TLibSyntAnalyzer
       NoEndRule = True
       TreeItemImage = 0
       IgnoreAsParent = False
+    end
+    item
+      DisplayName = '['
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '[')
+          TokenTypes = 8
+        end>
+      BlockEnd = ']'
+      DisplayInTree = False
+      HighlightPos = cpAny
+      CollapseFmt = '[ ... ]'
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = ']'
+      BlockType = btRangeEnd
+      ConditionList = <
+        item
+          TagList.Strings = (
+            ']')
+          TokenTypes = 8
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = '('
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '(')
+          TokenTypes = 128
+        end>
+      BlockEnd = ')'
+      DisplayInTree = False
+      HighlightPos = cpAny
+      CollapseFmt = '( ... )'
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = ')'
+      BlockType = btRangeEnd
+      ConditionList = <
+        item
+          TagList.Strings = (
+            ')')
+          TokenTypes = 128
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
     end>
   CodeTemplates = <>
   SubAnalyzers = <
@@ -828,13 +888,13 @@ object SyntAnal10: TLibSyntAnalyzer
       DisplayName = 'PHP'
       StartExpression = '<\?(php)?'
       EndExpression = '\?>'
-      SyntAnalyzer = SyntAnal15
+      SyntAnalyzer = SyntAnal14
     end
     item
       DisplayName = 'JSDoc'
       StartExpression = '/\*\*[^/\*]'
-      EndExpression = '\*/'
-      SyntAnalyzer = SyntAnal11
+      EndExpression = '[^/\*\n\r]*?\*/'
+      SyntAnalyzer = SyntAnal10
     end>
   SampleText.Strings = (
     '#!/bin/bash                         '
@@ -905,6 +965,7 @@ object SyntAnal10: TLibSyntAnalyzer
   Notes.Strings = (
     'Based on lexer from EControl'
     'Reworked by Alexey (CudaText)')
+  RestartFromLineStart = True
   LineComment = '//'
   Charset = DEFAULT_CHARSET
 end

@@ -255,7 +255,7 @@ object SyntAnal15: TLibSyntAnalyzer
       StatesRemove = 7
       StatesAbsent = 1024
       TokenType = 16
-      Expression = '^[\x20\x09]*`{3,}\x20*.*$'
+      Expression = '^[\x20\x09]{0,3}`{3,}\x20*.*$'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -265,7 +265,7 @@ object SyntAnal15: TLibSyntAnalyzer
       StatesRemove = 1024
       StatesPresent = 1024
       TokenType = 17
-      Expression = '^[\x20\x09]*`{3,}\x20*$'
+      Expression = '^[\x20\x09]{0,3}`{3,}\x20*$'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -275,7 +275,7 @@ object SyntAnal15: TLibSyntAnalyzer
       StatesAdd = 2048
       StatesRemove = 7
       TokenType = 18
-      Expression = '^[\x20\x09]*~{3,}\x20*\w+.*$'
+      Expression = '^[\x20\x09]{0,3}~{3,}\x20*\w+.*$'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -284,23 +284,24 @@ object SyntAnal15: TLibSyntAnalyzer
       StyleName = '``` edge'
       StatesRemove = 2048
       TokenType = 19
-      Expression = '^[\x20\x09]*~{3,}\x20*$'
+      Expression = '^[\x20\x09]{0,3}~{3,}\x20*$'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
       DisplayName = 'Separator line'
-      StyleName = 'Symbols'
+      StyleName = 'Comment'
       StatesRemove = 7
       StatesAbsent = 3072
-      TokenType = 15
-      Expression = '^(_[_\x20]+|\-[\-\x20]+|\*[\*\x20]+)$'
+      TokenType = 2
+      Expression = '^(([\-\*_])\x20+)+\2?$'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
       DisplayName = 'List'
       StyleName = 'List'
+      StatesRemove = 7
       StatesAbsent = 3072
       TokenType = 13
       Expression = 
@@ -316,7 +317,9 @@ object SyntAnal15: TLibSyntAnalyzer
       StatesAdd = 3
       StatesAbsent = 3075
       TokenType = 15
-      Expression = '\*\*\*(?=[a-z0-9~\(]) |'#13#10'(?<![\w\)])___(?=[a-z0-9~\(])'
+      Expression = 
+        '\*\*\*(?=[\l\x{2026}\?!~\(]) |'#13#10'(?<![\l_\x{2026}\?!\)])___(?=[\l' +
+        '\x{2026}\?!~\(])'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -326,7 +329,9 @@ object SyntAnal15: TLibSyntAnalyzer
       StatesAdd = 1
       StatesAbsent = 3073
       TokenType = 15
-      Expression = '\*\*(?=[\w~\(]) |'#13#10'(?<![\w\)])__(?=[a-z0-9~\*\(])'
+      Expression = 
+        '\*\*(?=[\l_\x{2026}\?!~\(]) |'#13#10'(?<![\l_\x{2026}\?!\)])__(?=[\l\x' +
+        '{2026}\?!~\*\(])'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -337,7 +342,9 @@ object SyntAnal15: TLibSyntAnalyzer
       StatesPresent = 1
       StatesAbsent = 3072
       TokenType = 15
-      Expression = '(?<=[\w~\*\)>])__(?![a-z0-9]) |'#13#10'(?<=[\w~\)>])\*\*'
+      Expression = 
+        '(?<=[\l_\x{2026}\?!~\*\)>])__(?!\l\x{2026}\?!) |'#13#10'(?<=[\l_\x{202' +
+        '6}\?!~\)>])\*\*'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -347,7 +354,9 @@ object SyntAnal15: TLibSyntAnalyzer
       StatesAdd = 2
       StatesAbsent = 3074
       TokenType = 15
-      Expression = '(?<![\w\)])_(?=[a-z0-9~\*\(]) |'#13#10'\*(?=[\w~\(])'
+      Expression = 
+        '(?<![\l_\x{2026}\?!\)])_(?=[\l\x{2026}\?!~\*\(]) |'#13#10'\*(?=[\l_\x{' +
+        '2026}\?!~\(])'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -358,7 +367,9 @@ object SyntAnal15: TLibSyntAnalyzer
       StatesPresent = 2
       StatesAbsent = 3072
       TokenType = 15
-      Expression = '(?<=[\w~\*\)>])_(?![a-z0-9]) |'#13#10'(?<=[\w~\)>\*])\*'
+      Expression = 
+        '(?<=[\l_\x{2026}\?!~\*\)>])_(?!\l\x{2026}\?!) |'#13#10'(?<=[\l_\x{2026' +
+        '}\?!~\)>\*])\*'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -395,8 +406,11 @@ object SyntAnal15: TLibSyntAnalyzer
     item
       DisplayName = 'Heading'
       StyleName = 'Heading'
+      StatesRemove = 7
       StatesAbsent = 3072
-      Expression = '^\#{1,6}\x20*.* |'#13#10'.+\z\x20{0,3}((\-[\-\x20]*)|(=[=\x20]*))$'
+      Expression = 
+        '^\x20{0,3}\#{1,6}.* |'#13#10'^\x20{0,3}\w.*\z\x20{0,3}((\-[\-\x20]*)|(' +
+        '=[=\x20]*))$'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -412,6 +426,7 @@ object SyntAnal15: TLibSyntAnalyzer
     item
       DisplayName = 'Quote'
       StyleName = 'Quote BG'
+      StatesRemove = 7
       StatesAbsent = 3072
       TokenType = 3
       Expression = '^[\x20\x09]*(>[\x20=])+'
@@ -441,7 +456,7 @@ object SyntAnal15: TLibSyntAnalyzer
       StyleName = 'HTML Code'
       StatesAbsent = 3072
       TokenType = 9
-      Expression = '(?s)<[/!]?[\[\w].*?>'
+      Expression = '(?s)<[/!]?[\[\w~].*?>'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -499,17 +514,9 @@ object SyntAnal15: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Break line'
-      StyleName = 'Comment'
-      StatesAbsent = 3072
-      TokenType = 2
-      Expression = '^(([\-\*_])\x20+)+\2?$'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
       DisplayName = 'Codeblock indented'
       StyleName = 'Codeblock'
+      StatesRemove = 7
       StatesAbsent = 3072
       TokenType = 4
       Expression = '^(\x20{4,}|\x09{1,}) [^`<>\n\r].*$'
@@ -625,7 +632,7 @@ object SyntAnal15: TLibSyntAnalyzer
       StatesPresent = 7
       StatesAbsent = 3072
       TokenType = 1
-      Expression = '(?r)[a-z0-9'#1072'-'#1103#1040'-'#1071'\x20\.,:;\(\)]+'
+      Expression = '[\l\x20\.,:;\(\)\?!\x{2026}]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -635,7 +642,7 @@ object SyntAnal15: TLibSyntAnalyzer
       StatesPresent = 5
       StatesAbsent = 3072
       TokenType = 1
-      Expression = '(?r)[a-z0-9'#1072'-'#1103#1040'-'#1071'\x20\.,:;\(\)]+'
+      Expression = '[\l\x20\.,:;\(\)\?!\x{2026}]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -645,7 +652,7 @@ object SyntAnal15: TLibSyntAnalyzer
       StatesPresent = 6
       StatesAbsent = 3072
       TokenType = 1
-      Expression = '(?r)[a-z0-9'#1072'-'#1103#1040'-'#1071'\x20\.,:;\(\)]+'
+      Expression = '[\l\x20\.,:;\(\)\?!\x{2026}]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -655,7 +662,7 @@ object SyntAnal15: TLibSyntAnalyzer
       StatesPresent = 3
       StatesAbsent = 3072
       TokenType = 1
-      Expression = '(?r)[a-z0-9'#1072'-'#1103#1040'-'#1071'\x20\.,:;\(\)]+'
+      Expression = '[\l\x20\.,:;\(\)\?!\x{2026}]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -665,7 +672,7 @@ object SyntAnal15: TLibSyntAnalyzer
       StatesPresent = 1
       StatesAbsent = 3072
       TokenType = 1
-      Expression = '(?r)[a-z0-9'#1072'-'#1103#1040'-'#1071'\x20\.,:;\(\)]+'
+      Expression = '[\l\x20\.,:;\(\)\?!\x{2026}]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -675,7 +682,7 @@ object SyntAnal15: TLibSyntAnalyzer
       StatesPresent = 2
       StatesAbsent = 3072
       TokenType = 1
-      Expression = '(?r)[a-z0-9'#1072'-'#1103#1040'-'#1071'\x20\.,:;\(\)]+'
+      Expression = '[\l\x20\.,:;\(\)\?!\x{2026}]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -685,7 +692,7 @@ object SyntAnal15: TLibSyntAnalyzer
       StatesPresent = 4
       StatesAbsent = 3072
       TokenType = 1
-      Expression = '(?r)[a-z0-9'#1072'-'#1103#1040'-'#1071'\x20\.,:;\(\)]+'
+      Expression = '[\l\x20\.,:;\(\)\?!\x{2026}]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -694,7 +701,7 @@ object SyntAnal15: TLibSyntAnalyzer
       StyleName = 'Text'
       StatesAbsent = 3072
       TokenType = 1
-      Expression = '(?r)[a-z0-9'#1072'-'#1103#1040'-'#1071'\x20\.,:;\(\)]+'
+      Expression = '[\l\x20\.,:;\(\)\?!\x{2026}]+'
       ColumnFrom = 0
       ColumnTo = 0
     end>
@@ -932,7 +939,7 @@ object SyntAnal15: TLibSyntAnalyzer
       StatesAbsent = 3
       StartExpression = '<\?'
       EndExpression = '\?>'
-      SyntAnalyzer = SyntAnal16
+      SyntAnalyzer = SyntAnal17
       IncludeBounds = True
     end
     item
@@ -940,7 +947,7 @@ object SyntAnal15: TLibSyntAnalyzer
       StatesAbsent = 3
       StartExpression = '(?s)<script\b.*?>'
       EndExpression = '</script>'
-      SyntAnalyzer = SyntAnal11
+      SyntAnalyzer = SyntAnal10
     end
     item
       DisplayName = 'CSS'
@@ -953,13 +960,13 @@ object SyntAnal15: TLibSyntAnalyzer
       DisplayName = 'YAML front matter'
       StartExpression = '\A---(\s*yaml)?$'
       EndExpression = '^---$'
-      SyntAnalyzer = SyntAnal26
+      SyntAnalyzer = SyntAnal24
     end
     item
       DisplayName = 'JSON front matter'
       StartExpression = '\A---\s*json$'
       EndExpression = '^---$'
-      SyntAnalyzer = SyntAnal13
+      SyntAnalyzer = SyntAnal12
     end>
   SampleText.Strings = (
     '---'

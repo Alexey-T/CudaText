@@ -430,15 +430,7 @@ object SyntAnal2: TLibSyntAnalyzer
       DisplayName = 'Number hex'
       StyleName = 'Number'
       TokenType = 6
-      Expression = '0[0-7]+\b | 0x[0-9a-f]+\b'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
-      DisplayName = 'Number octal'
-      StyleName = 'Number'
-      TokenType = 6
-      Expression = '\b0[1-7]*\b'
+      Expression = '0x[0-9a-f]+\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -446,7 +438,15 @@ object SyntAnal2: TLibSyntAnalyzer
       DisplayName = 'Number dec'
       StyleName = 'Number'
       TokenType = 6
-      Expression = '\b[1-9]\d*'
+      Expression = '\b\d+\.\d+\b | \b[1-9]\d*\b '
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Number octal'
+      StyleName = 'Number'
+      TokenType = 6
+      Expression = '\b0[0-7]*\b'
       ColumnFrom = 0
       ColumnTo = 0
     end

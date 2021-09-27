@@ -285,6 +285,7 @@ object SyntAnal6: TLibSyntAnalyzer
           TagList.Strings = (
             'above'
             'absolute'
+            'accent-color'
             'active'
             'add'
             'additive'
@@ -2147,7 +2148,7 @@ object SyntAnal6: TLibSyntAnalyzer
       RefToCondEnd = True
       HighlightPos = cpAny
       CancelNextRules = True
-      CollapseFmt = '%sz0'
+      CollapseFmt = '%s0~[{]1 { ... }'
       IgnoreAsParent = False
     end
     item
@@ -2275,7 +2276,7 @@ object SyntAnal6: TLibSyntAnalyzer
       DisplayName = 'PHP'
       StartExpression = '<\?(php)?'
       EndExpression = '\?>'
-      SyntAnalyzer = SyntAnal14
+      SyntAnalyzer = SyntAnal16
     end>
   SampleText.Strings = (
     '/* Comment */'

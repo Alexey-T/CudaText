@@ -624,7 +624,9 @@ class DialogMK2:
                 'align': ALIGN_CLIENT,
                 'sp_t': PAD,
                 'border': True,
+                'act': True, # to call on_change
                 'on_click': self._on_opt_click,
+                'on_change': self._on_opt_click,
                 'on_click_header': self._on_header_click,
                 'on_menu': self.listbox_menu,
                 })

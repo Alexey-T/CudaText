@@ -194,6 +194,7 @@ type
     apstPale1,
     apstPale2,
     apstPale3,
+    //styles below must not be saved to file, see apstLastStyle
     apstTextBold,
     apstTextItalic,
     apstTextBoldItalic,
@@ -204,6 +205,7 @@ type
     );
 
 const
+  //saving theme to file considers it, to skip last items 'bold'/'italic'/etc
   apstLastStyle = Pred(apstTextBold);
 
 type

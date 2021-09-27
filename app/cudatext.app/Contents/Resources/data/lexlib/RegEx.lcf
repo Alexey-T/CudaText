@@ -1,4 +1,4 @@
-object SyntAnal17: TLibSyntAnalyzer
+object SyntAnal20: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Brackets'
@@ -98,8 +98,8 @@ object SyntAnal17: TLibSyntAnalyzer
       StyleName = 'Escaped'
       TokenType = 4
       Expression = 
-        '(?-i)\\c[a-z] | (?-i)\\x\h{2} | (?-i)\\u\{\h{1,4}\} | \\p(\w|\{\' +
-        'w+\}) | \\.'
+        '(?-i)\\c[a-z] | (?-i)\\x\h{2} | (?-i)\\[xu]\{\h{1,4}\} | \\p(\w|' +
+        '\{\w+\}) | \\.'
       ColumnFrom = 0
       ColumnTo = 0
     end

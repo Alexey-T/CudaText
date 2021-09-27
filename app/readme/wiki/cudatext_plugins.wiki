@@ -77,12 +77,15 @@ Any project can have "main file", you can choose it in the context menu: "Select
 * "Ignore files": ";"-separated shell wildcards, which are [https://docs.python.org/3/library/fnmatch.html documented here]. If file name (without path) matches any of these wildcards, it will not be listed in the treeview.
 * "Ignore folders": ";"-separated shell wildcards. If folder name matches any of these wildcards, it will not be listed in the treeview.
 * "Ignore all hidden files/folders": Additionally don't list all hidden items. On Unix, hidden mean "beginning with dot". On Windows, hidden means having file-system "hidden" attribute.
-* "Use preview tab on item clicking": If option is on, single click on treeview file item, will open file in "preview tab". Preview tab is single such tab, it's shared by all files, it has italic+underlined tab title. If option is off, clicking file item will open normal tab, separate normal tabs per each file.
-* "Open file after 'Go to file' command": If turned on, command "Project Manager: Go to file" will not only jump to chosen file in the treeview, but also open that file in editor.
+* "Open file after "Go to file" command": If turned on, command "Project Manager: Go to file" will not only jump to chosen file in the treeview, but also open that file in editor.
+* "Use "preview tab" on item clicking": If option is on, single click on treeview file item, will open file in "preview tab". Preview tab is single such tab, it's shared by all files, it has italic+underlined tab title. If option is off, clicking file item will open normal tab, separate normal tabs per each file.
 * "Open files by double-click": If turned on, only double-click in the treeview will open file for editing, but not the single click.
 * "On opening file in Git/SVN repo...": On opening any file, Project Manager will check if this file is in the Git/SVN repository (by presence of folder ".git" or ".svn" near the file, or in upper level folders). If yes, Project Manager will create the project from that repository and open it. This gives some slowdown of course.
+
+And options for icons:
+
 * "File type icons": Set of file/folder icons for treeview. You can install additional themes from Addons Manager, see category "filetypeicons" there. Example of such theme: "VSCode Material 24x24". This option shows  themes, which are present in the folder "data/filetypeicons".
-* "Toolbar theme": Set of icons for Project Manager toolbar buttons. You can install additional themes from Addon Manager, see the category "projtoolbaricons" there. This option shows themes, which are present in the folder "data/projtoolbaricons".
+* "Toolbar icons": Set of icons for Project Manager toolbar buttons. You can install additional themes from Addon Manager, see the category "projtoolbaricons" there. This option shows themes, which are present in the folder "data/projtoolbaricons".
 
 === Preview tab ===
 
@@ -91,6 +94,32 @@ To see the "preview tab", call "File / Open folder" and choose a folder with som
 Preview tab is always created in the first tab-group. Even if the focused editor is located in different tab-group.
 It was made so to avoid the situation when preview tab jumps from one tab-group to another.
 Preview tab can be dragged to another tab-group, it should work there too, it will show there all "previewed" files.
+
+=== Switch between projects ===
+
+1) To switch to different project, Plugin Manager gives the context menu: "Project File / Recent projects / name.cuda-proj".
+
+2) Another way is using the plugin "Favorites". It gives the dialog (can be called by a hotkey), with 2 tabs: "Files" and "Projects", so you can choose one of your favorite projects from a listbox.
+
+3) There is also a way to quickly switch between projects:
+
+* Install plugins: "Config Toolbar", "External Tools" and "Session Manager". Restart CudaText.
+* Set CudaText option "ui_one_instance": true.
+* In "External Tools" make a tool which starts CudaText (yes, from within CudaText) with parameter: full path of a project. The command line can look like: "c:\Apps\cudatext.exe "c:\Apps\some_project.cuda-proj"". You can add here additional parameter: full path of a session file, *.cuda-session / *.json. So this external tool will open given project (and maybe a session too). It will open it inside the same CudaText instance (because "ui_one_instance":true).
+* Add more such tools in the "External Tools", for different projects (and maybe sessions).
+
+[[File:cudatext-tools-and-projects.png]]
+
+* In the plugin "Config Toolbar", add the toolbar drop-down menu, with menu-items referring to different tools. Or add the individual menu-items for separate tools.
+
+[[File:cudatext-tools-and-projects-config.png]]
+
+4) There is a method for CudaText 1.145.1 or newer.
+
+* Install plugin "Config Toolbar" (only 1 plugin here, comparing to the previous method).
+* CudaText option "ui_one_instance" can be any.
+* In the plugin "Config Toolbar", add the toolbar button which will switch the project and/or session. The properties of this button are tricky. In the "Command" property of the button, you must enter "exec=path_of_project_file path_of_session file". You cannot type this directly to the dialog field, but you should press the "Enter command line..." button in the dialog and enter the command line contents (full path of .cuda-proj file and/or full path of .cuda-session file). "Config Toolbar" will store your command line with the "exec=" prefix.
+* CudaText will use the new command-line which you entered after "exec=".
 
 == Snippets ==
 
@@ -354,7 +383,7 @@ Formatters may change entire file text or only selected text. If selection is ma
 
 == External Tools ==
 
-=== Introduction ===
+=== Introduction to External Tools ===
 
 Plugin "External Tools" (ExtTools) can be installed from Addon Manager. It allows to run external programs, catch their output, and display this output in the Output/Validate panels of CudaText. Or to insert/replace some text in the editor.
 Plugin adds "Tools" top menu (near "Plugins"), it has item to configure all tools, and items for individual tools.
@@ -367,6 +396,10 @@ Some external tools configs are shown in topics below. Enter these strings in th
 
 The disadvantage of the plugin: it cannot show tool output lines immediately when they appear, it waits until tool is terminated.
 Consider to use the [[#Runner]] plugin which supports this.
+
+Notes:
+
+* If you see that running of tools makes the Output panel visible, you need to fix the "Capture output" option of those tools, set it to "Ignore".
 
 === Tool to compile by GCC ===
 
@@ -873,7 +906,13 @@ Some of LSP commands are:
 * Go to definition: integrated with CudaText command "Go to definition" (in the Command Palette, and in the editor context menu).
 * Function signature help: integrated with CudaText command "Show function hint" (in the Command Palette).
 * Hover: shows the tooltip when you hover mouse above identifiers. You need the Ctrl key pressed while you hover.
+
+[[File:cudatext-lsp-hover_.png]]
+
 * Find references: finds all locations where an identifier (under first caret) is used and shows menu with locations.
+
+[[File:cudatext-lsp-refs.png]]
+
 * Code linting: checks the syntax of code, and places underlines and/or bookmarks on "incorrect lines".
 * Document formatting.
 

@@ -1,4 +1,4 @@
-object SyntAnal17: TLibSyntAnalyzer
+object SyntAnal18: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Number'
@@ -67,7 +67,7 @@ object SyntAnal17: TLibSyntAnalyzer
     item
       DisplayName = 'Id func name'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clMaroon
+      Font.Color = clFuchsia
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []

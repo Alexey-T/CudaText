@@ -1,4 +1,4 @@
-object SyntAnal21: TLibSyntAnalyzer
+object SyntAnal26: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Comment'
@@ -170,8 +170,8 @@ object SyntAnal21: TLibSyntAnalyzer
       StyleName = 'Number'
       TokenType = 5
       Expression = 
-        '0b[01_]+ |'#13#10'0o[0-7]+ |'#13#10'0x[0-9a-f_]+ |'#13#10'\d[\d_]* |'#13#10'[0-9_]+ \. e' +
-        ' [\+\-]? [0-9_]+ |'#13#10'[0-9_]+ \. [0-9_]+ |'#13#10
+        '0b[01_]+\b |'#13#10'0o[0-7_]+\b |'#13#10'0x[0-9a-f_]+\b |'#13#10'\d[\d_]* \. e [\+' +
+        '\-]? [\d_]+\b |'#13#10'\d[\d_]* \. [\d_]+\b |'#13#10'\d[\d_]*\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -179,7 +179,7 @@ object SyntAnal21: TLibSyntAnalyzer
       DisplayName = 'Id value'
       StyleName = 'Id value'
       TokenType = 2
-      Expression = '[\w\.]*'
+      Expression = '[\w\.][\w\.\-]*'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -187,14 +187,14 @@ object SyntAnal21: TLibSyntAnalyzer
       DisplayName = 'String'
       StyleName = 'String'
       TokenType = 4
-      Expression = '(?s)('#39'|") (\\\1|.)*? (\1|\Z)'
+      Expression = '(?s)(?<=\s)('#39'|") (\\\1|.)*? (\1|\Z)'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
       DisplayName = 'Handle'
       StyleName = 'Handle'
-      Expression = '!+[^\x20\n\r]+'
+      Expression = '(?<=\s)!+[^\x20\n\r]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -236,10 +236,18 @@ object SyntAnal21: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
+      DisplayName = 'Escaped char'
+      StyleName = 'Symbol'
+      TokenType = 3
+      Expression = '\\.'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
       DisplayName = 'Symbol'
       StyleName = 'Symbol'
       TokenType = 3
-      Expression = '[\-\+,:;\*\{\}\[\]<>=%!\#\|\?&~]'
+      Expression = '[\+,:;\*\{\}\[\]<>=%!\#\|\?&~\^]'
       ColumnFrom = 0
       ColumnTo = 0
     end>
@@ -300,7 +308,6 @@ object SyntAnal21: TLibSyntAnalyzer
     end
     item
       DisplayName = '('
-      StyleName = 'Brackets BG'
       ConditionList = <
         item
           TagList.Strings = (
@@ -308,7 +315,7 @@ object SyntAnal21: TLibSyntAnalyzer
           TokenTypes = 512
         end>
       BlockEnd = ')'
-      DynHighlight = dhRangeNoBound
+      DisplayInTree = False
       HighlightPos = cpAny
       IgnoreAsParent = False
     end
@@ -363,7 +370,7 @@ object SyntAnal21: TLibSyntAnalyzer
     'Timestamp'
     '^Symbol'
     'Symbol ()')
-  Extentions = 'yml yaml'
+  Extentions = 'yml yaml sublime-syntax'
   LexerName = 'YAML'
   Notes.Strings = (
     'Alexey (CudaText)')

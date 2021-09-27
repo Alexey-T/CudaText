@@ -1,9 +1,9 @@
-object SyntAnal8: TLibSyntAnalyzer
+object SyntAnal9: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Section'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clPurple
+      Font.Color = clRed
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
@@ -39,13 +39,37 @@ object SyntAnal8: TLibSyntAnalyzer
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsItalic]
+    end
+    item
+      DisplayName = 'Number'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clNavy
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+    end
+    item
+      DisplayName = 'Const'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clPurple
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
     end>
   TokenRules = <
     item
       DisplayName = 'Comment'
       StyleName = 'Comment'
       TokenType = 1
-      Expression = '^[;\#].*'
+      Expression = '\#.*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Comment2'
+      StyleName = 'Comment'
+      TokenType = 1
+      Expression = '^;.*'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -54,6 +78,14 @@ object SyntAnal8: TLibSyntAnalyzer
       StyleName = 'Section'
       TokenType = 5
       Expression = '^\[.+?\]'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Number'
+      StyleName = 'Number'
+      TokenType = 6
+      Expression = '\d+\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -77,11 +109,26 @@ object SyntAnal8: TLibSyntAnalyzer
       DisplayName = 'Value'
       StyleName = 'Value'
       TokenType = 4
-      Expression = '.+'
+      Expression = '\S+'
       ColumnFrom = 0
       ColumnTo = 0
     end>
   BlockRules = <
+    item
+      DisplayName = 'Const'
+      StyleName = 'Const'
+      BlockType = btTagDetect
+      ConditionList = <
+        item
+          TagList.Strings = (
+            'false'
+            'true')
+          TokenTypes = 16
+          IgnoreCase = True
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end
     item
       DisplayName = 'Section'
       ConditionList = <
@@ -94,6 +141,7 @@ object SyntAnal8: TLibSyntAnalyzer
       CollapseFmt = '%s0'
       SelfClose = True
       TreeItemStyle = 'Section'
+      TreeItemImage = 0
       IgnoreAsParent = False
     end
     item
@@ -110,16 +158,18 @@ object SyntAnal8: TLibSyntAnalyzer
       RefToCondEnd = True
       HighlightPos = cpAny
       NoEndRule = True
+      TreeItemImage = 7
       IgnoreAsParent = False
     end>
   CodeTemplates = <>
   SubAnalyzers = <>
   SampleText.Strings = (
-    ';Cmt'
-    '#Cmt'
+    ';comment'
+    '#comment'
     '[section]'
-    'aa=test=val'
-    'bb=#test'
+    'aa=2'
+    'bb=true ; not comment'
+    'dd=value  #comment'
     'Incorrect')
   TokenTypeNames.Strings = (
     'Unknown'
@@ -127,7 +177,8 @@ object SyntAnal8: TLibSyntAnalyzer
     'Key'
     'Symbol'
     'Value'
-    'Section')
+    'Section'
+    'Number')
   Extentions = 'ini dsk dti dof inf lng srv reg sas cfg desktop'
   LexerName = 'Ini files'
   Notes.Strings = (

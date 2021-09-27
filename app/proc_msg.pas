@@ -17,8 +17,8 @@ uses
   ATSynEdit;
 
 const
-  cAppExeVersion = '1.143.2.0';
-  cAppApiVersion = 410;
+  cAppExeVersion = '1.145.6.0';
+  cAppApiVersion = 411;
 
 const
   cOptionSystemSuffix =
@@ -137,6 +137,7 @@ const
   msgFinderHintWrapped: string = 'wrapped';
   msgFinderHintInSel: string = 'in-sel';
   msgFinderHintFromCaret: string = 'from-caret';
+  msgFinderRegexMathes: string = 'RegEx matches';
 
   msgButtonOk: string = 'OK';
   msgButtonCancel: string = 'Cancel';
@@ -418,6 +419,7 @@ const
   msgFindHint_HiAll: string = 'Highlight all matches';
 
 function msgTranslatedPanelCaption(const ACaption: string): string;
+function msgFinderRegexMatchesNumbered: string;
 
 
 implementation
@@ -442,6 +444,14 @@ begin
     else
       Result:= ACaption;
   end;
+end;
+
+function msgFinderRegexMatchesNumbered: string;
+const
+  NCounter: integer = 0;
+begin
+  Inc(NCounter);
+  Result:= msgFinderRegexMathes+' '+IntToStr(NCounter);
 end;
 
 

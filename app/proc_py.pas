@@ -165,7 +165,7 @@ var
   i: integer;
   tick: PtrInt;
 begin
-  Result:= IntToStr(EventTime div 10 * 10)+'ms (';
+  Result:= IntToStr((EventTime+5) div 10 * 10)+'ms (';
   for i:= 0 to EventTimes.Count-1 do
   begin
     tick:= PtrInt(EventTimes.Objects[i]);

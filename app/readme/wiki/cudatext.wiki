@@ -2,7 +2,7 @@
 
 CudaText is a cross-platform text editor, written in Lazarus.
 
-* Syntax highlighting for a lot of languages: [[#List_of_lexers|230+ lexers]]
+* Syntax highlighting for a lot of languages: [[#List_of_lexers|270+ lexers]]
 * Code folding
 * Code-tree (list of functions/classes/etc, if lexer supports this)
 * Multi-carets, multi-selections
@@ -76,7 +76,7 @@ Screenshot on Windows:
 
 * Homepage: http://uvviewsoft.com/cudatext/
 * Downloads: https://www.fosshub.com/CudaText.html . It has builds for:
-** Windows (x32, x64)
+** Windows (x86, x64)
 ** Linux (x64, ARM, AArch64)
 ** macOS (x64)
 ** several BSD systems (x64)
@@ -367,6 +367,7 @@ Most of them are located in the Addons Manager "Install" list.
 * Crystal
 * CSS
 * CUDA C++
+* Cython
 * D
 * Dart
 * Delphi resources
@@ -679,7 +680,7 @@ If you see lexer config in SynWrite, you will find that we need styles "Comment"
 ===Automatic folding of comments===
 
 There is an option "auto_fold_comments" (default is 0 - it's turned off) which allows to automatically
-create folding ranges from N consecutive lines, which are all "syntax comments".
+create folding ranges from N (or more) consecutive lines, which are all "syntax comments".
 This works for both line-comments and stream-comments, they can be even mixed
 (one comment after another, with any amount of blank lines in between,
 but not for several stream-comments on a single line).
@@ -961,9 +962,12 @@ You can type those "hash tags" at begin or end of the field, even without separa
 
 Lexer parser uses EControl regex engine. You use this regex syntax only in the "Lexer Properties" dialog in SynWrite, not in the CudaText normal usage. EControl regex has custom features:
 
-* classes \A, \Z: begin/end of document
+* class \A: begin of the document
+* class \Z: end of the document
+* class \l: Unicode word-char except the underscore char
+* class \L: inversion to \l
 * lookahead/lookbehind can find match of variable length
-* modifier (?r): treat \w as all national characters too
+* modifier (?r): \w catches all Unicode letters too
 * modifier (?g): greedy
 
 CudaText search/replace uses [https://regex.sorokin.engineer/en/latest/regular_expressions.html TRegExpr engine] (by Sorokin, later improved by Alexey Torgashin).
@@ -1167,16 +1171,25 @@ Micromap is thin (about 12 pixels) vertical bar near editor's right side. It is 
 * set the option "micromap_show" (show permanently)
 * use menu item "View / Toggle micromap" (show temporary, for the current document only)
 
-Micromap shows tiny colored marks:
+Micromap has several thin columns (from column 1 to column 3, but this can be changed by plugins) for different categories of marks. It shows:
 
-* wide+tall mark: current visible area of editor
-* on the left side: line-states marks ([[#Line_states]])
-* on the right side: marks for selections (made e.g. by "Find / Select all", usually blue)
-* on the right side: marks from Spell Checker plugin (usually red)
+* full-width single mark: current visible area of editor.
+* on column 1 (leftmost): [[#Line_states]] marks.
+* on column 2:
+** marks from plugins: Spell Checker, Highlight Occurrences, etc;
+** marks for bookmarks, if option "micromap_bookmarks" is set; these marks use UI-theme color "editor, line states, added".
+* on column 3: marks for selections, useful for example when command "Find / Select all" makes many selections.
 
-[[File:cudatext-micromap.png]]
+[[File:cudatext-micromap_.png]]
 
 Plugins can place marks on micromap, e.g. plugin "Highlight Occurrences" places marks for highlighted fragments, plugin "Spell Checker" places marks for misspelled words.
+
+In the CudaText version 1.144 or newer, micromap can be rendered directly on the vertical scrollbar. To use that, you need 2 options:
+
+* "scrollbar_themed": true
+* "micromap_on_scrollbar": true
+
+[[File:cudatext-micromap-on-scrollbar.png]]
 
 == Paste with middle-button-click ==
 
@@ -1256,11 +1269,12 @@ Note: Please remember to change your version in the variable string to match the
 
 In the gutter bar, you can see colored thin bars next to line numbers: greenish, yellowish. It is line states. They show state of lines:
 
-* normal lines (not changed since last saving)
-* changed lines (edited since last saving)
-* newly inserted/added lines
+* normal: they have no special color on gutter
+* changed: edited since last saving
+* added: newly inserted lines
+* saved: previously changed/added but saved on last saving
 
-[[File:cudatext-line-states.png]]
+[[File:cudatext-line-states_.png]]
 
 Line states help to see which lines were edited since the last opening of a file / last saving of a file. CudaExt plugin gives few commands for line states:
 
@@ -1283,26 +1297,26 @@ Screenshot shows 3 icon sets at once:
 ** Change option "ui_toolbar_theme" in user.json. Option value is some subfolder in data/toolbaricons.
 ** Restart CudaText.
 
-Note that plugin "Options Editor" makes it easy - for options "ui_toolbar_theme"/"ui_sidebar_theme"/"ui_tree_theme" it shows the combobox dropdown, which is easy to change. 
+Note that plugin "Options Editor" makes it easy - for options "ui_toolbar_theme"/"ui_sidebar_theme"/"ui_tree_theme" it shows the combobox dropdown, which is easy to change.
 
-* Icons in the sidebar (vertical band on the left).
+* Icons in the sidebar (vertical band on the left). To change them:
 ** (Optional) Install add-on(s) of kind "sidebar theme".
 ** Change option "ui_sidebar_theme" in user.json. Option value is some subfolder in data/sideicons.
 ** Restart CudaText.
 
-* Icons in the Code-Tree panel.
+* Icons in the Code-Tree panel. To change them:
 ** Install add-on(s) of kind "codetreeicons" (each add-on gives additional icon set).
 ** Change option "ui_tree_theme" in user.json. Option value is some subfolder in data/codetreeicons.
 ** Restart CudaText.
 
-* Icons in the Project Manager toolbar.
+* Icons in the Project Manager toolbar. To change them:
 ** (Optional) Install add-on(s) of kind "proj toolbar theme".
-** Change option in the dialog: Options/ Settings-plugins/ Project Manager/ Config.
+** Change option in the dialog: "Options / Settings-plugins / Project Manager / Config".
 ** Restart CudaText.
 
-* Icons in the Project Manager file list, and on file tab headers.
+* Icons in the Project Manager file list, and on UI-tab headers (icons are shown on UI-tab headers by "Tab Icons" plugin). To change them:
 ** Install add-on(s) of kind "file type icons".
-** Change option in the dialog: Options/ Settings-plugins/ Project Manager/ Config.
+** Change option in the dialog: "Options / Settings-plugins / Project Manager / Config".
 ** Restart CudaText.
 
 ==Toolbar==
@@ -1664,6 +1678,16 @@ In the menu "Plugins / Addons Manager / Install" you will find several categorie
 * category "codetreeicons" - configured by option "ui_tree_theme"
 * category "projtoolbaricons" - configured by dialog of Project Manager
 * category "filetypeicons" - configured by dialog of Project Manager
+
+==Themed top menu==
+
+Top menu (together with some context menus and menu from the "hamburger" icon) can be themed. Only on Windows. This needs the option "ui_menu_themed":true (it's 'true' by default). When option is on, menu font/background/selection/checkmarks become colored from other CudaText UI theme colors. Also, option "ui_menu_themed_font_size" allows to change the font size.
+
+You can also set colors of menu elements directly; dialog "Options / Settings - theme - ui" provides theme items for this. For example, to set the font-color of the top menu, change the color of element "top menu, font" in the dialog.
+
+[[File:cudatext-menu-colorsetup.png]]
+
+By default, elements "top menu, ...." in the dialog have the "none" color (crossed rectangles), it means that custom colors are taken from other UI-theme elements.
 
 =Add-ons=
 
@@ -2171,6 +2195,18 @@ Setting the following environment variable solves the issue:
 
  IBUS_USE_PORTAL="1"
 
+===Program takes 60 seconds to start===
+
+Q: When I open any Lazarus/GTK2 application, I get a blank window that will timeout after 60 sec and the application will appear then. If I kill this blank window, the application lauches directly and the CRITICAL output resulting from my kill is always the same:
+
+    (app_name:1299276): Gtk-CRITICAL **: 19:03:24.607: IA__gtk_widget_hide: assertion 'GTK_IS_WIDGET (widget)' failed
+    (app_name:1299276): Gtk-CRITICAL **: 19:03:24.607: IA__gtk_widget_destroy: assertion 'GTK_IS_WIDGET (widget)' failed
+
+If I wait for the timeout there is no output and everything works fine.
+This issue appeared to me when I tried to use CudaText.
+
+A: Start the application with "-disableaccurateframe" parameter.
+
 ===How to use middle-click paste on Linux===
 
 * Set option "mouse_mid_click_paste" to true (in user.json).
@@ -2197,9 +2233,17 @@ The GTK2 and Qt5 binaries can also be installed via the AUR if you are on an Arc
 * https://aur.archlinux.org/packages/cudatext-qt5-bin/
 
 === Linux Qt5 build ===
-For CudaText Qt5 version, library libQt5Pas is required.
+For CudaText Qt5 version, library libQt5Pas is required, version 1.2.8 or newer.
 
 You need the latest libQt5Pas [https://github.com/davidbannon/libqt5pas/releases from these packages].
+
+On Ubuntu:
+
+ $ sudo apt install libqt5pas-dev
+
+On Manjaro:
+
+ $ pamac install qt5pas
 
 ===App cannot run on FreeBSD===
 

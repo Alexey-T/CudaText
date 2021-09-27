@@ -3,15 +3,55 @@
   - fixed
   * changed
 
-1.143.2 (2021/09)
+1.146.0
+
+* change: option "auto_fold_comments": now several comments separated with a blank line, make several fold-ranges (thanks @GHNewbiee)
++ add: lexer JS: "auto_fold_comments" works also for JS 'template strings' (thanks @GHNewbiee)
+- fix: splitted view: caret in view-2 hides if it's in folded range in view-1 (thanks @GHNewbiee)
+- fix: Project Manager: cannot show dot-files in 'Go to file' (thanks @loziniak)
+
+1.145.5 (2021/09)
+
++ add: bookmarks can be shown on micromap: new option "micromap_bookmarks" (thanks @JairoMartinezA); it uses UI-theme color "editor, line states, added"
++ add: API allows toolbar buttons (Config Toolbar plugin) set the command-line (thanks @GHNewbiee)
++ add: plugin Multi Installer: add 'Back' buttons (thanks @GHNewbiee)
++ add: option "ui_button_hover" (note: sometimes it's buggy on Windows/GTK2)
++ add: command "cancel carets, but keep selection"
++ add: command "cancel carets, but keep last caret"
++ add: command "cancel carets, but keep last caret + selection"
++ add: lexer Bash: support floating numbers (thanks @eltonfabricio10)
++ add/change: macOS: with the Zoe Peterson's patch to Lazarus, rendering is 2x faster, but only if you use "renderer_offsets__mac":false; so changed the default of this option to 'false'
+
+1.145.0 (2021/09)
+
++ add: consider Find dialog option "Case sensitive" on "Extract RegEx matches"
++ add: command "scroll to left edge"
++ add: command-line handles *.cuda-session files even without plugin Session Manager
++ add: lexer JS: folding for brackets ()[] (thanks @GHNewbiee)
++ add: lexer PHP: update word lists; keywords+classes must be case-insensitive
++ add: lexer Ini: highlight keywords "true"/"false" and numbers, support comments in the middle of a line
++ add: lexer YAML: fix string-rule, add \-escaped rule
+- fix: Project Manager: right-click must not open a file (thanks @GHNewbiee)
+- fix: Options Editor Lite: issue with arrow keys (thanks @GHNewbiee)
+- fix: API on_scroll was not called by "scroll ..." commands (thanks @OlehL)
+- fix: command "toggle side panel" sometimes shows empty panel
+
+1.144.0 (2021/09)
 
 + add: micromap can be rendered on vertical scrollbar area: new option "micromap_on_scrollbar"
-- fix: sometimes after PageDown command, app cannot underline links (thanks @OmlineEditor) 
++ add: option "scrollbar_click_jump" (thanks @JairoMartinezA)
++ add: lexer Python: support for future keywords "match" with "case"
+- fix: major bug in CSS auto-completion (must consider " | " separators in cudax_css.py)
+- fix: lexer Markdown: font-style modifiers worked bad with Unicode letters (thanks @MiroslavMatas); for this fix the class \l was added to the lexer RegEx syntax
+- fix: lexer Markdown: fix header rule
+- fix: lexer Markdown: highlight of <~mail@site.com> (thanks @l1ving)
+- fix: sometimes command "Undo" breaks the syntax highlight (thanks @eltonfabricio10)
+- fix: sometimes after PageDown command, app doesn't underline links (thanks @OmlineEditor)
 
 1.143.0 (2021/09)
 
 + add: option "autocomplete_html_autoclose" has additional function: on typing '</' it inserts the name of last opened tag (thanks @eltonfabricio10)
-+ add: for huge lines (length>4K) in e.g. HTML, syntax highlighting still must be calculated, to consider e.g. JS/CSS included blocks 
++ add: for huge lines (length>4K) in e.g. HTML, syntax highlighting still must be calculated, to consider e.g. JS/CSS included blocks
 + add: lexer Markdown: rework to support all font-style modifiers in all combinations (bold, italic, crossed, bold+italic, bold+crossed, italic+crossed, bold+italic+crossed); improve rule for 'headers'
 + add: lexer HTML: fix to support <script> with JSON
 + add: preinstalled toolbar theme "light_24x24" (from @effeotto)

@@ -34,6 +34,11 @@ begin
       Ed.Strings.EndUndoGroup;
   end;
 
+  //if command "close all tabs" was run,
+  //or Session Manager command "Forget session and close all files" was run,
+  //Ed may be destroyed, so here is additional check
+  if Ed<>CurrentEditor then exit;
+
   Ed.CommandLog.Add(cmd_PluginEnd, AInvoke, SPyText);
 end;
 
@@ -214,7 +219,7 @@ begin
   if CurLexer='' then exit;
 
   //don't run tree-helper on huge files
-  if Ed.Strings.Count>MaxLinesWhenParserEnablesFolding then exit;
+  if Ed.Strings.Count > EControlOptions.MaxLinesWhenParserEnablesFolding then exit;
 
   //Pascal tree-helpers
   Result:= DoCodetree_ApplyTreeHelperInPascal(Ed, Tree, CurLexer);
@@ -282,6 +287,8 @@ const
   cRegex_SignCommand = 'module=(.+?);cmd=(.+?);(info=(.+?);)?$';
   cRegex_SignFunc = 'module=(.+?);func=(.+?);(info=(.+?);)?$';
   cRegex_CommaCommand = '([a-z_]\w*),([a-z_]\w*)(,(.+))?$'; //compatible with menu_proc, with 3rd param
+  cPrefixModule = 'module=';
+  cPrefixExec = 'exec=';
 var
   FParamObjs: array of PPyObject;
   FParamNames: array of string;
@@ -298,6 +305,14 @@ begin
   if SBeginsWith(ACallback, 'top-') then exit;
 
   //-----------------------------------------------------
+  if SBeginsWith(ACallback, cPrefixExec) then
+  begin
+    SParam:= Copy(ACallback, Length(cPrefixExec)+1, MaxInt);
+    fmMain.DoLoadCommandLine_FromString(SParam);
+    exit;
+  end;
+
+  //-----------------------------------------------------
   if SRegexFindParts(cRegex_DotCommand, ACallback, RegexParts) then
   begin
     SModule:= RegexParts[1].Str;
@@ -308,7 +323,7 @@ begin
   end;
 
   //-----------------------------------------------------
-  if SRegexFindParts(cRegex_SignCommand, ACallback, RegexParts) then
+  if SBeginsWith(ACallback, cPrefixModule) and SRegexFindParts(cRegex_SignCommand, ACallback, RegexParts) then
   begin
     SModule:= RegexParts[1].Str;
     SFunc:= RegexParts[2].Str;
@@ -330,7 +345,7 @@ begin
   end;
 
   //-----------------------------------------------------
-  if SRegexFindParts(cRegex_SignFunc, ACallback, RegexParts) then
+  if SBeginsWith(ACallback, cPrefixModule) and SRegexFindParts(cRegex_SignFunc, ACallback, RegexParts) then
   begin
     SModule:= RegexParts[1].Str;
     SFunc:= RegexParts[2].Str;
