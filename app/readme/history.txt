@@ -10,6 +10,7 @@
 - fix: splitted view: caret in view-2 hides if it's in folded range in view-1 (thanks @GHNewbiee)
 - fix: Project Manager: cannot show dot-files in 'Go to file' (thanks @loziniak)
 - fix: option "ui_one_instance": opening of 2nd app instance with session-file parameter didn't save previous session (thanks @JairoMartinezA)
+- fix: picture viewer: fix for mouse-wheel scrolling (thanks @eltonfabricio10)
 
 1.145.5 (2021/09)
 
