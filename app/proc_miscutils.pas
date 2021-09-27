@@ -113,6 +113,7 @@ procedure MenuShowAtEditorCorner(AMenu: TPopupMenu; Ed: TATSynEdit);
 
 function StringToIntArray(const AText: string): TATIntArray;
 function IntArrayToString(const A: TATIntArray): string;
+function IsStringArrayWithSubstring(const Ar: array of string; const AText: string): boolean;
 
 function FinderOptionsToString(F: TATEditorFinder): string;
 procedure FinderOptionsFromString(F: TATEditorFinder; const S: string);
@@ -1121,6 +1122,17 @@ begin
   L.ItemTop:= 0;
   L.Invalidate;
 end;
+
+function IsStringArrayWithSubstring(const Ar: array of string; const AText: string): boolean;
+var
+  i: integer;
+begin
+  Result:= false;
+  for i:= 0 to High(Ar) do
+    if Pos(AText, Ar[i])>0 then
+      exit(true);
+end;
+
 
 end.
 
