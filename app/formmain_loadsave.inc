@@ -413,6 +413,10 @@ begin
   if AFileName='' then exit;
   if not FileExists(AFileName) then exit;
 
+  //fixing issue #3734
+  if not IsDefaultSessionActive then
+    DoOps_SaveSession(GetSessionFilename, false);
+
   DoPyEvent_AppState(APPSTATE_SESSION_LOAD_BEGIN);
 
   nCountFilesBefore:= FrameCount;

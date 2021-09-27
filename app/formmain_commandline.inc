@@ -307,11 +307,6 @@ begin
     Params[Length(Params)-1]:= S;
   end;
 
-  //fixing issue #3734
-  if IsStringArrayWithSubstring(Params, '.cuda-session') then
-    if not IsDefaultSessionActive then
-      DoOps_SaveSession(GetSessionFilename, false);
-
   DoLoadCommandParams(Params, '');
 
   if WindowState = wsMinimized then
@@ -327,11 +322,6 @@ procedure TfmMain.UniqInstanceOtherInstance(Sender: TObject;
   ParamCount: Integer; const Parameters: array of String);
 begin
   if not IsAllowedToOpenFileNow then exit;
-
-  //fixing issue #3734
-  if IsStringArrayWithSubstring(Parameters, '.cuda-session') then
-    if not IsDefaultSessionActive then
-      DoOps_SaveSession(GetSessionFilename, false);
 
   DoLoadCommandParams(Parameters, '');
 
@@ -379,10 +369,6 @@ var
   StrArray: TStringArray;
 begin
   if Trim(AText)='' then exit;
-
-  if not IsDefaultSessionActive then
-    DoOps_SaveSession(GetSessionFilename, false);
-
   StrArray:= AText.Split(' ', '"', '"', TStringSplitOptions.ExcludeEmpty);
   DoLoadCommandParams(StrArray, '');
 end;
