@@ -315,10 +315,25 @@ end;
 {$endif}
 
 
+function IsStringArrayWithSubstring(const Ar: array of string; const AText: string): boolean;
+var
+  i: integer;
+begin
+  Result:= false;
+  for i:= 0 to High(Ar) do
+    if Pos(AText, Ar[i])>0 then
+      exit(true);
+end;
+
 procedure TfmMain.UniqInstanceOtherInstance(Sender: TObject;
   ParamCount: Integer; const Parameters: array of String);
 begin
   if not IsAllowedToOpenFileNow then exit;
+
+  //fixing issue #3734
+  if IsStringArrayWithSubstring(Parameters, '.cuda-session') then
+    if not IsDefaultSessionActive then
+      DoOps_SaveSession(GetSessionFilename, false);
 
   DoLoadCommandParams(Parameters, '');
 
