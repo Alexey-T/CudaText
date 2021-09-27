@@ -765,6 +765,31 @@ if __name__ == '__main__':
     ForTest()
 </syntaxhighlight>
 
+==Example Free Pascal tool==
+How to compile and run Free Pascal files.
+Create file "[CudaText]/data/buildsystems/freepascal.sublime-build" with such text:
+<syntaxhighlight lang="json">
+{
+  "file_patterns": ["*.pp", "*.pas"],
+  "file_regex": "(.+?)\\((\\d+),(\\d+)\\)\\s(.+)$",
+  "working_dir": "$file_path",
+  "name": "Compile",
+  "cmd": ["/home/user/fpcupdeluxe/fpcupdeluxe32/fpc/bin/x86_64-linux/fpc.sh", "$file_name"],
+  "variants": [
+    {
+      "name": "Run",
+      "cmd": ["./$file_base_name"]
+    }
+  ]
+}
+</syntaxhighlight>
+
+Restart CudaText.
+
+Here we use full path to FPC, when it is installed by FPCUPdeluxe tool on Linux x64. We use path of "fpc.sh" which is created by FPC installation.
+
+After opening a Pascal file, call Runner main command "Build", that's it. It must show script output (in the Output panel) line-by-line, as it appears. The config above also gives the "Run" command for the compiled binary.
+
 =FindInFiles=
 
 ==FiF3 and FiF4: comparison and future==
