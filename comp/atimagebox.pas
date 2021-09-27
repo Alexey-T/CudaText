@@ -268,14 +268,14 @@ begin
   if (Shift = []) then
   begin
     with VertScrollBar do
-      Position:= Position - FScrollSmallStep;
+      Position:= Max(0, Position - FScrollSmallStep);
     DoScroll;
   end
   else
   if (Shift = [FModifierMouseHorzScroll]) then
   begin
     with HorzScrollBar do
-      Position:= Position - FScrollSmallStep;
+      Position:= Max(0, Position - FScrollSmallStep);
     DoScroll;
   end
   else
@@ -296,14 +296,14 @@ begin
   if (Shift = []) then
   begin
     with VertScrollBar do
-      Position:= Position + FScrollSmallStep;
+      Position:= Max(0, Min(Range-Page, Position + FScrollSmallStep));
     DoScroll;
   end
   else
   if (Shift = [FModifierMouseHorzScroll]) then
   begin
     with HorzScrollBar do
-      Position:= Position + FScrollSmallStep;
+      Position:= Max(0, Min(Range-Page, Position + FScrollSmallStep));
     DoScroll;
   end
   else
