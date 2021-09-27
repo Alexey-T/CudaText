@@ -307,6 +307,11 @@ begin
     Params[Length(Params)-1]:= S;
   end;
 
+  //fixing issue #3734
+  if IsStringArrayWithSubstring(Params, '.cuda-session') then
+    if not IsDefaultSessionActive then
+      DoOps_SaveSession(GetSessionFilename, false);
+
   DoLoadCommandParams(Params, '');
 
   if WindowState = wsMinimized then
