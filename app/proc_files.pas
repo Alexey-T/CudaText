@@ -292,9 +292,12 @@ end;
 
 function AppFileExtentionCreatable(const fn: string): boolean;
 begin
-  case ExtractFileExt(fn) of
+  case LowerCase(ExtractFileExt(fn)) of
     '.zip',
     '.rar',
+    '.tar',
+    '.tgz',
+    '.gz',
     '.xz',
     '.png',
     '.gif',
@@ -304,7 +307,9 @@ begin
     '.ico',
     '.icns',
     '.cuda-proj',
-    '.cuda-session':
+    '.cuda-session',
+    '.dll',
+    '.exe':
       Result:= false;
     else
       Result:= true;
