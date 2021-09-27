@@ -282,6 +282,9 @@ begin
           end;
         end;
   end;
+
+  //if session file was opened, we must update caption
+  UpdateCaption;
 end;
 
 
@@ -387,6 +390,5 @@ begin
 
   StrArray:= AText.Split(' ', '"', '"', TStringSplitOptions.ExcludeEmpty);
   DoLoadCommandParams(StrArray, '');
-  UpdateCaption;
 end;
 
