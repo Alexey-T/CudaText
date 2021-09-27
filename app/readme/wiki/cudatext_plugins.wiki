@@ -788,7 +788,31 @@ Restart CudaText.
 
 Here we use full path to FPC, when it is installed by FPCUPdeluxe tool on Linux x64. We use path of "fpc.sh" which is created by FPC installation.
 
-After opening a Pascal file, call Runner main command "Build", that's it. It must show script output (in the Output panel) line-by-line, as it appears. The config above also gives the "Run" command for the compiled binary.
+After opening a Pascal file, call Runner main command "Build", that's it.
+The "Build" command example output:
+
+<pre>
+-- [20:07:55] Building: Free Pascal: new.pas
+-- Command: ['/home/user/fpcupdeluxe/fpcupdeluxe32/fpc/bin/x86_64-linux/fpc.sh', 'new.pas']
+-- Working dir: /home/user
+Free Pascal Compiler version 3.2.3-425-gebc55c0f4e-dirty [2021/09/09] for x86_64
+Copyright (c) 1993-2021 by Florian Klaempfl and others
+Target OS: Linux for x86-64
+Compiling new.pas
+Linking new
+3 lines compiled, 0.1 sec
+-- Done (0.2s), return code: 0
+</pre>
+
+The config above also gives the "Run" command for the compiled binary - in the menu of "Plugins / Runner / Build with...". The "Run" command example output:
+
+<pre>
+-- [20:09:09] Building: Free Pascal: new.pas
+-- Command: ['./new']
+-- Working dir: /home/user
+Hello world.
+-- Done (-0.0s), return code: 0
+</pre>
 
 =FindInFiles=
 
