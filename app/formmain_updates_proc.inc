@@ -8,6 +8,11 @@ Copyright (c) Alexey Torgashin
 {$ifdef nn}begin end;{$endif}
 
 procedure TfmMain.UpdateCaption;
+begin
+  FNeedUpdateCaption:= true;
+end;
+
+procedure TfmMain.UpdateCaption_RealWork;
 var
   F: TEditorFrame;
   SName, SSession, Name1, Name2: string;

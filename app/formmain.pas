@@ -707,6 +707,7 @@ type
     FPyCompletionProps: TAppCompletionApiProps;
     FNeedAutoComplete: boolean;
     FNeedUpdateStatuses: boolean;
+    FNeedUpdateCaption: boolean;
     FNeedUpdateMenuChecks: boolean;
     FNeedAppState_SubCommands: boolean;
     FNeedAppState_MenuAdd: boolean;
@@ -1124,6 +1125,7 @@ type
     procedure UpdateTreeSelection(Frame: TEditorFrame; Ed: TATSynEdit);
     procedure UpdateTreeImagelistActivity;
     procedure UpdateCaption;
+    procedure UpdateCaption_RealWork;
     procedure UpdateEnabledAll(b: boolean);
     procedure UpdateInputForm(Form: TForm; AndHeight: boolean= true);
     procedure UpdateFrameEx(F: TEditorFrame; AUpdatedText: boolean);
@@ -2231,6 +2233,12 @@ begin
     TimerStatusWork.Enabled:= false;
     UpdateSomeStates(Frame);
     UpdateStatusbar_RealWork;
+  end;
+
+  if FNeedUpdateCaption then
+  begin
+    FNeedUpdateCaption:= false;
+    UpdateCaption_RealWork;
   end;
 
   if FNeedUpdateMenuChecks then
