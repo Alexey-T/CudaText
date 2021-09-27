@@ -767,7 +767,7 @@ if __name__ == '__main__':
 
 ==Example Free Pascal tool==
 How to compile and run Free Pascal files.
-Create file "[CudaText]/data/buildsystems/freepascal.sublime-build" with such text:
+Create file "[CudaText]/data/buildsystems/Free Pascal.sublime-build" with such text:
 <syntaxhighlight lang="json">
 {
   "file_patterns": ["*.pp", "*.pas"],
