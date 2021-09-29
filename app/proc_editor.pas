@@ -1867,6 +1867,7 @@ begin
             Finder.MatchEdEnd.X,
             Finder.MatchEdEnd.Y
             );
+        //sort carets: it may be caret in the middle
         Ed.Carets.Sort;
       end;
 
@@ -1888,7 +1889,7 @@ begin
         nil,
         0,
         mmmShowInTextOnly,
-        -NSelLen
+        -NSelLen //marker with underline looks good
         );
 
       Ed.DoShowPos(
