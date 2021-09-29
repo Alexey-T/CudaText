@@ -1354,6 +1354,8 @@ var
 begin
   Ed:= Sender as TATSynEdit;
 
+  Ed.Markers.DeleteWithTag(UiOps.FindOccur_TagValue);
+
   if FBracketHilite then
     EditorBracket_ClearHilite(Ed);
 

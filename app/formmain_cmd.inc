@@ -753,6 +753,15 @@ begin
         exit
       end;
 
+    cCommand_Cancel,
+    cCommand_CancelKeepLast,
+    cCommand_CancelKeepSel,
+    cCommand_CancelKeepLastAndSel:
+      begin
+        Ed.Markers.DeleteWithTag(UiOps.FindOccur_TagValue);
+        AHandled:= false;
+      end;
+
     cmd_RepaintEditor:
       begin
         Ed.Update;
