@@ -1852,54 +1852,56 @@ begin
       Finder.OptTokens:= cTokensAll;
 
       Result:= Finder.DoAction_FindSimple(Point(X2, Y2));
-
-      if Result and AAndSelect then
-      begin
-        if bForwardSel then
-          Ed.Carets.Add(
-            Finder.MatchEdEnd.X,
-            Finder.MatchEdEnd.Y,
-            Finder.MatchEdPos.X,
-            Finder.MatchEdPos.Y
-            )
-        else
-          Ed.Carets.Add(
-            Finder.MatchEdPos.X,
-            Finder.MatchEdPos.Y,
-            Finder.MatchEdEnd.X,
-            Finder.MatchEdEnd.Y
-            );
-        //sort carets: it may be caret in the middle
-        Ed.Carets.Sort;
-      end;
-
       AFinderResultCallback(Result, Finder);
 
-      if Finder.MatchEdEnd.Y=Finder.MatchEdPos.Y then
-        NSelLen:= Finder.MatchEdEnd.X-Finder.MatchEdPos.X
-      else
-        NSelLen:= 0;
+      if Result then
+      begin
+        if AAndSelect then
+        begin
+          if bForwardSel then
+            Ed.Carets.Add(
+              Finder.MatchEdEnd.X,
+              Finder.MatchEdEnd.Y,
+              Finder.MatchEdPos.X,
+              Finder.MatchEdPos.Y
+              )
+          else
+            Ed.Carets.Add(
+              Finder.MatchEdPos.X,
+              Finder.MatchEdPos.Y,
+              Finder.MatchEdEnd.X,
+              Finder.MatchEdEnd.Y
+              );
+          //sort carets: it may be caret in the middle
+          Ed.Carets.Sort;
+        end;
 
-      //place marker which will be useful after find-next will wrap, so
-      //last-occurrence-pos will be irrelevant, but marker will be used
-      Ed.Markers.Add(
-        Finder.MatchEdEnd.X,
-        Finder.MatchEdEnd.Y,
-        UiOps.FindOccur_TagValue,
-        0,
-        0,
-        nil,
-        0,
-        mmmShowInTextOnly,
-        -NSelLen //marker with underline looks good
-        );
+        if Finder.MatchEdEnd.Y=Finder.MatchEdPos.Y then
+          NSelLen:= Finder.MatchEdEnd.X-Finder.MatchEdPos.X
+        else
+          NSelLen:= 0;
 
-      Ed.DoShowPos(
-        Point(Finder.MatchEdPos.X, Finder.MatchEdPos.Y),
-        UiOps.FindIndentHorz,
-        UiOps.FindIndentVert,
-        true,
-        true);
+        //place marker which will be useful after find-next will wrap, so
+        //last-occurrence-pos will be irrelevant, but marker will be used
+        Ed.Markers.Add(
+          Finder.MatchEdEnd.X,
+          Finder.MatchEdEnd.Y,
+          UiOps.FindOccur_TagValue,
+          0,
+          0,
+          nil,
+          0,
+          mmmShowInTextOnly,
+          -NSelLen //marker with underline looks good
+          );
+
+        Ed.DoShowPos(
+          Point(Finder.MatchEdPos.X, Finder.MatchEdPos.Y),
+          UiOps.FindIndentHorz,
+          UiOps.FindIndentVert,
+          true,
+          true);
+      end;
     finally
       FreeAndNil(Finder);
     end;
