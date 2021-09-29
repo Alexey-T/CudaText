@@ -143,7 +143,9 @@ type
   TATEditorFinderCallback = procedure(AFound: boolean; AFinder: TATEditorFinder) of object;
 
 function EditorGetTokenKind(Ed: TATSynEdit; AX, AY: integer): TATTokenKind;
-function EditorExpandSelectionToWord(Ed: TATSynEdit; AFinderResultCallback: TATEditorFinderCallback): boolean;
+function EditorExpandSelectionToWord(Ed: TATSynEdit;
+  AFinderResultCallback: TATEditorFinderCallback;
+  AAndSelect: boolean): boolean;
 function EditorFindCurrentWordOrSel(Ed: TATSynEdit;
   ANext, AWordOrSel, AOptCase, AOptWrapped: boolean;
   out Str: UnicodeString): boolean;
@@ -1778,7 +1780,7 @@ begin
 end;
 
 function EditorExpandSelectionToWord(Ed: TATSynEdit;
-  AFinderResultCallback: TATEditorFinderCallback): boolean;
+  AFinderResultCallback: TATEditorFinderCallback; AAndSelect: boolean): boolean;
 var
   Caret: TATCaretItem;
   Finder: TATEditorFinder;
@@ -1851,7 +1853,7 @@ begin
 
       Result:= Finder.DoAction_FindSimple(Point(X2, Y2));
 
-      if Result then
+      if Result and AAndSelect then
       begin
         if bForwardSel then
           Ed.Carets.Add(

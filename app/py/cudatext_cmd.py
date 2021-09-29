@@ -346,13 +346,14 @@ cmd_FindAllAndSelect = 2596
 cmd_FindAllAndMarkers = 2597
 cmd_FindAllAndBookmarks = 2598
 cmd_FindMarkAll      = cmd_FindAllAndMarkers
-cmd_SelectExpandToWord = 2600
 
+cmd_SelectExpandToWord = 2600
 cmd_OpenContainingFolder = 2601
 cmd_OpenFileInDefaultApp = 2602
 cmd_FileOpen_TextViewer    = 2603
 cmd_FileOpen_HexViewer     = 2604
 cmd_FileOpen_UnicodeViewer = 2605
+cmd_SelectExpandToWord_Skip = 2606
 
 cmd_SwitchTab_HotkeyNext = 2610
 cmd_SwitchTab_HotkeyPrev = 2611
