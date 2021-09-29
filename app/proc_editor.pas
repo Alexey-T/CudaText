@@ -1783,7 +1783,7 @@ var
   Caret: TATCaretItem;
   Finder: TATEditorFinder;
   MarkerPtr: PATMarkerItem;
-  X1, Y1, X2, Y2: integer;
+  X1, Y1, X2, Y2, NSelLen: integer;
   bSel, bForwardSel: boolean;
   bWholeWord: boolean;
   sText: UnicodeString;
@@ -1873,9 +1873,9 @@ begin
       AFinderResultCallback(Result, Finder);
 
       if Finder.MatchEdEnd.Y=Finder.MatchEdPos.Y then
-        X1:= Finder.MatchEdEnd.X-Finder.MatchEdPos.X
+        NSelLen:= Finder.MatchEdEnd.X-Finder.MatchEdPos.X
       else
-        X1:= 0;
+        NSelLen:= 0;
 
       //place marker which will be useful after find-next will wrap, so
       //last-occurrence-pos will be irrelevant, but marker will be used
@@ -1888,7 +1888,7 @@ begin
         nil,
         0,
         mmmShowInTextOnly,
-        -X1
+        -NSelLen
         );
 
       Ed.DoShowPos(
