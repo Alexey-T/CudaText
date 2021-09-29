@@ -413,9 +413,14 @@ begin
   if AFileName='' then exit;
   if not FileExists(AFileName) then exit;
 
-  //fixing issue #3734
+  //fix issue #3734
   if not IsDefaultSessionActive then
-    DoOps_SaveSession(GetSessionFilename, false);
+  begin
+    sFilename:= GetSessionFilename;
+    if not SameFileName(sFilename, AFileName) then //fix issue #3744
+      DoOps_SaveSession(sFilename, false);
+    sFilename:= '';
+  end;
 
   DoPyEvent_AppState(APPSTATE_SESSION_LOAD_BEGIN);
 
