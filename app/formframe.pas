@@ -3008,7 +3008,7 @@ var
 //
   function GetItemRect(AColumn, NLine1, NLine2: integer; AMarkPos: TAppMicromapMarkPos): TRect;
   begin
-    Result:= Ed.RectMicromapMark(AColumn, NLine1, NLine2, ARect);
+    Result:= Ed.RectMicromapMark(AColumn, NLine1, NLine2, ARect, EditorOps.OpMicromapMinMarkHeight);
     OffsetRect(Result, 0, -ARect.Top);
     case AMarkPos of
       markRight:
@@ -3090,7 +3090,7 @@ begin
     if NColor<>clNone then
     begin
       XColor.FromColor(NColor);
-      R1:= Ed.RectMicromapMark(i, -1, -1, ARect);
+      R1:= Ed.RectMicromapMark(i, -1, -1, ARect, EditorOps.OpMicromapMinMarkHeight);
       FMicromapBmp.FillRect(R1, XColor);
     end;
   end;
@@ -3104,7 +3104,7 @@ begin
     begin
       BookmarkPtr:= Bookmarks.ItemPtr[i];
       NIndex:= BookmarkPtr^.Data.LineNum;
-      R1:= Ed.RectMicromapMark(1{column}, NIndex, NIndex, ARect);
+      R1:= Ed.RectMicromapMark(1{column}, NIndex, NIndex, ARect, EditorOps.OpMicromapMinMarkHeight);
       FMicromapBmp.FillRect(R1, XColor);
     end;
   end;

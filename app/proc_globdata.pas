@@ -533,6 +533,7 @@ type
     OpMicromapOnScrollbar: boolean;
     OpMicromapBookmarks: boolean;
     OpMicromapSmallMarkSizePercents: integer;
+    OpMicromapMinMarkHeight: integer;
 
     OpMarginFixed: integer;
     OpMarginString: string;
@@ -1512,6 +1513,7 @@ begin
     OpMicromapOnScrollbar:= false;
     OpMicromapBookmarks:= false;
     OpMicromapSmallMarkSizePercents:= 50;
+    OpMicromapMinMarkHeight:= 4;
 
     OpMarginFixed:= 2000; //hide margin
     OpMarginString:= '';
