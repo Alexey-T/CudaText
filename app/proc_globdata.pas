@@ -307,6 +307,7 @@ type
     FindHiAll_MaxLines: integer;
     FindHiAll_TagValue: Int64;
     //FindHiAll_MoveCaret: boolean;
+    FindOccur_TagValue: Int64;
 
     AllowProgramUpdates: boolean;
     EscapeClose: boolean;
@@ -1795,6 +1796,7 @@ begin
     FindSeparateForm:= false;
     FindHiAll_MaxLines:= 1000;
     FindHiAll_TagValue:= 99; //GET_UNIQUE_TAG starts with 120
+    FindOccur_TagValue:= 98;
 
     AllowProgramUpdates:= true;
     EscapeClose:= false;

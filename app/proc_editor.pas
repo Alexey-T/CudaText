@@ -1782,10 +1782,12 @@ function EditorExpandSelectionToWord(Ed: TATSynEdit;
 var
   Caret: TATCaretItem;
   Finder: TATEditorFinder;
+  MarkerPtr: PATMarkerItem;
   X1, Y1, X2, Y2: integer;
   bSel, bForwardSel: boolean;
   bWholeWord: boolean;
   sText: UnicodeString;
+  iMarker: integer;
 begin
   Result:= true;
   bWholeWord:= false;
@@ -1808,6 +1810,21 @@ begin
   Caret.GetRange(X1, Y1, X2, Y2, bSel);
   //pos are sorted: (X1,Y1) <= (X2,Y2)
 
+  //consider position of marker with special tag
+  for iMarker:= 0 to Ed.Markers.Count-1 do
+  begin
+    MarkerPtr:= Ed.Markers.ItemPtr(iMarker);
+    if MarkerPtr^.Tag=UiOps.FindOccur_TagValue then
+    begin
+      X1:= MarkerPtr^.PosX;
+      Y1:= MarkerPtr^.PosY;
+      X2:= X1;
+      Y2:= Y1;
+      Ed.Markers.Delete(iMarker);
+      Break
+    end;
+  end;
+
   if not bSel then
   begin
     bForwardSel:= true;
@@ -1828,7 +1845,7 @@ begin
       Finder.OptCase:= true;
       Finder.OptBack:= false;
       Finder.OptFromCaret:= false;
-      //Finder.OptWrapped:= true; //wrapped search, like in Sublime
+      Finder.OptWrapped:= true; //wrapped search, like in Sublime
       Finder.OptInSelection:= false;
       Finder.OptTokens:= cTokensAll;
 
@@ -1850,10 +1867,36 @@ begin
             Finder.MatchEdEnd.X,
             Finder.MatchEdEnd.Y
             );
-        Ed.DoCommand(cCommand_ScrollToCaretBottom, cInvokeAppInternal);
+        Ed.Carets.Sort;
       end;
 
       AFinderResultCallback(Result, Finder);
+
+      if Finder.MatchEdEnd.Y=Finder.MatchEdPos.Y then
+        X1:= Finder.MatchEdEnd.X-Finder.MatchEdPos.X
+      else
+        X1:= 0;
+
+      //place marker which will be useful after find-next will wrap, so
+      //last-occurrence-pos will be irrelevant, but marker will be used
+      Ed.Markers.Add(
+        Finder.MatchEdEnd.X,
+        Finder.MatchEdEnd.Y,
+        UiOps.FindOccur_TagValue,
+        0,
+        0,
+        nil,
+        0,
+        mmmShowInTextOnly,
+        -X1
+        );
+
+      Ed.DoShowPos(
+        Point(Finder.MatchEdPos.X, Finder.MatchEdPos.Y),
+        UiOps.FindIndentHorz,
+        UiOps.FindIndentVert,
+        true,
+        true);
     finally
       FreeAndNil(Finder);
     end;
