@@ -6,6 +6,7 @@
 1.146.0 (2021/10)
 
 + add: command "add next occurrence of selected word" now wraps at the document end, like in Sublime (thanks @loziniak)
++ add: new command "skip (don't select) next occurrence of selected word" (thanks @loziniak)
 * change: option "auto_fold_comments": now several comments separated with a blank line, make several fold-ranges (thanks @GHNewbiee)
 + add: lexer JS: "auto_fold_comments" works also for JS 'template strings' (thanks @GHNewbiee)
 - fix: splitted view: caret in view-2 hides if it's in folded range in view-1 (thanks @GHNewbiee)
