@@ -514,6 +514,7 @@ Most of them are located in the Addons Manager "Install" list.
 * Raku
 * Razor
 * ReasonML
+* Red
 * reStructuredText
 * Rexx
 * RON
