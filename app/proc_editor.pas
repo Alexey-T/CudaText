@@ -1872,7 +1872,7 @@ begin
               Finder.MatchEdEnd.X,
               Finder.MatchEdEnd.Y
               );
-          //sort carets: it may be caret in the middle
+          //sort carets: maybe we added caret in the middle
           Ed.Carets.Sort;
         end;
 
