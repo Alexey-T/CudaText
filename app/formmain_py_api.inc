@@ -1073,8 +1073,8 @@ begin
           begin
             if Ed.Markers.Count>0 then
             begin
-              Ed.Markers.DeleteWithTag(NTag);
-              Ed.Update;
+              if Ed.Markers.DeleteWithTag(NTag) then
+                Ed.Update;
             end;
             Result:= ReturnNone;
           end;
@@ -1312,8 +1312,8 @@ begin
             //Ed.InvalidateHilitingCache;
             if Ed.Attribs.Count>0 then
             begin
-              Ed.Attribs.DeleteWithTag(NTag);
-              Ed.Update;
+              if Ed.Attribs.DeleteWithTag(NTag) then
+                Ed.Update;
             end;
             Result:= ReturnNone;
           end;
