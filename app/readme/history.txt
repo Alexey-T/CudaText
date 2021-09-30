@@ -14,6 +14,7 @@
 - fix: Project Manager: cannot show dot-files in 'Go to file' (thanks @loziniak)
 - fix: option "ui_one_instance": opening of 2nd app instance with session-file parameter didn't save previous session (thanks @JairoMartinezA)
 - fix: picture viewer: redundant mouse-wheel scrolling (thanks @eltonfabricio10)
+- fix: lexer YAML: escaping in single-quoted strings
 
 1.145.5 (2021/09)
 
