@@ -121,7 +121,7 @@ type
 function EditorBracket_GetPairForOpeningBracketOrQuote(ch: char): char;
 function EditorBracket_GetPairForClosingBracketOrQuote(ch: char): char;
 
-procedure EditorBracket_ClearHilite(Ed: TATSynEdit);
+function EditorBracket_ClearHilite(Ed: TATSynEdit): boolean;
 procedure EditorBracket_FindBoth(Ed: TATSynEdit;
   var PosX, PosY: integer;
   const AllowedSymbols: string;
@@ -1456,10 +1456,13 @@ begin
   end;
 end;
 
-procedure EditorBracket_ClearHilite(Ed: TATSynEdit);
+function EditorBracket_ClearHilite(Ed: TATSynEdit): boolean;
+var
+  b1, b2: boolean;
 begin
-  Ed.Attribs.DeleteWithTag(cEditorTagForBracket);
-  Ed.GutterDecor.DeleteByTag(cEditorTagForBracket);
+  b1:= Ed.Attribs.DeleteWithTag(cEditorTagForBracket);
+  b2:= Ed.GutterDecor.DeleteByTag(cEditorTagForBracket);
+  Result:= b1 or b2;
 end;
 
 procedure EditorBracket_FindBoth(Ed: TATSynEdit;

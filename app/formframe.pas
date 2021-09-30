@@ -634,6 +634,9 @@ begin
   StateString:= ConvertShiftStateToString(KeyboardStateToShiftState);
   CancelAutocompleteAutoshow(Ed);
 
+  if Ed.Markers.DeleteWithTag(UiOps.FindOccur_TagValue) then
+    Ed.Update;
+
   if UiOps.MouseGotoDefinition<>'' then
     if StateString=UiOps.MouseGotoDefinition then
     begin
@@ -1351,13 +1354,17 @@ procedure TEditorFrame.EditorOnChange(Sender: TObject);
 var
   Ed, EdOther: TATSynEdit;
   Params: TAppVariantArray;
+  b1, b2: boolean;
 begin
   Ed:= Sender as TATSynEdit;
 
-  Ed.Markers.DeleteWithTag(UiOps.FindOccur_TagValue);
-
+  b1:= Ed.Markers.DeleteWithTag(UiOps.FindOccur_TagValue);
+  b2:= false;
   if FBracketHilite then
-    EditorBracket_ClearHilite(Ed);
+    b2:= EditorBracket_ClearHilite(Ed);
+
+  if b1 or b2 then
+    Ed.Update;
 
   //sync changes in 2 editors, when frame is splitted
   if Splitted and EditorsLinked then
