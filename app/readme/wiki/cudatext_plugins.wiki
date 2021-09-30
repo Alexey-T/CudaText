@@ -1173,5 +1173,30 @@ To use the server in LSP Client, create a file "lsp_c.json" in the "settings" di
 
 Replacing "clangd-9" with "ccls" if it was chosen.
 
+==LSP server for Red==
+
+On Ubuntu 20 x64.
+
+* Install the Red. Command "red" must run from Terminal. Red 0.6.4 may give errors with the LSP server, so I installed Red from 30-Sept-2021.
+* Install the server from https://github.com/bitbegin/redlangserver, put the repo e.g. to ~/redlangserver.
+* Create the file "redlangserver.sh" and put it to some PATH dir. Content:
+
+<syntaxhighlight lang="bash">
+#!/bin/bash
+red ~/redlangserver/server.red
+</syntaxhighlight>
+
+* Create the file (CudaText)/settings/lsp_red.json with content:
+
+<syntaxhighlight lang="json">
+{
+  "lexers": {
+    "Red": "red"
+  },
+  "cmd_unix": ["redlangserver.sh"]
+}
+</syntaxhighlight>
+
+Server must be supported now. It gives at least: go to definition, mouse hover tooltips. Tested on files from redlangserver repository.
 
 [[Category:CudaText]]
