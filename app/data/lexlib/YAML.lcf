@@ -1,4 +1,4 @@
-object SyntAnal26: TLibSyntAnalyzer
+object SyntAnal22: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Comment'
@@ -184,10 +184,18 @@ object SyntAnal26: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'String'
+      DisplayName = 'String "'
       StyleName = 'String'
       TokenType = 4
-      Expression = '(?s)(?<=\s)('#39'|") (\\\1|.)*? (\1|\Z)'
+      Expression = '(?s)(?<=\s)"(\\.|.)*?("|\Z)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'String '#39
+      StyleName = 'String'
+      TokenType = 4
+      Expression = '(?s)'#39'('#39#39'|.)*?('#39'|\Z)'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -338,8 +346,9 @@ object SyntAnal26: TLibSyntAnalyzer
     '...'
     'Null, null, no, .NaN, .inf'
     '0x10_af + 0b1_01 + 12.2e+3'
-    '- !foo "Str"'
-    '- !!str "Tst"'
+    '- !single_quote '#39'Tst '#39#39' tst '#39#39' tst'#39
+    '- !!dbl_quote "Tst \" tst\'
+    'end"'
     'y: y # first '#39'y'#39' must not be hilited, it'#39's a key'
     '&anchor'
     '%Yaml'
