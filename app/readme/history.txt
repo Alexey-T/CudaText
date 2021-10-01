@@ -9,6 +9,7 @@
 + add: new command "skip (don't select) next occurrence of selected word" (thanks @loziniak)
 * change: option "auto_fold_comments": now several comments separated with a blank line, make several fold-ranges (thanks @GHNewbiee)
 * change: micromap min-mark-height changed from 2px to 4px (thanks @JairoMartinezA) 
+* change: 'ellipsis' Unicode char now has the full-width
 + add: lexer JS: "auto_fold_comments" works also for JS 'template strings' (thanks @GHNewbiee)
 - fix: splitted view: caret in view-2 hides if it's in folded range in view-1 (thanks @GHNewbiee)
 - fix: Project Manager: cannot show dot-files in 'Go to file' (thanks @loziniak)
