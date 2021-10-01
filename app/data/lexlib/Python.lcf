@@ -1,4 +1,4 @@
-object SyntAnal18: TLibSyntAnalyzer
+object SyntAnal16: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Number'
@@ -447,7 +447,6 @@ object SyntAnal18: TLibSyntAnalyzer
             'map'
             'memoryview'
             'None'
-            'NotImplemented'
             'object'
             'property'
             'set'
@@ -485,6 +484,7 @@ object SyntAnal18: TLibSyntAnalyzer
             'ConnectionRefusedError'
             'ConnectionResetError'
             'DeprecationWarning'
+            'EnvironmentError'
             'EOFError'
             'Exception'
             'FileExistsError'
@@ -497,6 +497,7 @@ object SyntAnal18: TLibSyntAnalyzer
             'IndentationError'
             'IndexError'
             'InterruptedError'
+            'IOError'
             'IsADirectoryError'
             'KeyboardInterrupt'
             'KeyError'
@@ -505,6 +506,7 @@ object SyntAnal18: TLibSyntAnalyzer
             'ModuleNotFoundError'
             'NameError'
             'NotADirectoryError'
+            'NotImplemented'
             'NotImplementedError'
             'OSError'
             'OverflowError'
@@ -516,6 +518,7 @@ object SyntAnal18: TLibSyntAnalyzer
             'ResourceWarning'
             'RuntimeError'
             'RuntimeWarning'
+            'StandardError'
             'StopAsyncIteration'
             'StopIteration'
             'SyntaxError'
@@ -533,7 +536,8 @@ object SyntAnal18: TLibSyntAnalyzer
             'UnicodeWarning'
             'UserWarning'
             'ValueError'
-            'Warning'
+            'VMSError'
+            'WindowsError'
             'ZeroDivisionError')
           TokenTypes = 516
         end>
@@ -703,7 +707,9 @@ object SyntAnal18: TLibSyntAnalyzer
     '^Id='
     '^@Id'
     '^Id tree class')
-  Extentions = 'py pyw rpy cpy sconstruct pyi'
+  Extentions = 
+    'py py3 pyw pyi pyx pyx.in pxd pxd.in pxi pxi.in rpy cpy SConstru' +
+    'ct SConscript gyp gypi Snakefile smk vpy wscript bazel bzl'
   LexerName = 'Python'
   Notes.Strings = (
     'Python lexer by Alexey (CudaText)')
