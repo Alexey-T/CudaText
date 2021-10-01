@@ -245,6 +245,7 @@ object SyntAnal22: TLibSyntAnalyzer
     end
     item
       DisplayName = 'Escaped char'
+      Enabled = False
       StyleName = 'Symbol'
       TokenType = 3
       Expression = '\\.'
