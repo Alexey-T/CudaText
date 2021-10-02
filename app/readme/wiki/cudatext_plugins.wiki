@@ -1175,28 +1175,38 @@ Replacing "clangd-9" with "ccls" if it was chosen.
 
 ==LSP server for Red==
 
-On Ubuntu 20 x64.
+1) On Linux x64.
 
-* Install the Red. Command "red" must run from Terminal. Red 0.6.4 may give errors with the LSP server, so I installed Red from 30-Sept-2021.
-* Install the server from https://github.com/bitbegin/redlangserver, put the repo e.g. to ~/redlangserver.
-* Create the file "redlangserver.sh" and put it to some PATH dir. Content:
+* Install Red. Download "red" binary, "chmod +x red", then copy it to PATH dir (/usr/bin on Ubuntu). Command "red" must work from Terminal. Red release 0.6.4 may give errors with the LSP server, so better install build from 30-Sep-2021.
+* Install server from https://github.com/bitbegin/redlangserver, put the repo e.g. to ~/redlangserver.
+* Create file "redlangserver.sh" and put it to some PATH dir. Content:
 
 <syntaxhighlight lang="bash">
 #!/bin/bash
 red ~/redlangserver/server.red
 </syntaxhighlight>
 
-* Create the file (CudaText)/settings/lsp_red.json with content:
+* Create file (CudaText)/settings/lsp_red.json with content:
 
 <syntaxhighlight lang="json">
 {
   "lexers": {
     "Red": "red"
   },
-  "cmd_unix": ["redlangserver.sh"]
+  "cmd_unix": ["redlangserver.sh"],
+  "cmd_windows": ["c:\\red\\red.exe", "--cli", "c:\\red\\redlangserver\\server.red"]
 }
 </syntaxhighlight>
 
-Server must be supported now. It gives at least: go to definition, mouse hover tooltips. Tested on files from redlangserver repository.
+Server should work now. It gives: mouse hover tooltips (Ctrl + mouse hovering over names), go to definition.
+
+2) On Windows 10 x64.
+
+* Install Red to "c:\Red". Tested the build from 02-Oct-2021.
+* Install server from https://github.com/bitbegin/redlangserver, put the repo to "c:\Red\redlangserver".
+* Run once the command "c:\red\red.exe --cli", it will print "Compiling Red console..." with the big pause.
+* Create file (CudaText)\settings\lsp_red.json with the same content as for Unix. Adjust path to Red folder, if needed.
+
+Server should work now. It gives: mouse hover tooltips (Ctrl + mouse hovering over names), go to definition (works not always, logic when it works is unclear).
 
 [[Category:CudaText]]
