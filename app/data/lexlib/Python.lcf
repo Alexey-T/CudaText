@@ -538,6 +538,7 @@ object SyntAnal16: TLibSyntAnalyzer
             'UserWarning'
             'ValueError'
             'VMSError'
+            'Warning'
             'WindowsError'
             'ZeroDivisionError')
           TokenTypes = 516
