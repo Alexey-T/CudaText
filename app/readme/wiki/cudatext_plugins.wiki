@@ -1209,4 +1209,6 @@ Server should work now. It gives: mouse hover tooltips (Ctrl + mouse hovering ov
 
 Server should work now. It gives: mouse hover tooltips (Ctrl + mouse hovering over names), go to definition (works not always, logic when it works is unclear).
 
+Note: don't create .bat or .cmd file with the "red.exe" calling, because it does not work in LSP Client for some reason. 
+
 [[Category:CudaText]]
