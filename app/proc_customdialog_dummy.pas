@@ -519,7 +519,7 @@ begin
     begin
       //forward Esc press to main form
       Form:= GetParentForm(Self, true);
-      if Assigned(Form) then
+      if Assigned(Form) and Assigned(Form.OnKeyDown) then
         Form.OnKeyDown(nil, Key, []);
     end
     else

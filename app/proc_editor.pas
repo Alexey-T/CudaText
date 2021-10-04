@@ -1096,6 +1096,7 @@ var
 begin
   try
     Form:= GetParentForm(C);
+    if Form=nil then exit;
     if not Form.Focused then
       if Form.CanFocus then
         Form.SetFocus;
