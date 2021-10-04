@@ -63,23 +63,22 @@ end;
 
 
 procedure TfmMain.DoSidebar_FocusCodetreeFilter;
+var
+  ok: boolean;
 begin
+  ok:= false;
   AppPanels[cPaneSide].UpdatePanels(msgPanelTree_Init, false, true);
   if CodeTree.Visible and
     CodeTreeFilterInput.Visible and
     CodeTreeFilterInput.Enabled then
   begin
     if AppPanels[cPaneSide].Floating then
-    begin
-      if AppPanels[cPaneSide].FormFloat.Visible then
-      begin
-        AppPanels[cPaneSide].FormFloat.SetFocus;
-        AppPanels[cPaneSide].FormFloat.ActiveControl:= CodeTreeFilterInput;
-      end;
-    end
+      ok:= AppPanels[cPaneSide].FormFloat.Visible
     else
-      ActiveControl:= CodeTreeFilterInput;
+      ok:= true
   end;
+  if ok then
+    EditorFocus(CodeTreeFilterInput);
 end;
 
 procedure TfmMain.DoSidebar_FocusCodetree;
