@@ -637,9 +637,9 @@ begin
   M.Add(cmd_Markers_SelectToCaret,      'markers: select to last marker', [], []);
   M.Add(cmd_Markers_DeleteToCaret,      'markers: delete to last marker', [], []);
 
-  M.Add(cmd_MacroStart, 'macros: start recording', [], []);
-  M.Add(cmd_MacroStop, 'macros: stop recording', [], []);
-  M.Add(cmd_MacroCancel, 'macros: cancel recording', [], []);
+  M.Add(cmd_MacroStart, 'macros: start/stop recording', [], []);
+  //M.Add(cmd_MacroStop, 'macros: stop recording', [], []);
+  //M.Add(cmd_MacroCancel, 'macros: cancel recording', [], []);
 
   M.Add(cmd_LinkAtCaret_Open, 'url: open url at 1st caret ', [], []);
   M.Add(cmd_LinkAtCaret_Copy, 'url: copy url at 1st caret', [], []);

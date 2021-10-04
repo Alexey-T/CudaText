@@ -3,6 +3,10 @@
   - fixed
   * changed
 
+1.146.1 (2021/10)
+
+* change: command "macros: start recording" was renamed and now it starts+stops the recording; 2 commands "macros: stop recording" and "macros: cancel recording" are deprecated and removed from Command Palette
+
 1.146.0 (2021/10)
 
 + add: command "add next occurrence of selected word" now wraps at the document end, like in Sublime (thanks @loziniak)

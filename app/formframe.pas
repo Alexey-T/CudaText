@@ -430,7 +430,7 @@ type
     procedure DoHideNotificationPanels;
     procedure DoHideNotificationPanel(Index: integer);
     //macro
-    procedure DoMacroStart;
+    procedure DoMacroStartOrStop;
     procedure DoMacroStop(ACancel: boolean);
     property MacroRecord: boolean read FMacroRecord;
 
@@ -2932,10 +2932,15 @@ begin
     FOnChangeCaption(Self);
 end;
 
-procedure TEditorFrame.DoMacroStart;
+procedure TEditorFrame.DoMacroStartOrStop;
 begin
-  FMacroRecord:= true;
-  MacroStrings.Clear;
+  if FMacroRecord then
+    FMacroRecord:= false
+  else
+  begin
+    FMacroRecord:= true;
+    MacroStrings.Clear;
+  end;
 end;
 
 procedure TEditorFrame.DoMacroStop(ACancel: boolean);

@@ -571,10 +571,13 @@ begin
       begin
         if Assigned(Frame) then
         begin
-          Frame.DoMacroStart;
+          Frame.DoMacroStartOrStop;
+          if not Frame.MacroRecord then
+            DoPyEvent_Macro(Frame, Frame.MacroStrings.Text);
           MsgStatus('');
         end;
       end;
+    //deprecated at 2021.10
     cmd_MacroStop:
       begin
         if Assigned(Frame) then
@@ -584,6 +587,7 @@ begin
           MsgStatus('');
         end;
       end;
+    //deprecated at 2021.10
     cmd_MacroCancel:
       begin
         if Assigned(Frame) then
