@@ -4504,4 +4504,7 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * add: callbacks (e.g. in toolbar buttons) can have form "exec=command_line_here"
 * add: app_proc: PROC_PARSE_COMMAND_LINE
 
+1.0.412 (app 1.146.1)
+* change: command "macros: start recording" is renamed to "start/stop recording", commands "stop recording" and "cancel recording" are deprecated
+
 [[Category:CudaText]]
