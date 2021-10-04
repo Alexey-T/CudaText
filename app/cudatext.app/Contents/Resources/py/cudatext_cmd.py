@@ -526,8 +526,8 @@ cmd_LinkAtPopup_Open           = 2808
 cmd_LinkAtPopup_Copy           = 2809
 
 cmd_MacroStart                 = 2810
-cmd_MacroStop                  = 2811
-cmd_MacroCancel                = 2812
+cmd_MacroStop                  = 2811 # deprecated 2021.10
+cmd_MacroCancel                = 2812 # deprecated 2021.10
 
 cmd_TreeGotoNext               = 2815
 cmd_TreeGotoPrev               = 2816
