@@ -3,10 +3,13 @@
   - fixed
   * changed
 
-1.146.1 (2021/10)
+1.146.2 (2021/10)
 
 * change: command "macros: start recording" was renamed and now it starts+stops the recording; 2 commands "macros: stop recording" and "macros: cancel recording" are deprecated and removed from Command Palette (thanks @hiiamboris)
 + add: show red (default color of "markers") editor border when macro is recording
+- fix: blurry UI tabs in Qt5 versions
+- fix: if caret is "non blinking" and "full sized", it's opaque (thanks @hiiamboris)
+- fix: reaction to touchpad scrolling was too slow/ too fast (thanks @hiiamboris)
 - fix: regression: command "focus filter" didn't work (thanks @hiiamboris)
 - fix: crash on pressing Esc in _floating_ side/bottom panel
 
