@@ -2945,11 +2945,22 @@ begin
     FMacroRecord:= true;
     MacroStrings.Clear;
   end;
+
+  Ed1.ModeMacroRecording:= FMacroRecord;
+  Ed1.Update;
+  Ed2.ModeMacroRecording:= FMacroRecord;
+  Ed2.Update;
 end;
 
 procedure TEditorFrame.DoMacroStop(ACancel: boolean);
 begin
   FMacroRecord:= false;
+
+  Ed1.ModeMacroRecording:= FMacroRecord;
+  Ed1.Update;
+  Ed2.ModeMacroRecording:= FMacroRecord;
+  Ed2.Update;
+
   if ACancel then
     MacroStrings.Clear
   else
