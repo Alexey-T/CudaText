@@ -423,6 +423,7 @@ type
     //misc
     function DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent; const AParams: TAppVariantArray): TAppPyEventResult;
     procedure DoPyEventState(Ed: TATSynEdit; AState: integer);
+    function DoPyEvent_Macro(const AText: string): boolean;
     procedure DoGotoPos(Ed: TATSynEdit; APosX, APosY: integer);
     procedure DoRemovePreviewStyle;
     procedure DoToggleFocusSplitEditors;
@@ -2935,7 +2936,10 @@ end;
 procedure TEditorFrame.DoMacroStartOrStop;
 begin
   if FMacroRecord then
-    FMacroRecord:= false
+  begin
+    FMacroRecord:= false;
+    DoPyEvent_Macro(MacroStrings.Text);
+  end
   else
   begin
     FMacroRecord:= true;
@@ -2947,7 +2951,9 @@ procedure TEditorFrame.DoMacroStop(ACancel: boolean);
 begin
   FMacroRecord:= false;
   if ACancel then
-    MacroStrings.Clear;
+    MacroStrings.Clear
+  else
+    DoPyEvent_Macro(MacroStrings.Text);
 end;
 
 procedure TEditorFrame.DoOnUpdateStatusbar;
@@ -3758,6 +3764,15 @@ begin
   SetLength(Params, 1);
   Params[0]:= AppVariant(AState);
   DoPyEvent(Ed, cEventOnStateEd, Params);
+end;
+
+function TEditorFrame.DoPyEvent_Macro(const AText: string): boolean;
+var
+  Params: TAppVariantArray;
+begin
+  SetLength(Params, 1);
+  Params[0]:= AppVariant(AText);
+  Result:= DoPyEvent(Editor, cEventOnMacro, Params).Val <> evrFalse;
 end;
 
 

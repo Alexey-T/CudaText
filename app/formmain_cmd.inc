@@ -572,23 +572,20 @@ begin
         if Assigned(Frame) then
         begin
           Frame.DoMacroStartOrStop;
-          if not Frame.MacroRecord then
-            DoPyEvent_Macro(Frame, Frame.MacroStrings.Text);
           MsgStatus('');
         end;
       end;
-    //deprecated at 2021.10
-    cmd_MacroStop:
+
+    cmd_MacroStop: //deprecated at 2021.10
       begin
         if Assigned(Frame) then
         begin
           Frame.DoMacroStop(false);
-          DoPyEvent_Macro(Frame, Frame.MacroStrings.Text);
           MsgStatus('');
         end;
       end;
-    //deprecated at 2021.10
-    cmd_MacroCancel:
+
+    cmd_MacroCancel: //deprecated at 2021.10
       begin
         if Assigned(Frame) then
         begin

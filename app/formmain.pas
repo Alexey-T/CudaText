@@ -1194,7 +1194,6 @@ type
     function DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent; const AParams: TAppVariantArray): TAppPyEventResult;
     function DoPyEvent_ConsoleNav(const AText: string): boolean;
     function DoPyEvent_Message(const AText: string): boolean;
-    function DoPyEvent_Macro(Frame: TEditorFrame; const AText: string): boolean;
     procedure DoPyEvent_AppState(AState: integer);
     procedure DoPyEvent_EdState(Ed: TATSynEdit; AState: integer);
     procedure DoPyEvent_AppActivate(AEvent: TAppPyEvent);
@@ -7145,15 +7144,6 @@ end;
 procedure TfmMain.DoOnConsoleNumberChange(Sender: TObject);
 begin
   UpdateSidebarButtonOverlay;
-end;
-
-function TfmMain.DoPyEvent_Macro(Frame: TEditorFrame; const AText: string): boolean;
-var
-  Params: TAppVariantArray;
-begin
-  SetLength(Params, 1);
-  Params[0]:= AppVariant(AText);
-  Result:= DoPyEvent(Frame.Editor, cEventOnMacro, Params).Val <> evrFalse;
 end;
 
 
