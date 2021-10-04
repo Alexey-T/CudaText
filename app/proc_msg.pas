@@ -283,7 +283,6 @@ const
   msgStatusReadingOps: string = 'Reading options';
   msgStatusSavedFile: string = 'Saved:';
   msgStatusReadonly: string = '[Read Only]';
-  msgStatusMacroRec: string = '[Macro Rec]';
   msgStatusPictureNxN: string = 'Image %dx%d';
   msgStatusHexViewer: string = 'Hex';
   msgStatusCancelled: string = 'Cancelled';

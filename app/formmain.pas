@@ -5262,8 +5262,8 @@ begin
   begin
     if Frame.ReadOnly[Frame.Editor] then
       Result+= msgStatusReadonly+' ';
-    if Frame.MacroRecord then
-      Result+= msgStatusMacroRec+' ';
+    //if Frame.MacroRecord then
+    //  Result+= msgStatusMacroRec+' ';
   end;
 end;
 
