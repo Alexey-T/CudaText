@@ -562,6 +562,7 @@ object SyntAnal7: TLibSyntAnalyzer
       DynHighlight = dhBound
       HighlightPos = cpRange
       DynSelectMin = True
+      DrawStaple = True
       IgnoreAsParent = False
     end
     item
