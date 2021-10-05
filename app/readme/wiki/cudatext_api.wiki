@@ -366,9 +366,9 @@ General notes:
 Actions:
 
 * PROC_SIDEPANEL_ADD_DIALOG: Adds tab, with embedded dialog. Returns bool: all parameters are correct, tab was added. Param "text" must be 3-tuple:
-** Item[0]: Caption of tab.
-** Item[1]: Int handle of dialog, from dlg_proc().
-** Item[2]: Name of icon file.
+** Item 0: Caption of tab.
+** Item 1: Int handle of dialog, from dlg_proc().
+** Item 2: Name of icon file.
 
 * PROC_SIDEPANEL_REMOVE: Removes tab. Param "text" is caption of tab. (Note: actually it hides tab, dialog for this tab is still in memory). Returns bool: tab was found/removed.
 * PROC_SIDEPANEL_ACTIVATE: Activates tab. Returns bool: tab was found/activated. Param "text" can be string or tuple:
@@ -390,9 +390,9 @@ Actions:
 * PROC_SIDEPANEL_GET: Returns caption of last activated tab.
 
 * PROC_SIDEPANEL_SET_PROP: Changes properties of sidebar button. Returns bool: button was found/changed. Param "text" must be 3-tuple:
-** Item[0]: Caption of tab.
-** Item[1]: Int index of button's icon in sidebar's imagelist, or -1 to keep old value.
-** Item[2]: Floating tooltip string (it's independent from caption), or empty str to keep old value.
+** Item 0: Caption of tab.
+** Item 1: Int index of button's icon in sidebar's imagelist, or -1 to keep old value.
+** Item 2: Floating tooltip string (it's independent from caption), or empty str to keep old value.
 
 * PROC_SIDEPANEL_GET_IMAGELIST: Returns int handle of sidebar's imagelist. Use this handle with imagelist_proc().
 
