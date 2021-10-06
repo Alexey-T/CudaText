@@ -410,7 +410,7 @@ end;
 
 function FormatFileDateAsNiceString(const AFilename: string): string;
 var
-  NValue: integer;
+  NValue: Longint;
   D: TDateTime;
 begin
   NValue:= FileAgeUTF8(AFilename);
