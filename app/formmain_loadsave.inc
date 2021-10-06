@@ -339,7 +339,7 @@ begin
       if bModified and ASaveModifiedTabs and UiOps.HistoryItems[ahhText] then
       begin
         cfg.SetValue(path+'/text', Frame.Editor.Text);
-        if Frame.FileName<>'' then
+        if (Frame.FileName<>'') and FileExists(Frame.FileName) then
           cfg.SetValue(path+'/file_date', FormatFileDateAsNiceString(Frame.FileName));
       end;
 
@@ -358,7 +358,8 @@ begin
          if bModified then
          begin
           cfg.SetValue(path+'/text', Frame.Ed2.Text);
-          cfg.SetValue(path+'/file_date', FormatFileDateAsNiceString(Frame.FileName2));
+          if FileExists(Frame.FileName2) then
+            cfg.SetValue(path+'/file_date', FormatFileDateAsNiceString(Frame.FileName2));
          end;
 
         Frame.DoSaveHistoryEx(Frame.Ed2, cfg, path, true{AForSession});
