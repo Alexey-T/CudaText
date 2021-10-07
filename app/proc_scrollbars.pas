@@ -206,6 +206,11 @@ procedure TAppTreeView.DoEnter;
 begin
   inherited;
   SelectionColor:= GetAppColor(apclTreeSelBg);
+
+  //focus at least 1st item if no selection yet
+  if Selected=nil then
+    if Items.Count>0 then
+      Selected:= Items[0];
 end;
 
 procedure TAppTreeView.DoExit;
