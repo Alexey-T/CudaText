@@ -3,6 +3,9 @@
   - fixed
   * changed
 
++ add: UI tabs drag-drop now works also when dropping on "+" pseudo-tab or on the right empty area (thanks @GHNewbiee) 
++ add: lexer HTML: show block staples
+
 1.146.2 (2021/10)
 
 * change: command "macros: start recording" was renamed and now it starts+stops the recording; 2 commands "macros: stop recording" and "macros: cancel recording" are deprecated and removed from Command Palette (thanks @hiiamboris)
