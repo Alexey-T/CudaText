@@ -461,6 +461,9 @@ end;
 
 function IsIgnoredCommand(N: integer): boolean;
 begin
+  if not UiOps.CmdPaletteHideSimpleCommands then
+    exit(false);
+
   case N of
     cCommand_KeyLeft,
     cCommand_KeyLeft_Sel,

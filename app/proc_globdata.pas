@@ -272,8 +272,10 @@ type
     MaxHistoryEdits: integer;
     MaxHistoryMenu: integer;
     MaxHistoryFiles: integer;
+
     CmdPaletteFilterKeep: boolean;
     CmdPaletteFilterText: string;
+    CmdPaletteHideSimpleCommands: boolean;
 
     HistoryDisabledStr: string;
     HistoryItems: array[TAppHistoryElement] of boolean;
@@ -1763,8 +1765,10 @@ begin
     MaxHistoryEdits:= 20;
     MaxHistoryMenu:= 10;
     MaxHistoryFiles:= 25;
+
     CmdPaletteFilterKeep:= false;
     CmdPaletteFilterText:= '';
+    CmdPaletteHideSimpleCommands:= true;
 
     HistoryDisabledStr:= '';
     for element:= Low(element) to High(element) do
