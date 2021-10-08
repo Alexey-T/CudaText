@@ -51,7 +51,7 @@ object SyntAnal6: TLibSyntAnalyzer
       Font.Style = [fsItalic]
     end
     item
-      DisplayName = 'Current block'
+      DisplayName = 'Current block BG'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -13
@@ -133,6 +133,14 @@ object SyntAnal6: TLibSyntAnalyzer
       Font.Style = []
       BorderTypeBottom = blWavyLine
       BorderColorBottom = clRed
+    end
+    item
+      DisplayName = 'Std function'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlue
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
     end>
   TokenRules = <
     item
@@ -441,6 +449,7 @@ object SyntAnal6: TLibSyntAnalyzer
             'color-burn'
             'color-dodge'
             'color-interpolation-filters'
+            'color-scheme'
             'col-resize'
             'column'
             'column-count'
@@ -700,10 +709,12 @@ object SyntAnal6: TLibSyntAnalyzer
             'manipulation'
             'manual'
             'margin'
+            'margin-block'
             'margin-block-end'
             'margin-block-start'
             'margin-bottom'
             'margin-box'
+            'margin-inline'
             'margin-inline-end'
             'margin-inline-start'
             'margin-left'
@@ -827,10 +838,12 @@ object SyntAnal6: TLibSyntAnalyzer
             'overscroll-behavior-y'
             'pad'
             'padding'
+            'padding-block'
             'padding-block-end'
             'padding-block-start'
             'padding-bottom'
             'padding-box'
+            'padding-inline'
             'padding-inline-end'
             'padding-inline-start'
             'padding-left'
@@ -1053,6 +1066,7 @@ object SyntAnal6: TLibSyntAnalyzer
             'text-size-adjust'
             'text-top'
             'text-transform'
+            'text-underline-offset'
             'text-underline-position'
             'thick'
             'thin'
@@ -2128,6 +2142,56 @@ object SyntAnal6: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
+      DisplayName = 'Id std funcs'
+      StyleName = 'Std function'
+      BlockType = btTagDetect
+      ConditionList = <
+        item
+          TagList.Strings = (
+            'annotation'
+            'attr'
+            'blur'
+            'brightness'
+            'character'
+            'clamp'
+            'content'
+            'contrast'
+            'counter'
+            'counters'
+            'cross'
+            'drop'
+            'element'
+            'fade'
+            'fit'
+            'format'
+            'grayscale'
+            'hue'
+            'image'
+            'invert'
+            'local'
+            'max'
+            'min'
+            'minmax'
+            'opacity'
+            'ornaments'
+            'repeat'
+            'rotate'
+            'saturate'
+            'sepia'
+            'set'
+            'shadow'
+            'styleset'
+            'stylistic'
+            'swash'
+            'symbols'
+            'url'
+            'variant')
+          TokenTypes = 4
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end
+    item
       DisplayName = '{ @media'
       ConditionList = <
         item
@@ -2153,7 +2217,7 @@ object SyntAnal6: TLibSyntAnalyzer
     end
     item
       DisplayName = '{'
-      StyleName = 'Current block'
+      StyleName = 'Current block BG'
       ConditionList = <
         item
           TagList.Strings = (
@@ -2187,7 +2251,7 @@ object SyntAnal6: TLibSyntAnalyzer
     end
     item
       DisplayName = 'Media'
-      StyleName = 'Current block'
+      StyleName = 'Current block BG'
       ConditionList = <
         item
           TokenTypes = 32
@@ -2276,7 +2340,7 @@ object SyntAnal6: TLibSyntAnalyzer
       DisplayName = 'PHP'
       StartExpression = '<\?(php)?'
       EndExpression = '\?>'
-      SyntAnalyzer = SyntAnal16
+      SyntAnalyzer = SyntAnal14
     end>
   SampleText.Strings = (
     '/* Comment */'
@@ -2297,13 +2361,8 @@ object SyntAnal6: TLibSyntAnalyzer
       '@media screen and (-ms-high-contrast: active), (-ms-high-contras' +
       't: none) {'
     '    .input_size_m .input__control {'
-    '        padding-left: 0;'
     '        border-left: 10px solid transparent'
     '   }'
-    '}'
-    ''
-    '.button_size_m {'
-    '    font-size: 15px'
     '}'
     ''
     '@media all and (min-width: 0) {'
