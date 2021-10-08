@@ -5,6 +5,7 @@
 
 + add: UI tabs drag-drop now works also when dropping on "+" pseudo-tab or on the right empty area (thanks @GHNewbiee) 
 + add: lexer HTML: show block staples (thanks @eltonfabricio10)
++ add: lexer CSS: highlight std CSS functions
 - fix: error 'wrong time specification' when file from session was deleted (thanks @A-Nicoladie)
 
 1.146.2 (2021/10)
