@@ -162,8 +162,9 @@
   "ui_links_confirm": true,
 
   //[File/Notifications]
-  //Enable notifications about file change in external programs
-  //(changing to "true" requires app restart)
+  //Enable additional app "thread" which watches for file changes
+  //in external programs, and suggests to reload changed files.
+  //(Changing to "true" requires app restart.)
   "ui_notif": true,
 
   //Notifications about file change in external programs:
