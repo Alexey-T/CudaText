@@ -487,6 +487,7 @@ type
 
     OpOverwriteSel: boolean;
     OpOverwriteOnPaste: boolean;
+    OpPasteWithEolAtLineStart: boolean;
 
     OpAutoFoldComments: integer;
     OpAutoCloseBracketsMultiCarets: boolean;
@@ -1468,6 +1469,7 @@ begin
 
     OpOverwriteSel:= true;
     OpOverwriteOnPaste:= false;
+    OpPasteWithEolAtLineStart:= true;
 
     OpAutoFoldComments:= 0; //disabled by default, issue #3074
     OpAutoCloseBracketsMultiCarets:= true; //must be 'true', issue #3235

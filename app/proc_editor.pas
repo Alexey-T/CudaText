@@ -196,6 +196,7 @@ begin
 
   Ed.OptOverwriteSel:= Op.OpOverwriteSel;
   Ed.OptOverwriteAllowedOnPaste:= Op.OpOverwriteOnPaste;
+  Ed.OptPasteWithEolAtLineStart:= Op.OpPasteWithEolAtLineStart;
 
   EControlOptions.AutoFoldComments:= Op.OpAutoFoldComments;
 

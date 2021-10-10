@@ -298,12 +298,16 @@
   "copy_column_aligned_by_spaces": true,
 
   //[Text]
-  //If text typed, delete selection first
+  //When text is typed, delete selection first
   "ovr_sel": true,
 
-  //If text pasted from clipboard, and "overwrite" mode on (Ins key),
-  //then pasted text overwrites editor text
+  //On Paste: when "Insert/Overwrite" mode (Ins hotkey) is "overwrite",
+  //pasted text overwrites editor text. Ie, respect "Overwrite" on paste.
   "ovr_on_paste": false,
+
+  //On Paste: when clipboard has line-break(s), and no selection is present,
+  //paste the block at the line start, ignoring caret column.
+  "paste_multiline_at_line_start": true,
 
   //[File/Saving]
   //On saving file: delete spaces at lines ends

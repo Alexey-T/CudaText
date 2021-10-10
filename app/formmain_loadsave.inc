@@ -994,6 +994,7 @@ begin
 
   Op.OpOverwriteSel:= cfg.GetValue('ovr_sel', Op.OpOverwriteSel);
   Op.OpOverwriteOnPaste:= cfg.GetValue('ovr_on_paste', Op.OpOverwriteOnPaste);
+  Op.OpPasteWithEolAtLineStart:= cfg.GetValue('paste_multiline_at_line_start', Op.OpPasteWithEolAtLineStart);
 
   Op.OpAutoFoldComments:= cfg.GetValue('auto_fold_comments', Op.OpAutoFoldComments);
   Op.OpAutoCloseBrackets:= cfg.GetValue('auto_close_brackets', Op.OpAutoCloseBrackets);
