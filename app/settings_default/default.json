@@ -861,9 +861,14 @@
   //  if 'i' in value: Splitted state of UI tab (horiz/vert, percents of size)
   "ui_history_disabled": "",
 
-  //Remember (in the current session only) last 'filter text'
-  //in the Command Palette dialog
+  //[Ui/Listbox]
+  //Command Palette dialog: remember (in the current session only) last 'filter text'.
   "ui_cmdpalette_filter_keep": false,
+
+  //Command Palette dialog: hide simple commands: arrows, Shift+arrows, Home, End, PageUp,
+  //PageDown, Enter, Del, BackSpace etc. The disadvantage of this: you will not be able to
+  //configure hotkeys for these commands.
+  "ui_cmdpalette_hide_simple": true,
 
   //[Ui]
   //Close program by Esc key

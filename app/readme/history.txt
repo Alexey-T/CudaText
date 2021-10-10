@@ -6,6 +6,7 @@
 1.147.0 (2021/10)
 
 * add/change: behaviour of Paste of block with newline(s) is changed, to paste at line start. To be like Sublime and VSCode. Added option for those who don't like it: "paste_multiline_at_line_start": true. (thanks @hiiamboris)
++ add: option "ui_cmdpalette_hide_simple" (thanks @hiiamboris)
 + add: UI tabs drag-drop now works also when dropping on "+" pseudo-tab or on the right empty area (thanks @GHNewbiee) 
 + add: lexer HTML: show block staples (thanks @eltonfabricio10)
 + add: lexer CSS: highlight std CSS functions
