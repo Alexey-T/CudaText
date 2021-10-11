@@ -394,6 +394,7 @@ type
     NonTextFilesBufferKb: integer;
     ReloadUnsavedConfirm: boolean;
     ReloadFollowTail: boolean;
+    CheckLowDiskSpace: Int64;
     FullScreen: string;
     MouseGotoDefinition: string;
 
@@ -1902,6 +1903,7 @@ begin
     NonTextFilesBufferKb:= 64;
     ReloadFollowTail:= true;
     ReloadUnsavedConfirm:= true;
+    CheckLowDiskSpace:= 1*1024*1024;
     FullScreen:= 'tp';
     MouseGotoDefinition:= 'a';
 
@@ -3241,17 +3243,15 @@ begin
 end;
 
 procedure AppDiskCheckFreeSpace(const fn: string);
-const
-  cMinSpace: Int64 = 1*1024*1024;
 var
   NSpace: Int64;
 begin
   repeat
     NSpace:= AppDiskGetFreeSpace(fn);
     if NSpace<0 then exit; //cannot detect free space
-    if NSpace>=cMinSpace then exit;
+    if NSpace>=UiOps.CheckLowDiskSpace then exit;
     if MsgBox(
-      Format(msgErrorLowDiskSpace, [NSpace div (1024*1024)]),
+      Format(msgErrorLowDiskSpaceMb, [NSpace div (1024*1024)]),
       MB_RETRYCANCEL or MB_ICONWARNING) = ID_CANCEL then exit;
   until false;
 end;

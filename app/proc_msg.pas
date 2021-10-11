@@ -67,7 +67,7 @@ const
 
   msgErrorPluginIgnored = 'NOTE: Plugin %s is in ignore-list, please remove it';
   msgErrorTooManyFileTabs = 'NOTE: Too many editor-tabs are opened, cannot add tab';
-  msgErrorLowDiskSpace = 'Free disk space is less than %d Mb. Try to free additional space, then press Retry.';
+  msgErrorLowDiskSpaceMb = 'Free disk space is less than %d Mb. Try to free additional space, then press Retry.';
   msgCannotFindLexers = 'NOTE: Cannot find lexers: %s';
   msgCannotFindData = 'NOTE: Cannot find data: %s';
   msgCannotFindSessionFile = 'NOTE: File from session not found: %s';
