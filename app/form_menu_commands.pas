@@ -482,6 +482,8 @@ begin
     cCommand_KeyPageDown,
     cCommand_KeyPageDown_Sel,
 
+    {
+    //let's show these always
     cCommand_ColSelectLeft,
     cCommand_ColSelectRight,
     cCommand_ColSelectUp,
@@ -490,6 +492,7 @@ begin
     cCommand_ColSelectPageDown,
     cCommand_ColSelectToLineBegin,
     cCommand_ColSelectToLineEnd,
+    }
 
     cCommand_KeyBackspace,
     cCommand_KeyDelete,
