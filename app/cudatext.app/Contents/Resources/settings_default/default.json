@@ -158,8 +158,13 @@
   "ui_dialogs_in_taskbar__linux": true,
   "ui_dialogs_in_taskbar__mac": true,
 
-  //On clicking hyperlinks, show additional confirmation button, over clicked position
+  //On double-clicking hyperlinks, show additional confirmation button,
+  //over clicked position.
   "ui_links_confirm": true,
+
+  //Enable coloring of themed buttons on mouse-hover. It's off by default because
+  //feature is buggy on some platforms (Windows, GTK2).
+  "ui_button_hover": false,
 
   //[File/Notifications]
   //Enable additional app "thread" which watches for file changes
@@ -177,10 +182,6 @@
   //  1: show if editor is modified or Undo-data is not empty
   //  2: show if editor is modified
   "ui_notif_confirm": 1,
-
-  //Enable coloring of themed buttons on mouse-hover. It's off by default because
-  //feature is buggy on some platforms (Windows, GTK2).
-  "ui_button_hover": false,
 
   //[File/NonText]
   //Non-text files: behaviour on opening such files
