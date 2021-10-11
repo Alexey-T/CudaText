@@ -3242,7 +3242,7 @@ begin
   {$ifdef unix}
   Result:= SysUtils.DiskFree(SysUtils.AddDisk(ExtractFileDir(fn)));
   {$else}
-  Result:= -1;
+  Result:= SysUtils.DiskFree(SysUtils.GetDriveIDFromLetter(ExtractFileDrive(fn)));
   {$endif}
 end;
 
