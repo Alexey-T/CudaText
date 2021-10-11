@@ -3239,7 +3239,11 @@ end;
 
 function AppDiskGetFreeSpace(const fn: string): Int64;
 begin
-  Result:= DiskFree(AddDisk(ExtractFileDir(fn)));
+  {$ifdef unix}
+  Result:= SysUtils.DiskFree(SysUtils.AddDisk(ExtractFileDir(fn)));
+  {$else}
+  Result:= -1;
+  {$endif}
 end;
 
 procedure AppDiskCheckFreeSpace(const fn: string);

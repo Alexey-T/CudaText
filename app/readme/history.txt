@@ -5,7 +5,7 @@
 
 1.147.0 (2021/10)
 
-+ add: check that disk free space is >=1M, before saving history/session file, and give a warning if less (thanks @ertank)
++ add: Unix: check that disk free space is >=1M, before saving history/session file, and give a warning if less (thanks @ertank)
 + add: option "paste_multiline_at_line_start", to mimic Sublime and VSCode, default is 'false' to not give a regression (thanks @hiiamboris)
 + add: option "ui_cmdpalette_hide_simple" (thanks @hiiamboris)
 + add: command "expand selection to line, up"; before we had only "expand selection to line" which moves down (thanks @hiiamboris)
