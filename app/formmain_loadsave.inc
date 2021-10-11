@@ -116,6 +116,8 @@ var
   bMax: boolean;
   fnBase: string;
 begin
+  AppDiskCheckFreeSpace(AppFile_History);
+
   cfg:= TJSONConfig.Create(nil);
   try
     try
@@ -251,6 +253,7 @@ var
 begin
   Result:= false;
   if AFileName='' then exit;
+  AppDiskCheckFreeSpace(AFileName);
   DeleteFile(AFileName);
 
   nCountFiles:= 0;

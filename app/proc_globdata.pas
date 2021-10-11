@@ -755,6 +755,7 @@ function AppCollapseHomeDirInFilename(const fn: string): string;
 function AppExpandHomeDirInFilename(const fn: string): string;
 function AppExpandFileNameWithDir(const AFileName, ADir: string): string;
 function AppConfigKeyForBookmarks(Ed: TATSynEdit): string;
+procedure AppDiskCheckFreeSpace(const fn: string);
 
 var
   AppManager: TecLexerList = nil;
@@ -3234,6 +3235,26 @@ begin
     Result:= '';
 end;
 
+function AppDiskGetFreeSpace(const fn: string): Int64;
+begin
+  Result:= DiskFree(AddDisk(ExtractFileDir(fn)));
+end;
+
+procedure AppDiskCheckFreeSpace(const fn: string);
+const
+  cMinSpace: Int64 = 1*1024*1024;
+var
+  NSpace: Int64;
+begin
+  repeat
+    NSpace:= AppDiskGetFreeSpace(fn);
+    if NSpace<0 then exit; //cannot detect free space
+    if NSpace>=cMinSpace then exit;
+    if MsgBox(
+      Format(msgErrorLowDiskSpace, [NSpace div (1024*1024)]),
+      MB_RETRYCANCEL or MB_ICONWARNING) = ID_CANCEL then exit;
+  until false;
+end;
 
 initialization
 
