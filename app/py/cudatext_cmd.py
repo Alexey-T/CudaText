@@ -145,6 +145,7 @@ cCommand_SelectLines = 263 | _CmdFlag_SelReset | _CmdFlag_MovesCaret
 cCommand_SelectInverted = 264 | _CmdFlag_MovesCaret
 cCommand_SelectSplitToLines = 265 | _CmdFlag_MovesCaret
 cCommand_SelectExtendByLine = 266 | _CmdFlag_MovesCaret
+cCommand_SelectExtendByLineUp = 267 | _CmdFlag_MovesCaret
 
 cCommand_MoveSelectionUp = 268
 cCommand_MoveSelectionDown = 269
