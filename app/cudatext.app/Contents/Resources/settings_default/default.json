@@ -299,7 +299,6 @@
   //i.e. lines are padded by spaces to have equal length
   "copy_column_aligned_by_spaces": true,
 
-  //[Text]
   //When text is typed, delete selection first
   "ovr_sel": true,
 
@@ -307,8 +306,8 @@
   //pasted text overwrites editor text. Ie, respect "Overwrite" on paste.
   "ovr_on_paste": false,
 
-  //On Paste: when clipboard text ends with line-break, and no selection is present,
-  //paste the block at the line start, ignoring caret column.
+  //On Paste: when clipboard text ends with a line-break, and no selection is present,
+  //paste block at the line start, ignoring caret column.
   "paste_multiline_at_line_start": false,
 
   //[File/Saving]
