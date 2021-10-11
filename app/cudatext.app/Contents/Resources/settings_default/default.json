@@ -305,7 +305,7 @@
   //pasted text overwrites editor text. Ie, respect "Overwrite" on paste.
   "ovr_on_paste": false,
 
-  //On Paste: when clipboard has line-break(s), and no selection is present,
+  //On Paste: when clipboard text ends with line-break, and no selection is present,
   //paste the block at the line start, ignoring caret column.
   "paste_multiline_at_line_start": true,
 
