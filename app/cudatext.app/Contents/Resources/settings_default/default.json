@@ -167,9 +167,10 @@
   "ui_button_hover": false,
 
   //[File/Notifications]
-  //Enable additional app "thread" which watches for file changes
-  //in external programs, and suggests to reload changed files.
-  //(Changing to "true" requires app restart.)
+  //Notifications about file change in external programs:
+  //Enable "thread" which watches for file changes in external programs,
+  //and suggests to reload changed file.
+  //Changing to "true" requires app restart.
   "ui_notif": true,
 
   //Notifications about file change in external programs:
