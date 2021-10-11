@@ -307,7 +307,7 @@
 
   //On Paste: when clipboard text ends with line-break, and no selection is present,
   //paste the block at the line start, ignoring caret column.
-  "paste_multiline_at_line_start": true,
+  "paste_multiline_at_line_start": false,
 
   //[File/Saving]
   //On saving file: delete spaces at lines ends

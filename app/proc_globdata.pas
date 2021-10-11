@@ -1469,10 +1469,10 @@ begin
 
     OpOverwriteSel:= true;
     OpOverwriteOnPaste:= false;
-    OpPasteWithEolAtLineStart:= true;
+    OpPasteWithEolAtLineStart:= false; //maybe change it later to True (like Sublime, VSCode)
 
     OpAutoFoldComments:= 0; //disabled by default, issue #3074
-    OpAutoCloseBracketsMultiCarets:= true; //must be 'true', issue #3235
+    OpAutoCloseBracketsMultiCarets:= true; //must be True, issue #3235
     OpAutoCloseBrackets:= '([{';
     OpAutocompleteAutoshowCharCount:= 0;
     OpAutocompleteTriggerChars:= '';
