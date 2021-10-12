@@ -394,7 +394,7 @@ type
     NonTextFilesBufferKb: integer;
     ReloadUnsavedConfirm: boolean;
     ReloadFollowTail: boolean;
-    CheckLowDiskSpace: Int64;
+    CheckLowDiskSpace: Int64; //minimal disk free space in bytes; can be 0 to disable the check
     FullScreen: string;
     MouseGotoDefinition: string;
 
@@ -3250,6 +3250,7 @@ procedure AppDiskCheckFreeSpace(const fn: string);
 var
   NSpace: Int64;
 begin
+  if UiOps.CheckLowDiskSpace<=0 then exit;
   repeat
     NSpace:= AppDiskGetFreeSpace(fn);
     if NSpace<0 then exit; //cannot detect free space
