@@ -168,13 +168,13 @@
 
   //[File/Notifications]
   //Notifications about file change in external programs:
-  //Enable "thread" which watches for file changes in external programs,
-  //and suggests to reload changed file.
+  //Enable notifications, ie enable the thread which watches for file changes
+  //in external programs.
   //Changing to "true" requires app restart.
   "ui_notif": true,
 
   //Notifications about file change in external programs:
-  //waiting time in seconds
+  //pause in the watcher thread, in seconds
   "ui_notif_time": 2,
 
   //Notifications about file change in external programs:
