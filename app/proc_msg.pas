@@ -177,6 +177,7 @@ const
   msgTabsizeConvSpaces: string = 'Convert indentation to tabs';
 
   msgPythonFindCaption: string = 'Find Python library';
+  msgPythonFindCaptionLong = 'Python engine was not found; find it...';
   msgPythonFindFromDir: string = 'Search from folder:';
   msgCannotFindPython: string = 'Cannot find Python library';
 
@@ -191,7 +192,7 @@ const
     {$else}
     msgCannotInitPython2: string = '* write "pylib'+cOptionSystemSuffix+
                                    '" to user.json. Read about "pylib" in "Options / Settings-default".';
-    msgCannotInitPython2b: string = '* or use the menu item "Plugins / Find Python library".';
+    msgCannotInitPython2b: string = '* or use the menu item "Plugins / '+msgPythonFindCaptionLong;
     {$endif}
   {$endif}
 

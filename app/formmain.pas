@@ -5029,7 +5029,7 @@ begin
       mnuPlugins.Enabled:= false;
       {$else}
       mi:= TMenuItem.Create(Self);
-      mi.Caption:= msgPythonFindCaption+'...';
+      mi.Caption:= msgPythonFindCaptionLong;
       mi.OnClick:= @DoOps_FindPythonLib;
       mnuPlugins.Clear;
       mnuPlugins.Add(mi);
