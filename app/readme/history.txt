@@ -13,8 +13,8 @@
 + add: lexer HTML: show block staples (thanks @eltonfabricio10)
 + add: lexer CSS: highlight std CSS functions
 - fix: error 'wrong time specification' when file from session was deleted (thanks @A-Nicoladie)
-- fix: regression: drag-drop of text: wrong selection after drop
-- fix: regression: drag-drop of text: missed red drop marker, disappearing 'drag-drop' mouse cursor
+- fix: regression: drag-drop of text: wrong selection after drop of whole lines
+- fix: regression: drag-drop of text: missing red drop marker
 
 1.146.2 (2021/10)
 
