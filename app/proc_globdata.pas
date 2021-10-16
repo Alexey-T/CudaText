@@ -1059,6 +1059,10 @@ begin
 end;
 
 function InitPyLibraryPath: string;
+const
+  cMaxVersion = 10;
+  cMinVersionUnix = 5;
+  cMinVersionWindows = 4; //support Python 3.4 for WinXP
 {$ifdef windows}
 var
   N: integer;
@@ -1075,7 +1079,7 @@ begin
   {$ifdef windows}
   //detect latest existing file python3x.dll in app folder
   S:= ExtractFilePath(Application.ExeName);
-  for N:= 9 downto 4 do //support Python 3.4 for WinXP
+  for N:= cMaxVersion downto cMinVersionWindows do
   begin
     SFile:= Format('python3%d.dll', [N]);
     //don't return full filename, this loads DLL with full filename and plugins cannot load
@@ -1086,7 +1090,7 @@ begin
   {$endif}
 
   {$ifdef darwin}
-  for N:= 9 downto 5 do
+  for N:= cMaxVersion downto cMinVersionUnix do
   begin
     S:= Format('/Library/Frameworks/Python.framework/Versions/3.%d/lib/libpython3.%d.dylib',
       [N, N]);
