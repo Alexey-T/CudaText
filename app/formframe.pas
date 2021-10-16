@@ -3088,29 +3088,30 @@ begin
   XColorSpell.FromColor(GetAppColor(apclEdMicromapSpell));
 
   //paint line states
-  if St.Count>=Ed.OptMicromapShowForMinCount then
-  for i:= 0 to St.Count-1 do
-  begin
-    LineState:= St.LinesState[i];
-    case LineState of
-      cLineStateNone: Continue;
-      cLineStateAdded: XColor.FromColor(Ed.Colors.StateAdded);
-      cLineStateChanged: XColor.FromColor(Ed.Colors.StateChanged);
-      cLineStateSaved: XColor.FromColor(Ed.Colors.StateSaved);
-      else Continue;
+  if Ed.OptMicromapLineStates and (St.Count>=Ed.OptMicromapShowForMinCount) then
+    for i:= 0 to St.Count-1 do
+    begin
+      LineState:= St.LinesState[i];
+      case LineState of
+        cLineStateNone: Continue;
+        cLineStateAdded: XColor.FromColor(Ed.Colors.StateAdded);
+        cLineStateChanged: XColor.FromColor(Ed.Colors.StateChanged);
+        cLineStateSaved: XColor.FromColor(Ed.Colors.StateSaved);
+        else Continue;
+      end;
+      FMicromapBmp.FillRect(GetItemRect(0{column_0}, i, i, markColumn), XColor);
     end;
-    FMicromapBmp.FillRect(GetItemRect(0{column_0}, i, i, markColumn), XColor);
-  end;
 
   //paint selections
-  for i:= 0 to Ed.Carets.Count-1 do
-  begin
-    Caret:= Ed.Carets[i];
-    Caret.GetSelLines(NLine1, NLine2, false);
-    if NLine1<0 then Continue;
-    R1:= GetItemRect(0, NLine1, NLine2, markRight);
-    FMicromapBmp.FillRect(R1, XColorSelected);
-  end;
+  if Ed.OptMicromapSelections then
+    for i:= 0 to Ed.Carets.Count-1 do
+    begin
+      Caret:= Ed.Carets[i];
+      Caret.GetSelLines(NLine1, NLine2, false);
+      if NLine1<0 then Continue;
+      R1:= GetItemRect(0, NLine1, NLine2, markRight);
+      FMicromapBmp.FillRect(R1, XColorSelected);
+    end;
 
   //paint background of columns added from Py API
   for i:= 2{after default columns} to Length(Ed.Micromap.Columns)-1 do

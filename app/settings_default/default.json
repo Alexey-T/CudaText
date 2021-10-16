@@ -495,7 +495,10 @@
   //Note: you may hide arrows of the vertical scrollbar, by "scrollbar_arrows" option.
   "micromap_on_scrollbar": false,
 
-  //Also show bookmarks on micromap
+  //Show "line states" on micromap
+  "micromap_line_states": true,
+
+  //Show bookmarks on micromap
   "micromap_bookmarks": false,
 
   //[Text/VerticalLines]

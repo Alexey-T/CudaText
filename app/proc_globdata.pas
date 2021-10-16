@@ -535,6 +535,8 @@ type
 
     OpMicromapShow: boolean;
     OpMicromapOnScrollbar: boolean;
+    OpMicromapLineStates: boolean;
+    OpMicromapSelections: boolean;
     OpMicromapBookmarks: boolean;
     OpMicromapSmallMarkSizePercents: integer;
     OpMicromapMinMarkHeight: integer;
@@ -1521,6 +1523,8 @@ begin
 
     OpMicromapShow:= false;
     OpMicromapOnScrollbar:= false;
+    OpMicromapLineStates:= true;
+    OpMicromapSelections:= true;
     OpMicromapBookmarks:= false;
     OpMicromapSmallMarkSizePercents:= 50;
     OpMicromapMinMarkHeight:= 4;

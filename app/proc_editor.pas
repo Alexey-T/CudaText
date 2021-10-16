@@ -251,6 +251,8 @@ begin
     if not Ed.IsModifiedMicromapVisible then
       Ed.OptMicromapVisible:= Op.OpMicromapShow;
     Ed.OptMicromapOnScrollbar:= Op.OpMicromapOnScrollbar;
+    Ed.OptMicromapLineStates:= Op.OpMicromapLineStates;
+    Ed.OptMicromapSelections:= Op.OpMicromapSelections;
     Ed.OptMicromapBookmarks:= Op.OpMicromapBookmarks;
 
     Ed.OptMarginRight:= Op.OpMarginFixed;
