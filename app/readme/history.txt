@@ -8,6 +8,7 @@
 + add: before saving history/session file, check that disk free space is >1M, and give a Retry/Cancel messagebox if less (thanks @ertank)
 + add: option "paste_multiline_at_line_start", to mimic Sublime and VSCode, default is 'false' to not give a regression (thanks @hiiamboris)
 + add: option "ui_cmdpalette_hide_simple" (thanks @hiiamboris)
++ add: option "micromap_line_states" (thanks @JairoMartinezA)
 + add: command "expand selection to line, up"; before we had only "expand selection to line" which moves down (thanks @hiiamboris)
 + add: UI tabs drag-drop now works also when dropping on "+" pseudo-tab or on the right empty area (thanks @GHNewbiee) 
 + add: lexer HTML: show block staples (thanks @eltonfabricio10)
