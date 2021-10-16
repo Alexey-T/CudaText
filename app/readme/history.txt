@@ -14,6 +14,7 @@
 + add: lexer HTML: show block staples (thanks @eltonfabricio10)
 + add: lexer CSS: highlight std CSS functions
 - fix: error 'wrong time specification' when file from session was deleted (thanks @A-Nicoladie)
+- fix: macOS version didn't detect Python 3.10 (thanks @sigzero)
 - fix: regression: drag-drop of text: wrong selection after drop of whole lines
 - fix: regression: drag-drop of text: missing red drop marker
 
