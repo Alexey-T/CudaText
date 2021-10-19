@@ -3062,7 +3062,7 @@ var
   LinePartObj: TATLinePartClass;
   XColor, XColorSelected, XColorOccur, XColorSpell: TBGRAPixel;
   NColor: TColor;
-  R1, RectMap: TRect;
+  RectMark, RectMap: TRect;
   NLine1, NLine2, NIndex, i: integer;
 begin
   St:= Ed.Strings;
@@ -3073,16 +3073,15 @@ begin
     FMicromapBmp:= TBGRABitmap.Create;
   FMicromapBmp.SetSize(ARect.Width, ARect.Height);
 
-  RectMap:= Rect(0, 0, ARect.Width, ARect.Height);
-
   XColor.FromColor(GetAppColor(apclEdMicromapBg));
   FMicromapBmp.Fill(XColor);
 
-  //paint full-width area of current view
-  R1:= GetItemRect(0, Ed.LineTop, Ed.LineBottom, markFull);
+  RectMap:= Rect(0, 0, ARect.Width, ARect.Height);
 
+  //paint full-width area of current view
+  RectMark:= GetItemRect(0, Ed.LineTop, Ed.LineBottom, markFull);
   XColor.FromColor(GetAppColor(apclEdMicromapViewBg));
-  FMicromapBmp.FillRect(R1, XColor);
+  FMicromapBmp.FillRect(RectMark, XColor);
 
   XColorSelected.FromColor(Ed.Colors.TextSelBG);
   XColorOccur.FromColor(GetAppColor(apclEdMicromapOccur));
@@ -3102,7 +3101,8 @@ begin
         cLineStateSaved: XColor.FromColor(Ed.Colors.StateSaved);
         else Continue;
       end;
-      FMicromapBmp.FillRect(GetItemRect(0{column_0}, i, i, markColumn), XColor);
+      RectMark:= GetItemRect(0{column_0}, i, i, markColumn);
+      FMicromapBmp.FillRect(RectMark, XColor);
     end;
 
   //paint selections
@@ -3112,8 +3112,8 @@ begin
       Caret:= Ed.Carets[i];
       Caret.GetSelLines(NLine1, NLine2, false);
       if NLine1<0 then Continue;
-      R1:= GetItemRect(0, NLine1, NLine2, markRight);
-      FMicromapBmp.FillRect(R1, XColorSelected);
+      RectMark:= GetItemRect(0, NLine1, NLine2, markRight);
+      FMicromapBmp.FillRect(RectMark, XColorSelected);
     end;
 
   //paint background of columns added from Py API
@@ -3123,8 +3123,8 @@ begin
     if NColor<>clNone then
     begin
       XColor.FromColor(NColor);
-      R1:= Ed.RectMicromapMark(i, -1, -1, RectMap, EditorOps.OpMicromapMinMarkHeight);
-      FMicromapBmp.FillRect(R1, XColor);
+      RectMark:= Ed.RectMicromapMark(i, -1, -1, RectMap, EditorOps.OpMicromapMinMarkHeight);
+      FMicromapBmp.FillRect(RectMark, XColor);
     end;
   end;
 
@@ -3139,8 +3139,8 @@ begin
       NIndex:= BookmarkPtr^.Data.LineNum;
       if Ed.IsLineFolded(NIndex) then
         Continue;
-      R1:= Ed.RectMicromapMark(1{column}, NIndex, NIndex, RectMap, EditorOps.OpMicromapMinMarkHeight);
-      FMicromapBmp.FillRect(R1, XColor);
+      RectMark:= Ed.RectMicromapMark(1{column}, NIndex, NIndex, RectMap, EditorOps.OpMicromapMinMarkHeight);
+      FMicromapBmp.FillRect(RectMark, XColor);
     end;
   end;
 
@@ -3159,13 +3159,13 @@ begin
     case Marker.Tag of
       cTagSpellChecker:
         begin
-          R1:= GetItemRect(1{column_1}, NLine1, NLine2, markColumn);
-          FMicromapBmp.FillRect(R1, XColorSpell);
+          RectMark:= GetItemRect(1{column_1}, NLine1, NLine2, markColumn);
+          FMicromapBmp.FillRect(RectMark, XColorSpell);
         end;
       cTagOccurrences:
         begin
-          R1:= GetItemRect(1{column_1}, NLine1, NLine2, markColumn);
-          FMicromapBmp.FillRect(R1, XColorOccur);
+          RectMark:= GetItemRect(1{column_1}, NLine1, NLine2, markColumn);
+          FMicromapBmp.FillRect(RectMark, XColorOccur);
         end;
       else
         begin
@@ -3179,17 +3179,17 @@ begin
                 XColor.FromColor(LinePartObj.Data.ColorBG)
               else
                 XColor.FromColor(LinePartObj.Data.ColorBorder);
-              R1:= GetItemRect(NIndex, NLine1, NLine2, markColumn);
-              FMicromapBmp.FillRect(R1, XColor);
+              RectMark:= GetItemRect(NIndex, NLine1, NLine2, markColumn);
+              FMicromapBmp.FillRect(RectMark, XColor);
             end;
           end
           else
           if LinePartObj.ColumnTag=cTagColumnFullsized then
           begin
-            R1:= GetItemRect(0, NLine1, NLine2, markFull);
+            RectMark:= GetItemRect(0, NLine1, NLine2, markFull);
             //todo: not tested with BGRABitmap - it must give inverted colors
             XColor.FromColor(LinePartObj.Data.ColorBG);
-            FMicromapBmp.FillRect(R1, XColor, dmDrawWithTransparency, $8000);
+            FMicromapBmp.FillRect(RectMark, XColor, dmDrawWithTransparency, $8000);
           end;
         end;
       end;
