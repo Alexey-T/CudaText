@@ -3076,9 +3076,10 @@ begin
   XColor.FromColor(GetAppColor(apclEdMicromapBg));
   FMicromapBmp.Fill(XColor);
 
+  //make rect from (0,0) to fix bad vertical offset of marks with different "scrollbar_arrows"
   RectMap:= Rect(0, 0, ARect.Width, ARect.Height);
 
-  //paint full-width area of current view
+  //paint full-width area of current visible area
   RectMark:= GetItemRect(0, Ed.LineTop, Ed.LineBottom, markFull);
   XColor.FromColor(GetAppColor(apclEdMicromapViewBg));
   FMicromapBmp.FillRect(RectMark, XColor);
