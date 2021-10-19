@@ -461,6 +461,8 @@ end;
 
 function IsIgnoredCommand(N: integer): boolean;
 begin
+  Result:= false;
+  (*
   if not UiOps.CmdPaletteHideSimpleCommands then
     exit(false);
 
@@ -502,6 +504,7 @@ begin
     else
       Result:= false;
   end;
+  *)
 end;
 
 procedure TfmCommands.DoFilter;

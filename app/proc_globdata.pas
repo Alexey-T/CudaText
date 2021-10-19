@@ -275,7 +275,6 @@ type
 
     CmdPaletteFilterKeep: boolean;
     CmdPaletteFilterText: string;
-    CmdPaletteHideSimpleCommands: boolean;
 
     HistoryDisabledStr: string;
     HistoryItems: array[TAppHistoryElement] of boolean;
@@ -1780,7 +1779,6 @@ begin
 
     CmdPaletteFilterKeep:= false;
     CmdPaletteFilterText:= '';
-    CmdPaletteHideSimpleCommands:= false;
 
     HistoryDisabledStr:= '';
     for element:= Low(element) to High(element) do
