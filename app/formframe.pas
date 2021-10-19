@@ -3088,8 +3088,8 @@ begin
   if Ed.OptMicromapLineStates and (St.Count>=Ed.OptMicromapShowForMinCount) then
     for i:= 0 to St.Count-1 do
     begin
-      if Ed.IsLineFolded(i) then
-        Continue;
+      //if Ed.IsLineFolded(i) then
+      //  Continue;
       LineState:= St.LinesState[i];
       case LineState of
         cLineStateNone: Continue;
@@ -3134,8 +3134,8 @@ begin
     begin
       BookmarkPtr:= Bookmarks.ItemPtr[i];
       NIndex:= BookmarkPtr^.Data.LineNum;
-      if Ed.IsLineFolded(NIndex) then
-        Continue;
+      //if Ed.IsLineFolded(NIndex) then
+      //  Continue;
       RectMark:= Ed.RectMicromapMark(1{column}, NIndex, NIndex, ARect.Height, EditorOps.OpMicromapMinMarkHeight);
       FMicromapBmp.FillRect(RectMark, XColor);
     end;
