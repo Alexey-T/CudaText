@@ -3062,7 +3062,7 @@ var
   LinePartObj: TATLinePartClass;
   XColor, XColorSelected, XColorOccur, XColorSpell: TBGRAPixel;
   NColor: TColor;
-  R1: TRect;
+  R1, RectMap: TRect;
   NLine1, NLine2, NIndex, i: integer;
 begin
   St:= Ed.Strings;
@@ -3072,6 +3072,8 @@ begin
   if FMicromapBmp=nil then
     FMicromapBmp:= TBGRABitmap.Create;
   FMicromapBmp.SetSize(ARect.Width, ARect.Height);
+
+  RectMap:= Rect(0, 0, ARect.Width, ARect.Height);
 
   XColor.FromColor(GetAppColor(apclEdMicromapBg));
   FMicromapBmp.Fill(XColor);
@@ -3121,7 +3123,7 @@ begin
     if NColor<>clNone then
     begin
       XColor.FromColor(NColor);
-      R1:= Ed.RectMicromapMark(i, -1, -1, ARect, EditorOps.OpMicromapMinMarkHeight);
+      R1:= Ed.RectMicromapMark(i, -1, -1, RectMap, EditorOps.OpMicromapMinMarkHeight);
       FMicromapBmp.FillRect(R1, XColor);
     end;
   end;
@@ -3137,7 +3139,7 @@ begin
       NIndex:= BookmarkPtr^.Data.LineNum;
       if Ed.IsLineFolded(NIndex) then
         Continue;
-      R1:= Ed.RectMicromapMark(1{column}, NIndex, NIndex, ARect, EditorOps.OpMicromapMinMarkHeight);
+      R1:= Ed.RectMicromapMark(1{column}, NIndex, NIndex, RectMap, EditorOps.OpMicromapMinMarkHeight);
       FMicromapBmp.FillRect(R1, XColor);
     end;
   end;
