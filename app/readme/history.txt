@@ -3,6 +3,9 @@
   - fixed
   * changed
 
+- fix: regression: double-click on UI-tabs empty area didn't work (thanks @eltonfabricio10)
+- fix: micromap on scrollbar had vertical shift, when vertical "scrollbar_arrows" is 'normal' or 'both above'
+
 1.147.0 (2021/10)
 
 + add: before saving history/session file, check that disk free space is >1M, and give a Retry/Cancel messagebox if less (thanks @ertank)
