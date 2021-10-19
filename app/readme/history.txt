@@ -3,6 +3,7 @@
   - fixed
   * changed
 
+* change: removed option "ui_cmdpalette_hide_simple"; hiding of Palette items is not much needed and give problems with customizing hotkeys
 - fix: regression: double-click on UI-tabs empty area didn't work (thanks @eltonfabricio10)
 - fix: micromap on scrollbar: click on folded position did not unfold it (thanks @JairoMartinezA)
 - fix: micromap on scrollbar: bad vertical shift, when vertical "scrollbar_arrows" is 'normal' or 'both above'

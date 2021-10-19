@@ -1369,7 +1369,7 @@ begin
   UiOps.MaxHistoryFiles:= Max(0, Min(400, cfg.GetValue('ui_max_history_files', UiOps.MaxHistoryFiles)));
 
   UiOps.CmdPaletteFilterKeep:= cfg.GetValue('ui_cmdpalette_filter_keep', UiOps.CmdPaletteFilterKeep);
-  UiOps.CmdPaletteHideSimpleCommands:= cfg.GetValue('ui_cmdpalette_hide_simple', UiOps.CmdPaletteHideSimpleCommands);
+  //UiOps.CmdPaletteHideSimpleCommands:= cfg.GetValue('ui_cmdpalette_hide_simple', UiOps.CmdPaletteHideSimpleCommands);
 
   UiOps.HistoryDisabledStr:= cfg.GetValue('ui_history_disabled', UiOps.HistoryDisabledStr);
   for element:= Low(element) to High(element) do

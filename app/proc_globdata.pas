@@ -1780,7 +1780,7 @@ begin
 
     CmdPaletteFilterKeep:= false;
     CmdPaletteFilterText:= '';
-    CmdPaletteHideSimpleCommands:= true;
+    CmdPaletteHideSimpleCommands:= false;
 
     HistoryDisabledStr:= '';
     for element:= Low(element) to High(element) do
