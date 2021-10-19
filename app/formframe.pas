@@ -3036,8 +3036,7 @@ var
 //
   function GetItemRect(AColumn, NLine1, NLine2: integer; AMarkPos: TAppMicromapMarkPos): TRect;
   begin
-    Result:= Ed.RectMicromapMark(AColumn, NLine1, NLine2, ARect, EditorOps.OpMicromapMinMarkHeight);
-    OffsetRect(Result, 0, -ARect.Top);
+    Result:= Ed.RectMicromapMark(AColumn, NLine1, NLine2, ARect.Height, EditorOps.OpMicromapMinMarkHeight);
     case AMarkPos of
       markRight:
         begin
@@ -3062,7 +3061,7 @@ var
   LinePartObj: TATLinePartClass;
   XColor, XColorSelected, XColorOccur, XColorSpell: TBGRAPixel;
   NColor: TColor;
-  RectMark, RectMap: TRect;
+  RectMark: TRect;
   NLine1, NLine2, NIndex, i: integer;
 begin
   St:= Ed.Strings;
@@ -3075,9 +3074,6 @@ begin
 
   XColor.FromColor(GetAppColor(apclEdMicromapBg));
   FMicromapBmp.Fill(XColor);
-
-  //make rect from (0,0) to fix bad vertical offset of marks with different "scrollbar_arrows"
-  RectMap:= Rect(0, 0, ARect.Width, ARect.Height);
 
   //paint full-width area of current visible area
   RectMark:= GetItemRect(0, Ed.LineTop, Ed.LineBottom, markFull);
@@ -3124,7 +3120,7 @@ begin
     if NColor<>clNone then
     begin
       XColor.FromColor(NColor);
-      RectMark:= Ed.RectMicromapMark(i, -1, -1, RectMap, EditorOps.OpMicromapMinMarkHeight);
+      RectMark:= Ed.RectMicromapMark(i, -1, -1, ARect.Height, EditorOps.OpMicromapMinMarkHeight);
       FMicromapBmp.FillRect(RectMark, XColor);
     end;
   end;
@@ -3140,7 +3136,7 @@ begin
       NIndex:= BookmarkPtr^.Data.LineNum;
       if Ed.IsLineFolded(NIndex) then
         Continue;
-      RectMark:= Ed.RectMicromapMark(1{column}, NIndex, NIndex, RectMap, EditorOps.OpMicromapMinMarkHeight);
+      RectMark:= Ed.RectMicromapMark(1{column}, NIndex, NIndex, ARect.Height, EditorOps.OpMicromapMinMarkHeight);
       FMicromapBmp.FillRect(RectMark, XColor);
     end;
   end;
