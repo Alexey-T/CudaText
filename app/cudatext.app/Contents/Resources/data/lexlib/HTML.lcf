@@ -558,7 +558,7 @@ object SyntAnal7: TLibSyntAnalyzer
           TokenTypes = 1024
         end>
       BlockEnd = 'Tag block end'
-      NameFmt = '<%sz0'
+      NameFmt = '<%s0...>'
       DynHighlight = dhBound
       HighlightPos = cpRange
       DynSelectMin = True
@@ -579,29 +579,6 @@ object SyntAnal7: TLibSyntAnalyzer
           TokenTypes = 1024
         end>
       SameIdent = True
-      HighlightPos = cpBound
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = 'Comment begin'
-      ConditionList = <
-        item
-          TokenTypes = 2
-        end>
-      BlockEnd = 'Comment end'
-      DisplayInTree = False
-      HighlightPos = cpBound
-      DynSelectMin = True
-      CollapseFmt = '<!--  ...  -->'
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = 'Comment end'
-      BlockType = btRangeEnd
-      ConditionList = <
-        item
-          TokenTypes = 2
-        end>
       HighlightPos = cpBound
       IgnoreAsParent = False
     end
