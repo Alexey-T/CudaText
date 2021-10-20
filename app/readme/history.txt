@@ -3,6 +3,8 @@
   - fixed
   * changed
 
+- fix: huge memory consumption (by code-tree) on HTML files with huge line(s), e.g. 300K (thanks @JairoMartinezA)
+
 1.147.1 (2021/10)
 
 * change: removed option "ui_cmdpalette_hide_simple"; all Palette items are visible now; hiding of Palette items is not much needed and give problems with customizing hotkeys
