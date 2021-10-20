@@ -49,6 +49,7 @@ TYPES = {
     "adxl": ['DOORS DXL'],
     "ahk": ['AutoHotkey'],
     "am": ['Automake'],
+    "ampl": ['AMPL'],
     "applescript": ['AppleScript'],
     "arr": ['Pyret'],
     "as": ['ActionScript', 'Haskell'],
