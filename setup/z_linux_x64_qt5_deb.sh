@@ -88,6 +88,12 @@ mv $dd/usr/share/doc/cudatext/changelog.gz $dd/usr/share/doc/cudatext/changelog.
 sudo chmod -R 755 $dd
 sudo chmod 644 $dd/usr/share/applications/cudatext.desktop
 sudo chmod 644 $dd/usr/share/doc/cudatext/*
+sudo chmod 644 $dd/usr/share/pixmaps/cudatext*.png
 sudo chown -R root:root $dd
 sudo rm -rf $dd/usr/share/cudatext/py/cuda_lexer_detecter/__pycache__
+
+cd $dd/usr/share/cudatext
+sudo find . -type f -exec chmod 644 {} +
+sudo find . -type d -exec chmod 755 {} +
+
 dpkg-deb --build $dd $outdir/$debname.deb
