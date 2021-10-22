@@ -12,8 +12,7 @@ sudo rm -rf $dd
 
 mkdir -p $dd
 mkdir $dd/DEBIAN
-cp debfiles/control_qt5 $dd/DEBIAN/control
-cp debfiles/copyright $dd/DEBIAN
+cp debfiles/control $dd/DEBIAN
 
 mkdir $dd/usr
 mkdir $dd/usr/bin
@@ -39,12 +38,15 @@ mkdir $dd/usr/share/cudatext/py/cuda_show_unsaved
 mkdir $dd/usr/share/cudatext/py/sys
 mkdir $dd/usr/share/pixmaps
 mkdir $dd/usr/share/applications
+mkdir $dd/usr/share/doc
+mkdir $dd/usr/share/doc/cudatext
 
 cp ../app/builds/linux-x64-qt5/cudatext $dd/usr/bin
 cp debfiles/cudatext.desktop $dd/usr/share/applications
 cp debfiles/cudatext-512.png $dd/usr/share/pixmaps
 cp -r ../app/data $dd/usr/share/cudatext
 cp -r ../app/settings_default $dd/usr/share/cudatext
+cp debfiles/copyright $dd/usr/share/doc/cudatext
 
 ###py
 cp -r ../app/py/*.py $dd/usr/share/cudatext/py
@@ -79,6 +81,13 @@ rm -rf ../app/py/cuda_show_unsaved/__pycache__
 cp -r ../app/py/cuda_show_unsaved $dd/usr/share/cudatext/py
 cp -r ../app/py/sys $dd/usr/share/cudatext/py
 
+cp debfiles/changelog $dd/usr/share/doc/cudatext
+gzip --best -n $dd/usr/share/doc/cudatext/changelog
+mv $dd/usr/share/doc/cudatext/changelog.gz $dd/usr/share/doc/cudatext/changelog.Debian.gz
+
 sudo chmod -R 755 $dd
+sudo chmod 644 $dd/usr/share/applications/cudatext.desktop
+sudo chmod 644 $dd/usr/share/doc/cudatext/*
 sudo chown -R root:root $dd
+sudo rm -rf $dd/usr/share/cudatext/py/cuda_lexer_detecter/__pycache__
 dpkg-deb --build $dd $outdir/$debname.deb
