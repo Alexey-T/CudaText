@@ -819,19 +819,19 @@ Hello world.
 </pre>
 
 =FindInFiles=
+This plugin implements searching in many files, starting from custom folder. CudaText doesn't have the built-in feature to search in many files, and seems it will not have it in future, because FindInFiles is so powerful, it even has the Configuration dialog with dozens of options.
+
+Project Manager plugin allows to call FindInFiles functionality. Focus a folder in Project Manager, call context menu, and then "Selected directory / Find in directory..." menu item.
 
 ==FiF3 and FiF4: comparison and future==
-CudaText now has two plugins to search in files/tabs:
+CudaText has two plugins to search in files/tabs:
 
-* FindInFiles-v3 (FiF3)
-* FindInFiles-v4 (FiF4)
+* FindInFiles v3 (FiF3)
+* FindInFiles v4 (FiF4)
 
-Important:
+Important: FiF3 is almost frozen. Only serious bugs will be fixed. No plans to hide/delete FiF3. FiF4 supersedes FiF3.
 
-* FiF3 is almost frozen. Only serious bugs will be fixed. No plans to hide/delete FiF3. 
-* FiF4 supersedes FiF3.
-
-Details of comparison.
+Detailed comparison.
 
 Common features:
 
