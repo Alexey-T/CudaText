@@ -1,8 +1,14 @@
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: cudatext
-Source:
-
+Upstream-Contact: https://github.com/Alexey-T/CudaText/issues
+Source: https://github.com/Alexey-T/CudaText/
 
 Files: *
-Copyright: 2015-2018 UVviewsoft
+Copyright: 2015 Alexey Torgashin <support@uvviewsoft.com>
+           UVviewsoft.com
 License: MPL-2.0
+
+License: MPL-2.0
+ This Source Code Form is subject to the terms of the Mozilla Public
+ License, v. 2.0. If a copy of the MPL was not distributed with this
+ file, You can obtain one at http://mozilla.org/MPL/2.0/.
