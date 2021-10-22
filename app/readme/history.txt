@@ -4,6 +4,7 @@
   * changed
 
 + add: tab groups: click on empty group area (when no tabs) opens a new tab there
+- fix: regression: "Save as" must change lexer according to the new name (thanks @WebMechanic)
 - fix: huge memory consumption (by code-tree) on HTML files with huge line(s), e.g. 300K (thanks @JairoMartinezA)
 
 1.147.1 (2021/10)
