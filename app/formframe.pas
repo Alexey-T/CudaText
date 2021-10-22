@@ -2511,9 +2511,9 @@ begin
   DoHideNotificationPanel(EditorObjToIndex(Ed));
 
   SFileName:= GetFileName(Ed);
-  bNameChanged:= false;
+  bNameChanged:= ASaveAs or (SFileName='');
 
-  if ASaveAs or (SFileName='') then
+  if bNameChanged then
   begin
     An:= Lexer[Ed];
     if Assigned(An) then
@@ -2573,7 +2573,6 @@ begin
       FOnAddRecent(Ed);
 
     SFileName:= SaveDialog.FileName;
-    bNameChanged:= true;
 
     //remove read-only (it may be set for original file)
     ReadOnly[Ed]:= false;
