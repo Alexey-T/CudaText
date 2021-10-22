@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=CudaText
 GenericName=Text Editor
-Comment=Text and code editor. Syntax highlighting for 200+ languages. Supports all major encodings. Multi-carets and multi-selections. UI with tabs and sidebar. Search and replace with regex.
+Comment=Text and code editor. Syntax highlighting for 250+ languages. Supports all major encodings. Multi-carets and multi-selections. UI with tabs and sidebar. Search and replace with regex.
 Exec=cudatext %F
 Terminal=false
 Type=Application
