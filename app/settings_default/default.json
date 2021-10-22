@@ -609,7 +609,7 @@
   //Caret blinking enabled
   "caret_blink_en": true,
 
-  //Enable multi-carets, see "Help--Mouse usage"
+  //Enable multi-carets (more than a single caret)
   "caret_multi": true,
 
   //Caret shape is 2-3 values (3rd is optional), comma-separated: width,height,options
