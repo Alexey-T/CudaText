@@ -2495,7 +2495,7 @@ end;
 function TEditorFrame.DoFileSave_Ex(Ed: TATSynEdit; ASaveAs: boolean): boolean;
 var
   An: TecSyntAnalyzer;
-  PrevEnabled, bNameChanged: boolean;
+  bNameChanged, bNotifWasEnabled: boolean;
   NameCounter: integer;
   SFileName, NameTemp, NameInitial: string;
   EventRes: TAppPyEventResult;
@@ -2582,7 +2582,7 @@ begin
       FOnAddRecent(Ed);
   end;
 
-  PrevEnabled:= NotifEnabled;
+  bNotifWasEnabled:= NotifEnabled;
   NotifEnabled:= false;
 
   //EditorSaveFileAs is big:
@@ -2611,7 +2611,7 @@ begin
   else
     AppGetFileProps(GetFileName(Ed), FileProps2);
 
-  NotifEnabled:= PrevEnabled or bNameChanged;
+  NotifEnabled:= bNotifWasEnabled or bNameChanged;
 end;
 
 procedure TEditorFrame.DoFileReload_DisableDetectEncoding(Ed: TATSynEdit);
