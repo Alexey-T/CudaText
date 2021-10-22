@@ -2591,7 +2591,7 @@ begin
   Result:= EditorSaveFileAs(Ed, SFileName);
 
   if bNameChanged then
-    DoLexerFromFilename(Ed, GetFileName(Ed));
+    DoLexerFromFilename(Ed, SFileName);
 
   if Result then
   begin
