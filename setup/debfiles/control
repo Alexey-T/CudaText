@@ -5,7 +5,7 @@ Priority: optional
 Architecture: amd64
 Maintainer: Alexey Torgashin <support@uvviewsoft.com>
 Homepage: http://uvviewsoft.com/
-Depends: libgtk2.0-0 (>= 2.20.0), python (>= 3.5)
+Depends: libgtk2.0-0 (>= 2.20.0), python3 (>= 3.5)
 Installed-Size: 15000
 Description: Text/code editor
  Text/code editor with lite UI. Syntax highlighting for 250+ languages.
