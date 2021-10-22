@@ -5,13 +5,10 @@
 
 1.147.2 (2021/10)
 
-+ add: tab groups: click on empty group area (when no tabs) opens a new tab there
++ add: click on empty tab-group area opens a new tab there
+* change: removed option "ui_cmdpalette_hide_simple"; all Palette items are visible now; hiding of Palette items is not much needed and give problems with customizing hotkeys
 - fix: regression: "Save as" must change lexer according to the new name (thanks @WebMechanic)
 - fix: huge memory consumption (by code-tree) on HTML/CSS files with huge lines, ie on 'minified' files (thanks @JairoMartinezA)
-
-1.147.1 (2021/10)
-
-* change: removed option "ui_cmdpalette_hide_simple"; all Palette items are visible now; hiding of Palette items is not much needed and give problems with customizing hotkeys
 - fix: regression: double-click on UI-tabs empty area didn't work (thanks @eltonfabricio10)
 - fix: micromap on scrollbar: click on folded position did not unfold it (thanks @JairoMartinezA)
 - fix: micromap on scrollbar: bad vertical shift, when vertical "scrollbar_arrows" is 'normal' or 'both above'
