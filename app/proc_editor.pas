@@ -338,6 +338,7 @@ begin
     Ed.OptCaretManyAllowed:= Op.OpCaretMulti;
     Ed.OptCaretsAddedToColumnSelection:= Op.OpCaretsAddedToColumnSel;
     Ed.OptCaretsPrimitiveColumnSelection:= Op.OpCaretsPrimitiveColumnSel;
+    Ed.OptCaretProximityVert:= Op.OpCaretProximityVert;
     Ed.OptScrollLineCommandsKeepCaretOnScreen:= Op.OpCaretKeepVisibleOnScroll;
 
     Ed.OptShowCurLine:= Op.OpShowCurLine;

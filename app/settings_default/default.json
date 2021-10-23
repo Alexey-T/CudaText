@@ -645,6 +645,10 @@
   //Sublime Text. Value "false" is also useful, it mimics some Windows editors.
   "carets_primitive_column_sel": true,
 
+  //If value N>0, editor will try to keep at least N lines from caret to the
+  //top/bottom, on scrolling up/down. Works only with single caret.
+  "caret_proximity_vert": 0,
+
   //[Find]
   //Find dialog: show window, not docked to app bottom (applied after restart)
   "find_separate_form": false,

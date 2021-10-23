@@ -588,6 +588,7 @@ type
     OpCaretsAddedToColumnSel: boolean;
     OpCaretsPrimitiveColumnSel: boolean;
     OpCaretKeepVisibleOnScroll: boolean;
+    OpCaretProximityVert: integer;
 
     //general
     OpKeepSelFontColor: boolean;
@@ -1571,6 +1572,7 @@ begin
     OpCaretsAddedToColumnSel:= true;
     OpCaretKeepVisibleOnScroll:= true;
     OpCaretsPrimitiveColumnSel:= true;
+    OpCaretProximityVert:= 0;
 
     OpKeepSelFontColor:= false;
     OpShowCurLine:= false;

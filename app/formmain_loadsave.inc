@@ -1098,6 +1098,7 @@ begin
   Op.OpCaretsAddedToColumnSel:= cfg.GetValue('carets_with_column_sel', Op.OpCaretsAddedToColumnSel);
   Op.OpCaretsPrimitiveColumnSel:= cfg.GetValue('carets_primitive_column_sel', Op.OpCaretsPrimitiveColumnSel);
   Op.OpCaretKeepVisibleOnScroll:= cfg.GetValue('caret_keep_visible_on_scroll', Op.OpCaretKeepVisibleOnScroll);
+  Op.OpCaretProximityVert:= cfg.GetValue('caret_proximity_vert', Op.OpCaretProximityVert);
 
   Op.OpKeepSelFontColor:= cfg.GetValue('keep_sel_font_color', Op.OpKeepSelFontColor);
   Op.OpShowCurLine:= cfg.GetValue('show_cur_line', Op.OpShowCurLine);
