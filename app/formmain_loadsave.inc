@@ -936,6 +936,11 @@ begin
         ATScrollbarTheme.ArrowStyleV:= TATScrollbarArrowsStyle(N);
   end;
 
+  s:= cfg.GetValue('renderer_tweaks', '');
+  //ellipsis char width
+  if Pos('e', s)>0 then
+    ATSynEdit_CharSizeArray.FixedSizes[$2026]:= _norm;
+
   ATScrollbarTheme.DirectJumpOnClickPageUpDown:= cfg.GetValue('scrollbar_click_jump',
     ATScrollbarTheme.DirectJumpOnClickPageUpDown);
 

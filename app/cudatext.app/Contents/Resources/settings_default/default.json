@@ -124,6 +124,10 @@
   "renderer_offsets__linux": false,
   "renderer_offsets__mac": false,
 
+  //Tweaks for renderer. Value is a string of several chars:
+  //  if 'e' in value: Ellipsis-char U+2026 has width 100%, otherwise 190%
+  "renderer_tweaks": "",
+
   //Allows to use width of Unicode characters proportional to font.
   //Note: this option is global, not per-lexer.
   "unicode_proportional": true,
