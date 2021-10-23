@@ -673,6 +673,7 @@ class DialogMK2:
                 'p': 'panel_right',
                 'align': ALIGN_BOTTOM,
                 'h': 120,
+                'h_min': 100, # avoid resizing to zero
                 'y': 4000,  # https://github.com/Alexey-T/CudaText/issues/3679#issuecomment-904845613
                 'sp_t': PAD,
                 })
