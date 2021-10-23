@@ -5,7 +5,7 @@
 
 1.147.3 (2021/10)
 
-+ add: option "caret_proximity_vert"; default is 0, ie not active (thanks @hiiamboris)
++ add: option "caret_proximity_vert", which allows to keep caret on the distance from top/bottom edge (thanks @hiiamboris)
 
 1.147.2 (2021/10)
 
