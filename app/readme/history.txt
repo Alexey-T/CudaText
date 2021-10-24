@@ -3,11 +3,11 @@
   - fixed
   * changed
 
-1.147.3 (2021/10)
+1.147.5 (2021/10)
 
-+ add: option "caret_proximity_vert", which allows to keep caret on the distance from top/bottom edge (thanks @hiiamboris)
-+ add: option "renderer_tweaks", which allows to set width of 'ellipsis' char
 + add: support Python 3.10 (thanks @pyscripter)
++ add: option "caret_proximity_vert", which allows to keep caret on the distance from top/bottom edge (thanks @hiiamboris)
++ add: option "renderer_tweaks", which allows to set width of the 'ellipsis' char
 
 1.147.2 (2021/10)
 
