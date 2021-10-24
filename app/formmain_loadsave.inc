@@ -902,6 +902,8 @@ begin
 end;
 
 procedure TfmMain.DoOps_LoadOptions_Global(cfg: TJSONConfig);
+const
+  cCharEllipsis = $2026;
 var
   Sep: TATStringSeparator;
   List: TStringList;
@@ -937,9 +939,10 @@ begin
   end;
 
   s:= cfg.GetValue('renderer_tweaks', '');
-  //ellipsis char width
   if Pos('e', s)>0 then
-    ATSynEdit_CharSizeArray.FixedSizes[$2026]:= _norm;
+    ATSynEdit_CharSizeArray.FixedSizes[cCharEllipsis]:= _norm
+  else
+    ATSynEdit_CharSizeArray.FixedSizes[cCharEllipsis]:= _full;
 
   ATScrollbarTheme.DirectJumpOnClickPageUpDown:= cfg.GetValue('scrollbar_click_jump',
     ATScrollbarTheme.DirectJumpOnClickPageUpDown);
