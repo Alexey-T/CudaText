@@ -3,6 +3,9 @@
   - fixed
   * changed
 
+1.148.0 (2021/10)
+
++ add: improve option "mouse_rt_click_moves_caret", so that right-click over selection never resets that selection (thanks @sl23)
 - fix: command "unindent" shrinked selection if selection ended on a line end (thanks @eltonfabricio10)
 
 1.147.5 (2021/10)
