@@ -55,7 +55,8 @@ Screenshot on Windows:
 * UI can be scaled by option (up to 500%)
 * Single-instance mode is supported on all OS'es
 * Scrolling after middle-button click (called "Autoscrolling" in Firefox)
-* [[#Show_pictures_in_the_text|Show pictures in the text]]
+* [[CudaText_plugins#Insert_Pics|Show pictures in the text]]
+* [[CudaText_plugins#Color_Text|Colorize the text]]
 * [[#Activating_internet_links|Activating internet links]]
 * [[#Automatic_folding_of_comments|Automatic folding of comments]]
 * [[#Special_HTML_auto-completion|HTML auto-completion suggests file/folder names]]
@@ -1610,11 +1611,6 @@ Control of UI tabs is named ATTabs, and has many features:
 [[File:cudatext-tabs-red-marker.png]]
 
 * Tabs can be made "pinned" using tab's context menu item "Pinned". Pinned tab caption renders with a "!" prefix char. Commands "Close all tabs" and "Close other tabs" skip pinned tabs. Closing of a pinned tab shows additional confirmation like "Tab is pinned... Are you sure you want to close it?".
-
-==Show pictures in the text==
-CudaText gives the plugin API to show pictures between the text lines.
-These spaces between lines are called "gaps".
-Plugin "Insert Pics" exists to show picture files in gaps: [[CudaText_plugins#Insert_Pics]].
 
 ==Activating internet links==
 CudaText allows to activate internet links (URLs) and e-mails (e-mail can be with the 'mailto:' and without it).
