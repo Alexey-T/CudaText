@@ -904,6 +904,8 @@ Plugin "Color Text" gives several commands (in the Plugins menu) to add coloring
 Plugin uses the selected text, without selection it uses word under first caret.
 On applying the coloring, plugin marks file as "modified".
 
+[[File:cudatext-color-text.png]]
+
 The data of coloring is saved to additional 'helper file' with extension .cuda-colortext, in the folder of the original file. After you delete this 'helper file', plugin will not load its data on next start.
 
 Not only background color can be changed, but also border color, and font styles (bold, italic, stikeout).
