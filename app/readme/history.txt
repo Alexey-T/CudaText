@@ -3,6 +3,8 @@
   - fixed
   * changed
 
+- fix: command "unindent" shrinked selection if selection ended on a line end (thanks @eltonfabricio10)
+
 1.147.5 (2021/10)
 
 + add: support Python 3.10 (thanks @pyscripter)
