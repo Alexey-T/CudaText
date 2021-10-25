@@ -898,6 +898,23 @@ You can customize that special lines, using plugin configuration dialog: menu it
 That configuration means that for "poor" files (without lexer, or with lexer without line comments), plugin uses lines beginning with "//NOTE:" or "//NB!" or "//TODO:" etc.
 For files with rich lexers, plugin uses lexer's line-comment prefix.
 
+=Color Text=
+
+Plugin "Color Text" gives several commands (in the Plugins menu) to add coloring to text ranges.
+Plugin uses the selected text, without selection it uses word under first caret.
+On applying the coloring, plugin marks file as "modified".
+
+The data of coloring is saved to additional 'helper file' with extension .cuda-colortext, in the folder of the original file. After you delete this 'helper file', plugin will not load its data on next start.
+
+Not only background color can be changed, but also border color, and font styles (bold, italic, stikeout).
+To specify coloring/styles, you have to edit the plugin config file.
+To edit the config file, call menu item "Options / Settings-plugins / Color Text". Options are:
+
+* "all_words": Colorize all occurrences of fragment.
+* "case_sensitive": Case sensitive search for other occurrences.
+* "whole_words": Colorize only those occurrences, which are whole words.
+* "show_on_map": Show added colored marks also on micro-map.
+
 =Insert Pics=
 CudaText gives the plugin API to show pictures between the text lines.
 These spaces between lines are called "gaps".
