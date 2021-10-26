@@ -411,7 +411,6 @@ begin
   M.Add(cmd_ToggleSidePanel, 'ui: toggle side panel', [{$ifndef darwin}'F12'{$endif}], []);
   M.Add(cmd_ToggleSidePanelAndSyntaxTree, 'ui: toggle side panel / code tree', [], []);
   M.Add(cmd_ToggleBottomPanel, 'ui: toggle bottom panel', [], []);
-  M.Add(cmd_ToggleFindDialog, 'ui: toggle find/replace dialog', [], []);
   M.Add(cmd_ToggleSidebar, 'ui: toggle sidebar', [], []);
   M.Add(cmd_ToggleToolbar, 'ui: toggle toolbar', [], []);
   M.Add(cmd_ToggleStatusbar, 'ui: toggle statusbar', [], []);
@@ -458,9 +457,10 @@ begin
   M.Add(cmd_DialogThemeSyntax, 'dialog: config syntax-theme', [], []);
   M.Add(cmd_DialogCharMap, 'dialog: char map', [], []);
 
-  M.Add(cmd_DialogFind, 'dialog: find', [cXControl+'+F'], []);
-  M.Add(cmd_DialogReplace, 'dialog: replace', [cXControl+'+R'], []);
-  M.Add(cmd_DialogFind_Hide, 'hide dialog: find', [], []);
+  M.Add(cmd_DialogFind, 'dialog: find: show dialog', [cXControl+'+F'], []);
+  M.Add(cmd_DialogFind_Hide, 'dialog: find: hide dialog', [], []);
+  M.Add(cmd_ToggleFindDialog, 'dialog: find: toggle dialog', [], []);
+  M.Add(cmd_DialogReplace, 'dialog: replace: show dialog', [cXControl+'+R'], []);
 
   M.Add(cmd_FindFirst, 'find, first', [], []);
   M.Add(cmd_FindNext, 'find, next', ['F3'], []);
