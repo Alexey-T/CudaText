@@ -117,6 +117,7 @@ const
   cmd_ShowPanelConsole_AndFocus   = 2561;
   cmd_ShowPanelOutput_AndFocus    = 2562;
   cmd_ShowPanelValidate_AndFocus  = 2563;
+  cmd_ToggleReplaceDialog = 2564;
   cmd_ToggleSidePanelAndSyntaxTree = 2565;
   cmd_OpsFontSizeReset = 2566;
   cmd_FindPythonLib = 2567;
@@ -461,6 +462,7 @@ begin
   M.Add(cmd_DialogFind_Hide, 'dialog: find: hide dialog', [], []);
   M.Add(cmd_ToggleFindDialog, 'dialog: find: toggle dialog', [], []);
   M.Add(cmd_DialogReplace, 'dialog: replace: show dialog', [cXControl+'+R'], []);
+  M.Add(cmd_ToggleReplaceDialog, 'dialog: replace: toggle dialog', [], []);
 
   M.Add(cmd_FindFirst, 'find, first', [], []);
   M.Add(cmd_FindNext, 'find, next', ['F3'], []);

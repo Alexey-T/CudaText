@@ -1049,7 +1049,7 @@ type
     procedure DoToggleDistractionFree;
     procedure DoToggleSidePanel;
     procedure DoToggleBottomPanel;
-    procedure DoToggleFindDialog;
+    procedure DoToggleFindReplaceDialog(AIsReplace: boolean);
     procedure DoToggleSidebar;
     procedure DoToggleToolbar;
     procedure DoToggleStatusbar;
@@ -5724,17 +5724,28 @@ begin
     Visible:= not Visible;
 end;
 
-procedure TfmMain.DoToggleFindDialog;
+procedure TfmMain.DoToggleFindReplaceDialog(AIsReplace: boolean);
 var
-  bBottom: boolean;
+  bFocusedBottom: boolean;
 begin
-  bBottom:= IsFocusedFind;
-
+  bFocusedBottom:= IsFocusedFind;
   InitFormFind;
-  fmFind.Visible:= not fmFind.Visible;
+
+  if fmFind.Visible then
+  begin
+    if fmFind.IsReplace<>AIsReplace then
+      fmFind.IsReplace:= AIsReplace
+    else
+      fmFind.Hide;
+  end
+  else
+  begin
+    fmFind.IsReplace:= AIsReplace;
+    fmFind.Show;
+  end;
 
   if not fmFind.Visible then
-    if bBottom then
+    if bFocusedBottom then
       CurrentFrame.SetFocus;
 end;
 

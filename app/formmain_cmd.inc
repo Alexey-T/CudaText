@@ -243,7 +243,9 @@ begin
       end;
 
     cmd_ToggleFindDialog:
-      DoToggleFindDialog;
+      DoToggleFindReplaceDialog(false);
+    cmd_ToggleReplaceDialog:
+      DoToggleFindReplaceDialog(true);
 
     cmd_ToggleSidebar:
       begin

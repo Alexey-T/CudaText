@@ -312,6 +312,7 @@ cmd_OpsFontSizeSmaller = 2560
 cmd_ShowPanelConsole_AndFocus  = 2561
 cmd_ShowPanelOutput_AndFocus   = 2562
 cmd_ShowPanelValidate_AndFocus = 2563
+cmd_ToggleReplaceDialog = 2564
 cmd_ToggleSidePanelAndSyntaxTree = 2565
 cmd_OpsFontSizeReset = 2566
 cmd_FindPythonLib = 2567
