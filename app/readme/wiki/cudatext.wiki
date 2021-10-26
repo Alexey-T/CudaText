@@ -2618,7 +2618,7 @@ Root keys:
 ** "brd_c_l", "brd_c_r", "brd_c_t", "brd_c_b": str: color of border (left, right, top, bottom), in Pascal format.
 ** "brd_t_l", "brd_t_r", "brd_t_t", "brd_t_b": int: type of border (left, right, top, bottom). Values 0..9: None, Solid, Dash, Dot, DashDot, DashDotDot, Solid2, Solid3, WavyLine, Double.
 
-Color in Pascal format: hex number (6..8 digits) with "$" prefix, or constants. See possible constants (with hex values) in Lazarus file Graphics.pp, where string 'clBlack' is defined. https://github.com/graemeg/lazarus/blob/upstream/lcl/graphics.pp
+Color in Pascal format: hex number (6..8 digits) with "$" prefix, or constants. See possible constants (with hex values) in Lazarus file Graphics.pp, where string 'clBlack' is defined. https://gitlab.com/freepascal.org/lazarus/lazarus/-/blob/main/lcl/graphics.pp
 
 ==More==
 
