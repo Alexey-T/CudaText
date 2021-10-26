@@ -292,10 +292,14 @@ begin
       end;
     end
     else
+    begin
+      MsgLogConsole('ERROR: Unknown icon file type: '+AFilename);
       exit;
+    end;
 
     Result:= AList.Count-1;
   except
+    MsgLogConsole('ERROR: Error loading icon from file: '+AFilename);
   end;
 end;
 
