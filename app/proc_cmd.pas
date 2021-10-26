@@ -454,8 +454,8 @@ begin
   M.Add(cmd_DialogLexerProp, 'dialog: lexer properties', [], []);
   M.Add(cmd_DialogLexerLib, 'dialog: lexer library', [], []);
   M.Add(cmd_DialogLexerStyleMap, 'dialog: lexer styles mapping', [], []);
-  M.Add(cmd_DialogThemeUi, 'dialog: config ui-theme', [], []);
-  M.Add(cmd_DialogThemeSyntax, 'dialog: config syntax-theme', [], []);
+  M.Add(cmd_DialogThemeUi, 'dialog: configure ui-theme', [], []);
+  M.Add(cmd_DialogThemeSyntax, 'dialog: configure syntax-theme', [], []);
   M.Add(cmd_DialogCharMap, 'dialog: char map', [], []);
 
   M.Add(cmd_DialogFind, 'dialog: find: show dialog', [cXControl+'+F'], []);
