@@ -259,7 +259,12 @@ var
   ext: string;
 begin
   Result:= -1;
-  if not FileExists(AFilename) then exit;
+  if not FileExists(AFilename) then
+  begin
+    MsgLogConsole('ERROR: Missing icon filename: '+AFilename);
+    exit;
+  end;
+
   ext:= ExtractFileExt(AFilename);
 
   try
