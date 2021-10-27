@@ -8,7 +8,7 @@
 * change: renamed command "ui: toggle find dialog" to "dialog: find: toggle dialog", also changed logic of this command a little
 + add: added command "dialog: replace: toggle dialog" (thanks @sl23)
 + add: improved option "mouse_rt_click_moves_caret", so that right-click over selection never resets that selection (thanks @sl23)
-+ add: show Console error message when icon filename is missed in the toolbar-theme folder
++ add: show Console error message when required icon filename is missed (in toolbar-theme, in sidebar-theme etc.)
 - fix: command "unindent selection" shrinked selection if it was ended on a non-empty line end (thanks @eltonfabricio10)
 
 1.147.5 (2021/10)
