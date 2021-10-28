@@ -586,6 +586,17 @@ Screenshot of SynWrite dialog:
 
 [[File:cudatext-lexer-editor-dlg.png]]
 
+=== Lexers editing - styles only ===
+
+For full-featured lexer editing, you must use SynWrite as described in the topic above.
+CudaText itself allows to edit only lexer styles, ie colors/ borders/ font-style (bold/italic/strikeout) of lexer styles. How to do that:
+
+* Activate some lexer for the current document.
+* Call CudaText menu "Options / Lexers / Lexer properties", dialog "Lexer properties" will open.
+* In the "Lexer properties" dialog, activate "Styles" tab, it has UI to customize styles in the active lexer. This UI is enabled only when lexer themes are Off, ie option "ui_lexer_themes":false.
+
+By default that option is On so UI is disabled. If you enable the UI, you can customize all lexer styles. Configuration will be saved to the files "settings/*.cuda-lexops". These files are auto-loaded by CudaText on start.
+
 === How to setup styles of hidden sublexer ===
 
 Some lexers are distributed in packages together with sub-lexer, and sub-lexer is hidden. Example: "HTML Django" with sub-lexer "HTML Django internal" (the second one isn't visible in the Lexers menu, so it's called hidden). Users, which have option "ui_lexer_themes" off, want to configure styles of all lexers. How to access hidden ones?
