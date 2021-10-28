@@ -1,4 +1,4 @@
-object SyntAnal5: TLibSyntAnalyzer
+object SyntAnal4: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Symbol'
@@ -206,8 +206,8 @@ object SyntAnal5: TLibSyntAnalyzer
       StyleName = 'Symbol'
       TokenType = 3
       Expression = 
-        '\[\[| \]\]| \.\.\.| [\[\],~\.:\\\?] |<=> |'#13#10'[\-\+<>\|\&]{2}=? | ' +
-        '\#{1,2}|'#13#10'[\+\-\*/&\|\^!<>=~%]=?'
+        '\[\[| \]\]| \.\.\.| ::{1,2} | [\[\],~\.\\\?]|'#13#10'[\-\+<>\|\&\^]{2}' +
+        '=? | \#{1,2}| <=>|'#13#10'[\+\-\*/&\|\^!<>=~%]=?'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -466,7 +466,7 @@ object SyntAnal5: TLibSyntAnalyzer
       StyleName = 'Asm BG'
       StartExpression = '\#asm\s*\(\s*"'
       EndExpression = '"\)'
-      SyntAnalyzer = SyntAnal2
+      SyntAnalyzer = SyntAnal1
     end
     item
       DisplayName = 'asm-endasm'
@@ -474,7 +474,7 @@ object SyntAnal5: TLibSyntAnalyzer
       StyleName = 'Preprocessor'
       StartExpression = '\#asm'
       EndExpression = '\#endasm'
-      SyntAnalyzer = SyntAnal2
+      SyntAnalyzer = SyntAnal1
     end>
   SampleText.Strings = (
     '/* Test */'
