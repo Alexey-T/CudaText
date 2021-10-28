@@ -707,6 +707,34 @@ for($i=0; $i<10; $i++) {
 
 [[File:cudatext-runner-thread.gif]]
 
+==Example C++ tool==
+Install the add-on "build-system: C++ using G++".
+It supports C++ lexer using GNU C++ compiler.
+It works on Linux/macOS out-of-the-box, on Windows you need the command "g++" to be in the system PATH.
+
+This build-system has 2 commands:
+* compile, then run the compiled binary (default command)
+* only run the compiled binary (it should be called from "Plugins / Runner / Build with...").
+
+Example C++ file:
+<syntaxhighlight lang="json">
+#include <iostream>
+
+int main() {
+    std::cout << "Hello World!";
+    return 0;
+}
+</syntaxhighlight>
+
+Example output in the CudaText Output panel (Linux):
+<pre>
+-- [16:41:55] Building: C++: new.cpp
+-- Command: g++ -std=c++11 -Wall "/home/user/new.cpp" -o "/home/user/new" && "/home/user/new"
+-- Working dir: /home/user
+Hello World!
+-- Done (0.8s), return code: 0
+</pre>
+
 ==Example PHP tool==
 How to debug for example PHP file, with Runner.
 Create file "[CudaText]/data/buildsystems/php.sublime-build" with such text:
