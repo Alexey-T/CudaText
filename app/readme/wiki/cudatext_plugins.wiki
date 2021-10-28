@@ -717,7 +717,7 @@ This build-system has 2 commands:
 * only run the compiled binary (it should be called from "Plugins / Runner / Build with...").
 
 Example C++ file:
-<syntaxhighlight lang="json">
+<syntaxhighlight lang="cpp">
 #include <iostream>
 
 int main() {
