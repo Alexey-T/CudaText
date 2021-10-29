@@ -1027,6 +1027,31 @@ Plugin has 2 config files, you will see 2 menu items in the
 "Options / Settings-plugins / Embedded Editor".
 Read more about config files in the readme.txt of plugin.
 
+=Breadcrumbs=
+
+Plugin "Breadcrumbs" shows the toolbar widget (modern name is breadcrumb bar) below or on top of the editor for quick
+file-system navigation. For example, when you have active editor with filename
+"/home/user/mydir/myfile.ext", widget shows buttons:
+<pre>
+[ home / user / mydir / myfile.ext ]
+</pre>
+It can also show the "~" button for the home directory (by option):
+<pre>
+[ ~ / mydir / myfile.ext ]
+</pre>
+
+[[File:cudatext-breadcrumbs.png]]
+
+Clicking on each button shows the popup with file-system listing, showing the
+folder containing  the clicked item. This popup supports basic tree-view navigation,
+you can click files there to open them in CudaText.
+
+Plugin can also show buttons for Code-Tree nodes. This must be enabled first
+in the config file - turn on the option "code_navigation".
+Clicking the buttons from the code-tree shows the same tree-popup but with
+a different content - with symbols of the documents. Clicking the nodes
+in the tree-popup scrolls the document to different symbols.
+
 =LSP Client=
 
 Plugin "LSP Client" allows to use Microsoft LSP protocol in CudaText with servers for many languages. 
