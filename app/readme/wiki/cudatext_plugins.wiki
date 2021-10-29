@@ -1224,7 +1224,7 @@ To use the server in LSP Client, create a file "lsp_c.json" in the "settings" di
 }
 </syntaxhighlight>
 
-Replacing "clangd-9" with "ccls" if it was chosen.
+Replace "clangd-9" with "ccls" if it was chosen.
 
 ==LSP server for Red==
 
