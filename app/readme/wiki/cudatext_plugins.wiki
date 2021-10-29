@@ -996,6 +996,37 @@ Plugin has more options in that "plugins.ini" file:
 
 Plugin supports CudaText option "nonword_chars", so for example words with '$' char are also added to completions, if CudaText option is configured so.
 
+=Embedded Editor=
+
+Plugin "Embedded Editor" shows "included" file in embedded editor - additional editor UI control is
+shown between the text lines.
+For example, you can open included CSS / JS files while editing the HTML file.
+
+[[File:cudatext-embedded-editor.png]]
+
+It adds menu item to show/hide embedded editor in the current document, for the
+current caret position: "Plugins / Embedded Editor / Toggle".
+
+By default, plugin searches for the included filename inside double-quotes,
+surrounding the caret position. This works OK for HTML and many other documents.
+
+For example, when you have opened file "/folder/file.html", and placed caret
+inside first double-quotes:
+<syntaxhighlight lang="html">
+  <link href="css/style.css" rel="stylesheet" type="text/css"/>
+</syntaxhighlight>
+then embedded editor will be opened for file "/folder/css/style.css".
+
+The search can be configured, though. For example, plugin can be used in Pascal
+files for include-directives:
+<syntaxhighlight lang="pascal">
+  {$I path/filename.inc}
+</syntaxhighlight>
+
+Plugin has 2 config files, you will see 2 menu items in the 
+"Options / Settings-plugins / Embedded Editor".
+Read more about config files in the readme.txt of plugin.
+
 =LSP Client=
 
 Plugin "LSP Client" allows to use Microsoft LSP protocol in CudaText with servers for many languages. 
