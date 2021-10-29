@@ -7,6 +7,7 @@
 
 + add: Wiki topic https://wiki.freepascal.org/CudaText#Lexers_editing_-_styles_only
 + add: Wiki topic https://wiki.freepascal.org/CudaText_plugins#Embedded_Editor
++ add: Wiki topic https://wiki.freepascal.org/CudaText_plugins#Breadcrumbs
 
 1.148.0 (2021/10)
 
