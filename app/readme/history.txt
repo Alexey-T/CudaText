@@ -5,6 +5,7 @@
 
 1.148.1
 
+- fix: Windows NTFS file streams were lost on file saving (thanks @squromiv)
 + add: Wiki topic https://wiki.freepascal.org/CudaText#Lexers_editing_-_styles_only
 + add: Wiki topic https://wiki.freepascal.org/CudaText_plugins#Embedded_Editor
 + add: Wiki topic https://wiki.freepascal.org/CudaText_plugins#Breadcrumbs
