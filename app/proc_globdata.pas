@@ -2905,12 +2905,26 @@ begin
 end;
 
 
+function RemoveWindowsStreamSuffix(const fn: string): string;
+var
+  PosSlash, PosColon: integer;
+begin
+  Result:= fn;
+  {$ifdef windows}
+  PosSlash:= RPos('\', fn);
+  if PosSlash=0 then exit;
+  PosColon:= Pos(':', fn, PosSlash);
+  if PosColon>0 then
+    SetLength(Result, PosColon-1);
+  {$endif}
+end;
+
 procedure AppGetFileProps(const FileName: string; out P: TAppFileProps);
 var
   Rec: TSearchRec;
 begin
   P.Inited:= true;
-  P.Exists:= FindFirst(FileName, faAnyFile, Rec)=0;
+  P.Exists:= FindFirst(RemoveWindowsStreamSuffix(FileName), faAnyFile, Rec)=0;
   if P.Exists then
   begin
     P.Size:= Rec.Size;
