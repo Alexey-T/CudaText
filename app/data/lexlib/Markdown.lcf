@@ -939,7 +939,7 @@ object SyntAnal13: TLibSyntAnalyzer
       StatesAbsent = 3
       StartExpression = '<\?'
       EndExpression = '\?>'
-      SyntAnalyzer = SyntAnal14
+      SyntAnalyzer = SyntAnal15
       IncludeBounds = True
     end
     item
@@ -959,8 +959,8 @@ object SyntAnal13: TLibSyntAnalyzer
     item
       DisplayName = 'YAML front matter'
       StartExpression = '\A---(\s*yaml)?$'
-      EndExpression = '^---$'
-      SyntAnalyzer = SyntAnal21
+      EndExpression = '^(---|\.\.\.)$'
+      SyntAnalyzer = SyntAnal22
     end
     item
       DisplayName = 'JSON front matter'
