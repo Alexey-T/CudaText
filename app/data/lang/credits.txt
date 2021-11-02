@@ -64,3 +64,9 @@ License: MIT License
 https://www.iconfinder.com/snipicons
 License: Creative Commons BY-NC 3.0 Unported
 http://creativecommons.org/licenses/by-nc/3.0/
+
+————————————————————————
+
+#தமிழ் மொழியாக்கம் - Tamil Translation
+அனிச்பிரபு தி.
+https://TamilNeram.github.io
