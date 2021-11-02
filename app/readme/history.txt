@@ -10,6 +10,8 @@
 + add: Wiki topic https://wiki.freepascal.org/CudaText_plugins#Breadcrumbs
 - fix: Windows: NTFS file streams were not preserved on file saving (thanks @squromiv)
 - fix: Windows: file-change-notification marked NTFS stream as modified
+- fix: lexer C++: tokenizing of some operators
+- fix: lexer Markdown: 'YAML front-matter' rule
 
 1.148.0 (2021/10)
 
