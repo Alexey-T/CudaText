@@ -3261,11 +3261,17 @@ end;
 
 function AppDiskGetFreeSpace(const fn: string): Int64;
 begin
-  {$ifdef unix}
-  Result:= SysUtils.DiskFree(SysUtils.AddDisk(ExtractFileDir(fn)));
-  {$else}
-  Result:= SysUtils.DiskFree(SysUtils.GetDriveIDFromLetter(ExtractFileDrive(fn)));
+  {$ifdef linux}
+  //this crashes on FreeBSD 12 x64
+  exit(SysUtils.DiskFree(SysUtils.AddDisk(ExtractFileDir(fn))));
   {$endif}
+
+  {$ifdef windows}
+  exit(SysUtils.DiskFree(SysUtils.GetDriveIDFromLetter(ExtractFileDrive(fn))));
+  {$endif}
+
+  //cannot detect
+  exit(-1);
 end;
 
 procedure AppDiskCheckFreeSpace(const fn: string);
