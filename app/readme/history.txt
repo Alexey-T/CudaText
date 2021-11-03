@@ -8,7 +8,8 @@
 + add: Wiki topic https://wiki.freepascal.org/CudaText#Lexers_editing_-_styles_only
 + add: Wiki topic https://wiki.freepascal.org/CudaText_plugins#Embedded_Editor
 + add: Wiki topic https://wiki.freepascal.org/CudaText_plugins#Breadcrumbs
-- fix: regression: crash on BSD-systems on app exiting (thanks @eastorwest)
+- fix: regression in 1.148: wrong tail-of-file saving if file size was decreased (thanks @hiiamboris)
+- fix: regression in 1.147: crash on BSD-systems on app exiting (thanks @eastorwest)
 - fix: Windows: NTFS file streams were not preserved on file saving (thanks @squromiv)
 - fix: Windows: file-change-notification marked NTFS stream as modified
 - fix: lexer C++: tokenizing of some operators
