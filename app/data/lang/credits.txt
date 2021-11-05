@@ -68,5 +68,6 @@ http://creativecommons.org/licenses/by-nc/3.0/
 ————————————————————————
 
 #தமிழ் மொழியாக்கம் - Tamil Translation
-அனிச்பிரபு தி.
+Author: தமிழ் நேரம்
+e-mail: anishprabu.t@gmail.com
 https://TamilNeram.github.io
