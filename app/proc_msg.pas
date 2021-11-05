@@ -65,6 +65,7 @@ const
   msgSavedPythonLibOption = 'Saved the option "pylib'+cOptionSystemSuffix+'". Restart CudaText to apply it.';
   msgSearchingInDir = 'Searching:';
   msgErrorLowDiskSpaceMb = 'Free disk space is less than %d Mb. Try to free additional space, then press Retry.';
+  msgErrorNullBytesInFile = 'Config file is broken, because its leading bytes are NULLs:'#10'%s'#10'Press OK to delete it.';
 
   msgErrorPluginIgnored = 'NOTE: Plugin %s is in ignore-list, please remove it';
   msgErrorTooManyFileTabs = 'NOTE: Too many editor-tabs are opened, cannot add tab';

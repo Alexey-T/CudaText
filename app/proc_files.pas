@@ -329,6 +329,7 @@ begin
 
   fs:= TFileStream.Create(fn, fmOpenRead or fmShareDenyNone);
   try
+    FillChar(Buf, SizeOf(Buf), 0);
     NRead:= fs.Read(Buf, SizeOf(Buf));
     Result:= (NRead=SizeOf(Buf)) and
       (Buf[0]=#0) and
@@ -344,7 +345,7 @@ end;
 procedure AppFileCheckForNullBytes(const fn: string);
 begin
   if AppFileIsNullBytes(fn) then
-    if MsgBox('File is broken, because its leading bytes are NULL:'#10+fn+#10+'Press OK to delete it.',
+    if MsgBox(Format(msgErrorNullBytesInFile, [fn]),
       MB_OKCANCEL or MB_ICONERROR) = ID_OK then
       DeleteFile(fn);
 end;
