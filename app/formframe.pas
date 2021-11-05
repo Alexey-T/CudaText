@@ -3521,6 +3521,8 @@ begin
 
   if UiOps.MaxHistoryFiles<2 then exit;
 
+  AppFileCheckForNullBytes(AppFile_HistoryFiles);
+
   cfg:= TJsonConfig.Create(nil);
   try
     try

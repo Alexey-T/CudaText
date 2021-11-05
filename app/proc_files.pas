@@ -29,6 +29,7 @@ procedure AppFileAttrRestore(const fn: string; attr: Longint);
 function AppExpandFilename(const fn: string): string;
 procedure AppBrowseToFilenameInShell(const fn: string);
 function AppFileExtentionCreatable(const fn: string): boolean;
+procedure AppFileCheckForNullBytes(const fn: string);
 
 
 implementation
@@ -316,6 +317,37 @@ begin
   end;
 end;
 
+
+function AppFileIsNullBytes(const fn: string): boolean;
+var
+  fs: TFileStream;
+  Buf: array[0..3] of char;
+  NRead: integer;
+begin
+  Result:= false;
+  if not FileExists(fn) then exit;
+
+  fs:= TFileStream.Create(fn, fmOpenRead or fmShareDenyNone);
+  try
+    NRead:= fs.Read(Buf, SizeOf(Buf));
+    Result:= (NRead=SizeOf(Buf)) and
+      (Buf[0]=#0) and
+      (Buf[1]=#0) and
+      (Buf[2]=#0) and
+      (Buf[3]=#0);
+  finally
+    FreeAndNil(fs);
+  end;
+end;
+
+
+procedure AppFileCheckForNullBytes(const fn: string);
+begin
+  if AppFileIsNullBytes(fn) then
+    if MsgBox('File is broken, because its leading bytes are NULL:'#10+fn+#10+'Press OK to delete it.',
+      MB_OKCANCEL or MB_ICONERROR) = ID_OK then
+      DeleteFile(fn);
+end;
 
 end.
 

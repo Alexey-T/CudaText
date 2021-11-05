@@ -448,6 +448,8 @@ begin
   nCountFiles:= 0;
   nCountFilesModified:= 0;
 
+  AppFileCheckForNullBytes(AFileName);
+
   cfg:= TJSONConfig.Create(nil);
   list:= TStringList.Create;
   try
@@ -732,6 +734,8 @@ var
   NTick: QWord;
 begin
   NTick:= GetTickCount64;
+
+  AppFileCheckForNullBytes(AppFile_History);
 
   cfg:= TJSONConfig.Create(nil);
   try
