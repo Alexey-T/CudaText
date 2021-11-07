@@ -206,7 +206,7 @@ begin
   Width:= AppScale(UiOps.ListboxSizeX);
   Height:= AppScale(UiOps.ListboxSizeY);
 
-  edit.OptTextHint:= 'F9: set hotkey; input "@hotkey": search';
+  edit.OptTextHint:= msgPaletteTextHint;
 end;
 
 procedure TfmCommands.editChange(Sender: TObject);
