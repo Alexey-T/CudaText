@@ -2,7 +2,7 @@
   "EdTextFont" : "#000000",
   "EdTextBg" : "#E0E0E0",
   "EdSelFont" : "#FFFFFF",
-  "EdSelBg" : "#000080",
+  "EdSelBg" : "#B0B0F0",
   "EdDisableFont" : "#404040",
   "EdDisableBg" : "#D0D0D0",
   "EdLinks" : "#0000FF",
