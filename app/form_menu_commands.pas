@@ -155,6 +155,9 @@ begin
         list.ItemTop:= Max(0, i-4);
         Break
       end;
+
+  if OptAllowConfig then
+    edit.OptTextHint:= msgPaletteTextHint;
 end;
 
 procedure TfmCommands.listClick(Sender: TObject);
@@ -205,8 +208,6 @@ begin
 
   Width:= AppScale(UiOps.ListboxSizeX);
   Height:= AppScale(UiOps.ListboxSizeY);
-
-  edit.OptTextHint:= msgPaletteTextHint;
 end;
 
 procedure TfmCommands.editChange(Sender: TObject);
