@@ -1045,6 +1045,14 @@ begin
     exit;
   end;
 
+  if S='scrollbox' then
+  begin
+    Ctl:= TScrollBox.Create(AForm);
+    TScrollBox(Ctl).VertScrollBar.Tracking:= true;
+    TScrollBox(Ctl).HorzScrollBar.Tracking:= true;
+    exit;
+  end;
+
   if S='toolbar' then
   begin
     Ctl:= TATFlatToolbar.Create(AForm);

@@ -815,6 +815,7 @@ Shows dialog with controls of many types. This is legacy API, it is recommended 
 * "tabs": TabControl: set of tabs, w/o pages attached to them
 * "pages": PageControl: set of tabs, with pages attached to them (only one of pages is visible)
 * "splitter": divider bar (vertical or horizontal), which can be dragged by mouse, to change width/height of nearest control. It finds linked control, ie control with the same "parent" and "align", which position (coordinates) are nearest to the splitter. On mouse drag, splitter resizes this linked control. It's recommended to place another control with "align": ALIGN_CLIENT, so splitter will resize two controls at once. A panel may contain several splitters (mixed with other controls between them).
+* "scrollbox": like panel, but has two auto-shown scrollbars to scroll the area containing children controls (ie controls which parent is this scrollbox)
 
 Details:
 
@@ -4506,5 +4507,8 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 
 1.0.412 (app 1.146.1)
 * change: command "macros: start recording" is renamed to "start/stop recording", commands "stop recording" and "cancel recording" are deprecated
+
+1.0.413 (app 1.148.1)
+* add: dlg_proc: new control "scrollbox"
 
 [[Category:CudaText]]
