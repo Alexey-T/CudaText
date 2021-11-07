@@ -264,8 +264,8 @@ object SyntAnal11: TLibSyntAnalyzer
     'Number'
     'Symbol {}')
   Extentions = 
-    'avsc babelrc bowerrc geojson gltf ipynb jscsrc jshintrc jslintrc' +
-    ' json jsonl jsonld ldj ldjson schema topojson webapp sublime-build'
+    'json babelrc bowerrc geojson gltf ipynb jscsrc jshintrc jslintrc' +
+    ' jsonl jsonld ldj ldjson schema topojson webapp sublime-build avsc'
   LexerName = 'JSON'
   Notes.Strings = (
     'Alexey (CudaText)'
