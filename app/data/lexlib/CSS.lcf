@@ -1,4 +1,4 @@
-object SyntAnal6: TLibSyntAnalyzer
+object SyntAnal7: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Style'
@@ -235,7 +235,15 @@ object SyntAnal6: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Media'
+      DisplayName = '@Property'
+      StyleName = 'Media'
+      TokenType = 11
+      Expression = '@property\b'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = '@Media'
       StyleName = 'Media'
       TokenType = 5
       Expression = '@[\w\-]+'
@@ -2340,7 +2348,7 @@ object SyntAnal6: TLibSyntAnalyzer
       DisplayName = 'PHP'
       StartExpression = '<\?(php)?'
       EndExpression = '\?>'
-      SyntAnalyzer = SyntAnal14
+      SyntAnalyzer = SyntAnal16
     end>
   SampleText.Strings = (
     '/* Comment */'
@@ -2389,7 +2397,8 @@ object SyntAnal6: TLibSyntAnalyzer
     'Number'
     'PHP tag'
     'Prop'
-    'ValueUnit')
+    'ValueUnit'
+    'Media special')
   Extentions = 'css'
   LexerName = 'CSS'
   Notes.Strings = (
