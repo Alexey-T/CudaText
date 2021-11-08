@@ -65,6 +65,11 @@ section=commands
 caption=Testing of dialog API\test type=combo
 method=test_combo
 
+[item35]
+section=commands
+caption=Testing of dialog API\test type=scrollbox
+method=test_scrollbox
+
 [item50]
 section=commands
 caption=Testing of dialog API\test side-panel

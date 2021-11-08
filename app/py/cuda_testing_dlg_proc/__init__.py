@@ -1334,5 +1334,62 @@ int main(int argc, char *argv[])
         dlg_proc(id, DLG_SHOW_MODAL)
         dlg_proc(id, DLG_FREE)
 
+    def test_scrollbox(self):
+        h=dlg_proc(0, DLG_CREATE)
+        dlg_proc(h, DLG_PROP_SET, prop={
+            'cap': 'scrollbox test',
+            'w': 400,
+            'h': 300,
+            'w_min': 200,
+            'h_min': 250
+            })
+
+        n=dlg_proc(h, DLG_CTL_ADD, 'scrollbox')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'p_main',
+            'cap': 'scrollbox1',
+            'color': 0xff00,
+            'x': 10,
+            'y': 20,
+            'w': 200,
+            'h': 100,
+            })
+
+        n=dlg_proc(h, DLG_CTL_ADD, 'panel')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'p_child',
+            'p': 'p_main',
+            'cap': 'panel1',
+            'color': 0xff0000,
+            'x': 10,
+            'y': 10,
+            'w': 150,
+            'h': 200,
+            })
+
+        n=dlg_proc(h, DLG_CTL_ADD, 'button')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'btn_1',
+            'cap': 'button1',
+            'p': 'p_child',
+            'x': 50,
+            'y': 50,
+            'w': 80,
+            })
+
+        n=dlg_proc(h, DLG_CTL_ADD, 'button')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'btn_2',
+            'cap': 'button2',
+            'p': 'p_child',
+            'x': 50,
+            'y': 100,
+            'w': 80,
+            })
+
+        dlg_proc(h, DLG_SHOW_MODAL)
+        dlg_free(h)
+        
+
     def test_labels_render(self):
         test_labels_render()
