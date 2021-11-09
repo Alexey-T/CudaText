@@ -5,11 +5,12 @@
 
 1.148.1 (2021/11)
 
-+ add: detect if history-configs are filled with null-bytes, e.g. because of PC reset (thanks @ertank)
++ add: detect that history-configs are filled with null-bytes, e.g. because of PC reset (thanks @ertank)
 + add: Wiki topic https://wiki.freepascal.org/CudaText#Lexers_editing_-_styles_only
 + add: Wiki topic https://wiki.freepascal.org/CudaText_plugins#Embedded_Editor
 + add: Wiki topic https://wiki.freepascal.org/CudaText_plugins#Breadcrumbs
-- fix: lexer JSON default extension must be 'json'
+- fix: lexer CSS: fix highlight of @property blocks
+- fix: lexer JSON: default extension must be 'json'
 - fix: option "caret_proximity_vert" worked bad with commands "scroll line up/down"
 - fix: regression in 1.148.0.2: wrong tail-of-file saving if file size was decreased (thanks @hiiamboris)
 - fix: regression in 1.147: crash on BSD-systems on app exiting (thanks @eastorwest)
