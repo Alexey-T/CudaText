@@ -10,6 +10,7 @@
 + add: Wiki topic https://wiki.freepascal.org/CudaText#Lexers_editing_-_styles_only
 + add: Wiki topic https://wiki.freepascal.org/CudaText_plugins#Embedded_Editor
 + add: Wiki topic https://wiki.freepascal.org/CudaText_plugins#Breadcrumbs
+- fix: option "carets_primitive_column_sel":true caused the regression: column blocks were not pasted as column (thanks @GenuZ from linux.org.ru)
 - fix: lexer CSS: fix highlight of @property blocks
 - fix: lexer JSON: default extension must be 'json'
 - fix: option "caret_proximity_vert" worked bad with commands "scroll line up/down"
