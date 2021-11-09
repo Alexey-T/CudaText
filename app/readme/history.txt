@@ -3,8 +3,9 @@
   - fixed
   * changed
 
-1.148.1 (2021/11)
+1.148.2 (2021/11)
 
++ add: commands "extend carets: up/down" did not handle going over shorter lines, now caret column is restored if possible (thanks @GenuZ from linux.org.ru)
 + add: detect that history-configs are filled with null-bytes, e.g. because of PC reset (thanks @ertank)
 + add: Wiki topic https://wiki.freepascal.org/CudaText#Lexers_editing_-_styles_only
 + add: Wiki topic https://wiki.freepascal.org/CudaText_plugins#Embedded_Editor
