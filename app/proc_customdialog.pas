@@ -164,6 +164,19 @@ begin
   end;
 end;
 
+function DoControl_GetState_ScrollBox(C: TScrollBox): string;
+begin
+  Result:= Format('%d,%d,%d,%d,%d,%d', [
+    C.VertScrollBar.Position,
+    C.HorzScrollBar.Position,
+    C.VertScrollBar.Range,
+    C.HorzScrollBar.Range,
+    C.VertScrollBar.Page,
+    C.HorzScrollBar.Page
+    ]);
+end;
+
+
 function DoControl_GetState(C: TControl): string;
 begin
   Result:= '';
@@ -229,6 +242,9 @@ begin
 
   if C is TListViewFilterEdit then
     exit(TListViewFilterEdit(C).Text);
+
+  if C is TScrollBox then
+    exit(DoControl_GetState_ScrollBox(TScrollBox(C)));
 end;
 
 
@@ -637,6 +653,21 @@ begin
   end;
 end;
 
+procedure DoControl_SetState_ScrollBox(C: TScrollbox; const AValue: string);
+var
+  S1, S2: string;
+  N: integer;
+begin
+  SSplitByChar(AValue, ',', S1, S2);
+
+  N:= StrToIntDef(S1, -1);
+  if N>=0 then
+    C.VertScrollBar.Position:= N;
+
+  N:= StrToIntDef(S2, -1);
+  if N>=0 then
+    C.HorzScrollBar.Position:= N;
+end;
 
 function DoControl_GetState_Listview(C: TListView): string;
 // index;check0,check1,
@@ -654,7 +685,6 @@ begin
       Result:= Result+IntToStr(Ord(C.Items[i].Checked))+',';
   end;
 end;
-
 
 procedure DoControl_ApplyEditorProps(Ed: TATSynEdit; AForm: TFormDummy;
   AApplyUnprintedAndWrap, AApplyTabSize, AApplyCentering, AOneLiner: boolean);
@@ -1600,6 +1630,11 @@ begin
   if C is TListViewFilterEdit then
   begin
     TListViewFilterEdit(C).Text:= S;
+    exit
+  end;
+  if C is TScrollBox then
+  begin
+    DoControl_SetState_ScrollBox(TScrollBox(C), S);
     exit
   end;
 end;
