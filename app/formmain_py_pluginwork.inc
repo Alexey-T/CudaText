@@ -21,6 +21,13 @@ var
 begin
   if not AppPython.Inited then exit;
 
+  if not DirectoryExists(AppDir_Py) then
+  begin
+    MsgLogConsole(Format(msgCannotFindData, [AppDir_Py]));
+    MsgStdout(Format(msgCannotFindData, [AppDir_Py]));
+    exit
+  end;
+
   BackupMain:= nil;
   BackupTemp:= nil;
   BackupLexers:= nil;

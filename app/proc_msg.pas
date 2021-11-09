@@ -71,7 +71,7 @@ const
   msgErrorPluginIgnored = 'NOTE: Plugin %s is in ignore-list, please remove it';
   msgErrorTooManyFileTabs = 'NOTE: Too many editor-tabs are opened, cannot add tab';
   msgCannotFindLexers = 'NOTE: Cannot find lexers: %s';
-  msgCannotFindData = 'NOTE: Cannot find data: %s';
+  msgCannotFindData = 'ERROR: Cannot find data: %s';
   msgCannotFindSessionFile = 'NOTE: File from session not found: %s';
 
   msgTitle = 'CudaText'; //no i18n

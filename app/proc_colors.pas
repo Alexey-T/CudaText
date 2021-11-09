@@ -265,6 +265,7 @@ begin
   if not FileExists(AFileName) then
   begin
     MsgLogConsole(Format(msgCannotFindData, [AFileName]));
+    MsgStdout(Format(msgCannotFindData, [AFileName]));
     exit;
   end;
 

@@ -1293,6 +1293,7 @@ begin
   if not DirectoryExists(Str) then
   begin
     MsgLogConsole(Format(msgCannotFindData, [Str]));
+    MsgStdout(Format(msgCannotFindData, [Str]));
     ToolbarSideMid.UpdateControls;
     exit;
   end;
@@ -1332,6 +1333,7 @@ begin
   if not DirectoryExists(SPath) then
   begin
     MsgLogConsole(Format(msgCannotFindData, [SPath]));
+    MsgStdout(Format(msgCannotFindData, [SPath]));
     exit;
   end;
   SPath+= DirectorySeparator;
@@ -1356,6 +1358,7 @@ begin
   if not DirectoryExists(Str) then
   begin
     MsgLogConsole(Format(msgCannotFindData, [Str]));
+    MsgStdout(Format(msgCannotFindData, [Str]));
     Exit;
   end;
 
