@@ -529,7 +529,7 @@ begin
     DoLocString(msgCannotSaveFile                , ini, 'se', 'SaveFile');
     DoLocString(msgCannotSaveFileWithEnc         , ini, 'se', 'SaveWithEnc');
     DoLocString(msgCannotSaveUserConf            , ini, 'se', 'SaveUserConf');
-    DoLocString(msgCannotReadConfig                , ini, 'se', 'ReadConf');
+    DoLocString(msgCannotReadConfig              , ini, 'se', 'ReadConf');
     DoLocString(msgCannotReloadUntitledTab       , ini, 'se', 'ReloadUntitledTab');
     DoLocString(msgCannotFindMatch               , ini, 'se', 'FindMatch');
     DoLocString(msgCannotFindInstallInfInZip     , ini, 'se', 'FindInstallInfInZip');
@@ -538,6 +538,7 @@ begin
     DoLocString(msgCannotInstallAddonApi         , ini, 'se', 'AddonApi');
     DoLocString(msgCannotAutocompleteMultiCarets , ini, 'se', 'AutocompleteCarets');
 
+    DoLocString(msgCmdPaletteCaption             , ini, 'si', 'CmdPalette');
     DoLocString(msgStatusChangedLinesCount       , ini, 'si', 'ChangedLineCount');
     DoLocString(msgStatusPluginHotkeyBusy        , ini, 'si', 'PluginHotkeyBusy');
     DoLocString(msgStatusSyntaxThemesOff         , ini, 'si', 'SyntaxThemesOff');
