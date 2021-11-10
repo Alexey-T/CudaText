@@ -218,11 +218,16 @@ begin
 
   //------
   case EditorGetStatusType(Ed) of
-    selSmall:   fmt:= UiOps.StatusSmallSel;
-    selStream:  fmt:= UiOps.StatusStreamSel;
-    selCol:     fmt:= UiOps.StatusColSel;
-    selCarets:  fmt:= UiOps.StatusCarets;
-    else        fmt:= UiOps.StatusNoSel;
+    selkindSmallSel:
+      fmt:= UiOps.StatusSmallSel;
+    selkindStreamSel:
+      fmt:= UiOps.StatusStreamSel;
+    selkindColumnSel:
+      fmt:= UiOps.StatusColSel;
+    selkindCarets:
+      fmt:= UiOps.StatusCarets;
+    else
+      fmt:= UiOps.StatusNoSel;
   end;
   DoStatusbarTextByTag(AStatus, StatusbarTag_Caret, EditorFormatStatus(Ed, fmt));
 

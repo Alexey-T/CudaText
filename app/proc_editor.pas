@@ -68,11 +68,17 @@ function EditorGetLinkAtCaret(Ed: TATSynEdit): atString;
 function EditorLexerNameAtPos(Ed: TATSynEdit; APos: TPoint): string;
 
 type
-  TEdSelType = (selNo, selSmall, selStream, selCol, selCarets);
+  TEditorSelectionKind = (
+    selkindNone,
+    selkindSmallSel,
+    selkindStreamSel,
+    selkindColumnSel,
+    selkindCarets
+    );
   TEditorSimpleEvent = procedure(Ed: TATSynEdit) of object;
   TEditorBooleanEvent = procedure(Ed: TATSynEdit; AValue: boolean) of object;
 
-function EditorGetStatusType(Ed: TATSynEdit): TEdSelType;
+function EditorGetStatusType(Ed: TATSynEdit): TEditorSelectionKind;
 function EditorFormatStatus(ed: TATSynEdit; const str: string): string;
 procedure EditorDeleteNewColorAttribs(ed: TATSynEdit);
 procedure EditorGotoLastEditingPos(Ed: TATSynEdit; AIndentHorz, AIndentVert: integer);
@@ -588,26 +594,26 @@ begin
   ed.Update;
 end;
 
-function EditorGetStatusType(Ed: TATSynEdit): TEdSelType;
+function EditorGetStatusType(Ed: TATSynEdit): TEditorSelectionKind;
 var
   NFrom, NTo: integer;
 begin
   if not Ed.IsSelRectEmpty then
-    Result:= selCol
+    Result:= selkindColumnSel
   else
   if Ed.Carets.Count>1 then
-    Result:= selCarets
+    Result:= selkindCarets
   else
   if Ed.Carets.IsSelection then
   begin
     Ed.Carets[0].GetSelLines(NFrom, NTo);
     if NTo>NFrom then
-      Result:= selStream
+      Result:= selkindStreamSel
     else
-      Result:= selSmall;
+      Result:= selkindSmallSel;
   end
   else
-    Result:= selNo;
+    Result:= selkindNone;
 end;
 
 
