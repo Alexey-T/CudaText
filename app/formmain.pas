@@ -8061,6 +8061,7 @@ var
 begin
   Frame:= CurrentFrame;
   if Frame=nil then exit;
+  if Frame.FrameKind<>efkEditor then exit;
 
   with TIniFile.Create(GetAppLangFilename) do
   try
@@ -8091,6 +8092,7 @@ begin
 
     FillChar(DlgProps, SizeOf(DlgProps), 0);
     DlgProps.ItemsText:= List.Text;
+    DlgProps.InitialIndex:= List.IndexOf(Frame.LexerName[Frame.Editor]);
     DlgProps.Caption:= SCaption;
     DlgProps.NoFuzzy:= not UiOps.ListboxFuzzySearch;
 
