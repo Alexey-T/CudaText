@@ -489,7 +489,6 @@ type
     procedure DoHelpForum;
     procedure DoHelpWiki;
     procedure DoHelpIssues;
-    procedure DoHelpHotkeys;
 
     procedure mnuTabCloseAllAllClick(Sender: TObject);
     procedure mnuTabCloseAllSameClick(Sender: TObject);
@@ -6899,11 +6898,6 @@ end;
 procedure TfmMain.DoHelpIssues;
 begin
   OpenURL('https://github.com/Alexey-T/CudaText/issues');
-end;
-
-procedure TfmMain.DoHelpHotkeys;
-begin
-  MsgBox(msgStatusHelpOnKeysConfig, MB_OK or MB_ICONINFORMATION);
 end;
 
 

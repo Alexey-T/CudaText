@@ -60,13 +60,13 @@ const
   msgApiDeprecated = 'Deprecated API usage: %s'; //no i18n
   msgErrorInTheme = 'NOTE: Theme "%s" misses item "%s"';
   msgCmdPalettePrefixHelp = '#p – plugins'+EOL+'#l – lexers'+EOL+'#f – opened files'+EOL+'#r – recent files';
+  msgCmdPaletteTextHint = 'F9: set hotkey; input "@hotkey": search';
   msgRescannedAllPlugins = 'Rescanned all plugins';
   msgWelcomeTabTitle = '(welcome)';
   msgSavedPythonLibOption = 'Saved the option "pylib'+cOptionSystemSuffix+'". Restart CudaText to apply it.';
   msgSearchingInDir = 'Searching:';
   msgErrorLowDiskSpaceMb = 'Free disk space is less than %d Mb. Try to free additional space, then press Retry.';
   msgErrorNullBytesInFile = 'Config file is broken, because its leading bytes are NULLs:'#10'%s'#10'Press OK to delete it.';
-  msgPaletteTextHint = 'F9: set hotkey; input "@hotkey": search';
 
   msgErrorPluginIgnored = 'NOTE: Plugin %s is in ignore-list, please remove it';
   msgErrorTooManyFileTabs = 'NOTE: Too many editor-tabs are opened, cannot add tab';
@@ -294,7 +294,6 @@ const
   msgStatusEndsChanged: string = 'Line ends changed';
   msgStatusEncChanged: string = 'Encoding changed';
   msgStatusGotoFileLineCol: string = 'File "%s", Line %d Col %d';
-  msgStatusHelpOnKeysConfig: string = 'To customize hotkeys, call "Help - Command palette", focus needed command, and press F9, you''ll see additional dialog';
   msgStatusClickingLogLine: string = 'Clicking log line';
   msgStatusNoGotoDefinitionPlugins: string = 'No goto-definition plugins installed for this lexer';
   msgStatusFilenameAlreadyOpened: string = 'File name is already opened in another tab:';

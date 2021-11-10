@@ -667,8 +667,6 @@ begin
       DoHelpWiki;
     cmd_HelpIssues:
       DoHelpIssues;
-    cmd_HelpHotkeys:
-      DoHelpHotkeys;
 
     cmd_HelpCheckUpdates:
       begin

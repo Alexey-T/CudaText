@@ -577,7 +577,6 @@ begin
     DoLocString(msgStatusEndsChanged             , ini, 'si', 'EndsChanged');
     DoLocString(msgStatusEncChanged              , ini, 'si', 'EncChanged');
     DoLocString(msgStatusGotoFileLineCol         , ini, 'si', 'FileLineCol');
-    DoLocString(msgStatusHelpOnKeysConfig        , ini, 'si', 'HelpOnKeysConfig');
     DoLocString(msgStatusClickingLogLine         , ini, 'si', 'ClickingLogLine');
     DoLocString(msgStatusNoGotoDefinitionPlugins , ini, 'si', 'NoGotoDefinitionPlugins');
     DoLocString(msgStatusFilenameAlreadyOpened   , ini, 'si', 'FilenameAlreadyOpened');

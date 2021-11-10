@@ -161,7 +161,7 @@ begin
       end;
 
   if OptAllowConfig then
-    edit.OptTextHint:= msgPaletteTextHint;
+    edit.OptTextHint:= msgCmdPaletteTextHint;
 end;
 
 procedure TfmCommands.listClick(Sender: TObject);

@@ -249,7 +249,6 @@ const
   cmd_HelpForum     = 2701;
   cmd_HelpWiki      = 2702;
   cmd_HelpIssues    = 2706;
-  cmd_HelpHotkeys   = 2707;
   cmd_HelpCheckUpdates = 2708;
 
   cmd_Encoding_utf8bom_NoReload   = 2711;

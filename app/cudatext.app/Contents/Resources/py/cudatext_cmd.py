@@ -451,7 +451,6 @@ cmd_HelpMouse     = 2703
 cmd_HelpChangelog = 2704
 cmd_HelpLexers    = 2705
 cmd_HelpIssues    = 2706
-cmd_HelpHotkeys   = 2707
 cmd_HelpCheckUpdates = 2708
 
 cmd_Encoding_ansi_NoReload      = 2710
