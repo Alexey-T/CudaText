@@ -7,7 +7,7 @@
 
 + add: commands "extend carets: up/down" did not handle going over shorter lines ("caret_after_end":false); now caret column is restored when going long line-> short line-> long line (thanks @GenuZ from linux.org.ru)
 + add: detect that history-configs are filled with null-bytes, e.g. because of PC reset (thanks @ertank)
-+ add: menu-dialogs show button "x" to close the dialog (when system window border is off)
++ add: menu-dialogs show button "x" to cancel (when system dialog border is off); Command Palette has the caption now
 + add: Wiki topic https://wiki.freepascal.org/CudaText#Lexers_editing_-_styles_only
 + add: Wiki topic https://wiki.freepascal.org/CudaText_plugins#Embedded_Editor
 + add: Wiki topic https://wiki.freepascal.org/CudaText_plugins#Breadcrumbs
