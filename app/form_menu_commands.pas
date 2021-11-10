@@ -19,6 +19,7 @@ uses
   ATSynEdit_Keymap,
   ATStringProc,
   ATListbox,
+  ATButtons,
   LclProc,
   LclType,
   LclIntf, Buttons,
@@ -35,7 +36,7 @@ type
   { TfmCommands }
 
   TfmCommands = class(TForm)
-    ButtonCancel: TSpeedButton;
+    ButtonCancel: TATButton;
     edit: TATEdit;
     list: TATListbox;
     PanelCaption: TPanel;

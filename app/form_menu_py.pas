@@ -19,6 +19,7 @@ uses
   ATStringProc,
   ATListbox,
   ATCanvasPrimitives,
+  ATButtons,
   LclProc,
   LclType,
   LclIntf, Buttons,
@@ -31,10 +32,10 @@ type
   { TfmMenuApi }
 
   TfmMenuApi = class(TForm)
+    ButtonCancel: TATButton;
     edit: TATEdit;
     list: TATListbox;
     PanelCaption: TPanel;
-    ButtonCancel: TSpeedButton;
     procedure ButtonCancelClick(Sender: TObject);
     procedure editChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);

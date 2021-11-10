@@ -73,13 +73,16 @@ object fmMenuApi: TfmMenuApi
     ClientHeight = 26
     ClientWidth = 500
     TabOrder = 2
-    object ButtonCancel: TSpeedButton
+    object ButtonCancel: TATButton
       Left = 480
       Height = 26
       Top = 0
       Width = 20
       Align = alRight
       Caption = 'x'
+      TabOrder = 0
+      Focusable = False
+      Flat = True
       OnClick = ButtonCancelClick
     end
   end

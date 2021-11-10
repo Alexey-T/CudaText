@@ -18,6 +18,7 @@ uses
   ATStringProc,
   ATSynEdit,
   ATListbox,
+  ATButtons,
   proc_globdata,
   proc_colors;
 
@@ -28,7 +29,7 @@ type
   { TfmMenuList }
 
   TfmMenuList = class(TForm)
-    ButtonCancel: TSpeedButton;
+    ButtonCancel: TATButton;
     List: TATListbox;
     plCaption: TPanel;
     procedure ButtonCancelClick(Sender: TObject);
