@@ -217,7 +217,7 @@ begin
   end;
 
   //------
-  case EditorGetStatusType(Ed) of
+  case EditorGetSelectionKind(Ed) of
     selkindSmallSel:
       fmt:= UiOps.StatusSmallSel;
     selkindStreamSel:

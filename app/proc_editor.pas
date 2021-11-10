@@ -78,7 +78,7 @@ type
   TEditorSimpleEvent = procedure(Ed: TATSynEdit) of object;
   TEditorBooleanEvent = procedure(Ed: TATSynEdit; AValue: boolean) of object;
 
-function EditorGetStatusType(Ed: TATSynEdit): TEditorSelectionKind;
+function EditorGetSelectionKind(Ed: TATSynEdit): TEditorSelectionKind;
 function EditorFormatStatus(ed: TATSynEdit; const str: string): string;
 procedure EditorDeleteNewColorAttribs(ed: TATSynEdit);
 procedure EditorGotoLastEditingPos(Ed: TATSynEdit; AIndentHorz, AIndentVert: integer);
@@ -594,7 +594,7 @@ begin
   ed.Update;
 end;
 
-function EditorGetStatusType(Ed: TATSynEdit): TEditorSelectionKind;
+function EditorGetSelectionKind(Ed: TATSynEdit): TEditorSelectionKind;
 var
   NFrom, NTo: integer;
 begin
