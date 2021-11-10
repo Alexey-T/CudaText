@@ -72,7 +72,7 @@ type
   TEditorSimpleEvent = procedure(Ed: TATSynEdit) of object;
   TEditorBooleanEvent = procedure(Ed: TATSynEdit; AValue: boolean) of object;
 
-function EditorGetStatusType(ed: TATSynEdit): TEdSelType;
+function EditorGetStatusType(Ed: TATSynEdit): TEdSelType;
 function EditorFormatStatus(ed: TATSynEdit; const str: string): string;
 procedure EditorDeleteNewColorAttribs(ed: TATSynEdit);
 procedure EditorGotoLastEditingPos(Ed: TATSynEdit; AIndentHorz, AIndentVert: integer);
@@ -588,26 +588,26 @@ begin
   ed.Update;
 end;
 
-function EditorGetStatusType(ed: TATSynEdit): TEdSelType;
+function EditorGetStatusType(Ed: TATSynEdit): TEdSelType;
 var
   NFrom, NTo: integer;
 begin
   if not Ed.IsSelRectEmpty then
-    result:= selCol
+    Result:= selCol
   else
   if Ed.Carets.Count>1 then
-    result:= selCarets
+    Result:= selCarets
   else
   if Ed.Carets.IsSelection then
   begin
     Ed.Carets[0].GetSelLines(NFrom, NTo);
     if NTo>NFrom then
-      result:= selStream
+      Result:= selStream
     else
-      result:= selSmall;
+      Result:= selSmall;
   end
   else
-    result:= selNo;
+    Result:= selNo;
 end;
 
 
