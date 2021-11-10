@@ -9,12 +9,9 @@
 + add: detect that history-configs are filled with null-bytes, e.g. because of PC reset (thanks @ertank)
 + add: menu-dialogs show button "x" to cancel (when system dialog border is off); Command Palette has the caption now
 + add: dialog "View / Lexers" has initial selected lexer (thanks anon from linux.org.ru)
-+ add: Wiki topic https://wiki.freepascal.org/CudaText#Lexers_editing_-_styles_only
-+ add: Wiki topic https://wiki.freepascal.org/CudaText_plugins#Embedded_Editor
-+ add: Wiki topic https://wiki.freepascal.org/CudaText_plugins#Breadcrumbs
 - fix: pasting of wide _column_ blocks into short lines, with "caret_after_end":false
-- fix: regression in 1.107: option "carets_primitive_column_sel":true caused the regression, column blocks were not copied/pasted as column (thanks @GenuZ from linux.org.ru)
 - fix: option "caret_proximity_vert" worked bad with commands "scroll line up/down"
+- fix: regression in 1.107: option "carets_primitive_column_sel":true caused the regression, column blocks were not copied/pasted as column (thanks @GenuZ from linux.org.ru)
 - fix: regression in 1.148.0.2: wrong tail-of-file saving if file size was decreased (thanks @hiiamboris)
 - fix: regression in 1.147: crash on BSD-systems on app exiting (thanks @eastorwest)
 - fix: Windows: NTFS file streams were not preserved on file saving (thanks @squromiv)
@@ -23,6 +20,10 @@
 - fix: lexer JSON: default extension must be 'json'
 - fix: lexer Markdown: 'YAML front-matter' rule
 - fix: lexer C++: tokenizing of some operators
+
++ add: Wiki topic https://wiki.freepascal.org/CudaText#Lexers_editing_-_styles_only
++ add: Wiki topic https://wiki.freepascal.org/CudaText_plugins#Embedded_Editor
++ add: Wiki topic https://wiki.freepascal.org/CudaText_plugins#Breadcrumbs
 
 1.148.0 (2021/10)
 
