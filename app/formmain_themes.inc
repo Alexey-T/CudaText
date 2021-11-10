@@ -169,6 +169,7 @@ begin
   end;
 
   DoApplyThemeToTreeview(CodeTree.Tree, true, true);
+  CodeTree.Invalidate;
 
   //proc_sidepanel_add_dialog
   for i:= 0 to CustomDialogs.Count-1 do

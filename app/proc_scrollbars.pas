@@ -114,9 +114,10 @@ end;
 
 procedure TAppTreeContainer.Invalidate;
 begin
-  FScrollbarHorz.Update;
-  FScrollbarVert.Update;
-  inherited Invalidate;
+  inherited;
+  Tree.Invalidate;
+  FScrollbarHorz.Invalidate;
+  FScrollbarVert.Invalidate;
 end;
 
 procedure TAppTreeContainer.ScrollVertChange(Sender: TObject);
