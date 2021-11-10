@@ -14,7 +14,7 @@ interface
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs,
   LclType, LclProc, StrUtils,
-  ExtCtrls,
+  ExtCtrls, Buttons,
   ATStringProc,
   ATSynEdit,
   ATListbox,
@@ -28,8 +28,10 @@ type
   { TfmMenuList }
 
   TfmMenuList = class(TForm)
+    ButtonCancel: TSpeedButton;
     List: TATListbox;
     plCaption: TPanel;
+    procedure ButtonCancelClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -73,6 +75,7 @@ begin
   UpdateFormOnTop(Self);
   List.VirtualItemCount:= Items.Count;
   List.ItemIndex:= InitialItemIndex;
+  ButtonCancel.Width:= ButtonCancel.Height;
 end;
 
 procedure TfmMenuList.ListDrawItem(Sender: TObject; C: TCanvas; AIndex: integer;
@@ -146,6 +149,11 @@ begin
 
   Items:= nil;
   ResultIndex:= -1;
+end;
+
+procedure TfmMenuList.ButtonCancelClick(Sender: TObject);
+begin
+  ModalResult:= mrCancel;
 end;
 
 procedure TfmMenuList.FormDestroy(Sender: TObject);

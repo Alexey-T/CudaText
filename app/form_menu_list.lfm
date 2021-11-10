@@ -15,7 +15,7 @@ object fmMenuList: TfmMenuList
   OnKeyUp = FormKeyUp
   OnShow = FormShow
   ShowInTaskBar = stNever
-  LCLVersion = '2.1.0.0'
+  LCLVersion = '2.3.0.0'
   object List: TATListbox
     Left = 6
     Height = 195
@@ -37,6 +37,17 @@ object fmMenuList: TfmMenuList
     Align = alTop
     BevelOuter = bvNone
     Caption = 'plCaption'
+    ClientHeight = 26
+    ClientWidth = 500
     TabOrder = 1
+    object ButtonCancel: TSpeedButton
+      Left = 480
+      Height = 26
+      Top = 0
+      Width = 20
+      Align = alRight
+      Caption = 'x'
+      OnClick = ButtonCancelClick
+    end
   end
 end

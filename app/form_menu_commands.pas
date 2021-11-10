@@ -22,7 +22,7 @@ uses
   ATListbox,
   LclProc,
   LclType,
-  LclIntf,
+  LclIntf, Buttons,
   proc_globdata,
   proc_msg,
   proc_cmd,
@@ -36,9 +36,11 @@ type
   { TfmCommands }
 
   TfmCommands = class(TForm)
+    ButtonCancel: TSpeedButton;
     edit: TATEdit;
     list: TATListbox;
     PanelCaption: TPanel;
+    procedure ButtonCancelClick(Sender: TObject);
     procedure editChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -128,6 +130,8 @@ begin
 
   PanelCaption.Font.Name:= UiOps.VarFontName;
   PanelCaption.Font.Size:= AppScaleFont(UiOps.VarFontSize);
+
+  ButtonCancel.Width:= ButtonCancel.Height;
 
   self.Color:= FColorBg;
   edit.Colors.TextFont:= GetAppColor(apclEdTextFont);
@@ -220,6 +224,11 @@ begin
   list.Visible:= not bHelp;
   if not bHelp then
     DoFilter;
+end;
+
+procedure TfmCommands.ButtonCancelClick(Sender: TObject);
+begin
+  ModalResult:= mrCancel;
 end;
 
 procedure TfmCommands.FormDestroy(Sender: TObject);
