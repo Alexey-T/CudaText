@@ -1429,18 +1429,14 @@ end;
 function api_ed_get_sel_mode(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
-  N: Integer;
   Ed: TATSynEdit;
+  cSelModes: array[boolean] of integer = (SEL_NORMAL, SEL_COLUMN);
 begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'L:get_sel_mode', @H)) then
     begin
       Ed:= PyHelper_EditorFromHandle(H);
-      if Ed.IsSelRectEmpty then
-        N:= SEL_NORMAL
-      else
-        N:= SEL_COLUMN;
-      Result:= PyLong_FromLong(N);
+      Result:= PyLong_FromLong(cSelModes[Ed.IsSelColumn]);
     end
   else
     Result:= ReturnNone;

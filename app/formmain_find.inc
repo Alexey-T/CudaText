@@ -451,10 +451,12 @@ begin
   Ed:= Frame.Editor;
 
   StrWord:= Ed.TextCurrentWord;
-  StrSel:= Ed.TextSelected;
   StrSuggested:= '';
 
-  if not Ed.IsSelRectEmpty then StrSel:= '';
+  if Ed.IsSelColumn then
+    StrSel:= ''
+  else
+    StrSel:= Ed.TextSelected;
 
   bMultiLineSel:= false;
   if Ed.Carets.Count=1 then
