@@ -9,6 +9,7 @@
 + add: detect that history-configs are filled with null-bytes, e.g. because of PC reset (thanks @ertank)
 + add: menu-dialogs show button "x" to cancel (when system dialog border is off); Command Palette has the caption now
 + add: dialog "View / Lexers" has initially selected item (thanks anon from linux.org.ru)
+- fix: macOS: repainting of UI controls on UI-theme selection (thanks @papirosko)
 - fix: pasting of wide _column_ blocks into short lines, with "caret_after_end":false
 - fix: option "caret_proximity_vert" worked bad with commands "scroll line up/down"
 - fix: regression in 1.107: option "carets_primitive_column_sel":true caused the regression, column blocks were not copied/pasted as column (thanks @GenuZ from linux.org.ru)
