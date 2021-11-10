@@ -15,7 +15,7 @@ object fmMenuApi: TfmMenuApi
   OnKeyDown = FormKeyDown
   OnShow = FormShow
   ShowInTaskBar = stNever
-  LCLVersion = '2.1.0.0'
+  LCLVersion = '2.3.0.0'
   object edit: TATEdit
     Left = 6
     Height = 26
@@ -40,8 +40,6 @@ object fmMenuApi: TfmMenuApi
     OptCaretManyAllowed = False
     OptCaretVirtual = False
     OptGutterVisible = False
-    OptBorderWidth = 1
-    OptBorderWidthFocused = 1
     OptRulerVisible = False
     OptMarginRight = 1000
     OptUnprintedVisible = False
@@ -72,6 +70,17 @@ object fmMenuApi: TfmMenuApi
     Align = alTop
     BevelOuter = bvNone
     Caption = 'Caption'
+    ClientHeight = 26
+    ClientWidth = 500
     TabOrder = 2
+    object ButtonCancel: TSpeedButton
+      Left = 480
+      Height = 26
+      Top = 0
+      Width = 20
+      Align = alRight
+      Caption = 'x'
+      OnClick = ButtonCancelClick
+    end
   end
 end

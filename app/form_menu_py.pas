@@ -21,7 +21,7 @@ uses
   ATCanvasPrimitives,
   LclProc,
   LclType,
-  LclIntf,
+  LclIntf, Buttons,
   proc_globdata,
   proc_colors,
   proc_str,
@@ -34,6 +34,8 @@ type
     edit: TATEdit;
     list: TATListbox;
     PanelCaption: TPanel;
+    ButtonCancel: TSpeedButton;
+    procedure ButtonCancelClick(Sender: TObject);
     procedure editChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -96,6 +98,8 @@ begin
   DoFilter;
 
   List.ItemIndex:= InitItemIndex; //check of index not needed
+
+  ButtonCancel.Width:= ButtonCancel.Height;
 end;
 
 procedure TfmMenuApi.listClick(Sender: TObject);
@@ -157,6 +161,11 @@ end;
 procedure TfmMenuApi.editChange(Sender: TObject);
 begin
   DoFilter;
+end;
+
+procedure TfmMenuApi.ButtonCancelClick(Sender: TObject);
+begin
+  ModalResult:= mrCancel;
 end;
 
 procedure TfmMenuApi.FormDestroy(Sender: TObject);
