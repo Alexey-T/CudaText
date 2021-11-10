@@ -4476,7 +4476,7 @@ begin
   TKeymapHelperMain.UpdateDynamic(categ_RecentFile);
 
   FillChar(Props, SizeOf(Props), 0);
-  Props.Caption:= '';
+  Props.Caption:= msgCmdPaletteCaption;
   Props.LexerName:= F.LexerName[Ed];
   Props.ShowUsual:= true;
   Props.ShowPlugins:= true;

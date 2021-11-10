@@ -15,7 +15,6 @@ uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Types,
   StdCtrls, ExtCtrls, Dialogs, IniFiles,
   ATSynEdit,
-  ATSynEdit_Commands,
   ATSynEdit_Edits,
   ATSynEdit_Keymap,
   ATStringProc,

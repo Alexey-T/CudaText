@@ -59,14 +59,16 @@ const
   msgCallbackDeprecated = 'Deprecated API callback, report to plugin author: %s'; //no i18n
   msgApiDeprecated = 'Deprecated API usage: %s'; //no i18n
   msgErrorInTheme = 'NOTE: Theme "%s" misses item "%s"';
-  msgCmdPalettePrefixHelp = '#p – plugins'+EOL+'#l – lexers'+EOL+'#f – opened files'+EOL+'#r – recent files';
-  msgCmdPaletteTextHint = 'F9: set hotkey; input "@hotkey": search';
   msgRescannedAllPlugins = 'Rescanned all plugins';
   msgWelcomeTabTitle = '(welcome)';
   msgSavedPythonLibOption = 'Saved the option "pylib'+cOptionSystemSuffix+'". Restart CudaText to apply it.';
   msgSearchingInDir = 'Searching:';
   msgErrorLowDiskSpaceMb = 'Free disk space is less than %d Mb. Try to free additional space, then press Retry.';
   msgErrorNullBytesInFile = 'Config file is broken, because its leading bytes are NULLs:'#10'%s'#10'Press OK to delete it.';
+
+  msgCmdPaletteCaption: string = 'Command palette';
+  msgCmdPaletteTextHint = 'F9: set hotkey; input "@hotkey": search';
+  msgCmdPalettePrefixHelp = '#p – plugins'+EOL+'#l – lexers'+EOL+'#f – opened files'+EOL+'#r – recent files';
 
   msgErrorPluginIgnored = 'NOTE: Plugin %s is in ignore-list, please remove it';
   msgErrorTooManyFileTabs = 'NOTE: Too many editor-tabs are opened, cannot add tab';
