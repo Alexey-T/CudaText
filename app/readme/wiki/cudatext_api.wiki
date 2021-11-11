@@ -819,7 +819,6 @@ Shows dialog with controls of many types. This is legacy API, it is recommended 
 
 Details:
 
-* Controls "combo", "combo_ro", "listbox": value is 0-based index of selected item, or -1 if none is selected.
 * Control "button_ex": to change advanced props, you must get handle via DLG_CTL_HANDLE, and pass it to button_proc().
 * Control "treeview" don't have "items"/"value": to work with it, you must get handle of control via DLG_CTL_HANDLE, and pass it to tree_proc().
 * Control "listbox_ex" don't have "items"/"value": to work with it, you must get handle of control via DLG_CTL_HANDLE, and pass it to listbox_proc().
@@ -827,7 +826,6 @@ Details:
 * Control "statusbar" don't have "items"/"value": to work with it, you must get handle via DLG_CTL_HANDLE, and pass it to statusbar_proc().
 * Controls "editor"/"editor_edit"/"editor_combo" don't have "items"/"value": to work with it, you must get handle via DLG_CTL_HANDLE, and pass it to Editor() to make editor object.
 * Control "paintbox" is empty area, plugin can paint on it. Get canvas_id via DLG_CTL_HANDLE, and use it in canvas_proc().
-* Control "scrollbox" has value. On reading, it's 6 numbers ","-separated: vert_position, horz_position, vert_range, horz_range, vert_pagesize, horz_pagesize. On writing, pass only 2 numbers ","-separated: vert_position, horz_position.
 * Control property "name" is required for "filter_nnnnn" controls: must set name of listbox/listview, and name of its filter - to the same name with prefix "f_" (e.g. listbox name "mylist" with filter name "f_mylist").
 
 ====dlg_custom - Properties of controls====
@@ -891,15 +889,19 @@ Action DLG_CTL_PROP_SET, for "listview", allows both "items" (it sets columns) a
 
 ====dlg_custom - Property "val"====
 
-* For "check": checked state "0", "1" or "?" for grayed state
-* For "radio", "checkbutton": checked state "0", "1"
-* For "edit", "edit_pwd", "spinedit", "combo", "filter_*": text in control
-* For "memo": "\t"-separated lines, in lines "\t" chars must be replaced with chr(3)
-* For "combo_ro", "listbox", "radiogroup", "listview": index (0-based) of selected item
-* For "checkgroup": ","-separated checked states ("0", "1")
-* For "checklistbox", "checklistview": index + ";" + checked_states
-* For "tabs", "pages": index of active tab
-* For "trackbar", "progressbar": position, int value
+* For "combo", "combo_ro", "listbox": value is 0-based index of selected item, or -1 if none is selected.
+* For "check": value is checked state "0"/"1" or "?" for "grayed" state.
+* For "radio", "checkbutton": value is checked state "0"/"1".
+* For "edit", "edit_pwd", "spinedit", "combo", "filter_*": value is text in control.
+* For "memo": value is "\t"-separated lines, in lines "\t" chars must be replaced with chr(3).
+* For "combo_ro", "listbox", "radiogroup", "listview": value is index (0-based) of selected item.
+* For "checkgroup": value is ","-separated checked states "0"/"1".
+* For "checklistbox", "checklistview": value is str(index) + ";" + checked_states.
+* For "tabs", "pages": value is index of active tab.
+* For "trackbar", "progressbar": value is position, int value.
+* For "scrollbox":
+** on reading: value is 6 numbers ","-separated: vert_position, horz_position, vert_range, horz_range, vert_pagesize, horz_pagesize
+** on writing: value is only 2 numbers ","-separated: vert_position, horz_position.
 
 ====dlg_custom - Properties "ex"====
 
