@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.148.2 (2021/11)
+1.148.5 (2021/11)
 
 + add: commands "extend carets: up/down" did not handle going over shorter lines ("caret_after_end":false); now caret column is restored when going long line-> short line-> long line (thanks @GenuZ from linux.org.ru)
 + add: detect that history-configs are filled with null-bytes, e.g. because of PC reset (thanks @ertank)
