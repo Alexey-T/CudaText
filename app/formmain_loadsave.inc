@@ -944,9 +944,9 @@ begin
 
   s:= cfg.GetValue('renderer_tweaks', '');
   if Pos('e', s)>0 then
-    ATSynEdit_CharSizeArray.FixedSizes[cCharEllipsis]:= _norm
+    ATSynEdit_CharSizeArray.FixedSizes[cCharEllipsis]:= uw_normal
   else
-    ATSynEdit_CharSizeArray.FixedSizes[cCharEllipsis]:= _full;
+    ATSynEdit_CharSizeArray.FixedSizes[cCharEllipsis]:= uw_fullwidth;
 
   ATScrollbarTheme.DirectJumpOnClickPageUpDown:= cfg.GetValue('scrollbar_click_jump',
     ATScrollbarTheme.DirectJumpOnClickPageUpDown);
