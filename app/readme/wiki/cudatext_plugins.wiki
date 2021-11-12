@@ -407,6 +407,8 @@ Some external tools configs are shown in the Wiki topics below. Enter these stri
 
 Plugin allows to customize hotkeys for all individual tools, or to use the single hotkey for different tools. The single hotkey is the hotkey of the plugin's command "Tools / Run main lexer tool". What is the "main lexer tool"? For example, you have 2 tools for lexer C++, and 3 tools for lexer HTML. You open the "Tool properties" dialog for some C++ tool, and press "Set main" button to mark that tool as "main" for C++. Then you open properties of some HTML tool, press "Set main" button to mark that tool as "main" for HTML. So now the "Tools / Run main lexer tool" can determine what is the main tool for C++ and HTML.  
 
+[[File:cudatext-tools-mainlexertool.png]]
+
 Notes:
 
 * The disadvantage of the plugin: it cannot show tool output lines immediately when they appear, it waits until tool is terminated. Use the [[#Runner]] plugin which supports that feature.
