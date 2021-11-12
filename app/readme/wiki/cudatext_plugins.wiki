@@ -389,20 +389,27 @@ Formatters may change entire file text or only selected text. If selection is ma
 
 === Introduction to External Tools ===
 
-Plugin "External Tools" (ExtTools) can be installed from Addon Manager. It allows to run external programs, catch their output, and display this output in the Output/Validate panels of CudaText. Or to insert/replace some text in the editor.
-Plugin adds "Tools" top menu (near "Plugins"), it has item to configure all tools, and items for individual tools.
+Plugin "External Tools" (ExtTools) can be installed from Addon Manager. It allows to run external programs, catch their output, and then it can:
+
+* Display this output in the Output or Console panel of CudaText.
+* Replace current editor selection with the output.
+* Copy this output to a new document.
+* Copy this output to Clipboard.
+* And more.
+
+Plugin adds "Tools" top menu (near "Plugins"), which has menu item "Config" to configure all tools (in the single dialog), and menu items to run all individual tools.
 
 [[File:cudatext-tools-menuitem.png]]
 
-Some external tools configs are shown in topics below. Enter these strings in the "Tool properties" dialog.
+Some external tools configs are shown in the Wiki topics below. Enter these strings in the "Tool properties" dialog.
 
 [[File:cudatext-tools-props.png]]
 
-The disadvantage of the plugin: it cannot show tool output lines immediately when they appear, it waits until tool is terminated.
-Consider to use the [[#Runner]] plugin which supports this.
+Plugin allows to customize hotkeys for all individual tools, or to use the single hotkey for different tools. The single hotkey is the hotkey of the plugin's command "Tools / Run main lexer tool". What is the "main lexer tool"? For example, you have 2 tools for lexer C++, and 3 tools for lexer HTML. You open the "Tool properties" dialog for some C++ tool, and press "Set main" button to mark that tool as "main" for C++. Then you open properties of some HTML tool, press "Set main" button to mark that tool as "main" for HTML. So now the "Tools / Run main lexer tool" can determine what is the main tool for C++ and HTML.  
 
 Notes:
 
+* The disadvantage of the plugin: it cannot show tool output lines immediately when they appear, it waits until tool is terminated. Use the [[#Runner]] plugin which supports that feature.
 * If you see that running of tools makes the Output panel visible, you need to fix the "Capture output" option of those tools, set it to "Ignore".
 
 === Tool to compile by GCC ===
