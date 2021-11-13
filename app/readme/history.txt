@@ -3,6 +3,10 @@
   - fixed
   * changed
 
+1.148.6 (2021/11)
+
++ add: when option "ui_reopen_session":true, also auto-save the session each 30 seconds, to make it safe if PC crashes (thanks @hiiamboris)
+
 1.148.5 (2021/11)
 
 + add: commands "extend carets: up/down" did not handle going over shorter lines ("caret_after_end":false); now caret column is restored when going long line-> short line-> long line (thanks @GenuZ from linux.org.ru)
