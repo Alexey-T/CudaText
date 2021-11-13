@@ -329,7 +329,7 @@ const
 
   msgCommandNeedsPython: string =
     'This command requires Python engine.'+
-    ' Set proper value of "pylib*" in user.json.';
+    ' Set proper value of "pylib'+cOptionSystemSuffix+'" in the user.json.';
 
   msgCommandLineHelp =
       'Usage:'+EOL+

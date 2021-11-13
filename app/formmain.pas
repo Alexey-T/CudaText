@@ -3910,7 +3910,7 @@ var
 begin
   if not AppPython.Inited then
   begin
-    MsgStatus(msgCommandNeedsPython);
+    MsgBox(msgCommandNeedsPython, MB_OK or MB_ICONWARNING);
     exit;
   end;
 
@@ -7570,7 +7570,7 @@ var
 begin
   if not AppPython.Inited then
   begin
-    MsgStatus(msgCommandNeedsPython);
+    MsgBox(msgCommandNeedsPython, MB_OK or MB_ICONWARNING);
     exit;
   end;
 
