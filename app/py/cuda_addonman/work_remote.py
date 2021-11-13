@@ -44,6 +44,7 @@ def get_url(url, fn, del_first=False):
                 app.MB_ABORTRETRYIGNORE + app.MB_ICONWARNING)
             if res==app.ID_IGNORE: return
             if res==app.ID_ABORT: return False
+            if res==app.ID_CANCEL: return False
 
 
 def is_file_html(fn):
