@@ -722,6 +722,7 @@ type
     FLastFocusedFrame: TComponent;
     FLastTooltipLine: integer;
     FLastAppActivate: QWord;
+    FLastSaveSessionTick: QWord;
     FDisableTreeClearing: boolean;
     FInvalidateShortcuts: boolean;
     FInvalidateShortcutsForce: boolean;
@@ -2190,6 +2191,7 @@ procedure TfmMain.TimerAppIdleTimer(Sender: TObject);
 var
   S: UnicodeString;
   Frame: TEditorFrame;
+  Tick: QWord;
   NCnt, i: integer;
 begin
   //in Lazarus 2.1 trunk on Linux x64 gtk2/qt5, TimerAppIdle.Timer is called too early,
@@ -2284,6 +2286,20 @@ begin
   begin
     FNeedAppState_SubCommands:= false;
     DoPyEvent_AppState(APPSTATE_API_SUBCOMMANDS);
+  end;
+
+  //if "ui_reopen_session":true, auto-save session (and text of modified tabs) each N seconds
+  if UiOps.ReopenSession then
+  begin
+    Tick:= GetTickCount64;
+    if FLastSaveSessionTick=0 then
+      FLastSaveSessionTick:= Tick
+    else
+    if Tick-FLastSaveSessionTick>=UiOps.ReopenSessionSaveInterval then
+    begin
+      FLastSaveSessionTick:= Tick;
+      DoOps_SaveSession(GetSessionFilename, true{ASaveModifiedTabs});
+    end;
   end;
 end;
 
