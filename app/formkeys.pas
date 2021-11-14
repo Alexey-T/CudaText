@@ -220,7 +220,17 @@ begin
     (key=VK_RSHIFT) or
     (key=VK_LWIN) or
     (key=VK_RWIN) then
-      begin key:= 0; exit end;
+  begin
+    Key:= 0;
+    exit
+  end;
+
+  //don't allow to reassign these
+  if (Key in [VK_SPACE, VK_RETURN, VK_TAB, VK_BACK]) and (Shift=[]) then
+  begin
+    Key:= 0;
+    exit
+  end;
 
   FKeyPressed:= ShortCut(Key, Shift);
   key:= 0;

@@ -99,6 +99,13 @@ begin
     exit
   end;
 
+  //don't allow to reassign these
+  if (Key in [VK_SPACE, VK_RETURN, VK_TAB, VK_BACK]) and (Shift=[]) then
+  begin
+    Key:= 0;
+    exit
+  end;
+
   if (Key=VK_ESCAPE) then
   begin
     Key:= 0;
