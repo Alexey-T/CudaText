@@ -3,14 +3,13 @@ str1=<!--
 str2=-->
 styles_cmt=Comment
 styles_str=Quote,Text,Bold,Italic,Bold-Italic,Heading,Link,Definition,Crossed out
-
 [ref]
 0=PHP_
 1=JavaScript
 2=CSS
 3=YAML
 4=JSON
-
+5=HTML
 [map]
 Heading=Label
 Comment=Comment
