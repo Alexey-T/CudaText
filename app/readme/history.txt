@@ -6,6 +6,7 @@
 1.148.6 (2021/11)
 
 + add: when option "ui_reopen_session":true, also auto-save the session each 30 seconds, to make it safe if PC crashes (thanks @hiiamboris)
++ add: don't allow to reassign hotkeys to Tab/Enter/Space/BkSpace w/o modifiers (thanks @WebMechanic)
 - fix: width of Georgian letters should be 100% (thanks @66nuts)
 
 1.148.5 (2021/11)
