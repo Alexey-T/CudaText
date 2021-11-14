@@ -760,6 +760,7 @@ function AppExpandHomeDirInFilename(const fn: string): string;
 function AppExpandFileNameWithDir(const AFileName, ADir: string): string;
 function AppConfigKeyForBookmarks(Ed: TATSynEdit): string;
 procedure AppDiskCheckFreeSpace(const fn: string);
+function AppKeyIsAllowedAsCustomHotkey(Key: Word; Shift: TShiftState): boolean;
 
 var
   AppManager: TecLexerList = nil;
@@ -3289,6 +3290,29 @@ begin
       Format(msgErrorLowDiskSpaceMb, [NSpace div (1024*1024)]),
       MB_RETRYCANCEL or MB_ICONWARNING) = ID_CANCEL then exit;
   until false;
+end;
+
+function AppKeyIsAllowedAsCustomHotkey(Key: Word; Shift: TShiftState): boolean;
+begin
+  Result:= true;
+
+  //don't allow to reassign system keys: Alt/Ctrl/Shift/Win
+  if (Key=VK_MENU) or
+     (Key=VK_LMENU) or
+     (Key=VK_RMENU) or
+     (Key=VK_CONTROL) or
+     (Key=VK_LCONTROL) or
+     (Key=VK_RCONTROL) or
+     (Key=VK_SHIFT) or
+     (Key=VK_LSHIFT) or
+     (Key=VK_RSHIFT) or
+     (Key=VK_LWIN) or
+     (Key=VK_RWIN) then
+    exit(false);
+
+  //don't allow to reassign these
+  if (Key in [VK_SPACE, VK_RETURN, VK_TAB, VK_BACK]) and (Shift=[]) then
+    exit(false);
 end;
 
 initialization
