@@ -3441,7 +3441,7 @@ begin
 
         PROP_CELL_SIZE:
           begin
-            Result:= Py_BuildValue('(ii)', Ed.TextCharSize.X, Ed.TextCharSize.Y);
+            Result:= Py_BuildValue('(ii)', Ed.TextCharSize.XScaled div ATEditorCharXScale, Ed.TextCharSize.Y);
           end;
 
         PROP_MODERN_SCROLLBAR:

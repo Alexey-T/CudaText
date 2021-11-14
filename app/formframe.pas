@@ -3065,7 +3065,7 @@ var
 begin
   St:= Ed.Strings;
   if St.Count=0 then exit;
-  NWidthSmall:= Ed.TextCharSize.X * EditorOps.OpMicromapSmallMarkSizePercents div 100;
+  NWidthSmall:= Ed.TextCharSize.XScaled * EditorOps.OpMicromapSmallMarkSizePercents div 100 div ATEditorCharXScale;
 
   if FMicromapBmp=nil then
     FMicromapBmp:= TBGRABitmap.Create;
