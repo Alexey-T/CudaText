@@ -943,7 +943,7 @@ begin
     Sep.GetItemInt(OptUnprintedTabPointerScale, OptUnprintedTabPointerScale, 0, 100);
   end;
 
-  cSpeedScrollAutoVert:= cfg.GetValue('mouse_scroll_speed_vert', cSpeedScrollAutoVert);
+  OptEditorSpeedScrollAutoVert:= cfg.GetValue('mouse_scroll_speed_vert', OptEditorSpeedScrollAutoVert);
 
   EControlOptions.MaxLinesWhenParserEnablesFolding:= cfg.GetValue('lexer_folding_max_lines',
     EControlOptions.MaxLinesWhenParserEnablesFolding);
