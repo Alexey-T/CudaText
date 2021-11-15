@@ -287,10 +287,6 @@ begin
     Ed.OptUnprintedSpacesOnlyInSelection:= Pos('x', Op.OpUnprintedContent)>0;
   end;
 
-  //global options
-  OptMaxTabPositionToExpand:= Op.OpTabMaxPosExpanded;
-  OptMaxLineLenForAccurateCharWidths:= Op.OpMaxLineLenForAccurateCharWidths;
-
   Ed.OptMaxLineLenToTokenize:= Op.OpMaxLineLenToTokenize;
 
   if Pos('.', Op.OpUnprintedContent)>0 then

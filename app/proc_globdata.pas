@@ -476,8 +476,6 @@ type
     OpSpacingY: integer;
     OpTabSize: integer;
     OpTabSpaces: boolean;
-    OpTabMaxPosExpanded: integer;
-    OpMaxLineLenForAccurateCharWidths: integer;
     OpMaxLineLenForBracketFinder: integer;
     OpMaxLineLenToTokenize: integer;
 
@@ -1466,8 +1464,6 @@ begin
 
     OpTabSize:= 4;
     OpTabSpaces:= false;
-    OpTabMaxPosExpanded:= 500;
-    OpMaxLineLenForAccurateCharWidths:= 500;
     OpMaxLineLenToTokenize:= 4000;
     OpMaxLineLenForBracketFinder:= 1000;
 

@@ -923,6 +923,8 @@ begin
   OptEditorBookmarksAutoDelete:= cfg.GetValue('auto_delete_bookmarks', OptEditorBookmarksAutoDelete);
   OptEditorDebugTiming:= cfg.GetValue('log_timing', OptEditorDebugTiming);
   OptMouseDragDropFocusesTargetEditor:= cfg.GetValue('mouse_drag_drop_focus_target', OptMouseDragDropFocusesTargetEditor);
+  OptMaxTabPositionToExpand:= cfg.GetValue('tab_max_pos_expanded', OptMaxTabPositionToExpand);
+  OptMaxLineLenForAccurateCharWidths:= cfg.GetValue('max_line_len_for_accurate_width', OptMaxLineLenForAccurateCharWidths);
 
   cSpeedScrollAutoVert:= cfg.GetValue('mouse_scroll_speed_vert', cSpeedScrollAutoVert);
 
@@ -1003,8 +1005,6 @@ begin
 
   Op.OpTabSize:= cfg.GetValue('tab_size', Op.OpTabSize);
   Op.OpTabSpaces:= cfg.GetValue('tab_spaces', Op.OpTabSpaces);
-  Op.OpTabMaxPosExpanded:= cfg.GetValue('tab_max_pos_expanded', Op.OpTabMaxPosExpanded);
-  Op.OpMaxLineLenForAccurateCharWidths:= cfg.GetValue('max_line_len_for_accurate_width', Op.OpMaxLineLenForAccurateCharWidths);
   Op.OpMaxLineLenToTokenize:= cfg.GetValue('max_line_len_parsed', Op.OpMaxLineLenToTokenize);
   Op.OpMaxLineLenForBracketFinder:= Op.OpMaxLineLenToTokenize; //do we need separate option?
 
