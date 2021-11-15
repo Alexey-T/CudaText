@@ -296,10 +296,6 @@ begin
     OptUnprintedEndSymbol:= aeuePilcrow
   else
     OptUnprintedEndSymbol:= aeueArrowDown;
-  OptUnprintedSpaceDotScale:= Op.OpUnprintedSpaceDotScale;
-  OptUnprintedEndDotScale:= Op.OpUnprintedEndDotScale;
-  OptUnprintedEndFontScale:= Op.OpUnprintedEndFontScale * 6 div 10;
-  OptUnprintedTabPointerScale:= Op.OpUnprintedTabPointerScale;
 
   if AApplyUnprintedAndWrap then
     if not Ed.IsModifiedWrapMode then

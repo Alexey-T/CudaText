@@ -551,11 +551,6 @@ type
     OpUnprintedShow: boolean;
     OpUnprintedContent: string;
 
-    OpUnprintedSpaceDotScale: integer;
-    OpUnprintedEndDotScale: integer;
-    OpUnprintedEndFontScale: integer;
-    OpUnprintedTabPointerScale: integer;
-
     //wrap
     OpWrapMode: integer;
     OpWrapIndented: boolean;
@@ -1532,11 +1527,6 @@ begin
 
     OpUnprintedShow:= false;
     OpUnprintedContent:= 'se';
-
-    OpUnprintedSpaceDotScale:= 15;
-    OpUnprintedEndDotScale:= 30;
-    OpUnprintedEndFontScale:= 80;
-    OpUnprintedTabPointerScale:= 22;
 
     OpWrapMode:= 0;
     OpWrapIndented:= true;

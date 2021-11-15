@@ -932,6 +932,17 @@ begin
   s:= cfg.GetValue('unprinted_replace_to_code', 'A4');
   OptUnprintedReplaceSpecToCode:= StrToIntDef('$'+s, OptUnprintedReplaceSpecToCode);
 
+  s:= cfg.GetValue('unprinted_symbols_scale', '');
+  if s<>'' then
+  begin
+    Sep.Init(s);
+    Sep.GetItemInt(OptUnprintedSpaceDotScale, OptUnprintedSpaceDotScale, 5, 100);
+    Sep.GetItemInt(OptUnprintedEndDotScale, OptUnprintedEndDotScale, 5, 100);
+    Sep.GetItemInt(OptUnprintedEndFontScale, OptUnprintedEndFontScale * 10 div 6, 5, 100);
+    OptUnprintedEndFontScale:= OptUnprintedEndFontScale * 6 div 10;
+    Sep.GetItemInt(OptUnprintedTabPointerScale, OptUnprintedTabPointerScale, 0, 100);
+  end;
+
   cSpeedScrollAutoVert:= cfg.GetValue('mouse_scroll_speed_vert', cSpeedScrollAutoVert);
 
   EControlOptions.MaxLinesWhenParserEnablesFolding:= cfg.GetValue('lexer_folding_max_lines',
@@ -1075,16 +1086,6 @@ begin
 
   Op.OpUnprintedShow:= cfg.GetValue('unprinted_show', Op.OpUnprintedShow);
   Op.OpUnprintedContent:= cfg.GetValue('unprinted_content', Op.OpUnprintedContent);
-
-  Str:= cfg.GetValue('unprinted_symbols_scale', '');
-  if Str<>'' then
-  begin
-    Sep.Init(Str);
-    Sep.GetItemInt(Op.OpUnprintedSpaceDotScale, Op.OpUnprintedSpaceDotScale, 5, 100);
-    Sep.GetItemInt(Op.OpUnprintedEndDotScale, Op.OpUnprintedEndDotScale, 5, 100);
-    Sep.GetItemInt(Op.OpUnprintedEndFontScale, Op.OpUnprintedEndFontScale, 5, 100);
-    Sep.GetItemInt(Op.OpUnprintedTabPointerScale, Op.OpUnprintedTabPointerScale, 0, 100);
-  end;
 
   Op.OpBracketHilite:= cfg.GetValue('bracket_highlight', Op.OpBracketHilite);
   Op.OpBracketSymbols:= cfg.GetValue('bracket_symbols', op.OpBracketSymbols);
