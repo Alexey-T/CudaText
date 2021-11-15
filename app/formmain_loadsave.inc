@@ -927,6 +927,7 @@ begin
   OptMaxTabPositionToExpand:= cfg.GetValue('tab_max_pos_expanded', OptMaxTabPositionToExpand);
   OptMaxLineLenForAccurateCharWidths:= cfg.GetValue('max_line_len_for_accurate_width', OptMaxLineLenForAccurateCharWidths);
 
+  OptUnprintedTabCharLength:= cfg.GetValue('unprinted_tab_len', OptUnprintedTabCharLength);
   OptUnprintedReplaceSpec:= cfg.GetValue('unprinted_replace_spec', OptUnprintedReplaceSpec);
   s:= cfg.GetValue('unprinted_replace_to_code', 'A4');
   OptUnprintedReplaceSpecToCode:= StrToIntDef('$'+s, OptUnprintedReplaceSpecToCode);
@@ -1074,8 +1075,6 @@ begin
 
   Op.OpUnprintedShow:= cfg.GetValue('unprinted_show', Op.OpUnprintedShow);
   Op.OpUnprintedContent:= cfg.GetValue('unprinted_content', Op.OpUnprintedContent);
-
-  Op.OpUnprintedTabArrowLen:= cfg.GetValue('unprinted_tab_len', Op.OpUnprintedTabArrowLen);
 
   Str:= cfg.GetValue('unprinted_symbols_scale', '');
   if Str<>'' then

@@ -551,7 +551,6 @@ type
     OpUnprintedShow: boolean;
     OpUnprintedContent: string;
 
-    OpUnprintedTabArrowLen: integer;
     OpUnprintedSpaceDotScale: integer;
     OpUnprintedEndDotScale: integer;
     OpUnprintedEndFontScale: integer;
@@ -1534,7 +1533,6 @@ begin
     OpUnprintedShow:= false;
     OpUnprintedContent:= 'se';
 
-    OpUnprintedTabArrowLen:= 1;
     OpUnprintedSpaceDotScale:= 15;
     OpUnprintedEndDotScale:= 30;
     OpUnprintedEndFontScale:= 80;

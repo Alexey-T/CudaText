@@ -296,7 +296,6 @@ begin
     OptUnprintedEndSymbol:= aeuePilcrow
   else
     OptUnprintedEndSymbol:= aeueArrowDown;
-  OptUnprintedTabCharLength:= Op.OpUnprintedTabArrowLen;
   OptUnprintedSpaceDotScale:= Op.OpUnprintedSpaceDotScale;
   OptUnprintedEndDotScale:= Op.OpUnprintedEndDotScale;
   OptUnprintedEndFontScale:= Op.OpUnprintedEndFontScale * 6 div 10;
