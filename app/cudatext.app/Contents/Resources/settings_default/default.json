@@ -13,54 +13,54 @@
 //  Haiku: "__haiku"
 {
   //[Font]
-  //Text font name [has suffix]
+  //Text font name. [has suffix]
   "font_name": "Consolas",
   "font_name__linux": "Courier New",
   "font_name__mac": "Monaco",
 
-  //Text font name, for "italic" fragments [has suffix]
-  //Empty string is allowed
+  //Text font name, for "italic" fragments. [has suffix]
+  //Empty string is allowed.
   "font_name_i": "",
   "font_name_i__linux": "",
   "font_name_i__mac": "",
 
-  //Text font name, for "bold" fragments [has suffix]
-  //Empty string is allowed
+  //Text font name, for "bold" fragments. [has suffix]
+  //Empty string is allowed.
   "font_name_b": "",
   "font_name_b__linux": "",
   "font_name_b__mac": "",
 
-  //Text font name, for "bold+italic" fragments [has suffix]
-  //Empty string is allowed
+  //Text font name, for "bold+italic" fragments. [has suffix]
+  //Empty string is allowed.
   "font_name_bi": "",
   "font_name_bi__linux": "",
   "font_name_bi__mac": "",
 
-  //Text font size [has suffix]
+  //Text font size. [has suffix]
   "font_size": 10,
   "font_size__linux": 10,
   "font_size__mac": 10,
 
-  //Text font size, for "italic" fragments [has suffix]
+  //Text font size, for "italic" fragments. [has suffix]
   "font_size_i": 10,
   "font_size_i__linux": 10,
   "font_size_i__mac": 10,
 
-  //Text font size, for "bold" fragments [has suffix]
+  //Text font size, for "bold" fragments. [has suffix]
   "font_size_b": 10,
   "font_size_b__linux": 10,
   "font_size_b__mac": 10,
 
-  //Text font size, for "bold+italic" fragments [has suffix]
+  //Text font size, for "bold+italic" fragments. [has suffix]
   "font_size_bi": 10,
   "font_size_bi__linux": 10,
   "font_size_bi__mac": 10,
 
-  //Enable to render font ligatures (e.g. with font "Fira Code")
+  //Enable to render font ligatures, e.g. with font "Fira Code".
   //Option has effect only on Windows. On Unix: on, or depends on OS.
   "font_ligatures": true,
 
-  //Text font rendering quality [has suffix]
+  //Text font rendering quality. [has suffix]
   //  0: Default
   //  1: Draft
   //  2: Proof
@@ -72,34 +72,34 @@
   "font_quality__linux": 0,
   "font_quality__mac": 0,
 
-  //UI elements font name [has suffix]
+  //UI elements font name. [has suffix]
   "ui_font_name": "default",
   "ui_font_name__linux": "default",
   "ui_font_name__mac": "default",
 
-  //UI elements font size [has suffix]
+  //UI elements font size. [has suffix]
   "ui_font_size": 9,
   "ui_font_size__linux": 9,
   "ui_font_size__mac": 9,
 
-  //Output panel font name [has suffix]
+  //Output panel font name. [has suffix]
   "ui_font_output_name" : "default",
   "ui_font_output_name__linux" : "default",
   "ui_font_output_name__mac" : "default",
 
-  //Output panel font size [has suffix]
+  //Output panel font size. [has suffix]
   "ui_font_output_size" : 9,
   "ui_font_output_size__linux" : 9,
   "ui_font_output_size__mac" : 9,
 
-  //Statusbar font name [has suffix]
-  //If empty, value of "ui_font_name" is used
+  //Statusbar font name. [has suffix]
+  //If empty, value of "ui_font_name" is used.
   "ui_font_statusbar_name" : "",
   "ui_font_statusbar_name__linux" : "",
   "ui_font_statusbar_name__mac" : "",
 
-  //Statusbar font size [has suffix]
-  //If 0, value of "ui_font_size" is used
+  //Statusbar font size. [has suffix]
+  //If 0, value of "ui_font_size" is used.
   "ui_font_statusbar_size" : 0,
   "ui_font_statusbar_size__linux" : 0,
   "ui_font_statusbar_size__mac" : 0,
@@ -137,7 +137,7 @@
   "unicode_full_width": 190,
 
   //[Ui]
-  //Double-buffering of UI controls [has suffix]
+  //Double-buffering of UI controls. [has suffix]
   //  Use only if problems with rendering.
   //  If app shows flickering, change to true.
   //  If high-DPI monitor (e.g. Retina) shows blurred text, change to false.
@@ -145,10 +145,10 @@
   "ui_buffered__linux": true,
   "ui_buffered__mac": false,
 
-  //Allow to run only one instance (main window) of CudaText
+  //Allow to run only one instance (main window) of CudaText.
   "ui_one_instance": true,
 
-  //How to show main window on taskbar [has suffix]
+  //How to show main window on taskbar. [has suffix]
   //If on (default): App is minimized/restored with proper Windows OS animation.
   //   But Windows Alt+Tab will show additional cells for opened modal dialogs.
   //If off: Alt+Tab will not show additional cells for dialogs, which is useful.
@@ -156,7 +156,7 @@
   "ui_taskbar_mode__linux": true,
   "ui_taskbar_mode__mac": true,
 
-  //Show modal plugin's dialogs with separate taskbar button [has suffix]
+  //Show modal plugin's dialogs with separate taskbar button. [has suffix]
   //Note: Linux desktop Cinnamon has problem if you set 'false'.
   "ui_dialogs_in_taskbar": false,
   "ui_dialogs_in_taskbar__linux": true,
@@ -178,18 +178,18 @@
   "ui_notif": true,
 
   //Notifications about file change in external programs:
-  //pause in the watcher thread, in seconds
+  //pause in the watcher thread, in seconds.
   "ui_notif_time": 2,
 
   //Notifications about file change in external programs:
-  //when to show confirmation to reload the changed file
+  //when to show confirmation to reload the changed file.
   //  0: show always (on each change in external program)
   //  1: show if editor is modified or Undo-data is not empty
   //  2: show if editor is modified
   "ui_notif_confirm": 1,
 
   //[File/NonText]
-  //Non-text files: behaviour on opening such files
+  //Non-text files: behaviour on opening such files.
   //  0: show confirmation with choices
   //  1: automatically open in editor
   //  2: don't open
@@ -197,14 +197,14 @@
   //  4: automatically open in viewer, in hex mode
   "ui_non_text": 0,
 
-  //Non-text files: detection buffer size, Kb
+  //Non-text files: detection buffer size, Kb.
   "ui_non_text_buffer": 64,
 
   //[File]
-  //Reloading of file: if caret was on the last line, after reload put caret on new last line
+  //Reloading of file: if caret was on the last line, after reload put caret on new last line.
   "ui_reload_tail": true,
 
-  //Manual reopening/reloading of file: confirm to reload, if tab has unsaved changes
+  //Manual reopening/reloading of file: confirm to reload, if tab has unsaved changes.
   "ui_reload_unsaved_confirm": true,
 
   //Allow command "File / Save" to work always, even with unmodified state of the document.
@@ -212,32 +212,34 @@
   "ui_save_always": true,
 
   //[Lexers]
-  //Group lexers menu by first char of name
+  //Group lexers menu by first char of name.
   "ui_lexers_grouped": true,
 
   //[Text/Look]
-  //Keep original font colors of text in selected block
+  //Keep original font colors of text in selected block.
   "keep_sel_font_color": false,
 
-  //Highlight background of lines with carets
+  //Highlight background of lines with carets.
   "show_cur_line": false,
 
-  //Highlight background of lines with carets: only minimal part of line, if line wrapped
+  //Highlight background of lines with carets: only minimal part of line, if line wrapped.
   "show_cur_line_minimal": true,
 
-  //Highlight background of lines with carets: only for focused editor
+  //Highlight background of lines with carets: only for focused editor.
   "show_cur_line_only_focused": false,
 
-  //Show additional dotted frame on mouse selection of block
+  //Show additional dotted frame on mouse selection of block.
   "show_mouse_sel_frame": true,
 
-  //Allow last line to scroll to the top of window
+  //Allow last line to scroll to the top of window.
   "show_last_line_on_top": true,
 
-  //Highlight selection background till the right window edge (otherwise: till line end)
+  //Highlight selection background till the right window edge
+  //(otherwise: till line end).
   "show_full_sel_bg": false,
 
-  //Highlight syntax-defined blocks background till the right window edge (otherwise: till line end)
+  //Highlight syntax-defined blocks background till the right window edge
+  //(otherwise: till line end).
   "show_full_syntax_bg": true,
 
   //Shift text area to the right, so text will look "centered".
@@ -248,26 +250,26 @@
   //Same as "centering_width", but it's applied in the Distraction-Free mode.
   "centering_for_distraction_free": 0,
 
-  //Zebra mode, ie additional coloring of N-th lines (N=2 by default)
+  //Zebra mode, ie additional coloring of N-th lines (N=2 by default).
   //  If value=0, zebra mode is not active.
   //  If value=1 to 255, it defines alpha-blending value of new color, best is 220..245.
   "zebra": 0,
 
-  //Zebra mode: step, in lines
+  //Zebra mode: step, in lines.
   "zebra_step": 2,
 
-  //For unfocused editors (in passive tab-groups), dim the background color
-  //Value: 0: not used; 1...250: blend with black; -1...-250: blend with white
+  //For unfocused editors (in passive tab-groups), dim the background color.
+  //Value: 0: not used; 1...250: blend with black; -1...-250: blend with white.
   "dim_unfocused": 0,
 
   //[Lexers]
   //Enable caret-depending highlightings.
-  //- e.g. Pascal highlightes "begin"/"end" with green when caret is inside block
-  //- HTML/XML highlightes opening/closing tags when caret is inside tag
+  //- e.g. Pascal highlightes "begin"/"end" with green when caret is inside block.
+  //- HTML/XML highlightes opening/closing tags when caret is inside tag.
   "lexer_dynamic_hilite": false,
 
   //Max number of lines in editor, for which dynamic highlighting works.
-  //Reason for option: dynamic highlighting disables highlighting cache, so slows down scrolling
+  //Reason for option: dynamic highlighting disables highlighting cache, so slows down scrolling.
   "lexer_dynamic_hilite_max_lines": 2000,
 
   //On app start, postpone lexer parsing, until file tab becomes visible (ie don't parse hidden tabs).
@@ -281,7 +283,7 @@
   "lexer_folding_max_lines": 10000,
 
   //[Text/Folding]
-  //Style of folded blocks
+  //Style of folded blocks.
   //  0: if fold-hint empty: [...] from fold position, otherwise hint
   //  1: if fold-hint empty: [line...] from fold position, otherwise hint
   //  2: if fold-hint empty: [...] after line, otherwise hint
@@ -289,21 +291,21 @@
   //  4: horizontal line below the text line
   "fold_style": 1,
 
-  //Show tooltip when mouse hovers over [...] folded blocks
+  //Show tooltip when mouse hovers over [...] folded blocks.
   "fold_tooltip_show": false,
 
   //[Text/Commands]
-  //If no selection, "Copy to clipboard" will take entire line with caret
+  //If no selection, "Copy to clipboard" will take entire line with caret.
   "copy_line_if_no_sel": true,
 
-  //If no selection, "Cut to clipboard" will take entire line with caret
+  //If no selection, "Cut to clipboard" will take entire line with caret.
   "cut_line_if_no_sel": false,
 
   //If vertical (column) selection is placed, copy it to clipboard aligned by spaces,
-  //i.e. lines are padded by spaces to have equal length
+  //i.e. lines are padded by spaces to have equal length.
   "copy_column_aligned_by_spaces": true,
 
-  //When text is typed, delete selection first
+  //When text is typed, delete selection first.
   "ovr_sel": true,
 
   //On Paste: when "Insert/Overwrite" mode (Ins hotkey) is "overwrite",
@@ -315,13 +317,13 @@
   "paste_multiline_at_line_start": false,
 
   //[File/Saving]
-  //On saving file: delete spaces at lines ends
+  //On saving file: delete spaces at lines ends.
   "saving_trim_spaces": false,
 
-  //On saving file: delete redundant empty lines at file end
+  //On saving file: delete redundant empty lines at file end.
   "saving_trim_final_empty": false,
 
-  //On saving file: force end-of-line chars at file end (if not entered)
+  //On saving file: force end-of-line chars at file end (if not entered).
   "saving_force_final_eol": false,
 
   //[Text]
@@ -331,21 +333,21 @@
   "nonword_chars": "-+*=/\\()[]{}<>\"'.,:;~?!@#$%^&|`…",
 
   //[Text/Look]
-  //Additional vertical spacing per each line, in pixels [has suffix]
-  //Can be negative too
+  //Additional vertical spacing per each line, in pixels. [has suffix]
+  //Can be negative too.
   "spacing_y": 1,
   "spacing_y__linux": 1,
   "spacing_y__mac": 1,
 
   //[Text/Tabulations]
-  //Tab-char width
+  //Tab-char width.
   "tab_size": 4,
 
-  //Tab key inserts spaces, instead of tab-char
+  //Tab key inserts spaces, instead of tab-char.
   "tab_spaces": false,
 
-  //Maximal X position, before which tab-characters visually expand to N spaces
-  //(after this X position, tab-chars expand to 1 space)
+  //Maximal X position, before which tab-characters visually expand to N spaces.
+  //(After this X position, tab-chars expand to 1 space.)
   "tab_max_pos_expanded": 500,
 
   //[Text]
@@ -354,25 +356,25 @@
   "max_line_len_for_accurate_width": 500,
 
   //[Lexers]
-  //Maximal line length, which is handled by pair-brackets finder
+  //Maximal line length, which is handled by pair-brackets finder.
   "max_line_len_parsed": 4000,
 
   //[View/Gutter]
-  //Gutter: If false, all gutter columns hide (bookmarks, folding, numbers, line states)
+  //Gutter: If false, all gutter columns hide (bookmarks, folding, numbers, line states).
   "gutter_show": true,
 
-  //Gutter: Show gutter's folding column
+  //Gutter: Show gutter's folding column.
   "gutter_fold": true,
 
-  //Gutter: If false, folding lines auto-hide on mouse-leave
+  //Gutter: If false, folding lines auto-hide on mouse-leave.
   "gutter_fold_always": true,
 
-  //Gutter: Style of folding icons
+  //Gutter: Style of folding icons.
   //  0: plus/minus
   //  1: triangles
   "gutter_fold_icons": 0,
 
-  //Gutter: Show gutter's bookmarks column
+  //Gutter: Show gutter's bookmarks column.
   "gutter_bookmarks": true,
 
   //Bookmarks: Automatically delete bookmarks when their lines are deleted,
@@ -381,10 +383,10 @@
   "auto_delete_bookmarks": false,
 
   //[View/LineNumbers]
-  //Show gutter's "Line numbers" column
+  //Show gutter's "Line numbers" column.
   "numbers_show": true,
 
-  //For which lines to show numbers
+  //For which lines to show numbers.
   //  0: show for all lines
   //  1: don't show
   //  2: show for each 10th line
@@ -392,14 +394,14 @@
   //  4: show relative numbers: exact number for first caret, and deltas for other lines
   "numbers_style": 0,
 
-  //Always show numbers for line(s) with caret(s)
+  //Always show numbers for line(s) with caret(s).
   "numbers_for_carets": false,
 
-  //Center line numbers on gutter column
+  //Center line numbers on gutter column.
   "numbers_center": true,
 
   //[View/Scrolling]
-  //On dragging vertical scrollbar, show line number tooltip in the top-right corner
+  //On dragging vertical scrollbar, show line number tooltip in the top-right corner.
   "show_hint_on_vert_scroll": false,
 
   //Use smooth, per-pixel, scrolling. Otherwise, scrolling is per-line.
@@ -425,10 +427,10 @@
   "scrollbar_click_jump": false,
 
   //[Text/Look]
-  //Marker size (Wiki "Markers" topic), in percents of line height
+  //Marker size (Wiki "Markers" topic), in percents of line height.
   "marker_size": 30,
 
-  //Style of block staples (aka indentation guides)
+  //Style of block staples (aka indentation guides).
   //  0: don't show
   //  1: normal lines
   //  2: dash/dotted lines
@@ -444,46 +446,46 @@
   "staples_props": "-1,40,1,1",
 
   //[View/Ruler]
-  //Ruler: Show ruler (horizontal bar at the top)
+  //Ruler: Show ruler (horizontal bar at the top).
   "ruler_show": false,
 
-  //Ruler: Numeration style
+  //Ruler: Numeration style.
   //  0: numbers 0 - 10 - 20 - 30...
   //  1: numbers 1 - 11 - 21 - 31...
   //  2: numbers 1 - 10 - 20 - 30...
   "ruler_numeration": 0,
 
-  //Ruler: Size of caret's mark (pixels), 0: hide this mark
+  //Ruler: Size of caret's mark (pixels), 0: hide this mark.
   "ruler_mark_caret": 1,
 
   //[View/Minimap]
-  //Minimap: Show
+  //Minimap: Show.
   "minimap_show": false,
 
   //Minimap: Show selection area always. If false: show only on mouse-over.
   "minimap_sel_always": false,
 
-  //Minimap: Show 1-pixel border around selection area
+  //Minimap: Show 1-pixel border around selection area.
   "minimap_sel_border": true,
 
-  //Minimap: Width of minimap area
+  //Minimap: Width of minimap area.
   //  value=0: minimap is auto-sized, according to current window width and gutter width
   //  value>0: minimap has specified fixed width, in average char cells
   "minimap_char_width": 0,
 
-  //Minimap: Place minimap to the left side
+  //Minimap: Place minimap to the left side.
   "minimap_at_left": false,
 
-  //Minimap: Custom scale in percents, if value>100
+  //Minimap: Custom scale in percents, if value>100.
   "minimap_scale": 0,
 
-  //Minimap: Show "tooltip panel", when mouse cursor moves over minimap
+  //Minimap: Show "tooltip panel", when mouse cursor moves over minimap.
   "minimap_tooltip_show": false,
 
-  //Minimap: Number of lines in "tooltip panel"
+  //Minimap: Number of lines in "tooltip panel".
   "minimap_tooltip_line_count": 6,
 
-  //Minimap: Width of "tooltip panel" in percents of editor width
+  //Minimap: Width of "tooltip panel" in percents of editor width.
   "minimap_tooltip_width": 60,
 
   //Minimap: Feature of Sublime Text 2 (removed in Sublime Text 3):
@@ -492,21 +494,21 @@
   "minimap_drag_immediately": false,
 
   //[View/Micromap]
-  //Show micromap (small vertical bar at the right side, showing "line states")
+  //Show micromap (small vertical bar at the right side, showing "line states").
   "micromap_show": false,
 
   //Place micromap on the vertical scrollbar, instead of separate narrow panel.
   //Note: you may hide arrows of the vertical scrollbar, by "scrollbar_arrows" option.
   "micromap_on_scrollbar": false,
 
-  //Show "line states" on micromap
+  //Show "line states" on micromap.
   "micromap_line_states": true,
 
-  //Show bookmarks on micromap
+  //Show bookmarks on micromap.
   "micromap_bookmarks": false,
 
   //[Text/VerticalLines]
-  //Show additional vertical lines at all carets positions
+  //Show additional vertical lines at all carets positions.
   "show_cur_column": false,
 
   //Position of vertical line called "margin".
@@ -538,15 +540,15 @@
   "unprinted_replace_spec": false,
 
   //Unprinted symbols: ASCII characters 0...31 will be rendered
-  //as a "replacement character" with specified hex code
-  //(e.g. value "A4" means character U+00A4)
+  //as a "replacement character" with specified hex code.
+  //(e.g. value "A4" means character U+00A4.)
   "unprinted_replace_to_code": "A4",
 
   //Unprinted symbols: Length of arrow rendered for tab-char.
   //Value=1 means minimal length, 0 means full size.
   "unprinted_tab_len": 1,
 
-  //Unprinted symbols: Scale of different symbols, in % of character height
+  //Unprinted symbols: Scale of different symbols, in % of character height.
   //Value is string with comma-separated numbers:
   //- Scale of space-char "dots"
   //- Scale of end-of-line "dots"
@@ -555,14 +557,14 @@
   "unprinted_symbols_scale": "15,30,80,22,",
 
   //[Text/Wrap]
-  //Long lines wrap mode:
+  //Long lines wrap mode.
   //  0: no wrap (fastest)
   //  1: wrap at window edge (exact value changes on window resize)
   //  2: wrap at "fixed margin"
   //  3: wrap at minimum of "window edge" and "fixed margin"
   "wrap_mode": 0,
 
-  //For lines beginning with whitespace, show wrapped parts indented, like line itself
+  //For lines beginning with whitespace, show wrapped parts indented, like line itself.
   "wrap_indented": true,
 
   //Enable word wrap (by window edge, by margin) only if lines count < option value.
@@ -578,13 +580,14 @@
   "undo_limit": 5000,
 
   //Undo: When multi-carets editing is performing, and count of carets is too big,
-  //clear the Undo-information (to not slow down too much)
+  //clear the Undo-information (to not slow down too much).
   "undo_max_carets": 20000,
 
-  //Undo: Allows to revert commands by groups (groups are separated e.g. by mouse clicks)
+  //Undo: Allows to revert commands by groups.
+  //(Groups are separated e.g. by mouse clicks.)
   "undo_grouped": true,
 
-  //Undo: Undo is enabled even after file saving
+  //Undo: Undo is enabled even after file saving.
   "undo_after_save": true,
 
   //Undo: For which files Undo is saved to disk (files in .cudatext folder).
@@ -604,35 +607,35 @@
 
   //[Text/Caret]
   //Allow to place caret after end-of-line (virtual caret position),
-  //and allow caret to go to previous line when Left is pressed at line start
+  //and allow caret to go to previous line when Left is pressed at line start.
   "caret_after_end": false,
 
-  //Caret blink time (msec)
+  //Caret blinking interval (in msec).
   "caret_blink_time": 600,
 
-  //Caret blinking enabled
+  //Caret blinking is enabled.
   "caret_blink_en": true,
 
-  //Enable multi-carets (more than a single caret)
+  //Enable multi-carets (more than a single caret).
   "caret_multi": true,
 
-  //Caret shape is 2-3 values (3rd is optional), comma-separated: width,height,options
+  //Caret shape is 2-3 values (3rd is optional), comma-separated: width,height,options.
   //- width: if > 0, in pixels; in < 0, in %
   //- height: if > 0, in pixels; in < 0, in %; can be taller than 100%
   //- options: can be "_" to make caret empty inside
   //
-  //Caret: shape for normal state
+  //Caret: shape for normal state.
   "caret_view": "2,-100",
 
   //...
-  //Caret: shape for overwrite state (Ins key: insert/overwrite)
+  //Caret: shape for overwrite state (Ins key: insert/overwrite).
   "caret_view_ovr": "-100,-100",
 
   //...
-  //Caret: shape for read-only mode
+  //Caret: shape for read-only mode.
   "caret_view_ro": "-100,2",
 
-  //Caret: positions after pasting column-block
+  //Caret: positions after pasting column-block.
   //  0: no change
   //  1: left-bottom
   //  2: right-bottom
@@ -641,7 +644,7 @@
   //  5: carets column on right
   "caret_after_paste_column": 5,
 
-  //Keep caret on visible screen area, on commands "Scroll line up/down"
+  //Keep caret on visible screen area, on commands "Scroll line up/down".
   "caret_keep_visible_on_scroll": true,
 
   //Mode of column selection, value makes difference for wrapped lines
@@ -654,20 +657,20 @@
   "caret_proximity_vert": 0,
 
   //[Find]
-  //Find dialog: show window, not docked to app bottom (applied after restart)
+  //Find dialog: show window, not docked to app bottom (applied after restart).
   "find_separate_form": false,
 
-  //Find dialog: suggest selection (of first caret) as initial search text
+  //Find dialog: suggest selection (of first caret) as initial search text.
   "find_suggest_sel": true,
 
-  //Find dialog: suggest current word (at first caret) as initial search text
+  //Find dialog: suggest current word (at first caret) as initial search text.
   "find_suggest_cur_word": false,
 
   //Find dialog: check the option "Search in selection", if editor has single caret
-  //with multi-line selection
+  //with multi-line selection.
   "find_suggest_in_selection": false,
 
-  //Commands "Find current selection next / previous": case-sensitive state
+  //Commands "Find current selection next / previous": case-sensitive state.
   //  0: case-sensitive off
   //  1: case-sensitive on
   //  2: use the option from Find dialog
@@ -690,7 +693,7 @@
   //  if "g" in value: "Replace global" button
   "find_hidden_buttons": "",
 
-  //Find dialog: multi-line mode: how height of inputs is increased
+  //Find dialog: multi-line mode: how height of inputs is increased.
   "find_multiline_scale": 2.5,
 
   //When doing "Go to" or "Find", and new position is out of current screen,
@@ -705,7 +708,7 @@
   "find_indent_horz": 10,
 
   //Find dialog option "Highlight all matches": maximal count of document lines,
-  //for which "Highlight all matches" still works
+  //for which "Highlight all matches" still works.
   "find_hi_max_lines": 1000,
 
   //[Ui]
@@ -723,7 +726,7 @@
   "ui_scale_font__mac": 100,
 
   //[Ui/Tabs]
-  //UI tabs: global visible flag for ui-tabs
+  //UI tabs: global visible flag for ui-tabs.
   "ui_tab_show": true,
 
   //UI tabs: use "Tab switcher" dialog on Ctrl+Tab, Ctrl+Shift+Tab. This dialog
@@ -731,10 +734,10 @@
   //and ignoring recently used order.
   "ui_tab_switcher_dialog": true,
 
-  //UI tabs: Use Single Document Interface, ie don't create tabs except the first one
+  //UI tabs: Use Single Document Interface, ie don't create tabs except the first one.
   "ui_tab_disabled": false,
 
-  //UI tabs: Use tabs of variable width (width depends on tab caption)
+  //UI tabs: Use tabs of variable width (width depends on tab caption).
   "ui_tab_variable_width": false,
 
   //UI tabs: Allow multi-line mode: tabs are wrapped to several lines,
@@ -746,10 +749,10 @@
   //so to avoid them, option has no effect for: macOS, Linux Qt5.
   "ui_tab_angled": false,
 
-  //UI tabs: Flat look
+  //UI tabs: Flat look.
   "ui_tab_flat": false,
 
-  //UI tabs: Layout of buttons near tabs, at left/right sides
+  //UI tabs: Layout of buttons near tabs, at left/right sides.
   //String of few chars, each char is button. Separator for sides is comma.
   //Allowed chars (buttons):
   //  "<", ">" - scroll arrows
@@ -758,29 +761,29 @@
   //  "x" - close button, the same as x icon on active tab
   "ui_tab_button_layout": "<>,v",
 
-  //UI tabs: Default tab width
+  //UI tabs: Default tab width.
   "ui_tab_size_x": 170,
 
-  //UI tabs: Minimal tab width (used when lot of tabs appear)
+  //UI tabs: Minimal tab width (used when lot of tabs appear).
   "ui_tab_size_x_min": 40,
 
-  //UI tabs: Maximal tab width
+  //UI tabs: Maximal tab width.
   "ui_tab_size_x_max": 300,
 
-  //UI tabs: Default tab height
+  //UI tabs: Default tab height.
   "ui_tab_size_y": 26,
 
-  //UI tabs: Position (side) of tabs
+  //UI tabs: Position (side) of tabs.
   //  0: top
   //  1: bottom
   //  2: left
   //  3: right
   "ui_tab_position": 0,
 
-  //UI tabs: indent between tab edge and text beginning
+  //UI tabs: indent between tab edge and text beginning.
   "ui_tab_padding": 6,
 
-  //UI tabs: When to show "x" buttons on tabs
+  //UI tabs: When to show "x" buttons on tabs.
   //  0: don't show
   //  1: show for all tabs
   //  2: show only for active tab
@@ -788,35 +791,35 @@
   //  4: show for active + mouse-over tabs
   "ui_tab_show_x": 1,
 
-  //UI tabs: Size of "x" buttons
+  //UI tabs: Size of "x" buttons.
   "ui_tab_show_x_size": 14,
 
-  //UI tabs: Show "x" marks in circles (otherwise in squares)
+  //UI tabs: Show "x" marks in circles (otherwise in squares).
   "ui_tab_x_rounded": true,
 
-  //UI tabs: Show "+" pseudo-tab (its click creates new tab)
+  //UI tabs: Show "+" pseudo-tab (its click creates new tab).
   "ui_tab_show_plus": true,
 
-  //UI tabs: Feature "Set tab color" colorizes the entire tab height
+  //UI tabs: Feature "Set tab color" colorizes the entire tab height.
   "ui_tab_fullcolor": false,
 
-  //UI tabs: Additional scaling of tab title font
+  //UI tabs: Additional scaling of tab title font.
   "ui_tab_font_scale": 100,
 
-  //UI tabs: Double-click closes tab
+  //UI tabs: Double-click closes tab.
   "ui_tab_2click_closes": false,
 
-  //UI tabs: Show indexes on tabs
+  //UI tabs: Show indexes on tabs.
   "ui_tab_numbers": false,
 
-  //UI tabs: Open new tab near the currently active tab
+  //UI tabs: Open new tab near the currently active tab.
   "ui_tab_new_near_current": false,
 
   //UI tabs: On closing a tab, app activates recently active tab in the same group (true),
-  //  or righter tab (false)
+  //or righter tab (false).
   "ui_tab_recent_on_close": false,
 
-  //UI tabs: Font styles of preview-tab (opened by single click on Project Manager file item)
+  //UI tabs: Font styles of preview-tab (opened by single click on Project Manager file item).
   //  If "b" in value: bold
   //  If "i" in value: italic
   //  If "u" in value: underline
@@ -824,29 +827,29 @@
   "ui_tab_preview_font_style": "iu",
 
   //[Ui/Listbox]
-  //Listboxes: Commands/API listbox width
+  //Listboxes: Commands/API listbox width.
   "ui_listbox_size_x": 450,
 
-  //Listboxes: Commands/API listbox height
+  //Listboxes: Commands/API listbox height.
   "ui_listbox_size_y": 300,
 
-  //Listboxes: Auto-completion listbox width
+  //Listboxes: Auto-completion listbox width.
   "ui_listbox_complete_size_x": 550,
 
-  //Listboxes: Auto-completion listbox height
+  //Listboxes: Auto-completion listbox height.
   "ui_listbox_complete_size_y": 200,
 
-  //Listboxes: Enable fuzzy search in menu dialogs (see Wiki)
+  //Listboxes: Enable fuzzy search in menu dialogs (see Wiki).
   "ui_listbox_fuzzy": true,
 
   //[Ui/History]
-  //History: Max items in comboboxes history (0..200)
+  //History: Max items in comboboxes history (0..200).
   "ui_max_history_edits": 20,
 
-  //History: Max items in "recent files" menu (0..50)
+  //History: Max items in "recent files" menu (0..50).
   "ui_max_history_menu": 10,
 
-  //History: Max items in "settings/history files.json" (0..400)
+  //History: Max items in "settings/history files.json" (0..400).
   "ui_max_history_files": 25,
 
   //History: Which elements to save to history/session files.
@@ -878,50 +881,50 @@
   "ui_cmdpalette_filter_keep": false,
 
   //[Ui]
-  //Close program by Esc key
+  //Close the program by Esc key.
   "ui_esc_close": false,
 
-  //Close Console by Esc key
+  //Close the Console panel by Esc key.
   "ui_esc_close_console": true,
 
-  //Initial folder of Open/Save-as dialogs, for untitled tabs
+  //Initial folder of Open/Save-as dialogs, for untitled tabs.
   "ui_initial_dir": "",
 
   //[Ui/Tree]
-  //After caret moves, select code-tree node for new caret position
+  //After caret moves, select code-tree node for new caret position.
   "ui_tree_auto_sync": true,
 
-  //Delay (in msec) after text change, after which code-tree contents is filled
+  //Delay (in msec) after text change, after which code-tree contents is filled.
   "ui_tree_time_fill": 2000,
 
-  //Show icons in code-tree, for lexers which assign icons (e.g. C#)
+  //Show icons in code-tree, for lexers which assign icons (e.g. C#).
   "ui_tree_icons": true,
 
-  //Code-tree icons theme
+  //Code-tree icons theme.
   //Folders from: codetreeicons
   "ui_tree_theme": "default_16x16",
 
-  //Show tooltips for code-tree items, which don't fit by width
+  //Show tooltips for code-tree items, which don't fit by width.
   "ui_tree_show_tooltips": true,
 
-  //Layout of code-tree filter field
+  //Layout of code-tree filter field.
   //  0: field is hidden
   //  1: field is shown on top
   //  2: field is shown on bottom
   "ui_tree_filter_layout": 1,
 
-  //Show nodes of sublexer(s) in code-tree
+  //Show nodes of sublexer(s) in code-tree.
   //Used for example for JavaScript inside PHP. Requires program restart.
   "ui_tree_sublexers": false,
 
   //[Text/NewDocument]
-  //New tabs: Lexer name
+  //New tabs: Lexer name.
   "newdoc_lexer": "",
 
   //New tabs: Encoding name. Possible names are listed in Wiki (utf8, utf8_bom, cp1250 etc).
   "newdoc_encoding": "utf8",
 
-  //New tabs: Line endings sequence
+  //New tabs: Line endings sequence.
   //  0: Auto: CRLF on Windows, LF otherwise
   //  1: LF
   //  2: CRLF (Windows)
@@ -930,16 +933,16 @@
 
   //[File]
   //When file opens, and cannot detect encoding, open it as ANSI (value=false)
-  //or UTF8 (value=true) [has suffix]
+  //or UTF8 (value=true). [has suffix]
   "def_encoding_utf8": false,
   "def_encoding_utf8__linux": true,
   "def_encoding_utf8__mac": true,
 
   //[Text/Indent]
-  //On pressing Enter, make new line indented (like in previous line)
+  //On pressing Enter, make new line indented (like in previous line).
   "indent_auto": true,
 
-  //How to compose whitespaces for auto-indented lines (on Enter)
+  //How to compose whitespaces for auto-indented lines (on Enter).
   //  0: indent (maybe mixed spaces/tabs) like in previous line
   //  1: by spaces only
   //  2: by tabs+spaces
@@ -947,14 +950,14 @@
   //  4: by spaces up to "(" last non-closed bracket in previous line
   "indent_kind": 0,
 
-  //Indentation for Indent/Unindent commands
+  //Indentation for Indent/Unindent commands.
   //  N>0: indent is N spaces
   //  N<0: indent is abs(N) tabs
   //  N=0: indent is from options "tab_size" and "tab_spaces"
   "indent_size": 0,
 
   //Don't do more Unindent (Shift+Tab), when any line of the selected block
-  //is already at the first column
+  //is already at the first column.
   "unindent_keeps_align": false,
 
   //When indenting several lines, stretch selection after command, to entire affected lines.
@@ -969,45 +972,46 @@
   "indent_auto_rule": "",
 
   //[Mouse]
-  //Enable drag-drop of text blocks
+  //Enable drag-drop of text blocks.
   "mouse_drag_drop": true,
 
-  //After drag-drop of text block to another group, focus target editor
+  //After drag-drop of text block to another group, focus target editor.
+  //Note: this option is global, not per-lexer.
   "mouse_drag_drop_focus_target": true,
 
-  //Right-click moves caret (before showing context menu)
+  //Right-click moves caret (before showing the context menu).
   "mouse_rt_click_moves_caret": false,
 
-  //Double-click and immediately drag, makes selection by words
+  //Double-click and immediately drag, makes selection by words.
   "mouse_2click_drag_select_words": true,
 
-  //Middle-click action
+  //Middle-click action.
   //  0: None
   //  1: Scrolling: shows circle picture, then mouse-move near that circle does auto-scrolling
   //  2: Paste (without caret placement)
   //  3: Goto-definition command
   "mouse_middle_click": 1,
 
-  //Enable selection of vertical blocks (Alt+drag)
+  //Enable selection of vertical blocks (Alt+drag).
   "mouse_column_selection": true,
 
-  //Select entire line, when line number on gutter is clicked
+  //Select entire line, when line number on gutter is clicked.
   "mouse_gutter_click_sel": true,
 
-  //Allow to zoom text using Ctrl+[mouse wheel up/down]
+  //Allow to zoom text using Ctrl+[mouse wheel up/down].
   "mouse_wheel_zoom": true,
 
-  //Mouse wheel scrolling speed, vertical (in lines)
+  //Mouse wheel scrolling speed, vertical (in lines).
   "mouse_wheel_speed_vert": 3,
 
-  //Mouse wheel scrolling speed, horizontal (in chars)
+  //Mouse wheel scrolling speed, horizontal (in chars).
   "mouse_wheel_speed_horz": 10,
 
   //Mouse scrolling speed, when selection is dragged out of editor top/bottom edge.
   //Note: this option is global, not per-lexer.
   "mouse_scroll_speed_vert": 1,
 
-  //Call "Go to definition" command, by click with modifier key
+  //Call "Go to definition" command, by click with modifier key.
   //  "": disabled
   //  "a": by Alt+click
   //  "sa": by Shift+Alt+click
@@ -1016,73 +1020,73 @@
   "mouse_goto_definition": "a",
 
   //Mouse click on line number: select line with end-of-line
-  //(so caret is placed on the next line)
+  //(so caret is placed on the next line).
   "mouse_click_number_selects_eol": true,
 
-  //How to activate web links (URLs and emails) by mouse
-  //(links are specified by option "links_regex")
+  //How to activate links (URLs and emails) by mouse.
+  //(Links are specified by option "links_regex".)
   //  0: don't activate
   //  1: activate by single click
   //  2: activate by double click
   "mouse_click_links": 2,
 
   //[Keys]
-  //Key BackSpace: do Unindent command, if caret is inside indented area
+  //Key BackSpace: do Unindent command, if caret is inside indented area.
   "key_bksp_unindent": true,
 
-  //Key BackSpace: if caret at line start, BkSp goes to end of previous line
+  //Key BackSpace: if caret at line start, BkSp goes to end of previous line.
   "key_bksp_wrap": true,
 
-  //Key Tab: do Indent command, if text is selected
+  //Key Tab: do Indent command, if text is selected.
   "key_tab_indents_sel": true,
 
-  //Key Home: first jump to leading non-space char, then to line start
+  //Key Home: first jump to leading non-space char, then to line start.
   "key_home_to_nonspace": true,
 
-  //Key End: first jump to trailing non-space char, then to line end
+  //Key End: first jump to trailing non-space char, then to line end.
   "key_end_to_nonspace": true,
 
   //Keys Home/End: when moving on long wrapped lines, treat wrapped parts like
-  //separate lines and first jump to wrapped parts edge
+  //separate lines and first jump to wrapped parts edge.
   "key_home_end_nav_wrapped": true,
 
-  //Keys PageUp/PageDown: keep relative offset from top of editor
+  //Keys PageUp/PageDown: keep relative offset from top of editor.
   "key_page_keeps_rel_pos": true,
 
-  //Keys PageUp/PageDown: page size
+  //Keys PageUp/PageDown: page size.
   //  0: full height
   //  1: full height minus 1
   //  2: half height
   "key_page_size": 1,
 
   //Keys Up/Down: try to remember/keep caret column: if moving from long line,
-  //to short line, to long line again
+  //to short line, to long line again.
   "key_up_down_keeps_column": true,
 
   //Keys Up/Down: when moving on long wrapped lines, treat wrapped parts
-  //like separate lines and try to jump to position above/below previous
+  //like separate lines and try to jump to position above/below previous.
   "key_up_down_nav_wrapped": true,
 
   //Keys Up/Down:
   //when Up key is pressed on first line - jump to the very beginning;
-  //when Down key is pressed on last line - jump to the very ending
+  //when Down key is pressed on last line - jump to the very ending.
   "key_up_down_allow_edge": false,
 
   //Keys Left/Right: with "caret_after_end":false, option allows carets
-  //(when at least 2 carets exist) go to next/previous line
+  //(when at least 2 carets exist) go to next/previous line.
   //(a: caret is at the line start and Left pressed,
-  //b: caret is at the line end and Right pressed)
+  //b: caret is at the line end and Right pressed.)
   "key_left_right_wrap_with_carets": true,
 
-  //Keys Left/Right: try to jump to opposite selection edge
+  //Keys Left/Right: try to jump to opposite selection edge.
   "key_left_right_swap_sel": true,
 
-  //Keys Left/Right: try to jump to opposite selection edge, and keep this selection
+  //Keys Left/Right: try to jump to opposite selection edge, and keep this selection.
   "key_left_right_swap_sel_and_select": false,
 
   //[Ui/Statusbar]
   //States: no-selection, small-selection (one line), stream-selection (several lines),
-  //  column-selection, multi-carets.
+  //column-selection, multi-carets.
   //Macros:
   //  {y}: line index of first caret
   //  {y2}: line index of last caret
@@ -1111,7 +1115,7 @@
   "ui_statusbar_col_sel": "{sel}x{cols} {_sel}",
   "ui_statusbar_carets": "{carets} {_carets}, {sel} {_linesel}",
 
-  //Statusbar is visible
+  //Statusbar is visible.
   "ui_statusbar_show": true,
 
   //Statusbar panels list. Can skip items, can reorder items.
@@ -1130,11 +1134,11 @@
   //    C (center), L (left), R (right), A (auto-size)
   "ui_statusbar_panels": "caret,C,180|enc,C,125|ends,A,45|lexer,C,140|tabsize,A,75|selmode,A,15|msg,L,4000",
 
-  //Statusbar message (in the last panel): show time in seconds
+  //Statusbar message (in the last panel): show time in seconds.
   "ui_statusbar_time": 5,
 
   //[Ui]
-  //Show full file path in the window title
+  //Show full file path in the window title.
   "ui_title_path": false,
 
   //[Ui/History]
@@ -1158,11 +1162,12 @@
   //You can open these backups by plugin Session Manager, or rename them to a normal name.
   "ui_backup_sessions": 0,
 
-  //Pause of hint, of command "show function-hint"
+  //Pause of hint, of command "show function-hint".
   "ui_alt_hint_time": 9,
 
   //[Lexers]
-  //Allow to apply color-theme to lexer's styles (and auto-show dialog "Lexer styles mapping")
+  //Allow to apply color-theme to lexer's styles.
+  //(And auto-show dialog "Lexer styles mapping".)
   "ui_lexer_themes": true,
 
   //[View/Web]
@@ -1177,25 +1182,25 @@
   "underline_color_size": 3,
 
   //[View/Brackets]
-  //Enable to highlight pair brackets
+  //Enable to highlight pair brackets.
   "bracket_highlight": false,
 
-  //String containing pairs of brackets to highlight, in any order
-  //Supports these pairs: () [] {} <>
+  //String containing pairs of brackets to highlight, in any order.
+  //Supports these pairs: () [] {} <>.
   "bracket_symbols": "()[]{}",
 
   //Max distance, in lines, from the caret, to search for pair bracket
-  //(used only for bracket highlighting, but not for bracket jumps)
+  //(used only for bracket highlighting, but not for bracket jumps).
   "bracket_distance": 150,
 
   //[File/Export]
-  //Export to HTML: show line numbers in output
+  //Export to HTML: show line numbers in output.
   "export_html_numbers": false,
 
-  //Export to HTML: font name in output
+  //Export to HTML: font name in output.
   "export_html_font_name": "Courier New",
 
-  //Export to HTML: font size in output
+  //Export to HTML: font size in output.
   "export_html_font_size": 12,
 
   //[Python]
@@ -1227,27 +1232,27 @@
   "pylib__freebsd": "libpython3.6m.so",
   "pylib__haiku": "/boot/system/develop/lib/libpython3.6m.so",
 
-  //API: delay for event on_change_slow in msec (used in CudaLint)
+  //API: delay for event on_change_slow in msec (used in CudaLint).
   "py_change_slow": 2000,
 
   //[Text/Commands]
-  //Commenting: If no selection then move caret to next line
+  //Commenting: If no selection then move caret to next line.
   "comment_move_down": true,
 
-  //Commenting: Try to save chars positions in line after commenting/uncommenting
+  //Commenting: Try to save chars positions in line after commenting/uncommenting.
   "comment_save_column": false,
 
-  //Commenting: If selected >1 lines, insert comment at maximal common indent
+  //Commenting: If selected >1 lines, insert comment at maximal common indent.
   "comment_equal_column": false,
 
-  //Command "Duplicate line (advanced)": If no selection, duplicate entire line
+  //Command "Duplicate line (advanced)": If no selection, duplicate entire line.
   "duplicate_full_line_if_no_sel": true,
 
-  //Command "Duplicate line (advanced)": If no selection, move caret to next line
+  //Command "Duplicate line (advanced)": If no selection, move caret to next line.
   "duplicate_move_down": true,
 
   //[Text/Completion]
-  //Enable special HTML auto-completion, see wiki
+  //Enable special HTML auto-completion, see wiki.
   "autocomplete_html": true,
 
   //Enable special HTML auto-completion, if lexer name matches this reg.ex.
@@ -1257,7 +1262,7 @@
   //Also, enable auto-closing of last opened tag when you type "</".
   "autocomplete_html_autoclose": true,
 
-  //Enable special CSS auto-completion, see wiki
+  //Enable special CSS auto-completion, see wiki.
   "autocomplete_css": true,
 
   //Enable special CSS auto-completion, if lexer name matches this reg.ex.
@@ -1285,17 +1290,17 @@
   //listbox is closed, and typed char is appended.
   "autocomplete_close_chars": "<>()[]{}=",
 
-  //If chosen auto-completion item has (), then append "(" on insertion
+  //If chosen auto-completion item has (), then append "(" on insertion.
   "autocomplete_add_opening_bracket": true,
 
   //What to do when Up key is pressed with auto-completion selection on top,
-  //or Down key is pressed with selection on bottom
+  //or Down key is pressed with selection on bottom.
   //  0: ignore pressed key
   //  1: wrap selection to opposite edge
   //  2: close auto-completion
   "autocomplete_up_down_at_edge": 1,
 
-  //If completion listbox has just single item, then commit it without showing menus
+  //If completion listbox has just single item, then commit it without showing menus.
   "autocomplete_commit_single_item": false,
 
   //Auto-pair some chars on typing.
@@ -1316,24 +1321,24 @@
   "picture_types": "bmp,png,jpg,jpeg,jpe,gif,ico",
 
   //[View/Web]
-  //Highlight (and underline) hyperlinks
+  //Highlight+underline links (URL and emails).
   "links_hilite": true,
 
-  //Regular expression, which finds hyperlinks
+  //Regular expression, which finds links.
   "links_regex": "\\b(mailto:)?\\w[\\w\\-\\.]*@\\w[\\w\\-\\.]*\\.\\w{2,}\\b|\\b(https?://|ftp://|magnet:\\?|www\\.|ftp\\.)\\w[\\w\\-\\.@]*(:\\d+)?(/[~\\w\\.\\-\\+\\/%]*)?(\\?[^<>'\"\\s]+)?(\\#[\\w\\-]*)?",
 
   //[File]
-  //Maximal file size, allowed to open, in Mb
+  //Maximal file size, allowed to open, in Mb.
   "ui_max_size_open": 500,
 
-  //Maximal file size, for which allowed to use lexers, in Mb
+  //Maximal file size, for which allowed to use lexers, in Mb.
   //  It's important for JSON, XML: if file is bigger, than lite lexer (JSON ^, XML ^)
   //  will be used instead of normal lexer.
   "ui_max_size_lexer": 2,
 
   //[Ui]
-  //On calling Full-Screen, hide these UI elements
-  //Value is string of few chars
+  //On calling Full-Screen, hide these UI elements.
+  //Value is string of few chars:
   //  if "t" in value: toolbar
   //  if "i" in value: statusbar
   //  if "a" in value: sidebar (on the left edge)
@@ -1343,58 +1348,58 @@
   //  if "g" in value: gutter (all columns: numbers, bookmarks...)
   "ui_fullscreen": "tp",
 
-  //Highlight border of focused input box
-  //(Find/Replace dialog, Console panel, Code Tree filter input)
+  //Highlight border of focused input box.
+  //(Find/Replace dialog, Console panel, Code Tree filter input.)
   //  value=0: don't highlight
   //  value>0: highlight with the specified border width, in pixels
   //  if 100 is added, then highlight in the main editor too (and plugins' editors)
   "ui_active_border": 1,
 
-  //Console panel (Ctrl+`): word-wrap mode
+  //Console panel (Ctrl+`): word-wrap mode.
   "ui_console_wrap": true,
 
   //[Ui/Panels]
-  //Show sidebar (vertical bar with buttons on the left side)
+  //Show sidebar (vertical bar with buttons on the left side).
   "ui_sidebar_show": true,
 
-  //Place sidebar on the right side
+  //Place sidebar on the right side.
   "ui_sidebar_on_right": false,
 
-  //Sidebar icons theme
+  //Sidebar icons theme.
   //Folders from: sideicons
   "ui_sidebar_theme": "common_20x20",
 
-  //Show toolbar (horizontal bar with buttons, below window title)
+  //Show toolbar (horizontal bar with buttons, below window title).
   "ui_toolbar_show": false,
 
-  //Toolbar icons theme
+  //Toolbar icons theme.
   //Folders from: toolbaricons
   "ui_toolbar_theme": "default_24x24",
 
-  //Show main menu bar
+  //Show main menu bar.
   //Note: this option takes effect only after program restart
   "ui_menu_show": true,
 
-  //Top menu bar is themed (Windows only, not possible in other OS)
+  //Top menu bar is themed (Windows only, not possible in other OS).
   "ui_menu_themed": true,
 
-  //Font size for themed top menu bar (Windows only)
+  //Font size for themed top menu bar (Windows only).
   "ui_menu_themed_font_size": 9,
 
-  //Side-panel's visible state on program start
+  //Side-panel's visible state on program start.
   //  0: Restore state from history file
   //  1: Show
   //  2: Hide, program shows panel if needed
   "ui_sidepanel_on_start": 0,
 
-  //Bottom-panel's visible state on program start
+  //Bottom-panel's visible state on program start.
   //  0: Restore state from history file
   //  1: Show
   //  2: Hide, program shows panel if needed
   "ui_bottom_on_start": 0,
 
   //[Find/Hotkeys]
-  //Hotkeys in Find/Replace dialog
+  //Hotkeys in Find/Replace dialog.
   "find_hotkey_find_dlg": "Ctrl+F",
   "find_hotkey_replace_dlg": "Ctrl+R",
   "find_hotkey_find_first": "Alt+Enter",
@@ -1419,41 +1424,43 @@
   "find_hotkey_op_hi": "",
 
   //[Viewer]
-  //Viewer text width in 'binary' mode
+  //Viewer text width in 'binary' mode.
   "viewer_binary_width": 100,
 
-  //Viewer shows non-printable chars and high-ANSI chars 0x7F...0xFF
+  //Viewer shows non-printable chars and high-ANSI chars 0x7F...0xFF.
   "viewer_unprinted": false,
 
   //[Log]
-  //Show in console lines "Init: cuda_nnnn" about plugins initialization
+  //Show in console lines "Init: cuda_nnnn" about plugins initialization.
   "py_init_log": true,
 
-  //Write console contents to file settings/console.log
+  //Write console contents to file settings/console.log.
   "log_console": false,
 
-  //Show in console lines "Loaded session...", "Saved session..."
+  //Show in console lines "Loaded session...", "Saved session...".
   "log_sessions": true,
 
   //[Emmet]
-  //Add slash to empty tags (example of result: <img src="" />)
+  //Add slash to empty tags.
+  //(Example of result: <img src="" />)
   "emmet_add_slash_to_empty_tags": true,
 
-  //Add indentation to nested tags (example: ul>li*6)
+  //Add indentation to nested tags.
+  //(Example: ul>li*6)
   "emmet_indent_nested": true,
 
   //For abbreviations with class/id attributes (example: .name),
-  //add HTML comment near result
+  //add HTML comment near result.
   "emmet_comment_tags": false,
 
-  //Expand everything to a single line of code
+  //Expand everything to a single line of code.
   "emmet_single_line": false,
 
   //Trim line markers from wrapped lines e.g. "* ", "- " or "1."
   "emmet_trim_line_markers": true,
 
   //Wrap selected or Lorem Ipsum text (abbreviation p{@lorem}),
-  //at the column defined by "margin" option
+  //at the column defined by "margin" option.
   "emmet_word_wrap": false,
 
 }
