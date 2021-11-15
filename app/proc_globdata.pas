@@ -488,7 +488,6 @@ type
     OpOverwriteOnPaste: boolean;
     OpPasteWithEolAtLineStart: boolean;
 
-    OpAutoFoldComments: integer;
     OpAutoCloseBracketsMultiCarets: boolean;
     OpAutoCloseBrackets: string;
     OpAutocompleteAutoshowCharCount: integer;
@@ -1467,7 +1466,6 @@ begin
     OpOverwriteOnPaste:= false;
     OpPasteWithEolAtLineStart:= false; //maybe change it later to True (like Sublime, VSCode)
 
-    OpAutoFoldComments:= 0; //disabled by default, issue #3074
     OpAutoCloseBracketsMultiCarets:= true; //must be True, issue #3235
     OpAutoCloseBrackets:= '([{';
     OpAutocompleteAutoshowCharCount:= 0;

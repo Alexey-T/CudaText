@@ -204,8 +204,6 @@ begin
   Ed.OptOverwriteAllowedOnPaste:= Op.OpOverwriteOnPaste;
   Ed.OptPasteWithEolAtLineStart:= Op.OpPasteWithEolAtLineStart;
 
-  EControlOptions.AutoFoldComments:= Op.OpAutoFoldComments;
-
   Ed.OptAutoPairForMultiCarets:= Op.OpAutoCloseBracketsMultiCarets;
   Ed.OptAutoPairChars:= Op.OpAutoCloseBrackets;
   Ed.OptAutocompleteAutoshowCharCount:= Op.OpAutocompleteAutoshowCharCount;
