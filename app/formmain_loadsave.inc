@@ -922,6 +922,7 @@ begin
   OptEditorCharScaleFullWidth:= cfg.GetValue('unicode_full_width', OptEditorCharScaleFullWidth);
   OptEditorBookmarksAutoDelete:= cfg.GetValue('auto_delete_bookmarks', OptEditorBookmarksAutoDelete);
   OptEditorDebugTiming:= cfg.GetValue('log_timing', OptEditorDebugTiming);
+  OptMouseDragDropFocusesTargetEditor:= cfg.GetValue('mouse_drag_drop_focus_target', OptMouseDragDropFocusesTargetEditor);
 
   cSpeedScrollAutoVert:= cfg.GetValue('mouse_scroll_speed_vert', cSpeedScrollAutoVert);
 
@@ -1154,7 +1155,6 @@ begin
 
   Op.OpMouse2ClickDragSelectsWords:= cfg.GetValue('mouse_2click_drag_select_words', Op.OpMouse2ClickDragSelectsWords);
   Op.OpMouseDragDrop:= cfg.GetValue('mouse_drag_drop', Op.OpMouseDragDrop);
-  Op.OpMouseDragDropFocusTarget:= cfg.GetValue('mouse_drag_drop_focus_target', Op.OpMouseDragDropFocusTarget);
   Op.OpMouseMiddleClickAction:= cfg.GetValue('mouse_middle_click', Op.OpMouseMiddleClickAction);
   Op.OpMouseRightClickMovesCaret:= cfg.GetValue('mouse_rt_click_moves_caret', Op.OpMouseRightClickMovesCaret);
   Op.OpMouseEnableColumnSelection:= cfg.GetValue('mouse_column_selection', Op.OpMouseEnableColumnSelection);

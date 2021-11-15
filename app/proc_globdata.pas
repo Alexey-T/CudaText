@@ -635,7 +635,6 @@ type
     //mouse
     OpMouse2ClickDragSelectsWords: boolean;
     OpMouseDragDrop: boolean;
-    OpMouseDragDropFocusTarget: boolean;
     OpMouseMiddleClickAction: integer;
     OpMouseRightClickMovesCaret: boolean;
     OpMouseEnableColumnSelection: boolean;
@@ -1617,7 +1616,6 @@ begin
 
     OpMouse2ClickDragSelectsWords:= true;
     OpMouseDragDrop:= true;
-    OpMouseDragDropFocusTarget:= true;
     OpMouseMiddleClickAction:= Ord(TATEditorMiddleClickAction.mcaScrolling);
     OpMouseRightClickMovesCaret:= false;
     OpMouseEnableColumnSelection:= true;
