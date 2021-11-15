@@ -922,9 +922,14 @@ begin
   OptEditorCharScaleFullWidth:= cfg.GetValue('unicode_full_width', OptEditorCharScaleFullWidth);
   OptEditorBookmarksAutoDelete:= cfg.GetValue('auto_delete_bookmarks', OptEditorBookmarksAutoDelete);
   OptEditorDebugTiming:= cfg.GetValue('log_timing', OptEditorDebugTiming);
+
   OptMouseDragDropFocusesTargetEditor:= cfg.GetValue('mouse_drag_drop_focus_target', OptMouseDragDropFocusesTargetEditor);
   OptMaxTabPositionToExpand:= cfg.GetValue('tab_max_pos_expanded', OptMaxTabPositionToExpand);
   OptMaxLineLenForAccurateCharWidths:= cfg.GetValue('max_line_len_for_accurate_width', OptMaxLineLenForAccurateCharWidths);
+
+  OptUnprintedReplaceSpec:= cfg.GetValue('unprinted_replace_spec', OptUnprintedReplaceSpec);
+  s:= cfg.GetValue('unprinted_replace_to_code', 'A4');
+  OptUnprintedReplaceSpecToCode:= StrToIntDef('$'+s, OptUnprintedReplaceSpecToCode);
 
   cSpeedScrollAutoVert:= cfg.GetValue('mouse_scroll_speed_vert', cSpeedScrollAutoVert);
 
@@ -1069,9 +1074,6 @@ begin
 
   Op.OpUnprintedShow:= cfg.GetValue('unprinted_show', Op.OpUnprintedShow);
   Op.OpUnprintedContent:= cfg.GetValue('unprinted_content', Op.OpUnprintedContent);
-
-  Op.OpUnprintedReplaceSpec:= cfg.GetValue('unprinted_replace_spec', Op.OpUnprintedReplaceSpec);
-  Op.OpUnprintedReplaceToCode:= cfg.GetValue('unprinted_replace_to_code', Op.OpUnprintedReplaceToCode);
 
   Op.OpUnprintedTabArrowLen:= cfg.GetValue('unprinted_tab_len', Op.OpUnprintedTabArrowLen);
 

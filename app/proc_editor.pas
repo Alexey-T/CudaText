@@ -301,8 +301,6 @@ begin
   OptUnprintedEndDotScale:= Op.OpUnprintedEndDotScale;
   OptUnprintedEndFontScale:= Op.OpUnprintedEndFontScale * 6 div 10;
   OptUnprintedTabPointerScale:= Op.OpUnprintedTabPointerScale;
-  OptUnprintedReplaceSpec:= Op.OpUnprintedReplaceSpec;
-  OptUnprintedReplaceSpecToCode:= StrToInt('$'+Op.OpUnprintedReplaceToCode);
 
   if AApplyUnprintedAndWrap then
     if not Ed.IsModifiedWrapMode then

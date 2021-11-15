@@ -551,9 +551,6 @@ type
     OpUnprintedShow: boolean;
     OpUnprintedContent: string;
 
-    OpUnprintedReplaceSpec: boolean;
-    OpUnprintedReplaceToCode: string;
-
     OpUnprintedTabArrowLen: integer;
     OpUnprintedSpaceDotScale: integer;
     OpUnprintedEndDotScale: integer;
@@ -1536,8 +1533,6 @@ begin
 
     OpUnprintedShow:= false;
     OpUnprintedContent:= 'se';
-    OpUnprintedReplaceSpec:= false;
-    OpUnprintedReplaceToCode:= 'A4';
 
     OpUnprintedTabArrowLen:= 1;
     OpUnprintedSpaceDotScale:= 15;
