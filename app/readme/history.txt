@@ -5,6 +5,7 @@
 
 1.149.0 (2021/11)
 
++ add: show in hex-form 2 more 'Unicode attack' chars: U+01C3, U+3164, like for 'Unicode attack BiDi chars'
 + add: when option "ui_reopen_session":true, also auto-save the session each 30 seconds, to make it safe if PC crashes (thanks @hiiamboris)
 + add: don't allow to reassign hotkeys Tab/Enter/Space/BkSpace w/o modifiers (thanks @WebMechanic)
 - fix: major fix for macOS text rendering - incorrect width of text fragments (visible with "renderer_offsets__mac":false) (thanks @esvignolo)
