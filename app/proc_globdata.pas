@@ -372,7 +372,7 @@ type
 
     ReopenSession: boolean;
     ReopenSessionWithCmdLine: boolean;
-    ReopenSessionSaveInterval: integer;
+    SessionSaveInterval: integer;
     AutoSaveSession: boolean;
     BackupLastSessions: integer;
     SaveModifiedTabsOnClose: boolean;
@@ -1867,7 +1867,7 @@ begin
 
     ReopenSession:= true;
     ReopenSessionWithCmdLine:= false;
-    ReopenSessionSaveInterval:= 30;
+    SessionSaveInterval:= 30;
     AutoSaveSession:= false;
     BackupLastSessions:= 0;
     SaveModifiedTabsOnClose:= true;

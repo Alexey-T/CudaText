@@ -2289,13 +2289,13 @@ begin
   end;
 
   //if "ui_reopen_session":true, auto-save session (and text of modified tabs) each N seconds
-  if UiOps.ReopenSession and (UiOps.ReopenSessionSaveInterval>0) then
+  if UiOps.ReopenSession and (UiOps.SessionSaveInterval>0) then
   begin
     Tick:= GetTickCount64;
     if FLastSaveSessionTick=0 then
       FLastSaveSessionTick:= Tick
     else
-    if Tick-FLastSaveSessionTick>=UiOps.ReopenSessionSaveInterval*1000 then
+    if Tick-FLastSaveSessionTick>=UiOps.SessionSaveInterval*1000 then
     begin
       FLastSaveSessionTick:= Tick;
       DoOps_SaveSession(GetSessionFilename, true{ASaveModifiedTabs});
