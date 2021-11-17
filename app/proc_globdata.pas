@@ -1867,7 +1867,7 @@ begin
 
     ReopenSession:= true;
     ReopenSessionWithCmdLine:= false;
-    ReopenSessionSaveInterval:= 30*1000;
+    ReopenSessionSaveInterval:= 30;
     AutoSaveSession:= false;
     BackupLastSessions:= 0;
     SaveModifiedTabsOnClose:= true;
