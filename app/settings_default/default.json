@@ -1153,6 +1153,8 @@
 
   //When "ui_reopen_session":true, and this interval value (in seconds) is >0,
   //program saves the current session to disk, by timer with specified interval.
+  //Note: this timer is active only in the "idle state" of the editor, when you pause
+  //the text editing for 1-2 seconds.
   "ui_session_save_interval": 30,
 
   //Allow to close program without confirmation, with saving modified documents
