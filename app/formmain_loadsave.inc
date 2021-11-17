@@ -1221,6 +1221,7 @@ begin
   if UiOps.ReopenSessionWithCmdLine then
     if FOption_AllowSessionLoad=aalsNotGood then
       FOption_AllowSessionLoad:= aalsEnable;
+  UiOps.ReopenSessionSaveInterval:= cfg.GetValue('ui_reopen_session_save_interval', UiOps.ReopenSessionSaveInterval);
   UiOps.AutoSaveSession:= cfg.GetValue('ui_auto_save_session', UiOps.AutoSaveSession);
   UiOps.BackupLastSessions:= cfg.GetValue('ui_backup_sessions', UiOps.BackupLastSessions);
 
