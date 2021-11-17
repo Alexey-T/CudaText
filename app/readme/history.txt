@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.149.1 (2021/11)
+1.149.2 (2021/11)
 
 + add: published version for Linux ARM Qt5 (thanks to fpcupdeluxe author)
 * change: binary hex viewer: replacement for control-chars is changed from '?' to '.' (thanks @dinkumoil)
