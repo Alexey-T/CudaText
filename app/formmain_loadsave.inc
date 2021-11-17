@@ -1222,7 +1222,7 @@ begin
     if FOption_AllowSessionLoad=aalsNotGood then
       FOption_AllowSessionLoad:= aalsEnable;
   UiOps.SessionSaveInterval:= cfg.GetValue('ui_session_save_interval', UiOps.SessionSaveInterval);
-  UiOps.AutoSaveSession:= cfg.GetValue('ui_auto_save_session', UiOps.AutoSaveSession);
+  UiOps.SessionSaveOnExit:= cfg.GetValue('ui_auto_save_session', UiOps.SessionSaveOnExit);
   UiOps.BackupLastSessions:= cfg.GetValue('ui_backup_sessions', UiOps.BackupLastSessions);
 
   UiOps.PluginDialogsShowInTaskbar:= cfg.GetValue('ui_dialogs_in_taskbar'+cOptionSystemSuffix, UiOps.PluginDialogsShowInTaskbar);

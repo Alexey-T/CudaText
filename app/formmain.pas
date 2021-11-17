@@ -2771,7 +2771,7 @@ begin
 
   {
   //seems doing DoCloseAllTabs on FormClose is bad idea:
-  //app asks to save modified tabs, even with UiOps.AutoSaveSession.
+  //app asks to save modified tabs, even with UiOps.SessionSaveOnExit.
   FSessionIsClosing:= true; //to avoid asking "Close pinned tab?"
   DoCloseAllTabs;
   }
@@ -2886,7 +2886,7 @@ begin
   if GetModifiedCount>0 then
     ACanClose:= (
       UiOps.ReopenSession and
-      UiOps.AutoSaveSession and
+      UiOps.SessionSaveOnExit and
       UiOps.HistoryItems[ahhText]
       )
       or DoDialogSaveTabs
