@@ -3251,8 +3251,10 @@ procedure TfmMain.FormShow(Sender: TObject);
   end;
   //
   procedure _Init_CheckExePath;
+  {$ifdef windows}
   const
     BadStr: PChar = 'c:\Program Files';
+  {$endif}
   begin
     {$ifdef windows}
     if strlicomp(PChar(Application.ExeName), BadStr, Length(BadStr))=0 then
@@ -8189,7 +8191,7 @@ end;
 
 procedure TfmMain.InitConfirmPanel;
 const
-  cW = 10; //in avg chars
+  //cW = 10; //in avg chars
   cH = 2.5; //in avg chars
 begin
   if FCfmPanel=nil then

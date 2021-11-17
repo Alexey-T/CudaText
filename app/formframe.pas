@@ -15,7 +15,7 @@ uses
   Classes, SysUtils, Graphics, Forms, Controls, Dialogs,
   ExtCtrls, Menus, StdCtrls, StrUtils, ComCtrls, Clipbrd,
   LCLIntf, LCLProc, LCLType, LazUTF8, LazFileUtils, FileUtil,
-  GraphUtil, IniFiles,
+  IniFiles,
   ATTabs,
   ATGroups,
   ATScrollBar,
@@ -491,10 +491,7 @@ const
   cHistory_Unpri_Ends   = '/unprinted_ends';
   cHistory_Unpri_Detail = '/unprinted_end_details';
   cHistory_Caret       = '/crt';
-  //cHistory_Markers     = '/mrk';
   cHistory_TabColor    = '/color';
-  cHistory_Bookmark    = '/bm';
-  cHistory_BookmarkKind = '/bm_kind';
   cHistory_FoldingShow  = '/fold';
   cHistory_FoldedRanges = '/folded';
   cHistory_CodeTreeFilter = '/codetree_filter';
@@ -3281,41 +3278,8 @@ end;
 
 procedure TEditorFrame.DoLoadHistory_Bookmarks(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString);
 var
-  items, items2: TStringList;
-  BmData: TATBookmarkData;
-  nTop, nKind, i: integer;
   SKey, SValue: UnicodeString;
 begin
-  //loading bookmarks - deprecated, delete after 2021.10
-
-  FillChar(BmData, SizeOf(BmData), 0);
-  BmData.ShowInBookmarkList:= true;
-
-  items:= TStringList.Create;
-  items2:= TStringList.Create;
-  try
-    c.GetValue(path+cHistory_Bookmark, items, '');
-    c.GetValue(path+cHistory_BookmarkKind, items2, '');
-    for i:= 0 to items.Count-1 do
-    begin
-      nTop:= StrToIntDef(items[i], -1);
-      if i<items2.Count then
-        nKind:= StrToIntDef(items2[i], 1)
-      else
-        nKind:= 1;
-      if Ed.Strings.IsIndexValid(nTop) then
-      begin
-        BmData.LineNum:= nTop;
-        BmData.Kind:= nKind;
-        BmData.AutoDelete:= bmadOption;
-        Ed.Strings.Bookmarks.Add(BmData);
-      end;
-    end;
-  finally
-    FreeAndNil(items2);
-    FreeAndNil(items);
-  end;
-
   //loading bookmarks - modern
   if Ed.FileName<>'' then
   begin
@@ -3329,39 +3293,8 @@ end;
 procedure TEditorFrame.DoSaveHistory_Bookmarks(Ed: TATSynEdit; c: TJsonConfig;
   const path: UnicodeString; AForSession: boolean);
 var
-  items, items2: TStringList;
-  bookmark: PATBookmarkItem;
   SKey: UnicodeString;
-  i: integer;
 begin
-  //saving bookmarks - deprecated, delete after 2021.10
-  items:= TStringList.Create;
-  items2:= TStringList.Create;
-  try
-    for i:= 0 to Ed.Strings.Bookmarks.Count-1 do
-    begin
-      bookmark:= Ed.Strings.Bookmarks[i];
-      //save usual bookmarks and numbered bookmarks (kind=1..10)
-      if (bookmark^.Data.Kind>10) then Continue;
-      items.Add(IntToStr(bookmark^.Data.LineNum));
-      items2.Add(IntToStr(bookmark^.Data.Kind));
-    end;
-
-    if items.Count>0 then
-      c.SetValue(path+cHistory_Bookmark, items)
-    else
-      c.DeleteValue(path+cHistory_Bookmark);
-
-    if items2.Count>0 then
-      c.SetValue(path+cHistory_BookmarkKind, items2)
-    else
-      c.DeleteValue(path+cHistory_BookmarkKind);
-
-  finally
-    FreeAndNil(items2);
-    FreeAndNil(items);
-  end;
-
   //saving bookmarks - modern
   if (not AForSession) and (Ed.FileName<>'') then
   begin
@@ -3550,8 +3483,7 @@ var
   Caret: TATCaretItem;
   NCaretPosX, NCaretPosY,
   NCaretEndX, NCaretEndY: integer;
-  nTop, nKind, i: integer;
-  items, items2: TStringlist;
+  nTop, i: integer;
   Sep: TATStringSeparator;
   NFlag: integer;
 begin

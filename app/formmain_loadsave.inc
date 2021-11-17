@@ -992,9 +992,6 @@ begin
 end;
 
 procedure TfmMain.DoOps_LoadOptions_Editor(cfg: TJSONConfig; var Op: TEditorOps);
-var
-  Sep: TATStringSeparator;
-  Str: string;
 begin
   Op.OpFontName:= cfg.GetValue(OpStr_FontName, Op.OpFontName);
   Op.OpFontName_i:= cfg.GetValue(OpStr_FontName_i, Op.OpFontName_i);
