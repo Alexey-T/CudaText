@@ -6,6 +6,7 @@
 1.149.1 (2021/11)
 
 + add: published version for Linux ARM Qt5 (thanks to fpcupdeluxe author)
+* change: binary hex viewer: replacement for control-chars is changed from '?' to '.' (thanks @dinkumoil)
 * change: removed old method of bookmarks saving/loading to/from history. Changelog of 1.141 told: duplicate bookmarks history to another key inside "history files.json"; later only this new key will be used and old bookmarks-history in session files will be ignored. 
 + add: option "ui_session_save_interval":30, which allows to disable auto-saving of session to disk each 30 seconds (thanks @66nuts)
 
