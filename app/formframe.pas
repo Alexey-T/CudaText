@@ -3453,8 +3453,10 @@ var
 begin
   SFileName:= GetFileName(Ed);
   if SFileName='' then exit;
+
   path:= SMaskFilenameSlashes(SFileName);
 
+  if not (AllowLoadHistory or AllowLoadBookmarks) then exit;
   if UiOps.MaxHistoryFiles<2 then exit;
 
   AppFileCheckForNullBytes(AppFile_HistoryFiles);
