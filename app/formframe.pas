@@ -296,7 +296,7 @@ type
     procedure DoSaveUndo(Ed: TATSynEdit; const AFileName: string);
     procedure DoLoadUndo(Ed: TATSynEdit);
     procedure DoSaveHistory_Caret(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString);
-    procedure DoSaveHistory_Bookmarks(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString; AForSession: boolean);
+    procedure DoSaveHistory_Bookmarks(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString);
 
   protected
     procedure DoOnResize; override;
@@ -417,7 +417,8 @@ type
     //history
     procedure DoSaveHistory(Ed: TATSynEdit);
     procedure DoSaveHistoryEx(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString; AForSession: boolean);
-    procedure DoLoadHistory(Ed: TATSynEdit; AllowEnc: boolean);
+    procedure DoLoadHistory(Ed: TATSynEdit; AllowLoadEncoding, AllowLoadHistory,
+      AllowLoadBookmarks: boolean);
     procedure DoLoadHistoryEx(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString; AllowEnc: boolean);
     procedure DoLoadHistory_Bookmarks(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString);
     //misc
@@ -2396,8 +2397,7 @@ begin
   if AAllowLoadUndo then
     DoLoadUndo(Ed);
 
-  if AAllowLoadHistory then
-    DoLoadHistory(Ed, AAllowLoadHistoryEnc);
+  DoLoadHistory(Ed, AAllowLoadHistoryEnc, AAllowLoadHistory, true);
 
   //save temp-options, to later know which options are changed,
   //during loading of lexer-specific config
@@ -3244,6 +3244,10 @@ begin
     end;
 
     DoSaveHistoryEx(Ed, cfg, path, false);
+
+    //bookmarks are always saved to 'history files.json'
+    if UiOps.HistoryItems[ahhBookmarks] then
+      DoSaveHistory_Bookmarks(Ed, cfg, path);
   finally
     cfg.Free;
   end;
@@ -3280,7 +3284,6 @@ procedure TEditorFrame.DoLoadHistory_Bookmarks(Ed: TATSynEdit; c: TJsonConfig; c
 var
   SKey, SValue: UnicodeString;
 begin
-  //loading bookmarks - modern
   if Ed.FileName<>'' then
   begin
     SKey:= AppConfigKeyForBookmarks(Ed);
@@ -3290,13 +3293,11 @@ begin
   end;
 end;
 
-procedure TEditorFrame.DoSaveHistory_Bookmarks(Ed: TATSynEdit; c: TJsonConfig;
-  const path: UnicodeString; AForSession: boolean);
+procedure TEditorFrame.DoSaveHistory_Bookmarks(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString);
 var
   SKey: UnicodeString;
 begin
-  //saving bookmarks - modern
-  if (not AForSession) and (Ed.FileName<>'') then
+  if Ed.FileName<>'' then
   begin
     SKey:= AppConfigKeyForBookmarks(Ed);
     if Ed.Strings.Bookmarks.Count>0 then
@@ -3396,9 +3397,6 @@ begin
     c.SetDeleteValue(path+cHistory_Markers, Ed.Markers.AsString, '');
   }
 
-  if UiOps.HistoryItems[ahhBookmarks] then
-    DoSaveHistory_Bookmarks(Ed, c, path, AForSession);
-
   if UiOps.HistoryItems[ahhCodeTreeFilter] then
   begin
     c.SetDeleteValue(path+cHistory_CodeTreeFilter, FCodetreeFilter, '');
@@ -3442,7 +3440,7 @@ begin
   end;
 end;
 
-procedure TEditorFrame.DoLoadHistory(Ed: TATSynEdit; AllowEnc: boolean);
+procedure TEditorFrame.DoLoadHistory(Ed: TATSynEdit; AllowLoadEncoding, AllowLoadHistory, AllowLoadBookmarks: boolean);
 var
   cfg: TJSONConfig;
   SFileName: string;
@@ -3469,7 +3467,11 @@ begin
       end;
     end;
 
-    DoLoadHistoryEx(Ed, cfg, path, AllowEnc);
+    if AllowLoadHistory then
+      DoLoadHistoryEx(Ed, cfg, path, AllowLoadEncoding);
+
+    if AllowLoadBookmarks then
+      DoLoadHistory_Bookmarks(Ed, cfg, path);
   finally
     cfg.Free;
   end;
@@ -3662,9 +3664,6 @@ begin
 
   //solve CudaText #3288, so Undo jumps to initial caret pos
   Ed.Strings.ActionSaveLastEditionPos(NCaretPosX, NCaretPosY);
-
-  //bookmarks
-  DoLoadHistory_Bookmarks(Ed, c, path);
 
   FCodetreeFilter:= c.GetValue(path+cHistory_CodeTreeFilter, '');
   c.GetValue(path+cHistory_CodeTreeFilters, FCodetreeFilterHistory, '');
