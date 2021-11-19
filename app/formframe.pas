@@ -406,7 +406,8 @@ type
     function IsParsingBusy: boolean;
     //file
     procedure DoFileClose;
-    procedure DoFileOpen(const AFileName, AFileName2: string; AAllowLoadHistory, AAllowLexerDetect,
+    procedure DoFileOpen(const AFileName, AFileName2: string;
+      AAllowLoadHistory, AAllowLoadBookmarks, AAllowLexerDetect,
       AAllowErrorMsgBox, AAllowLoadUndo: boolean; AOpenMode: TAppOpenMode);
     procedure DoFileOpen_AsBinary(const AFileName: string; AMode: TATBinHexMode);
     procedure DoFileOpen_AsPicture(const AFileName: string);
@@ -2282,7 +2283,7 @@ begin
 end;
 
 procedure TEditorFrame.DoFileOpen(const AFileName, AFileName2: string;
-  AAllowLoadHistory, AAllowLexerDetect, AAllowErrorMsgBox, AAllowLoadUndo: boolean;
+  AAllowLoadHistory, AAllowLoadBookmarks, AAllowLexerDetect, AAllowErrorMsgBox, AAllowLoadUndo: boolean;
   AOpenMode: TAppOpenMode);
 begin
   NotifEnabled:= false; //for binary-viewer and pictures, NotifEnabled must be False
@@ -2346,7 +2347,7 @@ begin
   DoFileOpen_Ex(Ed1, AFileName,
     AAllowLoadHistory,
     AAllowLoadHistory,
-    AAllowLoadHistory,
+    AAllowLoadBookmarks,
     AAllowLexerDetect,
     AAllowErrorMsgBox,
     false,
@@ -2361,7 +2362,7 @@ begin
     DoFileOpen_Ex(Ed2, AFileName2,
       AAllowLoadHistory,
       AAllowLoadHistory,
-      AAllowLoadHistory,
+      AAllowLoadBookmarks,
       AAllowLexerDetect,
       AAllowErrorMsgBox,
       false,

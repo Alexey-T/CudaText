@@ -4008,7 +4008,7 @@ function TfmMain.DoFileOpen(AFileName, AFileName2: string; APages: TATPages;
 var
   D: TATTabData;
   F: TEditorFrame;
-  bSilent, bPreviewTab, bEnableHistory, bEnableLoadUndo,
+  bSilent, bPreviewTab, bEnableHistory, bEnableLoadUndo, bEnableLoadBookmarks,
   bEnableEventPre, bEnableEventOpened, bEnableEventOpenedNone,
   bAllowZip, bAllowPics, bAllowLexerDetect, bDetectedPics,
   bAndActivate: boolean;
@@ -4042,6 +4042,7 @@ begin
   bSilent:= Pos('/silent', AOptions)>0;
   bPreviewTab:= Pos('/preview', AOptions)>0;
   bEnableHistory:= Pos('/nohistory', AOptions)=0;
+  bEnableLoadBookmarks:= true;
   bEnableLoadUndo:= Pos('/noloadundo', AOptions)=0;
   bEnableEventPre:= Pos('/noevent', AOptions)=0;
   bEnableEventOpened:= Pos('/noopenedevent', AOptions)=0;
@@ -4265,6 +4266,7 @@ begin
     Result.Adapter[Result.Ed2].Stop;
     Result.DoFileOpen(AFileName, AFileName2,
       bEnableHistory,
+      bEnableLoadBookmarks,
       bAllowLexerDetect,
       true,
       bEnableLoadUndo,
@@ -4291,6 +4293,7 @@ begin
       //tick:= GetTickCount64;
       F.DoFileOpen(AFileName, AFileName2,
         bEnableHistory,
+        bEnableLoadBookmarks,
         bAllowLexerDetect,
         true,
         bEnableLoadUndo,
@@ -4341,6 +4344,7 @@ begin
 
   F.DoFileOpen(AFileName, AFileName2,
     bEnableHistory,
+    bEnableLoadBookmarks,
     bAllowLexerDetect,
     true,
     bEnableLoadUndo,
