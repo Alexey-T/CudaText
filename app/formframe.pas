@@ -191,7 +191,8 @@ type
     procedure DoDeactivatePictureMode;
     procedure DoDeactivateViewerMode;
     procedure DoFileOpen_Ex(Ed: TATSynEdit; const AFileName: string;
-      AAllowLoadHistory, AAllowLoadHistoryEnc, AAllowLexerDetect, AAllowErrorMsgBox,
+      AAllowLoadHistory, AAllowLoadHistoryEnc, AAllowLoadBookmarks,
+      AAllowLexerDetect, AAllowErrorMsgBox,
       AKeepScroll, AAllowLoadUndo: boolean; AOpenMode: TAppOpenMode);
     procedure DoImageboxScroll(Sender: TObject);
     procedure DoOnChangeCaption;
@@ -2345,6 +2346,7 @@ begin
   DoFileOpen_Ex(Ed1, AFileName,
     AAllowLoadHistory,
     AAllowLoadHistory,
+    AAllowLoadHistory,
     AAllowLexerDetect,
     AAllowErrorMsgBox,
     false,
@@ -2359,6 +2361,7 @@ begin
     DoFileOpen_Ex(Ed2, AFileName2,
       AAllowLoadHistory,
       AAllowLoadHistory,
+      AAllowLoadHistory,
       AAllowLexerDetect,
       AAllowErrorMsgBox,
       false,
@@ -2370,7 +2373,7 @@ begin
 end;
 
 procedure TEditorFrame.DoFileOpen_Ex(Ed: TATSynEdit; const AFileName: string;
-  AAllowLoadHistory, AAllowLoadHistoryEnc, AAllowLexerDetect,
+  AAllowLoadHistory, AAllowLoadHistoryEnc, AAllowLoadBookmarks, AAllowLexerDetect,
   AAllowErrorMsgBox, AKeepScroll, AAllowLoadUndo: boolean; AOpenMode: TAppOpenMode);
 begin
   try
@@ -2397,7 +2400,7 @@ begin
   if AAllowLoadUndo then
     DoLoadUndo(Ed);
 
-  DoLoadHistory(Ed, AAllowLoadHistoryEnc, AAllowLoadHistory, true);
+  DoLoadHistory(Ed, AAllowLoadHistoryEnc, AAllowLoadHistory, AAllowLoadBookmarks);
 
   //save temp-options, to later know which options are changed,
   //during loading of lexer-specific config
@@ -2686,6 +2689,7 @@ begin
   DoFileOpen_Ex(Ed, SFileName,
     true{AllowLoadHistory},
     false{AllowLoadHistoryEnc},
+    false{AllowLoadBookmarks},
     false{AllowLexerDetect},
     false{AllowMsgBox},
     true{KeepScroll},
