@@ -331,6 +331,7 @@ object SyntAnal7: TLibSyntAnalyzer
             'animation-timing-function'
             'antialiased'
             'ascent-override'
+            'aspect-ratio'
             'auto'
             'auto-pos'
             'available'
