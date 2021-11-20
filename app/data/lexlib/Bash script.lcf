@@ -1135,9 +1135,9 @@ object SyntAnal2: TLibSyntAnalyzer
     '{'
     '}')
   Extentions = 
-    'sh bash zsh fish csh command /.bashrc /.zshrc /.bash_aliases /.b' +
-    'ash_completions /.bash_functions /.bash_login /.bash_logout /.ba' +
-    'sh_profile /.bash_variables /.profile /.textmate_init'
+    'sh bash zsh fish csh ksh command /.bashrc /.zshrc /.bash_aliases' +
+    ' /.bash_completions /.bash_functions /.bash_login /.bash_logout ' +
+    '/.bash_profile /.bash_variables /.profile /.textmate_init'
   LexerName = 'Bash script'
   SkipSpaces = False
   Notes.Strings = (
