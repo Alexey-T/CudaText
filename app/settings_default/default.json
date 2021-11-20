@@ -114,7 +114,7 @@
   "renderer_anti_flicker__linux": 0,
   "renderer_anti_flicker__mac": 0,
 
-  //Text rendering needs "offsets for characters" [has suffix]
+  //Text rendering needs "offsets for characters". [has suffix]
   //Set "true" if you see that syntax elements are rendered too wide/narrow.
   //On Windows, "true" doesn't decrease rendering speed.
   //On Linux GTK2, "true" decreases rendering speed.
@@ -124,9 +124,13 @@
   "renderer_offsets__linux": false,
   "renderer_offsets__mac": false,
 
-  //Tweaks for renderer. Value is a string of several chars:
-  //  if 'e' in value: Ellipsis-char U+2026 has width 100%, otherwise 190%
-  "renderer_tweaks": "",
+  //Tweaks for renderer. [has suffix]
+  //Value is a string of several chars:
+  //  if 'e' in value: Ellipsis-char U+2026 has width 100%, otherwise 190%.
+  //  if 'w' in value: Use simplified calculation of average character width. Note: 'w' is bad on macOS.
+  "renderer_tweaks": "w",
+  "renderer_tweaks__linux": "w",
+  "renderer_tweaks__mac": "",
 
   //Allows to use width of Unicode characters proportional to font.
   //Note: this option is global, not per-lexer.

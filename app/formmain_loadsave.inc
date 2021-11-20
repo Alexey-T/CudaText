@@ -963,11 +963,12 @@ begin
         ATScrollbarTheme.ArrowStyleV:= TATScrollbarArrowsStyle(N);
   end;
 
-  s:= cfg.GetValue('renderer_tweaks', '');
+  s:= cfg.GetValue('renderer_tweaks'+cOptionSystemSuffix, {$ifdef darwin} '' {$else} 'w' {$endif});
   if Pos('e', s)>0 then
     ATSynEdit_CharSizeArray.FixedSizes[cCharEllipsis]:= uw_normal
   else
     ATSynEdit_CharSizeArray.FixedSizes[cCharEllipsis]:= uw_fullwidth;
+  OptEditorPreciseCalculationOfCharWidth:= Pos('w', s)=0;
 
   ATScrollbarTheme.DirectJumpOnClickPageUpDown:= cfg.GetValue('scrollbar_click_jump',
     ATScrollbarTheme.DirectJumpOnClickPageUpDown);
