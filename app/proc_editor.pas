@@ -1247,7 +1247,8 @@ begin
   Sep.GetItemInt(Props.Width, 1);
   Sep.GetItemInt(Props.Height, -100);
   Sep.GetItemStr(S);
-  Props.EmptyInside:= S='_';
+  Props.EmptyInside:= Pos('_', S)>0;
+  Props.RenderCharAbove:= Pos('a', S)>0;
 end;
 
 
