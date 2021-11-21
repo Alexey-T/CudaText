@@ -94,11 +94,6 @@
           </Parsing>
           <CodeGeneration>
             <SmartLinkUnit Value="True"/>
-            <Checks>
-              <IOChecks Value="True"/>
-              <RangeChecks Value="True"/>
-              <OverflowChecks Value="True"/>
-            </Checks>
             <TargetCPU Value="i386"/>
             <TargetOS Value="linux"/>
           </CodeGeneration>
@@ -138,11 +133,6 @@
           </Parsing>
           <CodeGeneration>
             <SmartLinkUnit Value="True"/>
-            <Checks>
-              <IOChecks Value="True"/>
-              <RangeChecks Value="True"/>
-              <OverflowChecks Value="True"/>
-            </Checks>
             <TargetCPU Value="x86_64"/>
             <TargetOS Value="linux"/>
           </CodeGeneration>
@@ -185,11 +175,6 @@
           </Parsing>
           <CodeGeneration>
             <SmartLinkUnit Value="True"/>
-            <Checks>
-              <IOChecks Value="True"/>
-              <RangeChecks Value="True"/>
-              <OverflowChecks Value="True"/>
-            </Checks>
             <TargetCPU Value="x86_64"/>
             <TargetOS Value="linux"/>
           </CodeGeneration>
@@ -232,11 +217,6 @@
           </Parsing>
           <CodeGeneration>
             <SmartLinkUnit Value="True"/>
-            <Checks>
-              <IOChecks Value="True"/>
-              <RangeChecks Value="True"/>
-              <OverflowChecks Value="True"/>
-            </Checks>
             <TargetCPU Value="i386"/>
             <TargetOS Value="linux"/>
           </CodeGeneration>
@@ -279,11 +259,6 @@
           </Parsing>
           <CodeGeneration>
             <SmartLinkUnit Value="True"/>
-            <Checks>
-              <IOChecks Value="True"/>
-              <RangeChecks Value="True"/>
-              <OverflowChecks Value="True"/>
-            </Checks>
             <TargetCPU Value="x86_64"/>
             <TargetOS Value="linux"/>
           </CodeGeneration>
@@ -323,11 +298,6 @@
           </Parsing>
           <CodeGeneration>
             <SmartLinkUnit Value="True"/>
-            <Checks>
-              <IOChecks Value="True"/>
-              <RangeChecks Value="True"/>
-              <OverflowChecks Value="True"/>
-            </Checks>
             <TargetCPU Value="arm"/>
             <TargetOS Value="linux"/>
           </CodeGeneration>
@@ -370,11 +340,6 @@
           </Parsing>
           <CodeGeneration>
             <SmartLinkUnit Value="True"/>
-            <Checks>
-              <IOChecks Value="True"/>
-              <RangeChecks Value="True"/>
-              <OverflowChecks Value="True"/>
-            </Checks>
             <TargetCPU Value="arm"/>
             <TargetOS Value="linux"/>
           </CodeGeneration>
@@ -414,11 +379,6 @@
           </Parsing>
           <CodeGeneration>
             <SmartLinkUnit Value="True"/>
-            <Checks>
-              <IOChecks Value="True"/>
-              <RangeChecks Value="True"/>
-              <OverflowChecks Value="True"/>
-            </Checks>
             <TargetCPU Value="aarch64"/>
             <TargetOS Value="linux"/>
           </CodeGeneration>
@@ -461,11 +421,6 @@
           </Parsing>
           <CodeGeneration>
             <SmartLinkUnit Value="True"/>
-            <Checks>
-              <IOChecks Value="True"/>
-              <RangeChecks Value="True"/>
-              <OverflowChecks Value="True"/>
-            </Checks>
             <TargetCPU Value="aarch64"/>
             <TargetOS Value="linux"/>
           </CodeGeneration>
@@ -505,11 +460,6 @@
           </Parsing>
           <CodeGeneration>
             <SmartLinkUnit Value="True"/>
-            <Checks>
-              <IOChecks Value="True"/>
-              <RangeChecks Value="True"/>
-              <OverflowChecks Value="True"/>
-            </Checks>
             <TargetCPU Value="x86_64"/>
             <TargetOS Value="win64"/>
           </CodeGeneration>
@@ -549,11 +499,6 @@
           </Parsing>
           <CodeGeneration>
             <SmartLinkUnit Value="True"/>
-            <Checks>
-              <IOChecks Value="True"/>
-              <RangeChecks Value="True"/>
-              <OverflowChecks Value="True"/>
-            </Checks>
             <TargetCPU Value="i386"/>
             <TargetOS Value="win32"/>
           </CodeGeneration>
@@ -593,11 +538,6 @@
           </Parsing>
           <CodeGeneration>
             <SmartLinkUnit Value="True"/>
-            <Checks>
-              <IOChecks Value="True"/>
-              <RangeChecks Value="True"/>
-              <OverflowChecks Value="True"/>
-            </Checks>
             <TargetCPU Value="aarch64"/>
             <TargetOS Value="win64"/>
           </CodeGeneration>
@@ -640,11 +580,6 @@
           </Parsing>
           <CodeGeneration>
             <SmartLinkUnit Value="True"/>
-            <Checks>
-              <IOChecks Value="True"/>
-              <RangeChecks Value="True"/>
-              <OverflowChecks Value="True"/>
-            </Checks>
             <TargetCPU Value="x86_64"/>
             <TargetOS Value="darwin"/>
           </CodeGeneration>
@@ -684,11 +619,6 @@
           </Parsing>
           <CodeGeneration>
             <SmartLinkUnit Value="True"/>
-            <Checks>
-              <IOChecks Value="True"/>
-              <RangeChecks Value="True"/>
-              <OverflowChecks Value="True"/>
-            </Checks>
             <TargetCPU Value="i386"/>
             <TargetOS Value="freebsd"/>
           </CodeGeneration>
@@ -728,11 +658,6 @@
           </Parsing>
           <CodeGeneration>
             <SmartLinkUnit Value="True"/>
-            <Checks>
-              <IOChecks Value="True"/>
-              <RangeChecks Value="True"/>
-              <OverflowChecks Value="True"/>
-            </Checks>
             <TargetCPU Value="x86_64"/>
             <TargetOS Value="freebsd"/>
           </CodeGeneration>
@@ -772,11 +697,6 @@
           </Parsing>
           <CodeGeneration>
             <SmartLinkUnit Value="True"/>
-            <Checks>
-              <IOChecks Value="True"/>
-              <RangeChecks Value="True"/>
-              <OverflowChecks Value="True"/>
-            </Checks>
             <TargetCPU Value="x86_64"/>
             <TargetOS Value="openbsd"/>
           </CodeGeneration>
@@ -816,11 +736,6 @@
           </Parsing>
           <CodeGeneration>
             <SmartLinkUnit Value="True"/>
-            <Checks>
-              <IOChecks Value="True"/>
-              <RangeChecks Value="True"/>
-              <OverflowChecks Value="True"/>
-            </Checks>
             <TargetCPU Value="x86_64"/>
             <TargetOS Value="netbsd"/>
           </CodeGeneration>
@@ -860,11 +775,6 @@
           </Parsing>
           <CodeGeneration>
             <SmartLinkUnit Value="True"/>
-            <Checks>
-              <IOChecks Value="True"/>
-              <RangeChecks Value="True"/>
-              <OverflowChecks Value="True"/>
-            </Checks>
             <TargetCPU Value="x86_64"/>
             <TargetOS Value="dragonfly"/>
           </CodeGeneration>
@@ -904,11 +814,6 @@
           </Parsing>
           <CodeGeneration>
             <SmartLinkUnit Value="True"/>
-            <Checks>
-              <IOChecks Value="True"/>
-              <RangeChecks Value="True"/>
-              <OverflowChecks Value="True"/>
-            </Checks>
             <TargetCPU Value="x86_64"/>
             <TargetOS Value="solaris"/>
           </CodeGeneration>
@@ -948,11 +853,6 @@
           </Parsing>
           <CodeGeneration>
             <SmartLinkUnit Value="True"/>
-            <Checks>
-              <IOChecks Value="True"/>
-              <RangeChecks Value="True"/>
-              <OverflowChecks Value="True"/>
-            </Checks>
             <TargetCPU Value="sparc"/>
             <TargetOS Value="solaris"/>
           </CodeGeneration>
@@ -995,11 +895,6 @@
           </Parsing>
           <CodeGeneration>
             <SmartLinkUnit Value="True"/>
-            <Checks>
-              <IOChecks Value="True"/>
-              <RangeChecks Value="True"/>
-              <OverflowChecks Value="True"/>
-            </Checks>
             <TargetCPU Value="i386"/>
             <TargetOS Value="haiku"/>
           </CodeGeneration>
@@ -1042,11 +937,6 @@
           </Parsing>
           <CodeGeneration>
             <SmartLinkUnit Value="True"/>
-            <Checks>
-              <IOChecks Value="True"/>
-              <RangeChecks Value="True"/>
-              <OverflowChecks Value="True"/>
-            </Checks>
             <TargetCPU Value="x86_64"/>
             <TargetOS Value="haiku"/>
           </CodeGeneration>
