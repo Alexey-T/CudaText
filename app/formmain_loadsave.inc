@@ -917,7 +917,6 @@ begin
   Application.MainFormOnTaskBar:= cfg.GetValue('ui_taskbar_mode'+cOptionSystemSuffix, Application.MainFormOnTaskBar);
 
   OptEditorFlickerReducingPause:= cfg.GetValue('renderer_anti_flicker'+cOptionSystemSuffix, OptEditorFlickerReducingPause);
-  OptEditorTextoutNeedsOffsets:= cfg.GetValue('renderer_offsets'+cOptionSystemSuffix, OptEditorTextoutNeedsOffsets);
   OptEditorCharSizeProportional:= cfg.GetValue('unicode_proportional', OptEditorCharSizeProportional);
   OptEditorCharScaleFullWidth:= cfg.GetValue('unicode_full_width', OptEditorCharScaleFullWidth);
   OptEditorBookmarksAutoDelete:= cfg.GetValue('auto_delete_bookmarks', OptEditorBookmarksAutoDelete);
@@ -963,12 +962,22 @@ begin
         ATScrollbarTheme.ArrowStyleV:= TATScrollbarArrowsStyle(N);
   end;
 
-  s:= cfg.GetValue('renderer_tweaks'+cOptionSystemSuffix, {$ifdef darwin} '' {$else} 'w' {$endif});
+  s:= cfg.GetValue('renderer_tweaks'+cOptionSystemSuffix,
+    {$ifdef darwin}
+    ''
+    {$else}
+      {$ifdef windows}
+      'wo'
+      {$else}
+      'w'
+      {$endif}
+    {$endif} );
   if Pos('e', s)>0 then
     ATSynEdit_CharSizeArray.FixedSizes[cCharEllipsis]:= uw_normal
   else
     ATSynEdit_CharSizeArray.FixedSizes[cCharEllipsis]:= uw_fullwidth;
   OptEditorPreciseCalculationOfCharWidth:= Pos('w', s)=0;
+  OptEditorTextoutNeedsOffsets:= Pos('o', s)>0;
 
   ATScrollbarTheme.DirectJumpOnClickPageUpDown:= cfg.GetValue('scrollbar_click_jump',
     ATScrollbarTheme.DirectJumpOnClickPageUpDown);
