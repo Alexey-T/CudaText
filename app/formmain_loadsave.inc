@@ -916,15 +916,15 @@ var
 begin
   Application.MainFormOnTaskBar:= cfg.GetValue('ui_taskbar_mode'+cOptionSystemSuffix, Application.MainFormOnTaskBar);
 
-  OptEditorFlickerReducingPause:= cfg.GetValue('renderer_anti_flicker'+cOptionSystemSuffix, OptEditorFlickerReducingPause);
+  ATEditorOptions.FlickerReducingPause:= cfg.GetValue('renderer_anti_flicker'+cOptionSystemSuffix, ATEditorOptions.FlickerReducingPause);
   ATEditorOptions.CharSizeProportional:= cfg.GetValue('unicode_proportional', ATEditorOptions.CharSizeProportional);
   ATEditorOptions.CharScaleFullWidth:= cfg.GetValue('unicode_full_width', ATEditorOptions.CharScaleFullWidth);
-  OptEditorBookmarksAutoDelete:= cfg.GetValue('auto_delete_bookmarks', OptEditorBookmarksAutoDelete);
-  OptEditorDebugTiming:= cfg.GetValue('log_timing', OptEditorDebugTiming);
+  ATEditorOptions.BookmarksAutoDelete:= cfg.GetValue('auto_delete_bookmarks', ATEditorOptions.BookmarksAutoDelete);
+  ATEditorOptions.DebugTiming:= cfg.GetValue('log_timing', ATEditorOptions.DebugTiming);
 
-  OptMouseDragDropFocusesTargetEditor:= cfg.GetValue('mouse_drag_drop_focus_target', OptMouseDragDropFocusesTargetEditor);
-  OptMaxTabPositionToExpand:= cfg.GetValue('tab_max_pos_expanded', OptMaxTabPositionToExpand);
-  OptMaxLineLenForAccurateCharWidths:= cfg.GetValue('max_line_len_for_accurate_width', OptMaxLineLenForAccurateCharWidths);
+  ATEditorOptions.MouseDragDropFocusesTargetEditor:= cfg.GetValue('mouse_drag_drop_focus_target', ATEditorOptions.MouseDragDropFocusesTargetEditor);
+  ATEditorOptions.MaxTabPositionToExpand:= cfg.GetValue('tab_max_pos_expanded', ATEditorOptions.MaxTabPositionToExpand);
+  ATEditorOptions.MaxLineLenForAccurateCharWidths:= cfg.GetValue('max_line_len_for_accurate_width', ATEditorOptions.MaxLineLenForAccurateCharWidths);
 
   ATEditorOptions.UnprintedTabCharLength:= cfg.GetValue('unprinted_tab_len', ATEditorOptions.UnprintedTabCharLength);
   ATEditorOptions.UnprintedReplaceSpec:= cfg.GetValue('unprinted_replace_spec', ATEditorOptions.UnprintedReplaceSpec);
@@ -976,8 +976,8 @@ begin
     ATSynEdit_CharSizeArray.FixedSizes[cCharEllipsis]:= uw_normal
   else
     ATSynEdit_CharSizeArray.FixedSizes[cCharEllipsis]:= uw_fullwidth;
-  OptEditorPreciseCalculationOfCharWidth:= Pos('w', s)=0;
-  OptEditorTextoutNeedsOffsets:= Pos('o', s)>0;
+  ATEditorOptions.PreciseCalculationOfCharWidth:= Pos('w', s)=0;
+  ATEditorOptions.TextoutNeedsOffsets:= Pos('o', s)>0;
 
   ATScrollbarTheme.DirectJumpOnClickPageUpDown:= cfg.GetValue('scrollbar_click_jump',
     ATScrollbarTheme.DirectJumpOnClickPageUpDown);
