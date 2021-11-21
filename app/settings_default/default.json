@@ -124,6 +124,7 @@
   //                   On macOS, 'offsets' decrease (2x) renderind speed.
   //                   On GTK2 and Qt5, 'offsets' decrease rendering speed.
   //  if 'e' in value: Ellipsis-char U+2026 has width 100%, otherwise the width from "unicode_full_width".
+  //Note: this option is global, not per-lexer.
   "renderer_tweaks": "wo",
   "renderer_tweaks__linux": "w",
   "renderer_tweaks__mac": "",
