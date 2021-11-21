@@ -623,9 +623,10 @@
   "caret_multi": true,
 
   //Caret shape is 2-3 values (3rd is optional), comma-separated: width,height,options.
-  //- width: if > 0, in pixels; in < 0, in %
-  //- height: if > 0, in pixels; in < 0, in %; can be taller than 100%
-  //- options: can be "_" to make caret empty inside
+  //- width: if > 0, in pixels; in < 0, in percents.
+  //- height: if > 0, in pixels; in < 0, in percents; can be taller than 100%.
+  //- options: if "_" in string - make caret empty inside;
+  //           if "a" in string - also render text above the caret.
   //
   //Caret: shape for normal state.
   "caret_view": "2,-100",
