@@ -51,6 +51,7 @@ uses
   ATPanelSimple,
   ATCanvasPrimitives,
   ATSynEdit,
+  ATSynEdit_Options,
   ATSynEdit_Keymap,
   ATSynEdit_Keymap_Init,
   ATSynEdit_Commands,

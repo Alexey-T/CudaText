@@ -18,8 +18,8 @@ uses
   Dialogs, Forms,
   Clipbrd,
   ATSynEdit,
+  ATSynEdit_Options,
   ATSynEdit_LineParts,
-  ATSynEdit_CanvasProc,
   ATSynEdit_Carets,
   ATSynEdit_Markers,
   ATSynEdit_Commands,
@@ -288,12 +288,12 @@ begin
   Ed.OptMaxLineLenToTokenize:= Op.OpMaxLineLenToTokenize;
 
   if Pos('.', Op.OpUnprintedContent)>0 then
-    OptUnprintedEndSymbol:= aeueDot
+    ATEditorOptions.UnprintedEndSymbol:= aeueDot
   else
   if Pos('p', Op.OpUnprintedContent)>0 then
-    OptUnprintedEndSymbol:= aeuePilcrow
+    ATEditorOptions.UnprintedEndSymbol:= aeuePilcrow
   else
-    OptUnprintedEndSymbol:= aeueArrowDown;
+    ATEditorOptions.UnprintedEndSymbol:= aeueArrowDown;
 
   if AApplyUnprintedAndWrap then
     if not Ed.IsModifiedWrapMode then

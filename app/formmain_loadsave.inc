@@ -917,8 +917,8 @@ begin
   Application.MainFormOnTaskBar:= cfg.GetValue('ui_taskbar_mode'+cOptionSystemSuffix, Application.MainFormOnTaskBar);
 
   OptEditorFlickerReducingPause:= cfg.GetValue('renderer_anti_flicker'+cOptionSystemSuffix, OptEditorFlickerReducingPause);
-  OptEditorCharSizeProportional:= cfg.GetValue('unicode_proportional', OptEditorCharSizeProportional);
-  OptEditorCharScaleFullWidth:= cfg.GetValue('unicode_full_width', OptEditorCharScaleFullWidth);
+  ATEditorOptions.CharSizeProportional:= cfg.GetValue('unicode_proportional', ATEditorOptions.CharSizeProportional);
+  ATEditorOptions.CharScaleFullWidth:= cfg.GetValue('unicode_full_width', ATEditorOptions.CharScaleFullWidth);
   OptEditorBookmarksAutoDelete:= cfg.GetValue('auto_delete_bookmarks', OptEditorBookmarksAutoDelete);
   OptEditorDebugTiming:= cfg.GetValue('log_timing', OptEditorDebugTiming);
 
@@ -926,23 +926,23 @@ begin
   OptMaxTabPositionToExpand:= cfg.GetValue('tab_max_pos_expanded', OptMaxTabPositionToExpand);
   OptMaxLineLenForAccurateCharWidths:= cfg.GetValue('max_line_len_for_accurate_width', OptMaxLineLenForAccurateCharWidths);
 
-  OptUnprintedTabCharLength:= cfg.GetValue('unprinted_tab_len', OptUnprintedTabCharLength);
-  OptUnprintedReplaceSpec:= cfg.GetValue('unprinted_replace_spec', OptUnprintedReplaceSpec);
+  ATEditorOptions.UnprintedTabCharLength:= cfg.GetValue('unprinted_tab_len', ATEditorOptions.UnprintedTabCharLength);
+  ATEditorOptions.UnprintedReplaceSpec:= cfg.GetValue('unprinted_replace_spec', ATEditorOptions.UnprintedReplaceSpec);
   s:= cfg.GetValue('unprinted_replace_to_code', 'A4');
-  OptUnprintedReplaceSpecToCode:= StrToIntDef('$'+s, OptUnprintedReplaceSpecToCode);
+  ATEditorOptions.UnprintedReplaceSpecToCode:= StrToIntDef('$'+s, ATEditorOptions.UnprintedReplaceSpecToCode);
 
   s:= cfg.GetValue('unprinted_symbols_scale', '');
   if s<>'' then
   begin
     Sep.Init(s);
-    Sep.GetItemInt(OptUnprintedSpaceDotScale, OptUnprintedSpaceDotScale, 5, 100);
-    Sep.GetItemInt(OptUnprintedEndDotScale, OptUnprintedEndDotScale, 5, 100);
-    Sep.GetItemInt(OptUnprintedEndFontScale, OptUnprintedEndFontScale * 10 div 6, 5, 100);
-    OptUnprintedEndFontScale:= OptUnprintedEndFontScale * 6 div 10;
-    Sep.GetItemInt(OptUnprintedTabPointerScale, OptUnprintedTabPointerScale, 0, 100);
+    Sep.GetItemInt(ATEditorOptions.UnprintedSpaceDotScale, ATEditorOptions.UnprintedSpaceDotScale, 5, 100);
+    Sep.GetItemInt(ATEditorOptions.UnprintedEndDotScale, ATEditorOptions.UnprintedEndDotScale, 5, 100);
+    Sep.GetItemInt(ATEditorOptions.UnprintedEndFontScale, ATEditorOptions.UnprintedEndFontScale * 10 div 6, 5, 100);
+    ATEditorOptions.UnprintedEndFontScale:= ATEditorOptions.UnprintedEndFontScale * 6 div 10;
+    Sep.GetItemInt(ATEditorOptions.UnprintedTabPointerScale, ATEditorOptions.UnprintedTabPointerScale, 0, 100);
   end;
 
-  OptEditorSpeedScrollAutoVert:= cfg.GetValue('mouse_scroll_speed_vert', OptEditorSpeedScrollAutoVert);
+  ATEditorOptions.SpeedScrollAutoVert:= cfg.GetValue('mouse_scroll_speed_vert', ATEditorOptions.SpeedScrollAutoVert);
 
   EControlOptions.AutoFoldComments:= cfg.GetValue('auto_fold_comments', 0);
   EControlOptions.MaxLinesWhenParserEnablesFolding:= cfg.GetValue('lexer_folding_max_lines',
