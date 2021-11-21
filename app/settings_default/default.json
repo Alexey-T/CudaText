@@ -117,8 +117,8 @@
   //Various options of text renderer. [has suffix]
   //Value is a string of several chars:
   //  if 'w' in value: Use simplified calculation of average character width.
-  //                   On Windows, 'w' is not needed.
-  //                   On macOS, 'w' gives bad results.
+  //                   On Windows, 'w' is good.
+  //                   On macOS, 'w' is bad.
   //                   On GTK2, 'w' is not needed.
   //                   On Qt5, 'w' gives various results, it depends on Desktop Environment.
   //  if 'o' in value: Calculate 'offsets' for individual characters, ie use slower API to render.
