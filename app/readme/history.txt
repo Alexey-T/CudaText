@@ -5,7 +5,7 @@
 
 1.149.4 (2021/11)
 
-+ add: option "caret_view" allows to specify the option "a" to render the text above the caret (thanks @hiiamboris)
++ add: option "renderer_tweaks" has new sub-option "c" (thanks @hiiamboris)
 
 1.149.3 (2021/11)
 

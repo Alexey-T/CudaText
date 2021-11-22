@@ -125,6 +125,7 @@
   //                   On Windows, 'offsets' don't decrease rendering speed.
   //                   On macOS, 'offsets' decrease (2x) renderind speed.
   //                   On GTK2 and Qt5, 'offsets' decrease rendering speed.
+  //  if 'c' in value: Render caret's character over the inverted rectangle.
   //  if 'e' in value: Ellipsis-char U+2026 has width 100%, otherwise the width from "unicode_full_width".
   //Note: this option is global, not per-lexer.
   "renderer_tweaks": "wo",
@@ -625,8 +626,7 @@
   //Caret shape is 2-3 values (3rd is optional), comma-separated: width,height,options.
   //- width: if > 0, in pixels; in < 0, in percents.
   //- height: if > 0, in pixels; in < 0, in percents; can be taller than 100%.
-  //- options: if "_" in string - make caret empty inside;
-  //           if "a" in string - also render text above the caret.
+  //- options: if "_" in string, make caret empty inside;
   //
   //Caret: shape for normal state.
   "caret_view": "2,-100",
