@@ -1,5 +1,8 @@
 See http://wiki.freepascal.org/CudaText#How_to_make_translation
 
+2021.11.23
++ [d_f] h_subs
+
 2021.11.10
 + [si] CmdPalette
 
