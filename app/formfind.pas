@@ -177,6 +177,7 @@ type
     FMenuitemOptTokens: TMenuItem;
     FMenuitemOptTokensSub: array[TATFinderTokensAllowed] of TMenuItem;
     FMenuitemOptHiAll: TMenuItem;
+    FMenuitemOptRegexSubst: TMenuItem;
     FMenuitemFindFirst: TMenuItem;
     FMenuitemFindPrev: TMenuItem;
     FMenuitemFindNext: TMenuItem;
@@ -200,6 +201,8 @@ type
     FLexerRegexThemed: boolean;
     Adapter: TATAdapterEControl;
     AdapterActive: boolean;
+    FOptionRegexSubst: boolean;
+    procedure chkRegexSubstClick(Sender: TObject);
     procedure bRepStopClick(Sender: TObject);
     procedure ControlAutosizeOptionsByWidth;
     procedure DoFocusEditor;
@@ -244,6 +247,7 @@ type
     property IsNarrow: boolean read FNarrow write SetNarrow;
     property IsHiAll: boolean read GetHiAll write SetHiAll;
     property IsDoubleBuffered: boolean write SetIsDoubleBuffered;
+    property IsRegexSubst: boolean read FOptionRegexSubst write FOptionRegexSubst;
   end;
 
 var
@@ -350,6 +354,7 @@ var
   SCaptionOptMulti,
   SCaptionOptTokens,
   SCaptionOptHiAll,
+  SCaptionOptRegexSubst,
   SCaptionFindFirst,
   SCaptionFindPrev,
   SCaptionFindNext,
@@ -374,6 +379,7 @@ begin
   SCaptionOptMulti:= 'Multi-line inputs';
   SCaptionOptTokens:= 'Allowed syntax elements';
   SCaptionOptHiAll:= 'Highlight all matches';
+  SCaptionOptRegexSubst:= 'RegEx substitution for ''Replace with''';
   SCaptionFindFirst:= 'Find first';
   SCaptionFindPrev:= 'Find previous';
   SCaptionFindNext:= 'Find next';
@@ -399,6 +405,7 @@ begin
       SCaptionOptMulti:= ini.ReadString(section, 'h_mul', SCaptionOptMulti);
       SCaptionOptTokens:= ini.ReadString(section, 'h_tok', SCaptionOptTokens);
       SCaptionOptHiAll:= ini.ReadString(section, 'h_hi', SCaptionOptHiAll);
+      SCaptionOptRegexSubst:= ini.ReadString(section, 'h_subs', SCaptionOptRegexSubst);
       SCaptionFindFirst:= ini.ReadString(section, 'h_f1', SCaptionFindFirst);
       SCaptionFindPrev:= ini.ReadString(section, 'h_fp', SCaptionFindPrev);
       SCaptionFindNext:= ini.ReadString(section, 'h_fn', SCaptionFindNext);
@@ -450,6 +457,9 @@ begin
     FMenuitemOptHiAll:= TMenuItem.Create(Self);
     FMenuitemOptHiAll.OnClick:= @chkHiAllClick;
 
+    FMenuitemOptRegexSubst:= TMenuItem.Create(Self);
+    FMenuitemOptRegexSubst.OnClick:= @chkRegexSubstClick;
+
     FMenuitemFindFirst:= TMenuItem.Create(Self);
     FMenuitemFindFirst.OnClick:= @bFindFirstClick;
 
@@ -500,6 +510,7 @@ begin
     FPopupMore.Items.Add(FMenuitemOptMulti);
     FPopupMore.Items.Add(FMenuitemOptTokens);
     FPopupMore.Items.Add(FMenuitemOptHiAll);
+    FPopupMore.Items.Add(FMenuitemOptRegexSubst);
     FPopupMore.Items.Add(Sep1);
     FPopupMore.Items.Add(FMenuitemFindFirst);
     FPopupMore.Items.Add(FMenuitemFindPrev);
@@ -544,6 +555,9 @@ begin
   FMenuitemOptHiAll.Caption:= SCaptionOptHiAll;
   FMenuitemOptHiAll.Checked:= chkHiAll.Checked;
   FMenuitemOptHiAll.ShortCut:= TextToShortCut(UiOps.HotkeyToggleHiAll);
+
+  FMenuitemOptRegexSubst.Caption:= SCaptionOptRegexSubst;
+  FMenuitemOptRegexSubst.Checked:= FOptionRegexSubst;
 
   FMenuitemFindFirst.Caption:= SCaptionFindFirst;
   FMenuitemFindFirst.ShortCut:= TextToShortCut(UiOps.HotkeyFindFirst);
@@ -1104,6 +1118,11 @@ begin
   UpdateFonts;
   FixFormPositionToDesktop(Self);
   OnResize(Self);
+end;
+
+procedure TfmFind.chkRegexSubstClick(Sender: TObject);
+begin
+  IsRegexSubst:= not IsRegexSubst;
 end;
 
 procedure TfmFind.UpdateInitialCaretPos;
