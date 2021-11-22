@@ -187,6 +187,7 @@ begin
 
     ////finder
     cfg.SetValue('/finder/regex', FFinder.OptRegex);
+    cfg.SetValue('/finder/regex_subst', FFinder.OptRegexSubst);
     cfg.SetValue('/finder/case', FFinder.OptCase);
     cfg.SetValue('/finder/words', FFinder.OptWords);
     cfg.SetValue('/finder/back', FFinder.OptBack);
@@ -768,6 +769,7 @@ begin
 
     ////finder
     FFinder.OptRegex:= cfg.GetValue('/finder/regex', false);
+    FFinder.OptRegexSubst:= cfg.GetValue('/finder/regex_subst', true);
     FFinder.OptCase:= cfg.GetValue('/finder/case', false);
     FFinder.OptWords:= cfg.GetValue('/finder/words', false);
     FFinder.OptBack:= cfg.GetValue('/finder/back', false);
