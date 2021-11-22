@@ -220,6 +220,7 @@ Actions work with props of Find/Replace dialog, and props of low-level search en
 ** "op_case": option "case sensitive" of search engine
 ** "op_word": option "whole words" of search engine
 ** "op_regex": option "reg.ex." of search engine
+** "op_regex_subst": option "reg.ex. substitute in 'Replace with' field" of search engine
 ** "op_cfm": option "confirm on replace" of search engine
 ** "op_insel": option "in selection" of search engine
 ** "op_wrap": option "wrapped search" of search engine
@@ -229,6 +230,7 @@ Actions work with props of Find/Replace dialog, and props of low-level search en
 ** "op_case_d": option "case sensitive" of dialog, None if dialog not inited
 ** "op_word_d": option "whole words" of dialog, None if dialog not inited
 ** "op_regex_d": option "reg.ex." of dialog, None if dialog not inited
+** "op_regex_subst_d": option "reg.ex. substitute in 'Replace with' field" of dialog, None if dialog not inited
 ** "op_cfm_d": option "confirm on replace" of dialog, None if dialog not inited
 ** "op_insel_d": option "in selection" of dialog, None if dialog not inited
 ** "op_wrap_d": option "wrapped search" of dialog, None if dialog not inited
@@ -4513,5 +4515,8 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 
 1.0.413 (app 1.148.1)
 * add: dlg_proc: new control "scrollbox"
+
+1.0.414 (app 1.149.4)
+* add: app_proc: PROC_GET_FINDER_PROP/PROC_SET_FINDER_PROP support new keys "op_regex_subst", "op_regex_subst_d"
 
 [[Category:CudaText]]
