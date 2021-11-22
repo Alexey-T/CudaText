@@ -5,6 +5,7 @@
 
 1.149.4 (2021/11)
 
++ add: dialog Replace has new option, visible only in the "..." menu: "RegEx substitute for 'Replace with'"
 + add: option "renderer_tweaks" has new sub-option "c" (thanks @hiiamboris)
 
 1.149.3 (2021/11)
