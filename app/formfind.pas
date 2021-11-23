@@ -558,7 +558,7 @@ begin
 
   FMenuitemOptRegexSubst.Caption:= SCaptionOptRegexSubst;
   FMenuitemOptRegexSubst.Checked:= FOptionRegexSubst;
-  FMenuitemOptRegexSubst.Enabled:= IsReplace;
+  FMenuitemOptRegexSubst.Enabled:= IsReplace and chkRegex.Checked;
 
   FMenuitemFindFirst.Caption:= SCaptionFindFirst;
   FMenuitemFindFirst.ShortCut:= TextToShortCut(UiOps.HotkeyFindFirst);
