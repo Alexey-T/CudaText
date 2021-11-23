@@ -1056,7 +1056,18 @@ Action buttons in dialog:
 ** "Extract RegEx matches". It's enabled only with RegEx option. Finds all matches, all found matches are put to an internal  list, list is sorted, duplicates are discarded, and list is put to a new document. Plugin "Extract Strings" does the same task but using the Python RegEx engine.
 ** "Select all". Finds all matches in a document and places multi-seletions on them.
 ** "Mark all". Finds all matches in a document and places [[#Markers]] on them.
-** Toggle-option "RegEx substitute for 'Replace with'". Activates "substitute" for replace-action. When off, the replate-with field is taken literally, without interpreting special characters. When on, the replace-with field is processed for backslashes and $0 $1 $2 etc. Backslashes allow to process things like "\n", "\t", "\cA"..."\cZ" etc.
+** Option "RegEx substitute for 'Replace with'". Activates "substitute" for replace-action. When off, the replate-with field is taken literally, without interpreting special characters. When on, the replace-with field is processed for backslashes and $0 $1 $2 etc. Supported backslash constructs are:
+*** \n: NL char
+*** \r: CR char
+*** \t: TAB char
+*** \f: FF char
+*** \a: BEL char
+*** \e: ESC char
+*** \xNN, \x{NNNN}: hex code of char
+*** \l: lower case of one char
+*** \L: lower case of all text
+*** \u: upper case of one char
+*** \U: upper case of all text  
 
 * Button "Replace". If some fragment was found/selected already, it replaces this fragment (by contents of "Replace with" field). If not, it finds next fragment and selects it. If replacement was performed, it finds/selects the next fragment.
 
