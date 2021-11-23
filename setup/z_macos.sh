@@ -2,7 +2,7 @@
 . ./cuda_ver.sh
 
 SIZE_MB=24
-TMP=~/_cudmac
+TMP=~/cudatext_tmp
 IMG=~/cudatext_build/cudatext-macos-$cuda_ver.dmg
 
 dd if=/dev/zero of=$IMG bs=1M count=$SIZE_MB status=progress
