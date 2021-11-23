@@ -6,7 +6,7 @@
 1.149.4 (2021/11)
 
 + add: Project Manager: context menu for files gives new items "Open in default application" and "Focus in file manager", the latter is implemented only on Windows (thanks @WebMechanic)
-+ add: dialog Replace has new option, visible only in the "..." menu: "RegEx substitute for 'Replace with'"
++ add: dialog Replace has new option, visible only in the "..." menu: "RegEx substitute for 'Replace with'"; it's described in the Wiki topic about Find/Replace dialog
 + add: option "renderer_tweaks" has new sub-option "c" (thanks @hiiamboris)
 
 1.149.3 (2021/11)
