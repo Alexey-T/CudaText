@@ -153,6 +153,7 @@ class Command:
 
         (_("Open in default application")
                                    , "file", [NODE_FILE], "cuda_project_man.action_open_def"),
+        (_("Focus in file manager"), "file", [NODE_FILE], "cuda_project_man.action_focus_in_fileman"),
         (_("Rename...")            , "file", [NODE_FILE], "cuda_project_man.action_rename"),
         (_("Delete file")          , "file", [NODE_FILE], "cuda_project_man.action_delete_file"),
         (_("Set as main file")     , "file", [NODE_FILE], "cuda_project_man.action_set_as_main_file"),
@@ -426,11 +427,29 @@ class Command:
             os.system('open "'+fn+'"')
         elif suffix=='__haiku':
             #Haiku
-            msg_status('TODO: implemenet "open in default app" for Haiku')
+            msg_status('TODO: implemenet "Open in default app" for Haiku')
         else:
             #other Unixes
             os.system('xdg-open "'+fn+'"')
-        
+
+    def action_focus_in_fileman(self):
+        fn = str(self.get_location_by_index(self.selected))
+        if not os.path.isfile(fn):
+            return
+        suffix = app_proc(PROC_GET_OS_SUFFIX, '')
+        if suffix=='':
+            #Windows
+            os.system('explorer.exe /select,'+fn)
+        elif suffix=='__mac':
+            #macOS
+            msg_status('TODO: implemenet "Focus in file manager" for macOS')
+        elif suffix=='__haiku':
+            #Haiku
+            msg_status('TODO: implemenet "Focus in file manager" for Haiku')
+        else:
+            #other Unixes
+            msg_status('TODO: implemenet "Focus in file manager" for Unix')
+
     def action_rename(self):
         location = Path(self.get_location_by_index(self.selected))
         result = dlg_input(_("Rename to"), str(location.name))
