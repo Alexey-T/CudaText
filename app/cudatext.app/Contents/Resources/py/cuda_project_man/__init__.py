@@ -151,6 +151,8 @@ class Command:
         (_("New directory...")     , "dir", [NODE_DIR], "cuda_project_man.action_new_directory"),
         (_("Find in directory...") , "dir", [NODE_DIR], "cuda_project_man.action_find_in_directory"),
 
+        (_("Open in default application")
+                                   , "file", [NODE_FILE], "cuda_project_man.action_open_def"),
         (_("Rename...")            , "file", [NODE_FILE], "cuda_project_man.action_rename"),
         (_("Delete file")          , "file", [NODE_FILE], "cuda_project_man.action_delete_file"),
         (_("Set as main file")     , "file", [NODE_FILE], "cuda_project_man.action_set_as_main_file"),
@@ -411,6 +413,24 @@ class Command:
         if os.path.isfile(str(path)):
             _file_open(str(path))
 
+    def action_open_def(self):
+        fn = str(self.get_location_by_index(self.selected))
+        if not os.path.isfile(fn):
+            return
+        suffix = app_proc(PROC_GET_OS_SUFFIX, '')
+        if suffix=='':
+            #Windows
+            os.startfile(fn)
+        elif suffix=='__mac':
+            #macOS
+            os.system('open "'+fn+'"')
+        elif suffix=='__haiku':
+            #Haiku
+            msg_status('TODO: implemenet "open in default app" for Haiku')
+        else:
+            #other Unixes
+            os.system('xdg-open "'+fn+'"')
+        
     def action_rename(self):
         location = Path(self.get_location_by_index(self.selected))
         result = dlg_input(_("Rename to"), str(location.name))
