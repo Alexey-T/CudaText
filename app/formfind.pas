@@ -558,6 +558,7 @@ begin
 
   FMenuitemOptRegexSubst.Caption:= SCaptionOptRegexSubst;
   FMenuitemOptRegexSubst.Checked:= FOptionRegexSubst;
+  FMenuitemOptRegexSubst.Enabled:= IsReplace;
 
   FMenuitemFindFirst.Caption:= SCaptionFindFirst;
   FMenuitemFindFirst.ShortCut:= TextToShortCut(UiOps.HotkeyFindFirst);
@@ -575,12 +576,16 @@ begin
   FMenuitemMarkAll.Shortcut:= TextToShortcut(UiOps.HotkeyMarkAll);
   FMenuitemRep.Caption:= SCaptionRep;
   FMenuitemRep.Shortcut:= TextToShortcut(UiOps.HotkeyReplaceAndFindNext);
+  FMenuitemRep.Enabled:= IsReplace;
   FMenuitemRepStop.Caption:= SCaptionRepStop;
   FMenuitemRepStop.Shortcut:= TextToShortcut(UiOps.HotkeyReplaceNoFindNext);
+  FMenuitemRepStop.Enabled:= IsReplace;
   FMenuitemRepAll.Caption:= SCaptionRepAll;
   FMenuitemRepAll.Shortcut:= TextToShortcut(UiOps.HotkeyReplaceAll);
+  FMenuitemRepAll.Enabled:= IsReplace;
   FMenuitemRepGlobal.Caption:= SCaptionRepGlobal;
   FMenuitemRepGlobal.Shortcut:= TextToShortcut(UiOps.HotkeyReplaceGlobal);
+  FMenuitemRepGlobal.Enabled:= IsReplace;
 end;
 
 procedure TfmFind.MenuitemTokensClick(Sender: TObject);
