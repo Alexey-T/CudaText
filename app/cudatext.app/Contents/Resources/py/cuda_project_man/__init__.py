@@ -452,11 +452,12 @@ class Command:
             #macOS
             fn = fn.replace(' ', '\\ ') #macOS cannot handle quoted filename
             os.system('open --new --reveal '+fn)
+        elif suffix=='__solaris':
+            if os.path.isfile('/usr/bin/nautilus'):
+                os.system('nautilus "'+fn+'"')
         elif suffix=='__haiku':
-            #Haiku
             msg_status('"Focus in file manager" not implemented for this OS')
         else:
-            #other Unixes
             msg_status('"Focus in file manager" not implemented for this OS')
 
     def action_rename(self):
