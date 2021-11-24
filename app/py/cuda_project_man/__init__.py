@@ -437,30 +437,27 @@ class Command:
         if not os.path.isfile(fn):
             return
         suffix = app_proc(PROC_GET_OS_SUFFIX, '')
+
         if suffix=='':
             #Windows
             os.system('explorer.exe /select,'+fn)
-        elif suffix=='__linux':
-            #Linux
-            if os.path.isfile('/usr/bin/thunar'):
-                os.system('thunar "'+os.path.dirname(fn)+'"')
-            elif os.path.isfile('/usr/bin/nautilus'):
-                os.system('nautilus "'+fn+'"')
-            elif os.path.isfile('/usr/bin/dolphin'):
-                os.system('dolphin --select --new-window "'+fn+'"')
-            else:
-                msg_status('"Focus in file manager" does not support your file manager')
         elif suffix=='__mac':
             #macOS
             fn = fn.replace(' ', '\\ ') #macOS cannot handle quoted filename
             os.system('open --new --reveal '+fn)
-        elif suffix=='__solaris':
-            if os.path.isfile('/usr/bin/nautilus'):
-                os.system('nautilus "'+fn+'"')
         elif suffix=='__haiku':
+            #Haiku
             msg_status('"Focus in file manager" not implemented for this OS')
         else:
-            msg_status('"Focus in file manager" not implemented for this OS')
+            #Linux and others
+            if os.path.isfile('/usr/bin/nautilus'):
+                os.system('nautilus "'+fn+'"')
+            elif os.path.isfile('/usr/bin/thunar'):
+                os.system('thunar "'+os.path.dirname(fn)+'"')
+            elif os.path.isfile('/usr/bin/dolphin'):
+                os.system('dolphin --select --new-window "'+fn+'"')
+            else:
+                msg_status('"Focus in file manager" does not support your file manager')
 
     def action_rename(self):
         location = Path(self.get_location_by_index(self.selected))
