@@ -446,6 +446,8 @@ class Command:
                 os.system('thunar "'+os.path.dirname(fn)+'"')
             elif os.path.isfile('/usr/bin/nautilus'):
                 os.system('nautilus "'+fn+'"')
+            elif os.path.isfile('/usr/bin/dolphin'):
+                os.system('dolphin --select --new-window "'+fn+'"')
             else:
                 msg_status('"Focus in file manager" does not support your file manager')
         elif suffix=='__mac':
