@@ -471,6 +471,8 @@ class Command:
                 os.system('nautilus "'+fn+'"')
             elif which('thunar'):
                 os.system('thunar "'+os.path.dirname(fn)+'"')
+            elif which('caja'):
+                os.system('caja "'+os.path.dirname(fn)+'"')
             elif which('dolphin'):
                 os.system('dolphin --select --new-window "'+fn+'"')
             else:
