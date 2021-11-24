@@ -25,6 +25,23 @@ def _file_open(fn, options=''):
     #print('Opening file in group %d'%gr)
     file_open(fn, group=gr, options=options)
 
+# https://stackoverflow.com/questions/377017/test-if-executable-exists-in-python
+def which(program):
+    def is_exe(fpath):
+        return os.path.isfile(fpath) and os.access(fpath, os.X_OK)
+
+    fpath, fname = os.path.split(program)
+    if fpath:
+        if is_exe(program):
+            return program
+    else:
+        for path in os.environ["PATH"].split(os.pathsep):
+            exe_file = os.path.join(path, program)
+            if is_exe(exe_file):
+                return exe_file
+
+    return None
+
 def project_variables():
     """
     gives dict with "project variables", which is ok for using from other plugins,
@@ -450,11 +467,11 @@ class Command:
             msg_status('"Focus in file manager" not implemented for this OS')
         else:
             #Linux and others
-            if os.path.isfile('/usr/bin/nautilus'):
+            if which('nautilus'):
                 os.system('nautilus "'+fn+'"')
-            elif os.path.isfile('/usr/bin/thunar'):
+            elif which('thunar'):
                 os.system('thunar "'+os.path.dirname(fn)+'"')
-            elif os.path.isfile('/usr/bin/dolphin'):
+            elif which('dolphin'):
                 os.system('dolphin --select --new-window "'+fn+'"')
             else:
                 msg_status('"Focus in file manager" does not support your file manager')
