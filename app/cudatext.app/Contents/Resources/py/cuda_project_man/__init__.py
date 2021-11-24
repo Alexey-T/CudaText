@@ -449,7 +449,7 @@ class Command:
         elif suffix=='__mac':
             #macOS
             fn = fn.replace(' ', '\\ ') #macOS cannot handle quoted filename
-            os.system('open --new --reveral '+fn)
+            os.system('open --new --reveal '+fn)
         elif suffix=='__haiku':
             #Haiku
             msg_status('"Focus in file manager" not implemented for this OS')
