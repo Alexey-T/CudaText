@@ -448,7 +448,8 @@ class Command:
                 msg_status('"Focus in file manager" needs Nautilus')
         elif suffix=='__mac':
             #macOS
-            msg_status('"Focus in file manager" not implemented for this OS')
+            fn = fn.replace(' ', '\\ ') #macOS cannot handle quoted filename
+            os.system('open --new --reveral '+fn)
         elif suffix=='__haiku':
             #Haiku
             msg_status('"Focus in file manager" not implemented for this OS')
