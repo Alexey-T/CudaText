@@ -442,10 +442,12 @@ class Command:
             os.system('explorer.exe /select,'+fn)
         elif suffix=='__linux':
             #Linux
-            if os.path.isfile('/usr/bin/nautilus'):
+            if os.path.isfile('/usr/bin/thunar'):
+                os.system('thunar "'+os.path.dirname(fn)+'"')
+            elif os.path.isfile('/usr/bin/nautilus'):
                 os.system('nautilus "'+fn+'"')
             else:
-                msg_status('"Focus in file manager" needs Nautilus')
+                msg_status('"Focus in file manager" does not support your file manager')
         elif suffix=='__mac':
             #macOS
             fn = fn.replace(' ', '\\ ') #macOS cannot handle quoted filename
