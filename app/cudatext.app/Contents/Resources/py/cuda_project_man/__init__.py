@@ -440,15 +440,21 @@ class Command:
         if suffix=='':
             #Windows
             os.system('explorer.exe /select,'+fn)
+        elif suffix=='__linux':
+            #Linux
+            if os.path.isfile('/usr/bin/nautilus'):
+                os.system('nautilus "'+fn+'"')
+            else:
+                msg_status('"Focus in file manager" needs Nautilus')
         elif suffix=='__mac':
             #macOS
-            msg_status('TODO: implemenet "Focus in file manager" for macOS')
+            msg_status('"Focus in file manager" not implemented for this OS')
         elif suffix=='__haiku':
             #Haiku
-            msg_status('TODO: implemenet "Focus in file manager" for Haiku')
+            msg_status('"Focus in file manager" not implemented for this OS')
         else:
             #other Unixes
-            msg_status('TODO: implemenet "Focus in file manager" for Unix')
+            msg_status('"Focus in file manager" not implemented for this OS')
 
     def action_rename(self):
         location = Path(self.get_location_by_index(self.selected))
