@@ -1004,6 +1004,7 @@
   "mouse_gutter_click_sel": true,
 
   //Allow to zoom text using Ctrl+[mouse wheel up/down].
+  //If option is off, you can still use Command Palette's "current document font size: bigger/smaller".
   "mouse_wheel_zoom": true,
 
   //Mouse wheel scrolling speed, vertical (in lines).
