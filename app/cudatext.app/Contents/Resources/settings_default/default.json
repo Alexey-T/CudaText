@@ -1124,19 +1124,22 @@
   "ui_statusbar_show": true,
 
   //Statusbar panels list. Can skip items, can reorder items.
-  //Panel names:
-  //    caret  : Caret(s) info
-  //    enc    : Encoding name
-  //    ends   : Line ends characters
-  //    lexer  : Lexer name
-  //    tabsize: Tab-char size
-  //    ins    : Insert/Overwrite mode (toggled by Ins key)
-  //    selmode: Shows "-" for normal selection mode, "| |" for column selection mode
-  //    wrap   : State of wrap mode: no wrap, wrap at window edge, wrap at fixed margin
-  //    zoom   : Zoom value in %
-  //    msg    : Message from CudaText or plugins (panel is auto-sized)
-  //Panel alignment:
-  //    C (center), L (left), R (right), A (auto-size)
+  //Allowed panel names:
+  //    caret  : Caret(s) info.
+  //    enc    : Encoding name.
+  //    ends   : Line ends characters.
+  //    lexer  : Lexer name.
+  //    tabsize: Tab-char kind and size.
+  //    ins    : Insert/Overwrite mode (toggled by Ins key).
+  //    selmode: Current selection mode.
+  //             Shows "-" for normal selection mode, "||" for column selection mode.
+  //    wrap   : Word-wrap mode: no wrap, wrap at window edge, wrap at fixed margin.
+  //    zoom   : Zoom value in percents (%).
+  //             Change zoom value by Command Palette commands "current document font size: bigger/smaller",
+  //             and by Ctrl+<Mouse wheel> (when option "mouse_wheel_zoom":true).
+  //    msg    : Messages from CudaText and plugins. Panel should be auto-sized.
+  //Allowed panel alignments:
+  //    C (center), L (left), R (right), A (auto-size).
   "ui_statusbar_panels": "caret,C,180|enc,C,125|ends,A,45|lexer,C,140|tabsize,A,75|selmode,A,15|msg,L,4000",
 
   //Statusbar message (in the last panel): show time in seconds.
