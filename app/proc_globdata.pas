@@ -1998,11 +1998,8 @@ begin
   for i:= 0 to AppCommandList.Count-1 do
   begin
     CmdItem:= TAppCommandInfo(AppCommandList[i]);
-    if (CmdItem.ItemModule=AModule) then
-      if CmdItem.ItemProcParam<>'' then
-        Result+= Format('%s.%s, sub: %s'#10, [CmdItem.ItemModule, CmdItem.ItemProc, CmdItem.ItemProcParam])
-      else
-        Result+= Format('%s.%s'#10, [CmdItem.ItemModule, CmdItem.ItemProc]);
+    if CmdItem.ItemModule=AModule then
+      Result+= CmdItem.CommaStr+#10;
   end;
 end;
 
