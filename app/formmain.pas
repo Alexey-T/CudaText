@@ -1537,7 +1537,7 @@ begin
       //backup hotkeys of plugins
       //this function must not loose any hotkeys!
       if ACategory in [categ_Plugin, categ_PluginSub] then
-        ABackup.Add(MapItem, MapItem.AppCommandText);
+        ABackup.Add(MapItem, MapItem.Description);
 
       AKeymap.Delete(i);
     end;
