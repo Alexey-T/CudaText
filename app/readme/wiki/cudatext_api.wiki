@@ -685,16 +685,16 @@ Shows modal dialog to input one string. Returns entered string or None if cancel
 ===dlg_input_ex===
 
  dlg_input_ex(number, caption,
-               label1   , text1="", label2="", text2="", label3="", text3="",
-               label4="", text4="", label5="", text5="", label6="", text6="",
-               label7="", text7="", label8="", text8="", label9="", text9="",
-               label10="", text10="")
+               prompt1   , text1="", prompt2="", text2="", prompt3="", text3="",
+               prompt4="", text4="", prompt5="", text5="", prompt6="", text6="",
+               prompt7="", text7="", prompt8="", text8="", prompt9="", text9="",
+               prompt10="", text10="")
 
 Shows modal dialog to enter 1 to 10 string fields at once. Returns list of strings or None if cancelled.
 
-* Param "number": count of input fields.
-* Params "label": prompt text above input field.
-* Params "text": initial value of input field.
+* Param "number": Count of input fields.
+* Params "prompt*": Descriptions above input fields. They cannot be multi-line.
+* Params "text*": Initial values of input fields.
 
 ===dlg_file===
 
