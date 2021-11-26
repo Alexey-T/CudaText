@@ -1551,6 +1551,7 @@ end;
 class procedure TKeymapHelperMain.AddPluginsWithHotkeyBackup(AKeymap: TATKeymap; ABackup: TAppHotkeyBackup; ACategory: TAppCommandCategory);
 var
   CmdItem: TAppCommandInfo;
+  StrCommand: string;
   i: integer;
 begin
   for i:= 0 to AppCommandList.Count-1 do
@@ -1565,7 +1566,8 @@ begin
       'plugin: '+AppNicePluginCaption(CmdItem.ItemCaption),
       [], []);
 
-    ABackup.Get(AKeymap[AKeymap.Count-1], CmdItem.CommaStr);
+    StrCommand:= CmdItem.CommaStr;
+    ABackup.Get(AKeymap[AKeymap.Count-1], StrCommand);
   end;
 end;
 

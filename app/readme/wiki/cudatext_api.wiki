@@ -693,7 +693,7 @@ Shows modal dialog to input one string. Returns entered string or None if cancel
 Shows modal dialog to enter 1 to 10 string fields at once. Returns list of strings or None if cancelled.
 
 * Param "number": Count of input fields.
-* Params "prompt*": Descriptions above input fields. They cannot be multi-line.
+* Params "prompt*": Descriptions near input fields. They cannot be multi-line.
 * Params "text*": Initial values of input fields.
 
 ===dlg_file===
