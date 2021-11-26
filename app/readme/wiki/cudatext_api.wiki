@@ -86,7 +86,7 @@ Event handlers (Command.on_nnnnn methods) return-value is ignored is many cases,
 
 ==Events - Macros==
 
-* on_macro(self, ed_self, text): Called when command "macros: stop recording" runs. In text the "\n"-separated list of macro items is passed. These items were run after command "macros: start recording" and before command "macros: stop recording".
+* on_macro(self, ed_self, text): Called when command "start/stop macro recording" stops the recording. Param "text" is "\n"-separated list of macro items, which were run during the macro recording.
 ** if item is "number" then it's simple command.
 ** if item is "number,string" then it's command with str parameter (usually it's command cCommand_TextInsert).
 ** if item is "py:string_module,string_method,string_param" then it's call of Python plugin (usually string_param is empty).
