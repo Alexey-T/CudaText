@@ -1550,6 +1550,12 @@ var
   SCommandText: string;
   i: integer;
 begin
+  {
+  SCommandText:= ABackup.DebugText;
+  if SCommandText<>'' then
+    MsgBox(SCommandText, MB_OK);
+    }
+
   for i:= 0 to AppCommandList.Count-1 do
   begin
     CmdItem:= TAppCommandInfo(AppCommandList[i]);

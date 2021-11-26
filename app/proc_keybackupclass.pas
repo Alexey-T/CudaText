@@ -58,6 +58,11 @@ procedure TAppHotkeyBackup.Add(AMapItem: TATKeymapItem; const AStr: string);
 var
   Pair: TMyKeyPair;
 begin
+  if AStr='' then
+  begin
+    //this should not happen! debug if we are here.
+    exit;
+  end;
   if (AMapItem.Keys1.Length>0) or
     (AMapItem.Keys2.Length>0) then
   begin
