@@ -1518,6 +1518,8 @@ type
     class procedure AddPluginsWithHotkeyBackup(AKeymap: TATKeymap; ABackup: TAppHotkeyBackup; ACategory: TAppCommandCategory);
     class procedure UpdateDynamicEx(AKeymap: TATKeymap; ACategory: TAppCommandCategory);
     class procedure UpdateDynamic(ACategory: TAppCommandCategory);
+    class function Debug_PluginCommands(AKeymap: TATKeymap; const AText: string): string;
+    class function Debug_PluginCommands(const AText: string): string;
   end;
 
 class procedure TKeymapHelperMain.DeleteCategoryWithHotkeyBackup(AKeymap: TATKeymap; ABackup: TAppHotkeyBackup; ACategory: TAppCommandCategory);
@@ -1539,8 +1541,11 @@ begin
       if ACategory in [categ_Plugin, categ_PluginSub] then
       begin
         NPluginIndex:= Cmd-cmdFirstPluginCommand;
-        CmdItem:= TAppCommandInfo(AppCommandList[NPluginIndex]);
-        ABackup.Add(MapItem, CmdItem.CommaStr);
+        if (NPluginIndex>=0) and (NPluginIndex<AppCommandList.Count) then
+        begin
+          CmdItem:= TAppCommandInfo(AppCommandList[NPluginIndex]);
+          ABackup.Add(MapItem, CmdItem.CommaStr);
+        end;
       end;
 
       AKeymap.Delete(i);
@@ -1581,6 +1586,9 @@ var
 begin
   KeysBackup:= TAppHotkeyBackup.Create;
   DeleteCategoryWithHotkeyBackup(AKeymap, KeysBackup, ACategory);
+
+  //if ACategory in [categ_Plugin, categ_PluginSub] then
+  //  MsgBox('1'#10+TKeymapHelperMain.Debug_PluginCommands(AKeymap, 'Macro'), MB_OK); ///////debug
 
   case ACategory of
     categ_Lexer:
@@ -1660,6 +1668,35 @@ begin
   begin
     Map:= TATKeymap(AppKeymapLexers.Objects[i]);
     UpdateDynamicEx(Map, ACategory);
+  end;
+end;
+
+class function TKeymapHelperMain.Debug_PluginCommands(AKeymap: TATKeymap;
+  const AText: string): string;
+var
+  Cmd, i: integer;
+begin
+  Result:= '';
+  for i:= 0 to AKeymap.Count-1 do
+  begin
+    Cmd:= AKeymap.Items[i].Command;
+    if TPluginHelper.CommandCategory(Cmd) in [categ_Plugin, categ_PluginSub] then
+      if Pos(AText, AKeymap.Items[i].Name)>0 then
+        Result+= AKeymap.Items[i].Name+#10;
+  end;
+end;
+
+class function TKeymapHelperMain.Debug_PluginCommands(const AText: string): string;
+var
+  Map: TATKeymap;
+  i: integer;
+begin
+  Result:= Debug_PluginCommands(AppKeymapMain, AText);
+
+  for i:= 0 to AppKeymapLexers.Count-1 do
+  begin
+    Map:= TATKeymap(AppKeymapLexers.Objects[i]);
+    Result+= Debug_PluginCommands(Map, AText);
   end;
 end;
 

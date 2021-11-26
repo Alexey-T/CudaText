@@ -2963,8 +2963,12 @@ begin
         Result:= categ_Plugin;
         N:= Cmd-cmdFirstPluginCommand;
         if N<AppCommandList.Count then
+        begin
           if TAppCommandInfo(AppCommandList[N]).ItemFromApi then
             Result:= categ_PluginSub;
+        end
+        else
+          Result:= categ_PluginSub;
       end;
     cmdFirstLexerCommand..cmdLastLexerCommand:
       Result:= categ_Lexer;
