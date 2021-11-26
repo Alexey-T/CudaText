@@ -675,12 +675,12 @@ Shows given text in the floating tooptip.
 
 ===dlg_input===
 
- dlg_input(label, text)
+ dlg_input(prompt, text)
 
 Shows modal dialog to input one string. Returns entered string or None if cancelled.
 
-* Param "label": prompt text above input field.
-* Param "text": initial value of input field.
+* Param "prompt": Description text above the input field. It can be multi-line ("\n"-separated) and can have long line(s).
+* Param "text": Initial value of the input field.
 
 ===dlg_input_ex===
 
