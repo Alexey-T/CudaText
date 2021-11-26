@@ -1525,9 +1525,7 @@ type
 class procedure TKeymapHelperMain.DeleteCategoryWithHotkeyBackup(AKeymap: TATKeymap; ABackup: TAppHotkeyBackup; ACategory: TAppCommandCategory);
 var
   MapItem: TATKeymapItem;
-  CmdItem: TAppCommandInfo;
   Cmd, i: integer;
-  NPluginIndex: integer;
 begin
   for i:= AKeymap.Count-1 downto 0 do
   begin
@@ -1539,14 +1537,7 @@ begin
       //backup hotkeys of plugins
       //this function must not loose any hotkeys!
       if ACategory in [categ_Plugin, categ_PluginSub] then
-      begin
-        NPluginIndex:= Cmd-cmdFirstPluginCommand;
-        if (NPluginIndex>=0) and (NPluginIndex<AppCommandList.Count) then
-        begin
-          CmdItem:= TAppCommandInfo(AppCommandList[NPluginIndex]);
-          ABackup.Add(MapItem, CmdItem.CommaStr);
-        end;
-      end;
+        ABackup.Add(MapItem, MapItem.AppCommandText);
 
       AKeymap.Delete(i);
     end;
@@ -1556,7 +1547,7 @@ end;
 class procedure TKeymapHelperMain.AddPluginsWithHotkeyBackup(AKeymap: TATKeymap; ABackup: TAppHotkeyBackup; ACategory: TAppCommandCategory);
 var
   CmdItem: TAppCommandInfo;
-  StrCommand: string;
+  SCommandText: string;
   i: integer;
 begin
   for i:= 0 to AppCommandList.Count-1 do
@@ -1565,14 +1556,15 @@ begin
     if CmdItem.ItemFromApi xor (ACategory=categ_PluginSub) then Continue;
     if CmdItem.ItemModule='' then Break;
     if SEndsWith(CmdItem.ItemCaption, '-') then Continue;
+    SCommandText:= CmdItem.CommaStr;
 
     AKeymap.Add(
       cmdFirstPluginCommand+i,
       'plugin: '+AppNicePluginCaption(CmdItem.ItemCaption),
-      [], []);
+      [], [],
+      SCommandText);
 
-    StrCommand:= CmdItem.CommaStr;
-    ABackup.Get(AKeymap[AKeymap.Count-1], StrCommand);
+    ABackup.Get(AKeymap[AKeymap.Count-1], SCommandText);
   end;
 end;
 
