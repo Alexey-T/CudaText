@@ -992,6 +992,8 @@ type
 
     class function CommandCode_To_HotkeyStringId(ACmd: integer): string;
     class function HotkeyStringId_To_CommandCode(const AId: string): integer;
+
+    class function Debug_PluginCommands(const AModule: string): string;
   end;
 
 
@@ -1985,6 +1987,23 @@ begin
   else
     //usual item
     Result:= StrToIntDef(AId, -1);
+end;
+
+class function TPluginHelper.Debug_PluginCommands(const AModule: string): string;
+var
+  CmdItem: TAppCommandInfo;
+  i: integer;
+begin
+  Result:= '';
+  for i:= 0 to AppCommandList.Count-1 do
+  begin
+    CmdItem:= TAppCommandInfo(AppCommandList[i]);
+    if (CmdItem.ItemModule=AModule) then
+      if CmdItem.ItemProcParam<>'' then
+        Result+= Format('%s.%s, sub: %s'#10, [CmdItem.ItemModule, CmdItem.ItemProc, CmdItem.ItemProcParam])
+      else
+        Result+= Format('%s.%s'#10, [CmdItem.ItemModule, CmdItem.ItemProc]);
+  end;
 end;
 
 
