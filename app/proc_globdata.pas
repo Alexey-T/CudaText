@@ -2968,6 +2968,8 @@ begin
             Result:= categ_PluginSub;
         end
         else
+          //we are here when e.g. in plugin Macros user deletes a macro,
+          //so code detects category of deleted command-code
           Result:= categ_PluginSub;
       end;
     cmdFirstLexerCommand..cmdLastLexerCommand:
