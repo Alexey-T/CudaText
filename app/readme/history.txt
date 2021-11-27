@@ -3,6 +3,10 @@
   - fixed
   * changed
 
+1.150.1 (2021/12)
+
+- fix: plugin Macros exposed the bug when adding/deleting of a macro broke hotkeys of other macros (thanks @hiiamboris)
+
 1.150.0 (2021/11)
 
 + add: Project Manager: context menu for files gives new items "Open in default application" and "Focus in file manager" (thanks @WebMechanic)
