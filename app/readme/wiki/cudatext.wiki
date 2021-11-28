@@ -1707,6 +1707,18 @@ You can also set colors of menu elements directly; dialog "Options / Settings - 
 
 By default, elements "top menu, ...." in the dialog have the "none" color (crossed rectangles), it means that custom colors are taken from other UI-theme elements.
 
+==Margins==
+
+CudaText gives 2 options to render vertical lines in specified columns:
+
+* "margin": Integer value, column of "normal margin" vertical line. This margin is used also by the word-wrapping, then "wrap_mode" option is 2 or 3. It is also used by CudaExt plugin's action(s) ("Re-wrap lines by margin").
+* "margin_string": String of space-separated numbers, it makes vertical lines appear at additional columns.
+
+The plugin "Column Marks" adds more features:
+
+* Commands to set the "normal margin" and/or "additional margins" via prompt dialog. Plugin can save entered value to the user.json config.
+* Commands to move the caret though all margin columns (normal + additional), to the left/right. 
+
 =Add-ons=
 
 ==Python API==
