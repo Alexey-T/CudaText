@@ -7,6 +7,7 @@
 
 + add: Wiki topic https://wiki.freepascal.org/CudaText#Margins
 - fix: plugin Macros exposed the bug when deleting of a macro broke hotkeys of other macros (thanks @hiiamboris)
+- fix: macOS: better mouse-wheel handling (Lazarus fix by Zoe Peterson)
 
 1.150.0 (2021/11)
 
