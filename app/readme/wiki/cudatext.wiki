@@ -330,6 +330,7 @@ Most of them are located in the Addons Manager "Install" list.
 * Assembly STM32
 * Assembly Z80 SjASM
 * Assembly Z80 RGBDS
+* Astro
 * Asymptote
 * Autoconf M4
 * AutoHotkey
