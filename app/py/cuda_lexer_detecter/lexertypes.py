@@ -56,6 +56,7 @@ TYPES = {
     "asciidoc": ['AsciiDoc'],
     "ash": ['Assembly FASM'],
     "asm": ['Assembly FASM', 'Assembly SHARC DSP', 'Assembly AVR', 'Assembly MASM x86', 'Assembly Motorola 68k', 'Assembly MIPS', 'Assembly JWASM', 'Assembly NASM x86', 'Assembly Z80 SjASM', 'Assembly Z80 RGBDS'],
+    "astro": ['Astro'],
     "asy": ['Asymptote'],
     "au3": ['AutoIt'],
     "aux": ['LaTeX'],
