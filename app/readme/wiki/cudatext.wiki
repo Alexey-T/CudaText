@@ -393,6 +393,7 @@ Most of them are located in the Addons Manager "Install" list.
 * Gherkin (Cucumber; Behat)
 * GHS.com MULTI IDE (3 lexers)
 * GLSL
+* GNU linker
 * Gnuplot
 * Go
 * Gold Parser
