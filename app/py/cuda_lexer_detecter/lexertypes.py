@@ -222,7 +222,7 @@ TYPES = {
     "l": ['Yacc'],
     "las": ['Haskell'],
     "lcf": ['Delphi resources'],
-    "ld": ['GHS Linker'],
+    "ld": ['GHS Linker', 'GNU linker'],
     "ldxl": ['DOORS DXL'],
     "less": ['LESS'],
     "less.erb": ['LESS'],
