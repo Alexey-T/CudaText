@@ -1045,6 +1045,21 @@ Option buttons have hotkeys too. Hover mouse over them to see floating tooltips 
 * "*" - Choose allowed syntax elements: Any / Only comments / Only strings / Only comments+strings / etc. This feature must be supported by lexer (and some lexers are limited, support only "comments" or only "strings" syntax elements). Syntax element is detected from left edge position of a found match.
 * "Hi" - Find and highlight all matches for the current search options. Matches are highlighted in the current editor, with the rounded borders, using the color of "SeparLine" syntax theme item. This highlight is updated on changing the "find what" text, so it is incremental. Editor auto-scrolls to the first found match (pretty much like ST3 editor). The limitation of this feature: a highlighted match has the single font color for the entire match, so if a match lays over several syntax tokens (e.g. number, dot, normal word), the entire match will have the single font color anyway. This "Hi" button is disabled, when current document has too many lines, see the option "find_hi_max_lines".
 
+* "$0" - "RegEx substitute for 'Replace with'". Activates "substitute" for replace-action. When off, the replate-with field is taken literally, without interpreting special constructs. When on, the replace-with field is processed for constructs:
+** $0: Text of the whole found match
+** $1 ... $9: Text of the found RegEx group with the index 1...9
+** \n: NL char
+** \r: CR char
+** \t: TAB char
+** \f: FF char
+** \a: BEL char
+** \e: ESC char
+** \xNN, \x{NNNN}: hex code of char
+** \l: lower case of one char
+** \L: lower case of all text
+** \u: upper case of one char
+** \U: upper case of all text  
+
 Action buttons in dialog:
 
 * Button "|<". Starts the search from document beginning, ignoring the caret position.
@@ -1058,18 +1073,6 @@ Action buttons in dialog:
 ** "Extract RegEx matches". It's enabled only with RegEx option. Finds all matches, all found matches are put to an internal  list, list is sorted, duplicates are discarded, and list is put to a new document. Plugin "Extract Strings" does the same task but using the Python RegEx engine.
 ** "Select all". Finds all matches in a document and places multi-seletions on them.
 ** "Mark all". Finds all matches in a document and places [[#Markers]] on them.
-** Option "RegEx substitute for 'Replace with'". Activates "substitute" for replace-action. When off, the replate-with field is taken literally, without interpreting special characters. When on, the replace-with field is processed for backslashes and $0 $1 $2 etc. Supported backslash constructs are:
-*** \n: NL char
-*** \r: CR char
-*** \t: TAB char
-*** \f: FF char
-*** \a: BEL char
-*** \e: ESC char
-*** \xNN, \x{NNNN}: hex code of char
-*** \l: lower case of one char
-*** \L: lower case of all text
-*** \u: upper case of one char
-*** \U: upper case of all text  
 
 * Button "Replace". If some fragment was found/selected already, it replaces this fragment (by contents of "Replace with" field). If not, it finds next fragment and selects it. If replacement was performed, it finds/selects the next fragment.
 
