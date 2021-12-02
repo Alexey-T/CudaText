@@ -5,6 +5,7 @@
 
 1.150.1 (2021/12)
 
++ add: Replace dialog shows toggle-button "$0" for the new option "RegEx substitute"
 + add: Wiki topic https://wiki.freepascal.org/CudaText#Margins
 - fix: regression in 1.150: wrong restoring of option "RegEx substitute" on start (thanks @tmsg)
 - fix: plugin Macros exposed the bug: deleting of a macro broke hotkeys of other macros (thanks @hiiamboris)
