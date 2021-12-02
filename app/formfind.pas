@@ -353,6 +353,7 @@ var
   fn: string;
   ini: TIniFile;
   SCaptionOptRegex,
+  SCaptionOptRegexSubst,
   SCaptionOptCase,
   SCaptionOptWords,
   SCaptionOptWrapped,
@@ -360,7 +361,6 @@ var
   SCaptionOptMulti,
   SCaptionOptTokens,
   SCaptionOptHiAll,
-  SCaptionOptRegexSubst,
   SCaptionFindFirst,
   SCaptionFindPrev,
   SCaptionFindNext,
@@ -378,6 +378,7 @@ var
   kind: TATFinderTokensAllowed;
 begin
   SCaptionOptRegex:= 'Regular expression';
+  SCaptionOptRegexSubst:= 'RegEx substitution for ''Replace with''';
   SCaptionOptCase:= 'Case sensitive';
   SCaptionOptWords:= 'Whole words';
   SCaptionOptWrapped:= 'Wrapped search';
@@ -385,7 +386,6 @@ begin
   SCaptionOptMulti:= 'Multi-line inputs';
   SCaptionOptTokens:= 'Allowed syntax elements';
   SCaptionOptHiAll:= 'Highlight all matches';
-  SCaptionOptRegexSubst:= 'RegEx substitution for ''Replace with''';
   SCaptionFindFirst:= 'Find first';
   SCaptionFindPrev:= 'Find previous';
   SCaptionFindNext:= 'Find next';
@@ -404,6 +404,7 @@ begin
     ini:= TIniFile.Create(fn);
     try
       SCaptionOptRegex:= ini.ReadString(section, 'h_re', SCaptionOptRegex);
+      SCaptionOptRegexSubst:= ini.ReadString(section, 'h_subs', SCaptionOptRegexSubst);
       SCaptionOptCase:= ini.ReadString(section, 'h_ca', SCaptionOptCase);
       SCaptionOptWords:= ini.ReadString(section, 'h_wo', SCaptionOptWords);
       SCaptionOptWrapped:= ini.ReadString(section, 'h_wr', SCaptionOptWrapped);
@@ -411,7 +412,6 @@ begin
       SCaptionOptMulti:= ini.ReadString(section, 'h_mul', SCaptionOptMulti);
       SCaptionOptTokens:= ini.ReadString(section, 'h_tok', SCaptionOptTokens);
       SCaptionOptHiAll:= ini.ReadString(section, 'h_hi', SCaptionOptHiAll);
-      SCaptionOptRegexSubst:= ini.ReadString(section, 'h_subs', SCaptionOptRegexSubst);
       SCaptionFindFirst:= ini.ReadString(section, 'h_f1', SCaptionFindFirst);
       SCaptionFindPrev:= ini.ReadString(section, 'h_fp', SCaptionFindPrev);
       SCaptionFindNext:= ini.ReadString(section, 'h_fn', SCaptionFindNext);
@@ -1465,6 +1465,7 @@ begin
       msgFindHint_RepAll:= ini.ReadString(section, 'h_r_a', msgFindHint_RepAll);
       msgFindHint_RepGlobal:= ini.ReadString(section, 'h_r_g', msgFindHint_RepGlobal);
       msgFindHint_Regex:= ini.ReadString(section, 'h_re', msgFindHint_Regex);
+      msgFindHint_RegexSubst:= ini.ReadString(section, 'h_subs', msgFindHint_RegexSubst);
       msgFindHint_Case:= ini.ReadString(section, 'h_ca', msgFindHint_Case);
       msgFindHint_Words:= ini.ReadString(section, 'h_wo', msgFindHint_Words);
       msgFindHint_Wrapped:= ini.ReadString(section, 'h_wr', msgFindHint_Wrapped);
@@ -1498,6 +1499,7 @@ begin
   bRepGlobal.Hint:= _MakeHint(msgFindHint_RepGlobal, UiOps.HotkeyReplaceGlobal);
 
   chkRegex.Hint:= _MakeHint(msgFindHint_Regex, UiOps.HotkeyToggleRegex);
+  chkRegexSubst.Hint:= _MakeHint(msgFindHint_RegexSubst, '');
   chkCase.Hint:= _MakeHint(msgFindHint_Case, UiOps.HotkeyToggleCaseSens);
   chkWords.Hint:= _MakeHint(msgFindHint_Words, UiOps.HotkeyToggleWords);
   chkWrap.Hint:= _MakeHint(msgFindHint_Wrapped, UiOps.HotkeyToggleWrapped);

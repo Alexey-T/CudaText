@@ -413,6 +413,7 @@ const
   msgFindHint_RepAll: string = 'Replace all matches in current document';
   msgFindHint_RepGlobal: string = 'Replace all matches in all opened tabs';
   msgFindHint_Regex: string = 'Regular expressions';
+  msgFindHint_RegexSubst: string = 'RegEx substitution for ''Replace with''';
   msgFindHint_Case: string = 'Case sensitive';
   msgFindHint_Words: string = 'Whole words';
   msgFindHint_Wrapped: string = 'Wrapped search';
