@@ -1,4 +1,4 @@
-object SyntAnal22: TLibSyntAnalyzer
+object SyntAnal24: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Comment'
@@ -113,6 +113,14 @@ object SyntAnal22: TLibSyntAnalyzer
       Font.Style = []
       BgColor = clMoneyGreen
       FormatType = ftBackGround
+    end
+    item
+      DisplayName = '\Char'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clRed
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
     end>
   TokenRules = <
     item
@@ -158,20 +166,20 @@ object SyntAnal22: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Float'
+      DisplayName = 'Number float'
       StyleName = 'Number'
       TokenType = 5
-      Expression = '[0-9_]+ \. [0-9_]* e [\+\-]? [0-9_]+ |'#13#10'[0-9_]* \. [0-9_]+'
+      Expression = '(?<=\s)\d[\d_]*\.[\d_]+ (e[\+\-]?[\d_]+\b)?\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
-      DisplayName = 'Integer'
+      DisplayName = 'Number int'
       StyleName = 'Number'
       TokenType = 5
       Expression = 
-        '0b[01_]+\b |'#13#10'0o[0-7_]+\b |'#13#10'0x[0-9a-f_]+\b |'#13#10'\d[\d_]* \. e [\+' +
-        '\-]? [\d_]+\b |'#13#10'\d[\d_]* \. [\d_]+\b |'#13#10'\d[\d_]*\b'
+        '(?<=\s)0b[01_]+\b |'#13#10'(?<=\s)0o[0-7_]+\b |'#13#10'(?<=\s)0x[0-9a-f_]+\b' +
+        ' |'#13#10'(?<=\s)\d[\d_]*\b'#13#10
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -179,7 +187,7 @@ object SyntAnal22: TLibSyntAnalyzer
       DisplayName = 'Id value'
       StyleName = 'Id value'
       TokenType = 2
-      Expression = '[\w\.][\w\.\-]*'
+      Expression = '(?<=\s)[\w\.][\w\.\-]*'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -195,7 +203,7 @@ object SyntAnal22: TLibSyntAnalyzer
       DisplayName = 'String '#39
       StyleName = 'String'
       TokenType = 4
-      Expression = '(?s)'#39'('#39#39'|.)*?('#39'|\Z)'
+      Expression = '(?s)(?<=\s)'#39'('#39#39'|.)*?('#39'|\Z)'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -236,6 +244,14 @@ object SyntAnal22: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
+      DisplayName = '\Char'
+      StyleName = '\Char'
+      TokenType = 10
+      Expression = '\\.'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
       DisplayName = 'Symbol ()'
       StyleName = 'Symbol'
       TokenType = 9
@@ -244,19 +260,10 @@ object SyntAnal22: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Escaped char'
-      Enabled = False
-      StyleName = 'Symbol'
-      TokenType = 3
-      Expression = '\\.'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
       DisplayName = 'Symbol'
       StyleName = 'Symbol'
       TokenType = 3
-      Expression = '[\+,:;\*\{\}\[\]<>=%!\#\|\?&~\^]'
+      Expression = '[\+,:;\*\{\}\[\]<>=%!\#\|\?&~\^'#39'"]'
       ColumnFrom = 0
       ColumnTo = 0
     end>
@@ -379,7 +386,8 @@ object SyntAnal22: TLibSyntAnalyzer
     '^Id'
     'Timestamp'
     '^Symbol'
-    'Symbol ()')
+    'Symbol ()'
+    '\Char')
   Extentions = 'yml yaml sublime-syntax'
   LexerName = 'YAML'
   Notes.Strings = (
