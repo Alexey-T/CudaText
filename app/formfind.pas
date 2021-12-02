@@ -352,15 +352,6 @@ const
 var
   fn: string;
   ini: TIniFile;
-  SCaptionOptRegex,
-  SCaptionOptRegexSubst,
-  SCaptionOptCase,
-  SCaptionOptWords,
-  SCaptionOptWrapped,
-  SCaptionOptInSel,
-  SCaptionOptMulti,
-  SCaptionOptTokens,
-  SCaptionOptHiAll,
   SCaptionFindFirst,
   SCaptionFindPrev,
   SCaptionFindNext,
@@ -377,15 +368,6 @@ var
   Sep3: TMenuItem;
   kind: TATFinderTokensAllowed;
 begin
-  SCaptionOptRegex:= 'Regular expression';
-  SCaptionOptRegexSubst:= 'RegEx substitution for ''Replace with''';
-  SCaptionOptCase:= 'Case sensitive';
-  SCaptionOptWords:= 'Whole words';
-  SCaptionOptWrapped:= 'Wrapped search';
-  SCaptionOptInSel:= 'Search in selection';
-  SCaptionOptMulti:= 'Multi-line inputs';
-  SCaptionOptTokens:= 'Allowed syntax elements';
-  SCaptionOptHiAll:= 'Highlight all matches';
   SCaptionFindFirst:= 'Find first';
   SCaptionFindPrev:= 'Find previous';
   SCaptionFindNext:= 'Find next';
@@ -403,15 +385,6 @@ begin
   begin
     ini:= TIniFile.Create(fn);
     try
-      SCaptionOptRegex:= ini.ReadString(section, 'h_re', SCaptionOptRegex);
-      SCaptionOptRegexSubst:= ini.ReadString(section, 'h_subs', SCaptionOptRegexSubst);
-      SCaptionOptCase:= ini.ReadString(section, 'h_ca', SCaptionOptCase);
-      SCaptionOptWords:= ini.ReadString(section, 'h_wo', SCaptionOptWords);
-      SCaptionOptWrapped:= ini.ReadString(section, 'h_wr', SCaptionOptWrapped);
-      SCaptionOptInSel:= ini.ReadString(section, 'h_sel', SCaptionOptInSel);
-      SCaptionOptMulti:= ini.ReadString(section, 'h_mul', SCaptionOptMulti);
-      SCaptionOptTokens:= ini.ReadString(section, 'h_tok', SCaptionOptTokens);
-      SCaptionOptHiAll:= ini.ReadString(section, 'h_hi', SCaptionOptHiAll);
       SCaptionFindFirst:= ini.ReadString(section, 'h_f1', SCaptionFindFirst);
       SCaptionFindPrev:= ini.ReadString(section, 'h_fp', SCaptionFindPrev);
       SCaptionFindNext:= ini.ReadString(section, 'h_fn', SCaptionFindNext);
@@ -533,36 +506,36 @@ begin
     FPopupMore.Items.Add(FMenuitemRepGlobal);
   end;
 
-  FMenuitemOptRegex.Caption:= SCaptionOptRegex;
+  FMenuitemOptRegex.Caption:= msgFindHint_Regex;
   FMenuitemOptRegex.Checked:= chkRegex.Checked;
   FMenuitemOptRegex.ShortCut:= TextToShortCut(UiOps.HotkeyToggleRegex);
-  FMenuitemOptCase.Caption:= SCaptionOptCase;
+  FMenuitemOptCase.Caption:= msgFindHint_Case;
   FMenuitemOptCase.Checked:= chkCase.Checked;
   FMenuitemOptCase.ShortCut:= TextToShortCut(UiOps.HotkeyToggleCaseSens);
-  FMenuitemOptWords.Caption:= SCaptionOptWords;
+  FMenuitemOptWords.Caption:= msgFindHint_Words;
   FMenuitemOptWords.Checked:= chkWords.Checked;
   FMenuitemOptWords.ShortCut:= TextToShortCut(UiOps.HotkeyToggleWords);
-  FMenuitemOptWrapped.Caption:= SCaptionOptWrapped;
+  FMenuitemOptWrapped.Caption:= msgFindHint_Wrapped;
   FMenuitemOptWrapped.Checked:= chkWrap.Checked;
   FMenuitemOptWrapped.ShortCut:= TextToShortCut(UiOps.HotkeyToggleWrapped);
-  FMenuitemOptInSel.Caption:= SCaptionOptInSel;
+  FMenuitemOptInSel.Caption:= msgFindHint_InSelect;
   FMenuitemOptInSel.Checked:= chkInSel.Checked;
   FMenuitemOptInSel.ShortCut:= TextToShortCut(UiOps.HotkeyToggleInSelect);
-  FMenuitemOptMulti.Caption:= SCaptionOptMulti;
+  FMenuitemOptMulti.Caption:= msgFindHint_MultiLine;
   FMenuitemOptMulti.Checked:= chkMulLine.Checked;
   FMenuitemOptMulti.ShortCut:= TextToShortCut(UiOps.HotkeyToggleMultiline);
-  FMenuitemOptTokens.Caption:= SCaptionOptTokens;
+  FMenuitemOptTokens.Caption:= msgFindHint_Tokens;
   FMenuitemOptTokens.ShortCut:= TextToShortCut(UiOps.HotkeyToggleTokens);
   for kind in TATFinderTokensAllowed do
   begin
     FMenuitemOptTokensSub[kind].Caption:= bTokens.Items[Ord(kind)];
     FMenuitemOptTokensSub[kind].Checked:= bTokens.ItemIndex=Ord(kind);
   end;
-  FMenuitemOptHiAll.Caption:= SCaptionOptHiAll;
+  FMenuitemOptHiAll.Caption:= msgFindHint_HiAll;
   FMenuitemOptHiAll.Checked:= chkHiAll.Checked;
   FMenuitemOptHiAll.ShortCut:= TextToShortCut(UiOps.HotkeyToggleHiAll);
 
-  FMenuitemOptRegexSubst.Caption:= SCaptionOptRegexSubst;
+  FMenuitemOptRegexSubst.Caption:= msgFindHint_RegexSubst;
   FMenuitemOptRegexSubst.Checked:= chkRegexSubst.Checked;
   FMenuitemOptRegexSubst.Enabled:= IsReplace and chkRegex.Checked;
 
