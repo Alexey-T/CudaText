@@ -557,7 +557,7 @@ begin
   FMenuitemOptHiAll.ShortCut:= TextToShortCut(UiOps.HotkeyToggleHiAll);
 
   FMenuitemOptRegexSubst.Caption:= SCaptionOptRegexSubst;
-  FMenuitemOptRegexSubst.Checked:= FOptionRegexSubst;
+  FMenuitemOptRegexSubst.Checked:= IsRegexSubst;
   FMenuitemOptRegexSubst.Enabled:= IsReplace and chkRegex.Checked;
 
   FMenuitemFindFirst.Caption:= SCaptionFindFirst;
@@ -817,6 +817,8 @@ begin
   bTokens.TextAlign:= taCenter;
   bTokens.ItemIndex:= 0;
   bTokens.Checkable:= true;
+
+  IsRegexSubst:= true; //default is 'use regex substitute'
 
   Adapter:= TATAdapterEControl.Create(Self);
   Adapter.Lexer:= AppManager.FindLexerByName('RegEx');
