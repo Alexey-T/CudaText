@@ -311,6 +311,7 @@ procedure TfmFind.chkRegexSubstClick(Sender: TObject);
 begin
   with chkRegexSubst do
     Checked:= not Checked;
+  UpdateState(false);
   DoOnChange;
 end;
 
@@ -1224,6 +1225,8 @@ begin
     chkHiAll.Parent:= PanelTopOps;
     chkConfirm.Parent:= PanelTopOps;
     chkConfirm.Left:= 400; //to right
+    chkRegexSubst.Parent:= PanelTopOps;
+    chkRegexSubst.Left:= chkConfirm.Left+80; //to right
   end;
 
   PanelTopOps.Left:= edFind.Left;
@@ -1351,6 +1354,7 @@ begin
   bTokens.Visible:= UiOps.FindShow_SyntaxElements;
   chkHiAll.Visible:= UiOps.FindShow_HiAll;
   chkConfirm.Visible:= (IsReplace or IsNarrow) and UiOps.FindShow_ConfirmRep;
+  chkRegexSubst.Visible:= (IsReplace or IsNarrow) and UiOps.FindShow_RegexSubst;
   ControlAutosizeOptionsByWidth;
 
   edFind.Left:= cPadding;
