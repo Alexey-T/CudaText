@@ -45,6 +45,17 @@ object fmFind: TfmFind
         TabOrder = 0
         OnClick = chkConfirmClick
       end
+      object chkRegexSubst: TATButton
+        Left = 30
+        Height = 25
+        Top = 0
+        Width = 30
+        Align = alLeft
+        Caption = '$0'
+        TabStop = True
+        TabOrder = 1
+        OnClick = chkRegexSubstClick
+      end
     end
     object PanelOps1: TATPanelSimple
       Left = 8

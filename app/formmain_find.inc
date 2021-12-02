@@ -180,7 +180,7 @@ begin
     FFinder.OptCase:= chkCase.Checked;
     FFinder.OptWords:= chkWords.Checked;
     FFinder.OptRegex:= chkRegex.Checked;
-    FFinder.OptRegexSubst:= IsRegexSubst;
+    FFinder.OptRegexSubst:= chkRegexSubst.Checked;
     FFinder.OptWrapped:= chkWrap.Checked;
     FFinder.OptInSelection:= chkInSel.Checked;
     FFinder.OptFromCaret:= (Res=afoFindNext) or (Res=afoFindPrev) or (Res=afoReplace);
@@ -431,7 +431,7 @@ begin
           FormPosSetFromString(fmFind, cfg.GetValue('/pos/find', ''), false);
         fmFind.IsMultiLine:= cfg.GetValue('/finder/mline', false);
         fmFind.IsHiAll:= cfg.GetValue('/finder/hi', false);
-        fmFind.IsRegexSubst:= cfg.GetValue('/finder/regex_subst', true);
+        fmFind.chkRegexSubst.Checked:= cfg.GetValue('/finder/regex_subst', true);
       except
       end;
     finally
@@ -1050,7 +1050,7 @@ begin
       bCase:= PyBool_FromLong(Ord(fmFind.chkCase.Checked));
       bWord:= PyBool_FromLong(Ord(fmFind.chkWords.Checked));
       bRegex:= PyBool_FromLong(Ord(fmFind.chkRegex.Checked));
-      bRegexSubst:= PyBool_FromLong(Ord(fmFind.IsRegexSubst));
+      bRegexSubst:= PyBool_FromLong(Ord(fmFind.chkRegexSubst.Checked));
       bCfm:= PyBool_FromLong(Ord(fmFind.chkConfirm.Checked));
       bInSel:= PyBool_FromLong(Ord(fmFind.chkInSel.Checked));
       bWrap:= PyBool_FromLong(Ord(fmFind.chkWrap.Checked));
@@ -1216,7 +1216,7 @@ begin
         begin
           if Assigned(fmFind) then
           begin
-            fmFind.IsRegexSubst:= AppStrToBool(SValue);
+            fmFind.chkRegexSubst.Checked:= AppStrToBool(SValue);
             fmFind.UpdateState(false);
             fmFind.DoOnChange;
           end;
@@ -1313,7 +1313,7 @@ begin
     FFinder.OptCase:= chkCase.Checked;
     FFinder.OptWords:= chkWords.Checked;
     FFinder.OptRegex:= chkRegex.Checked;
-    FFinder.OptRegexSubst:= IsRegexSubst;
+    FFinder.OptRegexSubst:= chkRegexSubst.Checked;
     FFinder.OptWrapped:= chkWrap.Checked;
     FFinder.OptInSelection:= chkInSel.Checked;
     FFinder.OptConfirmReplace:= chkConfirm.Checked;

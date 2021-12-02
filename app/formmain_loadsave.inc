@@ -180,7 +180,7 @@ begin
         cfg.SetValue('/pos/find', FormPosGetAsString(fmFind, false));
       cfg.SetValue('/finder/mline', fmFind.IsMultiLine);
       cfg.SetValue('/finder/hi', fmFind.IsHiAll);
-      cfg.SetValue('/finder/regex_subst', fmFind.IsRegexSubst);
+      cfg.SetValue('/finder/regex_subst', fmFind.chkRegexSubst.Checked);
     end;
 
     if Assigned(fmConsole) then

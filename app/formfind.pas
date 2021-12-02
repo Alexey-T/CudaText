@@ -113,6 +113,7 @@ type
     bRepGlobal: TATButton;
     chkCase: TATButton;
     chkConfirm: TATButton;
+    chkRegexSubst: TATButton;
     chkInSel: TATButton;
     chkHiAll: TATButton;
     chkMulLine: TATButton;
@@ -148,6 +149,7 @@ type
     procedure chkInSelClick(Sender: TObject);
     procedure chkMulLineClick(Sender: TObject);
     procedure chkRegexClick(Sender: TObject);
+    procedure chkRegexSubstClick(Sender: TObject);
     procedure chkRepChange(Sender: TObject);
     procedure bFindFirstClick(Sender: TObject);
     procedure chkRepClick(Sender: TObject);
@@ -201,8 +203,6 @@ type
     FLexerRegexThemed: boolean;
     Adapter: TATAdapterEControl;
     AdapterActive: boolean;
-    FOptionRegexSubst: boolean;
-    procedure chkRegexSubstClick(Sender: TObject);
     procedure bRepStopClick(Sender: TObject);
     procedure ControlAutosizeOptionsByWidth;
     procedure DoFocusEditor;
@@ -247,7 +247,6 @@ type
     property IsNarrow: boolean read FNarrow write SetNarrow;
     property IsHiAll: boolean read GetHiAll write SetHiAll;
     property IsDoubleBuffered: boolean write SetIsDoubleBuffered;
-    property IsRegexSubst: boolean read FOptionRegexSubst write FOptionRegexSubst;
   end;
 
 var
@@ -305,6 +304,13 @@ begin
   with chkRegex do
     Checked:= not Checked;
   UpdateState(true);
+  DoOnChange;
+end;
+
+procedure TfmFind.chkRegexSubstClick(Sender: TObject);
+begin
+  with chkRegexSubst do
+    Checked:= not Checked;
   DoOnChange;
 end;
 
@@ -557,7 +563,7 @@ begin
   FMenuitemOptHiAll.ShortCut:= TextToShortCut(UiOps.HotkeyToggleHiAll);
 
   FMenuitemOptRegexSubst.Caption:= SCaptionOptRegexSubst;
-  FMenuitemOptRegexSubst.Checked:= IsRegexSubst;
+  FMenuitemOptRegexSubst.Checked:= chkRegexSubst.Checked;
   FMenuitemOptRegexSubst.Enabled:= IsReplace and chkRegex.Checked;
 
   FMenuitemFindFirst.Caption:= SCaptionFindFirst;
@@ -818,7 +824,7 @@ begin
   bTokens.ItemIndex:= 0;
   bTokens.Checkable:= true;
 
-  IsRegexSubst:= true; //default is 'use regex substitute'
+  chkRegexSubst.Checked:= true;
 
   Adapter:= TATAdapterEControl.Create(Self);
   Adapter.Lexer:= AppManager.FindLexerByName('RegEx');
@@ -1125,11 +1131,6 @@ begin
   UpdateFonts;
   FixFormPositionToDesktop(Self);
   OnResize(Self);
-end;
-
-procedure TfmFind.chkRegexSubstClick(Sender: TObject);
-begin
-  IsRegexSubst:= not IsRegexSubst;
 end;
 
 procedure TfmFind.UpdateInitialCaretPos;
