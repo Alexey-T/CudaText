@@ -1344,6 +1344,7 @@ begin
   UiOps.FindShow_SyntaxElements:=Pos('X', UiOps.FindHiddenButtons)=0;
   UiOps.FindShow_HiAll:=         Pos('H', UiOps.FindHiddenButtons)=0;
   UiOps.FindShow_ConfirmRep:=    Pos('C', UiOps.FindHiddenButtons)=0;
+  UiOps.FindShow_RegexSubst:=    Pos('E', UiOps.FindHiddenButtons)=0;
 
   UiOps.FindIndentVert:= cfg.GetValue('find_indent_vert', UiOps.FindIndentVert);
   UiOps.FindIndentHorz:= cfg.GetValue('find_indent_horz', UiOps.FindIndentHorz);

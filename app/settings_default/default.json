@@ -691,6 +691,7 @@
   //  if "X" in value: "Allowed syntax elements" option button
   //  if "H" in value: "Highlight all matches" option button
   //  if "C" in value: "Confirm on replace" option button
+  //  if "E" in value: "RegEx substitution for 'Replace with'" option button
   //  if "f" in value: "Find first" button
   //  if "n" in value: "Find next" button
   //  if "p" in value: "Find prev" button
