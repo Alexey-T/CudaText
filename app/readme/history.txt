@@ -7,6 +7,7 @@
 
 + add: Replace dialog shows toggle-button "$0" for the new option "RegEx substitute"; added sub-option 'E' to "find_hidden_buttons"
 + add: Wiki topic https://wiki.freepascal.org/CudaText#Margins
++ add: published version for macOS ARM 64-bit
 - fix: regression in 1.150: wrong restoring of option "RegEx substitute" on start (thanks @tmsg)
 - fix: plugin Macros exposed the bug: deleting of a macro broke hotkeys of other macros (thanks @hiiamboris)
 - fix: macOS: better mouse-wheel handling (Lazarus fix by Zoe Peterson)
