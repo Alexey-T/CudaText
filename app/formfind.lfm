@@ -356,7 +356,7 @@ object fmFind: TfmFind
       Left = 104
       Height = 25
       Top = 4
-      Width = 296
+      Width = 392
     end
   end
 end

@@ -1333,11 +1333,11 @@ begin
   chkCase.Enabled:= bEnabled;
   chkWords.Enabled:= bEnabled and not chkRegex.Checked and (edFind.Strings.Count<2); //disable "w" for multi-line input
   chkRegex.Enabled:= bEnabled and not FForViewer;
-  chkRegexSubst.Enabled:= bEnabled and not FForViewer and chkRegex.Checked;
   chkWrap.Enabled:= bEnabled and not FForViewer;
   chkInSel.Enabled:= bEnabled and not FForViewer;
   chkMulLine.Enabled:= bEnabled;
   chkConfirm.Enabled:= bEnabled and IsReplace and not FForViewer;
+  chkRegexSubst.Enabled:= bEnabled and IsReplace and not FForViewer and chkRegex.Checked;
   bTokens.Enabled:= bEnabled and not FForViewer;
 
   bFindFirst.Visible:= UiOps.FindShow_FindFirst;
