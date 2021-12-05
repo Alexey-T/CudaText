@@ -970,7 +970,7 @@ object SyntAnal16: TLibSyntAnalyzer
     end
     item
       DisplayName = 'Fenced block'
-      StartExpression = '^```\w[\w\-\.]*$'
+      StartExpression = '^```\w[\w\-\+\.]*$'
       EndExpression = '^```$'
       SyntAnalyzer = SyntAnal10
     end>
