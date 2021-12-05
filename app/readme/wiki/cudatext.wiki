@@ -704,7 +704,10 @@ After the option "auto_fold_comments" appeared, all 3rd-party lexers should be s
 
 ===Fenced code-blocks===
 
-This is feature of Markdown lexer: fenced code blocks. They begin with:
+[[File:cudatext-fenced-blocks.png]]
+
+This is the feature of Markdown syntax: fenced code blocks.
+Blocks begin with:
 
 * start of line
 * optional spaces
@@ -714,15 +717,13 @@ This is feature of Markdown lexer: fenced code blocks. They begin with:
 * optional spaces
 * end of line.
 
-They end with:
+Blocks end with:
 
 * start of line
 * optional spaces
 * 3 or more backtick-chars (also tilde-chars are allowed)
 * optional spaces
 * end of line.
-
-[[File:cudatext-fenced-blocks.png]]
 
 The beginning and ending sequences are tokenized as single token.
 
@@ -733,8 +734,8 @@ you won't see an error, but block will not be syntax-highlighted.
 
 Limitations:
 
-* Markdown standard tells that the beginning backticks must match the ending backticks, it must be the same amount of backticks. (And the same is valid for tildes.) This is currently not supported in CudaText (version 1.150).
-* Python Markdown description tells that the lexer alias may be replaced with the curly-brackets construct like "{ .lang }" or "{ .lang .foo .bar }" or even "{ #someid .lang .foo .bar }". This is currently not supported in CudaText (version 1.150).
+* Markdown standard tells that the beginning backticks must match the ending backticks, it must be the same amount of backticks. (And the same is valid for tildes.) This is currently not supported in CudaText version 1.151.
+* Python Markdown description tells that the lexer alias may be replaced with the curly-brackets construct like "{ .lang }" or "{ .lang .foo .bar }" or even "{ #someid .lang .foo .bar }". This is currently not supported in CudaText version 1.151.
 
 ==Location of folders 'settings', 'py', 'data'==
 
