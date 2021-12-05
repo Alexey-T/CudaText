@@ -722,6 +722,8 @@ They end with:
 * optional spaces
 * end of line.
 
+[[File:cudatext-fenced-blocks.png]]
+
 The beginning and ending sequences are tokenized as single token.
 
 CudaText has the file which lists the supported lexer aliases: data/lexlib/aliases.ini.
