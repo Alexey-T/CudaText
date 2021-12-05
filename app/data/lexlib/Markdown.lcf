@@ -255,7 +255,7 @@ object SyntAnal16: TLibSyntAnalyzer
       StatesRemove = 7
       StatesAbsent = 1024
       TokenType = 16
-      Expression = '(?<=^\x20{0,3})`{3,}\x20*[\w\{].*$'
+      Expression = '(?<=^\x20{0,3})`{3,}\x20*\w.*$'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -275,7 +275,7 @@ object SyntAnal16: TLibSyntAnalyzer
       StatesAdd = 2048
       StatesRemove = 7
       TokenType = 18
-      Expression = '(?<=^\x20{0,3})~{3,}\x20*[\w\{].*$'
+      Expression = '(?<=^\x20{0,3})~{3,}\x20*\w.*$'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -969,38 +969,38 @@ object SyntAnal16: TLibSyntAnalyzer
       SyntAnalyzer = SyntAnal14
     end
     item
-      DisplayName = 'Fenced block ```'
-      StartExpression = '(?<=^\x20{0,3})```\x20*[\w\{].*$'
+      DisplayName = 'Fenced ```'
+      StartExpression = '(?<=^\x20{0,3})```\x20*\w.*$'
       EndExpression = '(?<=^\x20{0,3})```$'
       SyntAnalyzer = SyntAnal10
     end
     item
-      DisplayName = 'Fenced block ````'
-      StartExpression = '(?<=^\x20{0,3})````\x20*[\w\{].*$'
+      DisplayName = 'Fenced ````'
+      StartExpression = '(?<=^\x20{0,3})````\x20*\w.*$'
       EndExpression = '(?<=^\x20{0,3})````$'
       SyntAnalyzer = SyntAnal10
     end
     item
-      DisplayName = 'Fenced block `````'
-      StartExpression = '(?<=^\x20{0,3})`````\x20*[\w\{].*$'
+      DisplayName = 'Fenced `````'
+      StartExpression = '(?<=^\x20{0,3})`````\x20*\w.*$'
       EndExpression = '(?<=^\x20{0,3})`````$'
       SyntAnalyzer = SyntAnal10
     end
     item
-      DisplayName = 'Fenced block ~~~'
-      StartExpression = '(?<=^\x20{0,3})~~~\x20*[\w\{].*$'
+      DisplayName = 'Fenced ~~~'
+      StartExpression = '(?<=^\x20{0,3})~~~\x20*\w.*$'
       EndExpression = '(?<=^\x20{0,3})~~~$'
       SyntAnalyzer = SyntAnal10
     end
     item
-      DisplayName = 'Fenced block ~~~~'
-      StartExpression = '(?<=^\x20{0,3})~~~~\x20*[\w\{].*$'
+      DisplayName = 'Fenced ~~~~'
+      StartExpression = '(?<=^\x20{0,3})~~~~\x20*\w.*$'
       EndExpression = '(?<=^\x20{0,3})~~~~$'
       SyntAnalyzer = SyntAnal10
     end
     item
-      DisplayName = 'Fenced block ~~~~~'
-      StartExpression = '(?<=^\x20{0,3})~~~~~\x20*[\w\{].*$'
+      DisplayName = 'Fenced ~~~~~'
+      StartExpression = '(?<=^\x20{0,3})~~~~~\x20*\w.*$'
       EndExpression = '(?<=^\x20{0,3})~~~~~$'
       SyntAnalyzer = SyntAnal10
     end>
