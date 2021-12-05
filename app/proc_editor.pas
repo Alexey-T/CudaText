@@ -1900,6 +1900,7 @@ begin
           UiOps.FindIndentHorz,
           UiOps.FindIndentVert,
           true,
+          true,
           true);
       end;
     finally

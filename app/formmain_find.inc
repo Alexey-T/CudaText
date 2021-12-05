@@ -23,8 +23,8 @@ begin
           UiOps.FindIndentHorz,
           UiOps.FindIndentVert,
           true,
-          true
-          );
+          true,
+          true);
       end;
 
     markingSelections:
@@ -776,6 +776,7 @@ begin
       AFinder.IndentHorz,
       AFinder.IndentVert,
       true,
+      true,
       true);
   end
   else
@@ -826,7 +827,7 @@ begin
   if Callback='' then exit;
 
   Ed.DoCaretSingle(APos1.X, APos1.Y, APos2.X, APos2.Y);
-  Ed.DoShowPos(APos1, ThisFinder.IndentHorz, ThisFinder.IndentVert, true, false);
+  Ed.DoShowPos(APos1, ThisFinder.IndentHorz, ThisFinder.IndentVert, true, false, true);
   Ed.Update(true);
 
   SetLength(Params, 5);
