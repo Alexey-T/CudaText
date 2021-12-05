@@ -977,31 +977,31 @@ object SyntAnal16: TLibSyntAnalyzer
     item
       DisplayName = 'Fenced block ````'
       StartExpression = '(?<=^\x20{0,3})````\x20*[\w\{].*$'
-      EndExpression = '(?<=^\x20{0,3})````$'#13#10
+      EndExpression = '(?<=^\x20{0,3})````$'
       SyntAnalyzer = SyntAnal10
     end
     item
       DisplayName = 'Fenced block `````'
-      StartExpression = '(?<=^\x20{0,3})`````\x20*[\w\{].*$'#13#10
-      EndExpression = '(?<=^\x20{0,3})`````$'#13#10
+      StartExpression = '(?<=^\x20{0,3})`````\x20*[\w\{].*$'
+      EndExpression = '(?<=^\x20{0,3})`````$'
       SyntAnalyzer = SyntAnal10
     end
     item
       DisplayName = 'Fenced block ~~~'
-      StartExpression = '(?<=^\x20{0,3})~~~\x20*[\w\{].*$'#13#10
-      EndExpression = '(?<=^\x20{0,3})~~~$'#13#10
+      StartExpression = '(?<=^\x20{0,3})~~~\x20*[\w\{].*$'
+      EndExpression = '(?<=^\x20{0,3})~~~$'
       SyntAnalyzer = SyntAnal10
     end
     item
       DisplayName = 'Fenced block ~~~~'
-      StartExpression = '(?<=^\x20{0,3})~~~~\x20*[\w\{].*$'#13#10
-      EndExpression = '(?<=^\x20{0,3})~~~~$'#13#10
+      StartExpression = '(?<=^\x20{0,3})~~~~\x20*[\w\{].*$'
+      EndExpression = '(?<=^\x20{0,3})~~~~$'
       SyntAnalyzer = SyntAnal10
     end
     item
       DisplayName = 'Fenced block ~~~~~'
-      StartExpression = '(?<=^\x20{0,3})~~~~~\x20*[\w\{].*$'#13#10
-      EndExpression = '(?<=^\x20{0,3})~~~~~$'#13#10
+      StartExpression = '(?<=^\x20{0,3})~~~~~\x20*[\w\{].*$'
+      EndExpression = '(?<=^\x20{0,3})~~~~~$'
       SyntAnalyzer = SyntAnal10
     end>
   SampleText.Strings = (
