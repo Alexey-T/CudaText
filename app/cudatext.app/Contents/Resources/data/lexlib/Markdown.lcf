@@ -970,8 +970,8 @@ object SyntAnal16: TLibSyntAnalyzer
     end
     item
       DisplayName = 'Fenced block'
-      StartExpression = '^\x20{0,3}`{3,}\x20*\w[\w\-\+\.]*$'
-      EndExpression = '^\x20{0,3}`{3,}$'
+      StartExpression = '(?<=^\x20{0,3})`{3,}\x20*\w[\w\-\+\.]*$'
+      EndExpression = '(?<=^\x20{0,3})`{3,}$'
       SyntAnalyzer = SyntAnal10
     end>
   SampleText.Strings = (
