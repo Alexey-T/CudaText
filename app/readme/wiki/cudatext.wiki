@@ -702,6 +702,38 @@ Previously, CudaText allowed something like this, via lexer configuration: all n
 special settings inside them, and this worked for 2+ lines, not for custom value.
 After the option "auto_fold_comments" appeared, all 3rd-party lexers should be stripped of those old settings.
 
+===Fenced code-blocks===
+
+This is feature of Markdown lexer: fenced code blocks. They begin with:
+
+* start of line
+* optional spaces
+* 3 or more backtick-chars (also tilde-chars are allowed)
+* optional spaces
+* lexer alias like "cpp" or "cs"
+* optional spaces
+* end of line.
+
+They end with:
+
+* start of line
+* optional spaces
+* 3 or more backtick-chars (also tilde-chars are allowed)
+* optional spaces
+* end of line.
+
+The beginning and ending sequences are tokenized as single token.
+
+CudaText has the file which lists the supported lexer aliases: data/lexlib/aliases.ini.
+The file was compiled from [https://github.com/highlightjs/highlight.js/blob/main/SUPPORTED_LANGUAGES.md this document].
+Lexer alias will be resolved to the actual lexer name, only if that lexer is installed, otherwise
+you won't see an error, but block will not be syntax-highlighted.
+
+Limitations:
+
+* Markdown standard tells that the beginning backticks must match the ending backticks, it must be the same amount of backticks. (And the same is valid for tildes.) This is currently not supported in CudaText (version 1.150).
+* Python Markdown description tells that the lexer alias may be replaced with the curly-brackets construct like "{ .lang }" or "{ .lang .foo .bar }" or even "{ #someid .lang .foo .bar }". This is currently not supported in CudaText (version 1.150).
+
 ==Location of folders 'settings', 'py', 'data'==
 
 Non-portable CudaText installation is used for:
