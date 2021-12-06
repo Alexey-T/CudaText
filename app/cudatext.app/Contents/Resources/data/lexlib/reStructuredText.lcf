@@ -25,22 +25,22 @@ object SyntAnal21: TLibSyntAnalyzer
       Font.Style = []
     end
     item
-      DisplayName = 'Code'
+      DisplayName = 'Code-block begin'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clBlack
+      Font.Color = clPurple
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+    end
+    item
+      DisplayName = 'Code-block BG'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clNone
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
       BgColor = 15779980
-    end
-    item
-      DisplayName = 'Code dot'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clBlack
-      Font.Height = -13
-      Font.Name = 'Courier New'
-      Font.Style = []
-      BgColor = 14726867
+      FormatType = ftBackGround
     end
     item
       DisplayName = 'List'
@@ -234,23 +234,31 @@ object SyntAnal21: TLibSyntAnalyzer
     end
     item
       DisplayName = 'Code ::'
-      StyleName = 'Code'
+      StyleName = 'Code-block BG'
       TokenType = 4
       Expression = '(?s)::$\z\z.+?\z(?=\z^\S)'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
-      DisplayName = 'Code ..'
-      StyleName = 'Code dot'
-      TokenType = 4
-      Expression = '(?s)^\.\.\x20code-block::[\x20\w\-\+\.]*$.+?$(?=\z^\S)'
+      DisplayName = 'Code-block begin'
+      StyleName = 'Code-block begin'
+      TokenType = 13
+      Expression = '(?-i)^\.\.\x20code-block::.*$'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Code-block end'
+      StyleName = 'Quote'
+      TokenType = 14
+      Expression = '\z(?=\z^\S)'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
       DisplayName = 'Code spaces'
-      StyleName = 'Code'
+      StyleName = 'Code-block BG'
       TokenType = 4
       Expression = '^[\x20\x09]{4,}\S.*'
       ColumnFrom = 0
@@ -341,6 +349,32 @@ object SyntAnal21: TLibSyntAnalyzer
       ConditionList = <
         item
           TokenTypes = 2048
+        end>
+      HighlightPos = cpAny
+      CancelNextRules = True
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'Code-block begin'
+      StyleName = 'Code-block BG'
+      ConditionList = <
+        item
+          TokenTypes = 8192
+        end>
+      BlockEnd = 'Code-block end'
+      DisplayInTree = False
+      DynHighlight = dhRange
+      HighlightPos = cpAny
+      CancelNextRules = True
+      CollapseFmt = 'code-block'
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'Code-block end'
+      BlockType = btRangeEnd
+      ConditionList = <
+        item
+          TokenTypes = 16384
         end>
       HighlightPos = cpAny
       CancelNextRules = True
@@ -450,7 +484,9 @@ object SyntAnal21: TLibSyntAnalyzer
     'Link wiki'
     'Table begin'
     'Table end'
-    'List head')
+    'List head'
+    'Code-block begin'
+    'Code-block end')
   Extentions = 'rst'
   LexerName = 'reStructuredText'
   SkipSpaces = False

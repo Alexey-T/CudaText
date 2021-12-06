@@ -8,6 +8,7 @@
 + add: support for fenced code-blocks (thanks @WebMechanic).
        See the new wiki topic: https://wiki.freepascal.org/CudaText#Fenced_code-blocks
        Note: lexer Markdown must be updated too.
++ add: lexer reST: rework highlight for 'code-blocks'
 - fix: option "caret_proximity_vert" has bad side effect ('ghost caret' when we type text at file end)
 
 1.150.1 (2021/12)
