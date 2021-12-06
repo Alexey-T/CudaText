@@ -244,7 +244,7 @@ object SyntAnal21: TLibSyntAnalyzer
       DisplayName = 'Code ..'
       StyleName = 'Code dot'
       TokenType = 4
-      Expression = '(?s)^\.\.\x20code-block::[^\n\r]*$.+?$(?=\z^\S)'
+      Expression = '(?s)^\.\.\x20code-block::[\x20\w\-\+\.]*$.+?$(?=\z^\S)'
       ColumnFrom = 0
       ColumnTo = 0
     end
