@@ -3,7 +3,6 @@ str1=/*
 str2=*/
 styles_cmt=Comment,Comment doc
 styles_str=String
-
 [map]
 Comment=Comment
 Comment doc=CommentDoc
@@ -21,3 +20,6 @@ Id standard class=Id1
 Id modifier=Id3
 Heredoc begin=TagInclude
 Heredoc BG=SectionBG4
+[ref]
+0=HTML
+1=CSS

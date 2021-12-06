@@ -1,4 +1,4 @@
-object SyntAnal14: TLibSyntAnalyzer
+object SyntAnal17: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Comment'
@@ -973,7 +973,19 @@ object SyntAnal14: TLibSyntAnalyzer
       IgnoreAsParent = False
     end>
   CodeTemplates = <>
-  SubAnalyzers = <>
+  SubAnalyzers = <
+    item
+      DisplayName = 'Heredoc HTML'
+      StartExpression = '<<<HTML\b'
+      EndExpression = '^HTML;$'
+      SyntAnalyzer = SyntAnal10
+    end
+    item
+      DisplayName = 'Heredoc CSS'
+      StartExpression = '<<<CSS\b'
+      EndExpression = '^CSS;$'
+      SyntAnalyzer = SyntAnal7
+    end>
   SampleText.Strings = (
     '//Example'
     '/** Doc comment */,  /* Comment */'
