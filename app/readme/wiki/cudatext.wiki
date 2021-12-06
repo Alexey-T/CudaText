@@ -288,10 +288,10 @@ Dialog "Lexer library" has hotkeys:
 === Lexers on SourceForge ===
 
 Preinstalled lexer library has limited set of lexers.
-Other lexers, which are compatible with SynWrite editor, are hosted on SF.net:
-http://sourceforge.net/projects/synwrite-addons/files/Lexers/
+All other lexers are [https://sourceforge.net/projects/cudatext/files/addons/lexers/ hosted on CudaText.SF.net].
+You can download the [https://sourceforge.net/projects/cudatext/files/addons_all/ entire add-ons pack] too.
 
-These zip packages can be installed in CudaText: open any zip file via "File / Open" and confirm installation.
+To install "lexer.*.zip" (or any add-on ZIP file) in CudaText: open this ZIP file via "File / Open", CudaText will suggest to install it.
 
 === List of lexers ===
 
