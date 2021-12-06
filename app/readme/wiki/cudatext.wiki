@@ -732,7 +732,9 @@ The file was compiled from [https://github.com/highlightjs/highlight.js/blob/mai
 Lexer alias will be resolved to the actual lexer name, only if that lexer is installed, otherwise
 you won't see an error, but block will not be syntax-highlighted.
 
-Limitations:
+Note about SQL blocks. CudaText has SQL lexer preinstalled, it's lite lexer "SQL ^", and it cannot be used here, because lite lexer cannot be called from normal lexer. But you can install (from "Plugins / Addons Manager") normal SQL lexers: SQL; SQL White; SQL Blue; MySQL; T-SQL (this one has the special alias "tsql"); PL-SQL. After you installed one of them, make the fix in the file "data/lexlib/aliases.ini" to the line "sql=".
+
+'''Limitations:'''
 
 * Markdown standard tells that the beginning backticks must match the ending backticks, it must be the same amount of backticks. (And the same is valid for tildes.) This is currently not supported in CudaText version 1.151.
 * Python Markdown description tells that the lexer alias may be replaced with the curly-brackets construct like "{ .lang }" or "{ .lang .foo .bar }" or even "{ #someid .lang .foo .bar }". This is currently not supported in CudaText version 1.151.
