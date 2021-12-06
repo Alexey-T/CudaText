@@ -257,9 +257,12 @@ begin
           an_sub:= an.SubAnalyzers[j];
           if an_sub<>nil then
             if an_sub.SyntAnalyzer<>nil then
-              links:= links+an_sub.SyntAnalyzer.LexerName;
+              links:= links+an_sub.SyntAnalyzer.LexerName
+            else
+              links:= links+'?';
         end;
-      if links<>'' then links:= '  ('+links+')';
+      if links<>'' then
+        links:= '  ('+links+')';
 
       suffix:= '';
       if an.Internal then
