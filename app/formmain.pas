@@ -763,7 +763,7 @@ type
     procedure DoApplyCli(const ACliModule: string; const ACliParams: TAppStringArray);
     procedure DoApplyNewdocLexer(F: TEditorFrame);
     procedure DoApplyCenteringOption;
-    procedure DoApplyLexerStyleMaps(AndApplyTheme: boolean);
+    procedure DoApplyLexerStylesMapsToFrames(AndApplyTheme: boolean);
     procedure DoApplyTranslationToGroups(G: TATGroups);
     procedure DoClearSingleFirstTab;
     procedure DoCloseAllTabs;
@@ -3588,7 +3588,7 @@ begin
   end;
 end;
 
-procedure TfmMain.DoApplyLexerStyleMaps(AndApplyTheme: boolean);
+procedure TfmMain.DoApplyLexerStylesMapsToFrames(AndApplyTheme: boolean);
 var
   F: TEditorFrame;
   An, AnIncorrect: TecSyntAnalyzer;
@@ -3657,7 +3657,7 @@ begin
   if F=nil then exit;
 
   if DoDialogLexerStylesMap(F.Lexer[F.Editor]) then
-    DoApplyLexerStyleMaps(false);
+    DoApplyLexerStylesMapsToFrames(false);
 end;
 
 procedure TfmMain.DoHelpAbout;

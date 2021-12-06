@@ -176,7 +176,7 @@ begin
     DoApplyThemeToCustomDialog(TFormDummy(CustomDialogs[i]));
 
   //apply AppTheme to all frames
-  DoApplyLexerStyleMaps(true);
+  DoApplyLexerStylesMapsToFrames(true);
 
   Groups.SplitterColor:= GetAppColor(apclSplitGroups);
 
@@ -414,7 +414,7 @@ begin
     if Result then
     begin
       AData:= Form.Data;
-      DoApplyLexerStyleMaps(false);
+      DoApplyLexerStylesMapsToFrames(false);
     end;
   finally
     FreeAndNil(Form);
