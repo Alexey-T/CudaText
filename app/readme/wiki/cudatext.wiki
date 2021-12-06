@@ -736,6 +736,7 @@ Limitations:
 
 * Markdown standard tells that the beginning backticks must match the ending backticks, it must be the same amount of backticks. (And the same is valid for tildes.) This is currently not supported in CudaText version 1.151.
 * Python Markdown description tells that the lexer alias may be replaced with the curly-brackets construct like "{ .lang }" or "{ .lang .foo .bar }" or even "{ #someid .lang .foo .bar }". This is currently not supported in CudaText version 1.151.
+* The similar feature of the reStructuredText, as [https://pandemic-overview.readthedocs.io/en/latest/myGuides/reStructuredText-Source-Code.html documented here], is not supported. 
 
 ==Location of folders 'settings', 'py', 'data'==
 
