@@ -293,6 +293,8 @@ You can download the [https://sourceforge.net/projects/cudatext/files/addons_all
 
 To install "lexer.*.zip" (or any add-on ZIP file) in CudaText: open this ZIP file via "File / Open", CudaText will suggest to install it.
 
+[[File:cudatext-zip-install-prompt.png]]
+
 === List of lexers ===
 
 The following lexers (counting only important ones) exist for SynWrite and CudaText.
