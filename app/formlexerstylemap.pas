@@ -113,6 +113,7 @@ begin
   anNotCorrect:= an;
   if an=nil then exit;
   if an.Formats.Count=0 then exit;
+  if an.AppliedSyntaxTheme=UiOps.ThemeSyntax then exit;
   if not UiOps.LexerThemes then exit;
 
   if LexersAsked.IndexOf(an)>=0 then exit;
@@ -152,6 +153,8 @@ begin
         Break
       end;
     end;
+
+    an.AppliedSyntaxTheme:= UiOps.ThemeSyntax;
   end;
 end;
 
@@ -306,6 +309,7 @@ end;
 
 initialization
   LexersAsked:= TFPList.Create;
+  EControlOptions.OnLexerApplyTheme:= @DoApplyLexerStylesMap;
 
 finalization
   if Assigned(LexersAsked) then
