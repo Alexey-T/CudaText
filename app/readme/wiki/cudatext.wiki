@@ -732,7 +732,7 @@ The file was compiled from [https://github.com/highlightjs/highlight.js/blob/mai
 Lexer alias will be resolved to the actual lexer name, only if that lexer is installed, otherwise
 you won't see an error, but block will not be syntax-highlighted.
 
-Note about SQL blocks. CudaText has SQL lexer preinstalled, it's lite lexer "SQL ^", and it cannot be used here, because lite lexer cannot be called from normal lexer. But you can install (from "Plugins / Addons Manager") normal lexers: SQL; SQL White; SQL Blue; T-SQL (this one has it's special alias "tsql"). Just install one of them, and it will be used for SQL blocks.
+Note about SQL blocks. CudaText has lexer preinstalled, it's lite lexer "SQL ^", and it cannot be used here, because lite lexer cannot be called from normal lexer. But you can install (from "Plugins / Addons Manager") normal lexers: SQL; SQL White; SQL Blue; T-SQL (T-SQL has it's own alias "tsql"). Just install one of them, and it will be used for SQL blocks.
 
 '''Limitations:'''
 
