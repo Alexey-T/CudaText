@@ -114,13 +114,12 @@ begin
   anNotCorrect:= an;
   if an=nil then exit;
   if an.Formats.Count=0 then exit;
+  if not UiOps.LexerThemes then exit;
 
   NewThemeName:= UiOps.ThemeSyntax;
   if NewThemeName='' then
     NewThemeName:= '-';
   if NewThemeName=an.AppliedSyntaxTheme then exit;
-
-  if not UiOps.LexerThemes then exit;
 
   if LexersAsked.IndexOf(an)>=0 then exit;
   LexersAsked.Add(an);
