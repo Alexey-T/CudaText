@@ -2326,6 +2326,18 @@ If you run app in Terminal, you'll see an error about missing .so file. Reason o
 
  $ sudo ln -s /usr/local/lib/libiconv.so.2 /usr/local/lib/libiconv.so.3
 
+===App cannot run on macOS===
+
+There is known issue, when macOS AArch64 version (ie ARM 64-bit version) cannot be run.
+The following command clears the extended attributes from the bundle, and it can be run:
+
+ xattr -cr /Applications/CudaText.app/
+
+(Adjust the file path, if you put the application bundle to a different place.)
+
+Also note, that our application bundle is not digitally signed.
+So to run it (the first time you do it), you should right-click the application bundle, and choose "Open" menu item, and confirm that you trust the vendor.
+
 ==How to select extra symbols by double-click==
 
 Some languages consider special symbols as word-chars. For example, in PHP, "$" symbol is part of a variable name, so double-click should select "$" together with other word-chars. Follow these steps to add extra symbols (e.g. "$") to word-chars.
