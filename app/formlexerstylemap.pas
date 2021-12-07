@@ -107,13 +107,19 @@ var
   st: TecSyntaxFormat;
   iStyle: TAppThemeStyleId;
   anSub: TecSyntAnalyzer;
+  NewThemeName: string;
   i: integer;
 begin
   Result:= true;
   anNotCorrect:= an;
   if an=nil then exit;
   if an.Formats.Count=0 then exit;
-  if an.AppliedSyntaxTheme=UiOps.ThemeSyntax then exit;
+
+  NewThemeName:= UiOps.ThemeSyntax;
+  if NewThemeName='' then
+    NewThemeName:= '-';
+  if NewThemeName=an.AppliedSyntaxTheme then exit;
+
   if not UiOps.LexerThemes then exit;
 
   if LexersAsked.IndexOf(an)>=0 then exit;
@@ -154,7 +160,7 @@ begin
       end;
     end;
 
-    an.AppliedSyntaxTheme:= UiOps.ThemeSyntax;
+    an.AppliedSyntaxTheme:= NewThemeName;
   end;
 end;
 
