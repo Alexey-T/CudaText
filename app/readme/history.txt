@@ -7,11 +7,11 @@
 
 + add: option "ui_session_save_interval" allows negative values too, see new description (thanks @MiroslavMatas)
 - fix: Tab-key in the code-tree must not jump to bottom panel, and vice versa (thanks @hiiamboris, @JairoMartinezA)
-- fix: command "codetree: focus filter" didn't work on Linux
+- fix: command "codetree: focus filter" didn't work in Linux version
 
 1.151.0 (2021/12)
 
-+ add: support for fenced code-blocks in Markdown lexer (thanks @WebMechanic);
++ add: support for 'fenced code-blocks' in Markdown lexer (thanks @WebMechanic);
        see new Wiki topic: https://wiki.freepascal.org/CudaText#Fenced_code-blocks
 + add: lexer reST: rework highlight of 'code-blocks'
 + add: lexer PHP: 'HereDoc' blocks with id 'HTML'/'CSS' are syntax-highlighted with HTML/CSS lexer (thanks @WebMechanic)
