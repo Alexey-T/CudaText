@@ -69,8 +69,7 @@ begin
   ok:= false;
   AppPanels[cPaneSide].UpdatePanels(msgPanelTree_Init, false, true);
   if CodeTree.Visible and
-    CodeTreeFilterInput.Visible and
-    CodeTreeFilterInput.Enabled then
+    CodeTreeFilterInput.CanFocus then
   begin
     if AppPanels[cPaneSide].Floating then
       ok:= AppPanels[cPaneSide].FormFloat.Visible

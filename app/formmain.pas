@@ -756,6 +756,7 @@ type
     procedure PythonIOSendUniData(Sender: TObject; const Data: UnicodeString);
     procedure PythonModuleInitialization(Sender: TObject);
     procedure CodeTreeFilter_OnChange(Sender: TObject);
+    procedure CodeTreeFilter_OnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure CodeTreeFilter_ResetOnClick(Sender: TObject);
     procedure CodeTreeFilter_OnCommand(Sender: TObject; ACmd: integer; AInvoke: TATEditorCommandInvoke;
       const AText: string; var AHandled: boolean);
@@ -2568,6 +2569,7 @@ begin
   CodeTreeFilterInput.Align:= alClient;
   CodeTreeFilterInput.OnChange:= @CodeTreeFilter_OnChange;
   CodeTreeFilterInput.OnCommand:= @CodeTreeFilter_OnCommand;
+  CodeTreeFilterInput.OnKeyDown:= @CodeTreeFilter_OnKeyDown;
 end;
 
 procedure TfmMain.InitStatusbar;
@@ -4007,6 +4009,26 @@ begin
 
   CodeTreeFilter.FilteredTreeview:= CodeTree.Tree;
   CodeTreeFilter.Text:= S;
+end;
+
+procedure TfmMain.CodeTreeFilter_OnKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if (Key=VK_ESCAPE) then
+  begin
+    CurrentFrame.SetFocus;
+    Key:= 0;
+    exit
+  end;
+
+  //handle Tab-key, because LCL by default can jump to bottom-panel form
+  if (Key=VK_TAB) and (Shift=[]) then
+  begin
+    if CodeTree.Tree.CanFocus then
+      CodeTree.Tree.SetFocus;
+    Key:= 0;
+    exit;
+  end;
 end;
 
 procedure TfmMain.CodeTreeFilter_ResetOnClick(Sender: TObject);
@@ -6728,6 +6750,15 @@ begin
     (Sender as TTreeView).OnDblClick(Sender);
     Key:= 0;
     exit
+  end;
+
+  //handle Tab-key, because LCL by default can jump to bottom-panel form
+  if (Key=VK_TAB) and (Shift=[]) then
+  begin
+    if CodeTreeFilterInput.CanFocus then
+      CodeTreeFilterInput.SetFocus;
+    Key:= 0;
+    exit;
   end;
 end;
 
