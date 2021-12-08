@@ -81,7 +81,7 @@ begin
     EditorFocus(CodeTreeFilterInput);
 
     {$ifndef windows}
-    //on Win10 it's not needed, but it helped on Linux gtk2
+    //it helped on Linux gtk2, issue #3755
     Application.ProcessMessages;
     CodeTreeFilterInput.SetFocus;
     {$endif}
