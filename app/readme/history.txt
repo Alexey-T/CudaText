@@ -5,6 +5,7 @@
 
 1.151.1 (2021/12)
 
++ add: option "ui_session_save_interval" allows negative values too, see new description (thanks @MiroslavMatas)
 - fix: Tab-key in the code-tree must not jump to bottom panel, and vice versa (thanks @hiiamboris, @JairoMartinezA)
 - fix: command "codetree: focus filter" didn't work on Linux
 
