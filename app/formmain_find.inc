@@ -380,7 +380,11 @@ begin
   //make workaround
   if (Res=afoReplaceAll) or
      (Res=afoReplaceGlobal) then
-    CurrentFrame.SetFocus;
+  begin
+    Frame:= CurrentFrame;
+    if Assigned(Frame) then
+      Frame.SetFocus;
+  end;
   {$endif}
 end;
 
@@ -543,13 +547,18 @@ begin
 end;
 
 procedure TfmMain.DoDialogFind_Hide;
+var
+  Frame: TEditorFrame;
 begin
   if Assigned(fmFind) and fmFind.Visible then
   begin
     //handy to reset in-sel, on closing dialog
     FFinder.OptInSelection:= false;
 
-    CurrentFrame.SetFocus;
+    Frame:= CurrentFrame;
+    if Assigned(Frame) then
+      Frame.SetFocus;
+
     fmFind.Hide;
     UpdateAppForSearch(false, false, true, true);
   end;

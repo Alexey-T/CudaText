@@ -4013,12 +4013,15 @@ begin
   CodeTreeFilter.Text:= S;
 end;
 
-procedure TfmMain.CodeTreeFilter_OnKeyDown(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
+procedure TfmMain.CodeTreeFilter_OnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+var
+  Frame: TEditorFrame;
 begin
-  if (Key=VK_ESCAPE) then
+  if (Key=VK_ESCAPE) and (Shift=[]) then
   begin
-    CurrentFrame.SetFocus;
+    Frame:= CurrentFrame;
+    if Assigned(Frame) then
+      Frame.SetFocus;
     Key:= 0;
     exit
   end;
@@ -5809,6 +5812,7 @@ end;
 
 procedure TfmMain.DoToggleFindReplaceDialog(AIsReplace: boolean);
 var
+  Frame: TEditorFrame;
   bFocusedBottom: boolean;
 begin
   bFocusedBottom:= IsFocusedFind;
@@ -5829,7 +5833,11 @@ begin
 
   if not fmFind.Visible then
     if bFocusedBottom then
-      CurrentFrame.SetFocus;
+    begin
+      Frame:= CurrentFrame;
+      if Assigned(Frame) then
+        Frame.SetFocus;
+    end;
 end;
 
 procedure TfmMain.DoToggleSidebar;
@@ -6737,12 +6745,15 @@ begin
   OpenURL('https://wiki.freepascal.org/CudaText');
 end;
 
-procedure TfmMain.DoCodetree_OnKeyDown(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
+procedure TfmMain.DoCodetree_OnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+var
+  Frame: TEditorFrame;
 begin
-  if (Key=VK_ESCAPE) then
+  if (Key=VK_ESCAPE) and (Shift=[]) then
   begin
-    CurrentFrame.SetFocus;
+    Frame:= CurrentFrame;
+    if Assigned(Frame) then
+      Frame.SetFocus;
     Key:= 0;
     exit
   end;
@@ -6964,13 +6975,15 @@ begin
   mnuToolbarCommentStream.Caption:= msgCommentStreamToggle;
 end;
 
-procedure TfmMain.EditorOutput_OnKeyDown(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
+procedure TfmMain.EditorOutput_OnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+var
+  Frame: TEditorFrame;
 begin
-  //Esc
-  if (Key=VK_ESCAPE) then
+  if (Key=VK_ESCAPE) and (Shift=[]) then
   begin
-    CurrentFrame.SetFocus;
+    Frame:= CurrentFrame;
+    if Assigned(Frame) then
+      Frame.SetFocus;
     Key:= 0;
     exit
   end;

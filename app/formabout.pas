@@ -116,7 +116,12 @@ end;
 procedure TfmAbout.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
-  if Key=VK_ESCAPE then Close;
+  if (Key=VK_ESCAPE) and (Shift=[]) then
+  begin
+    Close;
+    Key:= 0;
+    exit;
+  end;
 end;
 
 

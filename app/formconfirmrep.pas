@@ -91,10 +91,29 @@ end;
 procedure TfmConfirmReplace.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
-  if Key=VK_Y then begin ModalResult:= mrYes; exit end;
-  if Key=VK_A then begin ModalResult:= mrYesToAll; exit end;
-  if Key=VK_N then begin ModalResult:= mrNo; exit end;
-  if Key=VK_ESCAPE then begin ModalResult:= mrNoToAll; exit end;
+  if Key=VK_Y then
+  begin
+    ModalResult:= mrYes;
+    exit
+  end;
+
+  if Key=VK_A then
+  begin
+    ModalResult:= mrYesToAll;
+    exit
+  end;
+
+  if Key=VK_N then
+  begin
+    ModalResult:= mrNo;
+    exit
+  end;
+
+  if (Key=VK_ESCAPE) and (Shift=[]) then
+  begin
+    ModalResult:= mrNoToAll;
+    exit
+  end;
 end;
 
 procedure TfmConfirmReplace.FormShow(Sender: TObject);

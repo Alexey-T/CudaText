@@ -861,7 +861,7 @@ begin
   Str:= ShortcutToText(KeyToShortCut(Key, Shift));
   if Str='' then exit; //only Shift is pressed
 
-  if Key=VK_ESCAPE then
+  if (Key=VK_ESCAPE) and (Shift=[]) then
   begin
     DoResult(afoCloseDlg);
     key:= 0;

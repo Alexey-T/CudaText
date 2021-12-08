@@ -88,7 +88,7 @@ begin
     exit
   end;
 
-  if (Key=VK_ESCAPE) then
+  if (Key=VK_ESCAPE) and (Shift=[]) then
   begin
     Key:= 0;
     ModalResult:= mrCancel;
