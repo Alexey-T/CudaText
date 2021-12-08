@@ -1151,7 +1151,10 @@
   //Show full file path in the window title.
   "ui_title_path": false,
 
-  //[Ui/History]
+  //Pause of hint, of command "show function-hint".
+  "ui_alt_hint_time": 9,
+
+  //[Ui/Sessions]
   //Save current "session" on program closing, and restore it on start.
   //This also shows "Don't save / Keep in session" button in the "Save tabs?" dialog.
   "ui_reopen_session": true,
@@ -1179,9 +1182,6 @@
   //If value N>0, app creates N backups of session files on closing: 'history session.X.cuda-session'.
   //You can open these backups by plugin Session Manager, or rename them to a normal name.
   "ui_backup_sessions": 0,
-
-  //Pause of hint, of command "show function-hint".
-  "ui_alt_hint_time": 9,
 
   //[Lexers]
   //Allow to apply color-theme to lexer's styles.
