@@ -2232,6 +2232,7 @@ var
   S: UnicodeString;
   Frame: TEditorFrame;
   Tick: QWord;
+  bUseSaveSessionInterval: boolean;
   NCnt, i: integer;
 begin
   //in Lazarus 2.1 trunk on Linux x64 gtk2/qt5, TimerAppIdle.Timer is called too early,
@@ -2329,13 +2330,21 @@ begin
   end;
 
   //if "ui_reopen_session":true, auto-save session (and text of modified tabs) each N seconds
-  if UiOps.ReopenSession and (UiOps.SessionSaveInterval>0) then
+  if (UiOps.SessionSaveInterval>0) and UiOps.ReopenSession then
+    bUseSaveSessionInterval:= true
+  else
+  if UiOps.SessionSaveInterval<0 then //negative value: force save session
+    bUseSaveSessionInterval:= true
+  else
+    bUseSaveSessionInterval:= false;
+
+  if bUseSaveSessionInterval then
   begin
     Tick:= GetTickCount64;
     if FLastSaveSessionTick=0 then
       FLastSaveSessionTick:= Tick
     else
-    if Tick-FLastSaveSessionTick>=UiOps.SessionSaveInterval*1000 then
+    if Tick-FLastSaveSessionTick>=Abs(UiOps.SessionSaveInterval)*1000 then
     begin
       FLastSaveSessionTick:= Tick;
       DoOps_SaveSession(GetSessionFilename, true{ASaveModifiedTabs});

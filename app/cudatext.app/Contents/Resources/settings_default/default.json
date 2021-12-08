@@ -1161,8 +1161,10 @@
   //session + passed command-line file.
   "ui_reopen_session_cmdline": false,
 
-  //When "ui_reopen_session":true, and this interval value (in seconds) is >0,
-  //program saves the current session to disk, by timer with specified interval.
+  //Option value>0: if "ui_reopen_session":true, save the current session, by timer
+  //with specified interval (in seconds).
+  //Option value<0: always save the current session, by timer with interval=Abs(value).
+  //Option value=0: don't save session by timer.
   //Note: this timer is active only in the "idle state" of the editor, when you pause
   //the text editing for 1-2 seconds.
   "ui_session_save_interval": 30,
