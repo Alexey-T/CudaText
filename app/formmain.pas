@@ -2231,8 +2231,8 @@ procedure TfmMain.TimerAppIdleTimer(Sender: TObject);
 var
   S: UnicodeString;
   Frame: TEditorFrame;
-  Tick: QWord;
   bUseSaveSessionInterval: boolean;
+  NTick: QWord;
   NCnt, i: integer;
 begin
   //in Lazarus 2.1 trunk on Linux x64 gtk2/qt5, TimerAppIdle.Timer is called too early,
@@ -2340,13 +2340,13 @@ begin
 
   if bUseSaveSessionInterval then
   begin
-    Tick:= GetTickCount64;
+    NTick:= GetTickCount64;
     if FLastSaveSessionTick=0 then
-      FLastSaveSessionTick:= Tick
+      FLastSaveSessionTick:= NTick
     else
-    if Tick-FLastSaveSessionTick>=Abs(UiOps.SessionSaveInterval)*1000 then
+    if NTick-FLastSaveSessionTick>=Abs(UiOps.SessionSaveInterval)*1000 then
     begin
-      FLastSaveSessionTick:= Tick;
+      FLastSaveSessionTick:= NTick;
       DoOps_SaveSession(GetSessionFilename, true{ASaveModifiedTabs}, true{AByTimer});
     end;
   end;
