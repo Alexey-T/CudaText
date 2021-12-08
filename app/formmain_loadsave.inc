@@ -214,7 +214,7 @@ begin
   begin
     fnBase:= GetSessionFilename;
     DoOps_SaveSessionsBackups(fnBase);
-    DoOps_SaveSession(fnBase, ASaveModifiedTabs)
+    DoOps_SaveSession(fnBase, ASaveModifiedTabs, false);
   end;
 end;
 
@@ -241,7 +241,7 @@ begin
 end;
 
 function TfmMain.DoOps_SaveSession(const AFileName: string;
-  ASaveModifiedTabs: boolean): boolean;
+  ASaveModifiedTabs, AByTimer: boolean): boolean;
 var
   cfg: TJSONConfig;
   Frame: TEditorFrame;
@@ -382,6 +382,8 @@ begin
   if UiOps.LogSessions then
   begin
     value:= 'Saved session: "'+ExtractFileName(AFileName)+'", '+IntToStr(nCountFiles)+' file(s)';
+    if AByTimer then
+      value+= ', by timer at '+TimeToStr(Now);
     MsgLogConsole(value);
   end;
 end;
@@ -423,7 +425,7 @@ begin
   begin
     sFilename:= GetSessionFilename;
     if not SameFileName(sFilename, AFileName) then //fix issue #3744
-      DoOps_SaveSession(sFilename, false);
+      DoOps_SaveSession(sFilename, false, false);
     sFilename:= '';
   end;
 
