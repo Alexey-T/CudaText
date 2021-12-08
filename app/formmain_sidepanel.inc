@@ -77,7 +77,15 @@ begin
       ok:= true
   end;
   if ok then
+  begin
     EditorFocus(CodeTreeFilterInput);
+
+    {$ifndef windows}
+    //on Win10 it's not needed, but it helped on Linux gtk2
+    Application.ProcessMessages;
+    CodeTreeFilterInput.SetFocus;
+    {$endif}
+  end;
 end;
 
 procedure TfmMain.DoSidebar_FocusCodetree;
