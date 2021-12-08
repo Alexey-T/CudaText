@@ -872,6 +872,7 @@ type
     procedure DoApplyTheme_ThemedMainMenu;
     procedure DoApplyThemeToGroups(G: TATGroups);
     procedure DoOnConsoleNumberChange(Sender: TObject);
+    procedure DoOnConsoleKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     function DoDialogConfigTheme(var AData: TAppTheme; AThemeUI: boolean): boolean;
     function DoDialogMenuApi(const AProps: TDlgMenuProps): integer;
     procedure DoDialogMenuTranslations;
@@ -2702,6 +2703,7 @@ begin
   InitConsole;
   fmConsole.OnConsoleNav:= @DoPyEvent_ConsoleNav;
   fmConsole.OnNumberChange:= @DoOnConsoleNumberChange;
+  fmConsole.OnKeyDown:=@DoOnConsoleKeyDown;
   InitSidebar; //after initing PanelCodeTreeAll, EditorOutput, EditorValidate, fmConsole
   InitBookmarkSetup;
 
@@ -8621,6 +8623,37 @@ begin
     end;
   end;
 end;
+
+procedure TfmMain.DoOnConsoleKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+var
+  Ctl: TWinControl;
+  Frame: TEditorFrame;
+begin
+  //handle Tab-key because LCL by default can jump to side-panel form
+  if (Key=VK_TAB) and (Shift=[]) then
+  begin
+    if fmConsole.EdInput.Focused then
+      Ctl:= fmConsole.EdMemo
+    else
+      Ctl:= fmConsole.EdInput;
+    if Ctl.Visible and Ctl.CanFocus then
+      Ctl.SetFocus;
+    Key:= 0;
+    exit
+  end;
+
+  if (Key=VK_ESCAPE) and (Shift=[]) then
+  begin
+    Frame:= CurrentFrame;
+    if Assigned(Frame) then
+      Frame.SetFocus;
+    Key:= 0;
+    exit
+  end;
+
+  inherited KeyDown(Key, Shift);
+end;
+
 
 //----------------------------
 {$I formmain_loadsave.inc}
