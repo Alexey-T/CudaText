@@ -2231,7 +2231,6 @@ procedure TfmMain.TimerAppIdleTimer(Sender: TObject);
 var
   S: UnicodeString;
   Frame: TEditorFrame;
-  bUseSaveSessionInterval: boolean;
   NTick: QWord;
   NCnt, i: integer;
 begin
@@ -2329,16 +2328,9 @@ begin
     DoPyEvent_AppState(APPSTATE_API_SUBCOMMANDS);
   end;
 
-  //if "ui_reopen_session":true, auto-save session (and text of modified tabs) each N seconds
-  if (UiOps.SessionSaveInterval>0) and UiOps.ReopenSession then
-    bUseSaveSessionInterval:= true
-  else
-  if UiOps.SessionSaveInterval<0 then //negative value: force save session
-    bUseSaveSessionInterval:= true
-  else
-    bUseSaveSessionInterval:= false;
-
-  if bUseSaveSessionInterval then
+  //auto-save session (and text of modified tabs) each N seconds
+  if ((UiOps.SessionSaveInterval>0) and UiOps.ReopenSession) or
+     (UiOps.SessionSaveInterval<0) then
   begin
     NTick:= GetTickCount64;
     if FLastSaveSessionTick=0 then
