@@ -3,7 +3,10 @@
   - fixed
   * changed
 
+1.151.2 (2021/12)
+
 + add: commands "Delete"/"Backspace" now handle 'caret near emoji' correctly (thanks @_92)
++ add: drag-drop can be started even in the read-only editor, but you can drop only to another (writable) editor (thanks @66nuts)
 
 1.151.1 (2021/12)
 
