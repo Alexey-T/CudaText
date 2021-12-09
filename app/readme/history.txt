@@ -8,9 +8,6 @@
 + add: commands "Delete"/"Backspace" now handle 'caret near emoji' correctly (thanks @_92)
 + add: drag-drop of text can be started even in the read-only editor, you can drop to another (writable) editor (thanks @66nuts)
 + add: drag-drop of text: toggle the mouse cursor 'simple drag'<->'multi-drag' on pressing/depressing Ctrl (thanks @66nuts)
-
-1.151.1 (2021/12)
-
 + add: option "ui_session_save_interval" allows negative values too, see new description (thanks @MiroslavMatas)
 - fix: Tab-key in the code-tree must not jump to bottom panel, and vice versa (thanks @hiiamboris, @JairoMartinezA)
 - fix: command "codetree: focus filter" didn't work in Linux version
