@@ -3,6 +3,8 @@
   - fixed
   * changed
 
++ add: commands "Delete"/"Backspace" now handle 'caret near emoji' correctly (thanks @_92)
+
 1.151.1 (2021/12)
 
 + add: option "ui_session_save_interval" allows negative values too, see new description (thanks @MiroslavMatas)
