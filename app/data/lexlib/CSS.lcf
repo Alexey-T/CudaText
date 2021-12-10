@@ -279,7 +279,7 @@ object SyntAnal6: TLibSyntAnalyzer
       DisplayName = 'Style'
       StyleName = 'Style'
       TokenType = 2
-      Expression = '\-[\w\-]+ | [\w\#\.][\w\-]*'
+      Expression = '\-[\w\-]+ | [\w\#\.](\\.|[\w\-])*'
       ColumnFrom = 0
       ColumnTo = 0
     end
