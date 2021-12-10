@@ -4,13 +4,17 @@ str2=-->
 styles_cmt=Comment,Comment doc
 styles_str=Text,Tag val
 
+[ref]
+0=CSS
+1=JavaScript
+
 [map]
 Comment=Comment
 Tag bound=TagBound
 Tag id=TagId
 Tag param=TagProp
 Tag val=String
-CDATA bound=IncludeBG1
+CDATA bound=IncludeBG2
 CDATA text=Id1
 Error content=IdBad
 Current tag=SectionBG1
@@ -20,3 +24,4 @@ DTD bound=Symbol
 Spec char=Id4
 Comment doc=CommentDoc
 Text=Id
+Sublexer BG=IncludeBG1

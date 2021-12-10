@@ -1,4 +1,4 @@
-object SyntAnal22: TLibSyntAnalyzer
+object SyntAnal20: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Comment'
@@ -136,6 +136,16 @@ object SyntAnal22: TLibSyntAnalyzer
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
+    end
+    item
+      DisplayName = 'Sublexer BG'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+      BgColor = clMoneyGreen
+      FormatType = ftBackGround
     end>
   TokenRules = <
     item
@@ -158,7 +168,7 @@ object SyntAnal22: TLibSyntAnalyzer
       DisplayName = 'CDATA start'
       StyleName = 'CDATA bound'
       TokenType = 11
-      Expression = '<!\[CDATA\['
+      Expression = '(?i-)<!\[CDATA\['
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -166,14 +176,13 @@ object SyntAnal22: TLibSyntAnalyzer
       DisplayName = 'CDATA text'
       StyleName = 'CDATA text'
       BlockName = 'CDATA begin'
-      Expression = '[^\]\n<>]+'
+      Expression = '[^\]\n\r<>]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
       DisplayName = 'CDATA end'
       StyleName = 'CDATA bound'
-      BlockName = 'CDATA begin'
       TokenType = 14
       Expression = '\]\]>'
       ColumnFrom = 0
@@ -263,7 +272,7 @@ object SyntAnal22: TLibSyntAnalyzer
     item
       DisplayName = 'Text'
       StyleName = 'Text'
-      Expression = '[^<>&\n\[\]\(\)\{\},;/\*]+'
+      Expression = '[^<>&\n\r\[\]\(\)\{\},;/\*]+'
       ColumnFrom = 0
       ColumnTo = 0
     end>
@@ -424,17 +433,6 @@ object SyntAnal22: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
-      DisplayName = 'CDATA end'
-      BlockName = 'CDATA begin'
-      BlockType = btRangeEnd
-      ConditionList = <
-        item
-          TokenTypes = 16384
-        end>
-      HighlightPos = cpBound
-      IgnoreAsParent = False
-    end
-    item
       DisplayName = 'CDATA begin'
       ConditionList = <
         item
@@ -445,9 +443,33 @@ object SyntAnal22: TLibSyntAnalyzer
       HighlightPos = cpBound
       CollapseFmt = 'CDATA'
       IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'CDATA end'
+      BlockType = btRangeEnd
+      ConditionList = <
+        item
+          TokenTypes = 16384
+        end>
+      HighlightPos = cpBound
+      IgnoreAsParent = False
     end>
   CodeTemplates = <>
-  SubAnalyzers = <>
+  SubAnalyzers = <
+    item
+      DisplayName = 'CSS style'
+      StyleName = 'Sublexer BG'
+      StartExpression = '<style\s+type="text/css"\s*>\s*<!\[CDATA\['
+      EndExpression = '\]\]'
+      SyntAnalyzer = SyntAnal6
+    end
+    item
+      DisplayName = 'JS script'
+      StyleName = 'Sublexer BG'
+      StartExpression = '<script\s+[^>]*?javascript[^>]*?>\s*<!\[CDATA\['
+      EndExpression = '\]\]'
+      SyntAnalyzer = SyntAnal9
+    end>
   SampleText.Strings = (
     '<?xml version="1.0" encoding="utf8" ?>'
     '<!-- comment -->'
