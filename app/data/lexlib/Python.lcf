@@ -1,4 +1,4 @@
-object SyntAnal16: TLibSyntAnalyzer
+object SyntAnal18: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Number'
@@ -273,7 +273,7 @@ object SyntAnal16: TLibSyntAnalyzer
       DisplayName = 'Symbol'
       StyleName = 'Symbol'
       TokenType = 3
-      Expression = '[/\*,\.;=<>\+\-\^!%\\\|~&]+'
+      Expression = '[/\*,\.;=<>\+\-\^!%\\\|~&]+ | :='
       ColumnFrom = 0
       ColumnTo = 0
     end
