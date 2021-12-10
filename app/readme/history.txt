@@ -6,7 +6,8 @@
 1.151.5 (2021/12)
 
 + add: lexer HTML: add sub-lexer 'HTML style' to highlight style="..." blocks like CSS does
-+ add: lexer XML: support inclusions of CSS and JS blocks inside 'CDATA'
++ add: lexer XML: support inclusion of CSS and JS blocks inside 'CDATA'
++ add: lexer CSS: support backslash-escapes in names
 + add: commands Delete/Backspace now handle the caret near emoji (thanks @_92)
 + add: drag-drop of text can be started even in the read-only editor, you can drop to another (writable) editor (thanks @66nuts)
 + add: drag-drop of text: toggle the mouse cursor 'simple drag'<->'multi-drag' on pressing/depressing Ctrl (thanks @66nuts)
