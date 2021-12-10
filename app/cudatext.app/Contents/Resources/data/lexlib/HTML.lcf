@@ -214,13 +214,6 @@ object SyntAnal8: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Symbol'
-      StyleName = 'Tag bound'
-      Expression = '[:\{\}]'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
       DisplayName = 'Tag param'
       StyleName = 'Tag string'
       BlockName = 'Tag begin'
@@ -256,7 +249,7 @@ object SyntAnal8: TLibSyntAnalyzer
       StyleName = 'Tag unknown text'
       BlockName = 'Tag begin'
       TokenType = 2
-      Expression = '[\w\-:\./]+'
+      Expression = '[\w\-\.][\w\-:\./]*'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -265,6 +258,13 @@ object SyntAnal8: TLibSyntAnalyzer
       StyleName = 'Entity'
       TokenType = 9
       Expression = '&\#?\w+;'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Other symbols'
+      StyleName = 'Tag bound'
+      Expression = '[:\{\}"]'
       ColumnFrom = 0
       ColumnTo = 0
     end
