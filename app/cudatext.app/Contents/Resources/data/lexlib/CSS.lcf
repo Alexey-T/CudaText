@@ -1,4 +1,4 @@
-object SyntAnal7: TLibSyntAnalyzer
+object SyntAnal6: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Style'
@@ -103,7 +103,7 @@ object SyntAnal7: TLibSyntAnalyzer
     item
       DisplayName = 'PHP tag'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clRed
+      Font.Color = clOlive
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsBold]
@@ -235,6 +235,14 @@ object SyntAnal7: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
+      DisplayName = 'PHP tag'
+      StyleName = 'PHP tag'
+      TokenType = 8
+      Expression = '<\?php | <\? | \?>'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
       DisplayName = '@Property'
       StyleName = 'Media'
       TokenType = 11
@@ -279,15 +287,7 @@ object SyntAnal7: TLibSyntAnalyzer
       DisplayName = 'Symbol'
       StyleName = 'Symbol'
       TokenType = 3
-      Expression = '[;:,%\(\)\[\]@=/\*>\-\+!\^\$\|~]'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
-      DisplayName = 'PHP tag'
-      StyleName = 'PHP tag'
-      TokenType = 8
-      Expression = '<\?php | <\? | \?>'
+      Expression = '\]\]> | [;:,%\(\)\[\]@=/\*<>\-\+!\^\$\|~]'
       ColumnFrom = 0
       ColumnTo = 0
     end>
@@ -2352,7 +2352,7 @@ object SyntAnal7: TLibSyntAnalyzer
       DisplayName = 'PHP'
       StartExpression = '<\?(php)?'
       EndExpression = '\?>'
-      SyntAnalyzer = SyntAnal16
+      SyntAnalyzer = SyntAnal15
     end>
   SampleText.Strings = (
     '/* Comment */'

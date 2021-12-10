@@ -1,0 +1,14 @@
+[comments]
+str1=/*
+str2=*/
+styles_cmt=Comment
+styles_str=String
+[map]
+Prop=TagProp
+Value=Id2
+Symbol=Symbol
+Comment=Comment
+Color=Color
+String=String
+Number=Number
+Value unit=Id3

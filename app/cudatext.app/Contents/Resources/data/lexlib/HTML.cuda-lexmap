@@ -4,15 +4,12 @@
 2=JavaScript
 3=JavaScript
 4=VBScript
-5=CSS
-6=CSS
-
+5=HTML style
 [comments]
 str1=<!--
 str2=-->
 styles_cmt=Comment,Comment doc
 styles_str=Text,Tag string
-
 [map]
 Text=Id
 Tag bound=TagBound
