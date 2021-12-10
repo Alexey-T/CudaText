@@ -63,6 +63,22 @@ object SyntAnal7: TLibSyntAnalyzer
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
+    end
+    item
+      DisplayName = 'Text'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Id func'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlue
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
     end>
   TokenRules = <
     item
@@ -117,15 +133,38 @@ object SyntAnal7: TLibSyntAnalyzer
       DisplayName = 'Value unit'
       StyleName = 'Value unit'
       TokenType = 7
-      Expression = '(?<=\b\d+)[a-z%]+'
+      Expression = '(?<=\d)[a-z%]+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Text'
+      StyleName = 'Text'
+      TokenType = 8
+      Expression = '\w+'
       ColumnFrom = 0
       ColumnTo = 0
     end>
-  BlockRules = <>
+  BlockRules = <
+    item
+      DisplayName = 'Id func'
+      StyleName = 'Id func'
+      BlockType = btTagDetect
+      ConditionList = <
+        item
+          TagList.Strings = (
+            'rgb'
+            'rgba'
+            'url')
+          TokenTypes = 256
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end>
   CodeTemplates = <>
   SubAnalyzers = <>
   SampleText.Strings = (
-    'color: #f00; margin: 10px+10% ; background: url('#39'text'#39')')
+    'color: #f00; margin: 10px+10% ; background: url('#39'text'#39') text')
   TokenTypeNames.Strings = (
     'Unknown'
     'Comment'
@@ -134,7 +173,8 @@ object SyntAnal7: TLibSyntAnalyzer
     'Number'
     'Symbol'
     'Color'
-    'Value unit')
+    'Value unit'
+    'Text')
   LexerName = 'HTML style'
   Notes.Strings = (
     'Alexey (CudaText)')
