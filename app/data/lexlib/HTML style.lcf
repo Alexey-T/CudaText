@@ -1,0 +1,143 @@
+object SyntAnal7: TLibSyntAnalyzer
+  Formats = <
+    item
+      DisplayName = 'Prop'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clGreen
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Value'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clPurple
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Symbol'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clMaroon
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+    end
+    item
+      DisplayName = 'Comment'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clGray
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsItalic]
+    end
+    item
+      DisplayName = 'Color'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clLime
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+    end
+    item
+      DisplayName = 'String'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clTeal
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Number'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clNavy
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+    end
+    item
+      DisplayName = 'Value unit'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clRed
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end>
+  TokenRules = <
+    item
+      DisplayName = 'String'
+      StyleName = 'String'
+      TokenType = 3
+      Expression = #39'.*?('#39'|$)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Comment'
+      StyleName = 'Comment'
+      TokenType = 1
+      Expression = '/\*.*?(\*/|$)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Number'
+      StyleName = 'Number'
+      TokenType = 4
+      Expression = '\d+(\.\d+)?'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Symbol'
+      StyleName = 'Symbol'
+      TokenType = 5
+      Expression = '[";:\.,<>\(\)\[\]]'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Color'
+      StyleName = 'Color'
+      TokenType = 6
+      Expression = '\#\h{3,6}\b'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Prop'
+      StyleName = 'Prop'
+      TokenType = 2
+      Expression = '[a-z_][\w\-]*(?=\x20*:)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Value unit'
+      StyleName = 'Value unit'
+      TokenType = 7
+      Expression = '(?<=\b\d+)[a-z%]+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end>
+  BlockRules = <>
+  CodeTemplates = <>
+  SubAnalyzers = <>
+  SampleText.Strings = (
+    'color: #f00; margin: 10px+10% ; background: url('#39'text'#39')')
+  TokenTypeNames.Strings = (
+    'Unknown'
+    'Comment'
+    'Prop'
+    'String'
+    'Number'
+    'Symbol'
+    'Color'
+    'Value unit')
+  LexerName = 'HTML style'
+  Notes.Strings = (
+    'Alexey (CudaText)')
+  Internal = True
+  Charset = DEFAULT_CHARSET
+end
