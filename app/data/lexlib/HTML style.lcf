@@ -79,6 +79,14 @@ object SyntAnal7: TLibSyntAnalyzer
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
+    end
+    item
+      DisplayName = 'URL'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clFuchsia
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
     end>
   TokenRules = <
     item
@@ -114,6 +122,14 @@ object SyntAnal7: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
+      DisplayName = 'URL()'
+      StyleName = 'URL'
+      TokenType = 9
+      Expression = '(?i-)(?<=\burl\()[^\)]+?(?=\))'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
       DisplayName = 'Color'
       StyleName = 'Color'
       TokenType = 6
@@ -133,7 +149,7 @@ object SyntAnal7: TLibSyntAnalyzer
       DisplayName = 'Value unit'
       StyleName = 'Value unit'
       TokenType = 7
-      Expression = '(?<=\d)[a-z%]+'
+      Expression = '(?<=\b\d+)[a-z%]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -141,7 +157,7 @@ object SyntAnal7: TLibSyntAnalyzer
       DisplayName = 'Text'
       StyleName = 'Text'
       TokenType = 8
-      Expression = '\w+'
+      Expression = '[\w/\.]+'
       ColumnFrom = 0
       ColumnTo = 0
     end>
@@ -164,7 +180,9 @@ object SyntAnal7: TLibSyntAnalyzer
   CodeTemplates = <>
   SubAnalyzers = <>
   SampleText.Strings = (
-    'color: #f00; margin: 10px+10% ; background: url('#39'text'#39') text')
+    
+      'color: #f00; margin: 10px+10% ; prop_: url(http://www.com) '#39'text' +
+      #39' text')
   TokenTypeNames.Strings = (
     'Unknown'
     'Comment'
@@ -174,7 +192,8 @@ object SyntAnal7: TLibSyntAnalyzer
     'Symbol'
     'Color'
     'Value unit'
-    'Text')
+    'Text'
+    'URL')
   LexerName = 'HTML style'
   Notes.Strings = (
     'Alexey (CudaText)')
