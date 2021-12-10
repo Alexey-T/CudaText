@@ -218,7 +218,7 @@ object SyntAnal8: TLibSyntAnalyzer
       StyleName = 'Tag string'
       BlockName = 'Tag begin'
       TokenType = 4
-      Expression = '(?s) (?<=\=\x20*) ("|'#39') (<\?.+?\?>|.)*? (\1|\Z)'
+      Expression = '(?s) (?<=[\=\{:,]\x20*) ("|'#39') (<\?.+?\?>|.)*? (\1|\Z)'
       ColumnFrom = 0
       ColumnTo = 0
     end
