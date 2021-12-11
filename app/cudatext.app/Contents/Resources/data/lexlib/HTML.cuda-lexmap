@@ -1,10 +1,11 @@
 [ref]
 0=CSS
 1=VBScript
-2=JavaScript
+2=JSON
 3=JavaScript
-4=VBScript
-5=HTML style
+4=JavaScript
+5=VBScript
+6=HTML style
 [comments]
 str1=<!--
 str2=-->
