@@ -109,7 +109,7 @@ object SyntAnal7: TLibSyntAnalyzer
       DisplayName = 'Number'
       StyleName = 'Number'
       TokenType = 4
-      Expression = '\d+(\.\d+)?'
+      Expression = '[\-\+]? \d*\.?\d+ (e[\-\+]?\d+)?'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -141,7 +141,7 @@ object SyntAnal7: TLibSyntAnalyzer
       DisplayName = 'Prop'
       StyleName = 'Prop'
       TokenType = 2
-      Expression = '[a-z_][\w\-]*(?=\x20*:)'
+      Expression = '[a-z_\-][\w\-]*(?=\x20*:)'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -181,8 +181,8 @@ object SyntAnal7: TLibSyntAnalyzer
   SubAnalyzers = <>
   SampleText.Strings = (
     
-      'color: #f00; margin: 10px+10% ; prop_: url(http://www.com) '#39'text' +
-      #39' text')
+      'color: #f00; margin: .25e+2em 10% ; prop_: url(http://www.com) '#39 +
+      'text'#39' text')
   TokenTypeNames.Strings = (
     'Unknown'
     'Comment'
@@ -198,5 +198,6 @@ object SyntAnal7: TLibSyntAnalyzer
   Notes.Strings = (
     'Alexey (CudaText)')
   Internal = True
+  RestartFromLineStart = True
   Charset = DEFAULT_CHARSET
 end
