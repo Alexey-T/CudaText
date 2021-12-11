@@ -122,10 +122,10 @@ object SyntAnal7: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'URL()'
+      DisplayName = 'URL'
       StyleName = 'URL'
       TokenType = 9
-      Expression = '(?i-)(?<=\burl\()[^\)]+?(?=\))'
+      Expression = '(?i-)(?<=\burl\()[^\)]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -157,7 +157,7 @@ object SyntAnal7: TLibSyntAnalyzer
       DisplayName = 'Text'
       StyleName = 'Text'
       TokenType = 8
-      Expression = '[\w/\.]+'
+      Expression = '[\w/\.\-]+'
       ColumnFrom = 0
       ColumnTo = 0
     end>
