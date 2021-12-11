@@ -790,11 +790,12 @@ object SyntAnal8: TLibSyntAnalyzer
       AlwaysEnabled = True
       StartExpression = '(?si)<script[^>]*vbscript[^>]*>\s*(<!--)?'
       EndExpression = '(?i)(-->)?\s*</script>'
+      SyntAnalyzer = SyntAnal21
     end
     item
       DisplayName = 'JSON'
       StyleName = 'Sublexer BG'
-      StartExpression = '(?s)<script\s[^>]* "application/json" (<\?.+?\?>|[^>\?])*?> \s*'
+      StartExpression = '(?s)<script\s[^>]* application/json (<\?.+?\?>|[^>\?])*?> \s*'
       EndExpression = '</script\s*>'
       SyntAnalyzer = SyntAnal12
     end
@@ -821,6 +822,7 @@ object SyntAnal8: TLibSyntAnalyzer
       AlwaysEnabled = True
       StartExpression = '<%'
       EndExpression = '%>'
+      SyntAnalyzer = SyntAnal21
     end
     item
       DisplayName = 'HTML style'
