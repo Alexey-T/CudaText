@@ -779,17 +779,15 @@ object SyntAnal8: TLibSyntAnalyzer
     item
       DisplayName = 'CSS tag'
       StyleName = 'Sublexer BG'
-      AlwaysEnabled = True
-      StartExpression = '(?si)<style[^>]*>'
+      StartExpression = '<style[^>]*>'
       EndExpression = '</style>'
       SyntAnalyzer = SyntAnal6
     end
     item
       DisplayName = 'VBScript'
       StyleName = 'Sublexer BG'
-      AlwaysEnabled = True
-      StartExpression = '(?si)<script[^>]*vbscript[^>]*>\s*(<!--)?'
-      EndExpression = '(?i)(-->)?\s*</script>'
+      StartExpression = '<script[^>]*vbscript[^>]*>\s*(<!--)?'
+      EndExpression = '(-->)?\s*</script>'
       SyntAnalyzer = SyntAnal21
     end
     item
@@ -802,24 +800,22 @@ object SyntAnal8: TLibSyntAnalyzer
     item
       DisplayName = 'JavaScript'
       StyleName = 'Sublexer BG'
-      AlwaysEnabled = True
       StartExpression = 
-        '(?si)<script\s[^>]* (j|java|ecma|paper)script (<\?.+?\?>|[^>\?])' +
-        '*?> \s*(<!\-\-)?'
-      EndExpression = '(?i)(//)?(\-\->)?\s*</script\s*>'
+        '(?s)<script\s[^>]* (j|java|ecma|paper)script (<\?.+?\?>|[^>\?])*' +
+        '?> \s*(<!\-\-)?'
+      EndExpression = '(//)?(\-\->)?\s*</script\s*>'
       SyntAnalyzer = SyntAnal10
     end
     item
       DisplayName = 'JavaScript simple'
       StyleName = 'Sublexer BG'
-      StartExpression = '<script\b.*?>'
+      StartExpression = '<script\b[^>]*>'
       EndExpression = '</script\s*>'
       SyntAnalyzer = SyntAnal10
     end
     item
       DisplayName = 'ASP'
       StyleName = 'Sublexer BG'
-      AlwaysEnabled = True
       StartExpression = '<%'
       EndExpression = '%>'
       SyntAnalyzer = SyntAnal21
