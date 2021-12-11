@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.151.5 (2021/12)
+1.152.0 (2021/12)
 
 + add: lexer HTML: add sub-lexer 'HTML style' to highlight style="..." blocks like CSS does
 + add: lexer HTML: support inclusions of JSON blocks
@@ -13,7 +13,7 @@
 + add: drag-drop of text can be started even in the read-only editor, you can drop to another (writable) editor (thanks @66nuts)
 + add: drag-drop of text: toggle the mouse cursor 'simple drag'<->'multi-drag' on pressing/depressing Ctrl (thanks @66nuts)
 + add: option "ui_session_save_interval" allows negative values too, see new description (thanks @MiroslavMatas)
-- fix: crash on very long line length=120K, with wrap=off (thanks Ertan)
+- fix: crash on very long line length=120K, with lexer active and wrap=off (thanks Ertan)
 - fix: Tab-key in the code-tree must not jump to bottom panel, and vice versa (thanks @hiiamboris, @JairoMartinezA)
 - fix: command "codetree: focus filter" didn't work in Linux version
 
