@@ -103,7 +103,7 @@ object SyntAnal6: TLibSyntAnalyzer
     item
       DisplayName = 'PHP tag'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clOlive
+      Font.Color = clRed
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsBold]
@@ -159,10 +159,10 @@ object SyntAnal6: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'String in func'
+      DisplayName = 'URL w/o quotes'
       StyleName = 'String'
       TokenType = 4
-      Expression = '(?<=url \x20* \() .*? (?=\))'
+      Expression = '(?-i)(?<=\burl\x20*\() [^\)\n\r]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
