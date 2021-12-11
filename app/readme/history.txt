@@ -14,6 +14,7 @@
 + add: drag-drop of text: toggle the mouse cursor 'simple drag'<->'multi-drag' on pressing/depressing Ctrl (thanks @66nuts)
 + add: option "ui_session_save_interval" allows negative values too, see new description (thanks @MiroslavMatas)
 + add: Tab-key in the code-tree (focused treeview or filter) should not jump to bottom panel (console input/log), and vice versa (thanks @hiiamboris, @JairoMartinezA)
+- fix: Qt5/macOS: major fix for the text cropped on left, when "renderer_tweaks" misses 'w' (thanks @somewhat)
 - fix: crash on very long line length=120K, with lexer active and wrap=off (thanks Ertan)
 - fix: command "codetree: focus filter" didn't work in gtk2/qt5 versions
 
