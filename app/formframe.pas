@@ -223,7 +223,7 @@ type
     procedure EditorOnDrawBookmarkIcon(Sender: TObject; C: TCanvas; ALineNum: integer; const ARect: TRect);
     procedure EditorOnEnter(Sender: TObject);
     procedure EditorOnDrawLine(Sender: TObject; C: TCanvas; ALineIndex, AX, AY: integer;
-      const AStr: atString; ACharSize: TATEditorCharSize; constref AExtent: TATIntFixedArray);
+      const AStr: atString; const ACharSize: TATEditorCharSize; constref AExtent: TATIntFixedArray);
     procedure EditorOnCalcBookmarkColor(Sender: TObject; ABookmarkKind: integer; var AColor: TColor);
     procedure EditorOnHotspotEnter(Sender: TObject; AHotspotIndex: integer);
     procedure EditorOnHotspotExit(Sender: TObject; AHotspotIndex: integer);
@@ -886,7 +886,7 @@ end;
 
 
 procedure TEditorFrame.EditorOnDrawLine(Sender: TObject; C: TCanvas;
-  ALineIndex, AX, AY: integer; const AStr: atString; ACharSize: TATEditorCharSize;
+  ALineIndex, AX, AY: integer; const AStr: atString; const ACharSize: TATEditorCharSize;
   constref AExtent: TATIntFixedArray);
 var
   Ed: TATSynEdit;
