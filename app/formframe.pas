@@ -815,8 +815,10 @@ begin
 end;
 
 procedure TEditorFrame.EditorOnChangeCaretPos(Sender: TObject);
+{$ifdef linux}
 const
   cMaxSelectedLinesForAutoCopy = 200;
+{$endif}
 var
   Params: TAppVariantArray;
   Ed: TATSynEdit;
@@ -1424,8 +1426,6 @@ begin
 end;
 
 procedure TEditorFrame.UpdatePinned(Ed: TATSynEdit; AWithEvent: boolean);
-var
-  Params: TAppVariantArray;
 begin
   if TabPinned then
     DoRemovePreviewStyle;
@@ -2639,7 +2639,6 @@ var
   PrevTail: boolean;
   Mode: TAppOpenMode;
   SFileName: string;
-  Params: TAppVariantArray;
 begin
   Result:= true;
   SFileName:= GetFileName(Ed);

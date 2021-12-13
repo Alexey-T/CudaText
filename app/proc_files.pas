@@ -279,8 +279,10 @@ end;
 
 
 procedure AppBrowseToFilenameInShell(const fn: string);
+{$ifdef windows}
 var
   Params: string;
+{$endif}
 begin
   if fn='' then exit;
   {$ifdef windows}

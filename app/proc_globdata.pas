@@ -36,7 +36,6 @@ uses
   ATStringProc,
   ATStringProc_Separator,
   ATFlatThemes,
-  ATListbox,
   ATStatusBar,
   ATScrollBar,
   ATTabs,
@@ -2902,8 +2901,10 @@ end;
 
 
 function RemoveWindowsStreamSuffix(const fn: string): string;
+{$ifdef windows}
 var
   PosSlash, PosColon: integer;
+{$endif}
 begin
   Result:= fn;
   {$ifdef windows}

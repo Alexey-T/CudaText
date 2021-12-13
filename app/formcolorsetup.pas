@@ -21,8 +21,7 @@ uses
   formlexerstyle,
   proc_msg,
   proc_globdata,
-  proc_colors,
-  proc_miscutils;
+  proc_colors;
 
 type
   TApplyThemeEvent = procedure(const AColors: TAppTheme) of object;
