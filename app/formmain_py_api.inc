@@ -2967,7 +2967,7 @@ begin
       'max', AInfo.NMax,
       'page', AInfo.NPage,
       'pixels', AInfo.NPixelOffset,
-      'char_size', AInfo.SmoothCharSize,
+      'char_size', AInfo.CharSizeScaled div ATEditorCharXScale,
       'smooth_pos', AInfo.SmoothPos,
       'smooth_pos_last', AInfo.SmoothPosLast,
       'smooth_max', AInfo.SmoothMax,
