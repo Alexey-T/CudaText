@@ -5405,7 +5405,9 @@ begin
   end;
   ASeconds:= Min(ASeconds, UiOps.AltTooltipTimeMax);
 
-  WorkRect:= Screen.WorkAreaRect;
+  //not Screen.WorkAreaRect, see issue #3866
+  WorkRect:= Screen.DesktopRect;
+
   if FFormTooltip=nil then
   begin
     FFormTooltip:= TForm.CreateNew(nil);
