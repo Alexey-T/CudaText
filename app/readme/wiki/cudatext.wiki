@@ -338,6 +338,7 @@ Most of them are located in the Addons Manager "Install" list.
 * AutoHotkey
 * AutoIt
 * Automake
+* Automation Basic (B&R Automation Studio)
 * AviSynth
 * AWK
 * Ballerina
