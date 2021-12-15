@@ -1,4 +1,4 @@
-object SyntAnal8: TLibSyntAnalyzer
+object SyntAnal9: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Text'
@@ -779,53 +779,51 @@ object SyntAnal8: TLibSyntAnalyzer
     item
       DisplayName = 'CSS tag'
       StyleName = 'Sublexer BG'
-      StartExpression = '<style[^>]*>'
+      StartExpression = '<style[^>]*>\z?'
       EndExpression = '</style>'
-      SyntAnalyzer = SyntAnal6
+      SyntAnalyzer = SyntAnal7
     end
     item
       DisplayName = 'VBScript'
       StyleName = 'Sublexer BG'
-      StartExpression = '<script[^>]*vbscript[^>]*>\s*(<!--)?'
+      StartExpression = '<script[^>]*vbscript[^>]*>\z?(<!--)?'
       EndExpression = '(-->)?\s*</script>'
-      SyntAnalyzer = SyntAnal21
     end
     item
       DisplayName = 'JSON'
       StyleName = 'Sublexer BG'
-      StartExpression = '(?s)<script\s[^>]* application/json (<\?.+?\?>|[^>\?])*?> \s*'
+      StartExpression = '(?s)<script\s[^>]* application/json (<\?.+?\?>|[^>\?])*?> \z?'
       EndExpression = '</script\s*>'
-      SyntAnalyzer = SyntAnal12
+      SyntAnalyzer = SyntAnal13
     end
     item
       DisplayName = 'JavaScript'
       StyleName = 'Sublexer BG'
       StartExpression = 
         '(?s)<script\s[^>]* (j|java|ecma|paper)script (<\?.+?\?>|[^>\?])*' +
-        '?> \s*(<!\-\-)?'
+        '?> \z? (<!\-\-)?'
       EndExpression = '(//)?(\-\->)?\s*</script\s*>'
-      SyntAnalyzer = SyntAnal10
+      SyntAnalyzer = SyntAnal11
     end
     item
       DisplayName = 'JavaScript simple'
       StyleName = 'Sublexer BG'
-      StartExpression = '<script\b[^>]*>'
+      StartExpression = '<script\b[^>]*>\z?'
       EndExpression = '</script\s*>'
-      SyntAnalyzer = SyntAnal10
+      SyntAnalyzer = SyntAnal11
     end
     item
       DisplayName = 'ASP'
       StyleName = 'Sublexer BG'
-      StartExpression = '<%'
+      StartExpression = '<%\z?'
       EndExpression = '%>'
-      SyntAnalyzer = SyntAnal21
     end
     item
       DisplayName = 'HTML style'
       StyleName = 'Sublexer BG'
       StartExpression = '(?<=\bstyle\x20*=\x20*)"'
       EndExpression = '"'
-      SyntAnalyzer = SyntAnal7
+      SyntAnalyzer = SyntAnal8
     end>
   SampleText.Strings = (
     '<!doctype test="123">'
