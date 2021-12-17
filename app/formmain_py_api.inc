@@ -3012,6 +3012,7 @@ var
   Ada: TATAdapterEControl;
   Lex: TecSyntAnalyzer;
   Sep: TATStringSeparator;
+  CharSize: TATEditorCharSize;
 begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'Lis:get_prop', @H, @Id, @Ptr)) then
@@ -3441,7 +3442,10 @@ begin
 
         PROP_CELL_SIZE:
           begin
-            Result:= Py_BuildValue('(ii)', Ed.TextCharSize.XScaled div ATEditorCharXScale, Ed.TextCharSize.Y);
+            CharSize:= Ed.TextCharSize;
+            Result:= Py_BuildValue('(ii)',
+                       integer(CharSize.XScaled div ATEditorCharXScale),
+                       integer(CharSize.Y));
           end;
 
         PROP_MODERN_SCROLLBAR:
