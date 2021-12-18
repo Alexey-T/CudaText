@@ -5,6 +5,7 @@
 
 1.152.1 (2021/12)
 
+- fix: commands "carets extend: ..." did not respect option "caret_proximity_vert" (thanks @hiiamboris)
 - fix: plugin Comments: bug with selection which is _backward_ and until start-of-line (thanks @hiiamboris)
 
 1.152.0 (2021/12)
