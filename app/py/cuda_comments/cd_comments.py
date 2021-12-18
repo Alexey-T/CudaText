@@ -157,7 +157,7 @@ class Command:
                     row1st = i
                     break
             if row1st<0:
-                app.msg_status(_('Cannot handle blank lines only'))
+                app.msg_status(_('Cannot handle blank lines / multi-carets'))
                 return
         else:
             row1st = rWrks[0]
