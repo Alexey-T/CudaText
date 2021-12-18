@@ -3,7 +3,7 @@ Authors:
     Andrey Kvichansky (kvichans on github.com)
     Alexey Torgashin (CudaText)
 Version:
-    '0.9.0 2021-07-20'
+    '0.9.1 2021-12-18'
 '''
 
 import  os
@@ -103,7 +103,7 @@ class Command:
 #       if not apx._check_API('1.0.108'):    return
         lex         = ed_.get_prop(app.PROP_LEXER_CARET)
         if not lex:
-            return
+            return app.msg_status(_('Commenting requires an active lexer'))
         prop        = app.lexer_proc(app.LEXER_GET_PROP, lex)
         if not prop:
             return
@@ -121,12 +121,14 @@ class Command:
         if False:pass
         elif ed_.get_sel_mode() == app.SEL_NORMAL:
             empty_sel     = 1==len(crts) and -1==crts[0][3]
-            for (cCrt, rCrt ,cEnd, rEnd) in crts:
-                (rCrtMin
-                ,rCrtMax)   = apx.minmax(rCrt, rEnd if -1!=rEnd else rCrt)
-                if -1!=rEnd and rCrt>rEnd and 0==cCrt:
-                    rCrtMax = rCrtMax-1    # For direct section along left bound
-                rWrks      += list(range(rCrtMin, rCrtMax+1))
+            for (cCrt, rCrt, cEnd, rEnd) in crts:
+                # sort 2 pairs
+                if rEnd>=0 and (rCrt, cCrt)>(rEnd, cEnd):
+                    cCrt, rCrt, cEnd, rEnd = cEnd, rEnd, cCrt, rCrt
+                # selection until start of line?
+                if rEnd>=0 and cEnd==0:
+                    rEnd -= 1
+                rWrks      += list(range(rCrt, rEnd+1))
             use_rep_lines  = use_rep_lines and 1==len(crts)
         elif ed_.get_sel_mode() == app.SEL_COLUMN:
             (cBgn
@@ -150,7 +152,8 @@ class Command:
             # find index of first non-blank line
             row1st = -1
             for i in range(y1, y2+1):
-                if ed_.get_text_line(i).strip():
+                sline = ed_.get_text_line(i)
+                if sline and sline.strip():
                     row1st = i
                     break
             if row1st<0:
