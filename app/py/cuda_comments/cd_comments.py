@@ -126,7 +126,7 @@ class Command:
                 if rEnd>=0 and (rCrt, cCrt)>(rEnd, cEnd):
                     cCrt, rCrt, cEnd, rEnd = cEnd, rEnd, cCrt, rCrt
                 # selection until start of line?
-                if rEnd>=0 and cEnd==0:
+                if rEnd>0 and cEnd==0:
                     rEnd -= 1
                 rWrks      += list(range(rCrt, rEnd+1))
             use_rep_lines  = use_rep_lines and 1==len(crts)
