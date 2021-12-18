@@ -3,11 +3,6 @@
   - fixed
   * changed
 
-1.152.1 (2021/12)
-
-- fix: commands "carets extend: ..." did not respect option "caret_proximity_vert" (thanks @hiiamboris)
-- fix: plugin Comments: bug with selection which is _backward_ and until start-of-line (thanks @hiiamboris)
-
 1.152.0 (2021/12)
 
 + add: lexer HTML: add sub-lexer 'HTML style' to highlight style="..." blocks like CSS does
@@ -19,9 +14,11 @@
 + add: drag-drop of text: toggle the mouse cursor 'simple drag'<->'multi-drag' on pressing/depressing Ctrl (thanks @66nuts)
 + add: option "ui_session_save_interval" allows negative values too, see new description (thanks @MiroslavMatas)
 + add: Tab-key in the code-tree (focused treeview or filter) should not jump to bottom panel (console input/log), and vice versa (thanks @hiiamboris, @JairoMartinezA)
+- fix: commands "carets extend: ..." did not respect option "caret_proximity_vert" (thanks @hiiamboris)
+- fix: plugin Comments: bug with selection which is _backward_ and until start-of-line (thanks @hiiamboris)
 - fix: Qt5/macOS: major fix for the text cropped on left, when "renderer_tweaks" misses 'w' (thanks @somewhat)
 - fix: crash on very long line length=120K, with lexer active and wrap=off (thanks Ertan)
-- fix: command "codetree: focus filter" didn't work in gtk2/qt5 versions
+- fix: command "codetree: focus filter" didn't work in GTK2/Qt5 versions
 
 1.151.0 (2021/12)
 
