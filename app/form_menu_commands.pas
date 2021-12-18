@@ -621,7 +621,7 @@ begin
   begin
     ini:= TIniFile.Create(fn);
     try
-      edit.OptTextHint:= ini.ReadString(section, 'cmd_tip', edit.OptTextHint);
+      msgCmdPaletteTextHint:= ini.ReadString(section, 'cmd_tip', msgCmdPaletteTextHint);
     finally
       FreeAndNil(ini);
     end;
