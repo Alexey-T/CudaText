@@ -250,9 +250,11 @@
   //Shift text area to the right, so text will look "centered".
   //  If value=0: no shifting.
   //  If value>0, text area is shifted, so N first characters in lines look "centered".
+  //Note: don't set small value here, use rather big value like 80 or more.
   "centering_width": 0,
 
   //Same as "centering_width", but it's applied in the Distraction-Free mode.
+  //Note: don't set small value here, use rather big value like 80 or more.
   "centering_for_distraction_free": 0,
 
   //Zebra mode, ie additional coloring of N-th lines (N=2 by default).
