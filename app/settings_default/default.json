@@ -1084,7 +1084,7 @@
   //Keys Left/Right-arrows: with "caret_after_end":false, option allows carets
   //(when at least 2 carets exist) go to next/previous line.
   //(a: caret is at the line start and Left-arrow pressed,
-  //b: caret is at the line end and Right pressed.)
+  //b: caret is at the line end and Right-arrow pressed.)
   "key_left_right_wrap_with_carets": true,
 
   //Keys Left/Right-arrows: try to jump to opposite selection edge.
@@ -1127,8 +1127,9 @@
   //Statusbar is visible.
   "ui_statusbar_show": true,
 
-  //Statusbar panels list. Can skip items, can reorder items.
-  //Allowed panel names:
+  //Statusbar panels list. Can skip and reorder panels.
+  //Panels are "|"-separated, where each item is ","-separated: name, alignment, width.
+  //Panel names:
   //    caret  : Caret(s) info.
   //    enc    : Encoding name.
   //    ends   : Line ends characters.
@@ -1142,8 +1143,11 @@
   //             Change zoom value by Command Palette commands "current document font size: bigger/smaller",
   //             and by Ctrl+<Mouse wheel> (when option "mouse_wheel_zoom":true).
   //    msg    : Messages from CudaText and plugins. Panel should be auto-sized.
-  //Allowed panel alignments:
-  //    C (center), L (left), R (right), A (auto-size).
+  //Panel alignments:
+  //    C: center
+  //    L: left
+  //    R: right
+  //    A: auto-sized (size adjusts to text)
   "ui_statusbar_panels": "caret,C,180|enc,C,125|ends,A,45|lexer,C,140|tabsize,A,75|selmode,A,15|msg,L,4000",
 
   //Statusbar messages: show time in seconds.
