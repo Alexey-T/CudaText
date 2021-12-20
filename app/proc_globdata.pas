@@ -1406,7 +1406,7 @@ const
       ('Monaco', 'Liberation Mono', 'DejaVu Sans Mono');
       {$else}
         {$ifdef haiku}
-        ('Noto', 'Monoid Nerd', '');
+        ('Noto Sans Mono', '', '');
         {$else}
         ('DejaVu Sans Mono', 'Liberation Mono', 'Courier New');
         {$endif}
