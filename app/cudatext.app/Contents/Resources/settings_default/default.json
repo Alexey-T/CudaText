@@ -614,7 +614,7 @@
 
   //[Text/Caret]
   //Allow to place caret after end-of-line (virtual caret position),
-  //and allow caret to go to previous line when Left is pressed at line start.
+  //and allow caret to go to previous line when Left-arrow is pressed at line start.
   "caret_after_end": false,
 
   //Caret blinking interval (in msec).
@@ -647,8 +647,8 @@
   //  1: left-bottom
   //  2: right-bottom
   //  3: right-top
-  //  4: carets column on left
-  //  5: carets column on right
+  //  4: carets column on the left
+  //  5: carets column on the right
   "caret_after_paste_column": 5,
 
   //Keep caret on visible screen area, on commands "Scroll line up/down".
@@ -1081,16 +1081,16 @@
   //when Down key is pressed on last line - jump to the very ending.
   "key_up_down_allow_edge": false,
 
-  //Keys Left/Right: with "caret_after_end":false, option allows carets
+  //Keys Left/Right-arrows: with "caret_after_end":false, option allows carets
   //(when at least 2 carets exist) go to next/previous line.
-  //(a: caret is at the line start and Left pressed,
+  //(a: caret is at the line start and Left-arrow pressed,
   //b: caret is at the line end and Right pressed.)
   "key_left_right_wrap_with_carets": true,
 
-  //Keys Left/Right: try to jump to opposite selection edge.
+  //Keys Left/Right-arrows: try to jump to opposite selection edge.
   "key_left_right_swap_sel": true,
 
-  //Keys Left/Right: try to jump to opposite selection edge, and keep this selection.
+  //Keys Left/Right-arrows: try to jump to opposite selection edge, and keep this selection.
   "key_left_right_swap_sel_and_select": false,
 
   //[Ui/Statusbar]
@@ -1361,11 +1361,11 @@
   //Value is string of few chars:
   //  if "t" in value: toolbar
   //  if "i" in value: statusbar
-  //  if "a" in value: sidebar (on the left edge)
-  //  if "p" in value: side panels (near sidebar, e.g. Code Tree, Projects)
-  //  if "b" in value: bottom panels (e.g. Console)
+  //  if "a" in value: sidebar (usually on the left side)
+  //  if "p" in value: side panels near the sidebar (Code-Tree, Projects etc)
+  //  if "b" in value: bottom panels (Console, Output etc)
   //  if "u" in value: file tabs
-  //  if "g" in value: gutter (all columns: numbers, bookmarks...)
+  //  if "g" in value: gutter (all columns: numbers, bookmarks etc)
   "ui_fullscreen": "tp",
 
   //Highlight border of focused input box.
@@ -1379,7 +1379,7 @@
   "ui_console_wrap": true,
 
   //[Ui/Panels]
-  //Show sidebar (vertical bar with buttons on the left side).
+  //Show sidebar (vertical bar with buttons, usually on the left side).
   "ui_sidebar_show": true,
 
   //Place sidebar on the right side.
