@@ -90,11 +90,13 @@ function IsAsciiControlChar(n: integer): boolean; inline;
 const
   cAllowedControlChars: set of byte = [
     7, //Bell
-    9,
-    10,
-    13,
+    8, //Backspace
+    9, //Tab
+    10, //LF
     12, //FormFeed
-    26 //EOF
+    13, //CR
+    26, //EOF
+    27 //Escape
     ];
 begin
   Result:= (n < 32) and not (byte(n) in cAllowedControlChars);
