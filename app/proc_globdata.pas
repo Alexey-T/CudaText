@@ -1413,6 +1413,13 @@ const
       {$endif}
     {$endif}
 
+  AppDefaultEdFontSize =
+    {$ifdef haiku}
+    12;
+    {$else}
+    9;
+    {$endif}
+
 function InitAppDefaultEdFont: string;
 var
   i: integer;
@@ -1436,7 +1443,7 @@ begin
     OpFontName_b:= '';
     OpFontName_bi:= '';
 
-    OpFontSize:= 9;
+    OpFontSize:= AppDefaultEdFontSize;
     OpFontSize_i:= OpFontSize;
     OpFontSize_b:= OpFontSize;
     OpFontSize_bi:= OpFontSize;
