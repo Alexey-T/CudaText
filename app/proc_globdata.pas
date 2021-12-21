@@ -1105,7 +1105,7 @@ begin
   {$endif}
 
   {$ifdef haiku}
-  exit('/boot/system/develop/lib/libpython3.6m.so');
+  exit('/boot/system/develop/lib/libpython3.7m.so');
   {$endif}
 
   {$ifdef unix}
