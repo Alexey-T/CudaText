@@ -5205,7 +5205,7 @@ begin
   begin
     F:= Frames[i];
     if F.LexerNameBackup<>'' then
-      raise Exception.Create('Unexpected non-empty frame''s LexerNameBackup');
+      raise Exception.Create('Unexpected non-empty Frame.LexerNameBackup');
     F.LexerNameBackup:= F.LexerName[F.Ed1];
 
     F.Lexer[F.Ed1]:= nil;
