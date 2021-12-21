@@ -1340,7 +1340,7 @@ class function TGroupsHelper.GetEditorFrame(Ed: TATSynEdit): TEditorFrame;
 var
   F: TCustomFrame;
 begin
-  F:= Ed.CudatextFrame;
+  F:= Ed.ParentFrameObject;
   if Assigned(F) then
     Result:= F as TEditorFrame
   else
@@ -3125,7 +3125,7 @@ begin
     Ctl:= ActiveControl;
     bEditorActive:=
       (Ctl is TATSynEdit) and
-      Assigned(TATSynEdit(Ctl).CudatextFrame);
+      Assigned(TATSynEdit(Ctl).ParentFrameObject);
     bConsoleActive:=
       Assigned(fmConsole) and
       (fmConsole.EdInput.Focused or

@@ -1756,7 +1756,7 @@ end;
 procedure TEditorFrame.InitEditor(var ed: TATSynEdit; const AName: string);
 begin
   ed:= TATSynEdit.Create(FFormDummy);
-  ed.CudatextFrame:= Self;
+  ed.ParentFrameObject:= Self;
   ed.Name:= AName;
   ed.Parent:= FFormDummy;
   DoControl_InitPropsObject(ed, FFormDummy, 'editor');
