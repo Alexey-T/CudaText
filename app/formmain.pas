@@ -785,8 +785,8 @@ type
     //procedure DoOnLexerParseProgress(Sender: TObject; ALineIndex, ALineCount: integer);
     procedure DoOnLexerParseProgress_Sync();
     procedure DoOps_AddPluginMenuItem(const ACaption: string; ASubMenu: TMenuItem; ALangFile: TIniFile; ATag: integer);
-    procedure DoOps_LexersDisableInFrames;
-    procedure DoOps_LexersRestoreInFrames;
+    procedure DoOps_LexersBackupSave;
+    procedure DoOps_LexersBackupRestore;
     procedure DoOps_LoadOptions_Editor(cfg: TJSONConfig; var Op: TEditorOps);
     procedure DoOps_LoadOptions_Global(cfg: TJSONConfig);
     procedure DoOps_LoadOptions_Ui(cfg: TJSONConfig);
@@ -3445,7 +3445,7 @@ begin
   bNeedRestart:= false;
   bKeepFrameLexers:= true;
   if bKeepFrameLexers then
-    DoOps_LexersDisableInFrames;
+    DoOps_LexersBackupSave;
 
   DoInstallAddonFromZip(fn, AppDir_DataAutocomplete, msg, msg2,
     Result, AddonType, DirTarget, bNeedRestart, ASilent);
@@ -3471,7 +3471,7 @@ begin
   end;
 
   if bKeepFrameLexers then
-    DoOps_LexersRestoreInFrames;
+    DoOps_LexersBackupRestore;
 end;
 
 
@@ -5196,7 +5196,7 @@ begin
 end;
 
 
-procedure TfmMain.DoOps_LexersDisableInFrames;
+procedure TfmMain.DoOps_LexersBackupSave;
 var
   i: integer;
 begin
@@ -5204,7 +5204,7 @@ begin
     Frames[i].LexerBackupSave;
 end;
 
-procedure TfmMain.DoOps_LexersRestoreInFrames;
+procedure TfmMain.DoOps_LexersBackupRestore;
 var
   i: integer;
 begin
@@ -5219,12 +5219,12 @@ var
 begin
   bKeepFrameLexers:= not AOnCreate;
   if bKeepFrameLexers then
-    DoOps_LexersDisableInFrames;
+    DoOps_LexersBackupSave;
 
   AppLoadLexers;
 
   if bKeepFrameLexers then
-    DoOps_LexersRestoreInFrames;
+    DoOps_LexersBackupRestore;
 end;
 
 
