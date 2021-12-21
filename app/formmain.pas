@@ -3439,26 +3439,22 @@ function TfmMain.DoFileInstallZip(const fn: string; out DirTarget: string;
 var
   msg, msg2: string;
   AddonType: TAppAddonType;
-  bFileLexer: boolean;
+  bKeepFrameLexers: boolean;
   bNeedRestart: boolean;
-  ListBackup: TStringlist;
+  ListBackup: TStringList;
 begin
   bNeedRestart:= false;
-  bFileLexer:= true;
-  if bFileLexer then
+  bKeepFrameLexers:= true;
+  if bKeepFrameLexers then
   begin
     ListBackup:= TStringList.Create;
     DoOps_LexersDisableInFrames(ListBackup);
-  end;
+  end
+  else
+    ListBackup:= nil;
 
   DoInstallAddonFromZip(fn, AppDir_DataAutocomplete, msg, msg2,
     Result, AddonType, DirTarget, bNeedRestart, ASilent);
-
-  if bFileLexer then
-  begin
-    DoOps_LexersRestoreInFrames(ListBackup);
-    FreeAndNil(ListBackup);
-  end;
 
   if Result then
   begin
@@ -3466,7 +3462,7 @@ begin
       cAddonTypeLexer,
       cAddonTypeLexerLite:
         begin
-          DoOps_LoadLexerLib(false);
+          DoOps_LoadLexerLib(true); //AOnCreate=true - don't backup lexers
         end;
       cAddonTypePlugin:
         begin
@@ -3478,6 +3474,12 @@ begin
 
     if not ASilent then
       DoDialogAddonInstalledReport(msg, msg2, bNeedRestart);
+  end;
+
+  if bKeepFrameLexers then
+  begin
+    DoOps_LexersRestoreInFrames(ListBackup);
+    FreeAndNil(ListBackup);
   end;
 end;
 
