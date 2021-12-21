@@ -5198,37 +5198,18 @@ end;
 
 procedure TfmMain.DoOps_LexersDisableInFrames;
 var
-  F: TEditorFrame;
   i: integer;
 begin
   for i:= 0 to FrameCount-1 do
-  begin
-    F:= Frames[i];
-    if F.LexerNameBackup<>'' then
-      raise Exception.Create('Unexpected non-empty Frame.LexerNameBackup');
-    F.LexerNameBackup:= F.LexerName[F.Ed1];
-
-    F.Lexer[F.Ed1]:= nil;
-    if not F.EditorsLinked then
-      F.Lexer[F.Ed2]:= nil;
-
-    //fix crash: lexer is active in passive tab, LoadLexerLib deletes all lexers, user switches tab
-    F.LexerInitial[F.Ed1]:= nil;
-    F.LexerInitial[F.Ed2]:= nil;
-  end;
+    Frames[i].LexerBackupSave;
 end;
 
 procedure TfmMain.DoOps_LexersRestoreInFrames;
 var
-  F: TEditorFrame;
   i: integer;
 begin
   for i:= 0 to FrameCount-1 do
-  begin
-    F:= Frames[i];
-    F.LexerName[F.Ed1]:= F.LexerNameBackup;
-    F.LexerNameBackup:= '';
-  end;
+    Frames[i].LexerBackupRestore;
 end;
 
 

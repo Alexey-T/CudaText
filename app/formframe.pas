@@ -355,8 +355,10 @@ type
     property Lexer[Ed: TATSynEdit]: TecSyntAnalyzer read GetLexer write SetLexer;
     property LexerLite[Ed: TATSynEdit]: TATLiteLexer read GetLexerLite write SetLexerLite;
     property LexerName[Ed: TATSynEdit]: string read GetLexerName write SetLexerName;
-    property LexerNameBackup: string read FLexerNameBackup write FLexerNameBackup;
     property LexerInitial[Ed: TATSynEdit]: TecSyntAnalyzer read GetInitialLexer write SetInitialLexer;
+
+    procedure LexerBackupSave;
+    procedure LexerBackupRestore;
 
     property Locked: boolean read FLocked write SetLocked;
     property CommentString[Ed: TATSynEdit]: string read GetCommentString;
@@ -4317,5 +4319,27 @@ begin
   FTextCharsTyped:= 0;
   OnCallAutoCompletion(Ed, false);
 end;
+
+procedure TEditorFrame.LexerBackupSave;
+begin
+  if FLexerNameBackup<>'' then
+    raise Exception.Create('Unexpected non-empty Frame.LexerNameBackup');
+  FLexerNameBackup:= LexerName[Ed1];
+
+  Lexer[Ed1]:= nil;
+  if not EditorsLinked then
+    Lexer[Ed2]:= nil;
+
+  //fix crash: lexer is active in passive tab, LoadLexerLib deletes all lexers, user switches tab
+  LexerInitial[Ed1]:= nil;
+  LexerInitial[Ed2]:= nil;
+end;
+
+procedure TEditorFrame.LexerBackupRestore;
+begin
+  LexerName[Ed1]:= FLexerNameBackup;
+  FLexerNameBackup:= '';
+end;
+
 
 end.
