@@ -174,6 +174,7 @@ type
     FEditorsLinked: boolean;
     FCachedTreeview: array[0..1] of TTreeView;
     FLexerChooseFunc: TecLexerChooseFunc;
+    FLexerNameBackup: string;
     FBracketHilite: boolean;
     FBracketHiliteUserChanged: boolean;
     FBracketSymbols: string;
@@ -354,6 +355,7 @@ type
     property Lexer[Ed: TATSynEdit]: TecSyntAnalyzer read GetLexer write SetLexer;
     property LexerLite[Ed: TATSynEdit]: TATLiteLexer read GetLexerLite write SetLexerLite;
     property LexerName[Ed: TATSynEdit]: string read GetLexerName write SetLexerName;
+    property LexerNameBackup: string read FLexerNameBackup write FLexerNameBackup;
     property LexerInitial[Ed: TATSynEdit]: TecSyntAnalyzer read GetInitialLexer write SetInitialLexer;
 
     property Locked: boolean read FLocked write SetLocked;

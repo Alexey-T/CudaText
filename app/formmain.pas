@@ -785,8 +785,8 @@ type
     //procedure DoOnLexerParseProgress(Sender: TObject; ALineIndex, ALineCount: integer);
     procedure DoOnLexerParseProgress_Sync();
     procedure DoOps_AddPluginMenuItem(const ACaption: string; ASubMenu: TMenuItem; ALangFile: TIniFile; ATag: integer);
-    procedure DoOps_LexersDisableInFrames(ListNames: TStringList);
-    procedure DoOps_LexersRestoreInFrames(ListNames: TStringList);
+    procedure DoOps_LexersDisableInFrames;
+    procedure DoOps_LexersRestoreInFrames;
     procedure DoOps_LoadOptions_Editor(cfg: TJSONConfig; var Op: TEditorOps);
     procedure DoOps_LoadOptions_Global(cfg: TJSONConfig);
     procedure DoOps_LoadOptions_Ui(cfg: TJSONConfig);
@@ -3441,17 +3441,11 @@ var
   AddonType: TAppAddonType;
   bKeepFrameLexers: boolean;
   bNeedRestart: boolean;
-  ListBackup: TStringList;
 begin
   bNeedRestart:= false;
   bKeepFrameLexers:= true;
   if bKeepFrameLexers then
-  begin
-    ListBackup:= TStringList.Create;
-    DoOps_LexersDisableInFrames(ListBackup);
-  end
-  else
-    ListBackup:= nil;
+    DoOps_LexersDisableInFrames;
 
   DoInstallAddonFromZip(fn, AppDir_DataAutocomplete, msg, msg2,
     Result, AddonType, DirTarget, bNeedRestart, ASilent);
@@ -3477,10 +3471,7 @@ begin
   end;
 
   if bKeepFrameLexers then
-  begin
-    DoOps_LexersRestoreInFrames(ListBackup);
-    FreeAndNil(ListBackup);
-  end;
+    DoOps_LexersRestoreInFrames;
 end;
 
 
@@ -5205,16 +5196,17 @@ begin
 end;
 
 
-procedure TfmMain.DoOps_LexersDisableInFrames(ListNames: TStringList);
+procedure TfmMain.DoOps_LexersDisableInFrames;
 var
   F: TEditorFrame;
   i: integer;
 begin
-  ListNames.Clear;
   for i:= 0 to FrameCount-1 do
   begin
     F:= Frames[i];
-    ListNames.Add(F.LexerName[F.Ed1]);
+    if F.LexerNameBackup<>'' then
+      raise Exception.Create('Unexpected non-empty frame''s LexerNameBackup');
+    F.LexerNameBackup:= F.LexerName[F.Ed1];
 
     F.Lexer[F.Ed1]:= nil;
     if not F.EditorsLinked then
@@ -5226,41 +5218,32 @@ begin
   end;
 end;
 
-procedure TfmMain.DoOps_LexersRestoreInFrames(ListNames: TStringList);
+procedure TfmMain.DoOps_LexersRestoreInFrames;
 var
-  Frame: TEditorFrame;
+  F: TEditorFrame;
   i: integer;
 begin
   for i:= 0 to FrameCount-1 do
   begin
-    Frame:= Frames[i];
-    if i<ListNames.Count then
-      Frame.LexerName[Frame.Ed1]:= ListNames[i];
+    F:= Frames[i];
+    F.LexerName[F.Ed1]:= F.LexerNameBackup;
+    F.LexerNameBackup:= '';
   end;
 end;
 
 
 procedure TfmMain.DoOps_LoadLexerLib(AOnCreate: boolean);
 var
-  ListBackup: TStringlist;
+  bKeepFrameLexers: boolean;
 begin
-  if not AOnCreate then
-    ListBackup:= TStringList.Create
-  else
-    ListBackup:= nil;
+  bKeepFrameLexers:= not AOnCreate;
+  if bKeepFrameLexers then
+    DoOps_LexersDisableInFrames;
 
-  try
-    if Assigned(ListBackup) then
-      DoOps_LexersDisableInFrames(ListBackup);
+  AppLoadLexers;
 
-    AppLoadLexers;
-
-    if Assigned(ListBackup) then
-      DoOps_LexersRestoreInFrames(ListBackup);
-  finally
-    if Assigned(ListBackup) then
-      FreeAndNil(ListBackup);
-  end;
+  if bKeepFrameLexers then
+    DoOps_LexersRestoreInFrames;
 end;
 
 
