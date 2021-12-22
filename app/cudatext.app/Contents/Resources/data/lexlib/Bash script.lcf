@@ -456,14 +456,14 @@ object SyntAnal3: TLibSyntAnalyzer
       BlockName = '(('
       NotParent = True
       TokenType = 2
-      Expression = '[a-z_\.][\w\-\.]*\w'
+      Expression = '\b[a-z_\.][\w\-\.]*\w\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
       DisplayName = 'Id'
       StyleName = 'Command'
-      Expression = '[a-z_]\w*'
+      Expression = '(?r)\w+'
       ColumnFrom = 0
       ColumnTo = 0
     end>
