@@ -1,4 +1,4 @@
-object SyntAnal17: TLibSyntAnalyzer
+object SyntAnal16: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Comment'
@@ -511,6 +511,7 @@ object SyntAnal17: TLibSyntAnalyzer
             'ArrayObject'
             'AssertionError'
             'Attribute'
+            'BackedEnum'
             'BadFunctionCallException'
             'BadMethodCallException'
             'CachingIterator'
@@ -768,6 +769,7 @@ object SyntAnal17: TLibSyntAnalyzer
             'UnderflowException'
             'UnexpectedValueException'
             'UnhandledMatchError'
+            'UnitEnum'
             'V8Js'
             'V8JsException'
             'ValueError'
@@ -978,7 +980,7 @@ object SyntAnal17: TLibSyntAnalyzer
       DisplayName = 'Heredoc HTML'
       StartExpression = '<<<HTML\b'
       EndExpression = '^HTML;$'
-      SyntAnalyzer = SyntAnal10
+      SyntAnalyzer = SyntAnal9
     end
     item
       DisplayName = 'Heredoc CSS'
