@@ -6,7 +6,7 @@
 1.152.1 (2021/12)
 
 - fix: sometimes after drag-drop of text inside single file, syntax highlight was broken
-- fix: sometimes installing of a lexer, ui-tabs got none-lexer (thanks @hiiamboris)
+- fix: sometimes after installing of a lexer, ui-tabs got none-lexer (thanks @hiiamboris)
 - fix: commands "carets extend: ..." did not respect option "caret_proximity_vert" (thanks @hiiamboris)
 - fix: plugin Comments: bug with selection, which is _backward_ and until start-of-line (thanks @hiiamboris)
 
