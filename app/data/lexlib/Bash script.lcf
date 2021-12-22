@@ -1,4 +1,4 @@
-object SyntAnal2: TLibSyntAnalyzer
+object SyntAnal3: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Comment'
@@ -422,7 +422,7 @@ object SyntAnal2: TLibSyntAnalyzer
       DisplayName = 'Number base-n'
       StyleName = 'Number'
       TokenType = 6
-      Expression = '[1-9][0-9]?\#[0-9a-z@_]+'
+      Expression = '\b[1-9][0-9]?\#[0-9a-z@_]+\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -430,7 +430,7 @@ object SyntAnal2: TLibSyntAnalyzer
       DisplayName = 'Number hex'
       StyleName = 'Number'
       TokenType = 6
-      Expression = '0x[0-9a-f]+\b'
+      Expression = '\b0x[0-9a-f]+\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
