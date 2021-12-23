@@ -5,7 +5,8 @@
 
 1.152.1 (2021/12)
 
-- fix: more unicode 'math' chars now have the width 100% (thanks @cser)
+- fix: more Unicode 'math' chars now have the width=100% (thanks @cser)
+- fix: lexer Bash: numbers rule (thanks @eltonfabricio10)
 - fix: sometimes after drag-drop of text inside single file, syntax highlight was broken
 - fix: sometimes after installing of a lexer, ui-tabs got none-lexer (thanks @hiiamboris)
 - fix: commands "carets extend: ..." did not respect option "caret_proximity_vert" (thanks @hiiamboris)
