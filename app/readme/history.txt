@@ -3,9 +3,11 @@
   - fixed
   * changed
 
++ add: lexer Assembly: updated opcodes list
+* change: Unicode math chars U+2200...U+22FF now have the auto-detection widths, with "unicode_proportional":true (thanks @cser)
+
 1.152.1 (2021/12)
 
-* change: Unicode math chars U+2200...U+22FF now have the auto-detection widths, with "unicode_proportional":true (thanks @cser)
 - fix: lexer Bash: numbers rule (thanks @eltonfabricio10)
 - fix: sometimes after drag-drop of text inside single file, syntax highlight was broken
 - fix: sometimes after installing of a lexer, ui-tabs got none-lexer (thanks @hiiamboris)
