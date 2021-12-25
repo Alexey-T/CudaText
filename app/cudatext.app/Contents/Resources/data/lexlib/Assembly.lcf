@@ -1245,7 +1245,8 @@ object SyntAnal1: TLibSyntAnalyzer
   LexerName = 'Assembly'
   SkipSpaces = False
   Notes.Strings = (
-    'Original from EControl, heavily rewritten by Alexey (CudaText)')
+    'Alexey Torgashin (CudaText)'
+    'OpCodes: https://www.felixcloutier.com/x86/index.html')
   LineComment = ';'
   Charset = DEFAULT_CHARSET
 end
