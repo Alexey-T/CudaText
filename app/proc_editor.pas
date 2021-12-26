@@ -2636,6 +2636,8 @@ begin
 
   if not Ed.Strings.IsIndexValid(AY) then exit;
   if AX<2 then exit;
+  ch:= Ed.Strings.LineCharAt(AY, AX+1);
+  if IsCharWord(ch, Ed.OptNonWordChars) then exit;
   ch:= Ed.Strings.LineCharAt(AY, AX);
   if ch<>'/' then exit;
   ch:= Ed.Strings.LineCharAt(AY, AX-1);
