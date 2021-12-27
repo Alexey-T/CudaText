@@ -3,6 +3,9 @@
   - fixed
   * changed
 
+1.152.2
+
++ add: HTML auto-completion: support filenames with spaces; support picture filenames *.webp and *.avif (thanks @WebMechanic)
 + add: lexer Assembly: updated opcodes list
 * change: Unicode math chars U+2200...U+22FF now have the auto-detection widths, with "unicode_proportional":true (thanks @cser)
 
