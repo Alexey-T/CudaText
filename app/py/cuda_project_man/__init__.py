@@ -678,10 +678,20 @@ class Command:
         if path is None:
             path = dlg_file(True, "", "", PROJECT_DIALOG_FILTER)
         if path:
+            proj_dir = os.path.dirname(path)
+            def expand_macros(s):
+                return s.replace('{ProjDir}', proj_dir, 1)
+            
             if Path(path).exists():
                 print(_('Loading project: ') + collapse_filename(path))
                 with open(path, encoding='utf8') as fin:
                     self.project = json.load(fin)
+
+                    if 'nodes' in self.project:
+                        for i in range(len(self.project['nodes'])):
+                            self.project['nodes'][i] = expand_macros(self.project['nodes'][i])
+                    #print('Loaded project:', self.project)
+
                     self.project_file_path = Path(path)
                     self.add_recent(path)
                     self.action_refresh()
@@ -741,6 +751,7 @@ class Command:
             self.action_save_project_as(self.project_file_path)
 
     def action_save_project_as(self, path=None):
+
         need_refresh = path is None
         if path is None:
             if self.project_file_path:
@@ -750,13 +761,27 @@ class Command:
             path = dlg_file(False, "", project_path, PROJECT_DIALOG_FILTER)
 
         if path:
+            proj_dir = os.path.dirname(path)
+            def collapse_macros(s):
+                fn = s
+                if (fn+os.sep).startswith(proj_dir+os.sep):
+                    fn = fn.replace(proj_dir, '{ProjDir}', 1)
+                return fn
+
             path = Path(path)
             if path.suffix != PROJECT_EXTENSION:
                 path = path.parent / (path.name + PROJECT_EXTENSION)
 
+            # pre-processing of dict before saving
+            import copy
+            d = copy.deepcopy(self.project)
+            if 'nodes' in d:
+                for i in range(len(d['nodes'])):
+                    d['nodes'][i] = collapse_macros(d['nodes'][i])
+
             self.project_file_path = path
             with path.open("w", encoding='utf8') as fout:
-                json.dump(self.project, fout, indent=4)
+                json.dump(d, fout, indent=4)
 
             self.update_global_data()
             print(_('Saving project: ') + collapse_filename(str(path)))
