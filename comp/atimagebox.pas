@@ -857,7 +857,8 @@ begin
 
   {$ifdef USE_BGRA}
   ext:= ExtractFileExt(AFileName);
-  if (ext='.webp') or (ext='.psd') or (ext='.tga') or (ext='.tif') or (ext='.tiff') then
+  if (ext='.webp') or (ext='.psd') or (ext='.tga') or (ext='.tif') or (ext='.tiff')
+    or (ext='.cur') or (ext='.svg') or (ext='.pcx') then
   begin
     bg:= TBGRABitmap.Create(AFileName);
     try
