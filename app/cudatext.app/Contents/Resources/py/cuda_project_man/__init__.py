@@ -3,6 +3,7 @@ import re
 import collections
 import json
 import stat
+import copy
 from fnmatch import fnmatch
 from pathlib import Path, PurePosixPath
 from .projman_glob import *
@@ -773,7 +774,6 @@ class Command:
                 path = path.parent / (path.name + PROJECT_EXTENSION)
 
             # pre-processing of dict before saving
-            import copy
             d = copy.deepcopy(self.project)
             if 'nodes' in d:
                 for i in range(len(d['nodes'])):
