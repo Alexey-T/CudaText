@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.152.2
+1.152.3 (2022/01)
 
 + add: HTML auto-completion: support filenames with spaces
 + add: HTML auto-completion: support picture filetypes WEBP, AVIF; support filename completion in <SOURCE SRCSET=""> (thanks @WebMechanic)
