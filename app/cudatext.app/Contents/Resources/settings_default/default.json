@@ -1342,9 +1342,9 @@
   //[File]
   //Extensions of files, which CudaText tries to load as pictures.
   //Formats BMP/PNG/JPEG/GIF/ICO are supported by Free Pascal.
-  //Formats WEBP/TGA/PSD are supported by BGRABitmap library.
+  //Formats WEBP/PSD/TIFF/TGA/CUR/SVG/PCX are supported by BGRABitmap library.
   //Note: this option is global, not per-lexer.
-  "picture_types": "bmp,png,jpg,jpeg,jpe,gif,ico,webp,tga,psd",
+  "picture_types": "bmp,png,jpg,jpeg,jpe,gif,ico,webp,psd,tga,cur",
 
   //[View/Web]
   //Highlight+underline links (URL and emails).
