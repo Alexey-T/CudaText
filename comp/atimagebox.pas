@@ -7,6 +7,7 @@ License: MPL 2.0 or LGPL
 unit ATImageBox;
 
 {$mode objfpc}{$H+}
+{$define USE_BGRA}
 
 interface
 
@@ -16,6 +17,9 @@ uses
   LMessages,
   LCLType,
   Forms,
+  {$ifdef USE_BGRA}
+  BGRABitmap,
+  {$endif}
   Math;
 
 const
@@ -843,9 +847,27 @@ begin
 end;
 
 procedure TATImageBox.LoadFromFile(const AFileName: string);
+{$ifdef USE_BGRA}
+var
+  bg: TBGRABitmap;
+{$endif}
 begin
   Clear;
-  FImage.Picture.LoadFromFile(AFileName);
+
+  {$ifdef USE_BGRA}
+  if ExtractFileExt(AFileName)='.webp' then
+  begin
+    bg:= TBGRABitmap.Create(AFileName);
+    try
+      FImage.Picture.Bitmap.Assign(bg);
+    finally
+      FreeAndNil(bg);
+    end;
+  end
+  else
+  {$endif}
+    FImage.Picture.LoadFromFile(AFileName);
+
   UpdateInfo;
 end;
 

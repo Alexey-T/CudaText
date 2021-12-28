@@ -1720,7 +1720,7 @@ begin
     HtmlBackgroundColorPair[true]:= $101010;
 
     PyLibrary:= InitPyLibraryPath;
-    PictureTypes:= 'bmp,png,jpg,jpeg,gif,ico';
+    PictureTypes:= 'bmp,png,jpg,jpeg,gif,ico,webp';
 
     DefaultTabSplitIsHorz:= false;
     MaxFileSizeToOpen:= 500;
