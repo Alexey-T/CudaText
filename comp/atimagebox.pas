@@ -850,12 +850,14 @@ procedure TATImageBox.LoadFromFile(const AFileName: string);
 {$ifdef USE_BGRA}
 var
   bg: TBGRABitmap;
+  ext: string;
 {$endif}
 begin
   Clear;
 
   {$ifdef USE_BGRA}
-  if ExtractFileExt(AFileName)='.webp' then
+  ext:= ExtractFileExt(AFileName);
+  if (ext='.webp') or (ext='.psd') or (ext='.tga') or (ext='.tif') or (ext='.tiff') then
   begin
     bg:= TBGRABitmap.Create(AFileName);
     try

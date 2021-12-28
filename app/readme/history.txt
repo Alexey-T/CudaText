@@ -5,7 +5,7 @@
 
 1.152.3 (2022/01)
 
-+ add: picture viewer supports WEBP files, if option "picture_types" allows it
++ add: picture viewer supports WEBP / TGA / PSD, if option "picture_types" allows it
 + add: HTML auto-completion: support filenames with spaces
 + add: HTML auto-completion: support picture filetypes WEBP, AVIF (thanks @WebMechanic)
 + add: HTML auto-completion: support filename completion in <SOURCE SRCSET=""> (thanks @WebMechanic)
