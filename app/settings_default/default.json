@@ -1342,7 +1342,7 @@
   //[File]
   //Extensions of picture files (they show as pictures)
   //Note: this option is global, not per-lexer.
-  "picture_types": "bmp,png,jpg,jpeg,jpe,gif,ico",
+  "picture_types": "bmp,png,jpg,jpeg,jpe,gif,ico,webp",
 
   //[View/Web]
   //Highlight+underline links (URL and emails).
