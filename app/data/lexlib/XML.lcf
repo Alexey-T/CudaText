@@ -1,4 +1,4 @@
-object SyntAnal20: TLibSyntAnalyzer
+object SyntAnal23: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Comment'
@@ -226,7 +226,7 @@ object SyntAnal20: TLibSyntAnalyzer
       StyleName = 'Tag val'
       BlockName = 'Tag begin'
       TokenType = 4
-      Expression = '(?s) ("|'#39').*?(\1|$)'
+      Expression = '(?s)("|'#39').*?(\1|\Z)'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -461,14 +461,14 @@ object SyntAnal20: TLibSyntAnalyzer
       StyleName = 'Sublexer BG'
       StartExpression = '<style\s+type="text/css"\s*>\s*<!\[CDATA\['
       EndExpression = '\]\]'
-      SyntAnalyzer = SyntAnal6
+      SyntAnalyzer = SyntAnal8
     end
     item
       DisplayName = 'JS script'
       StyleName = 'Sublexer BG'
       StartExpression = '<script\s+[^>]*?javascript[^>]*?>\s*<!\[CDATA\['
       EndExpression = '\]\]'
-      SyntAnalyzer = SyntAnal9
+      SyntAnalyzer = SyntAnal12
     end>
   SampleText.Strings = (
     '<?xml version="1.0" encoding="utf8" ?>'
