@@ -320,6 +320,7 @@ Most of them are located in the Addons Manager "Install" list.
 * Assembly ARM
 * Assembly AVR
 * Assembly FASM
+* Assembly GNU
 * Assembly JWASM
 * Assembly MASM x86
 * Assembly MIPS
