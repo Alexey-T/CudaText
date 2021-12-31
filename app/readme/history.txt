@@ -3,6 +3,8 @@
   - fixed
   * changed
 
+- fix: syntax highlight wasn't updated sometimes after an edition in a sub-lexer block (thanks @WebMechanic)
+
 1.152.5 (2021/12)
 
 + add: picture viewer supports WEBP/TGA/PSD/CUR, if option "picture_types" allows it
