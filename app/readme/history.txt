@@ -11,8 +11,8 @@
 + add: HTML auto-completion: support filenames with spaces
 + add: HTML auto-completion: support picture filetypes WEBP, AVIF (thanks @WebMechanic)
 + add: HTML auto-completion: support filename completion in <SOURCE SRCSET=""> (thanks @WebMechanic)
-+ add: Project Manager: use macro {ProjDir} when storing relative filenames to project file (thanks @cser)
 + add: lexer Assembly: update opcodes list
+* change: Project Manager: use macro {ProjDir} when storing filenames (relative) to project files (thanks @cser)
 * change: Unicode math chars U+2200...U+22FF now have the auto-detection widths, with "unicode_proportional":true (thanks @cser)
 
 1.152.1 (2021/12)
