@@ -5,6 +5,7 @@
 
 1.152.6 (2022/01)
 
++ add: option "fold_icon_min_range"
 - fix: syntax highlight wasn't updated after 'duplicate line'/'paste' at the end of a sub-lexer block (thanks @WebMechanic)
 
 1.152.5 (2021/12)
