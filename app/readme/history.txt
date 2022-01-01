@@ -3,7 +3,9 @@
   - fixed
   * changed
 
-- fix: syntax highlight wasn't updated sometimes after an edition in a sub-lexer block (thanks @WebMechanic)
+1.152.6
+
+- fix: syntax highlight wasn't updated after 'duplicate line'/'paste' at the end of a fenced code-block (thanks @WebMechanic)
 
 1.152.5 (2021/12)
 
