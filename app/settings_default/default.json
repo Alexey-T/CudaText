@@ -301,8 +301,9 @@
   //Show tooltip when mouse hovers over [...] folded blocks.
   "fold_tooltip_show": false,
 
-  //If folding range height (in lines) is less than the option value,
-  //don't show folding [+] / [-] icon. 0: show for all ranges.
+  //Don't show folding +/- icon for too small folding ranges, when
+  //range height (in lines) is less/equal than the option value.
+  //Value=0: show for all ranges.
   "fold_icon_min_range": 0,
 
   //[Text/Commands]
