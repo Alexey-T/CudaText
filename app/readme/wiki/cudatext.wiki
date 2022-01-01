@@ -442,6 +442,7 @@ Most of them are located in the Addons Manager "Install" list.
 * Julia
 * Kivy
 * KiXtart
+* Koka
 * Kontakt Script Processor (KSP)
 * Kotlin
 * LaTeX
