@@ -360,6 +360,7 @@ begin
   begin
     Ed.OptFoldStyle:= TATEditorFoldStyle(Op.OpFoldStyle);
     Ed.OptFoldTooltipVisible:= Op.OpFoldTooltipShow;
+    Ed.OptFoldIconForMinimalRangeHeight:= Op.OpFoldIconForMinimalRangeHeight;
 
     Ed.OptMarkersSize:= Op.OpMarkerSize;
     Ed.OptStapleStyle:= TATLineStyle(Op.OpStaplesStyle);

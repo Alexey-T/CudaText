@@ -1159,6 +1159,7 @@ begin
   Op.OpNonWordChars:= cfg.GetValue('nonword_chars', Op.OpNonWordChars);
   Op.OpFoldStyle:= cfg.GetValue('fold_style', Op.OpFoldStyle);
   Op.OpFoldTooltipShow:= cfg.GetValue('fold_tooltip_show', Op.OpFoldTooltipShow);
+  Op.OpFoldIconForMinimalRangeHeight:= cfg.GetValue('fold_icon_min_range', Op.OpFoldIconForMinimalRangeHeight);
 
   Op.OpIndentAuto:= cfg.GetValue('indent_auto', Op.OpIndentAuto);
   Op.OpIndentAutoKind:= cfg.GetValue('indent_kind', Op.OpIndentAutoKind);

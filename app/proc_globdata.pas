@@ -611,6 +611,7 @@ type
     OpNonWordChars: UnicodeString;
     OpFoldStyle: integer;
     OpFoldTooltipShow: boolean;
+    OpFoldIconForMinimalRangeHeight: integer;
 
     //indent
     OpIndentAuto: boolean;
@@ -1596,6 +1597,7 @@ begin
     OpNonWordChars:= cDefaultNonWordChars;
     OpFoldStyle:= 1;
     OpFoldTooltipShow:= false;
+    OpFoldIconForMinimalRangeHeight:= 0;
 
     OpIndentAuto:= true;
     OpIndentAutoKind:= Ord(cIndentAsPrevLine);
