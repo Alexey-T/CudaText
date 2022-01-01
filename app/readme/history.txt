@@ -5,7 +5,7 @@
 
 1.152.6 (2022/01)
 
-- fix: syntax highlight wasn't updated after 'duplicate line'/'paste' at the end of a fenced code-block (thanks @WebMechanic)
+- fix: syntax highlight wasn't updated after 'duplicate line'/'paste' at the end of a sub-lexer block (thanks @WebMechanic)
 
 1.152.5 (2021/12)
 
