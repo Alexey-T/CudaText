@@ -20,7 +20,7 @@ Features for HTML/CSS coding:
 * HTML tags completion with Tab-key
 * HTML color code underlining
 * HTML tooltips on mouse-over
-* Viewer for picture files (jpeg, png, gif, bmp, ico)
+* Viewer for picture files (jpeg, png, gif, bmp, ico, webp)
 
 Screenshot on Windows:
 
