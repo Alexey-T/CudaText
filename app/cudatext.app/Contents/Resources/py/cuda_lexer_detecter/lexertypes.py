@@ -215,6 +215,7 @@ TYPES = {
     "jsx": ['JavaScript Babel'],
     "k": ['LS-DYNA'],
     "kix": ['KiXtart'],
+    "kk": ['Koka'],
     "ksp": ['Kontakt Script Processor'],
     "kt": ['Kotlin'],
     "kts": ['Kotlin'],
