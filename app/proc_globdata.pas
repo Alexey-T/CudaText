@@ -3346,6 +3346,7 @@ initialization
   Keymap_AddCudatextItems(AppKeymapMain);
 
   AppKeymapLexers:= TStringList.Create;
+  AppKeymapLexers.UseLocale:= false; //speedup Find()
   AppKeymapLexers.Sorted:= true;
   AppKeymapLexers.OwnsObjects:= true;
 

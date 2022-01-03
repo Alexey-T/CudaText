@@ -5530,6 +5530,7 @@ begin
         LEXER_GET_LEXERS:
           begin
             List:= TStringList.Create;
+            List.UseLocale:= false;
             List.Sorted:= true;
             try
               DoLexerEnum(List, AppStrToBool(StrValue));
