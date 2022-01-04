@@ -71,6 +71,7 @@ Screenshot on Windows:
 * Can drag-and-drop block of text inside the editor
 * Color themes do not affect syntax parser results
 * Windows version can use different Python engine (packages in add-ons)
+* Picture file viewer supports zooming of a picture
 * Add-ons do not disappear due to GitHub repository deletions
 
 = Download =
