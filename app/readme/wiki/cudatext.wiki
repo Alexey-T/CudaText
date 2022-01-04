@@ -68,8 +68,7 @@ Screenshot on Windows:
 * [[#Tab_switcher|Tab switcher]] dialog
 * Can split single UI-tab, for single file or 2 different files (helps to work with Differ plugin)
 * Option for "zebra mode"
-* Can drag-and-drop block of text inside the editor
-* Color themes do not affect syntax parser results
+* Color themes are universal, ie they have not per-syntax settings
 * Windows version can use different Python engine (packages in add-ons)
 * [[#Picture_file_viewer|Picture file viewer]] supports zooming of a picture
 * Add-ons do not disappear due to GitHub repository deletions
