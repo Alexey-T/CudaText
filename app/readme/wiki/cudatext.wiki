@@ -71,7 +71,7 @@ Screenshot on Windows:
 * Can drag-and-drop block of text inside the editor
 * Color themes do not affect syntax parser results
 * Windows version can use different Python engine (packages in add-ons)
-* Picture file viewer supports zooming of a picture
+* [[#Picture_file_viewer|Picture file viewer]] supports zooming of a picture
 * Add-ons do not disappear due to GitHub repository deletions
 
 = Download =
@@ -1465,15 +1465,26 @@ CudaText suggests to use viewer for files of too big size (bigger than option "u
 
 [[File:cudatext-viewer-asking.png]]
 
-Viewer has not the search support.
-Viewer allows to use "Go to" dialog. In the "Go to" dialog, you can enter "2000" to jump to hex offset 0x2000 (in hex mode, rounded to 16 bytes). If you enter "50%", viewer will jump to the middle. Viewer supports selection of block by mouse, and hotkeys Ctrl+A, Ctrl+C. Viewer supports double-click to select whole word.
+Viewer has only limited search support, ie not all Find-dialog options are enabled, when file viewer is active.
+Viewer allows to use "Go to" dialog. In the "Go to" dialog, you can enter "2000" to jump to hex offset 0x2000 (in hex mode, rounded to 16 bytes). If you enter "50%", viewer will jump to the middle. Viewer supports selection of block by mouse, and hotkeys Ctrl+A (Select all), Ctrl+C (Copy to clipboard). Viewer supports double-click to select whole word.
 
 In viewer mode, you can click statusbar fields:
 * Encoding field. You can change viewer encoding only in non-Unicode modes.
 * Mode field, to change view mode: Text, Binary, Hex, Unciode, Unicode/Hex.
 
+==Picture file viewer==
+CudaText has the emdedded picture file viewer. It's activated when you open a file with the picture file type, see the option "picture_types": BMP, PNG, JPEG, GIF, ICO (Windows icon), WEBP (general picture format), PSD (Photoshop image), TGA (Targa), CUR (Windows cursor).
+
+Viewer supports zooming of an image:
+* use Ctrl + mouse wheel
+* click the statusbar cell with the zoom value, and choose one of predefined zoom values: 33%, 50%, 100%, 150%, 200%, 500%, 1000%, 1500%.
+
+While picture is zoomed so that it's bigger than the current window, you can drag the picture by mouse.
+
+While picture viewer is active, Find/Replace-dialog is disabled.
+
 ==Pair brackets==
-CudaText has built-in pair bracket finder. Before that you needed the plugin Bracket Helper, and now plugin should not be used - it is much slower that built-in code. Bracket finder can highlight pair brackets, when there is only single caret, no selection. It finds symbols "()[]{}<>" (configurable per lexer). Bracket finder respects lexer context, it skips symbols inside syntax comments/strings. If caret is placed not directly on/after a bracket, program will find nearest surrounding brackets.
+CudaText has built-in pair bracket finder. Before that you needed the plugin Bracket Helper, and now plugin should not be used, it is much slower than the built-in code. Bracket finder can highlight pair brackets, when there is only single caret, no selection. It finds symbols "()[]{}<>" (configurable per lexer). Bracket finder respects lexer context, it skips symbols inside syntax comments/strings. If caret is placed not directly on/after a bracket, program will find nearest surrounding brackets.
 
 There are several options:
 * "bracket_highlight"
