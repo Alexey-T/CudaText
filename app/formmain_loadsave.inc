@@ -902,7 +902,7 @@ begin
 
   if FileExists(fn) then
   try
-    DoOps_LoadOptions(fn, EditorOps);
+    DoOps_LoadOptions(fn, EditorOps, true);
     DoApplyAllOps;
   finally
     DeleteFileUTF8(fn);
@@ -1454,8 +1454,7 @@ begin
 end;
 
 
-procedure TfmMain.DoOps_LoadOptions(const fn: string; var Op: TEditorOps;
-  AllowUiOps: boolean=true; AllowGlobalOps: boolean=true);
+procedure TfmMain.DoOps_LoadOptions(const fn: string; var Op: TEditorOps; AllowGlobalOps: boolean);
 var
   cfg: TJsonConfig;
   NTick: QWord;
@@ -1475,16 +1474,16 @@ begin
     end;
 
     if AllowGlobalOps then
+    begin
       DoOps_LoadOptions_Global(cfg);
-
-    if AllowUiOps then
       DoOps_LoadOptions_Ui(cfg);
+    end;
 
     DoOps_LoadOptions_Editor(cfg, Op);
 
     //don't show if we only load lexer-specific config
     if UiOps.LogConsoleDetailedStartupTime then
-      if AllowUiOps and AllowGlobalOps then
+      if AllowGlobalOps then
       begin
         NTick:= GetTickCount64-NTick;
         MsgLogConsole(Format('Loaded configs: %dms', [NTick]));
@@ -1518,12 +1517,12 @@ begin
 
     if bExistsDefault then
     begin
-      DoOps_LoadOptions(FilenameDefault, Ops, false, false);
+      DoOps_LoadOptions(FilenameDefault, Ops, false);
     end;
 
     if bExistsUser then
     begin
-      DoOps_LoadOptions(FilenameUser, Ops, false, false);
+      DoOps_LoadOptions(FilenameUser, Ops, false);
     end;
 
     DoApplyFrameOps(F, Ops, true);
@@ -1635,7 +1634,7 @@ var
   bDisFree: boolean;
 begin
   bDisFree:= ShowDistractionFree;
-  DoOps_LoadOptions(AppFile_OptionsUser, EditorOps);
+  DoOps_LoadOptions(AppFile_OptionsUser, EditorOps, true);
   DoApplyAllOps;
 
   MsgStatus(msgStatusReadingOps);

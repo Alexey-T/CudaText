@@ -995,8 +995,7 @@ type
     procedure DoOps_OpenFile_Default;
     procedure DoOps_OpenFile_User;
     procedure DoOps_OpenFile_DefaultAndUser;
-    procedure DoOps_LoadOptions(const fn: string; var Op: TEditorOps;
-      AllowUiOps: boolean=true; AllowGlobalOps: boolean=true);
+    procedure DoOps_LoadOptions(const fn: string; var Op: TEditorOps; AllowGlobalOps: boolean);
     procedure DoOps_LoadOptionsFromString(const AString: string);
     procedure DoOps_FindPythonLib(Sender: TObject);
     procedure DoEditorsLock(ALock: boolean);
@@ -2754,7 +2753,7 @@ begin
     FOption_AllowSessionLoad,
     FOption_AllowSessionSave,
     FCmdlineFileCount);
-  DoOps_LoadOptions(AppFile_OptionsUser, EditorOps); //before LoadHistory
+  DoOps_LoadOptions(AppFile_OptionsUser, EditorOps, true); //before LoadHistory
   DoFileOpen('', '', nil); //before LoadHistory
 
   DoOps_LoadToolbarIcons;
