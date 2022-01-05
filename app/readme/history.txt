@@ -6,6 +6,7 @@
 1.152.6 (2022/01)
 
 + add: it's possible to hide folding gutter icon for small blocks, via option "fold_icon_min_range"
+- fix: regression: auto-scrolling (mouse is dragged out of editor) didn't work
 - fix: auto-completion didn't detect proper sub-lexer in fenced code-blocks
 - fix: BackSpace hides the caret if after the line-end and "caret_blink_en":false (thanks @hiiamboris)
 - fix: syntax highlight wasn't updated after 'duplicate line'/'paste' at the end of a sub-lexer block (thanks @WebMechanic)
