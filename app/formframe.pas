@@ -3668,7 +3668,7 @@ begin
   Caret:= Ed.Carets[0];
   if Caret.Change(NCaretPosX, NCaretPosY, NCaretEndX, NCaretEndY) then
   begin
-    Ed.DoCaretsFixIncorrectPos(true);
+    Ed.DoCaretsFixIncorrectPos(EditorOps.OpCaretOnLoadingLimitByLineEnds);
     Ed.DoEventCarets;
   end;
 

@@ -578,6 +578,7 @@ type
     OpCaretsPrimitiveColumnSel: boolean;
     OpCaretKeepVisibleOnScroll: boolean;
     OpCaretProximityVert: integer;
+    OpCaretOnLoadingLimitByLineEnds: boolean;
 
     //general
     OpKeepSelFontColor: boolean;
@@ -1565,6 +1566,7 @@ begin
     OpCaretKeepVisibleOnScroll:= true;
     OpCaretsPrimitiveColumnSel:= true;
     OpCaretProximityVert:= 0;
+    OpCaretOnLoadingLimitByLineEnds:= true;
 
     OpKeepSelFontColor:= false;
     OpShowCurLine:= false;
