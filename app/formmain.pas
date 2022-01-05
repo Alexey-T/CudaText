@@ -3690,7 +3690,7 @@ end;
 procedure TfmMain.DoApplyUiOpsToGroups(G: TATGroups);
 begin
   G.SetTabFont(Self.Font);
-  G.SetTabOption(tabOptionScalePercents, UiOps.Scale);
+  G.SetTabOption(tabOptionScalePercents, ATEditorScalePercents);
   G.SetTabOption(tabOptionShowHint, 1);
   G.SetTabOption(tabOptionVarWidth, Ord(UiOps.TabVarWidth));
   G.SetTabOption(tabOptionMultiline, Ord(UiOps.TabMultiline));
@@ -3776,8 +3776,8 @@ var
   i: integer;
 begin
   //LexerProgress.Width:= AppScale(UiOps.ProgressbarHeightSmall);
-  StatusProgress.Width:= AppScale(UiOps.ProgressbarWidth);
-  ButtonCancel.Width:= AppScale(UiOps.ProgressbarWidth);
+  StatusProgress.Width:= ATEditorScale(UiOps.ProgressbarWidth);
+  ButtonCancel.Width:= ATEditorScale(UiOps.ProgressbarWidth);
 
   AppScaleSplitter(AppPanels[cPaneSide].Splitter);
   AppScaleSplitter(AppPanels[cPaneOut].Splitter);
@@ -3828,14 +3828,14 @@ begin
   CodeTree.Invalidate;
 
   EditorApplyOpsCommon(CodeTreeFilterInput);
-  CodeTreeFilterReset.Width:= AppScale(UiOps.ScrollbarWidth);
+  CodeTreeFilterReset.Width:= ATEditorScale(UiOps.ScrollbarWidth);
 
   if Assigned(fmConsole) then
   begin
     EditorCaretShapeFromString(fmConsole.EdMemo.CaretShapeReadonly, EditorOps.OpCaretViewReadonly);
     EditorApplyOpsCommon(fmConsole.EdMemo);
     EditorApplyOpsCommon(fmConsole.EdInput);
-    fmConsole.EdInput.Height:= AppScale(UiOps.InputHeight);
+    fmConsole.EdInput.Height:= ATEditorScale(UiOps.InputHeight);
     fmConsole.MemoWordWrap:= UiOps.ConsoleWordWrap;
   end;
 
@@ -3882,25 +3882,22 @@ begin
       end;
   end;
 
-  PanelCodeTreeTop.Height:= AppScale(UiOps.InputHeight);
+  PanelCodeTreeTop.Height:= ATEditorScale(UiOps.InputHeight);
 
   TimerStatusClear.Interval:= UiOps.StatusTime*1000;
 
   ATFlatTheme.FontName:= UiOps.VarFontName;
   ATFlatTheme.FontSize:= UiOps.VarFontSize;
-  ATFlatTheme.ScalePercents:= UiOps.Scale;
-  ATFlatTheme.ScaleFontPercents:= UiOps.ScaleFont;
+  ATFlatTheme.ScalePercents:= ATEditorScalePercents;
+  ATFlatTheme.ScaleFontPercents:= ATEditorScaleFontPercents;
 
   ATScrollbar.ATScrollbarTheme.InitialSize:= UiOps.ScrollbarWidth;
   ATScrollbar.ATScrollbarTheme.BorderSize:= UiOps.ScrollbarBorderSize;
-  ATScrollbar.ATScrollbarTheme.ScalePercents:= UiOps.Scale;
+  ATScrollbar.ATScrollbarTheme.ScalePercents:= ATEditorScalePercents;
   ATScrollbar.ATScrollbarTheme.BorderSize:= 1;
 
-  CompletionOps.FormSizeX:= AppScale(UiOps.ListboxCompleteSizeX);
-  CompletionOps.FormSizeY:= AppScale(UiOps.ListboxCompleteSizeY);
-
-  ATEditorOptions.ScalePercents:= UiOps.Scale;
-  ATEditorOptions.ScaleFontPercents:= UiOps.ScaleFont;
+  CompletionOps.FormSizeX:= ATEditorScale(UiOps.ListboxCompleteSizeX);
+  CompletionOps.FormSizeY:= ATEditorScale(UiOps.ListboxCompleteSizeY);
 
   {$ifdef unix}
   if not AppAlwaysNewInstance and UiOps.OneInstance then
@@ -4705,7 +4702,7 @@ begin
 
   fmGoto.Localize;
   fmGoto.IsDoubleBuffered:= UiOps.DoubleBuffered;
-  fmGoto.Width:= AppScale(UiOps.ListboxSizeX);
+  fmGoto.Width:= ATEditorScale(UiOps.ListboxSizeX);
   UpdateInputForm(fmGoto, false);
 
   if fmGoto.ShowModal=mrOk then
@@ -5390,7 +5387,7 @@ begin
   end;
 
   FTooltipPanel.Font.Name:= EditorOps.OpFontName;
-  FTooltipPanel.Font.Size:= AppScaleFont(EditorOps.OpFontSize);
+  FTooltipPanel.Font.Size:= ATEditorScaleFont(EditorOps.OpFontSize);
   FTooltipPanel.Font.Color:= clInfoText;
   FTooltipPanel.Color:= clInfoBk;
   FTooltipPanel.ColorFrame:= ColorBlendHalf(ColorToRGB(clInfoBk), ColorToRGB(clInfoText));
@@ -8263,11 +8260,11 @@ begin
 
   FCfmPanel.Color:= GetAppColor(apclButtonBgOver);
   FCfmPanel.Font.Name:= UiOps.VarFontName;
-  FCfmPanel.Font.Size:= AppScaleFont(UiOps.VarFontSize);
+  FCfmPanel.Font.Size:= ATEditorScaleFont(UiOps.VarFontSize);
   FCfmPanel.Font.Color:= GetAppColor(apclButtonFont);
 
   //FCfmPanel.Width:= AppScaleFont(UiOps.VarFontSize)*cW;
-  FCfmPanel.Height:= Trunc(AppScaleFont(UiOps.VarFontSize)*cH);
+  FCfmPanel.Height:= Trunc(ATEditorScaleFont(UiOps.VarFontSize)*cH);
 end;
 
 procedure TfmMain.ConfirmButtonOkClick(Sender: TObject);

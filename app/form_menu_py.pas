@@ -15,6 +15,7 @@ uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics,
   ExtCtrls, Dialogs,
   ATSynEdit,
+  ATSynEdit_Options,
   ATSynEdit_Edits,
   ATStringProc,
   ATListbox,
@@ -132,7 +133,7 @@ begin
 
   list.Color:= FColorBg;
 
-  edit.Height:= AppScale(UiOps.InputHeight);
+  edit.Height:= ATEditorScale(UiOps.InputHeight);
   edit.Font.Name:= EditorOps.OpFontName;
   edit.Font.Size:= EditorOps.OpFontSize;
   edit.Font.Quality:= EditorOps.OpFontQuality;
@@ -145,14 +146,14 @@ begin
   edit.OptCaretBlinkEnabled:= EditorOps.OpCaretBlinkEn;
   edit.OptCaretBlinkTime:= EditorOps.OpCaretBlinkTime;
 
-  PanelCaption.Height:= AppScale(26);
+  PanelCaption.Height:= ATEditorScale(26);
   PanelCaption.Font.Name:= UiOps.VarFontName;
-  PanelCaption.Font.Size:= AppScaleFont(UiOps.VarFontSize);
+  PanelCaption.Font.Size:= ATEditorScaleFont(UiOps.VarFontSize);
   PanelCaption.Font.Color:= FColorFont;
 
   self.Color:= FColorBg;
-  self.Width:= AppScale(UiOps.ListboxSizeX);
-  self.Height:= AppScale(UiOps.ListboxSizeY);
+  self.Width:= ATEditorScale(UiOps.ListboxSizeX);
+  self.Height:= ATEditorScale(UiOps.ListboxSizeY);
 
   ResultCode:= -1;
   listItems:= TStringlist.Create;
@@ -269,7 +270,7 @@ begin
   if UseEditorFont then
   begin
     c.Font.Name:= EditorOps.OpFontName;
-    c.Font.Size:= AppScaleFont(EditorOps.OpFontSize);
+    c.Font.Size:= ATEditorScaleFont(EditorOps.OpFontSize);
   end;
 
   if AIndex<0 then exit;

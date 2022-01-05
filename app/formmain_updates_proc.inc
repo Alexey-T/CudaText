@@ -366,7 +366,7 @@ begin
   end;
 
   if AndHeight then
-    Form.Height:= AppScale(UiOps.ListboxSizeY);
+    Form.Height:= ATEditorScale(UiOps.ListboxSizeY);
 end;
 
 
@@ -486,7 +486,7 @@ var
   id: TAppPanelId;
 begin
   Self.Font.Name:= UiOps.VarFontName;
-  Self.Font.Size:= AppScaleFont(UiOps.VarFontSize);
+  Self.Font.Size:= ATEditorScaleFont(UiOps.VarFontSize);
   Self.Font.Color:= GetAppColor(apclTabFont);
 
   Groups.SetTabFont(Self.Font);
@@ -501,7 +501,7 @@ begin
 
   //dont set font for PanelLeft/PanelBottom, id effects
   CodeTree.Tree.Font.Name:= UiOps.VarFontName;
-  CodeTree.Tree.Font.Size:= AppScaleFont(UiOps.VarFontSize);
+  CodeTree.Tree.Font.Size:= ATEditorScaleFont(UiOps.VarFontSize);
 
   CodeTreeFilterInput.Font.Name:= EditorOps.OpFontName;
   CodeTreeFilterInput.Font.Size:= EditorOps.OpFontSize;
@@ -511,13 +511,13 @@ begin
       with AppPanels[id] do
       begin
         PanelTitle.Font.Name:= UiOps.VarFontName;
-        PanelTitle.Font.Size:= AppScaleFont(UiOps.VarFontSize);
+        PanelTitle.Font.Size:= ATEditorScaleFont(UiOps.VarFontSize);
       end;
 
   ATFlatTheme.FontName:= UiOps.VarFontName;
   ATFlatTheme.FontSize:= UiOps.VarFontSize;
-  ATFlatTheme.ScalePercents:= UiOps.Scale;
-  ATFlatTheme.ScaleFontPercents:= UiOps.ScaleFont;
+  ATFlatTheme.ScalePercents:= ATEditorScalePercents;
+  ATFlatTheme.ScaleFontPercents:= ATEditorScaleFontPercents;
 
   if Assigned(fmFind) then
     fmFind.UpdateFonts;
@@ -528,7 +528,7 @@ end;
 procedure TfmMain.DoApplyFont_UiStatusbar;
 begin
   UpdateThemeStatusbar;
-  Status.HeightInitial:= Max(UiOps.StatusHeightMin, AppScale(AppThemeStatusbar.FontSize * UiOps.StatusHeightPercents div 100));
+  Status.HeightInitial:= Max(UiOps.StatusHeightMin, ATEditorScale(AppThemeStatusbar.FontSize * UiOps.StatusHeightPercents div 100));
   Status.Height:= Status.HeightInitial;
 end;
 
@@ -1076,7 +1076,7 @@ begin
     DoTreeviewCopy(FCodetreeBuffer, CodeTree.Tree);
 
     //force update scrollbar
-    CodeTree.Tree.Font.Size:= AppScaleFont(UiOps.VarFontSize);
+    CodeTree.Tree.Font.Size:= ATEditorScaleFont(UiOps.VarFontSize);
     CodeTree.Tree.Perform(CM_CHANGED, 0, 0);
 
     DoCodetree_UpdateVersion(Ed);

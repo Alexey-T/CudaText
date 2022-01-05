@@ -368,8 +368,6 @@ type
     ShowStatusbar: boolean;
     ShowToolbar: boolean;
     ShowTitlePath: boolean;
-    Scale: integer;
-    ScaleFont: integer;
 
     ReopenSession: boolean;
     ReopenSessionWithCmdLine: boolean;
@@ -701,9 +699,6 @@ procedure MsgBadConfig(const fn, msg: string);
 procedure MsgStdout(const Str: string; AllowMsgBox: boolean = false);
 procedure MsgLogConsole(const AText: string);
 
-function AppScale(AValue: integer): integer;
-function AppScaleFont(AValue: integer): integer;
-//procedure AppScaleScrollbar(C: TATScroll);
 function AppListboxItemHeight(AScale, ADoubleHeight: boolean): integer;
 procedure AppGetFileProps(const FileName: string; out P: TAppFileProps);
 procedure AppUpdateWatcherFrames;
@@ -1881,9 +1876,6 @@ begin
     ShowToolbar:= false;
     ShowTitlePath:= false;
 
-    Scale:= 100;
-    ScaleFont:= 100;
-
     ReopenSession:= true;
     ReopenSessionWithCmdLine:= false;
     SessionSaveInterval:= 30;
@@ -2273,7 +2265,7 @@ begin
   if ADoubleHeight then
     Result:= Result * 185 div 100;
   if AScale then
-    Result:= AppScaleFont(Result);
+    Result:= ATEditorScaleFont(Result);
 end;
 
 
@@ -2889,19 +2881,6 @@ begin
       exit(Item.Value);
   end;
   Result:= ADefValue;
-end;
-
-function AppScale(AValue: integer): integer; inline;
-begin
-  Result:= AValue * UiOps.Scale div 100;
-end;
-
-function AppScaleFont(AValue: integer): integer;
-begin
-  if UiOps.ScaleFont=0 then
-    Result:= AppScale(AValue)
-  else
-    Result:= AValue * UiOps.ScaleFont div 100;
 end;
 
 procedure DoMenuitemEllipsis(c: TMenuItem);

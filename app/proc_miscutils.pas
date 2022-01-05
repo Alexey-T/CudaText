@@ -21,6 +21,7 @@ uses
   Clipbrd,
   at__jsonConf,
   ATSynEdit,
+  ATSynEdit_Options,
   ATSynEdit_Adapter_EControl,
   ATSynEdit_Finder,
   ATStringProc,
@@ -436,7 +437,7 @@ begin
   if AThemed then
   begin
     C.Font.Name:= UiOps.VarFontName;
-    C.Font.Size:= AppScaleFont(UiOps.VarFontSize);
+    C.Font.Size:= ATEditorScaleFont(UiOps.VarFontSize);
     C.Font.Color:= GetAppColor(apclTreeFont);
     C.BackgroundColor:= GetAppColor(apclTreeBg);
     C.SelectionFontColor:= GetAppColor(apclTreeSelFont);
@@ -518,8 +519,8 @@ begin
 
     if (Ctl is TATButton) or (Ctl is TATPanelSimple) then
     begin
-      Ctl.Width:= AppScale(Ctl.Width);
-      Ctl.Height:= AppScale(Ctl.Height);
+      Ctl.Width:= ATEditorScale(Ctl.Width);
+      Ctl.Height:= ATEditorScale(Ctl.Height);
     end;
 
     if Ctl is TATPanelSimple then
@@ -915,7 +916,7 @@ procedure AppScaleSplitter(C: TSplitter);
 var
   NSize: integer;
 begin
-  NSize:= AppScale(4);
+  NSize:= ATEditorScale(4);
   if C.Align in [alLeft, alRight] then
     C.Width:= NSize
   else

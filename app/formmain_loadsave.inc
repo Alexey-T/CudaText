@@ -1224,10 +1224,10 @@ begin
 
   UiOps.ShowTitlePath:= cfg.GetValue('ui_title_path', UiOps.ShowTitlePath);
 
-  UiOps.Scale:= cfg.GetValue('ui_scale'+cOptionSystemSuffix, 0);
-  UiOps.ScaleFont:= cfg.GetValue('ui_scale_font'+cOptionSystemSuffix, 100);
-  if UiOps.Scale=0 then
-    UiOps.Scale:= 100*Screen.PixelsPerInch div 96;
+  ATEditorScalePercents:= cfg.GetValue('ui_scale'+cOptionSystemSuffix, 0);
+  ATEditorScaleFontPercents:= cfg.GetValue('ui_scale_font'+cOptionSystemSuffix, 100);
+  if ATEditorScalePercents=0 then
+    ATEditorScalePercents:= 100*Screen.PixelsPerInch div 96;
 
   UiOps.ReopenSession:= cfg.GetValue('ui_reopen_session', UiOps.ReopenSession);
   UiOps.ReopenSessionWithCmdLine:= cfg.GetValue('ui_reopen_session_cmdline', UiOps.ReopenSessionWithCmdLine);

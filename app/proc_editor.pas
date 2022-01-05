@@ -198,7 +198,7 @@ begin
   end;
 
   Ed.OptBorderFocusedActive:= Op.OpActiveBorderInEditor;
-  Ed.OptBorderWidthFocused:= AppScale(Op.OpActiveBorderWidth);
+  Ed.OptBorderWidthFocused:= ATEditorScale(Op.OpActiveBorderWidth);
 
   Ed.OptOverwriteSel:= Op.OpOverwriteSel;
   Ed.OptOverwriteAllowedOnPaste:= Op.OpOverwriteOnPaste;
@@ -428,7 +428,7 @@ end;
 procedure EditorApplyOpsCommon(Ed: TATSynEdit);
 begin
   Ed.OptBorderFocusedActive:= EditorOps.OpActiveBorderInControls;
-  Ed.OptBorderWidthFocused:= AppScale(EditorOps.OpActiveBorderWidth);
+  Ed.OptBorderWidthFocused:= ATEditorScale(EditorOps.OpActiveBorderWidth);
   Ed.OptCaretBlinkEnabled:= EditorOps.OpCaretBlinkEn;
   Ed.OptCaretBlinkTime:= EditorOps.OpCaretBlinkTime;
   Ed.OptScrollbarsNew:= EditorOps.OpScrollbarsNew;

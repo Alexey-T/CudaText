@@ -27,6 +27,7 @@ uses
   ATGauge,
   ATStatusBar,
   ATSynEdit,
+  ATSynEdit_Options,
   ATSynEdit_Edits,
   ATSynEdit_Adapter_EControl,
   proc_customdialog_dummy,
@@ -705,7 +706,7 @@ begin
   Ed.OnCommand:= CustomDialog_OnEditorCommand;
 
   Ed.OptBorderFocusedActive:= EditorOps.OpActiveBorderInEditor;
-  Ed.OptBorderWidthFocused:= AppScale(EditorOps.OpActiveBorderWidth);
+  Ed.OptBorderWidthFocused:= ATEditorScale(EditorOps.OpActiveBorderWidth);
 
   Ed.OptThemed:= true;
   EditorApplyTheme(Ed);
@@ -972,7 +973,7 @@ begin
     TAppTreeContainer(Ctl).Tree.OnCollapsing:= @AForm.DoOnTreeviewCollapsing;
     TAppTreeContainer(Ctl).Tree.OnExpanding:= @AForm.DoOnTreeviewExpanding;
     TAppTreeContainer(Ctl).Tree.OnDeletion:= @AForm.DoOnTreeviewDeletion;
-    TAppTreeContainer(Ctl).Tree.DefaultItemHeight:= AppScale(DefaultTreeNodeHeight);
+    TAppTreeContainer(Ctl).Tree.DefaultItemHeight:= ATEditorScale(DefaultTreeNodeHeight);
     TAppTreeContainer(Ctl).Invalidate;
     exit
   end;
@@ -2172,23 +2173,23 @@ begin
   //if Screen.PixelsPerInch=96 then
   //  ASimpleResize:= false;
 
-  if UiOps.Scale<>100 then
+  if ATEditorScalePercents<>100 then
     if ASimpleResize then
     begin
-      F.Width:= AppScale(F.Width);
-      F.Height:= AppScale(F.Height);
+      F.Width:= ATEditorScale(F.Width);
+      F.Height:= ATEditorScale(F.Height);
       for i:= 0 to F.ControlCount-1 do
         with F.Controls[i] do
         begin
-          Left:= AppScale(Left);
-          Top:= AppScale(Top);
+          Left:= ATEditorScale(Left);
+          Top:= ATEditorScale(Top);
         end;
     end
     else
       F.AutoAdjustLayout(
         lapAutoAdjustForDPI ,
-        96, AppScale(96),
-        F.Width, AppScale(F.Width)
+        96, ATEditorScale(96),
+        F.Width, ATEditorScale(F.Width)
         );
 end;
 

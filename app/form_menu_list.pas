@@ -17,6 +17,7 @@ uses
   ExtCtrls, Buttons,
   ATStringProc,
   ATSynEdit,
+  ATSynEdit_Options,
   ATListbox,
   ATButtons,
   proc_globdata,
@@ -138,13 +139,13 @@ begin
 
   UpdateColors;
 
-  plCaption.Height:= AppScale(26);
+  plCaption.Height:= ATEditorScale(26);
   plCaption.Font.Name:= UiOps.VarFontName;
-  plCaption.Font.Size:= AppScaleFont(UiOps.VarFontSize);
+  plCaption.Font.Size:= ATEditorScaleFont(UiOps.VarFontSize);
   plCaption.Font.Color:= GetAppColor(apclListFont);
 
-  self.Width:= AppScale(UiOps.ListboxSizeX);
-  self.Height:= AppScale(UiOps.ListboxSizeY);
+  self.Width:= ATEditorScale(UiOps.ListboxSizeX);
+  self.Height:= ATEditorScale(UiOps.ListboxSizeY);
 
   List.OnChangedSel:= @DoListChangedSel;
 

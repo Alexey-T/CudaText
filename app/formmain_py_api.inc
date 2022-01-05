@@ -5251,14 +5251,16 @@ begin
 
         APP_PROC_CONFIG_SCALE_GET:
           begin
-            Result:= Py_BuildValue('(ii)', UiOps.Scale, UiOps.ScaleFont);
+            Result:= Py_BuildValue('(ii)',
+                       ATEditorScalePercents,
+                       ATEditorScaleFontPercents);
           end;
 
         APP_PROC_CONFIG_SCALE_SET:
           begin
             Sep.Init(Str);
-            Sep.GetItemInt(UiOps.Scale, 100, 80, 500);
-            Sep.GetItemInt(UiOps.ScaleFont, 100, 80, 500);
+            Sep.GetItemInt(ATEditorScalePercents, 100, 80, 500);
+            Sep.GetItemInt(ATEditorScaleFontPercents, 100, 80, 500);
             fmMain.DoApplyUiOps;
             Result:= ReturnNone;
           end;

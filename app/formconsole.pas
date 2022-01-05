@@ -17,6 +17,7 @@ uses
   PythonEngine,
   ATStrings,
   ATSynEdit,
+  ATSynEdit_Options,
   ATSynEdit_Edits,
   ATSynEdit_Commands,
   ATSynEdit_Adapter_Simple,
@@ -313,7 +314,7 @@ begin
 
   EdMemo.OptTabSize:= 4;
   EdMemo.OptBorderFocusedActive:= EditorOps.OpActiveBorderInControls;
-  EdMemo.OptBorderWidthFocused:= AppScale(EditorOps.OpActiveBorderWidth);
+  EdMemo.OptBorderWidthFocused:= ATEditorScale(EditorOps.OpActiveBorderWidth);
   EdMemo.OptBorderWidth:= 0;
   EdMemo.OptShowURLs:= false;
   EdMemo.OptCaretVirtual:= false;

@@ -1615,9 +1615,9 @@ begin
       begin
         if ACommand=cCommand_ZoomReset then
         begin
-          NValue:= ATEditorOptions.ScaleFontPercents;
+          NValue:= ATEditorScaleFontPercents;
           if NValue=0 then
-            NValue:= ATEditorOptions.ScalePercents;
+            NValue:= ATEditorScalePercents;
         end
         else
           NValue:= Ed.OptScaleFont;
@@ -2017,7 +2017,7 @@ end;
 procedure TEditorFrame.ApplyThemeToInfoPanel(APanel: TPanel);
 begin
   APanel.Font.Name:= UiOps.VarFontName;
-  APanel.Font.Size:= AppScaleFont(UiOps.VarFontSize);
+  APanel.Font.Size:= ATEditorScaleFont(UiOps.VarFontSize);
   APanel.Color:= GetAppColor(apclListBg);
   APanel.Font.Color:= GetAppColor(apclListFont);
 end;
@@ -3849,7 +3849,7 @@ begin
     PanelInfo.Parent:= Self;
     PanelInfo.Align:= alTop;
     PanelInfo.Visible:= false;
-    PanelInfo.Height:= AppScale(26);
+    PanelInfo.Height:= ATEditorScale(26);
     PanelInfo.BevelOuter:= bvNone;
   end;
 
@@ -3867,8 +3867,8 @@ var
 begin
   if Assigned(PanelReload[Index]) then exit;
 
-  NPanelHeight:= AppScale(31);
-  NBtnHeight:= AppScale(25);
+  NPanelHeight:= ATEditorScale(31);
+  NBtnHeight:= ATEditorScale(25);
 
   PanelReload[Index]:= TPanel.Create(Self);
   PanelReload[Index].Parent:= Self;

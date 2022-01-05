@@ -20,6 +20,7 @@ uses
   ATStringProc,
   ATCanvasPrimitives,
   ATSynEdit,
+  ATSynEdit_Options,
   ATSynEdit_Carets,
   ATSynEdit_Edits,
   ATSynEdit_Commands,
@@ -813,7 +814,7 @@ procedure TfmFind.UpdateFonts;
     Ed.Font.Size:= EditorOps.OpFontSize;
     Ed.Font.Quality:= EditorOps.OpFontQuality;
     Ed.OptBorderFocusedActive:= EditorOps.OpActiveBorderInControls;
-    Ed.OptBorderWidthFocused:= AppScale(EditorOps.OpActiveBorderWidth);
+    Ed.OptBorderWidthFocused:= ATEditorScale(EditorOps.OpActiveBorderWidth);
     EditorApplyTheme(Ed);
     Ed.Update;
   end;
@@ -1309,7 +1310,7 @@ var
   Ed: TATSynEdit;
   bEnabled: boolean;
 begin
-  cPadding:= AppScale(4);
+  cPadding:= ATEditorScale(4);
   bEnabled:= Self.Enabled;
 
   PanelTop.Visible:= IsNarrow;

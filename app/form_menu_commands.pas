@@ -15,6 +15,7 @@ uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Types,
   StdCtrls, ExtCtrls, Dialogs, IniFiles,
   ATSynEdit,
+  ATSynEdit_Options,
   ATSynEdit_Edits,
   ATSynEdit_Keymap,
   ATStringProc,
@@ -120,7 +121,7 @@ var
 begin
   Localize;
 
-  edit.Height:= AppScale(UiOps.InputHeight);
+  edit.Height:= ATEditorScale(UiOps.InputHeight);
   edit.Font.Name:= EditorOps.OpFontName;
   edit.Font.Size:= EditorOps.OpFontSize;
   edit.Font.Quality:= EditorOps.OpFontQuality;
@@ -129,7 +130,7 @@ begin
   edit.OptCaretBlinkTime:= EditorOps.OpCaretBlinkTime;
 
   PanelCaption.Font.Name:= UiOps.VarFontName;
-  PanelCaption.Font.Size:= AppScaleFont(UiOps.VarFontSize);
+  PanelCaption.Font.Size:= ATEditorScaleFont(UiOps.VarFontSize);
 
   ButtonCancel.Width:= ButtonCancel.Height;
 
@@ -206,12 +207,12 @@ begin
   PanelInfo.Parent:= Self;
   PanelInfo.Align:= alClient;
   PanelInfo.Font.Name:= UiOps.VarFontName;
-  PanelInfo.Font.Size:= AppScaleFont(UiOps.VarFontSize);
+  PanelInfo.Font.Size:= ATEditorScaleFont(UiOps.VarFontSize);
   PanelInfo.BorderSpacing.Around:= 20;
   PanelInfo.Caption:= msgCmdPalettePrefixHelp;
 
-  Width:= AppScale(UiOps.ListboxSizeX);
-  Height:= AppScale(UiOps.ListboxSizeY);
+  Width:= ATEditorScale(UiOps.ListboxSizeX);
+  Height:= ATEditorScale(UiOps.ListboxSizeY);
 end;
 
 procedure TfmCommands.editChange(Sender: TObject);
