@@ -1457,7 +1457,7 @@ end;
 procedure TfmMain.DoOps_LoadOptions(const AFileName: string; var Ops: TEditorOps; AllowGlobalOps: boolean);
 var
   cfg: TJsonConfig;
-  NTick: QWord;
+  NTick, NTick2: QWord;
 begin
   NTick:= GetTickCount64;
 
@@ -1479,7 +1479,13 @@ begin
       DoOps_LoadOptions_Ui(cfg);
     end;
 
+    NTick2:= GetTickCount64;
     DoOps_LoadOptions_Editor(cfg, Ops);
+    if UiOps.LogConsoleDetailedStartupTime then
+    begin
+      NTick2:= GetTickCount64-NTick2;
+      MsgLogConsole(Format('Loaded lexer config "%s": %dms', [ExtractFileName(AFileName), NTick2]));
+    end;
 
     //don't show if we only load lexer-specific config
     if UiOps.LogConsoleDetailedStartupTime then
