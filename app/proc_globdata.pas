@@ -29,6 +29,7 @@ uses
   IniFiles,
   Process,
   ATSynEdit,
+  ATSynEdit_Options,
   ATSynEdit_Keymap,
   ATSynEdit_Keymap_Init,
   ATSynEdit_Adapter_litelexer,
@@ -1596,7 +1597,7 @@ begin
     OpDimUnfocused:= 0;
     OpCommandLogMaxCount:= 200;
 
-    OpNonWordChars:= cDefaultNonWordChars;
+    OpNonWordChars:= ATEditorOptions.DefaultNonWordChars;
     OpFoldStyle:= 1;
     OpFoldTooltipShow:= false;
     OpFoldIconForMinimalRangeHeight:= 0;

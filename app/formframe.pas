@@ -940,7 +940,7 @@ begin
           if IsCharHexDigit(AStr[i+1]) then
           begin
             //don't allow word-char before
-            if (i>1) and IsCharWord(AStr[i-1], cDefaultNonWordChars) then Continue;
+            if (i>1) and IsCharWord(AStr[i-1], ATEditorOptions.DefaultNonWordChars) then Continue;
 
             NColor:= TATHtmlColorParserW.ParseTokenRGB(@AStr[i+1], NLen, clNone);
             Inc(NLen);
@@ -954,7 +954,7 @@ begin
           then
           begin
             //don't allow word-char before
-            if (i>1) and IsCharWord(AStr[i-1], cDefaultNonWordChars) then Continue;
+            if (i>1) and IsCharWord(AStr[i-1], ATEditorOptions.DefaultNonWordChars) then Continue;
 
             NColor:= TATHtmlColorParserW.ParseFunctionRGB(AStr, i, NLen);
             bFoundBrackets:= true;
@@ -968,7 +968,7 @@ begin
           then
           begin
             //don't allow word-char before
-            if (i>1) and IsCharWord(AStr[i-1], cDefaultNonWordChars) then Continue;
+            if (i>1) and IsCharWord(AStr[i-1], ATEditorOptions.DefaultNonWordChars) then Continue;
 
             NColor:= TATHtmlColorParserW.ParseFunctionHSL(AStr, i, NLen);
             bFoundBrackets:= true;

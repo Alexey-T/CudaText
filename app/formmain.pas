@@ -6809,7 +6809,7 @@ begin
         //find rgb(...), rgba(...)
         if (S[i+1]='g') and
           (S[i+2]='b') and
-          ((i=1) or not IsCharWord(S[i-1], cDefaultNonWordChars)) //word boundary
+          ((i=1) or not IsCharWord(S[i-1], ATEditorOptions.DefaultNonWordChars)) //word boundary
         then
         begin
           NColor:= TATHtmlColorParserA.ParseFunctionRGB(S, i, NLen);
@@ -6821,7 +6821,7 @@ begin
         //find hsl(...), hsla(...)
         if (S[i+1]='s') and
           (S[i+2]='l') and
-          ((i=1) or not IsCharWord(S[i-1], cDefaultNonWordChars)) //word boundary
+          ((i=1) or not IsCharWord(S[i-1], ATEditorOptions.DefaultNonWordChars)) //word boundary
         then
         begin
           NColor:= TATHtmlColorParserA.ParseFunctionHSL(S, i, NLen);
