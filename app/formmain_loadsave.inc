@@ -1454,7 +1454,7 @@ begin
 end;
 
 
-procedure TfmMain.DoOps_LoadOptions(const fn: string; var Op: TEditorOps; AllowGlobalOps: boolean);
+procedure TfmMain.DoOps_LoadOptions(const AFileName: string; var Ops: TEditorOps; AllowGlobalOps: boolean);
 var
   cfg: TJsonConfig;
   NTick: QWord;
@@ -1464,11 +1464,11 @@ begin
   cfg:= TJsonConfig.Create(nil);
   try
     try
-      cfg.Filename:= fn;
+      cfg.Filename:= AFileName;
     except
       on E: Exception do
       begin
-        MsgBadConfig(fn, E.Message);
+        MsgBadConfig(AFileName, E.Message);
         Exit
       end;
     end;
@@ -1479,7 +1479,7 @@ begin
       DoOps_LoadOptions_Ui(cfg);
     end;
 
-    DoOps_LoadOptions_Editor(cfg, Op);
+    DoOps_LoadOptions_Editor(cfg, Ops);
 
     //don't show if we only load lexer-specific config
     if UiOps.LogConsoleDetailedStartupTime then
