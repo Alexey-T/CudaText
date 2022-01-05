@@ -1543,9 +1543,9 @@ begin
     PopupTree.Items.Add(mnuTreeSorted);
   end;
 
-  mnuTreeFoldAll.Caption:= cStrMenuitemFoldAll;
-  mnuTreeUnfoldAll.Caption:= cStrMenuitemUnfoldAll;
-  mnuTreeFoldLevel.Caption:= cStrMenuitemFoldLevel;
+  mnuTreeFoldAll.Caption:= ATEditorOptions.TextMenuitemFoldAll;
+  mnuTreeUnfoldAll.Caption:= ATEditorOptions.TextMenuitemUnfoldAll;
+  mnuTreeFoldLevel.Caption:= ATEditorOptions.TextMenuitemFoldLevel;
   mnuTreeSorted.Caption:= msgTreeSorted;
 
   mnuTreeSorted.Checked:= CodeTree.Tree.SortType<>stNone;

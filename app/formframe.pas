@@ -20,6 +20,7 @@ uses
   ATGroups,
   ATScrollBar,
   ATSynEdit,
+  ATSynEdit_Options,
   ATSynEdit_Finder,
   ATSynEdit_Keymap_Init,
   ATSynEdit_Adapters,
@@ -2199,9 +2200,9 @@ begin
     FBin.ResizeFollowTail:= false; //fixes scrolling to the end on file loading
     FBin.TextGutter:= true;
     FBin.TextPopupCommands:= [vpCmdCopy, vpCmdCopyHex, vpCmdSelectAll];
-    FBin.TextPopupCaption[vpCmdCopy]:= cStrMenuitemCopy;
-    FBin.TextPopupCaption[vpCmdCopyHex]:= cStrMenuitemCopy+' (hex)';
-    FBin.TextPopupCaption[vpCmdSelectAll]:= cStrMenuitemSelectAll;
+    FBin.TextPopupCaption[vpCmdCopy]:= ATEditorOptions.TextMenuitemCopy;
+    FBin.TextPopupCaption[vpCmdCopyHex]:= ATEditorOptions.TextMenuitemCopy+' (hex)';
+    FBin.TextPopupCaption[vpCmdSelectAll]:= ATEditorOptions.TextMenuitemSelectAll;
     FBin.Show;
   end;
 

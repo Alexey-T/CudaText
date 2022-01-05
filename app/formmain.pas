@@ -6857,9 +6857,9 @@ begin
     mi:= Popup.Items[i];
     case mi.Tag of
       100:
-        mi.Caption:= cStrMenuitemCopy;
+        mi.Caption:= ATEditorOptions.TextMenuitemCopy;
       101:
-        mi.Caption:= cStrMenuitemSelectAll;
+        mi.Caption:= ATEditorOptions.TextMenuitemSelectAll;
       102:
         mi.Caption:= msgConsoleClear;
       103:
