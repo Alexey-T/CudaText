@@ -3899,8 +3899,8 @@ begin
   CompletionOps.FormSizeX:= AppScale(UiOps.ListboxCompleteSizeX);
   CompletionOps.FormSizeY:= AppScale(UiOps.ListboxCompleteSizeY);
 
-  EditorScalePercents:= UiOps.Scale;
-  EditorScaleFontPercents:= UiOps.ScaleFont;
+  ATEditorOptions.ScalePercents:= UiOps.Scale;
+  ATEditorOptions.ScaleFontPercents:= UiOps.ScaleFont;
 
   {$ifdef unix}
   if not AppAlwaysNewInstance and UiOps.OneInstance then

@@ -1615,9 +1615,9 @@ begin
       begin
         if ACommand=cCommand_ZoomReset then
         begin
-          NValue:= EditorScaleFontPercents;
+          NValue:= ATEditorOptions.ScaleFontPercents;
           if NValue=0 then
-            NValue:= EditorScalePercents;
+            NValue:= ATEditorOptions.ScalePercents;
         end
         else
           NValue:= Ed.OptScaleFont;
