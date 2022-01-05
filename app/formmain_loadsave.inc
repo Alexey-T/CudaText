@@ -918,7 +918,12 @@ var
   s: string;
   N: integer;
 begin
-  Application.MainFormOnTaskBar:= cfg.GetValue('ui_taskbar_mode'+cOptionSystemSuffix, Application.MainFormOnTaskBar);
+  Application.{%H-}MainFormOnTaskBar:= cfg.GetValue('ui_taskbar_mode'+cOptionSystemSuffix, Application.{%H-}MainFormOnTaskBar);
+
+  ATEditorScalePercents:= cfg.GetValue('ui_scale'+cOptionSystemSuffix, 0);
+  ATEditorScaleFontPercents:= cfg.GetValue('ui_scale_font'+cOptionSystemSuffix, 100);
+  if ATEditorScalePercents=0 then
+    ATEditorScalePercents:= 100*Screen.PixelsPerInch div 96;
 
   ATEditorOptions.FlickerReducingPause:= cfg.GetValue('renderer_anti_flicker'+cOptionSystemSuffix, ATEditorOptions.FlickerReducingPause);
   ATEditorOptions.CharSizeProportional:= cfg.GetValue('unicode_proportional', ATEditorOptions.CharSizeProportional);
@@ -1223,11 +1228,6 @@ begin
   UiOps.StatusTime:= Max(1, Min(60, cfg.GetValue('ui_statusbar_time', UiOps.StatusTime)));
 
   UiOps.ShowTitlePath:= cfg.GetValue('ui_title_path', UiOps.ShowTitlePath);
-
-  ATEditorScalePercents:= cfg.GetValue('ui_scale'+cOptionSystemSuffix, 0);
-  ATEditorScaleFontPercents:= cfg.GetValue('ui_scale_font'+cOptionSystemSuffix, 100);
-  if ATEditorScalePercents=0 then
-    ATEditorScalePercents:= 100*Screen.PixelsPerInch div 96;
 
   UiOps.ReopenSession:= cfg.GetValue('ui_reopen_session', UiOps.ReopenSession);
   UiOps.ReopenSessionWithCmdLine:= cfg.GetValue('ui_reopen_session_cmdline', UiOps.ReopenSessionWithCmdLine);
