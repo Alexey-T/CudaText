@@ -727,6 +727,7 @@
   //[Ui]
   //UI scale factor in %, 70 to 500. [has suffix]
   //If value=0, then OS scaling is detected and used (currently only on Windows).
+  //Note: this option is global, not per-lexer.
   "ui_scale": 0,
   "ui_scale__linux": 0,
   "ui_scale__mac": 0,
@@ -734,6 +735,7 @@
   //All fonts scale factor in %, 70 to 500. [has suffix]
   //If value=0, it follows the option "ui_scale".
   //Note: don't set 0 for Windows, it causes too big fonts with High-DPI.
+  //Note: this option is global, not per-lexer.
   "ui_scale_font": 100,
   "ui_scale_font__linux": 100,
   "ui_scale_font__mac": 100,
