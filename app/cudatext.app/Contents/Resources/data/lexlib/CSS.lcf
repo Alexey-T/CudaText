@@ -1,4 +1,4 @@
-object SyntAnal6: TLibSyntAnalyzer
+object SyntAnal7: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Style'
@@ -141,6 +141,22 @@ object SyntAnal6: TLibSyntAnalyzer
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
+    end
+    item
+      DisplayName = 'Name.'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clMaroon
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Name#'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clAqua
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
     end>
   TokenRules = <
     item
@@ -191,7 +207,7 @@ object SyntAnal6: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Prop custom'
+      DisplayName = 'Prop user'
       StyleName = 'Prop user'
       TokenType = 2
       Expression = '\-\-\w[\w\-]*'
@@ -199,11 +215,19 @@ object SyntAnal6: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Prop'
+      DisplayName = 'Prop in {}'
       StyleName = 'Prop incorrect'
       BlockName = '{'
       TokenType = 9
-      Expression = '[\w\.-]+ (?=\s*\:)'
+      Expression = '[\w\-]+(?=\x20*\:)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Prop others'
+      StyleName = 'Prop correct'
+      TokenType = 12
+      Expression = '[\w\-]+(?=\x20*\:)'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -276,10 +300,10 @@ object SyntAnal6: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Style'
+      DisplayName = 'Name'
       StyleName = 'Style'
       TokenType = 2
-      Expression = '\-[\w\-]+ | [\w\#\.](\\.|[\w\-])*'
+      Expression = '\-[\w\-]+ | \w(\\.|[\w\-])*'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -288,6 +312,22 @@ object SyntAnal6: TLibSyntAnalyzer
       StyleName = 'Symbol'
       TokenType = 3
       Expression = '\]\]> | [;:,%\(\)\[\]@=/\*<>\-\+!\^\$\|~]'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Name after .'
+      StyleName = 'Name.'
+      TokenType = 2
+      Expression = '\.(\\.|[\w\-])*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Name after #'
+      StyleName = 'Name#'
+      TokenType = 2
+      Expression = '\#(\\.|[\w\-])*'
       ColumnFrom = 0
       ColumnTo = 0
     end>
@@ -2160,6 +2200,7 @@ object SyntAnal6: TLibSyntAnalyzer
       ConditionList = <
         item
           TagList.Strings = (
+            'and'
             'annotation'
             'attr'
             'blur'
@@ -2352,7 +2393,7 @@ object SyntAnal6: TLibSyntAnalyzer
       DisplayName = 'PHP'
       StartExpression = '<\?(php)?'
       EndExpression = '\?>'
-      SyntAnalyzer = SyntAnal15
+      SyntAnalyzer = SyntAnal17
     end>
   SampleText.Strings = (
     '/* Comment */'
@@ -2383,7 +2424,7 @@ object SyntAnal6: TLibSyntAnalyzer
     '   }'
     '}'
     ''
-    '.button_size_m .button__text {'
+    '.button_size_m #id {'
     '    padding: 0 15px'
     '}'
     ''
@@ -2402,7 +2443,8 @@ object SyntAnal6: TLibSyntAnalyzer
     'PHP tag'
     'Prop'
     'ValueUnit'
-    'Media special')
+    'Media special'
+    'Prop others')
   Extentions = 'css'
   LexerName = 'CSS'
   Notes.Strings = (
