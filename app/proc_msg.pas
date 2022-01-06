@@ -206,6 +206,7 @@ const
   msgCannotHandleUntitledTab: string = 'Cannot handle the untitled document';
   msgCannotFindLexerInLibrary: string = 'Cannot find lexer in library:';
   msgCannotFindLexerFile: string = 'Cannot find lexer file:';
+  msgCannotLoadLexerFile: string = 'Cannot load lexer file:';
   msgCannotFindSublexerInLibrary: string = 'Cannot find linked sublexer:';
   msgCannotFindWithoutCaret: string = 'Cannot find/replace without caret';
   msgCannotCreateDir: string = 'Cannot create folder:';

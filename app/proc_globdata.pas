@@ -3163,7 +3163,7 @@ end;
 
 procedure AppOnLexerLoadError(const AFileName: string);
 begin
-  MsgLogConsole('ERROR: Cannot load lexer file: '+ExtractFileName(AFileName));
+  MsgLogConsole('ERROR: '+msgCannotLoadLexerFile+' '+ExtractFileName(AFileName));
 end;
 
 
