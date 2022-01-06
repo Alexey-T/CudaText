@@ -1983,7 +1983,6 @@ begin
   Result:= AppDir_Settings+DirectorySeparator+'keys lexer '+AName+'.json';
 end;
 
-
 class function TPluginHelper.HotkeyStringId_To_CommandCode(const AId: string): integer;
 begin
   //plugin item 'module,method'
@@ -3162,6 +3161,12 @@ begin
     DoLoadLexerStylesFromFile_JsonLexerOps(ALexer, fn_ops, UiOps.LexerThemes);
 end;
 
+procedure AppOnLexerLoadError(const AFileName: string);
+begin
+  MsgLogConsole('ERROR: Cannot load lexer file: '+ExtractFileName(AFileName));
+end;
+
+
 procedure AppLoadLexers;
 var
   cfg: TJsonConfig;
@@ -3204,7 +3209,7 @@ begin
   //NTickNormal:= GetTickCount64;
 
   AppManager.OnLexerLoaded:= @AppOnLexerLoaded;
-  AppManager.OnLexerLoadError:= @MsgLogConsole;
+  AppManager.OnLexerLoadError:= @AppOnLexerLoadError;
   AppManager.InitLibrary(AppDir_Lexers, SErrorLines);
 
   if SErrorLines<>'' then
