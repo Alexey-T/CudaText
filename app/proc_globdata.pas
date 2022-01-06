@@ -3161,9 +3161,9 @@ begin
     DoLoadLexerStylesFromFile_JsonLexerOps(ALexer, fn_ops, UiOps.LexerThemes);
 end;
 
-procedure AppOnLexerLoadError(const AFileName: string);
+procedure AppOnLexerLoadError(const AFileName, AError: string);
 begin
-  MsgLogConsole('ERROR: '+msgCannotLoadLexerFile+' '+ExtractFileName(AFileName));
+  MsgLogConsole('ERROR: '+msgCannotLoadLexerFile+' '+ExtractFileName(AFileName)+'; '+AError);
 end;
 
 
