@@ -6,6 +6,7 @@
 1.153.0 (2022/01)
 
 + add: it's possible to hide folding gutter icon for small blocks, via new option "fold_icon_min_range"
++ add: lexer CSS: add separate styling for '.id' and '#id' like in VSCode (thanks @andersaamodt)
 - fix: regression in 1.152: auto-scrolling (mouse is dragged out of editor) didn't work
 - fix: auto-completion didn't detect proper sub-lexer in fenced code-blocks
 - fix: BackSpace hides the caret if after the line-end and "caret_blink_en":false (thanks @hiiamboris)
