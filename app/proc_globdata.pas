@@ -3204,6 +3204,7 @@ begin
   //NTickNormal:= GetTickCount64;
 
   AppManager.OnLexerLoaded:= @AppOnLexerLoaded;
+  AppManager.OnLexerLoadError:= @MsgLogConsole;
   AppManager.InitLibrary(AppDir_Lexers, SErrorLines);
 
   if SErrorLines<>'' then
