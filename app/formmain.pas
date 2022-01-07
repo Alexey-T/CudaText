@@ -2872,6 +2872,8 @@ procedure TfmMain.AppPropsActivate(Sender: TObject);
 var
   F: TEditorFrame;
 begin
+  ATEditorOptions.IsApplicationDeactivated:= false;
+
   if EditorOps.OpShowCurLineOnlyFocused then
   begin
     F:= CurrentFrame;
@@ -2886,6 +2888,8 @@ procedure TfmMain.AppPropsDeactivate(Sender: TObject);
 var
   F: TEditorFrame;
 begin
+  ATEditorOptions.IsApplicationDeactivated:= true;
+
   if EditorOps.OpShowCurLineOnlyFocused then
   begin
     F:= CurrentFrame;
