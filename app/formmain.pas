@@ -2872,7 +2872,7 @@ procedure TfmMain.AppPropsActivate(Sender: TObject);
 var
   F: TEditorFrame;
 begin
-  ATEditorOptions.IsApplicationDeactivated:= false;
+  //Caption:= 'act '+TimeToStr(Now);
 
   if EditorOps.OpDimUnfocused<>0 then
   begin
@@ -2888,7 +2888,7 @@ procedure TfmMain.AppPropsDeactivate(Sender: TObject);
 var
   F: TEditorFrame;
 begin
-  ATEditorOptions.IsApplicationDeactivated:= true;
+  //Caption:= 'deact '+TimeToStr(Now);
 
   if EditorOps.OpDimUnfocused<>0 then
   begin
