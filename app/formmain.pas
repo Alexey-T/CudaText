@@ -2877,8 +2877,8 @@ begin
   if EditorOps.OpShowCurLineOnlyFocused then
   begin
     F:= CurrentFrame;
-    if F=nil then exit;
-    F.Editor.Update;
+    if Assigned(F) then
+      F.Editor.Update;
   end;
 
   DoPyEvent_AppActivate(cEventOnAppActivate);
@@ -2893,8 +2893,8 @@ begin
   if EditorOps.OpShowCurLineOnlyFocused then
   begin
     F:= CurrentFrame;
-    if F=nil then exit;
-    F.Editor.Update;
+    if Assigned(F) then
+      F.Editor.Update;
   end;
 
   DoPyEvent_AppActivate(cEventOnAppDeactivate);
