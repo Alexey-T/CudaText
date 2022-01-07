@@ -2874,7 +2874,7 @@ var
 begin
   ATEditorOptions.IsApplicationDeactivated:= false;
 
-  if EditorOps.OpShowCurLineOnlyFocused then
+  if EditorOps.OpDimUnfocused<>0 then
   begin
     F:= CurrentFrame;
     if Assigned(F) then
@@ -2890,7 +2890,7 @@ var
 begin
   ATEditorOptions.IsApplicationDeactivated:= true;
 
-  if EditorOps.OpShowCurLineOnlyFocused then
+  if EditorOps.OpDimUnfocused<>0 then
   begin
     F:= CurrentFrame;
     if Assigned(F) then
