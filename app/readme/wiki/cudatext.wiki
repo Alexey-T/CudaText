@@ -1076,19 +1076,23 @@ Find/Replace dialog has hotkeys, which work only when this dialog is focused. Ho
 
 [[File:cudatext-find-dlg.png]]
 
-Option buttons have hotkeys too. Hover mouse over them to see floating tooltips about button functions.
+Toggle-buttons have hotkeys too. Hover mouse over them to see floating tooltips about button functions.
 
-* Toggle-button ".*" - Regular expressions - Alt+R
-* Toggle-button "aA" - Case sensitive search - Alt+C
-* Toggle-button "w" - Search for whole words only, ie both sides of found match must be "word boundaries" - Alt+W
-* Toggle-button "O" - Wrapped search: search from beginning after reaching the end (with forward search), and search from end after reaching the beginning (with backward search) - Alt+N
-* Toggle-button "[..]" - Search in selection only - Alt+X
-* Toggle-button "+" - Toggle multi-line mode for both dialog input fields (to add a newline in multi-line fields, press Ctrl+Enter) - Alt+M
-* Toggle-button "?!" - Show confirmation on each replace - Alt+Y
+Toggle-buttons, ie options, are:
+
+* Toggle-button ".*" - Regular expressions (hotkey Alt+R).
+* Toggle-button "aA" - Case sensitive search (hotkey Alt+C).
+* Toggle-button "w" - Search for whole words only, ie both sides of found match must be "word boundaries" (hotkey Alt+W).
+* Toggle-button "O" - Wrapped search: search from beginning after reaching the end (with forward search), and search from end after reaching the beginning (with backward search) (hotkey Alt+N).
+* Toggle-button "[..]" - Search in selection only (hotkey Alt+X).
+* Toggle-button "+" - Toggle multi-line mode for both dialog input fields. To add a newline in multi-line fields, press Ctrl+Enter. (hotkey Alt+M).
 * Toggle-button "*" - Choose allowed syntax elements: Any / Only comments / Only strings / Only comments+strings / etc. This feature must be supported by lexer (and some lexers are limited, support only "comments" or only "strings" syntax elements). Syntax element is detected from left edge position of a found match.
 * Toggle-button "Hi" - Find and highlight all matches for the current search options. Matches are highlighted in the current editor, with the rounded borders, using the color of "SeparLine" syntax theme item. This highlight is updated on changing the "find what" text, so '''it is incremental search'''. Editor auto-scrolls to the first found match (pretty much like ST3 editor). The limitation of this feature: a highlighted match has the single font color for the entire match, so if a match lays over several syntax tokens (e.g. number, dot, normal word), the entire match will have the single font color anyway. This "Hi" button is disabled, when current document has too many lines, see the option "find_hi_max_lines".
 
-* Toggle-button "$0" - "RegEx substitute for 'Replace with'". Activates "substitute" for replace-action. When off, the replate-with field is taken literally, without interpreting special constructs. When on, the replace-with field is processed for constructs:
+Toggle-buttons for "replace" mode:
+
+* Toggle-button "?!" - Show confirmation on each replace (hotkey Alt+Y).
+* Toggle-button "$0" - "RegEx substitute for 'Replace with'". Activates "substitute" for replace-action. When option is off, the replate-with field is taken literally, without interpreting special constructs. When option is on, the replace-with field is processed for special constructs:
 ** $0: Text of the whole found match
 ** $1 ... $9: Text of the found RegEx group with the index 1...9
 ** \n: NL char
