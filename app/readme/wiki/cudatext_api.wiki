@@ -355,9 +355,9 @@ Session is a set of opened files + untitled tabs, with some properties of editor
 * PROC_SAVE_SESSION: Saves session to file with given name. Returns bool: session was saved. Param "text" must be file name, and optional addition: ";" with several option-chars after ";":
 ** char 'n': Don't save text of modified named files.
 ** char 'u': Don't save text of untitled documents (which are always modified).
-** char 't': Show additional text "session was saved by timer at ..." in the Console.
+** char 't': Show additional text in the Console message: "; by timer at ...".
 
-* PROC_LOAD_SESSION: Loads session from file with given name (closes all tabs first). Returns bool: tabs closed without pressing Cancel, session was loaded.
+* PROC_LOAD_SESSION: Loads session from file with given name (closes all tabs first). Returns bool: tabs were closed without pressing Cancel, session was loaded.
 
 * PROC_SET_SESSION: Tells to app filename of session. Session with this filename will be saved on exit, loaded on start, shown in app title in {} brackets. Don't set here empty string. Default filename is "history session.json" without path. Missing path means that folder "settings" will be used.
 
