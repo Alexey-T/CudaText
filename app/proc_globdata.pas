@@ -695,7 +695,7 @@ function GetAppLexerMapFilename(const ALexName: string): string;
 function GetAppLexerOpsFilename(const ALexName: string): string;
 function GetAppLexerAcpFilename(const ALexName: string): string;
 function GetAppLexerSpecificConfig(ALexer: string; ADefaultConfig: boolean=false): string;
-function GetAppFilenameIsIgnoredForSession(const AFilename: string): boolean;
+function IsFilenameIgnoredForSession(const AFilename: string): boolean;
 
 function IsDefaultSession(const S: string): boolean;
 function IsDefaultSessionActive: boolean;
@@ -1970,7 +1970,7 @@ begin
   Result:= dir+DirectorySeparator+'lexer '+ALexer+'.json';
 end;
 
-function GetAppFilenameIsIgnoredForSession(const AFilename: string): boolean;
+function IsFilenameIgnoredForSession(const AFilename: string): boolean;
 var
   SName: string;
 begin
