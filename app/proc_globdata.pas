@@ -764,7 +764,7 @@ var
 
 type
   TATStringEvent = procedure(Sender: TObject; const AStr: string) of object;
-  TATStringFunctionEvent = function(Sender: TObject; const AStr: string): boolean of object;
+  TATStringFunctionEvent = function(const AStr: string): boolean of object;
 
 type
   TAppEncodingRecord = record

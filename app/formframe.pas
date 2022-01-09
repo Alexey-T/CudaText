@@ -2565,7 +2565,7 @@ begin
     if not SaveDialog.Execute then
       exit(false);
 
-    if OnCheckFilenameOpened(Ed, SaveDialog.FileName) then
+    if OnCheckFilenameOpened(SaveDialog.FileName) then
     begin
       MsgBox(
         msgStatusFilenameAlreadyOpened+#10+
