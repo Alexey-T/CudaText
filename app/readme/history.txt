@@ -7,6 +7,7 @@
 
 + add: hotkeys of commands "switch tab ..." work also in the Find dialog (thanks @andersaamodt)
 + add: new API for Auto Save plugin (thanks @andersaamodt)
+* change: option "ui_backup_sessions" now works for all methods of session saving, e.g. also when Auto Save plugin saves it
 
 1.153.0 (2022/01)
 
