@@ -19,6 +19,7 @@ procedure Keymap_AddCudatextItems(M: TATKeymap);
 
 function IsCommandForMacros(Cmd: integer): boolean;
 function IsCommandNeedTimer(Cmd: integer): boolean;
+function IsCommandHandledWhileFindDialogOpened(Cmd: integer): boolean;
 
 type
   TAppCommandCategory = (
@@ -805,6 +806,21 @@ begin
     cmd_HelpIssues:
       Result:= true;
 
+    else
+      Result:= false;
+  end;
+end;
+
+function IsCommandHandledWhileFindDialogOpened(Cmd: integer): boolean;
+begin
+  case Cmd of
+    cmd_SwitchTab_HotkeyNext,
+    cmd_SwitchTab_HotkeyPrev,
+    cmd_SwitchTab_SimpleNext,
+    cmd_SwitchTab_SimplePrev,
+    cmd_SwitchTab_Dialog,
+    cmd_SwitchTab_Recent:
+      Result:= true;
     else
       Result:= false;
   end;
