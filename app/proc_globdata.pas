@@ -692,6 +692,8 @@ function GetAppLexerOpsFilename(const ALexName: string): string;
 function GetAppLexerAcpFilename(const ALexName: string): string;
 function GetAppLexerSpecificConfig(ALexer: string; ADefaultConfig: boolean=false): string;
 function GetAppFilenameIsIgnoredForSession(const AFilename: string): boolean;
+
+function IsDefaultSession(const S: string): boolean;
 function IsDefaultSessionActive: boolean;
 
 function MsgBox(const Str: string; Flags: Longint): integer;
@@ -3247,11 +3249,14 @@ begin
   ApplyPartStyleFromEcontrolStyle(APart, st);
 end;
 
+function IsDefaultSession(const S: string): boolean;
+begin
+  Result:= (S='') or (S=cAppSessionDefault);
+end;
+
 function IsDefaultSessionActive: boolean;
 begin
-  Result:=
-    (AppSessionName='') or
-    (AppSessionName=cAppSessionDefault);
+  Result:= IsDefaultSession(AppSessionName);
 end;
 
 
