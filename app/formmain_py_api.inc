@@ -4621,7 +4621,7 @@ begin
           begin
             SSplitByChar(Str, ';', Str1, Str2);
 
-            //do session backups, when Auto Save plugin save current _default_ session
+            //do session backups, when Auto Save plugin saves _default_ session
             if IsDefaultSessionActive then
               fmMain.DoOps_SaveSessionsBackups(Str1);
 
