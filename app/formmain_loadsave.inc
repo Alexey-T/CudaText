@@ -381,9 +381,9 @@ begin
 
   if UiOps.LogSessions then
   begin
-    value:= 'Saved session: "'+ExtractFileName(AFileName)+'", '+IntToStr(nCountFiles)+' file(s)';
+    value:= Format('Saved session: "%s", %d file(s)', [ExtractFileName(AFileName), nCountFiles]);
     if AByTimer then
-      value+= ', by timer at '+TimeToStr(Now);
+      value+= Format(', by timer at %s', [TimeToStr(Now)]);
     MsgLogConsole(value);
   end;
 end;
@@ -408,7 +408,7 @@ var
   bModified: boolean;
   sText: UnicodeString;
   bExist, bExist2: boolean;
-  sDateSaved, sDateCurrent: string;
+  sDateSaved, sDateCurrent, sMessage: string;
   Params: TAppVariantArray;
   CurTabs: TATTabs;
   nTick: QWord;
@@ -656,14 +656,13 @@ begin
     cfg.Free;
   end;
 
-  nTick:= (GetTickCount64-nTick) div 10 * 10;
-
   if UiOps.LogSessions then
   begin
-    sText:= 'Loaded session: "'+ExtractFileName(AFileName)+'", '+IntToStr(nTick)+'ms, '+IntToStr(nCountFiles)+' file(s)';
+    nTick:= (GetTickCount64-nTick) div 10 * 10;
+    sMessage:= Format('Loaded session: "%s", %dms, %d file(s)', [ExtractFileName(AFileName), nTick, nCountFiles]);
     if nCountFilesModified>0 then
-      sText+= ' + '+IntToStr(nCountFilesModified)+' modified';
-    MsgLogConsole(sText);
+      sMessage+= Format(' + %d modified', [nCountFilesModified]);
+    MsgLogConsole(sMessage);
   end;
 
   //don't wait until plugin sets session name in PROC_SET_SESSION,
