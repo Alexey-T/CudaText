@@ -687,7 +687,7 @@ var
 
 function AppFile_Session: string;
 function AppFile_Language: string;
-function GetAppUndoFilename(const fn: string; IsRedo: boolean): string;
+function AppFile_UndoRedo(const fn: string; IsRedo: boolean): string;
 
 function EscapeLexerFilename(const ALexName: string): string;
 function GetAppLexerFilename(const ALexName: string): string;
@@ -2417,7 +2417,7 @@ begin
   Result:= AppDir_DataAutocomplete+DirectorySeparator+EscapeLexerFilename(ALexName)+'.acp';
 end;
 
-function GetAppUndoFilename(const fn: string; IsRedo: boolean): string;
+function AppFile_UndoRedo(const fn: string; IsRedo: boolean): string;
 const
   Ext: array[boolean] of string = ('.undx', '.redx');
 begin

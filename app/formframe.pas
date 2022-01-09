@@ -3444,8 +3444,8 @@ procedure TEditorFrame.DoSaveUndo(Ed: TATSynEdit; const AFileName: string);
 begin
   if IsFilenameListedInExtensionList(AFileName, UiOps.UndoPersistent) then
   begin
-    _WriteStringToFileInHiddenDir(GetAppUndoFilename(AFileName, false), Ed.UndoAsString);
-    _WriteStringToFileInHiddenDir(GetAppUndoFilename(AFileName, true), Ed.RedoAsString);
+    _WriteStringToFileInHiddenDir(AppFile_UndoRedo(AFileName, false), Ed.UndoAsString);
+    _WriteStringToFileInHiddenDir(AppFile_UndoRedo(AFileName, true), Ed.RedoAsString);
   end;
 end;
 
@@ -3692,11 +3692,11 @@ begin
   if SFileName='' then exit;
   if IsFilenameListedInExtensionList(SFileName, UiOps.UndoPersistent) then
   begin
-    STemp:= GetAppUndoFilename(SFileName, false);
+    STemp:= AppFile_UndoRedo(SFileName, false);
     if FileExists(STemp) then
       Ed.UndoAsString:= DoReadContentFromFile(STemp);
 
-    STemp:= GetAppUndoFilename(SFileName, true);
+    STemp:= AppFile_UndoRedo(SFileName, true);
     if FileExists(STemp) then
       Ed.RedoAsString:= DoReadContentFromFile(STemp);
   end;
