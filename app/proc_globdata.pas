@@ -1971,7 +1971,10 @@ end;
 
 function AppFile_IsIgnoredForSession(const AFilename: string): boolean;
 begin
-  if SameFileName(AFilename, AppDir_Settings+DirectorySeparator+'history.json') then
+  if SameFileName(AFilename, AppFile_History) then
+    exit(true);
+
+  if SameFileName(AFilename, AppFile_HistoryFiles) then
     exit(true);
 
   if SameFileName(AFilename, AppDir_Settings+DirectorySeparator+'history session.json') then
