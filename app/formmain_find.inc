@@ -1353,7 +1353,9 @@ begin
     cmd_SwitchTab_HotkeyNext,
     cmd_SwitchTab_HotkeyPrev,
     cmd_SwitchTab_SimpleNext,
-    cmd_SwitchTab_SimplePrev:
+    cmd_SwitchTab_SimplePrev,
+    cmd_SwitchTab_Dialog,
+    cmd_SwitchTab_Recent:
       begin
         Ed.DoCommand(NCmd, cInvokeHotkey);
         Result:= true;
