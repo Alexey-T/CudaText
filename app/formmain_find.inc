@@ -1350,24 +1350,12 @@ begin
   FillChar(KeyHistory{%H-}, SizeOf(KeyHistory), 0);
   NCmd:= Ed.Keymap.GetCommandFromShortcut(ShortCut(AKey, AShiftState), KeyHistory);
   case NCmd of
-    cmd_SwitchTab_HotkeyNext:
-      begin
-        DoSwitchTab(true);
-        Result:= true;
-      end;
-    cmd_SwitchTab_HotkeyPrev:
-      begin
-        DoSwitchTab(false);
-        Result:= true;
-      end;
-    cmd_SwitchTab_SimpleNext:
-      begin
-        DoSwitchTabSimply(true);
-        Result:= true;
-      end;
+    cmd_SwitchTab_HotkeyNext,
+    cmd_SwitchTab_HotkeyPrev,
+    cmd_SwitchTab_SimpleNext,
     cmd_SwitchTab_SimplePrev:
       begin
-        DoSwitchTabSimply(false);
+        Ed.DoCommand(NCmd, cInvokeHotkey);
         Result:= true;
       end;
   end;
