@@ -979,7 +979,7 @@ type
     procedure DoOps_SaveThemes;
     procedure DoOps_LoadHistory;
     procedure DoOps_LoadHistory_GroupView(cfg: TJsonConfig);
-    function DoOps_SaveSession(const AFileName: string; ASaveModifiedTabs, AByTimer: boolean): boolean;
+    function DoOps_SaveSession(const AFileName: string; ASaveModifiedFiles, ASaveUntitledTabs, AByTimer: boolean): boolean;
     function DoOps_LoadSession(const AFileName: string; AllowShowPanels: boolean): boolean;
     procedure DoOps_SaveSessionsBackups(const ASessionFilename: string);
     procedure DoOps_LoadOptionsAndApplyAll;
@@ -2338,7 +2338,7 @@ begin
     if NTick-FLastSaveSessionTick>=Abs(UiOps.SessionSaveInterval)*1000 then
     begin
       FLastSaveSessionTick:= NTick;
-      DoOps_SaveSession(GetSessionFilename, true{ASaveModifiedTabs}, true{AByTimer});
+      DoOps_SaveSession(GetSessionFilename, true{ASaveModifiedTabs}, true{ASaveUntitledTabs}, true{AByTimer});
     end;
   end;
 end;

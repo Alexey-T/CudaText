@@ -214,7 +214,7 @@ begin
   begin
     fnBase:= GetSessionFilename;
     DoOps_SaveSessionsBackups(fnBase);
-    DoOps_SaveSession(fnBase, ASaveModifiedTabs, false);
+    DoOps_SaveSession(fnBase, ASaveModifiedTabs, ASaveModifiedTabs, false);
   end;
 end;
 
@@ -241,7 +241,7 @@ begin
 end;
 
 function TfmMain.DoOps_SaveSession(const AFileName: string;
-  ASaveModifiedTabs, AByTimer: boolean): boolean;
+  ASaveModifiedFiles, ASaveUntitledTabs, AByTimer: boolean): boolean;
 var
   cfg: TJSONConfig;
   Frame: TEditorFrame;
@@ -340,12 +340,14 @@ begin
         cfg.DeleteValue(path+'/v_pos');
         }
 
-      if bModified and ASaveModifiedTabs and UiOps.HistoryItems[ahhText] then
-      begin
-        cfg.SetValue(path+'/text', Frame.Editor.Text);
-        if (Frame.FileName<>'') and FileExists(Frame.FileName) then
-          cfg.SetValue(path+'/file_date', FormatFileDateAsNiceString(Frame.FileName));
-      end;
+      if bModified and UiOps.HistoryItems[ahhText] then
+        if ((Frame.FileName<>'') and ASaveModifiedFiles) or
+          ((Frame.FileName='') and ASaveUntitledTabs) then
+        begin
+          cfg.SetValue(path+'/text', Frame.Editor.Text);
+          if (Frame.FileName<>'') and FileExists(Frame.FileName) then
+            cfg.SetValue(path+'/file_date', FormatFileDateAsNiceString(Frame.FileName));
+        end;
 
       Frame.DoSaveHistoryEx(Frame.Ed1, cfg, path, true{AForSession});
 
@@ -425,7 +427,7 @@ begin
   begin
     sFilename:= GetSessionFilename;
     if not SameFileName(sFilename, AFileName) then //fix issue #3744
-      DoOps_SaveSession(sFilename, false, false);
+      DoOps_SaveSession(sFilename, false, false, false);
     sFilename:= '';
   end;
 
