@@ -689,13 +689,12 @@ function AppFile_Session: string;
 function AppFile_Language: string;
 function AppFile_UndoRedo(const fn: string; IsRedo: boolean): string;
 
-function EscapeLexerFilename(const ALexName: string): string;
-function GetAppLexerFilename(const ALexName: string): string;
-function GetAppLexerMapFilename(const ALexName: string): string;
-function GetAppLexerOpsFilename(const ALexName: string): string;
-function GetAppLexerAcpFilename(const ALexName: string): string;
-function GetAppLexerSpecificConfig(ALexer: string; ADefaultConfig: boolean=false): string;
-function IsFilenameIgnoredForSession(const AFilename: string): boolean;
+function AppFile_Lexer(const ALexName: string): string;
+function AppFile_LexerMap(const ALexName: string): string;
+function AppFile_LexerOps(const ALexName: string): string;
+function AppFile_LexerAcp(const ALexName: string): string;
+function AppFile_LexerSpecificConfig(ALexer: string; ADefaultConfig: boolean=false): string;
+function AppFile_IsIgnoredForSession(const AFilename: string): boolean;
 
 function IsDefaultSession(const S: string): boolean;
 function IsDefaultSessionActive: boolean;
@@ -1953,7 +1952,7 @@ begin
   S:= StringReplace(S, '>', '_', [rfReplaceAll]);
 end;
 
-function GetAppLexerSpecificConfig(ALexer: string; ADefaultConfig: boolean=false): string;
+function AppFile_LexerSpecificConfig(ALexer: string; ADefaultConfig: boolean=false): string;
 var
   dir: string;
 begin
@@ -1970,7 +1969,7 @@ begin
   Result:= dir+DirectorySeparator+'lexer '+ALexer+'.json';
 end;
 
-function IsFilenameIgnoredForSession(const AFilename: string): boolean;
+function AppFile_IsIgnoredForSession(const AFilename: string): boolean;
 var
   SName: string;
 begin
@@ -2297,7 +2296,7 @@ end;
 procedure DoLexerSave(an: TecSyntAnalyzer);
 begin
   if Assigned(an) then
-    an.SaveToFile(GetAppLexerFilename(an.LexerName));
+    an.SaveToFile(AppFile_Lexer(an.LexerName));
 end;
 }
 
@@ -2389,7 +2388,7 @@ begin
   end;
 end;
 
-function GetLexerFilenameWithExt(ALexName, AExt: string): string;
+function AppFile_LexerExtension(ALexName, AExt: string): string;
 begin
   if ALexName<>'' then
     Result:= AppDir_Lexers+DirectorySeparator+EscapeLexerFilename(ALexName)+AExt
@@ -2397,22 +2396,22 @@ begin
     Result:= '';
 end;
 
-function GetAppLexerMapFilename(const ALexName: string): string;
+function AppFile_LexerMap(const ALexName: string): string;
 begin
-  Result:= GetLexerFilenameWithExt(ALexName, '.cuda-lexmap');
+  Result:= AppFile_LexerExtension(ALexName, '.cuda-lexmap');
 end;
 
-function GetAppLexerFilename(const ALexName: string): string;
+function AppFile_Lexer(const ALexName: string): string;
 begin
-  Result:= GetLexerFilenameWithExt(ALexName, '.lcf');
+  Result:= AppFile_LexerExtension(ALexName, '.lcf');
 end;
 
-function GetAppLexerOpsFilename(const ALexName: string): string;
+function AppFile_LexerOps(const ALexName: string): string;
 begin
   Result:= AppDir_Settings+DirectorySeparator+EscapeLexerFilename(ALexName)+'.cuda-lexops';
 end;
 
-function GetAppLexerAcpFilename(const ALexName: string): string;
+function AppFile_LexerAcp(const ALexName: string): string;
 begin
   Result:= AppDir_DataAutocomplete+DirectorySeparator+EscapeLexerFilename(ALexName)+'.acp';
 end;
@@ -3162,7 +3161,7 @@ var
   fn_ops: string;
 begin
   //load *.cuda-lexops
-  fn_ops:= GetAppLexerOpsFilename(ALexer.LexerName);
+  fn_ops:= AppFile_LexerOps(ALexer.LexerName);
   if FileExists(fn_ops) then
     DoLoadLexerStylesFromFile_JsonLexerOps(ALexer, fn_ops, UiOps.LexerThemes);
 end;

@@ -122,7 +122,7 @@ begin
   an_orig:= TecSyntAnalyzer.Create(nil);
   try
     try
-      fn_lexer:= GetAppLexerFilename(an.LexerName);
+      fn_lexer:= AppFile_Lexer(an.LexerName);
       if FileExists(fn_lexer) then
         an_orig.LoadFromFile(fn_lexer);
 

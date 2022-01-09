@@ -249,13 +249,13 @@ begin
 
   DoSaveLexerStylesToFile_JsonLexerOps(
     FAnalyzer,
-    GetAppLexerOpsFilename(FAnalyzer.LexerName)
+    AppFile_LexerOps(FAnalyzer.LexerName)
     );
 end;
 
 procedure TfmLexerProp.SaveChangedComments;
 begin
-  with TIniFile.Create(GetAppLexerMapFilename(FAnalyzer.LexerName)) do
+  with TIniFile.Create(AppFile_LexerMap(FAnalyzer.LexerName)) do
   try
     if edCmtStream1.Text<>'' then
     begin

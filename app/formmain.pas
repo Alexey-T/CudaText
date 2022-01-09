@@ -6217,8 +6217,8 @@ begin
 
   CurLexer:= F.LexerName[F.Editor];
 
-  fn:= GetAppLexerSpecificConfig(CurLexer, false);
-  fn_def:= GetAppLexerSpecificConfig(CurLexer, true);
+  fn:= AppFile_LexerSpecificConfig(CurLexer, false);
+  fn_def:= AppFile_LexerSpecificConfig(CurLexer, true);
 
   if not FileExists(fn) then
   begin
@@ -6464,7 +6464,7 @@ begin
   end
   else
   if bNeedAcp then
-    DoEditorCompletionAcp(Ed, GetAppLexerAcpFilename(SLexer), false{CaseSens});
+    DoEditorCompletionAcp(Ed, AppFile_LexerAcp(SLexer), false{CaseSens});
 end;
 
 procedure TfmMain.mnuTreeFold2Click(Sender: TObject);

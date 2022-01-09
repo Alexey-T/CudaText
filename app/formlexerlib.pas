@@ -208,9 +208,9 @@ begin
     if Assigned(FOnDeleteLexer) then
       FOnDeleteLexer(nil, an.LexerName);
 
-    DeleteFile(GetAppLexerFilename(an.LexerName));
-    DeleteFile(GetAppLexerMapFilename(an.LexerName));
-    DeleteFile(GetAppLexerAcpFilename(an.LexerName));
+    DeleteFile(AppFile_Lexer(an.LexerName));
+    DeleteFile(AppFile_LexerMap(an.LexerName));
+    DeleteFile(AppFile_LexerAcp(an.LexerName));
 
     AppManager.DeleteLexer(an);
     AppManager.Modified:= true;

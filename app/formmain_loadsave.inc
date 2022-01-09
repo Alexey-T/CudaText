@@ -304,7 +304,7 @@ begin
       if Frame.IsEmpty then Continue;
       if Frame.TabCaption=msgWelcomeTabTitle then Continue; //avoid reopening of '(welcome)' filler text
 
-      if IsFilenameIgnoredForSession(Frame.FileName) then
+      if AppFile_IsIgnoredForSession(Frame.FileName) then
       begin
         MsgLogConsole(Format('NOTE: File "%s" is not saved to session', [Frame.FileName]));
         Continue;
@@ -1512,8 +1512,8 @@ begin
   if F=nil then exit;
 
   CurLexer:= F.LexerName[Ed];
-  FilenameDefault:= GetAppLexerSpecificConfig(CurLexer, true);
-  FilenameUser:= GetAppLexerSpecificConfig(CurLexer, false);
+  FilenameDefault:= AppFile_LexerSpecificConfig(CurLexer, true);
+  FilenameUser:= AppFile_LexerSpecificConfig(CurLexer, false);
 
   bExistsDefault:= FileExists(FilenameDefault);
   bExistsUser:= FileExists(FilenameUser);

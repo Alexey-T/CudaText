@@ -480,7 +480,7 @@ begin
       //also "restore lexer styles"
       if not UiOps.LexerThemes then
       begin
-        DoLoadLexerStylesFromFile_JsonLexerOps(an, GetAppLexerOpsFilename(an.LexerName), false);
+        DoLoadLexerStylesFromFile_JsonLexerOps(an, AppFile_LexerOps(an.LexerName), false);
       end;
 
       //set sublexer links
