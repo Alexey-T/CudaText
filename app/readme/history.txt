@@ -3,7 +3,10 @@
   - fixed
   * changed
 
-+ add: hotkeys of commands "switch tab ..." work also from the Find dialog (thanks @andersaamodt)
+1.153.1 (2022/01)
+
++ add: hotkeys of commands "switch tab ..." work also in the Find dialog (thanks @andersaamodt)
++ add: new API for Auto Save plugin (thanks @andersaamodt)
 
 1.153.0 (2022/01)
 
