@@ -146,7 +146,7 @@ type
     FOnEditorCommand: TATSynEditCommandEvent;
     FOnEditorChangeCaretPos: TNotifyEvent;
     FOnEditorScroll: TNotifyEvent;
-    FOnSaveFile: TNotifyEvent;
+    FOnSaveFile: TEditorFrameStringEvent;
     FOnAddRecent: TNotifyEvent;
     FOnPyEvent: TEditorFramePyEvent;
     FOnInitAdapter: TNotifyEvent;
@@ -457,7 +457,7 @@ type
     property OnEditorCommand: TATSynEditCommandEvent read FOnEditorCommand write FOnEditorCommand;
     property OnEditorChangeCaretPos: TNotifyEvent read FOnEditorChangeCaretPos write FOnEditorChangeCaretPos;
     property OnEditorScroll: TNotifyEvent read FOnEditorScroll write FOnEditorScroll;
-    property OnSaveFile: TNotifyEvent read FOnSaveFile write FOnSaveFile;
+    property OnSaveFile: TEditorFrameStringEvent read FOnSaveFile write FOnSaveFile;
     property OnAddRecent: TNotifyEvent read FOnAddRecent write FOnAddRecent;
     property OnPyEvent: TEditorFramePyEvent read FOnPyEvent write FOnPyEvent;
     property OnInitAdapter: TNotifyEvent read FOnInitAdapter write FOnInitAdapter;
@@ -2609,7 +2609,7 @@ begin
     DoSaveUndo(Ed, SFileName);
     DoPyEvent(Ed, cEventOnSaveAfter, Params);
     if Assigned(FOnSaveFile) then
-      FOnSaveFile(Ed);
+      FOnSaveFile(Ed, SFileName);
   end;
 
   if EditorsLinked or (Ed=Ed1) then

@@ -222,13 +222,11 @@ begin
   Gr.SetPagesAndTabIndex(NLocalGroup, NTab);
 end;
 
-procedure TfmMain.FrameOnSaveFile(Sender: TObject);
-var
-  Ed: TATSynEdit;
-  fn: string;
+procedure TfmMain.FrameOnSaveFile(Sender: TObject; const fn: string);
+//var
+//  Ed: TATSynEdit;
 begin
-  Ed:= Sender as TATSynEdit;
-  fn:= Ed.FileName;
+  //Ed:= Sender as TATSynEdit;
   MsgStatus(
     msgStatusSavedFile+' '+
     ExtractFileName_Fixed(fn)+
