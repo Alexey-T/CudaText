@@ -40,7 +40,7 @@ type
     procedure FormShow(Sender: TObject);
   private
     { private declarations }
-    FOnDeleteLexer: TATStringEvent;
+    FOnDeleteLexer: TAppStringEvent;
     procedure Localize;
     procedure UpdateList;
   public
@@ -48,7 +48,7 @@ type
     FFontName: string;
     FFontSize: integer;
     FDirAcp: string;
-    property OnDeleteLexer: TATStringEvent read FOnDeleteLexer write FOnDeleteLexer;
+    property OnDeleteLexer: TAppStringEvent read FOnDeleteLexer write FOnDeleteLexer;
   end;
 
 var
@@ -58,7 +58,7 @@ function DoShowDialogLexerLib(
   const ADirAcp: string;
   const AFontName: string;
   AFontSize: integer;
-  AOnDeleteLexer: TATStringEvent): boolean;
+  AOnDeleteLexer: TAppStringEvent): boolean;
 
 implementation
 
@@ -93,7 +93,7 @@ end;
 
 
 function DoShowDialogLexerLib(const ADirAcp: string; const AFontName: string;
-  AFontSize: integer; AOnDeleteLexer: TATStringEvent): boolean;
+  AFontSize: integer; AOnDeleteLexer: TAppStringEvent): boolean;
 var
   F: TfmLexerLib;
 begin

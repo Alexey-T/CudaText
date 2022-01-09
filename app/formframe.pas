@@ -165,8 +165,8 @@ type
     FImageBox: TATImageBox;
     FBin: TATBinHex;
     FBinStream: TFileStream;
-    FCheckFilenameOpened: TATStringFunctionEvent;
-    FOnMsgStatus: TATStringEvent;
+    FCheckFilenameOpened: TAppStringFunction;
+    FOnMsgStatus: TAppStringEvent;
     FSaveDialog: TSaveDialog;
     FWasVisible: boolean;
     FInitialLexer1: TecSyntAnalyzer;
@@ -446,8 +446,8 @@ type
     //events
     property OnGetSaveDialog: TFrameGetSaveDialog read FOnGetSaveDialog write FOnGetSaveDialog;
     property OnProgress: TATFinderProgress read FOnProgress write FOnProgress;
-    property OnCheckFilenameOpened: TATStringFunctionEvent read FCheckFilenameOpened write FCheckFilenameOpened;
-    property OnMsgStatus: TATStringEvent read FOnMsgStatus write FOnMsgStatus;
+    property OnCheckFilenameOpened: TAppStringFunction read FCheckFilenameOpened write FCheckFilenameOpened;
+    property OnMsgStatus: TAppStringEvent read FOnMsgStatus write FOnMsgStatus;
     property OnFocusEditor: TNotifyEvent read FOnFocusEditor write FOnFocusEditor;
     property OnChangeCaption: TNotifyEvent read FOnChangeCaption write FOnChangeCaption;
     property OnChangeSlow: TNotifyEvent read FOnChangeSlow write FOnChangeSlow;

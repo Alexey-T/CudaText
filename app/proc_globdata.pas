@@ -763,8 +763,8 @@ var
   AppKeymapLexers: TStringList = nil;
 
 type
-  TATStringEvent = procedure(Sender: TObject; const AStr: string) of object;
-  TATStringFunctionEvent = function(const AStr: string): boolean of object;
+  TAppStringEvent = procedure(Sender: TObject; const AStr: string) of object;
+  TAppStringFunction = function(const AStr: string): boolean of object;
 
 type
   TAppEncodingRecord = record
