@@ -91,7 +91,7 @@ begin
 
   UpdateFormOnTop(Self);
 
-  with TIniFile.Create(GetAppLangFilename) do
+  with TIniFile.Create(AppFile_Language) do
   try
     STitle:= ReadString('d_f', 'go_', 'Go to');
   finally

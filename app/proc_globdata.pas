@@ -686,7 +686,7 @@ var
   AppFile_PluginsIni: string;
 
 function AppFile_Session: string;
-function GetAppLangFilename: string;
+function AppFile_Language: string;
 function GetAppUndoFilename(const fn: string; IsRedo: boolean): string;
 
 function EscapeLexerFilename(const ALexName: string): string;
@@ -2369,7 +2369,7 @@ begin
 end;
 
 
-function GetAppLangFilename: string;
+function AppFile_Language: string;
 begin
   if UiOps.LangName='' then
     Result:= ''

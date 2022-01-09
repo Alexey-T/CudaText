@@ -9867,7 +9867,7 @@ begin
   Result:= -1;
   if not AppPython.Inited then exit;
 
-  with TIniFile.Create(GetAppLangFilename) do
+  with TIniFile.Create(AppFile_Language) do
   try
     SCaption:= ReadString('d_about', '_clr', 'Colors');
   finally

@@ -4842,7 +4842,7 @@ begin
   CurLineIndex:= CurFrame.Editor.Carets[0].PosY;
   SelIndex:= 0;
 
-  with TIniFile.Create(GetAppLangFilename) do
+  with TIniFile.Create(AppFile_Language) do
   try
     MenuCaption:= ReadString('m_sr', 'b_', 'Bookmarks');
     MenuCaption:= StringReplace(MenuCaption, '&', '', [rfReplaceAll]);
@@ -8123,7 +8123,7 @@ begin
   if Frame=nil then exit;
   if Frame.FrameKind<>efkEditor then exit;
 
-  with TIniFile.Create(GetAppLangFilename) do
+  with TIniFile.Create(AppFile_Language) do
   try
     SCaption:= ReadString('m_o', 'l_', 'Lexers');
     SCaption:= StringReplace(SCaption, '&', '', [rfReplaceAll]);

@@ -518,7 +518,7 @@ var
 begin
   S:= '"Options Editor" provides the dialog - click here to open';
 
-  fn:= GetAppLangFilename;
+  fn:= AppFile_Language;
   if FileExists(fn) then
   begin
     ini:= TIniFile.Create(fn);
