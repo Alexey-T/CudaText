@@ -4525,6 +4525,6 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * add: app_proc: PROC_GET_FINDER_PROP/PROC_SET_FINDER_PROP support new keys "op_regex_subst", "op_regex_subst_d"
 
 1.0.415 (app 1.153.1)
-* add: app_proc: PROC_SAVE_SESSION allows additional boolean parameters
+* add: app_proc: PROC_SAVE_SESSION supports additional parameters
 
 [[Category:CudaText]]
