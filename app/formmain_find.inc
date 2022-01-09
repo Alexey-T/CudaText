@@ -1349,7 +1349,7 @@ begin
 
   FillChar(KeyHistory{%H-}, SizeOf(KeyHistory), 0);
   NCmd:= Ed.Keymap.GetCommandFromShortcut(ShortCut(AKey, AShiftState), KeyHistory);
-  if IsCommandHandledWhileFindDialogOpened(NCmd) then
+  if IsCommandHandledFromFindDialog(NCmd) then
   begin
     Ed.DoCommand(NCmd, cInvokeHotkey);
     Result:= true;

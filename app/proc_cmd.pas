@@ -19,7 +19,7 @@ procedure Keymap_AddCudatextItems(M: TATKeymap);
 
 function IsCommandForMacros(Cmd: integer): boolean;
 function IsCommandNeedTimer(Cmd: integer): boolean;
-function IsCommandHandledWhileFindDialogOpened(Cmd: integer): boolean;
+function IsCommandHandledFromFindDialog(Cmd: integer): boolean;
 
 type
   TAppCommandCategory = (
@@ -811,7 +811,7 @@ begin
   end;
 end;
 
-function IsCommandHandledWhileFindDialogOpened(Cmd: integer): boolean;
+function IsCommandHandledFromFindDialog(Cmd: integer): boolean;
 begin
   case Cmd of
     cmd_SwitchTab_HotkeyNext,
