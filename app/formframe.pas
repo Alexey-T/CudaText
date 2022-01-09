@@ -165,8 +165,8 @@ type
     FImageBox: TATImageBox;
     FBin: TATBinHex;
     FBinStream: TFileStream;
-    FCheckFilenameOpened: TStrFunction;
-    FOnMsgStatus: TStrEvent;
+    FCheckFilenameOpened: TATStringFunctionEvent;
+    FOnMsgStatus: TATStringEvent;
     FSaveDialog: TSaveDialog;
     FWasVisible: boolean;
     FInitialLexer1: TecSyntAnalyzer;
@@ -446,8 +446,8 @@ type
     //events
     property OnGetSaveDialog: TFrameGetSaveDialog read FOnGetSaveDialog write FOnGetSaveDialog;
     property OnProgress: TATFinderProgress read FOnProgress write FOnProgress;
-    property OnCheckFilenameOpened: TStrFunction read FCheckFilenameOpened write FCheckFilenameOpened;
-    property OnMsgStatus: TStrEvent read FOnMsgStatus write FOnMsgStatus;
+    property OnCheckFilenameOpened: TATStringFunctionEvent read FCheckFilenameOpened write FCheckFilenameOpened;
+    property OnMsgStatus: TATStringEvent read FOnMsgStatus write FOnMsgStatus;
     property OnFocusEditor: TNotifyEvent read FOnFocusEditor write FOnFocusEditor;
     property OnChangeCaption: TNotifyEvent read FOnChangeCaption write FOnChangeCaption;
     property OnChangeSlow: TNotifyEvent read FOnChangeSlow write FOnChangeSlow;
@@ -2565,7 +2565,7 @@ begin
     if not SaveDialog.Execute then
       exit(false);
 
-    if OnCheckFilenameOpened(SaveDialog.FileName) then
+    if OnCheckFilenameOpened(Ed, SaveDialog.FileName) then
     begin
       MsgBox(
         msgStatusFilenameAlreadyOpened+#10+

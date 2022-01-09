@@ -53,7 +53,7 @@ type
   private
     { private declarations }
     keymapList: TFPList;
-    FOnMsg: TStrEvent;
+    FOnMsg: TATStringEvent;
     FColorBg: TColor;
     FColorBgSel: TColor;
     FColorFont: TColor;
@@ -85,7 +85,7 @@ type
     OptAllowConfig: boolean;
     OptAllowConfigForLexer: boolean;
     OptFocusedCommand: integer;
-    property OnMsg: TStrEvent read FOnMsg write FOnMsg;
+    property OnMsg: TATStringEvent read FOnMsg write FOnMsg;
     property ListCaption: string read GetListCaption write SetListCaption;
   end;
 

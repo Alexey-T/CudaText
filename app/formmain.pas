@@ -805,7 +805,7 @@ type
     procedure CharmapOnInsert(const AStr: string);
     procedure DoLocalize;
     procedure DoLocalizePopupTab;
-    function DoCheckFilenameOpened(const AName: string): boolean;
+    function DoCheckFilenameOpened(Sender: TObject; const AName: string): boolean;
     procedure DoInvalidateEditors;
     function DoMenuAdd_Params(const AMenuId, AMenuCmd, AMenuCaption, AMenuHotkey, AMenuTagString: string; AIndex: integer): string;
     procedure DoMenu_Remove(const AMenuId: string);
@@ -6155,7 +6155,7 @@ begin
 end;
 
 
-function TfmMain.DoCheckFilenameOpened(const AName: string): boolean;
+function TfmMain.DoCheckFilenameOpened(Sender: TObject; const AName: string): boolean;
 begin
   Result:= Assigned(FindFrameOfFilename(AName));
 end;
