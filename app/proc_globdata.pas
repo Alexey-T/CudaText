@@ -685,6 +685,7 @@ var
   AppFile_Hotkeys: string;
   AppFile_PluginsIni: string;
 
+function AppFile_Session: string;
 function GetAppLangFilename: string;
 function GetAppUndoFilename(const fn: string; IsRedo: boolean): string;
 
@@ -698,7 +699,6 @@ function GetAppFilenameIsIgnoredForSession(const AFilename: string): boolean;
 
 function IsDefaultSession(const S: string): boolean;
 function IsDefaultSessionActive: boolean;
-function AppSessionFilename: string;
 
 function MsgBox(const Str: string; Flags: Longint): integer;
 procedure MsgBadConfig(const fn, msg: string);
@@ -3265,7 +3265,7 @@ begin
   Result:= IsDefaultSession(AppSessionName);
 end;
 
-function AppSessionFilename: string;
+function AppFile_Session: string;
 begin
   Result:= AppSessionName;
   if Result='' then

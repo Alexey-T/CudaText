@@ -2337,7 +2337,7 @@ begin
     if NTick-FLastSaveSessionTick>=Abs(UiOps.SessionSaveInterval)*1000 then
     begin
       FLastSaveSessionTick:= NTick;
-      DoOps_SaveSession(AppSessionFilename, true{ASaveModifiedTabs}, true{ASaveUntitledTabs}, true{AByTimer});
+      DoOps_SaveSession(AppFile_Session, true{ASaveModifiedTabs}, true{ASaveUntitledTabs}, true{AByTimer});
     end;
   end;
 end;
@@ -3244,7 +3244,7 @@ procedure TfmMain.FormShow(Sender: TObject);
     //after on_start (so HTML Tooltips with on_open can work)
     //after loading keymap-main and keymap for none-lexer
     if UiOps.ReopenSession and (FOption_AllowSessionLoad=aalsEnable) then
-      DoOps_LoadSession(AppSessionFilename, false);
+      DoOps_LoadSession(AppFile_Session, false);
   end;
   //
   procedure _Init_FrameFocus;
