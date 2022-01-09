@@ -224,11 +224,11 @@ end;
 
 procedure TfmMain.FrameOnSaveFile(Sender: TObject);
 var
-  F: TEditorFrame;
+  Ed: TATSynEdit;
   fn: string;
 begin
-  F:= Sender as TEditorFrame;
-  fn:= F.FileName;
+  Ed:= Sender as TATSynEdit;
+  fn:= Ed.FileName;
   MsgStatus(
     msgStatusSavedFile+' '+
     ExtractFileName_Fixed(fn)+

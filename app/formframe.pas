@@ -2609,7 +2609,7 @@ begin
     DoSaveUndo(Ed, SFileName);
     DoPyEvent(Ed, cEventOnSaveAfter, Params);
     if Assigned(FOnSaveFile) then
-      FOnSaveFile(Self);
+      FOnSaveFile(Ed);
   end;
 
   if EditorsLinked or (Ed=Ed1) then
