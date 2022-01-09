@@ -248,9 +248,9 @@ var
   Gr: TATGroups;
   Pages: TATPages;
   nLocalGroup, nGlobalGroup, nTab, i: integer;
-  nCountFiles: integer;
+  nCountFiles, nCountUntitled: integer;
   path, value: string;
-  bModified: boolean;
+  bModified, bUntitled: boolean;
 begin
   Result:= false;
   if AFileName='' then exit;
@@ -259,6 +259,7 @@ begin
   DeleteFile(AFileName);
 
   nCountFiles:= 0;
+  nCountUntitled:= 0;
 
   cfg:= TJSONConfig.Create(nil);
   try
@@ -299,7 +300,6 @@ begin
 
     for i:= 0 to FrameCount-1 do
     begin
-      Inc(nCountFiles);
       Frame:= Frames[i];
       if Frame.IsEmpty then Continue;
       if Frame.TabCaption=msgWelcomeTabTitle then Continue; //avoid reopening of '(welcome)' filler text
@@ -310,10 +310,16 @@ begin
         Continue;
       end;
 
+      bUntitled:= Frame.GetFileName(Frame.Ed1)='';
+      if bUntitled then
+        Inc(nCountUntitled)
+      else
+        Inc(nCountFiles);
+
       path:= '/'+Format('%3.3d', [i]);
 
       GetFrameLocation(Frame, Gr, Pages, nLocalGroup, nGlobalGroup, nTab);
-      bModified:= Frame.Ed1.Modified or ((Frame.GetFileName(Frame.Ed1)='') and not Frame.IsEmpty);
+      bModified:= Frame.Ed1.Modified or (bUntitled and not Frame.IsEmpty);
 
       cfg.SetValue(path+'/modified', bModified);
       cfg.SetValue(path+'/file', AppCollapseHomeDirInFilename(Frame.FileName));
@@ -342,11 +348,11 @@ begin
         }
 
       if bModified and UiOps.HistoryItems[ahhText] then
-        if ((Frame.FileName<>'') and ASaveModifiedFiles) or
-          ((Frame.FileName='') and ASaveUntitledTabs) then
+        if (not bUntitled and ASaveModifiedFiles) or
+          (bUntitled and ASaveUntitledTabs) then
         begin
           cfg.SetValue(path+'/text', Frame.Editor.Text);
-          if (Frame.FileName<>'') and FileExists(Frame.FileName) then
+          if (not bUntitled) and FileExists(Frame.FileName) then
             cfg.SetValue(path+'/file_date', FormatFileDateAsNiceString(Frame.FileName));
         end;
 
@@ -385,6 +391,8 @@ begin
   if UiOps.LogSessions then
   begin
     value:= Format('Saved session: "%s", %d file(s)', [ExtractFileName(AFileName), nCountFiles]);
+    if nCountUntitled>0 then
+      value+= Format(' + %d untitled', [nCountUntitled]);
     if AByTimer then
       value+= Format(', by timer at %s', [TimeToStr(Now)]);
     MsgLogConsole(value);
