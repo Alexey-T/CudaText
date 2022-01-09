@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-+ add: hotkeys to switch the tab (to next/previous) work also when Find dialog is focused (thanks @andersaamodt)
++ add: hotkeys of commands "switch tab ..." work also from the Find dialog (thanks @andersaamodt)
 
 1.153.0 (2022/01)
 
