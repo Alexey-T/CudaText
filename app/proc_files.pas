@@ -30,6 +30,7 @@ function AppExpandFilename(const fn: string): string;
 procedure AppBrowseToFilenameInShell(const fn: string);
 function AppFileExtentionCreatable(const fn: string): boolean;
 procedure AppFileCheckForNullBytes(const fn: string);
+procedure AppMakeBackupFiles(const AFilename, AExtension: string; ACount: integer);
 
 
 implementation
@@ -352,6 +353,26 @@ begin
     if MsgBox(Format(msgErrorNullBytesInFile, [fn]),
       MB_OKCANCEL or MB_ICONERROR) = ID_OK then
       DeleteFile(fn);
+end;
+
+procedure AppMakeBackupFiles(const AFilename, AExtension: string; ACount: integer);
+var
+  fnTemp, fnTemp2: string;
+  i: integer;
+begin
+  for i:= ACount downto 1 do
+  begin
+    fnTemp:= ChangeFileExt(AFilename, Format('.%d%s', [i, AExtension]));
+    if i>1 then
+      fnTemp2:= ChangeFileExt(AFilename, Format('.%d%s', [i-1, AExtension]))
+    else
+      fnTemp2:= AFilename;
+    if i>=ACount then
+      if FileExists(fnTemp) then
+        DeleteFile(fnTemp);
+    if FileExists(fnTemp2) then
+      RenameFile(fnTemp2, fnTemp);
+  end;
 end;
 
 end.

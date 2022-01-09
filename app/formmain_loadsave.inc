@@ -220,24 +220,9 @@ end;
 
 
 procedure TfmMain.DoOps_SaveSessionsBackups(const ASessionFilename: string);
-//keep backups of last n unnamed sessions as 'history session.n.cuda-session'
-var
-  fnTemp, fnTemp2: string;
-  i: integer;
+//keep backups of last N unnamed sessions as 'history session.N.cuda-session'
 begin
-  for i:= UiOps.BackupLastSessions downto 1 do
-  begin
-    fnTemp:= ChangeFileExt(ASessionFilename, Format('.%d.cuda-session', [i]));
-    if i>1 then
-      fnTemp2:= ChangeFileExt(ASessionFilename, Format('.%d.cuda-session', [i-1]))
-    else
-      fnTemp2:= ASessionFilename;
-    if i>=UiOps.BackupLastSessions then
-      if FileExists(fnTemp) then
-        DeleteFile(fnTemp);
-    if FileExists(fnTemp2) then
-      RenameFile(fnTemp2, fnTemp);
-  end;
+  AppMakeBackupFiles(ASessionFilename, '.cuda-session', UiOps.BackupLastSessions);
 end;
 
 function TfmMain.DoOps_SaveSession(const AFileName: string;
