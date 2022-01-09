@@ -4620,6 +4620,11 @@ begin
         APP_PROC_SAVE_SESSION:
           begin
             SSplitByChar(Str, ';', Str1, Str2);
+
+            //do session backups, when Auto Save plugin save current _default_ session
+            if IsDefaultSessionActive then
+              fmMain.DoOps_SaveSessionsBackups(Str1);
+
             ParamBool:= fmMain.DoOps_SaveSession(
               Str1,
               Pos('n', Str2)=0, //ASaveModifiedFiles

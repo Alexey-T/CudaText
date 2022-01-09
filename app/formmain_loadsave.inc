@@ -213,6 +213,7 @@ begin
   then
   begin
     fnBase:= GetSessionFilename;
+    DoOps_SaveSessionsBackups(fnBase);
     DoOps_SaveSession(fnBase, ASaveModifiedTabs, ASaveModifiedTabs, false);
   end;
 end;
@@ -255,7 +256,6 @@ begin
   if AFileName='' then exit;
 
   AppDiskCheckFreeSpace(AFileName);
-  DoOps_SaveSessionsBackups(AFileName); //do backup for all ways of session saving, even for API PROC_SAVE_SESSION
   DeleteFile(AFileName);
 
   nCountFiles:= 0;
