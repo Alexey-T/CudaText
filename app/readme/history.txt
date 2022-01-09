@@ -3,6 +3,8 @@
   - fixed
   * changed
 
++ add: hotkeys to switch the tab (to next/previous) work also when Find dialog is focused (thanks @andersaamodt)
+
 1.153.0 (2022/01)
 
 + add: it's possible to hide folding gutter icon for small blocks, via new option "fold_icon_min_range"
