@@ -698,6 +698,7 @@ function GetAppFilenameIsIgnoredForSession(const AFilename: string): boolean;
 
 function IsDefaultSession(const S: string): boolean;
 function IsDefaultSessionActive: boolean;
+function AppSessionFilename: string;
 
 function MsgBox(const Str: string; Flags: Longint): integer;
 procedure MsgBadConfig(const fn, msg: string);
@@ -3262,6 +3263,15 @@ end;
 function IsDefaultSessionActive: boolean;
 begin
   Result:= IsDefaultSession(AppSessionName);
+end;
+
+function AppSessionFilename: string;
+begin
+  Result:= AppSessionName;
+  if Result='' then
+    Result:= cAppSessionDefault;
+  if ExtractFileDir(Result)='' then
+    Result:= AppDir_Settings+DirectorySeparator+Result;
 end;
 
 

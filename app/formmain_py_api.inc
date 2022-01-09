@@ -464,7 +464,7 @@ begin
         APP_DIR_PY:
           Result:= PyUnicodeFromString(AppDir_Py);
         APP_FILE_SESSION:
-          Result:= PyUnicodeFromString(fmMain.GetSessionFilename);
+          Result:= PyUnicodeFromString(AppSessionFilename);
         APP_DIR_INSTALLED_ADDON:
           Result:= PyUnicodeFromString(AppDir_LastInstalledAddon);
         APP_FILE_RECENTS:

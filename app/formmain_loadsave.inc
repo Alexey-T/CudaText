@@ -212,7 +212,7 @@ begin
     //// @tmsg wants to save session always, even with -ns cmdline opt
   then
   begin
-    fnBase:= GetSessionFilename;
+    fnBase:= AppSessionFilename;
     DoOps_SaveSessionsBackups(fnBase);
     DoOps_SaveSession(fnBase, ASaveModifiedTabs, ASaveModifiedTabs, false);
   end;
@@ -426,7 +426,7 @@ begin
   //fix issue #3734
   if not IsDefaultSessionActive then
   begin
-    sFilename:= GetSessionFilename;
+    sFilename:= AppSessionFilename;
     if not SameFileName(sFilename, AFileName) then //fix issue #3744
       DoOps_SaveSession(sFilename, false, false, false);
     sFilename:= '';

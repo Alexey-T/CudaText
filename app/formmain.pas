@@ -802,7 +802,6 @@ type
     procedure FormFloatGroups1_OnClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormFloatGroups2_OnClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormFloatGroups3_OnClose(Sender: TObject; var CloseAction: TCloseAction);
-    function GetSessionFilename: string;
     procedure CharmapOnInsert(const AStr: string);
     procedure DoLocalize;
     procedure DoLocalizePopupTab;
@@ -2338,7 +2337,7 @@ begin
     if NTick-FLastSaveSessionTick>=Abs(UiOps.SessionSaveInterval)*1000 then
     begin
       FLastSaveSessionTick:= NTick;
-      DoOps_SaveSession(GetSessionFilename, true{ASaveModifiedTabs}, true{ASaveUntitledTabs}, true{AByTimer});
+      DoOps_SaveSession(AppSessionFilename, true{ASaveModifiedTabs}, true{ASaveUntitledTabs}, true{AByTimer});
     end;
   end;
 end;
@@ -2481,14 +2480,6 @@ begin
   if Assigned(fmCommands) and fmCommands.Visible then fmCommands.Close;
 end;
 
-function TfmMain.GetSessionFilename: string;
-begin
-  Result:= AppSessionName;
-  if Result='' then
-    Result:= cAppSessionDefault;
-  if ExtractFileDir(Result)='' then
-    Result:= AppDir_Settings+DirectorySeparator+Result;
-end;
 
 procedure TfmMain.InitAppleMenu;
 var
@@ -3253,7 +3244,7 @@ procedure TfmMain.FormShow(Sender: TObject);
     //after on_start (so HTML Tooltips with on_open can work)
     //after loading keymap-main and keymap for none-lexer
     if UiOps.ReopenSession and (FOption_AllowSessionLoad=aalsEnable) then
-      DoOps_LoadSession(GetSessionFilename, false);
+      DoOps_LoadSession(AppSessionFilename, false);
   end;
   //
   procedure _Init_FrameFocus;
