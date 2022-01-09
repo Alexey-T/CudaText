@@ -247,6 +247,7 @@ var
   Frame: TEditorFrame;
   Gr: TATGroups;
   Pages: TATPages;
+  sFilename, sFilename2: string;
   nLocalGroup, nGlobalGroup, nTab, i: integer;
   nCountFiles, nCountUntitled: integer;
   path, value: string;
@@ -304,13 +305,19 @@ begin
       if Frame.IsEmpty then Continue;
       if Frame.TabCaption=msgWelcomeTabTitle then Continue; //avoid reopening of '(welcome)' filler text
 
-      if AppFile_IsIgnoredForSession(Frame.FileName) then
+      sFilename:= Frame.GetFileName(Frame.Ed1);
+      if Frame.EditorsLinked then
+        sFilename2:= ''
+      else
+        sFilename2:= Frame.GetFileName(Frame.Ed2);
+
+      if AppFile_IsIgnoredForSession(sFileName) then
       begin
-        MsgLogConsole(Format('NOTE: File "%s" is not saved to session', [Frame.FileName]));
+        MsgLogConsole(Format('NOTE: File "%s" is not saved to session', [sFileName]));
         Continue;
       end;
 
-      bUntitled:= Frame.GetFileName(Frame.Ed1)='';
+      bUntitled:= sFilename='';
       if bUntitled then
         Inc(nCountUntitled)
       else
@@ -322,7 +329,7 @@ begin
       bModified:= Frame.Ed1.Modified or (bUntitled and not Frame.IsEmpty);
 
       cfg.SetValue(path+'/modified', bModified);
-      cfg.SetValue(path+'/file', AppCollapseHomeDirInFilename(Frame.FileName));
+      cfg.SetValue(path+'/file', AppCollapseHomeDirInFilename(sFileName));
 
       if bModified then
         cfg.SetValue(path+'/tab_title', Frame.TabCaption);
@@ -352,27 +359,27 @@ begin
           (bUntitled and ASaveUntitledTabs) then
         begin
           cfg.SetValue(path+'/text', Frame.Editor.Text);
-          if (not bUntitled) and FileExists(Frame.FileName) then
-            cfg.SetValue(path+'/file_date', FormatFileDateAsNiceString(Frame.FileName));
+          if (not bUntitled) and FileExists(sFileName) then
+            cfg.SetValue(path+'/file_date', FormatFileDateAsNiceString(sFileName));
         end;
 
       Frame.DoSaveHistoryEx(Frame.Ed1, cfg, path, true{AForSession});
 
       //save info about paired-tab to subkey "pair"
-      if (not Frame.EditorsLinked) and (Frame.FileName2<>'') then
+      if sFileName2<>'' then
       begin
         path+= '/pair';
 
         bModified:= Frame.Ed2.Modified;
         cfg.SetValue(path+'/modified', bModified);
-        cfg.SetValue(path+'/file', AppCollapseHomeDirInFilename(Frame.FileName2));
+        cfg.SetValue(path+'/file', AppCollapseHomeDirInFilename(sFileName2));
 
         if UiOps.HistoryItems[ahhText] then
          if bModified then
          begin
           cfg.SetValue(path+'/text', Frame.Ed2.Text);
-          if FileExists(Frame.FileName2) then
-            cfg.SetValue(path+'/file_date', FormatFileDateAsNiceString(Frame.FileName2));
+          if FileExists(sFileName2) then
+            cfg.SetValue(path+'/file_date', FormatFileDateAsNiceString(sFileName2));
          end;
 
         Frame.DoSaveHistoryEx(Frame.Ed2, cfg, path, true{AForSession});
