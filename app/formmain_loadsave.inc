@@ -374,13 +374,12 @@ begin
         cfg.SetValue(path+'/modified', bModified);
         cfg.SetValue(path+'/file', AppCollapseHomeDirInFilename(sFileName2));
 
-        if UiOps.HistoryItems[ahhText] then
-         if bModified then
-         begin
+        if bModified and UiOps.HistoryItems[ahhText] then
+        begin
           cfg.SetValue(path+'/text', Frame.Ed2.Text);
           if FileExists(sFileName2) then
             cfg.SetValue(path+'/file_date', FormatFileDateAsNiceString(sFileName2));
-         end;
+        end;
 
         Frame.DoSaveHistoryEx(Frame.Ed2, cfg, path, true{AForSession});
       end;
