@@ -353,9 +353,9 @@ Actions:
 Session is a set of opened files + untitled tabs, with some properties of editors in these tabs, with group-indexes of tabs, with layout of groups. Session format is JSON.
 
 * PROC_SAVE_SESSION: Saves session to file with given name. Returns bool: session was saved. Param "text" must be file name, and optional addition: ";" with several option-chars after ";":
-** char 'n': Don't save modified named files.
-** char 'u': Don't save untitled documents to session.
-** char 't': Show additional short message "session was saved by timer at ..." in the Console.
+** char 'n': Don't save text of modified named files.
+** char 'u': Don't save text of untitled documents (which are always modified).
+** char 't': Show additional text "session was saved by timer at ..." in the Console.
 
 * PROC_LOAD_SESSION: Loads session from file with given name (closes all tabs first). Returns bool: tabs closed without pressing Cancel, session was loaded.
 
