@@ -108,7 +108,8 @@ type
     );
 
 const
-  cAppSessionDefault = 'history session.json';
+  cAppSessionDefaultBase = 'history session';
+  cAppSessionDefault = cAppSessionDefaultBase+'.json';
   cAppHistoryElementChar: array[TAppHistoryElement] of char =
     'tchsTeblwMmrunSfkCFi';
 
@@ -3251,7 +3252,9 @@ end;
 
 function IsDefaultSession(const S: string): boolean;
 begin
-  Result:= (S='') or (S=cAppSessionDefault);
+  Result:=
+    (S='') or
+    (ChangeFileExt(ExtractFileName(S), '')=cAppSessionDefaultBase);
 end;
 
 function IsDefaultSessionActive: boolean;
