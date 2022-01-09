@@ -108,10 +108,12 @@ type
     );
 
 const
-  cAppSessionDefaultBase = 'history session';
-  cAppSessionDefault = cAppSessionDefaultBase+'.json';
   cAppHistoryElementChar: array[TAppHistoryElement] of char =
     'tchsTeblwMmrunSfkCFi';
+
+const
+  cAppSessionDefaultBase = 'history session';
+  cAppSessionDefault = cAppSessionDefaultBase+'.json';
 
 const
   cAppMaxGroup = Pred(6+3); //6 normal groups + 3 floating groups
