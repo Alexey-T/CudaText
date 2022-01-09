@@ -1027,6 +1027,7 @@ type
     procedure FinderShowResult(ok: boolean; AFinder: TATEditorFinder);
     procedure FinderShowResultSimple(ok: boolean; AFinder: TATEditorFinder);
     procedure FinderShowMatchesCount(AMatchCount, ATime: integer);
+    function FinderHandleKeyDown(AKey: word; AShiftState: TShiftState): boolean;
     procedure DoFindFirst;
     procedure DoFindNext(ANext: boolean);
     procedure DoFindMarkAll(AMode: TATFindMarkingMode);

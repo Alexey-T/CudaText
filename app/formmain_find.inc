@@ -401,6 +401,7 @@ begin
     fmFind.OnGetMainEditor:= @FindDialogGetMainEditor;
     fmFind.OnGetToken:= @FinderOnGetToken;
     fmFind.OnShowMatchesCount:= @FinderShowMatchesCount;
+    fmFind.OnHandleKeyDown:= @FinderHandleKeyDown;
     fmFind.Color:= GetAppColor(apclTabBg);
     fmFind.UpdateInitialCaretPos;
 
@@ -1334,5 +1335,41 @@ end;
 procedure TfmMain.FindDialogFocusEditor(Sender: TObject);
 begin
   DoFocusEditor(CurrentEditor);
+end;
+
+function TfmMain.FinderHandleKeyDown(AKey: word; AShiftState: TShiftState): boolean;
+var
+  Ed: TATSynEdit;
+  NCmd: integer;
+  KeyHistory: TATKeyArray;
+begin
+  Result:= false;
+  Ed:= CurrentEditor;
+  if Ed=nil then exit;
+
+  FillChar(KeyHistory{%H-}, SizeOf(KeyHistory), 0);
+  NCmd:= Ed.Keymap.GetCommandFromShortcut(ShortCut(AKey, AShiftState), KeyHistory);
+  case NCmd of
+    cmd_SwitchTab_HotkeyNext:
+      begin
+        DoSwitchTab(true);
+        Result:= true;
+      end;
+    cmd_SwitchTab_HotkeyPrev:
+      begin
+        DoSwitchTab(false);
+        Result:= true;
+      end;
+    cmd_SwitchTab_SimpleNext:
+      begin
+        DoSwitchTabSimply(true);
+        Result:= true;
+      end;
+    cmd_SwitchTab_SimplePrev:
+      begin
+        DoSwitchTabSimply(false);
+        Result:= true;
+      end;
+  end;
 end;
 

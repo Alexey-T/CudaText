@@ -98,6 +98,7 @@ type
   TAppFinderOperationEvent = procedure(Sender: TObject; Op: TAppFinderOperation) of object;
   TAppFinderGetEditor = procedure(out AEditor: TATSynEdit) of object;
   TAppFinderShowMatchesCount = procedure(AMatchCount, ATime: integer) of object;
+  TAppFinderKeyDownEvent = function(AKey: word; AShiftState: TShiftState): boolean of object;
 
 function AppFinderOperationFromString(const Str: string): TAppFinderOperation;
 
@@ -201,6 +202,7 @@ type
     FOnGetMainEditor: TAppFinderGetEditor;
     FOnGetToken: TATFinderGetToken;
     FOnShowMatchesCount: TAppFinderShowMatchesCount;
+    FOnHandleKeyDown: TAppFinderKeyDownEvent;
     FLexerRegexThemed: boolean;
     Adapter: TATAdapterEControl;
     AdapterActive: boolean;
@@ -243,6 +245,7 @@ type
     property OnGetMainEditor: TAppFinderGetEditor read FOnGetMainEditor write FOnGetMainEditor;
     property OnGetToken: TATFinderGetToken read FOnGetToken write FOnGetToken;
     property OnShowMatchesCount: TAppFinderShowMatchesCount read FOnShowMatchesCount write FOnShowMatchesCount;
+    property OnHandleKeyDown: TAppFinderKeyDownEvent read FOnHandleKeyDown write FOnHandleKeyDown;
     property IsReplace: boolean read FReplace write SetReplace;
     property IsMultiLine: boolean read FMultiLine write SetMultiLine;
     property IsNarrow: boolean read FNarrow write SetNarrow;
@@ -1061,6 +1064,15 @@ begin
     UpdateState(false);
     key:= 0;
     exit
+  end;
+
+  //pass Ctrl+Tab and Ctrl+Shift+Tab to the main form
+  if Pos('+Tab', Str)>0 then
+  begin
+    if Assigned(FOnHandleKeyDown) then
+      if FOnHandleKeyDown(Key, Shift) then
+        Key:= 0;
+    exit;
   end;
 end;
 
