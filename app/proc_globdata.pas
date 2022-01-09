@@ -1970,13 +1970,14 @@ begin
 end;
 
 function AppFile_IsIgnoredForSession(const AFilename: string): boolean;
-var
-  SName: string;
 begin
-  SName:= ExtractFileName(AFilename);
-  Result:= SameFileName(ExtractFileDir(AFilename), AppDir_Settings) and
-    ( SameFileName(SName, 'history.json') or
-      SameFileName(SName, 'history session.json') );
+  if SameFileName(AFilename, AppDir_Settings+DirectorySeparator+'history.json') then
+    exit(true);
+
+  if SameFileName(AFilename, AppDir_Settings+DirectorySeparator+'history session.json') then
+    exit(true);
+
+  Result:= false;
 end;
 
 function AppFile_HotkeysForLexer(AName: string): string;
