@@ -4619,7 +4619,13 @@ begin
 
         APP_PROC_SAVE_SESSION:
           begin
-            ParamBool:= fmMain.DoOps_SaveSession(Str, true, true, false);
+            SSplitByChar(Str, ';', Str1, Str2);
+            ParamBool:= fmMain.DoOps_SaveSession(
+              Str1,
+              Pos('n', Str2)=0, //ASaveModifiedFiles
+              Pos('u', Str2)=0, //ASaveUntitlesTabs
+              Pos('t', Str2)>0 //AByTimer
+              );
             Result:= PyBool_FromLong(Ord(ParamBool));
           end;
 
