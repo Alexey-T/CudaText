@@ -334,7 +334,7 @@ begin
 
   fs:= TFileStream.Create(fn, fmOpenRead or fmShareDenyNone);
   try
-    FillChar(Buf, SizeOf(Buf), 0);
+    FillChar(Buf{%H-}, SizeOf(Buf), 0);
     NRead:= fs.Read(Buf, SizeOf(Buf));
     Result:= (NRead=SizeOf(Buf)) and
       (Buf[0]=#0) and
@@ -362,9 +362,9 @@ var
 begin
   for i:= ACount downto 1 do
   begin
-    fnTemp:= ChangeFileExt(AFilename, Format('.%d%s', [i, AExtension]));
+    fnTemp:= ChangeFileExt(AFilename, '.'+IntToStr(i)+AExtension);
     if i>1 then
-      fnTemp2:= ChangeFileExt(AFilename, Format('.%d%s', [i-1, AExtension]))
+      fnTemp2:= ChangeFileExt(AFilename, '.'+IntToStr(i-1)+AExtension)
     else
       fnTemp2:= AFilename;
     if i>=ACount then
