@@ -255,7 +255,6 @@ procedure TfmMain.FrameParseDone(Sender: TObject);
 var
   Ada: TATAdapterEControl;
   Ed: TATSynEdit;
-  Params: TAppVariantArray;
 begin
   UpdateLexerProgressbar(0, true);
   UpdateTreeByTimer;
@@ -272,10 +271,7 @@ begin
 
   //do on_lexer_parsed only if parsing was long
   if Ada.LexerParsingElapsed>=UiOps.LexerParsingMinTimeForEvent then
-  begin
-    SetLength(Params, 0);
-    DoPyEvent(Ed, cEventOnLexerParsed, Params);
-  end;
+    DoPyEvent(Ed, cEventOnLexerParsed, []);
 end;
 
 function TfmMain.FrameOfPopup: TEditorFrame;
@@ -293,13 +289,10 @@ end;
 
 procedure TfmMain.FrameOnChangeSlow(Sender: TObject);
 var
-  Params: TAppVariantArray;
   Ed: TATSynEdit;
 begin
   Ed:= Sender as TATSynEdit;
-
-  SetLength(Params, 0);
-  DoPyEvent(Ed, cEventOnChangeSlow, Params);
+  DoPyEvent(Ed, cEventOnChangeSlow, []);
 
   //call Find dialog's updating of 'Hi' results
   if Assigned(fmFind) and fmFind.Visible then

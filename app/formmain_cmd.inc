@@ -16,7 +16,6 @@ var
   EdGrp: TATGroups;
   NIndex: integer;
   NColor: TColor;
-  Params: TAppVariantArray;
 begin
  TimerCmd.Enabled:= false;
 
@@ -671,10 +670,7 @@ begin
     cmd_HelpCheckUpdates:
       begin
         if UiOps.AllowProgramUpdates then
-        begin
-          SetLength(Params, 0);
-          DoPyCommand('cuda_addonman', 'check_cudatext_updates', Params, CmdInvoke);
-        end;
+          DoPyCommand('cuda_addonman', 'check_cudatext_updates', [], CmdInvoke);
       end;
 
     cmdFirstLexerCommand..
@@ -715,7 +711,6 @@ procedure TfmMain.FrameOnEditorCommand(Sender: TObject; ACommand: integer;
 var
   Ed: TATSynEdit;
   Frame: TEditorFrame;
-  Params: TAppVariantArray;
   Str: string;
 begin
   AHandled:= true;
@@ -737,9 +732,7 @@ begin
   if (ACommand=cCommand_TextInsert) and
     (AText<>'') then
   begin
-    SetLength(Params, 1);
-    Params[0]:= AppVariant(AText);
-    if DoPyEvent(Ed, cEventOnInsert, Params).Val = evrFalse then
+    if DoPyEvent(Ed, cEventOnInsert, [AppVariant(AText)]).Val = evrFalse then
     begin
       AHandled:= true;
       exit

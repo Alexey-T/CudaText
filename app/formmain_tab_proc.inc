@@ -125,7 +125,6 @@ var
   Tabs: TATTabs;
   D: TATTabData;
   F: TEditorFrame;
-  Params: TAppVariantArray;
   SFrameFilterText: UnicodeString;
 begin
   Tabs:= Sender as TATTabs;
@@ -166,8 +165,7 @@ begin
   DoOps_LoadOptionsLexerSpecific(F, F.Editor);
 
   UpdateStatusbar;
-  SetLength(Params, 0);
-  DoPyEvent(F.Editor, cEventOnTabChange, Params);
+  DoPyEvent(F.Editor, cEventOnTabChange, []);
 
   //apply "Highlight all matches" on focusing new tab
   if Assigned(fmFind) and fmFind.Visible then
@@ -250,7 +248,6 @@ var
   Msg: string;
   bNeedTreeUpd, bSavedOk: boolean;
   Adapter: TATAdapterEControl;
-  Params: TAppVariantArray;
 begin
   D:= (Sender as TATTabs).GetTabData(ATabIndex);
   if D=nil then exit;
@@ -281,8 +278,7 @@ begin
 
   if not Application.Terminated then
   begin
-    SetLength(Params, 0);
-    if DoPyEvent(Frame.Editor, cEventOnCloseBefore, Params).Val = evrFalse then
+    if DoPyEvent(Frame.Editor, cEventOnCloseBefore, []).Val = evrFalse then
     begin
       ACanClose:= false;
       Exit
@@ -559,15 +555,12 @@ end;
 *)
 
 procedure TfmMain.DoOnTabMove(Sender: TObject; NFrom, NTo: Integer);
-var
-  Params: TAppVariantArray;
 begin
   //tab closed: set flag
   if NTo=-1 then
     PyEditorMaybeDeleted:= true;
 
-  SetLength(Params, 0);
-  DoPyEvent(CurrentEditor, cEventOnTabMove, Params);
+  DoPyEvent(CurrentEditor, cEventOnTabMove, []);
 end;
 
 

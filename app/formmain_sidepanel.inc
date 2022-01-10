@@ -137,13 +137,11 @@ end;
 procedure TfmMain.DoSidebar_OnPythonCall(const ACallback: string);
 var
   SModule, SMethod: string;
-  Params: TAppVariantArray;
 begin
   if ACallback<>'' then
   begin
     SSplitByChar(ACallback, '.', SModule, SMethod);
-    SetLength(Params, 0);
-    DoPyCommand(SModule, SMethod, Params, cInvokeAppSidebar);
+    DoPyCommand(SModule, SMethod, [], cInvokeAppSidebar);
   end;
 end;
 

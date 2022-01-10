@@ -411,7 +411,6 @@ var
   sText: UnicodeString;
   bExist, bExist2: boolean;
   sDateSaved, sDateCurrent, sMessage: string;
-  Params: TAppVariantArray;
   CurTabs: TATTabs;
   nTick: QWord;
 const
@@ -587,8 +586,7 @@ begin
 
         //event on_open was blocked in DoFileOpen, call it here
         //(plugin "Tab Icons" needs it)
-        SetLength(Params, 0);
-        DoPyEvent(Frame.Ed1, cEventOnOpen, Params);
+        DoPyEvent(Frame.Ed1, cEventOnOpen, []);
       end;
     end;
 

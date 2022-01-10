@@ -823,7 +823,6 @@ procedure TfmMain.FinderOnConfirmReplace_API(Sender: TObject; APos1,
   var AReplacement: UnicodeString);
 var
   ThisFinder: TATEditorFinder;
-  Params: TAppVariantArray;
   Callback: string;
   EventRes: TAppPyEventResult;
   Ed: TATSynEdit;
@@ -840,14 +839,14 @@ begin
   Ed.DoShowPos(APos1, ThisFinder.IndentHorz, ThisFinder.IndentVert, true, false, true);
   Ed.Update(true);
 
-  SetLength(Params, 5);
-  Params[0]:= AppVariant(APos1.X);
-  Params[1]:= AppVariant(APos1.Y);
-  Params[2]:= AppVariant(APos2.X);
-  Params[3]:= AppVariant(APos2.Y);
-  Params[4]:= AppVariant(AReplacement);
-
-  EventRes:= DoPyCallbackFromAPI_2(Callback, Ed, Params);
+  EventRes:= DoPyCallbackFromAPI_2(Callback, Ed,
+    [
+    AppVariant(APos1.X),
+    AppVariant(APos1.Y),
+    AppVariant(APos2.X),
+    AppVariant(APos2.Y),
+    AppVariant(AReplacement)
+    ]);
 
   case EventRes.Val of
     evrInt:
