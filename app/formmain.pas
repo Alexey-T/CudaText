@@ -4042,7 +4042,6 @@ var
   AllowNear: TApp3States;
   OpenMode, NonTextMode: TAppOpenMode;
   CurGroups: TATGroups;
-  Params: TAppVariantArray;
   //tick: QWord;
   //msg: string;
 begin
@@ -4181,9 +4180,7 @@ begin
     //py event
     if bEnableEventPre then
     begin
-      SetLength(Params, 1);
-      Params[0]:= AppVariant(AFileName);
-      if DoPyEvent(CurrentEditor, cEventOnOpenBefore, Params).Val = evrFalse then exit;
+      if DoPyEvent(CurrentEditor, cEventOnOpenBefore, [AppVariant(AFileName)]).Val = evrFalse then exit;
     end;
 
     bDetectedPics:= bAllowPics and IsFilenameListedInExtensionList(AFileName, UiOps.PictureTypes);
@@ -4302,8 +4299,7 @@ begin
     DoFocusResult;
     if bEnableEventOpened then
     begin
-      SetLength(Params, 0);
-      DoPyEvent(Result.Ed1, cEventOnOpen, Params);
+      DoPyEvent(Result.Ed1, cEventOnOpen, []);
     end;
 
     exit;
@@ -4333,25 +4329,23 @@ begin
       //  msg:= msg+' ('+IntToStr(tick)+'s)';
       MsgStatusFileOpened(AFileName, AFileName2);
 
-      SetLength(Params, 0);
-
       if bEnableEventOpened then
       begin
-        DoPyEvent(F.Ed1, cEventOnOpen, Params);
+        DoPyEvent(F.Ed1, cEventOnOpen, []);
       end;
 
       if IsFilenameForLexerDetecter(AFileName) then
         if (F.FrameKind=efkEditor) and (F.LexerName[F.Ed1]='') then
         begin
           if bEnableEventOpenedNone then
-            DoPyEvent(F.Ed1, cEventOnOpenNone, Params);
+            DoPyEvent(F.Ed1, cEventOnOpenNone, []);
           UpdateStatusbar;
         end;
 
       if AFileName2<>'' then
       begin
         if bEnableEventOpened then
-          DoPyEvent(F.Ed2, cEventOnOpen, Params);
+          DoPyEvent(F.Ed2, cEventOnOpen, []);
         UpdateStatusbar;
       end;
 
@@ -4381,19 +4375,17 @@ begin
   UpdateFindDialogEnabled(F);
   MsgStatusFileOpened(AFileName, AFileName2);
 
-  SetLength(Params, 0);
-
   if bEnableEventOpened then
-    DoPyEvent(F.Ed1, cEventOnOpen, Params);
+    DoPyEvent(F.Ed1, cEventOnOpen, []);
 
   if bEnableEventOpenedNone then
     if IsFilenameForLexerDetecter(AFileName) then
       if (F.FrameKind=efkEditor) and (F.LexerName[F.Ed1]='') then
-        DoPyEvent(F.Ed1, cEventOnOpenNone, Params);
+        DoPyEvent(F.Ed1, cEventOnOpenNone, []);
 
   if bEnableEventOpened then
     if AFileName2<>'' then
-      DoPyEvent(F.Ed2, cEventOnOpen, Params);
+      DoPyEvent(F.Ed2, cEventOnOpen, []);
 
   DoFocusResult;
 end;
@@ -4665,7 +4657,6 @@ end;
 
 procedure TfmMain.DoDialogGoto;
 var
-  Params: TAppVariantArray;
   Str: string;
 begin
   if not Assigned(fmGoto) then
@@ -4679,12 +4670,7 @@ begin
   if fmGoto.ShowModal=mrOk then
   begin
     Str:= UTF8Encode(fmGoto.edInput.Text);
-
-    SetLength(Params, 1);
-    Params[0]:= AppVariant(Str);
-
-    if DoPyEvent(CurrentEditor, cEventOnGotoEnter, Params).Val = evrFalse then exit;
-
+    if DoPyEvent(CurrentEditor, cEventOnGotoEnter, [AppVariant(Str)]).Val = evrFalse then exit;
     DoGotoFromInput(Str);
   end;
 end;
@@ -5802,13 +5788,10 @@ end;
 
 procedure TfmMain.DoPyCommand_Cudaxlib(Ed: TATSynEdit; const AMethod: string;
   AInvoke: TATEditorCommandInvoke);
-var
-  Params: TAppVariantArray;
 begin
   Ed.Strings.BeginUndoGroup;
   try
-    SetLength(Params, 0);
-    DoPyCommand('cudax_lib', AMethod, Params, AInvoke);
+    DoPyCommand('cudax_lib', AMethod, [], AInvoke);
   finally
     Ed.Strings.EndUndoGroup;
   end;
@@ -6215,7 +6198,6 @@ var
   NTag: PtrInt;
   NCommand: integer;
   SCaption, SCallback: string;
-  Params: TAppVariantArray;
   mi: TMenuItem;
 begin
   NTag:= (Sender as TComponent).Tag;
@@ -6267,11 +6249,10 @@ begin
   //-1 means run callback
   if NCommand=-1 then
   begin
-    SetLength(Params, 0);
     if SCallback<>'' then
     begin
       F.Editor.CommandLog.Add(cmd_PluginRun, cInvokeMenuAPI, SCallback+SCaption);
-      DoPyCallbackFromAPI(SCallback, Params, []);
+      DoPyCallbackFromAPI(SCallback, [], []);
       F.Editor.CommandLog.Add(cmd_PluginEnd, cInvokeMenuAPI, SCallback+SCaption);
     end;
   end
@@ -6317,11 +6298,8 @@ end;
 
 
 function TfmMain.DoAutoComplete_FromPlugins(Ed: TATSynEdit): boolean;
-var
-  Params: TAppVariantArray;
 begin
-  SetLength(Params, 0);
-  Result:= DoPyEvent(Ed, cEventOnComplete, Params).Val = evrTrue;
+  Result:= DoPyEvent(Ed, cEventOnComplete, []).Val = evrTrue;
 end;
 
 function TfmMain.DoAutoComplete_PosOnBadToken(Ed: TATSynEdit; AX, AY: integer): boolean;
@@ -7030,7 +7008,6 @@ var
   Form: TAppFormWithEditor;
   ResFilename: string;
   ResLine, ResCol: integer;
-  Params: TAppVariantArray;
   Frame: TEditorFrame;
   CaretY: integer;
   bFound: boolean;
@@ -7082,30 +7059,22 @@ begin
   else
   begin
     MsgStatus(msgStatusClickingLogLine);
-    SetLength(Params, 2);
-    Params[0]:= AppVariant(SText);
-    Params[1]:= AppVariant(0);
-    DoPyEvent(nil, cEventOnOutputNav, Params);
+    DoPyEvent(nil, cEventOnOutputNav, [AppVariant(SText), AppVariant(0)]);
   end;
 end;
 
 
 procedure TfmMain.DoGotoDefinition(Ed: TATSynEdit);
-var
-  Params: TAppVariantArray;
 begin
-  SetLength(Params, 0);
-  if DoPyEvent(Ed, cEventOnGotoDef, Params).Val <> evrTrue then
+  if DoPyEvent(Ed, cEventOnGotoDef, []).Val <> evrTrue then
     MsgStatus(msgStatusNoGotoDefinitionPlugins);
 end;
 
 procedure TfmMain.DoShowFuncHint(Ed: TATSynEdit);
 var
-  Params: TAppVariantArray;
   S: string;
 begin
-  SetLength(Params, 0);
-  S:= DoPyEvent(Ed, cEventOnFuncHint, Params).Str;
+  S:= DoPyEvent(Ed, cEventOnFuncHint, []).Str;
   S:= Trim(S);
   if S<>'' then
     DoTooltipShow(S, UiOps.AltTooltipTime, atpEditorCaret, true, -1, -1);
@@ -7170,22 +7139,14 @@ begin
 end;
 
 function TfmMain.DoPyEvent_ConsoleNav(const AText: string): boolean;
-var
-  Params: TAppVariantArray;
 begin
-  SetLength(Params, 1);
-  Params[0]:= AppVariant(AText);
-  Result:= DoPyEvent(nil, cEventOnConsoleNav, Params).Val <> evrFalse;
+  Result:= DoPyEvent(nil, cEventOnConsoleNav, [AppVariant(AText)]).Val <> evrFalse;
 end;
 
 function TfmMain.DoPyEvent_Message(const AText: string): boolean;
-var
-  Params: TAppVariantArray;
 begin
-  SetLength(Params, 2);
-  Params[0]:= AppVariant(0); //reserved for future
-  Params[1]:= AppVariant(AText);
-  Result:= DoPyEvent(nil, cEventOnMessage, Params).Val <> evrFalse;
+  Result:= DoPyEvent(nil, cEventOnMessage,
+    [AppVariant(0), AppVariant(AText)]).Val <> evrFalse;
 end;
 
 
@@ -7260,7 +7221,6 @@ procedure TfmMain.FrameLexerChange(Sender: TATSynEdit);
 var
   Ed: TATSynEdit;
   Frame: TEditorFrame;
-  Params: TAppVariantArray;
   Keymap: TATKeymap;
   {$ifdef debug_on_lexer}
   SFileName: string;
@@ -7295,8 +7255,7 @@ begin
       MsgLogConsole('on_lexer: file "'+ExtractFileName(SFileName)+'" -> "'+SLexerName+'"');
       {$endif}
 
-      SetLength(Params, 0);
-      DoPyEvent(Ed, cEventOnLexer, Params);
+      DoPyEvent(Ed, cEventOnLexer, []);
     end;
 
   //apply lexer-specific keymap
@@ -7321,7 +7280,6 @@ procedure TfmMain.DoToolbarClick(Sender: TObject);
 var
   SData: string;
   NCmd: integer;
-  Params: TAppVariantArray;
 begin
   //str(int_command) or callback string
   SData:= (Sender as TATButton).DataString;
@@ -7331,8 +7289,7 @@ begin
     CurrentEditor.DoCommand(NCmd, cInvokeAppToolbar)
   else
   begin
-    SetLength(Params, 0);
-    DoPyCallbackFromAPI(SData, Params, []);
+    DoPyCallbackFromAPI(SData, [], []);
   end;
 
   UpdateCurrentFrame;
@@ -7591,8 +7548,6 @@ begin
 end;
 
 procedure TfmMain.DoFileNewMenu(Sender: TObject; AInvoke: TATEditorCommandInvoke);
-var
-  Params: TAppVariantArray;
 begin
   if not AppPython.Inited then
   begin
@@ -7600,8 +7555,7 @@ begin
     exit;
   end;
 
-  SetLength(Params, 0);
-  DoPyCommand('cuda_new_file', 'menu', Params, AInvoke);
+  DoPyCommand('cuda_new_file', 'menu', [], AInvoke);
 end;
 
 procedure TfmMain.DoCommandsMsgStatus(Sender: TObject; const ARes: string);
@@ -7818,13 +7772,11 @@ procedure TfmMain.MenuitemClick_CommandFromHint(Sender: TObject);
 var
   Sep: TATStringSeparator;
   SModule, SProc: string;
-  Params: TAppVariantArray;
 begin
   Sep.Init((Sender as TMenuItem).Hint);
   Sep.GetItemStr(SModule);
   Sep.GetItemStr(SProc);
-  SetLength(Params, 0);
-  DoPyCommand(SModule, SProc, Params, cInvokeAppToolbar);
+  DoPyCommand(SModule, SProc, [], cInvokeAppToolbar);
 end;
 
 
@@ -8547,7 +8499,6 @@ const
 var
   PntScreen, PntLocal: TPoint;
   Ed: TATSynEdit;
-  Params: TAppVariantArray;
   iGroup: integer;
 begin
   PntScreen:= Mouse.CursorPos;
@@ -8563,10 +8514,8 @@ begin
       PntLocal:= Ed.ScreenToClient(PntScreen);
       if PtInRect(Ed.ClientRect, PntLocal) then
       begin
-        SetLength(Params, 2);
-        Params[0]:= AppVariant(PntLocal.X);
-        Params[1]:= AppVariant(PntLocal.Y);
-        DoPyEvent(Ed, cEventOnMouseStop, Params);
+        DoPyEvent(Ed, cEventOnMouseStop,
+          [AppVariant(PntLocal.X), AppVariant(PntLocal.Y)]);
         Break;
       end;
     end;
