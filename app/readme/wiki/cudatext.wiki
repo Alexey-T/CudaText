@@ -2239,6 +2239,20 @@ It's good to use these commands with hotkeys Alt+Left and Alt+Right (assign it i
 
 ==Unix specific topics==
 
+===How to fix the shifting text on selection===
+Q: When I select text that is inside a string literal (for example), the beginning of the selection gets a space before it, shifting the selected text to the right. As I select more the text continues to squish around.
+
+A: That's an issue specific to Qt5 and macOS versions. It's fixable by the option "renderer_tweaks" (for Linux: "renderer_tweaks__linux"; for macOS: "renderer_tweaks__mac"). Description of this option in the default config:
+
+ Value is a string of several chars:
+ if 'w' in value: Use simplified calculation of average character width.
+                   On Windows, 'w' is good.
+                   On macOS, 'w' is bad.
+                   On GTK2, 'w' is not needed.
+                   On Qt5, 'w' gives various results, it depends on Desktop Environment.
+
+So, on Linux Qt5 version, all you need is to toggle "w" sub-option in the "renderer_tweaks__linux". In the user.json config.
+
 ===How to reinstall missed files===
 
 Sometimes it's needed to reinstall missed files, e.g. when you have deleted some lexers from "Lexer library" dialog.
