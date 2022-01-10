@@ -633,7 +633,6 @@ procedure TEditorFrame.EditorOnClick(Sender: TObject);
 var
   Ed: TATSynEdit;
   StateString: string;
-  Params: TAppVariantArray;
 begin
   Ed:= Sender as TATSynEdit;
 
@@ -646,14 +645,11 @@ begin
   if UiOps.MouseGotoDefinition<>'' then
     if StateString=UiOps.MouseGotoDefinition then
     begin
-      SetLength(Params, 0);
-      DoPyEvent(Ed, cEventOnGotoDef, Params);
+      DoPyEvent(Ed, cEventOnGotoDef, []);
       exit;
     end;
 
-  SetLength(Params, 1);
-  Params[0]:= AppVariant(StateString);
-  DoPyEvent(Ed, cEventOnClick, Params);
+  DoPyEvent(Ed, cEventOnClick, [AppVariant(StateString)]);
 end;
 
 function TEditorFrame.GetSplitPosCurrent: double;
@@ -674,15 +670,14 @@ end;
 
 procedure TEditorFrame.EditorOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 var
-  Params: TAppVariantArray;
   Res: TAppPyEventResult;
 begin
-  SetLength(Params, 2);
-  Params[0]:= AppVariant(Key);
-  Params[1]:= AppVariant(ConvertShiftStateToString(Shift));
-
   //result=False: block the key
-  Res:= DoPyEvent(Sender as TATSynEdit, cEventOnKey, Params);
+  Res:= DoPyEvent(Sender as TATSynEdit, cEventOnKey,
+    [
+    AppVariant(Key),
+    AppVariant(ConvertShiftStateToString(Shift))
+    ]);
   if Res.Val=evrFalse then
   begin
     Key:= 0;
@@ -691,13 +686,7 @@ begin
 end;
 
 procedure TEditorFrame.EditorOnKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
-var
-  Params: TAppVariantArray;
 begin
-  SetLength(Params, 2);
-  Params[0]:= AppVariant(Key);
-  Params[1]:= AppVariant(ConvertShiftStateToString(Shift));
-
   //fire on_key_up only for keys Ctrl, Alt, Shift
   //event result is ignored
   case Key of
@@ -705,32 +694,31 @@ begin
     VK_MENU,
     VK_SHIFT,
     VK_RSHIFT:
-      DoPyEvent(Sender as TATSynEdit, cEventOnKeyUp, Params);
+      DoPyEvent(Sender as TATSynEdit, cEventOnKeyUp,
+        [
+        AppVariant(Key),
+        AppVariant(ConvertShiftStateToString(Shift))
+        ]);
   end;
 end;
 
 procedure TEditorFrame.EditorOnPaste(Sender: TObject; var AHandled: boolean;
   AKeepCaret, ASelectThen: boolean);
-var
-  Params: TAppVariantArray;
 begin
-  SetLength(Params, 2);
-  Params[0]:= AppVariant(AKeepCaret);
-  Params[1]:= AppVariant(ASelectThen);
-
-  if DoPyEvent(Sender as TATSynEdit, cEventOnPaste, Params).Val = evrFalse then
+  if DoPyEvent(Sender as TATSynEdit, cEventOnPaste,
+    [
+    AppVariant(AKeepCaret),
+    AppVariant(ASelectThen)
+    ]).Val = evrFalse then
     AHandled:= true;
 end;
 
 procedure TEditorFrame.EditorOnScroll(Sender: TObject);
-var
-  Params: TAppVariantArray;
 begin
   if Assigned(FOnEditorScroll) then
     FOnEditorScroll(Sender);
 
-  SetLength(Params, 0);
-  DoPyEvent(Sender as TATSynEdit, cEventOnScroll, Params);
+  DoPyEvent(Sender as TATSynEdit, cEventOnScroll, []);
 end;
 
 function TEditorFrame.GetTabPages: TATPages;
@@ -825,7 +813,6 @@ const
   cMaxSelectedLinesForAutoCopy = 200;
 {$endif}
 var
-  Params: TAppVariantArray;
   Ed: TATSynEdit;
 begin
   Ed:= Sender as TATSynEdit;
@@ -846,30 +833,25 @@ begin
   EditorCopySelToPrimarySelection(Ed, cMaxSelectedLinesForAutoCopy);
   {$endif}
 
-  SetLength(Params, 0);
-  DoPyEvent(Ed, cEventOnCaret, Params);
+  DoPyEvent(Ed, cEventOnCaret, []);
 end;
 
 procedure TEditorFrame.EditorOnHotspotEnter(Sender: TObject; AHotspotIndex: integer);
-var
-  Params: TAppVariantArray;
 begin
-  SetLength(Params, 2);
-  Params[0]:= AppVariant(true); //hotspot enter
-  Params[1]:= AppVariant(AHotspotIndex);
-
-  DoPyEvent(Sender as TATSynEdit, cEventOnHotspot, Params);
+  DoPyEvent(Sender as TATSynEdit, cEventOnHotspot,
+    [
+    AppVariant(true), //hotspot enter
+    AppVariant(AHotspotIndex)
+    ]);
 end;
 
 procedure TEditorFrame.EditorOnHotspotExit(Sender: TObject; AHotspotIndex: integer);
-var
-  Params: TAppVariantArray;
 begin
-  SetLength(Params, 2);
-  Params[0]:= AppVariant(false); //hotspot exit
-  Params[1]:= AppVariant(AHotspotIndex);
-
-  DoPyEvent(Sender as TATSynEdit, cEventOnHotspot, Params);
+  DoPyEvent(Sender as TATSynEdit, cEventOnHotspot,
+    [
+    AppVariant(false), //hotspot exit
+    AppVariant(AHotspotIndex)
+    ]);
 end;
 
 function _ContrastColor(AColor: TColor): TColor;
@@ -1361,7 +1343,6 @@ end;
 procedure TEditorFrame.EditorOnChange(Sender: TObject);
 var
   Ed, EdOther: TATSynEdit;
-  Params: TAppVariantArray;
   b1, b2: boolean;
 begin
   Ed:= Sender as TATSynEdit;
@@ -1386,8 +1367,7 @@ begin
     EdOther.Update(true);
   end;
 
-  SetLength(Params, 0);
-  DoPyEvent(Ed, cEventOnChange, Params);
+  DoPyEvent(Ed, cEventOnChange, []);
 
   TimerChange.Enabled:= false;
   TimerChange.Interval:= UiOps.PyChangeSlow;
@@ -1442,7 +1422,6 @@ end;
 
 procedure TEditorFrame.EditorOnEnter(Sender: TObject);
 var
-  Params: TAppVariantArray;
   IsEd2: boolean;
 begin
   IsEd2:= Sender=Ed2;
@@ -1455,8 +1434,7 @@ begin
   if Assigned(FOnFocusEditor) then
     FOnFocusEditor(Sender);
 
-  SetLength(Params, 0);
-  DoPyEvent(Sender as TATSynEdit, cEventOnFocus, Params);
+  DoPyEvent(Sender as TATSynEdit, cEventOnFocus, []);
 
   FActivationTime:= GetTickCount64;
 end;
@@ -1669,27 +1647,25 @@ end;
 
 procedure TEditorFrame.EditorOnClickDouble(Sender: TObject; var AHandled: boolean);
 var
-  Params: TAppVariantArray;
   Res: TAppPyEventResult;
 begin
-  SetLength(Params, 1);
-  Params[0]:= AppVariant(ConvertShiftStateToString(KeyboardStateToShiftState));
-
-  Res:= DoPyEvent(Sender as TATSynEdit, cEventOnClickDbl, Params);
+  Res:= DoPyEvent(Sender as TATSynEdit, cEventOnClickDbl,
+    [
+    AppVariant(ConvertShiftStateToString(KeyboardStateToShiftState))
+    ]);
   AHandled:= Res.Val=evrFalse;
 end;
 
 procedure TEditorFrame.EditorOnClickLink(Sender: TObject; const ALink: string);
 var
-  Params: TAppVariantArray;
   Res: TAppPyEventResult;
   bHandled: boolean;
 begin
-  SetLength(Params, 2);
-  Params[0]:= AppVariant(ConvertShiftStateToString(KeyboardStateToShiftState));
-  Params[1]:= AppVariant(ALink);
-
-  Res:= DoPyEvent(Sender as TATSynEdit, cEventOnClickLink, Params);
+  Res:= DoPyEvent(Sender as TATSynEdit, cEventOnClickLink,
+    [
+    AppVariant(ConvertShiftStateToString(KeyboardStateToShiftState)),
+    AppVariant(ALink)
+    ]);
   bHandled:= Res.Val=evrFalse;
   if not bHandled then
     if Assigned(FOnAppClickLink) then
@@ -1715,7 +1691,6 @@ end;
 procedure TEditorFrame.EditorOnClickGap(Sender: TObject;
   AGapItem: TATGapItem; APos: TPoint);
 var
-  Params: TAppVariantArray;
   Ed: TATSynEdit;
   W, H: integer;
 begin
@@ -1733,16 +1708,16 @@ begin
     H:= 0;
   end;
 
-  SetLength(Params, 7);
-  Params[0]:= AppVariant(ConvertShiftStateToString(KeyboardStateToShiftState));
-  Params[1]:= AppVariant(AGapItem.LineIndex);
-  Params[2]:= AppVariant(AGapItem.Tag);
-  Params[3]:= AppVariant(W);
-  Params[4]:= AppVariant(H);
-  Params[5]:= AppVariant(APos.X);
-  Params[6]:= AppVariant(APos.Y);
-
-  DoPyEvent(Ed, cEventOnClickGap, Params);
+  DoPyEvent(Ed, cEventOnClickGap,
+    [
+    AppVariant(ConvertShiftStateToString(KeyboardStateToShiftState)),
+    AppVariant(AGapItem.LineIndex),
+    AppVariant(AGapItem.Tag),
+    AppVariant(W),
+    AppVariant(H),
+    AppVariant(APos.X),
+    AppVariant(APos.Y)
+    ]);
 end;
 
 
@@ -1910,8 +1885,6 @@ begin
 end;
 
 destructor TEditorFrame.Destroy;
-var
-  Params: TAppVariantArray;
 begin
   if Assigned(FBin) then
   begin
@@ -1940,10 +1913,7 @@ begin
   end;
 
   if not Application.Terminated then //prevent crash on exit
-  begin
-    SetLength(Params, 0);
-    DoPyEvent(Ed1, cEventOnClose, Params);
-  end;
+    DoPyEvent(Ed1, cEventOnClose, []);
 
   FreeAndNil(MacroStrings);
   FreeAndNil(FCodetreeFilterHistory);
@@ -2060,7 +2030,6 @@ procedure TEditorFrame.SetLexer(Ed: TATSynEdit; an: TecSyntAnalyzer);
 var
   an2: TecSyntAnalyzer;
   Ada: TATAdapterEControl;
-  Params: TAppVariantArray;
 begin
   {
   //it breaks code-tree, issue #3348
@@ -2149,8 +2118,7 @@ begin
   begin
     LexerInitial[Ed]:= an;
     //support on_lexer
-    SetLength(Params, 0);
-    DoPyEvent(Ed, cEventOnLexer, Params);
+    DoPyEvent(Ed, cEventOnLexer, []);
   end;
 end;
 
@@ -2832,16 +2800,15 @@ end;
 procedure TEditorFrame.EditorOnClickGutter(Sender: TObject; ABand, ALine: integer);
 var
   Ed: TATSynEdit;
-  Params: TAppVariantArray;
 begin
   Ed:= Sender as TATSynEdit;
 
-  SetLength(Params, 3);
-  Params[0]:= AppVariant(ConvertShiftStateToString(KeyboardStateToShiftState));
-  Params[1]:= AppVariant(ALine);
-  Params[2]:= AppVariant(ABand);
-
-  if DoPyEvent(Ed, cEventOnClickGutter, Params).Val = evrFalse then exit;
+  if DoPyEvent(Ed, cEventOnClickGutter,
+    [
+    AppVariant(ConvertShiftStateToString(KeyboardStateToShiftState)),
+    AppVariant(ALine),
+    AppVariant(ABand)
+    ]).Val = evrFalse then exit;
 
   if ABand=Ed.GutterBandBookmarks then
     ed.BookmarkToggleForLine(ALine, 1, '', bmadOption, true, 0);
@@ -3714,21 +3681,13 @@ begin
 end;
 
 procedure TEditorFrame.DoPyEventState(Ed: TATSynEdit; AState: integer);
-var
-  Params: TAppVariantArray;
 begin
-  SetLength(Params, 1);
-  Params[0]:= AppVariant(AState);
-  DoPyEvent(Ed, cEventOnStateEd, Params);
+  DoPyEvent(Ed, cEventOnStateEd, [AppVariant(AState)]);
 end;
 
 function TEditorFrame.DoPyEvent_Macro(const AText: string): boolean;
-var
-  Params: TAppVariantArray;
 begin
-  SetLength(Params, 1);
-  Params[0]:= AppVariant(AText);
-  Result:= DoPyEvent(Editor, cEventOnMacro, Params).Val <> evrFalse;
+  Result:= DoPyEvent(Editor, cEventOnMacro, [AppVariant(AText)]).Val <> evrFalse;
 end;
 
 

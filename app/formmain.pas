@@ -8354,8 +8354,6 @@ procedure TfmMain.PyStatusbarPanelClick(Sender: TObject; const ATag: Int64);
 var
   Bar: TATStatus;
   BarData: TATStatusData;
-  ParamVars: TAppVariantArray;
-  ParamNames: array of string;
   NCell: integer;
 begin
   if not (Sender is TATStatus) then exit;
@@ -8367,17 +8365,19 @@ begin
   BarData:= Bar.GetPanelData(NCell);
   if Assigned(BarData) and (BarData.Callback<>'') then
   begin
-    SetLength(ParamVars, 4);
-    ParamVars[0]:= AppVariant(0); //id_dlg
-    ParamVars[1]:= AppVariant(PtrInt(fmMain.Status)); //id_ctl
-    ParamVars[2]:= AppVariant(ATag); //data
-    ParamVars[3]:= AppVariant(0); //info
-    SetLength(ParamNames, 4);
-    ParamNames[0]:= 'id_dlg';
-    ParamNames[1]:= 'id_ctl';
-    ParamNames[2]:= 'data';
-    ParamNames[3]:= 'info';
-    DoPyCallbackFromAPI(BarData.Callback, ParamVars, ParamNames);
+    DoPyCallbackFromAPI(BarData.Callback,
+      [
+      AppVariant(0), //id_dlg
+      AppVariant(PtrInt(fmMain.Status)), //id_ctl
+      AppVariant(ATag), //data
+      AppVariant(0) //info
+      ],
+      [
+      'id_dlg',
+      'id_ctl',
+      'data',
+      'info'
+      ]);
   end;
 end;
 
