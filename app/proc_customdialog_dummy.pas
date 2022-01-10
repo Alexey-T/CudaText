@@ -927,20 +927,19 @@ var
 begin
   if ACallback='' then exit(true);
 
-  SetLength(ParamVars, 2);
-  SetLength(ParamNames, 2);
-  ParamVars[0]:= AppVariant(PtrInt(Self));
-  ParamVars[1]:= AppVariant(AIdControl);
-  ParamNames[0]:= 'id_dlg';
-  ParamNames[1]:= 'id_ctl';
+  ParamVars:= [
+    AppVariant(PtrInt(Self)),
+    AppVariant(AIdControl)
+    ];
+  ParamNames:= [
+    'id_dlg',
+    'id_ctl'
+    ];
 
   if AData.Typ<>avrNil then
   begin
-    SetLength(ParamVars, Length(ParamVars)+1);
-    ParamVars[Length(ParamVars)-1]:= AData;
-
-    SetLength(ParamNames, Length(ParamNames)+1);
-    ParamNames[Length(ParamNames)-1]:= 'data';
+    ParamVars:= Concat(ParamVars, [AData]);
+    ParamNames:= Concat(ParamNames, ['data']);
   end;
 
   Result:= CustomDialog_DoPyCallback(ACallback, ParamVars, ParamNames);
