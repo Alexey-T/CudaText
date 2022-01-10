@@ -2516,7 +2516,7 @@ begin
 
   DoHideNotificationPanel(EditorObjToIndex(Ed));
 
-  SFileName:= GetFileName(Ed);
+  SFileName:= Ed.FileName;
   bNameChanged:= ASaveAs or (SFileName='');
 
   if bNameChanged then
@@ -2582,10 +2582,6 @@ begin
 
     //remove read-only (it may be set for original file)
     ReadOnly[Ed]:= false;
-
-    //add to recents new filename
-    if Assigned(FOnAddRecent) then
-      FOnAddRecent(Ed);
   end;
 
   bNotifWasEnabled:= NotifEnabled;
@@ -2602,6 +2598,11 @@ begin
   if Result then
   begin
     SetFileName(Ed, SFileName);
+
+    //add to recents new filename
+    if bNameChanged then
+      if Assigned(FOnAddRecent) then
+        FOnAddRecent(Ed);
 
     if not TabCaptionFromApi then
       UpdateCaptionFromFilename;
@@ -3222,7 +3223,7 @@ begin
   if not FSaveHistory then exit;
   if UiOps.MaxHistoryFiles<2 then exit;
 
-  SFileName:= GetFileName(Ed);
+  SFileName:= Ed.FileName;
   if SFileName='' then exit;
   path:= SMaskFilenameSlashes(SFileName);
 
