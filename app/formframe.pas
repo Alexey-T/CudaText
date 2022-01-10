@@ -2505,13 +2505,11 @@ var
   NameCounter: integer;
   SFileName, NameTemp, NameInitial: string;
   EventRes: TAppPyEventResult;
-  Params: TAppVariantArray;
 begin
   Result:= true;
   if FrameKind<>efkEditor then exit(true); //disable saving, but close
 
-  SetLength(Params, 0);
-  EventRes:= DoPyEvent(Ed, cEventOnSaveBefore, Params);
+  EventRes:= DoPyEvent(Ed, cEventOnSaveBefore, []);
   if EventRes.Val=evrFalse then exit(true); //disable saving, but close
 
   DoHideNotificationPanel(EditorObjToIndex(Ed));
@@ -2536,7 +2534,7 @@ begin
     if SFileName='' then
     begin
       NameInitial:= '';
-      EventRes:= DoPyEvent(Ed, cEventOnSaveNaming, Params);
+      EventRes:= DoPyEvent(Ed, cEventOnSaveNaming, []);
       if EventRes.Val=evrString then
         NameInitial:= EventRes.Str;
       if NameInitial='' then
@@ -2608,7 +2606,7 @@ begin
       UpdateCaptionFromFilename;
 
     DoSaveUndo(Ed, SFileName);
-    DoPyEvent(Ed, cEventOnSaveAfter, Params);
+    DoPyEvent(Ed, cEventOnSaveAfter, []);
     if Assigned(FOnSaveFile) then
       FOnSaveFile(Ed, SFileName);
   end;
