@@ -64,12 +64,9 @@ begin
   end;
 
   if CmdItem.ItemProcParam<>'' then
-  begin
-    SetLength(Params, 1);
-    Params[0]:= AppVariant(CmdItem.ItemProcParam);
-  end
+    Params:= [AppVariant(CmdItem.ItemProcParam)]
   else
-    SetLength(Params, 0);
+    Params:= [];
 
   DoPyCommand(CmdItem.ItemModule, CmdItem.ItemProc, Params, AInvoke);
 end;
@@ -408,7 +405,6 @@ procedure TfmMain.DoPyResetPlugins;
 var
   fn, Cmd: string;
   L: TStringList;
-  Params: TAppVariantArray;
 begin
   if not AppPython.Inited then exit;
 
@@ -432,8 +428,7 @@ begin
   AppPython.ClearCache;
 
   //support on_start, issue #1253
-  SetLength(Params, 0);
-  DoPyEvent(nil, cEventOnStart, Params);
+  DoPyEvent(nil, cEventOnStart, []);
 end;
 
 procedure TfmMain.DoPyRescanPlugins;
@@ -451,12 +446,9 @@ begin
   if not AppPython.Inited then exit;
   if AppPython.LastCommandModule='' then exit;
   if AppPython.LastCommandParam<>'' then
-  begin
-    SetLength(Params, 1);
-    Params[0]:= AppVariant(AppPython.LastCommandParam);
-  end
+    Params:= [AppVariant(AppPython.LastCommandParam)]
   else
-    SetLength(Params, 0);
+    Params:= [];
 
   DoPyCommand(AppPython.LastCommandModule, AppPython.LastCommandMethod, Params, AInvoke);
 end;
@@ -467,7 +459,6 @@ var
   Timer: TTimer;
   SCallback, STag: string;
   NIndex: integer;
-  Params: TAppVariantArray;
 begin
   Timer:= Sender as TTimer;
   NIndex:= FListTimers.IndexOfObject(Timer);
@@ -480,12 +471,9 @@ begin
   SSplitByChar(FListTimers[NIndex], '|', SCallback, STag);
 
   //timer_proc callback must pass 'tag' as str!
-  SetLength(Params, 1);
-  Params[0]:= AppVariant(STag); //str
-
   DoPyCallbackFromAPI(
     SCallback,
-    Params,
+    [AppVariant(STag)],
     ['tag']
     );
 end;

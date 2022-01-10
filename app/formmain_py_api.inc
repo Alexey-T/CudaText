@@ -2222,7 +2222,6 @@ var
   Ed: TATSynEdit;
   Caret: TATCaretItem;
   PrevCharsLeft: integer;
-  Params: TAppVariantArray;
 begin
   AContent.Clear;
   ACharsLeft:= 0;
@@ -2238,8 +2237,7 @@ begin
      (Caret.PosY=FPyCompletionProps.CaretPos.Y) then
   begin
     PrevCharsLeft:= FPyCompletionProps.CharsLeft;
-    SetLength(Params, 0);
-    DoPyEvent(Ed, cEventOnComplete, Params);
+    DoPyEvent(Ed, cEventOnComplete, []);
 
     //this check- to close listbox when no more matches after typing too much
     //MsgStatus(Format('prev %d now %d', [PrevCharsLeft, FPyComplete_CharsLeft]));
@@ -2266,7 +2264,6 @@ procedure TfmMain.PyCompletionOnResult(Sender: TObject;
 var
   Sep: TATStringSeparator;
   StrLine, StrSnippet: string;
-  Params: TAppVariantArray;
   i: integer;
 begin
   //find index-th line
@@ -2282,11 +2279,11 @@ begin
 
   //ShowMessage('id: '+ASnippetId+#10+'text:'#10+StrSnippet);
 
-  SetLength(Params, 2);
-  Params[0]:= AppVariant(ASnippetId);
-  Params[1]:= AppVariant(StrSnippet);
-
-  DoPyEvent(FPyCompletionProps.Editor, cEventOnSnippet, Params);
+  DoPyEvent(FPyCompletionProps.Editor, cEventOnSnippet,
+    [
+    AppVariant(ASnippetId),
+    AppVariant(StrSnippet)
+    ]);
   FPyCompletionProps.Clear;
 end;
 
@@ -3737,7 +3734,6 @@ var
   Pages, PagesTo: TATPages;
   NLocalGroup, NGlobalGroup, NTab, NIndexNew, N1, N2: integer;
   LineEnd: TATLineEnds;
-  Params: TAppVariantArray;
 begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'Lis:set_prop', @H, @Id, @Ptr)) then
@@ -4010,8 +4006,7 @@ begin
               if NTab>=0 then
               begin
                 Pages.Tabs.MoveTab(NTab, NIndexNew, true);
-                SetLength(Params, 0);
-                fmMain.DoPyEvent(Ed, cEventOnTabMove, Params);
+                fmMain.DoPyEvent(Ed, cEventOnTabMove, []);
               end;
             end;
           end;
@@ -4568,9 +4563,9 @@ var
   StrCaption, StrId, StrFilename, StrCmd, StrIndex: string;
   SplitVert, SplitVisible, ok: boolean;
   SplitPos, SplitTotal: integer;
+  Params: TAppVariantArray;
   ParamBool: boolean;
   ParamRect: TRect;
-  Params: TAppVariantArray;
   Num64: Int64;
   Pnt: TPoint;
   Sep: TATStringSeparator;
@@ -4709,12 +4704,9 @@ begin
             Sep.GetItemStr(Str2);
             Sep.GetItemStr(Str3);
             if Str3<>'' then
-            begin
-              SetLength(Params, 1);
-              Params[0]:= AppVariant(Str3);
-            end
+              Params:= [AppVariant(Str3)]
             else
-              SetLength(Params, 0);
+              Params:= [];
 
             fmMain.DoPyCommand(Str1, Str2, Params, cInvokeAppAPI);
             Result:= ReturnNone;
