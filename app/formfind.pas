@@ -1066,14 +1066,9 @@ begin
     exit
   end;
 
-  //pass Ctrl+Tab and Ctrl+Shift+Tab to the main form
-  if Pos('+Tab', Str)>0 then
-  begin
-    if Assigned(FOnHandleKeyDown) then
-      if FOnHandleKeyDown(Key, Shift) then
-        Key:= 0;
-    exit;
-  end;
+  if Assigned(FOnHandleKeyDown) then
+    if FOnHandleKeyDown(Key, Shift) then
+      Key:= 0;
 end;
 
 function BtnSize(C: TControl): integer;

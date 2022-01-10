@@ -819,7 +819,24 @@ begin
     cmd_SwitchTab_SimpleNext,
     cmd_SwitchTab_SimplePrev,
     cmd_SwitchTab_Dialog,
-    cmd_SwitchTab_Recent:
+    cmd_SwitchTab_Recent,
+
+    cmd_ShowPanelConsole_AndFocus,
+    cmd_ShowPanelOutput_AndFocus,
+    cmd_ShowPanelValidate_AndFocus,
+    cmd_FocusEditor,
+    cmd_FocusNotificationPanel,
+    cmd_TreeFilterFocus,
+    cmd_TreeFocus,
+
+    cmd_GroupActivateNext,
+    cmd_GroupActivatePrev,
+    cmd_GroupActivate1,
+    cmd_GroupActivate2,
+    cmd_GroupActivate3,
+    cmd_GroupActivate4,
+    cmd_GroupActivate5,
+    cmd_GroupActivate6:
       Result:= true;
     else
       Result:= false;
