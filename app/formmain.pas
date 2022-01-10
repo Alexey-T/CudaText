@@ -2780,7 +2780,6 @@ end;
 procedure TfmMain.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 var
   F: TEditorFrame;
-  Params: TAppVariantArray;
   i: integer;
 begin
   if Assigned(AppNotifThread) then
@@ -2809,8 +2808,7 @@ begin
   DoCloseAllTabs;
   }
 
-  SetLength(Params, 0);
-  DoPyEvent(nil, cEventOnExit, Params);
+  DoPyEvent(nil, cEventOnExit, []);
 end;
 
 procedure TfmMain.ButtonCancelClick(Sender: TObject);
@@ -2829,34 +2827,24 @@ begin
 end;
 
 procedure TfmMain.DoPyEvent_AppState(AState: integer);
-var
-  Params: TAppVariantArray;
 begin
-  SetLength(Params, 1);
-  Params[0]:= AppVariant(AState);
-  DoPyEvent(nil, cEventOnState, Params);
+  DoPyEvent(nil, cEventOnState, [AppVariant(AState)]);
 end;
 
 procedure TfmMain.DoPyEvent_EdState(Ed: TATSynEdit; AState: integer);
-var
-  Params: TAppVariantArray;
 begin
-  SetLength(Params, 1);
-  Params[0]:= AppVariant(AState);
-  DoPyEvent(Ed, cEventOnStateEd, Params);
+  DoPyEvent(Ed, cEventOnStateEd, [AppVariant(AState)]);
 end;
 
 procedure TfmMain.DoPyEvent_AppActivate(AEvent: TAppPyEvent);
 var
   Tick: QWord;
-  Params: TAppVariantArray;
 begin
   Tick:= GetTickCount64;
   if (Tick-FLastAppActivate)>500 then //workaround for too many calls in LCL, on Ubuntu 20.04
   begin
     FLastAppActivate:= Tick;
-    SetLength(Params, 0);
-    DoPyEvent(nil, AEvent, Params);
+    DoPyEvent(nil, AEvent, []);
   end;
 end;
 
@@ -2908,7 +2896,6 @@ end;
 procedure TfmMain.FormCloseQuery(Sender: TObject; var ACanClose: boolean);
 var
   F: TEditorFrame;
-  Params: TAppVariantArray;
   i: integer;
 begin
   //call on_close_pre for all tabs, it's needed to save all
@@ -2916,8 +2903,7 @@ begin
   for i:= 0 to FrameCount-1 do
   begin
     F:= Frames[i];
-    SetLength(Params, 0);
-    DoPyEvent(F.Editor, cEventOnCloseBefore, Params);
+    DoPyEvent(F.Editor, cEventOnCloseBefore, []);
   end;
 
   if GetModifiedCount>0 then
@@ -3210,11 +3196,8 @@ procedure TfmMain.FormShow(Sender: TObject);
   end;
   //
   procedure _Init_ApiOnStart;
-  var
-    Params: TAppVariantArray;
   begin
-    SetLength(Params, 0);
-    DoPyEvent(nil, cEventOnStart, Params);
+    DoPyEvent(nil, cEventOnStart, []);
   end;
   //
   procedure _Init_KeymapMain;
@@ -3923,19 +3906,13 @@ end;
 
 procedure TfmMain.DoFolderOpen(const ADirName: string; ANewProject: boolean;
   AInvoke: TATEditorCommandInvoke);
-var
-  Params: TAppVariantArray;
 begin
-  SetLength(Params, 2);
-  Params[0]:= AppVariant(ADirName);
-  Params[1]:= AppVariant(ANewProject);
-
-  DoPyCommand('cuda_project_man', 'open_dir', Params, AInvoke);
+  DoPyCommand('cuda_project_man', 'open_dir',
+    [AppVariant(ADirName), AppVariant(ANewProject)],
+    AInvoke);
 end;
 
 procedure TfmMain.DoFolderAdd(AInvoke: TATEditorCommandInvoke);
-var
-  Params: TAppVariantArray;
 begin
   if not AppPython.Inited then
   begin
@@ -3943,8 +3920,7 @@ begin
     exit;
   end;
 
-  SetLength(Params, 0);
-  DoPyCommand('cuda_project_man', 'new_project_open_dir', Params, AInvoke);
+  DoPyCommand('cuda_project_man', 'new_project_open_dir', [], AInvoke);
 end;
 
 procedure TfmMain.DoGroupsChangeMode(Sender: TObject);
