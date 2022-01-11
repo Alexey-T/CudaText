@@ -4267,6 +4267,8 @@ begin
   else
     Result:= EditorIsModifiedEx(Ed1) or EditorIsModifiedEx(Ed2);
 
+  {
+  //asked in issue #3891
   if Result and ACheckOnSessionClosing then
   begin
     //don't ask to save tab, if we are closing session with untitled tab,
@@ -4277,6 +4279,7 @@ begin
       (VersionInSession=Ed1.Strings.ModifiedVersion) then
      Result:= false;
   end;
+  }
 end;
 
 procedure TEditorFrame.PanelInfoClick(Sender: TObject);
