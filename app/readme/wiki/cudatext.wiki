@@ -2251,7 +2251,13 @@ A: That's an issue specific to Qt5 version (and macOS, see below). It's fixable 
                   On GTK2, 'w' is not needed.
                   On Qt5, 'w' gives various results, it depends on Desktop Environment.
 
-So, on Linux Qt5 version, all you need is to toggle "w" sub-option in the "renderer_tweaks__linux". In the user.json config.
+So, on Linux Qt5 version, all you need is to toggle "w" sub-option in the "renderer_tweaks__linux". In the user.json config write one of these lines:
+
+   "renderer_tweaks__linux": "w",
+
+or
+
+   "renderer_tweaks__linux": "",
 
 On macOS, changing the option "renreder_tweaks__mac" is usually not needed - default value works good. But in Qt5 version, CudaText cannot detect Desktop Environment settings, so default value is wrong sometimes.
 
