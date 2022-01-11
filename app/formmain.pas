@@ -5549,7 +5549,7 @@ end;
 
 function TfmMain.DoFileCloseAll(AWithCancel: boolean): boolean;
 var
-  Flags: integer;
+  MsgFlags: integer;
   F: TEditorFrame;
   ListNoSave: TFPList;
   bModified: boolean;
@@ -5560,9 +5560,9 @@ begin
     exit(true);
 
   if AWithCancel then
-    Flags:= MB_YESNOCANCEL or MB_ICONQUESTION
+    MsgFlags:= MB_YESNOCANCEL or MB_ICONQUESTION
   else
-    Flags:= MB_YESNO or MB_ICONQUESTION;
+    MsgFlags:= MB_YESNO or MB_ICONQUESTION;
 
   ListNoSave:= TFPList.Create;
   try
@@ -5573,7 +5573,7 @@ begin
       if bModified then
         case MsgBox(
                Format(msgConfirmSaveModifiedTab, [F.TabCaption]),
-               Flags) of
+               MsgFlags) of
           ID_YES:
             begin
               //Cancel in "Save as" dlg must be global cancel
@@ -5598,7 +5598,6 @@ begin
     FreeAndNil(ListNoSave);
   end;
 
-  //Result:= Groups.CloseTabs(tabCloseAll, false);
   DoCloseAllTabs;
   Result:= true;
 end;
