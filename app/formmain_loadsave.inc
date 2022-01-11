@@ -343,9 +343,10 @@ begin
         if (not bUntitled and ASaveModifiedFiles) or
           (bUntitled and ASaveUntitledTabs) then
         begin
-          cfg.SetValue(path+'/text', Frame.Editor.Text);
+          cfg.SetValue(path+'/text', Frame.Ed1.Text);
           if (not bUntitled) and FileExists(sFileName) then
             cfg.SetValue(path+'/file_date', FormatFileDateAsNiceString(sFileName));
+          Frame.VersionInSession:= Frame.Ed1.Strings.ModifiedVersion;
         end;
 
       Frame.DoSaveHistoryEx(Frame.Ed1, cfg, path, true{AForSession});

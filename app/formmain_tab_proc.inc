@@ -250,6 +250,7 @@ var
   Btn, Res: Integer;
   Msg: string;
   bNeedTreeUpd, bSavedOk: boolean;
+  bModified: boolean;
   Adapter: TATAdapterEControl;
 begin
   D:= (Sender as TATTabs).GetTabData(ATabIndex);
@@ -288,6 +289,8 @@ begin
     end;
   end;
 
+  bModified:= Frame.Modified;
+
   if Application.Terminated then
     Res:= ID_OK
   else
@@ -302,7 +305,7 @@ begin
 
     //second confirm for pinned+modified tab
     if Res=ID_OK then
-      if Frame.Modified then
+      if bModified then
       begin
         Btn:= MB_OKCANCEL;
         Msg:= Format(msgConfirmSaveModifiedTab, [D.TabCaptionFull]);
@@ -311,7 +314,7 @@ begin
       end;
   end
   else
-  if Frame.Modified then
+  if bModified then
   begin
     //need to activate tab, before msgbox
     (Sender as TATTabs).TabIndex:= ATabIndex;
