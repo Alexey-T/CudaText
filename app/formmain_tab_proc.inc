@@ -125,7 +125,6 @@ var
   Tabs: TATTabs;
   D: TATTabData;
   F: TEditorFrame;
-  SFrameFilterText: UnicodeString;
 begin
   Tabs:= Sender as TATTabs;
   D:= Tabs.GetTabData(Tabs.TabIndex);
@@ -148,15 +147,24 @@ begin
     if not FDisableTreeClearing then
       if F.Editor<>FCodetreeForEditor then
         DoCodetree_Clear;
-
-    if F.CanFocus and F.CanSetFocus then
-      F.SetFocus;
   end;
 
-  SFrameFilterText:= UTF8Decode(F.CodetreeFilter);
-  if CodeTreeFilterInput.Text<>SFrameFilterText then
+  if not (FSessionIsLoading or FSessionIsClosing) then
+    DoFinalizeTabFocusing(F);
+end;
+
+procedure TfmMain.DoFinalizeTabFocusing(F: TEditorFrame);
+var
+  SFilterText: UnicodeString;
+begin
+  if not F.IsEditorFocused then
+    if F.CanFocus and F.CanSetFocus then
+      F.SetFocus;
+
+  SFilterText:= UTF8Decode(F.CodetreeFilter);
+  if CodeTreeFilterInput.Text<>SFilterText then
   begin
-    CodeTreeFilterInput.Text:= SFrameFilterText;
+    CodeTreeFilterInput.Text:= SFilterText;
     CodeTreeFilter_OnChange(nil);
     CodeTreeFilterInput.Items.Assign(F.CodetreeFilterHistory);
   end;
@@ -166,12 +174,9 @@ begin
 
   UpdateStatusbar;
 
-  if not (FSessionIsLoading or FSessionIsClosing) then
-  begin
-    DoPyEvent(F.Editor, cEventOnTabChange, []);
+  DoPyEvent(F.Editor, cEventOnTabChange, []);
 
-    UpdateFindDialogOnTabFocusing(F);
-  end;
+  UpdateFindDialogOnTabFocusing(F);
 end;
 
 procedure TfmMain.UpdateTabsActiveColor(F: TEditorFrame);

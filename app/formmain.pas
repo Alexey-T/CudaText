@@ -736,6 +736,7 @@ type
     FOption_SidebarTab: string;
     FCmdlineFileCount: integer;
 
+    procedure DoFinalizeTabFocusing(F: TEditorFrame);
     function IsTooManyTabsOpened: boolean;
     function GetUntitledNumberedCaption: string;
     procedure PopupBottomOnPopup(Sender: TObject);
