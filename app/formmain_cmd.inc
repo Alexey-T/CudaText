@@ -42,7 +42,12 @@ begin
         EdGrp.CloseTabs(tabCloseCurrent, false);
         Frame:= CurrentFrame;
         if Assigned(Frame) then
-          Frame.SetFocus;
+          Frame.SetFocus
+        else
+        if FrameCount>0 then
+          TGroupsHelper.ForceFrameVisible(Frames[0])
+        else
+          raise Exception.Create('No frames left after "Close tab"');
       end;
 
     cmd_FileCloseAll:
@@ -55,7 +60,7 @@ begin
         if FrameCount>0 then
           TGroupsHelper.ForceFrameVisible(Frames[0])
         else
-          raise Exception.Create('No frames left after "Close all"');
+          raise Exception.Create('No frames left after "Close all tabs"');
       end;
 
     cmd_FileCloseOtherThis:
