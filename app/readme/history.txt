@@ -8,6 +8,7 @@
 + add: hotkeys of commands "switch tab ..." / "... focus ..." work also in the Find dialog (thanks @andersaamodt)
 + add: new API for Auto Save plugin (thanks @andersaamodt)
 + add: better Console message on saving session: "N file(s) + M untitled"
+- fix: plugin Auto Save could overwrite session file list from another session (thanks @JairoMartinezA)
 
 1.153.0 (2022/01)
 

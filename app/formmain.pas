@@ -736,7 +736,6 @@ type
     FOption_SidebarTab: string;
     FCmdlineFileCount: integer;
 
-    procedure DoOnTabFocusFinalization(F: TEditorFrame);
     function IsTooManyTabsOpened: boolean;
     function GetUntitledNumberedCaption: string;
     procedure PopupBottomOnPopup(Sender: TObject);
@@ -814,6 +813,7 @@ type
     function DoMenu_GetPyProps(mi: TMenuItem): PPyObject;
     function DoMenu_PyEnum(const AMenuId: string): PPyObject;
     procedure DoOnTabFocus(Sender: TObject);
+    procedure DoOnTabFocusFinalization(F: TEditorFrame);
     procedure DoOnTabAdd(Sender: TObject);
     procedure DoOnTabClose(Sender: TObject; ATabIndex: Integer; var ACanClose, ACanContinue: boolean);
     procedure DoOnTabMove(Sender: TObject; NFrom, NTo: Integer);
