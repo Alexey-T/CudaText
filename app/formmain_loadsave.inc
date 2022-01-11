@@ -672,7 +672,9 @@ begin
   if (nCountFilesBefore>0) or (nCountFiles>0) then
     DoPyEvent_AppState(APPSTATE_SESSION_LOAD)
   else
-    DoPyEvent_AppState(APPSTATE_SESSION_LOAD_FAIL)
+    DoPyEvent_AppState(APPSTATE_SESSION_LOAD_FAIL);
+
+  UpdateFindDialogOnTabFocusing(CurrentFrame);
 end;
 
 procedure TfmMain.DoOps_LoadHistory_GroupView(cfg: TJsonConfig);

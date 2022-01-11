@@ -547,6 +547,20 @@ begin
     fmFind.UpdateState(false);
 end;
 
+procedure TfmMain.UpdateFindDialogOnTabFocusing(F: TEditorFrame);
+//apply "Highlight all matches" on focusing new tab
+begin
+  if Assigned(fmFind) and fmFind.Visible then
+  begin
+    if Assigned(F) then
+      UpdateFindDialogEnabled(F);
+
+    if fmFind.Enabled then
+      fmFind.UpdateState(false); //if 'true', we have issue #3244
+                                 //if 'true', also the 'select-all' result is reset on focusing editor
+  end;
+end;
+
 procedure TfmMain.DoDialogFind_Hide;
 var
   Frame: TEditorFrame;
