@@ -4268,7 +4268,11 @@ begin
     Result:= EditorIsModifiedEx(Ed1) or EditorIsModifiedEx(Ed2);
 
   {
-  //asked in issue #3891
+  //asked in issue #3891 - close modified untitled tabs w/o confirmation
+  // it is to use in 2 places:
+  // 1. TfmMain.DoFileCloseAll
+  // 2. TfmMain.DoOnTabClose
+
   if Result and ACheckOnSessionClosing then
   begin
     //don't ask to save tab, if we are closing session with untitled tab,
