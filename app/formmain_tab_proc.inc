@@ -150,10 +150,10 @@ begin
   end;
 
   if not (FSessionIsLoading or FSessionIsClosing) then
-    DoFinalizeTabFocusing(F);
+    DoOnTabFocusFinalization(F);
 end;
 
-procedure TfmMain.DoFinalizeTabFocusing(F: TEditorFrame);
+procedure TfmMain.DoOnTabFocusFinalization(F: TEditorFrame);
 var
   SFilterText: UnicodeString;
 begin

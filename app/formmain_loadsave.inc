@@ -674,7 +674,7 @@ begin
   else
     DoPyEvent_AppState(APPSTATE_SESSION_LOAD_FAIL);
 
-  DoFinalizeTabFocusing(CurrentFrame);
+  DoOnTabFocusFinalization(CurrentFrame);
 end;
 
 procedure TfmMain.DoOps_LoadHistory_GroupView(cfg: TJsonConfig);
