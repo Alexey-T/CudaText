@@ -5569,19 +5569,7 @@ begin
     for i:= 0 to NCount-1 do
     begin
       F:= Frames[i];
-
-      bModified:= F.Ed1.Modified or F.Ed2.Modified;
-
-      {
-      //don't ask to save tab, if we are closing session with untitled tab,
-      //and this tab was just saved (to session file) by Auto Save plugin
-      if AppSessionIsClosing and
-        F.EditorsLinked and
-        (F.FileName='') and
-        (F.VersionInSession=F.Ed1.Strings.ModifiedVersion) then
-        bModified:= false;
-        }
-
+      bModified:= F.Modified;
       if bModified then
         case MsgBox(
                Format(msgConfirmSaveModifiedTab, [F.TabCaption]),

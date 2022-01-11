@@ -318,7 +318,7 @@ type
     destructor Destroy; override;
     function Editor: TATSynEdit;
     function EditorBro: TATSynEdit;
-    function Modified: boolean;
+    function Modified(AExtendedCheck: boolean=false): boolean;
     property Adapter[Ed: TATSynEdit]: TATAdapterEControl read GetAdapter;
     procedure EditorOnKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure DoShow;
@@ -4260,12 +4260,23 @@ begin
   end;
 end;
 
-function TEditorFrame.Modified: boolean;
+function TEditorFrame.Modified(AExtendedCheck: boolean=false): boolean;
 begin
   if FEditorsLinked then
     Result:= EditorIsModifiedEx(Ed1)
   else
     Result:= EditorIsModifiedEx(Ed1) or EditorIsModifiedEx(Ed2);
+
+  if Result and AExtendedCheck then
+  begin
+    //don't ask to save tab, if we are closing session with untitled tab,
+    //and this tab was just saved (to session file) by Auto Save plugin
+    if AppSessionIsClosing and
+      EditorsLinked and
+      (FileName='') and
+      (VersionInSession=Ed1.Strings.ModifiedVersion) then
+     Result:= false;
+  end;
 end;
 
 procedure TEditorFrame.PanelInfoClick(Sender: TObject);
