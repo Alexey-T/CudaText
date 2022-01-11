@@ -165,7 +165,9 @@ begin
   DoOps_LoadOptionsLexerSpecific(F, F.Editor);
 
   UpdateStatusbar;
-  DoPyEvent(F.Editor, cEventOnTabChange, []);
+
+  if not (FSessionIsLoading or FSessionIsClosing) then
+    DoPyEvent(F.Editor, cEventOnTabChange, []);
 
   //apply "Highlight all matches" on focusing new tab
   if Assigned(fmFind) and fmFind.Visible then
