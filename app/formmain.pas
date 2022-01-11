@@ -734,6 +734,8 @@ type
     FOption_SidebarTab: string;
     FCmdlineFileCount: integer;
 
+    procedure HandleTimerCommand(Ed: TATSynEdit; CmdCode: integer;
+      CmdInvoke: TATEditorCommandInvoke);
     function IsTooManyTabsOpened: boolean;
     function GetUntitledNumberedCaption: string;
     procedure PopupBottomOnPopup(Sender: TObject);

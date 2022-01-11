@@ -9,24 +9,34 @@ Copyright (c) Alexey Torgashin
 
 procedure TfmMain.TimerCmdTimer(Sender: TObject);
 var
+  Ed: TATSynEdit;
   CmdCode: integer;
   CmdInvoke: TATEditorCommandInvoke;
+begin
+  TimerCmd.Enabled:= false;
+
+  repeat
+    case AppCommandGet(Ed, CmdCode, CmdInvoke) of
+      acgNoCommands:
+        Break;
+      acgBadCommand:
+        Continue;
+    end;
+
+    HandleTimerCommand(Ed, CmdCode, CmdInvoke);
+  until false;
+
+  UpdateStatusbar;
+end;
+
+
+procedure TfmMain.HandleTimerCommand(Ed: TATSynEdit; CmdCode: integer; CmdInvoke: TATEditorCommandInvoke);
+var
   Frame: TEditorFrame;
-  Ed: TATSynEdit;
   EdGrp: TATGroups;
   NIndex: integer;
   NColor: TColor;
 begin
- TimerCmd.Enabled:= false;
-
- repeat
-  case AppCommandGet(Ed, CmdCode, CmdInvoke) of
-    acgNoCommands:
-      Break;
-    acgBadCommand:
-      Continue;
-  end;
-
   Frame:= TGroupsHelper.GetEditorFrame(Ed);
 
   //support floating groups
@@ -710,10 +720,8 @@ begin
           DoFileOpen(AppListRecents[NIndex], '');
       end;
   end;
- until false;
-
- UpdateStatusbar;
 end;
+
 
 procedure TfmMain.FrameOnEditorCommand(Sender: TObject; ACommand: integer;
   AInvoke: TATEditorCommandInvoke; const AText: string; var AHandled: boolean);
