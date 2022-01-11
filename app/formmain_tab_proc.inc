@@ -149,6 +149,8 @@ begin
         DoCodetree_Clear;
   end;
 
+  //if we fire 'on_tab_change' during session loading, Auto Save plugin may activate
+  //and overwrite the session (it saves the session)
   if not (FSessionIsLoading or FSessionIsClosing) then
     DoOnTabFocusFinalization(F);
 end;
