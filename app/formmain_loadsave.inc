@@ -597,14 +597,9 @@ begin
       CurTabs:= Groups.Pages[i].Tabs;
       nIndex:= cfg.GetValue('/tab_index/g'+IntToStr(i), -1);
       nIndex:= Max(0, Min(nIndex, CurTabs.TabCount-1));
-      with CurTabs do
-       if TabCount>0 then
-        if TabIndex<>nIndex then
-          TabIndex:= nIndex
-        else
-        //default TabIndex is 0, but we need to show tab anyway
-        if TabIndex=0 then
-          TabIndex:= 0;
+      //don't check that index is different, force set index; this fixes e.g. bug #3892
+      if CurTabs.TabCount>0 then
+        CurTabs.TabIndex:= nIndex;
     end;
 
     //restore group-index
@@ -678,8 +673,8 @@ begin
   Frame:= CurrentFrame;
   DoOnTabFocusFinalization(Frame);
 
-  //workaround for bug #3892
-  TGroupsHelper.ForceFrameVisible(Frame);
+  //workaround for bug #3892, not needed with 'CurTabs.TabIndex:= nIndex' above
+  //TGroupsHelper.ForceFrameVisible(Frame);
 end;
 
 procedure TfmMain.DoOps_LoadHistory_GroupView(cfg: TJsonConfig);
