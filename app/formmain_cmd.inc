@@ -9,7 +9,7 @@ Copyright (c) Alexey Torgashin
 
 procedure TfmMain.TimerCmdTimer(Sender: TObject);
 var
-  Cmd: integer;
+  CmdCode: integer;
   CmdInvoke: TATEditorCommandInvoke;
   Frame: TEditorFrame;
   Ed: TATSynEdit;
@@ -20,7 +20,7 @@ begin
  TimerCmd.Enabled:= false;
 
  repeat
-  case AppCommandGet(Ed, Cmd, CmdInvoke) of
+  case AppCommandGet(Ed, CmdCode, CmdInvoke) of
     acgNoCommands:
       Break;
     acgBadCommand:
@@ -35,7 +35,7 @@ begin
   else
     EdGrp:= Groups;
 
-  case Cmd of
+  case CmdCode of
 
     cmd_FileClose:
       begin
@@ -684,16 +684,16 @@ begin
 
     cmdFirstLexerCommand..
     cmdLastLexerCommand:
-      SetFrameLexerByIndex(Ed, Cmd-cmdFirstLexerCommand);
+      SetFrameLexerByIndex(Ed, CmdCode-cmdFirstLexerCommand);
 
     cmdFirstPluginCommand..
     cmdLastPluginCommand:
-      DoPyCommand_ByPluginIndex(Cmd-cmdFirstPluginCommand, CmdInvoke);
+      DoPyCommand_ByPluginIndex(CmdCode-cmdFirstPluginCommand, CmdInvoke);
 
     cmdFirstFileCommand..
     cmdLastFileCommand:
       begin
-        NIndex:= Cmd-cmdFirstFileCommand;
+        NIndex:= CmdCode-cmdFirstFileCommand;
         if NIndex<AppFrameList1.Count then
         begin
           Frame:= TEditorFrame(AppFrameList1[NIndex]);
@@ -705,7 +705,7 @@ begin
     cmdFirstRecentCommand..
     cmdLastRecentCommand:
       begin
-        NIndex:= Cmd-cmdFirstRecentCommand;
+        NIndex:= CmdCode-cmdFirstRecentCommand;
         if NIndex<AppListRecents.Count then
           DoFileOpen(AppListRecents[NIndex], '');
       end;
