@@ -73,6 +73,8 @@ type
   TAppCommandsDelayed = specialize TQueue<TAppCommandDelayed>;
 
 var
+  AppSessionIsLoading: boolean = false;
+  AppSessionIsClosing: boolean = false;
   AppActiveForm: TObject = nil;
   AppThemeStatusbar: TATFlatTheme;
   AppApiDialogCounter: integer = 0;

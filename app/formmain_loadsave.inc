@@ -438,7 +438,7 @@ begin
     if Frames[0].IsEmpty then
       nCountFilesBefore:= 0;
 
-  FSessionIsClosing:= true;
+  AppSessionIsClosing:= true;
   try
     if not DoFileCloseAll(true) then
     begin
@@ -446,7 +446,7 @@ begin
       exit;
     end;
   finally
-    FSessionIsClosing:= false;
+    AppSessionIsClosing:= false;
   end;
 
   nTick:= GetTickCount64;
@@ -469,7 +469,7 @@ begin
       end;
     end;
 
-    FSessionIsLoading:= true;
+    AppSessionIsLoading:= true;
     DoOps_LoadHistory_GroupView(cfg); //reads to variables
     DoApplyInitialGroupSizes; //applies that variables
 
@@ -652,7 +652,7 @@ begin
 
     Result:= true;
   finally
-    FSessionIsLoading:= false;
+    AppSessionIsLoading:= false;
     list.Free;
     cfg.Free;
   end;

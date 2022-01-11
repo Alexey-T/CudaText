@@ -619,8 +619,6 @@ type
     FLastStatusbarMessages: TStringList;
     FLastProjectPath: string;
     FConsoleMustShow: boolean;
-    FSessionIsLoading: boolean;
-    FSessionIsClosing: boolean;
     FColorDialog: TColorDialog;
     Status: TATStatus;
     Groups: TATGroups;
@@ -2806,7 +2804,7 @@ begin
   {
   //seems doing DoCloseAllTabs on FormClose is bad idea:
   //app asks to save modified tabs, even with UiOps.SessionSaveOnExit.
-  FSessionIsClosing:= true; //to avoid asking "Close pinned tab?"
+  AppSessionIsClosing:= true; //to avoid asking "Close pinned tab?"
   DoCloseAllTabs;
   }
 
@@ -5577,7 +5575,7 @@ begin
       {
       //don't ask to save tab, if we are closing session with untitled tab,
       //and this tab was just saved (to session file) by Auto Save plugin
-      if FSessionIsClosing and
+      if AppSessionIsClosing and
         F.EditorsLinked and
         (F.FileName='') and
         (F.VersionInSession=F.Ed1.Strings.ModifiedVersion) then
@@ -7264,7 +7262,7 @@ begin
 
   //API event on_lexer
   //better avoid it for empty editor
-  if not FSessionIsLoading then
+  if not AppSessionIsLoading then
     if (SLexerName<>'') or not EditorIsEmpty(Ed) then
     begin
       {$ifdef debug_on_lexer}

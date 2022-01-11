@@ -135,7 +135,7 @@ begin
   F:= D.TabObject as TEditorFrame;
 
   //avoid duplicate calls when session is loaded (and TabIndex is set there 2 times)
-  if FSessionIsLoading then
+  if AppSessionIsLoading then
   begin
     if F=FLastFocusedFrame then exit;
     FLastFocusedFrame:= F;
@@ -151,7 +151,7 @@ begin
 
   //if we fire 'on_tab_change' during session loading, Auto Save plugin may activate
   //and overwrite the session (it saves the session)
-  if not (FSessionIsLoading or FSessionIsClosing) then
+  if not (AppSessionIsLoading or AppSessionIsClosing) then
     DoOnTabFocusFinalization(F);
 end;
 
@@ -294,7 +294,7 @@ begin
   if Application.Terminated then
     Res:= ID_OK
   else
-  if Frame.TabPinned and not FSessionIsClosing then
+  if Frame.TabPinned and not AppSessionIsClosing then
   begin
     //need to activate tab, before msgbox
     (Sender as TATTabs).TabIndex:= ATabIndex;
