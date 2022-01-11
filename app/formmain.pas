@@ -1333,6 +1333,7 @@ type
     class function GetEditorFirstSecond(Ed: TATSynEdit; AFirst: boolean): TATSynEdit;
     class function GetPagesOfGroupIndex(AIndex: integer): TATPages;
     class function GetEditorActiveInGroup(AIndex: integer): TATSynEdit;
+    class procedure ForceFrameVisible(Frame: TEditorFrame);
   end;
 
 class function TGroupsHelper.GetEditorFrame(Ed: TATSynEdit): TEditorFrame;
@@ -1422,6 +1423,19 @@ begin
   Data:= Pages.Tabs.GetTabData(Pages.Tabs.TabIndex);
   if Assigned(Data) then
     Result:= (Data.TabObject as TEditorFrame).Editor;
+end;
+
+class procedure TGroupsHelper.ForceFrameVisible(Frame: TEditorFrame);
+var
+  Grp: TATGroups;
+  Pages: TATPages;
+  NLocalGrpIndex, NGlobalGrpIndex, NTabIndex: integer;
+begin
+  if Frame=nil then exit;
+  if Frame.Visible then exit;
+  GetFrameLocation(Frame, Grp, Pages, NLocalGrpIndex, NGlobalGrpIndex, NTabIndex);
+  if Assigned(Pages) and (NTabIndex>=0) then
+    Pages.Tabs.TabIndex:= NTabIndex;
 end;
 
 

@@ -47,11 +47,15 @@ begin
 
     cmd_FileCloseAll:
       begin
-        //EdGrp.CloseTabs(tabCloseAll, false);
         DoCloseAllTabs;
         Frame:= CurrentFrame;
         if Assigned(Frame) then
-          Frame.SetFocus;
+          Frame.SetFocus
+        else
+        if FrameCount>0 then
+          TGroupsHelper.ForceFrameVisible(Frames[0])
+        else
+          raise Exception.Create('No frames left after "Close all"');
       end;
 
     cmd_FileCloseOtherThis:

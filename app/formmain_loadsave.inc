@@ -675,7 +675,11 @@ begin
   else
     DoPyEvent_AppState(APPSTATE_SESSION_LOAD_FAIL);
 
-  DoOnTabFocusFinalization(CurrentFrame);
+  Frame:= CurrentFrame;
+  DoOnTabFocusFinalization(Frame);
+
+  //workaround for bug #3892
+  TGroupsHelper.ForceFrameVisible(Frame);
 end;
 
 procedure TfmMain.DoOps_LoadHistory_GroupView(cfg: TJsonConfig);
