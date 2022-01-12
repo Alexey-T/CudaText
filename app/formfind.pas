@@ -922,9 +922,8 @@ begin
 
   if Str=UiOps.HotkeyFindDialog then
   begin
-    if not IsReplace then
-      DoFocusEditor
-    else
+    //ST4 and VSCode both stay in the Find dlg on pressing Ctrl+F
+    if IsReplace then
     begin
       IsReplace:= false;
       UpdateState(true);
@@ -935,9 +934,8 @@ begin
 
   if Str=UiOps.HotkeyReplaceDialog then
   begin
-    if IsReplace then
-      DoFocusEditor
-    else
+    //ST4 and VSCode both stay in the Replace dlg on pressing Ctrl+H
+    if not IsReplace then
     begin
       IsReplace:= true;
       UpdateState(true);
