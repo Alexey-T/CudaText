@@ -148,7 +148,8 @@ procedure EditorBracket_FindOpeningBracketBackward(Ed: TATSynEdit;
 type
   TATEditorFinderCallback = procedure(AFound: boolean; AFinder: TATEditorFinder) of object;
 
-function EditorGetTokenKind(Ed: TATSynEdit; AX, AY: integer): TATTokenKind;
+function EditorGetTokenKind(Ed: TATSynEdit; AX, AY: integer;
+  ADocCommentIsAlsoComment: boolean=true): TATTokenKind;
 function EditorExpandSelectionToWord(Ed: TATSynEdit;
   AFinderResultCallback: TATEditorFinderCallback;
   AAndSelect: boolean): boolean;
@@ -1748,7 +1749,8 @@ begin
     SClipboardCopy(Ed.TextSelected, PrimarySelection);
 end;
 
-function EditorGetTokenKind(Ed: TATSynEdit; AX, AY: integer): TATTokenKind;
+function EditorGetTokenKind(Ed: TATSynEdit; AX, AY: integer;
+  ADocCommentIsAlsoComment: boolean): TATTokenKind;
 var
   NLen: integer;
 begin
@@ -1764,7 +1766,7 @@ begin
       exit;
     if AX=NLen then //caret at line end: decrement X
       Dec(AX);
-    Result:= TATAdapterEControl(Ed.AdapterForHilite).GetTokenKindAtPos(Point(AX, AY))
+    Result:= TATAdapterEControl(Ed.AdapterForHilite).GetTokenKindAtPos(Point(AX, AY), ADocCommentIsAlsoComment)
   end;
 end;
 

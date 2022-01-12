@@ -6330,7 +6330,7 @@ begin
     not UiOps.AutocompleteInCommentsHTML or
     not UiOps.AutocompleteInStrings then
   begin
-    TokenKind:= EditorGetTokenKind(Ed, AX, AY);
+    TokenKind:= EditorGetTokenKind(Ed, AX, AY, false{ADocCommentIsAlsoComment});
     case TokenKind of
       atkComment:
         begin
