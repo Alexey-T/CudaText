@@ -5,6 +5,7 @@
 
 1.153.5 (2022/01)
 
+* change: hotkey for Find (Replace) dialog always results in the search box being focused, like in ST4 and VSCode (thanks @andersaamodt)
 + add: hotkeys of commands "switch tab ..." / "... focus ..." work also in the Find dialog (thanks @andersaamodt)
 + add: better Console message on saving session: "N file(s) + M untitled"
 + add: new API for Auto Save plugin (thanks @andersaamodt)
