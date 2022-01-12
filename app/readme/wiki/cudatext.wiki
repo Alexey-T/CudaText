@@ -2760,7 +2760,7 @@ Color in Pascal format: hex number (6..8 digits) with "$" prefix, or constants. 
 
 ST3: Use feature of editor called "build systems".
 
-CudaText: Use plugin "External Tools", which adds "Tools" item to the top menu, with dialog to add/configure programs and URLs.
+CudaText: Use plugin "External Tools", which adds "Tools" item to the top menu. Or: use plugin "Runner". Both plugins are described here: [[CudaText_plugins]].
 
 ==How to change settings for one OS only?==
 
