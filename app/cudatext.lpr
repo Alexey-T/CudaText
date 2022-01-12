@@ -8,12 +8,13 @@ uses
   {$ENDIF}
   Interfaces, // this includes the LCL widgetset
   SysUtils, Forms, lazcontrols,
-  FormMain, FormConsole, FormFrame,
+  FormMain, FormConsole,
   form_menu_commands, formgoto, form_menu_list, formsavetabs,
   formconfirmrep, formlexerprop, formlexerlib,
   formcolorsetup, formabout, formkeys, formcharmaps,
   formlexerstyle, formlexerstylemap, formkeyinput,
-  form_addon_report, formconfirmbinary, form_choose_theme;
+  form_addon_report, formconfirmbinary, form_choose_theme,
+  proc_globdata, fix_focus_window;
 
 {$R *.res}
 
