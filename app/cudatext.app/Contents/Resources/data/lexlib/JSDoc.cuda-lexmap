@@ -1,11 +1,11 @@
 [comments]
 str1=
 str2=
-styles_cmt=Comment
+styles_cmt=Comment doc
 styles_str=
 
 [map]
-Comment=CommentDoc
+Comment doc=CommentDoc
 Param=Id1
 Type=Id2
 Name=Id

@@ -1,7 +1,7 @@
-object SyntAnal10: TLibSyntAnalyzer
+object SyntAnal12: TLibSyntAnalyzer
   Formats = <
     item
-      DisplayName = 'Comment'
+      DisplayName = 'Comment doc'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clGray
       Font.Height = -13
@@ -86,7 +86,7 @@ object SyntAnal10: TLibSyntAnalyzer
     end
     item
       DisplayName = 'Comment'
-      StyleName = 'Comment'
+      StyleName = 'Comment doc'
       Expression = '\*|[^\x20\x09\n\r]+'
       ColumnFrom = 0
       ColumnTo = 0
