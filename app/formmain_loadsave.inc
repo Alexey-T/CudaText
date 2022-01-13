@@ -675,9 +675,6 @@ begin
 
   //python 'on_caret' is disabled during session loading, so fire it here
   Frame.Ed1.DoEventCarets;
-
-  //workaround for bug #3892, not needed with 'CurTabs.TabIndex:= nIndex' above
-  //TGroupsHelper.ForceFrameVisible(Frame);
 end;
 
 procedure TfmMain.DoOps_LoadHistory_GroupView(cfg: TJsonConfig);
