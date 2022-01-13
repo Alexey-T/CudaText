@@ -665,7 +665,7 @@ begin
   //it's needed in on_state
   AppSessionName:= AFileName;
 
-  if (nCountFilesBefore>0) or (nCountFiles>0) then
+  if (nCountFilesBefore>0) or (nCountFiles+nCountFilesModified>0) then
     DoPyEvent_AppState(APPSTATE_SESSION_LOAD)
   else
     DoPyEvent_AppState(APPSTATE_SESSION_LOAD_FAIL);
