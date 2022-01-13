@@ -1268,8 +1268,12 @@ class Command:
             msg_status(_('Project main file is not set'))
 
     def enum_all_files(self):
-        files = []
-        dirs = self.project['nodes'].copy()
+        files, dirs = [], []
+        for root in self.project['nodes']:
+            if os.path.isdir(root):
+                dirs.append(root)
+            elif os.path.isfile(root):
+                files.append(root)
 
         while dirs:
             try:
