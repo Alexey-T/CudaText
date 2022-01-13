@@ -35,7 +35,7 @@
   "EdFoldMarkLine" : "#6060A0",
   "EdFoldMarkFont" : "#8080E0",
   "EdFoldMarkBorder" : "#8080E0",
-  "EdFoldMarkBg" : "#000000",
+  "EdFoldMarkBg" : "#FFFFFF",
   "EdGutterFont" : "#000000",
   "EdGutterBg" : "#F0F0F0",
   "EdGutterCaretFont" : "#000000",
