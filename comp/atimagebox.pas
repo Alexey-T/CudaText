@@ -734,6 +734,8 @@ begin
       Screen.Cursor:= FCursorDrag;
     end;
   end;
+
+  Self.MouseDown(Button, Shift, X, Y);
 end;
 
 procedure TATImageBox.ImageMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: integer);
@@ -744,6 +746,8 @@ begin
     FDragging:= False;
     Screen.Cursor:= crDefault;
   end;
+
+  Self.MouseUp(Button, Shift, X, Y);
 end;
 
 procedure TATImageBox.ImageMouseMove(Sender: TObject; Shift: TShiftState; X, Y: integer);
@@ -754,6 +758,8 @@ begin
     VertScrollBar.Position:= VertScrollBar.Position + (FDraggingPoint.Y - Y);
     DoScroll;
   end;
+
+  Self.MouseMove(Shift, X, Y);
 end;
 
 procedure TATImageBox.IncreaseImageZoom(AIncrement: boolean);
