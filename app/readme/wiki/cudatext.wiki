@@ -1833,7 +1833,7 @@ You can make Pull-Request there, if needed.
 
 ===Startup time===
 
-CudaText starts quite fast: about 0.3 sec with about 30 plugins (all preinstalled + some popular plugins), on Linux, on CPU x64 Intel Core i3 3Hz.
+CudaText starts quite fast: about 0.3 sec with about 30 plugins (all preinstalled + some popular plugins), on Linux, on CPU x64 Intel Core i3 3GHz.
 
 If no additional plugins are installed, or Python engine is disabled (ie not configured on Unix, or Python DLL files are deleted on Windows), then it starts even faster.
 If configuration/history are clean, it starts faster.
