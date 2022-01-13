@@ -4,6 +4,7 @@
   * changed
 
 + add: better support DocBlock plugin, by allowing the auto-completion inside _documentation_ comments
++ add: Project Manager: command "Go To file" is much faster (patch by @bscan)
 
 1.153.5 (2022/01)
 
