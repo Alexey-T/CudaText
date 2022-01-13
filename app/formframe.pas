@@ -816,6 +816,8 @@ const
 var
   Ed: TATSynEdit;
 begin
+  if AppSessionIsLoading or AppSessionIsClosing then exit;
+
   Ed:= Sender as TATSynEdit;
   if Assigned(FOnEditorChangeCaretPos) then
     FOnEditorChangeCaretPos(Sender);
