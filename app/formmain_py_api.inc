@@ -72,6 +72,7 @@ function PyHelper_EditorFromHandle(Handle: Int64): TATSynEdit;
 var
   Obj: TObject;
   nTab: Integer;
+  Frame: TEditorFrame;
 begin
   Result:= nil;
   if not Assigned(fmMain) then exit;
@@ -89,7 +90,21 @@ begin
 
   case Handle of
     0: //"ed"
-      Result:= fmMain.CurrentEditor;
+      begin
+        Result:= fmMain.CurrentEditor;
+        if Result=nil then
+        begin
+          if fmMain.FrameCount>0 then
+          begin
+            Frame:= fmMain.Frames[0];
+            TGroupsHelper.ForceFrameVisible(Frame);
+            Frame.SetFocus();
+            Result:= Frame.Ed1;
+          end
+          else
+            MsgLogConsole('ERROR: API "ed" is Nil, and no frames; report to author what you are doing');
+        end;
+      end;
 
     cPyEditorHandleMin..cPyEditorHandleMax:
       begin
