@@ -671,10 +671,13 @@ begin
     DoPyEvent_AppState(APPSTATE_SESSION_LOAD_FAIL);
 
   Frame:= CurrentFrame;
-  DoOnTabFocusFinalization(Frame);
+  if Assigned(Frame) then
+  begin
+    DoOnTabFocusFinalization(Frame);
 
-  //python 'on_caret' is disabled during session loading, so fire it here
-  Frame.Ed1.DoEventCarets;
+    //python 'on_caret' is disabled during session loading, so fire it here
+    Frame.Ed1.DoEventCarets;
+  end;
 end;
 
 procedure TfmMain.DoOps_LoadHistory_GroupView(cfg: TJsonConfig);
