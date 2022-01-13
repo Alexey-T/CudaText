@@ -3,6 +3,8 @@
   - fixed
   * changed
 
++ add: better support DocBlock plugin, by allowing the auto-completion inside _documentation_ comments
+
 1.153.5 (2022/01)
 
 * change: hotkey for Find (Replace) dialog always results in the search box being focused, like in ST4 and VSCode (thanks @andersaamodt)
