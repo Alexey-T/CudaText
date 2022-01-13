@@ -720,6 +720,8 @@ begin
 end;
 
 procedure TATImageBox.ImageMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: integer);
+var
+  P: TPoint;
 begin
   if FFocusable then
     SetFocus;
@@ -735,10 +737,14 @@ begin
     end;
   end;
 
-  Self.MouseDown(Button, Shift, X, Y);
+  P:= FImage.ClientToScreen(Point(X, Y));
+  P:= Self.ScreenToClient(P);
+  Self.MouseDown(Button, Shift, P.X, P.Y);
 end;
 
 procedure TATImageBox.ImageMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: integer);
+var
+  P: TPoint;
 begin
   if (Button = mbLeft) then
   begin
@@ -747,10 +753,14 @@ begin
     Screen.Cursor:= crDefault;
   end;
 
-  Self.MouseUp(Button, Shift, X, Y);
+  P:= FImage.ClientToScreen(Point(X, Y));
+  P:= Self.ScreenToClient(P);
+  Self.MouseUp(Button, Shift, P.X, P.Y);
 end;
 
 procedure TATImageBox.ImageMouseMove(Sender: TObject; Shift: TShiftState; X, Y: integer);
+var
+  P: TPoint;
 begin
   if FDrag and FDragging then
   begin
@@ -759,7 +769,9 @@ begin
     DoScroll;
   end;
 
-  Self.MouseMove(Shift, X, Y);
+  P:= FImage.ClientToScreen(Point(X, Y));
+  P:= Self.ScreenToClient(P);
+  Self.MouseMove(Shift, P.X, P.Y);
 end;
 
 procedure TATImageBox.IncreaseImageZoom(AIncrement: boolean);
