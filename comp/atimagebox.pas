@@ -737,8 +737,8 @@ begin
     end;
   end;
 
-  P:= FImage.ClientToScreen(Point(X, Y));
-  P:= Self.ScreenToClient(P);
+  P.X:= X+FImage.Left;
+  P.Y:= Y+FImage.Top;
   Self.MouseDown(Button, Shift, P.X, P.Y);
 end;
 
@@ -753,8 +753,8 @@ begin
     Screen.Cursor:= crDefault;
   end;
 
-  P:= FImage.ClientToScreen(Point(X, Y));
-  P:= Self.ScreenToClient(P);
+  P.X:= X+FImage.Left;
+  P.Y:= Y+FImage.Top;
   Self.MouseUp(Button, Shift, P.X, P.Y);
 end;
 
@@ -769,8 +769,8 @@ begin
     DoScroll;
   end;
 
-  P:= FImage.ClientToScreen(Point(X, Y));
-  P:= Self.ScreenToClient(P);
+  P.X:= X+FImage.Left;
+  P.Y:= Y+FImage.Top;
   Self.MouseMove(Shift, P.X, P.Y);
 end;
 
