@@ -53,6 +53,7 @@ STD_LEXERS = (
   'C++',
   'CSS',
   'HTML',
+  'HTML style',
   'Ini files',
   'JavaScript',
   'JSDoc',
