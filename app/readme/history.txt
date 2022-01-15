@@ -8,7 +8,7 @@
 + add: better support DocBlock plugin, by allowing the auto-completion inside _documentation_ comments (thanks @TomBraider42)
 + add: Project Manager: command "Go To file" is now much faster (patch by @bscan)
 + add: option "dim_unfocused" dims more correctly (+gutter, +ruler, +folded blocks)
-- fix: command "delete word previous" if caret is after line end (thanks @hiiamboris)
+- fix: command "delete word previous" didn't move caret, if it's after line end (thanks @hiiamboris)
 
 1.153.5 (2022/01)
 
