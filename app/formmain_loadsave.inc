@@ -1601,6 +1601,7 @@ var
   dlg: TFontDialog;
   cfg: TJsonConfig;
   fn: string;
+  bSizeValid: boolean;
 begin
   fn:= AppFile_OptionsUser;
   if not FileExists(fn) then
@@ -1615,7 +1616,9 @@ begin
     dlg.Font.Size:= OpSize;
     if not dlg.Execute then exit;
     OpName:= dlg.Font.Name;
-    OpSize:= dlg.Font.Size;
+    bSizeValid:= dlg.Font.Size>=7; //workaround for issue #3900: Win10 returns font size=0
+    if bSizeValid then
+      OpSize:= dlg.Font.Size;
   finally
     FreeAndNil(dlg);
   end;
@@ -1626,7 +1629,8 @@ begin
       cfg.Formatted:= true;
       cfg.Filename:= fn;
       cfg.SetValue(AConfigStrName, OpName);
-      cfg.SetValue(AConfigStrSize, OpSize);
+      if bSizeValid then
+        cfg.SetValue(AConfigStrSize, OpSize);
     except
     end;
   finally
