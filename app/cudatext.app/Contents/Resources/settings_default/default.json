@@ -1030,6 +1030,7 @@
   //How to call "Go to definition" command, by click with what modifier key(s).
   //  "": disabled
   //  "a": by Alt+click
+  //  "c": by Ctrl+click (warning: this overrides multi-carets mouse shortcut)
   //  "ca": by Ctrl+Alt+click
   //  "sa": by Shift+Alt+click
   //  "sca": by Shift+Ctrl+Alt+click
