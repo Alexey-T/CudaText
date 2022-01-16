@@ -171,7 +171,7 @@ procedure EditorApplyOps(Ed: TATSynEdit; const Op: TEditorOps;
   AApplyUnprintedAndWrap, AApplyTabSize, AApplyCentering, AOneLiner: boolean);
 var
   Sep: TATStringSeparator;
-  MouseActions: TATEditorMouseActionArray;
+  MouseActions: TATEditorMouseActions;
   N: integer;
 begin
   Ed.Font.Name:= Op.OpFontName;
@@ -400,7 +400,7 @@ begin
   begin
     MouseActions:= nil;
     InitEditorMouseActions(MouseActions, true);
-    Ed.MouseMap:= MouseActions;
+    Ed.MouseActions:= MouseActions;
   end;
 
   Ed.OptMouse2ClickDragSelectsWords:= Op.OpMouse2ClickDragSelectsWords;
