@@ -193,28 +193,27 @@ This allows to open in Terminal commands like "cudatext ~/filename.html".
 
 == Mouse shortcuts ==
 
-Note for macOS: use Cmd key instead of Ctrl key, in all commands listed here.
+Note for macOS: use Command key instead of Ctrl key, in all the mouse shortcuts listed here.
 
 Multi-carets:
 
-* Ctrl+click - add/remove caret.
-* Ctrl+wheel click - add/remove caret.
-* Ctrl+drag - add caret with selection.
-* Ctrl+Shift+click - add carets column in several lines (from previous caret position to the clicked line).
+* Ctrl+click - Add/remove caret.
+* Ctrl+wheel click - Add/remove caret.
+* Ctrl+drag - Add caret with selection.
+* Ctrl+Shift+click - Add column of vertically aligned carets, from previous caret position to the clicked line.
 
 Dragging:
 
-* Alt+drag - select column of text. (Note: it may look weird if word-wrap on, because wrap is not considered here at all. Simple rectangle of coordinates [x1,y1]-[x2,y2] is always selected, even if this gives bad looking screen.)
-* drag on gutter's line numbers - select by entire lines.
-* double-click and immediately drag - select text by words.
-* drag-drop of selected text block is supported. If Ctrl is pressed during the drop (you should press Ctrl after drag is started), block will be copied (not moved) to pointed position.
+* Alt+drag - Make column selection. See [[#Behaviour of column selection]].
+* drag on gutter's line numbers - Select text by entire lines.
+* double-click and immediately drag - Select text by words.
 
 Clicks:
 
-* double-click - select clicked word (see option word_chars).
-* triple-click - select entire line (limited by end-of-lines).
+* double-click - Select clicked word. See the option "nonword_chars".
+* triple-click - Select entire line (block is limited by newline characters).
 
-* wheel click - configurable by option "mouse_middle_click", choices are:
+* wheel click - Configurable by option "mouse_middle_click", choices are:
 ** Start "browser scrolling" mode: circle mark appears and mouse moving around this mark auto-scrolls text in 4 directions; speed of scrolling depends on distance of cursor from circle mark (any click to turn off).
 ** Paste from clipboard. This mimics Linux apps behaviour. With this choice, it's good to install plugin "Auto-Copy to Clipboard".
 ** Call "Go to definition" command.
@@ -222,11 +221,14 @@ Clicks:
 
 Misc:
 
-* Alt+click (with option mouse_goto_definition) - call "Goto definition" command (if plugin installed).
-* Shift+Alt+click - make vertical (column) selection, from first caret to clicked position.
-* Shift+ scroll mouse wheel - scroll text horizontally.
-* Ctrl+ scroll mouse wheel (with option mouse_wheel_zoom) - zoom text in/out.
-* Ctrl+ scroll mouse wheel (on picture preview panel) - zoom picture in/out.
+* Shift+Alt+click - Make vertical (column) selection, from the first caret to the clicked position.
+* Shift+ scroll mouse wheel - Scroll text horizontally.
+* Ctrl+ scroll mouse wheel (with option "mouse_wheel_zoom":true) - Zoom text in/out.
+* Ctrl+ scroll mouse wheel (in the picture viewer) - Zoom picture in/out.
+
+Drag-drop of selected text block is supported. If Ctrl is pressed during the drop (you should press Ctrl after dragging is started), block will be copied (not moved) to the pointed position.
+
+Command "Go to definition" can be called by different mouse shortcuts: by Ctrl+Alt+click (default), Alt+click, etc, this depends on option "mouse_goto_definition".
 
 == Multi-carets ==
 
