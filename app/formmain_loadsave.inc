@@ -1177,6 +1177,7 @@ begin
   Op.OpUnIndentKeepsAlign:= cfg.GetValue('unindent_keeps_align', Op.OpUnIndentKeepsAlign);
   Op.OpIndentMakesWholeLineSel:= cfg.GetValue('indent_makes_whole_line_sel', Op.OpIndentMakesWholeLineSel);
 
+  Op.OpMouseGotoDefinition:= cfg.GetValue('mouse_goto_definition', Op.OpMouseGotoDefinition);
   Op.OpMouse2ClickDragSelectsWords:= cfg.GetValue('mouse_2click_drag_select_words', Op.OpMouse2ClickDragSelectsWords);
   Op.OpMouseDragDrop:= cfg.GetValue('mouse_drag_drop', Op.OpMouseDragDrop);
   Op.OpMouseMiddleClickAction:= cfg.GetValue('mouse_middle_click', Op.OpMouseMiddleClickAction);
@@ -1258,8 +1259,6 @@ begin
   UiOps.ReloadFollowTail:= cfg.GetValue('ui_reload_tail', UiOps.ReloadFollowTail);
   UiOps.ReloadUnsavedConfirm:= cfg.GetValue('ui_reload_unsaved_confirm', UiOps.ReloadUnsavedConfirm);
   UiOps.FullScreen:= cfg.GetValue('ui_fullscreen', UiOps.FullScreen);
-
-  UiOps.MouseGotoDefinition:= cfg.GetValue('mouse_goto_definition', UiOps.MouseGotoDefinition);
 
   UiOps.Emmet_AddSlashToEmptyTags:= cfg.GetValue('emmet_add_slash_to_empty_tags', UiOps.Emmet_AddSlashToEmptyTags);
   UiOps.Emmet_CommentTags:= cfg.GetValue('emmet_comment_tags', UiOps.Emmet_CommentTags);

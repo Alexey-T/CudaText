@@ -643,8 +643,8 @@ begin
   if Ed.Markers.DeleteWithTag(UiOps.FindOccur_TagValue) then
     Ed.Update;
 
-  if UiOps.MouseGotoDefinition<>'' then
-    if StateString=UiOps.MouseGotoDefinition then
+  if EditorOps.OpMouseGotoDefinition<>'' then
+    if StateString=EditorOps.OpMouseGotoDefinition then
     begin
       DoPyEvent(Ed, cEventOnGotoDef, []);
       exit;

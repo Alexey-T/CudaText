@@ -400,7 +400,6 @@ type
     ReloadFollowTail: boolean;
     CheckLowDiskSpace: Int64; //minimal disk free space in bytes; can be 0 to disable the check
     FullScreen: string;
-    MouseGotoDefinition: string;
 
     Emmet_AddSlashToEmptyTags: boolean;
     Emmet_CommentTags: boolean;
@@ -627,6 +626,7 @@ type
     OpIndentMakesWholeLineSel: boolean;
 
     //mouse
+    OpMouseGotoDefinition: string;
     OpMouse2ClickDragSelectsWords: boolean;
     OpMouseDragDrop: boolean;
     OpMouseMiddleClickAction: integer;
@@ -1611,6 +1611,7 @@ begin
     OpUnIndentKeepsAlign:= false;
     OpIndentMakesWholeLineSel:= false;
 
+    OpMouseGotoDefinition:= 'ca';
     OpMouse2ClickDragSelectsWords:= true;
     OpMouseDragDrop:= true;
     OpMouseMiddleClickAction:= Ord(TATEditorMiddleClickAction.mcaScrolling);
@@ -1909,7 +1910,6 @@ begin
     ReloadUnsavedConfirm:= true;
     CheckLowDiskSpace:= 1*1024*1024;
     FullScreen:= 'tp';
-    MouseGotoDefinition:= 'ca';
 
     Emmet_AddSlashToEmptyTags:= true;
     Emmet_CommentTags:= false;
