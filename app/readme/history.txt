@@ -12,6 +12,7 @@
 + add: Project Manager: command "Go To file" is now much faster (patch by @bscan)
 + add: option "dim_unfocused" dims more correctly (+gutter, +ruler, +folded blocks)
 * change: default value of "mouse_goto_definition" changed to "ca" (old value "a" was not  Linux compatible)
+- fix: typing text in Overwrite mode over emoji
 - fix: few issues in the Emmet engine (thanks Rickard)
 - fix: command "delete word previous" didn't move caret, if it was after line end (thanks @hiiamboris)
 
