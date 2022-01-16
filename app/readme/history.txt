@@ -3,8 +3,9 @@
   - fixed
   * changed
 
-1.153.6 (2022/01)
+1.154.0 (2022/01)
 
++ add: it's possible to assign Ctrl+mouse_wheel to 'add caret' and Ctrl+click to 'go to definition' - via new value 'c' of option "mouse_goto_definition" (thanks @johntor)
 + add: better support DocBlock plugin, by allowing the auto-completion inside _documentation_ comments (thanks @TomBraider42)
 + add: Project Manager: command "Go To file" is now much faster (patch by @bscan)
 + add: option "dim_unfocused" dims more correctly (+gutter, +ruler, +folded blocks)
