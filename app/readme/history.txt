@@ -5,14 +5,14 @@
 
 1.154.0 (2022/01)
 
-+ add: Ctrl + mouse_wheel_click now adds/removes caret (like in Sublime Text)
++ add: Ctrl + mouse_wheel_click now adds/removes caret (like in Sublime Text) (thanks @johntor)
 + add: Ctrl + mouse_wheel_drag now makes column selection (almost like in Sublime Text, here it removes old carets)
-+ add: it's possible to assign Ctrl+click to 'go to definition', via new value 'c' of "mouse_goto_definition" (thanks @johntor)
++ add: it's possible to assign Ctrl+click to 'go to definition', via new value "c" of "mouse_goto_definition" (thanks @johntor)
 + add: better support DocBlock plugin, by allowing the auto-completion inside _documentation_ comments (thanks @TomBraider42)
 + add: Project Manager: command "Go To file" is now much faster (patch by @bscan)
 + add: option "dim_unfocused" dims more correctly (+gutter, +ruler, +folded blocks)
 * change: default value of "mouse_goto_definition" changed to "ca" (old value "a" was not  Linux compatible)
-- fix: command "delete word previous" didn't move caret, if it's after line end (thanks @hiiamboris)
+- fix: command "delete word previous" didn't move caret, if it was after line end (thanks @hiiamboris)
 
 1.153.5 (2022/01)
 
