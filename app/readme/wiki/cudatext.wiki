@@ -226,7 +226,10 @@ Misc:
 * Ctrl+ scroll mouse wheel (with option "mouse_wheel_zoom":true) - Zoom text in/out.
 * Ctrl+ scroll mouse wheel (in the picture viewer) - Zoom picture in/out.
 
-Drag-drop of selected text block is supported. If Ctrl is pressed during the drop (you should press Ctrl after dragging is started), block will be copied (not moved) to the pointed position.
+Drag-drop of selected text block:
+
+* Dragging inside single document: if Ctrl is pressed during the drop (you should press Ctrl after dragging is started), block will be copied (not moved) to the pointed position.
+* Dragging to a different document (see [[#Groups of tabs]]): if Ctrl is pressed during the drop, block will be moved (otherwise it will be copied).
 
 Command "Go to definition" can be called by different mouse shortcuts: by Ctrl+Alt+click (default), Alt+click, etc, this depends on option "mouse_goto_definition".
 
