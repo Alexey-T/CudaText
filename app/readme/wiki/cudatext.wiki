@@ -197,7 +197,8 @@ Note for macOS: use Cmd key instead of Ctrl key, in all commands listed here.
 
 Multi-carets:
 
-* Ctrl+click - add/remove caret. Note: this action can be changed to Ctrl+[wheel click], by using the option "mouse_goto_definition".
+* Ctrl+click - add/remove caret.
+* Ctrl+wheel click - add/remove caret.
 * Ctrl+drag - add caret with selection.
 * Ctrl+Shift+click - add carets column in several lines (from previous caret position to the clicked line).
 
@@ -213,9 +214,11 @@ Clicks:
 * double-click - select clicked word (see option word_chars).
 * triple-click - select entire line (limited by end-of-lines).
 
-* middle-button click (with option mouse_mid_click_scroll) - start "Browser Scroll" mode: circle mark appears and mouse moving around this mark auto-scrolls text in 4 directions; speed of scrolling depends on distance of cursor from circle mark (any click to turn off).
-
-* middle-button click (with option mouse_mid_click_paste) - paste from clipboard. This is like in Linux. Additionally it's good to install plugin "Auto-Copy to Clipboard".
+* wheel click - configurable by option "mouse_middle_click", choices are:
+** Start "browser scrolling" mode: circle mark appears and mouse moving around this mark auto-scrolls text in 4 directions; speed of scrolling depends on distance of cursor from circle mark (any click to turn off).
+** Paste from clipboard. This mimics Linux apps behaviour. With this choice, it's good to install plugin "Auto-Copy to Clipboard".
+** Call "Go to definition" command.
+** Nothing.
 
 Misc:
 
