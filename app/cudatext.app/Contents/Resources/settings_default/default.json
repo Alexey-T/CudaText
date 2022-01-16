@@ -1029,8 +1029,8 @@
 
   //How to call "Go to definition" command, by click with what modifier key(s).
   //  "": disabled
-  //  "a": by Alt+click; note: this may not work on Linux
-  //  "c": by Ctrl+click; this assigns 'add caret' to Ctrl+[middle click]
+  //  "a": by Alt+click; note: it may not work on Linux
+  //  "c": by Ctrl+click; if active, use Ctrl+[wheel click] to add caret
   //  "ca": by Ctrl+Alt+click
   //  "sa": by Shift+Alt+click
   //  "sca": by Shift+Ctrl+Alt+click
