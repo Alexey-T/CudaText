@@ -171,6 +171,7 @@ procedure EditorApplyOps(Ed: TATSynEdit; const Op: TEditorOps;
   AApplyUnprintedAndWrap, AApplyTabSize, AApplyCentering, AOneLiner: boolean);
 var
   Sep: TATStringSeparator;
+  MouseActions: TATEditorMouseActionArray;
   N: integer;
 begin
   Ed.Font.Name:= Op.OpFontName;
@@ -392,6 +393,14 @@ begin
     Ed.OptIndentSize:= Op.OpIndentSize;
     Ed.OptIndentKeepsAlign:= Op.OpUnIndentKeepsAlign;
     Ed.OptIndentMakesWholeLinesSelection:= Op.OpIndentMakesWholeLineSel;
+  end;
+
+  //change Ctrl+click to 'goto definition' and Ctrl+Wheel to 'add caret'
+  if Op.OpMouseGotoDefinition='c' then
+  begin
+    MouseActions:= nil;
+    InitEditorMouseActions(MouseActions, true);
+    Ed.MouseMap:= MouseActions;
   end;
 
   Ed.OptMouse2ClickDragSelectsWords:= Op.OpMouse2ClickDragSelectsWords;
