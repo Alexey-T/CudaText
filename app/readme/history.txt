@@ -6,7 +6,7 @@
 1.154.0 (2022/01)
 
 + add: Ctrl + mouse_wheel_click now adds/removes caret (like in Sublime Text)
-+ add: Ctrl + mouse_wheel_drag now adds column selection (like in Sublime Text)
++ add: Ctrl + mouse_wheel_drag now makes column selection (almost like in Sublime Text, here it makes the single caret)
 + add: it's possible to assign Ctrl+click to 'go to definition', via new value 'c' of "mouse_goto_definition" (thanks @johntor)
 + add: better support DocBlock plugin, by allowing the auto-completion inside _documentation_ comments (thanks @TomBraider42)
 + add: Project Manager: command "Go To file" is now much faster (patch by @bscan)
