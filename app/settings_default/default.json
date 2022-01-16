@@ -125,8 +125,7 @@
   //                   On Windows, 'offsets' don't decrease rendering speed.
   //                   On macOS, 'offsets' decrease (2x) renderind speed.
   //                   On GTK2 and Qt5, 'offsets' decrease rendering speed.
-  //  if 'c' in value: Render the character over the inverted character cell.
-  //                   Otherwise, caret will show the inverted character cell, with inverted font color.
+  //  if 'c' in value: On painting caret, additionally render the text over inverted caret's cell.
   //  if 'e' in value: Ellipsis-char U+2026 has width 100%, otherwise the width from "unicode_full_width".
   //Note: this option is global, not per-lexer.
   "renderer_tweaks": "wo",
