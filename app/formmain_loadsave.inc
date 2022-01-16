@@ -991,6 +991,7 @@ begin
     ATSynEdit_CharSizeArray.FixedSizes[cCharEllipsis]:= uw_fullwidth;
   ATEditorOptions.PreciseCalculationOfCharWidth:= Pos('w', s)=0;
   ATEditorOptions.TextoutNeedsOffsets:= Pos('o', s)>0;
+  ATEditorOptions.CaretTextOverInvertedRect:= Pos('c', s)>0;
 
   ATScrollbarTheme.DirectJumpOnClickPageUpDown:= cfg.GetValue('scrollbar_click_jump',
     ATScrollbarTheme.DirectJumpOnClickPageUpDown);
