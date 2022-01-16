@@ -1909,7 +1909,7 @@ begin
     ReloadUnsavedConfirm:= true;
     CheckLowDiskSpace:= 1*1024*1024;
     FullScreen:= 'tp';
-    MouseGotoDefinition:= 'a';
+    MouseGotoDefinition:= 'ca';
 
     Emmet_AddSlashToEmptyTags:= true;
     Emmet_CommentTags:= false;
