@@ -197,9 +197,9 @@ Note for macOS: use Cmd key instead of Ctrl key, in all commands listed here.
 
 Multi-carets:
 
-* Ctrl+click - add/remove caret.
+* Ctrl+click - add/remove caret. Note: this action can be changed to Ctrl+[wheel click], by using the option "mouse_goto_definition".
 * Ctrl+drag - add caret with selection.
-* Ctrl+Shift+click - add carets column in several lines (from previous caret to clicked line).
+* Ctrl+Shift+click - add carets column in several lines (from previous caret position to the clicked line).
 
 Dragging:
 
