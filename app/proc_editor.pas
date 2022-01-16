@@ -396,12 +396,8 @@ begin
   end;
 
   //change Ctrl+click to 'goto definition' and Ctrl+Wheel to 'add caret'
-  if Op.OpMouseGotoDefinition='c' then
-  begin
-    MouseActions:= nil;
-    InitEditorMouseActions(MouseActions, true);
-    Ed.MouseActions:= MouseActions;
-  end;
+  InitEditorMouseActions(MouseActions, Op.OpMouseGotoDefinition='c');
+  Ed.MouseActions:= MouseActions;
 
   Ed.OptMouse2ClickDragSelectsWords:= Op.OpMouse2ClickDragSelectsWords;
   Ed.OptMouseDragDrop:= Op.OpMouseDragDrop;
