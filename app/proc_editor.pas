@@ -2190,6 +2190,7 @@ var
   OpenedRound: TATIntArray;
   OpenedSquare: TATIntArray;
   LevelRound, LevelSquare: integer;
+  PosSquareOpen: integer;
   S: UnicodeString;
   ch: WideChar;
   i: integer;
@@ -2203,6 +2204,7 @@ begin
   SetLength(OpenedSquare, 0);
   LevelRound:= 0;
   LevelSquare:= 0;
+  PosSquareOpen:= 0;
   i:= 0;
 
   while i<Length(S) do
@@ -2242,6 +2244,11 @@ begin
       begin
         AddArrayItem(OpenedSquare, i);
         Inc(LevelSquare);
+
+        PosSquareOpen:= i;
+        if (i<Length(S)) and (S[i+1]='^') then
+          Inc(PosSquareOpen);
+
         Continue;
       end;
 
@@ -2249,8 +2256,11 @@ begin
     begin
       if LevelSquare<1 then
         AddArrayItem(Bads, i);
-      if LevelSquare>0 then
+      if (LevelSquare>0) and (PosSquareOpen>0) and (i-PosSquareOpen>1) then
+      begin
         Dec(LevelSquare);
+        PosSquareOpen:= 0;
+      end;
       DeleteArrayLastItem(OpenedSquare);
       Continue;
     end;
