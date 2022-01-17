@@ -158,6 +158,7 @@ object SyntAnal20: TLibSyntAnalyzer
       BlockName = '['
       NotParent = True
       StatesAdd = 1
+      StatesRemove = 2
       StatesAbsent = 1
       TokenType = 7
       Expression = '\[\^?'
@@ -220,7 +221,6 @@ object SyntAnal20: TLibSyntAnalyzer
         end>
       BlockEnd = ']'
       DisplayInTree = False
-      RefToCondEnd = True
       DynHighlight = dhRange
       HighlightPos = cpAny
       IgnoreAsParent = False
@@ -261,9 +261,9 @@ object SyntAnal20: TLibSyntAnalyzer
     'Alexey (CudaText)'
     'RegEx flavor supported by Free Pascal TRegExpr'
     'Parser states used:'
-    '  1: set by range-start '#39'['#39
-    '  2: set by any char inside range'
-    'So '#39']'#39' closes range only if parser state=1+2')
+    '- 1: set by range start "["'
+    '- 2: set by any char in range, reset by range start'
+    'So "]" closes range only if state=1+2.')
   RestartFromLineStart = True
   Charset = DEFAULT_CHARSET
 end
