@@ -2256,12 +2256,13 @@ begin
     begin
       if LevelSquare<1 then
         AddArrayItem(Bads, i);
+      //don't close by ']' immediately after '[' or '[^'
       if (LevelSquare>0) and (PosSquareOpen>0) and (i-PosSquareOpen>1) then
       begin
         Dec(LevelSquare);
         PosSquareOpen:= 0;
+        DeleteArrayLastItem(OpenedSquare);
       end;
-      DeleteArrayLastItem(OpenedSquare);
       Continue;
     end;
   end;
