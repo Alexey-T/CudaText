@@ -96,6 +96,7 @@ object SyntAnal20: TLibSyntAnalyzer
     item
       DisplayName = 'Escaped'
       StyleName = 'Escaped'
+      StatesAdd = 2
       TokenType = 4
       Expression = 
         '(?-i)\\c[a-z] | (?-i)\\x\h{2} | (?-i)\\[xu]\{\h{1,4}\} | \\p(\w|' +
@@ -156,6 +157,8 @@ object SyntAnal20: TLibSyntAnalyzer
       StyleName = 'CharClass'
       BlockName = '['
       NotParent = True
+      StatesAdd = 1
+      StatesAbsent = 1
       TokenType = 7
       Expression = '\[\^?'
       ColumnFrom = 0
@@ -164,6 +167,8 @@ object SyntAnal20: TLibSyntAnalyzer
     item
       DisplayName = ']'
       StyleName = 'CharClass'
+      StatesRemove = 3
+      StatesPresent = 3
       TokenType = 8
       Expression = '\]'
       ColumnFrom = 0
@@ -200,6 +205,7 @@ object SyntAnal20: TLibSyntAnalyzer
     item
       DisplayName = 'Text'
       StyleName = 'Text'
+      StatesAdd = 2
       Expression = '.'
       ColumnFrom = 0
       ColumnTo = 0
@@ -214,6 +220,7 @@ object SyntAnal20: TLibSyntAnalyzer
         end>
       BlockEnd = ']'
       DisplayInTree = False
+      RefToCondEnd = True
       DynHighlight = dhRange
       HighlightPos = cpAny
       IgnoreAsParent = False
@@ -252,7 +259,11 @@ object SyntAnal20: TLibSyntAnalyzer
   LexerName = 'RegEx'
   Notes.Strings = (
     'Alexey (CudaText)'
-    'RegEx flavor supported by Free Pascal TRegExpr')
+    'RegEx flavor supported by Free Pascal TRegExpr'
+    'Parser states used:'
+    '  1: set by range-start '#39'['#39
+    '  2: set by any char inside range'
+    'So '#39']'#39' closes range only if parser state=1+2')
   RestartFromLineStart = True
   Charset = DEFAULT_CHARSET
 end
