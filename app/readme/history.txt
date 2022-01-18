@@ -3,6 +3,10 @@
   - fixed
   * changed
 
+
++ add: "lite" lexers should ignore too long lines, so the length limit 2K was set here
+- fix: on opening of big file with lexer (e.g. size 1M), beginning of the file was not colored until the entire file is parsed
+
 1.154.0 (2022/01)
 
 + add: Ctrl + mouse_wheel_click now adds/removes caret (like in Sublime Text) (thanks @johntor)
