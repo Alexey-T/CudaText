@@ -3495,6 +3495,19 @@ begin
       SplitPos:= i/cHistory_TabSplit_Mul;
   end;
 
+  //top line
+  //better set it before setting lexer (to not update syntax highlight because of OnScroll)
+  nTop:= c.GetValue(path+cHistory_TopLine, 0);
+  if nTop>0 then
+    Ed.LineTop:= nTop;
+
+  if EditorsLinked and Splitted then
+  begin
+    nTop:= c.GetValue(path+cHistory_TopLine2, 0);
+    if nTop>0 then
+      Ed2.LineTop:= nTop;
+  end;
+
   //lexer
   str0:= LexerName[Ed];
   str:= c.GetValue(path+cHistory_Lexer, ''); //missed value means none-lexer (for Cud 1.104 or older)
@@ -3614,17 +3627,6 @@ begin
 
   if Assigned(Lexer[Ed]) then
     Ed.FoldingAsStringTodo:= c.GetValue(path+cHistory_FoldedRanges, '');
-
-  nTop:= c.GetValue(path+cHistory_TopLine, 0);
-  if nTop>0 then
-    Ed.LineTop:= nTop;
-
-  if EditorsLinked and Splitted then
-  begin
-    nTop:= c.GetValue(path+cHistory_TopLine2, 0);
-    if nTop>0 then
-      Ed2.LineTop:= nTop;
-  end;
 
   //caret
   Sep.Init(sCaretString);
