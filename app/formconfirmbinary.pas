@@ -68,7 +68,7 @@ begin
   F:= TfmConfirmBinary.Create(nil);
   try
     if ATooBig then
-      S:= msgFileTooBig + Format(' (%d M)', [FileSize(AFilename) div (1024*1024)])
+      S:= msgFileTooBig + Format(' (%dM, "ui_max_size_open": %d)', [FileSize(AFilename) div (1024*1024), UiOps.MaxFileSizeToOpen])
     else
       S:= msgFileMaybeNotText;
 
