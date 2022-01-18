@@ -2,16 +2,16 @@ object fmConfirmBinary: TfmConfirmBinary
   Left = 409
   Height = 272
   Top = 258
-  Width = 383
+  Width = 452
   BorderStyle = bsDialog
   Caption = 'CudaText'
   ClientHeight = 272
-  ClientWidth = 383
+  ClientWidth = 452
   OnCreate = FormCreate
   OnShow = FormShow
   Position = poScreenCenter
   ShowInTaskBar = stNever
-  LCLVersion = '2.1.0.0'
+  LCLVersion = '2.3.0.0'
   object LabelText: TLabel
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
@@ -20,19 +20,18 @@ object fmConfirmBinary: TfmConfirmBinary
     Left = 6
     Height = 17
     Top = 10
-    Width = 95
+    Width = 94
     BorderSpacing.Left = 6
     BorderSpacing.Top = 10
     BorderSpacing.Right = 6
     Caption = 'File is not text'
-    ParentColor = False
   end
   object btnEdit: TButton
     AnchorSideLeft.Control = Owner
     AnchorSideLeft.Side = asrCenter
     AnchorSideTop.Control = LabelFN
     AnchorSideTop.Side = asrBottom
-    Left = 71
+    Left = 106
     Height = 29
     Top = 56
     Width = 240
@@ -49,7 +48,7 @@ object fmConfirmBinary: TfmConfirmBinary
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = btnEdit
     AnchorSideRight.Side = asrBottom
-    Left = 71
+    Left = 106
     Height = 29
     Top = 126
     Width = 240
@@ -66,7 +65,7 @@ object fmConfirmBinary: TfmConfirmBinary
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = btnEdit
     AnchorSideRight.Side = asrBottom
-    Left = 71
+    Left = 106
     Height = 29
     Top = 231
     Width = 240
@@ -88,7 +87,6 @@ object fmConfirmBinary: TfmConfirmBinary
     Width = 56
     BorderSpacing.Top = 2
     Caption = 'LabelFN'
-    ParentColor = False
   end
   object btnViewHex: TButton
     AnchorSideLeft.Control = btnEdit
@@ -96,7 +94,7 @@ object fmConfirmBinary: TfmConfirmBinary
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = btnEdit
     AnchorSideRight.Side = asrBottom
-    Left = 71
+    Left = 106
     Height = 29
     Top = 161
     Width = 240
@@ -113,7 +111,7 @@ object fmConfirmBinary: TfmConfirmBinary
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = btnEdit
     AnchorSideRight.Side = asrBottom
-    Left = 71
+    Left = 106
     Height = 29
     Top = 91
     Width = 240
@@ -130,7 +128,7 @@ object fmConfirmBinary: TfmConfirmBinary
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = btnEdit
     AnchorSideRight.Side = asrBottom
-    Left = 71
+    Left = 106
     Height = 29
     Top = 196
     Width = 240
