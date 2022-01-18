@@ -1805,35 +1805,40 @@ You can make Pull-Request there, if needed.
 
 ==Kinds of add-ons==
 
-* "plugins". Extensions with Python code. They add events and/or commands. Commands can be called then via "Plugins" top menu, but only if plugin's install.inf file doesn't hide menu items in "Plugins". In any case, all commands can be called via Command Palette dialog.
+;plugins: Extensions with Python code. They add events and/or commands. Commands can be called then via "Plugins" top menu, but only if plugin's install.inf file doesn't hide menu items in "Plugins". In any case, all commands can be called via Command Palette dialog.
 
-* "lexers". Syntax highlighting files. For ex, Arduino lexer adds item "Arduino" to the lexer menu. Some addons can add 2 or more lexers, for ex "HTML nnnnnn" addons often add 2 lexers: one is visible in the lexer menu, another one is hidden (it supports embedded blocks).
+;lexers: Syntax highlighting files. For ex, Arduino lexer adds item "Arduino" to the lexer menu. Some addons can add 2 or more lexers, for ex "HTML nnnnnn" addons often add 2 lexers: one is visible in the lexer menu, another one is hidden (it supports embedded blocks).
 
-* "linters". Sub-plugins for CudaLint plugin. Each supports some lexer (or several similar lexers). To use them, install CudaLint plugin, open your work file, and call CudaLint commands: it calls appropriate linter and shows colored bookmarks on error/warning lines.
+;linters: Sub-plugins for CudaLint plugin. Each supports some lexer (or several similar lexers). To use them, install CudaLint plugin, open your work file, and call CudaLint commands: it calls appropriate linter and shows colored bookmarks on error/warning lines.
 
-* "formatters". Sub-plugins for CudaFormatter plugin. Each supports one or several lexers and can reformat source code for these lexers. Examples: Python ReIndent, JS Sort Imports, AStyle Format.
+;formatters: Sub-plugins for CudaFormatter plugin. Each supports one or several lexers and can reformat source code for these lexers. Examples: Python ReIndent, JS Sort Imports, AStyle Format.
 
-* "tree helpers": Plugins which show Code-Tree structure for some lexer (useful if language is complex, and lexer cannot handle all language complexity).
+;tree helpers: Plugins which show Code-Tree structure for some lexer (useful if language is complex, and lexer cannot handle all language complexity).
 
-* "snippets_ct". Collections of text fragments, for "Snippets" plugin (which is required to use snippets). See details in the [[CudaText_plugins#Snippets]].
+;snippets_ct: Collections of text fragments, for "Snippets" plugin (which is required to use snippets). See details in the [[CudaText_plugins#Snippets]].
 
-* "translations". CudaText UI translations. For ex, JP translation changes all menuitems + dialogs to JP language. Dialogs of plugins are not affected.
+;translations: CudaText UI translations. For ex, JP translation changes all menuitems + dialogs to JP language. Dialogs of plugins are not affected.
 
-* "plugintranslation": Translation of plugin strings to different languages. This includes translation of strings from Python code, and strings from "install.inf" files.
+;plugintranslation: Translation of plugin strings to different languages. This includes translation of strings from Python code, and strings from "install.inf" files.
 
-* "themes". UI/syntax themes for the "Options / Color themes" menu. UI themes change colors of CudaText interface. Syntax themes change colors of words in syntax highlighted files.
+;themes: UI/syntax themes for the "Options / Color themes" menu. UI themes change colors of CudaText interface. Syntax themes change colors of words in syntax highlighted files.
 
-* Icons:
-** "sidebar themes": Icon sets for the sidebar (vertical row of buttons on the left side).
-** "toolbar themes": Icon sets for the main toolbar (horizontal row of buttons on the top).
-** "toolbar x icons": Icon sets for plugin "Config Toolbar", for user-added buttons.
-** "file type icons": Icon sets for the file list of "Project Manager" plugin. Usually these are repackaged icons for VS Code editor.
-** "proj toolbar icons": Icon sets for the toolbar of "Project Manager" plugin.
-** "code-tree icons": Icon sets for the Code-Tree (icons are visible in the Code-Tree with some lexers, e.g. C#).
+;Icons:
+:;sidebar themes: Icon sets for the sidebar (vertical row of buttons on the left side).
 
-* "build systems": Configuration files for different external tools, for the Runner plugin. Runner plugin supports build-systems for Sublime Text 3 (only JSON configs, without support for additional Python codes).
+:;toolbar themes: Icon sets for the main toolbar (horizontal row of buttons on the top).
 
-* "packages": Packages with possible binary files, which will be unpacked to the CudaText installation folder. For the date 2021.08, these are only Python engines, for CudaText Windows build.
+:;toolbar x icons: Icon sets for plugin "Config Toolbar", for user-added buttons.
+
+:;file type icons: Icon sets for the file list of "Project Manager" plugin. Usually these are repackaged icons for VS Code editor.
+
+:;proj toolbar icons: Icon sets for the toolbar of "Project Manager" plugin.
+
+:;code-tree icons: Icon sets for the Code-Tree (icons are visible in the Code-Tree with some lexers, e.g. C#).
+
+;build systems: Configuration files for different external tools, for the Runner plugin. Runner plugin supports build-systems for Sublime Text 3 (only JSON configs, without support for additional Python codes).
+
+;packages: Packages with possible binary files, which will be unpacked to the CudaText installation folder. For the date 2021.08, these are only Python engines, for CudaText Windows build.
 
 =Tech topics=
 
