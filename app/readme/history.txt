@@ -3,11 +3,11 @@
   - fixed
   * changed
 
-1.154.1 (2022/01)
+1.154.5 (2022/01)
 
 + add: "lite" lexers should skip too long lines, so the length limit 2K was set here
 + add: rendering is much faster for the case of huge line length=40M in the word-wrapped mode
-* change: improve logic of option "unprinted_content" with "x" flag, now like in Sublime Text (thanks @JairoMartinezA)
++ add/change: improve logic of option "unprinted_content". Its "x" flag now works only with selection; added flag "X" which also works only with selection (thanks @JairoMartinezA)
 * change: delete last enumeration-value of option "wrap_mode" (value 3 worked the same as 2)
 - fix: on opening of big file with lexer (e.g. size 1M), beginning of the file was not colored until the entire file is parsed
 
