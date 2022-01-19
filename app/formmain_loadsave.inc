@@ -1112,7 +1112,7 @@ begin
   Op.OpBracketSymbols:= cfg.GetValue('bracket_symbols', op.OpBracketSymbols);
   Op.OpBracketDistance:= cfg.GetValue('bracket_distance', op.OpBracketDistance);
 
-  Op.OpWrapMode:= cfg.GetValue('wrap_mode', Op.OpWrapMode);
+  Op.OpWrapMode:= Min(cfg.GetValue('wrap_mode', Op.OpWrapMode), Ord(High(TATEditorWrapMode)));
   Op.OpWrapIndented:= cfg.GetValue('wrap_indented', Op.OpWrapIndented);
   Op.OpWrapEnabledMaxLines:= cfg.GetValue('wrap_enabled_max_lines', Op.OpWrapEnabledMaxLines);
 
