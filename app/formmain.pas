@@ -4208,7 +4208,7 @@ begin
       if not AppIsFileContentText(
                AFileName,
                UiOps.NonTextFilesBufferKb,
-               GlobalDetectUf16BufferWords,
+               ATEditorOptions.DetectUf16BufferWords,
                false) then
       begin
         if NonTextMode=cOpenModeNone then
