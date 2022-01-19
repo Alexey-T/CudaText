@@ -570,9 +570,8 @@
   //[Text/Wrap]
   //Long lines wrap mode.
   //  0: no wrap (fastest)
-  //  1: wrap at window edge (exact value changes on window resize)
-  //  2: wrap at "fixed margin"
-  //  3: wrap at minimum of "window edge" and "fixed margin"
+  //  1: wrap at window width (exact value changes on window resize)
+  //  2: wrap at minimum of window width and "fixed margin"
   "wrap_mode": 0,
 
   //For lines beginning with whitespace, show wrapped parts indented, like line itself.

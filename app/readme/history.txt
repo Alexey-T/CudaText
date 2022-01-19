@@ -8,6 +8,7 @@
 + add: "lite" lexers should ignore too long lines, so the length limit 2K was set here
 + add: optimize the rendering for the case of huge line length=40M in the word-wrapped mode
 - fix: on opening of big file with lexer (e.g. size 1M), beginning of the file was not colored until the entire file is parsed
+* change: deleted value 3 of "wrap_mode" (it worked the same as 2)
 
 1.154.0 (2022/01)
 
