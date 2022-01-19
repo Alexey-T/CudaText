@@ -431,7 +431,6 @@ begin
     msgStatusbarWrapStates[0]:= ini.ReadString('sta', 'wr0', msgStatusbarWrapStates[0]);
     msgStatusbarWrapStates[1]:= ini.ReadString('sta', 'wr1', msgStatusbarWrapStates[1]);
     msgStatusbarWrapStates[2]:= ini.ReadString('sta', 'wr2', msgStatusbarWrapStates[2]);
-    msgStatusbarWrapStates[3]:= ini.ReadString('sta', 'wr3', msgStatusbarWrapStates[3]);
 
     msgStatusbarHintCaret:= ini.ReadString('sta', 'crt', msgStatusbarHintCaret);
     msgStatusbarHintEnc:= ini.ReadString('sta', 'enc', msgStatusbarHintEnc);
