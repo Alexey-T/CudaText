@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.154.5 (2022/01)
+1.155.0 (2022/01)
 
 + add: "lite" lexers should skip too long lines, so the length limit 2K was set here
 + add: rendering is much faster for the case of huge line length=40M in the word-wrapped mode
