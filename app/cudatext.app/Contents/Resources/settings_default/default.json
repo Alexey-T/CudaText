@@ -367,7 +367,9 @@
   "max_line_len_for_accurate_width": 500,
 
   //[Lexers]
-  //Maximal line length, which is handled by pair-brackets finder.
+  //Maximal line length parsed, ie:
+  //a) It limits the parsing of huge lines by "lite" lexers.
+  //b) It limits the pair-brackets finder.
   "max_line_len_parsed": 4000,
 
   //[View/Gutter]

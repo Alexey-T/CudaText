@@ -5,7 +5,7 @@
 
 1.155.0 (2022/01)
 
-* change: add the workaround for very slow work with huge line length=40M in XML file, which is handled by XML^ lite lexer: app now doesn't parse the line after 8K chars
+* change: add the workaround for very slow work with huge line length=40M in XML file, which is handled by XML^ lite lexer: app now doesn't parse the line after 4K chars. The limit is taken from the old option "max_line_len_parsed".
 + add: rendering is much faster for the case of huge line length=40M in the word-wrapped mode
 + add/change: improve logic of option "unprinted_content"; its "x" flag now works only with selection; added flag "X" which also works only with selection (thanks @JairoMartinezA)
 * change: delete last enumeration-value of option "wrap_mode" (value 3 worked the same as 2)
