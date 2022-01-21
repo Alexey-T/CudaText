@@ -85,7 +85,7 @@ function SFindFuzzyPositions(SText, SFind: UnicodeString): TATIntArray;
 var
   i, N: integer;
 begin
-  SetLength(Result{%H-}, 0);
+  Result:= nil;
 
   SText:= UnicodeLowerCase(SText);
   SFind:= UnicodeLowerCase(SFind);
@@ -94,11 +94,7 @@ begin
   for i:= 1 to Length(SFind) do
   begin
     N:= PosEx(SFind[i], SText, N+1);
-    if N=0 then
-    begin
-      SetLength(Result, 0);
-      Exit
-    end;
+    if N=0 then Exit(nil);
     SetLength(Result, Length(Result)+1);
     Result[High(Result)]:= N;
   end;

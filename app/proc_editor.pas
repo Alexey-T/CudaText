@@ -2200,9 +2200,9 @@ begin
   if AOnlyClear then exit;
 
   S:= Ed.Text;
-  SetLength(Bads, 0);
-  SetLength(OpenedRound, 0);
-  SetLength(OpenedSquare, 0);
+  Bads:= nil;
+  OpenedRound:= nil;
+  OpenedSquare:= nil;
   LevelRound:= 0;
   LevelSquare:= 0;
   PosSquareOpen:= 0;

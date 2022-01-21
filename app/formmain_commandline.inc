@@ -177,7 +177,7 @@ begin
     begin
       SepCli.Init(Copy(SParam, 4, MaxInt), '#');
       SepCli.GetItemStr(CliModule);
-      SetLength(CliParams, 0);
+      CliParams:= nil;
       while SepCli.GetItemStr(sCli) do
       begin
         SetLength(CliParams, Length(CliParams)+1);
@@ -297,7 +297,7 @@ var
 begin
   if not IsAllowedToOpenFileNow then Exit;
 
-  SetLength(Params, 0);
+  Params:= nil;
   S:= '';
 
   Sep.Init(UTF8Encode(TEncoding.UTF8.GetString(Msg)), '|');

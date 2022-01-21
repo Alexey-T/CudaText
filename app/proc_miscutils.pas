@@ -319,7 +319,7 @@ var
   P: TPoint;
   Pnt: array of TPoint;
 begin
-  SetLength(Pnt, 0);
+  Pnt:= nil;
   Sep.Init(AText);
   repeat
     if not Sep.GetItemInt(P.X, MaxInt) then Break;

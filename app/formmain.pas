@@ -4985,6 +4985,7 @@ var
 begin
   AppPython.Initialize;
   AppVariantInitializePython;
+  Dirs:= nil;
 
   {$ifdef windows}
   PathAppend:= false;
@@ -4994,13 +4995,10 @@ begin
   Dirs[1]:= dir+ChangeFileExt(UiOps.PyLibrary, '.zip');
   {$else}
   PathAppend:= true;
-  SetLength(Dirs, 0);
   {$endif}
 
   //add to sys.path folders py/, py/sys/
-  SetLength(Dirs, Length(Dirs)+2);
-  Dirs[Length(Dirs)-2]:= AppDir_Py;
-  Dirs[Length(Dirs)-1]:= AppDir_Py+DirectorySeparator+'sys';
+  Dirs:= Concat(Dirs, [AppDir_Py, AppDir_Py+DirectorySeparator+'sys']);
 
   AppPython.SetPath(Dirs, PathAppend);
 end;

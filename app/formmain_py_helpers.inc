@@ -385,12 +385,9 @@ begin
     SParam:= RegexParts[4].Str;
 
     if SParam<>'' then
-    begin
-      SetLength(FParamVars, 1);
-      FParamVars[0]:= AppVariant(SParam);
-    end
+      FParamVars:= [AppVariant(SParam)]
     else
-      SetLength(FParamVars, 0);
+      FParamVars:= nil;
 
     Result:= AppPython.RunCommand(SModule, SFunc, FParamVars);
     MsgLogConsole(Format(msgCallbackDeprecated, [ACallback]));
