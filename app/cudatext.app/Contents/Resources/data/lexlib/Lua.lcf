@@ -89,6 +89,14 @@ object SyntAnal15: TLibSyntAnalyzer
       Font.Style = []
       BgColor = clMoneyGreen
       FormatType = ftBackGround
+    end
+    item
+      DisplayName = 'Comment doc'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = 7190392
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsItalic]
     end>
   TokenRules = <
     item
@@ -108,10 +116,18 @@ object SyntAnal15: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
+      DisplayName = 'Cmt doc'
+      StyleName = 'Comment doc'
+      TokenType = 1
+      Expression = '--(-|\x20@[a-z]).*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
       DisplayName = 'Cmt'
       StyleName = 'Comment'
       TokenType = 1
-      Expression = '--.*$'
+      Expression = '--.*'
       ColumnFrom = 0
       ColumnTo = 0
     end

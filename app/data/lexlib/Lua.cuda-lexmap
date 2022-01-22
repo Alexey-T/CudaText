@@ -1,7 +1,7 @@
 [comments]
 str1=--[[
 str2=--]]
-styles_cmt=Comment
+styles_cmt=Comment,Comment doc
 styles_str=String
 
 [map]
@@ -16,3 +16,4 @@ Id operator=Id1
 String2=String2
 Label=Label
 Hilite BG=BracketBG
+Comment doc=CommentDoc
