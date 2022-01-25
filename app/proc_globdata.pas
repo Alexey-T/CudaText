@@ -193,7 +193,7 @@ type
 
     LogPluginIniting: boolean;
     LogSessions: boolean;
-    LogDebug: boolean;
+    //LogDebug: boolean;
     LogConsole: boolean;
     LogConsoleDetailedStartupTime: boolean;
 
@@ -1847,9 +1847,9 @@ begin
 
     LogPluginIniting:= true;
     LogSessions:= true;
-    LogDebug:= false;
+    //LogDebug:= false;
     LogConsole:= false;
-    LogConsoleDetailedStartupTime:= false; //true;
+    LogConsoleDetailedStartupTime:= false;
 
     NewdocLexer:= '';
     NewdocEnc:= 'utf8';
