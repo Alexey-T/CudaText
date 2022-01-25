@@ -707,6 +707,7 @@ function MsgBox(const Str: string; Flags: Longint): integer;
 procedure MsgBadConfig(const fn, msg: string);
 procedure MsgStdout(const Str: string; AllowMsgBox: boolean = false);
 procedure MsgLogConsole(const AText: string);
+procedure MsgLogToFilename(const AText, AFilename: string; AWithTime: boolean);
 
 function AppListboxItemHeight(AScale, ADoubleHeight: boolean): integer;
 procedure AppGetFileProps(const FileName: string; out P: TAppFileProps);
@@ -2677,6 +2678,25 @@ begin
     while Sep.GetItemStr(S) do
       AppConsoleQueue.Push(S);
   end;
+end;
+
+
+procedure MsgLogToFilename(const AText, AFilename: string; AWithTime: boolean);
+var
+  f: TextFile;
+  S: string;
+begin
+  AssignFile(f, AFileName);
+  {$I-}
+  Append(f);
+  if IOResult<>0 then
+    Rewrite(f);
+  S:= AText;
+  if AWithTime then
+    S:= FormatDateTime('[MM.DD hh:nn] ', Now) + S;
+  Writeln(f, S);
+  CloseFile(f);
+  {$I+}
 end;
 
 

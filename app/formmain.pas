@@ -943,7 +943,6 @@ type
     procedure MenuMainClick(Sender: TObject);
     procedure MsgStatus(AText: string; AFinderMessage: boolean=false);
     procedure MsgStatusErrorInRegex;
-    procedure MsgLogToFilename(const AText, AFilename: string; AWithTime: boolean);
     procedure MsgStatusFileOpened(const AFileName1, AFileName2: string);
     function GetStatusbarPrefix(Frame: TEditorFrame): string;
     procedure SearcherDirectoryEnter(FileIterator: TFileIterator);
@@ -7546,25 +7545,6 @@ end;
 procedure TfmMain.MenuTabsizeClick(Sender: TObject);
 begin
   UpdateEditorTabsize((Sender as TComponent).Tag);
-end;
-
-
-procedure TfmMain.MsgLogToFilename(const AText, AFilename: string; AWithTime: boolean);
-var
-  f: TextFile;
-  S: string;
-begin
-  AssignFile(f, AFileName);
-  {$I-}
-  Append(f);
-  if IOResult<>0 then
-    Rewrite(f);
-  S:= AText;
-  if AWithTime then
-    S:= FormatDateTime('[MM.DD hh:nn] ', Now) + S;
-  Writeln(f, S);
-  CloseFile(f);
-  {$I+}
 end;
 
 
