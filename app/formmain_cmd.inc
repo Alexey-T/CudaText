@@ -261,11 +261,11 @@ begin
       end;
 
     cmd_ToggleFindDialog:
-      DoToggleFindReplaceDialog(false, false);
+      DoDialogFind_Toggle(false, false);
     cmd_ToggleFindDialog_AndFocus:
-      DoToggleFindReplaceDialog(false, true);
+      DoDialogFind_Toggle(false, true);
     cmd_ToggleReplaceDialog:
-      DoToggleFindReplaceDialog(true, false);
+      DoDialogFind_Toggle(true, false);
 
     cmd_ToggleSidebar:
       begin

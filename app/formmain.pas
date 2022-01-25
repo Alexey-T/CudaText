@@ -1024,6 +1024,7 @@ type
     function DoFileCloseAll(AWithCancel: boolean): boolean;
     procedure DoDialogFind(AReplaceMode: boolean);
     procedure DoDialogFind_Hide;
+    procedure DoDialogFind_Toggle(AIsReplace, AAndFocus: boolean);
     procedure FinderShowResult(ok: boolean; AFinder: TATEditorFinder);
     procedure FinderShowResultSimple(ok: boolean; AFinder: TATEditorFinder);
     procedure FinderShowMatchesCount(AMatchCount, ATime: integer);
@@ -1051,7 +1052,6 @@ type
     procedure DoToggleDistractionFree;
     procedure DoToggleSidePanel;
     procedure DoToggleBottomPanel;
-    procedure DoToggleFindReplaceDialog(AIsReplace, AAndFocus: boolean);
     procedure DoToggleSidebar;
     procedure DoToggleToolbar;
     procedure DoToggleStatusbar;
@@ -5745,49 +5745,6 @@ procedure TfmMain.DoToggleBottomPanel;
 begin
   with AppPanels[cPaneOut] do
     Visible:= not Visible;
-end;
-
-procedure TfmMain.DoToggleFindReplaceDialog(AIsReplace, AAndFocus: boolean);
-var
-  Frame: TEditorFrame;
-  bFocusedBottom: boolean;
-begin
-  bFocusedBottom:= IsFocusedFind;
-  InitFormFind;
-
-  if fmFind.Visible then
-  begin
-    if fmFind.IsReplace<>AIsReplace then
-      fmFind.IsReplace:= AIsReplace
-    else
-      fmFind.Hide;
-  end
-  else
-  begin
-    fmFind.IsReplace:= AIsReplace;
-    fmFind.Show;
-  end;
-
-  if fmFind.Visible then
-  begin
-    if AAndFocus then
-    begin
-      {$ifndef windows}
-      //fix focusing Find-dlg when command is called from cmd-palette
-      Application.ProcessMessages;
-      {$endif}
-      fmFind.UpdateFocus(not AIsReplace);
-    end;
-  end
-  else
-  begin
-    if bFocusedBottom then
-    begin
-      Frame:= CurrentFrame;
-      if Assigned(Frame) then
-        Frame.SetFocus;
-    end;
-  end;
 end;
 
 procedure TfmMain.DoToggleSidebar;
