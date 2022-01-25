@@ -491,7 +491,7 @@ begin
     if UiOps.FindSuggestWord and (StrWord<>'') then
       StrSuggested:= StrWord;
 
-    MsgLogDebug('find dlg: select all in input');
+    //MsgLogDebug('find dlg: select all in input');
     edFind.DoCommand(cCommand_SelectAll, cInvokeAppInternal);
     edRep.DoCommand(cCommand_SelectAll, cInvokeAppInternal);
 

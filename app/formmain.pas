@@ -941,7 +941,6 @@ type
     procedure MenuEncNoReloadClick(Sender: TObject);
     procedure MenuLexerClick(Sender: TObject);
     procedure MenuMainClick(Sender: TObject);
-    procedure MsgLogDebug(const AText: string);
     procedure MsgStatus(AText: string; AFinderMessage: boolean=false);
     procedure MsgStatusErrorInRegex;
     procedure MsgLogToFilename(const AText, AFilename: string; AWithTime: boolean);
@@ -7547,14 +7546,6 @@ end;
 procedure TfmMain.MenuTabsizeClick(Sender: TObject);
 begin
   UpdateEditorTabsize((Sender as TComponent).Tag);
-end;
-
-procedure TfmMain.MsgLogDebug(const AText: string);
-begin
-  {
-  if UiOps.LogDebug then
-    MsgLogToFilename(AText, FFileNameLogDebug, true);
-    }
 end;
 
 
