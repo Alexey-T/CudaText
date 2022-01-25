@@ -472,51 +472,51 @@ begin
   //MsgLogDebug('find dlg: init');
   InitFormFind;
 
-    if StrSel='' then
-    begin
-      fmFind.chkInSel.Checked:= false;
-      FFinder.OptInSelection:= false;
-    end;
+  if StrSel='' then
+  begin
+    fmFind.chkInSel.Checked:= false;
+    FFinder.OptInSelection:= false;
+  end;
 
-    //change Find field only if options SuggestSel/SuggestWord on,
-    //else dont touch Find field
-    if UiOps.FindSuggestSel and (StrSel<>'') then
-    begin
-      if not FFinder.OptInSelection then
-        StrSuggested:= StrSel;
-    end
-    else
-    if UiOps.FindSuggestWord and (StrWord<>'') then
-      StrSuggested:= StrWord;
+  //change Find field only if options SuggestSel/SuggestWord on,
+  //else dont touch Find field
+  if UiOps.FindSuggestSel and (StrSel<>'') then
+  begin
+    if not FFinder.OptInSelection then
+      StrSuggested:= StrSel;
+  end
+  else
+  if UiOps.FindSuggestWord and (StrWord<>'') then
+    StrSuggested:= StrWord;
 
-    //MsgLogDebug('find dlg: select all in input');
-    fmFind.edFind.DoCommand(cCommand_SelectAll, cInvokeAppInternal);
-    fmFind.edRep.DoCommand(cCommand_SelectAll, cInvokeAppInternal);
+  //MsgLogDebug('find dlg: select all in input');
+  fmFind.edFind.DoCommand(cCommand_SelectAll, cInvokeAppInternal);
+  fmFind.edRep.DoCommand(cCommand_SelectAll, cInvokeAppInternal);
 
-    fmFind.chkCase.Checked:= FFinder.OptCase;
-    fmFind.chkWords.Checked:= FFinder.OptWords;
-    fmFind.chkRegex.Checked:= FFinder.OptRegex;
-    fmFind.chkConfirm.Checked:= FFinder.OptConfirmReplace;
-    fmFind.chkWrap.Checked:= FFinder.OptWrapped;
-    fmFind.bTokens.ItemIndex:= Ord(FFinder.OptTokens);
+  fmFind.chkCase.Checked:= FFinder.OptCase;
+  fmFind.chkWords.Checked:= FFinder.OptWords;
+  fmFind.chkRegex.Checked:= FFinder.OptRegex;
+  fmFind.chkConfirm.Checked:= FFinder.OptConfirmReplace;
+  fmFind.chkWrap.Checked:= FFinder.OptWrapped;
+  fmFind.bTokens.ItemIndex:= Ord(FFinder.OptTokens);
 
-    if UiOps.FindSuggestInSelection and bMultiLineSel then
-    begin
-      fmFind.chkInSel.Checked:= true;
-      StrSuggested:= '';
-    end
-    else
-      fmFind.chkInSel.Checked:= FFinder.OptInSelection;
+  if UiOps.FindSuggestInSelection and bMultiLineSel then
+  begin
+    fmFind.chkInSel.Checked:= true;
+    StrSuggested:= '';
+  end
+  else
+    fmFind.chkInSel.Checked:= FFinder.OptInSelection;
 
-    fmFind.UpdateInitialCaretPos;
-    fmFind.UpdateInputFind(StrSuggested);
-    fmFind.IsReplace:= AReplaceMode;
+  fmFind.UpdateInitialCaretPos;
+  fmFind.UpdateInputFind(StrSuggested);
+  fmFind.IsReplace:= AReplaceMode;
 
-    //MsgLogDebug('find dlg: update state');
-    fmFind.UpdateState(true);
-    //MsgLogDebug('find dlg: show');
-    fmFind.Show;
-    //MsgLogDebug('find dlg: focus');
+  //MsgLogDebug('find dlg: update state');
+  fmFind.UpdateState(true);
+  //MsgLogDebug('find dlg: show');
+  fmFind.Show;
+  //MsgLogDebug('find dlg: focus');
 
   UpdateFindDialogEnabled(Frame);
   if fmFind.Enabled then
