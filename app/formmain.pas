@@ -690,8 +690,6 @@ type
     FHandledOnShowPartly: boolean;
     FHandledOnShowFully: boolean;
     FFileNamesDroppedInitially: array of string;
-    FFileNameLogDebug: string;
-    FFileNameLogConsole: string;
     FCodetreeForEditor: TATSynEdit;
     FCodetreeForLexer: string;
     FCodetreeBuffer: TTreeView;
@@ -2269,7 +2267,7 @@ begin
       AppConsoleQueue.Pop();
       fmConsole.DoAddLine(S);
       if UiOps.LogConsole then
-        MsgLogToFilename(S, FFileNameLogConsole, false);
+        MsgLogToFilename(S, AppFile_LogConsole, false);
     end;
 
     fmConsole.DoUpdateMemo;
@@ -2668,8 +2666,6 @@ begin
   EControlOptions.OnLexerParseProgress:= @DoOnLexerParseProgress;
   CustomDialog_DoPyCallback:= @DoPyCallbackFromAPI;
   CustomDialog_OnEditorCommand:= @FrameOnEditorCommand;
-  FFileNameLogDebug:= AppDir_Settings+DirectorySeparator+'app.log';
-  FFileNameLogConsole:= AppDir_Settings+DirectorySeparator+'console.log';
 
   DoMenuitemEllipsis(mnuOpThemeUi);
   DoMenuitemEllipsis(mnuOpThemeSyntax);

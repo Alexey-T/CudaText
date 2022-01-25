@@ -687,6 +687,7 @@ var
   AppFile_HistoryFiles: string;
   AppFile_Hotkeys: string;
   AppFile_PluginsIni: string;
+  AppFile_LogConsole: string;
 
 function AppFile_Session: string;
 function AppFile_Language: string;
@@ -1400,6 +1401,7 @@ begin
   AppFile_HistoryFiles:= AppDir_Settings+DirectorySeparator+'history files.json';
   AppFile_Hotkeys:= AppDir_Settings+DirectorySeparator+'keys.json';
   AppFile_PluginsIni:= AppDir_Settings+DirectorySeparator+'plugins.ini';
+  AppFile_LogConsole:= AppDir_Settings+DirectorySeparator+'console.log';
 
   if not FileExists(AppFile_OptionsUser)
     and FileExists(AppFile_OptionsUserInit) then
