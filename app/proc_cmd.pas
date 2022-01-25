@@ -99,30 +99,31 @@ const
   cmd_ToggleStatusbar    = 2542;
   cmd_ResetPythonPlugins = 2543;
   cmd_DialogCharMap      = 2544;
-  cmd_RunLastCommandPlugin = 2545;
-  cmd_ShowSidePanelAsIs = 2546;
+  cmd_RunLastCommandPlugin= 2545;
+  cmd_ShowSidePanelAsIs   = 2546;
   cmd_ShowSidePanelAndSyntaxTree = 2547;
-  cmd_HideSidePanel = 2548;
-  cmd_DialogSaveTabs = 2549;
+  cmd_HideSidePanel       = 2548;
+  cmd_DialogSaveTabs      = 2549;
   cmd_DialogLexerStyleMap = 2550;
   cmd_RescanPythonPluginsInfFiles = 2551;
   cmd_DialogThemeUi       = 2552;
   cmd_DialogThemeSyntax   = 2553;
   cmd_ShowMainMenuAsPopup = 2554;
-  cmd_DialogLexerMenu = 2555;
-  cmd_ToggleFloatSide = 2556;
-  cmd_ToggleFloatBottom = 2557;
-  cmd_HideBottomPanel = 2558;
-  cmd_OpsFontSizeBigger = 2559;
-  cmd_OpsFontSizeSmaller = 2560;
+  cmd_DialogLexerMenu     = 2555;
+  cmd_ToggleFloatSide     = 2556;
+  cmd_ToggleFloatBottom   = 2557;
+  cmd_HideBottomPanel     = 2558;
+  cmd_OpsFontSizeBigger   = 2559;
+  cmd_OpsFontSizeSmaller  = 2560;
   cmd_ShowPanelConsole_AndFocus   = 2561;
   cmd_ShowPanelOutput_AndFocus    = 2562;
   cmd_ShowPanelValidate_AndFocus  = 2563;
-  cmd_ToggleReplaceDialog = 2564;
-  cmd_ToggleSidePanelAndSyntaxTree = 2565;
-  cmd_OpsFontSizeReset = 2566;
-  cmd_FindPythonLib = 2567;
-  cmd_ToggleFileNotifications = 2568;
+  cmd_ToggleReplaceDialog         = 2564;
+  cmd_ToggleSidePanelAndSyntaxTree= 2565;
+  cmd_OpsFontSizeReset            = 2566;
+  cmd_FindPythonLib               = 2567;
+  cmd_ToggleFileNotifications     = 2568;
+  cmd_ToggleFindDialog_AndFocus   = 2569;
 
   cmd_ChooseTranslation = 2570;
   cmd_ChooseThemeUI     = 2571;
@@ -461,6 +462,7 @@ begin
   M.Add(cmd_DialogFind, 'dialog: find: show dialog', [cXControl+'+F'], []);
   M.Add(cmd_DialogFind_Hide, 'dialog: find: hide dialog', [], []);
   M.Add(cmd_ToggleFindDialog, 'dialog: find: toggle dialog', [], []);
+  M.Add(cmd_ToggleFindDialog_AndFocus, 'dialog: find: toggle+focus dialog', [], []);
   M.Add(cmd_DialogReplace, 'dialog: replace: show dialog', [cXControl+'+R'], []);
   M.Add(cmd_ToggleReplaceDialog, 'dialog: replace: toggle dialog', [], []);
 
@@ -730,6 +732,8 @@ begin
     //cmd_ShowPanelOutput,
     //cmd_ShowPanelValidate,
     cmd_ToggleFindDialog,
+    cmd_ToggleFindDialog_AndFocus,
+    cmd_ToggleReplaceDialog,
     cmd_ToggleSidebar,
     cmd_ToggleToolbar,
     cmd_ToggleStatusbar,
@@ -890,6 +894,8 @@ begin
     cmd_ToggleBottomPanel,
     cmd_ToggleSidePanel,
     cmd_ToggleFindDialog,
+    cmd_ToggleFindDialog_AndFocus,
+    cmd_ToggleReplaceDialog,
     cmd_ToggleFullScreen,
     cmd_ToggleDistractionFree,
     cmd_ToggleSidebar,

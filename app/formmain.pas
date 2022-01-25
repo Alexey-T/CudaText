@@ -1051,7 +1051,7 @@ type
     procedure DoToggleDistractionFree;
     procedure DoToggleSidePanel;
     procedure DoToggleBottomPanel;
-    procedure DoToggleFindReplaceDialog(AIsReplace: boolean);
+    procedure DoToggleFindReplaceDialog(AIsReplace, AAndFocus: boolean);
     procedure DoToggleSidebar;
     procedure DoToggleToolbar;
     procedure DoToggleStatusbar;
@@ -5747,7 +5747,7 @@ begin
     Visible:= not Visible;
 end;
 
-procedure TfmMain.DoToggleFindReplaceDialog(AIsReplace: boolean);
+procedure TfmMain.DoToggleFindReplaceDialog(AIsReplace, AAndFocus: boolean);
 var
   Frame: TEditorFrame;
   bFocusedBottom: boolean;
@@ -5768,13 +5768,20 @@ begin
     fmFind.Show;
   end;
 
-  if not fmFind.Visible then
+  if fmFind.Visible then
+  begin
+    if AAndFocus then
+      fmFind.UpdateFocus(not AIsReplace);
+  end
+  else
+  begin
     if bFocusedBottom then
     begin
       Frame:= CurrentFrame;
       if Assigned(Frame) then
         Frame.SetFocus;
     end;
+  end;
 end;
 
 procedure TfmMain.DoToggleSidebar;
