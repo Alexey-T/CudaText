@@ -6,8 +6,8 @@
 1.155.1 (2022/01)
 
 * change: add the workaround for very slow work with huge line length=40M in XML file, which is handled by XML^ lite lexer: app now doesn't parse the line after 4K chars. The limit is taken from the old option "max_line_len_parsed".
-+ add: command "dialog: find: toggle+focus dialog"
-+ add: lexer Lua: add rule for "documentation comments"
++ add: command "dialog: find: toggle+focus dialog" (thanks @DUOLabs333)
++ add: lexer Lua: add style for "documentation comments"
 
 1.155.0 (2022/01)
 
