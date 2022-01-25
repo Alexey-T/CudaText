@@ -2687,6 +2687,7 @@ var
   S: string;
 begin
   AssignFile(f, AFileName);
+  {$Push}
   {$I-}
   Append(f);
   if IOResult<>0 then
@@ -2696,7 +2697,7 @@ begin
     S:= FormatDateTime('[MM.DD hh:nn] ', Now) + S;
   Writeln(f, S);
   CloseFile(f);
-  {$I+}
+  {$Pop}
 end;
 
 
