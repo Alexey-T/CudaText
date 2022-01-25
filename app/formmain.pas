@@ -5771,7 +5771,12 @@ begin
   if fmFind.Visible then
   begin
     if AAndFocus then
+    begin
+      {$ifndef windows}
+      Application.ProcessMessages;
+      {$endif}
       fmFind.UpdateFocus(not AIsReplace);
+    end;
   end
   else
   begin
