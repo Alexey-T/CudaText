@@ -5773,6 +5773,7 @@ begin
     if AAndFocus then
     begin
       {$ifndef windows}
+      //fix focusing Find-dlg when command is called from cmd-palette
       Application.ProcessMessages;
       {$endif}
       fmFind.UpdateFocus(not AIsReplace);
