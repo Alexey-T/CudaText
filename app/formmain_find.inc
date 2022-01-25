@@ -580,7 +580,7 @@ begin
 end;
 
 
-procedure TfmMain.DoDialogFind_Toggle(AIsReplace, AAndFocus: boolean);
+procedure TfmMain.DoDialogFind_Toggle(AReplaceMode, AAndFocus: boolean);
 var
   Frame: TEditorFrame;
   bFocusedBottom: boolean;
@@ -590,14 +590,14 @@ begin
 
   if fmFind.Visible then
   begin
-    if fmFind.IsReplace<>AIsReplace then
-      fmFind.IsReplace:= AIsReplace
+    if fmFind.IsReplace<>AReplaceMode then
+      fmFind.IsReplace:= AReplaceMode
     else
       fmFind.Hide;
   end
   else
   begin
-    fmFind.IsReplace:= AIsReplace;
+    fmFind.IsReplace:= AReplaceMode;
     fmFind.Show;
   end;
 
@@ -609,7 +609,7 @@ begin
       //fix focusing Find-dlg when command is called from cmd-palette
       Application.ProcessMessages;
       {$endif}
-      fmFind.UpdateFocus(not AIsReplace);
+      fmFind.UpdateFocus(not AReplaceMode);
     end;
   end
   else

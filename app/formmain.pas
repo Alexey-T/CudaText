@@ -1024,7 +1024,7 @@ type
     function DoFileCloseAll(AWithCancel: boolean): boolean;
     procedure DoDialogFind(AReplaceMode: boolean);
     procedure DoDialogFind_Hide;
-    procedure DoDialogFind_Toggle(AIsReplace, AAndFocus: boolean);
+    procedure DoDialogFind_Toggle(AReplaceMode, AAndFocus: boolean);
     procedure FinderShowResult(ok: boolean; AFinder: TATEditorFinder);
     procedure FinderShowResultSimple(ok: boolean; AFinder: TATEditorFinder);
     procedure FinderShowMatchesCount(AMatchCount, ATime: integer);
