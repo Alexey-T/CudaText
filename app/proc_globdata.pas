@@ -440,8 +440,6 @@ const
   OpStr_UiFontSize = 'ui_font_size'+cOptionSystemSuffix;
   OpStr_UiFontOutputName = 'ui_font_output_name'+cOptionSystemSuffix;
   OpStr_UiFontOutputSize = 'ui_font_output_size'+cOptionSystemSuffix;
-  OpStr_UiFontStatusbarName = 'ui_font_statusbar_name'+cOptionSystemSuffix;
-  OpStr_UiFontStatusbarSize = 'ui_font_statusbar_size'+cOptionSystemSuffix;
 
 type
   TEditorOps = record

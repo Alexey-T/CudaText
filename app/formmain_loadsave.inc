@@ -1222,8 +1222,8 @@ begin
   UiOps.OutputFontName:= cfg.GetValue(OpStr_UiFontOutputName, UiOps.OutputFontName);
   UiOps.OutputFontSize:= Abs(cfg.GetValue(OpStr_UiFontOutputSize, UiOps.OutputFontSize)); //Abs for macOS
 
-  UiOps.StatusbarFontName:= cfg.GetValue(OpStr_UiFontStatusbarName, UiOps.StatusbarFontName);
-  UiOps.StatusbarFontSize:= Abs(cfg.GetValue(OpStr_UiFontStatusbarSize, UiOps.StatusbarFontSize)); //Abs for macOS
+  UiOps.StatusbarFontName:= cfg.GetValue('ui_font_statusbar_name'+cOptionSystemSuffix, UiOps.StatusbarFontName);
+  UiOps.StatusbarFontSize:= Abs(cfg.GetValue('ui_font_statusbar_size'+cOptionSystemSuffix, UiOps.StatusbarFontSize)); //Abs for macOS
 
   UiOps.DoubleBuffered:= cfg.GetValue('ui_buffered'+cOptionSystemSuffix, UiOps.DoubleBuffered);
 
