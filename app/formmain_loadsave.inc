@@ -1017,22 +1017,23 @@ end;
 
 procedure TfmMain.DoOps_LoadOptions_Editor(cfg: TJSONConfig; var Op: TEditorOps);
 begin
-  Op.OpFontName:= cfg.GetValue(OpStr_FontName, Op.OpFontName);
-  Op.OpFontName_i:= cfg.GetValue(OpStr_FontName_i, Op.OpFontName_i);
-  Op.OpFontName_b:= cfg.GetValue(OpStr_FontName_b, Op.OpFontName_b);
-  Op.OpFontName_bi:= cfg.GetValue(OpStr_FontName_bi, Op.OpFontName_bi);
+  Op.OpFontName:= cfg.GetValue('font_name'+cOptionSystemSuffix, Op.OpFontName);
+  Op.OpFontName_i:= cfg.GetValue('font_name_i'+cOptionSystemSuffix, Op.OpFontName_i);
+  Op.OpFontName_b:= cfg.GetValue('font_name_b'+cOptionSystemSuffix, Op.OpFontName_b);
+  Op.OpFontName_bi:= cfg.GetValue('font_name_bi'+cOptionSystemSuffix, Op.OpFontName_bi);
 
-  Op.OpFontSize:= Abs(cfg.GetValue(OpStr_FontSize, Op.OpFontSize)); //Abs() for macOS
-  Op.OpFontSize_i:= Abs(cfg.GetValue(OpStr_FontSize_i, Op.OpFontSize_i));
-  Op.OpFontSize_b:= Abs(cfg.GetValue(OpStr_FontSize_b, Op.OpFontSize_b));
-  Op.OpFontSize_bi:= Abs(cfg.GetValue(OpStr_FontSize_bi, Op.OpFontSize_bi));
+  Op.OpFontSize:= Abs(cfg.GetValue('font_size'+cOptionSystemSuffix, Op.OpFontSize)); //Abs() for macOS
+  Op.OpFontSize_i:= Abs(cfg.GetValue('font_size_i'+cOptionSystemSuffix, Op.OpFontSize_i));
+  Op.OpFontSize_b:= Abs(cfg.GetValue('font_size_b'+cOptionSystemSuffix, Op.OpFontSize_b));
+  Op.OpFontSize_bi:= Abs(cfg.GetValue('font_size_bi'+cOptionSystemSuffix, Op.OpFontSize_bi));
+
   Op.OpFontSize_original:= Op.OpFontSize;
   Op.OpFontSize_original_i:= Op.OpFontSize_i;
   Op.OpFontSize_original_b:= Op.OpFontSize_b;
   Op.OpFontSize_original_bi:= Op.OpFontSize_bi;
 
-  Op.OpFontQuality:= TFontQuality(cfg.GetValue(OpStr_FontQuality, Ord(Op.OpFontQuality)));
-  Op.OpFontLigatures:= cfg.GetValue(OpStr_FontLigatures, Op.OpFontLigatures);
+  Op.OpFontQuality:= TFontQuality(cfg.GetValue('font_quality'+cOptionSystemSuffix, Ord(Op.OpFontQuality)));
+  Op.OpFontLigatures:= cfg.GetValue('font_ligatures', Op.OpFontLigatures);
 
   Op.OpActiveBorderRaw:= cfg.GetValue('ui_active_border', Op.OpActiveBorderRaw);
   Op.OpActiveBorderInControls:= Op.OpActiveBorderRaw > 0;
@@ -1224,7 +1225,7 @@ begin
   UiOps.StatusbarFontName:= cfg.GetValue(OpStr_UiFontStatusbarName, UiOps.StatusbarFontName);
   UiOps.StatusbarFontSize:= Abs(cfg.GetValue(OpStr_UiFontStatusbarSize, UiOps.StatusbarFontSize)); //Abs for macOS
 
-  UiOps.DoubleBuffered:= cfg.GetValue(OpStr_UiDoubleBuffered, UiOps.DoubleBuffered);
+  UiOps.DoubleBuffered:= cfg.GetValue('ui_buffered'+cOptionSystemSuffix, UiOps.DoubleBuffered);
 
   UiOps.StatusNoSel:= cfg.GetValue('ui_statusbar_no_sel', UiOps.StatusNoSel);
   UiOps.StatusSmallSel:= cfg.GetValue('ui_statusbar_small_sel', UiOps.StatusSmallSel);
@@ -1441,7 +1442,7 @@ begin
   UiOps.NewdocEnc:= cfg.GetValue('newdoc_encoding', UiOps.NewdocEnc);
   UiOps.NewdocEnds:= cfg.GetValue('newdoc_ends', UiOps.NewdocEnds);
 
-  UiOps.DefaultEncUtf8:= cfg.GetValue(OpStr_DefEncodingIsUtf8, UiOps.DefaultEncUtf8);
+  UiOps.DefaultEncUtf8:= cfg.GetValue('def_encoding_utf8'+cOptionSystemSuffix, UiOps.DefaultEncUtf8);
   UiOps.ViewerBinaryWidth:= cfg.GetValue('viewer_binary_width', UiOps.ViewerBinaryWidth);
   UiOps.ViewerNonPrintable:= cfg.GetValue('viewer_unprinted', UiOps.ViewerNonPrintable);
 
@@ -1547,8 +1548,8 @@ begin
   DoOps_DialogFont(
     EditorOps.OpFontName,
     EditorOps.OpFontSize,
-    OpStr_FontName,
-    OpStr_FontSize);
+    'font_name'+cOptionSystemSuffix,
+    'font_size'+cOptionSystemSuffix);
   DoApplyFont_Text;
 end;
 
