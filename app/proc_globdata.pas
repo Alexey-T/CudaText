@@ -1935,13 +1935,14 @@ end;
 
 
 procedure SReplaceSpecialFilenameChars(var S: string);
+const
+  cBadFilenameChars = '/\*:<>';
+var
+  i: integer;
 begin
-  S:= StringReplace(S, '/', '_', [rfReplaceAll]);
-  S:= StringReplace(S, '\', '_', [rfReplaceAll]);
-  S:= StringReplace(S, '*', '_', [rfReplaceAll]);
-  S:= StringReplace(S, ':', '_', [rfReplaceAll]);
-  S:= StringReplace(S, '<', '_', [rfReplaceAll]);
-  S:= StringReplace(S, '>', '_', [rfReplaceAll]);
+  for i:= 1 to Length(S) do
+    if Pos(S[i], cBadFilenameChars)>0 then
+      S[i]:= '_';
 end;
 
 function AppFile_LexerSpecificConfig(ALexer: string; ADefaultConfig: boolean=false): string;
