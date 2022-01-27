@@ -552,7 +552,7 @@ procedure UpdateTabPreviewStyle(D: TATTabData; AValue: boolean);
 begin
   D.TabSpecial:= AValue;
   if AValue then
-    D.TabFontStyle:= StringToFontStyles(UiOps.TabPreviewFontStyle)
+    D.TabFontStyle:= Lexer_StringToFontStyles(UiOps.TabPreviewFontStyle)
   else
     D.TabFontStyle:= [];
 end;

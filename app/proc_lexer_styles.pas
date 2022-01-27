@@ -11,28 +11,30 @@ interface
 
 uses
   SysUtils, Classes, Graphics,
-  LazFileUtils,
   at__jsonconf,
   ec_SyntAnal,
-  ec_syntax_format,
+  ec_syntax_format;
+
+procedure Lexer_SaveStyleToFile_JsonTheme(st: TecSyntaxFormat; cfg: TJSONConfig; skey: string);
+procedure Lexer_SaveStylesToFile_JsonLexerOps(an: TecSyntAnalyzer; const Filename: string);
+
+function Lexer_LoadStyleFromFile_JsonTheme(st: TecSyntaxFormat; cfg: TJSONConfig; skey: string): boolean;
+procedure Lexer_LoadStylesFromFile_JsonLexerOps(an: TecSyntAnalyzer; const Filename: string; NoStyles: boolean);
+
+function Lexer_FontStylesToString(const f: TFontStyles): string;
+function Lexer_StringToFontStyles(const s: string): TFontStyles;
+
+
+implementation
+
+uses
+  LazFileUtils,
   proc_globdata,
   ATStringProc,
   ATStringProc_Separator,
   ATStringProc_HtmlColor;
 
-procedure DoSaveLexerStyleToFile_JsonTheme(st: TecSyntaxFormat; cfg: TJSONConfig; skey: string);
-procedure DoSaveLexerStylesToFile_JsonLexerOps(an: TecSyntAnalyzer; const Filename: string);
-
-function DoLoadLexerStyleFromFile_JsonTheme(st: TecSyntaxFormat; cfg: TJSONConfig; skey: string): boolean;
-procedure DoLoadLexerStylesFromFile_JsonLexerOps(an: TecSyntAnalyzer; const Filename: string; NoStyles: boolean);
-
-function FontStylesToString(const f: TFontStyles): string;
-function StringToFontStyles(const s: string): TFontStyles;
-
-
-implementation
-
-function FontStylesToString(const f: TFontStyles): string;
+function Lexer_FontStylesToString(const f: TFontStyles): string;
 begin
   Result:= '';
   if fsBold in f then Result:= Result+'b';
@@ -41,7 +43,7 @@ begin
   if fsStrikeout in f then Result:= Result+'s';
 end;
 
-function StringToFontStyles(const s: string): TFontStyles;
+function Lexer_StringToFontStyles(const s: string): TFontStyles;
 var
   i: Integer;
 begin
@@ -91,13 +93,13 @@ begin
 end;
 *)
 
-procedure DoSaveLexerStyleToFile_JsonTheme(st: TecSyntaxFormat; cfg: TJSONConfig;
+procedure Lexer_SaveStyleToFile_JsonTheme(st: TecSyntaxFormat; cfg: TJSONConfig;
   skey: string);
 begin
   if not SEndsWith(skey, '/') then skey:= skey+'/';
 
   cfg.SetValue(skey+'Type', Integer(st.FormatType));
-  cfg.SetValue(skey+'Styles', FontStylesToString(st.Font.Style));
+  cfg.SetValue(skey+'Styles', Lexer_FontStylesToString(st.Font.Style));
   cfg.SetValue(skey+'CFont', TATHtmlColorParserA.ColorToHtmlString(st.Font.Color));
   cfg.SetValue(skey+'CBack', TATHtmlColorParserA.ColorToHtmlString(st.BgColor));
   cfg.SetValue(skey+'CBorder', TATHtmlColorParserA.ColorToHtmlString(st.BorderColorBottom));
@@ -110,7 +112,7 @@ begin
 end;
 
 
-procedure DoSaveLexerStylesToFile_JsonLexerOps(an: TecSyntAnalyzer; const Filename: string);
+procedure Lexer_SaveStylesToFile_JsonLexerOps(an: TecSyntAnalyzer; const Filename: string);
 var
   conf: TJSONConfig;
   an_orig: TecSyntAnalyzer;
@@ -148,10 +150,10 @@ begin
         conf.SetDeleteValue(path+'font_color', ColorToString(st.Font.Color), val_orig);
 
         if Assigned(st_orig) then
-          val_orig:= FontStylesToString(st_orig.Font.Style)
+          val_orig:= Lexer_FontStylesToString(st_orig.Font.Style)
         else
           val_orig:= '?';
-        conf.SetDeleteValue(path+'font_style', FontStylesToString(st.Font.Style), val_orig);
+        conf.SetDeleteValue(path+'font_style', Lexer_FontStylesToString(st.Font.Style), val_orig);
 
         if Assigned(st_orig) then
           val_orig:= ColorToString(st_orig.BgColor)
@@ -216,7 +218,7 @@ begin
 end;
 
 
-procedure DoLoadLexerStylesFromFile_JsonLexerOps(an: TecSyntAnalyzer; const Filename: string;
+procedure Lexer_LoadStylesFromFile_JsonLexerOps(an: TecSyntAnalyzer; const Filename: string;
   NoStyles: boolean);
 var
   conf: TJSONConfig;
@@ -243,7 +245,7 @@ begin
 
         s:= conf.GetValue(path+'font_style', '?');
         if s<>'?' then
-          st.Font.Style:= StringToFontStyles(s);
+          st.Font.Style:= Lexer_StringToFontStyles(s);
 
         s:= conf.GetValue(path+'back', '?');
         if s<>'?' then
@@ -279,7 +281,7 @@ end;
 
 
 
-function DoLoadLexerStyleFromFile_JsonTheme(st: TecSyntaxFormat; cfg: TJSONConfig; skey: string): boolean;
+function Lexer_LoadStyleFromFile_JsonTheme(st: TecSyntaxFormat; cfg: TJSONConfig; skey: string): boolean;
 var
   Sep: TATStringSeparator;
   N, Len: integer;
@@ -293,7 +295,7 @@ begin
   if N<0 then exit(false);
   st.FormatType:= TecFormatType(N);
 
-  st.Font.Style:= StringToFontStyles(cfg.GetValue(skey+'Styles', FontStylesToString(st.Font.Style)));
+  st.Font.Style:= Lexer_StringToFontStyles(cfg.GetValue(skey+'Styles', Lexer_FontStylesToString(st.Font.Style)));
 
   s:= cfg.GetValue(skey+'CFont', '');
   st.Font.Color:= TATHtmlColorParserA.ParseTokenRGB(PChar(s), Len, st.Font.Color);

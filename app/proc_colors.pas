@@ -291,7 +291,7 @@ begin
       for iStyle:= Low(iStyle) to apstLastStyle do
       begin
         st:= d.Styles[iStyle];
-        if not DoLoadLexerStyleFromFile_JsonTheme(st, cfg, 'Lex_'+st.DisplayName) then
+        if not Lexer_LoadStyleFromFile_JsonTheme(st, cfg, 'Lex_'+st.DisplayName) then
           MsgLogConsole(Format(msgErrorInTheme,
             [ExtractFileName(AFileName), 'Lex_'+st.DisplayName]));
       end;
@@ -564,7 +564,7 @@ begin
       for iStyle:= Low(iStyle) to apstLastStyle do
       begin
         st:= d.Styles[iStyle];
-        DoSaveLexerStyleToFile_JsonTheme(st, cfg, 'Lex_'+st.DisplayName);
+        Lexer_SaveStyleToFile_JsonTheme(st, cfg, 'Lex_'+st.DisplayName);
       end;
     end;
   finally

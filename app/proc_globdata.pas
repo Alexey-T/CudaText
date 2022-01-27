@@ -3180,7 +3180,7 @@ begin
   //load *.cuda-lexops
   fn_ops:= AppFile_LexerOps(ALexer.LexerName);
   if FileExists(fn_ops) then
-    DoLoadLexerStylesFromFile_JsonLexerOps(ALexer, fn_ops, UiOps.LexerThemes);
+    Lexer_LoadStylesFromFile_JsonLexerOps(ALexer, fn_ops, UiOps.LexerThemes);
 end;
 
 procedure AppOnLexerLoadError(const AFileName, AError: string);

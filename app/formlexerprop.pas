@@ -247,7 +247,7 @@ begin
   for i:= 0 to FAnalyzer.Formats.Count-1 do
     FAnalyzer.Formats.Items[i].Assign(FFormats[i]);
 
-  DoSaveLexerStylesToFile_JsonLexerOps(
+  Lexer_SaveStylesToFile_JsonLexerOps(
     FAnalyzer,
     AppFile_LexerOps(FAnalyzer.LexerName)
     );

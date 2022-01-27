@@ -353,7 +353,7 @@ begin
           'border_bottom',
           Ord(St.BorderTypeBottom),
           'styles',
-          PChar(FontStylesToString(St.Font.Style))
+          PChar(Lexer_FontStylesToString(St.Font.Style))
           ));
     end;
   end;
@@ -5470,7 +5470,7 @@ begin
           'tkind',
           PChar(cPyTokenKind[TATTokenKind(Fmt.TokenKind)]),
           'styles',
-          PChar(FontStylesToString(Fmt.Font.Style))
+          PChar(Lexer_FontStylesToString(Fmt.Font.Style))
           ));
     end;
   end;

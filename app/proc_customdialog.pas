@@ -1986,7 +1986,7 @@ begin
   if AName='font_style' then
   begin
     with DoControl_Target(C) do
-      Font.Style:= StringToFontStyles(AValue);
+      Font.Style:= Lexer_StringToFontStyles(AValue);
     exit;
   end;
 
