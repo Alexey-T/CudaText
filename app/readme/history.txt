@@ -11,6 +11,7 @@
 - fix: wrong opening of several files at once, by Enter from Windows Explorer, with "ui_one_instance":true (thanks @jroblesr)
 - fix: if a tool from plugin External Tools is called while recording a macro, macro becomes incorrect (thanks @cser)
 - fix: dialogs 'Open file'/'Save file as' on Windows have bad looking 'filter' field
+- fix: plugin Colored Indent didn't get on_state call (thanks @JairoMartinezA) 
 - fix: lexer CSS: wrong highlight of 'rgb(func(some), ...)'
 
 1.155.0 (2022/01)
