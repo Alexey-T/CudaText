@@ -9,7 +9,7 @@
 + add: command "dialog: find: toggle+focus dialog" (thanks @DUOLabs333)
 + add: lexer Lua: add style for "documentation comments"
 - fix: Windows: opening of several files with "ui_one_instance":true (thanks @jroblesr)
-- fix: when plugin External Tools was called while recording a macro, macro became incorrect (thanks @cser)
+- fix: if a tool from plugin External Tools is called while recording a macro, macro becomes incorrect (thanks @cser)
 
 1.155.0 (2022/01)
 
