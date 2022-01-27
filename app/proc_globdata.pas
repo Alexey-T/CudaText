@@ -1946,6 +1946,12 @@ begin
       S[i]:= '_';
 end;
 
+function Lexer_EscapeFilename(const ALexName: string): string;
+begin
+  Result:= ALexName;
+  SReplaceSpecialFilenameChars(Result);
+end;
+
 function AppFile_LexerSpecificConfig(ALexer: string; ADefaultConfig: boolean=false): string;
 var
   dir: string;
@@ -2372,18 +2378,6 @@ begin
     Result:= ''
   else
     Result:= AppDir_DataLang+DirectorySeparator+UiOps.LangName+'.ini';
-end;
-
-function Lexer_EscapeFilename(const ALexName: string): string;
-begin
-  Result:= ALexName;
-  if Result<>'' then
-  begin
-    Result:= StringReplace(Result, ':', '_', [rfReplaceAll]);
-    Result:= StringReplace(Result, '/', '_', [rfReplaceAll]);
-    Result:= StringReplace(Result, '\', '_', [rfReplaceAll]);
-    Result:= StringReplace(Result, '*', '_', [rfReplaceAll]);
-  end;
 end;
 
 function AppFile_LexerExtension(ALexName, AExt: string): string;
