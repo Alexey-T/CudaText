@@ -86,6 +86,7 @@ var
   Frame: TEditorFrame;
   MaxPriority, NPlugin, NPriority: integer;
   Plugin: TAppEventInfo;
+  bCheckLexer: boolean;
   bLazy: boolean;
 begin
   Result.Val:= evrOther;
@@ -101,11 +102,16 @@ begin
   MaxPriority:= AppEventsMaxPriorities[AEvent];
   if MaxPriority<0 then exit;
 
-  if Assigned(AEd) then
+  Frame:= nil;
+  SCurLexer:= '';
+
+  bCheckLexer:= Assigned(AEd);
+  if bCheckLexer then
   begin
     Frame:= TGroupsHelper.GetEditorFrame(AEd);
     if Frame=nil then
     begin
+      bCheckLexer:= false;
       if not (AEvent in cTheseEventsDontRequireFrame) then
         exit;
     end
@@ -117,8 +123,6 @@ begin
   end
   else
   begin
-    Frame:= nil;
-    SCurLexer:= '';
     bNeedGroup:= false;
   end;
 
@@ -149,7 +153,9 @@ begin
         Plugin:= TAppEventInfo(AppEventList[NPlugin]);
         if not (AEvent in Plugin.ItemEvents) then Continue;
         if (NPriority<>Plugin.ItemEventsPrior[AEvent]) then Continue;
-        if not ((Plugin.ItemLexers='') or IsLexerListed(SCurLexer, Plugin.ItemLexers)) then Continue;
+
+        if bCheckLexer then
+          if not ((Plugin.ItemLexers='') or IsLexerListed(SCurLexer, Plugin.ItemLexers)) then Continue;
 
         //check that OnKey event is called for supported keys
         //don't allow empty KeyForFilter, it is empty for on_open_pre for filename w/o extension
