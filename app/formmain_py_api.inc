@@ -5536,7 +5536,7 @@ begin
             else
               fmMain.LexersDetected:= TStringList.Create;
 
-            DoLexerDetect(StrValue, Lexer, LexerLite, SName, @fmMain.DoPyLexerDetection);
+            Lexer_DetectByFilename(StrValue, Lexer, LexerLite, SName, @fmMain.DoPyLexerDetection);
 
             if fmMain.LexersDetected.Count>0 then
               Result:= StringsToPyTuple(fmMain.LexersDetected)
@@ -5553,7 +5553,7 @@ begin
             List.UseLocale:= false;
             List.Sorted:= true;
             try
-              DoLexerEnum(List, AppStrToBool(StrValue));
+              Lexer_EnumAll(List, AppStrToBool(StrValue));
               Result:= StringsToPyList(List);
             finally
               FreeAndNil(List);

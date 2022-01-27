@@ -3976,7 +3976,7 @@ var
   SName: string;
 begin
   if AFileName='' then exit;
-  DoLexerDetect(AFileName, TempLexer, TempLexerLite, SName, FLexerChooseFunc);
+  Lexer_DetectByFilename(AFileName, TempLexer, TempLexerLite, SName, FLexerChooseFunc);
   if Assigned(TempLexer) then
     Lexer[Ed]:= TempLexer
   else

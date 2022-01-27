@@ -728,10 +728,6 @@ type
       const AMenuitemCaption, AModuleName, AMethodName, ALexerName, AHotkey: string): boolean;
   end;
 
-function DoLexerDetectByFilenameOrContent(const AFilename: string;
-  AChooseFunc: TecLexerChooseFunc): TecSyntAnalyzer;
-procedure DoLexerEnum(L: TStringList; AlsoDisabled: boolean = false);
-
 function DoReadOneStringFromFile(const AFilename: string): string;
 function DoReadContentFromFile(const AFilename: string): string;
 procedure DoWriteStringToFile(const AFilename, AText: string);
@@ -1004,11 +1000,16 @@ procedure DoStatusbarColorByTag(AStatus: TATStatus; ATag: PtrInt; AColor: TColor
 function IsFileTooBigForOpening(const AFilename: string): boolean;
 function IsFileTooBigForLexer(const AFilename: string): boolean;
 function IsOsFullPath(const S: string): boolean;
-procedure DoLexerDetect(const AFilename: string;
+
+procedure Lexer_DetectByFilename(const AFilename: string;
   out Lexer: TecSyntAnalyzer;
   out LexerLite: TATLiteLexer;
   out LexerName: string;
   AChooseFunc: TecLexerChooseFunc);
+function Lexer_DetectByFilenameOrContent(const AFilename: string;
+  AChooseFunc: TecLexerChooseFunc): TecSyntAnalyzer;
+procedure Lexer_EnumAll(L: TStringList; AlsoDisabled: boolean = false);
+
 procedure DoMenuitemEllipsis(c: TMenuItem);
 
 procedure AppOnLexerLoaded(Sender: TObject; ALexer: TecSyntAnalyzer);
@@ -2061,7 +2062,7 @@ begin
 end;
 
 
-function DoLexerDetectByFilenameOrContent(const AFilename: string;
+function Lexer_DetectByFilenameOrContent(const AFilename: string;
   AChooseFunc: TecLexerChooseFunc): TecSyntAnalyzer;
 const
   cSignUTF8: string = #$EF#$BB#$BF;
@@ -2270,7 +2271,7 @@ begin
 end;
 
 
-procedure DoLexerEnum(L: TStringList; AlsoDisabled: boolean = false);
+procedure Lexer_EnumAll(L: TStringList; AlsoDisabled: boolean = false);
 var
   an: TecSyntAnalyzer;
   i: integer;
@@ -2373,7 +2374,7 @@ begin
     Result:= AppDir_DataLang+DirectorySeparator+UiOps.LangName+'.ini';
 end;
 
-function EscapeLexerFilename(const ALexName: string): string;
+function Lexer_EscapeFilename(const ALexName: string): string;
 begin
   Result:= ALexName;
   if Result<>'' then
@@ -2388,7 +2389,7 @@ end;
 function AppFile_LexerExtension(ALexName, AExt: string): string;
 begin
   if ALexName<>'' then
-    Result:= AppDir_Lexers+DirectorySeparator+EscapeLexerFilename(ALexName)+AExt
+    Result:= AppDir_Lexers+DirectorySeparator+Lexer_EscapeFilename(ALexName)+AExt
   else
     Result:= '';
 end;
@@ -2405,12 +2406,12 @@ end;
 
 function AppFile_LexerOps(const ALexName: string): string;
 begin
-  Result:= AppDir_Settings+DirectorySeparator+EscapeLexerFilename(ALexName)+'.cuda-lexops';
+  Result:= AppDir_Settings+DirectorySeparator+Lexer_EscapeFilename(ALexName)+'.cuda-lexops';
 end;
 
 function AppFile_LexerAcp(const ALexName: string): string;
 begin
-  Result:= AppDir_DataAutocomplete+DirectorySeparator+EscapeLexerFilename(ALexName)+'.acp';
+  Result:= AppDir_DataAutocomplete+DirectorySeparator+Lexer_EscapeFilename(ALexName)+'.acp';
 end;
 
 function AppFile_UndoRedo(const fn: string; IsRedo: boolean): string;
@@ -2774,7 +2775,7 @@ begin
 end;
 
 
-procedure DoLexerDetect(const AFilename: string;
+procedure Lexer_DetectByFilename(const AFilename: string;
   out Lexer: TecSyntAnalyzer;
   out LexerLite: TATLiteLexer;
   out LexerName: string;
@@ -2791,7 +2792,7 @@ begin
   end
   else
   begin
-    Lexer:= DoLexerDetectByFilenameOrContent(AFilename, AChooseFunc);
+    Lexer:= Lexer_DetectByFilenameOrContent(AFilename, AChooseFunc);
     if Lexer=nil then
       LexerLite:= AppManagerLite.FindLexerByFilename(AFilename);
   end;
