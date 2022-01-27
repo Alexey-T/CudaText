@@ -104,8 +104,9 @@ begin
 
   Frame:= nil;
   SCurLexer:= '';
-
+  bNeedGroup:= false;
   bCheckLexer:= Assigned(AEd);
+
   if bCheckLexer then
   begin
     Frame:= TGroupsHelper.GetEditorFrame(AEd);
@@ -120,10 +121,6 @@ begin
       SCurLexer:= Frame.LexerName[AEd];
       bNeedGroup:= AEvent in cTheseEventsNeedGroupingUndo;
     end;
-  end
-  else
-  begin
-    bNeedGroup:= false;
   end;
 
   KeyForFilter:= '';
