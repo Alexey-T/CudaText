@@ -226,11 +226,21 @@ begin
     //if folder, open it in ProjManager
     if DirectoryExistsUTF8(SParam) then
     begin
+      {$ifdef windows}
+      //like fix for issue #3928
+      Application.ProcessMessages;
+      {$endif}
+
       DoFolderOpen(SParam, False, cInvokeAppInternal);
     end
     else
     if FileExists(SParam) then
     begin
+      {$ifdef windows}
+      //fix merging of 2 files into one ui-tab, issue #3928
+      Application.ProcessMessages;
+      {$endif}
+
       Frame:= DoFileOpen(SParam, '', nil, AOpenOptions);
       if Assigned(Frame) then
       begin
