@@ -8,7 +8,7 @@ from .snips import *
 _   = get_translation(__file__)  # I18N
 
 fn_config = 'plugins.ini'
-fn_icon = os.path.join(os.path.dirname(__file__), 'snip.png')
+fn_icon = 'snip.png' # without path, in CudaText folder
 dir_clips1 = os.path.join(os.path.dirname(__file__), 'clips')
 dir_clips2 = os.path.join(app_path(APP_DIR_DATA), 'clips')
 
