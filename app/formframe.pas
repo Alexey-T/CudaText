@@ -2493,8 +2493,8 @@ begin
     An:= Lexer[Ed];
     if Assigned(An) then
     begin
-      SaveDialog.DefaultExt:= DoGetLexerDefaultExt(An);
-      SaveDialog.Filter:= DoGetLexerFileFilter(An, msgAllFiles);
+      SaveDialog.DefaultExt:= Lexer_GetDefaultExtension(An);
+      SaveDialog.Filter:= Lexer_GetFileFilterString(An, msgAllFiles);
     end
     else
     begin
