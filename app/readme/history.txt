@@ -10,6 +10,8 @@
 + add: lexer Lua: add style for "documentation comments"
 - fix: opening of several files at once, from Windows Explorer, with "ui_one_instance":true (thanks @jroblesr)
 - fix: if a tool from plugin External Tools is called while recording a macro, macro becomes incorrect (thanks @cser)
+- fix: dialogs 'Open file'/'Save file as' on Windows have bad looking 'filter' fields
+- fix: lexer CSS: highlight of 'rgb(func(some), ...)'
 
 1.155.0 (2022/01)
 
