@@ -1935,21 +1935,16 @@ begin
 end;
 
 
-procedure SReplaceSpecialFilenameChars(var S: string);
+function Lexer_EscapeFilename(const ALexName: string): string;
 const
   cBadFilenameChars = '/\*:<>';
 var
   i: integer;
 begin
-  for i:= 1 to Length(S) do
-    if Pos(S[i], cBadFilenameChars)>0 then
-      S[i]:= '_';
-end;
-
-function Lexer_EscapeFilename(const ALexName: string): string;
-begin
   Result:= ALexName;
-  SReplaceSpecialFilenameChars(Result);
+  for i:= 1 to Length(Result) do
+    if Pos(Result[i], cBadFilenameChars)>0 then
+      Result[i]:= '_';
 end;
 
 function AppFile_LexerSpecificConfig(ALexer: string; ADefaultConfig: boolean=false): string;
@@ -1959,7 +1954,7 @@ begin
   //support none-lexer here
   if ALexer='' then
     ALexer:= '-';
-  SReplaceSpecialFilenameChars(ALexer);
+  ALexer:= Lexer_EscapeFilename(ALexer);
 
   if ADefaultConfig then
     dir:= AppDir_SettingsDefault
@@ -1988,7 +1983,7 @@ begin
   //support none-lexer
   if AName='' then
     AName:= '-';
-  SReplaceSpecialFilenameChars(AName);
+  AName:= Lexer_EscapeFilename(AName);
   Result:= AppDir_Settings+DirectorySeparator+'keys lexer '+AName+'.json';
 end;
 
