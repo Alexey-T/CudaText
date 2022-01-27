@@ -18,7 +18,9 @@ begin
 
   SParam:= '';
   if Length(AParams)>0 then
-    SParam:= AppVariantToString(AParams[0]);
+    SParam:= AppVariantToString(AParams[0], false{AndQuote});
+    //AndQuote=false to fix CudaText issue #3929
+
   SPyText:= 'py:'+AModule+','+AMethod+','+SParam;
 
   if Frame.MacroRecord then

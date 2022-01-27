@@ -61,7 +61,7 @@ function AppVariant(Value: boolean): TAppVariant; inline;
 function AppVariant(const Value: Int64): TAppVariant; inline;
 function AppVariant(const Value: string): TAppVariant; inline;
 function AppVariant(const Value: array of integer): TAppVariant;
-function AppVariantToString(const V: TAppVariant): string;
+function AppVariantToString(const V: TAppVariant; AndQuote: boolean=true): string;
 function AppVariantArrayToString(const V: TAppVariantArray): string;
 
 procedure AppVariantInitializePython;
@@ -138,7 +138,7 @@ begin
   end;
 end;
 
-function AppVariantToString(const V: TAppVariant): string;
+function AppVariantToString(const V: TAppVariant; AndQuote: boolean=true): string;
 var
   i: integer;
 begin
@@ -150,7 +150,7 @@ begin
       Result:= IntToStr(V.Int);
 
     avrStr:
-      Result:= SStringToPythonString(V.Str);
+      Result:= SStringToPythonString(V.Str, AndQuote);
 
     avrBool:
       begin
