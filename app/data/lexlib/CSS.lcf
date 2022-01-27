@@ -202,7 +202,7 @@ object SyntAnal8: TLibSyntAnalyzer
       DisplayName = 'RGB color'
       StyleName = 'Color'
       TokenType = 6
-      Expression = '\b(rgba?|hsla?)\([\d\x20,]+?\)'
+      Expression = '(?-i)\b(rgba?|hsla?)\([\d\x20,%]+?\)'
       ColumnFrom = 0
       ColumnTo = 0
     end
