@@ -2417,6 +2417,8 @@ function AppSessionName_ForHistoryFile: string;
 var
   dir: string;
 begin
+  if not UiOps.ReopenSession then exit('');
+
   dir:= ExtractFileDir(AppSessionName);
   if dir='' then exit(AppSessionName);
 

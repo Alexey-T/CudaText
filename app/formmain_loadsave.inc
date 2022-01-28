@@ -198,7 +198,7 @@ begin
 
     ////state
     cfg.SetValue('lang', UiOps.LangName);
-    cfg.SetValue('session', IfThen(UiOps.ReopenSession, AppSessionName_ForHistoryFile, ''));
+    cfg.SetValue('session', AppSessionName_ForHistoryFile);
     cfg.SetValue('last_cmd', FLastSelectedCommand);
 
     DoOps_SaveHistory_GroupView(cfg);
