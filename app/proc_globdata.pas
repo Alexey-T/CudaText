@@ -686,6 +686,7 @@ function AppFile_LexerAcp(const ALexName: string): string;
 function AppFile_LexerSpecificConfig(ALexer: string; ADefaultConfig: boolean=false): string;
 function AppFile_IsIgnoredForSession(const AFilename: string): boolean;
 
+function AppSessionName_ForHistoryFile: string;
 function IsDefaultSession(const S: string): boolean;
 function IsDefaultSessionActive: boolean;
 
@@ -2410,6 +2411,19 @@ begin
   Result:= ExtractFileDir(fn)+DirectorySeparator+
     '.cudatext'+DirectorySeparator+
     ExtractFileName(fn)+Ext[IsRedo];
+end;
+
+function AppSessionName_ForHistoryFile: string;
+var
+  dir: string;
+begin
+  dir:= ExtractFileDir(AppSessionName);
+  if dir='' then exit(AppSessionName);
+
+  if SameFileName(dir, AppDir_Settings) then
+    Result:= ExtractFileName(AppSessionName)
+  else
+    Result:= AppSessionName;
 end;
 
 class function TKeymapHelper.GetHotkey(AKeymap: TATKeymap; const ACmdString: string): string;

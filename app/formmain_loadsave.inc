@@ -198,7 +198,7 @@ begin
 
     ////state
     cfg.SetValue('lang', UiOps.LangName);
-    cfg.SetValue('session', IfThen(UiOps.ReopenSession, ExtractRelativePath(AppFile_OptionsUser, AppSessionName), ''));
+    cfg.SetValue('session', IfThen(UiOps.ReopenSession, AppSessionName_ForHistoryFile, ''));
     cfg.SetValue('last_cmd', FLastSelectedCommand);
 
     DoOps_SaveHistory_GroupView(cfg);
@@ -824,6 +824,11 @@ begin
     if FOption_AllowSessionLoad=aalsEnable then
     begin
       AppSessionName:= cfg.GetValue('session', AppSessionName);
+
+      //workaround for bad saved values like '../../../', with and without filename
+      while SBeginsWith(AppSessionName, '..'+DirectorySeparator) do
+        Delete(AppSessionName, 1, 3);
+
       if not IsDefaultSessionActive then
       begin
         AppSessionName:= AppExpandFileNameWithDir(AppSessionName, AppDir_Settings);
