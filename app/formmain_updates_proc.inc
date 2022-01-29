@@ -1109,7 +1109,8 @@ begin
   begin
     AppCodetreeState.Editor:= Ed;
     AppCodetreeState.SelLine:= NSelLine;
-    DoPyEvent_AppState(APPSTATE_CODETREE_SET_SELECTION);
+    if AppCodetreeState.SelLine>=0 then
+      DoPyEvent_AppState(APPSTATE_CODETREE_SET_SELECTION);
   end;
 end;
 
