@@ -3015,6 +3015,9 @@ begin
   if Assigned(AppUniqInst) then
     FreeAndNil(AppUniqInst);
   {$endif}
+
+  if Assigned(LexersDetected) then
+    FreeAndNil(LexersDetected);
 end;
 
 procedure TfmMain.FormDropFiles(Sender: TObject;
