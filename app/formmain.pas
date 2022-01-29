@@ -2411,8 +2411,10 @@ begin
       );
     DoFocusEditor(Ed);
 
-    if AppCodetreeState.SelLine<>PntBegin.Y then
+    if (AppCodetreeState.SelLine<>PntBegin.Y) or
+      (AppCodetreeState.Editor<>Ed) then
     begin
+      AppCodetreeState.Editor:= Ed;
       AppCodetreeState.SelLine:= PntBegin.Y;
       DoPyEvent_AppState(APPSTATE_CODETREE_SET_SELECTION);
     end;
