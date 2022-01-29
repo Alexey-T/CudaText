@@ -3624,8 +3624,8 @@ begin
 
         PROP_CODETREE_MODIFIED_VERSION:
           begin
-            if Assigned(fmMain.FCodetreeForEditor) then
-              Result:= PyLong_FromLong(fmMain.FCodetreeForEditor.Strings.ModifiedVersion)
+            if Assigned(AppCodetreeState.Editor) then
+              Result:= PyLong_FromLong(AppCodetreeState.Editor.Strings.ModifiedVersion)
             else
               Result:= PyLong_FromLong(0);
           end;

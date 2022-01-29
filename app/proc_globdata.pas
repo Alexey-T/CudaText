@@ -78,6 +78,12 @@ var
   AppActiveForm: TObject = nil;
   AppThemeStatusbar: TATFlatTheme;
   AppApiDialogCounter: integer = 0;
+  AppCodetreeState: record
+    Editor: TATSynEdit;
+    Lexer: string;
+    Version: Int64;
+    SelLine: integer;
+  end;
 
 type
   TApp3States = (
@@ -3380,6 +3386,7 @@ initialization
   AppKeymapLexers.Sorted:= true;
   AppKeymapLexers.OwnsObjects:= true;
 
+  FillChar(AppCodetreeState, SizeOf(AppCodetreeState), 0);
   FillChar(AppEventsMaxPriorities, SizeOf(AppEventsMaxPriorities), 0);
   FillChar(AppBookmarkSetup, SizeOf(AppBookmarkSetup), 0);
   AppBookmarkImagelist:= TImageList.Create(nil);

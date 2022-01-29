@@ -145,7 +145,7 @@ begin
   begin
     //prevent ListIndexError on file_open(..)
     if not FDisableTreeClearing then
-      if F.Editor<>FCodetreeForEditor then
+      if F.Editor<>AppCodetreeState.Editor then
         DoCodetree_Clear;
   end;
 

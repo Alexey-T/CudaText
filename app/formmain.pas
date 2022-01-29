@@ -690,8 +690,6 @@ type
     FHandledOnShowPartly: boolean;
     FHandledOnShowFully: boolean;
     FFileNamesDroppedInitially: array of string;
-    FCodetreeForEditor: TATSynEdit;
-    FCodetreeForLexer: string;
     FCodetreeBuffer: TTreeView;
     FCodetreeDblClicking: boolean;
     FCodetreeNeedsSelJump: boolean;
@@ -2385,14 +2383,14 @@ end;
 
 procedure TfmMain.DoCodetree_UpdateVersion(Ed: TATSynEdit);
 begin
-  FCodetreeForEditor:= Ed;
+  AppCodetreeState.Editor:= Ed;
   if Assigned(Ed) then
   begin
-    FCodetreeForLexer:= EditorLexerNameAtPos(Ed, Point(-1, -1));
+    AppCodetreeState.Lexer:= EditorLexerNameAtPos(Ed, Point(-1, -1));
   end
   else
   begin
-    FCodetreeForLexer:= '';
+    AppCodetreeState.Lexer:= '';
   end;
 end;
 
@@ -6711,7 +6709,7 @@ var
   NColor: TColor;
   NLen, i: integer;
 begin
-  DefaultDraw:= not ((FCodetreeForLexer='CSS') and (Stage=cdPostPaint));
+  DefaultDraw:= not ((AppCodetreeState.Lexer='CSS') and (Stage=cdPostPaint));
   if DefaultDraw then exit;
 
   NColor:= clNone;
