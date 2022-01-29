@@ -86,6 +86,7 @@ var
     DblClicking: boolean;
     NeedsSelJump: boolean;
   end;
+  AppLexersLastDetected: TStringList = nil;
 
 type
   TApp3States = (
@@ -3448,6 +3449,9 @@ finalization
   FreeAndNil(AppCommandList);
   FreeAndNil(AppConsoleQueue);
   FreeAndNil(AppCommandsDelayed);
+
+  if Assigned(AppLexersLastDetected) then
+    FreeAndNil(AppLexersLastDetected);
 
 end.
 

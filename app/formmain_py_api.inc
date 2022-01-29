@@ -5531,15 +5531,15 @@ begin
 
         LEXER_DETECT:
           begin
-            if Assigned(fmMain.LexersDetected) then
-              fmMain.LexersDetected.Clear
+            if Assigned(AppLexersLastDetected) then
+              AppLexersLastDetected.Clear
             else
-              fmMain.LexersDetected:= TStringList.Create;
+              AppLexersLastDetected:= TStringList.Create;
 
             Lexer_DetectByFilename(StrValue, Lexer, LexerLite, SName, @fmMain.DoPyLexerDetection);
 
-            if fmMain.LexersDetected.Count>0 then
-              Result:= StringsToPyTuple(fmMain.LexersDetected)
+            if AppLexersLastDetected.Count>0 then
+              Result:= StringsToPyTuple(AppLexersLastDetected)
             else
             if SName<>'' then
               Result:= PyUnicodeFromString(SName)

@@ -1165,7 +1165,6 @@ type
     PanelCodeTreeAll: TFormDummy;
     PanelCodeTreeTop: TPanel;
     //LexerProgress: TATGauge;
-    LexersDetected: TStringList;
     function FrameCount: integer;
     property Frames[N: integer]: TEditorFrame read GetFrame;
     function CurrentGroups: TATGroups;
@@ -3016,9 +3015,6 @@ begin
   if Assigned(AppUniqInst) then
     FreeAndNil(AppUniqInst);
   {$endif}
-
-  if Assigned(LexersDetected) then
-    FreeAndNil(LexersDetected);
 end;
 
 procedure TfmMain.FormDropFiles(Sender: TObject;
@@ -8119,9 +8115,9 @@ end;
 
 function TfmMain.DoPyLexerDetection(const Filename: string; Lexers: TStringList): integer;
 begin
-  if not Assigned(LexersDetected) then
-    LexersDetected:= TStringList.Create;
-  LexersDetected.Assign(Lexers);
+  if not Assigned(AppLexersLastDetected) then
+    AppLexersLastDetected:= TStringList.Create;
+  AppLexersLastDetected.Assign(Lexers);
   Result:= 0;
 end;
 
