@@ -3382,6 +3382,8 @@ initialization
   AppKeymapLexers.OwnsObjects:= true;
 
   FillChar(AppCodetreeState, SizeOf(AppCodetreeState), 0);
+  AppCodetreeState.SelLine:= -1;
+
   FillChar(AppEventsMaxPriorities, SizeOf(AppEventsMaxPriorities), 0);
   FillChar(AppBookmarkSetup, SizeOf(AppBookmarkSetup), 0);
   AppBookmarkImagelist:= TImageList.Create(nil);
