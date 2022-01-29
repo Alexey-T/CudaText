@@ -2300,13 +2300,6 @@ begin
       L.Add(Lexers[i].LexerName+msgLiteLexerSuffix);
 end;
 
-{
-procedure DoLexerSave(an: TecSyntAnalyzer);
-begin
-  if Assigned(an) then
-    an.SaveToFile(AppFile_Lexer(an.LexerName));
-end;
-}
 
 class function TPluginHelper.CommandGetIndexFromModuleAndMethod(const AText: string): integer;
 var
