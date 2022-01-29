@@ -1090,6 +1090,7 @@ end;
 procedure TfmMain.UpdateTreeSelection(Frame: TEditorFrame; Ed: TATSynEdit);
 var
   Caret: TATCaretItem;
+  NSelLine: integer;
 begin
   if not UiOps.TreeAutoSync then exit;
 
@@ -1098,10 +1099,18 @@ begin
 
   CodetreeSelectItemForPosition(
     CodeTree.Tree,
-    Caret.PosX, Caret.PosY
+    Caret.PosX,
+    Caret.PosY,
+    NSelLine
     );
 
-  DoPyEvent_AppState(APPSTATE_CODETREE_SET_SELECTION);
+  if (AppCodetreeState.SelLine<>NSelLine) or
+    (AppCodetreeState.Editor<>Ed) then
+  begin
+    AppCodetreeState.Editor:= Ed;
+    AppCodetreeState.SelLine:= NSelLine;
+    DoPyEvent_AppState(APPSTATE_CODETREE_SET_SELECTION);
+  end;
 end;
 
 procedure TfmMain.UpdateMenuEnc(AMenu: TMenuItem);

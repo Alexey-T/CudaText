@@ -2383,15 +2383,12 @@ end;
 
 procedure TfmMain.DoCodetree_UpdateVersion(Ed: TATSynEdit);
 begin
+  Inc(AppCodetreeState.Version);
   AppCodetreeState.Editor:= Ed;
   if Assigned(Ed) then
-  begin
-    AppCodetreeState.Lexer:= EditorLexerNameAtPos(Ed, Point(-1, -1));
-  end
+    AppCodetreeState.Lexer:= EditorLexerNameAtPos(Ed, Point(-1, -1))
   else
-  begin
     AppCodetreeState.Lexer:= '';
-  end;
 end;
 
 procedure TfmMain.DoCodetree_OnDblClick(Sender: TObject);
@@ -2401,18 +2398,27 @@ var
 begin
   DoCodetree_GetSyntaxRange(CodeTree.Tree.Selected, PntBegin, PntEnd);
 
-  Ed:= CurrentEditor;
   FCodetreeDblClicking:= true;
-  Ed.DoGotoPos(
-    PntBegin,
-    Point(-1, -1),
-    UiOps.FindIndentHorz,
-    UiOps.FindIndentVert,
-    true,
-    true
-    );
-  DoFocusEditor(Ed);
-  FCodetreeDblClicking:= false;
+  try
+    Ed:= CurrentEditor;
+    Ed.DoGotoPos(
+      PntBegin,
+      Point(-1, -1),
+      UiOps.FindIndentHorz,
+      UiOps.FindIndentVert,
+      true,
+      true
+      );
+    DoFocusEditor(Ed);
+
+    if AppCodetreeState.SelLine<>PntBegin.Y then
+    begin
+      AppCodetreeState.SelLine:= PntBegin.Y;
+      DoPyEvent_AppState(APPSTATE_CODETREE_SET_SELECTION);
+    end;
+  finally
+    FCodetreeDblClicking:= false;
+  end;
 end;
 
 procedure TfmMain.DoCodetree_GetSyntaxRange(ANode: TTreeNode; out APosBegin, APosEnd: TPoint);
