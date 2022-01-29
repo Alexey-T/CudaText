@@ -83,6 +83,8 @@ var
     Lexer: string;
     Version: Int64;
     SelLine: integer;
+    DblClicking: boolean;
+    NeedsSelJump: boolean;
   end;
 
 type

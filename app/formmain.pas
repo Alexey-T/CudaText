@@ -691,8 +691,6 @@ type
     FHandledOnShowFully: boolean;
     FFileNamesDroppedInitially: array of string;
     FCodetreeBuffer: TTreeView;
-    FCodetreeDblClicking: boolean;
-    FCodetreeNeedsSelJump: boolean;
     FCfmPanel: TPanel;
     FCfmLink: string;
     FMenuVisible: boolean;
@@ -2303,9 +2301,9 @@ begin
   end;
 
   if Assigned(Frame) and not (Frame.IsTreeBusy or Frame.IsParsingBusy) then
-    if FCodetreeNeedsSelJump then
+    if AppCodetreeState.NeedsSelJump then
     begin
-      FCodetreeNeedsSelJump:= false;
+      AppCodetreeState.NeedsSelJump:= false;
       UpdateTree(false);
     end;
 
@@ -2398,7 +2396,7 @@ var
 begin
   DoCodetree_GetSyntaxRange(CodeTree.Tree.Selected, PntBegin, PntEnd);
 
-  FCodetreeDblClicking:= true;
+  AppCodetreeState.DblClicking:= true;
   try
     Ed:= CurrentEditor;
     Ed.DoGotoPos(
@@ -2419,7 +2417,7 @@ begin
       DoPyEvent_AppState(APPSTATE_CODETREE_SET_SELECTION);
     end;
   finally
-    FCodetreeDblClicking:= false;
+    AppCodetreeState.DblClicking:= false;
   end;
 end;
 
@@ -2476,7 +2474,7 @@ begin
   begin
     CodeTree.Tree.Items.Clear;
     DoCodetree_UpdateVersion(nil);
-    FCodetreeNeedsSelJump:= false;
+    AppCodetreeState.NeedsSelJump:= false;
     DoPyEvent_AppState(APPSTATE_CODETREE_CLEAR);
   end;
 end;
@@ -3401,8 +3399,8 @@ var
   Ed: TATSynEdit;
   Caret: TATCaretItem;
 begin
-  if FCodetreeDblClicking then exit;
-  FCodetreeNeedsSelJump:= true;
+  if AppCodetreeState.DblClicking then exit;
+  AppCodetreeState.NeedsSelJump:= true;
 
   Ed:= Sender as TATSynEdit;
   if Ed.Carets.Count>0 then
