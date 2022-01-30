@@ -1,4 +1,4 @@
-object SyntAnal9: TLibSyntAnalyzer
+object SyntAnal10: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Symbol'
@@ -208,11 +208,17 @@ object SyntAnal9: TLibSyntAnalyzer
       StyleName = 'String regex'
       TokenType = 4
       Expression = 
-        '(?<=[=\(\[&!:/>\?\+,]\x20*) / (\\/|\\\\|\[.+?\]|.)*? /[gimysu]* ' +
-        '|'#13#10'(?<=^\x20*)                / (\\/|\\\\|\[.+?\]|.)*? /[gimysu]' +
-        '* |'#13#10'(?<=\bcase\x20+)           / (\\/|\\\\|\[.+?\]|.)*? /[gimys' +
-        'u]* |'#13#10'(?<=\breturn\x20+)         / (\\/|\\\\|\[.+?\]|.)*? /[gim' +
-        'ysu]*'#13#10
+        '(?-i)(?<=[=\(\[&!:/>\?\+,\}`]\x20*) / (\\/|\\\\|\[.+?\]|.)*? /[g' +
+        'imysu]* |'#13#10'(?-i)(?<=^\x20*)                / (\\/|\\\\|\[.+?\]|.' +
+        ')*? /[gimysu]* |'#13#10'(?-i)(?<=\bcase\x20*)           / (\\/|\\\\|\[' +
+        '.+?\]|.)*? /[gimysu]* |'#13#10'(?-i)(?<=\breturn\x20*)         / (\\/|' +
+        '\\\\|\[.+?\]|.)*? /[gimysu]* |'#13#10'(?-i)(?<=\bawait\x20*)          ' +
+        '/ (\\/|\\\\|\[.+?\]|.)*? /[gimysu]* |'#13#10'(?-i)(?<=\binstanceof\x20' +
+        '*)     / (\\/|\\\\|\[.+?\]|.)*? /[gimysu]* |'#13#10'(?-i)(?<=\bgoto\x2' +
+        '0*)           / (\\/|\\\\|\[.+?\]|.)*? /[gimysu]* |'#13#10'(?-i)(?<=\b' +
+        'in\x20*)             / (\\/|\\\\|\[.+?\]|.)*? /[gimysu]* |'#13#10'(?-i' +
+        ')(?<=\bof\x20*)             / (\\/|\\\\|\[.+?\]|.)*? /[gimysu]*'#13 +
+        #10
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -925,13 +931,13 @@ object SyntAnal9: TLibSyntAnalyzer
       DisplayName = 'PHP'
       StartExpression = '<\?(php)?'
       EndExpression = '\?>'
-      SyntAnalyzer = SyntAnal14
+      SyntAnalyzer = SyntAnal15
     end
     item
       DisplayName = 'JSDoc'
       StartExpression = '/\*\*[^/\*]'
       EndExpression = '[^/\*\n\r]*?\*/'
-      SyntAnalyzer = SyntAnal10
+      SyntAnalyzer = SyntAnal11
     end>
   SampleText.Strings = (
     '#!/bin/bash                         '
