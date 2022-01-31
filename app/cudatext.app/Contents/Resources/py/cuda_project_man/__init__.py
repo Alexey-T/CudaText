@@ -378,7 +378,7 @@ class Command:
         # sort folders first, then by extension
         path = Path(node)
         return path.is_file(), path.suffix.upper(), path.name.upper()
-    
+
     @staticmethod
     def node_ordering_direntry(path):
         # node_ordering() for DirEntry
@@ -613,13 +613,13 @@ class Command:
                 raise # good to see the error
                 return
 
-        for path in nodes:            
+        for path in nodes:
             # DirEntry or Path?
             if isinstance(path, Path):
                 spath = str(path)
             else:
                 spath = path.path
-            is_dir = path.is_dir() 
+            is_dir = path.is_dir()
             sname = path.name
             if is_win_root(spath):
                 sname = spath
@@ -683,7 +683,7 @@ class Command:
             proj_dir = os.path.dirname(path)
             def expand_macros(s):
                 return s.replace('{ProjDir}', proj_dir, 1)
-            
+
             if Path(path).exists():
                 print(_('Loading project: ') + collapse_filename(path))
                 with open(path, encoding='utf8') as fin:
@@ -1085,11 +1085,12 @@ class Command:
                        )
         if res is None:
             return
-
         fn = files[res]
-        if not fn in self.goto_history:
-            self.goto_history += [fn]
-        
+
+        if fn in self.goto_history:
+            self.goto_history.remove(fn)
+        self.goto_history.insert(0, fn)
+
         and_open = self.options.get('goto_open', False)
         self.jump_to_filename(fn, and_open)
 
