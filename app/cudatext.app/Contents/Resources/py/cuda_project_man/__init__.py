@@ -149,6 +149,7 @@ def _toolbar_add_btn(h_bar, hint, icon=-1, command=''):
 
 
 class Command:
+    goto_history = []
 
     title ="Project"    # No _() here, the translation is offered in "translation template.ini".
     menuitems = (
@@ -1075,6 +1076,7 @@ class Command:
             return
 
         files.sort()
+        files = self.goto_history + files
         files_nice = [os.path.basename(fn)+'\t'+collapse_filename(os.path.dirname(fn)) for fn in files]
 
         res = dlg_menu(DMENU_LIST_ALT+DMENU_NO_FULLFILTER, #fuzzy search is needed for users
@@ -1084,8 +1086,12 @@ class Command:
         if res is None:
             return
 
+        fn = files[res]
+        if not fn in self.goto_history:
+            self.goto_history += [fn]
+        
         and_open = self.options.get('goto_open', False)
-        self.jump_to_filename(files[res], and_open)
+        self.jump_to_filename(fn, and_open)
 
     def jump_to_filename(self, filename, and_open=False):
         """ Find filename in entire project and focus its tree node """
