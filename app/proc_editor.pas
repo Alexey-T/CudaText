@@ -622,6 +622,9 @@ begin
   Ed.Colors.TextDisabledBG:= GetAppColor(apclEdDisableBg);
   Ed.Colors.Caret:= GetAppColor(apclEdCaret);
   Ed.Colors.Markers:= GetAppColor(apclEdMarkers);
+  Ed.Colors.MacroRecordBorder:= Ed.Colors.Markers;
+  Ed.Colors.DragDropMarker:= Ed.Colors.Markers;
+  Ed.Colors.GitMarkerBG:= Ed.Colors.Markers;
   Ed.Colors.CurrentLineBG:= GetAppColor(apclEdCurLineBg);
   Ed.Colors.IndentVertLines:= GetAppColor(apclEdIndentVLine);
   Ed.Colors.UnprintedFont:= GetAppColor(apclEdUnprintFont);
