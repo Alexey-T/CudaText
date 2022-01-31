@@ -3,7 +3,12 @@
   - fixed
   * changed
 
-1.155.3.1 (2022/01)
+1.155.5 (2022/02)
+
++ add: Project Manager: 'Go to file' menu has history of last chosen items, in the list beginning (thanks @andersaamodt) 
+- fix: lexer JS: fixes for 'regex-strings' rule
+
+1.155.3 (2022/01)
 
 * change: add the workaround for very slow work with huge line length=40M in XML file, which is handled by XML^ lite lexer: app now doesn't parse the line after 4K chars. The limit is taken from the old option "max_line_len_parsed". (thanks @tmsg)
 + add: new command "find: toggle+focus dialog" (thanks @DUOLabs333)
