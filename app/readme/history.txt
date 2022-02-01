@@ -5,8 +5,9 @@
 
 1.155.5 (2022/02)
 
-+ add: Project Manager: 'Go to file' menu has history of last chosen items, in the list beginning (thanks @andersaamodt) 
-- fix: lexer JS: fixes for 'regex-strings' rule
++ add: Project Manager: 'Go to file' menu has history of last chosen items, in the list beginning (thanks @andersaamodt)
+- fix: bug with option "autocomplete_html_autoclose":true with caret on line end (thanks @TomBraider42) 
+- fix: lexer JS: fixes for 'regex literals' rule
 
 1.155.3 (2022/01)
 
