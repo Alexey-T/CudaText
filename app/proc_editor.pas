@@ -2647,28 +2647,36 @@ end;
 procedure EditorAutoCloseClosingHtmlTag(Ed: TATSynEdit; AX, AY: integer);
 var
   SText: UnicodeString;
-  STag: UnicodeString;
+  STag: string;
   SLexer: string;
+  St: TATStrings;
   ch: WideChar;
+  NLen: integer;
 begin
   if Ed.Carets.Count<>1 then exit; //don't support multi-carets
   if not (UiOps.AutocompleteHtml and UiOps.AutocompleteHtml_AutoClose) then exit;
   if Ed.AdapterForHilite=nil then exit;
   SLexer:= Ed.AdapterForHilite.GetLexerName;
   if SLexer='' then exit;
+  St:= Ed.Strings;
 
-  if not Ed.Strings.IsIndexValid(AY) then exit;
+  if not St.IsIndexValid(AY) then exit;
+  NLen:= St.LinesLen[AY];
   if AX<2 then exit;
-  ch:= Ed.Strings.LineCharAt(AY, AX+1);
-  if IsCharWord(ch, Ed.OptNonWordChars) then exit;
-  ch:= Ed.Strings.LineCharAt(AY, AX);
+  if AX>NLen then exit;
+  if AX<NLen then
+  begin
+    ch:= St.LineCharAt(AY, AX+1);
+    if IsCharWord(ch, Ed.OptNonWordChars) then exit;
+  end;
+  ch:= St.LineCharAt(AY, AX);
   if ch<>'/' then exit;
-  ch:= Ed.Strings.LineCharAt(AY, AX-1);
+  ch:= St.LineCharAt(AY, AX-1);
   if ch<>'<' then exit;
 
   if not SRegexMatchesString(SLexer, UiOps.AutocompleteHtml_Lexers, false) then exit;
 
-  SText:= Ed.Strings.TextSubstring(0, 0, AX-2, AY);
+  SText:= St.TextSubstring(0, 0, AX-2, AY);
   STag:= EditorFindHtmlLastOpenedTagInText(SText);
   if STag='' then exit;
 
