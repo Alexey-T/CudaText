@@ -105,7 +105,7 @@ begin
   Frame:= nil;
   SCurLexer:= '';
   bNeedGroup:= false;
-  bCheckLexer:= Assigned(AEd);
+  bCheckLexer:= Assigned(AEd) and (AEvent<>cEventOnLexer);
 
   if bCheckLexer then
   begin
