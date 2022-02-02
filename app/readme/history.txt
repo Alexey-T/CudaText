@@ -6,9 +6,9 @@
 1.155.5 (2022/02)
 
 + add: Project Manager: 'Go to file' menu has history of last chosen items, in the list beginning (thanks @andersaamodt)
-- fix: sometimes, in HTML/PHP, editing in sub-lexer range breaks highlighting in that range (thanks @TomBraider42)
+- fix: editing in sub-lexer range (e.g. in HTML/PHP) breaks highlighting in that range (thanks @TomBraider42)
 - fix: bug with option "autocomplete_html_autoclose":true with caret on line end (thanks @TomBraider42) 
-- fix: lexer JS: fixes for 'regex literals' rule
+- fix: lexer JS: fixes for 'regex literals' rule (thanks to Sublime users for test files)
 
 1.155.3 (2022/01)
 
