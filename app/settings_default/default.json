@@ -1103,9 +1103,13 @@
   "key_left_right_swap_sel_and_select": false,
 
   //[Ui/Statusbar]
-  //States: no-selection, small-selection (one line), stream-selection (several lines),
-  //column-selection, multi-carets.
-  //Macros:
+  //CudaText has several options for different kinds of selections. Possible kinds:
+  //  - no selection
+  //  - small selection (1 caret, selected part of a single line)
+  //  - stream selection (1 caret, selection includes end-of-line)
+  //  - column selection (which is implemented via single caret)
+  //  - multi-carets
+  //Macros allowed in options values:
   //  {y}: line index of first caret
   //  {y2}: line index of last caret
   //  {yb}: line index of first selection beginning
