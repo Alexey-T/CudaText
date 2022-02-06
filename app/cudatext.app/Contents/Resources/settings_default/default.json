@@ -1105,9 +1105,9 @@
   //[Ui/Statusbar]
   //CudaText has several options for different kinds of selections. Possible kinds:
   //  - no selection
-  //  - small selection (1 caret, selected part of a single line)
-  //  - stream selection (1 caret, selection includes end-of-line)
-  //  - column selection (which is implemented via single caret)
+  //  - small selection (1 caret, selection is part of a single line)
+  //  - stream selection (1 caret, selection includes parts of 2+ lines)
+  //  - column selection (used for option "carets_primitive_column_sel":false)
   //  - multi-carets
   //Macros allowed in options values:
   //  {y}: line index of first caret
