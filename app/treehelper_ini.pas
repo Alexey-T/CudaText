@@ -47,7 +47,7 @@ begin
     begin
       DataItem.X1:= 0;
       DataItem.Y1:= iLine;
-      DataItem.X2:= Length(S)-1;
+      DataItem.X2:= Length(S);
       DataItem.Y2:= iLine;
       DataItem.Level:= 1;
       DataItem.Title:= S;
