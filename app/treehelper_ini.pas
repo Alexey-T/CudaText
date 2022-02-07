@@ -61,7 +61,7 @@ begin
       begin
         DataItem.X1:= 0;
         DataItem.Y1:= iLine;
-        DataItem.X2:= iSymbol-1;
+        DataItem.X2:= Length(S);
         DataItem.Y2:= iLine;
         DataItem.Level:= 2;
         DataItem.Title:= Copy(S, 1, iSymbol-1);
