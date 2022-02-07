@@ -35,6 +35,11 @@ begin
   Result:= false;
   Data.Clear;
   case ALexer of
+    'Ini files ^':
+      begin
+        Result:= true;
+        TTreeHelperIni.GetHeaders(Ed, Data);
+      end;
     'Markdown':
       begin
         Result:= true;
@@ -49,11 +54,6 @@ begin
       begin
         Result:= true;
         TTreeHelperRest.GetHeaders(Ed, Data);
-      end;
-    'Ini files ^':
-      begin
-        Result:= true;
-        TTreeHelperIni.GetHeaders(Ed, Data);
       end;
   end;
 end;
