@@ -26,11 +26,14 @@ type
 implementation
 
 class procedure TTreeHelperIni.GetHeaders(Ed: TATSynEdit; Data: TATTreeHelperRecords);
+const
+  cIconFolder = 0;
+  cIconArrow = 7;
 var
   DataItem: TATTreeHelperRecord;
   St: TATStrings;
   S: UnicodeString;
-  iLine: integer;
+  iLine, iSymbol: integer;
 begin
   Data.Clear;
   St:= Ed.Strings;
@@ -38,6 +41,8 @@ begin
   begin
     S:= St.Lines[iLine];
     if S='' then Continue;
+    if S[1]=';' then Continue;
+    if S[1]='#' then Continue;
     if (Length(S)>=3) and (S[1]='[') and (S[Length(S)]=']') then
     begin
       DataItem.X1:= 0;
@@ -46,8 +51,23 @@ begin
       DataItem.Y2:= iLine;
       DataItem.Level:= 1;
       DataItem.Title:= S;
-      DataItem.Icon:= 0;
+      DataItem.Icon:= cIconFolder;
       Data.Add(DataItem);
+    end
+    else
+    begin
+      iSymbol:= Pos('=', S);
+      if iSymbol>0 then
+      begin
+        DataItem.X1:= 0;
+        DataItem.Y1:= iLine;
+        DataItem.X2:= iSymbol-1;
+        DataItem.Y2:= iLine;
+        DataItem.Level:= 2;
+        DataItem.Title:= Copy(S, 1, iSymbol-1);
+        DataItem.Icon:= cIconArrow;
+        Data.Add(DataItem);
+      end;
     end;
   end;
 end;
