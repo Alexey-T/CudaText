@@ -1017,6 +1017,7 @@ var
   Frame: TEditorFrame;
   Ed: TATSynEdit;
   Ada: TATAdapterEControl;
+  bLiteLexer: boolean;
 begin
   if AConsiderTreeVisible then
     if not AppPanels[cPaneSide].Visible then exit;
@@ -1024,12 +1025,18 @@ begin
   Frame:= CurrentFrame;
   if Frame=nil then exit;
   Ed:= Frame.Editor;
+  bLiteLexer:= Ed.AdapterForHilite is TATLiteLexer;
 
-  Ada:= Frame.Adapter[Ed];
-  if (Ada=nil) or (Ada.AnClient=nil) then
+  if bLiteLexer then
+    Ada:= nil
+  else
   begin
-    DoCodetree_Clear;
-    exit
+    Ada:= Frame.Adapter[Ed];
+    if (Ada=nil) or (Ada.AnClient=nil) then
+    begin
+      DoCodetree_Clear;
+      exit
+    end;
   end;
 
   if not Frame.EnabledCodeTree[Ed] then
@@ -1048,11 +1055,12 @@ begin
   end;
   }
 
-  while Ada.TreeBusy do
-  begin
-    Application.ProcessMessages;
-    if Application.Terminated then exit;
-  end;
+  if Assigned(Ada) then
+    while Ada.TreeBusy do
+    begin
+      Application.ProcessMessages;
+      if Application.Terminated then exit;
+    end;
 
   if AFill then
   begin
@@ -1064,7 +1072,8 @@ begin
       FCodetreeBuffer:= TTreeView.Create(Self);
 
     if not RunTreeHelper(Frame, FCodetreeBuffer) then
-      Ada.TreeFill(FCodetreeBuffer);
+      if Assigned(Ada) then
+        Ada.TreeFill(FCodetreeBuffer);
 
     if FCodetreeBuffer.Items.Count>0 then
       DoTreeviewCopy(FCodetreeBuffer, Frame.CachedTreeview[Ed]);

@@ -25,6 +25,7 @@ implementation
 uses
   TreeHelper_Markdown,
   TreeHelper_MediaWiki,
+  TreeHelper_Ini,
   TreeHelper_reST;
 
 //--------------------------------------------------------------
@@ -48,6 +49,11 @@ begin
       begin
         Result:= true;
         TTreeHelperRest.GetHeaders(Ed, Data);
+      end;
+    'Ini files ^':
+      begin
+        Result:= true;
+        TTreeHelperIni.GetHeaders(Ed, Data);
       end;
   end;
 end;

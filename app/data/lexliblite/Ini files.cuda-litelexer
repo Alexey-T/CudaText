@@ -1,0 +1,40 @@
+{
+  "about": "INI lexer by Alexey Torgashin",
+  "files": "*.ini;*.dsk;*.dti;*.dof;*.inf;*.lng;*.srv;*.reg;*.sas;*.cfg;*.desktop",
+  "cmt_line": ";",
+  "case_sens": true,
+  "rules": {
+    "cmt": {
+      "regex": "^;.*",
+      "style": "Comment"
+    },
+    "cmt2": {
+      "regex": "\\#.*",
+      "style": "Comment"
+    },
+    "section": {
+      "regex": "^\\[.+?\\]",
+      "style": "Label"
+    },
+    "key": {
+      "regex": "^.+?(?=\\=)",
+      "style": "Id1"
+    },
+    "eq": {
+      "regex": "=",
+      "style": "Symbol"
+    },
+    "const": {
+      "regex": "\\b(true|false)\\b",
+      "style": "Id2"
+    },
+    "num": {
+      "regex": "\\d+\\b",
+      "style": "Number"
+    },
+    "val": {
+      "regex": "\\S+",
+      "style": "Id"
+    }
+  }
+}

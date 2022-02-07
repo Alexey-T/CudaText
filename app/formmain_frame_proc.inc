@@ -294,6 +294,10 @@ begin
   Ed:= Sender as TATSynEdit;
   DoPyEvent(Ed, cEventOnChangeSlow, []);
 
+  //run tree-helper for lite lexers
+  if Ed.AdapterForHilite is TATLiteLexer then
+    UpdateTree(true);
+
   //call Find dialog's updating of 'Hi' results
   if Assigned(fmFind) and fmFind.Visible then
     if fmFind.chkHiAll.Enabled and fmFind.chkHiAll.Checked then
