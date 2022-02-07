@@ -3,8 +3,9 @@
   - fixed
   * changed
 
-1.155.5 (2022/02)
+1.156.0 (2022/02)
 
+* change: lexer 'Ini files' removed to Addon Manager; instead added _lite_ lexer 'Ini files ^' (thanks @sl23)
 + add: Project Manager: 'Go to file' menu has history of last chosen items, in the list beginning (thanks @andersaamodt)
 - fix: editing in sub-lexer range (e.g. in HTML/PHP) breaks highlighting in that range (thanks @TomBraider42)
 - fix: bug with option "autocomplete_html_autoclose":true with caret on line end (thanks @TomBraider42) 
