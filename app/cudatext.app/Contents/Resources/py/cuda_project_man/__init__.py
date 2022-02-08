@@ -400,6 +400,7 @@ class Command:
         self.project = dict(nodes=[])
         self.project_file_path = None
         self.update_global_data()
+        self.goto_history = []
         app_proc(PROC_SET_FOLDER, '')
         app_proc(PROC_SET_PROJECT, '')
 
@@ -700,6 +701,7 @@ class Command:
                     self.save_options()
 
                 self.update_global_data()
+                self.goto_history = []
 
                 for fn in self.project["nodes"]:
                     if os.path.isdir(fn):
