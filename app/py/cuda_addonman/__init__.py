@@ -54,7 +54,6 @@ STD_LEXERS = (
   'CSS',
   'HTML',
   'HTML style',
-  'Ini files',
   'JavaScript',
   'JSDoc',
   'JSON',
