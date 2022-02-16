@@ -218,6 +218,9 @@ begin
     UpdateWrapInfo(true);
     DoCommand(cCommand_GotoTextEnd, cInvokeAppInternal);
     ColumnLeft:= 0;
+
+    //console was not repainted with "renderer_anti_flicker":20, this fixes it:
+    InvalidateEx(true, false);
   end;
 end;
 

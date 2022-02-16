@@ -779,7 +779,9 @@ begin
 
     cmd_RepaintEditor:
       begin
-        Ed.Update;
+        //Ed.InvalidateEx is to fix repainting with cuda_sync_scroll with "renderer_anti_flicker":20;
+        //otherwise, Ed.Update is enough
+        Ed.InvalidateEx(true, false);
         AHandled:= true;
         exit
       end;
