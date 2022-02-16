@@ -3,6 +3,11 @@
   - fixed
   * changed
 
+
+1.156.1 (2022/02)
+
+- fix: regressions because of option "renderer_anti_flicker":20 (value 1...999). a) Console or editor-in-group-2 were not repainted until click (thanks @TomBraider42); b) plugin Sync Scroll work was broken
+
 1.156.0 (2022/02)
 
 * change: lexer 'Ini files' removed to Addon Manager; instead added _lite_ lexer 'Ini files ^' (thanks @sl23)
