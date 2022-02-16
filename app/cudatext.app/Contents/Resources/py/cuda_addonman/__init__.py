@@ -70,6 +70,7 @@ STD_LEXERS = (
   'YAML',
 )
 STD_LEXERS_LITE = (
+  'Ini files',
   'JSON',
   'Log files',
   'SQL',
