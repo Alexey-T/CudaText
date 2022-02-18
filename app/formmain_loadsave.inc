@@ -921,11 +921,13 @@ end;
 procedure TfmMain.DoOps_LoadOptions_Global(cfg: TJSONConfig);
 const
   cCharEllipsis = $2026;
+  cHexShow: array[boolean] of byte = (uw_space, uw_hexshow);
 var
   Sep: TATStringSeparator;
   List: TStringList;
   s: string;
   N: integer;
+  bValue: boolean;
 begin
   Application.{%H-}MainFormOnTaskBar:= cfg.GetValue('ui_taskbar_mode'+cOptionSystemSuffix, Application.{%H-}MainFormOnTaskBar);
 
@@ -997,6 +999,15 @@ begin
   ATEditorOptions.PreciseCalculationOfCharWidth:= Pos('w', s)=0;
   ATEditorOptions.TextoutNeedsOffsets:= Pos('o', s)>0;
   ATEditorOptions.CaretTextOverInvertedRect:= Pos('c', s)>0;
+
+  bValue:= Pos('h', s)>0;
+  FixedSizes[$1680]:= cHexShow[bValue];
+  FixedSizes[$2007]:= cHexShow[bValue];
+  FixedSizes[$200B]:= cHexShow[bValue];
+  FixedSizes[$202F]:= cHexShow[bValue];
+  FixedSizes[$205F]:= cHexShow[bValue];
+  FixedSizes[$2060]:= cHexShow[bValue];
+  FixedSizes[$3000]:= cHexShow[bValue];
 
   ATScrollbarTheme.DirectJumpOnClickPageUpDown:= cfg.GetValue('scrollbar_click_jump',
     ATScrollbarTheme.DirectJumpOnClickPageUpDown);
