@@ -771,6 +771,9 @@ begin
       end;
 
       Ok:= fmMain.DoFileOpen(StrFile, StrFile2, Pages, StrArgs)<>nil;
+      if Ok then
+        Application.ProcessMessages; //fixes https://github.com/kvichans/cuda_find_in_files4/issues/44
+
       Result:= PyBool_FromLong(Ord(Ok));
     end
     else
