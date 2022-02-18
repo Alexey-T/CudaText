@@ -904,14 +904,28 @@ begin
             Ed.DoCaretSingle(X1, Y1, X2, Y2);
 
             if (NOptions and CARET_OPTION_NO_SCROLL)=0 then
+            begin
+              {
+              //tried to fix issue in FindInFiles 4, but it don't help
+              // https://github.com/kvichans/cuda_find_in_files4/issues/44
+              Ed.DoShowPos(
+                Point(X1, Y1),
+                UiOps.FindIndentHorz,
+                UiOps.FindIndentVert,
+                true, //AUnfold
+                true, //AllowUpdate
+                true //AllowProximity
+                );
+              }
               Ed.DoGotoPos(
                 Point(X1, Y1),
                 Point(X2, Y2),
                 UiOps.FindIndentHorz,
                 UiOps.FindIndentVert,
-                false,
-                true //(NOptions and CARET_OPTION_UNFOLD)<>0
+                false, //APlaceCaret
+                true //ADoUnfold
                 );
+            end;
 
             Result:= ReturnNone;
           end;
