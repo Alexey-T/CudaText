@@ -5,6 +5,7 @@
 
 1.156.1 (2022/02)
 
++ add: option "renderer_tweaks" has new sub-option 'h' to show Unicode-space chars in Hex form (thanks @DUOLabs333)
 - fix: issue in FindInFiles4 plugin when go-to-found-match did not scroll file to needed line
 - fix: regression with option "renderer_anti_flicker":20 (values 1...999): a) Console is not repainted until click; b) plugin Sync Scroll work is broken (thanks @TomBraider42)
 
