@@ -1000,7 +1000,7 @@ begin
   ATEditorOptions.TextoutNeedsOffsets:= Pos('o', s)>0;
   ATEditorOptions.CaretTextOverInvertedRect:= Pos('c', s)>0;
 
-  bValue:= Pos('h', s)>0;
+  bValue:= Pos('s', s)=0;
   FixedSizes[$1680]:= cHexShow[bValue];
   FixedSizes[$2007]:= cHexShow[bValue];
   FixedSizes[$200B]:= cHexShow[bValue];
