@@ -25,7 +25,7 @@
     <VersionInfo>
       <UseVersionInfo Value="True"/>
       <MajorVersionNr Value="1"/>
-      <MinorVersionNr Value="155"/>
+      <MinorVersionNr Value="156"/>
       <StringTable CompanyName="UVviewsoft" FileDescription="CudaText" InternalName="CudaText" LegalCopyright="(c) 2015-2022 Alexey Torgashin" OriginalFilename="cudatext.exe" ProductName="CudaText"/>
     </VersionInfo>
     <BuildModes Count="26">
