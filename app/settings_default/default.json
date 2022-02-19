@@ -1426,6 +1426,7 @@
   "ui_menu_themed": true,
 
   //Font size for themed top menu bar (Windows only).
+  //Note: too big value is not supported: font will overlap menuitem area.
   "ui_menu_themed_font_size": 9,
 
   //Side-panel's visible state on program start.
