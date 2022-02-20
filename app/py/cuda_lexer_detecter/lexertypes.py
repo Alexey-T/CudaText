@@ -355,6 +355,7 @@ TYPES = {
     "sjson": ['Bitsquid SJSON'],
     "slim": ['Slim'],
     "sln": ['MSVS Solution'],
+    "smali": ['Dalvik bytecode'],
     "smd": ['Scheme'],
     "sml": ['Standard ML'],
     "snowql": ['Snowflake SQL'],
