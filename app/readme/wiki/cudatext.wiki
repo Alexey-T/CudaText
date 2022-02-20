@@ -379,6 +379,7 @@ Most of them are located in the Addons Manager "Install" list.
 * CUDA C++
 * Cython
 * D
+* Dalvik bytecode (Smali)
 * Dart
 * Delphi resources
 * Dhall
