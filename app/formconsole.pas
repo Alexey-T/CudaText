@@ -220,7 +220,7 @@ begin
     ColumnLeft:= 0;
 
     //console was not repainted with "renderer_anti_flicker":20, this fixes it:
-    InvalidateEx(true, false);
+    Update(false, true, false);
   end;
 end;
 
