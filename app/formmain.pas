@@ -1030,6 +1030,7 @@ type
     procedure DoFileOpenDialog_NoPlugins;
     function DoFileSaveAll: boolean;
     procedure DoFileReopen(Ed: TATSynEdit);
+    procedure DoFileReopenRecent;
     procedure DoLoadCommandLineBaseOptions(out AWindowPos: string;
       out AAllowSessionLoad, AAllowSessionSave: TAppAllowSomething;
       out AFileFolderCount: integer);
@@ -5515,6 +5516,22 @@ begin
     if F.Editor.Modified then
       if not F.DoFileSave(false, true) then
         Result:= false;
+  end;
+end;
+
+procedure TfmMain.DoFileReopenRecent;
+var
+  fn: string;
+  i: integer;
+begin
+  for i:= 0 to AppListRecents.Count-1 do
+  begin
+    fn:= AppExpandHomeDirInFilename(AppListRecents[i]);
+    if FindFrameOfFilename(fn)=nil then
+    begin
+      DoFileOpen(fn, '');
+      exit;
+    end;
   end;
 end;
 

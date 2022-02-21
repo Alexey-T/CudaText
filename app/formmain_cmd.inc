@@ -578,6 +578,9 @@ begin
           Frame.TabColor:= clNone;
       end;
 
+    cmd_ReopenRecentFile:
+      DoFileReopenRecent;
+
     cmd_ToggleTabPinned:
       begin
         if Assigned(Frame) then
