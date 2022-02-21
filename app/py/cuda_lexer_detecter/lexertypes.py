@@ -195,7 +195,6 @@ TYPES = {
     "idl": ['IDL files'],
     "idx": ['LaTeX'],
     "inc": ['Assembly FASM', 'Pawn', 'Assembly AVR', 'Pascal', 'Assembly NASM x86', 'Assembly Z80 SjASM', 'Assembly Z80 RGBDS'],
-    "ini": ['Rainmeter'],
     "ino": ['Arduino'],
     "inp": ['Abaqus Keywords'],
     "ion": ['Amazon Ion'],
