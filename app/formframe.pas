@@ -2261,6 +2261,8 @@ end;
 procedure TEditorFrame.DoFileOpen(const AFileName, AFileName2: string;
   AAllowLoadHistory, AAllowLoadBookmarks, AAllowLexerDetect, AAllowErrorMsgBox, AAllowLoadUndo: boolean;
   AOpenMode: TAppOpenMode);
+var
+  bFilename2Valid: boolean;
 begin
   NotifEnabled:= false; //for binary-viewer and pictures, NotifEnabled must be False
   FileProps.Inited:= false; //loading of new filename must not trigger notif-thread
@@ -2320,7 +2322,8 @@ begin
   DoDeactivatePictureMode;
   DoDeactivateViewerMode;
 
-  if AFileName2<>'' then
+  bFilename2Valid:= (AFileName2<>'') and not SameFileName(AFileName, AFileName2);
+  if bFilename2Valid then
     EditorsLinked:= false; //set it before opening 1st file
 
   DoFileOpen_Ex(Ed1, AFileName,
@@ -2333,7 +2336,7 @@ begin
     AAllowLoadUndo,
     AOpenMode);
 
-  if AFileName2<>'' then
+  if bFilename2Valid then
   begin
     SplitHorz:= false;
     Splitted:= true;
