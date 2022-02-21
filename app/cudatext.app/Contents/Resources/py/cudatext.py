@@ -1079,6 +1079,12 @@ def dlg_custom(title, size_x, size_y, text, focused=-1, get_dict=False):
 
 def file_open(name, group=-1, options=''):
     if isinstance(name, (list, tuple)):
+        if len(name)<2:
+            raise ValueError('Length of "name" param must be >=2')
+        if type(name[0]) is not str:
+            raise ValueError('Param name[0] must be str')
+        if type(name[1]) is not str:
+            raise ValueError('Param name[1] must be str')
         return ct.file_open(name[0], name[1], group, options)
     else:
         return ct.file_open(name, '', group, options)
