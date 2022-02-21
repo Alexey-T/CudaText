@@ -2320,6 +2320,9 @@ begin
   DoDeactivatePictureMode;
   DoDeactivateViewerMode;
 
+  if AFileName2<>'' then
+    EditorsLinked:= false; //set it before opening 1st file
+
   DoFileOpen_Ex(Ed1, AFileName,
     AAllowLoadHistory,
     AAllowLoadHistory,
@@ -2332,7 +2335,6 @@ begin
 
   if AFileName2<>'' then
   begin
-    EditorsLinked:= false;
     SplitHorz:= false;
     Splitted:= true;
     DoFileOpen_Ex(Ed2, AFileName2,
