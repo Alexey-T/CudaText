@@ -3,6 +3,10 @@
   - fixed
   * changed
 
+1.156.3 (2022/02)
+
++ add: command "re-open recent closed file" (thanks @andersaamodt)
+
 1.156.2 (2022/02)
 
 * change/add: option "renderer_tweaks" has new sub-option 's' to show Unicode-spaces in usual form; default is to show Unicode-spaces in Hex form, like Sublime (thanks @DUOLabs333)
