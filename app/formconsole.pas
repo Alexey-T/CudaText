@@ -219,8 +219,8 @@ begin
     DoCommand(cCommand_GotoTextEnd, cInvokeAppInternal);
     ColumnLeft:= 0;
 
-    //console was not repainted with "renderer_anti_flicker":20, this fixes it:
-    Update(false, true, false);
+    //extra params of Update() are not needed
+    Update;
   end;
 end;
 
