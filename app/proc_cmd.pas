@@ -892,6 +892,7 @@ begin
     cmd_FileCloseAll,
     cmd_FileCloseAndDelete,
     cmd_FileExportHtml,
+    cmd_FileReopenRecent,
     cmd_ToggleFocusSplitEditors,
     cmd_FocusEditor,
     cmd_ToggleBottomPanel,
