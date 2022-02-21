@@ -5527,11 +5527,12 @@ begin
   for i:= 0 to AppListRecents.Count-1 do
   begin
     fn:= AppExpandHomeDirInFilename(AppListRecents[i]);
-    if FindFrameOfFilename(fn)=nil then
-    begin
-      DoFileOpen(fn, '');
-      exit;
-    end;
+    if FileExists(fn) then
+      if FindFrameOfFilename(fn)=nil then
+      begin
+        DoFileOpen(fn, '');
+        exit;
+      end;
   end;
 end;
 
