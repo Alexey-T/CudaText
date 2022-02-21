@@ -266,6 +266,7 @@ cmd_FileCloseAll       = 2513
 cmd_FileCloseAndDelete = 2514
 cmd_FileExportHtml     = 2515
 cmd_RepaintEditor      = 2516
+cmd_FileReopenRecent   = 2517
 
 cmd_OpsOpenDefaultAndUser = 2519
 cmd_OpsClearRecent     = 2520
@@ -426,7 +427,6 @@ cmd_BookmarkPlaceBookmarksOnCarets = 2670
 
 cmd_SetTabColor       = 2671
 cmd_ResetTabColor     = 2672
-cmd_ReopenRecentFile  = 2673
 cmd_ToggleTabPinned   = 2675
 cmd_DuplicateLineEx   = 2676
 

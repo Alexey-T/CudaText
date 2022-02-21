@@ -73,6 +73,7 @@ const
   cmd_FileCloseAndDelete = 2514;
   cmd_FileExportHtml     = 2515;
   cmd_RepaintEditor      = 2516;
+  cmd_FileReopenRecent   = 2517;
 
   cmd_OpsOpenDefaultAndUser = 2519;
   cmd_OpsClearRecent     = 2520;
@@ -228,7 +229,6 @@ const
 
   cmd_SetTabColor       = 2671;
   cmd_ResetTabColor     = 2672;
-  cmd_ReopenRecentFile  = 2673;
   cmd_ToggleTabPinned   = 2675;
   cmd_DuplicateLineEx   = 2676;
 
@@ -384,6 +384,7 @@ begin
   M.Add(cmd_FileCloseAndDelete, 'file: close tab, delete file', [], []);
   M.Add(cmd_FileExit, 'file: quit program', [cXControl+'+Q'], []);
   M.Add(cmd_FileExportHtml, 'file: export to html', [], []);
+  M.Add(cmd_FileReopenRecent, 'file: reopen recent file', [], []);
   M.Add(cmd_OpenContainingFolder, 'file: open folder containing the current file', [], []);
   M.Add(cmd_OpenFileInDefaultApp, 'file: open file in default application', [], []);
 
@@ -540,7 +541,6 @@ begin
   M.Add(cmd_BookmarkPlaceBookmarksOnCarets, 'bookmarks: place bookmarks on carets', [], []);
 
   M.Add(cmd_DuplicateLineEx, 'duplicate line (advanced)', [], []);
-  M.Add(cmd_ReopenRecentFile, 're-open closed recent file', [], []);
 
   M.Add(cmd_SetTabColor, 'ui: set tab color...', [], []);
   M.Add(cmd_ResetTabColor, 'ui: reset tab color', [], []);
@@ -703,6 +703,7 @@ begin
     cmd_FileCloseAll,
     cmd_FileCloseAndDelete,
     cmd_FileExportHtml,
+    cmd_FileReopenRecent,
     cmd_ToggleFocusSplitEditors,
     cmd_FocusEditor,
     cmd_FocusNotificationPanel,

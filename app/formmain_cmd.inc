@@ -133,6 +133,9 @@ begin
           DoFileExportHtml(Frame);
       end;
 
+    cmd_FileReopenRecent:
+      DoFileReopenRecent;
+
     cmd_OpenContainingFolder:
       begin
         if Ed.FileName<>'' then
@@ -577,9 +580,6 @@ begin
         if Assigned(Frame) then
           Frame.TabColor:= clNone;
       end;
-
-    cmd_ReopenRecentFile:
-      DoFileReopenRecent;
 
     cmd_ToggleTabPinned:
       begin

@@ -5,7 +5,7 @@
 
 1.156.3 (2022/02)
 
-+ add: command "re-open recent closed file" (thanks @andersaamodt)
++ add: command "reopen recent file" in the Command Palette (thanks @andersaamodt)
 
 1.156.2 (2022/02)
 
