@@ -2010,9 +2010,9 @@ begin
   ////if UiOps.FindHiAll_MoveCaret then
   if AEnableFindNext then
   begin
-    //to fix CudaText issue #3950.
+    //CudaText issue #3950.
     //we save selections before running HighlightAll, later we restore them.
-    bSaveCarets:= AFinder.Editor.Carets.IsSelection;
+    bSaveCarets:= AFinder.OptInSelection and AFinder.Editor.Carets.IsSelection;
     if bSaveCarets then
       SavedCarets:= TATCarets.Create;
 
