@@ -1988,7 +1988,7 @@ var
   StyleBorder: TATLineStyle;
   SavedCarets: TATCarets;
   bChanged: boolean;
-  bSavedCarets: boolean;
+  bSaveCarets: boolean;
   NLineCount: integer;
 begin
   ColorBorder:= GetAppStyle(AppHiAll_ThemeStyleId).BgColor;
@@ -2012,10 +2012,12 @@ begin
   begin
     //to fix CudaText issue #3950.
     //we save selections before running HighlightAll, later we restore them.
-    SavedCarets:= TATCarets.Create;
+    bSaveCarets:= AFinder.Editor.Carets.IsSelection;
+    if bSaveCarets then
+      SavedCarets:= TATCarets.Create;
+
     try
-      bSavedCarets:= AFinder.Editor.Carets.IsSelection;
-      if bSavedCarets then
+      if bSaveCarets then
         SavedCarets.Assign(AFinder.Editor.Carets);
 
       //we found and highlighted all matches,
@@ -2040,10 +2042,11 @@ begin
           true{ADoUnfold}
           );
 
-      if bSavedCarets then
+      if bSaveCarets then
         AFinder.Editor.Carets.Assign(SavedCarets);
     finally
-      FreeAndNil(SavedCarets);
+      if bSaveCarets then
+        FreeAndNil(SavedCarets);
     end;
   end;
 end;
