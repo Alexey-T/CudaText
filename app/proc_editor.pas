@@ -1986,7 +1986,9 @@ procedure EditorHighlightAllMatches(AFinder: TATEditorFinder;
 var
   ColorBorder: TColor;
   StyleBorder: TATLineStyle;
+  SavedCarets: TATCarets;
   bChanged: boolean;
+  bSavedCarets: boolean;
   NLineCount: integer;
 begin
   ColorBorder:= GetAppStyle(AppHiAll_ThemeStyleId).BgColor;
@@ -2008,27 +2010,41 @@ begin
   ////if UiOps.FindHiAll_MoveCaret then
   if AEnableFindNext then
   begin
-    //we found and highlighted all matches,
-    //now we need to do 'find next from caret' like Sublime does
-    NLineCount:= AFinder.Editor.Strings.Count;
-    if ACaretPos.Y>=NLineCount then exit;
-    AFinder.OptFromCaret:= true;
-    AFinder.Editor.DoCaretSingle(ACaretPos.X, ACaretPos.Y);
+    //to fix CudaText issue #3950.
+    //we save selections before running HighlightAll, later we restore them.
+    SavedCarets:= TATCarets.Create;
+    try
+      bSavedCarets:= AFinder.Editor.Carets.IsSelection;
+      if bSavedCarets then
+        SavedCarets.Assign(AFinder.Editor.Carets);
 
-    if AFinder.DoAction_FindOrReplace(
-      false{AReplace},
-      false,
-      bChanged,
-      false{AUpdateCaret}
-      ) then
-      AFinder.Editor.DoGotoPos(
-        AFinder.MatchEdPos,
-        AFinder.MatchEdEnd,
-        AFinder.IndentHorz,
-        100{big value to center vertically},
-        true{APlaceCaret},
-        true{ADoUnfold}
-        );
+      //we found and highlighted all matches,
+      //now we need to do 'find next from caret' like Sublime does
+      NLineCount:= AFinder.Editor.Strings.Count;
+      if ACaretPos.Y>=NLineCount then exit;
+      AFinder.OptFromCaret:= true;
+      AFinder.Editor.DoCaretSingle(ACaretPos.X, ACaretPos.Y);
+
+      if AFinder.DoAction_FindOrReplace(
+        false{AReplace},
+        false,
+        bChanged,
+        false{AUpdateCaret}
+        ) then
+        AFinder.Editor.DoGotoPos(
+          AFinder.MatchEdPos,
+          AFinder.MatchEdEnd,
+          AFinder.IndentHorz,
+          100{big value to center vertically},
+          true{APlaceCaret},
+          true{ADoUnfold}
+          );
+
+      if bSavedCarets then
+        AFinder.Editor.Carets.Assign(SavedCarets);
+    finally
+      FreeAndNil(SavedCarets);
+    end;
   end;
 end;
 
