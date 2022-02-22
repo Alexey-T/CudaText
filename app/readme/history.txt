@@ -3,9 +3,10 @@
   - fixed
   * changed
 
-1.156.2.2 (2022/02)
+1.156.3 (2022/02)
 
 + add: command "reopen recent file" in the Command Palette (thanks @andersaamodt)
+- fix: Find dialog: activating of 'Hi' option cleared the selection, so broke the find 'in selection only' (thanks @tmsg)
 
 1.156.2 (2022/02)
 
