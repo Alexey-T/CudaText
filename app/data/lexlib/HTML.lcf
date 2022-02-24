@@ -175,7 +175,7 @@ object SyntAnal8: TLibSyntAnalyzer
       DisplayName = 'Include tag'
       StyleName = 'Include tag'
       TokenType = 12
-      Expression = '<\?php | <\? | \?> | <% | %>'
+      Expression = '<\?php\b | <\? | \?> | <% | %>'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -794,7 +794,7 @@ object SyntAnal8: TLibSyntAnalyzer
       StyleName = 'Sublexer BG'
       StartExpression = '(?s)<script\s[^>]* (application|text)/json (<\?.+?\?>|[^>\?])*?>'
       EndExpression = '</script\s*>'
-      SyntAnalyzer = SyntAnal12
+      SyntAnalyzer = SyntAnal11
     end
     item
       DisplayName = 'JavaScript'
@@ -803,14 +803,14 @@ object SyntAnal8: TLibSyntAnalyzer
         '(?s)<script\s[^>]* (j|java|ecma|paper)script (<\?.+?\?>|[^>\?])*' +
         '?> (<!\-\-)?'
       EndExpression = '(//)?(\-\->)?</script\s*>'
-      SyntAnalyzer = SyntAnal10
+      SyntAnalyzer = SyntAnal9
     end
     item
       DisplayName = 'JavaScript simple'
       StyleName = 'Sublexer BG'
       StartExpression = '<script\b[^>]*>'
       EndExpression = '</script\s*>'
-      SyntAnalyzer = SyntAnal10
+      SyntAnalyzer = SyntAnal9
     end
     item
       DisplayName = 'ASP'

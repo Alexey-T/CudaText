@@ -1,4 +1,4 @@
-object SyntAnal16: TLibSyntAnalyzer
+object SyntAnal15: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Text'
@@ -756,9 +756,9 @@ object SyntAnal16: TLibSyntAnalyzer
     item
       DisplayName = 'PHP_'
       AlwaysEnabled = True
-      StartExpression = '<\?(php)?'
+      StartExpression = '<\?(php\b)?'
       EndExpression = '\?>'
-      SyntAnalyzer = SyntAnal15
+      SyntAnalyzer = SyntAnal14
       ToTextEnd = True
     end
     item
@@ -775,14 +775,14 @@ object SyntAnal16: TLibSyntAnalyzer
       AlwaysEnabled = True
       StartExpression = '(?si)<script[^>]*javascript [^>]* [^\?] > (<!--)?'
       EndExpression = '(?i)(//)?(-->)?</script>'
-      SyntAnalyzer = SyntAnal10
+      SyntAnalyzer = SyntAnal9
     end
     item
       DisplayName = 'JavaScript simple'
       StyleName = 'Sublexer BG'
       StartExpression = '<script>'
       EndExpression = '</script>'
-      SyntAnalyzer = SyntAnal10
+      SyntAnalyzer = SyntAnal9
     end>
   SampleText.Strings = (
     '<!doctype test="123">'
