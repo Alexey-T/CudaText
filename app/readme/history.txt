@@ -3,11 +3,11 @@
   - fixed
   * changed
 
-1.156.3 (2022/02)
+1.156.4 (2022/02)
 
 + add: command "reopen recent file" in the Command Palette (thanks @andersaamodt)
 + add: little better Undo, when one of actions was deleting of selected block by Del/BkSpace (thanks @cser)
-- fix: big flickering when editing in PHP blocks (sub-lexer blocks in HTML) (thanks @TomBraider42)
+- fix: big flickering when editing in PHP blocks (thanks @TomBraider42)
 - fix: Find dialog: activating of 'Hi' option cleared the selection, so broke the find 'in selection only' (thanks @tmsg)
 
 1.156.2 (2022/02)
