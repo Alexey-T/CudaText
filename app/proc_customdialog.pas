@@ -703,7 +703,7 @@ begin
   Ed.OnClickLink:= @AForm.DoOnEditorClickLink;
   Ed.OnScroll:= @AForm.DoOnEditorScroll;
   Ed.OnPaste:= @AForm.DoOnEditorPaste;
-  Ed.OnCommand:= CustomDialog_OnEditorCommand;
+  Ed.OnCommand:= AppCustomDialog_OnEditorCommand;
 
   Ed.OptBorderFocusedActive:= EditorOps.OpActiveBorderInEditor;
   Ed.OptBorderWidthFocused:= ATEditorScale(EditorOps.OpActiveBorderWidth);

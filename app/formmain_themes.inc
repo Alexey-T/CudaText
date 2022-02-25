@@ -172,8 +172,8 @@ begin
   CodeTree.Invalidate;
 
   //proc_sidepanel_add_dialog
-  for i:= 0 to CustomDialogs.Count-1 do
-    DoApplyThemeToCustomDialog(TFormDummy(CustomDialogs[i]));
+  for i:= 0 to AppCustomDialogs.Count-1 do
+    DoApplyThemeToCustomDialog(TFormDummy(AppCustomDialogs[i]));
 
   //apply AppTheme to all frames
   DoApplyLexerStylesMapsToFrames(true);

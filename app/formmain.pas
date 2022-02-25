@@ -2667,8 +2667,8 @@ begin
   }
 
   EControlOptions.OnLexerParseProgress:= @DoOnLexerParseProgress;
-  CustomDialog_DoPyCallback:= @DoPyCallbackFromAPI;
-  CustomDialog_OnEditorCommand:= @FrameOnEditorCommand;
+  AppCustomDialog_DoPyCallback:= @DoPyCallbackFromAPI;
+  AppCustomDialog_OnEditorCommand:= @FrameOnEditorCommand;
 
   DoMenuitemEllipsis(mnuOpThemeUi);
   DoMenuitemEllipsis(mnuOpThemeSyntax);

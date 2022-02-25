@@ -43,9 +43,9 @@ type
     );
 
 var
-  CustomDialog_DoPyCallback: TAppPyCommonCallback = nil;
-  CustomDialog_OnEditorCommand: TATSynEditCommandEvent = nil;
-  CustomDialogs: TFPList;
+  AppCustomDialog_DoPyCallback: TAppPyCommonCallback = nil;
+  AppCustomDialog_OnEditorCommand: TATSynEditCommandEvent = nil;
+  AppCustomDialogs: TFPList;
 
 
 type
@@ -324,16 +324,16 @@ begin
   PrevBorderStyle:= BorderStyle;
   PrevForms:= TFPList.Create;
 
-  CustomDialogs.Add(Self);
+  AppCustomDialogs.Add(Self);
 end;
 
 destructor TFormDummy.Destroy;
 var
   n: integer;
 begin
-  n:= CustomDialogs.IndexOf(Self);
+  n:= AppCustomDialogs.IndexOf(Self);
   if n>=0 then
-    CustomDialogs.Delete(n);
+    AppCustomDialogs.Delete(n);
 
   FreeAndNil(PrevForms);
   inherited;
@@ -942,7 +942,7 @@ begin
     ParamNames:= Concat(ParamNames, ['data']);
   end;
 
-  Result:= CustomDialog_DoPyCallback(ACallback, ParamVars, ParamNames);
+  Result:= AppCustomDialog_DoPyCallback(ACallback, ParamVars, ParamNames);
 end;
 
 procedure TFormDummy.DoEmulatedModalShow;
@@ -1308,10 +1308,10 @@ end;
 
 
 initialization
-  CustomDialogs:= TFPList.Create;
+  AppCustomDialogs:= TFPList.Create;
 
 finalization
-  CustomDialogs.Free;
+  AppCustomDialogs.Free;
 
 end.
 
