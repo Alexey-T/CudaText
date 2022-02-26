@@ -441,7 +441,6 @@ type
     procedure DoHideNotificationPanel(Index: integer);
     //macro
     procedure DoMacroStartOrStop;
-    procedure DoMacroStop(ACancel: boolean);
     property MacroRecord: boolean read FMacroRecord;
 
     //events
@@ -2929,21 +2928,6 @@ begin
   Ed1.Update;
   Ed2.ModeMacroRecording:= FMacroRecord;
   Ed2.Update;
-end;
-
-procedure TEditorFrame.DoMacroStop(ACancel: boolean);
-begin
-  FMacroRecord:= false;
-
-  Ed1.ModeMacroRecording:= FMacroRecord;
-  Ed1.Update;
-  Ed2.ModeMacroRecording:= FMacroRecord;
-  Ed2.Update;
-
-  if ACancel then
-    MacroStrings.Clear
-  else
-    DoPyEvent_Macro(MacroStrings.Text);
 end;
 
 procedure TEditorFrame.DoOnUpdateStatusbar;

@@ -11,6 +11,7 @@
 + add: command '"tabulation size": set to 4'
 + add: command '"tabulation size": set to 8'
 * change: plugin Insert Time: move caret to the right side on insertion (thanks @mix-7)
+* change: deleted 2 deprecated (in 2021.10) commands to 'stop macro' and 'cancel macro'
 
 1.156.4 (2022/02)
 

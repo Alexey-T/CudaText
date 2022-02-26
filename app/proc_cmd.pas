@@ -328,8 +328,6 @@ const
   cmd_LinkAtPopup_Copy           = 2809;
 
   cmd_MacroStart                 = 2810;
-  cmd_MacroStop                  = 2811; //deprecated 2021.10
-  cmd_MacroCancel                = 2812; //deprecated too
 
   cmd_TreeGotoNext               = 2815;
   cmd_TreeGotoPrev               = 2816;
@@ -874,8 +872,6 @@ begin
     cmdFirstFileCommand..cmdLastFileCommand,
     cmdFirstRecentCommand..cmdLastRecentCommand,
     cmd_MacroStart,
-    cmd_MacroStop,
-    cmd_MacroCancel,
     cmd_DialogCommands,
     cmd_DialogThemeUi,
     cmd_DialogThemeSyntax,

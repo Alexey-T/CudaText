@@ -601,24 +601,6 @@ begin
         end;
       end;
 
-    cmd_MacroStop: //deprecated at 2021.10
-      begin
-        if Assigned(Frame) then
-        begin
-          Frame.DoMacroStop(false);
-          MsgStatus('');
-        end;
-      end;
-
-    cmd_MacroCancel: //deprecated at 2021.10
-      begin
-        if Assigned(Frame) then
-        begin
-          Frame.DoMacroStop(true);
-          MsgStatus('');
-        end;
-      end;
-
     cmd_TreeGotoNext:
       DoTreeviewJump(CodeTree.Tree, treeGoNext);
     cmd_TreeGotoPrev:
