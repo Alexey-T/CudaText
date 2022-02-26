@@ -805,17 +805,10 @@ begin
     AppPanels[cPaneSide].Floating:= cfg.GetValue('float_side', false);
     AppPanels[cPaneOut].Floating:= cfg.GetValue('float_bottom', false);
 
-    //note: reading 'theme_ui', 'theme_syntax' from history is deprecated in 2019.09
-    //now it's read from user.json
     if UiOps.ThemeUi_Loaded then
-      ThemeUi:= UiOps.ThemeUi
-    else
-      ThemeUi:= cfg.GetValue('theme_ui', '');
-
+      ThemeUi:= UiOps.ThemeUi;
     if UiOps.ThemeSyntax_Loaded then
-      ThemeSyntax:= UiOps.ThemeSyntax
-    else
-      ThemeSyntax:= cfg.GetValue('theme_syntax', '');
+      ThemeSyntax:= UiOps.ThemeSyntax;
 
     UiOps.LangName:= cfg.GetValue('lang', '');
     if UiOps.LangName<>'' then
