@@ -1950,7 +1950,7 @@ begin
         BOOKMARK_SETUP:
           begin
             AppBookmarkSetup[NKind].ImageIndex:=
-              UpdateImagelistWithIconFromFile(AppBookmarkImagelist, StrText);
+              UpdateImagelistWithIconFromFile(AppBookmarkImagelist, StrText, 'Editor.bookmark(...BOOKMARK_SETUP...)');
             AppBookmarkSetup[NKind].Color:= NColor;
             Result:= ReturnNone;
           end;
@@ -6764,7 +6764,7 @@ begin
 
         IMAGELIST_ADD:
           begin
-            NX:= UpdateImagelistWithIconFromFile(List, StrValue);
+            NX:= UpdateImagelistWithIconFromFile(List, StrValue, 'imagelist_proc(...IMAGELIST_ADD...)');
             if NX>=0 then
               Result:= PyLong_FromLong(NX)
             else

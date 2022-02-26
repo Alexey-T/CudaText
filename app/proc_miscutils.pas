@@ -86,7 +86,7 @@ procedure DoApplyThemeToToolbar(C: TATFlatToolbar);
 function ConvertTwoPointsToDiffPoint(APrevPnt, ANewPnt: TPoint): TPoint;
 function ConvertShiftStateToString(const Shift: TShiftState): string;
 function KeyboardStateToShiftState: TShiftState; //like VCL
-function UpdateImagelistWithIconFromFile(AList: TCustomImagelist; const AFilename: string): integer;
+function UpdateImagelistWithIconFromFile(AList: TCustomImagelist; const AFilename, ACallerAPI: string): integer;
 function FormatFileDateAsNiceString(const AFilename: string): string;
 function FormatFilenameForMenu(const fn: string): string;
 
@@ -254,7 +254,7 @@ begin
 end;
 
 
-function UpdateImagelistWithIconFromFile(AList: TCustomImagelist; const AFilename: string): integer;
+function UpdateImagelistWithIconFromFile(AList: TCustomImagelist; const AFilename, ACallerAPI: string): integer;
 var
   bmp: TCustomBitmap;
   ext: string;
@@ -262,7 +262,7 @@ begin
   Result:= -1;
   if not FileExists(AFilename) then
   begin
-    MsgLogConsole('ERROR: Missing icon filename: '+AFilename);
+    MsgLogConsole('ERROR: Missing icon filename in '+ACallerAPI+': '+AFilename);
     exit;
   end;
 

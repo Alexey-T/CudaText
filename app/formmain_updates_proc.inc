@@ -1300,6 +1300,8 @@ const
   cSidebarIconMenu     = 5;
 
 procedure TfmMain.DoOps_LoadSidebarIcons;
+const
+  cCallerAPI = 'DoOps_LoadSidebarIcons';
 var
   Parts: TRegexParts;
   Str: string;
@@ -1324,12 +1326,12 @@ begin
 
   Str+= DirectorySeparator;
 
-  UpdateImagelistWithIconFromFile(ImageListSide, Str+'tree.png');
-  UpdateImagelistWithIconFromFile(ImageListSide, Str+'console.png');
-  UpdateImagelistWithIconFromFile(ImageListSide, Str+'output.png');
-  UpdateImagelistWithIconFromFile(ImageListSide, Str+'validate.png');
-  UpdateImagelistWithIconFromFile(ImageListSide, Str+'find.png');
-  UpdateImagelistWithIconFromFile(ImageListSide, Str+'menu.png');
+  UpdateImagelistWithIconFromFile(ImageListSide, Str+'tree.png', cCallerAPI);
+  UpdateImagelistWithIconFromFile(ImageListSide, Str+'console.png', cCallerAPI);
+  UpdateImagelistWithIconFromFile(ImageListSide, Str+'output.png', cCallerAPI);
+  UpdateImagelistWithIconFromFile(ImageListSide, Str+'validate.png', cCallerAPI);
+  UpdateImagelistWithIconFromFile(ImageListSide, Str+'find.png', cCallerAPI);
+  UpdateImagelistWithIconFromFile(ImageListSide, Str+'menu.png', cCallerAPI);
 
   if UiOps.LogConsoleDetailedStartupTime then
   begin
@@ -1364,10 +1366,12 @@ begin
 
   Sep.Init(UiOps.TreeIconFilenames);
   while Sep.GetItemStr(SItem) do
-    UpdateImagelistWithIconFromFile(ImageListTree, SPath+SItem+'.png');
+    UpdateImagelistWithIconFromFile(ImageListTree, SPath+SItem+'.png', 'DoOps_LoadCodetreeIcons');
 end;
 
 procedure TfmMain.DoOps_LoadToolbarIcons;
+const
+  cCallerAPI = 'DoOps_LoadToolbarIcons';
 var
   Parts: TRegexParts;
   Str: string;
@@ -1392,21 +1396,21 @@ begin
   Img.Clear;
 
   Str+= DirectorySeparator;
-  UpdateImagelistWithIconFromFile(Img, Str+'f_new.png');
-  UpdateImagelistWithIconFromFile(Img, Str+'f_open.png');
-  UpdateImagelistWithIconFromFile(Img, Str+'f_save.png');
-  UpdateImagelistWithIconFromFile(Img, Str+'e_cut.png');
-  UpdateImagelistWithIconFromFile(Img, Str+'e_copy.png');
-  UpdateImagelistWithIconFromFile(Img, Str+'e_paste.png');
-  UpdateImagelistWithIconFromFile(Img, Str+'e_undo.png');
-  UpdateImagelistWithIconFromFile(Img, Str+'e_redo.png');
-  UpdateImagelistWithIconFromFile(Img, Str+'unpri.png');
-  UpdateImagelistWithIconFromFile(Img, Str+'map.png');
-  UpdateImagelistWithIconFromFile(Img, Str+'indent.png');
-  UpdateImagelistWithIconFromFile(Img, Str+'unindent.png');
-  UpdateImagelistWithIconFromFile(Img, Str+'case.png');
-  UpdateImagelistWithIconFromFile(Img, Str+'comment.png');
-  UpdateImagelistWithIconFromFile(Img, Str+'opt.png');
+  UpdateImagelistWithIconFromFile(Img, Str+'f_new.png', cCallerAPI);
+  UpdateImagelistWithIconFromFile(Img, Str+'f_open.png', cCallerAPI);
+  UpdateImagelistWithIconFromFile(Img, Str+'f_save.png', cCallerAPI);
+  UpdateImagelistWithIconFromFile(Img, Str+'e_cut.png', cCallerAPI);
+  UpdateImagelistWithIconFromFile(Img, Str+'e_copy.png', cCallerAPI);
+  UpdateImagelistWithIconFromFile(Img, Str+'e_paste.png', cCallerAPI);
+  UpdateImagelistWithIconFromFile(Img, Str+'e_undo.png', cCallerAPI);
+  UpdateImagelistWithIconFromFile(Img, Str+'e_redo.png', cCallerAPI);
+  UpdateImagelistWithIconFromFile(Img, Str+'unpri.png', cCallerAPI);
+  UpdateImagelistWithIconFromFile(Img, Str+'map.png', cCallerAPI);
+  UpdateImagelistWithIconFromFile(Img, Str+'indent.png', cCallerAPI);
+  UpdateImagelistWithIconFromFile(Img, Str+'unindent.png', cCallerAPI);
+  UpdateImagelistWithIconFromFile(Img, Str+'case.png', cCallerAPI);
+  UpdateImagelistWithIconFromFile(Img, Str+'comment.png', cCallerAPI);
+  UpdateImagelistWithIconFromFile(Img, Str+'opt.png', cCallerAPI);
 
   if UiOps.LogConsoleDetailedStartupTime then
   begin

@@ -58,7 +58,7 @@ begin
   if ExtractFileDir(AFilename)='' then
     AFilename:= AppDir_DataSidebarIcons+DirectorySeparator+UiOps.SidebarTheme+DirectorySeparator+AFilename;
 
-  Result:= UpdateImagelistWithIconFromFile(ImageListSide, AFilename);
+  Result:= UpdateImagelistWithIconFromFile(ImageListSide, AFilename, 'DoSidebar_FilenameToImageIndex');
 end;
 
 
