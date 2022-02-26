@@ -948,6 +948,17 @@ begin
     cmd_MenuEnc,
     cmd_MenuEnds,
     cmd_MenuLexers,
+
+    cmd_Markers_SelectToCaret,
+    cmd_Markers_DeleteToCaret,
+    cmd_Markers_DropAtCaret,
+    cmd_Markers_GotoLastNoDelete,
+    cmd_Markers_GotoLastAndDelete,
+    cmd_Markers_ClearAll,
+    cmd_Markers_SwapCaretAndMarker,
+    cmd_LinkAtCaret_Open,
+    cmd_LinkAtCaret_Copy,
+
     cmd_ResetPythonPlugins,
     cmd_RescanPythonPluginsInfFiles,
     cmd_FindPythonLib,
