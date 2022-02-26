@@ -528,8 +528,6 @@ cmd_LinkAtPopup_Open           = 2808
 cmd_LinkAtPopup_Copy           = 2809
 
 cmd_MacroStart                 = 2810
-cmd_MacroStop                  = 2811 # deprecated 2021.10
-cmd_MacroCancel                = 2812 # deprecated 2021.10
 
 cmd_TreeGotoNext               = 2815
 cmd_TreeGotoPrev               = 2816
@@ -549,6 +547,10 @@ cmd_BracketHighlightToggle     = 2842
 cmd_BracketJump                = 2845
 cmd_BracketSelect              = 2846
 cmd_BracketSelectInside        = 2847
+
+cmd_TabSize_Set2               = 2862
+cmd_TabSize_Set4               = 2864
+cmd_TabSize_Set8               = 2868
 
 cmd_GroupActivate1             = 2901
 cmd_GroupActivate2             = 2902

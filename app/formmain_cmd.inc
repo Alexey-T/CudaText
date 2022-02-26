@@ -1119,6 +1119,25 @@ begin
         exit
       end;
 
+    cmd_TabSize_Set2:
+      begin
+        Ed.OptTabSize:= 2;
+        AHandled:= true;
+        exit
+      end;
+    cmd_TabSize_Set4:
+      begin
+        Ed.OptTabSize:= 4;
+        AHandled:= true;
+        exit
+      end;
+    cmd_TabSize_Set8:
+      begin
+        Ed.OptTabSize:= 8;
+        AHandled:= true;
+        exit
+      end;
+
     cmd_Encoding_utf8bom_NoReload:   begin SetFrameEncoding(Ed, cEncNameUtf8_WithBom, false); AHandled:= true; exit end;
     cmd_Encoding_utf8nobom_NoReload: begin SetFrameEncoding(Ed, cEncNameUtf8_NoBom, false); AHandled:= true; exit end;
     cmd_Encoding_utf16le_NoReload:   begin SetFrameEncoding(Ed, cEncNameUtf16LE_WithBom, false); AHandled:= true; exit end;

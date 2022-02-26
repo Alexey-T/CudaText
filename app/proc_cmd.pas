@@ -328,8 +328,8 @@ const
   cmd_LinkAtPopup_Copy           = 2809;
 
   cmd_MacroStart                 = 2810;
-  cmd_MacroStop                  = 2811;
-  cmd_MacroCancel                = 2812;
+  cmd_MacroStop                  = 2811; //deprecated 2021.10
+  cmd_MacroCancel                = 2812; //deprecated too
 
   cmd_TreeGotoNext               = 2815;
   cmd_TreeGotoPrev               = 2816;
@@ -349,6 +349,10 @@ const
   cmd_BracketJump                = 2845;
   cmd_BracketSelect              = 2846;
   cmd_BracketSelectInside        = 2847;
+
+  cmd_TabSize_Set2               = 2862;
+  cmd_TabSize_Set4               = 2864;
+  cmd_TabSize_Set8               = 2868;
 
   cmd_GroupActivate1             = 2901;
   cmd_GroupActivate2             = 2902;
@@ -493,6 +497,11 @@ begin
   M.Add(cmd_TabUsesSpaces_On, '"tabulation-key uses spaces": turn on', [], []);
   M.Add(cmd_TabUsesSpaces_Off, '"tabulation-key uses spaces": turn off', [], []);
   M.Add(cmd_ToggleTabUsesSpaces, '"tabulation-key uses spaces": toggle', [], []);
+
+  M.Add(cmd_TabSize_Set2, '"tabulation size": set to 2', [], []);
+  M.Add(cmd_TabSize_Set4, '"tabulation size": set to 4', [], []);
+  M.Add(cmd_TabSize_Set8, '"tabulation size": set to 8', [], []);
+
   M.Add(cmd_ConvertTabsToSpaces, 'convert tabs (all) to spaces', [], []);
   M.Add(cmd_ConvertTabsToSpacesLeading, 'convert tabs (leading) to spaces', [], []);
   M.Add(cmd_ConvertSpacesToTabsLeading, 'convert spaces (leading) to tabs', [], []);
