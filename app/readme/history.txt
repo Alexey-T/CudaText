@@ -3,6 +3,10 @@
   - fixed
   * changed
 
+1.156.5 (2022/02)
+
+* change: plugin Insert Time: move caret to the right side on insertion (thanks @mix-7)
+
 1.156.4 (2022/02)
 
 + add: command "reopen recent file" in the Command Palette (thanks @andersaamodt)
