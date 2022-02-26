@@ -956,17 +956,31 @@ begin
     cmd_Markers_GotoLastAndDelete,
     cmd_Markers_ClearAll,
     cmd_Markers_SwapCaretAndMarker,
+
     cmd_LinkAtCaret_Open,
     cmd_LinkAtCaret_Copy,
+
+    cmd_BracketHighlightOn,
+    cmd_BracketHighlightOff,
+    cmd_BracketHighlightToggle,
+    cmd_BracketJump,
+    cmd_BracketSelect,
+    cmd_BracketSelectInside,
+
+    cmd_TabSize_Set2,
+    cmd_TabSize_Set4,
+    cmd_TabSize_Set8,
 
     cmd_ResetPythonPlugins,
     cmd_RescanPythonPluginsInfFiles,
     cmd_FindPythonLib,
+
     cmd_HelpAbout,
     cmd_HelpCheckUpdates,
     cmd_HelpForum,
     cmd_HelpWiki,
     cmd_HelpIssues:
+
       Result:= false;
     else
       Result:= true;
