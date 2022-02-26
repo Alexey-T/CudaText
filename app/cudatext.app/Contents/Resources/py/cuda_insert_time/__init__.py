@@ -65,6 +65,7 @@ class Command:
         else:
             ed.insert(x, y, s)
 
+        ed.set_caret(x+len(s), y)
         app.msg_status(_('Date/time inserted'))
 
 
