@@ -5,6 +5,8 @@
 
 1.156.5 (2022/02)
 
++ add: command "tabulation-key uses spaces": turn on
++ add: command "tabulation-key uses spaces": turn off
 * change: plugin Insert Time: move caret to the right side on insertion (thanks @mix-7)
 
 1.156.4 (2022/02)
