@@ -26,11 +26,6 @@ begin
   Result:= AppPython.ObjectToPyInt(Obj);
 end;
 
-procedure MsgOldApi(const s: string);
-begin
-  MsgLogConsole(Format(msgApiDeprecated, [s]));
-end;
-
 function PyHelper_SendMessageFromString(const AText: string): integer;
 var
   H: Int64;
