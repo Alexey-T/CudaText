@@ -212,6 +212,8 @@ const
   cmd_CopyFilenameDir  = 2652;
   cmd_CopyFilenameName = 2653;
 
+  cmd_TabUsesSpaces_On    = 2655;
+  cmd_TabUsesSpaces_Off   = 2656;
   cmd_ToggleTabUsesSpaces = 2657;
   cmd_ConvertTabsToSpaces = 2658;
   cmd_ConvertSpacesToTabsLeading = 2659;
@@ -488,7 +490,9 @@ begin
   M.Add(cmd_CopyFilenameDir, 'clipboard: copy filepath only', [], []);
   M.Add(cmd_CopyFilenameName, 'clipboard: copy filename only', [], []);
 
-  M.Add(cmd_ToggleTabUsesSpaces, 'toggle "tabulation-key uses spaces"', [], []);
+  M.Add(cmd_TabUsesSpaces_On, '"tabulation-key uses spaces": turn on', [], []);
+  M.Add(cmd_TabUsesSpaces_Off, '"tabulation-key uses spaces": turn off', [], []);
+  M.Add(cmd_ToggleTabUsesSpaces, '"tabulation-key uses spaces": toggle', [], []);
   M.Add(cmd_ConvertTabsToSpaces, 'convert tabs (all) to spaces', [], []);
   M.Add(cmd_ConvertTabsToSpacesLeading, 'convert tabs (leading) to spaces', [], []);
   M.Add(cmd_ConvertSpacesToTabsLeading, 'convert spaces (leading) to tabs', [], []);
@@ -906,6 +910,12 @@ begin
     cmd_ToggleStatusbar,
     cmd_ToggleToolbar,
     cmd_ToggleUiTabs,
+    cmd_TabUsesSpaces_On,
+    cmd_TabUsesSpaces_Off,
+    cmd_ToggleTabUsesSpaces,
+    cmd_ConvertTabsToSpaces,
+    cmd_ConvertSpacesToTabsLeading,
+    cmd_ConvertTabsToSpacesLeading,
     cmd_Groups1,
     cmd_Groups2horz,
     cmd_Groups2vert,

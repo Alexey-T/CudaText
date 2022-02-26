@@ -788,12 +788,25 @@ begin
         exit
       end;
 
+    cmd_TabUsesSpaces_On:
+      begin
+        Ed.OptTabSpaces:= true;
+        AHandled:= true;
+        exit
+      end;
+    cmd_TabUsesSpaces_Off:
+      begin
+        Ed.OptTabSpaces:= false;
+        AHandled:= true;
+        exit
+      end;
     cmd_ToggleTabUsesSpaces:
       begin
         Ed.OptTabSpaces:= not Ed.OptTabSpaces;
         AHandled:= true;
         exit
       end;
+
     cmd_ConvertTabsToSpaces:
       begin
         Ed.DoConvertTabsToSpaces;

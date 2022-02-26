@@ -407,9 +407,8 @@ cmd_CopyFilenameFull = 2651
 cmd_CopyFilenameDir  = 2652
 cmd_CopyFilenameName = 2653
 
-cmd_SortAsc          = 2654 #deleted
-cmd_SortDesc         = 2655 #deleted
-
+cmd_TabUsesSpaces_On    = 2655
+cmd_TabUsesSpaces_Off   = 2656
 cmd_ToggleTabUsesSpaces = 2657
 cmd_ConvertTabsToSpaces = 2658
 cmd_ConvertSpacesToTabsLeading = 2659
