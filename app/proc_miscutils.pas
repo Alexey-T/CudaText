@@ -260,6 +260,7 @@ var
   ext: string;
 begin
   Result:= -1;
+  if AFilename='' then exit;
   if not FileExists(AFilename) then
   begin
     MsgLogConsole('ERROR: Missing icon filename in '+ACallerAPI+': '+AFilename);
