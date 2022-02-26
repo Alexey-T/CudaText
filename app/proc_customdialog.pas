@@ -1399,24 +1399,6 @@ begin
 end;
 
 
-{
-//deprecated api, to delete
-procedure DoControl_SetPropsFromString_Adv(C: TControl; const AValue: string);
-var
-  Sep: TATStringSeparator;
-  SItem: string;
-  NIndex: integer;
-begin
-  Sep.Init(AValue);
-  NIndex:= 0;
-  repeat
-    if not Sep.GetItemStr(SItem) then Break;
-    DoControl_SetEx(C, SItem, NIndex);
-    Inc(NIndex);
-  until false;
-end;
-}
-
 procedure DoControl_SetColumnsFromString(C: TControl; const S: string);
 begin
   if C is TListView then
