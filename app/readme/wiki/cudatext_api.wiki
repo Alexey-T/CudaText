@@ -3190,12 +3190,12 @@ Text is "\n"-separated undo/redo items. Each line is tab-separated elements:
 ** 3: saved
 * caret position(s); carets are ";"-separated and x/y coords (32-bit) are ","-separated; for example "x0,y0;x1,y1;" for 2 carets;
 ** plus chr(1) and marker position(s), 64-bit numbers ","-separated, where each marker is encoded as 7 numbers:
-*** position_x,
-*** position_y,
-*** selection_x,
-*** selection_y,
-*** tag value,
-*** marker tab-stop value,
+*** position x,
+*** position y,
+*** selection-end x,
+*** selection-end y,
+*** tab-stop index,
+*** some value attached to marker,
 *** marker show mode, enum 0..2; 0: show in text only; 1: show in micromap only; 2: show in text and micromap.
 ** plus chr(1) and global undo counter, 32-bit integer;
 ** plus chr(1) and OS tick counter, 64-bit integer, in milliseconds (shows how much time is passed betweem items).
