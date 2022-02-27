@@ -295,7 +295,7 @@ begin
     end
     else
     begin
-      MsgLogConsole('ERROR: Unknown icon file type: '+AFilename);
+      MsgLogConsole('ERROR: Unknown icon file type in '+ACallerAPI+': '+AFilename);
       exit;
     end;
 
