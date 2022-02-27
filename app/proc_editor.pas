@@ -2119,7 +2119,7 @@ begin
   Strs:= Ed.Strings;
   Strs.SetNewCommandMark;
 
-  //replace \AIndex \r to "_"
+  //replace \n \r to "_"
   for i:= 1 to Length(AStr) do
     if (AStr[i]=#10) or (AStr[i]=#13) then
       AStr[i]:= '_';
