@@ -3188,7 +3188,10 @@ Text is "\n"-separated undo/redo items. Each line is tab-separated elements:
 ** 1: changed
 ** 2: added
 ** 3: saved
-* caret position(s). "x0,y0;" + "x1,y1;" + "x2,y2;" + ... ie 2*N numbers for N carets.
+* caret position(s); carets are ";"-separated and x/y coords are ","-separated; "x0,y0;" + "x1,y1;" + ... ie 2*N numbers for N carets;
+** plus chr(1) and marker position(s), ","-separated;
+** plus chr(1) and global undo counter;
+** plus chr(1) and OS tick counter in milliseconds (shows how much time is passed betweem items).
 * soft mark flag, number 0/1 (boolean). Logic of soft/hard marks is described in wiki page [[ATSynEdit]].
 * hard mark flag, number 0/1.
 * line text, in UTF8. This text can have tab-chars, tab-char is not separator.
