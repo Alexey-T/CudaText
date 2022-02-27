@@ -326,7 +326,7 @@ end;
 function AppFileIsNullBytes(const fn: string): boolean;
 var
   fs: TFileStream;
-  Buf: array[0..3] of char;
+  Buf: LongInt;
   NRead: integer;
 begin
   Result:= false;
@@ -334,13 +334,9 @@ begin
 
   fs:= TFileStream.Create(fn, fmOpenRead or fmShareDenyNone);
   try
-    FillChar(Buf{%H-}, SizeOf(Buf), 0);
+    Buf:= 0;
     NRead:= fs.Read(Buf, SizeOf(Buf));
-    Result:= (NRead=SizeOf(Buf)) and
-      (Buf[0]=#0) and
-      (Buf[1]=#0) and
-      (Buf[2]=#0) and
-      (Buf[3]=#0);
+    Result:= (NRead=SizeOf(Buf)) and (Buf=0);
   finally
     FreeAndNil(fs);
   end;
