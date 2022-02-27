@@ -349,6 +349,8 @@ end;
 
 procedure AppFileCheckForNullBytes(const fn: string);
 begin
+  if not UiOps.AllowCheckConfigsForNullBytes then exit;
+
   if AppFileIsNullBytes(fn) then
     if MsgBox(Format(msgErrorNullBytesInFile, [fn]),
       MB_OKCANCEL or MB_ICONERROR) = ID_OK then

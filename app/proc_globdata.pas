@@ -199,6 +199,7 @@ type
     InfoAboutOptionsEditor: boolean;
     AllowFrameParsing: boolean; //must be set in FormMain.OnShow
     AllowRunPkExec: boolean;
+    AllowCheckConfigsForNullBytes: boolean;
 
     LogPluginIniting: boolean;
     LogSessions: boolean;
@@ -1843,6 +1844,7 @@ begin
     InfoAboutOptionsEditor:= true;
     AllowFrameParsing:= false;
     AllowRunPkExec:= true;
+    AllowCheckConfigsForNullBytes:= true;
 
     LogPluginIniting:= true;
     LogSessions:= true;
