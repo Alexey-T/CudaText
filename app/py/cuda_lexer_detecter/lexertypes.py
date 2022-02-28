@@ -292,6 +292,7 @@ TYPES = {
     "prg": ['Visual dBase', 'Harbour', 'FoxPro', 'G-code'],
     "pro": ['IDL language'],
     "properties": ['Properties'],
+    "proto": ['Protocol Buffers'],
     "prototxt": ['Caffe Prototxt'],
     "ps": ['PostScript'],
     "ps1": ['PowerShell'],
