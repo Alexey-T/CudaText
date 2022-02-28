@@ -410,6 +410,7 @@ Most of them are located in the Addons Manager "Install" list.
 * Gnuplot
 * Go
 * Gold Parser
+* Grails Server Pages (GSP)
 * Graphviz DOT
 * GraphQL
 * Great Cow Basic
