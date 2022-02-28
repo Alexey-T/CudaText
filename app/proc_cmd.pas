@@ -492,13 +492,13 @@ begin
   M.Add(cmd_CopyFilenameDir, 'clipboard: copy filepath only', [], []);
   M.Add(cmd_CopyFilenameName, 'clipboard: copy filename only', [], []);
 
-  M.Add(cmd_TabUsesSpaces_On, '"tabulation-key uses spaces": turn on', [], []);
-  M.Add(cmd_TabUsesSpaces_Off, '"tabulation-key uses spaces": turn off', [], []);
-  M.Add(cmd_ToggleTabUsesSpaces, '"tabulation-key uses spaces": toggle', [], []);
+  M.Add(cmd_TabUsesSpaces_On, 'tabulation-key uses spaces: turn on', [], []);
+  M.Add(cmd_TabUsesSpaces_Off, 'tabulation-key uses spaces: turn off', [], []);
+  M.Add(cmd_ToggleTabUsesSpaces, 'tabulation-key uses spaces: toggle', [], []);
 
-  M.Add(cmd_TabSize_Set2, '"tabulation size": set to 2', [], []);
-  M.Add(cmd_TabSize_Set4, '"tabulation size": set to 4', [], []);
-  M.Add(cmd_TabSize_Set8, '"tabulation size": set to 8', [], []);
+  M.Add(cmd_TabSize_Set2, 'tabulation size: set to 2', [], []);
+  M.Add(cmd_TabSize_Set4, 'tabulation size: set to 4', [], []);
+  M.Add(cmd_TabSize_Set8, 'tabulation size: set to 8', [], []);
 
   M.Add(cmd_ConvertTabsToSpaces, 'convert tabs (all) to spaces', [], []);
   M.Add(cmd_ConvertTabsToSpacesLeading, 'convert tabs (leading) to spaces', [], []);
