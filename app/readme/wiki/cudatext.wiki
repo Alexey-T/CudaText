@@ -513,6 +513,7 @@ Most of them are located in the Addons Manager "Install" list.
 * PowerShell
 * Prolog
 * Properties
+* Protocol Buffers
 * Pug
 * Puppet
 * PyMOL
