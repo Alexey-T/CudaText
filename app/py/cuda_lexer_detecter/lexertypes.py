@@ -166,6 +166,7 @@ TYPES = {
     "gs": ['GLSL'],
     "gsh": ['GLSL'],
     "gshader": ['GLSL'],
+    "gsp": ['Grails Server Pages'],
     "gv": ['Graphviz DOT'],
     "haml": ['Haml'],
     "handlebars": ['HTML Handlebars'],
