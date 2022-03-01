@@ -3,8 +3,9 @@
   - fixed
   * changed
 
-1.156.5 (2022/02)
+1.157.0 (2022/03)
 
++ add: better Undo steps, when Del/BkSpace key was pressed many times (thanks @cser)
 + add: command 'tabulation-key uses spaces: turn on'
 + add: command 'tabulation-key uses spaces: turn off'
 + add: command 'tabulation size: set to 2'
