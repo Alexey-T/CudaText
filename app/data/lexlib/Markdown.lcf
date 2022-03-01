@@ -1,4 +1,4 @@
-object SyntAnal16: TLibSyntAnalyzer
+object SyntAnal13: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Heading'
@@ -622,7 +622,7 @@ object SyntAnal16: TLibSyntAnalyzer
       StyleName = 'Math BG'
       StatesAbsent = 3072
       TokenType = 3
-      Expression = '(\${1,2}).+\1'
+      Expression = '(?s)(\${1,2}).+?\1'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -939,7 +939,7 @@ object SyntAnal16: TLibSyntAnalyzer
       StatesAbsent = 3
       StartExpression = '<\?'
       EndExpression = '\?>'
-      SyntAnalyzer = SyntAnal17
+      SyntAnalyzer = SyntAnal14
       IncludeBounds = True
     end
     item
@@ -947,32 +947,32 @@ object SyntAnal16: TLibSyntAnalyzer
       StatesAbsent = 3
       StartExpression = '(?s)<script\b.*?>'
       EndExpression = '</script>'
-      SyntAnalyzer = SyntAnal12
+      SyntAnalyzer = SyntAnal9
     end
     item
       DisplayName = 'CSS'
       StatesAbsent = 3
       StartExpression = '(?s)<style\b.*?>'
       EndExpression = '</style>'
-      SyntAnalyzer = SyntAnal7
+      SyntAnalyzer = SyntAnal6
     end
     item
       DisplayName = 'YAML front matter'
       StartExpression = '\A---(\s*yaml)?$'
       EndExpression = '^(---|\.\.\.)$'
-      SyntAnalyzer = SyntAnal24
+      SyntAnalyzer = SyntAnal21
     end
     item
       DisplayName = 'JSON front matter'
       StartExpression = '\A---\s*json$'
       EndExpression = '^---$'
-      SyntAnalyzer = SyntAnal14
+      SyntAnalyzer = SyntAnal11
     end
     item
       DisplayName = 'Fenced block'
       StartExpression = '(?<=^\x20{0,3})(`{3,}|~{3,})\x20*\w.*$'
       EndExpression = '(?<=^\x20{0,3})(`{3,}|~{3,})\x20*$'
-      SyntAnalyzer = SyntAnal10
+      SyntAnalyzer = SyntAnal8
     end>
   SampleText.Strings = (
     '---'
@@ -1086,7 +1086,7 @@ object SyntAnal16: TLibSyntAnalyzer
   LexerName = 'Markdown'
   SkipSpaces = False
   Notes.Strings = (
-    'By Alexey (CudaText)'
+    'By Alexey Torgashin (CudaText)'
     'Parser states used:'
     '- 1: italic'
     '- 2: bold'
