@@ -2083,6 +2083,8 @@ end;
 
 function Lexer_DetectByFilenameOrContent(const AFilename: string;
   AChooseFunc: TecLexerChooseFunc): TecSyntAnalyzer;
+const
+  cSignUTF8: string = #$EF#$BB#$BF;
 var
   SNameOnly: string;
   Item: TAppKeyValue;
@@ -2125,6 +2127,9 @@ begin
     sLine:= DoReadOneStringFromFile(AFilename);
     if sLine<>'' then
     begin
+      //skip UTF8 signature, needed for XMLs
+      if SBeginsWith(sLine, cSignUTF8) then
+        System.Delete(sLine, 1, Length(cSignUTF8));
       res:= AppConfig_DetectLine.GetValueByRegex(sLine);
       if res<>'' then
         exit(AppManager.FindLexerByName(res));
@@ -2918,16 +2923,11 @@ begin
 end;
 
 function TAppKeyValues.GetValueByRegex(ALine: string): string;
-const
-  cSignUTF8: string = #$EF#$BB#$BF;
 var
   Item: TAppKeyValue;
   i: integer;
 begin
   Result:= '';
-  //skip UTF8 signature, needed for XMLs
-  if SBeginsWith(ALine, cSignUTF8) then
-    System.Delete(ALine, 1, Length(cSignUTF8));
   for i:= 0 to Count-1 do
   begin
     Item:= TAppKeyValue(Items[i]);
