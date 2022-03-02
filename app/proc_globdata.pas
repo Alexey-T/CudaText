@@ -154,6 +154,9 @@ var
   AppEventWatcher: TEvent; //event set to signaled, when watcher thread is not busy
 
 type
+
+  { TAppKeyValue }
+
   TAppKeyValue = class
     Key: string;
     Value: string;
@@ -166,6 +169,7 @@ type
   public
     procedure Add(const AKey, AValue: string);
     function GetValue(const AKey, ADefValue: string): string;
+    function GetValueByRegex(ALine: string): string;
   end;
 
 var
@@ -2079,8 +2083,6 @@ end;
 
 function Lexer_DetectByFilenameOrContent(const AFilename: string;
   AChooseFunc: TecLexerChooseFunc): TecSyntAnalyzer;
-const
-  cSignUTF8: string = #$EF#$BB#$BF;
 var
   SNameOnly: string;
   Item: TAppKeyValue;
@@ -2123,15 +2125,9 @@ begin
     sLine:= DoReadOneStringFromFile(AFilename);
     if sLine<>'' then
     begin
-      //skip UTF8 signature, needed for XMLs
-      if SBeginsWith(sLine, cSignUTF8) then
-        Delete(sLine, 1, Length(cSignUTF8));
-      for i:= 0 to AppConfig_DetectLine.Count-1 do
-      begin
-        Item:= TAppKeyValue(AppConfig_DetectLine[i]);
-        if SRegexMatchesString(sLine, Item.Key, true) then
-          exit(AppManager.FindLexerByName(Item.Value));
-      end;
+      res:= AppConfig_DetectLine.GetValueByRegex(sLine);
+      if res<>'' then
+        exit(AppManager.FindLexerByName(res));
     end;
   end;
 
@@ -2920,6 +2916,26 @@ begin
   end;
   Result:= ADefValue;
 end;
+
+function TAppKeyValues.GetValueByRegex(ALine: string): string;
+const
+  cSignUTF8: string = #$EF#$BB#$BF;
+var
+  Item: TAppKeyValue;
+  i: integer;
+begin
+  Result:= '';
+  //skip UTF8 signature, needed for XMLs
+  if SBeginsWith(ALine, cSignUTF8) then
+    System.Delete(ALine, 1, Length(cSignUTF8));
+  for i:= 0 to Count-1 do
+  begin
+    Item:= TAppKeyValue(Items[i]);
+    if SRegexMatchesString(ALine, Item.Key, true) then
+      exit(Item.Value);
+  end;
+end;
+
 
 procedure DoMenuitemEllipsis(c: TMenuItem);
 var
