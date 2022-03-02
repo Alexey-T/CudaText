@@ -809,6 +809,7 @@ Possible encoding names for command-line usage:
 * cp950
 * iso88591
 * iso88592
+* iso88599
 * iso885915
 * mac
 
