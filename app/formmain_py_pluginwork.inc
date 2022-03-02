@@ -371,9 +371,7 @@ procedure TfmMain.UpdateMenuPlugins;
   //
   function GroupValue(const AValue: string): string;
   var
-    Item: TAppKeyValue;
-    SName, SAll: string;
-    i: integer;
+    SName, SAll, SRes: string;
   begin
     Result:= '';
     SSplitByChar(AValue, '\', SName, SAll);
@@ -381,12 +379,9 @@ procedure TfmMain.UpdateMenuPlugins;
     //strip '&' for accelerators in caption
     SName:= StringReplace(SName, '&', '', []);
 
-    for i:= 0 to AppConfig_PGroups.Count-1 do
-    begin
-      Item:= TAppKeyValue(AppConfig_PGroups[i]);
-      if SRegexMatchesString(SName, Item.Key, false) then
-        exit(Item.Value+'\');
-    end;
+    SRes:= AppConfig_PGroups.GetValueByRegex(SName, false);
+    if SRes<>'' then
+      Result:= SRes+'\';
   end;
   //
 var

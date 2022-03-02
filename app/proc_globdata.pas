@@ -154,22 +154,18 @@ var
   AppEventWatcher: TEvent; //event set to signaled, when watcher thread is not busy
 
 type
-
-  { TAppKeyValue }
-
-  TAppKeyValue = class
-    Key: string;
-    Value: string;
-  end;
-
-type
   { TAppKeyValues }
 
   TAppKeyValues = class(TFPList)
+  private type
+    TAppKeyValue = class
+      Key: string;
+      Value: string;
+    end;
   public
     procedure Add(const AKey, AValue: string);
     function GetValue(const AKey, ADefValue: string): string;
-    function GetValueByRegex(ALine: string): string;
+    function GetValueByRegex(ALine: string; ACaseSens: boolean): string;
   end;
 
 var
@@ -2087,7 +2083,6 @@ const
   cSignUTF8: string = #$EF#$BB#$BF;
 var
   SNameOnly: string;
-  Item: TAppKeyValue;
   ext, sLine, res: string;
   i: integer;
 begin
@@ -2130,7 +2125,7 @@ begin
       //skip UTF8 signature, needed for XMLs
       if SBeginsWith(sLine, cSignUTF8) then
         System.Delete(sLine, 1, Length(cSignUTF8));
-      res:= AppConfig_DetectLine.GetValueByRegex(sLine);
+      res:= AppConfig_DetectLine.GetValueByRegex(sLine, true);
       if res<>'' then
         exit(AppManager.FindLexerByName(res));
     end;
@@ -2922,7 +2917,7 @@ begin
   Result:= ADefValue;
 end;
 
-function TAppKeyValues.GetValueByRegex(ALine: string): string;
+function TAppKeyValues.GetValueByRegex(ALine: string; ACaseSens: boolean): string;
 var
   Item: TAppKeyValue;
   i: integer;
@@ -2931,7 +2926,7 @@ begin
   for i:= 0 to Count-1 do
   begin
     Item:= TAppKeyValue(Items[i]);
-    if SRegexMatchesString(ALine, Item.Key, true) then
+    if SRegexMatchesString(ALine, Item.Key, ACaseSens) then
       exit(Item.Value);
   end;
 end;
