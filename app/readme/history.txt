@@ -11,6 +11,7 @@
 + add: command 'tabulation size: set to 2'
 + add: command 'tabulation size: set to 4'
 + add: command 'tabulation size: set to 8'
+* change: prettified ISO encoding names: 'iso88591' -> 'iso-8859-1' etc
 * change/add: better Undo steps, when Del/BkSpace key was pressed many times (thanks @cser)
 * change: plugin Insert Time: move caret to the right side on insertion (thanks @mix-7)
 * change: delete deprecated (in 2021/10) commands 'stop macro' and 'cancel macro'
