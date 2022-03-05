@@ -917,6 +917,8 @@ begin
     NColor:= clNone;
     bFoundBrackets:= false;
 
+    if (i>1) and (AStr[i-1]='&') then Continue; //skip HTML tokens like &#123; and &nnnn;
+
     case AStr[i] of
       '#':
         begin
