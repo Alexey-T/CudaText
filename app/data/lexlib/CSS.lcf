@@ -1,4 +1,4 @@
-object SyntAnal8: TLibSyntAnalyzer
+object SyntAnal6: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Style'
@@ -237,7 +237,7 @@ object SyntAnal8: TLibSyntAnalyzer
       BlockName = '{'
       NotParent = True
       TokenType = 2
-      Expression = ':{1,2}[\w\-]+'
+      Expression = ':{1,2}[a-z][\w\-]*'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -2393,7 +2393,7 @@ object SyntAnal8: TLibSyntAnalyzer
       DisplayName = 'PHP'
       StartExpression = '<\?(php)?'
       EndExpression = '\?>'
-      SyntAnalyzer = SyntAnal19
+      SyntAnalyzer = SyntAnal14
     end>
   SampleText.Strings = (
     '/* Comment */'
