@@ -1,4 +1,4 @@
-object SyntAnal18: TLibSyntAnalyzer
+object SyntAnal16: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Number'
@@ -712,8 +712,8 @@ object SyntAnal18: TLibSyntAnalyzer
     '^@Id'
     '^Id tree class')
   Extentions = 
-    'py py3 pyw pyi pyx pyx.in pxd pxd.in pxi pxi.in rpy cpy SConstru' +
-    'ct SConscript gyp gypi Snakefile smk vpy wscript bazel bzl'
+    'py py3 pyw pyi rpy cpy SConstruct SConscript gyp gypi Snakefile ' +
+    'smk vpy wscript bazel bzl'
   LexerName = 'Python'
   Notes.Strings = (
     'Python lexer by Alexey (CudaText)')
