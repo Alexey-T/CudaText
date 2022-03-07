@@ -4591,6 +4591,7 @@ var
   StrCaption, StrId, StrFilename, StrCmd, StrIndex: string;
   SplitVert, SplitVisible, ok: boolean;
   SplitPos, SplitTotal: integer;
+  NIndentChars, NIndentColumns: integer;
   Params: TAppVariantArray;
   ParamBool: boolean;
   ParamRect: TRect;
@@ -4623,7 +4624,8 @@ begin
 
         APP_PROC_GET_CLIP_INDENT:
           begin
-            Result:= PyLong_FromLong(ATEditorClipboardIndent);
+            ATEditorGetClipboardIndent(NIndentChars, NIndentColumns);
+            Result:= Py_BuildValue('(ii)', NIndentChars, NIndentColumns);
           end;
 
         APP_PROC_CLIP_ENUM:
