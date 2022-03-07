@@ -2870,15 +2870,15 @@ Call "lock" increases counter, "unlock" decreases this counter (it's safe to cal
 
 Converts something in editor. Possible values of "id":
 
-* CONVERT_CHAR_TO_COL: Convert char coordinates (x,y) to column coordinates (column,y), using current tab size.
-* CONVERT_COL_TO_CHAR: Convert column coordinates (x,y) to char coordinates (chars,y).
-* CONVERT_LINE_TABS_TO_SPACES: Convert line (param "text") from tab-chars to spaces, using current tab size. Returns str. Returns original line, if no tab-chars in it.
-* CONVERT_SCREEN_TO_LOCAL: Convert pixel coordinates (x,y), from screen-related to control-related.
-* CONVERT_LOCAL_TO_SCREEN: Convert pixel coordinates (x,y), from control-related to screen-related.
-* CONVERT_PIXELS_TO_CARET: Convert pixel control-related coords (x,y) to text position (column,line).
-* CONVERT_CARET_TO_PIXELS: Convert text position (column,line) to pixel control-related coords (x,y).
-* CONVERT_OFFSET_TO_CARET: Convert absolute offset (0-based) given by param "x", to text position (column,line).
-* CONVERT_CARET_TO_OFFSET: Convert text position (column,line) to absolute offset.
+* CONVERT_CHAR_TO_COL: Convert char coordinates (x,y) to column coordinates (column,y), using current tabulation size. Param "text" is ignored. Returns 2-tuple of int.
+* CONVERT_COL_TO_CHAR: Convert column coordinates (x,y) to char coordinates (chars,y). Param "text" is ignored. Returns 2-tuple of int.
+* CONVERT_LINE_TABS_TO_SPACES: Convert line, given in param "text", from tabulation-chars to spaces, using current tabulation size. Returns string. Returns original line, if it does not contain tabulation-chars.
+* CONVERT_SCREEN_TO_LOCAL: Convert pixel coordinates (x,y), from screen-related to control-related. Param "text" is ignored. Returns 2-tuple of int.
+* CONVERT_LOCAL_TO_SCREEN: Convert pixel coordinates (x,y), from control-related to screen-related. Param "text" is ignored. Returns 2-tuple of int.
+* CONVERT_PIXELS_TO_CARET: Convert pixel control-related coords (x,y) to text position (column,line). Param "text" is ignored. Returns 2-tuple of int.
+* CONVERT_CARET_TO_PIXELS: Convert text position (x,y) to pixel control-related coords (x,y). Param "text" is ignored. Returns 2-tuple of int.
+* CONVERT_OFFSET_TO_CARET: Convert absolute offset (0-based) given by param "x", to text position (column,line). Params "y", "text" are ignored. Returns 2-tuple of int.
+* CONVERT_CARET_TO_OFFSET: Convert text position (x,y) to absolute text offset (0-based). Param "text" is ignored. Returns int.
 
 Returns None if params are incorrect, or cannot calculate the result.
 
