@@ -4625,11 +4625,11 @@ begin
         APP_PROC_GET_CLIP_EX:
           begin
             ATEditorGetClipboardExData(ClipExData);
-            Result:= Py_BuildValue('{sOsisisisssLsLsL}',
+            Result:= Py_BuildValue('{sOsOsisisssLsLsL}',
               'is_column',
               PyBool_FromLong(Ord(Clipboard.HasFormat(ATEditorOptions.ClipboardColumnFormat))),
-              'line_index',
-              ClipExData.FirstLineIndex,
+              'caret_pos',
+              PyHelper_Rect(ClipExData.CaretPos),
               'indent_chars',
               ClipExData.FirstLineIndentChars,
               'indent_columns',
