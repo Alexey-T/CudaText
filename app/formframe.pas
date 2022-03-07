@@ -1514,7 +1514,8 @@ begin
     cCommand_ClipboardPaste_Select,
     cCommand_ClipboardPaste_KeepCaret,
     cCommand_ClipboardPaste_Column,
-    cCommand_ClipboardPaste_ColumnKeepCaret:
+    cCommand_ClipboardPaste_ColumnKeepCaret,
+    cCommand_ClipboardPasteAndIndent:
       begin
         Adapter[Ed].StopTreeUpdate;
         Adapter[Ed].Stop;
