@@ -4625,7 +4625,7 @@ begin
         APP_PROC_GET_CLIP_EX:
           begin
             ATEditorGetClipboardExData(ClipExData);
-            Result:= Py_BuildValue('{sOsisisi}',
+            Result:= Py_BuildValue('{sOsisisisssLsLsL}',
               'is_column',
               PyBool_FromLong(Ord(Clipboard.HasFormat(ATEditorOptions.ClipboardColumnFormat))),
               'line_index',
@@ -4633,7 +4633,16 @@ begin
               'indent_chars',
               ClipExData.FirstLineIndentChars,
               'indent_columns',
-              ClipExData.FirstLineIndentColumns);
+              ClipExData.FirstLineIndentColumns,
+              'file_name',
+              PChar(string(ClipExData.FileName)),
+              'version',
+              ClipExData.ModifiedVersion,
+              'tick_on_copy',
+              ClipExData.TickOnCopy,
+              'tick_current',
+              GetTickCount64
+              );
           end;
 
         APP_PROC_CLIP_ENUM:
