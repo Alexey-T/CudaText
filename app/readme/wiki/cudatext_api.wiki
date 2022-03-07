@@ -253,11 +253,17 @@ Actions work with props of Find/Replace dialog, and props of low-level search en
 ====app_proc - Clipboard====
 
 * PROC_GET_CLIP: Returns clipboard text.
+
 * PROC_GET_CLIP_EX: Returns additional info, stored to clipboard by CudaText, as dict. Dict keys are:
 ** "is_column": bool: True if clipboard contains the column (vertical) block.
 ** "line_index": int: Index of the block's first line, at the moment of copying to clipboard.
 ** "indent_chars": int: Number of indentation chars (spaces/tabs), of the block's first line, in the original document. Tab-chars are not expanded (counted as 1).
 ** "indent_columns": int: Number of indentation columns, of the block's first line, in the original document. Tab-chars are expanded.
+** "file_name": str: Full path of the file from which text was copyied. Limited by 255 chars.
+** "version": int: Modification version of the document, at the moment of copying.
+** "tick_on_copy": int: OS tick-count in milliseconds, at the moment of copying.
+** "tick_current": int: OS tick-count in milliseconds, at the moment of this API call.
+
 * PROC_SET_CLIP: Copies text to clipboard (usual).
 * PROC_SET_CLIP_ALT: Copies text to alternate clipboard on Linux, called "primary selection".
 ** CudaText Copy commands put text to usual clipboard + primary selection.
