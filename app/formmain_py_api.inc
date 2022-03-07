@@ -4591,7 +4591,7 @@ var
   StrCaption, StrId, StrFilename, StrCmd, StrIndex: string;
   SplitVert, SplitVisible, ok: boolean;
   SplitPos, SplitTotal: integer;
-  NIndentChars, NIndentColumns: integer;
+  ClipExData: TATEditorClipboardExData;
   Params: TAppVariantArray;
   ParamBool: boolean;
   ParamRect: TRect;
@@ -4622,10 +4622,18 @@ begin
             Result:= ReturnNone;
           end;
 
-        APP_PROC_GET_CLIP_INDENT:
+        APP_PROC_GET_CLIP_EX:
           begin
-            ATEditorGetClipboardIndent(NIndentChars, NIndentColumns);
-            Result:= Py_BuildValue('(ii)', NIndentChars, NIndentColumns);
+            ATEditorGetClipboardExData(ClipExData);
+            Result:= Py_BuildValue('{sOsisisi}',
+              'is_column',
+              PyBool_FromLong(Ord(Clipboard.HasFormat(ATEditorOptions.ClipboardColumnFormat))),
+              'line_index',
+              ClipExData.FirstLineIndex,
+              'indent_chars',
+              ClipExData.FirstLineIndentChars,
+              'indent_columns',
+              ClipExData.FirstLineIndentColumns);
           end;
 
         APP_PROC_CLIP_ENUM:
