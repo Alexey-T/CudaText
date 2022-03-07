@@ -253,6 +253,7 @@ Actions work with props of Find/Replace dialog, and props of low-level search en
 ====app_proc - Clipboard====
 
 * PROC_GET_CLIP: Returns clipboard text.
+* PROC_GET_CLIP_INDENT: Returns additional data, stored to clipboard by CudaText: original indentation size of the first clipboard line. Tab-chars are not expanded, ie indentation of single tab-char gives value 1.
 * PROC_SET_CLIP: Copies text to clipboard (usual).
 * PROC_SET_CLIP_ALT: Copies text to alternate clipboard on Linux, called "primary selection".
 ** CudaText Copy commands put text to usual clipboard + primary selection.
@@ -4536,5 +4537,8 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 
 1.0.415 (app 1.153.1)
 * add: app_proc: PROC_SAVE_SESSION supports additional parameters
+
+1.0.416 (app 1.157.1)
+* add: app_proc: PROC_GET_CLIP_INDENT
 
 [[Category:CudaText]]

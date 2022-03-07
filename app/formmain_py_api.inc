@@ -4621,6 +4621,11 @@ begin
             Result:= ReturnNone;
           end;
 
+        APP_PROC_GET_CLIP_INDENT:
+          begin
+            Result:= PyLong_FromLong(ATEditorClipboardIndent);
+          end;
+
         APP_PROC_CLIP_ENUM:
           begin
             Result:= PyUnicodeFromString(DoClipboardFormatsAsString);
