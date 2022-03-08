@@ -396,7 +396,6 @@ type
     mnuEditLineOp: TMenuItem;
     mnuHelpCmd: TMenuItem;
     mnuEditUndo: TMenuItem;
-    mnuEditDel: TMenuItem;
     mnuSelAll: TMenuItem;
     SepEd2: TMenuItem;
     mnuEditRedo: TMenuItem;

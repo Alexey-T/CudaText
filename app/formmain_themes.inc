@@ -359,9 +359,6 @@ begin
   if Assigned(mnuEditCut) then
     mnuEditCut.Enabled:= Ed.OptCutLinesIfNoSel or bSel;
 
-  if Assigned(mnuEditDel) then
-    mnuEditDel.Enabled:= bSel;
-
   if Assigned(mnuEditCopyAppend) then
     mnuEditCopyAppend.Enabled:= bSel;
 end;

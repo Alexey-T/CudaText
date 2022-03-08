@@ -234,9 +234,6 @@ object fmMain: TfmMain
       object mnuEditPasteHist: TMenuItem
         Caption = 'Paste from history'
       end
-      object mnuEditDel: TMenuItem
-        Caption = '&Delete'
-      end
       object SepEd2: TMenuItem
         Caption = '-'
       end

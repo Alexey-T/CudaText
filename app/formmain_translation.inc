@@ -153,7 +153,6 @@ begin
     DoLocMenuitem(mnuEditCut, ATEditorOptions.TextMenuitemCut);
     DoLocMenuitem(mnuEditCopy, ATEditorOptions.TextMenuitemCopy);
     DoLocMenuitem(mnuEditPaste, ATEditorOptions.TextMenuitemPaste);
-    DoLocMenuitem(mnuEditDel, ATEditorOptions.TextMenuitemDelete);
 
     DoLocMenuitem(ini, mnuEdit, 'm_e', '_');
     DoLocMenuitem(ini, mnuEditUndo, 'm_e', 'undo');
@@ -163,7 +162,6 @@ begin
     DoLocMenuitem(ini, mnuEditPaste, 'm_e', 'pst');
     DoLocMenuitem(ini, mnuEditPasteIndent, 'm_e', 'pst_in');
     DoLocMenuitem(ini, mnuEditPasteHist, 'm_e', 'pst_hs');
-    DoLocMenuitem(ini, mnuEditDel, 'm_e', 'del');
 
     msgCopySub:= ini.ReadString('m_e', 'cp_', msgCopySub);
     msgCopyFilenameName:= ini.ReadString('m_e', 'cp_name', msgCopyFilenameName);
