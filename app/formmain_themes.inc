@@ -345,7 +345,11 @@ begin
     mnuEditRedo.Enabled:= not Ed.Strings.RedoEmpty;
 
   if Assigned(mnuEditPaste) then
+  begin
     mnuEditPaste.Enabled:= Clipboard.HasFormat(CF_Text);
+    if Assigned(mnuEditPasteIndent) then
+      mnuEditPasteIndent.Enabled:= mnuEditPaste.Enabled;
+  end;
 
   if Assigned(mnuEditCopy) then
     mnuEditCopy.Enabled:= Ed.OptCopyLinesIfNoSel or bSel;

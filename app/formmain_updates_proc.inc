@@ -791,6 +791,7 @@ begin
   UpdateMenuItemHotkey(mnuEditCut, cCommand_ClipboardCut);
   UpdateMenuItemHotkey(mnuEditCopy, cCommand_ClipboardCopy);
   UpdateMenuItemHotkey(mnuEditPaste, cCommand_ClipboardPaste);
+  UpdateMenuItemHotkey(mnuEditPasteIndent, cCommand_ClipboardPasteAndIndent);
   UpdateMenuItemHotkey(mnuEditDel, cCommand_TextDeleteSelection);
 
   UpdateMenuItemHotkey(mnuEditCopyLine, cmd_CopyLine);
