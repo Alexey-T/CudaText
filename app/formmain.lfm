@@ -231,6 +231,9 @@ object fmMain: TfmMain
       object mnuEditPasteIndent: TMenuItem
         Caption = 'Paste and indent'
       end
+      object mnuEditPasteHist: TMenuItem
+        Caption = 'Paste from history'
+      end
       object mnuEditDel: TMenuItem
         Caption = '&Delete'
       end

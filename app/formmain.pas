@@ -239,6 +239,7 @@ type
   TfmMain = class(TForm)
     AppProps: TApplicationProperties;
     ButtonCancel: TATButton;
+    mnuEditPasteHist: TMenuItem;
     mnuEditPasteIndent: TMenuItem;
     mnuViewSplitNo: TMenuItem;
     mnuViewSplitV: TMenuItem;

@@ -162,6 +162,7 @@ begin
     DoLocMenuitem(ini, mnuEditCopy, 'm_e', 'cp');
     DoLocMenuitem(ini, mnuEditPaste, 'm_e', 'pst');
     DoLocMenuitem(ini, mnuEditPasteIndent, 'm_e', 'pst_in');
+    DoLocMenuitem(ini, mnuEditPasteHist, 'm_e', 'pst_hs');
     DoLocMenuitem(ini, mnuEditDel, 'm_e', 'del');
 
     msgCopySub:= ini.ReadString('m_e', 'cp_', msgCopySub);

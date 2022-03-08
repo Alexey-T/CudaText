@@ -349,6 +349,8 @@ begin
     mnuEditPaste.Enabled:= Clipboard.HasFormat(CF_Text);
     if Assigned(mnuEditPasteIndent) then
       mnuEditPasteIndent.Enabled:= mnuEditPaste.Enabled;
+    if Assigned(mnuEditPasteHist) then
+      mnuEditPasteHist.Enabled:= mnuEditPaste.Enabled;
   end;
 
   if Assigned(mnuEditCopy) then
