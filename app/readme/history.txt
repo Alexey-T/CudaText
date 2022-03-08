@@ -7,6 +7,7 @@
 
 + add: command "Paste and indent" in the Command Palette + upper menu (thanks @DUOLabs333); it mimics Sublime Text command with the same name, you can assign Ctrl+Shift+V to it
 + add: command "Paste from history" in the Command Palette + upper menu; it mimics Sublime Text command
++ add: command "clipboard: clear history" in the Command Palette
 * change: removed menu item "Edit / Delete" (most apps don't have it)
 
 1.157.0 (2022/03)
