@@ -5,7 +5,8 @@
 
 1.157.1 (2022/03)
 
-+ add: command "clipboard: paste and indent" in the Command Palette (thanks @DUOLabs333); it mimics Sublime Text command "paste and indent", so you can assign Ctrl+Shift+V to it
++ add: command "paste and indent" in the Command Palette + upper menu (thanks @DUOLabs333); it mimics Sublime Text command "paste and indent", so you can assign Ctrl+Shift+V to it
++ add: command "paste from history" in the Command Palette + upper menu; it mimics Sublime Text command
 
 1.157.0 (2022/03)
 
