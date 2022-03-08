@@ -871,6 +871,11 @@
   //History: Max items in "settings/history files.json" (0..400).
   "ui_max_history_files": 25,
 
+  //History: Max saved clipboard items for the command "Edit / Paste from history".
+  //If 0: no clipboard history will be kept.
+  //If big value: all items of "Paste from history" may not fit to screen.
+  "ui_max_history_clipboard": 15,
+
   //History: Which elements to save to history/session files.
   //Option affects only saving the history, and is ignored on reading it.
   //Value is string, each char _disables_ storing of one element.

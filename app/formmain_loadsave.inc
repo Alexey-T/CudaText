@@ -938,6 +938,7 @@ begin
   ATEditorOptions.MouseDragDropFocusesTargetEditor:= cfg.GetValue('mouse_drag_drop_focus_target', ATEditorOptions.MouseDragDropFocusesTargetEditor);
   ATEditorOptions.MaxTabPositionToExpand:= cfg.GetValue('tab_max_pos_expanded', ATEditorOptions.MaxTabPositionToExpand);
   ATEditorOptions.MaxLineLenForAccurateCharWidths:= cfg.GetValue('max_line_len_for_accurate_width', ATEditorOptions.MaxLineLenForAccurateCharWidths);
+  ATEditorOptions.MaxClipboardRecents:= cfg.GetValue('ui_max_history_clipboard', ATEditorOptions.MaxClipboardRecents);
 
   ATEditorOptions.UnprintedTabCharLength:= cfg.GetValue('unprinted_tab_len', ATEditorOptions.UnprintedTabCharLength);
   ATEditorOptions.UnprintedReplaceSpec:= cfg.GetValue('unprinted_replace_spec', ATEditorOptions.UnprintedReplaceSpec);
