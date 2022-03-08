@@ -3444,6 +3444,8 @@ initialization
   AppManagerLite.OnApplyStyle:= @LiteLexer_ApplyStyle;
   AppManagerThread:= TAppManagerThread.Create(false);
 
+  ATEditorOptions.MaxClipboardRecents:= 15;
+
 finalization
 
   FreeAndNil(AppManagerThread);

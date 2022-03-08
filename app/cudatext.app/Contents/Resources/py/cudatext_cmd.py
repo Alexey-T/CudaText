@@ -198,6 +198,7 @@ cCommand_ClipboardAltPaste_Column = 1013 or _CmdFlag_SelReset
 cCommand_ClipboardAltPaste_ColumnKeepCaret = 1014 or _CmdFlag_SelReset
 #these use "Secondary selection" (alternative clipboard on gtk2)
 cCommand_ClipboardAltAltPaste = 1015
+cCommand_ClipboardPasteFromRecents = 1016
 
 cCommand_TextCaseLower = 1020
 cCommand_TextCaseUpper = 1021
