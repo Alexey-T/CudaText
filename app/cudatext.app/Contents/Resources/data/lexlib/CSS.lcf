@@ -1976,6 +1976,7 @@ object SyntAnal6: TLibSyntAnalyzer
     item
       DisplayName = 'Id colors'
       StyleName = 'Color'
+      BlockName = '{'
       BlockType = btTagDetect
       ConditionList = <
         item
