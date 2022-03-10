@@ -2246,7 +2246,7 @@ object SyntAnal6: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
-      DisplayName = '{ @media'
+      DisplayName = '@media {'
       ConditionList = <
         item
           TagList.Strings = (
@@ -2262,12 +2262,11 @@ object SyntAnal6: TLibSyntAnalyzer
         end>
       BlockEnd = '}'
       NameFmt = '%s0~[{]1'
-      GroupFmt = '\Media'
       RefToCondEnd = True
       HighlightPos = cpAny
       CancelNextRules = True
       CollapseFmt = '%s0~[{]1 { ... }'
-      TreeItemImage = 1
+      TreeItemImage = 6
       IgnoreAsParent = False
     end
     item
@@ -2282,13 +2281,12 @@ object SyntAnal6: TLibSyntAnalyzer
       BlockEnd = '}'
       Highlight = True
       InvertColors = True
-      NameFmt = '%sl1'
-      GroupFmt = '\Styles'
+      NameFmt = 'CSS'
       DynHighlight = dhRange
       HighlightPos = cpRange
       DynSelectMin = True
       CollapseFmt = '{ ... }'
-      TreeItemImage = 0
+      TreeItemImage = 4
       IgnoreAsParent = False
       AutoCloseMode = acmCloseNearest
       AutoCloseText = '}'#13#10
@@ -2307,6 +2305,7 @@ object SyntAnal6: TLibSyntAnalyzer
     end
     item
       DisplayName = 'Media'
+      Enabled = False
       StyleName = 'Current block BG'
       ConditionList = <
         item
