@@ -4625,6 +4625,8 @@ begin
         APP_PROC_GET_CLIP_EX:
           begin
             ATEditorGetClipboardExData(ClipExData);
+            //we get more info than ATEditorGetClipboardExData gives,
+            //so always return Dict, even if clipboard is empty
             Result:= Py_BuildValue('{sOsOsisisisssLsLsL}',
               'is_column',
               PyBool_FromLong(Ord(Clipboard.HasFormat(ATEditorOptions.ClipboardColumnFormat))),
