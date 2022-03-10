@@ -23,7 +23,7 @@ def test_labels_render():
     'name':'fnm', 'x':100, 'y':5, 'w':400, 'h':25, 
     'items':'\t'.join(FONT_LST)})
     idc=dlg_proc(idd, DLG_CTL_ADD,"button");dlg_proc(idd, DLG_CTL_PROP_SET, index=idc, prop={
-    'name':'ok', 'x':500, 'y':4, 'w':30, 'h':25, 'cap':'OK', 'ex0':True, "on_change":on_ok})
+    'name':'ok', 'x':500, 'y':4, 'w':45, 'h':28, 'cap':'OK', 'ex0':True, "on_change":on_ok})
 
     idc=dlg_proc(idd, DLG_CTL_ADD,"label");dlg_proc(idd, DLG_CTL_PROP_SET, index=idc, prop={
     'name':'s09', 'x':5, 'y':40, 'w':15, 'cap':' 9'})
@@ -78,7 +78,7 @@ def test_labels_render():
     'name':'i14', 'x':365, 'y':195, 'w':150, 'cap':text, 'font_size': 14, 'font_style': 'i'})
 
     dlg_proc(idd, DLG_PROP_SET, prop={
-    'x':200, 'y':200, 'w':550, 'h':250, 'cap':'Labels rendering', 'tag':'', 'border':3, 'topmost':True, 'vis':False, 'keypreview':True, 'clicked': -1, 'resize': False, 'p': 0})
+    'x':200, 'y':200, 'w':550, 'h':250, 'cap':'Labels rendering', 'tag':'', 'border':3, 'topmost':True, 'vis':False, 'keypreview':True, 'clicked': -1, 'border': DBORDER_DIALOG, 'p': 0})
 
     dlg_proc(idd, DLG_SHOW_MODAL)
     dlg_proc(idd, DLG_FREE)
