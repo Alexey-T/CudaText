@@ -2255,7 +2255,7 @@ object SyntAnal6: TLibSyntAnalyzer
         end
         item
           CondType = tcSkip
-          TokenTypes = 1164
+          TokenTypes = 5788
         end
         item
           TokenTypes = 32
@@ -2267,6 +2267,7 @@ object SyntAnal6: TLibSyntAnalyzer
       HighlightPos = cpAny
       CancelNextRules = True
       CollapseFmt = '%s0~[{]1 { ... }'
+      TreeItemImage = 1
       IgnoreAsParent = False
     end
     item
@@ -2287,6 +2288,7 @@ object SyntAnal6: TLibSyntAnalyzer
       HighlightPos = cpRange
       DynSelectMin = True
       CollapseFmt = '{ ... }'
+      TreeItemImage = 0
       IgnoreAsParent = False
       AutoCloseMode = acmCloseNearest
       AutoCloseText = '}'#13#10
@@ -2318,10 +2320,12 @@ object SyntAnal6: TLibSyntAnalyzer
       HighlightPos = cpRange
       DynSelectMin = True
       NoEndRule = True
+      TreeItemImage = 2
       IgnoreAsParent = False
     end
     item
       DisplayName = 'Prop'
+      Enabled = False
       BlockName = '{'
       ConditionList = <
         item
@@ -2333,6 +2337,7 @@ object SyntAnal6: TLibSyntAnalyzer
     end
     item
       DisplayName = 'Prop end'
+      Enabled = False
       BlockType = btRangeEnd
       ConditionList = <
         item
@@ -2355,6 +2360,7 @@ object SyntAnal6: TLibSyntAnalyzer
       GroupFmt = '\Colors'
       HighlightPos = cpAny
       NoEndRule = True
+      TreeItemImage = 7
       IgnoreAsParent = False
     end
     item
