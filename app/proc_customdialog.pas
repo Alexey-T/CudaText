@@ -2331,15 +2331,6 @@ begin
   if AName='tag' then
     F.TagString:= AValue
   else
-  if AName='resize' then //deprecated!
-  begin
-    MsgOldApi('Form''s "resize" property was deprecated long time ago, use "border" instead');
-    if AppStrToBool(AValue) then
-      F.BorderStyle:= bsSizeable
-    else
-      F.BorderStyle:= bsDialog;
-  end
-  else
   if AName='border' then
     F.BorderStyle:= TFormBorderStyle(StrToIntDef(AValue, Ord(bsDialog)))
   else
