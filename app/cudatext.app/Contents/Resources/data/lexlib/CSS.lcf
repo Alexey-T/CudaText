@@ -2150,7 +2150,6 @@ object SyntAnal6: TLibSyntAnalyzer
           IgnoreCase = True
         end>
       HighlightPos = cpAny
-      TokenType = 6
       IgnoreAsParent = False
     end
     item
