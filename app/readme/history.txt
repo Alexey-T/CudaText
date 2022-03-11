@@ -10,8 +10,8 @@
 + add: command "Paste from history" in the Command Palette + upper menu. It mimics Sublime Text command. Feature is controlled by new option "ui_max_history_clipboard".
 + add: command "clipboard: clear history" in the Command Palette
 * change: removed menu item "Edit / Delete" (most apps don't have it)
-* change: lexer CSS: removed all properties from code-tree
-* change: lexer CSS: removed color names (e.g. 'olive') from code-tree 'Colors' node
+* change: lexer CSS: removed 'properties' nodes from code-tree (like in VSCode)
+* change: lexer CSS: removed color names (e.g. 'olive') from code-tree
 
 1.157.0 (2022/03)
 
