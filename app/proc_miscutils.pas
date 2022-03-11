@@ -507,6 +507,11 @@ begin
     Result+= 'h';
   if Clipboard.HasPictureFormat then
     Result+= 'p';
+
+  if Clipboard.HasFormat(ATEditorOptions.ClipboardColumnFormat) then
+    Result+= 'c';
+  if Clipboard.HasFormat(ATEditorOptions.ClipboardExFormat) then
+    Result+= 'x';
 end;
 
 procedure AppScalePanelControls(APanel: TWinControl);

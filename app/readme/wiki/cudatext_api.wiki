@@ -275,6 +275,8 @@ Actions work with props of Find/Replace dialog, and props of low-level search en
 ** "t": Text format.
 ** "h": HTML format.
 ** "p": Picture format.
+** "c": CudaText format telling about "is it column (vertical) block".
+** "x": CudaText format telling about last copying to Clipboard (PROC_GET_CLIP_EX will show these details).
 
 * PROC_CLIP_SAVE_PIC: If Clipboard has a picture format, saves it to given filename (recommended the .png extension). Returns bool: clipboard has a picture, file is saved.
 
@@ -4550,6 +4552,7 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 
 1.0.416 (app 1.157.2)
 * add: app_proc: PROC_GET_CLIP_EX
+* add: app_proc: additional chars in result of PROC_CLIP_ENUM
 * deleted deprecated: "resize" property of forms in dlg_proc()
 
 [[Category:CudaText]]
