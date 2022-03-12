@@ -807,10 +807,10 @@ Possible encoding names for command-line usage:
 * cp936
 * cp949
 * cp950
-* iso88591
-* iso88592
-* iso88599
-* iso885915
+* iso-8859-1
+* iso-8859-2
+* iso-8859-9
+* iso-8859-15
 * mac
 
 ==Line ends==
