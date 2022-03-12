@@ -1500,7 +1500,9 @@ While picture is zoomed so that it's bigger than the current window, you can dra
 While picture viewer is active, Find/Replace-dialog is disabled.
 
 ==Pair brackets==
-CudaText has built-in pair bracket finder. Before that you needed the plugin Bracket Helper, and now plugin should not be used, it is much slower than the built-in code. Bracket finder can highlight pair brackets, when there is only single caret, no selection. It finds symbols "()[]{}<>" (configurable per lexer). Bracket finder respects lexer context, it skips symbols inside syntax comments/strings. If caret is placed not directly on/after a bracket, program will find nearest surrounding brackets.
+CudaText has built-in pair bracket finder. Bracket finder can highlight pair brackets, when there is only single caret, and no selection is placed. It finds symbols "()[]{}<>" (configurable per lexer via lexer-specific configs). Bracket finder respects lexer context: it skips symbols inside syntax "comments" and syntax "strings". If caret is placed not directly on/after a bracket, program will find nearest surrounding brackets.
+
+(Long time ago, plugin "Bracket Helper" was needed for this feature, later it was removed from add-ons.)
 
 There are several options:
 * "bracket_highlight"
