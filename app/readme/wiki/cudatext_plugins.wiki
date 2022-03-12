@@ -1084,7 +1084,6 @@ Some of LSP commands are:
 * Document formatting.
 
 All LSP servers should have a homepage with description of their functions, and installation information.
-LSP Client was initially tested with 2 popular servers: Python, C#.
 
 In the server config "lsp_*.json", key "lexers", you need to specify the mapping between CudaText lexer names and LSP language names.
 For example, while CudaText lexer name is "Bash script", LSP language name is "bash".
