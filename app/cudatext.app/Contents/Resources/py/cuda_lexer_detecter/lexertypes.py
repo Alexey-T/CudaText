@@ -358,6 +358,7 @@ TYPES = {
     "rtf": ['RTF'],
     "s": ['Assembly ARM', 'Assembly GNU AS', 'Assembly Motorola 68k', 'Assembly MIPS', 'Assembly RISC-V', 'Assembly SPARC', 'Assembly Z80 RGBDS'],
     "sass": ['Sass'],
+    "sbt": ['Scala'],
     "scad": ['OpenSCAD'],
     "scala": ['Scala'],
     "sce": ['Scilab'],
