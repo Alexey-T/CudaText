@@ -10,24 +10,25 @@ from .work_remote import *
 from cudax_lib import get_translation
 _   = get_translation(__file__)  # i18n
 
-p = sys.platform
 X64 = platform.architecture()[0]=='64bit'
-##p = 'win32'
-##X64 = False
+
+TEXT_OS = app.app_proc(app.PROC_GET_OS_SUFFIX, '')
+if TEXT_OS:
+    TEXT_OS = TEXT_OS[2:]
+else:
+    TEXT_OS = 'win'    
+
+TEXT_CPU = '(amd64|x64)' if X64 else '(i386|x32)'
+REGEX_GROUP_VER = 1
 
 DOWNLOAD_PAGE = 'https://sourceforge.net/projects/cudatext/files/release/'
-
-if p=='darwin':
-    TEXT_CPU = ''
-    REGEX_GROUP_VER = 1
-else:
-    TEXT_CPU = '(amd64|x64)' if X64 else '(i386|x32)'
-    REGEX_GROUP_VER = 2
-
 VERSION_REGEX = r'\b1\.\d{2,3}\.\d+\.\d+\b'
 DOWNLOAD_REGEX = \
-    r' href="(\w+://[\w\.]+/projects/cudatext/files/release/[\w\.]+/cudatext-[\w\-]+?'+TEXT_CPU+'[\w\-]*?-([\d\.]+?)\.(zip|dmg|tar\.xz)/download)"'
-
+    r' href="(\w+://[\w\.]+/projects/cudatext/files/release/([\d\.]+)/cudatext-'+ \
+    TEXT_OS+ r'(-gtk.|qt5)?'+ '-'+ \
+    TEXT_CPU+ r'-[\d\.]+'+ \
+    r'\.(zip|dmg|tar\.xz)'+ \
+    r'/download)"'
 
 def versions_ordered(s1, s2):
     """
