@@ -8,23 +8,18 @@ from .work_remote import *
 from cudax_lib import get_translation
 _   = get_translation(__file__)  # i18n
 
-comp_info = app.app_proc(app.PROC_GET_COMPILER_INFO, '')
-TEXT_OS = comp_info['os']
-TEXT_CPU = comp_info['cpu']
-if TEXT_CPU == 'x86_64':
-    TEXT_CPU = 'amd64'
-TEXT_WS = comp_info['widgetset']
-REGEX_GROUP_VER = 1
+info = app.app_proc(app.PROC_GET_COMPILER_INFO, '')
+TEXT_OS = info['os'].replace('win32', 'win').replace('win64', 'win')
+TEXT_CPU = info['cpu'].replace('x86_64', 'amd64')
+TEXT_WS = info['widgetset']
 
 DOWNLOAD_PAGE = 'https://sourceforge.net/projects/cudatext/files/release/'
 VERSION_REGEX = r'\b1\.\d{2,3}\.\d+\.\d+\b'
 DOWNLOAD_REGEX = \
     r' href="(\w+://[\w\.]+/projects/cudatext/files/release/([\d\.]+)/cudatext-'+ \
-    TEXT_OS+ '-'+ \
-    TEXT_WS+ '-'+ \
-    TEXT_CPU+ r'-[\d\.]+'+ \
-    r'\.(zip|dmg|tar\.xz)'+ \
-    r'/download)"'
+    TEXT_OS + '-' + TEXT_WS + '-' + TEXT_CPU + r'-[\d\.]+'+ \
+    r'\.(zip|dmg|tar\.xz|tar)/download)"'
+REGEX_GROUP_VER = 1
     
 
 def versions_ordered(s1, s2):
