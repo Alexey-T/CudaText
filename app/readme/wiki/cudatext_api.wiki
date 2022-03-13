@@ -4555,4 +4555,7 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 * add: app_proc: additional chars in result of PROC_CLIP_ENUM
 * deleted deprecated: "resize" property of forms in dlg_proc()
 
+1.0.417 (app 1.157.6)
+* add: app_proc: PROC_GET_COMPILER_INFO
+
 [[Category:CudaText]]
