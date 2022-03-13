@@ -571,7 +571,11 @@ class Command:
         # it was hard to add TREE_LOCK/UNLOCK directly into action_refresh_int
         tree_proc(self.tree, TREE_LOCK)
         try:
+            unfolds = []
+            self.enum_all_getfolds(unfolds)
+            #msg_box('unfolds:\n'+', '.join(unfolds), MB_OK)
             self.action_refresh_int(parent)
+            self.enum_all_setfolds(unfolds)
         finally:
             tree_proc(self.tree, TREE_UNLOCK)
 
@@ -1025,6 +1029,48 @@ class Command:
                     return False
         return True
 
+
+    def enum_all_getfolds(self, unfolds):
+        items = tree_proc(self.tree, TREE_ITEM_ENUM, 0)
+        if items:
+            return self.enum_subitems_getfolds(items[0][0], unfolds)
+
+    def enum_subitems_getfolds(self, item, unfolds):
+        items = tree_proc(self.tree, TREE_ITEM_ENUM_EX, item)
+        if items:
+            for i in items:
+                if i['sub_items']:
+                    id = i['id']
+                    prop = tree_proc(self.tree, TREE_ITEM_GET_PROPS, id)
+                    if not prop['folded']:
+                        fn = i.get('data', '')
+                        if fn:
+                            unfolds.append(fn)
+                    self.enum_subitems_getfolds(id, unfolds)
+
+
+    def enum_all_setfolds(self, unfolds):
+        if not unfolds:
+            return
+        items = tree_proc(self.tree, TREE_ITEM_ENUM, 0)
+        if items:
+            return self.enum_subitems_setfolds(items[0][0], unfolds)
+
+    def enum_subitems_setfolds(self, item, unfolds):
+        items = tree_proc(self.tree, TREE_ITEM_ENUM_EX, item)
+        if items:
+            for i in items:
+                if i['sub_items']:
+                    id = i['id']
+                    fn = i.get('data', '')
+                    if fn in unfolds:
+                        tree_proc(self.tree, TREE_ITEM_UNFOLD, id)
+                        unfolds.remove(fn)
+                    #else: 
+                    #    tree_proc(self.tree, TREE_ITEM_FOLD, id) 
+                    self.enum_subitems_setfolds(id, unfolds)
+
+
     def enum_all_fn(self, filename, and_open):
         """
         Callback for all items.
@@ -1129,7 +1175,8 @@ class Command:
         if items:
             for handle, _ in items:
                 tree_proc(self.tree, TREE_ITEM_DELETE, handle)
-        self.action_refresh(data)
+
+        self.action_refresh_int(data) # call _int version, to avoid recursion
 
     def tree_on_menu(self, id_dlg, id_ctl, data='', info=''):
 
