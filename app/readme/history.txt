@@ -3,6 +3,10 @@
   - fixed
   * changed
 
+1.157.6 (2022/03)
+
++ add: Project Manager: after "Refresh" action, restore folding state + re-select old selected item (thanks @GHNewbiee)
+
 1.157.5 (2022/03)
 
 + add: lexer CSS: code-tree is reworked, now it can show OK even huge _minified_ CSS files
