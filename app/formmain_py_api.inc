@@ -4668,6 +4668,20 @@ begin
             Result:= PyHelper_CommandList;
           end;
 
+        APP_PROC_GET_COMPILER_INFO:
+          begin
+            Result:= Py_BuildValue('{ssssssss}',
+              'os',
+              PChar(LowerCase({$I %FPCTARGETOS%})),
+              'cpu',
+              PChar({$I %FPCTARGETCPU%}),
+              'widgetset',
+              PChar(GetLCLWidgetTypeName),
+              'fpc',
+              PChar({$I %FPCVersion%})
+              );
+          end;
+
         APP_PROC_SAVE_SESSION:
           begin
             SSplitByChar(Str, ';', Str1, Str2);
