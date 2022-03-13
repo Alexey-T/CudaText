@@ -242,13 +242,15 @@ Actions work with props of Find/Replace dialog, and props of low-level search en
 
 ====app_proc - System====
 
-* PROC_GET_OS_SUFFIX: Returns string of OS suffix, which is used in some CudaText option names. Possible values are listed in the default.json file.
 * PROC_ENUM_FONTS: Returns list of font names, currently installed in OS. Note: only some names are common in all OSes (like Arial, Courier, Courier New, Terminal, maybe more).
 * PROC_GET_SYSTEM_PPI: Returns int value of screen pixels-per-inch. Usual value is 96. When OS UI is scaled, it's bigger, e.g. for scale 150% it is round(96*1.5).
 * PROC_GET_GUI_HEIGHT: Returns height (pixels) of GUI element for dlg_custom(). Possible values of 'text': 'button', 'label', 'linklabel', 'combo', 'combo_ro', 'edit', 'spinedit', 'check', 'radio', 'checkbutton', 'filter_listbox', 'filter_listview'. Special value 'scrollbar' gets size of OS scrollbar. Returns None for other values.
 * PROC_GET_MOUSE_POS: Returns mouse cursor position in screen-related coordinates, as (x, y) tuple.
 * PROC_SEND_MESSAGE: For Windows. Sends message to a window by its handle. Param "text" must be 4-tuple of int (window_handle, msg_code, param1, param2).
 * PROC_GET_UNIQUE_TAG: Gets integer value, which is unique for the current CudaText process (it starts with 100, increasing with each call). Use this value for Editor.markers() and Editor.attr() tag values.
+
+* PROC_GET_OS_SUFFIX: Returns string of OS suffix, which is used in some CudaText option names. Possible values are listed in the default.json file.
+* PROC_GET_COMPILER_INFO: Returns information about OS/CPU/WidgetSet CudaText was compiled for, as dict. Dict keys are: "os", "cpu", "widgetset", "fpc".
 
 ====app_proc - Clipboard====
 
