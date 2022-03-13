@@ -16,7 +16,7 @@ _   = get_translation(__file__)  # i18n
 
 IS_WIN = os.name == 'nt'
 PROJECT_EXTENSION = ".cuda-proj"
-PROJECT_DIALOG_FILTER = _("CudaText projects|*") + PROJECT_EXTENSION
+PROJECT_DIALOG_FILTER = _("CudaText projects") + "|*" + PROJECT_EXTENSION
 PROJECT_UNSAVED_NAME = _("(Unsaved project)")
 NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD = range(4)
 global_project_info = {}
