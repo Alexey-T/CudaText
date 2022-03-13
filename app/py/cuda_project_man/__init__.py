@@ -568,16 +568,29 @@ class Command:
 
     def action_refresh(self, parent=None):
 
+        sel_fn = ''
+        id = self.selected
+        if id:
+            prop = tree_proc(self.tree, TREE_ITEM_GET_PROPS, id)
+            if prop:
+                sel_fn = prop.get('data', '')
+
         # it was hard to add TREE_LOCK/UNLOCK directly into action_refresh_int
         tree_proc(self.tree, TREE_LOCK)
         try:
             unfolds = []
             self.enum_all_getfolds(unfolds)
             #msg_box('unfolds:\n'+', '.join(unfolds), MB_OK)
+
             self.action_refresh_int(parent)
+
             self.enum_all_setfolds(unfolds)
         finally:
             tree_proc(self.tree, TREE_UNLOCK)
+
+        if sel_fn:
+            #print('sel to:', sel_fn)
+            self.enum_all_sel(sel_fn)
 
 
     def action_refresh_int(self, parent=None):
@@ -1006,7 +1019,7 @@ class Command:
 
     def enum_all(self, callback):
         """
-        Callback for all items.
+        Enum for all items.
         Until callback gets false.
         """
         items = tree_proc(self.tree, TREE_ITEM_ENUM, 0)
@@ -1066,14 +1079,14 @@ class Command:
                     if fn in unfolds:
                         tree_proc(self.tree, TREE_ITEM_UNFOLD, id)
                         unfolds.remove(fn)
-                    #else: 
-                    #    tree_proc(self.tree, TREE_ITEM_FOLD, id) 
+                    #else:
+                    #    tree_proc(self.tree, TREE_ITEM_FOLD, id)
                     self.enum_subitems_setfolds(id, unfolds)
 
 
     def enum_all_fn(self, filename, and_open):
         """
-        Callback for all items.
+        Enum for all items.
         Find 'filename', and focus its node.
         """
         items = tree_proc(self.tree, TREE_ITEM_ENUM, 0)
@@ -1111,6 +1124,42 @@ class Command:
                 return False
 
         return True
+
+
+    def enum_all_sel(self, filename):
+        """
+        Enum for all items.
+        Find 'filename', and select/show its node.
+        """
+        items = tree_proc(self.tree, TREE_ITEM_ENUM, 0)
+        if items:
+            return self.enum_subitems_sel(items[0][0], filename)
+
+    def enum_subitems_sel(self, item_src, filename):
+        """
+        Callback for all subitems of given item_src.
+        When found 'filename', focus it and return False
+        """
+
+        prop_list = tree_proc(self.tree, TREE_ITEM_ENUM_EX, item_src) or []
+        for prop in prop_list:
+            fn = prop['data']
+            is_dir = prop['sub_items']
+
+            if is_dir:
+                node = prop['id']
+                if not self.enum_subitems_sel(node, filename):
+                    return False
+
+            elif fn==filename:
+                node = prop['id']
+                tree_proc(self.tree, TREE_ITEM_SELECT, node)
+                tree_proc(self.tree, TREE_ITEM_SHOW, node)
+                #print('enum_subitems_sel found node!')
+                return False
+
+        return True
+
 
     def menu_goto(self):
         """ Show menu-dialog with all files in project, and jump to chosen file """
