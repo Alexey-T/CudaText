@@ -15,12 +15,7 @@ X64 = platform.architecture()[0]=='64bit'
 ##p = 'win32'
 ##X64 = False
 
-DOWNLOAD_PAGE = \
-    'https://sourceforge.net/projects/cudatext/files/release/Linux/' if p.startswith('linux')\
-    else 'https://sourceforge.net/projects/cudatext/files/release/Windows/' if p.startswith('win')\
-    else 'https://sourceforge.net/projects/cudatext/files/release/macOS/' if p=='darwin'\
-    else 'https://sourceforge.net/projects/cudatext/files/release/FreeBSD/' if p.startswith('freebsd')\
-    else '?'
+DOWNLOAD_PAGE = 'https://sourceforge.net/projects/cudatext/files/release/'
 
 if p=='darwin':
     TEXT_CPU = ''
@@ -29,8 +24,9 @@ else:
     TEXT_CPU = '(amd64|x64)' if X64 else '(i386|x32)'
     REGEX_GROUP_VER = 2
 
+VERSION_REGEX = r'\b1\.\d{2,3}\.\d+\.\d+\b'
 DOWNLOAD_REGEX = \
-    ' href="(\w+://[\w\.]+/projects/cudatext/files/release/\w+/cudatext-[\w\-]+?'+TEXT_CPU+'[\w\-]*?-([\d\.]+?)\.(zip|dmg|tar\.xz)/download)"'
+    r' href="(\w+://[\w\.]+/projects/cudatext/files/release/[\w\.]+/cudatext-[\w\-]+?'+TEXT_CPU+'[\w\-]*?-([\d\.]+?)\.(zip|dmg|tar\.xz)/download)"'
 
 
 def versions_ordered(s1, s2):
@@ -54,9 +50,28 @@ def check_cudatext():
         return
 
     text = open(fn, encoding='utf8').read()
+    items = re.findall(VERSION_REGEX, text)
+    if not items:
+        app.msg_status(_('Cannot find app version: '+DOWNLOAD_PAGE))
+        return
+
+    items = sorted(items, reverse=True)
+    s_version = items[0]
+    print(_('Found last version: ')+s_version)
+
+    url = DOWNLOAD_PAGE+s_version+'/'
+    app.msg_status(_('Downloading: ')+url, True)
+    get_url(url, fn, True)
+    app.msg_status('')
+
+    if not os.path.isfile(fn):
+        app.msg_status(_('Cannot download: ')+url)
+        return
+
+    text = open(fn, encoding='utf8').read()
     items = re.findall(DOWNLOAD_REGEX, text)
     if not items:
-        app.msg_status(_('Cannot find download links'))
+        app.msg_status(_('Cannot find links: '+url))
         return
 
     items = sorted(items, key=lambda i:i[REGEX_GROUP_VER], reverse=True)
