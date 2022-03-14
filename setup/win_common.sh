@@ -7,7 +7,7 @@ outdir=$2
 exedir=$3
 pydir=$4
 
-zipname=cudatext-windows-$cpu-$cuda_ver.zip
+zipname=cudatext-win-$cpu-$cuda_ver.zip
 mkdir -p $outdir
 mkdir $outdir/src 
 
