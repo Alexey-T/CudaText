@@ -956,22 +956,20 @@ begin
     );
   Ed.Update(true);
 
-  fmConfirmReplace:= TfmConfirmReplace.Create(Self);
-  try
-    fmConfirmReplace.MsgLineNumber:= APos1.Y+1;
-    fmConfirmReplace.bYesAll.Enabled:= AForMany;
-    fmConfirmReplace.bNoAll.Enabled:= AForMany;
-    if Assigned(fmFind) then
-    begin
-      Pnt:= fmFind.ClientToScreen(Point(0, 0));
-      fmConfirmReplace.Left:= Pnt.X;
-      fmConfirmReplace.Top:= Pnt.Y;
-      //fmConfirmReplace.Width:= fmFind.Width;
-    end;
-    Res:= fmConfirmReplace.ShowModal;
-  finally
-    FreeAndNil(fmConfirmReplace);
+  if fmConfirmReplace=nil then
+    fmConfirmReplace:= TfmConfirmReplace.Create(Self);
+
+  fmConfirmReplace.MsgLineNumber:= APos1.Y+1;
+  fmConfirmReplace.bYesAll.Enabled:= AForMany;
+  fmConfirmReplace.bNoAll.Enabled:= AForMany;
+  if Assigned(fmFind) then
+  begin
+    Pnt:= fmFind.ClientToScreen(Point(0, 0));
+    fmConfirmReplace.Left:= Pnt.X;
+    fmConfirmReplace.Top:= Pnt.Y;
+    //fmConfirmReplace.Width:= fmFind.Width;
   end;
+  Res:= fmConfirmReplace.ShowModal;
 
   Ed.BeginUpdate;
   AConfirm:= Res in [mrYes, mrYesToAll];

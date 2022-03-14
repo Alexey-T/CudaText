@@ -11,11 +11,12 @@ object fmConfirmReplace: TfmConfirmReplace
   ClientWidth = 645
   DefaultMonitor = dmMainForm
   KeyPreview = True
+  OnClose = FormClose
   OnCreate = FormCreate
   OnKeyDown = FormKeyDown
   OnShow = FormShow
   ShowInTaskBar = stNever
-  LCLVersion = '1.9.0.0'
+  LCLVersion = '2.3.0.0'
   object bYesAll: TATButton
     AnchorSideLeft.Control = bYes
     AnchorSideLeft.Side = asrBottom
@@ -27,9 +28,9 @@ object fmConfirmReplace: TfmConfirmReplace
     Top = 32
     Width = 120
     Anchors = [akTop, akLeft, akBottom]
+    Caption = 'Yes to all (a)'
     TabStop = True
     TabOrder = 1
-    Caption = 'Yes to all (a)'
     OnClick = bYesAllClick
   end
   object bYes: TATButton
@@ -37,9 +38,9 @@ object fmConfirmReplace: TfmConfirmReplace
     Height = 24
     Top = 32
     Width = 96
+    Caption = 'Yes (y)'
     TabStop = True
     TabOrder = 0
-    Caption = 'Yes (y)'
     OnClick = bYesClick
   end
   object bNo: TATButton
@@ -54,9 +55,9 @@ object fmConfirmReplace: TfmConfirmReplace
     Width = 120
     Anchors = [akTop, akLeft, akBottom]
     BorderSpacing.Left = 20
+    Caption = 'No (n)'
     TabStop = True
     TabOrder = 2
-    Caption = 'No (n)'
     OnClick = bNoClick
   end
   object bNoAll: TATButton
@@ -70,9 +71,9 @@ object fmConfirmReplace: TfmConfirmReplace
     Top = 32
     Width = 120
     Anchors = [akTop, akLeft, akBottom]
+    Caption = 'No to all (Esc)'
     TabStop = True
     TabOrder = 3
-    Caption = 'No to all (Esc)'
     OnClick = bNoAllClick
   end
   object LabelInfo: TLabel
@@ -81,6 +82,5 @@ object fmConfirmReplace: TfmConfirmReplace
     Top = 8
     Width = 36
     Caption = 'Repl?'
-    ParentColor = False
   end
 end

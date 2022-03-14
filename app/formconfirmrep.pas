@@ -33,6 +33,7 @@ type
     procedure bNoClick(Sender: TObject);
     procedure bYesAllClick(Sender: TObject);
     procedure bYesClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormShow(Sender: TObject);
@@ -155,6 +156,12 @@ procedure TfmConfirmReplace.bYesAllClick(Sender: TObject);
 begin
   CloseWithResult(mrYesToAll);
 end;
+
+procedure TfmConfirmReplace.FormClose(Sender: TObject; var CloseAction: TCloseAction);
+begin
+  CloseAction:= caHide;
+end;
+
 
 end.
 
