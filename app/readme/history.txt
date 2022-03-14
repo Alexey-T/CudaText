@@ -6,7 +6,7 @@
 1.157.6 (2022/03)
 
 + add: Project Manager: after "Refresh" action, restore tree-nodes folding + re-select old selected item (thanks @GHNewbiee)
-+ add: Emmet plugin: support more abbreviations with Lorem Ipsum: "lorem", "lorem*4", "p*4>lorem" (thanks Rickard)
++ add: Emmet plugin: support more abbreviations with Lorem Ipsum: "lorem", "lorem4", "lorem*4", "p*4>lorem" (thanks Rickard)
 - fix: Addon Manager version update checker
 
 1.157.5 (2022/03)
