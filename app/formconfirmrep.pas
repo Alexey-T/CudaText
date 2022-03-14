@@ -39,6 +39,7 @@ type
   private
     { private declarations }
     procedure Localize;
+    procedure CloseWithResult(AValue: TModalResult);
   public
     { public declarations }
     MsgReplaceMatch: string;
@@ -46,7 +47,7 @@ type
   end;
 
 var
-  fmConfirmReplace: TfmConfirmReplace;
+  fmConfirmReplace: TfmConfirmReplace = nil;
 
 implementation
 
@@ -76,6 +77,11 @@ begin
   end;
 end;
 
+procedure TfmConfirmReplace.CloseWithResult(AValue: TModalResult);
+begin
+  ModalResult:= AValue;
+end;
+
 procedure TfmConfirmReplace.FormCreate(Sender: TObject);
 begin
   MsgReplaceMatch:= 'Replace match at line %d ?';
@@ -93,25 +99,29 @@ procedure TfmConfirmReplace.FormKeyDown(Sender: TObject; var Key: Word;
 begin
   if Key=VK_Y then
   begin
-    ModalResult:= mrYes;
+    CloseWithResult(mrYes);
+    Key:= 0;
     exit
   end;
 
   if Key=VK_A then
   begin
-    ModalResult:= mrYesToAll;
+    CloseWithResult(mrYesToAll);
+    Key:= 0;
     exit
   end;
 
   if Key=VK_N then
   begin
-    ModalResult:= mrNo;
+    CloseWithResult(mrNo);
+    Key:= 0;
     exit
   end;
 
   if (Key=VK_ESCAPE) and (Shift=[]) then
   begin
-    ModalResult:= mrNoToAll;
+    CloseWithResult(mrNoToAll);
+    Key:= 0;
     exit
   end;
 end;
@@ -128,22 +138,22 @@ end;
 
 procedure TfmConfirmReplace.bYesClick(Sender: TObject);
 begin
-  ModalResult:= mrYes;
+  CloseWithResult(mrYes);
 end;
 
 procedure TfmConfirmReplace.bNoClick(Sender: TObject);
 begin
-  ModalResult:= mrNo;
+  CloseWithResult(mrNo);
 end;
 
 procedure TfmConfirmReplace.bNoAllClick(Sender: TObject);
 begin
-  ModalResult:= mrNoToAll;
+  CloseWithResult(mrNoToAll);
 end;
 
 procedure TfmConfirmReplace.bYesAllClick(Sender: TObject);
 begin
-  ModalResult:= mrYesToAll;
+  CloseWithResult(mrYesToAll);
 end;
 
 end.
