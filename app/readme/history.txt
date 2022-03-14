@@ -7,7 +7,8 @@
 
 + add: Project Manager: after "Refresh" action, restore tree-nodes folding + re-select old selected item (thanks @GHNewbiee)
 + add: Emmet plugin: support more abbreviations with Lorem Ipsum: "lorem", "lorem4", "lorem*4", "p*4>lorem" (thanks Rickard)
-+ add: update the Python data for CSS auto-completion
++ add: lexer Python: folding for {...} and [...] blocks
++ add: update data-files for CSS auto-completion
 - fix: Addon Manager: CudaText update checker
 
 1.157.5 (2022/03)
