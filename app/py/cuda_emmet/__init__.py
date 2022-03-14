@@ -71,6 +71,7 @@ HTML_TAGS = (
   'legend',
   'li',
   'link',
+  'lorem', # not a tag, only for Emmet
   'main',
   'map',
   'mark',
