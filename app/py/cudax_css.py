@@ -1,5 +1,5 @@
-# 2 variables are taken from
-# https://github.com/sublimehq/Packages/blob/master/CSS/css_completions.py
+# Two main variables are taken from repository:
+# https://github.com/sublimehq/Packages/blob/master/CSS/
 # which has the following license:
 #############
 # If not otherwise specified (see below), files in this repository fall under the following license:
