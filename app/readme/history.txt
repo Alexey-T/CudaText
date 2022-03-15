@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.157.6 (2022/03)
+1.158.0 (2022/03)
 
 + add: Project Manager: after "Refresh" action, restore tree-nodes folding + re-select old selected item (thanks @GHNewbiee)
 + add: Emmet plugin: support more abbreviations with Lorem Ipsum: "lorem", "lorem4", "lorem*4", "p*4>lorem" (thanks Rickard)
