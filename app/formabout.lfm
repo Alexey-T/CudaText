@@ -13,9 +13,9 @@ object fmAbout: TfmAbout
   OnCreate = FormCreate
   OnKeyDown = FormKeyDown
   OnShow = FormShow
-  Position = poMainFormCenter
+  Position = poDesktopCenter
   ShowInTaskBar = stNever
-  LCLVersion = '2.1.0.0'
+  LCLVersion = '2.3.0.0'
   Scaled = False
   object labelName: TLabel
     Left = 152
@@ -23,7 +23,6 @@ object fmAbout: TfmAbout
     Top = 64
     Width = 62
     Caption = 'CudaText'
-    ParentColor = False
   end
   object labelVersion: TLabel
     AnchorSideLeft.Control = labelName
@@ -35,7 +34,6 @@ object fmAbout: TfmAbout
     Width = 51
     BorderSpacing.Top = 12
     Caption = 'Version'
-    ParentColor = False
   end
   object labelPlatform: TLabel
     AnchorSideLeft.Control = labelName
@@ -47,12 +45,11 @@ object fmAbout: TfmAbout
     Width = 61
     BorderSpacing.Top = 3
     Caption = 'Platform'
-    ParentColor = False
   end
   object ButtonPanel1: TButtonPanel
     Left = 6
-    Height = 33
-    Top = 231
+    Height = 29
+    Top = 235
     Width = 453
     OKButton.Name = 'OKButton'
     OKButton.DefaultCaption = True
