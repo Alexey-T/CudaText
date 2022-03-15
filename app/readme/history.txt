@@ -9,6 +9,7 @@
 + add: Emmet plugin: support more abbreviations with Lorem Ipsum: "lorem", "lorem4", "lorem*4", "p*4>lorem" (thanks Rickard)
 + add: lexer Python: folding for {...} and [...] blocks
 + add: update data-files for CSS auto-completion
+- fix: option "find_separate_form" is disabled on Linux GTK2 since that platform has a bug with it
 - fix: Addon Manager: CudaText update checker
 
 1.157.5 (2022/03)
