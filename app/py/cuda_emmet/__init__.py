@@ -72,6 +72,24 @@ HTML_TAGS = (
   'li',
   'link',
   'lorem', # not a tag, only for Emmet
+  'lorem2', # not a tag, only for Emmet
+  'lorem3', # not a tag, only for Emmet
+  'lorem4', # not a tag, only for Emmet
+  'lorem5', # not a tag, only for Emmet
+  'lorem6', # not a tag, only for Emmet
+  'lorem7', # not a tag, only for Emmet
+  'lorem8', # not a tag, only for Emmet
+  'lorem9', # not a tag, only for Emmet
+  'lorem10', # not a tag, only for Emmet
+  'lorem11', # not a tag, only for Emmet
+  'lorem12', # not a tag, only for Emmet
+  'lorem13', # not a tag, only for Emmet
+  'lorem14', # not a tag, only for Emmet
+  'lorem15', # not a tag, only for Emmet
+  'lorem16', # not a tag, only for Emmet
+  'lorem17', # not a tag, only for Emmet
+  'lorem18', # not a tag, only for Emmet
+  'lorem19', # not a tag, only for Emmet
   'main',
   'map',
   'mark',
