@@ -482,7 +482,7 @@ common_values = {
     }
 
 
-properties_dict = {
+props = {
         "additive-symbols": [],
         "align-content": [
             "center",
@@ -1625,22 +1625,22 @@ for_all = [
 
 
 # pre-process keys which have " | " separators
-for k in properties_dict.copy(): # copy() is required
+for k in props.copy(): # copy() is required
     if ' | ' in k:
-        val = properties_dict[k]
-        del properties_dict[k]
+        val = props[k]
+        del props[k]
         for kk in k.split(' | '):
-            properties_dict[kk] = val
+            props[kk] = val
 
 
 def get_data(name):
     #get list of properties
     if not name:
-        return list(properties_dict.keys())
+        return list(props.keys())
 
     #get list of values for property
     r = []
-    values = properties_dict.get(name, [])
+    values = props.get(name, [])
     for val in values:
         if type(val) is str:
             if val.startswith('<') and val.endswith('>'):
