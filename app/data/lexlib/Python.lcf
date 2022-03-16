@@ -244,7 +244,15 @@ object SyntAnal16: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Int/float'
+      DisplayName = 'Int decimal'
+      StyleName = 'Number'
+      TokenType = 5
+      Expression = '\d[\d_]*j?\b'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Int float'
       StyleName = 'Number'
       TokenType = 5
       Expression = 
