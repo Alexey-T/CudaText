@@ -13,14 +13,29 @@ TEXT_OS = info['os'].replace('win32', 'windows').replace('win64', 'windows')
 TEXT_CPU = info['cpu'].replace('x86_64', 'amd64')
 TEXT_WS = info['widgetset']
 
+DEBIAN_UBUNTU = False
+if TEXT_OS == 'linux':
+    import subprocess
+    try:
+        LSB_RELEASE = subprocess.check_output('cat /etc/lsb-release', shell=True).decode('utf-8')
+        if ("Ubuntu" in LSB_RELEASE or "Debian" in LSB_RELEASE) and (TEXT_CPU == 'amd64'):
+            DEBIAN_UBUNTU = True
+    except:
+        pass
+
 DOWNLOAD_PAGE = 'https://sourceforge.net/projects/cudatext/files/release/'
 VERSION_REGEX = r'\b1\.\d{2,3}\.\d+\.\d+\b'
-DOWNLOAD_REGEX = \
-    r' href="(\w+://[\w\.]+/projects/cudatext/files/release/([\d\.]+)/cudatext-'+ \
-    TEXT_OS + '-' + \
-    ((TEXT_WS + '-') if TEXT_OS!='windows' else '') + \
-    TEXT_CPU + r'-[\d\.]+'+ \
-    r'\.(zip|dmg|tar\.xz|tar)/download)"'
+if DEBIAN_UBUNTU:
+    DOWNLOAD_REGEX = \
+        r' href="(\w+://[\w\.]+/projects/cudatext/files/release/([\d\.]+)/cudatext_([\d\.\-]+)_'+ \
+        TEXT_WS + '_' + TEXT_CPU + '.deb/download)"'
+else:
+    DOWNLOAD_REGEX = \
+        r' href="(\w+://[\w\.]+/projects/cudatext/files/release/([\d\.]+)/cudatext-'+ \
+        TEXT_OS + '-' + \
+        ((TEXT_WS + '-') if TEXT_OS!='windows' else '') + \
+        TEXT_CPU + r'-[\d\.]+'+ \
+        r'\.(zip|dmg|tar\.xz|tar)/download)"'
 REGEX_GROUP_VER = 1
     
 
