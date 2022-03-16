@@ -27,8 +27,8 @@ DOWNLOAD_PAGE = 'https://sourceforge.net/projects/cudatext/files/release/'
 VERSION_REGEX = r'\b1\.\d{2,3}\.\d+\.\d+\b'
 if DEBIAN_UBUNTU:
     DOWNLOAD_REGEX = \
-        r' href="(\w+://[\w\.]+/projects/cudatext/files/release/([\d\.]+)/cudatext_(.*)_'+ \
-        TEXT_WS + '_' + TEXT_CPU + r'.deb/download)"'
+        r' href="(\w+://[\w\.]+/projects/cudatext/files/release/([\d\.]+)/cudatext_([\d\.\-]+)_'+ \
+        TEXT_WS + '_' + TEXT_CPU + '.deb/download)"'
 else:
     DOWNLOAD_REGEX = \
         r' href="(\w+://[\w\.]+/projects/cudatext/files/release/([\d\.]+)/cudatext-'+ \
