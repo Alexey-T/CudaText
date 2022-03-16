@@ -51,18 +51,19 @@ def versions_ordered(s1, s2):
 def check_cudatext():
 
     fn = os.path.join(tempfile.gettempdir(), 'cudatext_download.html')
-    app.msg_status(_('Downloading: ')+DOWNLOAD_PAGE, True)
-    get_url(DOWNLOAD_PAGE, fn, True)
+    url = DOWNLOAD_PAGE
+    app.msg_status(_('Downloading: ')+url, True)
+    get_url(url, fn, True)
     app.msg_status('')
 
     if not os.path.isfile(fn):
-        app.msg_status(_('Cannot download: ')+DOWNLOAD_PAGE)
+        app.msg_status(_('Cannot download: ')+url)
         return
 
     text = open(fn, encoding='utf8').read()
     items = re.findall(VERSION_REGEX, text)
     if not items:
-        app.msg_status(_('Cannot find app version: '+DOWNLOAD_PAGE))
+        app.msg_status(_('Cannot find app version: '+url))
         return
 
     items = sorted(items, reverse=True)
