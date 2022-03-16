@@ -220,44 +220,45 @@ object SyntAnal16: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Int hex'
+      DisplayName = 'Num hex'
       StyleName = 'Number'
       TokenType = 5
-      Expression = '0x[\h_]+\b'
+      Expression = '\b0x[\h_]+\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
-      DisplayName = 'Int octal'
+      DisplayName = 'Num octal'
       StyleName = 'Number'
       TokenType = 5
-      Expression = '0o[0-7_]+\b'
+      Expression = '\b0o[0-7_]+\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
-      DisplayName = 'Int bin'
+      DisplayName = 'Num binary'
       StyleName = 'Number'
       TokenType = 5
-      Expression = '0b[01_]+\b'
+      Expression = '\b0b[01_]+\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
-      DisplayName = 'Int decimal'
-      StyleName = 'Number'
-      TokenType = 5
-      Expression = '\d[\d_]*j?\b'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
-      DisplayName = 'Int float'
+      DisplayName = 'Num float'
       StyleName = 'Number'
       TokenType = 5
       Expression = 
-        '\b \d[_\d]* \.?\d*[_\d]* (e[\-\+]?\d[_\d]*)?j? \b |'#13#10'\B\.\d[_\d]' +
-        '* (e[\-\+]?\d[_\d]*)?j? \b |'#13#10'\b\d[_\d]*\.? ([Lj]\b)?'
+        '\b \d[_\d]* \.\d[_\d]* (e[\-\+]?\d[_\d]*)?j? \b |'#13#10'\b \d[_\d]* e' +
+        '[\-\+]?\d[_\d]*?j? \b |'#13#10'\B\.\d[_\d]* (e[\-\+]?\d[_\d]*)?j? \b |' +
+        #13#10'\b\d[_\d]*\. ([Lj]\b)?'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Num decimal'
+      StyleName = 'Number'
+      TokenType = 5
+      Expression = '\b\d[\d_]*j?\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
