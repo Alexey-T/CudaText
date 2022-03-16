@@ -216,6 +216,7 @@ def json_update(path, key, val):
 
     with open(path, 'w', encoding='utf-8') as f:
         f.write(j_str)
+        os.fsync(f)
 
 def format_opt_change(ch):
     scope_str = ch.scope
