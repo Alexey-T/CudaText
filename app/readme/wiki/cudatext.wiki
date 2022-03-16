@@ -97,7 +97,7 @@ You can copy JSON comments too. In the user config, include useful lines in the 
 
 == File types config ==
 
-Section "detect" in user.json. Specifies mapping from "file name" to "lexer name".
+Section "detect" in user.json. '''Specifies mapping from "file name" to "lexer name"'''.
 
 <syntaxhighlight lang="javascript">
   "detect": {
@@ -112,7 +112,7 @@ Section "detect" in user.json. Specifies mapping from "file name" to "lexer name
 
 Another method to specify this mapping is dialog "Lexer properties", in which you can add extension or name+extension to a lexer. But dialog is more limited: it saves option to the lexer file (data/lexlib/lexername.lcf), so setting will be reset on reinstalling lexer.
 
-Section "detect_line" in user.json. Allows to detect lexer by first line of file.
+Section "detect_line" in user.json. '''Allows to detect lexer by first line of file.'''
 
 <syntaxhighlight lang="javascript">
   "detect_line": {
@@ -127,7 +127,7 @@ Section "detect_line" in user.json. Allows to detect lexer by first line of file
 
 == Plugin groups config ==
 
-Section "plugin_groups" in user.json. Allows to add grouping to the Plugins menu, e.g. to put all "HTML ..." and "CSS ..." menu items into "Web" submenu. Example:
+Section "plugin_groups" in user.json. '''Configures grouping in the Plugins menu''', e.g. allows to put all "HTML ..." and "CSS ..." menu items into "Web" submenu. Example:
 
 <syntaxhighlight lang="javascript">
   "plugin_groups": {
