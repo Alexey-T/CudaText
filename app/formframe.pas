@@ -1086,6 +1086,7 @@ begin
     end;
 
     D.TabHint:= SHint;
+    Pages.Tabs.UpdateTabTooltip;
   end;
 end;
 
