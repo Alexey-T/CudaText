@@ -76,7 +76,9 @@ Screenshot on Windows:
 = Download =
 
 * Homepage: http://cudatext.github.io/
-* Downloads: https://www.fosshub.com/CudaText.html . If you cannot see builds for some OS'es in the new release, search for it in the "Older versions": https://www.fosshub.com/CudaText-old.html
+* Downloads:
+** For Windows: https://www.fosshub.com/CudaText.html . If you cannot see builds for some OS'es in the new release, search for it in the "Older versions": https://www.fosshub.com/CudaText-old.html
+** For non-Windows: https://sourceforge.net/projects/cudatext/files/release/
 * Main GitHub repository: https://github.com/Alexey-T/CudaText . Account https://github.com/Alexey-T contains other packages needed to compile the app.
 
 = Configs =
