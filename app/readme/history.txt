@@ -7,7 +7,8 @@
 
 + add: default config of "detect_line" option (see the Wiki) includes 'shebang' for Bash and Python (thanks @HugLifeTiZ)
 - fix: write JSON configs (main app + Options Editor Lite) with 'flush buffers', to not wipe them by OS hard reset (thanks @DUOLabs333)
-- fix: too slow RegEx for 'numbers' in lexers C, C++, CSS, Lua, Python 
+- fix: too slow RegEx for 'numbers' in lexers C, C++, CSS, Lua, Python
+* change: disabled highlight of 'Git changes marks' like ========= <<<<<<<< >>>>>>>> 
 
 1.158.0 (2022/03)
 
