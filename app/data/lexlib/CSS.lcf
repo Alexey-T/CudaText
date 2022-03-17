@@ -254,7 +254,9 @@ object SyntAnal6: TLibSyntAnalyzer
       DisplayName = 'Number'
       StyleName = 'Number'
       TokenType = 7
-      Expression = '[\-\+]? \d*\.?\d+ (e[\-\+]?\d+)?'
+      Expression = 
+        '[\-\+]? \d+(\.\d+)? (e[\-\+]?\d+)? |'#13#10'[\-\+]? \.\d+ (e[\-\+]?\d+' +
+        ')?'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -526,8 +528,8 @@ object SyntAnal6: TLibSyntAnalyzer
             'counter-increment'
             'counter-reset'
             'cover'
-            'crispEdges'
             'crisp-edges'
+            'crispEdges'
             'crosshair'
             'cursor'
             'cyclic'
@@ -2398,14 +2400,14 @@ object SyntAnal6: TLibSyntAnalyzer
       DisplayName = 'PHP'
       StartExpression = '<\?(php)?'
       EndExpression = '\?>'
-      SyntAnalyzer = SyntAnal14
+      SyntAnalyzer = SyntAnal15
     end>
   SampleText.Strings = (
     '/* Comment */'
     '<?php echo '#39'test'#39' ?>'
     '.name, .name2:suffix { '
     '  font-size: 10em;'
-    '  --my-var: 10.2e+2; /* custom prop; float */'
+    '  --my-var: -10.2e+2; /* custom prop; float */'
     '  background: url("../img.gif") no-repeat;'
     '  back2: url(http://www.com/url);'
     '  back3: url(../img.gif);'

@@ -174,38 +174,39 @@ object SyntAnal5: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Hex Float'
+      DisplayName = 'Num hex float'
       StyleName = 'Number'
       TokenType = 5
       Expression = 
-        '0x([\da-f][\da-f'#39']* \.)? [\da-f][\da-f'#39']* p [\+\-]? [\da-f][\da-' +
-        'f'#39']* |'#13#10'0x[\da-f][\da-f'#39']* \. [\da-f][\da-f'#39']*'
+        '0x\h[\h'#39']* (\. \h[\h'#39']*)? p[\+\-]? \h[\h'#39']* \b |'#13#10'0x\h[\h'#39']* \. ' +
+        '\h[\h'#39']* \b'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
-      DisplayName = 'Hex'
+      DisplayName = 'Num hex'
       StyleName = 'Number'
       TokenType = 5
-      Expression = '0x[0-9a-f'#39']+ [ul]* | 0b[01'#39']+ [ul]*'
+      Expression = '0x[\h'#39']+ [ul]*\b |'#13#10'0b[01'#39']+ [ul]*\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
-      DisplayName = 'Float'
+      DisplayName = 'Num float'
       StyleName = 'Number'
       TokenType = 5
       Expression = 
-        '\d[\d'#39']* \.? [\d'#39']* e[\+\-]? [\d'#39']+ [Lf]? |'#13#10'\. [\d'#39']+ e[\+\-]? ' +
-        '\d+ [Lf]? |'#13#10'\d[\d'#39']* \. (\d[\d'#39']*)? [Lf]? |'#13#10'\. \d[\d'#39']* [Lf]?'
+        '\d[\d'#39']* (\.[\d'#39']*)? e[\+\-]? \d+ [Lf]?\b |'#13#10'\. [\d'#39']+ e[\+\-]? ' +
+        '\d+ [Lf]?\b |'#13#10'\d[\d'#39']* \. (\d[\d'#39']*)? [Lf]?\b |'#13#10'\. \d[\d'#39']* [L' +
+        'f]?\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
-      DisplayName = 'Integer'
+      DisplayName = 'Num decimal'
       StyleName = 'Number'
       TokenType = 5
-      Expression = '\d[\d'#39']* [ul]*'
+      Expression = '\d[\d'#39']* [ul]*\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -513,24 +514,26 @@ object SyntAnal5: TLibSyntAnalyzer
         item
           TagList.Strings = (
             '-'
-            '^'
-            '^^'
-            ','
-            ';'
-            ':'
-            '::'
             '!'
             '!='
-            '?'
-            '.'
-            '('
-            ')'
-            '['
-            ']'
-            '{'
-            '}'
             '&'
             '&&'
+            '('
+            ')'
+            ','
+            '.'
+            ':'
+            '::'
+            ';'
+            '?'
+            '['
+            ']'
+            '^'
+            '^^'
+            '{'
+            '|'
+            '||'
+            '}'
             '+'
             '<'
             '<<'
@@ -541,8 +544,6 @@ object SyntAnal5: TLibSyntAnalyzer
             '->'
             '>='
             '>>'
-            '|'
-            '||'
             'else'
             'new'
             'return')
@@ -591,24 +592,26 @@ object SyntAnal5: TLibSyntAnalyzer
         item
           TagList.Strings = (
             '-'
-            '^'
-            '^^'
-            ','
-            ';'
-            ':'
-            '::'
             '!'
             '!='
-            '?'
-            '.'
-            '('
-            ')'
-            '['
-            ']'
-            '{'
-            '}'
             '&'
             '&&'
+            '('
+            ')'
+            ','
+            '.'
+            ':'
+            '::'
+            ';'
+            '?'
+            '['
+            ']'
+            '^'
+            '^^'
+            '{'
+            '|'
+            '||'
+            '}'
             '+'
             '<'
             '<<'
@@ -619,8 +622,6 @@ object SyntAnal5: TLibSyntAnalyzer
             '->'
             '>='
             '>>'
-            '|'
-            '||'
             'else'
             'new'
             'return')
@@ -676,24 +677,26 @@ object SyntAnal5: TLibSyntAnalyzer
         item
           TagList.Strings = (
             '-'
-            '^'
-            '^^'
-            ','
-            ';'
-            ':'
-            '::'
             '!'
             '!='
-            '?'
-            '.'
-            '('
-            ')'
-            '['
-            ']'
-            '{'
-            '}'
             '&'
             '&&'
+            '('
+            ')'
+            ','
+            '.'
+            ':'
+            '::'
+            ';'
+            '?'
+            '['
+            ']'
+            '^'
+            '^^'
+            '{'
+            '|'
+            '||'
+            '}'
             '+'
             '<'
             '<<'
@@ -704,8 +707,6 @@ object SyntAnal5: TLibSyntAnalyzer
             '->'
             '>='
             '>>'
-            '|'
-            '||'
             'else'
             'new'
             'return')
@@ -894,10 +895,11 @@ object SyntAnal5: TLibSyntAnalyzer
     'Goto label'
     'Id after ~'
     'Id after ::~')
-  Extentions = 'cpp cxx h hh hpp hxx cc c++ h++ ipp cppm'
+  Extentions = 'cpp cxx hh hpp hxx cc c++ h++ ipp cppm'
   LexerName = 'C++'
   Notes.Strings = (
     'Alexey (CudaText)')
+  RestartFromLineStart = True
   LineComment = '//'
   Charset = DEFAULT_CHARSET
 end
