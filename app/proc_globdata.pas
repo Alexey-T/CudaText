@@ -3426,6 +3426,12 @@ initialization
 
   //detection of XML
   AppConfig_DetectLine.Add('<\?xml .+', 'XML');
+  AppConfig_DetectLine.Add('\#!\/bin\/sh', 'Bash script');
+  AppConfig_DetectLine.Add('\#!\/bin\/bash', 'Bash script');
+  AppConfig_DetectLine.Add('\#!\/usr\/bin\/env sh', 'Bash script');
+  AppConfig_DetectLine.Add('\#!\/usr\/bin\/env bash', 'Bash script');
+  AppConfig_DetectLine.Add('\#!\/usr\/bin\/env python', 'Python');
+  AppConfig_DetectLine.Add('\#!\/usr\/bin\/env python3', 'Python');
 
   AppFrameList1:= TFPList.Create;
   AppFrameList2:= TFPList.Create;
