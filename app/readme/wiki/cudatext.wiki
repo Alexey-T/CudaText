@@ -130,12 +130,9 @@ Section "detect_line" in user.json. '''Allows to detect lexer by first line of f
 CudaText has several default values:
 
 * "<\?xml .+": "XML"
-* "\#!\/bin\/sh": "Bash script"
-* "\#!\/bin\/bash": "Bash script"
-* "\#!\/usr\/bin\/env sh": "Bash script"
-* "\#!\/usr\/bin\/env bash": "Bash script"
-* "\#!\/usr\/bin\/env python": "Python"
-* "\#!\/usr\/bin\/env python3": "Python"
+* "\#!\/bin\/(ba)?sh": "Bash script"
+* "\#!\/usr\/bin\/env (ba)?sh": "Bash script"
+* "\#!\/usr\/bin\/env python\d*": "Python"
 
 == Grouping in Plugins menu ==
 
