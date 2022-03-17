@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.158.1 (2022/03)
+1.158.2 (2022/03)
 
 + add: default config of "detect_line" option (see the Wiki) includes 'shebang' for Bash and Python (thanks @HugLifeTiZ)
 - fix: write JSON configs (main app + Options Editor Lite) with 'flush buffers', to not wipe them by OS hard reset (thanks @DUOLabs333)
