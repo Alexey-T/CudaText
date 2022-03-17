@@ -413,6 +413,7 @@ Most of them are located in the Addons Manager "Install" list.
 * G-code
 * GAMS
 * GDScript
+* Gemini (web pages)
 * Gherkin (Cucumber; Behat)
 * GHS.com MULTI IDE (3 lexers)
 * GLSL
