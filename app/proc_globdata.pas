@@ -3419,12 +3419,6 @@ initialization
   AppConfig_DetectLine:= TAppKeyValues.Create;
   AppConfig_PGroups:= TAppKeyValues.Create;
 
-  ////detection of Shell files
-  ////disabled: it detects Python files with shebang
-  //AppConfig_DetectLine_Keys.Add('\#!.+');
-  //AppConfig_DetectLine_Values.Add('Bash script');
-
-  //detection of XML
   AppConfig_DetectLine.Add('<\?xml .+', 'XML');
   AppConfig_DetectLine.Add('\#!\/bin\/sh', 'Bash script');
   AppConfig_DetectLine.Add('\#!\/bin\/bash', 'Bash script');
