@@ -6,7 +6,7 @@
 1.158.1 (2022/03)
 
 - fix: write JSON configs (main app + Options Editor Lite) with 'fsync', to not wipe them by OS (thanks @DUOLabs333)
-- fix: lexer Python: it had too slow RegEx for 'numbers' 
+- fix: lexer Python: too slow RegEx for 'numbers' 
 
 1.158.0 (2022/03)
 
