@@ -3420,12 +3420,9 @@ initialization
   AppConfig_PGroups:= TAppKeyValues.Create;
 
   AppConfig_DetectLine.Add('<\?xml .+', 'XML');
-  AppConfig_DetectLine.Add('\#!\/bin\/sh', 'Bash script');
-  AppConfig_DetectLine.Add('\#!\/bin\/bash', 'Bash script');
-  AppConfig_DetectLine.Add('\#!\/usr\/bin\/env sh', 'Bash script');
-  AppConfig_DetectLine.Add('\#!\/usr\/bin\/env bash', 'Bash script');
-  AppConfig_DetectLine.Add('\#!\/usr\/bin\/env python', 'Python');
-  AppConfig_DetectLine.Add('\#!\/usr\/bin\/env python3', 'Python');
+  AppConfig_DetectLine.Add('\#!\/bin\/(ba)?sh', 'Bash script');
+  AppConfig_DetectLine.Add('\#!\/usr\/bin\/env (ba)?sh', 'Bash script');
+  AppConfig_DetectLine.Add('\#!\/usr\/bin\/env python\d*', 'Python');
 
   AppFrameList1:= TFPList.Create;
   AppFrameList2:= TFPList.Create;
