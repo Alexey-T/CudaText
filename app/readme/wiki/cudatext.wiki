@@ -112,6 +112,8 @@ Section "detect" in user.json. '''Specifies mapping from "file name" to "lexer n
 
 Another method to specify this mapping is dialog "Lexer properties", in which you can add extension or name+extension to a lexer. But dialog is more limited: it saves option to the lexer file (data/lexlib/lexername.lcf), so setting will be reset on reinstalling lexer.
 
+== Detection by first file line ==
+
 Section "detect_line" in user.json. '''Allows to detect lexer by first line of file.'''
 
 <syntaxhighlight lang="javascript">
@@ -125,7 +127,17 @@ Section "detect_line" in user.json. '''Allows to detect lexer by first line of f
 * Key name: Reg-ex for the first file line. Case sensitive, but you can use (?i) modifier in reg-ex. Note that this is a reg-ex, using syntax similar to Perl reg-ex, so for example "#" char must be escaped with a backslash, and instead of file-mask "*" you must write ".*". Also note that current implemenation cannot handle forward slashes "/" good, so escape these slashes or use "." instead of them.
 * Key value: Lexer name. Value "-" means "don't activate lexer".
 
-== Plugin groups config ==
+CudaText has several default values:
+
+* "<\?xml .+": "XML"
+* "\#!\/bin\/sh": "Bash script"
+* "\#!\/bin\/bash": "Bash script"
+* "\#!\/usr\/bin\/env sh": "Bash script"
+* "\#!\/usr\/bin\/env bash": "Bash script"
+* "\#!\/usr\/bin\/env python": "Python"
+* "\#!\/usr\/bin\/env python3": "Python"
+
+== Grouping in Plugins menu ==
 
 Section "plugin_groups" in user.json. '''Configures grouping in the Plugins menu''', e.g. allows to put all "HTML ..." and "CSS ..." menu items into "Web" submenu. Example:
 
