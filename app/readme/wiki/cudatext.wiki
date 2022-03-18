@@ -2181,7 +2181,7 @@ Plus the following items, which colorize the main menu on Windows:
 
 ===How to create theme package===
 
-* If your theme files need some sort of 'suffix' (e.g. "dark", "light", "alternative", put these suffixes into round brackets, after space-char, in the filename. For example, name the file "brackets (dark).cuda-theme-ui" instead of "brackets-dark.cuda-theme-ui". This is required by Addons Manager plugin, which will need to find the add-on package for your theme.
+* If your theme files need some sort of 'suffix' (e.g. "dark", "light", "alternative"), put these suffixes into round brackets, after space-char, in the filename. For example, name the file "brackets (dark).cuda-theme-ui" instead of "brackets-dark.cuda-theme-ui". This is required by Addons Manager plugin, which will need to find the add-on package for your theme.
 
 * Create such file "install.inf" in UTF-8 encoding (without BOM):
 
