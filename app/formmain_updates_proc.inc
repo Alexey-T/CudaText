@@ -97,11 +97,7 @@ end;
 procedure TfmMain.UpdateSomeStates(F: TEditorFrame);
 begin
   if F=nil then exit;
-
   UpdateTabCaptionsFromFolders;
-
-  UpdateSidebarButtonFind;
-
   UpdateMenuChecks(F);
 end;
 
