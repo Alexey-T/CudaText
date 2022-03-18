@@ -706,6 +706,7 @@ procedure MsgStdout(const Str: string; AllowMsgBox: boolean = false);
 procedure MsgLogConsole(const AText: string);
 procedure MsgLogToFilename(const AText, AFilename: string; AWithTime: boolean);
 procedure MsgOldApi(const s: string);
+procedure MsgFileFromSessionNotFound(const fn: string);
 
 function AppListboxItemHeight(AScale, ADoubleHeight: boolean): integer;
 procedure AppGetFileProps(const FileName: string; out P: TAppFileProps);
@@ -2700,6 +2701,11 @@ begin
   MsgLogConsole(Format(msgApiDeprecated, [s]));
 end;
 
+procedure MsgFileFromSessionNotFound(const fn: string);
+begin
+  if not StartsStr(GetTempDir, fn) then
+    MsgLogConsole(Format(msgCannotFindSessionFile, [fn]));
+end;
 
 function AppEncodingShortnameToFullname(const S: string): string;
 var

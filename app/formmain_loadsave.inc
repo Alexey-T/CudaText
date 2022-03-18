@@ -492,14 +492,12 @@ begin
 
       if (sFilename<>'') and not bExist then
       begin
-        if not StartsStr(GetTempDir, sFilename) then //don't show msg for file in /tmp/
-          MsgLogConsole(Format(msgCannotFindSessionFile, [sFilename]));
+        MsgFileFromSessionNotFound(sFilename);
       end;
 
       if (sFilename2<>'') and not bExist2 then
       begin
-        if not StartsStr(GetTempDir, sFilename) then //don't show msg for file in /tmp/
-          MsgLogConsole(Format(msgCannotFindSessionFile, [sFilename2]));
+        MsgFileFromSessionNotFound(sFilename2);
         sFilename2:= '';
       end;
 
