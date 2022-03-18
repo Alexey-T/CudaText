@@ -2181,7 +2181,9 @@ Plus the following items, which colorize the main menu on Windows:
 
 ===How to create theme package===
 
-* Make such file "install.inf":
+* If your theme files need some sort of 'suffix' (e.g. "dark", "light", "alternative", put these suffixes into round brackets, after space-char, in the filename. For example, name the file "brackets (dark).cuda-theme-ui" instead of "brackets-dark.cuda-theme-ui". This is required by Addons Manager plugin, which will need to find the add-on package for your theme.
+
+* Create such file "install.inf" in UTF-8 encoding (without BOM):
 
 <syntaxhighlight lang="ini">
 [info]
@@ -2191,8 +2193,8 @@ subdir=themes
 homepage=https://github.com/nnnn/pppp
 </syntaxhighlight>
 
-* Make zip file "theme.MyName.zip" with files "MyTheme.cuda-theme-nnnnn" and "install.inf"
-* Test zip file: open zip file in CudaText, confirm installation
+* Make zip file "theme.MyName.zip" with files "MyTheme.cuda-theme-nnnnn" and "install.inf".
+* Test zip file: open zip file in CudaText, confirm installation.
 * Publish file at forum or https://github.com/Alexey-T/CudaText/issues
 
 ===How to see all UI theme items===
