@@ -12,6 +12,7 @@ object fmFind: TfmFind
   KeyPreview = True
   OnClose = FormClose
   OnCreate = FormCreate
+  OnHide = FormHide
   OnKeyDown = FormKeyDown
   OnResize = FormResize
   OnShow = FormShow

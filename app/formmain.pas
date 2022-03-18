@@ -1018,6 +1018,7 @@ type
     procedure DoDialogFind(AReplaceMode: boolean);
     procedure DoDialogFind_Hide;
     procedure DoDialogFind_Toggle(AReplaceMode, AAndFocus: boolean);
+    procedure FinderFormChangeVisible(Sender: TObject);
     procedure FinderShowResult(ok: boolean; AFinder: TATEditorFinder);
     procedure FinderShowResultSimple(ok: boolean; AFinder: TATEditorFinder);
     procedure FinderShowMatchesCount(AMatchCount, ATime: integer);

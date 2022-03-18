@@ -397,6 +397,7 @@ begin
     fmFind:= TfmFind.Create(Self);
     fmFind.OnResult:= @FindDialogDone2;
     fmFind.OnChangeOptions:= @DoFindOptions_OnChange;
+    fmFind.OnChangeVisible:= @FinderFormChangeVisible;
     fmFind.OnFocusEditor:= @FindDialogFocusEditor;
     fmFind.OnGetMainEditor:= @FindDialogGetMainEditor;
     fmFind.OnGetToken:= @FinderOnGetToken;
@@ -1406,5 +1407,10 @@ begin
     Ed.DoCommand(NCmd, cInvokeHotkey);
     Result:= true;
   end;
+end;
+
+procedure TfmMain.FinderFormChangeVisible(Sender: TObject);
+begin
+  UpdateSidebarButtonFind;
 end;
 

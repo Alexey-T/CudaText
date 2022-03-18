@@ -166,6 +166,7 @@ type
     procedure edRepExit(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
+    procedure FormHide(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormResize(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -197,6 +198,7 @@ type
     FMultiLine: boolean;
     FNarrow: boolean;
     FOnResult: TAppFinderOperationEvent;
+    FOnChangeVisible: TNotifyEvent;
     FOnChangeOptions: TNotifyEvent;
     FOnFocusEditor: TNotifyEvent;
     FOnGetMainEditor: TAppFinderGetEditor;
@@ -241,6 +243,7 @@ type
     function CurrentCaption: string;
     property OnResult: TAppFinderOperationEvent read FOnResult write FOnResult;
     property OnChangeOptions: TNotifyEvent read FOnChangeOptions write FOnChangeOptions;
+    property OnChangeVisible: TNotifyEvent read FOnChangeVisible write FOnChangeVisible;
     property OnFocusEditor: TNotifyEvent read FOnFocusEditor write FOnFocusEditor;
     property OnGetMainEditor: TAppFinderGetEditor read FOnGetMainEditor write FOnGetMainEditor;
     property OnGetToken: TATFinderGetToken read FOnGetToken write FOnGetToken;
@@ -808,6 +811,12 @@ begin
   Adapter.Lexer:= AppManager.FindLexerByName('RegEx');
 end;
 
+procedure TfmFind.FormHide(Sender: TObject);
+begin
+  if Assigned(FOnChangeVisible) then
+    FOnChangeVisible(Self);
+end;
+
 
 procedure TfmFind.UpdateFonts;
   //
@@ -1111,6 +1120,9 @@ begin
   UpdateFonts;
   FixFormPositionToDesktop(Self);
   OnResize(Self);
+
+  if Assigned(FOnChangeVisible) then
+    FOnChangeVisible(Self);
 end;
 
 procedure TfmFind.UpdateInitialCaretPos;
