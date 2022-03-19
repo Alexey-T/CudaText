@@ -164,6 +164,7 @@ function EditorAutoCompletionAfterTypingChar(Ed: TATSynEdit;
 function EditorGetLefterHtmlTag(Ed: TATSynEdit; AX, AY: integer): UnicodeString;
 procedure EditorAutoCloseOpeningHtmlTag(Ed: TATSynEdit; AX, AY: integer);
 procedure EditorAutoCloseClosingHtmlTag(Ed: TATSynEdit; AX, AY: integer);
+procedure EditorChangeLineEndsForSelection(Ed: TATSynEdit; AValue: TATLineEnds);
 
 implementation
 
@@ -2701,6 +2702,26 @@ begin
 
   Ed.TextInsertAtCarets(STag+'>', false{AKeepCaret}, false, false);
   Ed.DoEventChange(AY);
+end;
+
+procedure EditorChangeLineEndsForSelection(Ed: TATSynEdit; AValue: TATLineEnds);
+var
+  X1, Y1, X2, Y2: integer;
+  bSel: boolean;
+  iCaret, iLine: integer;
+begin
+  for iCaret:= 0 to Ed.Carets.Count-1 do
+  begin
+    Ed.Carets[iCaret].GetRange(X1, Y1, X2, Y2, bSel);
+    if bSel then
+    begin
+      for iLine:= Y1 to Y2 do
+        Ed.Strings.LinesEnds[iLine]:= AValue;
+    end
+    else
+      Ed.Strings.LinesEnds[Y1]:= AValue;
+  end;
+  Ed.Modified:= true;
 end;
 
 { TEditorHtmlTagList }

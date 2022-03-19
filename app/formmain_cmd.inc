@@ -973,6 +973,25 @@ begin
         exit
       end;
 
+    cmd_LineEndWin_CurLine:
+      begin
+        UpdateEditorCaretLineEnds(Frame, Ed, cEndWin);
+        AHandled:= true;
+        exit
+      end;
+    cmd_LineEndUnix_CurLine:
+      begin
+        UpdateEditorCaretLineEnds(Frame, Ed, cEndUnix);
+        AHandled:= true;
+        exit
+      end;
+    cmd_LineEndMac_CurLine:
+      begin
+        UpdateEditorCaretLineEnds(Frame, Ed, cEndMac);
+        AHandled:= true;
+        exit
+      end;
+
     cmd_SplitTabToggle:
       begin
         if Assigned(Frame) then

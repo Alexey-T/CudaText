@@ -1108,6 +1108,8 @@ type
     procedure UpdateMenuChecks(F: TEditorFrame);
     procedure UpdateMenuEnc(AMenu: TMenuItem);
     procedure UpdateFrameLineEnds(Frame: TEditorFrame; AValue: TATLineEnds);
+    procedure UpdateEditorCaretLineEnds(Frame: TEditorFrame; Ed: TATSynEdit;
+      AValue: TATLineEnds);
     procedure UpdateSomeStates(F: TEditorFrame);
     procedure UpdateStatusbarPanelsFromString(const AText: string);
     procedure UpdateStatusbarHints;
@@ -3679,6 +3681,16 @@ begin
   end;
   UpdateStatusbar;
   MsgStatus(msgStatusEndsChanged);
+end;
+
+procedure TfmMain.UpdateEditorCaretLineEnds(Frame: TEditorFrame; Ed: TATSynEdit; AValue: TATLineEnds);
+begin
+  EditorChangeLineEndsForSelection(Ed, AValue);
+  if Assigned(Frame) then
+  begin
+    Frame.UpdateModified(Ed);
+    MsgStatus(msgStatusEndsChanged);
+  end;
 end;
 
 
