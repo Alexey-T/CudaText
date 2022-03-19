@@ -2706,20 +2706,16 @@ end;
 
 procedure EditorChangeLineEndsForSelection(Ed: TATSynEdit; AValue: TATLineEnds);
 var
-  X1, Y1, X2, Y2: integer;
-  bSel: boolean;
+  Caret: TATCaretItem;
+  Y1, Y2: integer;
   iCaret, iLine: integer;
 begin
   for iCaret:= 0 to Ed.Carets.Count-1 do
   begin
-    Ed.Carets[iCaret].GetRange(X1, Y1, X2, Y2, bSel);
-    if bSel then
-    begin
-      for iLine:= Y1 to Y2 do
-        Ed.Strings.LinesEnds[iLine]:= AValue;
-    end
-    else
-      Ed.Strings.LinesEnds[Y1]:= AValue;
+    Caret:= Ed.Carets[iCaret];
+    Caret.GetSelLines(Y1, Y2, true);
+    for iLine:= Y1 to Y2 do
+      Ed.Strings.LinesEnds[iLine]:= AValue;
   end;
   Ed.Modified:= true;
 end;
