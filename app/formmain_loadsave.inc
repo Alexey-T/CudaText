@@ -669,7 +669,7 @@ begin
 
   //don't wait until plugin sets session name in PROC_SET_SESSION,
   //it's needed in on_state
-  AppSessionName:= AFileName+IfThen(sRootPath<>'', '|'+sRootPath);
+  AppSessionName:= ASessionId;
 
   if (nCountFilesBefore>0) or (nCountFiles+nCountFilesModified>0) then
     DoPyEvent_AppState(APPSTATE_SESSION_LOAD)
