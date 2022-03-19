@@ -5,7 +5,7 @@
 
 1.158.3 (2022/03)
 
-+ add: 3 commands in the Command Palette: "change line ends to LF / CRLF / CR, for lines(s) with caret"
++ add: 4 commands in the Command Palette: "change line ends to LF / CR LF / CR / default, for lines(s) with caret"
 
 1.158.2 (2022/03)
 
