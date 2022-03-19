@@ -245,8 +245,11 @@ begin
   SSplitByChar(sFilename, '|', AFileName, sRootPath);
   sFilename:= '';
 
-  AppDiskCheckFreeSpace(AFileName);
-  DeleteFile(AFileName);
+  if sRootPath='' then
+  begin
+    AppDiskCheckFreeSpace(AFileName);
+    DeleteFile(AFileName);
+  end;
 
   nCountFiles:= 0;
   nCountUntitled:= 0;
