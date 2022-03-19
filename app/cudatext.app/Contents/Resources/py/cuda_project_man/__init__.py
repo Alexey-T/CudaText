@@ -252,6 +252,7 @@ class Command:
         _toolbar_add_btn(self.h_bar, hint=_('Remove node'), icon=icon_del, command='cuda_project_man.action_remove_node' )
         _toolbar_add_btn(self.h_bar, hint='-' )
         _toolbar_add_btn(self.h_bar, hint=_('Configure'), icon=icon_cfg, command='cuda_project_man.menu_cfg')
+        toolbar_proc(self.h_bar, TOOLBAR_SET_WRAP, index=True)
         toolbar_proc(self.h_bar, TOOLBAR_UPDATE)
 
         n = dlg_proc(self.h_dlg, DLG_CTL_ADD, prop='treeview')
