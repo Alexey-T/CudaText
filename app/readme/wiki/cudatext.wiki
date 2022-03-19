@@ -830,12 +830,15 @@ Possible encoding names for command-line usage:
 All major types of line-ends are supported:
 
 * CR LF (usual for Windows)
-* LF (usual for Unix)
+* LF (usual for Linux and Unix)
 * CR (usual for Mac OS 9, now almost not used)
 
-Mixed line-ends (CR with LF with CR LF) in one file are supported. Because of this feature, CudaText saves binary files to disk without corrupting them. To see mixed line-ends, use application option "unprinted_content", which can show text marks ("lf" etc) at line-ends.
+Mixed line-ends (CR with LF with CR LF) in one document are supported. Because of this feature, CudaText saves binary files to disk without corrupting them. To see mixed line-ends, use application option "unprinted_content", which can show text marks ("lf" etc) at line-ends.
 
-To change line-ends for all lines in the current document, click statusbar cell for line-ends, menu will appear. You need to save file then. Changed line-ends can be undone via "Undo".
+Commands:
+
+* To change line-ends for all lines in the current document, click statusbar cell for line-ends, menu will appear. You need to save file then. Changed line-ends can be undone via "Undo". Also 3 commands are available in the Command Palette.
+* To change line-ends for individial lines, in CudaText 1.158.3+, use commands in the Command Palette: "change line ends, for line(s) with caret: CR LF / LF / CR". 
 
 ==Groups of tabs==
 
