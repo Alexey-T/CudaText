@@ -838,7 +838,7 @@ Mixed line-ends (CR with LF with CR LF) in one document are supported. Because o
 Commands:
 
 * To change line-ends for all lines in the current document, click statusbar cell for line-ends, menu will appear. You need to save file then. Changed line-ends can be undone via "Undo". Also 3 commands are available in the Command Palette.
-* To change line-ends for individial lines, in CudaText 1.158.3+, use commands in the Command Palette: "change line ends, for line(s) with caret: CR LF / LF / CR". 
+* To change line-ends for individial lines (in CudaText 1.158.3+), use 3 commands in the Command Palette: "change line ends, for line(s) with caret: CR LF / LF / CR".
 
 ==Groups of tabs==
 
