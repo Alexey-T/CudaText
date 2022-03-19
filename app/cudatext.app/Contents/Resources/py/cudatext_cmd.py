@@ -436,9 +436,9 @@ cmd_LineEndWin        = 2677
 cmd_LineEndUnix       = 2678
 cmd_LineEndMac        = 2679
 
-cmd_LineEndWin_CurLine     = 2680
-cmd_LineEndUnix_CurLine    = 2681
-cmd_LineEndMac_CurLine     = 2682
+cmd_LineEndWin_Caret  = 2680
+cmd_LineEndUnix_Caret = 2681
+cmd_LineEndMac_Caret  = 2682
 
 cmd_DeleteNewColorAttrs    = 2683
 cmd_FoldingEnable          = 2684

@@ -238,9 +238,9 @@ const
   cmd_LineEndUnix       = 2678;
   cmd_LineEndMac        = 2679;
 
-  cmd_LineEndWin_CurLine     = 2680;
-  cmd_LineEndUnix_CurLine    = 2681;
-  cmd_LineEndMac_CurLine     = 2682;
+  cmd_LineEndWin_Caret  = 2680;
+  cmd_LineEndUnix_Caret = 2681;
+  cmd_LineEndMac_Caret  = 2682;
 
   cmd_DeleteNewColorAttrs    = 2683;
   cmd_FoldingEnable          = 2684;
@@ -576,9 +576,9 @@ begin
   M.Add(cmd_LineEndUnix, 'change line ends, for entire document: LF', [], []);
   M.Add(cmd_LineEndMac, 'change line ends, for entire document: CR', [], []);
 
-  M.Add(cmd_LineEndWin_CurLine, 'change line ends, for line(s) with caret: CR LF', [], []);
-  M.Add(cmd_LineEndUnix_CurLine, 'change line ends, for line(s) with caret: LF', [], []);
-  M.Add(cmd_LineEndMac_CurLine, 'change line ends, for line(s) with caret: CR', [], []);
+  M.Add(cmd_LineEndWin_Caret, 'change line ends, for line(s) with caret: CR LF', [], []);
+  M.Add(cmd_LineEndUnix_Caret, 'change line ends, for line(s) with caret: LF', [], []);
+  M.Add(cmd_LineEndMac_Caret, 'change line ends, for line(s) with caret: CR', [], []);
 
   M.Add(cmd_MenuEnc, 'menu: encodings', [], []);
   M.Add(cmd_MenuEnds, 'menu: line ends', [], []);

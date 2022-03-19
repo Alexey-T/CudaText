@@ -973,19 +973,19 @@ begin
         exit
       end;
 
-    cmd_LineEndWin_CurLine:
+    cmd_LineEndWin_Caret:
       begin
         UpdateEditorCaretLineEnds(Frame, Ed, cEndWin);
         AHandled:= true;
         exit
       end;
-    cmd_LineEndUnix_CurLine:
+    cmd_LineEndUnix_Caret:
       begin
         UpdateEditorCaretLineEnds(Frame, Ed, cEndUnix);
         AHandled:= true;
         exit
       end;
-    cmd_LineEndMac_CurLine:
+    cmd_LineEndMac_Caret:
       begin
         UpdateEditorCaretLineEnds(Frame, Ed, cEndMac);
         AHandled:= true;
