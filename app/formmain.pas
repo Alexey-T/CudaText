@@ -967,8 +967,8 @@ type
     procedure DoOps_SaveThemes;
     procedure DoOps_LoadHistory;
     procedure DoOps_LoadHistory_GroupView(cfg: TJsonConfig; const AJsonPath: string);
-    function DoOps_SaveSession(const AFileName: string; ASaveModifiedFiles, ASaveUntitledTabs, AByTimer: boolean): boolean;
-    function DoOps_LoadSession(const AFileName: string; AllowShowPanels: boolean): boolean;
+    function DoOps_SaveSession(AFileName: string; ASaveModifiedFiles, ASaveUntitledTabs, AByTimer: boolean): boolean;
+    function DoOps_LoadSession(AFileName: string; AllowShowPanels: boolean): boolean;
     procedure DoOps_SaveSessionsBackups(const ASessionFilename: string);
     procedure DoOps_LoadOptionsAndApplyAll;
     procedure DoOps_LoadOptionsLexerSpecific(F: TEditorFrame; Ed: TATSynEdit);

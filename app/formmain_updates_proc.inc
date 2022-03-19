@@ -15,7 +15,8 @@ end;
 procedure TfmMain.UpdateCaption_RealWork;
 var
   F: TEditorFrame;
-  SName, SSession, Name1, Name2: string;
+  SName, SSession, SSessionRootPath,
+  Name1, Name2: string;
 begin
   F:= CurrentFrame;
   if F=nil then exit;
@@ -43,9 +44,10 @@ begin
   else
     SName:= F.TabCaption;
 
-  SSession:= ChangeFileExt(ExtractFileName(AppSessionName), '');
+  SSplitByChar(AppSessionName, '|', SSession, SSessionRootPath);
+  SSession:= ChangeFileExt(ExtractFileName(SSession), '');
   if (SSession<>'') and (SSession<>'history session') then
-    SSession:= ' {'+SSession+'}'
+    SSession:= ' {'+SSession+IfThen(SSessionRootPath<>'', '|'+SSessionRootPath)+'}'
   else
     SSession:= '';
 
