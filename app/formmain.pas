@@ -729,8 +729,7 @@ type
     FOption_SidebarTab: string;
     FCmdlineFileCount: integer;
 
-    procedure HandleTimerCommand(Ed: TATSynEdit; CmdCode: integer;
-      CmdInvoke: TATEditorCommandInvoke);
+    procedure HandleTimerCommand(Ed: TATSynEdit; CmdCode: integer; CmdInvoke: TATEditorCommandInvoke);
     function IsTooManyTabsOpened: boolean;
     function GetUntitledNumberedCaption: string;
     procedure PopupBottomOnPopup(Sender: TObject);
@@ -771,8 +770,7 @@ type
     procedure DoFindOptions_OnChange(Sender: TObject);
     procedure DoFindOptions_ApplyDict(const AText: string);
     function DoFindOptions_GetDict: PPyObject;
-    procedure DoFolderOpen(const ADirName: string; ANewProject: boolean;
-      AInvoke: TATEditorCommandInvoke);
+    procedure DoFolderOpen(const ADirName: string; ANewProject: boolean; AInvoke: TATEditorCommandInvoke);
     procedure DoFolderAdd(AInvoke: TATEditorCommandInvoke);
     procedure DoGetSaveDialog(var ASaveDlg: TSaveDialog);
     procedure DoGroupsChangeMode(Sender: TObject);
@@ -812,7 +810,6 @@ type
     procedure DoOnTabAdd(Sender: TObject);
     procedure DoOnTabClose(Sender: TObject; ATabIndex: Integer; var ACanClose, ACanContinue: boolean);
     procedure DoOnTabMove(Sender: TObject; NFrom, NTo: Integer);
-    //procedure DoOnTabOver(Sender: TObject; ATabIndex: Integer);
     procedure DoOnTabPopup(Sender: TObject; APages: TATPages; ATabIndex: integer);
     function DoOnTabGetTick(Sender: TObject; ATabObject: TObject): Int64;
     procedure DoCodetree_UpdateVersion(Ed: TATSynEdit);
@@ -827,8 +824,7 @@ type
     procedure DoCodetree_OnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure DoCodetree_GotoBlockForCurrentNode(AndSelect: boolean);
     procedure DoCodetree_ApplyTreeHelperResults(Tree: TTreeView; Data: PPyObject);
-    function DoCodetree_ApplyTreeHelperInPascal(Ed: TATSynEdit; Tree: TTreeView;
-      const ALexer: string): boolean;
+    function DoCodetree_ApplyTreeHelperInPascal(Ed: TATSynEdit; Tree: TTreeView; const ALexer: string): boolean;
     procedure DoCodetree_OnAdvDrawItem(Sender: TCustomTreeView;
       Node: TTreeNode; State: TCustomDrawState; Stage: TCustomDrawStage;
       var PaintImages, DefaultDraw: Boolean);
@@ -848,8 +844,7 @@ type
     function DoAutoComplete_PosOnBadToken(Ed: TATSynEdit; AX, AY: integer): boolean;
     procedure DoAutoComplete(Ed: TATSynEdit);
     procedure DoAutoComplete_Delayed(Ed: TATSynEdit; AValue: boolean);
-    procedure DoPyCommand_Cudaxlib(Ed: TATSynEdit; const AMethod: string;
-      AInvoke: TATEditorCommandInvoke);
+    procedure DoPyCommand_Cudaxlib(Ed: TATSynEdit; const AMethod: string; AInvoke: TATEditorCommandInvoke);
     procedure DoDialogCharMap;
     procedure DoFindActionFromString(const AStr: string);
     procedure DoGotoFromInput(const AInput: string);
@@ -1051,8 +1046,7 @@ type
     procedure DoToggleToolbar;
     procedure DoToggleStatusbar;
     procedure DoToggleUiTabs;
-    procedure FinderGetHiAllIndexes(AFinder: TATEditorFinder; out AIndex,
-      ACount: integer);
+    procedure FinderGetHiAllIndexes(AFinder: TATEditorFinder; out AIndex, ACount: integer);
     function FinderGetHiAllIndexesString(AFinder: TATEditorFinder): string;
     function FinderOptionsToHint(AFinder: TATEditorFinder): string;
     function FinderReplaceAll(Ed: TATSynEdit; AResetCaret: boolean): integer;
@@ -1074,8 +1068,7 @@ type
     function IsFocusedFind: boolean;
     procedure PyCompletionOnGetProp(Sender: TObject; AContent: TStringList; out ACharsLeft, ACharsRight: integer);
     procedure PyCompletionOnResult(Sender: TObject; const ASnippetId: string; ASnippetIndex: integer);
-    procedure DoPyCommand_ByPluginIndex(AIndex: integer;
-      AInvoke: TATEditorCommandInvoke);
+    procedure DoPyCommand_ByPluginIndex(AIndex: integer; AInvoke: TATEditorCommandInvoke);
     procedure SetFrameEncoding(Ed: TATSynEdit; const AEnc: string; AAlsoReloadFile: boolean);
     procedure SetFrameLexerByIndex(Ed: TATSynEdit; AIndex: integer);
     procedure SetShowStatus(AValue: boolean);
@@ -1108,8 +1101,7 @@ type
     procedure UpdateMenuChecks(F: TEditorFrame);
     procedure UpdateMenuEnc(AMenu: TMenuItem);
     procedure UpdateFrameLineEnds(Frame: TEditorFrame; AValue: TATLineEnds);
-    procedure UpdateEditorCaretLineEnds(Frame: TEditorFrame; Ed: TATSynEdit;
-      AValue: TATLineEnds);
+    procedure UpdateEditorCaretLineEnds(Frame: TEditorFrame; Ed: TATSynEdit; AValue: TATLineEnds);
     procedure UpdateSomeStates(F: TEditorFrame);
     procedure UpdateStatusbarPanelsFromString(const AText: string);
     procedure UpdateStatusbarHints;
