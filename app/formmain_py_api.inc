@@ -4684,17 +4684,19 @@ begin
 
         APP_PROC_SAVE_SESSION:
           begin
-            SSplitByChar(Str, ';', Str1, Str2);
+            Sep.Init(Str, ';');
+            Sep.GetItemStr(StrFilename);
+            Sep.GetItemStr(StrCmd);
 
             //do session backups, when Auto Save plugin saves _default_ session
-            if IsDefaultSession(Str1) then
-              fmMain.DoOps_SaveSessionsBackups(Str1);
+            if IsDefaultSession(StrFilename) then
+              fmMain.DoOps_SaveSessionsBackups(StrFilename);
 
             ParamBool:= fmMain.DoOps_SaveSession(
-              Str1,
-              Pos('n', Str2)=0, //ASaveModifiedFiles
-              Pos('u', Str2)=0, //ASaveUntitlesTabs
-              Pos('t', Str2)>0 //AByTimer
+              StrFilename,
+              Pos('n', StrCmd)=0, //ASaveModifiedFiles
+              Pos('u', StrCmd)=0, //ASaveUntitlesTabs
+              Pos('t', StrCmd)>0 //AByTimer
               );
             Result:= PyBool_FromLong(Ord(ParamBool));
           end;
