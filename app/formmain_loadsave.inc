@@ -408,7 +408,8 @@ var
   cfg: TJSONConfig;
   Frame: TEditorFrame;
   list: TStringlist;
-  sFilename, sFilename2, sRootPath,
+  sFilename, sFilename2, sFilenamePrev,
+  sRootPath, sRootPathPrev,
   sTabTitle, sKind, sOpenOptions,
   item_path, item_path2: string;
   nCountFiles, nCountFilesModified, nCountFilesBefore: integer;
@@ -429,15 +430,16 @@ begin
 
   sFilename:= AFileName;
   SSplitByChar(sFileName, '|', AFileName, sRootPath);
+  sFilename:= '';
 
   if not FileExists(AFileName) then exit;
 
   //fix issue #3734
   if not IsDefaultSessionActive then
   begin
-    SSplitByChar(AppFile_Session, '|', sFilename, sKind{ignored});
-    if not SameFileName(sFilename, AFileName) then //fix issue #3744
-      DoOps_SaveSession(sFilename, false, false, false);
+    SSplitByChar(AppFile_Session, '|', sFilenamePrev, sRootPathPrev);
+    if not SameFileName(sFilenamePrev, AFileName) then //fix issue #3744
+      DoOps_SaveSession(sFilenamePrev+IfThen(sRootPathPrev<>'', '|'+sRootPathPrev), false, false, false);
     sFilename:= '';
   end;
 
