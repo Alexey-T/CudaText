@@ -225,25 +225,23 @@ begin
   AppMakeBackupFiles(ASessionFilename, '.cuda-session', UiOps.BackupLastSessions);
 end;
 
-function TfmMain.DoOps_SaveSession(AFileName: string;
+function TfmMain.DoOps_SaveSession(const ASessionId: string;
   ASaveModifiedFiles, ASaveUntitledTabs, AByTimer: boolean): boolean;
 var
   cfg: TJSONConfig;
   Frame: TEditorFrame;
   Gr: TATGroups;
   Pages: TATPages;
-  sFilename, sFilename2, sRootPath: string;
+  AFileName, sFilename, sFilename2, sRootPath: string;
   nLocalGroup, nGlobalGroup, nTab, i: integer;
   nCountFiles, nCountUntitled: integer;
   path, value: string;
   bModified, bUntitled: boolean;
 begin
   Result:= false;
-  if AFileName='' then exit;
+  if ASessionId='' then exit;
 
-  sFilename:= AFileName;
-  SSplitByChar(sFilename, '|', AFileName, sRootPath);
-  sFilename:= '';
+  SSplitByChar(ASessionId, '|', AFileName, sRootPath);
 
   if sRootPath='' then
   begin
@@ -259,6 +257,8 @@ begin
     try
       cfg.Formatted:= true;
       cfg.Filename:= AFileName;
+      if sRootPath<>'' then
+        cfg.DeletePath(sRootPath); //otherwise sections '000' will not be removed
     except
       on E: Exception do
       begin
@@ -403,13 +403,12 @@ begin
   Result:= StrToIntDef(s, -1)>=0;
 end;
 
-function TfmMain.DoOps_LoadSession(AFileName: string; AllowShowPanels: boolean): boolean;
+function TfmMain.DoOps_LoadSession(const ASessionId: string; AllowShowPanels: boolean): boolean;
 var
   cfg: TJSONConfig;
   Frame: TEditorFrame;
   list: TStringlist;
-  sFilename, sFilename2, sFilenamePrev,
-  sRootPath, sRootPathPrev,
+  AFileName, sFilename, sFilename2, sRootPath,
   sTabTitle, sKind, sOpenOptions,
   item_path, item_path2: string;
   nCountFiles, nCountFilesModified, nCountFilesBefore: integer;
@@ -426,21 +425,16 @@ const
   SOptionNoHistory = '/nohistory /nolexerdetect /noevent /noopenedevent /nononeevent';
 begin
   Result:= false;
-  if AFileName='' then exit;
+  if ASessionId='' then exit;
 
-  sFilename:= AFileName;
-  SSplitByChar(sFileName, '|', AFileName, sRootPath);
-  sFilename:= '';
-
+  SSplitByChar(ASessionId, '|', AFileName, sRootPath);
   if not FileExists(AFileName) then exit;
 
   //fix issue #3734
   if not IsDefaultSessionActive then
   begin
-    SSplitByChar(AppFile_Session, '|', sFilenamePrev, sRootPathPrev);
-    if not SameFileName(sFilenamePrev, AFileName) then //fix issue #3744
-      DoOps_SaveSession(sFilenamePrev+IfThen(sRootPathPrev<>'', '|'+sRootPathPrev), false, false, false);
-    sFilename:= '';
+    if not SameFileName(ASessionId, AppFile_Session) then //fix issue #3744
+      DoOps_SaveSession(AppFile_Session, false, false, false);
   end;
 
   DoPyEvent_AppState(APPSTATE_SESSION_LOAD_BEGIN);
