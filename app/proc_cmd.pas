@@ -572,11 +572,11 @@ begin
   M.Add(cmd_SplitTab6040, 'split tab: 60/40', [], []);
   M.Add(cmd_SplitTab7030, 'split tab: 70/30', [], []);
 
-  M.Add(cmd_LineEndWin, 'change line ends, for entire document: CRLF', [], []);
+  M.Add(cmd_LineEndWin, 'change line ends, for entire document: CR LF', [], []);
   M.Add(cmd_LineEndUnix, 'change line ends, for entire document: LF', [], []);
   M.Add(cmd_LineEndMac, 'change line ends, for entire document: CR', [], []);
 
-  M.Add(cmd_LineEndWin_CurLine, 'change line ends, for line(s) with caret: CRLF', [], []);
+  M.Add(cmd_LineEndWin_CurLine, 'change line ends, for line(s) with caret: CR LF', [], []);
   M.Add(cmd_LineEndUnix_CurLine, 'change line ends, for line(s) with caret: LF', [], []);
   M.Add(cmd_LineEndMac_CurLine, 'change line ends, for line(s) with caret: CR', [], []);
 
