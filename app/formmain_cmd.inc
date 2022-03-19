@@ -991,6 +991,12 @@ begin
         AHandled:= true;
         exit
       end;
+    cmd_LineEndDefault_Caret:
+      begin
+        UpdateEditorCaretLineEnds(Frame, Ed, Ed.Strings.Endings);
+        AHandled:= true;
+        exit
+      end;
 
     cmd_SplitTabToggle:
       begin

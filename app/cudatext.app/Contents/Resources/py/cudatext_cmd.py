@@ -436,13 +436,14 @@ cmd_LineEndWin        = 2677
 cmd_LineEndUnix       = 2678
 cmd_LineEndMac        = 2679
 
-cmd_LineEndWin_Caret  = 2680
-cmd_LineEndUnix_Caret = 2681
-cmd_LineEndMac_Caret  = 2682
+cmd_LineEndWin_Caret     = 2680
+cmd_LineEndUnix_Caret    = 2681
+cmd_LineEndMac_Caret     = 2682
+cmd_LineEndDefault_Caret = 2683
 
-cmd_DeleteNewColorAttrs    = 2683
 cmd_FoldingEnable          = 2684
 cmd_FoldingDisable         = 2685
+cmd_DeleteNewColorAttrs    = 2686
 
 cmd_MenuEnc           = 2691
 cmd_MenuEnds          = 2692

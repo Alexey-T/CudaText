@@ -238,13 +238,14 @@ const
   cmd_LineEndUnix       = 2678;
   cmd_LineEndMac        = 2679;
 
-  cmd_LineEndWin_Caret  = 2680;
-  cmd_LineEndUnix_Caret = 2681;
-  cmd_LineEndMac_Caret  = 2682;
+  cmd_LineEndWin_Caret     = 2680;
+  cmd_LineEndUnix_Caret    = 2681;
+  cmd_LineEndMac_Caret     = 2682;
+  cmd_LineEndDefault_Caret = 2683;
 
-  cmd_DeleteNewColorAttrs    = 2683;
   cmd_FoldingEnable          = 2684;
   cmd_FoldingDisable         = 2685;
+  cmd_DeleteNewColorAttrs    = 2686;
 
   cmd_MenuEnc           = 2691;
   cmd_MenuEnds          = 2692;
@@ -579,6 +580,7 @@ begin
   M.Add(cmd_LineEndWin_Caret, 'change line ends, for line(s) with caret: CR LF', [], []);
   M.Add(cmd_LineEndUnix_Caret, 'change line ends, for line(s) with caret: LF', [], []);
   M.Add(cmd_LineEndMac_Caret, 'change line ends, for line(s) with caret: CR', [], []);
+  M.Add(cmd_LineEndDefault_Caret, 'change line ends, for line(s) with caret: default', [], []);
 
   M.Add(cmd_MenuEnc, 'menu: encodings', [], []);
   M.Add(cmd_MenuEnds, 'menu: line ends', [], []);
