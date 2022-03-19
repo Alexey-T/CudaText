@@ -201,7 +201,7 @@ begin
     cfg.SetValue('session', AppSessionName_ForHistoryFile);
     cfg.SetValue('last_cmd', FLastSelectedCommand);
 
-    DoOps_SaveHistory_GroupView(cfg);
+    DoOps_SaveHistory_GroupView(cfg, '');
   finally
     cfg.Free;
   end;
@@ -260,7 +260,7 @@ begin
       end;
     end;
 
-    DoOps_SaveHistory_GroupView(cfg);
+    DoOps_SaveHistory_GroupView(cfg, '');
 
     for i:= 0 to cAppMaxGroup do
     begin
@@ -470,7 +470,7 @@ begin
     end;
 
     AppSessionIsLoading:= true;
-    DoOps_LoadHistory_GroupView(cfg); //reads to variables
+    DoOps_LoadHistory_GroupView(cfg, ''); //reads to variables
     DoApplyInitialGroupSizes; //applies that variables
 
     cfg.EnumSubKeys('/', list);
@@ -680,18 +680,18 @@ begin
   end;
 end;
 
-procedure TfmMain.DoOps_LoadHistory_GroupView(cfg: TJsonConfig);
+procedure TfmMain.DoOps_LoadHistory_GroupView(cfg: TJsonConfig; const AJsonPath: string);
 var
   Sep: TATStringSeparator;
   i: integer;
 begin
-  FOption_GroupMode:= TATGroupsMode(cfg.GetValue('groups', Ord(gmOne)));
+  FOption_GroupMode:= TATGroupsMode(cfg.GetValue(AJsonPath+'/groups', Ord(gmOne)));
 
-  Sep.Init(cfg.GetValue('/gr/panel', ''));
+  Sep.Init(cfg.GetValue(AJsonPath+'/gr/panel', ''));
   Sep.GetItemInt(FOption_GroupPanelSize.x, 50);
   Sep.GetItemInt(FOption_GroupPanelSize.y, 50);
 
-  Sep.Init(cfg.GetValue('/gr/pages', ''));
+  Sep.Init(cfg.GetValue(AJsonPath+'/gr/pages', ''));
   for i in TATGroupsNums do
   begin
     Sep.GetItemInt(FOption_GroupSizes[i].x, 50);
@@ -699,14 +699,14 @@ begin
   end;
 end;
 
-procedure TfmMain.DoOps_SaveHistory_GroupView(cfg: TJsonConfig);
+procedure TfmMain.DoOps_SaveHistory_GroupView(cfg: TJsonConfig; const AJsonPath: string);
 var
   SizePanel: TPoint;
   SizePage: TATGroupsPoints;
   S: string;
   i: integer;
 begin
-  cfg.SetValue('groups', Ord(Groups.Mode));
+  cfg.SetValue(AJsonPath+'/groups', Ord(Groups.Mode));
 
   Groups.GetSizes(SizePanel, SizePage);
 
@@ -714,8 +714,8 @@ begin
   for i in TATGroupsNums do
     S+= Format('%d,%d,', [SizePage[i].x, SizePage[i].y]);
 
-  cfg.SetValue('/gr/panel', Format('%d,%d', [SizePanel.x, SizePanel.y]));
-  cfg.SetValue('/gr/pages', S);
+  cfg.SetValue(AJsonPath+'/gr/panel', Format('%d,%d', [SizePanel.x, SizePanel.y]));
+  cfg.SetValue(AJsonPath+'/gr/pages', S);
 end;
 
 
@@ -830,7 +830,7 @@ begin
       end;
 
       FLastSelectedCommand:= cfg.GetValue('last_cmd', FLastSelectedCommand);
-      DoOps_LoadHistory_GroupView(cfg);
+      DoOps_LoadHistory_GroupView(cfg, '');
     end;
 
     FOption_SidebarTab:= cfg.GetValue('tab_left', '');
