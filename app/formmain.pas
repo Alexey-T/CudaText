@@ -4768,6 +4768,24 @@ procedure TfmMain.DoDialogGotoBookmark;
 var
   ListItems: TStringList;
   //
+  function ShrinkLineIndentation(const S: string; ATabSize: integer): string;
+  var
+    N: integer;
+    SBegin, SEnd: string;
+  begin
+    N:= SGetIndentChars(S);
+    if N<2 then exit(S);
+    SBegin:= Copy(S, 1, N);
+    SEnd:= Copy(S, N+1, MaxInt);
+    SBegin:= StringReplace(SBegin, #9, StringOfChar(' ', ATabSize), [rfReplaceAll]);
+    if ATabSize>=4 then
+      N:= 4
+    else
+      N:= 2;
+    SetLength(SBegin, Length(SBegin) div N);
+    Result:= SBegin+SEnd;
+  end;
+  //
   function NiceBookmarkKind(NKind: integer): string;
   begin
     //paint prefix [N] for numbered bookmarks (kind=2..10)
@@ -4797,7 +4815,7 @@ var
       if not Ed.Strings.IsIndexValid(NLine) then Continue;
 
       SCaption:= Copy(Ed.Strings.Lines[NLine], 1, cMaxLen);
-      SCaption:= StringReplace(SCaption, #9, '  ', [rfReplaceAll]);
+      SCaption:= ShrinkLineIndentation(SCaption, Ed.OptTabSize);
 
       Prop:= TAppBookmarkProp.Create;
       Prop.Frame:= Frame;
