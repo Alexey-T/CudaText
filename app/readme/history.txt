@@ -6,6 +6,7 @@
 1.158.3 (2022/03)
 
 + add: 4 commands in the Command Palette: "change line ends to LF / CR LF / CR / default, for lines(s) with caret"
+* change: dialog 'Go to bookmark' has decreased indentations of lines (2x...4x smaller indents)
 
 1.158.2 (2022/03)
 
