@@ -377,6 +377,8 @@ Session is a set of opened files + untitled tabs, with some properties of editor
 
 * PROC_SET_SESSION: Tells to app filename of session. Session with this filename will be saved on exit, loaded on start, shown in app title in {} brackets. Don't set here empty string. Default filename is "history session.json" without path. Missing path means that folder "settings" will be used.
 
+(Feature of API version 1.0.418.) Session-related actions support specifying the JSON path, into which session will be saved/loaded. If you want to use this feature, add the JSON path to the session filename, after pipe-char "|", e.g. "/some/path/sessionname.cuda-session|/my/key". Here "/my/key" specifies the JSON path of 2 levels ("key" inside "my").
+
 ====app_proc - Sidebar panels====
 
 General notes:
@@ -4559,5 +4561,8 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 
 1.0.417 (app 1.157.6)
 * add: app_proc: PROC_GET_COMPILER_INFO
+
+1.0.418 (app 1.158.3)
+* add: app_proc: session-related actions support specifying of JSON path for sessions
 
 [[Category:CudaText]]
