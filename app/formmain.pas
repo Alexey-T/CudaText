@@ -4805,7 +4805,7 @@ var
       Prop.LineIndex:= NLine;
       Prop.MenuCaption:=
         SCaption+
-        #9+
+        #9'  '+
         Frame.TabCaption+': '+
         NiceBookmarkKind(Mark^.Data.Kind)+
         IntToStr(NLine+1);
