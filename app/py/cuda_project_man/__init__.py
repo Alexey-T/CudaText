@@ -838,7 +838,7 @@ class Command:
         names = self.session_get_names()
         for (index, name) in enumerate(names):
             menu_proc(self.h_menu_cfg, MENU_ADD,
-                command="module=cuda_project_man;cmd=session_load;info='%s';"%name,
+                command="module=cuda_project_man;cmd=session_load;info=%s;"%name,
                 caption=_('Project session:')+' '+name
                 )
 
@@ -1532,5 +1532,18 @@ class Command:
 
     def session_load(self, info=''):
 
-        print('session_load', info)
+        if not info:
+            return
 
+        fn = str(self.project_file_path)
+        if not fn:
+            msg_status(_('Untitled project'))
+
+        sess = app_path(APP_FILE_SESSION)
+        if msg_box(_('Save current state to the session "%s"?')%sess, MB_OKCANCEL+MB_ICONQUESTION)==ID_OK:
+            app_proc(PROC_SAVE_SESSION, sess)
+
+        app_proc(PROC_SET_SESSION, '')
+
+        fn += '|/sessions/'+info
+        app_proc(PROC_LOAD_SESSION, fn)
