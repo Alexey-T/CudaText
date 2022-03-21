@@ -2418,15 +2418,17 @@ end;
 
 function AppSessionName_ForHistoryFile: string;
 var
-  dir: string;
+  sDir, sFilename, sJsonPath: string;
 begin
   if not UiOps.ReopenSession then exit('');
 
-  dir:= ExtractFileDir(AppSessionName);
-  if dir='' then exit(AppSessionName);
+  SSplitByChar(AppSessionName, '|', sFilename, sJsonPath);
 
-  if SameFileName(dir, AppDir_Settings) then
-    Result:= ExtractFileName(AppSessionName)
+  sDir:= ExtractFileDir(sFilename);
+  if sDir='' then exit(AppSessionName);
+
+  if SameFileName(sDir, AppDir_Settings) then
+    Result:= ExtractFileName(sFilename)+IfThen(sJsonPath<>'', '|'+sJsonPath)
   else
     Result:= AppSessionName;
 end;
@@ -3316,11 +3318,15 @@ begin
 end;
 
 function AppFile_Session: string;
+var
+  sFilename, sJsonPath: string;
 begin
   Result:= AppSessionName;
   if Result='' then
     Result:= cAppSessionDefault;
-  if ExtractFileDir(Result)='' then
+
+  SSplitByChar(Result, '|', sFilename, sJsonPath);
+  if ExtractFileDir(sFilename)='' then
     Result:= AppDir_Settings+DirectorySeparator+Result;
 end;
 
