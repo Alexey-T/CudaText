@@ -830,25 +830,18 @@ class Command:
     def action_config(self):
         self.config()
 
-    def session_names_init(self):
-        self.session_names = []
-        fn = self.project_file_path
-        if fn and os.path.isfile(fn):
-            with open(fn, 'r', encoding='utf8') as f:
-                data = json.load(f)
-                key_sess = data.get('sessions')
-                if type(key_sess)==dict:
-                    self.session_names = key_sess.keys()
-                
     def menu_cfg(self):
         if self.h_menu_cfg is None:
             self.h_menu_cfg = menu_proc(0, MENU_CREATE)
         menu_proc(self.h_menu_cfg, MENU_CLEAR)
-        
-        self.session_names_init()
-        for (index, name) in enumerate(self.session_names):
-            menu_proc(self.h_menu_cfg, MENU_ADD, command='cuda_project_man.session_load_'+str(index), caption=_('Project session:')+' '+name)
-        
+
+        names = self.session_get_names()
+        for (index, name) in enumerate(names):
+            menu_proc(self.h_menu_cfg, MENU_ADD,
+                command="module=cuda_project_man;cmd=session_load;info='%s';"%name,
+                caption=_('Project session:')+' '+name
+                )
+
         menu_proc(self.h_menu_cfg, MENU_ADD, caption='-')
         menu_proc(self.h_menu_cfg, MENU_ADD, command='cuda_project_man.session_save_as', caption=_('Save project session as...'))
         menu_proc(self.h_menu_cfg, MENU_ADD, command='cuda_project_man.session_delete', caption=_('Delete project session...'))
@@ -1466,3 +1459,39 @@ class Command:
             if d==dir:
                 return
             dir = d
+
+    def session_get_names(self):
+
+        res = []
+        fn = self.project_file_path
+        if fn and os.path.isfile(fn):
+            with open(fn, 'r', encoding='utf8') as f:
+                data = json.load(f)
+                key_sess = data.get('sessions')
+                if type(key_sess)==dict:
+                    res = list(key_sess.keys())
+        return res
+
+    def session_load(self, info=''):
+
+        print('session_load', info)
+
+    def session_delete(self):
+
+        names = self.session_get_names()
+        if not names:
+            return msg_status(_('No project sessions'))
+
+        res = dlg_menu(DMENU_LIST, names)
+        if res is None:
+            return
+
+        name = names[res]
+        fn = self.project_file_path
+        if fn and os.path.isfile(fn):
+            with open(fn, 'r', encoding='utf8') as f:
+                data = json.load(f)
+            if data.get('sessions'):
+                del data['sessions'][name]
+            with open(fn, 'w', encoding='utf8') as f:
+                json.dump(data, f)
