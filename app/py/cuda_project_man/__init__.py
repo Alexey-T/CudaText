@@ -410,8 +410,14 @@ class Command:
         self.project_file_path = None
         self.update_global_data()
         self.goto_history = []
+    
         app_proc(PROC_SET_FOLDER, '')
         app_proc(PROC_SET_PROJECT, '')
+
+        #forget prev project-session
+        sess = app_path(APP_FILE_SESSION)
+        if '|' in sess:
+            app_proc(PROC_SET_SESSION, '')
 
     def add_recent(self, path):
         recent = self.options["recent_projects"]
