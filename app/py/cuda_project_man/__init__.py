@@ -830,11 +830,29 @@ class Command:
     def action_config(self):
         self.config()
 
+    def session_names_init(self):
+        self.session_names = []
+        fn = self.project_file_path
+        if fn and os.path.isfile(fn):
+            with open(fn, 'r', encoding='utf8') as f:
+                data = json.load(f)
+                key_sess = data.get('sessions')
+                if type(key_sess)==dict:
+                    self.session_names = key_sess.keys()
+                
     def menu_cfg(self):
         if self.h_menu_cfg is None:
             self.h_menu_cfg = menu_proc(0, MENU_CREATE)
-        
         menu_proc(self.h_menu_cfg, MENU_CLEAR)
+        
+        self.session_names_init()
+        for (index, name) in enumerate(self.session_names):
+            menu_proc(self.h_menu_cfg, MENU_ADD, command='cuda_project_man.session_load_'+str(index), caption=_('Project session:')+' '+name)
+        
+        menu_proc(self.h_menu_cfg, MENU_ADD, caption='-')
+        menu_proc(self.h_menu_cfg, MENU_ADD, command='cuda_project_man.session_save_as', caption=_('Save project session as...'))
+        menu_proc(self.h_menu_cfg, MENU_ADD, command='cuda_project_man.session_delete', caption=_('Delete project session...'))
+        menu_proc(self.h_menu_cfg, MENU_ADD, caption='-')
         menu_proc(self.h_menu_cfg, MENU_ADD, command='cuda_project_man.action_project_properties', caption=_('Project properties...'))
         menu_proc(self.h_menu_cfg, MENU_ADD, command='cuda_project_man.action_config', caption=_('Project Manager options...'))
 
