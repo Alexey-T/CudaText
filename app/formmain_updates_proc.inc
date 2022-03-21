@@ -47,7 +47,11 @@ begin
   SSplitByChar(AppSessionName, '|', SSession, SSessionRootPath);
   SSession:= ChangeFileExt(ExtractFileName(SSession), '');
   if (SSession<>'') and (SSession<>'history session') then
-    SSession:= ' {'+SSession+IfThen(SSessionRootPath<>'', '|'+SSessionRootPath)+'}'
+  begin
+    if SBeginsWith(SSessionRootPath, '/sessions/') then
+      Delete(SSessionRootPath, 1, Length('/sessions/'));
+    SSession:= ' {'+SSession+IfThen(SSessionRootPath<>'', '>'+SSessionRootPath)+'}'
+  end
   else
     SSession:= '';
 
