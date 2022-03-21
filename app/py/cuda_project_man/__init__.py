@@ -1190,7 +1190,7 @@ class Command:
             return
 
         files = self.enum_all_files()
-        if not files:
+        if self.is_project_empty():
             msg_status(_('Project is empty'))
             return
 
@@ -1394,6 +1394,9 @@ class Command:
         else:
             msg_status(_('Project main file is not set'))
 
+    def is_project_empty(self):
+        return not bool(self.project['nodes'])
+
     def enum_all_files(self):
         files, dirs = [], []
         for root in self.project['nodes']:
@@ -1421,7 +1424,7 @@ class Command:
             return
 
         files = self.enum_all_files()
-        if not files:
+        if self.is_project_empty():
             msg_status(_('Project is empty'))
             return
 
@@ -1474,6 +1477,10 @@ class Command:
 
     def session_delete(self):
 
+        if self.is_project_empty():
+            msg_status(_('Project is empty'))
+            return
+
         names = self.session_get_names()
         if not names:
             return msg_status(_('No project sessions'))
@@ -1494,9 +1501,8 @@ class Command:
 
     def session_save_as(self):
 
-        fn = str(self.project_file_path)
-        if not fn:
-            msg_status(_('Project is untitled'))
+        if self.is_project_empty():
+            msg_status(_('Project is empty'))
             return
 
         names = self.session_get_names()
