@@ -215,7 +215,7 @@ class Command:
             with self.options_filename.open(encoding='utf8') as fin:
                 self.options = json.load(fin)
 
-        self.new_project()
+        self.new_project(False) # don't forget session in on_start
 
 
     def init_form_main(self):
@@ -405,8 +405,10 @@ class Command:
             if self.project_file_path:
                 self.action_save_project_as(self.project_file_path)
 
-    def new_project(self):
-        self.session_forget()
+    def new_project(self, forget_session=True):
+        if forget_session:
+            self.session_forget()
+
         self.project = dict(nodes=[])
         self.project_file_path = None
         self.update_global_data()
