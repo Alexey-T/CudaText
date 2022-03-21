@@ -836,15 +836,25 @@ class Command:
         menu_proc(self.h_menu_cfg, MENU_CLEAR)
 
         names = self.session_get_names()
-        for (index, name) in enumerate(names):
-            menu_proc(self.h_menu_cfg, MENU_ADD,
-                command="module=cuda_project_man;cmd=session_load;info=%s;"%name,
-                caption=_('Project session:')+' '+name
-                )
+        if names:
+            for (index, name) in enumerate(names):
+                menu_proc(self.h_menu_cfg, MENU_ADD,
+                    command="module=cuda_project_man;cmd=session_load;info=%s;"%name,
+                    caption=_('Project session:')+' '+name
+                    )
+        else:
+            id = menu_proc(self.h_menu_cfg, MENU_ADD, caption=_('Project session:'))
+            menu_proc(id, MENU_SET_ENABLED, command=False)
 
         menu_proc(self.h_menu_cfg, MENU_ADD, caption='-')
-        menu_proc(self.h_menu_cfg, MENU_ADD, command='cuda_project_man.session_save_as', caption=_('Save project session as...'))
-        menu_proc(self.h_menu_cfg, MENU_ADD, command='cuda_project_man.session_delete', caption=_('Delete project session...'))
+        id = menu_proc(self.h_menu_cfg, MENU_ADD, command='cuda_project_man.session_save_as', caption=_('Save project session as...'))
+        if not names:
+            menu_proc(id, MENU_SET_ENABLED, command=False)
+        
+        id = menu_proc(self.h_menu_cfg, MENU_ADD, command='cuda_project_man.session_delete', caption=_('Delete project session...'))
+        if not names:
+            menu_proc(id, MENU_SET_ENABLED, command=False)
+
         menu_proc(self.h_menu_cfg, MENU_ADD, caption='-')
         menu_proc(self.h_menu_cfg, MENU_ADD, command='cuda_project_man.action_project_properties', caption=_('Project properties...'))
         menu_proc(self.h_menu_cfg, MENU_ADD, command='cuda_project_man.action_config', caption=_('Project Manager options...'))
