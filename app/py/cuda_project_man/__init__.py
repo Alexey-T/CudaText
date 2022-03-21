@@ -1586,8 +1586,9 @@ class Command:
                 continue
             break
 
-        app_proc(PROC_SAVE_SESSION, fn+'|/sessions/'+s)
-
+        sess = fn+'|/sessions/'+s
+        app_proc(PROC_SAVE_SESSION, sess)
+        app_proc(PROC_SET_SESSION, sess)
 
     def session_load(self, info=''):
 
