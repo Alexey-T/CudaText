@@ -50,7 +50,7 @@ begin
   begin
     if SBeginsWith(SSessionRootPath, '/sessions/') then
       Delete(SSessionRootPath, 1, Length('/sessions/'));
-    SSession:= ' {'+SSession+IfThen(SSessionRootPath<>'', '>'+SSessionRootPath)+'}'
+    SSession:= ' {'+SSession+IfThen(SSessionRootPath<>'', ':'+SSessionRootPath)+'}'
   end
   else
     SSession:= '';
