@@ -1501,6 +1501,10 @@ class Command:
 
     def session_save_as(self):
 
+        fn = str(self.project_file_path)
+        if not fn:
+            msg_status(_('Untitled project'))
+
         if self.is_project_empty():
             msg_status(_('Project is empty'))
             return
