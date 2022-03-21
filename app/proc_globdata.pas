@@ -3306,10 +3306,15 @@ begin
 end;
 
 function IsDefaultSession(const S: string): boolean;
+var
+  sFilename, sJsonPath: string;
 begin
+  if S='' then
+    exit(true);
+  SSplitByChar(S, '|', sFilename, sJsonPath);
   Result:=
-    (S='') or
-    (ChangeFileExt(ExtractFileName(S), '')=cAppSessionDefaultBase);
+    (sJsonPath='') and
+    (ChangeFileExt(ExtractFileName(sFilename), '')=cAppSessionDefaultBase);
 end;
 
 function IsDefaultSessionActive: boolean;
