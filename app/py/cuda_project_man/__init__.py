@@ -859,7 +859,7 @@ class Command:
             menu_proc(id, MENU_SET_ENABLED, command=False)
 
         menu_proc(self.h_menu_cfg, MENU_ADD, caption='-')
-        id = menu_proc(self.h_menu_cfg, MENU_ADD, command='cuda_project_man.session_save_as', caption=_('Save project state as session...'))
+        id = menu_proc(self.h_menu_cfg, MENU_ADD, command='cuda_project_man.session_save_as', caption=_('Save project session...'))
         if self.is_project_empty():
             menu_proc(id, MENU_SET_ENABLED, command=False)
 
