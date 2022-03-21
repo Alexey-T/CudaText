@@ -411,7 +411,7 @@ class Command:
         self.project_file_path = None
         self.update_global_data()
         self.goto_history = []
-    
+
         app_proc(PROC_SET_FOLDER, '')
         app_proc(PROC_SET_PROJECT, '')
 
@@ -838,13 +838,17 @@ class Command:
             self.h_menu_cfg = menu_proc(0, MENU_CREATE)
         menu_proc(self.h_menu_cfg, MENU_CLEAR)
 
+        cur_name = self.session_cur_name()
+
         names = self.session_get_names()
         if names:
             for (index, name) in enumerate(names):
-                menu_proc(self.h_menu_cfg, MENU_ADD,
+                id = menu_proc(self.h_menu_cfg, MENU_ADD,
                     command="module=cuda_project_man;cmd=session_load;info=%s;"%name,
                     caption=_('Project session:')+' '+name
                     )
+                if name==cur_name:
+                    menu_proc(id, MENU_SET_ENABLED, command=False)
         else:
             id = menu_proc(self.h_menu_cfg, MENU_ADD, caption=_('Project session:'))
             menu_proc(id, MENU_SET_ENABLED, command=False)
@@ -853,7 +857,7 @@ class Command:
         id = menu_proc(self.h_menu_cfg, MENU_ADD, command='cuda_project_man.session_save_as', caption=_('Save project session as...'))
         if not names:
             menu_proc(id, MENU_SET_ENABLED, command=False)
-        
+
         id = menu_proc(self.h_menu_cfg, MENU_ADD, command='cuda_project_man.session_delete', caption=_('Delete project session...'))
         if not names:
             menu_proc(id, MENU_SET_ENABLED, command=False)
@@ -1484,6 +1488,23 @@ class Command:
         if '|' in sess:
             app_proc(PROC_SET_SESSION, '')
         '''
+
+    def session_cur_name(self):
+
+        fn_proj = str(self.project_file_path)
+        if not fn_proj:
+            return ''
+
+        s = ''
+        sess = app_path(APP_FILE_SESSION)
+        if '|' in sess:
+            l = sess.split('|')
+            if l[0] == fn_proj:
+                s = l[1]
+                k = '/sessions/'
+                if s.startswith(k):
+                    s = s[len(k):]
+        return s
 
     def session_get_names(self):
 
