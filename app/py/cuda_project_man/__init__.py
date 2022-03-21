@@ -1600,6 +1600,8 @@ class Command:
             msg_status(_('Untitled project'))
 
         sess = app_path(APP_FILE_SESSION)
+        sess = collapse_filename(sess)
+
         if msg_box(_('Save current state to the session "%s"?')%sess, MB_OKCANCEL+MB_ICONQUESTION)==ID_OK:
             app_proc(PROC_SAVE_SESSION, sess)
 
