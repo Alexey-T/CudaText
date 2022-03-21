@@ -406,6 +406,7 @@ class Command:
                 self.action_save_project_as(self.project_file_path)
 
     def new_project(self):
+        self.session_forget()
         self.project = dict(nodes=[])
         self.project_file_path = None
         self.update_global_data()
@@ -414,7 +415,7 @@ class Command:
         app_proc(PROC_SET_FOLDER, '')
         app_proc(PROC_SET_PROJECT, '')
 
-        #forget prev project-session
+    def session_forget(self):
         sess = app_path(APP_FILE_SESSION)
         if '|' in sess:
             app_proc(PROC_SET_SESSION, '')
@@ -775,6 +776,7 @@ class Command:
             self.action_save_project_as(self.project_file_path)
 
     def action_clear_project(self):
+        self.session_forget()
         self.project["nodes"].clear()
         self.action_refresh()
 
