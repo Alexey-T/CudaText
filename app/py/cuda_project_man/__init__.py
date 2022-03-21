@@ -415,11 +415,6 @@ class Command:
         app_proc(PROC_SET_FOLDER, '')
         app_proc(PROC_SET_PROJECT, '')
 
-    def session_forget(self):
-        sess = app_path(APP_FILE_SESSION)
-        if '|' in sess:
-            app_proc(PROC_SET_SESSION, '')
-
     def add_recent(self, path):
         recent = self.options["recent_projects"]
         if path in recent:
@@ -1480,6 +1475,15 @@ class Command:
             if d==dir:
                 return
             dir = d
+
+    def session_forget(self):
+
+        app_proc(PROC_SET_SESSION, '')
+        '''
+        sess = app_path(APP_FILE_SESSION)
+        if '|' in sess:
+            app_proc(PROC_SET_SESSION, '')
+        '''
 
     def session_get_names(self):
 
