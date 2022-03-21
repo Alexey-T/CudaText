@@ -190,7 +190,7 @@ class Command:
         ("-"                       , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], ""),
         (_("Go to file...")        , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_go_to_file"),
         (_("Project properties..."), "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_project_properties"),
-        (_("Configure Project Manager..."), "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_config"),
+        (_("Project Manager options..."), "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_config"),
     )
 
     options = {
@@ -833,8 +833,10 @@ class Command:
     def menu_cfg(self):
         if self.h_menu_cfg is None:
             self.h_menu_cfg = menu_proc(0, MENU_CREATE)
-            menu_proc(self.h_menu_cfg, MENU_ADD, command='cuda_project_man.action_project_properties', caption=_('Project properties...'))
-            menu_proc(self.h_menu_cfg, MENU_ADD, command='cuda_project_man.action_config', caption=_('Project Manager options...'))
+        
+        menu_proc(self.h_menu_cfg, MENU_CLEAR)
+        menu_proc(self.h_menu_cfg, MENU_ADD, command='cuda_project_man.action_project_properties', caption=_('Project properties...'))
+        menu_proc(self.h_menu_cfg, MENU_ADD, command='cuda_project_man.action_config', caption=_('Project Manager options...'))
 
         menu_proc(self.h_menu_cfg, MENU_SHOW)
 
