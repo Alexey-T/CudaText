@@ -1490,11 +1490,35 @@ class Command:
             if data.get('sessions'):
                 del data['sessions'][name]
             with open(fn, 'w', encoding='utf8') as f:
-                json.dump(data, f)
+                json.dump(data, f, indent=2)
 
     def session_save_as(self):
 
-        print('session_save_as')
+        fn = str(self.project_file_path)
+        if not fn:
+            msg_status(_('Project is untitled'))
+            return
+
+        names = self.session_get_names()
+        s = 'new'
+        while True:
+            s = dlg_input(_('Session name:'), s)
+            if s is None:
+                return
+            s = s.strip()
+            if not s:
+                msg_status(_('Empty session name'))
+                continue
+            if not is_session_name(s):
+                msg_status(_('Not allowed char(s) in the session name'))
+                continue
+            if s in names:
+                msg_status(_('Session "%s" already exists')%s)
+                continue
+            break
+
+        app_proc(PROC_SAVE_SESSION, fn+'|/sessions/'+s)
+
 
     def session_load(self, info=''):
 
