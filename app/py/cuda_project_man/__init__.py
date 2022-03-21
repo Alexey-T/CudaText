@@ -771,11 +771,16 @@ class Command:
             self.action_save_project_as(self.project_file_path)
 
     def action_clear_project(self):
+
         self.session_forget()
+        self.session_delete_all()
         self.project["nodes"].clear()
+        if self.project_file_path:
+            self.action_save_project_as(self.project_file_path)
         self.action_refresh()
 
     def action_set_as_main_file(self):
+
         path = self.get_location_by_index(self.selected)
         self.project["mainfile"] = str(path)
         self.update_global_data()
@@ -855,7 +860,7 @@ class Command:
 
         menu_proc(self.h_menu_cfg, MENU_ADD, caption='-')
         id = menu_proc(self.h_menu_cfg, MENU_ADD, command='cuda_project_man.session_save_as', caption=_('Save project session as...'))
-        if not names:
+        if self.is_project_empty():
             menu_proc(id, MENU_SET_ENABLED, command=False)
 
         id = menu_proc(self.h_menu_cfg, MENU_ADD, command='cuda_project_man.session_delete', caption=_('Delete project session...'))
@@ -1539,6 +1544,17 @@ class Command:
                 data = json.load(f)
             if data.get('sessions'):
                 del data['sessions'][name]
+            with open(fn, 'w', encoding='utf8') as f:
+                json.dump(data, f, indent=2)
+
+    def session_delete_all(self):
+
+        fn = self.project_file_path
+        if fn and os.path.isfile(fn):
+            with open(fn, 'r', encoding='utf8') as f:
+                data = json.load(f)
+            if data.get('sessions'):
+                del data['sessions']
             with open(fn, 'w', encoding='utf8') as f:
                 json.dump(data, f, indent=2)
 
