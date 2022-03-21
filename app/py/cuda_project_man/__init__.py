@@ -4,6 +4,7 @@ import collections
 import json
 import stat
 import copy
+import string
 from fnmatch import fnmatch
 from pathlib import Path, PurePosixPath
 from .projman_glob import *
@@ -20,6 +21,13 @@ PROJECT_DIALOG_FILTER = _("CudaText projects") + "|*" + PROJECT_EXTENSION
 PROJECT_UNSAVED_NAME = _("(Unsaved project)")
 NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD = range(4)
 global_project_info = {}
+
+def is_session_name(s):
+    allowed = string.ascii_letters+string.digits+'., ()-+_$%='
+    for ch in s:
+        if not ch in allowed:
+            return False
+    return True
 
 def _file_open(fn, options=''):
     gr = ed.get_prop(PROP_INDEX_GROUP)
