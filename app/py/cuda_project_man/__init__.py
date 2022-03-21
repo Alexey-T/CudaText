@@ -1467,14 +1467,10 @@ class Command:
         if fn and os.path.isfile(fn):
             with open(fn, 'r', encoding='utf8') as f:
                 data = json.load(f)
-                key_sess = data.get('sessions')
-                if type(key_sess)==dict:
-                    res = list(key_sess.keys())
+                k = data.get('sessions')
+                if type(k)==dict:
+                    res = list(k.keys())
         return res
-
-    def session_load(self, info=''):
-
-        print('session_load', info)
 
     def session_delete(self):
 
@@ -1482,11 +1478,11 @@ class Command:
         if not names:
             return msg_status(_('No project sessions'))
 
-        res = dlg_menu(DMENU_LIST, names)
+        res = dlg_menu(DMENU_LIST, names, caption=_('Delete project session'))
         if res is None:
             return
-
         name = names[res]
+
         fn = self.project_file_path
         if fn and os.path.isfile(fn):
             with open(fn, 'r', encoding='utf8') as f:
@@ -1495,3 +1491,12 @@ class Command:
                 del data['sessions'][name]
             with open(fn, 'w', encoding='utf8') as f:
                 json.dump(data, f)
+
+    def session_save_as(self):
+
+        print('session_save_as')
+
+    def session_load(self, info=''):
+
+        print('session_load', info)
+
