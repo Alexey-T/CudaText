@@ -350,7 +350,7 @@ begin
     if Assigned(mnuEditPasteIndent) then
       mnuEditPasteIndent.Enabled:= mnuEditPaste.Enabled;
     if Assigned(mnuEditPasteHist) then
-      mnuEditPasteHist.Enabled:= mnuEditPaste.Enabled;
+      mnuEditPasteHist.Enabled:= Assigned(ATEditorClipboardRecents) and (ATEditorClipboardRecents.Count>0);
   end;
 
   if Assigned(mnuEditCopy) then
