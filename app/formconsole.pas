@@ -17,7 +17,7 @@ uses
   PythonEngine,
   ATStrings,
   ATSynEdit,
-  ATSynEdit_Options,
+  ATSynEdit_Globals,
   ATSynEdit_Edits,
   ATSynEdit_Commands,
   ATSynEdit_Adapter_Simple,
@@ -504,4 +504,3 @@ finalization
     FreeAndNil(fmConsole);
 
 end.
-

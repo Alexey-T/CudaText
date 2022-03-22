@@ -17,7 +17,7 @@ uses
   LclProc, LclType,
   ExtCtrls,
   IniFiles,
-  ATSynEdit_Options,
+  ATSynEdit_Globals,
   ATSynEdit_Edits,
   proc_msg,
   proc_globdata,
@@ -148,4 +148,3 @@ begin
 end;
 
 end.
-

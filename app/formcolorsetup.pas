@@ -16,7 +16,7 @@ uses
   IniFiles, ColorBox, StdCtrls, ExtCtrls,
   Types, LazUTF8, LazFileUtils,
   LCLType,
-  ATSynEdit_Options,
+  ATSynEdit_Globals,
   ec_SyntAnal,
   ec_syntax_format,
   formlexerstyle,
@@ -319,4 +319,3 @@ begin
 end;
 
 end.
-

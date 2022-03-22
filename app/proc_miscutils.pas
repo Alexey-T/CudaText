@@ -21,7 +21,7 @@ uses
   Clipbrd,
   at__jsonConf,
   ATSynEdit,
-  ATSynEdit_Options,
+  ATSynEdit_Globals,
   ATSynEdit_Adapter_EControl,
   ATSynEdit_Finder,
   ATStringProc,
@@ -1154,5 +1154,4 @@ end;
 
 
 end.
-
 

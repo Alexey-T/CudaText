@@ -29,7 +29,7 @@ uses
   IniFiles,
   Process,
   ATSynEdit,
-  ATSynEdit_Options,
+  ATSynEdit_Globals,
   ATSynEdit_Keymap,
   ATSynEdit_Keymap_Init,
   ATSynEdit_Adapter_litelexer,
@@ -3490,4 +3490,3 @@ finalization
     FreeAndNil(AppLexersLastDetected);
 
 end.
-

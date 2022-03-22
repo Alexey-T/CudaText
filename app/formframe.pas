@@ -20,7 +20,7 @@ uses
   ATGroups,
   ATScrollBar,
   ATSynEdit,
-  ATSynEdit_Options,
+  ATSynEdit_Globals,
   ATSynEdit_Finder,
   ATSynEdit_Keymap_Init,
   ATSynEdit_Adapters,

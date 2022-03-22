@@ -17,7 +17,7 @@ uses
   ExtCtrls, Buttons,
   ATStringProc,
   ATSynEdit,
-  ATSynEdit_Options,
+  ATSynEdit_Globals,
   ATListbox,
   ATButtons,
   proc_globdata,
@@ -247,4 +247,3 @@ begin
 end;
 
 end.
-

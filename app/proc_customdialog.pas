@@ -27,7 +27,7 @@ uses
   ATGauge,
   ATStatusBar,
   ATSynEdit,
-  ATSynEdit_Options,
+  ATSynEdit_Globals,
   ATSynEdit_Edits,
   ATSynEdit_Adapter_EControl,
   proc_customdialog_dummy,
@@ -2592,4 +2592,3 @@ begin
 end;
 
 end.
-

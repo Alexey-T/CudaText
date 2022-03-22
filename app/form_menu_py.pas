@@ -15,7 +15,7 @@ uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics,
   ExtCtrls, Dialogs,
   ATSynEdit,
-  ATSynEdit_Options,
+  ATSynEdit_Globals,
   ATSynEdit_Edits,
   ATStringProc,
   ATListbox,
@@ -430,4 +430,3 @@ begin
 end;
 
 end.
-

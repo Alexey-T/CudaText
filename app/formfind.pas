@@ -20,7 +20,7 @@ uses
   ATStringProc,
   ATCanvasPrimitives,
   ATSynEdit,
-  ATSynEdit_Options,
+  ATSynEdit_Globals,
   ATSynEdit_Carets,
   ATSynEdit_Edits,
   ATSynEdit_Commands,
@@ -1597,4 +1597,3 @@ begin
 end;
 
 end.
-
