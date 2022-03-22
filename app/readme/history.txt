@@ -9,7 +9,7 @@
 + add: 4 commands in the Command Palette: "change line ends to LF / CR LF / CR / default, for lines(s) with caret" (thanks @myocytebd)
 + add: lexer PHP: add folding for () and [] (thanks @ildarkhasanshin)
 * change: dialog 'Go to bookmark' shows decreased indentations of lines (thanks @ildarkhasanshin)
-- fix: new feature "Paste from history" didn't work on Windows
+- fix: new feature (v1.157) "Paste from history" didn't work on Windows
 
 1.158.2 (2022/03)
 
