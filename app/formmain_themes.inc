@@ -328,41 +328,6 @@ begin
   Result:= FileExists(AppDir_DataThemes+DirectorySeparator+AName+Ext);
 end;
 
-procedure TfmMain.mnuEditClick(Sender: TObject);
-var
-  Ed: TATSynEdit;
-  bSel: boolean;
-begin
-  Ed:= CurrentEditor;
-  if Ed=nil then exit;
-
-  bSel:= Ed.Carets.IsSelection;
-
-  if Assigned(mnuEditUndo) then
-    mnuEditUndo.Enabled:= not Ed.Strings.UndoEmpty;
-
-  if Assigned(mnuEditRedo) then
-    mnuEditRedo.Enabled:= not Ed.Strings.RedoEmpty;
-
-  if Assigned(mnuEditPaste) then
-  begin
-    mnuEditPaste.Enabled:= Clipboard.HasFormat(CF_Text);
-    if Assigned(mnuEditPasteIndent) then
-      mnuEditPasteIndent.Enabled:= mnuEditPaste.Enabled;
-    if Assigned(mnuEditPasteHist) then
-      mnuEditPasteHist.Enabled:= Assigned(ATEditorClipboardRecents) and (ATEditorClipboardRecents.Count>0);
-  end;
-
-  if Assigned(mnuEditCopy) then
-    mnuEditCopy.Enabled:= Ed.OptCopyLinesIfNoSel or bSel;
-
-  if Assigned(mnuEditCut) then
-    mnuEditCut.Enabled:= Ed.OptCutLinesIfNoSel or bSel;
-
-  if Assigned(mnuEditCopyAppend) then
-    mnuEditCopyAppend.Enabled:= bSel;
-end;
-
 procedure TfmMain.DoDialogTheme(AThemeUI: boolean);
 var
   Str, StrName, StrExt: string;
