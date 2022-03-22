@@ -6,7 +6,8 @@
 1.158.3 (2022/03)
 
 + add: 4 commands in the Command Palette: "change line ends to LF / CR LF / CR / default, for lines(s) with caret"
-* change: dialog 'Go to bookmark' has decreased indentations of lines (2x...4x smaller indents)
++ add: lexer PHP: add folding for () and [] (thanks @MiroslavMatas)
+* add/change: dialog 'Go to bookmark' shows decreased indentations of lines
 
 1.158.2 (2022/03)
 
