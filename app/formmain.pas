@@ -4213,7 +4213,7 @@ begin
       if not AppIsFileContentText(
                AFileName,
                UiOps.NonTextFilesBufferKb,
-               ATEditorOptions.DetectUf16BufferWords,
+               ATEditorOptions.DetectUTF16BufferWords,
                false) then
       begin
         if NonTextMode=cOpenModeNone then
