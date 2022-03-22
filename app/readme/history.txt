@@ -3,11 +3,12 @@
   - fixed
   * changed
 
-1.158.3 (2022/03)
+1.159.0 (2022/03)
 
++ add: Project Manager: added 'project sessions' - sessions which belong to the current project and are embedded into project file *.cuda-proj. Added several menu items to the 'gear' menu in the ProjManager, to work with 'project sessions'. (thanks @GHNewbiee)
 + add: 4 commands in the Command Palette: "change line ends to LF / CR LF / CR / default, for lines(s) with caret"
 + add: lexer PHP: add folding for () and [] (thanks @MiroslavMatas)
-* add/change: dialog 'Go to bookmark' shows decreased indentations of lines
+* change: dialog 'Go to bookmark' shows decreased indentations of lines
 
 1.158.2 (2022/03)
 
