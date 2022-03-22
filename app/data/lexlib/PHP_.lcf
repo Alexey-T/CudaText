@@ -1,4 +1,4 @@
-object SyntAnal16: TLibSyntAnalyzer
+object SyntAnal15: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Comment'
@@ -973,6 +973,60 @@ object SyntAnal16: TLibSyntAnalyzer
       SameIdent = True
       HighlightPos = cpAny
       IgnoreAsParent = False
+    end
+    item
+      DisplayName = '('
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '(')
+          TokenTypes = 1024
+        end>
+      BlockEnd = ')'
+      DisplayInTree = False
+      HighlightPos = cpAny
+      DrawStaple = True
+      CollapseFmt = '( ... )'
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = ')'
+      BlockType = btRangeEnd
+      ConditionList = <
+        item
+          TagList.Strings = (
+            ')')
+          TokenTypes = 1024
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = '['
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '[')
+          TokenTypes = 32
+        end>
+      BlockEnd = ']'
+      DisplayInTree = False
+      HighlightPos = cpAny
+      DrawStaple = True
+      CollapseFmt = '[ ... ]'
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = ']'
+      BlockType = btRangeEnd
+      ConditionList = <
+        item
+          TagList.Strings = (
+            ']')
+          TokenTypes = 32
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
     end>
   CodeTemplates = <>
   SubAnalyzers = <
@@ -980,13 +1034,13 @@ object SyntAnal16: TLibSyntAnalyzer
       DisplayName = 'Heredoc HTML'
       StartExpression = '<<<HTML\b'
       EndExpression = '^HTML;$'
-      SyntAnalyzer = SyntAnal9
+      SyntAnalyzer = SyntAnal8
     end
     item
       DisplayName = 'Heredoc CSS'
       StartExpression = '<<<CSS\b'
       EndExpression = '^CSS;$'
-      SyntAnalyzer = SyntAnal7
+      SyntAnalyzer = SyntAnal6
     end>
   SampleText.Strings = (
     '//Example'
