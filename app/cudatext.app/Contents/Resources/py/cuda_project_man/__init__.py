@@ -884,6 +884,9 @@ class Command:
             menu_proc(id, MENU_SET_ENABLED, command=False)
 
         id = menu_proc(self.h_menu_cfg, MENU_ADD, command='cuda_project_man.session_forget_ex', caption=_('Forget session, close all tabs'))
+        sess = app_path(APP_FILE_SESSION)
+        if os.path.basename(sess)=='history session.json':
+            menu_proc(id, MENU_SET_ENABLED, command=False)
 
         menu_proc(self.h_menu_cfg, MENU_ADD, caption='-')
         menu_proc(self.h_menu_cfg, MENU_ADD, command='cuda_project_man.action_project_properties', caption=_('Project properties...'))
