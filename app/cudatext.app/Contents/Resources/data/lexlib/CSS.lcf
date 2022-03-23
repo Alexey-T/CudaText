@@ -264,7 +264,7 @@ object SyntAnal6: TLibSyntAnalyzer
       DisplayName = 'PHP tag'
       StyleName = 'PHP tag'
       TokenType = 8
-      Expression = '<\?php | <\? | \?>'
+      Expression = '<\?php\b | <\? | \?>'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -2398,7 +2398,7 @@ object SyntAnal6: TLibSyntAnalyzer
   SubAnalyzers = <
     item
       DisplayName = 'PHP'
-      StartExpression = '<\?(php)?'
+      StartExpression = '<\?(php\b)?'
       EndExpression = '\?>'
       SyntAnalyzer = SyntAnal15
     end>
