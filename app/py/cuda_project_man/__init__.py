@@ -418,6 +418,8 @@ class Command:
         app_proc(PROC_SET_FOLDER, '')
         app_proc(PROC_SET_PROJECT, '')
 
+        self.close_foreign_tabs(True)
+
     def add_recent(self, path):
         recent = self.options["recent_projects"]
         if path in recent:
@@ -607,17 +609,20 @@ class Command:
             self.enum_all_sel(sel_fn)
 
 
+    def get_project_name(self):
+
+        if self.project_file_path is None:
+            return PROJECT_UNSAVED_NAME
+        else:
+            return self.project_file_path.stem
+
     def action_refresh_int(self, parent=None):
 
         unfold = parent is None
         if parent is None:
             # clear tree
             tree_proc(self.tree, TREE_ITEM_DELETE, 0)
-
-            if self.project_file_path is None:
-                project_name = PROJECT_UNSAVED_NAME
-            else:
-                project_name = self.project_file_path.stem
+            project_name = self.get_project_name()
 
             parent = tree_proc(
                 self.tree,
@@ -1643,8 +1648,8 @@ class Command:
                 res.append((h, fn))
 
         if res:
-            msg_ = _('CudaText has opened %d non-project tab(s). Close them first?')
-            msg = msg_%len(res)
+            msg_ = _('CudaText has opened %d tab(s) not belonging to the project "%s". Close them first?')
+            msg = msg_%(len(res), self.get_project_name())
 
             names = []
             for (h, fn) in res:
