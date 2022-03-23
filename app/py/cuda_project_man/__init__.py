@@ -879,7 +879,7 @@ class Command:
         if not names:
             menu_proc(id, MENU_SET_ENABLED, command=False)
 
-        id = menu_proc(self.h_menu_cfg, MENU_ADD, command='cuda_project_man.session_def', caption=_('Choose default project session...'))
+        id = menu_proc(self.h_menu_cfg, MENU_ADD, command='cuda_project_man.session_def', caption=_('Choose default...'))
         if not names:
             menu_proc(id, MENU_SET_ENABLED, command=False)
 
