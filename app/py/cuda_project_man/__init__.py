@@ -1642,7 +1642,6 @@ class Command:
             if not self.is_project_filename(fn):
                 res.append((h, fn))
 
-        print('res', res)
         if res:
             msg_ = _('CudaText has opened %d non-project tab(s). Close them first?')
             msg = msg_%len(res)
