@@ -826,7 +826,7 @@ class Command:
 
             self.project_file_path = path
             with path.open("w", encoding='utf8') as fout:
-                json.dump(d, fout, indent=4)
+                json.dump(d, fout, indent=2)
 
             self.update_global_data()
             print(_('Saving project: ') + collapse_filename(str(path)))
@@ -913,7 +913,7 @@ class Command:
 
     def save_options(self):
         with self.options_filename.open(mode="w", encoding='utf8') as fout:
-            json.dump(self.options, fout, indent=4)
+            json.dump(self.options, fout, indent=2)
 
     def menu_recents(self):
         items = self.options["recent_projects"]
