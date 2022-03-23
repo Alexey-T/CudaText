@@ -119,6 +119,11 @@ section=commands
 caption=&Project Manager\Close tabs not belonging to project
 method=close_foreign_tabs
 
+[item90]
+section=commands
+caption=&Project Manager\Forget session, close all tabs
+method=session_forget_ex
+
 
 [item100]
 section=commands

@@ -1501,15 +1501,6 @@ class Command:
                 return
             dir = d
 
-    def session_forget(self):
-
-        app_proc(PROC_SET_SESSION, '')
-        '''
-        sess = app_path(APP_FILE_SESSION)
-        if '|' in sess:
-            app_proc(PROC_SET_SESSION, '')
-        '''
-
     def session_cur_name(self):
 
         fn_proj = str(self.project_file_path)
@@ -1715,3 +1706,14 @@ class Command:
                     e.set_prop(PROP_MODIFIED, False)
                     e.cmd(cmds.cmd_FileClose)
                     time.sleep(0.2)
+
+    def session_forget(self):
+
+        app_proc(PROC_SET_SESSION, '')
+
+    def session_forget_ex(self):
+
+        self.session_forget()
+
+        import cudatext_cmd as cmds
+        ed.cmd(cmds.cmd_FileCloseAll)
