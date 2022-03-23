@@ -3507,7 +3507,7 @@ begin
       if not F.Modified then Continue;
       SCaption:= F.TabCaption;
       if F.Filename<>'' then
-        SCaption+= '  ('+ExtractFileDir(F.Filename)+')';
+        SCaption+= '  ('+AppCollapseHomeDirInFilename(ExtractFileDir(F.Filename))+')';
       Form.List.Items.AddObject(SCaption, F);
       Form.List.Checked[Form.List.Count-1]:= true;
     end;

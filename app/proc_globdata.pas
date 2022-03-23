@@ -1154,8 +1154,13 @@ var
 {$endif}
 begin
   Result:= fn;
+
   {$ifndef windows}
   S:= AppDir_Home;
+
+  if fn+DirectorySeparator=AppDir_Home then
+    exit('~');
+
   if SBeginsWith(Result, S) then
     Result:= '~'+DirectorySeparator+Copy(Result, Length(S)+1, MaxInt);
   {$endif}
