@@ -80,6 +80,7 @@ const
   cTheseEventsStoppedByTrue = [cEventOnComplete, cEventOnFuncHint{, cEventOnTabSwitch}];
   cTheseEventsNeedGroupingUndo = [cEventOnComplete, cEventOnSnippet];
   cTheseEventsDontRequireFrame = [cEventOnSnippet, cEventOnDeleteFile];
+  cTheseEventsAlwaysLazy = [cEventOnExit];
 var
   SCurLexer, KeyForFilter: string;
   bNeedGroup: boolean;
@@ -164,7 +165,7 @@ begin
           AEd.Strings.BeginUndoGroup;
 
         try
-          bLazy:= (AEvent=cEventOnExit) or Plugin.ItemEventsLazy[AEvent]; //on_exit must be lazy
+          bLazy:= (AEvent in cTheseEventsAlwaysLazy) or Plugin.ItemEventsLazy[AEvent]; //on_exit must be lazy
           Result:= AppPython.RunEvent(
               Plugin.ItemModule,
               cAppPyEvent[AEvent],
