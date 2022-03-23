@@ -750,7 +750,11 @@ class Command:
                         break
 
                 app_proc(PROC_SET_PROJECT, path)
-                msg_status(_("Project opened: ") + path + ' ' + _('(%d orphan items)')%len(bads))
+
+                s = _("Project opened: ") + collapse_filename(path)
+                if bads:
+                    s += ', ' + _('%d deleted item(s)')%len(bads)
+                msg_status(s)
 
                 sess = self.project.get('def_session', '')
                 if sess not in ('', '-'):
