@@ -109,7 +109,7 @@ begin
   begin
     Credits.Lines.Clear;
     Credits.Lines.Add(msgCannotFindFile);
-    Credits.Lines.Add(fn);
+    Credits.Lines.Add(AppCollapseHomeDirInFilename(fn));
   end;
 end;
 

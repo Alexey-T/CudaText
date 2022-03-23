@@ -4165,7 +4165,7 @@ begin
     AFileName:= AppExpandFileName(AFileName);
     if not FileExists(AFileName) then
     begin
-      MsgBox(msgCannotFindFile+#10+AFileName, MB_OK or MB_ICONERROR);
+      MsgBox(msgCannotFindFile+#10+AppCollapseHomeDirInFilename(AFileName), MB_OK or MB_ICONERROR);
       Exit
     end;
   end;
@@ -4175,7 +4175,7 @@ begin
     AFileName2:= AppExpandFileName(AFileName2);
     if not FileExists(AFileName2) then
     begin
-      MsgBox(msgCannotFindFile+#10+AFileName2, MB_OK or MB_ICONERROR);
+      MsgBox(msgCannotFindFile+#10+AppCollapseHomeDirInFilename(AFileName2), MB_OK or MB_ICONERROR);
       Exit
     end;
   end;
@@ -5725,7 +5725,7 @@ begin
     DoFileOpen(fn, '')
   else
   begin
-    MsgBox(msgCannotFindFile+#10+fn, MB_OK or MB_ICONERROR);
+    MsgBox(msgCannotFindFile+#10+AppCollapseHomeDirInFilename(fn), MB_OK or MB_ICONERROR);
     AppListRecents.Delete(n);
     UpdateMenuRecent(nil);
   end;

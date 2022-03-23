@@ -415,7 +415,7 @@ begin
   fn:= AppDir_Py+DirectorySeparator+'cudatext_reset_plugins.py';
   if not FileExists(fn) then
   begin
-    MsgBox(msgCannotFindFile+#10+fn, MB_OK or MB_ICONERROR);
+    MsgBox(msgCannotFindFile+#10+AppCollapseHomeDirInFilename(fn), MB_OK or MB_ICONERROR);
     Exit
   end;
 
