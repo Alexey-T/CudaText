@@ -1555,13 +1555,14 @@ class Command:
         res = dlg_menu(DMENU_LIST, names, focused=focused, caption=_('Choose default project session'))
         if res is None:
             return
-        self.project['def_session'] = names[res]
+        curname = names[res]
+        self.project['def_session'] = curname 
 
         fn = self.project_file_path
         if fn and os.path.isfile(fn):
             with open(fn, 'r', encoding='utf8') as f:
                 data = json.load(f)
-                data['def_session'] = self.project['def_session']
+            data['def_session'] = curname
             with open(fn, 'w', encoding='utf8') as f:
                 json.dump(data, f, indent=2)
 
