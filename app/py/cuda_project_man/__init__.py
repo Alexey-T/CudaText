@@ -5,6 +5,7 @@ import json
 import stat
 import copy
 import string
+import time
 from fnmatch import fnmatch
 from pathlib import Path, PurePosixPath
 from .projman_glob import *
@@ -1570,10 +1571,12 @@ class Command:
             msg_status(_('Project is empty'))
             return
 
+        self.close_foreign_tabs(True)
+
         names = self.session_get_names()
         s = 'new'
         while True:
-            s = dlg_input(_('Session name:'), s)
+            s = dlg_input(_('Save session with name:'), s)
             if s is None:
                 return
             s = s.strip()
@@ -1611,3 +1614,51 @@ class Command:
 
         fn += '|/sessions/'+info
         app_proc(PROC_LOAD_SESSION, fn)
+
+    def is_project_filename(self, filename):
+
+        if not filename:
+            return False
+        for fn in self.project["nodes"]:
+            if os.path.isdir(fn):
+                if filename.startswith(fn+os.sep):
+                    return True
+            else:
+                if filename==fn:
+                    return True
+        return False
+
+    def close_foreign_tabs(self, confirm):
+
+        import cudatext_cmd as cmds
+
+        res = []
+        for h in ed_handles():
+            e = Editor(h)
+            fn = e.get_filename('*')
+            #skip empty tabs
+            if (not fn) and (not e.get_text_all()):
+                continue
+            if not self.is_project_filename(fn):
+                res.append((h, fn))
+
+        print('res', res)
+        if res:
+            msg_ = _('CudaText has opened %d non-project tab(s). Close them first?')
+            msg = msg_%len(res)
+
+            names = []
+            for (h, fn) in res:
+                if fn:
+                    names.append(collapse_filename(fn))
+                else:
+                    e = Editor(h)
+                    names.append('untitled: '+e.get_prop(PROP_TAB_TITLE))
+            msg += '\n\n'+'\n'.join(names)
+
+            if not confirm or msg_box(msg, MB_OKCANCEL+MB_ICONQUESTION)==ID_OK:
+                for (h, fn) in reversed(res):
+                    e = Editor(h)
+                    e.set_prop(PROP_MODIFIED, False)
+                    e.cmd(cmds.cmd_FileClose)
+                    time.sleep(0.2)
