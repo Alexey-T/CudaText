@@ -81,6 +81,7 @@ const
   cTheseEventsNeedGroupingUndo = [cEventOnComplete, cEventOnSnippet];
   cTheseEventsDontRequireFrame = [cEventOnSnippet, cEventOnDeleteFile];
   cTheseEventsAlwaysLazy = [cEventOnExit];
+  cTheseEventsIgnoreCurrentLexer = [cEventOnLexer, cEventOnStart, cEventOnExit, cEventOnDeleteFile];
 var
   SCurLexer, KeyForFilter: string;
   bNeedGroup: boolean;
@@ -106,7 +107,7 @@ begin
   Frame:= nil;
   SCurLexer:= '';
   bNeedGroup:= false;
-  bCheckLexer:= Assigned(AEd) and (AEvent<>cEventOnLexer);
+  bCheckLexer:= Assigned(AEd) and not (AEvent in cTheseEventsIgnoreCurrentLexer);
 
   if bCheckLexer then
   begin
