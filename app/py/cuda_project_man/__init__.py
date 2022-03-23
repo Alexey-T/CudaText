@@ -1670,7 +1670,7 @@ class Command:
 
     def close_foreign_tabs(self, confirm):
 
-        if not self.options['close_ext']:
+        if not self.options.get('close_ext', True):
             return
 
         import cudatext_cmd as cmds
