@@ -746,6 +746,10 @@ class Command:
 
                 app_proc(PROC_SET_PROJECT, path)
                 msg_status(_("Project opened: ") + path)
+
+                sess = self.project.get('def_session', '')
+                if sess not in ('', '-'):
+                    self.session_load(sess, False)
             else:
                 msg_status(_("Project filename is not found: ") + path)
 
@@ -1630,24 +1634,24 @@ class Command:
         app_proc(PROC_SAVE_SESSION, sess)
         app_proc(PROC_SET_SESSION, sess)
 
-    def session_load(self, info=''):
+    def session_load(self, name='', confirm_save=True):
 
-        if not info:
+        if not name:
             return
 
         fn = str(self.project_file_path)
         if not fn:
             msg_status(_('Untitled project'))
 
-        sess = app_path(APP_FILE_SESSION)
-        sess = collapse_filename(sess)
-
-        if msg_box(_('Save current state to the session "%s"?')%sess, MB_OKCANCEL+MB_ICONQUESTION)==ID_OK:
-            app_proc(PROC_SAVE_SESSION, sess)
+        if confirm_save:
+            sess = app_path(APP_FILE_SESSION)
+            sess = collapse_filename(sess)
+            if msg_box(_('Save current state to the session "%s"?')%sess, MB_OKCANCEL+MB_ICONQUESTION)==ID_OK:
+                app_proc(PROC_SAVE_SESSION, sess)
 
         app_proc(PROC_SET_SESSION, '')
 
-        fn += '|/sessions/'+info
+        fn += '|/sessions/'+name
         app_proc(PROC_LOAD_SESSION, fn)
 
     def is_project_filename(self, filename):
