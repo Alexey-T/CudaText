@@ -875,6 +875,10 @@ class Command:
         if not names:
             menu_proc(id, MENU_SET_ENABLED, command=False)
 
+        id = menu_proc(self.h_menu_cfg, MENU_ADD, command='cuda_project_man.session_def', caption=_('Choose default project session...'))
+        if not names:
+            menu_proc(id, MENU_SET_ENABLED, command=False)
+
         menu_proc(self.h_menu_cfg, MENU_ADD, caption='-')
         menu_proc(self.h_menu_cfg, MENU_ADD, command='cuda_project_man.action_project_properties', caption=_('Project properties...'))
         menu_proc(self.h_menu_cfg, MENU_ADD, command='cuda_project_man.action_config', caption=_('Project Manager options...'))
@@ -1530,6 +1534,32 @@ class Command:
                 if type(k)==dict:
                     res = list(k.keys())
         return res
+
+    def session_def(self):
+
+        names = self.session_get_names()
+        if not names:
+            return msg_status(_('No project sessions'))
+        names = ['-']+names
+
+        curname = self.project.get('def_session', '-')
+        if curname in names:
+            focused = names.index(curname)
+        else:
+            focused = -1
+
+        res = dlg_menu(DMENU_LIST, names, focused=focused, caption=_('Choose default project session'))
+        if res is None:
+            return
+        self.project['def_session'] = names[res]
+
+        fn = self.project_file_path
+        if fn and os.path.isfile(fn):
+            with open(fn, 'r', encoding='utf8') as f:
+                data = json.load(f)
+                data['def_session'] = self.project['def_session']
+            with open(fn, 'w', encoding='utf8') as f:
+                json.dump(data, f, indent=2)
 
     def session_delete(self):
 
