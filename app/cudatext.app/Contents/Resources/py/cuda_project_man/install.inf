@@ -94,6 +94,32 @@ caption=&Project Manager\Add to project: all opened files
 method=add_opened_files
 
 
+[item80]
+section=commands
+caption=&Project Manager\Open session...
+method=session_load_menu
+
+[item81]
+section=commands
+caption=&Project Manager\Save session...
+method=session_save_as
+
+[item82]
+section=commands
+caption=&Project Manager\Delete session...
+method=session_delete
+
+[item85]
+section=commands
+caption=&Project Manager\Set default session...
+method=session_def
+
+[item89]
+section=commands
+caption=&Project Manager\Close tabs not belonging to project
+method=close_foreign
+
+
 [item100]
 section=commands
 caption=&Project Manager\Context menu\Add directory...

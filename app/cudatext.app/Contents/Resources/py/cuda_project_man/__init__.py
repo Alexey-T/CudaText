@@ -1556,7 +1556,7 @@ class Command:
         if res is None:
             return
         curname = names[res]
-        self.project['def_session'] = curname 
+        self.project['def_session'] = curname
 
         fn = self.project_file_path
         if fn and os.path.isfile(fn):
@@ -1635,6 +1635,14 @@ class Command:
         app_proc(PROC_SAVE_SESSION, sess)
         app_proc(PROC_SET_SESSION, sess)
 
+    def session_load_menu(self):
+
+        names = self.session_get_names()
+        res = dlg_menu(DMENU_LIST, names, caption=_('Open project session'))
+        if res is None:
+            return
+        self.session_load(names[res])
+
     def session_load(self, name='', confirm_save=True):
 
         if not name:
@@ -1707,3 +1715,7 @@ class Command:
                     e.set_prop(PROP_MODIFIED, False)
                     e.cmd(cmds.cmd_FileClose)
                     time.sleep(0.2)
+
+    def close_foreign(self):
+
+        self.close_foreign_tabs(True)
