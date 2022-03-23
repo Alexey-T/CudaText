@@ -2713,7 +2713,7 @@ end;
 procedure MsgFileFromSessionNotFound(const fn: string);
 begin
   if not StartsStr(GetTempDir, fn) then
-    MsgLogConsole(Format(msgCannotFindSessionFile, [fn]));
+    MsgLogConsole(Format(msgCannotFindSessionFile, [AppCollapseHomeDirInFilename(fn)]));
 end;
 
 function AppEncodingShortnameToFullname(const S: string): string;
