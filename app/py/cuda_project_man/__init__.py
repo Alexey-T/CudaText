@@ -1644,6 +1644,10 @@ class Command:
         if not name:
             return
 
+        if not name in self.session_get_names():
+            msg_status(_('Project session "%s" not found')%name)
+            return
+
         fn = str(self.project_file_path)
         if not fn:
             msg_status(_('Untitled project'))
