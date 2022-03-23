@@ -883,6 +883,8 @@ class Command:
         if not names:
             menu_proc(id, MENU_SET_ENABLED, command=False)
 
+        id = menu_proc(self.h_menu_cfg, MENU_ADD, command='cuda_project_man.session_forget_ex', caption=_('Forget session, close all tabs'))
+
         menu_proc(self.h_menu_cfg, MENU_ADD, caption='-')
         menu_proc(self.h_menu_cfg, MENU_ADD, command='cuda_project_man.action_project_properties', caption=_('Project properties...'))
         menu_proc(self.h_menu_cfg, MENU_ADD, command='cuda_project_man.action_config', caption=_('Project Manager options...'))
