@@ -1542,11 +1542,11 @@ class Command:
             return msg_status(_('No project sessions'))
         names = [_('(none)')]+names
 
-        curname = self.project.get('def_session', '-')
+        curname = self.project.get('def_session', '')
         if curname in names:
             focused = names.index(curname)
         else:
-            focused = -1
+            focused = 0
 
         res = dlg_menu(DMENU_LIST, names, focused=focused, caption=_('Set default project session'))
         if res is None:
