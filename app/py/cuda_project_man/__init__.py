@@ -871,15 +871,15 @@ class Command:
             menu_proc(id, MENU_SET_ENABLED, command=False)
 
         menu_proc(self.h_menu_cfg, MENU_ADD, caption='-')
-        id = menu_proc(self.h_menu_cfg, MENU_ADD, command='cuda_project_man.session_save_as', caption=_('Save project session...'))
+        id = menu_proc(self.h_menu_cfg, MENU_ADD, command='cuda_project_man.session_save_as', caption=_('Save session...'))
         if self.is_project_empty():
             menu_proc(id, MENU_SET_ENABLED, command=False)
 
-        id = menu_proc(self.h_menu_cfg, MENU_ADD, command='cuda_project_man.session_delete', caption=_('Delete project session...'))
+        id = menu_proc(self.h_menu_cfg, MENU_ADD, command='cuda_project_man.session_delete', caption=_('Delete session...'))
         if not names:
             menu_proc(id, MENU_SET_ENABLED, command=False)
 
-        id = menu_proc(self.h_menu_cfg, MENU_ADD, command='cuda_project_man.session_def', caption=_('Choose default...'))
+        id = menu_proc(self.h_menu_cfg, MENU_ADD, command='cuda_project_man.session_def', caption=_('Set default session...'))
         if not names:
             menu_proc(id, MENU_SET_ENABLED, command=False)
 
@@ -1552,7 +1552,7 @@ class Command:
         else:
             focused = -1
 
-        res = dlg_menu(DMENU_LIST, names, focused=focused, caption=_('Choose default project session'))
+        res = dlg_menu(DMENU_LIST, names, focused=focused, caption=_('Set default project session'))
         if res is None:
             return
         curname = names[res]
