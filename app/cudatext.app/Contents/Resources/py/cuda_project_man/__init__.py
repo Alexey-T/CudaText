@@ -729,8 +729,13 @@ class Command:
                     if 'nodes' in self.project:
                         for i in range(len(self.project['nodes'])):
                             self.project['nodes'][i] = expand_macros(self.project['nodes'][i])
-                    #print('Loaded project:', self.project)
 
+                        # delete orphan items
+                        bads = [fn for fn in self.project["nodes"] if not os.path.exists(fn)]
+                        for fn in bads:
+                            self.project["nodes"].remove(fn)
+
+                    #print('Loaded project:', self.project)
                     self.project_file_path = Path(path)
                     self.add_recent(path)
                     self.action_refresh()
@@ -745,7 +750,7 @@ class Command:
                         break
 
                 app_proc(PROC_SET_PROJECT, path)
-                msg_status(_("Project opened: ") + path)
+                msg_status(_("Project opened: ") + path + ' ' + _('(%d orphan items)')%len(bads))
 
                 sess = self.project.get('def_session', '')
                 if sess not in ('', '-'):
