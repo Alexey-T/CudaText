@@ -31,7 +31,7 @@ Event handlers (Command.on_nnnnn methods) return-value is ignored is many cases,
 * on_save(self, ed_self): Called after saving file.
 * on_save_pre(self, ed_self): Called before saving file. Method can return False to disable saving, other value is ignored.
 * on_save_naming(self, ed_self): Called before saving untitled tab, to get suggested filename without path and extension. Method must return valid filename string or None.
-* on_delete_file(self, ed_self, filename): Called on running command "File / Close and delete file". This event is lazy. ed_self is None.
+* on_delete_file(self, ed_self, filename): Called on running command "File / Close and delete file". ed_self is None.
 * on_start(self, ed_self): Called once on program start. ed_self is None.
 * on_exit(self, ed_self): Called on exiting application. This event is lazy, ie it's called only for already loaded plugins. ed_self is None.
 * on_app_activate(self, ed_self): Called when application window gets focus. ed_self is None.
