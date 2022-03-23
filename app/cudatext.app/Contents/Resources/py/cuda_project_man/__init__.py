@@ -1540,7 +1540,7 @@ class Command:
         names = self.session_get_names()
         if not names:
             return msg_status(_('No project sessions'))
-        names = ['-']+names
+        names = [_('(none)')]+names
 
         curname = self.project.get('def_session', '-')
         if curname in names:
@@ -1551,7 +1551,7 @@ class Command:
         res = dlg_menu(DMENU_LIST, names, focused=focused, caption=_('Set default project session'))
         if res is None:
             return
-        curname = names[res]
+        curname = names[res] if res>0 else ''
         self.project['def_session'] = curname
 
         fn = self.project_file_path
