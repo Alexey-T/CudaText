@@ -1652,7 +1652,10 @@ class Command:
                     names.append(collapse_filename(fn))
                 else:
                     e = Editor(h)
-                    names.append('untitled: '+e.get_prop(PROP_TAB_TITLE))
+                    names.append(_('untitled:')+' '+e.get_prop(PROP_TAB_TITLE))
+                if len(names)>=8:
+                    names.append('...')
+                    break
             msg += '\n\n'+'\n'.join(names)
 
             if not confirm or msg_box(msg, MB_OKCANCEL+MB_ICONQUESTION)==ID_OK:
