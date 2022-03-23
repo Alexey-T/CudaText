@@ -6278,7 +6278,8 @@ begin
     begin
       F.Editor.CommandLog.Add(cmd_PluginRun, cInvokeMenuAPI, SCallback+SCaption);
       DoPyCallbackFromAPI(SCallback, [], []);
-      F.Editor.CommandLog.Add(cmd_PluginEnd, cInvokeMenuAPI, SCallback+SCaption);
+      if not PyEditorMaybeDeleted then
+        F.Editor.CommandLog.Add(cmd_PluginEnd, cInvokeMenuAPI, SCallback+SCaption);
     end;
   end
   else
