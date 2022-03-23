@@ -5694,6 +5694,9 @@ begin
         DeleteFileUTF8(fnPic);
 
       MenuRecent_RemoveFilename(fn);
+
+      //delete file from the project too
+      DoPyCommand('cuda_project_man', 'delete_filename', [AppVariant(fn)], cInvokeAppInternal);
     end;
 end;
 
