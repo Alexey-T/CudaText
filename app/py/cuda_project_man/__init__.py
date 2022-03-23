@@ -1736,10 +1736,9 @@ class Command:
         import cudatext_cmd as cmds
         ed.cmd(cmds.cmd_FileCloseAll)
 
-    def delete_filename(self, fn):
+    def on_delete_file(self, ed_self, fn):
 
-        if not fn:
-            return
+        #print('on_delete_file', fn)
         if fn in self.project["nodes"]:
             self.project["nodes"].remove(fn)
             self.action_refresh()

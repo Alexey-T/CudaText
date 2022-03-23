@@ -5695,8 +5695,7 @@ begin
 
       MenuRecent_RemoveFilename(fn);
 
-      //delete file from the project too
-      DoPyCommand('cuda_project_man', 'delete_filename', [AppVariant(fn)], cInvokeAppInternal);
+      DoPyEvent(nil, cEventOnDeleteFile, [AppVariant(fn)]);
     end;
 end;
 

@@ -868,6 +868,7 @@ type
     cEventOnMacro,
     cEventOnAppActivate,
     cEventOnAppDeactivate,
+    cEventOnDeleteFile,
     cEventOnCLI,
     cEventOnExit
     );
@@ -923,6 +924,7 @@ const
     'on_macro',
     'on_app_activate',
     'on_app_deactivate',
+    'on_delete_file',
     'on_cli',
     'on_exit'
     );

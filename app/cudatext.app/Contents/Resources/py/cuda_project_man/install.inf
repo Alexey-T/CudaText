@@ -15,6 +15,10 @@ section=events
 events=on_open_pre
 keys=cuda-proj
 
+[item3]
+section=events
+events=on_delete_file~
+
 [item4]
 section=commands
 caption=&Project Manager\&Show Project panel
