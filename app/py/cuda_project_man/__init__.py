@@ -1734,3 +1734,4 @@ class Command:
         if fn in self.project["nodes"]:
             self.project["nodes"].remove(fn)
             self.action_refresh()
+            self.action_save_project_as(self.project_file_path)
