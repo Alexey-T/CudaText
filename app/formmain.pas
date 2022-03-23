@@ -5682,7 +5682,7 @@ begin
     Ed.Modified:= false;
 
   if MsgBox(
-       msgConfirmCloseAndDeleteFile+#10+fn,
+       msgConfirmCloseAndDeleteFile+#10+AppCollapseHomeDirInFilename(fn),
        MB_OKCANCEL or MB_ICONWARNING)=ID_OK then
     if Groups.CloseTabs(tabCloseCurrent, false) then
     begin
