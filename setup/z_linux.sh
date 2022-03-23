@@ -10,6 +10,3 @@
 
 #./unix_common.sh linux gtk2 i386 builds/linux-x32-gtk2 ~/cudatext_build
 #./unix_common.sh linux qt5 i386 builds/linux-x32-qt5 ~/cudatext_build
-
-./unix_common_deb.sh gtk2_amd64 x64-gtk2
-./unix_common_deb.sh qt5_amd64 x64-qt5
