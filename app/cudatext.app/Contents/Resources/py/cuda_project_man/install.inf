@@ -117,7 +117,7 @@ method=session_def
 [item89]
 section=commands
 caption=&Project Manager\Close tabs not belonging to project
-method=close_foreign
+method=close_foreign_tabs
 
 
 [item100]

@@ -1676,7 +1676,7 @@ class Command:
                     return True
         return False
 
-    def close_foreign_tabs(self, confirm):
+    def close_foreign_tabs(self, confirm=True):
 
         if not self.options.get('close_ext', True):
             return
@@ -1694,7 +1694,7 @@ class Command:
                 res.append((h, fn))
 
         if res:
-            msg_ = _('CudaText has opened %d tab(s) not belonging to the project "%s". Close them first?')
+            msg_ = _('CudaText has opened %d tab(s) not belonging to the project "%s". Close them?')
             msg = msg_%(len(res), self.get_project_name())
 
             names = []
@@ -1703,7 +1703,7 @@ class Command:
                     names.append(collapse_filename(fn))
                 else:
                     e = Editor(h)
-                    names.append(_('untitled:')+' '+e.get_prop(PROP_TAB_TITLE))
+                    names.append(e.get_prop(PROP_TAB_TITLE))
                 if len(names)>=8:
                     names.append('...')
                     break
@@ -1715,7 +1715,3 @@ class Command:
                     e.set_prop(PROP_MODIFIED, False)
                     e.cmd(cmds.cmd_FileClose)
                     time.sleep(0.2)
-
-    def close_foreign(self):
-
-        self.close_foreign_tabs(True)
