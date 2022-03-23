@@ -7,7 +7,7 @@
 
 + add: Project Manager: added 'project sessions' - sessions which belong to the current project and are embedded into project file *.cuda-proj. Added several menu items to the 'gear' menu in the ProjManager, to work with 'project sessions'. (thanks @GHNewbiee)
 + add: Project Manager removes the file, on doing "File / Close and delete file" (thanks @MiroslavMatas)
-+ add: Project Manager hides orphan files/folders, on opening project (thanks @MiroslavMatas)
++ add: Project Manager hides deleted files/folders, on opening project (thanks @MiroslavMatas)
 + add: 4 commands in the Command Palette: "change line ends to LF / CR LF / CR / default, for lines(s) with caret" (thanks @myocytebd)
 + add: lexer PHP: add folding for () and [] (thanks @ildarkhasanshin)
 * change: dialog 'Go to bookmark' shows decreased indentations of lines (thanks @ildarkhasanshin)
