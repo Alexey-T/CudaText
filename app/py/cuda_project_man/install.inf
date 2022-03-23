@@ -114,15 +114,15 @@ section=commands
 caption=&Project Manager\Set default session...
 method=session_def
 
-[item89]
-section=commands
-caption=&Project Manager\Close tabs not belonging to project
-method=close_foreign_tabs
-
-[item90]
+[item86]
 section=commands
 caption=&Project Manager\Forget session, close all tabs
 method=session_forget_ex
+
+[item91]
+section=commands
+caption=&Project Manager\Close tabs not belonging to project
+method=close_foreign_tabs
 
 
 [item100]
