@@ -1,0 +1,8 @@
+In the Lazarus file "lcl/interfaces/qt5/qtwsforms.pp", find 
+
+ {$IFDEF HASX11}
+   if QtMainWindow.IsMainForm and not Application.HasOption('disableaccurateframe') then
+   begin
+
+and change the IFDEF line to e.g.
+ {$IFDEF HASX11_xxx}
