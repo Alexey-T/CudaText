@@ -1158,7 +1158,7 @@ begin
   {$ifndef windows}
   S:= AppDir_Home;
 
-  if fn+DirectorySeparator=AppDir_Home then
+  if fn+DirectorySeparator=S then
     exit('~');
 
   if SBeginsWith(Result, S) then
