@@ -2843,12 +2843,16 @@ begin
   kind:= Ed.Strings.Bookmarks[index]^.Data.Kind;
   if kind<=1 then
   begin
-    c.brush.color:= GetAppColor(apclEdBookmarkIcon);
-    c.pen.color:= c.brush.color;
-    inc(r.top, 1);
-    inc(r.left, 4);
+    c.Brush.Color:= GetAppColor(apclEdBookmarkIcon);
+    c.Pen.Color:= c.Brush.Color;
+    inc(r.Top, 1);
+    inc(r.Left, 4);
     dx:= r.Height div 2-1;
-    c.Polygon([Point(r.left, r.top), Point(r.left+dx, r.top+dx), Point(r.left, r.top+2*dx)]);
+    c.Polygon([
+      Point(r.Left, r.Top),
+      Point(r.Left+dx, r.Top+dx),
+      Point(r.Left, r.Top+2*dx)
+      ]);
   end
   else
   if (kind>=Low(AppBookmarkSetup)) and (kind<=High(AppBookmarkSetup)) then
