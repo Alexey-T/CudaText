@@ -1704,6 +1704,8 @@ class Command:
                 files.append(root)
 
         def is_from_proj(fn):
+            if not fn: # untitled tabs: False
+                return False
             for d in dirs:
                 if d.startswith(fn+os.sep):
                     return True
