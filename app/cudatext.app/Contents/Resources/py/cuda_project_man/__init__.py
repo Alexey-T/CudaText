@@ -1673,6 +1673,7 @@ class Command:
         app_proc(PROC_LOAD_SESSION, fn)
 
     def is_project_filename(self, filename):
+        '''Deprecated func'''
 
         if not filename:
             return False
@@ -1690,16 +1691,39 @@ class Command:
         if not self.options.get('close_ext', True):
             return
 
+        # don't detect if project is empty
+        items = self.project['nodes']
+        if not items:
+            return
+
+        files, dirs = [], []
+        for root in items:
+            if os.path.isdir(root):
+                dirs.append(root)
+            else:
+                files.append(root)
+
+        def is_from_proj(fn):
+            for d in dirs:
+                if d.startswith(fn+os.sep):
+                    return True
+            for f in files:
+                if f==fn:
+                    return True
+            return False
+
         import cudatext_cmd as cmds
 
         res = []
         for h in ed_handles():
             e = Editor(h)
             fn = e.get_filename('*')
+
             #skip empty tabs
             if (not fn) and (not e.get_text_all()):
                 continue
-            if not self.is_project_filename(fn):
+
+            if not is_from_proj(fn):
                 res.append((h, fn))
 
         if res:
