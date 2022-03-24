@@ -56,8 +56,9 @@
   "font_size_bi__linux": 10,
   "font_size_bi__mac": 10,
 
-  //Enable to render font ligatures, e.g. with font "Fira Code".
-  //Option has effect only on Windows. On Unix: on, or depends on OS.
+  //Enable to render font ligatures, e.g. with the font "Fira Code".
+  //Option has effect only on Windows.
+  //On other OS'es: ligatures are on (it depends on widget set, e.g. GTK2/Qt5).
   "font_ligatures": true,
 
   //Text font rendering quality. [has suffix]
