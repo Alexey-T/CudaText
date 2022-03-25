@@ -1604,6 +1604,8 @@ begin
 end;
 
 procedure TfmMain.UpdateEditorShowCaret;
+//solves issue #4022
+//it makes sense for all Wrap modes
 var
   Ed: TATSynEdit;
   Caret: TATCaretItem;
