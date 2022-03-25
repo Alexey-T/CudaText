@@ -72,6 +72,7 @@ type
     FormFloatBounds: TRect;
     ShowTitleForSide: boolean;
     ShowTitleForBottom: boolean;
+    OnShow: TNotifyEvent;
     OnHide: TNotifyEvent;
     OnCommand: TAppPanelOnCommand;
     OnCloseFloatForm: TCloseEvent;
@@ -255,10 +256,15 @@ begin
 
       UpdateTitle;
     end;
+
+    if Assigned(OnShow) then
+      OnShow(Self);
   end
   else
-  if Assigned(OnHide) then
-    OnHide(nil);
+  begin
+    if Assigned(OnHide) then
+      OnHide(Self);
+  end;
 
   UpdateButtons;
 end;

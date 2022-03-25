@@ -155,3 +155,8 @@ begin
   UpdateMenuItemChecked(mnuViewSide, mnuViewSide_Alt, false);
 end;
 
+procedure TfmMain.DoSidebar_OnShowHide(Sender: TObject);
+begin
+  UpdateEditorShowCaret;
+end;
+

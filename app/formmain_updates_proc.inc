@@ -1603,3 +1603,28 @@ begin
   end;
 end;
 
+procedure TfmMain.UpdateEditorShowCaret;
+var
+  Ed: TATSynEdit;
+  Caret: TATCaretItem;
+begin
+  Ed:= CurrentEditor;
+  if Assigned(Ed) and (Ed.Carets.Count=1) then
+  begin
+    Caret:= Ed.Carets[0];
+
+    //reset Ed.FLineTopTodo like this:
+    Ed.Invalidate;
+    Application.ProcessMessages;
+
+    Ed.DoShowPos(
+      Point(Caret.PosX, Caret.PosY),
+      UiOps.FindIndentHorz,
+      UiOps.FindIndentVert,
+      false, //Unfold
+      true, //AllowUpdate
+      true //AllowProximity
+      );
+  end;
+end;
+
