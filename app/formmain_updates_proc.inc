@@ -1612,11 +1612,7 @@ begin
   if Assigned(Ed) and (Ed.Carets.Count=1) then
   begin
     Caret:= Ed.Carets[0];
-
-    //reset Ed.FLineTopTodo like this:
-    Ed.Invalidate;
-    Application.ProcessMessages;
-
+    Application.ProcessMessages; //must have
     Ed.DoShowPos(
       Point(Caret.PosX, Caret.PosY),
       UiOps.FindIndentHorz,
