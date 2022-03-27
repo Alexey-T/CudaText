@@ -113,22 +113,12 @@ object SyntAnal14: TLibSyntAnalyzer
       Font.Style = []
     end
     item
-      DisplayName = 'Heredoc begin'
+      DisplayName = 'String heredoc'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clOlive
-      Font.Height = -13
-      Font.Name = 'Courier New'
-      Font.Style = [fsBold]
-    end
-    item
-      DisplayName = 'Heredoc BG'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
+      Font.Color = clAqua
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
-      BgColor = 12648447
-      FormatType = ftBackGround
     end>
   TokenRules = <
     item
@@ -149,6 +139,16 @@ object SyntAnal14: TLibSyntAnalyzer
       DisplayName = 'Comment block'
       StyleName = 'Comment'
       Expression = '(?s)/\*.*?(\*/|\Z)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Heredoc'
+      StyleName = 'String heredoc'
+      TokenType = 12
+      Expression = 
+        '(?s)<<<\x20*['#39'"]?([a-z_]\w*)['#39'"]?$ .*? ^[\x20\x09]*\1'#13#10'(?=[;,\)\' +
+        'n])'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -237,22 +237,6 @@ object SyntAnal14: TLibSyntAnalyzer
       StyleName = 'Symbol single'
       TokenType = 5
       Expression = '[\(\)\[\]\.,\\]'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
-      DisplayName = 'Heredoc begin'
-      StyleName = 'Heredoc begin'
-      TokenType = 13
-      Expression = '(?<=<<<\x20*) ([a-z_]\w*|'#39'[a-z_]\w*'#39'|"[a-z_]\w*")'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
-      DisplayName = 'Heredoc end'
-      StyleName = 'Id'
-      TokenType = 12
-      Expression = '(?-i)(?<=^[\x20\x09]*)[A-Z_][A-Z_0-9]*(?=[;,\)\n])'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -949,32 +933,6 @@ object SyntAnal14: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
-      DisplayName = 'heredoc begin'
-      StyleName = 'Heredoc BG'
-      ConditionList = <
-        item
-          TokenTypes = 8192
-        end>
-      BlockEnd = 'heredoc end'
-      NotCollapsed = True
-      DisplayInTree = False
-      DynHighlight = dhRange
-      HighlightPos = cpAny
-      CollapseFmt = '%sz0 ...'
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = 'heredoc end'
-      BlockType = btRangeEnd
-      ConditionList = <
-        item
-          TokenTypes = 4096
-        end>
-      SameIdent = True
-      HighlightPos = cpAny
-      IgnoreAsParent = False
-    end
-    item
       DisplayName = '('
       ConditionList = <
         item
@@ -1075,10 +1033,8 @@ object SyntAnal14: TLibSyntAnalyzer
     '//Example'
     '/** Doc comment */,  /* Comment */'
     '__CLASS__, __LINE__, ArrayObject, Directory,'
-    '`string`, '
-    '<<<ID'
-    'heredoc'
-    'ID;'
+    '`string`, <<<  "HEREDOC"'
+    '  HEREDOC; '
     ''
     'include "os.php";'
     'include_once $path."/os2.php";'
@@ -1138,8 +1094,7 @@ object SyntAnal14: TLibSyntAnalyzer
     'Symbol ,'
     'Symbol ()'
     'Id after ::'
-    'Heredoc end'
-    'Heredoc begin')
+    'Heredoc')
   LexerName = 'PHP_'
   Notes.Strings = (
     'Created by 480499497 from forum.wincmd.ru (named PHP_dev)'
