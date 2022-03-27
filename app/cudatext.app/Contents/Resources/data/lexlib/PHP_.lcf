@@ -146,9 +146,17 @@ object SyntAnal14: TLibSyntAnalyzer
       DisplayName = 'Heredoc'
       StyleName = 'String heredoc'
       TokenType = 12
+      Expression = '(?s)<<<\x20*([a-z_]\w*)$ .*? ^[\x20\x09]*\1'#13#10'(?=[;,\)\n])'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Heredoc quoted'
+      StyleName = 'String heredoc'
+      TokenType = 12
       Expression = 
-        '(?s)<<<\x20*['#39'"]?([a-z_]\w*)['#39'"]?$ .*? ^[\x20\x09]*\1'#13#10'(?=[;,\)\' +
-        'n])'
+        '(?s)<<<\x20*(['#39'"])([a-z_]\w*)\1$ .*? ^[\x20\x09]*\2'#13#10'(?=[;,\)\n]' +
+        ')'
       ColumnFrom = 0
       ColumnTo = 0
     end
