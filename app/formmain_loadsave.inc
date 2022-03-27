@@ -957,8 +957,8 @@ begin
   if s<>'' then
   begin
     Sep.Init(s);
-    Sep.GetItemInt(ATEditorOptions.UnprintedSpaceDotScale, ATEditorOptions.UnprintedSpaceDotScale, 5, 100);
-    Sep.GetItemInt(ATEditorOptions.UnprintedEndDotScale, ATEditorOptions.UnprintedEndDotScale, 5, 100);
+    Sep.GetItemInt(ATEditorOptions.UnprintedSpaceDotScale, ATEditorOptions.UnprintedSpaceDotScale, 1, 100);
+    Sep.GetItemInt(ATEditorOptions.UnprintedEndDotScale, ATEditorOptions.UnprintedEndDotScale, 1, 100);
     Sep.GetItemInt(ATEditorOptions.UnprintedEndFontScale, ATEditorOptions.UnprintedEndFontScale * 10 div 6, 5, 100);
     ATEditorOptions.UnprintedEndFontScale:= ATEditorOptions.UnprintedEndFontScale * 6 div 10;
     Sep.GetItemInt(ATEditorOptions.UnprintedTabPointerScale, ATEditorOptions.UnprintedTabPointerScale, 0, 100);
