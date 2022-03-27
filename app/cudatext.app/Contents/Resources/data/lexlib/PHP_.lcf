@@ -1,4 +1,4 @@
-object SyntAnal15: TLibSyntAnalyzer
+object SyntAnal14: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Comment'
@@ -252,7 +252,7 @@ object SyntAnal15: TLibSyntAnalyzer
       DisplayName = 'Heredoc end'
       StyleName = 'Id'
       TokenType = 12
-      Expression = '(?<=^[\x20\x09]*)[a-z_]\w*(?=[;,\)\n])'
+      Expression = '(?-i)(?<=^[\x20\x09]*)[A-Z_][A-Z_0-9]*(?=[;,\)\n])'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -1024,6 +1024,35 @@ object SyntAnal15: TLibSyntAnalyzer
           TagList.Strings = (
             ']')
           TokenTypes = 32
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'case'
+      ConditionList = <
+        item
+          TagList.Strings = (
+            'case'
+            'default')
+          TokenTypes = 2
+        end>
+      BlockEnd = 'case end'
+      DisplayInTree = False
+      HighlightPos = cpAny
+      DrawStaple = True
+      CollapseFmt = '%sz0'
+      SelfClose = True
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'case end'
+      BlockType = btRangeEnd
+      ConditionList = <
+        item
+          TagList.Strings = (
+            'break')
+          TokenTypes = 2
         end>
       HighlightPos = cpAny
       IgnoreAsParent = False
