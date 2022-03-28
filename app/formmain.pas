@@ -7137,12 +7137,26 @@ begin
   UpdateMenuItemHotkey(mnuTextOpenUrl, cmd_LinkAtPopup_Open);
 
   Ed:= CurrentEditor;
-  if assigned(mnuTextCut) then mnuTextCut.Enabled:= not Ed.ModeReadOnly;
-  if assigned(mnuTextPaste) then mnuTextPaste.Enabled:= not Ed.ModeReadOnly and Clipboard.HasFormat(CF_Text);
-  if assigned(mnuTextDelete) then mnuTextDelete.Enabled:= not Ed.ModeReadOnly and Ed.Carets.IsSelection;
-  if assigned(mnuTextUndo) then mnuTextUndo.Enabled:= not Ed.ModeReadOnly and (Ed.UndoCount>0);
-  if assigned(mnuTextRedo) then mnuTextRedo.Enabled:= not Ed.ModeReadOnly and (Ed.RedoCount>0);
-  if assigned(mnuTextOpenUrl) then mnuTextOpenUrl.Enabled:= EditorGetLinkAtScreenCoord(Ed, PopupText.PopupPoint)<>'';
+
+  if Assigned(mnuTextCut) then
+    mnuTextCut.Enabled:= not Ed.ModeReadOnly;
+
+  if Assigned(mnuTextPaste) then
+    mnuTextPaste.Enabled:= not Ed.ModeReadOnly and Clipboard.HasFormat(CF_Text);
+
+  if Assigned(mnuTextDelete) then
+    mnuTextDelete.Enabled:= not Ed.ModeReadOnly and Ed.Carets.IsSelection;
+
+  if Assigned(mnuTextUndo) then
+    mnuTextUndo.Enabled:= not Ed.ModeReadOnly and (Ed.UndoCount>0);
+
+  if Assigned(mnuTextRedo) then
+    mnuTextRedo.Enabled:= not Ed.ModeReadOnly and (Ed.RedoCount>0);
+
+  if Assigned(mnuTextOpenUrl) then
+  begin
+    mnuTextOpenUrl.Enabled:= EditorGetLinkAtScreenCoord(Ed, PopupText.PopupPoint)<>'';
+  end;
 end;
 
 
