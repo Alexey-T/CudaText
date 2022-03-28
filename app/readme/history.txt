@@ -9,7 +9,7 @@
 + add: the minimal size of "unprinted spaces/ line ends" dots changed from 2 px to 1 px (thanks @ildarkhasanshin)
 + add: lexer PHP: folding of 'case' blocks (thanks @ildarkhasanshin)
 * change: lexer PHP: simpler highlight HereDoc blocks
-- fix: menu item "Open URL" from context menu
+- fix: "Open URL" in context menu was disabled if menu is called by ContextMenu key
 
 1.159.0 (2022/03)
 
