@@ -7134,7 +7134,7 @@ begin
   UpdateMenuItemHotkey(mnuTextDelete, cCommand_TextDeleteSelection);
   UpdateMenuItemHotkey(mnuTextSel, cCommand_SelectAll);
   UpdateMenuItemHotkey(mnuTextGotoDef, cmd_GotoDefinition);
-  UpdateMenuItemHotkey(mnuTextOpenUrl, cmd_LinkAtPopup_Open);
+  UpdateMenuItemHotkey(mnuTextOpenUrl, cmd_LinkAtCaret_Open);
 
   Ed:= CurrentEditor;
 
@@ -7154,9 +7154,7 @@ begin
     mnuTextRedo.Enabled:= not Ed.ModeReadOnly and (Ed.RedoCount>0);
 
   if Assigned(mnuTextOpenUrl) then
-  begin
-    mnuTextOpenUrl.Enabled:= EditorGetLinkAtScreenCoord(Ed, PopupText.PopupPoint)<>'';
-  end;
+    mnuTextOpenUrl.Enabled:= EditorGetLinkAtCaret(Ed)<>'';
 end;
 
 
