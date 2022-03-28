@@ -5,9 +5,8 @@
 
 1.159.1 (2022/04)
 
-+ add: more stability of the multi-threaded parser
-+ add: lexer PHP: folding of 'case' blocks (thanks @ildarkhasanshin)
-* change: lexer PHP: simpler highlight HereDoc blocks
++ add: more stability of the multi-threaded parser (before, file ~/cudatext.error could appear, please report if that file appears again with new info)
++ add: lexer PHP: folding of 'case' blocks (thanks @ildarkhasanshin); simpler highlight HereDoc blocks
 
 1.159.0 (2022/03)
 
