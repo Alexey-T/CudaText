@@ -125,6 +125,26 @@ If you need to open clicked files in different tab-groups, you can do it - by un
 * In the plugin "Config Toolbar", add the toolbar button which will switch the project and/or session. The properties of this button are tricky. In the "Command" property of the button, you must enter "exec=path_of_project_file path_of_session file". You cannot type this directly to the dialog field, but you should press the "Enter command line..." button in the dialog and enter the command line contents (full path of .cuda-proj file and/or full path of .cuda-session file). "Config Toolbar" will store your command line with the "exec=" prefix.
 * CudaText will use the new command-line which you entered after "exec=".
 
+=== Sessions embedded to project ===
+
+CudaText 1.159+ supports sessions which are not separate JSON files (*.cuda-session or *.json) but are embedded into project file (*.cuda-proj). Session is still having the same JSON format, but it's nested 2 levels into the project JSON file. Such embedded sessions are visible only to the Project Manager. When an embedded session is active, CudaText window title shows this in curly brackets: "{project_name:session_name}".
+
+To control sessions, use the "gear" button on the Project Manager toolbar. Several menu items are there:
+
+* "Project session: name". One or more menu items, one item per each session.
+* "Save session...". Shows text input prompt, to name a session (you will be warned if you use incorrect characters or session already exists).
+* "Delete session". Shows menu to choose which session to delete from the project.
+* "Set default session". After you choose a session here, it will be marked in the project file, and will be auto-loaded on next project opening.
+* "Forget session, close all tabs".
+
+Project Manager has the option checkbox "Suggest to close tabs not belonging to project". When option is on, you will see such confirmation message box:
+
+ CudaText has opened 2 tab(s) not belonging to the project "name". Close them?
+ C:\path\to\file1
+ C:\path2\to\file2
+
+You can disable that option, and save even "not belonging" opened files to embedded sessions, but that is often not handy.
+
 == Snippets ==
 
 To use snippets you need:
