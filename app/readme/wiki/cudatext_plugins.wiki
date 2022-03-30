@@ -141,10 +141,16 @@ To control sessions, use the "gear" button on the Project Manager toolbar. Sever
 Project Manager has the option checkbox "Suggest to close tabs not belonging to project". When option is on, you will see such confirmation message box:
 
  CudaText has opened 2 tab(s) not belonging to the project "name". Close them?
- C:\path\to\file1
- C:\path2\to\file2
+ /path/to/file1
+ /path2/to/file2
+ *Untitled1
 
-You can disable that option, and save even "not belonging" opened files to embedded sessions, but that is often not handy.
+You will see this confirmation when doing:
+
+* "New project" action (from Project Manager context menu, or from Command Palette)
+* "Save session..." action (from "gear" popup menu, or from Command Palette)
+
+You can disable that option (or press "Cancel" in the confirmation), to save even "not belonging" opened files to embedded session.
 
 == Snippets ==
 
