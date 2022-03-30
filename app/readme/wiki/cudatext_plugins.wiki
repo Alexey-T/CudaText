@@ -140,7 +140,7 @@ To control sessions, use the "gear" button on the Project Manager toolbar. Sever
 
 Project Manager has the option checkbox "Suggest to close tabs not belonging to project". When option is on, you will see such confirmation message box:
 
- CudaText has opened 2 tab(s) not belonging to the project "name". Close them?
+ CudaText has opened 3 tab(s) not belonging to the project "name". Close them?
  /path/to/file1
  /path2/to/file2
  *Untitled1
