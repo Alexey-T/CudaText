@@ -542,6 +542,10 @@ begin
   FMenuitemOptHiAll.Caption:= msgFindHint_HiAll;
   FMenuitemOptHiAll.Checked:= chkHiAll.Checked;
   FMenuitemOptHiAll.ShortCut:= TextToShortCut(UiOps.HotkeyToggleHiAll);
+  FMenuitemOptHiAll.Enabled:= chkHiAll.Enabled;
+  if not FMenuitemOptHiAll.Enabled then
+    FMenuitemOptHiAll.Caption:= FMenuitemOptHiAll.Caption+' '+
+      Format('("find_hi_max_lines": %d)', [UiOps.FindHiAll_MaxLines]);
 
   FMenuitemOptRegexSubst.Caption:= msgFindHint_RegexSubst;
   FMenuitemOptRegexSubst.Checked:= chkRegexSubst.Checked;
