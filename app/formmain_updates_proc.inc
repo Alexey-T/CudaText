@@ -544,7 +544,7 @@ end;
 procedure TfmMain.UpdateMenuRecents(sub: TMenuItem);
 var
   mi: TMenuItem;
-  SName: string;
+  SName, SAccel: string;
   i: integer;
 begin
   if sub=nil then exit;
@@ -552,11 +552,20 @@ begin
 
   for i:= 0 to AppListRecents.Count-1 do
   begin;
-    mi:= TMenuItem.Create(Self);
-    SName:= IntToStr(i+1)+'.  '+
+    if i<9 then
+      SAccel:= '&'+IntToStr(i+1)+'.  '
+    else
+    if i<10+Ord('Z')-Ord('A') then
+      SAccel:= '&'+Chr(i-9+Ord('A'))+'.  '
+    else
+      SAccel:= '';
+    SName:=
       ExtractFileName(AppListRecents[i])+'  ('+
       ExtractFileDir(AppListRecents[i])+')';
-    mi.Caption:= IfThen(i<9, '&') + StringReplace(SName, '&', '&&', [rfReplaceAll]);
+    SName:= StringReplace(SName, '&', '&&', [rfReplaceAll]);
+
+    mi:= TMenuItem.Create(sub);
+    mi.Caption:= SAccel + SName;
     mi.Tag:= i;
     mi.OnClick:= @MenuRecentItemClick;
     sub.Add(mi);
