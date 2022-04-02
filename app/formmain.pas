@@ -1192,6 +1192,7 @@ type
     procedure DoPyEvent_EdState(Ed: TATSynEdit; AState: integer);
     procedure DoPyEvent_AppActivate(AEvent: TAppPyEvent);
     procedure DoPyEvent_Open(Ed: TATSynEdit);
+    procedure DoPyEvent_OpenNone(Ed: TATSynEdit);
     procedure DoPyCommand(const AModule, AMethod: string; const AParams: TAppVariantArray; AInvoke: TATEditorCommandInvoke);
     function RunTreeHelper(Frame: TEditorFrame; Tree: TTreeView): boolean;
     function DoPyLexerDetection(const Filename: string; Lexers: TStringList): integer;
@@ -2870,6 +2871,11 @@ begin
   DoPyEvent(Ed, cEventOnOpen, []);
 end;
 
+procedure TfmMain.DoPyEvent_OpenNone(Ed: TATSynEdit);
+begin
+  DoPyEvent(Ed, cEventOnOpenNone, []);
+end;
+
 procedure TfmMain.AppPropsActivate(Sender: TObject);
 var
   F: TEditorFrame;
@@ -4370,7 +4376,7 @@ begin
         if (F.FrameKind=efkEditor) and (F.LexerName[F.Ed1]='') then
         begin
           if bEnableEventOpenedNone then
-            DoPyEvent(F.Ed1, cEventOnOpenNone, []);
+            DoPyEvent_OpenNone(F.Ed1);
           UpdateStatusbar;
         end;
 
@@ -4413,7 +4419,7 @@ begin
   if bEnableEventOpenedNone then
     if IsFilenameForLexerDetecter(AFileName) then
       if (F.FrameKind=efkEditor) and (F.LexerName[F.Ed1]='') then
-        DoPyEvent(F.Ed1, cEventOnOpenNone, []);
+        DoPyEvent_OpenNone(F.Ed1);
 
   if bEnableEventOpened then
     if AFileName2<>'' then
