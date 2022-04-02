@@ -1374,9 +1374,12 @@ Returns string if command selected, or None if cancelled.
  file_open(filename, group=-1, options="")
  file_open((filename1, filename2), group=-1, options="")
 
-Opens editor tab with given filename. If filename already opened, activates its tab. Pass empty string to open untitled tab.
+Opens editor tab with given filename. If filename already opened, activates its tab.
 
-First parameter can be 2-tuple (or 2-list) of string, to open two files in a single tab, in a splitted view. In this case, second filename won't be handled specially for zip file, picture file, binary file etc.
+First parameter can be 2-tuple / 2-list of string, to open 2 files in a single tab, in a splitted view. In this case, second filename won't be handled specially for zip file, picture file, binary file etc.
+
+The case of empty filename: opens empty untitled tab.
+The case of empty filename1 and non-empty filename2 is not supported: it also opens empty untitled tab, not splitted.
 
 Returns bool. True, if first filename is empty. Otherwise, returns True if first filename exists, and second filename is empty or exists.
 For zip file (only first filename is checked for it), returns True only if zip file contains valid CudaText add-on, and it was installed.
