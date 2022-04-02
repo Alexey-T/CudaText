@@ -4368,15 +4368,12 @@ begin
       MsgStatusFileOpened(AFileName, AFileName2);
 
       if bEnableEventOpened then
-      begin
         DoPyEvent_Open(F.Ed1);
-      end;
 
-      if IsFilenameForLexerDetecter(AFileName) then
+      if bEnableEventOpenedNone and IsFilenameForLexerDetecter(AFileName) then
         if (F.FrameKind=efkEditor) and (F.LexerName[F.Ed1]='') then
         begin
-          if bEnableEventOpenedNone then
-            DoPyEvent_OpenNone(F.Ed1);
+          DoPyEvent_OpenNone(F.Ed1);
           UpdateStatusbar;
         end;
 
@@ -4385,12 +4382,9 @@ begin
         if bEnableEventOpened then
           DoPyEvent_Open(F.Ed2);
 
-        if IsFilenameForLexerDetecter(AFileName2) then
+        if bEnableEventOpenedNone and IsFilenameForLexerDetecter(AFileName2) then
           if (F.FrameKind=efkEditor) and (F.LexerName[F.Ed2]='') then
-          begin
-            if bEnableEventOpenedNone then
-              DoPyEvent_OpenNone(F.Ed2);
-          end;
+            DoPyEvent_OpenNone(F.Ed2);
 
         UpdateStatusbar;
       end;
