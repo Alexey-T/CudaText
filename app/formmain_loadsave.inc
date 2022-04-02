@@ -593,7 +593,7 @@ begin
 
         //event on_open was blocked in DoFileOpen, call it here
         //(plugin "Tab Icons" needs it)
-        DoPyEvent(Frame.Ed1, cEventOnOpen, []);
+        DoPyEvent_Open(Frame.Ed1);
       end;
     end;
 

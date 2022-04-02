@@ -1191,8 +1191,8 @@ type
     procedure DoPyEvent_AppState(AState: integer);
     procedure DoPyEvent_EdState(Ed: TATSynEdit; AState: integer);
     procedure DoPyEvent_AppActivate(AEvent: TAppPyEvent);
-    procedure DoPyCommand(const AModule, AMethod: string; const AParams: TAppVariantArray;
-      AInvoke: TATEditorCommandInvoke);
+    procedure DoPyEvent_Open(Ed: TATSynEdit);
+    procedure DoPyCommand(const AModule, AMethod: string; const AParams: TAppVariantArray; AInvoke: TATEditorCommandInvoke);
     function RunTreeHelper(Frame: TEditorFrame; Tree: TTreeView): boolean;
     function DoPyLexerDetection(const Filename: string; Lexers: TStringList): integer;
     procedure FinderOnGetToken(Sender: TObject; AX, AY: integer; out AKind: TATTokenKind);
@@ -2865,6 +2865,11 @@ begin
   end;
 end;
 
+procedure TfmMain.DoPyEvent_Open(Ed: TATSynEdit);
+begin
+  DoPyEvent(Ed, cEventOnOpen, []);
+end;
+
 procedure TfmMain.AppPropsActivate(Sender: TObject);
 var
   F: TEditorFrame;
@@ -4326,7 +4331,7 @@ begin
     DoFocusResult;
     if bEnableEventOpened then
     begin
-      DoPyEvent(Result.Ed1, cEventOnOpen, []);
+      DoPyEvent_Open(Result.Ed1);
     end;
 
     exit;
@@ -4358,7 +4363,7 @@ begin
 
       if bEnableEventOpened then
       begin
-        DoPyEvent(F.Ed1, cEventOnOpen, []);
+        DoPyEvent_Open(F.Ed1);
       end;
 
       if IsFilenameForLexerDetecter(AFileName) then
@@ -4372,7 +4377,7 @@ begin
       if AFileName2<>'' then
       begin
         if bEnableEventOpened then
-          DoPyEvent(F.Ed2, cEventOnOpen, []);
+          DoPyEvent_Open(F.Ed2);
         UpdateStatusbar;
       end;
 
@@ -4403,7 +4408,7 @@ begin
   MsgStatusFileOpened(AFileName, AFileName2);
 
   if bEnableEventOpened then
-    DoPyEvent(F.Ed1, cEventOnOpen, []);
+    DoPyEvent_Open(F.Ed1);
 
   if bEnableEventOpenedNone then
     if IsFilenameForLexerDetecter(AFileName) then
@@ -4412,7 +4417,7 @@ begin
 
   if bEnableEventOpened then
     if AFileName2<>'' then
-      DoPyEvent(F.Ed2, cEventOnOpen, []);
+      DoPyEvent_Open(F.Ed2);
 
   DoFocusResult;
 end;
