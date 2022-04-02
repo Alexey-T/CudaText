@@ -4384,6 +4384,14 @@ begin
       begin
         if bEnableEventOpened then
           DoPyEvent_Open(F.Ed2);
+
+        if IsFilenameForLexerDetecter(AFileName2) then
+          if (F.FrameKind=efkEditor) and (F.LexerName[F.Ed2]='') then
+          begin
+            if bEnableEventOpenedNone then
+              DoPyEvent_OpenNone(F.Ed2);
+          end;
+
         UpdateStatusbar;
       end;
 
