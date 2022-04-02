@@ -556,7 +556,7 @@ begin
     SName:= IntToStr(i+1)+'.  '+
       ExtractFileName(AppListRecents[i])+'  ('+
       ExtractFileDir(AppListRecents[i])+')';
-    mi.Caption:= StringReplace(SName, '&', '&&', [rfReplaceAll]);
+    mi.Caption:= IfThen(i<9, '&') + StringReplace(SName, '&', '&&', [rfReplaceAll]);
     mi.Tag:= i;
     mi.OnClick:= @MenuRecentItemClick;
     sub.Add(mi);
