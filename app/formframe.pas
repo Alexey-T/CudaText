@@ -3335,21 +3335,21 @@ begin
 
   if UiOps.HistoryItems[ahhUnprinted] then
   begin
-    c.SetDeleteValue(path+cHistory_Unpri, Ord(Ed.OptUnprintedVisible), Ord(EditorOps.OpUnprintedShow));
+    c.SetDeleteValue(path+cHistory_Unpri,        Ord(Ed.OptUnprintedVisible),     Ord(EditorOps.OpUnprintedShow));
     c.SetDeleteValue(path+cHistory_Unpri_Spaces, Ord(Ed.OptUnprintedSpaces),      Ord(Pos('s', EditorOps.OpUnprintedContent)>0));
-    c.SetDeleteValue(path+cHistory_Unpri_Ends, Ord(Ed.OptUnprintedEnds),          Ord(Pos('e', EditorOps.OpUnprintedContent)>0));
+    c.SetDeleteValue(path+cHistory_Unpri_Ends,   Ord(Ed.OptUnprintedEnds),        Ord(Pos('e', EditorOps.OpUnprintedContent)>0));
     c.SetDeleteValue(path+cHistory_Unpri_Detail, Ord(Ed.OptUnprintedEndsDetails), Ord(Pos('d', EditorOps.OpUnprintedContent)>0));
   end;
 
   if UiOps.HistoryItems[ahhLineNumbers] then
-    c.SetDeleteValue(path+cHistory_LineNums, Ord(Ed.Gutter[Ed.GutterBandNumbers].Visible), 1);
+    c.SetDeleteValue(path+cHistory_LineNums, Ord(Ed.Gutter[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagNumbers)].Visible), 1);
 
   if UiOps.HistoryItems[ahhScale] then
     c.SetDeleteValue(path+cHistory_FontScale, Ed.OptScaleFont, 0);
 
   if UiOps.HistoryItems[ahhFolding] then
   begin
-    c.SetDeleteValue(path+cHistory_FoldingShow, Ord(Ed.Gutter[Ed.GutterBandFolding].Visible), 1);
+    c.SetDeleteValue(path+cHistory_FoldingShow, Ord(Ed.Gutter[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagFolding)].Visible), 1);
     c.SetDeleteValue(path+cHistory_FoldedRanges, Ed.FoldingAsString, '');
   end;
 
