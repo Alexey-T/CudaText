@@ -2639,8 +2639,8 @@ Notes:
 Controls decorations on gutter. It is used to show some visual marks, which look like bookmark icons, but independent of bookmarks. Possible values of "id":
 
 * DECOR_GET_ALL: Returns list of all decorations, as list of dict.
-* DECOR_GET: Returns decoration for single line, as dict. Params used: "line".
-* DECOR_SET: Sets decoration for single line, overwriting existing item for that line. Returns bool: line index correct, item added. Params used:
+* DECOR_GET: Returns decoration for given line, as dict. Params used: "line".
+* DECOR_SET: Sets decoration for given line. Returns bool: line index correct, item added. Params used:
 ** "line": int, line index.
 ** "tag": int, some value attached to item.
 ** "text": str, text to show.
