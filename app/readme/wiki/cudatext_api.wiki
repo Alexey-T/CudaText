@@ -2643,11 +2643,13 @@ Controls decorations on gutter. It is used to show some visual marks, which look
 * DECOR_SET: Sets decoration for single line, overwriting existing item for that line. Returns bool: line index correct, item added. Params used:
 ** "line": int, line index.
 ** "tag": int, some value attached to item.
-** "text": str, text to show; decoration will be text.
+** "text": str, text to show. If "text" is not empty, decoration will be text.
 ** "color": int, color of text decoration.
 ** "bold": bool, use bold font for text decoration.
 ** "italic": bool, use italic font for text decoration.
-** "image": int, icon index from decoration imagelist; decoration will be icon, if text is empty.
+** "image": int, icon index from decoration imagelist.
+*** If "text" is empty and "image" is >=0, decoration will be icon.
+*** If "text" is empty and "image" is -1, decoratiton will be cell background filled with "color".
 ** "auto_del": bool, auto-delete decoration, when its line is deleted.
 
 * DECOR_DELETE_BY_LINE: Deletes single decoration for given line. Params used: "line".
@@ -4571,5 +4573,8 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 
 1.0.419 (app 1.159.0)
 * add: event on_delete_file
+
+1.0.420 (app 1.159.3)
+* add: Editor.decor: allow to fill cell background, if "text" is empty and "image" is -1
 
 [[Category:CudaText]]
