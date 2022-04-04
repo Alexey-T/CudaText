@@ -1996,26 +1996,26 @@ begin
 end;
 
 
-function PyHelper_DecorGetItem(Item: TATGutterDecorItem): PPyObject;
+function PyHelper_DecorGetItem(Item: PATGutterDecorItem): PPyObject;
 begin
   with AppPython.Engine do
     Result:= Py_BuildValue('{sisLsssOsOsisisO}',
       'line',
-      Item.Data.LineNum,
+      Item^.Data.LineNum,
       'tag',
-      Item.Data.Tag,
+      Item^.Data.Tag,
       'text',
-      PChar(string(Item.Data.Text)),
+      PChar(string(Item^.Data.Text)),
       'bold',
-      PyBool_FromLong(Ord(Item.Data.TextBold)),
+      PyBool_FromLong(Ord(Item^.Data.TextBold)),
       'italic',
-      PyBool_FromLong(Ord(Item.Data.TextItalic)),
+      PyBool_FromLong(Ord(Item^.Data.TextItalic)),
       'color',
-      Item.Data.TextColor,
+      Item^.Data.TextColor,
       'image',
-      Item.Data.ImageIndex,
+      Item^.Data.ImageIndex,
       'auto_del',
-      PyBool_FromLong(Ord(Item.Data.DeleteOnDelLine))
+      PyBool_FromLong(Ord(Item^.Data.DeleteOnDelLine))
       );
 end;
 
@@ -2046,7 +2046,7 @@ begin
                 raise EPythonError.Create(msgPythonListError);
               for i:= 0 to NCount-1 do
                 PyList_SetItem(Result, i,
-                  PyHelper_DecorGetItem(Ed.GutterDecor[i])
+                  PyHelper_DecorGetItem(Ed.GutterDecor.ItemPtr(i))
                   );
             end;
 
@@ -2054,7 +2054,7 @@ begin
           begin
             i:= Ed.GutterDecor.Find(NLine);
             if i>=0 then
-              Result:= PyHelper_DecorGetItem(Ed.GutterDecor[i])
+              Result:= PyHelper_DecorGetItem(Ed.GutterDecor.ItemPtr(i))
             else
               Result:= ReturnNone;
           end;
