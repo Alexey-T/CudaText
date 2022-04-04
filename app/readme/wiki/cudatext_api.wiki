@@ -4580,5 +4580,6 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 
 1.0.420 (app 1.159.3)
 * add: Editor.decor: allow to fill cell background, if "text" is empty and "image" is -1
+* add: Editor.decor: allow 2 decor items for the same line index
 
 [[Category:CudaText]]
