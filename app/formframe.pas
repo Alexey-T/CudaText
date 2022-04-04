@@ -2821,7 +2821,7 @@ begin
     AppVariant(ABand)
     ]).Val = evrFalse then exit;
 
-  if ABand=Ed.GutterBandBookmarks then
+  if ABand=Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagBookmarks) then
     ed.BookmarkToggleForLine(ALine, 1, '', bmadOption, true, 0);
 end;
 

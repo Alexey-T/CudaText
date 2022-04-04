@@ -3038,6 +3038,7 @@ var
   Lex: TecSyntAnalyzer;
   Sep: TATStringSeparator;
   CharSize: TATEditorCharSize;
+  bValue: boolean;
 begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'Lis:get_prop', @H, @Id, @Ptr)) then
@@ -3055,16 +3056,28 @@ begin
           Result:= PyBool_FromLong(Ord(Ed.OptGutterVisible));
 
         PROP_GUTTER_STATES:
-          Result:= PyBool_FromLong(Ord(Ed.Gutter[Ed.GutterBandStates].Visible));
+          begin
+            bValue:= Ed.Gutter[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagLineStates)].Visible;
+            Result:= PyBool_FromLong(Ord(bValue));
+          end;
 
         PROP_GUTTER_NUM:
-          Result:= PyBool_FromLong(Ord(Ed.Gutter[Ed.GutterBandNumbers].Visible));
+          begin
+            bValue:= Ed.Gutter[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagNumbers)].Visible;
+            Result:= PyBool_FromLong(Ord(bValue));
+          end;
 
         PROP_GUTTER_FOLD:
-          Result:= PyBool_FromLong(Ord(Ed.Gutter[Ed.GutterBandFolding].Visible));
+          begin
+            bValue:= Ed.Gutter[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagFolding)].Visible;
+            Result:= PyBool_FromLong(Ord(bValue));
+          end;
 
         PROP_GUTTER_BM:
-          Result:= PyBool_FromLong(Ord(Ed.Gutter[Ed.GutterBandBookmarks].Visible));
+          begin
+            bValue:= Ed.Gutter[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagBookmarks)].Visible;
+            Result:= PyBool_FromLong(Ord(bValue));
+          end;
 
         PROP_WRAP:
           Result:= PyLong_FromLong(Ord(Ed.OptWrapMode));
@@ -3780,16 +3793,16 @@ begin
           Ed.OptGutterVisible:= ValueBool;
 
         PROP_GUTTER_STATES:
-          Ed.Gutter[Ed.GutterBandStates].Visible:= ValueBool;
+          Ed.Gutter[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagLineStates)].Visible:= ValueBool;
 
         PROP_GUTTER_NUM:
-          Ed.Gutter[Ed.GutterBandNumbers].Visible:= ValueBool;
+          Ed.Gutter[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagNumbers)].Visible:= ValueBool;
 
         PROP_GUTTER_FOLD:
-          Ed.Gutter[Ed.GutterBandFolding].Visible:= ValueBool;
+          Ed.Gutter[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagFolding)].Visible:= ValueBool;
 
         PROP_GUTTER_BM:
-          Ed.Gutter[Ed.GutterBandBookmarks].Visible:= ValueBool;
+          Ed.Gutter[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagBookmarks)].Visible:= ValueBool;
 
         PROP_WRAP:
           Ed.OptWrapMode:= TATEditorWrapMode(ValueInt);

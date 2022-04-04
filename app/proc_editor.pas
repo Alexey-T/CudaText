@@ -223,11 +223,11 @@ begin
     Ed.OptGutterShowFoldAlways:= Op.OpGutterFoldAlways;
     Ed.OptGutterIcons:= TATEditorGutterIcons(Op.OpGutterFoldIcons);
     if not Ed.IsModifiedGutterBookmarksVisible then
-      Ed.Gutter[Ed.GutterBandBookmarks].Visible:= Op.OpGutterBookmarks;
+      Ed.Gutter[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagBookmarks)].Visible:= Op.OpGutterBookmarks;
     if not Ed.IsModifiedGutterFoldingVisible then
-      Ed.Gutter[Ed.GutterBandFolding].Visible:= Op.OpGutterFold;
+      Ed.Gutter[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagFolding)].Visible:= Op.OpGutterFold;
     if not Ed.IsModifiedGutterNumbersVisible then
-      Ed.Gutter[Ed.GutterBandNumbers].Visible:= Op.OpNumbersShow;
+      Ed.Gutter[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagNumbers)].Visible:= Op.OpNumbersShow;
     Ed.Gutter.Update;
 
     if Op.OpNumbersStyle<=Ord(High(TATEditorNumbersStyle)) then
@@ -1702,8 +1702,8 @@ begin
   Ops.ShowMinimap:= Ed.OptMinimapVisible;
   Ops.ShowMicromap:= Ed.OptMicromapVisible;
   Ops.ShowRuler:= Ed.OptRulerVisible;
-  Ops.ShowNumbers:= Ed.Gutter.Items[Ed.GutterBandNumbers].Visible;
-  Ops.ShowFolding:= Ed.Gutter.Items[Ed.GutterBandFolding].Visible;
+  Ops.ShowNumbers:= Ed.Gutter.Items[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagNumbers)].Visible;
+  Ops.ShowFolding:= Ed.Gutter.Items[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagFolding)].Visible;
   Ops.ShowUnprinted:= Ed.OptUnprintedVisible;
 
   Ops.UnprintedSpaces:= Ed.OptUnprintedSpaces;
@@ -1726,9 +1726,9 @@ begin
   if AOld.ShowRuler<>ANew.ShowRuler then
     Ed.OptRulerVisible:= ANew.ShowRuler;
   if AOld.ShowNumbers<>ANew.ShowNumbers then
-    Ed.Gutter.Items[Ed.GutterBandNumbers].Visible:= ANew.ShowNumbers;
+    Ed.Gutter.Items[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagNumbers)].Visible:= ANew.ShowNumbers;
   if AOld.ShowFolding<>ANew.ShowFolding then
-    Ed.Gutter.Items[Ed.GutterBandFolding].Visible:= ANew.ShowFolding;
+    Ed.Gutter.Items[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagFolding)].Visible:= ANew.ShowFolding;
   if AOld.ShowUnprinted<>ANew.ShowUnprinted then
     Ed.OptUnprintedVisible:= ANew.ShowUnprinted;
 

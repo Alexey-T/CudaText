@@ -19,6 +19,7 @@ uses
   ec_SyntAnal,
   ec_syntax_format,
   ATSynEdit,
+  ATSynEdit_Globals,
   ATSynEdit_Adapter_EControl,
   proc_msg,
   proc_globdata,
@@ -501,9 +502,9 @@ begin
 
     F.edSample.Font.Name:= AFontName;
     F.edSample.Font.Size:= AFontSize;
-    F.edSample.Gutter[F.edSample.GutterBandBookmarks].Visible:= false;
-    F.edSample.Gutter[F.edSample.GutterBandNumbers].Visible:= false;
-    F.edSample.Gutter[F.edSample.GutterBandStates].Visible:= false;
+    F.edSample.Gutter[F.edSample.Gutter.FindIndexByTag(ATEditorOptions.GutterTagBookmarks)].Visible:= false;
+    F.edSample.Gutter[F.edSample.Gutter.FindIndexByTag(ATEditorOptions.GutterTagNumbers)].Visible:= false;
+    F.edSample.Gutter[F.edSample.Gutter.FindIndexByTag(ATEditorOptions.GutterTagLineStates)].Visible:= false;
     F.edSample.OptMarginRight:= 2000;
 
     F.Adapter.Lexer:= An;
