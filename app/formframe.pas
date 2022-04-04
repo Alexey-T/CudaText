@@ -3602,24 +3602,18 @@ begin
     Ed.IsModifiedUnprintedEndDetails:= true;
   end;
 
-  with Ed.Gutter[Ed.GutterBandNumbers] do
+  NFlag:= c.GetValue(path+cHistory_LineNums, -1);
+  if NFlag>=0 then
   begin
-    NFlag:= c.GetValue(path+cHistory_LineNums, -1);
-    if NFlag>=0 then
-    begin
-      Visible:= NFlag=1;
-      Ed.IsModifiedGutterNumbersVisible:= true;
-    end;
+    Ed.Gutter[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagNumbers)].Visible:= NFlag=1;
+    Ed.IsModifiedGutterNumbersVisible:= true;
   end;
 
-  with Ed.Gutter[Ed.GutterBandFolding] do
+  NFlag:= c.GetValue(path+cHistory_FoldingShow, -1);
+  if NFlag>=0 then
   begin
-    NFlag:= c.GetValue(path+cHistory_FoldingShow, -1);
-    if NFlag>=0 then
-    begin
-      Visible:= NFlag=1;
-      Ed.IsModifiedGutterFoldingVisible:= true;
-    end;
+    Ed.Gutter[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagFolding)].Visible:= NFlag=1;
+    Ed.IsModifiedGutterFoldingVisible:= true;
   end;
 
   Ed.OptScaleFont:= c.GetValue(path+cHistory_FontScale, 0);
