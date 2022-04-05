@@ -3102,8 +3102,9 @@ Section "info":
 * key "subdir" must begin with "cuda_tree_"
 
 Section(s) "treehelper" followed by any string (e.g. "treehelper1"):
-* key "lexers" is comma-separated lexers list
+* key "lexers" is comma-separated lexers list (can contain lite lexer with suffix)
 * key "method" is name of getter method in __init__.py
+* key "fold" (value 0/1) is deprecated, not handled anymore
 
 File __init__.py must contain getter method(s), referenced by install.inf. Getter has signature (with any name):
 
