@@ -3,6 +3,9 @@
   - fixed
   * changed
 
++ add: improved API to open a file-pair, app suggests to install new lexer for the 2nd file in pair
++ add: improved API to show 'decorations on gutter'
+
 1.159.2 (2022/03)
 
 + add: more stability of the multi-threaded parser (before, file ~/cudatext.error could appear, please report if that file appears again with new info)
