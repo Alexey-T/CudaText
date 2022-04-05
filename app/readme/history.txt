@@ -4,7 +4,7 @@
   * changed
 
 + add: improved 'keyboard accelerators' in the menu 'File / Open recent'
-+ add: improved API to open a file-pair, app suggests to install new lexer for the 2nd file in pair
++ add: improved API to open a file-pair: app now suggests to install new lexer also for the 2nd file
 + add: improved API to show 'decorations on gutter'
 
 1.159.2 (2022/03)
