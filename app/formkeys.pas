@@ -50,6 +50,8 @@ type
     procedure FormShow(Sender: TObject);
     procedure HelpButtonClick(Sender: TObject);
     procedure OKButtonClick(Sender: TObject);
+    procedure panelPressMouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
     procedure TimerAddTimer(Sender: TObject);
   private
     { private declarations }
@@ -169,6 +171,27 @@ begin
     end;
   finally
     Item.Free;
+  end;
+end;
+
+procedure TfmKeys.panelPressMouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+var
+  NKey: word;
+begin
+  case Button of
+    mbExtra1:
+      begin
+        NKey:= VK_BROWSER_BACK;
+        KeyDown(NKey, Shift);
+        exit;
+      end;
+    mbExtra2:
+      begin
+        NKey:= VK_BROWSER_FORWARD;
+        KeyDown(NKey, Shift);
+        exit;
+      end;
   end;
 end;
 

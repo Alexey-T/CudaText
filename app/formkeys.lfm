@@ -18,8 +18,8 @@ object fmKeys: TfmKeys
   Scaled = False
   object panelBtn: TButtonPanel
     Left = 6
-    Height = 29
-    Top = 203
+    Height = 27
+    Top = 205
     Width = 452
     OKButton.Name = 'OKButton'
     OKButton.DefaultCaption = True
@@ -37,26 +37,27 @@ object fmKeys: TfmKeys
   end
   object panelPress: TPanel
     Left = 320
-    Height = 197
+    Height = 199
     Top = 0
     Width = 144
     Align = alRight
     BevelOuter = bvNone
     Caption = 'Press a key...'
-    ClientHeight = 197
+    ClientHeight = 199
     ClientWidth = 144
     ParentColor = False
     TabOrder = 2
     Visible = False
+    OnMouseDown = panelPressMouseDown
     object bCancelInput: TButton
       AnchorSideRight.Control = panelPress
       AnchorSideRight.Side = asrBottom
       AnchorSideBottom.Control = panelPress
       AnchorSideBottom.Side = asrBottom
-      Left = 82
-      Height = 29
-      Top = 162
-      Width = 56
+      Left = 90
+      Height = 27
+      Top = 166
+      Width = 48
       Anchors = [akRight, akBottom]
       AutoSize = True
       BorderSpacing.Around = 6
@@ -67,14 +68,14 @@ object fmKeys: TfmKeys
   end
   object panelInput: TPanel
     Left = 0
-    Height = 197
+    Height = 199
     Top = 0
     Width = 320
     Align = alClient
     AutoSize = True
     BorderSpacing.Bottom = 3
     BevelOuter = bvNone
-    ClientHeight = 197
+    ClientHeight = 199
     ClientWidth = 320
     TabOrder = 0
     object labelKey1: TLabel
@@ -82,7 +83,7 @@ object fmKeys: TfmKeys
       Left = 9
       Height = 17
       Top = 10
-      Width = 32
+      Width = 27
       BorderSpacing.Left = 9
       BorderSpacing.Top = 10
       Caption = 'Key1'
@@ -93,7 +94,7 @@ object fmKeys: TfmKeys
       AnchorSideTop.Control = labelKey1
       AnchorSideTop.Side = asrBottom
       Left = 178
-      Height = 29
+      Height = 27
       Top = 33
       Width = 100
       AutoSize = True
@@ -109,7 +110,7 @@ object fmKeys: TfmKeys
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = bClear1
       Left = 284
-      Height = 29
+      Height = 27
       Top = 33
       Width = 100
       AutoSize = True
@@ -125,8 +126,8 @@ object fmKeys: TfmKeys
       AnchorSideTop.Side = asrBottom
       Left = 9
       Height = 17
-      Top = 70
-      Width = 32
+      Top = 68
+      Width = 27
       BorderSpacing.Top = 8
       Caption = 'Key2'
     end
@@ -135,8 +136,8 @@ object fmKeys: TfmKeys
       AnchorSideTop.Control = labelKey2
       AnchorSideTop.Side = asrBottom
       Left = 178
-      Height = 29
-      Top = 93
+      Height = 27
+      Top = 91
       Width = 100
       AutoSize = True
       BorderSpacing.Top = 6
@@ -150,8 +151,8 @@ object fmKeys: TfmKeys
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = bClear2
       Left = 284
-      Height = 29
-      Top = 93
+      Height = 27
+      Top = 91
       Width = 100
       AutoSize = True
       BorderSpacing.Left = 6
@@ -167,9 +168,9 @@ object fmKeys: TfmKeys
       AnchorSideBottom.Control = panelInput
       AnchorSideBottom.Side = asrBottom
       Left = 9
-      Height = 24
-      Top = 173
-      Width = 137
+      Height = 21
+      Top = 178
+      Width = 116
       Anchors = [akLeft, akBottom]
       Caption = 'For current lexer'
       TabOrder = 6
@@ -179,8 +180,8 @@ object fmKeys: TfmKeys
       AnchorSideTop.Side = asrBottom
       Left = 9
       Height = 17
-      Top = 128
-      Width = 97
+      Top = 124
+      Width = 80
       BorderSpacing.Top = 6
       Caption = 'duplicated key'
       Visible = False
@@ -188,7 +189,7 @@ object fmKeys: TfmKeys
     object bSet1: TButton
       AnchorSideTop.Control = bClear1
       Left = 72
-      Height = 29
+      Height = 27
       Top = 33
       Width = 100
       AutoSize = True
@@ -201,8 +202,8 @@ object fmKeys: TfmKeys
       AnchorSideLeft.Control = bSet1
       AnchorSideTop.Control = bClear2
       Left = 72
-      Height = 29
-      Top = 93
+      Height = 27
+      Top = 91
       Width = 100
       AutoSize = True
       Caption = 'Set'

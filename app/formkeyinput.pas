@@ -27,6 +27,8 @@ type
     PanelPress: TPanel;
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormShow(Sender: TObject);
+    procedure PanelPressMouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
   private
     { private declarations }
     procedure Localize;
@@ -105,6 +107,27 @@ begin
   Localize;
   DoForm_ScaleAuto(Self);
   UpdateFormOnTop(Self);
+end;
+
+procedure TfmKeyInput.PanelPressMouseDown(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+var
+  NKey: word;
+begin
+  case Button of
+    mbExtra1:
+      begin
+        NKey:= VK_BROWSER_BACK;
+        KeyDown(NKey, Shift);
+        exit;
+      end;
+    mbExtra2:
+      begin
+        NKey:= VK_BROWSER_FORWARD;
+        KeyDown(NKey, Shift);
+        exit;
+      end;
+  end;
 end;
 
 end.
