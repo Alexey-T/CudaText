@@ -311,12 +311,13 @@ var
   mi: TMenuItem;
   S: string;
 begin
+  mi:= Sender as TMenuItem;
+  S:= mi.Caption;
+  if S='-' then exit;
+
   ACanvas.Font.Name:= MenuStylerTheme.FontName;
   ACanvas.Font.Size:= MenuStylerTheme.FontSize;
   ACanvas.Font.Style:= [];
-
-  mi:= Sender as TMenuItem;
-  S:= mi.Caption;
 
   if not mi.IsInMenuBar then
   begin
