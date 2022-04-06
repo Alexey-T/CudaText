@@ -15,6 +15,7 @@ uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ButtonPanel,
   StdCtrls, Menus, ExtCtrls, IniFiles,
   LclType, LclProc, LazUTF8, LazFileUtils,
+  ATSynEdit,
   ATSynEdit_Keymap,
   proc_globdata,
   proc_customdialog,
@@ -176,23 +177,8 @@ end;
 
 procedure TfmKeys.panelPressMouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
-var
-  NKey: word;
 begin
-  case Button of
-    mbExtra1:
-      begin
-        NKey:= VK_BROWSER_BACK;
-        KeyDown(NKey, Shift);
-        exit;
-      end;
-    mbExtra2:
-      begin
-        NKey:= VK_BROWSER_FORWARD;
-        KeyDown(NKey, Shift);
-        exit;
-      end;
-  end;
+  if HandleMouseDownToHandleExtraMouseButtons(Self, Button, Shift) then exit;
 end;
 
 procedure TfmKeys.TimerAddTimer(Sender: TObject);

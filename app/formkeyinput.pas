@@ -15,6 +15,7 @@ uses
   Classes, SysUtils, Forms, Controls, Graphics,
   ButtonPanel, ExtCtrls, Menus, IniFiles,
   LCLProc, LCLType,
+  ATSynEdit,
   proc_globdata,
   proc_customdialog,
   proc_msg;
@@ -111,23 +112,8 @@ end;
 
 procedure TfmKeyInput.PanelPressMouseDown(Sender: TObject;
   Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
-var
-  NKey: word;
 begin
-  case Button of
-    mbExtra1:
-      begin
-        NKey:= VK_BROWSER_BACK;
-        KeyDown(NKey, Shift);
-        exit;
-      end;
-    mbExtra2:
-      begin
-        NKey:= VK_BROWSER_FORWARD;
-        KeyDown(NKey, Shift);
-        exit;
-      end;
-  end;
+  if HandleMouseDownToHandleExtraMouseButtons(Self, Button, Shift) then exit;
 end;
 
 end.
