@@ -205,6 +205,8 @@ begin
 
     if UiOps.ThemedMainMenuFontSize>9 then
     begin
+      //padding is to make MainMenu root items wider,
+      //we can also do it by calling RecreateWnd(Self) but it's slow, about 30ms on Intel Core i3
       NPadding:= UiOps.ThemedMainMenuFontSize div 6;
       SPadding:= StringOfChar(' ', NPadding);
       for i:= 0 to MainMenu.Items.Count-1 do
