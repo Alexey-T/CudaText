@@ -44,6 +44,8 @@ type
     procedure ApplyBackColor(h: HMENU; AReset: boolean);
     procedure HandleMenuDrawItem(Sender: TObject; ACanvas: TCanvas;
       ARect: TRect; AState: TOwnerDrawState);
+    procedure HandleMenuMeasureItem(Sender: TObject; ACanvas: TCanvas;
+      var AWidth, AHeight: Integer);
     procedure HandleMenuPopup(Sender: TObject);
   public
     procedure ApplyToMenu(AMenu: TMenu);
@@ -78,6 +80,7 @@ procedure TWin32MenuStyler.ApplyToMenu(AMenu: TMenu);
 begin
   AMenu.OwnerDraw:= true;
   AMenu.OnDrawItem:= @HandleMenuDrawItem;
+  AMenu.OnMeasureItem:= @HandleMenuMeasureItem;
 
   //it don't work!
   {
@@ -116,6 +119,7 @@ procedure TWin32MenuStyler.ResetMenu(AMenu: TMenu);
 begin
   AMenu.OwnerDraw:= false;
   AMenu.OnDrawItem:= nil;
+  AMenu.OnMeasureItem:= nil;
 end;
 
 procedure TWin32MenuStyler.ResetForm(AForm: TForm; ARepaintEntireForm: boolean);
@@ -298,6 +302,27 @@ begin
       ARect.Right,
       ARect.Bottom);
   end;
+end;
+
+procedure TWin32MenuStyler.HandleMenuMeasureItem(Sender: TObject;
+  ACanvas: TCanvas; var AWidth, AHeight: Integer);
+var
+  Size: TSize;
+  mi: TMenuItem;
+  S: string;
+begin
+  if MenuStylerTheme.FontSize<=9 then exit;
+  ACanvas.Font.Name:= MenuStylerTheme.FontName;
+  ACanvas.Font.Size:= MenuStylerTheme.FontSize;
+  mi:= Sender as TMenuItem;
+  S:= mi.Caption+'   ';
+  if mi.ShortCut<>0 then
+    S+= ShortCutToText(mi.ShortCut);
+  if mi.Count>0 then;
+    S+= '>';
+  Size:= ACanvas.TextExtent(S);
+  AWidth:= Size.cx;
+  AHeight:= Size.cy;
 end;
 
 procedure TWin32MenuStyler.HandleMenuPopup(Sender: TObject);
