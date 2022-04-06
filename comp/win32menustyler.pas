@@ -183,6 +183,10 @@ begin
     ACanvas.FillRect(ARect);
   end;
 
+  ACanvas.Font.Name:= MenuStylerTheme.FontName;
+  ACanvas.Font.Size:= MenuStylerTheme.FontSize;
+  ACanvas.Font.Style:= [];
+
   Windows.GetTextExtentPoint(ACanvas.Handle, PChar(cSampleShort), Length(cSampleShort), ExtCell);
   dxCell:= ExtCell.cx;
   dxMin:= dxCell * MenuStylerTheme.IndentMinPercents div 100;
@@ -213,10 +217,6 @@ begin
     ACanvas.Font.Color:= MenuStylerTheme.ColorFontSelected
   else
     ACanvas.Font.Color:= MenuStylerTheme.ColorFont;
-
-  ACanvas.Font.Name:= MenuStylerTheme.FontName;
-  ACanvas.Font.Size:= MenuStylerTheme.FontSize;
-  ACanvas.Font.Style:= [];
 
   Windows.GetTextExtentPoint(ACanvas.Handle, PChar(cSampleTall), Length(cSampleTall), ExtTall);
 
@@ -311,15 +311,22 @@ var
   mi: TMenuItem;
   S: string;
 begin
-  if MenuStylerTheme.FontSize<=9 then exit;
   ACanvas.Font.Name:= MenuStylerTheme.FontName;
   ACanvas.Font.Size:= MenuStylerTheme.FontSize;
+  ACanvas.Font.Style:= [];
+
   mi:= Sender as TMenuItem;
-  S:= mi.Caption+'   ';
-  if mi.ShortCut<>0 then
-    S+= ShortCutToText(mi.ShortCut);
-  if mi.Count>0 then;
-    S+= '>';
+  S:= mi.Caption;
+
+  if not mi.IsInMenuBar then
+  begin
+    S:= '     '+S;
+    if mi.ShortCut<>0 then
+      S+= '  '+ShortCutToText(mi.ShortCut);
+    if mi.Count>0 then;
+      S+= ' >';
+  end;
+
   Size:= ACanvas.TextExtent(S);
   AWidth:= Size.cx;
   AHeight:= Size.cy;
