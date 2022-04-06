@@ -3,8 +3,10 @@
   - fixed
   * changed
 
-+ add: mouse Extra1/Extra2 buttons are supported in the hotkey input dialog; note that you must press buttons while mouse pointer is over editor control; these buttons are got as hotkeys BrowserBack/BrowserForward (thanks @ildarkhasanshin)
-+ add: improved 'keyboard accelerators' in the menu 'File / Open recent'
+1.159.5 (2022/04)
+
++ add: mouse buttons Extra1/Extra2 are supported in the hotkey input dialog; note that you must press buttons while mouse pointer is over editor control; these mouse buttons work as equavalent to keyboard buttons BrowserBack/BrowserForward
++ add: improved keyboard 'accelerators' in the menu 'File / Open recent'
 + add: improved API to open a file-pair: app now suggests to install new lexer also for the 2nd file
 + add: improved API to show 'decorations on gutter'
 
