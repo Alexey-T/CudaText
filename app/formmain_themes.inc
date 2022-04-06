@@ -191,7 +191,9 @@ procedure TfmMain.DoApplyTheme_ThemedMainMenu;
 {$ifdef windows}
 var
   NColor: TColor;
-  Tick: QWord;
+  NPadding: integer;
+  SPadding: string;
+  i: integer;
 {$endif}
 begin
   {$ifdef windows}
@@ -200,10 +202,15 @@ begin
   begin
     MenuStylerTheme.FontName:= UiOps.ThemedMainMenuFontName;
     MenuStylerTheme.FontSize:= UiOps.ThemedMainMenuFontSize;
-    Tick:= GetTickCount64;
-    //RecreateWnd(Self);
-    Tick:= GetTickCount64-Tick;
-    //MsgLogConsole('Recreate wnd for menu theme: '+IntToStr(Tick));
+
+    if UiOps.ThemedMainMenuFontSize>9 then
+    begin
+      NPadding:= UiOps.ThemedMainMenuFontSize div 6;
+      SPadding:= StringOfChar(' ', NPadding);
+      for i:= 0 to MainMenu.Items.Count-1 do
+        with MainMenu.Items[i] do
+          Caption:= Trim(Caption)+SPadding;
+    end;
   end;
 
   NColor:= GetAppColor(apclMenuBg);

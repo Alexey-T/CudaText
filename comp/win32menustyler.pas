@@ -311,6 +311,8 @@ var
   mi: TMenuItem;
   S: string;
 begin
+  if MenuStylerTheme.FontSize<=9 then exit;
+
   mi:= Sender as TMenuItem;
   S:= mi.Caption;
   if S='-' then exit;
@@ -329,8 +331,8 @@ begin
   end;
 
   Size:= ACanvas.TextExtent(S);
-  AWidth:= Size.cx;
-  AHeight:= Size.cy;
+  AWidth:= Max(AWidth, Size.cx);
+  AHeight:= Max(AHeight, Size.cy);
 end;
 
 procedure TWin32MenuStyler.HandleMenuPopup(Sender: TObject);
