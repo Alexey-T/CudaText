@@ -103,6 +103,7 @@ procedure EditorHighlightBadRegexBrackets(Ed: TATSynEdit; AOnlyClear: boolean);
 procedure EditorCaretShapeFromString(Props: TATCaretShape; const AText: string);
 procedure EditorCaretShapeFromPyTuple(Props: TATCaretShape; const AText: string);
 function EditorCaretInsideCommentOrString(Ed: TATSynEdit; AX, AY: integer): boolean;
+function EditorCaretIsOnStart(Ed: TATSynEdit): boolean;
 
 type
   TATEditorBracketKind = (
@@ -2060,7 +2061,7 @@ begin
   //dont check Modified here
   Str:= Ed.Strings;
   Result:=
-    (Str.Count=0) or ((Str.Count=1) and (Str.Lines[0]=''));
+    (Str.Count=0) or ((Str.Count=1) and (Str.LinesLen[0]=0));
 end;
 
 procedure DeleteArrayItem(var Ar: TATIntArray; Val: integer);
@@ -2331,6 +2332,15 @@ var
 begin
   Kind:= EditorGetTokenKind(Ed, AX, AY);
   Result:= (Kind=atkComment) or (Kind=atkString);
+end;
+
+function EditorCaretIsOnStart(Ed: TATSynEdit): boolean;
+var
+  Caret: TATCaretItem;
+begin
+  if Ed.Carets.Count<>1 then exit(false);
+  Caret:= Ed.Carets[0];
+  Result:= (Caret.PosX=0) and (Caret.PosY=0) and (Caret.EndY=-1);
 end;
 
 function EditorLexerNameAtPos(Ed: TATSynEdit; APos: TPoint): string;

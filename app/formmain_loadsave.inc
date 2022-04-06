@@ -407,6 +407,7 @@ function TfmMain.DoOps_LoadSession(const ASessionId: string; AllowShowPanels: bo
 var
   cfg: TJSONConfig;
   Frame: TEditorFrame;
+  Ed: TATSynEdit;
   list: TStringlist;
   AFileName, sFilename, sFilename2, sRootPath,
   sTabTitle, sKind, sOpenOptions,
@@ -682,7 +683,9 @@ begin
     DoOnTabFocusFinalization(Frame);
 
     //python 'on_caret' is disabled during session loading, so fire it here
-    Frame.Ed1.DoEventCarets;
+    Ed:= Frame.Ed1;
+    if not EditorIsEmpty(Ed) and not EditorCaretIsOnStart(Ed) then
+      Ed.DoEventCarets;
   end;
 end;
 
