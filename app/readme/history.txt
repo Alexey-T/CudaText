@@ -3,15 +3,12 @@
   - fixed
   * changed
 
-1.159.5 (2022/04)
+1.160.0 (2022/04)
 
 + add: mouse buttons Extra1/Extra2 are supported in the hotkey input dialog; note that you must press buttons while mouse pointer is over editor control; these mouse buttons work as equavalent to keyboard buttons BrowserBack/BrowserForward
 + add: improved keyboard 'accelerators' in the menu 'File / Open recent'
 + add: improved API to open a file-pair: app now suggests to install new lexer also for the 2nd file
 + add: improved API to show 'decorations on gutter'
-
-1.159.2 (2022/03)
-
 + add: more stability of the multi-threaded parser (before, file ~/cudatext.error could appear, please report if that file appears again with new info)
 + add: the minimal size of "unprinted spaces/ line ends" dots changed from 2 px to 1 px (thanks @ildarkhasanshin)
 + add: lexer PHP: folding of 'case' blocks (thanks @ildarkhasanshin)
