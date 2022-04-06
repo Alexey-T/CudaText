@@ -2060,7 +2060,7 @@ begin
   //dont check Modified here
   Str:= Ed.Strings;
   Result:=
-    (Str.Count=0) or ((Str.Count=1) and (Str.Lines[0]=''));
+    (Str.Count=0) or ((Str.Count=1) and (Str.LinesLen[0]=0));
 end;
 
 procedure DeleteArrayItem(var Ar: TATIntArray; Val: integer);

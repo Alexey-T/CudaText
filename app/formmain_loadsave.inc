@@ -682,7 +682,8 @@ begin
     DoOnTabFocusFinalization(Frame);
 
     //python 'on_caret' is disabled during session loading, so fire it here
-    Frame.Ed1.DoEventCarets;
+    if not EditorIsEmpty(Frame.Ed1) then
+      Frame.Ed1.DoEventCarets;
   end;
 end;
 
