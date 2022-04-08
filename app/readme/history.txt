@@ -6,6 +6,7 @@
 1.160.1 (2022/04)
 
 + add: command-line parameter -c=cuda_module_name,method_name (thanks @jczanfona)
++ add: faster filling of the code-tree (on 3Mb XML file: 2 seconds instead of 14 seconds)
 - fix: regression in syntax highlight after "Comment stream block" (thanks @ildarkhasanshin)
 - fix: Windows: painting of themed menu, when "ui_menu_themed_font_size" is set (thanks @Ambassador)
 

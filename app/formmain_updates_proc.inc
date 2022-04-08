@@ -1031,6 +1031,7 @@ var
   Ed: TATSynEdit;
   Ada: TATAdapterEControl;
   bLiteLexer: boolean;
+  Tick: QWord;
 begin
   if AConsiderTreeVisible then
     if not AppPanels[cPaneSide].Visible then exit;
@@ -1086,7 +1087,12 @@ begin
 
     if not RunTreeHelper(Frame, FCodetreeBuffer) then
       if Assigned(Ada) then
+      begin
+        //Tick:= GetTickCount64;
         Ada.TreeFill(FCodetreeBuffer);
+        //Tick:= GetTickCount64-Tick;
+        //MsgLogConsole('Tree filling: '+IntToStr(Tick)+'ms');
+      end;
 
     if FCodetreeBuffer.Items.Count>0 then
       DoTreeviewCopy(FCodetreeBuffer, Frame.CachedTreeview[Ed]);
