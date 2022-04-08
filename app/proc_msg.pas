@@ -352,7 +352,7 @@ const
       '  -s=folder       - Set full path of "settings" folder'+EOL+
       '  -i              - Open contents of stdin in new tab (Unix only)'+EOL+
       '  -id=name - Set single-instance id, for groups of instances (Unix, default: cudatext.0)'+EOL+
-      '  -w=left,top,width,height - Set position/size of app window'+EOL+
+      '  -w=left,top,width,height        - Set position/size of the main window'+EOL+
       '  -c=cuda_module,method           - Run command plugin on startup'+EOL+
       '  -p=cuda_module#param1#param2... - Run event "on_cli" on startup'+EOL+
       ''+EOL+
