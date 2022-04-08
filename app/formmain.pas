@@ -847,7 +847,7 @@ type
     function DoAutoComplete_PosOnBadToken(Ed: TATSynEdit; AX, AY: integer): boolean;
     procedure DoAutoComplete(Ed: TATSynEdit);
     procedure DoAutoComplete_Delayed(Ed: TATSynEdit; AValue: boolean);
-    procedure DoPyCommand_CmdLineStartup;
+    procedure DoPyCommand_FromString(const AModuleAndMethod: string);
     procedure DoPyCommand_Cudaxlib(Ed: TATSynEdit; const AMethod: string; AInvoke: TATEditorCommandInvoke);
     procedure DoDialogCharMap;
     procedure DoFindActionFromString(const AStr: string);
@@ -2239,6 +2239,7 @@ end;
 procedure TfmMain.TimerAppIdleTimer(Sender: TObject);
 var
   S: UnicodeString;
+  STemp: string;
   Frame: TEditorFrame;
   NTick: QWord;
   NCnt, i: integer;
@@ -2252,7 +2253,11 @@ begin
   end;
 
   if FOption_StartupCommand<>'' then
-    DoPyCommand_CmdLineStartup;
+  begin
+    STemp:= FOption_StartupCommand;
+    FOption_StartupCommand:= '';
+    DoPyCommand_FromString(STemp);
+  end;
 
   TimerMouseStop.Enabled:= TPluginHelper.EventIsUsed(cEventOnMouseStop);
 
@@ -8627,17 +8632,13 @@ begin
     mnuEditCopyAppend.Enabled:= bSel;
 end;
 
-procedure TfmMain.DoPyCommand_CmdLineStartup;
+procedure TfmMain.DoPyCommand_FromString(const AModuleAndMethod: string);
 var
   SModule, SMethod: string;
 begin
-  if FOption_StartupCommand<>'' then
-  begin
-    SSplitByChar(FOption_StartupCommand, ',', SModule, SMethod);
-    FOption_StartupCommand:= '';
-    if (SModule<>'') and (SMethod<>'') then
-      DoPyCommand(SModule, SMethod, [], cInvokeAppInternal);
-  end;
+  SSplitByChar(AModuleAndMethod, ',', SModule, SMethod);
+  if (SModule<>'') and (SMethod<>'') then
+    DoPyCommand(SModule, SMethod, [], cInvokeAppInternal);
 end;
 
 
