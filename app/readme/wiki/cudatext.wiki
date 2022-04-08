@@ -177,14 +177,14 @@ Supported keys:
 * -n - Ignore option "ui_one_instance", and open new app window.
 * -nsl - Don't load last session on start.
 * -nss - Don't save last session on exit.
-* -ns - Shortcut to -nsl with -nss.
+* -ns - Shortcut to "-nsl" together with "-nss".
 * -nh - Don't load saved file history (caret, selection, scroll position, etc).
 * -nn - Don't suggest to create new file if command-line filename is not found.
 * -s=folder - Specify full path of the "settings" folder, which contains all configuration files.
 * -i - Read the contents of stdin to a new document. Unix only. It can be used in Unix shell like: "ls -l | cudatext -i".
 * -id=name - Set "group" for single-instance mode, so that program with one "group" will not interfere and find instances with another "group". Unix only. Default value is "cudatext.0".
 * -w=left,top,width,height - Set position/size of the main window. Up to 4 numbers should be specified, any number can be skipped to keep previous value.
-* -c=cuda_module,method_name - Run the specified command plugin on startup.
+* -c=cuda_module,method_name - Run the specified command plugin on startup. It runs the command plugin for the currently active editor tab, so make sure you don't pass multiple filenames in the command line, and current session doesn't have multiple files. So, it is good to use together with "-n" and/or "-ns" params.
 * -p=cuda_module#param1#param2... - Run the specified plugin, and pass to its "on_cli" event specified param strings. Count of params must be expected by plugin, e.g. Differ plugin supports "on_cli" and expects 2 filenames. If params contain spaces, you must double-quote the part of the command-line beginning with -p: "-p=......".
 
 Notes:
