@@ -847,7 +847,7 @@ type
     function DoAutoComplete_PosOnBadToken(Ed: TATSynEdit; AX, AY: integer): boolean;
     procedure DoAutoComplete(Ed: TATSynEdit);
     procedure DoAutoComplete_Delayed(Ed: TATSynEdit; AValue: boolean);
-    procedure DoPyCommand_FromString(const AModuleAndMethod: string);
+    procedure DoPyCommand_CommandLineParam(const AModuleAndMethod: string);
     procedure DoPyCommand_Cudaxlib(Ed: TATSynEdit; const AMethod: string; AInvoke: TATEditorCommandInvoke);
     procedure DoDialogCharMap;
     procedure DoFindActionFromString(const AStr: string);
@@ -2256,7 +2256,7 @@ begin
   begin
     STemp:= FOption_StartupCommand;
     FOption_StartupCommand:= '';
-    DoPyCommand_FromString(STemp);
+    DoPyCommand_CommandLineParam(STemp);
   end;
 
   TimerMouseStop.Enabled:= TPluginHelper.EventIsUsed(cEventOnMouseStop);

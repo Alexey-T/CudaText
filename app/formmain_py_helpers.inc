@@ -482,7 +482,7 @@ begin
     );
 end;
 
-procedure TfmMain.DoPyCommand_FromString(const AModuleAndMethod: string);
+procedure TfmMain.DoPyCommand_CommandLineParam(const AModuleAndMethod: string);
 var
   SModule, SMethod: string;
 begin
