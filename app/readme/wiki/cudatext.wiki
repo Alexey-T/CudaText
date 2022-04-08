@@ -232,6 +232,8 @@ Clicks:
 ** Call "Go to definition" command.
 ** Nothing.
 
+* click on Extra1/Extra2 mouse buttons - these clicks do nothing by default, but they produce keyboard actions BrowserBack/BrowserForward (extended keys on Windows keyboards), and so they can be assigned in the hotkeys setup dialog (F9 in the Command Palette). For example, Ctrl+Extra1 produces Ctrl+BrowserBack keyboard action.
+
 Misc:
 
 * Shift+Alt+click - Make vertical (column) selection, from the first caret to the clicked position.
