@@ -9,6 +9,7 @@ Copyright (c) Alexey Torgashin
 
 procedure TfmMain.DoLoadCommandLineBaseOptions(out AWindowPos: string;
   out AAllowSessionLoad, AAllowSessionSave: TAppAllowSomething;
+  out AStartupCommand: string;
   out AFileFolderCount: integer);
 // Function handles these options: -v -h -w -el -ns
 // Option -n is handled via var proc_globdata.AppAlwaysNewInstance
@@ -19,6 +20,7 @@ begin
   AWindowPos:= '';
   AAllowSessionLoad:= aalsEnable;
   AAllowSessionSave:= aalsEnable;
+  AStartupCommand:= '';
   AFileFolderCount:= 0;
 
   for i:= 1 to ParamCount do
@@ -47,6 +49,12 @@ begin
     if SBeginsWith(SParam, '-w=') then
     begin
       AWindowPos:= Copy(SParam, 4, MaxInt);
+      Continue;
+    end;
+
+    if SBeginsWith(SParam, '-cmd=') then
+    begin
+      AStartupCommand:= Copy(SParam, 6, MaxInt);
       Continue;
     end;
 

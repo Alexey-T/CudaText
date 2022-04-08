@@ -723,6 +723,7 @@ type
     FOption_WindowPos: string;
     FOption_AllowSessionLoad: TAppAllowSomething;
     FOption_AllowSessionSave: TAppAllowSomething;
+    FOption_StartupCommand: string;
     FOption_GroupMode: TATGroupsMode;
     FOption_GroupSizes: TATGroupsPoints;
     FOption_GroupPanelSize: TPoint;
@@ -846,6 +847,7 @@ type
     function DoAutoComplete_PosOnBadToken(Ed: TATSynEdit; AX, AY: integer): boolean;
     procedure DoAutoComplete(Ed: TATSynEdit);
     procedure DoAutoComplete_Delayed(Ed: TATSynEdit; AValue: boolean);
+    procedure DoPyCommand_CmdLineStartup;
     procedure DoPyCommand_Cudaxlib(Ed: TATSynEdit; const AMethod: string; AInvoke: TATEditorCommandInvoke);
     procedure DoDialogCharMap;
     procedure DoFindActionFromString(const AStr: string);
@@ -1032,6 +1034,7 @@ type
     procedure DoFileReopenRecent;
     procedure DoLoadCommandLineBaseOptions(out AWindowPos: string;
       out AAllowSessionLoad, AAllowSessionSave: TAppAllowSomething;
+      out AStartupCommand: string;
       out AFileFolderCount: integer);
     procedure DoLoadCommandParams(const AParams: array of string; AOpenOptions: string);
     procedure DoLoadCommandLine;
@@ -2248,6 +2251,9 @@ begin
     exit;
   end;
 
+  if FOption_StartupCommand<>'' then
+    DoPyCommand_CmdLineStartup;
+
   TimerMouseStop.Enabled:= TPluginHelper.EventIsUsed(cEventOnMouseStop);
 
   //flush saved Python "print" results to console
@@ -2762,6 +2768,7 @@ begin
     FOption_WindowPos,
     FOption_AllowSessionLoad,
     FOption_AllowSessionSave,
+    FOption_StartupCommand,
     FCmdlineFileCount);
   DoOps_LoadOptions(AppFile_OptionsUser, EditorOps, true); //before LoadHistory
   DoFileOpen('', '', nil); //before LoadHistory
@@ -8618,6 +8625,19 @@ begin
 
   if Assigned(mnuEditCopyAppend) then
     mnuEditCopyAppend.Enabled:= bSel;
+end;
+
+procedure TfmMain.DoPyCommand_CmdLineStartup;
+var
+  SModule, SMethod: string;
+begin
+  if FOption_StartupCommand<>'' then
+  begin
+    SSplitByChar(FOption_StartupCommand, ',', SModule, SMethod);
+    FOption_StartupCommand:= '';
+    if (SModule<>'') and (SMethod<>'') then
+      DoPyCommand(SModule, SMethod, [], cInvokeAppInternal);
+  end;
 end;
 
 
