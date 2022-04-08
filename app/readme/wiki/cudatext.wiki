@@ -159,7 +159,7 @@ Section "plugin_groups" in user.json. '''Configures grouping in the Plugins menu
 
 Usage:
 
-* cudatext [ key ... ] filename ...
+ cudatext [ key ... ] filename ...
 
 Supported keys:
 
