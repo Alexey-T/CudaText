@@ -6,6 +6,7 @@
 1.160.1 (2022/04)
 
 + add: command-line parameter -c=cuda_module_name,method_name (thanks @jczanfona)
+- fix: Windows: painting of themed menu, when "ui_menu_themed_font_size" is set (thanks @Ambassador)
 
 1.160.0 (2022/04)
 
