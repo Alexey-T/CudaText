@@ -482,4 +482,12 @@ begin
     );
 end;
 
+procedure TfmMain.DoPyCommand_FromString(const AModuleAndMethod: string);
+var
+  SModule, SMethod: string;
+begin
+  SSplitByChar(AModuleAndMethod, ',', SModule, SMethod);
+  if (SModule<>'') and (SMethod<>'') then
+    DoPyCommand(SModule, SMethod, [], cInvokeAppInternal);
+end;
 
