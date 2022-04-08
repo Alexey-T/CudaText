@@ -52,9 +52,9 @@ begin
       Continue;
     end;
 
-    if SBeginsWith(SParam, '-cmd=') then
+    if SBeginsWith(SParam, '-c=') then
     begin
-      AStartupCommand:= Copy(SParam, 6, MaxInt);
+      AStartupCommand:= Copy(SParam, 4, MaxInt);
       Continue;
     end;
 

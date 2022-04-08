@@ -3,6 +3,10 @@
   - fixed
   * changed
 
+1.160.1 (2022/04)
+
++ add: command-line parameter -c=cuda_module_name,method_name (thanks @jczanfona)
+
 1.160.0 (2022/04)
 
 + add: mouse buttons Extra1/Extra2 are supported in the hotkey input dialog; note that you must press buttons while mouse pointer is over editor control; these mouse buttons work as equavalent to keyboard buttons BrowserBack/BrowserForward
