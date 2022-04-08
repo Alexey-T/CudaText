@@ -353,8 +353,8 @@ const
       '  -i              - Open contents of stdin in new tab (Unix only)'+EOL+
       '  -id=name - Set single-instance id, for groups of instances (Unix, default: cudatext.0)'+EOL+
       '  -w=left,top,width,height - Set position/size of app window'+EOL+
-      '  -p=cuda_somename#param1#param2... - Run plugin action via command-line'+EOL+
-      '  -c=cuda_module_name,method_name   - Run command plugin on startup'+EOL+
+      '  -c=cuda_module,method           - Run command plugin on startup'+EOL+
+      '  -p=cuda_module#param1#param2... - Run event "on_cli" on startup'+EOL+
       ''+EOL+
       'Filenames can be with ":line" or ":line:column" suffix to place caret.'+EOL+
       'Folder can be passed, will be opened in Project Manager plugin.'+EOL+
