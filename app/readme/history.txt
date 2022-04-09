@@ -3,6 +3,8 @@
   - fixed
   * changed
 
++ add: Command Palette 'fuzzy search' improved: first show items with plain matches, then show items with fuzzy-only matches (thanks @adoeller)
+
 1.160.2 (2022/04)
 
 + add: dialog Find/Replace now shows inside the floating-groups too, when activated from there
