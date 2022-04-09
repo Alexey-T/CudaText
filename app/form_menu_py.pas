@@ -50,6 +50,8 @@ type
     { private declarations }
     FMultiline: boolean;
     listFiltered: TFPList;
+    list_Simple: TFPList;
+    list_Fuzzy: TFPList;
     FColorBg: TColor;
     FColorBgSel: TColor;
     FColorFont: TColor;
@@ -58,7 +60,7 @@ type
     FColorFontHilite: TColor;
     procedure DoFilter;
     function GetResultCmd: integer;
-    function IsFiltered(AOrigIndex: integer): boolean;
+    function IsFiltered(AOrigIndex: integer; out ASimpleMatch: boolean): boolean;
     procedure SetListCaption(const AValue: string);
   public
     { public declarations }
@@ -158,6 +160,8 @@ begin
   ResultCode:= -1;
   listItems:= TStringlist.Create;
   listFiltered:= TFPList.Create;
+  list_Simple:= TFPList.Create;
+  list_Fuzzy:= TFPList.Create;
 end;
 
 procedure TfmMenuApi.editChange(Sender: TObject);
@@ -172,6 +176,8 @@ end;
 
 procedure TfmMenuApi.FormDestroy(Sender: TObject);
 begin
+  FreeAndNil(list_Fuzzy);
+  FreeAndNil(list_Simple);
   FreeAndNil(listFiltered);
   FreeAndNil(listItems);
 end;
@@ -385,12 +391,24 @@ end;
 
 procedure TfmMenuApi.DoFilter;
 var
+  bSimple: boolean;
   i: integer;
 begin
   listFiltered.Clear;
+  list_Simple.Clear;
+  list_Fuzzy.Clear;
+
   for i:= 0 to listItems.Count-1 do
-    if IsFiltered(i) then
-      listFiltered.Add(Pointer(PtrInt(i)));
+    if IsFiltered(i, bSimple) then
+    begin
+      if bSimple then
+        list_Simple.Add(Pointer(PtrInt(i)))
+      else
+        list_Fuzzy.Add(Pointer(PtrInt(i)));
+    end;
+
+  listFiltered.AddList(list_Simple);
+  listFiltered.AddList(list_Fuzzy);
 
   list.ItemIndex:= 0;
   list.ItemTop:= 0;
@@ -398,11 +416,12 @@ begin
   list.Invalidate;
 end;
 
-function TfmMenuApi.IsFiltered(AOrigIndex: integer): boolean;
+function TfmMenuApi.IsFiltered(AOrigIndex: integer; out ASimpleMatch: boolean): boolean;
 var
   SFind, SText: string;
-  bSimple: boolean;
 begin
+  ASimpleMatch:= true;
+
   SText:= listItems[AOrigIndex];
   if DisableFullFilter then
     SText:= SGetItem(SText, #9);
@@ -411,7 +430,7 @@ begin
   if SFind='' then exit(true);
 
   if UiOps.ListboxFuzzySearch and not DisableFuzzy then
-    Result:= STextListsFuzzyInput(SText, SFind, bSimple)
+    Result:= STextListsFuzzyInput(SText, SFind, ASimpleMatch)
   else
     Result:= STextListsAllWords(SText, SFind);
 end;
