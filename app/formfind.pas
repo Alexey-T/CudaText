@@ -1290,7 +1290,11 @@ const
 var
   N: integer;
 begin
-  N:= Max(cMinHeight, IfThen(IsReplace, MaxY(edRep), MaxY(edFind)) + cHeightIncrease);
+  if IsReplace then
+    N:= MaxY(edRep)
+  else
+    N:= MaxY(edFind);
+  N:= Max(cMinHeight, N+cHeightIncrease);
   Constraints.MinHeight:= N;
   Constraints.MaxHeight:= N;
   Height:= N;
