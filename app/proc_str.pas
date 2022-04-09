@@ -90,6 +90,18 @@ begin
   SText:= UnicodeLowerCase(SText);
   SFind:= UnicodeLowerCase(SFind);
 
+  //if simple match is found, don't calculate complex fuzzy matches
+  N:= Pos(SFind, SText);
+  if N>0 then
+  begin
+    SetLength(Result, Length(SFind));
+    Result[0]:= N;
+    for i:= 1 to High(Result) do
+      Result[i]:= Result[i-1]+1;
+    exit;
+  end;
+
+  //calculate complex matches
   N:= 0;
   for i:= 1 to Length(SFind) do
   begin
