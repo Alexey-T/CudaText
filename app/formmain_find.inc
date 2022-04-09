@@ -519,6 +519,7 @@ begin
   //MsgLogDebug('find dlg: show');
   fmFind.Show;
   //MsgLogDebug('find dlg: focus');
+  fmFind.UpdateFormHeight; //update 'Replace' buttons visibility, when dlg is in the floating-grp-form
 
   UpdateFindDialogEnabled(Frame);
   if fmFind.Enabled then
