@@ -250,7 +250,7 @@ class Command:
             '\t' + i['desc'] for i in items ]
 
         res = dlg_menu(
-            DMENU_LIST_ALT+DMENU_NO_FUZZY+DMENU_NO_FULLFILTER,
+            DMENU_LIST_ALT+DMENU_NO_FULLFILTER,
             names,
             caption=caption
             )
@@ -272,7 +272,7 @@ class Command:
                 '\t' + i['desc'] for i in items ]
 
             res = dlg_menu(
-                DMENU_LIST_ALT+DMENU_NO_FUZZY+DMENU_NO_FULLFILTER,
+                DMENU_LIST_ALT+DMENU_NO_FULLFILTER,
                 names,
                 caption=caption+_(' / Category "{}"').format(need_kind)
                 )
