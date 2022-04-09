@@ -103,12 +103,12 @@ begin
 
   //calculate complex matches
   N:= 0;
+  SetLength(Result, Length(SFind));
   for i:= 1 to Length(SFind) do
   begin
     N:= PosEx(SFind[i], SText, N+1);
     if N=0 then Exit(nil);
-    SetLength(Result, Length(Result)+1);
-    Result[High(Result)]:= N;
+    Result[i-1]:= N;
   end;
 end;
 
