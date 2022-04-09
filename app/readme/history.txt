@@ -3,7 +3,8 @@
   - fixed
   * changed
 
-+ add: Command Palette 'fuzzy search' improved: first show items with plain matches, then show items with fuzzy-only matches (thanks @adoeller)
++ add: Command Palette and API menus 'fuzzy search' improved: first show items with plain matches, then show items with fuzzy-only matches (thanks @adoeller)
++ add: Addon Manager: enabled 'fuzzy search' in menus
 
 1.160.2 (2022/04)
 
