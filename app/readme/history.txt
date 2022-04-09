@@ -3,8 +3,9 @@
   - fixed
   * changed
 
-1.160.1 (2022/04)
+1.160.2 (2022/04)
 
++ add: dialog Find/Replace now shows inside the floating-groups too, when activated from there
 + add: command-line parameter -c=cuda_module_name,method_name (thanks @jczanfona)
 + add: faster filling of the code-tree (on 3Mb XML file: 2 seconds instead of 14 seconds)
 - fix: regression in syntax highlight after "Comment stream block" (thanks @ildarkhasanshin)
