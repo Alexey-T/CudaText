@@ -50,8 +50,8 @@ type
     { private declarations }
     FMultiline: boolean;
     listFiltered: TFPList;
-    list_Simple: TFPList;
-    list_Fuzzy: TFPList;
+    listFiltered_Simple: TFPList;
+    listFiltered_Fuzzy: TFPList;
     FColorBg: TColor;
     FColorBgSel: TColor;
     FColorFont: TColor;
@@ -160,8 +160,8 @@ begin
   ResultCode:= -1;
   listItems:= TStringlist.Create;
   listFiltered:= TFPList.Create;
-  list_Simple:= TFPList.Create;
-  list_Fuzzy:= TFPList.Create;
+  listFiltered_Simple:= TFPList.Create;
+  listFiltered_Fuzzy:= TFPList.Create;
 end;
 
 procedure TfmMenuApi.editChange(Sender: TObject);
@@ -176,8 +176,8 @@ end;
 
 procedure TfmMenuApi.FormDestroy(Sender: TObject);
 begin
-  FreeAndNil(list_Fuzzy);
-  FreeAndNil(list_Simple);
+  FreeAndNil(listFiltered_Fuzzy);
+  FreeAndNil(listFiltered_Simple);
   FreeAndNil(listFiltered);
   FreeAndNil(listItems);
 end;
@@ -395,20 +395,20 @@ var
   i: integer;
 begin
   listFiltered.Clear;
-  list_Simple.Clear;
-  list_Fuzzy.Clear;
+  listFiltered_Simple.Clear;
+  listFiltered_Fuzzy.Clear;
 
   for i:= 0 to listItems.Count-1 do
     if IsFiltered(i, bSimple) then
     begin
       if bSimple then
-        list_Simple.Add(Pointer(PtrInt(i)))
+        listFiltered_Simple.Add(Pointer(PtrInt(i)))
       else
-        list_Fuzzy.Add(Pointer(PtrInt(i)));
+        listFiltered_Fuzzy.Add(Pointer(PtrInt(i)));
     end;
 
-  listFiltered.AddList(list_Simple);
-  listFiltered.AddList(list_Fuzzy);
+  listFiltered.AddList(listFiltered_Simple);
+  listFiltered.AddList(listFiltered_Fuzzy);
 
   list.ItemIndex:= 0;
   list.ItemTop:= 0;
