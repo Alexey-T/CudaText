@@ -516,6 +516,7 @@ begin
   //MsgLogDebug('find dlg: update state');
   fmFind.UpdateState(true);
   //MsgLogDebug('find dlg: show');
+  UpdateFindDialogParent;
   fmFind.Show;
   //MsgLogDebug('find dlg: focus');
 
@@ -589,12 +590,16 @@ begin
   if fmFind.Visible then
   begin
     if fmFind.IsReplace<>AReplaceMode then
-      fmFind.IsReplace:= AReplaceMode
+    begin
+      UpdateFindDialogParent;
+      fmFind.IsReplace:= AReplaceMode;
+    end
     else
       fmFind.Hide;
   end
   else
   begin
+    UpdateFindDialogParent;
     fmFind.IsReplace:= AReplaceMode;
     fmFind.Show;
   end;
@@ -1412,5 +1417,23 @@ end;
 procedure TfmMain.FinderFormChangeVisible(Sender: TObject);
 begin
   UpdateSidebarButtonFind;
+end;
+
+procedure TfmMain.UpdateFindDialogParent;
+var
+  F: TCustomForm;
+begin
+  if UiOps.FindSeparateForm then exit;
+  if fmFind=nil then exit;
+  if fmFind.Parent=nil then exit;
+
+  F:= Screen.ActiveForm;
+  if F=Self then
+    fmFind.Parent:= Self.PanelMain
+  else
+  if (F=FFormFloatGroups1) or
+    (F=FFormFloatGroups2) or
+    (F=FFormFloatGroups3) then
+    fmFind.Parent:= F;
 end;
 
