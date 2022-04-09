@@ -210,21 +210,16 @@ end;
 function STextListsFuzzyInput(const SText, SFind: string; out ASimpleMatch: boolean): boolean;
 var
   Ar: TATIntArray;
-  i: integer;
 begin
+  ASimpleMatch:= Pos(UpperCase(SFind), UpperCase(SText))>0;
+  if ASimpleMatch then
+    exit(true);
+
   Ar:= SFindFuzzyPositions(
     UTF8Decode(SText),
     UTF8Decode(SFind)
     );
   Result:= Length(Ar)>0;
-
-  ASimpleMatch:= true;
-  for i:= 1{>0} to High(Ar) do
-    if Ar[i]-Ar[i-1]<>1 then
-    begin
-      ASimpleMatch:= false;
-      Break
-    end;
 end;
 
 function SRegexReplaceSubstring(const AStr, AStrFind, AStrReplace: string; AUseSubstitute: boolean): string;
