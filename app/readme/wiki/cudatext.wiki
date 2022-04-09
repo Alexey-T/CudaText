@@ -1998,6 +1998,10 @@ Encoding detection works by this pseudo-code:
   // it returns detected encoding in "detect" param
     return(detect)
 
+  if file_detect_by_xml_signature(detect) then
+  // it returns detected encoding in "detect" param
+    return(detect)
+
   if file_detect_utf16_content(detect) then
   // it returns detected encoding in "detect" param
     return(detect)
@@ -2011,7 +2015,11 @@ If encoding was detected as UTF8, the file loader checks the content again (the 
 
 ANSI maps to one of real codepages, it depends on current Windows locale. On non-Windows OS, ANSI maps to cp1252.
 
-What is "detect by python standard"? It is detection [https://docs.python.org/3/reference/lexical_analysis.html#encoding-declarations by this standard]. Encoding name is searched by RegEx in the first 1-2 lines of file, if they are comment lines. Comments of these kinds are supported: // # ; --. For simplicity, comment chars are skipped, ignoring current lexer, so it works for all files and all lexers.
+What is "file_detect_by_python_standard"? It is detection [https://docs.python.org/3/reference/lexical_analysis.html#encoding-declarations by this standard]. Encoding name is searched by RegEx in the first 1-2 lines of file, if they are comment lines. Comments of these kinds are supported: // # ; --. For simplicity, comment chars are skipped, ignoring current lexer, so it works for all files and all lexers.
+
+What is "file_detect_by_xml_signature"? It is detection by signature, in the first file line, like this:
+
+ <?xml version="1.0" encoding="ISO-8859-9"?>
 
 ==Reduced functionality for big files==
 
