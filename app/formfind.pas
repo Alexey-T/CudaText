@@ -1305,15 +1305,16 @@ var
   Ar: array of TATButton;
   N, i: integer;
 begin
-  SetLength(Ar, 8);
-  Ar[0]:= chkRegex;
-  Ar[1]:= chkCase;
-  Ar[2]:= chkWords;
-  Ar[3]:= chkWrap;
-  Ar[4]:= chkInSel;
-  Ar[5]:= chkMulLine;
-  Ar[6]:= bTokens;
-  Ar[7]:= chkHiAll;
+  Ar:= [
+    chkRegex,
+    chkCase,
+    chkWords,
+    chkWrap,
+    chkInSel,
+    chkMulLine,
+    bTokens,
+    chkHiAll
+    ];
 
   N:= 10; //indents left/right
   for i:= 0 to High(Ar) do
