@@ -513,10 +513,10 @@ begin
   fmFind.UpdateInputFind(StrSuggested);
   fmFind.IsReplace:= AReplaceMode;
 
+  UpdateFindDialogParent;
   //MsgLogDebug('find dlg: update state');
   fmFind.UpdateState(true);
   //MsgLogDebug('find dlg: show');
-  UpdateFindDialogParent;
   fmFind.Show;
   //MsgLogDebug('find dlg: focus');
 
