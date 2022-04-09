@@ -31,6 +31,7 @@ def collapse_filename(fn):
         fn = fn.replace(_homedir, '~', 1)
     return fn
 
+CATEGORY = _('Category')
 PREINST = 'preinstalled'
 STD_MODULES = (
   'cuda_addonman',
@@ -244,7 +245,7 @@ class Command:
         installed_modules = [i['module'] for i in installed if i['kind']=='plugin']
         installed_lexers = [i['name'].replace(' ', '_') for i in installed if i['kind']=='lexer']
 
-        names = [_('<Category>')] + \
+        names = ['<'+CATEGORY+'>'] + \
             [ i['kind'] + ': ' + i['name'] + \
             self.get_item_label(i, installed_modules, installed_lexers) + \
             '\t' + i['desc'] for i in items ]
@@ -261,7 +262,7 @@ class Command:
             res = dlg_menu(
                 DMENU_LIST,
                 kinds,
-                caption=_('Category')
+                caption=CATEGORY
                 )
             if res is None: return
 
@@ -274,7 +275,7 @@ class Command:
             res = dlg_menu(
                 DMENU_LIST_ALT+DMENU_NO_FULLFILTER,
                 names,
-                caption=caption+_(' / Category "{}"').format(need_kind)
+                caption=caption+' / '+CATEGORY+' "'+need_kind+'"'
                 )
             if res is None: return
         else:
