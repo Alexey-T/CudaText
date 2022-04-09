@@ -53,6 +53,8 @@ type
   private
     { private declarations }
     keymapList: TFPList;
+    keymapList_Simple: TFPList;
+    keymapList_Fuzzy: TFPList;
     FOnMsg: TAppStringEvent;
     FColorBg: TColor;
     FColorBgSel: TColor;
@@ -66,7 +68,7 @@ type
     procedure DoResetKey(K: TATKeymapItem);
     function GetListCaption: string;
     function GetResultCmd: integer;
-    function IsFiltered(Item: TATKeymapItem): boolean;
+    function IsFiltered(Item: TATKeymapItem; out ASimpleMatch: boolean): boolean;
     procedure DoMsgStatus(const S: string);
     procedure Localize;
     procedure SetListCaption(const AValue: string);
@@ -201,6 +203,8 @@ begin
   ResultHotkeysChanged:= false;
 
   keymapList:= TFPList.Create;
+  keymapList_Simple:= TFPList.Create;
+  keymapList_Fuzzy:= TFPList.Create;
 
   PanelInfo:= TStaticText.Create(Self);
   PanelInfo.Hide;
@@ -234,6 +238,8 @@ end;
 
 procedure TfmCommands.FormDestroy(Sender: TObject);
 begin
+  FreeAndNil(keymapList_Fuzzy);
+  FreeAndNil(keymapList_Simple);
   FreeAndNil(keymapList);
 end;
 
@@ -521,17 +527,29 @@ end;
 procedure TfmCommands.DoFilter;
 var
   Item: TATKeymapItem;
+  bSimple: boolean;
   i: integer;
 begin
   keymapList.Clear;
+  keymapList_Simple.Clear;
+  keymapList_Fuzzy.Clear;
+
   for i:= 0 to keymap.Count-1 do
   begin
     Item:= keymap.Items[i];
     if IsIgnoredCommand(Item.Command) then
       Continue;
-    if IsFiltered(Item) then
-      keymapList.Add(Item);
+    if IsFiltered(Item, bSimple) then
+    begin
+      if bSimple then
+        keymapList_Simple.Add(Item)
+      else
+        keymapList_Fuzzy.Add(Item)
+    end;
   end;
+
+  keymapList.AddList(keymapList_Simple);
+  keymapList.AddList(keymapList_Fuzzy);
 
   list.ItemIndex:= 0;
   list.ItemTop:= 0;
@@ -539,7 +557,7 @@ begin
   list.Invalidate;
 end;
 
-function TfmCommands.IsFiltered(Item: TATKeymapItem): boolean;
+function TfmCommands.IsFiltered(Item: TATKeymapItem; out ASimpleMatch: boolean): boolean;
 var
   NCmd: integer;
   StrFind: string;
@@ -547,6 +565,7 @@ var
   bPrefixLexer, bPrefixPlugin, bPrefixFile, bPrefixRecent: boolean;
 begin
   Result:= false;
+  ASimpleMatch:= false;
 
   NCmd:= Item.Command;
   Category:= TPluginHelper.CommandCategory(NCmd);
@@ -585,7 +604,7 @@ begin
   else
   //normal search in name
   if UiOps.ListboxFuzzySearch then
-    Result:= STextListsFuzzyInput(Item.Name, StrFind)
+    Result:= STextListsFuzzyInput(Item.Name, StrFind, ASimpleMatch)
   else
     Result:= STextListsAllWords(Item.Name, StrFind);
 end;

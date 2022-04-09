@@ -26,7 +26,7 @@ function SFindFuzzyPositions(SText, SFind: UnicodeString): TATIntArray;
 procedure SDeleteDuplicateSpaces(var S: string);
 function SDeleteCurlyBrackets(const S: string): string;
 function STextListsAllWords(SText, SWords: string): boolean;
-function STextListsFuzzyInput(const SText, SFind: string): boolean;
+function STextListsFuzzyInput(const SText, SFind: string; out ASimpleMatch: boolean): boolean;
 function SRegexReplaceSubstring(const AStr, AStrFind, AStrReplace: string; AUseSubstitute: boolean): string;
 function SRegexMatchesString(const ASubject, ARegex: string; ACaseSensitive: boolean): boolean;
 
@@ -207,15 +207,24 @@ begin
   Result:= Pos(','+Ext+',', ','+AExtList+',' )>0;
 end;
 
-function STextListsFuzzyInput(const SText, SFind: string): boolean;
+function STextListsFuzzyInput(const SText, SFind: string; out ASimpleMatch: boolean): boolean;
 var
   Ar: TATIntArray;
+  i: integer;
 begin
   Ar:= SFindFuzzyPositions(
     UTF8Decode(SText),
     UTF8Decode(SFind)
     );
   Result:= Length(Ar)>0;
+
+  ASimpleMatch:= true;
+  for i:= 1{>0} to High(Ar) do
+    if Ar[i]-Ar[i-1]<>1 then
+    begin
+      ASimpleMatch:= false;
+      Break
+    end;
 end;
 
 function SRegexReplaceSubstring(const AStr, AStrFind, AStrReplace: string; AUseSubstitute: boolean): string;

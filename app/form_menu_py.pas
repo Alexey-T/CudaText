@@ -401,6 +401,7 @@ end;
 function TfmMenuApi.IsFiltered(AOrigIndex: integer): boolean;
 var
   SFind, SText: string;
+  bSimple: boolean;
 begin
   SText:= listItems[AOrigIndex];
   if DisableFullFilter then
@@ -410,7 +411,7 @@ begin
   if SFind='' then exit(true);
 
   if UiOps.ListboxFuzzySearch and not DisableFuzzy then
-    Result:= STextListsFuzzyInput(SText, SFind)
+    Result:= STextListsFuzzyInput(SText, SFind, bSimple)
   else
     Result:= STextListsAllWords(SText, SFind);
 end;
