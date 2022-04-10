@@ -5606,7 +5606,13 @@ begin
             else
               AppLexersLastDetected:= TStringList.Create;
 
-            Lexer_DetectByFilename(StrValue, Lexer, LexerLite, SName, @fmMain.DoPyLexerDetection);
+            Lexer_DetectByFilename(
+              StrValue,
+              Lexer,
+              LexerLite,
+              SName,
+              ok,
+              @fmMain.DoPyLexerDetection);
 
             if AppLexersLastDetected.Count>0 then
               Result:= StringsToPyTuple(AppLexersLastDetected)

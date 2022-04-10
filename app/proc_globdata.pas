@@ -1021,6 +1021,7 @@ procedure Lexer_DetectByFilename(const AFilename: string;
   out Lexer: TecSyntAnalyzer;
   out LexerLite: TATLiteLexer;
   out LexerName: string;
+  out ATooBigForLexer: boolean;
   AChooseFunc: TecLexerChooseFunc);
 function Lexer_DetectByFilenameOrContent(const AFilename: string;
   AChooseFunc: TecLexerChooseFunc): TecSyntAnalyzer;
@@ -2806,16 +2807,19 @@ procedure Lexer_DetectByFilename(const AFilename: string;
   out Lexer: TecSyntAnalyzer;
   out LexerLite: TATLiteLexer;
   out LexerName: string;
+  out ATooBigForLexer: boolean;
   AChooseFunc: TecLexerChooseFunc);
 begin
   LexerName:= '';
   Lexer:= nil;
   LexerLite:= nil;
+  ATooBigForLexer:= false;
   if AFilename='' then exit;
 
   if IsFileTooBigForLexer(AFilename) then
   begin
     LexerLite:= AppManagerLite.FindLexerByFilename(AFilename);
+    ATooBigForLexer:= true;
   end
   else
   begin

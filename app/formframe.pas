@@ -115,6 +115,7 @@ type
     Adapter1: TATAdapterEControl;
     Adapter2: TATAdapterEControl;
     PanelInfo: TPanel;
+    PanelNoHilite: TPanel;
     PanelReload: array[0..1] of TPanel;
     LabelReload: array[0..1] of TLabel;
     btnReloadYes: array[0..1] of TATButton;
@@ -254,9 +255,11 @@ type
     function GetUnprintedSpaces: boolean;
     procedure InitEditor(var ed: TATSynEdit; const AName: string);
     procedure InitPanelReload(Index: integer);
-    procedure InitPanelInfo(const AText: string; AOnClick: TNotifyEvent);
+    procedure InitPanelInfo(var APanel: TPanel; const AText: string;
+      AOnClick: TNotifyEvent; ARequirePython: boolean);
     procedure PaintMicromap(Ed: TATSynEdit; ACanvas: TCanvas; const ARect: TRect);
     procedure PanelInfoClick(Sender: TObject);
+    procedure PanelNoHiliteClick(Sender: TObject);
     procedure SetBracketHilite(AValue: boolean);
     procedure SetEnabledCodeTree(Ed: TATSynEdit; AValue: boolean);
     procedure SetEnabledFolding(AValue: boolean);
@@ -2013,6 +2016,9 @@ begin
 
   if Assigned(PanelInfo) then
     ApplyThemeToInfoPanel(PanelInfo);
+
+  if Assigned(PanelNoHilite) then
+    ApplyThemeToInfoPanel(PanelNoHilite);
 end;
 
 function TEditorFrame.IsEditorFocused: boolean;
@@ -2282,7 +2288,7 @@ begin
   if UiOps.InfoAboutOptionsEditor then
     if (CompareFilenames(AFileName, AppFile_OptionsUser)=0) or
       (CompareFilenames(AFileName, AppFile_OptionsDefault)=0) then
-      InitPanelInfo(msgSuggestOptionsEditor, @PanelInfoClick);
+      InitPanelInfo(PanelInfo, msgSuggestOptionsEditor, @PanelInfoClick, true);
 
   Lexer[Ed1]:= nil;
   if not EditorsLinked then
@@ -3795,27 +3801,29 @@ begin
     end;
 end;
 
-procedure TEditorFrame.InitPanelInfo(const AText: string; AOnClick: TNotifyEvent);
+procedure TEditorFrame.InitPanelInfo(var APanel: TPanel; const AText: string; AOnClick: TNotifyEvent; ARequirePython: boolean);
 begin
-  if not AppPython.Inited then exit;
+  if ARequirePython then
+    if not AppPython.Inited then exit;
 
-  if not Assigned(PanelInfo) then
+  if not Assigned(APanel) then
   begin
-    PanelInfo:= TPanel.Create(Self);
-    PanelInfo.Parent:= Self;
-    PanelInfo.Align:= alTop;
-    PanelInfo.Visible:= false;
-    PanelInfo.Height:= ATEditorScale(26);
-    PanelInfo.BevelOuter:= bvNone;
+    APanel:= TPanel.Create(Self);
+    APanel.Parent:= Self;
+    APanel.Align:= alTop;
+    APanel.Visible:= false;
+    APanel.Height:= ATEditorScale(26);
+    APanel.BevelOuter:= bvNone;
   end;
 
-  ApplyThemeToInfoPanel(PanelInfo);
+  ApplyThemeToInfoPanel(APanel);
 
-  PanelInfo.Caption:= AText;
-  PanelInfo.OnClick:= AOnClick;
+  APanel.Caption:= AText;
+  APanel.OnClick:= AOnClick;
 
-  PanelInfo.Show;
+  APanel.Show;
 end;
+
 
 procedure TEditorFrame.InitPanelReload(Index: integer);
 var
@@ -3965,14 +3973,30 @@ var
   TempLexer: TecSyntAnalyzer;
   TempLexerLite: TATLiteLexer;
   SName: string;
+  bTooBigForLexer: boolean;
 begin
   if AFileName='' then exit;
-  Lexer_DetectByFilename(AFileName, TempLexer, TempLexerLite, SName, FLexerChooseFunc);
+  Lexer_DetectByFilename(
+    AFileName,
+    TempLexer,
+    TempLexerLite,
+    SName,
+    bTooBigForLexer,
+    FLexerChooseFunc
+    );
   if Assigned(TempLexer) then
     Lexer[Ed]:= TempLexer
   else
   if Assigned(TempLexerLite) then
     LexerLite[Ed]:= TempLexerLite;
+
+  if bTooBigForLexer then
+    InitPanelInfo(
+      PanelNoHilite,
+      Format(msgStatusHighlightAutoDisabled, [UiOps.MaxFileSizeForLexer, FileSize(AFileName) div (1024*1024)]),
+      @PanelNoHiliteClick,
+      false
+      );
 end;
 
 procedure TEditorFrame.SetFocus;
@@ -4285,8 +4309,15 @@ end;
 
 procedure TEditorFrame.PanelInfoClick(Sender: TObject);
 begin
-  PanelInfo.Hide;
+  if Assigned(PanelInfo) then
+    PanelInfo.Hide;
   AppPython.RunCommand('cuda_prefs', 'dlg_cuda_options', []);
+end;
+
+procedure TEditorFrame.PanelNoHiliteClick(Sender: TObject);
+begin
+  if Assigned(PanelNoHilite) then
+    PanelNoHilite.Hide;
 end;
 
 procedure TEditorFrame.CancelAutocompleteAutoshow(Ed: TATSynEdit);
