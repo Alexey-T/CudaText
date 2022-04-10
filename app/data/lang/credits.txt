@@ -18,6 +18,8 @@ Oleh Lutsak
 https://github.com/OlehL
 Shovel
 https://github.com/halfbrained
+Ildar R. Khasanshin
+https://github.com/ildarkhasanshin
 
 #Optimizations of Python wrapper, plugins
 Artem Gavrilov
