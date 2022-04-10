@@ -5,6 +5,7 @@
 
 1.161.0 (2022/04)
 
++ add: show info-panel on the top, when option "ui_max_size_lexer" disables the highlighting
 + add: detect encoding in XML files by signature like <?xml encoding="ISO-8859-9"?> (thanks @ertank)
 + add: Command Palette and API menus 'fuzzy search' improved: first show items with plain matches, then show items with fuzzy-only matches; similar to Sublime Text (thanks @adoeller)
 + add: Addon Manager: enabled 'fuzzy search' in menus
