@@ -3997,7 +3997,7 @@ begin
     if Assigned(TempLexer) then
       InitPanelInfo(
         PanelNoHilite,
-        Format(msgStatusHighlightAutoDisabled, [
+        Format(msgStatusLexerDisabledBySize, [
             UiOps.MaxFileSizeForLexer,
             TempLexer.LexerName,
             FileSize(AFileName) div (1024*1024)
