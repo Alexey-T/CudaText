@@ -28,18 +28,17 @@ begin
   F.OnLexerChange:= @FrameLexerChange;
   F.OnAppClickLink:= @FrameConfirmLink;
   F.OnCallAutoCompletion:= @DoAutoComplete_Delayed;
+  F.LexerChooseFunc:= @DoDialogMenuLexerChoose;
+  F.OnGetSaveDialog:= @DoGetSaveDialog;
+  F.Splitter.OnPaint:= @SplitterOnPaintDummy;
 
   F.Groups:= Groups;
-  F.LexerChooseFunc:= @DoDialogMenuLexerChoose;
-  F.OnGetSaveDialog:=@DoGetSaveDialog;
   F.OnInitAdapter(F.Adapter[F.Ed1]);
 
   F.Ed1.PopupText:= PopupText;
   F.Ed2.PopupText:= PopupText;
 
   F.NotifEnabled:= false;
-
-  F.Splitter.OnPaint:=@SplitterOnPaintDummy;
 end;
 
 function TfmMain.CreateTab(APages: TATPages; const ACaption: string;
