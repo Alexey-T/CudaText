@@ -1027,7 +1027,7 @@ type
     procedure DoFindMarkAll(AMode: TATFindMarkingMode);
     procedure DoMoveTabToGroup(AGroupIndex: Integer; AFromCommandPalette: boolean=false);
     function DoFileOpen(AFileName, AFileName2: string; APages: TATPages=nil; const AOptions: string=''): TEditorFrame;
-    procedure DoFileOpenDialog(AOptions: string= '');
+    procedure DoFileOpenDialog(const AOptions: string='');
     procedure DoFileOpenDialog_NoPlugins;
     function DoFileSaveAll: boolean;
     procedure DoFileReopen(Ed: TATSynEdit);
@@ -4477,7 +4477,7 @@ begin
 end;
 
 
-procedure TfmMain.DoFileOpenDialog(AOptions: string='');
+procedure TfmMain.DoFileOpenDialog(const AOptions: string='');
 const
   //passive option used only for many files
   SOptionPassive = '/passive /nonear';
