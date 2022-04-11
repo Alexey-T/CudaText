@@ -3992,12 +3992,20 @@ begin
     LexerLite[Ed]:= TempLexerLite;
 
   if bTooBigForLexer and (TempLexer=nil) and (TempLexerLite=nil) then
-    InitPanelInfo(
-      PanelNoHilite,
-      Format(msgStatusHighlightAutoDisabled, [UiOps.MaxFileSizeForLexer, FileSize(AFileName) div (1024*1024)]),
-      @PanelNoHiliteClick,
-      false
-      );
+  begin
+    TempLexer:= AppManager.FindLexerByFilename(AFileName, nil);
+    if Assigned(TempLexer) then
+      InitPanelInfo(
+        PanelNoHilite,
+        Format(msgStatusHighlightAutoDisabled, [
+            UiOps.MaxFileSizeForLexer,
+            TempLexer.LexerName,
+            FileSize(AFileName) div (1024*1024)
+            ]),
+        @PanelNoHiliteClick,
+        false
+        );
+  end;
 end;
 
 procedure TEditorFrame.SetFocus;
