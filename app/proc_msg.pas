@@ -304,7 +304,7 @@ const
   msgStatusHotkeyBusy: string = 'Hotkey is busy: %s';
   msgStatusChangedLinesCount: string = 'Changed %d lines';
   msgStatusFontSizeChanged: string = 'Font size changed to %d%%';
-  msgStatusHighlightAutoDisabled: string = 'Option "ui_max_size_lexer":%d disables syntax highlighting in this file (%d Mb)';
+  msgStatusHighlightAutoDisabled: string = 'Option "ui_max_size_lexer":%d disables "normal" lexer in this file (%d Mb)';
 
   msgConfirmHotkeyBusy: string = 'Hotkey is already occupied by command:'#10'%s'#10#10'Overwrite it?';
   msgConfirmHotkeyList: string = 'hotkeys (%d): %s';
