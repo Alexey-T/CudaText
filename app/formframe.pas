@@ -3984,13 +3984,14 @@ begin
     bTooBigForLexer,
     FLexerChooseFunc
     );
+
   if Assigned(TempLexer) then
     Lexer[Ed]:= TempLexer
   else
   if Assigned(TempLexerLite) then
     LexerLite[Ed]:= TempLexerLite;
 
-  if bTooBigForLexer then
+  if bTooBigForLexer and (TempLexer=nil) and (TempLexerLite=nil) then
     InitPanelInfo(
       PanelNoHilite,
       Format(msgStatusHighlightAutoDisabled, [UiOps.MaxFileSizeForLexer, FileSize(AFileName) div (1024*1024)]),
