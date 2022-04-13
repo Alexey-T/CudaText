@@ -1866,11 +1866,9 @@ You can make Pull-Request there, if needed.
 
 ;packages: Packages with possible binary files, which will be unpacked to the CudaText installation folder. For the date 2021.08, these are only Python engines, for CudaText Windows build.
 
-=Tech topics=
+=Program performance=
 
-==Program performance==
-
-===Startup time===
+==Startup time==
 
 CudaText starts quite fast: about 0.3 sec with about 30 plugins (all preinstalled + some popular plugins), on Linux, on CPU x64 Intel Core i3 3GHz.
 
@@ -1878,7 +1876,7 @@ If no additional plugins are installed, or Python engine is disabled (ie not con
 If configuration/history are clean, it starts faster.
 If bottom panel is hidden on start, via option "ui_bottom_on_start":2, it starts faster.
 
-===Performance of loading huge files===
+==Performance of loading huge files==
 
 It's interesting how fast Linux editors open huge log files.
 Test file has about 300M size, 4M ASCII lines, it's created by Python script:
@@ -1900,7 +1898,7 @@ PC is HP Pavilion g6, CPU AMD A10 x64, 4 cores, RAM 8G, Ubuntu 18.04. Each time 
 * Emacs GUI 25.2.2: 2 sec., after showing confirmation for big file
 * Bluefish 2.2.10: 24 sec.
 
-===Performance on huge lines===
+==Performance on huge lines==
 
 It's interesting how some Linux editors handle huge lines. Tested several editors on Ubuntu 19.10 on Intel i3 CPU. With XML file with a single line of length 4M. XML file contains line like <id name="nnnnnnnnnnnnnnn"> with the huge "name" value of 4M.
 
@@ -1931,7 +1929,7 @@ f.write('">\n')
 
 *    Bluefish 2.2.10. On opening file, gives the warning about too long lines, on choosing "don't split lines" it hanged, waited for 30sec.
 
-===Performance of built-in sorting===
+==Performance of built-in sorting==
 
 Test on ~100M text file with short ASCII lines.
 Test on Ubuntu 19.10 on Intel i3 CPU.
@@ -1947,6 +1945,121 @@ Sublime Text 3.2:
 * sort time with ignoring case: 16sec
 * memory used after file loading: ~1.3G
 * peak memory used on sorting: ~3.3G
+
+=Color themes=
+==Color themes introduction==
+
+There are two kinds of themes:
+
+* UI themes, file extension .cuda-theme-ui
+* Syntax themes, file extension .cuda-theme-syntax
+
+Two dialogs allow to paint these kinds of themes. To paint a theme:
+
+* Call dialog: "Options / Settings - more / Settings - theme - nnnnn"
+* For UI themes: customize colors in dialog
+* For syntax themes: customize lexer-styles in dialog
+* For syntax themes: test theme at least on JavaScript/HTML/CSS/C/Pascal/Ini/Markdown lexers. On what files to test:
+** You can use sample codes in the Lexer Properties dialog.
+** You can use sample files from https://github.com/Alexey-T/lexer_tests/tree/master/test_CudaText_color_themes
+* New theme files are saved in the subfolder "data/themes"
+
+Don't configure custom lexer styles in the Lexer Properties dialog, if option "ui_lexer_themes" is on (usually it's on), because syntax-theme will override all your colors from that dialog. You can configure colors there, if option is off.
+
+==UI theme empty values==
+
+The following UI theme items allow "none" values, it means that JSON theme-file stores the empty value for them, and plugin API returns COLOR_NONE value for them.
+
+* EdBlockStapleActive: when "none", it falls back to EdBlockStaple
+* TabFontActive: when "none", it falls back to TabFont
+* TabCloseBg: when "none", tab 'x' background is not painted
+* StatusFont: when "none", it falls back to ButtonFont 
+* StatusBg: when "none", it falls back to TabBg
+
+Plus the following items, which colorize the main menu on Windows:
+
+* MenuFont: when "none", it falls back to TabFont
+* MenuFontHotkey: when "none", it falls back to MenuFont, then to TabFontMod
+* MenuFontDisabled: when "none", it falls back to TabBorderPassive
+* MenuBg: when "none", it falls back to TabBg
+* MenuSelBg: when "none", it falls back to TabOver
+
+==How to create theme package==
+
+* If your theme files need some sort of 'suffix' (e.g. "dark", "light", "alternative"), put these suffixes into round brackets, after space-char, in the filename. For example, name the file "brackets (dark).cuda-theme-ui" instead of "brackets-dark.cuda-theme-ui". This is required by Addons Manager plugin, which will need to find the add-on package for your theme.
+
+* Create such file "install.inf" in UTF-8 encoding (without BOM):
+
+<syntaxhighlight lang="ini">
+[info]
+title=MyName UI theme (by AuthorName)
+type=cudatext-data
+subdir=themes
+homepage=https://github.com/nnnn/pppp
+</syntaxhighlight>
+
+* Make zip file "theme.MyName.zip" with files "MyTheme.cuda-theme-nnnnn" and "install.inf".
+* Test zip file: open zip file in CudaText, confirm installation.
+* Publish file at forum or https://github.com/Alexey-T/CudaText/issues
+
+==How to see all UI theme items==
+
+* "editor, font" - color of font when no lexer is active. Click statusbar field with lexer-name, call "none".
+* "editor, disabled state, font/bg" - editor shown with this bg-color when Replace dialog runs action, with option "confirm on replace" (during confirm message editor is disabled), if no lexer active
+* "statusbar alt" - shown on 2nd statusbar, run in console: <syntaxhighlight lang="python">msg_status_alt('dd', 8)</syntaxhighlight>
+* "search progressbar" - to see it, call Replace dlg, with regex, with confirmation (2 options in Replace dlg), replace "." (any char) to "www"
+
+* "editor, marked range bg" - shows for marked-range, to set marked range from line 5 to 10 use console: <syntaxhighlight lang="python">ed.set_prop(PROP_MARKED_RANGE, '5,10')</syntaxhighlight>
+
+* "editor, markers" - to see markers, call Commands dlg (F1), command "drop marker at caret".
+* "editor, separator lines" - lines show eg for lexer Pascal, above "function"/"procedure".
+
+* "listbox, ..." - call Commands dlg (F1 key)
+* "listbox, ..., auto-complete..." - call C or Pascal lexer, then press Ctrl+Space to call auto-completion (listbox has 3 columns, 3rd shows not for all items)
+
+* "splitters, main" - shown near Sidebar (vertical) and above Bottom panel (horizontal)
+* "splitters, groups" - shown between groups (vert/horz), activate 2-3 groups using "View" menu
+
+==Meaning of syntax-theme elements==
+
+* Id: Normal id (identifier) or text.
+* Id1: Special id, used e.g. for class names (when it is mixed-case id) or const names (when it is upper-case id).
+* Id2: Special id, used e.g. for syntax constants (true, false, null...) and standard functions (sin, abs, max...).
+* Id3: Special id, used e.g. for measurement units (mm, Kb, px...) and preprocessor directives.
+* Id4: Special id, rarely used, e.g. Python uses it for function names after "def".
+* IdKeyword: Special id, used for syntax keywords.
+* IdVar: Variables, e.g. $name in PHP and Bash.
+* IdBad: Incorrect/misslepped id.
+* String: String literals.
+* String2: String literals, used e.g. for RegEx constants.
+* String3: String literals, one more kind, rarely used.
+* Symbol: Non-word symbols, ie brackets/punctuation/etc.
+* Symbol2: Non-word symbols, used when syntax needs another style for e.g. assignment/math operators.
+* SymbolBad: Incorrect non-word symbols.
+* Comment: Comments.
+* Comment2: Comments, used when syntax needs another style of comments, e.g. shebang in Bash.
+* CommentDoc: Documentation comments, ie comments which are parsed by special tools.
+* Number: Numbers (decimal, hex, octal, floating...).
+* Label: GoTo operator labels, or another special id.
+* Color: Color constants, like #RRGGBB in HTML/CSS.
+* IncludeBG#, SectionBG#: Styles which have background color set, and foreground color unset (none). Used to highlight function blocks, sub-lexer blocks, parts of a file, etc.
+* BracketBG: Style with background+foreground colors. Used to highlight paired brackets, begin/end keywords, repeat/until keywords (when "dynamic highlighting" option is on) etc.
+* CurBlockBG: Style with background color set, foreground color unset. Used to highlight block under caret, when "dynamic highlighting" option is on.
+* SeparLine: Frame color for Find/Replace dialog's "Highlight all" ("Hi") results.
+* TagBound: HTML tags: angled brackets.
+* TagId: HTML tags: tag names.
+* TagIdBad: HTML tags: incorrect tag names.
+* TagProp: HTML tags: properties/attributes of tags, before "=" char.
+* TagPropBad: HTML tags: incorrect props/attrs of tags.
+* TagInclude: Tags used for inclusion of sub-lexer blocks. Used e.g. in PHP, <? ?>.
+* LightBG#: Styles with bright background color, and normal foreground. Used e.g. in Diff to highlight deleted (LightBG1) / changed (LightBG2) / added (LightBG3) text blocks.
+* Pale#: Styles with pale (barely visible) foreground color. Rarely used.
+* TextBold: Style with bold font.
+* TextItalic: Style with italic font.
+* TextBoldItalic: Style with bold+italic font.
+* TextCross: Style with crossed/strikeout font.
+
+=Tech topics=
 
 ==Encoding detection==
 
@@ -2158,117 +2271,6 @@ subdir=langmenu
 
 Submit that zip file to CudaText GutHub page, or post it to the forum.
 
-==Color themes==
-There are two kinds of themes:
-
-* UI themes, file extension .cuda-theme-ui
-* Syntax themes, file extension .cuda-theme-syntax
-
-Two dialogs allow to paint these kinds of themes. To paint a theme:
-
-* Call dialog: "Options / Settings - more / Settings - theme - nnnnn"
-* For UI themes: customize colors in dialog
-* For syntax themes: customize lexer-styles in dialog
-* For syntax themes: test theme at least on JavaScript/HTML/CSS/C/Pascal/Ini/Markdown lexers. On what files to test:
-** You can use sample codes in the Lexer Properties dialog.
-** You can use sample files from https://github.com/Alexey-T/lexer_tests/tree/master/test_CudaText_color_themes
-* New theme files are saved in the subfolder "data/themes"
-
-Don't configure custom lexer styles in the Lexer Properties dialog, if option "ui_lexer_themes" is on (usually it's on), because syntax-theme will override all your colors from that dialog. You can configure colors there, if option is off.
-
-===UI theme empty values===
-
-The following UI theme items allow "none" values, it means that JSON theme-file stores the empty value for them, and plugin API returns COLOR_NONE value for them.
-
-* EdBlockStapleActive: when "none", it falls back to EdBlockStaple
-* TabFontActive: when "none", it falls back to TabFont
-* TabCloseBg: when "none", tab 'x' background is not painted
-* StatusFont: when "none", it falls back to ButtonFont 
-* StatusBg: when "none", it falls back to TabBg
-
-Plus the following items, which colorize the main menu on Windows:
-
-* MenuFont: when "none", it falls back to TabFont
-* MenuFontHotkey: when "none", it falls back to MenuFont, then to TabFontMod
-* MenuFontDisabled: when "none", it falls back to TabBorderPassive
-* MenuBg: when "none", it falls back to TabBg
-* MenuSelBg: when "none", it falls back to TabOver
-
-===How to create theme package===
-
-* If your theme files need some sort of 'suffix' (e.g. "dark", "light", "alternative"), put these suffixes into round brackets, after space-char, in the filename. For example, name the file "brackets (dark).cuda-theme-ui" instead of "brackets-dark.cuda-theme-ui". This is required by Addons Manager plugin, which will need to find the add-on package for your theme.
-
-* Create such file "install.inf" in UTF-8 encoding (without BOM):
-
-<syntaxhighlight lang="ini">
-[info]
-title=MyName UI theme (by AuthorName)
-type=cudatext-data
-subdir=themes
-homepage=https://github.com/nnnn/pppp
-</syntaxhighlight>
-
-* Make zip file "theme.MyName.zip" with files "MyTheme.cuda-theme-nnnnn" and "install.inf".
-* Test zip file: open zip file in CudaText, confirm installation.
-* Publish file at forum or https://github.com/Alexey-T/CudaText/issues
-
-===How to see all UI theme items===
-
-* "editor, font" - color of font when no lexer is active. Click statusbar field with lexer-name, call "none".
-* "editor, disabled state, font/bg" - editor shown with this bg-color when Replace dialog runs action, with option "confirm on replace" (during confirm message editor is disabled), if no lexer active
-* "statusbar alt" - shown on 2nd statusbar, run in console: <syntaxhighlight lang="python">msg_status_alt('dd', 8)</syntaxhighlight>
-* "search progressbar" - to see it, call Replace dlg, with regex, with confirmation (2 options in Replace dlg), replace "." (any char) to "www"
-
-* "editor, marked range bg" - shows for marked-range, to set marked range from line 5 to 10 use console: <syntaxhighlight lang="python">ed.set_prop(PROP_MARKED_RANGE, '5,10')</syntaxhighlight>
-
-* "editor, markers" - to see markers, call Commands dlg (F1), command "drop marker at caret".
-* "editor, separator lines" - lines show eg for lexer Pascal, above "function"/"procedure".
-
-* "listbox, ..." - call Commands dlg (F1 key)
-* "listbox, ..., auto-complete..." - call C or Pascal lexer, then press Ctrl+Space to call auto-completion (listbox has 3 columns, 3rd shows not for all items)
-
-* "splitters, main" - shown near Sidebar (vertical) and above Bottom panel (horizontal)
-* "splitters, groups" - shown between groups (vert/horz), activate 2-3 groups using "View" menu
-
-===Meaning of syntax-theme elements===
-
-* Id: Normal id (identifier) or text.
-* Id1: Special id, used e.g. for class names (when it is mixed-case id) or const names (when it is upper-case id).
-* Id2: Special id, used e.g. for syntax constants (true, false, null...) and standard functions (sin, abs, max...).
-* Id3: Special id, used e.g. for measurement units (mm, Kb, px...) and preprocessor directives.
-* Id4: Special id, rarely used, e.g. Python uses it for function names after "def".
-* IdKeyword: Special id, used for syntax keywords.
-* IdVar: Variables, e.g. $name in PHP and Bash.
-* IdBad: Incorrect/misslepped id.
-* String: String literals.
-* String2: String literals, used e.g. for RegEx constants.
-* String3: String literals, one more kind, rarely used.
-* Symbol: Non-word symbols, ie brackets/punctuation/etc.
-* Symbol2: Non-word symbols, used when syntax needs another style for e.g. assignment/math operators.
-* SymbolBad: Incorrect non-word symbols.
-* Comment: Comments.
-* Comment2: Comments, used when syntax needs another style of comments, e.g. shebang in Bash.
-* CommentDoc: Documentation comments, ie comments which are parsed by special tools.
-* Number: Numbers (decimal, hex, octal, floating...).
-* Label: GoTo operator labels, or another special id.
-* Color: Color constants, like #RRGGBB in HTML/CSS.
-* IncludeBG#, SectionBG#: Styles which have background color set, and foreground color unset (none). Used to highlight function blocks, sub-lexer blocks, parts of a file, etc.
-* BracketBG: Style with background+foreground colors. Used to highlight paired brackets, begin/end keywords, repeat/until keywords (when "dynamic highlighting" option is on) etc.
-* CurBlockBG: Style with background color set, foreground color unset. Used to highlight block under caret, when "dynamic highlighting" option is on.
-* SeparLine: Frame color for Find/Replace dialog's "Highlight all" ("Hi") results.
-* TagBound: HTML tags: angled brackets.
-* TagId: HTML tags: tag names.
-* TagIdBad: HTML tags: incorrect tag names.
-* TagProp: HTML tags: properties/attributes of tags, before "=" char.
-* TagPropBad: HTML tags: incorrect props/attrs of tags.
-* TagInclude: Tags used for inclusion of sub-lexer blocks. Used e.g. in PHP, <? ?>.
-* LightBG#: Styles with bright background color, and normal foreground. Used e.g. in Diff to highlight deleted (LightBG1) / changed (LightBG2) / added (LightBG3) text blocks.
-* Pale#: Styles with pale (barely visible) foreground color. Rarely used.
-* TextBold: Style with bold font.
-* TextItalic: Style with italic font.
-* TextBoldItalic: Style with bold+italic font.
-* TextCross: Style with crossed/strikeout font.
-
 ==How to copy word under caret to clipboard==
 
 A1: Install "Macros" plugin. In its dialog start recording a macro, and call these commands using "Command Palette":
@@ -2286,9 +2288,7 @@ A2: Plugin "CudaExt" has commands:
 
 It's good to use these commands with hotkeys Alt+Left and Alt+Right (assign it in the "Command Palette").
 
-==Unix specific topics==
-
-===In Qt5 version, text is shifting on selection===
+==Linux: In Qt5 version, text is shifting on selection==
 Q: When I select text that is inside a string literal (for example), the beginning of the selection gets a space before it, shifting the selected text to the right. As I select more the text continues to squish around.
 
 A: That's an issue specific to Qt5 version (and macOS, see below). It's fixable by the option "renderer_tweaks" (for Linux: "renderer_tweaks__linux"). Description of this option in the default config:
@@ -2310,12 +2310,12 @@ or
 
 On macOS, changing the option "renreder_tweaks__mac" is usually not needed - default value works good. But in Qt5 version, CudaText cannot detect Desktop Environment settings, so default value is wrong sometimes.
 
-===How to reinstall missed files===
+==Linux: How to reinstall missed files==
 
 Sometimes it's needed to reinstall missed files, e.g. when you have deleted some lexers from "Lexer library" dialog.
 Simple re-run of .deb installer works, but it will not reinstall deleted data-files. Why? App has copy of its data-files in ~/.config/cudatext (see the topic about location of data+settings dirs). Binary (not deb installer!) makes this copy - only when binary version is not equal to the version stored to settings/packages.ini, "app" section. After you delete that "app" section, and run the binary (not deb installer), binary will refresh files from /usr/share/... to ~/.config/cudatext/...
 
-===Difference between gtk2/qt5/etc versions===
+==Linux: Difference between gtk2/qt5 versions==
 
 Versions for gtk2/qt5/etc are compiled for different widget-sets, all functions are the same.
 
@@ -2324,7 +2324,7 @@ Versions for gtk2/qt5/etc are compiled for different widget-sets, all functions 
 
 So far, different widget-sets are supported for Linux only.
 
-===Linux keyboard input problems===
+==Linux: Keyboard input problems==
 
 1) Keyboard input is duplicated.
 
@@ -2349,7 +2349,7 @@ In short:
 ** GTK_IM_MODULE=ibus
 ** QT_IM_MODULE=ibus
 
-===Program takes 25 seconds to start===
+==Unix: Program takes 25 seconds to start==
 
 Q: CudaText takes exactly 25 seconds to start-up. (In fact a few ms more than that).
 I am sure the problem is at my end, but cannot place it. It is waiting for something and is timing out.
@@ -2359,7 +2359,7 @@ Setting the following environment variable solves the issue:
 
  IBUS_USE_PORTAL="1"
 
-===Program takes 60 seconds to start===
+==Unix: Program takes 60 seconds to start==
 
 Q: When I open any Lazarus/GTK2 application, I get a blank window that will timeout after 60 sec and the application will appear then. If I kill this blank window, the application lauches directly and the CRITICAL output resulting from my kill is always the same:
 
@@ -2371,13 +2371,13 @@ This issue appeared to me when I tried to use CudaText.
 
 A: Start the application with "-disableaccurateframe" parameter.
 
-===How to use middle-click paste on Linux===
+==Linux: How to use middle-click paste==
 
 * Set option "mouse_mid_click_paste" to true (in user.json).
 * Consider to install plugin "Auto-Copy to Clipboard", which emulates Linux editors behaviour: copying to clipboard by simple text selection (no need to use hotkey Ctrl+C).
 ** This plugin has options to copy selection to a) usual clipboard, b) GTK primary selection (CudaText GTK builds only)
 
-=== Linux installation ===
+==Linux: Installation==
 To support .deb package installation, program performs copying of its files, from .deb installation folder to the settings folder. Ie, when binary "cudatext" (it can be in any folder, e.g. in /usr/bin) starts, it checks, if "data/lexlib" exists near the binary, and if not, it copies folders "py", "data", "settings_default" from .deb installation folder to "~/.config/cudatext" (default location of settings, it can be changed by command line option). Program does this not always, it reads the "settings/packages.ini", and checks there [app] "ver" value. If value not equals to the binary's hardcoded version, program does that copying. So copying occurs once, after .deb package was upgraded.
 
 It's not needed in most cases, but on Linux you can "install" the program, so that "cudatext" will be runnable from Terminal. The "installation" is:
@@ -2389,14 +2389,14 @@ It's not needed in most cases, but on Linux you can "install" the program, so th
 
 When you run "cudatext" (from /usr/bin), settings folder "~/.config/cudatext/settings" will be created automatically.
 
-=== Arch Linux packages ===
+==Linux: Arch Linux packages==
 
 The GTK2 and Qt5 binaries can also be installed via the AUR if you are on an Arch Linux based system:
 
 * https://aur.archlinux.org/packages/cudatext-gtk2-bin/
 * https://aur.archlinux.org/packages/cudatext-qt5-bin/
 
-=== Linux Qt5 build ===
+==Linux: Qt5 build==
 For CudaText Qt5 version, library libQt5Pas is required, version 1.2.8 or newer.
 
 You need the latest libQt5Pas [https://github.com/davidbannon/libqt5pas/releases from these packages].
@@ -2409,13 +2409,13 @@ On Manjaro:
 
  $ pamac install qt5pas
 
-===App cannot run on FreeBSD===
+==FreeBSD: App cannot run==
 
 If you run app in Terminal, you'll see an error about missing .so file. Reason of this error: FreeBSD version was compiled on Linux with different .so files. To fix error, run command in Terminal:
 
  $ sudo ln -s /usr/local/lib/libiconv.so.2 /usr/local/lib/libiconv.so.3
 
-===App cannot run on macOS===
+==macOS: App cannot run==
 
 There is known issue, when macOS AArch64 version (ie ARM 64-bit version) cannot be run.
 The following command clears the extended attributes from the bundle, and it can be run:
