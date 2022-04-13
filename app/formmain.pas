@@ -3535,8 +3535,14 @@ begin
       F:= Frames[i];
       if not F.Modified then Continue;
       SCaption:= F.TabCaption;
-      if F.Filename<>'' then
-        SCaption+= '  ('+AppCollapseHomeDirInFilename(ExtractFileDir(F.Filename))+')';
+      if F.FileName<>'' then
+      begin
+        if F.EditorsLinked then
+          SCaption+= '  ('+AppCollapseHomeDirInFilename(ExtractFileDir(F.FileName))+')'
+        else
+          SCaption+= '  ('+AppCollapseHomeDirInFilename(ExtractFileDir(F.FileName))+' | '+
+                           AppCollapseHomeDirInFilename(ExtractFileDir(F.FileName2))+')'
+      end;
       Form.List.Items.AddObject(SCaption, F);
       Form.List.Checked[Form.List.Count-1]:= true;
     end;
