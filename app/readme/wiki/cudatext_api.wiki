@@ -931,7 +931,7 @@ Action DLG_CTL_PROP_SET, for "listview", allows both "items" (it sets columns) a
 
 ====dlg_custom - Properties "ex"====
 
-Properties "ex0"..."ex9" are control-specific. They have different simple type (str, bool, int...).
+Properties "ex0"..."ex9" are specific to each control kind. They have different simple types (str, bool, int...). Note: for dlg_custom, bool values must be specified as "0"/"1", not as strings "True"/"False".
 
 * "button":
 ** "ex0": bool: default for Enter key
