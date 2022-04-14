@@ -24,4 +24,5 @@ DTD bound=Symbol
 Spec char=Id4
 Comment doc=CommentDoc
 Text=Id
+Number=Number
 Sublexer BG=IncludeBG1

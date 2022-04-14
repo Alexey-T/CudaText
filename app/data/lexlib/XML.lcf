@@ -138,6 +138,14 @@ object SyntAnal24: TLibSyntAnalyzer
       Font.Style = []
     end
     item
+      DisplayName = 'Number'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clNavy
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+    end
+    item
       DisplayName = 'Sublexer BG'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -247,7 +255,7 @@ object SyntAnal24: TLibSyntAnalyzer
     item
       DisplayName = 'Tag id'
       StyleName = 'Tag id'
-      TokenType = 8
+      TokenType = 2
       Expression = '(?<=[<!]/?)[a-z_][\w\-]*'
       ColumnFrom = 0
       ColumnTo = 0
@@ -282,6 +290,14 @@ object SyntAnal24: TLibSyntAnalyzer
       StyleName = 'Spec char'
       TokenType = 6
       Expression = '&\w+;'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Number'
+      StyleName = 'Number'
+      TokenType = 5
+      Expression = '\b\d+\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -401,6 +417,7 @@ object SyntAnal24: TLibSyntAnalyzer
       DynHighlight = dhBound
       HighlightPos = cpRange
       DynSelectMin = True
+      CollapseFmt = '%s0...>'
       IgnoreAsParent = False
       AutoCloseMode = acmCloseOpened
       AutoCloseText = '</%s0>'
@@ -489,8 +506,9 @@ object SyntAnal24: TLibSyntAnalyzer
     ']]>'
     ''
     '<web-app>'
-    '    <display-name abc="123" def="true"></display-name>'
-    '    <description></description>'
+    '    <display-name abc="123" def="true">'
+    '    </display-name>'
+    '    <description>12</description>'
     '    <filter-mapping>'
     '    </filter-mapping>'
     '</web-app>')
@@ -503,7 +521,7 @@ object SyntAnal24: TLibSyntAnalyzer
     'Text'
     'HTML entity'
     'Tag param'
-    'Tag id'
+    '-'
     'Tag open'
     'Tag close'
     'CDATA'
