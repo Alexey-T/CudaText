@@ -253,7 +253,15 @@ object SyntAnal24: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Tag param'
+      DisplayName = 'Tag param with =".."'
+      StyleName = 'Tag param'
+      TokenType = 7
+      Expression = '[a-z_][\w\-]*(?==)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Tag param other'
       StyleName = 'Tag param'
       BlockName = 'Tag begin'
       TokenType = 2
@@ -494,7 +502,7 @@ object SyntAnal24: TLibSyntAnalyzer
     'String'
     'Text'
     'HTML entity'
-    '-'
+    'Tag param'
     'Tag id'
     'Tag open'
     'Tag close'
