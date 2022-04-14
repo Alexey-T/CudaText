@@ -1,4 +1,4 @@
-object SyntAnal23: TLibSyntAnalyzer
+object SyntAnal24: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Comment'
@@ -222,11 +222,10 @@ object SyntAnal23: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'String'
+      DisplayName = 'Tag value'
       StyleName = 'Tag val'
-      BlockName = 'Tag begin'
       TokenType = 4
-      Expression = '(?s)("|'#39').*?(\1|\Z)'
+      Expression = '(?<==)("|'#39').*?(\1|$)'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -246,7 +245,15 @@ object SyntAnal23: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Tag ident'
+      DisplayName = 'Tag id'
+      StyleName = 'Tag id'
+      TokenType = 8
+      Expression = '(?<=[<!]/?)[a-z_][\w\-]*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Tag param'
       StyleName = 'Tag param'
       BlockName = 'Tag begin'
       TokenType = 2
@@ -265,6 +272,7 @@ object SyntAnal23: TLibSyntAnalyzer
     item
       DisplayName = 'Html entity'
       StyleName = 'Spec char'
+      TokenType = 6
       Expression = '&\w+;'
       ColumnFrom = 0
       ColumnTo = 0
@@ -272,7 +280,8 @@ object SyntAnal23: TLibSyntAnalyzer
     item
       DisplayName = 'Text'
       StyleName = 'Text'
-      Expression = '[^<>&\n\r\[\]\(\)\{\},;/\*]+'
+      TokenType = 5
+      Expression = '[\w\-]+'
       ColumnFrom = 0
       ColumnTo = 0
     end>
@@ -368,20 +377,6 @@ object SyntAnal23: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
-      DisplayName = 'Tag keys'
-      StyleName = 'Tag id'
-      BlockType = btTagDetect
-      ConditionList = <
-        item
-          TokenTypes = 4
-        end
-        item
-          TokenTypes = 512
-        end>
-      HighlightPos = cpBound
-      IgnoreAsParent = False
-    end
-    item
       DisplayName = 'Tag block begin'
       StyleName = 'Current tag id'
       ConditionList = <
@@ -461,14 +456,14 @@ object SyntAnal23: TLibSyntAnalyzer
       StyleName = 'Sublexer BG'
       StartExpression = '<style\s+type="text/css"\s*>\s*<!\[CDATA\['
       EndExpression = '\]\]'
-      SyntAnalyzer = SyntAnal8
+      SyntAnalyzer = SyntAnal6
     end
     item
       DisplayName = 'JS script'
       StyleName = 'Sublexer BG'
       StartExpression = '<script\s+[^>]*?javascript[^>]*?>\s*<!\[CDATA\['
       EndExpression = '\]\]'
-      SyntAnalyzer = SyntAnal12
+      SyntAnalyzer = SyntAnal10
     end>
   SampleText.Strings = (
     '<?xml version="1.0" encoding="utf8" ?>'
@@ -494,15 +489,15 @@ object SyntAnal23: TLibSyntAnalyzer
   TokenTypeNames.Strings = (
     'Unknown'
     'Comment'
-    'Identifier'
+    'Id'
     'Symbol'
     'String'
-    'Integer const'
-    'Float const'
-    'Hex const'
-    'Char const'
-    'Tag Open'
-    'Tag Close'
+    'Text'
+    'HTML entity'
+    '-'
+    'Tag id'
+    'Tag open'
+    'Tag close'
     'CDATA'
     'Comment doc'
     'Attrib value'
@@ -516,7 +511,7 @@ object SyntAnal23: TLibSyntAnalyzer
   LexerName = 'XML'
   Notes.Strings = (
     'Based on original XML lexer from EControl'
-    'Changed by Alexey (CudaText)')
+    'Changed by Alexey Torgashin (CudaText)')
   Charset = DEFAULT_CHARSET
   Left = 140
   Top = 160
