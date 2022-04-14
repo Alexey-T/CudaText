@@ -66,18 +66,24 @@ class Command:
             return
 
         items = [_('Download lexer: ')+s for s in lexers]
-        items += [_('Cancel'), _('Cancel, don\'t suggest anymore for *.%s') % ext1]
+        items += [_('Cancel')]
+        add_ignore = bool(ext1)
+        if add_ignore:
+            items += [_('Cancel, don\'t suggest anymore for *.%s') % ext1]
 
         res = dlg_menu(DMENU_LIST, items, caption=_('Lexer(s) for "%s"') % name)
         if res is None:
             return
 
-        if res == len(items)-2:
-            return
-
-        if res == len(items)-1:
-            ini_write(config_file, config_section, ext1, '1')
-            return
+        if add_ignore:
+            if res == len(items)-2:
+                return
+            if res == len(items)-1:
+                ini_write(config_file, config_section, ext1, '1')
+                return
+        else:
+            if res == len(items)-1:
+                return
 
         lex = lexers[res]
         #print('Detected lexer:', lex)
