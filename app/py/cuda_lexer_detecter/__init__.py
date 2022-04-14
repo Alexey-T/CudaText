@@ -17,8 +17,7 @@ class Command:
         if not fn:
             return
 
-        name_orig = os.path.basename(fn)
-        name = name_orig.lower()
+        name = os.path.basename(fn)
         ext1 = ''
         ext2 = ''
 
@@ -32,20 +31,34 @@ class Command:
             if ini_read(config_file, config_section, ext1, '')=='1':
                 return
 
-        #print('name, ext1, ext2:', name, ext1, ext2)
+        #print('Lexer detecter: name, ext1, ext2:', name, ext1, ext2)
         lexers = []
 
-        lex = TYPES.get('/'+name_orig, '')
+        #print('Lexer detecter: search by name:', '/'+name)
+        lex = TYPES.get('/'+name, '')
         if lex:
             lexers += lex
 
+        if os.name=='nt':
+            ext1b = ext1.lower()
+            ext2b = ext2.lower()
+        else:
+            ext1b = ext1
+            ext2b = ext2
+
         if ext2:
+            #print('Lexer detecter: search by ext2:', ext2)
             lex = TYPES.get(ext2, '')
+            if not lex and ext2b != ext2:
+                lex = TYPES.get(ext2b, '')
             if lex:
                 lexers += lex
 
         if ext1:
+            #print('Lexer detecter: search by ext1:', ext1)
             lex = TYPES.get(ext1, '')
+            if not lex and ext1b != ext1:
+                lex = TYPES.get(ext1b, '')
             if lex:
                 lexers += lex
 
@@ -55,7 +68,7 @@ class Command:
         items = [_('Download lexer: ')+s for s in lexers]
         items += [_('Cancel'), _('Cancel, don\'t suggest anymore for *.%s') % ext1]
 
-        res = dlg_menu(DMENU_LIST, items, caption=_('Lexer(s) for "%s"') % name_orig)
+        res = dlg_menu(DMENU_LIST, items, caption=_('Lexer(s) for "%s"') % name)
         if res is None:
             return
 
