@@ -2515,22 +2515,20 @@ This can be done in CudaText like this:
 
 ==Why XML document is not fully highlighted by XML lexer==
 
-Sometimes, you can see the very poor syntax highlight of the HTML/XML documents.
-The example screenshot shows the normal highlighting in the "Lexer properties" dialog versus the poor highlighting in the main editor.
-
-[[File:cudatext-lexer-xml-no-highlight.png]]
+Sometimes, you can see the poor syntax highlighting in XML documents.
+It is poorer than the "normal" highlighting in the "Lexer properties" dialog.
 
 What is the reason? The reason is the blocking option
 
- "lexer_folding_max_lines":10000
+ "lexer_folding_max_lines": 10000
 
 You load the big XML document, with line count > 10k, and option blocks the "folding" in this document. It causes the lexer to miss folding ranges, and part of the syntax highlight depends on that (the angled brackets are still highlighted). You need to adjust that option to a bigger value.
 
-Also note that CudaText has the "lite" lexer "XML ^", which is activated for too big XML files. The blocking option
+Also note that CudaText has the "lite" lexer "XML ^", which is activated for too big XML files. The blocking option is:
 
- "ui_max_size_lexer":2
+ "ui_max_size_lexer": 2
 
-controls this. With the active "lite" lexer (when statusbar shows "XML ^"), syntax highlight is also not very rich, and you also don't see any folding.
+With the active "lite" lexer (when statusbar shows "XML ^"), syntax highlight is also not very rich, and there is no folding.
 
 =Troubleshooting the Windows shell extension for CudaText=
 
