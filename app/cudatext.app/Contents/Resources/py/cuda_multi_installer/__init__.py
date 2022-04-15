@@ -194,7 +194,7 @@ class Command:
 
         def step_to_lang_index(step):
             langs_temp = [item for i, item in enumerate(langs) if res_list[i]]
-            return langs.index(langs_temp[step])
+            return langs.index(langs_temp[step]) if langs_temp else -1
 
         def show_one_step(step):
             nonlocal step_count
@@ -204,6 +204,9 @@ class Command:
             UI = []
             UI_reg = [(), ()] # 2 items because we have 2 buttons Back/Next before checkboxes
             lang_index = step_to_lang_index(step)
+            if lang_index<0:
+                msg_status(_('Multi Installer: nothing selected'))
+                return
 
             for curr_class in CLASSES:
                     pls = PLUGINS[langs[lang_index]].setdefault(curr_class)
