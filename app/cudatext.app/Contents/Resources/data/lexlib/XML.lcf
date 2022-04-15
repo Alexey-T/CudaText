@@ -200,7 +200,7 @@ object SyntAnal24: TLibSyntAnalyzer
       DisplayName = '<'
       StyleName = 'Tag bound'
       TokenType = 9
-      Expression = '<[/!\-\:\?]*'
+      Expression = '<[\-\:\?/]*'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -233,7 +233,7 @@ object SyntAnal24: TLibSyntAnalyzer
       DisplayName = 'Tag value'
       StyleName = 'Tag val'
       TokenType = 4
-      Expression = '(?<==)("|'#39').*?(\1|$)'
+      Expression = '("|'#39').*?(\1|$)'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -256,7 +256,7 @@ object SyntAnal24: TLibSyntAnalyzer
       DisplayName = 'Tag id'
       StyleName = 'Tag id'
       TokenType = 2
-      Expression = '(?<=[<!]/?)[a-z_][\w\-]*'
+      Expression = '(?<=</?)[!a-z_][\w\-]*'
       ColumnFrom = 0
       ColumnTo = 0
     end
