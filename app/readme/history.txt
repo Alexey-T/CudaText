@@ -7,6 +7,7 @@
 
 + add: lexer XML: more highlighting when folding is auto-disabled by "lexer_folding_max_lines" (thanks @ertank)
 + add: lexer XML: highlight numbers too
+* change: renamed menu item "Addons Manager / Install from GutHub" to "Install from Git"
 - fix: detection of XML codepage must handle IANA codepage names like "windows-1252" (thanks @dinkumoil)
 
 1.161.0 (2022/04)
