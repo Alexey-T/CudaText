@@ -256,7 +256,7 @@ object SyntAnal24: TLibSyntAnalyzer
       DisplayName = 'Tag id'
       StyleName = 'Tag id'
       TokenType = 2
-      Expression = '(?<=</?)[!a-z_][\w\-]*'
+      Expression = '(?<=</?)[!a-z_][\w\-:]*'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -509,8 +509,8 @@ object SyntAnal24: TLibSyntAnalyzer
     '    <display-name abc="123" def="true">'
     '    </display-name>'
     '    <description>12</description>'
-    '    <filter-mapping>'
-    '    </filter-mapping>'
+    '    <filter:mapping>'
+    '    </filter:mapping>'
     '</web-app>')
   TokenTypeNames.Strings = (
     'Unknown'
