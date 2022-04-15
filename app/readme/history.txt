@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.161.1 (2022/04)
+1.161.2 (2022/04)
 
 + add: lexer XML: more highlighting when folding is auto-disabled by "lexer_folding_max_lines" (thanks @ertank)
 + add: lexer XML: highlight numbers too
