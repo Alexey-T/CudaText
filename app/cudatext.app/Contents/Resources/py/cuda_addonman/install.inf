@@ -47,7 +47,7 @@ menu=0
 
 [item28]
 section=commands
-caption=Addons Manager\Install from GitHub...
+caption=Addons Manager\Install from Git...
 method=install_from_github
 
 

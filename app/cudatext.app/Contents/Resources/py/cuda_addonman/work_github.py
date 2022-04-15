@@ -27,7 +27,7 @@ def get_branch(url):
     with open(fn, 'r') as f:
         data = json.load(f)
         if not isinstance(data, list):
-            msg_box(_('Got empty GitHub list of branches for that repo'), MB_OK+MB_ICONERROR)
+            msg_box(_('Got empty list of Git branches for that repo'), MB_OK+MB_ICONERROR)
             return
             
         items = [i.get('name') for i in data]
@@ -47,8 +47,8 @@ def dialog_github_install(history):
     id_edit = 1
     id_ok = 2
     id_cancel = 3
-    res = dlg_custom(_('Install from GitHub'), 456, 90, '\n'.join([]
-      + [c1.join(['type=label', 'cap='+_('&GitHub repo URL'), 'pos=6,6,400,0'])]
+    res = dlg_custom(_('Install from Git'), 456, 90, '\n'.join([]
+      + [c1.join(['type=label', 'cap='+_('&Git repository URL:'), 'pos=6,6,400,0'])]
       + [c1.join(['type=combo', 'items='+'\t'.join(history), 'pos=6,26,450,0', 'cap='+history[0]])]
       + [c1.join(['type=button', 'cap='+_('OK'), 'pos=246,60,346,0', 'ex0=1'])]
       + [c1.join(['type=button', 'cap='+_('Cancel'), 'pos=350,60,450,0'])]
