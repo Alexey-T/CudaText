@@ -134,6 +134,7 @@ type
     FActivationTime: Int64;
     FCodetreeFilter: string;
     FCodetreeFilterHistory: TStringList;
+    FCodetreeSortType: TSortType;
     FEnabledCodeTree: array[0..1] of boolean;
     FNotifEnabled: boolean;
     FOnCallAutoCompletion: TEditorBooleanEvent;
@@ -377,6 +378,7 @@ type
     property EnabledCodeTree[Ed: TATSynEdit]: boolean read GetEnabledCodeTree write SetEnabledCodeTree;
     property CodetreeFilter: string read FCodetreeFilter write FCodetreeFilter;
     property CodetreeFilterHistory: TStringList read FCodetreeFilterHistory;
+    property CodetreeSortType: TSortType read FCodetreeSortType write FCodetreeSortType;
     property ActivationTime: Int64 read FActivationTime write FActivationTime;
     function IsEmpty: boolean;
     procedure ApplyTheme;
@@ -1834,6 +1836,7 @@ begin
   FSaveHistory:= true;
   FEditorsLinked:= true;
   FCodetreeFilterHistory:= TStringList.Create;
+  FCodetreeSortType:= stNone;
   FCachedTreeview[0]:= nil;
   FCachedTreeview[1]:= nil;
 

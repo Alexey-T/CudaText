@@ -6532,11 +6532,17 @@ begin
 end;
 
 procedure TfmMain.mnuTreeSortedClick(Sender: TObject);
+var
+  Frame: TEditorFrame;
 begin
   if CodeTree.Tree.SortType=stNone then
     CodeTree.Tree.SortType:= stText
   else
     CodeTree.Tree.SortType:= stNone;
+
+  Frame:= TGroupsHelper.GetEditorFrame(AppCodetreeState.Editor);
+  if Assigned(Frame) then
+    Frame.CodetreeSortType:= CodeTree.Tree.SortType;
 end;
 
 procedure TfmMain.mnuTreeUnfoldAllClick(Sender: TObject);

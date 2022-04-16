@@ -1038,6 +1038,8 @@ begin
 
   Frame:= CurrentFrame;
   if Frame=nil then exit;
+  CodeTree.Tree.SortType:= Frame.CodetreeSortType;
+
   Ed:= Frame.Editor;
   bLiteLexer:= Ed.AdapterForHilite is TATLiteLexer;
 
@@ -1097,7 +1099,7 @@ begin
     if FCodetreeBuffer.Items.Count>0 then
       DoTreeviewCopy(FCodetreeBuffer, Frame.CachedTreeview[Ed]);
 
-    //Lazarus don't sort new items
+    //Lazarus doesn't sort new items
     if CodeTree.Tree.SortType<>stNone then
       FCodetreeBuffer.AlphaSort;
 
