@@ -20,6 +20,7 @@ IS_WIN = os.name == 'nt'
 PROJECT_EXTENSION = ".cuda-proj"
 PROJECT_DIALOG_FILTER = _("CudaText projects") + "|*" + PROJECT_EXTENSION
 PROJECT_UNSAVED_NAME = _("(Unsaved project)")
+PROJECT_TEMP_FILENAME = os.path.join(app_path(APP_DIR_SETTINGS), 'temporary.cuda-proj')
 NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD = range(4)
 global_project_info = {}
 
@@ -972,8 +973,12 @@ class Command:
 
         self.init_panel()
         self.action_new_project()
+        self.action_save_project_as(PROJECT_TEMP_FILENAME)
+        self.add_recent(PROJECT_TEMP_FILENAME)
+        self.save_options()
         self.add_node(fn)
         self.do_unfold_first()
+
         app_proc(PROC_SIDEPANEL_ACTIVATE, self.title)
 
     def open_dir(self, dirname, new_proj=False):
@@ -992,6 +997,9 @@ class Command:
         self.init_panel()
         if new_proj:
             self.action_new_project()
+            self.action_save_project_as(PROJECT_TEMP_FILENAME)
+            self.add_recent(PROJECT_TEMP_FILENAME)
+            self.save_options()
         self.add_node(dirname)
         if new_proj:
             self.do_unfold_first()
