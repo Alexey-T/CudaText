@@ -14,6 +14,7 @@
 + add: Project Manager: auto-save any untitled project to "settings/temporary.cuda-proj" (e.g. after "Open folder" in CudaText)
 * change: option "mouse_middle_click":2 must place caret to clicked position, like VSCode/Kate (thanks opennet.ru)
 * change: renamed menu item "Addons Manager / Install from GutHub" to "Install from Git"
+- fix: regression in 1.160.2: flickering on editing at ending, if file was edited at the beginning
 
 1.161.0 (2022/04)
 
