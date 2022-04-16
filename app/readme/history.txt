@@ -11,6 +11,7 @@
 + add: lexer XML: more highlighting when folding is auto-disabled by "lexer_folding_max_lines" (thanks @ertank)
 + add: lexer XML: highlight numbers too
 * change: renamed menu item "Addons Manager / Install from GutHub" to "Install from Git"
+- fix: option "mouse_middle_click":2 - must place caret on clicked position
 
 1.161.0 (2022/04)
 
