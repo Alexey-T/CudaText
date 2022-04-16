@@ -236,7 +236,7 @@ begin
     begin
       Application.ProcessMessages; //fix issue #3928
 
-      DoFolderOpen(SParam, False, cInvokeAppInternal);
+      DoFolderOpen(SParam, true{from command line: make new proj}, cInvokeAppInternal);
     end
     else
     if FileExists(SParam) then
