@@ -6,11 +6,11 @@
 1.161.2 (2022/04)
 
 + add: viewer mode allows to activate UTF-8 encoding, and also ISO-8859-9 encoding
++ add: detection of XML codepage must handle IANA codepage names like "windows-1252" (thanks @dinkumoil)
++ add: 'Paste and indent' must overwrite the selection (thanks @veksha)
 + add: lexer XML: more highlighting when folding is auto-disabled by "lexer_folding_max_lines" (thanks @ertank)
 + add: lexer XML: highlight numbers too
 * change: renamed menu item "Addons Manager / Install from GutHub" to "Install from Git"
-- fix: detection of XML codepage must handle IANA codepage names like "windows-1252" (thanks @dinkumoil)
-- fix: 'Paste and indent' must overwrite the selection (thanks @veksha)
 
 1.161.0 (2022/04)
 
