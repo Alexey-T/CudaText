@@ -5,6 +5,7 @@
 
 1.161.2 (2022/04)
 
++ add: viewer mode allows to activate UTF-8 encoding, and also ISO-8859-9 encoding
 + add: lexer XML: more highlighting when folding is auto-disabled by "lexer_folding_max_lines" (thanks @ertank)
 + add: lexer XML: highlight numbers too
 * change: renamed menu item "Addons Manager / Install from GutHub" to "Install from Git"
