@@ -11,6 +11,7 @@
 + add: code-tree saves its 'Sorted' flag per each file (thanks @randomize from opennet.ru)
 + add: lexer XML: more highlighting when folding is auto-disabled by "lexer_folding_max_lines" (thanks @ertank)
 + add: lexer XML: highlight numbers too
++ add: Project Manager: auto-save any untitled project to "settings/temporary.cuda-proj" (e.g. after "Open folder" in CudaText)
 * change: option "mouse_middle_click":2 must place caret to clicked position, like VSCode/Kate (thanks opennet.ru)
 * change: renamed menu item "Addons Manager / Install from GutHub" to "Install from Git"
 
