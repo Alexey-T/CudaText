@@ -133,12 +133,14 @@ var
   NLine, NColumn, i: integer;
   bReadOnly: boolean;
   bAllowCreate: boolean;
+  bFirstFolder: boolean;
   sEncoding, sCli: string;
   SepCli: TATStringSeparator;
   List: TStringList;
 begin
   bReadOnly:= false;
   bAllowCreate:= true;
+  bFirstFolder:= true;
   sEncoding:= '';
 
   for i:= 0 to Length(AParams)-1 do
@@ -236,7 +238,8 @@ begin
     begin
       Application.ProcessMessages; //fix issue #3928
 
-      DoFolderOpen(SParam, true{from command line: make new proj}, cInvokeAppInternal);
+      DoFolderOpen(SParam, bFirstFolder, cInvokeAppInternal);
+      bFirstFolder:= false;
     end
     else
     if FileExists(SParam) then
