@@ -5,13 +5,13 @@
 
 1.161.2 (2022/04)
 
-+ add: viewer mode allows to activate UTF-8 encoding, and also ISO-8859-9 encoding
-+ add: detection of XML codepage must handle IANA codepage names like "windows-1252" (thanks @dinkumoil)
++ add: detection of XML codepage must handle standard codepage names like "windows-1252" (thanks @dinkumoil)
 + add: 'Paste and indent' must overwrite the selection (thanks @veksha)
++ add: viewer allows to activate UTF-8 encoding, and also ISO-8859-9 encoding (thanks opennet.ru)
 + add: lexer XML: more highlighting when folding is auto-disabled by "lexer_folding_max_lines" (thanks @ertank)
 + add: lexer XML: highlight numbers too
+* change: option "mouse_middle_click":2 must place caret to clicked position, like VSCode/Kate (thanks opennet.ru)
 * change: renamed menu item "Addons Manager / Install from GutHub" to "Install from Git"
-- fix: option "mouse_middle_click":2 - must place caret on clicked position
 
 1.161.0 (2022/04)
 
