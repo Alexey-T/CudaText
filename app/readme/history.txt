@@ -9,6 +9,7 @@
 + add: lexer XML: highlight numbers too
 * change: renamed menu item "Addons Manager / Install from GutHub" to "Install from Git"
 - fix: detection of XML codepage must handle IANA codepage names like "windows-1252" (thanks @dinkumoil)
+- fix: 'Paste and indent' must overwrite the selection (thanks @veksha)
 
 1.161.0 (2022/04)
 
