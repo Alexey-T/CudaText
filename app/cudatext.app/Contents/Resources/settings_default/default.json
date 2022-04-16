@@ -1012,9 +1012,9 @@
 
   //Middle-click action.
   //  0: None
-  //  1: Scrolling: shows circle picture, then mouse-move near that circle does auto-scrolling
-  //  2: Paste (without caret placement)
-  //  3: Goto-definition command
+  //  1: Scrolling: show the "circle" picture, then mouse moving near that picture runs auto-scrolling
+  //  2: Paste, at clicked position
+  //  3: Run "Go to definition" command
   "mouse_middle_click": 1,
 
   //Enable selection of vertical blocks (Alt+drag).
