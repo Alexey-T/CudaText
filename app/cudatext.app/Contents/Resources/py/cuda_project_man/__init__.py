@@ -1024,11 +1024,14 @@ class Command:
                     'vis': self.options.get('toolbar', True)
                     })
 
+            self.save_events()
+
+    def save_events(self):
             ev = []
             if self.options['on_start']:
-                ev += ['on_start']
+                ev.append('on_start')
             if self.options['check_git']:
-                ev += ['on_open']
+                ev.append('on_open')
             if ev:
                 ini_write('plugins.ini', 'events', 'cuda_project_man', ','.join(ev))
             else:
