@@ -3297,7 +3297,7 @@ procedure TfmMain.FormShow(Sender: TObject);
     NTick:= GetTickCount64;
     MsgLogConsole(Format(
       'Startup: %dms, plugins: %s', [
-      (NTick-NTickInitial) div 10 * 10,
+      (NTick-AppTickInitial) div 10 * 10,
       AppPython.GetTimingReport
       ]));
 

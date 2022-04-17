@@ -5,7 +5,7 @@ unit proc_inittick;
 interface
 
 var
-  NTickInitial: QWord = 0;
+  AppTickInitial: QWord = 0;
 
 implementation
 
@@ -13,7 +13,7 @@ uses
   SysUtils;
 
 initialization
-  NTickInitial:= GetTickCount64;
+  AppTickInitial:= GetTickCount64;
 
 end.
 
