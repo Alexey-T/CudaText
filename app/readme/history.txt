@@ -5,7 +5,7 @@
 
 1.162.0 (2022/04)
 
-+ add: Project Manager: the work is done to support auto-saving of the last project (even untitled), and auto-loading of last active project on app start. So if user e.g. drag-drops a folder on CudaText, this makes the new project "temporary", and after app restart, "temporary" project will be restored. (thanks opennet.ru)
++ add: Project Manager: the work is done to support auto-saving of the last project (even untitled), and auto-loading of last active project on app start. So if user e.g. drag-drops a folder on CudaText, this makes the new project "temporary", and after app restart, "temporary" project will be restored. Also app option "ui_auto_save_session" defaults to 'true' now, to be like Sublime Text / VSCode. (thanks opennet.ru)
 + add: detection of XML codepage must handle standard codepage names like "windows-1252" (thanks @dinkumoil)
 + add: 'Paste and indent' must overwrite the selection (thanks @veksha)
 + add: viewer allows to activate UTF-8 encoding, and also ISO-8859-9 encoding (thanks opennet.ru)
