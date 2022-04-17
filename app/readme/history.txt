@@ -5,6 +5,7 @@
 
 1.162.0 (2022/04)
 
++ add: Project Manager: the work is done to support auto-saving of the last project (even untitled), and auto-loading of last active project on app start. So if user e.g. drag-drops a folder on CudaText, this makes the new project "temporary", and after app restart, "temporary" project will be restored. (thanks opennet.ru)
 + add: detection of XML codepage must handle standard codepage names like "windows-1252" (thanks @dinkumoil)
 + add: 'Paste and indent' must overwrite the selection (thanks @veksha)
 + add: viewer allows to activate UTF-8 encoding, and also ISO-8859-9 encoding (thanks opennet.ru)
@@ -12,7 +13,6 @@
 + add: commands "fold/unfold/toggle block at current line" support multi-carets
 + add: lexer XML: more highlighting when folding is auto-disabled by "lexer_folding_max_lines" (thanks @ertank)
 + add: lexer XML: highlight numbers too
-+ add: Project Manager: auto-save any untitled project to "settings/temporary.cuda-proj" (e.g. after "Open folder" in CudaText)
 * change: paste with middle-click (option "mouse_middle_click":2): place caret to clicked position, like VSCode/Kate (thanks opennet.ru)
 * change: rename menu item "Addons Manager / Install from GitHub" to "Install from Git"
 * change: for folded blocks, horizontal line has different style, dash/dash
