@@ -9,6 +9,7 @@
 + add: 'Paste and indent' must overwrite the selection (thanks @veksha)
 + add: viewer allows to activate UTF-8 encoding, and also ISO-8859-9 encoding (thanks opennet.ru)
 + add: code-tree remembers 'Sorted' state per each file-tab (thanks @randomize from opennet.ru)
++ add: commands "fold/unfold/toggle block at current line" support multi-carets
 + add: lexer XML: more highlighting when folding is auto-disabled by "lexer_folding_max_lines" (thanks @ertank)
 + add: lexer XML: highlight numbers too
 + add: Project Manager: auto-save any untitled project to "settings/temporary.cuda-proj" (e.g. after "Open folder" in CudaText)
