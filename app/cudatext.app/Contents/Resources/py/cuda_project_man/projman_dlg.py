@@ -69,7 +69,7 @@ def dialog_config(op):
         +[c1.join(['type=memo', 'pos=6,104,500,180',
             'val='+'\t'.join(op.get('recent_projects', [])) ])]
         +[c1.join(['type=check', 'pos=6,186,400,0', 'cap='+_('&Load on app start, reopen last project (*)'),
-            'val='+bool_to_str(op.get('on_start', False)) ])]
+            'val=0', 'en=0' ])]
         +[c1.join(['type=check', 'pos=6,210,400,0', 'cap='+_('&Show toolbar'),
             'val='+bool_to_str(op.get('toolbar', True)) ])]
         +[c1.join(['type=check', 'pos=6,236,400,0', 'cap='+_('Open file after "&Go to file" command'),
@@ -115,7 +115,7 @@ def dialog_config(op):
     s = res[RES_RECENTS].split('\t')
     op['recent_projects'] = s
 
-    op['on_start'] = str_to_bool(res[RES_ON_START])
+    #op['on_start'] = str_to_bool(res[RES_ON_START])
     op['toolbar'] = str_to_bool(res[RES_TOOLBAR])
     op['goto_open'] = str_to_bool(res[RES_GOTO_OPEN])
     op['preview'] = str_to_bool(res[RES_PREVIEW])
