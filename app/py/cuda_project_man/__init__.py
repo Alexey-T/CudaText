@@ -752,6 +752,7 @@ class Command:
                     self.add_recent(path)
                     self.action_refresh()
                     self.options['on_start'] = True
+                    self.save_events()
                     self.save_options()
 
                 self.update_global_data()
