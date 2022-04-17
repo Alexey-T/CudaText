@@ -217,7 +217,7 @@ class Command:
             with self.options_filename.open(encoding='utf8') as fin:
                 self.options = json.load(fin)
 
-        self.new_project(False) # don't forget session in on_start
+        self.new_project(False, False) # don't forget session in on_start
 
 
     def init_form_main(self):
@@ -414,7 +414,7 @@ class Command:
             if self.project_file_path:
                 self.action_save_project_as(self.project_file_path)
 
-    def new_project(self, forget_session=True):
+    def new_project(self, forget_session=True, apply_on_start=True):
         if forget_session:
             self.session_forget()
 
@@ -427,6 +427,10 @@ class Command:
         app_proc(PROC_SET_PROJECT, '')
 
         self.close_foreign_tabs(True)
+
+        if apply_on_start:
+            self.options['on_start'] = False
+            self.save_events()
 
     def add_recent(self, path):
         recent = self.options["recent_projects"]
@@ -747,6 +751,7 @@ class Command:
                     self.project_file_path = Path(path)
                     self.add_recent(path)
                     self.action_refresh()
+                    self.options['on_start'] = True
                     self.save_options()
 
                 self.update_global_data()
@@ -848,6 +853,10 @@ class Command:
             self.project_file_path = path
             with path.open("w", encoding='utf8') as fout:
                 json.dump(d, fout, indent=2)
+
+            # any saving of project file makes on_start On
+            self.options['on_start'] = True
+            self.save_events()
 
             self.update_global_data()
             print(_('Saving project: ') + collapse_filename(str(path)))
@@ -1029,10 +1038,17 @@ class Command:
 
     def save_events(self):
             ev = []
+
             if self.options['on_start']:
                 ev.append('on_start')
-            if self.options['check_git']:
+
+            v = self.options.get('check_git', None)
+            if v is None:
+                s = ini_read('plugins.ini', 'events', 'cuda_project_man', '')
+                v = 'on_open' in s
+            if v:
                 ev.append('on_open')
+
             if ev:
                 ini_write('plugins.ini', 'events', 'cuda_project_man', ','.join(ev))
             else:
