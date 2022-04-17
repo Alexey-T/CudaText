@@ -1715,7 +1715,7 @@ class Command:
             if not fn: # untitled tabs: False
                 return False
             for d in dirs:
-                if d.startswith(fn+os.sep):
+                if fn.startswith(d+os.sep):
                     return True
             for f in files:
                 if f==fn:
