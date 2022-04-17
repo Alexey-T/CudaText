@@ -3,18 +3,18 @@
   - fixed
   * changed
 
-1.161.2 (2022/04)
+1.162.0 (2022/04)
 
 + add: detection of XML codepage must handle standard codepage names like "windows-1252" (thanks @dinkumoil)
 + add: 'Paste and indent' must overwrite the selection (thanks @veksha)
 + add: viewer allows to activate UTF-8 encoding, and also ISO-8859-9 encoding (thanks opennet.ru)
-+ add: code-tree saves its 'Sorted' flag per each file (thanks @randomize from opennet.ru)
++ add: code-tree remembers 'Sorted' state per each file-tab (thanks @randomize from opennet.ru)
 + add: lexer XML: more highlighting when folding is auto-disabled by "lexer_folding_max_lines" (thanks @ertank)
 + add: lexer XML: highlight numbers too
 + add: Project Manager: auto-save any untitled project to "settings/temporary.cuda-proj" (e.g. after "Open folder" in CudaText)
-* change: option "mouse_middle_click":2 must place caret to clicked position, like VSCode/Kate (thanks opennet.ru)
-* change: renamed menu item "Addons Manager / Install from GutHub" to "Install from Git"
-- fix: regression in 1.160.2: flickering on editing at ending, if file was edited at the beginning
+* change: paste with middle-click (option "mouse_middle_click":2): place caret to clicked position, like VSCode/Kate (thanks opennet.ru)
+* change: rename menu item "Addons Manager / Install from GitHub" to "Install from Git"
+- fix: regression in 1.160.2: flickering on editing in file ending, if file was edited in the beginning
 
 1.161.0 (2022/04)
 
