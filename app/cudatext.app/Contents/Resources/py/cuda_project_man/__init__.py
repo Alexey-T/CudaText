@@ -752,7 +752,7 @@ class Command:
 
                 app_proc(PROC_SET_PROJECT, path)
 
-                s = _("Project opened: ") + collapse_filename(path)
+                s = _("Opened project: ") + os.path.basename(path)
                 if bads:
                     s += ', ' + _('%d deleted item(s)')%len(bads)
                 msg_status(s)
@@ -761,7 +761,7 @@ class Command:
                 if sess not in ('', '-'):
                     self.session_load(sess, False)
             else:
-                msg_status(_("Project filename is not found: ") + path)
+                msg_status(_("Project file not found: ") + path)
 
     def action_add_folder(self):
         fn = dlg_dir("")
