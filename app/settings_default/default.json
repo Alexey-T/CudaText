@@ -1205,7 +1205,7 @@
   //b) "ui_reopen_session":true,
   //c) "ui_history_disabled" does not have "t",
   //program will save modified documents to the session, on closing, without confirmation.
-  "ui_auto_save_session": false,
+  "ui_auto_save_session": true,
 
   //If value N>0, app creates N backups of session files on closing: 'history session.X.cuda-session'.
   //You can open these backups by plugin Session Manager, or rename them to a normal name.

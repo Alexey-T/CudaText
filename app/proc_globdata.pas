@@ -1901,7 +1901,7 @@ begin
     ReopenSession:= true;
     ReopenSessionWithCmdLine:= false;
     SessionSaveInterval:= 30;
-    SessionSaveOnExit:= false;
+    SessionSaveOnExit:= true;
     BackupLastSessions:= 0;
     SaveModifiedTabsOnClose:= true;
 
