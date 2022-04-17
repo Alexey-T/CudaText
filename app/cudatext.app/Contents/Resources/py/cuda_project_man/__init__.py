@@ -1532,7 +1532,7 @@ class Command:
             fn2 = os.path.join(dir, '.svn')
             if os.path.isdir(fn) or os.path.isdir(fn2):
                 self.init_panel()
-                self.new_project()
+                self.new_project(True, False)
                 self.add_node(dir)
                 self.jump_to_filename(filename)
                 return
