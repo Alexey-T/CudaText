@@ -84,6 +84,7 @@ uses
   ATStringProc_Separator,
   ATGauge,
   ATBinHex,
+  proc_inittick,
   proc_str,
   proc_py,
   proc_py_const,
@@ -1210,9 +1211,6 @@ type
 
 var
   fmMain: TfmMain;
-
-var
-  NTickInitial: QWord = 0;
 
 var
   fmOutput: TAppFormWithEditor = nil;

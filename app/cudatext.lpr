@@ -6,6 +6,7 @@ uses
   {$IFDEF UNIX}
   cthreads,
   {$ENDIF}
+  proc_inittick,
   Interfaces, // this includes the LCL widgetset
   SysUtils, Forms, lazcontrols,
   FormMain, FormConsole,
@@ -19,7 +20,6 @@ uses
 {$R *.res}
 
 begin
-  NTickInitial:= GetTickCount64;
   {$IFDEF WINDOWS}
   if not AppAlwaysNewInstance then
     if IsAnotherInstanceRunning then Exit;
