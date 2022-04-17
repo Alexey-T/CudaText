@@ -1522,7 +1522,8 @@ class Command:
         self.init_panel(False)
 
         if not self.project_file_path:
-            self.action_project_for_git(ed_self.get_filename('*'))
+            fn = ed_self.get_filename('*')
+            self.action_project_for_git(fn)
 
     def action_project_for_git(self, filename):
 
