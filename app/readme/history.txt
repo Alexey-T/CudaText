@@ -14,6 +14,7 @@
 + add: Project Manager: auto-save any untitled project to "settings/temporary.cuda-proj" (e.g. after "Open folder" in CudaText)
 * change: paste with middle-click (option "mouse_middle_click":2): place caret to clicked position, like VSCode/Kate (thanks opennet.ru)
 * change: rename menu item "Addons Manager / Install from GitHub" to "Install from Git"
+* change: for folded blocks, horizontal line has different style, dash/dash
 - fix: regression in 1.160.2: flickering on editing in file ending, if file was edited in the beginning
 - fix: Project Manager: bug with the prompt "files not belonging to the project"
 
