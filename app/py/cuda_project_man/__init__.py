@@ -20,7 +20,7 @@ IS_WIN = os.name == 'nt'
 PROJECT_EXTENSION = ".cuda-proj"
 PROJECT_DIALOG_FILTER = _("CudaText projects") + "|*" + PROJECT_EXTENSION
 PROJECT_UNSAVED_NAME = _("(Unsaved project)")
-PROJECT_TEMP_FILENAME = os.path.join(app_path(APP_DIR_SETTINGS), 'temporary.cuda-proj')
+PROJECT_TEMP_FILENAME = os.path.join(app_path(APP_DIR_SETTINGS), 'temporary'+PROJECT_EXTENSION)
 NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD = range(4)
 global_project_info = {}
 
@@ -398,8 +398,15 @@ class Command:
 
     def add_node(self, path):
         if path:
+            # on adding _first_ node to _untitled_ proj, name the proj as 'temporary' and save it
+            if not self.project["nodes"] and not self.project_file_path:
+                self.action_save_project_as(PROJECT_TEMP_FILENAME)
+                self.add_recent(PROJECT_TEMP_FILENAME)
+                self.save_options()
+
             if path in self.project["nodes"]:
                 return
+
             msg_status(_("Adding to project: ") + collapse_filename(path), True)
             self.project["nodes"].append(path)
             self.project["nodes"].sort(key=Command.node_ordering)
@@ -973,9 +980,6 @@ class Command:
 
         self.init_panel()
         self.action_new_project()
-        self.action_save_project_as(PROJECT_TEMP_FILENAME)
-        self.add_recent(PROJECT_TEMP_FILENAME)
-        self.save_options()
         self.add_node(fn)
         self.do_unfold_first()
 
@@ -997,9 +1001,6 @@ class Command:
         self.init_panel()
         if new_proj:
             self.action_new_project()
-            self.action_save_project_as(PROJECT_TEMP_FILENAME)
-            self.add_recent(PROJECT_TEMP_FILENAME)
-            self.save_options()
         self.add_node(dirname)
         if new_proj:
             self.do_unfold_first()
