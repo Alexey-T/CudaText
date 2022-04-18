@@ -561,7 +561,7 @@ begin
           Frame:= DoFileOpen('', '', Pages, SOptionPassive+SOptionNoHistory);
         if sFilename<>'' then
         begin
-          Frame.FileName:= sFilename;
+          Frame.SetFileName(Frame.Ed1, sFilename);
           Frame.TabCaption:= ExtractFileName(sFilename);
         end;
         if sText<>'' then
