@@ -49,7 +49,7 @@ To playback macro:
 
 == Project Manager ==
 
-This plugin is preinstalled in CudaText. It shows panel "Project" in the sidebar (to show this panel, call plugin by any command, or set plugin's option "Load on program start" and restart, CudaText sidebar will have Project button). On the project panel, on its tree-view, you can add several "root nodes", each node must be existing file or folder. For folder nodes, plugin auto shows all nested folders. You cannot add nodes on other levels (like SynWrite editor does).
+This plugin is preinstalled in CudaText. It shows panel "Project" in the sidebar (to show this panel, call plugin by any command, or call "File / Open folder..." menu item which opens any folder as a "project"). On the project panel, on its tree-view, you can add several "root nodes", each node must be existing file or folder. For folder nodes, plugin auto shows all nested folders. You cannot add nodes on other levels, sub-nodes are auto populated from root folder nodes.
 
 Plugin has context menu on its panel, with items:
 
