@@ -351,7 +351,7 @@ type
     property NotifEnabled: boolean read FNotifEnabled write FNotifEnabled;
     procedure NotifyAboutChange(Ed: TATSynEdit);
 
-    property FileName: string read FFileName write SetFileName;
+    property FileName: string read FFileName;
     property FileName2: string read FFileName2;
     property LexerChooseFunc: TecLexerChooseFunc read FLexerChooseFunc write FLexerChooseFunc;
     function GetFileName(Ed: TATSynEdit): string;
