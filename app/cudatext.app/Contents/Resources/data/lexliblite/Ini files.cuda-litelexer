@@ -33,7 +33,7 @@
       "style": "Number"
     },
     "val": {
-      "regex": "\\S+",
+      "regex": "\\w+",
       "style": "Id"
     }
   }
