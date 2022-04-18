@@ -494,7 +494,8 @@ Most of them are located in the Addons Manager "Install" list.
 * MikroTik Script
 * MiniZinc
 * Modelica
-* Modula 2
+* Modula-2
+* Modula-3
 * Monkey
 * MSVS Solution
 * MusicBrainz Picard Tagger Script
