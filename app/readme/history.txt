@@ -16,7 +16,6 @@
 * change: paste with middle-click (option "mouse_middle_click":2): place caret to clicked position, like VSCode/Kate (thanks opennet.ru)
 * change: rename menu item "Addons Manager / Install from GitHub" to "Install from Git"
 * change: for folded blocks, horizontal line has different style, dash/dash
-* change: 'startup time' is measured more correctly now, so its result is increased (by 50ms on author's PC)
 - fix: regression in 1.160.2: flickering on editing in file ending, if file was edited in the beginning
 - fix: Project Manager: bug with the prompt "files not belonging to the project"
 - fix: problem with saving modified files that were reloaded by "ui_auto_save_session":true (thanks @thatfuckingbird)
