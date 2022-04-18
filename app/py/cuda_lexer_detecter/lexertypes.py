@@ -278,8 +278,6 @@ TYPES = {
     "m": ['Power Query M', 'Assembly SPARC', 'MATLAB', 'Objective-C'],
     "m2": ['Modula-2'],
     "m3": ['Modula-3'],
-    "m3.dummy": ['Modula-3'],
-    "m3.export": ['Modula-3'],
     "m4": ['Autoconf M4'],
     "ma": ['Maya'],
     "mak": ['Makefile'],
