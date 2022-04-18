@@ -74,19 +74,19 @@ Any project can have "main file", you can choose it in the context menu: "Select
 
 === Project Manager options dialog ===
 
-* "Ignore files": ";"-separated shell wildcards, which are [https://docs.python.org/3/library/fnmatch.html documented here]. If file name (without path) matches any of these wildcards, it will not be listed in the treeview.
-* "Ignore folders": ";"-separated shell wildcards. If folder name matches any of these wildcards, it will not be listed in the treeview.
-* "Ignore all hidden files/folders": Additionally don't list all hidden items. On Unix, hidden mean "beginning with dot". On Windows, hidden means having file-system "hidden" attribute.
-* "Open file after "Go to file" command": If turned on, command "Project Manager: Go to file" will not only jump to chosen file in the treeview, but also open that file in editor.
-* "Use "preview tab" on item clicking": If option is on, single click on treeview file item, will open file in "preview tab". Preview tab is single such tab, it's shared by all files, it has italic+underlined tab title. If option is off, clicking file item will open normal tab, separate normal tabs per each file.
-* "Open files by double-click": If turned on, only double-click in the treeview will open file for editing, but not the single click.
-* "On opening file in Git/SVN repo...": On opening a file in CudaText, Project Manager will check if this file is in the Git/SVN repository (by presence of the folder ".git" or ".svn" near the file, or in upper level folders). If yes, Project Manager will create the project from that repository and open it. This gives some slowdown of course.
-* "Suggest to close tabs not belonging to project": See [[#Sessions embedded to project]].
+;"Ignore files": ";"-separated shell wildcards, which are [https://docs.python.org/3/library/fnmatch.html documented here]. If file name (without path) matches any of these wildcards, it will not be listed in the treeview.
+;"Ignore folders": ";"-separated shell wildcards. If folder name matches any of these wildcards, it will not be listed in the treeview.
+;"Ignore all hidden files/folders": Additionally don't list all hidden items. On Unix, hidden mean "beginning with dot". On Windows, hidden means having file-system "hidden" attribute.
+;"Open file after "Go to file" command": If turned on, command "Project Manager: Go to file" will not only jump to chosen file in the treeview, but also open that file in editor.
+;"Use 'preview tab' on item clicking": If option is on, single click on treeview file item, will open file in "preview tab". Preview tab is single such tab, it's shared by all files, it has italic+underlined tab title. If option is off, clicking file item will open normal tab, separate normal tabs per each file.
+;"Open files by double-click": If turned on, only double-click in the treeview will open file for editing, but not the single click.
+;"On opening file in Git/SVN repo...": On opening a file in CudaText, Project Manager will check if this file is in the Git/SVN repository (by presence of the folder ".git" or ".svn" near the file, or in upper level folders). If yes, Project Manager will create the project from that repository and open it. This gives some slowdown of course.
+;"Suggest to close tabs not belonging to project": See [[#Sessions embedded to project]].
 
 And options for icons:
 
-* "File type icons": Set of file/folder icons for treeview. You can install additional themes from Addons Manager, see category "filetypeicons" there. Example of such theme: "VSCode Material 24x24". This option shows  themes, which are present in the folder "data/filetypeicons".
-* "Toolbar icons": Set of icons for Project Manager toolbar buttons. You can install additional themes from Addon Manager, see the category "projtoolbaricons" there. This option shows themes, which are present in the folder "data/projtoolbaricons".
+;"File type icons": Set of file/folder icons for treeview. You can install additional themes from Addons Manager, see category "filetypeicons" there. Example of such theme: "VSCode Material 24x24". This option shows  themes, which are present in the folder "data/filetypeicons".
+;"Toolbar icons": Set of icons for Project Manager toolbar buttons. You can install additional themes from Addon Manager, see the category "projtoolbaricons" there. This option shows themes, which are present in the folder "data/projtoolbaricons".
 
 === Preview tab ===
 
