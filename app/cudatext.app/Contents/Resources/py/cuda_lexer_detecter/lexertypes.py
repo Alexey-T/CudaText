@@ -227,6 +227,7 @@ TYPES = {
     "html.erb": ['HTML Ruby-ERB'],
     "hx": ['Haxe'],
     "i": ['Assembly Motorola 68k', 'OpenEdge ABL'],
+    "i3": ['Modula-3'],
     "idl": ['IDL files'],
     "idx": ['LaTeX'],
     "ig": ['Modula-3'],
