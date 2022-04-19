@@ -26,6 +26,10 @@
       "regex": "\\w[\\w\\-:]*(?==\")",
       "style": "TagProp"
     },
+    "num": {
+      "regex": "\\d+",
+      "style": "Number"
+    },
     "id": {
       "regex": "[a-zA-Z_]\\w*",
       "style": "Id"
