@@ -661,6 +661,7 @@ var
   EditorOps: TEditorOps;
 
 var
+  AppUserName: string = '';
   AppDir_Home: string;
   AppDir_Settings: string;
   AppDir_SettingsDefault: string;
@@ -1269,6 +1270,7 @@ procedure InitDirs_macOS;
 begin
   //from https://github.com/graemeg/freepascal/blob/master/rtl/unix/sysutils.pp
   AppDir_Home:= GetEnvironmentVariable('HOME');
+  AppUserName:= ExtractFileName(AppDir_Home);
   if AppDir_Home<>'' then
     AppDir_Home:= IncludeTrailingPathDelimiter(AppDir_Home);
   OpDirLocal:= AppDir_Home+'Library/Application Support/CudaText';
@@ -1293,6 +1295,7 @@ var
 begin
   //from https://github.com/graemeg/freepascal/blob/master/rtl/unix/sysutils.pp
   AppDir_Home:= GetEnvironmentVariable('HOME');
+  AppUserName:= ExtractFileName(AppDir_Home);
   if AppDir_Home<>'' then
     AppDir_Home:= IncludeTrailingPathDelimiter(AppDir_Home);
 

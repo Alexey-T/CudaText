@@ -35,7 +35,11 @@ begin
     FIPCServer := TSimpleIPCServer.Create(nil);
     FIPCServer.ServerID := ServerId;
     FIPCServer.Global := True;
-    FIPCServer.StartServer;
+    try
+      FIPCServer.StartServer;
+    except
+      //Alexey: hide the server error to fix CudaText #4079
+    end;
   end;
 end;
 

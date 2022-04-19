@@ -1313,7 +1313,7 @@ begin
   {$ifdef unix}
   if Assigned(AppUniqInst) then exit;
   AppUniqInst:= TUniqueInstance.Create(nil);
-  AppUniqInst.Identifier:= AppServerId;
+  AppUniqInst.Identifier:= AppUserName+'_'+AppServerId; //added username to fix CudaText #4079
   AppUniqInst.OnOtherInstance:= @fmMain.UniqInstanceOtherInstance;
   {$endif}
 end;
