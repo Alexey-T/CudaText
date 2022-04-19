@@ -85,7 +85,7 @@ TYPES = {
     "ampl": ['AMPL'],
     "applescript": ['AppleScript'],
     "arr": ['Pyret'],
-    "as": ['ActionScript', 'Haskell'],
+    "as": ['ActionScript', 'AngelScript', 'Haskell'],
     "asciidoc": ['AsciiDoc'],
     "ash": ['Assembly FASM'],
     "astro": ['Astro'],
