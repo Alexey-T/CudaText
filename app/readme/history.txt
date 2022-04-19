@@ -3,6 +3,10 @@
   - fixed
   * changed
 
+1.162.1 (2022/04)
+
++ plugin Insert Time: added format 'unix' (Unix-time), it will be auto-added to config after you delete the config + restart the app (thanks @mix-7)
+
 1.162.0 (2022/04)
 
 + add: Project Manager: the work is done to support auto-saving of the last project (even untitled), and auto-loading of last active project on app start. So if user e.g. drag-drops a folder on CudaText, this makes the new project "temporary", and after app restart, "temporary" project will be restored. Also app option "ui_auto_save_session" defaults to 'true' now, to be like Sublime Text / VSCode. (thanks opennet.ru)
