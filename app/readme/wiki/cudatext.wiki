@@ -333,6 +333,7 @@ Most of them are located in the Addons Manager "Install" list.
 * Ada
 * Adobe Flash
 * Amazon Ion
+* AngelScript
 * AMPL
 * Apache config
 * Apache Hive
