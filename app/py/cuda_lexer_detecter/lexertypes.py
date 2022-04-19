@@ -230,7 +230,6 @@ TYPES = {
     "i3": ['Modula-3'],
     "idl": ['IDL files'],
     "idx": ['LaTeX'],
-    "ig": ['Modula-3'],
     "inc": ['Assembly FASM', 'Pawn', 'Assembly AVR', 'Pascal', 'Assembly NASM x86', 'Assembly Z80 SjASM', 'Assembly Z80 RGBDS'],
     "ino": ['Arduino'],
     "inp": ['Abaqus Keywords'],
