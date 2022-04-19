@@ -1,6 +1,6 @@
 import os
 from datetime import datetime
-from time import strftime, gmtime
+from time import time, strftime, gmtime
 import cudatext as app
 from cudatext import ed
 from cudax_lib import get_translation
@@ -16,6 +16,7 @@ DEF_CONFIG = '''#Documentation about formats: http://strftime.org/
 %A %d. %B.%Y
 %H:%M:%S
 rfc
+unix
 '''
 
 ini = os.path.join(app.app_path(app.APP_DIR_SETTINGS), 'cuda_insert_time.ini')
@@ -43,6 +44,8 @@ def get_default_format():
 def do_format(s):
     if s=='rfc':
         return strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime())
+    if s=='unix':
+        return str(int(time()))
     t = datetime.now()
     return t.strftime(s)
 
