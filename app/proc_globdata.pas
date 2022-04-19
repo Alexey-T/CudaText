@@ -145,13 +145,18 @@ var
   AppServerId: string = 'cudatext.0'; //used by TUniqueInstance (which is used only on Unix)
 
 var
-  AppFrameList1: TFPList; //all frames - for main thread
-  AppFrameList2: TFPList; //all frames - for file watcher thread
-  AppFrameListDeleting: TFPList; //frames which need to be Free'd
-                              //we don't free frames instantly, because watcher thread can access them
+  AppFrameList1: TFPList = nil;
+    //all frames - for main thread
 
-  AppEventLister: TEvent; //event set to signaled, when main thread has done AppFrameList2 updating
-  AppEventWatcher: TEvent; //event set to signaled, when watcher thread is not busy
+  AppFrameList2: TFPList = nil;
+    //all frames - for file watcher thread
+
+  AppFrameListDeleting: TFPList = nil;
+    //frames which need to be Free'd
+    //we don't free frames instantly, because watcher thread can access them
+
+  AppEventLister: TEvent = nil; //event set to signaled, when main thread has done AppFrameList2 updating
+  AppEventWatcher: TEvent = nil; //event set to signaled, when watcher thread is not busy
 
 type
   { TAppKeyValues }
@@ -169,9 +174,9 @@ type
   end;
 
 var
-  AppConfig_Detect: TAppKeyValues;
-  AppConfig_DetectLine: TAppKeyValues;
-  AppConfig_PGroups: TAppKeyValues;
+  AppConfig_Detect: TAppKeyValues = nil;
+  AppConfig_DetectLine: TAppKeyValues = nil;
+  AppConfig_PGroups: TAppKeyValues = nil;
 
 const
   AppExtensionThemeUi = '.cuda-theme-ui';
@@ -964,11 +969,11 @@ type
   end;
 
 var
-  AppConsoleQueue: TAppConsoleQueue;
-  AppCommandsDelayed: TAppCommandsDelayed;
-  AppCommandList: TFPList;
-  AppEventList: TFPList;
-  AppTreeHelpers: TFPList;
+  AppConsoleQueue: TAppConsoleQueue = nil;
+  AppCommandsDelayed: TAppCommandsDelayed = nil;
+  AppCommandList: TFPList = nil;
+  AppEventList: TFPList = nil;
+  AppTreeHelpers: TFPList = nil;
 
 type
   TAppMenuProps = class
