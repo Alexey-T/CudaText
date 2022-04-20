@@ -255,7 +255,7 @@ object SyntAnal6: TLibSyntAnalyzer
       StyleName = 'Number'
       TokenType = 7
       Expression = 
-        '[\-\+]? \d+(\.\d+)? (e[\-\+]?\d+)? |'#13#10'[\-\+]? \.\d+ (e[\-\+]?\d+' +
+        '[\-\+]? \d+(\.\d*)? (e[\-\+]?\d+)? |'#13#10'[\-\+]? \.\d+ (e[\-\+]?\d+' +
         ')?'
       ColumnFrom = 0
       ColumnTo = 0
@@ -288,7 +288,7 @@ object SyntAnal6: TLibSyntAnalyzer
       DisplayName = 'Value unit'
       StyleName = 'Value unit incorrect'
       TokenType = 10
-      Expression = '(?<=\b\d+)[a-z%]+\b'
+      Expression = '(?<=\b[\d\.]+)[a-z%]+\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -412,6 +412,8 @@ object SyntAnal6: TLibSyntAnalyzer
             'bold'
             'bolder'
             'border'
+            'border-block'
+            'border-block-color'
             'border-block-end'
             'border-block-end-color'
             'border-block-end-style'
@@ -420,6 +422,8 @@ object SyntAnal6: TLibSyntAnalyzer
             'border-block-start-color'
             'border-block-start-style'
             'border-block-start-width'
+            'border-block-style'
+            'border-block-width'
             'border-bottom'
             'border-bottom-color'
             'border-bottom-left-radius'
@@ -437,6 +441,8 @@ object SyntAnal6: TLibSyntAnalyzer
             'border-image-slice'
             'border-image-source'
             'border-image-width'
+            'border-inline'
+            'border-inline-color'
             'border-inline-end'
             'border-inline-end-color'
             'border-inline-end-style'
@@ -445,6 +451,8 @@ object SyntAnal6: TLibSyntAnalyzer
             'border-inline-start-color'
             'border-inline-start-style'
             'border-inline-start-width'
+            'border-inline-style'
+            'border-inline-width'
             'border-left'
             'border-left-color'
             'border-left-style'
@@ -522,14 +530,15 @@ object SyntAnal6: TLibSyntAnalyzer
             'content'
             'content-box'
             'contents'
+            'content-visibility'
             'context-menu'
             'contextual'
             'copy'
             'counter-increment'
             'counter-reset'
+            'counter-set'
             'cover'
             'crisp-edges'
-            'crispEdges'
             'crosshair'
             'cursor'
             'cyclic'
@@ -627,6 +636,7 @@ object SyntAnal6: TLibSyntAnalyzer
             'font-variant-position'
             'font-variation-settings'
             'font-weight'
+            'forced-color-adjust'
             'forwards'
             'freeze'
             'from-image'
@@ -855,6 +865,7 @@ object SyntAnal6: TLibSyntAnalyzer
             'offset-distance'
             'offset-path'
             'offset-position'
+            'offset-rotate'
             'offset-rotation'
             'oldstyle-nums'
             'opacity'
@@ -933,6 +944,7 @@ object SyntAnal6: TLibSyntAnalyzer
             'pre-line'
             'preserve-3d'
             'pre-wrap'
+            'print-color-adjust'
             'progress'
             'progressive'
             'proportional-nums'
@@ -1108,6 +1120,7 @@ object SyntAnal6: TLibSyntAnalyzer
             'text-decoration-skip'
             'text-decoration-skip-ink'
             'text-decoration-style'
+            'text-decoration-thickness'
             'text-emphasis'
             'text-emphasis-color'
             'text-emphasis-position'
@@ -2408,7 +2421,7 @@ object SyntAnal6: TLibSyntAnalyzer
     '/* Comment */'
     '<?php echo '#39'test'#39' ?>'
     '.name, .name2:suffix { '
-    '  font-size: 10em;'
+    '  font-size: 10em + 2.em;'
     '  --my-var: -10.2e+2; /* custom prop; float */'
     '  background: url("../img.gif") no-repeat;'
     '  back2: url(http://www.com/url);'
