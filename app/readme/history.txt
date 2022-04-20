@@ -5,7 +5,8 @@
 
 1.162.1 (2022/04)
 
-+ plugin Insert Time: added format 'unix' (Unix-time), it will be auto-added to config after you delete the config + restart the app (thanks @mix-7)
++ add: plugin Insert Time: added format 'unix' (Unix-time), it will be auto-added to config after you delete the config + restart the app (thanks @mix-7)
+- fix: issue with "ui_one_instance":true on a multi-user Linux system (thanks @bogen85)
 
 1.162.0 (2022/04)
 
