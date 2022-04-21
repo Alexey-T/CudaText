@@ -1352,9 +1352,9 @@
   //Auto-pair some chars on typing.
   //Value must have some of supported chars without spaces:
   //  ( [ { < ' " ` ~ * #
-  //(Don't forget that JSON config needs double-quote escaped.)
-  //Feature doesn't work on backslash-escaped chars.
-  //Feature doesn't work if after caret is a word char.
+  //(Don't forget that JSON file needs "-char in escaped form.)
+  //Auto-pairing doesn't work on backslash-escaped chars.
+  //Auto-pairing doesn't work if after caret is a word char.
   "auto_close_brackets": "([{",
 
   //If value>1, option allows N consecutive commented lines to automatically create the folding range.
