@@ -3,7 +3,7 @@ Authors:
     Andrey Kvichansky (kvichans on github.com)
     Alexey Torgashin (CudaText)
 Version:
-    '0.9.1 2021-12-18'
+    '0.9.3 2022-04-21'
 '''
 
 import  os
@@ -108,9 +108,56 @@ class Command:
         if not prop:
             return
         cmt_sgn     = prop['c_line']
+        cmt_range   = prop['c_str']
         pass;                  #log('cmt_type, lex, cmt_sgn={}', (cmt_type, lex, cmt_sgn))
+
         if not cmt_sgn:
+            if cmt_range:
+                crts = ed_.get_carets()
+                if len(crts)==1:
+                    x, y, x1, y1 = crts[0]
+                    if y1<0:
+                        indexes = [y]
+                    else:
+                        i1, i2 = ed_.get_sel_lines()
+                        indexes = range(i1, i2+1)
+
+                    changed = 0
+                    for index in reversed(indexes):    
+                        rng1 = cmt_range[0]
+                        rng2 = cmt_range[1]
+                        line = ed_.get_text_line(index)
+                        line_x = line.lstrip()
+                        indent = line[:len(line)-len(line_x)]
+                        commented1 = line.startswith(rng1) and line.endswith(rng2)
+                        commented2 = line_x.startswith(rng1) and line_x.endswith(rng2)
+                        if commented1 or commented2:
+                            if cmt_act=='add':
+                                continue
+                            if commented1:
+                                line_new = line[len(rng1): -len(rng2)]
+                            elif commented2:
+                                line_new = indent + line_x[len(rng1): -len(rng2)]
+                        else:
+                            if cmt_act=='del':
+                                continue
+                            if cmt_type=='1st':
+                                line_new = rng1+line+rng2
+                            elif cmt_type=='bod':
+                                line_new = indent+rng1+line_x+rng2
+                            else:
+                                continue
+                        ed_.set_text_line(index, line_new)
+                        changed += 1
+
+                    if changed:
+                        app.msg_status(_('Toggled commenting for %d line(s)')%changed)
+                    else:
+                        app.msg_status(_('No commenting action was done'))
+                    return
+
             return app.msg_status(f(_('Lexer "{}" doesn\'t support "line comments"'), lex))
+
         # Analyze
         empty_sel   = False
         rWrks       = []
