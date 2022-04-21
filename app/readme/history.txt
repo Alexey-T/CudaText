@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.162.5 (2022/04)
+1.162.2 (2022/04)
 
 + add: on editing of a line, which is start of a folded block, do unfolding of that block (thanks @veksha)
 + add: plugin Comments: support 'Line comment' commands if 'line comment' chars are absent, but 'range comment' chars are present; e.g. in CSS (thanks @ildarkhasanshin)
