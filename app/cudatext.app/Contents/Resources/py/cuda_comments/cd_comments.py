@@ -115,7 +115,8 @@ class Command:
                 rng1 = cmt_range[0]
                 rng2 = cmt_range[1]
                 changed = 0
-                for caret in reversed(ed_.get_carets()):
+                carets = ed_.get_carets()
+                for caret in reversed(carets):
                     x, y, x1, y1 = caret
                     if y1<0:
                         indexes = [y]
@@ -153,6 +154,11 @@ class Command:
 
                 if changed:
                     app.msg_status(_('Toggled commenting for %d line(s)')%changed)
+                    if len(carets)==1:
+                        x, y, x1, y1 = carets[0]
+                        if y1<0:
+                            if apx.get_opt('comment_move_down', True):
+                                apx._move_caret_down(x, y)
                 else:
                     app.msg_status(_('No commenting action was done'))
                 return
