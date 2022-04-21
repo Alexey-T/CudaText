@@ -77,21 +77,21 @@ class Command:
        #def dlg_config
 
     def cmt_toggle_line_1st(self):
-        return self._cmt_toggle_line('bgn', '1st')
+        return self.work('bgn', '1st')
 
     def cmt_add_line_1st(self):
-        return self._cmt_toggle_line('add', '1st')
+        return self.work('add', '1st')
 
     def cmt_toggle_line_body(self):
-        return self._cmt_toggle_line('bgn', 'bod')
+        return self.work('bgn', 'bod')
 
     def cmt_add_line_body(self):
-        return self._cmt_toggle_line('add', 'bod')
+        return self.work('add', 'bod')
 
     def cmt_del_line(self):
-        return self._cmt_toggle_line('del')
+        return self.work('del')
 
-    def _cmt_toggle_line(self, cmt_act, cmt_type='', ed_=ed):
+    def work(self, cmt_act, cmt_type='', ed_=ed):
         ''' Add/Remove line-comments
             Params
                 cmt_act     'del' - uncomment all lines
@@ -309,7 +309,7 @@ class Command:
                 dx = -dx
             cCrt = max(0, cCrt+dx)
             ed_.set_caret(cCrt, rCrt)
-       #def _cmt_toggle_line
+       #def work
 
     def cmt_toggle_stream(self):
         ''' '''
