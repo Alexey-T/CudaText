@@ -91,6 +91,57 @@ class Command:
     def cmt_del_line(self):
         return self.work('del')
 
+    def line_cmt_by_range_cmt(self, ed_, rng1, rng2, cmt_act, cmt_type):
+        changed = 0
+        carets = ed_.get_carets()
+        for caret in reversed(carets):
+            x, y, x1, y1 = caret
+            if y1<0:
+                indexes = [y]
+            else:
+                if (y, x)>(y1, x1):
+                    x, y, x1, y1 = x1, y1, x, y
+                if x1==0:
+                    y1-=1
+                indexes = range(y, y1+1)
+
+            for index in indexes:
+                line = ed_.get_text_line(index)
+                line_x = line.lstrip()
+                if not line_x:
+                    continue
+                indent = line[:len(line)-len(line_x)]
+                commented1 = line.startswith(rng1) and line.endswith(rng2)
+                commented2 = line_x.startswith(rng1) and line_x.endswith(rng2)
+                if commented1 or commented2:
+                    if cmt_act=='add':
+                        continue
+                    if commented1:
+                        line_new = line[len(rng1): -len(rng2)]
+                    elif commented2:
+                        line_new = indent + line_x[len(rng1): -len(rng2)]
+                else:
+                    if cmt_act=='del':
+                        continue
+                    if cmt_type=='1st':
+                        line_new = rng1+line+rng2
+                    elif cmt_type=='bod':
+                        line_new = indent+rng1+line_x+rng2
+                    else:
+                        continue
+                ed_.set_text_line(index, line_new)
+                changed += 1
+
+        if changed:
+            app.msg_status(_('Toggled commenting for %d line(s)')%changed)
+            if len(carets)==1:
+                x, y, x1, y1 = carets[0]
+                if y1<0:
+                    if apx.get_opt('comment_move_down', True):
+                        apx._move_caret_down(x, y)
+        else:
+            app.msg_status(_('No commenting action was done'))
+
     def work(self, cmt_act, cmt_type='', ed_=ed):
         ''' Add/Remove line-comments
             Params
@@ -112,57 +163,7 @@ class Command:
 
         if not cmt_sgn:
             if cmt_range:
-                rng1 = cmt_range[0]
-                rng2 = cmt_range[1]
-                changed = 0
-                carets = ed_.get_carets()
-                for caret in reversed(carets):
-                    x, y, x1, y1 = caret
-                    if y1<0:
-                        indexes = [y]
-                    else:
-                        if (y, x)>(y1, x1):
-                            x, y, x1, y1 = x1, y1, x, y
-                        if x1==0:
-                            y1-=1
-                        indexes = range(y, y1+1)
-
-                    for index in indexes:
-                        line = ed_.get_text_line(index)
-                        line_x = line.lstrip()
-                        if not line_x:
-                            continue
-                        indent = line[:len(line)-len(line_x)]
-                        commented1 = line.startswith(rng1) and line.endswith(rng2)
-                        commented2 = line_x.startswith(rng1) and line_x.endswith(rng2)
-                        if commented1 or commented2:
-                            if cmt_act=='add':
-                                continue
-                            if commented1:
-                                line_new = line[len(rng1): -len(rng2)]
-                            elif commented2:
-                                line_new = indent + line_x[len(rng1): -len(rng2)]
-                        else:
-                            if cmt_act=='del':
-                                continue
-                            if cmt_type=='1st':
-                                line_new = rng1+line+rng2
-                            elif cmt_type=='bod':
-                                line_new = indent+rng1+line_x+rng2
-                            else:
-                                continue
-                        ed_.set_text_line(index, line_new)
-                        changed += 1
-
-                if changed:
-                    app.msg_status(_('Toggled commenting for %d line(s)')%changed)
-                    if len(carets)==1:
-                        x, y, x1, y1 = carets[0]
-                        if y1<0:
-                            if apx.get_opt('comment_move_down', True):
-                                apx._move_caret_down(x, y)
-                else:
-                    app.msg_status(_('No commenting action was done'))
+                self.line_cmt_by_range_cmt(ed_, cmt_range[0], cmt_range[1], cmt_act, cmt_type)
                 return
 
             return app.msg_status(f(_('Lexer "{}" doesn\'t support "line comments"'), lex))
