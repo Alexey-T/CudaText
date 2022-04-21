@@ -113,6 +113,8 @@ class Command:
 
         if not cmt_sgn:
             if cmt_range:
+                rng1 = cmt_range[0]
+                rng2 = cmt_range[1]
                 crts = ed_.get_carets()
                 if len(crts)==1:
                     x, y, x1, y1 = crts[0]
@@ -123,9 +125,7 @@ class Command:
                         indexes = range(i1, i2+1)
 
                     changed = 0
-                    for index in reversed(indexes):    
-                        rng1 = cmt_range[0]
-                        rng2 = cmt_range[1]
+                    for index in indexes:    
                         line = ed_.get_text_line(index)
                         line_x = line.lstrip()
                         indent = line[:len(line)-len(line_x)]
