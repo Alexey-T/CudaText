@@ -3,7 +3,7 @@ Authors:
     Andrey Kvichansky (kvichans on github.com)
     Alexey Torgashin (CudaText)
 Version:
-    '0.9.4 2022-04-21'
+    '1.0.0 2022-04-21'
 '''
 
 import  os
@@ -130,6 +130,8 @@ class Command:
                     for index in indexes:
                         line = ed_.get_text_line(index)
                         line_x = line.lstrip()
+                        if not line_x:
+                            continue
                         indent = line[:len(line)-len(line_x)]
                         commented1 = line.startswith(rng1) and line.endswith(rng2)
                         commented2 = line_x.startswith(rng1) and line_x.endswith(rng2)
