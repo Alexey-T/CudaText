@@ -3,7 +3,7 @@ Authors:
     Andrey Kvichansky (kvichans on github.com)
     Alexey Torgashin (CudaText)
 Version:
-    '0.9.3 2022-04-21'
+    '0.9.4 2022-04-21'
 '''
 
 import  os
@@ -100,32 +100,33 @@ class Command:
                 cmt_type    '1st' - at begin of line
                             'bod' - at first non-blank char
         '''
-#       if not apx._check_API('1.0.108'):    return
-        lex         = ed_.get_prop(app.PROP_LEXER_CARET)
+        lex = ed_.get_prop(app.PROP_LEXER_CARET)
         if not lex:
             return app.msg_status(_('Commenting requires an active lexer'))
-        prop        = app.lexer_proc(app.LEXER_GET_PROP, lex)
+        prop = app.lexer_proc(app.LEXER_GET_PROP, lex)
         if not prop:
             return
-        cmt_sgn     = prop['c_line']
-        cmt_range   = prop['c_str']
-        pass;                  #log('cmt_type, lex, cmt_sgn={}', (cmt_type, lex, cmt_sgn))
+        cmt_sgn   = prop['c_line']
+        cmt_range = prop['c_str']
+        pass; #log('cmt_type, lex, cmt_sgn={}', (cmt_type, lex, cmt_sgn))
 
         if not cmt_sgn:
             if cmt_range:
                 rng1 = cmt_range[0]
                 rng2 = cmt_range[1]
-                crts = ed_.get_carets()
-                if len(crts)==1:
-                    x, y, x1, y1 = crts[0]
+                changed = 0
+                for caret in reversed(ed_.get_carets()):
+                    x, y, x1, y1 = caret
                     if y1<0:
                         indexes = [y]
                     else:
-                        i1, i2 = ed_.get_sel_lines()
-                        indexes = range(i1, i2+1)
+                        if (y, x)>(y1, x1):
+                            x, y, x1, y1 = x1, y1, x, y
+                        if x1==0:
+                            y1-=1
+                        indexes = range(y, y1+1)
 
-                    changed = 0
-                    for index in indexes:    
+                    for index in indexes:
                         line = ed_.get_text_line(index)
                         line_x = line.lstrip()
                         indent = line[:len(line)-len(line_x)]
@@ -150,11 +151,11 @@ class Command:
                         ed_.set_text_line(index, line_new)
                         changed += 1
 
-                    if changed:
-                        app.msg_status(_('Toggled commenting for %d line(s)')%changed)
-                    else:
-                        app.msg_status(_('No commenting action was done'))
-                    return
+                if changed:
+                    app.msg_status(_('Toggled commenting for %d line(s)')%changed)
+                else:
+                    app.msg_status(_('No commenting action was done'))
+                return
 
             return app.msg_status(f(_('Lexer "{}" doesn\'t support "line comments"'), lex))
 
