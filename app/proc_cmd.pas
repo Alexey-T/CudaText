@@ -163,6 +163,7 @@ const
   cmd_FileOpen_HexViewer     = 2604;
   cmd_FileOpen_UnicodeViewer = 2605;
   cmd_SelectExpandToWord_Skip = 2606;
+  cmd_SelectExpandToWord_Alt = 2607; //like cmd_SelectExpandToWord but ignores whole-words
 
   cmd_SwitchTab_HotkeyNext = 2610;
   cmd_SwitchTab_HotkeyPrev = 2611;
@@ -490,6 +491,7 @@ begin
   M.Add(cmd_GotoLastEditingPos, 'go to last editing pos', [], []);
 
   M.Add(cmd_SelectExpandToWord, 'selection: add next occurrence of selected word', [cXControl+'+Shift+D'], []);
+  M.Add(cmd_SelectExpandToWord_Alt, 'selection: add next occurrence of selected text (ignores whole-words)', [], []);
   M.Add(cmd_SelectExpandToWord_Skip, 'selection: skip (don''t select) next occurrence of selected word', [], []);
 
   M.Add(cmd_CopyLine, 'clipboard: copy current line', [], []);

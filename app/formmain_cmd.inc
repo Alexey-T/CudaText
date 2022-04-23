@@ -402,9 +402,11 @@ begin
       DoFindCurrentWordOrSel(Ed, false, false);
 
     cmd_SelectExpandToWord:
-      EditorExpandSelectionToWord(Ed, @FinderShowResultSimple, true);
+      EditorExpandSelectionToWord(Ed, @FinderShowResultSimple, true, true);
+    cmd_SelectExpandToWord_Alt:
+      EditorExpandSelectionToWord(Ed, @FinderShowResultSimple, true, false);
     cmd_SelectExpandToWord_Skip:
-      EditorExpandSelectionToWord(Ed, @FinderShowResultSimple, false);
+      EditorExpandSelectionToWord(Ed, @FinderShowResultSimple, false, true);
 
     cmd_OpsClearRecent:
       DoOps_ClearConfigHistory([acheRecentFiles]);

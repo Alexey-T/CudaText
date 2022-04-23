@@ -153,7 +153,7 @@ function EditorGetTokenKind(Ed: TATSynEdit; AX, AY: integer;
   ADocCommentIsAlsoComment: boolean=true): TATTokenKind;
 function EditorExpandSelectionToWord(Ed: TATSynEdit;
   AFinderResultCallback: TATEditorFinderCallback;
-  AAndSelect: boolean): boolean;
+  AAndSelect, AWholeWords: boolean): boolean;
 function EditorFindCurrentWordOrSel(Ed: TATSynEdit;
   ANext, AWordOrSel, AOptCase, AOptWrapped: boolean;
   out Str: UnicodeString): boolean;
@@ -1794,7 +1794,8 @@ begin
 end;
 
 function EditorExpandSelectionToWord(Ed: TATSynEdit;
-  AFinderResultCallback: TATEditorFinderCallback; AAndSelect: boolean): boolean;
+  AFinderResultCallback: TATEditorFinderCallback;
+  AAndSelect, AWholeWords: boolean): boolean;
 var
   Caret: TATCaretItem;
   Finder: TATEditorFinder;
@@ -1856,7 +1857,7 @@ begin
       Finder.StrReplace:= '';
       Finder.Editor:= Ed;
 
-      Finder.OptWords:= bWholeWord;
+      Finder.OptWords:= bWholeWord and AWholeWords;
       Finder.OptRegex:= false;
       Finder.OptCase:= true;
       Finder.OptBack:= false;
