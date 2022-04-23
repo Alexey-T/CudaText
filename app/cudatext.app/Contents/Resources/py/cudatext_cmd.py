@@ -361,7 +361,8 @@ cmd_FileOpen_TextViewer    = 2603
 cmd_FileOpen_HexViewer     = 2604
 cmd_FileOpen_UnicodeViewer = 2605
 cmd_SelectExpandToWord_Skip = 2606
-cmd_SelectExpandToWord_Alt = 2607
+cmd_SelectExpandToText = 2607
+cmd_SelectExpandToText_Skip = 2608
 
 cmd_SwitchTab_HotkeyNext = 2610
 cmd_SwitchTab_HotkeyPrev = 2611

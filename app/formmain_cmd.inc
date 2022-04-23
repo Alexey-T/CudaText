@@ -403,10 +403,13 @@ begin
 
     cmd_SelectExpandToWord:
       EditorExpandSelectionToWord(Ed, @FinderShowResultSimple, true, true);
-    cmd_SelectExpandToWord_Alt:
+    cmd_SelectExpandToText:
       EditorExpandSelectionToWord(Ed, @FinderShowResultSimple, true, false);
+
     cmd_SelectExpandToWord_Skip:
       EditorExpandSelectionToWord(Ed, @FinderShowResultSimple, false, true);
+    cmd_SelectExpandToText_Skip:
+      EditorExpandSelectionToWord(Ed, @FinderShowResultSimple, false, false);
 
     cmd_OpsClearRecent:
       DoOps_ClearConfigHistory([acheRecentFiles]);
