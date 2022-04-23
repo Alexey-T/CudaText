@@ -502,7 +502,7 @@ props = {
             "stretch",
         ],
         "align-tracks": ["normal"],
-        "all": ["revert"],
+        "all": [],
         "alt": [],
         "animation": [
             "<animation-direction>",
@@ -804,7 +804,6 @@ props = {
             "flow",
             "flow-root",
             "grid",
-            "revert",
             "ruby",
             "ruby-base",
             "ruby-text",
@@ -1618,6 +1617,8 @@ props = {
 for_all = [
     'inherit',
     'initial',
+    'revert',
+    'revert-layer',
     'unset',
     'var()',
     '!important'
