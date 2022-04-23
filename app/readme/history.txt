@@ -5,7 +5,7 @@
 
 1.162.6
 
-+ add: command in the Command Palette: "add next occurrence of selected text (not whole-word)"
++ add: command in the Command Palette: "add next occurrence of selected text (not whole-word)" (thanks @veksha)
 + add: command in the Command Palette: "skip next occurrence of selected text"
 
 1.162.5 (2022/04)
