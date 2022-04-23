@@ -3,6 +3,10 @@
   - fixed
   * changed
 
+1.162.6
+
++ add: command in the Command Palette: "add next occurrence of selected text (ignores whole-word)"
+
 1.162.5 (2022/04)
 
 + add: on editing of a line, which is start of a folded block, do unfolding of that block (thanks @veksha)
