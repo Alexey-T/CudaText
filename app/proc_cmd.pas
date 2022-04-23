@@ -491,7 +491,7 @@ begin
   M.Add(cmd_GotoLastEditingPos, 'go to last editing pos', [], []);
 
   M.Add(cmd_SelectExpandToWord, 'selection: add next occurrence of selected word', [cXControl+'+Shift+D'], []);
-  M.Add(cmd_SelectExpandToWord_Alt, 'selection: add next occurrence of selected text (ignores whole-words)', [], []);
+  M.Add(cmd_SelectExpandToWord_Alt, 'selection: add next occurrence of selected text (not whole-word)', [], []);
   M.Add(cmd_SelectExpandToWord_Skip, 'selection: skip (don''t select) next occurrence of selected word', [], []);
 
   M.Add(cmd_CopyLine, 'clipboard: copy current line', [], []);
