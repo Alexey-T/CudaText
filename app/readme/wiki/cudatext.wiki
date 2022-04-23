@@ -71,7 +71,6 @@ Screenshot on Windows:
 * [[#Picture_file_viewer|Picture file viewer]] supports zooming of a picture
 * Option "caret_proximity_vert" to set minimal distance of caret to top/bottom edge
 * Option for "zebra" mode
-* Double-click on an URL / e-mail allows to open it (after a confirmation)
 * Windows version can use different Python engine (packages in add-ons)
 * Add-ons do not disappear due to GitHub repository deletions
 
