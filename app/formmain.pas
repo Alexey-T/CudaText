@@ -2826,8 +2826,7 @@ begin
       UpdateMenuRecent(F.Ed2);
 
     //usual calling of on_close don't work on app exit, so do it here
-    if F.FileName<>'' then
-      DoPyEvent(F.Ed1, cEventOnClose, []);
+    DoPyEvent(F.Ed1, cEventOnClose, []);
   end;
 
   //after UpdateMenuRecent
