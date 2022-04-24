@@ -21,6 +21,7 @@ uses
   {$ifdef windows}
   Windows,
   win32menustyler,
+  win32titlestyler,
   {$endif}
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs,
   StdCtrls, Buttons, ComCtrls, ExtCtrls, Menus,
@@ -5965,8 +5966,12 @@ begin
 
   {$ifdef windows}
   SetFullScreen_Win32(AValue);
+
   if not UiOps.ShowMenubar then
     ShowMenu:= false;
+
+  if not AValue then
+    ApplyFormDarkTitle(Self, IsColorDark(GetAppColor(apclTabBg)), true);
   {$else}
   SetFullScreen_Universal(AValue);
   {$endif}

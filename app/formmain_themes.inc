@@ -183,6 +183,10 @@ begin
   CompletionOps.ColorFontPrefix:= GetAppColor(apclListCompletePrefix);
   CompletionOps.ColorFontParams:= GetAppColor(apclListCompleteParams);
 
+  {$ifdef windows}
+  ApplyFormDarkTitle(Self, IsColorDark(GetAppColor(apclTabBg)), false);
+  {$endif}
+
   DoApplyTheme_ThemedMainMenu;
 end;
 

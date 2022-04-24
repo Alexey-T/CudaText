@@ -720,6 +720,7 @@ procedure AppUpdateWatcherFrames;
 
 procedure FixFormPositionToDesktop(F: TForm);
 procedure FixRectPositionToDesktop(var F: TRect);
+function IsColorDark(C: TColor): boolean;
 
 type
   { TKeymapHelper }
@@ -3415,6 +3416,20 @@ begin
   if (Key in [VK_SPACE, VK_RETURN, VK_TAB, VK_BACK]) and (Shift=[]) then
     exit(false);
 end;
+
+function IsColorDark(C: TColor): boolean;
+const
+  cMargin = $60;
+var
+  r, g, b: byte;
+begin
+  r:= Red(C);
+  g:= Green(C);
+  b:= Blue(C);
+  Result:= (r<=cMargin) and (g<=cMargin) and (b<=cMargin);
+end;
+
+
 
 initialization
 
