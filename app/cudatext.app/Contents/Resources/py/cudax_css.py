@@ -1291,6 +1291,7 @@ props = {
         ],
         "position": ["static", "relative", "absolute", "fixed", "sticky"],
         "prefix": [],
+        "print-color-adjust": ["economy", "exact"],
         "quotes": ["none", "<string>"],
         "range": ["auto", "infinite"],
         "resize": ["none", "both", "horizontal", "vertical"],
