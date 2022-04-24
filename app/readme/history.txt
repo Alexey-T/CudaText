@@ -7,6 +7,7 @@
 
 + add: command in the Command Palette: "add next occurrence of selected text (not whole-word)" (thanks @veksha)
 + add: command in the Command Palette: "skip next occurrence of selected text"
++ add: Windows (Vista and later): auto-set window title color to dark (thanks @ags1234) 
 
 1.162.5 (2022/04)
 
