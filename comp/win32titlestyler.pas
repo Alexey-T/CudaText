@@ -27,8 +27,9 @@ type
   // https://docs.microsoft.com/en-us/windows/win32/api/dwmapi/nf-dwmapi-dwmsetwindowattribute
 
 var
-  DwmSetWindowAttribute: TDwmSetWindowAttribute = nil;
   hLib: THandle = 0;
+  DwmSetWindowAttribute: TDwmSetWindowAttribute = nil;
+
   LastFormHandle: THandle = 0;
   LastDarkMode: bool = false;
 
@@ -42,25 +43,24 @@ begin
       (LastDarkMode=ADarkMode) then exit;
 
   if hLib=0 then
+  begin
     hLib:= LoadLibrary('dwmapi.dll');
+    if hLib<>0 then
+      Pointer(DwmSetWindowAttribute):= GetProcAddress(hLib, 'DwmSetWindowAttribute');
+  end;
 
-  if hLib<>0 then
+  if Assigned(DwmSetWindowAttribute) then
   begin
     LastFormHandle:= AForm.Handle;
     LastDarkMode:= ADarkMode;
 
-    Pointer(DwmSetWindowAttribute):= GetProcAddress(hLib, 'DwmSetWindowAttribute');
-    if Assigned(DwmSetWindowAttribute) then
-      try
-        DwmSetWindowAttribute(AForm.Handle, DWMWA_USE_IMMERSIVE_DARK_MODE, @ADarkMode, SizeOf(ADarkMode));
+    DwmSetWindowAttribute(AForm.Handle, DWMWA_USE_IMMERSIVE_DARK_MODE, @ADarkMode, SizeOf(ADarkMode));
 
-        if AForceApply then
-        begin
-          AForm.Width:= AForm.Width-1;
-          AForm.Width:= AForm.Width+1;
-        end;
-      except
-      end;
+    if AForceApply then
+    begin
+      AForm.Width:= AForm.Width-1;
+      AForm.Width:= AForm.Width+1;
+    end;
   end;
 end;
 
