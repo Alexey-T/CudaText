@@ -98,7 +98,7 @@
   "ButtonBorderFocused" : "#808080",
   "MenuFont" : "",
   "MenuFontHotkey" : "",
-  "MenuFontDisabled" : "",
+  "MenuFontDisabled" : "#575757",
   "MenuBg" : "",
   "MenuSelBg" : "",
   "StatusFont" : "",
