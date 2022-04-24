@@ -2825,7 +2825,8 @@ begin
     if not F.EditorsLinked then
       UpdateMenuRecent(F.Ed2);
 
-    //usual calling of on_close don't work on app exit, so do it here
+    //on_close are not fired automatically on app exit
+    //(because we don't really close tabs on exit), so fire it here
     DoPyEvent(F.Ed1, cEventOnClose, []);
   end;
 
