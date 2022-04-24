@@ -2824,13 +2824,17 @@ begin
     UpdateMenuRecent(F.Ed1);
     if not F.EditorsLinked then
       UpdateMenuRecent(F.Ed2);
+
+    //usual calling of on_close don't work on app exit, so do it here
+    if F.FileName<>'' then
+      DoPyEvent(F.Ed1, cEventOnClose, []);
   end;
 
   //after UpdateMenuRecent
   DoOps_SaveHistory(UiOps.SaveModifiedTabsOnClose);
 
   {
-  //seems doing DoCloseAllTabs on FormClose is bad idea:
+  //seems doing DoCloseAllTabs in FormClose is bad idea:
   //app asks to save modified tabs, even with UiOps.SessionSaveOnExit.
   AppSessionIsClosing:= true; //to avoid asking "Close pinned tab?"
   DoCloseAllTabs;
