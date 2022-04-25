@@ -2731,6 +2731,7 @@ begin
   FListTimers:= TStringList.Create;
   FLastStatusbarMessages:= TStringList.Create;
   FLastStatusbarMessages.TextLineBreakStyle:= tlbsLF;
+  FLastStatusbarMessages.TrailingLineBreak:= false;
 
   InitStatusbar;
   InitGroups;
