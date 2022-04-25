@@ -3344,8 +3344,8 @@ begin
 
   FHandledOnShowPartly:= true;
 
-  _Init_ApiOnStart;
   _Init_KeymapMain;
+  _Init_ApiOnStart;
   _Init_KeymapNoneForEmpty;
   _Init_StartupSession;
 
