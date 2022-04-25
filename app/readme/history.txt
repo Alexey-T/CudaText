@@ -3,10 +3,10 @@
   - fixed
   * changed
 
-1.162.6
+1.162.7 (2022/04)
 
-+ add: command in the Command Palette: "add next occurrence of selected text (not whole-word)" (thanks @veksha)
-+ add: command in the Command Palette: "skip next occurrence of selected text"
++ add: new command "add next occurrence of selected text (not whole-word)" (thanks @veksha)
++ add: new command "skip next occurrence of selected text"
 + add: Windows (Vista and later): auto-set window title color to dark (thanks @ags1234)
 - fix: hotkeys were not inited completely for .txt files in a project's session (thanks @MiroslavMatas) 
 
