@@ -7,7 +7,7 @@
 
 + add: new command "add next occurrence of selected text (not whole-word)" (thanks @veksha)
 + add: new command "skip next occurrence of selected text"
-+ add: Windows (Vista and later): auto-set window title color to dark (thanks @ags1234)
++ add: Windows (10 and 11): auto-set window title color to dark (thanks @ags1234)
 - fix: XML file with XML encoding signature could not be reloaded in different cpXXXX encoding (thanks @ertank)
 - fix: hotkeys were not inited completely for .txt files in a project's session (thanks @MiroslavMatas) 
 
