@@ -427,6 +427,7 @@ const
 begin
   Result:= false;
   if ASessionId='' then exit;
+  if ASessionId=AppSessionName then exit;
 
   SSplitByChar(ASessionId, '|', AFileName, sRootPath);
   if not FileExists(AFileName) then exit;
