@@ -77,6 +77,7 @@ var
   AppSessionIsClosing: boolean = false;
   AppActiveForm: TObject = nil;
   AppThemeStatusbar: TATFlatTheme;
+  AppApiOnStartActivated: boolean = false;
   AppApiDialogCounter: integer = 0;
   AppCodetreeState: record
     Editor: TATSynEdit;
@@ -2613,6 +2614,11 @@ var
   StrId: string;
   ncmd, nitem, i: integer;
 begin
+  //we must block too early reading of keys-config.
+  //it is called too early, from 'on_start': Project Manager restores session, which loads .txt file,
+  //which sets none-lexer, which loads keys-config.
+  if not AppApiOnStartActivated then exit;
+
   cfg:= TJSONConfig.Create(nil);
   slist:= TStringList.Create;
   skeys:= TStringList.Create;
