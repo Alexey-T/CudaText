@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.162.7 (2022/04)
+1.163.0 (2022/04)
 
 + add: new command "add next occurrence of selected text (not whole-word)" (thanks @veksha)
 + add: new command "skip next occurrence of selected text"
