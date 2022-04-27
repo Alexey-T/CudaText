@@ -77,6 +77,7 @@ var
   AppSessionIsClosing: boolean = false;
   AppActiveForm: TObject = nil;
   AppThemeStatusbar: TATFlatTheme;
+  AppApiOnStartActivated: boolean = false;
   AppApiDialogCounter: integer = 0;
   AppCodetreeState: record
     Editor: TATSynEdit;
@@ -2652,12 +2653,16 @@ var
   Keymap: TATKeymap;
   N: integer;
 begin
+  //we must block too early loading of keys-config.
+  //it is called too early from FormShow._Init_ApiOnStart:
+  //  Project Manager restores project, and restores project's _default_ session,
+  //  which loads .txt file, which sets none-lexer, which loads keys-config.
+  if not AppApiOnStartActivated then
+    exit(AppKeymapMain);
+
   N:= AppKeymapLexers.IndexOf(ALexer);
   if N>=0 then
-  begin
-    Result:= TATKeymap(AppKeymapLexers.Objects[N]);
-    exit;
-  end;
+    exit(TATKeymap(AppKeymapLexers.Objects[N]));
 
   Keymap:= TATKeymap.Create;
   Keymap.Assign(AppKeymapMain);

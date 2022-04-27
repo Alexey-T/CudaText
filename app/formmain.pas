@@ -2731,6 +2731,7 @@ begin
   FListTimers:= TStringList.Create;
   FLastStatusbarMessages:= TStringList.Create;
   FLastStatusbarMessages.TextLineBreakStyle:= tlbsLF;
+  FLastStatusbarMessages.TrailingLineBreak:= false;
 
   InitStatusbar;
   InitGroups;
@@ -3241,6 +3242,7 @@ procedure TfmMain.FormShow(Sender: TObject);
   procedure _Init_ApiOnStart;
   begin
     DoPyEvent(nil, cEventOnStart, []);
+    AppApiOnStartActivated:= true;
   end;
   //
   procedure _Init_KeymapMain;
@@ -3344,8 +3346,8 @@ begin
 
   FHandledOnShowPartly:= true;
 
-  _Init_KeymapMain;
   _Init_ApiOnStart;
+  _Init_KeymapMain;
   _Init_KeymapNoneForEmpty;
   _Init_StartupSession;
 

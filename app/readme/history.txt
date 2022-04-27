@@ -3,11 +3,13 @@
   - fixed
   * changed
 
-1.162.6
+1.163.0 (2022/04)
 
-+ add: command in the Command Palette: "add next occurrence of selected text (not whole-word)" (thanks @veksha)
-+ add: command in the Command Palette: "skip next occurrence of selected text"
-+ add: Windows (Vista and later): auto-set window title color to dark (thanks @ags1234) 
++ add: new command "add next occurrence of selected text (not whole-word)" (thanks @veksha)
++ add: new command "skip next occurrence of selected text"
++ add: Windows (10 and 11): auto-set window title color to dark (thanks @ags1234)
+- fix: file with XML/Python encoding signature could not be re-read in different cpXXXX encoding (thanks @ertank)
+- fix: hotkeys were not inited completely for .txt files in a project's session (thanks @MiroslavMatas) 
 
 1.162.5 (2022/04)
 
