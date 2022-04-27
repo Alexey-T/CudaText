@@ -6003,10 +6003,13 @@ begin
   end
   else
   begin
+    DoControlLock(Self); //reduces flickering with dark ui-theme
     WindowState:= FOrigWndState;
     BoundsRect:= FOrigBounds;
     BorderStyle:= bsSizeable;
     BoundsRect:= FOrigBounds; //again
+    Application.ProcessMessages; //reduces flickering with dark ui-theme
+    DoControlUnlock(Self);
   end;
 
   UpdateMenuTheming_MainMenu(true);
