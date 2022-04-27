@@ -218,7 +218,7 @@ object SyntAnal8: TLibSyntAnalyzer
       StyleName = 'Tag string'
       BlockName = 'Tag begin'
       TokenType = 4
-      Expression = '(?s) (?<=[\=\{:,]\x20*) ("|'#39') (<\?.+?\?>|.)*? (\1|\Z)'
+      Expression = '(?s) (?<=[\=\{\[:,]\x20*) ("|'#39') (<\?.+?\?>|.)*? (\1|\Z)'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -264,7 +264,7 @@ object SyntAnal8: TLibSyntAnalyzer
     item
       DisplayName = 'Other symbols'
       StyleName = 'Tag bound'
-      Expression = '[:\{\}"]'
+      Expression = '[:\{\}"\[\]]'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -272,7 +272,7 @@ object SyntAnal8: TLibSyntAnalyzer
       DisplayName = 'Text'
       StyleName = 'Text'
       TokenType = 9
-      Expression = '(?r)\w+'
+      Expression = '(?r)[\w\$]+'
       ColumnFrom = 0
       ColumnTo = 0
     end>
