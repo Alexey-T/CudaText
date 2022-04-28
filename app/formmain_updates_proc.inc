@@ -949,7 +949,7 @@ begin
   if Assigned(saved.item1) then saved.item1.Checked:= AValue;
 end;
 
-procedure TfmMain.UpdateMenuChecks(F: TEditorFrame);
+procedure TfmMain.UpdateMenuChecks_Frame(F: TEditorFrame);
 var
   Ed: TATSynEdit;
 begin
@@ -968,7 +968,10 @@ begin
   UpdateMenuItemChecked(mnuViewUnpriSpacesTail, mnuViewUnpriSpacesTail_Alt, Ed.OptUnprintedSpacesTrailing);
   UpdateMenuItemChecked(mnuViewUnpriEnds, mnuViewUnpriEnds_Alt, Ed.OptUnprintedEnds);
   UpdateMenuItemChecked(mnuViewUnpriEndsDet, mnuViewUnpriEndsDet_Alt, Ed.OptUnprintedEndsDetails);
+end;
 
+procedure TfmMain.UpdateMenuChecks_Global;
+begin
   UpdateMenuItemChecked(mnuViewToolbar, mnuViewToolbar_Alt, ShowToolbar);
   UpdateMenuItemChecked(mnuViewStatus, mnuViewStatus_Alt, ShowStatus);
   UpdateMenuItemChecked(mnuViewFullscr, mnuViewFullscr_Alt, ShowFullscreen);
