@@ -777,12 +777,15 @@ Note about SQL blocks. CudaText has lexer preinstalled, it's lite lexer "SQL ^",
 
 ==Location of folders 'settings', 'py', 'data'==
 
-Non-portable CudaText installation is used for:
+Packaged CudaText is distributed for:
 
 * Linux: .deb package, which installs binary file to "usr/bin/cudatext" and several data folders to "/usr/share/cudatext"
-* macOS: installer creates the sym-link in the "Applications"
+* macOS: package, which installer creates the sym-link in the "Applications" folder
+* Haiku: to-do (package is not ready yet)
 
-All other CudaText packages are portable. When program runs, it first detects "am I in portable mode?" (executable file is located near folder "data"). And if "not portable", these locations of 'data' and 'py' folders are used:
+CudaText distribution for Windows (in .zip file) is portable. Even 'settings' folder is created near the .exe file.
+
+Other CudaText distributions (in .zip and .xz archives) are not fully portable, "not fully" because 'settings' folder is created in different place:
 
 * Linux, *BSD, Solaris: ~/.config/cudatext, or $XDG_CONFIG_HOME/cudatext if this OS variable is set
 * macOS: ~/Library/Application Support/CudaText
