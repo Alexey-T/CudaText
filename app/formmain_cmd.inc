@@ -1024,6 +1024,7 @@ begin
         begin
           Frame.SplitHorz:= true;
           Frame.Splitted:= true;
+          UpdateMenuChecks(Frame);
         end;
         AHandled:= true;
         exit
@@ -1034,6 +1035,7 @@ begin
         begin
           Frame.SplitHorz:= false;
           Frame.Splitted:= true;
+          UpdateMenuChecks(Frame);
         end;
         AHandled:= true;
         exit
@@ -1041,7 +1043,10 @@ begin
     cmd_SplitTabNo:
       begin
         if Assigned(Frame) then
+        begin
           Frame.Splitted:= false;
+          UpdateMenuChecks(Frame);
+        end;
         AHandled:= true;
         exit
       end;
