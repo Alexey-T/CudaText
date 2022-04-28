@@ -1006,14 +1006,20 @@ begin
     cmd_SplitTabToggle:
       begin
         if Assigned(Frame) then
+        begin
           Frame.Splitted:= not Frame.Splitted;
+          UpdateMenuChecks(Frame);
+        end;
         AHandled:= true;
         exit
       end;
     cmd_SplitTabHorzVert:
       begin
         if Assigned(Frame) then
+        begin
           Frame.SplitHorz:= not Frame.SplitHorz;
+          UpdateMenuChecks(Frame);
+        end;
         AHandled:= true;
         exit
       end;
