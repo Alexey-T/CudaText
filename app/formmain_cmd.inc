@@ -1008,7 +1008,7 @@ begin
         if Assigned(Frame) then
         begin
           Frame.Splitted:= not Frame.Splitted;
-          UpdateMenuChecks(Frame);
+          UpdateMenuChecks_FrameSplit(Frame);
         end;
         AHandled:= true;
         exit
@@ -1018,7 +1018,7 @@ begin
         if Assigned(Frame) then
         begin
           Frame.SplitHorz:= not Frame.SplitHorz;
-          UpdateMenuChecks(Frame);
+          UpdateMenuChecks_FrameSplit(Frame);
         end;
         AHandled:= true;
         exit
@@ -1030,7 +1030,7 @@ begin
         begin
           Frame.SplitHorz:= true;
           Frame.Splitted:= true;
-          UpdateMenuChecks(Frame);
+          UpdateMenuChecks_FrameSplit(Frame);
         end;
         AHandled:= true;
         exit
@@ -1041,7 +1041,7 @@ begin
         begin
           Frame.SplitHorz:= false;
           Frame.Splitted:= true;
-          UpdateMenuChecks(Frame);
+          UpdateMenuChecks_FrameSplit(Frame);
         end;
         AHandled:= true;
         exit
@@ -1051,7 +1051,7 @@ begin
         if Assigned(Frame) then
         begin
           Frame.Splitted:= false;
-          UpdateMenuChecks(Frame);
+          UpdateMenuChecks_FrameSplit(Frame);
         end;
         AHandled:= true;
         exit

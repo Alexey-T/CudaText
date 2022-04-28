@@ -1107,10 +1107,10 @@ type
     procedure UpdateMenuPlugins_Shortcuts(AForceUpdate: boolean=false);
     procedure UpdateMenuPlugins_Shortcuts_Work(AForceUpdate: boolean);
     procedure UpdateMenuChecks(F: TEditorFrame);
+    procedure UpdateMenuChecks_FrameSplit(F: TEditorFrame);
     procedure UpdateMenuEnc(AMenu: TMenuItem);
     procedure UpdateFrameLineEnds(Frame: TEditorFrame; AValue: TATLineEnds);
     procedure UpdateEditorCaretLineEnds(Frame: TEditorFrame; Ed: TATSynEdit; AValue: TATLineEnds);
-    procedure UpdateSomeStates(F: TEditorFrame);
     procedure UpdateStatusbarPanelsFromString(const AText: string);
     procedure UpdateStatusbarHints;
     procedure UpdateStatusbar_ForFrame(AStatus: TATStatus; F: TEditorFrame);
@@ -2288,7 +2288,9 @@ begin
   begin
     FNeedUpdateStatuses:= false;
     TimerStatusWork.Enabled:= false;
-    UpdateSomeStates(Frame);
+    UpdateTabCaptionsFromFolders;
+    UpdateMenuChecks(Frame);
+    UpdateMenuChecks_FrameSplit(Frame);
     UpdateStatusbar_RealWork;
   end;
 
@@ -2302,6 +2304,7 @@ begin
   begin
     FNeedUpdateMenuChecks:= false;
     UpdateMenuChecks(Frame);
+    UpdateMenuChecks_FrameSplit(Frame);
   end;
 
   if FNeedAutoComplete then

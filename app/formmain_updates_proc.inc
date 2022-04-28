@@ -100,13 +100,6 @@ begin
     ToolbarSideMid.Buttons[0].Checked:= Assigned(fmFind) and fmFind.Visible;
 end;
 
-procedure TfmMain.UpdateSomeStates(F: TEditorFrame);
-begin
-  if F=nil then exit;
-  UpdateTabCaptionsFromFolders;
-  UpdateMenuChecks(F);
-end;
-
 procedure TfmMain.UpdateToolbarButtons(F: TEditorFrame);
 var
   Ed: TATSynEdit;
@@ -976,10 +969,6 @@ begin
   UpdateMenuItemChecked(mnuViewUnpriEnds, mnuViewUnpriEnds_Alt, Ed.OptUnprintedEnds);
   UpdateMenuItemChecked(mnuViewUnpriEndsDet, mnuViewUnpriEndsDet_Alt, Ed.OptUnprintedEndsDetails);
 
-  UpdateMenuItemChecked(mnuViewSplitNo, mnuViewSplitNo_Alt, not F.Splitted);
-  UpdateMenuItemChecked(mnuViewSplitV, mnuViewSplitV_Alt, F.Splitted and not F.SplitHorz);
-  UpdateMenuItemChecked(mnuViewSplitH, mnuViewSplitH_Alt, F.Splitted and F.SplitHorz);
-
   UpdateMenuItemChecked(mnuViewToolbar, mnuViewToolbar_Alt, ShowToolbar);
   UpdateMenuItemChecked(mnuViewStatus, mnuViewStatus_Alt, ShowStatus);
   UpdateMenuItemChecked(mnuViewFullscr, mnuViewFullscr_Alt, ShowFullscreen);
@@ -1004,6 +993,13 @@ begin
   UpdateMenuItemChecked(mnuGr6V, mnuGr6V_Alt, Groups.Mode= gm6v);
   UpdateMenuItemChecked(mnuGr6H, mnuGr6H_Alt, Groups.Mode= gm6h);
   UpdateMenuItemChecked(mnuGr6, mnuGr6_Alt, Groups.Mode= gm6Grid);
+end;
+
+procedure TfmMain.UpdateMenuChecks_FrameSplit(F: TEditorFrame);
+begin
+  UpdateMenuItemChecked(mnuViewSplitNo, mnuViewSplitNo_Alt, not F.Splitted);
+  UpdateMenuItemChecked(mnuViewSplitV, mnuViewSplitV_Alt, F.Splitted and not F.SplitHorz);
+  UpdateMenuItemChecked(mnuViewSplitH, mnuViewSplitH_Alt, F.Splitted and F.SplitHorz);
 end;
 
 procedure TfmMain.UpdateTreeByTimer;
