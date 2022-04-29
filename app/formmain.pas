@@ -240,7 +240,6 @@ type
   { TfmMain }
   TfmMain = class(TForm)
     AppProps: TApplicationProperties;
-    ButtonCancel: TATButton;
     mnuEditPasteHist: TMenuItem;
     mnuEditPasteIndent: TMenuItem;
     mnuViewSplitNo: TMenuItem;
@@ -733,6 +732,7 @@ type
     FCmdlineFileCount: integer;
 
     procedure HandleTimerCommand(Ed: TATSynEdit; CmdCode: integer; CmdInvoke: TATEditorCommandInvoke);
+    procedure InitButtonCancel;
     function IsTooManyTabsOpened: boolean;
     function GetUntitledNumberedCaption: string;
     procedure PopupBottomOnPopup(Sender: TObject);
@@ -1170,6 +1170,7 @@ type
     CodeTreeFilterReset: TATButton;
     PanelCodeTreeAll: TFormDummy;
     PanelCodeTreeTop: TPanel;
+    ButtonCancel: TATButton;
     //LexerProgress: TATGauge;
     function FrameCount: integer;
     property Frames[N: integer]: TEditorFrame read GetFrame;
@@ -3822,7 +3823,6 @@ var
 begin
   //LexerProgress.Width:= AppScale(UiOps.ProgressbarHeightSmall);
   StatusProgress.Width:= ATEditorScale(UiOps.ProgressbarWidth);
-  ButtonCancel.Width:= ATEditorScale(UiOps.ProgressbarWidth);
 
   AppScaleSplitter(AppPanels[cPaneSide].Splitter);
   AppScaleSplitter(AppPanels[cPaneOut].Splitter);
@@ -3850,7 +3850,6 @@ begin
       Ed2.Font.Size:= EditorOps.OpFontSize;
     end;
   Status.DoubleBuffered:= UiOps.DoubleBuffered;
-  ButtonCancel.DoubleBuffered:= UiOps.DoubleBuffered;
   StatusProgress.DoubleBuffered:= UiOps.DoubleBuffered;
   //LexerProgress.DoubleBuffered:= UiOps.DoubleBuffered;
   if Assigned(fmConsole) then

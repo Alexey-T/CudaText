@@ -306,21 +306,32 @@ begin
   end;
   *)
 
-  with ButtonCancel do
-  begin
-    Visible:= false;
-    Parent:= Status;
-    AnchorSideRight.Control:= StatusProgress;
-    AnchorSideBottom.Control:= StatusProgress;
-    AnchorSideBottom.Side:= asrBottom;
-    AnchorSideTop.Control:= StatusProgress;
-    Anchors:= [akRight, akTop, akBottom];
-    BorderSpacing.Right:= 2;
-    Width:= UiOps.ProgressbarWidth;
-  end;
-
   //UpdateLexerProgressbar(0, false);
   UpdateGlobalProgressbar(0, false);
+end;
+
+procedure TfmMain.InitButtonCancel;
+begin
+  if not Assigned(ButtonCancel) then
+  begin
+    ButtonCancel:= TATButton.Create(Self);
+    with ButtonCancel do
+    begin
+      Visible:= false;
+      Parent:= Status;
+      OnClick:= @ButtonCancelClick;
+      AnchorSideRight.Control:= StatusProgress;
+      AnchorSideBottom.Control:= StatusProgress;
+      AnchorSideBottom.Side:= asrBottom;
+      AnchorSideTop.Control:= StatusProgress;
+      Anchors:= [akRight, akTop, akBottom];
+      BorderSpacing.Right:= 2;
+    end;
+  end;
+
+  ButtonCancel.DoubleBuffered:= UiOps.DoubleBuffered;
+  ButtonCancel.Caption:= msgButtonCancel;
+  ButtonCancel.Width:= ATEditorScale(UiOps.ProgressbarWidth);
 end;
 
 procedure TfmMain.UpdateCurrentFrame(AUpdatedText: boolean = false); inline;
@@ -387,6 +398,7 @@ begin
     FFinder.Editor:= Ed;
     FFindStop:= false;
     FFindConfirmAll:= mrNone;
+    InitButtonCancel;
     ButtonCancel.Show;
     UpdateGlobalProgressbar(0, true);
     if AUpdateEnableAll then
@@ -399,7 +411,8 @@ begin
   end
   else
   begin
-    ButtonCancel.Hide;
+    if Assigned(ButtonCancel) then
+      ButtonCancel.Hide;
     UpdateGlobalProgressbar(0, false);
     if AUpdateEnableAll then
       UpdateEnabledAll(true);

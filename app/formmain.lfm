@@ -113,16 +113,6 @@ object fmMain: TfmMain
         DoubleBuffered = False
         ParentColor = False
       end
-      object ButtonCancel: TATButton
-        Left = 760
-        Height = 25
-        Top = 20
-        Width = 100
-        Caption = 'Cancel'
-        TabStop = True
-        TabOrder = 0
-        OnClick = ButtonCancelClick
-      end
       object PanelEditors: TATPanelSimple
         Left = 0
         Height = 471

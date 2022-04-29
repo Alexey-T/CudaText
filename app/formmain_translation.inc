@@ -516,7 +516,8 @@ begin
     DoLocString(msgTabsizeConvSpaces, ini, 'ct', 'cnv_t');
     DoLocString(msgTabsizeConvTabs, ini, 'ct', 'cnv_s');
 
-    ButtonCancel.Caption:= msgButtonCancel;
+    if Assigned(ButtonCancel) then
+      ButtonCancel.Caption:= msgButtonCancel;
 
     //----------------strings
     DoLocString(msgCannotOpenFile                , ini, 'se', 'OpenFile');
