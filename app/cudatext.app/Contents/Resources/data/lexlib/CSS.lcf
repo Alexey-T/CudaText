@@ -616,6 +616,7 @@ object SyntAnal6: TLibSyntAnalyzer
             'flood-opacity'
             'flow-root'
             'font'
+            'font-color'
             'font-display'
             'font-family'
             'font-feature-settings'
