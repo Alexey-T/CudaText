@@ -731,8 +731,6 @@ type
     FCmdlineFileCount: integer;
 
     procedure HandleTimerCommand(Ed: TATSynEdit; CmdCode: integer; CmdInvoke: TATEditorCommandInvoke);
-    procedure InitStatusProgress;
-    procedure InitButtonCancel;
     function IsTooManyTabsOpened: boolean;
     function GetUntitledNumberedCaption: string;
     procedure PopupBottomOnPopup(Sender: TObject);
@@ -900,6 +898,8 @@ type
     function GetShowFloatGroup3: boolean;
     function GetShowOnTop: boolean;
     function GetShowSidebarOnRight: boolean;
+    procedure InitStatusProgress;
+    procedure InitButtonCancel;
     procedure InitAppleMenu;
     procedure InitImageListCodetree;
     procedure InitPaintTest;
@@ -1144,7 +1144,6 @@ type
     procedure InitPyEngine;
     procedure InitFrameEvents(F: TEditorFrame);
     procedure InitStatusbar;
-    procedure InitStatusbarControls;
     procedure InitGroups;
     procedure InitFinder;
     procedure InitBookmarkSetup;
@@ -2744,7 +2743,6 @@ begin
   InitStatusbar;
   InitGroups;
   InitFinder;
-  InitStatusbarControls;
 
   FFindStop:= false;
   FFindConfirmAll:= mrNone;

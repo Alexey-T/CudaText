@@ -269,31 +269,6 @@ begin
   DoStatusbarTextByTag(AStatus, StatusbarTag_Msg, GetStatusbarPrefix(F)+FLastStatusbarMessage);
 end;
 
-procedure TfmMain.InitStatusbarControls;
-begin
-  (*
-  with LexerProgress do
-  begin
-    Parent:= Status;
-    Align:= alRight;
-    //AnchorSideRight.Control:= Status;
-    //AnchorSideRight.Side:= asrRight;
-    //AnchorSideTop.Control:= Status;
-    //AnchorSideTop.Side:= asrTop;
-    //AnchorSideBottom.Control:= Status;
-    //AnchorSideBottom.Side:= asrBottom;
-    //Anchors:= [akRight, akTop];
-    BorderSpacing.Around:= 2;
-    Kind:= gkVerticalBar;
-    ShowText:= false;
-    Width:= UiOps.ProgressbarHeightSmall;
-  end;
-  *)
-
-  //UpdateLexerProgressbar(0, false);
-  UpdateGlobalProgressbar(0, false);
-end;
-
 procedure TfmMain.InitStatusProgress;
 begin
   if not Assigned(StatusProgress) then
@@ -311,6 +286,9 @@ begin
       AnchorSideTop.Side:= asrTop;
       Anchors:= [akRight, akTop, akBottom];
       BorderSpacing.Around:= 2;
+      MinValue:= 0;
+      MaxValue:= 100;
+      Progress:= 0;
     end;
   end;
 
