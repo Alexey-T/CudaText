@@ -266,7 +266,6 @@ type
     mnuViewUnpriSpacesTail: TMenuItem;
     mnuViewMicromap: TMenuItem;
     mnuHelpCheckUpd: TMenuItem;
-    StatusProgress: TATGauge;
     MenuItem4: TMenuItem;
     mnuViewDistFree: TMenuItem;
     SepV4: TMenuItem;
@@ -732,6 +731,7 @@ type
     FCmdlineFileCount: integer;
 
     procedure HandleTimerCommand(Ed: TATSynEdit; CmdCode: integer; CmdInvoke: TATEditorCommandInvoke);
+    procedure InitStatusProgress;
     procedure InitButtonCancel;
     function IsTooManyTabsOpened: boolean;
     function GetUntitledNumberedCaption: string;
@@ -1170,6 +1170,7 @@ type
     CodeTreeFilterReset: TATButton;
     PanelCodeTreeAll: TFormDummy;
     PanelCodeTreeTop: TPanel;
+    StatusProgress: TATGauge;
     ButtonCancel: TATButton;
     //LexerProgress: TATGauge;
     function FrameCount: integer;
@@ -3821,9 +3822,6 @@ var
   Pages: TATPages;
   i: integer;
 begin
-  //LexerProgress.Width:= AppScale(UiOps.ProgressbarHeightSmall);
-  StatusProgress.Width:= ATEditorScale(UiOps.ProgressbarWidth);
-
   AppScaleSplitter(AppPanels[cPaneSide].Splitter);
   AppScaleSplitter(AppPanels[cPaneOut].Splitter);
   AppScaleSplitter(Groups.Splitter1);
@@ -3850,7 +3848,6 @@ begin
       Ed2.Font.Size:= EditorOps.OpFontSize;
     end;
   Status.DoubleBuffered:= UiOps.DoubleBuffered;
-  StatusProgress.DoubleBuffered:= UiOps.DoubleBuffered;
   //LexerProgress.DoubleBuffered:= UiOps.DoubleBuffered;
   if Assigned(fmConsole) then
     fmConsole.IsDoubleBuffered:= UiOps.DoubleBuffered;
@@ -8402,6 +8399,7 @@ end;
 
 procedure TfmMain.UpdateGlobalProgressbar(AValue: integer; AVisible: boolean; AMaxValue: integer=100);
 begin
+  InitStatusProgress;
   StatusProgress.Visible:= AVisible;
   StatusProgress.MinValue:= 0;
   StatusProgress.MaxValue:= AMaxValue;

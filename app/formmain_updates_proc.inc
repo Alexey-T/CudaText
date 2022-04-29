@@ -271,22 +271,6 @@ end;
 
 procedure TfmMain.InitStatusbarControls;
 begin
-  //place StatusProgress+ButtonCancel onto Statusbar and anchor to right
-  with StatusProgress do
-  begin
-    Visible:= false;
-    Parent:= Status;
-    AnchorSideRight.Control:= Status;
-    AnchorSideRight.Side:= asrBottom;
-    AnchorSideBottom.Control:= Status;
-    AnchorSideBottom.Side:= asrBottom;
-    AnchorSideTop.Control:= Status;
-    AnchorSideTop.Side:= asrTop;
-    Anchors:= [akRight, akTop, akBottom];
-    BorderSpacing.Around:= 2;
-    Width:= UiOps.ProgressbarWidth;
-  end;
-
   (*
   with LexerProgress do
   begin
@@ -310,10 +294,36 @@ begin
   UpdateGlobalProgressbar(0, false);
 end;
 
+procedure TfmMain.InitStatusProgress;
+begin
+  if not Assigned(StatusProgress) then
+  begin
+    StatusProgress:= TATGauge.Create(Self);
+    with StatusProgress do
+    begin
+      Visible:= false;
+      Parent:= Status;
+      AnchorSideRight.Control:= Status;
+      AnchorSideRight.Side:= asrBottom;
+      AnchorSideBottom.Control:= Status;
+      AnchorSideBottom.Side:= asrBottom;
+      AnchorSideTop.Control:= Status;
+      AnchorSideTop.Side:= asrTop;
+      Anchors:= [akRight, akTop, akBottom];
+      BorderSpacing.Around:= 2;
+    end;
+  end;
+
+  StatusProgress.DoubleBuffered:= UiOps.DoubleBuffered;
+  StatusProgress.Width:= ATEditorScale(UiOps.ProgressbarWidth);
+  StatusProgress.Font.Assign(Self.Font);
+end;
+
 procedure TfmMain.InitButtonCancel;
 begin
   if not Assigned(ButtonCancel) then
   begin
+    InitStatusProgress;
     ButtonCancel:= TATButton.Create(Self);
     with ButtonCancel do
     begin
@@ -505,8 +515,6 @@ begin
     GroupsF2.SetTabFont(Self.Font);
     GroupsF3.SetTabFont(Self.Font);
   end;
-
-  StatusProgress.Font.Assign(Self.Font);
 
   //dont set font for PanelLeft/PanelBottom, id effects
   CodeTree.Tree.Font.Name:= UiOps.VarFontName;

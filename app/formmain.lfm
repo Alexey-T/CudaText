@@ -104,15 +104,6 @@ object fmMain: TfmMain
       Top = 24
       Width = 1161
       Align = alClient
-      object StatusProgress: TATGauge
-        Left = 752
-        Height = 19
-        Top = 50
-        Width = 112
-        Color = clBtnFace
-        DoubleBuffered = False
-        ParentColor = False
-      end
       object PanelEditors: TATPanelSimple
         Left = 0
         Height = 471
