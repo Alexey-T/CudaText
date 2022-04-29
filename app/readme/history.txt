@@ -3,7 +3,10 @@
   - fixed
   * changed
 
-- fix: 2 minor bugs (rarely seen) in TRegExpr engine
+1.163.1
+
++ add: Find dialog: disabled buttons are shown with a crossing-line, to be better visible as disabled
+- fix: a couple of minor bugs (rarely visible) in TRegExpr engine
 - fix: menu checkmarks in "View / Split tab" were not updated ok
 
 1.163.0 (2022/04)
