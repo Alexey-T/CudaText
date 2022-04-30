@@ -1452,7 +1452,7 @@
   "find_hotkey_find_dlg": "Ctrl+F",
   "find_hotkey_replace_dlg": "Ctrl+R",
   "find_hotkey_find_first": "Alt+Enter",
-  "find_hotkey_find_next": "",
+  "find_hotkey_find_next": "F3",
   "find_hotkey_find_prev": "Shift+Enter",
   "find_hotkey_replace": "Alt+Z",
   "find_hotkey_replace_no_next": "Ctrl+Alt+Z",

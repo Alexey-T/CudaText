@@ -1945,7 +1945,7 @@ begin
     HotkeyFindDialog:= 'Ctrl+F';
     HotkeyReplaceDialog:= 'Ctrl+R';
     HotkeyFindFirst:= 'Alt+Enter';
-    HotkeyFindNext:= '';
+    HotkeyFindNext:= 'F3';
     HotkeyFindPrev:= 'Shift+Enter';
     HotkeyReplaceAndFindNext:= 'Alt+Z';
     HotkeyReplaceNoFindNext:= 'Ctrl+Alt+Z';
