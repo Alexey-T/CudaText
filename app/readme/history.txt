@@ -6,6 +6,7 @@
 1.163.1 (2022/05)
 
 + add: Find dialog: disabled buttons are shown with a crossing-line, to be better visible as disabled
+* change: default of "find_hotkey_find_next" changed to "F3"
 - fix: a couple of minor bugs (rarely visible) in TRegExpr engine
 - fix: menu checkmarks in "View / Split tab" were not updated ok
 
