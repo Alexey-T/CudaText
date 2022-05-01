@@ -1561,6 +1561,16 @@ Possible values of "id_action":
 * TREE_ITEM_UNFOLD: Unfolds item w/o subitems.
 * TREE_ITEM_UNFOLD_DEEP: Unfolds item with subitems. Root-item allowed too.
 
+* TREE_GET_MULSELECT: Returns string, which shows multi-selection options.
+** String "-": Multi-selection is disabled
+** Empty string or several "option chars": multi-selection is enabled. "Option chars" are:
+*** "c": Enable Ctrl+click to select/deselect single node
+*** "s": Enable Shift+click to select range of nodes 
+*** "v": Multi-selection has only visible nodes
+*** "i": Multi-selection has only sibling nodes
+* TREE_SET_MULSELECT: Sets multi-selection options. Param "text" must be one of possible values described in TREE_GET_MULSELECT.
+* TREE_GET_SELECTIONS: Returns list of selected tree nodes, one handle per each selected node.
+
 * TREE_FIND_FOR_TEXT_POS: For the treeview, filled with code-tree information (it can be plugin-created treeview), finds the tree-item corresponding to given text position. Param "id_item" is ignored, param "text" must be 2-tuple of int (column, line). Returns handle of tree-item. Returns None if "text" doesn't contain valid text position. Returns 0 if tree-item is not found.
 
 * TREE_GET_IMAGELIST: Returns handle of imagelist object, int value.
@@ -4582,5 +4592,9 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 1.0.420 (app 1.159.3)
 * add: Editor.decor: allow to fill cell background, if "text" is empty and "image" is -1
 * add: Editor.decor: allow 2 decor items for the same line index
+
+1.0.421 (app 1.163.2)
+* add: tree_proc: TREE_GET_MULSELECT, TREE_SET_MULSELECT
+* add: tree_proc: TREE_GET_SELECTIONS
 
 [[Category:CudaText]]
