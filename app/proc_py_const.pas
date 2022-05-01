@@ -410,6 +410,8 @@ const
   TREE_FIND_FOR_TEXT_POS     = 24;
   TREE_GET_IMAGELIST         = 25;
   TREE_SET_IMAGELIST         = 26;
+  TREE_GET_MULSELECT         = 27;
+  TREE_SET_MULSELECT         = 28;
   TREE_PROP_SHOW_ROOT        = 30;
   TREE_LOCK                  = 31;
   TREE_UNLOCK                = 32;

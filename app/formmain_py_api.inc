@@ -7229,6 +7229,27 @@ begin
             Result:= ReturnNone;
           end;
 
+        TREE_GET_MULSELECT:
+          begin
+            if TreeContainer.Tree.MultiSelect then
+              StrText:= MultiSelectStyleToString(TreeContainer.Tree.MultiSelectStyle)
+            else
+              StrText:= '-';
+            Result:= PyUnicodeFromString(StrText);
+          end;
+
+        TREE_SET_MULSELECT:
+          begin
+            if StrText='-' then
+              TreeContainer.Tree.MultiSelect:= false
+            else
+            begin
+              TreeContainer.Tree.MultiSelect:= true;
+              TreeContainer.Tree.MultiSelectStyle:= StringToMultiSelectStyle(StrText);
+            end;
+            Result:= ReturnFalse;
+          end;
+
         TREE_PROP_SHOW_ROOT:
           begin
             TreeContainer.Tree.ShowRoot:= AppStrToBool(StrText);

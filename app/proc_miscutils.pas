@@ -119,6 +119,9 @@ function IsStringArrayWithSubstring(const Ar: array of string; const AText: stri
 function FinderOptionsToString(F: TATEditorFinder): string;
 procedure FinderOptionsFromString(F: TATEditorFinder; const S: string);
 
+function MultiSelectStyleToString(St: TMultiSelectStyle): string;
+function StringToMultiSelectStyle(const S: string): TMultiSelectStyle;
+
 type
   { TAppPanelEx }
 
@@ -1152,6 +1155,27 @@ begin
       exit(true);
 end;
 
+function MultiSelectStyleToString(St: TMultiSelectStyle): string;
+begin
+  Result:= '';
+  if msControlSelect in St then
+    Result+= 'c';
+  if msShiftSelect in St then
+    Result+= 's';
+  if msVisibleOnly in St then
+    Result+= 'v';
+  if msSiblingOnly in St then
+    Result+= 'i';
+end;
+
+function StringToMultiSelectStyle(const S: string): TMultiSelectStyle;
+begin
+  Result:= [];
+  if Pos('c', S)>0 then Include(Result, msControlSelect);
+  if Pos('s', S)>0 then Include(Result, msShiftSelect);
+  if Pos('v', S)>0 then Include(Result, msVisibleOnly);
+  if Pos('i', S)>0 then Include(Result, msSiblingOnly);
+end;
 
 end.
 
