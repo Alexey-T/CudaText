@@ -355,6 +355,7 @@ type
     TreeSublexers: boolean;
     TreeIconFilenames: string;
     TreeFillMaxTime: integer;
+    TreeFillMaxTimeForAPI: integer;
 
     NewdocLexer: string;
     NewdocEnc: string;
@@ -1861,6 +1862,7 @@ begin
     TreeSublexers:= false;
     TreeIconFilenames:= 'dir,st1,st2,st3,box,fx,ar1,ar2,';
     TreeFillMaxTime:= 1000;
+    TreeFillMaxTimeForAPI:= 6*1000;
 
     PyChangeSlow:= 2000;
     InfoAboutOptionsEditor:= true;
