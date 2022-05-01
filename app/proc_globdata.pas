@@ -354,6 +354,7 @@ type
     TreeFilterLayout: integer;
     TreeSublexers: boolean;
     TreeIconFilenames: string;
+    TreeFillMaxTime: integer;
 
     NewdocLexer: string;
     NewdocEnc: string;
@@ -1859,6 +1860,7 @@ begin
     TreeFilterLayout:= 1;
     TreeSublexers:= false;
     TreeIconFilenames:= 'dir,st1,st2,st3,box,fx,ar1,ar2,';
+    TreeFillMaxTime:= 1000;
 
     PyChangeSlow:= 2000;
     InfoAboutOptionsEditor:= true;

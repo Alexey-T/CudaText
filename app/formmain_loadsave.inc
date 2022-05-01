@@ -1455,6 +1455,7 @@ begin
   //UiOps.TreeCache:= cfg.GetValue('ui_tree_cache', UiOps.TreeCache);
   UiOps.TreeFilterLayout:= cfg.GetValue('ui_tree_filter_layout', UiOps.TreeFilterLayout);
   UiOps.TreeSublexers:= cfg.GetValue('ui_tree_sublexers', UiOps.TreeSublexers);
+  UiOps.TreeFillMaxTime:= cfg.GetValue('ui_tree_fill_max_time', UiOps.TreeFillMaxTime);
 
   UiOps.PyChangeSlow:= cfg.GetValue('py_change_slow', UiOps.PyChangeSlow);
 

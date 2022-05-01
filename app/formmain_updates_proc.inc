@@ -1089,7 +1089,7 @@ begin
       if Assigned(Ada) then
       begin
         //Tick:= GetTickCount64;
-        Ada.TreeFill(FCodetreeBuffer);
+        Ada.TreeFill(FCodetreeBuffer, UiOps.TreeFillMaxTime);
         //Tick:= GetTickCount64-Tick;
         //MsgLogConsole('Tree filling: '+IntToStr(Tick)+'ms');
       end;

@@ -942,6 +942,11 @@
   //Used for example for JavaScript inside PHP. Requires program restart.
   "ui_tree_sublexers": false,
 
+  //Maximal time, in milliseconds, of the code-tree filling procedure.
+  //No tree nodes will be added after that limit, and dummy node will be shown:
+  // [>1000ms, skipped 500/2000].
+  "ui_tree_fill_max_time": 1000,
+
   //[Text/NewDocument]
   //New tabs: Lexer name.
   "newdoc_lexer": "",
