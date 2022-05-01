@@ -3,10 +3,11 @@
   - fixed
   * changed
 
-1.163.1 (2022/04)
+1.163.2 (2022/04)
 
 + add: Find dialog: disabled buttons are shown with a crossing-line, to be better visible as disabled
 * change: default of "find_hotkey_find_next" changed to "F3"
+- fix: regression in 1.160.2 for code-tree; reverted 'faster filling of the code-tree' (thanks @dimon40001)
 - fix: a couple of minor bugs (rarely visible) in TRegExpr engine
 - fix: menu checkmarks in "View / Split tab" were not updated ok
 
