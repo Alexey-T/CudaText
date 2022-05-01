@@ -6877,7 +6877,7 @@ var
   Sep: TATStringSeparator;
   Obj: TObject;
   ObjData: TATRangeInCodeTree;
-  NPosX, NPosY: integer;
+  NPosX, NPosY, NCount: integer;
   i: integer;
 begin
   with AppPython.Engine do
@@ -7184,6 +7184,14 @@ begin
           begin
             TreeNode.MakeVisible;
             Result:= ReturnNone;
+          end;
+
+        TREE_GET_SELECTIONS:
+          begin
+            NCount:= TreeContainer.Tree.SelectionCount;
+            Result:= PyList_New(NCount);
+            for i:= 0 to NCount-1 do
+              PyList_SetItem(Result, i, PyHelper_ObjectHandle(TreeContainer.Tree.Selections[i]));
           end;
 
         TREE_FIND_FOR_TEXT_POS:
