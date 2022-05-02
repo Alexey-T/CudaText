@@ -972,7 +972,6 @@ begin
     TAppTreeContainer(Ctl).Tree.OnSelectionChanged:= @AForm.DoOnTreeviewSelect;
     TAppTreeContainer(Ctl).Tree.OnCollapsing:= @AForm.DoOnTreeviewCollapsing;
     TAppTreeContainer(Ctl).Tree.OnExpanding:= @AForm.DoOnTreeviewExpanding;
-    TAppTreeContainer(Ctl).Tree.OnDeletion:= @AForm.DoOnTreeviewDeletion;
     TAppTreeContainer(Ctl).Tree.DefaultItemHeight:= ATEditorScale(DefaultTreeNodeHeight);
     TAppTreeContainer(Ctl).Invalidate;
     exit

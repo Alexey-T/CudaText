@@ -153,7 +153,6 @@ type
     procedure DoOnTreeviewSelect(Sender: TObject);
     procedure DoOnTreeviewExpanding(Sender: TObject; Node: TTreeNode; var AllowExpansion: Boolean);
     procedure DoOnTreeviewCollapsing(Sender: TObject; Node: TTreeNode; var AllowCollapse: Boolean);
-    procedure DoOnTreeviewDeletion(Sender: TObject; Node: TTreeNode);
     procedure DoOnStatusbarPanelClick(Sender: TObject; AIndex: integer);
     procedure DoOnControlSelect(Sender: TObject);
     procedure DoOnControlFocusEnter(Sender: TObject);
@@ -1021,15 +1020,6 @@ begin
   IdControl:= FindControlIndexByOurObject(Sender);
   Data:= AppVariant(PtrInt(Node));
   DoEvent(IdControl, Props.FEventOnFold, Data);
-end;
-
-procedure TFormDummy.DoOnTreeviewDeletion(Sender: TObject; Node: TTreeNode);
-begin
-  if Assigned(Node.Data) then
-  begin
-    TObject(Node.Data).Free;
-    Node.Data:= nil;
-  end;
 end;
 
 procedure TFormDummy.DoOnStatusbarPanelClick(Sender: TObject; AIndex: integer);
