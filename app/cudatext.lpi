@@ -977,6 +977,7 @@
           <Linking>
             <Debugging>
               <DebugInfoType Value="dsDwarf2Set"/>
+              <UseHeaptrc Value="True"/>
             </Debugging>
             <LinkSmart Value="True"/>
             <Options>

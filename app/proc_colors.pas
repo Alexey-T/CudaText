@@ -224,6 +224,7 @@ var
   AppHiAll_ThemeStyleId: TAppThemeStyleId = apstSeparLine;
 
 procedure AppThemeInit(var D: TAppTheme);
+procedure AppThemeFree(var D: TAppTheme);
 procedure AppThemeLoadFromFile(const AFileName: string; var D: TAppTheme; IsThemeUI: boolean);
 procedure AppThemeSaveToFile(const AFileName: string; const D: TAppTheme; IsThemeUI: boolean);
 
@@ -235,6 +236,22 @@ implementation
 uses
   ATButtons,
   at__jsonconf;
+
+procedure AppThemeFree(var D: TAppTheme);
+var
+  St: TecSyntaxFormat;
+  id: TAppThemeStyleId;
+begin
+  for id:= High(TAppThemeStyleId) downto Low(TAppThemeStyleId) do
+  begin
+    St:= D.Styles[id];
+    if Assigned(St) then
+    begin
+      St.Free;
+      D.Styles[id]:= nil;
+    end;
+  end;
+end;
 
 procedure AppThemeLoadFromFile(const AFileName: string; var D: TAppTheme; IsThemeUI: boolean);
 var
@@ -597,6 +614,10 @@ initialization
 
   FillChar(AppTheme, SizeOf(AppTheme), 0);
   AppThemeInit(AppTheme);
+
+finalization
+
+  AppThemeFree(AppTheme);
 
 end.
 
