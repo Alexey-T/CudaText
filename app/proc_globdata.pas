@@ -3565,6 +3565,6 @@ finalization
   if Assigned(AppLexersLastDetected) then
     FreeAndNil(AppLexersLastDetected);
 
-  AppClearPluginLists;
+  //AppClearPluginLists;
 
 end.
