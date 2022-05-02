@@ -108,7 +108,7 @@
   //[Renderer]
   //Specifies the delay to reduce flickering on editing. [has suffix]
   //Value 0: feature is disabled.
-  //Value 1...999: it's timer delay in msec. 15...40 seems OK for slow systems.
+  //Value 1...999: it's timer delay in milliseconds. 15...40 seems OK for slow systems.
   //Value 1000: use special anti-flickering code, works better on some systems.
   //Note: this option is global, not per-lexer.
   "renderer_anti_flicker": 0,
@@ -613,7 +613,7 @@
   //Note: this option is global, not per-lexer.
   "undo_persistent": "",
 
-  //Undo: Pause (in msec) for Undo/Redo commands, to show minimalistic animation.
+  //Undo: Pause (in milliseconds) for Undo/Redo commands, to show minimalistic animation.
   //If 0, pause is disabled.
   "undo_pause": 300,
 
@@ -627,7 +627,7 @@
   //and allow caret to go to previous line when Left-arrow is pressed at line start.
   "caret_after_end": false,
 
-  //Caret blinking interval (in msec).
+  //Caret blinking interval (in milliseconds).
   "caret_blink_time": 600,
 
   //Caret blinking is enabled.
@@ -916,13 +916,15 @@
   "ui_initial_dir": "",
 
   //[Ui/Tree]
-  //After caret moves, select code-tree node for new caret position.
+  //Sync code-tree selection to caret position. Ie after caret moves,
+  //select appropriate code-tree node.
   "ui_tree_auto_sync": true,
 
-  //Delay (in msec) after text change, after which code-tree contents is filled.
+  //Delay after text change (in milliseconds), after which code-tree
+  //starts to fill.
   "ui_tree_time_fill": 2000,
 
-  //Show icons in code-tree, for lexers which assign icons (e.g. C#).
+  //Show icons in the code-tree, for lexers which assign icons (e.g. C#).
   "ui_tree_icons": true,
 
   //Code-tree icons theme.
@@ -943,8 +945,8 @@
   "ui_tree_sublexers": false,
 
   //Maximal time, in milliseconds, of the code-tree filling procedure.
-  //No tree nodes will be added after that limit, and dummy node will be shown:
-  // [>1000ms, skipped 500/2000].
+  //No tree nodes are added after that limit, instead only dummy node
+  //is added: ">1000ms, skipped 1000/2000".
   "ui_tree_fill_max_time": 1000,
 
   //[Text/NewDocument]
@@ -1283,7 +1285,8 @@
   "pylib__freebsd": "libpython3.6m.so",
   "pylib__haiku": "/boot/system/develop/lib/libpython3.6m.so",
 
-  //API: delay for event on_change_slow in msec (used in CudaLint).
+  //API delay for event "on_change_slow", in milliseconds.
+  //For example, it's used in CudaLint.
   "py_change_slow": 2000,
 
   //[Text/Commands]
