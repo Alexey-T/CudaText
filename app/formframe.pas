@@ -3943,7 +3943,7 @@ begin
 
   if not AValue then
     if Assigned(FCachedTreeview[N]) then
-      CodetreeClear(FCachedTreeview[N]);
+      FCachedTreeview[N].Items.Clear;
 end;
 
 procedure TEditorFrame.SetEnabledFolding(AValue: boolean);
