@@ -3047,6 +3047,9 @@ begin
   FListTimers.Clear;
   FreeAndNil(FListTimers);
 
+  if Assigned(FFinder) then
+    FreeAndNil(FFinder);
+
   {$ifdef unix}
   if Assigned(AppUniqInst) then
     FreeAndNil(AppUniqInst);
