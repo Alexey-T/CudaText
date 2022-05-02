@@ -981,7 +981,7 @@ var
   AppTreeHelpers: TFPList = nil;
 
 type
-  TAppMenuProps = class
+  TAppMenuProps = class(TComponent)
   public
     CommandCode: integer;
     CommandString: string;

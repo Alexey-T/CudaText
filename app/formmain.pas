@@ -7581,7 +7581,7 @@ begin
   begin
     mi:= TMenuItem.Create(Self);
     mi.Caption:= AMenuCaption;
-    MenuProps:= TAppMenuProps.Create;
+    MenuProps:= TAppMenuProps.Create(Self);
     MenuProps.TagString:= AMenuTagString;
     mi.Tag:= PtrInt(MenuProps);
 
