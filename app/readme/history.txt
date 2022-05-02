@@ -3,10 +3,10 @@
   - fixed
   * changed
 
+1.163.2 (2022/05)
+
 + add: code-tree filling time is limited now, by new option "ui_tree_fill_max_time":1000 (in msec)
-
-1.163.1 (2022/05)
-
++ add: API for 'treeview' multi-selection
 + add: disabled buttons (in Find dialog, in main toolbar) are shown with a crossing-line, to be better visible as disabled
 * change: default of "find_hotkey_find_next" changed to "F3" (thanks @sergey)
 - fix: regression in 1.160.2 for code-tree; reverted 'faster filling of the code-tree' (thanks @dimon40001)
