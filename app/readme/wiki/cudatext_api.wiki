@@ -1569,7 +1569,7 @@ Possible values of "id_action":
 *** "v": Multi-selection has only visible nodes
 *** "i": Multi-selection has only sibling nodes
 * TREE_SET_MULSELECT: Sets multi-selection options. Param "text" must be one of possible values described in TREE_GET_MULSELECT.
-* TREE_GET_SELECTIONS: Returns list of selected tree nodes, one handle per each selected node.
+* TREE_GET_SELECTIONS: Returns list of selected tree nodes, one handle per each selected node. When multi-selection is disabled, result is empty list or list with single item.
 
 * TREE_FIND_FOR_TEXT_POS: For the treeview, filled with code-tree information (it can be plugin-created treeview), finds the tree-item corresponding to given text position. Param "id_item" is ignored, param "text" must be 2-tuple of int (column, line). Returns handle of tree-item. Returns None if "text" doesn't contain valid text position. Returns 0 if tree-item is not found.
 
