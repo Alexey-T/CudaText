@@ -121,7 +121,16 @@ begin
 end;
 
 destructor TAppPanelHost.Destroy;
+var
+  Panel: TAppPanelItem;
+  i: integer;
 begin
+  for i:= Panels.Count-1 downto 0 do
+  begin
+    Panel:= TAppPanelItem(Panels.Items[i]);
+    Panel.Free;
+  end;
+
   Panels.Clear;
   FreeAndNil(Panels);
   inherited Destroy;
