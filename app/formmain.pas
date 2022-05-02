@@ -2490,7 +2490,7 @@ procedure TfmMain.DoCodetree_Clear;
 begin
   if CodeTree.Tree.Items.Count>0 then
   begin
-    CodeTree.Tree.Items.Clear;
+    CodetreeClear(CodeTree.Tree);
     DoCodetree_UpdateVersion(nil);
     AppCodetreeState.NeedsSelJump:= false;
     DoPyEvent_AppState(APPSTATE_CODETREE_CLEAR);
@@ -7901,7 +7901,7 @@ var
 begin
   Tree.BeginUpdate;
   try
-    Tree.Items.Clear;
+    CodetreeClear(Tree);
 
     Node:= nil;
     NodeParent:= nil;
@@ -7970,7 +7970,7 @@ begin
   Data:= TATTreeHelperRecords.Create;
   Tree.BeginUpdate;
   try
-    Tree.Items.Clear;
+    CodetreeClear(Tree);
 
     Node:= nil;
     NodeParent:= nil;
