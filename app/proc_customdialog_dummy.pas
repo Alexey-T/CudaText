@@ -328,8 +328,19 @@ end;
 
 destructor TFormDummy.Destroy;
 var
-  n: integer;
+  Ctl: TComponent;
+  i, n: integer;
 begin
+  for i:= ComponentCount-1 downto 0 do
+  begin
+    Ctl:= Components[i];
+    if Ctl.Tag<>0 then
+    begin
+      TObject(Ctl.Tag).Free;
+      Ctl.Tag:= 0;
+    end;
+  end;
+
   n:= AppCustomDialogs.IndexOf(Self);
   if n>=0 then
     AppCustomDialogs.Delete(n);

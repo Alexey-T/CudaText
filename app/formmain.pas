@@ -3035,7 +3035,7 @@ var
 begin
   FreeAndNil(FLastStatusbarMessages);
 
-  for i:= 0 to FListTimers.Count-1 do
+  for i:= FListTimers.Count-1 downto 0 do
   begin
     Obj:= FListTimers.Objects[i];
     if Assigned(Obj) then
