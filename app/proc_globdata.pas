@@ -170,6 +170,7 @@ type
     end;
   public
     procedure Add(const AKey, AValue: string);
+    destructor Destroy; override;
     function GetValue(const AKey, ADefValue: string): string;
     function GetValueByRegex(ALine: string; ACaseSens: boolean): string;
   end;
@@ -2938,6 +2939,19 @@ begin
   Item.Key:= AKey;
   Item.Value:= AValue;
   inherited Add(Item);
+end;
+
+destructor TAppKeyValues.Destroy;
+var
+  Item: TAppKeyValue;
+  i: integer;
+begin
+  for i:= Count-1 downto 0 do
+  begin
+    Item:= TAppKeyValue(Items[i]);
+    Item.Free;
+  end;
+  inherited Destroy;
 end;
 
 function TAppKeyValues.GetValue(const AKey, ADefValue: string): string;
