@@ -980,6 +980,8 @@ var
   AppEventList: TFPList = nil;
   AppTreeHelpers: TFPList = nil;
 
+procedure AppClearPluginLists;
+
 type
   TAppMenuProps = class(TComponent)
   public
@@ -2736,6 +2738,23 @@ begin
     MsgLogConsole(Format(msgCannotFindSessionFile, [AppCollapseHomeDirInFilename(fn)]));
 end;
 
+procedure AppClearPluginLists;
+var
+  i: integer;
+begin
+  for i:= AppCommandList.Count-1 downto 0 do
+    TObject(AppCommandList[i]).Free;
+  FreeAndNil(AppCommandList);
+
+  for i:= AppEventList.Count-1 downto 0 do
+    TObject(AppEventList[i]).Free;
+  FreeAndNil(AppEventList);
+
+  for i:= AppTreeHelpers.Count-1 downto 0 do
+    TObject(AppTreeHelpers[i]).Free;
+  FreeAndNil(AppTreeHelpers);
+end;
+
 function AppEncodingShortnameToFullname(const S: string): string;
 var
   i: integer;
@@ -3545,5 +3564,7 @@ finalization
 
   if Assigned(AppLexersLastDetected) then
     FreeAndNil(AppLexersLastDetected);
+
+  AppClearPluginLists;
 
 end.
