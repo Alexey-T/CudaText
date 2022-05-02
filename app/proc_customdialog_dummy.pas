@@ -1026,7 +1026,10 @@ end;
 procedure TFormDummy.DoOnTreeviewDeletion(Sender: TObject; Node: TTreeNode);
 begin
   if Assigned(Node.Data) then
+  begin
     TObject(Node.Data).Free;
+    Node.Data:= nil;
+  end;
 end;
 
 procedure TFormDummy.DoOnStatusbarPanelClick(Sender: TObject; AIndex: integer);
