@@ -2249,6 +2249,7 @@ object SyntAnal6: TLibSyntAnalyzer
             'repeat'
             'rotate'
             'saturate'
+            'selector'
             'sepia'
             'set'
             'shadow'
