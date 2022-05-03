@@ -8464,7 +8464,7 @@ begin
       StrTag:= string(PtrTag);
 
       ListOfTimers:= fmMain.FListTimers;
-      if ListOfTimers=nil then
+      if ListOfTimers=nil then //it's Nil in rare cases, closing Cud with plugin Terminal Plus
         exit(ReturnNone);
 
       //find timer by StrCallback
