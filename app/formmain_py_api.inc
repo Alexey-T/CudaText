@@ -8462,6 +8462,9 @@ begin
       StrCallback:= string(PtrCallback);
       StrTag:= string(PtrTag);
 
+      if fmMain.FListTimers=nil then
+        exit(ReturnNone);
+
       //find timer by StrCallback
       Timer:= nil;
       for N:= 0 to fmMain.FListTimers.Count-1 do
