@@ -8450,6 +8450,7 @@ var
   NIdAction, NInterval, N: integer;
   PtrCallback, PtrTag: PChar;
   StrCallback, StrTag: string;
+  ListOfTimers: TStringList;
   Timer: TTimer;
   Obj: TObject;
   SAll, SItem: string;
@@ -8462,19 +8463,20 @@ begin
       StrCallback:= string(PtrCallback);
       StrTag:= string(PtrTag);
 
-      if fmMain.FListTimers=nil then
+      ListOfTimers:= fmMain.FListTimers;
+      if ListOfTimers=nil then
         exit(ReturnNone);
 
       //find timer by StrCallback
       Timer:= nil;
-      for N:= 0 to fmMain.FListTimers.Count-1 do
+      for N:= 0 to ListOfTimers.Count-1 do
       begin
-        SSplitByChar(fmMain.FListTimers[N], '|', SItem, SAll);
+        SSplitByChar(ListOfTimers[N], '|', SItem, SAll);
         if SItem=StrCallback then
         begin
-          Timer:= TTimer(fmMain.FListTimers.Objects[N]);
+          Timer:= TTimer(ListOfTimers.Objects[N]);
           //timer already exists? update its tag to new value StrTag
-          fmMain.FListTimers[N]:= StrCallback+'|'+StrTag;
+          ListOfTimers[N]:= StrCallback+'|'+StrTag;
           Break
         end;
       end;
@@ -8490,7 +8492,7 @@ begin
             begin
               Timer:= TTimer.Create(fmMain);
               Timer.OnTimer:= @fmMain.DoPyTimerTick;
-              fmMain.FListTimers.AddObject(StrCallback+'|'+StrTag, Timer);
+              ListOfTimers.AddObject(StrCallback+'|'+StrTag, Timer);
             end;
 
             if NIdAction=TIMER_START_ONE then
@@ -8514,13 +8516,13 @@ begin
             if NIdAction=TIMER_DELETE then
             begin
               Timer.Free;
-              N:= fmMain.FListTimers.IndexOfObject(Timer);
+              N:= ListOfTimers.IndexOfObject(Timer);
               if N>=0 then
               begin
-                Obj:= fmMain.FListTimers.Objects[N];
+                Obj:= ListOfTimers.Objects[N];
                 if Assigned(Obj) then
                   Obj.Free;
-                fmMain.FListTimers.Delete(N);
+                ListOfTimers.Delete(N);
               end;
             end;
 
