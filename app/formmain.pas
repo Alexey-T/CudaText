@@ -3028,6 +3028,8 @@ end;
 
 procedure TfmMain.FormDestroy(Sender: TObject);
 begin
+  AppStopListTimers;
+
   FreeAndNil(FLastStatusbarMessages);
 
   if Assigned(FFinder) then

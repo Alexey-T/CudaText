@@ -722,6 +722,7 @@ procedure MsgFileFromSessionNotFound(const fn: string);
 function AppListboxItemHeight(AScale, ADoubleHeight: boolean): integer;
 procedure AppGetFileProps(const FileName: string; out P: TAppFileProps);
 procedure AppUpdateWatcherFrames;
+procedure AppStopListTimers;
 
 procedure FixFormPositionToDesktop(F: TForm);
 procedure FixRectPositionToDesktop(var F: TRect);
@@ -3470,6 +3471,19 @@ begin
   g:= Green(C);
   b:= Blue(C);
   Result:= (r<=cMargin) and (g<=cMargin) and (b<=cMargin);
+end;
+
+procedure AppStopListTimers;
+var
+  Obj: TObject;
+  i: integer;
+begin
+  for i:= AppListTimers.Count-1 downto 0 do
+  begin
+    Obj:= AppListTimers.Objects[i];
+    if Assigned(Obj) then
+      TTimer(Obj).Enabled:= false;
+  end;
 end;
 
 {
