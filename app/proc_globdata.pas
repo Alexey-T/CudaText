@@ -3584,7 +3584,7 @@ finalization
   if Assigned(AppLexersLastDetected) then
     FreeAndNil(AppLexersLastDetected);
 
-  //AppFreeListTimers;
+  //AppFreeListTimers; //somehow gives crash on exit, in timer_proc(TIMER_DELETE...)
   //AppClearPluginLists;
 
 end.
