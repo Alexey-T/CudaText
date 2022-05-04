@@ -2732,7 +2732,6 @@ begin
   InitBookmarkSetup;
 
   FMenuVisible:= true;
-  AppSessionName:= '';
 
   InitStatusbar;
   InitGroups;
