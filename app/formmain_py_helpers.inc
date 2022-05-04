@@ -465,14 +465,14 @@ var
   NIndex: integer;
 begin
   Timer:= Sender as TTimer;
-  NIndex:= FListTimers.IndexOfObject(Timer);
+  NIndex:= AppListTimers.IndexOfObject(Timer);
   if NIndex<0 then exit;
 
   //if timer_start_one
   if Timer.Tag=1 then
     Timer.Enabled:= false;
 
-  SSplitByChar(FListTimers[NIndex], '|', SCallback, STag);
+  SSplitByChar(AppListTimers[NIndex], '|', SCallback, STag);
 
   //timer_proc callback must pass 'tag' as str!
   DoPyCallbackFromAPI(

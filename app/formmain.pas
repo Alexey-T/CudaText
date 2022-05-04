@@ -616,7 +616,6 @@ type
     FBoundsFloatGroups1: TRect;
     FBoundsFloatGroups2: TRect;
     FBoundsFloatGroups3: TRect;
-    FListTimers: TStringList;
     FLastStatusbarMessages: TStringList;
     FLastProjectPath: string;
     FConsoleMustShow: boolean;
@@ -2735,7 +2734,6 @@ begin
 
   FMenuVisible:= true;
   AppSessionName:= '';
-  FListTimers:= TStringList.Create;
   FLastStatusbarMessages:= TStringList.Create;
   FLastStatusbarMessages.TextLineBreakStyle:= tlbsLF;
   FLastStatusbarMessages.TrailingLineBreak:= false;
@@ -3029,23 +3027,8 @@ begin
 end;
 
 procedure TfmMain.FormDestroy(Sender: TObject);
-var
-  Obj: TObject;
-  i: integer;
 begin
   FreeAndNil(FLastStatusbarMessages);
-
-  for i:= FListTimers.Count-1 downto 0 do
-  begin
-    Obj:= FListTimers.Objects[i];
-    if Assigned(Obj) then
-    begin
-      TTimer(Obj).Enabled:= false;
-      Obj.Free;
-    end;
-  end;
-  FListTimers.Clear;
-  FreeAndNil(FListTimers);
 
   if Assigned(FFinder) then
     FreeAndNil(FFinder);

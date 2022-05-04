@@ -8450,7 +8450,6 @@ var
   NIdAction, NInterval, N: integer;
   PtrCallback, PtrTag: PChar;
   StrCallback, StrTag: string;
-  ListOfTimers: TStringList;
   Timer: TTimer;
   Obj: TObject;
   SAll, SItem: string;
@@ -8463,20 +8462,21 @@ begin
       StrCallback:= string(PtrCallback);
       StrTag:= string(PtrTag);
 
-      ListOfTimers:= fmMain.FListTimers;
-      if ListOfTimers=nil then //it's Nil in rare cases, closing Cud with plugin Terminal Plus
+      if Application.Terminated then
+        exit(ReturnNone);
+      if AppListTimers=nil then
         exit(ReturnNone);
 
       //find timer by StrCallback
       Timer:= nil;
-      for N:= 0 to ListOfTimers.Count-1 do
+      for N:= 0 to AppListTimers.Count-1 do
       begin
-        SSplitByChar(ListOfTimers[N], '|', SItem, SAll);
+        SSplitByChar(AppListTimers[N], '|', SItem, SAll);
         if SItem=StrCallback then
         begin
-          Timer:= TTimer(ListOfTimers.Objects[N]);
+          Timer:= TTimer(AppListTimers.Objects[N]);
           //timer already exists? update its tag to new value StrTag
-          ListOfTimers[N]:= StrCallback+'|'+StrTag;
+          AppListTimers[N]:= StrCallback+'|'+StrTag;
           Break
         end;
       end;
@@ -8492,7 +8492,7 @@ begin
             begin
               Timer:= TTimer.Create(fmMain);
               Timer.OnTimer:= @fmMain.DoPyTimerTick;
-              ListOfTimers.AddObject(StrCallback+'|'+StrTag, Timer);
+              AppListTimers.AddObject(StrCallback+'|'+StrTag, Timer);
             end;
 
             if NIdAction=TIMER_START_ONE then
@@ -8516,13 +8516,13 @@ begin
             if NIdAction=TIMER_DELETE then
             begin
               Timer.Free;
-              N:= ListOfTimers.IndexOfObject(Timer);
+              N:= AppListTimers.IndexOfObject(Timer);
               if N>=0 then
               begin
-                Obj:= ListOfTimers.Objects[N];
+                Obj:= AppListTimers.Objects[N];
                 if Assigned(Obj) then
                   Obj.Free;
-                ListOfTimers.Delete(N);
+                AppListTimers.Delete(N);
               end;
             end;
 

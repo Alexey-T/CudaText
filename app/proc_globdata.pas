@@ -17,7 +17,7 @@ uses
   {$ifdef windows}
   Windows,
   {$endif}
-  Classes, SysUtils, Forms, Controls, Menus,
+  Classes, SysUtils, Forms, Controls, Menus, ExtCtrls,
   Dialogs, Graphics,
   StrUtils,
   syncobjs,
@@ -139,6 +139,7 @@ var
     end;
 var
   AppListRecents: TStringList = nil;
+  AppListTimers: TStringList = nil;
   AppBookmarkImagelist: TImageList = nil;
   AppApiFlatTheme: TATFlatTheme;
   AppAlwaysNewInstance: boolean = false;
@@ -3471,7 +3472,24 @@ begin
   Result:= (r<=cMargin) and (g<=cMargin) and (b<=cMargin);
 end;
 
-
+{
+procedure AppFreeListTimers;
+var
+  Obj: TObject;
+  i: integer;
+begin
+  for i:= AppListTimers.Count-1 downto 0 do
+  begin
+    Obj:= AppListTimers.Objects[i];
+    if Assigned(Obj) then
+    begin
+      TTimer(Obj).Enabled:= false;
+      Obj.Free;
+    end;
+  end;
+  FreeAndNil(AppListTimers);
+end;
+}
 
 initialization
 
@@ -3525,6 +3543,7 @@ initialization
 
   AppApiFlatTheme:= ATFlatTheme;
   AppListRecents:= TStringList.Create;
+  AppListTimers:= TStringList.Create;
 
   ATSynEdit_Commands.cCommand_GotoDefinition:= cmd_GotoDefinition;
 
@@ -3565,6 +3584,7 @@ finalization
   if Assigned(AppLexersLastDetected) then
     FreeAndNil(AppLexersLastDetected);
 
+  //AppFreeListTimers;
   //AppClearPluginLists;
 
 end.
