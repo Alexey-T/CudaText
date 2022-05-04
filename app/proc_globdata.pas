@@ -140,6 +140,7 @@ var
 var
   AppListRecents: TStringList = nil;
   AppListTimers: TStringList = nil;
+  AppStatusbarMessages: TStringList = nil;
   AppBookmarkImagelist: TImageList = nil;
   AppApiFlatTheme: TATFlatTheme;
   AppAlwaysNewInstance: boolean = false;
@@ -3569,12 +3570,17 @@ initialization
 
   ATEditorOptions.MaxClipboardRecents:= 15;
 
+  AppStatusbarMessages:= TStringList.Create;
+  AppStatusbarMessages.TextLineBreakStyle:= tlbsLF;
+  AppStatusbarMessages.TrailingLineBreak:= false;
+
 finalization
 
   FreeAndNil(AppManagerThread);
   FreeAndNil(AppManagerLite);
   FreeAndNil(AppManager);
 
+  FreeAndNil(AppStatusbarMessages);
   FreeAndNil(AppListRecents);
   FreeAndNil(AppEventWatcher);
   FreeAndNil(AppEventLister);
