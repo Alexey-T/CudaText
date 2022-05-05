@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.163.2 (2022/05)
+1.163.4 (2022/05)
 
 + add: code-tree filling time is limited now, by new option "ui_tree_fill_max_time":1000 (in msec)
 + add: API for 'treeview' multi-selection
@@ -11,6 +11,7 @@
 * change: default of "find_hotkey_find_next" changed to "F3" (thanks @sergey)
 - fix: command "Paste and indent" must not force final newline (thanks @veksha)
 - fix: Terminal Plus steals focus after auto-completion closes (thanks @veksha)
+- fix: regression in 1.163.2: startup session silently skipped (thanks @mix-7)
 - fix: regression in 1.160.2 for code-tree; reverted 'faster filling of the code-tree' (thanks @dimon40001)
 - fix: a couple of minor bugs (rarely visible) in TRegExpr engine
 - fix: menu checkmarks in "View / Split tab" were not updated ok (thanks @sergey)
