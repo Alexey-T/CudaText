@@ -2178,6 +2178,7 @@ object SyntAnal6: TLibSyntAnalyzer
         item
           TagList.Strings = (
             '%'
+            'cap'
             'ch'
             'cm'
             'deg'
@@ -2189,8 +2190,10 @@ object SyntAnal6: TLibSyntAnalyzer
             'fr'
             'grad'
             'Hz'
+            'ic'
             'in'
             'kHz'
+            'lh'
             'mm'
             'mozmm'
             'ms'
@@ -2200,9 +2203,12 @@ object SyntAnal6: TLibSyntAnalyzer
             'q'
             'rad'
             'rem'
+            'rlh'
             's'
             'turn'
+            'vb'
             'vh'
+            'vi'
             'vmax'
             'vmin'
             'vw')
