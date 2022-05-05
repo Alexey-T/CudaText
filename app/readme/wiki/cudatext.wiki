@@ -2929,7 +2929,7 @@ CudaText: menu "View / Split tab / Toggle split".
 
 ST3: It's configured in syntax file: https://superuser.com/questions/752025/sublime-text-3-detect-syntax-based-on-file-header
 
-CudaText: Use "file types config", see [[#File_types_config]].
+CudaText: Use config described in [[#Detection_by_first_file_line]].
 
 ==How to assign syntax to undetected file extension?==
 
