@@ -2943,6 +2943,14 @@ ST3: Use command "Selection / Expand selection to word".
 
 CudaText: Use command "Selection / Add next occurrence of selected word".
 
+There is a difference in CudaText implementation: CudaText command first checks, is first selection 'whole word' or not. If it's whole word, command adds selections which must be also whole words. In ST, command does not check 'whole word' state of next selections.
+You may switch to ST behaviour. How? CudaText "Command Palette" gives two commands:
+
+* A: add next occurrence of selected word
+* B: add next occurrence of selected text (not whole-word)
+
+You can reassign hotkey from the command A to the command B, so hotkey will give the behaviour of Sublime Text.
+
 ==How to select all occurrences of a word?==
 
 ST3: In the Find dialog, enter a word, check "whole words", press "Find All".
