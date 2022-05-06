@@ -5,6 +5,7 @@
 
 1.163.5
 
++ add: 'listbox_ex' UI control: on scrolling, don't leave space on the bottom (thanks @veksha)
 + add: lexer parser for indent-based folding: if 'group index'=21 (lexer properties dialog in SynWrite), parser will _skip_ checking of pair brackets (for 'group index'=20, checking for pair brackets will run, which is good for Python)
 
 1.163.4 (2022/05)
