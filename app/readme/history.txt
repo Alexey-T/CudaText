@@ -3,6 +3,10 @@
   - fixed
   * changed
 
+1.163.5
+
++ add: lexer parser for indent-based folding: if 'group index'=21 (lexer properties dialog in SynWrite), parser will _skip_ checking of pair brackets (for 'group index'=20, checking for pair brackets will run, which is good for Python)
+
 1.163.4 (2022/05)
 
 + add: code-tree filling time is limited now, by new option "ui_tree_fill_max_time":1000 (in msec)
