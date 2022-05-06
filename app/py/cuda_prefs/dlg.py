@@ -528,8 +528,7 @@ class DialogMK2:
             else:   # if no saved selected opt - select first
                 _ind = 0
             listbox_proc(self._h_list, LISTBOX_SET_SEL, index=_ind)
-            _top = max(0, _ind-3)
-            listbox_proc(self._h_list, LISTBOX_SET_TOP, index=_top)
+            listbox_proc(self._h_list, LISTBOX_SET_TOP, index=max(0, _ind-5))
             #### click event
             self._on_opt_click(id_dlg=self.h, id_ctl=-1)
 
@@ -892,8 +891,8 @@ class DialogMK2:
             ind = 0
             if self._cur_opt_name  and  self._cur_opt_name in self._list_opt_names:
                 ind = self._list_opt_names.index(self._cur_opt_name)
-            #listbox_proc(self._h_list, LISTBOX_SET_TOP, max(0, ind-3)) # selecting is not helpful
             listbox_proc(self._h_list, LISTBOX_SET_SEL, ind)
+            listbox_proc(self._h_list, LISTBOX_SET_TOP, max(0, ind-5))
 
         self._on_opt_click(id_dlg=self.h, id_ctl=-1)
 
