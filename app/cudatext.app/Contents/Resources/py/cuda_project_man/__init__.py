@@ -1296,7 +1296,7 @@ class Command:
 
     def jump_to_filename(self, filename, and_open=False):
         """ Find filename in entire project and focus its tree node """
-        msg_status(_('Jumping to: ') + filename)
+        msg_status(_('Project jump: ') + collapse_filename(filename))
         return self.enum_all_fn(filename, and_open)
 
     def sync_to_ed(self):
@@ -1308,7 +1308,7 @@ class Command:
         fn = ed.get_filename()
         if fn:
             if self.jump_to_filename(fn): #gets False if found
-                msg_status(_('Cannot jump to file: ') + fn)
+                msg_status(_('Cannot jump to file: ') + collapse_filename(fn))
 
 
     def tree_on_unfold(self, id_dlg, id_ctl, data='', info=''):
