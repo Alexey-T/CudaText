@@ -1636,16 +1636,15 @@ begin
         bTypedChar:= (Length(AText)=1) or (UTF8Length(AText)=1);
         if bTypedChar then
         begin
+          if EditorAutoCompletionAfterTypingChar(Ed, AText, FTextCharsTyped, OnCallAutoCompletion) then
+            exit;
+
           if Length(AText)=1 then
             charW:= WideChar(Ord(AText[1]))
           else
             charW:= UTF8Decode(AText)[1];
-          if IsCharWord(charW, Ed.OptNonWordChars) then
-          begin
-            if EditorAutoCompletionAfterTypingChar(Ed, AText, FTextCharsTyped, OnCallAutoCompletion) then
-              exit;
-          end
-          else
+
+          if not IsCharWord(charW, Ed.OptNonWordChars) then
             CancelAutocompleteAutoshow(Ed);
         end;
       end;
