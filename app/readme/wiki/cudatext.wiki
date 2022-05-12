@@ -1356,9 +1356,13 @@ Or use the terminal command:
 * If not found, install Python 3.x, and search again.
 * Set option "pylib__linux" ("pylib__freebsd", "pylib__solaris") in the "user.json" config, to one of the found filenames. Write option to the "user.json" or course, not "default.json".
 
+Typical value for Ubuntu:
+
+    "pylib__linux" : "/usr/lib/x86_64-linux-gnu/libpython3.8.so.1.0",
+
 Typical value for Solaris 11.4 x86:
 
-   "pylib__solaris" : "/usr/lib/amd64/libpython3.5m.so",
+    "pylib__solaris" : "/usr/lib/amd64/libpython3.5m.so",
 
 ===Python on macOS===
 On macOS you must install Python 3, from official site python.org. Versions 3.6...3.9 are ok. CudaText will detect this Python. CudaText has option "pylib__mac" with such default value (actual version number is auto-detected):
