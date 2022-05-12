@@ -1303,13 +1303,14 @@ In the CudaText version 1.144 or newer, micromap can be rendered directly on the
 
 == Paste with middle-button-click ==
 
-To paste like in Linux, with middle-click, you need
+To paste like in Linux, with middle-click, you need:
 
-* set option "mouse_mid_click_paste"
+* set option "mouse_middle_click" to value 2 (in the user.json, of course)
 * install plugin "Auto-Copy to Clipboard"
 
-This activates auto-copy of selection (copy to clipboard after text selection changes), and paste to position of mouse cursor on middle-click.
-But it works only for "editor frame", and don't work for: Console read-only editor, single-line inputs. So this method is limited.
+Plugin "Auto-Copy to Clipboard" activates auto-copying of selection to clipboard, to mimic usual Linux behaviour.
+
+Note: all this works only in the "editor in file-tabs", and doesn't work in Console read-only editor, nor in single-line inputs.
 
 ==Full-screen==
 
