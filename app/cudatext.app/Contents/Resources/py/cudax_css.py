@@ -489,6 +489,7 @@ common_values = {
 
 
 props = {
+        "accent-color": ["auto", "<calc>", "<color>"],
         "additive-symbols": [],
         "align-content": [
             "center",
@@ -707,6 +708,7 @@ props = {
         "clip-rule": ["nonzero", "evenodd"],
         "color": ["<color>"],
         "color-adjust": ["economy", "exact"],
+        "color-interpolation": ["auto", "sRGB", "linearRGB"],
         "color-interpolation-filters": ["auto", "sRGB", "linearRGB"],
         "column-count": [
             "<calc>",
