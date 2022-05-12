@@ -2844,12 +2844,12 @@ procedure TEditorFrame.EditorOnDrawBookmarkIcon(Sender: TObject; C: TCanvas; ALi
   const ARect: TRect);
 var
   Ed: TATSynEdit;
-  r: TRect;
+  R: TRect;
   dx: integer;
   index, kind: integer;
 begin
-  r:= ARect;
-  if r.Left>=r.Right then exit;
+  R:= ARect;
+  if R.Left>=R.Right then exit;
 
   Ed:= Sender as TATSynEdit;
   index:= Ed.Strings.Bookmarks.Find(ALineNum);
@@ -2860,19 +2860,21 @@ begin
   begin
     c.Brush.Color:= GetAppColor(apclEdBookmarkIcon);
     c.Pen.Color:= c.Brush.Color;
-    inc(r.Top, 1);
-    inc(r.Left, 4);
-    dx:= r.Height div 2-1;
+    inc(R.Top, 1);
+    inc(R.Left, 4);
+    dx:= R.Height div 2-1;
     c.Polygon([
-      Point(r.Left, r.Top),
-      Point(r.Left+dx, r.Top+dx),
-      Point(r.Left, r.Top+2*dx)
+      Point(R.Left, R.Top),
+      Point(R.Left+dx, R.Top+dx),
+      Point(R.Left, R.Top+2*dx)
       ]);
   end
   else
   if (kind>=Low(AppBookmarkSetup)) and (kind<=High(AppBookmarkSetup)) then
   begin
-    AppBookmarkImagelist.Draw(c, r.left, r.top,
+    AppBookmarkImagelist.Draw(c,
+      R.Left,
+      (R.Top+R.Bottom-AppBookmarkImagelist.Height) div 2,
       AppBookmarkSetup[kind].ImageIndex);
   end;
 end;
