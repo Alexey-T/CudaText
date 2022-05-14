@@ -343,14 +343,21 @@ begin
         begin
           buf:= Utf8Encode(UnicodeString(s_name[FuzzyResults[i]]));
           n:= c.TextWidth(Utf8Encode(Copy(s_name, 1, FuzzyResults[i]-1)));
-          RectClip:= Rect(pnt.x+n, pnt.y, pnt.x+n+c.TextWidth(buf), ARect.Bottom);
+          RectClip:= Rect(
+            pnt.x+n,
+            pnt.y,
+            pnt.x+n+c.TextWidth(buf),
+            ARect.Bottom
+            );
           ExtTextOut(c.Handle,
-            RectClip.Left, RectClip.Top,
+            RectClip.Left,
+            RectClip.Top,
             ETO_CLIPPED+ETO_OPAQUE,
             @RectClip,
             PChar(buf),
             Length(buf),
-            nil);
+            nil
+            );
         end;
       end
       else
@@ -359,14 +366,21 @@ begin
         begin
           buf:= Copy(s_name, WordResults.MatchesArray[i].WordPos, WordResults.MatchesArray[i].WordLen);
           n:= c.TextWidth(Copy(s_name, 1, WordResults.MatchesArray[i].WordPos-1));
-          RectClip:= Rect(pnt.x+n, pnt.y, pnt.x+n+c.TextWidth(buf), ARect.Bottom);
+          RectClip:= Rect(
+            pnt.x+n,
+            pnt.y,
+            pnt.x+n+c.TextWidth(buf),
+            ARect.Bottom
+            );
           ExtTextOut(c.Handle,
-            RectClip.Left, RectClip.Top,
+            RectClip.Left,
+            RectClip.Top,
             ETO_CLIPPED+ETO_OPAQUE,
             @RectClip,
             PChar(buf),
             Length(buf),
-            nil);
+            nil
+            );
         end;
       end;
   end;

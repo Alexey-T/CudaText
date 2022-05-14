@@ -433,14 +433,21 @@ begin
         begin
           buf:= strname[FuzzyResults[i]];
           n:= c.TextWidth(Copy(strname, 1, FuzzyResults[i]-1));
-          RectClip:= Rect(pnt.x+n, pnt.y, pnt.x+n+c.TextWidth(buf), ARect.Bottom);
+          RectClip:= Rect(
+            pnt.x+n,
+            pnt.y,
+            pnt.x+n+c.TextWidth(buf),
+            ARect.Bottom
+            );
           ExtTextOut(c.Handle,
-            RectClip.Left, RectClip.Top,
+            RectClip.Left,
+            RectClip.Top,
             ETO_CLIPPED+ETO_OPAQUE,
             @RectClip,
             PChar(buf),
             Length(buf),
-            nil);
+            nil
+            );
         end;
       end
       else
@@ -449,14 +456,21 @@ begin
         begin
           buf:= Copy(strname, WordResults.MatchesArray[i].WordPos, WordResults.MatchesArray[i].WordLen);
           n:= c.TextWidth(Copy(strname, 1, WordResults.MatchesArray[i].WordPos-1));
-          RectClip:= Rect(pnt.x+n, pnt.y, pnt.x+n+c.TextWidth(buf), ARect.Bottom);
+          RectClip:= Rect(
+            pnt.x+n,
+            pnt.y,
+            pnt.x+n+c.TextWidth(buf),
+            ARect.Bottom
+            );
           ExtTextOut(c.Handle,
-            RectClip.Left, RectClip.Top,
+            RectClip.Left,
+            RectClip.Top,
             ETO_CLIPPED+ETO_OPAQUE,
             @RectClip,
             PChar(buf),
             Length(buf),
-            nil);
+            nil
+            );
         end;
       end;
   end;
