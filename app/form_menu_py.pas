@@ -60,7 +60,7 @@ type
     FColorFontHilite: TColor;
     procedure DoFilter;
     function GetResultCmd: integer;
-    function IsFiltered(AOrigIndex: integer; out ASimpleMatch: boolean): boolean;
+    function IsFiltered(AOrigIndex: integer; out AWordMatch: boolean): boolean;
     procedure SetListCaption(const AValue: string);
   public
     { public declarations }
@@ -264,10 +264,11 @@ const
   IndentFor1stLine = 4;
   IndentFor2ndLine = 10;
 var
+  WordResults: TAppSearchWordsResults;
+  FuzzyResults: TATIntArray;
   buf, part_L, part_R: string;
   s_name, s_name2, s_right, s_filter: UnicodeString;
   cl: TColor;
-  ar: TATIntArray;
   pnt: TPoint;
   RectClip: TRect;
   bCurrentFuzzy: boolean;
@@ -335,40 +336,40 @@ begin
 
   if bCurrentFuzzy then
   begin
-    ar:= SFindFuzzyPositions(s_name, s_filter);
-    for i:= Low(ar) to High(ar) do
-    begin
-      buf:= Utf8Encode(UnicodeString(s_name[ar[i]]));
-      n:= c.TextWidth(Utf8Encode(Copy(s_name, 1, ar[i]-1)));
-      RectClip:= Rect(pnt.x+n, pnt.y, pnt.x+n+c.TextWidth(buf), ARect.Bottom);
-      ExtTextOut(c.Handle,
-        RectClip.Left, RectClip.Top,
-        ETO_CLIPPED+ETO_OPAQUE,
-        @RectClip,
-        PChar(buf),
-        Length(buf),
-        nil);
-    end;
+    if STextListsFuzzyInput(s_name, s_filter, WordResults, FuzzyResults) then
+      if WordResults.MatchesCount=0 then
+      begin
+        for i:= Low(FuzzyResults) to High(FuzzyResults) do
+        begin
+          buf:= Utf8Encode(UnicodeString(s_name[FuzzyResults[i]]));
+          n:= c.TextWidth(Utf8Encode(Copy(s_name, 1, FuzzyResults[i]-1)));
+          RectClip:= Rect(pnt.x+n, pnt.y, pnt.x+n+c.TextWidth(buf), ARect.Bottom);
+          ExtTextOut(c.Handle,
+            RectClip.Left, RectClip.Top,
+            ETO_CLIPPED+ETO_OPAQUE,
+            @RectClip,
+            PChar(buf),
+            Length(buf),
+            nil);
+        end;
+      end
+      else
+      begin
+        for i:= 0 to WordResults.MatchesCount-1 do
+        begin
+          buf:= Copy(s_name, WordResults.MatchesArray[i].WordPos, WordResults.MatchesArray[i].WordLen);
+          n:= c.TextWidth(Copy(s_name, 1, WordResults.MatchesArray[i].WordPos-1));
+          RectClip:= Rect(pnt.x+n, pnt.y, pnt.x+n+c.TextWidth(buf), ARect.Bottom);
+          ExtTextOut(c.Handle,
+            RectClip.Left, RectClip.Top,
+            ETO_CLIPPED+ETO_OPAQUE,
+            @RectClip,
+            PChar(buf),
+            Length(buf),
+            nil);
+        end;
+      end;
   end;
-  {//no support for n words
-  else
-  begin
-    n:= Pos(Lowercase(s_filter), Lowercase(s_name));
-    if n>0 then
-    begin
-      buf:= Copy(s_name, n, Length(s_filter));
-      n:= c.TextWidth(Copy(s_name, 1, n-1));
-      RectClip:= Rect(pnt.x+n, pnt.y, pnt.x+n+c.TextWidth(buf), ARect.Bottom);
-      ExtTextOut(c.Handle,
-        RectClip.Left, RectClip.Top,
-        ETO_CLIPPED+ETO_OPAQUE,
-        @RectClip,
-        PChar(buf),
-        Length(buf),
-        nil);
-    end;
-  end;
-  }
 
   if s_right<>'' then
   begin
@@ -416,11 +417,14 @@ begin
   list.Invalidate;
 end;
 
-function TfmMenuApi.IsFiltered(AOrigIndex: integer; out ASimpleMatch: boolean): boolean;
+function TfmMenuApi.IsFiltered(AOrigIndex: integer; out AWordMatch: boolean): boolean;
 var
+  WordResults: TAppSearchWordsResults;
+  FuzzyResults: TATIntArray;
   SFind, SText: string;
 begin
-  ASimpleMatch:= true;
+  Result:= false;
+  AWordMatch:= false;
 
   SText:= listItems[AOrigIndex];
   if DisableFullFilter then
@@ -430,7 +434,10 @@ begin
   if SFind='' then exit(true);
 
   if UiOps.ListboxFuzzySearch and not DisableFuzzy then
-    Result:= STextListsFuzzyInput(SText, SFind, ASimpleMatch)
+  begin
+    Result:= STextListsFuzzyInput(SText, SFind, WordResults, FuzzyResults);
+    AWordMatch:= WordResults.MatchesCount>0;
+  end
   else
     Result:= STextListsAllWords(SText, SFind);
 end;

@@ -68,7 +68,7 @@ type
     procedure DoResetKey(K: TATKeymapItem);
     function GetListCaption: string;
     function GetResultCmd: integer;
-    function IsFiltered(Item: TATKeymapItem; out ASimpleMatch: boolean): boolean;
+    function IsFiltered(Item: TATKeymapItem; out AWordMatch: boolean): boolean;
     procedure DoMsgStatus(const S: string);
     procedure Localize;
     procedure SetListCaption(const AValue: string);
@@ -380,14 +380,15 @@ end;
 procedure TfmCommands.listDrawItem(Sender: TObject; C: TCanvas;
   AIndex: integer; const ARect: TRect);
 var
-  cl: TColor;
-  n, nPrevSize, i: integer;
+  WordResults: TAppSearchWordsResults;
+  FuzzyResults: TATIntArray;
   strname, strkey, strfind: string;
-  ar: TATIntArray;
   pnt: TPoint;
   r1: TRect;
   buf: string;
   TextSize: TSize;
+  cl: TColor;
+  n, nPrevSize, i: integer;
 begin
   if AIndex<0 then exit;
   if AIndex=list.ItemIndex then
@@ -425,40 +426,40 @@ begin
 
   if UiOps.ListboxFuzzySearch then
   begin
-    ar:= SFindFuzzyPositions(strname, strfind);
-    for i:= Low(ar) to High(ar) do
-    begin
-      buf:= strname[ar[i]];
-      n:= c.TextWidth(Copy(strname, 1, ar[i]-1));
-      r1:= Rect(pnt.x+n, pnt.y, pnt.x+n+c.TextWidth(buf), ARect.Bottom);
-      ExtTextOut(c.Handle,
-        r1.Left, r1.Top,
-        ETO_CLIPPED+ETO_OPAQUE,
-        @r1,
-        PChar(buf),
-        Length(buf),
-        nil);
-    end;
+    if STextListsFuzzyInput(strname, strfind, WordResults, FuzzyResults) then
+      if WordResults.MatchesCount=0 then
+      begin
+        for i:= Low(FuzzyResults) to High(FuzzyResults) do
+        begin
+          buf:= strname[FuzzyResults[i]];
+          n:= c.TextWidth(Copy(strname, 1, FuzzyResults[i]-1));
+          r1:= Rect(pnt.x+n, pnt.y, pnt.x+n+c.TextWidth(buf), ARect.Bottom);
+          ExtTextOut(c.Handle,
+            r1.Left, r1.Top,
+            ETO_CLIPPED+ETO_OPAQUE,
+            @r1,
+            PChar(buf),
+            Length(buf),
+            nil);
+        end;
+      end
+      else
+      begin
+        for i:= 0 to WordResults.MatchesCount-1 do
+        begin
+          buf:= Copy(strname, WordResults.MatchesArray[i].WordPos, WordResults.MatchesArray[i].WordLen);
+          n:= c.TextWidth(Copy(strname, 1, WordResults.MatchesArray[i].WordPos-1));
+          r1:= Rect(pnt.x+n, pnt.y, pnt.x+n+c.TextWidth(buf), ARect.Bottom);
+          ExtTextOut(c.Handle,
+            r1.Left, r1.Top,
+            ETO_CLIPPED+ETO_OPAQUE,
+            @r1,
+            PChar(buf),
+            Length(buf),
+            nil);
+        end;
+      end;
   end;
-  {//no support to hilite n words
-  else
-  begin
-    n:= Pos(Lowercase(strfind), Lowercase(strname));
-    if n>0 then
-    begin
-      buf:= Copy(strname, n, Length(strfind));
-      n:= c.TextWidth(Copy(strname, 1, n-1));
-      r1:= Rect(pnt.x+n, pnt.y, pnt.x+n+c.TextWidth(buf), ARect.Bottom);
-      ExtTextOut(c.Handle,
-        r1.Left, r1.Top,
-        ETO_CLIPPED+ETO_OPAQUE,
-        @r1,
-        PChar(buf),
-        Length(buf),
-        nil);
-    end;
-  end;
-  }
 
   if strkey<>'' then
   begin
@@ -557,15 +558,17 @@ begin
   list.Invalidate;
 end;
 
-function TfmCommands.IsFiltered(Item: TATKeymapItem; out ASimpleMatch: boolean): boolean;
+function TfmCommands.IsFiltered(Item: TATKeymapItem; out AWordMatch: boolean): boolean;
 var
+  WordResults: TAppSearchWordsResults;
+  FuzzyResults: TATIntArray;
   NCmd: integer;
   StrFind: string;
   Category: TAppCommandCategory;
   bPrefixLexer, bPrefixPlugin, bPrefixFile, bPrefixRecent: boolean;
 begin
   Result:= false;
-  ASimpleMatch:= false;
+  AWordMatch:= false;
 
   NCmd:= Item.Command;
   Category:= TPluginHelper.CommandCategory(NCmd);
@@ -604,7 +607,10 @@ begin
   else
   //normal search in name
   if UiOps.ListboxFuzzySearch then
-    Result:= STextListsFuzzyInput(Item.Name, StrFind, ASimpleMatch)
+  begin
+    Result:= STextListsFuzzyInput(Item.Name, StrFind, WordResults, FuzzyResults);
+    AWordMatch:= WordResults.MatchesCount>0;
+  end
   else
     Result:= STextListsAllWords(Item.Name, StrFind);
 end;

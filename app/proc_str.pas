@@ -20,13 +20,22 @@ uses
   ATSynEdit_RegExpr,
   ec_RegExpr;
 
+type
+  TAppSearchWordsResults = record
+    MatchesCount: integer;
+    MatchesArray: array[0..10] of record
+      WordPos, WordLen: integer;
+    end;
+  end;
+
 function STextWholeWordSelection(const S: UnicodeString; OffsetBegin, OffsetEnd: integer;
   const ANonWordChars: UnicodeString): boolean;
-function SFindFuzzyPositions(SText, SFind: UnicodeString): TATIntArray;
 procedure SDeleteDuplicateSpaces(var S: string);
 function SDeleteCurlyBrackets(const S: string): string;
 function STextListsAllWords(SText, SWords: string): boolean;
-function STextListsFuzzyInput(const AText, AFind: string; out ASimpleMatch: boolean): boolean;
+function STextListsFuzzyInput(const AText, AFind: string;
+  out AWordResults: TAppSearchWordsResults;
+  out AFuzzyResults: TATIntArray): boolean;
 function SRegexReplaceSubstring(const AStr, AStrFind, AStrReplace: string; AUseSubstitute: boolean): string;
 function SRegexMatchesString(const ASubject, ARegex: string; ACaseSensitive: boolean): boolean;
 
@@ -219,19 +228,53 @@ begin
   Result:= Pos(','+Ext+',', ','+AExtList+',' )>0;
 end;
 
-function STextListsFuzzyInput(const AText, AFind: string; out ASimpleMatch: boolean): boolean;
+function STextListsFuzzyInput(const AText, AFind: string;
+  out AWordResults: TAppSearchWordsResults;
+  out AFuzzyResults: TATIntArray): boolean;
 var
-  Ar: TATIntArray;
+  Sep: TATStringSeparator;
+  STextLower, SWordList, SWordItem: string;
+  NPos: integer;
 begin
-  ASimpleMatch:= Pos(UpperCase(AFind), UpperCase(AText))>0;
-  if ASimpleMatch then
-    exit(true);
+  Result:= false;
+  FillChar(AWordResults, SizeOf(AWordResults), 0);
+  AFuzzyResults:= nil;
 
-  Ar:= SFindFuzzyPositions(
+  //1) find whole words
+  STextLower:= LowerCase(AText);
+  SWordList:= Trim(AFind);
+  SDeleteDuplicateSpaces(SWordList);
+
+  Sep.Init(SWordList, ' ');
+  repeat
+    if not Sep.GetItemStr(SWordItem) then
+    begin
+      if AWordResults.MatchesCount>0 then
+        exit(true)
+      else
+        Break;
+    end;
+    NPos:= Pos(LowerCase(SWordItem), STextLower);
+    if NPos>0 then
+    begin
+      if AWordResults.MatchesCount>High(AWordResults.MatchesArray) then
+        exit(false);
+      Inc(AWordResults.MatchesCount);
+      AWordResults.MatchesArray[AWordResults.MatchesCount-1].WordPos:= NPos;
+      AWordResults.MatchesArray[AWordResults.MatchesCount-1].WordLen:= Length(SWordItem);
+    end
+    else
+      Break;
+  until false;
+
+  //2) fuzzy search
+  AWordResults.MatchesCount:= 0;
+
+  AFuzzyResults:= SFindFuzzyPositions(
     UTF8Decode(AText),
     UTF8Decode(AFind)
     );
-  Result:= Length(Ar)>0;
+  Result:= Length(AFuzzyResults)>0;
 end;
 
 function SRegexReplaceSubstring(const AStr, AStrFind, AStrReplace: string; AUseSubstitute: boolean): string;
