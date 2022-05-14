@@ -153,7 +153,7 @@ function EditorGetTokenKind(Ed: TATSynEdit; AX, AY: integer;
   ADocCommentIsAlsoComment: boolean=true): TATTokenKind;
 function EditorExpandSelectionToWord(Ed: TATSynEdit;
   AFinderResultCallback: TATEditorFinderCallback;
-  AAndSelect, AWholeWords: boolean): boolean;
+  AAddOrSkip, AWholeWords: boolean): boolean;
 function EditorFindCurrentWordOrSel(Ed: TATSynEdit;
   ANext, AWordOrSel, AOptCase, AOptWrapped: boolean;
   out Str: UnicodeString): boolean;
@@ -1795,12 +1795,12 @@ end;
 
 function EditorExpandSelectionToWord(Ed: TATSynEdit;
   AFinderResultCallback: TATEditorFinderCallback;
-  AAndSelect, AWholeWords: boolean): boolean;
+  AAddOrSkip, AWholeWords: boolean): boolean;
 var
   Caret: TATCaretItem;
   Finder: TATEditorFinder;
   MarkerPtr: PATMarkerItem;
-  X1, Y1, X2, Y2, NSelLen: integer;
+  X1, Y1, X2, Y2, NSelLen, NCaret: integer;
   bSel, bForwardSel: boolean;
   bWholeWord: boolean;
   sText: UnicodeString;
@@ -1842,6 +1842,14 @@ begin
     end;
   end;
 
+  //skip last (last made, not last in text) selection
+  if not AAddOrSkip then
+  begin
+    NCaret:= Ed.Carets.FindCaretBeforePos(X1, Y1, true);
+    if NCaret>=0 then
+      Ed.Carets.Delete(NCaret);
+  end;
+
   if not bSel then
   begin
     bForwardSel:= true;
@@ -1871,25 +1879,22 @@ begin
 
       if Result then
       begin
-        if AAndSelect then
-        begin
-          if bForwardSel then
-            Ed.Carets.Add(
-              Finder.MatchEdEnd.X,
-              Finder.MatchEdEnd.Y,
-              Finder.MatchEdPos.X,
-              Finder.MatchEdPos.Y
-              )
-          else
-            Ed.Carets.Add(
-              Finder.MatchEdPos.X,
-              Finder.MatchEdPos.Y,
-              Finder.MatchEdEnd.X,
-              Finder.MatchEdEnd.Y
-              );
-          //sort carets: maybe we added caret in the middle
-          Ed.Carets.Sort;
-        end;
+        if bForwardSel then
+          Ed.Carets.Add(
+            Finder.MatchEdEnd.X,
+            Finder.MatchEdEnd.Y,
+            Finder.MatchEdPos.X,
+            Finder.MatchEdPos.Y
+            )
+        else
+          Ed.Carets.Add(
+            Finder.MatchEdPos.X,
+            Finder.MatchEdPos.Y,
+            Finder.MatchEdEnd.X,
+            Finder.MatchEdEnd.Y
+            );
+        //sort carets: maybe we added caret in the middle
+        Ed.Carets.Sort;
 
         if Finder.MatchEdEnd.Y=Finder.MatchEdPos.Y then
           NSelLen:= Finder.MatchEdEnd.X-Finder.MatchEdPos.X
