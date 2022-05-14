@@ -493,8 +493,8 @@ begin
 
   M.Add(cmd_SelectExpandToWord, 'selection: add next occurrence of selected word', [cXControl+'+Shift+D'], []);
   M.Add(cmd_SelectExpandToText, 'selection: add next occurrence of selected text (not whole-word)', [], []);
-  M.Add(cmd_SelectExpandToWord_Skip, 'selection: skip (don''t select) next occurrence of selected word', [], []);
-  M.Add(cmd_SelectExpandToText_Skip, 'selection: skip (don''t select) next occurrence of selected text', [], []);
+  M.Add(cmd_SelectExpandToWord_Skip, 'selection: skip to next occurrence of selected word', [], []);
+  M.Add(cmd_SelectExpandToText_Skip, 'selection: skip to next occurrence of selected text', [], []);
 
   M.Add(cmd_CopyLine, 'clipboard: copy current line', [], []);
   M.Add(cmd_CopyFilenameFull, 'clipboard: copy full filepath', [], []);
