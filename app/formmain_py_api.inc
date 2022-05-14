@@ -4913,12 +4913,14 @@ begin
             Sep.GetItemStr(StrIndex); //handle
             Sep.GetItemStr(StrFilename); //icon filename
 
+            fmMain.DisableAutoSizing; //fix horizontal twitch of main Groups
             ok:= AppPanels[cPaneSide].Add(
               StrCaption,
               fmMain.DoSidebar_FilenameToImageIndex(StrCaption, StrFilename),
               StrToInt64Def(StrIndex, 0),
               nil
               );
+            fmMain.EnableAutoSizing;
 
             Result:= PyBool_FromLong(Ord(ok));
           end;
@@ -4998,12 +5000,14 @@ begin
             Sep.GetItemStr(StrIndex); //handle
             Sep.GetItemStr(StrFilename); //icon filename
 
+            fmMain.DisableAutoSizing; //fix horizontal twitch of main Groups
             ok:= AppPanels[cPaneOut].Add(
               StrCaption,
               fmMain.DoSidebar_FilenameToImageIndex(StrCaption, StrFilename),
               StrToInt64Def(StrIndex, 0),
               nil
               );
+            fmMain.EnableAutoSizing;
 
             Result:= PyBool_FromLong(Ord(ok));
           end;

@@ -1732,7 +1732,12 @@ end;
 
 
 procedure TEditorFrame.DoOnResize;
+var
+  N: integer;
 begin
+  //for debugging only
+  N:= Width;
+
   inherited;
 
   //this keeps ratio of splitter (e.g. 50%) on form resize
