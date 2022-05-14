@@ -272,6 +272,7 @@ var
   pnt: TPoint;
   RectClip: TRect;
   bCurrentFuzzy: boolean;
+  bFound: boolean;
   n, i: integer;
 begin
   if UseEditorFont then
@@ -335,54 +336,58 @@ begin
   c.Font.Color:= FColorFontHilite;
 
   if bCurrentFuzzy then
+    bFound:= STextListsFuzzyInput(s_name, s_filter, WordResults, FuzzyResults)
+  else
+    bFound:= STextListsAllWords(s_name, s_filter, WordResults);
+
+  if bFound then
   begin
-    if STextListsFuzzyInput(s_name, s_filter, WordResults, FuzzyResults) then
-      if WordResults.MatchesCount=0 then
+    if WordResults.MatchesCount=0 then
+    begin
+      for i:= Low(FuzzyResults) to High(FuzzyResults) do
       begin
-        for i:= Low(FuzzyResults) to High(FuzzyResults) do
-        begin
-          buf:= Utf8Encode(UnicodeString(s_name[FuzzyResults[i]]));
-          n:= c.TextWidth(Utf8Encode(Copy(s_name, 1, FuzzyResults[i]-1)));
-          RectClip:= Rect(
-            pnt.x+n,
-            pnt.y,
-            pnt.x+n+c.TextWidth(buf),
-            ARect.Bottom
-            );
-          ExtTextOut(c.Handle,
-            RectClip.Left,
-            RectClip.Top,
-            ETO_CLIPPED+ETO_OPAQUE,
-            @RectClip,
-            PChar(buf),
-            Length(buf),
-            nil
-            );
-        end;
-      end
-      else
-      begin
-        for i:= 0 to WordResults.MatchesCount-1 do
-        begin
-          buf:= Copy(s_name, WordResults.MatchesArray[i].WordPos, WordResults.MatchesArray[i].WordLen);
-          n:= c.TextWidth(Copy(s_name, 1, WordResults.MatchesArray[i].WordPos-1));
-          RectClip:= Rect(
-            pnt.x+n,
-            pnt.y,
-            pnt.x+n+c.TextWidth(buf),
-            ARect.Bottom
-            );
-          ExtTextOut(c.Handle,
-            RectClip.Left,
-            RectClip.Top,
-            ETO_CLIPPED+ETO_OPAQUE,
-            @RectClip,
-            PChar(buf),
-            Length(buf),
-            nil
-            );
-        end;
+        buf:= Utf8Encode(UnicodeString(s_name[FuzzyResults[i]]));
+        n:= c.TextWidth(Utf8Encode(Copy(s_name, 1, FuzzyResults[i]-1)));
+        RectClip:= Rect(
+          pnt.x+n,
+          pnt.y,
+          pnt.x+n+c.TextWidth(buf),
+          ARect.Bottom
+          );
+        ExtTextOut(c.Handle,
+          RectClip.Left,
+          RectClip.Top,
+          ETO_CLIPPED+ETO_OPAQUE,
+          @RectClip,
+          PChar(buf),
+          Length(buf),
+          nil
+          );
       end;
+    end
+    else
+    begin
+      for i:= 0 to WordResults.MatchesCount-1 do
+      begin
+        buf:= Copy(s_name, WordResults.MatchesArray[i].WordPos, WordResults.MatchesArray[i].WordLen);
+        n:= c.TextWidth(Copy(s_name, 1, WordResults.MatchesArray[i].WordPos-1));
+        RectClip:= Rect(
+          pnt.x+n,
+          pnt.y,
+          pnt.x+n+c.TextWidth(buf),
+          ARect.Bottom
+          );
+        ExtTextOut(c.Handle,
+          RectClip.Left,
+          RectClip.Top,
+          ETO_CLIPPED+ETO_OPAQUE,
+          @RectClip,
+          PChar(buf),
+          Length(buf),
+          nil
+          );
+      end;
+    end;
   end;
 
   if s_right<>'' then

@@ -387,6 +387,7 @@ var
   RectClip: TRect;
   buf: string;
   TextSize: TSize;
+  bFound: boolean;
   cl: TColor;
   n, nPrevSize, i: integer;
 begin
@@ -425,54 +426,58 @@ begin
   c.Font.Color:= FColorFontHilite;
 
   if UiOps.ListboxFuzzySearch then
+    bFound:= STextListsFuzzyInput(strname, strfind, WordResults, FuzzyResults)
+  else
+    bFound:= STextListsAllWords(strname, strfind, WordResults);
+
+  if bFound then
   begin
-    if STextListsFuzzyInput(strname, strfind, WordResults, FuzzyResults) then
-      if WordResults.MatchesCount=0 then
+    if WordResults.MatchesCount=0 then
+    begin
+      for i:= Low(FuzzyResults) to High(FuzzyResults) do
       begin
-        for i:= Low(FuzzyResults) to High(FuzzyResults) do
-        begin
-          buf:= strname[FuzzyResults[i]];
-          n:= c.TextWidth(Copy(strname, 1, FuzzyResults[i]-1));
-          RectClip:= Rect(
-            pnt.x+n,
-            pnt.y,
-            pnt.x+n+c.TextWidth(buf),
-            ARect.Bottom
-            );
-          ExtTextOut(c.Handle,
-            RectClip.Left,
-            RectClip.Top,
-            ETO_CLIPPED+ETO_OPAQUE,
-            @RectClip,
-            PChar(buf),
-            Length(buf),
-            nil
-            );
-        end;
-      end
-      else
-      begin
-        for i:= 0 to WordResults.MatchesCount-1 do
-        begin
-          buf:= Copy(strname, WordResults.MatchesArray[i].WordPos, WordResults.MatchesArray[i].WordLen);
-          n:= c.TextWidth(Copy(strname, 1, WordResults.MatchesArray[i].WordPos-1));
-          RectClip:= Rect(
-            pnt.x+n,
-            pnt.y,
-            pnt.x+n+c.TextWidth(buf),
-            ARect.Bottom
-            );
-          ExtTextOut(c.Handle,
-            RectClip.Left,
-            RectClip.Top,
-            ETO_CLIPPED+ETO_OPAQUE,
-            @RectClip,
-            PChar(buf),
-            Length(buf),
-            nil
-            );
-        end;
+        buf:= strname[FuzzyResults[i]];
+        n:= c.TextWidth(Copy(strname, 1, FuzzyResults[i]-1));
+        RectClip:= Rect(
+          pnt.x+n,
+          pnt.y,
+          pnt.x+n+c.TextWidth(buf),
+          ARect.Bottom
+          );
+        ExtTextOut(c.Handle,
+          RectClip.Left,
+          RectClip.Top,
+          ETO_CLIPPED+ETO_OPAQUE,
+          @RectClip,
+          PChar(buf),
+          Length(buf),
+          nil
+          );
       end;
+    end
+    else
+    begin
+      for i:= 0 to WordResults.MatchesCount-1 do
+      begin
+        buf:= Copy(strname, WordResults.MatchesArray[i].WordPos, WordResults.MatchesArray[i].WordLen);
+        n:= c.TextWidth(Copy(strname, 1, WordResults.MatchesArray[i].WordPos-1));
+        RectClip:= Rect(
+          pnt.x+n,
+          pnt.y,
+          pnt.x+n+c.TextWidth(buf),
+          ARect.Bottom
+          );
+        ExtTextOut(c.Handle,
+          RectClip.Left,
+          RectClip.Top,
+          ETO_CLIPPED+ETO_OPAQUE,
+          @RectClip,
+          PChar(buf),
+          Length(buf),
+          nil
+          );
+      end;
+    end;
   end;
 
   if strkey<>'' then
