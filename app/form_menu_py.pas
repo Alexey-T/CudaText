@@ -453,7 +453,7 @@ begin
     AWordMatch:= WordResults.MatchesCount>0;
   end
   else
-    Result:= STextListsAllWords(SText, SFind);
+    Result:= STextListsAllWords(SText, SFind, WordResults);
 end;
 
 procedure TfmMenuApi.SetListCaption(const AValue: string);

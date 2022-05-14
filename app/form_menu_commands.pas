@@ -626,7 +626,7 @@ begin
     AWordMatch:= WordResults.MatchesCount>0;
   end
   else
-    Result:= STextListsAllWords(Item.Name, StrFind);
+    Result:= STextListsAllWords(Item.Name, StrFind, WordResults);
 end;
 
 procedure TfmCommands.DoMsgStatus(const S: string);

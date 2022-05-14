@@ -32,7 +32,8 @@ function STextWholeWordSelection(const S: UnicodeString; OffsetBegin, OffsetEnd:
   const ANonWordChars: UnicodeString): boolean;
 procedure SDeleteDuplicateSpaces(var S: string);
 function SDeleteCurlyBrackets(const S: string): string;
-function STextListsAllWords(SText, SWords: string): boolean;
+function STextListsAllWords(const AText, AFind: string;
+  out AWordResults: TAppSearchWordsResults): boolean;
 function STextListsFuzzyInput(const AText, AFind: string;
   out AWordResults: TAppSearchWordsResults;
   out AFuzzyResults: TATIntArray): boolean;
@@ -175,23 +176,43 @@ begin
       Delete(S, i, 1);
 end;
 
-function STextListsAllWords(SText, SWords: string): boolean;
+function STextListsAllWords(const AText, AFind: string;
+  out AWordResults: TAppSearchWordsResults): boolean;
 var
   Sep: TATStringSeparator;
-  SItem: string;
+  STextLower, SWordList, SWordItem: string;
+  NPos: integer;
 begin
-  SDeleteDuplicateSpaces(SWords);
-  SText:= Trim(AnsiLowerCase(SText));
-  SWords:= Trim(AnsiLowerCase(SWords));
+  Result:= false;
+  FillChar(AWordResults, SizeOf(AWordResults), 0);
 
-  if SText='' then exit(false);
-  if SWords='' then exit(false);
+  STextLower:= LowerCase(AText);
+  SWordList:= Trim(AFind);
+  SDeleteDuplicateSpaces(SWordList);
 
-  Sep.Init(SWords, ' ');
+  Sep.Init(SWordList, ' ');
   repeat
-    if not Sep.GetItemStr(SItem) then exit(true);
-    if Pos(SItem, SText)=0 then exit(false);
+    if not Sep.GetItemStr(SWordItem) then
+    begin
+      if AWordResults.MatchesCount>0 then
+        exit(true)
+      else
+        Break;
+    end;
+    NPos:= Pos(LowerCase(SWordItem), STextLower);
+    if NPos>0 then
+    begin
+      if AWordResults.MatchesCount>High(AWordResults.MatchesArray) then
+        exit(false);
+      Inc(AWordResults.MatchesCount);
+      AWordResults.MatchesArray[AWordResults.MatchesCount-1].WordPos:= NPos;
+      AWordResults.MatchesArray[AWordResults.MatchesCount-1].WordLen:= Length(SWordItem);
+    end
+    else
+      Break;
   until false;
+
+  AWordResults.MatchesCount:= 0;
 end;
 
 function IsLexerListed(const AItem, AItemList: string): boolean;
@@ -231,50 +252,20 @@ end;
 function STextListsFuzzyInput(const AText, AFind: string;
   out AWordResults: TAppSearchWordsResults;
   out AFuzzyResults: TATIntArray): boolean;
-var
-  Sep: TATStringSeparator;
-  STextLower, SWordList, SWordItem: string;
-  NPos: integer;
 begin
   Result:= false;
-  FillChar(AWordResults, SizeOf(AWordResults), 0);
   AFuzzyResults:= nil;
 
-  //1) find whole words
-  STextLower:= LowerCase(AText);
-  SWordList:= Trim(AFind);
-  SDeleteDuplicateSpaces(SWordList);
-
-  Sep.Init(SWordList, ' ');
-  repeat
-    if not Sep.GetItemStr(SWordItem) then
-    begin
-      if AWordResults.MatchesCount>0 then
-        exit(true)
-      else
-        Break;
-    end;
-    NPos:= Pos(LowerCase(SWordItem), STextLower);
-    if NPos>0 then
-    begin
-      if AWordResults.MatchesCount>High(AWordResults.MatchesArray) then
-        exit(false);
-      Inc(AWordResults.MatchesCount);
-      AWordResults.MatchesArray[AWordResults.MatchesCount-1].WordPos:= NPos;
-      AWordResults.MatchesArray[AWordResults.MatchesCount-1].WordLen:= Length(SWordItem);
-    end
-    else
-      Break;
-  until false;
-
-  //2) fuzzy search
-  AWordResults.MatchesCount:= 0;
-
-  AFuzzyResults:= SFindFuzzyPositions(
-    UTF8Decode(AText),
-    UTF8Decode(AFind)
-    );
-  Result:= Length(AFuzzyResults)>0;
+  if STextListsAllWords(AText, AFind, AWordResults) then
+    Result:= true
+  else
+  begin
+    AFuzzyResults:= SFindFuzzyPositions(
+      UTF8Decode(AText),
+      UTF8Decode(AFind)
+      );
+    Result:= Length(AFuzzyResults)>0;
+  end;
 end;
 
 function SRegexReplaceSubstring(const AStr, AStrFind, AStrReplace: string; AUseSubstitute: boolean): string;
