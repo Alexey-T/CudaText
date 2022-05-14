@@ -4,6 +4,7 @@
   * changed
 
 * change: change the behaviour of command "skip next occurrence of selected word" to better mimic Sublime Text (thanks @veksha)
+- fix: UI flickering on adding plugin's sidepanel buttons (thanks @veksha)
 
 1.164.0 (2022/05)
 
