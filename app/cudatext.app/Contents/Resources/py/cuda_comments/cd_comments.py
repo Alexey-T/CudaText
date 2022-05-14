@@ -361,6 +361,8 @@ class Command:
                 # don't check for ending of selection - for HTML and entire selected line(s)
             pass;              #LOG and log('do_uncmt={}', (do_uncmt))
 
+            cNSel1, rNSel1, cNSel2, rNSel2 = None, None, None, None
+
             if False:pass
             elif not do_uncmt and bOnlyLn:
                 # Comment!
@@ -435,14 +437,15 @@ class Command:
                     ,cNSel2, rNSel2) = (0, rTx1, 0, rTx2-2)
 
             pass;              #LOG and log('bDrtSel, (cNSel1, rNSel1), (cNSel2, rNSel2)={}', (bDrtSel, (cNSel1, rNSel1), (cNSel2, rNSel2)))
-            if bDrtSel:
-                ed.set_caret(cNSel2, rNSel2, cNSel1, rNSel1, app.CARET_SET_INDEX+icrt)
-            else:
-                ed.set_caret(cNSel1, rNSel1, cNSel2, rNSel2, app.CARET_SET_INDEX+icrt)
+            if cNSel1 is not None:
+                if bDrtSel:
+                    ed.set_caret(cNSel2, rNSel2, cNSel1, rNSel1, app.CARET_SET_INDEX+icrt)
+                else:
+                    ed.set_caret(cNSel1, rNSel1, cNSel2, rNSel2, app.CARET_SET_INDEX+icrt)
            #for icrt
+
         move_down = apx.get_opt('comment_move_down', True)
-        if False:pass
-        elif 1==len(crts) and empty_sel and move_down:
+        if len(crts)==1 and empty_sel and move_down:
             apx._move_caret_down(cCrt, rCrt)
             if bOnlyLn and not do_uncmt:
                 crt=ed.get_carets()[0]; apx._move_caret_down(crt[0], crt[1])
