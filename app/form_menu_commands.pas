@@ -384,7 +384,7 @@ var
   FuzzyResults: TATIntArray;
   strname, strkey, strfind: string;
   pnt: TPoint;
-  r1: TRect;
+  RectClip: TRect;
   buf: string;
   TextSize: TSize;
   cl: TColor;
@@ -433,11 +433,11 @@ begin
         begin
           buf:= strname[FuzzyResults[i]];
           n:= c.TextWidth(Copy(strname, 1, FuzzyResults[i]-1));
-          r1:= Rect(pnt.x+n, pnt.y, pnt.x+n+c.TextWidth(buf), ARect.Bottom);
+          RectClip:= Rect(pnt.x+n, pnt.y, pnt.x+n+c.TextWidth(buf), ARect.Bottom);
           ExtTextOut(c.Handle,
-            r1.Left, r1.Top,
+            RectClip.Left, RectClip.Top,
             ETO_CLIPPED+ETO_OPAQUE,
-            @r1,
+            @RectClip,
             PChar(buf),
             Length(buf),
             nil);
@@ -449,11 +449,11 @@ begin
         begin
           buf:= Copy(strname, WordResults.MatchesArray[i].WordPos, WordResults.MatchesArray[i].WordLen);
           n:= c.TextWidth(Copy(strname, 1, WordResults.MatchesArray[i].WordPos-1));
-          r1:= Rect(pnt.x+n, pnt.y, pnt.x+n+c.TextWidth(buf), ARect.Bottom);
+          RectClip:= Rect(pnt.x+n, pnt.y, pnt.x+n+c.TextWidth(buf), ARect.Bottom);
           ExtTextOut(c.Handle,
-            r1.Left, r1.Top,
+            RectClip.Left, RectClip.Top,
             ETO_CLIPPED+ETO_OPAQUE,
-            @r1,
+            @RectClip,
             PChar(buf),
             Length(buf),
             nil);
