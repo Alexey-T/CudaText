@@ -338,11 +338,14 @@ begin
   if bCurrentFuzzy then
     bFound:= STextListsFuzzyInput(s_name, s_filter, WordResults, FuzzyResults)
   else
+  begin
     bFound:= STextListsAllWords(s_name, s_filter, WordResults);
+    FuzzyResults:= nil;
+  end;
 
   if bFound then
   begin
-    if WordResults.MatchesCount=0 then
+    if Length(FuzzyResults)>0 then
     begin
       for i:= Low(FuzzyResults) to High(FuzzyResults) do
       begin
@@ -366,6 +369,7 @@ begin
       end;
     end
     else
+    if WordResults.MatchesCount>0 then
     begin
       for i:= 0 to WordResults.MatchesCount-1 do
       begin

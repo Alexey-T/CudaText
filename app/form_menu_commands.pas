@@ -428,11 +428,14 @@ begin
   if UiOps.ListboxFuzzySearch then
     bFound:= STextListsFuzzyInput(strname, strfind, WordResults, FuzzyResults)
   else
+  begin
     bFound:= STextListsAllWords(strname, strfind, WordResults);
+    FuzzyResults:= nil;
+  end;
 
   if bFound then
   begin
-    if WordResults.MatchesCount=0 then
+    if Length(FuzzyResults)>0 then
     begin
       for i:= Low(FuzzyResults) to High(FuzzyResults) do
       begin
@@ -456,6 +459,7 @@ begin
       end;
     end
     else
+    if WordResults.MatchesCount>0 then
     begin
       for i:= 0 to WordResults.MatchesCount-1 do
       begin
