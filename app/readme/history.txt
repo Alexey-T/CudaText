@@ -3,6 +3,8 @@
   - fixed
   * changed
 
+* change: change the behaviour of command "skip next occurrence of selected word" to better mimic Sublime Text (thanks @veksha)
+
 1.164.0 (2022/05)
 
 + add: major change: support for proportional fonts in the editor (no option)
