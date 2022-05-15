@@ -144,7 +144,7 @@
   //Note: this option is global, not per-lexer.
   "unicode_full_width": 190,
 
-  //[Ui]
+  //[UI]
   //Double-buffering of UI controls. [has suffix]
   //  Use only if problems with rendering.
   //  If app shows flickering, change to true.
@@ -729,7 +729,7 @@
   //for which "Highlight all matches" still works.
   "find_hi_max_lines": 1000,
 
-  //[Ui]
+  //[UI]
   //UI scale factor in %, 70 to 500. [has suffix]
   //If value=0, then OS scaling is detected and used (currently only on Windows).
   //Note: this option is global, not per-lexer.
@@ -745,7 +745,7 @@
   "ui_scale_font__linux": 100,
   "ui_scale_font__mac": 100,
 
-  //[Ui/Tabs]
+  //[UI/Tabs]
   //UI tabs: global visible flag for ui-tabs.
   "ui_tab_show": true,
 
@@ -846,7 +846,7 @@
   //  If "s" in value: strikeout
   "ui_tab_preview_font_style": "iu",
 
-  //[Ui/Listbox]
+  //[UI/Listbox]
   //Listboxes: Commands/API listbox width.
   "ui_listbox_size_x": 450,
 
@@ -862,7 +862,7 @@
   //Listboxes: Enable fuzzy search in menu dialogs (see Wiki).
   "ui_listbox_fuzzy": true,
 
-  //[Ui/History]
+  //[UI/History]
   //History: Max items in comboboxes history (0..200).
   "ui_max_history_edits": 20,
 
@@ -901,11 +901,11 @@
   //  if 'i' in value: Splitted state of UI tab (horiz/vert, percents of size)
   "ui_history_disabled": "",
 
-  //[Ui/Listbox]
+  //[UI/Listbox]
   //Command Palette dialog: remember (in the current session only) last 'filter text'.
   "ui_cmdpalette_filter_keep": false,
 
-  //[Ui]
+  //[UI]
   //Close the program by Esc key.
   "ui_esc_close": false,
 
@@ -915,7 +915,7 @@
   //Initial folder of Open/Save-as dialogs, for untitled tabs.
   "ui_initial_dir": "",
 
-  //[Ui/Tree]
+  //[UI/Tree]
   //Sync code-tree selection to caret position. Ie after caret moves,
   //select appropriate code-tree node.
   "ui_tree_auto_sync": true,
@@ -1118,7 +1118,7 @@
   //Keys Left/Right-arrows: try to jump to opposite selection edge, and keep this selection.
   "key_left_right_swap_sel_and_select": false,
 
-  //[Ui/Statusbar]
+  //[UI/Statusbar]
   //CudaText has several options for different kinds of selections. Possible kinds:
   //  - no selection
   //  - small selection (1 caret, selection is part of a single line)
@@ -1182,14 +1182,14 @@
   //Statusbar messages: show time in seconds.
   "ui_statusbar_time": 5,
 
-  //[Ui]
+  //[UI]
   //Show full file path in the window title.
   "ui_title_path": false,
 
   //Pause of hint, of command "show function-hint".
   "ui_alt_hint_time": 9,
 
-  //[Ui/Sessions]
+  //[UI/Sessions]
   //Save current "session" on program closing, and restore it on start.
   //This also shows "Don't save / Keep in session" button in the "Save tabs?" dialog.
   "ui_reopen_session": true,
@@ -1392,7 +1392,7 @@
   //  will be used instead of normal lexer.
   "ui_max_size_lexer": 2,
 
-  //[Ui]
+  //[UI]
   //On calling Full-Screen, hide these UI elements.
   //Value is string of few chars:
   //  if "t" in value: toolbar
@@ -1414,7 +1414,7 @@
   //Console panel (Ctrl+`): word-wrap mode.
   "ui_console_wrap": true,
 
-  //[Ui/Panels]
+  //[UI/Panels]
   //Show sidebar (vertical bar with buttons, usually on the left side).
   "ui_sidebar_show": true,
 
