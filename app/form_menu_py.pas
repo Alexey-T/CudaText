@@ -268,6 +268,7 @@ var
   FuzzyResults: TATIntArray;
   buf, part_L, part_R: string;
   s_name, s_name2, s_right, s_filter: UnicodeString;
+  s_name_ansi: string;
   cl: TColor;
   pnt: TPoint;
   RectClip: TRect;
@@ -335,8 +336,9 @@ begin
 
   c.Font.Color:= FColorFontHilite;
 
+  s_name_ansi:= s_name;
   bFound:= STextListsFuzzyInput(
-             s_name,
+             s_name_ansi,
              s_filter,
              WordResults,
              FuzzyResults,
@@ -372,8 +374,8 @@ begin
     begin
       for i:= 0 to WordResults.MatchesCount-1 do
       begin
-        buf:= Copy(s_name, WordResults.MatchesArray[i].WordPos, WordResults.MatchesArray[i].WordLen);
-        n:= c.TextWidth(Copy(s_name, 1, WordResults.MatchesArray[i].WordPos-1));
+        buf:= Copy(s_name_ansi, WordResults.MatchesArray[i].WordPos, WordResults.MatchesArray[i].WordLen);
+        n:= c.TextWidth(Copy(s_name_ansi, 1, WordResults.MatchesArray[i].WordPos-1));
         RectClip:= Rect(
           pnt.x+n,
           pnt.y,
