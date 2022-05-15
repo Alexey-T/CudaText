@@ -32,11 +32,10 @@ function STextWholeWordSelection(const S: UnicodeString; OffsetBegin, OffsetEnd:
   const ANonWordChars: UnicodeString): boolean;
 procedure SDeleteDuplicateSpaces(var S: string);
 function SDeleteCurlyBrackets(const S: string): string;
-function STextListsAllWords(const AText, AFind: string;
-  out AWordResults: TAppSearchWordsResults): boolean;
 function STextListsFuzzyInput(const AText, AFind: string;
   out AWordResults: TAppSearchWordsResults;
-  out AFuzzyResults: TATIntArray): boolean;
+  out AFuzzyResults: TATIntArray;
+  AEnableFuzzy: boolean): boolean;
 function SRegexReplaceSubstring(const AStr, AStrFind, AStrReplace: string; AUseSubstitute: boolean): string;
 function SRegexMatchesString(const ASubject, ARegex: string; ACaseSensitive: boolean): boolean;
 
@@ -251,7 +250,8 @@ end;
 
 function STextListsFuzzyInput(const AText, AFind: string;
   out AWordResults: TAppSearchWordsResults;
-  out AFuzzyResults: TATIntArray): boolean;
+  out AFuzzyResults: TATIntArray;
+  AEnableFuzzy: boolean): boolean;
 begin
   Result:= false;
   AFuzzyResults:= nil;
@@ -259,6 +259,7 @@ begin
   if STextListsAllWords(AText, AFind, AWordResults) then
     Result:= true
   else
+  if AEnableFuzzy then
   begin
     AFuzzyResults:= SFindFuzzyPositions(
       UTF8Decode(AText),

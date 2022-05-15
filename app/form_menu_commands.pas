@@ -425,13 +425,12 @@ begin
 
   c.Font.Color:= FColorFontHilite;
 
-  if UiOps.ListboxFuzzySearch then
-    bFound:= STextListsFuzzyInput(strname, strfind, WordResults, FuzzyResults)
-  else
-  begin
-    bFound:= STextListsAllWords(strname, strfind, WordResults);
-    FuzzyResults:= nil;
-  end;
+  bFound:= STextListsFuzzyInput(
+    strname,
+    strfind,
+    WordResults,
+    FuzzyResults,
+    UiOps.ListboxFuzzySearch);
 
   if bFound then
   begin
@@ -628,14 +627,16 @@ begin
       (Pos(LowerCase(StrFind), LowerCase(Item.Keys2.ToString))>0);
   end
   else
-  //normal search in name
-  if UiOps.ListboxFuzzySearch then
+  //search in name
   begin
-    Result:= STextListsFuzzyInput(Item.Name, StrFind, WordResults, FuzzyResults);
+    Result:= STextListsFuzzyInput(
+               Item.Name,
+               StrFind,
+               WordResults,
+               FuzzyResults,
+               UiOps.ListboxFuzzySearch);
     AWordMatch:= WordResults.MatchesCount>0;
-  end
-  else
-    Result:= STextListsAllWords(Item.Name, StrFind, WordResults);
+  end;
 end;
 
 procedure TfmCommands.DoMsgStatus(const S: string);

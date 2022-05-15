@@ -335,13 +335,12 @@ begin
 
   c.Font.Color:= FColorFontHilite;
 
-  if bCurrentFuzzy then
-    bFound:= STextListsFuzzyInput(s_name, s_filter, WordResults, FuzzyResults)
-  else
-  begin
-    bFound:= STextListsAllWords(s_name, s_filter, WordResults);
-    FuzzyResults:= nil;
-  end;
+  bFound:= STextListsFuzzyInput(
+             s_name,
+             s_filter,
+             WordResults,
+             FuzzyResults,
+             bCurrentFuzzy);
 
   if bFound then
   begin
@@ -456,13 +455,13 @@ begin
   SFind:= Trim(UTF8Encode(edit.Text));
   if SFind='' then exit(true);
 
-  if UiOps.ListboxFuzzySearch and not DisableFuzzy then
-  begin
-    Result:= STextListsFuzzyInput(SText, SFind, WordResults, FuzzyResults);
-    AWordMatch:= WordResults.MatchesCount>0;
-  end
-  else
-    Result:= STextListsAllWords(SText, SFind, WordResults);
+  Result:= STextListsFuzzyInput(
+             SText,
+             SFind,
+             WordResults,
+             FuzzyResults,
+             UiOps.ListboxFuzzySearch and not DisableFuzzy);
+  AWordMatch:= WordResults.MatchesCount>0;
 end;
 
 procedure TfmMenuApi.SetListCaption(const AValue: string);
