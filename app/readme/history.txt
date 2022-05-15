@@ -5,6 +5,7 @@
 
 1.164.1 (2022/05)
 
++ add: improve rendering speed for _lite_ lexers, on long wrapped lines (thanks @veksha)
 + add: improve search in menus: find space-separated words in _any_ order, like Sublime Text (thanks @veksha)
 * change: change the behaviour of command "skip next occurrence of selected word" to better mimic Sublime Text (thanks @veksha)
 - fix: UI flickering on adding plugin's sidepanel buttons (thanks @veksha)
