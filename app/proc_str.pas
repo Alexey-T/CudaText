@@ -183,10 +183,10 @@ var
   NPos: integer;
 begin
   Result:= false;
-  FillChar(AWordResults, SizeOf(AWordResults), 0);
+  AWordResults:= Default(TAppSearchWordsResults);
 
   STextLower:= LowerCase(AText);
-  SWordList:= Trim(AFind);
+  SWordList:= LowerCase(Trim(AFind));
   SDeleteDuplicateSpaces(SWordList);
 
   Sep.Init(SWordList, ' ');
@@ -198,7 +198,7 @@ begin
       else
         Break;
     end;
-    NPos:= Pos(LowerCase(SWordItem), STextLower);
+    NPos:= Pos(SWordItem, STextLower);
     if NPos>0 then
     begin
       if AWordResults.MatchesCount>High(AWordResults.MatchesArray) then
