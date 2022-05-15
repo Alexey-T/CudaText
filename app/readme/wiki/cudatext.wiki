@@ -1332,6 +1332,13 @@ You can use not only version 3.6. From CudaText's Addon Manager, install appropr
 
 Python engine requires Visual C++ Redistributable for Visual Studio 2015 (32-bit or 64-bit, same as CudaText). Download it from Microsoft site.
 
+So, files needed for Python 3.6 are:
+
+* "python36.zip"
+* "python36.dll"
+* "vcruntime140.dll"
+* folder "python36dlls" with about 18 *.pyd (actually DLL) files
+
 Note for Windows 7. You also need the Update for Universal C Runtime in Windows (KB2999226). Download it from the Microsoft site.
 
 ===Python on Windows XP===
