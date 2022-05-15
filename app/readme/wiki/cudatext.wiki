@@ -1339,6 +1339,8 @@ So, files needed for Python 3.6 are:
 * "vcruntime140.dll"
 * folder "python36dlls" with about 18 *.pyd (actually DLL) files
 
+And file "python3.dll" without exact version (e.g. "36") - this file is not preinstalled, but sometimes it's needed for Python plugins to work property. For example, "python3.dll" is needed for plugin FTP with SFTP support (plugin can crash and show errors in the Console if "python3.dll" is absent). You can take this file in the Addons Manager - each package "Windows_Python3x_xxxx" has this file, different for each Python version.
+
 Note for Windows 7. You also need the Update for Universal C Runtime in Windows (KB2999226). Download it from the Microsoft site.
 
 ===Python on Windows XP===
