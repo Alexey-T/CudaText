@@ -476,8 +476,13 @@
   "ruler_mark_caret": 1,
 
   //[View/Minimap]
-  //Minimap: Show.
+  //Minimap: Show the minimap.
   "minimap_show": false,
+
+  //Minimap: Time, in milliseconds, allowed for syntax-highlighting calculations.
+  //After this time passes, lower remaining lines loose highlighting.
+  //Value 0 totally disables syntax-highlighting in the minimap.
+  "minimap_coloring_time": 15,
 
   //Minimap: Show selection area always. If false: show only on mouse-over.
   "minimap_sel_always": false,

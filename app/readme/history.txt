@@ -5,7 +5,7 @@
 
 1.165.0 (2022/05)
 
-+ add: add time limit for syntax highlight in minimap: 15ms (no option yet)
++ add: add time limit for syntax highlighting in minimap: new option "minimap_coloring_time":15
 + add: improve rendering speed for _lite_ lexers, on long wrapped lines (thanks @veksha)
 + add: improve search in menus: find space-separated words in _any_ order, like Sublime Text (thanks @veksha)
 + add: lexer CSS: syntax-highlight color functions 'hwb()', 'lab()', 'lch()'
