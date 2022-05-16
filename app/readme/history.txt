@@ -7,7 +7,7 @@
 
 + add: add time limit for syntax highlighting in minimap: new option "minimap_coloring_time":15
 + add: improve rendering speed for _lite_ lexers, on long wrapped lines (thanks @veksha)
-+ add: improve search in menus: find space-separated words in _any_ order, like Sublime Text (thanks @veksha)
++ add: improve filtering in Command Palette: find space-separated words in _any_ order, like Sublime Text (thanks @veksha)
 + add: lexer CSS: syntax-highlight color functions 'hwb()', 'lab()', 'lch()'
 + add: HTML color underlines: support 'rgb(255, 55, 255, .5)', 'rgb(255 55 255 / .5)', 'rgba(255 55 255 / .5)'
 * change: change the behaviour of command "skip next occurrence of selected word" to better mimic Sublime Text (thanks @veksha)
