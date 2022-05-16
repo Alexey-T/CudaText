@@ -482,6 +482,7 @@
   //Minimap: Time, in milliseconds, allowed for syntax-highlighting calculations.
   //After this time passes, lower remaining lines loose highlighting.
   //Value 0 totally disables syntax-highlighting in the minimap.
+  //Note: this option is global, not per-lexer.
   "minimap_coloring_time": 15,
 
   //Minimap: Show selection area always. If false: show only on mouse-over.
