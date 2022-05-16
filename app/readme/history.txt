@@ -5,10 +5,11 @@
 
 1.165.0 (2022/05)
 
-+ add: add time limit for syntax highlight in minimap: 15ms
++ add: add time limit for syntax highlight in minimap: 15ms (no option yet)
 + add: improve rendering speed for _lite_ lexers, on long wrapped lines (thanks @veksha)
 + add: improve search in menus: find space-separated words in _any_ order, like Sublime Text (thanks @veksha)
-+ add: lexer CSS: syntax-highlight color functions 'hwb', 'lab', 'lch'
++ add: lexer CSS: syntax-highlight color functions 'hwb()', 'lab()', 'lch()'
++ add: HTML color underlines: support 'rgb(255, 55, 255, .5)', 'rgb(255 55 255 / .5)', 'rgba(255 55 255 / .5)'
 * change: change the behaviour of command "skip next occurrence of selected word" to better mimic Sublime Text (thanks @veksha)
 - fix: UI flickering on adding plugin's sidepanel buttons (thanks @veksha)
 - fix: bug in Comments plugin (thanks @eltonfabricio10)
