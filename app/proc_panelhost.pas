@@ -340,6 +340,7 @@ var
   Obj: TObject;
   Ctl: TCustomControl;
 begin
+  Result:= false;
   Num:= CaptionToPanelIndex(ACaption);
   bExist:= Num>=0;
 
