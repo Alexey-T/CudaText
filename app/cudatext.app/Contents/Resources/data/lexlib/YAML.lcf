@@ -1,4 +1,4 @@
-object SyntAnal24: TLibSyntAnalyzer
+object SyntAnal25: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Comment'
@@ -195,7 +195,7 @@ object SyntAnal24: TLibSyntAnalyzer
       DisplayName = 'String "'
       StyleName = 'String'
       TokenType = 4
-      Expression = '(?s)(?<=\s)"(\\.|.)*?("|\Z)'
+      Expression = '(?s)(?<=[\s\[\(\{,;])"(\\.|.)*?("|\Z)'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -203,7 +203,7 @@ object SyntAnal24: TLibSyntAnalyzer
       DisplayName = 'String '#39
       StyleName = 'String'
       TokenType = 4
-      Expression = '(?s)(?<=\s)'#39'('#39#39'|.)*?('#39'|\Z)'
+      Expression = '(?s)(?<=[\s\(\[\{,;])'#39'('#39#39'|.)*?('#39'|\Z)'
       ColumnFrom = 0
       ColumnTo = 0
     end
