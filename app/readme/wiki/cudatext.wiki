@@ -601,6 +601,7 @@ Most of them are located in the Addons Manager "Install" list.
 * WikidPad
 * WinBuilder script
 * Windows Resource Script
+* Wolfram
 * WSH script
 * XML
 * XSLT
