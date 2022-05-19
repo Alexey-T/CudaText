@@ -1128,7 +1128,9 @@ And while CudaText lexer name is "C#", LSP language name is "csharp".
 LSP Client also has the settings file, use menu item to open it: "Options / Settings-plugins / LSP Client".
 
 ==LSP server for Python==
-Python server has [https://github.com/palantir/python-language-server this homepage] and supports:
+Project homepage is https://github.com/python-lsp/python-lsp-server .
+Note that this is fork of old, unmaintained, project "PyLS".
+Server supports:
 
 * Auto-completion
 * Go to definition
@@ -1138,12 +1140,14 @@ Python server has [https://github.com/palantir/python-language-server this homep
 * Code linting
 * Document formatting
 
-Use "pip" to install the Python LSP server:
+Use "pip" to install the server:
 
- pip install python-language-server
+ pip install python-lsp-server
  
-Server installation adds the command "pyls" which is not in the PATH.
-You need to write the full path to LSP Client config.
+This will expose the command "pylsp" on your PATH. Confirm that installation succeeded by running:
+
+ pylsp --help
+ 
 Create the file "[CudaText]/settings/lsp_py.json" with text like this:
 
 <syntaxhighlight lang="json">
@@ -1151,9 +1155,9 @@ Create the file "[CudaText]/settings/lsp_py.json" with text like this:
   "lexers": {
     "Python": "python"
   },
-  "cmd_windows": ["C:\\Python_folder\\pyls.exe"],
-  "cmd_macos": ["pyls"],
-  "cmd_unix": ["~/.local/bin/pyls"]
+  "cmd_windows": ["pylsp.exe"],
+  "cmd_macos": ["pylsp"],
+  "cmd_unix": ["pylsp"]
 }
 </syntaxhighlight>
 
