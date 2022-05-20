@@ -387,6 +387,7 @@ object SyntAnal14: TLibSyntAnalyzer
             'iterable'
             'mixed'
             'never'
+            'noreturn'
             'null'
             'numeric'
             'object'
