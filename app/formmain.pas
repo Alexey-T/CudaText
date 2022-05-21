@@ -3314,6 +3314,8 @@ procedure TfmMain.FormShow(Sender: TObject);
     {$endif}
   end;
   //
+var
+  Frame: TEditorFrame;
 begin
   _Init_FixSplitters;
 
@@ -3370,6 +3372,14 @@ begin
 
   AppPython.DisableTiming;
   ShowWelcomeInfo;
+
+  if UiOps.NewdocLexer<>'' then
+    if FrameCount=1 then
+    begin
+      Frame:= Frames[0];
+      if Frame.IsEmpty and (Frame.LexerName[Frame.Ed1]='') then
+        DoApplyNewdocLexer(Frame);
+    end;
 
   if UiOps.NotificationEnabled then
   begin
