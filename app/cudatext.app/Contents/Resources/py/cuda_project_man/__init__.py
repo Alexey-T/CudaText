@@ -11,6 +11,7 @@ from pathlib import Path, PurePosixPath
 from .projman_glob import *
 
 from cudatext import *
+from cudatext_keys import *
 import cudatext_cmd
 
 from cudax_lib import get_translation
@@ -1433,8 +1434,7 @@ class Command:
         return n
 
     def form_key_down(self, id_dlg, id_ctl, data):
-
-        if id_ctl==13: #Enter
+        if id_ctl in [VK_SPACE, VK_ENTER, VK_F4]:
             self.do_open_current_file(self.get_open_options())
             return False #block key
 
