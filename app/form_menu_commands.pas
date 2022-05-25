@@ -199,6 +199,8 @@ begin
   edit.DoubleBuffered:= UiOps.DoubleBuffered;
   list.DoubleBuffered:= UiOps.DoubleBuffered;
 
+  edit.Keymap:= AppKeymapMain;
+
   ResultCommand:= 0;
   ResultHotkeysChanged:= false;
 

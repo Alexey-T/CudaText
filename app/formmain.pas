@@ -2591,6 +2591,7 @@ begin
   DoControl_InitPropsObject(CodeTreeFilterInput, PanelCodeTreeAll, 'editor_combo');
   CodeTreeFilterInput.Parent:= PanelCodeTreeTop;
   CodeTreeFilterInput.Align:= alClient;
+  CodeTreeFilterInput.Keymap:= AppKeymapMain;
   CodeTreeFilterInput.OnChange:= @CodeTreeFilter_OnChange;
   CodeTreeFilterInput.OnCommand:= @CodeTreeFilter_OnCommand;
   CodeTreeFilterInput.OnKeyDown:= @CodeTreeFilter_OnKeyDown;

@@ -135,6 +135,7 @@ begin
 
   list.Color:= FColorBg;
 
+  edit.Keymap:= AppKeymapMain;
   edit.Height:= ATEditorScale(UiOps.InputHeight);
   edit.Font.Name:= EditorOps.OpFontName;
   edit.Font.Size:= EditorOps.OpFontSize;

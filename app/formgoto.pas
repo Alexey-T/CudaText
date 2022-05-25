@@ -134,6 +134,7 @@ end;
 
 procedure TfmGoto.FormCreate(Sender: TObject);
 begin
+  edInput.Keymap:= AppKeymapMain;
   edInput.BorderStyle:= bsNone;
   edInput.OnCheckInput:= @EditCheckInput;
 

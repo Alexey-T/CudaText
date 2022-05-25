@@ -776,6 +776,9 @@ begin
   edFind.OptTabSize:= 4;
   edRep.OptTabSize:= 4;
 
+  edFind.Keymap:= AppKeymapMain;
+  edRep.Keymap:= AppKeymapMain;
+
   edFind.Strings.Endings:= cEndUnix;
   edRep.Strings.Endings:= cEndUnix;
 

@@ -290,6 +290,7 @@ begin
   EdInput.Name:= 'input';
   EdInput.Parent:= Self;
   EdInput.Align:= alBottom;
+  EdInput.Keymap:= AppKeymapMain;
   EdInput.WantTabs:= false;
   EdInput.TabStop:= true;
   EdInput.OnCommand:= @InputOnCommand;

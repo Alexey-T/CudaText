@@ -12,7 +12,7 @@ object fmGoto: TfmGoto
   OnKeyDown = FormKeyDown
   OnShow = FormShow
   ShowInTaskBar = stNever
-  LCLVersion = '2.1.0.0'
+  LCLVersion = '2.3.0.0'
   Scaled = False
   object edInput: TATEdit
     AnchorSideBottom.Side = asrBottom
@@ -40,8 +40,6 @@ object fmGoto: TfmGoto
     OptCaretManyAllowed = False
     OptCaretVirtual = False
     OptGutterVisible = False
-    OptBorderWidth = 1
-    OptBorderWidthFocused = 1
     OptRulerVisible = False
     OptMarginRight = 1000
     OptUnprintedVisible = False
