@@ -230,6 +230,7 @@ Special macros are handled by Snippets plugin in snippet text:
 
 * ${date:nnnn} - Current date/time formatted by string "nnnn"; see [http://strftime.org/ Python docs]
 * ${env:nnnn} - Value of OS environment variable "nnnn"
+* ${cmd:nnnn} - Execute shell command "nnnn" and get its output (space-separated arguments are supported, '~' for home-directory is supported on Unix)
 
 The following macros from Sublime Text editor are supported. They can be written as $NAME or as ${NAME}.
 
