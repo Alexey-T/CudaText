@@ -3,7 +3,10 @@
   - fixed
   * changed
 
+1.165.1 (2022/05)
+
 + add: single-line input boxes now use the same key-mapping as main editor (thanks @DUOLabs333)
+- fix: for proportional fonts: fixed rendering of wrapped-parts indents
 - fix: rendering issue for proportional fonts + tab-chars (thanks @Hobbes)
 - fix: lexer YAML bug
 
