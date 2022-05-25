@@ -3,6 +3,7 @@
   - fixed
   * changed
 
++ add: single-line input boxes now use the same key-mapping as main editor (thanks @DUOLabs333)
 - fix: rendering issue for proportional fonts + tab-chars (thanks @Hobbes)
 - fix: lexer YAML bug
 
