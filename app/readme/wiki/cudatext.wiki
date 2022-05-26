@@ -724,20 +724,6 @@ If you see lexer config in SynWrite, you will find that we need styles "Comment"
  styles_cmt=Comment
  styles_str=Text,Tag val
 
-===Automatic folding of comments===
-
-There is an option "auto_fold_comments" (default is 0 - it's turned off) which allows to automatically
-create folding ranges from N (or more) consecutive lines, which are all "syntax comments".
-This works for both line-comments and stream-comments, they can be even mixed
-(one comment after another, with any amount of blank lines in between,
-but not for several stream-comments on a single line).
-
-[[File:cudatext-fold-comments.png]]
-
-Previously, CudaText allowed something like this, via lexer configuration: all needed lexers must have
-special settings inside them, and this worked for 2+ lines, not for custom value.
-After the option "auto_fold_comments" appeared, all 3rd-party lexers should be stripped of those old settings.
-
 ===Fenced code-blocks===
 
 [[File:cudatext-fenced-blocks.png]]
@@ -775,6 +761,28 @@ Note about SQL blocks. CudaText has lexer preinstalled, it's lite lexer "SQL ^",
 * Markdown standard tells that the beginning backticks must match the ending backticks, it must be the same amount of backticks. (And the same is valid for tildes.) This is currently not supported in CudaText version 1.151.
 * Python Markdown description tells that the lexer alias may be replaced with the curly-brackets construct like "{ .lang }" or "{ .lang .foo .bar }" or even "{ #someid .lang .foo .bar }". This is currently not supported in CudaText version 1.151.
 * The similar feature of the reStructuredText, as [https://pandemic-overview.readthedocs.io/en/latest/myGuides/reStructuredText-Source-Code.html documented here], is not supported. 
+
+==Folding==
+Folding is the feature allowing to collapse multi-line regions of code.
+Collapsed region shows the rectangle-figure on the first line, and other block lines become hidden.
+App shows special column in the "gutter" (vertical band with line numbers), with Plus/Minus icons - these icons collapse/uncollapse regions of code.
+Folding icons appear only for lexers which support it.
+
+To select an entire folded block, place the caret right before the beginning of the block, and press Shift+Down. Ie, you should make the selection from the block start to beginning of the next unfolded line.
+ 
+===Automatic folding of comments===
+
+There is an option "auto_fold_comments" (default is 0 - it's turned off) which allows to automatically
+create folding ranges from N (or more) consecutive lines, which are all "syntax comments".
+This works for both line-comments and stream-comments, they can be even mixed
+(one comment after another, with any amount of blank lines in between,
+but not for several stream-comments on a single line).
+
+[[File:cudatext-fold-comments.png]]
+
+Previously, CudaText allowed something like this, via lexer configuration: all needed lexers must have
+special settings inside them, and this worked for 2+ lines, not for custom value.
+After the option "auto_fold_comments" appeared, all 3rd-party lexers should be stripped of those old settings.
 
 ==Location of folders 'settings', 'py', 'data'==
 
