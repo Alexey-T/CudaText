@@ -770,7 +770,9 @@ App shows special column in the "gutter" (vertical band with line numbers), with
 Folding "rules" are configured in the lexer file.
 
 To select an entire folded block, place the caret right before the beginning of the block, and press Shift+Down. Ie, make selection to beginning of the next ''unfolded'' line.
- 
+
+There are several options to customize related functionality: call menu item "Plugins / Options Editor Lite" and enter the filter string "fold".
+
 ===Automatic folding of comments===
 
 There is an option "auto_fold_comments" (default is 0 - it's turned off) which allows to automatically
