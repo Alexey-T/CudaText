@@ -764,11 +764,12 @@ Note about SQL blocks. CudaText has lexer preinstalled, it's lite lexer "SQL ^",
 
 ==Folding==
 Folding is the feature allowing to collapse multi-line regions of code.
-Collapsed region shows the rectangle-figure on the first line, and other block lines become hidden.
-App shows special column in the "gutter" (vertical band with line numbers), with Plus/Minus icons - these icons collapse/uncollapse regions of code.
-Folding icons appear only for lexers which support it.
+Collapsed region shows the rectangle-like figure on the first line, and other block lines become hidden.
+Collapsed region can start from any column, but it consumes entire next lines.
+App shows special column in the "gutter" (vertical band with line numbers), with plus/minus icons - these icons collapse/uncollapse regions.
+Folding "rules" are configured in the lexer file.
 
-To select an entire folded block, place the caret right before the beginning of the block, and press Shift+Down. Ie, you should make the selection from the block start to beginning of the next unfolded line.
+To select an entire folded block, place the caret right before the beginning of the block, and press Shift+Down. Ie, make selection to beginning of the next ''unfolded'' line.
  
 ===Automatic folding of comments===
 
