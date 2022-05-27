@@ -812,6 +812,7 @@ begin
   if S='editor_edit' then
   begin
     Ctl:= TATEdit.Create(AForm);
+    TATSynEdit(Ctl).Keymap:= AppKeymapMain;
     DoControl_ApplyEditorProps(TATSynEdit(Ctl), AForm, false, false, false, true);
     exit;
   end;
@@ -819,6 +820,7 @@ begin
   if S='editor_combo' then
   begin
     Ctl:= TATComboEdit.Create(AForm);
+    TATSynEdit(Ctl).Keymap:= AppKeymapMain;
     DoControl_ApplyEditorProps(TATSynEdit(Ctl), AForm, false, false, false, true);
     exit;
   end;
