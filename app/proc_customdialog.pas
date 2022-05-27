@@ -797,6 +797,7 @@ begin
   if S='editor' then
   begin
     Ctl:= TATSynEdit.Create(AForm);
+    TATSynEdit(Ctl).Keymap:= AppKeymapMain;
     DoControl_ApplyEditorProps(TATSynEdit(Ctl), AForm, true, true, false, false);
 
     Adapter:= TATAdapterEControl.Create(Ctl);
