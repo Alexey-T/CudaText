@@ -5,7 +5,7 @@
 
 1.165.1 (2022/05)
 
-+ add: single-line input boxes now use the same key-mapping as main editor (thanks @DUOLabs333)
++ add: input boxes + API-created editors: use the same key-mapping as main editor (thanks @DUOLabs333)
 - fix: few rendering issues with proportional fonts: tab-chars, indentations (thanks @Hobbes)
 - fix: lexer YAML bug
 
