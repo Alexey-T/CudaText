@@ -1352,6 +1352,7 @@ procedure TfmMain.DoFindActionFromString(const AStr: string);
 var
   Sep: TATStringSeparator;
   SAction, SFind, SRep, SOpt: string;
+  SOptOld: string;
 begin
   Sep.Init(AStr, #1);
   Sep.GetItemStr(SAction);
@@ -1366,12 +1367,15 @@ begin
   FFinder.Editor:= CurrentEditor;
   FFinder.StrFind:= UTF8Decode(SFind);
   FFinder.StrReplace:= UTF8Decode(SRep);
+
+  SOptOld:= FinderOptionsToString(FFinder);
   FinderOptionsFromString(FFinder, SOpt);
   FindDialogDone(
     nil, //skip dialog
     AppFinderOperationFromString(SAction),
     false //'false' to solve issue #3303
     );
+  FinderOptionsFromString(FFinder, SOptOld);
 end;
 
 procedure TfmMain.DoFindOptions_OnChange(Sender: TObject);
