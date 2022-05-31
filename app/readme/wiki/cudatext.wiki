@@ -2324,7 +2324,7 @@ Q1: After some typing, the caret get unaligned with the text. It sort of creeps 
 
 Q2: When I select text that is inside a string literal (for example), the beginning of the selection gets a space before it, shifting the selected text to the right. As I select more the text continues to squish around.
 
-A: That's an issue specific to Qt5 version. It's fixable by the option "renderer_tweaks" (for Linux: "renderer_tweaks__linux"). Description of this option in the default config:
+A: That's the issue specific to (Linux) Qt5 version. It's fixable by the option "renderer_tweaks" (for Linux: "renderer_tweaks__linux"). Description of this option in the default config:
 
  Value is a string of several chars:
  if 'w' in value: Use simplified calculation of average character width.
@@ -2333,11 +2333,7 @@ A: That's an issue specific to Qt5 version. It's fixable by the option "renderer
                   On GTK2, 'w' is not needed.
                   On Qt5, 'w' gives various results, it depends on Desktop Environment.
 
-So, on Linux Qt5 version, all you need is to toggle "w" sub-option in the "renderer_tweaks__linux". In the user.json config write one of these lines:
-
-   "renderer_tweaks__linux": "w",
-
-or
+All you need is to remove "w" char from the "renderer_tweaks__linux" value. In the user.json config:
 
    "renderer_tweaks__linux": "",
 
