@@ -992,7 +992,7 @@ begin
   end;
 
   s:= cfg.GetValue('renderer_tweaks'+cOptionSystemSuffix,
-    {$ifdef darwin}
+    {$if defined(darwin) or defined(LCLQt5)}
     ''
     {$else}
       {$ifdef windows}
