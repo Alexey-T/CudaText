@@ -10,6 +10,7 @@
 - fix: macros playback must restore previous state of search options (thanks @hiiamboris)
 - fix: freezing on startup with Git Status plugin, in some cases (thanks @veksha)
 - fix: few rendering issues with proportional fonts: tab-chars, indentations (thanks @Hobbes)
+- fix: commands "(without undo) sort xxxx" was removing blank lines even if range was sorted (thanks @TomC)
 - fix: lexer YAML bug
 
 1.165.0 (2022/05)
