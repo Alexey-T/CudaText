@@ -6,11 +6,12 @@
 1.165.2 (2022/06)
 
 + add: input boxes + API-created editors: use the same key-mapping as main editor (thanks @DUOLabs333)
++ add: commands "(without undo) sort xxxx" now mark sorted range as 'changed'
 - fix: TRegExpr engine: fix issues with 'regex recursion' (thanks @CaptainFlint) 
 - fix: macros playback must restore previous state of search options (thanks @hiiamboris)
 - fix: freezing on startup with Git Status plugin, in some cases (thanks @veksha)
 - fix: few rendering issues with proportional fonts: tab-chars, indentations (thanks @Hobbes)
-- fix: commands "(without undo) sort xxxx" was removing blank lines even if range was sorted (thanks @TomC)
+- fix: commands "(without undo) sort xxxx" incorrectly removed blank lines (thanks @TomC)
 - fix: lexer YAML bug
 
 1.165.0 (2022/05)
