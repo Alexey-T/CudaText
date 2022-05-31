@@ -131,6 +131,7 @@
   //  if 's' in value: Show Unicode-spaces as usual spaces.
   //                   If 's' not in value, show Unicode-spaces in hex form.
   //                   Unicode-spaces are: U+1680, U+2007, U+200B, U+202F, U+205F, U+2060, U+3000.
+  //Note: default for Qt5 version is empty string, while for GTK2 it is "w".
   //Note: this option is global, not per-lexer.
   "renderer_tweaks": "wo",
   "renderer_tweaks__linux": "w",
