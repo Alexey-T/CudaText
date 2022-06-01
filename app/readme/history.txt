@@ -7,6 +7,7 @@
 
 + add: input boxes + API-created editors: use the same key-mapping as main editor (thanks @DUOLabs333)
 + add: commands "(without undo) sort xxxx" set sorted range line-states to 'changed'
++ add: lexer CSS: support new 'units'
 - fix: change default value of "renderer_tweaks__linux" to "" on Linux Qt5
 - fix: TRegExpr engine: fix issues with 'regex recursion' (thanks @CaptainFlint)
 - fix: macros playback must restore previous state of search options (thanks @hiiamboris)
