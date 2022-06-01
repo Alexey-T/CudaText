@@ -773,6 +773,12 @@ To select an entire folded block, place the caret right before the beginning of 
 
 There are several options to customize related functionality: call menu item "Plugins / Options Editor Lite" and enter the filter string "fold".
 
+Folded blocks can be rendered in few different ways, this is optional:
+
+* rectangle-mark at the beginning of the range (maybe after some text in the line)
+* rectangle-mark after the end of the first line of the range
+* "− − −" dash line below the first line of the range
+
 ===Automatic folding of comments===
 
 There is an option "auto_fold_comments" (default is 0 - it's turned off) which allows to automatically
