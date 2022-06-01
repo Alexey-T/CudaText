@@ -131,7 +131,7 @@ object SyntAnal6: TLibSyntAnalyzer
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
-      BorderTypeBottom = blWavyLine
+      BorderTypeBottom = blSolid
       BorderColorBottom = clRed
     end
     item
@@ -2185,6 +2185,12 @@ object SyntAnal6: TLibSyntAnalyzer
             'dpcm'
             'dpi'
             'dppx'
+            'dvb'
+            'dvh'
+            'dvi'
+            'dvmax'
+            'dvmin'
+            'dvw'
             'em'
             'ex'
             'fr'
@@ -2194,6 +2200,12 @@ object SyntAnal6: TLibSyntAnalyzer
             'in'
             'kHz'
             'lh'
+            'lvb'
+            'lvh'
+            'lvi'
+            'lvmax'
+            'lvmin'
+            'lvw'
             'mm'
             'mozmm'
             'ms'
@@ -2205,6 +2217,12 @@ object SyntAnal6: TLibSyntAnalyzer
             'rem'
             'rlh'
             's'
+            'svb'
+            'svh'
+            'svi'
+            'svmax'
+            'svmin'
+            'svw'
             'turn'
             'vb'
             'vh'
