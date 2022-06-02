@@ -1,4 +1,4 @@
-object SyntAnal14: TLibSyntAnalyzer
+object SyntAnal15: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Comment'
@@ -269,6 +269,14 @@ object SyntAnal14: TLibSyntAnalyzer
       StyleName = 'Id'
       TokenType = 11
       Expression = '(?<=::)[a-z_]\w*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Id after ->'
+      StyleName = 'Id'
+      TokenType = 13
+      Expression = '(?<=\->)[a-z_]\w*'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -1103,7 +1111,8 @@ object SyntAnal14: TLibSyntAnalyzer
     'Symbol ,'
     'Symbol ()'
     'Id after ::'
-    'Heredoc')
+    'Heredoc'
+    'Id after ->')
   LexerName = 'PHP_'
   Notes.Strings = (
     'Created by 480499497 from forum.wincmd.ru (named PHP_dev)'
