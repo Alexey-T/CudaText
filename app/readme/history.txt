@@ -3,6 +3,9 @@
   - fixed
   * changed
 
+- fix: command "fold all" must be compatible with "fold_icon_min_range" option (thanks @tmsg)
+- fix: lexer PHP: better highlight of 'class names'
+
 1.165.2 (2022/06)
 
 + add: input boxes + API-created editors: use the same key-mapping as main editor (thanks @DUOLabs333)
