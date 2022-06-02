@@ -4,7 +4,7 @@
   * changed
 
 - fix: command "fold all" must be compatible with "fold_icon_min_range" option (thanks @tmsg)
-- fix: lexer PHP: better highlight of 'class names'
+- fix: lexer PHP: don't highlight 'class name' after '->'
 
 1.165.2 (2022/06)
 
