@@ -183,6 +183,8 @@ TYPES = {
     "fshader": ['GLSL'],
     "fx": ['HLSL'],
     "fxh": ['HLSL'],
+    "g": ['ANTLR'],
+    "g4": ['ANTLR'],
     "gcb": ['Great Cow Basic'],
     "gcode": ['G-code'],
     "gd": ['GDScript'],
