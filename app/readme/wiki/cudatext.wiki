@@ -334,6 +334,7 @@ Most of them are located in the Addons Manager "Install" list.
 * Amazon Ion
 * AMPL
 * AngelScript
+* ANTLR
 * Apache config
 * Apache Hive
 * Apache Pig
