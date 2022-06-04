@@ -96,7 +96,17 @@ class Command:
         ed0.set_prop(PROP_GUTTER_NUM, False)
         ed0.set_prop(PROP_GUTTER_BM, False)
         ed0.set_prop(PROP_RO, True)
-        ed0.set_prop(PROP_LEXER_FILE, self.lexer)
+
+        if self.lexer in lexer_proc(LEXER_GET_LEXERS, False):
+            ed0.set_prop(PROP_LEXER_FILE, self.lexer)
+        else:
+            n = dlg_proc(h, DLG_CTL_ADD, 'label')
+            dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
+                'name': 'label_diff',
+                'cap': _('Install {} lexer if you want to see colors.').format(self.lexer),
+                'align': ALIGN_BOTTOM,
+                'sp_a': 10
+            })
 
         #set line states
         is_diff = self.lexer=='Diff'
