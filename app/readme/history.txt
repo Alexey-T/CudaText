@@ -3,7 +3,9 @@
   - fixed
   * changed
 
-- fix: command "fold all" must be compatible with "fold_icon_min_range" option (thanks @tmsg)
+1.165.3 (2022/06)
+
+- fix: after "fold all", all folded ranges must have [+] icon, even those affected by "fold_icon_min_range" option (thanks @tmsg)
 - fix: lexer PHP: don't highlight 'class name' after '->'
 
 1.165.2 (2022/06)
