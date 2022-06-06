@@ -5,6 +5,7 @@
 
 1.165.3 (2022/06)
 
++ add: support encoding iso-8859-14
 - fix: after "fold all", all folded ranges must have [+] icon, even those affected by "fold_icon_min_range" option (thanks @tmsg)
 - fix: lexer PHP: don't highlight 'class name' after '->'
 
