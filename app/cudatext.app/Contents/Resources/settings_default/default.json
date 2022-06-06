@@ -630,8 +630,8 @@
   "undo_mouse_clicks": false,
 
   //[Text/Caret]
-  //Allow to place caret after end-of-line (virtual caret position),
-  //and allow caret to go to previous line when Left-arrow is pressed at line start.
+  //Allow to place caret after end-of-line (virtual caret position).
+  //Also disable caret to go to previous line when Left-arrow is pressed at line start.
   "caret_after_end": false,
 
   //Caret blinking interval (in milliseconds).
