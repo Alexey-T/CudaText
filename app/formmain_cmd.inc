@@ -1178,6 +1178,8 @@ begin
     cmd_Encoding_mac_NoReload:       begin SetFrameEncoding(Ed, cEncConvNames[eidCPMac], false); AHandled:= true; exit end;
     cmd_Encoding_iso1_NoReload:      begin SetFrameEncoding(Ed, cEncConvNames[eidISO1], false); AHandled:= true; exit end;
     cmd_Encoding_iso2_NoReload:      begin SetFrameEncoding(Ed, cEncConvNames[eidISO2], false); AHandled:= true; exit end;
+    cmd_Encoding_iso9_NoReload:      begin SetFrameEncoding(Ed, cEncConvNames[eidISO9], false); AHandled:= true; exit end;
+    cmd_Encoding_iso14_NoReload:     begin SetFrameEncoding(Ed, cEncConvNames[eidISO14], false); AHandled:= true; exit end;
     cmd_Encoding_iso15_NoReload:     begin SetFrameEncoding(Ed, cEncConvNames[eidISO15], false); AHandled:= true; exit end;
     cmd_Encoding_cp437_NoReload:     begin SetFrameEncoding(Ed, cEncConvNames[eidCP437], false); AHandled:= true; exit end;
     cmd_Encoding_cp850_NoReload:     begin SetFrameEncoding(Ed, cEncConvNames[eidCP850], false); AHandled:= true; exit end;
@@ -1207,6 +1209,8 @@ begin
     cmd_Encoding_mac_Reload:         begin SetFrameEncoding(Ed, cEncConvNames[eidCPMac], true); AHandled:= true; exit end;
     cmd_Encoding_iso1_Reload:        begin SetFrameEncoding(Ed, cEncConvNames[eidISO1], true); AHandled:= true; exit end;
     cmd_Encoding_iso2_Reload:        begin SetFrameEncoding(Ed, cEncConvNames[eidISO2], true); AHandled:= true; exit end;
+    cmd_Encoding_iso9_Reload:        begin SetFrameEncoding(Ed, cEncConvNames[eidISO9], true); AHandled:= true; exit end;
+    cmd_Encoding_iso14_Reload:       begin SetFrameEncoding(Ed, cEncConvNames[eidISO14], true); AHandled:= true; exit end;
     cmd_Encoding_iso15_Reload:       begin SetFrameEncoding(Ed, cEncConvNames[eidISO15], true); AHandled:= true; exit end;
     cmd_Encoding_cp437_Reload:       begin SetFrameEncoding(Ed, cEncConvNames[eidCP437], true); AHandled:= true; exit end;
     cmd_Encoding_cp850_Reload:       begin SetFrameEncoding(Ed, cEncConvNames[eidCP850], true); AHandled:= true; exit end;

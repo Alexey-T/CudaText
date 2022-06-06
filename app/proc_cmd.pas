@@ -291,6 +291,8 @@ const
   cmd_Encoding_cp950_NoReload     = 2738;
   cmd_Encoding_utf32le_NoReload   = 2739;
   cmd_Encoding_utf32be_NoReload   = 2740;
+  cmd_Encoding_iso9_NoReload      = 2741;
+  cmd_Encoding_iso14_NoReload     = 2742;
 
   cmd_Encoding_utf8bom_Reload   = 2751;
   cmd_Encoding_utf8nobom_Reload = 2752;
@@ -320,6 +322,8 @@ const
   cmd_Encoding_cp950_Reload     = 2778;
   cmd_Encoding_utf32le_Reload   = 2779;
   cmd_Encoding_utf32be_Reload   = 2780;
+  cmd_Encoding_iso9_Reload      = 2781;
+  cmd_Encoding_iso14_Reload     = 2782;
 
   cmd_Markers_SelectToCaret      = 2798;
   cmd_Markers_DeleteToCaret      = 2799;
