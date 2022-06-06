@@ -6,6 +6,8 @@
 1.165.3 (2022/06)
 
 + add: support encoding iso-8859-14
+- fix: regression in 1.165.2: Shift+F3 in Find dialog (thanks @hiiamboris)
+- fix: Windows: issue with Alt+Tab and "ui_taskbar_mode":false (thanks @veksha) 
 - fix: after "fold all", all folded ranges must have [+] icon, even those affected by "fold_icon_min_range" option (thanks @tmsg)
 - fix: lexer PHP: don't highlight 'class name' after '->'
 
