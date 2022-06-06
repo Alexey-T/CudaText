@@ -3223,7 +3223,10 @@ procedure TfmMain.FormShow(Sender: TObject);
       FLastMaximized:= false;
       if (FLastMaximizedMonitor>=0) and (FLastMaximizedMonitor<Screen.MonitorCount) then
         BoundsRect:= Screen.Monitors[FLastMaximizedMonitor].BoundsRect;
+      //Visible changing is to fix issue #4162
+      Visible:= false;
       WindowState:= wsMaximized;
+      Visible:= true;
     end;
   end;
   //
