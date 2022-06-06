@@ -714,6 +714,7 @@ type
     FLastTooltipLine: integer;
     FLastAppActivate: QWord;
     FLastSaveSessionTick: QWord;
+    FNeedToMaximize: boolean;
     FDisableTreeClearing: boolean;
     FInvalidateShortcuts: boolean;
     FInvalidateShortcutsForce: boolean;
@@ -2853,6 +2854,12 @@ end;
 procedure TfmMain.FormActivate(Sender: TObject);
 begin
   AppActiveForm:= Sender;
+
+  if FNeedToMaximize then
+  begin
+    FNeedToMaximize:= false;
+    WindowState:= wsMaximized;
+  end;
 end;
 
 procedure TfmMain.FormChangeBounds(Sender: TObject);
@@ -3223,10 +3230,7 @@ procedure TfmMain.FormShow(Sender: TObject);
       FLastMaximized:= false;
       if (FLastMaximizedMonitor>=0) and (FLastMaximizedMonitor<Screen.MonitorCount) then
         BoundsRect:= Screen.Monitors[FLastMaximizedMonitor].BoundsRect;
-      //Visible changing is to fix issue #4162
-      Visible:= false;
-      WindowState:= wsMaximized;
-      Visible:= true;
+      FNeedToMaximize:= true;
     end;
   end;
   //
