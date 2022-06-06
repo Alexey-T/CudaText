@@ -872,7 +872,9 @@ begin
     cmd_GroupActivate3,
     cmd_GroupActivate4,
     cmd_GroupActivate5,
-    cmd_GroupActivate6:
+    cmd_GroupActivate6,
+
+    cmd_FindPrev:
       Result:= true;
     else
       Result:= false;
