@@ -3,8 +3,9 @@
   - fixed
   * changed
 
-1.165.3 (2022/06)
+1.165.4 (2022/06)
 
+* change: Windows Python upgraded to 3.8
 + add: support encoding iso-8859-14
 - fix: regression in 1.165.2: Shift+F3 in Find dialog (thanks @hiiamboris)
 - fix: Windows: issue with Alt+Tab and "ui_taskbar_mode":false (thanks @veksha) 
