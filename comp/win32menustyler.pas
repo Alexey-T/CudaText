@@ -107,7 +107,7 @@ begin
   ApplyBackColor(GetMenu(AForm.Handle), false);
 
   //repaint the menu bar
-  if ARepaintEntireForm then
+  if ARepaintEntireForm and (AForm.WindowState=wsNormal) then
     with AForm do
     begin
       Width:= Width+1;
