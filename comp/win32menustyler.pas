@@ -49,7 +49,7 @@ type
     procedure HandleMenuPopup(Sender: TObject);
   public
     procedure ApplyToMenu(AMenu: TMenu);
-    procedure ApplyToForm(AForm: TForm; ARepaintEntireForm: boolean);
+    procedure ApplyToForm(AForm: TForm);
     procedure ResetMenu(AMenu: TMenu);
     procedure ResetForm(AForm: TForm; ARepaintEntireForm: boolean);
   end;
@@ -94,7 +94,7 @@ begin
   //ApplyBackColor(AMenu.Handle, false);
 end;
 
-procedure TWin32MenuStyler.ApplyToForm(AForm: TForm; ARepaintEntireForm: boolean);
+procedure TWin32MenuStyler.ApplyToForm(AForm: TForm);
 var
   menu: TMainMenu;
 begin
@@ -106,8 +106,7 @@ begin
   //theme 2-3 pixel frame around menu
   ApplyBackColor(GetMenu(AForm.Handle), false);
 
-  if ARepaintEntireForm then
-    DrawMenuBar(AForm.Handle);
+  DrawMenuBar(AForm.Handle);
 end;
 
 procedure TWin32MenuStyler.ResetMenu(AMenu: TMenu);

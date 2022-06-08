@@ -1091,7 +1091,7 @@ type
     procedure UpdateLexerProgressbar(AValue: integer; AVisible: boolean; AMaxValue: integer=100);
     procedure UpdateGroupsMode(AMode: TATGroupsMode);
     procedure UpdateMenuTheming(AMenu: TPopupMenu);
-    procedure UpdateMenuTheming_MainMenu(AllowResize: boolean);
+    procedure UpdateMenuTheming_MainMenu;
     procedure UpdateMenuRecents(sub: TMenuItem);
     procedure UpdateSidebarButtonOverlay;
     procedure UpdateEditorTabsize(AValue: integer);
@@ -6013,7 +6013,7 @@ begin
     DoControlUnlock(Self);
   end;
 
-  UpdateMenuTheming_MainMenu(true);
+  UpdateMenuTheming_MainMenu;
 end;
 
 function TfmMain.GetShowTabsMain: boolean;
@@ -8371,11 +8371,11 @@ begin
   {$endif}
 end;
 
-procedure TfmMain.UpdateMenuTheming_MainMenu(AllowResize: boolean);
+procedure TfmMain.UpdateMenuTheming_MainMenu;
 begin
   {$ifdef windows}
   if UiOps.ThemedMainMenu then
-    MenuStyler.ApplyToForm(Self, AllowResize);
+    MenuStyler.ApplyToForm(Self);
   {$endif}
 end;
 
