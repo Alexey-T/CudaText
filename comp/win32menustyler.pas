@@ -106,13 +106,8 @@ begin
   //theme 2-3 pixel frame around menu
   ApplyBackColor(GetMenu(AForm.Handle), false);
 
-  //repaint the menu bar
-  if ARepaintEntireForm and (AForm.WindowState=wsNormal) then
-    with AForm do
-    begin
-      Width:= Width+1;
-      Width:= Width-1;
-    end;
+  if ARepaintEntireForm then
+    DrawMenuBar(AForm.Handle);
 end;
 
 procedure TWin32MenuStyler.ResetMenu(AMenu: TMenu);
