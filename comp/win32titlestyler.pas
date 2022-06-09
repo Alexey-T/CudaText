@@ -56,7 +56,7 @@ begin
 
     DwmSetWindowAttribute(AForm.Handle, DWMWA_USE_IMMERSIVE_DARK_MODE, @ADarkMode, SizeOf(ADarkMode));
 
-    if AForceApply then
+    if AForceApply and (AForm.WindowState=wsNormal) then
     begin
       AForm.Width:= AForm.Width+1;
       AForm.Width:= AForm.Width-1;
