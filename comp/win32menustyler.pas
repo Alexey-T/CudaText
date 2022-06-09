@@ -51,7 +51,7 @@ type
     procedure ApplyToMenu(AMenu: TMenu);
     procedure ApplyToForm(AForm: TForm);
     procedure ResetMenu(AMenu: TMenu);
-    procedure ResetForm(AForm: TForm; ARepaintEntireForm: boolean);
+    procedure ResetForm(AForm: TForm);
   end;
 
 var
@@ -116,7 +116,7 @@ begin
   AMenu.OnMeasureItem:= nil;
 end;
 
-procedure TWin32MenuStyler.ResetForm(AForm: TForm; ARepaintEntireForm: boolean);
+procedure TWin32MenuStyler.ResetForm(AForm: TForm);
 var
   menu: TMenu;
 begin
@@ -126,13 +126,7 @@ begin
   ResetMenu(menu);
   ApplyBackColor(GetMenu(AForm.Handle), true);
 
-  //repaint the menu bar
-  if ARepaintEntireForm then
-    with AForm do
-    begin
-      Width:= Width+1;
-      Width:= Width-1;
-    end;
+  DrawMenuBar(AForm.Handle);
 end;
 
 procedure TWin32MenuStyler.HandleMenuDrawItem(Sender: TObject; ACanvas: TCanvas;
