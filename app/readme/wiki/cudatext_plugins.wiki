@@ -401,17 +401,19 @@ Formatters may change entire file text or only selected text. If selection is ma
 
 ===CudaFormatter commands===
 
-* Formatter (menu): Runs formatter for current editor file. If several formatters are found, menu dialog will suggest to choose one of them.
+;Formatter (menu): Runs formatter for current editor file. If several suitable formatters are found, menu-like dialog will suggest to choose one of them. If only single formatter is found, it will be run without confirmation.
 
-* Formatter A...D: Runs formatter for current editor file, which has label (A, B, C, D) set. Labels are configurable by another command.
+;Formatter per-lexer A...D: Runs formatter for current editor file, which has per-lexer label (A, B, C, D). Labels are configurable by another command. For example, for the label "A" you can have one formatter for C++, another formatter for HTML, and the 3rd one for CSS. 
 
-* Configure on_save: Chooses which formatters are active on file saving. The first formatter, which is suitable for current lexer, and has the flag "on_save", will be used to format text on file saving.
+;Formatter cross-lexer 1...4: Runs formatter for current editor file, which has cross-lexer label (1, 2, 3, 4). For example, when you have a formatter XY assigned to the label "2", the command "Formatter cross-lexer: 2" always runs XY, ignoring the current lexer.
 
-* Configure labels: Allows to assign labels (A, B, C, D) to formatters. Labels allow to use commands "Formatter A"..."Formatter D", e.g. via hotkeys. So you can use command "Formatter A" via some hotkey, and be sure that for all lexers "Formatter A" will use desired formatters.
+;Configure on_save: Chooses which formatters are active on file saving. The first formatter, which is suitable for current lexer, and which has the flag "on_save" attached (via plugin configuration), will be used.
 
-* Configure formatter: For those formatters which support config file, command will suggest to open global config file (in the folder "settings" of CudaText).
+;Configure per-lexer labels: Allows to assign per-lexer labels (A, B, C, D) to formatters. Labels allow to use commands "Formatter per-lexer A"..."Formatter per-lexer D", also via hotkeys.
 
-* Configure formatter (local): For those formatters which suppots config file, command will suggest to open "local" config (in the folder of current editor file). If local config not exists, plugin will suggest to create it from global config.
+;Configure formatter: For those formatters which have configuration file, command will suggest to open global config file (in the folder "settings" of CudaText).
+
+;Configure formatter (local): For those formatters which have configuration file, command will suggest to open "local" config (in the folder of current editor file). If local config not exists, plugin will suggest to create it from the global config.
 
 == External Tools ==
 
