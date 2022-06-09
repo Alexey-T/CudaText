@@ -57,10 +57,9 @@ begin
     DwmSetWindowAttribute(AForm.Handle, DWMWA_USE_IMMERSIVE_DARK_MODE, @ADarkMode, SizeOf(ADarkMode));
 
     if AForceApply then
-    begin
-      AForm.Width:= AForm.Width-1;
-      AForm.Width:= AForm.Width+1;
-    end;
+      SetWindowPos(AForm.Handle, 0,
+        0, 0, 0, 0,
+        SWP_NOMOVE or SWP_NOSIZE or SWP_NOZORDER or SWP_NOSENDCHANGING or SWP_DRAWFRAME);
   end;
 end;
 
