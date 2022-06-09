@@ -407,6 +407,8 @@ Formatters may change entire file text or only selected text. If selection is ma
 
 ;Formatter cross-lexer 1...4: Runs formatter for current editor file, which has cross-lexer label (1, 2, 3, 4). For example, when you have a formatter XY assigned to the label "2", the command "Formatter cross-lexer: 2" always runs XY, ignoring the current lexer.
 
+;Minify to separate file: Finds the "minifier" formatter for the current lexer, and runs it. The resulting text is stored to separate file with name like "filename.min.css" (.css for CSS lexer). Command needs that some formatter for the current lexer is marked as "minifier" (in the formatter's install.inf file).
+
 ;Configure on_save: Chooses which formatters are active on file saving. The first formatter, which is suitable for current lexer, and which has the flag "on_save" attached (via plugin configuration), will be used.
 
 ;Configure per-lexer labels: Allows to assign per-lexer labels (A, B, C, D) to formatters. Labels allow to use commands "Formatter per-lexer A"..."Formatter per-lexer D", also via hotkeys.
