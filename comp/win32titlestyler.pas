@@ -58,9 +58,15 @@ begin
 
     if AForceApply then
     begin
-      AForm.Width:= AForm.Width-1;
       AForm.Width:= AForm.Width+1;
+      AForm.Width:= AForm.Width-1;
     end;
+      {
+      //this doesn't help: titlebar is not repainted after returning from full-screen, and maximized state is lost
+      SetWindowPos(AForm.Handle, 0,
+        0, 0, 0, 0,
+        SWP_NOMOVE or SWP_NOSIZE or SWP_NOZORDER or SWP_NOSENDCHANGING or SWP_DRAWFRAME);
+        }
   end;
 end;
 
