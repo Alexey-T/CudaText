@@ -3416,6 +3416,19 @@ Good example is "HTML Class Complete": https://github.com/CudaText-addons/cuda_h
 
 * Call ed.complete() or ed.complete_alt() to show completions list.
 
+==Show me the template of complex plugin with side-panel and bottom-panel==
+
+Here is the example plugin: https://github.com/CudaText-addons/cuda_r_plugin .
+It provides:
+
+* Main toolbar, separate from the CudaText toolbar. Contains 2 dummy buttons.
+* Side-panel, which contains the small toolbar (with 2 dummy buttons) and listbox (filled with dummy data). Double-click on listbox - inserts clicked item to the current editor.
+* Bottom-panel, which contains the "console input" control and "console log" multi-line control. You can enter commands in the "input" and they will show in the log. Entered commands (last 10) are also stored to the file "[CudaText]/settings/cuda_r_plugin.ini" and re-read on start, you can recall them by clicking the down arrow in the "input" combobox.
+* Plugin supports few options. Saved in the file "[CudaText]/settings/cuda_r_plugin.ini".
+* Menu items in "Plugins / R Plugin", to open side-panel and bottom-panel.
+* Menu item in the "Options / Settings-plugins / R Plugin", to open the config file.
+* Predefined red buttons "R" in the CudaText sidebar and bottom bar. Visible even before the plugin is activated from Plugins menu.
+
 =History=
 
 1.0.167
