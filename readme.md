@@ -16,6 +16,7 @@ Requires packages:
 
 Information:
 
-* Homepage with screenshots and animations and feature list: https://cudatext.github.io
-* Full documentation in the Wiki: https://wiki.freepascal.org/CudaText
-* How to compile, Wiki topic: https://wiki.freepascal.org/CudaText#How_to_compile_CudaText
+* Homepage with screenshots, animations, feature list: https://cudatext.github.io
+* Full documentation: https://wiki.freepascal.org/CudaText
+* Plugin API documentation: https://wiki.lazarus.freepascal.org/CudaText_API
+* How to compile (Wiki topic): https://wiki.freepascal.org/CudaText#How_to_compile_CudaText
