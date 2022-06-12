@@ -5,6 +5,7 @@
 
 1.165.5 (2022/06)
 
++ add: support encoding iso-8859-5
 + add: support encoding iso-8859-16
 - fix: couple of bugs in plugin API (thanks @veksha)
 
