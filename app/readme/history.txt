@@ -3,6 +3,8 @@
   - fixed
   * changed
 
++ add: support encoding iso-8859-16
+
 1.165.4 (2022/06)
 
 * change: Windows Python upgraded to 3.8
