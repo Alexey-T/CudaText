@@ -2172,7 +2172,9 @@ begin
   Ed.DoCaretsFixIncorrectPos(false);
   Ed.DoEventChange(0);
   Strs.ActionSaveLastEditionPos(0, 0);
-  Ed.Update(true);
+
+  Ed.UpdateWrapInfo(true); //fixing CudaText #4172, Ed.Update(true) is not enough
+  Ed.Update;
 end;
 
 procedure EditorDeleteRange(Ed: TATSynEdit; X1, Y1, X2, Y2: integer);
