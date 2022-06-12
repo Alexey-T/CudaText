@@ -2173,7 +2173,7 @@ begin
   Ed.DoEventChange(0);
   Strs.ActionSaveLastEditionPos(0, 0);
 
-  Ed.Strings.EnableCachedWrapInfoUpdate:= false;
+  Ed.Strings.EnableCachedWrapinfoUpdate:= false;
   Ed.Strings.ListUpdates.Clear; //don't keep Undo -> ListUpdates must be cleared
   Ed.UpdateWrapInfo(true); //fix 2nd+3rd parts of CudaText #4172, Ed.Update(true) is not enough
   Ed.Update;
