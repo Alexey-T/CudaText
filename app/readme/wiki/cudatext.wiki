@@ -3003,17 +3003,23 @@ ST3: Use menu item "Go to symbol".
 
 CudaText: It doesn't have "Go to anything" but it has "Go to symbol" for a lexer, if lexer finds such symbols for Code-Tree. Install plugin "CudaExt", which gives menu "Plugins / Cuda-Ext / Code-Tree" with several menu items. One item is "Symbols list" which shows Code-Tree items in the menu dialog.
 
-==How to switch between C++ (for example) header/implementation files?==
+==How to switch between C++ header/implementation files?==
 
 ST3: Use command "Switch header/implementation".
 
-CudaText: Use plugin "Switch Header" (it's configurable for all lexers).
+CudaText: Use plugin "Switch Header" (it's not only for C++, it's configurable for all lexers).
 
 ==How to jump to next/previous modified lines?==
 
 ST3: Use commands "Next modification", "Previous modification".
 
-CudaText: Use plugin "CudaExt" which gives commands: "Jump: to next/previous changed lines", "Jump: to next/previous working lines", "Jump: to next/previous saved lines". See [[#Line_states]].
+CudaText: Use plugin "CudaExt" which gives commands:
+
+* "Jump: to next/previous changed lines",
+* "Jump: to next/previous working lines",
+* "Jump: to next/previous saved lines".
+
+See [[#Line_states]].
 
 ==How to detect indentation characters in a file?==
 
