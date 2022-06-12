@@ -2173,7 +2173,7 @@ begin
   Ed.DoEventChange(0);
   Strs.ActionSaveLastEditionPos(0, 0);
 
-  Ed.UpdateWrapInfo(true); //fixing CudaText #4172, Ed.Update(true) is not enough
+  Ed.UpdateWrapInfo(true); //fix 2nd part of CudaText #4172, Ed.Update(true) is not enough
   Ed.Update;
 end;
 
