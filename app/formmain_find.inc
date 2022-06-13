@@ -510,7 +510,10 @@ begin
     fmFind.chkInSel.Checked:= FFinder.OptInSelection;
 
   fmFind.UpdateInitialCaretPos;
-  fmFind.UpdateInputFind(StrSuggested);
+  if StrSuggested<>'' then
+    fmFind.UpdateInputFind(StrSuggested)
+  else
+    fmFind.edFind.DoSelect_All;
   fmFind.IsReplace:= AReplaceMode;
 
   UpdateFindDialogParent;
