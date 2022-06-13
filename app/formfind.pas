@@ -944,6 +944,9 @@ begin
       IsReplace:= false;
       UpdateState(true);
     end;
+    //feature: Ctrl+F from inside the Find dlg, does select-all
+    edFind.DoSelect_All;
+    edFind.Update;
     key:= 0;
     exit;
   end;
