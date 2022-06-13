@@ -2147,8 +2147,9 @@ begin
   if Strs.IsIndexValid(AIndex) then
   begin
     Strs.Lines[AIndex]:= AStr;
-    if Strs.LinesEnds[AIndex]=cEndNone then
-      Strs.LinesEnds[AIndex]:= Strs.Endings;
+    if AIndex<Strs.Count-1 then
+      if Strs.LinesEnds[AIndex]=cEndNone then
+        Strs.LinesEnds[AIndex]:= Strs.Endings;
   end;
 
   Ed.DoEventChange(AIndex);
