@@ -7,6 +7,7 @@
 
 + add: support encoding iso-8859-5
 + add: support encoding iso-8859-16
+* change: on calling Find dialog, if none of options "find_suggest_xxxx" do suggestion, 'find what' field is not cleared (thanks @andersaamodt)
 - fix: couple of bugs in plugin API (thanks @veksha)
 
 1.165.4 (2022/06)
