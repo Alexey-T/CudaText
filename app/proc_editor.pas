@@ -2202,7 +2202,11 @@ begin
   Result:= true;
   Strs:= Ed.Strings;
   Strs.SetNewCommandMark;
-  if Y1<0 then exit(false);
+  if Y1<0 then
+  begin
+    APosAfter:= Point(0, 0);
+    exit(false);
+  end;
 
   //too big index: do append
   if Y1>=Strs.Count then
@@ -2214,6 +2218,7 @@ begin
   end;
 
   Ed.DoEventChange(Y1);
+  Ed.UpdateWrapInfo(true);
   Ed.Update(true);
 end;
 

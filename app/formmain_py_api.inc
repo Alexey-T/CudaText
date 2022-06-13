@@ -1636,6 +1636,7 @@ begin
       Ed.DoCaretsShift(0, X1, Y1, Shift.X, Shift.Y, PosAfter);
 
       Ed.DoEventChange(Y1);
+      Ed.UpdateWrapInfo(true);
       Ed.Update(true);
 
       Result:= Py_BuildValue('(ii)', PosAfter.X, PosAfter.Y);
