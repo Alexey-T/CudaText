@@ -2153,6 +2153,7 @@ begin
 
   Ed.DoEventChange(AIndex);
   Strs.ActionSaveLastEditionPos(0, AIndex);
+  Ed.UpdateWrapInfo(true); //fixing #4173
   Ed.Update(true);
 end;
 
