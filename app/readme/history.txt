@@ -8,6 +8,7 @@
 + add: support encoding iso-8859-5
 + add: support encoding iso-8859-14
 + add: support encoding iso-8859-16
++ add: Emmet plugin handles Tab-key in Vue lexer too (thanks @zhaolinlau)
 * change: on calling Find dialog, if none of options "find_suggest_xxxx" do suggestion, 'find what' field is not cleared (thanks @andersaamodt)
 * change: Windows Python upgraded to 3.8
 - fix: couple of bugs in plugin API (thanks @veksha)
