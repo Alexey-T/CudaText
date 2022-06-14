@@ -3752,6 +3752,15 @@ begin
               Result:= ReturnNone;
           end;
 
+        PROP_V_ENC:
+          begin
+            if not Assigned(F) then exit(ReturnNone);
+            if F.FrameKind=efkBinaryViewer then
+              Result:= PyUnicodeFromString(cEncConvNames[F.Binary.TextEncoding])
+            else
+              Result:= ReturnNone;
+          end
+
         else
           Result:= ReturnNone;
       end;
@@ -4373,6 +4382,17 @@ begin
             begin
               F.Binary.TextWidthUHex:= ValueInt;
               F.Binary.Redraw();
+            end;
+          end;
+
+        PROP_V_ENC:
+          begin
+            if not Assigned(F) then exit(ReturnNone);
+            if F.FrameKind=efkBinaryViewer then
+            begin
+              F.Binary.TextEncoding:= EncConvFindEncoding(Str);
+              F.Binary.Redraw();
+              fmMain.UpdateStatusbar;
             end;
           end;
       end;
