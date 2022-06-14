@@ -10,7 +10,7 @@
 + add: support encoding iso-8859-16
 + add: lexer must support 'dynamic highlight' if any sub-lexer supports it; example is Vue lexer (thanks @zhaolinlau)
 + add: Emmet plugin handles Tab-key in Vue lexer too (thanks @zhaolinlau)
-* change: on calling Find dialog, if none of options "find_suggest_xxxx" do suggestion, 'find what' field is not cleared (thanks @andersaamodt)
+* change: on calling Find dialog, if none of options "find_suggest_xxxx" do suggestion, 'find what' field is not cleared; Ctrl+F from the Find dialog now selects all 'find what' (thanks @andersaamodt)
 * change: Windows Python upgraded to 3.8
 - fix: couple of bugs in plugin API (thanks @veksha)
 - fix: regression in 1.165.2: Shift+F3 in Find dialog (thanks @hiiamboris)
