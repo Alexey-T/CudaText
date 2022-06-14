@@ -4632,6 +4632,7 @@ var
   Num64: Int64;
   Pnt: TPoint;
   Sep: TATStringSeparator;
+  SList: TStringList;
 begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'is:app_proc', @Id, @Ptr)) then
@@ -5301,6 +5302,18 @@ begin
 
         APP_PROC_ENUM_FONTS:
           Result:= StringsToPyList(Screen.Fonts);
+
+        APP_PROC_ENUM_ENCODINGS:
+          begin
+            SList:= TStringList.Create;
+            try
+              SList.TextLineBreakStyle:= tlbsLF;
+              SList.Text:= AppEncodingListAsString;
+              Result:= StringsToPyList(SList);
+            finally
+              FreeAndNil(SList);
+            end;
+          end;
 
         APP_PROC_SEND_MESSAGE:
           Result:= PyLong_FromLong(PyHelper_SendMessageFromString(Str));
