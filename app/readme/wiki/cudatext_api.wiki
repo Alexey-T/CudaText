@@ -2438,6 +2438,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_V_WIDTH: int: for binary viewer, width of text in mode VMODE_BINARY.
 * PROP_V_WIDTH_HEX: int: for binary viewer, width of text in mode VMODE_HEX.
 * PROP_V_WIDTH_UHEX: int: for binary viewer, width of text in mode VMODE_UNICODE_HEX.
+* PROP_V_ENC: str: for binary viewer, its encoding.
 
 ===Editor.set_prop===
 
@@ -2562,6 +2563,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 * PROP_V_WIDTH: int: for binary viewer, width of text in mode VMODE_BINARY.
 * PROP_V_WIDTH_HEX: int: for binary viewer, width of text in mode VMODE_HEX.
 * PROP_V_WIDTH_UHEX: int: for binary viewer, width of text in mode VMODE_UNICODE_HEX.
+* PROP_V_ENC: str: for binary viewer, its encoding.
 
 ===props vs options===
 
@@ -4610,5 +4612,8 @@ It provides:
 1.0.421 (app 1.163.2)
 * add: tree_proc: TREE_GET_MULSELECT, TREE_SET_MULSELECT
 * add: tree_proc: TREE_GET_SELECTIONS
+
+1.0.422 (app 1.166.0)
+* add: ed.get_prop/set_prop: PROP_V_ENC
 
 [[Category:CudaText]]
