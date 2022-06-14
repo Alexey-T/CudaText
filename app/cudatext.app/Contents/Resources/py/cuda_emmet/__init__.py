@@ -175,7 +175,7 @@ def is_abr_before_caret(ed):
     while (x1>0) and s[x1-1].isalnum():
         x1 -= 1
 
-    if (x1>0) and (s[x1-1] not in ' \t>'):
+    if (x1>0) and (s[x1-1] not in ' \t>-+*/'):
         return True
 
     word = s[x1:x2]
