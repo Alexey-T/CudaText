@@ -1313,6 +1313,9 @@
   "duplicate_move_down": true,
 
   //[Text/Completion]
+  //Enable auto-completion from *.acp files (static lists of words)
+  "autocomplete_acp": true,
+
   //Enable special HTML auto-completion, see wiki.
   "autocomplete_html": true,
 

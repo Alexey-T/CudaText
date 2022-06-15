@@ -243,6 +243,7 @@ type
     MaxFileSizeForLexer: integer;
     MaxStatusbarMessages: integer;
 
+    AutocompleteAcpFiles: boolean;
     AutocompleteHtml: boolean;
     AutocompleteHtml_AutoClose: boolean;
     AutocompleteHtml_Lexers: string;
@@ -1748,6 +1749,7 @@ begin
     Win32GetUserFont(ThemedMainMenuFontName, ThemedMainMenuFontSize);
     {$endif}
 
+    AutocompleteAcpFiles:= true;
     AutocompleteHtml:= true;
     AutocompleteHtml_AutoClose:= true;
     AutocompleteHtml_Lexers:= '.*HTML.*|\bPHP\b';
