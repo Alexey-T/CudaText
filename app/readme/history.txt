@@ -3,6 +3,10 @@
   - fixed
   * changed
 
+1.166.1 (2022/06)
+
++ add: option "autocomplete_acp" (thanks @veksha)
+
 1.166.0 (2022/06)
 
 + add: support encoding iso-8859-5
