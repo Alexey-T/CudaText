@@ -1364,4 +1364,32 @@ Server should work now. It gives: mouse hover tooltips (Ctrl + mouse hovering ov
 
 Note: don't create .bat or .cmd file with the "red.exe" calling, because it does not work in LSP Client for some reason. 
 
+==LSP server for PHP==
+
+* Install PHP and Composer.
+* Clone server folder from https://github.com/zobo/php-language-server. See its Readme "Installation" part, you must do some steps with Composer first.
+* Create command/shell script to start the server like this: 
+
+<pre>
+php folder_of_server/bin/php-language-server.php --tcp-server=127.0.0.1:12345
+</pre>
+
+* Create file (CudaText)/settings/lsp_php.json with content:
+
+<syntaxhighlight lang="json">
+{
+    "name": "PHP",
+    "lexers": {
+        "PHP": "php"
+    },
+    "tcp_port": 12345,
+}
+</syntaxhighlight>
+
+Server should work now. It gives features: https://github.com/zobo/php-language-server#features .
+
+Auto-completion works, it is not working if you open .php file that is outside of current CudaText project directory.
+In LSP Client config there is a parameter named "root_dir_source". For zobo's server to index .php files they must be inside this dir.
+In CudaText Project Manager you must save your project file to your php project location, otherwise the root_dir will be wrong.
+
 [[Category:CudaText]]
