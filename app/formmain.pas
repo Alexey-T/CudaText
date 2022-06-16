@@ -4689,8 +4689,11 @@ begin
     fmCommands.Keymap:= Ed.Keymap;
     fmCommands.ListCaption:= AProps.Caption;
 
-    if UiOps.CmdPaletteFilterTextForced<>'' then
-      fmCommands.CurrentFilterText:= UiOps.CmdPaletteFilterTextForced
+    if UiOps.CmdPaletteFilterText_Forced<>'' then
+    begin
+      fmCommands.CurrentFilterText:= UiOps.CmdPaletteFilterText_Forced;
+      UiOps.CmdPaletteFilterText_Forced:= '';
+    end
     else
     if UiOps.CmdPaletteFilterKeep then
       fmCommands.CurrentFilterText:= UiOps.CmdPaletteFilterText;

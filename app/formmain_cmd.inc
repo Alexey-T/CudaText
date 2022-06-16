@@ -1232,7 +1232,7 @@ begin
      (ACommand<=cmdLastAppCommand) then
   begin
     if ACommand=cmd_DialogCommands then
-      UiOps.CmdPaletteFilterTextForced:= AText;
+      UiOps.CmdPaletteFilterText_Forced:= AText;
     AppCommandPut(Ed, ACommand, AInvoke, false);
     exit;
   end;
