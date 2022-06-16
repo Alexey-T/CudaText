@@ -1376,11 +1376,15 @@ Note: don't create .bat or .cmd file with the "red.exe" calling, because it does
     "lexers": {
         "PHP": "php"
     },
-    "cmd_unix": ["php", "folder_of_server/bin/php-language-server.php", "--tcp-server=127.0.0.1:12345"],    
-    "cmd_windows": ["php.exe", "folder_of_server\\bin\\php-language-server.php", "--tcp-server=127.0.0.1:12345"],    
     "tcp_port": 12345
 }
 </syntaxhighlight>
+
+* Create shell/command script to start server by hands:
+
+<pre>
+php folder_of_server/bin/php-language-server.php --tcp-server=127.0.0.1:12345
+</pre>    
 
 Server should work now. It gives features: https://github.com/zobo/php-language-server#features .
 
