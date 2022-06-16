@@ -4618,4 +4618,7 @@ It provides:
 * add: ed.get_prop/set_prop: PROP_V_ENC
 * add: app_proc: PROC_ENUM_ENCODINGS
 
+1.0.423 (app 1.166.1)
+* add: Editor.cmd: cmd(cmd_DialogCommands, text) now sets text as initial filter of Command Palette
+
 [[Category:CudaText]]
