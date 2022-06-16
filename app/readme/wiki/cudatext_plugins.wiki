@@ -1395,7 +1395,7 @@ php folder_of_server/bin/php-language-server.php --tcp-server=127.0.0.1:12345
     "lexers": {
         "PHP": "php"
     },
-    "cmd_windows": ["php","D:\\programm\\php\\php-language-server\\bin\\php-language-server.php","--tcp-server=127.0.0.1:12345"],
+    "cmd_windows": ["php", "D:\\programm\\php\\php-language-server\\bin\\php-language-server.php", "--tcp-server=127.0.0.1:12345"],
     "tcp_port": 12345
 }
 </syntaxhighlight>
