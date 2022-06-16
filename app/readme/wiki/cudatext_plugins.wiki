@@ -1367,6 +1367,7 @@ Note: don't create .bat or .cmd file with the "red.exe" calling, because it does
 ==LSP server for PHP==
 
 * Install PHP and Composer.
+* Install some PHP extensions: domxml, ... (to be specified later)
 * Clone server folder from https://github.com/zobo/php-language-server. See its Readme "Installation" part, you must do some steps with Composer first.
 * Create file (CudaText)/settings/lsp_php.json with content:
 
