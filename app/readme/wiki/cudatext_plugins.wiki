@@ -1385,7 +1385,20 @@ Note: don't create .bat or .cmd file with the "red.exe" calling, because it does
 
 <pre>
 php folder_of_server/bin/php-language-server.php --tcp-server=127.0.0.1:12345
-</pre>    
+</pre>
+
+* If LSP Client has version 2022.06.16 or newer, both "tcp_port" and "cmd_xxxx" can be specified in lsp_php.json. And you don't need to run server by hands.
+
+<syntaxhighlight lang="json">
+{
+    "name": "PHP",
+    "lexers": {
+        "PHP": "php"
+    },
+    "cmd_windows": ["php","D:\\programm\\php\\php-language-server\\bin\\php-language-server.php","--tcp-server=127.0.0.1:12345"],
+    "tcp_port": 12345
+}
+</syntaxhighlight>
 
 Server should work now. It gives features: https://github.com/zobo/php-language-server#features .
 
