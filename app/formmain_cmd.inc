@@ -669,21 +669,6 @@ begin
           Frame.BracketSelectInside(Ed);
       end;
 
-    cmd_HelpAbout:
-      DoHelpAbout;
-    cmd_HelpForum:
-      DoHelpForum;
-    cmd_HelpWiki:
-      DoHelpWiki;
-    cmd_HelpIssues:
-      DoHelpIssues;
-
-    cmd_HelpCheckUpdates:
-      begin
-        if UiOps.AllowProgramUpdates then
-          DoPyCommand('cuda_addonman', 'check_cudatext_updates', [], CmdInvoke);
-      end;
-
     cmdFirstLexerCommand..
     cmdLastLexerCommand:
       SetFrameLexerByIndex(Ed, CmdCode-cmdFirstLexerCommand);
@@ -710,6 +695,21 @@ begin
         NIndex:= CmdCode-cmdFirstRecentCommand;
         if NIndex<AppListRecents.Count then
           DoFileOpen(AppListRecents[NIndex], '');
+      end;
+
+    cmd_HelpAbout:
+      DoHelpAbout;
+    cmd_HelpForum:
+      DoHelpForum;
+    cmd_HelpWiki:
+      DoHelpWiki;
+    cmd_HelpIssues:
+      DoHelpIssues;
+
+    cmd_HelpCheckUpdates:
+      begin
+        if UiOps.AllowProgramUpdates then
+          DoPyCommand('cuda_addonman', 'check_cudatext_updates', [], CmdInvoke);
       end;
   end;
 end;
