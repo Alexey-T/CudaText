@@ -2132,7 +2132,7 @@ begin
     if (AStr[i]=#10) or (AStr[i]=#13) then
       AStr[i]:= '_';
 
-  if AIndex=-1 then
+  if (AIndex=-1) or (AIndex=-2) then
   begin
     NLastIndex:= Strs.Count-1;
     Strs.LineAdd(AStr);
@@ -2142,6 +2142,8 @@ begin
       if Strs.LinesEnds[NLastIndex]=cEndNone then
         Strs.LinesEnds[NLastIndex]:= Strs.Endings;
     end;
+    if AIndex=-2 then
+      Strs.ActionDeleteFakeLineAndFinalEol;
   end
   else
   if Strs.IsIndexValid(AIndex) then

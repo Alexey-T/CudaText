@@ -2142,7 +2142,9 @@ If param "max_len" is non-zero, and UTF-8 length of given line is greater than "
 Changes single line with given index (0-based) to given text.
 Text should be without line-breaks, because "\n" and "\r" chars will be replaced with "_".
 
-To append a new line, use index=-1.
+Special "index" values:
+* -1: Append new line, with final end-of-line.
+* -2: Append new line, but without final end-of-line.
 
 ===Editor.get_text_substr===
 
@@ -4620,5 +4622,6 @@ It provides:
 
 1.0.423 (app 1.166.1)
 * add: Editor.cmd: cmd(cmd_DialogCommands, text) now sets text as initial filter of Command Palette
+* add: Editor.set_text_line: support special value -2
 
 [[Category:CudaText]]
