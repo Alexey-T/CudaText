@@ -497,6 +497,7 @@ cmd_Encoding_utf32be_NoReload   = 2740
 cmd_Encoding_iso9_NoReload      = 2741
 cmd_Encoding_iso14_NoReload     = 2742
 cmd_Encoding_iso5_NoReload      = 2743
+cmd_Encoding_iso10_NoReload     = 2744
 
 cmd_Encoding_ansi_Reload      = 2750
 cmd_Encoding_utf8bom_Reload   = 2751
@@ -531,6 +532,7 @@ cmd_Encoding_utf32be_Reload   = 2780
 cmd_Encoding_iso9_Reload      = 2781
 cmd_Encoding_iso14_Reload     = 2782
 cmd_Encoding_iso5_Reload      = 2783
+cmd_Encoding_iso10_Reload     = 2784
 
 cmd_Markers_SelectToCaret      = 2798
 cmd_Markers_DeleteToCaret      = 2799
