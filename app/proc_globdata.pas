@@ -300,6 +300,7 @@ type
 
     CmdPaletteFilterKeep: boolean;
     CmdPaletteFilterText: string;
+    CmdPaletteFilterText_Forced: string;
 
     HistoryDisabledStr: string;
     HistoryItems: array[TAppHistoryElement] of boolean;

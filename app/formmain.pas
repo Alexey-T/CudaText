@@ -616,7 +616,6 @@ type
     FBoundsFloatGroups1: TRect;
     FBoundsFloatGroups2: TRect;
     FBoundsFloatGroups3: TRect;
-    FLastProjectPath: string;
     FConsoleMustShow: boolean;
     FColorDialog: TColorDialog;
     Status: TATStatus;
@@ -703,6 +702,7 @@ type
     FNeedAppState_MenuAdd: boolean;
     FNeedAppState_MenuRemove: boolean;
     FNeedAppState_MenuChange: boolean;
+    FLastProjectPath: string;
     FLastDirOfOpenDlg: string;
     FLastLexerForPluginsMenu: string;
     FLastStatusbarMessage: string;
@@ -4689,6 +4689,12 @@ begin
     fmCommands.Keymap:= Ed.Keymap;
     fmCommands.ListCaption:= AProps.Caption;
 
+    if UiOps.CmdPaletteFilterText_Forced<>'' then
+    begin
+      fmCommands.CurrentFilterText:= UiOps.CmdPaletteFilterText_Forced;
+      UiOps.CmdPaletteFilterText_Forced:= '';
+    end
+    else
     if UiOps.CmdPaletteFilterKeep then
       fmCommands.CurrentFilterText:= UiOps.CmdPaletteFilterText;
 

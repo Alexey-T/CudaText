@@ -150,7 +150,12 @@ begin
   FixFormPositionToDesktop(Self);
 
   edit.Text:= CurrentFilterText;
-  edit.DoSelect_All;
+  if edit.Text<>'' then
+  begin
+    edit.DoSelect_All;
+    if Assigned(edit.OnChange) then
+      edit.OnChange(nil);
+  end;
 
   DoFilter;
 
