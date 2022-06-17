@@ -2142,7 +2142,7 @@ begin
       if Strs.LinesEnds[NLastIndex]=cEndNone then
         Strs.LinesEnds[NLastIndex]:= Strs.Endings;
     end;
-    if AIndex=-2 then
+    if (AIndex=-2) and (AStr<>'') then
       Strs.ActionDeleteFakeLineAndFinalEol;
   end
   else
