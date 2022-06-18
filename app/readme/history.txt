@@ -5,6 +5,7 @@
 
 1.166.1 (2022/06)
 
++ add: support encoding iso-8859-7
 + add: support encoding iso-8859-10
 + add: support encoding iso-8859-13
 + add: option "autocomplete_acp" (thanks @veksha)

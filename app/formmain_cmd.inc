@@ -1179,6 +1179,7 @@ begin
     cmd_Encoding_iso1_NoReload:      begin SetFrameEncoding(Ed, cEncConvNames[eidISO1], false); AHandled:= true; exit end;
     cmd_Encoding_iso2_NoReload:      begin SetFrameEncoding(Ed, cEncConvNames[eidISO2], false); AHandled:= true; exit end;
     cmd_Encoding_iso5_NoReload:      begin SetFrameEncoding(Ed, cEncConvNames[eidISO5], false); AHandled:= true; exit end;
+    cmd_Encoding_iso7_NoReload:      begin SetFrameEncoding(Ed, cEncConvNames[eidISO7], false); AHandled:= true; exit end;
     cmd_Encoding_iso9_NoReload:      begin SetFrameEncoding(Ed, cEncConvNames[eidISO9], false); AHandled:= true; exit end;
     cmd_Encoding_iso10_NoReload:     begin SetFrameEncoding(Ed, cEncConvNames[eidISO10], false); AHandled:= true; exit end;
     cmd_Encoding_iso13_NoReload:     begin SetFrameEncoding(Ed, cEncConvNames[eidISO13], false); AHandled:= true; exit end;
@@ -1214,6 +1215,7 @@ begin
     cmd_Encoding_iso1_Reload:        begin SetFrameEncoding(Ed, cEncConvNames[eidISO1], true); AHandled:= true; exit end;
     cmd_Encoding_iso2_Reload:        begin SetFrameEncoding(Ed, cEncConvNames[eidISO2], true); AHandled:= true; exit end;
     cmd_Encoding_iso5_Reload:        begin SetFrameEncoding(Ed, cEncConvNames[eidISO5], true); AHandled:= true; exit end;
+    cmd_Encoding_iso7_Reload:        begin SetFrameEncoding(Ed, cEncConvNames[eidISO7], true); AHandled:= true; exit end;
     cmd_Encoding_iso9_Reload:        begin SetFrameEncoding(Ed, cEncConvNames[eidISO9], true); AHandled:= true; exit end;
     cmd_Encoding_iso10_Reload:       begin SetFrameEncoding(Ed, cEncConvNames[eidISO10], true); AHandled:= true; exit end;
     cmd_Encoding_iso13_Reload:       begin SetFrameEncoding(Ed, cEncConvNames[eidISO13], true); AHandled:= true; exit end;
