@@ -9,7 +9,7 @@
 + add: support encoding iso-8859-10
 + add: support encoding iso-8859-13
 + add: option "autocomplete_acp" (thanks @veksha)
-+ add: with "ui_tab_angled":true, allow drag-drop of tabs onto inter-tab area
+- fix: with "ui_tab_angled":true, drag-drop of tabs must be allowed onto inter-tab small gap
 
 1.166.0 (2022/06)
 
