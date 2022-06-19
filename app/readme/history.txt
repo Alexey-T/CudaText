@@ -5,6 +5,7 @@
 
 1.166.2 (2022/06)
 
++ add: support encoding iso-8859-3
 + add: support encoding iso-8859-7
 + add: support encoding iso-8859-10
 + add: support encoding iso-8859-13

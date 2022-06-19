@@ -298,6 +298,7 @@ const
   cmd_Encoding_iso10_NoReload     = 2744;
   cmd_Encoding_iso13_NoReload     = 2745;
   cmd_Encoding_iso7_NoReload      = 2746;
+  cmd_Encoding_iso3_NoReload      = 2747;
 
   cmd_Encoding_utf8bom_Reload   = 2751;
   cmd_Encoding_utf8nobom_Reload = 2752;
@@ -334,6 +335,7 @@ const
   cmd_Encoding_iso10_Reload     = 2784;
   cmd_Encoding_iso13_Reload     = 2785;
   cmd_Encoding_iso7_Reload      = 2786;
+  cmd_Encoding_iso3_Reload      = 2787;
 
   cmd_Markers_SelectToCaret      = 2798;
   cmd_Markers_DeleteToCaret      = 2799;
@@ -634,6 +636,7 @@ begin
   M.Add(cmd_Encoding_mac_NoReload, 'change encoding, no reload: mac', [], []);
   M.Add(cmd_Encoding_iso1_NoReload, 'change encoding, no reload: iso-8859-1', [], []);
   M.Add(cmd_Encoding_iso2_NoReload, 'change encoding, no reload: iso-8859-2', [], []);
+  M.Add(cmd_Encoding_iso3_NoReload, 'change encoding, no reload: iso-8859-3', [], []);
   M.Add(cmd_Encoding_iso5_NoReload, 'change encoding, no reload: iso-8859-5', [], []);
   M.Add(cmd_Encoding_iso7_NoReload, 'change encoding, no reload: iso-8859-7', [], []);
   M.Add(cmd_Encoding_iso9_NoReload, 'change encoding, no reload: iso-8859-9', [], []);
@@ -670,6 +673,7 @@ begin
   M.Add(cmd_Encoding_mac_Reload, 'change encoding, reload: mac', [], []);
   M.Add(cmd_Encoding_iso1_Reload, 'change encoding, reload: iso-8859-1', [], []);
   M.Add(cmd_Encoding_iso2_Reload, 'change encoding, reload: iso-8859-2', [], []);
+  M.Add(cmd_Encoding_iso3_Reload, 'change encoding, reload: iso-8859-3', [], []);
   M.Add(cmd_Encoding_iso5_Reload, 'change encoding, reload: iso-8859-5', [], []);
   M.Add(cmd_Encoding_iso7_Reload, 'change encoding, reload: iso-8859-7', [], []);
   M.Add(cmd_Encoding_iso9_Reload, 'change encoding, reload: iso-8859-9', [], []);
