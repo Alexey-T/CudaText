@@ -93,7 +93,7 @@ begin
         DoPyEvent_AppState(APPSTATE_CODETREE_AFTER_FILL);
 
         UpdateTreeFilter;
-        UpdateTreeSelection(F, Ed);
+        UpdateTreeSelection(Ed);
         DoCodetree_UpdateVersion(Ed);
       end;
     end;

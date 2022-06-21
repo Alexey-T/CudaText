@@ -1122,7 +1122,7 @@ type
     procedure UpdateTabsActiveColor(F: TEditorFrame);
     procedure UpdateTree(AFill: boolean; AConsiderTreeVisible: boolean=true);
     procedure UpdateTreeByTimer;
-    procedure UpdateTreeSelection(Frame: TEditorFrame; Ed: TATSynEdit);
+    procedure UpdateTreeSelection(Ed: TATSynEdit);
     procedure UpdateTreeImagelistActivity;
     procedure UpdateCaption;
     procedure UpdateCaption_RealWork;

@@ -163,6 +163,7 @@ var
   N: integer;
   FrameKind: TATEditorFrameKind;
 begin
+  if F=nil then exit;
   Ed:= F.Editor;
   FrameKind:= F.FrameKind;
 
@@ -634,9 +635,9 @@ begin
   UpdateStatusbar;
 end;
 
-procedure TfmMain.DoApplyFrameOps(F: TEditorFrame;
-  const Op: TEditorOps; AForceApply: boolean);
+procedure TfmMain.DoApplyFrameOps(F: TEditorFrame; const Op: TEditorOps; AForceApply: boolean);
 begin
+  if F=nil then exit;
   EditorApplyOps(F.Ed1, Op, AForceApply, not F.TabSizeChanged, Groups.Mode=gmOne, false);
   EditorApplyOps(F.Ed2, Op, AForceApply, not F.TabSizeChanged, Groups.Mode=gmOne, false);
 
@@ -1057,7 +1058,7 @@ begin
   if not Frame.EnabledCodeTree[Ed] then
   begin
     //don't clear tree, it may be filled by plugin
-    UpdateTreeSelection(Frame, Ed); //needed even for disabled CodeTree (for plugins)
+    UpdateTreeSelection(Ed); //needed even for disabled CodeTree (for plugins)
     exit;
   end;
 
@@ -1113,16 +1114,17 @@ begin
   end;
 
   UpdateTreeFilter;
-  UpdateTreeSelection(Frame, Ed);
+  UpdateTreeSelection(Ed);
 end;
 
-procedure TfmMain.UpdateTreeSelection(Frame: TEditorFrame; Ed: TATSynEdit);
+procedure TfmMain.UpdateTreeSelection(Ed: TATSynEdit);
 var
   Caret: TATCaretItem;
   NSelLine: integer;
 begin
   if not UiOps.TreeAutoSync then exit;
 
+  if Ed=nil then exit;
   if Ed.Carets.Count=0 then exit;
   Caret:= Ed.Carets[0];
 
