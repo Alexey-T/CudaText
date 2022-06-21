@@ -4099,6 +4099,7 @@ var
   bAllowZip, bAllowPics, bAllowLexerDetect, bDetectedPics,
   bAndActivate: boolean;
   bFileTooBig, bFileTooBig2: boolean;
+  bLoadSession: boolean;
   AllowNear: TApp3States;
   OpenMode, NonTextMode: TAppOpenMode;
   CurGroups: TATGroups;
@@ -4136,6 +4137,7 @@ begin
   bAllowLexerDetect:= Pos('/nolexerdetect', AOptions)=0;
   bAllowZip:= Pos('/nozip', AOptions)=0;
   bAllowPics:= Pos('/nopictures', AOptions)=0;
+  bLoadSession:= Pos('/loadsession', AOptions)>0;
 
   AllowNear:= a3sPassive;
   if Pos('/donear', AOptions)>0 then
@@ -4248,6 +4250,7 @@ begin
     //non-text option
     if not bFileTooBig then
     if not bDetectedPics then
+    if not bLoadSession then
     if UiOps.NonTextFiles<>1 then
       if not AppIsFileContentText(
                AFileName,

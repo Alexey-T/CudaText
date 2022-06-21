@@ -582,7 +582,7 @@ begin
         Inc(nCountFiles);
         if sFilename2<>'' then
           Inc(nCountFiles);
-        Frame:= DoFileOpen(sFilename, sFilename2, Pages, sOpenOptions+SOptionPassive+SOptionNoHistory);
+        Frame:= DoFileOpen(sFilename, sFilename2, Pages, sOpenOptions+SOptionPassive+SOptionNoHistory+'/loadsession');
       end;
 
       if Assigned(Frame) then

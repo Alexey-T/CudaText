@@ -4,6 +4,7 @@
   * changed
 
 - fix: crash on loading session with confirmation for 'binary' file (thanks @kvichans)
+- fix: on loading session, don't check files for 'binary' content (thanks @kvichans)
 
 1.166.2 (2022/06)
 
