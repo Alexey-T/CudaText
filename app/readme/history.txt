@@ -3,6 +3,8 @@
   - fixed
   * changed
 
+- fix: crash on loading session with confirmation for 'binary' file (thanks @kvichans)
+
 1.166.2 (2022/06)
 
 + add: support encoding iso-8859-3
