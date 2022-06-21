@@ -5700,6 +5700,14 @@ begin
     FreeAndNil(ListNoSave);
   end;
 
+  //focus 1st tab (fixes appearing of empty tab on loading session with active group 2)
+  if FrameCount>0 then
+  begin
+    F:= Frames[0];
+    F.SetFocus;
+    Groups.PagesCurrent:= Groups.Pages1;
+  end;
+
   DoCloseAllTabs;
   Result:= true;
 end;

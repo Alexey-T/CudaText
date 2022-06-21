@@ -4,7 +4,8 @@
   * changed
 
 - fix: crash on loading session with confirmation for 'binary' file (thanks @kvichans)
-- fix: on loading session, don't check files for 'binary' content (thanks @kvichans)
+- fix: on loading session with active 2nd group, empty tab was appearing (thanks @kvichans)
+* change: on loading session, don't check files for 'binary' content
 
 1.166.2 (2022/06)
 
