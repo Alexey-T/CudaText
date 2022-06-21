@@ -2310,7 +2310,7 @@ begin
     UpdateMenuChecks_Global;
   end;
 
-  if FNeedAutoComplete then
+  if Assigned(Frame) and FNeedAutoComplete then
   begin
     FNeedAutoComplete:= false;
     DoAutoComplete(Frame.Editor);

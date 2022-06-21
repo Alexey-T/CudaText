@@ -999,6 +999,7 @@ end;
 
 procedure TfmMain.UpdateMenuChecks_FrameSplit(F: TEditorFrame);
 begin
+  if F=nil then exit;
   UpdateMenuItemChecked(mnuViewSplitNo, mnuViewSplitNo_Alt, not F.Splitted);
   UpdateMenuItemChecked(mnuViewSplitV, mnuViewSplitV_Alt, F.Splitted and not F.SplitHorz);
   UpdateMenuItemChecked(mnuViewSplitH, mnuViewSplitH_Alt, F.Splitted and F.SplitHorz);
