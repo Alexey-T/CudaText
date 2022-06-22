@@ -88,6 +88,7 @@ Major differences:
 * VSCode doesn't have the analog of CudaText "Draw Lines" plugin.
 * VSCode cannot place text caret beyond end-of-line (not 100% sure here).
 * CudaText plugins are easier to write (Python API is simpler).
+* CudaText supports UTF-32 LE/BE encoding.
 
 = Download =
 
