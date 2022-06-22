@@ -74,7 +74,7 @@ Screenshot on Windows:
 * Windows version can use different Python engine (packages in add-ons)
 * Add-ons do not disappear due to GitHub repository deletions
 
-= CudaText VS Visual Studio Code=
+= CudaText VS Visual Studio Code =
 
 Major differences:
 
@@ -83,7 +83,10 @@ Major differences:
 * VSCode doesn't allow to show side-panels in a floating (detached) window.
 * VSCode has internal "find in files" but CudaText has FindInFiles-4 plugin with much more features.
 * VSCode cannot show inter-line gaps with pictures. CudaText plugin "Insert Pics" is based on this feature.
+* VSCode doesn't have the analog of CudaText "Color Text" plugin (not 100% sure here).
+* VSCode doesn't have the analog of CudaText "Draw Lines" plugin.
 * CudaText plugins are much easier to write (Python API is simpler).
+* VSCode doesn't have customizable toolbar.
 
 = Download =
 
