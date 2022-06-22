@@ -23,12 +23,13 @@ Macro is a sequence of CudaText actions, which can be saved to a file and invoke
 To use macros, you must install plugin "Macros" from Addon Manager. It adds "Macros" menu to CudaText main menu bar. This menu gives items:
 
 * Macros...
-* Start record
-* Stop record
-* Cancel record
+* Start/stop recording
+* Playback last recorded macro
 * Export...
 * Import...
-* (items for saved macros)
+* items for saved macros
+
+[[File:cudatext-macro-menu.png]]
 
 To record a macro:
 
