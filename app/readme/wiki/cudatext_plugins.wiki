@@ -32,15 +32,15 @@ To use macros, you must install plugin "Macros" from Addon Manager. It adds "Mac
 
 To record a macro:
 
-* call menu item "Macros / Start record", or use dialog "Macros / Macros..." which gives "Start record" button too
-* pefrorm some action(s) in CudaText:
+* Call menu item "Macros / Start record", or use dialog "Macros / Macros..." which gives "Start record" button.
+* Perform some actions in CudaText:
 ** built-in commands, plugin commands (invoked by hotkey, by menu, by Command Palette)
 ** some mouse actions (clicks/selections, they save/playback relative to caret position)
 ** calling of Find/Replace dialog, "Go to" dialog
 ** actions in Find/Replace dialog
-* call menu item "Macros / Stop record" to save your macro, plugin will ask for macro name
+* Call menu item "Macros / Stop record" to save your macro, plugin will ask for macro name.
 
-On recording, CudaText shows reddish border around the editor field.
+During recording, CudaText shows reddish border around the editor field.
 
 [[File:cudatext-macro-border.png]]
 
