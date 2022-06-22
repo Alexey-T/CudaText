@@ -85,6 +85,7 @@ Screenshot on Windows:
 * VSCode doesn't have the analog of CudaText "Color Text" plugin (not 100% sure here).
 * VSCode doesn't have the analog of CudaText "Draw Lines" plugin.
 * VSCode cannot place text caret beyond end-of-line (not 100% sure here).
+* VSCode has the add-on "Macros", with it you need to create/configure command sequences by hands. Not simple task. CudaText has the plugin "Macros" and it records usual keypresses. Much eaiser to do.
 * CudaText gives [[#File_viewer|viewer for files of unlimited size]].
 * CudaText gives option "caret_proximity_vert" to set minimal distance of caret to top/bottom edge.
 * CudaText plugins are easier to write (Python API is simpler).
