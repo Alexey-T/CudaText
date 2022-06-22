@@ -33,7 +33,7 @@ To use macros, you must install plugin "Macros" from Addon Manager. It adds "Mac
 
 To record a macro:
 
-* Call menu item "Macros / Start record", or use dialog "Macros / Macros..." which gives "Start record" button.
+* Call menu item "Macros / Start/stop recording", or use dialog "Macros / Macros..." which gives the button for this.
 * Perform some actions in CudaText:
 ** built-in commands, plugin commands (invoked by hotkey, by menu, by Command Palette)
 ** some mouse actions (clicks/selections, they save/playback relative to caret position)
