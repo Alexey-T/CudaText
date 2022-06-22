@@ -40,12 +40,21 @@ To record a macro:
 ** actions in Find/Replace dialog
 * call menu item "Macros / Stop record" to save your macro, plugin will ask for macro name
 
-Macro saves action(s) performed inside its original editor tab (not other tabs). And it doesn't save actions inside plugin dialogs (e.g. FindInFiles).
+On recording, CudaText shows reddish border around the editor field.
+
+[[File:cudatext-macro-border.png]]
+
+Macro saves action(s) performed inside its original editor ui-tab (but not other ui-tabs). Calling of additional dialogs (including plugin dialogs) will be recorded too. But macro doesn't save actions inside those dialogs.
 
 To playback macro:
 
-* call menu item "Macros / (macro name)", the end of this menu lists all available/saved macros
-* or call dialog "Macros / Macros..." which allows to run available macros: it can be simple running, running N times, or running in loop ([x] While text changes, [x] Until caret on last line)
+* Call menu item "Macros / macro_name", the end of this menu lists all available/saved macros.
+* Or call dialog "Macros / Macros...", which allows to run all available macros:
+** running 1 time
+** running specified count of times
+** running in the loop, by options:
+*** While text changes
+*** Until caret on last line
 
 == Project Manager ==
 
