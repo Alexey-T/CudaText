@@ -39,7 +39,7 @@ To record a macro:
 ** some mouse actions (clicks/selections, they save/playback relative to caret position)
 ** calling of Find/Replace dialog, "Go to" dialog
 ** actions in Find/Replace dialog
-* Call menu item "Macros / Stop record" to save your macro, plugin will ask for macro name.
+* Call menu item "Macros / Start/stop recording" again, plugin will ask for macro name.
 
 During recording, CudaText shows reddish border around the editor field.
 
