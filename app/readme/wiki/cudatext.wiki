@@ -74,6 +74,17 @@ Screenshot on Windows:
 * Windows version can use different Python engine (packages in add-ons)
 * Add-ons do not disappear due to GitHub repository deletions
 
+= CudaText VS Visual Studio Code=
+
+Major differences:
+
+* VSCode has the option "maximal count of ui-tabs", because its ui-tabs are memory hungry. CudaText allows to open 1000+ ui-tabs without problems.
+* VSCode doesn't allow to comfortably edit 10M...100M log files, CudaText allows it without problems. Even with "lite lexers" active.
+* VSCode doesn't allow to show side-panels in a floating (detached) window.
+* VSCode has internal "find in files" but CudaText has FindInFiles-4 plugin with much more features.
+* VSCode cannot show inter-line gaps with pictures. CudaText plugin "Insert Pics" is based on this feature.
+* CudaText plugins are much easier to write (Python API is simpler).
+
 = Download =
 
 * Homepage: http://cudatext.github.io/
