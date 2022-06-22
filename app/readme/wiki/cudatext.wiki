@@ -86,7 +86,8 @@ Major differences:
 * VSCode cannot show inter-line gaps with pictures. CudaText plugin "Insert Pics" is based on this feature.
 * VSCode doesn't have the analog of CudaText "Color Text" plugin (not 100% sure here).
 * VSCode doesn't have the analog of CudaText "Draw Lines" plugin.
-* CudaText plugins are much easier to write (Python API is simpler).
+* VSCode cannot place text caret beyond end-of-line (not 100% sure here).
+* CudaText plugins are easier to write (Python API is simpler).
 
 = Download =
 
