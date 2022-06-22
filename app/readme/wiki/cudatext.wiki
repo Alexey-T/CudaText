@@ -86,7 +86,7 @@ Screenshot on Windows:
 * VSCode doesn't have the analog of CudaText "Draw Lines" plugin.
 * VSCode cannot place text caret beyond end-of-line (not 100% sure here).
 * CudaText gives [[#File_viewer|viewer for files of unlimited size]].
-* CudaText gives option "caret_proximity_vert" to set minimal distance of caret to top/bottom edge
+* CudaText gives option "caret_proximity_vert" to set minimal distance of caret to top/bottom edge.
 * CudaText plugins are easier to write (Python API is simpler).
 * CudaText supports UTF-32 LE/BE encoding.
 
