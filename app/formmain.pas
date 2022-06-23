@@ -8598,8 +8598,9 @@ begin
       PntLocal:= Ed.ScreenToClient(PntScreen);
       if PtInRect(Ed.ClientRect, PntLocal) then
       begin
-        DoPyEvent(Ed, cEventOnMouseStop,
-          [AppVariant(PntLocal.X), AppVariant(PntLocal.Y)]);
+        if not EditorIsEmpty(Ed) then
+          DoPyEvent(Ed, cEventOnMouseStop,
+            [AppVariant(PntLocal.X), AppVariant(PntLocal.Y)]);
         Break;
       end;
     end;
