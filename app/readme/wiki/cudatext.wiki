@@ -77,7 +77,7 @@ Screenshot on Windows:
 = Advantages over Visual Studio Code =
 
 * VSCode has the option "maximal count of ui-tabs", because its ui-tabs are memory hungry. CudaText allows to open 1000+ ui-tabs without problems.
-* VSCode doesn't allow to comfortably edit 10M...100M log files, CudaText allows it without problems. Even with "lite lexers" active.
+* VSCode is slow for file sizes 10M...100M, while CudaText allows this without problems. For size 2M+ CudaText disables lexers, but "lite lexers" (Log, XML, JSON) work always.
 * VSCode doesn't have customizable toolbar.
 * VSCode doesn't allow to show side-panels in floating (detached) window.
 * VSCode has internal "find in files" but CudaText has FindInFiles-4 plugin with much more features.
