@@ -151,13 +151,14 @@ begin
   //if we fire 'on_tab_change' during session loading, Auto Save plugin may activate
   //and overwrite the session (it saves the session)
   if not (AppSessionIsLoading or AppSessionIsClosing) then
-    DoOnTabFocusFinalization(F);
+    DoOnTabFocusFinalization(F, true);
 end;
 
-procedure TfmMain.DoOnTabFocusFinalization(F: TEditorFrame);
+procedure TfmMain.DoOnTabFocusFinalization(F: TEditorFrame; AAllowEventOnTabChange: boolean);
 var
   SFilterText: UnicodeString;
 begin
+  if F=nil then exit;
   if not F.IsEditorFocused then
     if F.CanFocus and F.CanSetFocus then
       F.SetFocus;
@@ -175,7 +176,8 @@ begin
 
   UpdateStatusbar;
 
-  DoPyEvent(F.Editor, cEventOnTabChange, []);
+  if AAllowEventOnTabChange then
+    DoPyEvent(F.Editor, cEventOnTabChange, []);
 
   UpdateFindDialogOnTabFocusing(F);
 end;

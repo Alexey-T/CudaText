@@ -806,7 +806,8 @@ type
     function DoMenu_GetPyProps(mi: TMenuItem): PPyObject;
     function DoMenu_PyEnum(const AMenuId: string): PPyObject;
     procedure DoOnTabFocus(Sender: TObject);
-    procedure DoOnTabFocusFinalization(F: TEditorFrame);
+    procedure DoOnTabFocusFinalization(F: TEditorFrame;
+      AAllowEventOnTabChange: boolean);
     procedure DoOnTabAdd(Sender: TObject);
     procedure DoOnTabClose(Sender: TObject; ATabIndex: Integer; var ACanClose, ACanContinue: boolean);
     procedure DoOnTabMove(Sender: TObject; NFrom, NTo: Integer);

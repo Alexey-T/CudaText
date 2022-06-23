@@ -683,7 +683,7 @@ begin
   Frame:= CurrentFrame;
   if Assigned(Frame) then
   begin
-    DoOnTabFocusFinalization(Frame);
+    DoOnTabFocusFinalization(Frame, nCountFiles>0);
 
     //python 'on_caret' is disabled during session loading, so fire it here
     Ed:= Frame.Ed1;
