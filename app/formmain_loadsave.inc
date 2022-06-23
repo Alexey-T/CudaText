@@ -441,8 +441,6 @@ begin
       DoOps_SaveSession(AppFile_Session, false, false, false);
   end;
 
-  DoPyEvent_AppState(APPSTATE_SESSION_LOAD_BEGIN);
-
   nCountFilesBefore:= FrameCount;
   if nCountFilesBefore=1 then
     if Frames[0].IsEmpty then
@@ -452,6 +450,7 @@ begin
   try
     if not DoFileCloseAll(true) then
     begin
+      DoPyEvent_AppState(APPSTATE_SESSION_LOAD_BEGIN);
       DoPyEvent_AppState(APPSTATE_SESSION_LOAD_FAIL);
       exit;
     end;
@@ -474,11 +473,17 @@ begin
       on E: Exception do
       begin
         MsgBadConfig(AFileName, E.Message);
+        DoPyEvent_AppState(APPSTATE_SESSION_LOAD_BEGIN);
         DoPyEvent_AppState(APPSTATE_SESSION_LOAD_FAIL);
         exit;
       end;
     end;
 
+    //avoid firing API on_state for empty session
+    if cfg.GetValue('/000/group', -1)=-1 then
+      exit;
+
+    DoPyEvent_AppState(APPSTATE_SESSION_LOAD_BEGIN);
     AppSessionIsLoading:= true;
     DoOps_LoadHistory_GroupView(cfg, sRootPath); //reads to variables
     DoApplyInitialGroupSizes; //applies that variables
