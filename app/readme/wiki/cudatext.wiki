@@ -26,6 +26,16 @@ Screenshot on Windows:
 
 [[File:cudatext.png]]
 
+=Disadvantages compared to Sublime Text / VSCode=
+
+* CudaText doesn't use 3D acceleration on rendering, so it may lag (and/or consume CPU) if you scroll text with big window size (not on Windows, Windows API works fast enough).
+* CudaText doesn't provide "Go to anything" command, instead it gives several separate commands:
+** Go to line number,
+** Go to project file,
+** Go to bookmark,
+** Go to code-tree symbol, ...
+* CudaText lexers are "simple": they don't parse text as deeply as ST/VSCode; so you need the LSP plugin if you need IntelliSense features.
+
 =Advantages over Sublime Text 3=
 
 * Open source, more operating systems
