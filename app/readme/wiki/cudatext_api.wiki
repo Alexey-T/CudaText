@@ -1215,26 +1215,24 @@ Special events for control "editor"/"editor_edit"/"editor_combo":
 ====dlg_proc - Signatures of event callbacks====
 
 Callbacks must be in forms shown in the topic [[#Callback_parameter]].
-
-Callbacks for "dlg_proc" must be declared as:
+Callbacks can be functions (out of class) or class methods, it depends on the look of the callback (again see "Callback parameter" topic).
 
 <syntaxhighlight lang="python">
 # for functions
-def my(id_dlg, id_ctl, data='', info=''):
+def my_callback(id_dlg, id_ctl, data='', info=''):
   pass
 
 # for class methods
 class Command:
-  def my(self, id_dlg, id_ctl, data='', info=''):
+  def my_callback(self, id_dlg, id_ctl, data='', info=''):
     pass
 </syntaxhighlight>
 
 Parameters:
 
-* "id_dlg": Int handle of the form.
-* "id_ctl": Int index of control. But for event "on_key_down" it has different meaning.
-* "data": Value specific to event.
-* "info": Additional value passed from CudaText, if extended form of callback is specified, with "info" part.
+* "id_dlg": Int, handle of the form.
+* "id_ctl": Int, index of the control which fired the event. Note: for event "on_key_down" it has different meaning.
+* "data" and "info": Values specific to event. If these parameters are used, they are described in the event descriptioon.
 
 ====dlg_proc - Actions====
 
