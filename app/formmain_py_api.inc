@@ -1117,6 +1117,13 @@ begin
             Result:= ReturnNone;
           end;
 
+        MARKERS_DELETE_BY_POS:
+          begin
+            if Ed.Markers.DeleteByPos(X, Y) then
+              Ed.Update;
+            Result:= ReturnNone;
+          end;
+
         else
           Result:= ReturnNone;
       end;
@@ -1353,6 +1360,13 @@ begin
               Ed.Attribs.Delete(NTag);
               Ed.Update;
             end;
+            Result:= ReturnNone;
+          end;
+
+        MARKERS_DELETE_BY_POS:
+          begin
+            if Ed.Attribs.DeleteByPos(X, Y) then
+              Ed.Update;
             Result:= ReturnNone;
           end;
 
