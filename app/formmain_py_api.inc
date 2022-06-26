@@ -1365,6 +1365,8 @@ begin
 
         MARKERS_DELETE_BY_POS:
           begin
+            X:= StrToIntDef(StrX, 0);
+            Y:= StrToIntDef(StrY, 0);
             if Ed.Attribs.DeleteByPos(X, Y) then
               Ed.Update;
             Result:= ReturnNone;
