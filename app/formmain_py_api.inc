@@ -1268,11 +1268,14 @@ begin
             Obj.Data.BorderUp:= TATLineStyle(NBorderU);
             Obj.ColumnTag:= NColumn;
 
-            X:= StrToIntDef(StrX, 0);
-            Y:= StrToIntDef(StrY, 0);
+            X:= StrToIntDef(StrX, MaxInt);
+            Y:= StrToIntDef(StrY, MaxInt);
             NLen:= StrToIntDef(StrLen, 1);
-            Ed.Attribs.Add(X, Y, NTag, NLen, 0, Obj, 0, TATMarkerMicromapMode(NMicromapMode));
-            Ed.Update;
+            if (X<MaxInt) and (Y<MaxInt) then
+            begin
+              Ed.Attribs.Add(X, Y, NTag, NLen, 0, Obj, 0, TATMarkerMicromapMode(NMicromapMode));
+              Ed.Update;
+            end;
             Result:= PyLong_FromLong(Ed.Attribs.Count);
           end;
 
@@ -1365,10 +1368,14 @@ begin
 
         MARKERS_DELETE_BY_POS:
           begin
-            X:= StrToIntDef(StrX, 0);
-            Y:= StrToIntDef(StrY, 0);
-            if Ed.Attribs.DeleteByPos(X, Y) then
-              Ed.Update;
+            if Ed.Attribs.Count>0 then
+            begin
+              X:= StrToIntDef(StrX, MaxInt);
+              Y:= StrToIntDef(StrY, MaxInt);
+              if (X<MaxInt) and (Y<MaxInt) then
+                if Ed.Attribs.DeleteByPos(X, Y) then
+                  Ed.Update;
+            end;
             Result:= ReturnNone;
           end;
 
