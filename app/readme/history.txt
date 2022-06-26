@@ -3,6 +3,10 @@
   - fixed
   * changed
 
+1.166.4 (2022/06)
+
++ add: small optimization: LSP plugin is not loaded on start with 1 empty tab
+
 1.166.3 (2022/06)
 
 - fix: crash on loading session with confirmation for 'binary' file (thanks @kvichans)
