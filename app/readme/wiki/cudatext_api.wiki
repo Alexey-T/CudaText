@@ -2802,6 +2802,9 @@ Controls markers (used e.g. in Snippets plugin). Possible values of "id":
 * MARKERS_DELETE_LAST: Deletes last added marker.
 * MARKERS_DELETE_BY_TAG: Deletes all markers with the given tag. Param "tag": tag value.
 * MARKERS_DELETE_BY_INDEX: Deletes marker by its index in the markers list. Param "tag": index (0-based).
+* MARKERS_DELETE_BY_POS: Deletes markers for specified text position.
+** If param "x">=0, deletes markers for position given by "x" and "y"
+** If param "x"<0, deletes all markers for line given by param "y"
 
 ===Editor.attr===
 
@@ -2840,6 +2843,9 @@ Controls additional color attributes. Possible values of "id":
 * MARKERS_DELETE_LAST: Deletes last added fragment.
 * MARKERS_DELETE_BY_TAG: Deletes all fragments with the given tag. Param "tag": tag value.
 * MARKERS_DELETE_BY_INDEX: Deletes fragment by its index in the list. Param "tag": index (0-based).
+* MARKERS_DELETE_BY_POS: Deletes fragments for specified text position.
+** If param "x">=0, deletes fragments for position given by "x" and "y"
+** If param "x"<0, deletes all fragments for line given by param "y"
 
 Notes:
 
@@ -4621,5 +4627,9 @@ It provides:
 1.0.423 (app 1.166.1)
 * add: Editor.cmd: cmd(cmd_DialogCommands, text) now sets text as initial filter of Command Palette
 * add: Editor.set_text_line: support special value -2
+
+1.0.424 (app 1.166.4)
+* add: Editor.markers: MARKERS_DELETE_BY_POS
+* add: Editor.attr: MARKERS_DELETE_BY_POS
 
 [[Category:CudaText]]
