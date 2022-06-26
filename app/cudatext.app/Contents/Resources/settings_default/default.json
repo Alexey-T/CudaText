@@ -275,12 +275,10 @@
 
   //[Lexers]
   //Enable caret-depending highlightings.
-  //- e.g. Pascal highlightes "begin"/"end" with green when caret is inside block.
-  //- HTML/XML highlightes opening/closing tags when caret is inside tag.
+  //For example, HTML/XML highlightes opening/closing tags when caret is inside tag.
   "lexer_dynamic_hilite": false,
 
-  //Max number of lines in editor, for which dynamic highlighting works.
-  //Reason for option: dynamic highlighting disables highlighting cache, so slows down scrolling.
+  //Max number of lines in editor, for which dynamic highlighting is enabled.
   "lexer_dynamic_hilite_max_lines": 2000,
 
   //On app start, postpone lexer parsing, until file tab becomes visible (ie don't parse hidden tabs).
