@@ -28,7 +28,7 @@ Screenshot on Windows:
 
 =Disadvantages compared to Sublime Text / VSCode=
 
-* CudaText doesn't use 3D acceleration on rendering, so it may lag (and/or consume CPU) if you scroll text with big window size (not on Windows, Windows API works fast enough).
+* CudaText doesn't use 3D acceleration on rendering, so it may lag (and/or consume lot of CPU) if you scroll text, with big window size (not on Windows, Windows API works fast enough).
 * CudaText doesn't provide "Go to anything" command, instead it gives several separate commands:
 ** Go to line number,
 ** Go to project file,
