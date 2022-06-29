@@ -465,6 +465,7 @@ Most of them are located in the Addons Manager "Install" list.
 * Grub4Dos
 * Haml
 * Harbour
+* Hare
 * Haskell
 * Haxe
 * HJSON
