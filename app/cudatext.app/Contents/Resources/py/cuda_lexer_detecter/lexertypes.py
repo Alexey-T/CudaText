@@ -210,6 +210,7 @@ TYPES = {
     "gshader": ['GLSL'],
     "gsp": ['Grails Server Pages'],
     "gv": ['Graphviz DOT'],
+    "ha": ['Hare'],
     "haml": ['Haml'],
     "handlebars": ['HTML Handlebars'],
     "handlebars.html": ['HTML Handlebars'],
