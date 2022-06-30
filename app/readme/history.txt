@@ -3,9 +3,9 @@
   - fixed
   * changed
 
-1.166.4 (2022/06)
+1.166.4 (2022/07)
 
-+ add: small optimization: LSP plugin is not loaded on start with 1 empty tab
++ add: small optimization: LSP plugin is not loaded when app starts with single empty tab
 
 1.166.3 (2022/06)
 
