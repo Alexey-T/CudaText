@@ -179,11 +179,14 @@ begin
             AEd.Strings.EndUndoGroup;
         end;
 
-        //True for some events means "stop"
+        //True for _some_ events means "stop processing this event"
         if Result.Val=evrTrue then
           if AEvent in cTheseEventsStoppedByTrue then Exit;
 
-        //False means "stop", other results ignored
+        //False means "stop processing this event".
+        //It's used e.g. for on_complete, on_key - first plugin which returned False,
+        //stops event processing in other plugins.
+        //Other results (e.g. None, 0, 1, list, dict) are ignored.
         if Result.Val=evrFalse then Exit;
       end;
 end;
