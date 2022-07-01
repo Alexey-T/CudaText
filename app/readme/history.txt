@@ -6,6 +6,7 @@
 1.166.4 (2022/07)
 
 + add: small optimization: LSP plugin is not loaded when app starts with single empty tab
+- fix: on opening another project, current project-session was not auto-saved (thanks @MiroslavMatas)
 
 1.166.3 (2022/06)
 
