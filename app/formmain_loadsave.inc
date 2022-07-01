@@ -480,7 +480,8 @@ begin
     end;
 
     //avoid firing API on_state for empty session
-    if cfg.GetValue('/000/group', -1)=-1 then
+    if (cfg.GetValue(sRootPath+'/000/group', -1)=-1) and
+      (cfg.GetValue(sRootPath+'/001/group', -1)=-1) then
       exit;
 
     DoPyEvent_AppState(APPSTATE_SESSION_LOAD_BEGIN);
