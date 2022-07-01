@@ -722,6 +722,7 @@ class Command:
             tree_proc(self.tree, TREE_ITEM_UNFOLD, parent)
 
     def action_new_project(self):
+        self.session_save(True)
         self.new_project()
         self.action_refresh()
 
@@ -730,6 +731,8 @@ class Command:
         if path is None:
             path = dlg_file(True, "", "", PROJECT_DIALOG_FILTER)
         if path:
+            self.session_save(True)
+
             proj_dir = os.path.dirname(path)
             def expand_macros(s):
                 return s.replace('{ProjDir}', proj_dir, 1)
@@ -1800,3 +1803,13 @@ class Command:
             self.action_refresh()
             if self.project_file_path:
                 self.action_save_project_as(self.project_file_path)
+
+    def session_save(self, and_forget):
+
+        cur_fn = str(self.project_file_path)
+        cur_sess = self.session_cur_name()
+        if cur_fn and cur_sess:
+            sess = cur_fn+'|/sessions/'+cur_sess
+            app_proc(PROC_SAVE_SESSION, sess)
+            if and_forget:
+                app_proc(PROC_SET_SESSION, '')
