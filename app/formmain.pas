@@ -3267,7 +3267,7 @@ procedure TfmMain.FormShow(Sender: TObject);
     //load session
     //after on_start (so HTML Tooltips with on_open can work)
     //after loading keymap-main and keymap for none-lexer
-    if IsDefaultSessionActive and
+    if IsDefaultSessionActive and //avoid if on_start runs ProjectManager which loaded project-session
        UiOps.ReopenSession and
        (FOption_AllowSessionLoad=aalsEnable) then
       DoOps_LoadSession(AppFile_Session, false);
