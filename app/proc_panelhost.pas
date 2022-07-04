@@ -179,6 +179,11 @@ end;
 
 procedure TAppPanelHost.SetFloating(AValue: boolean);
 begin
+  {$ifdef LCLGTK2}
+  //disable floating panels on GTK2, fixing #4204
+  exit;
+  {$endif}
+
   if GetFloating=AValue then exit;
 
   if AValue then
