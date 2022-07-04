@@ -3,7 +3,9 @@
   - fixed
   * changed
 
-- fix: disabled 'floating' panels on GTK2 version, because major IDE bug exists for 'floating' panels (thanks @veksha)
+1.166.5.2 (2022/07)
+
+- fix: disabled 'floating' panels in GTK2 version, because of the major IDE bug (thanks @veksha)
 
 1.166.5 (2022/07)
 
