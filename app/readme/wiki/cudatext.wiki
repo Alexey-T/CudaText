@@ -2464,6 +2464,8 @@ This is simpler way. But additional way is also possible - you can "install" the
 
 When you run "cudatext" (from /usr/bin), settings folder "~/.config/cudatext/settings" will be created automatically.
 
+Note, that you must download proper package for the proper architecture (x64, ARM, AArch64) and proper OS. Sometimes users download Solaris package on Linux, so "cudatext" file cannot be run.
+
 ==Linux: Arch Linux packages==
 
 The GTK2 and Qt5 binaries can also be installed via the AUR if you are on an Arch Linux based system:
