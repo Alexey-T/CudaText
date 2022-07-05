@@ -2452,14 +2452,15 @@ A: Start the application with "-disableaccurateframe" parameter.
 ** This plugin has options to copy selection to a) usual clipboard, b) GTK primary selection (CudaText GTK builds only)
 
 ==Linux: Installation==
-To support .deb package installation, program performs copying of its files, from .deb installation folder to the settings folder. Ie, when binary "cudatext" (it can be in any folder, e.g. in /usr/bin) starts, it checks, if "data/lexlib" exists near the binary, and if not, it copies folders "py", "data", "settings_default" from .deb installation folder to "~/.config/cudatext" (default location of settings, it can be changed by command line option). Program does this not always, it reads the "settings/packages.ini", and checks there [app] "ver" value. If value not equals to the binary's hardcoded version, program does that copying. So copying occurs once, after .deb package was upgraded.
+'''.deb package.''' To support .deb package installation, program performs copying of its files, from .deb installation folder to the settings folder. Ie, when binary "cudatext" (it can be in any folder, e.g. in /usr/bin) starts, it checks, if "data/lexlib" exists near the binary, and if not, it copies folders "py", "data", "settings_default" from .deb installation folder to "~/.config/cudatext" (default location of settings, it can be changed by command line option). Program does this not always, it reads the "settings/packages.ini", and checks there [app] "ver" value. If value not equals to the binary's hardcoded version, program does that copying. So copying occurs once, after .deb package was upgraded.
 
-It's not needed in most cases, but on Linux you can "install" the program, so that "cudatext" will be runnable from Terminal. The "installation" is:
+'''.xz package.''' It is intended that user just unpacks this archive, to subdirectory of home-directory, and then runs binary "cudatext" from there.
+This is simpler way. But additional way is also possible - you can "install" the program, so that "cudatext" will be runnable from Terminal. The "installation" is:
 
-* unpack CudaText archive (.xz) to some temp folder
+* unpack CudaText .xz archive to some temp folder
 * copy file "cudatext" to /usr/bin
 * copy folders "py", "data", "settings_default" to "~/.config/cudatext"
-* delete that temp folder
+* delete mentioned temp folder
 
 When you run "cudatext" (from /usr/bin), settings folder "~/.config/cudatext/settings" will be created automatically.
 
