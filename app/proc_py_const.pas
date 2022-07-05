@@ -129,6 +129,7 @@ const
   PROP_GUTTER_NUM     = 1;
   PROP_GUTTER_FOLD    = 2;
   PROP_GUTTER_BM      = 3;
+  PROP_GUTTER_EMPTY   = 4;
   PROP_WRAP           = 5;
   PROP_RO             = 6;
   PROP_TAB_SPACES     = 7;
@@ -208,6 +209,7 @@ const
   PROP_CARET_STOP_UNFOCUSED      = 81;
   PROP_ACTIVATION_TIME           = 82;
   PROP_FOCUSED                   = 83;
+  PROP_GUTTER_EMPTY_WIDTH        = 84;
   PROP_MODERN_SCROLLBAR          = 85;
   PROP_SAVE_HISTORY              = 86;
   PROP_PREVIEW                   = 87;

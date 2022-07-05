@@ -3103,6 +3103,18 @@ begin
             Result:= PyBool_FromLong(Ord(bValue));
           end;
 
+        PROP_GUTTER_EMPTY:
+          begin
+            bValue:= Ed.Gutter[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagEmpty)].Visible;
+            Result:= PyBool_FromLong(Ord(bValue));
+          end;
+
+        PROP_GUTTER_EMPTY_WIDTH:
+          begin
+            Num1:= Ed.Gutter[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagEmpty)].Size;
+            Result:= PyLong_FromLong(Num1);
+          end;
+
         PROP_WRAP:
           Result:= PyLong_FromLong(Ord(Ed.OptWrapMode));
 
@@ -3836,6 +3848,15 @@ begin
 
         PROP_GUTTER_BM:
           Ed.Gutter[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagBookmarks)].Visible:= ValueBool;
+
+        PROP_GUTTER_EMPTY:
+          Ed.Gutter[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagEmpty)].Visible:= ValueBool;
+
+        PROP_GUTTER_EMPTY_WIDTH:
+          begin
+            Ed.Gutter[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagEmpty)].Size:= ValueInt;
+            Ed.Gutter.Update;
+          end;
 
         PROP_WRAP:
           Ed.OptWrapMode:= TATEditorWrapMode(ValueInt);
