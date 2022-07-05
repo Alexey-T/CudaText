@@ -3402,8 +3402,10 @@ begin
   FNeedUpdateMenuChecks:= true;
 
   {$ifdef LCLGTK2}
-  mnuViewFloatSide.Enabled:= false;
-  mnuViewFloatBottom.Enabled:= false;
+  if Assigned(mnuViewFloatSide) then
+    mnuViewFloatSide.Enabled:= false;
+  if Assigned(mnuViewFloatBottom) then
+    mnuViewFloatBottom.Enabled:= false;
   {$endif}
 
   _Init_CheckExePath;
