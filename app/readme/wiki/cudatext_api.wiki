@@ -2274,6 +2274,9 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_GUTTER_NUM: bool: show gutter column "line numbers".
 * PROP_GUTTER_FOLD: bool: show gutter column "folding".
 * PROP_GUTTER_BM: bool: show gutter column "bookmarks".
+* PROP_GUTTER_EMPTY: bool: show gutter column "empty padding".
+* PROP_GUTTER_EMPTY_WIDTH: int: width of gutter column "empty padding".
+
 * PROP_NEWLINE: str: kind of line endings. One of values "lf", "crlf", "cr".
 * PROP_WRAP: int: word-wrap mode. One of WRAP_nnn values.
 * PROP_RO: bool: read-only mode.
@@ -2454,6 +2457,9 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 * PROP_GUTTER_NUM: bool: show gutter column "line numbers".
 * PROP_GUTTER_FOLD: bool: show gutter column "folding".
 * PROP_GUTTER_BM: bool: show gutter column "bookmarks".
+* PROP_GUTTER_EMPTY: bool: show gutter column "empty padding".
+* PROP_GUTTER_EMPTY_WIDTH: int: width of gutter column "empty padding".
+
 * PROP_WRAP: int: word-wrap mode. One of WRAP_nnn values.
 * PROP_RO: bool: read-only mode.
 * PROP_NEWLINE: str: kind of line endings. One of values "lf", "crlf", "cr".
@@ -4631,5 +4637,9 @@ It provides:
 1.0.424 (app 1.166.4)
 * add: Editor.markers: MARKERS_DELETE_BY_POS
 * add: Editor.attr: MARKERS_DELETE_BY_POS
+
+1.0.425 (app 1.166.6)
+* add: Editor.get_prop/set_prop: PROP_GUTTER_EMPTY
+* add: Editor.get_prop/set_prop: PROP_GUTTER_EMPTY_WIDTH
 
 [[Category:CudaText]]
