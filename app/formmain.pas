@@ -3224,6 +3224,16 @@ procedure TfmMain.FormShow(Sender: TObject);
     Groups.Splitter5.ResizeStyle:= cStyle;
   end;
   //
+  procedure _Init_DisableSomeMenuItems;
+  begin
+    {$ifdef LCLGTK2}
+    if Assigned(mnuViewFloatSide) then
+      mnuViewFloatSide.Enabled:= false;
+    if Assigned(mnuViewFloatBottom) then
+      mnuViewFloatBottom.Enabled:= false;
+    {$endif}
+  end;
+  //
   procedure _Init_WindowMaximized;
   begin
     if FLastMaximized then
@@ -3329,6 +3339,7 @@ var
   Frame: TEditorFrame;
 begin
   _Init_FixSplitters;
+  _Init_DisableSomeMenuItems;
 
   if FHandledOnShowPartly then exit;
 
@@ -3400,13 +3411,6 @@ begin
 
   FHandledOnShowFully:= true;
   FNeedUpdateMenuChecks:= true;
-
-  {$ifdef LCLGTK2}
-  if Assigned(mnuViewFloatSide) then
-    mnuViewFloatSide.Enabled:= false;
-  if Assigned(mnuViewFloatBottom) then
-    mnuViewFloatBottom.Enabled:= false;
-  {$endif}
 
   _Init_CheckExePath;
 end;
