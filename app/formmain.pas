@@ -3401,6 +3401,11 @@ begin
   FHandledOnShowFully:= true;
   FNeedUpdateMenuChecks:= true;
 
+  {$ifdef LCLGTK2}
+  mnuViewFloatSide.Enabled:= false;
+  mnuViewFloatBottom.Enabled:= false;
+  {$endif}
+
   _Init_CheckExePath;
 end;
 
