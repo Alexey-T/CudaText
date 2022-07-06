@@ -676,6 +676,7 @@
 
   //If value N>0, editor will try to keep at least N lines from caret to the
   //top/bottom, on scrolling up/down. Works only with single caret.
+  //Known as 'scrollOff' or 'scrollOffset' in some other editors.
   "caret_proximity_vert": 0,
 
   //[Find]

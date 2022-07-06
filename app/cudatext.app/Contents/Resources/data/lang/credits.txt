@@ -20,6 +20,8 @@ Shovel
 https://github.com/halfbrained
 Ildar R. Khasanshin
 https://github.com/ildarkhasanshin
+Yuriy Balyuk
+https://github.com/veksha
 
 #Optimizations of Python wrapper, plugins
 Artem Gavrilov
