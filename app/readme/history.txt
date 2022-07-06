@@ -5,6 +5,8 @@
 
 1.166.6 (2022/07)
 
++ add: wiki topic https://wiki.freepascal.org/CudaText#Advantages_over_Visual_Studio_Code
++ add: wiki topic https://wiki.freepascal.org/CudaText#Disadvantages_compared_to_Sublime_Text_.2F_VSCode
 - fix: 'floating' panels feature is now disabled in GTK2 version, because of the IDE (or GTK2) bug (thanks @veksha)
 - fix: could not continue selection by mouse when cursor goes over minimap (thanks @veksha)
 
