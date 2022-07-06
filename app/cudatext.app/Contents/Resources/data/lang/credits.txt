@@ -1,7 +1,7 @@
 #Lazarus IDE
 http://www.lazarus-ide.org
 
-#ATSynEdit, ATTabs, ATFlatControls
+#Application, ATSynEdit, ATFlatControls
 Alexey Torgashin
 https://github.com/Alexey-T
 
