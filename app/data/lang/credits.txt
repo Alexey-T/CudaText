@@ -8,7 +8,7 @@ https://github.com/Alexey-T
 #EControl syntax parser
 Delphi version by Michael Zakharov
 http://www.econtrol.ru
-Lazarus port by Alexey Torgashin
+Lazarus port and rework by Alexey Torgashin
 https://github.com/Alexey-T
 
 #Python plugins, QA
@@ -36,10 +36,7 @@ https://github.com/dinkumoil
 #Python for Delphi
 Dietmar Budelsky, Morgan Martinet, Kiriakos Vlahos
 https://github.com/pyscripter/python4delphi
-
-#Python for Lazarus
-Alexey Torgashin
-https://github.com/Alexey-T
+Adaptation for Lazarus by Alexey Torgashin
 
 #BGRABitmap
 https://bgrabitmap.github.io
