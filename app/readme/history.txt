@@ -5,7 +5,7 @@
 
 1.166.6 (2022/07)
 
-- fix: disabled 'floating' panels in GTK2 version, because of the IDE (or GTK2) bug (thanks @veksha)
+- fix: 'floating' panels feature is now disabled in GTK2 version, because of the IDE (or GTK2) bug (thanks @veksha)
 - fix: could not continue selection by mouse when cursor goes over minimap (thanks @veksha)
 
 1.166.5 (2022/07)
