@@ -2827,9 +2827,9 @@ Controls additional color attributes. Possible values of "id":
 ** "x", "y": Position of fragment start (text position like caret).
 ** "len": Length of fragment in chars.
 *** If len<0, and "show_on_map" is set, it will be multi-line micromap fragment with specified height=-len.
-** "color_nnnn": Color values (RGB) for font, background, borders.
-** "font_nnnn": Font attributes: 0 - off, 1 - on.
-** "border_nnnn": Border types for edges, int value 0..6: none, solid, dash, solid 2pixel, dotted, rounded, wave.
+** "color_*": Color values (RGB) for font, background, borders.
+** "font_*": Font attributes: 0 - off, 1 - on.
+** "border_*": Border types for edges, int value 0..6: none, solid, dash, solid 2pixel, dotted, rounded, wave.
 ** "show_on_map": How to show this fragment on micromap:
 *** int value>=0: Show on micromap column with given tag. Don't pass value=0, because micromap column with tag=0 is reserved.
 *** int value=-1: Don't show on micromap.
@@ -2840,6 +2840,8 @@ Controls additional color attributes. Possible values of "id":
 
 * MARKERS_ADD_MANY: Adds one or multiple fragments at once. Also returns number of fragments. Parameters:
 ** "x", "y", "len": The same as for MARKERS_ADD, but can be also list/tuple of int. Lists/tuples must contain the equal number of elements (otherwise the minimal number of elements will be used).
+** "color_*": Can be one value or list/tuple of values. Length of list/tuple is not limited.
+** "font_*": Can be one value or list/tuple of values. Length of list/tuple is not limited.
 ** other parameters: The same as for MARKERS_ADD.
 
 * MARKERS_GET: Returns list of fragments, or None. Each item is list of int, corresponding to Editor.attr() params (bool values will be 0 or 1).
@@ -4641,5 +4643,6 @@ It provides:
 1.0.425 (app 1.166.6)
 * add: Editor.get_prop/set_prop: PROP_GUTTER_EMPTY
 * add: Editor.get_prop/set_prop: PROP_GUTTER_EMPTY_WIDTH
+* add: Editor.attr: MARKERS_ADD_MANY allows lists for params "color_*" and "font_*"
 
 [[Category:CudaText]]
