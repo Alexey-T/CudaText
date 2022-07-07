@@ -1155,7 +1155,13 @@ begin
 
   bExtend:= SEndsWith(SInput, '+');
   if bExtend then
-    SetLength(SInput, Length(SInput)-1);
+    SetLength(SInput, Length(SInput)-1)
+  else
+  begin
+    bExtend:= SBeginsWith(SInput, '+');
+    if bExtend then
+      Delete(SInput, 1, 1);
+  end;
 
   if SEndsWith(SInput, '%') then
   begin
