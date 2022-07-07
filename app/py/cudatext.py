@@ -1403,21 +1403,56 @@ class Editor:
         return ct.ed_markers(self.h, id, x, y, tag, len_x, len_y, line_len)
 
     def attr(self, id, tag=0, x=0, y=0, len=1,
-             color_font=COLOR_NONE, color_bg=COLOR_NONE, color_border=COLOR_NONE,
-             font_bold=0, font_italic=0, font_strikeout=0,
+             color_font='', color_bg='', color_border='',
+             font_bold='', font_italic='', font_strikeout='',
              border_left=0, border_right=0, border_down=0, border_up=0,
              show_on_map=False, map_only=0
              ):
 
-        if id==MARKERS_ADD_MANY:
-            if not isinstance(x, int):
-                x = ','.join(map(str, x))
-                y = ','.join(map(str, y))
-                len = ','.join(map(str, len))
-        else:
+        if isinstance(x, int):
             x = str(x)
+        else:
+            x = ','.join(map(str, x))
+
+        if isinstance(y, int):
             y = str(y)
+        else:
+            y = ','.join(map(str, y))
+
+        if isinstance(len, int):
             len = str(len)
+        else:
+            len = ','.join(map(str, len))
+
+        if isinstance(color_font, int):
+            color_font = str(color_font)
+        else:
+            color_font = ','.join(map(str, color_font))
+
+        if isinstance(color_bg, int):
+            color_bg = str(color_bg)
+        else:
+            color_bg = ','.join(map(str, color_bg))
+
+        if isinstance(color_border, int):
+            color_border = str(color_border)
+        else:
+            color_border = ','.join(map(str, color_border))
+
+        if isinstance(font_bold, int):
+            font_bold = str(font_bold)
+        else:
+            font_bold = ','.join(map(str, font_bold))
+
+        if isinstance(font_italic, int):
+            font_italic = str(font_italic)
+        else:
+            font_italic = ','.join(map(str, font_italic))
+
+        if isinstance(font_strikeout, int):
+            font_strikeout = ','.join(map(str, font_strikeout))
+        else:
+            font_strikeout = str(font_strikeout)
 
         column = 1 if show_on_map is True else -1 if show_on_map==False else show_on_map
 

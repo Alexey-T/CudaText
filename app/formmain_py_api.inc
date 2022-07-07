@@ -1139,20 +1139,26 @@ var
   Ed: TATSynEdit;
   Mark: TATMarkerItem;
   PtrX, PtrY, PtrLen: PChar;
+  PtrColorFont, PtrColorBg, PtrColorBorder, PtrFontBold, PtrFontItalic, PtrFontStrike: PChar;
   StrX, StrY, StrLen: string;
+  StrColorFont, StrColorBg, StrColorBorder, StrFontBold, StrFontItalic, StrFontStrike: string;
   Id, X, Y, NTag, NLen, i: integer;
   NColorFont, NColorBg, NColorBorder: integer;
+  NColorFont_1st, NColorBg_1st, NColorBorder_1st: integer;
   NBorderL, NBorderR, NBorderD, NBorderU: integer;
-  NFontBold, NFontItalic, NFontStrike, NColumn, NMicromapMode: integer;
+  NFontBold, NFontItalic, NFontStrike: integer;
+  NFontBold_1st, NFontItalic_1st, NFontStrike_1st: integer;
+  NColumn, NMicromapMode: integer;
   Obj: TATLinePartClass;
   SepX, SepY, SepLen: TATStringSeparator;
+  SepColorFont, SepColorBg, SepColorBorder, SepFontBold, SepFontItalic, SepFontStrike: TATStringSeparator;
   NStyles: byte;
 begin
   with AppPython.Engine do
-    if Bool(PyArg_ParseTuple(Args, 'Liisssiiiiiiiiiiii:attr',
+    if Bool(PyArg_ParseTuple(Args, 'Liisssssssssiiiiii:attr',
       @H, @Id, @NTag, @PtrX, @PtrY, @PtrLen,
-      @NColorFont, @NColorBg, @NColorBorder,
-      @NFontBold, @NFontItalic, @NFontStrike,
+      @PtrColorFont, @PtrColorBg, @PtrColorBorder,
+      @PtrFontBold, @PtrFontItalic, @PtrFontStrike,
       @NBorderL, @NBorderR, @NBorderD, @NBorderU,
       @NColumn, @NMicromapMode
       )) then
@@ -1161,6 +1167,12 @@ begin
       StrX:= string(PtrX);
       StrY:= string(PtrY);
       StrLen:= string(PtrLen);
+      StrColorFont:= string(PtrColorFont);
+      StrColorBg:= string(PtrColorBg);
+      StrColorBorder:= string(PtrColorBorder);
+      StrFontBold:= string(PtrFontBold);
+      StrFontItalic:= string(PtrFontItalic);
+      StrFontStrike:= string(PtrFontStrike);
 
       case Id of
         MARKERS_GET:
@@ -1245,6 +1257,13 @@ begin
 
         MARKERS_ADD:
           begin
+            NColorFont:= StrToIntDef(StrColorFont, clNone);
+            NColorBg:= StrToIntDef(StrColorBg, clNone);
+            NColorBorder:= StrToIntDef(StrColorBorder, clNone);
+            NFontBold:= StrToIntDef(StrFontBold, 0);
+            NFontItalic:= StrToIntDef(StrFontItalic, 0);
+            NFontStrike:= StrToIntDef(StrFontStrike, 0);
+
             Obj:= TATLinePartClass.Create;
             Obj.Data.ColorFont:= NColorFont;
             Obj.Data.ColorBG:= NColorBg;
@@ -1285,6 +1304,22 @@ begin
             SepY.Init(StrY);
             SepLen.Init(StrLen);
 
+            SepColorFont.Init(StrColorFont);
+            SepColorBg.Init(StrColorBg);
+            SepColorBorder.Init(StrColorBorder);
+
+            SepFontBold.Init(StrFontBold);
+            SepFontItalic.Init(StrFontItalic);
+            SepFontStrike.Init(StrFontStrike);
+
+            NColorFont_1st:= StrToIntDef(StrColorFont, clNone);
+            NColorBg_1st:= StrToIntDef(StrColorBg, clNone);
+            NColorBorder_1st:= StrToIntDef(StrColorBorder, clNone);
+
+            NFontBold_1st:= StrToIntDef(StrFontBold, 0);
+            NFontItalic_1st:= StrToIntDef(StrFontItalic, 0);
+            NFontStrike_1st:= StrToIntDef(StrFontStrike, 0);
+
             repeat
               if not SepX.GetItemInt(X, -1) then Break;
               if not SepY.GetItemInt(Y, -1) then Break;
@@ -1292,6 +1327,14 @@ begin
               if X<0 then Break;
               if Y<0 then Break;
               if NLen=0 then Break;
+
+              SepColorFont.GetItemInt(NColorFont, NColorFont_1st);
+              SepColorBg.GetItemInt(NColorBg, NColorBg_1st);
+              SepColorBorder.GetItemInt(NColorBorder, NColorBorder_1st);
+
+              SepFontBold.GetItemInt(NFontBold, NFontBold_1st);
+              SepFontItalic.GetItemInt(NFontItalic, NFontItalic_1st);
+              SepFontStrike.GetItemInt(NFontStrike, NFontStrike_1st);
 
               Obj:= TATLinePartClass.Create;
               Obj.Data.ColorFont:= NColorFont;
