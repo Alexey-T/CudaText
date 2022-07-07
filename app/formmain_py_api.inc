@@ -1124,6 +1124,12 @@ begin
             Result:= ReturnNone;
           end;
 
+        MARKERS_SET_DUPS:
+          begin
+            Ed.Markers.Duplicates:= Bool(NTag);
+            Result:= ReturnNone;
+          end;
+
         else
           Result:= ReturnNone;
       end;
@@ -1419,6 +1425,12 @@ begin
                 if Ed.Attribs.DeleteByPos(X, Y) then
                   Ed.Update;
             end;
+            Result:= ReturnNone;
+          end;
+
+        MARKERS_SET_DUPS:
+          begin
+            Ed.Attribs.Duplicates:= Bool(NTag);
             Result:= ReturnNone;
           end;
 
