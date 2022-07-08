@@ -1130,6 +1130,11 @@ begin
             Result:= ReturnNone;
           end;
 
+        MARKERS_GET_DUPS:
+          begin
+            Result:= PyBool_FromLong(Ord(Ed.Markers.Duplicates));
+          end;
+
         else
           Result:= ReturnNone;
       end;
@@ -1432,6 +1437,11 @@ begin
           begin
             Ed.Attribs.Duplicates:= Bool(NTag);
             Result:= ReturnNone;
+          end;
+
+        MARKERS_GET_DUPS:
+          begin
+            Result:= PyBool_FromLong(Ord(Ed.Attribs.Duplicates));
           end;
 
         else
@@ -8229,7 +8239,10 @@ begin
       case IdAction of
         EDACTION_UPDATE:
           begin
-            Ed.Update(AppStrToBool(StrText1));
+            Ed.Update(
+              AppStrToBool(StrText1),
+              true // fix https://github.com/CudaText-addons/cuda_testing_attr/issues/1
+              );
             Result:= ReturnNone;
           end;
 
