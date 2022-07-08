@@ -5,7 +5,7 @@
 
 1.167.0 (2022/07)
 
-+ add: API to speedup ExTerminal plugin
++ add: API to speedup ExTerminal plugin (thanks @veksha)
 + add: dialog 'Go to': handle also leading '+' like the trailing one
 + add: wiki topic https://wiki.freepascal.org/CudaText#Advantages_over_Visual_Studio_Code
 + add: wiki topic https://wiki.freepascal.org/CudaText#Disadvantages_compared_to_Sublime_Text_.2F_VSCode
