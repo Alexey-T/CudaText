@@ -2812,6 +2812,7 @@ Controls markers (used e.g. in Snippets plugin). Possible values of "id":
 ** If param "x">=0, deletes markers for position given by "x" and "y"
 ** If param "x"<0, deletes all markers for line given by param "y"
 
+* MARKERS_GET_DUPS: Gets "duplicates for the same x/y are allowed" flag, bool value.
 * MARKERS_SET_DUPS: Sets "duplicates for the same x/y are allowed" flag (it will be used on next item adding). Param "tag": 0 or 1.
 
 ===Editor.attr===
@@ -2857,6 +2858,7 @@ Controls additional color attributes. Possible values of "id":
 ** If param "x">=0, deletes fragments for position given by "x" and "y"
 ** If param "x"<0, deletes all fragments for line given by param "y"
 
+* MARKERS_GET_DUPS: Gets "duplicates for the same x/y are allowed" flag, bool value.
 * MARKERS_SET_DUPS: Sets "duplicates for the same x/y are allowed" flag (it will be used on next item adding). Param "tag": 0 or 1.
 
 Notes:
@@ -4648,6 +4650,7 @@ It provides:
 * add: Editor.get_prop/set_prop: PROP_GUTTER_EMPTY
 * add: Editor.get_prop/set_prop: PROP_GUTTER_EMPTY_WIDTH
 * add: Editor.attr: MARKERS_ADD_MANY allows lists for params "color_*" and "font_*"
+* add: Editor.markers/attr: MARKERS_GET_DUPS
 * add: Editor.markers/attr: MARKERS_SET_DUPS
 
 [[Category:CudaText]]
