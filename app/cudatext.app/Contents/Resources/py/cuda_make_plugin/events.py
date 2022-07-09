@@ -38,6 +38,7 @@ EVENTS = [
     'on_save_pre',
     'on_save_naming',
     'on_scroll',
+    'on_sidebar_popup',
     'on_snippet',
     'on_start',
     'on_state',
@@ -69,4 +70,5 @@ EVENTS_ADD_PARAMS = {
   'on_snippet': 'snippet_id, snippet_text',
   'on_state': 'state',
   'on_state_ed': 'state',
+  'on_sidebar_popup': 'caption',
   }
