@@ -40,7 +40,7 @@ type
 type
   TAppPanelOnCommand = procedure(const ACallback: string) of object;
   TAppPanelOnGetTitle = function(const ACaption: string): string of object;
-  TAppPanelOnRightClick = procedure(const ACaption: string) of object;
+  TAppPanelOnContextPopup = procedure(const ACaption: string) of object;
 
 type
   { TAppPanelHost }
@@ -51,7 +51,7 @@ type
     FAlign: TAlign;
     FToolbarUpdateCount: integer;
     FToolbarUpdateTime: QWord;
-    FOnRightClick: TAppPanelOnRightClick;
+    FOnContextPopup: TAppPanelOnContextPopup;
     function GetFloating: boolean;
     function GetPanelSize: integer;
     function GetVisible: boolean;
@@ -101,7 +101,7 @@ type
     procedure InitFormFloat;
     property ToolbarUpdateCount: integer read FToolbarUpdateCount;
     property ToolbarUpdateTime: QWord read FToolbarUpdateTime;
-    property OnRightClick: TAppPanelOnRightClick read FOnRightClick write FOnRightClick;
+    property OnContextPopup: TAppPanelOnContextPopup read FOnContextPopup write FOnContextPopup;
   end;
 
 var
@@ -572,10 +572,10 @@ procedure TAppPanelHost.HandleRightClick(Sender: TObject; MousePos: TPoint;
 var
   Btn: TATButton;
 begin
-  if Assigned(FOnRightClick) then
+  if Assigned(FOnContextPopup) then
   begin
     Btn:= Sender as TATButton;
-    FOnRightClick(Btn.Caption);
+    FOnContextPopup(Btn.Caption);
     Handled:= true;
   end;
 end;
