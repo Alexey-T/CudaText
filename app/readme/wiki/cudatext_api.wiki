@@ -84,6 +84,7 @@ Event handlers (Command.on_nnnnn methods) return-value is ignored is many cases,
 ** Called on double-clicking lines, or calling context menu item "Navigate", in the Console's memo-field. Param "text" is line with caret.
 ** Called also when Console input-field is first changed. Param "text" value is "(console_input_change)".
 * on_output_nav(self, ed_self, text, tag): Called on clicking line, or pressing Enter, in the Output or Validate panel. Param "text" is clicked line, param "tag" is int value associated with line. Event is called only if app cannot parse output line by itself using given regex, or regex is not set. Param "ed_self" is None here.
+* on_sidebar_poup(self, ed_self, caption): Called on right-click on sidebar/bottombar buttons. Param "ed_self" is None here. Param "caption" is button caption.
 
 ==Events - Macros==
 
@@ -4652,5 +4653,6 @@ It provides:
 * add: Editor.attr: MARKERS_ADD_MANY allows lists for params "color_*" and "font_*"
 * add: Editor.markers/attr: MARKERS_GET_DUPS
 * add: Editor.markers/attr: MARKERS_SET_DUPS
+* add: event "on_sidebar_popup"
 
 [[Category:CudaText]]
