@@ -829,6 +829,7 @@ type
     procedure DoCodetree_OnAdvDrawItem(Sender: TCustomTreeView;
       Node: TTreeNode; State: TCustomDrawState; Stage: TCustomDrawStage;
       var PaintImages, DefaultDraw: Boolean);
+    procedure DoSidebar_OnRightClick(const ACaption: string);
     procedure DoSidebar_OnCloseFloatForm(Sender: TObject; var CloseAction: TCloseAction);
     procedure DoSidebar_OnShowHide(Sender: TObject);
     function DoSidebar_GetFormTitle(const ACaption: string): string;
@@ -3234,6 +3235,15 @@ procedure TfmMain.FormShow(Sender: TObject);
     {$endif}
   end;
   //
+  procedure _Init_SidebarEvents;
+  var
+    id: TAppPanelId;
+  begin
+    for id in TAppPanelId do
+      if id<>cPaneNone then
+        AppPanels[id].OnRightClick:= @DoSidebar_OnRightClick;
+  end;
+  //
   procedure _Init_WindowMaximized;
   begin
     if FLastMaximized then
@@ -3340,6 +3350,7 @@ var
 begin
   _Init_FixSplitters;
   _Init_DisableSomeMenuItems;
+  _Init_SidebarEvents;
 
   if FHandledOnShowPartly then exit;
 

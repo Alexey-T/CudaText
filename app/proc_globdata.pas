@@ -893,6 +893,7 @@ type
     cEventOnAppActivate,
     cEventOnAppDeactivate,
     cEventOnDeleteFile,
+    cEventOnSidebarPopup,
     cEventOnCLI,
     cEventOnExit
     );
@@ -949,6 +950,7 @@ const
     'on_app_activate',
     'on_app_deactivate',
     'on_delete_file',
+    'on_sidebar_popup',
     'on_cli',
     'on_exit'
     );

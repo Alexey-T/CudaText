@@ -114,6 +114,7 @@ begin
     Result:= AToolbar.AddButton(
       AImageIndex,
       @fmMain.DoToolbarClick,
+      nil,
       ACaption,
       AHint,
       ACommand,

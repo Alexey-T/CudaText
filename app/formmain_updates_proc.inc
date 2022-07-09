@@ -1289,27 +1289,27 @@ begin
   ToolbarMain.Images:= TImageList.Create(Self);
   ToolbarMain.Images.AllocBy:= 20;
 
-  ToolbarMain.AddButton(0, @DoToolbarClick, 'f_new', 'New file', IntToStr(cmd_FileNew), false);
+  ToolbarMain.AddButton(0, @DoToolbarClick, nil, 'f_new', 'New file', IntToStr(cmd_FileNew), false);
   ToolbarMain.AddDropdown(-1, nil, @DoFileNewMenu_ToolbarClick);
-  ToolbarMain.AddButton(1, @DoToolbarClick, 'f_open', 'Open file', IntToStr(cmd_FileOpen), false);
+  ToolbarMain.AddButton(1, @DoToolbarClick, nil, 'f_open', 'Open file', IntToStr(cmd_FileOpen), false);
   ToolbarMain.AddDropdown(-1, PopupRecents);
-  ToolbarMain.AddButton(2, @DoToolbarClick, 'f_save', 'Save file', IntToStr(cmd_FileSave), false);
+  ToolbarMain.AddButton(2, @DoToolbarClick, nil, 'f_save', 'Save file', IntToStr(cmd_FileSave), false);
   ToolbarMain.AddSep;
-  ToolbarMain.AddButton(3, @DoToolbarClick, 'e_cut', 'Cut', IntToStr(cCommand_ClipboardCut), false);
-  ToolbarMain.AddButton(4, @DoToolbarClick, 'e_copy', 'Copy', IntToStr(cCommand_ClipboardCopy), false);
-  ToolbarMain.AddButton(5, @DoToolbarClick, 'e_paste', 'Paste', IntToStr(cCommand_ClipboardPaste), false);
-  ToolbarMain.AddButton(6, @DoToolbarClick, 'e_undo', 'Undo', IntToStr(cCommand_Undo), false);
-  ToolbarMain.AddButton(7, @DoToolbarClick, 'e_redo', 'Redo', IntToStr(cCommand_Redo), false);
+  ToolbarMain.AddButton(3, @DoToolbarClick, nil, 'e_cut', 'Cut', IntToStr(cCommand_ClipboardCut), false);
+  ToolbarMain.AddButton(4, @DoToolbarClick, nil, 'e_copy', 'Copy', IntToStr(cCommand_ClipboardCopy), false);
+  ToolbarMain.AddButton(5, @DoToolbarClick, nil, 'e_paste', 'Paste', IntToStr(cCommand_ClipboardPaste), false);
+  ToolbarMain.AddButton(6, @DoToolbarClick, nil, 'e_undo', 'Undo', IntToStr(cCommand_Undo), false);
+  ToolbarMain.AddButton(7, @DoToolbarClick, nil, 'e_redo', 'Redo', IntToStr(cCommand_Redo), false);
   ToolbarMain.AddSep;
-  ToolbarMain.AddButton(8, @DoToolbarClick, 'unpri', 'Toggle unprinted chars', IntToStr(cCommand_ToggleUnprinted), false);
-  ToolbarMain.AddButton(9, @DoToolbarClick, 'map', 'Toggle minimap', IntToStr(cCommand_ToggleMinimap), false);
+  ToolbarMain.AddButton(8, @DoToolbarClick, nil, 'unpri', 'Toggle unprinted chars', IntToStr(cCommand_ToggleUnprinted), false);
+  ToolbarMain.AddButton(9, @DoToolbarClick, nil, 'map', 'Toggle minimap', IntToStr(cCommand_ToggleMinimap), false);
   ToolbarMain.AddSep;
-  ToolbarMain.AddButton(10, @DoToolbarClick, 'indent', 'Indent block', IntToStr(cCommand_TextIndent), false);
-  ToolbarMain.AddButton(11, @DoToolbarClick, 'unindent', 'Unindent block', IntToStr(cCommand_TextUnIndent), false);
+  ToolbarMain.AddButton(10, @DoToolbarClick, nil, 'indent', 'Indent block', IntToStr(cCommand_TextIndent), false);
+  ToolbarMain.AddButton(11, @DoToolbarClick, nil, 'unindent', 'Unindent block', IntToStr(cCommand_TextUnIndent), false);
 
   ToolbarMain.AddDropdown(12, PopupToolbarCase);
   ToolbarMain.AddDropdown(13, PopupToolbarComment);
-  ToolbarMain.AddButton(14, @DoToolbarClick, 'opt', 'Options Editor', 'module=cuda_prefs;cmd=dlg_cuda_options;', false);
+  ToolbarMain.AddButton(14, @DoToolbarClick, nil, 'opt', 'Options Editor', 'module=cuda_prefs;cmd=dlg_cuda_options;', false);
 end;
 
 
@@ -1444,9 +1444,9 @@ end;
 
 procedure TfmMain.InitSidebar;
 begin
-  ToolbarSideTop.AddButton(cSidebarIconMenu, @DoSidebar_MainMenuClick, msgPanelMenu_Init, msgPanelMenu_Init, '', false);
+  ToolbarSideTop.AddButton(cSidebarIconMenu, @DoSidebar_MainMenuClick, nil, msgPanelMenu_Init, msgPanelMenu_Init, '', false);
 
-  ToolbarSideMid.AddButton(cSidebarIconFind, @DoBottom_FindClick, msgPanelSearch_Init, msgPanelSearch_Init, '', false);
+  ToolbarSideMid.AddButton(cSidebarIconFind, @DoBottom_FindClick, nil, msgPanelSearch_Init, msgPanelSearch_Init, '', false);
   ToolbarSideMid.AddSep;
 
   AppPanels[cPaneSide].Add(msgPanelTree_Init, cSidebarIconTree, PtrInt(Pointer(PanelCodeTreeAll)), @DoSidebar_OnShowCodeTree);

@@ -160,3 +160,10 @@ begin
   UpdateEditorShowCaret;
 end;
 
+procedure TfmMain.DoSidebar_OnRightClick(const ACaption: string);
+begin
+  DoPyEvent(nil, cEventOnSidebarPopup, [
+    AppVariant(ACaption)
+    ]);
+end;
+

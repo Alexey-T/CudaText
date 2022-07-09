@@ -40,6 +40,7 @@ type
 type
   TAppPanelOnCommand = procedure(const ACallback: string) of object;
   TAppPanelOnGetTitle = function(const ACaption: string): string of object;
+  TAppPanelOnRightClick = procedure(const ACaption: string) of object;
 
 type
   { TAppPanelHost }
@@ -50,6 +51,7 @@ type
     FAlign: TAlign;
     FToolbarUpdateCount: integer;
     FToolbarUpdateTime: QWord;
+    FOnRightClick: TAppPanelOnRightClick;
     function GetFloating: boolean;
     function GetPanelSize: integer;
     function GetVisible: boolean;
@@ -58,6 +60,7 @@ type
     procedure SetPanelSize(AValue: integer);
     procedure SetVisible(AValue: boolean);
     procedure HandleButtonClick(Sender: TObject);
+    procedure HandleRightClick(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
     procedure UpdateTitle;
   public
     PanelGrouper: TCustomControl;
@@ -98,6 +101,7 @@ type
     procedure InitFormFloat;
     property ToolbarUpdateCount: integer read FToolbarUpdateCount;
     property ToolbarUpdateTime: QWord read FToolbarUpdateTime;
+    property OnRightClick: TAppPanelOnRightClick read FOnRightClick write FOnRightClick;
   end;
 
 var
@@ -377,7 +381,7 @@ begin
 
   if not bExist then
   begin
-    Toolbar.AddButton(AImageIndex, @HandleButtonClick, ACaption, ACaption, '', false);
+    Toolbar.AddButton(AImageIndex, @HandleButtonClick, @HandleRightClick, ACaption, ACaption, '', false);
     UpdateToolbarControls;
   end;
 
@@ -399,7 +403,12 @@ begin
   Panels.Add(Panel);
 
   //save module/method to Btn.DataString
-  Toolbar.AddButton(AImageIndex, @HandleButtonClick, ACaption, ACaption,
+  Toolbar.AddButton(
+    AImageIndex,
+    @HandleButtonClick,
+    @HandleRightClick,
+    ACaption,
+    ACaption,
     AModule+'.'+AMethod,
     false);
   UpdateToolbarControls;
@@ -556,6 +565,19 @@ begin
     OnCommand(Btn.DataString);
 
   UpdatePanels(SCaption, true, false);
+end;
+
+procedure TAppPanelHost.HandleRightClick(Sender: TObject; MousePos: TPoint;
+  var Handled: Boolean);
+var
+  Btn: TATButton;
+begin
+  if Assigned(FOnRightClick) then
+  begin
+    Btn:= Sender as TATButton;
+    FOnRightClick(Btn.Caption);
+    Handled:= true;
+  end;
 end;
 
 procedure TAppPanelHost.UpdateSplitter;
