@@ -79,9 +79,9 @@ function TfmMain.DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent;
 const
   cTheseEventsStoppedByTrue = [cEventOnComplete, cEventOnFuncHint{, cEventOnTabSwitch}];
   cTheseEventsNeedGroupingUndo = [cEventOnComplete, cEventOnSnippet];
-  cTheseEventsDontRequireFrame = [cEventOnSnippet, cEventOnDeleteFile];
+  cTheseEventsDontRequireFrame = [cEventOnSnippet, cEventOnDeleteFile, cEventOnSidebarPopup];
   cTheseEventsAlwaysLazy = [cEventOnExit];
-  cTheseEventsIgnoreCurrentLexer = [cEventOnLexer, cEventOnStart, cEventOnExit, cEventOnDeleteFile];
+  cTheseEventsIgnoreCurrentLexer = [cEventOnLexer, cEventOnStart, cEventOnExit, cEventOnDeleteFile, cEventOnSidebarPopup];
 var
   SCurLexer, KeyForFilter: string;
   bNeedGroup: boolean;
