@@ -8240,9 +8240,15 @@ begin
         EDACTION_UPDATE:
           begin
             Ed.Update(
-              AppStrToBool(StrText1),
-              true // fix https://github.com/CudaText-addons/cuda_testing_attr/issues/1
+              AppStrToBool(StrText1)
               );
+
+            // fix https://github.com/CudaText-addons/cuda_testing_attr/issues/1
+            // not sure we can call Ed.Repaint on Qt5/macOS
+            {$if defined(windows)}
+            Ed.Repaint;
+            {$endif}
+
             Result:= ReturnNone;
           end;
 
