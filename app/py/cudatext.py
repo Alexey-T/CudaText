@@ -1417,22 +1417,12 @@ class Editor:
             else:
                 return ','.join(map(str, x))
 
-        x              = f(x)
-        y              = f(y)
-        len            = f(len)
-        color_font     = f(color_font)
-        color_bg       = f(color_bg)
-        color_border   = f(color_border)
-        font_bold      = f(font_bold)
-        font_italic    = f(font_italic)
-        font_strikeout = f(font_strikeout)
-
         column = 1 if show_on_map is True else -1 if show_on_map is False else show_on_map
 
         return ct.ed_attr(self.h, id, tag,
-                          x, y, len,
-                          color_font, color_bg, color_border,
-                          font_bold, font_italic, font_strikeout,
+                          f(x), f(y), f(len),
+                          f(color_font), f(color_bg), f(color_border),
+                          f(font_bold), f(font_italic), f(font_strikeout),
                           border_left, border_right, border_down, border_up,
                           column, map_only
                           )
