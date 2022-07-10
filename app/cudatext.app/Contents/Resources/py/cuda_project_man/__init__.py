@@ -476,7 +476,7 @@ class Command:
             os.system('open "'+fn+'"')
         elif suffix=='__haiku':
             #Haiku
-            msg_status('TODO: implemenet "Open in default app" for Haiku')
+            msg_status('TODO: implement "Open in default app" for Haiku')
         else:
             #other Unixes
             os.system('xdg-open "'+fn+'"')
