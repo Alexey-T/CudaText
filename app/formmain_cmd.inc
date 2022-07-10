@@ -145,7 +145,7 @@ begin
     cmd_OpenFileInDefaultApp:
       begin
         if Ed.FileName<>'' then
-          OpenURL(Ed.FileName);
+          OpenDocument(Ed.FileName);
       end;
 
     cmd_ToggleFocusSplitEditors:
