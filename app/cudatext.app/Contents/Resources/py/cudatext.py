@@ -1411,52 +1411,23 @@ class Editor:
              show_on_map=False, map_only=0
              ):
 
-        if isinstance(x, int):
-            x = str(x)
-        else:
-            x = ','.join(map(str, x))
+        def f(x):
+            if isinstance(x, int):
+                return str(x)
+            else:
+                return ','.join(map(str, x))
 
-        if isinstance(y, int):
-            y = str(y)
-        else:
-            y = ','.join(map(str, y))
+        x              = f(x)
+        y              = f(y)
+        len            = f(len)
+        color_font     = f(color_font)
+        color_bg       = f(color_bg)
+        color_border   = f(color_border)
+        font_bold      = f(font_bold)
+        font_italic    = f(font_italic)
+        font_strikeout = f(font_strikeout)
 
-        if isinstance(len, int):
-            len = str(len)
-        else:
-            len = ','.join(map(str, len))
-
-        if isinstance(color_font, int):
-            color_font = str(color_font)
-        else:
-            color_font = ','.join(map(str, color_font))
-
-        if isinstance(color_bg, int):
-            color_bg = str(color_bg)
-        else:
-            color_bg = ','.join(map(str, color_bg))
-
-        if isinstance(color_border, int):
-            color_border = str(color_border)
-        else:
-            color_border = ','.join(map(str, color_border))
-
-        if isinstance(font_bold, int):
-            font_bold = str(font_bold)
-        else:
-            font_bold = ','.join(map(str, font_bold))
-
-        if isinstance(font_italic, int):
-            font_italic = str(font_italic)
-        else:
-            font_italic = ','.join(map(str, font_italic))
-
-        if isinstance(font_strikeout, int):
-            font_strikeout = ','.join(map(str, font_strikeout))
-        else:
-            font_strikeout = str(font_strikeout)
-
-        column = 1 if show_on_map is True else -1 if show_on_map==False else show_on_map
+        column = 1 if show_on_map is True else -1 if show_on_map is False else show_on_map
 
         return ct.ed_attr(self.h, id, tag,
                           x, y, len,
