@@ -595,7 +595,7 @@ begin
 
   Frame.DoSaveHistory(Ed);
 
-  if not Frame.InSession then
+  if (not Frame.InSession) or IsDefaultSessionActive then
     SAddStringToHistory(
       AppCollapseHomeDirInFilename(SFileName),
       AppListRecents,
