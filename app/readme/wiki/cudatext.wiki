@@ -80,6 +80,7 @@ Screenshot on Windows:
 * Can split single UI-tab, for single file or 2 different files (helps to work with Differ plugin)
 * Color themes are universal, ie they have not per-syntax settings
 * [[#Picture_file_viewer|Picture file viewer]] supports zooming of a picture
+* Dialog "Go To" gives more features
 * Option "caret_proximity_vert" to set minimal distance of caret to top/bottom edge
 * Option for "zebra" mode
 * Icons on UI-tabs, via "Tab Icons" plugin
