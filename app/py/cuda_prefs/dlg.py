@@ -1338,13 +1338,15 @@ class DialogMK2:
         pass;       LOG and print('APPLY_CHANGES')
 
         # check if current value in edit is changed, create option change if it is
-        try:
-            edit_val = self.val_eds.get_edited_value(self._cur_opt)
-        except ValueError:      # exception happens when trying to cast empty str to float|int
-            edit_val = None
-        if edit_val is not None:
-            # and  edit_val != '': # commented: see CudaText issue #3924
-            self.add_opt_change(self._cur_opt_name, self.scope, edit_val)
+        val_edit_changed = self.val_eds.val_edit.get_prop(PROP_LINE_STATE, 0) != LINESTATE_NORMAL
+        if val_edit_changed:
+            try:
+                edit_val = self.val_eds.get_edited_value(self._cur_opt)
+            except ValueError:      # exception happens when trying to cast empty str to float|int
+                edit_val = None
+            if edit_val is not None:
+                # and  edit_val != '': # commented: see CudaText issue #3924
+                self.add_opt_change(self._cur_opt_name, self.scope, edit_val)
 
         if not self._opt_changes  and  not closing:
             msg_status(_("No option changes has been made"))
