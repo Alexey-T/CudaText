@@ -2369,8 +2369,10 @@ begin
 end;
 
 procedure TfmMain.TimerStatusClearTimer(Sender: TObject);
+var
+  NOldColor: TColor;
 begin
-  DoStatusbarColorByTag(Status, StatusbarTag_Msg, GetAppColorOfStatusbarDimmed);
+  DoStatusbarColorByTag(Status, StatusbarTag_Msg, GetAppColorOfStatusbarDimmed, NOldColor);
   TimerStatusClear.Enabled:= false;
 end;
 
@@ -5387,6 +5389,7 @@ end;
 procedure TfmMain.MsgStatus(AText: string; AFinderMessage: boolean=false);
 var
   STime: string;
+  NOldColor, NOldColor2: TColor;
 begin
   SReplaceAll(AText, #10, ' ');
   SReplaceAll(AText, #13, ' ');
@@ -5407,8 +5410,9 @@ begin
     FLastStatusbarMessage:= AText;
 
     DoStatusbarTextByTag(Status, StatusbarTag_Msg, {STime+}GetStatusbarPrefix(CurrentFrame)+AText);
-    DoStatusbarColorByTag(Status, StatusbarTag_Msg, GetAppColorOfStatusbarFont);
+    DoStatusbarColorByTag(Status, StatusbarTag_Msg, GetAppColorOfStatusbarFont, NOldColor);
     DoStatusbarHintByTag(Status, StatusbarTag_Msg, AppStatusbarMessages.Text);
+    DoStatusbarColorByTag(Status, StatusbarTag_Msg, NOldColor, NOldColor2);
 
     TimerStatusClear.Enabled:= false;
     TimerStatusClear.Enabled:= true;
