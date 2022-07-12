@@ -3571,6 +3571,7 @@ initialization
 
   AppApiFlatTheme:= ATFlatTheme;
   AppListRecents:= TStringList.Create;
+  AppListRecents.TextLineBreakStyle:= tlbsLF; //for APP_FILE_RECENTS
   AppListTimers:= TStringList.Create;
 
   ATSynEdit_Commands.cCommand_GotoDefinition:= cmd_GotoDefinition;
