@@ -588,12 +588,12 @@ begin
 
   Frame:= TGroupsHelper.GetEditorFrame(Ed);
   if Frame=nil then exit;
-  //if Frame.FrameKind<>efkEditor then exit;
 
-  SFileName:= Ed.FileName;
+  SFileName:= Frame.FileName;
   if SFileName='' then exit;
 
-  Frame.DoSaveHistory(Ed);
+  if Frame.FrameKind=efkEditor then
+    Frame.DoSaveHistory(Ed);
 
   if (not Frame.InSession) or IsDefaultSessionActive then
     SAddStringToHistory(
