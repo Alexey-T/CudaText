@@ -1039,7 +1039,7 @@ procedure UpdateFormOnTop(F: TForm);
 
 procedure DoStatusbarTextByTag(AStatus: TATStatus; ATag: PtrInt; const AText: string);
 procedure DoStatusbarHintByTag(AStatus: TATStatus; ATag: PtrInt; const AText: string);
-procedure DoStatusbarColorByTag(AStatus: TATStatus; ATag: PtrInt; AColor: TColor; out AOldColor: TColor);
+procedure DoStatusbarColorByTag(AStatus: TATStatus; ATag: PtrInt; AColor: TColor);
 
 function IsFileTooBigForOpening(const AFilename: string): boolean;
 function IsFileTooBigForLexer(const AFilename: string): boolean;
@@ -2832,18 +2832,15 @@ begin
     AStatus.Hints[NIndex]:= AText;
 end;
 
-procedure DoStatusbarColorByTag(AStatus: TATStatus; ATag: PtrInt;
-  AColor: TColor; out AOldColor: TColor);
+procedure DoStatusbarColorByTag(AStatus: TATStatus; ATag: PtrInt; AColor: TColor);
 var
   NIndex: integer;
   Data: TATStatusData;
 begin
-  AOldColor:= clNone;
   NIndex:= AStatus.FindPanel(ATag);
   if NIndex>=0 then
   begin
     Data:= AStatus.GetPanelData(NIndex);
-    AOldColor:= Data.ColorFont;
     Data.ColorFont:= AColor;
     AStatus.Invalidate;
   end;
