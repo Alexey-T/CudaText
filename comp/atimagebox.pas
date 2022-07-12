@@ -763,12 +763,11 @@ var
   bAllowX, bAllowY: boolean;
   P: TPoint;
 begin
-  bAllowX:= FImage.Width>ClientWidth;
-  bAllowY:= FImage.Height>ClientHeight;
-  if not bAllowX and not bAllowY then exit;
-
   if FDrag and FDragging then
   begin
+    bAllowX:= FImage.Width>ClientWidth;
+    bAllowY:= FImage.Height>ClientHeight;
+
     if bAllowX then
       HorzScrollBar.Position:= HorzScrollBar.Position + (FDraggingPoint.X - X);
     if bAllowY then
