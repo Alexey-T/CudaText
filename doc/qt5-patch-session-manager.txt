@@ -1,0 +1,9 @@
+This API function should be commented, because
+only new Qt5Pas builds support it.
+On Ubuntu 20.4 in 2022/07, Qt5Pas does not support it, so final CudaText app won't run.
+
+1. lcl/interfaces/qt5/qt56.pas
+//procedure QGuiApplication_setFallbackSessionManagementEnabled(AEnabled: boolean); cdecl; external Qt5PasLib name 'QGuiApplication_setFallbackSessionManagementEnabled';
+
+2. lcl/interfaces/qt5/qtobject.inc
+  //QGuiApplication_setFallbackSessionManagementEnabled(False);
