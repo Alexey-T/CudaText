@@ -1338,7 +1338,8 @@ class DialogMK2:
         pass;       LOG and print('APPLY_CHANGES')
 
         # check if current value in edit is changed, create option change if it is
-        val_edit_changed = self.val_eds.val_edit.get_prop(PROP_LINE_STATE, 0) != LINESTATE_NORMAL
+        val_edit_changed = (self.val_eds.val_edit is None) or \
+                           (self.val_eds.val_edit.get_prop(PROP_LINE_STATE, 0) != LINESTATE_NORMAL)
         if val_edit_changed:
             try:
                 edit_val = self.val_eds.get_edited_value(self._cur_opt)
