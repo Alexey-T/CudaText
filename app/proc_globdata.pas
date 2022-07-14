@@ -1944,7 +1944,8 @@ begin
     AllowSaveOfUnmodifiedFile:= true;
 
     PluginDialogsShowInTaskbar:= {$ifdef windows} false {$else} true {$endif}; //to fix issue #3078 on Linux
-    PluginDialogsModalFormStyle:= {$ifdef LCLQT5} fsNormal {$else} fsStayOnTop {$endif};
+    PluginDialogsModalFormStyle:= fsStayOnTop; //issue #4221, before it was: {$ifdef LCLQT5} fsNormal {$else} fsStayOnTop {$endif};
+
     FloatGroupsShowInTaskbar:= stAlways;
     OneInstance:= true;
     NotificationEnabled:= true;
