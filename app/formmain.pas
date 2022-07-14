@@ -696,7 +696,6 @@ type
     FPyCompletionProps: TAppCompletionApiProps;
     FNeedAutoComplete: boolean;
     FNeedUpdateStatuses: boolean;
-    FNeedUpdateCaption: boolean;
     FNeedUpdateMenuChecks: boolean;
     FNeedAppState_SubCommands: boolean;
     FNeedAppState_MenuAdd: boolean;
@@ -2296,12 +2295,6 @@ begin
     UpdateMenuChecks_FrameSplit(Frame);
     UpdateMenuChecks_Global;
     UpdateStatusbar_RealWork;
-  end;
-
-  if FNeedUpdateCaption then
-  begin
-    FNeedUpdateCaption:= false;
-    UpdateCaption_RealWork;
   end;
 
   if FNeedUpdateMenuChecks then

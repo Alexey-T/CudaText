@@ -9,7 +9,11 @@ Copyright (c) Alexey Torgashin
 
 procedure TfmMain.UpdateCaption;
 begin
-  FNeedUpdateCaption:= true;
+  // before, we only set FNeedUpdateCaption to True, so TimerAppIdle
+  // did the work. now, we update caption immediately.
+  //FNeedUpdateCaption:= true;
+
+  UpdateCaption_RealWork;
 end;
 
 procedure TfmMain.UpdateCaption_RealWork;
