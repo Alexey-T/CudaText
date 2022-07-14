@@ -33,6 +33,7 @@ type
     procedure Expand(Node: TTreeNode); override;
     procedure CMChanged(var Message: TLMessage); message CM_CHANGED;
     function DoMouseWheel(Shift: TShiftState; WheelDelta: Integer; MousePos: TPoint): Boolean; override;
+    procedure DoContextPopup(MousePos: TPoint; var Handled: Boolean); override;
   protected
     procedure DoEnter; override;
     procedure DoExit; override;
@@ -201,6 +202,13 @@ function TAppTreeView.DoMouseWheel(Shift: TShiftState; WheelDelta: Integer;
 begin
   Result:= inherited;
   UpdateBars;
+end;
+
+procedure TAppTreeView.DoContextPopup(MousePos: TPoint; var Handled: Boolean);
+begin
+  if not IsEnabled then exit; //prevent popup menu if form is disabled, needed for dlg_proc API on Qt5, when "always on top" is on
+
+  inherited DoContextPopup(MousePos, Handled);
 end;
 
 procedure TAppTreeView.DoEnter;
