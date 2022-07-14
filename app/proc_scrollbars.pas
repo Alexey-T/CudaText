@@ -206,7 +206,7 @@ end;
 
 procedure TAppTreeView.DoContextPopup(MousePos: TPoint; var Handled: Boolean);
 begin
-  if not IsEnabled then exit; //prevent popup menu if form is disabled, needed for dlg_proc API on Qt5, when "always on top" is on
+  if not IsEnabled then exit; //prevent popup menu if form is disabled, needed for plugins dlg_proc API on Qt5
 
   inherited DoContextPopup(MousePos, Handled);
 end;
