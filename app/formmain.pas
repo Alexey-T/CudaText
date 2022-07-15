@@ -713,6 +713,7 @@ type
     FLastTooltipLine: integer;
     FLastAppActivate: QWord;
     FLastSaveSessionTick: QWord;
+    FFormActivateAlreadyCalled: boolean;
     FNeedToMaximize: boolean;
     FDisableTreeClearing: boolean;
     FInvalidateShortcuts: boolean;
@@ -2849,6 +2850,7 @@ end;
 procedure TfmMain.FormActivate(Sender: TObject);
 begin
   AppActiveForm:= Sender;
+  FFormActivateAlreadyCalled:= true;
 
   if FNeedToMaximize then
   begin
@@ -3365,6 +3367,12 @@ begin
   _Init_KeymapMain;
   _Init_KeymapNoneForEmpty;
   _Init_StartupSession;
+
+  {$ifdef windows}
+  //fix issue 'form is not maximized initially, with 2+ groups'
+  if FFormActivateAlreadyCalled then
+    FormActivate(Self);
+  {$endif}
 
   //after on_start, ConfigToolbar is slow with visible toolbar
   DoApplyUiOps;
