@@ -1526,7 +1526,7 @@ begin
     if UiOps.LogConsoleDetailedStartupTime then
     begin
       NTick2:= GetTickCount64-NTick2;
-      MsgLogConsole(Format('Loaded lexer config "%s": %dms', [ExtractFileName(AFileName), NTick2]));
+      MsgLogConsole(Format('Loaded lexer config "%s": %dms', [ExtractFileName(ExtractFileDir(AFileName))+DirectorySeparator+ExtractFileName(AFileName), NTick2]));
     end;
 
     //don't show if we only load lexer-specific config
