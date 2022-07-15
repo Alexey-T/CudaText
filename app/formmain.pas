@@ -713,6 +713,7 @@ type
     FLastTooltipLine: integer;
     FLastAppActivate: QWord;
     FLastSaveSessionTick: QWord;
+    FLastLoadedConfig: string;
     FFormActivateAlreadyCalled: boolean;
     FNeedToMaximize: boolean;
     FDisableTreeClearing: boolean;
@@ -2772,6 +2773,7 @@ begin
     FOption_AllowSessionSave,
     FOption_StartupCommand,
     FCmdlineFileCount);
+  FLastLoadedConfig:= 'user';
   DoOps_LoadOptions(AppFile_OptionsUser, EditorOps, true); //before LoadHistory
   DoFileOpen('', '', nil); //before LoadHistory
 

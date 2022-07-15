@@ -924,6 +924,7 @@ begin
 
   if FileExists(fn) then
   try
+    FLastLoadedConfig:= fn;
     DoOps_LoadOptions(fn, EditorOps, true);
     DoApplyAllOps;
   finally
@@ -1548,10 +1549,15 @@ var
   FilenameDefault, FilenameUser, CurLexer: string;
   bExistsDefault, bExistsUser: boolean;
   TempOps: TATEditorTempOptions;
+  SNewLoadedConfig: string;
 begin
   if F=nil then exit;
 
   CurLexer:= F.LexerName[Ed];
+  SNewLoadedConfig:= 'lexer:'+CurLexer;
+  if FLastLoadedConfig=SNewLoadedConfig then exit; //fix issue #4225
+  FLastLoadedConfig:= SNewLoadedConfig;
+
   FilenameDefault:= AppFile_LexerSpecificConfig(CurLexer, true);
   FilenameUser:= AppFile_LexerSpecificConfig(CurLexer, false);
 
@@ -1686,6 +1692,7 @@ var
   bDisFree: boolean;
 begin
   bDisFree:= ShowDistractionFree;
+  FLastLoadedConfig:= 'user';
   DoOps_LoadOptions(AppFile_OptionsUser, EditorOps, true);
   DoApplyAllOps;
 
