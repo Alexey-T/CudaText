@@ -11,8 +11,8 @@
 + add: wiki topic https://wiki.freepascal.org/CudaText#Disadvantages_compared_to_Sublime_Text_.2F_VSCode
 + add: list "File / Open recent" stores also pictures/binaries
 - fix: on Windows, startup with 2+ groups did not restore "maximized" state (thanks @veksha)
+- fix: on Windows, picture viewer: dragging of small picture was not disabled
 - fix: on tab switching, window caption must be updated without pause (thanks @charliewales)
-- fix: picture viewer: dragging of picture was buggy on Windows
 - fix: file must appear in "File / Open recent" if default-session is active (thanks @veksha, @DUOLabs333)
 - fix: couple of issues with Up/Down/PageUp/PageDown with "caret_after_end" on/off (thanks @veksha)
 - fix: 'floating' panels feature is now disabled in GTK2 version, because of the IDE (or GTK2) bug (thanks @veksha)
