@@ -3358,7 +3358,7 @@ begin
   _Init_KeymapMain;
   _Init_KeymapNoneForEmpty;
   _Init_StartupSession;
-  _Init_WindowMaximized;
+  _Init_WindowMaximized; //after StartupSession to fix #4219
 
   //after on_start, ConfigToolbar is slow with visible toolbar
   DoApplyUiOps;
