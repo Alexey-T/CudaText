@@ -36,6 +36,7 @@ Screenshot on Windows:
 ** Go to code-tree symbol, ...
 * CudaText lexers are "simple": they don't parse text as deeply as ST/VSCode; so you need the LSP plugin if you need IntelliSense features.
 * CudaText key bindings are simpler: commands don't have "arguments" and cannot be set per-project (but can be set per-lexer).
+* CudaText plugins API doesn't support async events
 
 =Advantages over Sublime Text 3=
 
