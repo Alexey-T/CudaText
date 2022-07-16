@@ -714,7 +714,6 @@ type
     FLastAppActivate: QWord;
     FLastSaveSessionTick: QWord;
     FLastLoadedConfig: string;
-    FFormActivateAlreadyCalled: boolean;
     FNeedToMaximize: boolean;
     FDisableTreeClearing: boolean;
     FInvalidateShortcuts: boolean;
@@ -2852,13 +2851,6 @@ end;
 procedure TfmMain.FormActivate(Sender: TObject);
 begin
   AppActiveForm:= Sender;
-  FFormActivateAlreadyCalled:= true;
-
-  if FNeedToMaximize then
-  begin
-    FNeedToMaximize:= false;
-    WindowState:= wsMaximized;
-  end;
 end;
 
 procedure TfmMain.FormChangeBounds(Sender: TObject);
@@ -3252,6 +3244,15 @@ procedure TfmMain.FormShow(Sender: TObject);
     end;
   end;
   //
+  procedure _Init_WindowMaximized_Apply;
+  begin
+    if FNeedToMaximize then
+    begin
+      FNeedToMaximize:= false;
+      WindowState:= wsMaximized;
+    end;
+  end;
+  //
   procedure _Init_ApiOnStart;
   begin
     DoPyEvent(nil, cEventOnStart, []);
@@ -3352,9 +3353,6 @@ begin
   if FHandledOnShowPartly then exit;
 
   DoApplyInitialGroupSizes; //before FormLock to solve bad group-splitters pos, issue #3067
-    //on Windows, change of Groups.Mode calls also DoOnTabFocus, which calls FormActivate,
-    //which is too early, so we need to call FormActivate again lower
-
   FormLock(Self);
 
   _Init_WindowMaximized;
@@ -3372,12 +3370,7 @@ begin
   _Init_KeymapMain;
   _Init_KeymapNoneForEmpty;
   _Init_StartupSession;
-
-  {$ifdef windows}
-  //fix issue 'form is not maximized initially, with 2+ groups'
-  if FFormActivateAlreadyCalled then
-    FormActivate(Self);
-  {$endif}
+  _Init_WindowMaximized_Apply;
 
   //after on_start, ConfigToolbar is slow with visible toolbar
   DoApplyUiOps;
