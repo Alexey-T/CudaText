@@ -3352,6 +3352,9 @@ begin
   if FHandledOnShowPartly then exit;
 
   DoApplyInitialGroupSizes; //before FormLock to solve bad group-splitters pos, issue #3067
+    //on Windows, change of Groups.Mode calls also DoOnTabFocus, which calls FormActivate,
+    //which is too early, so we need to call FormActivate again lower
+
   FormLock(Self);
 
   _Init_WindowMaximized;
