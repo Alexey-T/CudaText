@@ -714,7 +714,6 @@ type
     FLastAppActivate: QWord;
     FLastSaveSessionTick: QWord;
     FLastLoadedConfig: string;
-    FNeedToMaximize: boolean;
     FDisableTreeClearing: boolean;
     FInvalidateShortcuts: boolean;
     FInvalidateShortcutsForce: boolean;
@@ -3240,15 +3239,6 @@ procedure TfmMain.FormShow(Sender: TObject);
       FLastMaximized:= false;
       if (FLastMaximizedMonitor>=0) and (FLastMaximizedMonitor<Screen.MonitorCount) then
         BoundsRect:= Screen.Monitors[FLastMaximizedMonitor].BoundsRect;
-      FNeedToMaximize:= true;
-    end;
-  end;
-  //
-  procedure _Init_WindowMaximized_Apply;
-  begin
-    if FNeedToMaximize then
-    begin
-      FNeedToMaximize:= false;
       WindowState:= wsMaximized;
     end;
   end;
@@ -3355,8 +3345,6 @@ begin
   DoApplyInitialGroupSizes; //before FormLock to solve bad group-splitters pos, issue #3067
   FormLock(Self);
 
-  _Init_WindowMaximized;
-
   DoApplyFont_Text;
   DoApplyFont_Ui;
   DoApplyFont_Output;
@@ -3370,7 +3358,7 @@ begin
   _Init_KeymapMain;
   _Init_KeymapNoneForEmpty;
   _Init_StartupSession;
-  _Init_WindowMaximized_Apply;
+  _Init_WindowMaximized;
 
   //after on_start, ConfigToolbar is slow with visible toolbar
   DoApplyUiOps;
