@@ -10,7 +10,8 @@
 + add: wiki topic https://wiki.freepascal.org/CudaText#Advantages_over_Visual_Studio_Code
 + add: wiki topic https://wiki.freepascal.org/CudaText#Disadvantages_compared_to_Sublime_Text_.2F_VSCode
 + add: list "File / Open recent" stores also pictures/binaries
-- fix: plugin Git Status was very-very slow when it placed gutter marks on 10k+ lines
+- fix: command "Inverse bookmarks" was very-very slow in 100k+ lines documents
+- fix: plugin Git Status was very-very slow if document git-changes had 10k+ lines
 - fix: on Windows, startup with 2+ groups did not restore "maximized" state (thanks @veksha)
 - fix: on Windows, picture viewer: dragging of small picture was not disabled
 - fix: on tab switching, window caption must be updated without pause (thanks @charliewales)
