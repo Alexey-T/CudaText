@@ -11,6 +11,7 @@
 + add: wiki topic https://wiki.freepascal.org/CudaText#Disadvantages_compared_to_Sublime_Text_.2F_VSCode
 + add: list "File / Open recent" stores also pictures/binaries
 + add: TRegExpr engine updated it's unicode "uppercase/lowercase tables" (by @AmigoJack)
+- fix: during mass replacement, pair-bracket-finder must not activate
 - fix: command "Inverse bookmarks" was very-very slow in 100k+ lines documents
 - fix: plugin Git Status was very-very slow if document git-changes had 10k+ lines
 - fix: on Windows, startup with 2+ groups did not restore "maximized" state (thanks @veksha)
