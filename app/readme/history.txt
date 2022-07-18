@@ -12,10 +12,10 @@
 + add: list "File / Open recent" stores also pictures/binaries
 + add: TRegExpr engine: update "uppercase/lowercase tables" for some unicode ranges (by @AmigoJack)
 
-- fix/optimization: rendering with 100k+ 'markers' was very slow
-- fix/optimization: during mass replacement, pair-bracket-finder must not activate
+- fix/optimization: rendering with 'markers' on 100k+ lines was very slow
 - fix/optimization: command "Inverse bookmarks" was very-very slow in 100k+ lines documents
 - fix/optimization: plugin Git Status was very-very slow if Git changes had 10k+ lines
+- fix/optimization: during mass replacement, pair-bracket-finder must not activate
 
 - fix: sometimes, 'markers' were painted with artifact lines
 - fix: on Windows, startup with 2+ groups did not restore "maximized" state (thanks @veksha)
