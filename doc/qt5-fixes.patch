@@ -1,0 +1,39 @@
+diff --git a/lcl/interfaces/qt5/qt56.pas b/lcl/interfaces/qt5/qt56.pas
+index c4ffcb0418..f23274366a 100644
+--- a/lcl/interfaces/qt5/qt56.pas
++++ b/lcl/interfaces/qt5/qt56.pas
+@@ -5541,7 +5541,7 @@ procedure QGuiApplication_sessionId(handle: QGuiApplicationH; retval: PWideStrin
+ procedure QGuiApplication_sessionKey(handle: QGuiApplicationH; retval: PWideString); cdecl; external Qt5PasLib name 'QGuiApplication_sessionKey';
+ function QGuiApplication_isSavingSession(handle: QGuiApplicationH): Boolean; cdecl; external Qt5PasLib name 'QGuiApplication_isSavingSession';
+ function QGuiApplication_isFallbackSessionManagementEnabled(): Boolean; cdecl; external Qt5PasLib name 'QGuiApplication_isFallbackSessionManagementEnabled';
+-procedure QGuiApplication_setFallbackSessionManagementEnabled(AEnabled: boolean); cdecl; external Qt5PasLib name 'QGuiApplication_setFallbackSessionManagementEnabled';
++//procedure QGuiApplication_setFallbackSessionManagementEnabled(AEnabled: boolean); cdecl; external Qt5PasLib name 'QGuiApplication_setFallbackSessionManagementEnabled';
+ 
+ 
+ type
+diff --git a/lcl/interfaces/qt5/qtobject.inc b/lcl/interfaces/qt5/qtobject.inc
+index 6c25e96674..ca63d848c6 100644
+--- a/lcl/interfaces/qt5/qtobject.inc
++++ b/lcl/interfaces/qt5/qtobject.inc
+@@ -40,7 +40,7 @@ begin
+     App := QApplication_Create(@argc, argv);
+   end;
+   QCoreApplication_setAttribute(QtAA_DontCreateNativeWidgetSiblings, True);
+-  QGuiApplication_setFallbackSessionManagementEnabled(False);
++  //QGuiApplication_setFallbackSessionManagementEnabled(False); //Alexey T.
+   {$IFDEF QtUseNativeEventLoop}
+   FMainTimerID := -1;
+   {$ENDIF}
+diff --git a/lcl/interfaces/qt5/qtwsforms.pp b/lcl/interfaces/qt5/qtwsforms.pp
+index 0748434656..aa58651da2 100644
+--- a/lcl/interfaces/qt5/qtwsforms.pp
++++ b/lcl/interfaces/qt5/qtwsforms.pp
+@@ -234,7 +234,7 @@ begin
+       QtMainWindow.setRealPopupParent(TQtWidget(APopupParent.Handle).Widget);
+   end;
+ 
+-  {$IFDEF HASX11}
++  {$IFDEF HASX11_xxx}
+   if QtMainWindow.IsMainForm and not Application.HasOption('disableaccurateframe') then
+   begin
+     (*
