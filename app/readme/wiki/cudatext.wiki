@@ -40,29 +40,29 @@ Screenshot on Windows:
 
 =Advantages over Sublime Text 3=
 
-* Open source, more operating systems
+* Open source, more operating systems are supported
 * The Python API is easier to use
 * The Python API allows management of dialogs and UI-controls, including the CudaText editor control
 * Code-Tree for most of lexers (ST has only plugin for very limited set of languages)
-* Powerful EControl lexer format, and easier to configure (GUI in external program)
+* Powerful EControl lexer format, and it's easier to create/edit lexers (GUI in external program)
 * Floating (separate window) mode of side panel and bottom panel
 * Floating (separate window) groups of UI-tabs (in addition to normal 6 groups)
 * [[#Toolbar|Toolbar]], configurable via plugin 
 * [[#Configurable_statusbar|Configurable statusbar]]
 * Horizontal ruler above text
 * [[#Micromap|Micromap]]
-* [[#Markers|Markers in editor]]
+* [[#Markers|Markers]] in editor
 * [[#Sessions|Sessions system]] 
-* Caret position after end of line
+* Caret position after end-of-line
 * Better support for encodings, including UTF-32
 * Better support national keyboards on Linux
 * Correctly saves binary files
 * API for inter-line gaps, helping to several plugins (Differ, Insert Pics, Embedded Editor)
-* [[#File_viewer|Viewer for files of unlimited size]]
+* [[#File_viewer|Viewer]] for files of unlimited size
 * [[#Program_performance|Program performance]]
 * [[#Hex_display_of_special_chars|Hex display of special chars]]
-* [[#Tabs_features|Colored UI tabs]]
-* Plugin "Options Editor" to configure CudaText via GUI
+* [[#Tabs_features|UI-tabs features]]: colored tabs, icons (Tab Icons plugin), tabs on the left/right
+* Plugin "Options Editor" to configure CudaText via simple GUI
 * [[#Char_map|Character Map dialog]]
 * UI can be scaled by option (up to 500%)
 * Single-instance mode is supported on all OS'es
@@ -84,7 +84,6 @@ Screenshot on Windows:
 * [[#Dialog "Go to"|Dialog "Go to"]] gives more features
 * Option "caret_proximity_vert" to set minimal distance of caret to top/bottom edge
 * Option for "zebra" mode
-* Icons on UI-tabs, via "Tab Icons" plugin
 * Windows version can use different Python engine (packages in add-ons)
 * Add-ons do not disappear due to GitHub repository deletions
 
