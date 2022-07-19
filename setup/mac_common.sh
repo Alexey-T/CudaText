@@ -2,7 +2,7 @@
 . ./cuda_ver.sh
 
 arch=$1
-SIZE_MB=24
+SIZE_MB=30
 TMP=~/cudatext_tmp
 IMG=~/cudatext_build/cudatext-macos-cocoa-$arch-$cuda_ver.dmg
 
