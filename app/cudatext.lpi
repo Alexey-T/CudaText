@@ -28,7 +28,7 @@
       <MinorVersionNr Value="167"/>
       <StringTable CompanyName="UVviewsoft" FileDescription="CudaText" InternalName="CudaText" LegalCopyright="(c) 2015-2022 Alexey Torgashin" OriginalFilename="cudatext.exe" ProductName="CudaText"/>
     </VersionInfo>
-    <BuildModes Count="26">
+    <BuildModes Count="27">
       <Item1 Name="default" Default="True"/>
       <Item2 Name="default x64">
         <CompilerOptions>
@@ -1041,10 +1041,53 @@
           </Other>
         </CompilerOptions>
       </Item26>
-      <SharedMatrixOptions Count="3">
+      <Item27 Name="linux x64 gtk3">
+        <MacroValues Count="1">
+          <Macro4 Name="LCLWidgetType" Value="gtk3"/>
+        </MacroValues>
+        <CompilerOptions>
+          <Version Value="11"/>
+          <PathDelim Value="\"/>
+          <Target>
+            <Filename Value="builds\linux-x64-gtk3\cudatext"/>
+          </Target>
+          <SearchPaths>
+            <IncludeFiles Value="$(ProjOutDir)"/>
+            <OtherUnitFiles Value="..\comp"/>
+            <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
+          </SearchPaths>
+          <Parsing>
+            <SyntaxOptions>
+              <IncludeAssertionCode Value="True"/>
+            </SyntaxOptions>
+          </Parsing>
+          <CodeGeneration>
+            <SmartLinkUnit Value="True"/>
+            <TargetCPU Value="x86_64"/>
+            <TargetOS Value="linux"/>
+          </CodeGeneration>
+          <Linking>
+            <Debugging>
+              <DebugInfoType Value="dsDwarf2Set"/>
+              <UseExternalDbgSyms Value="True"/>
+            </Debugging>
+            <LinkSmart Value="True"/>
+            <Options>
+              <Win32>
+                <GraphicApplication Value="True"/>
+              </Win32>
+            </Options>
+          </Linking>
+          <Other>
+            <CustomOptions Value="-dcomplete_at_scroll"/>
+          </Other>
+        </CompilerOptions>
+      </Item27>
+      <SharedMatrixOptions Count="4">
         <Item1 ID="308953563203" Modes="macos x64,macos aarch64" Type="IDEMacro" MacroName="LCLWidgetType" Value="cocoa"/>
         <Item2 ID="619430612971" Modes="linux x64 qt5,linux x32 qt5,haiku x32 qt5,haiku x64 qt5,linux aarch64 qt5,linux arm qt5" Type="IDEMacro" MacroName="LCLWidgetType" Value="qt5"/>
         <Item3 ID="028184365614" Type="IDEMacro" MacroName="LCLWidgetType" Value="gtk3"/>
+        <Item4 ID="437609795672" Modes="linux x64 gtk3" Type="IDEMacro" MacroName="LCLWidgetType" Value="gtk3"/>
       </SharedMatrixOptions>
     </BuildModes>
     <PublishOptions>
