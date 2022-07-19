@@ -3,10 +3,11 @@
   - fixed
   * changed
 
-1.167.1 (2022/07)
+1.167.2 (2022/07)
 
 + add: use translated button captions in message-boxes, both internal and API (thanks @hexaae)
-+ add: option "renderer_tweaks" (on Windows) supports new sub-option "l" (thanks @veksha)
++ add: option "renderer_tweaks" has new sub-option "l" (thanks @veksha)
+- fix: Linux: sometimes, "minimap_scale":0 makes minimap empty (thanks @veksha)
 - fix: lexers XML/XML^: highlight quoted-string only after '=' (thanks @veksha)
 
 1.167.0 (2022/07)
