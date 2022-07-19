@@ -281,7 +281,7 @@ object SyntAnal20: TLibSyntAnalyzer
       StyleName = 'Tag param'
       BlockName = 'Tag begin'
       TokenType = 2
-      Expression = '[^>=\?\s/\[\]]+'
+      Expression = '[^>=\?\s/\[\]"'#39']+'
       ColumnFrom = 0
       ColumnTo = 0
     end
