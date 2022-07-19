@@ -3,6 +3,9 @@
   - fixed
   * changed
 
+1.167.1 (2022/07)
+
++ add: use translated button captions in message-boxes, both internal and API (thanks @hexaae)
 - fix: lexers XML/XML^: highlight quoted-string only after '=' (thanks @veksha)
 
 1.167.0 (2022/07)
