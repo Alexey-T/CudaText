@@ -714,7 +714,7 @@ function AppSessionName_ForHistoryFile: string;
 function IsDefaultSession(const S: string): boolean;
 function IsDefaultSessionActive: boolean;
 
-function MsgBox(const Str: string; Flags: Longint): integer;
+function MsgBox(const AText: string; AFlags: Longint): integer;
 procedure MsgBadConfig(const fn, msg: string);
 procedure MsgStdout(const Str: string; AllowMsgBox: boolean = false);
 procedure MsgLogConsole(const AText: string);
@@ -1080,9 +1080,83 @@ uses
   proc_colors,
   proc_lexer_styles;
 
-function MsgBox(const Str: string; Flags: Longint): integer;
+function MsgBox(const AText: string; AFlags: Longint): integer;
+var
+  Typ: TMsgDlgType;
+  Res: TModalResult;
 begin
-  Result:= Application.MessageBox(PChar(Str), PChar(msgTitle), Flags);
+  ////this is not used, to translate button captions:
+  //Result:= Application.MessageBox(PChar(AText), PChar(msgTitle), AFlags);
+
+  case AFlags and $F0 of
+    MB_ICONERROR:
+      Typ:= mtError;
+    MB_ICONWARNING:
+      Typ:= mtWarning;
+    MB_ICONINFORMATION:
+      Typ:= mtInformation;
+    MB_ICONQUESTION:
+      Typ:= mtConfirmation
+    else
+      Typ:= mtInformation;
+  end;
+
+  case AFlags and $0F of
+    MB_OK:
+      Res:= QuestionDlg(msgTitle, AText, Typ,
+            [mrOk, msgButtonOk],
+            0);
+    MB_OKCANCEL:
+      Res:= QuestionDlg(msgTitle, AText, Typ,
+            [mrOk, msgButtonOk,
+            mrCancel, msgButtonCancel],
+            0);
+    MB_ABORTRETRYIGNORE:
+      Res:= QuestionDlg(msgTitle, AText, Typ,
+            [mrAbort, msgButtonAbort,
+            mrRetry, msgButtonRetry,
+            mrIgnore, msgButtonIgnore],
+            0);
+    MB_YESNO:
+      Res:= QuestionDlg(msgTitle, AText, Typ,
+            [mrYes, msgButtonYes,
+            mrNo, msgButtonNo],
+            0);
+    MB_YESNOCANCEL:
+      Res:= QuestionDlg(msgTitle, AText, Typ,
+            [mrYes, msgButtonYes,
+            mrNo, msgButtonNo,
+            mrCancel, msgButtonCancel],
+            0);
+    MB_RETRYCANCEL:
+      Res:= QuestionDlg(msgTitle, AText, Typ,
+            [mrRetry, msgButtonRetry,
+            mrCancel, msgButtonCancel],
+            0);
+    else
+      exit(ID_CANCEL);
+  end;
+
+  case Res of
+    mrOK:
+      Result:= ID_OK;
+    mrCancel:
+      Result:= ID_CANCEL;
+    mrYes:
+      Result:= ID_YES;
+    mrNo:
+      Result:= ID_NO;
+    mrAbort:
+      Result:= ID_ABORT;
+    mrRetry:
+      Result:= ID_RETRY;
+    mrIgnore:
+      Result:= ID_IGNORE;
+    mrClose:
+      Result:= ID_CLOSE;
+    else
+      Result:= ID_CANCEL;
+  end;
 end;
 
 procedure MsgBadConfig(const fn, msg: string);
