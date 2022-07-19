@@ -948,7 +948,7 @@ begin
   ATEditorScalePercents:= cfg.GetValue('ui_scale'+cOptionSystemSuffix, 0);
   ATEditorScaleFontPercents:= cfg.GetValue('ui_scale_font'+cOptionSystemSuffix, 100);
   if ATEditorScalePercents=0 then
-    ATEditorScalePercents:= 100*Screen.PixelsPerInch div 96;
+    ATEditorScalePercents:= Max(100, 100*Screen.PixelsPerInch div 96);
 
   ATEditorOptions.FlickerReducingPause:= cfg.GetValue('renderer_anti_flicker'+cOptionSystemSuffix, ATEditorOptions.FlickerReducingPause);
   ATEditorOptions.CharSizeProportional:= cfg.GetValue('unicode_proportional', ATEditorOptions.CharSizeProportional);
