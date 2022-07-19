@@ -1,4 +1,4 @@
-object SyntAnal22: TLibSyntAnalyzer
+object SyntAnal20: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Comment'
@@ -241,7 +241,7 @@ object SyntAnal22: TLibSyntAnalyzer
       DisplayName = 'Tag value'
       StyleName = 'Tag val'
       TokenType = 4
-      Expression = '("|'#39').*?(\1|$)'
+      Expression = '(?<=\=\x20*)("|'#39').*?(\1|$)'
       ColumnFrom = 0
       ColumnTo = 0
     end
