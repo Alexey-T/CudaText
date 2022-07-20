@@ -8,9 +8,9 @@
 + add: use translated button captions in message-boxes, both internal and API (thanks @hexaae)
 + add: option "renderer_tweaks" has new sub-option "l" (thanks @veksha)
 - fix: click on the folded-block-rectangle hides caret (thanks @veksha)
-- fix: Linux: sometimes, "minimap_scale":0 makes minimap empty (thanks @veksha)
-- fix: lexers XML/XML^: highlight quoted string only after '=' (thanks @veksha)
 - fix: in e.g. Python lexer, new typed text may be 'catched' by the upper _folded_ block (thanks @veksha)
+- fix: on some Linux systems, with dots_per_inch=91, minimap is empty (thanks @veksha)
+- fix: lexers XML/XML^: highlight quoted string only after '=' (thanks @veksha)
 
 1.167.0 (2022/07)
 
