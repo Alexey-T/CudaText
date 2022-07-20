@@ -3673,6 +3673,7 @@ begin
       begin
         DoApplyLexerStylesMap(An, AnIncorrect);
 
+        {
         //update Markdown code-blocks
         if AndApplyTheme then
         begin
@@ -3687,6 +3688,7 @@ begin
             end;
           end;
         end;
+        }
       end;
     end;
 
