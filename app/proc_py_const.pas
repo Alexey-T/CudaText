@@ -250,6 +250,7 @@ const
   PROP_FONT_B                    = 123;
   PROP_FONT_I                    = 124;
   PROP_FONT_BI                   = 125;
+  PROP_WHEEL_ZOOMS      = 126;
   PROP_RECT_GUTTER      = 130;
   PROP_RECT_GUTTER_NUMS = 131;
   PROP_RECT_GUTTER_FOLD = 132;

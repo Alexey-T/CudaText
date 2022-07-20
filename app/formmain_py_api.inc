@@ -3774,6 +3774,9 @@ begin
         PROP_FONT_BI:
           Result:= PyHelper_GetFontProps(Ed.FontBoldItalic);
 
+        PROP_WHEEL_ZOOMS:
+          Result:= PyBool_FromLong(Ord(Ed.OptMouseWheelZooms));
+
         PROP_MASKCHAR:
           Result:= PyUnicodeFromString(Ed.OptMaskChar);
         PROP_MASKCHAR_USED:
@@ -4389,6 +4392,9 @@ begin
           EditorSetFont(Ed.FontItalic, Str);
         PROP_FONT_BI:
           EditorSetFont(Ed.FontBoldItalic, Str);
+
+        PROP_WHEEL_ZOOMS:
+          Ed.OptMouseWheelZooms:= ValueBool;
 
         PROP_MASKCHAR:
           begin
