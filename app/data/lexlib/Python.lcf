@@ -759,7 +759,7 @@ object SyntAnal16: TLibSyntAnalyzer
     '^Id'
     'Symbol'
     '^String'
-    'Number'
+    '^Number'
     'Number2'
     '^Comment'
     '^Symbol'
@@ -770,7 +770,7 @@ object SyntAnal16: TLibSyntAnalyzer
     'Id func name'
     'Id after .'
     '^Id='
-    '^@Id'
+    '^Decor'
     '^Id tree class')
   Extentions = 
     'py py3 pyw pyi rpy cpy SConstruct SConscript gyp gypi Snakefile ' +
