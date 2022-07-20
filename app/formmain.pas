@@ -3647,7 +3647,9 @@ begin
     begin
       DoApplyLexerStylesMap(An, AnIncorrect);
 
+      {
       //update Markdown code-blocks
+      //bad: it causes issue #4233 in CudaText
       if AndApplyTheme then
       begin
         Ada:= TATAdapterEControl(F.Adapter[F.Ed1]);
@@ -3661,6 +3663,7 @@ begin
           end;
         end;
       end;
+      }
     end;
 
     if not F.EditorsLinked then
