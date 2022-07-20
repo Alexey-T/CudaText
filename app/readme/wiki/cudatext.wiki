@@ -1238,12 +1238,12 @@ Second click on the "Search" sidebar button toggles dialog between Find and Repl
 
 Dialog allows to enter text in formats:
 
-* 10 (decimal number): Jump to given line number (to line start)
-* 10:10 (two decimal numbers): Jump to given line and column numbers
-* 10% (decimal with trailing "%"): Jump to percents of total line count
-* d100 (decimal with leading "d"): Jump to absolute decimal offset
-* xFFF (hex number with leading "x"): Jump to absolute hex offset
-* value with trailing "+": Extend selection to this position. For example: if caret is at the 2:2 and you enter "4:10+", editor makes selection from 2:2 to 4:10. Entering "4+" makes selection until start of line 4.
+* 10 (decimal number): Jump to given line number (to line start).
+* 10:10 (two decimal numbers): Jump to given line and column numbers.
+* 10% (decimal with trailing "%"): Jump to percents of total line count (to line start).
+* d100 (decimal with leading "d"): Jump to absolute decimal offset.
+* xFF00 (hex number with leading "x"): Jump to absolute hex offset.
+* value with leading/trailing "+": Extend selection to this position. For example: if caret is at the 2:2 and you enter "4:10+", editor makes selection from 2:2 to 4:10. Entering "4+" makes selection until start of line 4.
 
 Also it is possible to show Go To dialog by clicking the statusbar's "caret information" cell (it is first cell by default).
 
