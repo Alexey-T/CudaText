@@ -1,0 +1,299 @@
+=CudaText disadvantages compared to Sublime Text / VSCode=
+
+* CudaText doesn't use 3D acceleration on rendering, so it may lag (and/or consume lot of CPU) if you scroll text, with big window size (not on Windows, Windows API works fast enough).
+* CudaText doesn't provide "Go to anything" command, instead it gives several separate commands:
+** Go to line number,
+** Go to project file,
+** Go to bookmark,
+** Go to code-tree symbol, ...
+* CudaText lexers are "simple": they don't parse text as deeply as ST/VSCode; so you need the LSP plugin if you need IntelliSense features.
+* CudaText key bindings are simpler: commands don't have "arguments" and cannot be set per-project (but can be set per-lexer).
+* CudaText plugins API doesn't support async events.
+* CudaText doesn't support some encodings (e.g. Shift-JIS).
+
+=CudaText advantages over Sublime Text 3=
+
+* Open source, more operating systems are supported
+* The Python API is easier to use
+* The Python API allows management of dialogs and UI-controls, including the CudaText editor control
+* Code-Tree for most of lexers (ST has only plugin for very limited set of languages)
+* Powerful EControl lexer format, and it's easier to create/edit lexers (GUI in external program)
+* Floating (separate window) mode of side panel and bottom panel
+* Floating (separate window) groups of UI-tabs (in addition to normal 6 groups)
+* [[CudaText#Toolbar|Toolbar]], configurable via plugin 
+* [[CudaText#Configurable_statusbar|Configurable statusbar]]
+* Horizontal ruler above text
+* [[CudaText#Micromap|Micromap]]
+* [[CudaText#Markers|Markers]] in editor
+* [[CudaText#Sessions|Sessions system]] 
+* Caret position after end-of-line
+* Better support for encodings, including UTF-32
+* Better support national keyboards on Linux
+* Correctly saves binary files
+* API for inter-line gaps, helping to several plugins (Differ, Insert Pics, Embedded Editor)
+* [[CudaText#File_viewer|Viewer]] for files of unlimited size
+* [[CudaText#Program_performance|Program performance]]
+* [[CudaText#Hex_display_of_special_chars|Hex display of special chars]]
+* [[CudaText#Tabs_features|UI-tabs features]]: colored tabs, icons (Tab Icons plugin), tabs on the left/right
+* Plugin "Options Editor" to configure CudaText via simple GUI
+* [[CudaText#Char_map|Character Map dialog]]
+* UI can be scaled by option (up to 500%)
+* Single-instance mode is supported on all OS'es
+* Scrolling after middle-button click (called "Autoscrolling" in Firefox)
+* [[CudaText_plugins#Insert_Pics|Show pictures in the text]]
+* [[CudaText_plugins#Color_Text|Colorize the text]]
+* [[CudaText#Activating_internet_links|Activating internet links]]
+* [[CudaText#Automatic_folding_of_comments|Automatic folding of comments]]
+* [[CudaText#Special_HTML_auto-completion|HTML auto-completion suggests file/folder names]]
+* [[CudaText#File_URI_auto-completion|File URI file:/// auto-completion]]
+* [[CudaText#HTML_color_codes_underlining|HTML color codes underlining]]
+* [[CudaText_plugins#Macros|Macros plugin]] also records actions performed in the Find/Replace dialog, and mouse clicks
+* CudaText and its plugins support i18n (text strings can be translated)
+* Function "Find in files" is [[CudaText_plugins#FindInFiles|implemented in plugin]], with much more features
+* [[CudaText#Tab_switcher|Tab switcher]] dialog
+* Can split single UI-tab, for single file or 2 different files (helps to work with Differ plugin)
+* Color themes are universal, ie they have not per-syntax settings
+* [[CudaText#Picture_file_viewer|Picture file viewer]] supports zooming of a picture
+* [[CudaText#Dialog "Go to"|Dialog "Go to"]] gives more features
+* Option "caret_proximity_vert" to set minimal distance of caret to top/bottom edge
+* Option for "zebra" mode
+* Windows version can use different Python engine (packages in add-ons)
+* Add-ons do not disappear due to GitHub repository deletions
+
+=CudaText advantages over Visual Studio Code=
+
+* VSCode has the option "maximal count of ui-tabs", because its ui-tabs are memory hungry. CudaText allows to open 1000+ ui-tabs without problems.
+* VSCode is slow for file sizes 10M...100M, while CudaText allows this without problems. For size 2M+ CudaText disables lexers, but "lite lexers" (Log, XML, JSON) work always.
+* VSCode doesn't have customizable toolbar.
+* VSCode doesn't allow to show side-panels in floating (detached) window.
+* VSCode has internal "find in files" but CudaText has FindInFiles-4 plugin with much more features.
+* VSCode cannot show inter-line gaps with pictures. CudaText plugin "Insert Pics" is based on this feature.
+* VSCode doesn't have the analog of CudaText "Color Text" plugin (not 100% sure here).
+* VSCode doesn't have the analog of CudaText "Draw Lines" plugin.
+* VSCode cannot place text caret beyond end-of-line (not 100% sure here).
+* VSCode has the add-on "Macros", with it you need to create/configure command sequences by hands. Not simple task. CudaText has the plugin "Macros" and it records usual keypresses. Much eaiser to do.
+* CudaText gives [[CudaText#File_viewer|viewer for files of unlimited size]].
+* CudaText plugins API is simpler.
+* CudaText supports UTF-32 LE/BE encoding.
+
+=CudaText vs Sublime Text, different answers to questions=
+
+==How to call external programs/compilers?==
+
+ST3: Use feature of editor called "build systems".
+
+CudaText: Use plugin "External Tools", which adds "Tools" item to the top menu. Or: use plugin "Runner". Both plugins are described here: [[CudaText_plugins]].
+
+==How to change settings for one OS only?==
+
+ST3: You need to use platform-specific config files. E.g. for macOS, platform-specific config is "Preferences (OSX).sublime-settings".
+
+CudaText: You need to use the config user.json, but write there options with OS specific suffixes. E.g. Windows option is "font_name", and macOS option is "font_name__mac". Possible suffixes are listed in default.json: __linux, __mac, __freebsd etc. Only limited count of options support OS suffixes, this is marked in the default config (default.json).
+
+==How to change settings for one syntax only?==
+
+ST3: To edit syntax-specific config, call "Preferences / Settings - Syntax Specific".
+
+CudaText: To edit lexer-specific config, see [[CudaText#Configs]]. 
+
+==How to add commands to top/context menu?==
+
+ST3: You need to create *.sublime-menu files: https://www.sublimetext.com/docs/3/menus.html#available_menus
+
+CudaText: You need to install plugin "Configure Menu". In its dialog, create "menu.json" file which has default items of top menu and context menu. Then edit that file.
+
+==How to find/replace text in many files?==
+
+ST3: Use built-in command "Find in files".
+
+CudaText: Use plugin FindInFiles. It has 2 major versions: v3 is frozen, and new v4 is evolving.
+
+==How to find file in a project?==
+
+ST3: Use "Goto Anything" (Ctrl+P on Windows/Linux, Command+P on macOS).
+
+CudaText:
+
+* To find file by name, use command "Plugins / Project Manager / Go to file...". After file is focused in project, press Enter to open it.
+* To find file by contents, use plugin FindInFiles (v3) which allows to search in project files. Quote from its help:
+<pre>
+Set special value "<Project Folders>" (in short <p>) for field "In folder" to search in project files.
+</pre>
+
+==How to show vertical lines on some columns?==
+
+ST3: Use option
+
+ "rulers": [40, 80, 120],
+
+CudaText: Use option
+
+ "margin_string": "40 80 120",
+
+==How to highlight pair brackets?==
+
+ST3: Brackets highlight is built-in feature, turned on by default.
+
+CudaText: Brackets highlight is built-in, but it's off by default. Use several "bracket_" options, see comments in the "Options Editor" plugin.
+
+==How to highlight pair HTML tags?==
+
+ST3: Use plugin, e.g. https://packagecontrol.io/packages/BracketHighlighter
+
+CudaText: Use options for "dynamic highlighting", "lexer_dynamic_" in "Options Editor" plugin.
+
+==How to add custom syntax support?==
+
+ST3: You need to create syntax file, https://www.sublimetext.com/docs/3/syntax.html
+
+CudaText: You need to create lexer, see [[CudaText#Lexers]].
+
+==How to customize hotkeys?==
+
+ST3: You need to edit keybinding files like "Default (Windows).sublime-keymap".
+
+CudaText: In the Command Palette dialog, focus needed command item, press F9 - additional dialog will appear to set the hotkey. Method 2: install plugin "Configure Hotkeys" which gives alternative dialog.
+
+==How to use Emmet?==
+
+ST3: Install plugin "Emmet". Emmet here is written in JavaScript.
+
+CudaText: Use pre-installed plugin "Emmet". Emmet here is written in Pascal with minor differences (e.g. "lorem" works differently).
+
+==How to show 2/3/4 files at once?==
+
+ST3: Use "View / Layout" menu.
+
+CudaText: Use "=" item in the top menu.
+
+==How to split window for single file?==
+
+ST3:
+
+* menu "File / New View into File"
+* menu "View / Layout / Columns: 2 (or Rows: 2)"
+* drag the tab into another group
+
+CudaText: menu "View / Split tab / Toggle split".
+
+==How to detect syntax by first line of file?==
+
+ST3: It's configured in syntax file: https://superuser.com/questions/752025/sublime-text-3-detect-syntax-based-on-file-header
+
+CudaText: Use config described in [[CudaText#Detection_by_first_file_line]].
+
+==How to assign syntax to undetected file extension?==
+
+ST3: Open your file, click statusbar item for syntax, use item "Open all with current extension as...".
+
+CudaText: Use "file types config", see [[CudaText#File_types_config]].
+
+==How to select several occurrences of a word?==
+
+ST3: Use command "Selection / Expand selection to word".
+
+CudaText: Use command "Selection / Add next occurrence of selected word".
+
+There is a difference in CudaText implementation: CudaText command first checks, is first selection 'whole word' or not. If it's whole word, command adds selections which must be also whole words. In ST, command does not check 'whole word' state of next selections.
+You may switch to ST behaviour. How? CudaText "Command Palette" gives two commands:
+
+* A: add next occurrence of selected word
+* B: add next occurrence of selected text (not whole-word)
+
+You can reassign hotkey from the command A to the command B, so hotkey will give the behaviour of Sublime Text.
+
+==How to select all occurrences of a word?==
+
+ST3: In the Find dialog, enter a word, check "whole words", press "Find All".
+
+CudaText:
+
+* In the Find dialog, enter a word, check "whole words", press "Select all".
+* Plugin "Highlights Occurrences" gives command "Select all occurrences".
+
+==How to record macros?==
+
+ST3: Use menu items in the "Tools" menu.
+
+CudaText: Install plugin "Macros", which adds item "Macros" to the top menu.
+
+==How to use "Go to symbol"?==
+
+ST3: Use menu item "Go to symbol".
+
+CudaText: It doesn't have "Go to anything" but it has "Go to symbol" for a lexer, if lexer finds such symbols for Code-Tree. Install plugin "CudaExt", which gives menu "Plugins / Cuda-Ext / Code-Tree" with several menu items. One item is "Symbols list" which shows Code-Tree items in the menu dialog.
+
+==How to switch between C++ header/implementation files?==
+
+ST3: Use command "Switch header/implementation".
+
+CudaText: Use plugin "Switch Header" (it's not only for C++, it's configurable for all lexers).
+
+==How to jump to next/previous modified lines?==
+
+ST3: Use commands "Next modification", "Previous modification".
+
+CudaText: Use plugin "CudaExt" which gives commands:
+
+* "Jump: to next/previous changed lines",
+* "Jump: to next/previous working lines",
+* "Jump: to next/previous saved lines".
+
+See [[CudaText#Line_states]].
+
+==How to detect indentation characters in a file?==
+
+ST3: Menu item "View / Indentation / Guess settings from buffer".
+
+CudaText: Plugin "Detect Indent" which does the same.
+
+==How to change indentation characters in a file?==
+
+ST3: Click statusbar cell "Tab size..."/"Spaces...", it has menu items "Convert indentation to spaces", "Convert indentation to tabs".
+
+CudaText: The same as for ST3.
+
+==How to install plugins without package manager?==
+
+ST3: Open terminal, go to Packages folder, run "git clone" in that folder, or copy plugin there.
+
+CudaText: Open terminal, go to "py" subfolder, run "git clone" in that folder, or copy "cuda_" plugin folder there.
+
+==How to make vertical/column selection?==
+
+ST3: See the official documentation page "Column Selection".
+
+CudaText:
+
+* Mouse shortcuts: [[CudaText#Mouse shortcuts]].
+* Keyboard commands: "column select: up / down / left / right / ....".
+* Click the statusbar cell "-", it will toggle to "||", and usual mouse selection will perform column selection. 
+
+==How to swap line up/down==
+
+ST3: Commands "Edit / Line / Swap Line Up/Down".
+
+CudaText: Commands "Edit / Line operations / Move line(s) up/down".
+
+==How to show menu of tabs, project files, symbols==
+
+ST3: "Goto anything" (Ctrl+P) for all stuff.
+
+CudaText:
+
+* List of opened tabs: command "ui: switch tab, dialog".
+* List of files in the current project: "plugin: Project Manager: Go to file".
+* List of "symbols" in the current document: "plugin: Cuda-Ext: Code-Tree: Symbols list" (shows the same symbols as code-tree can show).
+
+==How to use 'atomic saving'==
+'Atomic' file saving is saving to a temporary file, then renaming that file to the destination.
+'Atomic' saving is not implemented in CudaText, because users of Sublime Text 3 consider it as harmful feature.
+
+* It drops extended file attributes (on NTFS on Windows; Unix-like have similar problem too?)
+* It drops NTFS file streams, on Windows
+* Problems with files located on Network drives, on Windows
+* Problems with symlinks
+* It needs additional options like "on which drives to use atomic saving"
+
+[[Category: CudaText]]
+[[Category: Tools]]
