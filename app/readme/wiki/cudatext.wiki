@@ -1440,14 +1440,17 @@ Statusbar is fully configurable: you can change order/visibility of cells, width
 
 * Caret(s) info. Click on it shows Go To dialog.
 * Encoding name. Click on it shows menu to change encoding of document.
-* Line ends characters. Click on it shows menu to change line-ends in entire document.
+* Line-ends characters. Click on it shows menu to change line-ends in entire document.
 * Lexer name. Click on it shows lexers menu.
-* Tab-char size. Click on it shows menu to change current document tab-size, change "tab as spaces", etc.
-* Text insert/overwrite mode (toggled by Ins key)
-* Mouse selection mode: "-" for normal mode, "||" for column mode (mouse dragging makes column selection even without Alt+ key)
-* Word-wrap mode: off, wrap at window edge, wrap at fixed margin
-* Message from program or plugins (usually it's last auto-sized cell)
-* Font zoom value (in %)
+* Tab-char size. Shows "Tab: 4" if Tabulation-key inserts tab-char, or "Spaces: 4" if Tabulation-key inserts spaces. Click on it shows menu:
+** To change tabulation size (for the active document).
+** To change mode "Tabulation-key inserts spaces".
+** 2 items for actions "Convert indentation to spaces", "Convert indentation to tabs" like in Sublime Text.
+* Text insert/overwrite mode, toggled by Ins-key. Shows "Ins" or "Ovr".
+* Mouse selection mode: "-" for normal mode, "||" for column mode (mouse dragging makes column selection even without Alt+ key).
+* Message from program or plugins (usually it's last auto-sized cell).
+* Word-wrapping mode: off, wrapping at window edge, wrapping at fixed margin. Cell is hidden by default.
+* Font zoom value in percents. Cell is hidden by default.
 
 The cell "carets info" shows value of one of options:
 
