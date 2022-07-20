@@ -3631,11 +3631,35 @@ begin
   end;
 end;
 
+procedure UpdateColoredRangesInLexer(Frame: TEditorFrame; APrimaryEditor: boolean);
+var
+  Ada: TATAdapterEControl;
+  Ed: TATSynEdit;
+begin
+  //current code is bad:
+  //Ada.UpdateRangesFoldAndColored causes issue #4233
+  exit;
+
+  if APrimaryEditor then
+    Ed:= Frame.Ed1
+  else
+    Ed:= Frame.Ed2;
+  Ada:= TATAdapterEControl(Frame.Adapter[Ed]);
+  if Assigned(Ada) and Assigned(Ada.AnClient) then
+  begin
+    Ada.AnClient.CriSecForData.Enter;
+    try
+      Ada.UpdateRangesFoldAndColored;
+    finally
+      Ada.AnClient.CriSecForData.Leave;
+    end;
+  end;
+end;
+
 procedure TfmMain.DoApplyLexerStylesMapsToFrames(AndApplyTheme: boolean);
 var
   F: TEditorFrame;
   An, AnIncorrect: TecSyntAnalyzer;
-  Ada: TATAdapterEControl;
   i: integer;
 begin
   for i:= 0 to FrameCount-1 do
@@ -3647,23 +3671,9 @@ begin
     begin
       DoApplyLexerStylesMap(An, AnIncorrect);
 
-      {
       //update Markdown code-blocks
-      //bad: it causes issue #4233 in CudaText
       if AndApplyTheme then
-      begin
-        Ada:= TATAdapterEControl(F.Adapter[F.Ed1]);
-        if Assigned(Ada) and Assigned(Ada.AnClient) then
-        begin
-          Ada.AnClient.CriSecForData.Enter;
-          try
-            Ada.UpdateRangesFoldAndColored;
-          finally
-            Ada.AnClient.CriSecForData.Leave;
-          end;
-        end;
-      end;
-      }
+        UpdateColoredRangesInLexer(F, true);
     end;
 
     if not F.EditorsLinked then
@@ -3673,22 +3683,9 @@ begin
       begin
         DoApplyLexerStylesMap(An, AnIncorrect);
 
-        {
         //update Markdown code-blocks
         if AndApplyTheme then
-        begin
-          Ada:= TATAdapterEControl(F.Adapter[F.Ed2]);
-          if Assigned(Ada) and Assigned(Ada.AnClient) then
-          begin
-            Ada.AnClient.CriSecForData.Enter;
-            try
-              Ada.UpdateRangesFoldAndColored;
-            finally
-              Ada.AnClient.CriSecForData.Leave;
-            end;
-          end;
-        end;
-        }
+          UpdateColoredRangesInLexer(F, false);
       end;
     end;
 
