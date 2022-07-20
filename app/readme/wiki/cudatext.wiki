@@ -1449,7 +1449,10 @@ Statusbar is fully configurable: you can change order/visibility of cells, width
 * Text insert/overwrite mode, toggled by Ins-key. Shows "Ins" or "Ovr".
 * Mouse selection mode: "-" for normal mode, "||" for column mode (mouse dragging makes column selection even without Alt+ key).
 * Message from program or plugins (usually it's last auto-sized cell).
-* Word-wrapping mode: off, wrapping at window edge, wrapping at fixed margin. Cell is hidden by default.
+* Word-wrapping mode. Cell is hidden by default.
+** No wrapping.
+** Wrapping at window edge.
+** Wrapping at fixed margin.
 * Font zoom value in percents. Cell is hidden by default.
 
 The cell "carets info" shows value of one of options:
