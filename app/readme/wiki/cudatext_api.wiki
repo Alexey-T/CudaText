@@ -2306,6 +2306,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_SCROLLSTYLE_HORZ: int: style of horizontal scrollbar, one of SCROLLSTYLE_ constants.
 * PROP_SCROLLSTYLE_VERT: int: style of vertical scrollbar, one of SCROLLSTYLE_ constants.
 
+* PROP_WHEEL_ZOOMS: bool: enable zooming by Ctrl+[mouse wheel up/down].
 * PROP_SCALE_FONT: int: scale of editor's font in percents, or 0 to use global app font scale.
 * PROP_COLOR: int: color property. Value must be one of COLOR_ID_nnn values. Returns None for incorrect id.
 * PROP_ENC: str: encoding name. Names are listed at [[CudaText#Encodings]].
@@ -2483,6 +2484,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 * PROP_SCROLLSTYLE_HORZ: int: style of horizontal scrollbar, one of SCROLLSTYLE_ constants.
 * PROP_SCROLLSTYLE_VERT: int: style of vertical scrollbar, one of SCROLLSTYLE_ constants.
 
+* PROP_WHEEL_ZOOMS: bool: enable zooming by Ctrl+[mouse wheel up/down].
 * PROP_SCALE_FONT: int: scale of editor's font in percents, or 0 to use global app font scale.
 * PROP_ENC: str: encoding name. Names listed at [[CudaText#Encodings]].
 * PROP_ENC_RELOAD: str: like PROP_ENC, but setting this property also reloads file in new encoding (if it's not modified). Supported only for editors embedded in ui-tabs.
@@ -4654,5 +4656,8 @@ It provides:
 * add: Editor.markers/attr: MARKERS_GET_DUPS
 * add: Editor.markers/attr: MARKERS_SET_DUPS
 * add: event "on_sidebar_popup"
+
+1.0.426 (ap 1.167.2)
+* add: Editor.get_prop/set_prop: PROP_WHEEL_ZOOMS
 
 [[Category:CudaText]]
