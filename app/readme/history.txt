@@ -6,6 +6,7 @@
 1.167.2 (2022/07)
 
 + add: use translated button captions in message-boxes, both internal and API (thanks @hexaae)
++ add: wiki page https://wiki.lazarus.freepascal.org/CudaText_VS_other_editors
 + add: option "renderer_tweaks" has new sub-option "l" (thanks @veksha)
 - fix: click on the folded-block-rectangle hides caret (thanks @veksha)
 - fix: in e.g. Python lexer, new typed text may be 'catched' by the upper _folded_ block (thanks @veksha)
