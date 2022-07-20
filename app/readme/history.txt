@@ -9,8 +9,8 @@
 + add: option "renderer_tweaks" has new sub-option "l" (thanks @veksha)
 - fix: click on the folded-block-rectangle hides caret (thanks @veksha)
 - fix: Linux: sometimes, "minimap_scale":0 makes minimap empty (thanks @veksha)
-- fix: lexers XML/XML^: highlight quoted-string only after '=' (thanks @veksha)
-- fix: lexer Python: number at line-start must begin new block (thanks @veksha)
+- fix: lexers XML/XML^: highlight quoted string only after '=' (thanks @veksha)
+- fix: in e.g. Python lexer, new typed text may be 'catched' by the upper _folded_ block (thanks @veksha)
 
 1.167.0 (2022/07)
 
