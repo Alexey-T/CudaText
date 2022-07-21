@@ -3631,28 +3631,30 @@ begin
   end;
 end;
 
-procedure UpdateColoredRangesInLexer(Frame: TEditorFrame; APrimaryEditor: boolean);
+procedure DoApplyThemeToEditor(Frame: TEditorFrame; APrimaryEditor: boolean);
 var
-  Ada: TATAdapterEControl;
   Ed: TATSynEdit;
+  Ada: TATAdapterEControl;
 begin
-  //current code is bad:
-  //Ada.UpdateRangesFoldAndColored causes issue #4233
-  exit;
-
   if APrimaryEditor then
     Ed:= Frame.Ed1
   else
     Ed:= Frame.Ed2;
-  Ada:= TATAdapterEControl(Frame.Adapter[Ed]);
+
+  Ada:= Frame.Adapter[Ed];
   if Assigned(Ada) and Assigned(Ada.AnClient) then
   begin
+    Ada.ParseFromLine(0, true);
+    {
+    //note: before, we called
     Ada.AnClient.CriSecForData.Enter;
     try
       Ada.UpdateRangesFoldAndColored;
     finally
       Ada.AnClient.CriSecForData.Leave;
     end;
+    //and it caused issue #4233
+    }
   end;
 end;
 
@@ -3673,7 +3675,7 @@ begin
 
       //update Markdown code-blocks
       if AndApplyTheme then
-        UpdateColoredRangesInLexer(F, true);
+        DoApplyThemeToEditor(F, true);
     end;
 
     if not F.EditorsLinked then
@@ -3685,7 +3687,7 @@ begin
 
         //update Markdown code-blocks
         if AndApplyTheme then
-          UpdateColoredRangesInLexer(F, false);
+          DoApplyThemeToEditor(F, false);
       end;
     end;
 
