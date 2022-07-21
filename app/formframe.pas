@@ -381,7 +381,9 @@ type
     property CodetreeSortType: TSortType read FCodetreeSortType write FCodetreeSortType;
     property ActivationTime: Int64 read FActivationTime write FActivationTime;
     function IsEmpty: boolean;
-    procedure ApplyTheme(AndReparse: boolean);
+    procedure ApplyLexerStyleMap;
+    procedure LexerReparse;
+    procedure ApplyTheme;
     function IsEditorFocused: boolean;
     function FrameKind: TATEditorFrameKind;
     procedure SetFocus; reintroduce;
@@ -2008,27 +2010,43 @@ begin
   APanel.Font.Color:= GetAppColor(apclListFont);
 end;
 
-procedure TEditorFrame.ApplyTheme(AndReparse: boolean);
+procedure TEditorFrame.ApplyLexerStyleMap;
+var
+  An, AnIncorrect: TecSyntAnalyzer;
+begin
+  An:= Lexer[Ed1];
+  if Assigned(An) then
+    DoApplyLexerStylesMap(An, AnIncorrect);
+
+  if not EditorsLinked then
+  begin
+    An:= Lexer[Ed2];
+    if Assigned(An) then
+      DoApplyLexerStylesMap(An, AnIncorrect);
+  end;
+end;
+
+procedure TEditorFrame.LexerReparse;
 var
   Ada: TATAdapterEControl;
 begin
-  EditorApplyTheme(Ed1);
-  EditorApplyTheme(Ed2);
+  //this is needed to update coloring of Markdown fenced-code-blocks
+  Ada:= Adapter[Ed1];
+  if Assigned(Ada) and Assigned(Ada.AnClient) then
+    Ada.ParseFromLine(0, true);
 
-  if AndReparse then
+  if not EditorsLinked then
   begin
-    //this is mainly needed to update coloring of Markdown fenced-code-blocks
-    Ada:= Adapter[Ed1];
+    Ada:= Adapter[Ed2];
     if Assigned(Ada) and Assigned(Ada.AnClient) then
       Ada.ParseFromLine(0, true);
-
-    if not EditorsLinked then
-    begin
-      Ada:= Adapter[Ed2];
-      if Assigned(Ada) and Assigned(Ada.AnClient) then
-        Ada.ParseFromLine(0, true);
-    end;
   end;
+end;
+
+procedure TEditorFrame.ApplyTheme;
+begin
+  EditorApplyTheme(Ed1);
+  EditorApplyTheme(Ed2);
 
   if Assigned(FBin) then
   begin
