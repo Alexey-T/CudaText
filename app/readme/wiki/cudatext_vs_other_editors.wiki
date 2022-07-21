@@ -1,3 +1,81 @@
+=CudaText advantages over Sublime Text 3=
+
+* Open source, more operating systems are supported
+* The Python API is easier to use
+* The Python API allows management of dialogs and UI-controls, including the CudaText editor control
+* Code-Tree for most of lexers (ST has only plugin for very limited set of languages)
+* Powerful EControl lexer format, and it's easier to create/edit lexers (GUI in external program)
+* Floating (separate window) mode of side panel and bottom panel
+* Floating (separate window) groups of UI-tabs (in addition to normal 6 groups)
+* [[CudaText#Toolbar|Toolbar]], configurable via plugin 
+* [[CudaText#Configurable_statusbar|Configurable statusbar]]
+* Horizontal ruler above text
+* [[CudaText#Micromap|Micromap]]
+* [[CudaText#Markers|Markers]] in editor
+* [[CudaText#Sessions|Sessions system]] 
+* Caret position after end-of-line
+* Better support for encodings, including UTF-32
+* Better support national keyboards on Linux
+* Correctly saves binary files
+* API for inter-line gaps, helping to several plugins (Differ, Insert Pics, Embedded Editor)
+* [[CudaText#File_viewer|Viewer]] for files of unlimited size
+* [[CudaText#Program_performance|Program performance]]
+* [[CudaText#Hex_display_of_special_chars|Hex display of special chars]]
+* [[CudaText#Tabs_features|UI-tabs features]]: colored tabs, icons (Tab Icons plugin), tabs on the left/right
+* Plugin "Options Editor" to configure CudaText via simple GUI
+* [[CudaText#Char_map|Character Map dialog]]
+* UI can be scaled by option (up to 500%)
+* Single-instance mode is supported on all OS'es
+* Scrolling after middle-button click (called "Autoscrolling" in Firefox)
+* [[CudaText_plugins#Insert_Pics|Show pictures in the text]]
+* [[CudaText_plugins#Color_Text|Colorize the text]]
+* [[CudaText#Activating_internet_links|Activating internet links]]
+* [[CudaText#Automatic_folding_of_comments|Automatic folding of comments]]
+* [[CudaText#Special_HTML_auto-completion|HTML auto-completion suggests file/folder names]]
+* [[CudaText#File_URI_auto-completion|File URI file:/// auto-completion]]
+* [[CudaText#HTML_color_codes_underlining|HTML color codes underlining]]
+* [[CudaText_plugins#Macros|Macros plugin]] also records actions performed in the Find/Replace dialog, and mouse clicks
+* CudaText and its plugins support i18n (text strings can be translated)
+* Function "Find in files" is [[CudaText_plugins#FindInFiles|implemented in plugin]], with much more features
+* [[CudaText#Tab_switcher|Tab switcher]] dialog
+* Can split single UI-tab, for single file or 2 different files (helps to work with Differ plugin)
+* Color themes are universal, ie they have not per-syntax settings
+* [[CudaText#Picture_file_viewer|Picture file viewer]] supports zooming of a picture
+* [[CudaText#Dialog "Go to"|Dialog "Go to"]] gives more features
+* Option "caret_proximity_vert" to set minimal distance of caret to top/bottom edge
+* Option for "zebra" mode
+* Windows version can use different Python engine (packages in add-ons)
+* Add-ons do not disappear due to GitHub repository deletions
+
+=CudaText advantages over Visual Studio Code=
+
+* VSCode has the option "maximal count of ui-tabs", because its ui-tabs are memory hungry. CudaText allows to open 1000+ ui-tabs without problems.
+* VSCode is slow for file sizes 10M...100M, while CudaText allows this without problems. For size 2M+ CudaText disables lexers, but "lite lexers" (Log, XML, JSON) work always.
+* VSCode doesn't have customizable toolbar.
+* VSCode doesn't allow to show side-panels in floating (detached) window.
+* VSCode has internal "find in files" but CudaText has FindInFiles-4 plugin with much more features.
+* VSCode cannot show inter-line gaps with pictures. CudaText plugin "Insert Pics" is based on this feature.
+* VSCode doesn't have the analog of CudaText "Color Text" plugin (not 100% sure here).
+* VSCode doesn't have the analog of CudaText "Draw Lines" plugin.
+* VSCode cannot place text caret beyond end-of-line (not 100% sure here).
+* VSCode has the add-on "Macros", with it you need to create/configure command sequences by hands. Not simple task. CudaText has the plugin "Macros" and it records usual keypresses. Much eaiser to do.
+* CudaText gives [[CudaText#File_viewer|viewer for files of unlimited size]].
+* CudaText plugins API is simpler.
+* CudaText supports UTF-32 LE/BE encoding.
+
+=CudaText disadvantages compared to Sublime Text / VSCode=
+
+* CudaText doesn't use 3D acceleration on rendering, so it may lag (and/or consume lot of CPU) if you scroll text, with big window size (not on Windows, Windows API works fast enough).
+* CudaText doesn't provide "Go to anything" command, instead it gives several separate commands:
+** Go to line number,
+** Go to project file,
+** Go to bookmark,
+** Go to code-tree symbol, ...
+* CudaText lexers are "simple": they don't parse text as deeply as ST/VSCode; so you need the LSP plugin if you need IntelliSense features.
+* CudaText key bindings are simpler: commands don't have "arguments" and cannot be set per-project (but can be set per-lexer).
+* CudaText plugins API doesn't support async events.
+* CudaText doesn't support some encodings (e.g. Shift-JIS).
+
 =CudaText performance=
 
 ==Startup time==
@@ -77,84 +155,6 @@ Sublime Text 3.2:
 * sort time with ignoring case: 16sec
 * memory used after file loading: ~1.3G
 * peak memory used on sorting: ~3.3G
-
-=CudaText disadvantages compared to Sublime Text / VSCode=
-
-* CudaText doesn't use 3D acceleration on rendering, so it may lag (and/or consume lot of CPU) if you scroll text, with big window size (not on Windows, Windows API works fast enough).
-* CudaText doesn't provide "Go to anything" command, instead it gives several separate commands:
-** Go to line number,
-** Go to project file,
-** Go to bookmark,
-** Go to code-tree symbol, ...
-* CudaText lexers are "simple": they don't parse text as deeply as ST/VSCode; so you need the LSP plugin if you need IntelliSense features.
-* CudaText key bindings are simpler: commands don't have "arguments" and cannot be set per-project (but can be set per-lexer).
-* CudaText plugins API doesn't support async events.
-* CudaText doesn't support some encodings (e.g. Shift-JIS).
-
-=CudaText advantages over Sublime Text 3=
-
-* Open source, more operating systems are supported
-* The Python API is easier to use
-* The Python API allows management of dialogs and UI-controls, including the CudaText editor control
-* Code-Tree for most of lexers (ST has only plugin for very limited set of languages)
-* Powerful EControl lexer format, and it's easier to create/edit lexers (GUI in external program)
-* Floating (separate window) mode of side panel and bottom panel
-* Floating (separate window) groups of UI-tabs (in addition to normal 6 groups)
-* [[CudaText#Toolbar|Toolbar]], configurable via plugin 
-* [[CudaText#Configurable_statusbar|Configurable statusbar]]
-* Horizontal ruler above text
-* [[CudaText#Micromap|Micromap]]
-* [[CudaText#Markers|Markers]] in editor
-* [[CudaText#Sessions|Sessions system]] 
-* Caret position after end-of-line
-* Better support for encodings, including UTF-32
-* Better support national keyboards on Linux
-* Correctly saves binary files
-* API for inter-line gaps, helping to several plugins (Differ, Insert Pics, Embedded Editor)
-* [[CudaText#File_viewer|Viewer]] for files of unlimited size
-* [[CudaText#Program_performance|Program performance]]
-* [[CudaText#Hex_display_of_special_chars|Hex display of special chars]]
-* [[CudaText#Tabs_features|UI-tabs features]]: colored tabs, icons (Tab Icons plugin), tabs on the left/right
-* Plugin "Options Editor" to configure CudaText via simple GUI
-* [[CudaText#Char_map|Character Map dialog]]
-* UI can be scaled by option (up to 500%)
-* Single-instance mode is supported on all OS'es
-* Scrolling after middle-button click (called "Autoscrolling" in Firefox)
-* [[CudaText_plugins#Insert_Pics|Show pictures in the text]]
-* [[CudaText_plugins#Color_Text|Colorize the text]]
-* [[CudaText#Activating_internet_links|Activating internet links]]
-* [[CudaText#Automatic_folding_of_comments|Automatic folding of comments]]
-* [[CudaText#Special_HTML_auto-completion|HTML auto-completion suggests file/folder names]]
-* [[CudaText#File_URI_auto-completion|File URI file:/// auto-completion]]
-* [[CudaText#HTML_color_codes_underlining|HTML color codes underlining]]
-* [[CudaText_plugins#Macros|Macros plugin]] also records actions performed in the Find/Replace dialog, and mouse clicks
-* CudaText and its plugins support i18n (text strings can be translated)
-* Function "Find in files" is [[CudaText_plugins#FindInFiles|implemented in plugin]], with much more features
-* [[CudaText#Tab_switcher|Tab switcher]] dialog
-* Can split single UI-tab, for single file or 2 different files (helps to work with Differ plugin)
-* Color themes are universal, ie they have not per-syntax settings
-* [[CudaText#Picture_file_viewer|Picture file viewer]] supports zooming of a picture
-* [[CudaText#Dialog "Go to"|Dialog "Go to"]] gives more features
-* Option "caret_proximity_vert" to set minimal distance of caret to top/bottom edge
-* Option for "zebra" mode
-* Windows version can use different Python engine (packages in add-ons)
-* Add-ons do not disappear due to GitHub repository deletions
-
-=CudaText advantages over Visual Studio Code=
-
-* VSCode has the option "maximal count of ui-tabs", because its ui-tabs are memory hungry. CudaText allows to open 1000+ ui-tabs without problems.
-* VSCode is slow for file sizes 10M...100M, while CudaText allows this without problems. For size 2M+ CudaText disables lexers, but "lite lexers" (Log, XML, JSON) work always.
-* VSCode doesn't have customizable toolbar.
-* VSCode doesn't allow to show side-panels in floating (detached) window.
-* VSCode has internal "find in files" but CudaText has FindInFiles-4 plugin with much more features.
-* VSCode cannot show inter-line gaps with pictures. CudaText plugin "Insert Pics" is based on this feature.
-* VSCode doesn't have the analog of CudaText "Color Text" plugin (not 100% sure here).
-* VSCode doesn't have the analog of CudaText "Draw Lines" plugin.
-* VSCode cannot place text caret beyond end-of-line (not 100% sure here).
-* VSCode has the add-on "Macros", with it you need to create/configure command sequences by hands. Not simple task. CudaText has the plugin "Macros" and it records usual keypresses. Much eaiser to do.
-* CudaText gives [[CudaText#File_viewer|viewer for files of unlimited size]].
-* CudaText plugins API is simpler.
-* CudaText supports UTF-32 LE/BE encoding.
 
 =CudaText vs Sublime Text, different answers to questions=
 
