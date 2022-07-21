@@ -3238,15 +3238,16 @@ procedure TEditorFrame.DoSaveHistory(Ed: TATSynEdit);
 var
   cfg: TJSONConfig;
   SFileName: string;
-  path: string;
+  SKeyForFile: string;
   items: TStringlist;
+  i: integer;
 begin
   if not FSaveHistory then exit;
   if UiOps.MaxHistoryFiles<2 then exit;
 
   SFileName:= Ed.FileName;
   if SFileName='' then exit;
-  path:= SMaskFilenameSlashes(SFileName);
+  SKeyForFile:= SMaskFilenameSlashes(SFileName);
 
   cfg:= TJsonConfig.Create(nil);
   try
@@ -3263,22 +3264,24 @@ begin
 
     items:= TStringList.Create;
     try
-      cfg.DeletePath(path);
+      cfg.DeletePath(SKeyForFile);
       cfg.EnumSubKeys('/', items);
-      while items.Count>=UiOps.MaxHistoryFiles do
-      begin
-        cfg.DeletePath('/'+items[0]);
-        items.Delete(0);
-      end;
+      for i:= items.Count-1 downto Max(0, UiOps.MaxHistoryFiles) do
+        //key 'bookmarks' is saved together with usual items, skip it
+        if items[i]<>'bookmarks' then
+        begin
+          cfg.DeletePath('/'+items[i]);
+          items.Delete(i);
+        end;
     finally
       FreeAndNil(items);
     end;
 
-    DoSaveHistoryEx(Ed, cfg, path, false);
+    DoSaveHistoryEx(Ed, cfg, SKeyForFile, false);
 
     //bookmarks are always saved to 'history files.json'
     if UiOps.HistoryItems[ahhBookmarks] then
-      DoSaveHistory_Bookmarks(Ed, cfg, path);
+      DoSaveHistory_Bookmarks(Ed, cfg, SKeyForFile);
   finally
     cfg.Free;
   end;
