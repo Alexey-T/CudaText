@@ -19,7 +19,6 @@
 * Correctly saves binary files
 * API for inter-line gaps, helping to several plugins (Differ, Insert Pics, Embedded Editor)
 * [[CudaText#File_viewer|Viewer]] for files of unlimited size
-* [[CudaText#Program_performance|Program performance]]
 * [[CudaText#Hex_display_of_special_chars|Hex display of special chars]]
 * [[CudaText#Tabs_features|UI-tabs features]]: colored tabs, icons (Tab Icons plugin), tabs on the left/right
 * Plugin "Options Editor" to configure CudaText via simple GUI
