@@ -22,11 +22,17 @@ Features for HTML/CSS coding:
 * HTML tooltips on mouse-over
 * Viewer for picture files (jpeg, png, gif, bmp, ico, webp)
 
-[[CudaText VS other editors|Advantages comparing to other text editors]].
-
 Screenshot on Windows:
 
 [[File:cudatext.png]]
+
+= Additional wiki pages =
+
+See also additional wiki pages:
+
+* [[CudaText VS other editors]].
+* [[CudaText plugins]]
+* [[CudaText API]]
 
 = Download =
 
@@ -1824,12 +1830,6 @@ The plugin "Column Marks" adds more features:
 * Commands to move the caret though all margin columns (normal + additional), to the left/right. 
 
 =Add-ons=
-
-==Python API==
-See [[CudaText API|Wiki page about Python API]].
-
-==Major plugins Wiki==
-See [[CudaText plugins|Wiki page about major plugins]].
 
 ==Entire plugins list==
 See the [https://github.com/halfbrained/cudatext_plugins_list GitHub repository]
