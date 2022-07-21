@@ -81,12 +81,12 @@ begin
   EditorApplyTheme(fmValidate.Ed);
 
   EditorApplyTheme(CodeTreeFilterInput);
+
   if Assigned(fmConsole) then
-  begin
-    EditorApplyTheme(fmConsole.EdInput);
-    EditorApplyTheme(fmConsole.EdMemo);
-    fmConsole.Invalidate;
-  end;
+    fmConsole.ApplyTheme;
+
+  if Assigned(fmFind) then
+    fmFind.ApplyTheme;
 
   ToolbarMain.Color:= GetAppColor(apclTabBg);
   Self.Color:= ToolbarMain.Color;
@@ -158,14 +158,6 @@ begin
     DoApplyThemeToGroups(GroupsF1);
     DoApplyThemeToGroups(GroupsF2);
     DoApplyThemeToGroups(GroupsF3);
-  end;
-
-  if Assigned(fmFind) then
-  begin
-    fmFind.Color:= GetAppColor(apclTabBg);
-    EditorApplyTheme(fmFind.edFind);
-    EditorApplyTheme(fmFind.edRep);
-    fmFind.Invalidate;
   end;
 
   DoApplyThemeToTreeview(CodeTree.Tree, true, true);

@@ -30,6 +30,7 @@ uses
   proc_globdata,
   proc_customdialog,
   proc_customdialog_dummy,
+  proc_editor,
   proc_msg;
 
 type
@@ -88,6 +89,7 @@ type
     property IsDoubleBuffered: boolean write SetIsDoubleBuffered;
     property MemoWordWrap: boolean read GetWordWrap write SetWordWrap;
     procedure SetFocus; override;
+    procedure ApplyTheme;
   end;
 
 var
@@ -498,6 +500,13 @@ begin
       DoNavigate(Self);
   end;
   AHandled:= true;
+end;
+
+procedure TfmConsole.ApplyTheme;
+begin
+  EditorApplyTheme(EdInput);
+  EditorApplyTheme(EdMemo);
+  Invalidate;
 end;
 
 finalization

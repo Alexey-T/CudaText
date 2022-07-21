@@ -240,6 +240,7 @@ type
     procedure UpdateCaption(const AText: string);
     procedure UpdateHiAll(AEnableFindNext: boolean);
     procedure ClearHiAll;
+    procedure ApplyTheme;
     function CurrentCaption: string;
     property OnResult: TAppFinderOperationEvent read FOnResult write FOnResult;
     property OnChangeOptions: TNotifyEvent read FOnChangeOptions write FOnChangeOptions;
@@ -764,7 +765,6 @@ begin
     Ed.Update;
   end;
 end;
-
 
 procedure TfmFind.FormCreate(Sender: TObject);
 var
@@ -1609,6 +1609,14 @@ procedure TfmFind.UpdateCaption(const AText: string);
 begin
   if not Assigned(Parent) then //show text only when dlg is not docked
     Caption:= CurrentCaption+': '+AText;
+end;
+
+procedure TfmFind.ApplyTheme;
+begin
+  Color:= GetAppColor(apclTabBg);
+  EditorApplyTheme(edFind);
+  EditorApplyTheme(edRep);
+  Invalidate;
 end;
 
 end.
