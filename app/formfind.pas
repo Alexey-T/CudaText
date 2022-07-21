@@ -1612,10 +1612,18 @@ begin
 end;
 
 procedure TfmFind.ApplyTheme;
+var
+  TempLexer: TecSyntAnalyzer;
 begin
   Color:= GetAppColor(apclTabBg);
+
   EditorApplyTheme(edFind);
   EditorApplyTheme(edRep);
+
+  if Assigned(Adapter.Lexer) then
+    DoApplyLexerStylesMap(Adapter.Lexer, TempLexer);
+  FLexerRegexThemed:= true;
+
   Invalidate;
 end;
 
