@@ -381,7 +381,7 @@ type
     property CodetreeSortType: TSortType read FCodetreeSortType write FCodetreeSortType;
     property ActivationTime: Int64 read FActivationTime write FActivationTime;
     function IsEmpty: boolean;
-    procedure ApplyTheme;
+    procedure ApplyTheme(AndReparse: boolean);
     function IsEditorFocused: boolean;
     function FrameKind: TATEditorFrameKind;
     procedure SetFocus; reintroduce;
@@ -2008,10 +2008,27 @@ begin
   APanel.Font.Color:= GetAppColor(apclListFont);
 end;
 
-procedure TEditorFrame.ApplyTheme;
+procedure TEditorFrame.ApplyTheme(AndReparse: boolean);
+var
+  Ada: TATAdapterEControl;
 begin
   EditorApplyTheme(Ed1);
   EditorApplyTheme(Ed2);
+
+  if AndReparse then
+  begin
+    //this is mainly needed to update coloring of Markdown fenced-code-blocks
+    Ada:= Adapter[Ed1];
+    if Assigned(Ada) and Assigned(Ada.AnClient) then
+      Ada.ParseFromLine(0, true);
+
+    if not EditorsLinked then
+    begin
+      Ada:= Adapter[Ed2];
+      if Assigned(Ada) and Assigned(Ada.AnClient) then
+        Ada.ParseFromLine(0, true);
+    end;
+  end;
 
   if Assigned(FBin) then
   begin

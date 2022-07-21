@@ -3631,33 +3631,6 @@ begin
   end;
 end;
 
-procedure DoApplyThemeToEditor(Frame: TEditorFrame; APrimaryEditor: boolean);
-var
-  Ed: TATSynEdit;
-  Ada: TATAdapterEControl;
-begin
-  if APrimaryEditor then
-    Ed:= Frame.Ed1
-  else
-    Ed:= Frame.Ed2;
-
-  Ada:= Frame.Adapter[Ed];
-  if Assigned(Ada) and Assigned(Ada.AnClient) then
-  begin
-    Ada.ParseFromLine(0, true);
-    {
-    //note: before, we called
-    Ada.AnClient.CriSecForData.Enter;
-    try
-      Ada.UpdateRangesFoldAndColored;
-    finally
-      Ada.AnClient.CriSecForData.Leave;
-    end;
-    //and it caused issue #4233
-    }
-  end;
-end;
-
 procedure TfmMain.DoApplyLexerStylesMapsToFrames(AndApplyTheme: boolean);
 var
   F: TEditorFrame;
@@ -3670,29 +3643,17 @@ begin
 
     An:= F.Lexer[F.Ed1];
     if Assigned(An) then
-    begin
       DoApplyLexerStylesMap(An, AnIncorrect);
-
-      //update Markdown code-blocks
-      if AndApplyTheme then
-        DoApplyThemeToEditor(F, true);
-    end;
 
     if not F.EditorsLinked then
     begin
       An:= F.Lexer[F.Ed2];
       if Assigned(An) then
-      begin
         DoApplyLexerStylesMap(An, AnIncorrect);
-
-        //update Markdown code-blocks
-        if AndApplyTheme then
-          DoApplyThemeToEditor(F, false);
-      end;
     end;
 
     if AndApplyTheme then
-      F.ApplyTheme;
+      F.ApplyTheme(true);
   end;
 end;
 
