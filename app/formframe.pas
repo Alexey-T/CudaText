@@ -2027,10 +2027,10 @@ begin
 end;
 
 procedure TEditorFrame.LexerReparse;
+//used to update coloring of Markdown fenced-code-blocks, on applying syntax theme
 var
   Ada: TATAdapterEControl;
 begin
-  //this is needed to update coloring of Markdown fenced-code-blocks
   Ada:= Adapter[Ed1];
   if Assigned(Ada) and Assigned(Ada.AnClient) then
     Ada.ParseFromLine(0, true);
