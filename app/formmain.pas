@@ -3643,6 +3643,7 @@ begin
     if AndApplyTheme then
     begin
       F.ApplyTheme;
+      //update coloring of Markdown fenced-code-blocks, on applying syntax theme
       F.LexerReparse;
     end;
   end;

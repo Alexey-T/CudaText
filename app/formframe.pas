@@ -2027,7 +2027,6 @@ begin
 end;
 
 procedure TEditorFrame.LexerReparse;
-//used to update coloring of Markdown fenced-code-blocks, on applying syntax theme
 var
   Ada: TATAdapterEControl;
 begin
