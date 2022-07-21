@@ -3266,13 +3266,17 @@ begin
     try
       cfg.DeletePath(SKeyForFile);
       cfg.EnumSubKeys('/', items);
-      for i:= items.Count-1 downto Max(0, UiOps.MaxHistoryFiles) do
-        //key 'bookmarks' is saved together with usual items, skip it
-        if items[i]<>'bookmarks' then
-        begin
-          cfg.DeletePath('/'+items[i]);
-          items.Delete(i);
-        end;
+
+      //key 'bookmarks' is saved together with usual items, skip it
+      i:= items.IndexOf('bookmarks');
+      if i>=0 then
+        items.Delete(i);
+
+      while items.Count>UiOps.MaxHistoryFiles do
+      begin
+        cfg.DeletePath('/'+items[0]);
+        items.Delete(0);
+      end;
     finally
       FreeAndNil(items);
     end;
