@@ -30,7 +30,7 @@ Screenshot on Windows:
 
 See also additional wiki pages:
 
-* [[CudaText VS other editors]].
+* [[CudaText VS other editors]]
 * [[CudaText plugins]]
 * [[CudaText API]]
 
