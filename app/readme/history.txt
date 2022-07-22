@@ -13,6 +13,7 @@
 - fix: in e.g. Python lexer, new typed text may be 'catched' by the upper _folded_ block (thanks @veksha)
 - fix: on some Linux systems, with dots_per_inch=91, minimap is empty (thanks @veksha)
 - fix: lexers XML/XML^: highlight quoted string only after '=' (thanks @veksha)
+- fix: lexer Markdown: rule for italics
 
 1.167.0 (2022/07)
 
