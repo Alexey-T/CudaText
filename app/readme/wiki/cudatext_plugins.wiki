@@ -935,6 +935,31 @@ Main new features:
 * FiF4 allows to '''reformat Results''' (change tree type and more) without new search.
 * FiF4 allows to show '''modification time''' of files in the Results.
 
+=Terminal=
+
+There are currently 3 terminal plugins:
+* Terminal: simplest plugin.
+* Terminal Plus: most feature-rich plugin, but its UI may be too complex for beginners.
+* ExTerminal: middle in the feature set, but its UI is very simple.
+
+Let's take ExTerminal plugin, and show how to perform some task with it, under Linux. Task: run Python script which uses 'input()' function. The simpest Terminal plugin cannot handle 'input()' function, but ExTerminal will work good. Let's take Python script with content:
+
+<syntaxhighlight lang="python">
+x = int(input('Enter x: '))
+w = int(input('Enter w: '))
+print(x*w)
+</syntaxhighlight>
+
+Steps:
+
+* Save our script to file ~/myfolder/tt.py
+* Install ExTerminal, restart CudaText
+* Run ExTerminal by clicking its bottom-bar-icon
+* In ExTerminal, enter "cd ~/myfolder", so file tt.py will be in the current directory. You can enter "ls *.py" to see all python files in the current directory.
+* In ExTerminal, enter "python3 tt.py"
+
+Script should work and show 2 input-prompts. 
+
 =Configure Menu=
 
 Plugin "Configure Menu" (in Addon Manager) allows to change top menu and context menu. Plugin can create file (settings/menu.json) with default menu configuration, which you edit to customize all menus. File has items like:
