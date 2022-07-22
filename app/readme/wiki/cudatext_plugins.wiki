@@ -958,7 +958,14 @@ Steps:
 * In ExTerminal, enter "cd ~/myfolder", so file tt.py will be in the current directory. You can enter "ls *.py" to see all python files in the current directory.
 * In ExTerminal, enter "python3 tt.py"
 
-Script should work and show 2 input-prompts. 
+Script should work and show 2 input-prompts.
+
+ $ ls *.py
+ a.py  test.py  tt.py
+ $ python3 tt.py
+ enter x: 10
+ enter w: 20
+ 200
 
 =Configure Menu=
 
