@@ -960,12 +960,18 @@ Steps:
 
 Script should work and show 2 input-prompts.
 
- $ ls *.py
+ user@user:~/myfolder$ ls *.py
  a.py  test.py  tt.py
- $ python3 tt.py
+ user@user:~/myfolder$ python3 tt.py
  Enter x: 10
  Enter w: 20
  200
+
+How to open ExTerminal in the directory of the current editor file? You can do this:
+
+* Hover mouse over ExTerminal button in the bottom-bar. It must show tooltip like "ExTerminal 1".
+* Right-click this button, popup menu appears (only on CudaText 1.167+), from the popup menu choose "New terminal". This will create another ExTerminal button+panel. New panel has the directory of the current editor file.
+* To not produce too much ExTerminal buttons, use "Close terminal" from the popup menu.
 
 =Configure Menu=
 
