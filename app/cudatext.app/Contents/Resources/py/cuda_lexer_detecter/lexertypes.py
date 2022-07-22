@@ -107,6 +107,7 @@ TYPES = {
     "boot": ['Clojure'],
     "btm": ['TakeCommand'],
     "capfile": ['Ruby'],
+    "carbon": ['Carbon'],
     "cbd": ['Cobol'],
     "cbl": ['Cobol', 'Acu Cobol'],
     "cc": ['Visual dBase'],
