@@ -3272,7 +3272,7 @@ begin
       if i>=0 then
         items.Delete(i);
 
-      while items.Count>UiOps.MaxHistoryFiles do
+      while items.Count>=UiOps.MaxHistoryFiles do
       begin
         cfg.DeletePath('/'+items[0]);
         items.Delete(0);
