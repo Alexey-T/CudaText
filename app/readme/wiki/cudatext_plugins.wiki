@@ -963,8 +963,8 @@ Script should work and show 2 input-prompts.
  $ ls *.py
  a.py  test.py  tt.py
  $ python3 tt.py
- enter x: 10
- enter w: 20
+ Enter x: 10
+ Enter w: 20
  200
 
 =Configure Menu=
