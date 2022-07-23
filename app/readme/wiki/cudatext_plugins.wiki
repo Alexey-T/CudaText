@@ -704,9 +704,9 @@ See above example about tool for PHP documentation. Create the similar tool
 
 This tool needs renamed .chm files: for lexer AutoIt it needs "AutoIt.chm" and so on. It needs .chm files in a single folder relative to CudaText folder.
 
-=== URL for Google search ===
+=== Tool for Google search ===
 
-This is URL, not tool. In the External Tools dialog, press URL button, then press Add to add a new URL.
+This is URL (special kind of tool). In the External Tools dialog, press the "URL" button, then press "Add" to add a new URL.
 
 * Name: Google find
 * URL:
@@ -758,7 +758,7 @@ for($i=0; $i<10; $i++) {
 
 [[File:cudatext-runner-thread.gif]]
 
-==Example C++ tool==
+==Runner tool for C++==
 Install the add-on "build-system: C++ using G++".
 It supports C++ lexer using GNU C++ compiler.
 It works on Linux/macOS out-of-the-box, on Windows you need the command "g++" to be in the system PATH.
@@ -786,7 +786,7 @@ Hello World!
 -- Done (0.8s), return code: 0
 </pre>
 
-==Example PHP tool==
+==Runner tool for PHP==
 How to debug for example PHP file, with Runner.
 Create file "[CudaText]/data/buildsystems/php.sublime-build" with such text:
 <syntaxhighlight lang="json">
@@ -815,7 +815,7 @@ for($i=0; $i<10; $i++) {
 ?>
 </syntaxhighlight>
 
-==Example Python tool==
+==Runner tool for Python==
 How to debug for example Python file, with Runner.
 Create file "[CudaText]/data/buildsystems/py.sublime-build" with such text:
 <syntaxhighlight lang="json">
@@ -848,7 +848,7 @@ if __name__ == '__main__':
     ForTest()
 </syntaxhighlight>
 
-==Example Free Pascal tool==
+==Runner tool for Free Pascal==
 How to compile and run Free Pascal files.
 Create file "[CudaText]/data/buildsystems/Free Pascal.sublime-build" with such text:
 <syntaxhighlight lang="json">
