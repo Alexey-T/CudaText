@@ -114,6 +114,22 @@ Section "plugin_groups" in user.json. '''Configures grouping in the Plugins menu
 * Key name: regular expression for the first part of menu name. E.g. if menu name in install.inf is "CSS Utils\Misc\Action", then first part is "CSS Utils".
 * Key value: group name, it can be with "\" char to make several levels.
 
+==Location of folders 'settings', 'py', 'data'==
+
+CudaText distributions are portable, if the executable file is located near the "data" sub-folder. So the distribution for Windows is portable (executable "cudatext.exe" is located near "data"), and distibutions from .xz archives are portable too.
+
+Not portable CudaText:
+
+* Linux: .deb package, which installs binary file to "usr/bin/cudatext" and several data folders to "/usr/share/cudatext".
+* macOS: package, which installs to the "Applications" system folder.
+* Haiku.
+
+For not portable usage, folder "settings" is created here:
+
+* Linux, *BSD, Solaris: ~/.config/cudatext, or $XDG_CONFIG_HOME/cudatext if this OS variable is set
+* macOS: ~/Library/Application Support/CudaText
+* Haiku: /boot/home/config/settings/cudatext
+
 = Command line parameters =
 
 Usage:
@@ -155,11 +171,9 @@ Notes:
 * Non-existing file name can be specified, program will ask to create it.
 * File masks with "*" symbol are supported, e.g. command "cudatext test/t*.htm*" will work.
 
-On macOS you cannot run "cudatext", but you can open Terminal and create the alias for "cudatext":
+On macOS you cannot run "cudatext" from Terminal, but you can open Terminal and create the alias for "cudatext".
 
  alias cudatext=open\ /Applications/CudaText.app\ --args
-
-This allows to open in Terminal commands like "cudatext ~/filename.html".
 
 = Mouse shortcuts =
 
@@ -751,22 +765,6 @@ but not for several stream-comments on a single line).
 Previously, CudaText allowed something like this, via lexer configuration: all needed lexers must have
 special settings inside them, and this worked for 2+ lines, not for custom value.
 After the option "auto_fold_comments" appeared, all 3rd-party lexers should be stripped of those old settings.
-
-=Location of folders 'settings', 'py', 'data'=
-
-CudaText distributions are portable, if the executable file is located near the "data" sub-folder. So the distribution for Windows is portable (executable "cudatext.exe" is located near "data"), and distibutions from .xz archives are portable too.
-
-Not portable CudaText:
-
-* Linux: .deb package, which installs binary file to "usr/bin/cudatext" and several data folders to "/usr/share/cudatext".
-* macOS: package, which installs to the "Applications" system folder.
-* Haiku.
-
-For not portable usage, folder "settings" is created here:
-
-* Linux, *BSD, Solaris: ~/.config/cudatext, or $XDG_CONFIG_HOME/cudatext if this OS variable is set
-* macOS: ~/Library/Application Support/CudaText
-* Haiku: /boot/home/config/settings/cudatext
 
 =Encodings=
 
