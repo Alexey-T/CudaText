@@ -726,6 +726,7 @@ type
     FOption_GroupSizes: TATGroupsPoints;
     FOption_GroupPanelSize: TPoint;
     FOption_SidebarTab: string;
+    FOption_BottomTab: string;
     FCmdlineFileCount: integer;
 
     procedure HandleTimerCommand(Ed: TATSynEdit; CmdCode: integer; CmdInvoke: TATEditorCommandInvoke);

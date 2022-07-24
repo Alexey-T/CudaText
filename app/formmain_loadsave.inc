@@ -166,6 +166,7 @@ begin
           cfg.SetValue('size_bottom', PanelSize);
 
       cfg.SetValue('tab_left', AppPanels[cPaneSide].LastActivePanel);
+      cfg.SetValue('tab_bottom', AppPanels[cPaneOut].LastActivePanel);
     end;
 
     ////recents
@@ -854,6 +855,7 @@ begin
     end;
 
     FOption_SidebarTab:= cfg.GetValue('tab_left', '');
+    FOption_BottomTab:= cfg.GetValue('tab_bottom', '');
   finally
     cfg.Free;
   end;
@@ -873,6 +875,7 @@ begin
   //if session was loaded on start, and sidepanel was inited, exit
   if AppPanels[cPaneSide].LastActivePanel<>'' then exit;
 
+  //1)
   S:= FOption_SidebarTab;
   //if plugin didn't load, caption not valid
   if AppPanels[cPaneSide].CaptionToButtonIndex(S)<0 then
@@ -881,6 +884,16 @@ begin
   if (S<>'-') and (S<>'') then
     if AppPanels[cPaneSide].Visible then
       AppPanels[cPaneSide].UpdatePanels(S, false, true);
+
+  //2) the same for bottom-bar
+  S:= FOption_BottomTab;
+  //if plugin didn't load, caption not valid
+  if AppPanels[cPaneOut].CaptionToButtonIndex(S)<0 then
+    S:= msgPanelConsole_Init;
+
+  if (S<>'-') and (S<>'') then
+    if AppPanels[cPaneOut].Visible then
+      AppPanels[cPaneOut].UpdatePanels(S, false, true);
 end;
 
 procedure TfmMain.DoApplyInitialWindowPos;
