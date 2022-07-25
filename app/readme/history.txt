@@ -3,7 +3,9 @@
   - fixed
   * changed
 
-1.167.5 (2022/07)
+- fix: Linux: file 'ast.py' in the current folder was breaking many plugins (thanks @veksha)
+
+1.167.5 (2022/07)                                              
 
 + add: use translated button captions in message-boxes, both internal and API (thanks @hexaae)
 + add: wiki page https://wiki.freepascal.org/CudaText_VS_other_editors
