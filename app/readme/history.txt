@@ -5,6 +5,7 @@
 
 1.167.6 (2022/07)
 
++ add: command-line paramter '-verbose'
 - fix: Linux Qt5: with "caret_after_end":true, on going up/down over short lines, caret moves lefter 
 - fix: Linux: file 'ast.py' in the current folder was breaking many plugins (thanks @veksha)
 - fix: lexer Bash: wrong highlight in '~/.local' (thanks @eltonfabricio10)
