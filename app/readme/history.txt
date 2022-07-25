@@ -7,7 +7,7 @@
 
 - fix: Linux Qt5: with "caret_after_end":true, on going up/down over short lines, caret moves lefter 
 - fix: Linux: file 'ast.py' in the current folder was breaking many plugins (thanks @veksha)
-- fix: lexer Bash: '.local' is not special word (thanks @eltonfabricio10)
+- fix: lexer Bash: wrong highlight in '~/.local' (thanks @eltonfabricio10)
 
 1.167.5 (2022/07)                                              
 
