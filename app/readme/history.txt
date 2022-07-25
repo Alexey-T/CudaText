@@ -3,7 +3,10 @@
   - fixed
   * changed
 
+1.167.6 (2022/07)
+
 - fix: Linux: file 'ast.py' in the current folder was breaking many plugins (thanks @veksha)
+- fix: lexer Bash: .local is not special word (thanks @eltonfabricio10)
 
 1.167.5 (2022/07)                                              
 
