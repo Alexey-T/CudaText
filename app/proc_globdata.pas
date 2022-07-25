@@ -205,6 +205,7 @@ type
 
     PyLibrary: string;
     PyChangeSlow: integer;
+    PyOutputCopyToStdout: boolean;
     InfoAboutOptionsEditor: boolean;
     AllowFrameParsing: boolean; //must be set in FormMain.OnShow
     AllowRunPkExec: boolean;
@@ -1958,6 +1959,7 @@ begin
     TreeFillMaxTimeForAPI:= 6*1000;
 
     PyChangeSlow:= 2000;
+    PyOutputCopyToStdout:= false;
     InfoAboutOptionsEditor:= true;
     AllowFrameParsing:= false;
     AllowRunPkExec:= true;

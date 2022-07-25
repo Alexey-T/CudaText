@@ -352,6 +352,7 @@ const
       '  -nn             - Don''t suggest to create new file if filename not found'+EOL+
       '  -s=folder       - Set full path of "settings" folder'+EOL+
       '  -i              - Open contents of stdin in new tab (Unix only)'+EOL+
+      '  -verbose        - Copy Python messages to stdout (Unix only)'+EOL+
       '  -id=name - Set single-instance id, for groups of instances (Unix, default: cudatext.0)'+EOL+
       '  -w=left,top,width,height        - Set position/size of the main window'+EOL+
       '  -c=cuda_module,method           - Run command plugin on startup'+EOL+

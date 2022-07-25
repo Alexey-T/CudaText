@@ -82,6 +82,12 @@ begin
       AAllowSessionSave:= aalsDisable;
       Continue;
     end;
+
+    if (SParam='-verbose') then
+    begin
+      UiOps.PyOutputCopyToStdout:= true;
+      Continue;
+    end;
   end;
 end;
 

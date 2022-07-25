@@ -432,17 +432,32 @@ begin
 end;
 
 procedure TfmMain.PythonIOSendUniData(Sender: TObject; const Data: UnicodeString);
+  //
+  procedure MaybeWriteln(const S: UnicodeString); inline;
+  begin
+    {$ifdef unix}
+    if UiOps.PyOutputCopyToStdout then
+      Writeln(S);
+    {$endif}
+  end;
+  //
 var
   Sep: TATStringSeparator;
   S: UnicodeString;
 begin
   if Pos(#10, Data)=0 then
-    AppConsoleQueue.Push(Data)
+  begin
+    AppConsoleQueue.Push(Data);
+    MaybeWriteln(Data);
+  end
   else
   begin
     Sep.Init(Data, #10);
     while Sep.GetItemStr(S) do
+    begin
       AppConsoleQueue.Push(S);
+      MaybeWriteln(S);
+    end;
   end;
 end;
 
