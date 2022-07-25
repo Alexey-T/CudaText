@@ -724,7 +724,7 @@ begin
 
   //Linux has empty-str in sys.path, which causes issue #4242
   if DoAdd then
-    Str:= 'sys.path.remove("");'+Str;
+    Str:= 'if "" in sys.path:sys.path.remove("");'+Str;
 
   Exec(Str+';print("Python %d.%d.%d"%sys.version_info[:3])');
 end;
