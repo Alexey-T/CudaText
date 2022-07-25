@@ -83,7 +83,7 @@ type
     procedure SetDictKey(Obj: PPyObject; const AKey: string; AValue: integer);
     procedure SetDictKey(Obj: PPyObject; const AKey: string; AValue: TObject);
 
-    procedure SetPath(const Dirs: array of string; DoAdd: boolean);
+    procedure SetPath(const ADirs: array of string; AAppend: boolean);
     procedure ClearCache;
     procedure DisableTiming;
     function GetTimingReport: string;
@@ -707,26 +707,25 @@ begin
 end;
 
 
-procedure TAppPython.SetPath(const Dirs: array of string; DoAdd: boolean);
+procedure TAppPython.SetPath(const ADirs: array of string; AAppend: boolean);
 var
-  Str, Sign: string;
-  i: Integer;
+  S: string;
+  i: integer;
 begin
-  Str:= '';
-  for i:= 0 to Length(Dirs)-1 do
-    Str:= Str + 'r"' + Dirs[i] + '",';
-  if DoAdd then
-    Sign:= '+='
+  S:= '';
+  for i:= 0 to Length(ADirs)-1 do
+    S+= 'r"'+ADirs[i]+'",';
+
+  if AAppend then
+  begin
+    S:= Format('sys.path+=[%s]', [S]);
+    //Linux has empty str in sys.path, which causes issue #4242
+    S:= 'if "" in sys.path:sys.path.remove("");'+S;
+  end
   else
-    Sign:= '=';
+    S:= Format('sys.path=[%s]', [S]);
 
-  Str:= Format('sys.path %s [%s]', [Sign, Str]);
-
-  //Linux has empty-str in sys.path, which causes issue #4242
-  if DoAdd then
-    Str:= 'if "" in sys.path:sys.path.remove("");'+Str;
-
-  Exec(Str+';print("Python %d.%d.%d"%sys.version_info[:3])');
+  Exec(S+';print("Python %d.%d.%d"%sys.version_info[:3])');
 end;
 
 procedure TAppPython.MaskFPU(AValue: boolean);
