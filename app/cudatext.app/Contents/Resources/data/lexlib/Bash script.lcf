@@ -1,4 +1,4 @@
-object SyntAnal3: TLibSyntAnalyzer
+object SyntAnal2: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Comment'
@@ -456,7 +456,7 @@ object SyntAnal3: TLibSyntAnalyzer
       BlockName = '(('
       NotParent = True
       TokenType = 2
-      Expression = '\b[a-z_\.][\w\-\.]*\w\b'
+      Expression = '[a-z_\.][\w\-\.]*\w\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
