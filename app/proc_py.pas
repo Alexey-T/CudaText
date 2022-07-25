@@ -719,7 +719,12 @@ begin
     Sign:= '+='
   else
     Sign:= '=';
+
   Str:= Format('sys.path %s [%s]', [Sign, Str]);
+
+  //Linux has empty-str in sys.path, which causes issue #4242
+  if DoAdd then
+    Str:= 'sys.path.remove("");'+Str;
 
   Exec(Str+';print("Python %d.%d.%d"%sys.version_info[:3])');
 end;
