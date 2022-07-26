@@ -51,29 +51,31 @@ begin
   Ed.FileName:= fn; //Ed.FileName was changed to fnTemp
 
   if IsBadResultFile(fnTemp, bDocEmpty) then
-    raise EFileNotFoundException.Create(msgCannotSaveFile+#10+fnTemp);
+    raise EFileNotFoundException.Create(msgCannotSaveFile+#10+AppCollapseHomeDirInFilename(fnTemp));
 
   if cSystemHasPkExec and UiOps.AllowRunPkExec then
   begin
     if DirectoryIsWritable(ExtractFileDir(fn)) then
     begin
       if not CopyFile(fnTemp, fn) then
-        raise EWriteError.Create(msgCannotSaveFile+#10+fn);
+        raise EWriteError.Create(msgCannotSaveFile+#10+AppCollapseHomeDirInFilename(fn));
     end
     else
     begin
       if not RunCommand('pkexec', ['/bin/cp', '-T', fnTemp, fn], SOutput, [poWaitOnExit]) then
-        raise EFileNotFoundException.Create(msgCannotFindPkExec+#10+msgStatusSavedTempFile+#10+fnTemp);
+        raise EFileNotFoundException.Create(msgCannotFindPkExec+#10+msgStatusSavedTempFile+#10+AppCollapseHomeDirInFilename(fnTemp));
     end;
   end
   else
   begin
     if not CopyFile(fnTemp, fn) then
-      raise EWriteError.Create(msgCannotSaveFile+#10+fn);
+      raise EWriteError.Create(msgCannotSaveFile+#10+AppCollapseHomeDirInFilename(fn));
   end;
 
   if IsBadResultFile(fn, bDocEmpty) then
-    raise EFileNotFoundException.Create(msgCannotSaveFile+#10+fn+#10+msgStatusSavedTempFile+#10+fnTemp);
+    raise EFileNotFoundException.Create(
+          msgCannotSaveFile+#10+AppCollapseHomeDirInFilename(fn)+#10+
+          msgStatusSavedTempFile+#10+AppCollapseHomeDirInFilename(fnTemp));
   DeleteFile(fnTemp);
 end;
 
