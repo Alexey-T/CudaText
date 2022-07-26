@@ -23,6 +23,7 @@ implementation
 uses
   FileUtil, LazFileUtils,
   Process,
+  proc_editor,
   proc_files,
   proc_msg,
   proc_globdata;
@@ -32,19 +33,22 @@ begin
   Ed.SaveToFile(fn);
 end;
 
-function IsBadResultFile(const fn: string): boolean;
+function IsBadResultFile(const fn: string; AllowEmpty: boolean): boolean;
 begin
-  Result:= (not FileExists(fn)) or (FileUtil.FileSize(fn)=0);
+  Result:= (not FileExists(fn)) or
+    (not AllowEmpty and (FileUtil.FileSize(fn)=0));
 end;
 
 procedure SaveViaTempCopy(Ed: TATSynEdit; const fn: string);
 var
   fnTemp: string;
   SOutput: string;
+  bDocEmpty: boolean;
 begin
+  bDocEmpty:= EditorIsEmpty(Ed);
   fnTemp:= GetTempFileName('', 'cudatext_');
   SaveSimple(Ed, fnTemp);
-  if IsBadResultFile(fnTemp) then
+  if IsBadResultFile(fnTemp, bDocEmpty) then
     raise EFileNotFoundException.Create(msgCannotSaveFile+#10+fnTemp);
 
   if cSystemHasPkExec and UiOps.AllowRunPkExec then
@@ -60,7 +64,7 @@ begin
   else
     CopyFile(fnTemp, fn);
 
-  if IsBadResultFile(fn) then
+  if IsBadResultFile(fn, bDocEmpty) then
     raise EFileNotFoundException.Create(msgCannotSaveFile+#10+fn+#10+msgStatusSavedTempFile+#10+fnTemp);
   DeleteFile(fnTemp);
 end;
