@@ -3,9 +3,9 @@
   - fixed
   * changed
 
-1.167.6 (2022/07)
+1.168.0 (2022/07)
 
-+ add: command-line paramter '-verbose'
++ add: command-line parameter '-verbose' for debugging
 - fix: couple of issues with saving read/only files (thanks @veksha)
 - fix: Linux Qt5: with "caret_after_end":true, on going up/down over short lines, caret moves lefter 
 - fix: Linux: file 'ast.py' in the current folder was breaking many plugins (thanks @veksha)
