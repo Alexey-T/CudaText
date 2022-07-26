@@ -65,7 +65,10 @@ begin
     end;
   end
   else
-    CopyFile(fnTemp, fn);
+  begin
+    if not CopyFile(fnTemp, fn) then
+      raise EWriteError.Create(msgCannotSaveFile+#10+fn);
+  end;
 
   if IsBadResultFile(fn, bDocEmpty) then
     raise EFileNotFoundException.Create(msgCannotSaveFile+#10+fn+#10+msgStatusSavedTempFile+#10+fnTemp);
