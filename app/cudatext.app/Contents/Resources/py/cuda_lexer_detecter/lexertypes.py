@@ -313,7 +313,7 @@ TYPES = {
     "nut": ['Squirrel'],
     "ob2": ['Oberon'],
     "org": ['Org-mode'],
-    "pas": ['PAX_Pascal', 'Pascal'],
+    "pas": ['Pascal'],
     "patch": ['Diff'],
     "pbs": ['Great Cow Basic'],
     "pch": ['Objective-C'],
