@@ -48,6 +48,8 @@ begin
   bDocEmpty:= EditorIsEmpty(Ed);
   fnTemp:= GetTempFileName('', 'cudatext_');
   SaveSimple(Ed, fnTemp);
+  Ed.FileName:= fn; //Ed.FileName was changed to fnTemp
+
   if IsBadResultFile(fnTemp, bDocEmpty) then
     raise EFileNotFoundException.Create(msgCannotSaveFile+#10+fnTemp);
 
