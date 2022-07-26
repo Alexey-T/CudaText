@@ -54,7 +54,10 @@ begin
   if cSystemHasPkExec and UiOps.AllowRunPkExec then
   begin
     if DirectoryIsWritable(ExtractFileDir(fn)) then
-      CopyFile(fnTemp, fn)
+    begin
+      if not CopyFile(fnTemp, fn) then
+        raise EWriteError.Create(msgCannotSaveFile+#10+fn);
+    end
     else
     begin
       if not RunCommand('pkexec', ['/bin/cp', '-T', fnTemp, fn], SOutput, [poWaitOnExit]) then
