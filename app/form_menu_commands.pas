@@ -398,7 +398,8 @@ var
   cl: TColor;
   n, nPrevSize, i: integer;
 begin
-  if AIndex<0 then exit;
+  if (AIndex<0) or (AIndex>=keymapList.Count) then exit;
+
   if AIndex=list.ItemIndex then
   begin
     cl:= FColorBgSel;
