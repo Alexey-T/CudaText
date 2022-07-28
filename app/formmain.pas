@@ -3174,6 +3174,12 @@ begin
   //issue #1814
   AppPanels[cPaneSide].UpdateSplitter;
   AppPanels[cPaneOut].UpdateSplitter;
+
+  //issue #4249
+  if AppPanels[cPaneOut].Visible then
+    Constraints.MinHeight:= AppPanels[cPaneOut].PanelSize+200
+  else
+    Constraints.MinHeight:= 0;
 end;
 
 procedure TfmMain.DoApplyCli(const ACliModule: string; const ACliParams: TAppStringArray);
