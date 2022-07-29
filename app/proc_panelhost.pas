@@ -159,6 +159,7 @@ begin
   Splitter:= TSplitter.Create(FOwner);
   Splitter.Align:= Align;
   Splitter.Parent:= PanelRoot;
+  Splitter.MinSize:= 100;
 
   UpdateSplitter;
 end;
