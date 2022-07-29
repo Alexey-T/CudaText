@@ -3177,7 +3177,7 @@ begin
 
   //issue #4249
   if AppPanels[cPaneOut].Visible then
-    Constraints.MinHeight:= AppPanels[cPaneOut].PanelSize+200
+    Constraints.MinHeight:= Min(Height, AppPanels[cPaneOut].PanelSize+200)
   else
     Constraints.MinHeight:= 0;
 end;
