@@ -49,7 +49,7 @@ type
     procedure HelpButtonClick(Sender: TObject);
     procedure ListKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure ListSelectionChange(Sender: TObject; User: boolean);
-    procedure ListStylesDrawItem(Control: TWinControl; Index: Integer; ARect: TRect; State: TOwnerDrawState);
+    procedure ListStylesDrawItem(Control: TWinControl; AIndex: Integer; ARect: TRect; State: TOwnerDrawState);
     procedure OKButtonClick(Sender: TObject);
   private
     { private declarations }
@@ -264,7 +264,7 @@ begin
   bNone.Enabled:= (NSel>=0) and (TAppThemeColorId(NSel) in cAppThemeColorsWhichAllowNone);
 end;
 
-procedure TfmColorSetup.ListStylesDrawItem(Control: TWinControl; Index: Integer; ARect: TRect;
+procedure TfmColorSetup.ListStylesDrawItem(Control: TWinControl; AIndex: Integer; ARect: TRect;
   State: TOwnerDrawState);
 const
   cIndent = 6;
@@ -275,8 +275,10 @@ var
   S: string;
   NWidth: integer;
 begin
+  if (AIndex<0) or (AIndex>=ListStyles.Items.Count) then exit;
+
   C:= (Control as TListbox).Canvas;
-  st:= ListStyles.Items.Objects[Index] as TecSyntaxFormat;
+  st:= ListStyles.Items.Objects[AIndex] as TecSyntaxFormat;
 
   C.Brush.Color:= clWindow;
   C.FillRect(ARect);
@@ -305,7 +307,7 @@ begin
   else
     C.Brush.Color:= clNone;
 
-  S:= ListStyles.Items[Index];
+  S:= ListStyles.Items[AIndex];
   C.Font.Color:= clBlack;
   C.Font.Style:= [];
   C.TextOut(ARect.Left+cIndent, ARect.Top, S);

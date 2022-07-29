@@ -87,6 +87,7 @@ var
   str1, str2: string;
   NColorFont, NColorBack: TColor;
 begin
+  if (AIndex<0) or (AIndex>=Items.Count) then exit;
   SSplitByChar(Items[AIndex], #9, str1, str2);
 
   if AIndex=List.ItemIndex then

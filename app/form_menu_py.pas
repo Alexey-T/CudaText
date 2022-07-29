@@ -283,7 +283,7 @@ begin
     c.Font.Size:= ATEditorScaleFont(EditorOps.OpFontSize);
   end;
 
-  if AIndex<0 then exit;
+  if (AIndex<0) or (AIndex>=listFiltered.Count) then exit;
   if AIndex=list.ItemIndex then
   begin
     c.Font.Color:= FColorFontSel;
