@@ -72,3 +72,6 @@ cuda_insert_pics/
 cuda_hilite*
 cuda_fmt*
 cuda_bread*
+cuda_terminal*
+cuda_exterminal*
+cuda_git_status
