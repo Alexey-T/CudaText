@@ -3179,7 +3179,7 @@ begin
   if AppPanels[cPaneOut].Visible then
     Constraints.MinHeight:= Min(Height, AppPanels[cPaneOut].PanelSize+200)
   else
-    Constraints.MinHeight:= 0;
+    Constraints.MinHeight:= 200; //like in form designer
 end;
 
 procedure TfmMain.DoApplyCli(const ACliModule: string; const ACliParams: TAppStringArray);
