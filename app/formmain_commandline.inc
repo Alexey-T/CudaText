@@ -37,13 +37,13 @@ begin
     if (SParam='--version') or (SParam='-v') then
     begin
       MsgStdout('CudaText '+cAppExeVersion, true);
-      Halt;
+      Application.Terminate;
     end;
 
     if (SParam='--help') or (SParam='-h') then
     begin
       MsgStdout(msgCommandLineHelp, true);
-      Halt;
+      Application.Terminate;
     end;
 
     if SBeginsWith(SParam, '-w=') then
@@ -61,7 +61,7 @@ begin
     if (SParam='-el') then
     begin
       MsgStdout(AppEncodingListAsString, true);
-      Halt;
+      Application.Terminate;
     end;
 
     if (SParam='-ns') then
