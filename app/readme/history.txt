@@ -3,10 +3,11 @@
   - fixed
   * changed
 
-1.168.1
+1.168.1 (2022/08)
 
+- fix: macOS: better blinking of caret (thanks @veksha)
 - fix: regression, broken option "mouse_rt_click_moves_caret" (thanks @sl23)
-- fix: couple of range-check-errors which may be visible on macOS (thanks @JairoMartinezA)
+- fix: crash "list index error" visible on macOS (thanks @JairoMartinezA)
 
 1.168.0 (2022/07)
 
