@@ -136,7 +136,7 @@ object SyntAnal3: TLibSyntAnalyzer
       StyleName = 'String'
       StrictParent = True
       TokenType = 4
-      Expression = '(?<=\b echo \x20) [^<>\|\n\r&]*'
+      Expression = '(?<=\b echo \x20) (\^\n|[^<>\|\n\r&])+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -144,7 +144,7 @@ object SyntAnal3: TLibSyntAnalyzer
       DisplayName = 'String'
       StyleName = 'String'
       TokenType = 4
-      Expression = '".*?("|$)'
+      Expression = '"(\^\n|.)*?("|$)'
       ColumnFrom = 0
       ColumnTo = 0
     end
