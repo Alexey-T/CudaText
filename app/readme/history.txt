@@ -3,6 +3,8 @@
   - fixed
   * changed
 
+- fix: regression, broken option "mouse_rt_click_moves_caret" (thanks @sl23) 
+
 1.168.0 (2022/07)
 
 + add: command-line parameter '-verbose' for debugging
