@@ -8,6 +8,7 @@
 - fix: macOS: better blinking of caret (thanks @veksha)
 - fix: regression, broken option "mouse_rt_click_moves_caret" (thanks @sl23)
 - fix: crash "list index error" visible on macOS (thanks @JairoMartinezA)
+- fix: lexer Batch: ^-char before line-break must continue the string literal
 
 1.168.0 (2022/07)
 
