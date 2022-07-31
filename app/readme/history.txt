@@ -3,7 +3,10 @@
   - fixed
   * changed
 
-- fix: regression, broken option "mouse_rt_click_moves_caret" (thanks @sl23) 
+1.168.1
+
+- fix: regression, broken option "mouse_rt_click_moves_caret" (thanks @sl23)
+- fix: couple of range-check-errors which may be visible on macOS (thanks @JairoMartinezA)
 
 1.168.0 (2022/07)
 
