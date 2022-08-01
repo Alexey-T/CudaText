@@ -1736,7 +1736,7 @@ begin
 
       Strs.TextReplaceRange(X1, Y1, X2, Y2,
         UTF8Decode(StrText), Shift, PosAfter, true);
-      Ed.DoCaretsShift(0, X1, Y1, Shift.X, Shift.Y, PosAfter);
+      Ed.UpdateCaretsAndMarkersOnEditing(0, X1, Y1, Shift.X, Shift.Y, PosAfter);
 
       Ed.DoEventChange(Y1);
       Ed.UpdateWrapInfo(true); //fixing #4173
@@ -1772,7 +1772,7 @@ begin
       try
         PyListToStrings(ListPy, Lines);
         Res:= Strs.TextReplaceLines_UTF8(Y1, Y2, Lines);
-        Ed.DoCaretsShift(0, 0, Y1, 0, Lines.Count-(Y2-Y1+1), Point(0, Y1+Lines.Count));
+        Ed.UpdateCaretsAndMarkersOnEditing(0, 0, Y1, 0, Lines.Count-(Y2-Y1+1), Point(0, Y1+Lines.Count));
 
         Ed.DoEventChange(Y1);
       finally

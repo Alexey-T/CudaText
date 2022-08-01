@@ -1063,7 +1063,7 @@ begin
     if not bSel then
     begin
       St.TextInsert(X1, Y1, CharBegin+CharEnd, false, Shift, PosAfter);
-      Ed.DoCaretsShift(NCaret, X1, Y1, Shift.X, Shift.Y, PosAfter);
+      Ed.UpdateCaretsAndMarkersOnEditing(NCaret, X1, Y1, Shift.X, Shift.Y, PosAfter);
 
       Caret.PosX:= Caret.PosX+1;
       Caret.EndX:= -1;
@@ -1072,10 +1072,10 @@ begin
     else
     begin
       St.TextInsert(X2, Y2, CharEnd, false, Shift, PosAfter);
-      Ed.DoCaretsShift(NCaret, X2, Y2, Shift.X, Shift.Y, PosAfter);
+      Ed.UpdateCaretsAndMarkersOnEditing(NCaret, X2, Y2, Shift.X, Shift.Y, PosAfter);
 
       St.TextInsert(X1, Y1, CharBegin, false, Shift, PosAfter);
-      Ed.DoCaretsShift(NCaret, X1, Y1, Shift.X, Shift.Y, PosAfter);
+      Ed.UpdateCaretsAndMarkersOnEditing(NCaret, X1, Y1, Shift.X, Shift.Y, PosAfter);
 
       Caret.EndX:= X1+1;
       Caret.EndY:= Y1;
@@ -2198,7 +2198,7 @@ begin
   Strs.SetNewCommandMark;
 
   Strs.TextDeleteRange(X1, Y1, X2, Y2, Shift, PosAfter);
-  Ed.DoCaretsShift(0, X1, Y1, Shift.X, Shift.Y, PosAfter);
+  Ed.UpdateCaretsAndMarkersOnEditing(0, X1, Y1, Shift.X, Shift.Y, PosAfter);
 
   Ed.DoEventChange(Y1);
   Ed.Update(true);
@@ -2224,7 +2224,7 @@ begin
   else
   begin
     Strs.TextInsert(AX, AY, AStr, false, Shift, APosAfter);
-    Ed.DoCaretsShift(0, AX, AY, Shift.X, Shift.Y, APosAfter);
+    Ed.UpdateCaretsAndMarkersOnEditing(0, AX, AY, Shift.X, Shift.Y, APosAfter);
   end;
 
   Ed.DoEventChange(AY);
