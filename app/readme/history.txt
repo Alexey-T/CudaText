@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.168.1 (2022/08)
+1.168.2 (2022/08)
 
 - fix: macOS: better blinking of caret (thanks @veksha)
 - fix: regression, broken option "mouse_rt_click_moves_caret" (thanks @sl23)
