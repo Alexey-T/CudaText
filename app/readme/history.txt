@@ -5,6 +5,7 @@
 
 1.168.2 (2022/08)
 
++ add: 'Undo' handles also colored-attribs, which are added e.g. by 'Color Text' plugin
 - fix: macOS: bug in blinking of caret (thanks @veksha)
 - fix: macOS: crash "list index error" (thanks @JairoMartinezA)
 - fix: regression, broken option "mouse_rt_click_moves_caret" (thanks @sl23)
