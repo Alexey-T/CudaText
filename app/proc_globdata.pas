@@ -346,6 +346,7 @@ type
     InitialDir: string;
     ConfirmLinksClicks: boolean;
     ConfirmSaveEmptyUntitledTab: boolean;
+    SplittersUsePoorStyle: boolean;
 
     ExportHtmlNumbers: boolean;
     ExportHtmlFontName: string;
@@ -1942,6 +1943,7 @@ begin
     InitialDir:= '';
     ConfirmLinksClicks:= true;
     ConfirmSaveEmptyUntitledTab:= false;
+    SplittersUsePoorStyle:= true;
 
     ExportHtmlNumbers:= false;
     ExportHtmlFontSize:= 12;

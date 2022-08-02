@@ -3205,19 +3205,23 @@ procedure TfmMain.FormShow(Sender: TObject);
   // it's needed for macOS and Win10
   var
     id: TAppPanelId;
-  const
-    cStyle = rsPattern;
+    ResizeStyle: TResizeStyle;
   begin
+    if UiOps.SplittersUsePoorStyle then
+      ResizeStyle:= rsPattern
+    else
+      ResizeStyle:= rsUpdate;
+
     for id:= Low(id) to High(id) do
       if id<>cPaneNone then
         with AppPanels[id] do
-          Splitter.ResizeStyle:= cStyle;
+          Splitter.ResizeStyle:= ResizeStyle;
 
-    Groups.Splitter1.ResizeStyle:= cStyle;
-    Groups.Splitter2.ResizeStyle:= cStyle;
-    Groups.Splitter3.ResizeStyle:= cStyle;
-    Groups.Splitter4.ResizeStyle:= cStyle;
-    Groups.Splitter5.ResizeStyle:= cStyle;
+    Groups.Splitter1.ResizeStyle:= ResizeStyle;
+    Groups.Splitter2.ResizeStyle:= ResizeStyle;
+    Groups.Splitter3.ResizeStyle:= ResizeStyle;
+    Groups.Splitter4.ResizeStyle:= ResizeStyle;
+    Groups.Splitter5.ResizeStyle:= ResizeStyle;
   end;
   //
   procedure _Init_DisableSomeMenuItems;
