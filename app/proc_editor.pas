@@ -2198,6 +2198,7 @@ begin
   Strs.SetNewCommandMark;
 
   Strs.TextDeleteRange(X1, Y1, X2, Y2, Shift, PosAfter);
+  Ed.UpdateMarkersOnDeleting(X1, Y1, X2, Y2);
   Ed.UpdateCaretsAndMarkersOnEditing(0, X1, Y1, Shift.X, Shift.Y, PosAfter);
 
   Ed.DoEventChange(Y1);
