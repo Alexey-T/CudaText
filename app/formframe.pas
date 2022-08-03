@@ -3432,7 +3432,7 @@ begin
   //because if a snippet (with markers) inserted + file was not saved after it,
   //we have wrong markers to save
   if UiOps.HistoryItems[ahhMarkers] then
-    c.SetDeleteValue(path+cHistory_Markers, Ed.Markers.AsString, '');
+    c.SetDeleteValue(path+cHistory_Markers, Ed.Markers.AsMarkerString, '');
   }
 
   if UiOps.HistoryItems[ahhCodeTreeFilter] then
@@ -3539,7 +3539,7 @@ begin
   //markers
   //it's bad to save markers along with other history items,
   //so this is commented
-  Ed.Markers.AsString:= c.GetValue(path+cHistory_Markers, '');
+  Ed.Markers.AsMarkerString:= c.GetValue(path+cHistory_Markers, '');
   }
 
   //split state
