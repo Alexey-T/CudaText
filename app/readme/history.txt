@@ -3,7 +3,8 @@
   - fixed
   * changed
 
-* change: adapt default key-mapping for macOS, for commands: "go to text begin/end", "caret to line begin/end", "go to word previous/next" (thanks @veksha)
+* change: macOS: adapt default hotkeys for macOS, for commands: "go to text begin/end", "caret to line begin/end", "go to word previous/next" (thanks @veksha)
+- fix: bug with "scrollbar_themed":false (thanks @veksha)
 
 1.168.5 (2022/08)
 
