@@ -3,6 +3,8 @@
   - fixed
   * changed
 
+* change: adapt default key-mapping for macOS, for commands: "go to text begin/end", "caret to line begin/end", "go to word previous/next" (thanks @veksha)
+
 1.168.5 (2022/08)
 
 + add: command "Undo" handles also color-attribs, which are added e.g. by 'Color Text' plugin
