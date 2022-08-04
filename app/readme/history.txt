@@ -3,8 +3,11 @@
   - fixed
   * changed
 
+1.168.6 (2022/08)
+
 * change: macOS: adapt default hotkeys for macOS, for commands: "go to text begin/end", "caret to line begin/end", "go to word previous/next" (thanks @veksha)
 - fix: bug with "scrollbar_themed":false (thanks @veksha)
+- fix: "Go to bookmark" did not focus target group (thanks @MiroslavMatas)
 
 1.168.5 (2022/08)
 
