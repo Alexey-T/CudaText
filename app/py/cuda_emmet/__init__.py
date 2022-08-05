@@ -9,8 +9,6 @@ _   = get_translation(__file__)  # I18N
 lexers_xml = ['XML', 'XML ^', 'XSL', 'XSLT']
 lexers_css = ['CSS', 'SCSS', 'SASS', 'Sass', 'Stylus', 'LESS']
 
-filename_help = os.path.join(os.path.dirname(__file__), 'help.html')
-
 HTML_TAGS = (
   'a',
   'abbr',
@@ -275,7 +273,8 @@ class Command:
     def help(self):
 
         import webbrowser
-        webbrowser.open_new_tab('file://'+filename_help)
+        fn = os.path.join(os.path.dirname(__file__), 'help.html')
+        webbrowser.open_new_tab('file://'+fn)
         msg_status(_('Opened browser'))
 
 
