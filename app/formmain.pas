@@ -4932,6 +4932,7 @@ begin
     end;
 
     Prop:= TAppBookmarkProp(ListItems.Objects[SelIndex]);
+    SetFrame(Prop.Frame);
     Prop.Frame.SetFocus;
     Prop.Ed.DoGotoPos(
       Point(0, Prop.LineIndex),
