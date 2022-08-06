@@ -12,10 +12,87 @@ Comment chars are editable in SynWrite editor, in dialog "Lexer properties" (aft
 
 Command "Toggle stream comment" in plugin adds/removes comments of last 2 types: for range, for full lines (plugin chooses needed kind).
 
-Comment chars are saved:
+Where comment chars are stored:
 
-* Line comments: in lexer file data/lexlib/nnn.lcf.
-* Range comments: in files data/lexlib/nnn.cuda-lexmap.
+* Line comments: in lexer file data/lexlib/*.lcf.
+* Range comments: in additional file data/lexlib/*.cuda-lexmap.
+
+===Commenting options===
+
+Plugin "Comments" has several options, and it gives the dialog to change them: menu item "Options / Settings-plugins / Comments / Config". Options are:
+
+'''(Line commands) Try to keep text position afer (un)commenting'''
+
+With option on, plugin tries to insert comment chars into leading space-area of the line. For example, with C++ (line comment chars "//"), line with 4 leading spaces:
+
+     code();
+
+will be changed to line with 2 leading spaces:
+
+   //code();
+
+After uncommenting, line will be restored to original, with 4 leading spaces.
+
+'''(Line "at non-space") If selected few lines, insert comment at maximal common indent'''
+
+With option on, this selected block of lines in C++:
+
+       code1();
+     code2();
+         code3();
+
+will be changed to:
+
+     //  code1();
+     //code2();
+     //    code3();
+
+With option off, block will be changed to:
+
+       //code1();
+     //code2();
+         //code3();
+
+'''(All) Move caret to next line'''
+
+With option on, after commenting/uncommenting command for single line, caret will be moved 1 line down. This allows to call the command many times repeatedly.
+
+'''(Line commands) Skip blank lines'''
+
+With option on, and option "Move caret to next line" on, commenting/uncommenting of single line will  skip lines containing only space/tab chars.
+
+'''"Toggle line comment" detects action by first non-blank line'''
+
+With option on, command detects its action (to comment or to uncomment) by the first non-blank line of the selected multi-line block.
+
+Here is selected block of code, selection is shown by square brackets, first selected line is blank line:
+
+ [
+       
+       
+     //code1();
+     code2();
+     //code3();
+     code4();
+ ]
+
+With option off, block will be changed it to:
+
+ //
+ //
+     //code1();
+     //code2();
+     //code3();
+     //code4();
+
+With option on, block will be changed to:
+
+    
+    
+     code1();
+     code2();
+     code3();
+     code4();
 
 == Macros ==
 
