@@ -21,7 +21,7 @@ Where comment chars are stored:
 
 Plugin "Comments" has several options, and it gives the dialog to change them: menu item "Options / Settings-plugins / Comments / Config". Options are:
 
-'''(Line commands) Try to keep text position afer (un)commenting'''
+'''(Line commands) Try to keep text position after (un)commenting'''
 
 With option on, plugin tries to insert comment chars into leading space-area of the line. For example, with C++ (line comment chars "//"), line with 4 leading spaces:
 
