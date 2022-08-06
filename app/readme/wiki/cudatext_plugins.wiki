@@ -68,8 +68,7 @@ With option on, command detects its action (to comment or to uncomment) by the f
 Here is selected block of code, selection is shown by square brackets, first selected line is blank line:
 
  [
-       
-       
+  
      //code1();
      code2();
      //code3();
@@ -78,21 +77,23 @@ Here is selected block of code, selection is shown by square brackets, first sel
 
 With option off, block will be changed it to:
 
- //
+ [//
  //
      //code1();
      //code2();
      //code3();
      //code4();
+ ]
 
 With option on, block will be changed to:
 
-    
-    
+ [
+  
      code1();
      code2();
      code3();
      code4();
+ ]
 
 == Macros ==
 
