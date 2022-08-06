@@ -19,9 +19,11 @@ Where comment chars are stored:
 
 ===Commenting options===
 
-Plugin "Comments" has several options, and it gives the dialog to change them: menu item "Options / Settings-plugins / Comments / Config". Options are:
+Plugin "Comments" has several options, and it gives the dialog to change them: menu item "Options / Settings-plugins / Comments / Config".
 
 '''(Line commands) Try to keep text position after (un)commenting'''
+
+Affects all commands for line-comments.
 
 With option on, plugin tries to insert comment chars into leading space-area of the line. For example, with C++ (line comment chars "//"), line with 4 leading spaces:
 
@@ -34,6 +36,10 @@ will be changed to line with 2 leading spaces:
 After uncommenting, line will be restored to original, with 4 leading spaces.
 
 '''(Line "at non-space") If selected few lines, insert comment at maximal common indent'''
+
+Affects commands:
+* "Toggle line comment, at non-space char"
+* "Add line comment, at non-space char"
 
 With option on, this selected block of lines in C++:
 
@@ -55,13 +61,19 @@ With option off, block will be changed to:
 
 '''(All) Move caret to next line'''
 
-With option on, after commenting/uncommenting command for single line, caret will be moved 1 line down. This allows to call the command many times repeatedly.
+Affects commands for line-comments, when they are called without selection.
+
+With option on, caret will be moved 1 line down. This allows to call the command many times repeatedly, to change many lines.
 
 '''(Line commands) Skip blank lines'''
 
-With option on, and option "Move caret to next line" on, commenting/uncommenting of single line will  skip lines containing only space/tab chars.
+Affects commands for line-comments, when they are called without selection.
+
+With option on, and the previous option "Move caret to next line" on, command will skip lines containing only space/tab chars.
 
 '''"Toggle line comment" detects action by first non-blank line'''
+
+Affects command "Toggle line comment".
 
 With option on, command detects its action (to comment or to uncomment) by the first non-blank line of the selected multi-line block.
 
