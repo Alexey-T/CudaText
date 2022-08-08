@@ -741,7 +741,7 @@ Some languages need that after pressing Enter, you make the additional indentati
 
 And example for Nim lexer. It needs indentation when you press Enter on a line ending with "=" or ":". And on a line with keywords "let", "var", "import". So write to the lexer-specific config "settings/lexer Nim.json":
 
-    "indent_auto_rule": "^let$|^var$|^import$|.+[=:]$",
+	"indent_auto_rule": "^\\s*let$|^\\s*var$|^\\s*import$|.+[=:]$",
 
 Note for C-like lexers with {} blocks. You don't need this option because CudaText handles the situation of caret inside {} specially.
 
