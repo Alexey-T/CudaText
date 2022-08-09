@@ -735,18 +735,6 @@ Note about SQL blocks. CudaText has lexer preinstalled, it's lite lexer "SQL ^",
 * Python Markdown description tells that the lexer alias may be replaced with the curly-brackets construct like "{ .lang }" or "{ .lang .foo .bar }" or even "{ #someid .lang .foo .bar }". This is currently not supported in CudaText version 1.151.
 * The similar feature of the reStructuredText, as [https://pandemic-overview.readthedocs.io/en/latest/myGuides/reStructuredText-Source-Code.html documented here], is not supported. 
 
-==Additional indentation on Enter key==
-
-Some languages need that after pressing Enter, you make the additional indentation on the next line. For example, Python: it needs additional indentation after "def name():" and in some other cases. CudaText solves this via option "indent_auto_rule". Option must contain the regular expression which will be tested against the line on which you press Enter. CudaText ships predefined setting "indent_auto_rule" for several lexers: look at files "settings_default/lexer *.json".
-
-And example for Nim lexer. It needs indentation when you press Enter on a line ending with "=" or ":". And on a line with keywords "let", "var", "import". So write to the lexer-specific config "settings/lexer Nim.json":
-
- {
-   "indent_auto_rule": "^\\s*(let|var|import)$|.+[=:]$",
- }
-
-Note for C-like lexers with {} blocks. You don't need this option because CudaText handles the situation of caret inside {} specially.
-
 =Folding=
 Folding is the feature allowing to collapse multi-line regions of code.
 Collapsed region shows the rectangle-like figure on the first line, and other block lines become hidden.
@@ -843,6 +831,18 @@ Commands:
 
 * To change line-ends for all lines in the current document, click statusbar cell for line-ends, menu will appear. You need to save file then. Changed line-ends can be undone via "Undo". Also 3 commands are available in the Command Palette.
 * To change line-ends for individial lines (in CudaText 1.158.3+), use 3 commands in the Command Palette: "change line ends, for line(s) with caret: CR LF / LF / CR".
+
+=Additional indentation on Enter=
+
+Some languages need that after pressing Enter, you make the additional indentation on the next line. For example, Python: it needs additional indentation after "def name():" and in some other cases. CudaText solves this via option "indent_auto_rule". Option must contain the regular expression which will be tested against the line on which you press Enter. CudaText ships predefined setting "indent_auto_rule" for several lexers: look at files "settings_default/lexer *.json".
+
+Example for Nim lexer. It needs indentation when you press Enter on a line ending with "=" or ":". And on a line with keywords "let", "var", "import". So write to the lexer-specific config "settings/lexer Nim.json":
+
+ {
+   "indent_auto_rule": "^\\s*(let|var|import)$|.+[=:]$",
+ }
+
+Note for C-like lexers. Pressing Enter when caret is inside {} brackets (just after the brackets auto-pairing) - this is handled by CudaText specially, no option is needed here.
 
 =Groups of tabs=
 
