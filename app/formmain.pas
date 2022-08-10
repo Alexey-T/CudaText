@@ -2648,7 +2648,8 @@ procedure TfmMain.FormCreate(Sender: TObject);
 begin
   OnEnter:= @FormEnter;
 
-  //timer delay for many (about half) commands; if too low, we have risk of crash in 'close tab' commands; 150ms is safe
+  //timer delay for many commands. see proc_cmd.pas, function IsCommandNeedTimer.
+  //if too low, we have risk of crash in 'close tab' commands. 150ms is safe.
   TimerCmd.Interval:= 50;
 
   mnuHelpCheckUpd.Enabled:= UiOps.AllowProgramUpdates;
