@@ -1250,8 +1250,8 @@ Some of LSP commands are:
 
 [[File:cudatext-lsp-refs.png]]
 
-* Code linting: checks the syntax of code, and places underlines and/or bookmarks on "incorrect lines".
-* Document formatting.
+* Code linting: checking the correctness of the source code, places underlines and/or bookmarks on "incorrect lines". This feature is also implemented in [[CudaLint]] and usually it works better/faster there.
+* Document formatting: formatting of the source code by LSP server. This feature is also implemented in [[CudaFormatter]] and usually it works better/faster there.
 
 All LSP servers should have a homepage with description of their functions, and installation information.
 
