@@ -206,8 +206,8 @@ type
     //timer delay for many commands. see proc_cmd.pas, function IsCommandNeedTimer.
     //if too low, we have risk of crash in 'close tab' commands. 150ms is safe.
     CommandTimerInterval: integer;
-    //timer delay used when plugin calls Editor.cmd() (for the same list of commands).
-    PyCommandTimerInterval: integer;
+    //Sleep() delay used when plugin calls Editor.cmd() (for the same list of commands).
+    PyCommandSleepInterval: integer;
 
     PyLibrary: string;
     PyChangeSlow: integer;
@@ -1812,7 +1812,7 @@ begin
     DoubleBuffered:= IsDoubleBufferedNeeded;
 
     CommandTimerInterval:= 50;
-    PyCommandTimerInterval:= CommandTimerInterval+40;
+    PyCommandSleepInterval:= CommandTimerInterval+40;
 
     LexerThemes:= true;
     LexerMenuGrouped:= true;
