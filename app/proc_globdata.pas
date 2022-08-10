@@ -203,6 +203,12 @@ type
     StatusbarFontSize: integer;
     DoubleBuffered: boolean;
 
+    //timer delay for many commands. see proc_cmd.pas, function IsCommandNeedTimer.
+    //if too low, we have risk of crash in 'close tab' commands. 150ms is safe.
+    CommandTimerInterval: integer;
+    //timer delay used when plugin calls Editor.cmd() (for the same list of commands).
+    PyCommandTimerInterval: integer;
+
     PyLibrary: string;
     PyChangeSlow: integer;
     PyOutputCopyToStdout: boolean;
@@ -1804,6 +1810,9 @@ begin
     OutputFontSize:= VarFontSize;
 
     DoubleBuffered:= IsDoubleBufferedNeeded;
+
+    CommandTimerInterval:= 50;
+    PyCommandTimerInterval:= CommandTimerInterval+40;
 
     LexerThemes:= true;
     LexerMenuGrouped:= true;

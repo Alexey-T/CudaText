@@ -1857,7 +1857,7 @@ begin
       //file_open for file-pair with the same file, it failed
       if IsCommandNeedTimer(NCode) then
       begin
-        Sleep(fmMain.TimerCmd.Interval+100);
+        Sleep(UiOps.PyCommandTimerInterval);
         Application.ProcessMessages;
       end;
 
