@@ -451,12 +451,15 @@ begin
   Result:= false;
   AWordMatch:= false;
 
+  SFind:= Trim(UTF8Encode(edit.Text));
+  if SFind='' then
+    exit(true);
+
+  if (AOrigIndex<0) or (AOrigIndex>=listItems.Count) then
+    exit(true);
   SText:= listItems[AOrigIndex];
   if DisableFullFilter then
     SText:= SGetItem(SText, #9);
-
-  SFind:= Trim(UTF8Encode(edit.Text));
-  if SFind='' then exit(true);
 
   Result:= STextListsFuzzyInput(
              SText,
