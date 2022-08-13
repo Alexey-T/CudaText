@@ -252,9 +252,12 @@ begin
 end;
 
 function TfmMenuApi.GetResultCmd: integer;
+var
+  n: integer;
 begin
-  if list.ItemIndex>=0 then
-    Result:= PtrInt(listFiltered[list.ItemIndex])
+  n:= list.ItemIndex;
+  if (n>=0) and (n<listFiltered.Count) then
+    Result:= PtrInt(listFiltered[n])
   else
     Result:= -1;
 end;
