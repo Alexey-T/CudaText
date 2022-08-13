@@ -992,6 +992,18 @@ This plugin implements searching in many files, starting from custom folder. Cud
 
 Project Manager plugin allows to call FindInFiles functionality. Focus a folder in Project Manager, call context menu, and then "Selected directory / Find in directory..." menu item.
 
+==How to find/replace in all UI-tabs==
+FindInFiles 4 supports search inside all UI-tabs. Hover mouse over "From:" label in the dialog, tooltip will appear. Tooltip says what to enter in the nearest input-field. Enter one of these strings:
+
+ <tabs>
+ {t}
+
+[[File:cudatext-findinfiles-intabs.png]]
+
+To discover more features of FindInFiles dialog, hover mouse over other labels/buttons.
+
+You can also '''replace in all UI-tabs''', of course. Additionally, CudaText gives built-in "Replace in all tabs" feature, it is the button "Rep global" in the built-in Find/Replace dialog. This is documented in the main CudaText wiki page.
+
 ==FiF3 and FiF4: comparison and future==
 CudaText has two plugins to search in files/tabs:
 
