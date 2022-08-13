@@ -283,7 +283,6 @@ begin
     c.Font.Size:= ATEditorScaleFont(EditorOps.OpFontSize);
   end;
 
-  if (AIndex<0) or (AIndex>=listFiltered.Count) then exit;
   if AIndex=list.ItemIndex then
   begin
     c.Font.Color:= FColorFontSel;
@@ -298,7 +297,11 @@ begin
   c.Pen.Color:= cl;
   c.FillRect(ARect);
 
-  SSplitByChar(listItems[PtrInt(listFiltered[AIndex])], #9, part_L, part_R);
+  //check indexes correctness, for issue #4277
+  if (AIndex<0) or (AIndex>=listFiltered.Count) then exit;
+  n:= PtrInt(listFiltered[AIndex]);
+  if (n<0) or (n>=listItems.Count) then exit;
+  SSplitByChar(listItems[n], #9, part_L, part_R);
 
   if not FMultiline then
   begin
