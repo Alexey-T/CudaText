@@ -5,6 +5,9 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 Copyright (c) Alexey Torgashin
 *)
+
+//{$define log_index}
+
 unit form_menu_py;
 
 {$mode objfpc}{$H+}
@@ -280,11 +283,33 @@ var
   bFound: boolean;
   n, i: integer;
 begin
+  {$ifdef log_index}
+  MsgLogToFilename(
+    'listFiltered index: '+IntToStr(AIndex)+'; count: '+IntToStr(listFiltered.Count),
+    AppDir_Settings+DirectorySeparator+'index.log',
+    true);
+  {$endif}
+
   //check indexes correctness, for issue #4277
   if (AIndex<0) or (AIndex>=listFiltered.Count) then exit;
   n:= PtrInt(listFiltered[AIndex]);
+
+  {$ifdef log_index}
+  MsgLogToFilename(
+  'listItems index: '+IntToStr(AIndex)+'; count: '+IntToStr(listItems.Count),
+    AppDir_Settings+DirectorySeparator+'index.log',
+    true);
+  {$endif}
+
   if (n<0) or (n>=listItems.Count) then exit;
   SSplitByChar(listItems[n], #9, part_L, part_R);
+
+  {$ifdef log_index}
+  MsgLogToFilename(
+    'part_L: "'+part_L+'"; part_R: "'+part_R+'"',
+    AppDir_Settings+DirectorySeparator+'index.log',
+    true);
+  {$endif}
 
   if UseEditorFont then
   begin
