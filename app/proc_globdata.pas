@@ -270,6 +270,7 @@ type
     ListboxCompleteSizeY: integer;
     ListboxFuzzySearch: boolean;
     ListboxHotkeyFontSizeDelta: integer;
+    ListboxTopItemIndent: integer;
 
     TabsShowFoldersSuffix: boolean;
     TabsShowFoldersMaxLevels: integer;
@@ -1871,6 +1872,7 @@ begin
     ListboxCompleteSizeY:= 200;
     ListboxFuzzySearch:= true;
     ListboxHotkeyFontSizeDelta:= 0; //2 gives too small hotkey font on Lin/Win
+    ListboxTopItemIndent:= 4; //listbox TopItem will be ItemIndex-N
 
     TabsShowFoldersSuffix:= true;
     TabsShowFoldersMaxLevels:= 3;
