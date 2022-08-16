@@ -950,36 +950,19 @@ for($i=0; $i<10; $i++) {
 </syntaxhighlight>
 
 ==Runner tool for Python==
-How to debug for example Python file, with Runner.
-Create file "[CudaText]/data/buildsystems/py.sublime-build" with such text:
-<syntaxhighlight lang="json">
-{
-  "file_patterns": ["*.py"],
-  "linux": {
-    "cmd": ["python3", "$file"],
-  },
-  "windows": {
-    "cmd": ["pythonw.exe", "$file"]
-  }
-}
-</syntaxhighlight>
-
-Restart CudaText.
+In Addons Mananger, install the add-on "buildsystem: Many Build Systems from ST4". It contains the Python build-system. It even contains 2 items in the build-system:
+* Build
+* Syntax Check
 
 After opening a Python file, call Runner main command "Build", that's it. It must show script output (in the Output panel) line-by-line, as it appears.
 
 Example script to test:
 <syntaxhighlight lang="python">
-import sys
 import time
 
-def ForTest():
-    for i in range(5):
-        time.sleep(1)
-        print(str(i) + " is here", flush=True)
-        
-if __name__ == '__main__':
-    ForTest()
+for i in range(5):
+    time.sleep(1)
+    print(str(i) + " is here", flush=True)
 </syntaxhighlight>
 
 ==Runner tool for Free Pascal==
