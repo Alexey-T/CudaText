@@ -966,8 +966,8 @@ for i in range(5):
 </syntaxhighlight>
 
 ==Runner tool for Free Pascal==
-How to compile and run Free Pascal files.
-Create file "[CudaText]/data/buildsystems/Free Pascal.sublime-build" with such text:
+In Addons Manager, install the add-on "buildsystem: Free Pascal".
+It installs the file "[CudaText]/data/buildsystems/Free Pascal.sublime-build" with text like this:
 <syntaxhighlight lang="json">
 {
   "file_patterns": ["*.pp", "*.pas"],
@@ -984,9 +984,8 @@ Create file "[CudaText]/data/buildsystems/Free Pascal.sublime-build" with such t
 }
 </syntaxhighlight>
 
+In this file, you need to adjust the path to "fpc.sh", according to your [[fpcupdeluxe]] folder.
 Restart CudaText.
-
-Here we use full path to FPC, when it is installed by FPCUPdeluxe tool on Linux x64. We use path of "fpc.sh" which is created by FPC installation.
 
 After opening a Pascal file, call Runner main command "Build", that's it.
 The "Build" command example output:
