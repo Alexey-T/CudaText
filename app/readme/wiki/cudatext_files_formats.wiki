@@ -1,0 +1,218 @@
+==Format of auto-completion acp file==
+
+Common auto-completion file format is ANSI text file, it contains list of lines in forms:
+
+ Type Id |Hint
+ Type Id (Param1; Param2; ...) |Hint
+ Type Id (Param1; Param2; ...): ResultType |Hint
+
+* Strings "Type", "Id", "Params", "Hint" are shown in separate columns of completion listbox, with separate colors. "Id" is the text which is inserted for a line.
+* Both ";" and "," chars can be params delimiters. "|Hint" part is optional.
+* If "\" char is present in hint part, then it must be escaped: "\\".
+* If space is needed in id part, it must be written as "%20" (it's allowed for any char in range 0x20..0x2F).
+
+First line in the file can be the "control" line: it specifies what chars are "word chars" for the used syntax.
+For example, if word chars are minus, dot, and # sign, the control line should be:
+
+ #chars .-#
+
+==Format of install.inf files==
+
+User can open addons in zip files (using "File-Open") and install them.
+To make such zip file, pack into zip also "install.inf" with meta-info.
+
+* "title" field (required)
+* "desc" field, long text for install prompt dialog
+* "type" field (required) must be one of:
+** cudatext-plugin: to install plugin to subdir of "py" dir
+** cudatext-data: to copy any files into subdir of "data" dir
+** lexer: to install lexers (zip must be made by SynWrite's ExLexer addon)
+** lexer-lite: to install lite lexer
+
+* "subdir" field (required)
+** for plugins it should begin with prefix "cuda_"
+** for lexers it should be "-"
+* "homepage" field, source code repository URL (usually on GitHub)
+* "api" field, optional, minimal required API version (3 numbers dot-separated)
+* "os" field, optional, comma-separated list of supported platforms, described below
+
+===Install.inf supported "os" values===
+
+Value of "os" field is comma-separated list of platforms (no spaces around commas).
+Each platform is supported OS name, with optional trailing "-" and CPU family name.
+
+OS names are:
+
+* win
+* linux
+* macos
+* freebsd
+* openbsd
+* netbsd
+* dragonfly
+* solaris
+* haiku
+
+CPU families are:
+* i386
+* x86_64
+* arm
+* aarch64
+* sparc
+* ppc
+* ppc64
+* mips
+
+So for example Windows x86 platform values are "win" and "win-i386", Linux AMD64 platform values are "linux" and "linux-x86_64".
+
+===Install.inf for plugins===
+
+Example of install.inf for plugin (plugin adds 2 menu items with menu separator between):
+
+<syntaxhighlight lang="ini">
+[info]
+title=MyName
+desc=Plugin allows smth
+type=cudatext-plugin
+subdir=cuda_test
+homepage=http://github.com/some/name/
+api=1.0.200
+
+[item1]
+section=commands
+caption=MyPlugin\Cmd one
+method=run
+lexers=CSS,HTML
+hotkey=Alt+F
+
+[item2]
+section=commands
+caption=MyPlugin\-
+method=nnnn
+
+[item3]
+section=commands
+caption=MyPlugin\Cmd other
+method=run_more
+menu=0
+</syntaxhighlight>
+
+Section names: "item" followed by any string (e.g. "item1"). Fields in sections:
+
+* "section": possible values are "commands", "events".
+* "caption": caption of menu item in Plugins menu. "\" separates menu levels. "&" makes accelerator hotkey. "-" as final level name, makes separator menu item.
+* "method": Python method name in Command class.
+* "lexers": comma-separated lexer names, means that command can be run only when such lexer(s) active.
+* "hotkey": value must be simple hotkey string (e.g. "Alt+F", "Ctrl+Shift+F1") or key combo separated by "|" (e.g. "Alt+F|F|G").
+** If "lexers=" param missed, then hotkey saves to file "keys.json" for all lexers.
+** If "lexers=" param present, then hotkey saves to "keys lexer NNNN.json" for each mentioned lexer.
+* "menu": optional. Possible values:
+** "" (empty, default): menu item will be put to "Plugins".
+** "0": hide menu item.
+** "o": menu item will be put to "Options / Settings-plugins".
+** "op": menu item will be put both to "Plugins" and "Options / Settings-plugins".
+
+Only for "section=events":
+
+* "events": comma-separated list of events to handle in plugin, e.g. "events=on_change,on_caret".
+* "keys": supported only for several events:
+** for "on_key": comma-separated list of int key codes to handle in event, e.g. "keys=9" means that event is only called for key code 9 (Tab char).
+** for "on_open" / "on_open_pre": comma-separated list of lower-case file extensions, without leading dot, to handle in event.
+
+====Install.inf sidebar buttons====
+
+CudaText can show plugin's sidebar buttons even without running the plugin in "on_start" event.
+Plugin should add sections "sidebar*" ("*" means any substring), with the keys:
+
+* "hint": Tooltip of button, must be the same as used by plugin to create its button.
+* "icon": Filename of PNG icon. If path is missed, CudaText uses file from its "data" folder. To specify filename in plugin folder, write value as "{dir}/subdir/filename.png" - with macro {dir}, with forward slashes.
+* "method": Python method name to show plugin panel. This command should create side panel for this button.
+
+Plugin should add sections "bottombar*" ("*" means any substring) to perform the same, but for the bottom part of sidebar, where buttons "Console" and "Output" are placed.
+
+====Install.inf lexer lists====
+
+If plugin has many [itemN] sections, it is possible to set list of lexers using variable (not to write each time "lexers=name,name2,name3"). Declare list of lexers in [info] section like this, any variable name:
+
+<syntaxhighlight lang="ini">
+[info]
+$var=Name1,Name2,Name3
+</syntaxhighlight>
+
+In [itemN] sections set lexers like this:
+
+<syntaxhighlight lang="ini">
+[itemN]
+lexers=$var
+</syntaxhighlight>
+
+You can set lexers by reg-ex, e.g. reg-ex ".*SQL.*" means all names with substring "SQL". To do it, write variable with prefix:
+
+<syntaxhighlight lang="ini">
+[info]
+$var=regex:.*SQL.*
+</syntaxhighlight>
+
+===Install.inf for data files===
+
+Example of install.inf for data files, to be copied into subdir of "data" dir. Name of subdir can be any, for example "themes".
+
+<syntaxhighlight lang="ini">
+[info]
+title=NiceDarkTheme
+desc=Nice Dark theme (by AuthorName)
+type=cudatext-data
+subdir=themes
+</syntaxhighlight>
+
+===Install.inf for lexers===
+
+To see example of install.inf for lexers, download any lexer. To see complex example, download lexer zip for "HTML Smarty" which has 2 lexers inside, one lexer is linked to another.
+
+<syntaxhighlight lang="ini">
+[info]
+title=HTML Smarty
+type=lexer
+subdir=-
+
+[lexer1]
+file=HTML Smarty internal
+[lexer2]
+file=HTML Smarty
+link1=CSS
+link2=VBScript
+link3=JavaScript
+link4=JavaScript
+link5=VBScript
+link6=PHP
+link7=PHP
+link8=HTML Smarty internal
+</syntaxhighlight>
+
+===Install.inf for lite lexers===
+
+Example of install.inf for lite lexer. Note that "^" suffix not needed here.
+
+<syntaxhighlight lang="ini">
+[info]
+title=MyLexer
+type=lexer-lite
+subdir=-
+</syntaxhighlight>
+
+==Format of .cuda-lexops files==
+
+Files keep lexer styles, which user changed in the "Lexer Properties" dialog. JSON format.
+
+Root keys:
+* "files": str: space-separated list of file masks for lexer. Each mask can be "nnn" for extension .nnn, or "/mmm" for full filename mmm.
+* "style_NN" for each lexer style name "NN", which user have changed. Subkeys are:
+** "font_color": str: color of font, in Pascal format.
+** "font_style": str: several chars: "i" for italic, "b" for bold, "s" for strikeout.
+** "back": str: color of background, in Pascal format.
+** "brd_c_l", "brd_c_r", "brd_c_t", "brd_c_b": str: color of border (left, right, top, bottom), in Pascal format.
+** "brd_t_l", "brd_t_r", "brd_t_t", "brd_t_b": int: type of border (left, right, top, bottom). Values 0..9: None, Solid, Dash, Dot, DashDot, DashDotDot, Solid2, Solid3, WavyLine, Double.
+
+Color in Pascal format: hex number (6..8 digits) with "$" prefix, or constants. See possible constants (with hex values) in Lazarus file Graphics.pp, where string 'clBlack' is defined. https://gitlab.com/freepascal.org/lazarus/lazarus/-/blob/main/lcl/graphics.pp
+
+[[Category: CudaText]]
