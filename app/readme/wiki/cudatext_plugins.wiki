@@ -877,18 +877,19 @@ This build-system has 2 commands:
 Example C file:
 <syntaxhighlight lang="cpp">
 #include <stdio.h>
-void main(){
+int main(){
   printf("Hello world");
+  return 0;
 }
 </syntaxhighlight>
 
 Example output in the CudaText Output panel (Linux):
 <pre>
--- [10:28:40] Building: C via GCC: a.c
+-- [10:34:08] Building: C via GCC: a.c
 -- Command: gcc "/home/user/a.c" -o "/home/user/a" && "/home/user/a"
 -- Working dir: /home/user
 Hello world
--- Done (0.2s), return code: 11
+-- Done (0.2s), return code: 0
 </pre>
 
 ==Runner tool for C++==
