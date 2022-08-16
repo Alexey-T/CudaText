@@ -848,6 +848,23 @@ for($i=0; $i<10; $i++) {
 
 [[File:cudatext-runner-thread.gif]]
 
+==Runner limitation for input==
+If your Python script contains the input() function:
+
+<syntaxhighlight lang="python">
+s=input('enter text: ')
+print('entered:', s)
+</syntaxhighlight>
+
+it will run with a runtime error like this:
+
+ enter text: Traceback (most recent call last):
+   File "/home/user/a.py", line 3, in <module>
+ 	s=input('enter text: ')
+ EOFError: EOF when reading a line
+
+This is the limitation of the Runner plugin. To run your Python script in this case, you should call "ExTerminal" plugin (or "Terminal Plus" plugin), and enter there: "python3 myscript.py". And make sure, that ExTerminal prompt appeared in the proper folder, with your script.
+
 ==Runner tool for C++==
 Install the add-on "build-system: C++ using G++".
 It supports C++ lexer using GNU C++ compiler.
