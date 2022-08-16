@@ -865,6 +865,32 @@ it will run with a runtime error like this:
 
 This is the limitation of the Runner plugin. To run your Python script in this case, you should call "ExTerminal" plugin (or "Terminal Plus" plugin), and enter there: "python3 myscript.py". And make sure, that ExTerminal prompt appeared in the proper folder, with your script.
 
+==Runner tool for C==
+Install the add-on "build-system: Many Build Systems from ST4".
+It supports C lexer using GCC compiler.
+It works on Linux/macOS out-of-the-box, on Windows you need the command "gcc" to be in the system PATH.
+
+This build-system has 2 commands:
+* Build: only compiles
+* Run: compiles and then runs the binary
+
+Example C file:
+<syntaxhighlight lang="cpp">
+#include <stdio.h>
+void main(){
+  printf("Hello world");
+}
+</syntaxhighlight>
+
+Example output in the CudaText Output panel (Linux):
+<pre>
+-- [10:28:40] Building: C via GCC: a.c
+-- Command: gcc "/home/user/a.c" -o "/home/user/a" && "/home/user/a"
+-- Working dir: /home/user
+Hello world
+-- Done (0.2s), return code: 11
+</pre>
+
 ==Runner tool for C++==
 Install the add-on "build-system: C++ using G++".
 It supports C++ lexer using GNU C++ compiler.
