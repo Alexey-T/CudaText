@@ -147,6 +147,7 @@ type
     FCodetreeSortType: TSortType;
     FEnabledCodeTree: array[0..1] of boolean;
     FNotifEnabled: boolean;
+    FNotifDeletedEnabled: boolean;
     FOnCallAutoCompletion: TEditorBooleanEvent;
     FOnChangeCaption: TNotifyEvent;
     FOnChangeSlow: TNotifyEvent;
@@ -265,7 +266,7 @@ type
     function GetUnprintedShow: boolean;
     function GetUnprintedSpaces: boolean;
     procedure InitEditor(var ed: TATSynEdit; const AName: string);
-    procedure InitNotifPanel(Index: integer;
+    procedure InitNotificationPanel(Index: integer;
       AIsDeleted: boolean;
       var AControls: TFrameNotificationControls;
       AClickYes, AClickNo, AClickStop: TNotifyEvent
@@ -363,6 +364,7 @@ type
     procedure FixLexerIfDeleted(Ed: TATSynEdit; const ALexerName: string);
 
     property NotifEnabled: boolean read FNotifEnabled write FNotifEnabled;
+    property NotifDeletedEnabled: boolean read FNotifDeletedEnabled write FNotifDeletedEnabled;
     procedure NotifyAboutChange(Ed: TATSynEdit);
 
     property FileName: string read FFileName;
@@ -819,7 +821,7 @@ end;
 
 procedure TEditorFrame.NotifDeletedStopClick(Sender: TObject);
 begin
-  NotifEnabled:= false;
+  NotifDeletedEnabled:= false;
   NotifDeletedNoClick(Sender);
 end;
 
@@ -1852,6 +1854,9 @@ end;
 constructor TEditorFrame.Create(AOwner: TComponent; AApplyCentering: boolean);
 begin
   inherited Create(AOwner);
+
+  FNotifEnabled:= true;
+  FNotifDeletedEnabled:= true;
 
   //we need TFormDummy object to allow working with controls via API dlg_proc
   FFormDummy:= TFormDummy.Create(Self);
@@ -3927,9 +3932,10 @@ begin
 end;
 
 
-procedure TEditorFrame.InitNotifPanel(Index: integer;
-  AIsDeleted: boolean; var AControls: TFrameNotificationControls; AClickYes,
-  AClickNo, AClickStop: TNotifyEvent);
+procedure TEditorFrame.InitNotificationPanel(Index: integer;
+  AIsDeleted: boolean;
+  var AControls: TFrameNotificationControls;
+  AClickYes, AClickNo, AClickStop: TNotifyEvent);
 var
   NPanelHeight, NBtnHeight: integer;
 begin
@@ -3997,9 +4003,16 @@ var
   Index: integer;
   S: string;
 begin
-  FFileDeletedOutside:= not FileExists(Ed.FileName);
+  Index:= EditorObjToIndex(Ed);
+  if Index<0 then exit;
+
+  FFileDeletedOutside:= (Ed.FileName<>'') and not FileExists(Ed.FileName);
   if FFileDeletedOutside then
-    bMsg:= true
+  begin
+    DoHideNotificationPanel(Index, NotifReloadControls);
+    if not NotifDeletedEnabled then exit;
+    bMsg:= true;
+  end
   else
   case UiOps.NotificationConfirmReload of
     1:
@@ -4016,10 +4029,8 @@ begin
     exit
   end;
 
-  Index:= EditorObjToIndex(Ed);
-  if Index<0 then exit;
-  InitNotifPanel(Index, false, NotifReloadControls, @NotifReloadYesClick, @NotifReloadNoClick, @NotifReloadStopClick);
-  InitNotifPanel(Index, true, NotifDeletedControls, @NotifDeletedYesClick, @NotifDeletedNoClick, @NotifDeletedStopClick);
+  InitNotificationPanel(Index, false, NotifReloadControls, @NotifReloadYesClick, @NotifReloadNoClick, @NotifReloadStopClick);
+  InitNotificationPanel(Index, true, NotifDeletedControls, @NotifDeletedYesClick, @NotifDeletedNoClick, @NotifDeletedStopClick);
 
   ApplyThemeToInfoPanel(NotifReloadControls.Panels[Index]);
   ApplyThemeToInfoPanel(NotifDeletedControls.Panels[Index]);
