@@ -1769,6 +1769,7 @@ begin
 
   if not NewProps.Exists then
   begin
+    CurFrame.FileProps.Exists:= false;
     if UiOps.PromptToCloseFileDeletedOutside then
       Synchronize(@NotifyFrame1)
     else
@@ -1782,6 +1783,7 @@ begin
   if not CurFrame.EditorsLinked then
     if (CurFrame.FileName2<>'') and (not FileExists(CurFrame.FileName2)) then
     begin
+      CurFrame.FileProps2.Exists:= false;
       if UiOps.PromptToCloseFileDeletedOutside then
         Synchronize(@NotifyFrame2)
       else

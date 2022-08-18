@@ -4039,12 +4039,22 @@ procedure TEditorFrame.NotifyAboutChange(Ed: TATSynEdit);
 var
   bMsg: boolean;
   Index: integer;
+  bDeletedOutside: boolean;
   S: string;
 begin
   Index:= EditorObjToIndex(Ed);
   if Index<0 then exit;
 
-  FFileDeletedOutside:= (Ed.FileName<>'') and not FileExists(Ed.FileName);
+  bDeletedOutside:= (Ed.FileName<>'') and not FileExists(Ed.FileName);
+  if not bDeletedOutside and FFileDeletedOutside then
+  begin
+    FFileDeletedOutside:= false;
+    DoHideNotificationPanel(NotifDeletedControls[Index]);
+    DoHideNotificationPanel(NotifReloadControls[Index]);
+    exit;
+  end;
+
+  FFileDeletedOutside:= bDeletedOutside;
   if FFileDeletedOutside then
   begin
     DoHideNotificationPanel(NotifReloadControls[Index]);
