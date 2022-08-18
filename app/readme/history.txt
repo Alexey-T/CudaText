@@ -5,7 +5,7 @@
 
 1.169.0 (2022/08)
 
-+ add: handle the situation 'file was deleted outside' more complex, ie show additional non-modal confirmation to close the tab (thanks @lookoutside)
++ add: handle the situation 'file was deleted outside' more detailed: show additional non-modal confirmation to close the tab (thanks @lookoutside, @JairoMartinezA)
 + add: in Python, final 'comments' must be excluded from final fold range (thanks @veksha)
 - fix: couple of glithes on macOS (thanks @veksha)
 
