@@ -1767,24 +1767,30 @@ var
 begin
   AppGetFileProps(CurFrame.FileName, NewProps);
 
-  if UiOps.MarkFilesDeletedOutsideAsModified then
+  if not NewProps.Exists then
   begin
-    if not NewProps.Exists then
+    if UiOps.PromptToCloseFileDeletedOutside then
+      Synchronize(@NotifyFrame1)
+    else
     begin
       if not CurFrame.Modified then
         Synchronize(@ModifyFrame1);
+    end;
+    exit;
+  end;
+
+  if not CurFrame.EditorsLinked then
+    if (CurFrame.FileName2<>'') and (not FileExists(CurFrame.FileName2)) then
+    begin
+      if UiOps.PromptToCloseFileDeletedOutside then
+        Synchronize(@NotifyFrame2)
+      else
+      begin
+        if not CurFrame.Modified then
+          Synchronize(@ModifyFrame1);
+      end;
       exit;
     end;
-
-    if not CurFrame.EditorsLinked then
-      if CurFrame.FileName2<>'' then
-        if not FileExists(CurFrame.FileName2) then
-        begin
-          if not CurFrame.Modified then
-            Synchronize(@ModifyFrame1);
-          exit;
-        end;
-  end;
 
   if not CurFrame.FileProps.Inited then
   begin

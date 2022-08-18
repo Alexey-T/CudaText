@@ -425,7 +425,7 @@ type
     NotificationEnabled: boolean;
     NotificationTimeSeconds: integer;
     NotificationConfirmReload: integer;
-    MarkFilesDeletedOutsideAsModified: boolean;
+    PromptToCloseFileDeletedOutside: boolean;
     NonTextFiles: integer; //0: prompt, 1: open, 2: don't open
     NonTextFilesBufferKb: integer;
     ReloadUnsavedConfirm: boolean;
@@ -2040,7 +2040,7 @@ begin
     NotificationEnabled:= true;
     NotificationTimeSeconds:= 2;
     NotificationConfirmReload:= 1;
-    MarkFilesDeletedOutsideAsModified:= true;
+    PromptToCloseFileDeletedOutside:= true;
     NonTextFiles:= 0;
     NonTextFilesBufferKb:= 64;
     ReloadFollowTail:= true;
