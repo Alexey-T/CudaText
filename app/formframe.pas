@@ -269,10 +269,13 @@ type
     procedure InitNotificationPanel(Index: integer;
       AIsDeleted: boolean;
       var AControls: TFrameNotificationControls;
-      AClickYes, AClickNo, AClickStop: TNotifyEvent
-      );
+      AClickYes, AClickNo, AClickStop: TNotifyEvent);
     procedure InitPanelInfo(var APanel: TPanel; const AText: string;
       AOnClick: TNotifyEvent; ARequirePython: boolean);
+    procedure UpdateNotificationPanel(
+      Index: integer;
+      var AControls: TFrameNotificationControls;
+      const ACaptionYes, ACaptionNo, ACaptionStop, ALabel: string);
     procedure PaintMicromap(Ed: TATSynEdit; ACanvas: TCanvas; const ARect: TRect);
     procedure PanelInfoClick(Sender: TObject);
     procedure PanelNoHiliteClick(Sender: TObject);
@@ -3997,6 +4000,22 @@ begin
   AControls.ButtonsStop[Index].TabOrder:= 2;
 end;
 
+procedure TEditorFrame.UpdateNotificationPanel(
+  Index: integer;
+  var AControls: TFrameNotificationControls;
+  const ACaptionYes, ACaptionNo, ACaptionStop, ALabel: string);
+begin
+  AControls.ButtonsYes[Index].Caption:= ACaptionYes;
+  AControls.ButtonsNo[Index].Caption:= ACaptionNo;
+  AControls.ButtonsStop[Index].Caption:= ACaptionStop;
+
+  AControls.ButtonsYes[Index].AutoSize:= true;
+  AControls.ButtonsNo[Index].AutoSize:= true;
+  AControls.ButtonsStop[Index].AutoSize:= true;
+
+  AControls.Labels[Index].Caption:= ALabel;
+end;
+
 procedure TEditorFrame.NotifyAboutChange(Ed: TATSynEdit);
 var
   bMsg: boolean;
@@ -4032,26 +4051,12 @@ begin
   InitNotificationPanel(Index, false, NotifReloadControls, @NotifReloadYesClick, @NotifReloadNoClick, @NotifReloadStopClick);
   InitNotificationPanel(Index, true, NotifDeletedControls, @NotifDeletedYesClick, @NotifDeletedNoClick, @NotifDeletedStopClick);
 
+  S:= ExtractFileName(GetFileName(Ed));
+  UpdateNotificationPanel(Index, NotifReloadControls, msgConfirmReloadYes, msgButtonCancel, msgConfirmReloadNoMore, msgConfirmFileChangedOutside+' '+S);
+  UpdateNotificationPanel(Index, NotifDeletedControls, msgTooltipCloseTab, msgButtonCancel, msgConfirmReloadNoMore, msgConfirmFileDeletedOutside+' '+S);
+
   ApplyThemeToInfoPanel(NotifReloadControls.Panels[Index]);
   ApplyThemeToInfoPanel(NotifDeletedControls.Panels[Index]);
-
-  NotifReloadControls.ButtonsYes[Index].Caption:= msgConfirmReloadYes;
-  NotifReloadControls.ButtonsNo[Index].Caption:= msgButtonCancel;
-  NotifReloadControls.ButtonsStop[Index].Caption:= msgConfirmReloadNoMore;
-  NotifReloadControls.ButtonsYes[Index].AutoSize:= true;
-  NotifReloadControls.ButtonsNo[Index].AutoSize:= true;
-  NotifReloadControls.ButtonsStop[Index].AutoSize:= true;
-
-  NotifDeletedControls.ButtonsYes[Index].Caption:= msgTooltipCloseTab;
-  NotifDeletedControls.ButtonsNo[Index].Caption:= msgButtonCancel;
-  NotifDeletedControls.ButtonsStop[Index].Caption:= msgConfirmReloadNoMore;
-  NotifDeletedControls.ButtonsYes[Index].AutoSize:= true;
-  NotifDeletedControls.ButtonsNo[Index].AutoSize:= true;
-  NotifDeletedControls.ButtonsStop[Index].AutoSize:= true;
-
-  S:= ExtractFileName(GetFileName(Ed));
-  NotifReloadControls.Labels[Index].Caption:= msgConfirmFileChangedOutside+' '+S;
-  NotifDeletedControls.Labels[Index].Caption:= msgConfirmFileDeletedOutside+' '+S;
 
   if FFileDeletedOutside then
     NotifDeletedControls.Panels[Index].Show
