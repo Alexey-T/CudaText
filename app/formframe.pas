@@ -4037,60 +4037,59 @@ end;
 
 procedure TEditorFrame.NotifyAboutChange(Ed: TATSynEdit);
 var
-  bMsg: boolean;
-  Index: integer;
-  bDeletedOutside: boolean;
+  EdIndex: integer;
+  bShowPanel, bDeletedOutside: boolean;
   S: string;
 begin
-  Index:= EditorObjToIndex(Ed);
-  if Index<0 then exit;
+  EdIndex:= EditorObjToIndex(Ed);
+  if EdIndex<0 then exit;
 
   bDeletedOutside:= (Ed.FileName<>'') and not FileExists(Ed.FileName);
   if not bDeletedOutside and FFileDeletedOutside then
   begin
     FFileDeletedOutside:= false;
-    DoHideNotificationPanel(NotifDeletedControls[Index]);
-    DoHideNotificationPanel(NotifReloadControls[Index]);
+    DoHideNotificationPanel(NotifDeletedControls[EdIndex]);
+    DoHideNotificationPanel(NotifReloadControls[EdIndex]);
     exit;
   end;
 
   FFileDeletedOutside:= bDeletedOutside;
   if FFileDeletedOutside then
   begin
-    DoHideNotificationPanel(NotifReloadControls[Index]);
+    DoHideNotificationPanel(NotifReloadControls[EdIndex]);
     if not NotifDeletedEnabled then exit;
-    bMsg:= true;
+    bShowPanel:= true;
   end
   else
   case UiOps.NotificationConfirmReload of
     1:
-      bMsg:= Ed.Modified or not Ed.Strings.UndoEmpty;
+      bShowPanel:= Ed.Modified or not Ed.Strings.UndoEmpty;
     2:
-      bMsg:= Ed.Modified; //like Notepad++
+      bShowPanel:= Ed.Modified; //like Notepad++
     else
-      bMsg:= true;
+      bShowPanel:= true;
   end;
 
-  if not bMsg then
+  if not bShowPanel then
   begin
     DoFileReload(Ed);
     exit
   end;
 
-  InitNotificationPanel(Index, false, NotifReloadControls[Index], @NotifReloadYesClick, @NotifReloadNoClick, @NotifReloadStopClick);
-  InitNotificationPanel(Index, true, NotifDeletedControls[Index], @NotifDeletedYesClick, @NotifDeletedNoClick, @NotifDeletedStopClick);
+  InitNotificationPanel(EdIndex, false, NotifReloadControls[EdIndex], @NotifReloadYesClick, @NotifReloadNoClick, @NotifReloadStopClick);
+  InitNotificationPanel(EdIndex, true, NotifDeletedControls[EdIndex], @NotifDeletedYesClick, @NotifDeletedNoClick, @NotifDeletedStopClick);
 
   S:= ExtractFileName(GetFileName(Ed));
-  UpdateNotificationPanel(Index, NotifReloadControls[Index], msgConfirmReloadYes, msgButtonCancel, msgConfirmReloadNoMore, msgConfirmFileChangedOutside+' '+S);
-  UpdateNotificationPanel(Index, NotifDeletedControls[Index], msgTooltipCloseTab, msgButtonCancel, msgConfirmReloadNoMore, msgConfirmFileDeletedOutside+' '+S);
+  UpdateNotificationPanel(EdIndex, NotifReloadControls[EdIndex], msgConfirmReloadYes, msgButtonCancel, msgConfirmReloadNoMore, msgConfirmFileChangedOutside+' '+S);
+  UpdateNotificationPanel(EdIndex, NotifDeletedControls[EdIndex], msgTooltipCloseTab, msgButtonCancel, msgConfirmReloadNoMore, msgConfirmFileDeletedOutside+' '+S);
 
-  ApplyThemeToInfoPanel(NotifReloadControls[Index].Panel);
-  ApplyThemeToInfoPanel(NotifDeletedControls[Index].Panel);
+  ApplyThemeToInfoPanel(NotifReloadControls[EdIndex].Panel);
+  ApplyThemeToInfoPanel(NotifDeletedControls[EdIndex].Panel);
 
   if FFileDeletedOutside then
-    NotifDeletedControls[Index].Panel.Show
+    NotifDeletedControls[EdIndex].Panel.Show
   else
-    NotifReloadControls[Index].Panel.Show;
+    NotifReloadControls[EdIndex].Panel.Show;
 end;
 
 procedure TEditorFrame.SetEnabledCodeTree(Ed: TATSynEdit; AValue: boolean);
