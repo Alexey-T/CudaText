@@ -1767,6 +1767,7 @@ var
 begin
   AppGetFileProps(CurFrame.FileName, NewProps);
 
+  //1st editor: file deleted outside
   if not NewProps.Exists then
   begin
     CurFrame.FileProps.Exists:= false;
@@ -1780,6 +1781,7 @@ begin
     exit;
   end;
 
+  //2nd editor: the same
   if not CurFrame.EditorsLinked then
     if (CurFrame.FileName2<>'') and (not FileExists(CurFrame.FileName2)) then
     begin
@@ -1794,17 +1796,20 @@ begin
       exit;
     end;
 
+  //1st editor: first call of sync
   if not CurFrame.FileProps.Inited then
   begin
     Move(NewProps, CurFrame.FileProps, SizeOf(NewProps));
   end
   else
+  //1st editor: file changed outside
   if NewProps<>CurFrame.FileProps then
   begin
     Move(NewProps, CurFrame.FileProps, SizeOf(NewProps));
     Synchronize(@NotifyFrame1);
   end;
 
+  //2nd editor: the same
   if not CurFrame.EditorsLinked then
     if CurFrame.FileName2<>'' then
     begin
