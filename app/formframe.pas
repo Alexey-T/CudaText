@@ -3971,7 +3971,6 @@ begin
   AControls.InfoPanel.Parent:= AControls.Panel;
   AControls.InfoPanel.Height:= NPanelHeight;
   AControls.InfoPanel.BevelOuter:= bvNone;
-  AControls.InfoPanel.BorderSpacing.Left:= 4;
   AControls.InfoPanel.ParentColor:= true;
   AControls.InfoPanel.AnchorSideLeft.Control:= AControls.Panel;
   AControls.InfoPanel.AnchorSideTop.Control:= AControls.Panel;
@@ -3986,7 +3985,7 @@ begin
   AControls.ButtonStop.AnchorSideRight.Side:= asrBottom;
   AControls.ButtonStop.Anchors:= [akTop, akRight];
   AControls.ButtonStop.Height:= NBtnHeight;
-  AControls.ButtonStop.BorderSpacing.Right:= 4;
+  AControls.ButtonStop.BorderSpacing.Right:= UiOps.NotificationButtonsDistance;
   AControls.ButtonStop.OnClick:= AClickStop;
 
   AControls.ButtonNo:= TATButton.Create(Self);
