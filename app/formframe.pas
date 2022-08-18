@@ -3957,8 +3957,8 @@ var
 begin
   if Assigned(AControls.Panel) then exit;
 
-  NPanelHeight:= ATEditorScale(31);
-  NBtnHeight:= ATEditorScale(25);
+  NPanelHeight:= ATEditorScale(UiOps.NotificationPanelHeight);
+  NBtnHeight:= ATEditorScale(UiOps.NotificationButtonHeight);
 
   AControls.Panel:= TPanel.Create(Self);
   AControls.Panel.Visible:= false;

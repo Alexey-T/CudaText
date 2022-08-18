@@ -427,6 +427,8 @@ type
     NotificationTimeSeconds: integer;
     NotificationConfirmReload: integer;
     PromptToCloseFileDeletedOutside: boolean;
+    NotificationPanelHeight: integer;
+    NotificationButtonHeight: integer;
     NotificationButtonsDistance: integer;
 
     NonTextFiles: integer; //0: prompt, 1: open, 2: don't open
@@ -2045,6 +2047,8 @@ begin
     NotificationTimeSeconds:= 2;
     NotificationConfirmReload:= 1;
     PromptToCloseFileDeletedOutside:= true;
+    NotificationPanelHeight:= 31;
+    NotificationButtonHeight:= 25;
     NotificationButtonsDistance:= 4;
 
     NonTextFiles:= 0;
