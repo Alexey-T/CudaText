@@ -592,6 +592,7 @@ begin
     DoLocString(msgConfirmHotkeyList             , ini, 'sc', 'HotkeyList');
     DoLocString(msgConfirmOkNoHotkeys            , ini, 'sc', 'OkWithoutKeys');
     DoLocString(msgConfirmFileChangedOutside     , ini, 'sc', 'FileChangedOutside');
+    DoLocString(msgConfirmFileDeletedOutside     , ini, 'sc', 'FileDeletedOutside');
     DoLocString(msgConfirmReloadIt               , ini, 'sc', 'ReloadIt');
     DoLocString(msgConfirmReloadYes              , ini, 'sc', 'ReloadYes');
     DoLocString(msgConfirmReloadNoMore           , ini, 'sc', 'ReloadNoMore');
