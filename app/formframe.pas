@@ -2060,7 +2060,7 @@ procedure TEditorFrame.ApplyThemeToInfoPanel(APanel: TPanel);
 begin
   APanel.Font.Name:= UiOps.VarFontName;
   APanel.Font.Size:= ATEditorScaleFont(UiOps.VarFontSize);
-  APanel.Color:= GetAppColor(apclListBg);
+  APanel.Color:= GetAppColor(apclEdMarkedRangeBg); //GetAppColor(apclListBg);
   APanel.Font.Color:= GetAppColor(apclListFont);
 end;
 
