@@ -101,7 +101,7 @@ type
 type
   TFrameNotificationControls = record
     Panel: TPanel;
-    InfoLabel: TLabel;
+    InfoPanel: TPanel;
     ButtonYes,
     ButtonNo,
     ButtonStop: TATButton;
@@ -3961,19 +3961,21 @@ begin
   NBtnHeight:= ATEditorScale(25);
 
   AControls.Panel:= TPanel.Create(Self);
+  AControls.Panel.Visible:= false;
   AControls.Panel.Parent:= Self;
   AControls.Panel.Align:= alTop;
-  AControls.Panel.Visible:= false;
   AControls.Panel.Height:= NPanelHeight;
   AControls.Panel.BevelOuter:= bvNone;
 
-  AControls.InfoLabel:= TLabel.Create(Self);
-  AControls.InfoLabel.Parent:= AControls.Panel;
-  AControls.InfoLabel.BorderSpacing.Left:= 4;
-  AControls.InfoLabel.ParentColor:= false;
-  AControls.InfoLabel.AnchorSideLeft.Control:= AControls.Panel;
-  AControls.InfoLabel.AnchorSideTop.Control:= AControls.Panel;
-  AControls.InfoLabel.AnchorSideTop.Side:= asrCenter;
+  AControls.InfoPanel:= TPanel.Create(Self);
+  AControls.InfoPanel.Parent:= AControls.Panel;
+  AControls.InfoPanel.Height:= NPanelHeight;
+  AControls.InfoPanel.BevelOuter:= bvNone;
+  AControls.InfoPanel.BorderSpacing.Left:= 4;
+  AControls.InfoPanel.ParentColor:= true;
+  AControls.InfoPanel.AnchorSideLeft.Control:= AControls.Panel;
+  AControls.InfoPanel.AnchorSideTop.Control:= AControls.Panel;
+  AControls.InfoPanel.AnchorSideTop.Side:= asrCenter;
 
   AControls.ButtonStop:= TATButton.Create(Self);
   AControls.ButtonStop.Tag:= Index;
@@ -4008,6 +4010,10 @@ begin
   AControls.ButtonYes.BorderSpacing.Right:= 0;
   AControls.ButtonYes.OnClick:= AClickYes;
 
+  AControls.InfoPanel.AnchorSideRight.Control:= AControls.ButtonYes;
+  AControls.InfoPanel.AnchorSideRight.Side:= asrLeft;
+  AControls.InfoPanel.Anchors:= [akTop, akLeft, akRight];
+
   AControls.ButtonYes.TabOrder:= 0;
   AControls.ButtonNo.TabOrder:= 1;
   AControls.ButtonStop.TabOrder:= 2;
@@ -4026,7 +4032,7 @@ begin
   AControls.ButtonNo.AutoSize:= true;
   AControls.ButtonStop.AutoSize:= true;
 
-  AControls.InfoLabel.Caption:= ALabel;
+  AControls.InfoPanel.Caption:= ALabel;
 end;
 
 procedure TEditorFrame.NotifyAboutChange(Ed: TATSynEdit);
