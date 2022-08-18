@@ -3953,12 +3953,13 @@ procedure TEditorFrame.InitNotificationPanel(Index: integer;
   var AControls: TFrameNotificationControls;
   AClickYes, AClickNo, AClickStop: TNotifyEvent);
 var
-  NPanelHeight, NBtnHeight: integer;
+  NPanelHeight, NBtnHeight, NBtnDistance: integer;
 begin
   if Assigned(AControls.Panel) then exit;
 
   NPanelHeight:= ATEditorScale(UiOps.NotificationPanelHeight);
   NBtnHeight:= ATEditorScale(UiOps.NotificationButtonHeight);
+  NBtnDistance:= ATEditorScale(UiOps.NotificationButtonsDistance);
 
   AControls.Panel:= TPanel.Create(Self);
   AControls.Panel.Visible:= false;
@@ -3985,7 +3986,7 @@ begin
   AControls.ButtonStop.AnchorSideRight.Side:= asrBottom;
   AControls.ButtonStop.Anchors:= [akTop, akRight];
   AControls.ButtonStop.Height:= NBtnHeight;
-  AControls.ButtonStop.BorderSpacing.Right:= UiOps.NotificationButtonsDistance;
+  AControls.ButtonStop.BorderSpacing.Right:= NBtnDistance;
   AControls.ButtonStop.OnClick:= AClickStop;
 
   AControls.ButtonNo:= TATButton.Create(Self);
@@ -3995,7 +3996,7 @@ begin
   AControls.ButtonNo.AnchorSideRight.Control:= AControls.ButtonStop;
   AControls.ButtonNo.Anchors:= [akTop, akRight];
   AControls.ButtonNo.Height:= NBtnHeight;
-  AControls.ButtonNo.BorderSpacing.Right:= UiOps.NotificationButtonsDistance;
+  AControls.ButtonNo.BorderSpacing.Right:= NBtnDistance;
   AControls.ButtonNo.OnClick:= AClickNo;
   AControls.ButtonNo.Visible:= not AIsDeleted;
 
@@ -4006,7 +4007,7 @@ begin
   AControls.ButtonYes.AnchorSideRight.Control:= AControls.ButtonNo;
   AControls.ButtonYes.Anchors:= [akTop, akRight];
   AControls.ButtonYes.Height:= NBtnHeight;
-  AControls.ButtonYes.BorderSpacing.Right:= UiOps.NotificationButtonsDistance;
+  AControls.ButtonYes.BorderSpacing.Right:= NBtnDistance;
   AControls.ButtonYes.OnClick:= AClickYes;
 
   AControls.InfoPanel.AnchorSideRight.Control:= AControls.ButtonYes;
