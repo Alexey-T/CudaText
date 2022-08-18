@@ -7,6 +7,7 @@
 
 + add: handle the situation 'file was deleted outside' more detailed: show additional non-modal confirmation to close the tab (thanks @lookoutside, @JairoMartinezA)
 + add: in Python, final 'comments' must be excluded from final fold range (thanks @veksha)
+* change: changed the background-color of 'notification panels' inside the editor
 * change: macOS: adapt default hotkeys for macOS, for commands: "go to text begin/end", "caret to line begin/end", "go to word previous/next" (thanks @veksha)
 - fix: couple of glithes on macOS (thanks @veksha)
 - fix: "Go to bookmark" did not focus target group (thanks @MiroslavMatas)
