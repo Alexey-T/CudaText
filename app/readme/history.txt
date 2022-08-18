@@ -7,11 +7,8 @@
 
 + add: handle the situation 'file was deleted outside' more detailed: show additional non-modal confirmation to close the tab (thanks @lookoutside, @JairoMartinezA)
 + add: in Python, final 'comments' must be excluded from final fold range (thanks @veksha)
-- fix: couple of glithes on macOS (thanks @veksha)
-
-1.168.6 (2022/08)
-
 * change: macOS: adapt default hotkeys for macOS, for commands: "go to text begin/end", "caret to line begin/end", "go to word previous/next" (thanks @veksha)
+- fix: couple of glithes on macOS (thanks @veksha)
 - fix: "Go to bookmark" did not focus target group (thanks @MiroslavMatas)
 - fix: in maximized window, clicking on the vert-scrollbar right-most pixel did not work (thanks @veksha)
 - fix: with "scrollbar_themed":false, caret can move half below the bottom border (thanks @veksha)
