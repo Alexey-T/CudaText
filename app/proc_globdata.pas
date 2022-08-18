@@ -422,10 +422,13 @@ type
     PluginDialogsModalFormStyle: TFormStyle;
     FloatGroupsShowInTaskbar: TShowInTaskbar;
     OneInstance: boolean;
+
     NotificationEnabled: boolean;
     NotificationTimeSeconds: integer;
     NotificationConfirmReload: integer;
     PromptToCloseFileDeletedOutside: boolean;
+    NotificationButtonsDistance: integer;
+
     NonTextFiles: integer; //0: prompt, 1: open, 2: don't open
     NonTextFilesBufferKb: integer;
     ReloadUnsavedConfirm: boolean;
@@ -2037,10 +2040,13 @@ begin
 
     FloatGroupsShowInTaskbar:= stAlways;
     OneInstance:= true;
+
     NotificationEnabled:= true;
     NotificationTimeSeconds:= 2;
     NotificationConfirmReload:= 1;
     PromptToCloseFileDeletedOutside:= true;
+    NotificationButtonsDistance:= 4;
+
     NonTextFiles:= 0;
     NonTextFilesBufferKb:= 64;
     ReloadFollowTail:= true;

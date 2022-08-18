@@ -3996,7 +3996,7 @@ begin
   AControls.ButtonNo.AnchorSideRight.Control:= AControls.ButtonStop;
   AControls.ButtonNo.Anchors:= [akTop, akRight];
   AControls.ButtonNo.Height:= NBtnHeight;
-  AControls.ButtonNo.BorderSpacing.Right:= 0;
+  AControls.ButtonNo.BorderSpacing.Right:= UiOps.NotificationButtonsDistance;
   AControls.ButtonNo.OnClick:= AClickNo;
   AControls.ButtonNo.Visible:= not AIsDeleted;
 
@@ -4007,7 +4007,7 @@ begin
   AControls.ButtonYes.AnchorSideRight.Control:= AControls.ButtonNo;
   AControls.ButtonYes.Anchors:= [akTop, akRight];
   AControls.ButtonYes.Height:= NBtnHeight;
-  AControls.ButtonYes.BorderSpacing.Right:= 0;
+  AControls.ButtonYes.BorderSpacing.Right:= UiOps.NotificationButtonsDistance;
   AControls.ButtonYes.OnClick:= AClickYes;
 
   AControls.InfoPanel.AnchorSideRight.Control:= AControls.ButtonYes;
