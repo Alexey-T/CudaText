@@ -100,12 +100,15 @@ type
 
 type
   TFrameNotificationControls = record
-    Panels: array[0..1] of TPanel;
-    Labels: array[0..1] of TLabel;
-    ButtonsYes,
-    ButtonsNo,
-    ButtonsStop: array[0..1] of TATButton;
+    Panel: TPanel;
+    InfoLabel: TLabel;
+    ButtonYes,
+    ButtonNo,
+    ButtonStop: TATButton;
   end;
+
+const
+  cFrameMaxEdIndex=1; //count of editors minus 1
 
 type
   { TEditorFrame }
@@ -128,8 +131,8 @@ type
     Adapter2: TATAdapterEControl;
     PanelInfo: TPanel;
     PanelNoHilite: TPanel;
-    NotifReloadControls: TFrameNotificationControls;
-    NotifDeletedControls: TFrameNotificationControls;
+    NotifReloadControls: array[0..cFrameMaxEdIndex] of TFrameNotificationControls;
+    NotifDeletedControls: array[0..cFrameMaxEdIndex] of TFrameNotificationControls;
     FFileDeletedOutside: boolean;
     FTabCaption: string;
     FTabCaptionAddon: string;
@@ -464,7 +467,7 @@ type
     procedure DoToggleFocusSplitEditors;
     procedure DoFocusNotificationPanel;
     procedure DoHideNotificationPanels;
-    procedure DoHideNotificationPanel(Index: integer; AControls: TFrameNotificationControls);
+    procedure DoHideNotificationPanel(const AControls: TFrameNotificationControls);
     //macro
     procedure DoMacroStartOrStop;
     property MacroRecord: boolean read FMacroRecord;
@@ -812,7 +815,7 @@ begin
   Index:= (Sender as TComponent).Tag;
   Ed:= EditorIndexToObj(Index);
   if Ed=nil then exit;
-  DoHideNotificationPanel(Index, NotifReloadControls);
+  DoHideNotificationPanel(NotifReloadControls[Index]);
   EditorFocus(Ed);
 end;
 
@@ -836,7 +839,7 @@ begin
   Index:= (Sender as TComponent).Tag;
   Ed:= EditorIndexToObj(Index);
   if Ed=nil then exit;
-  DoHideNotificationPanel(Index, NotifDeletedControls);
+  DoHideNotificationPanel(NotifDeletedControls[Index]);
   EditorFocus(Ed);
 end;
 
@@ -2585,6 +2588,7 @@ end;
 function TEditorFrame.DoFileSave_Ex(Ed: TATSynEdit; ASaveAs: boolean): boolean;
 var
   An: TecSyntAnalyzer;
+  EdIndex: integer;
   bNameChanged, bNotifWasEnabled: boolean;
   NameCounter: integer;
   SFileName, NameTemp, NameInitial: string;
@@ -2596,8 +2600,12 @@ begin
   EventRes:= DoPyEvent(Ed, cEventOnSaveBefore, []);
   if EventRes.Val=evrFalse then exit(true); //disable saving, but close
 
-  DoHideNotificationPanel(EditorObjToIndex(Ed), NotifReloadControls);
-  DoHideNotificationPanel(EditorObjToIndex(Ed), NotifDeletedControls);
+  EdIndex:= EditorObjToIndex(Ed);
+  if EdIndex>=0 then
+  begin
+    DoHideNotificationPanel(NotifReloadControls[EdIndex]);
+    DoHideNotificationPanel(NotifDeletedControls[EdIndex]);
+  end;
 
   SFileName:= Ed.FileName;
   bNameChanged:= ASaveAs or (SFileName='');
@@ -2724,6 +2732,7 @@ end;
 
 function TEditorFrame.DoFileReload(Ed: TATSynEdit): boolean;
 var
+  EdIndex: integer;
   PrevCaretX, PrevCaretY: integer;
   PrevTail: boolean;
   Mode: TAppOpenMode;
@@ -2739,8 +2748,12 @@ begin
     exit(false);
   end;
 
-  DoHideNotificationPanel(EditorObjToIndex(Ed), NotifReloadControls);
-  DoHideNotificationPanel(EditorObjToIndex(Ed), NotifDeletedControls);
+  EdIndex:= EditorObjToIndex(Ed);
+  if EdIndex>=0 then
+  begin
+    DoHideNotificationPanel(NotifReloadControls[EdIndex]);
+    DoHideNotificationPanel(NotifDeletedControls[EdIndex]);
+  end;
 
   //remember props
   PrevCaretX:= 0;
@@ -3942,62 +3955,62 @@ procedure TEditorFrame.InitNotificationPanel(Index: integer;
 var
   NPanelHeight, NBtnHeight: integer;
 begin
-  if Assigned(AControls.Panels[Index]) then exit;
+  if Assigned(AControls.Panel) then exit;
 
   NPanelHeight:= ATEditorScale(31);
   NBtnHeight:= ATEditorScale(25);
 
-  AControls.Panels[Index]:= TPanel.Create(Self);
-  AControls.Panels[Index].Parent:= Self;
-  AControls.Panels[Index].Align:= alTop;
-  AControls.Panels[Index].Visible:= false;
-  AControls.Panels[Index].Height:= NPanelHeight;
-  AControls.Panels[Index].BevelOuter:= bvNone;
+  AControls.Panel:= TPanel.Create(Self);
+  AControls.Panel.Parent:= Self;
+  AControls.Panel.Align:= alTop;
+  AControls.Panel.Visible:= false;
+  AControls.Panel.Height:= NPanelHeight;
+  AControls.Panel.BevelOuter:= bvNone;
 
-  AControls.Labels[Index]:= TLabel.Create(Self);
-  AControls.Labels[Index].Parent:= AControls.Panels[Index];
-  AControls.Labels[Index].BorderSpacing.Left:= 4;
-  AControls.Labels[Index].ParentColor:= false;
-  AControls.Labels[Index].AnchorSideLeft.Control:= AControls.Panels[Index];
-  AControls.Labels[Index].AnchorSideTop.Control:= AControls.Panels[Index];
-  AControls.Labels[Index].AnchorSideTop.Side:= asrCenter;
+  AControls.InfoLabel:= TLabel.Create(Self);
+  AControls.InfoLabel.Parent:= AControls.Panel;
+  AControls.InfoLabel.BorderSpacing.Left:= 4;
+  AControls.InfoLabel.ParentColor:= false;
+  AControls.InfoLabel.AnchorSideLeft.Control:= AControls.Panel;
+  AControls.InfoLabel.AnchorSideTop.Control:= AControls.Panel;
+  AControls.InfoLabel.AnchorSideTop.Side:= asrCenter;
 
-  AControls.ButtonsStop[Index]:= TATButton.Create(Self);
-  AControls.ButtonsStop[Index].Tag:= Index;
-  AControls.ButtonsStop[Index].Parent:= AControls.Panels[Index];
-  AControls.ButtonsStop[Index].AnchorSideTop.Control:= AControls.Panels[Index];
-  AControls.ButtonsStop[Index].AnchorSideTop.Side:= asrCenter;
-  AControls.ButtonsStop[Index].AnchorSideRight.Control:= AControls.Panels[Index];
-  AControls.ButtonsStop[Index].AnchorSideRight.Side:= asrBottom;
-  AControls.ButtonsStop[Index].Anchors:= [akTop, akRight];
-  AControls.ButtonsStop[Index].Height:= NBtnHeight;
-  AControls.ButtonsStop[Index].BorderSpacing.Right:= 4;
-  AControls.ButtonsStop[Index].OnClick:= AClickStop;
+  AControls.ButtonStop:= TATButton.Create(Self);
+  AControls.ButtonStop.Tag:= Index;
+  AControls.ButtonStop.Parent:= AControls.Panel;
+  AControls.ButtonStop.AnchorSideTop.Control:= AControls.Panel;
+  AControls.ButtonStop.AnchorSideTop.Side:= asrCenter;
+  AControls.ButtonStop.AnchorSideRight.Control:= AControls.Panel;
+  AControls.ButtonStop.AnchorSideRight.Side:= asrBottom;
+  AControls.ButtonStop.Anchors:= [akTop, akRight];
+  AControls.ButtonStop.Height:= NBtnHeight;
+  AControls.ButtonStop.BorderSpacing.Right:= 4;
+  AControls.ButtonStop.OnClick:= AClickStop;
 
-  AControls.ButtonsNo[Index]:= TATButton.Create(Self);
-  AControls.ButtonsNo[Index].Tag:= Index;
-  AControls.ButtonsNo[Index].Parent:= AControls.Panels[Index];
-  AControls.ButtonsNo[Index].AnchorSideTop.Control:= AControls.ButtonsStop[Index];
-  AControls.ButtonsNo[Index].AnchorSideRight.Control:= AControls.ButtonsStop[Index];
-  AControls.ButtonsNo[Index].Anchors:= [akTop, akRight];
-  AControls.ButtonsNo[Index].Height:= NBtnHeight;
-  AControls.ButtonsNo[Index].BorderSpacing.Right:= 0;
-  AControls.ButtonsNo[Index].OnClick:= AClickNo;
-  AControls.ButtonsNo[Index].Visible:= not AIsDeleted;
+  AControls.ButtonNo:= TATButton.Create(Self);
+  AControls.ButtonNo.Tag:= Index;
+  AControls.ButtonNo.Parent:= AControls.Panel;
+  AControls.ButtonNo.AnchorSideTop.Control:= AControls.ButtonStop;
+  AControls.ButtonNo.AnchorSideRight.Control:= AControls.ButtonStop;
+  AControls.ButtonNo.Anchors:= [akTop, akRight];
+  AControls.ButtonNo.Height:= NBtnHeight;
+  AControls.ButtonNo.BorderSpacing.Right:= 0;
+  AControls.ButtonNo.OnClick:= AClickNo;
+  AControls.ButtonNo.Visible:= not AIsDeleted;
 
-  AControls.ButtonsYes[Index]:= TATButton.Create(Self);
-  AControls.ButtonsYes[Index].Tag:= Index;
-  AControls.ButtonsYes[Index].Parent:= AControls.Panels[Index];
-  AControls.ButtonsYes[Index].AnchorSideTop.Control:= AControls.ButtonsStop[Index];
-  AControls.ButtonsYes[Index].AnchorSideRight.Control:= AControls.ButtonsNo[Index];
-  AControls.ButtonsYes[Index].Anchors:= [akTop, akRight];
-  AControls.ButtonsYes[Index].Height:= NBtnHeight;
-  AControls.ButtonsYes[Index].BorderSpacing.Right:= 0;
-  AControls.ButtonsYes[Index].OnClick:= AClickYes;
+  AControls.ButtonYes:= TATButton.Create(Self);
+  AControls.ButtonYes.Tag:= Index;
+  AControls.ButtonYes.Parent:= AControls.Panel;
+  AControls.ButtonYes.AnchorSideTop.Control:= AControls.ButtonStop;;
+  AControls.ButtonYes.AnchorSideRight.Control:= AControls.ButtonNo;
+  AControls.ButtonYes.Anchors:= [akTop, akRight];
+  AControls.ButtonYes.Height:= NBtnHeight;
+  AControls.ButtonYes.BorderSpacing.Right:= 0;
+  AControls.ButtonYes.OnClick:= AClickYes;
 
-  AControls.ButtonsYes[Index].TabOrder:= 0;
-  AControls.ButtonsNo[Index].TabOrder:= 1;
-  AControls.ButtonsStop[Index].TabOrder:= 2;
+  AControls.ButtonYes.TabOrder:= 0;
+  AControls.ButtonNo.TabOrder:= 1;
+  AControls.ButtonStop.TabOrder:= 2;
 end;
 
 procedure TEditorFrame.UpdateNotificationPanel(
@@ -4005,15 +4018,15 @@ procedure TEditorFrame.UpdateNotificationPanel(
   var AControls: TFrameNotificationControls;
   const ACaptionYes, ACaptionNo, ACaptionStop, ALabel: string);
 begin
-  AControls.ButtonsYes[Index].Caption:= ACaptionYes;
-  AControls.ButtonsNo[Index].Caption:= ACaptionNo;
-  AControls.ButtonsStop[Index].Caption:= ACaptionStop;
+  AControls.ButtonYes.Caption:= ACaptionYes;
+  AControls.ButtonNo.Caption:= ACaptionNo;
+  AControls.ButtonStop.Caption:= ACaptionStop;
 
-  AControls.ButtonsYes[Index].AutoSize:= true;
-  AControls.ButtonsNo[Index].AutoSize:= true;
-  AControls.ButtonsStop[Index].AutoSize:= true;
+  AControls.ButtonYes.AutoSize:= true;
+  AControls.ButtonNo.AutoSize:= true;
+  AControls.ButtonStop.AutoSize:= true;
 
-  AControls.Labels[Index].Caption:= ALabel;
+  AControls.InfoLabel.Caption:= ALabel;
 end;
 
 procedure TEditorFrame.NotifyAboutChange(Ed: TATSynEdit);
@@ -4028,7 +4041,7 @@ begin
   FFileDeletedOutside:= (Ed.FileName<>'') and not FileExists(Ed.FileName);
   if FFileDeletedOutside then
   begin
-    DoHideNotificationPanel(Index, NotifReloadControls);
+    DoHideNotificationPanel(NotifReloadControls[Index]);
     if not NotifDeletedEnabled then exit;
     bMsg:= true;
   end
@@ -4048,20 +4061,20 @@ begin
     exit
   end;
 
-  InitNotificationPanel(Index, false, NotifReloadControls, @NotifReloadYesClick, @NotifReloadNoClick, @NotifReloadStopClick);
-  InitNotificationPanel(Index, true, NotifDeletedControls, @NotifDeletedYesClick, @NotifDeletedNoClick, @NotifDeletedStopClick);
+  InitNotificationPanel(Index, false, NotifReloadControls[Index], @NotifReloadYesClick, @NotifReloadNoClick, @NotifReloadStopClick);
+  InitNotificationPanel(Index, true, NotifDeletedControls[Index], @NotifDeletedYesClick, @NotifDeletedNoClick, @NotifDeletedStopClick);
 
   S:= ExtractFileName(GetFileName(Ed));
-  UpdateNotificationPanel(Index, NotifReloadControls, msgConfirmReloadYes, msgButtonCancel, msgConfirmReloadNoMore, msgConfirmFileChangedOutside+' '+S);
-  UpdateNotificationPanel(Index, NotifDeletedControls, msgTooltipCloseTab, msgButtonCancel, msgConfirmReloadNoMore, msgConfirmFileDeletedOutside+' '+S);
+  UpdateNotificationPanel(Index, NotifReloadControls[Index], msgConfirmReloadYes, msgButtonCancel, msgConfirmReloadNoMore, msgConfirmFileChangedOutside+' '+S);
+  UpdateNotificationPanel(Index, NotifDeletedControls[Index], msgTooltipCloseTab, msgButtonCancel, msgConfirmReloadNoMore, msgConfirmFileDeletedOutside+' '+S);
 
-  ApplyThemeToInfoPanel(NotifReloadControls.Panels[Index]);
-  ApplyThemeToInfoPanel(NotifDeletedControls.Panels[Index]);
+  ApplyThemeToInfoPanel(NotifReloadControls[Index].Panel);
+  ApplyThemeToInfoPanel(NotifDeletedControls[Index].Panel);
 
   if FFileDeletedOutside then
-    NotifDeletedControls.Panels[Index].Show
+    NotifDeletedControls[Index].Panel.Show
   else
-    NotifReloadControls.Panels[Index].Show;
+    NotifReloadControls[Index].Panel.Show;
 end;
 
 procedure TEditorFrame.SetEnabledCodeTree(Ed: TATSynEdit; AValue: boolean);
@@ -4276,24 +4289,23 @@ var
   i: integer;
 begin
   if not Visible then exit;
-  for i:= Low(TFrameNotificationControls.Panels) to High(TFrameNotificationControls.Panels) do
-    if Assigned(NotifReloadControls.Panels[i]) then
-      if NotifReloadControls.Panels[i].Visible then
-        NotifReloadControls.ButtonsYes[i].SetFocus;
+  for i:= 0 to cFrameMaxEdIndex do
+    if Assigned(NotifReloadControls[i].Panel) then
+      if NotifReloadControls[i].Panel.Visible then
+        NotifReloadControls[i].ButtonYes.SetFocus;
 end;
 
-procedure TEditorFrame.DoHideNotificationPanel(Index: integer; AControls: TFrameNotificationControls);
+procedure TEditorFrame.DoHideNotificationPanel(const AControls: TFrameNotificationControls);
 begin
-  if Index<0 then exit;
-  if Assigned(AControls.Panels[Index]) then
-    if AControls.Panels[Index].Visible then
+  if Assigned(AControls.Panel) then
+    if AControls.Panel.Visible then
     begin
       if Visible then
-        if AControls.ButtonsYes[Index].Focused or
-           AControls.ButtonsNo[Index].Focused or
-           AControls.ButtonsStop[Index].Focused then
-          EditorFocus(EditorIndexToObj(Index));
-      AControls.Panels[Index].Hide;
+        if AControls.ButtonYes.Focused or
+           AControls.ButtonNo.Focused or
+           AControls.ButtonStop.Focused then
+          EditorFocus(Editor);
+      AControls.Panel.Hide;
     end;
 end;
 
@@ -4301,10 +4313,10 @@ procedure TEditorFrame.DoHideNotificationPanels;
 var
   i: integer;
 begin
-  for i:= Low(TFrameNotificationControls.Panels) to High(TFrameNotificationControls.Panels) do
+  for i:= 0 to cFrameMaxEdIndex do
   begin
-    DoHideNotificationPanel(i, NotifReloadControls);
-    DoHideNotificationPanel(i, NotifDeletedControls);
+    DoHideNotificationPanel(NotifReloadControls[i]);
+    DoHideNotificationPanel(NotifDeletedControls[i]);
   end;
 end;
 
