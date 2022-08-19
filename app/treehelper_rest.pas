@@ -22,12 +22,15 @@ type
   private
     class function IsHeaderOfChar(const S: UnicodeString; ch: WideChar): boolean;
     class function IsHeaderLine(const S: UnicodeString): boolean;
-    class function GetLevel(ch: WideChar): integer;
+    class function GetLevel(NewChar, PrevChar: WideChar): integer;
   public
     class procedure GetHeaders(Ed: TATSynEdit; Data: TATTreeHelperRecords);
   end;
 
 implementation
+
+const
+  cHeaderChars: UnicodeString = '-=\''"`:^~_*+#<>';
 
 class function TTreeHelperRest.IsHeaderOfChar(const S: UnicodeString; ch: WideChar): boolean;
 var
@@ -42,20 +45,18 @@ begin
 end;
 
 class function TTreeHelperRest.IsHeaderLine(const S: UnicodeString): boolean;
-const
-  arr: UnicodeString = '-=\''"`:^~_*+#<>';
 var
   i: integer;
 begin
-  for i:= 1 to Length(arr) do
-    if IsHeaderOfChar(S, arr[i]) then
+  for i:= 1 to Length(cHeaderChars) do
+    if IsHeaderOfChar(S, cHeaderChars[i]) then
       exit(true);
   Result:= false;
 end;
 
-class function TTreeHelperRest.GetLevel(ch: WideChar): integer;
+class function TTreeHelperRest.GetLevel(NewChar, PrevChar: WideChar): integer;
 begin
-  case ch of
+  case NewChar of
     '=': Result:= 1;
     '-': Result:= 2;
     '~': Result:= 3;
@@ -69,9 +70,12 @@ var
   DataItem: TATTreeHelperRecord;
   St: TATStrings;
   S: UnicodeString;
+  PrevHeaderChar, NewHeaderChar: WideChar;
   NLen, iLine: integer;
 begin
   Data.Clear;
+  PrevHeaderChar:= #0;
+  NewHeaderChar:= #0;
   St:= Ed.Strings;
   for iLine:= 1{not 0} to St.Count-1 do
   begin
@@ -79,6 +83,8 @@ begin
     if S='' then Continue;
     if IsHeaderLine(S) then
     begin
+      PrevHeaderChar:= NewHeaderChar;
+      NewHeaderChar:= S[1];
       NLen:= St.LinesLen[iLine-1];
       if (NLen>0) and (NLen<=Length(S)) then
       begin
@@ -86,7 +92,7 @@ begin
         DataItem.Y1:= iLine-1;
         DataItem.X2:= 0;
         DataItem.Y2:= iLine;
-        DataItem.Level:= GetLevel(S[1]);
+        DataItem.Level:= GetLevel(NewHeaderChar, PrevHeaderChar);
         DataItem.Title:= St.Lines[iLine-1];
         DataItem.Icon:= -1;
         Data.Add(DataItem)
