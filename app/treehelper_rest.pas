@@ -20,8 +20,8 @@ uses
 type
   TTreeHelperRest = class
   private
-    class function IsHead(const S: UnicodeString; ch: WideChar): boolean;
-    class function IsArr(const S: UnicodeString): boolean;
+    class function IsHeaderOfChar(const S: UnicodeString; ch: WideChar): boolean;
+    class function IsHeaderLine(const S: UnicodeString): boolean;
     class function GetLevel(ch: WideChar): integer;
   public
     class procedure GetHeaders(Ed: TATSynEdit; Data: TATTreeHelperRecords);
@@ -29,7 +29,7 @@ type
 
 implementation
 
-class function TTreeHelperRest.IsHead(const S: UnicodeString; ch: WideChar): boolean;
+class function TTreeHelperRest.IsHeaderOfChar(const S: UnicodeString; ch: WideChar): boolean;
 var
   i: integer;
 begin
@@ -41,14 +41,14 @@ begin
   Result:= true;
 end;
 
-class function TTreeHelperRest.IsArr(const S: UnicodeString): boolean;
+class function TTreeHelperRest.IsHeaderLine(const S: UnicodeString): boolean;
 const
   arr: UnicodeString = '-=\''"`:^~_*+#<>';
 var
   i: integer;
 begin
   for i:= 1 to Length(arr) do
-    if IsHead(S, arr[i]) then
+    if IsHeaderOfChar(S, arr[i]) then
       exit(true);
   Result:= false;
 end;
@@ -77,7 +77,7 @@ begin
   begin
     S:= St.Lines[iLine];
     if S='' then Continue;
-    if IsArr(S) then
+    if IsHeaderLine(S) then
     begin
       NLen:= St.LinesLen[iLine-1];
       if (NLen>0) and (NLen<=Length(S)) then
