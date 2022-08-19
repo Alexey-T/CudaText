@@ -797,11 +797,11 @@ end;
 
 procedure TEditorFrame.NotifReloadYesClick(Sender: TObject);
 var
-  Index: integer;
+  EdIndex: integer;
   Ed: TATSynEdit;
 begin
-  Index:= (Sender as TComponent).Tag;
-  Ed:= EditorIndexToObj(Index);
+  EdIndex:= (Sender as TComponent).Tag;
+  Ed:= EditorIndexToObj(EdIndex);
   if Ed=nil then exit;
   DoFileReload(Ed);
   EditorFocus(Ed);
@@ -809,13 +809,13 @@ end;
 
 procedure TEditorFrame.NotifReloadNoClick(Sender: TObject);
 var
-  Index: integer;
+  EdIndex: integer;
   Ed: TATSynEdit;
 begin
-  Index:= (Sender as TComponent).Tag;
-  Ed:= EditorIndexToObj(Index);
+  EdIndex:= (Sender as TComponent).Tag;
+  Ed:= EditorIndexToObj(EdIndex);
   if Ed=nil then exit;
-  DoHideNotificationPanel(NotifReloadControls[Index]);
+  DoHideNotificationPanel(NotifReloadControls[EdIndex]);
   EditorFocus(Ed);
 end;
 
@@ -833,23 +833,23 @@ end;
 
 procedure TEditorFrame.NotifDeletedNoClick(Sender: TObject);
 var
-  Index: integer;
+  EdIndex: integer;
   Ed: TATSynEdit;
 begin
-  Index:= (Sender as TComponent).Tag;
-  Ed:= EditorIndexToObj(Index);
+  EdIndex:= (Sender as TComponent).Tag;
+  Ed:= EditorIndexToObj(EdIndex);
   if Ed=nil then exit;
-  DoHideNotificationPanel(NotifDeletedControls[Index]);
+  DoHideNotificationPanel(NotifDeletedControls[EdIndex]);
   EditorFocus(Ed);
 end;
 
 procedure TEditorFrame.NotifDeletedYesClick(Sender: TObject);
 var
-  Index: integer;
+  EdIndex: integer;
   Ed: TATSynEdit;
 begin
-  Index:= (Sender as TComponent).Tag;
-  Ed:= EditorIndexToObj(Index);
+  EdIndex:= (Sender as TComponent).Tag;
+  Ed:= EditorIndexToObj(EdIndex);
   if Ed=nil then exit;
   Ed.DoCommand(cmd_FileClose, cInvokeAppInternal);
 end;
@@ -1157,7 +1157,7 @@ end;
 
 procedure TEditorFrame.SetFileWasBig(Ed: TATSynEdit; AValue: boolean);
 var
-  Index: integer;
+  EdIndex: integer;
 begin
   if EditorsLinked then
   begin
@@ -1171,9 +1171,9 @@ begin
   end
   else
   begin
-    Index:= EditorObjToIndex(Ed);
-    if Index<0 then exit;
-    FFileWasBig[Index]:= AValue;
+    EdIndex:= EditorObjToIndex(Ed);
+    if EdIndex<0 then exit;
+    FFileWasBig[EdIndex]:= AValue;
     if AValue then
       EditorAdjustForBigFile(Ed);
   end;
@@ -1181,14 +1181,14 @@ end;
 
 procedure TEditorFrame.SetInitialLexer(Ed: TATSynEdit; AValue: TecSyntAnalyzer);
 var
-  Index: integer;
+  EdIndex: integer;
 begin
   if EditorsLinked then
     FInitialLexer1:= AValue
   else
   begin
-    Index:= EditorObjToIndex(Ed);
-    if Index=0 then
+    EdIndex:= EditorObjToIndex(Ed);
+    if EdIndex=0 then
       FInitialLexer1:= AValue
     else
       FInitialLexer2:= AValue;
@@ -3010,25 +3010,25 @@ end;
 
 function TEditorFrame.GetFileWasBig(Ed: TATSynEdit): boolean;
 var
-  Index: integer;
+  EdIndex: integer;
 begin
-  Index:= EditorObjToIndex(Ed);
-  if Index>=0 then
-    Result:= FFileWasBig[Index]
+  EdIndex:= EditorObjToIndex(Ed);
+  if EdIndex>=0 then
+    Result:= FFileWasBig[EdIndex]
   else
     Result:= false;
 end;
 
 function TEditorFrame.GetInitialLexer(Ed: TATSynEdit): TecSyntAnalyzer;
 var
-  Index: integer;
+  EdIndex: integer;
 begin
   if EditorsLinked then
     Result:= FInitialLexer1
   else
   begin
-    Index:= EditorObjToIndex(Ed);
-    if Index=0 then
+    EdIndex:= EditorObjToIndex(Ed);
+    if EdIndex=0 then
       Result:= FInitialLexer1
     else
       Result:= FInitialLexer2;
