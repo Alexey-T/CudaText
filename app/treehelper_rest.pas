@@ -22,7 +22,6 @@ type
   private
     class function IsHeaderOfChar(const S: UnicodeString; ch: WideChar): boolean;
     class function IsHeaderLine(const S: UnicodeString): boolean;
-    class function GetLevel(NewChar, PrevChar: WideChar): integer;
   public
     class procedure GetHeaders(Ed: TATSynEdit; Data: TATTreeHelperRecords);
   end;
@@ -30,7 +29,7 @@ type
 implementation
 
 const
-  cHeaderChars: UnicodeString = '-=\''"`:^~_*+#<>';
+  cHeaderChars = '-=\''"`:^~_*+#<>';
 
 class function TTreeHelperRest.IsHeaderOfChar(const S: UnicodeString; ch: WideChar): boolean;
 var
@@ -54,45 +53,51 @@ begin
   Result:= false;
 end;
 
-class function TTreeHelperRest.GetLevel(NewChar, PrevChar: WideChar): integer;
-begin
-  case NewChar of
-    '=': Result:= 1;
-    '-': Result:= 2;
-    '~': Result:= 3;
-    '"': Result:= 4;
-    else Result:= 1;
-  end;
-end;
-
 class procedure TTreeHelperRest.GetHeaders(Ed: TATSynEdit; Data: TATTreeHelperRecords);
 var
   DataItem: TATTreeHelperRecord;
   St: TATStrings;
   S: UnicodeString;
-  PrevHeaderChar, NewHeaderChar: WideChar;
-  NLen, iLine: integer;
+  NLen, NLevel, iLine, iLevel: integer;
+  HeaderChar: WideChar;
+  HeaderLevels: array[1..Length(cHeaderChars)+1] of WideChar;
 begin
   Data.Clear;
-  PrevHeaderChar:= #0;
-  NewHeaderChar:= #0;
   St:= Ed.Strings;
+  FillChar(HeaderLevels, SizeOf(HeaderLevels), 0);
   for iLine:= 1{not 0} to St.Count-1 do
   begin
     S:= St.Lines[iLine];
     if S='' then Continue;
     if IsHeaderLine(S) then
     begin
-      PrevHeaderChar:= NewHeaderChar;
-      NewHeaderChar:= S[1];
       NLen:= St.LinesLen[iLine-1];
       if (NLen>0) and (NLen<=Length(S)) then
       begin
+        HeaderChar:= S[1];
+
+        //calculate level of char, dynamically for each new document
+        NLevel:= 1;
+        for iLevel:= Low(HeaderLevels) to High(HeaderLevels) do
+        begin
+          if HeaderLevels[iLevel]=#0 then
+          begin
+            NLevel:= iLevel;
+            HeaderLevels[iLevel]:= HeaderChar;
+            Break;
+          end;
+          if HeaderLevels[iLevel]=HeaderChar then
+          begin
+            NLevel:= iLevel;
+            Break;
+          end;
+        end;
+
         DataItem.X1:= 0;
         DataItem.Y1:= iLine-1;
         DataItem.X2:= 0;
         DataItem.Y2:= iLine;
-        DataItem.Level:= GetLevel(NewHeaderChar, PrevHeaderChar);
+        DataItem.Level:= NLevel;
         DataItem.Title:= St.Lines[iLine-1];
         DataItem.Icon:= -1;
         Data.Add(DataItem)
