@@ -59,12 +59,13 @@ var
   St: TATStrings;
   S: UnicodeString;
   NLen, NLevel, iLine, iLevel: integer;
-  HeaderChar: WideChar;
-  HeaderLevels: array[1..Length(cHeaderChars)+1] of WideChar;
+  HeaderChar: char;
+  HeaderLevels: array[1..Length(cHeaderChars)+1] of char;
 begin
   Data.Clear;
   St:= Ed.Strings;
   FillChar(HeaderLevels, SizeOf(HeaderLevels), 0);
+
   for iLine:= 1{not 0} to St.Count-1 do
   begin
     S:= St.Lines[iLine];
