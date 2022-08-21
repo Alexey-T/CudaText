@@ -160,6 +160,11 @@ def is_abr_before_caret(ed):
     # '!' is a special Emmet snippet
     if s[x-1]=='!': return True
 
+    # solve CudaText issue #4292
+    # chars ']' and '}' must be allowed
+    if s[x-1] in '.,;:\'"/?[{()`~@#$%^&*-+=\\|':
+        return
+
     x1 = x
     x2 = x
     CH = string.punctuation+string.digits
