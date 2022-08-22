@@ -155,9 +155,13 @@ begin
         bReadAllFile:= BytesRead=Str.Size;
 
         //Test UTF16 signature
-        if ((Buffer[0]=#$ff) and (Buffer[1]=#$fe)) or
-          ((Buffer[0]=#$fe) and (Buffer[1]=#$ff)) then
-         Exit(True);
+        if (Buffer[0]=#$ff) and (Buffer[1]=#$fe) then
+          exit(true);
+        if (Buffer[0]=#$fe) and (Buffer[1]=#$ff) then
+          exit(true);
+        //Test UTF32 BE signature
+        if (Str.Size>=4) and (Buffer[0]=#0) and (Buffer[1]=#0) and (Buffer[2]=#$fe) and (Buffer[3]=#$ff) then
+          exit(true);
 
         Result:= True;
         for i:= 0 to BytesRead - 1 do
