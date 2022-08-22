@@ -256,18 +256,22 @@ You can disable that option (or press "Cancel" in the confirmation), to save eve
 
 To use snippets you need:
 
-* plugin "Snippets" (install from Addon Manager)
-* snippet package for needed lexer (install from Addon Manager)
+* Plugin "Snippets" (install from Addon Manager)
+* Snippet package for needed lexer (install from Addon Manager)
 
-Each snippet has a name (shown in the dialog when Snippets plugin is called) and short id (letters, digits, '_', dot). You can type id in editor and press Tab key: snippet for this id will be inserted into text. You can insert snippets also by choosing in dialog: call menu item "Plugins / Snippets".
+Each snippet has a name (shown in the dialog when Snippets plugin is called) and short id (letters, digits, '_', dot). You can type id in the editor and press the Tab key: snippet for this id will be inserted into text. You can also call the menu of snippets: menu item "Plugins / Snippets / Snippets menu...".
 
-Only those snippets are enabled, which are suitable for the current lexer. For example, a snippet may be for lexers "C,C++,Objective C" - it is enabled only when these lexers are active. If a snippet has no lexer property, it is always enabled.
+Only those snippets are enabled, which are suitable for the current lexer. Snippet's "lexer" property can be "C,C++,Objective C" - then snippet is enabled only when one of these 3 lexers is active. If snippet has empty "lexer" property, it is always enabled.
 
 Dialog of Snippets plugin:
 
 [[File:cudatext_snippets_menu.png]]
 
-Texts of snippets usually have tab-stop(s), e.g. ${1:some_text}. Plugin Snippets finds tab-stops and places "markers" for them. After markers are placed, Tab-key works special in editor, it jumps to next marker. See detailed information in the [[CudaText#Markers]].
+Texts of snippets usually have tab-stop(s), e.g. ${1:some_text}. Plugin Snippets finds tab-stops and places "markers" for them. After markers are placed, Tab-key works specially: it jumps to the next marker. See detailed information in the [[CudaText#Markers]].
+
+Formats of snippets supported:
+* CudaText snippets. These are packages with prefix "snippets_ct" in the Addons Manager. They are installed into folder [CudaText]/data/snippets_ct.
+* VSCode snippets. These are VSCode packages located in the VSCode repositories. Read the separate topic about them below. They are installed to folder [CudaText]/data/snippets_vs.
 
 === Snippets from VSCode ===
 Since recent versions, Snippets plugin supports snippets from VSCode editor. It gives menu items in "Plugins / Snippets":
