@@ -12,7 +12,7 @@
 * change: macOS: adapt default hotkeys for macOS, for commands: "go to text begin/end", "caret to line begin/end", "go to word previous/next" (thanks @veksha)
 - fix: regression in 1.165.x: opening of file without final line-break was adding final line-break anyway
 - fix: couple of glithes on macOS (thanks @veksha)
-- fix: Emmet must not auto-complete 'ok:' for example (thanks @MiroslavMatas) 
+- fix: Emmet must not auto-complete 'ok:' for example (thanks @eltonfabricio10) 
 - fix: "Go to bookmark" did not focus target group (thanks @MiroslavMatas)
 - fix: in maximized window, clicking on the vert-scrollbar right-most pixel did not work (thanks @veksha)
 - fix: with "scrollbar_themed":false, caret can move half below the bottom border (thanks @veksha)
