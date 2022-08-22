@@ -160,7 +160,7 @@ begin
         if (Buffer[0]=#$fe) and (Buffer[1]=#$ff) then
           exit(true);
         //Test UTF-32 BE signature
-        if (BytesRead>=4) and (Buffer[0]=#0) and (Buffer[1]=#0) and (Buffer[2]=#$fe) and (Buffer[3]=#$ff) then
+        if (BytesRead>=8) and (Buffer[0]=#0) and (Buffer[1]=#0) and (Buffer[2]=#$fe) and (Buffer[3]=#$ff) then
           exit(true);
 
         Result:= True;
