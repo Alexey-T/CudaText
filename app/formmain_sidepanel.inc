@@ -15,8 +15,8 @@ const
 var
   Listbox: TATListbox;
 begin
-  if AIndex<0 then exit;
   Listbox:= Sender as TATListbox;
+  if not Listbox.IsIndexValid(AIndex) then exit;
 
   C.Font.Color:= GetAppColor(apclListFont);
   C.Brush.Color:= GetAppColor(apclListBg);
