@@ -260,6 +260,8 @@ begin
       if not FileExists(filenameSnips) then exit(ReturnNone);
       if not FileExists(filenameLorem) then exit(ReturnNone);
       AppEmmet:= TEmmet.Create(filenameSnips, filenameLorem);
+      InitHtmlTags;
+      AppEmmet.AddHTMLTagListForValidation(HtmlTags);
     end;
 
     case Id of

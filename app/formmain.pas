@@ -8666,7 +8666,6 @@ begin
     mnuEditCopyAppend.Enabled:= bSel;
 end;
 
-
 //----------------------------
 {$I formmain_loadsave.inc}
 {$I formmain_updates_proc.inc}
@@ -8679,6 +8678,5 @@ end;
 {$I formmain_sidepanel.inc}
 {$I formmain_bottompanel.inc}
 {$I formmain_commandline.inc}
-
 
 end.

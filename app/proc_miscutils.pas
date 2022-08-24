@@ -143,6 +143,11 @@ type
     procedure Paint; override;
   end;
 
+var
+  HtmlTags: TStringList;
+
+procedure InitHtmlTags;
+
 
 implementation
 
@@ -1176,6 +1181,122 @@ begin
   if Pos('v', S)>0 then Include(Result, msVisibleOnly);
   if Pos('i', S)>0 then Include(Result, msSiblingOnly);
 end;
+
+procedure InitHtmlTags;
+begin
+  if Assigned(HtmlTags) then exit;
+  HtmlTags:= TStringList.Create;
+  HtmlTags.Sorted:= true;
+  HtmlTags.Add('a');
+  HtmlTags.Add('abbr');
+  HtmlTags.Add('acronym');
+  HtmlTags.Add('address');
+  HtmlTags.Add('applet');
+  HtmlTags.Add('article');
+  HtmlTags.Add('aside');
+  HtmlTags.Add('audio');
+  HtmlTags.Add('b');
+  HtmlTags.Add('basefont');
+  HtmlTags.Add('bdi');
+  HtmlTags.Add('bdo');
+  HtmlTags.Add('big');
+  HtmlTags.Add('blockquote');
+  HtmlTags.Add('body');
+  HtmlTags.Add('button');
+  HtmlTags.Add('canvas');
+  HtmlTags.Add('caption');
+  HtmlTags.Add('center');
+  HtmlTags.Add('cite');
+  HtmlTags.Add('code');
+  HtmlTags.Add('colgroup');
+  HtmlTags.Add('data');
+  HtmlTags.Add('datalist');
+  HtmlTags.Add('dd');
+  HtmlTags.Add('del');
+  HtmlTags.Add('details');
+  HtmlTags.Add('dfn');
+  HtmlTags.Add('dialog');
+  HtmlTags.Add('dir');
+  HtmlTags.Add('div');
+  HtmlTags.Add('dl');
+  HtmlTags.Add('dt');
+  HtmlTags.Add('em');
+  HtmlTags.Add('fieldset');
+  HtmlTags.Add('figcaption');
+  HtmlTags.Add('figure');
+  HtmlTags.Add('font');
+  HtmlTags.Add('footer');
+  HtmlTags.Add('form');
+  HtmlTags.Add('frame');
+  HtmlTags.Add('frameset');
+  HtmlTags.Add('h1 to h6');
+  HtmlTags.Add('head');
+  HtmlTags.Add('header');
+  HtmlTags.Add('html');
+  HtmlTags.Add('i');
+  HtmlTags.Add('iframe');
+  HtmlTags.Add('ins');
+  HtmlTags.Add('kbd');
+  HtmlTags.Add('label');
+  HtmlTags.Add('legend');
+  HtmlTags.Add('li');
+  HtmlTags.Add('main');
+  HtmlTags.Add('map');
+  HtmlTags.Add('mark');
+  HtmlTags.Add('meter');
+  HtmlTags.Add('nav');
+  HtmlTags.Add('noframes');
+  HtmlTags.Add('noscript');
+  HtmlTags.Add('object');
+  HtmlTags.Add('ol');
+  HtmlTags.Add('optgroup');
+  HtmlTags.Add('option');
+  HtmlTags.Add('output');
+  HtmlTags.Add('p');
+  HtmlTags.Add('picture');
+  HtmlTags.Add('pre');
+  HtmlTags.Add('progress');
+  HtmlTags.Add('q');
+  HtmlTags.Add('rp');
+  HtmlTags.Add('rt');
+  HtmlTags.Add('ruby');
+  HtmlTags.Add('s');
+  HtmlTags.Add('samp');
+  HtmlTags.Add('script');
+  HtmlTags.Add('section');
+  HtmlTags.Add('select');
+  HtmlTags.Add('small');
+  HtmlTags.Add('span');
+  HtmlTags.Add('strike');
+  HtmlTags.Add('strong');
+  HtmlTags.Add('style');
+  HtmlTags.Add('sub');
+  HtmlTags.Add('summary');
+  HtmlTags.Add('sup');
+  HtmlTags.Add('svg');
+  HtmlTags.Add('table');
+  HtmlTags.Add('tbody');
+  HtmlTags.Add('td');
+  HtmlTags.Add('template');
+  HtmlTags.Add('textarea');
+  HtmlTags.Add('tfoot');
+  HtmlTags.Add('th');
+  HtmlTags.Add('thead');
+  HtmlTags.Add('time');
+  HtmlTags.Add('title');
+  HtmlTags.Add('tr');
+  HtmlTags.Add('tt');
+  HtmlTags.Add('u');
+  HtmlTags.Add('ul');
+  HtmlTags.Add('var');
+  HtmlTags.Add('video');
+end;
+
+
+finalization
+
+  if Assigned(HtmlTags) then
+    FreeAndNil(HtmlTags);
 
 end.
 
