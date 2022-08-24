@@ -144,7 +144,7 @@ type
   end;
 
 var
-  HtmlTags: TStringList;
+  HtmlTags: TStringList = nil;
 
 procedure InitHtmlTags;
 
