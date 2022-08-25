@@ -2115,7 +2115,7 @@ begin
       'tag',
       Item^.Data.Tag,
       'text',
-      PChar(string(Item^.Data.Text)),
+      PChar(string(Item^.Data.TextAll)),
       'bold',
       PyBool_FromLong(Ord(Item^.Data.TextBold)),
       'italic',
@@ -2179,7 +2179,7 @@ begin
             Data.Tag:= NTag;
             Data.DeleteOnDelLine:= Bool(NAutoDelete);
             Data.ImageIndex:= NImageIndex;
-            Data.Text:= string(PtrText);
+            Data.TextAll:= string(PtrText);
             Data.TextBold:= Bool(NFontBold);
             Data.TextItalic:= Bool(NFontItalic);
             data.TextColor:= NColor;

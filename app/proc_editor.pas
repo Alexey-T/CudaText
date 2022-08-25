@@ -1617,12 +1617,12 @@ begin
         begin
           Decor.LineNum:= PosY;
           Decor.TextBuffer:= nil; //not important
-          Decor.Text:= CharFrom;
+          Decor.TextAll:= CharFrom;
           Ed.GutterDecor.Add(Decor);
 
           Decor.LineNum:= FoundY;
           Decor.TextBuffer:= nil; //important
-          Decor.Text:= CharTo;
+          Decor.TextAll:= CharTo;
           Ed.GutterDecor.Add(Decor);
         end
         else
@@ -1630,9 +1630,9 @@ begin
           Decor.LineNum:= PosY;
           Decor.TextBuffer:= nil;
           if Kind=bracketOpening then
-            Decor.Text:= CharFrom+CharTo
+            Decor.TextAll:= CharFrom+CharTo
           else
-            Decor.Text:= CharTo+CharFrom;
+            Decor.TextAll:= CharTo+CharFrom;
           Ed.GutterDecor.Add(Decor);
         end;
       end;
