@@ -2682,7 +2682,9 @@ Controls decorations on gutter. It is used to show some visual marks, which look
 * DECOR_DELETE_ALL: Deletes all decorations.
 * DECOR_GET_IMAGELIST: Returns int handle of decoration imagelist (default size is 16x16).
 
-Note: decoration list allows 2 items for the same line number. One of items (it can be added first or last) must be "background filler" (ie empty "text" and "image" is -1), and another one must be "not background filler".
+Notes:
+* Decor item's "text" can contain 2 items if you use chr(1): caption + chr(1) + tooltip.
+* Decoration list allows 2 items for the same line number. One of items (it can be added first or last) must be "background filler" (ie empty "text" and "image" is -1), and another one must be "not background filler".
 
 ===Editor.folding===
 
@@ -4659,5 +4661,8 @@ It provides:
 
 1.0.426 (app 1.167.2)
 * add: Editor.get_prop/set_prop: PROP_WHEEL_ZOOMS
+
+1.0.427 (app 1.169.1)
+* add: Editor.decor: item "text" can contain tooltip after chr(1)
 
 [[Category:CudaText]]
