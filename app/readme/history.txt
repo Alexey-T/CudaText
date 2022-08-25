@@ -3,6 +3,10 @@
   - fixed
   * changed
 
+1.169.1 (2022/08)
+
++ add: API allows to show tooltip for "gutter decoration", like app can do for bookmarks (thanks @veksha)
+
 1.169.0 (2022/08)
 
 + add: handle the situation 'file was deleted outside' more detailed: show additional non-modal confirmation to close the tab (thanks @lookoutside, @JairoMartinezA)
