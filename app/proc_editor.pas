@@ -1616,16 +1616,19 @@ begin
         if PosY<>FoundY then
         begin
           Decor.LineNum:= PosY;
+          Decor.TextBuffer:= nil; //not important
           Decor.Text:= CharFrom;
           Ed.GutterDecor.Add(Decor);
 
           Decor.LineNum:= FoundY;
+          Decor.TextBuffer:= nil; //important
           Decor.Text:= CharTo;
           Ed.GutterDecor.Add(Decor);
         end
         else
         begin
           Decor.LineNum:= PosY;
+          Decor.TextBuffer:= nil;
           if Kind=bracketOpening then
             Decor.Text:= CharFrom+CharTo
           else
