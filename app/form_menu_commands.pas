@@ -332,8 +332,14 @@ begin
 end;
 
 function TfmCommands.GetResultCmd: integer;
+var
+  N: integer;
 begin
-  Result:= TATKeymapItem(keymapList.Items[list.ItemIndex]).Command;
+  N:= list.ItemIndex;
+  if (N>=0) and (N<keymapList.Count) then
+    Result:= TATKeymapItem(keymapList.Items[N]).Command
+  else
+    Result:= 0;
 end;
 
 procedure TfmCommands.DoConfigKey(Cmd: integer);
