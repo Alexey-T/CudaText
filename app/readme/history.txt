@@ -5,7 +5,7 @@
 
 1.169.1 (2022/08)
 
-+ add: API allows to show tooltip for "gutter decoration", like app can do for bookmarks (thanks @veksha)
++ add: API allows LSP Client to show tooltips for gutter-icons when option "lint_type" is set to "d" (thanks @veksha)
 * change: Emmet now doesn't auto-pair 'unknown' tags (thanks Rickard)
 
 1.169.0 (2022/08)
