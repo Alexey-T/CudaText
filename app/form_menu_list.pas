@@ -237,11 +237,19 @@ begin
 end;
 
 procedure TfmMenuList.DoListChangedSel(Sender: TObject);
+var
+  N: integer;
+  S: string;
 begin
-  if List.ItemIndex>=0 then
+  N:= List.ItemIndex;
+  if (N>=0) and (N<Items.Count) then
     if Assigned(FOnListSelect) then
     begin
-      FOnListSelect(List.ItemIndex, IfThen(List.ItemIndex>0, Items[List.ItemIndex], ''));
+      if N>0 then
+        S:= Items[N]
+      else
+        S:= '';
+      FOnListSelect(N, S);
       UpdateColors;
       List.Invalidate;
     end;
