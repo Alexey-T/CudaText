@@ -17,7 +17,7 @@ object fmLexerLib: TfmLexerLib
   OnShow = FormShow
   Position = poMainFormCenter
   ShowInTaskBar = stNever
-  LCLVersion = '2.1.0.0'
+  LCLVersion = '2.3.0.0'
   object PanelBtn: TButtonPanel
     Left = 6
     Height = 29
@@ -52,7 +52,7 @@ object fmLexerLib: TfmLexerLib
       Left = 6
       Height = 29
       Top = 6
-      Width = 77
+      Width = 78
       AutoSize = True
       BorderSpacing.Left = 6
       BorderSpacing.Top = 6
@@ -65,7 +65,7 @@ object fmLexerLib: TfmLexerLib
       AnchorSideLeft.Control = btnConfig
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = btnConfig
-      Left = 89
+      Left = 90
       Height = 29
       Top = 6
       Width = 56

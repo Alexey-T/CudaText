@@ -41,7 +41,7 @@ type
   private
     { private declarations }
     FOnDeleteLexer: TAppStringEvent;
-    procedure DeletePackagesIniSection(const ALexerName: string);
+    procedure DeletePackagesIniSection(ALexerName: string);
     procedure Localize;
     procedure UpdateList;
   public
@@ -191,11 +191,14 @@ begin
 end;
 
 
-procedure TfmlexerLib.DeletePackagesIniSection(const ALexerName: string);
+procedure TfmlexerLib.DeletePackagesIniSection(ALexerName: string);
 var
   fn: string;
   Ini: TIniFile;
 begin
+  ALexerName:= StringReplace(ALexerName, ' ', '_', [rfReplaceAll]);
+  ALexerName:= StringReplace(ALexerName, '#', '%23', [rfReplaceAll]);
+
   fn:= AppDir_Settings+DirectorySeparator+'packages.ini';
   if FileExists(fn) then
   begin
