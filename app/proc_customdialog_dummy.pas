@@ -823,6 +823,9 @@ var
   Data: TAppVariant;
   Callback: string;
 begin
+  if Sender is TATListbox then
+    if not TATListbox(Sender).IsIndexValid(AIndex) then exit;
+
   Props:= TAppControlProps((Sender as TControl).Tag);
   Callback:= Props.FEventOnListboxDrawItem;
   if Callback='' then exit;
