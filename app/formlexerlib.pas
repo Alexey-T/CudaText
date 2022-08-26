@@ -41,6 +41,7 @@ type
   private
     { private declarations }
     FOnDeleteLexer: TAppStringEvent;
+    procedure DeletePackagesIniSection(const ALexerName: string);
     procedure Localize;
     procedure UpdateList;
   public
@@ -190,6 +191,23 @@ begin
 end;
 
 
+procedure TfmlexerLib.DeletePackagesIniSection(const ALexerName: string);
+var
+  fn: string;
+  Ini: TIniFile;
+begin
+  fn:= AppDir_Settings+DirectorySeparator+'packages.ini';
+  if FileExists(fn) then
+  begin
+    Ini:= TIniFile.Create(fn);
+    try
+      Ini.EraseSection('lexer.'+ALexerName+'.zip');
+    finally
+      FreeAndNil(Ini);
+    end;
+  end;
+end;
+
 procedure TfmLexerLib.btnDeleteClick(Sender: TObject);
 var
   an: TecSyntAnalyzer;
@@ -198,7 +216,7 @@ begin
   List.SetFocus;
 
   NIndex:= List.ItemIndex;
-  if NIndex<0 then exit;
+  if (NIndex<0) or (NIndex>=List.Count) then exit;
   an:= List.Items.Objects[NIndex] as TecSyntAnalyzer;
 
   if MsgBox(
@@ -211,6 +229,7 @@ begin
     DeleteFile(AppFile_Lexer(an.LexerName));
     DeleteFile(AppFile_LexerMap(an.LexerName));
     DeleteFile(AppFile_LexerAcp(an.LexerName));
+    DeletePackagesIniSection(an.LexerName);
 
     AppManager.DeleteLexer(an);
     AppManager.Modified:= true;
