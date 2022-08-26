@@ -213,28 +213,30 @@ end;
 
 procedure TfmLexerLib.btnDeleteClick(Sender: TObject);
 var
-  an: TecSyntAnalyzer;
+  An: TecSyntAnalyzer;
   NIndex: integer;
+  SLexerName: string;
 begin
   List.SetFocus;
 
   NIndex:= List.ItemIndex;
   if (NIndex<0) or (NIndex>=List.Count) then exit;
-  an:= List.Items.Objects[NIndex] as TecSyntAnalyzer;
+  An:= List.Items.Objects[NIndex] as TecSyntAnalyzer;
+  SLexerName:= An.LexerName;
 
   if MsgBox(
-    Format(msgConfirmDeleteLexer, [an.LexerName]),
+    Format(msgConfirmDeleteLexer, [SLexerName]),
     MB_OKCANCEL or MB_ICONWARNING)=ID_OK then
   begin
     if Assigned(FOnDeleteLexer) then
-      FOnDeleteLexer(nil, an.LexerName);
+      FOnDeleteLexer(nil, SLexerName);
 
-    DeleteFile(AppFile_Lexer(an.LexerName));
-    DeleteFile(AppFile_LexerMap(an.LexerName));
-    DeleteFile(AppFile_LexerAcp(an.LexerName));
-    DeletePackagesIniSection(an.LexerName);
+    DeleteFile(AppFile_Lexer(SLexerName));
+    DeleteFile(AppFile_LexerMap(SLexerName));
+    DeleteFile(AppFile_LexerAcp(SLexerName));
+    DeletePackagesIniSection(SLexerName);
 
-    AppManager.DeleteLexer(an);
+    AppManager.DeleteLexer(An);
     AppManager.Modified:= true;
 
     UpdateList;
