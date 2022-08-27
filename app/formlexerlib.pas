@@ -16,6 +16,7 @@ uses
   StdCtrls, ComCtrls, IniFiles,
   LCLIntf, LCLType, LCLProc, ExtCtrls,
   LazUTF8, LazFileUtils,
+  ATStringProc,
   ec_SyntAnal,
   formlexerprop,
   proc_globdata,
@@ -191,13 +192,25 @@ begin
 end;
 
 
+procedure SReplaceAllPercentChars(var S: string);
+var
+  i: Integer;
+begin
+  for i:= $20 to $2F do
+    SReplaceAll(S, '%'+IntToHex(i, 2), Chr(i));
+
+  i:= $7C;
+  SReplaceAll(S, '%'+IntToHex(i, 2), Chr(i));
+end;
+
+
 procedure TfmlexerLib.DeletePackagesIniSection(ALexerName: string);
 var
   fn: string;
   Ini: TIniFile;
 begin
   ALexerName:= StringReplace(ALexerName, ' ', '_', [rfReplaceAll]);
-  ALexerName:= StringReplace(ALexerName, '#', '%23', [rfReplaceAll]);
+  SReplaceAllPercentChars(ALexerName);
 
   fn:= AppDir_Settings+DirectorySeparator+'packages.ini';
   if FileExists(fn) then
