@@ -192,15 +192,14 @@ begin
 end;
 
 
-procedure SReplaceAllPercentChars(var S: string);
+procedure SEscapeSpecialChars(var S: string);
 var
-  i: Integer;
+  i: byte;
 begin
-  for i:= $20 to $2F do
-    SReplaceAll(S, '%'+IntToHex(i, 2), Chr(i));
+  SReplaceAll(S, ' ', '_');
 
-  i:= $7C;
-  SReplaceAll(S, '%'+IntToHex(i, 2), Chr(i));
+  for i in [ord('#'), ord('*'), ord('|'), ord('/')] do
+    SReplaceAll(S, Chr(i), '%'+IntToHex(i, 2));
 end;
 
 
@@ -209,8 +208,7 @@ var
   fn: string;
   Ini: TIniFile;
 begin
-  ALexerName:= StringReplace(ALexerName, ' ', '_', [rfReplaceAll]);
-  SReplaceAllPercentChars(ALexerName);
+  SEscapeSpecialChars(ALexerName);
 
   fn:= AppDir_Settings+DirectorySeparator+'packages.ini';
   if FileExists(fn) then
