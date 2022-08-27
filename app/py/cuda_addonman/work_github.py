@@ -58,6 +58,8 @@ def dialog_github_install(history):
     if btn!=id_ok: return
     text = text.splitlines()
     url = text[id_edit]
+    if url.endswith('/'):
+        url = url[:-1]
     return url
 
 
