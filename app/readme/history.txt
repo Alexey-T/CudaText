@@ -5,6 +5,7 @@
 
 1.169.1 (2022/08)
 
++ add: auto-completion in plugins: avoid listbox hiding/showing, when user presses Left/Right key in auto-completion
 + add: API allows LSP Client to show tooltips for gutter-icons when option "lint_type" is set to "d" (thanks @veksha)
 * change: Emmet now doesn't auto-pair 'unknown' tags (thanks Rickard)
 
