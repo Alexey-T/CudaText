@@ -484,8 +484,8 @@ Most of them are located in the Addons Manager "Install" list.
 * NSL Assembler
 * Oberon (and Component Pascal)
 * Objective-C
-* Odin
 * OCaml
+* Odin
 * OpenCL
 * OpenEdge
 * OpenSCAD
