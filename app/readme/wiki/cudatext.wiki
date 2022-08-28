@@ -352,6 +352,7 @@ Most of them are located in the Addons Manager "Install" list.
 * C#
 * C++
 * Caffe Prototxt
+* Carbon
 * Clarion
 * Clavier
 * Clipper
@@ -481,8 +482,9 @@ Most of them are located in the Addons Manager "Install" list.
 * nnCron
 * NSIS
 * NSL Assembler
-* Oberon
+* Oberon (and Component Pascal)
 * Objective-C
+* Odin
 * OCaml
 * OpenCL
 * OpenEdge
