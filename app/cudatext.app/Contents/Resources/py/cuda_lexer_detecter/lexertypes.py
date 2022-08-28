@@ -314,6 +314,7 @@ TYPES = {
     "nsl": ['NSL Assembler'],
     "nut": ['Squirrel'],
     "ob2": ['Oberon'],
+    "odin": ['Odin'],
     "org": ['Org-mode'],
     "pas": ['Pascal'],
     "patch": ['Diff'],
