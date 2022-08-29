@@ -3,6 +3,9 @@
   - fixed
   * changed
 
+- fix: "autocomplete_autoshow_chars" >0 shown the list even after non-word char
+- fix: Addon Manager "Install from Git" ignored Git branch name on 'Clone' choice
+
 1.169.2 (2022/08)
 
 + add: auto-completion in plugins: avoid listbox hiding/showing, when user presses Left/Right key in auto-completion
