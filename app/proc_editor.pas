@@ -168,7 +168,9 @@ procedure EditorAutoCloseClosingHtmlTag(Ed: TATSynEdit; AX, AY: integer);
 procedure EditorChangeLineEndsForSelection(Ed: TATSynEdit; AValue: TATLineEnds);
 
 var
-  //if True, next IdleTimer call will fire the auto-completion event
+  //if True, next IdleTimer call will fire the auto-completion.
+  //avoid direct firing of auto-completion for "autocomplete_autoshow_chars":3,
+  //with LSP Client it makes the work slower.
   FlagRunAutocomplete: boolean = false;
 
 implementation
