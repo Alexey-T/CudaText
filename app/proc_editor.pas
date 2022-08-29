@@ -2432,10 +2432,13 @@ begin
     bWordChar:= IsCharWord(STextW[1], Ed.OptNonWordChars);
     if not bWordChar then
     begin
+      AOnAutoCompletion(Ed, false); //stop autocompletion
       ACharsTyped:= 0;
       exit;
     end;
-  end;
+  end
+  else
+    AOnAutoCompletion(Ed, false); //stop autocompletion
 
   //autoshow for all, when typed N chars
   if (Ed.OptAutocompleteAutoshowCharCount>0) then
@@ -2458,7 +2461,10 @@ begin
     end;
   end
   else
+  begin
+    AOnAutoCompletion(Ed, false); //stop autocompletion
     ACharsTyped:= 0;
+  end;
 
   //autoshow for HTML
   if UiOps.AutocompleteHtml and bLexerHTML then

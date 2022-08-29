@@ -518,7 +518,6 @@ type
     OpAutoCloseBracketsMultiCarets: boolean;
     OpAutoCloseBrackets: string;
     OpAutocompleteAutoshowCharCount: integer;
-    OpAutocompleteAutoshowTimerInverval: integer;
     OpAutocompleteTriggerChars: string;
     OpAutocompleteCommitChars: string;
     OpAutocompleteCloseChars: string;
@@ -1619,7 +1618,6 @@ begin
     OpAutoCloseBracketsMultiCarets:= true; //must be True, issue #3235
     OpAutoCloseBrackets:= '([{';
     OpAutocompleteAutoshowCharCount:= 0;
-    OpAutocompleteAutoshowTimerInverval:= 700;
     OpAutocompleteTriggerChars:= '';
     OpAutocompleteCommitChars:= ' ,;/\''"';
     OpAutocompleteCloseChars:= '<>()[]{}=';
