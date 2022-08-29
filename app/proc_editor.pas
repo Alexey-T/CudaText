@@ -168,6 +168,7 @@ procedure EditorAutoCloseClosingHtmlTag(Ed: TATSynEdit; AX, AY: integer);
 procedure EditorChangeLineEndsForSelection(Ed: TATSynEdit; AValue: TATLineEnds);
 
 var
+  //if True, next IdleTimer call will fire the auto-completion event
   FlagRunAutocomplete: boolean = false;
 
 implementation
