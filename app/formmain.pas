@@ -694,7 +694,6 @@ type
     FMenuVisible: boolean;
     FNewClickedEditor: TATSynEdit;
     FPyCompletionProps: TAppCompletionApiProps;
-    FNeedAutoComplete: boolean;
     FNeedUpdateStatuses: boolean;
     FNeedUpdateMenuChecks: boolean;
     FNeedAppState_SubCommands: boolean;
@@ -847,7 +846,6 @@ type
     function DoAutoComplete_FromPlugins(Ed: TATSynEdit): boolean;
     function DoAutoComplete_PosOnBadToken(Ed: TATSynEdit; AX, AY: integer): boolean;
     procedure DoAutoComplete(Ed: TATSynEdit);
-    procedure DoAutoComplete_Delayed(Ed: TATSynEdit; AValue: boolean);
     procedure DoPyCommand_CommandLineParam(const AModuleAndMethod: string);
     procedure DoPyCommand_Cudaxlib(Ed: TATSynEdit; const AMethod: string; AInvoke: TATEditorCommandInvoke);
     procedure DoDialogCharMap;
@@ -2319,9 +2317,9 @@ begin
     UpdateMenuChecks_Global;
   end;
 
-  if Assigned(Frame) and FNeedAutoComplete then
+  if Assigned(Frame) and FlagRunAutocomplete then
   begin
-    FNeedAutoComplete:= false;
+    FlagRunAutocomplete:= false;
     DoAutoComplete(Frame.Editor);
   end;
 
@@ -6417,14 +6415,6 @@ begin
         end;
     end;
   end;
-end;
-
-procedure TfmMain.DoAutoComplete_Delayed(Ed: TATSynEdit; AValue: boolean);
-//avoid immediate call of DoAutoComplete(),
-//it is fired too often with "autocomplete_autoshow_chars":3,
-//and with slow LSP Client it makes the work slower
-begin
-  FNeedAutoComplete:= AValue;
 end;
 
 procedure TfmMain.DoAutoComplete(Ed: TATSynEdit);

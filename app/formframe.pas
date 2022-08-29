@@ -151,7 +151,6 @@ type
     FEnabledCodeTree: array[0..1] of boolean;
     FNotifEnabled: boolean;
     FNotifDeletedEnabled: boolean;
-    FOnCallAutoCompletion: TEditorBooleanEvent;
     FOnChangeCaption: TNotifyEvent;
     FOnChangeSlow: TNotifyEvent;
     FOnProgress: TATFinderProgress;
@@ -492,7 +491,6 @@ type
     property OnInitAdapter: TNotifyEvent read FOnInitAdapter write FOnInitAdapter;
     property OnLexerChange: TATEditorEvent read FOnLexerChange write FOnLexerChange;
     property OnAppClickLink: TATSynEditClickLinkEvent read FOnAppClickLink write FOnAppClickLink;
-    property OnCallAutoCompletion: TEditorBooleanEvent read FOnCallAutoCompletion write FOnCallAutoCompletion;
   end;
 
 procedure GetFrameLocation(Frame: TEditorFrame;
@@ -1689,7 +1687,7 @@ begin
         bTypedChar:= (Length(AText)=1) or (UTF8Length(AText)=1);
         if bTypedChar then
         begin
-          if EditorAutoCompletionAfterTypingChar(Ed, AText, FTextCharsTyped, OnCallAutoCompletion) then
+          if EditorAutoCompletionAfterTypingChar(Ed, AText, FTextCharsTyped) then
             exit;
 
           if Length(AText)=1 then
@@ -4503,7 +4501,7 @@ end;
 procedure TEditorFrame.CancelAutocompleteAutoshow(Ed: TATSynEdit);
 begin
   FTextCharsTyped:= 0;
-  OnCallAutoCompletion(Ed, false);
+  FlagRunAutocomplete:= false;
 end;
 
 procedure TEditorFrame.LexerBackupSave;

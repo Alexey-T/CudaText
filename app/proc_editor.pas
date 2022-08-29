@@ -161,11 +161,14 @@ procedure EditorHighlightAllMatches(AFinder: TATEditorFinder;
   AEnableFindNext: boolean; out AMatchesCount: integer; ACaretPos: TPoint);
 
 function EditorAutoCompletionAfterTypingChar(Ed: TATSynEdit;
-  const AText: string; var ACharsTyped: integer; AOnAutoCompletion: TEditorBooleanEvent): boolean;
+  const AText: string; var ACharsTyped: integer): boolean;
 function EditorGetLefterHtmlTag(Ed: TATSynEdit; AX, AY: integer): UnicodeString;
 procedure EditorAutoCloseOpeningHtmlTag(Ed: TATSynEdit; AX, AY: integer);
 procedure EditorAutoCloseClosingHtmlTag(Ed: TATSynEdit; AX, AY: integer);
 procedure EditorChangeLineEndsForSelection(Ed: TATSynEdit; AValue: TATLineEnds);
+
+var
+  FlagRunAutocomplete: boolean = false;
 
 implementation
 
@@ -2397,8 +2400,7 @@ begin
 end;
 
 function EditorAutoCompletionAfterTypingChar(Ed: TATSynEdit;
-  const AText: string; var ACharsTyped: integer;
-  AOnAutoCompletion: TEditorBooleanEvent): boolean;
+  const AText: string; var ACharsTyped: integer): boolean;
 var
   Caret: TATCaretItem;
   STextW: UnicodeString;
@@ -2421,7 +2423,7 @@ begin
     if EditorCaretInsideCommentOrString(Ed, Caret.PosX, Caret.PosY) then exit;
 
     ACharsTyped:= 0;
-    AOnAutoCompletion(Ed, true);
+    FlagRunAutocomplete:= true;
     exit;
   end;
 
@@ -2432,13 +2434,13 @@ begin
     bWordChar:= IsCharWord(STextW[1], Ed.OptNonWordChars);
     if not bWordChar then
     begin
-      AOnAutoCompletion(Ed, false); //stop autocompletion
+      FlagRunAutocomplete:= false;
       ACharsTyped:= 0;
       exit;
     end;
   end
   else
-    AOnAutoCompletion(Ed, false); //stop autocompletion
+    FlagRunAutocomplete:= false;
 
   //autoshow for all, when typed N chars
   if (Ed.OptAutocompleteAutoshowCharCount>0) then
@@ -2456,13 +2458,13 @@ begin
     if ACharsTyped=Ed.OptAutocompleteAutoshowCharCount then
     begin
       ACharsTyped:= 0;
-      AOnAutoCompletion(Ed, true);
+      FlagRunAutocomplete:= true;
       exit;
     end;
   end
   else
   begin
-    AOnAutoCompletion(Ed, false); //stop autocompletion
+    FlagRunAutocomplete:= false;
     ACharsTyped:= 0;
   end;
 
@@ -2470,7 +2472,7 @@ begin
   if UiOps.AutocompleteHtml and bLexerHTML then
   begin
     if Ed.Strings.LineCharAt(Caret.PosY, Caret.PosX-1)='<' then
-      AOnAutoCompletion(Ed, true);
+      FlagRunAutocomplete:= true;
     exit;
   end;
 
