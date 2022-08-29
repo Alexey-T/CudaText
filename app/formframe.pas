@@ -204,7 +204,7 @@ type
     procedure BinaryOnScroll(Sender: TObject);
     procedure BinaryOnProgress(const ACurrentPos, AMaximalPos: Int64;
       var AContinueSearching: Boolean);
-    procedure CancelAutocompleteAutoshow(Ed: TATSynEdit);
+    procedure CancelAutocompleteAutoshow;
     procedure DoDeactivatePictureMode;
     procedure DoDeactivateViewerMode;
     procedure DoFileOpen_Ex(Ed: TATSynEdit; const AFileName: string;
@@ -664,7 +664,7 @@ begin
   Ed:= Sender as TATSynEdit;
 
   StateString:= ConvertShiftStateToString(KeyboardStateToShiftState);
-  CancelAutocompleteAutoshow(Ed);
+  CancelAutocompleteAutoshow;
 
   if Ed.Markers.DeleteWithTag(UiOps.FindOccur_TagValue) then
     Ed.Update;
@@ -1564,7 +1564,7 @@ begin
     cCommand_TextDeleteWordNext,
     cCommand_TextDeleteWordPrev:
       begin
-        CancelAutocompleteAutoshow(Ed);
+        CancelAutocompleteAutoshow;
       end;
 
     cCommand_ClipboardPaste,
@@ -1631,7 +1631,7 @@ begin
         if FTextCharsTyped>0 then
         begin
           Dec(FTextCharsTyped);
-          CancelAutocompleteAutoshow(Ed);
+          CancelAutocompleteAutoshow;
         end;
         exit;
       end;
@@ -1696,7 +1696,7 @@ begin
             charW:= UTF8Decode(AText)[1];
 
           if not IsCharWord(charW, Ed.OptNonWordChars) then
-            CancelAutocompleteAutoshow(Ed);
+            CancelAutocompleteAutoshow;
         end;
       end;
   end; //case ACommand of
@@ -4498,7 +4498,7 @@ begin
     PanelNoHilite.Hide;
 end;
 
-procedure TEditorFrame.CancelAutocompleteAutoshow(Ed: TATSynEdit);
+procedure TEditorFrame.CancelAutocompleteAutoshow;
 begin
   FTextCharsTyped:= 0;
   FlagRunAutocomplete:= false;
