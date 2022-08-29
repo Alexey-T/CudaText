@@ -170,7 +170,9 @@ Plugin has context menu on its panel, with items:
 * Selected directory - it's shown only for folders
 * Refresh - it re-reads state of files/folders from disk
 
-Any project can have "main file", you can choose it in the context menu: "Selected file / Set as main file". Main file's path is used by plugin External Tools, when some tool is configured with macro {ProjMainFile}. This allows tools to run compilation of the main file.
+Any project can have '''main file''', you can choose it in the context menu: "Selected file / Set as main file". Main file's path is used by plugin External Tools, when some tool is configured with macro {ProjMainFile}. This allows tools to run compilation of the main file.
+
+Sometimes you may want '''to forget the "temporary" project''' which CudaText may create from Windows Explorer context menu. To do this, just call "Project file / New project" from the right-click menu over the project panel. This does not delete the file "settings/temporary.cuda-proj", but that file will be overwritten soon.
 
 === Project Manager options dialog ===
 
