@@ -3,8 +3,9 @@
   - fixed
   * changed
 
-- fix: "autocomplete_autoshow_chars" >0 shown the list even after non-word char
-- fix: Addon Manager "Install from Git" ignored Git branch name on 'Clone' choice
+- fix: Addon Manager "Install from Git" ignored Git branch name on 'clone' action
+- fix: option "autocomplete_autoshow_chars" small issue
+- fix: predefined width of some 'Latin extended' chars (thanks @dbgrgl)
 
 1.169.2 (2022/08)
 
