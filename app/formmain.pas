@@ -2317,9 +2317,9 @@ begin
     UpdateMenuChecks_Global;
   end;
 
-  if Assigned(Frame) and FlagRunAutocomplete then
+  if Assigned(Frame) and AppRunAutocomplete then
   begin
-    FlagRunAutocomplete:= false;
+    AppRunAutocomplete:= false;
     DoAutoComplete(Frame.Editor);
   end;
 

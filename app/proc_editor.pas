@@ -167,12 +167,6 @@ procedure EditorAutoCloseOpeningHtmlTag(Ed: TATSynEdit; AX, AY: integer);
 procedure EditorAutoCloseClosingHtmlTag(Ed: TATSynEdit; AX, AY: integer);
 procedure EditorChangeLineEndsForSelection(Ed: TATSynEdit; AValue: TATLineEnds);
 
-var
-  //if True, next IdleTimer call will fire the auto-completion.
-  //avoid direct firing of auto-completion for "autocomplete_autoshow_chars":3,
-  //with LSP Client it makes the work slower.
-  FlagRunAutocomplete: boolean = false;
-
 implementation
 
 procedure EditorApplyOps(Ed: TATSynEdit; const Op: TEditorOps;
@@ -2426,7 +2420,7 @@ begin
     if EditorCaretInsideCommentOrString(Ed, Caret.PosX, Caret.PosY) then exit;
 
     ACharsTyped:= 0;
-    FlagRunAutocomplete:= true;
+    AppRunAutocomplete:= true;
     exit;
   end;
 
@@ -2437,13 +2431,13 @@ begin
     bWordChar:= IsCharWord(STextW[1], Ed.OptNonWordChars);
     if not bWordChar then
     begin
-      FlagRunAutocomplete:= false;
+      AppRunAutocomplete:= false;
       ACharsTyped:= 0;
       exit;
     end;
   end
   else
-    FlagRunAutocomplete:= false;
+    AppRunAutocomplete:= false;
 
   //autoshow for all, when typed N chars
   if (Ed.OptAutocompleteAutoshowCharCount>0) then
@@ -2461,13 +2455,13 @@ begin
     if ACharsTyped=Ed.OptAutocompleteAutoshowCharCount then
     begin
       ACharsTyped:= 0;
-      FlagRunAutocomplete:= true;
+      AppRunAutocomplete:= true;
       exit;
     end;
   end
   else
   begin
-    FlagRunAutocomplete:= false;
+    AppRunAutocomplete:= false;
     ACharsTyped:= 0;
   end;
 
@@ -2475,7 +2469,7 @@ begin
   if UiOps.AutocompleteHtml and bLexerHTML then
   begin
     if Ed.Strings.LineCharAt(Caret.PosY, Caret.PosX-1)='<' then
-      FlagRunAutocomplete:= true;
+      AppRunAutocomplete:= true;
     exit;
   end;
 

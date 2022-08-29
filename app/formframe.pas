@@ -4501,7 +4501,7 @@ end;
 procedure TEditorFrame.CancelAutocompleteAutoshow;
 begin
   FTextCharsTyped:= 0;
-  FlagRunAutocomplete:= false;
+  AppRunAutocomplete:= false;
 end;
 
 procedure TEditorFrame.LexerBackupSave;
