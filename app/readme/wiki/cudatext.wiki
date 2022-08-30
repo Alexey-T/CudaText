@@ -158,6 +158,7 @@ Supported keys:
 * -nn - Don't suggest to create new file if command-line filename is not found.
 * -s=folder - Specify full path of the "settings" folder, which contains all configuration files.
 * -i - Read the contents of stdin to a new document. Unix only. It can be used in Unix shell like: "ls -l | cudatext -i".
+* -verbose - Copy Python messages from Console panel to stdout. Unix only.
 * -id=name - Set "group" for single-instance mode, so that program with one "group" will not interfere and find instances with another "group". Unix only. Default value is "cudatext.0".
 * -w=left,top,width,height - Set position/size of the main window. Up to 4 numbers should be specified, any number can be skipped to keep previous value.
 * -c=cuda_module,method_name - Run the specified command plugin on startup. It runs the command plugin for the currently active editor tab, so make sure you don't pass multiple filenames in the command line, and current session doesn't have multiple files. So, it is good to use together with "-n" and/or "-ns" params. How to know the "cuda_module"? It is the name of subfolder under "py" folder. How to know "method_name"? It is the value of "method=" key in the "py/cuda_module/install.inf" file.
