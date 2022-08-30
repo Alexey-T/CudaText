@@ -3,9 +3,11 @@
   - fixed
   * changed
 
+1.169.3 (2022/09)
+
 - fix: Addon Manager "Install from Git" ignored Git branch name on 'clone' action
-- fix: option "autocomplete_autoshow_chars" small issue
-- fix: predefined width of some 'Latin extended' chars (thanks @dbgrgl)
+- fix: option "autocomplete_autoshow_chars" small bug
+- fix: wrong width of some 'Latin extended' chars (thanks @dbgrgl)
 
 1.169.2 (2022/08)
 
