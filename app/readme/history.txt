@@ -5,6 +5,7 @@
 
 1.169.3 (2022/09)
 
++ add: support CSS colors like 'rgb(10%, 20%, 30%)' (thanks @eltonfabricio10)
 - fix: Addon Manager "Install from Git" ignored Git branch name on 'clone' action
 - fix: option "autocomplete_autoshow_chars" small bug
 - fix: wrong width of some 'Latin extended' chars (thanks @dbgrgl)
