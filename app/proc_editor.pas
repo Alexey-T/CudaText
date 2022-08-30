@@ -31,6 +31,7 @@ uses
   ATSynEdit_Bookmarks,
   ATSynEdit_Finder,
   ATSynEdit_Cmp_HTML,
+  ATSynEdit_Cmp_Form,
   ATSynEdit_RegExpr,
   ATSynEdit_FGL,
   ATStrings,
@@ -2408,6 +2409,10 @@ begin
   Result:= true;
   if Ed.Carets.Count=0 then exit;
   Caret:= Ed.Carets[0];
+
+  //avoid double firing on_complete Python event, when user types with FormComplete visible
+  //solves issue #4323
+  if Assigned(FormComplete) and FormComplete.Visible then exit;
 
   SLexerName:= EditorLexerNameAtPos(Ed, Point(Caret.PosX, Caret.PosY));
   bLexerHTML:= Pos('HTML', SLexerName)>0;
