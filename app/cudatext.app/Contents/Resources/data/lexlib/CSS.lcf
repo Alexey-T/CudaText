@@ -200,6 +200,7 @@ object SyntAnal6: TLibSyntAnalyzer
     end
     item
       DisplayName = 'RGB color'
+      Enabled = False
       StyleName = 'Color'
       TokenType = 6
       Expression = '(?-i)\b(rgba?|hsla?|hwb|lab|lch)\([\d\x20,\.%/]+?\)'
@@ -2260,10 +2261,15 @@ object SyntAnal6: TLibSyntAnalyzer
             'fit'
             'format'
             'grayscale'
+            'hsl'
+            'hsla'
             'hue'
+            'hwb'
             'image'
             'invert'
+            'lab'
             'layer'
+            'lch'
             'local'
             'max'
             'min'
@@ -2271,6 +2277,8 @@ object SyntAnal6: TLibSyntAnalyzer
             'opacity'
             'ornaments'
             'repeat'
+            'rgb'
+            'rgba'
             'rotate'
             'saturate'
             'selector'
@@ -2498,7 +2506,7 @@ object SyntAnal6: TLibSyntAnalyzer
   Extentions = 'css'
   LexerName = 'CSS'
   Notes.Strings = (
-    'Alexey (CudaText)'
+    'Alexey Torgashin (CudaText)'
     
       'Known vendor prefixes: http://peter.sh/experiments/vendor-prefix' +
       'ed-css-property-overview/'
