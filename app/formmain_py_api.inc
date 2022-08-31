@@ -2174,6 +2174,9 @@ begin
             if not Ed.Strings.IsIndexValid(NLine) then
               exit(ReturnFalse);
 
+            if Ed.ImagesGutterDecor=nil then
+              Ed.ImagesGutterDecor:= TImageList.Create(Ed);
+
             FillChar(Data, SizeOf(Data), 0);
             Data.LineNum:= NLine;
             Data.Tag:= NTag;
