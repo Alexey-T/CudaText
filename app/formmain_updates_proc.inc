@@ -107,31 +107,47 @@ end;
 procedure TfmMain.UpdateToolbarButtons(F: TEditorFrame);
 var
   Ed: TATSynEdit;
-  bEditable: boolean;
+  bEditor, bEditable, bBinViewer: boolean;
   bShowNonPrinted: boolean;
 begin
   if F=nil then exit;
   Ed:= F.Editor;
-  bEditable:= not Ed.ModeReadOnly;
 
   case F.FrameKind of
     efkEditor:
-      bShowNonPrinted:= Ed.OptUnprintedVisible;
+      begin
+        bEditor:= true;
+        bEditable:= not Ed.ModeReadOnly;
+        bBinViewer:= false;
+        bShowNonPrinted:= Ed.OptUnprintedVisible;
+      end;
     efkBinaryViewer:
-      bShowNonPrinted:= F.Binary.TextNonPrintable;
+      begin
+        bEditor:= false;
+        bEditable:= false;
+        bBinViewer:= true;
+        bShowNonPrinted:= F.Binary.TextNonPrintable;
+      end
     else
-      bShowNonPrinted:= false;
+      begin
+        bEditor:= false;
+        bEditable:= false;
+        bBinViewer:= false;
+        bShowNonPrinted:= false;
+      end;
   end;
 
-  UpdateToolbarButton(ToolbarMain, cCommand_ToggleMinimap, Ed.OptMinimapVisible, true);
-  UpdateToolbarButton(ToolbarMain, cCommand_ToggleUnprinted, bShowNonPrinted, true);
-
+  UpdateToolbarButton(ToolbarMain, cmd_FileSave, false, bEditor);
+  UpdateToolbarButton(ToolbarMain, cCommand_ClipboardCopy, false, bEditor or bBinViewer);
   UpdateToolbarButton(ToolbarMain, cCommand_ClipboardCut, false, bEditable);
   UpdateToolbarButton(ToolbarMain, cCommand_ClipboardPaste, false, bEditable);
   UpdateToolbarButton(ToolbarMain, cCommand_Undo, false, bEditable and not Ed.Strings.UndoEmpty);
   UpdateToolbarButton(ToolbarMain, cCommand_Redo, false, bEditable and not Ed.Strings.RedoEmpty);
   UpdateToolbarButton(ToolbarMain, cCommand_TextIndent, false, bEditable);
   UpdateToolbarButton(ToolbarMain, cCommand_TextUnindent, false, bEditable);
+
+  UpdateToolbarButton(ToolbarMain, cCommand_ToggleMinimap, Ed.OptMinimapVisible, bEditor);
+  UpdateToolbarButton(ToolbarMain, cCommand_ToggleUnprinted, bShowNonPrinted, bEditor or bBinViewer);
 
   UpdateToolbarButton(ToolbarMain, cmd_ToggleFileNotifications, UiOps.NotificationEnabled, true);
 end;
