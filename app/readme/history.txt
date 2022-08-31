@@ -6,6 +6,7 @@
 1.169.5 (2022/09)
 
 + add: highlighting of option "underline_color_files" supports modern variants of 'rgba()' and 'hsla()'; support color angles in units 'deg', 'rad', 'grad', 'turn' (thanks @eltonfabricio10)
+* change: lexer CSS: don't highlight entire color function calls: rgb, rgba, hsl, hsla etc
 - fix: Addon Manager "Install from Git" ignored Git branch name on 'clone' action
 - fix: option "autocomplete_autoshow_chars" small bug
 - fix: wrong width of some 'Latin extended' chars (thanks @dbgrgl)
