@@ -547,7 +547,10 @@ begin
       end;
 
     cmd_AutoComplete:
-      DoAutoComplete(Ed);
+      begin
+        AppAutocompleteInvoke:= 'c';
+        DoAutoComplete(Ed);
+      end;
 
     cmd_GotoDefinition:
       DoGotoDefinition(Ed);

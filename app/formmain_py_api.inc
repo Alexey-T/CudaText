@@ -2375,6 +2375,8 @@ begin
      (Caret.PosY=FPyCompletionProps.CaretPos.Y) then
   begin
     PrevCharsLeft:= FPyCompletionProps.CharsLeft;
+
+    AppAutocompleteInvoke:= 'r';
     DoPyEvent(Ed, cEventOnComplete, []);
 
     //this check- to close listbox when no more matches after typing too much
@@ -5269,6 +5271,11 @@ begin
           begin
             Pnt:= Mouse.CursorPos;
             Result:= Py_BuildValue('(ii)', Pnt.X, Pnt.Y);
+          end;
+
+        APP_PROC_AUTOCOMPLETION_INVOKE:
+          begin
+            Result:= PyUnicodeFromString(AppAutocompleteInvoke);
           end;
 
         APP_PROC_SHOW_STATUSBAR_SET:

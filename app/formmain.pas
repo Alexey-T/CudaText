@@ -2320,6 +2320,7 @@ begin
   if Assigned(Frame) and AppRunAutocomplete then
   begin
     AppRunAutocomplete:= false;
+    AppAutocompleteInvoke:= 'a';
     DoAutoComplete(Frame.Editor);
   end;
 

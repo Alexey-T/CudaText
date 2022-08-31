@@ -1091,6 +1091,11 @@ var
   //with LSP Client it makes the work slower.
   AppRunAutocomplete: boolean = false;
 
+  //'c': by hotkey or command
+  //'a': by 'autocomplete_autoshow_chars' option
+  //'r': by showing again by typing or left/right
+  AppAutocompleteInvoke: string = 'c';
+
 implementation
 
 uses
