@@ -1491,6 +1491,7 @@ To use the server in LSP Client, create a file "lsp_js.json" in the "settings" d
 
 Install one of the servers following the instructions:
 * clangd: https://clangd.llvm.org/installation.html
+** For Windows, you need to download "clangd-windows-x.x.x.zip" from https://github.com/clangd/clangd/releases . You need to add folder of "clangd.exe" to the OS PATH in Windows settings.
 * ccls: https://github.com/MaskRay/ccls/wiki/Build + https://github.com/MaskRay/ccls/wiki/Install
 
 To use the server in LSP Client, create a file "lsp_c.json" in the "settings" directory with such content:
