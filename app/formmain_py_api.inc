@@ -5273,11 +5273,6 @@ begin
             Result:= Py_BuildValue('(ii)', Pnt.X, Pnt.Y);
           end;
 
-        APP_PROC_AUTOCOMPLETION_INVOKE:
-          begin
-            Result:= PyUnicodeFromString(AppAutocompleteInvoke);
-          end;
-
         APP_PROC_SHOW_STATUSBAR_SET:
           begin
             fmMain.ShowStatus:= ParamBool;
@@ -5456,6 +5451,11 @@ begin
             finally
               FreeAndNil(SList);
             end;
+          end;
+
+        APP_PROC_GET_AUTOCOMPLETION_INVOKE:
+          begin
+            Result:= PyUnicodeFromString(AppAutocompleteInvoke);
           end;
 
         APP_PROC_SEND_MESSAGE:

@@ -323,7 +323,7 @@ Actions work with props of Find/Replace dialog, and props of low-level search en
 ** (for plugins) "p_from_api": bool: Shows that command was generated from API by some plugin.
 ** (for plugins) "p_in_menu": str: Value of parameter "menu" from install.inf.
 
-* PROC_AUTOCOMPLETION_INVOKE: Returns the invokation kind of "on_complete" event call. Possible string values:
+* PROC_GET_AUTOCOMPLETION_INVOKE: Returns the invokation kind of "on_complete" event call. Possible string values:
 ** "c": Command or hotkey.
 ** "a": Work of option "autocomplete_autoshow_chars".
 ** "r": Re-showing of listbox, caused by typing, deleting, arrows left/right.
@@ -4671,6 +4671,6 @@ It provides:
 * add: Editor.decor: item "text" can contain tooltip after chr(1)
 
 1.0.428 (app 1.169.5)
-* add: app_proc: PROC_AUTOCOMPLETION_INVOKE
+* add: app_proc: PROC_GET_AUTOCOMPLETION_INVOKE
 
 [[Category:CudaText]]
