@@ -4670,7 +4670,7 @@ It provides:
 1.0.427 (app 1.169.1)
 * add: Editor.decor: item "text" can contain tooltip after chr(1)
 
-1.0.428 (app 1.169.4)
+1.0.428 (app 1.169.5)
 * add: app_proc: PROC_AUTOCOMPLETION_INVOKE
 
 [[Category:CudaText]]

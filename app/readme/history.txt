@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.169.3 (2022/09)
+1.169.5 (2022/09)
 
 + add: highlighting of option "underline_color_files" supports modern variants of 'rgba()' and 'hsla()'; support color angles in units 'deg', 'rad', 'grad', 'turn' (thanks @eltonfabricio10)
 - fix: Addon Manager "Install from Git" ignored Git branch name on 'clone' action
