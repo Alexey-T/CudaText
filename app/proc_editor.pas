@@ -1636,6 +1636,8 @@ begin
             Decor.TextAll:= CharTo+CharFrom;
           Ed.GutterDecor.Add(Decor);
         end;
+
+        Ed.Update;
       end;
 
     bracketActionJump:

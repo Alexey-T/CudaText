@@ -796,9 +796,20 @@ begin
 end;
 
 procedure TEditorFrame.TimerCaretTimer(Sender: TObject);
+var
+  Ed: TATSynEdit;
 begin
   TimerCaret.Enabled:= false;
-  DoPyEvent(Editor, cEventOnCaretSlow, []);
+
+  Ed:= Editor;
+  DoPyEvent(Ed, cEventOnCaretSlow, []);
+
+  if FBracketHilite then
+    EditorBracket_Action(Ed,
+      bracketActionHilite,
+      FBracketSymbols,
+      FBracketMaxDistance
+      );
 end;
 
 
@@ -887,13 +898,6 @@ begin
     FOnEditorChangeCaretPos(Sender);
 
   DoOnUpdateStatusbar;
-
-  if FBracketHilite then
-    EditorBracket_Action(Ed,
-      bracketActionHilite,
-      FBracketSymbols,
-      FBracketMaxDistance
-      );
 
   //support Primary Selection on Linux
   {$ifdef linux}
