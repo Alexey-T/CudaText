@@ -206,6 +206,7 @@ type
     //timer delay for many commands. see proc_cmd.pas, function IsCommandNeedTimer.
     //if too low, we have risk of crash in 'close tab' commands. 150ms is safe.
     CommandTimerInterval: integer;
+
     //Sleep() delay used when plugin calls Editor.cmd() (for the same list of commands).
     PyCommandSleepInterval: integer;
 
@@ -213,6 +214,7 @@ type
     PyCaretSlow: integer;
     PyChangeSlow: integer;
     PyOutputCopyToStdout: boolean;
+
     InfoAboutOptionsEditor: boolean;
     AllowFrameParsing: boolean; //must be set in FormMain.OnShow
     AllowRunPkExec: boolean;
@@ -1874,7 +1876,6 @@ begin
     HtmlBackgroundColorPair[false]:= $F0F0F0;
     HtmlBackgroundColorPair[true]:= $101010;
 
-    PyLibrary:= InitPyLibraryPath;
     PictureTypes:= 'bmp,png,jpg,jpeg,gif,ico,webp,psd,tga,cur';
 
     DefaultTabSplitIsHorz:= false;
@@ -1988,9 +1989,11 @@ begin
     TreeFillMaxTime:= 1000;
     TreeFillMaxTimeForAPI:= 6*1000;
 
+    PyLibrary:= InitPyLibraryPath;
     PyCaretSlow:= 400;
     PyChangeSlow:= 2000;
     PyOutputCopyToStdout:= false;
+
     InfoAboutOptionsEditor:= true;
     AllowFrameParsing:= false;
     AllowRunPkExec:= true;
