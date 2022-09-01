@@ -1992,7 +1992,7 @@ begin
     TreeFillMaxTimeForAPI:= 6*1000;
 
     PyLibrary:= InitPyLibraryPath;
-    PyCaretSlow:= 400;
+    PyCaretSlow:= 600;
     PyChangeSlow:= 2000;
     PyOutputCopyToStdout:= false;
 

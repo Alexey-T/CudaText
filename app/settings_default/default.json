@@ -1294,7 +1294,7 @@
   "pylib__haiku": "/boot/system/develop/lib/libpython3.6m.so",
 
   //API delay for event "on_caret_slow", in milliseconds.
-  "py_caret_slow": 400,
+  "py_caret_slow": 600,
 
   //API delay for event "on_change_slow", in milliseconds.
   //For example, it's used in CudaLint.
