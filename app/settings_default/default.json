@@ -1293,7 +1293,7 @@
   "pylib__freebsd": "libpython3.6m.so",
   "pylib__haiku": "/boot/system/develop/lib/libpython3.6m.so",
 
-  //API delay for event "on_caret", in milliseconds.
+  //API delay for event "on_caret_slow", in milliseconds.
   "py_caret_slow": 400,
 
   //API delay for event "on_change_slow", in milliseconds.

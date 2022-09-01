@@ -798,7 +798,7 @@ end;
 procedure TEditorFrame.TimerCaretTimer(Sender: TObject);
 begin
   TimerCaret.Enabled:= false;
-  DoPyEvent(Editor, cEventOnCaret, []);
+  DoPyEvent(Editor, cEventOnCaretSlow, []);
 end;
 
 
@@ -900,6 +900,10 @@ begin
   EditorCopySelToPrimarySelection(Ed, cMaxSelectedLinesForAutoCopy);
   {$endif}
 
+  //on_caret, now
+  DoPyEvent(Editor, cEventOnCaret, []);
+
+  //on_caret_slow, later
   if UiOps.PyCaretSlow>0 then
   begin
     TimerCaret.Enabled:= false;
