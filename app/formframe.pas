@@ -903,15 +903,9 @@ begin
   //on_caret, now
   DoPyEvent(Editor, cEventOnCaret, []);
 
-  //on_caret_slow, later
-  if UiOps.PyCaretSlow>0 then
-  begin
-    TimerCaret.Enabled:= false;
-    TimerCaret.Interval:= UiOps.PyCaretSlow;
-    TimerCaret.Enabled:= true;
-  end
-  else
-    TimerCaretTimer(nil);
+  TimerCaret.Enabled:= false;
+  TimerCaret.Interval:= UiOps.PyCaretSlow;
+  TimerCaret.Enabled:= true;
 end;
 
 procedure TEditorFrame.EditorOnHotspotEnter(Sender: TObject; AHotspotIndex: integer);
