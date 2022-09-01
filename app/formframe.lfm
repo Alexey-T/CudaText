@@ -8,9 +8,14 @@ object EditorFrame: TEditorFrame
   DesignTop = 27
   object TimerChange: TTimer
     Enabled = False
-    Interval = 2000
     OnTimer = TimerChangeTimer
     Left = 32
     Top = 56
+  end
+  object TimerCaret: TTimer
+    Enabled = False
+    OnTimer = TimerCaretTimer
+    Left = 128
+    Top = 58
   end
 end

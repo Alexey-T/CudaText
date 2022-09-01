@@ -1482,6 +1482,7 @@ begin
   UiOps.TreeSublexers:= cfg.GetValue('ui_tree_sublexers', UiOps.TreeSublexers);
   UiOps.TreeFillMaxTime:= cfg.GetValue('ui_tree_fill_max_time', UiOps.TreeFillMaxTime);
 
+  UiOps.PyCaretSlow:= cfg.GetValue('py_caret_slow', UiOps.PyCaretSlow);
   UiOps.PyChangeSlow:= cfg.GetValue('py_change_slow', UiOps.PyChangeSlow);
 
   UiOps.LogPluginIniting:= cfg.GetValue('py_init_log', UiOps.LogPluginIniting);

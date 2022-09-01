@@ -116,6 +116,7 @@ type
   TEditorFrame = class(TFrame)
     MenuItem1: TMenuItem;
     MenuItem2: TMenuItem;
+    TimerCaret: TTimer;
     TimerChange: TTimer;
     procedure NotifReloadStopClick(Sender: TObject);
     procedure NotifReloadNoClick(Sender: TObject);
@@ -123,6 +124,7 @@ type
     procedure NotifDeletedStopClick(Sender: TObject);
     procedure NotifDeletedNoClick(Sender: TObject);
     procedure NotifDeletedYesClick(Sender: TObject);
+    procedure TimerCaretTimer(Sender: TObject);
     procedure TimerChangeTimer(Sender: TObject);
   private
     { private declarations }
@@ -793,6 +795,13 @@ begin
     FOnChangeSlow(Editor);
 end;
 
+procedure TEditorFrame.TimerCaretTimer(Sender: TObject);
+begin
+  TimerCaret.Enabled:= false;
+  DoPyEvent(Editor, cEventOnCaret, []);
+end;
+
+
 procedure TEditorFrame.NotifReloadYesClick(Sender: TObject);
 var
   EdIndex: integer;
@@ -891,7 +900,9 @@ begin
   EditorCopySelToPrimarySelection(Ed, cMaxSelectedLinesForAutoCopy);
   {$endif}
 
-  DoPyEvent(Ed, cEventOnCaret, []);
+  TimerCaret.Enabled:= false;
+  TimerCaret.Interval:= UiOps.PyCaretSlow;
+  TimerCaret.Enabled:= true;
 end;
 
 procedure TEditorFrame.EditorOnHotspotEnter(Sender: TObject; AHotspotIndex: integer);

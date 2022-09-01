@@ -210,6 +210,7 @@ type
     PyCommandSleepInterval: integer;
 
     PyLibrary: string;
+    PyCaretSlow: integer;
     PyChangeSlow: integer;
     PyOutputCopyToStdout: boolean;
     InfoAboutOptionsEditor: boolean;
@@ -1987,6 +1988,7 @@ begin
     TreeFillMaxTime:= 1000;
     TreeFillMaxTimeForAPI:= 6*1000;
 
+    PyCaretSlow:= 400;
     PyChangeSlow:= 2000;
     PyOutputCopyToStdout:= false;
     InfoAboutOptionsEditor:= true;
