@@ -127,14 +127,16 @@ begin
         bEditable:= false;
         bBinViewer:= true;
         bShowNonPrinted:= F.Binary.TextNonPrintable;
-      end
-    else
+      end;
+    efkImageViewer:
       begin
         bEditor:= false;
         bEditable:= false;
         bBinViewer:= false;
         bShowNonPrinted:= false;
-      end;
+      end
+    else
+      raise Exception.Create('Unknown FrameKind');
   end;
 
   UpdateToolbarButton(ToolbarMain, cmd_FileSave, false, bEditor);
