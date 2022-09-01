@@ -903,6 +903,7 @@ begin
   //on_caret, now
   DoPyEvent(Editor, cEventOnCaret, []);
 
+  //on_caret_slow, later
   TimerCaret.Enabled:= false;
   TimerCaret.Interval:= UiOps.PyCaretSlow;
   TimerCaret.Enabled:= true;
