@@ -900,9 +900,14 @@ begin
   EditorCopySelToPrimarySelection(Ed, cMaxSelectedLinesForAutoCopy);
   {$endif}
 
-  TimerCaret.Enabled:= false;
-  TimerCaret.Interval:= UiOps.PyCaretSlow;
-  TimerCaret.Enabled:= true;
+  if UiOps.PyCaretSlow>0 then
+  begin
+    TimerCaret.Enabled:= false;
+    TimerCaret.Interval:= UiOps.PyCaretSlow;
+    TimerCaret.Enabled:= true;
+  end
+  else
+    TimerCaretTimer(nil);
 end;
 
 procedure TEditorFrame.EditorOnHotspotEnter(Sender: TObject; AHotspotIndex: integer);
