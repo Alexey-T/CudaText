@@ -1455,7 +1455,6 @@ begin
   UiOps.MaxHistoryFiles:= Max(0, Min(400, cfg.GetValue('ui_max_history_files', UiOps.MaxHistoryFiles)));
 
   UiOps.CmdPaletteFilterKeep:= cfg.GetValue('ui_cmdpalette_filter_keep', UiOps.CmdPaletteFilterKeep);
-  //UiOps.CmdPaletteHideSimpleCommands:= cfg.GetValue('ui_cmdpalette_hide_simple', UiOps.CmdPaletteHideSimpleCommands);
 
   UiOps.HistoryDisabledStr:= cfg.GetValue('ui_history_disabled', UiOps.HistoryDisabledStr);
   for element:= Low(element) to High(element) do
@@ -1464,7 +1463,6 @@ begin
   UiOps.EscapeClose:= cfg.GetValue('ui_esc_close', UiOps.EscapeClose);
   UiOps.EscapeCloseConsole:= cfg.GetValue('ui_esc_close_console', UiOps.EscapeCloseConsole);
   UiOps.ConsoleWordWrap:= cfg.GetValue('ui_console_wrap', UiOps.ConsoleWordWrap);
-  //UiOps.ConsoleCompact:= cfg.GetValue('ui_console_compact', UiOps.ConsoleCompact);
   UiOps.InitialDir:= cfg.GetValue('ui_initial_dir', UiOps.InitialDir);
 
   UiOps.ExportHtmlNumbers:= cfg.GetValue('export_html_numbers', UiOps.ExportHtmlNumbers);
@@ -1473,11 +1471,8 @@ begin
 
   UiOps.TreeAutoSync:= cfg.GetValue('ui_tree_auto_sync', UiOps.TreeAutoSync);
   UiOps.TreeTimeFill:= cfg.GetValue('ui_tree_time_fill', UiOps.TreeTimeFill);
-  //UiOps.TreeTimeCaret:= cfg.GetValue('ui_tree_time_focus', UiOps.TreeTimeCaret);
-  //UiOps.TreeShowLines:= cfg.GetValue('ui_tree_show_lines', UiOps.TreeShowLines);
   UiOps.TreeShowIcons:= cfg.GetValue('ui_tree_icons', UiOps.TreeShowIcons);
   UiOps.TreeShowTooltips:= cfg.GetValue('ui_tree_show_tooltips', UiOps.TreeShowTooltips);
-  //UiOps.TreeCache:= cfg.GetValue('ui_tree_cache', UiOps.TreeCache);
   UiOps.TreeFilterLayout:= cfg.GetValue('ui_tree_filter_layout', UiOps.TreeFilterLayout);
   UiOps.TreeSublexers:= cfg.GetValue('ui_tree_sublexers', UiOps.TreeSublexers);
   UiOps.TreeFillMaxTime:= cfg.GetValue('ui_tree_fill_max_time', UiOps.TreeFillMaxTime);
@@ -1487,7 +1482,6 @@ begin
 
   UiOps.LogPluginIniting:= cfg.GetValue('py_init_log', UiOps.LogPluginIniting);
   UiOps.LogSessions:= cfg.GetValue('log_sessions', UiOps.LogSessions);
-  //UiOps.LogDebug:= cfg.GetValue('log_debug', UiOps.LogDebug);
   UiOps.LogConsole:= cfg.GetValue('log_console', UiOps.LogConsole);
 
   UiOps.NewdocLexer:= cfg.GetValue('newdoc_lexer', UiOps.NewdocLexer);
