@@ -173,6 +173,7 @@ type
     FActiveSecondaryEd: boolean;
     FLocked: boolean;
     FTabColor: TColor;
+    FTabFontColor: TColor;
     FTabPinned: boolean;
     FTabSizeChanged: boolean;
     FTabKeyCollectMarkers: boolean;
@@ -295,6 +296,7 @@ type
     procedure SetReadOnly(Ed: TATSynEdit; AValue: boolean);
     procedure SetTabCaptionAddon(const AValue: string);
     procedure SetTabColor(AColor: TColor);
+    procedure SetTabFontColor(AColor: TColor);
     procedure SetTabPinned(AValue: boolean);
     procedure SetTabImageIndex(AValue: integer);
     procedure SetTabVisible(AValue: boolean);
@@ -392,6 +394,7 @@ type
     property Locked: boolean read FLocked write SetLocked;
     property CommentString[Ed: TATSynEdit]: string read GetCommentString;
     property TabColor: TColor read FTabColor write SetTabColor;
+    property TabFontColor: TColor read FTabFontColor write SetTabFontColor;
     property TabPinned: boolean read FTabPinned write SetTabPinned;
     property TabSizeChanged: boolean read FTabSizeChanged write FTabSizeChanged;
     property TabKeyCollectMarkers: boolean read GetTabKeyCollectMarkers write FTabKeyCollectMarkers;
@@ -1904,6 +1907,7 @@ begin
   FFileName2:= '';
   FActiveSecondaryEd:= false;
   FTabColor:= clNone;
+  FTabFontColor:= clNone;
   Inc(FLastTabId);
   FTabId:= FLastTabId;
   FTabImageIndex:= -1;
@@ -2706,6 +2710,7 @@ begin
   if Result then
   begin
     SetFileName(Ed, SFileName);
+    TabFontColor:= clNone;
 
     //add to recents new filename
     if bNameChanged then
@@ -3852,6 +3857,24 @@ begin
   end;
 end;
 
+procedure TEditorFrame.SetTabFontColor(AColor: TColor);
+var
+  Gr: TATGroups;
+  Pages: TATPages;
+  NLocalGroups, NGlobalGroup, NTab: integer;
+  D: TATTabData;
+begin
+  if FTabFontColor=AColor then exit;
+  FTabFontColor:= AColor;
+  GetFrameLocation(Self, Gr, Pages, NLocalGroups, NGlobalGroup, NTab);
+  D:= Pages.Tabs.GetTabData(NTab);
+  if Assigned(D) then
+  begin
+    D.TabFontColor:= AColor;
+    Pages.Tabs.Invalidate;
+  end;
+end;
+
 procedure TEditorFrame.SetTabPinned(AValue: boolean);
 var
   Gr: TATGroups;
@@ -4086,6 +4109,11 @@ begin
     else
       bShowPanel:= true;
   end;
+
+  if FFileDeletedOutside then
+    TabFontColor:= GetAppColor(apclTabMarks)
+  else
+    TabFontColor:= clNone;
 
   if not bShowPanel then
   begin
