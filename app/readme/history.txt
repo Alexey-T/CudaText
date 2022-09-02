@@ -10,6 +10,7 @@
 + add: lexer HTML: highlight background of <svg> blocks
 * change: bracket highlight is now performed near "on_caret_slow", ie after a pause
 * change: lexer CSS: don't highlight entire color-function calls: rgba(...), hsla(...) etc
+- fix: command "fold selected lines" gave fold-ranges which worked bad often
 - fix: Addon Manager "Install from Git" ignored Git branch name on 'clone' action
 - fix: option "autocomplete_autoshow_chars" small bug
 - fix: wrong width of some 'Latin extended' chars (thanks @dbgrgl)
