@@ -3323,6 +3323,14 @@ begin
               Result:= ReturnNone;
           end;
 
+        PROP_TAB_FONT_COLOR:
+          begin
+            if Assigned(F) then
+              Result:= PyLong_FromLong(F.TabFontColor)
+            else
+              Result:= ReturnNone;
+          end;
+
         PROP_TAB_TITLE:
           begin
             if Assigned(F) then
@@ -4054,6 +4062,12 @@ begin
           begin
             if Assigned(F) then
               F.TabColor:= ValueInt;
+          end;
+
+        PROP_TAB_FONT_COLOR:
+          begin
+            if Assigned(F) then
+              F.TabFontColor:= ValueInt;
           end;
 
         PROP_TAB_TITLE:
