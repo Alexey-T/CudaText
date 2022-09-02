@@ -511,7 +511,7 @@ begin
   SetStyle(apstColor, 'Color', $0080C0, clNone, clNone, [fsBold], blNone, blNone, blNone, blNone, ftFontAttr);
 
   SetStyle(apstIncludeBG1, 'IncludeBG1', clBlack, clMoneyGreen, clNone, [], blNone, blNone, blNone, blNone, ftBackGround);
-  SetStyle(apstIncludeBG2, 'IncludeBG2', clBlack, clSkyBlue, clNone, [], blNone, blNone, blNone, blNone, ftBackGround);
+  SetStyle(apstIncludeBG2, 'IncludeBG2', clBlack, $F0E0C0, clNone, [], blNone, blNone, blNone, blNone, ftBackGround);
   SetStyle(apstIncludeBG3, 'IncludeBG3', clBlack, $F0B0F0, clNone, [], blNone, blNone, blNone, blNone, ftBackGround);
   SetStyle(apstIncludeBG4, 'IncludeBG4', clBlack, $B0F0F0, clNone, [], blNone, blNone, blNone, blNone, ftBackGround);
 
