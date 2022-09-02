@@ -4095,6 +4095,12 @@ begin
   end;
 
   FFileDeletedOutside:= bDeletedOutside;
+
+  if FFileDeletedOutside then
+    TabFontColor:= GetAppColor(apclTabMarks)
+  else
+    TabFontColor:= clNone;
+
   if FFileDeletedOutside then
   begin
     DoHideNotificationPanel(NotifReloadControls[EdIndex]);
@@ -4110,11 +4116,6 @@ begin
     else
       bShowPanel:= true;
   end;
-
-  if FFileDeletedOutside then
-    TabFontColor:= GetAppColor(apclTabMarks)
-  else
-    TabFontColor:= clNone;
 
   if not bShowPanel then
   begin
