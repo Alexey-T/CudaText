@@ -4088,6 +4088,7 @@ begin
   if not bDeletedOutside and FFileDeletedOutside then
   begin
     FFileDeletedOutside:= false;
+    TabFontColor:= clNone;
     DoHideNotificationPanel(NotifDeletedControls[EdIndex]);
     DoHideNotificationPanel(NotifReloadControls[EdIndex]);
     exit;
