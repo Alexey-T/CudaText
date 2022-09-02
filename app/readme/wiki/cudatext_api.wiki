@@ -2349,7 +2349,8 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_TAB_SIZE: int: size of tab-char.
 * PROP_TAB_COLLECT_MARKERS: bool: tab-key collects (jumps to and deletes) markers (if markers placed).
 * PROP_TAB_TITLE: str: title of tab, useful for untitled tabs, for tabs with picture files.
-* PROP_TAB_COLOR: int: color of tab title, integer RGB value (e.g. 0x00FF00 is green); COLOR_NONE if not set.
+* PROP_TAB_COLOR: int: color of tab title background, integer RGB value (e.g. 0x00FF00 is green); COLOR_NONE if not set.
+* PROP_TAB_COLOR_FONT: int: color of tab title font, integer RGB value (e.g. 0x00FF00 is green); COLOR_NONE if not set.
 * PROP_TAB_ICON: int: index of tab icon, ie index in imagelist, which handle you can get via app_proc(PROC_GET_TAB_IMAGELIST).
 * PROP_TAB_PINNED: bool: tab is "pinned" (shows additional confirmation on closing).
 * PROP_TAB_ID: int: unique tab's identifier (one number for main/secondary editors in tab), it is not changed when tab is moved.
@@ -2517,7 +2518,8 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 * PROP_TAB_SPACES: bool: tab-key inserts spaces.
 * PROP_TAB_SIZE: int: size of tab-char.
 * PROP_TAB_COLLECT_MARKERS: bool: tab-key collects (jumps to and deletes) markers.
-* PROP_TAB_COLOR: int: color of tab title, integer RGB value (e.g. 0x00FF00 is green); COLOR_NONE if not set.
+* PROP_TAB_COLOR: int: color of tab title background, integer RGB value (e.g. 0x00FF00 is green); COLOR_NONE if not set.
+* PROP_TAB_COLOR_FONT: int: color of tab title font, integer RGB value (e.g. 0x00FF00 is green); COLOR_NONE if not set.
 * PROP_TAB_TITLE: str: title of tab, useful for untitled tabs.
 * PROP_TAB_ICON: int: index of tab icon, ie index in imagelist, which handle you can get via app_proc(PROC_GET_TAB_IMAGELIST).
 * PROP_TAB_PINNED: bool: tab is "pinned" (shows additional confirmation on closing).
@@ -4674,5 +4676,6 @@ It provides:
 1.0.428 (app 1.169.5)
 * add: event "on_caret_slow"
 * add: app_proc: PROC_GET_AUTOCOMPLETION_INVOKE
+* add: Editor.get_prop/set_prop: PROP_TAB_COLOR_FONT
 
 [[Category:CudaText]]
