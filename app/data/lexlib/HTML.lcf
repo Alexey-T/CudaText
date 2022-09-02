@@ -792,7 +792,7 @@ object SyntAnal8: TLibSyntAnalyzer
     item
       DisplayName = 'JSON'
       StyleName = 'Sublexer BG'
-      StartExpression = '(?s)<script\s[^>]* (application/json|text/json|[^>]+\+json) [^>\?]*?>'
+      StartExpression = '(?s)<script\s[^>]* (application/json|text/json|\+json) [^>\?]*?>'
       EndExpression = '</script\s*>'
       SyntAnalyzer = SyntAnal11
     end
