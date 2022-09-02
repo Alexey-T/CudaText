@@ -7,7 +7,7 @@
 
 + add: option "underline_color_files" must support modern variants of rgba() and hsla(); support color-angles in units deg/rad/grad/turn (thanks @eltonfabricio10)
 + add: option "py_caret_slow" (thanks @veksha)
-+ add: lexer HTML: highlight included <svg> blocks
++ add: lexer HTML: highlight background of <svg> blocks
 * change: bracket highlight is now performed near "on_caret_slow", ie after a pause
 * change: lexer CSS: don't highlight entire color-function calls: rgba(...), hsla(...) etc
 - fix: Addon Manager "Install from Git" ignored Git branch name on 'clone' action
