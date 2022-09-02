@@ -6,11 +6,13 @@
 4=JavaScript
 5=VBScript
 6=HTML style
+
 [comments]
 str1=<!--
 str2=-->
 styles_cmt=Comment,Comment doc
 styles_str=Text,Tag string
+
 [map]
 Text=Id
 Tag bound=TagBound
@@ -28,3 +30,4 @@ Color=Color
 Entity=Symbol
 Include tag=TagInclude
 Comment doc=CommentDoc
+SVG BG=IncludeBG2
