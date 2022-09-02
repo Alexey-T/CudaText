@@ -5,6 +5,7 @@
 
 1.170.0 (2022/09)
 
++ add: when file is deleted outside, show tab title in reddish color (theme color "tabs, special marks")
 + add: option "underline_color_files" must support modern variants of rgba() and hsla(); support color-angles in units deg/rad/grad/turn (thanks @eltonfabricio10)
 + add: option "py_caret_slow" (thanks @veksha)
 + add: lexer HTML: highlight background of <svg> blocks
