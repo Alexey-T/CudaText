@@ -145,6 +145,16 @@ object SyntAnal8: TLibSyntAnalyzer
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsItalic]
+    end
+    item
+      DisplayName = 'SVG BG'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+      BgColor = clSkyBlue
+      FormatType = ftBackGround
     end>
   TokenRules = <
     item
@@ -773,6 +783,48 @@ object SyntAnal8: TLibSyntAnalyzer
         end>
       HighlightPos = cpAny
       IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'SVG begin'
+      StyleName = 'SVG BG'
+      ConditionList = <
+        item
+          TagList.Strings = (
+            'svg')
+          TokenTypes = 4
+          IgnoreCase = True
+        end
+        item
+          TagList.Strings = (
+            '<')
+          TokenTypes = 1024
+        end>
+      BlockEnd = 'SVG end'
+      RefToCondEnd = True
+      DynHighlight = dhRange
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'SVG end'
+      BlockType = btRangeEnd
+      ConditionList = <
+        item
+          TokenTypes = 2048
+        end
+        item
+          TagList.Strings = (
+            'svg')
+          TokenTypes = 4
+          IgnoreCase = True
+        end
+        item
+          TagList.Strings = (
+            '</')
+          TokenTypes = 1024
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
     end>
   CodeTemplates = <>
   SubAnalyzers = <
@@ -849,6 +901,8 @@ object SyntAnal8: TLibSyntAnalyzer
     '  p {'
     '  color: #ff0 }'
     '  </style>'
+    '  '
+    '  <svg> <filter type="table"> </svg>'
     '      '
     '  <body src="www.com" style='#39'aaa; aaa; aaa;'#39'> '
     '    <h1 color=#dde color=yellow color=violet >Text &nbsp;</h1> '
