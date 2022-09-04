@@ -1074,7 +1074,6 @@ Additional types, supported only by "dlg_proc":
 ** DBORDER_TOOL: Like DBORDER_SINGLE but with a smaller caption
 ** DBORDER_TOOLSIZE: Like DBORDER_SIZE but with a smaller caption
 
-* "topmost": bool: Makes form stay on top of other forms in CudaText.
 * "vis": bool: Visible state.
 * "color": int: Background color.
 * "autosize": bool: Form automatically resizes to the minimal size, which shows all visible controls.
@@ -1082,6 +1081,11 @@ Additional types, supported only by "dlg_proc":
 * "p": int: Parent handle. Set this property to int handle of any windowed UI control or form, this control/form will be parent of form.
 * "focused" (only for reading): index of currently focused control.
 * "form_state" (only for reading): current form state, string: "norm" for normal, "min" for minimized, "max" for maximized, "fullscr" for full-screen.
+* "topmost": bool: Makes form stay on top of other forms in CudaText.
+* "taskbar": int enum: When form appears on OS taskbar.
+** 0: Application default behaviour
+** 1: Always
+** 2: Never
 
 ====dlg_proc - Forms events====
 
@@ -4677,5 +4681,8 @@ It provides:
 * add: event "on_caret_slow"
 * add: app_proc: PROC_GET_AUTOCOMPLETION_INVOKE
 * add: Editor.get_prop/set_prop: PROP_TAB_COLOR_FONT
+
+1.0.429 (app 1.170.1)
+* add: dlg_proc: form property "taskbar"
 
 [[Category:CudaText]]
