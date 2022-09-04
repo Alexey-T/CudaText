@@ -2344,6 +2344,11 @@ begin
       F.FormStyle:= fsNormal;
   end
   else
+  if AName='taskbar' then
+  begin
+    F.ShowInTaskBar:= TShowInTaskbar(StrToIntDef(AValue, 0));
+  end
+  else
   if AName='on_resize' then
     F.FEventOnResize:= AValue
   else
