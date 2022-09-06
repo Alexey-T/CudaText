@@ -718,6 +718,8 @@ begin
     Ed.OptCaretBlinkTime:= EditorOps.OpCaretBlinkTime;
     Ed.OptCaretBlinkEnabled:= EditorOps.OpCaretBlinkEn;
   end;
+
+  Ed.OptDimUnfocusedBack:= 0; //fix issue #4346
 end;
 
 procedure DoControl_InitPropsObject(Ctl: TControl; AForm: TFormDummy; const ATypeName: string);
