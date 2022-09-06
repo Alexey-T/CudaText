@@ -9494,6 +9494,7 @@ begin
             //don't do ShowModal for docked forms, this hangs the app
             if Form.Parent=nil then
             begin
+              Form.ShowInTaskBar:= Form.ShowInTaskbar_Pending;
               Form.DoEmulatedModalShow;
             end
             else
@@ -9503,6 +9504,7 @@ begin
 
         DLG_SHOW_NONMODAL:
           begin
+            Form.ShowInTaskBar:= Form.ShowInTaskbar_Pending;
             Form.Show;
             Result:= ReturnNone;
           end;

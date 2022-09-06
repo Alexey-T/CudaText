@@ -2346,7 +2346,7 @@ begin
   else
   if AName='taskbar' then
   begin
-    F.ShowInTaskBar:= TShowInTaskbar(StrToIntDef(AValue, 0));
+    F.ShowInTaskbar_Pending:= TShowInTaskbar(StrToIntDef(AValue, 0));
   end
   else
   if AName='on_resize' then

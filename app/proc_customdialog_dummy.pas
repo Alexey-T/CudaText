@@ -111,6 +111,7 @@ type
     IsDlgModalEmulated: boolean;
     IsDlgCounterIgnored: boolean;
     IdClicked: integer;
+    ShowInTaskbar_Pending: TShowInTaskbar;
     FEventOnClose: string;
     FEventOnCloseQuery: string;
     FEventOnKeyDown: string;
@@ -311,7 +312,7 @@ begin
   Position:= poMainFormCenter;
   ShowHint:= true;
   Scaled:= false;
-  ShowInTaskBar:= cTaskbarModes[UiOps.PluginDialogsShowInTaskbar];
+  ShowInTaskbar_Pending:= cTaskbarModes[UiOps.PluginDialogsShowInTaskbar];
 
   IsDlgCustom:= false;
   IsFormShownAlready:= false;
