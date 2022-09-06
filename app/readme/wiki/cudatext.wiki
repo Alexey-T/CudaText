@@ -1826,7 +1826,13 @@ You can also set colors of menu elements directly; dialog "Options / Settings - 
 
 [[File:cudatext-menu-colorsetup.png]]
 
-By default, elements "top menu, ...." in the dialog have the "none" color (crossed rectangles), it means that custom colors are taken from other UI-theme elements.
+By default, elements "top menu, ...." in the dialog have the "none" color (crossed rectangles), it means that actual colors are taken from other UI-theme elements:
+
+* "top menu, font" - falls back to element "tabs, font" 
+* "top menu, font, hotkey" - falls back to element "top menu, font" and then to element "tabs, font, modified tab"
+* "top menu, font, disabled state" - falls back to element "tabs, passive tab border"
+* "top menu, BG" - falls back to element "tabs, active tab BG"
+* "top menu, BG, selected" - falls back to element "tabs, mouse-over tab BG"
 
 =Margins=
 
