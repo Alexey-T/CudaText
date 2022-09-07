@@ -3823,6 +3823,9 @@ begin
         PROP_COMMAND_LOG_LIMIT:
           Result:= PyLong_FromLong(Ed.CommandLog.MaxCount);
 
+        PROP_DIM_UNFOCUSED:
+          Result:= PyLong_FromLong(Ed.OptDimUnfocusedBack);
+
         PROP_V_MODE:
           begin
             if Assigned(F) and (F.FrameKind=efkBinaryViewer) then
@@ -4450,6 +4453,9 @@ begin
 
         PROP_COMMAND_LOG_LIMIT:
           Ed.CommandLog.MaxCount:= ValueInt;
+
+        PROP_DIM_UNFOCUSED:
+          Ed.OptDimUnfocusedBack:= ValueInt;
 
         PROP_V_MODE:
           begin
