@@ -3,6 +3,11 @@
   - fixed
   * changed
 
+1.170.1 (2022/09)
+
++ add: few APIs for LSP Client
+- fix: after mouse wheel zoomimg, scrollbar position becomes very incorrect (thanks @veksha)
+
 1.170.0 (2022/09)
 
 + add: when file is deleted outside, show tab title in reddish color (theme color "tabs, special marks")
