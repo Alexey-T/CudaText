@@ -2448,6 +2448,8 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 
 * PROP_COMMAND_LOG_LIMIT: int: maximal count of items in the list returned by PROP_COMMAND_LOG.
 
+* PROP_DIM_UNFOCUSED: int: for unfocused editor, dim the background color by specified percents (ranges is -250...250, 0: disabled).
+
 * PROP_V_MODE: int: mode of binary viewer. Reading it for editor, returns VMODE_NONE. Reading it for viewer, returns one of: VMODE_TEXT, VMODE_BINARY, VMODE_HEX, VMODE_UNICODE, VMODE_UNICODE_HEX.
 * PROP_V_POS: int: for binary viewer, scroll position.
 * PROP_V_SEL_START: int: for binary viewer, selection start offset.
@@ -2577,6 +2579,8 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 * PROP_NUMBERS_NEGATIVE: bool: additional to PROP_NUMBERS_ONLY, allow negative numbers<0.
 
 * PROP_COMMAND_LOG_LIMIT: int: maximal count of items in the list returned by PROP_COMMAND_LOG.
+
+* PROP_DIM_UNFOCUSED: int: for unfocused editor, dim the background color by specified percents (ranges is -250...250, 0: disabled).
 
 * PROP_V_MODE: int: mode of binary viewer. Setting it for viewer to one of VMODE_ values, changes viewer mode. Setting it for editor to one of VMODE_ values, switches editor to viewer in the given mode. Setting it for viewer to VMODE_NONE, switches viewer to editor.
 * PROP_V_POS: int: for binary viewer, scroll position.
@@ -4684,5 +4688,6 @@ It provides:
 
 1.0.429 (app 1.170.1)
 * add: dlg_proc: form property "taskbar"
+* add: Editor.get_prop/set_prop: PROP_DIM_UNFOCUSED
 
 [[Category:CudaText]]
