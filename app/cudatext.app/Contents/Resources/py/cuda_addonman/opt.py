@@ -11,3 +11,4 @@ proxy = ''
 cache_minutes = 10
 suggest_readme = True
 install_confirm = True
+verify_https = True

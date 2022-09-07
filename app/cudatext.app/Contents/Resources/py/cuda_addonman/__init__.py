@@ -110,6 +110,7 @@ class Command:
             opt.ch_user = data.get('channels_user', opt.ch_user)
             opt.suggest_readme = data.get('suggest_readme', True)
             opt.install_confirm = data.get('install_confirm', True)
+            opt.verify_https = data.get('verify_https', True)
             opt.proxy = data.get('proxy', '')
 
 
@@ -121,6 +122,7 @@ class Command:
         data['channels_user'] = opt.ch_user
         data['suggest_readme'] = opt.suggest_readme
         data['install_confirm'] = opt.install_confirm
+        data['verify_https'] = opt.verify_https
         data['proxy'] = opt.proxy
 
         with open(fn_config, 'w') as f:
