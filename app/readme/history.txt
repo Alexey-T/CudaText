@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.170.1 (2022/09)
+1.170.2 (2022/09)
 
 + add: few APIs for LSP Client
 + add: better calculate wrap positions for CJK text (thanks @lookoutside)
