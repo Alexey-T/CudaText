@@ -6,6 +6,7 @@
 1.170.1 (2022/09)
 
 + add: few APIs for LSP Client
++ add: better calculate wrap positions for CJK text (thanks @lookoutside)
 + add: Addon Manager: add option "Verify HTTPS certificates" (thanks @veksha, @ViCrack)
 - fix: after mouse wheel zoomimg, scrollbar position becomes very incorrect (thanks @veksha)
 
