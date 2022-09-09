@@ -1092,7 +1092,7 @@ begin
             Ed.Markers.Add(
               X,
               Y,
-              TATMarkerTags.Init(NTag, 0, 0),
+              TATMarkerTags.Init(NTag, 0),
               NLenX,
               NLenY,
               nil,
@@ -1329,7 +1329,7 @@ begin
               Ed.Attribs.Add(
                 X,
                 Y,
-                TATMarkerTags.Init(NTag, NColumn, 0),
+                TATMarkerTags.Init(NTag, NColumn),
                 NLen,
                 0,
                 @LinePart,
@@ -1403,7 +1403,7 @@ begin
               Ed.Attribs.Add(
                 X,
                 Y,
-                TATMarkerTags.Init(NTag, NColumn, 0),
+                TATMarkerTags.Init(NTag, NColumn),
                 NLen,
                 0,
                 @LinePart,
@@ -7553,7 +7553,7 @@ begin
                   Py_BuildValue('(iii)',
                     ItemPtr^.PosY,
                     ItemPtr^.PosY+ItemPtr^.SelY-1,
-                    Longint(ItemPtr^.Value)
+                    Longint(ItemPtr^.ColumnTag)
                     ));
               end;
             end;

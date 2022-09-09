@@ -1602,7 +1602,7 @@ begin
         Ed.Attribs.Add(
           PosX,
           PosY,
-          TATMarkerTags.Init(cEditorTagForBracket, 0, 0),
+          TATMarkerTags.Init(cEditorTagForBracket, 0),
           1,
           0,
           @LinePart
@@ -1612,7 +1612,7 @@ begin
         Ed.Attribs.Add(
           FoundX,
           FoundY,
-          TATMarkerTags.Init(cEditorTagForBracket, 0, 0),
+          TATMarkerTags.Init(cEditorTagForBracket, 0),
           1,
           0,
           @LinePart
@@ -1931,7 +1931,7 @@ begin
         Ed.Markers.Add(
           Finder.MatchEdEnd.X,
           Finder.MatchEdEnd.Y,
-          TATMarkerTags.Init(UiOps.FindOccur_TagValue, 0, 0),
+          TATMarkerTags.Init(UiOps.FindOccur_TagValue, 0),
           0,
           0,
           nil,
@@ -2136,7 +2136,7 @@ begin
     Ed.Attribs.Add(
       AX[i],
       AY,
-      TATMarkerTags.Init(ATag, 0, 0),
+      TATMarkerTags.Init(ATag, 0),
       1,
       0,
       @LinePart

@@ -48,7 +48,7 @@ begin
         Ed.Markers.Add(
           APos2.X,
           APos2.Y,
-          TATMarkerTags.Init(0, 0, 0),
+          TATMarkerTags.Init(0, 0),
           0,
           0,
           nil,
