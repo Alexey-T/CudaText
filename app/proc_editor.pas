@@ -1564,7 +1564,7 @@ var
   Caret: TATCaretItem;
   CharFrom, CharTo: atChar;
   Kind: TATEditorBracketKind;
-  PartObj: TATLinePartClass;
+  LinePart: TATLinePart;
   Decor: TATGutterDecorData;
   PosX, PosY, FoundX, FoundY: integer;
   Pnt1, Pnt2: TPoint;
@@ -1597,13 +1597,12 @@ begin
   case Action of
     bracketActionHilite:
       begin
-        PartObj:= TATLinePartClass.Create;
-        ApplyPartStyleFromEcontrolStyle(PartObj.Data, GetAppStyle(apstBracketBG));
-        Ed.Attribs.Add(PosX, PosY, cEditorTagForBracket, 1, 0, PartObj);
+        InitLinePart(LinePart);
+        ApplyPartStyleFromEcontrolStyle(LinePart, GetAppStyle(apstBracketBG));
+        Ed.Attribs.Add(PosX, PosY, cEditorTagForBracket, 1, 0, 0, @LinePart);
 
-        PartObj:= TATLinePartClass.Create;
-        ApplyPartStyleFromEcontrolStyle(PartObj.Data, GetAppStyle(apstBracketBG));
-        Ed.Attribs.Add(FoundX, FoundY, cEditorTagForBracket, 1, 0, PartObj);
+        ApplyPartStyleFromEcontrolStyle(LinePart, GetAppStyle(apstBracketBG));
+        Ed.Attribs.Add(FoundX, FoundY, cEditorTagForBracket, 1, 0, 0, @LinePart);
 
         FillChar(Decor, SizeOf(Decor), 0);
         StyleSymbol:= GetAppStyle(apstSymbol);
@@ -1921,6 +1920,7 @@ begin
           UiOps.FindOccur_TagValue,
           0,
           0,
+          0,
           nil,
           0,
           mmmShowInTextOnly,
@@ -2111,22 +2111,17 @@ end;
 procedure EditorHighlightCharsInLine(Ed: TATSynEdit; AY: integer;
   const AX: TATIntArray; AStyle: TAppThemeStyleId; ATag: integer);
 var
-  PartObj: TATLinePartClass;
-  Part: TATLinePart;
+  LinePart: TATLinePart;
   i: integer;
 begin
   if Length(AX)=0 then exit;
 
-  FillChar(Part, SizeOf(Part), 0);
-  ApplyPartStyleFromEcontrolStyle(Part, GetAppStyle(AStyle));
-  Part.ColorBG:= clNone;
+  InitLinePart(LinePart);
+  ApplyPartStyleFromEcontrolStyle(LinePart, GetAppStyle(AStyle));
+  LinePart.ColorBG:= clNone;
 
   for i:= 0 to High(AX) do
-  begin
-    PartObj:= TATLinePartClass.Create;
-    PartObj.Data:= Part;
-    Ed.Attribs.Add(AX[i], AY, ATag, 1, 0, PartObj);
-  end;
+    Ed.Attribs.Add(AX[i], AY, ATag, 1, 0, 0, @LinePart);
 
   Ed.Invalidate;
 end;

@@ -45,7 +45,7 @@ begin
           NLen:= APos1.X-APos2.X
         else
           NLen:= 0;
-        Ed.Markers.Add(APos2.X, APos2.Y, 0, 0, 0, nil, 0, mmmShowInTextOnly, NLen);
+        Ed.Markers.Add(APos2.X, APos2.Y, 0, 0, 0, 0, nil, 0, mmmShowInTextOnly, NLen);
       end;
 
     markingBookmarks:

@@ -3170,10 +3170,10 @@ var
   St: TATStrings;
   Caret: TATCaretItem;
   LineState: TATLineState;
+  LinePart: TATLinePart;
   Marker: TATMarkerItem;
   Bookmarks: TATBookmarks;
   BookmarkPtr: PATBookmarkItem;
-  LinePartObj: TATLinePartClass;
   XColor, XColorSelected, XColorOccur, XColorSpell: TBGRAPixel;
   NColor: TColor;
   RectMark: TRect;
@@ -3260,7 +3260,6 @@ begin
   for i:= 0 to Ed.Attribs.Count-1 do
   begin
     Marker:= Ed.Attribs[i];
-    LinePartObj:= TATLinePartClass(Marker.Ptr);
 
     NLine1:= Marker.PosY;
     NLine2:= NLine1;
@@ -3281,26 +3280,26 @@ begin
         end;
       else
         begin
-          if LinePartObj.ColumnTag>0 then
+          if Marker.ColumnTag>0 then
           begin
-            NIndex:= Ed.Micromap.ColumnFromTag(LinePartObj.ColumnTag);
+            NIndex:= Ed.Micromap.ColumnFromTag(Marker.ColumnTag);
             if NIndex>=0 then
             begin
               //if ColorBG=none, it may be find-all-matches with custom border color, use border color
-              if LinePartObj.Data.ColorBG<>clNone then
-                XColor.FromColor(LinePartObj.Data.ColorBG)
+              if Marker.LinePart.ColorBG<>clNone then
+                XColor.FromColor(Marker.LinePart.ColorBG)
               else
-                XColor.FromColor(LinePartObj.Data.ColorBorder);
+                XColor.FromColor(Marker.LinePart.ColorBorder);
               RectMark:= GetItemRect(NIndex, NLine1, NLine2, markColumn);
               FMicromapBmp.FillRect(RectMark, XColor);
             end;
           end
           else
-          if LinePartObj.ColumnTag=cTagColumnFullsized then
+          if Marker.ColumnTag=cTagColumnFullsized then
           begin
             RectMark:= GetItemRect(0, NLine1, NLine2, markFull);
             //todo: not tested with BGRABitmap - it must give inverted colors
-            XColor.FromColor(LinePartObj.Data.ColorBG);
+            XColor.FromColor(Marker.LinePart.ColorBG);
             FMicromapBmp.FillRect(RectMark, XColor, dmDrawWithTransparency, $8000);
           end;
         end;

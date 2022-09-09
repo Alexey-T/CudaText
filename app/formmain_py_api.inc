@@ -1089,7 +1089,7 @@ begin
 
         MARKERS_ADD:
           begin
-            Ed.Markers.Add(X, Y, NTag, NLenX, NLenY, nil, 0, mmmShowInTextOnly, NLineLen);
+            Ed.Markers.Add(X, Y, NTag, NLenX, NLenY, 0, nil, 0, mmmShowInTextOnly, NLineLen);
             Ed.Update;
             Result:= PyLong_FromLong(Ed.Markers.Count);
           end;
@@ -1166,6 +1166,7 @@ var
   H: Int64;
   Ed: TATSynEdit;
   Mark: TATMarkerItem;
+  LinePart: TATLinePart;
   PtrX, PtrY, PtrLen: PChar;
   PtrColorFont, PtrColorBg, PtrColorBorder, PtrFontBold, PtrFontItalic, PtrFontStrike: PChar;
   StrX, StrY, StrLen: string;
@@ -1177,7 +1178,6 @@ var
   NFontBold, NFontItalic, NFontStrike: integer;
   NFontBold_1st, NFontItalic_1st, NFontStrike_1st: integer;
   NColumn, NMicromapMode: integer;
-  Obj: TATLinePartClass;
   SepX, SepY, SepLen: TATStringSeparator;
   SepColorFont, SepColorBg, SepColorBorder, SepFontBold, SepFontItalic, SepFontStrike: TATStringSeparator;
   NStyles: byte;
@@ -1212,24 +1212,23 @@ begin
             for i:= 0 to NLen-1 do
             begin
               Mark:= Ed.Attribs[i];
-              Obj:= TATLinePartClass(Mark.Ptr);
               PyList_SetItem(Result, i,
                 Py_BuildValue('(Liiiiiiiiiiiiiii)',
                   Mark.Tag,
                   Mark.PosX,
                   Mark.PosY,
                   Mark.SelX,
-                  Obj.Data.ColorFont,
-                  Obj.Data.ColorBG,
-                  Obj.Data.ColorBorder,
-                  Ord((Obj.Data.FontStyles and afsFontBold)<>0),
-                  Ord((Obj.Data.FontStyles and afsFontItalic)<>0),
-                  Ord((Obj.Data.FontStyles and afsFontCrossed)<>0),
-                  Ord(Obj.Data.BorderLeft),
-                  Ord(Obj.Data.BorderRight),
-                  Ord(Obj.Data.BorderDown),
-                  Ord(Obj.Data.BorderUp),
-                  Ord(Obj.ColumnTag),
+                  Mark.LinePart.ColorFont,
+                  Mark.LinePart.ColorBG,
+                  Mark.LinePart.ColorBorder,
+                  Ord((Mark.LinePart.FontStyles and afsFontBold)<>0),
+                  Ord((Mark.LinePart.FontStyles and afsFontItalic)<>0),
+                  Ord((Mark.LinePart.FontStyles and afsFontCrossed)<>0),
+                  Ord(Mark.LinePart.BorderLeft),
+                  Ord(Mark.LinePart.BorderRight),
+                  Ord(Mark.LinePart.BorderDown),
+                  Ord(Mark.LinePart.BorderUp),
+                  Ord(Mark.ColumnTag),
                   Ord(Mark.MicromapMode)
                   ));
             end;
@@ -1244,7 +1243,6 @@ begin
             for i:= 0 to NLen-1 do
             begin
               Mark:= Ed.Attribs[i];
-              Obj:= TATLinePartClass(Mark.Ptr);
               PyList_SetItem(Result, i,
                 Py_BuildValue('{sLsisisisisisisOsOsOsisisisisisi}',
                   'tag',
@@ -1256,27 +1254,27 @@ begin
                   'len',
                   Mark.SelX,
                   'color_font',
-                  Obj.Data.ColorFont,
+                  Mark.LinePart.ColorFont,
                   'color_bg',
-                  Obj.Data.ColorBG,
+                  Mark.LinePart.ColorBG,
                   'color_border',
-                  Obj.Data.ColorBorder,
+                  Mark.LinePart.ColorBorder,
                   'font_bold',
-                  PyBool_FromLong(Ord((Obj.Data.FontStyles and afsFontBold)<>0)),
+                  PyBool_FromLong(Ord((Mark.LinePart.FontStyles and afsFontBold)<>0)),
                   'font_italic',
-                  PyBool_FromLong(Ord((Obj.Data.FontStyles and afsFontItalic)<>0)),
+                  PyBool_FromLong(Ord((Mark.LinePart.FontStyles and afsFontItalic)<>0)),
                   'font_strikeout',
-                  PyBool_FromLong(Ord((Obj.Data.FontStyles and afsFontCrossed)<>0)),
+                  PyBool_FromLong(Ord((Mark.LinePart.FontStyles and afsFontCrossed)<>0)),
                   'border_left',
-                  Ord(Obj.Data.BorderLeft),
+                  Ord(Mark.LinePart.BorderLeft),
                   'border_right',
-                  Ord(Obj.Data.BorderRight),
+                  Ord(Mark.LinePart.BorderRight),
                   'border_down',
-                  Ord(Obj.Data.BorderDown),
+                  Ord(Mark.LinePart.BorderDown),
                   'border_up',
-                  Ord(Obj.Data.BorderUp),
+                  Ord(Mark.LinePart.BorderUp),
                   'show_on_map',
-                  Ord(Obj.ColumnTag),
+                  Ord(Mark.ColumnTag),
                   'map_only',
                   Ord(Mark.MicromapMode)
                   ));
@@ -1292,13 +1290,13 @@ begin
             NFontItalic:= StrToIntDef(StrFontItalic, 0);
             NFontStrike:= StrToIntDef(StrFontStrike, 0);
 
-            Obj:= TATLinePartClass.Create;
-            Obj.Data.ColorFont:= NColorFont;
-            Obj.Data.ColorBG:= NColorBg;
+            InitLinePart(LinePart);
+            LinePart.ColorFont:= NColorFont;
+            LinePart.ColorBG:= NColorBg;
             if NColorBorder<>clNone then
-              Obj.Data.ColorBorder:= NColorBorder
+              LinePart.ColorBorder:= NColorBorder
             else
-              Obj.Data.ColorBorder:= Ed.Colors.TextFont;
+              LinePart.ColorBorder:= Ed.Colors.TextFont;
 
             NStyles:= 0;
             if Bool(NFontBold) then
@@ -1307,20 +1305,19 @@ begin
               NStyles:= NStyles or afsFontItalic;
             if Bool(NFontStrike) then
               NStyles:= NStyles or afsFontCrossed;
-            Obj.Data.FontStyles:= NStyles;
+            LinePart.FontStyles:= NStyles;
 
-            Obj.Data.BorderLeft:= TATLineStyle(NBorderL);
-            Obj.Data.BorderRight:= TATLineStyle(NBorderR);
-            Obj.Data.BorderDown:= TATLineStyle(NBorderD);
-            Obj.Data.BorderUp:= TATLineStyle(NBorderU);
-            Obj.ColumnTag:= NColumn;
+            LinePart.BorderLeft:= TATLineStyle(NBorderL);
+            LinePart.BorderRight:= TATLineStyle(NBorderR);
+            LinePart.BorderDown:= TATLineStyle(NBorderD);
+            LinePart.BorderUp:= TATLineStyle(NBorderU);
 
             X:= StrToIntDef(StrX, MaxInt);
             Y:= StrToIntDef(StrY, MaxInt);
             NLen:= StrToIntDef(StrLen, 1);
             if (X<MaxInt) and (Y<MaxInt) then
             begin
-              Ed.Attribs.Add(X, Y, NTag, NLen, 0, Obj, 0, TATMarkerMicromapMode(NMicromapMode));
+              Ed.Attribs.Add(X, Y, NTag, NLen, 0, 0, @LinePart, NColumn, TATMarkerMicromapMode(NMicromapMode));
               Ed.Update;
             end;
             Result:= PyLong_FromLong(Ed.Attribs.Count);
@@ -1331,6 +1328,7 @@ begin
             SepX.Init(StrX);
             SepY.Init(StrY);
             SepLen.Init(StrLen);
+            InitLinePart(LinePart);
 
             SepColorFont.Init(StrColorFont);
             SepColorBg.Init(StrColorBg);
@@ -1364,13 +1362,12 @@ begin
               SepFontItalic.GetItemInt(NFontItalic, NFontItalic_1st);
               SepFontStrike.GetItemInt(NFontStrike, NFontStrike_1st);
 
-              Obj:= TATLinePartClass.Create;
-              Obj.Data.ColorFont:= NColorFont;
-              Obj.Data.ColorBG:= NColorBg;
+              LinePart.ColorFont:= NColorFont;
+              LinePart.ColorBG:= NColorBg;
               if NColorBorder<>clNone then
-                Obj.Data.ColorBorder:= NColorBorder
+                LinePart.ColorBorder:= NColorBorder
               else
-                Obj.Data.ColorBorder:= Ed.Colors.TextFont;
+                LinePart.ColorBorder:= Ed.Colors.TextFont;
 
               NStyles:= 0;
               if Bool(NFontBold) then
@@ -1379,15 +1376,14 @@ begin
                 NStyles:= NStyles or afsFontItalic;
               if Bool(NFontStrike) then
                 NStyles:= NStyles or afsFontCrossed;
-              Obj.Data.FontStyles:= NStyles;
+              LinePart.FontStyles:= NStyles;
 
-              Obj.Data.BorderLeft:= TATLineStyle(NBorderL);
-              Obj.Data.BorderRight:= TATLineStyle(NBorderR);
-              Obj.Data.BorderDown:= TATLineStyle(NBorderD);
-              Obj.Data.BorderUp:= TATLineStyle(NBorderU);
-              Obj.ColumnTag:= NColumn;
+              LinePart.BorderLeft:= TATLineStyle(NBorderL);
+              LinePart.BorderRight:= TATLineStyle(NBorderR);
+              LinePart.BorderDown:= TATLineStyle(NBorderD);
+              LinePart.BorderUp:= TATLineStyle(NBorderU);
 
-              Ed.Attribs.Add(X, Y, NTag, NLen, 0, Obj, 0, TATMarkerMicromapMode(NMicromapMode));
+              Ed.Attribs.Add(X, Y, NTag, NLen, 0, 0, @LinePart, NColumn, TATMarkerMicromapMode(NMicromapMode));
             until false;
 
             Ed.Update;
