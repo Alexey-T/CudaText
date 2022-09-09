@@ -800,6 +800,7 @@ begin
   begin
     Ctl:= TATSynEdit.Create(AForm);
     TATSynEdit(Ctl).Keymap:= AppKeymapMain;
+    TATSynEdit(Ctl).OptEnableMarkersInUndo:= false;
     DoControl_ApplyEditorProps(TATSynEdit(Ctl), AForm, true, true, false, false);
 
     Adapter:= TATAdapterEControl.Create(Ctl);
@@ -815,6 +816,7 @@ begin
   begin
     Ctl:= TATEdit.Create(AForm);
     TATSynEdit(Ctl).Keymap:= AppKeymapMain;
+    TATSynEdit(Ctl).OptEnableMarkersInUndo:= false;
     DoControl_ApplyEditorProps(TATSynEdit(Ctl), AForm, false, false, false, true);
     exit;
   end;
@@ -823,6 +825,7 @@ begin
   begin
     Ctl:= TATComboEdit.Create(AForm);
     TATSynEdit(Ctl).Keymap:= AppKeymapMain;
+    TATSynEdit(Ctl).OptEnableMarkersInUndo:= false;
     DoControl_ApplyEditorProps(TATSynEdit(Ctl), AForm, false, false, false, true);
     exit;
   end;
