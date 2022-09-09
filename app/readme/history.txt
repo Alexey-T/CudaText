@@ -10,6 +10,7 @@
 + add: Addon Manager: add option "Verify HTTPS certificates" (thanks @veksha, @ViCrack)
 - fix: after mouse wheel zoomimg, scrollbar position becomes very incorrect (thanks @veksha)
 - fix: "mouse_wheel_zoom":false -> Ctrl+wheel jumps to file beginning
+- fix: too wide combobox-arrow if Windows scale is 200%
 
 1.170.0 (2022/09)
 
