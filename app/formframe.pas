@@ -3280,9 +3280,9 @@ begin
         end;
       else
         begin
-          if Marker.ColumnTag>0 then
+          if Marker.TagEx>0 then
           begin
-            NIndex:= Ed.Micromap.ColumnFromTag(Marker.ColumnTag);
+            NIndex:= Ed.Micromap.ColumnFromTag(Marker.TagEx);
             if NIndex>=0 then
             begin
               //if ColorBG=none, it may be find-all-matches with custom border color, use border color
@@ -3295,7 +3295,7 @@ begin
             end;
           end
           else
-          if Marker.ColumnTag=cTagColumnFullsized then
+          if Marker.TagEx=cTagColumnFullsized then
           begin
             RectMark:= GetItemRect(0, NLine1, NLine2, markFull);
             //todo: not tested with BGRABitmap - it must give inverted colors

@@ -1220,7 +1220,7 @@ begin
             begin
               Mark:= Ed.Attribs[i];
               PyList_SetItem(Result, i,
-                Py_BuildValue('(Liiiiiiiiiiiiiii)',
+                Py_BuildValue('(LiiiiiiiiiiiiiLi)',
                   Mark.Tag,
                   Mark.PosX,
                   Mark.PosY,
@@ -1235,7 +1235,7 @@ begin
                   Ord(Mark.LinePart.BorderRight),
                   Ord(Mark.LinePart.BorderDown),
                   Ord(Mark.LinePart.BorderUp),
-                  Ord(Mark.ColumnTag),
+                  Mark.TagEx,
                   Ord(Mark.MicromapMode)
                   ));
             end;
@@ -1251,7 +1251,7 @@ begin
             begin
               Mark:= Ed.Attribs[i];
               PyList_SetItem(Result, i,
-                Py_BuildValue('{sLsisisisisisisOsOsOsisisisisisi}',
+                Py_BuildValue('{sLsisisisisisisOsOsOsisisisisLsi}',
                   'tag',
                   Mark.Tag,
                   PChar(string('x')),
@@ -1281,7 +1281,7 @@ begin
                   'border_up',
                   Ord(Mark.LinePart.BorderUp),
                   'show_on_map',
-                  Ord(Mark.ColumnTag),
+                  Mark.TagEx,
                   'map_only',
                   Ord(Mark.MicromapMode)
                   ));
@@ -7544,10 +7544,10 @@ begin
               begin
                 ItemPtr:= Ed.DimRanges.ItemPtr(i);
                 PyList_SetItem(Result, i,
-                  Py_BuildValue('(iii)',
+                  Py_BuildValue('(iiL)',
                     ItemPtr^.PosY,
                     ItemPtr^.PosY+ItemPtr^.SelY-1,
-                    Longint(ItemPtr^.ColumnTag)
+                    ItemPtr^.TagEx
                     ));
               end;
             end;
