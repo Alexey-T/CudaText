@@ -7553,7 +7553,7 @@ begin
                   Py_BuildValue('(iii)',
                     Item.PosY,
                     Item.PosY+Item.SelY-1,
-                    Item.Value
+                    integer(Item.Value)
                     ));
               end;
             end;
