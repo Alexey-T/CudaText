@@ -690,6 +690,8 @@ end;
 procedure DoControl_ApplyEditorProps(Ed: TATSynEdit; AForm: TFormDummy;
   AApplyUnprintedAndWrap, AApplyTabSize, AApplyCentering, AOneLiner: boolean);
 begin
+  Ed.Keymap:= AppKeymapMain;
+
   Ed.Font.Name:= EditorOps.OpFontName;
   Ed.Font.Size:= EditorOps.OpFontSize;
 
@@ -707,6 +709,11 @@ begin
 
   Ed.OptBorderFocusedActive:= EditorOps.OpActiveBorderInEditor;
   Ed.OptBorderWidthFocused:= ATEditorScale(EditorOps.OpActiveBorderWidth);
+  Ed.OptDimUnfocusedBack:= 0; //fix issue #4346
+
+  //for Terminal-like plugins which create lot of attribs
+  Ed.OptUndoForMarkers:= false;
+  Ed.OptUndoForAttribs:= false;
 
   Ed.OptThemed:= true;
   EditorApplyTheme(Ed);
@@ -718,8 +725,6 @@ begin
     Ed.OptCaretBlinkTime:= EditorOps.OpCaretBlinkTime;
     Ed.OptCaretBlinkEnabled:= EditorOps.OpCaretBlinkEn;
   end;
-
-  Ed.OptDimUnfocusedBack:= 0; //fix issue #4346
 end;
 
 procedure DoControl_InitPropsObject(Ctl: TControl; AForm: TFormDummy; const ATypeName: string);
@@ -799,9 +804,6 @@ begin
   if S='editor' then
   begin
     Ctl:= TATSynEdit.Create(AForm);
-    TATSynEdit(Ctl).Keymap:= AppKeymapMain;
-    TATSynEdit(Ctl).OptUndoForMarkers:= false;
-    TATSynEdit(Ctl).OptUndoForAttribs:= false;
     DoControl_ApplyEditorProps(TATSynEdit(Ctl), AForm, true, true, false, false);
 
     Adapter:= TATAdapterEControl.Create(Ctl);
@@ -816,9 +818,6 @@ begin
   if S='editor_edit' then
   begin
     Ctl:= TATEdit.Create(AForm);
-    TATSynEdit(Ctl).Keymap:= AppKeymapMain;
-    TATSynEdit(Ctl).OptUndoForMarkers:= false;
-    TATSynEdit(Ctl).OptUndoForAttribs:= false;
     DoControl_ApplyEditorProps(TATSynEdit(Ctl), AForm, false, false, false, true);
     exit;
   end;
@@ -826,9 +825,6 @@ begin
   if S='editor_combo' then
   begin
     Ctl:= TATComboEdit.Create(AForm);
-    TATSynEdit(Ctl).Keymap:= AppKeymapMain;
-    TATSynEdit(Ctl).OptUndoForMarkers:= false;
-    TATSynEdit(Ctl).OptUndoForAttribs:= false;
     DoControl_ApplyEditorProps(TATSynEdit(Ctl), AForm, false, false, false, true);
     exit;
   end;
