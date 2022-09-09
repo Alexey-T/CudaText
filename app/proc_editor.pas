@@ -1599,10 +1599,24 @@ begin
       begin
         InitLinePart(LinePart);
         ApplyPartStyleFromEcontrolStyle(LinePart, GetAppStyle(apstBracketBG));
-        Ed.Attribs.Add(PosX, PosY, cEditorTagForBracket, 1, 0, 0, @LinePart);
+        Ed.Attribs.Add(
+          PosX,
+          PosY,
+          TATMarkerTags.Init(cEditorTagForBracket, 0, 0),
+          1,
+          0,
+          @LinePart
+          );
 
         ApplyPartStyleFromEcontrolStyle(LinePart, GetAppStyle(apstBracketBG));
-        Ed.Attribs.Add(FoundX, FoundY, cEditorTagForBracket, 1, 0, 0, @LinePart);
+        Ed.Attribs.Add(
+          FoundX,
+          FoundY,
+          TATMarkerTags.Init(cEditorTagForBracket, 0, 0),
+          1,
+          0,
+          @LinePart
+          );
 
         FillChar(Decor, SizeOf(Decor), 0);
         StyleSymbol:= GetAppStyle(apstSymbol);
@@ -1917,12 +1931,10 @@ begin
         Ed.Markers.Add(
           Finder.MatchEdEnd.X,
           Finder.MatchEdEnd.Y,
-          UiOps.FindOccur_TagValue,
-          0,
+          TATMarkerTags.Init(UiOps.FindOccur_TagValue, 0, 0),
           0,
           0,
           nil,
-          0,
           mmmShowInTextOnly,
           -NSelLen //marker with underline looks good
           );
@@ -2121,7 +2133,14 @@ begin
   LinePart.ColorBG:= clNone;
 
   for i:= 0 to High(AX) do
-    Ed.Attribs.Add(AX[i], AY, ATag, 1, 0, 0, @LinePart);
+    Ed.Attribs.Add(
+      AX[i],
+      AY,
+      TATMarkerTags.Init(ATag, 0, 0),
+      1,
+      0,
+      @LinePart
+      );
 
   Ed.Invalidate;
 end;

@@ -1089,7 +1089,16 @@ begin
 
         MARKERS_ADD:
           begin
-            Ed.Markers.Add(X, Y, NTag, NLenX, NLenY, 0, nil, 0, mmmShowInTextOnly, NLineLen);
+            Ed.Markers.Add(
+              X,
+              Y,
+              TATMarkerTags.Init(NTag, 0, 0),
+              NLenX,
+              NLenY,
+              nil,
+              mmmShowInTextOnly,
+              NLineLen
+              );
             Ed.Update;
             Result:= PyLong_FromLong(Ed.Markers.Count);
           end;
@@ -1317,7 +1326,15 @@ begin
             NLen:= StrToIntDef(StrLen, 1);
             if (X<MaxInt) and (Y<MaxInt) then
             begin
-              Ed.Attribs.Add(X, Y, NTag, NLen, 0, 0, @LinePart, NColumn, TATMarkerMicromapMode(NMicromapMode));
+              Ed.Attribs.Add(
+                X,
+                Y,
+                TATMarkerTags.Init(NTag, NColumn, 0),
+                NLen,
+                0,
+                @LinePart,
+                TATMarkerMicromapMode(NMicromapMode)
+                );
               Ed.Update;
             end;
             Result:= PyLong_FromLong(Ed.Attribs.Count);
@@ -1383,7 +1400,15 @@ begin
               LinePart.BorderDown:= TATLineStyle(NBorderD);
               LinePart.BorderUp:= TATLineStyle(NBorderU);
 
-              Ed.Attribs.Add(X, Y, NTag, NLen, 0, 0, @LinePart, NColumn, TATMarkerMicromapMode(NMicromapMode));
+              Ed.Attribs.Add(
+                X,
+                Y,
+                TATMarkerTags.Init(NTag, NColumn, 0),
+                NLen,
+                0,
+                @LinePart,
+                TATMarkerMicromapMode(NMicromapMode)
+                );
             until false;
 
             Ed.Update;
