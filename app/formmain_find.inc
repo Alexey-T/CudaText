@@ -46,11 +46,9 @@ begin
         else
           NLen:= 0;
         Ed.Markers.Add(
-          APos2.X,
-          APos2.Y,
+          Point(APos2.X, APos2.Y),
+          Point(0, 0),
           TATMarkerTags.Init(0, 0),
-          0,
-          0,
           nil,
           mmmShowInTextOnly,
           NLen

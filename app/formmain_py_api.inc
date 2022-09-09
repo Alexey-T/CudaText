@@ -1090,11 +1090,9 @@ begin
         MARKERS_ADD:
           begin
             Ed.Markers.Add(
-              X,
-              Y,
+              Point(X, Y),
+              Point(NLenX, NLenY),
               TATMarkerTags.Init(NTag, 0),
-              NLenX,
-              NLenY,
               nil,
               mmmShowInTextOnly,
               NLineLen
@@ -1327,11 +1325,9 @@ begin
             if (X<MaxInt) and (Y<MaxInt) then
             begin
               Ed.Attribs.Add(
-                X,
-                Y,
+                Point(X, Y),
+                Point(NLen, 0),
                 TATMarkerTags.Init(NTag, NColumn),
-                NLen,
-                0,
                 @LinePart,
                 TATMarkerMicromapMode(NMicromapMode)
                 );
@@ -1401,11 +1397,9 @@ begin
               LinePart.BorderUp:= TATLineStyle(NBorderU);
 
               Ed.Attribs.Add(
-                X,
-                Y,
+                Point(X, Y),
+                Point(NLen, 0),
                 TATMarkerTags.Init(NTag, NColumn),
-                NLen,
-                0,
                 @LinePart,
                 TATMarkerMicromapMode(NMicromapMode)
                 );

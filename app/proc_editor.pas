@@ -1600,21 +1600,17 @@ begin
         InitLinePart(LinePart);
         ApplyPartStyleFromEcontrolStyle(LinePart, GetAppStyle(apstBracketBG));
         Ed.Attribs.Add(
-          PosX,
-          PosY,
+          Point(PosX, PosY),
+          Point(1, 0),
           TATMarkerTags.Init(cEditorTagForBracket, 0),
-          1,
-          0,
           @LinePart
           );
 
         ApplyPartStyleFromEcontrolStyle(LinePart, GetAppStyle(apstBracketBG));
         Ed.Attribs.Add(
-          FoundX,
-          FoundY,
+          Point(FoundX, FoundY),
+          Point(1, 0),
           TATMarkerTags.Init(cEditorTagForBracket, 0),
-          1,
-          0,
           @LinePart
           );
 
@@ -1929,11 +1925,9 @@ begin
         //place marker which will be useful after find-next will wrap, so
         //last-occurrence-pos will be irrelevant, but marker will be used
         Ed.Markers.Add(
-          Finder.MatchEdEnd.X,
-          Finder.MatchEdEnd.Y,
+          Point(Finder.MatchEdEnd.X, Finder.MatchEdEnd.Y),
+          Point(0, 0),
           TATMarkerTags.Init(UiOps.FindOccur_TagValue, 0),
-          0,
-          0,
           nil,
           mmmShowInTextOnly,
           -NSelLen //marker with underline looks good
@@ -2134,11 +2128,9 @@ begin
 
   for i:= 0 to High(AX) do
     Ed.Attribs.Add(
-      AX[i],
-      AY,
+      Point(AX[i], AY),
+      Point(1, 0),
       TATMarkerTags.Init(ATag, 0),
-      1,
-      0,
       @LinePart
       );
 
