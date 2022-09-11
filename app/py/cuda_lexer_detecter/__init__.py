@@ -9,6 +9,10 @@ _   = get_translation(__file__)  # I18N
 config_file = os.path.join(app_path(APP_DIR_SETTINGS), 'plugins.ini')
 config_section = 'lexer_detecter_ignore'
 
+def log(*args):
+    pass
+    #print(*args)
+
 class Command:
 
     def on_open_none(self, ed_self):
@@ -31,10 +35,10 @@ class Command:
             if ini_read(config_file, config_section, ext1, '')=='1':
                 return
 
-        #print('Lexer detecter: name, ext1, ext2:', name, ext1, ext2)
+        log('Lexer detecter: name, ext1, ext2:', name, ext1, ext2)
         lexers = []
 
-        #print('Lexer detecter: search by name:', '/'+name)
+        log('Lexer detecter: search by name:', '/'+name)
         lex = TYPES.get('/'+name, '')
         if lex:
             lexers += lex
@@ -47,7 +51,7 @@ class Command:
             ext2b = ext2
 
         if ext2:
-            #print('Lexer detecter: search by ext2:', ext2)
+            log('Lexer detecter: search by ext2:', ext2)
             lex = TYPES.get(ext2, '')
             if not lex and ext2b != ext2:
                 lex = TYPES.get(ext2b, '')
@@ -55,7 +59,7 @@ class Command:
                 lexers += lex
 
         if ext1:
-            #print('Lexer detecter: search by ext1:', ext1)
+            log('Lexer detecter: search by ext1:', ext1)
             lex = TYPES.get(ext1, '')
             if not lex and ext1b != ext1:
                 lex = TYPES.get(ext1b, '')
@@ -86,7 +90,7 @@ class Command:
                 return
 
         lex = lexers[res]
-        #print('Detected lexer:', lex)
+        log('Detected lexer:', lex)
 
         # imports here to speedup plugin load when no lexers found
         import tempfile
