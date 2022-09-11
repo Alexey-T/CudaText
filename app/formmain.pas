@@ -4070,6 +4070,9 @@ begin
   if IsFileTooBigForLexer(AFileName) then //fixing issue #3449
     Result:= false
   else
+  if ExtractFileName(AFileName)='CMakeLists.txt' then //CMakeLists.txt is for lexer CMake
+    Result:= true
+  else
     Result:= LowerCase(ExtractFileExt(AFileName))<>'.txt';
 end;
 
