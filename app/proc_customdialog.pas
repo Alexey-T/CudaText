@@ -709,7 +709,6 @@ begin
 
   Ed.OptBorderFocusedActive:= EditorOps.OpActiveBorderInEditor;
   Ed.OptBorderWidthFocused:= ATEditorScale(EditorOps.OpActiveBorderWidth);
-  Ed.OptDimUnfocusedBack:= 0; //fix issue #4346
 
   //for Terminal-like plugins which create lot of attribs
   Ed.OptUndoForMarkers:= false;
@@ -725,6 +724,8 @@ begin
     Ed.OptCaretBlinkTime:= EditorOps.OpCaretBlinkTime;
     Ed.OptCaretBlinkEnabled:= EditorOps.OpCaretBlinkEn;
   end;
+
+  Ed.OptDimUnfocusedBack:= 0; //after EditorApplyOps; fix issue #4346
 end;
 
 procedure DoControl_InitPropsObject(Ctl: TControl; AForm: TFormDummy; const ATypeName: string);
