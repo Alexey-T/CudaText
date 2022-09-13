@@ -1064,7 +1064,7 @@ begin
     if not bSel then
     begin
       St.TextInsert(X1, Y1, CharBegin+CharEnd, false, Shift, PosAfter);
-      Ed.UpdateCaretsAndMarkersOnEditing(NCaret, X1, Y1, Shift.X, Shift.Y, PosAfter);
+      Ed.UpdateCaretsAndMarkersOnEditing(NCaret+1, X1, Y1, Shift.X, Shift.Y, PosAfter);
 
       Caret.PosX:= Caret.PosX+1;
       Caret.EndX:= -1;
@@ -1073,10 +1073,10 @@ begin
     else
     begin
       St.TextInsert(X2, Y2, CharEnd, false, Shift, PosAfter);
-      Ed.UpdateCaretsAndMarkersOnEditing(NCaret, X2, Y2, Shift.X, Shift.Y, PosAfter);
+      Ed.UpdateCaretsAndMarkersOnEditing(NCaret+1, X2, Y2, Shift.X, Shift.Y, PosAfter);
 
       St.TextInsert(X1, Y1, CharBegin, false, Shift, PosAfter);
-      Ed.UpdateCaretsAndMarkersOnEditing(NCaret, X1, Y1, Shift.X, Shift.Y, PosAfter);
+      Ed.UpdateCaretsAndMarkersOnEditing(NCaret+1, X1, Y1, Shift.X, Shift.Y, PosAfter);
 
       Caret.EndX:= X1+1;
       Caret.EndY:= Y1;
