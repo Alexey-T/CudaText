@@ -1064,7 +1064,11 @@ begin
     if not bSel then
     begin
       St.TextInsert(X1, Y1, CharBegin+CharEnd, false, Shift, PosAfter);
-      Ed.UpdateCaretsAndMarkersOnEditing(NCaret+1, X1, Y1, Shift.X, Shift.Y, PosAfter);
+      Ed.UpdateCaretsAndMarkersOnEditing(NCaret+1,
+        Point(X1, Y1),
+        Point(X1, Y1),
+        Shift,
+        PosAfter);
 
       Caret.PosX:= Caret.PosX+1;
       Caret.EndX:= -1;
@@ -1073,10 +1077,18 @@ begin
     else
     begin
       St.TextInsert(X2, Y2, CharEnd, false, Shift, PosAfter);
-      Ed.UpdateCaretsAndMarkersOnEditing(NCaret+1, X2, Y2, Shift.X, Shift.Y, PosAfter);
+      Ed.UpdateCaretsAndMarkersOnEditing(NCaret+1,
+        Point(X2, Y2),
+        Point(X2, Y2),
+        Shift,
+        PosAfter);
 
       St.TextInsert(X1, Y1, CharBegin, false, Shift, PosAfter);
-      Ed.UpdateCaretsAndMarkersOnEditing(NCaret+1, X1, Y1, Shift.X, Shift.Y, PosAfter);
+      Ed.UpdateCaretsAndMarkersOnEditing(NCaret+1,
+        Point(X1, Y1),
+        Point(X1, Y1),
+        Shift,
+        PosAfter);
 
       Caret.EndX:= X1+1;
       Caret.EndY:= Y1;
@@ -2211,7 +2223,11 @@ begin
 
   Strs.TextDeleteRange(X1, Y1, X2, Y2, Shift, PosAfter);
   Ed.UpdateMarkersOnDeleting(X1, Y1, X2, Y2);
-  Ed.UpdateCaretsAndMarkersOnEditing(0, X1, Y1, Shift.X, Shift.Y, PosAfter);
+  Ed.UpdateCaretsAndMarkersOnEditing(0,
+    Point(X1, Y1),
+    Point(X2, Y2),
+    Shift,
+    PosAfter);
 
   Ed.DoEventChange(Y1);
   Ed.Update(true);
@@ -2237,7 +2253,11 @@ begin
   else
   begin
     Strs.TextInsert(AX, AY, AStr, false, Shift, APosAfter);
-    Ed.UpdateCaretsAndMarkersOnEditing(0, AX, AY, Shift.X, Shift.Y, APosAfter);
+    Ed.UpdateCaretsAndMarkersOnEditing(0,
+      Point(AX, AY),
+      Point(AX, AY),
+      Shift,
+      APosAfter);
   end;
 
   Ed.DoEventChange(AY);

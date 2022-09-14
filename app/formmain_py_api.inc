@@ -1755,7 +1755,11 @@ begin
         UTF8Decode(StrText), Shift, PosAfter, true);
 
       Ed.UpdateMarkersOnDeleting(X1, Y1, X2, Y2);
-      Ed.UpdateCaretsAndMarkersOnEditing(0, X1, Y1, Shift.X, Shift.Y, PosAfter);
+      Ed.UpdateCaretsAndMarkersOnEditing(0,
+        Point(X1, Y1),
+        Point(X2, Y2),
+        Shift,
+        PosAfter);
 
       Ed.DoEventChange(Y1);
       Ed.UpdateWrapInfo(true); //fixing #4173
@@ -1793,7 +1797,11 @@ begin
         Res:= Strs.TextReplaceLines_UTF8(Y1, Y2, Lines);
 
         Ed.UpdateMarkersOnDeleting(0, Y1, 0, Y2+1);
-        Ed.UpdateCaretsAndMarkersOnEditing(0, 0, Y1, 0, Lines.Count-(Y2-Y1+1), Point(0, Y1+Lines.Count));
+        Ed.UpdateCaretsAndMarkersOnEditing(0,
+          Point(0, Y1),
+          Point(0, Y2+1),
+          Point(0, Lines.Count-(Y2-Y1+1)),
+          Point(0, Y1+Lines.Count));
 
         Ed.DoEventChange(Y1);
       finally
