@@ -1598,6 +1598,7 @@ In CudaText Project Manager you must save your project file to your php project 
 
 * Install Node.js, see readme here: https://github.com/nodesource/distributions/blob/master/README.md
 * Install Bash server, see readme here: https://github.com/bash-lsp/bash-language-server
+* Install Shellcheck from https://www.shellcheck.net/ - "We strongly recommend that you install shellcheck to enable linting"
 * On Windows, maybe you need to add folder of "bash-language-server.cmd" to system PATH. 
 * Create file (CudaText)/settings/lsp_bash.json with content:
 
