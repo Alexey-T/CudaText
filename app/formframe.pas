@@ -3802,8 +3802,13 @@ begin
   begin
     Ed.DoCaretsFixIncorrectPos(EditorOps.OpCaretOnLoadingLimitByLineEnds);
     Ed.DoEventCarets;
+
     //scroll to caret: needed for caret on a huge wrapped line
-    Ed.DoCommand(cCommand_ScrollToCaretTop, cInvokeAppInternal);
+    if Caret.PosX>Ed.GetVisibleColumns then
+    begin
+      Application.ProcessMessages;
+      Ed.DoCommand(cCommand_ScrollToCaretTop, cInvokeAppInternal);
+    end;
   end;
 
   //solve CudaText #3288, so Undo jumps to initial caret pos
