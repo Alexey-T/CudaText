@@ -3849,6 +3849,9 @@ begin
         PROP_DIM_UNFOCUSED:
           Result:= PyLong_FromLong(Ed.OptDimUnfocusedBack);
 
+        PROP_CARET_MULTI:
+          Result:= PyBool_FromLong(Ord(Ed.OptCaretManyAllowed));
+
         PROP_V_MODE:
           begin
             if Assigned(F) and (F.FrameKind=efkBinaryViewer) then
@@ -4479,6 +4482,9 @@ begin
 
         PROP_DIM_UNFOCUSED:
           Ed.OptDimUnfocusedBack:= ValueInt;
+
+        PROP_CARET_MULTI:
+          Ed.OptCaretManyAllowed:= ValueBool;
 
         PROP_V_MODE:
           begin
