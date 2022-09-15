@@ -8,7 +8,7 @@
 + add: few APIs for LSP Client
 + add: better calculate wrap positions for CJK text (thanks @lookoutside)
 + add: Addon Manager: add option "Verify HTTPS certificates" (thanks @veksha, @ViCrack)
-- fix: default value of "key_left_right_wrap_with_carets" was wrong (thanks @cser)
+- fix: default value of "key_left_right_wrap_with_carets" was not like default.json tells (thanks @cser)
 - fix: in some cases, Delete/typing command with multi-carets places multi-carets wrong (thanks @cser)
 - fix: caret can be out of view, when file is reopened with caret on huge wrapped line
 - fix: regression in 1.167: Down-arrow from long wrapped line, to the last short line
