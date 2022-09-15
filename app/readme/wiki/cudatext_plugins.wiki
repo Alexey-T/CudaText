@@ -1594,4 +1594,21 @@ Auto-completion works, it is not working if you open .php file that is outside o
 In LSP Client config there is a parameter named "root_dir_source". For zobo's server to index .php files they must be inside this dir.
 In CudaText Project Manager you must save your project file to your php project location, otherwise the root_dir will be wrong.
 
+==LSP server for Bash==
+
+* Install Node.js, see readme here: https://github.com/nodesource/distributions/blob/master/README.md
+* Install Bash server, see readme here: https://github.com/bash-lsp/bash-language-server
+* On Windows, maybe you need to add folder of "bash-language-server.cmd" to system PATH. 
+* Create file (CudaText)/settings/lsp_bash.json with content:
+
+<syntaxhighlight lang="json">
+{
+    "lexers": {
+        "Bash script": "bash"
+    },
+    "cmd_windows": ["bash-language-server.cmd", "start"],    
+    "cmd_unix": ["bash-language-server", "start"]
+}
+</syntaxhighlight>
+
 [[Category:CudaText]]
