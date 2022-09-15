@@ -808,7 +808,7 @@ begin
   TimerChange.Enabled:= false;
 
   RestoreSavedLexer(Ed1);
-  if Ed2.Visible then
+  if Splitted then
     RestoreSavedLexer(Ed2);
 
   if Assigned(FOnChangeSlow) then
