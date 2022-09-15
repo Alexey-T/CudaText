@@ -3804,6 +3804,10 @@ begin
     Ed.DoEventCarets;
 
     //scroll to caret: needed for caret on a huge wrapped line
+    if Ed.OptWrapMode=cWrapOff then
+      if Caret.PosX>=Ed.GetVisibleColumns then
+        Application.ProcessMessages;
+
     Ed.DoGotoPos(
       Point(Caret.PosX, Caret.PosY),
       Point(Caret.EndX, Caret.EndY),
