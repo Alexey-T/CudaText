@@ -3806,7 +3806,7 @@ begin
     //scroll to caret: needed for caret on a huge wrapped line
     Ed.DoGotoPos(
       Point(Caret.PosX, Caret.PosY),
-      Point(-1, -1),
+      Point(Caret.EndX, Caret.EndY),
       UiOps.FindIndentHorz,
       UiOps.FindIndentVert,
       false,
