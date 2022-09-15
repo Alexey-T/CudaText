@@ -363,7 +363,8 @@
   "tab_spaces": false,
 
   //Maximal X position, before which tab-characters visually expand to N spaces.
-  //(After this X position, tab-chars expand to 1 space.)
+  //After this X position, tab-chars expand to 1 space.
+  //Note: this option is global, not per-lexer.
   "tab_max_pos_expanded": 500,
 
   //[Text]
@@ -375,7 +376,7 @@
   //Maximal line length, when editing of a line will not reset current lexer to 'none'
   //for a few seconds. For example, for CPU Intel Core i3, good value is about 1900
   //(for longer lines, developer sees caret rendering glitches).
-  //If 0 (or too huge), feature is disabled.
+  //Value 0 (or too huge): feature is disabled.
   //Note: this option is global, not per-lexer.
   "max_line_len_for_editing_keeping_lexer": 2000,
 
@@ -445,11 +446,13 @@
   //Style of arrows in editor's themed scrollbars.
   //Value is 2 numbers ","-separated, for horizontal/vertical bars.
   //Numbers: 0: normal position of arrows; 1: both below; 2: both above; 3: hide arrows.
+  //Note: this option is global, not per-lexer.
   "scrollbar_arrows": "0,0",
 
   //Allows to perform direct jump to the clicked position, when clicking scrollbar's
   //"page up"/"page down" areas. If option is off, clicking on those areas does
   //"page up"/"page down" scrolling.
+  //Note: this option is global, not per-lexer.
   "scrollbar_click_jump": false,
 
   //[Text/Look]
@@ -569,16 +572,18 @@
   "unprinted_content": "se",
 
   //Unprinted symbols: Replace control ASCII characters (codes 0..31) with replacement-char.
-  //Otherwuse, show them as "xNN" hex codes.
+  //Otherwise, show them as "xNN" hex codes.
+  //Note: this option is global, not per-lexer.
   "unprinted_replace_spec": false,
 
-  //Unprinted symbols: ASCII characters 0...31 will be rendered
-  //as a "replacement character" with specified hex code.
-  //(e.g. value "A4" means character U+00A4.)
+  //Unprinted symbols: ASCII characters 0...31 will be rendered as a "replacement character"
+  //with specified hex code. For ex, value "A4" means character U+00A4.
+  //Note: this option is global, not per-lexer.
   "unprinted_replace_to_code": "A4",
 
   //Unprinted symbols: Length of arrow rendered for tab-char.
   //Value=1 means minimal length, 0 means full size.
+  //Note: this option is global, not per-lexer.
   "unprinted_tab_len": 1,
 
   //Unprinted symbols: Scale of different symbols, in % of character height.
@@ -587,6 +592,7 @@
   //- Scale of end-of-line "dots"
   //- Scale of end-of-line text marks "LF", "CRLF", "CR", "EOF"
   //- Scale of tab-char arrow pointer
+  //Note: this option is global, not per-lexer.
   "unprinted_symbols_scale": "15,30,80,22,",
 
   //[Text/Wrap]
