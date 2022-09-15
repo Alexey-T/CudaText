@@ -3804,7 +3804,7 @@ begin
     Ed.DoEventCarets;
 
     //scroll to caret: needed for caret on a huge wrapped line
-    if Caret.PosX>Ed.GetVisibleColumns then
+    if Caret.PosX>=Ed.GetVisibleColumns then
     begin
       Application.ProcessMessages;
       Ed.DoCommand(cCommand_ScrollToCaretTop, cInvokeAppInternal);
