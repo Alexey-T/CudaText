@@ -1783,7 +1783,7 @@ begin
     OpKeyUpDownKeepColumn:= true;
     OpKeyUpDownNavigateWrapped:= true;
     OpKeyUpDownAllowToEdge:= false;
-    OpKeyLeftRightGoToNextLineWithCarets:= false;
+    OpKeyLeftRightGoToNextLineWithCarets:= true;
     OpKeyLeftRightSwapSel:= true;
     OpKeyLeftRightSwapSelAndSelect:= false;
 
