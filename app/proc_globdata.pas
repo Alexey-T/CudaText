@@ -1783,7 +1783,7 @@ begin
     OpKeyUpDownKeepColumn:= true;
     OpKeyUpDownNavigateWrapped:= true;
     OpKeyUpDownAllowToEdge:= false;
-    OpKeyLeftRightGoToNextLineWithCarets:= false;
+    OpKeyLeftRightGoToNextLineWithCarets:= true; //was False in CudaText 1.170.5-, but it's True in Sublime Text
     OpKeyLeftRightSwapSel:= true;
     OpKeyLeftRightSwapSelAndSelect:= false;
 
