@@ -5,6 +5,7 @@
 
 1.170.6 (2022/09)
 
++ add: when editing too long lines (2000+ chars), editor turns lexer off for a few seconds. That is to prevent caret rendering glitches on editing very long lines. New option for this: "max_line_len_for_editing_keeping_lexer".
 + add: few APIs for LSP Client
 + add: better calculate wrap positions for CJK text (thanks @lookoutside)
 + add: Addon Manager: add option "Verify HTTPS certificates" (thanks @veksha, @ViCrack)

@@ -328,6 +328,7 @@ type
     procedure DoLoadUndo(Ed: TATSynEdit);
     procedure DoSaveHistory_Caret(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString);
     procedure DoSaveHistory_Bookmarks(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString);
+    procedure RestoreSavedLexer(Ed: TATSynEdit);
 
   protected
     procedure DoOnResize; override;
@@ -791,9 +792,25 @@ begin
   end;
 end;
 
+procedure TEditorFrame.RestoreSavedLexer(Ed: TATSynEdit);
+begin
+  if Assigned(Ed.AdapterForHiliteBackup) then
+  begin
+    Ed.AdapterForHilite:= Ed.AdapterForHiliteBackup;
+    Ed.AdapterForHiliteBackup:= nil;
+    Ed.Update;
+    DoOnUpdateStatusbar; //replace lexer name 'none' to restored one
+  end;
+end;
+
 procedure TEditorFrame.TimerChangeTimer(Sender: TObject);
 begin
   TimerChange.Enabled:= false;
+
+  RestoreSavedLexer(Ed1);
+  if Ed2.Visible then
+    RestoreSavedLexer(Ed2);
+
   if Assigned(FOnChangeSlow) then
     FOnChangeSlow(Editor);
 end;

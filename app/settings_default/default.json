@@ -369,7 +369,15 @@
   //[Text]
   //Maximal line length, for which char-width calculations are slow+correct.
   //This has effect for lines with CJK or another "wide" characters.
+  //Note: this option is global, not per-lexer.
   "max_line_len_for_accurate_width": 500,
+
+  //Maximal line length, when editing of a line will not reset current lexer to 'none'
+  //for a few seconds. For example, for CPU Intel Core i3, good value is about 1900
+  //(for longer lines, developer sees caret rendering glitches).
+  //If 0 (or too huge), feature is disabled.
+  //Note: this option is global, not per-lexer.
+  "max_line_len_for_editing_keeping_lexer": 2000,
 
   //[Lexers]
   //Maximal line length parsed, ie:
