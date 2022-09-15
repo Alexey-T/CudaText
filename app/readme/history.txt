@@ -11,7 +11,6 @@
 + add: Addon Manager: add option "Verify HTTPS certificates" (thanks @veksha, @ViCrack)
 - fix: default value of "key_left_right_wrap_with_carets" was not like default.json tells (thanks @cser)
 - fix: in some cases, Delete/typing command with multi-carets places multi-carets wrong (thanks @cser)
-- fix: caret can be out of view, when file is reopened with caret on huge wrapped line
 - fix: regression in 1.167: Down-arrow from long wrapped line, to the last short line
 - fix: after mouse wheel zoomimg, scrollbar position becomes very incorrect (thanks @veksha)
 - fix: "mouse_wheel_zoom":false -> Ctrl+wheel jumps to file beginning
