@@ -52,7 +52,7 @@ On the above picture you see UI elements:
 
 ;stat: Statusbar. Has several cells to show some current states.
 
-;bre: Breadcrumb bar. Is is a plugin which needs to be installed.
+;bre: Breadcrumb bar. It is a plugin which needs to be installed in Addons Manager.
 
 = Additional wiki pages =
 
