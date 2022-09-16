@@ -26,6 +26,34 @@ Screenshot on Windows:
 
 [[File:cudatext.png]]
 
+=UI elements=
+
+[[File:cudatext-ui-elements.png]]
+
+On the above picture you see UI elements:
+
+;ed: Main editor field.
+
+;gut: Gutter, contains several columns for the active editor: bookmark icons, line numbers, folding icons, line-state marks. 
+
+;tabs: UI-tabs, to switch between different documents.
+
+;map: Mini-map (left side), which is shown here together with micro-map (thin bar on the right side).
+
+;tree: Code-tree, shows 'symbols' from the active document (functions, classes, structs etc) in the tree view.
+
+;filt: Filtering input field for the code-tree. Leaves only those items which contain entered text.
+
+;tb: Toolbar: buttons for some commands. Hidden by default. Configurable via plugin Config Toolbar.
+
+;sb: Sidebar. Has upper and bottom parts, bottom part has buttons to control bottom panels.
+
+;cons: Console. One of the bottom panels. You can activate others (Output and Validate panels) via sidebar.
+
+;stat: Statusbar. Has several cells to show some current states.
+
+;bre: Breadcrumb bar. Is is a plugin which needs to be installed.
+
 = Additional wiki pages =
 
 See also additional wiki pages:
