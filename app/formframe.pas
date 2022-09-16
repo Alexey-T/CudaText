@@ -1450,6 +1450,11 @@ begin
   Ed:= Sender as TATSynEdit;
   St:= Ed.Strings;
 
+  if Ed=Ed1 then
+    EdOther:= Ed2
+  else
+    EdOther:= Ed1;
+
   bChangedLexer:= false;
   bChanged1:= false;
   bChanged2:= false;
@@ -1464,6 +1469,13 @@ begin
         begin
           Ed.AdapterForHiliteBackup:= Ed.AdapterForHilite;
           Ed.AdapterForHilite:= nil;
+
+          if Splitted and EditorsLinked then
+          begin
+           EdOther.AdapterForHiliteBackup:= EdOther.AdapterForHilite;
+           EdOther.AdapterForHilite:= nil;
+          end;
+
           bChangedLexer:= true;
         end;
   end;
@@ -1478,11 +1490,6 @@ begin
   //sync changes in 2 editors, when frame is splitted
   if Splitted and EditorsLinked then
   begin
-    if Ed=Ed1 then
-      EdOther:= Ed2
-    else
-      EdOther:= Ed1;
-
     EdOther.DoCaretsFixIncorrectPos(false);
     EdOther.Update(true);
   end;
