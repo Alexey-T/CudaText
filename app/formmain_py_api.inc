@@ -8917,6 +8917,7 @@ var
   ImgList: TImageList;
   Data: TATStatusData;
   Rect: TRect;
+  bOk: boolean;
 begin
   with AppPython.Engine do
   begin
@@ -9075,6 +9076,15 @@ begin
               FBar.Invalidate;
             end;
             Result:= ReturnNone;
+          end;
+
+        STATUSBAR_MOVE_CELL:
+          begin
+            bOk:= FBar.MovePanel(
+              NIndex,
+              StrToIntDef(StrValue, -1)
+              );
+            Result:= PyBool_FromLong(Ord(bOk));
           end;
 
         STATUSBAR_SET_CELL_COLOR_BACK:
