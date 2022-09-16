@@ -1894,6 +1894,7 @@ Param "id_action" can be:
 
 * STATUSBAR_ADD_CELL: Adds one cell. Param "index": -1: cell will be appended; >=0: cell will be inserted at given index. Param "tag" has special meaning: it is tag value of a new cell. Returns index of new cell, or None if cannot add (e.g. "tag" is busy).
 * STATUSBAR_FIND_CELL: Returns index if cell from tag, or None. Param "value": int tag. Params "index", "tag" ignored.
+* STATUSBAR_MOVE_CELL: Moves cell with specified index or tag, to another index specified in the int param "value". Returns bool: source/target indexes are OK, cell was moved.
 
 * STATUSBAR_GET_IMAGELIST: Returns handle of imagelist object, attached to statusbar, or 0 for none.
 * STATUSBAR_SET_IMAGELIST: Sets handle if imagelist object. Param "value": handle.
@@ -4692,7 +4693,8 @@ It provides:
 * add: dlg_proc: form property "taskbar"
 * add: Editor.get_prop/set_prop: PROP_DIM_UNFOCUSED
 
-1.0.430 (app 1.170.6)
+1.0.430 (app 1.171.0)
+* add: statusbar_proc: STATUSBAR_MOVE_CELL
 * add: Editor.get_prop/set_prop: PROP_CARET_MULTI
 * fix: Editor.action: EDACTION_UPDATE did not work sometimes (cmd_RepaintEditor worked better)
 
