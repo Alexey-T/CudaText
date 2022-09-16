@@ -8323,7 +8323,8 @@ begin
         EDACTION_UPDATE:
           begin
             Ed.Update(
-              AppStrToBool(StrText1)
+              AppStrToBool(StrText1),
+              true{AForceRepaint}
               );
 
             // fix https://github.com/CudaText-addons/cuda_testing_attr/issues/1
