@@ -46,7 +46,7 @@ On the above picture you see UI elements:
 
 ;tb: Toolbar: buttons for some commands. Hidden by default. Configurable via plugin Config Toolbar.
 
-;sb: Sidebar. Has upper and bottom parts, bottom part has buttons to control bottom panels.
+;sb: Sidebar. Has upper and bottom parts, bottom part has buttons to control bottom panels. Plugins can add buttons here, e.g. bottom black button is ExTerminal plugin.
 
 ;cons: Console. One of the bottom panels. You can activate others (Output and Validate panels) via sidebar.
 
