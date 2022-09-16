@@ -4694,5 +4694,6 @@ It provides:
 
 1.0.430 (app 1.170.6)
 * add: Editor.get_prop/set_prop: PROP_CARET_MULTI
+* fix: Editor.action: EDACTION_UPDATE did not work sometimes (cmd_RepaintEditor worked better)
 
 [[Category:CudaText]]
