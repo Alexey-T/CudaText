@@ -1878,13 +1878,13 @@ Param "id_action" possible values:
 
 ===statusbar_proc===
 
- statusbar_proc(id_statusbar, id_action, index=-1, tag=0, value="")
+ statusbar_proc(id_bar, id_action, index=-1, tag=0, value="")
 
 Perform action on statusbar UI control.
 
-* Param "id_statusbar": handle of control. Deprecated: it can be string "main" for main app statusbar.
-* Param "index": index of cell (0-based), if action needs it.
-* Param "tag": int tag of cell. Tag value, if not 0, overrides "index" param. It's needed to address a cell without knowing its index, only by tag. CudaText addresses standard cells by tag in the range 1..20.
+* Param "id_bar": int handle of control.
+* Param "index": int index of cell (0-based), if action needs it.
+* Param "tag": int tag of cell. Tag value, if not 0, overrides "index" param. It's needed to address a cell without knowing its index, only by tag. CudaText addresses standard cells by tags in the range 1..20.
 
 Param "id_action" can be:
 
@@ -4695,6 +4695,7 @@ It provides:
 
 1.0.430 (app 1.171.0)
 * add: statusbar_proc: STATUSBAR_MOVE_CELL
+* delete deprecated: statusbar_proc special handle 'main'
 * add: Editor.get_prop/set_prop: PROP_CARET_MULTI
 * fix: Editor.action: EDACTION_UPDATE did not work sometimes (cmd_RepaintEditor worked better)
 

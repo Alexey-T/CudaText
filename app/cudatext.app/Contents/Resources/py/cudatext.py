@@ -1166,8 +1166,8 @@ def toolbar_proc(id_toolbar, id_action, text="", text2="", command=0, index=-1, 
         command = 'module={};func=_menu_proc_callback_proxy;info="{}";'.format(__name__, sid_callback)
     return ct.toolbar_proc(str(id_toolbar), id_action, text, text2, str(command), index, index2)
 
-def statusbar_proc(id_statusbar, id_action, index=-1, tag=0, value=""):
-    return ct.statusbar_proc(str(id_statusbar), id_action, index, tag, to_str(value))
+def statusbar_proc(h, id_action, index=-1, tag=0, value=""):
+    return ct.statusbar_proc(h, id_action, index, tag, to_str(value))
 
 def canvas_proc(id_canvas, id_action, text='', color=-1, size=-1, x=-1, y=-1, x2=-1, y2=-1, style=-1, p1=-1, p2=-1):
     return ct.canvas_proc(id_canvas, id_action, text, color, size, x, y, x2, y2, style, p1, p2)

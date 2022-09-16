@@ -8908,8 +8908,9 @@ end;
 //statusbar_proc(id_statusbar, id_action, index=-1, tag=0, value="")
 function api_statusbar_proc(Self, Args: PPyObject): PPyObject; cdecl;
 var
-  PtrBar, PtrValue: PChar;
-  StrBar, StrValue: string;
+  HBar: Int64;
+  PtrValue: PChar;
+  StrValue: string;
   FBar: TATStatus;
   NAction: integer;
   NIndex: integer;
@@ -8921,13 +8922,12 @@ var
 begin
   with AppPython.Engine do
   begin
-    if Bool(PyArg_ParseTuple(Args, 'siiLs:statusbar_proc',
-      @PtrBar, @NAction, @NIndex, @NTag, @PtrValue)) then
+    if Bool(PyArg_ParseTuple(Args, 'LiiLs:statusbar_proc',
+      @HBar, @NAction, @NIndex, @NTag, @PtrValue)) then
     begin
-      StrBar:= string(PtrBar);
       StrValue:= string(PtrValue);
 
-      FBar:= PyHelper_StatusbarFromId(StrBar);
+      FBar:= PyHelper_StatusbarFromId(HBar);
       if FBar=nil then
         exit(ReturnNone);
 

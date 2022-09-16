@@ -1,26 +1,17 @@
 {$ifdef nnnn}begin end;{$endif}
 
-function PyHelper_StatusbarFromId(const Str: string): TATStatus;
+function PyHelper_StatusbarFromId(const H: Int64): TATStatus;
 var
-  N: PtrInt;
   Obj: TObject;
 begin
   Result:= nil;
-
-  if Str='main' then
-    exit(fmMain.Status);
-
-  N:= StrToInt64Def(Str, 0);
-  if N<>0 then
+  if H<>0 then
   begin
-    Obj:= TObject(N);
+    Obj:= TObject(H);
     if Obj is TATStatus then
-      exit(TATStatus(Obj))
+      Result:= Obj as TATStatus
     else
-    begin
       MsgLogConsole('ERROR: statusbar_proc() gets bad handle of type '+Obj.ClassName);
-      exit;
-    end;
   end;
 end;
 
