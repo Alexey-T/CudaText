@@ -215,6 +215,7 @@ type
     PyChangeSlow: integer;
     PyOutputCopyToStdout: boolean;
 
+    MaxLineLenForEditingKeepingLexer: integer;
     InfoAboutOptionsEditor: boolean;
     AllowFrameParsing: boolean; //must be set in FormMain.OnShow
     AllowRunPkExec: boolean;
@@ -1996,6 +1997,7 @@ begin
     PyChangeSlow:= 2000;
     PyOutputCopyToStdout:= false;
 
+    MaxLineLenForEditingKeepingLexer:= 2000;
     InfoAboutOptionsEditor:= true;
     AllowFrameParsing:= false;
     AllowRunPkExec:= true;

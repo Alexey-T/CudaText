@@ -1443,16 +1443,36 @@ end;
 procedure TEditorFrame.EditorOnChange(Sender: TObject);
 var
   Ed, EdOther: TATSynEdit;
-  b1, b2: boolean;
+  Caret: TATCaretItem;
+  St: TATStrings;
+  bChangedLexer, bChanged1, bChanged2: boolean;
 begin
   Ed:= Sender as TATSynEdit;
+  St:= Ed.Strings;
 
-  b1:= Ed.Markers.DeleteWithTag(UiOps.FindOccur_TagValue);
-  b2:= false;
+  bChangedLexer:= false;
+  bChanged1:= false;
+  bChanged2:= false;
+
+  //temporary turn off lexer, when editing too long line
+  if Assigned(Ed.AdapterForHilite) and (Ed.Carets.Count>0) then
+  begin
+    Caret:= Ed.Carets[0];
+    if St.IsIndexValid(Caret.PosY) then
+      if (UiOps.MaxLineLenForEditingKeepingLexer>0) and
+        (St.LinesLen[Caret.PosY]>=UiOps.MaxLineLenForEditingKeepingLexer) then
+        begin
+          Ed.AdapterForHiliteBackup:= Ed.AdapterForHilite;
+          Ed.AdapterForHilite:= nil;
+          bChangedLexer:= true;
+        end;
+  end;
+
+  bChanged1:= Ed.Markers.DeleteWithTag(UiOps.FindOccur_TagValue);
   if FBracketHilite then
-    b2:= EditorBracket_ClearHilite(Ed);
+    bChanged2:= EditorBracket_ClearHilite(Ed);
 
-  if b1 or b2 then
+  if bChangedLexer or bChanged1 or bChanged2 then
     Ed.Update;
 
   //sync changes in 2 editors, when frame is splitted
