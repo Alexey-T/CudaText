@@ -374,8 +374,9 @@
   "max_line_len_for_accurate_width": 500,
 
   //Maximal line length, when editing of a line will not reset current lexer to 'none'
-  //for a few seconds. For example, for CPU Intel Core i3, good value is about 1900
+  //for a few seconds. For example, for CPU Intel Core i3, good value is 1900
   //(for longer lines, developer sees caret rendering glitches).
+  //The delay is controlled by option "py_change_slow".
   //Value 0 (or too huge): feature is disabled.
   //Note: this option is global, not per-lexer.
   "max_line_len_for_editing_keeping_lexer": 2000,
