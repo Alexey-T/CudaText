@@ -2349,16 +2349,16 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_LINKS_CLICKS: int: how mouse clicks activate hyperlinks. 0: disabled, 1: single click, 2: double click.
 * PROP_IN_SESSION: bool: document was loaded from "session".
 * PROP_IN_HISTORY: bool: document history was loaded from history file (history embedded to "session" or main history file).
-* PROP_TAB_SPACES: bool: tab-key inserts spaces (not tab-char).
+* PROP_TAB_SPACES: bool: tab-key inserts spaces, not tab-char.
 * PROP_TAB_SIZE: int: size of tab-char.
 * PROP_TAB_COLLECT_MARKERS: bool: tab-key collects (jumps to and deletes) markers (if markers placed).
-* PROP_TAB_TITLE: str: title of tab, useful for untitled tabs, for tabs with picture files.
-* PROP_TAB_COLOR: int: color of tab title background, integer RGB value (e.g. 0x00FF00 is green); COLOR_NONE if not set.
-* PROP_TAB_COLOR_FONT: int: color of tab title font, integer RGB value (e.g. 0x00FF00 is green); COLOR_NONE if not set.
-* PROP_TAB_ICON: int: index of tab icon, ie index in imagelist, which handle you can get via app_proc(PROC_GET_TAB_IMAGELIST).
-* PROP_TAB_PINNED: bool: tab is "pinned" (shows additional confirmation on closing).
-* PROP_TAB_ID: int: unique tab's identifier (one number for main/secondary editors in tab), it is not changed when tab is moved.
-* PROP_TAB_UI_SHOW: bool: tab header is visible on the tabs-bar.
+* PROP_TAB_TITLE: str: custom title of ui-tab; setting to empty string removes the custom title.
+* PROP_TAB_COLOR: int: color of ui-tab title background, integer RGB value (e.g. 0x00FF00 is green); COLOR_NONE if not set.
+* PROP_TAB_COLOR_FONT: int: color of ui-tab title font, integer RGB value (e.g. 0x00FF00 is green); COLOR_NONE if not set.
+* PROP_TAB_ICON: int: index of ui-tab icon, ie index in imagelist, which handle you can get via app_proc(PROC_GET_TAB_IMAGELIST).
+* PROP_TAB_PINNED: bool: ui-tab is "pinned" (shows additional confirmation on closing).
+* PROP_TAB_UI_SHOW: bool: ui-tab header is visible on the tabs-bar.
+* PROP_TAB_ID: int: ui-tab's unique identifier (single value for primary/secondary editors in tab); it is not changed when tab is moved to another position/group.
 * PROP_INDENT_SIZE: int: size of indent for Indent/Unindent commands. N>0: indent in spaces, N<0: indent in tabs, N=0: indent from PROP_TAB_SIZE/PROP_TAB_SPACES.
 * PROP_INDENT_KEEP_ALIGN: bool: command Unindent keeps alignment of block edge, ie don't unindent if any line reached column 0.
 * PROP_INDENT_AUTO: bool: makes next line also indented on Enter command.
@@ -2522,15 +2522,15 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 * PROP_LINKS_SHOW: bool: enable hyperlinks underlining.
 * PROP_LINKS_REGEX: str: regular expression for hyperlinks.
 * PROP_LINKS_CLICKS: int: how mouse clicks activate hyperlinks. 0: disabled, 1: single click, 2: double click.
-* PROP_TAB_SPACES: bool: tab-key inserts spaces.
+* PROP_TAB_SPACES: bool: tab-key inserts spaces, not tab-char.
 * PROP_TAB_SIZE: int: size of tab-char.
 * PROP_TAB_COLLECT_MARKERS: bool: tab-key collects (jumps to and deletes) markers.
-* PROP_TAB_COLOR: int: color of tab title background, integer RGB value (e.g. 0x00FF00 is green); COLOR_NONE if not set.
-* PROP_TAB_COLOR_FONT: int: color of tab title font, integer RGB value (e.g. 0x00FF00 is green); COLOR_NONE if not set.
-* PROP_TAB_TITLE: str: title of tab, useful for untitled tabs.
-* PROP_TAB_ICON: int: index of tab icon, ie index in imagelist, which handle you can get via app_proc(PROC_GET_TAB_IMAGELIST).
-* PROP_TAB_PINNED: bool: tab is "pinned" (shows additional confirmation on closing).
-* PROP_TAB_UI_SHOW: bool: tab header is visible on the tabs-bar.
+* PROP_TAB_COLOR: int: color of ui-tab title background, integer RGB value (e.g. 0x00FF00 is green); COLOR_NONE if not set.
+* PROP_TAB_COLOR_FONT: int: color of ui-tab title font, integer RGB value (e.g. 0x00FF00 is green); COLOR_NONE if not set.
+* PROP_TAB_TITLE: str: custom title of ui-tab; setting to empty string removes the custom title.
+* PROP_TAB_ICON: int: index of ui-tab icon, ie index in imagelist, which handle you can get via app_proc(PROC_GET_TAB_IMAGELIST).
+* PROP_TAB_PINNED: bool: ui-tab is "pinned" (shows additional confirmation on closing).
+* PROP_TAB_UI_SHOW: bool: ui-tab header is visible on the tabs-bar.
 * PROP_INDENT_SIZE: int: size of indent for Indent/Unindent commands. N>0: indent in spaces, N<0: indent in tabs, N=0: indent from PROP_TAB_SIZE/PROP_TAB_SPACES.
 * PROP_INDENT_KEEP_ALIGN: bool: command Unindent keeps alignment of block edge, ie don't unindent if any line reached column 0.
 * PROP_INDENT_AUTO: bool: makes next line also indented on Enter command.
@@ -4696,6 +4696,7 @@ It provides:
 * delete depreacted: toolbar_proc special handle 'top'
 * add: statusbar_proc: STATUSBAR_MOVE_CELL
 * add: Editor.get_prop/set_prop: PROP_CARET_MULTI
+* add: Editor.set_prop: PROP_TAB_TITLE setting to empty str, resets the caption
 * fix: Editor.action: EDACTION_UPDATE did not work sometimes (cmd_RepaintEditor worked better)
 
 [[Category:CudaText]]
