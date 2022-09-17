@@ -600,7 +600,7 @@ begin
   if AValue='?' then Exit;
   bUpdate:= FTabCaption<>AValue;
 
-  FTabCaption:= AValue; //don't check Upd here (for Win32)
+  FTabCaption:= AValue; //don't check bUpdate here (for Win32)
 
   if bUpdate then
     DoPyEventState(Ed1, EDSTATE_TAB_TITLE);
@@ -2768,7 +2768,9 @@ begin
         FOnAddRecent(Ed);
 
     if not TabCaptionFromApi then
-      UpdateCaptionFromFilename;
+      UpdateCaptionFromFilename
+    else
+      DoOnChangeCaption; //to remove 'modified' font color
 
     DoSaveUndo(Ed, SFileName);
     DoPyEvent(Ed, cEventOnSaveAfter, []);
