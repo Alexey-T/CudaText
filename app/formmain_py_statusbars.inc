@@ -9,7 +9,7 @@ begin
   begin
     Obj:= TObject(H);
     if Obj is TATStatus then
-      Result:= Obj as TATStatus
+      Result:= TATStatus(Obj)
     else
       MsgLogConsole('ERROR: statusbar_proc() gets bad handle of type '+Obj.ClassName);
   end;
