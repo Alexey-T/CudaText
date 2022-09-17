@@ -653,11 +653,13 @@ begin
     else
     begin
       Name1:= ExtractFileName_Fixed(FFileName);
-      if Name1='' then Name1:= msgUntitledTab;
+      if Name1='' then
+        Name1:= msgUntitledTab;
       Name1:= msgModified[Ed1.Modified]+Name1;
 
       Name2:= ExtractFileName_Fixed(FFileName2);
-      if Name2='' then Name2:= msgUntitledTab;
+      if Name2='' then
+        Name2:= msgUntitledTab;
       Name2:= msgModified[Ed2.Modified]+Name2;
 
       SFinalCaption:= Name1+' | '+Name2;
