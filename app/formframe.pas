@@ -627,7 +627,7 @@ end;
 
 procedure TEditorFrame.UpdateCaptionFromFilename;
 var
-  Name1, Name2: string;
+  Name1, Name2, SFinalCaption: string;
 begin
   //avoid updating caption if API already had set it
   if FTabCaptionFromApi then
@@ -644,12 +644,12 @@ begin
       Name1:= ExtractFileName_Fixed(FFileName);
     Name1:= msgModified[Ed1.Modified]+Name1;
 
-    TabCaption:= Name1;
+    SFinalCaption:= Name1;
   end
   else
   begin
     if (FFileName='') and (FFileName2='') then
-      TabCaption:= FTabCaptionUntitled
+      SFinalCaption:= FTabCaptionUntitled
     else
     begin
       Name1:= ExtractFileName_Fixed(FFileName);
@@ -660,10 +660,11 @@ begin
       if Name2='' then Name2:= msgUntitledTab;
       Name2:= msgModified[Ed2.Modified]+Name2;
 
-      TabCaption:= Name1+' | '+Name2;
+      SFinalCaption:= Name1+' | '+Name2;
     end;
   end;
 
+  TabCaption:= SFinalCaption;
   UpdateTabTooltip;
 end;
 
