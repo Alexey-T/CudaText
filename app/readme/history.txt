@@ -9,6 +9,7 @@
 + add: few APIs for LSP Client
 + add: better calculate wrap positions for CJK text (thanks @lookoutside)
 + add: Addon Manager: add option "Verify HTTPS certificates" (thanks @veksha, @ViCrack)
++ add: option "renderer_anti_flicker" is now per-lexer (before it was global)
 - fix: option "renderer_anti_flicker":20 gave regression in FindInFiles4 plugin's UI
 - fix: default value of "key_left_right_wrap_with_carets" was not like default.json tells (thanks @cser)
 - fix: in some cases, Delete/typing command with multi-carets places multi-carets wrong (thanks @cser)
