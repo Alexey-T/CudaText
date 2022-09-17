@@ -314,7 +314,6 @@ type
     procedure SplitterMoved(Sender: TObject);
     procedure TreeOnDeletion(Sender: TObject; Node: TTreeNode);
     procedure UpdateEds(AUpdateWrapInfo: boolean=false);
-    procedure UpdateCaptionFromFilename;
     function GetLexer(Ed: TATSynEdit): TecSyntAnalyzer;
     function GetLexerLite(Ed: TATSynEdit): TATLiteLexer;
     function GetLexerName(Ed: TATSynEdit): string;
@@ -364,6 +363,7 @@ type
     property TabId: integer read FTabId;
     property TabIsPreview: boolean read GetIsPreview write SetIsPreview;
     property TabVisible: boolean read GetTabVisible write SetTabVisible;
+    procedure UpdateCaptionFromFilename;
 
     property CachedTreeViewInited[Ed: TATSynEdit]: boolean read GetCachedTreeviewInited;
     property CachedTreeView[Ed: TATSynEdit]: TTreeView read GetCachedTreeview;

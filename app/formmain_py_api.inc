@@ -4103,8 +4103,16 @@ begin
           begin
             if Assigned(F) then
             begin
-              F.TabCaptionFromApi:= true;
-              F.TabCaption:= Str;
+              if Str<>'' then
+              begin
+                F.TabCaptionFromApi:= true;
+                F.TabCaption:= Str;
+              end
+              else
+              begin
+                F.TabCaptionFromApi:= false;
+                F.UpdateCaptionFromFilename;
+              end;
             end;
           end;
 
