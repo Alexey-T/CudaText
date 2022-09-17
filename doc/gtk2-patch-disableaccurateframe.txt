@@ -1,0 +1,10 @@
+In the Lazarus file "lcl/interfaces/gtk2/gtk2wsforms.pp", find 
+
+{$IFDEF HASX}
+  if (AWinControl = Application.MainForm) and
+    not Application.HasOption('disableaccurateframe') then
+      Gtk2WidgetSet.CreateDummyWidgetFrame(-1, -1, -1, -1);
+{$ENDIF}
+
+and change the IFDEF line to e.g.
+{$IFDEF HASX11_xxx}
