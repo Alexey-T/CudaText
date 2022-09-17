@@ -1850,13 +1850,11 @@ Example creates popup-menu with one item and shows it at (x=100, y=100):
 
 ===toolbar_proc===
 
- toolbar_proc(id_toolbar, id_action, text="", text2="", command=0, index=-1, index2=-1)
+ toolbar_proc(id_bar, id_action, text="", text2="", command=0, index=-1, index2=-1)
 
 Perform action on toolbar UI control.
 
-Param "id_toolbar": int handle of toolbar.
-Deprecated: it can be string "top" for main app toolbar.
-Function returns None, if "id_toolbar" is not correct.
+Param "id_bar": int handle of toolbar.
 
 Param "id_action" possible values:
 
@@ -1882,7 +1880,7 @@ Param "id_action" possible values:
 
 Perform action on statusbar UI control.
 
-* Param "id_bar": int handle of control.
+* Param "id_bar": int handle of statusbar.
 * Param "index": int index of cell (0-based), if action needs it.
 * Param "tag": int tag of cell. Tag value, if not 0, overrides "index" param. It's needed to address a cell without knowing its index, only by tag. CudaText addresses standard cells by tags in the range 1..20.
 
@@ -4694,8 +4692,9 @@ It provides:
 * add: Editor.get_prop/set_prop: PROP_DIM_UNFOCUSED
 
 1.0.430 (app 1.171.0)
-* add: statusbar_proc: STATUSBAR_MOVE_CELL
 * delete deprecated: statusbar_proc special handle 'main'
+* delete depreacted: toolbar_proc special handle 'top'
+* add: statusbar_proc: STATUSBAR_MOVE_CELL
 * add: Editor.get_prop/set_prop: PROP_CARET_MULTI
 * fix: Editor.action: EDACTION_UPDATE did not work sometimes (cmd_RepaintEditor worked better)
 
