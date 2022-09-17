@@ -192,6 +192,7 @@ type
     FSaveHistory: boolean;
     FEditorsLinked: boolean;
     FCachedTreeview: array[0..1] of TTreeView;
+    FLexerBackup: array[0..1] of TATAdapterHilite;
     FLexerChooseFunc: TecLexerChooseFunc;
     FLexerNameBackup: string;
     FBracketHilite: boolean;
@@ -793,11 +794,16 @@ begin
 end;
 
 procedure TEditorFrame.RestoreSavedLexer(Ed: TATSynEdit);
+var
+  EdIndex: integer;
+  Ada: TATAdapterHilite;
 begin
-  if Assigned(Ed.AdapterForHiliteBackup) then
+  EdIndex:= EditorObjToIndex(Ed);
+  Ada:= FLexerBackup[EdIndex];
+  if Assigned(Ada) then
   begin
-    Ed.AdapterForHilite:= Ed.AdapterForHiliteBackup;
-    Ed.AdapterForHiliteBackup:= nil;
+    Ed.AdapterForHilite:= Ada;
+    FLexerBackup[EdIndex]:= nil;
     Ed.Update;
     DoOnUpdateStatusbar; //replace lexer name 'none' to restored one
   end;
@@ -1467,12 +1473,12 @@ begin
       if (UiOps.MaxLineLenForEditingKeepingLexer>0) and
         (St.LinesLen[Caret.PosY]>=UiOps.MaxLineLenForEditingKeepingLexer) then
         begin
-          Ed.AdapterForHiliteBackup:= Ed.AdapterForHilite;
+          FLexerBackup[EditorObjToIndex(Ed)]:= Ed.AdapterForHilite;
           Ed.AdapterForHilite:= nil;
 
           if Splitted and EditorsLinked then
           begin
-           EdOther.AdapterForHiliteBackup:= EdOther.AdapterForHilite;
+           FLexerBackup[EditorObjToIndex(EdOther)]:= EdOther.AdapterForHilite;
            EdOther.AdapterForHilite:= nil;
           end;
 
