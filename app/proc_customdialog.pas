@@ -725,7 +725,7 @@ begin
     Ed.OptCaretBlinkEnabled:= EditorOps.OpCaretBlinkEn;
   end;
 
-  Ed.OptFlickerReducingPause:= 0; //after EditorApplyOps
+  Ed.OptFlickerReducingPause:= 0; //after EditorApplyOps; fix issue #4372
   Ed.OptDimUnfocusedBack:= 0; //after EditorApplyOps; fix issue #4346
 end;
 
