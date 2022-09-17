@@ -189,6 +189,7 @@ begin
 
   Ed.Font.Quality:= Op.OpFontQuality;
   Ed.OptShowFontLigatures:= Op.OpFontLigatures;
+  Ed.OptFlickerReducingPause:= Op.OpFlickerReducingPause;
 
   Ed.OptScrollAnimationSteps:= Op.OpScrollAnimationSteps;
   Ed.OptScrollAnimationSleep:= Op.OpScrollAnimationSleep;

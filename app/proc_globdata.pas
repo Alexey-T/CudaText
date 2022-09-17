@@ -496,8 +496,10 @@ type
     OpFontSize_original_i: integer;
     OpFontSize_original_b: integer;
     OpFontSize_original_bi: integer;
+
     OpFontQuality: TFontQuality;
     OpFontLigatures: boolean;
+    OpFlickerReducingPause: integer;
 
     OpScrollAnimationSteps: integer;
     OpScrollAnimationSleep: integer;
@@ -1611,6 +1613,7 @@ begin
 
     OpFontQuality:= fqDefault;
     OpFontLigatures:= true;
+    OpFlickerReducingPause:= 0;
 
     OpScrollAnimationSteps:= cInitScrollAnimationSteps;
     OpScrollAnimationSleep:= cInitScrollAnimationSleep;

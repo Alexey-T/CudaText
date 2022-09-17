@@ -963,7 +963,6 @@ begin
   if ATEditorScalePercents=0 then
     ATEditorScalePercents:= Max(100, 100*Screen.PixelsPerInch div 96); //some Linux'es return PixelsPerInch=91
 
-  ATEditorOptions.FlickerReducingPause:= cfg.GetValue('renderer_anti_flicker'+cOptionSystemSuffix, ATEditorOptions.FlickerReducingPause);
   ATEditorOptions.CharSizeProportional:= cfg.GetValue('unicode_proportional', ATEditorOptions.CharSizeProportional);
   ATEditorOptions.CharScaleFullWidth:= cfg.GetValue('unicode_full_width', ATEditorOptions.CharScaleFullWidth);
   ATEditorOptions.BookmarksAutoDelete:= cfg.GetValue('auto_delete_bookmarks', ATEditorOptions.BookmarksAutoDelete);
@@ -1082,6 +1081,7 @@ begin
 
   Op.OpFontQuality:= TFontQuality(cfg.GetValue('font_quality'+cOptionSystemSuffix, Ord(Op.OpFontQuality)));
   Op.OpFontLigatures:= cfg.GetValue('font_ligatures', Op.OpFontLigatures);
+  Op.OpFlickerReducingPause:= cfg.GetValue('renderer_anti_flicker'+cOptionSystemSuffix, Op.OpFlickerReducingPause);
 
   Op.OpActiveBorderRaw:= cfg.GetValue('ui_active_border', Op.OpActiveBorderRaw);
   Op.OpActiveBorderInControls:= Op.OpActiveBorderRaw > 0;

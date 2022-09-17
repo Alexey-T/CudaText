@@ -110,7 +110,6 @@
   //Value 0: feature is disabled.
   //Value 1...999: it's timer delay in milliseconds. 15...40 seems OK for slow systems.
   //Value 1000: use special anti-flickering code, works better on some systems.
-  //Note: this option is global, not per-lexer.
   "renderer_anti_flicker": 0,
   "renderer_anti_flicker__linux": 0,
   "renderer_anti_flicker__mac": 0,
