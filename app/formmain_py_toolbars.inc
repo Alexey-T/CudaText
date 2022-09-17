@@ -1,26 +1,17 @@
 {$ifdef nnnn}begin end;{$endif}
 
-function PyHelper_ToolbarFromId(const Str: string): TATFlatToolbar;
+function PyHelper_ToolbarFromId(const H: Int64): TATFlatToolbar;
 var
-  N: PtrInt;
   Obj: TObject;
 begin
   Result:= nil;
-
-  if Str='top' then
-    exit(fmMain.ToolbarMain);
-
-  N:= StrToInt64Def(Str, 0);
-  if N<>0 then
+  if H<>0 then
   begin
-    Obj:= TObject(N);
+    Obj:= TObject(H);
     if Obj is TATFlatToolbar then
-      exit(TATFlatToolbar(Obj))
+      Result:= TATFlatToolbar(Obj)
     else
-    begin
       MsgLogConsole('ERROR: toolbar_proc() gets bad handle of type '+Obj.ClassName);
-      exit;
-    end;
   end;
 end;
 

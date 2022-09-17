@@ -8782,23 +8782,18 @@ end;
 //toolbar_proc(id_toolbar, id_action, text="", text2="", command="", index=-1, index2=-1)
 function api_toolbar_proc(Self, Args: PPyObject): PPyObject; cdecl;
 var
-  PtrToolbar, PtrText, PtrText2, PtrCmd: PChar;
-  StrToolbar: string;
+  HBar: Int64;
+  PtrText, PtrText2, PtrCmd: PChar;
   FToolbar: TATFlatToolbar;
   NAction: integer;
   NIndex1, NIndex2: integer;
 begin
   with AppPython.Engine do
   begin
-    if Bool(PyArg_ParseTuple(Args, 'sisssii:toolbar_proc',
-      @PtrToolbar, @NAction, @PtrText, @PtrText2, @PtrCmd, @NIndex1, @NIndex2)) then
+    if Bool(PyArg_ParseTuple(Args, 'Lisssii:toolbar_proc',
+      @HBar, @NAction, @PtrText, @PtrText2, @PtrCmd, @NIndex1, @NIndex2)) then
     begin
-      StrToolbar:= string(PtrToolbar);
-      //StrText:= string(PtrText);
-      //StrText2:= string(PtrText2);
-      //StrCmd:= string(PtrCmd);
-
-      FToolbar:= PyHelper_ToolbarFromId(StrToolbar);
+      FToolbar:= PyHelper_ToolbarFromId(HBar);
       if FToolbar=nil then
         exit(ReturnNone);
 
