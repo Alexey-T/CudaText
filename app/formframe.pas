@@ -630,7 +630,11 @@ var
   Name1, Name2: string;
 begin
   //avoid updating caption if API already had set it
-  if FTabCaptionFromApi then exit;
+  if FTabCaptionFromApi then
+  begin
+    DoOnChangeCaption; //remove 'modified' font color, repaint
+    exit;
+  end;
 
   if EditorsLinked then
   begin
@@ -1535,7 +1539,6 @@ begin
     DoRemovePreviewStyle;
 
   UpdateCaptionFromFilename;
-  DoOnChangeCaption;
 
   if AWithEvent then
     DoPyEventState(Ed, EDSTATE_MODIFIED);
@@ -2767,10 +2770,7 @@ begin
       if Assigned(FOnAddRecent) then
         FOnAddRecent(Ed);
 
-    if not TabCaptionFromApi then
-      UpdateCaptionFromFilename
-    else
-      DoOnChangeCaption; //to remove 'modified' font color
+    UpdateCaptionFromFilename;
 
     DoSaveUndo(Ed, SFileName);
     DoPyEvent(Ed, cEventOnSaveAfter, []);
