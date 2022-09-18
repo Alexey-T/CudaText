@@ -7,7 +7,7 @@ begin
   Result:= nil;
   if H<>0 then
   begin
-    Obj:= TObject(H);
+    Obj:= TObject(PtrInt(H));
     if Obj is TATStatus then
       Result:= TATStatus(Obj)
     else
