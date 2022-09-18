@@ -13,7 +13,7 @@
 - fix: option "renderer_anti_flicker":20 gave regression in FindInFiles4 plugin's UI
 - fix: default value of "key_left_right_wrap_with_carets" was not like default.json tells (thanks @cser)
 - fix: in some cases, Delete/typing command with multi-carets places multi-carets wrong (thanks @cser)
-- fix: regression in 1.169.2: Emmet fails (thanks @NetLancer)
+- fix: regression in 1.169.2: Emmet engine broken
 - fix: regression in 1.167: Down-arrow from long wrapped line, to the last short line
 - fix: after mouse wheel zoomimg, scrollbar position becomes very incorrect (thanks @veksha)
 - fix: "mouse_wheel_zoom":false -> Ctrl+wheel jumps to file beginning
