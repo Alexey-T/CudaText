@@ -2120,8 +2120,10 @@ Param "options" must be 0 or sum of the following flags:
 
  get_text_all()
 
-Returns the entire editor text, as string.
-Returns "\n" as line-breaks.
+Returns the entire editor text as string.
+
+Notes:
+* All line breaks are returned as LF, ie "\n".
 
 ===Editor.set_text_all===
 
