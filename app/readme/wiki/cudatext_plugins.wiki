@@ -1502,7 +1502,7 @@ To use the server in LSP Client, create a file "lsp_c.json" in the "settings" di
     "C": "c"
   },
   "cmd_unix": [
-      "clangd-9",
+      "clangd-12",
   ],
   "cmd_windows": [
       "clangd",
@@ -1510,9 +1510,9 @@ To use the server in LSP Client, create a file "lsp_c.json" in the "settings" di
 }
 </syntaxhighlight>
 
-Replace "clangd-9" with "ccls" if it was chosen.
+Replace "clangd*" with "ccls" if it was chosen.
 
-On Windows: added the "bin" directory of mingw64 to PATH so clangd is already in PATH.
+On Windows: you must add the "bin" directory of mingw64 to the PATH so clangd is in the PATH.
 
 ==LSP server for Red==
 
