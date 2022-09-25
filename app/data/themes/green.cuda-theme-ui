@@ -53,7 +53,7 @@
   "EdMarkedRangeBg" : "#B0E0F0",
   "TabBg" : "#AAC8C8",
   "SideBg" : "#008080",
-  "SideBadgeBg" : "#00FF00",
+  "SideBadgeBg" : "#0000FF",
   "SideBadgeFont" : "#FFFFFF",
   "TabFont" : "#505050",
   "TabFontActive" : "",
