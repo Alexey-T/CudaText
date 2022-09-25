@@ -179,6 +179,7 @@ TYPES = {
     "fasm": ['Assembly FASM'],
     "feature": ['Gherkin'],
     "fish": ['Fish'],
+    "flx": ['Felix'],
     "fmx": ['Delphi resources'],
     "for": ['Fortran'],
     "fountain": ['Fountain'],
