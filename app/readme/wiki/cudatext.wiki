@@ -1483,30 +1483,30 @@ Plugin also gives command "Hide standard buttons" which allows to hide default C
 
 Statusbar is fully configurable: you can change order/visibility of cells, width and alignment of cells. Option "ui_statusbar_panels" configures set of cells. Predefined cells are:
 
-* Caret(s) info. Click on it shows Go To dialog.
-* Encoding name. Click on it shows menu to change encoding of document.
-* Line-ends characters. Click on it shows menu to change line-ends in entire document.
-* Lexer name. Click on it shows lexers menu.
-* Tab-char size. Shows "Tab: 4" if Tabulation-key inserts tab-char, or "Spaces: 4" if Tabulation-key inserts spaces. Click on it shows menu:
+* '''Carets info'''. Click on it shows Go To dialog.
+* '''Encoding name'''. Click on it shows menu to change encoding of document.
+* '''Line-ends characters'''. Click on it shows menu to change line-ends in entire document.
+* '''Lexer name'''. Click on it shows lexers menu.
+* '''Tab-char size'''. Shows "Tab: 4" if Tabulation-key inserts tab-char, or "Spaces: 4" if Tabulation-key inserts spaces. Click on it shows menu:
 ** To change tabulation size (for the active document).
 ** To change mode "Tabulation-key inserts spaces".
 ** 2 items for actions "Convert indentation to spaces", "Convert indentation to tabs" like in Sublime Text.
-* Text insert/overwrite mode, toggled by Ins-key. Shows "Ins" or "Ovr".
-* Mouse selection mode: "-" for normal mode, "||" for column mode (mouse dragging makes column selection even without Alt+ key).
-* Message from program or plugins (usually it's last auto-sized cell).
-* Word-wrapping mode. Cell is hidden by default.
+* '''Text insert/overwrite mode''', toggled by Ins-key. Shows "Ins" or "Ovr".
+* '''Mouse selection mode''': "-" for normal mode, "||" for column mode (mouse dragging makes column selection even without Alt+ key).
+* '''Message''' from program or plugins (usually it's last auto-sized cell).
+* '''Word-wrapping mode'''. Cell is hidden by default.
 ** No wrapping.
 ** Wrapping at window edge.
 ** Wrapping at fixed margin.
-* Font zoom value in percents. Cell is hidden by default.
+* '''Font zoom value''' in percents. Cell is hidden by default.
 
 The cell "carets info" shows value of one of options:
 
-* "ui_statusbar_no_sel": Used when there is no selection
-* "ui_statusbar_small_sel": Used when there is single-line selection
-* "ui_statusbar_str_sel": Used when selection is multi-line
-* "ui_statusbar_col_sel": Used for column-selection mode
-* "ui_statusbar_carets": Used when 2 or more carets are placed
+* '''"ui_statusbar_no_sel"''': Used when there is no selection
+* '''"ui_statusbar_small_sel"''': Used when there is single-line selection
+* '''"ui_statusbar_str_sel"''': Used when selection is multi-line
+* '''"ui_statusbar_col_sel"''': Used for column-selection mode
+* '''"ui_statusbar_carets"''': Used when 2 or more carets are placed
 
 In the above "ui_statusbar_" options, macros are supported:
 
