@@ -3372,6 +3372,10 @@ begin
   DoApplyFont_Ui;
   DoApplyFont_Output;
 
+  fmConsole.EdInput.OptMouseMiddleClickAction:= TATEditorMiddleClickAction(EditorOps.OpMouseMiddleClickAction);
+  if Assigned(CodeTreeFilterInput) then
+    CodeTreeFilterInput.OptMouseMiddleClickAction:= TATEditorMiddleClickAction(EditorOps.OpMouseMiddleClickAction);
+
   if FConsoleMustShow then
     DoShowConsole(false);
 

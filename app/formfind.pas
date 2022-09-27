@@ -1126,6 +1126,9 @@ begin
   edFind.OptCaretBlinkTime:= EditorOps.OpCaretBlinkTime;
   edRep.OptCaretBlinkTime:= EditorOps.OpCaretBlinkTime;
 
+  edFind.OptMouseMiddleClickAction:= TATEditorMiddleClickAction(EditorOps.OpMouseMiddleClickAction);
+  edRep.OptMouseMiddleClickAction:= TATEditorMiddleClickAction(EditorOps.OpMouseMiddleClickAction);
+
   UpdateFormHeight;
   UpdateFonts;
   FixFormPositionToDesktop(Self);

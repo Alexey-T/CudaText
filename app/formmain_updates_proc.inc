@@ -654,6 +654,18 @@ begin
       DoOps_LoadOptionsLexerSpecific(F, F.Ed2);
   end;
 
+  if Assigned(fmFind) then
+  begin
+    fmFind.edFind.OptMouseMiddleClickAction:= TATEditorMiddleClickAction(EditorOps.OpMouseMiddleClickAction);
+    fmFind.edRep.OptMouseMiddleClickAction:= TATEditorMiddleClickAction(EditorOps.OpMouseMiddleClickAction);
+  end;
+
+  if Assigned(fmConsole) then
+    fmConsole.EdInput.OptMouseMiddleClickAction:= TATEditorMiddleClickAction(EditorOps.OpMouseMiddleClickAction);
+
+  if Assigned(CodeTreeFilterInput) then
+    CodeTreeFilterInput.OptMouseMiddleClickAction:= TATEditorMiddleClickAction(EditorOps.OpMouseMiddleClickAction);
+
   UpdateStatusbar;
 end;
 
