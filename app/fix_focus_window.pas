@@ -472,7 +472,7 @@ begin
             param:= AppExpandFilename(param);
 
             bAddDir :=
-              (param[1] <> '-') and // https://github.com/Alexey-T/CudaText/issues/2578
+              (param[1] <> '-') and // issue #2578
               (workDir <> '') and
               not IsOsFullPath(param);
 
