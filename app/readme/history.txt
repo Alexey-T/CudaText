@@ -3,6 +3,10 @@
   - fixed
   * changed
 
+1.171.1 (2022/09)
+
++ add: option "mouse_middle_click":2 (paste on middle click) works also for one-line inputs: Find/Replace, Console, Code-tree filter
+ 
 1.171.0 (2022/09)
 
 + add: when editing too long lines (2000+ chars), editor turns lexer off for a few seconds. That is to prevent caret rendering glitches on such lines. Option is added for this: "max_line_len_for_editing_keeping_lexer".
