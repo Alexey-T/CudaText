@@ -734,6 +734,8 @@ function AppSessionName_ForHistoryFile: string;
 function IsDefaultSession(const S: string): boolean;
 function IsDefaultSessionActive: boolean;
 
+function IsSetToOneInstance: boolean;
+
 function MsgBox(const AText: string; AFlags: Longint): integer;
 procedure MsgBadConfig(const fn, msg: string);
 procedure MsgStdout(const Str: string; AllowMsgBox: boolean = false);
@@ -3641,6 +3643,30 @@ begin
   FreeAndNil(AppListTimers);
 end;
 }
+
+function IsSetToOneInstance: boolean;
+var
+  c: TJSONConfig;
+begin
+  //default must be True, issue #3337
+  Result := True;
+  c := TJSONConfig.Create(nil);
+  try
+    try
+      c.Filename := AppFile_OptionsUser;
+    except
+      on E: Exception do
+      begin
+        MsgBadConfig(AppFile_OptionsUser, E.Message);
+        Exit;
+      end;
+    end;
+    Result := c.GetValue('ui_one_instance', Result);
+  finally
+    c.Free;
+  end;
+end;
+
 
 initialization
 

@@ -132,8 +132,6 @@ type
     property UniqueAppId: string read FUniqueAppId;
   end;
 
-//Read ui_one_instance option from user config file and get result
-function IsSetToOneInstance: boolean;
 //Block another window instance if Single Instance is True
 function IsAnotherInstanceRunning:boolean;
 procedure debug(const text: String);
@@ -154,29 +152,6 @@ type
 
 var
   SwitchFunc: TSwitchFunc = nil;
-
-function IsSetToOneInstance: boolean;
-var
-  c: TJSONConfig;
-begin
-  //default must be True, issue #3337
-  Result := True;
-  c := TJSONConfig.Create(nil);
-  try
-    try
-      c.Filename := AppFile_OptionsUser;
-    except
-      on E: Exception do
-      begin
-        MsgBadConfig(AppFile_OptionsUser, E.Message);
-        Exit;
-      end;
-    end;
-    Result := c.GetValue('ui_one_instance', Result);
-  finally
-    c.Free;
-  end;
-end;
 
 { TInstanceManage }
 
@@ -477,13 +452,11 @@ var
 begin
   Result := False;
 
-  if IsSetToOneInstance then
-  begin
-    InstanceManage := TInstanceManage.GetInstance();
-    InstanceManage.Check;
+  InstanceManage := TInstanceManage.GetInstance();
+  InstanceManage.Check;
 
-    case InstanceManage.Status of
-      isSecond:
+  case InstanceManage.Status of
+    isSecond:
         begin
           cli := '';
           workDir := GetCurrentDirUTF8;
@@ -512,7 +485,6 @@ begin
           InstanceManage.ActivateFirstInstance(BytesOf(cli));
           Result := True;
         end;
-    end;
   end;
 end;
 

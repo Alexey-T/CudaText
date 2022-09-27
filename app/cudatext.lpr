@@ -22,7 +22,8 @@ uses
 begin
   {$IFDEF WINDOWS}
   if not AppAlwaysNewInstance then
-    if IsAnotherInstanceRunning then Exit;
+    if IsSetToOneInstance then
+      if IsAnotherInstanceRunning then Exit;
   Application.{%H-}MainFormOnTaskBar:= True; //for issue #2864, do it for any MonitorCount
   {$IFEND}
   Application.Title:='CudaText';
