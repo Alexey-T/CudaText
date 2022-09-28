@@ -3715,7 +3715,6 @@ type
 
 var
   AppUniqInstDummy: TAppUniqInstDummy = nil;
-  AppUniqInstParameters: array of string = nil;
 
 function IsAnotherInstanceRunning: boolean;
 var
@@ -3730,17 +3729,12 @@ begin
   GetParamsForUniqueInstance(CmdParams);
   AppUniqInst.Loaded(CmdParams);
   Result:= AppUniqInst.PriorInstanceRunning;
-  //Writeln('IsAnotherInstRunning: '+BoolToStr(Result, true));
 end;
 
 procedure TAppUniqInstDummy.HandleOtherInstance(Sender: TObject;
   ParamCount: Integer; const Parameters: array of String);
-var
-  i: integer;
 begin
-  SetLength(AppUniqInstParameters, ParamCount);
-  for i:= 0 to ParamCount-1 do
-    AppUniqInstParameters[i]:= Parameters[i];
+  //dummy
 end;
 {$endif}
 
