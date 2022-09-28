@@ -339,7 +339,7 @@ end;
 {$endif}
 
 
-procedure TfmMain.UniqInstanceOtherInstance(Sender: TObject;
+procedure TfmMain.HandleOtherInstance(Sender: TObject;
   ParamCount: Integer; const Parameters: array of String);
 begin
   if not IsAllowedToOpenFileNow then exit;

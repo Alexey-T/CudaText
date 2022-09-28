@@ -44,6 +44,7 @@ uses
   proc_cmd,
   proc_msg,
   proc_str,
+  AppUniqueInstance,
   ec_LexerList,
   ec_SyntAnal;
 
@@ -71,6 +72,15 @@ type
   end;
 
   TAppCommandsDelayed = specialize TQueue<TAppCommandDelayed>;
+
+  TAppStringArray = array of string;
+
+{$ifdef unix}
+var
+  AppUniqInst: TUniqueInstance = nil;
+
+function IsAnotherInstanceRunning: boolean;
+{$endif}
 
 var
   AppSessionIsLoading: boolean = false;
@@ -1112,6 +1122,7 @@ uses
   ATSynEdit_LineParts,
   ATSynEdit_Adapter_EControl,
   ec_syntax_format,
+  proc_files,
   proc_colors,
   proc_lexer_styles;
 
@@ -3667,6 +3678,72 @@ begin
   end;
 end;
 
+procedure GetParamsForUniqueInstance(out AParams: TAppStringArray);
+var
+  N, i: integer;
+  S, WorkDir: string;
+  bAddDir: boolean;
+begin
+  WorkDir:= GetCurrentDirUTF8;
+
+  N:= ParamCount;
+  SetLength(AParams, N);
+
+  for i:= 1 to N do
+  begin
+    S:= ParamStr(i);
+    S:= AppExpandFilename(S);
+
+    bAddDir :=
+      (S[1] <> '-') and
+      (WorkDir <> '') and
+      not IsOsFullPath(S);
+
+    if bAddDir then
+      S:= WorkDir+DirectorySeparator+S;
+
+    AParams[i-1]:= S;
+  end;
+end;
+
+{$ifdef unix}
+type
+  TAppUniqInstDummy = class
+  public
+    procedure HandleOtherInstance(Sender: TObject; ParamCount: Integer; const Parameters: array of String);
+  end;
+
+var
+  AppUniqInstDummy: TAppUniqInstDummy = nil;
+  AppUniqInstParameters: array of string = nil;
+
+function IsAnotherInstanceRunning: boolean;
+var
+  CmdParams: TAppStringArray;
+begin
+  AppUniqInstDummy:= TAppUniqInstDummy.Create;
+  AppUniqInst:= TUniqueInstance.Create(nil);
+  AppUniqInst.Identifier:= AppUserName+'_'+AppServerId; //added username to fix CudaText #4079
+  AppUniqInst.OnOtherInstance:= @AppUniqInstDummy.HandleOtherInstance;
+  AppUniqInst.Enabled:= true;
+
+  GetParamsForUniqueInstance(CmdParams);
+  AppUniqInst.Loaded(CmdParams);
+  Result:= AppUniqInst.PriorInstanceRunning;
+  //Writeln('IsAnotherInstRunning: '+BoolToStr(Result, true));
+end;
+
+procedure TAppUniqInstDummy.HandleOtherInstance(Sender: TObject;
+  ParamCount: Integer; const Parameters: array of String);
+var
+  i: integer;
+begin
+  SetLength(AppUniqInstParameters, ParamCount);
+  for i:= 0 to ParamCount-1 do
+    AppUniqInstParameters[i]:= Parameters[i];
+end;
+{$endif}
+
 
 initialization
 
@@ -3769,5 +3846,12 @@ finalization
 
   //AppFreeListTimers; //somehow gives crash on exit, if TerminalPlus was used, in timer_proc(TIMER_DELETE...)
   //AppClearPluginLists;
+
+  {$ifdef unix}
+  if Assigned(AppUniqInst) then
+    FreeAndNil(AppUniqInst);
+  if Assigned(AppUniqInstDummy) then
+    FreeAndNil(AppUniqInstDummy);
+  {$endif}
 
 end.

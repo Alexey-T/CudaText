@@ -38,9 +38,6 @@ uses
   fix_focus_window,
   at__jsonconf,
   PythonEngine,
-  {$ifdef unix}
-  AppUniqueInstance,
-  {$endif}
   ec_LexerList,
   ec_SyntAnal,
   ec_syntax_format,
@@ -141,8 +138,6 @@ type
     procedure Execute; override;
   end;
 
-  TAppStringArray = array of string;
-
   TAppAllowSomething = (aalsEnable, aalsDisable, aalsNotGood);
 
   TAppConfigHistoryElement = (acheRecentFiles, acheSearch, acheConsole);
@@ -150,11 +145,6 @@ type
 
 var
   AppNotifThread: TAppNotifThread = nil;
-
-{$ifdef unix}
-var
-  AppUniqInst: TUniqueInstance = nil;
-{$endif}
 
 type
   TAppTooltipPos = (atpWindowTop, atpWindowBottom, atpEditorCaret, atpCustomTextPos);
@@ -532,7 +522,7 @@ type
     procedure TimerStatusWorkTimer(Sender: TObject);
     procedure TimerStatusClearTimer(Sender: TObject);
     procedure TimerTreeFillTimer(Sender: TObject);
-    procedure UniqInstanceOtherInstance(Sender: TObject; ParamCount: Integer;
+    procedure HandleOtherInstance(Sender: TObject; ParamCount: Integer;
       const Parameters: array of String);
     {$ifdef windows}
     procedure SecondInstance(const Msg: TBytes);
@@ -742,7 +732,6 @@ type
     procedure FindDialogGetMainEditor(out AEditor: TATSynEdit);
     procedure FrameConfirmLink(Sender: TObject; const ALink: string);
     procedure FormEnter(Sender: TObject);
-    procedure GetParamsForUniqueInstance(out AParams: TAppStringArray);
     function GetShowDistractionFree: boolean;
     procedure PythonEngineAfterInit(Sender: TObject);
     procedure PythonIOSendUniData(Sender: TObject; const Data: UnicodeString);
@@ -1308,16 +1297,6 @@ begin
   NColor:= GetAppColor(apclStatusFont);
   if NColor<>clNone then
     AppThemeStatusbar.ColorFont:= NColor;
-end;
-
-procedure InitUniqueInstanceObject;
-begin
-  {$ifdef unix}
-  if Assigned(AppUniqInst) then exit;
-  AppUniqInst:= TUniqueInstance.Create(nil);
-  AppUniqInst.Identifier:= AppUserName+'_'+AppServerId; //added username to fix CudaText #4079
-  AppUniqInst.OnOtherInstance:= @fmMain.UniqInstanceOtherInstance;
-  {$endif}
 end;
 
 type
@@ -3038,11 +3017,6 @@ begin
 
   if Assigned(FFinder) then
     FreeAndNil(FFinder);
-
-  {$ifdef unix}
-  if Assigned(AppUniqInst) then
-    FreeAndNil(AppUniqInst);
-  {$endif}
 end;
 
 procedure TfmMain.FormDropFiles(Sender: TObject;
@@ -3778,40 +3752,11 @@ begin
   G.SetTabOptionString(tabOptionHintForArrowMenu, msgTooltipArrowMenu);
 end;
 
-procedure TfmMain.GetParamsForUniqueInstance(out AParams: TAppStringArray);
-var
-  N, i: integer;
-  S, WorkDir: string;
-  bAddDir: boolean;
-begin
-  WorkDir:= GetCurrentDirUTF8;
 
-  N:= ParamCount;
-  SetLength(AParams, N);
-
-  for i:= 1 to N do
-  begin
-    S:= ParamStrUTF8(i);
-    S:= AppExpandFilename(S);
-
-    bAddDir :=
-      (S[1] <> '-') and
-      (WorkDir <> '') and
-      not IsOsFullPath(S);
-
-    if bAddDir then
-      S:= WorkDir+DirectorySeparator+S;
-
-    AParams[i-1]:= S;
-  end;
-end;
 
 procedure TfmMain.DoApplyUiOps;
 var
   id: TAppPanelId;
-  {$ifdef unix}
-  CmdParams: TAppStringArray;
-  {$endif}
   Pages: TATPages;
   i: integer;
 begin
@@ -3936,18 +3881,8 @@ begin
   {$ifdef unix}
   if not AppAlwaysNewInstance and UiOps.OneInstance then
   begin
-    InitUniqueInstanceObject;
-    if not AppUniqInst.Enabled then
-    begin
-      AppUniqInst.Enabled:= true;
-      GetParamsForUniqueInstance(CmdParams);
-      AppUniqInst.Loaded(CmdParams);
-
-      if AppUniqInst.PriorInstanceRunning then
-        Application.Terminate;
-        //note: app still works and will get DoFileOpen calls (e.g. on session opening)
-        //so later need to check Application.Terminated
-    end;
+    if Assigned(AppUniqInst) then
+      AppUniqInst.OnOtherInstance:= @fmMain.HandleOtherInstance;
   end;
   {$endif}
 
@@ -3958,7 +3893,6 @@ begin
 
   DoApplyTheme;
 end;
-
 
 procedure TfmMain.DoFolderOpen(const ADirName: string; ANewProject: boolean;
   AInvoke: TATEditorCommandInvoke);

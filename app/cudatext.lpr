@@ -20,10 +20,10 @@ uses
 {$R *.res}
 
 begin
-  {$IFDEF WINDOWS}
   if not AppAlwaysNewInstance then
     if IsSetToOneInstance then
-      if IsAnotherInstanceRunning then Exit;
+      if IsAnotherInstanceRunning then exit; //func has different implementations for Win and Unix
+  {$IFDEF WINDOWS}
   Application.{%H-}MainFormOnTaskBar:= True; //for issue #2864, do it for any MonitorCount
   {$IFEND}
   Application.Title:='CudaText';
