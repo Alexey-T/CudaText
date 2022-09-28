@@ -3,8 +3,9 @@
   - fixed
   * changed
 
-1.171.1 (2022/09)
+1.171.2 (2022/09)
 
++ add: reworked one-instance code for Unix, to avoid creating main form when 2nd instance is running/exiting (thanks @DUOLabs333)
 + add: option "mouse_middle_click":2 (paste on middle click) works also for one-line inputs: Find/Replace, Console, Code-tree filter
  
 1.171.0 (2022/09)
