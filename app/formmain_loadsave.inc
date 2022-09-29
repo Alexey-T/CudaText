@@ -994,6 +994,10 @@ begin
 
   ATEditorOptions.SpeedScrollAutoVert:= cfg.GetValue('mouse_scroll_speed_vert', ATEditorOptions.SpeedScrollAutoVert);
 
+  s:= cfg.GetValue('auto_copy_clp', '');
+  ATEditorOptions.AutoCopyToClipboard:= Pos('c', s)>0;
+  ATEditorOptions.AutoCopyToPrimarySel:= Pos('p', s)>0;
+
   EControlOptions.AutoFoldComments:= cfg.GetValue('auto_fold_comments', 0);
   EControlOptions.MaxLinesWhenParserEnablesFolding:= cfg.GetValue('lexer_folding_max_lines',
     EControlOptions.MaxLinesWhenParserEnablesFolding);
