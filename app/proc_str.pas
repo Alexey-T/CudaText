@@ -436,14 +436,6 @@ begin
     Result:= S;
 end;
 
-{
-var
-  s: string;
-initialization
-  s:= SStringToPythonString('--'#10#13'-\-"-');
-  if s='' then;
-}
-
 function SExtractNumberFromStringAfterChar(const S: string; ch: char; Default: integer): integer;
 var
   N1, N2: integer;
