@@ -997,6 +997,9 @@ begin
   s:= cfg.GetValue('auto_copy_clp', '');
   ATEditorOptions.AutoCopyToClipboard:= Pos('c', s)>0;
   ATEditorOptions.AutoCopyToPrimarySel:= Pos('p', s)>0;
+  N:= SExtractNumberFromStringAfterChar(s, 'm', 0);
+  if N>0 then
+    ATEditorOptions.AutoCopyMaxTextSize:= N;
 
   EControlOptions.AutoFoldComments:= cfg.GetValue('auto_fold_comments', 0);
   EControlOptions.MaxLinesWhenParserEnablesFolding:= cfg.GetValue('lexer_folding_max_lines',

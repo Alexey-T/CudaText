@@ -336,6 +336,7 @@
   //This option replaces the plugin "Auto Copy To Clipboard".
   //  if 'c' in value: Copy to usual clipboard (the only possibility on Windows).
   //  if 'p' in value: Copy to Unix 'primary selection'.
+  //  if 'm' with a following number in value: Number sets limit of selection length.
   //Note: this option is global, not per-lexer.
   "auto_copy_clp": "",
 

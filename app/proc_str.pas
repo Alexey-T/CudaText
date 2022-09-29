@@ -54,6 +54,7 @@ function SStringToPythonString(const Str: string; AndQuote: boolean=true): strin
 function SMaskFilenameSlashes(const fn: string): string;
 procedure SParseFilenameWithTwoNumbers(var fn: string; out NLine, NColumn: integer);
 function IsPythonExpression(const S: string): boolean;
+function SExtractNumberFromStringAfterChar(const S: string; ch: char; Default: integer): integer;
 
 
 implementation
@@ -442,6 +443,21 @@ initialization
   s:= SStringToPythonString('--'#10#13'-\-"-');
   if s='' then;
 }
+
+function SExtractNumberFromStringAfterChar(const S: string; ch: char; Default: integer): integer;
+var
+  N1, N2: integer;
+begin
+  Result:= Default;
+  N1:= Pos(ch, S);
+  if N1=0 then exit;
+  Inc(N1);
+  N2:= N1;
+  while (N2<=Length(S)) and IsCharDigit(S[N2]) do
+    Inc(N2);
+  Result:= StrToIntDef(Copy(S, N1, N2-N1), Default);
+end;
+
 
 end.
 
