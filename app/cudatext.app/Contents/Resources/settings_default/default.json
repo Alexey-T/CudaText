@@ -1400,6 +1400,7 @@
   //Auto-pairing doesn't work if after caret is a word char.
   "auto_close_brackets": "([{",
 
+  //[Text/Folding]
   //If value>1, option allows N consecutive commented lines to automatically create the folding range.
   //Note: this option is global, not per-lexer.
   "auto_fold_comments": 0,
