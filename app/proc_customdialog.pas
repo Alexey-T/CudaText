@@ -726,8 +726,10 @@ begin
   end;
 
   Ed.OptMinimapVisible:= false;
-  Ed.OptMicromapVisible:= false;
+  if not Ed.ModeOneLine then
+    Ed.OptMicromapVisible:= false;
   Ed.OptRulerVisible:= false;
+
   Ed.OptFlickerReducingPause:= 0; //after EditorApplyOps; fix issue #4372
   Ed.OptDimUnfocusedBack:= 0; //after EditorApplyOps; fix issue #4346
 end;
