@@ -334,8 +334,9 @@
   //Enables auto-copying of selected text to clipboard after selection changing.
   //Max selection length must be <= 500 Kbytes.
   //This option replaces the plugin "Auto Copy To Clipboard".
-  //If "c" in value: Copy to usual clipboard (the only possibility on Windows).
-  //If "p" in value: Copy to 'primary selection' (Unix).
+  //  if 'c' in value: Copy to usual clipboard (the only possibility on Windows).
+  //  if 'p' in value: Copy to Unix 'primary selection'.
+  //Note: this option is global, not per-lexer.
   "auto_copy_clp": "",
 
   //[File/Saving]
