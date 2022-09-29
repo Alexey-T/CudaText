@@ -7,6 +7,7 @@
 
 + add: 'single instance' code works faster on Unix: user doesn't see flashing main dialog now (thanks @DUOLabs333)
 + add: option "mouse_middle_click":2 (paste on middle click) works also for one-line inputs: Find/Replace, Console, Code-tree filter
+- fix: after Shift+Right, Shift+Left, simple Right makes the buggy selection (thanks @veksha)
  
 1.171.0 (2022/09)
 
