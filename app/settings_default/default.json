@@ -331,12 +331,11 @@
   //paste block at the line start, ignoring caret column.
   "paste_multiline_at_line_start": false,
 
-  //Enables auto-copying of selected text to clipboard after selection changing.
-  //Max selection length must be <= 500 Kbytes.
-  //This option replaces the plugin "Auto Copy To Clipboard".
+  //Enables auto-copying of selected text to clipboard after selection change.
+  //Option works for all editor fields, not only for UI-tabs editors.
   //  if 'c' in value: Copy to usual clipboard (the only possibility on Windows).
   //  if 'p' in value: Copy to Unix 'primary selection'.
-  //  if 'm' with a following number in value: Set limit of selection length (in bytes).
+  //  if 'm' with a following number in value: Set limit of selection length (in bytes). Default is 500k.
   //Note: this option is global, not per-lexer.
   "auto_copy_clp": "",
 
