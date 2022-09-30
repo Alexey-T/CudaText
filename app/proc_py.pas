@@ -494,7 +494,7 @@ begin
       Result:= MethodEvalEx(ObjName, ACmd, ParamsObj);
     end
     else
-    //lazy event: run only of ObjName already created
+    //lazy event: run only if ObjName is already created
     if IsLoadedLocal(ObjName) then
     begin
       InitParamsObj;
