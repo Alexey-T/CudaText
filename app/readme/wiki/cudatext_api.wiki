@@ -2344,6 +2344,9 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_VISIBLE_COLUMNS: int: max count of columns that fit to window.
 * PROP_PICTURE: properties of picture file as 3-tuple: (picture_filename, size_x, size_y), or None if not picture loaded in tab. For picture ed.get_filename() returns "?".
 * PROP_MINIMAP: bool: minimap is visible.
+* PROP_MINIMAP_CHAR_WIDTH: int: minimap width, in average chars.
+* PROP_MINIMAP_SCALE: int: minimap custom scale, in percents; if value<=100: auto-detect.
+* PROP_MINIMAP_AT_LEFT: bool: minimap is shown on the left side.
 * PROP_MICROMAP: bool: micromap is visible.
 * PROP_LINK_AT_POS: str: hyperlink string in the document, at given position. Value must be 2-tuple: (pos_x, pos_y).
 * PROP_LINKS_SHOW: bool: enable hyperlinks underlining.
@@ -2520,6 +2523,9 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 * PROP_CARET_MULTI: bool: allow multi-carets.
 * PROP_MARKED_RANGE: line indexes of "marked range", value is 2-tuple (index1, index2) or (-1, -1) to remove this range.
 * PROP_MINIMAP: bool: minimap is visible.
+* PROP_MINIMAP_CHAR_WIDTH: int: minimap width, in average chars.
+* PROP_MINIMAP_SCALE: int: minimap custom scale, in percents; if value<=100: auto-detect.
+* PROP_MINIMAP_AT_LEFT: bool: minimap is shown on the left side.
 * PROP_MICROMAP: bool: micromap is visible.
 * PROP_LINKS_SHOW: bool: enable hyperlinks underlining.
 * PROP_LINKS_REGEX: str: regular expression for hyperlinks.
@@ -4704,5 +4710,10 @@ It provides:
 * add: Editor.get_prop/set_prop: PROP_CARET_MULTI
 * add: Editor.set_prop: PROP_TAB_TITLE setting to empty str, resets the caption
 * fix: Editor.action: EDACTION_UPDATE did not work sometimes (cmd_RepaintEditor worked better)
+
+1.0.431 (app 1.171.2)
+* add: Editor.get_prop/set_prop: PROP_MINIMAP_CHAR_WIDTH
+* add: Editor.get_prop/set_prop: PROP_MINIMAP_SCALE
+* add: Editor.get_prop/set_prop: PROP_MINIMAP_AT_LEFT
 
 [[Category:CudaText]]
