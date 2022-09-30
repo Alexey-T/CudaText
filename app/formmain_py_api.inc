@@ -3508,6 +3508,15 @@ begin
         PROP_MINIMAP:
           Result:= PyBool_FromLong(Ord(Ed.OptMinimapVisible));
 
+        PROP_MINIMAP_CHAR_WIDTH:
+          Result:= PyLong_FromLong(Ed.OptMinimapCharWidth);
+
+        PROP_MINIMAP_AT_LEFT:
+          Result:= PyBool_FromLong(Ord(Ed.OptMinimapAtLeft));
+
+        PROP_MINIMAP_SCALE:
+          Result:= PyLong_FromLong(Ed.OptMinimapCustomScale);
+
         PROP_MICROMAP:
           Result:= PyBool_FromLong(Ord(Ed.OptMicromapVisible));
 
@@ -4274,6 +4283,15 @@ begin
 
         PROP_MINIMAP:
           Ed.OptMinimapVisible:= ValueBool;
+
+        PROP_MINIMAP_CHAR_WIDTH:
+          Ed.OptMinimapCharWidth:= ValueInt;
+
+        PROP_MINIMAP_AT_LEFT:
+          Ed.OptMinimapAtLeft:= ValueBool;
+
+        PROP_MINIMAP_SCALE:
+          Ed.OptMinimapCustomScale:= ValueInt;
 
         PROP_MICROMAP:
           Ed.OptMicromapVisible:= ValueBool;
