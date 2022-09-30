@@ -1070,6 +1070,8 @@ begin
 end;
 
 procedure TfmMain.DoOps_LoadOptions_Editor(cfg: TJSONConfig; var Op: TEditorOps);
+const
+  cMinFontSize = 7;
 begin
   Op.OpFontName:= cfg.GetValue('font_name'+cOptionSystemSuffix, Op.OpFontName);
   Op.OpFontName_i:= cfg.GetValue('font_name_i'+cOptionSystemSuffix, Op.OpFontName_i);
@@ -1085,8 +1087,14 @@ begin
   Op.OpFontSize_b:= Abs(cfg.GetValue('font_size_b'+cOptionSystemSuffix, Op.OpFontSize_b));
   Op.OpFontSize_bi:= Abs(cfg.GetValue('font_size_bi'+cOptionSystemSuffix, Op.OpFontSize_bi));
 
-  if Op.OpFontSize<6 then
+  if Op.OpFontSize<cMinFontSize then
     Op.OpFontSize:= AppDefaultEdFontSize;
+  if Op.OpFontSize_i<cMinFontSize then
+    Op.OpFontSize_i:= AppDefaultEdFontSize;
+  if Op.OpFontSize_b<cMinFontSize then
+    Op.OpFontSize_b:= AppDefaultEdFontSize;
+  if Op.OpFontSize_bi<cMinFontSize then
+    Op.OpFontSize_bi:= AppDefaultEdFontSize;
 
   Op.OpFontSize_original:= Op.OpFontSize;
   Op.OpFontSize_original_i:= Op.OpFontSize_i;
