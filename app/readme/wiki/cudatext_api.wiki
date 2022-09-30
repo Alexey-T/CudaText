@@ -2930,9 +2930,13 @@ Returns bool: file was saved.
 
  cmd(code, text="")
 
-Command runner, it runs any command in editor by its int code.
+Runs any command in editor by its integer code.
+See possible codes in module "cudatext_cmd".
 
-See codes in module cudatext_cmd. Param text is needed for rare commands (e.g. by cCommand_TextInsert).
+Param "text" is needed only for rare commands, mainly for "cCommand_TextInsert".
+
+Notes:
+* When you perform some caret-positioning command (e.g. "cCommand_GotoTextEnd") in not yet painted editor-control, it doesn't run OK. Reason: editor must be properly inited which happens on first painting. If you need to place the caret on form showing ("dlg_proc" API), do it in form's "on_show" event. Maybe you need also to start a timer ("timer_proc" API) which will run the caret command.
 
 ===Editor.focus===
 
