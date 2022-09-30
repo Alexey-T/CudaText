@@ -1116,6 +1116,31 @@ var
   //'r': by showing again by typing or left/right
   AppAutocompleteInvoke: string = 'c';
 
+const
+  AppDefaultEdFont: string = '';
+  AppDefaultEdFonts: array[0..2] of string =
+    {$ifdef windows}
+    ('Consolas', 'Courier New', 'Courier');
+    {$else}
+      {$ifdef darwin}
+      ('Monaco', 'Liberation Mono', 'DejaVu Sans Mono');
+      {$else}
+        {$ifdef haiku}
+        ('Noto Sans Mono', '', '');
+        {$else}
+        ('DejaVu Sans Mono', 'Liberation Mono', 'Courier New');
+        {$endif}
+      {$endif}
+    {$endif}
+
+  AppDefaultEdFontSize =
+    {$ifdef haiku}
+    12;
+    {$else}
+    9;
+    {$endif}
+
+
 implementation
 
 uses
@@ -1567,30 +1592,6 @@ begin
     and FileExists(AppFile_OptionsUserInit) then
     CopyFile(AppFile_OptionsUserInit, AppFile_OptionsUser, [], false);
 end;
-
-const
-  AppDefaultEdFont: string = '';
-  AppDefaultEdFonts: array[0..2] of string =
-    {$ifdef windows}
-    ('Consolas', 'Courier New', 'Courier');
-    {$else}
-      {$ifdef darwin}
-      ('Monaco', 'Liberation Mono', 'DejaVu Sans Mono');
-      {$else}
-        {$ifdef haiku}
-        ('Noto Sans Mono', '', '');
-        {$else}
-        ('DejaVu Sans Mono', 'Liberation Mono', 'Courier New');
-        {$endif}
-      {$endif}
-    {$endif}
-
-  AppDefaultEdFontSize =
-    {$ifdef haiku}
-    12;
-    {$else}
-    9;
-    {$endif}
 
 function InitAppDefaultEdFont: string;
 var

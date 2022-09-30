@@ -1078,12 +1078,15 @@ begin
 
   //gtk2 crashes with empty 'font_name'
   if Op.OpFontName='' then
-    Op.OpFontName:= 'Courier New';
+    Op.OpFontName:= AppDefaultEdFont;
 
   Op.OpFontSize:= Abs(cfg.GetValue('font_size'+cOptionSystemSuffix, Op.OpFontSize)); //Abs() for macOS
   Op.OpFontSize_i:= Abs(cfg.GetValue('font_size_i'+cOptionSystemSuffix, Op.OpFontSize_i));
   Op.OpFontSize_b:= Abs(cfg.GetValue('font_size_b'+cOptionSystemSuffix, Op.OpFontSize_b));
   Op.OpFontSize_bi:= Abs(cfg.GetValue('font_size_bi'+cOptionSystemSuffix, Op.OpFontSize_bi));
+
+  if Op.OpFontSize<6 then
+    Op.OpFontSize:= AppDefaultEdFontSize;
 
   Op.OpFontSize_original:= Op.OpFontSize;
   Op.OpFontSize_original_i:= Op.OpFontSize_i;
