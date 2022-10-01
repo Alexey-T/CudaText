@@ -1376,7 +1376,7 @@ No options are needed to configure this older Python, but you need to delete all
 * python*.zip: can be left as is
 * files *.pyd: can be left as is
 
-Also, for Python 3.4, last release of "requests" lib won't work, ie you will see Addons Manager crashes. So you need to downgrade the "requests" lib. Get old version from https://pypi.org/project/requests/2.17.3/#files and update the folder "py/sys/requests".
+Also, for Python 3.4, last release of "requests" lib won't work, ie you will see Addons Manager crashes. So you need to downgrade the "requests" lib. Get old version 2.5.x-2.10.x from https://pypi.org/project/requests/#history and update the folder "py/sys/requests".
 
 ==Python on Linux, BSD, Solaris==
 Linux/*BSD/Solaris version uses Python library from OS. Install Python 3.x (usually already installed). Instruction, if Python library was not automatically used:
