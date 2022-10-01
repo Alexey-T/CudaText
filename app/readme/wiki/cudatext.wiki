@@ -1368,13 +1368,15 @@ And file "python3.dll" without exact version (e.g. "36") - this file is not prei
 Note for Windows 7. You also need the Update for Universal C Runtime in Windows (KB2999226). Download it from the Microsoft site.
 
 ==Python on Windows XP==
-You need CudaText 1.122.0 or newer, and you must install (from Addons Manager) the package named "Windows Python34 32bit". Menu item "Plugins / Addons Manager / Install" must list this package.
+You must install, from Addons Manager, the package named "Windows Python34 32bit". Menu item "Plugins / Addons Manager / Install" must list this package.
 
 No options are needed to configure this older Python, but you need to delete all newer Pythons from CudaText folder:
 
 * python*.dll: must be deleted
 * python*.zip: can be left as is
 * files *.pyd: can be left as is
+
+Also, for Python 3.4, last release of "requests" lib won't work, ie you will see Addons Manager crashes. So you need to downgrade the "requests" lib. Get old version from https://pypi.org/project/requests/2.17.3/#files and update the folder "py/sys/requests".
 
 ==Python on Linux, BSD, Solaris==
 Linux/*BSD/Solaris version uses Python library from OS. Install Python 3.x (usually already installed). Instruction, if Python library was not automatically used:
