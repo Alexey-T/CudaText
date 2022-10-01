@@ -1661,9 +1661,9 @@ class ValueEds:
                 self.val_edit = Editor(h_ed)
 
             # resetting to defaults
-            _props = {**default_props,
-                    'on_key_down': self._val_change_callback,
-                    'texthint': '',}
+            _props = dict(default_props)
+            _props['on_key_down'] = self._val_change_callback
+            _props['texthint'] = ''
             dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop=_props)
 
             ValueEds.reset_edt(self.val_edit)
@@ -1673,7 +1673,8 @@ class ValueEds:
             if n == -1:     # add if not already
                 n = dlg_proc(h, DLG_CTL_ADD, 'editor_combo')
 
-                _props = {**default_props,   'on_change': self._val_change_callback,}
+                _props = dict(default_props)
+                _props['on_change'] = self._val_change_callback
                 dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop=_props)
 
                 h_ed = dlg_proc(h, DLG_CTL_HANDLE, index=n)
@@ -1685,13 +1686,12 @@ class ValueEds:
             n = dlg_proc(h, DLG_CTL_FIND, prop=name)
             if n == -1:     # add if not already
                 n = dlg_proc(h, DLG_CTL_ADD, 'button_ex')
-                dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
-                        **default_props,
-                        'cap': _('Enable'),
-                        'act': True,
-                        'on_change': self._on_cb_click_proxy,
-                        'font_color': COL_FONT,
-                        })
+                _props = dict(default_props)
+                _props['cap'] = _('Enable')
+                _props['act'] = True
+                _props['on_change'] = self._on_cb_click_proxy
+                _props['font_color'] = COL_FONT
+                dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop=_props)
                 self._h_cbx = dlg_proc(h, DLG_CTL_HANDLE, index=n)
                 self._ctl_names[n] = name
 
@@ -1707,11 +1707,10 @@ class ValueEds:
             n = dlg_proc(h, DLG_CTL_FIND, prop=name)
             if n == -1:     # add if not already
                 n = dlg_proc(h, DLG_CTL_ADD, 'button_ex')
-                dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
-                        **default_props,
-                        'cap': '...',
-                        'on_change': self._val_change_callback,
-                        })
+                _props = dict(default_props)
+                _props['cap'] = '...'
+                _props['on_change'] = self._val_change_callback
+                dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop=_props)
                 self._ctl_names[n] = name
         #end if
 
