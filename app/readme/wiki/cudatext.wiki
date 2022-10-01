@@ -229,7 +229,7 @@ Clicks:
 
 * wheel click - Configurable by option "mouse_middle_click", choices are:
 ** Start "browser scrolling" mode: circle mark appears and mouse moving around this mark auto-scrolls text in 4 directions; speed of scrolling depends on distance of cursor from circle mark (any click to turn off).
-** Paste from clipboard. This mimics Linux apps behaviour. With this choice, it's good to install plugin "Auto-Copy to Clipboard".
+** Paste from clipboard. This mimics Linux apps behaviour.
 ** Call "Go to definition" command.
 ** Nothing.
 
@@ -1333,8 +1333,8 @@ In the CudaText version 1.144 or newer, micromap can be rendered directly on the
 To paste like in Linux, with middle-click, you need:
 
 * Step 1. Set option "mouse_middle_click" to value 2 (in the user.json).
-* Step 2 after CudaText 1.171.5. Set option "auto_copy_clp". Option replaces old plugin and supports one-line input fields (Find/Replace, Console, Code-Tree filter).
 * Step 2 before CudaText 1.171.5. Install plugin "Auto-Copy to Clipboard".
+* Step 2 after CudaText 1.171.5. Set option "auto_copy_clp". Option replaces old plugin and supports one-line input fields (Find/Replace, Console, Code-Tree filter).
 
 =Full-screen mode=
 
@@ -2337,12 +2337,6 @@ If I wait for the timeout there is no output and everything works fine.
 This issue appeared to me when I tried to use CudaText.
 
 A: Start the application with "-disableaccurateframe" parameter.
-
-==Linux: How to use middle-click paste==
-
-* Set option "mouse_mid_click_paste" to true (in user.json).
-* Consider to install plugin "Auto-Copy to Clipboard", which emulates Linux editors behaviour: copying to clipboard by simple text selection (no need to use hotkey Ctrl+C).
-** This plugin has options to copy selection to a) usual clipboard, b) GTK primary selection (CudaText GTK builds only)
 
 ==Linux: Installation==
 '''.deb package.''' To support .deb package installation, program performs copying of its files, from .deb installation folder to the settings folder. Ie, when binary "cudatext" (it can be in any folder, e.g. in /usr/bin) starts, it checks, if "data/lexlib" exists near the binary, and if not, it copies folders "py", "data", "settings_default" from .deb installation folder to "~/.config/cudatext" (default location of settings, it can be changed by command line option). Program does this not always, it reads the "settings/packages.ini", and checks there [app] "ver" value. If value not equals to the binary's hardcoded version, program does that copying. So copying occurs once, after .deb package was upgraded.
