@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.171.2 (2022/09)
+1.171.5 (2022/10)
 
 + add: option "auto_copy_clp", which now replaces plugin Auto Copy To Clipboard (plugin is now ignored); unlike the old plugin, option works in all editor-fields in the app (including Find/Replace/Console/etc)
 + add: option "mouse_middle_click":2 (paste on middle click) works also for one-line inputs: Find/Replace, Console, Code-tree filter
