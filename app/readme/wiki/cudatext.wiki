@@ -1356,14 +1356,15 @@ You can use different Python version. From CudaText's Addon Manager, install app
 
 Python engine requires Visual C++ Redistributable for Visual Studio 2015 (32-bit or 64-bit, same as CudaText). Download it from Microsoft site.
 
-So, files needed for Python 3.6 are:
+So, files needed for Python 3.8 are:
 
-* "python36.zip"
-* "python36.dll"
-* "python36dlls" - folder with about 18 *.pyd files
-* "vcruntime140.dll" - Microsoft runtime
+* "python38.zip"
+* "python3.dll"
+* "python38.dll"
+* "python38dlls" - folder with about 18 *.pyd files
+* "vcruntime140*.dll" - Microsoft runtime
 
-And file "python3.dll" without exact version (e.g. "36") - this file is not preinstalled, but sometimes it's needed for Python plugins to work property. For example, file is needed for plugin FTP with SFTP support (plugin crashes and shows errors in the Console if "python3.dll" is absent). You can take this file from the Addons Manager - almost each package "Windows_Python3x_xxxx" contains it.
+File "python3.dll" without exact version: this file is sometimes needed for Python plugins to work property. For example, file is needed for plugin FTP with SFTP support (plugin crashes and shows errors in the Console if "python3.dll" is absent). Almost each package "Windows_Python3x_xxxx" contains this file.
 
 Note for Windows 7. You also need the Update for Universal C Runtime in Windows (KB2999226). Download it from the Microsoft site.
 
