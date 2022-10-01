@@ -36,10 +36,21 @@ try:
 except ImportError:
     import json
 
-if has_simplejson:
-    from simplejson import JSONDecodeError
-else:
-    from json import JSONDecodeError
+# copy/paste from https://github.com/python/cpython/blob/3.10/Lib/json/decoder.py
+class JSONDecodeError(ValueError):
+    def __init__(self, msg, doc, pos):
+        lineno = doc.count('\n', 0, pos) + 1
+        colno = pos - doc.rfind('\n', 0, pos)
+        errmsg = '%s: line %d column %d (char %d)' % (msg, lineno, colno, pos)
+        ValueError.__init__(self, errmsg)
+        self.msg = msg
+        self.doc = doc
+        self.pos = pos
+        self.lineno = lineno
+        self.colno = colno
+
+    def __reduce__(self):
+        return self.__class__, (self.msg, self.doc, self.pos)
 
 # Keep OrderedDict for backwards compatibility.
 from collections import OrderedDict
