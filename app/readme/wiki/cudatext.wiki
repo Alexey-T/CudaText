@@ -1350,9 +1350,9 @@ Notes:
 
 =Python integration=
 ==Python on Windows==
-On Windows, Python engine (currently 3.6) is preinstalled. CudaText finds files "python3*.dll" in its folder, and uses file with the latest version number. No options are used to configure this.
+On Windows, Python engine (2022/10: currently it is 3.8) is preinstalled. CudaText finds files "python3*.dll" in its folder, and uses file with the latest version number. No options exist to change this.
 
-You can use not only version 3.6. From CudaText's Addon Manager, install appropriate package, e.g. "Windows_Python37_64bit", and restart the program.
+You can use different Python version. From CudaText's Addon Manager, install appropriate package, e.g. "Windows_Python37_64bit", and restart the program.
 
 Python engine requires Visual C++ Redistributable for Visual Studio 2015 (32-bit or 64-bit, same as CudaText). Download it from Microsoft site.
 
