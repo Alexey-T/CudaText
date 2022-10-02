@@ -11,8 +11,7 @@ procedure TfmMain.DoLoadCommandLineBaseOptions(out AWindowPos: string;
   out AAllowSessionLoad, AAllowSessionSave: TAppAllowSomething;
   out AStartupCommand: string;
   out AFileFolderCount: integer);
-// Function handles these options: -w= -c= -ns -nss -nsl -verbose
-// Option -n is handled via var proc_globdata.AppAlwaysNewInstance
+//Option -n is handled via proc_globdata.AppAlwaysNewInstance
 var
   SParam: string;
   i: integer;
