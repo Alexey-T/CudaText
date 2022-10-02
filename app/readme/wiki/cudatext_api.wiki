@@ -4711,7 +4711,8 @@ It provides:
 * add: Editor.set_prop: PROP_TAB_TITLE setting to empty str, resets the caption
 * fix: Editor.action: EDACTION_UPDATE did not work sometimes (cmd_RepaintEditor worked better)
 
-1.0.431 (app 1.171.2)
+1.0.431 (app 1.171.5)
+* add: Editor.complete, Editor.complete_alt: if cell begins with "&lt;html&gt;", HTML tags are allowed: b, i, u, s
 * add: Editor.get_prop/set_prop: PROP_MINIMAP_CHAR_WIDTH
 * add: Editor.get_prop/set_prop: PROP_MINIMAP_SCALE
 * add: Editor.get_prop/set_prop: PROP_MINIMAP_AT_LEFT
