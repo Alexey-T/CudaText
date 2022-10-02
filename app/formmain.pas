@@ -1215,8 +1215,6 @@ uses
 
 {$R *.lfm}
 
-{$I formmain_commandline.inc}
-
 var
   PythonEng: TPythonEngine = nil;
   PythonModule: TPythonModule = nil;
@@ -2752,6 +2750,13 @@ begin
   if not UiOps.ShowMenubar then
     ShowMenu:= false;
 end;
+
+procedure InitAdditionalCommandLineOptions(
+  out AWindowPos: string;
+  out AAllowSessionLoad, AAllowSessionSave: TAppAllowSomething;
+  out AStartupCommand: string;
+  out AFileFolderCount: integer);
+  forward;
 
 procedure TfmMain.DoOps_OnCreate;
 begin
@@ -8608,5 +8613,6 @@ end;
 {$I formmain_themes.inc}
 {$I formmain_sidepanel.inc}
 {$I formmain_bottompanel.inc}
+{$I formmain_commandline.inc}
 
 end.
