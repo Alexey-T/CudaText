@@ -11,7 +11,8 @@
 + add: handle command-line keys --help and --version before creating GUI
 + add: API supports HTML formatting in auto-completion listbox (it will be used in LSP)
 + add: Options Editor supports old Python 3.4 (thanks @spyrosmas)
-* change: change default of "ui_reopen_session_cmdline" to 'true' (thanks @Flashwalker)
+* change: change defualt of "ui_backup_sessions" to 2 (thanks @Flashwalker)
+* change: change default of "ui_reopen_session_cmdline" to true (thanks @Flashwalker)
 * change: remove '-' from "nonword_chars" in "settings_default/lexer Bash script.json"
 - fix: after Shift+Right, Shift+Left, simple Right makes the buggy selection (thanks @veksha)
  

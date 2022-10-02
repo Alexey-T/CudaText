@@ -1246,7 +1246,7 @@
 
   //If value N>0, app creates N backups of session files on closing: 'history session.X.cuda-session'.
   //You can open these backups by plugin Session Manager, or rename them to a normal name.
-  "ui_backup_sessions": 0,
+  "ui_backup_sessions": 2,
 
   //[Lexers]
   //Allow to apply color-theme to lexer's styles.
