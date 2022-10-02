@@ -2993,7 +2993,10 @@ Function returns None and listbox stays open. When user chooses listbox item, it
 ** alt_order=False: pass items in each line: prefix, id, desc. Listbox shows prefix at the left edge.
 ** alt_order=True: pass items in each line in such order: id, prefix, desc. Listbox shows id at the left edge. Use it if plugin needs to show long "prefixes".
 
-Note: listbox disappears if you move caret or type text, unlike usual auto-completion listboxes (they can recalculate items for new caret pos).
+Note:
+* Listbox disappears if you move caret or type text, unlike usual auto-completion listboxes (they can recalculate items for new caret pos).
+
+If an item begins with "&lt;html&gt;", HTML tags are allowed in this item: b, i, u, s.
 
 ===Editor.complete_alt===
 
@@ -3017,6 +3020,8 @@ After user has chosen some item in the completion listbox, event "on_snippet" wi
 
 * Param "snippet_id": Value from complete_alt() call.
 * Param "snippet_text": Text of chosen snippet.
+
+If an item begins with "&lt;html&gt;", HTML tags are allowed in this item: b, i, u, s.
 
 ===Editor.gap===
 
