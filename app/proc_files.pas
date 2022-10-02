@@ -11,6 +11,9 @@ unit proc_files;
 
 interface
 
+uses
+  Classes;
+
 function AppCreateFile(const fn: string): boolean;
 function AppCreateFileJSON(const fn: string): boolean;
 
@@ -31,12 +34,13 @@ procedure AppBrowseToFilenameInShell(const fn: string);
 function AppFileExtentionCreatable(const fn: string): boolean;
 procedure AppFileCheckForNullBytes(const fn: string);
 procedure AppMakeBackupFiles(const AFilename, AExtension: string; ACount: integer);
+procedure AppFindFilesByMask(List: TStringList; AMask: string);
 
 
 implementation
 
 uses
-  Classes, SysUtils, LCLIntf,
+  SysUtils, LCLIntf,
   FileUtil, LazFileUtils, LCLType,
   ATStrings,
   proc_globdata,
@@ -380,6 +384,30 @@ begin
       RenameFile(fnTemp2, fnTemp);
   end;
 end;
+
+procedure AppFindFilesByMask(List: TStringList; AMask: string);
+var
+  Dir: string;
+begin
+  Dir:= GetCurrentDirUTF8;
+
+  //support full dir path
+  if IsOsFullPath(AMask) then
+  begin
+    Dir:= ExtractFileDir(AMask);
+    AMask:= ExtractFileName(AMask);
+  end
+  else
+  //support relative dir path
+  if Pos(DirectorySeparator, AMask)>0 then
+  begin
+    Dir+= DirectorySeparator+ExtractFileDir(AMask);
+    AMask:= ExtractFileName(AMask);
+  end;
+
+  FindAllFiles(List, Dir, AMask, false{SubDirs});
+end;
+
 
 end.
 

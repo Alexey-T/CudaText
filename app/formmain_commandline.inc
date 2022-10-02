@@ -87,29 +87,6 @@ begin
   end;
 end;
 
-procedure _AppFindFilesByMask(List: TStringList; AMask: string);
-var
-  Dir: string;
-begin
-  Dir:= GetCurrentDirUTF8;
-
-  //support full dir path
-  if IsOsFullPath(AMask) then
-  begin
-    Dir:= ExtractFileDir(AMask);
-    AMask:= ExtractFileName(AMask);
-  end
-  else
-  //support relative dir path
-  if Pos(DirectorySeparator, AMask)>0 then
-  begin
-    Dir+= DirectorySeparator+ExtractFileDir(AMask);
-    AMask:= ExtractFileName(AMask);
-  end;
-
-  FindAllFiles(List, Dir, AMask, false{SubDirs});
-end;
-
 procedure TfmMain.DoLoadCommandParams(const AParams: array of string; AOpenOptions: string);
 // Function handles passed file names, folder names, and such params as -r -nh -z -e,
 // while others params are handled in InitAdditionalCommandLineOptions
@@ -253,7 +230,7 @@ begin
     begin
       List:= TStringList.Create;
       try
-        _AppFindFilesByMask(List, SParam);
+        AppFindFilesByMask(List, SParam);
         for SParam in List do
         begin
           Frame:= DoFileOpen(SParam, '', nil, AOpenOptions);
