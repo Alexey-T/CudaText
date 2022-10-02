@@ -1377,9 +1377,10 @@ No options are needed to configure this older Python, but you need to delete all
 * python*.zip: can be left as is
 * files *.pyd: can be left as is
 
-Also, in Python 3.4, last release of "requests" lib doesn't work, ie Addons Manager crashes. So you need to downgrade the "requests" lib. Get old version 2.5.x-2.10.x from https://pypi.org/project/requests/#history and update the folder "py/sys/requests".
+Proper old version of "requests" is now included in the "Windows Python34 32bit". But if you miss it somehow, do additional steps:
 
-After you downgrade the "requests", you may get Addons Manager errors about HTTPS certificate. To fix that, replace outdated file "py\sys\requests\cacert.pem" with the new one "py\sys\certifi\cacert.pem".
+* New versions of "requests" lib don't work, ie Addons Manager crashes. So you need to downgrade the "requests" lib. Get old version 2.5.x from https://pypi.org/project/requests/#history and update the folder "py/sys/requests".
+* After you downgrade the "requests", you may get Addons Manager errors about HTTPS certificate. To fix that, replace outdated file "py\sys\requests\cacert.pem" with the new one from "py\sys\certifi\cacert.pem".
 
 ==Python on Linux, BSD, Solaris==
 Linux/*BSD/Solaris version uses Python library from OS. Install Python 3.x (usually already installed). Instruction, if Python library was not automatically used:
