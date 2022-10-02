@@ -10,6 +10,7 @@
 + add: 'single instance' code works faster on Unix: user doesn't see flashing main dialog now (thanks @DUOLabs333)
 + add: Options Editor now supports old Python 3.4
 * change: remove '-' from "nonword_chars" in "settings_default/lexer Bash script.json"
+* change: change default of "ui_reopen_session_cmdline" to 'true'
 - fix: after Shift+Right, Shift+Left, simple Right makes the buggy selection (thanks @veksha)
  
 1.171.0 (2022/09)
