@@ -3279,6 +3279,12 @@ begin
       Halt;
     end;
 
+    if (S='-el') then
+    begin
+      MsgStdout(AppEncodingListAsString, true);
+      Halt;
+    end;
+
     if S='-n' then
     begin
       AppAlwaysNewInstance:= true;

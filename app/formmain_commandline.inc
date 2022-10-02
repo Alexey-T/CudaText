@@ -46,12 +46,6 @@ begin
       Continue;
     end;
 
-    if (SParam='-el') then
-    begin
-      MsgStdout(AppEncodingListAsString, true);
-      Application.Terminate;
-    end;
-
     if (SParam='-ns') then
     begin
       AAllowSessionLoad:= aalsDisable;
