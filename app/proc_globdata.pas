@@ -2063,7 +2063,7 @@ begin
     ShowTitlePath:= false;
 
     ReopenSession:= true;
-    ReopenSessionWithCmdLine:= false;
+    ReopenSessionWithCmdLine:= true;
     SessionSaveInterval:= 30;
     SessionSaveOnExit:= true;
     BackupLastSessions:= 0;

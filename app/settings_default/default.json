@@ -1227,7 +1227,7 @@
   //Allow to restore last session even if some file/folder was passed in command line.
   //Note, this gives bad behaviour: N program instances will reopen the same last
   //session + passed command-line file.
-  "ui_reopen_session_cmdline": false,
+  "ui_reopen_session_cmdline": true,
 
   //Option value>0: if "ui_reopen_session":true, save the current session, by timer
   //with specified interval (in seconds).
