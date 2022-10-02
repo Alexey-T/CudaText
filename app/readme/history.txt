@@ -8,7 +8,7 @@
 + add: option "auto_copy_clp", which now replaces plugin Auto Copy To Clipboard (plugin is now ignored); unlike the old plugin, option works in all editor-fields in the app (including Find/Replace/Console/etc)
 + add: option "mouse_middle_click":2 (paste on middle click) works also for one-line inputs: Find/Replace, Console, Code-tree filter
 + add: 'single instance' code works faster on Unix: user doesn't see flashing main dialog now (thanks @DUOLabs333)
-+ add: Options Editor now supports old Python 3.4
++ add: Options Editor supports old Python 3.4 (thanks @spyrosmas)
 * change: change default of "ui_reopen_session_cmdline" to 'true' (thanks @Flashwalker)
 * change: remove '-' from "nonword_chars" in "settings_default/lexer Bash script.json"
 - fix: after Shift+Right, Shift+Left, simple Right makes the buggy selection (thanks @veksha)
