@@ -1022,10 +1022,6 @@ type
     function DoFileSaveAll: boolean;
     procedure DoFileReopen(Ed: TATSynEdit);
     procedure DoFileReopenRecent;
-    procedure DoLoadCommandLineBaseOptions(out AWindowPos: string;
-      out AAllowSessionLoad, AAllowSessionSave: TAppAllowSomething;
-      out AStartupCommand: string;
-      out AFileFolderCount: integer);
     procedure DoLoadCommandParams(const AParams: array of string; AOpenOptions: string);
     procedure DoLoadCommandLine;
     procedure DoLoadCommandLine_FromString(const AText: string);
@@ -1218,6 +1214,8 @@ uses
   ATStringProc_HtmlColor;
 
 {$R *.lfm}
+
+{$I formmain_commandline.inc}
 
 var
   PythonEng: TPythonEngine = nil;
@@ -2758,7 +2756,7 @@ end;
 procedure TfmMain.DoOps_OnCreate;
 begin
   //must load window position in OnCreate to fix flickering with maximized window, Win10
-  DoLoadCommandLineBaseOptions(
+  InitAdditionalCommandLineOptions(
     FOption_WindowPos,
     FOption_AllowSessionLoad,
     FOption_AllowSessionSave,
@@ -8610,6 +8608,5 @@ end;
 {$I formmain_themes.inc}
 {$I formmain_sidepanel.inc}
 {$I formmain_bottompanel.inc}
-{$I formmain_commandline.inc}
 
 end.
