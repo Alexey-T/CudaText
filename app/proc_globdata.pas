@@ -3267,6 +3267,18 @@ begin
   begin
     S:= ParamStr(i);
 
+    if (S='--version') or (S='-v') then
+    begin
+      MsgStdout('CudaText '+cAppExeVersion, true);
+      Halt;
+    end;
+
+    if (S='--help') or (S='-h') then
+    begin
+      MsgStdout(msgCommandLineHelp, true);
+      Halt;
+    end;
+
     if S='-n' then
     begin
       AppAlwaysNewInstance:= true;

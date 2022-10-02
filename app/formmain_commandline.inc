@@ -34,18 +34,6 @@ begin
       Continue;
     end;
 
-    if (SParam='--version') or (SParam='-v') then
-    begin
-      MsgStdout('CudaText '+cAppExeVersion, true);
-      Application.Terminate;
-    end;
-
-    if (SParam='--help') or (SParam='-h') then
-    begin
-      MsgStdout(msgCommandLineHelp, true);
-      Application.Terminate;
-    end;
-
     if SBeginsWith(SParam, '-w=') then
     begin
       AWindowPos:= Copy(SParam, 4, MaxInt);
