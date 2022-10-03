@@ -1488,11 +1488,13 @@ end;
 
 function EditorBracket_ClearHilite(Ed: TATSynEdit): boolean;
 var
-  b1, b2: boolean;
+  bChange1, bChange2: boolean;
 begin
-  b1:= Ed.Attribs.DeleteWithTag(cEditorTagForBracket);
-  b2:= Ed.GutterDecor.DeleteByTag(cEditorTagForBracket);
-  Result:= b1 or b2;
+  bChange1:= Ed.Attribs.DeleteWithTag(cEditorTagForBracket);
+  bChange2:= Ed.GutterDecor.DeleteByTag(cEditorTagForBracket);
+  Result:= bChange1 or bChange2;
+  if Result then
+    Ed.Update;
 end;
 
 procedure EditorBracket_FindBoth(Ed: TATSynEdit;
