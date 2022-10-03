@@ -1676,40 +1676,40 @@ Example adds 3 columns:
    x=-1, y=-1, x2=-1, y2=-1,
    style=-1, p1=-1, p2=-1)
 
-Performs action on canvas (drawing surface of some GUI control).
-Id_canvas is handle of canvas of some GUI control. Special value 0 means testing empty panel, it appears at the top of app, when used.
+Performs action on canvas, ie drawing surface of some GUI control.
+Param "id_canvas" is handle of canvas of some GUI control. Special value 0 means testing empty panel, it appears at the top of app, when used.
 
 Possible values of "id_action":
 
-* CANVAS_SET_FONT: Sets props of font. Params:
+* CANVAS_SET_FONT: Sets props of font. Params used:
 ** "text": font name
 ** "color"
 ** "size"
 ** "style": 0 for normal, or sum of values FONT_B (bold), FONT_I (italic), FONT_U (underline), FONT_S (strikeout)
 
-* CANVAS_SET_PEN: Sets props of pen. Params:
+* CANVAS_SET_PEN: Sets props of pen. Params used:
 ** "color"
 ** "size"
 ** "style": one of PEN_STYLE_nnnn
 ** "p1": end caps style - one of PEN_CAPS_nnnn
 ** "p2": line joining style - one of PEN_JOIN_nnnn
 
-* CANVAS_SET_BRUSH: Sets props of brush. Params:
+* CANVAS_SET_BRUSH: Sets props of brush. Params used:
 ** "color"
 ** "style": one of BRUSH_nnnn. Usually used: BRUSH_SOLID (filled background), BRUSH_CLEAR (transparent background).
 
-* CANVAS_SET_ANTIALIAS: Sets anti-aliasing mode of canvas. Params: style - ANTIALIAS_NONE, _ON, _OFF.
-* CANVAS_GET_TEXT_SIZE: Returns size of text on canvas, as 2-tuple (size_x, size_y). Uses font. Params: text.
-* CANVAS_TEXT: Paints text at given coords. Uses font and brush. Params: text, x, y.
-* CANVAS_LINE: Paints line at given coords. Uses pen. Params: x, y, x2, y2.
-* CANVAS_PIXEL: Paints one pixel at given coords. Params: x, y, color.
-* CANVAS_RECT: Paints rectangle. Uses pen and brush. Params: x, y, x2, y2.
-* CANVAS_RECT_FRAME: Paints rectangle. Uses only pen. Params: x, y, x2, y2.
-* CANVAS_RECT_FILL: Paints rectangle. Uses only brush. Params: x, y, x2, y2.
-* CANVAS_RECT_ROUND: Paints rounded rectangle. Uses pen and brush. Params: x, y, x2, y2, style - radius of corners.
-* CANVAS_ELLIPSE: Paints ellipse or circle. Uses pen and brush. Params: x, y, x2, y2.
-* CANVAS_POLYGON: Paints polygon from any number of points (>2). Uses pen and brush. Params: text - comma separated list of (x,y) coords. Example: "10,10,200,50,10,100" - 3 points.
-* CANVAS_SET_TESTPANEL: Sets height of testing panel at the top. Params: size. If it's "too small", panel hides; for big size, size is limited.
+* CANVAS_SET_ANTIALIAS: Sets anti-aliasing mode of canvas. Params used: "style" - ANTIALIAS_NONE, ANTIALIAS_ON, ANTIALIAS_OFF.
+* CANVAS_GET_TEXT_SIZE: Returns size of text on canvas, as 2-tuple (size_x, size_y). Uses font. Params used: "text".
+* CANVAS_TEXT: Paints text at given coords. Uses font and brush. Params used: "text", "x", "y".
+* CANVAS_LINE: Paints line at given coords. Uses pen. Params used: "x", "y", "x2", "y2".
+* CANVAS_PIXEL: Paints one pixel at given coords. Params used: "x", "y", "color".
+* CANVAS_RECT: Paints rectangle. Uses pen and brush. Params used: "x", "y", "x2", "y2".
+* CANVAS_RECT_FRAME: Paints rectangle. Uses only pen. Params used: "x", "y", "x2", "y2".
+* CANVAS_RECT_FILL: Paints rectangle. Uses only brush. Params used: "x", "y", "x2", "y2".
+* CANVAS_RECT_ROUND: Paints rounded rectangle. Uses pen and brush. Params used: "x", "y", "x2", "y2", "style" - radius of corners.
+* CANVAS_ELLIPSE: Paints ellipse or circle. Uses pen and brush. Params used: "x", "y", "x2", "y2".
+* CANVAS_POLYGON: Paints polygon from any number of points (>2). Uses pen and brush. Params used: "text" - comma separated list of (x,y) coords. Example: "10,10,200,50,10,100" - 3 points.
+* CANVAS_SET_TESTPANEL: Sets height of testing panel at the top. Params used: "size". If it's "too small" then panel hides; for big value, panel height is limited.
 
 === timer_proc ===
 
