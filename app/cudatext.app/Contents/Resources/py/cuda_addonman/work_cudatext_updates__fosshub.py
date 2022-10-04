@@ -40,6 +40,7 @@ FILE_RES = {
     }
 FILE_RE = FILE_RES.get(OS)
 
+CHANGELOG_PAGE = 'https://cudatext.github.io/history.txt'
 
 def versions_ordered(s1, s2):
     """
@@ -84,12 +85,19 @@ def check_cudatext():
             app.MB_ICONQUESTION
         )
         if msg_ == 1:
-            url_ = 'https://cudatext.github.io/history.txt'
-            webbrowser.open_new_tab(url_)
+            webbrowser.open_new_tab(CHANGELOG_PAGE)
             print(_('Opened changelog URL'))
         return
 
-    if app.msg_box(_('Update Available\n\nCurrent version: {}\nLatest version: {}\n\nOpen download URL in browser?')
-                  .format(ver_local, ver_inet), app.MB_YESNO+app.MB_ICONINFO) == app.ID_YES:
+    msg_ = app.msg_box_ex(
+        _('Check for updates'),
+        _('Update Available\n\nCurrent version: {}\nLatest version: {}').format(ver_local, ver_inet),
+        [_('Cancel'), _('Open download URL...'), _('Open changelog...')],
+        app.MB_ICONQUESTION
+    )
+    if msg_ == 1:
         webbrowser.open_new_tab(url)
         print(_('Opened download URL'))
+    if msg_ == 2:
+        webbrowser.open_new_tab(CHANGELOG_PAGE)
+        print(_('Opened changelog URL'))
