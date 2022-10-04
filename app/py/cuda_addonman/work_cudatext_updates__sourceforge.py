@@ -37,7 +37,7 @@ else:
         TEXT_CPU + r'-[\d\.]+'+ \
         r'\.(zip|dmg|tar\.xz|tar)/download)"'
 REGEX_GROUP_VER = 1
-    
+
 
 def versions_ordered(s1, s2):
     """
@@ -95,11 +95,11 @@ def check_cudatext():
     ver_local = app.app_exe_version()
 
     if versions_ordered(ver_inet, ver_local):
-        app.msg_box(_('Latest CudaText is already here.\nLocal: {}\nInternet: {}')
+        app.msg_box(_('Up to Date.\nCurrent version: {}\nLatest version: {}')
                    .format(ver_local, ver_inet), app.MB_OK+app.MB_ICONINFO)
         return
 
-    if app.msg_box(_('CudaText update is available.\nLocal: {}\nInternet: {}\n\nOpen download URL in browser?')
+    if app.msg_box(_('Update Available.\nCurrent version: {}\nLatest version: {}\n\nOpen download URL in browser?')
                   .format(ver_local, ver_inet), app.MB_YESNO+app.MB_ICONINFO) == app.ID_YES:
         webbrowser.open_new_tab(url)
         print(_('Opened download URL'))

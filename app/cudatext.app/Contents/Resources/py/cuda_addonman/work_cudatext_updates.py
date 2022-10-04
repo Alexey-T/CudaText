@@ -66,11 +66,11 @@ def check_cudatext():
     ver_local = app.app_exe_version()
 
     if versions_ordered(ver_inet, ver_local):
-        app.msg_box('Latest CudaText is already here.\nLocal: %s\nInternet: %s'
+        app.msg_box(_('Up to Date.\nCurrent version: {}\nLatest version: {}')
                    %(ver_local, ver_inet), app.MB_OK+app.MB_ICONINFO)
         return
 
-    if app.msg_box('CudaText update is available.\nLocal: %s\nInternet: %s\n\nOpen download URL in browser?'
+    if app.msg_box(_('Update Available.\nCurrent version: {}\nLatest version: {}\n\nOpen download URL in browser?')
                   %(ver_local, ver_inet), app.MB_YESNO+app.MB_ICONINFO) == app.ID_YES:
         webbrowser.open_new_tab(url)
         print('Opened download URL')
