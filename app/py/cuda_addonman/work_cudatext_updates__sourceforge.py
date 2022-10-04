@@ -95,8 +95,16 @@ def check_cudatext():
     ver_local = app.app_exe_version()
 
     if versions_ordered(ver_inet, ver_local):
-        app.msg_box(_('Up to Date\n\nCurrent version: {}\nLatest version: {}')
-                   .format(ver_local, ver_inet), app.MB_OK+app.MB_ICONINFO)
+        msg_ = app.msg_box_ex(
+            _('Check for updates'),
+            _('Up to Date\n\nCurrent version: {}\nLatest version: {}').format(ver_local, ver_inet),
+            [_('OK'), _('Open changelog...')],
+            app.MB_ICONQUESTION
+        )
+        if msg_ == 1:
+            url_ = 'https://cudatext.github.io/history.txt'
+            webbrowser.open_new_tab(url_)
+            print(_('Opened changelog URL'))
         return
 
     if app.msg_box(_('Update Available\n\nCurrent version: {}\nLatest version: {}\n\nOpen download URL in browser?')
