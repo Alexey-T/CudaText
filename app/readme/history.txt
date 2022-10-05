@@ -3,6 +3,9 @@
   - fixed
   * changed
 
++ add: lexer reST: must handle CJK headers too (thanks @lookoutside)
+- fix: regression: Alt+Down stopped working in Console/Find/Replace comboboxes
+
 1.172.0 (2022/10)
 
 + add: option "auto_copy_clp", which now replaces plugin Auto Copy To Clipboard (plugin is now ignored); unlike the old plugin, option works in all editor-fields in the app (including Find/Replace/Console/etc)
