@@ -29,6 +29,7 @@ else:
 DOWNLOAD_REGEX = \
     ' href="(\w+://[\w\.]+/projects/cudatext/files/release/\w+/cudatext-[\w\-]+?'+TEXT_CPU+'[\w\-]*?-([\d\.]+?)\.(zip|dmg|tar\.xz)/download)"'
 
+CHANGELOG_PAGE = 'https://cudatext.github.io/history.txt'
 
 def versions_ordered(s1, s2):
     """
@@ -66,11 +67,26 @@ def check_cudatext():
     ver_local = app.app_exe_version()
 
     if versions_ordered(ver_inet, ver_local):
-        app.msg_box('Latest CudaText is already here.\nLocal: %s\nInternet: %s'
-                   %(ver_local, ver_inet), app.MB_OK+app.MB_ICONINFO)
+        msg_ = app.msg_box_ex(
+            _('Check for updates'),
+            _('Latest CudaText is already here.\n\nLocal: {}\nInternet: {}').format(ver_local, ver_inet),
+            [_('OK'), _('View changelog...')],
+            app.MB_ICONQUESTION
+        )
+        if msg_ == 1:
+            webbrowser.open_new_tab(CHANGELOG_PAGE)
+            print(_('Opened changelog link'))
         return
 
-    if app.msg_box('CudaText update is available.\nLocal: %s\nInternet: %s\n\nOpen download URL in browser?'
-                  %(ver_local, ver_inet), app.MB_YESNO+app.MB_ICONINFO) == app.ID_YES:
+    msg_ = app.msg_box_ex(
+        _('Check for updates'),
+        _('CudaText update is available.\n\nLocal: {}\nInternet: {}').format(ver_local, ver_inet),
+        [_('Cancel'), _('Open download link...'), _('View changelog...')],
+        app.MB_ICONQUESTION
+    )
+    if msg_ == 1:
         webbrowser.open_new_tab(url)
-        print('Opened download URL')
+        print(_('Opened download link'))
+    if msg_ == 2:
+        webbrowser.open_new_tab(CHANGELOG_PAGE)
+        print(_('Opened changelog link'))
