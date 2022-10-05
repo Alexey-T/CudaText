@@ -5,9 +5,10 @@
 
 1.172.1 (2022/10)
 
-+ add: lexer reStructuredText: handle Unicode headers too (thanks @lookoutside)
++ add: lexer reStructuredText: support headers with Unicode (thanks @lookoutside)
 - fix: Tabs List plugin: wrong columns if file-pair is opened (thanks @veksha)
 - fix: regression in 1.165.2: Alt+Down stopped working in Console/Find/Replace comboboxes
+- fix: error if Ctrl+D is pressed in Console/Find/Replace input (thanks @mix-7)
 
 1.172.0 (2022/10)
 
