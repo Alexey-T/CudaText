@@ -3,8 +3,10 @@
   - fixed
   * changed
 
-+ add: lexer reST: must handle CJK headers too (thanks @lookoutside)
-- fix: regression: Alt+Down stopped working in Console/Find/Replace comboboxes
+1.172.1 (2022/10)
+
++ add: lexer reStructuredText: handle Unicode headers too (thanks @lookoutside)
+- fix: regression in 1.165.2: Alt+Down stopped working in Console/Find/Replace comboboxes
 
 1.172.0 (2022/10)
 
