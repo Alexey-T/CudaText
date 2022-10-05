@@ -81,23 +81,23 @@ def check_cudatext():
         msg_ = app.msg_box_ex(
             _('Check for updates'),
             _('Latest CudaText is already here.\n\nLocal: {}\nInternet: {}').format(ver_local, ver_inet),
-            [_('OK'), _('View changelog...')],
+            [_('OK'), _('Open changelog')],
             app.MB_ICONQUESTION
-        )
+            )
         if msg_ == 1:
             webbrowser.open_new_tab(CHANGELOG_PAGE)
-            print(_('Opened changelog link'))
+            app.msg_status(_('Opened changelog link'))
         return
 
     msg_ = app.msg_box_ex(
         _('Check for updates'),
         _('CudaText update is available.\n\nLocal: {}\nInternet: {}').format(ver_local, ver_inet),
-        [_('Cancel'), _('Open download link...'), _('View changelog...')],
+        [_('Cancel'), _('Open download link'), _('Open changelog')],
         app.MB_ICONQUESTION
-    )
+        )
     if msg_ == 1:
         webbrowser.open_new_tab(url)
-        print(_('Opened download link'))
-    if msg_ == 2:
+        app.msg_status(_('Opened download link'))
+    elif msg_ == 2:
         webbrowser.open_new_tab(CHANGELOG_PAGE)
-        print(_('Opened changelog link'))
+        app.msg_status(_('Opened changelog link'))
