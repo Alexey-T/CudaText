@@ -166,7 +166,7 @@ class Command:
                 elif show_t:
                     prefix = '%s. '%s_tab
 
-            name = prefix + edit.get_prop(PROP_TAB_TITLE).lstrip('*')
+            name = prefix + edit.get_prop(PROP_TAB_TITLE).lstrip('*').replace(' | ', '/') # ' | ' happens in file pair
             if self.show_column_folder:
                 name += '|' + os.path.dirname(edit.get_filename())
             if self.show_column_lexer:
