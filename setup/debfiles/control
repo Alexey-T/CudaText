@@ -1,5 +1,5 @@
 Package: cudatext
-Version: 1.172.1.0-1
+Version: 1.172.5.0-1
 Section: editors
 Priority: optional
 Architecture: amd64
