@@ -3,11 +3,11 @@
   - fixed
   * changed
 
-1.172.1 (2022/10)
+1.172.5 (2022/10)
 
 + add: lexer reStructuredText: support headers with Unicode (thanks @lookoutside)
 + add: 'Check for updates': added button "Open changelog" (thanks @ildarkhasanshin)
-+ add: commands "dialog: find: toggle ..." now consider options "find_suggest_*" (thanks @Vivalzar)
++ add: commands "dialog: find: toggle" and "dialog: replace: toggle" now consider options "find_suggest_*" (thanks @Vivalzar)
 - fix: Tabs List plugin: wrong columns if file-pair is opened (thanks @veksha)
 - fix: error if Ctrl+D is pressed in Console/Find/Replace input (thanks @mix-7)
 - fix: regression in 1.165.2: Alt+Down stopped working in Console/Find/Replace comboboxes
