@@ -1443,7 +1443,7 @@ begin
   if fmFind.Parent=nil then exit;
 
   F:= Screen.ActiveForm;
-  if F=Self then
+  if (F=nil) or (F=Self) then
     fmFind.Parent:= Self.PanelMain
   else
   if (F=FFormFloatGroups1) or
