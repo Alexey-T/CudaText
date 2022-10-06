@@ -455,7 +455,7 @@ begin
   fmFind.Localize;
 end;
 
-procedure TfmMain.DoDialogFind(AReplaceMode: boolean);
+procedure TfmMain.UpdateFindDialogInputsOnShow(AReplaceMode: boolean);
 var
   Frame: TEditorFrame;
   Ed: TATSynEdit;
@@ -522,7 +522,11 @@ begin
   else
     fmFind.edFind.DoSelect_All;
   fmFind.IsReplace:= AReplaceMode;
+end;
 
+procedure TfmMain.DoDialogFind(AReplaceMode: boolean);
+begin
+  UpdateFindDialogInputsOnShow(AReplaceMode);
   UpdateFindDialogParent;
   //MsgLogDebug('find dlg: update state');
   fmFind.UpdateState(true);
@@ -531,7 +535,7 @@ begin
   //MsgLogDebug('find dlg: focus');
   fmFind.UpdateFormHeight; //update 'Replace' buttons visibility, when dlg is in the floating-grp-form
 
-  UpdateFindDialogEnabled(Frame);
+  UpdateFindDialogEnabled(CurrentFrame);
   if fmFind.Enabled then
     fmFind.UpdateFocus(true);
 end;
@@ -610,8 +614,8 @@ begin
   end
   else
   begin
+    UpdateFindDialogInputsOnShow(AReplaceMode);
     UpdateFindDialogParent;
-    fmFind.IsReplace:= AReplaceMode;
     fmFind.Show;
   end;
 

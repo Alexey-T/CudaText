@@ -1069,6 +1069,7 @@ type
     procedure SplitterOnPaintDummy(Sender: TObject);
     procedure StopAllTimers;
     procedure UpdateEditorShowCaret;
+    procedure UpdateFindDialogInputsOnShow(AReplaceMode: boolean);
     procedure UpdateFindDialogParent;
     procedure UpdateFindDialogOnTabFocusing(F: TEditorFrame);
     procedure UpdateFindDialogEnabled(Frame: TEditorFrame);
