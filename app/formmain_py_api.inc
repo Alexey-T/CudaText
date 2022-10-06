@@ -5185,14 +5185,6 @@ begin
             Result:= PyBool_FromLong(Ord(ok));
           end;
 
-        APP_PROC_SIDEPANEL_ENUM:
-          begin
-            Str:= '';
-            for i:= 0 to fmMain.ToolbarSideTop.ButtonCount-1 do
-              Str:= Str + IfThen(i>0, #10) + fmMain.ToolbarSideTop.Buttons[i].Caption;
-            Result:= PyUnicodeFromString(Str);
-          end;
-
         APP_PROC_SIDEPANEL_ENUM_ALL:
           begin
             Result:= PyHelper_EnumSidebar(fmMain.ToolbarSideTop, AppPanels[cPaneSide]);
@@ -5270,14 +5262,6 @@ begin
             SSplitByChar(Str, ',', Str1, Str2);
             ok:= AppPanels[cPaneOut].UpdatePanels(Str1, AppStrToBool(Str2), true);
             Result:= PyBool_FromLong(Ord(ok));
-          end;
-
-        APP_PROC_BOTTOMPANEL_ENUM:
-          begin
-            Str:= '';
-            for i:= 0 to fmMain.ToolbarSideLow.ButtonCount-1 do
-              Str:= Str + IfThen(i>0, #10) + fmMain.ToolbarSideLow.Buttons[i].Caption;
-            Result:= PyUnicodeFromString(Str);
           end;
 
         APP_PROC_BOTTOMPANEL_ENUM_ALL:

@@ -409,8 +409,6 @@ Actions:
 ** str: caption.
 ** 2-tuple (caption, bool_set_focus). Default for bool_set_focus is False.
 
-* (deprecated) PROC_SIDEPANEL_ENUM: Enumerates tabs. Returns str, "\n"-separated captions of tabs.
-
 * PROC_SIDEPANEL_ENUM_ALL: Enumerates tabs. Returns list of dict, each dict item has keys:
 ** "cap": str: Panel caption (not affected by translation)
 ** "hint": str: Button's floating tooltip (affected by translation).
@@ -435,7 +433,6 @@ Actions:
 * PROC_BOTTOMPANEL_ADD_DIALOG: Adds tab. Same as for PROC_SIDEPANEL_ADD_DIALOG.
 * PROC_BOTTOMPANEL_REMOVE: Removes tab. Same as for PROC_SIDEPANEL_REMOVE.
 * PROC_BOTTOMPANEL_ACTIVATE: Activates tab. Same as for PROC_SIDEPANEL_ACTIVATE.
-* (deprecated) PROC_BOTTOMPANEL_ENUM: Enumerates tabs. Same as for PROC_SIDEPANEL_ENUM.
 * PROC_BOTTOMPANEL_ENUM_ELL: Enumerates tabs. Same as for PROC_SIDEPANEL_ENUM_ALL.
 * PROC_BOTTOMPANEL_GET_CONTROL: Returns int handle of control. Same as for PROC_SIDEPANEL_GET_CONTROL.
 * PROC_BOTTOMPANEL_GET: Returns caption of last activated tab. Same as for PROC_SIDEPANEL_GET.
@@ -4721,5 +4718,9 @@ It provides:
 * add: Editor.get_prop/set_prop: PROP_MINIMAP_CHAR_WIDTH
 * add: Editor.get_prop/set_prop: PROP_MINIMAP_SCALE
 * add: Editor.get_prop/set_prop: PROP_MINIMAP_AT_LEFT
+
+1.0.432 (app 1.172.1)
+* delete deprecated: PROC_SIDEPANEL_ENUM
+* delete deprecated: PROC_BOTTOMPANEL_ENUM
 
 [[Category:CudaText]]
