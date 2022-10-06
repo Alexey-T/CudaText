@@ -455,7 +455,7 @@ begin
   fmFind.Localize;
 end;
 
-procedure TfmMain.UpdateFindDialogInputsFromSuggestions;
+procedure TfmMain.UpdateFindDialogFromSuggestions;
 var
   Frame: TEditorFrame;
   Ed: TATSynEdit;
@@ -525,7 +525,7 @@ end;
 
 procedure TfmMain.DoDialogFind(AReplaceMode: boolean);
 begin
-  UpdateFindDialogInputsFromSuggestions;
+  UpdateFindDialogFromSuggestions;
   UpdateFindDialogParent;
   fmFind.IsReplace:= AReplaceMode;
   fmFind.UpdateState(true);
@@ -611,7 +611,7 @@ begin
   end
   else
   begin
-    UpdateFindDialogInputsFromSuggestions;
+    UpdateFindDialogFromSuggestions;
     UpdateFindDialogParent;
     fmFind.IsReplace:= AReplaceMode;
     fmFind.Show;
