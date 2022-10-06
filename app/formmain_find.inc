@@ -528,11 +528,8 @@ begin
   UpdateFindDialogInputsFromSuggestions;
   UpdateFindDialogParent;
   fmFind.IsReplace:= AReplaceMode;
-  //MsgLogDebug('find dlg: update state');
   fmFind.UpdateState(true);
-  //MsgLogDebug('find dlg: show');
   fmFind.Show;
-  //MsgLogDebug('find dlg: focus');
   fmFind.UpdateFormHeight; //update 'Replace' buttons visibility, when dlg is in the floating-grp-form
 
   UpdateFindDialogEnabled(CurrentFrame);
