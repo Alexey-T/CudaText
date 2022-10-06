@@ -2,5 +2,5 @@
   "tab_spaces": true,
   "tab_size": 2,
   "indent_size": 0,
-  "indent_auto_rule": "(?i)(.*\\bbegin\\s*$)|(^\\s*(try|except|finally|class|record|case|type|uses|initialization|finalization|(strict )?private|protected|public|published)\\b.*)|(^\\s*(const|var|threadvar)\\s*$)"  
+  "indent_auto_rule": "(?i)(.*\\bbegin\\s*$)|(^\\s*(try|except|finally|class|record|case|type|uses|initialization|finalization|(strict )?private|protected|public|published)\\b.*)|(^\\s*(const|var|threadvar|resourcestring)\\s*$)"
 }
