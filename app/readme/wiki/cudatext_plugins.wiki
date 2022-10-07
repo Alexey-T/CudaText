@@ -500,8 +500,8 @@ Linters have RegEx property in class, which must find named groups:
 * "filename": optional filename string.
 * "line": line index.
 * "col": column index.
-* "error": optinal, if found then CudaLint will force "error" gutter icon.
-* "warning": optinal, if found then CudaLint will force "warning" gutter icon.
+* "error": if found then CudaLint will force "error" gutter icon.
+* "warning": if found then CudaLint will force "warning" gutter icon.
 * "message": message text.
 
 <syntaxhighlight lang="python">
