@@ -497,12 +497,13 @@ In this example, CudaLint plugin allows, for mentioned lexer CSS, only linter "c
 === Linters - method split_match ===
 Linters have RegEx property in class, which must find named groups:
 
-* "file" or "filename": Optional filename string.
 * "line": Line index.
 * "col": Column index.
 * "error": If found then CudaLint will force "error" gutter icon.
 * "warning": If found then CudaLint will force "warning" gutter icon.
 * "message": Message text.
+
+Group "file" or "filename" is not used by CudaLint, but it may present for internal linter's handling, e.g. to ignore the line containing wrong filename.
 
 Example from SublimeLinter's linter for "Luau":
 <syntaxhighlight lang="python">
@@ -534,13 +535,14 @@ If CudaLint linter uses "split_match" it must be different. We cannot read error
 </syntaxhighlight>
 
 * We convert tuple to list, to enable to change it.
-* Each tuple/list has 6+ items, they are:
+* Each tuple/list has 7 items, they are:
 ** Item 0: RegEx match object
 ** Item 1: Line index
 ** Item 2: Column index
 ** Item 3: Error-state; if casted to True, line will have red icon
 ** Item 4: Warning-state; if not error and it's casted to True, line will have yellow icon
 ** Item 5: Message string
+** Item 6: 'Near', not used in CudaLint
 * We read RegEx named group "code" like this: error[0].group('code')
 * For debugging, we may add print(error[1:]) to show list item (without item 0: RegEx match object).
 
