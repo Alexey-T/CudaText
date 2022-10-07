@@ -514,7 +514,6 @@ class Luau(Linter):
 
 Sometimes, finding "error"/"warning" named groups is hard, and class method "split_match" can help here.
 Example from SublimeLinter's linter for "Luau":
-
 <syntaxhighlight lang="python">
     def split_match(self, match):
         error = super().split_match(match)
@@ -523,28 +522,23 @@ Example from SublimeLinter's linter for "Luau":
 </syntaxhighlight>
 
 If CudaLint linter uses "split_match" it must be different. We cannot read error['code'] and cannot write error['error_type']. We must adapt code to this:
-
 <syntaxhighlight lang="python">
     def split_match(self, match):
-        error = super().split_match(match)
-        error = list(error)
-        is_error = error[0].group('code').endswith('Error')
-        error[3] = is_error
-        error[4] = not is_error
-        return error
+        matches, line, col, error, warning, message, near = super().split_match(match)
+        is_error = matches.group('code').endswith('Error')
+        error = is_error
+        warning = not is_error
+        return match, line, col, error, warning, message, ''
 </syntaxhighlight>
 
-* We convert tuple to list, to enable to change it.
-* Each tuple/list has 7 items, they are:
-** Item 0: RegEx match object
-** Item 1: Line index
-** Item 2: Column index
-** Item 3: Error-state; if casted to True, line will have red icon
-** Item 4: Warning-state; if not error and it's casted to True, line will have yellow icon
-** Item 5: Message string
-** Item 6: 'Near', not used in CudaLint
-* We read RegEx named group "code" like this: error[0].group('code')
-* For debugging, we may add print(error[1:]) to show list item (without item 0: RegEx match object).
+Each tuple has 7 items:
+* matches: RegEx match object
+* line: Line index
+* col: Column index
+* error: Error state; if casted to True, line will have "error" icon (red)
+* warning: Warning state; if casted to True, line will have "warning" icon (yellow)
+* message: Message string
+* near: Ignored in CudaLint
 
 Example from CudaLint linter for Java.
 We override method because javac lints all referenced files, and we only want errors from the linted file.
