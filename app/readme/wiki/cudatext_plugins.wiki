@@ -497,7 +497,7 @@ In this example, CudaLint plugin allows, for mentioned lexer CSS, only linter "c
 === Linters - method split_match ===
 Linters have RegEx property in class, which must find named groups:
 
-* "file": Optional filename string.
+* "file" or "filename": Optional filename string.
 * "line": Line index.
 * "col": Column index.
 * "error": If found then CudaLint will force "error" gutter icon.
@@ -543,6 +543,111 @@ If CudaLint linter uses "split_match" it must be different. We cannot read error
 ** Item 5: Message string
 * We read RegEx named group "code" like this: error[0].group('code')
 * For debugging, we may add print(error[1:]) to show list item (without item 0: RegEx match object).
+
+Example from CudaLint linter for Java.
+We override method because javac lints all referenced files, and we only want errors from the linted file.
+<syntaxhighlight lang="python">
+    def split_match(self, match):
+        if match:
+            if match.group('file') != self.filename:
+                match = None
+        return super().split_match(match)
+</syntaxhighlight>
+
+Example from CudaLint linter for Haml.
+We override method to set the line/col to 0 if a linter error occurs and there is no line number.
+<syntaxhighlight lang="python">
+    def split_match(self, match):
+        match, line, col, error, warning, message, near = super().split_match(match)
+        if line is None:
+            line = col = 0
+        return match, line, col, error, warning, message, near
+</syntaxhighlight>
+
+Ecxample from CudaLint linter for AutoIt.
+Here we modify the message/error/warning.
+<syntaxhighlight lang="python">
+    def split_match(self, match):
+        split_match = super(AutoIt, self).split_match(match)
+        match, line, col, error, warning, message, near = split_match
+        message = '{} (Col {})'.format(message, col)
+
+        if match and match.group('type') == 'error':
+            error = 1
+            message = 'Error: ' + message
+        elif match and match.group('type') == 'warning':
+            warning = 1
+            message = 'Warning: ' + message
+
+        return match, line, col, error, warning, message, ''
+</syntaxhighlight>
+
+Example from CudaLint linter for JavaScript using ESLint.
+We override this method to silent warning by .eslintignore settings.
+<syntaxhighlight lang="python">
+    def split_match(self, match):
+        v1message = 'File ignored because of your .eslintignore file. Use --no-ignore to override.'
+        v2message = 'File ignored because of a matching ignore pattern. Use --no-ignore to override.'
+
+        match, line, col, error, warning, message, near = super().split_match(match)
+        if message and (message == v1message or message == v2message):
+            return match, None, None, None, None, '', None
+
+        return match, line, col, error, warning, message, near
+</syntaxhighlight>
+
+Example from CudaLint linter for PowerShell using PSScriptAnalyzer.
+We return the match with ` quotes transformed to '.
+We supress one message.
+<syntaxhighlight lang="python">
+    def split_match(self, match):
+        match, line, col, error, warning, message, near = super().split_match(match)
+
+        if message == 'no PowerShell code found at all':
+            match = None
+        else:
+            message = message.replace('`', '\'')
+
+            # If the message contains a complaint about a function
+            # and near looks like a function reference, remove the trailing
+            # () so it can be found.
+            if 'function \'' in message and near and near.endswith('()'):
+                near = near[:-2]
+
+        return match, line, col, error, warning, message, near
+</syntaxhighlight>
+
+Example from CudaLint linter for Ruby.
+We override method because unrelated library files can throw errors, and we only want errors from the linted file.
+<syntaxhighlight lang="python">
+    def split_match(self, match):
+        if match:
+            if match.group('file') != '-':
+                match = None
+        return super(Ruby,self).split_match(match)
+</syntaxhighlight>
+
+Example from CudaLint linter for CSSLint.
+We override method so that general errors that do not have a line number can be placed at the beginning of the code.
+<syntaxhighlight lang="python">
+    def split_match(self, match):
+        match, line, col, error, warning, message, near = super().split_match(match)
+        if line is None and message:
+            line = 0
+            col = 0
+        return match, line, col, error, warning, message, near
+</syntaxhighlight>
+
+Example from CudaLint linter for Haskell.
+We override method to ignore errors reported in imported files.
+<syntaxhighlight lang="python">
+    def split_match(self, match):
+        match, line, col, error, warning, message, near = super().split_match(match)
+        match_filename = os.path.basename(match.groupdict()['filename'])
+        if not match_filename.startswith('_CudaLint_'):
+            return None, None, None, None, None, '', None
+        return match, line, col, error, warning, message, near
+</syntaxhighlight>
 
 == CudaFormatter ==
 CudaFormatter is plugin which uses 2nd-level plugins, "formatters", to change the source code. Each "formatter" supports one or more lexers, and provides one or more actions. For example, the Addon Manager contains two formatters for XML: XML IndentX and XML Pretty Print.
