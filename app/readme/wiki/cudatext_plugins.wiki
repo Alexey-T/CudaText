@@ -528,10 +528,10 @@ If CudaLint linter uses "split_match" it must be different. We cannot read error
         is_error = matches.group('code').endswith('Error')
         error = is_error
         warning = not is_error
-        return match, line, col, error, warning, message, ''
+        return matches, line, col, error, warning, message, ''
 </syntaxhighlight>
 
-Each tuple has 7 items:
+CudaLint needs 7 tuple items in split_match() result:
 * matches: RegEx match object
 * line: Line index
 * col: Column index
