@@ -497,26 +497,29 @@ In this example, CudaLint plugin allows, for mentioned lexer CSS, only linter "c
 === Linters - method split_match ===
 Linters have RegEx property in class, which must find named groups:
 
-* "filename": optional filename string
-* "line": line index
-* "col": column index
-* "error": optinal non-empty match if line is "serious error", CudaLint will show red gutter icon
-* "warning": optinal non-empty match if line is "minor warning", CudaLint will show yellow gutter icon
-
-Sometimes, finding "error"/"warning" named groups is hard, and class method "split_match" can help here. Example from SublimeLinter's linter for "Luau":
+* "filename": optional filename string.
+* "line": line index.
+* "col": column index.
+* "error": optinal, if found then CudaLint will force "error" gutter icon.
+* "warning": optinal, if found then CudaLint will force "warning" gutter icon.
+* "message": message text.
 
 <syntaxhighlight lang="python">
 class Luau(Linter):
     cmd = 'luau-analyze --formatter=gnu -'
     regex = r'^stdin:(?P<line>\d+)\.(?P<col>\d+)\-(?P<end_line>\d+)\.(?P<end_col>\d+): (?P<code>\w+): (?P<message>.+)'
+</syntaxhighlight>
 
+Sometimes, finding "error"/"warning" named groups is hard, and class method "split_match" can help here. Example from SublimeLinter's linter for "Luau":
+
+<syntaxhighlight lang="python">
     def split_match(self, match):
         error = super().split_match(match)
         error['error_type'] = 'error' if error['code'].endswith('Error') else 'warning'
         return error
 </syntaxhighlight>
 
-If CudaLint linter uses "split_match" it must be different. We cannot read error['code'] and we cannot write error['error_type']. We must adapt code to this:
+If CudaLint linter uses "split_match" it must be different. We cannot read error['code'] and cannot write error['error_type']. We must adapt code to this:
 
 <syntaxhighlight lang="python">
     def split_match(self, match):
@@ -528,7 +531,6 @@ If CudaLint linter uses "split_match" it must be different. We cannot read error
         return error
 </syntaxhighlight>
 
-Notes:
 * We convert tuple to list, to enable to change it.
 * Each tuple/list has 6+ items, they are:
 ** Item 0: RegEx match object
@@ -538,7 +540,7 @@ Notes:
 ** Item 4: Warning-state; if not error and it's casted to True, line will have yellow icon
 ** Item 5: Message string
 * We read RegEx named group "code" like this: error[0].group('code')
-* For debugging, we may add print(error[1:]) to show list-item without error[0], which is RegEx match object.
+* For debugging, we may add print(error[1:]) to show list item (without item 0: RegEx match object).
 
 == CudaFormatter ==
 CudaFormatter is plugin which uses 2nd-level plugins, "formatters", to change the source code. Each "formatter" supports one or more lexers, and provides one or more actions. For example, the Addon Manager contains two formatters for XML: XML IndentX and XML Pretty Print.
