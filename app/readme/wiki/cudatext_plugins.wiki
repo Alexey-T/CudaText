@@ -566,7 +566,7 @@ We override method to set the line/col to 0 if a linter error occurs and there i
         return match, line, col, error, warning, message, near
 </syntaxhighlight>
 
-Ecxample from CudaLint linter for AutoIt.
+Example from CudaLint linter for AutoIt.
 Here we modify the message/error/warning.
 <syntaxhighlight lang="python">
     def split_match(self, match):
