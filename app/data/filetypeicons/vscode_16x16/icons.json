@@ -111,6 +111,7 @@
     "Slim": "file_type_slim.png",
     "Solidity": "file_type_solidity.png",
     "SQL": "file_type_sql.png",
+    "SQL ^": "file_type_sql.png",
     "Stylus": "file_type_stylus.png",
     "Swift": "file_type_swift.png",
     "T-SQL": "file_type_sql.png",
