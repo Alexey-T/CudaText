@@ -494,6 +494,47 @@ Variable prefix "linter_" required, after goes lower-case lexer name (CSS). Valu
 
 In this example, CudaLint plugin allows, for mentioned lexer CSS, only linter "csslint", even if another CSS linter (e.g. "csstree") is installed and found first.
 
+=== Linters - method split_match ===
+Linters have RegEx property in class, which must find named groups:
+
+* "filename": optional filename string
+* "line": line index
+* "col": column index
+* "error": optinal non-empty match if line is "serious error", CudaLint will show red gutter icon
+* "warning": optinal non-empty match if line is "minor warning", CudaLint will show yellow gutter icon
+
+Sometimes, finding "error"/"warning" named groups is hard, and class method "split_match" can help here. Example from SublimeLinter's linter for "Luau":
+
+<syntaxhighlight lang="python">
+class Luau(Linter):
+    cmd = 'luau-analyze --formatter=gnu -'
+    regex = r'^stdin:(?P<line>\d+)\.(?P<col>\d+)\-(?P<end_line>\d+)\.(?P<end_col>\d+): (?P<code>\w+): (?P<message>.+)'
+
+    def split_match(self, match):
+        error = super().split_match(match)
+        error['error_type'] = 'error' if error['code'].endswith('Error') else 'warning'
+        return error
+</syntaxhighlight>
+
+If CudaLint linter uses "split_match" it must be different. We cannot read error['code'] and we cannot write error['error_type']. We must adapt code to this:
+
+<syntaxhighlight lang="python">
+    def split_match(self, match):
+        error = super().split_match(match)
+        error = list(error)
+        is_error = error[0].group('code').endswith('Error')
+        error[3] = is_error
+        error[4] = not is_error
+        #print(error[1:])
+        return error
+</syntaxhighlight>
+
+Notes:
+* We converted tuple-item to list-item, to enable to change it.
+* We read RegEx named-group "code" (RegEx has this named group): error[0].group('code')
+* We write error[3] and error[4] - they are boolean items "error" and "warning"; error[0] is RegEx match object, error[1] is line index, error[2] is column index.
+* For debugging, we may add print(error[1:]) to show list-item without error[0], which is RegEx match object.
+
 == CudaFormatter ==
 CudaFormatter is plugin which uses 2nd-level plugins, "formatters", to change the source code. Each "formatter" supports one or more lexers, and provides one or more actions. For example, the Addon Manager contains two formatters for XML: XML IndentX and XML Pretty Print.
 
