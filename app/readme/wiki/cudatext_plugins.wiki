@@ -504,13 +504,15 @@ Linters have RegEx property in class, which must find named groups:
 * "warning": if found then CudaLint will force "warning" gutter icon.
 * "message": message text.
 
+Example from SublimeLinter's linter for "Luau":
 <syntaxhighlight lang="python">
 class Luau(Linter):
     cmd = 'luau-analyze --formatter=gnu -'
     regex = r'^stdin:(?P<line>\d+)\.(?P<col>\d+)\-(?P<end_line>\d+)\.(?P<end_col>\d+): (?P<code>\w+): (?P<message>.+)'
 </syntaxhighlight>
 
-Sometimes, finding "error"/"warning" named groups is hard, and class method "split_match" can help here. Example from SublimeLinter's linter for "Luau":
+Sometimes, finding "error"/"warning" named groups is hard, and class method "split_match" can help here.
+Example from SublimeLinter's linter for "Luau":
 
 <syntaxhighlight lang="python">
     def split_match(self, match):
