@@ -525,14 +525,19 @@ If CudaLint linter uses "split_match" it must be different. We cannot read error
         is_error = error[0].group('code').endswith('Error')
         error[3] = is_error
         error[4] = not is_error
-        #print(error[1:])
         return error
 </syntaxhighlight>
 
 Notes:
-* We converted tuple-item to list-item, to enable to change it.
-* We read RegEx named-group "code" (RegEx has this named group): error[0].group('code')
-* We write error[3] and error[4] - they are boolean items "error" and "warning"; error[0] is RegEx match object, error[1] is line index, error[2] is column index.
+* We convert tuple to list, to enable to change it.
+* Each tuple/list has 6+ items, they are:
+** Item 0: RegEx match object
+** Item 1: Line index
+** Item 2: Column index
+** Item 3: Error-state; if casted to True, line will have red icon
+** Item 4: Warning-state; if not error and it's casted to True, line will have yellow icon
+** Item 5: Message string
+* We read RegEx named group "code" like this: error[0].group('code')
 * For debugging, we may add print(error[1:]) to show list-item without error[0], which is RegEx match object.
 
 == CudaFormatter ==
