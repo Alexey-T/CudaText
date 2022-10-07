@@ -497,12 +497,12 @@ In this example, CudaLint plugin allows, for mentioned lexer CSS, only linter "c
 === Linters - method split_match ===
 Linters have RegEx property in class, which must find named groups:
 
-* "filename": optional filename string.
-* "line": line index.
-* "col": column index.
-* "error": if found then CudaLint will force "error" gutter icon.
-* "warning": if found then CudaLint will force "warning" gutter icon.
-* "message": message text.
+* "file": Optional filename string.
+* "line": Line index.
+* "col": Column index.
+* "error": If found then CudaLint will force "error" gutter icon.
+* "warning": If found then CudaLint will force "warning" gutter icon.
+* "message": Message text.
 
 Example from SublimeLinter's linter for "Luau":
 <syntaxhighlight lang="python">
