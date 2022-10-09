@@ -162,6 +162,7 @@ type
       const AText: string; var AHandled: boolean);
     procedure edFindEnter(Sender: TObject);
     procedure edFindKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure edRepKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure edRepEnter(Sender: TObject);
     procedure edRepExit(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -210,6 +211,7 @@ type
     AdapterActive: boolean;
     procedure bRepStopClick(Sender: TObject);
     procedure ControlAutosizeOptionsByWidth;
+    procedure CopyFieldFindToReplace;
     procedure DoFocusEditor;
     procedure DoResult(Op: TAppFinderOperation);
     function GetHiAll: boolean;
@@ -724,16 +726,51 @@ begin
   UpdateButtonBold;
 end;
 
+procedure TfmFind.CopyFieldFindToReplace;
+begin
+  edRep.Text:= edFind.Text;
+  edRep.DoCaretSingle(0, 0);
+  edRep.DoScrollToBeginOrEnd(true);
+  edRep.Update(true);
+end;
+
 procedure TfmFind.edFindKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   //Ctrl+Down: copy find_edit to replace_edit
   if (Key=VK_DOWN) and (Shift=[ssCtrl]) then
   begin
-    edRep.Text:= edFind.Text;
-    edRep.Update(true);
-    key:= 0;
+    CopyFieldFindToReplace;
+    Key:= 0;
     exit
+  end;
+
+  //Ctrl+Enter: add line-break
+  if (Key=VK_RETURN) and (Shift=[ssCtrl]) then
+  begin
+    edFind.DoCommand(cCommand_KeyEnter, cInvokeAppInternal);
+    Key:= 0;
+    exit;
+  end;
+end;
+
+procedure TfmFind.edRepKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  //Ctrl+Down: copy find_edit to replace_edit
+  if (Key=VK_DOWN) and (Shift=[ssCtrl]) then
+  begin
+    CopyFieldFindToReplace;
+    Key:= 0;
+    exit
+  end;
+
+  //Ctrl+Enter: add line-break
+  if (Key=VK_RETURN) and (Shift=[ssCtrl]) then
+  begin
+    edRep.DoCommand(cCommand_KeyEnter, cInvokeAppInternal);
+    Key:= 0;
+    exit;
   end;
 end;
 
