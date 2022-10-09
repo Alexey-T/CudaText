@@ -224,7 +224,7 @@ object fmFind: TfmFind
       TabStop = True
       OnEnter = edRepEnter
       OnExit = edRepExit
-      OnKeyDown = edRepKeyDown
+      OnKeyDown = edFindKeyDown
       OnCommand = edFindCommand
       WantTabs = False
       OptScrollStyleHorz = aessHide
