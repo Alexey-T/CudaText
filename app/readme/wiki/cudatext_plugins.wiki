@@ -1763,4 +1763,38 @@ In CudaText Project Manager you must save your project file to your php project 
 }
 </syntaxhighlight>
 
+==LSP server for C#==
+
+First, install C# lexer in the CudaText from "Plugins / Addons Manager / Install".
+
+1. Get OmniSharp server from GitHub https://github.com/OmniSharp/omnisharp-roslyn/releases . For Windows it is the package "omnisharp-win-x64.zip". Unzip this package to the folder "C:\OmniSharp", for example. It's not required to add that folder to system PATH.
+
+2. You need to install MSBuild. As of May 2022, OmniSharp does not include MSBuild. Download link can be found at the bottom of this page: https://visualstudio.microsoft.com/downloads/?q=build+tools - see "Build Tools for Visual Studio 2022". In the installation check the following option: ".NET desktop build tools". If you won't install MSBuild, OmniSharp server will fail, see more info here: https://github.com/OmniSharp/omnisharp-vscode/issues/5120 .
+
+3. Create LSP config file: (CudaText)/settings/lsp_cs.json. Note that backslashes must be doubled (because of JSON format).
+<syntaxhighlight lang="json">
+{
+  "lexers": {
+    "C#": "csharp"
+  },
+  "cmd_windows": [
+    "C:\\OmniSharp\\OmniSharp.exe", "-lsp", "-z"
+  ]
+}
+</syntaxhighlight>
+
+4. To test that server works: create a file "test.cs" (with C# lexer active). Call auto-completion after "date.A".
+<syntaxhighlight lang="csharp">
+using System;
+
+public class DateExample
+{
+	public static void Main()
+	{
+		DateTime  date;
+		date.A
+	}
+}
+</syntaxhighlight>
+
 [[Category:CudaText]]
