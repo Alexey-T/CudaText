@@ -1833,7 +1833,7 @@ This must show output like
 Copy to clipboard the last printed filename with dls.exe.
 
 4. Create the CudaText LSP config: (CudaText)/settings/lsp_d.json. The dls.exe filename is from the previous step. Note: backslashes must be doubled (because of JSON format).
-<syntaxhighlight lang="csharp">
+<syntaxhighlight lang="json">
 {
   "lexers": {
     "D": "dlang"
