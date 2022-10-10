@@ -1797,4 +1797,62 @@ public class DateExample
 }
 </syntaxhighlight>
 
+==LSP server for DLang==
+
+First, install lexer D from "Plugins / Addons Manager / Install".
+
+1. Install DLang into "C:\D", for example. For 64-bit compiler, add folder "C:\D\dmd2\windows\bin64" to system PATH. Check that "dmd" and "dub" commands run OK from the Windows console.
+
+2. Install the LSP server, run from console:
+
+ dub fetch dls
+
+This must show output like
+
+ C:\D>dub fetch dls
+ Fetching dls 0.26.2...
+ Please note that you need to use `dub run <pkgname>` or add it to dependencies of your package to actually use/run it. dub does not do actual installation of packages outside of its own ecosystem.
+
+3. Compile the LSP server, run from console:
+
+ dub run dls:bootstrap
+
+This must show output like
+
+ C:\D>dub run dls:bootstrap
+ Building package dls:bootstrap in C:\Users\user\AppData\Local\dub\packages\dls-0.26.2\dls\bootstrap\
+ Running pre-generate commands for dls:i18n...
+ Performing "debug" build using C:\D\dmd2\windows\bin64\dmd.exe for x86_64.
+ dls:protocol 0.26.2: building configuration "library"...
+ dls:i18n 0.26.2: building configuration "library"...
+ dls:bootstrap 0.26.2: building configuration "application"...
+ Linking...
+ Running ../Users/user/AppData/Local/dub/packages/dls-0.26.2/dls/bootstrap/dls_bootstrap.exe
+ C:\Users\user\AppData\Local\dub\packages\.bin\dls-latest\dls.exe
+
+Copy to clipboard the last printed filename with dls.exe.
+
+4. Create the CudaText LSP config: (CudaText)/settings/lsp_d.json. The dls.exe filename is from the previous step. Note: backslashes must be doubled (because of JSON format).
+<syntaxhighlight lang="csharp">
+{
+  "lexers": {
+    "D": "dlang"
+  },
+  "cmd_windows": [
+    "C:\\Users\\user\\AppData\\Local\\dub\\packages\\.bin\\dls-latest\\dls.exe", "--stdio"
+  ]
+}
+</syntaxhighlight>
+
+5. Create test file "test.d" (with lexer D). Test that auto-completion works after "b.":
+<syntaxhighlight lang="d">
+class A {int a; int a2;}
+class B: A {int a3;}
+
+void foo(B b)
+{
+ 	b.
+}
+</syntaxhighlight>
+
 [[Category:CudaText]]
