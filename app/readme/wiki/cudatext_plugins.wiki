@@ -1767,8 +1767,7 @@ In CudaText Project Manager you must save your project file to your php project 
 
 First, install C# lexer in the CudaText from "Plugins / Addons Manager / Install".
 
-1. Get OmniSharp server from GitHub https://github.com/OmniSharp/omnisharp-roslyn/releases . For Windows 64-bit it is the package "omnisharp-win-x64.zip" or "
-omnisharp-win-x64-net6.0.zip". Unzip this package to the folder "C:\OmniSharp", for example. It's not required to add that folder to system PATH.
+1. Get OmniSharp server from GitHub https://github.com/OmniSharp/omnisharp-roslyn/releases . For Windows 64-bit it is the package "omnisharp-win-x64.zip" or "omnisharp-win-x64-net6.0.zip". Unzip this package to the folder "C:\OmniSharp", for example. It's not required to add that folder to system PATH.
 
 2. You need to install MSBuild. As of May 2022, OmniSharp does not include MSBuild. Download link can be found at the bottom of this page: https://visualstudio.microsoft.com/downloads/?q=build+tools - see "Build Tools for Visual Studio 2022". In the installation check the following option: ".NET desktop build tools". If you won't install MSBuild, OmniSharp server will fail, see more info here: https://github.com/OmniSharp/omnisharp-vscode/issues/5120 .
 
