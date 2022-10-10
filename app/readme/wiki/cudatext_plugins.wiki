@@ -1797,7 +1797,7 @@ public class DateExample
 }
 </syntaxhighlight>
 
-==LSP server for DLang==
+==LSP server for D==
 
 First, install lexer D from "Plugins / Addons Manager / Install".
 
