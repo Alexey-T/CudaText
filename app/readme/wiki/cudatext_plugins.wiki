@@ -2019,7 +2019,7 @@ END PROGRAM
 </syntaxhighlight>
 
 Now auto-completion / goto-definition / hover-tooltip must work on this "test.md" file:
-<syntaxhighlight lang="markdown">
+<syntaxhighlight lang="md">
 [reference][abcd]
 [reference][a123]
 
