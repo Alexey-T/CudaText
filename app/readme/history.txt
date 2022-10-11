@@ -3,6 +3,8 @@
   - fixed
   * changed
 
+- fix: carets outside of screen are removed on moving (thanks @cser)
+
 1.172.5 (2022/10)
 
 + add: lexer reStructuredText: support headers with Unicode (thanks @lookoutside)
