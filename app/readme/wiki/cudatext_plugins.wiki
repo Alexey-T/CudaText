@@ -1618,7 +1618,7 @@ Server should be compiled now. To use the server in LSP Client, create the file 
 
 ==LSP server for JavaScript/ReactJS==
 
-* In the "Addons Manager", install the lexer for ReactJS: "JavaScript Babel".
+* Install lexer for ReactJS: "JavaScript Babel", from "Addons Manager".
 * Install TypeScript and the LSP server. In Terminal:
 
  npm install -g typescript typescript-language-server
@@ -1652,8 +1652,12 @@ Server should be compiled now. To use the server in LSP Client, create the file 
     "TypeScript": "ts"
   },
   "cmd_unix": [
-      "typescript-language-server", 
-      "--stdio" 
+    "typescript-language-server", 
+    "--stdio" 
+  ],
+  "cmd_windows": [
+    "typescript-language-server.cmd",
+    "--stdio" 
   ]
 }
 </syntaxhighlight>
@@ -1666,11 +1670,18 @@ Here it is on Ubuntu 20.04:
     "TypeScript": "ts"
   },
   "cmd_unix": [
-      "typescript-language-server", 
-      "--stdio", 
-      "--log-level=4", 
-      "--tsserver-log-verbosity=verbose",
-      "--tsserver-path=/usr/local/lib/node_modules/typescript/lib/"
+    "typescript-language-server", 
+    "--stdio", 
+    "--log-level=4", 
+    "--tsserver-log-verbosity=verbose",
+    "--tsserver-path=/usr/local/lib/node_modules/typescript/lib/"
+  ],
+  "cmd_windows": [
+    "typescript-language-server.cmd",
+    "--stdio", 
+    "--log-level=4", 
+    "--tsserver-log-verbosity=verbose",
+    "--tsserver-path=\"%APPDATA%\\npm\\node_modules\\typescript\\lib\\\""
   ]
 }
 </syntaxhighlight>
