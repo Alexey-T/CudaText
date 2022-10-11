@@ -3,7 +3,6 @@
   - fixed
   * changed
 
-- fix: regression in 1.167: carets outside of screen are removed on arrow moving (thanks @cser)
 
 1.172.5 (2022/10)
 
@@ -16,6 +15,7 @@
 - fix: error if Ctrl+D is pressed in Console/Find/Replace input (thanks @mix-7)
 - fix: regression in 1.165.2: Alt+Down stopped working in Console/Find/Replace comboboxes
 - fix: regression in 1.165.2: Ctrl+Enter stopped working in Find/Replace input fields
+- fix: regression in 1.167: carets outside of screen are removed on arrow moving (thanks @cser)
 
 1.172.0 (2022/10)
 
