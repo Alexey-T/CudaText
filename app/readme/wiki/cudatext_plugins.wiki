@@ -1618,12 +1618,12 @@ Server should be compiled now. To use the server in LSP Client, create the file 
 
 ==LSP server for JavaScript/ReactJS==
 
-* In "Addons Manager", install the lexer for ReactJS: "JavaScript Babel".
+* In the "Addons Manager", install the lexer for ReactJS: "JavaScript Babel".
 * Install TypeScript and the LSP server. In Terminal:
 
  npm install -g typescript typescript-language-server
 
-To use the server in LSP Client, create a file "lsp_js.json" in the "settings" directory with such content:
+* Create CudaText LSP config: file "settings/lsp_js.json" with such content:
 <syntaxhighlight lang="json">
 {
     "name": "JavaScript",
@@ -1637,6 +1637,49 @@ To use the server in LSP Client, create a file "lsp_js.json" in the "settings" d
     ]
 }
 </syntaxhighlight>
+
+==LSP server for TypeScript==
+
+* Install TypeScript lexer from "Addons Manager".
+* Install TypeScript and the LSP server. In Terminal:
+
+ npm install -g typescript typescript-language-server
+
+* Create CudaText LSP config: file "settings/lsp_ts.json" with such content:
+<syntaxhighlight lang="json">
+{
+  "lexers": {
+    "TypeScript": "ts"
+  },
+  "cmd_unix": [
+      "typescript-language-server", 
+      "--stdio" 
+  ]
+}
+</syntaxhighlight>
+
+According to https://www.zeusedit.com/lsp/typescript.html, sometimes more complex config file may be needed.
+Here it is on Ubuntu 20.04:
+<syntaxhighlight lang="json">
+{
+  "lexers": {
+    "TypeScript": "ts"
+  },
+  "cmd_unix": [
+      "typescript-language-server", 
+      "--stdio", 
+      "--log-level=4", 
+      "--tsserver-log-verbosity=verbose",
+      "--tsserver-path=/usr/local/lib/node_modules/typescript/lib/"
+  ]
+}
+</syntaxhighlight>
+
+How did I get the last path? It may be different on different Linux'es. It is from the "node_modules" dir which contains the '''globally installed''' Node.js modules. I found it by running "which typescript-language-server", it gave "/usr/local/bin/typescript-language-server". Then I checked symlink target for "/usr/local/bin/typescript-language-server" - it points to the sub-dir of needed "node_modules".
+
+Test the auto-completion on this "test.ts" file (with TypeScript lexer):
+
+ document.body.g
 
 ==LSP servers for C/C++==
 
