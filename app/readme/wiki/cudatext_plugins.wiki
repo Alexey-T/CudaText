@@ -1999,4 +1999,34 @@ CALL myv
 END PROGRAM
 </syntaxhighlight>
 
+==LSP server for Markdown==
+
+1. Get precompiled Marksman LSP server from GitHub: https://github.com/artempyanykh/marksman/releases
+
+2. On Windows, copy "marksman.exe" to some folder in PATH. On Linux, copy "marksman-linux" to this recommended folder in PATH: ~/.local/bin. Set executable permission for Linux binary.
+
+ chmod +x marksman-linux
+
+3. Create config file (CudaText)/settings/lsp_md.json:
+<syntaxhighlight lang="json">
+{
+  "lexers": {
+    "Markdown": "markdown"
+  },
+  "cmd_windows": ["marksman.exe"],
+  "cmd_unix": ["marksman-linux"]
+}
+</syntaxhighlight>
+
+Now auto-completion / goto-definition / hover-tooltip must work on this "test.md" file:
+<syntaxhighlight lang="markdown">
+[reference][abcd]
+[reference][a123]
+
+Some text.
+
+[abcd]: url "title"
+[a123]: url "title2"
+</syntaxhighlight>
+
 [[Category:CudaText]]
