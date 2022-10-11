@@ -1953,4 +1953,46 @@ func main() {
 }
 </syntaxhighlight>
 
+==LSP for Fortran==
+
+Install lexer Fortran from "Addons Manager".
+Steps show how to use server on Linux (Ubuntu 20.04) with Python 3 installed.
+
+1. Install the LSP server:
+
+ pip install fortran-language-server
+
+Check that command runs OK:
+
+ fortls -?
+
+And check its full path:
+
+ which fortls
+ 
+Here it prints: "/home/user/.local/bin/fortls". We will need that full path in the next step.
+
+2. Create CudaText LSP config: (CudaText)/settings/lsp_fortran.json:
+<syntaxhighlight lang="json">
+{
+  "lexers": {
+    "Fortran": "fortran"
+  },
+  "cmd_unix": [
+      "/home/user/.local/bin/fortls" 
+  ]
+}
+</syntaxhighlight>
+
+Short program name "fortls" gave errors for me, so I wrote full path.
+
+3. Make test file "test.for" (with Fortran lexer). Test auto-completion after "CALL myv".
+<syntaxhighlight lang="fortran">
+PROGRAM myprog
+USE test_free, ONLY: scaled_vector
+TYPE(scaled_vector) :: myvec
+CALL myv
+END PROGRAM
+</syntaxhighlight>
+
 [[Category:CudaText]]
