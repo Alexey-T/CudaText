@@ -1953,7 +1953,7 @@ func main() {
 }
 </syntaxhighlight>
 
-==LSP for Fortran==
+==LSP server for Fortran==
 
 Install lexer Fortran from "Addons Manager".
 Steps show how to use server on Linux (Ubuntu 20.04) with Python 3 installed.
