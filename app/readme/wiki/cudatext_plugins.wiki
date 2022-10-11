@@ -1909,4 +1909,48 @@ void foo(B b)
 }
 </syntaxhighlight>
 
+==LSP server for Go==
+
+Install lexer Go from "Addons Manager".
+
+1. Install Go. Make sure that Go binary is in the system PATH, and GOPATH variable is also set.
+
+2. Install the LSP server:
+
+ go install golang.org/x/tools/gopls@latest
+
+In Ubuntu, this must create binary "gopls" in the folder "~/go/bin" (on Windows it may be "C:\Go\bin"), which is in the PATH. Check that "gopls" runs:
+
+ gopls version
+
+It must give output like:
+
+ golang.org/x/tools/gopls v0.9.5
+     golang.org/x/tools/gopls@v0.9.5 h1:F3TO5th6TUg40FHrpxZfMkMlVaaTmByeEvylgVHGH2A=
+
+3. Create CudaText LSP config (CudaText)/settings/lsp_go.json:
+<syntaxhighlight lang="json">
+{
+  "lexers": {
+    "Go": "go"
+  },
+  "cmd_unix": [
+    "gopls" 
+  ],
+  "cmd_windows": [
+    "gopls.exe"
+  ]
+}
+</syntaxhighlight>
+
+4. See the content of GOPATH env variable, and create file "test.go" (with lexer Go) in that folder. Check that auto-completion works after "fmt.F":
+<syntaxhighlight lang="go">
+package aa
+import ("fmt")
+
+func main() {
+  fmt.F
+}
+</syntaxhighlight>
+
 [[Category:CudaText]]
