@@ -1969,8 +1969,8 @@ Check that command runs OK:
 And check its full path:
 
  which fortls
- 
-Here it prints: "/home/user/.local/bin/fortls". We will need that full path in the next step.
+
+Here it prints: "/home/user/.local/bin/fortls". We will need that full path in the next step, because short program name "fortls" gave errors for me.
 
 2. Create CudaText LSP config: (CudaText)/settings/lsp_fortran.json:
 <syntaxhighlight lang="json">
@@ -1983,8 +1983,6 @@ Here it prints: "/home/user/.local/bin/fortls". We will need that full path in t
   ]
 }
 </syntaxhighlight>
-
-Short program name "fortls" gave errors for me, so I wrote full path.
 
 3. Make test file "test.for" (with Fortran lexer). Test auto-completion after "CALL myv".
 <syntaxhighlight lang="fortran">
