@@ -1519,9 +1519,14 @@ Open some Python script, and call some commands of LSP Client. It will run the s
     "cmd_unix": [
         "typescript-language-server",
         "--stdio"
+    ],
+    "cmd_windows": [
+        "typescript-language-server.cmd",
+        "--stdio"
     ]
 }
 </syntaxhighlight>
+This assumes that "typescript-language-server" is in the PATH (it is true on Ubuntu). For Windows, you need to find the folder of "typescript-language-server.cmd" and add it to PATH.
 
 ==LSP server for TypeScript==
 
@@ -1546,9 +1551,10 @@ Open some Python script, and call some commands of LSP Client. It will run the s
   ]
 }
 </syntaxhighlight>
+This assumes that "typescript-language-server" is in the PATH (it is true on Ubuntu). For Windows, you need to find the folder of "typescript-language-server.cmd" and add it to PATH.
 
 According to https://www.zeusedit.com/lsp/typescript.html, sometimes more complex config file may be needed.
-Here it is on Ubuntu 20.04:
+Here it is on Ubuntu:
 <syntaxhighlight lang="json">
 {
   "lexers": {
