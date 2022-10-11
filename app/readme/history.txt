@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-- fix: carets outside of screen are removed on moving (thanks @cser)
+- fix: regression in 1.167: carets outside of screen are removed on arrow moving (thanks @cser)
 
 1.172.5 (2022/10)
 
