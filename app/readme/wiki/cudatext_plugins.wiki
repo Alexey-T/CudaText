@@ -1820,7 +1820,9 @@ Note: don't create .bat or .cmd file with the "red.exe" calling, because it does
 php folder_of_server/bin/php-language-server.php --tcp-server=127.0.0.1:12345
 </pre>
 
-* If LSP Client has version 2022.06.16 or newer, both "tcp_port" and "cmd_xxxx" can be specified in lsp_php.json. And you don't need to run server by hands.
+* Both "tcp_port" and "cmd_xxxx" can be specified in lsp_php.json. And you don't need to run server by hands.
+
+Note: in rare cases hanging php.exe process can prevent LSP server from starting. If you see "ReadLoopError" in Console, try to kill all "php" processes and try again.
 
 <syntaxhighlight lang="json">
 {
