@@ -1799,10 +1799,13 @@ Note: don't create .bat or .cmd file with the "red.exe" calling, because it does
 
 ==LSP server for PHP==
 
-* Install PHP, Composer. PHP versions 7.4.3 and 8.1 are OK. 
-* Install php-dom extension. php-dom extension is the only needed for this server to work, and it must be installed before you run "composer update".
-* Clone https://github.com/zobo/php-language-server. See its readme "Installation" part, you must do some steps with Composer first, e.g. "composer update" inside php-language-server directory. 
-* Create file (CudaText)/settings/lsp_php.json with content:
+1. Install PHP, Composer. PHP versions 7.4.3 and 8.1 are OK. 
+
+2. Install php-dom extension. php-dom extension is the only needed for this server to work, and it must be installed before you run "composer update".
+
+3. Clone Git repo https://github.com/zobo/php-language-server , and get the full path to the file "php-language-server.php", it will be needed in the next step. See readme "Installation" part, you must do some steps with Composer first, e.g. "composer update" inside php-language-server directory. 
+
+4. Create LSP config (CudaText)/settings/lsp_php.json:
 
 <syntaxhighlight lang="json">
 {
