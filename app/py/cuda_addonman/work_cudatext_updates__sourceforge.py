@@ -99,7 +99,9 @@ def check_cudatext():
         msg_ = app.msg_box_ex(
             _('Check for updates'),
             _('Latest CudaText is already here.\n\nLocal: {}\nInternet: {}').format(ver_local, ver_inet),
-            [_('OK'), _('Open changelog')],
+            [_('OK')
+            #, _('Open changelog')
+            ],
             app.MB_ICONQUESTION
             )
         if msg_ == 1:
@@ -110,7 +112,9 @@ def check_cudatext():
     msg_ = app.msg_box_ex(
         _('Check for updates'),
         _('CudaText update is available.\n\nLocal: {}\nInternet: {}').format(ver_local, ver_inet),
-        [_('Cancel'), _('Open download link'), _('Open changelog')],
+        [_('Cancel'), _('Open download link')
+        #, _('Open changelog')
+        ],
         app.MB_ICONQUESTION
         )
     if msg_ == 1:

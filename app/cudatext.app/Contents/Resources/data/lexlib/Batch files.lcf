@@ -133,6 +133,7 @@ object SyntAnal3: TLibSyntAnalyzer
     end
     item
       DisplayName = 'Echo'
+      Enabled = False
       StyleName = 'String'
       StrictParent = True
       TokenType = 4
