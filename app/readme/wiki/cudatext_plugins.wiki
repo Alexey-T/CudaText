@@ -1810,36 +1810,27 @@ Note: don't create .bat or .cmd file with the "red.exe" calling, because it does
     "lexers": {
         "PHP": "php"
     },
-    "tcp_port": 12345
+    "tcp_port": 12345,
+    "cmd_unix": [
+      "php",
+      "folder_of_server/bin/php-language-server.php",
+      "--tcp-server=127.0.0.1:12345"
+    ],
+    "cmd_windows": [
+      "php",
+      "D:\\programm\\php\\php-language-server\\bin\\php-language-server.php",
+      "--tcp-server=127.0.0.1:12345"
+    ]
 }
 </syntaxhighlight>
 
-* Create shell/command script to start server by hands:
-
-<pre>
-php folder_of_server/bin/php-language-server.php --tcp-server=127.0.0.1:12345
-</pre>
-
-* Both "tcp_port" and "cmd_xxxx" can be specified in lsp_php.json. And you don't need to run server by hands.
-
-Note: in rare cases hanging php.exe process can prevent LSP server from starting. If you see "ReadLoopError" in Console, try to kill all "php" processes and try again.
-
-<syntaxhighlight lang="json">
-{
-    "name": "PHP",
-    "lexers": {
-        "PHP": "php"
-    },
-    "cmd_windows": ["php", "D:\\programm\\php\\php-language-server\\bin\\php-language-server.php", "--tcp-server=127.0.0.1:12345"],
-    "tcp_port": 12345
-}
-</syntaxhighlight>
-
-Server should work now. It gives features: https://github.com/zobo/php-language-server#features .
+Server should work now. It gives these features: https://github.com/zobo/php-language-server#features .
 
 Auto-completion works, it is not working if you open .php file that is outside of current CudaText project directory.
 In LSP Client config there is a parameter named "root_dir_source". For zobo's server to index .php files they must be inside this dir.
 In CudaText Project Manager you must save your project file to your php project location, otherwise the root_dir will be wrong.
+
+Note: on Windows, in rare cases hanging php.exe process can prevent LSP server from starting. If you see "ReadLoopError" in Console, try to kill all "php" processes and try again.
 
 ==LSP server for Bash==
 
