@@ -3744,7 +3744,6 @@ begin
   G.SetTabOption(tabOptionPosition, UiOps.TabPosition);
 
   G.SetTabOptionString(tabOptionButtonLayout, UiOps.TabButtonLayout);
-  G.SetTabOptionString(tabOptionModifiedText, ''); //'*' is added in Frame
   DoApplyTranslationToGroups(G);
 end;
 
