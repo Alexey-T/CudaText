@@ -46,7 +46,7 @@ begin
     end;
   end
   else
-    SName:= F.TabCaption;
+    SName:= msgModified[F.Modified]+F.TabCaption;
 
   SSplitByChar(AppSessionName, '|', SSession, SSessionRootPath);
   SSession:= ChangeFileExt(ExtractFileName(SSession), '');
