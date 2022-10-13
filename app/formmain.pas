@@ -2770,7 +2770,7 @@ begin
     FCmdlineFileCount);
   FLastLoadedConfig:= 'user';
   DoOps_LoadOptions(AppFile_OptionsUser, EditorOps, true); //before LoadHistory
-  DoFileOpen('', '', nil); //before LoadHistory
+  DoFileOpen('', '', nil, '/noevent /noopenedevent /nononeevent'); //before LoadHistory
 
   DoOps_LoadToolbarIcons;
   DoOps_LoadSidebarIcons; //before LoadPlugins (for sidebar icons)
