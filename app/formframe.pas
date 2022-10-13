@@ -1518,6 +1518,7 @@ end;
 
 procedure TEditorFrame.EditorOnChangeModified(Sender: TObject);
 begin
+  if AppSessionIsLoading then exit;
   UpdateModified(Sender as TATSynEdit);
 end;
 
