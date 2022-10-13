@@ -30,9 +30,10 @@ begin
     if F.EditorsLinked then
     begin
       if F.FileName<>'' then
-        SName:= msgModified[F.Ed1.Modified]+ AppCollapseHomeDirInFilename(F.FileName)
+        SName:= AppCollapseHomeDirInFilename(F.FileName)
       else
         SName:= F.TabCaption;
+      SName:= msgModified[F.Modified]+SName;
     end
     else
     begin
@@ -46,7 +47,10 @@ begin
     end;
   end
   else
-    SName:= msgModified[F.Modified]+F.TabCaption;
+  begin
+    SName:= F.TabCaption;
+    SName:= msgModified[F.Modified]+SName;
+  end;
 
   SSplitByChar(AppSessionName, '|', SSession, SSessionRootPath);
   SSession:= ChangeFileExt(ExtractFileName(SSession), '');
