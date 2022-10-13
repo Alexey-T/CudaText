@@ -7,7 +7,6 @@
 1.172.5 (2022/10)
 
 + add: lexer reStructuredText: support headers with Unicode (thanks @lookoutside)
-+ add: 'Check for updates': added button "Open changelog" (thanks @ildarkhasanshin)
 + add: updated file-type icons (140 unused icons removed, 40 added)
 + add: commands "dialog: find: toggle" and "dialog: replace: toggle" now consider options "find_suggest_*" (thanks @Vivalzar)
 - fix: command "dialog: find: toggle" could move Find dialog out of the main window
