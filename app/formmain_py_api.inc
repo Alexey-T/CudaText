@@ -3357,7 +3357,7 @@ begin
         PROP_TAB_TITLE:
           begin
             if Assigned(F) then
-              Result:= PyUnicodeFromString(F.TabCaption)
+              Result:= PyUnicodeFromString(TrimLeftSet(F.TabCaption, ['*']))
             else
               Result:= ReturnNone;
           end;
