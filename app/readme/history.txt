@@ -4,6 +4,8 @@
   * changed
 
 
+* add/change: for modified ui-tabs, render circle-mark instead of adding '*' char to the title
+
 1.172.5 (2022/10)
 
 + add: lexer reStructuredText: support headers with Unicode (thanks @lookoutside)
