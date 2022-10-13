@@ -1518,7 +1518,7 @@ end;
 
 procedure TEditorFrame.EditorOnChangeModified(Sender: TObject);
 begin
-  if AppSessionIsLoading then exit;
+  if AppSessionIsLoading then exit; //fix issue #4436
   UpdateModified(Sender as TATSynEdit);
 end;
 
