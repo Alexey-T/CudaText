@@ -708,7 +708,6 @@ Find the lexer file, .lcf file in the folder data/lexlib. This file has the endi
 Insert it near the end of file, like here:
 
    FullRefreshSize = 5000
-   LineComment = '#'
    Charset = DEFAULT_CHARSET
  end
 
