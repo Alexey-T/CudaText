@@ -1460,6 +1460,8 @@ var
   St: TATStrings;
   bChangedLexer, bChanged1, bChanged2: boolean;
 begin
+  if AppSessionIsLoading then exit; //fix issue #4436
+
   Ed:= Sender as TATSynEdit;
   St:= Ed.Strings;
 
