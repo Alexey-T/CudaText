@@ -8,7 +8,7 @@
 * add/change: for modified ui-tabs, render separate circle-mark instead of '*' char in the title text
 + add: ui-tabs with plugin-set custom title now also show modified circle-mark
 + add: toolbar shows 'pressed' state for user-added buttons: 'word wrap state', 'read-only state', 'insert/overwrite state', 'micromap visible', 'ruler visible'
-- fix: lexer Markdown: bug with backtick-rule (thanks @etn0)
+- fix: lexer Markdown: empty line must not break ```-block (thanks @etn0)
 
 1.172.5 (2022/10)
 
