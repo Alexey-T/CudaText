@@ -3379,19 +3379,19 @@ begin
   AppPanels[cPaneSide].UpdateButtons;
   AppPanels[cPaneOut].UpdateButtons;
   UpdateStatusbar;
-  DoLoadCommandLine;
   DoApplyInitialWindowPos;
 
   if AppPanels[cPaneOut].Visible then
     if AppPanels[cPaneOut].LastActivePanel='' then
       DoShowConsole(false);
+  FormUnlock(Self);
+  DoLoadCommandLine;
 
   //postpone parsing until frames are shown
   UiOps.AllowFrameParsing:= true;
   _Init_FramesOnShow;
 
   FHandledUntilFirstFocus:= true;
-  FormUnlock(Self);
 
   _Init_FrameFocus;
   _Init_ShowStartupTimes;
