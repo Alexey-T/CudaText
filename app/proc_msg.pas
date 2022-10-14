@@ -41,7 +41,7 @@ const
     {$ifdef netbsd} '/usr/pkg/lib' {$endif}
     {$ifdef openbsd} '/usr/local/lib' {$endif}
     {$ifdef dragonfly} '/usr/lib' {$endif}
-    {$ifdef solaris} '/usr/local/lib' {$endif}
+    {$ifdef solaris} '/usr/lib/amd64' {$endif}
     {$ifdef haiku} '/system/lib' {$endif}
     ;
 
