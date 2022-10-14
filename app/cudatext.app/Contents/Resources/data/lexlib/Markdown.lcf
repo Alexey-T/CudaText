@@ -565,7 +565,7 @@ object SyntAnal13: TLibSyntAnalyzer
       DisplayName = 'Codeblock raw at start'
       StyleName = 'Block'
       TokenType = 5
-      Expression = '(?s)^\x20{0,3}```.+?(^\x20{0,3}```|\Z)'
+      Expression = '(?s)^\x20{0,3}(`+)\z.+?(^\x20{0,3}\1(?!`)|\Z)'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -574,7 +574,7 @@ object SyntAnal13: TLibSyntAnalyzer
       StyleName = 'Block'
       StatesAbsent = 3072
       TokenType = 5
-      Expression = '(?s)(`{1,3})[^`].*?(((?<!`)\1(?!`))|\z\z|\Z)'
+      Expression = '(?s)(`+)[^`].*?(((?<!`)\1(?!`))|\z\z|\Z)'
       ColumnFrom = 0
       ColumnTo = 0
     end
