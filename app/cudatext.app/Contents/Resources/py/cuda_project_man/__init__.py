@@ -838,7 +838,7 @@ class Command:
             path = dlg_file(False, "", project_path, PROJECT_DIALOG_FILTER)
 
         if path:
-            proj_dir = os.path.dirname(path)
+            proj_dir = os.path.dirname(str(path))
             def collapse_macros(s):
                 fn = s
                 if (fn+os.sep).startswith(proj_dir+os.sep):
@@ -1568,7 +1568,7 @@ class Command:
     def session_get_names(self):
 
         res = []
-        fn = self.project_file_path
+        fn = str(self.project_file_path)
         if fn and os.path.isfile(fn):
             with open(fn, 'r', encoding='utf8') as f:
                 data = json.load(f)
