@@ -3385,7 +3385,7 @@ begin
     if AppPanels[cPaneOut].LastActivePanel='' then
       DoShowConsole(false);
   FormUnlock(Self);
-  DoLoadCommandLine;
+  DoLoadCommandLine; //after FormUnlock, to fix #4445
 
   //postpone parsing until frames are shown
   UiOps.AllowFrameParsing:= true;
