@@ -25,7 +25,7 @@ begin
   if Frame.EditorsLinked then
   begin
     D.TabTwoDocuments:= false;
-    D.TabModified:= Frame.Ed1.Modified or Frame.Ed2.Modified;
+    D.TabModified:= Frame.Ed1.Modified;
     D.TabModified2:= false;
   end
   else
