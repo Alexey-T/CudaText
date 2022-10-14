@@ -570,11 +570,11 @@ object SyntAnal13: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Codeblock raw `'
+      DisplayName = 'Codeblock raw `/``'
       StyleName = 'Block'
       StatesAbsent = 3072
       TokenType = 5
-      Expression = '`[^`\n\r].*?(((?<!`)`(?!`))|\z)'
+      Expression = '(?s)(`{1,2})[^`].*?(((?<!`)\1(?!`))|\z\z|\Z)'
       ColumnFrom = 0
       ColumnTo = 0
     end
