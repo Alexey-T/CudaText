@@ -21,7 +21,20 @@ begin
   if D=nil then Exit;
   D.TabCaption:= Frame.TabCaption;
   D.TabCaptionAddon:= Frame.TabCaptionAddon;
-  D.TabModified:= Frame.Ed1.Modified or Frame.Ed2.Modified;
+
+  if Frame.EditorsLinked then
+  begin
+    D.TabTwoDocuments:= false;
+    D.TabModified:= Frame.Ed1.Modified or Frame.Ed2.Modified;
+    D.TabModified2:= false;
+  end
+  else
+  begin
+    D.TabTwoDocuments:= true;
+    D.TabModified:= Frame.Ed1.Modified;
+    D.TabModified2:= Frame.Ed2.Modified;
+  end;
+
   Pages.Invalidate;
 
   UpdateCaption;
