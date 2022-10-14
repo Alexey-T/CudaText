@@ -6,6 +6,7 @@
 
 * add/change: for modified ui-tabs, render separate circle-mark instead of '*' char in the title text
 + add: ui-tabs with plugin-set custom title now also show modified circle-mark
++ add: Config Toolbar plugin shows 'pressed' state for buttons 'word wrap state', 'read-only state', 'insert/overwrite state', 'micromap visible', 'ruler visible'
 
 1.172.5 (2022/10)
 
