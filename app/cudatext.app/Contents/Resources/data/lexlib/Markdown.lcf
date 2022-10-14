@@ -562,13 +562,19 @@ object SyntAnal13: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Codeblock raw'
+      DisplayName = 'Codeblock raw ```'
+      StyleName = 'Block'
+      TokenType = 5
+      Expression = '(?s)```[^`].*?(```|\Z)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Codeblock raw `'
       StyleName = 'Block'
       StatesAbsent = 3072
       TokenType = 5
-      Expression = 
-        '(?s)(`{1,3})[^`].*?\1'#13#10'#to-fix: SublimeText syntax test has many' +
-        ' errors for this'
+      Expression = '`[^`\n\r].*?(((?<!`)`(?!`))|\z)'
       ColumnFrom = 0
       ColumnTo = 0
     end
