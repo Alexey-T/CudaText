@@ -157,9 +157,14 @@ begin
   UpdateToolbarButton(ToolbarMain, cCommand_ToggleWordWrap, Ed.OptWrapMode<>cWrapOff, bEditor);
   UpdateToolbarButton(ToolbarMain, cCommand_ToggleMinimap, Ed.OptMinimapVisible, bEditor);
   UpdateToolbarButton(ToolbarMain, cCommand_ToggleMicromap, Ed.OptMicromapVisible, bEditor);
-  //UpdateToolbarButton(ToolbarMain, cCommand_ToggleLineNums, Ed.Gutter.Items[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagNumbers)].Visible, bEditor);
   UpdateToolbarButton(ToolbarMain, cCommand_ToggleRuler, Ed.OptRulerVisible, bEditor);
   UpdateToolbarButton(ToolbarMain, cCommand_ToggleUnprinted, bShowNonPrinted, bEditor or bBinViewer);
+
+  {
+  //not needed yet
+  UpdateToolbarButton(ToolbarMain, cCommand_ToggleLineNums, Ed.Gutter.Items[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagNumbers)].Visible, bEditor);
+  UpdateToolbarButton(ToolbarMain, cCommand_ToggleFolding, Ed.Gutter.Items[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagFolding)].Visible, bEditor);
+  }
 
   UpdateToolbarButton(ToolbarMain, cmd_ToggleFileNotifications, UiOps.NotificationEnabled, true);
 end;
