@@ -567,8 +567,8 @@ object SyntAnal13: TLibSyntAnalyzer
       StatesAbsent = 3072
       TokenType = 5
       Expression = 
-        '(?s) (`+) .+? (\1|\z\z)'#13#10'#to-fix: SublimeText syntax test has ma' +
-        'ny errors for this'
+        '(?s)(`{1,3})[^`].*?\1'#13#10'#to-fix: SublimeText syntax test has many' +
+        ' errors for this'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -939,7 +939,7 @@ object SyntAnal13: TLibSyntAnalyzer
       StatesAbsent = 3
       StartExpression = '<\?'
       EndExpression = '\?>'
-      SyntAnalyzer = SyntAnal14
+      SyntAnalyzer = SyntAnal15
       IncludeBounds = True
     end
     item
