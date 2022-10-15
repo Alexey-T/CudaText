@@ -2993,7 +2993,7 @@ Function returns None and listbox stays open. When user chooses listbox item, it
 Note:
 * Listbox disappears if you move caret or type text, unlike usual auto-completion listboxes (they can recalculate items for new caret pos).
 
-If an item begins with "&lt;html&gt;", HTML tags are allowed in this item: b, i, u, s.
+If an item begins with "&lt;html&gt;", HTML tags are allowed in this item: b, i, u, s, font color="#rrggbb".
 
 ===Editor.complete_alt===
 
@@ -4722,5 +4722,8 @@ It provides:
 1.0.432 (app 1.172.1)
 * delete deprecated: PROC_SIDEPANEL_ENUM
 * delete deprecated: PROC_BOTTOMPANEL_ENUM
+
+1.0.433 (app 1.173.0)
+* add: Editor.complete, Editor.complete_alt: support HTML tag 'font color="#rrggbb"'
 
 [[Category:CudaText]]
