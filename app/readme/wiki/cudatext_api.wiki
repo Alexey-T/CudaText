@@ -2993,7 +2993,14 @@ Function returns None and listbox stays open. When user chooses listbox item, it
 Note:
 * Listbox disappears if you move caret or type text, unlike usual auto-completion listboxes (they can recalculate items for new caret pos).
 
-If an item begins with "&lt;html&gt;", HTML tags are allowed in this item: b, i, u, s, font color="#rrggbb".
+If an item begins with "&lt;html&gt;", HTML tags are allowed in this item:
+<pre>
+<b>bold</b>
+<i>italic</i>
+<u>underline</u>
+<s>strikeout</s>
+<font color="#AABBCC">colored</font>
+</pre>
 
 ===Editor.complete_alt===
 
@@ -3018,7 +3025,8 @@ After user has chosen some item in the completion listbox, event "on_snippet" wi
 * Param "snippet_id": Value from complete_alt() call.
 * Param "snippet_text": Text of chosen snippet.
 
-If an item begins with "&lt;html&gt;", HTML tags are allowed in this item: b, i, u, s.
+If an item begins with "&lt;html&gt;", HTML tags are allowed in this item.
+Supported tags are listed in [[#Editor.complete]].
 
 ===Editor.gap===
 
@@ -4724,6 +4732,6 @@ It provides:
 * delete deprecated: PROC_BOTTOMPANEL_ENUM
 
 1.0.433 (app 1.173.0)
-* add: Editor.complete, Editor.complete_alt: support HTML tag 'font color="#rrggbb"'
+* add: Editor.complete, Editor.complete_alt: support HTML tag "font color=..."
 
 [[Category:CudaText]]
