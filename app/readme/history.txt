@@ -11,6 +11,7 @@
 + add: toolbar shows 'pressed' state for additonal user-added buttons: 'word wrap', 'read-only', 'insert/overwrite mode', 'show micromap', 'show ruler' (thanks @hexaae)
 - fix: lexer Markdown: fixed rules for backtick-codeblocks, to not fail on empty line in block (thanks @etn0)
 - fix: Project Manager: fixed errors on ancient Python 3.5
+- fix: Ctrl+BackSpace in auto-completion (thanks @actforjason)
 
 1.172.5 (2022/10)
 
