@@ -544,17 +544,20 @@ Actions get/set state of UI elements, "value" must be False/True:
 Notes:
 
 * When getting or setting coords, you get/set 4-tuple of int: (left, top, right, bottom).
+* Any coord of any monitor (and 'desktop') can be negative. For example, tuple (-1920, 0, 0, 1080) - this means that OS configuration has placed that monitor lefter than x=0.
 
 Actions:
 
 * PROC_COORD_WINDOW_GET: Returns coords of app window.
 * PROC_COORD_WINDOW_SET: Sets coords of app window.
-* PROC_COORD_DESKTOP: Returns coords of virtual desktop, which includes all monitors.
+
 * PROC_COORD_MONITOR: Returns coords of monitor with app window.
 * PROC_COORD_MONITOR0: Returns coords of 1st monitor.
 * PROC_COORD_MONITOR1: Returns coords of 2nd monitor, or None if no such monitor.
 * PROC_COORD_MONITOR2: Returns coords of 3rd monitor, or None if no such monitor.
 * PROC_COORD_MONITOR3: Returns coords of 4th monitor, or None if no such monitor.
+
+* PROC_COORD_DESKTOP: Returns coords of 'desktop', which is the combined areas of all existing monitors. For example, with 2 monitors, 'desktop' is about 2x wider or about 2x taller than one average monitor. With 3-4 monitors, you cannot assume that all monitors are placed in horizontal row, or in vertical row, or in another shape. But you can detect that from coords of all monitors.
 
 ===app_log===
 
