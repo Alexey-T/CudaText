@@ -607,6 +607,7 @@ Most of them are located in the Addons Manager "Install" list.
 * WinBuilder script
 * Windows Resource Script
 * Wolfram
+* Wren
 * WSH script
 * XML
 * XSLT
