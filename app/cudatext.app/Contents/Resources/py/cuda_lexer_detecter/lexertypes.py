@@ -482,6 +482,7 @@ TYPES = {
     "wl": ['Wolfram'],
     "wls": ['Wolfram'],
     "wlt": ['Wolfram'],
+    "wren": ['Wren'],
     "wsc": ['PECmd script'],
     "wsd": ['PlantUML'],
     "wsf": ['WSH script'],
