@@ -409,6 +409,9 @@
   //  1: triangles
   "gutter_fold_icons": 0,
 
+  //Gutter: Size of plus/minus/triangle folding icons.
+  "gutter_icon_size": 4,
+
   //Gutter: Show gutter's bookmarks column.
   "gutter_bookmarks": true,
 

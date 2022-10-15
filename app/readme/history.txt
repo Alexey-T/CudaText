@@ -6,6 +6,7 @@
 1.173.0 (2022/10)
 
 + add: API for LSP plugin to render colored auto-completion listbox (thanks @veksha)
++ add: option "gutter_icon_size"
 * add/change: for modified ui-tabs, render separate circle-mark instead of '*' char in the title text; ui-tabs with plugin-set custom title now also show modified circle-mark
 + add: toolbar shows 'pressed' state for additonal user-added buttons: 'word wrap', 'read-only', 'insert/overwrite mode', 'show micromap', 'show ruler' (thanks @hexaae)
 - fix: lexer Markdown: fixed rules for backtick-codeblocks, to not fail on empty line in block (thanks @etn0)

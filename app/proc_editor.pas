@@ -231,6 +231,7 @@ begin
       Ed.Gutter[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagFolding)].Visible:= Op.OpGutterFold;
     if not Ed.IsModifiedGutterNumbersVisible then
       Ed.Gutter[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagNumbers)].Visible:= Op.OpNumbersShow;
+    Ed.OptGutterPlusSize:= Op.OpGutterIconSize;
     Ed.Gutter.Update;
 
     if Op.OpNumbersStyle<=Ord(High(TATEditorNumbersStyle)) then

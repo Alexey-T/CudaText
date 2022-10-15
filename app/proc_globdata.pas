@@ -552,6 +552,7 @@ type
     OpGutterFoldAlways: boolean;
     OpGutterFoldIcons: integer;
     OpGutterBookmarks: boolean;
+    OpGutterIconSize: integer;
 
     OpNumbersShow: boolean;
     OpNumbersStyle: integer;
@@ -1669,6 +1670,7 @@ begin
     OpGutterFoldAlways:= true;
     OpGutterBookmarks:= true;
     OpGutterFoldIcons:= 0;
+    OpGutterIconSize:= 4;
 
     OpNumbersShow:= true;
     OpNumbersStyle:= Ord(cNumbersAll);
