@@ -88,7 +88,7 @@
   "ListCompletePrefix" : "#00A0A0",
   "ListCompleteParams" : "#7A9EB1",
   "ButtonFont" : "#D0D0D0",
-  "ButtonFontDisabled" : "#D0D0D0",
+  "ButtonFontDisabled" : "#A0A0A4",
   "ButtonBgPassive" : "#002D55",
   "ButtonBgOver" : "#26435C",
   "ButtonBgChecked" : "#3C5870",
