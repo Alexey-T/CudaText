@@ -6385,6 +6385,8 @@ begin
   CompletionOps.CommitChars:= Ed.OptAutocompleteCommitChars; //before DoPyEvent
   CompletionOps.CloseChars:= Ed.OptAutocompleteCloseChars; //before DoPyEvent
   CompletionOps.CommitIfSingleItem:= Ed.OptAutocompleteCommitIfSingleItem; //before DoPyEvent
+  CompletionOps.ShortcutForDeleteWordPrev:= Ed.Keymap.GetShortcutFromCommand(cCommand_TextDeleteWordPrev);
+  CompletionOps.ShortcutForDeleteWordNext:= Ed.Keymap.GetShortcutFromCommand(cCommand_TextDeleteWordNext);
 
   //auto-completion for file:///, before plugins
   if UiOps.AutocompleteFileURI and
