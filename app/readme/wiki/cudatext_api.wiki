@@ -245,7 +245,7 @@ Actions work with props of Find/Replace dialog, and props of low-level search en
 
 ====app_proc - System====
 
-* PROC_ENUM_FONTS: Returns list of font names, currently installed in OS. Note: only few names are common in all OSes (like Arial, Courier, Courier New, maybe more).
+* PROC_ENUM_FONTS: Returns list of font names, currently installed in OS. There are no font names common in all OS'es.
 * PROC_ENUM_ENCODINGS: Returns list of supported encoding names.
 * PROC_GET_SYSTEM_PPI: Returns int value of screen pixels-per-inch. Usual value is 96. When OS UI is scaled, it's bigger, e.g. for scale 150% it is round(96*1.5).
 * PROC_GET_GUI_HEIGHT: Returns height (pixels) of GUI element for dlg_custom(). Possible values of 'text': 'button', 'label', 'linklabel', 'combo', 'combo_ro', 'edit', 'spinedit', 'check', 'radio', 'checkbutton', 'filter_listbox', 'filter_listview'. Special value 'scrollbar' gets size of OS scrollbar. Returns None for other values.
