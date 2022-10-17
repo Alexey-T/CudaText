@@ -1501,6 +1501,43 @@ Create the file "[CudaText]/settings/lsp_py.json" with text like this:
 
 Open some Python script, and call some commands of LSP Client. It will run the server, and it should work.
 
+==LSP server for Python, pyright==
+
+1. Install the server:
+
+ pip install pyright
+
+* On Windows, add folder of "pyright-langserver.exe" to system PATH.
+* On Linux/Unix, get the full path of the program, we will use this path in the next step.
+
+ which pyright-langserver
+
+It outputs on Ubuntu:
+
+ /home/user/.local/bin/pyright-langserver
+
+2. Create config (CudaText)/settings/lsp_pyright.json:
+
+<syntaxhighlight lang="json">
+{
+  "lexers": {
+    "Python": "python"
+  },
+  "cmd_windows": ["pyright-langserver.exe", "--stdio"],
+  "cmd_unix": ["/home/user/.local/bin/pyright-langserver", "--stdio"]
+}
+</syntaxhighlight>
+
+3. To disable type checking (which may be confusing), add key "settings" to the above config:
+
+<syntaxhighlight lang="json">
+  "settings": {
+    "python.analysis": {
+      "typeCheckingMode": "off"
+    }
+  }
+</syntaxhighlight>
+
 ==LSP server for JavaScript/ReactJS==
 
 * Install lexer for ReactJS: "JavaScript Babel", from "Addons Manager".
