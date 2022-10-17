@@ -2926,10 +2926,10 @@ Possible values of "id":
 
  save(filename="")
 
-Saves editor's tab to disk.
+Saves editor's text to disk.
 
-Shows save-as dialog for untitled tab.
-If param filename not empty, uses it (untitled tab becomes titled).
+Shows "Save as" dialog for untitled tab.
+If param "filename" is not empty, saves to the given filename (untitled tab becomes titled).
 Returns bool: file was saved.
 
 ===Editor.cmd===
