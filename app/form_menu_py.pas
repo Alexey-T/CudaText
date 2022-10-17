@@ -360,8 +360,13 @@ begin
   s_name_wide:= Utf8Decode(s_name);
   s_filter:= Trim(Utf8Encode(edit.Text));
 
-  s_dots:= UTF8Encode(UnicodeString(#$2026));
-  nPosOfDots:= Pos(s_dots, s_name2);
+  if CollapseMode<>acsmNone then
+  begin
+    s_dots:= UTF8Encode(UnicodeString(#$2026));
+    nPosOfDots:= Pos(s_dots, s_name2);
+  end
+  else
+    nPosOfDots:= 0;
 
   bCurrentFuzzy:= UiOps.ListboxFuzzySearch and not DisableFuzzy;
   if bCurrentFuzzy and (s_name<>s_name2) then
