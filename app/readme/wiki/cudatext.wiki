@@ -2121,8 +2121,6 @@ CudaText has the following optimizations for big files and huge lines:
 
 * If file is loaded in "normal" lexer, but count of lines is big, program disables finding of fold-ranges. Syntax coloring works, but folding doesn't work. See the option "lexer_folding_max_lines":10000.
 
-* If file is loaded in "normal" lexer, huge lines are ignored by lexer parser. See the option "max_line_len_parsed":4000.
-
 * If file is loaded in "normal" lexer, dynamic highlightings are disabled in big files. See the option "lexer_dynamic_hilite_max_lines":2000.
 
 * For any files, when too many multi-carets are placed, program disables/clears the Undo-information for editing. See the option "undo_max_carets":5000.
