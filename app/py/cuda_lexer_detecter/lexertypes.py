@@ -309,6 +309,7 @@ TYPES = {
     "n": ['Nemerle'],
     "nasm": ['Assembly NASM x86'],
     "nc": ['G-code'],
+    "nelua": ['Nelua'],
     "nim": ['Nim'],
     "nix": ['Nix'],
     "ngc": ['G-code'],
