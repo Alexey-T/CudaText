@@ -1008,8 +1008,7 @@ object SyntAnal15: TLibSyntAnalyzer
       ConditionList = <
         item
           TagList.Strings = (
-            'case'
-            'default')
+            'case')
           TokenTypes = 2
         end>
       BlockEnd = 'case end'
@@ -1116,7 +1115,7 @@ object SyntAnal15: TLibSyntAnalyzer
   LexerName = 'PHP_'
   Notes.Strings = (
     'Created by 480499497 from forum.wincmd.ru (named PHP_dev)'
-    'Big rework by Alexey (CudaText)'
+    'Big rework by Alexey Torgashin (CudaText)'
     
       'Removed link to HTML, now it'#39's pure PHP lexer, HTML/CSS/JS will ' +
       'link to it')
