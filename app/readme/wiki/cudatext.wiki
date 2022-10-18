@@ -504,6 +504,7 @@ Most of them are located in the Addons Manager "Install" list.
 * MSVS Solution
 * MusicBrainz Picard Tagger Script
 * MySQL
+* Nelua
 * Nemerle
 * Nginx
 * Nim
