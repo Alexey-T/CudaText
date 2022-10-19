@@ -2470,6 +2470,11 @@ end;
 
 procedure TfmMain.DoCodetree_Clear;
 begin
+  { //is it needed to fix #4459 ?
+  if Assigned(FCodetreeBuffer) then
+    FCodetreeBuffer.Items.Clear;
+    }
+
   if CodeTree.Tree.Items.Count>0 then
   begin
     CodeTree.Tree.Items.Clear;

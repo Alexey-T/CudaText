@@ -1082,9 +1082,6 @@ var
   bLiteLexer: boolean;
   Tick: QWord;
 begin
-  if AConsiderTreeVisible then
-    if not AppPanels[cPaneSide].Visible then exit;
-
   Frame:= CurrentFrame;
   if Frame=nil then exit;
   CodeTree.Tree.SortType:= Frame.CodetreeSortType;
@@ -1093,14 +1090,18 @@ begin
   bLiteLexer:= Ed.AdapterForHilite is TATLiteLexer;
 
   if bLiteLexer then
-    Ada:= nil
+  begin
+    Ada:= nil;
+    DoCodetree_Clear;
+    exit;
+  end
   else
   begin
     Ada:= Frame.Adapter[Ed];
     if (Ada=nil) or (Ada.AnClient=nil) then
     begin
       DoCodetree_Clear;
-      exit
+      exit;
     end;
   end;
 
@@ -1119,6 +1120,9 @@ begin
     exit;
   end;
   }
+
+  if AConsiderTreeVisible then
+    if not AppPanels[cPaneSide].Visible then exit;
 
   if Assigned(Ada) then
     while Ada.TreeBusy do
