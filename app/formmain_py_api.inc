@@ -8434,8 +8434,6 @@ begin
             end
             else
             begin
-              //no active lexer? lite lexer? clear the tree
-              TreeContainer.Tree.Items.Clear;
               Result:= ReturnFalse;
             end;
           end;
