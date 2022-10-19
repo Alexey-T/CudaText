@@ -3,6 +3,11 @@
   - fixed
   * changed
 
+1.173.1 (2022/10)
+
+- fix: few issues with HTML formatting in autocompletion listbox (thanks @veksha)
+- fix: regression: on GTK2 version, clipboard was cleared on exit
+
 1.173.0 (2022/10)
 
 + add: API for LSP plugin to render colored auto-completion listbox (thanks @veksha)
