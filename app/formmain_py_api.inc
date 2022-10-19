@@ -8984,6 +8984,7 @@ begin
           begin
             ImgList:= PyHelper_ImagelistFromId(StrValue);
             FBar.Images:= ImgList;
+            FBar.Invalidate;
             Result:= ReturnNone;
           end;
 
@@ -9206,7 +9207,10 @@ begin
           begin
             Data:= FBar.GetPanelData(NIndex);
             if Assigned(Data) then
+            begin
               Data.OverlayText:= StrValue;
+              FBar.Invalidate;
+            end;
             Result:= ReturnNone;
           end;
 
