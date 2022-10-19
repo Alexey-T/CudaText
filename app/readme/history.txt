@@ -6,7 +6,7 @@
 1.173.1 (2022/10)
 
 - fix: few issues with formatting in autocompletion listbox (thanks @veksha)
-- fix: regression: GTK2 version, clipboard is cleared on exit
+- fix: regression in 1.117 or older: in GTK2 version clipboard is cleared on exit
 
 1.173.0 (2022/10)
 
