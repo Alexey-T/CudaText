@@ -7,6 +7,7 @@
 
 - fix: few issues with formatting in autocompletion listbox (thanks @veksha)
 - fix: regression in 1.117 or older: in GTK2 version clipboard is cleared on exit
+- fix: lexer PHP: must aviod folding of 'default:' blocks
 
 1.173.0 (2022/10)
 
