@@ -2836,6 +2836,8 @@ begin
   DoCloseAllTabs;
   }
 
+  FixClipboardFinalization;
+
   DoPyEvent(nil, cEventOnExit, []);
 end;
 

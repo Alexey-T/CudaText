@@ -4,18 +4,28 @@ unit fix_gtk_clipboard;
 
 interface
 
-uses
-  gtk2, gdk2, Clipbrd;
+procedure FixClipboardFinalization;
 
 implementation
 
+{$ifdef LCLGTK2}
+uses
+  gtk2, gdk2, Clipbrd;
+
+procedure FixClipboardFinalization;
 var
   c: PGtkClipboard;
   t: string;
-
-finalization
+begin
   c := gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
   t := Clipboard.AsText;
   gtk_clipboard_set_text(c, PChar(t), Length(t));
   gtk_clipboard_store(c);
+end;
+{$else}
+procedure FixClipboardFinalization;
+begin
+end;
+{$endif}
+
 end.
