@@ -7117,6 +7117,7 @@ var
   Sep: TATStringSeparator;
   Obj: TObject;
   ObjData: TATRangeInCodeTree;
+  bStandardCodeTree: boolean;
   NPosX, NPosY, NCount: integer;
   i: integer;
 begin
@@ -7132,6 +7133,7 @@ begin
         exit(ReturnNone);
       end;
       TreeContainer:= TAppTreeContainer(Obj);
+      bStandardCodeTree:= TreeContainer=fmMain.CodeTree;
 
       Obj:= TObject(PtrInt(IdItem));
       if Assigned(Obj) and not (Obj is TTreeNode) then
@@ -7249,7 +7251,7 @@ begin
             else
             begin
               //handle code-tree clearing via API
-              if TreeContainer=fmMain.CodeTree then
+              if bStandardCodeTree then
                 fmMain.DoCodetree_Clear
               else
                 TreeContainer.Tree.Items.Clear;
@@ -7270,7 +7272,7 @@ begin
         TREE_ITEM_SET_ICON:
           begin
             //issue #3400
-            if TreeContainer=fmMain.CodeTree then
+            if bStandardCodeTree then
             begin
               fmMain.InitImageListCodetree;
               fmMain.UpdateTreeImagelistActivity;
@@ -7447,6 +7449,8 @@ begin
 
         TREE_GET_IMAGELIST:
           begin
+            if bStandardCodeTree then
+              fmMain.InitImageListCodetree;
             Result:= PyHelper_ObjectHandle(TreeContainer.Tree.Images);
           end;
 
