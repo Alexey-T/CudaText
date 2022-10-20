@@ -1088,10 +1088,10 @@ begin
 
   Ed:= Frame.Editor;
   bLiteLexer:= Ed.AdapterForHilite is TATLiteLexer;
+  Ada:= nil;
 
   if bLiteLexer then
   begin
-    Ada:= nil;
     DoCodetree_Clear;
     exit;
   end
