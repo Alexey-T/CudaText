@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.173.1 (2022/10)
+1.173.2 (2022/10)
 
 - fix: minor issues with formatting in auto-completion listbox (thanks @veksha)
 - fix: wrong filter-char highlighting in menu dialog when item is collapsed with "..." (thanks @veksha)
