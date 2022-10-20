@@ -1992,6 +1992,22 @@ func main() {
 }
 </syntaxhighlight>
 
+==LSP server for Lua==
+
+1. Install server for the command line from https://github.com/sumneko/lua-language-server . Find the full path of the file "lua-language-server" ("lua-language-server.exe" on Windows).
+
+2. Create LSP config (CudaText)/settings/lsp_lua.json:
+<syntaxhighlight lang="json">
+{
+  "lexers": {
+     "Lua": "lua"
+  },
+  "log_stderr": true,
+  "cmd_windows": ["D:\\Programs\\lua-lsp\\bin\\lua-language-server.exe"],
+  "cmd_unix": ["/path/to/lua-language-server"]
+}
+</syntaxhighlight>
+
 ==LSP server for Fortran==
 
 Install lexer Fortran from "Addons Manager".
