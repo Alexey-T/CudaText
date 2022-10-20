@@ -7463,6 +7463,8 @@ begin
               MsgLogConsole('ERROR: tree_proc() gets bad handle of image-list, of type '+Obj.ClassName);
               exit(ReturnNone);
             end;
+            if bStandardCodeTree then
+              fmMain.InitImageListCodetree;
             TreeContainer.Tree.Images:= TImageList(Obj);
             Obj:= nil;
             Result:= ReturnNone;
