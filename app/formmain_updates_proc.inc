@@ -1105,24 +1105,16 @@ begin
     end;
   end;
 
+  if AConsiderTreeVisible then
+    if not AppPanels[cPaneSide].Visible then
+      exit;
+
   if not Frame.EnabledCodeTree[Ed] then
   begin
     //don't clear tree, it may be filled by plugin
     UpdateTreeSelection(Ed); //needed even for disabled CodeTree (for plugins)
     exit;
   end;
-
-  {
-  NRanges:= Ada.AnClient.RangeCount;
-  if (NRanges>UiOps.MaxRangesForCodeTree) then
-  begin
-    DoCodetree_Clear;
-    exit;
-  end;
-  }
-
-  if AConsiderTreeVisible then
-    if not AppPanels[cPaneSide].Visible then exit;
 
   if Assigned(Ada) then
     while Ada.TreeBusy do
