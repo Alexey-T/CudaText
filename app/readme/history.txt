@@ -3,6 +3,8 @@
   - fixed
   * changed
 
++ add: if "ui_esc_close":true, and Esc is pressed to 'cancel selection', don't quit but perform the command (thanks @GenuZ)
+
 1.173.2 (2022/10)
 
 - fix: minor issues with formatting in auto-completion listbox (thanks @veksha)

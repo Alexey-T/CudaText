@@ -3118,7 +3118,10 @@ procedure TfmMain.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState
 var
   bEditorActive,
   bConsoleActive: boolean;
+  Ed: TATSynEdit;
   Ctl: TWinControl;
+  KeyArray: TATKeyArray;
+  N: integer;
 begin
   if (Key=VK_ESCAPE) and (Shift=[]) then
   begin
@@ -3152,6 +3155,26 @@ begin
     else
     if UiOps.EscapeClose then
     begin
+      //Esc pressed when it's assigned to 'cancel selection'? don't close
+      if bEditorActive then
+      begin
+        Ed:= Ctl as TATSynEdit;
+        if Ed.Carets.IsSelection then
+        begin
+          KeyArray.Clear;
+          N:= Ed.Keymap.GetCommandFromShortcut(ShortCut(VK_ESCAPE, []), KeyArray);
+          case N of
+            cCommand_Cancel,
+            cCommand_CancelKeepLast:
+              begin
+                Ed.DoCommand(N, cInvokeHotkey);
+                Key:= 0;
+                exit;
+              end;
+          end;
+        end;
+      end;
+
       Close;
       Key:= 0;
     end;
