@@ -47,6 +47,54 @@ uses
   proc_msg,
   win32linkfiles;
 
+// https://forum.lazarus.freepascal.org/index.php/topic,60972.msg457443.html#msg457443
+function AppNormalizeFilenameCase(const AFilepath: string): string;
+var
+  SR: TSearchRec;
+  tmp: string;
+  splits: TStringArray;
+  final: TStringArray;
+  i: Integer;
+begin
+  Result := AFilepath;
+
+  if ((not FileExists(AFilepath)) and (not DirectoryExists(AFilepath))) then
+    Exit;
+
+  final := nil;
+  splits := string(ExcludeTrailingBackslash(AFilepath)).Split(Pathdelim);
+  SetLength(final, Length(splits));
+  tmp := '';
+  for i := Low(splits) to High(splits) do
+    begin
+      if i < High(splits) then
+        tmp := tmp + IncludeTrailingBackslash(splits[i])
+        else
+        tmp := tmp + splits[i];
+      final[i] := tmp;
+    end;
+
+  for i := Low(final) to High(final) do
+    if i > 0 then
+      if FindFirst(ExcludeTrailingBackslash(final[i]), faAnyfile or faDirectory, SR) = 0 then
+        begin
+          splits[i] := SR.Name;
+          FindClose(SR);
+        end;
+
+  tmp := '';
+  for i := Low(splits) to High(splits) do
+    begin
+      if i < High(splits) then
+        tmp := tmp + IncludeTrailingBackslash(splits[i])
+        else
+        tmp := tmp + splits[i];
+      final[i] := tmp;
+    end;
+  tmp := final[High(final)];
+  Result := tmp;
+end;
+
 function AppCreateFile(const fn: string): boolean;
 var
   L: TStringList;
@@ -274,6 +322,8 @@ begin
 end;
 
 function AppExpandFilename(const fn: string): string;
+var
+  fnNorm: string;
 begin
   if fn='' then exit(fn);
 
@@ -290,6 +340,18 @@ begin
     {$endif}
     fn
     )));
+
+  {$ifdef windows}
+  if (Length(Result)>3) and
+    (Result[1] in ['a'..'z', 'A'..'Z']) and
+    (Result[2]=':') and
+    (Result[3]='\') then
+  begin
+    fnNorm:= AppNormalizeFilenameCase(Result);
+    if fnNorm<>'' then
+      Result:= fnNorm;
+  end;
+  {$endif}
 end;
 
 
