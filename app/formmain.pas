@@ -3167,11 +3167,7 @@ begin
             cCommand_Cancel,
             cCommand_CancelKeepLast,
             cCommand_SelectNone:
-              begin
-                Ed.DoCommand(N, cInvokeHotkey);
-                Key:= 0;
-                exit;
-              end;
+              exit;
           end;
         end;
       end;
