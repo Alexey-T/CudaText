@@ -3165,7 +3165,8 @@ begin
           N:= Ed.Keymap.GetCommandFromShortcut(ShortCut(VK_ESCAPE, []), KeyArray);
           case N of
             cCommand_Cancel,
-            cCommand_CancelKeepLast:
+            cCommand_CancelKeepLast,
+            cCommand_SelectNone:
               begin
                 Ed.DoCommand(N, cInvokeHotkey);
                 Key:= 0;
