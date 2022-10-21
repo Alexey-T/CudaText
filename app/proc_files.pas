@@ -344,7 +344,7 @@ begin
     (Result[1] in ['a'..'z', 'A'..'Z']) and
     (Result[2]=':') and
     (Result[3]='\') then
-    Result:= AppNormalizeFilenameCase(Result)
+    Result:= AppNormalizeFilenameCase(Result);
   {$endif}
 end;
 
