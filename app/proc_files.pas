@@ -322,8 +322,6 @@ begin
 end;
 
 function AppExpandFilename(const fn: string): string;
-var
-  fnNorm: string;
 begin
   if fn='' then exit(fn);
 
@@ -346,11 +344,7 @@ begin
     (Result[1] in ['a'..'z', 'A'..'Z']) and
     (Result[2]=':') and
     (Result[3]='\') then
-  begin
-    fnNorm:= AppNormalizeFilenameCase(Result);
-    if fnNorm<>'' then
-      Result:= fnNorm;
-  end;
+    Result:= AppNormalizeFilenameCase(Result)
   {$endif}
 end;
 
