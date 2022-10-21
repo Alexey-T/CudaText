@@ -2429,6 +2429,9 @@ var
   StrLine, StrSnippet: string;
   i: integer;
 begin
+  if FPyCompletionProps.Text='' then //fix #4475
+    exit;
+
   //find index-th line
   StrLine:= '';
   Sep.Init(FPyCompletionProps.Text, #10);
