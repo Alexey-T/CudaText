@@ -9,6 +9,7 @@
 + add: Windows: normalize case of filenames on opening (thanks @veksha, @KodeZwerg)
 + add: if "ui_esc_close":true, and Esc is pressed to 'cancel selection', don't quit but perform the command (thanks @GenuZ)
 + add: "underline_color_files" must support 'rgb(10 20 30 / 50%)' (thanks @eltonfabricio10)
+- fix: bug in calculating text-pos from mouse-pos for proportional fonts (thanks @cg00001)
 - fix: "autocomplete_autoshow_chars":2 - a) must not fire event if ui-tab is quickly switched; b) value 2 didn't work with 3 typed characters (thanks @veksha)
 - fix: bad plugin's editor scrollbar with "micromap_on_scrollbar":true (thanks @veksha)
 
