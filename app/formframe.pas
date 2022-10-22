@@ -135,13 +135,14 @@ type
     PanelNoHilite: TPanel;
     NotifReloadControls: array[0..cFrameMaxEdIndex] of TFrameNotificationControls;
     NotifDeletedControls: array[0..cFrameMaxEdIndex] of TFrameNotificationControls;
-    FFileDeletedOutside: boolean;
     FTabCaption: string;
     FTabCaptionAddon: string;
     FTabCaptionUntitled: string;
     FTabCaptionFromApi: boolean;
     FTabImageIndex: integer;
     FTabId: integer;
+    FTabExtModified: boolean;
+    FTabExtDeleted: boolean;
     FFileName: string;
     FFileName2: string;
     FFileWasBig: array[0..1] of boolean;
@@ -298,6 +299,8 @@ type
     procedure SetTabCaptionAddon(const AValue: string);
     procedure SetTabColor(AColor: TColor);
     procedure SetTabFontColor(AColor: TColor);
+    procedure SetTabExtModified(AValue: boolean);
+    procedure SetTabExtDeleted(AValue: boolean);
     procedure SetTabPinned(AValue: boolean);
     procedure SetTabImageIndex(AValue: integer);
     procedure SetTabVisible(AValue: boolean);
@@ -397,6 +400,8 @@ type
     property CommentString[Ed: TATSynEdit]: string read GetCommentString;
     property TabColor: TColor read FTabColor write SetTabColor;
     property TabFontColor: TColor read FTabFontColor write SetTabFontColor;
+    property TabExtModified: boolean read FTabExtModified write SetTabExtModified;
+    property TabExtDeleted: boolean read FTabExtDeleted write SetTabExtDeleted;
     property TabPinned: boolean read FTabPinned write SetTabPinned;
     property TabSizeChanged: boolean read FTabSizeChanged write FTabSizeChanged;
     property TabKeyCollectMarkers: boolean read GetTabKeyCollectMarkers write FTabKeyCollectMarkers;
@@ -2770,6 +2775,8 @@ begin
   begin
     SetFileName(Ed, SFileName);
     TabFontColor:= clNone;
+    TabExtModified:= false;
+    TabExtDeleted:= false;
 
     //add to recents new filename
     if bNameChanged then
@@ -2834,6 +2841,9 @@ begin
     DoHideNotificationPanel(NotifReloadControls[EdIndex]);
     DoHideNotificationPanel(NotifDeletedControls[EdIndex]);
   end;
+
+  TabExtModified:= false;
+  TabExtDeleted:= false;
 
   //remember props
   PrevCaretX:= 0;
@@ -3946,6 +3956,42 @@ begin
   end;
 end;
 
+procedure TEditorFrame.SetTabExtModified(AValue: boolean);
+var
+  Gr: TATGroups;
+  Pages: TATPages;
+  NLocalGroups, NGlobalGroup, NTab: integer;
+  D: TATTabData;
+begin
+  if FTabExtModified=AValue then exit;
+  FTabExtModified:= AValue;
+  GetFrameLocation(Self, Gr, Pages, NLocalGroups, NGlobalGroup, NTab);
+  D:= Pages.Tabs.GetTabData(NTab);
+  if Assigned(D) then
+  begin
+    D.TabExtModified:= AValue;
+    Pages.Tabs.Invalidate;
+  end;
+end;
+
+procedure TEditorFrame.SetTabExtDeleted(AValue: boolean);
+var
+  Gr: TATGroups;
+  Pages: TATPages;
+  NLocalGroups, NGlobalGroup, NTab: integer;
+  D: TATTabData;
+begin
+  if FTabExtDeleted=AValue then exit;
+  FTabExtDeleted:= AValue;
+  GetFrameLocation(Self, Gr, Pages, NLocalGroups, NGlobalGroup, NTab);
+  D:= Pages.Tabs.GetTabData(NTab);
+  if Assigned(D) then
+  begin
+    D.TabExtDeleted:= AValue;
+    Pages.Tabs.Invalidate;
+  end;
+end;
+
 procedure TEditorFrame.SetTabPinned(AValue: boolean);
 var
   Gr: TATGroups;
@@ -4058,7 +4104,6 @@ begin
   APanel.Show;
 end;
 
-
 procedure TEditorFrame.InitNotificationPanel(Index: integer;
   AIsDeleted: boolean;
   var AControls: TFrameNotificationControls;
@@ -4156,23 +4201,25 @@ begin
   if EdIndex<0 then exit;
 
   bDeletedOutside:= (Ed.FileName<>'') and not FileExists(Ed.FileName);
-  if not bDeletedOutside and FFileDeletedOutside then
+  if not bDeletedOutside and TabExtDeleted then
   begin
-    FFileDeletedOutside:= false;
     TabFontColor:= clNone;
+    TabExtModified:= false;
+    TabExtDeleted:= false;
     DoHideNotificationPanel(NotifDeletedControls[EdIndex]);
     DoHideNotificationPanel(NotifReloadControls[EdIndex]);
     exit;
   end;
 
-  FFileDeletedOutside:= bDeletedOutside;
+  TabExtModified:= true;
+  TabExtDeleted:= bDeletedOutside;
 
-  if FFileDeletedOutside then
+  if bDeletedOutside then
     TabFontColor:= GetAppColor(apclTabMarks)
   else
     TabFontColor:= clNone;
 
-  if FFileDeletedOutside then
+  if TabExtDeleted then
   begin
     DoHideNotificationPanel(NotifReloadControls[EdIndex]);
     if not NotifDeletedEnabled then exit;
@@ -4204,7 +4251,7 @@ begin
   ApplyThemeToInfoPanel(NotifReloadControls[EdIndex].Panel);
   ApplyThemeToInfoPanel(NotifDeletedControls[EdIndex].Panel);
 
-  if FFileDeletedOutside then
+  if FTabExtDeleted then
     NotifDeletedControls[EdIndex].Panel.Show
   else
     NotifReloadControls[EdIndex].Panel.Show;
