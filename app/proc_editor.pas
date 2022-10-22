@@ -2457,6 +2457,7 @@ begin
 
     ACharsTyped:= 0;
     AppRunAutocomplete:= true;
+    AppRunAutocompleteInEditor:= Ed;
     exit;
   end;
 
@@ -2468,12 +2469,16 @@ begin
     if not bWordChar then
     begin
       AppRunAutocomplete:= false;
+      AppRunAutocompleteInEditor:= nil;
       ACharsTyped:= 0;
       exit;
     end;
   end
   else
+  begin
     AppRunAutocomplete:= false;
+    AppRunAutocompleteInEditor:= nil;
+  end;
 
   //autoshow for all, when typed N chars
   if (Ed.OptAutocompleteAutoshowCharCount>0) then
@@ -2492,12 +2497,14 @@ begin
     begin
       ACharsTyped:= 0;
       AppRunAutocomplete:= true;
+      AppRunAutocompleteInEditor:= Ed;
       exit;
     end;
   end
   else
   begin
     AppRunAutocomplete:= false;
+    AppRunAutocompleteInEditor:= nil;
     ACharsTyped:= 0;
   end;
 
@@ -2505,7 +2512,10 @@ begin
   if UiOps.AutocompleteHtml and bLexerHTML then
   begin
     if Ed.Strings.LineCharAt(Caret.PosY, Caret.PosX-1)='<' then
+    begin
       AppRunAutocomplete:= true;
+      AppRunAutocompleteInEditor:= Ed;
+    end;
     exit;
   end;
 
@@ -2520,6 +2530,7 @@ begin
   end;
   *)
 
+  AppRunAutocompleteInEditor:= nil;
   Result:= false;
 end;
 

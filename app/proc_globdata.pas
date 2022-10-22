@@ -1111,6 +1111,7 @@ var
   //avoid direct firing of auto-completion for "autocomplete_autoshow_chars":3,
   //with LSP Client it makes the work slower.
   AppRunAutocomplete: boolean = false;
+  AppRunAutocompleteInEditor: TATSynEdit = nil;
 
   //'c': by hotkey or command
   //'a': by 'autocomplete_autoshow_chars' option

@@ -2295,8 +2295,11 @@ begin
   if Assigned(Frame) and AppRunAutocomplete then
   begin
     AppRunAutocomplete:= false;
-    AppAutocompleteInvoke:= 'a';
-    DoAutoComplete(Frame.Editor);
+    if AppRunAutocompleteInEditor=Frame.Editor then
+    begin
+      AppAutocompleteInvoke:= 'a';
+      DoAutoComplete(Frame.Editor);
+    end;
   end;
 
   if Assigned(Frame) and not (Frame.IsTreeBusy or Frame.IsParsingBusy) then

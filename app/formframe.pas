@@ -4622,6 +4622,7 @@ procedure TEditorFrame.CancelAutocompleteAutoshow;
 begin
   FTextCharsTyped:= 0;
   AppRunAutocomplete:= false;
+  AppRunAutocompleteInEditor:= nil;
 end;
 
 procedure TEditorFrame.LexerBackupSave;
