@@ -7,8 +7,8 @@
 
 + add: Windows: normalize case of filenames on opening (thanks @veksha, @KodeZwerg)
 + add: if "ui_esc_close":true, and Esc is pressed to 'cancel selection', don't quit but perform the command (thanks @GenuZ)
-- fix: "autocomplete_autoshow_chars":2 must run event in the same ui-tab if ui-tab is switched (thanks @veksha)
-- fix: bad plugin's editor scrollbar, when "micromap_on_scrollbar":true (thanks @veksha)
+- fix: "autocomplete_autoshow_chars":2 must not fire event if ui-tab is quickly switched (thanks @veksha)
+- fix: bad plugin's editor scrollbar with "micromap_on_scrollbar":true (thanks @veksha)
 
 1.173.2 (2022/10)
 
