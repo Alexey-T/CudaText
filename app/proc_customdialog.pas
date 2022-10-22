@@ -725,13 +725,15 @@ begin
     Ed.OptCaretBlinkEnabled:= EditorOps.OpCaretBlinkEn;
   end;
 
+  //after EditorApplyOps
   Ed.OptMinimapVisible:= false;
   if not Ed.ModeOneLine then
     Ed.OptMicromapVisible:= false;
   Ed.OptRulerVisible:= false;
 
-  Ed.OptFlickerReducingPause:= 0; //after EditorApplyOps; fix issue #4372
-  Ed.OptDimUnfocusedBack:= 0; //after EditorApplyOps; fix issue #4346
+  Ed.OptFlickerReducingPause:= 0; //fix issue #4372
+  Ed.OptDimUnfocusedBack:= 0; //fix issue #4346
+  Ed.OptMicromapOnScrollbar:= false; //API editors don't have micromap at all
 end;
 
 procedure DoControl_InitPropsObject(Ctl: TControl; AForm: TFormDummy; const ATypeName: string);
