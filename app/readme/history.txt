@@ -3,8 +3,9 @@
   - fixed
   * changed
 
-1.173.5 (2022/10)
+1.174.0 (2022/10)
 
++ add: ui-tabs render colored circle also for externally modified/deleted files (thanks @bogen85)
 + add: Windows: normalize case of filenames on opening (thanks @veksha, @KodeZwerg)
 + add: if "ui_esc_close":true, and Esc is pressed to 'cancel selection', don't quit but perform the command (thanks @GenuZ)
 + add: "underline_color_files" must support 'rgb(10 20 30 / 50%)' (thanks @eltonfabricio10)
