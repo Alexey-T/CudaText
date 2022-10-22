@@ -2298,6 +2298,7 @@ begin
     if AppRunAutocompleteInEditor=Frame.Editor then //prevents event on_complete in wrong tab
     begin
       AppAutocompleteInvoke:= 'a';
+      Frame.TextCharsTyped:= 0;
       DoAutoComplete(Frame.Editor);
     end;
   end;

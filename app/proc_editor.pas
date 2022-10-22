@@ -2493,9 +2493,9 @@ begin
       if EditorCaretInsideCommentOrString(Ed, Caret.PosX, Caret.PosY) then exit;
 
     Inc(ACharsTyped);
-    if ACharsTyped=Ed.OptAutocompleteAutoshowCharCount then
+    if ACharsTyped>=Ed.OptAutocompleteAutoshowCharCount then
     begin
-      ACharsTyped:= 0;
+      //ACharsTyped:= 0; //don't reset, fix #4479
       AppRunAutocomplete:= true;
       AppRunAutocompleteInEditor:= Ed;
       exit;
