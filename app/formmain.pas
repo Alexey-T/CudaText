@@ -1740,14 +1740,16 @@ procedure TAppNotifThread.HandleOneFrame;
   //
   function IsEditorChanged(EdIndex: integer): boolean;
   var
-    Props: TAppFileProps;
     SFileName: string;
+    Props: TAppFileProps;
   begin
     Result:= false;
     if EdIndex=0 then
       SFileName:= CurFrame.FileName
     else
       SFileName:= CurFrame.FileName2;
+    if SFileName='' then exit;
+
     AppGetFileProps(SFileName, Props);
     if not CurFrame.FileProps[EdIndex].Inited then
       CurFrame.FileProps[EdIndex]:= Props
@@ -1759,15 +1761,11 @@ procedure TAppNotifThread.HandleOneFrame;
     end;
   end;
   //
-var
-  bPair: boolean;
 begin
-  bPair:= (not CurFrame.EditorsLinked) and (CurFrame.FileName2<>'');
-
   if IsEditorChanged(0) then
     Synchronize(@NotifyFrame1);
 
-  if bPair then
+  if not CurFrame.EditorsLinked then
     if IsEditorChanged(1) then
       Synchronize(@NotifyFrame2);
 end;
