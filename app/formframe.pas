@@ -2835,6 +2835,8 @@ begin
   Result:= true;
   SFileName:= GetFileName(Ed);
   if SFileName='' then exit(false);
+  EdIndex:= EditorObjToIndex(Ed);
+  if EdIndex<0 then exit;
 
   if not FileExists(SFileName) then
   begin
@@ -2842,14 +2844,16 @@ begin
     exit(false);
   end;
 
-  EdIndex:= EditorObjToIndex(Ed);
-  if EdIndex>=0 then
-  begin
-    DoHideNotificationPanel(NotifReloadControls[EdIndex]);
-    DoHideNotificationPanel(NotifDeletedControls[EdIndex]);
-    TabExtModified[EdIndex]:= false;
-    TabExtDeleted[EdIndex]:= false;
-  end;
+  DoHideNotificationPanel(NotifReloadControls[EdIndex]);
+  DoHideNotificationPanel(NotifDeletedControls[EdIndex]);
+
+  TabExtModified[EdIndex]:= false;
+  TabExtDeleted[EdIndex]:= false;
+
+  if EdIndex=0 then
+    FileProps.Inited:= false
+  else
+    FileProps2.Inited:= false;
 
   //remember props
   PrevCaretX:= 0;
