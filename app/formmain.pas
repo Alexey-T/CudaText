@@ -131,7 +131,7 @@ type
     procedure HandleOneFrame;
     procedure NotifyFrame1;
     procedure NotifyFrame2;
-    procedure ModifyFrame1;
+    //procedure ModifyFrame1;
   protected
     procedure Execute; override;
   end;
@@ -1728,11 +1728,13 @@ begin
   CurFrame.NotifyAboutChange(CurFrame.Ed2);
 end;
 
+{
 procedure TAppNotifThread.ModifyFrame1;
 begin
   CurFrame.Ed1.Modified:= true;
   CurFrame.UpdateModified(CurFrame.Ed1);
 end;
+}
 
 procedure TAppNotifThread.HandleOneFrame;
 var
