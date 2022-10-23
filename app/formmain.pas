@@ -1737,56 +1737,38 @@ end;
 procedure TAppNotifThread.HandleOneFrame;
 var
   NewProps: TAppFileProps;
-  bFileDeleted: boolean;
 begin
   AppGetFileProps(CurFrame.FileName, NewProps);
-  bFileDeleted:= false;
 
-  //1st editor: file deleted outside
+  //primary editor: file deleted outside
   if not NewProps.Exists then
   begin
-    bFileDeleted:= true;
     CurFrame.FileProps.Exists:= false;
-    if UiOps.PromptToCloseFileDeletedOutside then
-      Synchronize(@NotifyFrame1)
-    else
-    begin
-      if not CurFrame.Modified then
-        Synchronize(@ModifyFrame1);
-    end;
+    Synchronize(@NotifyFrame1);
   end;
 
-  //2nd editor: the same
+  //secondary editor: file deleted outside
   if not CurFrame.EditorsLinked then
     if (CurFrame.FileName2<>'') and (not FileExists(CurFrame.FileName2)) then
     begin
-      bFileDeleted:= true;
       CurFrame.FileProps2.Exists:= false;
-      if UiOps.PromptToCloseFileDeletedOutside then
-        Synchronize(@NotifyFrame2)
-      else
-      begin
-        if not CurFrame.Modified then
-          Synchronize(@ModifyFrame1);
-      end;
+      Synchronize(@NotifyFrame2);
     end;
 
-  //if bFileDeleted then exit;
-
-  //1st editor: first call of sync
+  //primary editor: first call of sync
   if not CurFrame.FileProps.Inited then
   begin
     Move(NewProps, CurFrame.FileProps, SizeOf(NewProps));
   end
   else
-  //1st editor: file changed outside
+  //primary editor: file changed outside
   if NewProps<>CurFrame.FileProps then
   begin
     Move(NewProps, CurFrame.FileProps, SizeOf(NewProps));
     Synchronize(@NotifyFrame1);
   end;
 
-  //2nd editor: the same
+  //secondary editor: file changed outside
   if not CurFrame.EditorsLinked then
     if CurFrame.FileName2<>'' then
     begin
