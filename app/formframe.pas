@@ -141,8 +141,6 @@ type
     FTabCaptionFromApi: boolean;
     FTabImageIndex: integer;
     FTabId: integer;
-    FTabExtModified: boolean;
-    FTabExtDeleted: boolean;
     FFileName: string;
     FFileName2: string;
     FFileWasBig: array[0..1] of boolean;
@@ -192,6 +190,8 @@ type
     FInitialLexer2: TecSyntAnalyzer;
     FSaveHistory: boolean;
     FEditorsLinked: boolean;
+    FTabExtModified: array[0..1] of boolean;
+    FTabExtDeleted: array[0..1] of boolean;
     FCachedTreeview: array[0..1] of TTreeView;
     FLexerBackup: array[0..1] of TATAdapterHilite;
     FLexerChooseFunc: TecLexerChooseFunc;
@@ -266,6 +266,8 @@ type
     function GetSaveDialog: TSaveDialog;
     function GetSplitPosCurrent: double;
     function GetSplitted: boolean;
+    function GetTabExtModified(EdIndex: integer): boolean;
+    function GetTabExtDeleted(EdIndex: integer): boolean;
     function GetTabKeyCollectMarkers: boolean;
     function GetTabVisible: boolean;
     function GetUnprintedEnds: boolean;
@@ -299,8 +301,8 @@ type
     procedure SetTabCaptionAddon(const AValue: string);
     procedure SetTabColor(AColor: TColor);
     procedure SetTabFontColor(AColor: TColor);
-    procedure SetTabExtModified(AValue: boolean);
-    procedure SetTabExtDeleted(AValue: boolean);
+    procedure SetTabExtModified(EdIndex: integer; AValue: boolean);
+    procedure SetTabExtDeleted(EdIndex: integer; AValue: boolean);
     procedure SetTabPinned(AValue: boolean);
     procedure SetTabImageIndex(AValue: integer);
     procedure SetTabVisible(AValue: boolean);
@@ -400,9 +402,9 @@ type
     property CommentString[Ed: TATSynEdit]: string read GetCommentString;
     property TabColor: TColor read FTabColor write SetTabColor;
     property TabFontColor: TColor read FTabFontColor write SetTabFontColor;
-    property TabExtModified: boolean read FTabExtModified write SetTabExtModified;
-    property TabExtDeleted: boolean read FTabExtDeleted write SetTabExtDeleted;
     property TabPinned: boolean read FTabPinned write SetTabPinned;
+    property TabExtModified[EdIndex: integer]: boolean read GetTabExtModified write SetTabExtModified;
+    property TabExtDeleted[EdIndex: integer]: boolean read GetTabExtDeleted write SetTabExtDeleted;
     property TabSizeChanged: boolean read FTabSizeChanged write FTabSizeChanged;
     property TabKeyCollectMarkers: boolean read GetTabKeyCollectMarkers write FTabKeyCollectMarkers;
     property InSession: boolean read FInSession write FInSession;
@@ -811,6 +813,7 @@ var
   Ada: TATAdapterHilite;
 begin
   EdIndex:= EditorObjToIndex(Ed);
+  if EdIndex<0 then exit;
   Ada:= FLexerBackup[EdIndex];
   if Assigned(Ada) then
   begin
@@ -1243,6 +1246,7 @@ begin
   else
   begin
     EdIndex:= EditorObjToIndex(Ed);
+    if EdIndex<0 then exit;
     if EdIndex=0 then
       FInitialLexer1:= AValue
     else
@@ -2775,8 +2779,11 @@ begin
   begin
     SetFileName(Ed, SFileName);
     TabFontColor:= clNone;
-    TabExtModified:= false;
-    TabExtDeleted:= false;
+    if EdIndex>=0 then
+    begin
+      TabExtModified[EdIndex]:= false;
+      TabExtDeleted[EdIndex]:= false;
+    end;
 
     //add to recents new filename
     if bNameChanged then
@@ -2840,10 +2847,9 @@ begin
   begin
     DoHideNotificationPanel(NotifReloadControls[EdIndex]);
     DoHideNotificationPanel(NotifDeletedControls[EdIndex]);
+    TabExtModified[EdIndex]:= false;
+    TabExtDeleted[EdIndex]:= false;
   end;
-
-  TabExtModified:= false;
-  TabExtDeleted:= false;
 
   //remember props
   PrevCaretX:= 0;
@@ -3956,38 +3962,54 @@ begin
   end;
 end;
 
-procedure TEditorFrame.SetTabExtModified(AValue: boolean);
+function TEditorFrame.GetTabExtModified(EdIndex: integer): boolean;
+begin
+  Result:= FTabExtModified[EdIndex];
+end;
+
+function TEditorFrame.GetTabExtDeleted(EdIndex: integer): boolean;
+begin
+  Result:= FTabExtDeleted[EdIndex];
+end;
+
+procedure TEditorFrame.SetTabExtModified(EdIndex: integer; AValue: boolean);
 var
   Gr: TATGroups;
   Pages: TATPages;
   NLocalGroups, NGlobalGroup, NTab: integer;
   D: TATTabData;
 begin
-  if FTabExtModified=AValue then exit;
-  FTabExtModified:= AValue;
+  if FTabExtModified[EdIndex]=AValue then exit;
+  FTabExtModified[EdIndex]:= AValue;
   GetFrameLocation(Self, Gr, Pages, NLocalGroups, NGlobalGroup, NTab);
   D:= Pages.Tabs.GetTabData(NTab);
   if Assigned(D) then
   begin
-    D.TabExtModified:= AValue;
+    if EdIndex=0 then
+      D.TabExtModified:= AValue
+    else
+      D.TabExtModified2:= AValue;
     Pages.Tabs.Invalidate;
   end;
 end;
 
-procedure TEditorFrame.SetTabExtDeleted(AValue: boolean);
+procedure TEditorFrame.SetTabExtDeleted(EdIndex: integer; AValue: boolean);
 var
   Gr: TATGroups;
   Pages: TATPages;
   NLocalGroups, NGlobalGroup, NTab: integer;
   D: TATTabData;
 begin
-  if FTabExtDeleted=AValue then exit;
-  FTabExtDeleted:= AValue;
+  if FTabExtDeleted[EdIndex]=AValue then exit;
+  FTabExtDeleted[EdIndex]:= AValue;
   GetFrameLocation(Self, Gr, Pages, NLocalGroups, NGlobalGroup, NTab);
   D:= Pages.Tabs.GetTabData(NTab);
   if Assigned(D) then
   begin
-    D.TabExtDeleted:= AValue;
+    if EdIndex=0 then
+      D.TabExtDeleted:= AValue
+    else
+      D.TabExtDeleted2:= AValue;
     Pages.Tabs.Invalidate;
   end;
 end;
@@ -4193,68 +4215,78 @@ end;
 
 procedure TEditorFrame.NotifyAboutChange(Ed: TATSynEdit);
 var
-  EdIndex: integer;
-  bShowPanel, bDeletedOutside: boolean;
-  S: string;
+  EdIndex, i: integer;
+  bShowPanel: boolean;
+  bDeletedChanged: boolean;
+  bNewDeleted: array[0..1] of boolean;
+  SFileName: string;
 begin
   EdIndex:= EditorObjToIndex(Ed);
   if EdIndex<0 then exit;
 
-  bDeletedOutside:= (Ed.FileName<>'') and not FileExists(Ed.FileName);
-  if not bDeletedOutside and TabExtDeleted then
+  bNewDeleted[0]:= (Ed1.FileName<>'') and not FileExists(Ed1.FileName);
+  bNewDeleted[1]:= (Ed2.FileName<>'') and not FileExists(Ed2.FileName);
+  bDeletedChanged:= (TabExtDeleted[0]<>bNewDeleted[0]) or
+                    (TabExtDeleted[1]<>bNewDeleted[1]);
+  TabExtDeleted[0]:= bNewDeleted[0];
+  TabExtDeleted[1]:= bNewDeleted[1];
+
+  if not bDeletedChanged then
+    TabExtModified[EdIndex]:= true;
+
+  for i:= 0 to 1 do
   begin
-    TabFontColor:= clNone;
-    TabExtModified:= false;
-    TabExtDeleted:= false;
-    DoHideNotificationPanel(NotifDeletedControls[EdIndex]);
-    DoHideNotificationPanel(NotifReloadControls[EdIndex]);
-    exit;
+    if TabExtDeleted[i] or bDeletedChanged then
+      TabExtModified[i]:= false;
+
+    if TabExtDeleted[i] then
+    begin
+      DoHideNotificationPanel(NotifReloadControls[i]);
+      if not NotifDeletedEnabled then exit;
+    end
+    else
+    if TabExtModified[i] then
+      DoHideNotificationPanel(NotifDeletedControls[i]);
   end;
 
-  TabExtModified:= true;
-  TabExtDeleted:= bDeletedOutside;
-
-  if bDeletedOutside then
+  if TabExtDeleted[0] or TabExtDeleted[1] then
     TabFontColor:= GetAppColor(apclTabMarks)
   else
     TabFontColor:= clNone;
 
-  if TabExtDeleted then
+  if not TabExtDeleted[EdIndex] and TabExtModified[EdIndex] then
   begin
-    DoHideNotificationPanel(NotifReloadControls[EdIndex]);
-    if not NotifDeletedEnabled then exit;
-    bShowPanel:= true;
-  end
-  else
-  case UiOps.NotificationConfirmReload of
-    1:
-      bShowPanel:= Ed.Modified or not Ed.Strings.UndoEmpty;
-    2:
-      bShowPanel:= Ed.Modified; //like Notepad++
-    else
-      bShowPanel:= true;
+    case UiOps.NotificationConfirmReload of
+      1:
+        bShowPanel:= Ed.Modified or not Ed.Strings.UndoEmpty;
+      2:
+        bShowPanel:= Ed.Modified; //like Notepad++
+      else
+        bShowPanel:= true;
+    end;
+
+    if not bShowPanel then
+    begin
+      DoFileReload(Ed);
+      exit
+    end;
   end;
 
-  if not bShowPanel then
+  for i:= 0 to 1 do
   begin
-    DoFileReload(Ed);
-    exit
+    InitNotificationPanel(i, false, NotifReloadControls[i], @NotifReloadYesClick, @NotifReloadNoClick, @NotifReloadStopClick);
+    InitNotificationPanel(i, true, NotifDeletedControls[i], @NotifDeletedYesClick, @NotifDeletedNoClick, @NotifDeletedStopClick);
+
+    ApplyThemeToInfoPanel(NotifReloadControls[i].Panel);
+    ApplyThemeToInfoPanel(NotifDeletedControls[i].Panel);
+
+    SFileName:= ExtractFileName(GetFileName(EditorIndexToObj(i)));
+    UpdateNotificationPanel(i, NotifReloadControls[i], msgConfirmReloadYes, msgButtonCancel, msgConfirmReloadNoMore, msgConfirmFileChangedOutside+' '+SFileName);
+    UpdateNotificationPanel(i, NotifDeletedControls[i], msgTooltipCloseTab, msgButtonCancel, msgConfirmReloadNoMore, msgConfirmFileDeletedOutside+' '+SFileName);
+
+    NotifReloadControls[i].Panel.Visible:= TabExtModified[i] and not TabExtDeleted[i];
+    NotifDeletedControls[i].Panel.Visible:= TabExtDeleted[i];
   end;
-
-  InitNotificationPanel(EdIndex, false, NotifReloadControls[EdIndex], @NotifReloadYesClick, @NotifReloadNoClick, @NotifReloadStopClick);
-  InitNotificationPanel(EdIndex, true, NotifDeletedControls[EdIndex], @NotifDeletedYesClick, @NotifDeletedNoClick, @NotifDeletedStopClick);
-
-  S:= ExtractFileName(GetFileName(Ed));
-  UpdateNotificationPanel(EdIndex, NotifReloadControls[EdIndex], msgConfirmReloadYes, msgButtonCancel, msgConfirmReloadNoMore, msgConfirmFileChangedOutside+' '+S);
-  UpdateNotificationPanel(EdIndex, NotifDeletedControls[EdIndex], msgTooltipCloseTab, msgButtonCancel, msgConfirmReloadNoMore, msgConfirmFileDeletedOutside+' '+S);
-
-  ApplyThemeToInfoPanel(NotifReloadControls[EdIndex].Panel);
-  ApplyThemeToInfoPanel(NotifDeletedControls[EdIndex].Panel);
-
-  if FTabExtDeleted then
-    NotifDeletedControls[EdIndex].Panel.Show
-  else
-    NotifReloadControls[EdIndex].Panel.Show;
 end;
 
 procedure TEditorFrame.SetEnabledCodeTree(Ed: TATSynEdit; AValue: boolean);
