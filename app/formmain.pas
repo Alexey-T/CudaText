@@ -1737,12 +1737,15 @@ end;
 procedure TAppNotifThread.HandleOneFrame;
 var
   NewProps: TAppFileProps;
+  bFileDeleted: boolean;
 begin
   AppGetFileProps(CurFrame.FileName, NewProps);
+  bFileDeleted:= false;
 
   //1st editor: file deleted outside
   if not NewProps.Exists then
   begin
+    bFileDeleted:= true;
     CurFrame.FileProps.Exists:= false;
     if UiOps.PromptToCloseFileDeletedOutside then
       Synchronize(@NotifyFrame1)
@@ -1751,13 +1754,13 @@ begin
       if not CurFrame.Modified then
         Synchronize(@ModifyFrame1);
     end;
-    exit;
   end;
 
   //2nd editor: the same
   if not CurFrame.EditorsLinked then
     if (CurFrame.FileName2<>'') and (not FileExists(CurFrame.FileName2)) then
     begin
+      bFileDeleted:= true;
       CurFrame.FileProps2.Exists:= false;
       if UiOps.PromptToCloseFileDeletedOutside then
         Synchronize(@NotifyFrame2)
@@ -1766,8 +1769,9 @@ begin
         if not CurFrame.Modified then
           Synchronize(@ModifyFrame1);
       end;
-      exit;
     end;
+
+  //if bFileDeleted then exit;
 
   //1st editor: first call of sync
   if not CurFrame.FileProps.Inited then
