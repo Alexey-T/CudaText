@@ -1737,34 +1737,39 @@ end;
 }
 
 procedure TAppNotifThread.HandleOneFrame;
+  //
+  function IsEditorChanged(EdIndex: integer): boolean;
+  var
+    Props: TAppFileProps;
+    SFileName: string;
+  begin
+    Result:= false;
+    if EdIndex=0 then
+      SFileName:= CurFrame.FileName
+    else
+      SFileName:= CurFrame.FileName2;
+    AppGetFileProps(SFileName, Props);
+    if not CurFrame.FileProps[EdIndex].Inited then
+      CurFrame.FileProps[EdIndex]:= Props
+    else
+    if CurFrame.FileProps[EdIndex]<>Props then
+    begin
+      CurFrame.FileProps[EdIndex]:= Props;
+      Result:= true;
+    end;
+  end;
+  //
 var
   bPair: boolean;
-  Props, Props2: TAppFileProps;
 begin
   bPair:= (not CurFrame.EditorsLinked) and (CurFrame.FileName2<>'');
 
-  AppGetFileProps(CurFrame.FileName, Props);
-  if not CurFrame.FileProps[0].Inited then
-    CurFrame.FileProps[0]:= Props
-  else
-  if CurFrame.FileProps[0]<>Props then
-  begin
-    CurFrame.FileProps[0]:= Props;
+  if IsEditorChanged(0) then
     Synchronize(@NotifyFrame1);
-  end;
 
   if bPair then
-  begin
-    AppGetFileProps(CurFrame.FileName2, Props2);
-    if not CurFrame.FileProps[1].Inited then
-      CurFrame.FileProps[1]:= Props2
-    else
-    if CurFrame.FileProps[1]<>Props2 then
-    begin
-      CurFrame.FileProps[1]:= Props2;
+    if IsEditorChanged(1) then
       Synchronize(@NotifyFrame2);
-    end;
-  end;
 end;
 
 procedure TAppNotifThread.Execute;
