@@ -131,7 +131,7 @@ type
     procedure HandleOneFrame;
     procedure NotifyFrame1;
     procedure NotifyFrame2;
-    procedure ModifyFrame1;
+    //procedure ModifyFrame1;
   protected
     procedure Execute; override;
   end;
@@ -1728,11 +1728,13 @@ begin
   CurFrame.NotifyAboutChange(CurFrame.Ed2);
 end;
 
+{
 procedure TAppNotifThread.ModifyFrame1;
 begin
   CurFrame.Ed1.Modified:= true;
   CurFrame.UpdateModified(CurFrame.Ed1);
 end;
+}
 
 procedure TAppNotifThread.HandleOneFrame;
 var
@@ -1740,61 +1742,47 @@ var
 begin
   AppGetFileProps(CurFrame.FileName, NewProps);
 
-  //1st editor: file deleted outside
+  //primary editor: file deleted outside
   if not NewProps.Exists then
   begin
-    CurFrame.FileProps.Exists:= false;
-    if UiOps.PromptToCloseFileDeletedOutside then
-      Synchronize(@NotifyFrame1)
-    else
-    begin
-      if not CurFrame.Modified then
-        Synchronize(@ModifyFrame1);
-    end;
-    exit;
+    CurFrame.FileProps[0].Exists:= false;
+    Synchronize(@NotifyFrame1);
   end;
 
-  //2nd editor: the same
+  //secondary editor: file deleted outside
   if not CurFrame.EditorsLinked then
     if (CurFrame.FileName2<>'') and (not FileExists(CurFrame.FileName2)) then
     begin
-      CurFrame.FileProps2.Exists:= false;
-      if UiOps.PromptToCloseFileDeletedOutside then
-        Synchronize(@NotifyFrame2)
-      else
-      begin
-        if not CurFrame.Modified then
-          Synchronize(@ModifyFrame1);
-      end;
-      exit;
+      CurFrame.FileProps[1].Exists:= false;
+      Synchronize(@NotifyFrame2);
     end;
 
-  //1st editor: first call of sync
-  if not CurFrame.FileProps.Inited then
+  //primary editor: first call of sync
+  if not CurFrame.FileProps[0].Inited then
   begin
     Move(NewProps, CurFrame.FileProps, SizeOf(NewProps));
   end
   else
-  //1st editor: file changed outside
-  if NewProps<>CurFrame.FileProps then
+  //primary editor: file changed outside
+  if NewProps<>CurFrame.FileProps[0] then
   begin
     Move(NewProps, CurFrame.FileProps, SizeOf(NewProps));
     Synchronize(@NotifyFrame1);
   end;
 
-  //2nd editor: the same
+  //secondary editor: file changed outside
   if not CurFrame.EditorsLinked then
     if CurFrame.FileName2<>'' then
     begin
       AppGetFileProps(CurFrame.FileName2, NewProps);
-      if not CurFrame.FileProps2.Inited then
+      if not CurFrame.FileProps[1].Inited then
       begin
-        Move(NewProps, CurFrame.FileProps2, SizeOf(NewProps));
+        Move(NewProps, CurFrame.FileProps[1], SizeOf(NewProps));
       end
       else
-      if NewProps<>CurFrame.FileProps2 then
+      if NewProps<>CurFrame.FileProps[1] then
       begin
-        Move(NewProps, CurFrame.FileProps2, SizeOf(NewProps));
+        Move(NewProps, CurFrame.FileProps[1], SizeOf(NewProps));
         Synchronize(@NotifyFrame2);
       end;
     end;

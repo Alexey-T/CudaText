@@ -440,7 +440,6 @@ type
     NotificationEnabled: boolean;
     NotificationTimeSeconds: integer;
     NotificationConfirmReload: integer;
-    PromptToCloseFileDeletedOutside: boolean;
     NotificationPanelHeight: integer;
     NotificationButtonHeight: integer;
     NotificationButtonsDistance: integer;
@@ -2086,7 +2085,6 @@ begin
     NotificationEnabled:= true;
     NotificationTimeSeconds:= 2;
     NotificationConfirmReload:= 1;
-    PromptToCloseFileDeletedOutside:= true;
     NotificationPanelHeight:= 31;
     NotificationButtonHeight:= 25;
     NotificationButtonsDistance:= 4;
