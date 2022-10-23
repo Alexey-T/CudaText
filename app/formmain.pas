@@ -1738,54 +1738,33 @@ end;
 
 procedure TAppNotifThread.HandleOneFrame;
 var
-  NewProps: TAppFileProps;
+  bPair: boolean;
+  Props, Props2: TAppFileProps;
 begin
-  AppGetFileProps(CurFrame.FileName, NewProps);
+  bPair:= (not CurFrame.EditorsLinked) and (CurFrame.FileName2<>'');
 
-  //primary editor: file deleted outside
-  if not NewProps.Exists then
+  AppGetFileProps(CurFrame.FileName, Props);
+  if not CurFrame.FileProps[0].Inited then
+    CurFrame.FileProps[0]:= Props
+  else
+  if CurFrame.FileProps[0]<>Props then
   begin
-    CurFrame.FileProps[0].Exists:= false;
+    CurFrame.FileProps[0]:= Props;
     Synchronize(@NotifyFrame1);
   end;
 
-  //secondary editor: file deleted outside
-  if not CurFrame.EditorsLinked then
-    if (CurFrame.FileName2<>'') and (not FileExists(CurFrame.FileName2)) then
+  if bPair then
+  begin
+    AppGetFileProps(CurFrame.FileName2, Props2);
+    if not CurFrame.FileProps[1].Inited then
+      CurFrame.FileProps[1]:= Props2
+    else
+    if CurFrame.FileProps[1]<>Props2 then
     begin
-      CurFrame.FileProps[1].Exists:= false;
+      CurFrame.FileProps[1]:= Props2;
       Synchronize(@NotifyFrame2);
     end;
-
-  //primary editor: first call of sync
-  if not CurFrame.FileProps[0].Inited then
-  begin
-    Move(NewProps, CurFrame.FileProps, SizeOf(NewProps));
-  end
-  else
-  //primary editor: file changed outside
-  if NewProps<>CurFrame.FileProps[0] then
-  begin
-    Move(NewProps, CurFrame.FileProps, SizeOf(NewProps));
-    Synchronize(@NotifyFrame1);
   end;
-
-  //secondary editor: file changed outside
-  if not CurFrame.EditorsLinked then
-    if CurFrame.FileName2<>'' then
-    begin
-      AppGetFileProps(CurFrame.FileName2, NewProps);
-      if not CurFrame.FileProps[1].Inited then
-      begin
-        Move(NewProps, CurFrame.FileProps[1], SizeOf(NewProps));
-      end
-      else
-      if NewProps<>CurFrame.FileProps[1] then
-      begin
-        Move(NewProps, CurFrame.FileProps[1], SizeOf(NewProps));
-        Synchronize(@NotifyFrame2);
-      end;
-    end;
 end;
 
 procedure TAppNotifThread.Execute;
