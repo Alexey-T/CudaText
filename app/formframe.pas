@@ -4215,39 +4215,35 @@ end;
 
 procedure TEditorFrame.NotifyAboutChange(Ed: TATSynEdit);
 var
-  EdIndex, i: integer;
-  bShowPanel: boolean;
-  bDeletedChanged: boolean;
-  bNewDeleted: array[0..1] of boolean;
+  EdIndex: integer;
   SFileName: string;
+  bNewDeleted, bDeletedChanged: boolean;
+  bShowPanel: boolean;
 begin
   EdIndex:= EditorObjToIndex(Ed);
   if EdIndex<0 then exit;
+  if EditorsLinked and (EdIndex>0) then exit;
+  SFileName:= GetFileName(Ed);
+  if SFileName='' then exit;
 
-  bNewDeleted[0]:= (Ed1.FileName<>'') and not FileExists(Ed1.FileName);
-  bNewDeleted[1]:= (Ed2.FileName<>'') and not FileExists(Ed2.FileName);
-  bDeletedChanged:= (TabExtDeleted[0]<>bNewDeleted[0]) or
-                    (TabExtDeleted[1]<>bNewDeleted[1]);
-  TabExtDeleted[0]:= bNewDeleted[0];
-  TabExtDeleted[1]:= bNewDeleted[1];
+  bNewDeleted:= not FileExists(SFileName);
+  bDeletedChanged:= TabExtDeleted[EdIndex]<>bNewDeleted;
+  TabExtDeleted[EdIndex]:= bNewDeleted;
 
   if not bDeletedChanged then
     TabExtModified[EdIndex]:= true;
 
-  for i:= 0 to 1 do
-  begin
-    if TabExtDeleted[i] or bDeletedChanged then
-      TabExtModified[i]:= false;
+  if TabExtDeleted[EdIndex] or bDeletedChanged then
+    TabExtModified[EdIndex]:= false;
 
-    if TabExtDeleted[i] then
-    begin
-      DoHideNotificationPanel(NotifReloadControls[i]);
-      if not NotifDeletedEnabled then exit;
-    end
-    else
-    if TabExtModified[i] then
-      DoHideNotificationPanel(NotifDeletedControls[i]);
-  end;
+  if TabExtDeleted[EdIndex] then
+  begin
+    DoHideNotificationPanel(NotifReloadControls[EdIndex]);
+    if not NotifDeletedEnabled then exit;
+  end
+  else
+  if TabExtModified[EdIndex] then
+    DoHideNotificationPanel(NotifDeletedControls[EdIndex]);
 
   if TabExtDeleted[0] or TabExtDeleted[1] then
     TabFontColor:= GetAppColor(apclTabMarks)
@@ -4272,21 +4268,18 @@ begin
     end;
   end;
 
-  for i:= 0 to 1 do
-  begin
-    InitNotificationPanel(i, false, NotifReloadControls[i], @NotifReloadYesClick, @NotifReloadNoClick, @NotifReloadStopClick);
-    InitNotificationPanel(i, true, NotifDeletedControls[i], @NotifDeletedYesClick, @NotifDeletedNoClick, @NotifDeletedStopClick);
+  InitNotificationPanel(EdIndex, false, NotifReloadControls[EdIndex], @NotifReloadYesClick, @NotifReloadNoClick, @NotifReloadStopClick);
+  InitNotificationPanel(EdIndex, true, NotifDeletedControls[EdIndex], @NotifDeletedYesClick, @NotifDeletedNoClick, @NotifDeletedStopClick);
 
-    ApplyThemeToInfoPanel(NotifReloadControls[i].Panel);
-    ApplyThemeToInfoPanel(NotifDeletedControls[i].Panel);
+  ApplyThemeToInfoPanel(NotifReloadControls[EdIndex].Panel);
+  ApplyThemeToInfoPanel(NotifDeletedControls[EdIndex].Panel);
 
-    SFileName:= ExtractFileName(GetFileName(EditorIndexToObj(i)));
-    UpdateNotificationPanel(i, NotifReloadControls[i], msgConfirmReloadYes, msgButtonCancel, msgConfirmReloadNoMore, msgConfirmFileChangedOutside+' '+SFileName);
-    UpdateNotificationPanel(i, NotifDeletedControls[i], msgTooltipCloseTab, msgButtonCancel, msgConfirmReloadNoMore, msgConfirmFileDeletedOutside+' '+SFileName);
+  SFileName:= ExtractFileName(SFileName);
+  UpdateNotificationPanel(EdIndex, NotifReloadControls[EdIndex], msgConfirmReloadYes, msgButtonCancel, msgConfirmReloadNoMore, msgConfirmFileChangedOutside+' '+SFileName);
+  UpdateNotificationPanel(EdIndex, NotifDeletedControls[EdIndex], msgTooltipCloseTab, msgButtonCancel, msgConfirmReloadNoMore, msgConfirmFileDeletedOutside+' '+SFileName);
 
-    NotifReloadControls[i].Panel.Visible:= TabExtModified[i] and not TabExtDeleted[i];
-    NotifDeletedControls[i].Panel.Visible:= TabExtDeleted[i];
-  end;
+  NotifReloadControls[EdIndex].Panel.Visible:= TabExtModified[EdIndex] and not TabExtDeleted[EdIndex];
+  NotifDeletedControls[EdIndex].Panel.Visible:= TabExtDeleted[EdIndex];
 end;
 
 procedure TEditorFrame.SetEnabledCodeTree(Ed: TATSynEdit; AValue: boolean);
