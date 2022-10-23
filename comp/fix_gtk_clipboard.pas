@@ -1,3 +1,4 @@
+//License: seems Public Domain, it's copy/pasted from Lazarus forum
 unit fix_gtk_clipboard;
 
 {$mode objfpc}{$H+}
@@ -8,7 +9,6 @@ procedure FixClipboardFinalization;
 
 implementation
 
-{$ifdef LCLGTK2}
 uses
   gtk2, gdk2, Clipbrd;
 
@@ -22,10 +22,5 @@ begin
   gtk_clipboard_set_text(c, PChar(t), Length(t));
   gtk_clipboard_store(c);
 end;
-{$else}
-procedure FixClipboardFinalization;
-begin
-end;
-{$endif}
 
 end.

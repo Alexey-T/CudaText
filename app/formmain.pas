@@ -32,7 +32,9 @@ uses
   syncobjs,
   EncConv,
   TreeFilterEdit,
+  {$ifdef LCLGTK2}
   fix_gtk_clipboard,
+  {$endif}
   fix_focus_window,
   at__jsonconf,
   PythonEngine,
@@ -2813,7 +2815,9 @@ begin
   DoCloseAllTabs;
   }
 
+  {$ifdef LCLGTK2}
   FixClipboardFinalization;
+  {$endif}
 
   DoPyEvent(nil, cEventOnExit, []);
 end;
