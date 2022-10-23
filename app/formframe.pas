@@ -292,7 +292,7 @@ type
     procedure SetEnabledCodeTree(Ed: TATSynEdit; AValue: boolean);
     procedure SetEnabledFolding(AValue: boolean);
     procedure SetFileName(const AValue: string);
-    procedure SetFileName2(AValue: string);
+    procedure SetFileName2(const AValue: string);
     procedure SetFileWasBig(Ed: TATSynEdit; AValue: boolean);
     procedure SetInitialLexer(Ed: TATSynEdit; AValue: TecSyntAnalyzer);
     procedure SetLocked(AValue: boolean);
@@ -1205,7 +1205,7 @@ begin
   end;
 end;
 
-procedure TEditorFrame.SetFileName2(AValue: string);
+procedure TEditorFrame.SetFileName2(const AValue: string);
 begin
   if SameFileName(FFileName2, AValue) then Exit;
   FFileName2:= AValue;
