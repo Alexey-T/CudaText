@@ -1655,7 +1655,7 @@ First, install C# lexer from "Addons Manager".
 
 2. You need to install MSBuild. As of May 2022, OmniSharp does not include MSBuild. Download link can be found at the bottom of this page: https://visualstudio.microsoft.com/downloads/?q=build+tools - see "Build Tools for Visual Studio 2022". In the installation check the following option: ".NET desktop build tools". If you won't install MSBuild, OmniSharp server will fail, see more info here: https://github.com/OmniSharp/omnisharp-vscode/issues/5120 .
 
-3. Create LSP config file: (CudaText)/settings/lsp_cs.json. Note that backslashes must be doubled (because of JSON format).
+3. Create LSP config file: (CudaText)/settings/lsp_cs.json:
 <syntaxhighlight lang="json">
 {
   "lexers": {
@@ -1666,6 +1666,7 @@ First, install C# lexer from "Addons Manager".
   ]
 }
 </syntaxhighlight>
+Note that backslashes must be doubled (because of JSON format).
 
 4. To test that server works: create a file "test.cs" (with C# lexer active). Call auto-completion after "date.A".
 <syntaxhighlight lang="csharp">
@@ -1722,7 +1723,9 @@ The CSS (and SCSS, LESS) server is not easy to install, so here is the instructi
 
  npx tsc
 
-Server should be compiled. To use the server in LSP Client, create the file "lsp_css.json" with such content:
+Server should be compiled.
+
+Create config file (CudaText)/settings/lsp_css.json:
 <syntaxhighlight lang="json">
 {
     "name": "vsc-css",
@@ -1742,7 +1745,9 @@ Server should be compiled. To use the server in LSP Client, create the file "lsp
 
 ==LSP server for Nim==
 
-Server from https://github.com/PMunch/nimlsp works good. Config "lsp_nim.json":
+Server from https://github.com/PMunch/nimlsp works good.
+
+Config file (CudaText)/settings/lsp_nim.json:
 
 <syntaxhighlight lang="json">
 {
@@ -1758,15 +1763,20 @@ Server from https://github.com/PMunch/nimlsp works good. Config "lsp_nim.json":
 
 ==LSP server for Rust==
 
-Q: I've successfully configured several language servers with this plugin, but rls ( https://github.com/rust-lang/rls ) seems to be unresponsive. Does this work for anyone else?
+RLS server ( https://github.com/rust-lang/rls ) has been deprecated and is no longer supported. It has been replaced with Rust-analyzer. Users are encouraged to uninstall RLS and follow the instructions in the Rust-analyzer manual to install it.
+User needs to download binary file for his system: https://github.com/rust-lang/rust-analyzer#quick-start
 
-A: Seems to be a rls issue: https://github.com/rust-lang/rls/issues/536 . A workaround is to comment out the line in <cudatext>/py/cuda_lsp/sansio_lsp_client/io_handler.py, replace this:
+Create config (CudaText)/settings/lsp_rust.json:
 
-        "Content-Type": f"application/vscode-jsonrpc; charset={encoding}",
-
-with this
-
-        #"Content-Type": f"application/vscode-jsonrpc; charset={encoding}",
+<syntaxhighlight lang="json">
+{
+  "lexers": {
+    "Rust": "rust"
+  },
+  "cmd_windows": ["rust-analyzer-x86_64-pc-windows-msvc.exe"],
+  "cmd_unix": ["rust-analyzer-x86_64-unknown-linux-gnu"]
+}
+</syntaxhighlight>
 
 ==LSP server for AutoHotkey==
 
