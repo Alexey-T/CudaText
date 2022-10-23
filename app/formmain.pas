@@ -1745,7 +1745,7 @@ begin
   //primary editor: file deleted outside
   if not NewProps.Exists then
   begin
-    CurFrame.FileProps.Exists:= false;
+    CurFrame.FileProps[0].Exists:= false;
     Synchronize(@NotifyFrame1);
   end;
 
@@ -1753,18 +1753,18 @@ begin
   if not CurFrame.EditorsLinked then
     if (CurFrame.FileName2<>'') and (not FileExists(CurFrame.FileName2)) then
     begin
-      CurFrame.FileProps2.Exists:= false;
+      CurFrame.FileProps[1].Exists:= false;
       Synchronize(@NotifyFrame2);
     end;
 
   //primary editor: first call of sync
-  if not CurFrame.FileProps.Inited then
+  if not CurFrame.FileProps[0].Inited then
   begin
     Move(NewProps, CurFrame.FileProps, SizeOf(NewProps));
   end
   else
   //primary editor: file changed outside
-  if NewProps<>CurFrame.FileProps then
+  if NewProps<>CurFrame.FileProps[0] then
   begin
     Move(NewProps, CurFrame.FileProps, SizeOf(NewProps));
     Synchronize(@NotifyFrame1);
@@ -1775,14 +1775,14 @@ begin
     if CurFrame.FileName2<>'' then
     begin
       AppGetFileProps(CurFrame.FileName2, NewProps);
-      if not CurFrame.FileProps2.Inited then
+      if not CurFrame.FileProps[1].Inited then
       begin
-        Move(NewProps, CurFrame.FileProps2, SizeOf(NewProps));
+        Move(NewProps, CurFrame.FileProps[1], SizeOf(NewProps));
       end
       else
-      if NewProps<>CurFrame.FileProps2 then
+      if NewProps<>CurFrame.FileProps[1] then
       begin
-        Move(NewProps, CurFrame.FileProps2, SizeOf(NewProps));
+        Move(NewProps, CurFrame.FileProps[1], SizeOf(NewProps));
         Synchronize(@NotifyFrame2);
       end;
     end;

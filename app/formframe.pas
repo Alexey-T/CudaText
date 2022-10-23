@@ -343,10 +343,9 @@ type
     Ed2: TATSynEdit;
     Splitter: TSplitter;
     Groups: TATGroups;
-    FileProps: TAppFileProps;
-    FileProps2: TAppFileProps;
     MacroStrings: TStringList;
     VersionInSession: Int64;
+    FileProps: array[0..1] of TAppFileProps;
 
     constructor Create(AOwner: TComponent; AApplyCentering: boolean); reintroduce;
     destructor Destroy; override;
@@ -1173,7 +1172,7 @@ procedure TEditorFrame.SetFileName(const AValue: string);
 begin
   if SameFileName(FFileName, AValue) then Exit;
   FFileName:= AValue;
-  AppGetFileProps(FFileName, FileProps);
+  AppGetFileProps(FFileName, FileProps[0]);
 end;
 
 procedure TEditorFrame.UpdateTabTooltip;
@@ -1210,7 +1209,7 @@ procedure TEditorFrame.SetFileName2(AValue: string);
 begin
   if SameFileName(FFileName2, AValue) then Exit;
   FFileName2:= AValue;
-  AppGetFileProps(FFileName2, FileProps2);
+  AppGetFileProps(FFileName2, FileProps[1]);
 end;
 
 procedure TEditorFrame.SetFileWasBig(Ed: TATSynEdit; AValue: boolean);
@@ -2458,7 +2457,8 @@ var
   bFilename2Valid: boolean;
 begin
   NotifEnabled:= false; //for binary-viewer and pictures, NotifEnabled must be False
-  FileProps.Inited:= false; //loading of new filename must not trigger notif-thread
+  FileProps[0].Inited:= false; //loading of new filename must not trigger notif-thread
+  FileProps[1].Inited:= false;
 
   if Assigned(FBin) then
     FBin.Hide;
@@ -2690,11 +2690,10 @@ begin
   if EventRes.Val=evrFalse then exit(true); //disable saving, but close
 
   EdIndex:= EditorObjToIndex(Ed);
-  if EdIndex>=0 then
-  begin
-    DoHideNotificationPanel(NotifReloadControls[EdIndex]);
-    DoHideNotificationPanel(NotifDeletedControls[EdIndex]);
-  end;
+  if EdIndex<0 then exit(false);
+
+  DoHideNotificationPanel(NotifReloadControls[EdIndex]);
+  DoHideNotificationPanel(NotifDeletedControls[EdIndex]);
 
   SFileName:= Ed.FileName;
   bNameChanged:= ASaveAs or (SFileName='');
@@ -2779,11 +2778,8 @@ begin
   begin
     SetFileName(Ed, SFileName);
     TabFontColor:= clNone;
-    if EdIndex>=0 then
-    begin
-      TabExtModified[EdIndex]:= false;
-      TabExtDeleted[EdIndex]:= false;
-    end;
+    TabExtModified[EdIndex]:= false;
+    TabExtDeleted[EdIndex]:= false;
 
     //add to recents new filename
     if bNameChanged then
@@ -2798,10 +2794,7 @@ begin
       FOnSaveFile(Ed, SFileName);
   end;
 
-  if EditorsLinked or (Ed=Ed1) then
-    AppGetFileProps(GetFileName(Ed), FileProps)
-  else
-    AppGetFileProps(GetFileName(Ed), FileProps2);
+  AppGetFileProps(SFileName, FileProps[EdIndex]);
 
   NotifEnabled:= bNotifWasEnabled or bNameChanged;
 end;
@@ -2850,10 +2843,7 @@ begin
   TabExtModified[EdIndex]:= false;
   TabExtDeleted[EdIndex]:= false;
 
-  if EdIndex=0 then
-    FileProps.Inited:= false
-  else
-    FileProps2.Inited:= false;
+  FileProps[EdIndex].Inited:= false;
 
   //remember props
   PrevCaretX:= 0;
