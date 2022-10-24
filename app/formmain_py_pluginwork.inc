@@ -1,10 +1,10 @@
 {$ifdef nn}begin end;{$endif}
 
-function IsPluginBad(const S: string; out AShowWarning: boolean): boolean;
+function IsPluginBad(const ADirName: string; out AShowWarning: boolean): boolean;
 begin
   AShowWarning:= false;
 
-  case S of
+  case ADirName of
     'cuda_tree', //replaced with built-in tree-helper engine
     'cuda_tree_markdown', //rewritten in Pascal
     'cuda_tree_mediawiki', //rewritten in Pascal
@@ -20,8 +20,8 @@ begin
   end;
 
   if not Result then
-    if SBeginsWith(S, 'cuda_lint_') or //sub-plugins of CudaLinter
-      SBeginsWith(S, 'cuda_fmt_') //sub-plugins of CudaFormatter
+    if SBeginsWith(ADirName, 'cuda_lint_') or //sub-plugins of CudaLinter
+      SBeginsWith(ADirName, 'cuda_fmt_') //sub-plugins of CudaFormatter
       then
         Result:= true;
 end;
