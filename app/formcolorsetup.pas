@@ -305,10 +305,10 @@ begin
     C.FillRect(ARect.Left, ARect.Top, ARect.Right-NWidth, ARect.Bottom);
   end
   else
-    C.Brush.Color:= clNone;
+    C.Brush.Color:= clWindow;
 
   S:= ListStyles.Items[AIndex];
-  C.Font.Color:= clBlack;
+  C.Font.Color:= clWindowText;
   C.Font.Style:= [];
   C.TextOut(ARect.Left+cIndent, ARect.Top, S);
 end;
