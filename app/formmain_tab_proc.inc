@@ -147,6 +147,9 @@ begin
         DoCodetree_Clear;
   end;
 
+  //update toolbar pressed-states
+  UpdateToolbarButtons(F);
+
   //if we fire 'on_tab_change' during session loading, Auto Save plugin may activate
   //and overwrite the session (it saves the session)
   if not (AppSessionIsLoading or AppSessionIsClosing) then
