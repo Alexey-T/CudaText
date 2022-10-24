@@ -1880,6 +1880,9 @@ The plugin "Column Marks" adds more features:
 
 =Add-ons=
 
+==How to disable plugins==
+Since CudaText 1.174.0: if file "plugin_disabled" (with any contents) exists in the plugin's folder (near install.inf), then plugin will be ignored.
+
 ==Entire plugins list==
 See the [https://github.com/halfbrained/cudatext_plugins_list GitHub repository]
 with the readme and links about almost all published plugins.
