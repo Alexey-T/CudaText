@@ -1,7 +1,9 @@
 {$ifdef nn}begin end;{$endif}
 
-function IsPluginBad(const S: string): boolean;
+function IsPluginBad(const S: string; out AShowWarning: boolean): boolean;
 begin
+  AShowWarning:= false;
+
   case S of
     'cuda_tree', //replaced with built-in tree-helper engine
     'cuda_tree_markdown', //rewritten in Pascal
@@ -9,7 +11,10 @@ begin
     'cuda_tree_rest', //rewritten in Pascal
     'cuda_auto_copy', //replaced with built-in code
     'cuda_brackets_hilite': //replaced with built-in code
-      Result:= true
+    begin
+      Result:= true;
+      AShowWarning:= true;
+    end
     else
       Result:= false;
   end;
@@ -28,6 +33,7 @@ var
   BackupMain,
   BackupTemp: TAppHotkeyBackup;
   BackupLexers: TFPList;
+  bShowIgnoredWarning: boolean;
   i: integer;
 begin
   if not AppPython.Inited then exit;
@@ -79,9 +85,10 @@ begin
     for SItem in ListFiles do
     begin
       DirName:= ExtractFileName(SItem);
-      if IsPluginBad(DirName) then
+      if IsPluginBad(DirName, bShowIgnoredWarning) then
       begin
-        MsgLogConsole(Format(msgErrorPluginIgnored, [DirName]));
+        if bShowIgnoredWarning then
+          MsgLogConsole(Format(msgErrorPluginIgnored, [DirName]));
         Continue;
       end;
 
