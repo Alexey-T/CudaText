@@ -7325,13 +7325,21 @@ procedure TfmMain.DoToolbarClick(Sender: TObject);
 var
   SData: string;
   NCmd: integer;
+  Frame: TEditorFrame;
 begin
   //str(int_command) or callback string
   SData:= (Sender as TATButton).DataString;
   NCmd:= StrToIntDef(SData, 0);
 
   if NCmd>0 then
-    CurrentEditor.DoCommand(NCmd, cInvokeAppToolbar)
+  begin
+    Frame:= CurrentFrame;
+    if Assigned(Frame) then
+    begin
+      Frame.Editor.DoCommand(NCmd, cInvokeAppToolbar);
+      UpdateToolbarButtons(Frame);
+    end;
+  end
   else
   begin
     DoPyCallbackFromAPI(SData, [], []);
