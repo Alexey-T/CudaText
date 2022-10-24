@@ -20,7 +20,7 @@ begin
   end;
 
   if not Result then
-    if SBeginsWith(S, 'cuda_lint_') or //sub-plugins ofCudaLinter
+    if SBeginsWith(S, 'cuda_lint_') or //sub-plugins of CudaLinter
       SBeginsWith(S, 'cuda_fmt_') //sub-plugins of CudaFormatter
       then
         Result:= true;
