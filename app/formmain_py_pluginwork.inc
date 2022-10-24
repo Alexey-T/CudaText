@@ -1,13 +1,24 @@
 {$ifdef nn}begin end;{$endif}
 
 function IsPluginBad(const S: string): boolean;
-var
-  i: integer;
 begin
-  Result:= false;
-  for i:= 0 to High(IgnoredPlugins) do
-    if S=IgnoredPlugins[i] then exit(true);
+  case S of
+    'cuda_tree', //replaced with built-in tree-helper engine
+    'cuda_tree_markdown', //rewritten in Pascal
+    'cuda_tree_mediawiki', //rewritten in Pascal
+    'cuda_tree_rest', //rewritten in Pascal
+    'cuda_auto_copy', //replaced with built-in code
+    'cuda_brackets_hilite': //replaced with built-in code
+      Result:= true
+    else
+      Result:= false;
+  end;
+
+  if not Result then
+    if SBeginsWith(S, 'cuda_lint_') or SBeginsWith(S, 'cuda_fmt_') then
+      Result:= true;
 end;
+
 
 procedure TfmMain.DoOps_LoadPlugins(AKeepHotkeys: boolean);
 var

@@ -1238,16 +1238,6 @@ const
   StatusbarTag_Zoom = 18;
   StatusbarTag_Msg = 20;
 
-const
-  IgnoredPlugins: array[0..5] of string = (
-    'cuda_tree', //replaced with built-in tree-helper engine
-    'cuda_tree_markdown', //built-in
-    'cuda_tree_mediawiki', //built-in
-    'cuda_tree_rest', //built-in
-    'cuda_auto_copy', //built-in
-    'cuda_brackets_hilite' //built-in
-    );
-
 function _IsPointsDiffByDelta(const P1, P2: TPoint; Delta: integer): boolean; inline;
 begin
   Result:=
