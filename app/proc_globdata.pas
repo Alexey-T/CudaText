@@ -1239,7 +1239,7 @@ end;
 
 function InitPyLibraryPath: string;
 const
-  cMaxVersion = 10;
+  cMaxVersion = 11;
   cMinVersionUnix = 5;
   cMinVersionWindows = 4; //support Python 3.4 for WinXP
 {$ifdef windows}
