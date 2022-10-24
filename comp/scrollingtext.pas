@@ -39,9 +39,7 @@ uses
   ExtCtrls, LCLIntf, LCLTranslator;
 
 const
-  C_TEXTFILENAME = 'scrolling.txt';
-  C_TEXTRESOURCENAME = 'scrolltext'; //Note: LResources unit needed
-  C_VERSION = '1.0.2.1';
+  C_VERSION = '1.0.2.3';
 
 type
   TTextSource = (stStringlist, stTextfile, stResource);
@@ -62,10 +60,7 @@ type
     FFont: TFont;
     FLinkFont:TFont;
     FBackColor: TColor;
-    fTextFileName: string;
-    fResourceName: string;
     fVersionString: string;
-    fTextSource: TTextSource;
     function ActiveLineIsURL: boolean;
     procedure DoTimer(Sender: TObject);
     procedure SetActive(const AValue: boolean);
@@ -105,15 +100,6 @@ type
     property Font: TFont read fFont write SetFont;
     // Sets the font properties of links in the scrolling text
     property LinkFont: TFont read fLinkFont write SetLinkFont;
-    // Source of the text to display.
-    // If TextSource=stTextfile 'scrolling.txt' should be in the deployed app folder
-    // if TextSource=stResource be sure to add LResources to your uses clause
-    property TextSource: TTextSource read fTextSource write fTextSource default
-      stStringlist;
-    // Read-only property to remind you of the correct file name
-    property TextFileName: string read fTextFileName;
-    // Read-only property to remind you of the correct resource name
-    property TextResourceName: string read fResourceName;
     // Version number of this component
     property Version: string read fVersionString;
   end;
@@ -164,56 +150,6 @@ begin
     Brush.Color := fBackColor;
     Brush.Style := bsSolid;
     FillRect(0, 0, Width, Height);
-  end;
-  if (fTextSource = stTextfile) then
-    if FileExists('scrolling.txt') then
-    begin
-      fLines.Clear;
-      fLines.LoadFromFile('scrolling.txt');
-    end
-    else
-    begin
-      fLines.Clear;
-      fLines.Add('The file ''' + C_TEXTFILENAME + ''' is missing.');
-      fLines.Add('It should be in the same folder as your application');
-    end;
-  if (fTextSource = stResource) then
-
-  // Load text from resource string
-  begin
-    r := LazarusResources.Find(fResourceName);
-    if r = nil then
-      raise Exception.CreateFmt('Resource ''%s'' is missing',[fResourceName])
-    else
-    begin
-      fLines.Clear;
-      fLines.Add(r.Value);
-    end;
-  end;
-  // Are there any lines in the Stringlist?
-  if (fLines.Count = 0) then
-  begin
-    fLines.Add('This is the ScrollingText scrolling window.');
-    fLines.Add(' ');
-    fLines.Add('This default text is showing because you either:');
-    fLines.Add(' ');
-    fLines.Add('1) Haven''t set any text in the Lines property. or');
-    fLines.Add('2) TextSource is set to stTextfile and the file');
-    fLines.Add('''' + C_TEXTFILENAME + ''' is empty.');
-    fLines.Add(' ');
-    fLines.Add('Note that URL links such as');
-    fLines.Add('http://wiki.lazarus.freepascal.org/Main_Page');
-    fLines.Add('mailto:bill_gates@microsoft.com');
-    fLines.Add('are clickable by the user');
-    fLines.Add('(each link should be a single line of text)');
-    fLines.Add(' ');
-    fLines.Add('TScrollingText is released under the GPL license (See About)');
-    fLines.Add('Code is modified from the Lazarus ''AboutFrm'' code');
-    fLines.Add(' ');
-    fLines.Add('The standalone visual component TScrollingText is available at:');
-    fLines.Add('https://sourceforge.net/p/lazarus-ccr/svn/HEAD/tree/components/');
-    fLines.Add(' ');
-    fLines.Add('Sep 2015');
   end;
 end;
 
@@ -370,10 +306,7 @@ begin
   FOffset := -1;
   Width := 100;
   Height := 100;
-  fTextFileName := C_TEXTFILENAME;
-  fResourceName := C_TEXTRESOURCENAME;
   fVersionString := C_VERSION;
-  fTextSource := stStringlist;
   SendToBack;
 
 end;
