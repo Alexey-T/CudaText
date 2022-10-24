@@ -102,7 +102,7 @@ begin
   Credits.Parent:= Self;
   Credits.Align:= alClient;
   Credits.Font.Color:= clWindowText;
-  Credits.LinkFont.Color:= clHighlight;
+  Credits.LinkFont.Color:= FLabelLink.ColorLinkNormal;
   Credits.LinkFont.Style:= [fsUnderline];
 
   fn:= AppDir_DataLang+DirectorySeparator+'credits.txt';
