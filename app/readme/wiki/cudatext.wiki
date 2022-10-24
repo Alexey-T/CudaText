@@ -2399,6 +2399,9 @@ The following command clears the extended attributes from the bundle, and it can
 Also note, that our application bundle is not digitally signed.
 So to run it (the first time you do it), you should right-click the application bundle, and choose "Open" menu item, and confirm that you trust the vendor.
 
+==Can app save files to system directories?==
+Under Linux and *BSD systems, CudaText can save files even to system write-protected folders. It runs "pkexec" program for this purpose, and "pkexec" shows GUI confirmation to get admin rights.
+
 ==How to select extra symbols by double-click==
 
 Some languages consider special symbols as word-chars. For example, in PHP, "$" symbol is part of a variable name, so double-click should select "$" together with other word-chars. Follow these steps to add extra symbols (e.g. "$") to word-chars.
