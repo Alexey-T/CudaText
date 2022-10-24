@@ -101,6 +101,9 @@ begin
   Credits.Hide;
   Credits.Parent:= Self;
   Credits.Align:= alClient;
+  Credits.Font.Color:= clWindowText;
+  Credits.LinkFont.Color:= clHighlight;
+  Credits.LinkFont.Style:= [fsUnderline];
 
   fn:= AppDir_DataLang+DirectorySeparator+'credits.txt';
   if FileExists(fn) then
@@ -111,6 +114,10 @@ begin
     Credits.Lines.Add(msgCannotFindFile);
     Credits.Lines.Add(AppCollapseHomeDirInFilename(fn));
   end;
+
+  //big title
+  labelName.Font.Style:= [fsBold];
+  labelName.Font.Size:= 20;
 end;
 
 procedure TfmAbout.FormKeyDown(Sender: TObject; var Key: Word;
@@ -129,16 +136,6 @@ procedure TfmAbout.FormShow(Sender: TObject);
 begin
   DoForm_ScaleAuto(Self, true);
   UpdateFormOnTop(Self);
-
-  //big title
-  labelName.Font.Style:= [fsBold];
-  labelName.Font.Size:= 20;
-
-  with Credits do
-  begin
-    LinkFont.Color:= clBlue;
-    LinkFont.Style:= [fsUnderline];
-  end;
 end;
 
 procedure TfmAbout.bCreditsClick(Sender: TObject);
