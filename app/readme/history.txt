@@ -6,6 +6,7 @@
 1.174.0 (2022/10)
 
 * change: simplified app icon
++ add: toolbar 'pressed' states react fast to: buttons pressing, ui-tab switching
 + add: file-flag "plugin_disabled" in plugin's folder - disables loading of plugin
 + add: ui-tabs render colored circle also for externally modified/deleted files (thanks @bogen85)
 + add: Windows: normalize case of filenames on opening (thanks @veksha, @KodeZwerg)
