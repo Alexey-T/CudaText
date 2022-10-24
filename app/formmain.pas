@@ -7737,7 +7737,7 @@ begin
     F.BorderIcons:= [biSystemMenu, biMaximize, biMinimize];
     F.OnClose:= AOnClose;
     F.OnActivate:= @FormActivate;
-    F.Caption:= Format('[f%d]', [ATag]) + ' - ' + msgTitle;
+    F.Caption:= Format('[f%d]', [ATag]) + (' - ' + msgTitle);
 
     F.AllowDropFiles:= true;
     F.OnDropFiles:= @FormFloatGroups_OnDropFiles;

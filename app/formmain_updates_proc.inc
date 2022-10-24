@@ -71,9 +71,9 @@ begin
       SName:= msgUntitledTab;
   end;
 
-  Caption:= SName + SSession + ' - ' + msgTitle;
+  Caption:= SName + SSession + (' - ' + msgTitle);
 
-  Application.Title:= F.TabCaption + ' - ' + msgTitle;
+  Application.Title:= F.TabCaption + (' - ' + msgTitle);
 end;
 
 
