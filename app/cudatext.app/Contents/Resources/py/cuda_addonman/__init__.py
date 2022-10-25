@@ -522,6 +522,13 @@ class Command:
             d['check'] = False
             addons.append(d)
 
+        # checked at the top
+        addons = sorted(
+            addons,
+            key=lambda item: item['check'],
+            reverse=True
+        )
+
         text_headers = '\r'.join((_('Name=260'), _('Folder=180'), _('Local=125'), _('Available=125')))
         text_columns = ['\r'.join(('['+i['kind']+'] '+i['name'], i['dir'], i['v_local'], i['v'])) for i in addons]
         text_items = '\t'.join([text_headers]+text_columns)
