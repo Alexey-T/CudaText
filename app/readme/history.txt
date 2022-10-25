@@ -13,6 +13,7 @@
 + add: file-flag "plugin_disabled" in plugin's folder - disables loading of plugin
 + add: toolbar 'pressed' states react fast to: buttons pressing, ui-tab switching
 + add: support Python 3.11
+- fix: regression in 1.173 - tree-helpers don't work for lite lexers (thanks @mix-7)
 - fix: bug in calculating text-pos from mouse-pos for proportional fonts (thanks @cg00001)
 - fix: "autocomplete_autoshow_chars":2 - a) must not fire event if ui-tab is quickly switched; b) value 2 didn't work with 3 typed characters (thanks @veksha)
 - fix: bad plugin's editor scrollbar with "micromap_on_scrollbar":true (thanks @veksha)

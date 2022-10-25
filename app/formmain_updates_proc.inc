@@ -1093,7 +1093,7 @@ begin
   if bLiteLexer then
   begin
     DoCodetree_Clear;
-    exit;
+    //don't exit - we still can run tree-helper for lite lexers
   end
   else
   begin
