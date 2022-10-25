@@ -487,8 +487,17 @@ class Command:
         modules_web = [a for a in modules_web if a]
         modules_local = [m for m in modules if m not in modules_web]
 
+        kind_n = 1
         for a in addons:
             m = a.get('module', '')
+
+            if a['kind']=='plugin':
+                a['kind_n'] = 0
+            elif a['kind']=='lexer':
+                a['kind_n'] = 999
+            else:
+                a['kind_n'] = kind_n
+            kind_n+=1
 
             if a['kind']=='lexer':
                 a['dir'] = 'data/lexlib'
@@ -515,6 +524,7 @@ class Command:
             d['module'] = m
             d['dir'] = 'py/'+m
             d['kind'] = 'plugin'
+            d['kind_n'] = 0
             d['name'] = get_name_of_module(m)
             d['v_local'] = 'Git'
             d['v'] = 'Git'
@@ -522,10 +532,10 @@ class Command:
             d['check'] = False
             addons.append(d)
 
-        # sort by kind (lexer, plugin, ..)
+        # sort by kind (plugin, .., lexer)
         addons = sorted(
             addons,
-            key=lambda item: item['kind'],
+            key=lambda item: item['kind_n']
         )
 
         text_headers = '\r'.join((_('Name=260'), _('Folder=180'), _('Local=125'), _('Available=125')))
