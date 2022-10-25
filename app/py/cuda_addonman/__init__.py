@@ -535,17 +535,19 @@ class Command:
         RES_SEL_NONE = 3
         RES_SEL_NEW = 4
         c1 = chr(1)
+        DLG_W = 750
+        DLG_H = 600
 
         while True:
             text = '\n'.join([
-              c1.join(['type=button', 'pos=514,500,614,0', 'cap='+_('Update'), 'ex0=1']),
-              c1.join(['type=button', 'pos=620,500,720,0', 'cap='+_('Cancel')]),
-              c1.join(['type=checklistview', 'pos=6,6,720,490', 'items='+text_items, 'val='+text_val, 'ex0=1']),
-              c1.join(['type=button', 'pos=6,500,100,0', 'cap='+_('Deselect all')]),
-              c1.join(['type=button', 'pos=106,500,200,0', 'cap='+_('Select new')]),
+              c1.join(['type=button', 'pos=%d,%d,%d,0'%(DLG_W-212, DLG_H-32, DLG_W-112), 'cap='+_('Update'), 'ex0=1']),
+              c1.join(['type=button', 'pos=%d,%d,%d,0'%(DLG_W-106, DLG_H-32, DLG_W-6), 'cap='+_('Cancel')]),
+              c1.join(['type=checklistview', 'pos=6,6,%d,%d'%(DLG_W-6, DLG_H-42), 'items='+text_items, 'val='+text_val, 'ex0=1']),
+              c1.join(['type=button', 'pos=6,%d,100,0'%(DLG_H-32), 'cap='+_('Deselect all')]),
+              c1.join(['type=button', 'pos=106,%d,200,0'%(DLG_H-32), 'cap='+_('Select new')]),
               ])
 
-            res = dlg_custom(_('Update add-ons'), 726, 532, text)
+            res = dlg_custom(_('Update add-ons'), DLG_W, DLG_H, text)
             if res is None: return
 
             res, text = res
