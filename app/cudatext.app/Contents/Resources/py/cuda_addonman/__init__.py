@@ -522,11 +522,10 @@ class Command:
             d['check'] = False
             addons.append(d)
 
-        # checked at the top
+        # sort by kind (lexer, plugin, ..)
         addons = sorted(
             addons,
-            key=lambda item: item['check'],
-            reverse=True
+            key=lambda item: item['kind'],
         )
 
         text_headers = '\r'.join((_('Name=260'), _('Folder=180'), _('Local=125'), _('Available=125')))
