@@ -272,7 +272,6 @@ const
 var
   C: TCanvas;
   st: TecSyntaxFormat;
-  S: string;
   NWidth: integer;
 begin
   if (AIndex<0) or (AIndex>=ListStyles.Items.Count) then exit;
@@ -289,9 +288,8 @@ begin
   if st.BgColor=clNone then
     C.Brush.Color:= FColorBg;
 
-  S:= cExample;
-  NWidth:= C.TextWidth(S);
-  C.TextOut(ARect.Right-NWidth, ARect.Top, S);
+  NWidth:= C.TextWidth(cExample);
+  C.TextOut(ARect.Right-NWidth, ARect.Top, cExample);
 
   if st.BorderColorBottom<>clNone then
   begin
@@ -307,10 +305,9 @@ begin
   else
     C.Brush.Color:= clWindow;
 
-  S:= ListStyles.Items[AIndex];
   C.Font.Color:= clWindowText;
   C.Font.Style:= [];
-  C.TextOut(ARect.Left+cIndent, ARect.Top, S);
+  C.TextOut(ARect.Left+cIndent, ARect.Top, ListStyles.Items[AIndex]);
 end;
 
 procedure TfmColorSetup.OKButtonClick(Sender: TObject);
