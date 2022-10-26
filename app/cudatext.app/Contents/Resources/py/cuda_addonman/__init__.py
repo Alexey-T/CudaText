@@ -487,8 +487,7 @@ class Command:
         modules_web = [a for a in modules_web if a]
         modules_local = [m for m in modules if m not in modules_web]
 
-        kind_n = 1
-        for a in addons:
+        for kind_n, a in enumerate(addons):
             m = a.get('module', '')
 
             if a['kind']=='plugin':
@@ -497,7 +496,6 @@ class Command:
                 a['kind_n'] = 999
             else:
                 a['kind_n'] = kind_n
-            kind_n+=1
 
             if a['kind']=='lexer':
                 a['dir'] = 'data/lexlib'
