@@ -535,7 +535,7 @@ class Command:
         # sort by kind (plugin, .., lexer)
         addons = sorted(
             addons,
-            key=lambda item: item['kind_n']
+            key=lambda item: (item['kind_n'], item['name'])
         )
 
         text_headers = '\r'.join((_('Name=260'), _('Folder=180'), _('Local=125'), _('Available=125')))
