@@ -3127,7 +3127,7 @@ begin
       if bEditorActive then
       begin
         Ed:= Ctl as TATSynEdit;
-        if Ed.Carets.IsSelection then
+        if (Ed.Carets.Count>1) or Ed.Carets.IsSelection then
         begin
           KeyArray.Clear;
           N:= Ed.Keymap.GetCommandFromShortcut(ShortCut(VK_ESCAPE, []), KeyArray);
