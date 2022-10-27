@@ -1746,8 +1746,17 @@ Create config file (CudaText)/settings/lsp_css.json:
 ==LSP server for Java==
 Information for Windows.
 
-* Install lexer "Java". Make sure Java is installed, run in Console:
- java --version
+* Install lexer "Java" from Addons Manager.
+
+* Install [https://www.oracle.com/java/technologies/downloads/#jdk19-windows Java SE Development Kit 19] or later. If you have usual Java (JRE) then better remove it first. Then run in Console: 
+
+ java -version
+
+It must show something like this:
+
+ java version "19.0.1" 2022-10-18
+ Java(TM) SE Runtime Environment (build 19.0.1+10-21)
+ Java HotSpot(TM) 64-Bit Server VM (build 19.0.1+10-21, mixed mode, sharing)
 
 * Download package "jdt-language-server-1.9.0-2022*.tar.gz" from [https://download.eclipse.org/jdtls/milestones/?d Eclipse JDT Language Server milestone builds] and extract it to "C:\Java\jdt-language-server".
 
