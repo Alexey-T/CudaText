@@ -2807,7 +2807,7 @@ begin
   if SFileName='' then exit;
   if Ed.Modified then
     if MsgBox(
-      Format(msgConfirmReopenModifiedTab, [ExtractFileName(SFileName)]),
+      Format(msgConfirmReopenModifiedTab, [AppCollapseHomeDirInFilename(SFileName)]),
       MB_OKCANCEL or MB_ICONWARNING
       ) <> ID_OK then exit;
 

@@ -5560,7 +5560,7 @@ begin
 
   if Ed.Modified and UiOps.ReloadUnsavedConfirm then
     if MsgBox(
-      Format(msgConfirmReopenModifiedTab, [fn]),
+      Format(msgConfirmReopenModifiedTab, [AppCollapseHomeDirInFilename(fn)]),
       MB_OKCANCEL or MB_ICONQUESTION
       ) <> ID_OK then exit;
 
