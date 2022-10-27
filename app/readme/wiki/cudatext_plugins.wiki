@@ -1743,6 +1743,108 @@ Create config file (CudaText)/settings/lsp_css.json:
 }
 </syntaxhighlight>
 
+==LSP server for Java==
+Information for Windows.
+
+* Install lexer "Java". Make sure Java in installed, run in Console:
+ java --version
+
+* Download package "jdt-language-server-1.9.0-2022*.tar.gz" from [https://download.eclipse.org/jdtls/milestones/?d Eclipse JDT Language Server milestone builds] and extract it to "C:\Java\jdt-language-server".
+
+* Create "C:\Java\jLSP.cmd" batch file with the following contents (edit if necessary):
+<syntaxhighlight lang="batch">
+@echo off
+
+set CacheDirctory=%~1
+
+if NOT "%CacheDirctory%" == "" goto test_cache
+set CacheDirctory=%~2
+
+if NOT "%CacheDirctory%" == "" goto test_cache
+echo Error: No cache directory was provided.
+goto usage
+
+:test_cache
+
+set CacheDirctory="%CacheDirctory%"
+
+if EXIST %CacheDirctory% goto check_server
+echo Error: The cache directory provided does not exist: %CacheDirctory%
+goto complete
+
+:check_server
+
+:: language server installation folder (adjust to suit)
+set Directory=C:/Java/jdt-language-server
+
+:: language server jar file (update based on version file of jar)
+set JarFile=%Directory%/plugins/org.eclipse.equinox.launcher_1.6.400.v20210924-0641.jar
+
+if EXIST %JarFile% goto run_server
+echo Error: The following Jar file was not found:
+echo            '%JarFile%'
+echo Check the folder above to see if the version number of the Jar has changed and update the jLSP.cmd file to suit.
+goto complete
+
+:run_server
+
+:: language server config folder location
+set Config=%Directory%/config_win
+
+echo Directory: %Directory%
+echo   JarFile: %JarFile%
+echo    Config: %Config%
+
+:: java --Declipse.application=org.eclipse.jdt.ls.core.id1
+::      -Dosgi.bundles.defaultStartLevel=4
+::      -Declipse.product=org.eclipse.jdt.ls.core.product
+::      -Dlog.level=ALL
+::      -noverify
+::      -Xmx1G
+::      -jar %JarFile%
+::      -configuration %Congfig%
+::      --add-modules=ALL-SYSTEM
+::      --add-opens java.base/java.util=ALL-UNNAMED
+::      --add-opens java.base/java.lang=ALL-UNNAMED
+::      -data %CacheDirctory%
+
+:: echo the command for debugging
+echo java -Dosgi.bundles.defaultStartLevel=4 -Declipse.product=org.eclipse.jdt.ls.core.product -Dlog.level=ALL -noverify -Xmx1G -jar %JarFile% -configuration %Config% --add-modules=ALL-SYSTEM --add-opens java.base/java.util=ALL-UNNAMED --add-opens java.base/java.lang=ALL-UNNAMED -data %CacheDirctory%
+
+:: run the language server using stdio communications
+java -Dosgi.bundles.defaultStartLevel=4 -Declipse.product=org.eclipse.jdt.ls.core.product -Dlog.level=ALL -noverify -Xmx1G -jar %JarFile% -configuration %Config% --add-modules=ALL-SYSTEM --add-opens java.base/java.util=ALL-UNNAMED --add-opens java.base/java.lang=ALL-UNNAMED -data %CacheDirctory%
+goto complete
+
+:usage
+echo.
+echo   Usage: jLSP.cmd WorkspaceDirectory FileDirectory
+echo Example: jLSP.cmd "$wdd" "$fdd"
+echo.
+
+:complete
+</syntaxhighlight>
+
+* Create LSP config file: (CudaText)/settings/lsp_java.json:
+<syntaxhighlight lang="json">
+{
+  "lexers": {
+    "Java": "java"
+  },
+  "cmd_windows": [
+      "C:\\Java\\jLSP.cmd", "${fdir}"
+  ]
+}
+</syntaxhighlight>
+
+Use testing file "test.java". Place caret on last code line after "System.g" and call auto-completion.
+<syntaxhighlight lang="java">
+public class Example {
+	public static void main(String[] args) {
+		System.g
+	}
+}
+</syntaxhighlight>
+
 ==LSP server for Nim==
 
 Server from https://github.com/PMunch/nimlsp works good.
