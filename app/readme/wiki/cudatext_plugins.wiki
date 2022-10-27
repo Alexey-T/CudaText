@@ -1831,7 +1831,7 @@ echo.
     "Java": "java"
   },
   "cmd_windows": [
-      "C:\\Java\\jLSP.cmd", "${fdir}"
+      "C:\\Java\\jLSP.cmd", "."
   ]
 }
 </syntaxhighlight>
