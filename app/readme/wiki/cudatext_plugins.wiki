@@ -1754,74 +1754,25 @@ Information for Windows.
 * Create "C:\Java\jLSP.cmd" batch file with the following contents (edit if necessary):
 <syntaxhighlight lang="batch">
 @echo off
-
-set CacheDirctory=%~1
-
-if NOT "%CacheDirctory%" == "" goto test_cache
-set CacheDirctory=%~2
-
-if NOT "%CacheDirctory%" == "" goto test_cache
-echo Error: No cache directory was provided.
-goto usage
-
-:test_cache
-
-set CacheDirctory="%CacheDirctory%"
-
-if EXIST %CacheDirctory% goto check_server
-echo Error: The cache directory provided does not exist: %CacheDirctory%
-goto complete
-
-:check_server
+echo.
+echo Usage: jLSP.cmd CacheDir
+echo where "CacheDir" is an absolute path to your data directory. eclipse.jdt.ls stores workspace specific information in it. This should be unique per workspace/project.
+echo.
 
 :: language server installation folder (adjust to suit)
 set Directory=C:/Java/jdt-language-server
-
 :: language server jar file (update based on version file of jar)
 set JarFile=%Directory%/plugins/org.eclipse.equinox.launcher_1.6.400.v20210924-0641.jar
-
-if EXIST %JarFile% goto run_server
-echo Error: The following Jar file was not found:
-echo            '%JarFile%'
-echo Check the folder above to see if the version number of the Jar has changed and update the jLSP.cmd file to suit.
-goto complete
-
-:run_server
-
 :: language server config folder location
 set Config=%Directory%/config_win
 
+set CacheDir=%~1
 echo Directory: %Directory%
 echo   JarFile: %JarFile%
 echo    Config: %Config%
+echo  CacheDir: %CacheDir%
 
-:: java --Declipse.application=org.eclipse.jdt.ls.core.id1
-::      -Dosgi.bundles.defaultStartLevel=4
-::      -Declipse.product=org.eclipse.jdt.ls.core.product
-::      -Dlog.level=ALL
-::      -noverify
-::      -Xmx1G
-::      -jar %JarFile%
-::      -configuration %Congfig%
-::      --add-modules=ALL-SYSTEM
-::      --add-opens java.base/java.util=ALL-UNNAMED
-::      --add-opens java.base/java.lang=ALL-UNNAMED
-::      -data %CacheDirctory%
-
-:: echo the command for debugging
-echo java -Dosgi.bundles.defaultStartLevel=4 -Declipse.product=org.eclipse.jdt.ls.core.product -Dlog.level=ALL -noverify -Xmx1G -jar %JarFile% -configuration %Config% --add-modules=ALL-SYSTEM --add-opens java.base/java.util=ALL-UNNAMED --add-opens java.base/java.lang=ALL-UNNAMED -data %CacheDirctory%
-
-:: run the language server using stdio communications
-java -Dosgi.bundles.defaultStartLevel=4 -Declipse.product=org.eclipse.jdt.ls.core.product -Dlog.level=ALL -noverify -Xmx1G -jar %JarFile% -configuration %Config% --add-modules=ALL-SYSTEM --add-opens java.base/java.util=ALL-UNNAMED --add-opens java.base/java.lang=ALL-UNNAMED -data %CacheDirctory%
-goto complete
-
-:usage
-echo.
-echo   Usage: jLSP.cmd WorkspaceDirectory FileDirectory
-echo Example: jLSP.cmd "$wdd" "$fdd"
-echo.
-
-:complete
+java -Dosgi.bundles.defaultStartLevel=4 -Declipse.product=org.eclipse.jdt.ls.core.product -Dlog.level=ALL -noverify -Xmx1G -jar %JarFile% -configuration %Config% --add-modules=ALL-SYSTEM --add-opens java.base/java.util=ALL-UNNAMED --add-opens java.base/java.lang=ALL-UNNAMED -data %CacheDir%
 </syntaxhighlight>
 
 * Create LSP config file: (CudaText)/settings/lsp_java.json:
