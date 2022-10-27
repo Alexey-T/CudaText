@@ -1790,9 +1790,7 @@ java -Dosgi.bundles.defaultStartLevel=4 -Declipse.product=org.eclipse.jdt.ls.cor
   "lexers": {
     "Java": "java"
   },
-  "cmd_windows": [
-      "C:\\Java\\jLSP.cmd", "."
-  ]
+  "cmd_windows": ["C:\\Java\\jLSP.cmd", "./cache_for_proj1"]  
 }
 </syntaxhighlight>
 
