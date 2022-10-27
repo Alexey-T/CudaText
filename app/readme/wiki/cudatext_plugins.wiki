@@ -1746,9 +1746,9 @@ Create config file (CudaText)/settings/lsp_css.json:
 ==LSP server for Java==
 Information for Windows.
 
-* Install lexer "Java".
+* Install lexer "Java" from Addons Manager.
 
-* Install Java SE Development Kit 19 or later. https://www.oracle.com/java/technologies/downloads/#jdk19-windows . Then run in Console: 
+* Install [https://www.oracle.com/java/technologies/downloads/#jdk19-windows Java SE Development Kit 19] or later. If you have usual Java (JRE) then better remove it first. Then run in Console: 
 
  java -version
 
