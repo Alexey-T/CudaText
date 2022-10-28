@@ -1744,7 +1744,7 @@ Create config file (CudaText)/settings/lsp_css.json:
 </syntaxhighlight>
 
 ==LSP server for Java==
-Information for Windows.
+'''Part 1. Information for Windows.'''
 
 * Install lexer "Java" from Addons Manager.
 
@@ -1791,6 +1791,71 @@ java -Dosgi.bundles.defaultStartLevel=4 -Declipse.product=org.eclipse.jdt.ls.cor
     "Java": "java"
   },
   "cmd_windows": ["C:\\Java\\jLSP.cmd", "./cache_for_proj1"]  
+}
+</syntaxhighlight>
+
+Use testing file "test.java". Place caret on last code line after "System.g" and call auto-completion.
+<syntaxhighlight lang="java">
+public class Example {
+	public static void main(String[] args) {
+		System.g
+	}
+}
+</syntaxhighlight>
+
+'''Part 2. Information for Linux.'''
+
+* Install lexer "Java" from Addons Manager.
+
+* Install "Java SE Development Kit" from [https://www.oracle.com/java/technologies/downloads/#jdk19-linux Oracle website] or from OS package manager. If you have usual Java (JRE) then better remove it first.
+
+On Ubuntu this command works (2022 year):
+
+ sudo apt install openjdk-17-jre-headless 
+
+Then run in Console: 
+
+ java -version
+
+It must show something like this:
+
+ openjdk version "17.0.4" 2022-07-19
+ OpenJDK Runtime Environment (build 17.0.4+8-Ubuntu-120.04)
+ OpenJDK 64-Bit Server VM (build 17.0.4+8-Ubuntu-120.04, mixed mode, sharing)
+
+* Download package "jdt-language-server-1.9.0-2022*.tar.gz" from [https://download.eclipse.org/jdtls/milestones/?d Eclipse JDT Language Server milestone builds] and extract it to "~\jdt-language-server".
+
+* Create "~\jLSP.sh" shell script with the following contents, and make it executable:
+<syntaxhighlight lang="bash">
+#!/bin/bash
+echo
+echo Usage: jLSP.sh CacheDir
+echo where "CacheDir" is an absolute path to your data directory. eclipse.jdt.ls stores workspace specific information in it. This should be unique per workspace/project.
+echo
+
+# language server installation folder (adjust to suit)
+Directory=~/jdt-language-server
+# language server jar file (update based on version file of jar)
+JarFile=$Directory/plugins/org.eclipse.equinox.launcher_1.6.400.v20210924-0641.jar
+# language server config folder location
+Config=$Directory/config_linux
+
+CacheDir=$1
+echo Directory: $Directory
+echo   JarFile: $JarFile
+echo    Config: $Config
+echo  CacheDir: $CacheDir
+
+java -Dosgi.bundles.defaultStartLevel=4 -Declipse.product=org.eclipse.jdt.ls.core.product -Dlog.level=ALL -noverify -Xmx1G -jar $JarFile -configuration $Config --add-modules=ALL-SYSTEM --add-opens java.base/java.util=ALL-UNNAMED --add-opens java.base/java.lang=ALL-UNNAMED -data $CacheDir
+</syntaxhighlight>
+
+* Create LSP config file: (CudaText)/settings/lsp_java.json:
+<syntaxhighlight lang="json">
+{
+  "lexers": {
+    "Java": "java",
+  },
+  "cmd_unix": ["~/jLSP.sh", "./cache_for_proj1"],
 }
 </syntaxhighlight>
 
