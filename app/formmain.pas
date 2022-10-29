@@ -3812,11 +3812,11 @@ begin
 
   if Assigned(fmConsole) then
   begin
-    EditorCaretShapeFromString(fmConsole.EdMemo.CaretShapeReadonly, EditorOps.OpCaretViewReadonly);
     EditorApplyOpsCommon(fmConsole.EdMemo);
     EditorApplyOpsCommon(fmConsole.EdInput);
     fmConsole.EdInput.Height:= ATEditorScale(UiOps.InputHeight);
     fmConsole.MemoWordWrap:= UiOps.ConsoleWordWrap;
+    fmConsole.ApplyCaretView;
   end;
 
   EditorApplyOpsCommon(fmOutput.Ed);

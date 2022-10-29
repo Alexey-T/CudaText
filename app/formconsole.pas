@@ -90,6 +90,7 @@ type
     property MemoWordWrap: boolean read GetWordWrap write SetWordWrap;
     procedure SetFocus; override;
     procedure ApplyTheme;
+    procedure ApplyCaretView;
   end;
 
 var
@@ -507,6 +508,16 @@ begin
   EditorApplyTheme(EdInput);
   EditorApplyTheme(EdMemo);
   Invalidate;
+end;
+
+procedure TfmConsole.ApplyCaretView;
+begin
+  EditorCaretShapeFromString(EdInput.CaretShapeNormal, EditorOps.OpCaretViewNormal);
+  EditorCaretShapeFromString(EdInput.CaretShapeOverwrite, EditorOps.OpCaretViewOverwrite);
+
+  EditorCaretShapeFromString(EdMemo.CaretShapeNormal, EditorOps.OpCaretViewNormal);
+  EditorCaretShapeFromString(EdMemo.CaretShapeOverwrite, EditorOps.OpCaretViewOverwrite);
+  EditorCaretShapeFromString(EdMemo.CaretShapeReadonly, EditorOps.OpCaretViewReadonly);
 end;
 
 finalization
