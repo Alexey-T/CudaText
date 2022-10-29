@@ -2143,9 +2143,36 @@ func main() {
 }
 </syntaxhighlight>
 
+==LSP server for Scala==
+
+Install lexer "Scala" from Addons Manager.
+Information for Windows.
+
+1. Install Coursier: https://get-coursier.io/docs/cli-installation
+
+2. Install Metals. Make sure "metals.bat" is in the system PATH.
+
+ cs install metals
+
+3. Create LSP config file (CudaText)/settings/lsp_scala.json:
+<syntaxhighlight lang="json">
+{
+  "lexers": {
+    "Scala": "scala"
+  },
+  "cmd_windows": ["metals.bat"]
+}
+</syntaxhighlight>
+
+Testing file for auto-completion:
+
+ object Hello extends App {
+     println("Hello, world")
+ }
+
 ==LSP server for Fortran==
 
-Install lexer Fortran from "Addons Manager".
+Install lexer "Fortran" from Addons Manager.
 Steps show how to use server on Linux (Ubuntu 20.04) with Python 3 installed.
 
 1. Install the LSP server:
@@ -2162,7 +2189,7 @@ And check its full path:
 
 Here it prints: "/home/user/.local/bin/fortls". We will need that full path in the next step, because short program name "fortls" gave errors for me.
 
-2. Create CudaText LSP config: (CudaText)/settings/lsp_fortran.json:
+2. Create LSP config file: (CudaText)/settings/lsp_fortran.json:
 <syntaxhighlight lang="json">
 {
   "lexers": {
