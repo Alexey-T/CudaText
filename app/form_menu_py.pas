@@ -28,6 +28,7 @@ uses
   LclType,
   LclIntf, Buttons,
   proc_globdata,
+  proc_editor,
   proc_colors,
   proc_str,
   math;
@@ -88,6 +89,9 @@ procedure TfmMenuApi.FormShow(Sender: TObject);
 var
   N: integer;
 begin
+  EditorCaretShapeFromString(edit.CaretShapeNormal, EditorOps.OpCaretViewNormal);
+  EditorCaretShapeFromString(edit.CaretShapeOverwrite, EditorOps.OpCaretViewOverwrite);
+
   UpdateFormOnTop(Self);
   FixFormPositionToDesktop(Self);
 

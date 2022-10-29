@@ -3346,7 +3346,11 @@ begin
 
   fmConsole.EdInput.OptMouseMiddleClickAction:= TATEditorMiddleClickAction(EditorOps.OpMouseMiddleClickAction);
   if Assigned(CodeTreeFilterInput) then
+  begin
     CodeTreeFilterInput.OptMouseMiddleClickAction:= TATEditorMiddleClickAction(EditorOps.OpMouseMiddleClickAction);
+    EditorCaretShapeFromString(CodeTreeFilterInput.CaretShapeNormal, EditorOps.OpCaretViewNormal);
+    EditorCaretShapeFromString(CodeTreeFilterInput.CaretShapeOverwrite, EditorOps.OpCaretViewOverwrite);
+  end;
 
   if FConsoleMustShow then
     DoShowConsole(false);

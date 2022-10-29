@@ -30,6 +30,7 @@ uses
   proc_colors,
   proc_str,
   proc_keysdialog,
+  proc_editor,
   at__jsonconf,
   math;
 
@@ -130,6 +131,9 @@ begin
 
   edit.OptCaretBlinkEnabled:= EditorOps.OpCaretBlinkEn;
   edit.OptCaretBlinkTime:= EditorOps.OpCaretBlinkTime;
+
+  EditorCaretShapeFromString(edit.CaretShapeNormal, EditorOps.OpCaretViewNormal);
+  EditorCaretShapeFromString(edit.CaretShapeOverwrite, EditorOps.OpCaretViewOverwrite);
 
   PanelCaption.Font.Name:= UiOps.VarFontName;
   PanelCaption.Font.Size:= ATEditorScaleFont(UiOps.VarFontSize);

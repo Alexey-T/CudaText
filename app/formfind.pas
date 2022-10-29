@@ -1144,6 +1144,11 @@ begin
   edFind.OptMouseMiddleClickAction:= TATEditorMiddleClickAction(EditorOps.OpMouseMiddleClickAction);
   edRep.OptMouseMiddleClickAction:= TATEditorMiddleClickAction(EditorOps.OpMouseMiddleClickAction);
 
+  EditorCaretShapeFromString(edFind.CaretShapeNormal, EditorOps.OpCaretViewNormal);
+  EditorCaretShapeFromString(edFind.CaretShapeOverwrite, EditorOps.OpCaretViewOverwrite);
+  EditorCaretShapeFromString(edRep.CaretShapeNormal, EditorOps.OpCaretViewNormal);
+  EditorCaretShapeFromString(edRep.CaretShapeOverwrite, EditorOps.OpCaretViewOverwrite);
+
   UpdateFormHeight;
   UpdateFonts;
   FixFormPositionToDesktop(Self);

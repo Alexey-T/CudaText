@@ -676,10 +676,14 @@ begin
   end;
 
   if Assigned(fmConsole) then
+  begin
     fmConsole.EdInput.OptMouseMiddleClickAction:= TATEditorMiddleClickAction(EditorOps.OpMouseMiddleClickAction);
+  end;
 
   if Assigned(CodeTreeFilterInput) then
+  begin
     CodeTreeFilterInput.OptMouseMiddleClickAction:= TATEditorMiddleClickAction(EditorOps.OpMouseMiddleClickAction);
+  end;
 
   UpdateStatusbar;
 end;
