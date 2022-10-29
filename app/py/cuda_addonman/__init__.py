@@ -522,6 +522,33 @@ class Command:
             d['check'] = False
             addons.append(d)
 
+        KIND_ORDER = {
+            'plugin': 1,
+            'linter': 2,
+            'formatter': 3,
+            'treehelper': 4,
+            'snippets_ct': 50,
+            'theme': 100,
+            'toolbartheme': 101,
+            'toolbarxicons': 102,
+            'sidebartheme': 103,
+            'projtoolbaricons': 104,
+            'filetypeicons': 105,
+            'codetreeicons': 106,
+            'translation': 200,
+            'plugintranslation': 201,
+            'buildsystem': 300,
+            'lexer': 500,
+            'package': 600,
+        }
+
+        # show plugins first, ..., lexers last
+        addons = sorted(addons, key=lambda i: (
+            KIND_ORDER.get(i['kind'], 301),
+            i['name'],
+            i.get('module', ''),
+            ))
+
         text_headers = '\r'.join((_('Name=260'), _('Folder=180'), _('Local=125'), _('Available=125')))
         text_columns = ['\r'.join(('['+i['kind']+'] '+i['name'], i['dir'], i['v_local'], i['v'])) for i in addons]
         text_items = '\t'.join([text_headers]+text_columns)
