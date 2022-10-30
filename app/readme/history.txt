@@ -9,6 +9,7 @@
 - fix: with "undo_persistent" on, lines with tab-chars were loaded wrong from undo-file (thanks @veksha)
 - fix: options "caret_view*" did not affect: find-dialog, console, code-tree filter, menu dialogs (thanks @iconv)
 - fix: command "insert empty line below" inserted 2 lines at the file end (thanks @iconv)
+- fix: command "delete line" was not deleting the last line (thanks @iconv)
 
 1.174.0 (2022/10)
 
