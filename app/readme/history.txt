@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.174.2 (2022/10)
+1.174.5 (2022/10)
 
 * change: changed rendering of "Unicode combined characters" (accent chars), now they have separate char-cell like letters; this was needed to solve several issues with accent chars (thanks @iconv)
 * change: don't activate ui-tab by right/middle click (thanks @iconv)
