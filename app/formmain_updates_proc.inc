@@ -1096,7 +1096,7 @@ begin
   if bLiteLexer then
   begin
     Ada:= nil;
-    //don't exit - we still can run tree-helper for lite lexers
+    //don't clear tree, don't exit - we can run tree-helper for lite lexer
   end
   else
   begin
