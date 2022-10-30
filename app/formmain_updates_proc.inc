@@ -1092,11 +1092,10 @@ begin
 
   Ed:= Frame.Editor;
   bLiteLexer:= Ed.AdapterForHilite is TATLiteLexer;
-  Ada:= nil;
 
   if bLiteLexer then
   begin
-    DoCodetree_Clear;
+    Ada:= nil;
     //don't exit - we still can run tree-helper for lite lexers
   end
   else
