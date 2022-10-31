@@ -47,6 +47,7 @@ Event handlers (Command.on_nnnnn methods) return-value is ignored is many cases,
 
 * on_change(self, ed_self): Called after editor text is changed.
 * on_change_slow(self, ed_self): Called after editor text is changed, and small pause is passed. Pause is CudaText option "py_change_slow".
+* on_change_idle(self, ed_self): Like "on_change_slow", but it's fired after app goes into "idle" state (no keyboard/mouse input occurs for 1-2 seconds).
 * on_caret(self, ed_self): Called after caret position/selection is changed.
 * on_caret_slow(self, ed_self): Called after caret position/selection is changed, and small pause is passed. Pause is CudaText option "py_caret_slow".
 * on_insert(self, ed_self, text): Called before inserting a text. Method can return False to disable insertion, other return value is ignored.
@@ -4736,5 +4737,8 @@ It provides:
 
 1.0.433 (app 1.173.0)
 * add: Editor.complete, Editor.complete_alt: support HTML tag "font color=..."
+
+1.0.434 (app 1.174.5)
+* add: event "on_change_idle"
 
 [[Category:CudaText]]
