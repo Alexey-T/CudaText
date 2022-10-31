@@ -145,7 +145,8 @@ type
     FFileName2: string;
     FFileWasBig: array[0..1] of boolean;
     FTextCharsTyped: integer;
-    FTextChangeFired: array[0..1] of boolean;
+    FTextChange: array[0..1] of boolean;
+    FTextChangeSlow: array[0..1] of boolean;
     FActivationTime: Int64;
     FCodetreeFilter: string;
     FCodetreeFilterHistory: TStringList;
@@ -257,8 +258,8 @@ type
     function GetCachedTreeviewInited(Ed: TATSynEdit): boolean;
     function GetCachedTreeview(Ed: TATSynEdit): TTreeView;
     function GetCommentString(Ed: TATSynEdit): string;
-    function GetTextChangeFired(EdIndex: integer): boolean;
-    procedure SetTextChangeFired(EdIndex: integer; AValue: boolean);
+    function GetTextChangeSlow(EdIndex: integer): boolean;
+    procedure SetTextChangeSlow(EdIndex: integer; AValue: boolean);
     function GetEnabledCodeTree(Ed: TATSynEdit): boolean;
     function GetEnabledFolding: boolean;
     function GetFileWasBig(Ed: TATSynEdit): boolean;
@@ -412,7 +413,7 @@ type
     property InSession: boolean read FInSession write FInSession;
     property InHistory: boolean read FInHistory write FInHistory;
     property TextCharsTyped: integer read FTextCharsTyped write FTextCharsTyped;
-    property TextChangeFired[EdIndex: integer]: boolean read GetTextChangeFired write SetTextChangeFired;
+    property TextChangeSlow[EdIndex: integer]: boolean read GetTextChangeSlow write SetTextChangeSlow;
     property EnabledCodeTree[Ed: TATSynEdit]: boolean read GetEnabledCodeTree write SetEnabledCodeTree;
     property CodetreeFilter: string read FCodetreeFilter write FCodetreeFilter;
     property CodetreeFilterHistory: TStringList read FCodetreeFilterHistory;
@@ -829,22 +830,24 @@ end;
 
 procedure TEditorFrame.TimerChangeTimer(Sender: TObject);
 var
-  Ed: TATSynEdit;
   EdIndex: integer;
 begin
   TimerChange.Enabled:= false;
-  Ed:= Editor;
 
   RestoreSavedLexer(Ed1);
   if Splitted then
     RestoreSavedLexer(Ed2);
 
-  if Assigned(FOnChangeSlow) then
-    FOnChangeSlow(Ed);
+  for EdIndex:= 0 to 1 do
+    if FTextChange[EdIndex] then
+    begin
+      FTextChange[EdIndex]:= false;
 
-  EdIndex:= EditorObjToIndex(Ed);
-  if EdIndex>=0 then
-    FTextChangeFired[EdIndex]:= true;
+      if Assigned(FOnChangeSlow) then
+        FOnChangeSlow(EditorIndexToObj(EdIndex));
+
+      FTextChangeSlow[EdIndex]:= true;
+    end;
 end;
 
 procedure TEditorFrame.TimerCaretTimer(Sender: TObject);
@@ -1478,6 +1481,7 @@ var
   Ed, EdOther: TATSynEdit;
   Caret: TATCaretItem;
   St: TATStrings;
+  EdIndex: integer;
   bChangedLexer, bChanged1, bChanged2: boolean;
 begin
   if AppSessionIsLoading then exit; //fix issue #4436
@@ -1534,6 +1538,10 @@ begin
   TimerChange.Enabled:= false;
   TimerChange.Interval:= UiOps.PyChangeSlow;
   TimerChange.Enabled:= true;
+
+  EdIndex:= EditorObjToIndex(Ed);
+  if EdIndex>=0 then
+    FTextChange[EdIndex]:= true;
 end;
 
 procedure TEditorFrame.EditorOnChangeModified(Sender: TObject);
@@ -3097,14 +3105,14 @@ begin
     Result:= an.LineComment;
 end;
 
-function TEditorFrame.GetTextChangeFired(EdIndex: integer): boolean;
+function TEditorFrame.GetTextChangeSlow(EdIndex: integer): boolean;
 begin
-  Result:= FTextChangeFired[EdIndex];
+  Result:= FTextChangeSlow[EdIndex];
 end;
 
-procedure TEditorFrame.SetTextChangeFired(EdIndex: integer; AValue: boolean);
+procedure TEditorFrame.SetTextChangeSlow(EdIndex: integer; AValue: boolean);
 begin
-  FTextChangeFired[EdIndex]:= AValue;
+  FTextChangeSlow[EdIndex]:= AValue;
 end;
 
 function TEditorFrame.GetEnabledCodeTree(Ed: TATSynEdit): boolean;

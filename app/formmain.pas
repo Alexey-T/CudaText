@@ -2275,14 +2275,14 @@ begin
   //fire on_change_idle
   if Assigned(Frame) then
   begin
-    if Frame.TextChangeFired[0] then
+    if Frame.TextChangeSlow[0] then
     begin
-      Frame.TextChangeFired[0]:= false;
+      Frame.TextChangeSlow[0]:= false;
       DoPyEvent(Frame.Ed1, cEventOnChangeIdle, []);
     end;
-    if Frame.TextChangeFired[1] then
+    if Frame.TextChangeSlow[1] then
     begin
-      Frame.TextChangeFired[1]:= false;
+      Frame.TextChangeSlow[1]:= false;
       DoPyEvent(Frame.Ed2, cEventOnChangeIdle, []);
     end;
   end;
