@@ -2280,12 +2280,11 @@ begin
       Frame.TextChangeFired[0]:= false;
       DoPyEvent(Frame.Ed1, cEventOnChangeIdle, []);
     end;
-    if not Frame.EditorsLinked then
-      if Frame.TextChangeFired[1] then
-      begin
-        Frame.TextChangeFired[1]:= false;
-        DoPyEvent(Frame.Ed2, cEventOnChangeIdle, []);
-      end;
+    if Frame.TextChangeFired[1] then
+    begin
+      Frame.TextChangeFired[1]:= false;
+      DoPyEvent(Frame.Ed2, cEventOnChangeIdle, []);
+    end;
   end;
 
   if FInvalidateShortcuts then
