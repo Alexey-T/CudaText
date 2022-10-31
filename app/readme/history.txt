@@ -8,6 +8,7 @@
 * change: changed rendering of "Unicode combined characters" (accent chars), now they have separate char-cell like letters; this was needed to solve several issues with accent chars (thanks @iconv)
 * change: don't activate ui-tab by right/middle click (thanks @iconv)
 * change: Find dialog: close the dialog after 'Select all'/'Mark all' (thanks @Vivalzar, @veksha)
+* change: Find dialog: now Up-arrow goes to next dropdown item (before Down-arrow did that), like in Sublime Text (thanks @Vivalzar)
 * change: API event on_change_slow becomes more lazy, ie it fires only in the applicaion idle state (no keyboard/mouse input for 1-2secs)
 - fix: with "undo_persistent" on, lines with tab-chars were loaded wrong from undo-file (thanks @veksha)
 - fix: options "caret_view*" did not affect: find-dialog, console, code-tree filter, menu dialogs (thanks @iconv)
