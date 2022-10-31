@@ -620,10 +620,10 @@ begin
   if Assigned(fmCharmaps) then
     fmCharmaps.Localize;
 
-  DoApplyTranslationToTabTitles;
+  DoLocalizeTabTitles;
 end;
 
-procedure TfmMain.DoApplyTranslationToTabTitles;
+procedure TfmMain.DoLocalizeTabTitles;
 const
   msgUntitledEnglish = 'Untitled';
 var
