@@ -620,10 +620,25 @@ begin
   if Assigned(fmCharmaps) then
     fmCharmaps.Localize;
 
-  //hack to localize already opened tab title
-  if FrameCount>0 then
-    with Frames[0] do
-      if TabCaption='Untitled1' then
-        TabCaption:= msgUntitledTab+'1';
+  DoApplyTranslationToTabTitles;
+end;
+
+procedure TfmMain.DoApplyTranslationToTabTitles;
+const
+  msgUntitledEnglish = 'Untitled';
+var
+  Frame: TEditorFrame;
+  StrIndex: string;
+  i: integer;
+begin
+  for i:= 0 to FrameCount-1 do
+  begin
+    Frame:= Frames[i];
+    if SBeginsWith(Frame.TabCaption, msgUntitledEnglish) then
+    begin
+      StrIndex:= Copy(Frame.TabCaption, Length(msgUntitledEnglish)+1, MaxInt);
+      Frame.TabCaption:= msgUntitledTab+StrIndex;
+    end;
+  end;
 end;
 

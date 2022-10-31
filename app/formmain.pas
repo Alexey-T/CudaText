@@ -742,6 +742,7 @@ type
     procedure CodeTreeFilter_OnCommand(Sender: TObject; ACmd: integer; AInvoke: TATEditorCommandInvoke;
       const AText: string; var AHandled: boolean);
     procedure DisablePluginMenuItems(AddFindLibraryItem: boolean);
+    procedure DoApplyTranslationToTabTitles;
     procedure DoApplyCli(const ACliModule: string; const ACliParams: TAppStringArray);
     procedure DoApplyNewdocLexer(F: TEditorFrame);
     procedure DoApplyCenteringOption;
