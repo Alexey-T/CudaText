@@ -829,21 +829,20 @@ end;
 
 procedure TEditorFrame.TimerChangeTimer(Sender: TObject);
 var
+  Ed: TATSynEdit;
   EdIndex: integer;
 begin
   TimerChange.Enabled:= false;
+  Ed:= Editor;
 
   RestoreSavedLexer(Ed1);
   if Splitted then
     RestoreSavedLexer(Ed2);
 
   if Assigned(FOnChangeSlow) then
-    FOnChangeSlow(Editor);
+    FOnChangeSlow(Ed);
 
-  if EditorsLinked then
-    EdIndex:= 0
-  else
-    EdIndex:= EditorObjToIndex(Editor);
+  EdIndex:= EditorObjToIndex(Ed);
   if EdIndex>=0 then
     FTextChangeFired[EdIndex]:= true;
 end;
