@@ -394,13 +394,14 @@ begin
   end;
   {$endif}
 
-  //focus editor after 'Select all', issue #4503
+  //close dialog after 'Select all'/'Mark all', issue #4503
   if Res in [afoFindSelectAll, afoFindMarkAll] then
     if NCounter>0 then
     begin
       Frame:= CurrentFrame;
       if Assigned(Frame) then
         Frame.SetFocus;
+      fmFind.Hide;
     end;
 end;
 
