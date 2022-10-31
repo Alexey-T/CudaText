@@ -840,7 +840,10 @@ begin
   if Assigned(FOnChangeSlow) then
     FOnChangeSlow(Editor);
 
-  EdIndex:= EditorObjToIndex(Editor);
+  if EditorsLinked then
+    EdIndex:= 0
+  else
+    EdIndex:= EditorObjToIndex(Editor);
   if EdIndex>=0 then
     FTextChangeFired[EdIndex]:= true;
 end;
