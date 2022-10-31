@@ -2272,6 +2272,22 @@ begin
       UpdateTree(false);
     end;
 
+  //fire on_change_idle
+  if Assigned(Frame) then
+  begin
+    if Frame.TextChangeFired[0] then
+    begin
+      Frame.TextChangeFired[0]:= false;
+      DoPyEvent(Frame.Ed1, cEventOnChangeIdle, []);
+    end;
+    if not Frame.EditorsLinked then
+      if Frame.TextChangeFired[1] then
+      begin
+        Frame.TextChangeFired[1]:= false;
+        DoPyEvent(Frame.Ed2, cEventOnChangeIdle, []);
+      end;
+  end;
+
   if FInvalidateShortcuts then
   begin
     FInvalidateShortcuts:= false;

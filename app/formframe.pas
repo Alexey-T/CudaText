@@ -145,6 +145,7 @@ type
     FFileName2: string;
     FFileWasBig: array[0..1] of boolean;
     FTextCharsTyped: integer;
+    FTextChangeFired: array[0..1] of boolean;
     FActivationTime: Int64;
     FCodetreeFilter: string;
     FCodetreeFilterHistory: TStringList;
@@ -256,6 +257,8 @@ type
     function GetCachedTreeviewInited(Ed: TATSynEdit): boolean;
     function GetCachedTreeview(Ed: TATSynEdit): TTreeView;
     function GetCommentString(Ed: TATSynEdit): string;
+    function GetTextChangeFired(EdIndex: integer): boolean;
+    procedure SetTextChangeFired(EdIndex: integer; AValue: boolean);
     function GetEnabledCodeTree(Ed: TATSynEdit): boolean;
     function GetEnabledFolding: boolean;
     function GetFileWasBig(Ed: TATSynEdit): boolean;
@@ -409,6 +412,7 @@ type
     property InSession: boolean read FInSession write FInSession;
     property InHistory: boolean read FInHistory write FInHistory;
     property TextCharsTyped: integer read FTextCharsTyped write FTextCharsTyped;
+    property TextChangeFired[EdIndex: integer]: boolean read GetTextChangeFired write SetTextChangeFired;
     property EnabledCodeTree[Ed: TATSynEdit]: boolean read GetEnabledCodeTree write SetEnabledCodeTree;
     property CodetreeFilter: string read FCodetreeFilter write FCodetreeFilter;
     property CodetreeFilterHistory: TStringList read FCodetreeFilterHistory;
@@ -824,6 +828,8 @@ begin
 end;
 
 procedure TEditorFrame.TimerChangeTimer(Sender: TObject);
+var
+  EdIndex: integer;
 begin
   TimerChange.Enabled:= false;
 
@@ -833,6 +839,10 @@ begin
 
   if Assigned(FOnChangeSlow) then
     FOnChangeSlow(Editor);
+
+  EdIndex:= EditorObjToIndex(Editor);
+  if EdIndex>=0 then
+    FTextChangeFired[EdIndex]:= true;
 end;
 
 procedure TEditorFrame.TimerCaretTimer(Sender: TObject);
@@ -3083,6 +3093,16 @@ begin
   an:= Adapter[Ed].Lexer;
   if Assigned(an) then
     Result:= an.LineComment;
+end;
+
+function TEditorFrame.GetTextChangeFired(EdIndex: integer): boolean;
+begin
+  Result:= FTextChangeFired[EdIndex];
+end;
+
+procedure TEditorFrame.SetTextChangeFired(EdIndex: integer; AValue: boolean);
+begin
+  FTextChangeFired[EdIndex]:= AValue;
 end;
 
 function TEditorFrame.GetEnabledCodeTree(Ed: TATSynEdit): boolean;

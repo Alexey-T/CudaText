@@ -4,6 +4,7 @@ EVENTS = [
     'on_caret',
     'on_caret_slow',
     'on_change',
+    'on_change_idle',
     'on_change_slow',
     'on_cli',
     'on_click',
