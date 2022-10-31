@@ -137,6 +137,7 @@ begin
   Category:= cAppFinderOperationCategory[Res];
   if Category=afcNone then exit;
   bHiliteAll:= false;
+  NCounter:= 0;
 
   if Category in [afcFind, afcReplaceOne] then
   begin
@@ -383,16 +384,24 @@ begin
   UpdateAppForSearch(false, false, bFindMode, AEnableUpdateAll);
 
   {$ifdef LCLgtk2}
-  //Linux gtk2: UpdateAppForSearch don't put focus anywhere (Laz bug?) after "confirmation" form
+  //Linux gtk2: UpdateAppForSearch don't put focus anywhere (Laz bug?) after "confirmation" form;
   //make workaround
-  if (Res=afoReplaceAll) or
-     (Res=afoReplaceGlobal) then
+  if Res in [afoReplaceAll, afoReplaceGlobal] then
   begin
     Frame:= CurrentFrame;
     if Assigned(Frame) then
       Frame.SetFocus;
   end;
   {$endif}
+
+  //focus editor after 'Select all', issue #4503
+  if Res in [afoFindSelectAll, afoFindMarkAll] then
+    if NCounter>0 then
+    begin
+      Frame:= CurrentFrame;
+      if Assigned(Frame) then
+        Frame.SetFocus;
+    end;
 end;
 
 procedure TfmMain.InitFormFind;
