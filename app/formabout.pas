@@ -143,19 +143,21 @@ end;
 procedure TfmAbout.FormShow(Sender: TObject);
 var
   fnIcon: string;
-  png: TPortableNetworkGraphic;
+  bitmap: TPortableNetworkGraphic;
 begin
   DoForm_ScaleAuto(Self, true);
   UpdateFormOnTop(Self);
 
   fnIcon:= AppDir_Data+DirectorySeparator+'toolbaricons'+DirectorySeparator+'default_24x24'+DirectorySeparator+'e_copy.png';
   if FileExists(fnIcon) then
-  try
-    png:= TPortableNetworkGraphic.Create;
-    png.LoadFromFile(fnIcon);
-    btnCopyToClp.Glyph.Assign(png);
-  finally
-    png.Free;
+  begin
+    bitmap:= TPortableNetworkGraphic.Create;
+    try
+      bitmap.LoadFromFile(fnIcon);
+      btnCopyToClp.Glyph.Assign(bitmap);
+    finally
+      bitmap.Free;
+    end;
   end;
 
   btnCopyToClp.Hint:= msgCopySub;
@@ -169,6 +171,7 @@ begin
   labelPlatform.Hide;
   FLabelLink.Hide;
   ButtonPanel1.HelpButton.Enabled:= false;
+  btnCopyToClp.Hide;
 
   Credits.Show;
   Credits.Active:= true;
