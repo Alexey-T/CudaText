@@ -774,11 +774,8 @@ var
   Ed: TATSynEdit;
 begin
   FOnGetMainEditor(Ed);
-  if Assigned(Ed) and (Ed.Attribs.Count>0) then
-  begin
-    Ed.Attribs.DeleteWithTag(UiOps.FindHiAll_TagValue);
-    Ed.Update;
-  end;
+  if Assigned(Ed) then
+    EditorClearHiAllMarkers(Ed);
 end;
 
 procedure TfmFind.FormCreate(Sender: TObject);

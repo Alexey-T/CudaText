@@ -401,7 +401,7 @@ begin
       Frame:= CurrentFrame;
       if Assigned(Frame) then
       begin
-        Frame.Editor.Attribs.DeleteWithTag(UiOps.FindHiAll_TagValue);
+        EditorClearHiAllMarkers(Frame.Editor);
         Frame.SetFocus;
       end;
       fmFind.Hide;

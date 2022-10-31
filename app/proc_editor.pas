@@ -167,6 +167,7 @@ function EditorGetLefterHtmlTag(Ed: TATSynEdit; AX, AY: integer): UnicodeString;
 procedure EditorAutoCloseOpeningHtmlTag(Ed: TATSynEdit; AX, AY: integer);
 procedure EditorAutoCloseClosingHtmlTag(Ed: TATSynEdit; AX, AY: integer);
 procedure EditorChangeLineEndsForSelection(Ed: TATSynEdit; AValue: TATLineEnds);
+procedure EditorClearHiAllMarkers(Ed: TATSynEdit);
 
 implementation
 
@@ -2809,6 +2810,15 @@ begin
       Ed.Strings.LinesEnds[iLine]:= AValue;
   end;
   Ed.Modified:= true;
+end;
+
+procedure EditorClearHiAllMarkers(Ed: TATSynEdit);
+begin
+  if Ed.Attribs.Count>0 then
+  begin
+    Ed.Attribs.DeleteWithTag(UiOps.FindHiAll_TagValue);
+    Ed.Update;
+  end;
 end;
 
 { TEditorHtmlTagList }
