@@ -141,9 +141,22 @@ end;
 
 
 procedure TfmAbout.FormShow(Sender: TObject);
+var
+  fnIcon: string;
+  png: TPortableNetworkGraphic;
 begin
   DoForm_ScaleAuto(Self, true);
   UpdateFormOnTop(Self);
+
+  fnIcon:= AppDir_Data+DirectorySeparator+'toolbaricons'+DirectorySeparator+'default_24x24'+DirectorySeparator+'e_copy.png';
+  if FileExists(fnIcon) then
+  try
+    png:= TPortableNetworkGraphic.Create;
+    png.LoadFromFile(fnIcon);
+    btnCopyToClp.Glyph.Assign(png);
+  finally
+    png.Free;
+  end;
 
   btnCopyToClp.Hint:= msgCopySub;
   btnCopyToClp.ShowHint:= true;
