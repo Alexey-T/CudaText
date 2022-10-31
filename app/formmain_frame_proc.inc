@@ -310,7 +310,6 @@ var
   Ed: TATSynEdit;
 begin
   Ed:= Sender as TATSynEdit;
-  DoPyEvent(Ed, cEventOnChangeSlow, []);
 
   //run tree-helper for lite lexers
   if Ed.AdapterForHilite is TATLiteLexer then

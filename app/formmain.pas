@@ -2278,12 +2278,12 @@ begin
     if Frame.TextChangeSlow[0] then
     begin
       Frame.TextChangeSlow[0]:= false;
-      DoPyEvent(Frame.Ed1, cEventOnChangeIdle, []);
+      DoPyEvent(Frame.Ed1, cEventOnChangeSlow, []);
     end;
     if Frame.TextChangeSlow[1] then
     begin
       Frame.TextChangeSlow[1]:= false;
-      DoPyEvent(Frame.Ed2, cEventOnChangeIdle, []);
+      DoPyEvent(Frame.Ed2, cEventOnChangeSlow, []);
     end;
   end;
 
