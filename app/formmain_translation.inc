@@ -634,7 +634,7 @@ begin
   for i:= 0 to FrameCount-1 do
   begin
     Frame:= Frames[i];
-    if SBeginsWith(Frame.TabCaption, msgUntitledEnglish) then
+    if (Frame.FileName='') and SBeginsWith(Frame.TabCaption, msgUntitledEnglish) then
     begin
       StrIndex:= Copy(Frame.TabCaption, Length(msgUntitledEnglish)+1, MaxInt);
       Frame.TabCaption:= msgUntitledTab+StrIndex;
