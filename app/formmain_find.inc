@@ -400,7 +400,10 @@ begin
     begin
       Frame:= CurrentFrame;
       if Assigned(Frame) then
+      begin
+        Frame.Editor.Attribs.DeleteWithTag(UiOps.FindHiAll_TagValue);
         Frame.SetFocus;
+      end;
       fmFind.Hide;
     end;
 end;
