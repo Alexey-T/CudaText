@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.174.5 (2022/10)
+1.175.0 (2022/11)
 
 * change: changed rendering of "Unicode combined characters" (accent chars), now they have separate char-cell like letters; this was needed to solve several issues with accent chars (thanks @iconv)
 * change: don't activate ui-tab by right/middle click (thanks @iconv)
@@ -15,6 +15,7 @@
 - fix: command "insert empty line below" inserted 2 lines at the file end (thanks @iconv)
 - fix: command "delete line" was not deleting the last line (thanks @iconv)
 - fix: regression in 1.173: code-tree was not updated good for lite lexers (thanks @mix-7)
+- fix: regression in 1.171: with 3 selections '[dd][dd][dd]' typing 'a' produced 'a' instead of 'aaa'
 
 1.174.0 (2022/10)
 
