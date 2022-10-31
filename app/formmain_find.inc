@@ -398,13 +398,13 @@ begin
   if Res in [afoFindSelectAll, afoFindMarkAll] then
     if NCounter>0 then
     begin
+      fmFind.Hide;
       Frame:= CurrentFrame;
       if Assigned(Frame) then
       begin
         EditorClearHiAllMarkers(Frame.Editor);
         Frame.SetFocus;
       end;
-      fmFind.Hide;
     end;
 end;
 

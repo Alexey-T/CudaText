@@ -1416,6 +1416,10 @@ begin
   edFind.OptTextHint:= msgFindHint_InputFind;
   edRep.OptTextHint:= msgFindHint_InputRep;
 
+  //form can be already closed ('select all' closes it);
+  //and we must avoid UpdateHiAll etc.
+  if not Visible then exit;
+
   UpdateButtonBold;
   UpdateFormHeight;
   FormResize(nil);
