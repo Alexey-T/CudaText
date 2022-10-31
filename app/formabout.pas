@@ -148,7 +148,7 @@ begin
   DoForm_ScaleAuto(Self, true);
   UpdateFormOnTop(Self);
 
-  fnIcon:= AppDir_Data+DirectorySeparator+'toolbaricons'+DirectorySeparator+'default_24x24'+DirectorySeparator+'e_copy.png';
+  fnIcon:= AppDir_DataToolbarIcons+DirectorySeparator+'default_24x24'+DirectorySeparator+'e_copy.png';
   if FileExists(fnIcon) then
   begin
     bitmap:= TPortableNetworkGraphic.Create;
