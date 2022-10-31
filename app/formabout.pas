@@ -13,7 +13,8 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, StdCtrls,
-  ButtonPanel, IniFiles,
+  Buttons, ButtonPanel,
+  IniFiles, Clipbrd,
   LCLProc, LCLType, LCLIntf,
   ScrollingText,
   proc_msg,
@@ -29,8 +30,10 @@ type
     labelName: TLabel;
     labelPlatform: TLabel;
     labelVersion: TLabel;
+    btnCopyToClp: TSpeedButton;
     procedure bCreditsClick(Sender: TObject);
     procedure bOkClick(Sender: TObject);
+    procedure btnCopyToClpClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormShow(Sender: TObject);
@@ -73,6 +76,11 @@ end;
 procedure TfmAbout.bOkClick(Sender: TObject);
 begin
   ModalResult:= mrCancel;
+end;
+
+procedure TfmAbout.btnCopyToClpClick(Sender: TObject);
+begin
+  Clipboard.AsText:= 'CudaText '+labelVersion.Caption+', '+labelPlatform.Caption;
 end;
 
 procedure TfmAbout.FormCreate(Sender: TObject);
@@ -136,6 +144,9 @@ procedure TfmAbout.FormShow(Sender: TObject);
 begin
   DoForm_ScaleAuto(Self, true);
   UpdateFormOnTop(Self);
+
+  btnCopyToClp.Hint:= msgCopySub;
+  btnCopyToClp.ShowHint:= true;
 end;
 
 procedure TfmAbout.bCreditsClick(Sender: TObject);
