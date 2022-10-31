@@ -1362,10 +1362,6 @@ var
   Ed: TATSynEdit;
   bEnabled: boolean;
 begin
-  //form can be already closed ('select all' closes it);
-  //and we must avoid UpdateHiAll etc.
-  if not Visible then exit;
-
   cPadding:= ATEditorScale(4);
   bEnabled:= Self.Enabled;
 
@@ -1419,6 +1415,10 @@ begin
   edRep.Left:= cPadding;
   edFind.OptTextHint:= msgFindHint_InputFind;
   edRep.OptTextHint:= msgFindHint_InputRep;
+
+  //form can be already closed ('select all' closes it);
+  //and we must avoid UpdateHiAll etc.
+  if not Visible then exit;
 
   UpdateButtonBold;
   UpdateFormHeight;
