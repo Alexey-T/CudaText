@@ -17,9 +17,9 @@ DEBIAN_UBUNTU = False
 if (TEXT_OS == 'linux') and (TEXT_CPU == 'amd64'):
     import subprocess
     try:
-        LSB_RELEASE = subprocess.check_output('cat /etc/lsb-release', shell=True).decode('utf-8')
+        desc = subprocess.check_output('cat /etc/lsb-release', shell=True).decode('utf-8')
         for s in ("Ubuntu", "Debian", "KDE neon"):
-            if s in LSB_RELEASE:
+            if s in desc:
                 DEBIAN_UBUNTU = True
                 break
     except:
