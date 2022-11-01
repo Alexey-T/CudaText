@@ -3627,7 +3627,8 @@ begin
     exit(false);
 
   //don't allow to reassign these
-  if (Key in [VK_SPACE, VK_RETURN, VK_TAB, VK_BACK]) and (Shift=[]) then
+  //VK_RETURN is not here - issue #4510
+  if (Key in [VK_SPACE, {VK_RETURN,} VK_TAB, VK_BACK]) and (Shift=[]) then
     exit(false);
 end;
 
