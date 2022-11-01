@@ -14,12 +14,14 @@ TEXT_CPU = info['cpu'].replace('x86_64', 'amd64')
 TEXT_WS = info['widgetset']
 
 DEBIAN_UBUNTU = False
-if TEXT_OS == 'linux':
+if (TEXT_OS == 'linux') and (TEXT_CPU == 'amd64'):
     import subprocess
     try:
         LSB_RELEASE = subprocess.check_output('cat /etc/lsb-release', shell=True).decode('utf-8')
-        if ("Ubuntu" in LSB_RELEASE or "Debian" in LSB_RELEASE or "KDE neon" in LSB_RELEASE) and (TEXT_CPU == 'amd64'):
-            DEBIAN_UBUNTU = True
+        for s in ("Ubuntu", "Debian", "KDE neon"):
+            if s in LSB_RELEASE:
+                DEBIAN_UBUNTU = True
+                break
     except:
         pass
 
