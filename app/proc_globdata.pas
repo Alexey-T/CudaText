@@ -3638,9 +3638,7 @@ const
 var
   r, g, b: byte;
 begin
-  r:= Red(C);
-  g:= Green(C);
-  b:= Blue(C);
+  RedGreenBlue(C, r, g, b);
   Result:= (r<=cMargin) and (g<=cMargin) and (b<=cMargin);
 end;
 
