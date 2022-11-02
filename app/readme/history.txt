@@ -15,6 +15,7 @@
 - fix: options "caret_view*" did not affect: find-dialog, console, code-tree filter, menu dialogs (thanks @iconv)
 - fix: command "insert empty line below" inserted 2 lines at the file end (thanks @iconv)
 - fix: command "delete line" was not deleting the last line (thanks @iconv)
+- fix: wrong Undo after Alt+Up / Alt+Down (thanks @iconv)
 - fix: regression in 1.173: code-tree was not updated good for lite lexers (thanks @mix-7)
 - fix: regression in 1.171: with 3 selections '_[dd][dd][dd]_' typing 'a' produced '_a_' instead of '_aaa_'
 
