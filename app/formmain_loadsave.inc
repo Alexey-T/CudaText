@@ -689,10 +689,13 @@ begin
 
   if bAllowOnState then
   begin
+    DoPyEvent_AppState(APPSTATE_SESSION_LOAD);
+    {
     if (nCountFilesBefore>0) or (nCountFiles+nCountFilesModified>0) then
       DoPyEvent_AppState(APPSTATE_SESSION_LOAD)
     else
       DoPyEvent_AppState(APPSTATE_SESSION_LOAD_FAIL);
+    }
   end;
 
   Frame:= CurrentFrame;
