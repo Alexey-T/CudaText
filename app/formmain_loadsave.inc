@@ -413,8 +413,8 @@ var
   Frame: TEditorFrame;
   Ed: TATSynEdit;
   list: TStringlist;
-  AFileName, sFilename, sFilename2, sRootPath,
-  sTabTitle, sKind, sOpenOptions,
+  sSessionFileName, sTabFilename, sTabFilename2, sRootPath,
+  sTabTitle, sTabKind, sOpenOptions,
   item_path, item_path2: string;
   nCountFiles, nCountFilesModified, nCountFilesBefore: integer;
   nIndex, i: integer;
@@ -436,8 +436,8 @@ begin
   ////don't do it, it will skip startup session loading
   //if ASessionId=AppSessionName then exit;
 
-  SSplitByChar(ASessionId, '|', AFileName, sRootPath);
-  if not FileExists(AFileName) then exit;
+  SSplitByChar(ASessionId, '|', sSessionFileName, sRootPath);
+  if not FileExists(sSessionFileName) then exit;
 
   //fix issue #3734
   if not IsDefaultSessionActive then
@@ -467,17 +467,17 @@ begin
   nCountFiles:= 0;
   nCountFilesModified:= 0;
 
-  AppFileCheckForNullBytes(AFileName);
+  AppFileCheckForNullBytes(sSessionFileName);
 
   cfg:= TJSONConfig.Create(nil);
   list:= TStringList.Create;
   try
     try
-      cfg.Filename:= AFileName;
+      cfg.Filename:= sSessionFileName;
     except
       on E: Exception do
       begin
-        MsgBadConfig(AFileName, E.Message);
+        MsgBadConfig(sSessionFileName, E.Message);
         DoPyEvent_AppState(APPSTATE_SESSION_LOAD_BEGIN);
         DoPyEvent_AppState(APPSTATE_SESSION_LOAD_FAIL);
         exit;
@@ -509,25 +509,25 @@ begin
       item_path:= sRootPath+'/'+item_path+'/';
       item_path2:= item_path+'pair/';
 
-      sFilename:= AppExpandHomeDirInFilename(cfg.GetValue(item_path+'file', ''));
-      sFilename2:= AppExpandHomeDirInFilename(cfg.GetValue(item_path2+'file', ''));
+      sTabFilename:= AppExpandHomeDirInFilename(cfg.GetValue(item_path+'file', ''));
+      sTabFilename2:= AppExpandHomeDirInFilename(cfg.GetValue(item_path2+'file', ''));
 
-      bExist:= (sFilename<>'') and FileExists(sFilename);
-      bExist2:= (sFilename2<>'') and FileExists(sFilename2);
+      bExist:= (sTabFilename<>'') and FileExists(sTabFilename);
+      bExist2:= (sTabFilename2<>'') and FileExists(sTabFilename2);
 
-      if (sFilename<>'') and not bExist then
+      if (sTabFilename<>'') and not bExist then
       begin
-        MsgFileFromSessionNotFound(sFilename);
+        MsgFileFromSessionNotFound(sTabFilename);
       end;
 
-      if (sFilename2<>'') and not bExist2 then
+      if (sTabFilename2<>'') and not bExist2 then
       begin
-        MsgFileFromSessionNotFound(sFilename2);
-        sFilename2:= '';
+        MsgFileFromSessionNotFound(sTabFilename2);
+        sTabFilename2:= '';
       end;
 
       sText:= cfg.GetValue(item_path+'text', '');
-      sKind:= cfg.GetValue(item_path+'kind', '');
+      sTabKind:= cfg.GetValue(item_path+'kind', '');
       bModified:= cfg.GetValue(item_path+'modified', false);
       if sText='' then //don't load this file from session
         bModified:= false;
@@ -539,10 +539,10 @@ begin
       if bModified and bExist then
       begin
         sDateSaved:= cfg.GetValue(item_path+'file_date', '');
-        sDateCurrent:= FormatFileDateAsNiceString(sFilename);
+        sDateCurrent:= FormatFileDateAsNiceString(sTabFilename);
         if sDateSaved<>sDateCurrent then
           if MsgBox(
-            msgConfirmFileChangedOutside+#10+sFilename+#10#10+
+            msgConfirmFileChangedOutside+#10+sTabFilename+#10#10+
             msgConfirmReloadIt+#10+
             msgConfirmReloadItHotkeysSess,
             MB_YESNO+MB_ICONQUESTION)=ID_YES then
@@ -553,9 +553,9 @@ begin
         nIndex:= 0;
       Pages:= Groups.Pages[nIndex];
 
-      if SBeginsWith(sKind, 'bin') then
+      if SBeginsWith(sTabKind, 'bin') then
       begin
-        nIndex:= StrToIntDef(sKind[Length(sKind)], -1);
+        nIndex:= StrToIntDef(sTabKind[Length(sTabKind)], -1);
         case nIndex of
           0: sOpenOptions:= '/view-text';
           1: sOpenOptions:= '/view-binary';
@@ -577,10 +577,10 @@ begin
           Frame:= Frames[0]
         else
           Frame:= DoFileOpen('', '', Pages, SOptionPassive+SOptionNoHistory);
-        if sFilename<>'' then
+        if sTabFilename<>'' then
         begin
-          Frame.SetFileName(Frame.Ed1, sFilename);
-          Frame.TabCaption:= ExtractFileName(sFilename);
+          Frame.SetFileName(Frame.Ed1, sTabFilename);
+          Frame.TabCaption:= ExtractFileName(sTabFilename);
         end;
         if sText<>'' then
           Frame.Editor.Text:= sText;
@@ -595,9 +595,9 @@ begin
       if bExist then
       begin
         Inc(nCountFiles);
-        if sFilename2<>'' then
+        if sTabFilename2<>'' then
           Inc(nCountFiles);
-        Frame:= DoFileOpen(sFilename, sFilename2, Pages, sOpenOptions+SOptionPassive+SOptionNoHistory);
+        Frame:= DoFileOpen(sTabFilename, sTabFilename2, Pages, sOpenOptions+SOptionPassive+SOptionNoHistory);
       end;
 
       if Assigned(Frame) then
@@ -605,7 +605,7 @@ begin
         Frame.InSession:= true;
         Frame.DoLoadHistoryEx(Frame.Ed1, cfg, item_path, true);
 
-        if sFilename2<>'' then
+        if sTabFilename2<>'' then
           Frame.DoLoadHistoryEx(Frame.Ed2, cfg, item_path2, true);
 
         Frame.TabPinned:= cfg.GetValue(item_path+'pinned', false);
@@ -680,7 +680,7 @@ begin
   if UiOps.LogSessions then
   begin
     nTick:= (GetTickCount64-nTick) div 10 * 10;
-    sMessage:= Format('Loaded session: "%s", %dms, %d file(s)', [ExtractFileName(AFileName), nTick, nCountFiles]);
+    sMessage:= Format('Loaded session: "%s", %dms, %d file(s)', [ExtractFileName(sSessionFileName), nTick, nCountFiles]);
     if nCountFilesModified>0 then
       sMessage+= Format(' + %d modified', [nCountFilesModified]);
     MsgLogConsole(sMessage);
