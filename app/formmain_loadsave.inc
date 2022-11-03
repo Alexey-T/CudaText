@@ -630,13 +630,15 @@ begin
     //restore group-index
     nGroupIndex:= cfg.GetValue(sRootPath+'/tab_index/g_active', Low(TATGroupsNums));
     if (nGroupIndex>=Low(TATGroupsNums)) and (nGroupIndex<=High(TATGroupsNums)) then
-      if Groups.Pages[nGroupIndex].Tabs.TabCount>0 then
-        if Groups.PagesCurrent<>Groups.Pages[nGroupIndex] then
+    begin
+      Pages:= Groups.Pages[nGroupIndex];
+      if Pages.Tabs.TabCount>0 then
+        if Groups.PagesCurrent<>Pages then
         begin
-          Groups.PagesCurrent:= Groups.Pages[nGroupIndex];
-          with Groups.PagesCurrent do
-            Tabs.TabIndex:= Tabs.TabIndex;
+          Groups.PagesCurrent:= Pages;
+          Pages.Tabs.TabIndex:= Pages.Tabs.TabIndex;
         end;
+    end;
 
     //clear tick values, to CudaExt tab switcher feels good
     //(it shows frames with tick=0 in second listbox)
