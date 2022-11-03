@@ -234,7 +234,7 @@ var
   Gr: TATGroups;
   Pages: TATPages;
   AFileName, sFilename, sFilename2, sRootPath: string;
-  nLocalGroup, nGlobalGroup, nTab: integer;
+  nLocalGroup, nGlobalGroup, nTabInGroup: integer;
   nCountFiles, nCountUntitled, nSavedTabIndex: integer;
   path, value: string;
   bModified, bUntitled: boolean;
@@ -321,7 +321,7 @@ begin
       path:= sRootPath+'/'+Format('%3.3d', [nSavedTabIndex]);
       Inc(nSavedTabIndex);
 
-      GetFrameLocation(Frame, Gr, Pages, nLocalGroup, nGlobalGroup, nTab);
+      GetFrameLocation(Frame, Gr, Pages, nLocalGroup, nGlobalGroup, nTabInGroup);
       bModified:= Frame.Ed1.Modified or (bUntitled and not Frame.IsEmpty);
 
       cfg.SetValue(path+'/modified', bModified);
