@@ -417,7 +417,7 @@ var
   nIndex, i: integer;
   Pages: TATPages;
   bModified: boolean;
-  bAllowApiEvent: boolean;
+  bAllowOnState: boolean;
   sText: UnicodeString;
   bExist, bExist2: boolean;
   sDateSaved, sDateCurrent, sMessage: string;
@@ -429,7 +429,6 @@ const
 begin
   Result:= false;
   if ASessionId='' then exit;
-  bAllowApiEvent:= true;
 
   ////don't do it, it will skip startup session loading
   //if ASessionId=AppSessionName then exit;
@@ -483,12 +482,13 @@ begin
     end;
 
     //avoid firing API on_state for empty session
+    bAllowOnState:= true;
     if nCountFilesBefore=0 then
       if (cfg.GetValue(sRootPath+'/000/group', -1)=-1) and
         (cfg.GetValue(sRootPath+'/001/group', -1)=-1) then
-        bAllowApiEvent:= false;
+        bAllowOnState:= false;
 
-    if bAllowApiEvent then
+    if bAllowOnState then
       DoPyEvent_AppState(APPSTATE_SESSION_LOAD_BEGIN);
 
     AppSessionIsLoading:= true;
@@ -687,7 +687,7 @@ begin
   //it's needed in on_state
   AppSessionName:= ASessionId;
 
-  if bAllowApiEvent then
+  if bAllowOnState then
   begin
     if (nCountFilesBefore>0) or (nCountFiles+nCountFilesModified>0) then
       DoPyEvent_AppState(APPSTATE_SESSION_LOAD)
