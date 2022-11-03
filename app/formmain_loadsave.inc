@@ -233,7 +233,7 @@ var
   Frame: TEditorFrame;
   Gr: TATGroups;
   Pages: TATPages;
-  AFileName, sFilename, sFilename2, sRootPath: string;
+  sSessionFileName, sFilename, sFilename2, sRootPath: string;
   nLocalGroup, nGlobalGroup, nTabInGroup: integer;
   nCountFiles, nCountUntitled, nSavedTabIndex: integer;
   path, value: string;
@@ -243,12 +243,12 @@ begin
   Result:= false;
   if ASessionId='' then exit;
 
-  SSplitByChar(ASessionId, '|', AFileName, sRootPath);
+  SSplitByChar(ASessionId, '|', sSessionFileName, sRootPath);
 
   if sRootPath='' then
   begin
-    AppDiskCheckFreeSpace(AFileName);
-    DeleteFile(AFileName);
+    AppDiskCheckFreeSpace(sSessionFileName);
+    DeleteFile(sSessionFileName);
   end;
 
   nCountFiles:= 0;
@@ -258,13 +258,13 @@ begin
   try
     try
       cfg.Formatted:= true;
-      cfg.Filename:= AFileName;
+      cfg.Filename:= sSessionFileName;
       if sRootPath<>'' then
         cfg.DeletePath(sRootPath); //otherwise sections '000' will not be removed
     except
       on E: Exception do
       begin
-        MsgBadConfig(AFileName, E.Message);
+        MsgBadConfig(sSessionFileName, E.Message);
         exit;
       end;
     end;
@@ -393,7 +393,7 @@ begin
 
   if UiOps.LogSessions then
   begin
-    value:= Format('Saved session: "%s", %d file(s)', [ExtractFileName(AFileName), nCountFiles]);
+    value:= Format('Saved session: "%s", %d file(s)', [ExtractFileName(sSessionFileName), nCountFiles]);
     if nCountUntitled>0 then
       value+= Format(' + %d untitled', [nCountUntitled]);
     if AByTimer then
