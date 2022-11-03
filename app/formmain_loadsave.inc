@@ -234,10 +234,11 @@ var
   Gr: TATGroups;
   Pages: TATPages;
   AFileName, sFilename, sFilename2, sRootPath: string;
-  nLocalGroup, nGlobalGroup, nTab, i: integer;
-  nCountFiles, nCountUntitled: integer;
+  nLocalGroup, nGlobalGroup, nTab: integer;
+  nCountFiles, nCountUntitled, nSavedTabIndex: integer;
   path, value: string;
   bModified, bUntitled: boolean;
+  iFrame, iGroup: integer;
 begin
   Result:= false;
   if ASessionId='' then exit;
@@ -270,11 +271,11 @@ begin
 
     DoOps_SaveHistory_GroupView(cfg, sRootPath);
 
-    for i:= 0 to cAppMaxGroup do
+    for iGroup:= 0 to cAppMaxGroup do
     begin
-      Pages:= TGroupsHelper.GetPagesOfGroupIndex(i);
+      Pages:= TGroupsHelper.GetPagesOfGroupIndex(iGroup);
       if Pages=nil then Continue;
-      cfg.SetValue(sRootPath+'/tab_index/g'+IntToStr(i), Pages.Tabs.TabIndex);
+      cfg.SetValue(sRootPath+'/tab_index/g'+IntToStr(iGroup), Pages.Tabs.TabIndex);
     end;
     cfg.SetValue(sRootPath+'/tab_index/g_active', Groups.FindPages(Groups.PagesCurrent));
 
@@ -292,9 +293,10 @@ begin
       if not Floating then
         cfg.SetValue(sRootPath+'/panels/bottom_size', PanelSize);
 
-    for i:= 0 to FrameCount-1 do
+    nSavedTabIndex:= 0;
+    for iFrame:= 0 to FrameCount-1 do
     begin
-      Frame:= Frames[i];
+      Frame:= Frames[iFrame];
       if Frame.IsEmpty then Continue;
       if Frame.TabCaption=msgWelcomeTabTitle then Continue; //avoid reopening of '(welcome)' filler text
 
@@ -316,7 +318,8 @@ begin
       else
         Inc(nCountFiles);
 
-      path:= sRootPath+'/'+Format('%3.3d', [i]);
+      path:= sRootPath+'/'+Format('%3.3d', [nSavedTabIndex]);
+      Inc(nSavedTabIndex);
 
       GetFrameLocation(Frame, Gr, Pages, nLocalGroup, nGlobalGroup, nTab);
       bModified:= Frame.Ed1.Modified or (bUntitled and not Frame.IsEmpty);
