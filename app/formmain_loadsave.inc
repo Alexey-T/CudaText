@@ -417,6 +417,7 @@ var
   nIndex, i: integer;
   Pages: TATPages;
   bModified: boolean;
+  bAllowApiEvent: boolean;
   sText: UnicodeString;
   bExist, bExist2: boolean;
   sDateSaved, sDateCurrent, sMessage: string;
@@ -428,6 +429,7 @@ const
 begin
   Result:= false;
   if ASessionId='' then exit;
+  bAllowApiEvent:= true;
 
   ////don't do it, it will skip startup session loading
   //if ASessionId=AppSessionName then exit;
@@ -480,15 +482,15 @@ begin
       end;
     end;
 
-    {
-    //commented this; it caused issue #4520
     //avoid firing API on_state for empty session
-    if (cfg.GetValue(sRootPath+'/000/group', -1)=-1) and
-      (cfg.GetValue(sRootPath+'/001/group', -1)=-1) then
-      exit;
-      }
+    if nCountFilesBefore=0 then
+      if (cfg.GetValue(sRootPath+'/000/group', -1)=-1) and
+        (cfg.GetValue(sRootPath+'/001/group', -1)=-1) then
+        bAllowApiEvent:= false;
 
-    DoPyEvent_AppState(APPSTATE_SESSION_LOAD_BEGIN);
+    if bAllowApiEvent then
+      DoPyEvent_AppState(APPSTATE_SESSION_LOAD_BEGIN);
+
     AppSessionIsLoading:= true;
     DoOps_LoadHistory_GroupView(cfg, sRootPath); //reads to variables
     DoApplyInitialGroupSizes; //applies that variables
@@ -685,10 +687,13 @@ begin
   //it's needed in on_state
   AppSessionName:= ASessionId;
 
-  if (nCountFilesBefore>0) or (nCountFiles+nCountFilesModified>0) then
-    DoPyEvent_AppState(APPSTATE_SESSION_LOAD)
-  else
-    DoPyEvent_AppState(APPSTATE_SESSION_LOAD_FAIL);
+  if bAllowApiEvent then
+  begin
+    if (nCountFilesBefore>0) or (nCountFiles+nCountFilesModified>0) then
+      DoPyEvent_AppState(APPSTATE_SESSION_LOAD)
+    else
+      DoPyEvent_AppState(APPSTATE_SESSION_LOAD_FAIL);
+  end;
 
   Frame:= CurrentFrame;
   if Assigned(Frame) then
