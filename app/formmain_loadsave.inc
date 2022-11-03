@@ -233,7 +233,7 @@ var
   Frame: TEditorFrame;
   Gr: TATGroups;
   Pages: TATPages;
-  sSessionFileName, sFilename, sFilename2, sRootPath: string;
+  sSessionFileName, sTabFilename, sTabFilename2, sRootPath: string;
   nLocalGroup, nGlobalGroup, nTabInGroup: integer;
   nCountFiles, nCountUntitled, nSavedTabIndex: integer;
   path, value: string;
@@ -300,19 +300,19 @@ begin
       if Frame.IsEmpty then Continue;
       if Frame.TabCaption=msgWelcomeTabTitle then Continue; //avoid reopening of '(welcome)' filler text
 
-      sFilename:= Frame.GetFileName(Frame.Ed1);
+      sTabFilename:= Frame.GetFileName(Frame.Ed1);
       if Frame.EditorsLinked then
-        sFilename2:= ''
+        sTabFilename2:= ''
       else
-        sFilename2:= Frame.GetFileName(Frame.Ed2);
+        sTabFilename2:= Frame.GetFileName(Frame.Ed2);
 
-      if AppFile_IsIgnoredForSession(sFileName) then
+      if AppFile_IsIgnoredForSession(sTabFilename) then
       begin
-        MsgLogConsole(Format('NOTE: File "%s" is not saved to session', [sFileName]));
+        MsgLogConsole(Format('NOTE: File "%s" is not saved to session', [sTabFilename]));
         Continue;
       end;
 
-      bUntitled:= sFilename='';
+      bUntitled:= sTabFilename='';
       if bUntitled then
         Inc(nCountUntitled)
       else
@@ -325,7 +325,7 @@ begin
       bModified:= Frame.Ed1.Modified or (bUntitled and not Frame.IsEmpty);
 
       cfg.SetValue(path+'/modified', bModified);
-      cfg.SetValue(path+'/file', AppCollapseHomeDirInFilename(sFileName));
+      cfg.SetValue(path+'/file', AppCollapseHomeDirInFilename(sTabFilename));
 
       if bModified then
         cfg.SetValue(path+'/tab_title', Frame.TabCaption);
@@ -355,27 +355,27 @@ begin
           (bUntitled and ASaveUntitledTabs) then
         begin
           cfg.SetValue(path+'/text', Frame.Ed1.Text);
-          if (not bUntitled) and FileExists(sFileName) then
-            cfg.SetValue(path+'/file_date', FormatFileDateAsNiceString(sFileName));
+          if (not bUntitled) and FileExists(sTabFilename) then
+            cfg.SetValue(path+'/file_date', FormatFileDateAsNiceString(sTabFilename));
           Frame.VersionInSession:= Frame.Ed1.Strings.ModifiedVersion;
         end;
 
       Frame.DoSaveHistoryEx(Frame.Ed1, cfg, path, true{AForSession});
 
       //save info about paired-tab to subkey "pair"
-      if sFileName2<>'' then
+      if sTabFilename2<>'' then
       begin
         path+= '/pair';
 
         bModified:= Frame.Ed2.Modified;
         cfg.SetValue(path+'/modified', bModified);
-        cfg.SetValue(path+'/file', AppCollapseHomeDirInFilename(sFileName2));
+        cfg.SetValue(path+'/file', AppCollapseHomeDirInFilename(sTabFilename2));
 
         if bModified and UiOps.HistoryItems[ahhText] then
         begin
           cfg.SetValue(path+'/text', Frame.Ed2.Text);
-          if FileExists(sFileName2) then
-            cfg.SetValue(path+'/file_date', FormatFileDateAsNiceString(sFileName2));
+          if FileExists(sTabFilename2) then
+            cfg.SetValue(path+'/file_date', FormatFileDateAsNiceString(sTabFilename2));
         end;
 
         Frame.DoSaveHistoryEx(Frame.Ed2, cfg, path, true{AForSession});
