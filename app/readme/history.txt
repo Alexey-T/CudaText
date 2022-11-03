@@ -18,7 +18,7 @@
 - fix: wrong Undo after Alt+Up / Alt+Down (thanks @iconv)
 - fix: regression in 1.173: code-tree was not updated good for lite lexers (thanks @mix-7)
 - fix: regression in 1.171: with 3 selections '_[dd][dd][dd]_' typing 'a' produced '_a_' instead of '_aaa_'
-- fix: regression: _empty_ session was reopened wrong (thanks @TomBraider42)
+- fix: regression in 1.166.x: _empty_ session was reopened wrong (thanks @TomBraider42)
 
 1.174.0 (2022/10)
 
