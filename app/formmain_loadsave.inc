@@ -417,7 +417,6 @@ var
   sTabTitle, sTabKind, sOpenOptions,
   item_path, item_path2: string;
   nCountFiles, nCountFilesModified, nCountFilesBefore: integer;
-  nIndex, i: integer;
   Pages: TATPages;
   bModified: boolean;
   bAllowOnState: boolean;
@@ -426,6 +425,7 @@ var
   sDateSaved, sDateCurrent, sMessage: string;
   CurTabs: TATTabs;
   nTick: QWord;
+  nGroupIndex, nTabInGroup, i: integer;
 const
   SOptionPassive = '/passive /nonear';
   SOptionNoHistory = '/nohistory /nolexerdetect /noevent /noopenedevent /nononeevent';
@@ -533,7 +533,7 @@ begin
         bModified:= false;
 
       //support old sessions with 1-based group index
-      nIndex:= cfg.GetValue(item_path+'group', 1)-1;
+      nGroupIndex:= cfg.GetValue(item_path+'group', 1)-1;
 
       //check, if text saved in session, but file was changed outside
       if bModified and bExist then
@@ -549,14 +549,13 @@ begin
            bModified:= false;
       end;
 
-      if (nIndex<0) or (nIndex>High(TATGroupsNums)) then
-        nIndex:= 0;
-      Pages:= Groups.Pages[nIndex];
+      if (nGroupIndex<0) or (nGroupIndex>High(TATGroupsNums)) then
+        nGroupIndex:= 0;
+      Pages:= Groups.Pages[nGroupIndex];
 
       if SBeginsWith(sTabKind, 'bin') then
       begin
-        nIndex:= StrToIntDef(sTabKind[Length(sTabKind)], -1);
-        case nIndex of
+        case StrToIntDef(sTabKind[Length(sTabKind)], -1) of
           0: sOpenOptions:= '/view-text';
           1: sOpenOptions:= '/view-binary';
           2: sOpenOptions:= '/view-hex';
@@ -620,23 +619,23 @@ begin
     for i:= Low(TATGroupsNums) to High(TATGroupsNums) do
     begin
       CurTabs:= Groups.Pages[i].Tabs;
-      nIndex:= cfg.GetValue(sRootPath+'/tab_index/g'+IntToStr(i), -1);
-      nIndex:= Max(0, Min(nIndex, CurTabs.TabCount-1));
+      nTabInGroup:= cfg.GetValue(sRootPath+'/tab_index/g'+IntToStr(i), -1);
+      nTabInGroup:= Max(0, Min(nTabInGroup, CurTabs.TabCount-1));
       //don't check that index is different, force set index; this fixes e.g. bug #3892
       if CurTabs.TabCount>0 then
-        CurTabs.TabIndex:= nIndex;
+        CurTabs.TabIndex:= nTabInGroup;
     end;
 
     //restore group-index
-    nIndex:= cfg.GetValue(sRootPath+'/tab_index/g_active', Low(TATGroupsNums));
-    if (nIndex>=Low(TATGroupsNums)) and (nIndex<=High(TATGroupsNums)) then
-     if Groups.Pages[nIndex].Tabs.TabCount>0 then
-      if Groups.PagesCurrent<>Groups.Pages[nIndex] then
-      begin
-        Groups.PagesCurrent:= Groups.Pages[nIndex];
-        with Groups.PagesCurrent do
-          Tabs.TabIndex:= Tabs.TabIndex;
-      end;
+    nGroupIndex:= cfg.GetValue(sRootPath+'/tab_index/g_active', Low(TATGroupsNums));
+    if (nGroupIndex>=Low(TATGroupsNums)) and (nGroupIndex<=High(TATGroupsNums)) then
+      if Groups.Pages[nGroupIndex].Tabs.TabCount>0 then
+        if Groups.PagesCurrent<>Groups.Pages[nGroupIndex] then
+        begin
+          Groups.PagesCurrent:= Groups.Pages[nGroupIndex];
+          with Groups.PagesCurrent do
+            Tabs.TabIndex:= Tabs.TabIndex;
+        end;
 
     //clear tick values, to CudaExt tab switcher feels good
     //(it shows frames with tick=0 in second listbox)
