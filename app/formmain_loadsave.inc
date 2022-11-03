@@ -480,10 +480,13 @@ begin
       end;
     end;
 
+    {
+    //commented this; it caused issue #4520
     //avoid firing API on_state for empty session
     if (cfg.GetValue(sRootPath+'/000/group', -1)=-1) and
       (cfg.GetValue(sRootPath+'/001/group', -1)=-1) then
       exit;
+      }
 
     DoPyEvent_AppState(APPSTATE_SESSION_LOAD_BEGIN);
     AppSessionIsLoading:= true;
