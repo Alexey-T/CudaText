@@ -425,7 +425,8 @@ var
   sDateSaved, sDateCurrent, sMessage: string;
   CurTabs: TATTabs;
   nTick: QWord;
-  nGroupIndex, nTabInGroup, i: integer;
+  nGroupIndex, nTabInGroup: integer;
+  iList, iGroup, iFrame: integer;
 const
   SOptionPassive = '/passive /nonear';
   SOptionNoHistory = '/nohistory /nolexerdetect /noevent /noopenedevent /nononeevent';
@@ -501,10 +502,10 @@ begin
     cfg.EnumSubKeys(sRootPath+'/', list);
     list.Sort;
 
-    for i:= 0 to list.Count-1 do
+    for iList:= 0 to list.Count-1 do
     begin
       //handle only sections like "000".."001"..etc, ignore sections like "panels", "gr"
-      item_path:= list[i];
+      item_path:= list[iList];
       if not IsHistorySectionForFilename(item_path) then Continue;
       item_path:= sRootPath+'/'+item_path+'/';
       item_path2:= item_path+'pair/';
@@ -616,10 +617,10 @@ begin
     end;
 
     //restore tab-index in all groups
-    for i:= Low(TATGroupsNums) to High(TATGroupsNums) do
+    for iGroup:= Low(TATGroupsNums) to High(TATGroupsNums) do
     begin
-      CurTabs:= Groups.Pages[i].Tabs;
-      nTabInGroup:= cfg.GetValue(sRootPath+'/tab_index/g'+IntToStr(i), -1);
+      CurTabs:= Groups.Pages[iGroup].Tabs;
+      nTabInGroup:= cfg.GetValue(sRootPath+'/tab_index/g'+IntToStr(iGroup), -1);
       nTabInGroup:= Max(0, Min(nTabInGroup, CurTabs.TabCount-1));
       //don't check that index is different, force set index; this fixes e.g. bug #3892
       if CurTabs.TabCount>0 then
@@ -639,9 +640,9 @@ begin
 
     //clear tick values, to CudaExt tab switcher feels good
     //(it shows frames with tick=0 in second listbox)
-    for i:= 0 to FrameCount-1 do
+    for iFrame:= 0 to FrameCount-1 do
     begin
-      Frame:= Frames[i];
+      Frame:= Frames[iFrame];
       if Frame.Visible then
         Frame.ActivationTime:= GetTickCount64
       else
