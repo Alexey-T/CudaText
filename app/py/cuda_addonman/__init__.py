@@ -3,7 +3,6 @@ import re
 import shutil
 import json
 import collections
-import webbrowser
 import subprocess
 from cudatext import *
 from urllib.parse import unquote
@@ -19,7 +18,7 @@ if os.name=='nt':
 else:
     from .work_cudatext_updates__sourceforge import check_cudatext
 
-from cudax_lib import get_translation
+from cudax_lib import get_translation, safe_open_url
 _   = get_translation(__file__)  # i18n
 
 _homedir = os.path.expanduser('~')
@@ -423,7 +422,7 @@ class Command:
         if m is None: return
         s = get_homepage_of_module(m)
         if s:
-            webbrowser.open_new_tab(s)
+            safe_open_url(s)
             msg_status(_('Opened browser: ')+s)
         else:
             msg_box(_('Plugin "%s" doesn\'t have "homepage" field in install.inf') % \

@@ -708,6 +708,18 @@ def get_translation(plug_file):
    #def get_translation
 
 
+def safe_open_url(url):
+    '''
+    On Windows 10, app crashes when webbrowser.open* is called with running LSP server.
+    '''
+    if os.name=='nt':
+        import subprocess
+        subprocess.Popen(['start', url], shell=True)
+    else:
+        import webbrowser
+        webbrowser.open_new_tab(url)
+
+
 '''
 ToDo
 [S][кто-кому][дата] Что сделать

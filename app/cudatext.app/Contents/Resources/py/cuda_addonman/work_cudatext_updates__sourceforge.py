@@ -1,11 +1,10 @@
 import os
 import re
 import tempfile
-import webbrowser
 import cudatext as app
 from .work_remote import *
 
-from cudax_lib import get_translation
+from cudax_lib import get_translation, safe_open_url
 _   = get_translation(__file__)  # i18n
 
 info = app.app_proc(app.PROC_GET_COMPILER_INFO, '')
@@ -101,27 +100,23 @@ def check_cudatext():
         msg_ = app.msg_box_ex(
             _('Check for updates'),
             _('Latest CudaText is already here.\n\nLocal: {}\nInternet: {}').format(ver_local, ver_inet),
-            [_('OK')
-            #, _('Open changelog')
-            ],
+            [_('OK'), _('Open changelog')],
             app.MB_ICONQUESTION
             )
         if msg_ == 1:
-            webbrowser.open_new_tab(CHANGELOG_PAGE)
+            safe_open_url(CHANGELOG_PAGE)
             app.msg_status(_('Opened changelog link'))
         return
 
     msg_ = app.msg_box_ex(
         _('Check for updates'),
         _('CudaText update is available.\n\nLocal: {}\nInternet: {}').format(ver_local, ver_inet),
-        [_('Cancel'), _('Open download link')
-        #, _('Open changelog')
-        ],
+        [_('Cancel'), _('Open download link'), _('Open changelog')],
         app.MB_ICONQUESTION
         )
     if msg_ == 1:
-        webbrowser.open_new_tab(url)
+        safe_open_url(url)
         app.msg_status(_('Opened download link'))
     elif msg_ == 2:
-        webbrowser.open_new_tab(CHANGELOG_PAGE)
+        safe_open_url(CHANGELOG_PAGE)
         app.msg_status(_('Opened changelog link'))
