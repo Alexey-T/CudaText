@@ -1,7 +1,7 @@
 import os
 import string
 from cudatext import *
-from cudax_lib import get_translation
+from cudax_lib import get_translation, safe_open_url
 from .proc_snip_insert import *
 
 _   = get_translation(__file__)  # I18N
@@ -277,9 +277,8 @@ class Command:
 
     def help(self):
 
-        import webbrowser
         fn = os.path.join(os.path.dirname(__file__), 'help.html')
-        webbrowser.open_new_tab('file://'+fn)
+        safe_open_url('file://'+fn)
         msg_status(_('Opened browser'))
 
 
