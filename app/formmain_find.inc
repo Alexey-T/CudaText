@@ -476,6 +476,7 @@ var
   bMultiLineSel: boolean;
 begin
   Frame:= CurrentFrame;
+  if Frame=nil then exit;
   Ed:= Frame.Editor;
 
   StrWord:= Ed.TextCurrentWord;
@@ -490,7 +491,6 @@ begin
   if Ed.Carets.Count=1 then
     bMultiLineSel:= Ed.Carets[0].IsMultilineSelection;
 
-  //MsgLogDebug('find dlg: init');
   InitFormFind;
 
   if StrSel='' then
@@ -510,10 +510,6 @@ begin
   if UiOps.FindSuggestWord and (StrWord<>'') then
     StrSuggested:= StrWord;
 
-  //MsgLogDebug('find dlg: select all in input');
-  fmFind.edFind.DoCommand(cCommand_SelectAll, cInvokeAppInternal);
-  fmFind.edRep.DoCommand(cCommand_SelectAll, cInvokeAppInternal);
-
   fmFind.chkCase.Checked:= FFinder.OptCase;
   fmFind.chkWords.Checked:= FFinder.OptWords;
   fmFind.chkRegex.Checked:= FFinder.OptRegex;
@@ -531,9 +527,10 @@ begin
 
   fmFind.UpdateInitialCaretPos;
   if StrSuggested<>'' then
-    fmFind.UpdateInputFind(StrSuggested)
-  else
-    fmFind.edFind.DoSelect_All;
+    fmFind.UpdateInputFind(StrSuggested);
+
+  fmFind.edFind.DoCommand(cCommand_SelectAll, cInvokeAppInternal);
+  fmFind.edRep.DoCommand(cCommand_SelectAll, cInvokeAppInternal);
 end;
 
 procedure TfmMain.DoDialogFind(AReplaceMode: boolean);
