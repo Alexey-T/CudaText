@@ -397,7 +397,7 @@ class Command:
         isfile = path.is_file()
         if isfile:
             _, suffix = os.path.splitext(path.name)
-            suffix = supper.upper()
+            suffix = suffix.upper()
         else:
             suffix = ''
         return isfile, suffix, path.name.upper()
