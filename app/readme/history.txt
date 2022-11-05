@@ -3,6 +3,8 @@
   - fixed
   * changed
 
+- fix: Project Manager: don't sort folders by 'extension' (thanks @iconv)
+
 1.175.0 (2022/11)
 
 * change: changed rendering of "Unicode combined characters" (accent chars), now they have separate char-cell like letters; this was needed to solve several issues with accent chars (thanks @iconv)
