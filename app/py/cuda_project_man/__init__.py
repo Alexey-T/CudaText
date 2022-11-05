@@ -37,6 +37,16 @@ def _file_open(fn, options=''):
     #print('Opening file in group %d'%gr)
     file_open(fn, group=gr, options=options)
 
+ASCII_CHARS = string.ascii_letters+string.digits
+
+def _file_ext(fn):
+    _, s = os.path.splitext(fn)
+    for ch in s:
+        if not ch in ASCII_CHARS:
+            return ''
+    return s
+
+
 # https://stackoverflow.com/questions/377017/test-if-executable-exists-in-python
 def which(program):
     def is_exe(fpath):
@@ -396,11 +406,10 @@ class Command:
         # node_ordering() for DirEntry
         isfile = path.is_file()
         if isfile:
-            _, suffix = os.path.splitext(path.name)
-            suffix = suffix.upper()
+            ext = _file_ext(path.name).upper()
         else:
-            suffix = ''
-        return isfile, suffix, path.name.upper()
+            ext = ''
+        return isfile, ext, path.name.upper()
 
     def add_node(self, path):
         if path:
