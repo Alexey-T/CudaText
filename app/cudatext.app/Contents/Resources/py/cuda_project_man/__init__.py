@@ -37,12 +37,13 @@ def _file_open(fn, options=''):
     #print('Opening file in group %d'%gr)
     file_open(fn, group=gr, options=options)
 
-ASCII_CHARS = string.ascii_letters+string.digits
+# don't allow spaces and punctuation in file extension
+EXT_CH = string.ascii_letters+string.digits
 
 def _file_ext(fn):
     _, s = os.path.splitext(fn)
     for ch in s:
-        if not ch in ASCII_CHARS:
+        if not ch in EXT_CH:
             return ''
     return s
 
