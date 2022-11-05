@@ -1288,6 +1288,57 @@ begin
     AppThemeStatusbar.ColorFont:= NColor;
 end;
 
+
+{$ifdef windows}
+const
+  PrevWndProc: WNDPROC = nil;
+
+function WndCallback(AHWnd: HWND; uMsg: UINT; wParam: WParam; lParam: LParam): LRESULT; stdcall;
+const
+  OBJID_MENU = LONG($FFFFFFFD);
+var
+  dc: HDC;
+  brush: TBrush;
+  clientRect, windowRect: TRect;
+  mbi: MENUBARINFO;
+begin
+  case uMsg of
+     WM_NCPAINT,
+     WM_NCACTIVATE:
+       begin
+         Result := Windows.DefWindowProc(AHWnd, uMsg, WParam, LParam);
+
+         FillChar(mbi, SizeOf(mbi), 0);
+         mbi.cbSize := SizeOf(mbi);
+         if not GetMenuBarInfo(AHWnd, OBJID_MENU, 0, @mbi) then
+           exit;
+
+         dc := GetWindowDC(AHWnd);
+         try
+           GetClientRect(AHWnd, clientRect);
+           MapWindowPoints(AHWnd, 0, clientRect, 2);
+           GetWindowRect(AHWnd, windowRect);
+           OffsetRect(clientRect, -windowRect.Left, -windowRect.Top);
+           clientRect.bottom := clientRect.Top;
+           Dec(clientRect.Top);
+
+           brush := TBrush.Create;
+           brush.Color := MenuStylerTheme.ColorBk;
+           FillRect(dc, clientRect, brush.Reference.Handle);
+           FreeAndNil(brush);
+         finally
+           ReleaseDC(AHWnd, dc);
+         end;
+         exit;
+       end;
+  end;
+
+  if Assigned(PrevWndProc) then
+    Result := CallWindowProc(PrevWndProc, AHWnd, uMsg, WParam, LParam);
+end;
+{$endif}
+
+
 type
   { TGroupsHelper }
 
@@ -2620,6 +2671,11 @@ end;
 
 procedure TfmMain.FormCreate(Sender: TObject);
 begin
+  {$ifdef windows}
+  //fix white line under the menubar, with MenuStyler on
+  PrevWndProc:= Windows.WNDPROC(SetWindowLongPtr(Self.Handle, GWL_WNDPROC, PtrInt(@WndCallback)));
+  {$endif}
+
   OnEnter:= @FormEnter;
   TimerCmd.Interval:= UiOps.CommandTimerInterval;
   mnuHelpCheckUpd.Enabled:= UiOps.AllowProgramUpdates;
