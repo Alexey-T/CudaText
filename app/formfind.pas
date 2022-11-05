@@ -720,7 +720,7 @@ end;
 
 procedure TfmFind.edFindEnter(Sender: TObject);
 begin
-  edFind.DoCommand(cCommand_SelectAll, cInvokeAppInternal);
+  edFind.DoSelect_All;
   UpdateButtonBold;
 end;
 
@@ -754,7 +754,7 @@ end;
 
 procedure TfmFind.edRepEnter(Sender: TObject);
 begin
-  edRep.DoCommand(cCommand_SelectAll, cInvokeAppInternal);
+  edRep.DoSelect_All;
   UpdateButtonBold;
 end;
 

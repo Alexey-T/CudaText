@@ -529,8 +529,8 @@ begin
   if StrSuggested<>'' then
     fmFind.UpdateInputFind(StrSuggested);
 
-  fmFind.edFind.DoCommand(cCommand_SelectAll, cInvokeAppInternal);
-  fmFind.edRep.DoCommand(cCommand_SelectAll, cInvokeAppInternal);
+  fmFind.edFind.DoSelect_All;
+  fmFind.edRep.DoSelect_All;
 end;
 
 procedure TfmMain.DoDialogFind(AReplaceMode: boolean);
