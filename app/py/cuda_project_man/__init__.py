@@ -394,8 +394,13 @@ class Command:
     @staticmethod
     def node_ordering_direntry(path):
         # node_ordering() for DirEntry
-        _, suffix = os.path.splitext(path.name)
-        return path.is_file(), suffix.upper(), path.name.upper()
+        isfile = path.is_file()
+        if isfile:
+            _, suffix = os.path.splitext(path.name)
+            suffix = supper.upper()
+        else:
+            suffix = ''
+        return isfile, suffix, path.name.upper()
 
     def add_node(self, path):
         if path:
