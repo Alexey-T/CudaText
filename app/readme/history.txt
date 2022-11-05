@@ -3,6 +3,7 @@
   - fixed
   * changed
 
++ add: option "gutter_line_states"
 - fix: Project Manager: now don't sort 'by extension': a) folders, b) non-Latin extensions (thanks @iconv)
 
 1.175.0 (2022/11)

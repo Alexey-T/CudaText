@@ -551,6 +551,7 @@ type
     OpGutterFoldAlways: boolean;
     OpGutterFoldIcons: integer;
     OpGutterBookmarks: boolean;
+    OpGutterLineStates: boolean;
     OpGutterIconSize: integer;
 
     OpNumbersShow: boolean;
@@ -1669,6 +1670,7 @@ begin
     OpGutterFold:= true;
     OpGutterFoldAlways:= true;
     OpGutterBookmarks:= true;
+    OpGutterLineStates:= true;
     OpGutterFoldIcons:= 0;
     OpGutterIconSize:= 4;
 

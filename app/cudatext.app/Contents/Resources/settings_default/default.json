@@ -415,6 +415,9 @@
   //Gutter: Show gutter's bookmarks column.
   "gutter_bookmarks": true,
 
+  //Gutter: Show gutter's "line states" column.
+  "gutter_line_states": true,
+
   //Bookmarks: Automatically delete bookmarks when their lines are deleted,
   //otherwise only shift bookmarks upper.
   //Note: this option is global, not per-lexer.
