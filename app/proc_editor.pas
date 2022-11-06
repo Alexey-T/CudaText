@@ -232,7 +232,7 @@ begin
       Ed.Gutter[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagFolding)].Visible:= Op.OpGutterFold;
     if not Ed.IsModifiedGutterNumbersVisible then
       Ed.Gutter[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagNumbers)].Visible:= Op.OpNumbersShow;
-    if not Ed.IsModifiedGutterLineStatesVisible then
+    //if not Ed.IsModifiedGutterLineStatesVisible then
       Ed.Gutter[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagLineStates)].Visible:= Op.OpGutterLineStates;
     Ed.OptGutterPlusSize:= Op.OpGutterIconSize;
     Ed.Gutter.Update;
