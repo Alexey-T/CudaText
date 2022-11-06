@@ -9,6 +9,7 @@
 + add: apply options "caret_view*" also to plugins' input fields
 + add: Project Manager: don't sort 'by extension': a) folders, b) non-Latin extensions (thanks @iconv)
 - fix: Windows: annoying white line under themed menubar (thanks @veksha)
+- fix: when Project Manager opens 'preview' tab, it must be activated (thanks @iconv)
 
 1.175.0 (2022/11)
 
