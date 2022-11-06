@@ -1078,6 +1078,7 @@ procedure DoStatusbarColorByTag(AStatus: TATStatus; ATag: PtrInt; AColor: TColor
 
 function IsFileTooBigForOpening(const AFilename: string): boolean;
 function IsFileTooBigForLexer(const AFilename: string): boolean;
+function IsFilenameForLexerDetecter(const AFileName: string): boolean;
 function IsOsFullPath(const S: string): boolean;
 
 procedure Lexer_DetectByFilename(const AFilename: string;
@@ -2995,6 +2996,18 @@ function IsFileTooBigForLexer(const AFilename: string): boolean;
 begin
   Result:= (AFilename<>'') and (FileSize(AFilename) div (1024*1024) >= UiOps.MaxFileSizeForLexer);
 end;
+
+function IsFilenameForLexerDetecter(const AFileName: string): boolean;
+begin
+  if IsFileTooBigForLexer(AFileName) then //fixing issue #3449
+    Result:= false
+  else
+  if ExtractFileName(AFileName)='CMakeLists.txt' then //CMakeLists.txt is for lexer CMake
+    Result:= true
+  else
+    Result:= LowerCase(ExtractFileExt(AFileName))<>'.txt';
+end;
+
 
 
 procedure Lexer_DetectByFilename(const AFilename: string;
