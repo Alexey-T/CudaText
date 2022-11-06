@@ -4099,8 +4099,11 @@ function TfmMain.DoFileOpen(AFileName, AFileName2: string; APages: TATPages;
   procedure DoFocusResult;
   begin
     if Assigned(Result) then
-      if Visible and Result.Visible and Result.Enabled then
+      if Visible and Result.Enabled then
+      begin
+        SetFrame(Result);
         Result.SetFocus;
+      end;
   end;
   //
 var
