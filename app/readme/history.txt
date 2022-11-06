@@ -6,6 +6,7 @@
 1.175.1 (2022/11)
 
 + add: option to turn off 'line states': "gutter_line_states"
++ add: apply options "caret_view*" also to plugins' input fields
 + add: Project Manager: don't sort 'by extension': a) folders, b) non-Latin extensions (thanks @iconv)
 - fix: Windows: annoying white line under themed menubar (thanks @veksha)
 
