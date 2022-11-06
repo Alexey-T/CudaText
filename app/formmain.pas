@@ -4096,13 +4096,13 @@ end;
 function TfmMain.DoFileOpen(AFileName, AFileName2: string; APages: TATPages;
   const AOptions: string): TEditorFrame;
   //
-  procedure DoFocusResult;
+  procedure DoFocusFrame(F: TEditorFrame);
   begin
-    if Assigned(Result) then
-      if Visible and Result.Enabled then
+    if Assigned(F) then
+      if Visible and F.Enabled then
       begin
-        SetFrame(Result);
-        Result.SetFocus;
+        SetFrame(F);
+        F.SetFocus;
       end;
   end;
   //
@@ -4372,7 +4372,7 @@ begin
       OpenMode);
     MsgStatusFileOpened(AFileName, AFileName2);
 
-    DoFocusResult;
+    DoFocusFrame(Result);
     if bEnableEventOpened then
     begin
       DoPyEvent_Open(Result.Ed1);
@@ -4465,7 +4465,7 @@ begin
     if AFileName2<>'' then
       DoPyEvent_Open(F.Ed2);
 
-  DoFocusResult;
+  DoFocusFrame(Result);
 end;
 
 
