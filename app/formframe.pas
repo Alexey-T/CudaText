@@ -4392,6 +4392,8 @@ begin
 end;
 
 procedure TEditorFrame.SetFocus;
+var
+  Ed: TATSynEdit;
 begin
   DoOnChangeCaption;
   DoShow;
@@ -4401,8 +4403,9 @@ begin
     case FrameKind of
       efkEditor:
         begin
-          if Editor.Visible and Editor.Enabled then
-            EditorFocus(Editor);
+          Ed:= Editor;
+          if Ed.Visible and Ed.Enabled then
+            EditorFocus(Ed);
         end;
 
       efkBinaryViewer:
