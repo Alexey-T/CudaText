@@ -38,7 +38,7 @@ def _file_open(fn, options=''):
     file_open(fn, group=gr, options=options)
 
 # don't allow spaces and punctuation in file extension
-EXT_CH = string.ascii_letters+string.digits
+EXT_CH = string.ascii_letters + string.digits + '.-_'
 
 def _file_ext(fn):
     _, s = os.path.splitext(fn)
