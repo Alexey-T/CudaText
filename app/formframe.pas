@@ -4396,29 +4396,27 @@ begin
   DoOnChangeCaption;
   DoShow;
 
-  //dont focus while API dialog is shown
-  //not finished work
-  ////if AppApiDialogCounter>0 then exit;
-
   if Visible and Enabled then
   begin
-   case FrameKind of
-    efkEditor:
-    begin
-      if Editor.Visible and Editor.Enabled then
-        EditorFocus(Editor);
+    case FrameKind of
+      efkEditor:
+        begin
+          if Editor.Visible and Editor.Enabled then
+            EditorFocus(Editor);
+        end;
+
+      efkBinaryViewer:
+        begin
+          if Assigned(FBin) and FBin.Visible and FBin.CanFocus then
+            EditorFocus(FBin);
+        end;
+
+      efkImageViewer:
+        begin
+          if Assigned(FImageBox) and FImageBox.Visible and FImageBox.CanFocus then
+            FImageBox.SetFocus;
+        end;
     end;
-    efkBinaryViewer:
-    begin
-      if Assigned(FBin) and FBin.Visible and FBin.CanFocus then
-        EditorFocus(FBin);
-    end;
-    efkImageViewer:
-    begin
-      if Assigned(FImageBox) and FImageBox.Visible and FImageBox.CanFocus then
-        FImageBox.SetFocus;
-    end;
-   end;
   end;
 end;
 
