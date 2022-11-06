@@ -734,6 +734,10 @@ begin
   Ed.OptFlickerReducingPause:= 0; //fix issue #4372
   Ed.OptDimUnfocusedBack:= 0; //fix issue #4346
   Ed.OptMicromapOnScrollbar:= false; //API editors don't have micromap at all
+
+  EditorCaretShapeFromString(Ed.CaretShapeNormal, EditorOps.OpCaretViewNormal);
+  EditorCaretShapeFromString(Ed.CaretShapeOverwrite, EditorOps.OpCaretViewOverwrite);
+  EditorCaretShapeFromString(Ed.CaretShapeReadonly, EditorOps.OpCaretViewReadonly);
 end;
 
 procedure DoControl_InitPropsObject(Ctl: TControl; AForm: TFormDummy; const ATypeName: string);
