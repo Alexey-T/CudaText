@@ -1079,6 +1079,7 @@ type
     procedure UpdateGroupsMode(AMode: TATGroupsMode);
     procedure UpdateMenuTheming(AMenu: TPopupMenu);
     procedure UpdateMenuTheming_MainMenu;
+    procedure UpdateMenuTheming_WhiteLine;
     procedure UpdateMenuRecents(sub: TMenuItem);
     procedure UpdateSidebarButtonOverlay;
     procedure UpdateEditorTabsize(AValue: integer);
@@ -2669,12 +2670,17 @@ begin
   end;
 end;
 
-procedure TfmMain.FormCreate(Sender: TObject);
+procedure TfmMain.UpdateMenuTheming_WhiteLine;
+//fix white line under the menubar, with MenuStyler on
 begin
   {$ifdef windows}
-  //fix white line under the menubar, with MenuStyler on
   PrevWndProc:= Windows.WNDPROC(SetWindowLongPtr(Self.Handle, GWL_WNDPROC, PtrInt(@WndCallback)));
   {$endif}
+end;
+
+procedure TfmMain.FormCreate(Sender: TObject);
+begin
+  UpdateMenuTheming_WhiteLine;
 
   OnEnter:= @FormEnter;
   TimerCmd.Interval:= UiOps.CommandTimerInterval;
@@ -6036,6 +6042,7 @@ begin
   end;
 
   UpdateMenuTheming_MainMenu;
+  UpdateMenuTheming_WhiteLine;
 end;
 
 function TfmMain.GetShowTabsMain: boolean;
