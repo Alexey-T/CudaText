@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.175.1 (2022/11)
+1.175.2 (2022/11)
 
 + add: option to turn off 'line states': "gutter_line_states"
 + add: apply options "caret_view*" also to plugins' input fields
