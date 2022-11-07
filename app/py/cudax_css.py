@@ -842,7 +842,8 @@ props = {
         ],
         "flex": [
             "<calc>",
-            "none" "auto",
+            "none",
+            "auto",
         ],
         "flex-basis": [
             "<calc>",
@@ -1107,7 +1108,8 @@ props = {
         ],
         "list-style": [
             "<list-style-type>",
-            "<uri>" "inside",
+            "<uri>",
+            "inside",
             "outside",
         ],
         "list-style-image": ["<uri>", "none"],
@@ -1563,7 +1565,8 @@ props = {
         "transition-timing-function": ["<calc>", "<timing>"],
         "translate": ["<calc>", "none"],
         "unicode-bidi": [
-            "bidi-override" "embed",
+            "bidi-override",
+            "embed",
             "isolate",
             "isolate-override",
             "normal",
