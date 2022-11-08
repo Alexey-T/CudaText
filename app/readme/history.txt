@@ -8,6 +8,7 @@
 + add: option to turn off 'line states': "gutter_line_states" (thanks @iconv)
 + add: apply options "caret_view*" also to plugins' input fields
 + add: Project Manager: don't sort 'by extension': a) folders, b) non-Latin extensions (thanks @iconv)
+* change: Find dialog: make all buttons not focusable (thanks @Vivalzar)
 * change: make bigger jump in the "delete word next/previous" commands (thanks @iconv)
 * change: option "unprinted_content" sub-option "x": a) must hide marks when there is no selection, b) must affect line-break marks too (thanks @Vivalzar)
 - fix: Windows: annoying white line under themed menubar (thanks @veksha)
