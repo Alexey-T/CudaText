@@ -42,8 +42,8 @@ object fmFind: TfmFind
         Width = 30
         Align = alLeft
         Caption = '?!'
-        TabStop = True
         TabOrder = 0
+        Focusable = False
         OnClick = chkConfirmClick
       end
       object chkRegexSubst: TATButton
@@ -53,8 +53,8 @@ object fmFind: TfmFind
         Width = 30
         Align = alLeft
         Caption = '$0'
-        TabStop = True
         TabOrder = 1
+        Focusable = False
         OnClick = chkRegexSubstClick
       end
     end
@@ -70,8 +70,8 @@ object fmFind: TfmFind
         Width = 30
         Align = alLeft
         Caption = '.*'
-        TabStop = True
         TabOrder = 0
+        Focusable = False
         OnClick = chkRegexClick
       end
       object chkCase: TATButton
@@ -81,8 +81,8 @@ object fmFind: TfmFind
         Width = 30
         Align = alLeft
         Caption = 'aA'
-        TabStop = True
         TabOrder = 1
+        Focusable = False
         OnClick = chkCaseClick
       end
       object chkWords: TATButton
@@ -92,8 +92,8 @@ object fmFind: TfmFind
         Width = 30
         Align = alLeft
         Caption = '“w”'
-        TabStop = True
         TabOrder = 2
+        Focusable = False
         OnClick = chkWordsClick
       end
       object chkWrap: TATButton
@@ -103,8 +103,8 @@ object fmFind: TfmFind
         Width = 30
         Align = alLeft
         Caption = 'O'
-        TabStop = True
         TabOrder = 3
+        Focusable = False
         OnClick = chkWrapClick
       end
       object chkMulLine: TATButton
@@ -114,8 +114,8 @@ object fmFind: TfmFind
         Width = 30
         Align = alLeft
         Caption = '+'
-        TabStop = True
         TabOrder = 5
+        Focusable = False
         OnClick = chkMulLineClick
       end
       object chkInSel: TATButton
@@ -125,8 +125,8 @@ object fmFind: TfmFind
         Width = 30
         Align = alLeft
         Caption = '[..]'
-        TabStop = True
         TabOrder = 4
+        Focusable = False
         OnClick = chkInSelClick
       end
       object bTokens: TATButton
@@ -136,8 +136,8 @@ object fmFind: TfmFind
         Width = 30
         Align = alLeft
         Caption = '*'
-        TabStop = True
         TabOrder = 6
+        Focusable = False
         Kind = abuTextChoice
         OnClick = bTokensClick
       end
@@ -148,8 +148,8 @@ object fmFind: TfmFind
         Width = 30
         Align = alLeft
         Caption = 'Hi'
-        TabStop = True
         TabOrder = 7
+        Focusable = False
         OnClick = chkHiAllClick
       end
     end
@@ -264,8 +264,8 @@ object fmFind: TfmFind
         Width = 90
         Align = alLeft
         Caption = '  |<  '
-        TabStop = True
         TabOrder = 0
+        Focusable = False
         OnClick = bFindFirstClick
       end
       object bFindNext: TATButton
@@ -275,8 +275,8 @@ object fmFind: TfmFind
         Width = 90
         Align = alLeft
         Caption = '  >  '
-        TabStop = True
         TabOrder = 2
+        Focusable = False
         OnClick = bFindNextClick
       end
       object bFindPrev: TATButton
@@ -286,8 +286,8 @@ object fmFind: TfmFind
         Width = 90
         Align = alLeft
         Caption = '  <  '
-        TabStop = True
         TabOrder = 1
+        Focusable = False
         OnClick = bFindPrevClick
       end
       object bMore: TATButton
@@ -297,8 +297,8 @@ object fmFind: TfmFind
         Width = 90
         Align = alLeft
         Caption = '  ...  '
-        TabStop = True
         TabOrder = 3
+        Focusable = False
         OnClick = bMoreClick
       end
     end
@@ -319,8 +319,8 @@ object fmFind: TfmFind
         Width = 90
         Align = alLeft
         Caption = 'Replace'
-        TabStop = True
         TabOrder = 0
+        Focusable = False
         OnClick = bRepClick
       end
       object bRepAll: TATButton
@@ -330,8 +330,8 @@ object fmFind: TfmFind
         Width = 90
         Align = alLeft
         Caption = 'Rep all'
-        TabStop = True
         TabOrder = 1
+        Focusable = False
         OnClick = bRepAllClick
       end
       object bRepGlobal: TATButton
@@ -341,8 +341,8 @@ object fmFind: TfmFind
         Width = 90
         Align = alLeft
         Caption = 'Rep global'
-        TabStop = True
         TabOrder = 2
+        Focusable = False
         OnClick = bRepGlobalClick
       end
     end
