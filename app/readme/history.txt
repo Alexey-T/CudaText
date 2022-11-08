@@ -12,7 +12,7 @@
 * change: option "unprinted_content" sub-option "x": a) must hide marks when there is no selection, b) must affect line-break marks too (thanks @Vivalzar)
 - fix: Windows: annoying white line under themed menubar (thanks @veksha)
 - fix: when Project Manager opens 'preview' tab, it must be activated (thanks @iconv)
-- fix: 'pilcrow' unprinted-mark was rendered bad
+- fix: bad rendering of 'pilcrow' unprinted mark on Unix'es
 
 1.175.0 (2022/11)
 
