@@ -16,11 +16,11 @@ object fmCharmaps: TfmCharmaps
   OnKeyDown = FormKeyDown
   OnShow = FormShow
   Position = poMainFormCenter
-  ShowInTaskBar = stNever
+  ShowInTaskBar = stAlways
   LCLVersion = '2.3.0.0'
   object Grid: TStringGrid
     Left = 6
-    Height = 427
+    Height = 421
     Top = 6
     Width = 504
     Align = alClient
@@ -38,8 +38,8 @@ object fmCharmaps: TfmCharmaps
   end
   object PanelInfo: TATPanelSimple
     Left = 0
-    Height = 43
-    Top = 439
+    Height = 45
+    Top = 433
     Width = 516
     Align = alBottom
     AutoSize = True
@@ -51,7 +51,7 @@ object fmCharmaps: TfmCharmaps
       AnchorSideBottom.Control = PanelInfo
       AnchorSideBottom.Side = asrBottom
       Left = 6
-      Height = 31
+      Height = 33
       Top = 6
       Width = 360
       Anchors = [akLeft, akBottom]
@@ -66,7 +66,7 @@ object fmCharmaps: TfmCharmaps
       AnchorSideBottom.Control = PanelInfo
       AnchorSideBottom.Side = asrBottom
       Left = 6
-      Height = 27
+      Height = 29
       Top = 10
       Width = 360
       Anchors = [akLeft, akBottom]
@@ -100,8 +100,8 @@ object fmCharmaps: TfmCharmaps
       AnchorSideRight.Control = PanelInfo
       AnchorSideRight.Side = asrBottom
       Left = 421
-      Height = 24
-      Top = 9
+      Height = 23
+      Top = 11
       Width = 89
       Anchors = [akTop, akRight]
       BorderSpacing.Right = 6
@@ -112,8 +112,8 @@ object fmCharmaps: TfmCharmaps
   end
   object PanelBtm: TATPanelSimple
     Left = 0
-    Height = 41
-    Top = 482
+    Height = 45
+    Top = 478
     Width = 516
     Align = alBottom
     AutoSize = True
@@ -123,7 +123,7 @@ object fmCharmaps: TfmCharmaps
       AnchorSideBottom.Control = PanelBtm
       AnchorSideBottom.Side = asrBottom
       Left = 430
-      Height = 29
+      Height = 33
       Top = 6
       Width = 80
       Anchors = [akRight, akBottom]
@@ -139,7 +139,7 @@ object fmCharmaps: TfmCharmaps
       AnchorSideTop.Side = asrCenter
       Left = 6
       Height = 17
-      Top = 12
+      Top = 14
       Width = 12
       BorderSpacing.Left = 6
       Caption = '---'
@@ -148,10 +148,10 @@ object fmCharmaps: TfmCharmaps
       AnchorSideRight.Control = btnUnicode
       AnchorSideBottom.Control = PanelBtm
       AnchorSideBottom.Side = asrBottom
-      Left = 276
-      Height = 29
+      Left = 268
+      Height = 33
       Top = 6
-      Width = 60
+      Width = 64
       Anchors = [akRight, akBottom]
       AutoSize = True
       BorderSpacing.Around = 6
@@ -163,10 +163,10 @@ object fmCharmaps: TfmCharmaps
       AnchorSideRight.Control = btnClose
       AnchorSideBottom.Control = PanelBtm
       AnchorSideBottom.Side = asrBottom
-      Left = 342
-      Height = 29
+      Left = 338
+      Height = 33
       Top = 6
-      Width = 82
+      Width = 86
       Anchors = [akRight, akBottom]
       AutoSize = True
       BorderSpacing.Around = 6
