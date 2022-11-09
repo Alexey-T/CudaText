@@ -3194,7 +3194,10 @@ begin
       DoFocusEditor(CurrentEditor);
       if bConsoleActive then
         if UiOps.EscapeCloseConsole then
+        begin
           AppPanels[cPaneOut].Visible:= false;
+          UpdateMenuChecks_Global;
+        end;
       Key:= 0;
     end
     else
