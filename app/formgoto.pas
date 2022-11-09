@@ -93,7 +93,6 @@ end;
 
 procedure TfmGoto.FormShow(Sender: TObject);
 begin
-  plCaption.Height:= ATEditorScale(26);
   edInput.Height:= ATEditorScale(UiOps.InputHeight);
   edInput.Font.Name:= EditorOps.OpFontName;
   edInput.Font.Size:= EditorOps.OpFontSize;
@@ -105,6 +104,7 @@ begin
   Color:= GetAppColor(apclListBg);
   EditorApplyTheme(edInput);
 
+  plCaption.Height:= ATEditorScale(26);
   plCaption.Font.Name:= UiOps.VarFontName;
   plCaption.Font.Size:= ATEditorScaleFont(UiOps.VarFontSize);
   plCaption.Font.Color:= GetAppColor(apclListFont);

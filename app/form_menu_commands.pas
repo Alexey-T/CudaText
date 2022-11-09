@@ -135,8 +135,10 @@ begin
   EditorCaretShapeFromString(edit.CaretShapeNormal, EditorOps.OpCaretViewNormal);
   EditorCaretShapeFromString(edit.CaretShapeOverwrite, EditorOps.OpCaretViewOverwrite);
 
+  PanelCaption.Height:= ATEditorScale(26);
   PanelCaption.Font.Name:= UiOps.VarFontName;
   PanelCaption.Font.Size:= ATEditorScaleFont(UiOps.VarFontSize);
+  PanelCaption.Font.Color:= FColorFont;
 
   ButtonCancel.Width:= ButtonCancel.Height;
 
@@ -147,7 +149,6 @@ begin
   edit.Colors.TextSelBG:= GetAppColor(apclEdSelBg);
   edit.Colors.BorderLine:= GetAppColor(apclEdBorder);
   list.Color:= FColorBg;
-  PanelCaption.Font.Color:= FColorFont;
   PanelInfo.Font.Color:= FColorFont;
 
   UpdateFormOnTop(Self);
