@@ -5,7 +5,7 @@
 
 1.176.1 (2022/11)
 
-+ add: increase limit of highlighted URL length to 700
++ add: increase limit of highlighted URL length to 1200
 + add: dialog "Go to" must have X icon even on Windows (thanks @Vivalzar)
 * change: dialog "Char Map" should have icon in taskbar (thanks @Vivalzar)
 - fix: regression: "ui_esc_close_console":true did not work (thanks @Vivalzar)
