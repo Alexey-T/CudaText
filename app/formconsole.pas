@@ -73,6 +73,8 @@ type
     function GetWordWrap: boolean;
     procedure SetWordWrap(AValue: boolean);
     procedure DoRunLine(Str: string);
+  protected
+    procedure KeyDown(var Key: Word; Shift: TShiftState); override;
   public
     { public declarations }
     EdInput: TATComboEdit;
@@ -276,6 +278,24 @@ begin
       end;
   except
   end;
+end;
+
+procedure TfmConsole.KeyDown(var Key: Word; Shift: TShiftState);
+var
+  Form: TCustomForm;
+begin
+  if (Key=VK_ESCAPE) and (Shift=[]) then
+  begin
+    Form:= GetParentForm(Self, true);
+    if Assigned(Form) then
+    begin
+      Form.OnKeyDown(nil, Key, Shift);
+      Key:= 0;
+      exit;
+    end;
+  end;
+
+  inherited KeyDown(Key, Shift);
 end;
 
 constructor TfmConsole.Create(AOwner: TComponent);

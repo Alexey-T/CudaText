@@ -3189,17 +3189,16 @@ begin
 
     DoTooltipHide;
 
-    if not bEditorActive then
+    if not bEditorActive or bConsoleActive then
     begin
       DoFocusEditor(CurrentEditor);
-
       if bConsoleActive then
         if UiOps.EscapeCloseConsole then
           AppPanels[cPaneOut].Visible:= false;
       Key:= 0;
     end
     else
-    if UiOps.EscapeClose then
+    if bEditorActive and UiOps.EscapeClose then
     begin
       //Esc pressed when it's assigned to 'cancel selection'? don't close
       if bEditorActive then
