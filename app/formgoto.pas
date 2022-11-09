@@ -19,6 +19,7 @@ uses
   IniFiles,
   ATSynEdit_Globals,
   ATSynEdit_Edits,
+  ATButtons,
   proc_msg,
   proc_globdata,
   proc_colors,
@@ -29,8 +30,10 @@ type
   { TfmGoto }
 
   TfmGoto = class(TForm)
+    ButtonCancel: TATButton;
     edInput: TATEdit;
     plCaption: TPanel;
+    procedure ButtonCancelClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormShow(Sender: TObject);
@@ -142,6 +145,11 @@ begin
   edInput.OptCaretBlinkTime:= EditorOps.OpCaretBlinkTime;
 
   IsDoubleBuffered:= UiOps.DoubleBuffered;
+end;
+
+procedure TfmGoto.ButtonCancelClick(Sender: TObject);
+begin
+  ModalResult:= mrCancel;
 end;
 
 procedure TfmGoto.Localize;

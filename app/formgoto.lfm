@@ -57,6 +57,20 @@ object fmGoto: TfmGoto
     Align = alTop
     BevelOuter = bvNone
     Caption = 'go to'
+    ClientHeight = 26
+    ClientWidth = 453
     TabOrder = 1
+    object ButtonCancel: TATButton
+      Left = 433
+      Height = 26
+      Top = 0
+      Width = 20
+      Align = alRight
+      Caption = 'x'
+      TabOrder = 0
+      Focusable = False
+      Flat = True
+      OnClick = ButtonCancelClick
+    end
   end
 end
