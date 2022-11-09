@@ -52,6 +52,7 @@ type
   TfmConsole = class(TFormDummy)
   private
     { private declarations }
+    FFormMain: TCustomForm;
     FAdapter: TATAdapterSimple;
     FOnNavigate: TAppConsoleEvent;
     FOnNumberChange: TNotifyEvent;
@@ -98,7 +99,7 @@ type
 var
   fmConsole: TfmConsole = nil;
 
-procedure InitConsole;
+procedure InitConsole(AFormMain: TCustomForm);
 
 const
   cConsoleMaxLines = 1000;
@@ -281,19 +282,14 @@ begin
 end;
 
 procedure TfmConsole.KeyDown(var Key: Word; Shift: TShiftState);
-var
-  Form: TCustomForm;
 begin
   if (Key=VK_ESCAPE) and (Shift=[]) then
-  begin
-    Form:= GetParentForm(Self, true);
-    if Assigned(Form) then
+    if Assigned(FFormMain.OnKeyDown) then
     begin
-      Form.OnKeyDown(nil, Key, Shift);
+      FFormMain.OnKeyDown(nil, Key, Shift);
       Key:= 0;
       exit;
     end;
-  end;
 
   inherited KeyDown(Key, Shift);
 end;
@@ -366,10 +362,13 @@ begin
 end;
 
 
-procedure InitConsole;
+procedure InitConsole(AFormMain: TCustomForm);
 begin
   if fmConsole=nil then
+  begin
     fmConsole:= TfmConsole.Create(nil);
+    fmConsole.FFormMain:= AFormMain;
+  end;
 end;
 
 procedure TfmConsole.InputOnCommand(Sender: TObject; ACmd: integer;
