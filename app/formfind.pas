@@ -1381,6 +1381,7 @@ begin
   bMore.Enabled:= bEnabled and not FForViewer;
 
   FOnGetMainEditor(Ed);
+  //sometimes, Ed=Nil here (after changing groups 2->1)
   chkHiAll.Enabled:= bEnabled and Assigned(Ed) and (Ed.Strings.Count<UiOps.FindHiAll_MaxLines);
 
   chkCase.Enabled:= bEnabled;
