@@ -1381,7 +1381,7 @@ begin
   bMore.Enabled:= bEnabled and not FForViewer;
 
   FOnGetMainEditor(Ed);
-  chkHiAll.Enabled:= bEnabled and (Ed.Strings.Count<UiOps.FindHiAll_MaxLines);
+  chkHiAll.Enabled:= bEnabled and Assigned(Ed) and (Ed.Strings.Count<UiOps.FindHiAll_MaxLines);
 
   chkCase.Enabled:= bEnabled;
   chkWords.Enabled:= bEnabled and not chkRegex.Checked and (edFind.Strings.Count<2); //disable "w" for multi-line input
