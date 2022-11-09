@@ -120,6 +120,8 @@ begin
     ATEditorScale(2*edInput.BorderSpacing.Around) +
     edInput.Height;
   edInput.Text:= '';
+
+  ButtonCancel.Width:= ButtonCancel.Height;
 end;
 
 procedure TfmGoto.SetIsDoubleBuffered(AValue: boolean);
