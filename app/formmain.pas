@@ -4735,7 +4735,6 @@ begin
   if not Assigned(fmGoto) then
     fmGoto:= TfmGoto.Create(Self);
 
-  fmGoto.Localize;
   fmGoto.IsDoubleBuffered:= UiOps.DoubleBuffered;
   fmGoto.Width:= ATEditorScale(UiOps.ListboxSizeX);
   UpdateInputForm(fmGoto, false);

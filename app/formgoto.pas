@@ -44,7 +44,6 @@ type
     procedure DoLocalize;
   public
     { public declarations }
-    procedure Localize;
     property IsDoubleBuffered: boolean write SetIsDoubleBuffered;
   end;
 
@@ -156,10 +155,6 @@ end;
 procedure TfmGoto.ButtonCancelClick(Sender: TObject);
 begin
   ModalResult:= mrCancel;
-end;
-
-procedure TfmGoto.Localize;
-begin
 end;
 
 end.
