@@ -41,6 +41,7 @@ type
     { private declarations }
     procedure SetIsDoubleBuffered(AValue: boolean);
     procedure EditCheckInput(Sender: TObject; AChar: WideChar; var AllowInput: boolean);
+    procedure DoLocalize;
   public
     { public declarations }
     procedure Localize;
@@ -72,9 +73,25 @@ begin
   end;
 end;
 
-procedure TfmGoto.FormShow(Sender: TObject);
+procedure TfmGoto.DoLocalize;
 var
   STitle: string;
+begin
+  with TIniFile.Create(AppFile_Language) do
+  try
+    STitle:= ReadString('d_f', 'go_', 'Go to');
+  finally
+    Free
+  end;
+
+  STitle:= STitle+' '+
+    Format(msgGotoDialogTooltip, [msgGotoDialogInfoExt]);
+
+  Caption:= STitle;
+  plCaption.Caption:= STitle;
+end;
+
+procedure TfmGoto.FormShow(Sender: TObject);
 begin
   plCaption.Height:= ATEditorScale(26);
   edInput.Height:= ATEditorScale(UiOps.InputHeight);
@@ -94,25 +111,12 @@ begin
 
   UpdateFormOnTop(Self);
 
-  with TIniFile.Create(AppFile_Language) do
-  try
-    STitle:= ReadString('d_f', 'go_', 'Go to');
-  finally
-    Free
-  end;
-
-  STitle:= STitle+' '+
-    Format(msgGotoDialogTooltip, [msgGotoDialogInfoExt]);
+  DoLocalize;
 
   if UiOps.ShowMenuDialogsWithBorder then
   begin
     BorderStyle:= bsDialog;
-    Caption:= STitle;
     plCaption.Hide;
-  end
-  else
-  begin
-    plCaption.Caption:= STitle;
   end;
 
   ClientHeight:=
