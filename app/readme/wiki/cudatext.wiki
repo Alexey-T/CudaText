@@ -594,6 +594,7 @@ Most of them are located in the Addons Manager "Install" list.
 * Tree
 * Twig
 * TypeScript
+* Umka
 * V
 * Vala
 * VBScript
