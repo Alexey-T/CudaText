@@ -459,6 +459,7 @@ TYPES = {
     "tsx": ['TypeScript'],
     "twig": ['Twig'],
     "tx": ['Textile'],
+    "um": ['Umka'],
     "uml": ['PlantUML'],
     "usf": ['HLSL'],
     "v": ['Coq', 'V', 'Verilog HDL'],
