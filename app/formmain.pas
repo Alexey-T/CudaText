@@ -3494,6 +3494,19 @@ begin
   FNeedUpdateMenuChecks:= true;
 
   _Init_CheckExePath;
+
+  //fix wrong caret/staples pos on start, #4559
+  Frame:= CurrentFrame;
+  if Assigned(Frame) then
+  begin
+    Frame.Ed1.UpdateWrapInfo;
+    Frame.Ed1.Update;
+    if Frame.Splitted then
+    begin
+      Frame.Ed2.UpdateWrapInfo;
+      Frame.Ed2.Update;
+    end;
+  end;
 end;
 
 procedure TfmMain.ShowWelcomeInfo;
