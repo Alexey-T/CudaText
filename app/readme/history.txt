@@ -5,16 +5,13 @@
 
 1.176.5 (2022/11)
 
-+ add: properly zoom gutter's a) folding column width, b) folding plus/minus icons
++ add: properly zoom gutter's: a) folding column width, b) folding plus/minus icons, c) width of folding lines
 + add: auto-delete closing bracket when BackSpace deletes opening bracket; but only when all carets have the situation "(|)" or "(|  )" (thanks @lwo)
 + add: support hotkeys for "find current word next/previous" even in Find dialog (thanks @veksha)
-- fix: "fold_style":4 gave problem with restoring folding after file closing/reopening (thanks @veksha)
-
-1.176.1 (2022/11)
-
 + add: increase limit of highlighted URL length to 1200
 + add: dialog "Go to" must have X icon even on Windows (thanks @Vivalzar)
 * change: dialog "Char Map" should have icon in taskbar (thanks @Vivalzar)
+- fix: "fold_style":4 gave problem with restoring folding after file closing/reopening (thanks @veksha)
 - fix: regression: "ui_esc_close_console":true did not work (thanks @Vivalzar)
 - fix: sometimes, changing grouping mode crashes
 
