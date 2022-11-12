@@ -52,8 +52,10 @@ class Command:
         ini_write(fn_config, 'op', 'font_name', self.font_name)
         ini_write(fn_config, 'op', 'font_size', str(self.font_size))
 
-        ini_write(fn_config, 'columns', '; width_ values: >0 - in pixels, <0 - in percents, =0 - auto-stretched', '')
-        ini_write(fn_config, 'columns', '; show_ values: boolean, 0 or 1', '')
+        if ini_read(fn_config, 'columns', 'width_name', '')=='':
+            ini_write(fn_config, 'columns', '; width_ values: >0 - in pixels, <0 - in percents, =0 - auto-stretched', '')
+            ini_write(fn_config, 'columns', '; show_ values: boolean, 0 or 1', '')
+
         ini_write(fn_config, 'columns', 'width_name', str(self.column_name))
         ini_write(fn_config, 'columns', 'width_folder', str(self.column_folder))
         ini_write(fn_config, 'columns', 'width_lexer', str(self.column_lexer))
