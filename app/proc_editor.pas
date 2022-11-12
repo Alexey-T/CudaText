@@ -997,9 +997,12 @@ var
 begin
   Result:= false;
   St:= Ed.Strings;
+
+  if Ed.Carets.IsSelection then exit;
+
   SetLength(Props, Ed.Carets.Count);
 
-  //first scan all carets, and check each caret has the situation "(|  )"
+  //check each caret has the situation "(|)" or "(|  )"
   for iCaret:= Ed.Carets.Count-1 downto 0 do
   begin
     Props[iCaret].NLine:= -1;
