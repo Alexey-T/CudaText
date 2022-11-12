@@ -882,6 +882,11 @@ end;
 function IsCommandHandledFromFindDialog(Cmd: integer): boolean;
 begin
   case Cmd of
+    cmd_FindCurWordNext,
+    cmd_FindCurWordPrev,
+    cmd_FindCurSelNext,
+    cmd_FindCurSelPrev,
+
     cmd_SwitchTab_HotkeyNext,
     cmd_SwitchTab_HotkeyPrev,
     cmd_SwitchTab_SimpleNext,
