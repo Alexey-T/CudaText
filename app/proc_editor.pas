@@ -169,6 +169,7 @@ procedure EditorAutoCloseOpeningHtmlTag(Ed: TATSynEdit; AX, AY: integer);
 procedure EditorAutoCloseClosingHtmlTag(Ed: TATSynEdit; AX, AY: integer);
 procedure EditorChangeLineEndsForSelection(Ed: TATSynEdit; AValue: TATLineEnds);
 procedure EditorClearHiAllMarkers(Ed: TATSynEdit);
+procedure EditorForceUpdateIfWrapped(Ed: TATSynEdit);
 
 implementation
 
@@ -2904,6 +2905,15 @@ begin
   if Ed.Attribs.Count>0 then
   begin
     Ed.Attribs.DeleteWithTag(UiOps.FindHiAll_TagValue);
+    Ed.Update;
+  end;
+end;
+
+procedure EditorForceUpdateIfWrapped(Ed: TATSynEdit);
+begin
+  if Ed.OptWrapMode<>cWrapOff then
+  begin
+    Ed.UpdateWrapInfo;
     Ed.Update;
   end;
 end;

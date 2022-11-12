@@ -3409,23 +3409,15 @@ procedure TfmMain.FormShow(Sender: TObject);
   end;
   //
   procedure _Init_ForceRepaintEditor;
-    procedure UpEditor(Ed: TATSynEdit);
-    begin
-      if Ed.OptWrapMode<>cWrapOff then
-      begin
-        Ed.UpdateWrapInfo;
-        Ed.Update;
-      end;
-    end;
   var
     Frame: TEditorFrame;
   begin
     Frame:= CurrentFrame;
     if Assigned(Frame) then
     begin
-      UpEditor(Frame.Ed1);
+      EditorForceUpdateIfWrapped(Frame.Ed1);
       if Frame.Splitted then
-        UpEditor(Frame.Ed2);
+        EditorForceUpdateIfWrapped(Frame.Ed2);
     end;
   end;
   //
@@ -3516,7 +3508,7 @@ begin
 
   _Init_CheckExePath;
 
-  //fix wrong caret/staples pos on start, #4559
+  //fix wrong caret/staples pos, #4559
   _Init_ForceRepaintEditor;
 end;
 

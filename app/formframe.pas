@@ -808,6 +808,11 @@ begin
         LexerInitial[Ed2]:= nil;
       end;
     end;
+
+    //fix #4559
+    EditorForceUpdateIfWrapped(Ed1);
+    if Splitted then
+      EditorForceUpdateIfWrapped(Ed2);
   end;
 end;
 
