@@ -997,11 +997,9 @@ var
 begin
   Result:= false;
   St:= Ed.Strings;
-
   SetLength(Props, Ed.Carets.Count);
 
   //first scan all carets, and check each caret has the situation "(|  )"
-  //if not, exit(false)
   for iCaret:= Ed.Carets.Count-1 downto 0 do
   begin
     Props[iCaret].NLine:= -1;
@@ -1016,27 +1014,30 @@ begin
       begin
         CharPrev:= Str[Caret.PosX];
         if Pos(CharPrev, Ed.OptAutoPairChars)=0 then
-          exit;
+          Break;
 
         CharNext:= EditorBracket_GetPairForOpeningBracketOrQuote(CharPrev);
         if CharNext=#0 then
-          exit;
+          Break;
 
         X:= Caret.PosX+1;
         while (X<=Length(Str)) and IsCharSpace(Str[X]) do
           Inc(X);
-        if not ((X<=Length(Str)) and (Str[X]=CharNext)) then
-          exit;
+        if (X<=Length(Str)) and (Str[X]=CharNext) then
+        begin
+          Props[iCaret].NLine:= Caret.PosY;
+          Props[iCaret].XOpen:= Caret.PosX;
+          Props[iCaret].XClose:= X;
+        end;
+      end;
+    end;
+  end;
 
-        Props[iCaret].NLine:= Caret.PosY;
-        Props[iCaret].XOpen:= Caret.PosX;
-        Props[iCaret].XClose:= X;
-      end
-      else
-        exit;
-    end
-    else
-      exit;
+  for iCaret:= Ed.Carets.Count-1 downto 0 do
+  begin
+    if Props[iCaret].NLine<0 then exit;
+    if Props[iCaret].XOpen<0 then exit;
+    if Props[iCaret].XClose<0 then exit;
   end;
 
   //all carets have 'good situation', delete pair brackets
@@ -1045,10 +1046,6 @@ begin
     NLine:= Props[iCaret].NLine;
     XOpen:= Props[iCaret].XOpen;
     XClose:= Props[iCaret].XClose;
-
-    if NLine<0 then exit;
-    if XOpen<0 then exit;
-    if XClose<0 then exit;
 
     Str:= St.Lines[NLine];
     Delete(Str, XClose, 1);
