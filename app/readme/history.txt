@@ -3,12 +3,12 @@
   - fixed
   * changed
 
-1.176.2 (2022/11)
+1.176.5 (2022/11)
 
-+ add: properly scale gutter's folding column width and plus/minus icon
-+ add: auto-delete closing bracket when BackSpace deletes opening bracket; only when all carets have the situation "(|)" or "(|  )" (thanks @lwo)
-+ add: support hotkeys for "find current word next/previous" even in Find dlg (thanks @veksha)
-- fix: problems with restoring folding after file close/reopen (thanks @veksha)
++ add: properly zoom gutter's a) folding column width, b) folding plus/minus icons
++ add: auto-delete closing bracket when BackSpace deletes opening bracket; but only when all carets have the situation "(|)" or "(|  )" (thanks @lwo)
++ add: support hotkeys for "find current word next/previous" even in Find dialog (thanks @veksha)
+- fix: "fold_style":4 gave problem with restoring folding after file closing/reopening (thanks @veksha)
 
 1.176.1 (2022/11)
 
