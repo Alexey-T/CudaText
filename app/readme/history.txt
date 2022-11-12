@@ -3,6 +3,10 @@
   - fixed
   * changed
 
+1.176.2 (2022/11)
+
++ add: auto-delete closing bracket when BackSpace deletes opening bracket; only when all carets have situation "(|  )"; like Sublime Text (thanks @lwo)
+
 1.176.1 (2022/11)
 
 + add: increase limit of highlighted URL length to 1200
