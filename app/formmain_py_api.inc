@@ -8647,7 +8647,7 @@ begin
         FOLDING_DELETE_ALL:
           begin
             Ed.Fold.Clear;
-            Ed.Fold.ClearLineIndexer(Ed.Strings.Count); //fix #4553
+            Ed.UpdateFoldLineIndexer; //fix #4553
             Ed.Update(true);
             Result:= ReturnNone;
           end;
