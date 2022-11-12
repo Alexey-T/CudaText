@@ -91,6 +91,7 @@ function EditorGetColorById(Ed: TATSynEdit; const Id: string): TColor;
 
 function EditorIsAutocompleteCssPosition(Ed: TATSynEdit; AX, AY: integer): boolean;
 function EditorAutoSkipClosingBracket(Ed: TATSynEdit; CharClosing: char): boolean;
+function EditorAutoDeleteClosingBracket(Ed: TATSynEdit): boolean;
 function EditorAutoPairChar(Ed: TATSynEdit; CharBegin: atChar): boolean;
 procedure EditorCopySelToPrimarySelection(Ed: TATSynEdit; AMaxLineCount: integer);
 procedure EditorCopyLine(Ed: TATSynEdit);
@@ -981,6 +982,84 @@ begin
         end;
     end;
   end;
+end;
+
+
+function EditorAutoDeleteClosingBracket(Ed: TATSynEdit): boolean;
+var
+  St: TATStrings;
+  Str: UnicodeString;
+  Caret: TATCaretItem;
+  Props: array of record NLine, XOpen, XClose: integer; end;
+  NLine, XOpen, XClose: integer;
+  CharPrev, CharNext: WideChar;
+  iCaret, X: integer;
+begin
+  Result:= false;
+  St:= Ed.Strings;
+
+  SetLength(Props, Ed.Carets.Count);
+
+  //first scan all carets, and check each caret has the situation "(|  )"
+  //if not, exit(false)
+  for iCaret:= Ed.Carets.Count-1 downto 0 do
+  begin
+    Props[iCaret].NLine:= -1;
+    Props[iCaret].XOpen:= -1;
+    Props[iCaret].XClose:= -1;
+
+    Caret:= Ed.Carets[iCaret];
+    if St.IsIndexValid(Caret.PosY) then
+    begin
+      Str:= St.Lines[Caret.PosY];
+      if (Caret.PosX>0) and (Caret.PosX<Length(Str)) then
+      begin
+        CharPrev:= Str[Caret.PosX];
+        if Pos(CharPrev, Ed.OptAutoPairChars)=0 then
+          exit;
+
+        CharNext:= EditorBracket_GetPairForOpeningBracketOrQuote(CharPrev);
+        if CharNext=#0 then
+          exit;
+
+        X:= Caret.PosX+1;
+        while (X<=Length(Str)) and IsCharSpace(Str[X]) do
+          Inc(X);
+        if not ((X<=Length(Str)) and (Str[X]=CharNext)) then
+          exit;
+
+        Props[iCaret].NLine:= Caret.PosY;
+        Props[iCaret].XOpen:= Caret.PosX;
+        Props[iCaret].XClose:= X;
+      end
+      else
+        exit;
+    end
+    else
+      exit;
+  end;
+
+  //all carets have 'good situation', delete pair brackets
+  for iCaret:= Ed.Carets.Count-1 downto 0 do
+  begin
+    NLine:= Props[iCaret].NLine;
+    XOpen:= Props[iCaret].XOpen;
+    XClose:= Props[iCaret].XClose;
+
+    if NLine<0 then exit;
+    if XOpen<0 then exit;
+    if XClose<0 then exit;
+
+    Str:= St.Lines[NLine];
+    Delete(Str, XClose, 1);
+    Delete(Str, XOpen, 1);
+    St.Lines[NLine]:= Str;
+
+    Caret:= Ed.Carets[iCaret];
+    Caret.Change(XOpen-1, NLine, -1, -1);
+  end;
+
+  Result:= true;
 end;
 
 

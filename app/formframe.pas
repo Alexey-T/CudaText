@@ -1650,6 +1650,16 @@ begin
         end;
       end;
 
+    cCommand_KeyBackspace:
+      begin
+        if EditorAutoDeleteClosingBracket(Ed) then
+        begin
+          AHandled:= true;
+          Ed.DoEventChange(Ed.Carets[0].FirstTouchedLine);
+          exit;
+        end;
+      end;
+
     cCommand_KeyTab,
     cCommand_KeyEnter,
     cCommand_TextDeleteLine,
