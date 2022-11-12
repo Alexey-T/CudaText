@@ -1616,6 +1616,21 @@ CudaText first looks at contexts of all carets. If at least one caret has "not s
 
 For caret with selection, context is considered as OK. And typed char will enclose the selection for that caret.
 
+==Auto-deletion of pair brackets==
+In CudaText 1.176.5+, BackSpace key supports deletion of both brackets at once. Only for bracket chars listed in the "bracket_symbols" option. It is supported when all carets have the 'good situation', ie this (caret is shown by "|"):
+
+ (|)
+ [|]
+ {|}
+
+or this, with additional spaces:
+
+ (|    )
+ [|     ]
+ {|      }
+
+When all carets have this 'good situation', BackSpace deletes both brackets at once. When at least one caret does not have the 'good situation', BackSpace performs usual deletion of single character on the left.
+
 =Word jump commands=
 CudaText provides several word-jump commands, see them in the Command Palette by entering "go to word":
 
