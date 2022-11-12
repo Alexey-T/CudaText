@@ -3408,6 +3408,27 @@ procedure TfmMain.FormShow(Sender: TObject);
     {$endif}
   end;
   //
+  procedure _Init_ForceRepaintEditor;
+    procedure UpEditor(Ed: TATSynEdit);
+    begin
+      if Ed.OptWrapMode<>cWrapOff then
+      begin
+        Ed.UpdateWrapInfo;
+        Ed.Update;
+      end;
+    end;
+  var
+    Frame: TEditorFrame;
+  begin
+    Frame:= CurrentFrame;
+    if Assigned(Frame) then
+    begin
+      UpEditor(Frame.Ed1);
+      if Frame.Splitted then
+        UpEditor(Frame.Ed2);
+    end;
+  end;
+  //
 var
   Frame: TEditorFrame;
 begin
@@ -3496,17 +3517,7 @@ begin
   _Init_CheckExePath;
 
   //fix wrong caret/staples pos on start, #4559
-  Frame:= CurrentFrame;
-  if Assigned(Frame) then
-  begin
-    Frame.Ed1.UpdateWrapInfo;
-    Frame.Ed1.Update;
-    if Frame.Splitted then
-    begin
-      Frame.Ed2.UpdateWrapInfo;
-      Frame.Ed2.Update;
-    end;
-  end;
+  _Init_ForceRepaintEditor;
 end;
 
 procedure TfmMain.ShowWelcomeInfo;
