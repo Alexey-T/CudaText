@@ -5,7 +5,8 @@
 
 1.176.2 (2022/11)
 
-+ add: auto-delete closing bracket when BackSpace deletes opening bracket; only when all carets have the situation "(|)" or "(|  )"; like Sublime Text (thanks @lwo)
++ add: auto-delete closing bracket when BackSpace deletes opening bracket; only when all carets have the situation "(|)" or "(|  )" (thanks @lwo)
++ add: support hotkeys for "find current word next/previous" even in Find dlg (thanks @veksha)
 - fix: problems with restoring folding after file close/reopen (thanks @veksha)
 
 1.176.1 (2022/11)
