@@ -1036,8 +1036,6 @@ begin
   for iCaret:= Ed.Carets.Count-1 downto 0 do
   begin
     if Props[iCaret].NLine<0 then exit;
-    if Props[iCaret].XOpen<0 then exit;
-    if Props[iCaret].XClose<0 then exit;
   end;
 
   //all carets have 'good situation', delete pair brackets
@@ -1054,6 +1052,14 @@ begin
 
     Caret:= Ed.Carets[iCaret];
     Caret.Change(XOpen-1, NLine, -1, -1);
+
+    Ed.UpdateCaretsAndMarkersOnEditing(
+      iCaret+1,
+      Point(XOpen, NLine),
+      Point(-1, -1),
+      Point(-2, 0),
+      Point(XOpen-1, NLine)
+      );
   end;
 
   Result:= true;
