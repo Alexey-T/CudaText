@@ -2600,7 +2600,7 @@ begin
   DoControl_InitPropsObject(CodeTreeFilterReset, PanelCodeTreeAll, 'button_ex');
   CodeTreeFilterReset.Parent:= PanelCodeTreeTop;
   CodeTreeFilterReset.Align:= alRight;
-  CodeTreeFilterReset.Width:= UiOps.ScrollbarWidth;
+  CodeTreeFilterReset.Width:= ATScrollbarTheme.InitialSize;
   CodeTreeFilterReset.Caption:= '';
   CodeTreeFilterReset.Arrow:= true;
   CodeTreeFilterReset.ArrowKind:= abakCross;
@@ -3904,7 +3904,7 @@ begin
   CodeTree.Invalidate;
 
   EditorApplyOpsCommon(CodeTreeFilterInput);
-  CodeTreeFilterReset.Width:= ATEditorScale(UiOps.ScrollbarWidth);
+  CodeTreeFilterReset.Width:= ATEditorScale(ATScrollbarTheme.InitialSize);
 
   if Assigned(fmConsole) then
   begin
@@ -3967,8 +3967,6 @@ begin
   ATFlatTheme.ScalePercents:= ATEditorScalePercents;
   ATFlatTheme.ScaleFontPercents:= ATEditorScaleFontPercents;
 
-  ATScrollbar.ATScrollbarTheme.InitialSize:= UiOps.ScrollbarWidth;
-  ATScrollbar.ATScrollbarTheme.BorderSize:= UiOps.ScrollbarBorderSize;
   ATScrollbar.ATScrollbarTheme.ScalePercents:= ATEditorScalePercents;
   ATScrollbar.ATScrollbarTheme.BorderSize:= 1;
 

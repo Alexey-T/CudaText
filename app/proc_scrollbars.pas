@@ -82,14 +82,14 @@ begin
   FScrollbarVert.Parent:= Self;
   FScrollbarVert.Kind:= sbVertical;
   FScrollbarVert.Align:= alRight;
-  FScrollbarVert.Width:= UiOps.ScrollbarWidth;
+  FScrollbarVert.Width:= ATScrollbarTheme.InitialSize;
   FScrollbarVert.OnChange:= @ScrollVertChange;
 
   FScrollbarHorz:= TATScrollbar.Create(nil);
   FScrollbarHorz.Parent:= Self;
   FScrollbarHorz.Kind:= sbHorizontal;
   FScrollbarHorz.Align:= alBottom;
-  FScrollbarHorz.Height:= UiOps.ScrollbarWidth;
+  FScrollbarHorz.Height:= ATScrollbarTheme.InitialSize;
   FScrollbarHorz.IndentCorner:= 100;
   FScrollbarHorz.OnChange:= @ScrollHorzChange;
 

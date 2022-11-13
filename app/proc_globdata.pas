@@ -408,9 +408,6 @@ type
     AltTooltipPaddingX: integer;
     AltTooltipPaddingY: integer;
 
-    ScrollbarWidth: integer;
-    ScrollbarBorderSize: integer;
-
     ProgressbarWidth: integer;
     ProgressbarHeightSmall: integer;
 
@@ -2053,9 +2050,6 @@ begin
     AltTooltipTimeMax:= 60;
     AltTooltipPaddingX:= 6;
     AltTooltipPaddingY:= 3;
-
-    ScrollbarWidth:= ATScrollbarTheme.InitialSize; //don't change to avoid jumping of scrollbar width
-    ScrollbarBorderSize:= 0;
 
     ProgressbarWidth:= 50;
     ProgressbarHeightSmall:= 6;
