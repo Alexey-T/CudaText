@@ -76,23 +76,23 @@ Event handlers (Command.on_nnnnn methods) return-value is ignored is many cases,
 
 Constants in on_state:
 
-* APPSTATE_LANG: Called on changing UI translation in the program.
-* APPSTATE_THEME_UI: Called on changing UI-theme in the program.
-* APPSTATE_THEME_SYNTAX: Called on changing syntax-theme in the program.
-* APPSTATE_GROUPS: Calling on changing tab-grouping mode (see program's top menu item "=").
-* APPSTATE_CONFIG_REREAD: Called after config file user.json has been re-read and applied.
-* APPSTATE_SESSION_LOAD_BEGIN: Called on beginning of loading session.
-* APPSTATE_SESSION_LOAD: Called after APPSTATE_SESSION_LOAD_BEGIN, when session loading completes.
-* APPSTATE_SESSION_LOAD_FAIL: Called after APPSTATE_SESSION_LOAD_BEGIN, when session loading fails for some reason.
-* APPSTATE_PROJECT: Called after Project Manager has changed the current project.
-* APPSTATE_API_SUBCOMMANDS: Called after some plugin called app_proc(PROC_SET_SUBCOMMANDS, ...).
-* APPSTATE_API_MENU_ADD: Called after adding menu items to the top menu.
-* APPSTATE_API_MENU_REMOVE: Called after removing menu items from the top menu.
-* APPSTATE_API_MENU_CHANGE: Called after changing menu items in the top menu.
-* APPSTATE_CODETREE_CLEAR: Called when Code-Tree content is clearead for some reason.
-* APPSTATE_CODETREE_BEFORE_FILL: Called before filling the Code-Tree content.
-* APPSTATE_CODETREE_AFTER_FILL: Called after filling the Code-Tree content.
-* APPSTATE_CODETREE_SET_SELECTION: Called when Code-Tree selection (active node) is changed.
+* APPSTATE_LANG: Changed UI translation.
+* APPSTATE_THEME_UI: Changed UI-theme.
+* APPSTATE_THEME_SYNTAX: Changed syntax-theme.
+* APPSTATE_GROUPS: Changed tab-grouping mode (see top menu item "=").
+* APPSTATE_CONFIG_REREAD: App config file is re-read and applied.
+* APPSTATE_SESSION_LOAD_BEGIN: Session loading begins.
+* APPSTATE_SESSION_LOAD: Session loading completes (after APPSTATE_SESSION_LOAD_BEGIN).
+* APPSTATE_SESSION_LOAD_FAIL: Session loading fails (after APPSTATE_SESSION_LOAD_BEGIN).
+* APPSTATE_PROJECT: Current project in the Project Manager is changed.
+* APPSTATE_API_SUBCOMMANDS: API call app_proc(PROC_SET_SUBCOMMANDS, ...).
+* APPSTATE_API_MENU_ADD: API menu_proc() added some menu item.
+* APPSTATE_API_MENU_REMOVE: API menu_proc() removed some menu item.
+* APPSTATE_API_MENU_CHANGE: API menu_proc() changed some menu item.
+* APPSTATE_CODETREE_CLEAR: Code-Tree: content is cleared.
+* APPSTATE_CODETREE_BEFORE_FILL: Code-Tree: before filling the content.
+* APPSTATE_CODETREE_AFTER_FILL: Code-Tree: after filling the content.
+* APPSTATE_CODETREE_SET_SELECTION: Code-Tree double-click changed scroll pos, or app sync'ed Code-Tree with caret pos.
 
 Constants in on_state_ed:
 
