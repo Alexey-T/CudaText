@@ -402,6 +402,7 @@ Most of them are located in the Addons Manager "Install" list.
 * Dart
 * Delphi resources
 * Dhall
+* Dictu
 * Diff
 * Dockerfile
 * DOORS DXL
@@ -442,7 +443,7 @@ Most of them are located in the Addons Manager "Install" list.
 * Hare
 * Haskell
 * Haxe
-* HCL
+* HCL (HashiCorp configuration language)
 * HJSON
 * HLSL
 * HTML
