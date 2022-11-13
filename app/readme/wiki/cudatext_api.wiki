@@ -63,6 +63,36 @@ Event handlers (Command.on_nnnnn methods) return-value is ignored is many cases,
 * on_state_ed(self, ed_self, state): Called after some editor state is changed. Param "state" is one of EDSTATE_nnnn constants.
 * on_snippet(self, ed_self, snippet_id, snippet_text): Called when user chooses snippet to insert, in ed.complete_alt() call.
 
+Constants in on_state:
+
+* APPSTATE_LANG: Called on changing UI translation in the program.
+* APPSTATE_THEME_UI: Called on changing UI-theme in the program.
+* APPSTATE_THEME_SYNTAX: Called on changing syntax-theme in the program.
+* APPSTATE_GROUPS: Calling on changing tab-grouping mode (see program's top menu item "=").
+* APPSTATE_CONFIG_REREAD: Called after config file user.json has been re-read and applied.
+* APPSTATE_SESSION_LOAD_BEGIN: Called on beginning of loading session.
+* APPSTATE_SESSION_LOAD: Called after APPSTATE_SESSION_LOAD_BEGIN, when session loading completes.
+* APPSTATE_SESSION_LOAD_FAIL: Called after APPSTATE_SESSION_LOAD_BEGIN, when session loading fails for some reason.
+* APPSTATE_PROJECT: Called after Project Manager has changed the current project.
+* APPSTATE_API_SUBCOMMANDS: Called after some plugin called app_proc(PROC_SET_SUBCOMMANDS, ...).
+* APPSTATE_API_MENU_ADD: Called after adding menu items to the top menu.
+* APPSTATE_API_MENU_REMOVE: Called after removing menu items from the top menu.
+* APPSTATE_API_MENU_CHANGE: Called after changing menu items in the top menu.
+* APPSTATE_CODETREE_CLEAR: Called when Code-Tree content is clearead for some reason.
+* APPSTATE_CODETREE_BEFORE_FILL: Called before filling the Code-Tree content.
+* APPSTATE_CODETREE_AFTER_FILL: Called after filling the Code-Tree content.
+* APPSTATE_CODETREE_SET_SELECTION: Called when Code-Tree selection (active node) is changed.
+
+Constants in on_state_ed:
+
+* EDSTATE_WRAP: Word-wrap state is changed.
+* EDSTATE_TAB_TITLE: UI-tab title is changed.
+* EDSTATE_MODIFIED: Document modified state is changed.
+* EDSTATE_PINNED: UI-tab 'pinned' state is changed.
+* EDSTATE_READONLY: Read-only state is changed.
+* EDSTATE_ZOOM: Scale of document is changed, using Ctrl+MouseWheel or by a command.
+* EDSTATE_BOOKMARK: Bookmark is added or removed.
+
 ==Events - Editor clicks==
 
 * on_click(self, ed_self, state): Called after mouse click on text area. Param "state": same meaning as in on_key.
