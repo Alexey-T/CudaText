@@ -156,6 +156,7 @@ TYPES = {
     "do": ['Stata'],
     "dot": ['Graphviz DOT'],
     "dpr": ['Pascal'],
+    "du": ['Dictu'],
     "dxl": ['DOORS DXL'],
     "dzn": ['MiniZinc'],
     "e": ['Eiffel', 'Specman'],
