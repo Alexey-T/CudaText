@@ -1351,6 +1351,7 @@ type
     class function GetPagesOfGroupIndex(AIndex: integer): TATPages;
     class function GetEditorActiveInGroup(AIndex: integer): TATSynEdit;
     class procedure ForceFrameVisible(Frame: TEditorFrame);
+    class function FindPagesUnderCursorPos(ACursorPos: TPoint; AGroups: TATGroups): TATPages;
   end;
 
 class function TGroupsHelper.GetEditorFrame(Ed: TATSynEdit): TEditorFrame;
@@ -1453,6 +1454,20 @@ begin
   GetFrameLocation(Frame, Grp, Pages, NLocalGrpIndex, NGlobalGrpIndex, NTabIndex);
   if Assigned(Pages) and (NTabIndex>=0) then
     Pages.Tabs.TabIndex:= NTabIndex;
+end;
+
+class function TGroupsHelper.FindPagesUnderCursorPos(ACursorPos: TPoint; AGroups: TATGroups): TATPages;
+var
+  i: integer;
+begin
+  Result:= nil;
+  for i in [Low(TATGroupsNums)..High(TATGroupsNums)] do
+    if AGroups.Pages[i].Visible then
+      if PtInControl(AGroups.Pages[i], ACursorPos) then
+      begin
+        Result:= AGroups.Pages[i];
+        exit;
+      end;
 end;
 
 
@@ -3098,14 +3113,7 @@ begin
   Application.BringToFront;
 
   //set group according to mouse cursor
-  Pages:= nil;
-  for i in [Low(TATGroupsNums)..High(TATGroupsNums)] do
-    if Groups.Pages[i].Visible then
-      if PtInControl(Groups.Pages[i], Mouse.CursorPos) then
-      begin
-        Pages:= Groups.Pages[i];
-        Break;
-      end;
+  Pages:= TGroupsHelper.FindPagesUnderCursorPos(Mouse.CursorPos, Groups);
 
   for i:= 0 to Length(Filenames)-1 do
   begin
