@@ -2055,7 +2055,7 @@ begin
     AltTooltipPaddingX:= 6;
     AltTooltipPaddingY:= 3;
 
-    ScrollbarWidth:= 14;
+    ScrollbarWidth:= ATScrollbarTheme.InitialSize; //don't change to avoid jumping of scrollbar width
     ScrollbarBorderSize:= 0;
     ScrollbarArrowSize:= 3;
 
