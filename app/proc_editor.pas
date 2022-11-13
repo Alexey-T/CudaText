@@ -172,7 +172,7 @@ procedure EditorClearHiAllMarkers(Ed: TATSynEdit);
 procedure EditorForceUpdateIfWrapped(Ed: TATSynEdit);
 
 function EditorRectMicromapMark(Ed: TATSynEdit; AColumn, ALineFrom, ALineTo: integer;
-  AMapHeight, AMinMarkHeight: integer): TRect;
+  AMapHeight, AMinMarkHeight, AScaleDiv: integer): TRect;
 
 implementation
 
@@ -2922,19 +2922,19 @@ begin
 end;
 
 function EditorRectMicromapMark(Ed: TATSynEdit; AColumn, ALineFrom, ALineTo: integer;
-  AMapHeight, AMinMarkHeight: integer): TRect;
+  AMapHeight, AMinMarkHeight, AScaleDiv: integer): TRect;
 //to make things safe, don't pass the ARect, but only its height
 begin
   if Ed.Micromap.IsIndexValid(AColumn) then
   begin
     if ALineFrom>=0 then
-      Result.Top:= Int64(ALineFrom) * AMapHeight div Ed.MicromapScaleDiv
+      Result.Top:= Int64(ALineFrom) * AMapHeight div AScaleDiv
     else
       Result.Top:= 0;
 
     if ALineTo>=0 then
       Result.Bottom:= Max(Result.Top + AMinMarkHeight,
-                          Int64(ALineTo+1) * AMapHeight div Ed.MicromapScaleDiv)
+                          Int64(ALineTo+1) * AMapHeight div AScaleDiv)
     else
       Result.Bottom:= AMapHeight;
 

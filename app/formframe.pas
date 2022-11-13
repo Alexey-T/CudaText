@@ -3261,10 +3261,11 @@ const
   cTagColumnFullsized = -2;
 var
   NWidthSmall: integer;
+  NScaleDiv: integer;
 //
   function GetItemRect(AColumn, NLine1, NLine2: integer; AMarkPos: TAppMicromapMarkPos): TRect;
   begin
-    Result:= EditorRectMicromapMark(Ed, AColumn, NLine1, NLine2, ARect.Height, EditorOps.OpMicromapMinMarkHeight);
+    Result:= EditorRectMicromapMark(Ed, AColumn, NLine1, NLine2, ARect.Height, EditorOps.OpMicromapMinMarkHeight, NScaleDiv);
     case AMarkPos of
       markRight:
         begin
@@ -3283,7 +3284,6 @@ var
   St: TATStrings;
   Caret: TATCaretItem;
   LineState: TATLineState;
-  LinePart: TATLinePart;
   Marker: TATMarkerItem;
   Bookmarks: TATBookmarks;
   BookmarkPtr: PATBookmarkItem;
@@ -3295,6 +3295,10 @@ begin
   St:= Ed.Strings;
   if St.Count=0 then exit;
   NWidthSmall:= Ed.TextCharSize.XScaled * EditorOps.OpMicromapSmallMarkSizePercents div 100 div ATEditorCharXScale;
+
+  NScaleDiv:= Max(1, St.Count);
+  if Ed.OptLastLineOnTop then
+    NScaleDiv:= Max(1, NScaleDiv+Ed.GetVisibleLines-1);
 
   if FMicromapBmp=nil then
     FMicromapBmp:= TBGRABitmap.Create;
@@ -3348,7 +3352,7 @@ begin
     if NColor<>clNone then
     begin
       XColor.FromColor(NColor);
-      RectMark:= EditorRectMicromapMark(Ed, i, -1, -1, ARect.Height, EditorOps.OpMicromapMinMarkHeight);
+      RectMark:= EditorRectMicromapMark(Ed, i, -1, -1, ARect.Height, EditorOps.OpMicromapMinMarkHeight, NScaleDiv);
       FMicromapBmp.FillRect(RectMark, XColor);
     end;
   end;
@@ -3364,7 +3368,7 @@ begin
       NIndex:= BookmarkPtr^.Data.LineNum;
       //if Ed.IsLineFolded(NIndex) then
       //  Continue;
-      RectMark:= EditorRectMicromapMark(Ed, 1{column}, NIndex, NIndex, ARect.Height, EditorOps.OpMicromapMinMarkHeight);
+      RectMark:= EditorRectMicromapMark(Ed, 1{column}, NIndex, NIndex, ARect.Height, EditorOps.OpMicromapMinMarkHeight, NScaleDiv);
       FMicromapBmp.FillRect(RectMark, XColor);
     end;
   end;
