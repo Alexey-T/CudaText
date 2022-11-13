@@ -410,7 +410,6 @@ type
 
     ScrollbarWidth: integer;
     ScrollbarBorderSize: integer;
-    ScrollbarArrowSize: integer;
 
     ProgressbarWidth: integer;
     ProgressbarHeightSmall: integer;
@@ -2057,7 +2056,6 @@ begin
 
     ScrollbarWidth:= ATScrollbarTheme.InitialSize; //don't change to avoid jumping of scrollbar width
     ScrollbarBorderSize:= 0;
-    ScrollbarArrowSize:= 3;
 
     ProgressbarWidth:= 50;
     ProgressbarHeightSmall:= 6;
