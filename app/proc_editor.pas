@@ -171,6 +171,9 @@ procedure EditorChangeLineEndsForSelection(Ed: TATSynEdit; AValue: TATLineEnds);
 procedure EditorClearHiAllMarkers(Ed: TATSynEdit);
 procedure EditorForceUpdateIfWrapped(Ed: TATSynEdit);
 
+function EditorRectMicromapMark(Ed: TATSynEdit; AColumn, ALineFrom, ALineTo: integer;
+  AMapHeight, AMinMarkHeight: integer): TRect;
+
 implementation
 
 procedure EditorApplyOps(Ed: TATSynEdit; const Op: TEditorOps;
@@ -2918,6 +2921,32 @@ begin
   end;
 end;
 
+function EditorRectMicromapMark(Ed: TATSynEdit; AColumn, ALineFrom, ALineTo: integer;
+  AMapHeight, AMinMarkHeight: integer): TRect;
+//to make things safe, don't pass the ARect, but only its height
+begin
+  if Ed.Micromap.IsIndexValid(AColumn) then
+  begin
+    if ALineFrom>=0 then
+      Result.Top:= Int64(ALineFrom) * AMapHeight div Ed.MicromapScaleDiv
+    else
+      Result.Top:= 0;
+
+    if ALineTo>=0 then
+      Result.Bottom:= Max(Result.Top + AMinMarkHeight,
+                          Int64(ALineTo+1) * AMapHeight div Ed.MicromapScaleDiv)
+    else
+      Result.Bottom:= AMapHeight;
+
+    with Ed.Micromap.Columns[AColumn] do
+    begin
+      Result.Left:= NLeft;
+      Result.Right:= NRight;
+    end;
+  end
+  else
+    Result:= cRectEmpty;
+end;
 { TEditorHtmlTagList }
 
 function TEditorHtmlTagList.ItemPtr(AIndex: integer): PEditorHtmlTagRecord;
