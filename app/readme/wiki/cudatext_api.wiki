@@ -59,9 +59,20 @@ Event handlers (Command.on_nnnnn methods) return-value is ignored is many cases,
 * on_scroll(self, ed_self): Called on scrolling in editor.
 * on_mouse_stop(self, ed_self, x, y): Called when mouse cursor stops (for a short delay) over editor. Params "x", "y" are mouse editor-related coords.
 * on_hotspot(self, ed_self, entered, hotspot_index): Called when mouse cursor moves in/out of hotspot. See ed.hotspots() API.
+* on_snippet(self, ed_self, snippet_id, snippet_text): Called when user chooses snippet to insert, in ed.complete_alt() call.
+
+==Events - Editor clicks==
+
+* on_click(self, ed_self, state): Called after mouse click on text area. Param "state": same meaning as in on_key.
+* on_click_dbl(self, ed_self, state): Called after mouse double-click on text area. Param "state": same meaning as in on_key. Method can return False to disable default processing.
+* on_click_gutter(self, ed_self, state, nline, nband): Called on mouse click on gutter area. Param "state": same as in on_key. Param "nline": index of editor line. Param "nband": index of gutter band. Method can return False to disable default processing.
+* on_click_gap(self, ed_self, state, nline, ntag, size_x, size_y, pos_x, pos_y): Called after mouse click on inter-line gap: see Editor.gap(). Param "state": same meaning as in on_key. Other params: properties of clicked gap.
+* on_click_link(self, ed_self, state, link): Called after link/URL in the editor is activated by click or double-click (event is not called on URL opening from Command Palette or from editor context menu). Param "state": same meaning as in on_key. Param "link": link string. Method can return False to disable default program action.
+
+==Events - State changes==
+
 * on_state(self, ed_self, state): Called after some app state is changed. Param "state" is one of APPSTATE_nnnn constants. ed_self is None.
 * on_state_ed(self, ed_self, state): Called after some editor state is changed. Param "state" is one of EDSTATE_nnnn constants.
-* on_snippet(self, ed_self, snippet_id, snippet_text): Called when user chooses snippet to insert, in ed.complete_alt() call.
 
 Constants in on_state:
 
@@ -92,14 +103,6 @@ Constants in on_state_ed:
 * EDSTATE_READONLY: Read-only state is changed.
 * EDSTATE_ZOOM: Scale of document is changed, using Ctrl+MouseWheel or by a command.
 * EDSTATE_BOOKMARK: Bookmark is added or removed.
-
-==Events - Editor clicks==
-
-* on_click(self, ed_self, state): Called after mouse click on text area. Param "state": same meaning as in on_key.
-* on_click_dbl(self, ed_self, state): Called after mouse double-click on text area. Param "state": same meaning as in on_key. Method can return False to disable default processing.
-* on_click_gutter(self, ed_self, state, nline, nband): Called on mouse click on gutter area. Param "state": same as in on_key. Param "nline": index of editor line. Param "nband": index of gutter band. Method can return False to disable default processing.
-* on_click_gap(self, ed_self, state, nline, ntag, size_x, size_y, pos_x, pos_y): Called after mouse click on inter-line gap: see Editor.gap(). Param "state": same meaning as in on_key. Other params: properties of clicked gap.
-* on_click_link(self, ed_self, state, link): Called after link/URL in the editor is activated by click or double-click (event is not called on URL opening from Command Palette or from editor context menu). Param "state": same meaning as in on_key. Param "link": link string. Method can return False to disable default program action.
 
 ==Events - Smart commands==
 
