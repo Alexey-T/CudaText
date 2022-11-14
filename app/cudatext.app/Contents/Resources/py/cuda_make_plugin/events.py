@@ -42,6 +42,7 @@ EVENTS = [
     'on_sidebar_popup',
     'on_snippet',
     'on_start',
+    'on_start2',
     'on_state',
     'on_state_ed',
     'on_tab_change',
