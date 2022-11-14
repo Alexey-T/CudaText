@@ -677,6 +677,7 @@ type
     FHandledUntilFirstFocus: boolean;
     FHandledOnShowPartly: boolean;
     FHandledOnShowFully: boolean;
+    FHandledOnStart2: boolean;
     FFileNamesDroppedInitially: array of string;
     FCodetreeBuffer: TTreeView;
     FCfmPanel: TPanel;
@@ -2270,6 +2271,12 @@ begin
     exit;
   end;
 
+  if not FHandledOnStart2 then
+  begin
+    FHandledOnStart2:= true;
+    DoPyEvent(nil, cEventOnStart2, []);
+  end;
+
   if FOption_StartupCommand<>'' then
   begin
     STemp:= FOption_StartupCommand;
@@ -3518,8 +3525,6 @@ begin
 
   //fix wrong caret/staples pos, #4559
   _Init_ForceRepaintEditor;
-
-  DoPyEvent(nil, cEventOnStart2, []);
 end;
 
 procedure TfmMain.ShowWelcomeInfo;
