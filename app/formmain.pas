@@ -3199,7 +3199,8 @@ begin
        fmConsole.EdMemo.Focused);
     bFindVisible:=
       Assigned(fmFind) and
-      fmFind.Visible;
+      fmFind.Visible and
+      (not UiOps.FindSeparateForm);
 
     DoTooltipHide;
 
