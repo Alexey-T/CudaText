@@ -2271,12 +2271,6 @@ begin
     exit;
   end;
 
-  if not FHandledOnStart2 then
-  begin
-    FHandledOnStart2:= true;
-    DoPyEvent(nil, cEventOnStart2, []);
-  end;
-
   if FOption_StartupCommand<>'' then
   begin
     STemp:= FOption_StartupCommand;
@@ -3525,6 +3519,12 @@ begin
 
   //fix wrong caret/staples pos, #4559
   _Init_ForceRepaintEditor;
+
+  if not FHandledOnStart2 then
+  begin
+    FHandledOnStart2:= true;
+    DoPyEvent(nil, cEventOnStart2, []);
+  end;
 end;
 
 procedure TfmMain.ShowWelcomeInfo;
