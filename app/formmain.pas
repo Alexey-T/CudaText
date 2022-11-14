@@ -3173,7 +3173,7 @@ procedure TfmMain.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState
 var
   bEditorActive,
   bConsoleActive,
-  bFindVisible: boolean;
+  bFindDockedAndVisible: boolean;
   Ed: TATSynEdit;
   Ctl: TWinControl;
   KeyArray: TATKeyArray;
@@ -3197,17 +3197,17 @@ begin
       fmConsole.Visible and
       (fmConsole.EdInput.Focused or
        fmConsole.EdMemo.Focused);
-    bFindVisible:=
+    bFindDockedAndVisible:=
       Assigned(fmFind) and
       fmFind.Visible and
-      (not UiOps.FindSeparateForm);
+      Assigned(fmFind.Parent);
 
     DoTooltipHide;
 
-    if not bEditorActive or bConsoleActive or bFindVisible then
+    if not bEditorActive or bConsoleActive or bFindDockedAndVisible then
     begin
       DoFocusEditor(CurrentEditor);
-      if bFindVisible then
+      if bFindDockedAndVisible then
       begin
         fmFind.Hide;
       end
