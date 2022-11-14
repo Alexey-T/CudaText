@@ -3518,6 +3518,8 @@ begin
 
   //fix wrong caret/staples pos, #4559
   _Init_ForceRepaintEditor;
+
+  DoPyEvent(nil, cEventOnStart2, []);
 end;
 
 procedure TfmMain.ShowWelcomeInfo;
