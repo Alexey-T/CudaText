@@ -3207,17 +3207,19 @@ begin
     if not bEditorActive or bConsoleActive or bFindDockedAndVisible then
     begin
       DoFocusEditor(CurrentEditor);
-      if bFindDockedAndVisible then
-      begin
-        fmFind.Hide;
-      end
-      else
       if bConsoleActive then
+      begin
         if UiOps.EscapeCloseConsole then
         begin
           AppPanels[cPaneOut].Visible:= false;
           UpdateMenuChecks_Global;
         end;
+      end
+      else
+      if bFindDockedAndVisible then
+      begin
+        fmFind.Hide;
+      end;
       Key:= 0;
     end
     else
