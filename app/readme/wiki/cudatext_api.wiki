@@ -32,7 +32,8 @@ Event handlers (Command.on_nnnnn methods) return-value is ignored is many cases,
 * on_save_pre(self, ed_self): Called before saving file. Method can return False to disable saving, other value is ignored.
 * on_save_naming(self, ed_self): Called before saving untitled tab, to get suggested filename without path and extension. Method must return valid filename string or None.
 * on_delete_file(self, ed_self, filename): Called on running command "File / Close and delete file". ed_self is None.
-* on_start(self, ed_self): Called once on program start. ed_self is None.
+* on_start(self, ed_self): Called once on program start. Called early, before applying config files. ed_self is None.
+* on_start2(self, ed_self): Called once on program start. Called later than on_start, after configs are applied, just before the main form shows. ed_self is None.
 * on_exit(self, ed_self): Called on exiting application. This event is lazy, ie it's called only for already loaded plugins. ed_self is None.
 * on_app_activate(self, ed_self): Called when application window gets focus. ed_self is None.
 * on_app_deactivate(self, ed_self): Called when application window looses focus. ed_self is None.
@@ -4769,5 +4770,8 @@ It provides:
 
 1.0.433 (app 1.173.0)
 * add: Editor.complete, Editor.complete_alt: support HTML tag "font color=..."
+
+1.0.434 (app 1.176.5)
+* add: event on_start2
 
 [[Category:CudaText]]
