@@ -11,6 +11,7 @@
 + add: set scale for 'pilcrow marks' from "unprinted_symbols_scale" (thanks @Vivalzar)
 + add: dialog "Go to" must have X icon even on Windows (thanks @Vivalzar)
 + add: increase limit of highlighted URL length to 1200
+* change: Esc-key should first close the visible Find dialog, like Sublime/VSCode (thanks @Vivalzar)
 * change: dialog "Char Map" should have icon in taskbar (thanks @Vivalzar)
 - fix: some visual glitches on initial painting on Windows (thanks @veksha)
 - fix: "fold_style":4 gave problem with restoring folding after file closing/reopening (thanks @veksha)
