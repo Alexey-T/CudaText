@@ -8,6 +8,7 @@
 + add: properly zoom gutter's: a) folding column width, b) folding plus/minus icons, c) width of folding lines
 + add: auto-deletion of pair brackets: https://wiki.freepascal.org/CudaText#Auto-deletion_of_pair_brackets (thanks @lwo)
 + add: support hotkeys for "find current word next/previous" even in Find dialog (thanks @veksha)
++ add: set scale for 'pilcrow marks' from "unprinted_symbols_scale" (thanks @Vivalzar)
 + add: dialog "Go to" must have X icon even on Windows (thanks @Vivalzar)
 + add: increase limit of highlighted URL length to 1200
 * change: dialog "Char Map" should have icon in taskbar (thanks @Vivalzar)
