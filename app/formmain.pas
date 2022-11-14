@@ -3204,7 +3204,7 @@ begin
 
     DoTooltipHide;
 
-    if not bEditorActive or bConsoleActive or bFindDockedAndVisible then
+    if not bEditorActive or bConsoleActive then
     begin
       DoFocusEditor(CurrentEditor);
       if bConsoleActive then
@@ -3216,10 +3216,12 @@ begin
         end;
       end
       else
-      if bFindDockedAndVisible then
-      begin
-        fmFind.Hide;
-      end;
+      Key:= 0;
+    end
+    else
+    if bFindDockedAndVisible then
+    begin
+      fmFind.Hide;
       Key:= 0;
     end
     else
