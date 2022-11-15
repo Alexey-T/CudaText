@@ -2101,7 +2101,10 @@ Note: Toolbars contain several "button_ex" objects, which are anchored one to an
 =Editor class=
 
 Editor class has methods to work with editor-controls.
+
 Global object of Editor exist: "ed", it always refers to the currently focused editor in UI-tabs.
+
+Editor(1) gives the right-clicked editor, even in passive tab.
 
 Notes:
 
@@ -4773,5 +4776,6 @@ It provides:
 
 1.0.434 (app 1.176.5)
 * add: event on_start2
+* add: Editor() supports handle==1 to get right-clicked editor even in passive tab
 
 [[Category:CudaText]]
