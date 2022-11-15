@@ -2606,17 +2606,19 @@ begin
   end;
 
   try
-    if AKeepScroll then
-      Ed.Strings.EncodingDetect:= false;
-    Ed.LoadFromFile(AFileName, AKeepScroll);
-    Ed.Strings.EncodingDetect:= true;
-    SetFileName(Ed, AFileName);
-    UpdateCaptionFromFilename;
-
-    if Assigned(FormProgress) then
-    begin
-      FormProgress.Hide;
-      FreeAndNil(FormProgress);
+    try
+      if AKeepScroll then
+        Ed.Strings.EncodingDetect:= false;
+      Ed.LoadFromFile(AFileName, AKeepScroll);
+      Ed.Strings.EncodingDetect:= true;
+      SetFileName(Ed, AFileName);
+      UpdateCaptionFromFilename;
+    finally
+      if Assigned(FormProgress) then
+      begin
+        FormProgress.Hide;
+        FreeAndNil(FormProgress);
+      end;
     end;
   except
     if AAllowErrorMsgBox then
