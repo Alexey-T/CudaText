@@ -8530,26 +8530,38 @@ function TfmMain.GetUntitledNumberedCaption: string;
 const
   AppUntitledCount: integer = 0;
 var
+  Frame: TEditorFrame;
+  NCount, NTabIndex: integer;
   S: string;
-  N: integer;
 begin
   //reset the counter, when many tabs were opened, but were closed later
   if UiOps.TabsResetUntitledCounter then
   begin
-    N:= FrameCount;
-    if N=0 then
+    NCount:= FrameCount;
+    if NCount=0 then
       AppUntitledCount:= 0
     else
-    if N=1 then
+    if NCount=1 then
     begin
-      S:= Frames[0].TabCaption;
-      if SBeginsWith(S, msgUntitledTab) then
+      NTabIndex:= -1;
+      Frame:= Frames[0];
+      if Frame.FileName='' then
       begin
-        Delete(S, 1, Length(msgUntitledTab));
-        N:= StrToIntDef(S, 0);
-        if N>0 then
-          AppUntitledCount:= N;
-      end
+        S:= Frame.TabCaption;
+        if SBeginsWith(S, msgUntitledEnglish) then
+        begin
+          Delete(S, 1, Length(msgUntitledEnglish));
+          NTabIndex:= StrToIntDef(S, 0);
+        end
+        else
+        if (UiOps.LangName<>'') and SBeginsWith(S, msgUntitledTab) then
+        begin
+          Delete(S, 1, Length(msgUntitledTab));
+          NTabIndex:= StrToIntDef(S, 0);
+        end;
+      end;
+      if NTabIndex>0 then
+        AppUntitledCount:= NTabIndex
       else
         AppUntitledCount:= 0;
     end;
