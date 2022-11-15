@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.176.5 (2022/11)
+1.177.0 (2022/11)
 
 + add: properly zoom gutter's: a) folding column width, b) folding plus/minus icons, c) width of folding lines
 + add: auto-deletion of pair brackets: https://wiki.freepascal.org/CudaText#Auto-deletion_of_pair_brackets (thanks @lwo)
@@ -13,6 +13,7 @@
 + add: increase limit of highlighted URL length to 1200
 * change: Esc-key should first close the (docked) Find dialog, like Sublime/VSCode (thanks @Vivalzar)
 * change: dialog "Char Map" should have icon in taskbar (thanks @Vivalzar)
+- fix: "File / Close all" shown confirmation with OK/Cancel, must be Yes/No
 - fix: some visual glitches on initial painting on Windows (thanks @veksha)
 - fix: "fold_style":4 gave problem with restoring folding after file closing/reopening (thanks @veksha)
 - fix: regression: "ui_esc_close_console":true did not work (thanks @Vivalzar)
