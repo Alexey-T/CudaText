@@ -5080,15 +5080,14 @@ begin
     end;
   end;
 
+  Frame:= CurrentFrame;
   if Assigned(GroupsCtx) then
   begin
     Pages:= GroupsCtx.PopupPages;
     Data:= Pages.Tabs.GetTabData(GroupsCtx.PopupTabIndex);
     if Assigned(Data) then
       Frame:= Data.TabObject as TEditorFrame;
-  end
-  else
-    Frame:= CurrentFrame;
+  end;
 
   NVis:= Groups.PagesVisibleCount; //visible groups
 
