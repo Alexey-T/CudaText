@@ -1305,7 +1305,7 @@ var
   P: TPanel;
 begin
   F:= TForm.CreateNew(nil, 0);
-  F.Width:= 800;
+  F.Width:= 600;
   F.Height:= 70;
   F.Caption:= 'CudaText';
   F.FormStyle:= fsStayOnTop;

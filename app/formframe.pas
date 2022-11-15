@@ -2595,9 +2595,9 @@ begin
     NFileSize:= FileSize(AFileName);
     if NFileSize>UiOps.MaxFileSizeWithoutProgressForm then
     begin
-      AppInitProgressForm(FormProgress, Format('%s (%s), %d Mb', [
+      AppInitProgressForm(FormProgress, Format('%s (%d Mb)...', [
           ExtractFileName(AFileName),
-          AppCollapseHomeDirInFilename(ExtractFileDir(AFileName)),
+          //AppCollapseHomeDirInFilename(ExtractFileDir(AFileName)),
           NFileSize div (1024*1024)
           ]));
       FormProgress.Show;
