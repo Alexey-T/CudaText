@@ -66,7 +66,7 @@ end;
 function PyHelper_EditorFromHandle(Handle: Int64): TATSynEdit;
 var
   Obj: TObject;
-  nTab: Integer;
+  nTab, nGroup: Integer;
   Frame: TEditorFrame;
 begin
   Result:= nil;
@@ -99,6 +99,12 @@ begin
           else
             MsgLogConsole('ERROR: API "ed" is Nil, and no frames; report to author what you are doing');
         end;
+      end;
+
+    1:
+      begin
+        fmMain.GetRightClickedFrame(Frame, nGroup);
+        Result:= Frame.Ed1;
       end;
 
     cPyEditorHandleMin..cPyEditorHandleMax:

@@ -1165,6 +1165,7 @@ type
     function CurrentGroups: TATGroups;
     function CurrentFrame: TEditorFrame;
     function CurrentEditor: TATSynEdit;
+    procedure GetRightClickedFrame(out AFrame: TEditorFrame; out AGroupIndex: integer);
     property FloatGroups: boolean read GetFloatGroups;
     property ShowFloatGroup1: boolean read GetShowFloatGroup1 write SetShowFloatGroup1;
     property ShowFloatGroup2: boolean read GetShowFloatGroup2 write SetShowFloatGroup2;
@@ -5040,23 +5041,20 @@ begin
     AItem.Checked:= AValue;
 end;
 
-
-procedure TfmMain.PopupTabPopup(Sender: TObject);
+procedure TfmMain.GetRightClickedFrame(out AFrame: TEditorFrame; out AGroupIndex: integer);
 var
   CurForm: TForm;
-  Frame: TEditorFrame;
   Pages: TATPages;
   Data: TATTabData;
-  NVis, NCur: Integer;
 begin
   CurForm:= Screen.ActiveForm;
   GroupsCtx:= nil;
-  NCur:= -1;
+  AGroupIndex:= -1;
 
   if CurForm=Self then
   begin
     GroupsCtx:= Groups;
-    NCur:= GroupsCtx.FindPages(GroupsCtx.PopupPages);
+    AGroupIndex:= GroupsCtx.FindPages(GroupsCtx.PopupPages);
   end
   else
   if FloatGroups then
@@ -5064,31 +5062,38 @@ begin
     if CurForm=FFormFloatGroups1 then
     begin
       GroupsCtx:= GroupsF1;
-      NCur:= 6;
+      AGroupIndex:= 6;
     end
     else
     if CurForm=FFormFloatGroups2 then
     begin
       GroupsCtx:= GroupsF2;
-      NCur:= 7;
+      AGroupIndex:= 7;
     end
     else
     if CurForm=FFormFloatGroups3 then
     begin
       GroupsCtx:= GroupsF3;
-      NCur:= 8;
+      AGroupIndex:= 8;
     end;
   end;
 
-  Frame:= CurrentFrame;
+  AFrame:= CurrentFrame;
   if Assigned(GroupsCtx) then
   begin
     Pages:= GroupsCtx.PopupPages;
     Data:= Pages.Tabs.GetTabData(GroupsCtx.PopupTabIndex);
     if Assigned(Data) then
-      Frame:= Data.TabObject as TEditorFrame;
+      AFrame:= Data.TabObject as TEditorFrame;
   end;
+end;
 
+procedure TfmMain.PopupTabPopup(Sender: TObject);
+var
+  Frame: TEditorFrame;
+  NVis, NCur: Integer;
+begin
+  GetRightClickedFrame(Frame, NCur);
   NVis:= Groups.PagesVisibleCount; //visible groups
 
   UpdateMenuEnabled(mnuTabMove1, ((NVis>=2) and (NCur<>0)) or (NCur>5));
