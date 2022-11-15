@@ -624,21 +624,16 @@ begin
 end;
 
 procedure TfmMain.DoLocalizeTabTitles;
-const
-  msgUntitledEnglish = 'Untitled';
 var
   Frame: TEditorFrame;
-  StrIndex: string;
   i: integer;
 begin
   for i:= 0 to FrameCount-1 do
   begin
     Frame:= Frames[i];
-    if (Frame.FileName='') and SBeginsWith(Frame.TabCaption, msgUntitledEnglish) then
-    begin
-      StrIndex:= Copy(Frame.TabCaption, Length(msgUntitledEnglish)+1, MaxInt);
-      Frame.TabCaption:= msgUntitledTab+StrIndex;
-    end;
+    if Frame.FileName='' then
+      if SBeginsWith(Frame.TabCaption, msgUntitledEnglish) then
+        Frame.TabCaption:= msgTranslatedUntitledTab(Frame.TabCaption);
   end;
 end;
 

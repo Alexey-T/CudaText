@@ -99,6 +99,7 @@ const
   msgTooltipArrowRight: string = 'Scroll tabs right';
   msgTooltipArrowMenu: string = 'Show tabs menu';
 
+  msgUntitledEnglish = 'Untitled';
   msgUntitledTab: string = 'Untitled';
   msgAllFiles: string = 'All files';
   msgNoLexer: string = '(none)';
@@ -430,9 +431,12 @@ const
 
 function msgTranslatedPanelCaption(const ACaption: string): string;
 function msgFinderRegexMatchesNumbered: string;
-
+function msgTranslatedUntitledTab(const ACaption: string): string;
 
 implementation
+
+uses
+  ATStringProc;
 
 function msgTranslatedPanelCaption(const ACaption: string): string;
 begin
@@ -462,6 +466,19 @@ const
 begin
   Inc(NCounter);
   Result:= msgFinderRegexMathes+' '+IntToStr(NCounter);
+end;
+
+function msgTranslatedUntitledTab(const ACaption: string): string;
+var
+  StrIndex: string;
+begin
+  if SBeginsWith(ACaption, msgUntitledEnglish) then
+  begin
+    StrIndex:= Copy(ACaption, Length(msgUntitledEnglish)+1, MaxInt);
+    Result:= msgUntitledTab+StrIndex;
+  end
+  else
+    Result:= ACaption;
 end;
 
 
