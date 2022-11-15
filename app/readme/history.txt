@@ -14,10 +14,10 @@
 * change: Esc-key should first close the (docked) Find dialog, like Sublime/VSCode (thanks @Vivalzar)
 * change: dialog "Char Map" should have icon in taskbar (thanks @Vivalzar)
 - fix: "File / Close all" shown confirmation with OK/Cancel, must be Yes/No
-- fix: some visual glitches on initial painting on Windows (thanks @veksha)
 - fix: "fold_style":4 gave problem with restoring folding after file closing/reopening (thanks @veksha)
 - fix: regression: "ui_esc_close_console":true did not work (thanks @Vivalzar)
-- fix: sometimes, changing grouping mode crashes
+- fix: some minor visual glitches on painting (thanks @veksha)
+- fix: sometimes, change of grouping mode crashed
 
 1.176.0 (2022/11)
 
