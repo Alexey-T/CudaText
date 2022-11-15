@@ -8535,11 +8535,14 @@ var
 begin
   //reset the counter, when many tabs were opened, but were closed later
   if UiOps.TabsResetUntitledCounter then
-    if FrameCount=1 then
+  begin
+    N:= FrameCount;
+    if N=0 then
+      AppUntitledCount:= 0
+    else
+    if N=1 then
     begin
       S:= Frames[0].TabCaption;
-      if SBeginsWith(S, msgModified[true]) then
-        Delete(S, 1, 1);
       if SBeginsWith(S, msgUntitledTab) then
       begin
         Delete(S, 1, Length(msgUntitledTab));
@@ -8550,6 +8553,7 @@ begin
       else
         AppUntitledCount:= 0;
     end;
+  end;
 
   Inc(AppUntitledCount);
   Result:= msgUntitledTab+IntToStr(AppUntitledCount);
