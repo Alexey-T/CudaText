@@ -103,8 +103,11 @@ begin
 
     1:
       begin
-        fmMain.GetRightClickedFrame(Frame, nGroup);
-        Result:= Frame.Ed1;
+        Frame:= fmMain.FrameOfPopup;
+        if Assigned(Frame) then
+          Result:= Frame.Ed1
+        else
+          Result:= fmMain.CurrentEditor;
       end;
 
     cPyEditorHandleMin..cPyEditorHandleMax:

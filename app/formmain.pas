@@ -611,6 +611,7 @@ type
     Status: TATStatus;
     Groups: TATGroups;
     GroupsCtx: TATGroups;
+    GroupsCtxIndex: integer;
     GroupsF1: TATGroups;
     GroupsF2: TATGroups;
     GroupsF3: TATGroups;
@@ -1070,6 +1071,7 @@ type
     procedure SetShowTabsMain(AValue: boolean);
     procedure SplitterOnPaintDummy(Sender: TObject);
     procedure StopAllTimers;
+    procedure UpdateGroupsOfContextMenu;
     procedure UpdateEditorShowCaret;
     procedure UpdateFindDialogFromSuggestions;
     procedure UpdateFindDialogParent;
@@ -1165,7 +1167,6 @@ type
     function CurrentGroups: TATGroups;
     function CurrentFrame: TEditorFrame;
     function CurrentEditor: TATSynEdit;
-    procedure GetRightClickedFrame(out AFrame: TEditorFrame; out AGroupIndex: integer);
     property FloatGroups: boolean read GetFloatGroups;
     property ShowFloatGroup1: boolean read GetShowFloatGroup1 write SetShowFloatGroup1;
     property ShowFloatGroup2: boolean read GetShowFloatGroup2 write SetShowFloatGroup2;
@@ -5041,20 +5042,18 @@ begin
     AItem.Checked:= AValue;
 end;
 
-procedure TfmMain.GetRightClickedFrame(out AFrame: TEditorFrame; out AGroupIndex: integer);
+procedure TfmMain.UpdateGroupsOfContextMenu;
 var
   CurForm: TForm;
-  Pages: TATPages;
-  Data: TATTabData;
 begin
   CurForm:= Screen.ActiveForm;
   GroupsCtx:= nil;
-  AGroupIndex:= -1;
+  GroupsCtxIndex:= -1;
 
   if CurForm=Self then
   begin
     GroupsCtx:= Groups;
-    AGroupIndex:= GroupsCtx.FindPages(GroupsCtx.PopupPages);
+    GroupsCtxIndex:= GroupsCtx.FindPages(GroupsCtx.PopupPages);
   end
   else
   if FloatGroups then
@@ -5062,29 +5061,20 @@ begin
     if CurForm=FFormFloatGroups1 then
     begin
       GroupsCtx:= GroupsF1;
-      AGroupIndex:= 6;
+      GroupsCtxIndex:= 6;
     end
     else
     if CurForm=FFormFloatGroups2 then
     begin
       GroupsCtx:= GroupsF2;
-      AGroupIndex:= 7;
+      GroupsCtxIndex:= 7;
     end
     else
     if CurForm=FFormFloatGroups3 then
     begin
       GroupsCtx:= GroupsF3;
-      AGroupIndex:= 8;
+      GroupsCtxIndex:= 8;
     end;
-  end;
-
-  AFrame:= CurrentFrame;
-  if Assigned(GroupsCtx) then
-  begin
-    Pages:= GroupsCtx.PopupPages;
-    Data:= Pages.Tabs.GetTabData(GroupsCtx.PopupTabIndex);
-    if Assigned(Data) then
-      AFrame:= Data.TabObject as TEditorFrame;
   end;
 end;
 
@@ -5093,7 +5083,10 @@ var
   Frame: TEditorFrame;
   NVis, NCur: Integer;
 begin
-  GetRightClickedFrame(Frame, NCur);
+  UpdateGroupsOfContextMenu;
+
+  Frame:= FrameOfPopup;
+  NCur:= GroupsCtxIndex;
   NVis:= Groups.PagesVisibleCount; //visible groups
 
   UpdateMenuEnabled(mnuTabMove1, ((NVis>=2) and (NCur<>0)) or (NCur>5));
