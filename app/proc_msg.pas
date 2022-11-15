@@ -17,8 +17,8 @@ uses
   ATSynEdit;
 
 const
-  cAppExeVersion = '1.176.5.1';
-  cAppApiVersion = 434;
+  cAppExeVersion = '1.176.5.2';
+  cAppApiVersion = 435;
 
 const
   cOptionSystemSuffix =
