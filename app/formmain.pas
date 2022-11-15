@@ -5100,7 +5100,7 @@ begin
   UpdateMenuEnabled(mnuTabMoveF3, (NCur<>8));
   UpdateMenuEnabled(mnuTabMoveNext, (NVis>=2) and (NCur<6));
   UpdateMenuEnabled(mnuTabMovePrev, (NVis>=2) and (NCur<6));
-  UpdateMenuChecked(mnuTabPinned, Frame.TabPinned);
+  UpdateMenuChecked(mnuTabPinned, Assigned(Frame) and Frame.TabPinned);
 end;
 
 procedure TfmMain.PythonEngineAfterInit(Sender: TObject);
