@@ -267,7 +267,7 @@ end;
 function UpdateImagelistWithIconFromFile(AList: TCustomImagelist;
   const AFilename, ACallerAPI: string; AllowScaling: boolean=false): integer;
 var
-  bgra, bgra2: TBGRABitmap;
+  bgra: TBGRABitmap;
   bmp: TCustomBitmap;
   ext: string;
 begin
@@ -289,11 +289,7 @@ begin
         bgra.LoadFromFile(AFilename);
         if AllowScaling then
           if (bgra.Width<>AList.Width) then
-          begin
-            bgra2:= bgra.Resample(AList.Width, AList.Height);
-            FreeAndNil(bgra);
-            bgra:= bgra2;
-          end;
+            BGRAReplace(bgra, bgra.Resample(AList.Width, AList.Height));
         AList.Add(bgra.Bitmap, nil);
       finally
         FreeAndNil(bgra);
