@@ -1302,7 +1302,7 @@ end;
 
 procedure AppInitProgressForm(out F: TCustomForm; const AText: string);
 var
-  P: TPanel;
+  Pane: TPanel;
 begin
   F:= TForm.CreateNew(nil, 0);
   F.Width:= 600;
@@ -1311,12 +1311,15 @@ begin
   F.FormStyle:= fsStayOnTop;
   F.Position:= poScreenCenter;
   F.BorderStyle:= bsDialog;
-  P:= TPanel.Create(F);
-  P.Align:= alClient;
-  P.Parent:= F;
-  P.Font.Name:= UiOps.VarFontName;
-  P.Font.Size:= UiOps.VarFontSize;
-  P.Caption:= AText;
+
+  Pane:= TPanel.Create(F);
+  Pane.Align:= alClient;
+  Pane.Parent:= F;
+  Pane.BevelInner:= bvNone;
+  Pane.BevelOuter:= bvNone;
+  Pane.Font.Name:= UiOps.VarFontName;
+  Pane.Font.Size:= UiOps.VarFontSize;
+  Pane.Caption:= AText;
 end;
 
 finalization
