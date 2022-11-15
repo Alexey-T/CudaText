@@ -5045,13 +5045,13 @@ procedure TfmMain.PopupTabPopup(Sender: TObject);
 var
   CurForm: TForm;
   Frame: TEditorFrame;
+  Pages: TATPages;
+  Data: TATTabData;
   NVis, NCur: Integer;
 begin
   CurForm:= Screen.ActiveForm;
   GroupsCtx:= nil;
   NCur:= -1;
-
-  Frame:= CurrentFrame;
 
   if CurForm=Self then
   begin
@@ -5079,6 +5079,16 @@ begin
       NCur:= 8;
     end;
   end;
+
+  if Assigned(GroupsCtx) then
+  begin
+    Pages:= GroupsCtx.PopupPages;
+    Data:= Pages.Tabs.GetTabData(GroupsCtx.PopupTabIndex);
+    if Assigned(Data) then
+      Frame:= Data.TabObject as TEditorFrame;
+  end
+  else
+    Frame:= CurrentFrame;
 
   NVis:= Groups.PagesVisibleCount; //visible groups
 
