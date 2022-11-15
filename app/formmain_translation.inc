@@ -628,6 +628,7 @@ var
   Frame: TEditorFrame;
   i: integer;
 begin
+  if UiOps.LangName='' then exit;
   for i:= 0 to FrameCount-1 do
   begin
     Frame:= Frames[i];

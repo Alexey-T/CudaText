@@ -703,6 +703,8 @@ begin
     }
   end;
 
+  DoLocalizeTabTitles;
+
   Frame:= CurrentFrame;
   if Assigned(Frame) then
   begin
