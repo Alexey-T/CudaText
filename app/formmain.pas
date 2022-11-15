@@ -3542,6 +3542,8 @@ begin
     FHandledOnStart2:= true;
     DoPyEvent(nil, cEventOnStart2, []);
   end;
+
+  UiOps.FormShowCompleted:= true;
 end;
 
 procedure TfmMain.ShowWelcomeInfo;

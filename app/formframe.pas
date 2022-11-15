@@ -2590,7 +2590,7 @@ var
   FormProgress: TCustomForm;
 begin
   FormProgress:= nil;
-  if not UiOps.AllowFrameParsing then
+  if not UiOps.FormShowCompleted then
   begin
     NFileSize:= FileSize(AFileName);
     if NFileSize>UiOps.MaxFileSizeWithoutProgressForm then

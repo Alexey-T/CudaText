@@ -227,6 +227,7 @@ type
 
     MaxLineLenForEditingKeepingLexer: integer;
     InfoAboutOptionsEditor: boolean;
+    FormShowCompleted: boolean;
     AllowFrameParsing: boolean; //must be set in FormMain.OnShow
     AllowRunPkExec: boolean;
     AllowCheckConfigsForNullBytes: boolean;
@@ -2021,6 +2022,7 @@ begin
 
     MaxLineLenForEditingKeepingLexer:= 2000;
     InfoAboutOptionsEditor:= true;
+    FormShowCompleted:= false;
     AllowFrameParsing:= false;
     AllowRunPkExec:= true;
     AllowCheckConfigsForNullBytes:= true;
