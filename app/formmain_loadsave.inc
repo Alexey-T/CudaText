@@ -703,6 +703,7 @@ begin
     }
   end;
 
+  //avoid getting N tabs for untitled of which only N-1 are translated
   DoLocalizeTabTitles;
 
   Frame:= CurrentFrame;
