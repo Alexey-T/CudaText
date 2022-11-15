@@ -262,6 +262,7 @@ type
     DefaultTabSplitIsHorz: boolean;
     MaxFileSizeToOpen: integer;
     MaxFileSizeForLexer: integer;
+    MaxFileSizeWithoutProgressForm: integer;
     MaxStatusbarMessages: integer;
 
     AutocompleteAcpFiles: boolean;
@@ -1904,6 +1905,7 @@ begin
     DefaultTabSplitIsHorz:= false;
     MaxFileSizeToOpen:= 500;
     MaxFileSizeForLexer:= 2;
+    MaxFileSizeWithoutProgressForm:= 10*1024*1024;
     MaxStatusbarMessages:= 35; //Linux gtk2 shows maximal ~38 lines in tooltip
 
     ListboxCentered:= true;

@@ -63,6 +63,7 @@ function DoClipboardFormatsAsString: string;
 
 procedure AppScalePanelControls(APanel: TWinControl);
 procedure AppScaleSplitter(C: TSplitter);
+procedure AppInitProgressForm(out F: TCustomForm; const AText: string);
 
 procedure LexerEnumSublexers(An: TecSyntAnalyzer; List: TStringList);
 procedure LexerEnumStyles(An: TecSyntAnalyzer; List: TStringList);
@@ -1298,6 +1299,25 @@ begin
   HtmlTags.Add('video');
 end;
 
+
+procedure AppInitProgressForm(out F: TCustomForm; const AText: string);
+var
+  P: TPanel;
+begin
+  F:= TForm.CreateNew(nil, 0);
+  F.Width:= 800;
+  F.Height:= 70;
+  F.Caption:= 'CudaText';
+  F.FormStyle:= fsStayOnTop;
+  F.Position:= poScreenCenter;
+  F.BorderStyle:= bsDialog;
+  P:= TPanel.Create(F);
+  P.Align:= alClient;
+  P.Parent:= F;
+  P.Font.Name:= UiOps.VarFontName;
+  P.Font.Size:= UiOps.VarFontSize;
+  P.Caption:= AText;
+end;
 
 finalization
 

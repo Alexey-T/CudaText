@@ -2585,7 +2585,26 @@ end;
 procedure TEditorFrame.DoFileOpen_Ex(Ed: TATSynEdit; const AFileName: string;
   AAllowLoadHistory, AAllowLoadHistoryEnc, AAllowLoadBookmarks, AAllowLexerDetect,
   AAllowErrorMsgBox, AKeepScroll, AAllowLoadUndo: boolean; AOpenMode: TAppOpenMode);
+var
+  NFileSize: Int64;
+  FormProgress: TCustomForm;
 begin
+  FormProgress:= nil;
+  if not UiOps.AllowFrameParsing then
+  begin
+    NFileSize:= FileSize(AFileName);
+    if NFileSize>UiOps.MaxFileSizeWithoutProgressForm then
+    begin
+      AppInitProgressForm(FormProgress, Format('%s (%s), %d Mb', [
+          ExtractFileName(AFileName),
+          AppCollapseHomeDirInFilename(ExtractFileDir(AFileName)),
+          NFileSize div (1024*1024)
+          ]));
+      FormProgress.Show;
+      Application.ProcessMessages;
+    end;
+  end;
+
   try
     if AKeepScroll then
       Ed.Strings.EncodingDetect:= false;
@@ -2593,6 +2612,12 @@ begin
     Ed.Strings.EncodingDetect:= true;
     SetFileName(Ed, AFileName);
     UpdateCaptionFromFilename;
+
+    if Assigned(FormProgress) then
+    begin
+      FormProgress.Hide;
+      FreeAndNil(FormProgress);
+    end;
   except
     if AAllowErrorMsgBox then
       MsgBox(msgCannotOpenFile+#10+AFileName, MB_OK or MB_ICONERROR);
