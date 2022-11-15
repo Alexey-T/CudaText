@@ -289,8 +289,7 @@ begin
         bgra.LoadFromFile(AFilename);
         if AllowScaling then
           if (bgra.Width<>AList.Width) then
-            bgra.Resample(AList.Width, AList.Height);
-        //bgra.Transparent:= true;
+            bgra:= bgra.Resample(AList.Width, AList.Height);
         AList.Add(bgra.Bitmap, nil);
       finally
         FreeAndNil(bgra);
