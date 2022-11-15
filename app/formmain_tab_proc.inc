@@ -322,7 +322,10 @@ begin
     //need to activate tab, before msgbox
     (Sender as TATTabs).TabIndex:= ATabIndex;
 
-    if ACanContinue then Btn:= MB_YESNOCANCEL else Btn:= MB_OKCANCEL;
+    if ACanContinue then
+      Btn:= MB_YESNOCANCEL
+    else
+      Btn:= MB_YESNO;
     Msg:= Format(msgConfirmSaveModifiedTab, [D.TabCaptionFull]);
     Res:= MsgBox(Msg, Btn or MB_ICONQUESTION);
     if (Res=ID_OK) or (Res=ID_YES) then
