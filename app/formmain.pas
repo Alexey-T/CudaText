@@ -3504,7 +3504,7 @@ begin
   DoLoadCommandLine; //after FormUnlock, to fix #4445
 
   //postpone parsing until frames are shown
-  UiOps.AllowFrameParsing:= true;
+  AppAllowFrameParsing:= true;
   _Init_FramesOnShow;
 
   FHandledUntilFirstFocus:= true;
@@ -3543,7 +3543,7 @@ begin
     DoPyEvent(nil, cEventOnStart2, []);
   end;
 
-  UiOps.FormShowCompleted:= true;
+  AppFormShowCompleted:= true;
 end;
 
 procedure TfmMain.ShowWelcomeInfo;

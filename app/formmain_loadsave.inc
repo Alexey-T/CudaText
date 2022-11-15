@@ -1389,7 +1389,7 @@ begin
   UiOps.LexerMenuGrouped:= cfg.GetValue('ui_lexers_grouped', UiOps.LexerMenuGrouped);
   UiOps.LexerPostponeUntilShown:= cfg.GetValue('lexer_postpone_until_shown', UiOps.LexerPostponeUntilShown);
   if not UiOps.LexerPostponeUntilShown then
-    UiOps.AllowFrameParsing:= true;
+    AppAllowFrameParsing:= true;
 
   UiOps.ShowMenubar:= cfg.GetValue('ui_menu_show', UiOps.ShowMenubar);
   UiOps.ShowStatusbar:= cfg.GetValue('ui_statusbar_show', UiOps.ShowStatusbar);

@@ -8473,7 +8473,7 @@ begin
                   Ada:= Frame.Adapter[Ed];
                   if Ada=nil then
                   begin
-                    UiOps.AllowFrameParsing:= true;
+                    AppAllowFrameParsing:= true;
                     Frame.DoShow;
                     Ada:= Frame.Adapter[Ed];
                   end;

@@ -83,12 +83,15 @@ function IsAnotherInstanceRunning: boolean;
 {$endif}
 
 var
+  AppFormShowCompleted: boolean = false;
+  AppAllowFrameParsing: boolean = false; //must be set in FormMain.OnShow
   AppSessionIsLoading: boolean = false;
   AppSessionIsClosing: boolean = false;
   AppActiveForm: TObject = nil;
   AppThemeStatusbar: TATFlatTheme;
   AppApiOnStartActivated: boolean = false;
   AppApiDialogCounter: integer = 0;
+
   AppCodetreeState: record
     Editor: TATSynEdit;
     Lexer: string;
@@ -97,6 +100,7 @@ var
     DblClicking: boolean;
     NeedsSelJump: boolean;
   end;
+
   AppLexersLastDetected: TStringList = nil;
 
 type
@@ -227,8 +231,6 @@ type
 
     MaxLineLenForEditingKeepingLexer: integer;
     InfoAboutOptionsEditor: boolean;
-    FormShowCompleted: boolean;
-    AllowFrameParsing: boolean; //must be set in FormMain.OnShow
     AllowRunPkExec: boolean;
     AllowCheckConfigsForNullBytes: boolean;
 
@@ -2022,8 +2024,6 @@ begin
 
     MaxLineLenForEditingKeepingLexer:= 2000;
     InfoAboutOptionsEditor:= true;
-    FormShowCompleted:= false;
-    AllowFrameParsing:= false;
     AllowRunPkExec:= true;
     AllowCheckConfigsForNullBytes:= true;
 

@@ -788,7 +788,7 @@ var
   an: TecSyntAnalyzer;
 begin
   //analyze file, when frame is shown for the 1st time
-  if UiOps.AllowFrameParsing and not FWasVisible then
+  if AppAllowFrameParsing and not FWasVisible then
   begin
     FWasVisible:= true;
 
@@ -2296,7 +2296,7 @@ begin
     exit;
   end;
 
-  if UiOps.AllowFrameParsing then
+  if AppAllowFrameParsing then
   begin
     if Assigned(an) then
     begin
@@ -2590,7 +2590,7 @@ var
   FormProgress: TCustomForm;
 begin
   FormProgress:= nil;
-  if not UiOps.FormShowCompleted then
+  if not AppFormShowCompleted then
   begin
     NFileSize:= FileSize(AFileName);
     if NFileSize>UiOps.MaxFileSizeWithoutProgressForm then
