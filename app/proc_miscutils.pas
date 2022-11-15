@@ -19,6 +19,7 @@ uses
   ImgList, Dialogs, Forms, Menus, ExtCtrls, Math,
   LclIntf, LclType, LazFileUtils, StrUtils,
   Clipbrd,
+  BGRABitmap,
   at__jsonConf,
   ATSynEdit,
   ATSynEdit_Globals,
@@ -86,7 +87,8 @@ procedure DoApplyThemeToToolbar(C: TATFlatToolbar);
 function ConvertTwoPointsToDiffPoint(APrevPnt, ANewPnt: TPoint): TPoint;
 function ConvertShiftStateToString(const Shift: TShiftState): string;
 function KeyboardStateToShiftState: TShiftState; //like VCL
-function UpdateImagelistWithIconFromFile(AList: TCustomImagelist; const AFilename, ACallerAPI: string): integer;
+function UpdateImagelistWithIconFromFile(AList: TCustomImagelist;
+  const AFilename, ACallerAPI: string; AllowScaling: boolean=false): integer;
 function FormatFileDateAsNiceString(const AFilename: string): string;
 function FormatFilenameForMenu(const fn: string): string;
 
@@ -262,8 +264,10 @@ begin
 end;
 
 
-function UpdateImagelistWithIconFromFile(AList: TCustomImagelist; const AFilename, ACallerAPI: string): integer;
+function UpdateImagelistWithIconFromFile(AList: TCustomImagelist;
+  const AFilename, ACallerAPI: string; AllowScaling: boolean=false): integer;
 var
+  bgra: TBGRABitmap;
   bmp: TCustomBitmap;
   ext: string;
 begin
@@ -280,13 +284,16 @@ begin
   try
     if ext='.png' then
     begin
-      bmp:= TPortableNetworkGraphic.Create;
+      bgra:= TBGRABitmap.Create;
       try
-        bmp.LoadFromFile(AFilename);
-        bmp.Transparent:= true;
-        AList.Add(bmp, nil);
+        bgra.LoadFromFile(AFilename);
+        if AllowScaling then
+          if (bgra.Width<>AList.Width) then
+            bgra.Resample(AList.Width, AList.Height);
+        //bgra.Transparent:= true;
+        AList.Add(bgra.Bitmap, nil);
       finally
-        FreeAndNil(bmp);
+        FreeAndNil(bgra);
       end;
     end
     else

@@ -7079,7 +7079,7 @@ begin
 
         IMAGELIST_ADD:
           begin
-            NX:= UpdateImagelistWithIconFromFile(List, StrValue, 'imagelist_proc(...IMAGELIST_ADD...)');
+            NX:= UpdateImagelistWithIconFromFile(List, StrValue, 'imagelist_proc(...IMAGELIST_ADD...)', true);
             if NX>=0 then
               Result:= PyLong_FromLong(NX)
             else
