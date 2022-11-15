@@ -100,7 +100,7 @@ const
   msgTooltipArrowMenu: string = 'Show tabs menu';
 
   msgUntitledEnglish = 'Untitled';
-  msgUntitledTab: string = 'Untitled';
+  msgUntitledTab: string = msgUntitledEnglish;
   msgAllFiles: string = 'All files';
   msgNoLexer: string = '(none)';
   msgThemeDefault: string = '(default)';
