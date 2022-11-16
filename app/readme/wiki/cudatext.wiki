@@ -2402,10 +2402,14 @@ The GTK2 and Qt5 binaries can also be installed via the AUR if you are on an Arc
 * https://aur.archlinux.org/packages/cudatext-gtk2-bin/
 * https://aur.archlinux.org/packages/cudatext-qt5-bin/
 
-==Linux: Qt5 build==
+==Linux: Qt5 and Qt6 builds==
 For CudaText Qt5 version, library libQt5Pas is required, version 1.2.8 or newer.
+Get libQt5Pas [https://github.com/davidbannon/libqt5pas/releases from releases on this page].
 
-You need the latest libQt5Pas [https://github.com/davidbannon/libqt5pas/releases from these packages].
+For CudaText Qt6 version, library libQt6Pas is required, any stable release.
+Get libQt6Pas [https://github.com/davidbannon/libqt6pas/releases from releases on this page].
+
+Some package managers support Qt5Pas package.
 
 On Ubuntu:
 
