@@ -2957,7 +2957,7 @@ begin
     if Ed.OptWrapMode<>cWrapOff then exit;
   if AllowProcessMsg then
     Application.ProcessMessages;
-  if Ed.IsCaretOnVisibleRect then exit;
+  if Ed.IsCaretOnVisibleRect then exit; //don't work on GTK2 without App.ProcessMessagess
 
   Ed.DoCommand(cCommand_ScrollToCaretTop, cInvokeAppInternal);
 end;
@@ -2969,7 +2969,7 @@ begin
     if Ed.OptWrapMode<>cWrapOff then exit;
   if AllowProcessMsg then
     Application.ProcessMessages;
-  if Ed.IsCaretOnVisibleRect then exit;
+  if Ed.IsCaretOnVisibleRect then exit; //don't work on GTK2 without App.ProcessMessagess
 
   Ed.Carets[0].PosX:= 0;
   Ed.DoEventCarets;
