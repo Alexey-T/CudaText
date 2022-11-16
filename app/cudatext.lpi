@@ -191,7 +191,8 @@
             </Options>
           </Linking>
           <Other>
-            <CustomOptions Value="-dcomplete_at_scroll"/>
+            <CustomOptions Value="-dcomplete_at_scroll
+-dGTK2_IME_CODE"/>
           </Other>
         </CompilerOptions>
       </Item5>
@@ -272,7 +273,8 @@
             </Options>
           </Linking>
           <Other>
-            <CustomOptions Value="-dcomplete_at_scroll"/>
+            <CustomOptions Value="-dcomplete_at_scroll
+-dGTK2_IME_CODE"/>
           </Other>
         </CompilerOptions>
       </Item7>
@@ -1485,7 +1487,8 @@
     <Other>
       <CustomOptions Value="-dcomplete_at_scroll
 -dDisableLCLTIFF
--dDisableLCLPNM"/>
+-dDisableLCLPNM
+-dGTK2_IME_CODE"/>
     </Other>
   </CompilerOptions>
   <Debugging>
