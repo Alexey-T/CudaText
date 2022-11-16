@@ -2192,8 +2192,14 @@ begin
       Inc(Result, cmdFirstPluginCommand);
   end
   else
-    //usual item
+  begin
+    //str(number) item
     Result:= StrToIntDef(AId, -1);
+
+    //for broken keys config which has incorrect int keys, issue #4590
+    if (Result>=cmdFirstPluginCommand) and (Result<=cmdLastPluginCommand) then
+      Result:= -1;
+  end;
 end;
 
 class function TPluginHelper.Debug_PluginCommands(const AModule: string): string;
@@ -2765,11 +2771,13 @@ var
   var
     j: integer;
   begin
-    FillChar(keys, SizeOf(keys), 0);
+    keys.Clear;
     cfg.GetValue(path, skeys, '');
     for j:= 0 to skeys.count-1 do
+    begin
       if skeys[j]<>'' then
         keys.Data[j]:= TextToShortCut(skeys[j]);
+    end;
   end;
   //
 var
@@ -2801,6 +2809,16 @@ begin
       DoReadConfigToKeys(StrId+'/s1', AKeymap[nitem].Keys1);
       DoReadConfigToKeys(StrId+'/s2', AKeymap[nitem].Keys2);
       AKeymap[nitem].LexerSpecific:= AForLexer;
+
+      { //debug
+      if Pos('cuda_project_man,menu_goto', AKeymap[nitem].Description)>0 then
+        ShowMessage(Format('i %d, nitem %d,'#10'name: %s'#10'slist[i]: %s', [
+          i,
+          nitem,
+          AKeymap[nitem].Name,
+          StrId
+          ]));
+          }
     end;
   finally
     skeys.Free;
