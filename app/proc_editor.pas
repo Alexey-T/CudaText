@@ -14,7 +14,7 @@ interface
 
 uses
   Classes, SysUtils, Graphics, StrUtils,
-  Controls, LCLType,
+  Controls, LCLType, LCLIntf,
   Dialogs, Forms,
   Clipbrd,
   ATSynEdit,
@@ -170,6 +170,7 @@ procedure EditorAutoCloseClosingHtmlTag(Ed: TATSynEdit; AX, AY: integer);
 procedure EditorChangeLineEndsForSelection(Ed: TATSynEdit; AValue: TATLineEnds);
 procedure EditorClearHiAllMarkers(Ed: TATSynEdit);
 procedure EditorForceUpdateIfWrapped(Ed: TATSynEdit);
+procedure EditorMakeCaretVisible(Ed: TATSynEdit; ANeedWrapOff: boolean);
 
 function EditorRectMicromapMark(Ed: TATSynEdit; AColumn, ALineFrom, ALineTo: integer;
   AMapHeight, AMinMarkHeight, AScaleDiv: integer): TRect;
@@ -2947,6 +2948,15 @@ begin
   else
     Result:= cRectEmpty;
 end;
+
+procedure EditorMakeCaretVisible(Ed: TATSynEdit; ANeedWrapOff: boolean);
+begin
+  if Ed.Carets.Count=0 then exit;
+  if ANeedWrapOff then
+    if Ed.OptWrapMode<>cWrapOff then exit;
+  Ed.DoCommand(cCommand_ScrollToCaretTop, cInvokeAppInternal);
+end;
+
 { TEditorHtmlTagList }
 
 function TEditorHtmlTagList.ItemPtr(AIndex: integer): PEditorHtmlTagRecord;

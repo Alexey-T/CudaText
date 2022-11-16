@@ -679,6 +679,7 @@ type
     FHandledOnShowPartly: boolean;
     FHandledOnShowFully: boolean;
     FHandledOnStart2: boolean;
+    FHandledMakeCaretVisible: boolean;
     FFileNamesDroppedInitially: array of string;
     FCodetreeBuffer: TTreeView;
     FCfmPanel: TPanel;
@@ -2281,6 +2282,18 @@ begin
   end;
 
   TimerMouseStop.Enabled:= TPluginHelper.EventIsUsed(cEventOnMouseStop);
+
+  if not FHandledMakeCaretVisible and AppFormShowCompleted then
+  begin
+    FHandledMakeCaretVisible:= true;
+    Frame:= CurrentFrame;
+    if Assigned(Frame) then
+    begin
+      EditorMakeCaretVisible(Frame.Ed1, true);
+      if Frame.Splitted then
+        EditorMakeCaretVisible(Frame.Ed2, true);
+    end;
+  end;
 
   //flush saved Python "print" results to console
   if Assigned(fmConsole) and not AppConsoleQueue.IsEmpty() then
