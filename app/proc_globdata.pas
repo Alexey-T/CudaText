@@ -2555,6 +2555,8 @@ begin
     CmdItem.ItemCaption:= SItemCaption;
     CmdItem.ItemFromApi:= true;
 
+    if AppCommandList.Count>(cmdLastPluginCommand-cmdFirstPluginCommand) then
+      MsgLogConsole('ERROR: Too many plugin commands');
     AppCommandList.Add(CmdItem);
   until false;
 end;
