@@ -2198,7 +2198,10 @@ begin
 
     //for broken keys config which has incorrect int keys, issue #4590
     if (Result>=cmdFirstPluginCommand) and (Result<=cmdLastPluginCommand) then
+    begin
+      MsgLogConsole(Format('ERROR: Key "%d" in hotkeys config, out of [%d, %d]', [Result, cmdFirstPluginCommand, cmdLastPluginCommand]));
       Result:= -1;
+    end;
   end;
 end;
 
