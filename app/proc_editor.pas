@@ -2954,6 +2954,7 @@ begin
   if Ed.Carets.Count=0 then exit;
   if ANeedWrapOff then
     if Ed.OptWrapMode<>cWrapOff then exit;
+  //if Ed.IsCaretOnVisibleRect then exit; //doesn't work
   Ed.DoCommand(cCommand_ScrollToCaretTop, cInvokeAppInternal);
 end;
 
