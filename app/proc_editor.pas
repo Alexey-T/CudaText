@@ -170,7 +170,8 @@ procedure EditorAutoCloseClosingHtmlTag(Ed: TATSynEdit; AX, AY: integer);
 procedure EditorChangeLineEndsForSelection(Ed: TATSynEdit; AValue: TATLineEnds);
 procedure EditorClearHiAllMarkers(Ed: TATSynEdit);
 procedure EditorForceUpdateIfWrapped(Ed: TATSynEdit);
-procedure EditorMakeCaretVisible(Ed: TATSynEdit; ANeedWrapOff, AllowProcessMsg: boolean);
+procedure EditorScrollToCaret(Ed: TATSynEdit; ANeedWrapOff, AllowProcessMsg: boolean);
+procedure EditorCaretToView(Ed: TATSynEdit; ANeedWrapOff, AllowProcessMsg: boolean);
 
 function EditorRectMicromapMark(Ed: TATSynEdit; AColumn, ALineFrom, ALineTo: integer;
   AMapHeight, AMinMarkHeight, AScaleDiv: integer): TRect;
@@ -2949,7 +2950,7 @@ begin
     Result:= cRectEmpty;
 end;
 
-procedure EditorMakeCaretVisible(Ed: TATSynEdit; ANeedWrapOff, AllowProcessMsg: boolean);
+procedure EditorScrollToCaret(Ed: TATSynEdit; ANeedWrapOff, AllowProcessMsg: boolean);
 begin
   if Ed.Carets.Count=0 then exit;
   if ANeedWrapOff then
@@ -2958,6 +2959,17 @@ begin
     Application.ProcessMessages;
   if Ed.IsCaretOnVisibleRect then exit;
   Ed.DoCommand(cCommand_ScrollToCaretTop, cInvokeAppInternal);
+end;
+
+procedure EditorCaretToView(Ed: TATSynEdit; ANeedWrapOff, AllowProcessMsg: boolean);
+begin
+  if Ed.Carets.Count=0 then exit;
+  if ANeedWrapOff then
+    if Ed.OptWrapMode<>cWrapOff then exit;
+  if AllowProcessMsg then
+    Application.ProcessMessages;
+  if Ed.IsCaretOnVisibleRect then exit;
+  Ed.DoCaretSingle(0, Ed.LineTop);
 end;
 
 { TEditorHtmlTagList }
