@@ -2190,6 +2190,18 @@ Old way for app sources.
 ** "Python" tab: several items
 * in Lazarus, open "cudatext.lpi" project, compile it
 
+'''GTK2 error on ATSynEdit compiling regarding IME.'''
+
+To fix this error, edit the file atsynedit/atsynedit_package.lpk and remove this block there:
+<syntaxhighlight lang="xml">
+      <Other>
+        <CustomOptions Value="-dGTK2_IME_CODE"/>
+        <OtherDefines Count="1">
+          <Define0 Value="GTK2_IME_CODE"/>
+        </OtherDefines>
+      </Other>
+</syntaxhighlight>
+
 ==How to install plugins from GitHub==
 
 First, you need to know GitHub repository (repo) URL of plugin. For example, https://github.com/kvichans/cuda_find_in_files . If you have plugin already, then you can see this URL in the plugin's install.inf (line "homepage=").
