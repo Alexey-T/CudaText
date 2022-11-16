@@ -2289,9 +2289,9 @@ begin
     Frame:= CurrentFrame;
     if Assigned(Frame) then
     begin
-      EditorMakeCaretVisible(Frame.Ed1, true);
+      EditorMakeCaretVisible(Frame.Ed1, true, {$ifdef windows}false{$else}true{$endif});
       if Frame.Splitted then
-        EditorMakeCaretVisible(Frame.Ed2, true);
+        EditorMakeCaretVisible(Frame.Ed2, true, false);
     end;
   end;
 
