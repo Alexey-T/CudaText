@@ -2958,6 +2958,7 @@ begin
   if AllowProcessMsg then
     Application.ProcessMessages;
   if Ed.IsCaretOnVisibleRect then exit;
+
   Ed.DoCommand(cCommand_ScrollToCaretTop, cInvokeAppInternal);
 end;
 
@@ -2969,7 +2970,10 @@ begin
   if AllowProcessMsg then
     Application.ProcessMessages;
   if Ed.IsCaretOnVisibleRect then exit;
-  Ed.DoCaretSingle(0, Ed.LineTop);
+
+  Ed.Carets[0].PosX:= 0;
+  Ed.DoEventCarets;
+  Ed.Update;
 end;
 
 { TEditorHtmlTagList }

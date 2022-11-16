@@ -2289,9 +2289,9 @@ begin
     Frame:= CurrentFrame;
     if Assigned(Frame) then
     begin
-      EditorScrollToCaret(Frame.Ed1, true, {$ifdef windows}false{$else}true{$endif});
+      EditorCaretToView(Frame.Ed1, true, {$ifdef windows}false{$else}true{$endif});
       if Frame.Splitted then
-        EditorScrollToCaret(Frame.Ed2, true, false);
+        EditorCaretToView(Frame.Ed2, true, {$ifdef windows}false{$else}true{$endif});
     end;
   end;
 
