@@ -2597,6 +2597,7 @@ var
 begin
   St:= TATStrings(Sender);
   if St.ProgressValue-FProgressOldProgress<cStepPercents then exit;
+  if FProgressGauge=nil then exit;
   FProgressGauge.Progress:= St.ProgressValue;
   FProgressOldProgress:= St.ProgressValue;
   Application.ProcessMessages;
@@ -2639,8 +2640,9 @@ begin
       if Assigned(FProgressForm) then
       begin
         Ed.Strings.OnProgress:= FProgressOldHandler;
-        FProgressForm.Hide;
-        FreeAndNil(FProgressForm);
+        FProgressForm.Free;
+        FProgressForm:= nil;
+        FProgressGauge:= nil;
       end;
     end;
   except
