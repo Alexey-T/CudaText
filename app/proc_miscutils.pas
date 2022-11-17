@@ -1329,7 +1329,9 @@ begin
   AProgress.Kind:= gkHorizontalBar;
   AProgress.ShowText:= false;
   AProgress.Height:= 20;
-  AProgress.BorderSpacing.Around:= 6;
+  AProgress.BorderSpacing.Bottom:= 6;
+  AProgress.BorderSpacing.Left:= 6;
+  AProgress.BorderSpacing.Right:= 6;
   AProgress.Parent:= AForm;
   AProgress.Progress:= 0;
 end;
