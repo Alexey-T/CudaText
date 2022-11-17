@@ -1312,6 +1312,7 @@ begin
   AForm.FormStyle:= fsStayOnTop;
   AForm.Position:= poScreenCenter;
   AForm.BorderStyle:= bsDialog;
+  AForm.Color:= GetAppColor(apclTabBg);
 
   Pane:= TPanel.Create(AForm);
   Pane.Align:= alClient;
@@ -1320,6 +1321,7 @@ begin
   Pane.BevelOuter:= bvNone;
   Pane.Font.Name:= UiOps.VarFontName;
   Pane.Font.Size:= UiOps.VarFontSize;
+  Pane.Font.Color:= GetAppColor(apclTabFont);
   Pane.Caption:= AText;
 
   AProgress:= TATGauge.Create(AForm);
