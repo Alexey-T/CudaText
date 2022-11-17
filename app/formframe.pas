@@ -19,6 +19,7 @@ uses
   ATTabs,
   ATGroups,
   ATScrollBar,
+  ATGauge,
   ATSynEdit,
   ATSynEdit_Globals,
   ATSynEdit_Finder,
@@ -205,6 +206,9 @@ type
     FMicromapBmp: TBGRABitmap;
     FOnGetSaveDialog: TFrameGetSaveDialog;
     FOnAppClickLink: TATSynEditClickLinkEvent;
+    FProgressForm: TForm;
+    FProgressGauge: TATGauge;
+    FProgressOldHandler: TNotifyEvent;
 
     procedure ApplyThemeToInfoPanel(APanel: TPanel);
     procedure BinaryOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -259,6 +263,7 @@ type
     function GetCachedTreeview(Ed: TATSynEdit): TTreeView;
     function GetCommentString(Ed: TATSynEdit): string;
     function GetTextChangeSlow(EdIndex: integer): boolean;
+    procedure HandleStringsProgress(Sender: TObject);
     procedure SetTextChangeSlow(EdIndex: integer; AValue: boolean);
     function GetEnabledCodeTree(Ed: TATSynEdit): boolean;
     function GetEnabledFolding: boolean;
@@ -2582,25 +2587,35 @@ begin
   DoOnUpdateStatusbar;
 end;
 
+procedure TEditorFrame.HandleStringsProgress(Sender: TObject);
+var
+  St: TATStrings;
+begin
+  St:= Sender as TATStrings;
+  FProgressGauge.Progress:= St.ProgressValue;
+  Application.ProcessMessages;
+end;
+
 procedure TEditorFrame.DoFileOpen_Ex(Ed: TATSynEdit; const AFileName: string;
   AAllowLoadHistory, AAllowLoadHistoryEnc, AAllowLoadBookmarks, AAllowLexerDetect,
   AAllowErrorMsgBox, AKeepScroll, AAllowLoadUndo: boolean; AOpenMode: TAppOpenMode);
 var
   NFileSize: Int64;
-  FormProgress: TCustomForm;
 begin
-  FormProgress:= nil;
+  FProgressForm:= nil;
   if not AppFormShowCompleted then
   begin
     NFileSize:= FileSize(AFileName);
     if NFileSize>UiOps.MaxFileSizeWithoutProgressForm then
     begin
-      AppInitProgressForm(FormProgress, Format('%s (%d Mb)...', [
+      AppInitProgressForm(FProgressForm, FProgressGauge, Format('%s (%d Mb)', [
           ExtractFileName(AFileName),
           //AppCollapseHomeDirInFilename(ExtractFileDir(AFileName)),
           NFileSize div (1024*1024)
           ]));
-      FormProgress.Show;
+      FProgressOldHandler:= Ed.Strings.OnProgress;
+      Ed.Strings.OnProgress:= @HandleStringsProgress;
+      FProgressForm.Show;
       Application.ProcessMessages;
     end;
   end;
@@ -2614,10 +2629,11 @@ begin
       SetFileName(Ed, AFileName);
       UpdateCaptionFromFilename;
     finally
-      if Assigned(FormProgress) then
+      if Assigned(FProgressForm) then
       begin
-        FormProgress.Hide;
-        FreeAndNil(FormProgress);
+        Ed.Strings.OnProgress:= FProgressOldHandler;
+        FProgressForm.Hide;
+        FreeAndNil(FProgressForm);
       end;
     end;
   except

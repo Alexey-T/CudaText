@@ -30,6 +30,7 @@ uses
   ATListbox,
   ATPanelSimple,
   ATButtons,
+  ATGauge,
   ATFlatToolbar,
   ATBinHex,
   ec_SyntAnal,
@@ -63,7 +64,7 @@ function DoClipboardFormatsAsString: string;
 
 procedure AppScalePanelControls(APanel: TWinControl);
 procedure AppScaleSplitter(C: TSplitter);
-procedure AppInitProgressForm(out F: TCustomForm; const AText: string);
+procedure AppInitProgressForm(out AForm: TForm; out AProgress: TATGauge; const AText: string);
 
 procedure LexerEnumSublexers(An: TecSyntAnalyzer; List: TStringList);
 procedure LexerEnumStyles(An: TecSyntAnalyzer; List: TStringList);
@@ -1300,27 +1301,36 @@ begin
 end;
 
 
-procedure AppInitProgressForm(out F: TCustomForm; const AText: string);
+procedure AppInitProgressForm(out AForm: TForm; out AProgress: TATGauge; const AText: string);
 var
   Pane: TPanel;
 begin
-  F:= TForm.CreateNew(nil, 0);
-  F.Width:= 600;
-  F.Height:= 70;
-  F.Caption:= 'CudaText';
-  F.FormStyle:= fsStayOnTop;
-  F.Position:= poScreenCenter;
-  F.BorderStyle:= bsDialog;
+  AForm:= TForm.CreateNew(nil, 0);
+  AForm.Width:= 600;
+  AForm.Height:= 80;
+  AForm.Caption:= 'CudaText';
+  AForm.FormStyle:= fsStayOnTop;
+  AForm.Position:= poScreenCenter;
+  AForm.BorderStyle:= bsDialog;
 
-  Pane:= TPanel.Create(F);
+  Pane:= TPanel.Create(AForm);
   Pane.Align:= alClient;
-  Pane.Parent:= F;
+  Pane.Parent:= AForm;
   Pane.BevelInner:= bvNone;
   Pane.BevelOuter:= bvNone;
   Pane.Font.Name:= UiOps.VarFontName;
   Pane.Font.Size:= UiOps.VarFontSize;
   Pane.Caption:= AText;
+
+  AProgress:= TATGauge.Create(AForm);
+  AProgress.Align:= alBottom;
+  AProgress.Kind:= gkHorizontalBar;
+  AProgress.Height:= 20;
+  AProgress.BorderSpacing.Around:= 6;
+  AProgress.Parent:= AForm;
+  AProgress.Progress:= 0;
 end;
+
 
 finalization
 
