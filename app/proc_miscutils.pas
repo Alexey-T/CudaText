@@ -1307,7 +1307,7 @@ var
 begin
   AForm:= TForm.CreateNew(nil, 0);
   AForm.Width:= 600;
-  AForm.Height:= 80;
+  AForm.Height:= 60;
   AForm.Caption:= 'CudaText';
   AForm.FormStyle:= fsStayOnTop;
   AForm.Position:= poScreenCenter;
