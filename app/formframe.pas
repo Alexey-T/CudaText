@@ -208,6 +208,7 @@ type
     FOnAppClickLink: TATSynEditClickLinkEvent;
     FProgressForm: TForm;
     FProgressGauge: TATGauge;
+    FProgressOldProgress: integer;
     FProgressOldHandler: TNotifyEvent;
 
     procedure ApplyThemeToInfoPanel(APanel: TPanel);
@@ -2588,11 +2589,16 @@ begin
 end;
 
 procedure TEditorFrame.HandleStringsProgress(Sender: TObject);
+const
+  //avoid too many form updates
+  cStepPercents = 8;
 var
   St: TATStrings;
 begin
-  St:= Sender as TATStrings;
+  St:= TATStrings(Sender);
+  if St.ProgressValue-FProgressOldProgress<cStepPercents then exit;
   FProgressGauge.Progress:= St.ProgressValue;
+  FProgressOldProgress:= St.ProgressValue;
   Application.ProcessMessages;
 end;
 
@@ -2613,6 +2619,7 @@ begin
           //AppCollapseHomeDirInFilename(ExtractFileDir(AFileName)),
           NFileSize div (1024*1024)
           ]));
+      FProgressOldProgress:= 0;
       FProgressOldHandler:= Ed.Strings.OnProgress;
       Ed.Strings.OnProgress:= @HandleStringsProgress;
       FProgressForm.Show;
