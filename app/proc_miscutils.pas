@@ -1325,6 +1325,7 @@ begin
   AProgress:= TATGauge.Create(AForm);
   AProgress.Align:= alBottom;
   AProgress.Kind:= gkHorizontalBar;
+  AProgress.ShowText:= false;
   AProgress.Height:= 20;
   AProgress.BorderSpacing.Around:= 6;
   AProgress.Parent:= AForm;
