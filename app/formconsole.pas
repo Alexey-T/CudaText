@@ -291,7 +291,7 @@ begin
       exit;
     end;
 
-  if (Key=VK_TAB) and (Shift<>[]) then
+  if (Key=VK_TAB) and (Shift-[ssShift]<>[]) then
     if Assigned(FFormMain.OnKeyDown) then
     begin
       FFormMain.OnKeyDown(nil, Key, Shift);
