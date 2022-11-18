@@ -332,8 +332,11 @@ const
   msgConfirmReplaceGlobal: string = 'This will perform mass replace in all opened documents. This will also reset all selections. Continue?';
 
   msgCommandNeedsPython: string =
-    'This command requires Python engine.'+
-    ' Set proper value of "pylib'+cOptionSystemSuffix+'" in the user.json.';
+    'This command requires Python engine.'
+    {$ifndef windows}
+    +' Set proper value of "pylib'+cOptionSystemSuffix+'" in the user.json.'
+    {$endif}
+    ;
 
   msgCommandLineHelp =
       'Usage:'+EOL+
