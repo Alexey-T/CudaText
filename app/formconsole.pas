@@ -291,14 +291,6 @@ begin
       exit;
     end;
 
-  if (Key=VK_TAB) and (Shift-[ssShift]<>[]) then
-    if Assigned(FFormMain.OnKeyDown) then
-    begin
-      FFormMain.OnKeyDown(nil, Key, Shift);
-      Key:= 0;
-      exit;
-    end;
-
   inherited KeyDown(Key, Shift);
 end;
 
