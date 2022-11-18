@@ -3265,6 +3265,19 @@ begin
 
     exit
   end;
+
+  if (Key=VK_TAB) and (Shift<>[]) then
+  begin
+    Ed:= CurrentEditor;
+    KeyArray.Clear;
+    if Assigned(Ed) then
+    begin
+      N:= Ed.Keymap.GetCommandFromShortcut(ShortCut(Key, Shift), KeyArray);
+      if N>=0 then
+        Ed.DoCommand(N, cInvokeHotkey);
+    end;
+    Key:= 0;
+  end;
 end;
 
 procedure TfmMain.FormResize(Sender: TObject);
