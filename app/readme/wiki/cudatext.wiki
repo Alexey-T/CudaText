@@ -1373,7 +1373,7 @@ File "python3.dll" without exact version: this file is sometimes needed for Pyth
 Note for Windows 7. You also need the Update for Universal C Runtime in Windows (KB2999226). Download it from the Microsoft site.
 
 ==Python on Windows XP==
-You must install, from Addons Manager, the package named "Windows Python34 32bit". Menu item "Plugins / Addons Manager / Install" must list this package.
+Install the package "Windows Python34 32bit". Download it from [https://sourceforge.net/projects/cudatext/files/addons/packages/ SourceForce folder addons/packages], and unzip to CudaText folder.
 
 No options are needed to configure this older Python, but you need to delete all newer Pythons from CudaText folder:
 
