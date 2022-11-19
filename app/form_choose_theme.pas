@@ -141,7 +141,7 @@ begin
     S:= '';
   ThemeUiSetter(S);
 
-  if chkSync.Checked and chkEnableLex.Checked then
+  if chkSync.Checked and chkEnableLex.Checked and not FBusyClickSyntax then
   begin
     if S='' then
       N:= 0
@@ -171,8 +171,9 @@ begin
   else
     S:= '';
   ThemeSyntaxSetter(S);
+  Sleep(500);
 
-  if chkSync.Checked then
+  if chkSync.Checked and not FBusyClickUi then
   begin
     if S='' then
       N:= 0
