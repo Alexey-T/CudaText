@@ -2403,13 +2403,12 @@ The GTK2 and Qt5 binaries can also be installed via the AUR if you are on an Arc
 * https://aur.archlinux.org/packages/cudatext-qt5-bin/
 
 ==Linux: Qt5 and Qt6 builds==
-For CudaText Qt5 version, library libQt5Pas is required, version 1.2.8 or newer.
-Get libQt5Pas [https://github.com/davidbannon/libqt5pas/releases from releases on this page].
+'''Qt5'''
 
-For CudaText Qt6 version, library libQt6Pas is required, any stable release.
-Get libQt6Pas [https://github.com/davidbannon/libqt6pas/releases from releases on this page].
+For Linux Qt5 version, library libQt5Pas is required, version 1.2.8 or newer.
+Get it from [https://github.com/davidbannon/libqt5pas/releases releases on this page].
 
-Some package managers support Qt5Pas package.
+Some package managers have Qt5Pas package.
 
 On Ubuntu:
 
@@ -2418,6 +2417,19 @@ On Ubuntu:
 On Manjaro:
 
  $ pamac install qt5pas
+
+'''Qt6'''
+
+For Linux Qt6 version, library libQt6Pas is required, any stable release.
+Get it from [https://github.com/davidbannon/libqt6pas/releases releases on this page].
+
+Qt6 version can show bugs:
+* pixelated font
+* distorted toolbar/sidebar icons
+
+To fix it, set the environment vairiable:
+
+ QT_SCALE_FACTOR_ROUNDING_POLICY=Round
 
 ==FreeBSD: App cannot run==
 
