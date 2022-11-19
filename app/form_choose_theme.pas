@@ -135,7 +135,7 @@ var
   N: integer;
 begin
   N:= ListboxUI.ItemIndex;
-  if N>0 then
+  if N>0 then //0 is (default)
     Result:= ListboxUI.Items[N]
   else
     Result:= '';
@@ -146,7 +146,7 @@ var
   N: integer;
 begin
   N:= ListboxSyntax.ItemIndex;
-  if N>0 then
+  if N>0 then //0 is (default)
     Result:= ListboxSyntax.Items[N]
   else
     Result:= '';
