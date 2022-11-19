@@ -3,6 +3,9 @@
   - fixed
   * changed
 
++ add: dialog "Themes" has improved UI (thanks @veksha)
++ add: lexer PHP: support inclusion of JSON blocks
+
 1.177.0 (2022/11)
 
 + add: show indicator form when app loads big file (>10Mb) on startup (thanks @Vivalzar)
