@@ -245,12 +245,14 @@ end;
 
 procedure TfmMain.DoDialogMenuThemes_ThemeUiSelect(const AStr: string);
 begin
-  ThemeUi:= AStr;
+  if UiOps.ThemeUi<>AStr then
+    ThemeUi:= AStr;
 end;
 
 procedure TfmMain.DoDialogMenuThemes_ThemeSyntaxSelect(const AStr: string);
 begin
-  ThemeSyntax:= AStr;
+  if UiOps.ThemeSyntax<>AStr then
+    ThemeSyntax:= AStr;
 end;
 
 procedure TfmMain.DoDialogMenuThemes;

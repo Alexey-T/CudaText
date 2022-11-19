@@ -13,7 +13,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ButtonPanel,
-  FileUtil, LazFileUtils, IniFiles, Math,
+  ExtCtrls, FileUtil, LazFileUtils, IniFiles, Math,
   at__jsonConf,
   proc_msg,
   proc_customdialog,
@@ -31,6 +31,7 @@ type
     chkSync: TCheckBox;
     GroupUI: TGroupBox;
     GroupSyntax: TGroupBox;
+    IdleTimer1: TIdleTimer;
     ListboxSyntax: TListBox;
     ListboxUI: TListBox;
     procedure chkEnableLexChange(Sender: TObject);
@@ -38,6 +39,7 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormResize(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure IdleTimer1Timer(Sender: TObject);
     procedure ListboxSyntaxClick(Sender: TObject);
     procedure ListboxUIClick(Sender: TObject);
   private
@@ -46,6 +48,8 @@ type
     procedure Localize;
     function GetEnableLexerThemes: boolean;
     function GetEnableSync: boolean;
+    function SelectedThemeUI: string;
+    function SelectedThemeSyntax: string;
     procedure SetEnableLexerThemes(AValue: boolean);
     procedure SetEnableSync(AValue: boolean);
   public
@@ -126,6 +130,28 @@ begin
   ListboxSyntax.Enabled:= chkEnableLex.Checked;
 end;
 
+function TfmChooseTheme.SelectedThemeUI: string;
+var
+  N: integer;
+begin
+  N:= ListboxUI.ItemIndex;
+  if N>0 then
+    Result:= ListboxUI.Items[N]
+  else
+    Result:= '';
+end;
+
+function TfmChooseTheme.SelectedThemeSyntax: string;
+var
+  N: integer;
+begin
+  N:= ListboxSyntax.ItemIndex;
+  if N>0 then
+    Result:= ListboxSyntax.Items[N]
+  else
+    Result:= '';
+end;
+
 procedure TfmChooseTheme.ListboxUIClick(Sender: TObject);
 var
   N: integer;
@@ -134,15 +160,9 @@ begin
   if FBusyClickUi then exit;
   FBusyClickUi:= true;
 
-  N:=ListboxUi.ItemIndex;
-  if N>0 then
-    S:= ListboxUi.Items[N]
-  else
-    S:= '';
-  ThemeUiSetter(S);
-
   if chkSync.Checked and chkEnableLex.Checked and not FBusyClickSyntax then
   begin
+    S:= SelectedThemeUI;
     if S='' then
       N:= 0
     else
@@ -165,16 +185,9 @@ begin
   if FBusyClickSyntax then exit;
   FBusyClickSyntax:= true;
 
-  N:= ListboxSyntax.ItemIndex;
-  if N>0 then
-    S:= ListboxSyntax.Items[N]
-  else
-    S:= '';
-  ThemeSyntaxSetter(S);
-  Sleep(500);
-
   if chkSync.Checked and not FBusyClickUi then
   begin
+    S:= SelectedThemeSyntax;
     if S='' then
       N:= 0
     else
@@ -266,6 +279,12 @@ begin
   finally
     c.Free;
   end;
+end;
+
+procedure TfmChooseTheme.IdleTimer1Timer(Sender: TObject);
+begin
+  ThemeUiSetter(SelectedThemeUI);
+  ThemeSyntaxSetter(SelectedThemeSyntax);
 end;
 
 
