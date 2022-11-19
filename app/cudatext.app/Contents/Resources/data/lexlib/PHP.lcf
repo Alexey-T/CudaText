@@ -1,4 +1,4 @@
-object SyntAnal15: TLibSyntAnalyzer
+object SyntAnal14: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Text'
@@ -758,7 +758,7 @@ object SyntAnal15: TLibSyntAnalyzer
       AlwaysEnabled = True
       StartExpression = '<\?(php\b)?'
       EndExpression = '\?>'
-      SyntAnalyzer = SyntAnal14
+      SyntAnalyzer = SyntAnal15
       ToTextEnd = True
     end
     item
@@ -783,6 +783,13 @@ object SyntAnal15: TLibSyntAnalyzer
       StartExpression = '<script>'
       EndExpression = '</script>'
       SyntAnalyzer = SyntAnal9
+    end
+    item
+      DisplayName = 'JSON'
+      StyleName = 'Sublexer BG'
+      StartExpression = '(?s)<script\s[^>]* (application/json|text/json|\+json) [^>\?]*?>'
+      EndExpression = '</script\s*>'
+      SyntAnalyzer = SyntAnal11
     end>
   SampleText.Strings = (
     '<!doctype test="123">'
