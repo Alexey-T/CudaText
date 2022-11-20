@@ -2423,14 +2423,6 @@ On Manjaro:
 For Linux Qt6 version, library libQt6Pas is required, any stable release.
 Get it from [https://github.com/davidbannon/libqt6pas/releases releases on this page].
 
-Qt6 version can show bugs:
-* pixelated font
-* distorted toolbar/sidebar icons
-
-To fix it, set the environment vairiable:
-
- QT_SCALE_FACTOR_ROUNDING_POLICY=Round
-
 ==FreeBSD: App cannot run==
 
 If you run app in Terminal, you'll see an error about missing .so file. Reason of this error: FreeBSD version was compiled on Linux with different .so files. To fix error, run command in Terminal:
