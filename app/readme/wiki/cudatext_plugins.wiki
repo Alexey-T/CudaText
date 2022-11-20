@@ -1763,6 +1763,8 @@ Make config file (CudaText)/settings/lsp_html.json:
 
 Make sure the script "html-ls" ("html-ls.cmd" on Windows) is in the PATH.
 
+You may see wrong sorting of CSS properties in the auto-completion list, when auto-completion is called for CSS prop with dash char. To fix that, you need to remove dash char "-" from the "nonword_chars" option. Do it via lexer-specific config for HTML.
+
 ==LSP server for Java==
 '''Part 1. Information for Windows.'''
 
