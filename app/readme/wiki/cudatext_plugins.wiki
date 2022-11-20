@@ -1743,6 +1743,26 @@ Create config file (CudaText)/settings/lsp_css.json:
 }
 </syntaxhighlight>
 
+==LSP server for HTML==
+CudaText does not support built-in HTML auto-completion when caret is inside style="..." blocks.
+But LSP server supports it.
+Install server using Node.js:
+
+ npm install --global vscode-html-ls-bin
+
+Make config file (CudaText)/settings/lsp_html.json:
+<syntaxhighlight lang="json">
+{
+    "lexers": {
+    	"HTML": "html",
+    },
+    "cmd_windows": ["html-ls.cmd", "--stdio"],
+    "cmd_unix": ["html-ls", "--stdio"]
+}
+</syntaxhighlight>
+
+Make sure the script "html-ls" ("html-ls.cmd" on Windows) is in the PATH.
+
 ==LSP server for Java==
 '''Part 1. Information for Windows.'''
 
