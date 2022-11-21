@@ -3,8 +3,11 @@
   - fixed
   * changed
 
+1.177.1 (2022/11)
+
 + add: dialog "Themes" has improved UI (thanks @veksha)
 + add: lexer PHP: support inclusion of JSON blocks
+- fix: sometimes, "Extract RegEx matches" doesn't repaint the resulting editor
 
 1.177.0 (2022/11)
 
