@@ -120,6 +120,37 @@ begin
   FindDialogDone(Sender, Res, true);
 end;
 
+procedure TfmMain.FindAndExtractRegexMatches;
+var
+  Matches: TStringList;
+  Frame: TEditorFrame;
+  Ed: TATSynEdit;
+begin
+  Matches:= TStringList.Create;
+  try
+    FFinder.DoAction_ExtractAll(false, Matches, true, FFinder.OptCase, dupIgnore);
+    if Matches.Count>0 then
+    begin
+      Frame:= DoFileOpen('', '');
+      if Frame=nil then exit;
+      Frame.TabCaptionUntitled:= msgFinderRegexMatchesNumbered;
+      Ed:= Frame.Ed1;
+      try
+        Ed.Strings.LoadFromStrings(Matches, cEndUnix);
+        Ed.UpdateWrapInfo;
+        Ed.Update;
+        MsgStatus(Format(msgStatusFoundFragments, [Matches.Count]), true);
+      finally
+        Ed.DoEventChange;
+      end;
+    end
+    else
+      FinderShowResult(false, FFinder);
+  finally
+    FreeAndNil(Matches);
+  end;
+end;
+
 procedure TfmMain.FindDialogDone(Sender: TObject; Res: TAppFinderOperation; AEnableUpdateAll: boolean);
 var
   Category: TAppFinderOperationCategory;
@@ -328,26 +359,7 @@ begin
 
     afoExtractAll:
     begin
-      ListFound:= TStringList.Create;
-      try
-        FFinder.DoAction_ExtractAll(false, ListFound, true, FFinder.OptCase, dupIgnore);
-        if ListFound.Count>0 then
-        begin
-          FrameNew:= DoFileOpen('', '');
-          FrameNew.TabCaptionUntitled:= msgFinderRegexMatchesNumbered;
-          Ed:= FrameNew.Editor;
-          try
-            Ed.Strings.LoadFromStrings(ListFound, cEndUnix);
-            MsgStatus(Format(msgStatusFoundFragments, [ListFound.Count]), true);
-          finally
-            Ed.DoEventChange;
-          end;
-        end
-        else
-          FinderShowResult(false, FFinder);
-      finally
-        FreeAndNil(ListFound);
-      end;
+      FindAndExtractRegexMatches;
     end;
 
     afoFindSelectAll:

@@ -721,6 +721,7 @@ type
     FOption_BottomTab: string;
     FCmdlineFileCount: integer;
 
+    procedure FindAndExtractRegexMatches;
     procedure HandleTimerCommand(Ed: TATSynEdit; CmdCode: integer; CmdInvoke: TATEditorCommandInvoke);
     function IsTooManyTabsOpened: boolean;
     function GetUntitledNumberedCaption: string;
