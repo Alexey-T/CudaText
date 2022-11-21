@@ -154,9 +154,7 @@ end;
 procedure TfmMain.FindDialogDone(Sender: TObject; Res: TAppFinderOperation; AEnableUpdateAll: boolean);
 var
   Category: TAppFinderOperationCategory;
-  ListFound: TStringList;
   Frame, FrameNew, FramePrev: TEditorFrame;
-  Ed: TATSynEdit;
   ok, bChanged, bDoLock, bFindMode, bChangeFrame: boolean;
   bHiliteAll: boolean;
   NCounter, IndexFrame: integer;
