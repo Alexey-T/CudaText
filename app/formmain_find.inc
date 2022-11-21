@@ -135,14 +135,11 @@ begin
       if Frame=nil then exit;
       Frame.TabCaptionUntitled:= msgFinderRegexMatchesNumbered;
       Ed:= Frame.Ed1;
-      try
-        Ed.Strings.LoadFromStrings(Matches, cEndUnix);
-        Ed.UpdateWrapInfo;
-        Ed.Update;
-        MsgStatus(Format(msgStatusFoundFragments, [Matches.Count]), true);
-      finally
-        Ed.DoEventChange;
-      end;
+      Ed.Strings.LoadFromStrings(Matches, cEndUnix);
+      Ed.UpdateWrapInfo(true, false); //AForceUpdate=True to fix #4609
+      Ed.Update;
+      Ed.DoEventChange;
+      MsgStatus(Format(msgStatusFoundFragments, [Matches.Count]), true);
     end
     else
       FinderShowResult(false, FFinder);
