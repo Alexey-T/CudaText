@@ -77,6 +77,7 @@ TYPES = {
     "acp": ['SynWrite acp files'],
     "ad": ['AsciiDoc'],
     "adb": ['Ada'],
+    "adept": ['Adept'],
     "ado": ['Stata'],
     "adoc": ['AsciiDoc'],
     "ads": ['Ada (.ads)'],
