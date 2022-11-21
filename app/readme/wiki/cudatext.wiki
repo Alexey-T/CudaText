@@ -331,6 +331,7 @@ Most of them are located in the Addons Manager "Install" list.
 * ActionScript
 * Acu Cobol
 * Ada
+* Adept
 * Adobe Flash
 * Amazon Ion
 * AMPL
