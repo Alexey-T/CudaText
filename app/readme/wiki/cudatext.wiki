@@ -516,6 +516,7 @@ Most of them are located in the Addons Manager "Install" list.
 * NSIS
 * NSL Assembler
 * Oberon (and Component Pascal)
+* Objeck
 * Objective-C
 * OCaml
 * Odin
