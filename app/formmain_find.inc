@@ -196,6 +196,20 @@ begin
       true);
 end;
 
+procedure TfmMain.FindAndReplaceOneMatch(AndStop: boolean);
+var
+  ok, bChanged: boolean;
+begin
+  //replace match
+  ok:= FFinder.DoAction_ReplaceSelected(true);
+  //after match is replaced, do find-next
+  if not AndStop then
+    if ok then
+      ok:= FFinder.DoAction_FindOrReplace(false, false, bChanged, true);
+  FinderUpdateEditor(true);
+  FinderShowResult(ok, FFinder);
+end;
+
 procedure TfmMain.FindAndReplaceAll;
 var
   NTick: QWord;
@@ -382,14 +396,7 @@ begin
     afoReplace,
     afoReplaceStop:
     begin
-      //replace match
-      ok:= FFinder.DoAction_ReplaceSelected(true);
-      //after match is replaced, do find-next
-      if Res=afoReplace then
-        if ok then
-          ok:= FFinder.DoAction_FindOrReplace(false, false, bChanged, true);
-      FinderUpdateEditor(true);
-      FinderShowResult(ok, FFinder);
+      FindAndReplaceOneMatch(Res=afoReplaceStop);
     end;
 
     afoReplaceAll:

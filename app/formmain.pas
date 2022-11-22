@@ -723,6 +723,7 @@ type
 
     procedure FindAndCountAll;
     procedure FindAndReplaceAll;
+    procedure FindAndReplaceOneMatch(AndStop: boolean);
     procedure FindAndSelectAll;
     procedure FindAndMarkAll;
     procedure FindAndReplaceInAllFrames(FramePrev: TEditorFrame);
