@@ -348,8 +348,8 @@ begin
     Frame.MacroStrings.Add(
         IntToStr(cmd_FinderAction)+','+
         cAppFinderOperationString[Res]+#1+
-        FFinder.StrFind+#1+
-        FFinder.StrReplace+#1+
+        UTF8Encode(FFinder.StrFind)+#1+
+        UTF8Encode(FFinder.StrReplace)+#1+
         FinderOptionsToString(FFinder)
         );
 
