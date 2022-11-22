@@ -727,8 +727,7 @@ type
     procedure FindAndCountAll(var NCounter: integer);
     procedure FindAndSelectAll(var NCounter: integer);
     procedure FindAndMarkAll(var NCounter: integer);
-    procedure FindAndReplaceInAllFrames(FramePrev: TEditorFrame;
-      var NCounter: integer);
+    procedure FindAndReplaceInAllFrames(FramePrev: TEditorFrame; var NCounter: integer);
     procedure FindAndExtractRegexMatches;
     procedure HandleTimerCommand(Ed: TATSynEdit; CmdCode: integer; CmdInvoke: TATEditorCommandInvoke);
     function IsTooManyTabsOpened: boolean;
