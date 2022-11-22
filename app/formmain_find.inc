@@ -178,9 +178,7 @@ begin
       true);
 end;
 
-procedure TfmMain.FindAndCountAll;
-var
-  NCounter: integer;
+procedure TfmMain.FindAndCountAll(var NCounter: integer);
 begin
   DoFindMarkingInit(markingNone);
   NCounter:= FFinder.DoAction_CountAll(false);
@@ -217,10 +215,10 @@ begin
   FinderShowResult(ok, FFinder);
 end;
 
-procedure TfmMain.FindAndReplaceAll;
+procedure TfmMain.FindAndReplaceAll(var NCounter: integer);
 var
   NTick: QWord;
-  NCounter, NTime: integer;
+  NTime: integer;
 begin
   NTick:= GetTickCount64;
   NCounter:= FinderReplaceAll(FFinder.Editor, false);
@@ -229,11 +227,11 @@ begin
   FinderShowReplaceReport(NCounter, NTime);
 end;
 
-procedure TfmMain.FindAndReplaceInAllFrames(FramePrev: TEditorFrame);
+procedure TfmMain.FindAndReplaceInAllFrames(FramePrev: TEditorFrame; var NCounter: integer);
 var
   NTick: QWord;
   FrameNew: TEditorFrame;
-  NCounter, NTime, IndexFrame: integer;
+  NTime, IndexFrame: integer;
   bChangeFrame: boolean;
 begin
   NCounter:= 0;
@@ -404,17 +402,17 @@ begin
 
     afoReplaceAll:
     begin
-      FindAndReplaceAll;
+      FindAndReplaceAll(NCounter);
     end;
 
     afoReplaceGlobal:
     begin
-      FindAndReplaceInAllFrames(Frame);
+      FindAndReplaceInAllFrames(Frame, NCounter);
     end;
 
     afoCountAll:
     begin
-      FindAndCountAll;
+      FindAndCountAll(NCounter);
     end;
 
     afoExtractAll:

@@ -722,12 +722,13 @@ type
     FCmdlineFileCount: integer;
 
     procedure FindAndStop(ABack: boolean);
-    procedure FindAndReplaceAll;
+    procedure FindAndReplaceAll(var NCounter: integer);
     procedure FindAndReplaceOneMatch(AndStop: boolean);
-    procedure FindAndCountAll;
+    procedure FindAndCountAll(var NCounter: integer);
     procedure FindAndSelectAll(var NCounter: integer);
     procedure FindAndMarkAll(var NCounter: integer);
-    procedure FindAndReplaceInAllFrames(FramePrev: TEditorFrame);
+    procedure FindAndReplaceInAllFrames(FramePrev: TEditorFrame;
+      var NCounter: integer);
     procedure FindAndExtractRegexMatches;
     procedure HandleTimerCommand(Ed: TATSynEdit; CmdCode: integer; CmdInvoke: TATEditorCommandInvoke);
     function IsTooManyTabsOpened: boolean;
