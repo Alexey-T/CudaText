@@ -722,6 +722,7 @@ type
     FCmdlineFileCount: integer;
 
     procedure FindAndCountAll;
+    procedure FindAndReplaceAll;
     procedure FindAndSelectAll;
     procedure FindAndMarkAll;
     procedure FindAndReplaceInAllFrames(FramePrev: TEditorFrame);

@@ -196,6 +196,18 @@ begin
       true);
 end;
 
+procedure TfmMain.FindAndReplaceAll;
+var
+  NTick: QWord;
+  NCounter, NTime: integer;
+begin
+  NTick:= GetTickCount64;
+  NCounter:= FinderReplaceAll(FFinder.Editor, false);
+  NTime:= (GetTickCount64-NTick) div 1000;
+  UpdateStatusbar;
+  FinderShowReplaceReport(NCounter, NTime);
+end;
+
 procedure TfmMain.FindAndReplaceInAllFrames(FramePrev: TEditorFrame);
 var
   NTick: QWord;
@@ -230,12 +242,9 @@ end;
 procedure TfmMain.FindDialogDone(Sender: TObject; Res: TAppFinderOperation; AEnableUpdateAll: boolean);
 var
   Category: TAppFinderOperationCategory;
-  Frame, FrameNew, FramePrev: TEditorFrame;
-  ok, bChanged, bDoLock, bFindMode, bChangeFrame: boolean;
-  bHiliteAll: boolean;
-  NCounter, IndexFrame: integer;
-  NTime: integer;
-  NTick: QWord;
+  Frame: TEditorFrame;
+  ok, bChanged, bDoLock, bFindMode, bHiliteAll: boolean;
+  NCounter: integer;
 begin
   InitFormFind;
   Frame:= CurrentFrame;
@@ -385,11 +394,7 @@ begin
 
     afoReplaceAll:
     begin
-      NTick:= GetTickCount64;
-      NCounter:= FinderReplaceAll(FFinder.Editor, false);
-      NTime:= (GetTickCount64-NTick) div 1000;
-      UpdateStatusbar;
-      FinderShowReplaceReport(NCounter, NTime);
+      FindAndReplaceAll;
     end;
 
     afoReplaceGlobal:
