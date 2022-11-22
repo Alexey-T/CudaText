@@ -539,7 +539,10 @@ begin
 
   bMultiLineSel:= false;
   if Ed.Carets.Count=1 then
-    bMultiLineSel:= Ed.Carets[0].IsMultilineSelection;
+    bMultiLineSel:= Ed.Carets[0].IsMultilineSelection
+  else
+  if Ed.Carets.Count>1 then
+    bMultiLineSel:= Ed.Carets.IsSelectionInAllCarets;
 
   InitFormFind;
 

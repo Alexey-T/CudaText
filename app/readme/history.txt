@@ -6,6 +6,7 @@
 1.177.1 (2022/11)
 
 + add: dialog "Themes" has improved UI (thanks @veksha)
++ add: option "find_suggest_in_selection" also detects the columnar selection (thanks @tmsg)
 + add: lexer PHP: support inclusion of JSON blocks
 - fix: sometimes, "Extract RegEx matches" doesn't repaint the resulting editor
 
