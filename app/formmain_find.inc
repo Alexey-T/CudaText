@@ -148,9 +148,7 @@ begin
   end;
 end;
 
-procedure TfmMain.FindAndSelectAll;
-var
-  NCounter: integer;
+procedure TfmMain.FindAndSelectAll(var NCounter: integer);
 begin
   DoFindMarkingInit(markingSelections);
   NCounter:= FFinder.DoAction_CountAll(true);
@@ -165,9 +163,7 @@ begin
       true);
 end;
 
-procedure TfmMain.FindAndMarkAll;
-var
-  NCounter: integer;
+procedure TfmMain.FindAndMarkAll(var NCounter: integer);
 begin
   DoFindMarkingInit(markingMarkers);
   NCounter:= FFinder.DoAction_CountAll(true);
@@ -268,7 +264,7 @@ procedure TfmMain.FindDialogDone(Sender: TObject; Res: TAppFinderOperation; AEna
 var
   Category: TAppFinderOperationCategory;
   Frame: TEditorFrame;
-  ok, bChanged, bDoLock, bFindMode, bHiliteAll: boolean;
+  ok, bDoLock, bFindMode, bHiliteAll: boolean;
   NCounter: integer;
 begin
   InitFormFind;
@@ -428,12 +424,12 @@ begin
 
     afoFindSelectAll:
     begin
-      FindAndSelectAll;
+      FindAndSelectAll(NCounter);
     end;
 
     afoFindMarkAll:
     begin
-      FindAndMarkAll;
+      FindAndMarkAll(NCounter);
     end;
   end; //case Res of
 

@@ -725,8 +725,8 @@ type
     procedure FindAndReplaceAll;
     procedure FindAndReplaceOneMatch(AndStop: boolean);
     procedure FindAndCountAll;
-    procedure FindAndSelectAll;
-    procedure FindAndMarkAll;
+    procedure FindAndSelectAll(var NCounter: integer);
+    procedure FindAndMarkAll(var NCounter: integer);
     procedure FindAndReplaceInAllFrames(FramePrev: TEditorFrame);
     procedure FindAndExtractRegexMatches;
     procedure HandleTimerCommand(Ed: TATSynEdit; CmdCode: integer; CmdInvoke: TATEditorCommandInvoke);
