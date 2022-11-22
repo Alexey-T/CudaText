@@ -148,6 +148,85 @@ begin
   end;
 end;
 
+procedure TfmMain.FindAndSelectAll;
+var
+  NCounter: integer;
+begin
+  DoFindMarkingInit(markingSelections);
+  NCounter:= FFinder.DoAction_CountAll(true);
+  DoFindMarkingInit(markingNone);
+  FinderUpdateEditor(false);
+  if (NCounter=0) and FFinder.IsRegexBad then
+    MsgStatusErrorInRegex
+  else
+    MsgStatus(
+      Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind), NCounter]) +
+      FinderOptionsToHint(FFinder),
+      true);
+end;
+
+procedure TfmMain.FindAndMarkAll;
+var
+  NCounter: integer;
+begin
+  DoFindMarkingInit(markingMarkers);
+  NCounter:= FFinder.DoAction_CountAll(true);
+  DoFindMarkingInit(markingNone);
+  FinderUpdateEditor(false);
+  if (NCounter=0) and FFinder.IsRegexBad then
+    MsgStatusErrorInRegex
+  else
+    MsgStatus(
+      Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind), NCounter]) +
+      FinderOptionsToHint(FFinder),
+      true);
+end;
+
+procedure TfmMain.FindAndCountAll;
+var
+  NCounter: integer;
+begin
+  DoFindMarkingInit(markingNone);
+  NCounter:= FFinder.DoAction_CountAll(false);
+  if (NCounter=0) and FFinder.IsRegexBad then
+    MsgStatusErrorInRegex
+  else
+    MsgStatus(
+      Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind), NCounter])+FinderOptionsToHint(FFinder),
+      true);
+end;
+
+procedure TfmMain.FindAndReplaceInAllFrames(FramePrev: TEditorFrame);
+var
+  NTick: QWord;
+  FrameNew: TEditorFrame;
+  NCounter, NTime, IndexFrame: integer;
+  bChangeFrame: boolean;
+begin
+  NCounter:= 0;
+  NTick:= GetTickCount64;
+  bChangeFrame:= FFinder.OptConfirmReplace;
+
+  for IndexFrame:= 0 to FrameCount-1 do
+  begin
+    FrameNew:= Frames[IndexFrame];
+    if FrameNew.FrameKind<>efkEditor then Continue;
+
+    if bChangeFrame then
+      SetFrame(FrameNew);
+
+    NCounter+= FinderReplaceAll(FrameNew.Ed1, true);
+    if not FrameNew.EditorsLinked then
+      NCounter+= FinderReplaceAll(FrameNew.Ed2, true);
+  end;
+
+  NTime:= (GetTickCount64-NTick) div 1000;
+  if bChangeFrame then
+    SetFrame(FramePrev);
+  UpdateStatusbar;
+  FinderShowReplaceReport(NCounter, NTime);
+end;
+
 procedure TfmMain.FindDialogDone(Sender: TObject; Res: TAppFinderOperation; AEnableUpdateAll: boolean);
 var
   Category: TAppFinderOperationCategory;
@@ -315,41 +394,12 @@ begin
 
     afoReplaceGlobal:
     begin
-      NCounter:= 0;
-      NTick:= GetTickCount64;
-      FramePrev:= Frame;
-      bChangeFrame:= FFinder.OptConfirmReplace;
-
-      for IndexFrame:= 0 to FrameCount-1 do
-      begin
-        FrameNew:= Frames[IndexFrame];
-        if FrameNew.FrameKind<>efkEditor then Continue;
-
-        if bChangeFrame then
-          SetFrame(FrameNew);
-
-        NCounter+= FinderReplaceAll(FrameNew.Ed1, true);
-        if not FrameNew.EditorsLinked then
-          NCounter+= FinderReplaceAll(FrameNew.Ed2, true);
-      end;
-
-      NTime:= (GetTickCount64-NTick) div 1000;
-      if bChangeFrame then
-        SetFrame(FramePrev);
-      UpdateStatusbar;
-      FinderShowReplaceReport(NCounter, NTime);
+      FindAndReplaceInAllFrames(Frame);
     end;
 
     afoCountAll:
     begin
-      DoFindMarkingInit(markingNone);
-      NCounter:= FFinder.DoAction_CountAll(false);
-      if (NCounter=0) and FFinder.IsRegexBad then
-        MsgStatusErrorInRegex
-      else
-        MsgStatus(
-          Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind), NCounter])+FinderOptionsToHint(FFinder),
-          true);
+      FindAndCountAll;
     end;
 
     afoExtractAll:
@@ -359,32 +409,12 @@ begin
 
     afoFindSelectAll:
     begin
-      DoFindMarkingInit(markingSelections);
-      NCounter:= FFinder.DoAction_CountAll(true);
-      DoFindMarkingInit(markingNone);
-      FinderUpdateEditor(false);
-      if (NCounter=0) and FFinder.IsRegexBad then
-        MsgStatusErrorInRegex
-      else
-        MsgStatus(
-          Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind), NCounter]) +
-          FinderOptionsToHint(FFinder),
-          true);
+      FindAndSelectAll;
     end;
 
     afoFindMarkAll:
     begin
-      DoFindMarkingInit(markingMarkers);
-      NCounter:= FFinder.DoAction_CountAll(true);
-      DoFindMarkingInit(markingNone);
-      FinderUpdateEditor(false);
-      if (NCounter=0) and FFinder.IsRegexBad then
-        MsgStatusErrorInRegex
-      else
-        MsgStatus(
-          Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind), NCounter]) +
-          FinderOptionsToHint(FFinder),
-          true);
+      FindAndMarkAll;
     end;
   end; //case Res of
 

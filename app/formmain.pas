@@ -721,6 +721,10 @@ type
     FOption_BottomTab: string;
     FCmdlineFileCount: integer;
 
+    procedure FindAndCountAll;
+    procedure FindAndSelectAll;
+    procedure FindAndMarkAll;
+    procedure FindAndReplaceInAllFrames(FramePrev: TEditorFrame);
     procedure FindAndExtractRegexMatches;
     procedure HandleTimerCommand(Ed: TATSynEdit; CmdCode: integer; CmdInvoke: TATEditorCommandInvoke);
     function IsTooManyTabsOpened: boolean;
