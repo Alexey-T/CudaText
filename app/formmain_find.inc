@@ -196,6 +196,17 @@ begin
       true);
 end;
 
+procedure TfmMain.FindAndStop(ABack: boolean);
+var
+  ok, bChanged: boolean;
+begin
+  FFinder.OptBack:= ABack;
+  ok:= FFinder.DoAction_FindOrReplace(
+    false, false, bChanged, true);
+  FinderUpdateEditor(false);
+  FinderShowResult(ok, FFinder);
+end;
+
 procedure TfmMain.FindAndReplaceOneMatch(AndStop: boolean);
 var
   ok, bChanged: boolean;
@@ -386,11 +397,7 @@ begin
     afoFindNext,
     afoFindPrev:
     begin
-      FFinder.OptBack:= (Res=afoFindPrev);
-      ok:= FFinder.DoAction_FindOrReplace(
-        false, false, bChanged, true);
-      FinderUpdateEditor(false);
-      FinderShowResult(ok, FFinder);
+      FindAndStop(Res=afoFindPrev);
     end;
 
     afoReplace,

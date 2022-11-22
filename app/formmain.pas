@@ -721,9 +721,10 @@ type
     FOption_BottomTab: string;
     FCmdlineFileCount: integer;
 
-    procedure FindAndCountAll;
+    procedure FindAndStop(ABack: boolean);
     procedure FindAndReplaceAll;
     procedure FindAndReplaceOneMatch(AndStop: boolean);
+    procedure FindAndCountAll;
     procedure FindAndSelectAll;
     procedure FindAndMarkAll;
     procedure FindAndReplaceInAllFrames(FramePrev: TEditorFrame);
