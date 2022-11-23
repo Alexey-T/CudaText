@@ -2407,7 +2407,7 @@ The GTK2 and Qt5 binaries can also be installed via the AUR if you are on an Arc
 ==Linux: Qt5 and Qt6 builds==
 '''Qt5'''
 
-For Linux Qt5 version, library libQt5Pas is required, version 1.2.8 or newer.
+For Linux Qt5 version, library libQt5Pas is required, release 1.2.8 or newer.
 Get it from [https://github.com/davidbannon/libqt5pas/releases releases on this page].
 
 Some package managers have Qt5Pas package.
@@ -2422,7 +2422,7 @@ On Manjaro:
 
 '''Qt6'''
 
-For Linux Qt6 version, library libQt6Pas is required, any stable release.
+For Linux Qt6 version, library libQt6Pas is required, release 6.2.2 or newer.
 Get it from [https://github.com/davidbannon/libqt6pas/releases releases on this page].
 
 ==FreeBSD: App cannot run==
