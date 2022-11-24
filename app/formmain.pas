@@ -3112,6 +3112,8 @@ end;
 
 procedure TfmMain.FormDropFiles(Sender: TObject;
   const FileNames: array of String);
+const
+  cStepsForProgress = 40;
 var
   SName: string;
   Pages: TATPages;
@@ -3143,6 +3145,9 @@ begin
     else
     if FileExists(SName) then
       DoFileOpen(SName, '', Pages, GetFileOpenOptionsString(Length(FileNames)));
+
+    if i mod cStepsForProgress = cStepsForProgress-1 then
+      Application.ProcessMessages;
   end;
 end;
 
