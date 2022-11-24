@@ -5314,7 +5314,7 @@ begin
           end;
         APP_PROC_THEME_UI_SET:
           begin
-            fmMain.SetThemeUi(Str);
+            fmMain.UpdateThemes(Str, '?');
             Result:= ReturnNone;
           end;
         APP_PROC_THEME_SYNTAX_GET:
@@ -5323,7 +5323,7 @@ begin
           end;
         APP_PROC_THEME_SYNTAX_SET:
           begin
-            fmMain.SetThemeSyntax(Str);
+            fmMain.UpdateThemes('?', Str);
             Result:= ReturnNone;
           end;
 

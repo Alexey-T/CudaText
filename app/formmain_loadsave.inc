@@ -844,10 +844,10 @@ begin
     AppPanels[cPaneSide].Floating:= cfg.GetValue('float_side', false);
     AppPanels[cPaneOut].Floating:= cfg.GetValue('float_bottom', false);
 
-    if UiOps.ThemeUi_Loaded then
-      SetThemeUi(UiOps.ThemeUi);
-    if UiOps.ThemeSyntax_Loaded then
-      SetThemeSyntax(UiOps.ThemeSyntax);
+    UpdateThemes(
+      IfThen(UiOps.ThemeUi_Loaded, UiOps.ThemeUi, '?'),
+      IfThen(UiOps.ThemeSyntax_Loaded, UiOps.ThemeSyntax, '?')
+      );
 
     UiOps.LangName:= cfg.GetValue('lang', '');
     if UiOps.LangName<>'' then

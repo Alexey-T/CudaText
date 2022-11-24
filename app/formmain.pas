@@ -1168,7 +1168,6 @@ type
     PanelCodeTreeTop: TPanel;
     StatusProgress: TATGauge;
     ButtonCancel: TATButton;
-    //LexerProgress: TATGauge;
     function FrameCount: integer;
     property Frames[N: integer]: TEditorFrame read GetFrame;
     function CurrentGroups: TATGroups;
@@ -1204,8 +1203,7 @@ type
     procedure FinderOnConfirmReplace_API(Sender: TObject; APos1, APos2: TPoint;
       AForMany: boolean; var AConfirm, AContinue: boolean; var AReplacement: UnicodeString);
     procedure PyStatusbarPanelClick(Sender: TObject; const ATag: Int64);
-    procedure SetThemeUi(const AValue: string);
-    procedure SetThemeSyntax(const AValue: string);
+    procedure UpdateThemes(const AThemeUi, AThemeSyntax: string);
     procedure SetProjectPath(const APath: string);
   end;
 

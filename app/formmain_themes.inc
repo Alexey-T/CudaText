@@ -245,10 +245,10 @@ end;
 
 procedure TfmMain.DoDialogMenuThemes_ThemeSetter(const AThemeUi, AThemeSyntax: string);
 begin
-  if UiOps.ThemeUi<>AThemeUi then
-    SetThemeUi(AThemeUi);
-  if UiOps.ThemeSyntax<>AThemeSyntax then
-    SetThemeSyntax(AThemeSyntax);
+  UpdateThemes(
+    IfThen(UiOps.ThemeUi<>AThemeUi, AThemeUi, '?'),
+    IfThen(UiOps.ThemeSyntax<>AThemeSyntax, AThemeSyntax, '?')
+    );
 end;
 
 procedure TfmMain.DoDialogMenuThemes;
@@ -266,64 +266,63 @@ begin
       DoOps_SaveThemes
     else
     begin
-      SetThemeUi(OldThemeUi);
-      SetThemeSyntax(OldThemeSyntax);
+      UpdateThemes(OldThemeUi, OldThemeSyntax);
     end;
   finally
     Form.Free;
   end;
 end;
 
-procedure TfmMain.SetThemeUi(const AValue: string);
+procedure TfmMain.UpdateThemes(const AThemeUi, AThemeSyntax: string);
 var
-  SName: string;
+  bChangeUi,
+  bChangeSyntax: boolean;
 begin
-  UiOps.ThemeUi:= AValue;
+  bChangeUi:= AThemeUi<>'?';
+  bChangeSyntax:= AThemeSyntax<>'?';
 
-  if UiOps.ThemeUi='' then
-  begin
-    SName:= UiOps.ThemeSyntax;
+  if (AThemeUi='') or (AThemeSyntax='') then
     AppThemeInit(AppTheme); //resets UI+Syntax
-    if SName<>'' then
-      SetThemeSyntax(SName);
-  end
-  else
-    AppThemeLoadFromFile(
-      AppDir_DataThemes+DirectorySeparator+UiOps.ThemeUi+AppExtensionThemeUi,
-      AppTheme,
-      true
-      );
 
-  DoClearLexersAskedList;
-  DoApplyTheme;
-
-  DoPyEvent_AppState(APPSTATE_THEME_UI);
-end;
-
-procedure TfmMain.SetThemeSyntax(const AValue: string);
-var
-  SName: string;
-begin
-  UiOps.ThemeSyntax:= AValue;
-
-  if UiOps.ThemeSyntax='' then
+  if bChangeUi then
   begin
-    SName:= UiOps.ThemeUi;
-    AppThemeInit(AppTheme); //resets UI+Syntax
-    if SName<>'' then
-      SetThemeUi(SName);
-  end
-  else
-    AppThemeLoadFromFile(
-      AppDir_DataThemes+DirectorySeparator+UiOps.ThemeSyntax+AppExtensionThemeSyntax,
-      AppTheme,
-      false
-      );
+    UiOps.ThemeUi:= AThemeUi;
+    if UiOps.ThemeUi='' then
+    begin
+    end
+    else
+      AppThemeLoadFromFile(
+        AppDir_DataThemes+DirectorySeparator+UiOps.ThemeUi+AppExtensionThemeUi,
+        AppTheme,
+        true
+        );
+  end;
 
-  DoClearLexersAskedList;
-  DoApplyTheme;
+  if bChangeSyntax then
+  begin
+    UiOps.ThemeSyntax:= AThemeSyntax;
+    if UiOps.ThemeSyntax='' then
+    begin
+    end
+    else
+      AppThemeLoadFromFile(
+        AppDir_DataThemes+DirectorySeparator+UiOps.ThemeSyntax+AppExtensionThemeSyntax,
+        AppTheme,
+        false
+        );
+  end;
 
-  DoPyEvent_AppState(APPSTATE_THEME_SYNTAX);
+  if bChangeUi or bChangeSyntax then
+  begin
+    DoClearLexersAskedList;
+    DoApplyTheme;
+
+    if bChangeUi then
+      DoPyEvent_AppState(APPSTATE_THEME_UI);
+
+    if bChangeSyntax then
+      DoPyEvent_AppState(APPSTATE_THEME_SYNTAX);
+  end;
 end;
 
 
