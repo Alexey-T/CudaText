@@ -3,8 +3,9 @@
   - fixed
   * changed
 
-1.177.3 (2022/11)
+1.178.0 (2022/11)
 
++ add: allow Differ plugin to fill ui-tab context menu 'on demand' and not 'on file opening' which was much slower (thanks @veksha)
 + add: opening lot of files via command line (and Windows Shell Extension) must not activate each file on loading (thanks @iahung)
 + add: dialog "Themes" has improved UI (thanks @veksha)
 + add: option "find_suggest_in_selection" also detects the columnar selection (thanks @tmsg)

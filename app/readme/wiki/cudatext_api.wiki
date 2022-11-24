@@ -4778,7 +4778,7 @@ It provides:
 * add: event on_start2
 * add: Editor() supports handle==1 to get editor from right-clicked tab
 
-1.0.436 (app 1.177.3)
+1.0.436 (app 1.178.0)
 * add: event on_tab_menu
 
 [[Category:CudaText]]
