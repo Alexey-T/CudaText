@@ -273,7 +273,7 @@ procedure TfmMain.SecondInstance(const Msg: TBytes);
 var
   Sep: TATStringSeparator;
   Params: array of string;
-  S, SOpenOptions: string;
+  S: string;
 begin
   if not IsAllowedToOpenFileNow then Exit;
 
@@ -287,12 +287,10 @@ begin
     Params[Length(Params)-1]:= S;
   end;
 
-  if Length(Params)>1 then
-    SOpenOptions:= '/passive /nonear'
-  else
-    SOpenOptions:= '/nonear';
-
-  DoLoadCommandParams(Params, SOpenOptions);
+  DoLoadCommandParams(
+    Params,
+    GetFileOpenOptionsString(Length(Params))
+    );
 
   if WindowState = wsMinimized then
   begin
@@ -302,20 +300,23 @@ begin
 end;
 {$endif}
 
+function TfmMain.GetFileOpenOptionsString(AFileCount: integer): string;
+begin
+  if AFileCount>1 then
+    Result:= '/passive /nonear'
+  else
+    Result:= '/nonear';
+end;
 
 procedure TfmMain.HandleOtherInstance(Sender: TObject;
   ParamCount: Integer; const Parameters: array of String);
-var
-  SOpenOptions: string;
 begin
   if not IsAllowedToOpenFileNow then exit;
 
-  if Length(Parameters)>1 then
-    SOpenOptions:= '/passive /nonear'
-  else
-    SOpenOptions:= '/nonear';
-
-  DoLoadCommandParams(Parameters, SOpenOptions);
+  DoLoadCommandParams(
+    Parameters,
+    GetFileOpenOptionsString(ParamCount)
+    );
 
   if WindowState=wsMinimized then
   begin
@@ -333,27 +334,23 @@ begin
 end;
 
 procedure TfmMain.DoLoadCommandLine;
-const
-  cOptionPassive = '/passive /nonear';
-  cOptionActive = '/nonear';
 var
   Params: array of string;
-  Options: string;
   i: integer;
 begin
-  DoLoadCommandParams(FFileNamesDroppedInitially, cOptionPassive);
-
-  //if passed single file, must activate it, else not
-  if ParamCount<2 then
-    Options:= cOptionActive
-  else
-    Options:= cOptionPassive;
+  DoLoadCommandParams(
+    FFileNamesDroppedInitially,
+    GetFileOpenOptionsString(100) //open with /passive flag
+    );
 
   SetLength(Params, ParamCount);
   for i:= 1 to Length(Params) do
     Params[i-1]:= ParamStrUTF8(i);
 
-  DoLoadCommandParams(Params, Options);
+  DoLoadCommandParams(
+    Params,
+    GetFileOpenOptionsString(Length(Params))
+    );
 end;
 
 procedure TfmMain.DoLoadCommandLine_FromString(const AText: string);

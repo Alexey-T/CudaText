@@ -729,6 +729,7 @@ type
     procedure FindAndMarkAll(var NCounter: integer);
     procedure FindAndReplaceInAllFrames(FramePrev: TEditorFrame; var NCounter: integer);
     procedure FindAndExtractRegexMatches;
+    function GetFileOpenOptionsString(AFileCount: integer): string;
     procedure HandleTimerCommand(Ed: TATSynEdit; CmdCode: integer; CmdInvoke: TATEditorCommandInvoke);
     function IsTooManyTabsOpened: boolean;
     function GetUntitledNumberedCaption: string;
@@ -3139,14 +3140,14 @@ begin
   //set group according to mouse cursor
   Pages:= TGroupsHelper.FindPagesUnderCursorPos(Mouse.CursorPos, Groups);
 
-  for i:= 0 to Length(Filenames)-1 do
+  for i:= 0 to Length(FileNames)-1 do
   begin
     SName:= FileNames[i];
     if DirectoryExistsUTF8(SName) then
       DoFolderOpen(SName, False, cInvokeAppDragDrop)
     else
     if FileExists(SName) then
-      DoFileOpen(SName, '', Pages, '/passive /nonear'); //use '/passive' to avoid parsing all files
+      DoFileOpen(SName, '', Pages, GetFileOpenOptionsString(Length(FileNames)));
   end;
 end;
 
