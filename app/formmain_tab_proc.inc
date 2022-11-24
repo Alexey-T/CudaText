@@ -373,10 +373,22 @@ begin
 end;
 
 procedure TfmMain.DoOnTabPopup(Sender: TObject; APages: TATPages; ATabIndex: integer);
+var
+  Data: TATTabData;
+  Frame: TEditorFrame;
 begin
   if Assigned(APages) and (ATabIndex>=0) then
   begin
     InitPopupTab;
+
+    Data:= APages.Tabs.GetTabData(ATabIndex);
+    if Assigned(Data) and Assigned(Data.TabObject) then
+    begin
+      Frame:= Data.TabObject as TEditorFrame;
+      if DoPyEvent(Frame.Editor, cEventOnTabMenu, []).Val=evrFalse then
+        exit;
+    end;
+
     PopupTab.Popup;
   end;
 end;
