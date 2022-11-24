@@ -3,14 +3,15 @@
   - fixed
   * changed
 
-1.177.1 (2022/11)
+1.177.3 (2022/11)
 
 + add: opening lot of files via command line (and Windows Shell Extension) must not activate each file on loading (thanks @iahung)
 + add: dialog "Themes" has improved UI (thanks @veksha)
 + add: option "find_suggest_in_selection" also detects the columnar selection (thanks @tmsg)
 + add: lexer PHP: support inclusion of JSON blocks
-- fix: regression: files always open in foreground even if API tells 'in the background'
+- fix: sometimes, program doesn't apply dark _syntax_ theme on startup (thanks @iahung)
 - fix: sometimes, "Extract RegEx matches" doesn't repaint the resulting editor
+- fix: regression: files always open in foreground even when it's needed 'in background'
 
 1.177.0 (2022/11)
 
