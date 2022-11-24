@@ -8,7 +8,8 @@
 + add: dialog "Themes" has improved UI (thanks @veksha)
 + add: option "find_suggest_in_selection" also detects the columnar selection (thanks @tmsg)
 + add: lexer PHP: support inclusion of JSON blocks
-- fix: regression: files always open in foreground even if API tells 'in the background' (thanks @iahung)
+- fix: opening lot of files via Windows Shell Extension now don't activate each file on loading (thanks @iahung)
+- fix: regression: files always open in foreground even if API tells 'in the background'
 - fix: sometimes, "Extract RegEx matches" doesn't repaint the resulting editor
 
 1.177.0 (2022/11)

@@ -273,7 +273,7 @@ procedure TfmMain.SecondInstance(const Msg: TBytes);
 var
   Sep: TATStringSeparator;
   Params: array of string;
-  S: string;
+  S, SOpenOptions: string;
 begin
   if not IsAllowedToOpenFileNow then Exit;
 
@@ -287,7 +287,12 @@ begin
     Params[Length(Params)-1]:= S;
   end;
 
-  DoLoadCommandParams(Params, '');
+  if Length(Params)>1 then
+    SOpenOptions:= '/passive /nonear'
+  else
+    SOpenOptions:= '/nonear';
+
+  DoLoadCommandParams(Params, SOpenOptions);
 
   if WindowState = wsMinimized then
   begin
@@ -300,10 +305,17 @@ end;
 
 procedure TfmMain.HandleOtherInstance(Sender: TObject;
   ParamCount: Integer; const Parameters: array of String);
+var
+  SOpenOptions: string;
 begin
   if not IsAllowedToOpenFileNow then exit;
 
-  DoLoadCommandParams(Parameters, '');
+  if Length(Parameters)>1 then
+    SOpenOptions:= '/passive /nonear'
+  else
+    SOpenOptions:= '/nonear';
+
+  DoLoadCommandParams(Parameters, SOpenOptions);
 
   if WindowState=wsMinimized then
   begin
