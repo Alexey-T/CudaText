@@ -3146,7 +3146,7 @@ begin
       DoFolderOpen(SName, False, cInvokeAppDragDrop)
     else
     if FileExists(SName) then
-      DoFileOpen(SName, '', Pages);
+      DoFileOpen(SName, '', Pages, '/passive /nonear'); //use '/passive' to avoid parsing all files
   end;
 end;
 
