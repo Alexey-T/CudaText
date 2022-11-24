@@ -4445,7 +4445,9 @@ begin
       OpenMode);
     MsgStatusFileOpened(AFileName, AFileName2);
 
-    DoFocusFrame(Result);
+    if bAndActivate then
+      DoFocusFrame(Result);
+
     if bEnableEventOpened then
     begin
       DoPyEvent_Open(Result.Ed1);
@@ -4538,7 +4540,8 @@ begin
     if AFileName2<>'' then
       DoPyEvent_Open(F.Ed2);
 
-  DoFocusFrame(Result);
+  if bAndActivate then
+    DoFocusFrame(Result);
 end;
 
 
