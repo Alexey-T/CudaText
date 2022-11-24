@@ -907,7 +907,7 @@
           </Other>
         </CompilerOptions>
       </Item22>
-      <Item23 Name="solaris sparc">
+      <Item23 Name="solaris sparc gtk2">
         <CompilerOptions>
           <Version Value="11"/>
           <PathDelim Value="\"/>
