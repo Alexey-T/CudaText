@@ -385,7 +385,7 @@ begin
     if Assigned(Data) and Assigned(Data.TabObject) then
     begin
       Frame:= Data.TabObject as TEditorFrame;
-      if DoPyEvent(Frame.Editor, cEventOnTabMenu, []).Val=evrFalse then
+      if DoPyEvent(Frame.Ed1, cEventOnTabMenu, []).Val=evrFalse then
         exit;
     end;
 
