@@ -844,13 +844,10 @@ begin
     AppPanels[cPaneSide].Floating:= cfg.GetValue('float_side', false);
     AppPanels[cPaneOut].Floating:= cfg.GetValue('float_bottom', false);
 
-    {
-    //to delete this block; 2022.11
     if UiOps.ThemeUi_Loaded then
       ThemeUi:= UiOps.ThemeUi;
     if UiOps.ThemeSyntax_Loaded then
       ThemeSyntax:= UiOps.ThemeSyntax;
-      }
 
     UiOps.LangName:= cfg.GetValue('lang', '');
     if UiOps.LangName<>'' then
@@ -1546,12 +1543,12 @@ begin
   S:= cfg.GetValue('ui_theme', '?');
   UiOps.ThemeUi_Loaded:= S<>'?';
   if UiOps.ThemeUi_Loaded then
-    ThemeUi:= S;
+    UiOps.ThemeUi:= S;
 
   S:= cfg.GetValue('ui_theme_syntax', '?');
   UiOps.ThemeSyntax_Loaded:= S<>'?';
   if UiOps.ThemeSyntax_Loaded then
-    ThemeSyntax:= S;
+    UiOps.ThemeSyntax:= S;
 end;
 
 
