@@ -845,9 +845,9 @@ begin
     AppPanels[cPaneOut].Floating:= cfg.GetValue('float_bottom', false);
 
     if UiOps.ThemeUi_Loaded then
-      ThemeUi:= UiOps.ThemeUi;
+      SetThemeUi(UiOps.ThemeUi);
     if UiOps.ThemeSyntax_Loaded then
-      ThemeSyntax:= UiOps.ThemeSyntax;
+      SetThemeSyntax(UiOps.ThemeSyntax);
 
     UiOps.LangName:= cfg.GetValue('lang', '');
     if UiOps.LangName<>'' then

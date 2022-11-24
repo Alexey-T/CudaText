@@ -958,8 +958,6 @@ type
     procedure SetFullScreen_Ex(AValue: boolean; AHideAll: boolean);
     procedure SetFullScreen_Universal(AValue: boolean);
     procedure SetFullScreen_Win32(AValue: boolean);
-    procedure SetThemeSyntax(const AValue: string);
-    procedure SetThemeUi(const AValue: string);
     procedure DoOps_ShowEventPlugins;
     procedure DoOps_LoadPluginFromInf(const fn_inf: string; IniPlugins: TMemIniFile);
     procedure DoOps_LoadSidebarIcons;
@@ -1190,8 +1188,6 @@ type
     property ShowToolbar: boolean read GetShowToolbar write SetShowToolbar;
     property ShowStatus: boolean read GetShowStatus write SetShowStatus;
     property ShowTabsMain: boolean read GetShowTabsMain write SetShowTabsMain;
-    property ThemeUi: string write SetThemeUi;
-    property ThemeSyntax: string write SetThemeSyntax;
     function DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent; const AParams: TAppVariantArray): TAppPyEventResult;
     function DoPyEvent_ConsoleNav(const AText: string): boolean;
     function DoPyEvent_Message(const AText: string): boolean;
@@ -1209,6 +1205,8 @@ type
     procedure FinderOnConfirmReplace_API(Sender: TObject; APos1, APos2: TPoint;
       AForMany: boolean; var AConfirm, AContinue: boolean; var AReplacement: UnicodeString);
     procedure PyStatusbarPanelClick(Sender: TObject; const ATag: Int64);
+    procedure SetThemeUi(const AValue: string);
+    procedure SetThemeSyntax(const AValue: string);
     procedure SetProjectPath(const APath: string);
   end;
 

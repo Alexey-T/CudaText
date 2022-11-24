@@ -246,13 +246,13 @@ end;
 procedure TfmMain.DoDialogMenuThemes_ThemeUiSelect(const AStr: string);
 begin
   if UiOps.ThemeUi<>AStr then
-    ThemeUi:= AStr;
+    SetThemeUi(AStr);
 end;
 
 procedure TfmMain.DoDialogMenuThemes_ThemeSyntaxSelect(const AStr: string);
 begin
   if UiOps.ThemeSyntax<>AStr then
-    ThemeSyntax:= AStr;
+    SetThemeSyntax(AStr);
 end;
 
 procedure TfmMain.DoDialogMenuThemes;
@@ -271,8 +271,8 @@ begin
       DoOps_SaveThemes
     else
     begin
-      ThemeUi:= OldThemeUi;
-      ThemeSyntax:= OldThemeSyntax;
+      SetThemeUi(OldThemeUi);
+      SetThemeSyntax(OldThemeSyntax);
     end;
   finally
     Form.Free;
