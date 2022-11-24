@@ -20,7 +20,7 @@ uses
   proc_globdata;
 
 type
-  TAppThemeSetter = procedure(const S: string) of object;
+  TAppThemeSetter = procedure(const AThemeUi, AThemeSyntax: string) of object;
 
 type
   { TfmChooseTheme }
@@ -53,8 +53,7 @@ type
     procedure SetEnableLexerThemes(AValue: boolean);
     procedure SetEnableSync(AValue: boolean);
   public
-    ThemeUiSetter: TAppThemeSetter;
-    ThemeSyntaxSetter: TAppThemeSetter;
+    ThemeSetter: TAppThemeSetter;
     property EnableLexerThemes: boolean read GetEnableLexerThemes write SetEnableLexerThemes;
     property EnableSync: boolean read GetEnableSync write SetEnableSync;
   end;
@@ -283,8 +282,7 @@ end;
 
 procedure TfmChooseTheme.IdleTimer1Timer(Sender: TObject);
 begin
-  ThemeUiSetter(SelectedThemeUI);
-  ThemeSyntaxSetter(SelectedThemeSyntax);
+  ThemeSetter(SelectedThemeUI, SelectedThemeSyntax);
 end;
 
 

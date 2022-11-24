@@ -243,16 +243,12 @@ begin
   {$endif}
 end;
 
-procedure TfmMain.DoDialogMenuThemes_ThemeUiSelect(const AStr: string);
+procedure TfmMain.DoDialogMenuThemes_ThemeSetter(const AThemeUi, AThemeSyntax: string);
 begin
-  if UiOps.ThemeUi<>AStr then
-    SetThemeUi(AStr);
-end;
-
-procedure TfmMain.DoDialogMenuThemes_ThemeSyntaxSelect(const AStr: string);
-begin
-  if UiOps.ThemeSyntax<>AStr then
-    SetThemeSyntax(AStr);
+  if UiOps.ThemeUi<>AThemeUi then
+    SetThemeUi(AThemeUi);
+  if UiOps.ThemeSyntax<>AThemeSyntax then
+    SetThemeSyntax(AThemeSyntax);
 end;
 
 procedure TfmMain.DoDialogMenuThemes;
@@ -264,8 +260,7 @@ begin
   try
     OldThemeUi:= UiOps.ThemeUi;
     OldThemeSyntax:= UiOps.ThemeSyntax;
-    Form.ThemeUiSetter:= @DoDialogMenuThemes_ThemeUiSelect;
-    Form.ThemeSyntaxSetter:= @DoDialogMenuThemes_ThemeSyntaxSelect;
+    Form.ThemeSetter:= @DoDialogMenuThemes_ThemeSetter;
 
     if Form.ShowModal=mrOK then
       DoOps_SaveThemes

@@ -762,8 +762,7 @@ type
     procedure DoApplyTranslationToGroups(G: TATGroups);
     procedure DoClearSingleFirstTab;
     procedure DoCloseAllTabs;
-    procedure DoDialogMenuThemes_ThemeSyntaxSelect(const AStr: string);
-    procedure DoDialogMenuThemes_ThemeUiSelect(const AStr: string);
+    procedure DoDialogMenuThemes_ThemeSetter(const AThemeUi, AThemeSyntax: string);
     procedure DoFileDialog_PrepareDir(Dlg: TFileDialog);
     procedure DoFileDialog_SaveDir(Dlg: TFileDialog);
     procedure DoCommandsMsgStatus(Sender: TObject; const ARes: string);
