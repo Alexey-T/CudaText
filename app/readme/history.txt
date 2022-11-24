@@ -11,7 +11,7 @@
 + add: lexer PHP: support inclusion of JSON blocks
 - fix: sometimes, program doesn't apply dark _syntax_ theme on startup (thanks @iahung)
 - fix: sometimes, "Extract RegEx matches" doesn't repaint the resulting editor
-- fix: regression: files always open in foreground even when it's needed 'in background'
+- fix: regression: files always open 'activated' even when it's needed 'in background ui-tab'
 
 1.177.0 (2022/11)
 
