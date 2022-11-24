@@ -41,8 +41,9 @@ Event handlers (Command.on_nnnnn methods) return-value is ignored is many cases,
 
 ==Events - Tabs==
 
-* on_tab_change(self, ed_self): Called after active tab is changed.
-* on_tab_move(self, ed_self): Called after closing a tab (another tab is already activated), or moving a tab (by drag-n-drop, or UI command).
+* on_tab_change(self, ed_self): Called after active UI-tab is changed.
+* on_tab_menu(self, ed_self): Called just before showing popup menu for UI-tab title. Method can return False to disable the standard popup menu, other return value is ignored.
+* on_tab_move(self, ed_self): Called after closing a UI-tab (another UI-tab is already activated), or moving a UI-tab (by drag-n-drop, or UI command).
 
 ==Events - Editor==
 
@@ -4776,5 +4777,8 @@ It provides:
 1.0.435 (app 1.176.5)
 * add: event on_start2
 * add: Editor() supports handle==1 to get editor from right-clicked tab
+
+1.0.436 (app 1.177.3)
+* add: event on_tab_menu
 
 [[Category:CudaText]]
