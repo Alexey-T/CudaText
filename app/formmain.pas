@@ -761,8 +761,8 @@ type
     procedure DoApplyLexerStylesMapsToFrames(AndApplyTheme: boolean);
     procedure DoApplyTranslationToGroups(G: TATGroups);
     procedure DoClearSingleFirstTab;
-    procedure DoCloseAllTabs;
-    function DoCloseAllTabs_Alt: boolean;
+    function DoCloseAllTabs: boolean;
+    procedure DoCloseAllTabs_Old;
     procedure DoDialogMenuThemes_ThemeSetter(const AThemeUi, AThemeSyntax: string);
     procedure DoFileDialog_PrepareDir(Dlg: TFileDialog);
     procedure DoFileDialog_SaveDir(Dlg: TFileDialog);
@@ -2867,7 +2867,7 @@ begin
   DoOps_LoadHistory;
 end;
 
-procedure TfmMain.DoCloseAllTabs;
+procedure TfmMain.DoCloseAllTabs_Old;
 var
   Pages: TATPages;
   Tabs: TATTabs;
@@ -2884,7 +2884,7 @@ begin
   end;
 end;
 
-function TfmMain.DoCloseAllTabs_Alt: boolean;
+function TfmMain.DoCloseAllTabs: boolean;
 //trying to fix freeze of closing 700 tabs, issue #4617
 var
   List: array of TATGroups;

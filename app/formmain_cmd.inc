@@ -63,8 +63,7 @@ begin
 
     cmd_FileCloseAll:
       begin
-        //DoCloseAllTabs;
-        DoCloseAllTabs_Alt;
+        DoCloseAllTabs;
 
         Frame:= CurrentFrame;
         if Assigned(Frame) then
