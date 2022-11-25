@@ -13,6 +13,7 @@
 - fix: sometimes, program doesn't apply dark _syntax_ theme on startup (thanks @iahung)
 - fix: sometimes, "Extract RegEx matches" doesn't repaint the resulting editor
 - fix: regression: files always open 'activated' even when it's needed 'in background ui-tab'
+- fix: bug in lexer JSON^ with {["aa","aa"],{"aa":"bb"}}
 
 1.177.0 (2022/11)
 
