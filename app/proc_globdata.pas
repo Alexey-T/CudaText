@@ -3243,7 +3243,7 @@ end;
 
 procedure AppUpdateWatcherFrames;
 var
-  i: integer;
+  NCount, i: integer;
 begin
   //function is called in IdleTimer, so just exit if watcher thread is busy,
   //we will try this again on next timer tick
@@ -3251,7 +3251,8 @@ begin
 
   AppEventLister.ResetEvent;
   try
-    for i:= 0 to AppFrameListDeleting.Count-1 do
+    NCount:= AppFrameListDeleting.Count;
+    for i:= 0 to NCount-1 do
       TObject(AppFrameListDeleting[i]).Free;
     AppFrameListDeleting.Clear;
 
