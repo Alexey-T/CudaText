@@ -88,7 +88,8 @@ begin
     Data.Free;
   end;
 
-  APages.Tabs.MakeVisible(NToIndex);
+  if AndActivate then
+    APages.Tabs.MakeVisible(NToIndex);
 
   AppFrameList1.Add(F);
 
