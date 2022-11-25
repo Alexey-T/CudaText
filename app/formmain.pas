@@ -762,7 +762,7 @@ type
     procedure DoApplyTranslationToGroups(G: TATGroups);
     procedure DoClearSingleFirstTab;
     procedure DoCloseAllTabs;
-    procedure DoCloseAllTabs_Alt;
+    function DoCloseAllTabs_Alt: boolean;
     procedure DoDialogMenuThemes_ThemeSetter(const AThemeUi, AThemeSyntax: string);
     procedure DoFileDialog_PrepareDir(Dlg: TFileDialog);
     procedure DoFileDialog_SaveDir(Dlg: TFileDialog);
@@ -2884,31 +2884,22 @@ begin
   end;
 end;
 
-procedure TfmMain.DoCloseAllTabs_Alt;
+function TfmMain.DoCloseAllTabs_Alt: boolean;
 //trying to fix freeze of closing 700 tabs, issue #4617
 var
-  List: TFPList;
+  List: array of TATGroups;
   Grp: TATGroups;
   i: integer;
 begin
-  List:= TFPList.Create;
-  try
-    List.Add(Groups);
-    if Assigned(GroupsF1) then
-      List.Add(GroupsF1);
-    if Assigned(GroupsF2) then
-      List.Add(GroupsF2);
-    if Assigned(GroupsF3) then
-      List.Add(GroupsF3);
-
-    for i:= List.Count-1 downto 0 do
+  Result:= false;
+  List:= [Groups, GroupsF1, GroupsF2, GroupsF3];
+  for i:= High(List) downto 0 do
+    if Assigned(List[i]) then
     begin
       Grp:= TATGroups(List[i]);
       if not Grp.CloseTabs(tabCloseAll, false) then exit;
     end;
-  finally
-    FreeAndNil(List);
-  end;
+  Result:= true;
 end;
 
 procedure TfmMain.FormClose(Sender: TObject; var CloseAction: TCloseAction);
