@@ -13,6 +13,7 @@ interface
 
 uses
   SysUtils, Classes,
+  StrUtils,
   PythonEngine,
   proc_globdata,
   proc_appvariant;
@@ -161,9 +162,12 @@ begin
 end;
 
 function TAppPython.GetTimingReport: string;
+const
+  cKnownPrefix = 'cuda_';
 var
   i: integer;
   tick: PtrInt;
+  SModule: string;
 begin
   Result:= IntToStr((EventTime+5) div 10 * 10)+'ms (';
   for i:= 0 to EventTimes.Count-1 do
@@ -171,8 +175,11 @@ begin
     tick:= PtrInt(EventTimes.Objects[i]);
     if i>0 then
       Result+= ', ';
+    SModule:= EventTimes[i];
+    if StartsStr(cKnownPrefix, SModule) then
+      Delete(SModule, 1, Length(cKnownPrefix));
     Result+=
-      Copy(EventTimes[i], 6, MaxInt)+' '+
+      SModule+' '+
       IntToStr(tick)+'ms';
   end;
   Result+= ')';
