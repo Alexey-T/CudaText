@@ -1485,7 +1485,7 @@ begin
   Ed:= CurrentEditor;
   if Ed=nil then exit;
 
-  FillChar(KeyHistory{%H-}, SizeOf(KeyHistory), 0);
+  KeyHistory.Clear;
   NCmd:= Ed.Keymap.GetCommandFromShortcut(ShortCut(AKey, AShiftState), KeyHistory);
   if IsCommandHandledFromFindDialog(NCmd) then
   begin

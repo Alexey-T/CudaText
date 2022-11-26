@@ -1488,7 +1488,7 @@ var
   D: TATTabData;
   N: integer;
 begin
-  FillChar(Item, SizeOf(Item), 0);
+  Item:= Default(TAppCommandDelayed);
   Item.Code:= ACommand;
   Item.EdAddress:= Ed;
   Item.EdIndex:= 0;
