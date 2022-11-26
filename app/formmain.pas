@@ -721,6 +721,7 @@ type
     FOption_BottomTab: string;
     FCmdlineFileCount: integer;
 
+    function AskToSaveModifiedFrames(AWithCancel: boolean): boolean;
     procedure FindAndStop(ABack: boolean);
     procedure FindAndReplaceAll(var NCounter: integer);
     procedure FindAndReplaceOneMatch(AndStop: boolean);
@@ -5764,8 +5765,7 @@ begin
   MsgStatus(msgStatusReopened+' '+ExtractFileName(fn));
 end;
 
-
-function TfmMain.DoFileCloseAll(AWithCancel: boolean): boolean;
+function TfmMain.AskToSaveModifiedFrames(AWithCancel: boolean): boolean;
 var
   MsgFlags: integer;
   F: TEditorFrame;
@@ -5815,6 +5815,15 @@ begin
   finally
     FreeAndNil(ListNoSave);
   end;
+
+  Result:= true;
+end;
+
+function TfmMain.DoFileCloseAll(AWithCancel: boolean): boolean;
+var
+  F: TEditorFrame;
+begin
+  if not AskToSaveModifiedFrames(AWithCancel) then exit;
 
   //focus 1st tab (fixes appearing of empty tab on loading session with active group 2)
   if FrameCount>0 then
