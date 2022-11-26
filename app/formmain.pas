@@ -4690,7 +4690,7 @@ begin
   TKeymapHelperMain.UpdateDynamic(categ_OpenedFile);
   TKeymapHelperMain.UpdateDynamic(categ_RecentFile);
 
-  FillChar(Props, SizeOf(Props), 0);
+  Props:= Default(TDlgCommandsProps);
   Props.Caption:= msgCmdPaletteCaption;
   Props.LexerName:= F.LexerName[Ed];
   Props.ShowUsual:= true;
@@ -8289,7 +8289,7 @@ begin
     List.Sort;
     List.Insert(0, msgNoLexer);
 
-    FillChar(DlgProps, SizeOf(DlgProps), 0);
+    DlgProps:= Default(TDlgMenuProps);
     DlgProps.ItemsText:= List.Text;
     DlgProps.InitialIndex:= List.IndexOf(Frame.LexerName[Frame.Editor]);
     DlgProps.Caption:= SCaption;
