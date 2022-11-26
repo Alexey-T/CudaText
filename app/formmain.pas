@@ -2889,17 +2889,13 @@ end;
 function TfmMain.DoCloseAllTabs: boolean;
 var
   List: array of TATGroups;
-  Grp: TATGroups;
   i: integer;
 begin
   Result:= false;
   List:= [Groups, GroupsF1, GroupsF2, GroupsF3];
   for i:= High(List) downto 0 do
     if Assigned(List[i]) then
-    begin
-      Grp:= TATGroups(List[i]);
-      if not Grp.CloseTabs(tabCloseAll, false) then exit;
-    end;
+      if not List[i].CloseTabs(tabCloseAll, false) then exit;
   Result:= true;
 end;
 
