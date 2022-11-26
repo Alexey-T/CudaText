@@ -201,7 +201,7 @@ end;
 
 function AppVariant_KeyData(AKey: word; AShift: TShiftState): TAppVariant;
 begin
-  FillChar(Result{%H-}, SizeOf(Result), 0);
+  Result:= Default(TAppVariant);
   Result.Typ:= avrTuple;
   SetLength(Result.Items, 2);
 
@@ -215,7 +215,7 @@ end;
 
 function AppVariant_MouseData(AButton: TMouseButton; AShift: TShiftState; AX, AY: Integer): TAppVariant;
 begin
-  FillChar(Result{%H-}, SizeOf(Result), 0);
+  Result:= Default(TAppVariant);
   Result.Typ:= avrDict;
   SetLength(Result.Items, 4);
 
@@ -428,7 +428,7 @@ begin
   IdControl:= FindControlIndexByOurObject(Sender);
   P:= (Sender as TControl).ScreenToClient(Mouse.CursorPos);
 
-  FillChar(Data, SizeOf(Data), 0);
+  Data:= Default(TAppVariant);
   Data.Typ:= avrTuple;
   SetLength(Data.Items, 2);
 
@@ -835,7 +835,7 @@ begin
   if Callback='' then exit;
   IdControl:= FindControlIndexByOurObject(Sender);
 
-  FillChar(Data, SizeOf(Data), 0);
+  Data:= Default(TAppVariant);
   Data.Typ:= avrDict;
   SetLength(Data.Items, 3);
 
@@ -886,7 +886,7 @@ begin
   if Callback='' then exit;
   IdControl:= FindControlIndexByOurObject(Sender);
 
-  FillChar(Data, SizeOf(Data), 0);
+  Data:= Default(TAppVariant);
   Data.Typ:= avrTuple;
   SetLength(Data.Items, 2);
 
@@ -1181,7 +1181,7 @@ begin
   if Callback='' then exit;
   IdControl:= FindControlIndexByOurObject(Sender);
 
-  FillChar(Data, SizeOf(Data), 0);
+  Data:= Default(TAppVariant);
   Data.Typ:= avrDict;
   SetLength(Data.Items, 3);
 
@@ -1214,7 +1214,7 @@ begin
   if Callback='' then exit;
   IdControl:= FindControlIndexByOurObject(Sender);
 
-  FillChar(Data, SizeOf(Data), 0);
+  Data:= Default(TAppVariant);
   Data.Typ:= avrDict;
   SetLength(Data.Items, 7);
 
@@ -1272,7 +1272,7 @@ begin
   if Callback='' then exit;
   IdControl:= FindControlIndexByOurObject(Sender);
 
-  FillChar(Data, SizeOf(Data), 0);
+  Data:= Default(TAppVariant);
   Data.Typ:= avrStr;
   Data.Str:= ALink;
 
@@ -1301,7 +1301,7 @@ begin
   if Callback='' then exit;
   IdControl:= FindControlIndexByOurObject(Sender);
 
-  FillChar(Data, SizeOf(Data), 0);
+  Data:= Default(TAppVariant);
   Data.Typ:= avrDict;
   SetLength(Data.Items, 2);
 
