@@ -5823,7 +5823,7 @@ function TfmMain.DoFileCloseAll(AWithCancel: boolean): boolean;
 var
   F: TEditorFrame;
 begin
-  if not AskToSaveModifiedFrames(AWithCancel) then exit;
+  if not AskToSaveModifiedFrames(AWithCancel) then exit(false);
 
   //focus 1st tab (fixes appearing of empty tab on loading session with active group 2)
   if FrameCount>0 then
