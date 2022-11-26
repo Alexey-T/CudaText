@@ -2869,6 +2869,7 @@ begin
 end;
 
 procedure TfmMain.DoCloseAllTabs_Old;
+//deprecated in Cud 1.178, to delete later
 var
   Pages: TATPages;
   Tabs: TATTabs;
@@ -2886,7 +2887,6 @@ begin
 end;
 
 function TfmMain.DoCloseAllTabs: boolean;
-//trying to fix freeze of closing 700 tabs, issue #4617
 var
   List: array of TATGroups;
   Grp: TATGroups;
