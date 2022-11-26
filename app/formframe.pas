@@ -1056,6 +1056,7 @@ begin
   for i:= 1 to Length(AStr)-3 do
   begin
     NColor:= clNone;
+    NLen:= 0;
     bFoundBrackets:= false;
 
     if (i>1) and (AStr[i-1]='&') then Continue; //skip HTML tokens like &#123; and &nnnn;

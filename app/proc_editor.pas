@@ -2533,6 +2533,8 @@ begin
   Result:= true;
   if Ed.Carets.Count=0 then exit;
   Caret:= Ed.Carets[0];
+  bWordChar:= false;
+  bIdentChar:= false;
 
   //avoid double firing on_complete API event, when user types chars with listbox visible; issue #4323
   if IsAutocompletionFormVisible then exit;

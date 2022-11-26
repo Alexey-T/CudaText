@@ -811,9 +811,12 @@ begin
       SCallback:= Props.FEventOnMouseDown;
     cControlEventMouseUp:
       SCallback:= Props.FEventOnMouseUp;
+    else
+      SCallback:= '';
   end;
 
-  DoEvent(IdControl, SCallback, AData);
+  if SCallback<>'' then
+    DoEvent(IdControl, SCallback, AData);
 end;
 
 procedure TFormDummy.DoOnListboxDrawItem(Sender: TObject; ACanvas: TCanvas;
