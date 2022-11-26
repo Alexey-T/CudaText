@@ -272,7 +272,7 @@ var
   RegexParts: TRegexParts;
   SModule, SFunc: string;
 begin
-  FillChar(Result{%H-}, SizeOf(Result), 0);
+  Result:= Default(TAppPyEventResult);
 
   if SRegexFindParts(cRegex_DotCommand, ACallback, RegexParts) then
   begin

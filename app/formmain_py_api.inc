@@ -229,7 +229,7 @@ end;
 
 function AppEmmetOptions(const ASyntax: string): TExpandOptions;
 begin
-  FillChar(Result, SizeOf(Result), 0);
+  Result:= Default(TExpandOptions);
   Result.AlwaysAddNewLine:= ASyntax = 'xml';
   Result.AddSlashToEmptyTags:= UiOps.Emmet_AddSlashToEmptyTags;
   Result.CommentTags:= UiOps.Emmet_CommentTags;
