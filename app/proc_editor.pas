@@ -99,7 +99,7 @@ procedure EditorCopyLine(Ed: TATSynEdit);
 procedure EditorSetLine(Ed: TATSynEdit; AIndex: integer; AStr: UnicodeString);
 procedure EditorSetAllText(Ed: TATSynEdit; const AStr: string);
 procedure EditorDeleteRange(Ed: TATSynEdit; X1, Y1, X2, Y2: integer);
-function EditorInsert(Ed: TATSynEdit; AX, AY: integer; const AStr: UnicodeString; var APosAfter: TPoint): boolean;
+function EditorInsert(Ed: TATSynEdit; AX, AY: integer; const AStr: UnicodeString; out APosAfter: TPoint): boolean;
 procedure EditorHighlightBadRegexBrackets(Ed: TATSynEdit; AOnlyClear: boolean);
 
 procedure EditorCaretShapeFromString(Props: TATCaretShape; const AText: string);
@@ -2331,7 +2331,7 @@ begin
   Ed.Update(true);
 end;
 
-function EditorInsert(Ed: TATSynEdit; AX, AY: integer; const AStr: UnicodeString; var APosAfter: TPoint): boolean;
+function EditorInsert(Ed: TATSynEdit; AX, AY: integer; const AStr: UnicodeString; out APosAfter: TPoint): boolean;
 var
   Strs: TATStrings;
   Shift: TPoint;
@@ -2339,11 +2339,9 @@ begin
   Result:= true;
   Strs:= Ed.Strings;
   Strs.SetNewCommandMark;
+  APosAfter:= Point(AX, AY);
   if AY<0 then
-  begin
-    APosAfter:= Point(0, 0);
     exit(false);
-  end;
 
   //too big index: do append
   if AY>=Strs.Count then

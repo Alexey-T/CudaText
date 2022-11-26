@@ -5751,8 +5751,7 @@ begin
       ) <> ID_OK then exit;
 
   bChangedRO:= Ed.IsReadOnlyChanged;
-  if bChangedRO then
-    bPrevRO:= F.ReadOnly[Ed];
+  bPrevRO:= F.ReadOnly[Ed];
   PrevLexer:= F.LexerName[Ed];
   F.ReadOnly[Ed]:= false;
   F.DoFileReload(Ed);

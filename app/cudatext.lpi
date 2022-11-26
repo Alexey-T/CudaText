@@ -1531,7 +1531,8 @@
       <CustomOptions Value="-dcomplete_at_scroll
 -dDisableLCLTIFF
 -dDisableLCLPNM
--dGTK2_IME_CODE"/>
+-dGTK2_IME_CODE
+-Oodfa"/>
     </Other>
   </CompilerOptions>
   <Debugging>
