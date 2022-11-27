@@ -2892,10 +2892,16 @@ var
   i: integer;
 begin
   Result:= false;
+
+  AppCountOfCloseAll:= FrameCount;
+  AppTimeOfOnClose:= 0;
+  AppTimeOfFreeing:= 0;
+
   List:= [Groups, GroupsF1, GroupsF2, GroupsF3];
   for i:= High(List) downto 0 do
     if Assigned(List[i]) then
       if not List[i].CloseTabs(tabCloseAll, false) then exit;
+
   Result:= true;
 end;
 

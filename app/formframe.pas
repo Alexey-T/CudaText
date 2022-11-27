@@ -2087,7 +2087,11 @@ begin
 end;
 
 destructor TEditorFrame.Destroy;
+var
+  NTick1, NTick2: QWord;
 begin
+  NTick1:= GetTickCount64;
+
   if Assigned(FBin) then
   begin
     FBin.OpenStream(nil, False); //ARedraw=False to not paint on Win desktop with DC=0
@@ -2114,11 +2118,16 @@ begin
     Ed2.Strings.GutterDecor2:= nil;
   end;
 
+  FreeAndNil(MacroStrings);
+  FreeAndNil(FCodetreeFilterHistory);
+
+  NTick2:= GetTickCount64;
+  Inc(AppTimeOfFreeing, NTick2-NTick1);
+
   if not Application.Terminated then //prevent crash on exit
     DoPyEvent(Ed1, cEventOnClose, []);
 
-  FreeAndNil(MacroStrings);
-  FreeAndNil(FCodetreeFilterHistory);
+  Inc(AppTimeOfOnClose, GetTickCount64-NTick2);
 
   inherited;
 end;
