@@ -3242,7 +3242,11 @@ begin
 end;
 
 procedure AppUpdateWatcherFrames;
+const
+  cMaxWorkTimeMsec = 500;
 var
+  Frame: TObject;
+  NTick: QWord;
   NCount, i: integer;
 begin
   //function is called in IdleTimer, so just exit if watcher thread is busy,
@@ -3251,10 +3255,16 @@ begin
 
   AppEventLister.ResetEvent;
   try
+    NTick:= GetTickCount64;
     NCount:= AppFrameListDeleting.Count;
-    for i:= 0 to NCount-1 do
-      TObject(AppFrameListDeleting[i]).Free;
-    AppFrameListDeleting.Clear;
+    for i:= NCount-1 downto 0 do
+    begin
+      Frame:= TObject(AppFrameListDeleting[i]);
+      AppFrameListDeleting.Count:= i; //delete last item
+      Frame.Free;
+      if GetTickCount64-NTick>=cMaxWorkTimeMsec then
+        Break;
+    end;
 
     AppFrameList2.Assign(AppFrameList1);
   finally
