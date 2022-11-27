@@ -3247,7 +3247,7 @@ const
 var
   Frame: TObject;
   NTick: QWord;
-  NCount, i: integer;
+  NCount: integer;
 begin
   //function is called in IdleTimer, so just exit if watcher thread is busy,
   //we will try this again on next timer tick
@@ -3256,15 +3256,18 @@ begin
   AppEventLister.ResetEvent;
   try
     NTick:= GetTickCount64;
-    NCount:= AppFrameListDeleting.Count;
-    for i:= NCount-1 downto 0 do
-    begin
-      Frame:= TObject(AppFrameListDeleting[i]);
-      AppFrameListDeleting.Count:= i; //delete last item
+    repeat
+      NCount:= AppFrameListDeleting.Count;
+      if NCount=0 then
+        Break;
+      Frame:= TObject(AppFrameListDeleting[NCount-1]);
       Frame.Free;
+      AppFrameListDeleting.Count:= NCount-1;
       if GetTickCount64-NTick>=cMaxWorkTimeMsec then
         Break;
-    end;
+      if Application.Terminated then
+        Break;
+    until false;
 
     AppFrameList2.Assign(AppFrameList1);
   finally
