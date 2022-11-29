@@ -2277,6 +2277,15 @@ var
   an2: TecSyntAnalyzer;
   Ada: TATAdapterEControl;
 begin
+  //important to check Visible. avoids parser start in _passive_ tabs when opening 100 files
+  //by drag-n-drop. closing of these files is much faster.
+  if not (Visible and AppAllowFrameParsing) then
+  begin
+    LexerInitial[Ed]:= an;
+    DoPyEvent(Ed, cEventOnLexer, []);
+    exit;
+  end;
+
   {
   //it breaks code-tree, issue #3348
   ada:= Adapter[Ed];
@@ -2312,8 +2321,6 @@ begin
     exit;
   end;
 
-  if AppAllowFrameParsing then
-  begin
     if Assigned(an) then
     begin
       if EditorsLinked then
@@ -2359,13 +2366,6 @@ begin
       if Assigned(an) then
         EditorStartParse(Ed);
     end;
-  end
-  else
-  begin
-    LexerInitial[Ed]:= an;
-    //support on_lexer
-    DoPyEvent(Ed, cEventOnLexer, []);
-  end;
 end;
 
 procedure TEditorFrame.SetLexerLite(Ed: TATSynEdit; an: TATLiteLexer);
