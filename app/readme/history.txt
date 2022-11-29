@@ -3,6 +3,10 @@
   - fixed
   * changed
 
+1.178.1 (2022/11)
+
+- fix: improved situation with drag-n-drop 700 files onto app: a) don't start parser for passive tabs, b) 'close all' then works _much_ faster
+
 1.178.0 (2022/11)
 
 + add: allow Differ plugin to fill ui-tab context menu 'on demand' and not 'on file opening' which was much slower (thanks @veksha)
