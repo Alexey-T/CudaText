@@ -1989,6 +1989,7 @@ end;
 constructor TEditorFrame.Create(AOwner: TComponent; AApplyCentering: boolean);
 begin
   inherited Create(AOwner);
+  Visible:= false;
 
   FNotifEnabled:= true;
   FNotifDeletedEnabled:= true;
@@ -2277,15 +2278,6 @@ var
   an2: TecSyntAnalyzer;
   Ada: TATAdapterEControl;
 begin
-  //important to check Visible. avoids parser start in _passive_ tabs when opening 100 files
-  //by drag-n-drop. closing of these files is much faster.
-  if not (Visible and AppAllowFrameParsing) then
-  begin
-    LexerInitial[Ed]:= an;
-    DoPyEvent(Ed, cEventOnLexer, []);
-    exit;
-  end;
-
   {
   //it breaks code-tree, issue #3348
   ada:= Adapter[Ed];
@@ -2320,6 +2312,17 @@ begin
     end;
     exit;
   end;
+
+  //important to check Visible. avoids parser start in _passive_ tabs when opening 100 files by drag-n-drop.
+  //closing of these files is much faster.
+  //do it after check 'if (an=nil)...' to always allow freeing memory.
+  if not (Visible and AppAllowFrameParsing) then
+  begin
+    LexerInitial[Ed]:= an;
+    DoPyEvent(Ed, cEventOnLexer, []);
+    exit;
+  end;
+
 
   if Assigned(an) then
   begin

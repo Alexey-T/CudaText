@@ -1516,8 +1516,7 @@
     </CodeGeneration>
     <Linking>
       <Debugging>
-        <DebugInfoType Value="dsDwarf2"/>
-        <UseExternalDbgSyms Value="True"/>
+        <DebugInfoType Value="dsDwarf2Set"/>
       </Debugging>
       <LinkSmart Value="True"/>
       <Options>
