@@ -3161,6 +3161,7 @@ begin
 
   for i:= 0 to Length(FileNames)-1 do
   begin
+    if Application.Terminated then exit;
     SName:= FileNames[i];
     if DirectoryExistsUTF8(SName) then
       DoFolderOpen(SName, False, cInvokeAppDragDrop)
