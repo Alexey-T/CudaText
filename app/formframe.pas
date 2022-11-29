@@ -2321,51 +2321,51 @@ begin
     exit;
   end;
 
-    if Assigned(an) then
+  if Assigned(an) then
+  begin
+    if EditorsLinked then
     begin
-      if EditorsLinked then
-      begin
-        Ed1.AdapterForHilite:= Adapter1;
-        Ed2.AdapterForHilite:= Adapter1;
-      end
-      else
-      begin
-        if Ed=Ed1 then
-          Ed1.AdapterForHilite:= Adapter1
-        else
-        begin
-          if Adapter2=nil then
-          begin
-            Adapter2:= TATAdapterEControl.Create(Self);
-            Adapter2.EnabledSublexerTreeNodes:= UiOps.TreeSublexers;
-            OnInitAdapter(Adapter2);
-          end;
-          Ed2.AdapterForHilite:= Adapter2;
-        end;
-      end;
-
-      if not DoApplyLexerStylesMap(an, an2) then
-        DoDialogLexerStylesMap(an2);
+      Ed1.AdapterForHilite:= Adapter1;
+      Ed2.AdapterForHilite:= Adapter1;
     end
     else
     begin
-      Ed.Fold.Clear;
-      Ed.Update;
-      if (Ed=Ed1) and EditorsLinked then
+      if Ed=Ed1 then
+        Ed1.AdapterForHilite:= Adapter1
+      else
       begin
-        Ed2.Fold.Clear;
-        Ed2.Update;
+        if Adapter2=nil then
+        begin
+          Adapter2:= TATAdapterEControl.Create(Self);
+          Adapter2.EnabledSublexerTreeNodes:= UiOps.TreeSublexers;
+          OnInitAdapter(Adapter2);
+        end;
+        Ed2.AdapterForHilite:= Adapter2;
       end;
     end;
 
-    if Ed.AdapterForHilite is TATAdapterEControl then
+    if not DoApplyLexerStylesMap(an, an2) then
+      DoDialogLexerStylesMap(an2);
+  end
+  else
+  begin
+    Ed.Fold.Clear;
+    Ed.Update;
+    if (Ed=Ed1) and EditorsLinked then
     begin
-      Ada:= TATAdapterEControl(Ed.AdapterForHilite);
-      Ada.Lexer:= an;
-
-      if Assigned(an) then
-        EditorStartParse(Ed);
+      Ed2.Fold.Clear;
+      Ed2.Update;
     end;
+  end;
+
+  if Ed.AdapterForHilite is TATAdapterEControl then
+  begin
+    Ada:= TATAdapterEControl(Ed.AdapterForHilite);
+    Ada.Lexer:= an;
+
+    if Assigned(an) then
+      EditorStartParse(Ed);
+  end;
 end;
 
 procedure TEditorFrame.SetLexerLite(Ed: TATSynEdit; an: TATLiteLexer);
