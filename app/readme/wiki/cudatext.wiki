@@ -1327,10 +1327,12 @@ Micromap has several thin columns (from column 1 to column 3, but this can be ch
 
 Plugins can place marks on micromap, e.g. plugin "Highlight Occurrences" places marks for highlighted fragments, plugin "Spell Checker" places marks for misspelled words.
 
-In the CudaText version 1.144 or newer, micromap can be rendered directly on the vertical scrollbar. To use that, you need 2 options:
+Micromap can be rendered directly on the vertical scrollbar. To use that, you need 2 options:
 
 * "scrollbar_themed": true
 * "micromap_on_scrollbar": true
+
+Micromap visible state is not restored from history for files, which have line count bigger than value of option "wrap_enabled_max_lines" (default 60K).
 
 [[File:cudatext-micromap-on-scrollbar.png]]
 
