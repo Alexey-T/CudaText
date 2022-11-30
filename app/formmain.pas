@@ -4192,6 +4192,11 @@ begin
   MsgStatus(S);
 end;
 
+function SubInString(const sub, s: string): boolean;
+begin
+  Result:= System.Pos(sub, s)>0;
+end;
+
 function TfmMain.DoFileOpen(AFileName, AFileName2: string; APages: TATPages;
   const AOptions: string): TEditorFrame;
   //
@@ -4238,59 +4243,59 @@ begin
 
   CurGroups:= CurrentGroups;
 
-  bSilent:= Pos('/silent', AOptions)>0;
-  bPreviewTab:= Pos('/preview', AOptions)>0;
-  bEnableHistory:= Pos('/nohistory', AOptions)=0;
+  bSilent:= SubInString('/silent', AOptions);
+  bPreviewTab:= SubInString('/preview', AOptions);
+  bEnableHistory:= not SubInString('/nohistory', AOptions);
   bEnableLoadBookmarks:= true;
-  bEnableLoadUndo:= Pos('/noloadundo', AOptions)=0;
-  bEnableEventPre:= Pos('/noevent', AOptions)=0;
-  bEnableEventOpened:= Pos('/noopenedevent', AOptions)=0;
-  bEnableEventOpenedNone:= Pos('/nononeevent', AOptions)=0;
-  bAndActivate:= Pos('/passive', AOptions)=0;
-  bAllowLexerDetect:= Pos('/nolexerdetect', AOptions)=0;
-  bAllowZip:= Pos('/nozip', AOptions)=0;
-  bAllowPics:= Pos('/nopictures', AOptions)=0;
+  bEnableLoadUndo:= not SubInString('/noloadundo', AOptions);
+  bEnableEventPre:= not SubInString('/noevent', AOptions);
+  bEnableEventOpened:= not SubInString('/noopenedevent', AOptions);
+  bEnableEventOpenedNone:= not SubInString('/nononeevent', AOptions);
+  bAndActivate:= not SubInString('/passive', AOptions);
+  bAllowLexerDetect:= not SubInString('/nolexerdetect', AOptions);
+  bAllowZip:= not SubInString('/nozip', AOptions);
+  bAllowPics:= not SubInString('/nopictures', AOptions);
 
   AllowNear:= a3sPassive;
-  if Pos('/donear', AOptions)>0 then
+  if SubInString('/donear', AOptions) then
     AllowNear:= a3sOn
   else
-  if Pos('/nonear', AOptions)>0 then
+  if SubInString('/nonear', AOptions) then
     AllowNear:= a3sOff;
 
-  if Pos('/view-text', AOptions)>0 then
+  if SubInString('/view-text', AOptions) then
     OpenMode:= cOpenModeViewText
   else
-  if Pos('/view-binary', AOptions)>0 then
+  if SubInString('/view-binary', AOptions) then
     OpenMode:= cOpenModeViewBinary
   else
-  if Pos('/view-hex', AOptions)>0 then
+  if SubInString('/view-hex', AOptions) then
     OpenMode:= cOpenModeViewHex
   else
-  if Pos('/view-unicode', AOptions)>0 then
+  if SubInString('/view-unicode', AOptions) then
     OpenMode:= cOpenModeViewUnicode
   else
-  if Pos('/view-uhex', AOptions)>0 then
+  if SubInString('/view-uhex', AOptions) then
     OpenMode:= cOpenModeViewUHex
   else
     OpenMode:= cOpenModeEditor;
 
-  if Pos('/nontext-view-text', AOptions)>0 then
+  if SubInString('/nontext-view-text', AOptions) then
     NonTextMode:= cOpenModeViewText
   else
-  if Pos('/nontext-view-binary', AOptions)>0 then
+  if SubInString('/nontext-view-binary', AOptions) then
     NonTextMode:= cOpenModeViewBinary
   else
-  if Pos('/nontext-view-hex', AOptions)>0 then
+  if SubInString('/nontext-view-hex', AOptions) then
     NonTextMode:= cOpenModeViewHex
   else
-  if Pos('/nontext-view-unicode', AOptions)>0 then
+  if SubInString('/nontext-view-unicode', AOptions) then
     NonTextMode:= cOpenModeViewUnicode
   else
-  if Pos('/nontext-view-uhex', AOptions)>0 then
+  if SubInString('/nontext-view-uhex', AOptions) then
     NonTextMode:= cOpenModeViewUHex
   else
-  if Pos('/nontext-cancel', AOptions)>0 then
+  if SubInString('/nontext-cancel', AOptions) then
     NonTextMode:= cOpenModeNone
   else
     NonTextMode:= cOpenModeEditor;
@@ -4616,7 +4621,7 @@ var
   fn: string;
   bZip, bZipAllowed: boolean;
 begin
-  bZipAllowed:= Pos('/nozip', AOptions)=0;
+  bZipAllowed:= not SubInString('/nozip', AOptions);
 
   dlg:= TOpenDialog.Create(nil);
   try
@@ -6541,7 +6546,7 @@ begin
         begin
           bLexerHTML:= false;
           if Assigned(Ed.AdapterForHilite) then
-            bLexerHTML:= Pos('HTML', Ed.AdapterForHilite.GetLexerName)>0;
+            bLexerHTML:= SubInString('HTML', Ed.AdapterForHilite.GetLexerName);
 
           if bLexerHTML then
             Result:= not UiOps.AutocompleteInCommentsHTML
