@@ -151,7 +151,7 @@ var
   HtmlTags: TStringList = nil;
 
 procedure InitHtmlTags;
-procedure StringsDeduplicate(L: TStringList);
+procedure StringsDeduplicate(L: TStringList; CaseSens: boolean);
 
 
 implementation
@@ -1338,17 +1338,24 @@ begin
 end;
 
 
-procedure StringsDeduplicate(L: TStringList);
+procedure StringsDeduplicate(L: TStringList; CaseSens: boolean);
 var
   i, j: integer;
+  equal: boolean;
 begin
   for i:= L.Count-1 downto 1{>0} do
     for j:= i-1 downto 0 do
-      if L[i]=L[j] then
+    begin
+      if CaseSens then
+        equal:= L[i]=L[j]
+      else
+        equal:= CompareText(L[i], L[j])=0;
+      if equal then
       begin
         L.Delete(i);
         Break;
       end;
+    end;
 end;
 
 

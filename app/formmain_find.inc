@@ -131,7 +131,7 @@ begin
     FFinder.DoAction_ExtractAll(false, Matches, false, FFinder.OptCase, dupAccept);
     if Matches.Count>0 then
     begin
-      StringsDeduplicate(Matches);
+      StringsDeduplicate(Matches, FFinder.OptCase);
       Frame:= DoFileOpen('', '');
       if Frame=nil then exit;
       Frame.TabCaptionUntitled:= msgFinderRegexMatchesNumbered;
