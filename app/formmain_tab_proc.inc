@@ -406,7 +406,8 @@ end;
 
 procedure TfmMain.mnuTabCloseAllAllClick(Sender: TObject);
 begin
-  GroupsCtx.CloseTabs(tabCloseAll, false);
+  //GroupsCtx.CloseTabs(tabCloseAll, false); //old way in CudaText 1.178
+  DoCloseAllTabs;
 end;
 
 procedure TfmMain.mnuTabCloseAllSameClick(Sender: TObject);
