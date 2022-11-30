@@ -2362,10 +2362,12 @@ begin
   if Ed.AdapterForHilite is TATAdapterEControl then
   begin
     Ada:= TATAdapterEControl(Ed.AdapterForHilite);
-    Ada.Lexer:= an;
-
-    if Assigned(an) then
-      EditorStartParse(Ed);
+    if Ada.Lexer<>an then
+    begin
+      Ada.Lexer:= an;
+      if Assigned(an) then
+        EditorStartParse(Ed);
+    end;
   end;
 end;
 
