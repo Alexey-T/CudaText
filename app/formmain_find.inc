@@ -128,9 +128,10 @@ var
 begin
   Matches:= TStringList.Create;
   try
-    FFinder.DoAction_ExtractAll(false, Matches, true, FFinder.OptCase, dupIgnore);
+    FFinder.DoAction_ExtractAll(false, Matches, false, FFinder.OptCase, dupAccept);
     if Matches.Count>0 then
     begin
+      StringsDeduplicate(Matches);
       Frame:= DoFileOpen('', '');
       if Frame=nil then exit;
       Frame.TabCaptionUntitled:= msgFinderRegexMatchesNumbered;

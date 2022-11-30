@@ -151,6 +151,7 @@ var
   HtmlTags: TStringList = nil;
 
 procedure InitHtmlTags;
+procedure StringsDeduplicate(L: TStringList);
 
 
 implementation
@@ -1335,6 +1336,21 @@ begin
   AProgress.Parent:= AForm;
   AProgress.Progress:= 0;
 end;
+
+
+procedure StringsDeduplicate(L: TStringList);
+var
+  i, j: integer;
+begin
+  for i:= L.Count-1 downto 1{>0} do
+    for j:= i-1 downto 0 do
+      if L[i]=L[j] then
+      begin
+        L.Delete(i);
+        Break;
+      end;
+end;
+
 
 
 finalization
