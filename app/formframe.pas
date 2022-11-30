@@ -3879,19 +3879,19 @@ begin
         //DoPyEventState(Ed, EDSTATE_WRAP); //is not needed for session loading
       end;
 
-    NFlag:= c.GetValue(path+cHistory_Minimap, -1);
-    if NFlag>=0 then
-    begin
-      Ed.OptMinimapVisible:= NFlag=1;
-      Ed.IsModifiedMinimapVisible:= true;
-    end;
-
     NFlag:= c.GetValue(path+cHistory_Micromap, -1);
     if NFlag>=0 then
     begin
       Ed.OptMicromapVisible:= NFlag=1;
       Ed.IsModifiedMicromapVisible:= true;
     end;
+  end;
+
+  NFlag:= c.GetValue(path+cHistory_Minimap, -1);
+  if NFlag>=0 then
+  begin
+    Ed.OptMinimapVisible:= NFlag=1;
+    Ed.IsModifiedMinimapVisible:= true;
   end;
 
   NFlag:= c.GetValue(path+cHistory_Ruler, -1);
