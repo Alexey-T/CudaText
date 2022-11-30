@@ -2894,7 +2894,6 @@ begin
   Result:= false;
 
   AppCountOfCloseAll:= FrameCount;
-  AppTimeOfOnClose:= 0;
   AppTimeOfFreeing:= 0;
 
   List:= [Groups, GroupsF1, GroupsF2, GroupsF3];
