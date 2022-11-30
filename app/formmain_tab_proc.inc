@@ -271,11 +271,18 @@ begin
     Exit
   end;
 
+  while Frame.IsParsingBusy do
+  begin
+    Sleep(50);
+    Application.ProcessMessages;
+  end;
+  {
   if Frame.IsParsingBusy then
   begin
     ACanClose:= false;
     Exit
   end;
+  }
 
   if Frame.IsEmpty then
     if FrameCount=1 then
