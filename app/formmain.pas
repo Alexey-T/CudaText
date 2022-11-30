@@ -2901,6 +2901,9 @@ begin
     if Assigned(List[i]) then
       if not List[i].CloseTabs(tabCloseAll, false) then exit;
 
+  //better free deleted frames sooner, #4632
+  AppUpdateWatcherFrames(8000);
+
   Result:= true;
 end;
 

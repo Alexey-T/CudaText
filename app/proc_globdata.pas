@@ -761,7 +761,7 @@ procedure MsgFileFromSessionNotFound(const fn: string);
 
 function AppListboxItemHeight(AScale, ADoubleHeight: boolean): integer;
 procedure AppGetFileProps(const FileName: string; out P: TAppFileProps);
-procedure AppUpdateWatcherFrames;
+procedure AppUpdateWatcherFrames(AMaxWorkTime: integer = 500);
 procedure AppStopListTimers;
 
 procedure FixFormPositionToDesktop(F: TForm);
@@ -3245,9 +3245,7 @@ begin
   end;
 end;
 
-procedure AppUpdateWatcherFrames;
-const
-  cMaxWorkTimeMsec = 500;
+procedure AppUpdateWatcherFrames(AMaxWorkTime: integer = 500);
 var
   Frame: TObject;
   NTick: QWord;
@@ -3267,7 +3265,7 @@ begin
       Frame:= TObject(AppFrameListDeleting[NCount-1]);
       Frame.Free;
       AppFrameListDeleting.Count:= NCount-1;
-      if GetTickCount64-NTick>=cMaxWorkTimeMsec then
+      if GetTickCount64-NTick>=AMaxWorkTime then
         Break;
       if Application.Terminated then
         Break;
