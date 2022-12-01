@@ -3,10 +3,13 @@
   - fixed
   * changed
 
-1.178.1 (2022/11)
+1.178.3 (2022/11)
 
-* change: "Extract RegEx matches" action now doesn't sort matches
-- fix: improved situation with drag-n-drop 700 files onto app: a) don't start parser for passive tabs, b) 'close all' then works _much_ faster
+* change: "Extract RegEx matches" action now doesn't sort matches (thanks @mast)
+- fix: improved for drag-n-drop 700 files onto app: a) don't start parser for passive tabs, b) 'close all' works _much_ faster (thanks @veksha)
+- fix: for big files, minimap was turning off on file open (thanks @veksha)
+- fix: Project Manager: ui issue on deleting files/dirs
+- fix: wrong message "File was changed outside" when you save file from 'splitted' view
 
 1.178.0 (2022/11)
 
