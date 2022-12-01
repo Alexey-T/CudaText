@@ -549,12 +549,15 @@ class Command:
         if msg_box(_("Delete file from disk:\n") + str(location), MB_OKCANCEL + MB_ICONWARNING) != ID_OK:
             return
 
+        h_parent = tree_proc(self.tree, TREE_ITEM_GET_PROPS, self.selected)['parent']
+
         location.unlink()
         if location in self.top_nodes.values():
             self.action_remove_node()
         else:
-            self.action_refresh()
-            self.jump_to_filename(str(location.parent))
+            self.action_refresh(h_parent)
+            tree_proc(self.tree, TREE_ITEM_SELECT, h_parent)
+            tree_proc(self.tree, TREE_ITEM_UNFOLD, h_parent)
         msg_status(_("Deleted file: ") + str(location.name))
 
     def do_delete_dir(self, location):
