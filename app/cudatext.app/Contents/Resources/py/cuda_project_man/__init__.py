@@ -554,9 +554,8 @@ class Command:
             self.action_remove_node()
         else:
             h_parent = tree_proc(self.tree, TREE_ITEM_GET_PROPS, self.selected)['parent']
-            self.action_refresh(h_parent)
             tree_proc(self.tree, TREE_ITEM_SELECT, h_parent)
-            tree_proc(self.tree, TREE_ITEM_UNFOLD, h_parent)
+            self.action_refresh(h_parent)
         msg_status(_("Deleted file: ") + str(location.name))
 
     def do_delete_dir(self, location):
