@@ -2463,7 +2463,6 @@ procedure EditorAdjustForBigFile(Ed: TATSynEdit);
 begin
   Ed.OptWrapMode:= cWrapOff;
   Ed.OptMicromapVisible:= false;
-  Ed.OptMinimapVisible:= false;
 end;
 
 
