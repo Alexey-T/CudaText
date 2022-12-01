@@ -2894,7 +2894,13 @@ begin
       FOnSaveFile(Ed, SFileName);
   end;
 
-  AppGetFileProps(SFileName, FileProps[EdIndex]);
+  if EditorsLinked then
+  begin
+    AppGetFileProps(SFileName, FileProps[0]);
+    FileProps[1]:= FileProps[0];
+  end
+  else
+    AppGetFileProps(SFileName, FileProps[EdIndex]);
 
   NotifEnabled:= bNotifWasEnabled or bNameChanged;
 end;
