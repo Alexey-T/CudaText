@@ -536,7 +536,7 @@ class Command:
             return
 
         location.replace(new_location)
-        if location in self.top_nodes.values():
+        if self.is_path_in_root(location):
             self.action_remove_node()
             self.add_node(str(new_location))
 
@@ -549,12 +549,11 @@ class Command:
         if msg_box(_("Delete file from disk:\n") + str(location), MB_OKCANCEL + MB_ICONWARNING) != ID_OK:
             return
 
-        h_parent = tree_proc(self.tree, TREE_ITEM_GET_PROPS, self.selected)['parent']
-
         location.unlink()
-        if location in self.top_nodes.values():
+        if self.is_path_in_root(location):
             self.action_remove_node()
         else:
+            h_parent = tree_proc(self.tree, TREE_ITEM_GET_PROPS, self.selected)['parent']
             self.action_refresh(h_parent)
             tree_proc(self.tree, TREE_ITEM_SELECT, h_parent)
             tree_proc(self.tree, TREE_ITEM_UNFOLD, h_parent)
@@ -574,7 +573,7 @@ class Command:
             return
 
         self.do_delete_dir(location)
-        if location in self.top_nodes.values():
+        if self.is_path_in_root(location):
             self.action_remove_node()
         else:
             self.action_refresh()
@@ -669,7 +668,6 @@ class Command:
             tree_proc(self.tree, TREE_ITEM_SELECT, items_root[0][0])
 
             nodes = map(Path, self.project["nodes"])
-            self.top_nodes = {}
         else:
             fn = str(self.get_location_by_index(parent)) # str() is required for old Python 3.5 for os.scandir()
             if not fn: return
@@ -722,8 +720,6 @@ class Command:
                 imageindex,
                 data=spath
                 )
-            if nodes is self.project["nodes"]:
-                self.top_nodes[index] = Path(spath)
 
             # dummy nested node for folders
             if imageindex == self.ICON_DIR:
@@ -820,9 +816,6 @@ class Command:
         tree_proc(self.tree, TREE_ITEM_DELETE, index)
         if str(path) in self.project["nodes"]:
             self.project["nodes"].remove(str(path))
-
-        if index in self.top_nodes:
-            self.top_nodes.pop(index)
 
         if self.project_file_path:
             self.action_save_project_as(self.project_file_path)
@@ -1831,3 +1824,7 @@ class Command:
             app_proc(PROC_SAVE_SESSION, sess)
             if and_forget:
                 app_proc(PROC_SET_SESSION, '')
+
+    def is_path_in_root(self, path):
+
+        return str(path) in self.project['nodes']
