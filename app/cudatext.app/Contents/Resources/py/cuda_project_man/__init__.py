@@ -575,8 +575,9 @@ class Command:
         if self.is_path_in_root(location):
             self.action_remove_node()
         else:
-            self.action_refresh()
-            self.jump_to_filename(str(location.parent))
+            h_parent = tree_proc(self.tree, TREE_ITEM_GET_PROPS, self.selected)['parent']
+            tree_proc(self.tree, TREE_ITEM_SELECT, h_parent)
+            self.action_refresh(h_parent)
         msg_status(_("Deleted dir: ") + str(location.name))
 
     def action_new_directory(self):
