@@ -299,6 +299,7 @@ var
   D: TATTabData;
 begin
   Result:= nil;
+  if GroupsCtx=nil then exit;
   Pages:= GroupsCtx.PopupPages; if Pages=nil then exit;
   NTab:= GroupsCtx.PopupTabIndex; if NTab<0 then exit;
   D:= Pages.Tabs.GetTabData(NTab); if D=nil then exit;
