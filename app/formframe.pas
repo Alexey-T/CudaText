@@ -1059,14 +1059,15 @@ begin
     NLen:= 0;
     bFoundBrackets:= false;
 
-    if (i>1) and (AStr[i-1]='&') then Continue; //skip HTML tokens like &#123; and &nnnn;
-
     case AStr[i] of
       '#':
         begin
           //find #rgb, #rrggbb
           if IsCharHexDigit(AStr[i+1]) then
           begin
+            //skip HTML tokens like &#123; and &nnnn;
+            if (i>1) and (AStr[i-1]='&') then Continue;
+
             //don't allow word-char before
             if (i>1) and IsCharWord(AStr[i-1], ATEditorOptions.DefaultNonWordChars) then Continue;
 
