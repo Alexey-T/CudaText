@@ -1064,6 +1064,15 @@ begin
     case AStr[i] of
       '#':
         begin
+          //skip item if it follows ' href="'
+          if (i>7) and
+            ((AStr[i-1]='"') or (AStr[i-1]='''')) and
+            (AStr[i-2]='=') and
+            (AStr[i-3]='f') and
+            (AStr[i-4]='e') and
+            (AStr[i-5]='r') and
+            (AStr[i-6]='h') and
+            (AStr[i-7]=' ') then Continue;
           //find #rgb, #rrggbb
           if IsCharHexDigit(AStr[i+1]) then
           begin
