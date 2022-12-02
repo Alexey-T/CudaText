@@ -3,14 +3,16 @@
   - fixed
   * changed
 
-1.178.3 (2022/11)
+1.178.5 (2022/11)
 
 * change: "Extract RegEx matches" action now doesn't sort matches (thanks @mast)
 * change: tab context menu "Close / All (all groups)" now closes tabs in all windows including floating-groups
 - fix: improved for drag-n-drop 700 files onto app: a) don't start parser for passive tabs, b) 'close all' works _much_ faster (thanks @veksha)
-- fix: for big files, minimap was turning off on file open (thanks @veksha)
+- fix: for 'big' files, minimap was turning off on file open (thanks @veksha)
 - fix: Project Manager: ui issue on deleting files/dirs
 - fix: wrong message "File was changed outside" when you save file from 'splitted' view
+- fix: small cropping of 'italic' id before a space (thanks @veksha)
+- fix: possible crash of API: Editor(1).get_filename()
 
 1.178.0 (2022/11)
 
