@@ -13,6 +13,7 @@
 - fix: Project Manager: ui issue on deleting files/dirs
 - fix: wrong message "File was changed outside" when you save file from 'splitted' view
 - fix: possible crash of API: Editor(1).get_filename()
+- fix: macOS: "Open with / CudaText" did not work from Finder
 
 1.178.0 (2022/11)
 
