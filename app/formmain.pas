@@ -445,6 +445,8 @@ type
     ToolbarSideTop: TATFlatToolbar;
     procedure AppPropsActivate(Sender: TObject);
     procedure AppPropsDeactivate(Sender: TObject);
+    procedure AppPropsDropFiles(Sender: TObject;
+      const FileNames: array of string);
     procedure AppPropsEndSession(Sender: TObject);
     procedure AppPropsQueryEndSession(var Cancel: Boolean);
     procedure ButtonCancelClick(Sender: TObject);
@@ -680,7 +682,6 @@ type
     FHandledOnShowFully: boolean;
     FHandledOnStart2: boolean;
     FHandledMakeCaretVisible: boolean;
-    FFileNamesDroppedInitially: array of string;
     FCodetreeBuffer: TTreeView;
     FCfmPanel: TPanel;
     FCfmLink: string;
@@ -3028,6 +3029,16 @@ begin
   DoPyEvent_AppActivate(cEventOnAppDeactivate);
 end;
 
+procedure TfmMain.AppPropsDropFiles(Sender: TObject;
+  const FileNames: array of string);
+var
+  i: integer;
+begin
+  SetLength(AppDroppedFiles, Length(FileNames));
+  for i:= 0 to Length(FileNames)-1 do
+    AppDroppedFiles[i]:= FileNames[i];
+end;
+
 procedure TfmMain.AppPropsEndSession(Sender: TObject);
 begin
   //
@@ -3143,16 +3154,6 @@ var
   Pages: TATPages;
   i: integer;
 begin
-  //support macOS: it drops file too early
-  //(dbl-click on a file in Finder)
-  if not FHandledOnShowPartly then
-  begin
-    SetLength(FFileNamesDroppedInitially, Length(FileNames));
-    for i:= 0 to Length(FileNames)-1 do
-      FFileNamesDroppedInitially[i]:= FileNames[i];
-    exit;
-  end;
-
   if not IsAllowedToOpenFileNow then exit;
 
   //MS WordPad, Notepad++ - they get focus on drag-drop from Explorer

@@ -339,7 +339,7 @@ var
   i: integer;
 begin
   DoLoadCommandParams(
-    FFileNamesDroppedInitially,
+    AppDroppedFiles,
     GetFileOpenOptionsString(100) //open with /passive flag
     );
 

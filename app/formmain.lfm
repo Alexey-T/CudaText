@@ -696,6 +696,7 @@ object fmMain: TfmMain
     ShowButtonGlyphs = sbgNever
     OnActivate = AppPropsActivate
     OnDeactivate = AppPropsDeactivate
+    OnDropFiles = AppPropsDropFiles
     OnEndSession = AppPropsEndSession
     OnQueryEndSession = AppPropsQueryEndSession
     Left = 520

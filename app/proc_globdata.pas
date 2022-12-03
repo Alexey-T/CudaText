@@ -91,6 +91,7 @@ var
   AppThemeStatusbar: TATFlatTheme;
   AppApiOnStartActivated: boolean = false;
   AppApiDialogCounter: integer = 0;
+  AppDroppedFiles: array of string = nil;
 
   AppCodetreeState: record
     Editor: TATSynEdit;
