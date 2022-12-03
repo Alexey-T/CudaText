@@ -3031,12 +3031,16 @@ end;
 
 procedure TfmMain.AppPropsDropFiles(Sender: TObject;
   const FileNames: array of string);
+{$ifdef darwin}
 var
   i: integer;
+{$endif}
 begin
+  {$ifdef darwin}
   SetLength(AppDroppedFiles, Length(FileNames));
   for i:= 0 to Length(FileNames)-1 do
     AppDroppedFiles[i]:= FileNames[i];
+  {$endif}
 end;
 
 procedure TfmMain.AppPropsEndSession(Sender: TObject);
