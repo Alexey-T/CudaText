@@ -1719,6 +1719,19 @@ begin
         Adapter[Ed].StopTreeUpdate;
         Adapter[Ed].Stop;
       end;
+
+    cCommand_ToggleWordWrap,
+    cCommand_ToggleWordWrapAlt:
+      begin
+        AHandled:= false;
+        if Ed.OptWrapMode=cWrapOff then
+          if Ed.Strings.Count>=Ed.OptWrapEnabledForMaxLines then
+          begin
+            MsgBox(Format('Cannot set word-wrap mode. Line count %d is bigger than value of option "wrap_enabled_max_lines": %d.',
+              [Ed.Strings.Count, Ed.OptWrapEnabledForMaxLines]), MB_OK+MB_ICONWARNING);
+            AHandled:= true;
+          end;
+      end;
   end;
 
   if Assigned(FOnEditorCommand) then
