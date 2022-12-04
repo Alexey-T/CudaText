@@ -1,5 +1,8 @@
 See http://wiki.freepascal.org/CudaText#How_to_make_translation
 
+2022.12.04
++ [se] SetWrap
+
 2022.08.18
 + [sc] FileDeletedOutside
 
