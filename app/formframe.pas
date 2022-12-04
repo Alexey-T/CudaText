@@ -1727,7 +1727,7 @@ begin
         if Ed.OptWrapMode=cWrapOff then
           if Ed.Strings.Count>=Ed.OptWrapEnabledForMaxLines then
           begin
-            MsgBox(Format('Cannot set word-wrap mode. Line count %d is bigger than value of option "wrap_enabled_max_lines": %d.',
+            MsgBox(Format(msgCannotSetWrap,
               [Ed.Strings.Count, Ed.OptWrapEnabledForMaxLines]), MB_OK+MB_ICONWARNING);
             AHandled:= true;
           end;

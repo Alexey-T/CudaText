@@ -229,6 +229,7 @@ const
   msgCannotInstallReqLexer: string = 'Cannot install "%s", it requires missing lexer(s): %s';
   msgCannotAutocompleteMultiCarets: string = 'Cannot auto-complete with multi-carets';
   msgCannotFindPkExec: string = 'Cannot find "pkexec" program to copy as root.';
+  msgCannotSetWrap: string = 'Cannot set word-wrap mode. Line count %d is bigger than value of option "wrap_enabled_max_lines": %d.';
 
   msgStatusbarTextTab: string = 'Tab';
   msgStatusbarTextSpaces: string = 'Spaces';

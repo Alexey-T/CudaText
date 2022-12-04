@@ -537,6 +537,7 @@ begin
     DoLocString(msgCannotHandleZip               , ini, 'se', 'HandleZip');
     DoLocString(msgCannotInstallAddonApi         , ini, 'se', 'AddonApi');
     DoLocString(msgCannotAutocompleteMultiCarets , ini, 'se', 'AutocompleteCarets');
+    DoLocString(msgCannotSetWrap                 , ini, 'se', 'SetWrap');
 
     DoLocString(msgCmdPaletteCaption             , ini, 'si', 'CmdPalette');
     DoLocString(msgStatusChangedLinesCount       , ini, 'si', 'ChangedLineCount');
