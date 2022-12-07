@@ -7475,13 +7475,13 @@ var
   SFileName: string;
   {$endif}
   SLexerName: string;
-  bDisFree: boolean;
+  //bDisFree: boolean;
 begin
   Ed:= Sender;
   Frame:= TGroupsHelper.GetEditorFrame(Ed);
   if Frame=nil then exit;
 
-  bDisFree:= ShowDistractionFree;
+  //bDisFree:= ShowDistractionFree;
 
   {$ifdef debug_on_lexer}
   SFileName:= Frame.GetFileName(Ed);
@@ -7520,8 +7520,8 @@ begin
 
   UpdateMenuPlugins_Shortcuts;
 
-  if bDisFree then
-    SetShowDistractionFree_Forced;
+  //if bDisFree then
+  //  SetShowDistractionFree_Forced;
 end;
 
 
