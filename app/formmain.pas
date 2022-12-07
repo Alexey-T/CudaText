@@ -2710,9 +2710,13 @@ end;
 
 procedure TfmMain.UpdateMenuTheming_WhiteLine;
 //fix white line under the menubar, with MenuStyler on
+var
+  Prev: WNDPROC;
 begin
   {$ifdef windows}
-  PrevWndProc:= Windows.WNDPROC(SetWindowLongPtr(Self.Handle, GWL_WNDPROC, PtrInt(@WndCallback)));
+  Prev:= Windows.WNDPROC(SetWindowLongPtr(Self.Handle, GWL_WNDPROC, PtrInt(@WndCallback)));
+  if not Assigned(PrevWndProc) then
+    PrevWndProc:= Prev;
   {$endif}
 end;
 
