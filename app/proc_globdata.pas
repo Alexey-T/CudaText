@@ -87,6 +87,7 @@ var
   AppAllowFrameParsing: boolean = false; //must be set in FormMain.OnShow
   AppSessionIsLoading: boolean = false;
   AppSessionIsClosing: boolean = false;
+  AppCommandHandlerIsBusy: boolean = false; //currently is set by 'close all' command only
   AppActiveForm: TObject = nil;
   AppThemeStatusbar: TATFlatTheme;
   AppApiOnStartActivated: boolean = false;
@@ -3275,6 +3276,7 @@ begin
     AppFrameList2.Assign(AppFrameList1);
   finally
     AppEventLister.SetEvent;
+    AppCommandHandlerIsBusy:= false;
   end;
 
   if AppLogOfCloseAll then

@@ -1545,6 +1545,9 @@ begin
   if AppCommandsDelayed.IsEmpty() then
     exit(acgNoCommands);
 
+  if AppCommandHandlerIsBusy then
+    exit(acgNoCommands);
+
   Result:= acgBadCommand;
   Item:= AppCommandsDelayed.Front();
   AppCommandsDelayed.Pop();
@@ -2901,6 +2904,7 @@ var
   i: integer;
 begin
   Result:= false;
+  AppCommandHandlerIsBusy:= true;
 
   AppCountOfCloseAll:= FrameCount;
   AppTimeOfFreeing:= 0;
@@ -2908,7 +2912,10 @@ begin
   List:= [Groups, GroupsF1, GroupsF2, GroupsF3];
   for i:= High(List) downto 0 do
     if Assigned(List[i]) then
-      if not List[i].CloseTabs(tabCloseAll, false) then exit;
+      if not List[i].CloseTabs(tabCloseAll, false) then
+      begin
+        exit;
+      end;
 
   //better free deleted frames sooner, #4632
   AppUpdateWatcherFrames(8000);
