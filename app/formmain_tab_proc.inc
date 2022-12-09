@@ -640,7 +640,6 @@ var
   SName: string;
   Frame: TEditorFrame;
   L: TFPList;
-  PagesTabIndexes: array[TATGroupsNums] of integer;
   Prop, Prop2: TAppFrameX;
   bFoundPair: boolean;
   iLevel, i, j: integer;
@@ -649,9 +648,6 @@ begin
 
   FillChar(PagesArray, SizeOf(PagesArray), 0);
   PagesCount:= 0;
-
-  for i:= 0 to High(Groups.Pages) do
-    PagesTabIndexes[i]:= Groups.Pages[i].Tabs.TabIndex;
 
   L:= TFPList.Create;
   try
@@ -710,9 +706,10 @@ begin
   for i:= 0 to PagesCount-1 do
     PagesArray[i].Invalidate;
 
-  for i:= 0 to High(PagesTabIndexes) do
-    if PagesTabIndexes[i]>=0 then
-      if Groups.Pages[i].Tabs.TabCount>0 then
-        Groups.Pages[i].Tabs.MakeVisible(PagesTabIndexes[i]);
+  //for https://github.com/Alexey-T/CudaText/issues/4653#issuecomment-1344280566
+  Application.ProcessMessages;
+  for i:= 0 to High(Groups.Pages) do
+    if Groups.Pages[i].Tabs.TabCount>0 then
+      Groups.Pages[i].Tabs.MakeVisible(Groups.Pages[i].Tabs.TabIndex);
 end;
 
