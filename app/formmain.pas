@@ -3162,7 +3162,7 @@ procedure TfmMain.FormDropFiles(Sender: TObject;
 const
   cStepsForProgress = 40;
 var
-  SName, SOpenOptions, SOpenOptionsReal: string;
+  SName, SOpenOptions, SOpenOptionsAll, SOpenOptionsActive: string;
   Pages: TATPages;
   i: integer;
 begin
@@ -3174,7 +3174,8 @@ begin
   //set group according to mouse cursor
   Pages:= TGroupsHelper.FindPagesUnderCursorPos(Mouse.CursorPos, Groups);
 
-  SOpenOptionsReal:= GetFileOpenOptionsString(Length(FileNames));
+  SOpenOptionsActive:= GetFileOpenOptionsString(1); //options without '/passive'
+  SOpenOptionsAll:= GetFileOpenOptionsString(Length(FileNames)); //options with '/passive' if count>1
 
   for i:= 0 to Length(FileNames)-1 do
   begin
@@ -3184,11 +3185,11 @@ begin
     //if dropped N>1 files, open last file as active
     if (i>0) and (i=Length(FileNames)-1) then
     begin
-      SOpenOptions:= GetFileOpenOptionsString(1);
-      Application.ProcessMessages; //required to make visible last ui-tab
+      SOpenOptions:= SOpenOptionsActive;
+      Application.ProcessMessages; //required to make visible last ui-tab after opening last file
     end
     else
-      SOpenOptions:= SOpenOptionsReal;
+      SOpenOptions:= SOpenOptionsAll;
 
     if DirectoryExistsUTF8(SName) then
       DoFolderOpen(SName, False, cInvokeAppDragDrop)
