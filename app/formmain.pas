@@ -1546,7 +1546,7 @@ begin
     exit(acgNoCommands);
 
   if AppCommandHandlerIsBusy then
-    exit(acgNoCommands);
+    exit(acgBadCommand);
 
   Result:= acgBadCommand;
   Item:= AppCommandsDelayed.Front();
