@@ -733,6 +733,7 @@ type
     procedure FindAndExtractRegexMatches;
     function GetFileOpenOptionsString(AFileCount: integer): string;
     procedure HandleTimerCommand(Ed: TATSynEdit; CmdCode: integer; CmdInvoke: TATEditorCommandInvoke);
+    function IsFrameInMainWindow(Frame: TEditorFrame): boolean;
     function IsTooManyTabsOpened: boolean;
     function GetUntitledNumberedCaption: string;
     procedure PopupBottomOnPopup(Sender: TObject);
@@ -882,6 +883,7 @@ type
     procedure DoFileNewFrom(const fn: string);
     procedure DoFileSave(Ed: TATSynEdit);
     procedure DoFileSaveAs(Ed: TATSynEdit);
+    procedure DoFocusFrame(F: TEditorFrame);
     procedure DoFocusEditor(Ed: TATSynEdit);
     procedure DoSwitchTab(ANext: boolean);
     procedure DoSwitchTabSimply(ANext: boolean);
@@ -2709,9 +2711,11 @@ begin
 end;
 
 procedure TfmMain.UpdateMenuTheming_WhiteLine;
+{$ifdef windows}
 //fix white line under the menubar, with MenuStyler on
 var
   Prev: WNDPROC;
+{$endif}
 begin
   {$ifdef windows}
   Prev:= Windows.WNDPROC(SetWindowLongPtr(Self.Handle, GWL_WNDPROC, PtrInt(@WndCallback)));
@@ -3158,7 +3162,7 @@ procedure TfmMain.FormDropFiles(Sender: TObject;
 const
   cStepsForProgress = 40;
 var
-  SName: string;
+  SName, SOpenOptionsReal: string;
   Pages: TATPages;
   i: integer;
 begin
@@ -3170,15 +3174,18 @@ begin
   //set group according to mouse cursor
   Pages:= TGroupsHelper.FindPagesUnderCursorPos(Mouse.CursorPos, Groups);
 
+  SOpenOptionsReal:= GetFileOpenOptionsString(Length(FileNames));
+
   for i:= 0 to Length(FileNames)-1 do
   begin
     if Application.Terminated then exit;
     SName:= FileNames[i];
+
     if DirectoryExistsUTF8(SName) then
       DoFolderOpen(SName, False, cInvokeAppDragDrop)
     else
     if FileExists(SName) then
-      DoFileOpen(SName, '', Pages, GetFileOpenOptionsString(Length(FileNames)));
+      DoFileOpen(SName, '', Pages, SOpenOptionsReal);
 
     if i mod cStepsForProgress = cStepsForProgress-1 then
       Application.ProcessMessages;
@@ -4208,17 +4215,6 @@ end;
 
 function TfmMain.DoFileOpen(AFileName, AFileName2: string; APages: TATPages;
   const AOptions: string): TEditorFrame;
-  //
-  procedure DoFocusFrame(F: TEditorFrame);
-  begin
-    if Assigned(F) then
-      if Visible and F.Enabled then
-      begin
-        SetFrame(F);
-        F.SetFocus;
-      end;
-  end;
-  //
 var
   D: TATTabData;
   F: TEditorFrame;
@@ -6256,6 +6252,16 @@ begin
   if Ed=nil then exit;
   if Ed.Visible and Ed.Enabled then
     Ed.SetFocus;
+end;
+
+procedure TfmMain.DoFocusFrame(F: TEditorFrame);
+begin
+  if Assigned(F) then
+    if Visible and F.Enabled then
+    begin
+      SetFrame(F);
+      F.SetFocus;
+    end;
 end;
 
 procedure TfmMain.DoSwitchTabSimply(ANext: boolean);
@@ -8835,6 +8841,17 @@ begin
   if Assigned(mnuEditCopyAppend) then
     mnuEditCopyAppend.Enabled:= bSel;
 end;
+
+function TfmMain.IsFrameInMainWindow(Frame: TEditorFrame): boolean;
+var
+  FGroups: TATGroups;
+  FPages: TATPages;
+  NLocalGroupIndex, NGlobalGroupIndex, NTabIndex: integer;
+begin
+  GetFrameLocation(Frame, FGroups, FPages, NLocalGroupIndex, NGlobalGroupIndex, NTabIndex);
+  Result:= FGroups=Self.Groups;
+end;
+
 
 //----------------------------
 {$I formmain_loadsave.inc}
