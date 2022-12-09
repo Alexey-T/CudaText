@@ -2904,8 +2904,8 @@ var
   i: integer;
 begin
   Result:= false;
-  AppCommandHandlerIsBusy:= true;
 
+  AppCommandHandlerIsBusy:= true;
   AppCountOfCloseAll:= FrameCount;
   AppTimeOfFreeing:= 0;
 

@@ -3276,7 +3276,8 @@ begin
     AppFrameList2.Assign(AppFrameList1);
   finally
     AppEventLister.SetEvent;
-    AppCommandHandlerIsBusy:= false;
+    if AppFrameListDeleting.Count=0 then
+      AppCommandHandlerIsBusy:= false;
   end;
 
   if AppLogOfCloseAll then
