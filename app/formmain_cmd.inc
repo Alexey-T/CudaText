@@ -20,7 +20,10 @@ begin
       acgNoCommands:
         Break;
       acgBadCommand:
-        Continue;
+        begin
+          Sleep(15);
+          Continue;
+        end;
     end;
 
     HandleTimerCommand(Ed, CmdCode, CmdInvoke);

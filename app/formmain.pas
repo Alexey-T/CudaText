@@ -1569,6 +1569,9 @@ begin
   ACommand:= Item.Code;
   AInvoke:= Item.Invoke;
   Result:= acgOkCommand;
+
+  if ACommand=cmd_FileCloseAll then
+    AppCommandHandlerIsBusy:= true;
 end;
 
 type
@@ -2325,6 +2328,7 @@ begin
   end;
 
   AppUpdateWatcherFrames;
+  if AppCommandHandlerIsBusy then exit;
 
   Frame:= CurrentFrame;
 
@@ -2905,7 +2909,6 @@ var
 begin
   Result:= false;
 
-  AppCommandHandlerIsBusy:= true;
   AppCountOfCloseAll:= FrameCount;
   AppTimeOfFreeing:= 0;
 
