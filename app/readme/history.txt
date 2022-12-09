@@ -3,6 +3,7 @@
   - fixed
   * changed
 
++ add: on dropping >1 files onto app, focus last opened ui-tab (thanks @Vivalzar)
 - fix: Windows: app crashes when opening file in distraction-free mode (thanks @faulknermano)
 
 1.178.5 (2022/11)
