@@ -706,7 +706,9 @@ begin
   for i:= 0 to PagesCount-1 do
     PagesArray[i].Invalidate;
 
-  //for https://github.com/Alexey-T/CudaText/issues/4653#issuecomment-1344280566
+  //do MakeVisible for tabs, because appending folder suffixes make titles wider
+  //(and current righter tab may shift away).
+  // https://github.com/Alexey-T/CudaText/issues/4653#issuecomment-1344280566
   Application.ProcessMessages;
   for i:= 0 to High(Groups.Pages) do
     if Groups.Pages[i].Tabs.TabCount>0 then
