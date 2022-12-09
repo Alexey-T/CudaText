@@ -3162,7 +3162,7 @@ procedure TfmMain.FormDropFiles(Sender: TObject;
 const
   cStepsForProgress = 40;
 var
-  SName, SOpenOptionsReal: string;
+  SName, SOpenOptions, SOpenOptionsReal: string;
   Pages: TATPages;
   i: integer;
 begin
@@ -3181,11 +3181,20 @@ begin
     if Application.Terminated then exit;
     SName:= FileNames[i];
 
+    //if dropped N>1 files, open last file as active
+    if (i>0) and (i=Length(FileNames)-1) then
+    begin
+      SOpenOptions:= GetFileOpenOptionsString(1);
+      Application.ProcessMessages; //required to make visible last ui-tab
+    end
+    else
+      SOpenOptions:= SOpenOptionsReal;
+
     if DirectoryExistsUTF8(SName) then
       DoFolderOpen(SName, False, cInvokeAppDragDrop)
     else
     if FileExists(SName) then
-      DoFileOpen(SName, '', Pages, SOpenOptionsReal);
+      DoFileOpen(SName, '', Pages, SOpenOptions);
 
     if i mod cStepsForProgress = cStepsForProgress-1 then
       Application.ProcessMessages;
