@@ -2289,6 +2289,9 @@ begin
     exit;
   end;
 
+  if AppClosingTabs then exit;
+  if AppDroppingFiles then exit;
+
   if FOption_StartupCommand<>'' then
   begin
     STemp:= FOption_StartupCommand;
@@ -2909,6 +2912,7 @@ var
 begin
   Result:= false;
 
+  AppClosingTabs:= true;
   AppCountOfCloseAll:= FrameCount;
   AppTimeOfFreeing:= 0;
 
@@ -2917,12 +2921,14 @@ begin
     if Assigned(List[i]) then
       if not List[i].CloseTabs(tabCloseAll, false) then
       begin
+        AppClosingTabs:= false;
         exit;
       end;
 
   //better free deleted frames sooner, #4632
   AppUpdateWatcherFrames(8000);
 
+  AppClosingTabs:= false;
   Result:= true;
 end;
 
@@ -3177,6 +3183,7 @@ var
   i: integer;
 begin
   if not IsAllowedToOpenFileNow then exit;
+  AppDroppingFiles:= true;
 
   //MS WordPad, Notepad++ - they get focus on drag-drop from Explorer
   Application.BringToFront;
@@ -3210,6 +3217,8 @@ begin
     if i mod cStepsForProgress = cStepsForProgress-1 then
       Application.ProcessMessages;
   end;
+
+  AppDroppingFiles:= false;
 end;
 
 procedure TfmMain.FormFloatGroups_OnDropFiles(Sender: TObject;

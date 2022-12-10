@@ -93,6 +93,8 @@ var
   AppApiOnStartActivated: boolean = false;
   AppApiDialogCounter: integer = 0;
   AppDroppedFiles: array of string = nil;
+  AppDroppingFiles: boolean = false;
+  AppClosingTabs: boolean = false;
 
   AppCodetreeState: record
     Editor: TATSynEdit;
@@ -3280,6 +3282,7 @@ begin
       AppCommandHandlerIsBusy:= false;
   end;
 
+  (*
   if AppLogOfCloseAll then
     if (AppCountOfCloseAll>=10) and (AppFrameListDeleting.Count=0) then
     begin
@@ -3289,6 +3292,7 @@ begin
         ]));
       AppCountOfCloseAll:= 0;
     end;
+    *)
 end;
 
 
