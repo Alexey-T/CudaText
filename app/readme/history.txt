@@ -3,6 +3,7 @@
   - fixed
   * changed
 
++ add: forward keys Up/Down/Enter from codetree-filter-input to codetree
 * change: on dropping n>1 files onto app, focus last opened ui-tab (thanks @Vivalzar)
 - fix: Windows: app crashes when opening file in distraction-free mode (thanks @faulknermano)
 
