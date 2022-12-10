@@ -4260,7 +4260,9 @@ begin
   AppDir_LastInstalledAddon:= '';
   if Application.Terminated then exit;
   if IsTooManyTabsOpened then exit;
+  AppOpeningFile:= true;
 
+ try
   bFileTooBig:= IsFileTooBigForOpening(AFileName);
   bFileTooBig2:= IsFileTooBigForOpening(AFileName2);
 
@@ -4605,6 +4607,9 @@ begin
 
   if bAndActivate then
     DoFocusFrame(Result);
+ finally
+   AppOpeningFile:= false;
+ end;
 end;
 
 

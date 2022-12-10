@@ -95,6 +95,7 @@ var
   AppDroppedFiles: array of string = nil;
   AppDroppingFiles: boolean = false;
   AppClosingTabs: boolean = false;
+  AppOpeningFile: boolean = false;
 
   AppCodetreeState: record
     Editor: TATSynEdit;
