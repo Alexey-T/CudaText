@@ -1545,6 +1545,9 @@ begin
   if AppCommandsDelayed.IsEmpty() then
     exit(acgNoCommands);
 
+  if AppCommandHandlerIsBusy then
+    exit(acgBadCommand);
+
   Result:= acgBadCommand;
   Item:= AppCommandsDelayed.Front();
   AppCommandsDelayed.Pop();
@@ -1566,6 +1569,9 @@ begin
   ACommand:= Item.Code;
   AInvoke:= Item.Invoke;
   Result:= acgOkCommand;
+
+  if ACommand=cmd_FileCloseAll then
+    AppCommandHandlerIsBusy:= true;
 end;
 
 type
@@ -2283,6 +2289,9 @@ begin
     exit;
   end;
 
+  if AppClosingTabs then exit;
+  if AppDroppingFiles then exit;
+
   if FOption_StartupCommand<>'' then
   begin
     STemp:= FOption_StartupCommand;
@@ -2322,6 +2331,7 @@ begin
   end;
 
   AppUpdateWatcherFrames;
+  if AppCommandHandlerIsBusy then exit;
 
   Frame:= CurrentFrame;
 
@@ -2902,17 +2912,21 @@ var
 begin
   Result:= false;
 
-  AppCountOfCloseAll:= FrameCount;
-  AppTimeOfFreeing:= 0;
+  AppClosingTabs:= true;
 
   List:= [Groups, GroupsF1, GroupsF2, GroupsF3];
   for i:= High(List) downto 0 do
     if Assigned(List[i]) then
-      if not List[i].CloseTabs(tabCloseAll, false) then exit;
+      if not List[i].CloseTabs(tabCloseAll, false) then
+      begin
+        AppClosingTabs:= false;
+        exit;
+      end;
 
   //better free deleted frames sooner, #4632
   AppUpdateWatcherFrames(8000);
 
+  AppClosingTabs:= false;
   Result:= true;
 end;
 
@@ -3167,6 +3181,7 @@ var
   i: integer;
 begin
   if not IsAllowedToOpenFileNow then exit;
+  AppDroppingFiles:= true;
 
   //MS WordPad, Notepad++ - they get focus on drag-drop from Explorer
   Application.BringToFront;
@@ -3200,6 +3215,8 @@ begin
     if i mod cStepsForProgress = cStepsForProgress-1 then
       Application.ProcessMessages;
   end;
+
+  AppDroppingFiles:= false;
 end;
 
 procedure TfmMain.FormFloatGroups_OnDropFiles(Sender: TObject;
@@ -4250,7 +4267,9 @@ begin
   AppDir_LastInstalledAddon:= '';
   if Application.Terminated then exit;
   if IsTooManyTabsOpened then exit;
+  AppOpeningFile:= true;
 
+ try
   bFileTooBig:= IsFileTooBigForOpening(AFileName);
   bFileTooBig2:= IsFileTooBigForOpening(AFileName2);
 
@@ -4595,6 +4614,9 @@ begin
 
   if bAndActivate then
     DoFocusFrame(Result);
+ finally
+   AppOpeningFile:= false;
+ end;
 end;
 
 
@@ -5745,6 +5767,9 @@ var
   fn: string;
   i: integer;
 begin
+  //prevent crash
+  if AppOpeningFile then exit;
+
   for i:= 0 to AppListRecents.Count-1 do
   begin
     fn:= AppExpandHomeDirInFilename(AppListRecents[i]);

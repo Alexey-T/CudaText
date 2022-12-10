@@ -412,27 +412,37 @@ end;
 
 procedure TfmMain.mnuTabCloseAllSameClick(Sender: TObject);
 begin
+  AppClosingTabs:= true;
   GroupsCtx.CloseTabs(tabCloseAllThisPage, true);
+  AppClosingTabs:= false;
 end;
 
 procedure TfmMain.mnuTabCloseLeftClick(Sender: TObject);
 begin
+  AppClosingTabs:= true;
   GroupsCtx.CloseTabs(tabCloseLefterThisPage, true);
+  AppClosingTabs:= false;
 end;
 
 procedure TfmMain.mnuTabCloseOtherAllClick(Sender: TObject);
 begin
+  AppClosingTabs:= true;
   GroupsCtx.CloseTabs(tabCloseOthersAllPages, true);
+  AppClosingTabs:= false;
 end;
 
 procedure TfmMain.mnuTabCloseOtherSameClick(Sender: TObject);
 begin
+  AppClosingTabs:= true;
   GroupsCtx.CloseTabs(tabCloseOthersThisPage, true);
+  AppClosingTabs:= false;
 end;
 
 procedure TfmMain.mnuTabCloseRightClick(Sender: TObject);
 begin
+  AppClosingTabs:= true;
   GroupsCtx.CloseTabs(tabCloseRighterThisPage, true);
+  AppClosingTabs:= false;
 end;
 
 procedure TfmMain.mnuTabCloseThisClick(Sender: TObject);

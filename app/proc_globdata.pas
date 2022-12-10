@@ -87,11 +87,15 @@ var
   AppAllowFrameParsing: boolean = false; //must be set in FormMain.OnShow
   AppSessionIsLoading: boolean = false;
   AppSessionIsClosing: boolean = false;
+  AppCommandHandlerIsBusy: boolean = false; //currently is set by 'close all' command only
   AppActiveForm: TObject = nil;
   AppThemeStatusbar: TATFlatTheme;
   AppApiOnStartActivated: boolean = false;
   AppApiDialogCounter: integer = 0;
   AppDroppedFiles: array of string = nil;
+  AppDroppingFiles: boolean = false;
+  AppClosingTabs: boolean = false;
+  AppOpeningFile: boolean = false;
 
   AppCodetreeState: record
     Editor: TATSynEdit;
@@ -175,10 +179,6 @@ var
 
   AppEventLister: TEvent = nil; //event set to signaled, when main thread has done AppFrameList2 updating
   AppEventWatcher: TEvent = nil; //event set to signaled, when watcher thread is not busy
-
-  AppLogOfCloseAll: boolean = false;
-  AppCountOfCloseAll: integer = 0;
-  AppTimeOfFreeing: QWord = 0;
 
 type
   { TAppKeyValues }
@@ -3275,17 +3275,9 @@ begin
     AppFrameList2.Assign(AppFrameList1);
   finally
     AppEventLister.SetEvent;
+    if AppFrameListDeleting.Count=0 then
+      AppCommandHandlerIsBusy:= false;
   end;
-
-  if AppLogOfCloseAll then
-    if (AppCountOfCloseAll>=10) and (AppFrameListDeleting.Count=0) then
-    begin
-      MsgLogConsole(Format('Close-all: %d tabs, freeing %dms', [
-        AppCountOfCloseAll,
-        AppTimeOfFreeing
-        ]));
-      AppCountOfCloseAll:= 0;
-    end;
 end;
 
 

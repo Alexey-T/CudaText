@@ -20,7 +20,10 @@ begin
       acgNoCommands:
         Break;
       acgBadCommand:
-        Continue;
+        begin
+          Sleep(15);
+          Continue;
+        end;
     end;
 
     HandleTimerCommand(Ed, CmdCode, CmdInvoke);
@@ -77,12 +80,16 @@ begin
 
     cmd_FileCloseOtherThis:
       begin
+        AppClosingTabs:= true;
         EdGrp.CloseTabs(tabCloseOthersThisPage, false);
+        AppClosingTabs:= false;
       end;
 
     cmd_FileCloseOtherAll:
       begin
+        AppClosingTabs:= true;
         EdGrp.CloseTabs(tabCloseOthersAllPages, false);
+        AppClosingTabs:= false;
       end;
 
     cmd_FileCloseAndDelete:
