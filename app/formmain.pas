@@ -5760,6 +5760,9 @@ var
   fn: string;
   i: integer;
 begin
+  //prevent crash
+  if AppOpeningFile then exit;
+
   for i:= 0 to AppListRecents.Count-1 do
   begin
     fn:= AppExpandHomeDirInFilename(AppListRecents[i]);
