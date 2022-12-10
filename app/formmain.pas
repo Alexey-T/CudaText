@@ -4200,6 +4200,13 @@ begin
     Key:= 0;
     exit;
   end;
+
+  if ((Key=VK_UP) or (Key=VK_DOWN) or (Key=VK_RETURN)) and (Shift=[]) then
+  begin
+    CodeTree.Tree.KeyDown(Key, Shift);
+    Key:= 0;
+    exit;
+  end;
 end;
 
 procedure TfmMain.CodeTreeFilter_ResetOnClick(Sender: TObject);

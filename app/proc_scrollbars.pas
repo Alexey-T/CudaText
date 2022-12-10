@@ -34,11 +34,11 @@ type
     procedure CMChanged(var Message: TLMessage); message CM_CHANGED;
     function DoMouseWheel(Shift: TShiftState; WheelDelta: Integer; MousePos: TPoint): Boolean; override;
     procedure DoContextPopup(MousePos: TPoint; var Handled: Boolean); override;
-  protected
     procedure DoEnter; override;
     procedure DoExit; override;
   public
     Container: TAppTreeContainer;
+    procedure KeyDown(var Key: Word; Shift: TShiftState); override;
   end;
 
 type
@@ -226,6 +226,11 @@ procedure TAppTreeView.DoExit;
 begin
   inherited;
   SelectionColor:= GetAppColor(apclTreeSelBg2);
+end;
+
+procedure TAppTreeView.KeyDown(var Key: Word; Shift: TShiftState);
+begin
+  inherited KeyDown(Key, Shift);
 end;
 
 procedure TAppTreeView.Collapse(Node: TTreeNode);
