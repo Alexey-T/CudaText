@@ -7,8 +7,8 @@
 
 + add: forward keys Up/Down/Enter from codetree-filter-input to codetree
 * change: on dropping n>1 files onto app, focus last opened ui-tab (thanks @Vivalzar)
-- fix: crashes on heavy using of file commands: drag-drop 20 files / close all / reopen recent file (thanks @veksha)
-- fix: Windows: app crashes when opening file in distraction-free mode (thanks @faulknermano)
+- fix: crashes on fast/heavy using of file commands: drag-drop 20 files / close all / reopen recent file (thanks @veksha)
+- fix: crash on Windows when opening file in distraction-free mode (thanks @faulknermano)
 
 1.178.5 (2022/11)
 
