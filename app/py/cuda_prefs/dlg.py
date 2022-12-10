@@ -620,6 +620,7 @@ class DialogMK2:
         # listbox ##########
         n = dlg_proc(h, DLG_CTL_ADD, 'listbox_ex')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
+                'name': 'options_list',
                 'p': 'panel_right',
                 'align': ALIGN_CLIENT,
                 'sp_t': PAD,
@@ -1116,6 +1117,12 @@ class DialogMK2:
         new_scope_name = self._scope_captions[new_scope]
         with ignore_edit(self.h, self.scope_ed):
             self.scope_ed.set_text_all(new_scope_name)
+
+        # set focus to options_list (keeps focus from jumping around and selecting treeview)
+        # fixes the bug when filter field is cleared with no reason.
+        if not self._filter_ed.get_prop(PROP_FOCUSED):
+            dlg_proc(self.h, DLG_CTL_FOCUS, name='options_list')
+
         self.val_eds.set_type(self.h,  self._cur_opt, scoped_val=active_scoped_val)
 
         # rgb stuff
