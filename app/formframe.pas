@@ -2149,9 +2149,6 @@ begin
   FreeAndNil(MacroStrings);
   FreeAndNil(FCodetreeFilterHistory);
 
-  NTick2:= GetTickCount64;
-  Inc(AppTimeOfFreeing, NTick2-NTick1);
-
   inherited;
 end;
 

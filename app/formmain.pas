@@ -2913,8 +2913,6 @@ begin
   Result:= false;
 
   AppClosingTabs:= true;
-  AppCountOfCloseAll:= FrameCount;
-  AppTimeOfFreeing:= 0;
 
   List:= [Groups, GroupsF1, GroupsF2, GroupsF3];
   for i:= High(List) downto 0 do

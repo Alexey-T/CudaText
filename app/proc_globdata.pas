@@ -179,10 +179,6 @@ var
   AppEventLister: TEvent = nil; //event set to signaled, when main thread has done AppFrameList2 updating
   AppEventWatcher: TEvent = nil; //event set to signaled, when watcher thread is not busy
 
-  AppLogOfCloseAll: boolean = false;
-  AppCountOfCloseAll: integer = 0;
-  AppTimeOfFreeing: QWord = 0;
-
 type
   { TAppKeyValues }
 
@@ -3281,18 +3277,6 @@ begin
     if AppFrameListDeleting.Count=0 then
       AppCommandHandlerIsBusy:= false;
   end;
-
-  (*
-  if AppLogOfCloseAll then
-    if (AppCountOfCloseAll>=10) and (AppFrameListDeleting.Count=0) then
-    begin
-      MsgLogConsole(Format('Close-all: %d tabs, freeing %dms', [
-        AppCountOfCloseAll,
-        AppTimeOfFreeing
-        ]));
-      AppCountOfCloseAll:= 0;
-    end;
-    *)
 end;
 
 
