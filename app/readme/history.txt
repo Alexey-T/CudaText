@@ -10,7 +10,7 @@
 - fix: crashes on fast/heavy using of file commands: drag-drop 20 files / close all / reopen recent file (thanks @veksha)
 - fix: crash on Windows when opening file in distraction-free mode (thanks @faulknermano)
 
-1.178.5 (2022/11)
+1.178.5 (2022/12)
 
 * change: "Extract RegEx matches" action now doesn't sort matches (thanks @mast)
 * change: tab context menu "Close / All (all groups)" now closes tabs in all windows including floating-groups
