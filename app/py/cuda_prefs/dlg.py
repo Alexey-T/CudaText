@@ -1551,7 +1551,10 @@ class ValueEds:
         elif newtype == 'int2s':
             #ed_val = map_option_value(opt, caption=value)
             with ignore_edit(h, self.val_combo):
-                self.val_combo.set_text_all(str(value))
+                if isinstance(value, str):
+                    self.val_combo.set_text_all(value)
+                elif isinstance(value, int):
+                    self.val_combo.set_text_all(opt['jdc'][value])
             self.val_combo.set_prop(PROP_COMBO_ITEMS, '\n'.join(opt['jdc']))
 
         elif newtype == 'str2s':
