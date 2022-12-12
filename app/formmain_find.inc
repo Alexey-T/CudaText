@@ -158,8 +158,8 @@ begin
 
   if NCounter>0 then
   begin
-    //somehow EditorScrollToCaret() don't work! but command 'scroll to top caret' works from Cmd Palette. 2022.12.
-    FFinder.Editor.DoGotoCaret(cEdgeTop);
+    FFinder.Editor.DoCommand(cCommand_ScrollToCaretTop, cInvokeAppInternal);
+    //FFinder.Editor.DoGotoCaret(cEdgeTop); //also works, but it's more complicated, less wanted
   end;
 
   if (NCounter=0) and FFinder.IsRegexBad then

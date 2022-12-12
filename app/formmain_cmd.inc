@@ -734,7 +734,11 @@ var
   Str: string;
 begin
   AHandled:= true;
-  if not Groups.Enabled then Exit;
+  if not Groups.Enabled then
+  begin
+    AHandled:= false; //if True: scrolling to 1st caret after 'select all' in Find dlg won't work
+    Exit;
+  end;
 
   Ed:= Sender as TATSynEdit;
   Frame:= TGroupsHelper.GetEditorFrame(Ed);
