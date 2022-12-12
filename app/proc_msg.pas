@@ -46,11 +46,16 @@ const
     ;
 
   cSystemHasPkExec =
-    {$if defined(linux) or defined(solaris) or (defined(bsd) and not defined(darwin))}
-    true
-    {$else}
-    false
-    {$endif};
+    {$ifdef windows}   false {$endif}
+    {$ifdef linux}     true {$endif}
+    {$ifdef darwin}    false {$endif}
+    {$ifdef freebsd}   true {$endif}
+    {$ifdef netbsd}    true {$endif}
+    {$ifdef openbsd}   true {$endif}
+    {$ifdef dragonfly} true {$endif}
+    {$ifdef solaris}   true {$endif}
+    {$ifdef haiku}     false {$endif}
+    ;
 
 const
   EOL = #10;
