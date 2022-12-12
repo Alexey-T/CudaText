@@ -3,6 +3,8 @@
   - fixed
   * changed
 
++ add: when loading session, must close 'pinned' ui-tabs (thanks @MiroslavMatas)
+
 1.179.0 (2022/12)
 
 + add: forward keys Up/Down/Enter from codetree-filter-input to codetree
