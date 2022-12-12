@@ -454,7 +454,7 @@ begin
 
   AppSessionIsClosing:= true;
   try
-    if not DoFileCloseAll(true) then
+    if not DoFileCloseAll(true, true) then
     begin
       DoPyEvent_AppState(APPSTATE_SESSION_LOAD_BEGIN);
       DoPyEvent_AppState(APPSTATE_SESSION_LOAD_FAIL);

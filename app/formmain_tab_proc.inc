@@ -407,41 +407,41 @@ end;
 procedure TfmMain.mnuTabCloseAllAllClick(Sender: TObject);
 begin
   //GroupsCtx.CloseTabs(tabCloseAll, false); //old way in CudaText 1.178
-  DoCloseAllTabs;
+  DoCloseAllTabs(false);
 end;
 
 procedure TfmMain.mnuTabCloseAllSameClick(Sender: TObject);
 begin
   AppClosingTabs:= true;
-  GroupsCtx.CloseTabs(tabCloseAllThisPage, true);
+  GroupsCtx.CloseTabs(tabCloseAllThisPage, true, false);
   AppClosingTabs:= false;
 end;
 
 procedure TfmMain.mnuTabCloseLeftClick(Sender: TObject);
 begin
   AppClosingTabs:= true;
-  GroupsCtx.CloseTabs(tabCloseLefterThisPage, true);
+  GroupsCtx.CloseTabs(tabCloseLefterThisPage, true, false);
   AppClosingTabs:= false;
 end;
 
 procedure TfmMain.mnuTabCloseOtherAllClick(Sender: TObject);
 begin
   AppClosingTabs:= true;
-  GroupsCtx.CloseTabs(tabCloseOthersAllPages, true);
+  GroupsCtx.CloseTabs(tabCloseOthersAllPages, true, false);
   AppClosingTabs:= false;
 end;
 
 procedure TfmMain.mnuTabCloseOtherSameClick(Sender: TObject);
 begin
   AppClosingTabs:= true;
-  GroupsCtx.CloseTabs(tabCloseOthersThisPage, true);
+  GroupsCtx.CloseTabs(tabCloseOthersThisPage, true, false);
   AppClosingTabs:= false;
 end;
 
 procedure TfmMain.mnuTabCloseRightClick(Sender: TObject);
 begin
   AppClosingTabs:= true;
-  GroupsCtx.CloseTabs(tabCloseRighterThisPage, true);
+  GroupsCtx.CloseTabs(tabCloseRighterThisPage, true, false);
   AppClosingTabs:= false;
 end;
 

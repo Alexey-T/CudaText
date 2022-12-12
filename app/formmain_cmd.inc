@@ -52,7 +52,7 @@ begin
 
     cmd_FileClose:
       begin
-        EdGrp.CloseTabs(tabCloseCurrent, false);
+        EdGrp.CloseTabs(tabCloseCurrent, false, true);
 
         Frame:= CurrentFrame;
         if Assigned(Frame) then
@@ -66,7 +66,7 @@ begin
 
     cmd_FileCloseAll:
       begin
-        DoCloseAllTabs;
+        DoCloseAllTabs(false);
 
         Frame:= CurrentFrame;
         if Assigned(Frame) then
@@ -81,14 +81,14 @@ begin
     cmd_FileCloseOtherThis:
       begin
         AppClosingTabs:= true;
-        EdGrp.CloseTabs(tabCloseOthersThisPage, false);
+        EdGrp.CloseTabs(tabCloseOthersThisPage, false, false);
         AppClosingTabs:= false;
       end;
 
     cmd_FileCloseOtherAll:
       begin
         AppClosingTabs:= true;
-        EdGrp.CloseTabs(tabCloseOthersAllPages, false);
+        EdGrp.CloseTabs(tabCloseOthersAllPages, false, false);
         AppClosingTabs:= false;
       end;
 

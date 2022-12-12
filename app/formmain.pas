@@ -764,7 +764,7 @@ type
     procedure DoApplyLexerStylesMapsToFrames(AndApplyTheme: boolean);
     procedure DoApplyTranslationToGroups(G: TATGroups);
     procedure DoClearSingleFirstTab;
-    function DoCloseAllTabs: boolean;
+    function DoCloseAllTabs(AClosePinned: boolean): boolean;
     procedure DoCloseAllTabs_Old;
     procedure DoDialogMenuThemes_ThemeSetter(const AThemeUi, AThemeSyntax: string);
     procedure DoFileDialog_PrepareDir(Dlg: TFileDialog);
@@ -1018,7 +1018,7 @@ type
     function FrameOfPopup: TEditorFrame;
     procedure FrameOnEditorCommand(Sender: TObject; ACommand: integer; AInvoke: TATEditorCommandInvoke;
       const AText: string; var AHandled: boolean);
-    function DoFileCloseAll(AWithCancel: boolean): boolean;
+    function DoFileCloseAll(AWithCancel, AClosePinned: boolean): boolean;
     procedure DoDialogFind(AReplaceMode: boolean);
     procedure DoDialogFind_Hide;
     procedure DoDialogFind_Toggle(AReplaceMode, AAndFocus: boolean);
@@ -2905,7 +2905,7 @@ begin
   end;
 end;
 
-function TfmMain.DoCloseAllTabs: boolean;
+function TfmMain.DoCloseAllTabs(AClosePinned: boolean): boolean;
 var
   List: array of TATGroups;
   i: integer;
@@ -2917,7 +2917,7 @@ begin
   List:= [Groups, GroupsF1, GroupsF2, GroupsF3];
   for i:= High(List) downto 0 do
     if Assigned(List[i]) then
-      if not List[i].CloseTabs(tabCloseAll, false) then
+      if not List[i].CloseTabs(tabCloseAll, false, AClosePinned) then
       begin
         AppClosingTabs:= false;
         exit;
@@ -5875,7 +5875,7 @@ begin
   Result:= true;
 end;
 
-function TfmMain.DoFileCloseAll(AWithCancel: boolean): boolean;
+function TfmMain.DoFileCloseAll(AWithCancel, AClosePinned: boolean): boolean;
 var
   F: TEditorFrame;
 begin
@@ -5890,7 +5890,7 @@ begin
     Groups.PagesCurrent:= Groups.Pages1;
   end;
 
-  DoCloseAllTabs;
+  DoCloseAllTabs(AClosePinned);
   Result:= true;
 end;
 
@@ -5922,7 +5922,7 @@ begin
   if MsgBox(
        msgConfirmCloseAndDeleteFile+#10+AppCollapseHomeDirInFilename(fn),
        MB_OKCANCEL or MB_ICONWARNING)=ID_OK then
-    if Groups.CloseTabs(tabCloseCurrent, false) then
+    if Groups.CloseTabs(tabCloseCurrent, false, true) then
     begin
       DeleteFileUTF8(fn);
 
