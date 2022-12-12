@@ -46,7 +46,7 @@ const
     ;
 
   cSystemHasPkExec =
-    {$if defined(linux) or defined(bsd)}
+    {$if defined(linux) or defined(solaris) or (defined(bsd) and not defined(darwin))}
     true
     {$else}
     false
