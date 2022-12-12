@@ -2446,7 +2446,7 @@ Also note, that our application bundle is not digitally signed.
 So to run it (the first time you do it), you should right-click the application bundle, and choose "Open" menu item, and confirm that you trust the vendor.
 
 ==Can app save files to system directories?==
-Under Linux and *BSD systems, CudaText can save files even to system write-protected folders. It runs "pkexec" program for this purpose, and "pkexec" shows GUI confirmation to get admin rights. Pkexec runs "/bin/cp" to copy file from temp fodler to the system folder.
+Under Linux / *BSD / macOS systems, CudaText can save files even to system write-protected folders. It runs "pkexec" program for this purpose, and "pkexec" shows GUI confirmation to get admin rights. "Pkexec" runs "/bin/cp" to copy file from temp folder to the write-protected folder.
 
 ==How to select extra symbols by double-click==
 
