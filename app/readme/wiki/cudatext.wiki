@@ -835,6 +835,8 @@ Possible encoding names for command-line usage:
 * cp437
 * cp850
 * cp852
+* cp861
+* cp865
 * cp866
 * cp874
 * cp932
