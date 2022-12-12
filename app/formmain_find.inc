@@ -155,6 +155,13 @@ begin
   NCounter:= FFinder.DoAction_CountAll(true);
   DoFindMarkingInit(markingNone);
   FinderUpdateEditor(false);
+
+  if NCounter>0 then
+  begin
+    //somehow EditorScrollToCaret() don't work! but command 'scroll to top caret' works from Cmd Palette. 2022.12.
+    FFinder.Editor.DoGotoCaret(cEdgeTop);
+  end;
+
   if (NCounter=0) and FFinder.IsRegexBad then
     MsgStatusErrorInRegex
   else
