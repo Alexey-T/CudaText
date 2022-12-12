@@ -3,6 +3,7 @@
   - fixed
   * changed
 
++ add: encoding 'cp865' (DOS Nordic)
 - fix: regression (because of refactoring): when loading session, must close 'pinned' tabs (thanks @MiroslavMatas)
 
 1.179.0 (2022/12)
