@@ -3,8 +3,11 @@
   - fixed
   * changed
 
+1.179.5 (2022/12)
+
++ add: encoding 'cp861' (DOS Icelandic)
 + add: encoding 'cp865' (DOS Nordic)
-- fix: regression (because of refactoring): when loading session, must close 'pinned' tabs (thanks @MiroslavMatas)
+- fix: regression: on loading session, must close 'pinned' tabs (thanks @MiroslavMatas)
 - fix: usage of 'pkexec' must be disabled on macOS and enabled on Solaris
 
 1.179.0 (2022/12)
