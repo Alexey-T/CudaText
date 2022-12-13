@@ -5,10 +5,9 @@
 
 1.179.5 (2022/12)
 
-+ add: encoding 'cp861' (DOS Icelandic)
-+ add: encoding 'cp865' (DOS Nordic)
-+ add: Find dialog: after 'select all', scroll to the first caret (thanks @Vivalzar)
-- fix: regression: on loading session, must close 'pinned' tabs (thanks @MiroslavMatas)
++ add: encodings 'cp861' (DOS Icelandic), 'cp865' (DOS Nordic)
++ add: Find dialog: after 'Select all', scroll to the first caret (thanks @Vivalzar)
+- fix: regression: on loading session, 'pinned' tabs were not closed (thanks @MiroslavMatas)
 - fix: usage of 'pkexec' must be disabled on macOS and enabled on Solaris
 
 1.179.0 (2022/12)
