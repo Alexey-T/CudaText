@@ -56,6 +56,7 @@ type
     keymapList: TFPList;
     keymapList_Simple: TFPList;
     keymapList_Fuzzy: TFPList;
+    FTimerShow: TTimer;
     FOnMsg: TAppStringEvent;
     FColorBg: TColor;
     FColorBgSel: TColor;
@@ -73,6 +74,7 @@ type
     procedure DoMsgStatus(const S: string);
     procedure Localize;
     procedure SetListCaption(const AValue: string);
+    procedure TimerShowTick(Sender: TObject);
   public
     { public declarations }
     Keymap: TATKeymap;
@@ -175,6 +177,8 @@ begin
 
   if OptAllowConfig then
     edit.OptTextHint:= msgCmdPaletteTextHint;
+
+  FTimerShow.Enabled:= true;
 end;
 
 procedure TfmCommands.listClick(Sender: TObject);
@@ -229,6 +233,11 @@ begin
 
   Width:= ATEditorScale(UiOps.ListboxSizeX);
   Height:= ATEditorScale(UiOps.ListboxSizeY);
+
+  FTimerShow:= TTimer.Create(Self);
+  FTimerShow.Enabled:= false;
+  FTimerShow.Interval:= 100;
+  FTimerShow.OnTimer:= @TimerShowTick;
 end;
 
 procedure TfmCommands.editChange(Sender: TObject);
@@ -676,6 +685,13 @@ begin
     PanelCaption.Caption:= AValue;
     PanelCaption.Visible:= AValue<>'';
   end;
+end;
+
+procedure TfmCommands.TimerShowTick(Sender: TObject);
+begin
+  FTimerShow.Enabled:= false;
+  //fix caret in the middle of input, #4670
+  edit.Update;
 end;
 
 procedure TfmCommands.Localize;
