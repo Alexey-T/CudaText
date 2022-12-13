@@ -31,12 +31,14 @@ uses
   proc_customdialog,
   proc_customdialog_dummy,
   proc_editor,
+  proc_cmd,
   proc_msg;
 
 type
   TAppStrEvent = procedure(const Str: string) of object;
   TAppConsoleEvent = function(const Str: string): boolean of object;
   TAppConsoleCommandEvent = procedure(ACommand: integer; const AText: string; var AHandled: boolean) of object;
+  TAppConsoleGetEditor = procedure(out AEditor: TATSynEdit) of object;
 
   TAppConsoleLineKind = (
     acLineUsual,
@@ -56,6 +58,7 @@ type
     FAdapter: TATAdapterSimple;
     FOnNavigate: TAppConsoleEvent;
     FOnNumberChange: TNotifyEvent;
+    FOnGetMainEditor: TAppConsoleGetEditor;
     FCudatextImported: boolean;
     FInputFirstChanged: boolean;
     mnuTextClear: TMenuItem;
@@ -84,6 +87,7 @@ type
     constructor Create(AOwner: TComponent); override;
     property OnConsoleNav: TAppConsoleEvent read FOnNavigate write FOnNavigate;
     property OnNumberChange: TNotifyEvent read FOnNumberChange write FOnNumberChange;
+    property OnGetMainEditor: TAppConsoleGetEditor read FOnGetMainEditor write FOnGetMainEditor;
     procedure DoAddLine(const AText: UnicodeString);
     procedure DoClearMemo(Sender: TObject);
     procedure DoClearInput(Sender: TObject);
@@ -99,7 +103,7 @@ type
 var
   fmConsole: TfmConsole = nil;
 
-procedure InitConsole(AFormMain: TCustomForm);
+procedure InitConsole(AFormMain: TCustomForm; AOnGetMainEditor: TAppConsoleGetEditor);
 
 const
   cConsoleMaxLines = 1000;
@@ -362,18 +366,20 @@ begin
 end;
 
 
-procedure InitConsole(AFormMain: TCustomForm);
+procedure InitConsole(AFormMain: TCustomForm; AOnGetMainEditor: TAppConsoleGetEditor);
 begin
   if fmConsole=nil then
   begin
     fmConsole:= TfmConsole.Create(nil);
     fmConsole.FFormMain:= AFormMain;
+    fmConsole.OnGetMainEditor:= AOnGetMainEditor;
   end;
 end;
 
 procedure TfmConsole.InputOnCommand(Sender: TObject; ACommand: integer;
   AInvoke: TATEditorCommandInvoke; const AText: string; var AHandled: boolean);
 var
+  Ed: TATSynEdit;
   s: string;
 begin
   if ACommand=cCommand_KeyEnter then
@@ -385,7 +391,15 @@ begin
     EdInput.DoCaretSingle(0, 0);
 
     AHandled:= true;
-    Exit
+    exit
+  end;
+
+  if (ACommand>=cmdFirstAppCommand) and (ACommand<=cmdLastAppCommand) then
+  begin
+    FOnGetMainEditor(Ed);
+    Ed.DoCommand(ACommand, cInvokeHotkey, '');
+    AHandled:= true;
+    exit;
   end;
 end;
 

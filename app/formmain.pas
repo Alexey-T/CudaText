@@ -2814,7 +2814,7 @@ begin
   InitCodeTree;
   InitBottomEditor(fmOutput);
   InitBottomEditor(fmValidate);
-  InitConsole(Self);
+  InitConsole(Self, @FindDialogGetMainEditor);
   fmConsole.OnConsoleNav:= @DoPyEvent_ConsoleNav;
   fmConsole.OnNumberChange:= @DoOnConsoleNumberChange;
   fmConsole.OnKeyDown:=@DoOnConsoleKeyDown;
