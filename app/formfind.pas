@@ -173,6 +173,7 @@ type
     procedure FormShow(Sender: TObject);
   private
     { private declarations }
+    FTimerShow: TTimer;
     FPopupMore: TPopupMenu;
     FMenuitemOptRegex: TMenuItem;
     FMenuitemOptCase: TMenuItem;
@@ -222,6 +223,7 @@ type
     procedure SetMultiLine(AValue: boolean);
     procedure SetNarrow(AValue: boolean);
     procedure SetReplace(AValue: boolean);
+    procedure TimerShowTick(Sender: TObject);
     procedure UpdateButtonBold;
     procedure UpdateRegexHighlight;
   public
@@ -841,6 +843,11 @@ begin
 
   Adapter:= TATAdapterEControl.Create(Self);
   Adapter.Lexer:= AppManager.FindLexerByName('RegEx');
+
+  FTimerShow:= TTimer.Create(Self);
+  FTimerShow.Enabled:= false;
+  FTimerShow.Interval:= 100;
+  FTimerShow.OnTimer:= @TimerShowTick;
 end;
 
 procedure TfmFind.FormHide(Sender: TObject);
@@ -1166,6 +1173,8 @@ begin
 
   if Assigned(FOnChangeVisible) then
     FOnChangeVisible(Self);
+
+  FTimerShow.Enabled:= true;
 end;
 
 procedure TfmFind.UpdateInitialCaretPos;
@@ -1305,6 +1314,14 @@ begin
 
   Caption:= CurrentCaption;
   UpdateState(false);
+end;
+
+procedure TfmFind.TimerShowTick(Sender: TObject);
+begin
+  FTimerShow.Enabled:= false;
+  //fixing caret in the middle of field, #4670
+  edFind.Update;
+  edRep.Update;
 end;
 
 procedure TfmFind.UpdateFormHeight;
