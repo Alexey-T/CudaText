@@ -68,7 +68,7 @@ type
     procedure InputOnChange(Sender: TObject);
     procedure DoGetLineColor(Ed: TATSynEdit; ALineIndex: integer; var AColorFont, AColorBg: TColor);
     procedure MemoClickDbl(Sender: TObject; var AHandled: boolean);
-    procedure MemoCommand(Sender: TObject; ACmd: integer; AInvoke: TATEditorCommandInvoke; const AText: string; var AHandled: boolean);
+    procedure MemoCommand(Sender: TObject; ACommand: integer; AInvoke: TATEditorCommandInvoke; const AText: string; var AHandled: boolean);
     procedure MemoContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
     procedure DoNavigate(Sender: TObject);
     procedure DoToggleWrap(Sender: TObject);
@@ -502,13 +502,24 @@ begin
   EdMemo.Update;
 end;
 
-procedure TfmConsole.MemoCommand(Sender: TObject; ACmd: integer;
+procedure TfmConsole.MemoCommand(Sender: TObject; ACommand: integer;
   AInvoke: TATEditorCommandInvoke; const AText: string; var AHandled: boolean);
+var
+  Ed: TATSynEdit;
 begin
-  if ACmd=cCommand_KeyEnter then
+  if ACommand=cCommand_KeyEnter then
   begin
     MemoClickDbl(nil, AHandled);
     AHandled:= true;
+    exit;
+  end;
+
+  if (ACommand>=cmdFirstAppCommand) and (ACommand<=cmdLastAppCommand) then
+  begin
+    FOnGetMainEditor(Ed);
+    Ed.DoCommand(ACommand, cInvokeHotkey, '');
+    AHandled:= true;
+    exit;
   end;
 end;
 
