@@ -61,7 +61,7 @@ type
     mnuTextClear: TMenuItem;
     mnuTextNav: TMenuItem;
     mnuTextWrap: TMenuItem;
-    procedure InputOnCommand(Sender: TObject; ACmd: integer; AInvoke: TATEditorCommandInvoke; const AText: string; var AHandled: boolean);
+    procedure InputOnCommand(Sender: TObject; ACommand: integer; AInvoke: TATEditorCommandInvoke; const AText: string; var AHandled: boolean);
     procedure InputOnChange(Sender: TObject);
     procedure DoGetLineColor(Ed: TATSynEdit; ALineIndex: integer; var AColorFont, AColorBg: TColor);
     procedure MemoClickDbl(Sender: TObject; var AHandled: boolean);
@@ -371,12 +371,12 @@ begin
   end;
 end;
 
-procedure TfmConsole.InputOnCommand(Sender: TObject; ACmd: integer;
+procedure TfmConsole.InputOnCommand(Sender: TObject; ACommand: integer;
   AInvoke: TATEditorCommandInvoke; const AText: string; var AHandled: boolean);
 var
   s: string;
 begin
-  if ACmd=cCommand_KeyEnter then
+  if ACommand=cCommand_KeyEnter then
   begin
     s:= UTF8Encode(EdInput.Text);
     DoRunLine(s);
@@ -387,9 +387,6 @@ begin
     AHandled:= true;
     Exit
   end;
-
-  //if Assigned(FOnEditCommand) then
-  //  FOnEditCommand(ACmd, AText, AHandled);
 end;
 
 function TfmConsole.GetWordWrap: boolean;

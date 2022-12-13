@@ -31,6 +31,7 @@ uses
   proc_miscutils,
   proc_colors,
   proc_editor,
+  proc_cmd,
   ec_SyntAnal,
   formlexerstylemap;
 
@@ -158,7 +159,8 @@ type
     procedure chkWordsClick(Sender: TObject);
     procedure chkWrapClick(Sender: TObject);
     procedure edFindChange(Sender: TObject);
-    procedure edFindCommand(Sender: TObject; ACommand: integer; const AText: string; var AHandled: boolean);
+    procedure edFindCommand(Sender: TObject; ACommand: integer; AInvoke: TATEditorCommandInvoke;
+      const AText: string; var AHandled: boolean);
     procedure edFindEnter(Sender: TObject);
     procedure edFindKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure edRepEnter(Sender: TObject);
@@ -708,13 +710,24 @@ begin
 end;
 
 procedure TfmFind.edFindCommand(Sender: TObject; ACommand: integer;
-  const AText: string; var AHandled: boolean);
+  AInvoke: TATEditorCommandInvoke; const AText: string; var AHandled: boolean);
+var
+  Ed: TATSynEdit;
 begin
   //auto turn on multi-line
   if ACommand=cCommand_KeyEnter then
   begin
     IsMultiLine:= true;
+    AHandled:= false;
     exit
+  end;
+
+  if (ACommand>=cmdFirstAppCommand) and (ACommand<=cmdLastAppCommand) then
+  begin
+    FOnGetMainEditor(Ed);
+    Ed.DoCommand(ACommand, cInvokeHotkey, '');
+    AHandled:= true;
+    exit;
   end;
 end;
 
