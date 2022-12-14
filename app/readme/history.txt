@@ -8,7 +8,7 @@
 + add: encodings 'cp861' (DOS Icelandic), 'cp865' (DOS Nordic)
 + add: Find dialog: after 'Select all', scroll to the first caret (thanks @Vivalzar)
 + add: Find dialog, Console dialog: handle global app hotkeys (thanks @Vivalzar)
-+ add: lexer CSS: add missing spec words
++ add: lexer CSS: add missing spec function/property names
 - fix: regression: if opened >20 tabs, just closed tabs are not added to 'recents' (thanks @mix-7)
 - fix: regression: on loading session, 'pinned' tabs were not closed (thanks @MiroslavMatas)
 - fix: usage of 'pkexec' must be disabled on macOS and enabled on Solaris
