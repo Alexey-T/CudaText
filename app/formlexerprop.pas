@@ -234,6 +234,11 @@ begin
   edSample.OptShowMouseSelFrame:= EditorOps.OpShowMouseSelFrame;
   edSample.OptShowFullWidthForSelection:= EditorOps.OpShowFullBackgroundSel;
   edSample.OptShowFullWidthForSyntaxHilite:= EditorOps.OpShowFullBackgroundSyntax;
+  edSample.OptScrollSmooth:= EditorOps.OpSmoothScroll;
+  edSample.OptMouseWheelScrollVertSpeed:= EditorOps.OpMouseWheelSpeedVert;
+  edSample.OptMouseWheelScrollHorzSpeed:= EditorOps.OpMouseWheelSpeedHorz;
+  edSample.OptMouse2ClickDragSelectsWords:= EditorOps.OpMouse2ClickDragSelectsWords;
+  edSample.OptMouseRightClickMovesCaret:= EditorOps.OpMouseRightClickMovesCaret;
 
   FFormats:= TecStylesCollection.Create;
 
