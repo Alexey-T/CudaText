@@ -7,6 +7,7 @@
 
 + add: option "ui_open_dir"
 + add: encodings 'cp861' (DOS Icelandic), 'cp865' (DOS Nordic)
++ add: dialog "Lexer style mapping" renders styles in the 2nd listbox
 + add: Find dialog: after 'Select all', scroll to the first caret (thanks @Vivalzar)
 + add: Find dialog, Console dialog: handle global app hotkeys (thanks @Vivalzar)
 + add: lexer CSS: add missing spec function/property names
