@@ -4633,28 +4633,19 @@ begin
   Dir:= '';
   for iChar:= 1 to Length(UiOps.OpenDir) do
   begin
-    Dir:= '';
     case UiOps.OpenDir[iChar] of
       'p':
-        begin
-          Dir:= PyCurrentFolder;
-        end;
+        Dir:= PyCurrentFolder;
       'f':
-        begin
-          Dir:= ExtractFileDir(CurrentFrame.FileName);
-        end;
+        Dir:= ExtractFileDir(CurrentFrame.FileName);
       'l':
-        begin
-          Dir:= FLastDirOfOpenDlg;
-        end;
+        Dir:= FLastDirOfOpenDlg;
       'i':
-        begin
-          Dir:= UiOps.InitialDir;
-        end;
+        Dir:= UiOps.InitialDir;
       'h':
-        begin
-          Dir:= AppDir_Home;
-        end;
+        Dir:= AppDir_Home;
+      else
+        Dir:= '';
     end;
     if (Dir<>'') and DirectoryExists(Dir) then
       Break;
