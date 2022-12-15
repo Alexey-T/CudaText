@@ -239,6 +239,10 @@ begin
   edSample.OptMouseWheelScrollHorzSpeed:= EditorOps.OpMouseWheelSpeedHorz;
   edSample.OptMouse2ClickDragSelectsWords:= EditorOps.OpMouse2ClickDragSelectsWords;
   edSample.OptMouseRightClickMovesCaret:= EditorOps.OpMouseRightClickMovesCaret;
+  edSample.OptCaretVirtual:= EditorOps.OpCaretVirtual;
+  EditorCaretShapeFromString(edSample.CaretShapeNormal, EditorOps.OpCaretViewNormal);
+  EditorCaretShapeFromString(edSample.CaretShapeOverwrite, EditorOps.OpCaretViewOverwrite);
+  EditorCaretShapeFromString(edSample.CaretShapeReadonly, EditorOps.OpCaretViewReadonly);
 
   FFormats:= TecStylesCollection.Create;
 
