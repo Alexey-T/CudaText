@@ -4635,7 +4635,11 @@ begin
   begin
     case UiOps.OpenDir[iChar] of
       'p':
-        Dir:= PyCurrentFolder;
+        begin
+          Dir:= PyCurrentFolder;
+          if Dir='' then
+            Dir:= ExtractFileDir(FLastProjectPath);
+        end;
       'f':
         Dir:= ExtractFileDir(CurrentFrame.FileName);
       'l':
