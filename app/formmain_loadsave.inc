@@ -1510,6 +1510,7 @@ begin
   UiOps.EscapeCloseConsole:= cfg.GetValue('ui_esc_close_console', UiOps.EscapeCloseConsole);
   UiOps.ConsoleWordWrap:= cfg.GetValue('ui_console_wrap', UiOps.ConsoleWordWrap);
   UiOps.InitialDir:= cfg.GetValue('ui_initial_dir', UiOps.InitialDir);
+  UiOps.OpenDir:= cfg.GetValue('ui_open_dir', UiOps.OpenDir);
 
   UiOps.ExportHtmlNumbers:= cfg.GetValue('export_html_numbers', UiOps.ExportHtmlNumbers);
   UiOps.ExportHtmlFontName:= cfg.GetValue('export_html_font_name', UiOps.ExportHtmlFontName);

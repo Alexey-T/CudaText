@@ -374,6 +374,7 @@ type
     ConsoleWordWrap: boolean;
     InputHeight: integer;
     InitialDir: string;
+    OpenDir: string;
     ConfirmLinksClicks: boolean;
     ConfirmSaveEmptyUntitledTab: boolean;
     SplittersUsePoorStyle: boolean;
@@ -2007,6 +2008,7 @@ begin
     ConsoleWordWrap:= true;
     InputHeight:= 26;
     InitialDir:= '';
+    OpenDir:= 'pflih';
     ConfirmLinksClicks:= true;
     ConfirmSaveEmptyUntitledTab:= false;
     SplittersUsePoorStyle:= true;

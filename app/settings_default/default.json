@@ -949,8 +949,17 @@
   //Close the Console panel by Esc key.
   "ui_esc_close_console": true,
 
-  //Initial folder of Open/Save-as dialogs, for untitled tabs.
+  //Sub-option of "ui_open_dir".
   "ui_initial_dir": "",
+
+  //Initial folder of Open/Save-as dialog.
+  //Has character(s), each character is a step to detect the folder.
+  //  'p' in value: Folder selected in the Project Manager, if project is opened.
+  //  'f' in value: Folder of currently active ui-tab, if it's named.
+  //  'l' in value: Last user-chosen folder in the Open/Save-as dialog.
+  //  'i' in value: Value of "ui_initial_dir", if not empty.
+  //  'h' in value: OS home folder.
+  "ui_open_dir": "pflih",
 
   //[UI/Tree]
   //Sync code-tree selection to caret position. Ie after caret moves,
