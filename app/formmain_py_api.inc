@@ -15,8 +15,8 @@ const
 
 var
   PyEscapeFlag: boolean = false; //Esc key was pressed in application
-  PyEditorMaybeDeleted: boolean = false; //command plugin maybe deleted the editor e.g. by 'close file' command
-  PyCurrentFolder: string = ''; //initial folder of API Open/SaveAs dialogs
+  PyEditorMaybeDeleted: boolean = false; //command plugin maybe deleted the editor, e.g. 'close file' command does it
+  PyCurrentFolder: string = ''; //currently opened folder in Project Manager
 
 var
   AppEmmet: TEmmet = nil;
