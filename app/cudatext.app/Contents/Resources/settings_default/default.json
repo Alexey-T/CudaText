@@ -954,8 +954,8 @@
 
   //Initial folder of Open/Save-as dialog.
   //Has character(s), each character is a step to detect the folder.
-  //  'p': If project is opened: selected folder in the Project Manager,
-  //       or folder of the "projectname.cuda-proj" file.
+  //  'p': If project is opened: selected folder in the Project Manager.
+  //  'q': If project is opened: folder of the "projectname.cuda-proj" file.
   //  'f': Folder of focused ui-tab, if it's named.
   //  'l': Last user-chosen folder in the Open/Save-as dialog.
   //  'i': Value of option "ui_initial_dir", if not empty.
