@@ -14,6 +14,7 @@ interface
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ButtonPanel,
   StdCtrls, StrUtils, IniFiles,
+  Types, LCLType,
   ec_SyntAnal,
   ec_syntax_format,
   proc_msg,
@@ -38,6 +39,8 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure ListThDrawItem(Control: TWinControl; AIndex: Integer;
+      ARect: TRect; State: TOwnerDrawState);
   private
     { private declarations }
     LexerName: string;
@@ -211,9 +214,9 @@ end;
 procedure TfmLexerStyleMap.FormCreate(Sender: TObject);
 begin
   Localize;
-  ItemsLex:= TStringlist.Create;
-  ItemsTh:= TStringlist.Create;
-  ItemsVal:= TStringlist.Create;
+  ItemsLex:= TStringList.Create;
+  ItemsTh:= TStringList.Create;
+  ItemsVal:= TStringList.Create;
 end;
 
 procedure TfmLexerStyleMap.btnSetClick(Sender: TObject);
@@ -309,6 +312,53 @@ begin
   finally
     FreeAndNil(ini);
   end;
+end;
+
+
+procedure TfmLexerStyleMap.ListThDrawItem(Control: TWinControl; AIndex: Integer;
+  ARect: TRect; State: TOwnerDrawState);
+const
+  cIndent = 6;
+  cExample = ' Example ';
+var
+  C: TCanvas;
+  st: TecSyntaxFormat;
+  NWidth: integer;
+begin
+  if (AIndex<0) or (AIndex>=ListTh.Items.Count) then exit;
+
+  C:= (Control as TListbox).Canvas;
+  st:= AppTheme.Styles[TAppThemeStyleId(AIndex)];
+
+  C.Brush.Color:= clWindow;
+  C.FillRect(ARect);
+
+  C.Font.Color:= st.Font.Color;
+  C.Font.Style:= st.Font.Style;
+  C.Brush.Color:= st.BgColor;
+  if st.BgColor=clNone then
+    C.Brush.Color:= AppTheme.Colors[apclEdTextBg].Color;
+
+  NWidth:= C.TextWidth(cExample);
+  C.TextOut(ARect.Right-NWidth, ARect.Top, cExample);
+
+  if st.BorderColorBottom<>clNone then
+  begin
+    C.Pen.Color:= st.BorderColorBottom;
+    C.Line(ARect.Right-NWidth, ARect.Bottom-2, ARect.Right, ARect.Bottom-2);
+  end;
+
+  if odSelected in State then
+  begin
+    C.Brush.Color:= clHighlight;
+    C.FillRect(ARect.Left, ARect.Top, ARect.Right-NWidth, ARect.Bottom);
+  end
+  else
+    C.Brush.Color:= clWindow;
+
+  C.Font.Color:= clWindowText;
+  C.Font.Style:= [];
+  C.TextOut(ARect.Left+cIndent, ARect.Top, ListTh.Items[AIndex]);
 end;
 
 
