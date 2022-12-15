@@ -171,6 +171,7 @@ var
   F: TfmLexerStyleMap;
   anNotCorrent: TecSyntAnalyzer;
   iStyle: TAppThemeStyleId;
+  st: TecSyntaxFormat;
   i: integer;
 begin
   Result:= false;
@@ -187,7 +188,10 @@ begin
     for i:= 0 to an.Formats.Count-1 do
       F.ItemsVal.Add('');
     for iStyle:= Low(iStyle) to High(iStyle) do
-      F.ItemsTh.Add(AppTheme.Styles[iStyle].DisplayName);
+    begin
+      st:= AppTheme.Styles[iStyle];
+      F.ItemsTh.AddObject(st.DisplayName, st);
+    end;
 
     F.ListLex.Items.AddStrings(F.ItemsLex);
     F.ListLex.ItemIndex:= 0;
@@ -328,7 +332,7 @@ begin
   if (AIndex<0) or (AIndex>=ListTh.Items.Count) then exit;
 
   C:= (Control as TListbox).Canvas;
-  st:= AppTheme.Styles[TAppThemeStyleId(AIndex)];
+  st:= ListTh.Items.Objects[AIndex] as TecSyntaxFormat;
 
   C.Brush.Color:= clWindow;
   C.FillRect(ARect);
