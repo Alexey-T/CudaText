@@ -3,15 +3,15 @@
   - fixed
   * changed
 
-1.179.5 (2022/12)
+1.180.0 (2022/12)
 
 + add: option "ui_open_dir"
 + add: encodings 'cp861' (DOS Icelandic), 'cp865' (DOS Nordic)
-+ add: dialog "Lexer style mapping" renders styles in the 2nd listbox
 + add: Find dialog: after 'Select all', scroll to the first caret (thanks @Vivalzar)
 + add: Find dialog, Console dialog: handle global app hotkeys (thanks @Vivalzar)
++ add: dialog "Lexer style mapping" renders styles in the 2nd listbox (thanks @Vivalzar)
 + add: lexer CSS: add missing spec function/property names
-* change: removed assignment of Ctrl+Shift+R to 'toggle read-only'
+* change: removed default assignment of Ctrl+Shift+R to 'toggle read-only' (thanks @Vivalzar)
 - fix: regression: if opened >20 tabs, just closed tabs are not added to 'recents' (thanks @mix-7)
 - fix: regression: on loading session, 'pinned' tabs were not closed (thanks @MiroslavMatas)
 - fix: usage of 'pkexec' must be disabled on macOS and enabled on Solaris
