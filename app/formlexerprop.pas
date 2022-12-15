@@ -231,6 +231,9 @@ begin
 
   edSample.DoubleBuffered:= UiOps.DoubleBuffered;
   edSample.OptTabSize:= 4;
+  edSample.OptShowMouseSelFrame:= EditorOps.OpShowMouseSelFrame;
+  edSample.OptShowFullWidthForSelection:= EditorOps.OpShowFullBackgroundSel;
+  edSample.OptShowFullWidthForSyntaxHilite:= EditorOps.OpShowFullBackgroundSyntax;
 
   FFormats:= TecStylesCollection.Create;
 
