@@ -16,8 +16,7 @@ uses
   BGRABitmap,
   ATSynEdit;
 
-procedure EditorPaintMicromap(Ed: TATSynEdit; ACanvas: TCanvas; const ARect: TRect;
-  AMicromapBmp: TBGRABitmap);
+procedure EditorPaintMicromap(Ed: TATSynEdit; ACanvas: TCanvas; const ARect: TRect; var ABitmap: TBGRABitmap);
 
 implementation
 
@@ -60,8 +59,7 @@ begin
 end;
 
 
-procedure EditorPaintMicromap(Ed: TATSynEdit; ACanvas: TCanvas; const ARect: TRect;
-  AMicromapBmp: TBGRABitmap);
+procedure EditorPaintMicromap(Ed: TATSynEdit; ACanvas: TCanvas; const ARect: TRect; var ABitmap: TBGRABitmap);
 {
   micromap has columns:
     column_0: width 50% of char cell, it's used for line states
@@ -116,17 +114,17 @@ begin
   if Ed.OptLastLineOnTop then
     NScaleDiv:= Max(1, NScaleDiv+Ed.GetVisibleLines-1);
 
-  if AMicromapBmp=nil then
-    AMicromapBmp:= TBGRABitmap.Create;
-  AMicromapBmp.SetSize(ARect.Width, ARect.Height);
+  if ABitmap=nil then
+    ABitmap:= TBGRABitmap.Create;
+  ABitmap.SetSize(ARect.Width, ARect.Height);
 
   XColor.FromColor(GetAppColor(apclEdMicromapBg));
-  AMicromapBmp.Fill(XColor);
+  ABitmap.Fill(XColor);
 
   //paint full-width area of current visible area
   RectMark:= GetItemRect(0, Ed.LineTop, Ed.LineBottom, markFull);
   XColor.FromColor(GetAppColor(apclEdMicromapViewBg));
-  AMicromapBmp.FillRect(RectMark, XColor);
+  ABitmap.FillRect(RectMark, XColor);
 
   XColorSelected.FromColor(Ed.Colors.TextSelBG);
   XColorOccur.FromColor(GetAppColor(apclEdMicromapOccur));
@@ -147,7 +145,7 @@ begin
         else Continue;
       end;
       RectMark:= GetItemRect(0{column_0}, i, i, markColumn);
-      AMicromapBmp.FillRect(RectMark, XColor);
+      ABitmap.FillRect(RectMark, XColor);
     end;
 
   //paint selections
@@ -158,7 +156,7 @@ begin
       Caret.GetSelLines(NLine1, NLine2, false);
       if NLine1<0 then Continue;
       RectMark:= GetItemRect(0, NLine1, NLine2, markRight);
-      AMicromapBmp.FillRect(RectMark, XColorSelected);
+      ABitmap.FillRect(RectMark, XColorSelected);
     end;
 
   //paint background of columns added from Py API
@@ -169,7 +167,7 @@ begin
     begin
       XColor.FromColor(NColor);
       RectMark:= EditorRectMicromapMark(Ed, i, -1, -1, ARect.Height, EditorOps.OpMicromapMinMarkHeight, NScaleDiv);
-      AMicromapBmp.FillRect(RectMark, XColor);
+      ABitmap.FillRect(RectMark, XColor);
     end;
   end;
 
@@ -185,7 +183,7 @@ begin
       //if Ed.IsLineFolded(NIndex) then
       //  Continue;
       RectMark:= EditorRectMicromapMark(Ed, 1{column}, NIndex, NIndex, ARect.Height, EditorOps.OpMicromapMinMarkHeight, NScaleDiv);
-      AMicromapBmp.FillRect(RectMark, XColor);
+      ABitmap.FillRect(RectMark, XColor);
     end;
   end;
 
@@ -204,12 +202,12 @@ begin
       cTagSpellChecker:
         begin
           RectMark:= GetItemRect(1{column_1}, NLine1, NLine2, markColumn);
-          AMicromapBmp.FillRect(RectMark, XColorSpell);
+          ABitmap.FillRect(RectMark, XColorSpell);
         end;
       cTagOccurrences:
         begin
           RectMark:= GetItemRect(1{column_1}, NLine1, NLine2, markColumn);
-          AMicromapBmp.FillRect(RectMark, XColorOccur);
+          ABitmap.FillRect(RectMark, XColorOccur);
         end;
       else
         begin
@@ -224,7 +222,7 @@ begin
               else
                 XColor.FromColor(Marker.LinePart.ColorBorder);
               RectMark:= GetItemRect(NIndex, NLine1, NLine2, markColumn);
-              AMicromapBmp.FillRect(RectMark, XColor);
+              ABitmap.FillRect(RectMark, XColor);
             end;
           end
           else
@@ -233,13 +231,13 @@ begin
             RectMark:= GetItemRect(0, NLine1, NLine2, markFull);
             //todo: not tested with BGRABitmap - it must give inverted colors
             XColor.FromColor(Marker.LinePart.ColorBG);
-            AMicromapBmp.FillRect(RectMark, XColor, dmDrawWithTransparency, $8000);
+            ABitmap.FillRect(RectMark, XColor, dmDrawWithTransparency, $8000);
           end;
         end;
       end;
   end;
 
-  AMicromapBmp.Draw(ACanvas, ARect.Left, ARect.Top);
+  ABitmap.Draw(ACanvas, ARect.Left, ARect.Top);
 end;
 
 end.
