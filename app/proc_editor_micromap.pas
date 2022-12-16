@@ -16,7 +16,7 @@ uses
   BGRABitmap,
   ATSynEdit;
 
-procedure EditorPaintMicromap(Ed: TATSynEdit; ACanvas: TCanvas; const ARect: TRect; var ABitmap: TBGRABitmap);
+procedure EditorPaintMicromap(Ed: TATSynEdit; ACanvas: TCanvas; const ARect: TRect; ABitmap: TBGRABitmap);
 
 implementation
 
@@ -59,7 +59,7 @@ begin
 end;
 
 
-procedure EditorPaintMicromap(Ed: TATSynEdit; ACanvas: TCanvas; const ARect: TRect; var ABitmap: TBGRABitmap);
+procedure EditorPaintMicromap(Ed: TATSynEdit; ACanvas: TCanvas; const ARect: TRect; ABitmap: TBGRABitmap);
 {
   micromap has columns:
     column_0: width 50% of char cell, it's used for line states
@@ -114,8 +114,6 @@ begin
   if Ed.OptLastLineOnTop then
     NScaleDiv:= Max(1, NScaleDiv+Ed.GetVisibleLines-1);
 
-  if ABitmap=nil then
-    ABitmap:= TBGRABitmap.Create;
   ABitmap.SetSize(ARect.Width, ARect.Height);
 
   XColor.FromColor(GetAppColor(apclEdMicromapBg));
