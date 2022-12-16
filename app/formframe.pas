@@ -34,6 +34,7 @@ uses
   ATSynEdit_Commands,
   ATSynEdit_Bookmarks,
   ATSynEdit_CanvasProc,
+  ATSynEdit_WrapInfo,
   ATStrings,
   ATStringProc,
   ATStringProc_Separator,
@@ -1894,15 +1895,16 @@ const
   cPlaceCaretOnClick = false; //user asked to not move caret on micromap click
 var
   Ed: TATSynEdit;
-  NWrapIndex, NLineIndex: integer;
+  WrapItem: TATWrapItem;
+  NWrapIndex: integer;
 begin
   Ed:= Sender as TATSynEdit;
   NWrapIndex:= Int64(AY) * Ed.WrapInfo.Count div Ed.ClientHeight;
   if Ed.WrapInfo.IsIndexValid(NWrapIndex) then
   begin
-    NLineIndex:= Ed.WrapInfo.Data[NWrapIndex].NLineIndex;
+    WrapItem:= Ed.WrapInfo.Data[NWrapIndex];
     Ed.DoGotoPos(
-      Point(0, NLineIndex),
+      Point(WrapItem.NCharIndex-1, WrapItem.NLineIndex),
       Point(-1, -1),
       UiOps.FindIndentHorz,
       UiOps.FindIndentVert,
