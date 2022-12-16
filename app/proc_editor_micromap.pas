@@ -12,7 +12,7 @@ unit proc_editor_micromap;
 interface
 
 uses
-  SysUtils, Graphics, Types,
+  Graphics, Types,
   BGRABitmap,
   ATSynEdit;
 
@@ -22,7 +22,7 @@ procedure EditorPaintMicromap(Ed: TATSynEdit; ACanvas: TCanvas; const ARect: TRe
 implementation
 
 uses
-  Math,
+  SysUtils, Math,
   BGRABitmapTypes,
   ATStrings,
   ATStringProc,
