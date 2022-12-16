@@ -1897,7 +1897,7 @@ var
   NWrapIndex, NLineIndex: integer;
 begin
   Ed:= Sender as TATSynEdit;
-  NWrapIndex:= AY * Ed.WrapInfo.Count div Ed.ClientHeight;
+  NWrapIndex:= Int64(AY) * Ed.WrapInfo.Count div Ed.ClientHeight;
   if Ed.WrapInfo.IsIndexValid(NWrapIndex) then
   begin
     NLineIndex:= Ed.WrapInfo.Data[NWrapIndex].NLineIndex;
