@@ -11,6 +11,7 @@
 + add: Find dialog, Console dialog: handle global app hotkeys (thanks @Vivalzar)
 + add: dialog "Lexer style mapping" renders styles in the 2nd listbox (thanks @Vivalzar)
 + add: lexer CSS: add missing spec function/property names
+* change: reworked how micromap is painted; now it paints all WrapInfo items, so e.g. long wrapped line gives several cells on micromap
 * change: removed default assignment of Ctrl+Shift+R to 'toggle read-only' (thanks @Vivalzar)
 - fix: regression: if opened >20 tabs, just closed tabs are not added to 'recents' (thanks @mix-7)
 - fix: regression: on loading session, 'pinned' tabs were not closed (thanks @MiroslavMatas)
