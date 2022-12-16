@@ -30,8 +30,35 @@ uses
   ATSynEdit_Markers,
   ATSynEdit_Bookmarks,
   proc_globdata,
-  proc_colors,
-  proc_editor;
+  proc_colors;
+
+function EditorRectMicromapMark(Ed: TATSynEdit; AColumn, ALineFrom, ALineTo: integer;
+  AMapHeight, AMinMarkHeight, AScaleDiv: integer): TRect;
+//to make things safe, don't pass the ARect, but only its height
+begin
+  if Ed.Micromap.IsIndexValid(AColumn) then
+  begin
+    if ALineFrom>=0 then
+      Result.Top:= Int64(ALineFrom) * AMapHeight div AScaleDiv
+    else
+      Result.Top:= 0;
+
+    if ALineTo>=0 then
+      Result.Bottom:= Max(Result.Top + AMinMarkHeight,
+                          Int64(ALineTo+1) * AMapHeight div AScaleDiv)
+    else
+      Result.Bottom:= AMapHeight;
+
+    with Ed.Micromap.Columns[AColumn] do
+    begin
+      Result.Left:= NLeft;
+      Result.Right:= NRight;
+    end;
+  end
+  else
+    Result:= cRectEmpty;
+end;
+
 
 procedure EditorPaintMicromap(Ed: TATSynEdit; ACanvas: TCanvas; const ARect: TRect;
   AMicromapBmp: TBGRABitmap);

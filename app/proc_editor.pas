@@ -173,9 +173,6 @@ procedure EditorForceUpdateIfWrapped(Ed: TATSynEdit);
 procedure EditorScrollToCaret(Ed: TATSynEdit; ANeedWrapOff, AllowProcessMsg: boolean);
 procedure EditorCaretToView(Ed: TATSynEdit; ANeedWrapOff, AllowProcessMsg: boolean);
 
-function EditorRectMicromapMark(Ed: TATSynEdit; AColumn, ALineFrom, ALineTo: integer;
-  AMapHeight, AMinMarkHeight, AScaleDiv: integer): TRect;
-
 implementation
 
 procedure EditorApplyOps(Ed: TATSynEdit; const Op: TEditorOps;
@@ -2920,33 +2917,6 @@ begin
     Ed.UpdateWrapInfo;
     Ed.Update;
   end;
-end;
-
-function EditorRectMicromapMark(Ed: TATSynEdit; AColumn, ALineFrom, ALineTo: integer;
-  AMapHeight, AMinMarkHeight, AScaleDiv: integer): TRect;
-//to make things safe, don't pass the ARect, but only its height
-begin
-  if Ed.Micromap.IsIndexValid(AColumn) then
-  begin
-    if ALineFrom>=0 then
-      Result.Top:= Int64(ALineFrom) * AMapHeight div AScaleDiv
-    else
-      Result.Top:= 0;
-
-    if ALineTo>=0 then
-      Result.Bottom:= Max(Result.Top + AMinMarkHeight,
-                          Int64(ALineTo+1) * AMapHeight div AScaleDiv)
-    else
-      Result.Bottom:= AMapHeight;
-
-    with Ed.Micromap.Columns[AColumn] do
-    begin
-      Result.Left:= NLeft;
-      Result.Right:= NRight;
-    end;
-  end
-  else
-    Result:= cRectEmpty;
 end;
 
 procedure EditorScrollToCaret(Ed: TATSynEdit; ANeedWrapOff, AllowProcessMsg: boolean);
