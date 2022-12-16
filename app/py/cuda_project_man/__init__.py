@@ -580,6 +580,11 @@ class Command:
             h_parent = tree_proc(self.tree, TREE_ITEM_GET_PROPS, self.selected)['parent']
             tree_proc(self.tree, TREE_ITEM_SELECT, h_parent)
             self.action_refresh(h_parent)
+
+            path = self.get_location_by_index(self.selected)
+            app_proc(PROC_SET_FOLDER, path)
+            self.cur_dir = path
+
         msg_status(_("Deleted dir: ") + str(location.name))
 
     def action_new_directory(self):
@@ -999,6 +1004,10 @@ class Command:
             return
         tree_proc(self.tree, TREE_ITEM_UNFOLD, items[0][0])
         tree_proc(self.tree, TREE_ITEM_SELECT, items[0][0])
+
+        path = self.get_location_by_index(self.selected)
+        app_proc(PROC_SET_FOLDER, path)
+        self.cur_dir = path
 
     def new_project_open_dir(self):
 
