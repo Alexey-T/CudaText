@@ -110,7 +110,7 @@ var
     Inited: boolean;
     MarkPos: TAppMicromapMarkPos;
   end;
-  XColor, XColorSelected, XColorOccur, XColorSpell: TBGRAPixel;
+  XColor, XColorBkmk, XColorSelected, XColorOccur, XColorSpell: TBGRAPixel;
   NColor: TColor;
   RectMark: TRect;
   NLine1, NLine2, NIndex, NIndex1, NIndex2, NColumnIndex, i: integer;
@@ -141,6 +141,7 @@ begin
   ABitmap.FillRect(RectMark, XColor);
 
   XColorSelected.FromColor(Ed.Colors.TextSelBG);
+  XColorBkmk.FromColor(Ed.Colors.StateAdded); //not sure what color to use
   XColorOccur.FromColor(GetAppColor(apclEdMicromapOccur));
   XColorSpell.FromColor(GetAppColor(apclEdMicromapSpell));
 
@@ -192,7 +193,6 @@ begin
   begin
     SetLength(BoolArray, St.Count);
     Bookmarks:= Ed.Strings.Bookmarks;
-    XColor.FromColor(Ed.Colors.StateAdded); //not sure what color to take
     for i:= 0 to Bookmarks.Count-1 do
     begin
       BookmarkPtr:= Bookmarks.ItemPtr[i];
@@ -205,7 +205,7 @@ begin
       if BoolArray[NIndex] then
       begin
         RectMark:= EditorRectMicromapMark(Ed, 1{column}, i, i, ARect.Height, EditorOps.OpMicromapMinMarkHeight, NScaleDiv);
-        ABitmap.FillRect(RectMark, XColor);
+        ABitmap.FillRect(RectMark, XColorBkmk);
       end;
     end;
     SetLength(BoolArray, 0);
