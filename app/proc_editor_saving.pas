@@ -12,7 +12,6 @@ unit proc_editor_saving;
 interface
 
 uses
-  Classes, SysUtils, Controls, LCLType,
   ATSynEdit;
 
 function EditorSaveFileAs(Ed: TATSynEdit; const AFileName: string): boolean;
@@ -21,6 +20,7 @@ function EditorSaveFileAs(Ed: TATSynEdit; const AFileName: string): boolean;
 implementation
 
 uses
+  SysUtils, Classes, Controls, LCLType,
   FileUtil, LazFileUtils,
   Process,
   proc_editor,
