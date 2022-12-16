@@ -366,12 +366,15 @@ begin
   if odSelected in State then
   begin
     C.Brush.Color:= clHighlight;
+    C.Font.Color:= clHighlightText;
     C.FillRect(ARect.Left, ARect.Top, ARect.Right-NWidth, ARect.Bottom);
   end
   else
+  begin
     C.Brush.Color:= clWindow;
+    C.Font.Color:= clWindowText;
+  end;
 
-  C.Font.Color:= clWindowText;
   C.Font.Style:= [];
   C.TextOut(ARect.Left+cIndent, ARect.Top, ListTh.Items[AIndex]);
 end;
