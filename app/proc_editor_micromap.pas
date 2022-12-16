@@ -114,6 +114,8 @@ var
   NColor: TColor;
   RectMark: TRect;
   NLine1, NLine2, NIndex, NIndex1, NIndex2, NColumnIndex, i: integer;
+  CaretX1, CaretY1, CaretX2, CaretY2: integer;
+  bSel: boolean;
 begin
   St:= Ed.Strings;
   if St.Count=0 then exit;
@@ -165,10 +167,10 @@ begin
     for i:= 0 to Ed.Carets.Count-1 do
     begin
       Caret:= Ed.Carets[i];
-      Caret.GetSelLines(NLine1, NLine2, false);
-      if NLine1<0 then Continue;
-      Wr.FindIndexesOfLineNumber(NLine1, NIndex1, NIndex);
-      Wr.FindIndexesOfLineNumber(NLine2, NIndex, NIndex2);
+      Caret.GetRange(CaretX1, CaretY1, CaretX2, CaretY2, bSel);
+      if not bSel then Continue;
+      NIndex1:= Wr.FindIndexOfCaretPos(Point(CaretX1, CaretY1));
+      NIndex2:= Wr.FindIndexOfCaretPos(Point(CaretX2, CaretY2));
       RectMark:= GetWrapItemRect(0, NIndex1, NIndex2, markRight);
       ABitmap.FillRect(RectMark, XColorSelected);
     end;
