@@ -252,6 +252,7 @@ end;
 procedure TfmLexerStyleMap.FormShow(Sender: TObject);
 begin
   UpdateFormOnTop(Self);
+  ListLexSelectionChange(Self, false);
 end;
 
 procedure TfmLexerStyleMap.ListLexSelectionChange(Sender: TObject; User: boolean);
