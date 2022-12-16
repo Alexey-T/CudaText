@@ -65,6 +65,7 @@ object fmLexerStyleMap: TfmLexerStyleMap
     BorderSpacing.Top = 3
     BorderSpacing.Bottom = 3
     ItemHeight = 0
+    OnSelectionChange = ListLexSelectionChange
     ScrollWidth = 296
     TabOrder = 0
     TopIndex = -1

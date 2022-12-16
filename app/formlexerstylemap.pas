@@ -39,6 +39,7 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure ListLexSelectionChange(Sender: TObject; User: boolean);
     procedure ListThDrawItem(Control: TWinControl; AIndex: Integer;
       ARect: TRect; State: TOwnerDrawState);
   private
@@ -251,6 +252,16 @@ end;
 procedure TfmLexerStyleMap.FormShow(Sender: TObject);
 begin
   UpdateFormOnTop(Self);
+end;
+
+procedure TfmLexerStyleMap.ListLexSelectionChange(Sender: TObject; User: boolean);
+var
+  i: integer;
+begin
+  if ListLex.ItemIndex<0 then exit;
+  i:= ListTh.Items.IndexOf(ItemsVal[ListLex.ItemIndex]);
+  if i>=0 then
+    ListTh.ItemIndex:= i;
 end;
 
 procedure TfmLexerStyleMap.DoSave;
