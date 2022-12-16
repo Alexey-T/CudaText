@@ -1890,19 +1890,26 @@ begin
 end;
 
 procedure TEditorFrame.EditorOnClickMicroMap(Sender: TObject; AX, AY: integer);
+const
+  cPlaceCaretOnClick = false; //user asked to not move caret on micromap click
 var
   Ed: TATSynEdit;
+  NWrapIndex, NLineIndex: integer;
 begin
   Ed:= Sender as TATSynEdit;
-  AY:= AY * Ed.Strings.Count div Ed.ClientHeight;
-  Ed.DoGotoPos(
-    Point(0, AY),
-    Point(-1, -1),
-    UiOps.FindIndentHorz,
-    UiOps.FindIndentVert,
-    false{APlaceCaret}, //user asked to not move caret on micromap click
-    true
-    );
+  NWrapIndex:= AY * Ed.WrapInfo.Count div Ed.ClientHeight;
+  if Ed.WrapInfo.IsIndexValid(NWrapIndex) then
+  begin
+    NLineIndex:= Ed.WrapInfo.Data[NWrapIndex].NLineIndex;
+    Ed.DoGotoPos(
+      Point(0, NLineIndex),
+      Point(-1, -1),
+      UiOps.FindIndentHorz,
+      UiOps.FindIndentVert,
+      cPlaceCaretOnClick{APlaceCaret},
+      true
+      );
+  end;
 end;
 
 procedure TEditorFrame.EditorOnClickGap(Sender: TObject;
