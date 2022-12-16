@@ -171,10 +171,7 @@ begin
       Caret.GetRange(CaretX1, CaretY1, CaretX2, CaretY2, bSel);
       if not bSel then Continue;
       NIndex1:= Wr.FindIndexOfCaretPos(Point(CaretX1, CaretY1));
-      if CaretY1<>CaretY2 then
-        NIndex2:= Wr.FindIndexOfCaretPos(Point(CaretX2, CaretY2))
-      else
-        NIndex2:= NIndex1;
+      NIndex2:= Wr.FindIndexOfCaretPos(Point(CaretX2, CaretY2));
       RectMark:= GetWrapItemRect(0, NIndex1, NIndex2, markRight);
       ABitmap.FillRect(RectMark, XColorSelected);
     end;
