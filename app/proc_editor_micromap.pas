@@ -172,7 +172,7 @@ begin
       if not bSel then Continue;
 
       NIndex1:= Wr.FindIndexOfCaretPos(Point(CaretX1, CaretY1));
-      if Wr.IsIndexUniqueForLine(NIndex1) and (CaretY1=CaretY2) then
+      if (CaretY1=CaretY2) and Wr.IsIndexUniqueForLine(NIndex1) then
         NIndex2:= NIndex1
       else
         NIndex2:= Wr.FindIndexOfCaretPos(Point(CaretX2, CaretY2));
