@@ -14,16 +14,16 @@ interface
 uses
   SysUtils, Graphics, Types,
   BGRABitmap,
-  BGRABitmapTypes,
   ATSynEdit;
 
 procedure EditorPaintMicromap(Ed: TATSynEdit; ACanvas: TCanvas; const ARect: TRect;
-  FMicromapBmp: TBGRABitmap);
+  AMicromapBmp: TBGRABitmap);
 
 implementation
 
 uses
   Math,
+  BGRABitmapTypes,
   ATStrings,
   ATStringProc,
   ATSynEdit_Carets,
@@ -34,7 +34,7 @@ uses
   proc_editor;
 
 procedure EditorPaintMicromap(Ed: TATSynEdit; ACanvas: TCanvas; const ARect: TRect;
-  FMicromapBmp: TBGRABitmap);
+  AMicromapBmp: TBGRABitmap);
 {
   micromap has columns:
     column_0: width 50% of char cell, it's used for line states
@@ -89,17 +89,17 @@ begin
   if Ed.OptLastLineOnTop then
     NScaleDiv:= Max(1, NScaleDiv+Ed.GetVisibleLines-1);
 
-  if FMicromapBmp=nil then
-    FMicromapBmp:= TBGRABitmap.Create;
-  FMicromapBmp.SetSize(ARect.Width, ARect.Height);
+  if AMicromapBmp=nil then
+    AMicromapBmp:= TBGRABitmap.Create;
+  AMicromapBmp.SetSize(ARect.Width, ARect.Height);
 
   XColor.FromColor(GetAppColor(apclEdMicromapBg));
-  FMicromapBmp.Fill(XColor);
+  AMicromapBmp.Fill(XColor);
 
   //paint full-width area of current visible area
   RectMark:= GetItemRect(0, Ed.LineTop, Ed.LineBottom, markFull);
   XColor.FromColor(GetAppColor(apclEdMicromapViewBg));
-  FMicromapBmp.FillRect(RectMark, XColor);
+  AMicromapBmp.FillRect(RectMark, XColor);
 
   XColorSelected.FromColor(Ed.Colors.TextSelBG);
   XColorOccur.FromColor(GetAppColor(apclEdMicromapOccur));
@@ -120,7 +120,7 @@ begin
         else Continue;
       end;
       RectMark:= GetItemRect(0{column_0}, i, i, markColumn);
-      FMicromapBmp.FillRect(RectMark, XColor);
+      AMicromapBmp.FillRect(RectMark, XColor);
     end;
 
   //paint selections
@@ -131,7 +131,7 @@ begin
       Caret.GetSelLines(NLine1, NLine2, false);
       if NLine1<0 then Continue;
       RectMark:= GetItemRect(0, NLine1, NLine2, markRight);
-      FMicromapBmp.FillRect(RectMark, XColorSelected);
+      AMicromapBmp.FillRect(RectMark, XColorSelected);
     end;
 
   //paint background of columns added from Py API
@@ -142,7 +142,7 @@ begin
     begin
       XColor.FromColor(NColor);
       RectMark:= EditorRectMicromapMark(Ed, i, -1, -1, ARect.Height, EditorOps.OpMicromapMinMarkHeight, NScaleDiv);
-      FMicromapBmp.FillRect(RectMark, XColor);
+      AMicromapBmp.FillRect(RectMark, XColor);
     end;
   end;
 
@@ -158,7 +158,7 @@ begin
       //if Ed.IsLineFolded(NIndex) then
       //  Continue;
       RectMark:= EditorRectMicromapMark(Ed, 1{column}, NIndex, NIndex, ARect.Height, EditorOps.OpMicromapMinMarkHeight, NScaleDiv);
-      FMicromapBmp.FillRect(RectMark, XColor);
+      AMicromapBmp.FillRect(RectMark, XColor);
     end;
   end;
 
@@ -177,12 +177,12 @@ begin
       cTagSpellChecker:
         begin
           RectMark:= GetItemRect(1{column_1}, NLine1, NLine2, markColumn);
-          FMicromapBmp.FillRect(RectMark, XColorSpell);
+          AMicromapBmp.FillRect(RectMark, XColorSpell);
         end;
       cTagOccurrences:
         begin
           RectMark:= GetItemRect(1{column_1}, NLine1, NLine2, markColumn);
-          FMicromapBmp.FillRect(RectMark, XColorOccur);
+          AMicromapBmp.FillRect(RectMark, XColorOccur);
         end;
       else
         begin
@@ -197,7 +197,7 @@ begin
               else
                 XColor.FromColor(Marker.LinePart.ColorBorder);
               RectMark:= GetItemRect(NIndex, NLine1, NLine2, markColumn);
-              FMicromapBmp.FillRect(RectMark, XColor);
+              AMicromapBmp.FillRect(RectMark, XColor);
             end;
           end
           else
@@ -206,13 +206,13 @@ begin
             RectMark:= GetItemRect(0, NLine1, NLine2, markFull);
             //todo: not tested with BGRABitmap - it must give inverted colors
             XColor.FromColor(Marker.LinePart.ColorBG);
-            FMicromapBmp.FillRect(RectMark, XColor, dmDrawWithTransparency, $8000);
+            AMicromapBmp.FillRect(RectMark, XColor, dmDrawWithTransparency, $8000);
           end;
         end;
       end;
   end;
 
-  FMicromapBmp.Draw(ACanvas, ARect.Left, ARect.Top);
+  AMicromapBmp.Draw(ACanvas, ARect.Left, ARect.Top);
 end;
 
 end.
