@@ -132,8 +132,8 @@ begin
   ABitmap.Fill(XColor);
 
   //paint full-width area of current visible area
-  Wr.FindIndexesOfLineNumber(Ed.LineTop, NIndex1, NIndex);
-  Wr.FindIndexesOfLineNumber(Ed.LineBottom, NIndex, NIndex2);
+  NIndex1:= Ed.ScrollVert.NPos;
+  NIndex2:= NIndex1+Ed.GetVisibleLines;
   RectMark:= GetWrapItemRect(0, NIndex1, NIndex2, markFull);
   XColor.FromColor(GetAppColor(apclEdMicromapViewBg));
   ABitmap.FillRect(RectMark, XColor);
