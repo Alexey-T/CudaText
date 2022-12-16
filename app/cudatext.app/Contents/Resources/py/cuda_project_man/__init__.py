@@ -172,6 +172,7 @@ def _toolbar_add_btn(h_bar, hint, icon=-1, command=''):
 
 class Command:
     goto_history = []
+    cur_dir = ''
 
     title ="Project"    # No _() here, the translation is offered in "translation template.ini".
     menuitems = (
@@ -438,6 +439,7 @@ class Command:
         self.project_file_path = None
         self.update_global_data()
         self.goto_history = []
+        self.cur_dir = ''
 
         app_proc(PROC_SET_FOLDER, '')
         app_proc(PROC_SET_PROJECT, '')
@@ -779,6 +781,7 @@ class Command:
                 for fn in self.project["nodes"]:
                     if os.path.isdir(fn):
                         app_proc(PROC_SET_FOLDER, fn)
+                        self.cur_dir = fn
                         break
 
                 app_proc(PROC_SET_PROJECT, path)
@@ -816,6 +819,9 @@ class Command:
         tree_proc(self.tree, TREE_ITEM_DELETE, index)
         if str(path) in self.project["nodes"]:
             self.project["nodes"].remove(str(path))
+            if (self.cur_dir+os.sep).startswith(str(path)+os.sep):
+                app_proc(PROC_SET_FOLDER, '')
+                self.cur_dir = ''
 
         if self.project_file_path:
             self.action_save_project_as(self.project_file_path)
@@ -1386,8 +1392,10 @@ class Command:
         if s and not s.startswith('.'): # skip parasitic '.' for project root node
             if os.path.isdir(s):
                 app_proc(PROC_SET_FOLDER, s)
+                self.cur_dir = s
             elif os.path.isfile(s):
                 app_proc(PROC_SET_FOLDER, os.path.dirname(s))
+                self.cur_dir = os.path.dirname(s)
 
         if self.options.get('d_click', False):
             return
