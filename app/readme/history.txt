@@ -14,6 +14,7 @@
 + add: lexer CSS: add missing spec function/property names
 * change: removed default assignment of Ctrl+Shift+R to 'toggle read-only' (thanks @Vivalzar)
 - fix: Project Manager: changed current folder was not always passed to app
+- fix: on macOS, External Tools plugin shown 'Edit' dialog for the wrong list item (thanks @veksha)
 - fix: regression: if opened >20 tabs, just closed tabs are not added to 'recents' (thanks @mix-7)
 - fix: regression: on loading session, 'pinned' tabs were not closed (thanks @MiroslavMatas)
 - fix: usage of 'pkexec' must be disabled on macOS and enabled on Solaris
