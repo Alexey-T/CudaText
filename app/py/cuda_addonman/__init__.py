@@ -13,10 +13,13 @@ from .work_github import *
 from .work_install_helper import after_install
 from . import opt
 
+'''
 if os.name=='nt':
     from .work_cudatext_updates__fosshub import check_cudatext
 else:
     from .work_cudatext_updates__sourceforge import check_cudatext
+'''
+from .work_cudatext_updates__sourceforge import check_cudatext
 
 from cudax_lib import get_translation, safe_open_url
 _   = get_translation(__file__)  # i18n
