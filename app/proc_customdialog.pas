@@ -634,10 +634,11 @@ begin
   N:= StrToIntDef(S, 0);
   if (N>=0) and (N<C.Items.Count) then
   begin
+    C.ItemIndex:= N;
     C.ItemFocused:= C.Items[N];
     C.Selected:= C.ItemFocused;
-    if Assigned(C.ItemFocused) then
-      C.ItemFocused.MakeVisible(false);
+    if Assigned(C.Selected) then
+      C.Selected.MakeVisible(false);
   end;
 
   //check0,check1,..
@@ -675,9 +676,7 @@ function DoControl_GetState_Listview(C: TListView): string;
 var
   i: integer;
 begin
-  Result:= '';
-  if Assigned(C.ItemFocused) then
-    Result:= IntToStr(C.ItemFocused.Index);
+  Result:= IntToStr(C.ItemIndex);
 
   if C.Checkboxes then
   begin
