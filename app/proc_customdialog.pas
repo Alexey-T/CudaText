@@ -636,7 +636,7 @@ begin
   begin
     C.ItemIndex:= N;
     C.ItemFocused:= C.Items[N];
-    C.Selected:= C.ItemFocused;
+    C.Selected:= C.Items[N];
     if Assigned(C.Selected) then
       C.Selected.MakeVisible(false);
   end;
