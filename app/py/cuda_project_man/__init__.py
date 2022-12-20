@@ -318,19 +318,20 @@ class Command:
         app_proc(PROC_SIDEPANEL_ADD_DIALOG, (self.title, self.h_dlg, 'project.png'))
 
         if and_activate:
-            self.do_show(True)
+            self.do_show()
 
         self.action_refresh()
         self.generate_context_menu()
 
 
     def show_panel(self):
-        self.do_show(False)
+        self.do_show()
 
     def focus_panel(self):
-        self.do_show(True)
+        self.do_show()
+        app_proc(PROC_SIDEPANEL_ACTIVATE, (self.title, True))
 
-    def do_show(self, and_focus):
+    def do_show(self):
         if not self.tree:
             self.init_panel(True)
         else:
