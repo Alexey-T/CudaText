@@ -24,10 +24,10 @@ section=commands
 caption=&Project Manager\&Show Project panel
 method=show_panel
 
-;[item5]
-;section=commands
-;caption=&Project Manager\&Focus Project panel
-;method=focus_panel
+[item5]
+section=commands
+caption=&Project Manager\&Focus Project panel
+method=focus_panel
 
 [item9]
 section=commands
