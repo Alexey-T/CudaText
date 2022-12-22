@@ -257,7 +257,7 @@ procedure TfmMain.DoOnTabClose(Sender: TObject; ATabIndex: Integer;
   begin
     Result:= D.TabCaptionFull;
     STrim:= Copy(Result, 1, cLenLongTitle);
-    if PosSet([' ', '/', '\'], STrim)=0 then
+    if PosSet([' ', '/', '\', ':', '.', ',', ';'], STrim)=0 then
       Result:= STrim+'...';
   end;
   //
