@@ -248,6 +248,22 @@ end;
 
 procedure TfmMain.DoOnTabClose(Sender: TObject; ATabIndex: Integer;
   var ACanClose, ACanContinue: boolean);
+  //
+  function NiceTabTitle(D: TATTabData): string;
+  const
+    cLenLongTitle = 80;
+  var
+    STrim: string;
+  begin
+    Result:= D.TabCaptionFull;
+    if Pos(DirectorySeparator, Result)=0 then
+    begin
+      STrim:= Copy(Result, 1, cLenLongTitle);
+      if Pos(' ', STrim)=0 then
+        Result:= STrim+'...';
+    end;
+  end;
+  //
 var
   D: TATTabData;
   Frame: TEditorFrame;
@@ -311,7 +327,7 @@ begin
     (Sender as TATTabs).TabIndex:= ATabIndex;
 
     Btn:= MB_OKCANCEL;
-    Msg:= Format(msgConfirmClosePinnedTab, [D.TabCaptionFull]);
+    Msg:= Format(msgConfirmClosePinnedTab, [NiceTabTitle(D)]);
     Res:= MsgBox(Msg, Btn or MB_ICONWARNING);
 
     //second confirm for pinned+modified tab
@@ -319,7 +335,7 @@ begin
       if bModified then
       begin
         Btn:= MB_OKCANCEL;
-        Msg:= Format(msgConfirmSaveModifiedTab, [D.TabCaptionFull]);
+        Msg:= Format(msgConfirmSaveModifiedTab, [NiceTabTitle(D)]);
         if MsgBox(Msg, Btn or MB_ICONQUESTION)=ID_OK then
           bSavedOk:= Frame.DoFileSave(false, true);
       end;
@@ -334,7 +350,7 @@ begin
       Btn:= MB_YESNOCANCEL
     else
       Btn:= MB_YESNO;
-    Msg:= Format(msgConfirmSaveModifiedTab, [D.TabCaptionFull]);
+    Msg:= Format(msgConfirmSaveModifiedTab, [NiceTabTitle(D)]);
     Res:= MsgBox(Msg, Btn or MB_ICONQUESTION);
     if (Res=ID_OK) or (Res=ID_YES) then
       bSavedOk:= Frame.DoFileSave(false, true);
