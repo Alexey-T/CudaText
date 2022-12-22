@@ -251,17 +251,14 @@ procedure TfmMain.DoOnTabClose(Sender: TObject; ATabIndex: Integer;
   //
   function NiceTabTitle(D: TATTabData): string;
   const
-    cLenLongTitle = 80;
+    cLenLongTitle = 85;
   var
     STrim: string;
   begin
     Result:= D.TabCaptionFull;
-    if Pos(DirectorySeparator, Result)=0 then
-    begin
-      STrim:= Copy(Result, 1, cLenLongTitle);
-      if Pos(' ', STrim)=0 then
-        Result:= STrim+'...';
-    end;
+    STrim:= Copy(Result, 1, cLenLongTitle);
+    if PosSet([' ', '/', '\'], STrim)=0 then
+      Result:= STrim+'...';
   end;
   //
 var
