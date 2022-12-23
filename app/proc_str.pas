@@ -454,12 +454,16 @@ end;
 function SWrapLongString(const S: string; MaxLen: integer; SepChar: char): string;
 var
   STrim: string;
+  n: integer;
 begin
   Result:= S;
   if Length(Result)>MaxLen then
   begin
     STrim:= Copy(Result, 1, MaxLen);
-    if PosSet([' ', '/', '\', ':', '.', ',', ';', '-'], STrim)=0 then
+    n:= Pos(' ', STrim);
+    if n>0 then
+      Result:= Copy(STrim, 1, n)+SepChar+SWrapLongString(Copy(S, n+1, MaxInt), MaxLen, SepChar)
+    else
       Result:= STrim+SepChar+SWrapLongString(Copy(S, MaxLen+1, MaxInt), MaxLen, SepChar);
   end;
 end;
