@@ -453,19 +453,14 @@ end;
 
 function SWrapLongString(const S: string; MaxLen: integer; SepChar: char): string;
 var
-  STrim: string;
   n: integer;
 begin
-  Result:= S;
-  if Length(Result)>MaxLen then
-  begin
-    STrim:= Copy(Result, 1, MaxLen);
-    n:= RPos(' ', STrim);
-    if n>0 then
-      Result:= Copy(STrim, 1, n)+SepChar+SWrapLongString(Copy(S, n+1, MaxInt), MaxLen, SepChar)
-    else
-      Result:= STrim+SepChar+SWrapLongString(Copy(S, MaxLen+1, MaxInt), MaxLen, SepChar);
-  end;
+  if Length(S)<=MaxLen then
+    exit(S);
+  n:= RPosEx(' ', S, MaxLen);
+  if n=0 then
+    n:= MaxLen;
+  Result:= Copy(S, 1, n)+SepChar+SWrapLongString(Copy(S, n+1, MaxInt), MaxLen, SepChar);
 end;
 
 end.
