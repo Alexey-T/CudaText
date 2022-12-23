@@ -807,9 +807,19 @@ Screenshot for HTML/XML/Lua:
 * On the XML example editor, lexer highligts 'data' tag, surrounding the caret.
 * On the Lua example editor, lexer highlights 2 nested blocks, surrounding the caret: function/end and do/end.
 
-In old times, dynamic highlight was also utilized in Pascal lexer to highlight tokens begin/end when caret is inside begin/end block. Later Pascal lexer was simplified and setting was removed.
+In old times, dynamic highlight was also utilized in Pascal lexer to highlight tokens begin/end when caret is inside begin/end block. Later Pascal lexer was simplified and setting was removed. Few other lexers from Addons Manager also utilize this feature.
 
-Few other lexers from Addons Manager also utilize this feature.
+It is possible to detect if some lexer utilizes this feature. Look inside LexerName.lcf file, find there "DynHighlight" parameter. Two typical configurations allow dynamic highlight:
+
+HTML, PHP, JavaScript, Lua:
+
+      DynHighlight = dhBound
+      HighlightPos = cpRange
+
+CSS:
+
+      DynHighlight = dhRange
+      HighlightPos = cpRange
 
 =Folding=
 Folding is the feature allowing to collapse multi-line regions of code.
