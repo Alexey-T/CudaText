@@ -460,7 +460,7 @@ begin
   if Length(Result)>MaxLen then
   begin
     STrim:= Copy(Result, 1, MaxLen);
-    n:= Pos(' ', STrim);
+    n:= RPos(' ', STrim);
     if n>0 then
       Result:= Copy(STrim, 1, n)+SepChar+SWrapLongString(Copy(S, n+1, MaxInt), MaxLen, SepChar)
     else
