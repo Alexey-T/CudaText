@@ -3,6 +3,11 @@
   - fixed
   * changed
 
+1.180.1 (2022/12)
+
++ add: Wiki topic https://wiki.freepascal.org/CudaText#Dynamic_highlight
++ add: wrapping (80 chars) of too long tab title in the prompt to save untitled tab
+
 1.180.0 (2022/12)
 
 + add: option "ui_open_dir"
