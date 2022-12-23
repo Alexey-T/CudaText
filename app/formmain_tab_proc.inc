@@ -250,18 +250,8 @@ procedure TfmMain.DoOnTabClose(Sender: TObject; ATabIndex: Integer;
   var ACanClose, ACanContinue: boolean);
   //
   function NiceTabTitle(D: TATTabData): string;
-  const
-    cLenLongTitle = 85;
-  var
-    STrim: string;
   begin
-    Result:= D.TabCaptionFull;
-    if Length(Result)>cLenLongTitle then
-    begin
-      STrim:= Copy(Result, 1, cLenLongTitle);
-      if PosSet([' ', '/', '\', ':', '.', ',', ';', '-'], STrim)=0 then
-        Result:= STrim+'...';
-    end;
+    Result:= SWrapLongString(D.TabCaptionFull, 80, #10);
   end;
   //
 var
