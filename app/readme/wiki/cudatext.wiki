@@ -785,6 +785,32 @@ Note about SQL blocks. CudaText has lexer preinstalled, it's lite lexer "SQL ^",
 * Python Markdown description tells that the lexer alias may be replaced with the curly-brackets construct like "{ .lang }" or "{ .lang .foo .bar }" or even "{ #someid .lang .foo .bar }". This is currently not supported in CudaText version 1.151.
 * The similar feature of the reStructuredText, as [https://pandemic-overview.readthedocs.io/en/latest/myGuides/reStructuredText-Source-Code.html documented here], is not supported. 
 
+==Dynamic highlight==
+
+Dynamic highlight is enabled by option '''"lexer_dynamic_hilite":true'''.
+Additional limitation option '''"lexer_dynamic_hilite_max_lines":2000''' allows the feature only in files which have not more than (option value) lines. This limitation is useful because dynamic highlight makes lexer parsing slower.
+
+Feature enables to highlight some lexer 'tokens' dynamically (with default greenish background color), when caret changes position. It is required that lexer utilizes this feature. These lexers in the CudaText distro utilize this feature:
+
+* HTML
+* PHP, because it copies lot of HTML configuration
+* XML
+* Lua
+* CSS: rule highlights {}-block with background color when caret is inside
+* JavaScript: rule highlights {} brackets when caret is inside (here it is the same as another feature: pair-bracket highlighting)
+
+Screenshot for HTML/XML/Lua:
+
+[[File:cudatext-dynamic-hi.png]]
+
+* On the HTML example editor, 2 fragments have dynamic highlighting (because of 2 multi-carets). First caret is placed inside tag 'h1' but before tag 'a'. Second caret is placed inside tag 'a'. So second caret enables dynamic highlight of angle brackets too, not only of a tag.
+* On the XML example editor, lexer highligts 'data' tag, surrounding the caret.
+* On the Lua example editor, lexer highlights 2 nested blocks, surrounding the caret: function/end and do/end.
+
+In old times, dynamic highlight was also utilized in Pascal lexer to highlight tokens begin/end when caret is inside begin/end block. Later Pascal lexer was simplified and setting was removed.
+
+Few other lexers from Addons Manager also utilize this feature.
+
 =Folding=
 Folding is the feature allowing to collapse multi-line regions of code.
 Collapsed region shows the rectangle-like figure on the first line, and other block lines become hidden.
