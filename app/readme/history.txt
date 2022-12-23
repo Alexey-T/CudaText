@@ -7,6 +7,7 @@
 
 + add: Wiki topic https://wiki.freepascal.org/CudaText#Dynamic_highlight
 + add: wrapping (80 chars) of too long tab title in the prompt to save untitled tab
++ add: Project Manager: new command "Show+focus panel"
 
 1.180.0 (2022/12)
 
