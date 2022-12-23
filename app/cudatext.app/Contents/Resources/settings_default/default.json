@@ -275,8 +275,8 @@
   "dim_unfocused": 0,
 
   //[Lexers]
-  //Enable caret-depending highlightings.
-  //For example, HTML/XML highlightes opening/closing tags when caret is inside tag.
+  //Enable dynamic (caret-depending) highlight.
+  //Feature is described in the Wiki topic "Dynamic highlight".
   "lexer_dynamic_hilite": false,
 
   //Max number of lines in editor, for which dynamic highlighting is enabled.
