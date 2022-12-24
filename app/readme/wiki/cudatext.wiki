@@ -1259,9 +1259,9 @@ Search engine has the feature, which is rarely implemented in text editors. When
 
 Second click on the "Search" sidebar button toggles dialog between Find and Replace modes.
 
-=Dialog "Go to"=
+="Go to line" and other "Go to" dialogs=
 
-Dialog allows to enter text in formats:
+'''Dialog "Go to line"''' (item in the "Search" menu) allows to enter text in formats:
 
 * 10 (decimal number): Jump to given line number (to line start).
 * 10:10 (two decimal numbers): Jump to given line and column numbers.
@@ -1270,7 +1270,19 @@ Dialog allows to enter text in formats:
 * xFF00 (hex number with leading "x"): Jump to absolute hex offset.
 * value with leading/trailing "+": Extend selection to this position. For example: if caret is at the 2:2 and you enter "4:10+", editor makes selection from 2:2 to 4:10. Entering "4+" makes selection until start of line 4.
 
-Also it is possible to show Go To dialog by clicking the statusbar's "caret information" cell (it is first cell by default).
+Also it is possible to call "Go to line" dialog by clicking the statusbar's "caret information" cell (it is the first cell by default).
+
+'''Other "Go to" dialogs.'''
+
+1) Menu item "Search / Go to bookmark". Shows list of all bookmarks, in all opened documents, allows to jump to chosen bookmark.
+
+2) Project Manager plugin. Menu item "Plugins / Project Manager / Go to file". Shows list of all files in the current project, allows to jump to chosen file in the Project treeview. If option is enabled in the Project Manager, command will also open the chosen file in the editor.
+
+3) In the "Command Palette" dialog, enter #-char, and tooltip will appear in the Command Palette lower part. It tells how to call via Command Palette:
+* List of all opened documents with filenames.
+* List of recently opened filenames.
+
+4) Plugin CudaExt. Gives the command "Code Tree: Symbols list". It shows dialog with list of all symbols from the code-tree for the current document. Note: option "lexer_folding_max_lines" limits the count of document lines, for which code-tree is created. Plugin CudaExt gives 2 additional commands for symbols list: "... (only 1 up level)", "... (only 2 up level)" - they only show symbols from 1-2 top levels of the code-tree. 
 
 =Sessions=
 
