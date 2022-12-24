@@ -1535,7 +1535,6 @@ begin
   UiOps.NewdocEnc:= cfg.GetValue('newdoc_encoding', UiOps.NewdocEnc);
   UiOps.NewdocEnds:= cfg.GetValue('newdoc_ends', UiOps.NewdocEnds);
 
-  UiOps.DefaultEncUtf8:= cfg.GetValue('def_encoding_utf8'+cOptionSystemSuffix, UiOps.DefaultEncUtf8);
   UiOps.ViewerBinaryWidth:= cfg.GetValue('viewer_binary_width', UiOps.ViewerBinaryWidth);
   UiOps.ViewerNonPrintable:= cfg.GetValue('viewer_unprinted', UiOps.ViewerNonPrintable);
 

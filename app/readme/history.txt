@@ -5,6 +5,7 @@
 
 1.180.1 (2022/12)
 
+* change: delete option "def_encoding_utf8" (made it 'true')
 + add: Wiki topic https://wiki.freepascal.org/CudaText#Dynamic_highlight
 + add: wrapping (80 chars) of too long tab title in the prompt to save untitled tab
 + add: Project Manager: new command "Show+focus panel"

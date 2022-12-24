@@ -399,7 +399,6 @@ type
     NewdocEnc: string;
     NewdocEnds: integer;
 
-    DefaultEncUtf8: boolean;
     ViewerBinaryWidth: integer;
     ViewerNonPrintable: boolean;
 
@@ -2048,7 +2047,6 @@ begin
     NewdocEnc:= 'utf8';
     NewdocEnds:= 0;
 
-    DefaultEncUtf8:= {$ifdef windows} false {$else} true {$endif};
     ViewerBinaryWidth:= 100;
     ViewerNonPrintable:= false;
 

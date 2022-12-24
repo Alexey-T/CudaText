@@ -1010,13 +1010,6 @@
   //  3: CR
   "newdoc_ends": 0,
 
-  //[File]
-  //When file opens, and cannot detect encoding, open it as ANSI (value=false)
-  //or UTF8 (value=true). [has suffix]
-  "def_encoding_utf8": false,
-  "def_encoding_utf8__linux": true,
-  "def_encoding_utf8__mac": true,
-
   //[Text/Indent]
   //On pressing Enter, make new line indented (like in previous line).
   "indent_auto": true,
