@@ -6,6 +6,7 @@
 1.180.5 (2022/12)
 
 + add: encoding "gb18030"
++ add: encoding "gb2312", only on Windows
 + add: option "fallback_encoding" (thanks @kenifanying)
 + add: wrapping of too long tab title in the prompt to close modified untitled tab (thanks @ildarkhasanshin)
 + add: Project Manager: added command "Show+focus Project panel"

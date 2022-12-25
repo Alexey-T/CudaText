@@ -828,7 +828,7 @@ type
   end;
 
 const
-  AppEncodings: array[0..50] of TAppEncodingRecord = (
+  AppEncodings: array[0..50{$ifdef windows}+1{$endif}] of TAppEncodingRecord = (
     (Sub: ''; Name: cEncNameUtf8_NoBom; ShortName: 'utf8'),
     (Sub: ''; Name: cEncNameUtf8_WithBom; ShortName: 'utf8_bom'),
     (Sub: ''; Name: cEncNameUtf16LE_NoBom; ShortName: 'utf16le'),
@@ -878,6 +878,9 @@ const
     (Sub: 'as'; Name: 'cp936'; ShortName:  'cp936'),
     (Sub: 'as'; Name: 'cp949'; ShortName:  'cp949'),
     (Sub: 'as'; Name: 'cp950'; ShortName:  'cp950'),
+    {$ifdef windows}
+    (Sub: 'as'; Name: 'gb2312'; ShortName: 'gb2312'),
+    {$endif}
     (Sub: 'as'; Name: 'gb18030'; ShortName: 'gb18030'),
     (Sub: 'as'; Name: 'cp1258'; ShortName: 'cp1258')
   );
