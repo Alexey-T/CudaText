@@ -1000,6 +1000,16 @@ begin
 
   UiOps.MaxLineLenForEditingKeepingLexer:= cfg.GetValue('max_line_len_for_editing_keeping_lexer', UiOps.MaxLineLenForEditingKeepingLexer);
 
+  s:= cfg.GetValue('fallback_encoding', '');
+  case s of
+    '':
+      ATEditorOptions.FallbackEncoding:= EncConvGetANSI;
+    'oem':
+      ATEditorOptions.FallbackEncoding:= EncConvGetOEM;
+    else
+      ATEditorOptions.FallbackEncoding:= EncConvFindEncoding(s);
+  end;
+
   s:= cfg.GetValue('unprinted_symbols_scale', '');
   if s<>'' then
   begin

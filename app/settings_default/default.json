@@ -198,7 +198,7 @@
   //  2: show if editor is modified
   "ui_notif_confirm": 1,
 
-  //[File/NonText]
+  //[File/Detection]
   //Non-text files: behaviour on opening such files.
   //  0: show confirmation with choices
   //  1: automatically open in editor
@@ -209,6 +209,15 @@
 
   //Non-text files: detection buffer size, Kb.
   "ui_non_text_buffer": 64,
+
+  //Encoding to use when auto-detection fails.
+  //One of supported encoding names, or one of special values "", "oem".
+  //Value "" means OS-dependant ANSI encoding: cp1250, cp1251, cp1252, cp1253, cp1254, cp1255,
+  //    cp1256, cp1257, cp1258, cp874, cp932, cp936, cp949, cp950
+  //Value "oem" means OS-dependant OEM encoding: cp437, cp850, cp852, cp866, cp874,
+  //    cp932, cp936, cp949, cp950
+  //UTF-8 / UTF-16 / UTF-32 variants are not allowed here.
+  "fallback_encoding": "",
 
   //[File]
   //Reloading of file: if caret was on the last line, after reload put caret on new last line.
