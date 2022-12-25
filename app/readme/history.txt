@@ -5,6 +5,7 @@
 
 1.180.5 (2022/12)
 
++ add: encoding 'gb18030'
 + add: wrapping of too long tab title in the prompt to close modified untitled tab
 + add: Project Manager: added command "Show+focus Project panel"
 + add: Wiki topic https://wiki.freepascal.org/CudaText#Dynamic_highlight
