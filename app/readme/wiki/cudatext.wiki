@@ -2169,7 +2169,7 @@ Encoding detection works by this pseudo-code:
   if detect == UTF8_OK then
     return(UTF8)
   if detect == UTF8_BROKEN then
-    enc = ANSI
+    enc = fallback_encoding // from option "fallback_encoding"
 
   if file_detect_by_python_standard(detect) then
   // it returns detected encoding in "detect" param
