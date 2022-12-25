@@ -1866,23 +1866,24 @@ end;
 
 procedure TEditorFrame.EditorOnClickDouble(Sender: TObject; var AHandled: boolean);
 var
+  StateString: string;
   Res: TAppPyEventResult;
 begin
-  Res:= DoPyEvent(Sender as TATSynEdit, cEventOnClickDbl,
-    [
-    AppVariant(ConvertShiftStateToString(KeyboardStateToShiftState))
-    ]);
+  StateString:= ConvertShiftStateToString(KeyboardStateToShiftState);
+  Res:= DoPyEvent(Sender as TATSynEdit, cEventOnClickDbl, [AppVariant(StateString)]);
   AHandled:= Res.Val=evrFalse;
 end;
 
 procedure TEditorFrame.EditorOnClickLink(Sender: TObject; const ALink: string);
 var
+  StateString: string;
   Res: TAppPyEventResult;
   bHandled: boolean;
 begin
+  StateString:= ConvertShiftStateToString(KeyboardStateToShiftState);
   Res:= DoPyEvent(Sender as TATSynEdit, cEventOnClickLink,
     [
-    AppVariant(ConvertShiftStateToString(KeyboardStateToShiftState)),
+    AppVariant(StateString),
     AppVariant(ALink)
     ]);
   bHandled:= Res.Val=evrFalse;
@@ -3309,14 +3310,12 @@ procedure TEditorFrame.EditorContextPopup(Sender: TObject; MousePos: TPoint; var
 var
   Ed: TATSynEdit;
   StateString: string;
+  Res: TAppPyEventResult;
 begin
   Ed:= Sender as TATSynEdit;
-
-  if EditorOps.OpMouseRightClickMovesCaret then
-  begin
-    StateString:= ConvertShiftStateToString(KeyboardStateToShiftState);
-    DoPyEvent(Ed, cEventOnClick, [AppVariant(StateString)]);
-  end;
+  StateString:= ConvertShiftStateToString(KeyboardStateToShiftState);
+  Res:= DoPyEvent(Ed, cEventOnClickRight, [AppVariant(StateString)]);
+  Handled:= Res.Val=evrFalse;
 end;
 
 procedure TEditorFrame.DoOnUpdateState;

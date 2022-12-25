@@ -67,6 +67,7 @@ Event handlers (Command.on_nnnnn methods) return-value is ignored is many cases,
 
 * on_click(self, ed_self, state): Called after mouse click on text area. Param "state": same meaning as in on_key.
 * on_click_dbl(self, ed_self, state): Called after mouse double-click on text area. Param "state": same meaning as in on_key. Method can return False to disable default processing.
+* on_click_right(self, ed_self, state): Called after mouse right-click. Param "state": same meaning as in on_key. Method can return False to disable default processing.
 * on_click_gutter(self, ed_self, state, nline, nband): Called on mouse click on gutter area. Param "state": same as in on_key. Param "nline": index of editor line. Param "nband": index of gutter band. Method can return False to disable default processing.
 * on_click_gap(self, ed_self, state, nline, ntag, size_x, size_y, pos_x, pos_y): Called after mouse click on inter-line gap: see Editor.gap(). Param "state": same meaning as in on_key. Other params: properties of clicked gap.
 * on_click_link(self, ed_self, state, link): Called after link/URL in the editor is activated by click or double-click (event is not called on URL opening from Command Palette or from editor context menu). Param "state": same meaning as in on_key. Param "link": link string. Method can return False to disable default program action.
@@ -4780,5 +4781,8 @@ It provides:
 
 1.0.436 (app 1.178.0)
 * add: event on_tab_menu
+
+1.0.437 (app 1.180.2)
+* add: event on_click_right
 
 [[Category:CudaText]]
