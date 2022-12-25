@@ -9,6 +9,7 @@
 + add: Wiki topic https://wiki.freepascal.org/CudaText#Dynamic_highlight
 + add: wrapping (80 chars) of too long tab title in the prompt to save untitled tab
 + add: Project Manager: new command "Show+focus panel"
+- fix: Spell Checker option "on_click" worked bad with "mouse_rt_click_moves_caret":true (thanks @veksha)
 
 1.180.0 (2022/12)
 

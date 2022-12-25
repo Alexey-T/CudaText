@@ -230,6 +230,7 @@ type
     procedure DoOnUpdateState;
     procedure DoOnUpdateZoom;
     procedure DoOnUpdateStatusbar;
+    procedure EditorContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
     procedure EditorClickEndSelect(Sender: TObject; APrevPnt, ANewPnt: TPoint);
     procedure EditorClickMoveCaret(Sender: TObject; APrevPnt, ANewPnt: TPoint);
     procedure EditorDrawMicromap(Sender: TObject; ACanvas: TCanvas; const ARect: TRect);
@@ -2004,6 +2005,7 @@ begin
   ed.OnChangeState:= @EditorOnChangeState;
   ed.OnChangeZoom:= @EditorOnChangeZoom;
   ed.OnChangeBookmarks:= @EditorOnChangeBookmarks;
+  ed.OnContextPopup:= @EditorContextPopup;
   ed.OnCommand:= @EditorOnCommand;
   ed.OnCommandAfter:= @EditorOnCommandAfter;
   ed.OnClickGutter:= @EditorOnClickGutter;
@@ -3301,6 +3303,20 @@ procedure TEditorFrame.DoOnUpdateStatusbar;
 begin
   if Assigned(FOnUpdateStatusbar) then
     FOnUpdateStatusbar(Self);
+end;
+
+procedure TEditorFrame.EditorContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
+var
+  Ed: TATSynEdit;
+  StateString: string;
+begin
+  Ed:= Sender as TATSynEdit;
+
+  if EditorOps.OpMouseRightClickMovesCaret then
+  begin
+    StateString:= ConvertShiftStateToString(KeyboardStateToShiftState);
+    DoPyEvent(Ed, cEventOnClick, [AppVariant(StateString)]);
+  end;
 end;
 
 procedure TEditorFrame.DoOnUpdateState;
