@@ -2159,19 +2159,16 @@ Encoding detection works by this pseudo-code:
     // it returns the "enc" param
     return(enc)
 
-  if option "def_encoding_utf8":true then
-    enc = UTF8
-  else
-    enc = ANSI // "ANSI" codepage is OS dependent
+  enc = UTF8
    
   detect = file_detect_utf8_content
   // it can get 3 values: 
-  //     UTF8_Unknown: only ASCII chars present
-  //     UTF8_ok: correct UTF8, non-ASCII, chars present
-  //     UTF8_broken: broken UTF8 chars present
-  if detect == UTF8_ok then
+  //     UTF8_ASCII: only ASCII chars present
+  //     UTF8_OK: correct UTF8, non-ASCII, chars present
+  //     UTF8_BROKEN: broken UTF8 chars present
+  if detect == UTF8_OK then
     return(UTF8)
-  if detect == UTF8_broken then
+  if detect == UTF8_BROKEN then
     enc = ANSI
 
   if file_detect_by_python_standard(detect) then
