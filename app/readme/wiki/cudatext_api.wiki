@@ -4782,7 +4782,7 @@ It provides:
 1.0.436 (app 1.178.0)
 * add: event on_tab_menu
 
-1.0.437 (app 1.180.2)
+1.0.437 (app 1.180.5)
 * add: event on_click_right
 
 [[Category:CudaText]]
