@@ -1000,7 +1000,7 @@ begin
 
   UiOps.MaxLineLenForEditingKeepingLexer:= cfg.GetValue('max_line_len_for_editing_keeping_lexer', UiOps.MaxLineLenForEditingKeepingLexer);
 
-  s:= cfg.GetValue('fallback_encoding', '');
+  s:= cfg.GetValue('fallback_encoding', cEncConvNames[ATEditorOptions.FallbackEncoding]);
   case s of
     '':
       ATEditorOptions.FallbackEncoding:= EncConvGetANSI;
