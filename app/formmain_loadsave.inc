@@ -1002,7 +1002,7 @@ begin
 
   s:= cfg.GetValue('fallback_encoding', cEncConvNames[ATEditorOptions.FallbackEncoding]);
   case s of
-    '':
+    'ansi':
       ATEditorOptions.FallbackEncoding:= EncConvGetANSI;
     'oem':
       ATEditorOptions.FallbackEncoding:= EncConvGetOEM;
