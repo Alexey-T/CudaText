@@ -4623,14 +4623,6 @@ begin
       end;
 
       Ed.Update;
-      {
-      if Assigned(F) then
-      begin
-        fmMain.UpdateFrameEx(F, false);
-        fmMain.UpdateStatusbar;
-      end;
-      }
-
       Result:= ReturnNone;
     end
   else
