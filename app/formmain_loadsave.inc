@@ -1036,7 +1036,7 @@ begin
   if N>=1000 then
     ATEditorOptions.AutoCopyMaxTextSize:= N;
 
-  EControlOptions.AutoFoldComments:= cfg.GetValue('auto_fold_comments', 0);
+  EControlOptions.AutoFoldComments:= cfg.GetValue('auto_fold_comments', EControlOptions.AutoFoldComments);
   EControlOptions.MaxLinesWhenParserEnablesFolding:= cfg.GetValue('lexer_folding_max_lines',
     EControlOptions.MaxLinesWhenParserEnablesFolding);
 
