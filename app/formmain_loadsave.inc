@@ -1009,7 +1009,7 @@ begin
     else
       begin
         ATEditorOptions.FallbackEncoding:= EncConvFindEncoding(s, eidCP1252);
-        if ATEditorOptions.FallbackEncoding in [eidUTF8, eidUTF8BOM, eidUCS2LE, eidUCS2BE] then
+        if ATEditorOptions.FallbackEncoding<=eidLastUnicode then
           ATEditorOptions.FallbackEncoding:= eidCP1252;
       end;
   end;
