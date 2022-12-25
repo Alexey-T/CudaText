@@ -295,7 +295,7 @@ var
   i, j, code: integer;
 begin
   FUnicodeMode:= false;
-  FEncodingId:= EncConvFindEncoding(GetCodepage);
+  FEncodingId:= EncConvFindEncoding(GetCodepage, eidCP1252);
   comboAnsi.Visible:= not FUnicodeMode;
   comboUnicode.Visible:= FUnicodeMode;
   chkHexTitle.Enabled:= true;
