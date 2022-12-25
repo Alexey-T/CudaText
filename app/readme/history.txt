@@ -3,13 +3,12 @@
   - fixed
   * changed
 
-1.180.1 (2022/12)
+1.180.5 (2022/12)
 
-* change: delete option "def_encoding_utf8" (made it 'true')
++ add: wrapping of too long tab title in the prompt to close modified untitled tab
++ add: Project Manager: added command "Show+focus Project panel"
 + add: Wiki topic https://wiki.freepascal.org/CudaText#Dynamic_highlight
-+ add: wrapping (80 chars) of too long tab title in the prompt to save untitled tab
-+ add: Project Manager: new command "Show+focus panel"
-- fix: Spell Checker option "on_click" worked bad with "mouse_rt_click_moves_caret":true (thanks @veksha)
+* change: delete option "def_encoding_utf8" (made it 'true')
 
 1.180.0 (2022/12)
 
