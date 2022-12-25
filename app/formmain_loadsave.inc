@@ -1000,19 +1000,20 @@ begin
 
   UiOps.MaxLineLenForEditingKeepingLexer:= cfg.GetValue('max_line_len_for_editing_keeping_lexer', UiOps.MaxLineLenForEditingKeepingLexer);
 
-  s:= cfg.GetValue('fallback_encoding', cEncConvNames[ATEditorOptions.FallbackEncoding]);
-  case s of
-    'ansi':
-      ATEditorOptions.FallbackEncoding:= EncConvGetANSI;
-    'oem':
-      ATEditorOptions.FallbackEncoding:= EncConvGetOEM;
-    else
-      begin
-        ATEditorOptions.FallbackEncoding:= EncConvFindEncoding(s, eidCP1252);
-        if ATEditorOptions.FallbackEncoding<=eidLastUnicode then
-          ATEditorOptions.FallbackEncoding:= eidCP1252;
-      end;
-  end;
+  s:= cfg.GetValue('fallback_encoding', '');
+  if s<>'' then
+    case s of
+      'ansi':
+        ATEditorOptions.FallbackEncoding:= EncConvGetANSI;
+      'oem':
+        ATEditorOptions.FallbackEncoding:= EncConvGetOEM;
+      else
+        begin
+          ATEditorOptions.FallbackEncoding:= EncConvFindEncoding(s, eidCP1252);
+          if ATEditorOptions.FallbackEncoding<=eidLastUnicode then
+            ATEditorOptions.FallbackEncoding:= eidCP1252;
+        end;
+    end;
 
   s:= cfg.GetValue('unprinted_symbols_scale', '');
   if s<>'' then
