@@ -2156,7 +2156,7 @@ Encoding detection works by this pseudo-code:
     return(UTF8)
 
   if encoding_saved_to_history_file(enc) then
-    // it returns the "enc" param
+    // function changes the "enc" param
     return(enc)
 
   enc = UTF8
