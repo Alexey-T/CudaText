@@ -1007,17 +1007,11 @@ begin
     'oem':
       ATEditorOptions.FallbackEncoding:= EncConvGetOEM;
     else
-    begin
-      ATEditorOptions.FallbackEncoding:= EncConvFindEncoding(s, eidCP1252);
-      //replace all unicode ids with cp1252
-      case ATEditorOptions.FallbackEncoding of
-        eidUTF8,
-        eidUTF8BOM,
-        eidUCS2LE,
-        eidUCS2BE:
+      begin
+        ATEditorOptions.FallbackEncoding:= EncConvFindEncoding(s, eidCP1252);
+        if ATEditorOptions.FallbackEncoding in [eidUTF8, eidUTF8BOM, eidUCS2LE, eidUCS2BE] then
           ATEditorOptions.FallbackEncoding:= eidCP1252;
       end;
-    end;
   end;
 
   s:= cfg.GetValue('unprinted_symbols_scale', '');
