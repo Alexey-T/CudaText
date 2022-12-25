@@ -891,6 +891,7 @@ Possible encoding names for command-line usage:
 * cp936
 * cp949
 * cp950
+* gb18030
 * iso-8859-1
 * iso-8859-2
 * iso-8859-3
