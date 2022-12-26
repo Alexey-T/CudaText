@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.180.5 (2022/12)
+1.181.0 (2022/12)
 
 + add: encoding "gb18030"
 + add: encoding "gb2312", only on Windows
