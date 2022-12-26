@@ -393,14 +393,6 @@ object SyntAnal2: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Id at line start'
-      StyleName = 'Command'
-      TokenType = 12
-      Expression = '(?<=^[\x20\x09]*)[a-z_]\w*$'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
       DisplayName = 'String'
       StyleName = 'String'
       TokenType = 5
@@ -483,7 +475,7 @@ object SyntAnal2: TLibSyntAnalyzer
             'time'
             'until'
             'while')
-          TokenTypes = 4100
+          TokenTypes = 4
         end>
       HighlightPos = cpAny
       IgnoreAsParent = False
@@ -752,7 +744,7 @@ object SyntAnal2: TLibSyntAnalyzer
             'zcat'
             'zip'
             'zless')
-          TokenTypes = 4100
+          TokenTypes = 4
         end>
       HighlightPos = cpBound
       IgnoreAsParent = False
@@ -801,7 +793,7 @@ object SyntAnal2: TLibSyntAnalyzer
         item
           TagList.Strings = (
             'case')
-          TokenTypes = 4100
+          TokenTypes = 4
         end>
       BlockEnd = 'case end'
       DisplayInTree = False
@@ -818,7 +810,7 @@ object SyntAnal2: TLibSyntAnalyzer
         item
           TagList.Strings = (
             'esac')
-          TokenTypes = 4100
+          TokenTypes = 4
         end>
       HighlightPos = cpAny
       IgnoreAsParent = False
@@ -846,7 +838,7 @@ object SyntAnal2: TLibSyntAnalyzer
         item
           TagList.Strings = (
             'fi')
-          TokenTypes = 4100
+          TokenTypes = 4
         end>
       HighlightPos = cpAny
       IgnoreAsParent = False
@@ -857,7 +849,7 @@ object SyntAnal2: TLibSyntAnalyzer
         item
           TagList.Strings = (
             'do')
-          TokenTypes = 4100
+          TokenTypes = 4
         end>
       BlockEnd = 'do end'
       DisplayInTree = False
@@ -874,7 +866,7 @@ object SyntAnal2: TLibSyntAnalyzer
         item
           TagList.Strings = (
             'done')
-          TokenTypes = 4100
+          TokenTypes = 4
         end>
       HighlightPos = cpAny
       IgnoreAsParent = False
@@ -1091,7 +1083,7 @@ object SyntAnal2: TLibSyntAnalyzer
     '))'
     '[['
     ']]'
-    'Id at line start'
+    '-'
     'Heredoc'
     'Regexp'
     '('
