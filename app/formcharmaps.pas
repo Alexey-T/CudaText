@@ -14,10 +14,12 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls,
   StdCtrls, Grids, IniFiles,
-  LclType, LclProc, LCLUnicodeData, EncConv,
+  LclType, LclProc, LCLUnicodeData,
   LazUTF8, LazFileUtils,
   {$ifdef windows} Windows, {$endif}
+  EncConv,
   ATPanelSimple,
+  ATSynEdit_Globals,
   proc_msg,
   proc_miscutils,
   proc_globdata;
@@ -360,6 +362,9 @@ var
 begin
   MsgStatusAnsi:= 'Decimal %d, Hex %s, Char "%s"';
   MsgStatusUnicode:= 'U+%s, Char "%s"';
+
+  //for Hi-DPI
+  Grid.DefaultRowHeight:= ATEditorScale(22);
 
   comboUnicode.Items.Clear;
   for i:= Low(UnicodeBlocks) to High(UnicodeBlocks) do
