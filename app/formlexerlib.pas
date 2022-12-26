@@ -20,6 +20,7 @@ uses
   ec_SyntAnal,
   formlexerprop,
   proc_globdata,
+  proc_customdialog,
   proc_miscutils,
   proc_msg,
   math;
@@ -163,6 +164,8 @@ end;
 procedure TfmLexerLib.FormCreate(Sender: TObject);
 begin
   Localize;
+  DoForm_ScaleAuto(Self, false);
+
   FormHistoryLoad(Self, '/pos/lexerlib', false);
 end;
 

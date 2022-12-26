@@ -19,6 +19,7 @@ uses
   ec_syntax_format,
   proc_msg,
   proc_globdata,
+  proc_customdialog,
   proc_colors;
 
 type
@@ -219,6 +220,8 @@ end;
 procedure TfmLexerStyleMap.FormCreate(Sender: TObject);
 begin
   Localize;
+  DoForm_ScaleAuto(Self, false);
+
   ItemsLex:= TStringList.Create;
   ItemsTh:= TStringList.Create;
   ItemsVal:= TStringList.Create;
