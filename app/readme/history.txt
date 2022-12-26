@@ -14,6 +14,7 @@
 + add: wrapping of too long tab title in the prompt to close modified untitled tab (thanks @ildarkhasanshin)
 + add: Project Manager: added command "Show+focus Project panel"
 + add: Wiki topic https://wiki.freepascal.org/CudaText#Dynamic_highlight
+* change: rename 4 Asian codepages to pretty names: big5, gbk, unified-hangul-code, shift-jis (old names 'cpNNN' still work when loading old sessions)
 * change: delete option "def_encoding_utf8" (made it 'true')
 
 1.180.0 (2022/12)
