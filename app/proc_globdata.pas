@@ -873,10 +873,10 @@ const
     (Sub: 'mi'; Name: 'koi8r'; ShortName: 'koi8r'),
     (Sub: 'mi'; Name: 'koi8u'; ShortName: 'koi8u'),
     (Sub: 'mi'; Name: 'koi8ru'; ShortName: 'koi8ru'),
-    (Sub: 'as'; Name: 'cp874'; ShortName:  'cp874'),
+    (Sub: 'as'; Name: 'cp874'; ShortName: 'cp874'),
     (Sub: 'as'; Name: 'shift-jis'; ShortName: 'shift-jis'),
     (Sub: 'as'; Name: 'gbk'; ShortName: 'gbk'),
-    (Sub: 'as'; Name: 'unified-hangul-code'; ShortName: 'unified-hangul-code'),
+    (Sub: 'as'; Name: 'uhc'; ShortName: 'uhc'),
     (Sub: 'as'; Name: 'big5'; ShortName: 'big5'),
     (Sub: 'as'; Name: 'gb18030'; ShortName: 'gb18030'),
     {$ifdef windows}
