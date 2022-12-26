@@ -21,6 +21,5 @@ Func name=Label
 Symbol2=Symbol2
 Var %=Id3
 Math BG=SectionBG3
-Heredoc BG=SectionBG4
-Heredoc begin=TagInclude
+Heredoc=String3
 String regexp=String2

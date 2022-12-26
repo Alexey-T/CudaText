@@ -135,22 +135,12 @@ object SyntAnal2: TLibSyntAnalyzer
       FormatType = ftBackGround
     end
     item
-      DisplayName = 'Heredoc BG'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clMaroon
-      Font.Height = -13
-      Font.Name = 'Courier New'
-      Font.Style = []
-      BgColor = 9495763
-      FormatType = ftBackGround
-    end
-    item
-      DisplayName = 'Heredoc begin'
+      DisplayName = 'Heredoc'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clOlive
       Font.Height = -13
       Font.Name = 'Courier New'
-      Font.Style = [fsBold]
+      Font.Style = []
     end
     item
       DisplayName = 'String regexp'
@@ -326,12 +316,22 @@ object SyntAnal2: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = '<< heredoc'
-      StyleName = 'Symbol'
+      DisplayName = 'Heredoc with quote'
+      StyleName = 'Heredoc'
       BlockName = '(('
       NotParent = True
-      TokenType = 4
-      Expression = '<<\-?'
+      TokenType = 13
+      Expression = '(?s)<<\-?\x20*('#39'|")([a-z]\w*)\1.+?^\x20*\2\b'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Heredoc w/o quote'
+      StyleName = 'Heredoc'
+      BlockName = '(('
+      NotParent = True
+      TokenType = 13
+      Expression = '(?s)<<\-?\x20*([a-z]\w*).+?^\x20*\1\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -365,16 +365,6 @@ object SyntAnal2: TLibSyntAnalyzer
       StyleName = 'Symbol'
       TokenType = 4
       Expression = '[\+\*&:%\#\?\-!~]+'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
-      DisplayName = 'Heredoc begin'
-      StyleName = 'Heredoc begin'
-      BlockName = '(('
-      NotParent = True
-      TokenType = 13
-      Expression = '(?<=<<\-?\x20*) ('#39'\w+'#39'|"\w+"|\w+)'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -1049,32 +1039,6 @@ object SyntAnal2: TLibSyntAnalyzer
         end>
       HighlightPos = cpAny
       IgnoreAsParent = False
-    end
-    item
-      DisplayName = 'Heredoc begin'
-      StyleName = 'Heredoc BG'
-      ConditionList = <
-        item
-          TokenTypes = 8192
-        end>
-      BlockEnd = 'Heredoc end'
-      NotCollapsed = True
-      DisplayInTree = False
-      RefToCondEnd = True
-      DynHighlight = dhRange
-      HighlightPos = cpAny
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = 'Heredoc end'
-      BlockType = btRangeEnd
-      ConditionList = <
-        item
-          TokenTypes = 4096
-        end>
-      SameIdent = True
-      HighlightPos = cpAny
-      IgnoreAsParent = False
     end>
   CodeTemplates = <>
   SubAnalyzers = <>
@@ -1128,7 +1092,7 @@ object SyntAnal2: TLibSyntAnalyzer
     '[['
     ']]'
     'Id at line start'
-    'Heredoc begin'
+    'Heredoc'
     'Regexp'
     '('
     ')'
