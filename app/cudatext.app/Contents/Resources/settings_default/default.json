@@ -212,10 +212,11 @@
 
   //Encoding to use when auto-detection fails.
   //One of supported encoding names, or one of special values "ansi", "oem".
-  //Value "ansi" means OS-dependant ANSI encoding: cp1250, cp1251, cp1252, cp1253, cp1254, cp1255,
-  //cp1256, cp1257, cp1258, cp874, cp932, cp936, cp949, cp950.
-  //Value "oem" means OS-dependant OEM encoding: cp437, cp850, cp852, cp866, cp874,
-  //cp932, cp936, cp949, cp950.
+  //Value "ansi" means OS-dependant ANSI encoding:
+  //cp1250, cp1251, cp1252, cp1253, cp1254, cp1255, cp1256, cp1257, cp1258,
+  //cp874, shift-jis, gbk, uhc, big5.
+  //Value "oem" means OS-dependant OEM encoding: cp437, cp850, cp852, cp866,
+  //cp874, shift-jis, gbk, uhc, big5.
   //UTF-8 / UTF-16 / UTF-32 variants are not allowed here.
   "fallback_encoding": "ansi",
 
