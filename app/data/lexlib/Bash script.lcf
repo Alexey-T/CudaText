@@ -326,12 +326,12 @@ object SyntAnal2: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Heredoc w/o quote'
+      DisplayName = 'Heredoc'
       StyleName = 'Heredoc'
       BlockName = '(('
       NotParent = True
       TokenType = 13
-      Expression = '(?s)<<\-?\x20*([a-z]\w*).+?^\x20*\1\b'
+      Expression = '(?s)<<\-?\x20*([a-z]\w*)\b.+?^\x20*\1\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
