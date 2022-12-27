@@ -1225,6 +1225,7 @@ procedure TfmMain.UpdateMenuEnc(AMenu: TMenuItem);
     mi:= TMenuItem.Create(Self);
     mi.Caption:= AName;
 
+    {
     //check availability of Asian encodings (others are always available)
     if (AGroup='as') and (AName<>'') then
     try
@@ -1234,6 +1235,7 @@ procedure TfmMain.UpdateMenuEnc(AMenu: TMenuItem);
     except
       mi.Enabled:= false;
     end;
+    }
 
     if AReloadFile then
       mi.OnClick:= @MenuEncWithReloadClick
