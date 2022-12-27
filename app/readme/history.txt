@@ -5,18 +5,19 @@
 
 1.181.0 (2022/12)
 
-+ add: encoding "gb18030"
-+ add: encoding "gb2312"
-+ add: encoding "gb2312-hz"
-+ add: encoding "iso-2022-chs"
-+ add: encoding "iso-2022-cht"
-+ add: encoding "euc-jp"
-+ add: encoding "euc-kr"
-+ add: encoding "euc-tw"
++ add: option "fallback_encoding" (thanks @kenifanying)
++ add: support more encodings, but note: they require OS support (unlike old encodings):
+  + add: encoding gb18030
+  + add: encoding gb2312
+  + add: encoding gb2312-hz
+  + add: encoding iso-2022-chs
+  + add: encoding iso-2022-cht
+  + add: encoding euc-jp
+  + add: encoding euc-kr
+  + add: encoding euc-tw
 * change: rename some encodings to pretty names: big5, gbk, shift-jis, uhc (old names 'cpNNN' still work when loading old sessions)
 * change: delete option "def_encoding_utf8" (made it 'true')
 
-+ add: option "fallback_encoding" (thanks @kenifanying)
 + add: wrapping of too long tab title in the prompt to close modified untitled tab (thanks @ildarkhasanshin)
 + add: Project Manager: added command "Show+focus Project panel"
 + add: Wiki topic https://wiki.freepascal.org/CudaText#Dynamic_highlight
