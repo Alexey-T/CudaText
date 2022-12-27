@@ -828,7 +828,7 @@ type
   end;
 
 const
-  AppEncodings: array[0..58] of TAppEncodingRecord = (
+  AppEncodings: array[0..59] of TAppEncodingRecord = (
     (Sub: ''; Name: cEncNameUtf8_NoBom; ShortName: 'utf8'),
     (Sub: ''; Name: cEncNameUtf8_WithBom; ShortName: 'utf8_bom'),
     (Sub: ''; Name: cEncNameUtf16LE_NoBom; ShortName: 'utf16le'),
@@ -876,6 +876,7 @@ const
     (Sub: 'as'; Name: 'cp874'; ShortName: 'cp874'),
     (Sub: 'as'; Name: 'shift-jis'; ShortName: 'shift-jis'),
     (Sub: 'as'; Name: 'gbk'; ShortName: 'gbk'),
+    (Sub: 'as'; Name: 'cns'; ShortName: 'cns'),
     (Sub: 'as'; Name: 'uhc'; ShortName: 'uhc'),
     (Sub: 'as'; Name: 'big5'; ShortName: 'big5'),
     (Sub: 'as'; Name: 'gb18030'; ShortName: 'gb18030'),

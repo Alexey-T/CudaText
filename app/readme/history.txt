@@ -7,6 +7,7 @@
 
 + add: option "fallback_encoding" (thanks @kenifanying)
 + add: support more encodings, but note: they require OS support (unlike old encodings):
+  + add: encoding cns
   + add: encoding gb18030
   + add: encoding gb2312
   + add: encoding gb2312-hz
