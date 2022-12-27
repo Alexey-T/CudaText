@@ -1229,9 +1229,7 @@ procedure TfmMain.UpdateMenuEnc(AMenu: TMenuItem);
     if (AGroup='as') and (AName<>'') then
     try
       enc:= EncConvFindEncoding(AName, eidUTF8);
-      if enc<>eidUTF8 then
-        mi.Enabled:= EncConvertFromUTF8('ABC', enc)='ABC'
-      else
+      if enc=eidUTF8 then
         mi.Enabled:= false;
     except
       mi.Enabled:= false;
