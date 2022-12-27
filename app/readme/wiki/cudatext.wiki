@@ -701,7 +701,7 @@ How to change styles in lite lexers? For example, "Log files ^" uses styles "Id"
 
 ==Differences in lexer support in CudaText/SynWrite==
 
-* SynWrite supports "lexer grammar", while CudaText 1.133+ does not support "grammar" anymore.
+* SynWrite supports "lexer grammar", while CudaText does not support "grammar" anymore.
 * SynWrite lexers need constructs like \x0D\x0A or \z (to catch any line-break: LF, CRLF, CR), while CudaText lexers are OK with simple \n (because internal buffer always has LF separator).
 * Some lexers need to find equal identifiers at begin/end of blocks: HTML, Bash, others. Bash lexer needs extended feature: to see NAME and 'NAME' and "NAME" as equal identifiers (word and quoted word). Only CudaText has this extended feature, not SynWrite.
 * For CudaText you must avoid "system colors" in lexer styles (e.g. "window background", "window text", "hint background"), because OS'es have different system colors.
@@ -781,8 +781,8 @@ Note about SQL blocks. CudaText has lexer preinstalled, it's lite lexer "SQL ^",
 
 '''Limitations:'''
 
-* Markdown standard tells that the beginning backticks must match the ending backticks, it must be the same amount of backticks. (And the same is valid for tildes.) This is currently not supported in CudaText version 1.151.
-* Python Markdown description tells that the lexer alias may be replaced with the curly-brackets construct like "{ .lang }" or "{ .lang .foo .bar }" or even "{ #someid .lang .foo .bar }". This is currently not supported in CudaText version 1.151.
+* Markdown standard tells that the beginning backticks must match the ending backticks, it must be the same amount of backticks. (And the same is valid for tildes.) This is currently not supported in CudaText.
+* Python Markdown description tells that the lexer alias may be replaced with the curly-brackets construct like "{ .lang }" or "{ .lang .foo .bar }" or even "{ #someid .lang .foo .bar }". This is currently not supported in CudaText.
 * The similar feature of the reStructuredText, as [https://pandemic-overview.readthedocs.io/en/latest/myGuides/reStructuredText-Source-Code.html documented here], is not supported. 
 
 ==Dynamic highlight==
@@ -926,7 +926,7 @@ Mixed line-ends (CR with LF with CR LF) in one document are supported. Because o
 Commands:
 
 * To change line-ends for all lines in the current document, click statusbar cell for line-ends, menu will appear. You need to save file then. Changed line-ends can be undone via "Undo". Also 3 commands are available in the Command Palette.
-* To change line-ends for individial lines (in CudaText 1.158.3+), use 3 commands in the Command Palette: "change line ends, for line(s) with caret: CR LF / LF / CR".
+* To change line-ends for individial lines, use 3 commands in the Command Palette: "change line ends, for line(s) with caret: CR LF / LF / CR".
 
 =Additional indentation on Enter=
 
@@ -1692,7 +1692,7 @@ CudaText first looks at contexts of all carets. If at least one caret has "not s
 For caret with selection, context is considered as OK. And typed char will enclose the selection for that caret.
 
 ==Auto-deletion of pair brackets==
-In CudaText 1.176.5+, BackSpace key supports deletion of both brackets at once. Only for bracket chars listed in the "bracket_symbols" option. It is supported when all carets have the 'good situation', ie this (caret is shown by "|"):
+BackSpace key supports deletion of both brackets at once. Only for bracket chars listed in the "bracket_symbols" option. It is supported when all carets have the 'good situation', ie this (caret is shown by "|"):
 
 <pre>
  (|)
@@ -1977,7 +1977,7 @@ The plugin "Column Marks" adds more features:
 =Add-ons=
 
 ==How to disable plugins==
-Since CudaText 1.174.0: if file "plugin_disabled" (with any contents) exists in the plugin's folder (near install.inf), then plugin will be ignored.
+If file "plugin_disabled" (contents is ignored) exists in the plugin's folder (near install.inf), then plugin will be ignored.
 
 ==Entire plugins list==
 See the [https://github.com/halfbrained/cudatext_plugins_list GitHub repository]
