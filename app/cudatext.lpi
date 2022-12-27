@@ -1535,7 +1535,7 @@
     </Other>
   </CompilerOptions>
   <Debugging>
-    <Exceptions Count="14">
+    <Exceptions Count="15">
       <Item1>
         <Name Value="EAbort"/>
       </Item1>
@@ -1578,6 +1578,9 @@
       <Item14>
         <Name Value="EPyAssertionError"/>
       </Item14>
+      <Item15>
+        <Name Value="EConvertError"/>
+      </Item15>
     </Exceptions>
   </Debugging>
 </CONFIG>
