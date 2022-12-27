@@ -20,6 +20,7 @@
 + add: Project Manager: added command "Show+focus Project panel"
 + add: Wiki topic https://wiki.freepascal.org/CudaText#Dynamic_highlight
 * change: delete option "def_encoding_utf8" (made it 'true')
+- fix: lexer Bash: HereDoc must be highlighted as 'big string' (thanks @Flashwalker)
 
 1.180.0 (2022/12)
 
