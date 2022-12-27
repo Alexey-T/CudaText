@@ -13,6 +13,7 @@
   + add: encoding iso-2022-chs
   + add: encoding iso-2022-cht
   + add: encoding euc-jp
+  + add: encoding euc-cn
   + add: encoding euc-kr
   + add: encoding euc-tw
 * change: rename some encodings to pretty names: big5, gbk, shift-jis, uhc (old names 'cpNNN' still work when loading old sessions)
