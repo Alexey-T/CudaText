@@ -732,7 +732,7 @@ begin
   TAppMenuProps(mi.Tag).CommandCode:= cmd;
   mi.OnClick:= @MenuMainClick;
 
-  {$ifndef LCLQT5}
+  {$if not defined (LCLQt5) and not defined(LCLQt6)}
   //seems Qt5 version has slowdown because of MainMenu hotkeys?
 
   //if Copy/Paste/SelectAll hotkeys set in MainMenu, Qt5 version cannot handle them in Console/Find/Replace
