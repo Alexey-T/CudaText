@@ -1,5 +1,6 @@
 #!/bin/bash
-ws=$1
+ws=cocoa
+cpu=$1
 cud=$2
 exe=$3
 bundle=$4
@@ -24,4 +25,4 @@ else
 fi
 
 #make .dmg
-/usr/bin/hdiutil create ~/cudatext-macos-$ws-$cuda_ver.dmg -ov -srcfolder $app/cudatext-mac-$ws/
+/usr/bin/hdiutil create ~/cudatext-macos-$ws-$cpu-$cuda_ver.dmg -ov -srcfolder $app/cudatext-mac-$ws/
