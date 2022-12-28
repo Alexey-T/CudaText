@@ -1056,12 +1056,12 @@ begin
 
   s:= cfg.GetValue('renderer_tweaks'+cOptionSystemSuffix,
     {$if defined(darwin) or defined(LCLQt5)}
-    ''
+    's'
     {$else}
       {$ifdef windows}
-      'wo'
+      'wos'
       {$else}
-      'w'
+      'ws'
       {$endif}
     {$endif} );
   if Pos('e', s)>0 then

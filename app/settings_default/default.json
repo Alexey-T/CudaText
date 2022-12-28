@@ -134,9 +134,9 @@
   //
   //Note: default for Qt5 version is empty string, while for GTK2 it is "w".
   //Note: this option is global, not per-lexer.
-  "renderer_tweaks": "wo",
-  "renderer_tweaks__linux": "w",
-  "renderer_tweaks__mac": "",
+  "renderer_tweaks": "wos",
+  "renderer_tweaks__linux": "ws",
+  "renderer_tweaks__mac": "s",
 
   //Allows to use width of Unicode characters proportional to font.
   //Note: this option is global, not per-lexer.
