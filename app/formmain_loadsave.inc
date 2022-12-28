@@ -964,16 +964,39 @@ begin
   end;
 end;
 
-procedure TfmMain.DoOps_LoadOptions_Global(cfg: TJSONConfig);
+procedure TfmMain.DoApplyRendererTweaks(const s: string);
 const
   cCharEllipsis = $2026;
   cHexShow: array[boolean] of byte = (uw_space, uw_hexshow);
+var
+  bValue: boolean;
+begin
+  if Pos('e', s)>0 then
+    ATSynEdit_CharSizeArray.FixedSizes[cCharEllipsis]:= uw_normal
+  else
+    ATSynEdit_CharSizeArray.FixedSizes[cCharEllipsis]:= uw_fullwidth;
+
+  ATEditorOptions.PreciseCalculationOfCharWidth:= Pos('w', s)=0;
+  ATEditorOptions.TextoutNeedsOffsets:= Pos('o', s)>0;
+  ATEditorOptions.CaretTextOverInvertedRect:= Pos('c', s)>0;
+  ATEditorOptions.EnableLigaturesOnLineWithCaret:= Pos('l', s)>0;
+
+  bValue:= Pos('s', s)=0;
+  FixedSizes[$1680]:= cHexShow[bValue];
+  FixedSizes[$2007]:= cHexShow[bValue];
+  FixedSizes[$200B]:= cHexShow[bValue];
+  FixedSizes[$202F]:= cHexShow[bValue];
+  FixedSizes[$205F]:= cHexShow[bValue];
+  FixedSizes[$2060]:= cHexShow[bValue];
+  FixedSizes[$3000]:= cHexShow[bValue];
+end;
+
+procedure TfmMain.DoOps_LoadOptions_Global(cfg: TJSONConfig);
 var
   Sep: TATStringSeparator;
   List: TStringList;
   s: string;
   N: integer;
-  bValue: boolean;
 begin
   Application.{%H-}MainFormOnTaskBar:= cfg.GetValue('ui_taskbar_mode'+cOptionSystemSuffix, Application.{%H-}MainFormOnTaskBar);
 
@@ -1064,23 +1087,7 @@ begin
       'ws'
       {$endif}
     {$endif} );
-  if Pos('e', s)>0 then
-    ATSynEdit_CharSizeArray.FixedSizes[cCharEllipsis]:= uw_normal
-  else
-    ATSynEdit_CharSizeArray.FixedSizes[cCharEllipsis]:= uw_fullwidth;
-  ATEditorOptions.PreciseCalculationOfCharWidth:= Pos('w', s)=0;
-  ATEditorOptions.TextoutNeedsOffsets:= Pos('o', s)>0;
-  ATEditorOptions.CaretTextOverInvertedRect:= Pos('c', s)>0;
-  ATEditorOptions.EnableLigaturesOnLineWithCaret:= Pos('l', s)>0;
-
-  bValue:= Pos('s', s)=0;
-  FixedSizes[$1680]:= cHexShow[bValue];
-  FixedSizes[$2007]:= cHexShow[bValue];
-  FixedSizes[$200B]:= cHexShow[bValue];
-  FixedSizes[$202F]:= cHexShow[bValue];
-  FixedSizes[$205F]:= cHexShow[bValue];
-  FixedSizes[$2060]:= cHexShow[bValue];
-  FixedSizes[$3000]:= cHexShow[bValue];
+  DoApplyRendererTweaks(s);
 
   ATScrollbarTheme.DirectJumpOnClickPageUpDown:= cfg.GetValue('scrollbar_click_jump',
     ATScrollbarTheme.DirectJumpOnClickPageUpDown);

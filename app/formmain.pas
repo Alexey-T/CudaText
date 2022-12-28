@@ -758,6 +758,7 @@ type
       const AText: string; var AHandled: boolean);
     procedure DisablePluginMenuItems(AddFindLibraryItem: boolean);
     procedure DoLocalizeTabTitles;
+    procedure DoApplyRendererTweaks(const s: string);
     procedure DoApplyCli(const ACliModule: string; const ACliParams: TAppStringArray);
     procedure DoApplyNewdocLexer(F: TEditorFrame);
     procedure DoApplyCenteringOption;
