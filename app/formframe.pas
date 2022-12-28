@@ -13,7 +13,7 @@ interface
 
 uses
   Classes, SysUtils, Graphics, Forms, Controls, Dialogs,
-  ExtCtrls, Menus, StdCtrls, StrUtils, ComCtrls, Clipbrd,
+  ExtCtrls, Menus, StrUtils, ComCtrls, Clipbrd,
   LCLIntf, LCLProc, LCLType, LazUTF8, LazFileUtils, FileUtil,
   IniFiles,
   ATTabs,
@@ -30,7 +30,6 @@ uses
   ATSynEdit_Carets,
   ATSynEdit_Gaps,
   ATSynEdit_Markers,
-  ATSynEdit_LineParts,
   ATSynEdit_Commands,
   ATSynEdit_Bookmarks,
   ATSynEdit_CanvasProc,
@@ -39,7 +38,6 @@ uses
   ATStringProc,
   ATStringProc_Separator,
   ATStringProc_HtmlColor,
-  ATCanvasPrimitives,
   ATButtons,
   ATBinHex,
   ATStreamSearch,
@@ -2125,11 +2123,7 @@ begin
 end;
 
 destructor TEditorFrame.Destroy;
-var
-  NTick1, NTick2: QWord;
 begin
-  NTick1:= GetTickCount64;
-
   if Assigned(FBin) then
   begin
     FBin.OpenStream(nil, False); //ARedraw=False to not paint on Win desktop with DC=0
@@ -3604,7 +3598,7 @@ begin
     begin
       CreateDir(dir);
       {$ifdef windows}
-      FileSetAttr(dir, faHidden);
+      FileSetAttr(dir, faHidden{%H-});
       {$endif}
     end;
     DoWriteStringToFile(fn, s);

@@ -64,7 +64,7 @@ var
 begin
   Data.Clear;
   St:= Ed.Strings;
-  FillChar(HeaderLevels, SizeOf(HeaderLevels), 0);
+  FillChar(HeaderLevels{%H-}, SizeOf(HeaderLevels), 0);
 
   for iLine:= 1{not 0} to St.Count-1 do
   begin

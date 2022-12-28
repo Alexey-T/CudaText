@@ -1084,7 +1084,7 @@ var
   Ed: TATSynEdit;
   Ada: TATAdapterEControl;
   bLiteLexer: boolean;
-  Tick: QWord;
+  //Tick: QWord;
 begin
   Frame:= CurrentFrame;
   if Frame=nil then exit;
@@ -1199,7 +1199,7 @@ procedure TfmMain.UpdateMenuEnc(AMenu: TMenuItem);
   var
     mi, miSub: TMenuItem;
     GroupNice: string;
-    enc: TEncConvId;
+    //enc: TEncConvId;
     n: integer;
   begin
     miSub:= nil;

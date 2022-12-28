@@ -378,6 +378,7 @@ begin
         LoadedLocals.Add(ObjName);
       end;
 
+      ParamObjs:= nil;
       SetLength(ParamObjs, Length(AParams));
       for i:= 0 to Length(AParams)-1 do
         ParamObjs[i]:= AppVariantToPyObject(AParams[i]);

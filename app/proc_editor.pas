@@ -1003,6 +1003,7 @@ begin
 
   if Ed.Carets.IsSelection then exit;
 
+  Props:= nil;
   SetLength(Props, Ed.Carets.Count);
 
   //check each caret has the situation "(|)" or "(|  )"
@@ -1721,7 +1722,7 @@ begin
           @LinePart
           );
 
-        FillChar(Decor, SizeOf(Decor), 0);
+        Decor:= Default(TATGutterDecorData);
         StyleSymbol:= GetAppStyle(apstSymbol);
         Decor.DeleteOnDelLine:= true;
         Decor.ImageIndex:= -1;
@@ -2713,7 +2714,7 @@ var
   nLine, nKind: integer;
   Bm: TATBookmarkData;
 begin
-  FillChar(Bm, SizeOf(Bm), 0);
+  Bm:= Default(TATBookmarkData);
   Bm.ShowInBookmarkList:= true;
 
   Sep.Init(AValue, ' ');

@@ -66,7 +66,7 @@ end;
 function PyHelper_EditorFromHandle(Handle: Int64): TATSynEdit;
 var
   Obj: TObject;
-  nTab, nGroup: Integer;
+  nTab: Integer;
   Frame: TEditorFrame;
 begin
   Result:= nil;
@@ -567,6 +567,8 @@ begin
     begin
       Number:= Max(1, Min(10, Number));
       SCaption:= string(PCaption);
+      Labels:= nil;
+      Values:= nil;
       SetLength(Labels, Number);
       SetLength(Values, Number);
       for i:= 1 to Number do
@@ -2206,7 +2208,7 @@ begin
             if not Ed.Strings.IsIndexValid(NLine) then
               exit(ReturnFalse);
 
-            FillChar(Data, SizeOf(Data), 0);
+            Data:= Default(TATGutterDecorData);
             Data.LineNum:= NLine;
             Data.Tag:= NTag;
             Data.DeleteOnDelLine:= Bool(NAutoDelete);
@@ -2711,7 +2713,7 @@ begin
         DMENU_LIST,
         DMENU_LIST_ALT:
           begin
-            FillChar(Props, SizeOf(Props), 0);
+            Props:= Default(TDlgMenuProps);
             Props.ItemsText:= StrItems;
             Props.Caption:= StrCaption;
             Props.InitialIndex:= NIndex;
@@ -2990,7 +2992,7 @@ begin
       TKeymapHelperMain.UpdateDynamic(categ_OpenedFile);
       TKeymapHelperMain.UpdateDynamic(categ_RecentFile);
 
-      FillChar(Props, SizeOf(Props), 0);
+      Props:= Default(TDlgCommandsProps);
       Props.Caption:= StrTitle;
       Props.ShowUsual:= (NOps and COMMANDS_USUAL)<>0;
       Props.ShowPlugins:= (NOps and COMMANDS_PLUGINS)<>0;

@@ -338,6 +338,7 @@ begin
 
     if SInfo<>'' then
     begin
+      FParamVars:= nil;
       SetLength(FParamVars, Length(AParamVars)+1);
       for i:= 0 to Length(AParamVars)-1 do
         FParamVars[i]:= AParamVars[i];
@@ -358,10 +359,12 @@ begin
     SFunc:= RegexParts[2].Str;
     SInfo:= RegexParts[4].Str;
 
+    FParamObjs:= nil;
     SetLength(FParamObjs, Length(AParamVars));
     for i:= 0 to Length(AParamVars)-1 do
       FParamObjs[i]:= AppVariantToPyObject(AParamVars[i]);
 
+    FParamNames:= nil;
     SetLength(FParamNames, Length(AParamNames));
     for i:= 0 to Length(AParamNames)-1 do
       FParamNames[i]:= AParamNames[i];

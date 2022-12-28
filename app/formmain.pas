@@ -1322,7 +1322,7 @@ begin
        begin
          Result := Windows.DefWindowProc(AHWnd, uMsg, WParam, LParam);
 
-         FillChar(mbi, SizeOf(mbi), 0);
+         FillChar(mbi{%H-}, SizeOf(mbi), 0);
          mbi.cbSize := SizeOf(mbi);
          if not GetMenuBarInfo(AHWnd, OBJID_MENU, 0, @mbi) then
            exit;
@@ -3382,6 +3382,7 @@ var
 begin
   if ACliModule<>'' then
   begin
+    Params:= nil;
     SetLength(Params, Length(ACliParams));
     for i:= 0 to High(ACliParams) do
       Params[i]:= AppVariant(ACliParams[i]);

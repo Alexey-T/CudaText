@@ -13,7 +13,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs,
-  LclType, LclProc, StrUtils,
+  LclType, LclProc,
   ExtCtrls, Buttons,
   ATStringProc,
   ATSynEdit,

@@ -343,6 +343,7 @@ begin
     GetFileOpenOptionsString(100) //open with /passive flag
     );
 
+  Params:= nil;
   SetLength(Params, ParamCount);
   for i:= 1 to Length(Params) do
     Params[i-1]:= ParamStrUTF8(i);

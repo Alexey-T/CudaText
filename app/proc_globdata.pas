@@ -3400,8 +3400,8 @@ var
   bLazy: boolean;
 begin
   AEvents:= [];
-  FillChar(AEventsPrior, SizeOf(AEventsPrior), 0);
-  FillChar(AEventsLazy, SizeOf(AEventsLazy), 0);
+  FillChar(AEventsPrior{%H-}, SizeOf(AEventsPrior), 0);
+  FillChar(AEventsLazy{%H-}, SizeOf(AEventsLazy), 0);
 
   Sep.Init(AEventStr);
   while Sep.GetItemStr(S) do
@@ -3776,6 +3776,7 @@ begin
   WorkDir:= GetCurrentDirUTF8;
 
   N:= ParamCount;
+  AParams:= nil;
   SetLength(AParams, N);
 
   for i:= 1 to N do

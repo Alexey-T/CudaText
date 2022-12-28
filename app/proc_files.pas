@@ -180,7 +180,7 @@ begin
 
   //Init freq table
   TableSize:= 0;
-  FillChar(Table, SizeOf(Table), 0);
+  FillChar(Table{%H-}, SizeOf(Table), 0);
 
   try
     try
