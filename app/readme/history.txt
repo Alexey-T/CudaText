@@ -24,7 +24,8 @@
 + add: lexer Bash: highlight HereDoc-block as one big string (thanks @Flashwalker)
 + add: Wiki topic https://wiki.freepascal.org/CudaText#Dynamic_highlight
 * change: change default of "renderer_tweaks" by including 's'
-* change: delete option "def_encoding_utf8" (made it 'true')
+* change: delete option "def_encoding_utf8"
+- fix: support Hi-DPI in few dialogs (thanks @Vivalzar)
 
 1.180.0 (2022/12)
 
