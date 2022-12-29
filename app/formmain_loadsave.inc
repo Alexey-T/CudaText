@@ -987,6 +987,7 @@ begin
   ATEditorOptions.MaxLineLenForAccurateCharWidths:= Min(1024, cfg.GetValue('max_line_len_for_accurate_width', ATEditorOptions.MaxLineLenForAccurateCharWidths));
   ATEditorOptions.MaxClipboardRecents:= cfg.GetValue('ui_max_history_clipboard', ATEditorOptions.MaxClipboardRecents);
   ATEditorOptions.MinimapColoringTime:= cfg.GetValue('minimap_coloring_time', ATEditorOptions.MinimapColoringTime);
+  ATEditorOptions.SpeedScrollAutoVert:= cfg.GetValue('mouse_scroll_speed_vert', ATEditorOptions.SpeedScrollAutoVert);
 
   ATEditorOptions.UnprintedTabCharLength:= cfg.GetValue('unprinted_tab_len', ATEditorOptions.UnprintedTabCharLength);
   ATEditorOptions.UnprintedReplaceSpec:= cfg.GetValue('unprinted_replace_spec', ATEditorOptions.UnprintedReplaceSpec);
@@ -1014,9 +1015,6 @@ begin
   if s<>'' then
     AppApplyUnprintedSymbolsScale(s);
 
-  ATEditorOptions.SpeedScrollAutoVert:= cfg.GetValue('mouse_scroll_speed_vert',
-    ATEditorOptions.SpeedScrollAutoVert);
-
   s:= cfg.GetValue('auto_copy_clp', '');
   ATEditorOptions.AutoCopyToClipboard:= Pos('c', s)>0;
   ATEditorOptions.AutoCopyToPrimarySel:= Pos('p', s)>0;
@@ -1029,7 +1027,10 @@ begin
   EControlOptions.MaxLinesWhenParserEnablesFolding:= cfg.GetValue('lexer_folding_max_lines',
     EControlOptions.MaxLinesWhenParserEnablesFolding);
 
-  ATFlatTheme.EnableColorBgOver:= cfg.GetValue('ui_button_hover', ATFlatTheme.EnableColorBgOver);
+  ATFlatTheme.EnableColorBgOver:= cfg.GetValue('ui_button_hover',
+    ATFlatTheme.EnableColorBgOver);
+  ATScrollbarTheme.DirectJumpOnClickPageUpDown:= cfg.GetValue('scrollbar_click_jump',
+    ATScrollbarTheme.DirectJumpOnClickPageUpDown);
 
   s:= cfg.GetValue('scrollbar_arrows', '');
   if s<>'' then
@@ -1038,9 +1039,6 @@ begin
   s:= cfg.GetValue('renderer_tweaks'+cOptionSystemSuffix, '?');
   if s<>'?' then
     AppApplyRendererTweaks(s);
-
-  ATScrollbarTheme.DirectJumpOnClickPageUpDown:= cfg.GetValue('scrollbar_click_jump',
-    ATScrollbarTheme.DirectJumpOnClickPageUpDown);
 
   //additional complex options with sub-keys
   List:= TStringList.Create;
