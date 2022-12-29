@@ -775,6 +775,7 @@ procedure AppApplyRendererTweaks(const s: string);
 procedure AppApplyScrollbarStyles(const s: string);
 procedure AppApplyUnprintedSymbolsScale(const s: string);
 procedure AppApplyFallbackEncoding(const s: string);
+procedure AppApplyAutoCopyToClipboard(const s: string);
 
 type
   { TKeymapHelper }
@@ -3905,6 +3906,18 @@ begin
       end;
   end;
 end;
+
+procedure AppApplyAutoCopyToClipboard(const s: string);
+var
+  N: integer;
+begin
+  ATEditorOptions.AutoCopyToClipboard:= Pos('c', s)>0;
+  ATEditorOptions.AutoCopyToPrimarySel:= Pos('p', s)>0;
+  N:= SExtractNumberFromStringAfterChar(s, 'm', 0);
+  if N>=1000 then
+    ATEditorOptions.AutoCopyMaxTextSize:= N;
+end;
+
 
 initialization
 

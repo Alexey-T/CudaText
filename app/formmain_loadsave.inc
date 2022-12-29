@@ -968,7 +968,6 @@ procedure TfmMain.DoOps_LoadOptions_Global(cfg: TJSONConfig);
 var
   List: TStringList;
   s: string;
-  N: integer;
 begin
   Application.{%H-}MainFormOnTaskBar:= cfg.GetValue('ui_taskbar_mode'+cOptionSystemSuffix, Application.{%H-}MainFormOnTaskBar);
 
@@ -1005,12 +1004,9 @@ begin
   if s<>'' then
     AppApplyUnprintedSymbolsScale(s);
 
-  s:= cfg.GetValue('auto_copy_clp', '');
-  ATEditorOptions.AutoCopyToClipboard:= Pos('c', s)>0;
-  ATEditorOptions.AutoCopyToPrimarySel:= Pos('p', s)>0;
-  N:= SExtractNumberFromStringAfterChar(s, 'm', 0);
-  if N>=1000 then
-    ATEditorOptions.AutoCopyMaxTextSize:= N;
+  s:= cfg.GetValue('auto_copy_clp', '?');
+  if s<>'?' then
+    AppApplyAutoCopyToClipboard(s);
 
   EControlOptions.AutoFoldComments:= cfg.GetValue('auto_fold_comments',
     EControlOptions.AutoFoldComments);
