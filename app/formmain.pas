@@ -66,7 +66,6 @@ uses
   ATSynEdit_LineParts,
   ATSynEdit_Adapter_EControl,
   ATSynEdit_Adapter_LiteLexer,
-  ATSynEdit_CharSizer,
   ATSynEdit_Export_HTML,
   ATSynEdit_Edits,
   ATSynEdit_Cmp_Form,
@@ -758,7 +757,6 @@ type
       const AText: string; var AHandled: boolean);
     procedure DisablePluginMenuItems(AddFindLibraryItem: boolean);
     procedure DoLocalizeTabTitles;
-    procedure DoApplyRendererTweaks(const s: string);
     procedure DoApplyCli(const ACliModule: string; const ACliParams: TAppStringArray);
     procedure DoApplyNewdocLexer(F: TEditorFrame);
     procedure DoApplyCenteringOption;
@@ -1227,7 +1225,6 @@ uses
   EmmetHelper,
   TreeHelpers_Base,
   TreeHelpers_Proc,
-  ATSynEdit_CharSizeArray,
   ATStringProc_HtmlColor;
 
 {$R *.lfm}
