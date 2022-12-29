@@ -965,6 +965,8 @@ begin
 end;
 
 procedure TfmMain.DoOps_LoadOptions_Global(cfg: TJSONConfig);
+const
+  cMaxScale = 500;
 var
   List: TStringList;
   s: string;
@@ -973,11 +975,11 @@ begin
   Application.{%H-}MainFormOnTaskBar:= cfg.GetValue('ui_taskbar_mode'+cOptionSystemSuffix, Application.{%H-}MainFormOnTaskBar);
 
   N:= cfg.GetValue('ui_scale'+cOptionSystemSuffix, -1);
-  if N>=0 then
+  if (N>=0) and (N<=cMaxScale) then
     ATEditorScalePercents:= N;
 
   N:= cfg.GetValue('ui_scale_font'+cOptionSystemSuffix, -1);
-  if N>=0 then
+  if (N>=0) and (N<=cMaxScale) then
   begin
     ATEditorScaleFontPercents:= N;
     if ATEditorScalePercents=0 then
