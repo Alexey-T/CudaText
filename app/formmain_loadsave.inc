@@ -976,15 +976,15 @@ begin
 
   N:= cfg.GetValue('ui_scale'+cOptionSystemSuffix, -1);
   if (N>=0) and (N<=cMaxScale) then
-    ATEditorScalePercents:= N;
-
-  N:= cfg.GetValue('ui_scale_font'+cOptionSystemSuffix, -1);
-  if (N>=0) and (N<=cMaxScale) then
   begin
-    ATEditorScaleFontPercents:= N;
+    ATEditorScalePercents:= N;
     if ATEditorScalePercents=0 then
       ATEditorScalePercents:= Max(100, 100*Screen.PixelsPerInch div 96); //some Linux'es return PixelsPerInch=91
   end;
+
+  N:= cfg.GetValue('ui_scale_font'+cOptionSystemSuffix, -1);
+  if (N>=0) and (N<=cMaxScale) then
+    ATEditorScaleFontPercents:= N;
 
   ATEditorOptions.CharSizeProportional:= cfg.GetValue('unicode_proportional', ATEditorOptions.CharSizeProportional);
   ATEditorOptions.CharScaleFullWidth:= cfg.GetValue('unicode_full_width', ATEditorOptions.CharScaleFullWidth);
