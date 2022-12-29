@@ -3928,6 +3928,18 @@ initialization
   AppStatusbarMessages.TextLineBreakStyle:= tlbsLF;
   AppStatusbarMessages.TrailingLineBreak:= false;
 
+  AppApplyRendererTweaks(
+    {$if defined(darwin) or defined(LCLQt5) or defined(LCLQt6)}
+    's'
+    {$else}
+      {$ifdef windows}
+      'wos'
+      {$else}
+      'ws'
+      {$endif}
+    {$endif}
+    );
+
 finalization
 
   FreeAndNil(AppManagerThread);

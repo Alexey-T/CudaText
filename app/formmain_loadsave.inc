@@ -1050,17 +1050,9 @@ begin
         ATScrollbarTheme.ArrowStyleV:= TATScrollbarArrowsStyle(N);
   end;
 
-  s:= cfg.GetValue('renderer_tweaks'+cOptionSystemSuffix,
-    {$if defined(darwin) or defined(LCLQt5) or defined(LCLQt6)}
-    's'
-    {$else}
-      {$ifdef windows}
-      'wos'
-      {$else}
-      'ws'
-      {$endif}
-    {$endif} );
-  AppApplyRendererTweaks(s);
+  s:= cfg.GetValue('renderer_tweaks'+cOptionSystemSuffix, '?');
+  if s<>'?' then
+    AppApplyRendererTweaks(s);
 
   ATScrollbarTheme.DirectJumpOnClickPageUpDown:= cfg.GetValue('scrollbar_click_jump',
     ATScrollbarTheme.DirectJumpOnClickPageUpDown);
