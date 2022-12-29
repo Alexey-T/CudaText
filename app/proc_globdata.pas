@@ -765,11 +765,14 @@ function AppListboxItemHeight(AScale, ADoubleHeight: boolean): integer;
 procedure AppGetFileProps(const FileName: string; out P: TAppFileProps);
 procedure AppUpdateWatcherFrames(AMaxWorkTime: integer = 500);
 procedure AppStopListTimers;
-procedure AppApplyRendererTweaks(const s: string);
 
 procedure FixFormPositionToDesktop(F: TForm);
 procedure FixRectPositionToDesktop(var F: TRect);
 function IsColorDark(C: TColor): boolean;
+
+procedure AppApplyRendererTweaks(const s: string);
+procedure AppApplyScrollbarStyles(const s: string);
+procedure AppApplyUnprintedSymbolsScale(const s: string);
 
 type
   { TKeymapHelper }
@@ -3858,6 +3861,32 @@ begin
   FixedSizes[$3000]:= cHexShow[bValue];
 end;
 
+procedure AppApplyScrollbarStyles(const s: string);
+var
+  Sep: TATStringSeparator;
+  N: integer;
+begin
+  Sep.Init(s);
+  if Sep.GetItemInt(N, -1) then
+    if (N>=0) and (N<=Ord(High(TATScrollbarArrowsStyle))) then
+      ATScrollbarTheme.ArrowStyleH:= TATScrollbarArrowsStyle(N);
+  if Sep.GetItemInt(N, -1) then
+    if (N>=0) and (N<=Ord(High(TATScrollbarArrowsStyle))) then
+      ATScrollbarTheme.ArrowStyleV:= TATScrollbarArrowsStyle(N);
+end;
+
+procedure AppApplyUnprintedSymbolsScale(const s: string);
+var
+  Sep: TATStringSeparator;
+begin
+  Sep.Init(s);
+  Sep.GetItemInt(ATEditorOptions.UnprintedSpaceDotScale, ATEditorOptions.UnprintedSpaceDotScale, 1, 100);
+  Sep.GetItemInt(ATEditorOptions.UnprintedEndDotScale, ATEditorOptions.UnprintedEndDotScale, 1, 100);
+  Sep.GetItemInt(ATEditorOptions.UnprintedEndFontScale, ATEditorOptions.UnprintedEndFontScale * 10 div 6, 5, 100);
+  ATEditorOptions.UnprintedPilcrowScale:= ATEditorOptions.UnprintedEndFontScale;
+  ATEditorOptions.UnprintedEndFontScale:= ATEditorOptions.UnprintedEndFontScale * 6 div 10;
+  Sep.GetItemInt(ATEditorOptions.UnprintedTabPointerScale, ATEditorOptions.UnprintedTabPointerScale, 0, 100);
+end;
 
 initialization
 

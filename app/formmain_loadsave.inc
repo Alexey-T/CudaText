@@ -966,7 +966,6 @@ end;
 
 procedure TfmMain.DoOps_LoadOptions_Global(cfg: TJSONConfig);
 var
-  Sep: TATStringSeparator;
   List: TStringList;
   s: string;
   N: integer;
@@ -1013,17 +1012,10 @@ begin
 
   s:= cfg.GetValue('unprinted_symbols_scale', '');
   if s<>'' then
-  begin
-    Sep.Init(s);
-    Sep.GetItemInt(ATEditorOptions.UnprintedSpaceDotScale, ATEditorOptions.UnprintedSpaceDotScale, 1, 100);
-    Sep.GetItemInt(ATEditorOptions.UnprintedEndDotScale, ATEditorOptions.UnprintedEndDotScale, 1, 100);
-    Sep.GetItemInt(ATEditorOptions.UnprintedEndFontScale, ATEditorOptions.UnprintedEndFontScale * 10 div 6, 5, 100);
-    ATEditorOptions.UnprintedPilcrowScale:= ATEditorOptions.UnprintedEndFontScale;
-    ATEditorOptions.UnprintedEndFontScale:= ATEditorOptions.UnprintedEndFontScale * 6 div 10;
-    Sep.GetItemInt(ATEditorOptions.UnprintedTabPointerScale, ATEditorOptions.UnprintedTabPointerScale, 0, 100);
-  end;
+    AppApplyUnprintedSymbolsScale(s);
 
-  ATEditorOptions.SpeedScrollAutoVert:= cfg.GetValue('mouse_scroll_speed_vert', ATEditorOptions.SpeedScrollAutoVert);
+  ATEditorOptions.SpeedScrollAutoVert:= cfg.GetValue('mouse_scroll_speed_vert',
+    ATEditorOptions.SpeedScrollAutoVert);
 
   s:= cfg.GetValue('auto_copy_clp', '');
   ATEditorOptions.AutoCopyToClipboard:= Pos('c', s)>0;
@@ -1032,7 +1024,8 @@ begin
   if N>=1000 then
     ATEditorOptions.AutoCopyMaxTextSize:= N;
 
-  EControlOptions.AutoFoldComments:= cfg.GetValue('auto_fold_comments', EControlOptions.AutoFoldComments);
+  EControlOptions.AutoFoldComments:= cfg.GetValue('auto_fold_comments',
+    EControlOptions.AutoFoldComments);
   EControlOptions.MaxLinesWhenParserEnablesFolding:= cfg.GetValue('lexer_folding_max_lines',
     EControlOptions.MaxLinesWhenParserEnablesFolding);
 
@@ -1040,15 +1033,7 @@ begin
 
   s:= cfg.GetValue('scrollbar_arrows', '');
   if s<>'' then
-  begin
-    Sep.Init(s);
-    if Sep.GetItemInt(N, -1) then
-      if (N>=0) and (N<=Ord(High(TATScrollbarArrowsStyle))) then
-        ATScrollbarTheme.ArrowStyleH:= TATScrollbarArrowsStyle(N);
-    if Sep.GetItemInt(N, -1) then
-      if (N>=0) and (N<=Ord(High(TATScrollbarArrowsStyle))) then
-        ATScrollbarTheme.ArrowStyleV:= TATScrollbarArrowsStyle(N);
-  end;
+    AppApplyScrollbarStyles(s);
 
   s:= cfg.GetValue('renderer_tweaks'+cOptionSystemSuffix, '?');
   if s<>'?' then
