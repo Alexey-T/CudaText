@@ -991,8 +991,9 @@ begin
 
   ATEditorOptions.UnprintedTabCharLength:= cfg.GetValue('unprinted_tab_len', ATEditorOptions.UnprintedTabCharLength);
   ATEditorOptions.UnprintedReplaceSpec:= cfg.GetValue('unprinted_replace_spec', ATEditorOptions.UnprintedReplaceSpec);
-  s:= cfg.GetValue('unprinted_replace_to_code', 'A4');
-  ATEditorOptions.UnprintedReplaceSpecToCode:= StrToIntDef('$'+s, ATEditorOptions.UnprintedReplaceSpecToCode);
+  s:= cfg.GetValue('unprinted_replace_to_code', '');
+  if s<>'' then
+    ATEditorOptions.UnprintedReplaceSpecToCode:= StrToIntDef('$'+s, ATEditorOptions.UnprintedReplaceSpecToCode);
 
   UiOps.MaxLineLenForEditingKeepingLexer:= cfg.GetValue('max_line_len_for_editing_keeping_lexer', UiOps.MaxLineLenForEditingKeepingLexer);
 
