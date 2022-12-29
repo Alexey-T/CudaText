@@ -20,14 +20,15 @@ uses
   Classes, SysUtils, Forms, Controls, Menus, ExtCtrls,
   Dialogs, Graphics,
   StrUtils,
+  Math,
   syncobjs,
   gqueue,
-  Math,
   InterfaceBase,
   LclProc, LclType, LazFileUtils,
   FileUtil,
   IniFiles,
   Process,
+  EncConv,
   ATSynEdit,
   ATSynEdit_Globals,
   ATSynEdit_Keymap,
@@ -773,6 +774,7 @@ function IsColorDark(C: TColor): boolean;
 procedure AppApplyRendererTweaks(const s: string);
 procedure AppApplyScrollbarStyles(const s: string);
 procedure AppApplyUnprintedSymbolsScale(const s: string);
+procedure AppApplyFallbackEncoding(const s: string);
 
 type
   { TKeymapHelper }
@@ -3886,6 +3888,22 @@ begin
   ATEditorOptions.UnprintedPilcrowScale:= ATEditorOptions.UnprintedEndFontScale;
   ATEditorOptions.UnprintedEndFontScale:= ATEditorOptions.UnprintedEndFontScale * 6 div 10;
   Sep.GetItemInt(ATEditorOptions.UnprintedTabPointerScale, ATEditorOptions.UnprintedTabPointerScale, 0, 100);
+end;
+
+procedure AppApplyFallbackEncoding(const s: string);
+begin
+  case s of
+    'ansi':
+      ATEditorOptions.FallbackEncoding:= EncConvGetANSI;
+    'oem':
+      ATEditorOptions.FallbackEncoding:= EncConvGetOEM;
+    else
+      begin
+        ATEditorOptions.FallbackEncoding:= EncConvFindEncoding(s, eidCP1252);
+        if ATEditorOptions.FallbackEncoding<=eidLastUnicode then
+          ATEditorOptions.FallbackEncoding:= eidCP1252;
+      end;
+  end;
 end;
 
 initialization

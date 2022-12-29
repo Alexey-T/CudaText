@@ -999,18 +999,7 @@ begin
 
   s:= cfg.GetValue('fallback_encoding', '');
   if s<>'' then
-    case s of
-      'ansi':
-        ATEditorOptions.FallbackEncoding:= EncConvGetANSI;
-      'oem':
-        ATEditorOptions.FallbackEncoding:= EncConvGetOEM;
-      else
-        begin
-          ATEditorOptions.FallbackEncoding:= EncConvFindEncoding(s, eidCP1252);
-          if ATEditorOptions.FallbackEncoding<=eidLastUnicode then
-            ATEditorOptions.FallbackEncoding:= eidCP1252;
-        end;
-    end;
+    AppApplyFallbackEncoding(s);
 
   s:= cfg.GetValue('unprinted_symbols_scale', '');
   if s<>'' then
