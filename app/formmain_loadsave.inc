@@ -968,13 +968,21 @@ procedure TfmMain.DoOps_LoadOptions_Global(cfg: TJSONConfig);
 var
   List: TStringList;
   s: string;
+  N: integer;
 begin
   Application.{%H-}MainFormOnTaskBar:= cfg.GetValue('ui_taskbar_mode'+cOptionSystemSuffix, Application.{%H-}MainFormOnTaskBar);
 
-  ATEditorScalePercents:= cfg.GetValue('ui_scale'+cOptionSystemSuffix, 0);
-  ATEditorScaleFontPercents:= cfg.GetValue('ui_scale_font'+cOptionSystemSuffix, 100);
-  if ATEditorScalePercents=0 then
-    ATEditorScalePercents:= Max(100, 100*Screen.PixelsPerInch div 96); //some Linux'es return PixelsPerInch=91
+  N:= cfg.GetValue('ui_scale'+cOptionSystemSuffix, -1);
+  if N>=0 then
+    ATEditorScalePercents:= N;
+
+  N:= cfg.GetValue('ui_scale_font'+cOptionSystemSuffix, -1);
+  if N>=0 then
+  begin
+    ATEditorScaleFontPercents:= N;
+    if ATEditorScalePercents=0 then
+      ATEditorScalePercents:= Max(100, 100*Screen.PixelsPerInch div 96); //some Linux'es return PixelsPerInch=91
+  end;
 
   ATEditorOptions.CharSizeProportional:= cfg.GetValue('unicode_proportional', ATEditorOptions.CharSizeProportional);
   ATEditorOptions.CharScaleFullWidth:= cfg.GetValue('unicode_full_width', ATEditorOptions.CharScaleFullWidth);
