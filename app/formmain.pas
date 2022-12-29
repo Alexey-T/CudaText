@@ -2736,6 +2736,9 @@ procedure TfmMain.FormCreate(Sender: TObject);
 begin
   UpdateMenuTheming_WhiteLine;
 
+  //default "ui_scale":0 must be converted to Screen's DPI
+  ATEditorScalePercents:= Max(100, 100*Screen.PixelsPerInch div 96);
+
   OnEnter:= @FormEnter;
   TimerCmd.Interval:= UiOps.CommandTimerInterval;
   mnuHelpCheckUpd.Enabled:= UiOps.AllowProgramUpdates;

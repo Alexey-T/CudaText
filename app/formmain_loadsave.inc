@@ -1724,4 +1724,3 @@ begin
     SetShowDistractionFree_Forced;
 end;
 
-
