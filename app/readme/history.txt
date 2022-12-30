@@ -26,8 +26,7 @@
 * change: change default of "renderer_tweaks" by including 's'
 * change: delete option "def_encoding_utf8"
 - fix: support Hi-DPI in few dialogs (thanks @Vivalzar)
-- fix: command "column select: down" has bug if called on last line (thanks @veksha)
-- fix: rendering issue of micromap (thanks @veksha)
+- fix: command "column select: down" bug when caret exists on last line (thanks @veksha)
 
 1.180.0 (2022/12)
 
