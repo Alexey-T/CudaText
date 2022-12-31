@@ -893,9 +893,6 @@ Possible encoding names for command-line usage:
 * big5
 * gb18030
 * gb2312
-* gb2312-hz
-* iso-2022-chs
-* iso-2022-cht
 * euc-jp
 * euc-kr
 * euc-tw
