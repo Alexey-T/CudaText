@@ -836,7 +836,7 @@ type
   end;
 
 const
-  AppEncodings: array[0..58] of TAppEncodingRecord = (
+  AppEncodings: array[0..55] of TAppEncodingRecord = (
     (Sub: ''; Name: cEncNameUtf8_NoBom; ShortName: 'utf8'),
     (Sub: ''; Name: cEncNameUtf8_WithBom; ShortName: 'utf8_bom'),
     (Sub: ''; Name: cEncNameUtf16LE_NoBom; ShortName: 'utf16le'),
@@ -889,9 +889,9 @@ const
     (Sub: 'as'; Name: 'big5'; ShortName: 'big5'),
     (Sub: 'as'; Name: 'gb18030'; ShortName: 'gb18030'),
     (Sub: 'as'; Name: 'gb2312'; ShortName: 'gb2312'),
-    (Sub: 'as'; Name: 'gb2312-hz'; ShortName: 'gb2312-hz'),
-    (Sub: 'as'; Name: 'iso-2022-chs'; ShortName: 'iso-2022-chs'),
-    (Sub: 'as'; Name: 'iso-2022-cht'; ShortName: 'iso-2022-cht'),
+    //(Sub: 'as'; Name: 'gb2312-hz'; ShortName: 'gb2312-hz'),
+    //(Sub: 'as'; Name: 'iso-2022-chs'; ShortName: 'iso-2022-chs'),
+    //(Sub: 'as'; Name: 'iso-2022-cht'; ShortName: 'iso-2022-cht'),
     (Sub: 'as'; Name: 'euc-jp'; ShortName: 'euc-jp'),
     (Sub: 'as'; Name: 'euc-kr'; ShortName: 'euc-kr'),
     (Sub: 'as'; Name: 'euc-tw'; ShortName: 'euc-tw'),

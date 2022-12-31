@@ -9,9 +9,6 @@
   + add: encoding cns
   + add: encoding gb18030
   + add: encoding gb2312
-  + add: encoding gb2312-hz
-  + add: encoding iso-2022-chs
-  + add: encoding iso-2022-cht
   + add: encoding euc-jp
   + add: encoding euc-kr
   + add: encoding euc-tw
