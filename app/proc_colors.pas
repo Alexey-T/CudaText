@@ -333,11 +333,11 @@ const
 
 procedure AppThemeInit_UI(var D: TAppTheme);
   //
-  procedure SetColor(id: TAppThemeColorId; color: TColor; const name, desc: string); inline;
+  procedure SetColor(AId: TAppThemeColorId; AColor: TColor; const AName, ADesc: string); inline;
   begin
-    D.Colors[id].color:= color;
-    D.Colors[id].name:= name;
-    D.Colors[id].desc:= desc;
+    D.Colors[AId].color:= AColor;
+    D.Colors[AId].name:= AName;
+    D.Colors[AId].desc:= ADesc;
   end;
   //
 begin
@@ -458,31 +458,31 @@ end;
 
 procedure AppThemeInit_Syntax(var D: TAppTheme);
   //
-  procedure SetStyle(id: TAppThemeStyleId; const SName: string;
-    NColorFont, NColorBg, NColorBorder: TColor;
-    NFontStyle: TFontStyles;
-    NBorderLeft, NBorderRight, NBorderUp, NBorderDown: TecBorderLineType;
-    NFormatType: TecFormatType);
+  procedure SetStyle(AId: TAppThemeStyleId; const AName: string;
+    AColorFont, AColorBg, AColorBorder: TColor;
+    AFontStyle: TFontStyles;
+    ABorderLeft, ABorderRight, ABorderUp, ABorderDown: TecBorderLineType;
+    AFormatType: TecFormatType);
   var
     st: TecSyntaxFormat;
   begin
-    if D.Styles[id]=nil then
-      D.Styles[id]:= TecSyntaxFormat.Create(nil);
-    st:= D.Styles[id];
+    if D.Styles[AId]=nil then
+      D.Styles[AId]:= TecSyntaxFormat.Create(nil);
+    st:= D.Styles[AId];
 
-    st.DisplayName:= SName;
-    st.Font.Color:= NColorFont;
-    st.Font.Style:= NFontStyle;
-    st.BgColor:= NColorBg;
-    st.BorderColorLeft:= NColorBorder;
-    st.BorderColorRight:= NColorBorder;
-    st.BorderColorTop:= NColorBorder;
-    st.BorderColorBottom:= NColorBorder;
-    st.BorderTypeLeft:= NBorderLeft;
-    st.BorderTypeRight:= NBorderRight;
-    st.BorderTypeTop:= NBorderUp;
-    st.BorderTypeBottom:= NBorderDown;
-    st.FormatType:= NFormatType;
+    st.DisplayName:= AName;
+    st.Font.Color:= AColorFont;
+    st.Font.Style:= AFontStyle;
+    st.BgColor:= AColorBg;
+    st.BorderColorLeft:= AColorBorder;
+    st.BorderColorRight:= AColorBorder;
+    st.BorderColorTop:= AColorBorder;
+    st.BorderColorBottom:= AColorBorder;
+    st.BorderTypeLeft:= ABorderLeft;
+    st.BorderTypeRight:= ABorderRight;
+    st.BorderTypeTop:= ABorderUp;
+    st.BorderTypeBottom:= ABorderDown;
+    st.FormatType:= AFormatType;
   end;
   //
 begin
