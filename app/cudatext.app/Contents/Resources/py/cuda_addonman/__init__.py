@@ -359,7 +359,7 @@ class Command:
                     names.append((get_name_of_module(m)+_(': view history'), fn))
 
                 if names:
-                    res = dlg_menu(DMENU_LIST, [s[0] for s in names])
+                    res = dlg_menu(DMENU_LIST, [s[0] for s in names], caption=_('Readme'))
                     if res is None: return
                     file_open(names[res][1])
 
