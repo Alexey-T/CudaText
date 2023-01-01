@@ -24,6 +24,7 @@
 * change: change default of "renderer_tweaks" by including 's'
 * change: delete option "def_encoding_utf8"
 - fix: command "column select: down" bug when caret exists on last line (thanks @veksha)
+- fix: cannot delete selected line-break at the file end (thanks @adoeller)
 
 1.180.0 (2022/12)
 
