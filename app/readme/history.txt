@@ -21,6 +21,7 @@
 + add: lexer Bash: highlight HereDoc-block as one big token (thanks @Flashwalker)
 + add: support Hi-DPI in few dialogs (thanks @Vivalzar)
 + add: Project Manager: added command "Show+focus Project panel"
++ add: better select whole words by mouse, after double click, now like Sublime Text (thanks @adoeller)
 * change: change default of "renderer_tweaks" by including 's'
 * change: delete option "def_encoding_utf8"
 - fix: command "column select: down" bug when caret exists on last line (thanks @veksha)
