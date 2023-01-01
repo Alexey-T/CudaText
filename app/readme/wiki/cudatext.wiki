@@ -891,11 +891,8 @@ Possible encoding names for command-line usage:
 * gbk
 * uhc
 * big5
-* gb18030
 * gb2312
-* euc-jp
 * euc-kr
-* euc-tw
 * iso-8859-1
 * iso-8859-2
 * iso-8859-3

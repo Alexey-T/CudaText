@@ -7,11 +7,8 @@
 
 + add: support more encodings, but note: they require OS support (unlike old encodings):
   + add: encoding cns
-  + add: encoding gb18030
   + add: encoding gb2312
-  + add: encoding euc-jp
   + add: encoding euc-kr
-  + add: encoding euc-tw
 * change: rename some encodings to pretty names: big5, gbk, shift-jis, uhc (old names 'cpNNN' still work when loading old sessions)
 
 + add: option "fallback_encoding" (thanks @kenifanying)
