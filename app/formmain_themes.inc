@@ -281,8 +281,10 @@ begin
   bChangeUi:= AThemeUi<>'?';
   bChangeSyntax:= AThemeSyntax<>'?';
 
-  if (AThemeUi='') or (AThemeSyntax='') then
-    AppThemeInit(AppTheme); //resets UI+Syntax
+  if AThemeUi='' then
+    AppThemeInit_UI(AppTheme);
+  if AThemeSyntax='' then
+    AppThemeInit_Syntax(AppTheme);
 
   if bChangeUi then
   begin

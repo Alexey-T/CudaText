@@ -223,7 +223,8 @@ var
   AppTheme: TAppTheme;
   AppHiAll_ThemeStyleId: TAppThemeStyleId = apstSeparLine;
 
-procedure AppThemeInit(var D: TAppTheme);
+procedure AppThemeInit_UI(var D: TAppTheme);
+procedure AppThemeInit_Syntax(var D: TAppTheme);
 procedure AppThemeFree(var D: TAppTheme);
 procedure AppThemeLoadFromFile(const AFileName: string; var D: TAppTheme; IsThemeUI: boolean);
 procedure AppThemeSaveToFile(const AFileName: string; const D: TAppTheme; IsThemeUI: boolean);
@@ -318,43 +319,6 @@ begin
   end;
 end;
 
-
-procedure AppThemeInit(var D: TAppTheme);
-  //
-  procedure SetColor(id: TAppThemeColorId; color: TColor; const name, desc: string); inline;
-  begin
-    D.Colors[id].color:= color;
-    D.Colors[id].name:= name;
-    D.Colors[id].desc:= desc;
-  end;
-  //
-  procedure SetStyle(id: TAppThemeStyleId; const SName: string;
-    NColorFont, NColorBg, NColorBorder: TColor;
-    NFontStyle: TFontStyles;
-    NBorderLeft, NBorderRight, NBorderUp, NBorderDown: TecBorderLineType;
-    NFormatType: TecFormatType);
-  var
-    st: TecSyntaxFormat;
-  begin
-    if D.Styles[id]=nil then
-      D.Styles[id]:= TecSyntaxFormat.Create(nil);
-    st:= D.Styles[id];
-
-    st.DisplayName:= SName;
-    st.Font.Color:= NColorFont;
-    st.Font.Style:= NFontStyle;
-    st.BgColor:= NColorBg;
-    st.BorderColorLeft:= NColorBorder;
-    st.BorderColorRight:= NColorBorder;
-    st.BorderColorTop:= NColorBorder;
-    st.BorderColorBottom:= NColorBorder;
-    st.BorderTypeLeft:= NBorderLeft;
-    st.BorderTypeRight:= NBorderRight;
-    st.BorderTypeTop:= NBorderUp;
-    st.BorderTypeBottom:= NBorderDown;
-    st.FormatType:= NFormatType;
-  end;
-  //
 const
   nColorText = $202020;
   nColorBack = $e4e4e4;
@@ -366,8 +330,17 @@ const
   nColorListBack = $c4b8b8;
   nColorListSelBack = $d0d0d0;
   nColorListSelBack2 = $f4f4f4;
+
+procedure AppThemeInit_UI(var D: TAppTheme);
+  //
+  procedure SetColor(id: TAppThemeColorId; color: TColor; const name, desc: string); inline;
+  begin
+    D.Colors[id].color:= color;
+    D.Colors[id].name:= name;
+    D.Colors[id].desc:= desc;
+  end;
+  //
 begin
-  //init colors
   SetColor(apclEdTextFont, nColorText, 'EdTextFont', 'editor, font');
   SetColor(apclEdTextBg, nColorBack, 'EdTextBg', 'editor, BG');
   SetColor(apclEdSelFont, $e0e0e0, 'EdSelFont', 'editor, selection, font');
@@ -481,9 +454,38 @@ begin
   SetColor(apclSplitGroups, $d8d8d8, 'SplitGroups', 'splitters, groups');
   SetColor(apclExportHtmlBg, clWhite, 'ExportHtmlBg', 'export to html, BG');
   SetColor(apclExportHtmlNumbers, clMedGray, 'ExportHtmlNumbers', 'export to html, line numbers');
+end;
 
-  //--------------
-  //init styles
+procedure AppThemeInit_Syntax(var D: TAppTheme);
+  //
+  procedure SetStyle(id: TAppThemeStyleId; const SName: string;
+    NColorFont, NColorBg, NColorBorder: TColor;
+    NFontStyle: TFontStyles;
+    NBorderLeft, NBorderRight, NBorderUp, NBorderDown: TecBorderLineType;
+    NFormatType: TecFormatType);
+  var
+    st: TecSyntaxFormat;
+  begin
+    if D.Styles[id]=nil then
+      D.Styles[id]:= TecSyntaxFormat.Create(nil);
+    st:= D.Styles[id];
+
+    st.DisplayName:= SName;
+    st.Font.Color:= NColorFont;
+    st.Font.Style:= NFontStyle;
+    st.BgColor:= NColorBg;
+    st.BorderColorLeft:= NColorBorder;
+    st.BorderColorRight:= NColorBorder;
+    st.BorderColorTop:= NColorBorder;
+    st.BorderColorBottom:= NColorBorder;
+    st.BorderTypeLeft:= NBorderLeft;
+    st.BorderTypeRight:= NBorderRight;
+    st.BorderTypeTop:= NBorderUp;
+    st.BorderTypeBottom:= NBorderDown;
+    st.FormatType:= NFormatType;
+  end;
+  //
+begin
   SetStyle(apstId, 'Id', nColorText, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
   SetStyle(apstId1, 'Id1', clNavy, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
   SetStyle(apstId2, 'Id2', clPurple, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
@@ -613,7 +615,8 @@ end;
 initialization
 
   FillChar(AppTheme, SizeOf(AppTheme), 0);
-  AppThemeInit(AppTheme);
+  AppThemeInit_UI(AppTheme);
+  AppThemeInit_Syntax(AppTheme);
 
 finalization
 
