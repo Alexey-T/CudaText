@@ -178,6 +178,7 @@ type
     FTabFontColor: TColor;
     FTabPinned: boolean;
     FTabSizeChanged: boolean;
+    FTabSpacesChanged: boolean;
     FTabKeyCollectMarkers: boolean;
     FInSession: boolean;
     FInHistory: boolean;
@@ -416,6 +417,7 @@ type
     property TabExtModified[EdIndex: integer]: boolean read GetTabExtModified write SetTabExtModified;
     property TabExtDeleted[EdIndex: integer]: boolean read GetTabExtDeleted write SetTabExtDeleted;
     property TabSizeChanged: boolean read FTabSizeChanged write FTabSizeChanged;
+    property TabSpacesChanged: boolean read FTabSpacesChanged write FTabSpacesChanged;
     property TabKeyCollectMarkers: boolean read GetTabKeyCollectMarkers write FTabKeyCollectMarkers;
     property InSession: boolean read FInSession write FInSession;
     property InHistory: boolean read FInHistory write FInHistory;

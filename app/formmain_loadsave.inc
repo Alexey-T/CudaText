@@ -1571,6 +1571,10 @@ var
   bExistsDefault, bExistsUser: boolean;
   TempOps: TATEditorTempOptions;
   SNewLoadedConfig: string;
+  PrevTabSize: integer;
+  PrevTabSizeChanged: boolean;
+  PrevTabSpaces: boolean;
+  PrevTabSpacesChanged: boolean;
 begin
   if F=nil then exit;
 
@@ -1590,6 +1594,11 @@ begin
     Ops:= EditorOps;
     EditorSaveTempOptions(Ed, TempOps);
 
+    PrevTabSize:= Ed.OptTabSize;
+    PrevTabSizeChanged:= F.TabSizeChanged;
+    PrevTabSpaces:= Ed.OptTabSpaces;
+    PrevTabSpacesChanged:= F.TabSpacesChanged;
+
     if bExistsDefault then
     begin
       DoOps_LoadOptions(FilenameDefault, Ops, false);
@@ -1602,6 +1611,11 @@ begin
 
     DoApplyFrameOps(F, Ops, true);
     EditorRestoreTempOptions(Ed, TempOps, Ed.InitialOptions);
+
+    if PrevTabSizeChanged then
+      Ed.OptTabSize:= PrevTabSize;
+    if PrevTabSpacesChanged then
+      Ed.OptTabSpaces:= PrevTabSpaces;
   end;
 end;
 

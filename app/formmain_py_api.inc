@@ -4016,10 +4016,18 @@ begin
           Ed.ModeReadOnly:= ValueBool;
 
         PROP_TAB_SPACES:
-          Ed.OptTabSpaces:= ValueBool;
+          begin
+            Ed.OptTabSpaces:= ValueBool;
+            if Assigned(F) then
+              F.TabSpacesChanged:= true;
+          end;
 
         PROP_TAB_SIZE:
-          Ed.OptTabSize:= ValueInt;
+          begin
+            Ed.OptTabSize:= ValueInt;
+            if Assigned(F) then
+              F.TabSizeChanged:= true;
+          end;
 
         PROP_MARGIN:
           Ed.OptMarginRight:= ValueInt;
