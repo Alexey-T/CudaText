@@ -25,6 +25,7 @@
 - fix: command "column select: down" bug when caret exists on last line (thanks @veksha)
 - fix: cannot delete selected line-break at the file end (thanks @adoeller)
 - fix: if ui/syntax themes not linked, setting default syntax-theme resets also UI-theme (thanks @adoeller)
+- fix: plugin "Detect Indent" cannot change tab-kind when file is loaded from command line (thanks @adoeller)
 
 1.180.0 (2022/12)
 
