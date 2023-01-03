@@ -880,8 +880,8 @@ type
     procedure DoFileNewMenu_ToolbarClick(Sender: TObject);
     procedure DoFileNewMenu(Sender: TObject; AInvoke: TATEditorCommandInvoke);
     procedure DoFileNewFrom(const fn: string);
-    procedure DoFileSave(Ed: TATSynEdit);
-    procedure DoFileSaveAs(Ed: TATSynEdit);
+    procedure DoFileSave(Frame: TEditorFrame; Ed: TATSynEdit);
+    procedure DoFileSaveAs(Frame: TEditorFrame; Ed: TATSynEdit);
     procedure DoFocusFrame(F: TEditorFrame);
     procedure DoFocusEditor(Ed: TATSynEdit);
     procedure DoSwitchTab(ANext: boolean);
@@ -1034,7 +1034,7 @@ type
     procedure DoFileOpenDialog(const AOptions: string='');
     procedure DoFileOpenDialog_NoPlugins;
     function DoFileSaveAll: boolean;
-    procedure DoFileReopen(Ed: TATSynEdit);
+    procedure DoFileReopen(F: TEditorFrame; Ed: TATSynEdit);
     procedure DoFileReopenRecent;
     procedure DoLoadCommandParams(const AParams: array of string; AOpenOptions: string);
     procedure DoLoadCommandLine;
@@ -5791,14 +5791,12 @@ begin
   end;
 end;
 
-procedure TfmMain.DoFileReopen(Ed: TATSynEdit);
+procedure TfmMain.DoFileReopen(F: TEditorFrame; Ed: TATSynEdit);
 var
-  F: TEditorFrame;
   fn: string;
   bPrevRO, bChangedRO: boolean;
   PrevLexer: string;
 begin
-  F:= TGroupsHelper.GetEditorFrame(Ed);
   if F=nil then exit;
 
   fn:= F.GetFileName(Ed);
@@ -6254,13 +6252,11 @@ begin
   UpdateStatusbar;
 end;
 
-procedure TfmMain.DoFileSave(Ed: TATSynEdit);
+procedure TfmMain.DoFileSave(Frame: TEditorFrame; Ed: TATSynEdit);
 var
-  Frame: TEditorFrame;
   bSaveAs, bUntitled, bFileExists: boolean;
   SFilename: string;
 begin
-  Frame:= TGroupsHelper.GetEditorFrame(Ed);
   if Frame=nil then exit;
 
   InitSaveDlg;
@@ -6284,11 +6280,8 @@ begin
     MsgStatus(msgStatusSaveIsIgnored);
 end;
 
-procedure TfmMain.DoFileSaveAs(Ed: TATSynEdit);
-var
-  Frame: TEditorFrame;
+procedure TfmMain.DoFileSaveAs(Frame: TEditorFrame; Ed: TATSynEdit);
 begin
-  Frame:= TGroupsHelper.GetEditorFrame(Ed);
   if Frame=nil then exit;
 
   InitSaveDlg;

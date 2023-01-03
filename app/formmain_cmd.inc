@@ -122,13 +122,13 @@ begin
       DoFileOpenDialog_NoPlugins;
 
     cmd_FileReopen:
-      DoFileReopen(Ed);
+      DoFileReopen(Frame, Ed);
 
     cmd_FileSave:
-      DoFileSave(Ed);
+      DoFileSave(Frame, Ed);
 
     cmd_FileSaveAs:
-      DoFileSaveAs(Ed);
+      DoFileSaveAs(Frame, Ed);
 
     cmd_FileSaveAll:
       DoFileSaveAll;
