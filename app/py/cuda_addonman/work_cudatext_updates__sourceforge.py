@@ -8,7 +8,7 @@ from cudax_lib import get_translation, safe_open_url
 _   = get_translation(__file__)  # i18n
 
 info = app.app_proc(app.PROC_GET_COMPILER_INFO, '')
-TEXT_OS = info['os'].replace('win32', 'windows').replace('win64', 'windows')
+TEXT_OS = info['os'].replace('win32', 'windows').replace('win64', 'windows').replace('darwin', 'macos')
 TEXT_CPU = info['cpu'].replace('x86_64', 'amd64')
 TEXT_WS = info['widgetset']
 
