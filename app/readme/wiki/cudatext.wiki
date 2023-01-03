@@ -1174,7 +1174,7 @@ Output and Validate panels are embedded in the bottom panel, they can be shown b
 * Plugin "External Tools" highlights the resulting lines in the Output panel, by setting the RegEx from the user tool's properties.
 * Plugin "HTML Tidy" uses Validate panel and sets RegEx for HTML Tidy resulting lines.
 
-Double-click is reserved in the Output/Validate panels - it is busy here for navigation from the clicked position to the source code. For example, "External Tools" plugin performs this navigation when you double-click the highlighted lines from external tools. 
+Double-click is reserved in the Output/Validate panels - it is busy here for navigation from the clicked position to the source code. For example, "External Tools" plugin tries to perform this navigation when you double-click lines (even not highlighted lines).
 
 These panels have hotkeys:
 
