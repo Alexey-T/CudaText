@@ -1161,6 +1161,9 @@ begin
   edFind.OptMouseMiddleClickAction:= TATEditorMiddleClickAction(EditorOps.OpMouseMiddleClickAction);
   edRep.OptMouseMiddleClickAction:= TATEditorMiddleClickAction(EditorOps.OpMouseMiddleClickAction);
 
+  edFind.OptPasteWithEolAtLineStart:= EditorOps.OpPasteWithEolAtLineStart;
+  edRep.OptPasteWithEolAtLineStart:= EditorOps.OpPasteWithEolAtLineStart;
+
   EditorCaretShapeFromString(edFind.CaretShapeNormal, EditorOps.OpCaretViewNormal);
   EditorCaretShapeFromString(edFind.CaretShapeOverwrite, EditorOps.OpCaretViewOverwrite);
   EditorCaretShapeFromString(edRep.CaretShapeNormal, EditorOps.OpCaretViewNormal);
