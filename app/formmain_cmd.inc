@@ -139,7 +139,7 @@ begin
     cmd_FileExportHtml:
       begin
         if Assigned(Frame) then
-          DoFileExportHtml(Frame);
+          DoFileExportHtml(Frame, Ed);
       end;
 
     cmd_FileReopenRecent:

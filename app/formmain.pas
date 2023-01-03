@@ -873,7 +873,7 @@ type
     function DoDialogMenuApi(const AProps: TDlgMenuProps): integer;
     procedure DoDialogMenuTranslations;
     procedure DoDialogMenuThemes;
-    procedure DoFileExportHtml(F: TEditorFrame);
+    procedure DoFileExportHtml(F: TEditorFrame; Ed: TATSynEdit);
     function DoFileInstallZip(const fn: string; out DirTarget: string; ASilent: boolean): boolean;
     procedure DoFileCloseAndDelete(Ed: TATSynEdit);
     procedure DoFileNew;
@@ -6766,15 +6766,12 @@ begin
   CodeTree.Tree.FullExpand;
 end;
 
-procedure TfmMain.DoFileExportHtml(F: TEditorFrame);
+procedure TfmMain.DoFileExportHtml(F: TEditorFrame; Ed: TATSynEdit);
 var
-  Ed: TATSynEdit;
   Dlg: TSaveDialog;
   SFileName, STitle: string;
   NX, NY: integer;
 begin
-  Ed:= F.Editor;
-
   STitle:= ExtractFileName(F.GetFileName(Ed));
   if STitle='' then
     STitle:= msgUntitledTab;
