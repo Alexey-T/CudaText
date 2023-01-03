@@ -1169,16 +1169,21 @@ Modifiers affect only element after them, element is:
 
 =Output/Validate panels=
 
-These lists allow to highlight (e.g. in blue) lines which match some regex. This regex is set by plugin which uses these panels. E.g. plugin HTML Tidy uses panel Validate and sets regex for Tidy result lines. If a line matches regex and highlighted, dbl-click on line navigates to source file.
+Output and Validate panels are embedded in the bottom panel, they can be shown by clicking their icons in the lower part of the sidebar. These panels allow to highlight (e.g. in blue) lines which match some RegEx. RegEx must be set by plugins which need that.
+
+* Plugin "External Tools" highlights the resulting lines in the Output panel, by setting the RegEx from the user tool's properties.
+* Plugin "HTML Tidy" uses Validate panel and sets RegEx for HTML Tidy resulting lines.
+
+Double-click is reserved in the Output/Validate panels - it is busy here for navigation from the clicked position to the source code. For example, "External Tools" plugin performs this navigation when you double-click the highlighted lines from external tools. 
 
 These panels have hotkeys:
 
-* Up/Down/PgUp/PgDown/Home/End: move selection in list
-* Enter: navigate to source file, like dbl-click
-* Ctrl+Del: clear entire list
-* Ctrl+C: copy to clipboard entire list
-* Ctrl+D: copy to clipboard selected line
-* Esc: focus editor
+* Up/Down/PgUp/PgDown/Home/End: Move selection in list
+* Enter: Try to navigate to source file, like double-click
+* Esc: Focus the editor
+* Ctrl+Del: Clear the entire list
+* Ctrl+C: Copy to clipboard entire list
+* Ctrl+D: Copy to clipboard selected line
 
 =Dialog Find/Replace=
 
