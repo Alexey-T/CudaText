@@ -1323,7 +1323,9 @@ class Command:
             self.goto_history.remove(fn)
         self.goto_history.insert(0, fn)
 
-        and_open = self.options.get('goto_open', False) or not app_proc(PROC_SHOW_SIDEPANEL_GET, '')
+        and_open = self.options.get('goto_open', False) \
+            or not app_proc(PROC_SHOW_SIDEPANEL_GET, '') \
+            or app_proc(PROC_SIDEPANEL_GET, '')!='Project'
         self.jump_to_filename(fn, and_open)
 
     def jump_to_filename(self, filename, and_open=False):
