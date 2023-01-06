@@ -216,6 +216,7 @@ class Command:
         "toolbar": True,
         "preview": True,
         "d_click": False,
+        "goto_open": False,
     }
 
     tree = None
@@ -1322,7 +1323,7 @@ class Command:
             self.goto_history.remove(fn)
         self.goto_history.insert(0, fn)
 
-        and_open = self.options.get('goto_open', False)
+        and_open = self.options.get('goto_open', False) or not app_proc(PROC_SHOW_SIDEPANEL_GET, '')
         self.jump_to_filename(fn, and_open)
 
     def jump_to_filename(self, filename, and_open=False):
