@@ -3,6 +3,11 @@
   - fixed
   * changed
 
+1.181.2 (2023/01)
+
++ add: macOS: use latest Lazarus patches to fully support macOS IME
++ add: Project Manager: command "Go to file" opens the file if project panel is not visible
+
 1.181.0 (2023/01)
 
 + add: support more encodings, but note: they require OS support (unlike old encodings):
