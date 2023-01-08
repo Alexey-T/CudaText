@@ -7,6 +7,7 @@
 
 + add: macOS: use latest Lazarus patches to fully support macOS IME
 + add: Project Manager: command "Go to file" opens the file if project panel is not visible
+- fix: deleting of a block until last line, could add line-break for last line (thanks @ThaiDat)
 
 1.181.0 (2023/01)
 
