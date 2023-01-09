@@ -8151,7 +8151,8 @@ begin
 end;
 
 
-function PyHelper_ExportHtml(Ed: TATSynEdit; const SParams: string): boolean;
+function PyHelper_ExportHtml(Ed: TATSynEdit; const SParams: string;
+  out AToMemory: boolean; out AMemory: string): boolean;
 var
   List: TStringList;
   SItem, SKey, SValue: string;
@@ -8162,6 +8163,8 @@ var
   Sep: TATStringSeparator;
   PosBegin, PosEnd: TPoint;
 begin
+  AToMemory:= false;
+  AMemory:= '';
   SFileName:= '';
   STitle:= '';
   SFontName:= '';
@@ -8194,11 +8197,15 @@ begin
     end;
   until false;
 
-  if SFileName='' then exit(false);
-  DeleteFileUTF8(SFileName);
+  if SFileName='' then
+    exit(false);
+  AToMemory:= SFileName='mem';
+  if not AToMemory and FileExists(SFileName) then
+    DeleteFile(SFileName);
 
   List:= TStringList.Create;
   try
+    List.TrailingLineBreak:= false;
     EditorExportToHTML(Ed,
       List,
       PosBegin,
@@ -8210,12 +8217,20 @@ begin
       NColorBg,
       NColorNums
       );
-    List.SaveToFile(SFileName);
+
+    if AToMemory then
+    begin
+      AMemory:= List.Text;
+      Result:= true;
+    end
+    else
+    begin
+      List.SaveToFile(SFileName);
+      Result:= FileExists(SFileName);
+    end;
   finally
     FreeAndNil(List);
   end;
-
-  Result:= FileExists(SFileName);
 end;
 
 
@@ -8353,7 +8368,8 @@ var
   AllowedSymbols: string;
   Distance: integer;
   Obj: TObject;
-  Ok: boolean;
+  Ok, bToMemory: boolean;
+  StrMemory: string;
   NX, NY, N1, N2: integer;
 begin
   with AppPython.Engine do
@@ -8512,8 +8528,11 @@ begin
 
         EDACTION_EXPORT_HTML:
           begin
-            Ok:= PyHelper_ExportHtml(Ed, StrText1);
-            Result:= PyBool_FromLong(Ord(Ok));
+            Ok:= PyHelper_ExportHtml(Ed, StrText1, bToMemory, StrMemory);
+            if bToMemory then
+              Result:= PyUnicodeFromString(StrMemory)
+            else
+              Result:= PyBool_FromLong(Ord(Ok));
           end;
 
         else
