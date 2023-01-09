@@ -2262,4 +2262,20 @@ Some text.
 [a123]: url "title2"
 </syntaxhighlight>
 
+==LSP server for V==
+
+* Install V lexer (from "Addons Manager / Plugins / Install")
+* Install V language
+* Install VLS by running "v ls --install"
+* Create "lsp_v.json" in CudaText's "settings" folder with the following content:
+<syntaxhighlight lang="json">
+{
+  "lexers": {
+    "V": "v"
+  },
+  "cmd_windows": ["v", "ls"],
+  "cmd_unix": ["v", "ls"]
+}
+</syntaxhighlight>
+
 [[Category:CudaText]]
