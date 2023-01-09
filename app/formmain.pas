@@ -6811,6 +6811,8 @@ begin
   try
     DoEditorExportToHTML(Ed,
       List,
+      Point(0, 0),
+      Point(0, Ed.Strings.Count),
       STitle,
       UiOps.ExportHtmlFontName,
       UiOps.ExportHtmlFontSize,
