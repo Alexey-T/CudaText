@@ -3185,9 +3185,9 @@ Performs some action in editor. Possible values of "id":
 
 * EDACTION_APPLY_THEME: Apply current UI-theme colors to editor control. So you don't have to apply all COLOR_ID_nnn properties via Editor.set_prop().
 
-* EDACTION_EXPORT_HTML: Create HTML file from editor's text with syntax highlighting. Returns bool: file is created. Param "param1" must be dict with the following keys:
-** "file_name": str: Full path of file.
-** "title": str: HTML page title.
+* EDACTION_EXPORT_HTML: Create HTML file or buffer from editor's text with syntax highlighting. For file, returns bool: file is created. Param "param1" must be dict with the following optional keys:
+** "file_name": str: Full path of file, or special value "mem" to return HTML text as function result. This key is mandatory, empty value is not allowed.
+** "title": str: Title of HTML page.
 ** "font_name": str: Font name.
 ** "font_size": int: Font size, in HTML points.
 ** "with_numbers": bool: Show gutter with line numbers.
@@ -4791,5 +4791,6 @@ It provides:
 
 1.0.438 (app 1.181.1)
 * add: Editor.action: EDACTION_EXPORT_HTML: added optional params "line_begin", "line_end", "col_begin", "col_end"
+* add: Editor.action: EDACTION_EXPORT_HTML: allow to export to memory by specifying "file_name"=="mem"
 
 [[Category:CudaText]]
