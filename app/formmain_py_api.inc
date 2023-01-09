@@ -8160,6 +8160,7 @@ var
   bWithNums: boolean;
   NColorBg, NColorNums: TColor;
   Sep: TATStringSeparator;
+  PosBegin, PosEnd: TPoint;
 begin
   SFileName:= '';
   STitle:= '';
@@ -8168,6 +8169,8 @@ begin
   bWithNums:= true;
   NColorBg:= clWhite;
   NColorNums:= clGray;
+  PosBegin:= Point(0, 0);
+  PosEnd:= Point(0, Ed.Strings.Count);
 
   //text is '{key1:value1;key2:value2}' from to_str()
   Sep.Init(SDeleteCurlyBrackets(SParams), #1);
@@ -8184,6 +8187,10 @@ begin
       'with_numbers': bWithNums:= AppStrToBool(SValue);
       'color_back': NColorBg:= StrToIntDef(SValue, NColorBg);
       'color_numbers': NColorNums:= StrToIntDef(SValue, NColorNums);
+      'line_begin': PosBegin.Y:= StrToIntDef(SValue, PosBegin.Y);
+      'line_end': PosEnd.Y:= StrToIntDef(SValue, PosEnd.Y);
+      'col_begin': PosBegin.X:= StrToIntDef(SValue, PosBegin.X);
+      'col_end': PosEnd.X:= StrToIntDef(SValue, PosEnd.X);
     end;
   until false;
 
@@ -8194,8 +8201,8 @@ begin
   try
     EditorExportToHTML(Ed,
       List,
-      Point(0, 0),
-      Point(0, Ed.Strings.Count),
+      PosBegin,
+      PosEnd,
       STitle,
       SFontName,
       NFontSize,
