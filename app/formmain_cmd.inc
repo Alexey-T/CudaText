@@ -779,6 +779,7 @@ begin
       begin
         if Ed.Markers.DeleteWithTag(UiOps.FindOccur_TagValue) then
           Ed.Update;
+        EditorClearHiAllMarkers(Ed);
         AHandled:= false;
       end;
 

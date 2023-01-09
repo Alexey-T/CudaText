@@ -3314,6 +3314,8 @@ begin
     else
     if bFindDockedAndVisible then
     begin
+      Ed:= Ctl as TATSynEdit;
+      EditorClearHiAllMarkers(Ed);
       fmFind.Hide;
       Key:= 0;
     end
