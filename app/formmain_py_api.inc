@@ -4883,6 +4883,11 @@ begin
             SClipboardCopy(Str, PrimarySelection); //for Linux
             Result:= ReturnNone;
           end;
+        APP_PROC_SET_CLIP_HTML:
+          begin
+            Clipboard.SetAsHtml(Str);
+            Result:= ReturnNone;
+          end;
 
         APP_PROC_GET_CLIP_EX:
           begin

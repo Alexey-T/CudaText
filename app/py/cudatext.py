@@ -311,6 +311,7 @@ SPLITTER_G3      = 7
 SPLITTER_G4      = 8
 SPLITTER_G5      = 9
 
+PROC_SET_CLIP_HTML       = -2
 PROC_SET_CLIP_ALT        = -1
 PROC_GET_CLIP            = 0
 PROC_SET_CLIP            = 1

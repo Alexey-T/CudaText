@@ -307,7 +307,8 @@ Actions work with props of Find/Replace dialog, and props of low-level search en
 ** "tick_on_copy": int: OS tick-count in milliseconds, at the moment of copying.
 ** "tick_current": int: OS tick-count in milliseconds, at the moment of this API call.
 
-* PROC_SET_CLIP: Copies text to clipboard (usual).
+* PROC_SET_CLIP: Copies text to clipboard (usual clipboard). Note: this clears the clipboard first.
+* PROC_SET_CLIP_HTML: Copies HTML text to clipboard, text must be HTML. Note: this does not clear the clipboard first.
 * PROC_SET_CLIP_ALT: Copies text to alternate clipboard on Linux, called "primary selection".
 ** CudaText Copy commands put text to usual clipboard + primary selection.
 ** CudaText Paste commands get text from usual clipboard.
@@ -4792,5 +4793,6 @@ It provides:
 1.0.438 (app 1.181.1)
 * add: Editor.action: EDACTION_EXPORT_HTML: added optional params "line_begin", "line_end", "col_begin", "col_end"
 * add: Editor.action: EDACTION_EXPORT_HTML: allow to export to memory by specifying "file_name" as "-"
+* add: app_proc: PROC_SET_CLIP_HTML
 
 [[Category:CudaText]]
