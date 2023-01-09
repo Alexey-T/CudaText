@@ -8199,7 +8199,7 @@ begin
 
   if SFileName='' then
     exit(false);
-  AToMemory:= SFileName='mem';
+  AToMemory:= SFileName='-';
   if not AToMemory and FileExists(SFileName) then
     DeleteFile(SFileName);
 
