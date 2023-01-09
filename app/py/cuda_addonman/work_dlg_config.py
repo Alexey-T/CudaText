@@ -24,7 +24,7 @@ def do_config_dialog():
       [c1.join(['type=check', 'pos=%d,%d,%d,0'%(6, all_size_y-145, all_size_x-btn_size-12), 'cap='+_('Install: suggest &readme after'), 'val='+('1' if opt.suggest_readme else '0') ])]+
       [c1.join(['type=check', 'pos=%d,%d,%d,0'%(6, all_size_y-115, all_size_x-btn_size-12), 'cap='+_('Install: show &confirmation and report'), 'val='+('1' if opt.install_confirm else '0') ])]+
       [c1.join(['type=check', 'pos=%d,%d,%d,0'%(6, all_size_y-85, all_size_x-btn_size-12), 'cap='+_('Verify HTTPS certificates'), 'val='+('1' if opt.verify_https else '0') ])]+
-      [c1.join(['type=label', 'pos=%d,%d,%d,0'%(6, all_size_y-55, all_size_x-btn_size-12), 'cap='+_('&Proxy, e.g. http://proxy.myserver.com:2010') ])]+
+      [c1.join(['type=label', 'pos=%d,%d,%d,0'%(6, all_size_y-55, all_size_x-btn_size-12), 'cap='+_('&Proxy (HTTP or SOCKS5), e.g. http://proxy.myserver.com:2010') ])]+
       [c1.join(['type=edit', 'pos=%d,%d,%d,0'%(6, all_size_y-35, all_size_x-6), 'val='+opt.proxy ])]+
       [c1.join(['type=button', 'pos=%d,%d,%d,0'%(all_size_x-2*btn_size-12, all_size_y-0, all_size_x-btn_size-12), 'cap='+_('&OK')])]+
       [c1.join(['type=button', 'pos=%d,%d,%d,0'%(all_size_x-btn_size-6, all_size_y-0, all_size_x-6), 'cap='+_('Cancel')])]
