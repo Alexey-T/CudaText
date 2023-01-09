@@ -4880,7 +4880,7 @@ begin
           end;
         APP_PROC_SET_CLIP_ALT:
           begin
-            SClipboardCopy(Str, PrimarySelection); //for Linux
+            SClipboardCopy(Str, PrimarySelection); //for Unix
             Result:= ReturnNone;
           end;
         APP_PROC_SET_CLIP_HTML:
