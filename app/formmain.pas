@@ -6809,7 +6809,7 @@ begin
 
   List:= TStringList.Create;
   try
-    DoEditorExportToHTML(Ed,
+    EditorExportToHTML(Ed,
       List,
       Point(0, 0),
       Point(0, Ed.Strings.Count),
