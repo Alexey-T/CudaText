@@ -2905,10 +2905,8 @@ end;
 procedure EditorClearHiAllMarkers(Ed: TATSynEdit);
 begin
   if Ed.Attribs.Count>0 then
-  begin
-    Ed.Attribs.DeleteWithTag(UiOps.FindHiAll_TagValue);
-    Ed.Update;
-  end;
+    if Ed.Attribs.DeleteWithTag(UiOps.FindHiAll_TagValue) then
+      Ed.Update;
 end;
 
 procedure EditorForceUpdateIfWrapped(Ed: TATSynEdit);

@@ -777,7 +777,8 @@ begin
     cCommand_CancelKeepSel,
     cCommand_CancelKeepLastAndSel:
       begin
-        Ed.Markers.DeleteWithTag(UiOps.FindOccur_TagValue);
+        if Ed.Markers.DeleteWithTag(UiOps.FindOccur_TagValue) then
+          Ed.Update;
         AHandled:= false;
       end;
 
