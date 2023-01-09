@@ -6771,6 +6771,7 @@ end;
 procedure TfmMain.DoFileExportHtml(Ed: TATSynEdit);
 var
   Dlg: TSaveDialog;
+  List: TStringList;
   SFileName, STitle: string;
   NX, NY: integer;
 begin
@@ -6806,13 +6807,21 @@ begin
 
   //Application.ProcessMessages; //crashes, dont do it
 
-  DoEditorExportToHTML(Ed, SFileName, STitle,
-    UiOps.ExportHtmlFontName,
-    UiOps.ExportHtmlFontSize,
-    UiOps.ExportHtmlNumbers,
-    GetAppColor(apclExportHtmlBg),
-    GetAppColor(apclExportHtmlNumbers)
-    );
+  List:= TStringList.Create;
+  try
+    DoEditorExportToHTML(Ed,
+      List,
+      STitle,
+      UiOps.ExportHtmlFontName,
+      UiOps.ExportHtmlFontSize,
+      UiOps.ExportHtmlNumbers,
+      GetAppColor(apclExportHtmlBg),
+      GetAppColor(apclExportHtmlNumbers)
+      );
+    List.SaveToFile(SFileName);
+  finally
+    FreeAndNil(List);
+  end;
 
   //restore caret
   Ed.DoCaretSingle(NX, NY);
@@ -6820,6 +6829,9 @@ begin
   Ed.Update;
   //UpdateFrameEx(F, true);
 
+  if not FileExists(SFileName) then
+    MsgBox(msgCannotSaveFile+#10+SFileName, MB_OK or MB_ICONERROR)
+  else
   if MsgBox(msgConfirmOpenCreatedDoc, MB_OKCANCEL or MB_ICONQUESTION)=ID_OK then
     OpenDocument(SFileName);
 end;

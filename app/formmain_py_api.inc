@@ -8153,6 +8153,7 @@ end;
 
 function PyHelper_ExportHtml(Ed: TATSynEdit; const SParams: string): boolean;
 var
+  List: TStringList;
   SItem, SKey, SValue: string;
   SFileName, STitle, SFontName: string;
   NFontSize: integer;
@@ -8189,15 +8190,21 @@ begin
   if SFileName='' then exit(false);
   DeleteFileUTF8(SFileName);
 
-  DoEditorExportToHTML(Ed,
-    SFileName,
-    STitle,
-    SFontName,
-    NFontSize,
-    bWithNums,
-    NColorBg,
-    NColorNums
-    );
+  List:= TStringList.Create;
+  try
+    DoEditorExportToHTML(Ed,
+      List,
+      STitle,
+      SFontName,
+      NFontSize,
+      bWithNums,
+      NColorBg,
+      NColorNums
+      );
+    List.SaveToFile(SFileName);
+  finally
+    FreeAndNil(List);
+  end;
 
   Result:= FileExists(SFileName);
 end;
