@@ -3199,9 +3199,9 @@ Performs some action in editor. Possible values of "id":
 * EDACTION_EXPORT_HTML: Create HTML file or buffer from editor's text with syntax highlighting. For file, returns bool: file is created. Param "param1" must be dict with the following optional keys:
 ** "file_name": str: Full path of file, or special value "-" to return HTML text as function result. This key is mandatory, empty value is not allowed.
 ** "title": str: Title of HTML page.
-** "font_name": str: Font name.
-** "font_size": int: Font size, in HTML points.
-** "with_numbers": bool: Show gutter with line numbers.
+** "font_name": str: Font name. Empty value is allowed, some standard monospaced font will be used.
+** "font_size": int: Font size, in HTML "px".
+** "with_numbers": bool: Make additional table cell with line numbers.
 ** "color_back": int: RGB color of page background.
 ** "color_numbers": int: RGB color of line numbers.
 ** "line_begin": int: Index of beginning line (0-based). Default is 0.
