@@ -90,7 +90,8 @@ type
     );
 
   TAppTabCaptionReason = (
-    tcrUntitled,
+    tcrUnsaved,
+    tcrUnsavedSpecial,
     tcrFromFilename,
     tcrFromPlugin
     );
@@ -656,7 +657,7 @@ var
   Name1, Name2, SFinalCaption: string;
 begin
   //avoid updating caption if API already had set it
-  if FTabCaptionReason=tcrFromPlugin then
+  if FTabCaptionReason in [tcrUnsavedSpecial, tcrFromPlugin] then
   begin
     DoOnChangeCaption; //remove 'modified' font color, repaint
     exit;
@@ -693,6 +694,7 @@ begin
   end;
 
   TabCaption:= SFinalCaption;
+  TabCaptionReason:= tcrFromFilename;
   UpdateTabTooltip;
 end;
 

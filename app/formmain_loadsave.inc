@@ -581,6 +581,7 @@ begin
         begin
           Frame.SetFileName(Frame.Ed1, sTabFilename);
           Frame.TabCaption:= ExtractFileName(sTabFilename);
+          Frame.TabCaptionReason:= tcrFromFilename;
         end;
         if sText<>'' then
           Frame.Editor.Text:= sText;
@@ -588,6 +589,10 @@ begin
         sTabTitle:= cfg.GetValue(item_path+'tab_title', '');
         if sTabTitle<>'' then
           Frame.TabCaption:= sTabTitle;
+        if sTabFilename<>'' then
+          Frame.TabCaptionReason:= tcrFromFilename
+        else
+          Frame.TabCaptionReason:= tcrUnsaved;
         Frame.UpdateModified(Frame.Editor);
       end
       else

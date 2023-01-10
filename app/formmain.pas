@@ -3666,6 +3666,7 @@ begin
     begin
       Ed:= Frame.Ed1;
       Frame.TabCaption:= msgWelcomeTabTitle;
+      Frame.TabCaptionReason:= tcrUnsavedSpecial;
       SText:= msgFirstStartInfo;
       if not AppPython.Inited then
         SText+= #10+msgCannotInitPython1+#10+msgCannotInitPython2+#10+msgCannotInitPython2b;

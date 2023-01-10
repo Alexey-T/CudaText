@@ -4141,10 +4141,13 @@ begin
               end
               else
               begin
-                if F.FileName<>'' then
-                  F.TabCaptionReason:= tcrFromFilename
-                else
-                  F.TabCaptionReason:= tcrUntitled;
+                if F.TabCaptionReason=tcrFromPlugin then
+                begin
+                  if F.FileName<>'' then
+                    F.TabCaptionReason:= tcrFromFilename
+                  else
+                    F.TabCaptionReason:= tcrUnsaved;
+                end;
                 F.UpdateCaptionFromFilename;
               end;
             end;
