@@ -12,6 +12,7 @@
 + add: command "export to html": hide selection in export; preserve multi-carets
 - fix: deleting of a block until last line, could add line-break for last line (thanks @ThaiDat)
 - fix: regression in 1.158: plugin "Show Unsaved Changes" window became not resizable
+- fix: macOS: tab made by Command+N don't have caret (thanks @Andreas0602)
 
 1.181.0 (2023/01)
 
