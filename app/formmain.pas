@@ -6772,12 +6772,19 @@ procedure TfmMain.DoFileExportHtml(Ed: TATSynEdit);
 var
   Dlg: TSaveDialog;
   List: TStringList;
+  Frame: TEditorFrame;
   SFileName, STitle: string;
   NX, NY: integer;
 begin
+  if EditorIsEmpty(Ed) then exit;
+
   STitle:= ExtractFileName(Ed.FileName);
   if STitle='' then
-    STitle:= msgUntitledTab;
+  begin
+    Frame:= TGroupsHelper.GetEditorFrame(Ed);
+    if Assigned(Frame) then
+      STitle:= Frame.TabCaption;
+  end;
 
   Dlg:= TSaveDialog.Create(Self);
   try
