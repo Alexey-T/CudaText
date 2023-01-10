@@ -2027,7 +2027,7 @@ begin
 
     ExportHtmlNumbers:= false;
     ExportHtmlFontSize:= 12;
-    ExportHtmlFontName:= 'Courier New';
+    ExportHtmlFontName:= '';
 
     TreeAutoSync:= true;
     TreeTimeFill:= 2000;
