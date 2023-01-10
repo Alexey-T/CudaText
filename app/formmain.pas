@@ -6774,7 +6774,7 @@ var
   List: TStringList;
   Frame: TEditorFrame;
   SFileName, STitle: string;
-  NX, NY: integer;
+  SaveCarets: TATCarets;
 begin
   if EditorIsEmpty(Ed) then exit;
 
@@ -6802,14 +6802,9 @@ begin
   end;
 
   //hide caret, so HTML won't contain dynamic lexer highlights
-  NX:= 0;
-  NY:= 0;
-  if Ed.Carets.Count>0 then
-    with Ed.Carets[0] do
-    begin
-      NX:= PosX;
-      NY:= PosY;
-    end;
+  SaveCarets:= TATCarets.Create;
+  SaveCarets.Assign(Ed.Carets);
+
   Ed.DoCaretSingle(-1, -1);
   Ed.DoEventCarets;
   Ed.Update;
@@ -6834,8 +6829,9 @@ begin
     FreeAndNil(List);
   end;
 
-  //restore caret
-  Ed.DoCaretSingle(NX, NY);
+  //restore carets
+  Ed.Carets.Assign(SaveCarets);
+  FreeAndNil(SaveCarets);
   Ed.DoEventCarets;
   Ed.Update;
   //UpdateFrameEx(F, true);
