@@ -198,7 +198,7 @@ var
   S, fmt: string;
   Size: TPoint;
   N: integer;
-  FrameKind: TATEditorFrameKind;
+  FrameKind: TAppFrameKind;
 begin
   if F=nil then exit;
   Ed:= F.Editor;

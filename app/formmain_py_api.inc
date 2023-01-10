@@ -3450,7 +3450,7 @@ begin
         PROP_KIND:
           begin
             if not Assigned(F) then exit(ReturnNone);
-            Str:= cATEditorFrameKindStr[F.FrameKind];
+            Str:= cAppFrameKindStr[F.FrameKind];
             Result:= PyUnicodeFromString(Str);
           end;
 

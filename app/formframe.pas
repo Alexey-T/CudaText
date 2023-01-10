@@ -83,7 +83,7 @@ type
     cOpenModeViewUHex
     );
 
-  TATEditorFrameKind = (
+  TAppFrameKind = (
     efkEditor,
     efkBinaryViewer,
     efkImageViewer
@@ -105,7 +105,7 @@ const
     );
 
 const
-  cATEditorFrameKindStr: array[TATEditorFrameKind] of string = (
+  cAppFrameKindStr: array[TAppFrameKind] of string = (
     'text',
     'bin',
     'pic'
@@ -448,7 +448,7 @@ type
     procedure LexerReparse;
     procedure ApplyTheme;
     function IsEditorFocused: boolean;
-    function FrameKind: TATEditorFrameKind;
+    function FrameKind: TAppFrameKind;
     procedure SetFocus; reintroduce;
     function PictureSizes: TPoint;
     property PictureScale: integer read GetPictureScale write SetPictureScale;
@@ -2305,7 +2305,7 @@ begin
   Result:= Ed1.Focused or Ed2.Focused;
 end;
 
-function TEditorFrame.FrameKind: TATEditorFrameKind;
+function TEditorFrame.FrameKind: TAppFrameKind;
 begin
   if Assigned(FBin) and FBin.Visible then
     Result:= efkBinaryViewer

@@ -2170,7 +2170,7 @@ end;
 procedure TfmMain.StatusPanelClick(Sender: TObject; AIndex: Integer);
 var
   Frame: TEditorFrame;
-  FrameKind: TATEditorFrameKind;
+  FrameKind: TAppFrameKind;
   Data: TATStatusData;
 begin
   Frame:= CurrentFrame;
