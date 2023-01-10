@@ -6,6 +6,7 @@
 1.181.2 (2023/01)
 
 + add: macOS: use latest Lazarus patches to fully support macOS IME
++ add: command "clipboard: copy as html"
 + add: Project Manager: command "Go to file" opens the file if project panel is not visible
 - fix: deleting of a block until last line, could add line-break for last line (thanks @ThaiDat)
 
