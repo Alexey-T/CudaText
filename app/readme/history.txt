@@ -9,7 +9,7 @@
 + add: command "clipboard: copy as html"
 + add: allow plugin "Suggest Untitled Filename" to better detect which tabs it should update
 + add: Project Manager: command "Go to file" opens the file if project panel is not visible
-- fix: regression: plugin "Show Unsaved Changes" window became not resizable
+- fix: regression in 1.158: plugin "Show Unsaved Changes" window became not resizable
 - fix: deleting of a block until last line, could add line-break for last line (thanks @ThaiDat)
 - fix: HTML export: hide selection in export; preserve multi-carets
 
