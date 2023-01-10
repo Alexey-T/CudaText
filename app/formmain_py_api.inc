@@ -4136,12 +4136,15 @@ begin
             begin
               if Str<>'' then
               begin
-                F.TabCaptionFromApi:= true;
+                F.TabCaptionReason:= tcrFromPlugin;
                 F.TabCaption:= Str;
               end
               else
               begin
-                F.TabCaptionFromApi:= false;
+                if F.FileName<>'' then
+                  F.TabCaptionReason:= tcrFromFilename
+                else
+                  F.TabCaptionReason:= tcrUntitled;
                 F.UpdateCaptionFromFilename;
               end;
             end;

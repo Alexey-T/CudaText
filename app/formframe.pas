@@ -89,6 +89,12 @@ type
     efkImageViewer
     );
 
+  TAppTabCaptionReason = (
+    tcrUntitled,
+    tcrFromFilename,
+    tcrFromPlugin
+    );
+
 const
   cATEditorFrameKindStr: array[TATEditorFrameKind] of string = (
     'text',
@@ -139,7 +145,7 @@ type
     FTabCaption: string;
     FTabCaptionAddon: string;
     FTabCaptionUntitled: string;
-    FTabCaptionFromApi: boolean;
+    FTabCaptionReason: TAppTabCaptionReason;
     FTabImageIndex: integer;
     FTabId: integer;
     FFileName: string;
@@ -375,7 +381,7 @@ type
     property TabCaptionAddon: string read FTabCaptionAddon write SetTabCaptionAddon;
     property TabCaptionUntitled: string read FTabCaptionUntitled write FTabCaptionUntitled;
     property TabImageIndex: integer read FTabImageIndex write SetTabImageIndex;
-    property TabCaptionFromApi: boolean read FTabCaptionFromApi write FTabCaptionFromApi;
+    property TabCaptionReason: TAppTabCaptionReason read FTabCaptionReason write FTabCaptionReason;
     property TabId: integer read FTabId;
     property TabIsPreview: boolean read GetIsPreview write SetIsPreview;
     property TabVisible: boolean read GetTabVisible write SetTabVisible;
@@ -650,7 +656,7 @@ var
   Name1, Name2, SFinalCaption: string;
 begin
   //avoid updating caption if API already had set it
-  if FTabCaptionFromApi then
+  if FTabCaptionReason=tcrFromPlugin then
   begin
     DoOnChangeCaption; //remove 'modified' font color, repaint
     exit;
