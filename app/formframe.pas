@@ -68,9 +68,9 @@ uses
   math;
 
 type
-  TEditorFramePyEvent = function(AEd: TATSynEdit; AEvent: TAppPyEvent;
+  TAppFramePyEvent = function(AEd: TATSynEdit; AEvent: TAppPyEvent;
     const AParams: TAppVariantArray): TAppPyEventResult of object;
-  TEditorFrameStringEvent = procedure(Sender: TObject; const S: string) of object;
+  TAppFrameStringEvent = procedure(Sender: TObject; const S: string) of object;
 
 type
   TAppOpenMode = (
@@ -180,9 +180,9 @@ type
     FOnEditorCommand: TATSynEditCommandEvent;
     FOnEditorChangeCaretPos: TNotifyEvent;
     FOnEditorScroll: TNotifyEvent;
-    FOnSaveFile: TEditorFrameStringEvent;
+    FOnSaveFile: TAppFrameStringEvent;
     FOnAddRecent: TNotifyEvent;
-    FOnPyEvent: TEditorFramePyEvent;
+    FOnPyEvent: TAppFramePyEvent;
     FOnInitAdapter: TNotifyEvent;
     FOnLexerChange: TATEditorEvent;
     FSplitPos: double;
@@ -527,9 +527,9 @@ type
     property OnEditorCommand: TATSynEditCommandEvent read FOnEditorCommand write FOnEditorCommand;
     property OnEditorChangeCaretPos: TNotifyEvent read FOnEditorChangeCaretPos write FOnEditorChangeCaretPos;
     property OnEditorScroll: TNotifyEvent read FOnEditorScroll write FOnEditorScroll;
-    property OnSaveFile: TEditorFrameStringEvent read FOnSaveFile write FOnSaveFile;
+    property OnSaveFile: TAppFrameStringEvent read FOnSaveFile write FOnSaveFile;
     property OnAddRecent: TNotifyEvent read FOnAddRecent write FOnAddRecent;
-    property OnPyEvent: TEditorFramePyEvent read FOnPyEvent write FOnPyEvent;
+    property OnPyEvent: TAppFramePyEvent read FOnPyEvent write FOnPyEvent;
     property OnInitAdapter: TNotifyEvent read FOnInitAdapter write FOnInitAdapter;
     property OnLexerChange: TATEditorEvent read FOnLexerChange write FOnLexerChange;
     property OnAppClickLink: TATSynEditClickLinkEvent read FOnAppClickLink write FOnAppClickLink;
