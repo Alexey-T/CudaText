@@ -6,6 +6,7 @@ from cudax_lib import get_translation
 _   = get_translation(__file__)  # I18N
 
 fn_ini = 'plugins.ini'
+INI_SECTION = 'show_unsaved'
 
 REPLACE_ENC = {
     'utf8_bom': 'utf-8-sig',
@@ -70,7 +71,7 @@ class Command:
             'cap': self.caption,
             'w': 900,
             'h': 500,
-            'resize': True,
+            'border': DBORDER_SIZE,
             'keypreview': True,
             })
 
@@ -168,10 +169,10 @@ class Command:
 
     def pos_load(self):
 
-        x = int(ini_read(fn_ini, 'show_unsaved', 'x', '-1'))
-        y = int(ini_read(fn_ini, 'show_unsaved', 'y', '-1'))
-        w = int(ini_read(fn_ini, 'show_unsaved', 'w', '-1'))
-        h = int(ini_read(fn_ini, 'show_unsaved', 'h', '-1'))
+        x = int(ini_read(fn_ini, INI_SECTION, 'x', '-1'))
+        y = int(ini_read(fn_ini, INI_SECTION, 'y', '-1'))
+        w = int(ini_read(fn_ini, INI_SECTION, 'w', '-1'))
+        h = int(ini_read(fn_ini, INI_SECTION, 'h', '-1'))
         if x<0: return
 
         dlg_proc(self.h_dlg, DLG_PROP_SET, prop={'x':x, 'y':y, 'w':w, 'h':h, })
@@ -186,7 +187,7 @@ class Command:
         w = prop['w']
         h = prop['h']
 
-        ini_write(fn_ini, 'show_unsaved', 'x', str(x))
-        ini_write(fn_ini, 'show_unsaved', 'y', str(y))
-        ini_write(fn_ini, 'show_unsaved', 'w', str(w))
-        ini_write(fn_ini, 'show_unsaved', 'h', str(h))
+        ini_write(fn_ini, INI_SECTION, 'x', str(x))
+        ini_write(fn_ini, INI_SECTION, 'y', str(y))
+        ini_write(fn_ini, INI_SECTION, 'w', str(w))
+        ini_write(fn_ini, INI_SECTION, 'h', str(h))
