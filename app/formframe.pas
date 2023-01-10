@@ -112,10 +112,10 @@ const
     );
 
 type
-  TFrameGetSaveDialog = procedure(var ASaveDlg: TSaveDialog) of object;
+  TAppGetSaveDialog = procedure(var ASaveDlg: TSaveDialog) of object;
 
 type
-  TFrameNotificationControls = record
+  TAppFrameNotificationControls = record
     Panel: TPanel;
     InfoPanel: TPanel;
     ButtonYes,
@@ -149,8 +149,8 @@ type
     Adapter2: TATAdapterEControl;
     PanelInfo: TPanel;
     PanelNoHilite: TPanel;
-    NotifReloadControls: array[0..cFrameMaxEdIndex] of TFrameNotificationControls;
-    NotifDeletedControls: array[0..cFrameMaxEdIndex] of TFrameNotificationControls;
+    NotifReloadControls: array[0..cFrameMaxEdIndex] of TAppFrameNotificationControls;
+    NotifDeletedControls: array[0..cFrameMaxEdIndex] of TAppFrameNotificationControls;
     FTabCaption: string;
     FTabCaptionAddon: string;
     FTabCaptionUntitled: string;
@@ -220,7 +220,7 @@ type
     FBracketSymbols: string;
     FBracketMaxDistance: integer;
     FMicromapBmp: TBGRABitmap;
-    FOnGetSaveDialog: TFrameGetSaveDialog;
+    FOnGetSaveDialog: TAppGetSaveDialog;
     FOnAppClickLink: TATSynEditClickLinkEvent;
     FProgressForm: TForm;
     FProgressGauge: TATGauge;
@@ -304,13 +304,13 @@ type
     procedure InitEditor(var ed: TATSynEdit; const AName: string);
     procedure InitNotificationPanel(Index: integer;
       AIsDeleted: boolean;
-      var AControls: TFrameNotificationControls;
+      var AControls: TAppFrameNotificationControls;
       AClickYes, AClickNo, AClickStop: TNotifyEvent);
     procedure InitPanelInfo(var APanel: TPanel; const AText: string;
       AOnClick: TNotifyEvent; ARequirePython: boolean);
     procedure UpdateNotificationPanel(
       Index: integer;
-      var AControls: TFrameNotificationControls;
+      var AControls: TAppFrameNotificationControls;
       const ACaptionYes, ACaptionNo, ACaptionStop, ALabel: string);
     procedure PaintMicromap(Ed: TATSynEdit; ACanvas: TCanvas; const ARect: TRect);
     procedure PanelInfoClick(Sender: TObject);
@@ -508,13 +508,13 @@ type
     procedure DoToggleFocusSplitEditors;
     procedure DoFocusNotificationPanel;
     procedure DoHideNotificationPanels;
-    procedure DoHideNotificationPanel(const AControls: TFrameNotificationControls);
+    procedure DoHideNotificationPanel(const AControls: TAppFrameNotificationControls);
     //macro
     procedure DoMacroStartOrStop;
     property MacroRecord: boolean read FMacroRecord;
 
     //events
-    property OnGetSaveDialog: TFrameGetSaveDialog read FOnGetSaveDialog write FOnGetSaveDialog;
+    property OnGetSaveDialog: TAppGetSaveDialog read FOnGetSaveDialog write FOnGetSaveDialog;
     property OnProgress: TATFinderProgress read FOnProgress write FOnProgress;
     property OnCheckFilenameOpened: TAppStringFunction read FCheckFilenameOpened write FCheckFilenameOpened;
     property OnMsgStatus: TAppStringEvent read FOnMsgStatus write FOnMsgStatus;
@@ -4126,7 +4126,7 @@ end;
 
 procedure TEditorFrame.InitNotificationPanel(Index: integer;
   AIsDeleted: boolean;
-  var AControls: TFrameNotificationControls;
+  var AControls: TAppFrameNotificationControls;
   AClickYes, AClickNo, AClickStop: TNotifyEvent);
 var
   NPanelHeight, NBtnHeight, NBtnDistance: integer;
@@ -4197,7 +4197,7 @@ end;
 
 procedure TEditorFrame.UpdateNotificationPanel(
   Index: integer;
-  var AControls: TFrameNotificationControls;
+  var AControls: TAppFrameNotificationControls;
   const ACaptionYes, ACaptionNo, ACaptionStop, ALabel: string);
 begin
   AControls.ButtonYes.Caption:= ACaptionYes;
@@ -4499,7 +4499,7 @@ begin
         NotifReloadControls[i].ButtonYes.SetFocus;
 end;
 
-procedure TEditorFrame.DoHideNotificationPanel(const AControls: TFrameNotificationControls);
+procedure TEditorFrame.DoHideNotificationPanel(const AControls: TAppFrameNotificationControls);
 begin
   if Assigned(AControls.Panel) then
     if AControls.Panel.Visible then
