@@ -2397,6 +2397,11 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_TAB_SIZE: int: size of tab-char.
 * PROP_TAB_COLLECT_MARKERS: bool: tab-key collects (jumps to and deletes) markers (if markers placed).
 * PROP_TAB_TITLE: str: custom title of ui-tab; setting to empty string removes the custom title.
+* PROP_TAB_TITLE_REASON: str (1 char): reason of current ui-tab title.
+** "u": Usual untitled tab
+** "s": App-special untitled tab, e.g. "RegEx search", "Welcome"
+** "f": Title was calculated from filename
+** "p": Title was set by plugin API
 * PROP_TAB_COLOR: int: color of ui-tab title background, integer RGB value (e.g. 0x00FF00 is green); COLOR_NONE if not set.
 * PROP_TAB_COLOR_FONT: int: color of ui-tab title font, integer RGB value (e.g. 0x00FF00 is green); COLOR_NONE if not set.
 * PROP_TAB_ICON: int: index of ui-tab icon, ie index in imagelist, which handle you can get via app_proc(PROC_GET_TAB_IMAGELIST).
@@ -2575,6 +2580,11 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 * PROP_TAB_COLOR: int: color of ui-tab title background, integer RGB value (e.g. 0x00FF00 is green); COLOR_NONE if not set.
 * PROP_TAB_COLOR_FONT: int: color of ui-tab title font, integer RGB value (e.g. 0x00FF00 is green); COLOR_NONE if not set.
 * PROP_TAB_TITLE: str: custom title of ui-tab; setting to empty string removes the custom title.
+* PROP_TAB_TITLE_REASON: str (1 char): reason of current ui-tab title.
+** "u": Usual untitled tab
+** "s": App-special untitled tab, e.g. "RegEx search", "Welcome"
+** "f": Title was calculated from filename
+** "p": Title was set by plugin API
 * PROP_TAB_ICON: int: index of ui-tab icon, ie index in imagelist, which handle you can get via app_proc(PROC_GET_TAB_IMAGELIST).
 * PROP_TAB_PINNED: bool: ui-tab is "pinned" (shows additional confirmation on closing).
 * PROP_TAB_UI_SHOW: bool: ui-tab header is visible on the tabs-bar.
@@ -4794,5 +4804,6 @@ It provides:
 * add: Editor.action: EDACTION_EXPORT_HTML: added optional params "line_begin", "line_end", "col_begin", "col_end"
 * add: Editor.action: EDACTION_EXPORT_HTML: allow to export to memory by specifying "file_name" as "-"
 * add: app_proc: PROC_SET_CLIP_HTML
+* add: Editor.get_prop/set_prop: PROP_TAB_TITLE_REASON
 
 [[Category:CudaText]]
