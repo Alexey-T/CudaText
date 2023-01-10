@@ -4800,7 +4800,7 @@ It provides:
 1.0.437 (app 1.180.5)
 * add: event on_click_right
 
-1.0.438 (app 1.181.1)
+1.0.438 (app 1.182.0)
 * add: Editor.action: EDACTION_EXPORT_HTML: added optional params "line_begin", "line_end", "col_begin", "col_end"
 * add: Editor.action: EDACTION_EXPORT_HTML: allow to export to memory by specifying "file_name" as "-"
 * add: app_proc: PROC_SET_CLIP_HTML
