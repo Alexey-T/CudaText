@@ -21,6 +21,20 @@ var
 var
   AppEmmet: TEmmet = nil;
 
+function ConvertStringToTabCaptionReason(const S: string; out Value: TAppTabCaptionReason): boolean;
+var
+  r: TAppTabCaptionReason;
+begin
+  for r:= Low(TAppTabCaptionReason) to High(TAppTabCaptionReason) do
+    if S=cAppTabCaptionReasonStr[r] then
+    begin
+      Value:= r;
+      exit(true);
+    end;
+  Value:= tcrUnsaved;
+  Result:= false;
+end;
+
 function PyHelper_ObjectHandle(Obj: TObject): PPyObject; inline;
 begin
   Result:= AppPython.ObjectToPyInt(Obj);
@@ -3376,6 +3390,14 @@ begin
               Result:= ReturnNone;
           end;
 
+        PROP_TAB_TITLE_REASON:
+          begin
+            if Assigned(F) then
+              Result:= PyUnicodeFromString(cAppTabCaptionReasonStr[F.TabCaptionReason])
+            else
+              Result:= ReturnNone;
+          end;
+
         PROP_TAB_PINNED:
           begin
             if Assigned(F) then
@@ -3971,6 +3993,7 @@ var
   Pages, PagesTo: TATPages;
   NLocalGroup, NGlobalGroup, NTab, NIndexNew, N1, N2: integer;
   LineEnd: TATLineEnds;
+  CaptionReason: TAppTabCaptionReason;
 begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'Lis:set_prop', @H, @Id, @Ptr)) then
@@ -4151,6 +4174,13 @@ begin
                 F.UpdateCaptionFromFilename;
               end;
             end;
+          end;
+
+        PROP_TAB_TITLE_REASON:
+          begin
+            if Assigned(F) then
+              if ConvertStringToTabCaptionReason(Str, CaptionReason) then
+                F.TabCaptionReason:= CaptionReason;
           end;
 
         PROP_TAB_PINNED:
