@@ -390,9 +390,20 @@ procedure TfmMain.DoOnTabPopup(Sender: TObject; APages: TATPages; ATabIndex: int
 var
   Data: TATTabData;
   Frame: TEditorFrame;
+  i: integer;
 begin
   if Assigned(APages) and (ATabIndex>=0) then
   begin
+    //fix for #4708
+    //plugin Differ expects updated tab-titles in on_tab_menu, and titles are made
+    //by plugin 'Suggest Untitled Filenames' in on_change_slow
+    for i:= 0 to FrameCount-1 do
+    begin
+      Frame:= Frames[i];
+      if (Frame.Ed1.FileName='') and Frame.Ed1.Modified then
+        DoPyEvent(Frame.Ed1, cEventOnChangeSlow, []);
+    end;
+
     InitPopupTab;
 
     Data:= APages.Tabs.GetTabData(ATabIndex);
