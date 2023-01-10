@@ -6783,7 +6783,9 @@ begin
   begin
     Frame:= TGroupsHelper.GetEditorFrame(Ed);
     if Assigned(Frame) then
-      STitle:= Frame.TabCaption;
+      STitle:= Frame.TabCaption
+    else
+      STitle:= msgUntitledEnglish;
   end;
 
   Dlg:= TSaveDialog.Create(Self);
