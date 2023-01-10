@@ -65,7 +65,7 @@ const
   msgApiDeprecated = 'NOTE: Deprecated API usage: %s'; //no i18n
   msgErrorInTheme = 'NOTE: Theme "%s" misses item "%s"';
   msgRescannedAllPlugins = 'Rescanned all plugins';
-  msgWelcomeTabTitle = '(welcome)';
+  msgWelcomeTabTitle = 'Welcome';
   msgSavedPythonLibOption = 'Saved the option "pylib'+cOptionSystemSuffix+'". Restart CudaText to apply it.';
   msgSearchingInDir = 'Searching:';
   msgErrorLowDiskSpaceMb = 'Free disk space is less than %d Mb. Try to free additional space, then press Retry.';
