@@ -411,6 +411,7 @@ cmd_CopyLine         = 2650
 cmd_CopyFilenameFull = 2651
 cmd_CopyFilenameDir  = 2652
 cmd_CopyFilenameName = 2653
+cmd_CopyAsHTML       = 2654
 
 cmd_TabUsesSpaces_On    = 2655
 cmd_TabUsesSpaces_Off   = 2656

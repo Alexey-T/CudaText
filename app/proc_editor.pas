@@ -33,6 +33,7 @@ uses
   ATSynEdit_Cmp_HTML,
   ATSynEdit_Cmp_Form,
   ATSynEdit_RegExpr,
+  ATSynEdit_Export_HTML,
   ATSynEdit_FGL,
   ATStrings,
   ATStringProc,
@@ -95,6 +96,7 @@ function EditorAutoDeleteClosingBracket(Ed: TATSynEdit): boolean;
 function EditorAutoPairChar(Ed: TATSynEdit; CharBegin: atChar): boolean;
 procedure EditorCopySelToPrimarySelection(Ed: TATSynEdit; AMaxLineCount: integer);
 procedure EditorCopyLine(Ed: TATSynEdit);
+procedure EditorCopyAsHTML(Ed: TATSynEdit);
 
 procedure EditorSetLine(Ed: TATSynEdit; AIndex: integer; AStr: UnicodeString);
 procedure EditorSetAllText(Ed: TATSynEdit; const AStr: string);
@@ -1921,6 +1923,75 @@ begin
     SClipboardCopy(UTF8Encode(Ed.Strings.Lines[N]));
   end;
 end;
+
+procedure EditorCopyAsHTML(Ed: TATSynEdit);
+var
+  List: TStringList;
+  SText: string;
+  Caret: TATCaretItem;
+  SaveCarets: TATCarets;
+  PosBegin, PosEnd: TPoint;
+  X1, Y1, X2, Y2: integer;
+  bSel: boolean;
+begin
+  if Ed.Carets.Count=0 then exit;
+
+  Caret:= Ed.Carets[0];
+  Caret.GetRange(X1, Y1, X2, Y2, bSel);
+  if bSel then
+  begin
+    PosBegin:= Point(X1, Y1);
+    PosEnd:= Point(X2, Y2);
+  end
+  else
+  if Ed.OptCopyLinesIfNoSel and Ed.Strings.IsIndexValid(Y1) then
+  begin
+    PosBegin:= Point(0, Y1);
+    PosEnd:= Point(Ed.Strings.LinesLen[Y1], Y1);
+  end
+  else
+    exit;
+
+  //copy in text format first
+  SText:= Ed.Strings.TextSubstring(PosBegin.X, PosBegin.Y, PosEnd.X, PosEnd.Y);
+  Clipboard.AsText:= SText;
+
+  //hide caret
+  SaveCarets:= TATCarets.Create;
+  SaveCarets.Assign(Ed.Carets);
+
+  Ed.DoCaretSingle(-1, -1);
+  Ed.DoEventCarets;
+  Ed.Update;
+
+  List:= TStringList.Create;
+  try
+    EditorExportToHTML(Ed,
+      List,
+      PosBegin,
+      PosEnd,
+      '',
+      UiOps.ExportHtmlFontName,
+      UiOps.ExportHtmlFontSize,
+      false,
+      GetAppColor(apclExportHtmlBg),
+      clBlack
+      );
+
+    List.TrailingLineBreak:= false;
+    SText:= List.Text;
+  finally
+    FreeAndNil(List);
+  end;
+
+  Ed.Carets.Assign(SaveCarets);
+  Ed.DoEventCarets;
+  Ed.Update;
+  FreeAndNil(SaveCarets);
+
+  Clipboard.SetAsHtml(SText);
+end;
+
 
 function EditorExpandSelectionToWord(Ed: TATSynEdit;
   AFinderResultCallback: TATEditorFinderCallback;

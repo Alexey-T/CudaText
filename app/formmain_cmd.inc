@@ -533,6 +533,9 @@ begin
     cmd_CopyLine:
       EditorCopyLine(Ed);
 
+    cmd_CopyAsHTML:
+      EditorCopyAsHTML(Ed);
+
     cmd_CopyFilenameFull:
       begin
         if Assigned(Frame) then
