@@ -110,6 +110,6 @@
   "ScrollScrolled" : "#C8C8C8",
   "SplitMain" : "#2E3336",
   "SplitGroups" : "#383838",
-  "ExportHtmlBg" : "#F8F8F2",
+  "ExportHtmlBg" : "#2E3336",
   "ExportHtmlNumbers" : "#A0A0A4"
 }
