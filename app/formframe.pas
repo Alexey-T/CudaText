@@ -97,6 +97,14 @@ type
     );
 
 const
+  cAppTabCaptionReasonStr: array[TAppTabCaptionReason] of char = (
+    'u',
+    's',
+    'f',
+    'p'
+    );
+
+const
   cATEditorFrameKindStr: array[TATEditorFrameKind] of string = (
     'text',
     'bin',
