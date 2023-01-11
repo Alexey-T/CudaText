@@ -1300,10 +1300,12 @@
   //Export to HTML: show line numbers in output.
   "export_html_numbers": false,
 
-  //Export to HTML: font name in output.
-  "export_html_font_name": "Courier New",
+  //Export to HTML: font name in HTML output.
+  //Default empty value means several standard names will be used:
+  //Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New,monospace
+  "export_html_font_name": "",
 
-  //Export to HTML: font size in output.
+  //Export to HTML: font size in HTML output, in "px".
   "export_html_font_size": 12,
 
   //[Python]
