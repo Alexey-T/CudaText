@@ -1195,7 +1195,7 @@ def to_str(v, escape=False):
         return ''
 
     if isinstance(v, str):
-        s = v
+        s = esc_z(v)
         if escape:
             s = s.replace(',', chr(2))
         return s
@@ -1278,12 +1278,7 @@ def finder_proc(id_finder, id_action, value="", setcaret=True):
 def esc_z(s):
     # temp solution for null chars, later replace it to full solution with app patch
     if chr(0) in s:
-        s = s.replace(chr(0), ' ')
-    '''
-    # by kvichans:
-    s = s.replace('\\', r'\\') if '\\' in s else s
-    s = s.replace(chr(0), r'\0') if chr(0) in s else s
-    '''
+        s = s.replace(chr(0), chr(20))
     return s
 
 #Editor
