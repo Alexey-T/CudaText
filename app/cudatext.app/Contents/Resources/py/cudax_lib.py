@@ -487,7 +487,7 @@ def _json_loads(s, **kw):
         pass;                   #LOG and log('FAIL: s={}',s)
         pass;                   #LOG and log('sys.exc_info()={}',sys.exc_info())
         log_file    = kw.get('log_file', _get_log_file())
-        open(log_file, 'a').write('_json_loads FAIL: s=\n'+s)
+        open(log_file, 'a').write('_json_loads FAIL with text:\n'+s+'\n')
         print('ERROR: error on loading json. Log file:', log_file)
         ans = {}
     return ans
