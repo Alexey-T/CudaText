@@ -3346,7 +3346,8 @@ begin
     exit
   end;
 
-  if (Key=VK_TAB) and (Shift<>[]) then
+  if ((Key=VK_TAB) and (Shift<>[])) or
+    ((Key>=VK_F1) and (Key<=VK_F24)) then
   begin
     Ed:= CurrentEditor;
     KeyArray.Clear;
@@ -6028,13 +6029,23 @@ end;
 procedure TfmMain.DoToggleSidePanel;
 begin
   with AppPanels[cPaneSide] do
+  begin
     Visible:= not Visible;
+    if not Visible then
+      if ActiveControl=nil then
+        DoFocusEditor(CurrentEditor);
+  end;
 end;
 
 procedure TfmMain.DoToggleBottomPanel;
 begin
   with AppPanels[cPaneOut] do
+  begin
     Visible:= not Visible;
+    if not Visible then
+      if ActiveControl=nil then
+        DoFocusEditor(CurrentEditor);
+  end;
 end;
 
 procedure TfmMain.DoToggleSidebar;

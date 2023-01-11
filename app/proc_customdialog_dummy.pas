@@ -531,7 +531,7 @@ begin
       //forward Esc press to main form
       Form:= GetParentForm(Self, true);
       if Assigned(Form) and Assigned(Form.OnKeyDown) then
-        Form.OnKeyDown(nil, Key, []);
+        Form.OnKeyDown(nil, Key, Shift);
     end
     else
     if fsModal in FFormState then
@@ -541,6 +541,15 @@ begin
 
     Key:= 0;
     exit;
+  end;
+
+  //support F12 (default: toggle side panel) in Project Manager with hidden MainMenu
+  //MainForm.OnKeyDown must handle F1..F12 as well
+  if (Key>=VK_F1) and (Key<=VK_F24) then
+  begin
+    Form:= Application.MainForm;
+    if Assigned(Form) and Assigned(Form.OnKeyDown) then
+      Form.OnKeyDown(nil, Key, Shift);
   end;
 end;
 
