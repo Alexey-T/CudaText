@@ -3361,10 +3361,11 @@ begin
   end;
 
   //allow F12 keypress from Project Manager when main menu is hidden
-  if (Key>=VK_F1) and (Key<=VK_F24) then
+  //check Sender=nil to allow F-keys only when called from another form, to not block key-combos with F-keys
+  if (Key>=VK_F1) and (Key<=VK_F24) and (Sender=nil) then
   begin
     Ed:= CurrentEditor;
-    if Assigned(Ed) and not Ed.Focused then //check Ed.Focused to not block key-combos with F-keys
+    if Assigned(Ed) then //check Ed.Focused to not block key-combos with F-keys
     begin
       KeyArray.Clear;
       N:= Ed.Keymap.GetCommandFromShortcut(ShortCut(Key, Shift), KeyArray);
