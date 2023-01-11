@@ -8211,7 +8211,7 @@ begin
   STitle:= '';
   SFontName:= UiOps.ExportHtmlFontName;
   NFontSize:= UiOps.ExportHtmlFontSize;
-  bWithNums:= false;
+  bWithNums:= UiOps.ExportHtmlNumbers;
   NColorBg:= GetAppColor(apclExportHtmlBg);
   NColorNums:= GetAppColor(apclExportHtmlNumbers);
   PosBegin:= Point(0, 0);
