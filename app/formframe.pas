@@ -389,8 +389,8 @@ type
     property TabCaption: string read FTabCaption write SetTabCaption;
     property TabCaptionAddon: string read FTabCaptionAddon write SetTabCaptionAddon;
     property TabCaptionUntitled: string read FTabCaptionUntitled write FTabCaptionUntitled;
-    property TabImageIndex: integer read FTabImageIndex write SetTabImageIndex;
     property TabCaptionReason: TAppTabCaptionReason read FTabCaptionReason write FTabCaptionReason;
+    property TabImageIndex: integer read FTabImageIndex write SetTabImageIndex;
     property TabId: integer read FTabId;
     property TabIsPreview: boolean read GetIsPreview write SetIsPreview;
     property TabVisible: boolean read GetTabVisible write SetTabVisible;
