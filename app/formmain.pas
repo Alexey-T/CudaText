@@ -3346,18 +3346,35 @@ begin
     exit
   end;
 
-  if ((Key=VK_TAB) and (Shift<>[])) or
-    ((Key>=VK_F1) and (Key<=VK_F24)) then
+  if (Key=VK_TAB) and (Shift<>[]) then
   begin
     Ed:= CurrentEditor;
-    KeyArray.Clear;
     if Assigned(Ed) then
     begin
+      KeyArray.Clear;
       N:= Ed.Keymap.GetCommandFromShortcut(ShortCut(Key, Shift), KeyArray);
       if N>=0 then
         Ed.DoCommand(N, cInvokeHotkey);
     end;
     Key:= 0;
+    exit;
+  end;
+
+  //allow F12 keypress from Project Manager when main menu is hidden
+  if (Key>=VK_F1) and (Key<=VK_F24) then
+  begin
+    Ed:= CurrentEditor;
+    if Assigned(Ed) and not Ed.Focused then //check Ed.Focused to not block key-combos with F-keys
+    begin
+      KeyArray.Clear;
+      N:= Ed.Keymap.GetCommandFromShortcut(ShortCut(Key, Shift), KeyArray);
+      if N>=0 then
+      begin
+        Ed.DoCommand(N, cInvokeHotkey);
+        Key:= 0;
+      end;
+    end;
+    exit;
   end;
 end;
 
