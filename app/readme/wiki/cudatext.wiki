@@ -143,6 +143,9 @@ CudaText has several default values:
 Section "plugin_groups" in user.json. '''Configures grouping in the Plugins menu''', e.g. allows to put all "HTML ..." and "CSS ..." menu items into "Web" submenu. Example:
 
 <syntaxhighlight lang="javascript">
+{
+  ....other settings
+    
   "plugin_groups": {
     "CSS .+": "Web",
     "HTML .+": "Web",
@@ -150,6 +153,9 @@ Section "plugin_groups" in user.json. '''Configures grouping in the Plugins menu
     "Config.+": "Config",
     "Option.+": "Config",
   },
+  
+  ....other settings
+}
 </syntaxhighlight>
 
 * Key name: regular expression for the first part of menu name. E.g. if menu name in install.inf is "CSS Utils\Misc\Action", then first part is "CSS Utils".
