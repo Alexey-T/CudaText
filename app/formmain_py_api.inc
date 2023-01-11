@@ -8206,13 +8206,14 @@ var
 begin
   AToMemory:= false;
   AMemory:= '';
+
   SFileName:= '';
   STitle:= '';
-  SFontName:= '';
-  NFontSize:= 10;
-  bWithNums:= true;
-  NColorBg:= clWhite;
-  NColorNums:= clGray;
+  SFontName:= UiOps.ExportHtmlFontName;
+  NFontSize:= UiOps.ExportHtmlFontSize;
+  bWithNums:= false;
+  NColorBg:= GetAppColor(apclExportHtmlBg);
+  NColorNums:= GetAppColor(apclExportHtmlNumbers);
   PosBegin:= Point(0, 0);
   PosEnd:= Point(0, Ed.Strings.Count);
 
