@@ -575,6 +575,7 @@ const
   cHistory_CodeTreeFilters = '/codetree_filters';
   cHistory_TabSplit    = '/split';
   cHistory_TabSplit_Mul = 1e5; //instead of float 0.6, save as int 0.6*1e5
+  cHistory_TabCaption  = '/cap';
 
 var
   FLastTabId: integer = 0;
@@ -3521,6 +3522,11 @@ begin
       c.DeleteValue(path+cHistory_TabSplit);
   end;
 
+  if TabCaptionReason in [tcrUnsavedSpecial, tcrFromPlugin] then
+    c.SetValue(path+cHistory_TabCaption, TabCaption)
+  else
+    c.DeleteValue(path+cHistory_TabCaption);
+
   if UiOps.HistoryItems[ahhLexer] then
     c.SetDeleteValue(path+cHistory_Lexer, LexerName[Ed], '');
 
@@ -3754,6 +3760,13 @@ begin
   end;
 
   TabColor:= StringToColorDef(c.GetValue(path+cHistory_TabColor, ''), clNone);
+
+  str:= c.GetValue(path+cHistory_TabCaption, '');
+  if str<>'' then
+  begin
+    TabCaption:= str;
+    TabCaptionReason:= tcrUnsavedSpecial;
+  end;
 
   if not Ed.IsReadOnlyAutodetected then
     ReadOnly[Ed]:= c.GetValue(path+cHistory_ReadOnly, ReadOnly[Ed]);
