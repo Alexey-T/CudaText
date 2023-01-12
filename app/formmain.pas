@@ -3365,7 +3365,7 @@ begin
   if (Key>=VK_F1) and (Key<=VK_F24) and (Sender=nil) then
   begin
     Ed:= CurrentEditor;
-    if Assigned(Ed) then //check Ed.Focused to not block key-combos with F-keys
+    if Assigned(Ed) then //we may here check Ed.Focused to not block key-combos with F-keys
     begin
       KeyArray.Clear;
       N:= Ed.Keymap.GetCommandFromShortcut(ShortCut(Key, Shift), KeyArray);
