@@ -175,7 +175,9 @@ begin
   end;
 
   //load lexer-specific config+keymap
-  DoOps_LoadOptionsLexerSpecific(F, F.Editor);
+  DoOps_LoadOptionsLexerSpecific(F, F.Ed1);
+  if not F.EditorsLinked then
+    DoOps_LoadOptionsLexerSpecific(F, F.Ed2);
 
   UpdateStatusbar;
 
