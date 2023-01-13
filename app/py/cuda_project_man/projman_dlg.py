@@ -29,16 +29,15 @@ def dialog_config(op):
     RES_NO_DIRS = 3
     RES_NO_HIDDEN = 4
     RES_RECENTS = 6
-    RES_ON_START = 7
-    RES_TOOLBAR = 8
-    RES_GOTO_OPEN = 9
-    RES_PREVIEW = 10
-    RES_D_CLICK = 11
-    RES_CHECK_GIT = 12
-    RES_CLOSE_EXT = 13
-    RES_ICONS = 15
-    RES_ICONS_TB = 17
-    RES_OK = 20
+    RES_TOOLBAR = 7
+    RES_GOTO_OPEN = 8
+    RES_PREVIEW = 9
+    RES_D_CLICK = 10
+    RES_CHECK_GIT = 11
+    RES_CLOSE_EXT = 12
+    RES_ICONS = 14
+    RES_ICONS_TB = 16
+    RES_OK = 19
 
     themes = get_themes_filetype()
     try:
@@ -68,8 +67,6 @@ def dialog_config(op):
         +[c1.join(['type=label', 'pos=6,88,500,0', 'cap='+_('&Recent projects:')])]
         +[c1.join(['type=memo', 'pos=6,104,500,180',
             'val='+'\t'.join(op.get('recent_projects', [])) ])]
-        +[c1.join(['type=check', 'pos=6,186,400,0', 'cap='+_('&Load on app start, reopen last project (*)'),
-            'val=0', 'en=0' ])]
         +[c1.join(['type=check', 'pos=6,210,400,0', 'cap='+_('&Show toolbar'),
             'val='+bool_to_str(op.get('toolbar', True)) ])]
         +[c1.join(['type=check', 'pos=6,236,400,0', 'cap='+_('Open file after "&Go to file" command'),
