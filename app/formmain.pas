@@ -5274,6 +5274,8 @@ begin
   Dirs:= Concat(Dirs, [AppDir_Py, AppDir_Py+DirectorySeparator+'sys']);
 
   AppPython.SetPath(Dirs, PathAppend);
+
+  AppPython.Exec('import os; os.environ = { k:v for k,v in os.environ.items() if not k.upper().startswith("GIT_") }');
 end;
 
 procedure TfmMain.InitPyEngine;
