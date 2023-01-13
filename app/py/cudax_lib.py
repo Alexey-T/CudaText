@@ -142,6 +142,7 @@ def get_app_default_opts(lexer='', **kw):
     if not APP_DEFAULT_OPTS:
         # Once load def-opts
         def_json    = os.path.join(get_def_setting_dir(), 'default.json')
+        kw['fn']    = def_json
         APP_DEFAULT_OPTS = _json_loads(open(def_json, encoding='utf8').read(), **kw)
 #       APP_DEFAULT_OPTS = _json_loads(open(def_json, encoding='utf8').read(), object_pairs_hook=collections.OrderedDict, **kw)
 #       APP_DEFAULT_OPTS = _json_loads(open(def_json).read(), **kw)
@@ -152,6 +153,7 @@ def get_app_default_opts(lexer='', **kw):
         return APP_DEFAULT_OPTS
     lex_opts    = APP_DEF_LEX_OPTS.get(lexer)
     if not lex_opts:
+        kw['fn']    = lex_json
         lex_opts    = _json_loads(open(lex_json, encoding='utf8').read(), **kw)
         def_opts    = APP_DEFAULT_OPTS.copy()
         def_opts.update(lex_opts)
@@ -170,12 +172,14 @@ def _get_file_opts(opts_json, def_opts={}, **kw):
     mtime_os    = os.path.getmtime(opts_json)
     if opts_json not in LAST_FILE_OPTS:
         pass;                  #LOG and log('load "{}" with mtime_os={}',os.path.basename(opts_json), int(mtime_os))
+        kw['fn'] = opts_json
         opts    = _json_loads(open(opts_json, encoding='utf8').read(), **kw)
         LAST_FILE_OPTS[opts_json]       = (opts, mtime_os)
     else:
         opts, mtime = LAST_FILE_OPTS[opts_json]
         if mtime_os > mtime:
             pass;              #LOG and log('reload "{}" with mtime, mtime_os={}',os.path.basename(opts_json), (int(mtime), int(mtime_os)))
+            kw['fn'] = opts_json
             opts= _json_loads(open(opts_json, encoding='utf8').read(), **kw)
             LAST_FILE_OPTS[opts_json]   = (opts, mtime_os)
     return opts
