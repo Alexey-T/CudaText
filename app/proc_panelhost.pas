@@ -561,14 +561,14 @@ begin
     exit
   end;
 
-  //avoid plugin call if panel already inited
   NPanel:= CaptionToPanelIndex(SCaption);
-  if (NPanel>=0) and (TAppPanelItem(Panels[NPanel]).ItemControl=nil) then
-    OnCommand(Btn.DataString);
-
   if NPanel>=0 then
   begin
     Panel:= TAppPanelItem(Panels[NPanel]);
+
+    if Panel.ItemControl=nil then //avoid plugin call if panel already inited
+      OnCommand(Btn.DataString);
+
     if Assigned(Panel.ItemOnShow) then
       if Assigned(Panel.ItemControl) and not Panel.ItemControl.Visible then
         Panel.ItemOnShow(nil);
