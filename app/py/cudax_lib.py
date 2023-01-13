@@ -476,18 +476,25 @@ def _json_loads(s, **kw):
                         return line[:pos]
                 pos += 1
         return line
+
     s = re.sub(r'^.*//.*$'     , rm_cm, s, flags=re.MULTILINE)     # re.MULTILINE for ^$
     s = re.sub(r'{\s*,'         , r'{' , s)
     s = re.sub(r',\s*}'         , r'}' , s)
     s = re.sub(r'\[\s*,'        , r'[' , s)
     s = re.sub(r',\s*\]'        , r']' , s)
+
+    fn = ''
+    if 'fn' in kw:
+        fn = kw['fn']
+        kw.pop('fn')
+
     try:
         ans = json.loads(s, **kw)
     except:
         pass;                   #LOG and log('FAIL: s={}',s)
         pass;                   #LOG and log('sys.exc_info()={}',sys.exc_info())
         log_file    = kw.get('log_file', _get_log_file())
-        open(log_file, 'a').write('_json_loads FAIL with text:\n'+s+'\n')
+        open(log_file, 'a').write('_json_loads FAIL: filename "'+fn+'", text:\n'+s+'\n')
         print('ERROR: error on loading json. Log file:', log_file)
         ans = {}
     return ans
