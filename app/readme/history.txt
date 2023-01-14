@@ -3,6 +3,11 @@
   - fixed
   * changed
 
+1.182.1 (2023/01)
+
+- fix: dialog "Save tabs": if user presses Cancel in "Save file as", don't quit (thanks @Andreas0602)
+- fix: some minor UI issues (thanks @veksha)
+
 1.182.0 (2023/01)
 
 + add: macOS: use latest Lazarus patches to fully support macOS IME
