@@ -3861,7 +3861,8 @@ begin
             if Form.List.Checked[i] then
             begin
               F:= Form.List.Items.Objects[i] as TEditorFrame;
-              F.DoFileSave(false, true);
+              if not F.DoFileSave(false, true) then
+                exit(false);
             end;
         end;
     end;
