@@ -2170,7 +2170,11 @@ begin
   end;
 
   if not Application.Terminated then //prevent crash on exit
+  begin
     DoPyEvent(Ed1, cEventOnClose, []);
+    if not EditorsLinked then
+      DoPyEvent(Ed2, cEventOnClose, []);
+  end;
 
   FreeAndNil(MacroStrings);
   FreeAndNil(FCodetreeFilterHistory);

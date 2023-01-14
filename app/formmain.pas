@@ -2954,6 +2954,8 @@ begin
     //on_close are not fired automatically on app exit
     //(because we don't really close tabs on exit), so fire it here
     DoPyEvent(F.Ed1, cEventOnClose, []);
+    if not F.EditorsLinked then
+      DoPyEvent(F.Ed2, cEventOnClose, []);
   end;
 
   //after UpdateMenuRecent
@@ -3089,7 +3091,9 @@ begin
   for i:= 0 to FrameCount-1 do
   begin
     F:= Frames[i];
-    DoPyEvent(F.Editor, cEventOnCloseBefore, []);
+    DoPyEvent(F.Ed1, cEventOnCloseBefore, []);
+    if not F.EditorsLinked then
+      DoPyEvent(F.Ed2, cEventOnCloseBefore, []);
   end;
 
   if GetModifiedCount>0 then
