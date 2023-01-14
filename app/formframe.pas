@@ -2813,8 +2813,9 @@ begin
   Result:= true;
   if not EditorsLinked and AAllEditors then
   begin
-    Result:= DoFileSave_Ex(Ed1, ASaveAs);
-    Result:= DoFileSave_Ex(Ed2, ASaveAs);
+    Result:=
+      DoFileSave_Ex(Ed1, ASaveAs) and
+      DoFileSave_Ex(Ed2, ASaveAs);
   end
   else
   begin
