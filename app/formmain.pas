@@ -5280,7 +5280,7 @@ begin
 
   AppPython.SetPath(Dirs, PathAppend);
 
-  AppPython.Exec('import os; os.environ = { k:v for k,v in os.environ.items() if not k.upper().startswith("GIT_") }');
+  AppPython.Exec('import os; for k in os.environ.keys():k.upper().startswith("GIT_") and os.environ.pop(k)');
 end;
 
 procedure TfmMain.InitPyEngine;
