@@ -520,13 +520,13 @@ class Command:
         else:
             #Linux and others
             if which('nautilus'):
-                subprocess.Popen(['nautilus', '"'+fn+'"', shell=True)
+                os.system('nautilus "'+fn+'"')
             elif which('thunar'):
-                subprocess.Popen(['thunar', '"'+os.path.dirname(fn)+'"'], shell=True)
+                os.system('thunar "'+os.path.dirname(fn)+'"')
             elif which('caja'):
-                subprocess.Popen(['caja', '"'+os.path.dirname(fn)+'"'], shell=True)
+                os.system('caja "'+os.path.dirname(fn)+'"')
             elif which('dolphin'):
-                subprocess.Popen(['dolphin', '--select', '--new-window', '"'+fn+'"'], shell=True)
+                os.system('dolphin --select --new-window "'+fn+'"')
             else:
                 msg_status('"Focus in file manager" does not support your file manager')
 
