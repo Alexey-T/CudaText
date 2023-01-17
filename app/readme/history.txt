@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.182.1 (2023/01)
+1.182.2 (2023/01)
 
 - fix: dialog "Save tabs": if user presses Cancel in "Save file as", don't quit (thanks @Andreas0602)
 - fix: bad rendering of long lines (>"max_line_len_parsed") in lite lexers (thanks @veksha)
