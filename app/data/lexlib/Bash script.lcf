@@ -235,7 +235,7 @@ object SyntAnal2: TLibSyntAnalyzer
       DisplayName = '(('
       StyleName = 'Symbol'
       TokenType = 8
-      Expression = '\$\(\(|\(\('
+      Expression = '\$\(\(|\(\((?!\()'
       ColumnFrom = 0
       ColumnTo = 0
     end
