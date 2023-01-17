@@ -7,6 +7,7 @@
 
 - fix: dialog "Save tabs": if user presses Cancel in "Save file as", don't quit (thanks @Andreas0602)
 - fix: bad rendering of long lines (>"max_line_len_parsed") in lite lexers (thanks @veksha)
+- fix: not fully focused tab after command "move tab to next group" (thanks @rssguy2)
 - fix: some minor UI issues (thanks @veksha)
 - fix: lexer Bash issues (thanks @Flashwalker)
 
