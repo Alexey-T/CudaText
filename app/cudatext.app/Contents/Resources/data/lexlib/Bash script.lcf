@@ -149,6 +149,14 @@ object SyntAnal2: TLibSyntAnalyzer
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
+    end
+    item
+      DisplayName = 'String $'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clFuchsia
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
     end>
   TokenRules = <
     item
@@ -389,6 +397,14 @@ object SyntAnal2: TLibSyntAnalyzer
       StyleName = 'Func name'
       TokenType = 7
       Expression = '(?<=^[\x20\x09]*)[a-z_]\w* (?=\x20*\()'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'String $'
+      StyleName = 'String $'
+      TokenType = 5
+      Expression = '"\$\(.+?\)"'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -1038,7 +1054,7 @@ object SyntAnal2: TLibSyntAnalyzer
     '#!/bin/bash'
     'var=value'
     '/ddd/ddd.sh, "test'
-    'string"'
+    'string", "$(....)"'
     '+= -= /= *= &= |= ^= ~= == != >= <= ( ) [ ] { } $( ) + - / | < >'
     'test `dirname $var 20+30`, `more $var(20) \'#39'escape\` `'
     '$@, $$, $@, $?, $-, $!, $*'

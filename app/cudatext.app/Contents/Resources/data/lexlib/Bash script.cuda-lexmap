@@ -23,3 +23,4 @@ Var %=Id3
 Math BG=SectionBG3
 Heredoc=String3
 String regexp=String2
+String $=String2
