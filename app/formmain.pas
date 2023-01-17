@@ -6341,7 +6341,7 @@ end;
 procedure TfmMain.DoFocusFrame(F: TEditorFrame);
 begin
   if Assigned(F) then
-    if Visible and F.Enabled then
+    if F.Visible and F.Enabled then
     begin
       SetFrame(F);
       F.SetFocus;
