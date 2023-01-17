@@ -508,7 +508,9 @@ class Command:
 
         if suffix=='':
             #Windows
-            os.system('explorer.exe /select,'+fn)
+            #os.system('explorer.exe /select,'+fn)
+            import subprocess
+            subprocess.Popen(['explorer.exe', '/select,', fn], shell=True) # works better
         elif suffix=='__mac':
             #macOS
             fn = fn.replace(' ', '\\ ') #macOS cannot handle quoted filename
