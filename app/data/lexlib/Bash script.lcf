@@ -923,6 +923,7 @@ object SyntAnal2: TLibSyntAnalyzer
     end
     item
       DisplayName = '('
+      Enabled = False
       ConditionList = <
         item
           TokenTypes = 32768
@@ -936,6 +937,7 @@ object SyntAnal2: TLibSyntAnalyzer
     end
     item
       DisplayName = ')'
+      Enabled = False
       BlockType = btRangeEnd
       ConditionList = <
         item
