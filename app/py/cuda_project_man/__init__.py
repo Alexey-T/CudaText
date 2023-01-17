@@ -6,6 +6,7 @@ import stat
 import copy
 import string
 import time
+import subprocess
 from fnmatch import fnmatch
 from pathlib import Path, PurePosixPath
 from .projman_glob import *
@@ -508,24 +509,24 @@ class Command:
 
         if suffix=='':
             #Windows
-            os.system('explorer.exe /select,'+fn)
+            subprocess.Popen(['explorer.exe', '/select,', fn], shell=True)
         elif suffix=='__mac':
             #macOS
             fn = fn.replace(' ', '\\ ') #macOS cannot handle quoted filename
-            os.system('open --new --reveal '+fn)
+            subprocess.Popen(['open', '--new', '--reveal', fn], shell=True)
         elif suffix=='__haiku':
             #Haiku
             msg_status('"Focus in file manager" not implemented for this OS')
         else:
             #Linux and others
             if which('nautilus'):
-                os.system('nautilus "'+fn+'"')
+                subprocess.Popen(['nautilus', '"'+fn+'"', shell=True)
             elif which('thunar'):
-                os.system('thunar "'+os.path.dirname(fn)+'"')
+                subprocess.Popen(['thunar', '"'+os.path.dirname(fn)+'"'], shell=True)
             elif which('caja'):
-                os.system('caja "'+os.path.dirname(fn)+'"')
+                subprocess.Popen(['caja', '"'+os.path.dirname(fn)+'"'], shell=True)
             elif which('dolphin'):
-                os.system('dolphin --select --new-window "'+fn+'"')
+                subprocess.Popen(['dolphin', '--select', '--new-window', '"'+fn+'"'], shell=True)
             else:
                 msg_status('"Focus in file manager" does not support your file manager')
 
