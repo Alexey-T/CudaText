@@ -513,10 +513,13 @@ begin
     cmd_GroupActivateFloat3:
       DoFormFocus(FFormFloatGroups3, true);
 
-    cmd_MoveTabToGroupNext:
-      Groups.MoveCurrentTabToNext(true);
+    cmd_MoveTabToGroupNext,
     cmd_MoveTabToGroupPrev:
-      Groups.MoveCurrentTabToNext(false);
+      begin
+        Groups.MoveCurrentTabToNext(CmdCode=cmd_MoveTabToGroupNext);
+        UpdateCaption_RealWork;
+        UpdateTabsActiveColor(CurrentFrame);
+      end;
 
     cmd_MoveTabToGroup1:
       DoMoveTabToGroup(0, true);
