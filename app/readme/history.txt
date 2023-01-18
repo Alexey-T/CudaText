@@ -3,6 +3,8 @@
   - fixed
   * changed
 
+- fix: bad look of non-blinking caret on dark themes (thanks @iconv)
+
 1.182.2 (2023/01)
 
 - fix: dialog "Save tabs": if user presses Cancel in "Save file as", don't quit (thanks @Andreas0602)
