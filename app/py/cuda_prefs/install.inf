@@ -4,10 +4,9 @@ desc=View and change options from user.json
 type=cudatext-plugin
 subdir=cuda_prefs
 homepage=https://github.com/halfbrained/cuda_prefs
-api=1.0.405
 
 [item10]
 section=commands
-caption=Options Editor Lite...
+caption=Options Editor Lite
 method=dlg_cuda_options
 ;menu=0
