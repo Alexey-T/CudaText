@@ -200,7 +200,15 @@ end;
 function TAppTreeView.DoMouseWheel(Shift: TShiftState; WheelDelta: Integer;
   MousePos: TPoint): Boolean;
 begin
-  Result:= inherited;
+  if ssShift in Shift then
+  begin
+    Result:= DoMouseWheelHorz(Shift, -WheelDelta, MousePos);
+  end
+  else
+  begin
+    Result:= inherited;
+  end;
+
   UpdateBars;
 end;
 
