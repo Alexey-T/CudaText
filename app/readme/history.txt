@@ -3,6 +3,7 @@
   - fixed
   * changed
 
++ add: code-tree, project panel, other treeviews: support horizontal scrolling by Shift+wheel
 - fix: bad look of non-blinking caret on dark themes (thanks @iconv)
 
 1.182.2 (2023/01)
