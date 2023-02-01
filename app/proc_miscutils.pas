@@ -65,6 +65,7 @@ function DoClipboardFormatsAsString: string;
 procedure AppScalePanelControls(APanel: TWinControl);
 procedure AppScaleSplitter(C: TSplitter);
 procedure AppInitProgressForm(out AForm: TForm; out AProgress: TATGauge; const AText: string);
+function AppValidateJson(const AText: string): boolean;
 
 procedure LexerEnumSublexers(An: TecSyntAnalyzer; List: TStringList);
 procedure LexerEnumStyles(An: TecSyntAnalyzer; List: TStringList);
@@ -1358,6 +1359,34 @@ begin
     end;
 end;
 
+
+function AppValidateJson(const AText: string): boolean;
+var
+  fn: string;
+  cfg: TJSONConfig;
+begin
+  fn:= GetTempDir(false)+'cudatext_user.json';
+  if FileExists(fn) then
+    DeleteFile(fn);
+  DoWriteStringToFile(fn, AText);
+
+  cfg:= TJSONConfig.Create(nil);
+  try
+    try
+      cfg.Filename:= fn;
+      Result:= true;
+    except
+      on E: Exception do
+      begin
+        MsgBox('Incorrect JSON:'#10+E.Message, MB_OK+MB_ICONERROR);
+        Result:= false;
+      end;
+    end;
+  finally
+    FreeAndNil(cfg);
+    DeleteFile(fn);
+  end;
+end;
 
 
 finalization

@@ -2918,6 +2918,14 @@ begin
   bNotifWasEnabled:= NotifEnabled;
   NotifEnabled:= false;
 
+  //don't save incorrect user.json
+  if SameFileName(SFileName, AppFile_OptionsUser) then
+    if not AppValidateJson(Ed.Text) then
+    begin
+      Ed.Modified:= true;
+      exit(false);
+    end;
+
   //EditorSaveFileAs is big:
   //handles save errors,
   //handles exception from encoding conversion (saves in UTF8 if exception)
