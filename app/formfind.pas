@@ -1655,8 +1655,9 @@ begin
         edFind.Update;
       end;
 
-      if Assigned(FOnShowMatchesCount) then
-        FOnShowMatchesCount(NMatches, NTick);
+      if NMatches=0 then //fixing #4775
+        if Assigned(FOnShowMatchesCount) then
+          FOnShowMatchesCount(NMatches, NTick);
     finally
       FreeAndNil(Finder);
     end;
