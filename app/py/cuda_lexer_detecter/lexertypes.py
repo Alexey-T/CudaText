@@ -260,6 +260,7 @@ TYPES = {
     "jq": ['JQ'],
     "jsonnet": ['Jsonnet'],
     "jsx": ['JavaScript Babel'],
+    "just": ['Just'],
     "k": ['LS-DYNA'],
     "kix": ['KiXtart'],
     "kk": ['Koka'],
