@@ -217,8 +217,8 @@ object SyntAnal2: TLibSyntAnalyzer
       NotParent = True
       TokenType = 1
       Expression = 
-        '^\#.* | (?<=[\x20\x09`])\# (?![\}\]]) (.*?(?=`)|.*$)'#13#10'#support c' +
-        'omments inside `..`'
+        '^\s*\#.* | (?<=[\x20\x09`])\# (?![\}\]]) (.*?(?=`)|.*$)'#13#10'#suppor' +
+        't comments inside `..`'
       ColumnFrom = 0
       ColumnTo = 0
     end
