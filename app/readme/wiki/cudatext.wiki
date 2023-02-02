@@ -493,6 +493,7 @@ Most of them are located in the Addons Manager "Install" list.
 * JSON
 * Jsonnet
 * Julia
+* Just
 * Kivy
 * KiXtart
 * Koka
