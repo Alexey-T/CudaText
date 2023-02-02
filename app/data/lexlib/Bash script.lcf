@@ -163,7 +163,7 @@ object SyntAnal2: TLibSyntAnalyzer
       DisplayName = 'Shebang'
       StyleName = 'Comment shebang'
       TokenType = 1
-      Expression = '^\#!.+'
+      Expression = '\A\#!.+'
       ColumnFrom = 0
       ColumnTo = 0
     end
