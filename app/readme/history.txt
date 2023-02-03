@@ -3,8 +3,9 @@
   - fixed
   * changed
 
-1.182.5 (2023/02)
+1.183.0 (2023/02)
 
++ add: on Windows, use new method to detect file changes in external programs (thanks @JairoMartinezA, @ThaiDat)
 + add: before saving user.json config (or lexer-specific config), validate its JSON text (thanks @xcme)
 + add: add default lexer-specific config for CSS to specify that '-' is a word-char in CSS
 + add: code-tree, project panel, other treeviews: support horizontal scrolling by Shift+wheel (thanks @iconv)
