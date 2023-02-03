@@ -8,6 +8,7 @@ Copyright (c) Alexey Torgashin
 unit proc_files;
 
 {$mode objfpc}{$H+}
+{$ModeSwitch advancedrecords}
 
 interface
 
@@ -36,16 +37,44 @@ procedure AppFileCheckForNullBytes(const fn: string);
 procedure AppMakeBackupFiles(const AFilename, AExtension: string; ACount: integer);
 procedure AppFindFilesByMask(List: TStringList; AMask: string);
 
+type
+  { TAppFileProps }
+
+  TAppFileProps = record
+    Inited: boolean;
+    Exists: boolean;
+    Size: Int64;
+    Age: TDateTime;
+    class operator =(const a, b: TAppFileProps): boolean;
+  end;
+
+procedure AppGetFileProps(const FileName: string; out P: TAppFileProps);
+
 
 implementation
 
 uses
-  SysUtils, LCLIntf,
-  FileUtil, LazFileUtils, LCLType,
+  {$ifdef windows}
+  Windows,
+  {$endif}
+  SysUtils, StrUtils,
+  LCLIntf, LCLType,
+  FileUtil, LazFileUtils,
   ATStrings,
   proc_globdata,
   proc_msg,
   win32linkfiles;
+
+{ TAppFileProps }
+
+class operator TAppFileProps.= (const a, b: TAppFileProps): boolean;
+begin
+  Result:=
+    (a.Exists=b.Exists) and
+    (a.Size=b.Size) and
+    (a.Age=b.Age);
+end;
+
 
 // https://forum.lazarus.freepascal.org/index.php/topic,60972.msg457443.html#msg457443
 function AppNormalizeFilenameCase(const AFilepath: string): string;
@@ -464,6 +493,76 @@ begin
   FindAllFiles(List, Dir, AMask, false{SubDirs});
 end;
 
+function RemoveWindowsStreamSuffix(const fn: string): string;
+{$ifdef windows}
+var
+  PosSlash, PosColon: integer;
+{$endif}
+begin
+  Result:= fn;
+  {$ifdef windows}
+  PosSlash:= RPos('\', fn);
+  if PosSlash=0 then exit;
+  PosColon:= Pos(':', fn, PosSlash);
+  if PosColon>0 then
+    SetLength(Result, PosColon-1);
+  {$endif}
+end;
+
+
+{$ifdef windows}
+procedure AppGetFileProps(const FileName: string; out P: TAppFileProps);
+var
+  fname: string;
+  h: THandle;
+  Info: TBYHANDLEFILEINFORMATION;
+  ModifiedTime: TFileTime;
+  SystemTime: TSystemTime;
+begin
+  fname:= RemoveWindowsStreamSuffix(FileName);
+  P.Inited:= true;
+  P.Exists:= FileExists(fname);
+  P.Size:= 0;
+  P.Age:= 0;
+  if P.Exists then
+  begin
+    h:= CreateFileW(
+      PWChar(UTF8Decode(fname)),
+      GENERIC_READ,
+      FILE_SHARE_WRITE or FILE_SHARE_READ or FILE_SHARE_DELETE,
+      nil,
+      OPEN_EXISTING,
+      FILE_ATTRIBUTE_NORMAL,
+      0);
+    if h=INVALID_HANDLE_VALUE then exit;
+    Info:= Default(TBYHANDLEFILEINFORMATION);
+    if GetFileInformationByHandle(h, Info) then
+    begin
+      P.Size:= Info.nFileSizeHigh shl 32 + Info.nFileSizeLow;
+      FileTimeToLocalFileTime(Info.ftLastWriteTime, ModifiedTime);
+      FileTimeToSystemTime(ModifiedTime, SystemTime);
+      P.Age:= SystemTimeToDateTime(SystemTime);
+    end;
+    Windows.CloseHandle(h);
+  end;
+end;
+{$else}
+procedure AppGetFileProps(const FileName: string; out P: TAppFileProps);
+var
+  Rec: TSearchRec;
+begin
+  P.Inited:= true;
+  P.Exists:= FindFirst(RemoveWindowsStreamSuffix(FileName), faAnyFile, Rec)=0;
+  P.Size:= 0;
+  P.Age:= 0;
+  if P.Exists then
+  begin
+    P.Size:= Rec.Size;
+    P.Age:= Rec.TimeStamp;
+    FindClose(Rec);
+  end;
+end;
+{$endif}
 
 end.
 

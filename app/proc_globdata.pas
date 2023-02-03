@@ -51,17 +51,6 @@ uses
   ec_SyntAnal;
 
 type
-
-  { TAppFileProps }
-
-  TAppFileProps = record
-    Inited: boolean;
-    Exists: boolean;
-    Size: Int64;
-    Age: TDateTime;
-    class operator =(const a, b: TAppFileProps): boolean;
-  end;
-
   TAppConsoleQueue = specialize TQueue<UnicodeString>;
 
   TAppCommandDelayed = record
@@ -763,7 +752,6 @@ procedure MsgOldApi(const s: string);
 procedure MsgFileFromSessionNotFound(const fn: string);
 
 function AppListboxItemHeight(AScale, ADoubleHeight: boolean): integer;
-procedure AppGetFileProps(const FileName: string; out P: TAppFileProps);
 procedure AppUpdateWatcherFrames(AMaxWorkTime: integer = 500);
 procedure AppStopListTimers;
 
@@ -3149,17 +3137,6 @@ begin
   end;
 end;
 
-{ TAppFileProps }
-
-class operator TAppFileProps.= (const a, b: TAppFileProps): boolean;
-begin
-  Result:=
-    (a.Exists=b.Exists) and
-    (a.Size=b.Size) and
-    (a.Age=b.Age);
-end;
-
-
 { TAppKeyValues }
 
 procedure TAppKeyValues.Add(const AKey, AValue: string);
@@ -3225,76 +3202,6 @@ begin
   c.Caption:= s+'...';
 end;
 
-
-function RemoveWindowsStreamSuffix(const fn: string): string;
-{$ifdef windows}
-var
-  PosSlash, PosColon: integer;
-{$endif}
-begin
-  Result:= fn;
-  {$ifdef windows}
-  PosSlash:= RPos('\', fn);
-  if PosSlash=0 then exit;
-  PosColon:= Pos(':', fn, PosSlash);
-  if PosColon>0 then
-    SetLength(Result, PosColon-1);
-  {$endif}
-end;
-
-{$ifdef windows}
-procedure AppGetFileProps(const FileName: string; out P: TAppFileProps);
-var
-  fname: string;
-  h: THandle;
-  Info: TBYHANDLEFILEINFORMATION;
-  ModifiedTime: TFileTime;
-  SystemTime: TSystemTime;
-begin
-  fname:= RemoveWindowsStreamSuffix(FileName);
-  P.Inited:= true;
-  P.Exists:= FileExists(fname);
-  P.Size:= 0;
-  P.Age:= 0;
-  if P.Exists then
-  begin
-    h:= CreateFileW(
-      PWChar(UTF8Decode(fname)),
-      GENERIC_READ,
-      FILE_SHARE_WRITE or FILE_SHARE_READ or FILE_SHARE_DELETE,
-      nil,
-      OPEN_EXISTING,
-      FILE_ATTRIBUTE_NORMAL,
-      0);
-    if h=INVALID_HANDLE_VALUE then exit;
-    Info:= Default(TBYHANDLEFILEINFORMATION);
-    if GetFileInformationByHandle(h, Info) then
-    begin
-      P.Size:= Info.nFileSizeHigh shl 32 + Info.nFileSizeLow;
-      FileTimeToLocalFileTime(Info.ftLastWriteTime, ModifiedTime);
-      FileTimeToSystemTime(ModifiedTime, SystemTime);
-      P.Age:= SystemTimeToDateTime(SystemTime);
-    end;
-    Windows.CloseHandle(h);
-  end;
-end;
-{$else}
-procedure AppGetFileProps(const FileName: string; out P: TAppFileProps);
-var
-  Rec: TSearchRec;
-begin
-  P.Inited:= true;
-  P.Exists:= FindFirst(RemoveWindowsStreamSuffix(FileName), faAnyFile, Rec)=0;
-  P.Size:= 0;
-  P.Age:= 0;
-  if P.Exists then
-  begin
-    P.Size:= Rec.Size;
-    P.Age:= Rec.TimeStamp;
-    FindClose(Rec);
-  end;
-end;
-{$endif}
 
 procedure AppUpdateWatcherFrames(AMaxWorkTime: integer = 500);
 var
