@@ -58,11 +58,7 @@ type
     Inited: boolean;
     Exists: boolean;
     Size: Int64;
-    {$ifdef windows}
     Age: TDateTime;
-    {$else}
-    Age: LongInt;
-    {$endif}
     class operator =(const a, b: TAppFileProps): boolean;
   end;
 
@@ -3249,19 +3245,21 @@ end;
 {$ifdef windows}
 procedure AppGetFileProps(const FileName: string; out P: TAppFileProps);
 var
+  fname: string;
   h: THandle;
   Info: TBYHANDLEFILEINFORMATION;
   ModifiedTime: TFileTime;
   SystemTime: TSystemTime;
 begin
+  fname:= RemoveWindowsStreamSuffix(FileName);
   P.Inited:= true;
-  P.Exists:= FileExists(FileName);
+  P.Exists:= FileExists(fname);
   P.Size:= 0;
   P.Age:= 0;
   if P.Exists then
   begin
     h:= CreateFileW(
-      PWChar(UTF8Decode(FileName)),
+      PWChar(UTF8Decode(fname)),
       GENERIC_READ,
       FILE_SHARE_WRITE or FILE_SHARE_READ or FILE_SHARE_DELETE,
       nil,
@@ -3287,16 +3285,13 @@ var
 begin
   P.Inited:= true;
   P.Exists:= FindFirst(RemoveWindowsStreamSuffix(FileName), faAnyFile, Rec)=0;
+  P.Size:= 0;
+  P.Age:= 0;
   if P.Exists then
   begin
     P.Size:= Rec.Size;
-    P.Age:= Rec.Time;
+    P.Age:= Rec.TimeStamp;
     FindClose(Rec);
-  end
-  else
-  begin
-    P.Size:= 0;
-    P.Age:= 0;
   end;
 end;
 {$endif}
