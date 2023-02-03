@@ -2919,7 +2919,13 @@ begin
   NotifEnabled:= false;
 
   //don't save incorrect user.json
-  if SameFileName(SFileName, AppFile_OptionsUser) then
+  //don't save incorrect 'lexer NNN.json'
+  if SameFileName(SFileName, AppFile_OptionsUser) or
+     (
+     SameFileName(ExtractFileDir(SFileName), AppDir_Settings) and
+     SBeginsWith(ExtractFileName(SFileName), 'lexer ') and
+     SEndsWith(SFileName, '.json')
+     ) then
     if not AppValidateJson(Ed.Text) then
     begin
       Ed.Modified:= true;

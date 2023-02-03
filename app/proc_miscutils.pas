@@ -1365,7 +1365,7 @@ var
   fn: string;
   cfg: TJSONConfig;
 begin
-  fn:= GetTempDir(false)+'cudatext_user.json';
+  fn:= GetTempDir(false)+'cudatext_validation.json';
   if FileExists(fn) then
     DeleteFile(fn);
   DoWriteStringToFile(fn, AText);
