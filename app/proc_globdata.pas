@@ -58,7 +58,11 @@ type
     Inited: boolean;
     Exists: boolean;
     Size: Int64;
+    {$ifdef windows}
+    Age: TDateTime;
+    {$else}
     Age: LongInt;
+    {$endif}
     class operator =(const a, b: TAppFileProps): boolean;
   end;
 
@@ -3242,6 +3246,41 @@ begin
   {$endif}
 end;
 
+{$ifdef windows}
+procedure AppGetFileProps(const FileName: string; out P: TAppFileProps);
+var
+  h: THandle;
+  Info: TBYHANDLEFILEINFORMATION;
+  ModifiedTime: TFileTime;
+  SystemTime: TSystemTime;
+begin
+  P.Inited:= true;
+  P.Exists:= FileExists(FileName);
+  P.Size:= 0;
+  P.Age:= 0;
+  if P.Exists then
+  begin
+    h:= CreateFileW(
+      PWChar(UTF8Decode(FileName)),
+      GENERIC_READ,
+      FILE_SHARE_WRITE or FILE_SHARE_READ or FILE_SHARE_DELETE,
+      nil,
+      OPEN_EXISTING,
+      FILE_ATTRIBUTE_NORMAL,
+      0);
+    if h=INVALID_HANDLE_VALUE then exit;
+    Info:= Default(TBYHANDLEFILEINFORMATION);
+    if GetFileInformationByHandle(h, Info) then
+    begin
+      P.Size:= Info.nFileSizeHigh shl 32 + Info.nFileSizeLow;
+      FileTimeToLocalFileTime(Info.ftLastWriteTime, ModifiedTime);
+      FileTimeToSystemTime(ModifiedTime, SystemTime);
+      P.Age:= SystemTimeToDateTime(SystemTime);
+    end;
+    Windows.CloseHandle(h);
+  end;
+end;
+{$else}
 procedure AppGetFileProps(const FileName: string; out P: TAppFileProps);
 var
   Rec: TSearchRec;
@@ -3260,6 +3299,7 @@ begin
     P.Age:= 0;
   end;
 end;
+{$endif}
 
 procedure AppUpdateWatcherFrames(AMaxWorkTime: integer = 500);
 var
