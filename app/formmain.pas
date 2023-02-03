@@ -1827,7 +1827,7 @@ procedure TAppNotifThread.HandleOneFrame;
       SFileName:= CurFrame.FileName2;
     if SFileName='' then exit;
 
-    AppGetFileProps(SFileName, Props);
+    Props.Init(SFileName);
     if not CurFrame.FileProps[EdIndex].Inited then
       CurFrame.FileProps[EdIndex]:= Props
     else

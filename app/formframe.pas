@@ -1230,7 +1230,7 @@ procedure TEditorFrame.SetFileName(const AValue: string);
 begin
   if SameFileName(FFileName, AValue) then Exit;
   FFileName:= AValue;
-  AppGetFileProps(FFileName, FileProps[0]);
+  FileProps[0].Init(FFileName);
 end;
 
 procedure TEditorFrame.UpdateTabTooltip;
@@ -1267,7 +1267,7 @@ procedure TEditorFrame.SetFileName2(const AValue: string);
 begin
   if SameFileName(FFileName2, AValue) then Exit;
   FFileName2:= AValue;
-  AppGetFileProps(FFileName2, FileProps[1]);
+  FileProps[1].Init(FFileName2);
 end;
 
 procedure TEditorFrame.SetFileWasBig(Ed: TATSynEdit; AValue: boolean);
@@ -2962,11 +2962,11 @@ begin
 
   if EditorsLinked then
   begin
-    AppGetFileProps(SFileName, FileProps[0]);
+    FileProps[0].Init(SFileName);
     FileProps[1]:= FileProps[0];
   end
   else
-    AppGetFileProps(SFileName, FileProps[EdIndex]);
+    FileProps[EdIndex].Init(SFileName);
 
   NotifEnabled:= bNotifWasEnabled or bNameChanged;
 end;
