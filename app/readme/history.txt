@@ -10,7 +10,7 @@
 + add: add default lexer-specific config for CSS to specify that '-' is a word-char in CSS
 + add: code-tree, project panel, other treeviews: support horizontal scrolling by Shift+wheel (thanks @iconv)
 - fix: bad look of non-blinking caret on dark themes (thanks @iconv)
-- fix: "trembling" of text after selection, on Qt and macOS (thanks @Andreas0602)
+- fix: "trembling" of text after selection, on Qt and macOS, without lexer (thanks @Andreas0602)
 - fix: issues in Bash lexer (thanks @Flashwalker)
 
 1.182.2 (2023/01)
