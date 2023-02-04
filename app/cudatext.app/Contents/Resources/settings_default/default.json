@@ -721,7 +721,9 @@
   "caret_proximity_vert": 0,
 
   //[Find]
-  //Find dialog: show window, not docked to app bottom (applied after restart).
+  //Find dialog: show Find dialog as separate window (not docked to the main window).
+  //Option is applied after app restart.
+  //Option is disabled in GTK2 versions due to the bug in Lazarus.
   "find_separate_form": false,
 
   //Find dialog: suggest selection (of first caret) as initial search text.
