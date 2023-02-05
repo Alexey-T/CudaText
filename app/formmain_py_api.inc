@@ -7030,7 +7030,7 @@ begin
   begin
     Obj:= TObject(PtrInt(IdCanvas));
     if not (Obj is TCanvas) then
-      Result:= nil
+      Result:= nil //caller will see Nil and will show console message about wrong IdCanvas class
     else
       Result:= TCanvas(Obj);
   end;
