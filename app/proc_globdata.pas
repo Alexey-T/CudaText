@@ -36,6 +36,7 @@ uses
   ATSynEdit_Adapter_litelexer,
   ATSynEdit_Commands,
   ATSynEdit_CharSizeArray,
+  ATSynEdit_ClipRecents,
   ATStringProc,
   ATStringProc_Separator,
   ATFlatThemes,
@@ -3918,7 +3919,7 @@ initialization
   AppManagerLite.OnApplyStyle:= @LiteLexer_ApplyStyle;
   AppManagerThread:= TAppManagerThread.Create(false);
 
-  ATEditorOptions.MaxClipboardRecents:= 15;
+  ATEditorMaxClipboardRecents:= 15;
 
   AppStatusbarMessages:= TStringList.Create;
   AppStatusbarMessages.TextLineBreakStyle:= tlbsLF;

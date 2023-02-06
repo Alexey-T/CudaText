@@ -999,7 +999,7 @@ begin
   ATEditorOptions.MouseDragDropFocusesTargetEditor:= cfg.GetValue('mouse_drag_drop_focus_target', ATEditorOptions.MouseDragDropFocusesTargetEditor);
   ATEditorOptions.MaxTabPositionToExpand:= cfg.GetValue('tab_max_pos_expanded', ATEditorOptions.MaxTabPositionToExpand);
   ATEditorOptions.MaxLineLenForAccurateCharWidths:= Min(1024, cfg.GetValue('max_line_len_for_accurate_width', ATEditorOptions.MaxLineLenForAccurateCharWidths));
-  ATEditorOptions.MaxClipboardRecents:= cfg.GetValue('ui_max_history_clipboard', ATEditorOptions.MaxClipboardRecents);
+  ATEditorMaxClipboardRecents:= cfg.GetValue('ui_max_history_clipboard', ATEditorMaxClipboardRecents);
   ATEditorOptions.MinimapColoringTime:= cfg.GetValue('minimap_coloring_time', ATEditorOptions.MinimapColoringTime);
   ATEditorOptions.SpeedScrollAutoVert:= cfg.GetValue('mouse_scroll_speed_vert', ATEditorOptions.SpeedScrollAutoVert);
 

@@ -1225,6 +1225,7 @@ uses
   EmmetHelper,
   TreeHelpers_Base,
   TreeHelpers_Proc,
+  ATSynEdit_ClipRecents,
   ATStringProc_HtmlColor;
 
 {$R *.lfm}
