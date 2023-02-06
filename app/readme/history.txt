@@ -3,6 +3,9 @@
   - fixed
   * changed
 
+
++ add: handle double-click on folded-rectangle-mark like [def name...] or [...] - it selects all lines of this folded range
+
 1.183.0 (2023/02)
 
 + add: on Windows, use new method to detect file changes in external programs (thanks @JairoMartinezA, @ThaiDat)
