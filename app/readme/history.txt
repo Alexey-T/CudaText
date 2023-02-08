@@ -3,8 +3,9 @@
   - fixed
   * changed
 
+1.183.1 (2023/02)
 
-+ add: handle double-click on folded-rectangle-mark like [def name...] or [...] - it selects all lines of this folded range
++ add: handle double-click on folded-rectangle-marks like [def name...] or [...] - it selects all lines of this folded range
 + add: handle Shift+click on gutter line numbers: it makes selection (thanks @JairoMartinezA)
 
 1.183.0 (2023/02)
