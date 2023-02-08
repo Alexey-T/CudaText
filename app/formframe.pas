@@ -3901,11 +3901,11 @@ begin
       UiOps.FindIndentHorz,
       UiOps.FindIndentVert,
       false,
-      true
+      false //ADoUnfold must be False, to fix issue #4564
       );
   end;
 
-  //solve CudaText #3288, so Undo jumps to initial caret pos
+  //solve issue #3288, so Undo jumps to initial caret pos
   Ed.Strings.ActionSaveLastEditionPos(NCaretPosX, NCaretPosY);
 
   FCodetreeFilter:= c.GetValue(path+cHistory_CodeTreeFilter, '');
