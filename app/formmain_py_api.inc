@@ -5569,7 +5569,7 @@ begin
 
         APP_PROC_GET_AUTOCOMPLETION_INVOKE:
           begin
-            Result:= PyUnicodeFromString(AppAutocompleteInvoke);
+            Result:= PyUnicodeFromString(string(AppAutocompleteInvoke));
           end;
 
         APP_PROC_SEND_MESSAGE:
