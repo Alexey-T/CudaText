@@ -174,6 +174,8 @@ begin
   end;
 
   FBusyClickUi:= false;
+
+  ButtonPanel1.OKButton.Enabled:= false;
 end;
 
 procedure TfmChooseTheme.ListboxSyntaxClick(Sender: TObject);
@@ -199,6 +201,8 @@ begin
   end;
 
   FBusyClickSyntax:= false;
+
+  ButtonPanel1.OKButton.Enabled:= false;
 end;
 
 procedure TfmChooseTheme.Localize;
@@ -283,6 +287,7 @@ end;
 procedure TfmChooseTheme.IdleTimer1Timer(Sender: TObject);
 begin
   ThemeSetter(SelectedThemeUI, SelectedThemeSyntax);
+  ButtonPanel1.OKButton.Enabled:= true;
 end;
 
 

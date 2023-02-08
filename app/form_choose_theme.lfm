@@ -16,7 +16,7 @@ object fmChooseTheme: TfmChooseTheme
   Scaled = False
   object GroupUI: TGroupBox
     Left = 6
-    Height = 408
+    Height = 393
     Top = 6
     Width = 178
     Align = alLeft
@@ -24,48 +24,50 @@ object fmChooseTheme: TfmChooseTheme
     BorderSpacing.Top = 6
     BorderSpacing.Bottom = 6
     Caption = 'UI themes'
-    ClientHeight = 388
-    ClientWidth = 174
+    ClientHeight = 375
+    ClientWidth = 176
     TabOrder = 0
     object ListboxUI: TListBox
       Left = 0
-      Height = 388
+      Height = 375
       Top = 0
-      Width = 174
+      Width = 176
       Align = alClient
       ItemHeight = 0
       OnClick = ListboxUIClick
       ScrollWidth = 174
       TabOrder = 0
+      TopIndex = -1
     end
   end
   object GroupSyntax: TGroupBox
     Left = 190
-    Height = 408
+    Height = 393
     Top = 6
     Width = 177
     Align = alClient
     BorderSpacing.Around = 6
     Caption = 'Syntax themes'
-    ClientHeight = 388
-    ClientWidth = 173
+    ClientHeight = 375
+    ClientWidth = 175
     TabOrder = 1
     object ListboxSyntax: TListBox
       Left = 0
-      Height = 388
+      Height = 375
       Top = 0
-      Width = 173
+      Width = 175
       Align = alClient
       ItemHeight = 0
       OnClick = ListboxSyntaxClick
       ScrollWidth = 173
       TabOrder = 0
+      TopIndex = -1
     end
   end
   object ButtonPanel1: TButtonPanel
     Left = 6
-    Height = 26
-    Top = 464
+    Height = 33
+    Top = 457
     Width = 361
     OKButton.Name = 'OKButton'
     OKButton.DefaultCaption = True
@@ -81,8 +83,8 @@ object fmChooseTheme: TfmChooseTheme
   end
   object chkSync: TCheckBox
     Left = 6
-    Height = 19
-    Top = 439
+    Height = 23
+    Top = 428
     Width = 361
     Align = alBottom
     BorderSpacing.Left = 6
@@ -93,8 +95,8 @@ object fmChooseTheme: TfmChooseTheme
   end
   object chkEnableLex: TCheckBox
     Left = 6
-    Height = 19
-    Top = 420
+    Height = 23
+    Top = 405
     Width = 361
     Align = alBottom
     BorderSpacing.Left = 6
