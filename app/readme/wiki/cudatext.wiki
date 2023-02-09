@@ -259,6 +259,7 @@ Misc:
 * Shift+ scroll mouse wheel - Scroll text horizontally.
 * Ctrl+ scroll mouse wheel (with option "mouse_wheel_zoom":true) - Zoom text in/out.
 * Ctrl+ scroll mouse wheel (in the picture viewer) - Zoom picture in/out.
+* Shift+click on gutter line number - Select lines, from 1st caret position to the index of clicked line.
 
 Drag-drop of selected text block:
 
