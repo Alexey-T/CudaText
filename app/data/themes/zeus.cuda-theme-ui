@@ -32,7 +32,7 @@
   "EdBorder" : "#505C63",
   "EdBorderFocused" : "#800000",
   "EdBlockSepLine" : "#A0A0A4",
-  "EdFoldMarkLine" : "#2E3336",
+  "EdFoldMarkLine" : "#808080",
   "EdFoldMarkFont" : "#808080",
   "EdFoldMarkBorder" : "#808080",
   "EdFoldMarkBg" : "#2E3336",
