@@ -7,7 +7,7 @@
 
 + add: handle double-click on folded-rectangle-marks (like [def name...]): it selects all lines of this folded range
 + add: handle Shift+click on gutter line numbers (thanks @JairoMartinezA)
-+ add: better do "Delete line" when caret is on folded range start (thanks @Crowbarous)
++ add: command "Delete line" with caret on beginning of folded range: must unfold the range first (thanks @Crowbarous)
 
 1.183.0 (2023/02)
 
