@@ -434,6 +434,7 @@
 + add: detect encoding in XML files by signature like <?xml encoding="ISO-8859-9"?> (thanks @ertank)
 + add: Command Palette and API menus 'fuzzy search' improved: first show items with plain matches, then show items with fuzzy-only matches; similar to Sublime Text (thanks @adoeller)
 + add: Addon Manager: enabled 'fuzzy search' in menus
+- fix: UI-theme item "editor, folded line" was invisible on few standard themes
 
 1.160.2 (2022/04)
 
