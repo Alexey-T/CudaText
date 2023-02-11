@@ -261,7 +261,6 @@ object SyntAnal2: TLibSyntAnalyzer
       DisplayName = ']]'
       StyleName = 'Symbol'
       BlockName = '[['
-      StrictParent = True
       TokenType = 11
       Expression = '\]\]'
       ColumnFrom = 0
