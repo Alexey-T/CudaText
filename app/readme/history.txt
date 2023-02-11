@@ -7,6 +7,7 @@
 
 + add: handle double-click on folded-rectangle-marks (like [def name...]): it selects all lines of this folded range
 + add: handle Shift+click on gutter line numbers (thanks @JairoMartinezA)
+* change: disable command "Delete line(s)" on lines of folded block
 
 1.183.0 (2023/02)
 
