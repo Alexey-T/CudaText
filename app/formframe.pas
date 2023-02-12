@@ -13,7 +13,7 @@ interface
 
 uses
   Classes, SysUtils, Graphics, Forms, Controls, Dialogs,
-  ExtCtrls, Menus, StrUtils, ComCtrls, Clipbrd,
+  ExtCtrls, Menus, ComCtrls,
   LCLIntf, LCLProc, LCLType, LazUTF8, LazFileUtils, FileUtil,
   ATSynEdit,
   ATSynEdit_Adapters,
@@ -50,7 +50,6 @@ uses
   ec_SyntAnal,
   ec_proc_lexer,
   ec_lexerlist,
-  formlexerstylemap,
   at__jsonconf;
 
 type
@@ -534,6 +533,8 @@ implementation
 uses
   Math,
   IniFiles,
+  StrUtils,
+  Clipbrd,
   ATSynEdit_Globals,
   ATSynEdit_Keymap_Init,
   ATSynEdit_Carets,
@@ -546,7 +547,8 @@ uses
   ATStringProc_Separator,
   ATStringProc_HtmlColor,
   ATSynEdit_Cmp_RenderHTML,
-  ATStreamSearch;
+  ATStreamSearch,
+  formlexerstylemap;
 
 {$R *.lfm}
 
