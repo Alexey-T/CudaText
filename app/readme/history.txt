@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.183.2 (2023/02)
+1.184.0 (2023/02)
 
 + add: handle click on gutter line number, which is first line of folded range -- it selects the entire range (thanks @adoeller)
 + add: handle double-click on folded-rectangle-marks (like [def name...]) -- it selects all lines of this folded range
@@ -11,6 +11,7 @@
 + add: command "Delete line" with caret on beginning of folded range: must unfold the range first (thanks @Crowbarous)
 + add: lexer JS: highlight 'modifier' keywords with a new style
 - fix: theme item "editor, folded line" was invisible on few standard themes (thanks @adoeller)
+- fix: folding underline '— — — —' was not painted for last line
 
 1.183.0 (2023/02)
 
