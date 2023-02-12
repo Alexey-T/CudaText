@@ -2336,7 +2336,8 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_INSERT: bool: insert/overwrite mode.
 * PROP_MODIFIED: bool: editor is modified.
 * PROP_MODIFIED_VERSION: int: counter which is incremented on each text change.
-* PROP_RULER: bool: horz ruler is shown.
+* PROP_RULER: bool: 'ruler' horizontal band is visible.
+* PROP_RULER_HEIGHT: int: height of 'ruler' band, in percents of the character cell.
 
 * PROP_LINE_STATE: int: state of the line with given index. One of LINESTATE_nnn values.
 * PROP_LINE_STATES: list of int: list of line states (LINESTATE_nnn values) for all lines.
@@ -4806,5 +4807,8 @@ It provides:
 * add: Editor.action: EDACTION_EXPORT_HTML: allow to export to memory by specifying "file_name" as "-"
 * add: app_proc: PROC_SET_CLIP_HTML
 * add: Editor.get_prop/set_prop: PROP_TAB_TITLE_REASON
+
+1.0.439 (app 1.184.0)
+* add: Editor.get_prop/set_prop: PROP_RULER_HEIGHT
 
 [[Category:CudaText]]
