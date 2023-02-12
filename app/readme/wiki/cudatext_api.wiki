@@ -2337,7 +2337,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_MODIFIED: bool: editor is modified.
 * PROP_MODIFIED_VERSION: int: counter which is incremented on each text change.
 * PROP_RULER: bool: show 'ruler' horizontal band.
-* PROP_RULER_TEXT: str: text of one line or several "\n"-separated lines, which is rendered on 'ruler' band. [[HTML formatting]] is allowed if "&lt;html&gt;" prefix is used. 
+* PROP_RULER_TEXT: str: text of one line or several "\n"-separated lines, which is rendered on 'ruler' band. [[#HTML formatting]] is allowed if "&lt;html&gt;" prefix is used. 
 
 * PROP_LINE_STATE: int: state of the line with given index. One of LINESTATE_nnn values.
 * PROP_LINE_STATES: list of int: list of line states (LINESTATE_nnn values) for all lines.
@@ -2534,7 +2534,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 * PROP_INSERT: bool: insert/overwrite mode.
 * PROP_MODIFIED: bool: editor is modified.
 * PROP_RULER: bool: show 'ruler' horizontal band.
-* PROP_RULER_TEXT: str: text of one line or several "\n"-separated lines, which is rendered on 'ruler' band. [[HTML formatting]] is allowed if "&lt;html&gt;" prefix is used. 
+* PROP_RULER_TEXT: str: text of one line or several "\n"-separated lines, which is rendered on 'ruler' band. [[#HTML formatting]] is allowed if "&lt;html&gt;" prefix is used. 
 
 * PROP_COLOR: color property, value must be 2-tuple (COLOR_ID_nnnn, int_color_value).
 * PROP_LINE_TOP: int: index of line visible at the editor top.
@@ -3049,7 +3049,7 @@ Function returns None and listbox stays open. When user chooses listbox item, it
 Note:
 * Listbox disappears if you move caret or type text, unlike usual auto-completion listboxes (they can recalculate items for new caret pos).
 
-If an item begins with "&lt;html&gt;", [[HTML formatting]] is allowed in this item.
+If an item begins with "&lt;html&gt;", [[#HTML formatting]] is allowed in this item.
 
 ===HTML formatting===
 Several APIs support rendering of HTML-formatted lines. Small subset of HTML tags is supported:
@@ -3085,7 +3085,7 @@ After user has chosen some item in the completion listbox, event "on_snippet" wi
 * Param "snippet_id": Value from complete_alt() call.
 * Param "snippet_text": Text of chosen snippet.
 
-If an item begins with "&lt;html&gt;", [[HTML formatting]] is allowed in this item.
+If an item begins with "&lt;html&gt;", [[#HTML formatting]] is allowed in this item.
 
 ===Editor.gap===
 
