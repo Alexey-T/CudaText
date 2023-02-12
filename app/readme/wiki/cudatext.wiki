@@ -2086,21 +2086,22 @@ homepage=https://github.com/nnnn/pppp
 
 ==How to see all UI theme items==
 
-* "editor, font" - color of font when no lexer is active. Click statusbar field with lexer-name, call "none".
-* "editor, disabled state, font/bg" - editor shown with this bg-color when Replace dialog runs action, with option "confirm on replace" (during confirm message editor is disabled), if no lexer active
-* "statusbar alt" - shown on 2nd statusbar, run in console: <syntaxhighlight lang="python">msg_status_alt('dd', 8)</syntaxhighlight>
-* "search progressbar" - to see it, call Replace dlg, with regex, with confirmation (2 options in Replace dlg), replace "." (any char) to "www"
+* "editor, font" - Color of font when no lexer is active. Click statusbar cell with lexer name, call "(none)" in menu.
+* "editor, disabled state, font/BG" - Editor is shown as disabled when Replace dialog runs 'Replace all' action, with option "Confirm on replace" (during confirm message editor is disabled). 'Font' color is shown when no lexer is active.
 
-* "editor, marked range bg" - shows for marked-range, to set marked range from line 5 to 10 use console: <syntaxhighlight lang="python">ed.set_prop(PROP_MARKED_RANGE, '5,10')</syntaxhighlight>
+* "statusbar alt" - Shown on alternative statusbar. Run in console: <syntaxhighlight lang="python">msg_status_alt('d'*100, 8)</syntaxhighlight>
+* "search progressbar" - To see it, call Replace dialog, with RegEx option on, with Confirmation option on (2 options in the Replace dialog), and replace "." (any char) with "www".
 
-* "editor, markers" - to see markers, call Commands dlg (F1), command "drop marker at caret".
-* "editor, separator lines" - lines show eg for lexer Pascal, above "function"/"procedure".
+* "editor, marked range BG" - Shows for marked range. To set marked range from line 5 to 10, use console: <syntaxhighlight lang="python">ed.set_prop(PROP_MARKED_RANGE, '5,10')</syntaxhighlight>
 
-* "listbox, ..." - call Commands dlg (F1 key)
-* "listbox, ..., auto-complete..." - call C or Pascal lexer, then press Ctrl+Space to call auto-completion (listbox has 3 columns, 3rd shows not for all items)
+* "editor, markers" - To see markers, call Command Palette, command "drop marker at caret".
+* "editor, horizontal folding line" - This line is painted below the folded block, when option "fold_style" is 4.
 
-* "splitters, main" - shown near Sidebar (vertical) and above Bottom panel (horizontal)
-* "splitters, groups" - shown between groups (vert/horz), activate 2-3 groups using "View" menu
+* "listbox, ..." - Colors of Command Palette dialog.
+* "listbox, ..., auto-complete..." - Call C lexer, then press Ctrl+Space to call auto-completion (listbox has 3 columns, 3rd column shows not for all items).
+
+* "splitters, main" - Shows on (vertical) splitter near Sidebar and above (horizontal) splitter near Bottom panel.
+* "splitters, groups" - Shows on splitters between groups (vertical and horizontal). Activate e.g. 2 or 3 groups using "=" top menu item.
 
 ==Meaning of syntax-theme elements==
 
