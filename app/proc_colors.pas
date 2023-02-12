@@ -374,7 +374,7 @@ begin
   SetColor(apclEdBorder, nColorBorder, 'EdBorder', 'editor, border');
   SetColor(apclEdBorderFocused, clNavy, 'EdBorderFocused', 'editor, border, focused');
   SetColor(apclEdBlockSepLine, clMedGray, 'EdBlockSepLine', 'editor, separator line');
-  SetColor(apclEdFoldMarkLine, $a06060, 'EdFoldMarkLine', 'editor, folded line');
+  SetColor(apclEdFoldMarkLine, $a06060, 'EdFoldMarkLine', 'editor, horizontal folding line - - -');
   SetColor(apclEdFoldMarkFont, $e08080, 'EdFoldMarkFont', 'editor, folded block mark, font');
   SetColor(apclEdFoldMarkBorder, $e08080, 'EdFoldMarkBorder', 'editor, folded block mark, border');
   SetColor(apclEdFoldMarkBg, nColorBack, 'EdFoldMarkBg', 'editor, folded block mark, BG');
