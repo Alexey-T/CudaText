@@ -3897,6 +3897,9 @@ begin
         PROP_CARET_MULTI:
           Result:= PyBool_FromLong(Ord(Ed.OptCaretManyAllowed));
 
+        PROP_RULER_HEIGHT:
+          Result:= PyLong_FromLong(Ed.OptRulerHeightPercents);
+
         PROP_V_MODE:
           begin
             if Assigned(F) and (F.FrameKind=efkBinaryViewer) then
@@ -4569,6 +4572,11 @@ begin
 
         PROP_CARET_MULTI:
           Ed.OptCaretManyAllowed:= ValueBool;
+
+        PROP_RULER_HEIGHT:
+          begin
+            Ed.OptRulerHeightPercents:= ValueInt;
+          end;
 
         PROP_V_MODE:
           begin
