@@ -3051,17 +3051,6 @@ Note:
 
 If an item begins with "&lt;html&gt;", [[#HTML formatting]] is allowed in this item.
 
-===HTML formatting===
-Several APIs support rendering of HTML-formatted lines. Small subset of HTML tags is supported:
-
-<pre>
-<b>bold style</b>
-<i>italic style</i>
-<u>underline style</u>
-<s>strikeout style</s>
-<font color="#AABBCC">colored font</font>
-</pre>
-
 ===Editor.complete_alt===
 
  complete_alt(text, snippet_id, len_chars, selected=0)
@@ -3234,6 +3223,18 @@ Controls editor's micromap. Possible values of "id":
 ** "param3": RGB color of column background, or COLOR_NONE for default themed color.
 
 * MICROMAP_DELETE: Delete micromap column by its tag. Param "param1": tag. Returns bool: column was found and deleted.
+
+=HTML formatting=
+Several APIs support rendering of HTML-formatted strings. Small subset of HTML tags is supported:
+
+<pre>
+<b>bold style</b>
+<i>italic style</i>
+<u>underline style</u>
+<s>strikeout style</s>
+<font color="#AABBCC">colored font</font>
+<font color="#ABC">colored font</font>
+</pre>
 
 =TreeHelpers=
 
