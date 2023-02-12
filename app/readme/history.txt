@@ -9,6 +9,8 @@
 + add: handle double-click on folded-rectangle-marks (like [def name...]) -- it selects all lines of this folded range
 + add: handle Shift+click on gutter line numbers (thanks @JairoMartinezA)
 + add: command "Delete line" with caret on beginning of folded range: must unfold the range first (thanks @Crowbarous)
++ add: lexer JS: highlight 'modifier' keywords with a new style
+- fix: UI-theme item "editor, folded line" was invisible on few standard themes
 
 1.183.0 (2023/02)
 
@@ -434,7 +436,6 @@
 + add: detect encoding in XML files by signature like <?xml encoding="ISO-8859-9"?> (thanks @ertank)
 + add: Command Palette and API menus 'fuzzy search' improved: first show items with plain matches, then show items with fuzzy-only matches; similar to Sublime Text (thanks @adoeller)
 + add: Addon Manager: enabled 'fuzzy search' in menus
-- fix: UI-theme item "editor, folded line" was invisible on few standard themes
 
 1.160.2 (2022/04)
 
