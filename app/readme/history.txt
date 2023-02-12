@@ -10,7 +10,7 @@
 + add: handle Shift+click on gutter line numbers (thanks @JairoMartinezA)
 + add: command "Delete line" with caret on beginning of folded range: must unfold the range first (thanks @Crowbarous)
 + add: lexer JS: highlight 'modifier' keywords with a new style
-- fix: UI-theme item "editor, folded line" was invisible on few standard themes
+- fix: theme item "editor, folded line" was invisible on few standard themes (thanks @adoeller)
 
 1.183.0 (2023/02)
 
