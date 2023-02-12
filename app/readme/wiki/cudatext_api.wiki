@@ -2483,6 +2483,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 *** Special codes: value cmd_PluginRun means 'plugin started', value cmd_PluginEnd means 'plugin returned'. For these codes, "text" key has the value "py:module,method," or "py:module,method,param".
 ** "invoke": String, how the command was invoked. One of values:
 *** "int": Internal calling from core components.
+*** "int_ime": Internal calling via OS IME dialog.
 *** "key": Calling via some hotkey.
 *** "menu_ctx": Calling from some context menu.
 *** "menu_main": Calling from the main menu.
