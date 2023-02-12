@@ -2337,6 +2337,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_MODIFIED: bool: editor is modified.
 * PROP_MODIFIED_VERSION: int: counter which is incremented on each text change.
 * PROP_RULER: bool: show 'ruler' horizontal band.
+* PROP_RULER_TEXT: str: text of "\n"-separated lines, which is rendered on 'ruler' band. HTML formatting is allowed, see [[Editor.complete]]. 
 
 * PROP_LINE_STATE: int: state of the line with given index. One of LINESTATE_nnn values.
 * PROP_LINE_STATES: list of int: list of line states (LINESTATE_nnn values) for all lines.
@@ -2533,6 +2534,8 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 * PROP_INSERT: bool: insert/overwrite mode.
 * PROP_MODIFIED: bool: editor is modified.
 * PROP_RULER: bool: show 'ruler' horizontal band.
+* PROP_RULER_TEXT: str: text of "\n"-separated lines, which is rendered on 'ruler' band. HTML formatting is allowed, see [[Editor.complete]]. 
+
 * PROP_COLOR: color property, value must be 2-tuple (COLOR_ID_nnnn, int_color_value).
 * PROP_LINE_TOP: int: index of line visible at the editor top.
 ** Note: If you set PROP_LINE_TOP immediately after file_open(), it may not work, you need to call app_idle(True) first.
@@ -4806,5 +4809,8 @@ It provides:
 * add: Editor.action: EDACTION_EXPORT_HTML: allow to export to memory by specifying "file_name" as "-"
 * add: app_proc: PROC_SET_CLIP_HTML
 * add: Editor.get_prop/set_prop: PROP_TAB_TITLE_REASON
+
+1.0.439 (app 1.184.0)
+* add: Editor.get_prop/set_prop: PROP_RULER_TEXT (it allows HTML formatting too)
 
 [[Category:CudaText]]
