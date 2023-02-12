@@ -3897,6 +3897,9 @@ begin
         PROP_CARET_MULTI:
           Result:= PyBool_FromLong(Ord(Ed.OptCaretManyAllowed));
 
+        PROP_RULER_TEXT:
+          Result:= PyUnicodeFromString(Ed.OptRulerText);
+
         PROP_V_MODE:
           begin
             if Assigned(F) and (F.FrameKind=efkBinaryViewer) then
@@ -4569,6 +4572,9 @@ begin
 
         PROP_CARET_MULTI:
           Ed.OptCaretManyAllowed:= ValueBool;
+
+        PROP_RULER_TEXT:
+          Ed.OptRulerText:= Str;
 
         PROP_V_MODE:
           begin
