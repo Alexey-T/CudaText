@@ -15,33 +15,20 @@ uses
   Classes, SysUtils, Graphics, Forms, Controls, Dialogs,
   ExtCtrls, Menus, StrUtils, ComCtrls, Clipbrd,
   LCLIntf, LCLProc, LCLType, LazUTF8, LazFileUtils, FileUtil,
-  IniFiles,
-  ATTabs,
-  ATGroups,
-  ATScrollBar,
-  ATGauge,
   ATSynEdit,
-  ATSynEdit_Globals,
-  ATSynEdit_Finder,
-  ATSynEdit_Keymap_Init,
   ATSynEdit_Adapters,
   ATSynEdit_Adapter_EControl,
   ATSynEdit_Adapter_LiteLexer,
-  ATSynEdit_Carets,
+  ATSynEdit_Finder,
   ATSynEdit_Gaps,
-  ATSynEdit_Markers,
-  ATSynEdit_Commands,
-  ATSynEdit_Bookmarks,
-  ATSynEdit_CanvasProc,
-  ATSynEdit_WrapInfo,
-  ATStrings,
   ATStringProc,
-  ATStringProc_Separator,
-  ATStringProc_HtmlColor,
   ATButtons,
   ATBinHex,
-  ATStreamSearch,
   ATImageBox,
+  ATGauge,
+  ATScrollBar,
+  ATTabs,
+  ATGroups,
   BGRABitmap,
   BGRABitmapTypes,
   proc_appvariant,
@@ -64,8 +51,7 @@ uses
   ec_proc_lexer,
   ec_lexerlist,
   formlexerstylemap,
-  at__jsonconf,
-  math;
+  at__jsonconf;
 
 type
   TAppFramePyEvent = function(AEd: TATSynEdit; AEvent: TAppPyEvent;
@@ -546,7 +532,21 @@ procedure UpdateTabPreviewStyle(D: TATTabData; AValue: boolean);
 implementation
 
 uses
-  ATSynEdit_Cmp_RenderHTML;
+  Math,
+  IniFiles,
+  ATSynEdit_Globals,
+  ATSynEdit_Keymap_Init,
+  ATSynEdit_Carets,
+  ATSynEdit_Markers,
+  ATSynEdit_Commands,
+  ATSynEdit_Bookmarks,
+  ATSynEdit_CanvasProc,
+  ATSynEdit_WrapInfo,
+  ATStrings,
+  ATStringProc_Separator,
+  ATStringProc_HtmlColor,
+  ATSynEdit_Cmp_RenderHTML,
+  ATStreamSearch;
 
 {$R *.lfm}
 
