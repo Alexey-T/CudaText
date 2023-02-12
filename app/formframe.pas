@@ -270,6 +270,7 @@ type
     procedure EditorOnEnter(Sender: TObject);
     procedure EditorOnDrawLine(Sender: TObject; C: TCanvas; ALineIndex, AX, AY: integer;
       const AStr: atString; const ACharSize: TATEditorCharSize; constref AExtent: TATIntFixedArray);
+    procedure EditorOnDrawRuler(Sender: TObject; C: TCanvas; const ARect: TRect; var AHandled: boolean);
     procedure EditorOnCalcBookmarkColor(Sender: TObject; ABookmarkKind: integer; var AColor: TColor);
     procedure EditorOnHotspotEnter(Sender: TObject; AHotspotIndex: integer);
     procedure EditorOnHotspotExit(Sender: TObject; AHotspotIndex: integer);
@@ -1175,6 +1176,36 @@ begin
 end;
 
 
+procedure TEditorFrame.EditorOnDrawRuler(Sender: TObject; C: TCanvas; const ARect: TRect; var AHandled: boolean);
+var
+  Ed: TATSynEdit;
+  Sep: TATStringSeparator;
+  SLine: string;
+  NCoordY: integer;
+begin
+  Ed:= Sender as TATSynEdit;
+  if Ed.OptRulerText='' then exit;
+
+  C.Brush.Color:= Ed.Colors.RulerBG;
+  C.FillRect(ARect);
+
+  Sep.Init(Ed.OptRulerText, #10);
+  NCoordY:= 0;
+  SLine:= '';
+
+  while Sep.GetItemStr(SLine) do
+  begin
+    C.TextOut(
+      ARect.Left+Ed.RectGutter.Width,
+      ARect.Top+NCoordY,
+      SLine
+      );
+    Inc(NCoordY, Ed.TextCharSize.Y);
+  end;
+
+  AHandled:= true;
+end;
+
 function TEditorFrame.GetLineEnds(Ed: TATSynEdit): TATLineEnds;
 begin
   Result:= Ed.Strings.Endings;
@@ -2030,6 +2061,7 @@ begin
   ed.OnCalcBookmarkColor:= @EditorOnCalcBookmarkColor;
   ed.OnDrawBookmarkIcon:= @EditorOnDrawBookmarkIcon;
   ed.OnDrawLine:= @EditorOnDrawLine;
+  ed.OnDrawRuler:= @EditorOnDrawRuler;
   ed.OnKeyDown:= @EditorOnKeyDown;
   ed.OnKeyUp:= @EditorOnKeyUp;
   ed.OnDrawMicromap:= @EditorDrawMicromap;
