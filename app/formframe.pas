@@ -545,6 +545,9 @@ procedure UpdateTabPreviewStyle(D: TATTabData; AValue: boolean);
 
 implementation
 
+uses
+  ATSynEdit_Cmp_RenderHTML;
+
 {$R *.lfm}
 
 const
@@ -1180,8 +1183,9 @@ procedure TEditorFrame.EditorOnDrawRuler(Sender: TObject; C: TCanvas; const ARec
 var
   Ed: TATSynEdit;
   Sep: TATStringSeparator;
-  SLine: string;
-  NCoordY: integer;
+  SRulerText, SLine: string;
+  NTextX, NTextY, NStepY: integer;
+  bUseHTML: boolean;
 begin
   Ed:= Sender as TATSynEdit;
   if Ed.OptRulerText='' then exit;
@@ -1189,18 +1193,26 @@ begin
   C.Brush.Color:= Ed.Colors.RulerBG;
   C.FillRect(ARect);
 
-  Sep.Init(Ed.OptRulerText, #10);
-  NCoordY:= 0;
+  SRulerText:= Ed.OptRulerText;
+  bUseHTML:= SBeginsWith(SRulerText, '<html>');
+  if bUseHTML then
+    Delete(SRulerText, 1, Length('<html>'));
+
+  Sep.Init(SRulerText, #10);
+  NStepY:= 0;
   SLine:= '';
 
   while Sep.GetItemStr(SLine) do
   begin
-    C.TextOut(
-      ARect.Left+Ed.RectGutter.Width,
-      ARect.Top+NCoordY,
-      SLine
-      );
-    Inc(NCoordY, Ed.TextCharSize.Y);
+    NTextX:= ARect.Left+Ed.RectGutter.Width;
+    NTextY:= ARect.Top+NStepY;
+
+    if bUseHTML then
+      CanvasTextOutHTML(C, NTextX, NTextY, SLine)
+    else
+      C.TextOut(NTextX, NTextY, SLine);
+
+    Inc(NStepY, Ed.TextCharSize.Y);
   end;
 
   AHandled:= true;
