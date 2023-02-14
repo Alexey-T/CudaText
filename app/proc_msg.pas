@@ -80,6 +80,7 @@ const
   msgCannotFindLexers = 'NOTE: Cannot find lexers: %s';
   msgCannotFindData = 'ERROR: Cannot find data: %s';
   msgCannotFindSessionFile = 'NOTE: File from session not found: %s';
+  msgBadLexerName = 'ERROR: Wrong lexer name in "newdoc_lexer": "%s"';
 
   msgTitle = 'CudaText'; //no i18n
   msgModified: array[boolean] of string = ('', '*'); //no i18n

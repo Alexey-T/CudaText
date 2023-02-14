@@ -1103,6 +1103,7 @@ procedure Lexer_DetectByFilename(const AFilename: string;
 function Lexer_DetectByFilenameOrContent(const AFilename: string;
   AChooseFunc: TecLexerChooseFunc): TecSyntAnalyzer;
 procedure Lexer_EnumAll(L: TStringList; AlsoDisabled: boolean = false);
+function Lexer_IsNameCorrect(AName: string): boolean;
 
 procedure DoMenuitemEllipsis(c: TMenuItem);
 
@@ -2500,6 +2501,22 @@ begin
   with AppManagerLite do
     for i:= 0 to LexerCount-1 do
       L.Add(Lexers[i].LexerName+msgLiteLexerSuffix);
+end;
+
+
+function Lexer_IsNameCorrect(AName: string): boolean;
+begin
+  if AName='' then
+    exit(true);
+  if SEndsWith(AName, msgLiteLexerSuffix) then
+  begin
+    SetLength(AName, Length(AName)-Length(msgLiteLexerSuffix));
+    Result:= AppManagerLite.FindLexerByName(AName)<>nil;
+  end
+  else
+  begin
+    Result:= AppManager.FindLexerByName(AName)<>nil;
+  end;
 end;
 
 
