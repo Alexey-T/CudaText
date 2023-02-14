@@ -5984,16 +5984,19 @@ begin
 end;
 
 procedure TfmMain.DoApplyNewdocLexer(F: TEditorFrame);
+var
+  Ed: TATSynEdit;
 begin
-  if not Lexer_IsNameCorrect(UiOps.NewdocLexer) then
-  begin
-    MsgLogConsole(Format(msgBadLexerName, [UiOps.NewdocLexer]));
-    exit;
-  end;
-
   //call this for empty NewdocLexer too: to apply lexer-specific config for none-lexer
   if Assigned(F) then
-    F.LexerName[F.Ed1]:= UiOps.NewdocLexer;
+  begin
+    Ed:= F.Ed1;
+    F.LexerName[Ed]:= UiOps.NewdocLexer;
+
+    if UiOps.NewdocLexer<>'' then
+      if (F.Lexer[Ed]=nil) and (F.LexerLite[Ed]=nil) then
+        MsgLogConsole(Format(msgBadLexerName, [UiOps.NewdocLexer]));
+  end;
 end;
 
 procedure TfmMain.MenuRecentItemClick(Sender: TObject);
