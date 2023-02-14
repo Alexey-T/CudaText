@@ -241,7 +241,7 @@ object SyntAnal20: TLibSyntAnalyzer
       DisplayName = 'Tag value'
       StyleName = 'Tag val'
       TokenType = 4
-      Expression = '("|'#39').*?(\1|$)'
+      Expression = '(?s)("|'#39').*?(\1|\Z)'
       ColumnFrom = 0
       ColumnTo = 0
     end
