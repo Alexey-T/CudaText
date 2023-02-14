@@ -3,8 +3,10 @@
   - fixed
   * changed
 
-1.184.1 (2023/02)
+1.184.2 (2023/02)
 
++ add: lexer XML: support multi-line quoted strings
++ add: show console error when option "newdoc_lexer" has wrong lexer name 
 - fix: option "mouse_column_selection":false blocked auto-scrolling on selection (thanks @Stefan)
 - fix: replacement of a char to LF on the last line was adding trailing LF (thanks @kvichans)
 
