@@ -6176,7 +6176,7 @@ end;
 
 procedure TfmMain.SetFullScreen_Ex(AValue: boolean; AHideAll: boolean);
   //
-  procedure FullScreen_HideElements(Ed: TATSynEdit);
+  procedure FullScreen_ForDistractionFree(Ed: TATSynEdit);
   begin
     Ed.OptMinimapVisible:= false;
     Ed.OptMicromapVisible:= false;
@@ -6184,12 +6184,13 @@ procedure TfmMain.SetFullScreen_Ex(AValue: boolean; AHideAll: boolean);
     Ed.Update;
   end;
   //
-  procedure FullScreen_RestoreElements(Ed: TATSynEdit);
+  procedure FullScreen_Restore(Ed: TATSynEdit);
   begin
     Ed.OptMinimapVisible:= EditorOps.OpMinimapShow;
     Ed.OptMicromapVisible:= EditorOps.OpMicromapShow;
     Ed.OptMicromapOnScrollbar:= EditorOps.OpMicromapOnScrollbar;
     Ed.OptTextCenteringCharWidth:= IfThen(Groups.Mode=gmOne, EditorOps.OpCenteringWidth, 0);
+    Ed.Update;
   end;
   //
 var
@@ -6207,8 +6208,8 @@ begin
 
     if AHideAll then
     begin
-      FullScreen_HideElements(F.Ed1);
-      FullScreen_HideElements(F.Ed2);
+      FullScreen_ForDistractionFree(F.Ed1);
+      FullScreen_ForDistractionFree(F.Ed2);
     end;
 
     if AHideAll or (Pos('t', UiOps.FullScreen)>0) then ShowToolbar:= false;
@@ -6228,8 +6229,8 @@ begin
     ShowSideBar:= FOrigShowSideBar;
     ShowTabsMain:= FOrigShowTabs;
 
-    FullScreen_RestoreElements(F.Ed1);
-    FullScreen_RestoreElements(F.Ed2);
+    FullScreen_Restore(F.Ed1);
+    FullScreen_Restore(F.Ed2);
 
     DoApplyGutterVisible(EditorOps.OpGutterShow);
   end;
