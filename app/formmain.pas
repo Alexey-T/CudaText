@@ -3737,9 +3737,15 @@ end;
 procedure TfmMain.FrameOnEditorPaint(Sender: TObject);
 var
   Ed: TATSynEdit;
+  Frame: TEditorFrame;
+  CurGrp: TATGroups;
 begin
   Ed:= TATSynEdit(Sender);
-  if Groups.Mode in [gmOne, gm2h, gm3h, gm4h, gm6h] then
+  Frame:= TGroupsHelper.GetEditorFrame(Ed);
+  if Frame=nil then exit;
+  CurGrp:= Frame.GetTabGroups;
+
+  if CurGrp.Mode in [gmOne, gm2h, gm3h, gm4h, gm6h] then
   begin
     if ShowDistractionFree then
       Ed.OptTextCenteringCharWidth:= EditorOps.OpCenteringForDistractionFree
