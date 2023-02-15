@@ -6176,9 +6176,9 @@ end;
 
 procedure TfmMain.SetFullScreen_Ex(AValue: boolean; AHideAll: boolean);
 var
-  Ed: TATSynEdit;
+  F: TEditorFrame;
 begin
-  Ed:= CurrentEditor;
+  F:= CurrentFrame;
   if AValue then
   begin
     FOrigShowToolbar:= ShowToolbar;
@@ -6190,10 +6190,15 @@ begin
 
     if AHideAll then
     begin
-      Ed.OptMinimapVisible:= false;
-      Ed.OptMicromapVisible:= false;
-      Ed.OptTextCenteringCharWidth:= EditorOps.OpCenteringForDistractionFree;
-      Ed.Update;
+      F.Ed1.OptMinimapVisible:= false;
+      F.Ed1.OptMicromapVisible:= false;
+      F.Ed1.OptTextCenteringCharWidth:= EditorOps.OpCenteringForDistractionFree;
+      F.Ed1.Update;
+
+      F.Ed2.OptMinimapVisible:= false;
+      F.Ed2.OptMicromapVisible:= false;
+      F.Ed2.OptTextCenteringCharWidth:= EditorOps.OpCenteringForDistractionFree;
+      F.Ed2.Update;
     end;
 
     if AHideAll or (Pos('t', UiOps.FullScreen)>0) then ShowToolbar:= false;
@@ -6212,10 +6217,17 @@ begin
     AppPanels[cPaneSide].Visible:= FOrigShowSidePanel;
     ShowSideBar:= FOrigShowSideBar;
     ShowTabsMain:= FOrigShowTabs;
-    Ed.OptMinimapVisible:= EditorOps.OpMinimapShow;
-    Ed.OptMicromapVisible:= EditorOps.OpMicromapShow;
-    Ed.OptMicromapOnScrollbar:= EditorOps.OpMicromapOnScrollbar;
-    Ed.OptTextCenteringCharWidth:= IfThen(Groups.Mode=gmOne, EditorOps.OpCenteringWidth, 0);
+
+    F.Ed1.OptMinimapVisible:= EditorOps.OpMinimapShow;
+    F.Ed1.OptMicromapVisible:= EditorOps.OpMicromapShow;
+    F.Ed1.OptMicromapOnScrollbar:= EditorOps.OpMicromapOnScrollbar;
+    F.Ed1.OptTextCenteringCharWidth:= IfThen(Groups.Mode=gmOne, EditorOps.OpCenteringWidth, 0);
+
+    F.Ed2.OptMinimapVisible:= EditorOps.OpMinimapShow;
+    F.Ed2.OptMicromapVisible:= EditorOps.OpMicromapShow;
+    F.Ed2.OptMicromapOnScrollbar:= EditorOps.OpMicromapOnScrollbar;
+    F.Ed2.OptTextCenteringCharWidth:= IfThen(Groups.Mode=gmOne, EditorOps.OpCenteringWidth, 0);
+
     DoApplyGutterVisible(EditorOps.OpGutterShow);
   end;
 
