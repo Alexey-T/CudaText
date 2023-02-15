@@ -18,6 +18,7 @@ begin
   F.OnEditorCommand:= @FrameOnEditorCommand;
   F.OnEditorChangeCaretPos:= @FrameOnEditorChangeCaretPos;
   F.OnEditorScroll:= @FrameOnEditorScroll;
+  F.OnEditorPaint:= @FrameOnEditorPaint;
   F.OnSaveFile:= @FrameOnSaveFile;
   F.OnAddRecent:= @FrameAddRecent;
   F.OnPyEvent:= @DoPyEvent;

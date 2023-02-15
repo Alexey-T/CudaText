@@ -165,6 +165,7 @@ type
     FOnEditorCommand: TATSynEditCommandEvent;
     FOnEditorChangeCaretPos: TNotifyEvent;
     FOnEditorScroll: TNotifyEvent;
+    FOnEditorPaint: TNotifyEvent;
     FOnSaveFile: TAppFrameStringEvent;
     FOnAddRecent: TNotifyEvent;
     FOnPyEvent: TAppFramePyEvent;
@@ -252,6 +253,7 @@ type
     procedure EditorOnCommand(Sender: TObject; ACmd: integer; AInvoke: TATEditorCommandInvoke; const AText: string; var AHandled: boolean);
     procedure EditorOnCommandAfter(Sender: TObject; ACommand: integer; const AText: string);
     procedure EditorOnDrawBookmarkIcon(Sender: TObject; C: TCanvas; ALineNum: integer; const ARect: TRect);
+    procedure EditorOnPaint(Sender: TObject);
     procedure EditorOnEnter(Sender: TObject);
     procedure EditorOnDrawLine(Sender: TObject; C: TCanvas; ALineIndex, AX, AY: integer;
       const AStr: atString; const ACharSize: TATEditorCharSize; constref AExtent: TATIntFixedArray);
@@ -513,6 +515,7 @@ type
     property OnEditorCommand: TATSynEditCommandEvent read FOnEditorCommand write FOnEditorCommand;
     property OnEditorChangeCaretPos: TNotifyEvent read FOnEditorChangeCaretPos write FOnEditorChangeCaretPos;
     property OnEditorScroll: TNotifyEvent read FOnEditorScroll write FOnEditorScroll;
+    property OnEditorPaint: TNotifyEvent read FOnEditorPaint write FOnEditorPaint;
     property OnSaveFile: TAppFrameStringEvent read FOnSaveFile write FOnSaveFile;
     property OnAddRecent: TNotifyEvent read FOnAddRecent write FOnAddRecent;
     property OnPyEvent: TAppFramePyEvent read FOnPyEvent write FOnPyEvent;
@@ -1677,6 +1680,11 @@ begin
     DoPyEventState(Ed, EDSTATE_PINNED);
 end;
 
+procedure TEditorFrame.EditorOnPaint(Sender: TObject);
+begin
+  if Assigned(FOnEditorPaint) then
+    FOnEditorPaint(Sender);
+end;
 
 procedure TEditorFrame.EditorOnEnter(Sender: TObject);
 var
@@ -2061,6 +2069,7 @@ begin
   ed.OnClickEndSelect:= @EditorClickEndSelect;
   ed.OnClickGap:= @EditorOnClickGap;
   ed.OnClickMicromap:= @EditorOnClickMicroMap;
+  ed.OnPaint:= @EditorOnPaint;
   ed.OnEnter:= @EditorOnEnter;
   ed.OnChange:= @EditorOnChange;
   ed.OnChangeModified:= @EditorOnChangeModified;

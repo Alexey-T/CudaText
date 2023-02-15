@@ -464,6 +464,7 @@ type
     procedure FrameOnMsgStatus(Sender: TObject; const AStr: string);
     procedure FrameOnEditorChangeCaretPos(Sender: TObject);
     procedure FrameOnEditorScroll(Sender: TObject);
+    procedure FrameOnEditorPaint(Sender: TObject);
     procedure FrameOnInitAdapter(Sender: TObject);
     procedure FrameOnChangeSlow(Sender: TObject);
     procedure FrameParseDone(Sender: TObject);
@@ -759,7 +760,6 @@ type
     procedure DoLocalizeTabTitles;
     procedure DoApplyCli(const ACliModule: string; const ACliParams: TAppStringArray);
     procedure DoApplyNewdocLexer(F: TEditorFrame);
-    procedure DoApplyCenteringOption;
     procedure DoApplyLexerStylesMapsToFrames(AndApplyTheme: boolean);
     procedure DoApplyTranslationToGroups(G: TATGroups);
     procedure DoClearSingleFirstTab;
@@ -3734,6 +3734,24 @@ begin
   MsgStatus(AStr);
 end;
 
+procedure TfmMain.FrameOnEditorPaint(Sender: TObject);
+var
+  Ed: TATSynEdit;
+begin
+  Ed:= TATSynEdit(Sender);
+  if Groups.Mode=gmOne then
+  begin
+    if ShowDistractionFree then
+      Ed.OptTextCenteringCharWidth:= EditorOps.OpCenteringForDistractionFree
+    else
+      Ed.OptTextCenteringCharWidth:= EditorOps.OpCenteringWidth;
+  end
+  else
+  begin
+    Ed.OptTextCenteringCharWidth:= 0;
+  end;
+end;
+
 procedure TfmMain.MenuRecentsClear(Sender: TObject);
 begin
   DoOps_ClearConfigHistory([acheRecentFiles]);
@@ -4178,30 +4196,6 @@ end;
 procedure TfmMain.DoGroupsChangeMode(Sender: TObject);
 begin
   DoPyEvent_AppState(APPSTATE_GROUPS);
-  DoApplyCenteringOption;
-end;
-
-procedure TfmMain.DoApplyCenteringOption;
-var
-  F: TEditorFrame;
-  NCentering, i: integer;
-begin
-  if EditorOps.OpCenteringWidth>0 then
-  begin
-    if Groups.Mode<>gmOne then
-      NCentering:= 0
-    else
-      NCentering:= EditorOps.OpCenteringWidth;
-
-    for i:= 0 to FrameCount-1 do
-    begin
-      F:= Frames[i];
-      F.Ed1.OptTextCenteringCharWidth:= NCentering;
-      F.Ed2.OptTextCenteringCharWidth:= NCentering;
-      F.Ed1.Update;
-      F.Ed2.Update;
-    end;
-  end;
 end;
 
 procedure TfmMain.CodeTreeFilter_OnChange(Sender: TObject);
@@ -6180,7 +6174,6 @@ procedure TfmMain.SetFullScreen_Ex(AValue: boolean; AHideAll: boolean);
   begin
     Ed.OptMinimapVisible:= false;
     Ed.OptMicromapVisible:= false;
-    Ed.OptTextCenteringCharWidth:= EditorOps.OpCenteringForDistractionFree;
     Ed.Update;
   end;
   //
@@ -6189,7 +6182,6 @@ procedure TfmMain.SetFullScreen_Ex(AValue: boolean; AHideAll: boolean);
     Ed.OptMinimapVisible:= EditorOps.OpMinimapShow;
     Ed.OptMicromapVisible:= EditorOps.OpMicromapShow;
     Ed.OptMicromapOnScrollbar:= EditorOps.OpMicromapOnScrollbar;
-    Ed.OptTextCenteringCharWidth:= IfThen(Groups.Mode=gmOne, EditorOps.OpCenteringWidth, 0);
     Ed.Update;
   end;
   //

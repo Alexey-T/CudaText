@@ -370,7 +370,6 @@ begin
   Ed.OptShowScrollHint:= Op.OpShowHintOnVertScroll;
   Ed.OptScrollSmooth:= Op.OpSmoothScroll;
   Ed.OptScrollStyleHorz:= TATEditorScrollbarStyle(Op.OpScrollStyleHorz);
-  Ed.OptTextCenteringCharWidth:= IfThen(AApplyCentering, Op.OpCenteringWidth, 0);
   Ed.OptNonWordChars:= Op.OpNonWordChars;
 
   if not AOneLiner then
