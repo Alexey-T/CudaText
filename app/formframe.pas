@@ -2293,6 +2293,7 @@ end;
 
 procedure TEditorFrame.ApplyThemeToInfoPanel(APanel: TPanel);
 begin
+  if APanel=nil then exit;
   APanel.Font.Name:= UiOps.VarFontName;
   APanel.Font.Size:= ATEditorScaleFont(UiOps.VarFontSize);
   APanel.Color:= GetAppColor(apclEdMarkedRangeBg); //GetAppColor(apclListBg);
@@ -2344,11 +2345,13 @@ begin
 
   Splitter.Color:= GetAppColor(apclSplitMain);
 
-  if Assigned(PanelInfo) then
-    ApplyThemeToInfoPanel(PanelInfo);
+  ApplyThemeToInfoPanel(PanelInfo);
+  ApplyThemeToInfoPanel(PanelNoHilite);
 
-  if Assigned(PanelNoHilite) then
-    ApplyThemeToInfoPanel(PanelNoHilite);
+  ApplyThemeToInfoPanel(NotifReloadControls[0].Panel);
+  ApplyThemeToInfoPanel(NotifReloadControls[1].Panel);
+  ApplyThemeToInfoPanel(NotifDeletedControls[0].Panel);
+  ApplyThemeToInfoPanel(NotifDeletedControls[1].Panel);
 end;
 
 function TEditorFrame.IsEditorFocused: boolean;
