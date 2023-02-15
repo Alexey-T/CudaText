@@ -2350,7 +2350,7 @@ ItemTwo=local name of item
 SubMenu=local name of menu
 </syntaxhighlight>
 
-To distribute those translation(s), make zip file like "langmenu.MyPlugin.zip", which must have "install.inf" and folder "cuda_nnn" (you can put more folders, for several plugins, if you want so). Install.inf contents:
+To distribute those translation(s), make zip file like "langmenu.MyPlugin.zip", which must have "install.inf" and folder "cuda_nnn" (you can put more folders, for several plugins, if you want so). "install.inf" contents:
 
 <syntaxhighlight lang="ini">
 [info]
@@ -2359,7 +2359,7 @@ type=cudatext-data
 subdir=langmenu
 </syntaxhighlight>
 
-Submit that zip file to CudaText GutHub page, or post it to the forum.
+Look at example ZIP packages [https://sourceforge.net/projects/cudatext/files/addons/plugintranslation/ at SourceForge page].
 
 ==How to copy word under caret to clipboard==
 
