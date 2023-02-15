@@ -25,7 +25,7 @@ uses
   proc_colors;
 
 type
-  TApplyThemeEvent = procedure(const AColors: TAppTheme) of object;
+  TApplyThemeEvent = procedure(const AColors: TAppTheme; AThemeUI: boolean) of object;
 
 type
   { TfmColorSetup }
@@ -60,6 +60,7 @@ type
     procedure Localize;
   public
     { public declarations }
+    ThemeUI: boolean;
     Data: TAppTheme;
     OnApply: TApplyThemeEvent;
   end;
@@ -212,6 +213,9 @@ end;
 
 procedure TfmColorSetup.FormShow(Sender: TObject);
 begin
+  PanelUi.Visible:= ThemeUI;
+  PanelSyntax.Visible:= not ThemeUI;
+
   Localize;
 
   Width:= ATEditorScale(Width);
@@ -241,7 +245,7 @@ end;
 procedure TfmColorSetup.HelpButtonClick(Sender: TObject);
 begin
   if Assigned(OnApply) then
-    OnApply(Data);
+    OnApply(Data, ThemeUI);
 end;
 
 procedure TfmColorSetup.ListKeyDown(Sender: TObject; var Key: Word;
@@ -316,7 +320,7 @@ end;
 procedure TfmColorSetup.OKButtonClick(Sender: TObject);
 begin
   if Assigned(OnApply) then
-    OnApply(Data);
+    OnApply(Data, ThemeUI);
   ModalResult:= mrOk;
 end;
 

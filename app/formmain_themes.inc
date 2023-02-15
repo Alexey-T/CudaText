@@ -384,9 +384,7 @@ var
 begin
   Form:= TfmColorSetup.Create(nil);
   try
-    Form.PanelUi.Visible:= AThemeUI;
-    Form.PanelSyntax.Visible:= not AThemeUI;
-
+    Form.ThemeUI:= AThemeUI;
     Form.OnApply:= @FormColorsApply;
     Form.Data:= AData;
     Result:= Form.ShowModal=mrOk;

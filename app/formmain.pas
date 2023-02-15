@@ -453,7 +453,7 @@ type
     procedure FormChangeBounds(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCloseQuery(Sender: TObject; var ACanClose: boolean);
-    procedure FormColorsApply(const AColors: TAppTheme);
+    procedure FormColorsApply(const AColors: TAppTheme; AThemeUI: boolean);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormDropFiles(Sender: TObject; const FileNames: array of String);
@@ -3162,7 +3162,7 @@ begin
   end;
 end;
 
-procedure TfmMain.FormColorsApply(const AColors: TAppTheme);
+procedure TfmMain.FormColorsApply(const AColors: TAppTheme; AThemeUI: boolean);
 begin
   AppTheme:= AColors;
   DoClearLexersAskedList;
