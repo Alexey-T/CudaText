@@ -869,7 +869,7 @@ type
     procedure DoApplyThemeToGroups(G: TATGroups);
     procedure DoOnConsoleNumberChange(Sender: TObject);
     procedure DoOnConsoleKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-    function DoDialogConfigTheme(var AData: TAppTheme; AThemeUI: boolean): boolean;
+    function DoDialogConfigTheme(AThemeUI: boolean): boolean;
     function DoDialogMenuApi(const AProps: TDlgMenuProps): integer;
     procedure DoDialogMenuTranslations;
     procedure DoDialogMenuThemes;
