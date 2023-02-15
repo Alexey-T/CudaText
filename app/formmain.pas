@@ -6175,6 +6175,23 @@ begin
 end;
 
 procedure TfmMain.SetFullScreen_Ex(AValue: boolean; AHideAll: boolean);
+  //
+  procedure FullScreen_HideElements(Ed: TATSynEdit);
+  begin
+    Ed.OptMinimapVisible:= false;
+    Ed.OptMicromapVisible:= false;
+    Ed.OptTextCenteringCharWidth:= EditorOps.OpCenteringForDistractionFree;
+    Ed.Update;
+  end;
+  //
+  procedure FullScreen_RestoreElements(Ed: TATSynEdit);
+  begin
+    Ed.OptMinimapVisible:= EditorOps.OpMinimapShow;
+    Ed.OptMicromapVisible:= EditorOps.OpMicromapShow;
+    Ed.OptMicromapOnScrollbar:= EditorOps.OpMicromapOnScrollbar;
+    Ed.OptTextCenteringCharWidth:= IfThen(Groups.Mode=gmOne, EditorOps.OpCenteringWidth, 0);
+  end;
+  //
 var
   F: TEditorFrame;
 begin
@@ -6190,15 +6207,8 @@ begin
 
     if AHideAll then
     begin
-      F.Ed1.OptMinimapVisible:= false;
-      F.Ed1.OptMicromapVisible:= false;
-      F.Ed1.OptTextCenteringCharWidth:= EditorOps.OpCenteringForDistractionFree;
-      F.Ed1.Update;
-
-      F.Ed2.OptMinimapVisible:= false;
-      F.Ed2.OptMicromapVisible:= false;
-      F.Ed2.OptTextCenteringCharWidth:= EditorOps.OpCenteringForDistractionFree;
-      F.Ed2.Update;
+      FullScreen_HideElements(F.Ed1);
+      FullScreen_HideElements(F.Ed2);
     end;
 
     if AHideAll or (Pos('t', UiOps.FullScreen)>0) then ShowToolbar:= false;
@@ -6218,15 +6228,8 @@ begin
     ShowSideBar:= FOrigShowSideBar;
     ShowTabsMain:= FOrigShowTabs;
 
-    F.Ed1.OptMinimapVisible:= EditorOps.OpMinimapShow;
-    F.Ed1.OptMicromapVisible:= EditorOps.OpMicromapShow;
-    F.Ed1.OptMicromapOnScrollbar:= EditorOps.OpMicromapOnScrollbar;
-    F.Ed1.OptTextCenteringCharWidth:= IfThen(Groups.Mode=gmOne, EditorOps.OpCenteringWidth, 0);
-
-    F.Ed2.OptMinimapVisible:= EditorOps.OpMinimapShow;
-    F.Ed2.OptMicromapVisible:= EditorOps.OpMicromapShow;
-    F.Ed2.OptMicromapOnScrollbar:= EditorOps.OpMicromapOnScrollbar;
-    F.Ed2.OptTextCenteringCharWidth:= IfThen(Groups.Mode=gmOne, EditorOps.OpCenteringWidth, 0);
+    FullScreen_RestoreElements(F.Ed1);
+    FullScreen_RestoreElements(F.Ed2);
 
     DoApplyGutterVisible(EditorOps.OpGutterShow);
   end;
