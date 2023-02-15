@@ -392,7 +392,7 @@ begin
   SetColor(apclEdMarginUser, $b0c0c0, 'EdMarginUser', 'editor, margins, user defined');
   SetColor(apclEdBookmarkBg, clMoneyGreen, 'EdBookmarkBg', 'editor, bookmark, line BG');
   SetColor(apclEdBookmarkIcon, clMedGray, 'EdBookmarkIcon', 'editor, bookmark, gutter mark');
-  SetColor(apclEdMarkedRangeBg, $f0e0b0, 'EdMarkedRangeBg', 'editor, marked range BG');
+  SetColor(apclEdMarkedRangeBg, $f0e0b0, 'EdMarkedRangeBg', 'editor, marked range BG / info panels BG');
   SetColor(apclTabBg, nColorBack2, 'TabBg', 'main-toolbar, tabs BG');
   SetColor(apclSideBg, $808080, 'SideBg', 'side-toolbar BG');
   SetColor(apclSideBadgeBg, clNavy, 'SideBadgeBg', 'side-toolbar, button badges BG');
