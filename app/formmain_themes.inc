@@ -388,12 +388,8 @@ begin
     Form.OnApply:= @FormColorsApply;
     Form.Data:= AData;
     Result:= Form.ShowModal=mrOk;
-
     if Result then
-    begin
-      AData:= Form.Data;
-      DoApplyLexerStylesMapsToFrames(false);
-    end;
+      Form.HelpButtonClick(nil); //click Apply button
   finally
     FreeAndNil(Form);
   end;
