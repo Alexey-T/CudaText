@@ -3739,7 +3739,7 @@ var
   Ed: TATSynEdit;
 begin
   Ed:= TATSynEdit(Sender);
-  if Groups.Mode=gmOne then
+  if Groups.Mode in [gmOne, gm2h, gm3h, gm4h, gm6h] then
   begin
     if ShowDistractionFree then
       Ed.OptTextCenteringCharWidth:= EditorOps.OpCenteringForDistractionFree
