@@ -50,7 +50,7 @@
   "EdMarginUser" : "#580556",
   "EdBookmarkBg" : "#400040",
   "EdBookmarkIcon" : "#78688F",
-  "EdMarkedRangeBg" : "#200020",
+  "EdMarkedRangeBg" : "#000070",
   "TabBg" : "#130013",
   "SideBg" : "#303030",
   "SideBadgeBg" : "#000080",
