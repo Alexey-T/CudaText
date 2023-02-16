@@ -12,6 +12,7 @@
 + add: lexer XML: support multi-line quoted strings
 - fix: option "mouse_column_selection":false blocked auto-scrolling on selection (thanks @Stefan)
 - fix: replacement of a char to LF on the last line was adding trailing LF (thanks @kvichans)
+- fix: in splitted view (of one tab), full-screen mode was not hiding stuff for 2nd editor
 
 1.184.0 (2023/02)
 
