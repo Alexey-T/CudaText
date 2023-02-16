@@ -3737,7 +3737,7 @@ end;
 
 procedure TfmMain.FrameOnEditorPaint(Sender: TObject);
 //why we set Ed.OptTextCenteringCharWidth via OnPaint event?
-//before it was as usual, but it was buggy - sometimes option was reset to 0
+//before it was as usual, but buggy - sometimes option was reset to 0 (without stable repro)
 var
   Ed: TATSynEdit;
   Frame: TEditorFrame;
