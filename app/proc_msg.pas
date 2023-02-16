@@ -155,9 +155,9 @@ const
   msgButtonCancel: string = 'Cancel';
   msgButtonApply: string = 'Apply';
   msgButtonClose: string = 'Close';
-  msgButtonYes: string = 'Yes';
-  msgButtonNo: string = 'No';
-  msgButtonYesAll: string = 'Yes to all';
+  msgButtonYes: string = '&Yes';
+  msgButtonNo: string = '&No';
+  msgButtonYesAll: string = 'Yes to &all';
   msgButtonNoAll: string = 'No to all';
   msgButtonAbort: string = 'Abort';
   msgButtonRetry: string = 'Retry';
