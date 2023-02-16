@@ -3743,7 +3743,6 @@ var
   Frame: TEditorFrame;
   CurGrp: TATGroups;
   SLexer: string;
-  NCentering: integer;
 begin
   Ed:= TATSynEdit(Sender);
   Frame:= TGroupsHelper.GetEditorFrame(Ed);
@@ -3755,13 +3754,13 @@ begin
     SLexer:= Frame.LexerName[Ed];
     if ShowDistractionFree then
     begin
-      NCentering:= AppOption_LoadFromStringlist(EditorOps_CenteringDistFree, SLexer, EditorOps.OpCenteringForDistractionFree);
-      Ed.OptTextCenteringCharWidth:= NCentering;
+      Ed.OptTextCenteringCharWidth:=
+        AppOption_LoadFromStringlist(EditorOps_CenteringDistFree, SLexer, EditorOps.OpCenteringForDistractionFree);
     end
     else
     begin
-      NCentering:= AppOption_LoadFromStringlist(EditorOps_CenteringWidth, SLexer, EditorOps.OpCenteringWidth);
-      Ed.OptTextCenteringCharWidth:= NCentering;
+      Ed.OptTextCenteringCharWidth:=
+        AppOption_LoadFromStringlist(EditorOps_CenteringWidth, SLexer, EditorOps.OpCenteringWidth);
     end;
   end
   else
