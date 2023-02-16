@@ -1614,8 +1614,8 @@ begin
       DoOps_LoadOptions(FilenameUser, Ops, false);
 
       //store 'centering...' options in special way
-      DoOps_SaveOptionToStringList(EditorOps_CenteringWidth, CurLexer, Ops.OpCenteringWidth);
-      DoOps_SaveOptionToStringList(EditorOps_CenteringDistFree, CurLexer, Ops.OpCenteringForDistractionFree);
+      AppOption_SaveToStringlist(EditorOps_CenteringWidth, CurLexer, Ops.OpCenteringWidth);
+      AppOption_SaveToStringlist(EditorOps_CenteringDistFree, CurLexer, Ops.OpCenteringForDistractionFree);
     end;
 
     DoApplyFrameOps(F, Ops, true);

@@ -3755,8 +3755,8 @@ begin
     NCenteringForDistFree:= EditorOps.OpCenteringForDistractionFree;
 
     SLexer:= Frame.LexerName[Ed];
-    DoOps_LoadOptionFromStringList(EditorOps_CenteringWidth, SLexer, NCenteringWidth);
-    DoOps_LoadOptionFromStringList(EditorOps_CenteringDistFree, SLexer, NCenteringForDistFree);
+    AppOption_LoadFromStringlist(EditorOps_CenteringWidth, SLexer, NCenteringWidth);
+    AppOption_LoadFromStringlist(EditorOps_CenteringDistFree, SLexer, NCenteringForDistFree);
 
     if ShowDistractionFree then
       Ed.OptTextCenteringCharWidth:= NCenteringForDistFree

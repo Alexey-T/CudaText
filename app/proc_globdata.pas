@@ -770,8 +770,8 @@ procedure AppApplyUnprintedSymbolsScale(const s: string);
 procedure AppApplyFallbackEncoding(const s: string);
 procedure AppApplyAutoCopyToClipboard(const s: string);
 
-procedure DoOps_LoadOptionFromStringList(L: TStringList; const AKey: string; var AOption: integer);
-procedure DoOps_SaveOptionToStringList(L: TStringList; const AKey: string; AValue: integer);
+procedure AppOption_LoadFromStringlist(L: TStringList; const AKey: string; var AValue: integer);
+procedure AppOption_SaveToStringlist(L: TStringList; const AKey: string; AValue: integer);
 
 type
   { TKeymapHelper }
@@ -3880,15 +3880,15 @@ begin
 end;
 
 
-procedure DoOps_LoadOptionFromStringList(L: TStringList; const AKey: string; var AOption: integer);
+procedure AppOption_LoadFromStringlist(L: TStringList; const AKey: string; var AValue: integer);
 var
   NIndex: integer;
 begin
   if L.Find(AKey, NIndex) then
-    AOption:= integer(PtrInt(L.Objects[NIndex]));
+    AValue:= integer(PtrInt(L.Objects[NIndex]));
 end;
 
-procedure DoOps_SaveOptionToStringList(L: TStringList; const AKey: string; AValue: integer);
+procedure AppOption_SaveToStringlist(L: TStringList; const AKey: string; AValue: integer);
 var
   NIndex: integer;
 begin
