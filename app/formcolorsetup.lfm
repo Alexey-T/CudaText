@@ -17,8 +17,8 @@ object fmColorSetup: TfmColorSetup
   LCLVersion = '2.3.0.0'
   object ButtonPanel1: TButtonPanel
     Left = 6
-    Height = 29
-    Top = 494
+    Height = 33
+    Top = 490
     Width = 546
     OKButton.Name = 'OKButton'
     OKButton.DefaultCaption = True
@@ -48,7 +48,7 @@ object fmColorSetup: TfmColorSetup
       Left = 6
       Height = 230
       Top = 6
-      Width = 392
+      Width = 388
       ColorRectWidth = 32
       ColorRectOffset = 1
       NoneColorColor = clNone
@@ -65,10 +65,10 @@ object fmColorSetup: TfmColorSetup
       AnchorSideLeft.Side = asrBottom
       AnchorSideRight.Control = PanelUi
       AnchorSideRight.Side = asrBottom
-      Left = 404
-      Height = 29
+      Left = 400
+      Height = 33
       Top = 120
-      Width = 110
+      Width = 114
       Anchors = [akTop, akRight]
       AutoSize = True
       BorderSpacing.Around = 6
@@ -82,10 +82,10 @@ object fmColorSetup: TfmColorSetup
       AnchorSideTop.Side = asrBottom
       AnchorSideRight.Control = bChange
       AnchorSideRight.Side = asrBottom
-      Left = 404
-      Height = 29
-      Top = 155
-      Width = 110
+      Left = 400
+      Height = 33
+      Top = 159
+      Width = 114
       Anchors = [akTop, akLeft, akRight]
       AutoSize = True
       Caption = 'Set "&none color"'
@@ -107,7 +107,7 @@ object fmColorSetup: TfmColorSetup
       Left = 6
       Height = 182
       Top = 6
-      Width = 418
+      Width = 414
       Align = alLeft
       Anchors = [akTop, akLeft, akRight, akBottom]
       BorderSpacing.Around = 6
@@ -122,10 +122,10 @@ object fmColorSetup: TfmColorSetup
       AnchorSideLeft.Side = asrBottom
       AnchorSideRight.Control = PanelSyntax
       AnchorSideRight.Side = asrBottom
-      Left = 430
-      Height = 29
+      Left = 426
+      Height = 33
       Top = 136
-      Width = 102
+      Width = 106
       Anchors = [akTop, akRight]
       AutoSize = True
       BorderSpacing.Around = 6
