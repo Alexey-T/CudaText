@@ -1569,6 +1569,16 @@ begin
 end;
 
 
+procedure DoOps_SaveOptionToStringList(L: TStringList; const AKey: string; AValue: integer);
+var
+  NIndex: integer;
+begin
+  if not L.Find(AKey, NIndex) then
+    L.AddObject(AKey, TObject(PtrInt(AValue)))
+  else
+    L.Objects[NIndex]:= TObject(PtrInt(AValue));
+end;
+
 procedure TfmMain.DoOps_LoadOptionsLexerSpecific(F: TEditorFrame; Ed: TATSynEdit);
 var
   Ops: TEditorOps;
@@ -1612,6 +1622,10 @@ begin
     if bExistsUser then
     begin
       DoOps_LoadOptions(FilenameUser, Ops, false);
+
+      //store 'centering...' options in special way
+      DoOps_SaveOptionToStringList(EditorOps_CenteringWidth, CurLexer, Ops.OpCenteringWidth);
+      DoOps_SaveOptionToStringList(EditorOps_CenteringDistFree, CurLexer, Ops.OpCenteringForDistractionFree);
     end;
 
     DoApplyFrameOps(F, Ops, true);

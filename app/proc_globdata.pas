@@ -702,6 +702,10 @@ var
   EditorOps: TEditorOps;
 
 var
+  EditorOps_CenteringWidth: TStringList;
+  EditorOps_CenteringDistFree: TStringList;
+
+var
   AppUserName: string = '';
   AppDir_Home: string = '';
   AppDir_Settings: string = '';
@@ -3954,7 +3958,16 @@ initialization
     {$endif}
     );
 
+  EditorOps_CenteringWidth:= TStringList.Create;
+  EditorOps_CenteringWidth.Sorted:= true;
+  EditorOps_CenteringDistFree:= TStringList.Create;
+  EditorOps_CenteringDistFree.Sorted:= true;
+
+
 finalization
+
+  FreeAndNil(EditorOps_CenteringDistFree);
+  FreeAndNil(EditorOps_CenteringWidth);
 
   FreeAndNil(AppManagerThread);
   FreeAndNil(AppManagerLite);

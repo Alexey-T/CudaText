@@ -3734,11 +3734,23 @@ begin
   MsgStatus(AStr);
 end;
 
+
+procedure DoOps_LoadOptionFromStringList(L: TStringList; const AKey: string; var AOption: integer);
+var
+  NIndex: integer;
+begin
+  if L.Find(AKey, NIndex) then
+    AOption:= integer(PtrInt(L.Objects[NIndex]));
+end;
+
 procedure TfmMain.FrameOnEditorPaint(Sender: TObject);
 var
   Ed: TATSynEdit;
   Frame: TEditorFrame;
   CurGrp: TATGroups;
+  SLexer: string;
+  NCenteringWidth,
+  NCenteringForDistFree: integer;
 begin
   Ed:= TATSynEdit(Sender);
   Frame:= TGroupsHelper.GetEditorFrame(Ed);
@@ -3747,10 +3759,17 @@ begin
 
   if CurGrp.Mode in [gmOne, gm2h, gm3h, gm4h, gm6h] then
   begin
+    NCenteringWidth:= EditorOps.OpCenteringWidth;
+    NCenteringForDistFree:= EditorOps.OpCenteringForDistractionFree;
+
+    SLexer:= Frame.LexerName[Ed];
+    DoOps_LoadOptionFromStringList(EditorOps_CenteringWidth, SLexer, NCenteringWidth);
+    DoOps_LoadOptionFromStringList(EditorOps_CenteringDistFree, SLexer, NCenteringForDistFree);
+
     if ShowDistractionFree then
-      Ed.OptTextCenteringCharWidth:= EditorOps.OpCenteringForDistractionFree
+      Ed.OptTextCenteringCharWidth:= NCenteringForDistFree
     else
-      Ed.OptTextCenteringCharWidth:= EditorOps.OpCenteringWidth;
+      Ed.OptTextCenteringCharWidth:= NCenteringWidth;
   end
   else
   begin
