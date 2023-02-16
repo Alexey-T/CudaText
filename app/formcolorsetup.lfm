@@ -32,6 +32,7 @@ object fmColorSetup: TfmColorSetup
     CancelButton.DefaultCaption = True
     TabOrder = 0
     ShowButtons = [pbOK, pbCancel, pbHelp]
+    ShowGlyphs = []
     ShowBevel = False
   end
   object PanelUi: TPanel
