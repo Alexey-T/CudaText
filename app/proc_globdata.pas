@@ -770,7 +770,7 @@ procedure AppApplyUnprintedSymbolsScale(const s: string);
 procedure AppApplyFallbackEncoding(const s: string);
 procedure AppApplyAutoCopyToClipboard(const s: string);
 
-procedure AppOption_LoadFromStringlist(L: TStringList; const AKey: string; var AValue: integer);
+function AppOption_LoadFromStringlist(L: TStringList; const AKey: string; ADefault: integer): integer;
 procedure AppOption_SaveToStringlist(L: TStringList; const AKey: string; AValue: integer);
 
 type
@@ -3880,12 +3880,14 @@ begin
 end;
 
 
-procedure AppOption_LoadFromStringlist(L: TStringList; const AKey: string; var AValue: integer);
+function AppOption_LoadFromStringlist(L: TStringList; const AKey: string; ADefault: integer): integer;
 var
   NIndex: integer;
 begin
   if L.Find(AKey, NIndex) then
-    AValue:= integer(PtrInt(L.Objects[NIndex]));
+    Result:= integer(PtrInt(L.Objects[NIndex]))
+  else
+    Result:= ADefault;
 end;
 
 procedure AppOption_SaveToStringlist(L: TStringList; const AKey: string; AValue: integer);
