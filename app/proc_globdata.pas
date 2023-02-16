@@ -3894,10 +3894,10 @@ procedure AppOption_SaveToStringlist(L: TStringList; const AKey: string; AValue:
 var
   NIndex: integer;
 begin
-  if not L.Find(AKey, NIndex) then
-    L.AddObject(AKey, TObject(PtrInt(AValue)))
+  if L.Find(AKey, NIndex) then
+    L.Objects[NIndex]:= TObject(PtrInt(AValue))
   else
-    L.Objects[NIndex]:= TObject(PtrInt(AValue));
+    L.AddObject(AKey, TObject(PtrInt(AValue)));
 end;
 
 
