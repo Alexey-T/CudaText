@@ -770,6 +770,9 @@ procedure AppApplyUnprintedSymbolsScale(const s: string);
 procedure AppApplyFallbackEncoding(const s: string);
 procedure AppApplyAutoCopyToClipboard(const s: string);
 
+procedure DoOps_LoadOptionFromStringList(L: TStringList; const AKey: string; var AOption: integer);
+procedure DoOps_SaveOptionToStringList(L: TStringList; const AKey: string; AValue: integer);
+
 type
   { TKeymapHelper }
 
@@ -3875,6 +3878,26 @@ begin
   if N>=1000 then
     ATEditorOptions.AutoCopyMaxTextSize:= N;
 end;
+
+
+procedure DoOps_LoadOptionFromStringList(L: TStringList; const AKey: string; var AOption: integer);
+var
+  NIndex: integer;
+begin
+  if L.Find(AKey, NIndex) then
+    AOption:= integer(PtrInt(L.Objects[NIndex]));
+end;
+
+procedure DoOps_SaveOptionToStringList(L: TStringList; const AKey: string; AValue: integer);
+var
+  NIndex: integer;
+begin
+  if not L.Find(AKey, NIndex) then
+    L.AddObject(AKey, TObject(PtrInt(AValue)))
+  else
+    L.Objects[NIndex]:= TObject(PtrInt(AValue));
+end;
+
 
 
 initialization
