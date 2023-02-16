@@ -3751,17 +3751,19 @@ begin
 
   if CurGrp.Mode in [gmOne, gm2h, gm3h, gm4h, gm6h] then
   begin
-    NCenteringWidth:= EditorOps.OpCenteringWidth;
-    NCenteringForDistFree:= EditorOps.OpCenteringForDistractionFree;
-
     SLexer:= Frame.LexerName[Ed];
-    AppOption_LoadFromStringlist(EditorOps_CenteringWidth, SLexer, NCenteringWidth);
-    AppOption_LoadFromStringlist(EditorOps_CenteringDistFree, SLexer, NCenteringForDistFree);
-
     if ShowDistractionFree then
-      Ed.OptTextCenteringCharWidth:= NCenteringForDistFree
+    begin
+      NCenteringForDistFree:= EditorOps.OpCenteringForDistractionFree;
+      AppOption_LoadFromStringlist(EditorOps_CenteringDistFree, SLexer, NCenteringForDistFree);
+      Ed.OptTextCenteringCharWidth:= NCenteringForDistFree;
+    end
     else
+    begin
+      NCenteringWidth:= EditorOps.OpCenteringWidth;
+      AppOption_LoadFromStringlist(EditorOps_CenteringWidth, SLexer, NCenteringWidth);
       Ed.OptTextCenteringCharWidth:= NCenteringWidth;
+    end;
   end
   else
   begin
