@@ -3,8 +3,9 @@
   - fixed
   * changed
 
-1.184.2 (2023/02)
+1.185.0 (2023/02)
 
++ add: option "centering_width": reworked code, coz we had hard to reproduce bug when option was reset (thanks @Stefan)
 + add: option "centering_width" works also in grouping modes "2 horz", "3 horz", "4 horz", "6 horz"
 + add: option "centering_width" in floating groups: ignores grouping mode in main window
 + add: show console error when option "newdoc_lexer" has wrong lexer name 
