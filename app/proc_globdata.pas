@@ -3985,8 +3985,11 @@ initialization
 
   EditorOps_CenteringWidth:= TStringList.Create;
   EditorOps_CenteringWidth.Sorted:= true;
+  EditorOps_CenteringWidth.UseLocale:= false;
+
   EditorOps_CenteringDistFree:= TStringList.Create;
   EditorOps_CenteringDistFree.Sorted:= true;
+  EditorOps_CenteringDistFree.UseLocale:= false;
 
 
 finalization
