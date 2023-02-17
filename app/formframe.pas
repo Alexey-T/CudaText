@@ -2353,6 +2353,11 @@ begin
     FBin.Redraw();
   end;
 
+  if Assigned(FImageBox) then
+  begin
+    FImageBox.Color:= GetAppColor(apclEdTextBg);
+  end;
+
   Splitter.Color:= GetAppColor(apclSplitMain);
 
   ApplyThemeToInfoPanel(PanelInfo);
