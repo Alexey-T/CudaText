@@ -462,6 +462,7 @@ begin
     DoLocString(msgFinderHintWrapped,   ini, 'ui', 'fnd_wrap');
     DoLocString(msgFinderHintInSel,     ini, 'ui', 'fnd_sel');
     DoLocString(msgFinderHintFromCaret, ini, 'ui', 'fnd_crt');
+    DoLocString(msgFinderHintBorderCrossed, ini, 'ui', 'fnd_brd');
 
     DoLocString(msgButtonOk,     ini, 'ui', 'b_ok');
     DoLocString(msgButtonCancel, ini, 'ui', 'b_can');
