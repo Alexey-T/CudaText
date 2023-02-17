@@ -215,7 +215,6 @@ procedure TfmColorSetup.FormShow(Sender: TObject);
 begin
   PanelUi.Visible:= ThemeUI;
   PanelSyntax.Visible:= not ThemeUI;
-  ButtonPanel1.HelpButton.Visible:= ThemeUI;
 
   Localize;
 
