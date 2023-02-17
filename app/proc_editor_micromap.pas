@@ -230,6 +230,9 @@ begin
     if Marker.SelX<0 then
       Inc(NLine2, -Marker.SelX-1);
     }
+
+    if (NLine1<0) or (NLine1>High(PropArray)) then Continue; //fix issue #4821
+
     case Marker.Tag of
       cTagSpellChecker:
         begin
