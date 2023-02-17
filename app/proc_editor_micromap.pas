@@ -292,7 +292,7 @@ begin
         ABitmap.FillRect(RectMark, PropArray[NIndex].XColor, dmDrawWithTransparency, $8000);
     end;
   end;
-  SetLength(PropArray, 0);
+  PropArray:= nil;
 
   //all done
   ABitmap.Draw(ACanvas, ARect.Left, ARect.Top);
