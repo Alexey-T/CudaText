@@ -16,6 +16,7 @@
 - fix: replacement of a char to LF on the last line was adding trailing LF (thanks @kvichans)
 - fix: in splitted view (of one tab), full-screen mode was not hiding stuff for 2nd editor
 - fix: messagebox buttons Yes / No lost accelerator: &Yes / &No (thanks @rssguy2)
+- fix: crash in find/replace with RegEx (thanks @cser) 
 
 1.184.0 (2023/02)
 
