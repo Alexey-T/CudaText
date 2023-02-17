@@ -722,7 +722,7 @@ begin
   TAppMenuProps(mi.Tag).CommandString:= AHint;
 end;
 
-procedure TfmMain.UpdateMenuItemHotkey(mi: TMenuItem; cmd: integer);
+procedure TfmMain.UpdateMenuItemHotkey(mi: TMenuItem; cmd: integer; AllowSetShortcut: boolean=true);
 begin
   if not Assigned(mi) then exit;
 
@@ -734,22 +734,24 @@ begin
 
   {$if not defined (LCLQt5) and not defined(LCLQt6)}
   //seems Qt5 version has slowdown because of MainMenu hotkeys?
+  if AllowSetShortcut then
+  begin
+    //if Copy/Paste/SelectAll hotkeys set in MainMenu, Qt5 version cannot handle them in Console/Find/Replace
+    if (cmd<>cCommand_ClipboardCopy) and
+      (cmd<>cCommand_ClipboardPaste) and
+      (cmd<>cCommand_ClipboardCut) and
+      (cmd<>cCommand_Undo) and
+      (cmd<>cCommand_Redo) and
+      (cmd<>cCommand_SelectAll) then
+      mi.ShortCut:= AppKeymapMain.GetShortcutFromCommand(cmd);
 
-  //if Copy/Paste/SelectAll hotkeys set in MainMenu, Qt5 version cannot handle them in Console/Find/Replace
-  if (cmd<>cCommand_ClipboardCopy) and
-    (cmd<>cCommand_ClipboardPaste) and
-    (cmd<>cCommand_ClipboardCut) and
-    (cmd<>cCommand_Undo) and
-    (cmd<>cCommand_Redo) and
-    (cmd<>cCommand_SelectAll) then
-    mi.ShortCut:= AppKeymapMain.GetShortcutFromCommand(cmd);
-
-  //don't set Esc here: for OSX/ Qt, else Esc blocked in Find/ Goto/ closing app
-  if mi.Shortcut=AppShortcutEscape then
-    mi.ShortCut:= 0;
-  //don't allow Shift+Tab in menu: it blocks tabbing in Find/Replace
-  if mi.Shortcut=AppShortcutShiftTab then
-    mi.ShortCut:= 0;
+    //don't set Esc here: for OSX/ Qt, else Esc blocked in Find/ Goto/ closing app
+    if mi.Shortcut=AppShortcutEscape then
+      mi.ShortCut:= 0;
+    //don't allow Shift+Tab in menu: it blocks tabbing in Find/Replace
+    if mi.Shortcut=AppShortcutShiftTab then
+      mi.ShortCut:= 0;
+  end;
   {$endif}
 end;
 

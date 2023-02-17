@@ -1100,7 +1100,7 @@ type
     procedure UpdateMenuItemAltObject(mi: TMenuItem; cmd: integer);
     procedure UpdateMenuItemChecked(mi: TMenuItem; saved: TATMenuItemsAlt; AValue: boolean);
     procedure UpdateMenuItemHint(mi: TMenuItem; const AHint: string);
-    procedure UpdateMenuItemHotkey(mi: TMenuItem; cmd: integer);
+    procedure UpdateMenuItemHotkey(mi: TMenuItem; cmd: integer; AllowSetShortcut: boolean=true);
     procedure UpdateMenuLexersTo(AMenu: TMenuItem);
     procedure UpdateMenuRecent(Ed: TATSynEdit);
     procedure UpdateMenuHotkeys;
@@ -7888,7 +7888,7 @@ begin
     Num:= StrToIntDef(AMenuCmd, 0); //command code
     if Num>0 then
     begin
-      UpdateMenuItemHotkey(mi, Num);
+      UpdateMenuItemHotkey(mi, Num, false); //AllowSetShortcut=false to fix ConfigToolbar wrong shortcuts
       UpdateMenuItemAltObject(mi, Num);
     end
     else
