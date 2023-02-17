@@ -8392,7 +8392,7 @@ begin
       end;
     end;
 
-    if FrameList.Count=0 then exit;
+    if FrameList.Count<=1 then exit;
     FrameList.CustomSort(@_FrameListCompare);
 
     iTab:= DoDialogMenuList(
