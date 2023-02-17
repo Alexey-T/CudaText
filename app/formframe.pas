@@ -2059,6 +2059,7 @@ begin
   ed.TabStop:= false;
   ed.OptUnprintedVisible:= EditorOps.OpUnprintedShow;
   ed.OptRulerVisible:= EditorOps.OpRulerShow;
+  ed.OptRulerHeightPercents:= EditorOps.OpRulerHeight;
   ed.OptBorderVisible:= false;
   ed.CommandLog.MaxCount:= EditorOps.OpCommandLogMaxCount;
 

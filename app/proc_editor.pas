@@ -255,6 +255,7 @@ begin
       Ed.OptRulerVisible:= Op.OpRulerShow;
     Ed.OptRulerNumeration:= TATEditorRulerNumeration(Op.OpRulerNumeration);
     Ed.OptRulerMarkSizeCaret:= Op.OpRulerMarkCaret;
+    Ed.OptRulerHeightPercents:= Op.OpRulerHeight;
 
     if not Ed.IsModifiedMinimapVisible then
       Ed.OptMinimapVisible:= Op.OpMinimapShow;

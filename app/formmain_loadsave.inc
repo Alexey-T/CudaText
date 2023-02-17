@@ -1147,7 +1147,7 @@ begin
   Op.OpRulerShow:= cfg.GetValue('ruler_show', Op.OpRulerShow);
   Op.OpRulerNumeration:= cfg.GetValue('ruler_numeration', Op.OpRulerNumeration);
   Op.OpRulerMarkCaret:= cfg.GetValue('ruler_mark_caret', Op.OpRulerMarkCaret);
-  //Op.OpRulerTextIndent:= cfg.GetValue('ruler_text_indent', Op.OpRulerTextIndent);
+  Op.OpRulerHeight:= cfg.GetValue('ruler_height', Op.OpRulerHeight);
 
   Op.OpMinimapShow:= cfg.GetValue('minimap_show', Op.OpMinimapShow);
   Op.OpMinimapShowSelAlways:= cfg.GetValue('minimap_sel_always', Op.OpMinimapShowSelAlways);

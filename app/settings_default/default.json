@@ -503,6 +503,9 @@
   //Ruler: Show ruler (horizontal bar at the top).
   "ruler_show": false,
 
+  //Ruler: Height, in percents of average text cell.
+  "ruler_height": 120,
+
   //Ruler: Numeration style.
   //  0: numbers 0 - 10 - 20 - 30...
   //  1: numbers 1 - 11 - 21 - 31...
