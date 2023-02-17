@@ -1277,7 +1277,26 @@ Example screenshot shows how "menu.json" will look with new items for context-me
 
 [[File:cudatext-editing-context-menu.png]]
 
-Example screenshot also shows tricks: how to write items for "External Tools" items and for "Macros" items: see lines with "cuda_exttools" and with "cuda_macros". These special lines need the special integer IDs. You can find these IDs in the hotkeys config "settings/keys.json" after you assign a hotkey to your tool/macro.
+Example screenshot also shows tricks: how to write items for "External Tools" items and for "Macros" items: see lines with "cuda_exttools" and with "cuda_macros". These special lines need the special integer IDs. You can find these IDs in the hotkeys config "settings/keys.json" after you assign a hotkey to your tool/macro. But preferred way to find ExtTools IDs is plugin's config file, "settings/exttools.json". Here is a fragment of this file, which shows "id" value of a tool "C - compile":
+
+<syntaxhighlight lang="json">
+{
+    "ver": "20151209",
+    "list": [
+        {
+            "id": 254653,
+            "nm": "C - compile",
+            "file": "gcc",
+            "ddir": "{FileDir}",
+            "shll": false,
+            "prms": "\"{FileNameOnly}\" -o \"{FileNameNoExt}\"",
+            "savs": "N",
+            "rslt": "OP",
+            "encd": "utf_8",
+            "lxrs": "C,C++",
+            "pttn": "(?P<file>[\\w\\.\\-]+):(?P<line>\\d+):(?P<col>\\d+):.+",
+        },
+</syntaxhighlight>
 
 =Intext Bookmarks=
 
