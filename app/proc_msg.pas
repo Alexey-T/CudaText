@@ -149,6 +149,7 @@ const
   msgFinderHintWrapped: string = 'wrapped';
   msgFinderHintInSel: string = 'in-sel';
   msgFinderHintFromCaret: string = 'from-caret';
+  msgFinderHintBorderCrossed: string = 'border crossed';
   msgFinderRegexMathes: string = 'RegEx matches';
 
   msgButtonOk: string = 'OK';
