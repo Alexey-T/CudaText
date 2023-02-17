@@ -1288,7 +1288,7 @@ Example screenshot also shows tricks: how to write items for "External Tools" it
    ,{"cap": "SomeMacroName", "cmd": "module=cuda_macros;cmd=run;info=87635;"}
 </syntaxhighlight>
 
-These special lines need special integer IDs. You can find these IDs in the hotkeys config "settings/keys.json" after you assign a hotkey to your tool/macro. But preferred way to find ExtTools IDs is plugin's config file, "settings/exttools.json". Here is a fragment of this file, which shows "id" value of a tool "C - compile":
+These special lines need special integer IDs. You can find these IDs in the config files of both plugins: External Tools / Macros. For example, to find Extertal Tools IDs, open "settings/exttools.json". Here is a fragment of this file, which shows "id" value of the tool "C - compile":
 
 <syntaxhighlight lang="json">
 {
