@@ -277,9 +277,11 @@ begin
       end;
     end;
   end;
+
   for i:= 0 to Wr.Count-1 do
   begin
     NIndex:= Wr.Data[i].NLineIndex;
+    if (NIndex<0) or (NIndex>High(PropArray)) then Continue;
     if PropArray[NIndex].Inited then
     begin
       RectMark:= GetWrapItemRect(PropArray[NIndex].Column, i, i, PropArray[NIndex].MarkPos);
