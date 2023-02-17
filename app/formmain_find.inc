@@ -867,7 +867,7 @@ begin
   if AFinder.OptWords then Result:= Result+msgFinderHintWords+Sep;
   if AFinder.OptBack then Result:= Result+msgFinderHintBack+Sep;
   if AFinder.OptWrapped then Result:= Result+msgFinderHintWrapped+Sep;
-  if AFinder.IsSearchWrapped then Result:= Result+msgFinderHintBorderCrossed+Sep;
+  if AFinder.IsSearchWrapped then Result:= Result+msgFinderHintSearchWrapped+Sep;
   if AFinder.OptInSelection then Result:= Result+msgFinderHintInSel+Sep;
   if AFinder.OptFromCaret then Result:= Result+msgFinderHintFromCaret+Sep;
   if SEndsWith(Result, Sep) then
