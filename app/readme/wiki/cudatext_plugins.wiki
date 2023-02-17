@@ -1277,6 +1277,8 @@ Example screenshot shows how "menu.json" will look with new items for context-me
 
 [[File:cudatext-editing-context-menu.png]]
 
+Example screenshot also shows tricks: how to write items for "External Tools" items and for "Macros" items: see lines with "cuda_exttools" and with "cuda_macros". These special lines need the special integer IDs. You can find these IDs in the hotkeys config "settings/keys.json" after you assign a hotkey to your tool/macro.
+
 =Intext Bookmarks=
 
 Plugin allows to place special marks, and to show Goto dialog for its special marks.
