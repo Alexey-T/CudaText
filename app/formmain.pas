@@ -8373,7 +8373,7 @@ begin
       for iTab:= 0 to Pages.Tabs.TabCount-1 do
       begin
         F:= Pages.Tabs.GetTabData(iTab).TabObject as TEditorFrame;
-        if F=CurFrame then Continue;
+        //if F=CurFrame then Continue; //allow current document in list too
 
         if iGroup>=6 then
           //floating groups
@@ -8395,7 +8395,7 @@ begin
     if FrameList.Count=0 then exit;
     FrameList.CustomSort(@_FrameListCompare);
 
-    iTab:= DoDialogMenuList(msgPanelTabs, FrameList, 0, true);
+    iTab:= DoDialogMenuList(msgPanelTabs, FrameList, 1 {0 is the current tab}, true);
     if iTab<0 then exit;
 
     F:= FrameList.Objects[iTab] as TEditorFrame;
