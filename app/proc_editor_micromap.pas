@@ -203,18 +203,20 @@ begin
     begin
       BookmarkPtr:= Bookmarks.ItemPtr[i];
       NIndex:= BookmarkPtr^.Data.LineNum;
-      BoolArray[NIndex]:= true;
+      if (NIndex>=0) and (NIndex<=High(BoolArray)) then
+        BoolArray[NIndex]:= true;
     end;
     for i:= 0 to Wr.Count-1 do
     begin
       NIndex:= Wr.Data[i].NLineIndex;
-      if BoolArray[NIndex] then
-      begin
-        RectMark:= EditorRectMicromapMark(Ed, 1{column}, i, i, ARect.Height, EditorOps.OpMicromapMinMarkHeight, NScaleDiv);
-        ABitmap.FillRect(RectMark, XColorBkmk);
-      end;
+      if (NIndex>=0) and (NIndex<=High(BoolArray)) then
+        if BoolArray[NIndex] then
+        begin
+          RectMark:= EditorRectMicromapMark(Ed, 1{column}, i, i, ARect.Height, EditorOps.OpMicromapMinMarkHeight, NScaleDiv);
+          ABitmap.FillRect(RectMark, XColorBkmk);
+        end;
     end;
-    SetLength(BoolArray, 0);
+    BoolArray:= nil;
   end;
 
   //paint marks for plugins
