@@ -13,6 +13,7 @@
 + add: option "centering_width" works also in grouping modes "2 horz", "3 horz", "4 horz", "6 horz"
 + add: option "centering_width" in floating groups: ignores grouping mode in main window
 + add: show console error when option "newdoc_lexer" has wrong lexer name 
++ add: Windows+click does the same as simple click, like VSCode (thanks @rssguy2)
 + add: lexer XML: support multi-line quoted strings
 - fix: option "mouse_column_selection":false blocked auto-scrolling on selection (thanks @Stefan)
 - fix: replacement of a char to LF on the last line was adding trailing LF (thanks @kvichans)
