@@ -173,6 +173,7 @@ begin
     else
       List.ItemIndex:= List.ItemIndex+1;
     key:= 0;
+    exit;
   end;
 
   if (Key=VK_UP) or ((key=VK_K) and (Shift=[ssCtrl])) then
@@ -182,24 +183,28 @@ begin
     else
       List.ItemIndex:= List.ItemIndex-1;
     key:= 0;
+    exit;
   end;
 
   if (key=VK_HOME) and (Shift=[ssCtrl]) then
   begin
     List.ItemIndex:= 0;
     key:= 0;
+    exit;
   end;
 
   if (key=VK_END) and (Shift=[ssCtrl]) then
   begin
     List.ItemIndex:= List.ItemCount-1;
     key:= 0;
+    exit;
   end;
 
   if key=VK_ESCAPE then
   begin
     Close;
     key:= 0;
+    exit;
   end;
 
   if key=VK_RETURN then
@@ -210,6 +215,7 @@ begin
       Close;
     end;
     key:= 0;
+    exit;
   end;
 end;
 
