@@ -5,6 +5,7 @@
 
 1.185.0 (2023/02)
 
+* change: statusbar: removed msg prefix "[Read only]" but added "RO" text to the cell "selmode" instead (cell "selmode" by default is located just before the last message cell)
 + add: option "ruler_height" (thanks @qwerky)
 + add: tab-switcher (Ctrl+Tab) shows the current document too, like VSCode (thanks @d0vgan)
 + add: find/replace: show in the statusbar "border crossed" for wrapped search (thanks @d0vgan)
