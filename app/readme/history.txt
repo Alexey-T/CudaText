@@ -6,7 +6,7 @@
 1.185.0 (2023/02)
 
 + add: option "ruler_height" (thanks @qwerky)
-+ add: tab-switcher dialog (Ctrl+Tab) show the current document too (thanks @d0vgan)
++ add: tab-switcher (Ctrl+Tab) shows the current document too, like VSCode (thanks @d0vgan)
 + add: find/replace: show in the statusbar "border crossed" for wrapped search (thanks @d0vgan)
 + add: option "centering_width": reworked code, coz we had hard to reproduce bug when option was reset (thanks @Stefan)
 + add: option "centering_width" works also in grouping modes "2 horz", "3 horz", "4 horz", "6 horz"
