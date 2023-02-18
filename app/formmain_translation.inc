@@ -572,8 +572,6 @@ begin
     DoLocString(msgStatusFindCount               , ini, 'si', 'FindCount');
     DoLocString(msgStatusReadingOps              , ini, 'si', 'ReadingOps');
     DoLocString(msgStatusSavedFile               , ini, 'si', 'SavedFile');
-    DoLocString(msgStatusReadonly                , ini, 'si', 'Readonly');
-    //DoLocString(msgStatusMacroRec                , ini, 'si', 'MacroRec');
     DoLocString(msgStatusPictureNxN              , ini, 'si', 'PictureNxN');
     DoLocString(msgStatusCancelled               , ini, 'si', 'Cancelled');
     DoLocString(msgStatusBadLineNum              , ini, 'si', 'BadLineNum');

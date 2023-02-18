@@ -296,7 +296,12 @@ begin
   DoStatusbarTextByTag(AStatus, StatusbarTag_InsOvr, S);
 
   //------
-  DoStatusbarTextByTag(AStatus, StatusbarTag_SelMode, msgStatusbarCellColumnMarks[Ed.OptMouseColumnSelectionWithoutKey]);
+  S:= msgStatusbarCellColumnMarks[Ed.OptMouseColumnSelectionWithoutKey];
+  if Ed.ModeReadOnly then
+    S+= ' RO';
+  DoStatusbarTextByTag(AStatus, StatusbarTag_SelMode, S);
+
+  //------
   DoStatusbarTextByTag(AStatus, StatusbarTag_WrapMode, msgStatusbarWrapStates[Ord(Ed.OptWrapMode)]);
 
   N:= Ed.OptScaleFont;

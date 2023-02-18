@@ -254,7 +254,7 @@ const
   msgStatusbarHintEnc: string = 'File encoding';
   msgStatusbarHintLexer: string = 'Lexer (language)';
   msgStatusbarHintEnds: string = 'End-of-line chars';
-  msgStatusbarHintSelMode: string = 'Mouse selection mode (normal/column)';
+  msgStatusbarHintSelMode: string = 'Mouse selection mode (normal/column) and Read-Only state';
   msgStatusbarHintTabSize: string = 'Tabulation width, by space-chars';
   msgStatusbarHintInsOvr: string = 'Insert/Overwrite mode';
   msgStatusbarHintWrap: string = 'Word wrap (off, by window, by fixed margin)';
@@ -298,7 +298,6 @@ const
   msgStatusFoundFragments: string = 'Found %d different fragment(s)';
   msgStatusReadingOps: string = 'Reading options';
   msgStatusSavedFile: string = 'Saved:';
-  msgStatusReadonly: string = '[Read Only]';
   msgStatusPictureNxN: string = 'Image %dx%d';
   msgStatusHexViewer: string = 'Hex';
   msgStatusCancelled: string = 'Cancelled';

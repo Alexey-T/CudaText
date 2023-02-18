@@ -5574,8 +5574,9 @@ begin
   if Frame=nil then exit;
   if Frame.FrameKind=efkEditor then
   begin
-    if Frame.ReadOnly[Frame.Editor] then
-      Result+= msgStatusReadonly+' ';
+    //if Frame.ReadOnly[Frame.Editor] then
+    //  Result+= msgStatusReadonly+' ';
+
     //if Frame.MacroRecord then
     //  Result+= msgStatusMacroRec+' ';
   end;
