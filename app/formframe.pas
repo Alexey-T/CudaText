@@ -2027,11 +2027,11 @@ end;
 
 
 procedure TEditorFrame.DoOnResize;
-var
-  N: integer;
+//var
+//  N: integer;
 begin
-  //for debugging only
-  N:= Width;
+  ////for debugging only
+  //N:= Width;
 
   inherited;
 

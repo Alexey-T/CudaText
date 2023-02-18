@@ -134,8 +134,6 @@ begin
 end;
 
 procedure TScrollingText.Init;
-var
-  r: TLResource;
 begin
   FBuffer.Width := Width;
   FBuffer.Height := Height;

@@ -55,8 +55,9 @@ implementation
 uses
   {$ifdef windows}
   Windows,
+  StrUtils,
   {$endif}
-  SysUtils, StrUtils,
+  SysUtils,
   LCLIntf, LCLType,
   FileUtil, LazFileUtils,
   ATStrings,

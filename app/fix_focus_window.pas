@@ -20,7 +20,6 @@ uses
   proc_globdata,
   proc_msg,
   proc_files,
-  at__jsonconf,
   LazFileUtils,
   {$endif}
   SysUtils,
