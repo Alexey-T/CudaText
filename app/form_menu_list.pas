@@ -166,7 +166,9 @@ end;
 procedure TfmMenuList.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
-  if (Key=VK_DOWN) or (Key=VK_TAB) or ((key=VK_J) and (Shift=[ssCtrl])) then
+  if (Key=VK_DOWN) or
+    ((Key=VK_TAB) and (Shift=[ssCtrl])) or
+    ((Key=VK_J) and (Shift=[ssCtrl])) then
   begin
     if List.ItemIndex=List.ItemCount-1 then
       List.ItemIndex:= 0
@@ -176,7 +178,9 @@ begin
     exit;
   end;
 
-  if (Key=VK_UP) or ((key=VK_K) and (Shift=[ssCtrl])) then
+  if (Key=VK_UP) or
+   ((Key=VK_TAB) and (Shift=[ssCtrl, ssShift])) or
+   ((Key=VK_K) and (Shift=[ssCtrl])) then
   begin
     if List.ItemIndex=0 then
       List.ItemIndex:= List.ItemCount-1
