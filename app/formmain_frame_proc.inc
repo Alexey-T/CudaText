@@ -43,6 +43,7 @@ end;
 procedure TfmMain.FrameOnUpdateStatusbar(Sender: TObject);
 begin
   FNeedUpdateStatuses:= true;
+  TimerAppIdleTimer(Self);
   //real updating will run on TimerAppIdle work
 end;
 

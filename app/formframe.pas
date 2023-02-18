@@ -1877,6 +1877,13 @@ begin
         exit;
       end;
 
+    cCommand_ToggleOverwrite:
+      begin
+        OnMsgStatus(Self, msgStatusbarCellInsOvr[Ed.ModeOverwrite]);
+        OnUpdateStatusbar(Self);
+        exit;
+      end;
+
     cCommand_ZoomIn,
     cCommand_ZoomOut,
     cCommand_ZoomReset:
