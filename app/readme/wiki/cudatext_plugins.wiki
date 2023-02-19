@@ -290,6 +290,8 @@ Plugin also gives the fully featured snippet editor dialog, in menu item "Add/ed
 
 [[File:cudatext-snippets-editor.png]]
 
+You can create group of snippets (in the "Manage snippets" dialog) for all lexers. To do so, enter "*" value in the "Group's lexers" field of dialog.
+
 Currently most of VSCode/TextMate "macros" are supported in snippets body, but not all. Refer to readme file of the plugin.
 
 === Snippets for HTML tags ===
