@@ -437,6 +437,7 @@ Most of them are located in the Addons Manager "Install" list.
 * Factor
 * Falcon
 * Fish
+* FIX Message (Financial Information eXchange)
 * Forth
 * Fortran
 * FoxPro
