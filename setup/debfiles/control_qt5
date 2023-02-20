@@ -8,6 +8,6 @@ Homepage: https://cudatext.github.io/
 Depends: libqt5pas-dev, python3 (>= 3.5)
 Installed-Size: 15000
 Description: Text/code editor
- Text/code editor with lite UI. Syntax highlighting for 250+ languages.
+ Text/code editor with lite UI. Syntax highlighting for 300+ languages.
  Config system in JSON files. Multi-carets and multi-selections.
  Search and replace with RegEx. Extendable by Python plugins and themes.

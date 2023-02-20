@@ -2,7 +2,7 @@
 
 CudaText is a cross-platform text editor, written in Lazarus.
 
-* Syntax highlighting for a lot of languages: [[#List_of_lexers|270+ lexers]]
+* Syntax highlighting for a lot of languages: [[#List_of_lexers|300+ lexers]]
 * Code folding
 * Code-tree (list of functions/classes/etc, if lexer supports this)
 * Multi-carets, multi-selections
