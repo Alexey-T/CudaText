@@ -2239,17 +2239,13 @@ Seems the term "instance" is not known very good, people cannot find this option
 
 ==How to compile CudaText==
 
-Install FPC and Lazarus:
+First, install FPC and Lazarus:
 
 * [https://github.com/newpascal/fpcupdeluxe/releases download FpcUpDeluxe]. On Windows, you must unlock .exe file in the Windows Explorer dialog. 
 * in FpcUpDeluxe, choose FPC 3.0.4 or 3.2.0, install it first.
 * in FpcUpDeluxe, choose Lazarus 2.0 or "trunk", install it next.
 
-Modern way for app sources.
-
-There is [https://github.com/Alexey-T/CudaText_up Linux script CudaText_up] - it downloads sources to ~/cudatext_up, then calls Lazarus to compile them. You can use it with FPC cross-compilers, installed from FpcUpDeluxe, script will compile CudaText for any of available platforms. Without cross-compilers, script makes CudaText only for the current platform. It puts result to ~/cudatext_up/bin.
-
-Old way for app sources.
+'''Classic way to compile'''
 
 * download GitHub repos:
 ** https://github.com/bgrabitmap/bgrabitmap (install first)
@@ -2270,6 +2266,10 @@ Old way for app sources.
 ** "Python" tab: several items
 * in Lazarus, open "cudatext.lpi" project, compile it
 
+'''Modern way to compile: CudaText_up'''
+
+There is [https://github.com/Alexey-T/CudaText_up Linux script CudaText_up] - it downloads sources to ~/cudatext_up, then calls Lazarus to compile them. You can use it with FPC cross-compilers, installed from FpcUpDeluxe, script will compile CudaText for any of available platforms. Without cross-compilers, script makes CudaText only for the current platform. It puts result to ~/cudatext_up/bin.
+
 '''GTK2 error on ATSynEdit compiling regarding IME.'''
 
 To fix this error, edit the file atsynedit/atsynedit_package.lpk and remove this block there:
@@ -2281,6 +2281,24 @@ To fix this error, edit the file atsynedit/atsynedit_package.lpk and remove this
         </OtherDefines>
       </Other>
 </syntaxhighlight>
+
+'''Using CudaText_up on Windows'''
+
+Few tricks are required to build CudaText via CudaText_up. Retrieve https://github.com/Alexey-T/CudaText_up using "git clone". Use Git Bash to run the cudaup.sh:
+
+ cd /C/Prj/Pas/CudaText_up
+ ./cudaup.sh
+
+The command "./cudaup.sh --get" did not succeed from the first attempt, because Git under Windows downloads text files with CRLF line endings, whereas the cudaup.sh expects the files "cudaup.packets" and "cudaup.repos" to have LF line endings. So open these two files in text editor and change the line endings to LF. After that, "./cudaup.sh --get" succeded. Then run
+
+ ./cudaup.sh --lazdir /C/fpcupdeluxe/lazarus --packs
+
+specifying the path where FpcUpDeluxe was previously installed.
+Finally run
+
+ ./cudaup.sh --lazdir /C/fpcupdeluxe/lazarus --make --os win64
+
+where the part "--os win64" was absolutely essential because without it the project tried to be compiled under Linux (that obviously failed on a Windows machine).
 
 ==How to install plugins from GitHub==
 
