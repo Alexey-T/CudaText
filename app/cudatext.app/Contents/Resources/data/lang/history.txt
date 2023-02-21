@@ -1,5 +1,8 @@
 See http://wiki.freepascal.org/CudaText#How_to_make_translation
 
+2023.02.21
+* delete [m_f] html
+
 2023.02.18
 * delete: [si] Readonly
 * added text: [sta] sel
