@@ -3,7 +3,9 @@
   - fixed
   * changed
 
-+ add: commands "scroll to document begin", "scroll to document end", "scroll column left", "scroll column right" now respect option "caret_keep_visible_on_scroll":true (thanks @qwerky)
+1.185.1 (2023/02)
+
++ add: commands "scroll to document begin/end", "scroll column left/right", "scroll page up/down" now respect option "caret_keep_visible_on_scroll":true (thanks @qwerky)
 
 1.185.0 (2023/02)
 
