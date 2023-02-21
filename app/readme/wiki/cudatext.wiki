@@ -2266,11 +2266,11 @@ First, install FPC and Lazarus:
 ** "Python" tab: several items
 * in Lazarus, open "cudatext.lpi" project, compile it
 
-'''Modern way to compile: CudaText_up'''
+'''CudaText_up way to compile'''
 
 There is [https://github.com/Alexey-T/CudaText_up Linux script CudaText_up] - it downloads sources to ~/cudatext_up, then calls Lazarus to compile them. You can use it with FPC cross-compilers, installed from FpcUpDeluxe, script will compile CudaText for any of available platforms. Without cross-compilers, script makes CudaText only for the current platform. It puts result to ~/cudatext_up/bin.
 
-'''GTK2 error on ATSynEdit compiling regarding IME.'''
+'''GTK2 error on ATSynEdit compiling regarding IME'''
 
 To fix this error, edit the file atsynedit/atsynedit_package.lpk and remove this block there:
 <syntaxhighlight lang="xml">
@@ -2282,7 +2282,7 @@ To fix this error, edit the file atsynedit/atsynedit_package.lpk and remove this
       </Other>
 </syntaxhighlight>
 
-'''Using CudaText_up on Windows'''
+'''CudaText_up on Windows'''
 
 Few tricks are required to build CudaText via CudaText_up. Retrieve https://github.com/Alexey-T/CudaText_up using "git clone". Use Git Bash to run the cudaup.sh:
 
