@@ -5,6 +5,7 @@
 
 1.185.1 (2023/02)
 
+* change: commands "go to screen top/middle/bottom": retain caret's X position, like in many other editors (thanks @qwerky)
 + add: commands "scroll to document begin/end", "scroll column left/right", "scroll page up/down" now respect option "caret_keep_visible_on_scroll":true (thanks @qwerky)
 
 1.185.0 (2023/02)
