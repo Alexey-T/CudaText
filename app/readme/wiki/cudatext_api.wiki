@@ -266,6 +266,7 @@ Actions work with props of Find/Replace dialog, and props of low-level search en
 ** "op_back": option "backward search" (low level) of search engine
 ** "op_fromcaret": option "search from caret" (low level) of search engine
 ** "op_tokens": option "allowed syntax elements" of search engine (int)
+** "op_prescase": option "preserve case on replacement" of search engine
 ** "op_case_d": option "case sensitive" of dialog, None if dialog not inited
 ** "op_word_d": option "whole words" of dialog, None if dialog not inited
 ** "op_regex_d": option "reg.ex." of dialog, None if dialog not inited
@@ -275,6 +276,7 @@ Actions work with props of Find/Replace dialog, and props of low-level search en
 ** "op_wrap_d": option "wrapped search" of dialog, None if dialog not inited
 ** "op_mulline_d": option "multi-line input fields" of dialog, None if dialog not inited
 ** "op_tokens_d": option "allowed syntax elements" of dialog (int), None if dialog not inited
+** "op_prescase_d": option "preserve case on replacement" of dialog, None if dialog not inited
 ** "op_hi_d": option "highlight all matches" of dialog, None if dialog not inited
 
 * PROC_SET_FINDER_PROP: Sets properties of Find/Replace dialog and search engine. Param "text" must be dict, with all or some keys listed in PROC_GET_FINDER_PROP. Values types: str (for text fields), bool (for flags), int (for choices).
@@ -4816,5 +4818,8 @@ It provides:
 
 1.0.439 (app 1.184.0)
 * add: Editor.get_prop/set_prop: PROP_RULER_TEXT (it allows HTML formatting too)
+
+1.0.440 (app 1.185.2)
+* add: app_proc: PROC_GET_FINDER_PROP/PROC_SET_FINDER_PROP support new keys "op_prescase", "op_prescase_d" 
 
 [[Category:CudaText]]
