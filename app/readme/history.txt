@@ -3,11 +3,12 @@
   - fixed
   * changed
 
-1.185.5 (2023/02)
+1.185.2 (2023/02)
 
 + add: find/replace dialog: added option 'AB' (preserve case on replacement), it is described in the Wiki topic "Dialog Find/Replace" (thanks @d0vgan for the patch)
 * change: commands "go to screen top/bottom/center": retain the caret's column, like in many other editors (thanks @qwerky)
 + add: commands "scroll to document begin/end", "scroll column left/right", "scroll page up/down" now respect option "caret_keep_visible_on_scroll":true (thanks @qwerky)
++ Wiki topic https://wiki.freepascal.org/CudaText#How_command_.22Paste_and_indent.22_works
 
 1.185.0 (2023/02)
 
