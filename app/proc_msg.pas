@@ -149,7 +149,8 @@ const
   msgFinderHintWrapped: string = 'wrapped';
   msgFinderHintInSel: string = 'in-sel';
   msgFinderHintFromCaret: string = 'from-caret';
-  msgFinderHintSearchWrapped: string = 'border crossed';
+  msgFinderHintSearchWrapped: string = 'edge-cross';
+  msgFinderHintPresCase: string = 'pres-case';
   msgFinderRegexMathes: string = 'RegEx matches';
 
   msgButtonOk: string = 'OK';
@@ -437,6 +438,7 @@ const
   msgFindHint_InSelect: string = 'Search in selection';
   msgFindHint_Tokens: string = 'Allowed syntax elements';
   msgFindHint_HiAll: string = 'Highlight all matches';
+  msgFindHint_PresCase: string = 'Preserve case on replacement';
 
 function msgTranslatedPanelCaption(const ACaption: string): string;
 function msgFinderRegexMatchesNumbered: string;

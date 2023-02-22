@@ -196,6 +196,7 @@ begin
     cfg.SetValue('/finder/wrap', FFinder.OptWrapped);
     cfg.SetValue('/finder/insel', FFinder.OptInSelection);
     cfg.SetValue('/finder/tokens', Ord(FFinder.OptTokens));
+    cfg.SetValue('/finder/prescase', FFinder.OptPreserveCase);
 
     ////state
     cfg.SetValue('lang', UiOps.LangName);
@@ -827,6 +828,7 @@ begin
     FFinder.OptWrapped:= cfg.GetValue('/finder/wrap', false);
     FFinder.OptInSelection:= cfg.GetValue('/finder/insel', false);
     FFinder.OptTokens:= TATFinderTokensAllowed(cfg.GetValue('/finder/tokens', 0));
+    FFinder.OptPreserveCase:= cfg.GetValue('/finder/prescase', false);
 
     ////state
     case UiOps.SidepanelOnStart of
@@ -1355,6 +1357,7 @@ begin
   UiOps.HotkeyToggleConfirmRep:= cfg.GetValue('find_hotkey_op_confirm_rep', UiOps.HotkeyToggleConfirmRep);
   UiOps.HotkeyToggleTokens:= cfg.GetValue('find_hotkey_op_tokens', UiOps.HotkeyToggleTokens);
   UiOps.HotkeyToggleHiAll:= cfg.GetValue('find_hotkey_op_hi', UiOps.HotkeyToggleHiAll);
+  UiOps.HotkeyTogglePresCase:= cfg.GetValue('find_hotkey_op_prescase', UiOps.HotkeyTogglePresCase);
 
   UiOps.LexerThemes:= cfg.GetValue('ui_lexer_themes', UiOps.LexerThemes);
   UiOps.LexerMenuGrouped:= cfg.GetValue('ui_lexers_grouped', UiOps.LexerMenuGrouped);
@@ -1418,6 +1421,7 @@ begin
   UiOps.FindShow_HiAll:=         Pos('H', UiOps.FindHiddenButtons)=0;
   UiOps.FindShow_ConfirmRep:=    Pos('C', UiOps.FindHiddenButtons)=0;
   UiOps.FindShow_RegexSubst:=    Pos('E', UiOps.FindHiddenButtons)=0;
+  UiOps.FindShow_PreserveCase:=  Pos('P', UiOps.FindHiddenButtons)=0;
 
   UiOps.FindIndentVert:= cfg.GetValue('find_indent_vert', UiOps.FindIndentVert);
   UiOps.FindIndentHorz:= cfg.GetValue('find_indent_horz', UiOps.FindIndentHorz);

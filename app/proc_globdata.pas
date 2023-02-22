@@ -350,6 +350,7 @@ type
     FindShow_HiAll: boolean;
     FindShow_ConfirmRep: boolean;
     FindShow_RegexSubst: boolean;
+    FindShow_PreserveCase: boolean;
 
     FindIndentVert: integer;
     FindIndentHorz: integer;
@@ -476,7 +477,8 @@ type
     HotkeyToggleMultiline,
     HotkeyToggleConfirmRep,
     HotkeyToggleTokens,
-    HotkeyToggleHiAll
+    HotkeyToggleHiAll,
+    HotkeyTogglePresCase
       : string;
   end;
 var
@@ -2004,6 +2006,7 @@ begin
     FindShow_HiAll:= true;
     FindShow_ConfirmRep:= true;
     FindShow_RegexSubst:= true;
+    FindShow_PreserveCase:= true;
 
     FindIndentVert:= -5;
     FindIndentHorz:= 10;
@@ -2147,6 +2150,7 @@ begin
     HotkeyToggleConfirmRep:= 'Alt+Y';
     HotkeyToggleTokens:= '';
     HotkeyToggleHiAll:= '';
+    HotkeyTogglePresCase:= '';
   end;
 end;
 

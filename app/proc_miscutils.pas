@@ -907,6 +907,8 @@ begin
     Result+= 'a';
   if F.OptTokens<>cTokensAll then
     Result+= 'T'+IntToStr(Ord(F.OptTokens));
+  if F.OptPreserveCase then
+    Result+= 'P';
 end;
 
 procedure FinderOptionsFromString(F: TATEditorFinder; const S: string);
@@ -922,6 +924,7 @@ begin
   F.OptConfirmReplace:= Pos('o', S)>0;
   F.OptWrapped:= Pos('a', S)>0;
   F.OptTokens:= cTokensAll;
+  F.OptPreserveCase:= Pos('P', S)>0;
 
   N:= Pos('T', S);
   if (N>0) and (N<Length(S)) then

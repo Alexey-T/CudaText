@@ -57,6 +57,17 @@ object fmFind: TfmFind
         Focusable = False
         OnClick = chkRegexSubstClick
       end
+      object chkPreserveCase: TATButton
+        Left = 60
+        Height = 25
+        Top = 0
+        Width = 30
+        Align = alLeft
+        Caption = 'AB'
+        TabOrder = 2
+        Focusable = False
+        OnClick = chkPreserveCaseClick
+      end
     end
     object PanelOps1: TATPanelSimple
       Left = 8

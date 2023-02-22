@@ -2073,6 +2073,7 @@ begin
       Finder.OptWrapped:= true; //wrapped search, like in Sublime
       Finder.OptInSelection:= false;
       Finder.OptTokens:= cTokensAll;
+      Finder.OptPreserveCase:= false;
 
       Result:= Finder.DoAction_FindSimple(Point(X2, Y2));
       AFinderResultCallback(Result, Finder);
