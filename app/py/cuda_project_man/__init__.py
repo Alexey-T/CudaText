@@ -289,7 +289,9 @@ class Command:
             'on_unfold': 'cuda_project_man.tree_on_unfold',
             'on_click': 'cuda_project_man.tree_on_click',
             'on_click_dbl': 'cuda_project_man.tree_on_click_dbl',
-            } )
+            'on_focus_enter': 'cuda_project_man.on_focus',
+            'on_focus_exit': 'cuda_project_man.on_focus',
+        } )
 
         self.tree = dlg_proc(self.h_dlg, DLG_CTL_HANDLE, index=n)
         self.tree_imglist = tree_proc(self.tree, TREE_GET_IMAGELIST)
@@ -1851,3 +1853,6 @@ class Command:
     def is_path_in_root(self, path):
 
         return str(path) in self.project['nodes']
+
+    def on_focus(self, ed_self, fn):
+        self.action_refresh()
