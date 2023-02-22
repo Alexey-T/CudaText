@@ -590,10 +590,10 @@ object fmMain: TfmMain
         end
       end
       object mnuOpThemes: TMenuItem
-        Caption = 'Themes'
+        Caption = 'Select color theme...'
       end
       object mnuOpLangs: TMenuItem
-        Caption = 'Translations'
+        Caption = 'Select translation...'
       end
     end
     object mnuHelp: TMenuItem
