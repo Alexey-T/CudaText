@@ -771,7 +771,10 @@ begin
   //handle commands cmd_
   case ACommand of
     cCommand_ToggleWordWrap,
-    cCommand_ToggleWordWrapAlt:
+    cCommand_ToggleWordWrapAlt,
+    cCommand_ColSelectWithoutKey_On,
+    cCommand_ColSelectWithoutKey_Off,
+    cCommand_ColSelectWithoutKey_Toggle:
       begin
         UpdateStatusbar;
         AHandled:= false;
