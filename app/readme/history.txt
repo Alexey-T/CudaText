@@ -3,8 +3,9 @@
   - fixed
   * changed
 
-1.185.1 (2023/02)
+1.185.5 (2023/02)
 
++ add: find/replace dialog: added option 'AB' (preserve case on replacement), it is described in the Wiki topic "Dialog Find/Replace" (thanks @d0vgan for the patch)
 * change: commands "go to screen top/bottom/center": retain the caret's column, like in many other editors (thanks @qwerky)
 + add: commands "scroll to document begin/end", "scroll column left/right", "scroll page up/down" now respect option "caret_keep_visible_on_scroll":true (thanks @qwerky)
 
@@ -12,7 +13,7 @@
 
 * change: statusbar: removed msg prefix "[Read only]" but added "RO" text to the cell "selmode" instead (cell "selmode" by default is located just before the last message cell)
 + add: option "ruler_height" (thanks @qwerky)
-+ add: tab-switcher dialog (Ctrl+Tab): shows the current document too; reacts to Ctrl+Shift+Tab too (thanks @d0vgan)
++ add: tab-switcher dialog (Ctrl+Tab): shows the current document too; reacts also to Ctrl+Shift+Tab (thanks @d0vgan)
 + add: find/replace: show in the statusbar "border crossed" for wrapped search (thanks @d0vgan)
 + add: option "centering_width": reworked code, coz we had hard to reproduce bug when option was reset (thanks @Stefan)
 + add: option "centering_width" works also in grouping modes "2 horz", "3 horz", "4 horz", "6 horz"
