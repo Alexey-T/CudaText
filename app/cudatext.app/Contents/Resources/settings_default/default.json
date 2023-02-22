@@ -746,21 +746,22 @@
   "find_sel_case": 2,
 
   //Find dialog: which buttons to hide.
-  //  if "R" in value: "Regular expressions" option button
-  //  if "S" in value: "Case sensitive" option button
-  //  if "W" in value: "Whole words" option button
-  //  if "O" in value: "Wrapped search" option button
-  //  if "I" in value: "Search in selection" option button
-  //  if "M" in value: "Multi-line inputs" option button
-  //  if "X" in value: "Allowed syntax elements" option button
-  //  if "H" in value: "Highlight all matches" option button
-  //  if "C" in value: "Confirm on replace" option button
-  //  if "E" in value: "RegEx substitution for 'Replace with'" option button
-  //  if "f" in value: "Find first" button
-  //  if "n" in value: "Find next" button
-  //  if "p" in value: "Find prev" button
-  //  if "a" in value: "Replace all" button
-  //  if "g" in value: "Replace global" button
+  //  if 'R' in value: "Regular expressions" option button
+  //  if 'S' in value: "Case sensitive" option button
+  //  if 'W' in value: "Whole words" option button
+  //  if 'O' in value: "Wrapped search" option button
+  //  if 'I' in value: "Search in selection" option button
+  //  if 'M' in value: "Multi-line inputs" option button
+  //  if 'X' in value: "Allowed syntax elements" option button
+  //  if 'H' in value: "Highlight all matches" option button
+  //  if 'C' in value: "Confirm on replace" option button
+  //  if 'E' in value: "RegEx substitution for 'Replace with'" option button
+  //  if 'P' in value: "Preserve case" option button
+  //  if 'f' in value: "Find first" button
+  //  if 'n' in value: "Find next" button
+  //  if 'p' in value: "Find prev" button
+  //  if 'a' in value: "Replace all" button
+  //  if 'g' in value: "Replace global" button
   "find_hidden_buttons": "",
 
   //Find dialog: multi-line mode: how height of inputs is increased.
