@@ -1,6 +1,7 @@
 See http://wiki.freepascal.org/CudaText#How_to_make_translation
 
 2023.02.22
++ [d_f] h_pres
 + [ui] fnd_pres
 * delete [m_f] html
 
