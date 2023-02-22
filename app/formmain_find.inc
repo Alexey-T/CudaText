@@ -1238,7 +1238,7 @@ begin
       'op_insel', PyBool_FromLong(Ord(FFinder.OptInSelection)),
       'op_wrap', PyBool_FromLong(Ord(FFinder.OptWrapped)),
       'op_tokens', PyLong_FromLong(Ord(FFinder.OptTokens)),
-      'op_prescase', PyLong_FromLong(Ord(FFinder.OptPreserveCase)),
+      'op_prescase', PyBool_FromLong(Ord(FFinder.OptPreserveCase)),
 
       'op_case_d', bCase,
       'op_word_d', bWord,
