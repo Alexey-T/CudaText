@@ -9,6 +9,7 @@
 * change: commands "go to screen top/bottom/center": retain the caret's column, like in many other editors (thanks @qwerky)
 + add: commands "scroll to document begin/end", "scroll column left/right", "scroll page up/down" now respect option "caret_keep_visible_on_scroll":true (thanks @qwerky)
 + add: Wiki topic https://wiki.freepascal.org/CudaText#How_command_.22Paste_and_indent.22_works
+- fix: error in parser (it creates the error log ~/cudatext.error) in JSON files
 
 1.185.0 (2023/02)
 
