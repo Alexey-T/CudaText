@@ -1241,7 +1241,20 @@ Toggle-buttons for "replace" mode:
 * \l: lower case of one char
 * \L: lower case of all text
 * \u: upper case of one char
-* \U: upper case of all text  
+* \U: upper case of all text
+
+;Toggle-button "AB": Preserve case on replacement. Mimics logic in VS Code program:
+* If the original string contains only upper-case or only lower-case characters, the result will be either all upper-case or all lower-case characters:
+** "ABCDE" -> replace with "xyz" -> "XYZ" (preserving all upper-case);
+** "abcde" -> replace with "xYz" -> "xyz" (preserving all lower-case).
+* The case of the first character in the original string is always preserved:
+** if it is upper-case, the first character in the result will be upper-case;
+** if it is lower-case, the first character in the result will be lower-case.
+** "Abcde" -> replace with "xyz" -> "Xyz" (preserving the first upper-case);
+** "abcde" -> replace with "Xyz" -> "xyz" (preserving the first lower-case).
+* In case of a mixed-case original string, the result follows the case of characters in the replacing string, excluding the very first character of the original string that always preserves its original case.
+** "ABcde" -> replace with "xyZ" -> "XyZ" (preserving the first upper-case);
+** "abCDE" -> replace with "XYz" -> "xYz" (preserving the first lower-case).
 
 Action buttons in dialog:
 
