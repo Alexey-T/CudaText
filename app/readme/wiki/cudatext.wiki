@@ -2641,6 +2641,38 @@ This can be done in CudaText like this:
 * Install plugin "Config Toolbar".
 * Call config dialog via "Plugins / Config Toolbar / Configure buttons". In that dialog, add a button. In the button properties, choose your recorded macro command ("Choose command" button). This will add toolbar button for your macro. Customize this button as you wish (any icon, caption, tooltip).
 
+==How command "Paste and indent" works==
+Command "Edit / Paste and indent" should mimic the Sublime Text command with the same name. How it works? For single line clipboard text, it does the same as usual "Paste".
+For multi-line clipboard text (let's name it "block"), it aligns all lines of the "block", so that lines 2,3,4,... of the "block" will have the same indentation as the first "block" line. If lines had different indents in the clipboard, '''relative indents''' will be kept.
+
+Example: clipboard "block" is:
+
+ aaaaaaaaaaaaaaaa
+ aaaaaaaaaaaaaaaa
+   bbbbbbbbbbbbbb
+   bbbbbbbbbbbbbb
+     cccccccccccc
+     cccccccccccc
+ dddddddddddddddd
+
+And caret ("|" symbol) is located here:
+
+          some file text
+          some file text
+          |
+
+"Paste and indent" with such caret position will give this:
+
+          some file text
+          some file text
+          aaaaaaaaaaaaaaaa
+          aaaaaaaaaaaaaaaa
+            bbbbbbbbbbbbbb
+            bbbbbbbbbbbbbb
+              cccccccccccc
+              cccccccccccc
+          dddddddddddddddd
+
 ==Why XML document is not fully highlighted by XML lexer==
 
 Sometimes, you can see the poor syntax highlighting in XML documents.
