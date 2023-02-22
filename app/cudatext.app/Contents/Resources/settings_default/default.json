@@ -756,7 +756,7 @@
   //  if 'H' in value: "Highlight all matches" option button
   //  if 'C' in value: "Confirm on replace" option button
   //  if 'E' in value: "RegEx substitution for 'Replace with'" option button
-  //  if 'P' in value: "Preserve case" option button
+  //  if 'P' in value: "Preserve case on replacement" option button
   //  if 'f' in value: "Find first" button
   //  if 'n' in value: "Find next" button
   //  if 'p' in value: "Find prev" button
@@ -1544,6 +1544,7 @@
   "find_hotkey_op_confirm_rep": "Alt+Y",
   "find_hotkey_op_tokens": "",
   "find_hotkey_op_hi": "",
+  "find_hotkey_op_prescase": "",
 
   //[Viewer]
   //Viewer text width in 'binary' mode.
