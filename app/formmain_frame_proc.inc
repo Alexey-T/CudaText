@@ -45,7 +45,6 @@ begin
   case AReason of
     'caret',
     'binary_scroll',
-    'wrap',
     'ovr',
     'zoom':
       begin

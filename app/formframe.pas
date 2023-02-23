@@ -1871,7 +1871,7 @@ begin
     cCommand_ToggleWordWrapAlt:
       begin
         DoPyEventState(Ed, EDSTATE_WRAP);
-        DoOnUpdateStatusbar('wrap');
+        //DoOnUpdateStatusbar('wrap'); //not needed, OnChangeState fires
         exit;
       end;
 
