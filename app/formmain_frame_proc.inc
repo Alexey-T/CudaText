@@ -44,6 +44,9 @@ procedure TfmMain.FrameOnUpdateStatusbar(Sender: TObject);
 begin
   //update statusbar w/o delays
   UpdateStatusbar_RealWork;
+
+  //request that TimerIdle calls the UpdateTabCaptionsFromFolders
+  FNeedUpdateStatuses:= true;
 end;
 
 procedure TfmMain.FrameOnUpdateState(Sender: TObject);
