@@ -42,16 +42,20 @@ end;
 
 procedure TfmMain.FrameOnUpdateStatusbar(Sender: TObject; const AReason: string);
 begin
-  //update statusbar w/o delays for some events
+  //some events only need the fast update of the statusbar
   case AReason of
     'caret',
     'binary_scroll',
     'zoom':
-      UpdateStatusbar_RealWork;
+      begin
+        UpdateStatusbar_RealWork;
+      end;
+    else
+      begin
+        //request that TimerAppIdle calls the UpdateTabCaptionsFromFolders
+        FNeedUpdateStatuses:= true;
+      end;
   end;
-
-  //request that TimerAppIdle calls the UpdateTabCaptionsFromFolders
-  FNeedUpdateStatuses:= true;
 end;
 
 procedure TfmMain.FrameOnUpdateState(Sender: TObject);
