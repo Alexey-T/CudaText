@@ -45,7 +45,7 @@ begin
   //update statusbar w/o delays
   UpdateStatusbar_RealWork;
 
-  //request that TimerIdle calls the UpdateTabCaptionsFromFolders
+  //request that TimerAppIdle calls the UpdateTabCaptionsFromFolders
   FNeedUpdateStatuses:= true;
 end;
 
