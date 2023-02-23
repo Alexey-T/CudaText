@@ -298,6 +298,7 @@ begin
     Application.Restore;
     Application.ProcessMessages;
   end;
+  Application.BringToFront;
 end;
 {$endif}
 
