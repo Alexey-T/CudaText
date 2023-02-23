@@ -551,6 +551,7 @@ begin
     FMenuitemOptTokensSub[kind].Caption:= bTokens.Items[Ord(kind)];
     FMenuitemOptTokensSub[kind].Checked:= bTokens.ItemIndex=Ord(kind);
   end;
+
   FMenuitemOptHiAll.Caption:= msgFindHint_HiAll;
   FMenuitemOptHiAll.Checked:= chkHiAll.Checked;
   FMenuitemOptHiAll.ShortCut:= TextToShortCut(UiOps.HotkeyToggleHiAll);
@@ -566,6 +567,7 @@ begin
   FMenuitemOptPreserveCase.Caption:= msgFindHint_PresCase;
   FMenuitemOptPreserveCase.Checked:= chkPreserveCase.Checked;
   FMenuitemOptPreserveCase.Enabled:= IsReplace and not chkRegex.Checked;
+  FMenuitemOptPreserveCase.ShortCut:= TextToShortCut(UiOps.HotkeyTogglePresCase);
 
   FMenuitemFindFirst.Caption:= SCaptionFindFirst;
   FMenuitemFindFirst.ShortCut:= TextToShortCut(UiOps.HotkeyFindFirst);
