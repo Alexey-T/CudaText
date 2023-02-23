@@ -187,6 +187,7 @@ type
     FMenuitemOptTokensSub: array[TATFinderTokensAllowed] of TMenuItem;
     FMenuitemOptHiAll: TMenuItem;
     FMenuitemOptRegexSubst: TMenuItem;
+    FMenuitemOptPreserveCase: TMenuItem;
     FMenuitemFindFirst: TMenuItem;
     FMenuitemFindPrev: TMenuItem;
     FMenuitemFindNext: TMenuItem;
@@ -454,6 +455,9 @@ begin
     FMenuitemOptRegexSubst:= TMenuItem.Create(Self);
     FMenuitemOptRegexSubst.OnClick:= @chkRegexSubstClick;
 
+    FMenuitemOptPreserveCase:= TMenuItem.Create(Self);
+    FMenuitemOptPreserveCase.OnClick:= @chkPreserveCaseClick;
+
     FMenuitemFindFirst:= TMenuItem.Create(Self);
     FMenuitemFindFirst.OnClick:= @bFindFirstClick;
 
@@ -505,6 +509,7 @@ begin
     FPopupMore.Items.Add(FMenuitemOptTokens);
     FPopupMore.Items.Add(FMenuitemOptHiAll);
     FPopupMore.Items.Add(FMenuitemOptRegexSubst);
+    FPopupMore.Items.Add(FMenuitemOptPreserveCase);
     FPopupMore.Items.Add(Sep1);
     FPopupMore.Items.Add(FMenuitemFindFirst);
     FPopupMore.Items.Add(FMenuitemFindPrev);
@@ -557,6 +562,10 @@ begin
   FMenuitemOptRegexSubst.Caption:= msgFindHint_RegexSubst;
   FMenuitemOptRegexSubst.Checked:= chkRegexSubst.Checked;
   FMenuitemOptRegexSubst.Enabled:= IsReplace and chkRegex.Checked;
+
+  FMenuitemOptPreserveCase.Caption:= msgFindHint_PresCase;
+  FMenuitemOptPreserveCase.Checked:= chkPreserveCase.Checked;
+  FMenuitemOptPreserveCase.Enabled:= IsReplace and not chkRegex.Checked;
 
   FMenuitemFindFirst.Caption:= SCaptionFindFirst;
   FMenuitemFindFirst.ShortCut:= TextToShortCut(UiOps.HotkeyFindFirst);
