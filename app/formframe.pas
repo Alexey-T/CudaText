@@ -1871,13 +1871,14 @@ begin
     cCommand_ToggleWordWrapAlt:
       begin
         DoPyEventState(Ed, EDSTATE_WRAP);
+        DoOnUpdateStatusbar('wrap');
         exit;
       end;
 
     cCommand_ToggleOverwrite:
       begin
         OnMsgStatus(Self, msgStatusbarCellInsOvr[Ed.ModeOverwrite]);
-        DoOnUpdateStatusbar('toggle_ovr');
+        DoOnUpdateStatusbar('ovr');
         exit;
       end;
 

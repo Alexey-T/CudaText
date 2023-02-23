@@ -45,6 +45,8 @@ begin
   case AReason of
     'caret',
     'binary_scroll',
+    'wrap',
+    'ovr',
     'zoom':
       begin
         //some events only need the fast update of the statusbar
