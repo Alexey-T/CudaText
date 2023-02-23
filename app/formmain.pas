@@ -1149,7 +1149,7 @@ type
     procedure InitFinder;
     procedure InitBookmarkSetup;
     procedure FrameOnChangeCaption(Sender: TObject);
-    procedure FrameOnUpdateStatusbar(Sender: TObject);
+    procedure FrameOnUpdateStatusbar(Sender: TObject; const AReason: string);
     procedure FrameOnUpdateState(Sender: TObject);
     procedure FrameOnUpdateZoom(Sender: TObject);
     function CreateTab(APages: TATPages; const ACaption: string;

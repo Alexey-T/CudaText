@@ -40,7 +40,7 @@ begin
   UpdateCaption;
 end;
 
-procedure TfmMain.FrameOnUpdateStatusbar(Sender: TObject);
+procedure TfmMain.FrameOnUpdateStatusbar(Sender: TObject; const AReason: string);
 begin
   //update statusbar w/o delays;
   //this line can be removed but then app reaction to caret moving will be slow
