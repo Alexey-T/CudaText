@@ -43,9 +43,12 @@ end;
 procedure TfmMain.FrameOnUpdateStatusbar(Sender: TObject; const AReason: string);
 begin
   //update statusbar w/o delays;
-  //this line can be removed but then app reaction to caret moving will be slow
-  if AReason='caret' then
-    UpdateStatusbar_RealWork;
+  //this operator can be removed but then app reaction to caret moving will be slow
+  case AReason of
+    'caret',
+    'binary_scroll':
+      UpdateStatusbar_RealWork;
+  end;
 
   //request that TimerAppIdle calls the UpdateTabCaptionsFromFolders
   FNeedUpdateStatuses:= true;
