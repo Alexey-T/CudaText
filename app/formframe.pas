@@ -1880,7 +1880,7 @@ begin
     cCommand_ToggleOverwrite:
       begin
         OnMsgStatus(Self, msgStatusbarCellInsOvr[Ed.ModeOverwrite]);
-        OnUpdateStatusbar(Self);
+        DoOnUpdateStatusbar;
         exit;
       end;
 
@@ -3160,7 +3160,7 @@ begin
     false
     );
 
-  OnUpdateStatusbar(Self);
+  DoOnUpdateStatusbar;
 
   //fire 'on_change_slow' and disable its timer
   TimerChangeTimer(nil);

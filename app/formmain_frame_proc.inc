@@ -42,7 +42,8 @@ end;
 
 procedure TfmMain.FrameOnUpdateStatusbar(Sender: TObject);
 begin
-  //update statusbar w/o delays
+  //update statusbar w/o delays;
+  //this line can be removed but then app reaction to caret moving will be slow
   UpdateStatusbar_RealWork;
 
   //request that TimerAppIdle calls the UpdateTabCaptionsFromFolders
