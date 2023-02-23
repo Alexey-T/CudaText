@@ -160,7 +160,6 @@ type
     FOnProgress: TATFinderProgress;
     FOnUpdateStatusbar: TAppFrameStringEvent;
     FOnUpdateState: TNotifyEvent;
-    FOnUpdateZoom: TNotifyEvent;
     FOnFocusEditor: TNotifyEvent;
     FOnEditorCommand: TATSynEditCommandEvent;
     FOnEditorChangeCaretPos: TNotifyEvent;
@@ -228,7 +227,6 @@ type
     procedure DoImageboxScroll(Sender: TObject);
     procedure DoOnChangeCaption;
     procedure DoOnUpdateState;
-    procedure DoOnUpdateZoom;
     procedure DoOnUpdateStatusbar(const AReason: string);
     procedure EditorContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
     procedure EditorClickEndSelect(Sender: TObject; APrevPnt, ANewPnt: TPoint);
@@ -511,7 +509,6 @@ type
     property OnChangeSlow: TNotifyEvent read FOnChangeSlow write FOnChangeSlow;
     property OnUpdateStatusbar: TAppFrameStringEvent read FOnUpdateStatusbar write FOnUpdateStatusbar;
     property OnUpdateState: TNotifyEvent read FOnUpdateState write FOnUpdateState;
-    property OnUpdateZoom: TNotifyEvent read FOnUpdateZoom write FOnUpdateZoom;
     property OnEditorCommand: TATSynEditCommandEvent read FOnEditorCommand write FOnEditorCommand;
     property OnEditorChangeCaretPos: TNotifyEvent read FOnEditorChangeCaretPos write FOnEditorChangeCaretPos;
     property OnEditorScroll: TNotifyEvent read FOnEditorScroll write FOnEditorScroll;
@@ -1653,7 +1650,7 @@ end;
 
 procedure TEditorFrame.EditorOnChangeZoom(Sender: TObject);
 begin
-  DoOnUpdateZoom;
+  DoOnUpdateStatusbar('zoom');
   DoPyEventState(Sender as TATSynEdit, EDSTATE_ZOOM);
 end;
 
@@ -3425,12 +3422,6 @@ procedure TEditorFrame.DoOnUpdateState;
 begin
   if Assigned(FOnUpdateState) then
     FOnUpdateState(Self);
-end;
-
-procedure TEditorFrame.DoOnUpdateZoom;
-begin
-  if Assigned(FOnUpdateZoom) then
-    FOnUpdateZoom(Self);
 end;
 
 procedure TEditorFrame.EditorClickMoveCaret(Sender: TObject; APrevPnt, ANewPnt: TPoint);

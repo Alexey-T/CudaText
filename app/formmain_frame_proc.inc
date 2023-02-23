@@ -42,11 +42,11 @@ end;
 
 procedure TfmMain.FrameOnUpdateStatusbar(Sender: TObject; const AReason: string);
 begin
-  //update statusbar w/o delays;
-  //this operator can be removed but then app reaction to caret moving will be slow
+  //update statusbar w/o delays for some events
   case AReason of
     'caret',
-    'binary_scroll':
+    'binary_scroll',
+    'zoom':
       UpdateStatusbar_RealWork;
   end;
 
@@ -58,12 +58,6 @@ procedure TfmMain.FrameOnUpdateState(Sender: TObject);
 begin
   FNeedUpdateMenuChecks:= true;
   //real updating will run on TimerAppIdle work
-end;
-
-procedure TfmMain.FrameOnUpdateZoom(Sender: TObject);
-begin
-  //update statusbar w/o delays
-  UpdateStatusbar_RealWork;
 end;
 
 procedure TfmMain.DoCodetree_StopUpdate;
