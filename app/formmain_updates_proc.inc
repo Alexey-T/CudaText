@@ -796,7 +796,7 @@ begin
 end;
 
 
-procedure TfmMain.UpdateMenuItem_SetAllShortcuts(AMenuItem: TMenuItem);
+procedure TfmMain.UpdateMenuItem_SetShortcutsRecursively(AMenuItem: TMenuItem);
 const
   NMenuLevel: integer = 0;
 var
@@ -810,7 +810,7 @@ begin
     if (mi.Count>0) and (NMenuLevel<2) and (Pos('Plugins', mi.Caption)=0) then
     begin
       Inc(NMenuLevel);
-      UpdateMenuItem_SetAllShortcuts(mi);
+      UpdateMenuItem_SetShortcutsRecursively(mi);
       Dec(NMenuLevel);
     end
     else

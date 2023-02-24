@@ -1102,7 +1102,7 @@ type
     procedure UpdateMenuItemHint(mi: TMenuItem; const AHint: string);
     procedure UpdateMenuItemHotkey(mi: TMenuItem; ACmd: integer; AllowSetShortcut: boolean=true);
     procedure UpdateMenuItem_SetShortcutFromProps(mi: TMenuItem);
-    procedure UpdateMenuItem_SetAllShortcuts(AMenuItem: TMenuItem);
+    procedure UpdateMenuItem_SetShortcutsRecursively(AMenuItem: TMenuItem);
     procedure UpdateMenuLexersTo(AMenu: TMenuItem);
     procedure UpdateMenuRecent(Ed: TATSynEdit);
     procedure UpdateMenuHotkeys;
@@ -3593,7 +3593,7 @@ procedure TfmMain.FormShow(Sender: TObject);
       (MainMenu.Items[MainMenu.Items.Count-1]=mnuGroups) then
       exit;
 
-    UpdateMenuItem_SetAllShortcuts(MainMenu.Items);
+    UpdateMenuItem_SetShortcutsRecursively(MainMenu.Items);
 
     //tick:= GetTickCount64-tick;
     //MsgLogConsole('Init top menu shortcuts: '+IntToStr(tick)+'ms');
