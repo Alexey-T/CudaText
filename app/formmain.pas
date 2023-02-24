@@ -4712,9 +4712,7 @@ begin
           if Pos('{', Dir)>0 then
           begin
             Dir:= StringReplace(Dir, '{AppDir}', ExtractFileDir(Application.ExeName), [rfReplaceAll]);
-            {$ifdef windows}
-            Dir:= StringReplace(Dir, '{AppDrive}', ExtractFileDrive(Application.ExeName), [rfReplaceAll]);
-            {$endif}
+            Dir:= StringReplace(Dir, '{AppDrive}', {$ifdef windows} ExtractFileDrive(Application.ExeName) {$else} '' {$endif}, [rfReplaceAll]);
           end;
         end;
       'h':
