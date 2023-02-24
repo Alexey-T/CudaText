@@ -1868,6 +1868,9 @@ Possible values of "id_action":
 * MENU_SET_IMAGELIST: Changes imagelist object of menu, which contains menu item. Param "command" must be imagelist handle.
 * MENU_SET_IMAGEINDEX: Changes icon index of menu item (index in imagelist). Param "index" must be icon index.
 
+* MENU_SET_AUTO_HOTKEY: Sets the hotkey of menu item according to this item's command code (which must be already set). It skips some special commands: "Clipboard copy", "Clipboard paste", "Clipboard cut", "Select all", "Undo", "Redo". And it skips some special hotkeys: Esc, Shift+Tab.
+* MENU_SET_AUTO_HOTKEY_DEEP: Performs the action MENU_SET_AUTO_HOTKEY for all menu items nested in the given submenu. The deepness of the recusion must be given in the param "command" as str(int_value).
+
 ====menu_proc - Example====
 
 Example adds item "Misc" to the main menu, and sub-items: "About", separator, "Rename file" (from CudaExt plugin):
@@ -4819,7 +4822,8 @@ It provides:
 1.0.439 (app 1.184.0)
 * add: Editor.get_prop/set_prop: PROP_RULER_TEXT (it allows HTML formatting too)
 
-1.0.440 (app 1.185.2)
-* add: app_proc: PROC_GET_FINDER_PROP/PROC_SET_FINDER_PROP support new keys "op_prescase", "op_prescase_d" 
+1.0.441 (app 1.185.5)
+* add: app_proc: PROC_GET_FINDER_PROP/PROC_SET_FINDER_PROP support new keys "op_prescase", "op_prescase_d"
+* add: menu_proc: MENU_SET_AUTO_HOTKEY, MENU_SET_AUTO_HOTKEY_DEEP 
 
 [[Category:CudaText]]

@@ -796,7 +796,7 @@ begin
 end;
 
 
-procedure TfmMain.UpdateMenuItem_SetShortcutsRecursively(AMenuItem: TMenuItem);
+procedure TfmMain.UpdateMenuItem_SetShortcutsRecursively(AMenuItem: TMenuItem; AMaxMenuLevel: integer);
 const
   NMenuLevel: integer = 0;
 var
@@ -806,12 +806,14 @@ begin
   for i:= 0 to AMenuItem.Count-1 do
   begin
     mi:= AMenuItem.Items[i];
-    //if submenu, do recursion, but not deep
-    if (mi.Count>0) and (NMenuLevel<2) and (Pos('Plugins', mi.Caption)=0) then
+    if (mi.Count>0) and (NMenuLevel<AMaxMenuLevel) then
     begin
       Inc(NMenuLevel);
-      UpdateMenuItem_SetShortcutsRecursively(mi);
-      Dec(NMenuLevel);
+      try
+        UpdateMenuItem_SetShortcutsRecursively(mi, AMaxMenuLevel);
+      finally
+        Dec(NMenuLevel);
+      end;
     end
     else
       UpdateMenuItem_SetShortcutFromProps(mi);

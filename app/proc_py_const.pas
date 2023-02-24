@@ -83,6 +83,8 @@ const
   MENU_GET_PROP      = 14;
   MENU_SET_IMAGELIST = 20;
   MENU_SET_IMAGEINDEX = 21;
+  MENU_SET_AUTO_HOTKEY      = 30;
+  MENU_SET_AUTO_HOTKEY_DEEP = 31;
 
   LOG_CLEAR         = 0;
   LOG_ADD           = 1;

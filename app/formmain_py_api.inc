@@ -6352,6 +6352,22 @@ begin
             Result:= ReturnNone;
           end;
 
+        MENU_SET_AUTO_HOTKEY:
+          begin
+            PopupItem:= PyHelper_MenuItemFromId(StrMenu);
+            if Assigned(PopupItem) then
+              fmMain.UpdateMenuItem_SetShortcutFromProps(PopupItem);
+            Result:= ReturnNone;
+          end;
+
+        MENU_SET_AUTO_HOTKEY_DEEP:
+          begin
+            PopupItem:= PyHelper_MenuItemFromId(StrMenu);
+            if Assigned(PopupItem) then
+              fmMain.UpdateMenuItem_SetShortcutsRecursively(PopupItem, StrToIntDef(StrCmd, 1));
+            Result:= ReturnNone;
+          end;
+
         else
           Result:= ReturnNone;
       end;
