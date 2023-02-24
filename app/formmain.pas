@@ -1101,6 +1101,8 @@ type
     procedure UpdateMenuItemChecked(mi: TMenuItem; saved: TATMenuItemsAlt; AValue: boolean);
     procedure UpdateMenuItemHint(mi: TMenuItem; const AHint: string);
     procedure UpdateMenuItemHotkey(mi: TMenuItem; ACmd: integer; AllowSetShortcut: boolean=true);
+    procedure UpdateMenuItem_SetShortcutFromProps(mi: TMenuItem);
+    procedure UpdateMenuItem_SetAllShortcuts(mi: TMenuItem);
     procedure UpdateMenuLexersTo(AMenu: TMenuItem);
     procedure UpdateMenuRecent(Ed: TATSynEdit);
     procedure UpdateMenuHotkeys;

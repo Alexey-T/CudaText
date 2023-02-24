@@ -760,6 +760,52 @@ begin
   {$endif}
 end;
 
+
+procedure TfmMain.UpdateMenuItem_SetShortcutFromProps(mi: TMenuItem);
+var
+  NCmd: integer;
+begin
+  if not Assigned(mi) then exit;
+  if mi.Tag=0 then exit;
+
+  NCmd:= TAppMenuProps(mi.Tag).CommandCode;
+  if NCmd<=0 then exit;
+
+  //if Copy/Paste/SelectAll hotkeys set in MainMenu, Qt5 version cannot handle them in Console/Find/Replace
+  if (NCmd<>cCommand_ClipboardCopy) and
+    (NCmd<>cCommand_ClipboardPaste) and
+    (NCmd<>cCommand_ClipboardCut) and
+    (NCmd<>cCommand_Undo) and
+    (NCmd<>cCommand_Redo) and
+    (NCmd<>cCommand_SelectAll) then
+    mi.ShortCut:= AppKeymapMain.GetShortcutFromCommand(NCmd);
+
+  //don't set Esc here
+  if mi.Shortcut=AppShortcutEscape then
+    mi.ShortCut:= 0;
+
+  //don't allow Shift+Tab in menu
+  if mi.Shortcut=AppShortcutShiftTab then
+    mi.ShortCut:= 0;
+end;
+
+
+procedure TfmMain.UpdateMenuItem_SetAllShortcuts(mi: TMenuItem);
+var
+  miTemp: TMenuItem;
+  i: integer;
+begin
+  for i:= 0 to mi.Count-1 do
+  begin
+    miTemp:= mi.Items[i];
+    if miTemp.Count>0 then
+      UpdateMenuItem_SetAllShortcuts(miTemp)
+    else
+      UpdateMenuItem_SetShortcutFromProps(miTemp);
+  end;
+end;
+
+
 procedure TfmMain.UpdateMenuItemAltObject(mi: TMenuItem; ACmd: integer);
   //
   procedure DoSave(mi: TMenuItem; var save: TATMenuItemsAlt);
