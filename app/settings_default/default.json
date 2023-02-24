@@ -967,8 +967,8 @@
 
   //Sub-option of "ui_open_dir".
   //Supports several macros:
-  //  {AppDir} -- Folder of CudaText executable file.
-  //  {AppDrive} -- (Windows only) Drive/disk letter of CudaText executable file. 
+  //  {AppDir} - Folder path of CudaText executable file.
+  //  {AppDrive} - (Windows only) Drive/disk letter of CudaText executable, e.g. "D:".
   "ui_initial_dir": "",
 
   //Initial folder of Open/Save-as dialog.
