@@ -22,7 +22,6 @@ mkdir $dd/usr/share/cudatext
 mkdir $dd/usr/share/cudatext/py
 mkdir $dd/usr/share/cudatext/py/cuda_addonman
 mkdir $dd/usr/share/cudatext/py/cuda_comments
-mkdir $dd/usr/share/cudatext/py/cuda_emmet
 mkdir $dd/usr/share/cudatext/py/cuda_lexer_detecter
 mkdir $dd/usr/share/cudatext/py/cuda_make_plugin
 mkdir $dd/usr/share/cudatext/py/cuda_multi_installer
@@ -35,7 +34,6 @@ mkdir $dd/usr/share/cudatext/py/cuda_project_man
 mkdir $dd/usr/share/cudatext/py/cuda_snippet_panel
 mkdir $dd/usr/share/cudatext/py/cuda_sort
 mkdir $dd/usr/share/cudatext/py/cuda_tabs_list
-mkdir $dd/usr/share/cudatext/py/cuda_show_unsaved
 mkdir $dd/usr/share/cudatext/py/sys
 mkdir $dd/usr/share/pixmaps
 mkdir $dd/usr/share/applications
@@ -55,7 +53,6 @@ cp -r ../app/py/cuda_addonman/*.py $dd/usr/share/cudatext/py/cuda_addonman
 cp -r ../app/py/cuda_addonman/*.inf $dd/usr/share/cudatext/py/cuda_addonman
 cp -r ../app/py/cuda_comments/*.py $dd/usr/share/cudatext/py/cuda_comments
 cp -r ../app/py/cuda_comments/*.inf $dd/usr/share/cudatext/py/cuda_comments
-cp -r ../app/py/cuda_emmet/* $dd/usr/share/cudatext/py/cuda_emmet
 cp -r ../app/py/cuda_lexer_detecter/* $dd/usr/share/cudatext/py/cuda_lexer_detecter
 cp -r ../app/py/cuda_make_plugin/*.py $dd/usr/share/cudatext/py/cuda_make_plugin
 cp -r ../app/py/cuda_make_plugin/*.inf $dd/usr/share/cudatext/py/cuda_make_plugin
@@ -78,8 +75,6 @@ rm -rf ../app/py/cuda_sort/__pycache__
 cp -r ../app/py/cuda_sort $dd/usr/share/cudatext/py
 rm -rf ../app/py/cuda_tabs_list/__pycache__
 cp -r ../app/py/cuda_tabs_list $dd/usr/share/cudatext/py
-rm -rf ../app/py/cuda_show_unsaved/__pycache__
-cp -r ../app/py/cuda_show_unsaved $dd/usr/share/cudatext/py
 cp -r ../app/py/sys $dd/usr/share/cudatext/py
 
 cp debfiles/changelog $dd/usr/share/doc/cudatext

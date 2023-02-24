@@ -22,8 +22,6 @@ mkdir $app/Contents/Resources/py/cuda_project_man
 mkdir $app/Contents/Resources/py/cuda_snippet_panel
 mkdir $app/Contents/Resources/py/cuda_sort
 mkdir $app/Contents/Resources/py/cuda_tabs_list
-mkdir $app/Contents/Resources/py/cuda_show_unsaved
-mkdir $app/Contents/Resources/py/cuda_emmet
 mkdir $app/Contents/Resources/py/cuda_lexer_detecter
 mkdir $app/Contents/Resources/py/sys
 
@@ -50,10 +48,6 @@ rm -rf $from/py/cuda_sort/__pycache__
 cp -rf $from/py/cuda_sort/* $app/Contents/Resources/py/cuda_sort
 rm -rf $from/py/cuda_tabs_list/__pycache__
 cp -rf $from/py/cuda_tabs_list/* $app/Contents/Resources/py/cuda_tabs_list
-rm -rf $from/py/cuda_show_unsaved/__pycache__
-cp -rf $from/py/cuda_show_unsaved/* $app/Contents/Resources/py/cuda_show_unsaved
-rm -rf $from/py/cuda_emmet/__pycache__
-cp -rf $from/py/cuda_emmet/* $app/Contents/Resources/py/cuda_emmet
 rm -rf $from/py/cuda_lexer_detecter/__pycache__
 cp -rf $from/py/cuda_lexer_detecter/* $app/Contents/Resources/py/cuda_lexer_detecter
 cp -rf $from/py/cuda_palette/* $app/Contents/Resources/py/cuda_palette
