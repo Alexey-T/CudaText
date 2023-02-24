@@ -1868,7 +1868,7 @@ Possible values of "id_action":
 * MENU_SET_IMAGELIST: Changes imagelist object of menu, which contains menu item. Param "command" must be imagelist handle.
 * MENU_SET_IMAGEINDEX: Changes icon index of menu item (index in imagelist). Param "index" must be icon index.
 
-* MENU_SET_AUTO_HOTKEY: Sets the hotkey of menu item according to this item's command code (which must be already set). It skips some special commands: "Clipboard copy", "Clipboard paste", "Clipboard cut", "Select all", "Undo", "Redo". And it skips some special hotkeys: Esc, Shift+Tab.
+* MENU_SET_AUTO_HOTKEY: Sets the hotkey of menu item according to this item's command code (which must be already set). It skips some special commands: "Clipboard copy", "Clipboard paste", "Clipboard cut", "Select all", "Undo", "Redo" (because for example Ctrl+C hotkey in the top menu overrides the Ctrl+C pressing in the Console / Code-Tree filter / docked plugin dialogs). And it skips some special hotkeys: Esc, Shift+Tab.
 * MENU_SET_AUTO_HOTKEY_DEEP: Performs the action MENU_SET_AUTO_HOTKEY for all menu items nested in the given submenu. The deepness of the recusion (0-based) must be given in the param "command" as str(int_value).
 
 ====menu_proc - Example====
