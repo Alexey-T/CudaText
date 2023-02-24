@@ -764,11 +764,17 @@ end;
 procedure TfmMain.UpdateMenuItem_SetShortcutFromProps(mi: TMenuItem);
 var
   NCmd: integer;
+  Obj: TObject;
 begin
   if not Assigned(mi) then exit;
+  if mi.Count>0 then exit;
   if mi.Tag=0 then exit;
+  if (mi.Tag>0) and (mi.Tag<=1000) then exit; //prevent crash on special Tag values, e.g. 27
 
-  NCmd:= TAppMenuProps(mi.Tag).CommandCode;
+  Obj:= TObject(mi.Tag);
+  if not (Obj is TAppMenuProps) then exit;
+
+  NCmd:= TAppMenuProps(Obj).CommandCode;
   if NCmd<=0 then exit;
 
   //if Copy/Paste/SelectAll hotkeys set in MainMenu, Qt5 version cannot handle them in Console/Find/Replace
@@ -790,18 +796,24 @@ begin
 end;
 
 
-procedure TfmMain.UpdateMenuItem_SetAllShortcuts(mi: TMenuItem);
+procedure TfmMain.UpdateMenuItem_SetAllShortcuts(AMenuItem: TMenuItem);
+const
+  NMenuLevel: integer = 0;
 var
-  miTemp: TMenuItem;
+  mi: TMenuItem;
   i: integer;
 begin
-  for i:= 0 to mi.Count-1 do
+  for i:= 0 to AMenuItem.Count-1 do
   begin
-    miTemp:= mi.Items[i];
-    if miTemp.Count>0 then
-      UpdateMenuItem_SetAllShortcuts(miTemp)
+    mi:= AMenuItem.Items[i];
+    if (mi.Count>0) and (NMenuLevel<2) and (Pos('Plugins', mi.Caption)=0) then
+    begin
+      Inc(NMenuLevel);
+      UpdateMenuItem_SetAllShortcuts(mi);
+      Dec(NMenuLevel);
+    end
     else
-      UpdateMenuItem_SetShortcutFromProps(miTemp);
+      UpdateMenuItem_SetShortcutFromProps(mi);
   end;
 end;
 

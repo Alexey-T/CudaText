@@ -1102,7 +1102,7 @@ type
     procedure UpdateMenuItemHint(mi: TMenuItem; const AHint: string);
     procedure UpdateMenuItemHotkey(mi: TMenuItem; ACmd: integer; AllowSetShortcut: boolean=true);
     procedure UpdateMenuItem_SetShortcutFromProps(mi: TMenuItem);
-    procedure UpdateMenuItem_SetAllShortcuts(mi: TMenuItem);
+    procedure UpdateMenuItem_SetAllShortcuts(AMenuItem: TMenuItem);
     procedure UpdateMenuLexersTo(AMenu: TMenuItem);
     procedure UpdateMenuRecent(Ed: TATSynEdit);
     procedure UpdateMenuHotkeys;
@@ -3579,6 +3579,26 @@ procedure TfmMain.FormShow(Sender: TObject);
     end;
   end;
   //
+  procedure _Init_ShortcutsForCustomizedMainMenu;
+  //var
+  //  tick: QWord;
+  begin
+    //tick:= GetTickCount64;
+
+    //main menu is not customized?
+    if (MainMenu.Items.Count>3) and
+      (MainMenu.Items[0]=mnuFile) and
+      (MainMenu.Items[1]=mnuEdit) and
+      (MainMenu.Items[2]=mnuSel) and
+      (MainMenu.Items[MainMenu.Items.Count-1]=mnuGroups) then
+      exit;
+
+    UpdateMenuItem_SetAllShortcuts(MainMenu.Items);
+
+    //tick:= GetTickCount64-tick;
+    //MsgLogConsole('Init top menu shortcuts: '+IntToStr(tick)+'ms');
+  end;
+  //
 var
   Frame: TEditorFrame;
 begin
@@ -3668,6 +3688,8 @@ begin
 
   //fix wrong caret/staples pos, #4559
   _Init_ForceRepaintEditor;
+
+  _Init_ShortcutsForCustomizedMainMenu;
 
   if not FHandledOnStart2 then
   begin
