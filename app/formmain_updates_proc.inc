@@ -727,14 +727,14 @@ begin
   TAppMenuProps(mi.Tag).CommandString:= AHint;
 end;
 
-procedure TfmMain.UpdateMenuItemHotkey(mi: TMenuItem; cmd: integer; AllowSetShortcut: boolean=true);
+procedure TfmMain.UpdateMenuItemHotkey(mi: TMenuItem; ACmd: integer; AllowSetShortcut: boolean=true);
 begin
   if not Assigned(mi) then exit;
 
   if mi.Tag=0 then
     mi.Tag:= PtrInt(TAppMenuProps.Create(Self));
 
-  TAppMenuProps(mi.Tag).CommandCode:= cmd;
+  TAppMenuProps(mi.Tag).CommandCode:= ACmd;
   mi.OnClick:= @MenuMainClick;
 
   {$if not defined (LCLQt5) and not defined(LCLQt6)}
@@ -742,13 +742,13 @@ begin
   if AllowSetShortcut then
   begin
     //if Copy/Paste/SelectAll hotkeys set in MainMenu, Qt5 version cannot handle them in Console/Find/Replace
-    if (cmd<>cCommand_ClipboardCopy) and
-      (cmd<>cCommand_ClipboardPaste) and
-      (cmd<>cCommand_ClipboardCut) and
-      (cmd<>cCommand_Undo) and
-      (cmd<>cCommand_Redo) and
-      (cmd<>cCommand_SelectAll) then
-      mi.ShortCut:= AppKeymapMain.GetShortcutFromCommand(cmd);
+    if (ACmd<>cCommand_ClipboardCopy) and
+      (ACmd<>cCommand_ClipboardPaste) and
+      (ACmd<>cCommand_ClipboardCut) and
+      (ACmd<>cCommand_Undo) and
+      (ACmd<>cCommand_Redo) and
+      (ACmd<>cCommand_SelectAll) then
+      mi.ShortCut:= AppKeymapMain.GetShortcutFromCommand(ACmd);
 
     //don't set Esc here: for OSX/ Qt, else Esc blocked in Find/ Goto/ closing app
     if mi.Shortcut=AppShortcutEscape then
@@ -760,18 +760,21 @@ begin
   {$endif}
 end;
 
-procedure TfmMain.UpdateMenuItemAltObject(mi: TMenuItem; cmd: integer);
+procedure TfmMain.UpdateMenuItemAltObject(mi: TMenuItem; ACmd: integer);
   //
-  procedure DoSave(mi: TMenuItem; var save: TATMenuItemsAlt); inline;
+  procedure DoSave(mi: TMenuItem; var save: TATMenuItemsAlt);
   begin
-    if save.active0 then save.item0:= mi else save.item1:= mi;
+    if save.active0 then
+      save.item0:= mi
+    else
+      save.item1:= mi;
     save.active0:= not save.active0;
   end;
   //
 begin
-  //MsgLogConsole('cmd'+inttostr(cmd));
-  if cmd>0 then
-  case cmd of
+  //MsgLogConsole('cmd'+inttostr(ACmd));
+  if ACmd>0 then
+  case ACmd of
     cCommand_ToggleWordWrap : DoSave(mi, mnuViewWrap_Alt);
     cCommand_ToggleLineNums : DoSave(mi, mnuViewNums_Alt);
     cCommand_ToggleFolding : DoSave(mi, mnuViewFold_Alt);

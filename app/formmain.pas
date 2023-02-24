@@ -1097,10 +1097,10 @@ type
     procedure UpdateMenuRecents(sub: TMenuItem);
     procedure UpdateSidebarButtonOverlay;
     procedure UpdateEditorTabsize(AValue: integer);
-    procedure UpdateMenuItemAltObject(mi: TMenuItem; cmd: integer);
+    procedure UpdateMenuItemAltObject(mi: TMenuItem; ACmd: integer);
     procedure UpdateMenuItemChecked(mi: TMenuItem; saved: TATMenuItemsAlt; AValue: boolean);
     procedure UpdateMenuItemHint(mi: TMenuItem; const AHint: string);
-    procedure UpdateMenuItemHotkey(mi: TMenuItem; cmd: integer; AllowSetShortcut: boolean=true);
+    procedure UpdateMenuItemHotkey(mi: TMenuItem; ACmd: integer; AllowSetShortcut: boolean=true);
     procedure UpdateMenuLexersTo(AMenu: TMenuItem);
     procedure UpdateMenuRecent(Ed: TATSynEdit);
     procedure UpdateMenuHotkeys;
