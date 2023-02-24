@@ -4707,7 +4707,16 @@ begin
       'l':
         Dir:= FLastDirOfOpenDlg;
       'i':
-        Dir:= UiOps.InitialDir;
+        begin
+          Dir:= UiOps.InitialDir;
+          if Pos('{', Dir)>0 then
+          begin
+            Dir:= StringReplace(Dir, '{AppDir}', ExtractFileDir(Application.ExeName), [rfReplaceAll]);
+            {$ifdef windows}
+            Dir:= StringReplace(Dir, '{AppDrive}', ExtractFileDrive(Application.ExeName), [rfReplaceAll]);
+            {$endif}
+          end;
+        end;
       'h':
         Dir:= AppDir_Home;
       else
