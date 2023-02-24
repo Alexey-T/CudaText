@@ -372,7 +372,7 @@ begin
   end;
 end;
 
-function SDeletePythonStrings(s: string): string;
+function SDeletePythonStrings(const s: string): string;
 var
   status: char;
   skip: boolean;
