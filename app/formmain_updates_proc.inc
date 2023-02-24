@@ -806,6 +806,7 @@ begin
   for i:= 0 to AMenuItem.Count-1 do
   begin
     mi:= AMenuItem.Items[i];
+    //if submenu, do recursion, but not deep
     if (mi.Count>0) and (NMenuLevel<2) and (Pos('Plugins', mi.Caption)=0) then
     begin
       Inc(NMenuLevel);
