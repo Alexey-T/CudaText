@@ -81,7 +81,13 @@ begin
   if not Assigned(LexersAsked) then exit;
 
   if an=nil then
-    LexersAsked.Clear
+  begin
+    LexersAsked.Clear;
+
+    //fixing issue #4811 (dialog to customize syntax theme cannnot apply changed colors, w/o app restart)
+    for n:= 0 to AppManager.LexerCount-1 do
+      AppManager.Lexers[n].AppliedSyntaxTheme:= '';
+  end
   else
   begin
     n:= LexersAsked.IndexOf(an);
