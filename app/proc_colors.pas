@@ -605,7 +605,7 @@ var
 begin
   Result:= AppTheme.Styles[id];
 
-  if id in [apstTextBold..High(TAppThemeStyleId)] then
+  if id>=apstLastStyle then
   begin
     styleId:= AppTheme.Styles[apstId];
     Result.Font.Color:= styleId.Font.Color;
