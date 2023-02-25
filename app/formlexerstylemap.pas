@@ -75,6 +75,7 @@ var
   LexersAsked: TFPList = nil;
 
 procedure DoClearLexersAskedList(an: TecSyntAnalyzer = nil);
+// if an=nil, clear for all lexers
 var
   n: integer;
 begin
@@ -84,14 +85,17 @@ begin
   begin
     LexersAsked.Clear;
 
-    //fixing issue #4811 (dialog to customize syntax theme cannnot apply changed colors, w/o app restart)
+    //fixing issue #4811 (dialog to customize syntax theme cannnot apply changed colors)
     for n:= 0 to AppManager.LexerCount-1 do
       AppManager.Lexers[n].AppliedSyntaxTheme:= '';
   end
   else
   begin
     n:= LexersAsked.IndexOf(an);
-    if n>=0 then LexersAsked.Delete(n);
+    if n>=0 then
+      LexersAsked.Delete(n);
+
+    an.AppliedSyntaxTheme:= '';
   end;
 end;
 
