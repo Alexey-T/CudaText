@@ -1147,7 +1147,12 @@ begin
   //avoid handling of Shift+Tab in the editor (it runs "Unindent block")
   if (Key=VK_TAB) and (Shift*[ssCtrl, ssAlt]=[]) then
   begin
-    SelectNext(ActiveControl, ssShift in Shift, true);
+    //SelectNext() LCL method works worse
+    if edFind.Focused then
+      edRep.SetFocus
+    else
+    if edRep.Focused then
+      edFind.SetFocus;
     key:= 0;
     exit;
   end;
