@@ -1308,6 +1308,10 @@ begin
   exit('/usr/local/lib/libpython3.6m.so');
   {$endif}
 
+  {$ifdef openbsd}
+  exit('/usr/local/lib/libpython3.9.so.0.0');
+  {$endif}
+
   {$ifdef netbsd}
   exit('/usr/pkg/lib/libpython3.7.so');
   {$endif}
