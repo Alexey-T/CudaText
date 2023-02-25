@@ -1148,11 +1148,14 @@ begin
   if (Key=VK_TAB) and (Shift*[ssCtrl, ssAlt]=[]) then
   begin
     //SelectNext() LCL method works worse
-    if edFind.Focused then
-      edRep.SetFocus
-    else
-    if edRep.Focused then
-      edFind.SetFocus;
+    if IsReplace then
+    begin
+      if edFind.Focused then
+        edRep.SetFocus
+      else
+      if edRep.Focused then
+        edFind.SetFocus;
+    end;
     key:= 0;
     exit;
   end;
