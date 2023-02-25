@@ -1144,6 +1144,14 @@ begin
     exit
   end;
 
+  //avoid handling of Shift+Tab in the editor (it runs "Unindent block")
+  if (Key=VK_TAB) and (Shift*[ssCtrl, ssAlt]=[]) then
+  begin
+    SelectNext(ActiveControl, ssShift in Shift, true);
+    key:= 0;
+    exit;
+  end;
+
   if Assigned(FOnHandleKeyDown) then
     if FOnHandleKeyDown(Key, Shift) then
       Key:= 0;
