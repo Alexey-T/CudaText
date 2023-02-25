@@ -71,31 +71,27 @@ implementation
 
 const
   cSectionMap = 'map';
-var
-  LexersAsked: TFPList = nil;
 
 procedure DoClearLexersAskedList(an: TecSyntAnalyzer = nil);
 // if an=nil, clear for all lexers
 var
-  n: integer;
+  anLoop: TecSyntAnalyzer;
+  i: integer;
 begin
-  if not Assigned(LexersAsked) then exit;
-
   if an=nil then
   begin
-    LexersAsked.Clear;
-
     //fixing issue #4811 (dialog to customize syntax theme cannnot apply changed colors)
-    for n:= 0 to AppManager.LexerCount-1 do
-      AppManager.Lexers[n].AppliedSyntaxTheme:= '';
+    for i:= 0 to AppManager.LexerCount-1 do
+    begin
+      anLoop:= AppManager.Lexers[i];
+      anLoop.AppliedSyntaxTheme:= '';
+      anLoop.AskedToApplyLexerMap:= false;
+    end;
   end
   else
   begin
-    n:= LexersAsked.IndexOf(an);
-    if n>=0 then
-      LexersAsked.Delete(n);
-
     an.AppliedSyntaxTheme:= '';
+    an.AskedToApplyLexerMap:= false;
   end;
 end;
 
@@ -136,8 +132,8 @@ begin
     NewThemeName:= '-';
   if NewThemeName=an.AppliedSyntaxTheme then exit;
 
-  if LexersAsked.IndexOf(an)>=0 then exit;
-  LexersAsked.Add(an);
+  if an.AskedToApplyLexerMap then exit;
+  an.AskedToApplyLexerMap:= true;
 
   //work for sublexers
   for i:= 0 to an.SubAnalyzers.Count-1 do
@@ -395,15 +391,9 @@ end;
 
 
 initialization
-  LexersAsked:= TFPList.Create;
   EControlOptions.OnLexerApplyTheme:= @DoApplyLexerStylesMap;
 
 finalization
-  if Assigned(LexersAsked) then
-  begin
-    LexersAsked.Clear;
-    LexersAsked.Free;
-  end;
 
 end.
 
