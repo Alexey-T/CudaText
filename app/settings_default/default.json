@@ -463,9 +463,10 @@
   //  0: Always hide
   //  1: Always show
   //  2: Show automatically
+  //Note: only for "scrollbar_themed":true .
   "scroll_style_horz": 2,
 
-  //Use custom-painted scrollbars in editor, instead of OS-themed scrollbars.
+  //Use custom-painted scrollbars in editor, instead of OS-painted scrollbars.
   "scrollbar_themed": true,
 
   //Style of arrows in editor's themed scrollbars.
