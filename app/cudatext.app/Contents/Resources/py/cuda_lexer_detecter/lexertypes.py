@@ -189,6 +189,7 @@ TYPES = {
     "fs": ['GLSL', 'Forth', 'F#'],
     "fsh": ['GLSL'],
     "fshader": ['GLSL'],
+    "fut": ['Futhark'],
     "fx": ['HLSL'],
     "fxh": ['HLSL'],
     "g": ['ANTLR'],
