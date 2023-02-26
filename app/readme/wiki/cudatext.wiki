@@ -442,6 +442,7 @@ Most of them are located in the Addons Manager "Install" list.
 * Fortran
 * FoxPro
 * FreeBASIC
+* Futhark
 * G-code
 * GAMS
 * GDScript
