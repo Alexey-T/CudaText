@@ -5,7 +5,7 @@
 
 1.186.1 (2023/02)
 
-+ add: on pasting text with M lines into N carets (where N<>M), show a warning about possible big memory usage (thanks @rssguy2)
++ add: on pasting text with M lines into N carets (where N>=20, 0<abs(N-M)<=5), show a warning about possible big memory usage (thanks @rssguy2)
 - fix: Shift+Tab in Replace or Console dialog performed 'Unindent' in editor (thanks @ildarkhasanshin)
 - fix: crash on calling "move tab to group 2" from Command Palette (thanks @Stefan)
 
