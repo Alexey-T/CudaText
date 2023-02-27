@@ -5238,18 +5238,12 @@ procedure TfmMain.UpdateGroupsOfContextMenu;
 var
   CurForm: TForm;
 begin
-  CurForm:= Screen.ActiveForm;
-  GroupsCtx:= nil;
-  GroupsCtxIndex:= -1;
+  GroupsCtx:= Groups;
+  GroupsCtxIndex:= GroupsCtx.FindPages(GroupsCtx.PopupPages);
 
-  if CurForm=Self then
-  begin
-    GroupsCtx:= Groups;
-    GroupsCtxIndex:= GroupsCtx.FindPages(GroupsCtx.PopupPages);
-  end
-  else
   if FloatGroups then
   begin
+    CurForm:= Screen.ActiveForm;
     if CurForm=FFormFloatGroups1 then
     begin
       GroupsCtx:= GroupsF1;

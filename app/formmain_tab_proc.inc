@@ -519,6 +519,11 @@ begin
       exit;
   end;
 
+  if GroupsCtx=nil then
+    UpdateGroupsOfContextMenu;
+  if GroupsCtx=nil then
+    raise Exception.Create('GroupsCtx=nil');
+
   GroupsCtx.MoveTab(Pages, NTabIndex, PagesTo, -1, true);
 end;
 
