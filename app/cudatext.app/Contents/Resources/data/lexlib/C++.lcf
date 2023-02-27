@@ -471,7 +471,7 @@ object SyntAnal5: TLibSyntAnalyzer
           TokenTypes = 128
         end>
       BlockEnd = '}'
-      NameFmt = 'class %s-1~[{]1'
+      NameFmt = '%s-1~[{]1'
       RefToCondEnd = True
       HighlightPos = cpAny
       CancelNextRules = True
