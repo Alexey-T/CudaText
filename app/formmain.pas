@@ -694,7 +694,6 @@ type
     FNeedAppState_MenuAdd: boolean;
     FNeedAppState_MenuRemove: boolean;
     FNeedAppState_MenuChange: boolean;
-    FLastProjectPath: string;
     FLastDirOfOpenDlg: string;
     FLastLexerForPluginsMenu: string;
     FLastStatusbarMessage: string;
@@ -1209,7 +1208,6 @@ type
       AForMany: boolean; var AConfirm, AContinue: boolean; var AReplacement: UnicodeString);
     procedure PyStatusbarPanelClick(Sender: TObject; const ATag: Int64);
     procedure UpdateThemes(const AThemeUi, AThemeSyntax: string);
-    procedure SetProjectPath(const APath: string);
   end;
 
 var
@@ -4701,7 +4699,7 @@ begin
       'p':
         Dir:= PyCurrentFolder;
       'q':
-        Dir:= ExtractFileDir(FLastProjectPath);
+        Dir:= ExtractFileDir(PyCurrentProject);
       'f':
         Dir:= ExtractFileDir(CurrentFrame.FileName);
       'l':
@@ -8897,15 +8895,6 @@ begin
 
   Form.Ed.OnClickDouble:= @EditorOutput_OnClickDbl;
   Form.Ed.OnKeyDown:= @EditorOutput_OnKeyDown;
-end;
-
-procedure TfmMain.SetProjectPath(const APath: string);
-begin
-  if FLastProjectPath<>APath then
-  begin
-    FLastProjectPath:= APath;
-    DoPyEvent_AppState(APPSTATE_PROJECT);
-  end;
 end;
 
 

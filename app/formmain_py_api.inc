@@ -17,6 +17,7 @@ var
   PyEscapeFlag: boolean = false; //Esc key was pressed in application
   PyEditorMaybeDeleted: boolean = false; //command plugin maybe deleted the editor, e.g. 'close file' command does it
   PyCurrentFolder: string = ''; //currently opened folder in Project Manager
+  PyCurrentProject: string = ''; //full path of active Project Manager project *.cuda-proj
 
 var
   AppEmmet: TEmmet = nil;
@@ -5548,7 +5549,11 @@ begin
 
         APP_PROC_SET_PROJECT:
           begin
-            fmMain.SetProjectPath(Str);
+            if PyCurrentProject<>Str then
+            begin
+              PyCurrentProject:= Str;
+              fmMain.DoPyEvent_AppState(APPSTATE_PROJECT);
+            end;
             Result:= ReturnNone;
           end;
 
