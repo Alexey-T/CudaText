@@ -497,19 +497,19 @@ begin
         //Form:= nil;
         PagesTo:= Groups.Pages[AGroupIndex];
       end;
-    6:
+    High(TATGroupsNums)+1:
       begin
         //Form:= FFormFloatGroups1;
         ShowFloatGroup1:= true;
         PagesTo:= GroupsF1.Pages1;
       end;
-    7:
+    High(TATGroupsNums)+2:
       begin
         //Form:= FFormFloatGroups2;
         ShowFloatGroup2:= true;
         PagesTo:= GroupsF2.Pages1;
       end;
-    8:
+    High(TATGroupsNums)+3:
       begin
         //Form:= FFormFloatGroups3;
         ShowFloatGroup3:= true;
