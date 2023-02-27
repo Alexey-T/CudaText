@@ -4697,7 +4697,7 @@ begin
   begin
     case UiOps.OpenDir[iChar] of
       'p':
-        Dir:= PyCurrentFolder;
+        Dir:= PyCurrentProjectFolder;
       'q':
         Dir:= ExtractFileDir(PyCurrentProject);
       'f':

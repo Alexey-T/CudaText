@@ -16,8 +16,8 @@ const
 var
   PyEscapeFlag: boolean = false; //Esc key was pressed in application
   PyEditorMaybeDeleted: boolean = false; //command plugin maybe deleted the editor, e.g. 'close file' command does it
-  PyCurrentFolder: string = ''; //currently opened folder in Project Manager
-  PyCurrentProject: string = ''; //full path of active Project Manager project *.cuda-proj
+  PyCurrentProject: string = ''; //full path of active Project Manager project (*.cuda-proj)
+  PyCurrentProjectFolder: string = ''; //currently opened folder in Project Manager
 
 var
   AppEmmet: TEmmet = nil;
@@ -5026,7 +5026,7 @@ begin
 
         APP_PROC_SET_FOLDER:
           begin
-            PyCurrentFolder:= Str;
+            PyCurrentProjectFolder:= Str;
             Result:= ReturnNone;
           end;
 
