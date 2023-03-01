@@ -1296,6 +1296,9 @@ class Editor:
     def set_caret(self, x1, y1, x2=-1, y2=-1, id=CARET_SET_ONE, options=0):
         return ct.ed_set_caret(self.h, x1, y1, x2, y2, id, options)
 
+    def get_line_len(self, index):
+        return ct.ed_get_line_len(self.h, index)
+
     def get_line_count(self):
         return ct.ed_get_line_count(self.h)
 

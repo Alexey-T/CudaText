@@ -888,6 +888,27 @@ begin
     Result:= ReturnNone;
 end;
 
+function api_ed_get_line_len(Self, Args: PPyObject): PPyObject; cdecl;
+var
+  H: Int64;
+  Index: Integer;
+  Ed: TATSynEdit;
+  Strs: TATStrings;
+begin
+  with AppPython.Engine do
+    if Bool(PyArg_ParseTuple(Args, 'Li:get_line_len', @H, @Index)) then
+    begin
+      Ed:= PyHelper_EditorFromHandle(H);
+      Strs:= Ed.Strings;
+      if Strs.IsIndexValid(Index) then
+        Result:= PyLong_FromLong(Strs.LinesLen[Index])
+      else
+        Result:= ReturnNone;
+    end
+  else
+    Result:= ReturnNone;
+end;
+
 function api_ed_get_text_all(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
@@ -10308,6 +10329,7 @@ begin
     Addmethod('ed_get_text_line', @api_ed_get_text_line, '');
     Addmethod('ed_set_text_line', @api_ed_set_text_line, '');
     Addmethod('ed_get_text_substr', @api_ed_get_text_substr, '');
+    Addmethod('ed_get_line_len', @api_ed_get_line_len, '');
     Addmethod('ed_get_line_count', @api_ed_get_line_count, '');
     AddMethod('ed_delete', @api_ed_delete, '');
     AddMethod('ed_insert', @api_ed_insert, '');
