@@ -2181,12 +2181,20 @@ Notes:
 * Function cannot work with read-only editor (see Editor.get_prop, Editor.set_prop and PROP_RO).
 * Function looses Undo information. To support Undo, use another API to set text, e.g. Editor.replace().
 
+===Editor.get_line_len===
+
+ get_line_len(index)
+
+Returns length of internal line UTF-16 (without BOM) representation.
+It is not the same as len(ed.get_text_line(index)), if internal UTF-16 representation has surrogate-pairs.
+Returns None if index is incorrect.
+
 ===Editor.get_text_line===
 
  get_text_line(index, max_len=0)
 
 Returns single line (str) with given index (0-based). Without ending line-break char(s).
-Returns None if index incorrect.
+Returns None if index is incorrect.
 
 If param "max_len" is non-zero, and UTF-8 length of given line is greater than "max_len", function returns empty str. This allows to skip huge lines.
 
@@ -4829,5 +4837,6 @@ It provides:
 
 1.0.442 (app 1.186.1)
 * add: event on_caret_line
+* add: Editor.get_line_len()
 
 [[Category:CudaText]]
