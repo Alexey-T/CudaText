@@ -2214,17 +2214,19 @@ Special "index" values:
  get_text_substr(x1, y1, x2, y2)
 
 Returns substring from position (x1, y1) to bigger position (x2, y2).
+Coordinates x1 / x2 are in the UTF-16 internal representation of line.
 
 ===Editor.delete===
 
  delete(x1, y1, x2, y2)
 
 Deletes range from position (x1, y1) to bigger position (x2, y2).
+Coordinates x1 / x2 are in the UTF-16 internal representation of line.
 
 * Too big x1/x2 are allowed (after line-end)
 * Too big y2 means delete to end of file
 
-Note: don't pass tuple from get_carets()[0], this tuple has not sorted pos=(x1, y1), end=(x2, y2), you need to sort them (first sort by y, then by x).
+Note: don't pass tuple from get_carets()[0], this tuple has not sorted positions (x1, y1) and (x2, y2), you need to sort them (first sort by y, then by x).
 
 Example replaces selection of 1st caret with text:
 
@@ -2242,8 +2244,9 @@ Example replaces selection of 1st caret with text:
 
  insert(x, y, text)
 
-Inserts given text at position (x, y). If y too big, appends block to end (even to final line w/out line-end).
-Text can be multi-line, all CR LF are converted to currently used line-breaks.
+Inserts given text at position (x, y). If y is too big, appends block to the end (even to final line without line-ending).
+Coordinate x is in the UTF-16 internal representation of line.
+Text can be multi-line, all CR LF will be converted to currently used line-breaks.
 
 Returns 2-tuple (x, y) of position after inserted text. It is on the same line, if text is single line. Returns None if cannot insert.
 
@@ -2252,6 +2255,7 @@ Returns 2-tuple (x, y) of position after inserted text. It is on the same line, 
  replace(x1, y1, x2, y2, text)
 
 Replaces range from position (x1, y1) to bigger position (x2, y2), with new text.
+Coordinates x1 / x2 are in the UTF-16 internal representation of line.
 
 * Too big x1/x2 are allowed (after line-end)
 * Too big y2 means delete to end of file
