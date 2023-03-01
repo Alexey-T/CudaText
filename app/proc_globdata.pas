@@ -127,12 +127,13 @@ type
     ahhMarkers,
     ahhTabColor,
     ahhCodeTreeFilter,
-    ahhTabSplit
+    ahhTabSplit,
+    ahhMargin
     );
 
 const
   cAppHistoryElementChar: array[TAppHistoryElement] of char =
-    'tchsTeblwMmrunSfkCFi';
+    'tchsTeblwMmrunSfkCFiI';
 
 const
   cAppSessionDefaultBase = 'history session';

@@ -953,6 +953,7 @@
   //  if 'C' in value: Custom color of ui-tab header
   //  if 'F' in value: Code-tree filter: string and history
   //  if 'i' in value: Splitted state of UI tab (horiz/vert, percents of size)
+  //  if 'I' in value: Column of vertical 'margin' line
   "ui_history_disabled": "",
 
   //[UI/Listbox]

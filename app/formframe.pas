@@ -3703,7 +3703,8 @@ begin
       c.DeleteValue(path+cHistory_CodeTreeFilters);
   end;
 
-  c.SetDeleteValue(path+cHistory_Margin, Ed.OptMarginRight, EditorOps.OpMarginFixed);
+  if UiOps.HistoryItems[ahhMargin] then
+    c.SetDeleteValue(path+cHistory_Margin, Ed.OptMarginRight, EditorOps.OpMarginFixed);
 end;
 
 procedure _WriteStringToFileInHiddenDir(const fn, s: string);
