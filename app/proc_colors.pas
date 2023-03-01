@@ -425,7 +425,7 @@ begin
   SetColor(apclListSelBg, nColorListSelBack, 'ListSelBg', 'listbox, selected line BG');
   SetColor(apclListFont, nColorText, 'ListFont', 'listbox, font');
   SetColor(apclListSelFont, nColorText, 'ListSelFont', 'listbox, selected line font');
-  SetColor(apclListFontHotkey, $c05050, 'ListFontHotkey', 'listbox, font, hotkey');
+  SetColor(apclListFontHotkey, $005000, 'ListFontHotkey', 'listbox, font, hotkey');
   SetColor(apclListFontHilite, $007000, 'ListFontHilite', 'listbox, font, search chars');
   SetColor(apclListCompletePrefix, $c05050, 'ListCompletePrefix', 'listbox, font, auto-complete prefix');
   SetColor(apclListCompleteParams, clGray, 'ListCompleteParams', 'listbox, font, auto-complete params');
