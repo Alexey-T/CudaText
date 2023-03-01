@@ -588,7 +588,7 @@ const
 var
   FLastTabId: integer = 0;
 
-function msgSuggestOptionsEditor: string;
+function GetMsgSuggestOptionsEditor: string;
 var
   ini: TIniFile;
   S, fn: string;
@@ -2656,7 +2656,7 @@ begin
   if UiOps.InfoAboutOptionsEditor then
     if (CompareFilenames(AFileName, AppFile_OptionsUser)=0) or
       (CompareFilenames(AFileName, AppFile_OptionsDefault)=0) then
-      InitPanelInfo(PanelInfo, msgSuggestOptionsEditor, @PanelInfoClick, true);
+      InitPanelInfo(PanelInfo, GetMsgSuggestOptionsEditor, @PanelInfoClick, true);
 
   Lexer[Ed1]:= nil;
   if not EditorsLinked then
