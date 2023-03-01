@@ -591,10 +591,9 @@ var
 function msgSuggestOptionsEditor: string;
 var
   ini: TIniFile;
-  fn: string;
-  s: string;
+  S, fn: string;
 begin
-  S:= '"Options Editor" provides the dialog - click here to open';
+  S:= msgSuggestOptEditor;
 
   fn:= AppFile_Language;
   if FileExists(fn) then
