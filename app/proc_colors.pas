@@ -343,8 +343,8 @@ procedure AppThemeInit_UI(var D: TAppTheme);
 begin
   SetColor(apclEdTextFont, nColorText, 'EdTextFont', 'editor, font');
   SetColor(apclEdTextBg, nColorBack, 'EdTextBg', 'editor, BG');
-  SetColor(apclEdSelFont, $e0e0e0, 'EdSelFont', 'editor, selection, font');
-  SetColor(apclEdSelBg, $b0a0a0, 'EdSelBg', 'editor, selection, BG');
+  SetColor(apclEdSelFont, nColorText, 'EdSelFont', 'editor, selection, font');
+  SetColor(apclEdSelBg, $ffd6ad, 'EdSelBg', 'editor, selection, BG');
   SetColor(apclEdDisableFont, nColorText, 'EdDisableFont', 'editor, disabled state, font');
   SetColor(apclEdDisableBg, $e0e0e0, 'EdDisableBg', 'editor, disabled state, BG');
   SetColor(apclEdLinks, $c05050, 'EdLinks', 'editor, links');
@@ -381,7 +381,7 @@ begin
   SetColor(apclEdGutterFont, nColorGutterFont, 'EdGutterFont', 'editor, gutter font');
   SetColor(apclEdGutterBg, nColorGutterBack, 'EdGutterBg', 'editor, gutter BG');
   SetColor(apclEdGutterCaretFont, nColorGutterFont, 'EdGutterCaretFont', 'editor, gutter font, lines with carets');
-  SetColor(apclEdGutterCaretBg, nColorListSelBack, 'EdGutterCaretBg', 'editor, gutter BG, lines with carets');
+  SetColor(apclEdGutterCaretBg, $a0e0e0, 'EdGutterCaretBg', 'editor, gutter BG, lines with carets');
   SetColor(apclEdRulerFont, nColorGutterFont, 'EdRulerFont', 'editor, ruler font');
   SetColor(apclEdRulerBg, nColorBack, 'EdRulerBg', 'editor, ruler BG');
   SetColor(apclEdFoldLine, nColorGutterFont, 'EdFoldLine', 'editor, gutter folding, lines');
@@ -421,12 +421,12 @@ begin
   SetColor(apclTreeSelBg, nColorListSelBack, 'TreeSelBg', 'treeview, selected BG');
   SetColor(apclTreeSelBg2, nColorListSelBack2, 'TreeSelBg2', 'treeview, selected BG, not focused');
   SetColor(apclTreeSign, nColorGutterFont, 'TreeSign', 'treeview, folding sign');
-  SetColor(apclListBg, nColorListBack, 'ListBg', 'listbox, BG');
+  SetColor(apclListBg, $d4ebd0, 'ListBg', 'listbox, BG');
   SetColor(apclListSelBg, nColorListSelBack, 'ListSelBg', 'listbox, selected line BG');
   SetColor(apclListFont, nColorText, 'ListFont', 'listbox, font');
   SetColor(apclListSelFont, nColorText, 'ListSelFont', 'listbox, selected line font');
   SetColor(apclListFontHotkey, $c05050, 'ListFontHotkey', 'listbox, font, hotkey');
-  SetColor(apclListFontHilite, $e00000, 'ListFontHilite', 'listbox, font, search chars');
+  SetColor(apclListFontHilite, $007000, 'ListFontHilite', 'listbox, font, search chars');
   SetColor(apclListCompletePrefix, $c05050, 'ListCompletePrefix', 'listbox, font, auto-complete prefix');
   SetColor(apclListCompleteParams, clGray, 'ListCompleteParams', 'listbox, font, auto-complete params');
   SetColor(apclButtonFont, nColorText, 'ButtonFont', 'buttons, font');
