@@ -583,6 +583,7 @@ const
   cHistory_TabSplit    = '/split';
   cHistory_TabSplit_Mul = 1e5; //instead of float 0.6, save as int 0.6*1e5
   cHistory_TabCaption  = '/cap';
+  cHistory_Margin      = '/margin';
 
 var
   FLastTabId: integer = 0;
@@ -3701,6 +3702,8 @@ begin
     else
       c.DeleteValue(path+cHistory_CodeTreeFilters);
   end;
+
+  c.SetDeleteValue(path+cHistory_Margin, Ed.OptMarginRight, EditorOps.OpMarginFixed);
 end;
 
 procedure _WriteStringToFileInHiddenDir(const fn, s: string);
@@ -3942,6 +3945,10 @@ begin
     Ed.Gutter[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagFolding)].Visible:= NFlag=1;
     Ed.IsModifiedGutterFoldingVisible:= true;
   end;
+
+  NFlag:= c.GetValue(path+cHistory_Margin, -1);
+  if NFlag>=10 then
+    Ed.OptMarginRight:= NFlag;
 
   Ed.OptScaleFont:= c.GetValue(path+cHistory_FontScale, 0);
 
