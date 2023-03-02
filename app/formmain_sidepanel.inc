@@ -44,7 +44,7 @@ begin
   MenuRecentsPopup(nil);
 
   Menu_Copy(MainMenu, PopupSidebarClone);
-  Pnt:= ToolbarSideTop.ClientToScreen(Point(0, 0));
+  Pnt:= PanelEditors.ClientToScreen(Point(0, 0));
 
   UpdateMenuTheming(PopupSidebarClone);
   PopupSidebarClone.Popup(Pnt.X, Pnt.Y);
