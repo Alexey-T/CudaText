@@ -344,7 +344,7 @@ begin
   SetColor(apclEdTextFont, nColorText, 'EdTextFont', 'editor, font');
   SetColor(apclEdTextBg, nColorBack, 'EdTextBg', 'editor, BG');
   SetColor(apclEdSelFont, nColorText, 'EdSelFont', 'editor, selection, font');
-  SetColor(apclEdSelBg, $ffd6ad, 'EdSelBg', 'editor, selection, BG');
+  SetColor(apclEdSelBg, $ffc0a0, 'EdSelBg', 'editor, selection, BG');
   SetColor(apclEdDisableFont, nColorText, 'EdDisableFont', 'editor, disabled state, font');
   SetColor(apclEdDisableBg, $e0e0e0, 'EdDisableBg', 'editor, disabled state, BG');
   SetColor(apclEdLinks, $c05050, 'EdLinks', 'editor, links');
