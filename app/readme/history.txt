@@ -9,6 +9,7 @@
 + add: column of 'margin' line is now saved to session; added corresponding sub-option to "ui_history_disabled"
 - fix: Shift+Tab in Replace or Console dialog performed 'Unindent' in editor (thanks @ildarkhasanshin)
 - fix: crash on calling "move tab to group 2" from Command Palette (thanks @Stefan)
+- fix: command "show main menu as popup" should show from the left-top corner even if sidebar is on the right (thanks @Stefan)
 
 1.186.0 (2023/02)
 
