@@ -1321,7 +1321,7 @@ CudaText sessions are stored in JSON files with .json and .cuda-session extensio
 Default session file name is "history session.json" in the "settings" folder.
 CudaText shows name of current session in its window title like "filename.txt {session_name} - CudaText".
 
-Program has options:
+CudaText has options:
 
 * "ui_reopen_session": Save last session on closing, and restore it on start.
 * "ui_reopen_session_cmdline": Allow to restore last session even if some file/folder was passed in the command line (or from the Windows Shell Extension). Note, this gives weird behaviour: N program instances will reopen the same last session + passed command-line file. So this option is mainly for the single instance mode.
@@ -1354,6 +1354,7 @@ Session file contains data:
 ** modified state
 ** code-tree filter string and history of last filters
 ** splitting to 2 editors: on/off, vertical/horizontal, percents of size
+** column of vertical "margin" line, if it's not default
 * For each modified document: date of modification, full document text
 * Layout/sizes of side panel and bottom panel
 * Layout/sizes of editor groups
