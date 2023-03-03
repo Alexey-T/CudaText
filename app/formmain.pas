@@ -36,7 +36,7 @@ uses
   fix_gtk_clipboard,
   {$endif}
   fix_focus_window,
-  at__jsonconf,
+  at__jsonconf, at__fpjson, jsonex,
   PythonEngine,
   ec_LexerList,
   ec_SyntAnal,
@@ -720,6 +720,9 @@ type
     FOption_SidebarTab: string;
     FOption_BottomTab: string;
     FCmdlineFileCount: integer;
+    FPrevJsonObj: TJSONData; // TODO: where it should be created and destroyed?
+
+    // TODO: add a list (or array?) to store the values of Frame.Ed1.Strings.ModifiedVersion and Frame.Ed2.Strings.ModifiedVersion
 
     function ConfirmAllFramesAreSaved(AWithCancel: boolean): boolean;
     procedure FindAndStop(ABack: boolean);

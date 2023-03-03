@@ -230,7 +230,7 @@ end;
 function TfmMain.DoOps_SaveSession(const ASessionId: string;
   ASaveModifiedFiles, ASaveUntitledTabs, AByTimer: boolean): boolean;
 var
-  cfg: TJSONConfig;
+  cfg: TJSONConfigEx;
   Frame: TEditorFrame;
   Gr: TATGroups;
   Pages: TATPages;
@@ -255,7 +255,7 @@ begin
   nCountFiles:= 0;
   nCountUntitled:= 0;
 
-  cfg:= TJSONConfig.Create(nil);
+  cfg:= TJSONConfigEx.Create(nil);
   try
     try
       cfg.Formatted:= true;
@@ -386,6 +386,14 @@ begin
     Result:= true;
   finally
     try
+      if (FPrevJsonObj <> nil) and IsJsonObjEqual(cfg.GetJsonObj, FPrevJsonObj, ['text']) then
+        MsgLogConsole('JSON config - equal')
+      else
+      begin
+        MsgLogConsole('JSON config - different');
+        FPrevJsonObj := CloneJsonObj(cfg.GetJsonObj, ['text']);
+      end;
+
       cfg.Free; //saves json file
     except
       //for incorrect sess folder

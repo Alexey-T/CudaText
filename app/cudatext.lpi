@@ -1176,7 +1176,7 @@
         <PackageName Value="LCL"/>
       </Item12>
     </RequiredPackages>
-    <Units Count="60">
+    <Units Count="61">
       <Unit0>
         <Filename Value="cudatext.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -1486,6 +1486,10 @@
         <Filename Value="proc_editor_saving.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit59>
+      <Unit60>
+        <Filename Value="jsonex.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit60>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

@@ -15,7 +15,7 @@ uses
   formcolorsetup, formabout, formkeys, formcharmaps,
   formlexerstyle, formlexerstylemap, formkeyinput,
   form_addon_report, formconfirmbinary, form_choose_theme,
-  proc_globdata, fix_focus_window;
+  proc_globdata, fix_focus_window, jsonex;
 
 {$R *.res}
 
