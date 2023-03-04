@@ -5643,6 +5643,16 @@ begin
             Result:= PyHelper_GetThemeDict_Syntax;
           end;
 
+        APP_PROC_GET_WINDOW_STATE:
+          begin
+            if fmMain.ShowDistractionFree then Str:= 'fs2' else
+            if fmMain.ShowFullscreen then Str:= 'fs' else
+            if fmMain.WindowState=wsMaximized then Str:= 'max' else
+            if fmMain.WindowState=wsMinimized then Str:= 'min' else
+              Str:= 'norm';
+            Result:= PyUnicode_FromString(PChar(Str));
+          end;
+
         APP_PROC_CONFIG_NEWDOC_EOL_GET:
           begin
             Result:= PyLong_FromLong(Ord(UiOps.NewdocEnds));
