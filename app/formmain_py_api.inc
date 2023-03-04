@@ -5645,12 +5645,17 @@ begin
 
         APP_PROC_GET_WINDOW_STATE:
           begin
-            if fmMain.ShowDistractionFree then Str:= 'fs2' else
-            if fmMain.ShowFullscreen then Str:= 'fs' else
-            if fmMain.WindowState=wsMaximized then Str:= 'max' else
-            if fmMain.WindowState=wsMinimized then Str:= 'min' else
-              Str:= 'norm';
-            Result:= PyUnicode_FromString(PChar(Str));
+            if fmMain.ShowDistractionFree then
+              i:= WND_FULLSCREEN2
+            else if fmMain.ShowFullscreen then
+              i:= WND_FULLSCREEN
+            else if fmMain.WindowState=wsMaximized then
+              i:= WND_MAXIMIZED
+            else if fmMain.WindowState=wsMinimized then
+              i:= WND_MINIMIZED
+            else
+              i:= WND_NORMAL;
+            Result:= PyLong_FromLong(Ord(i));
           end;
 
         APP_PROC_CONFIG_NEWDOC_EOL_GET:

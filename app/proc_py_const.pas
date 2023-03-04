@@ -846,6 +846,12 @@ const
   HINTPOS_WINDOW_TOP    = 8;
   HINTPOS_WINDOW_BOTTOM = 9;
 
+  WND_NORMAL      = 0;
+  WND_MINIMIZED   = 1;
+  WND_MAXIMIZED   = 2;
+  WND_FULLSCREEN  = 3;
+  WND_FULLSCREEN2 = 4;
+
 implementation
 
 end.
