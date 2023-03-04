@@ -6214,7 +6214,11 @@ procedure TfmMain.SetFullScreen_Ex(AValue: boolean; AHideAll: boolean);
   begin
     Ed.OptMinimapVisible:= false;
     Ed.OptMicromapVisible:= false;
-    Ed.BorderSpacing.Bottom:= 1; //workaround for Lazarus Win32 bug, where Panel.Height is bigger than needed, in full-screen mode
+    {$ifdef windows}
+    //workaround for Lazarus Win32 bug, where Ed.Height is bigger than needed, in distraction-free mode;
+    //it don't allow auto-scrolling timer to activate
+    Ed.BorderSpacing.Bottom:= MainMenu.Height+1;
+    {$endif}
     Ed.Update;
   end;
   //
@@ -6223,7 +6227,9 @@ procedure TfmMain.SetFullScreen_Ex(AValue: boolean; AHideAll: boolean);
     Ed.OptMinimapVisible:= EditorOps.OpMinimapShow;
     Ed.OptMicromapVisible:= EditorOps.OpMicromapShow;
     Ed.OptMicromapOnScrollbar:= EditorOps.OpMicromapOnScrollbar;
+    {$ifdef windows}
     Ed.BorderSpacing.Bottom:= 0; //also for workaround
+    {$endif}
     Ed.Update;
   end;
   //
