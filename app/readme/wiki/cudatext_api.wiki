@@ -83,20 +83,24 @@ Constants in on_state:
 * APPSTATE_LANG: Changed UI translation.
 * APPSTATE_THEME_UI: Changed UI-theme.
 * APPSTATE_THEME_SYNTAX: Changed syntax-theme.
-* APPSTATE_GROUPS: Changed tab-grouping mode (see top menu item "=").
+* APPSTATE_GROUPS: Changed UI-tab grouping mode (see top menu item "=").
 * APPSTATE_CONFIG_REREAD: App config file is re-read and applied.
 * APPSTATE_SESSION_LOAD_BEGIN: Session loading begins.
 * APPSTATE_SESSION_LOAD: Session loading completes (after APPSTATE_SESSION_LOAD_BEGIN).
 * APPSTATE_SESSION_LOAD_FAIL: Session loading fails (after APPSTATE_SESSION_LOAD_BEGIN).
 * APPSTATE_PROJECT: Current project in the Project Manager is changed.
+
 * APPSTATE_API_SUBCOMMANDS: API call app_proc(PROC_SET_SUBCOMMANDS, ...).
 * APPSTATE_API_MENU_ADD: API menu_proc() added some menu item.
 * APPSTATE_API_MENU_REMOVE: API menu_proc() removed some menu item.
 * APPSTATE_API_MENU_CHANGE: API menu_proc() changed some menu item.
+
 * APPSTATE_CODETREE_CLEAR: Code-Tree: content is cleared.
 * APPSTATE_CODETREE_BEFORE_FILL: Code-Tree: before filling the content.
 * APPSTATE_CODETREE_AFTER_FILL: Code-Tree: after filling the content.
 * APPSTATE_CODETREE_SET_SELECTION: Code-Tree double-click changed scroll pos, or app sync'ed Code-Tree with caret pos.
+
+* APPSTATE_WINDOW: Changed state of the main window. Read current state via app_proc(PROC_GET_WINDOW_STATE, '').
 
 Constants in on_state_ed:
 
@@ -245,6 +249,13 @@ Parameter "text" is usually string, but can be of other types (bool, int, float,
 * PROC_CONFIG_SCALE_SET: Sets UI scales, value must be 2-tuple (int_scale_UI, int_scale_font).
 
 * PROC_PARSE_COMMAND_LINE: Parses/handles the text as the program command line. Separator of params is space, double-quoted params are supported. Here you may pass, for example, several filenames, including project and session filenames (.cuda-proj and .cuda-session extensions).
+
+* PROC_GET_WINDOW_STATE: Gets state of application window, one of int constants:
+** WND_NORMAL: Window is normal
+** WND_MAXIMIZED: Window is maximized
+** WND_MINIMIZED: Window is minimized
+** WND_FULLSCREEN: Full-screen mode
+** WND_FULLSCREEN2: Full-screen + Distraction-free mode
 
 ====app_proc - Search properties====
 
@@ -3906,7 +3917,7 @@ It provides:
 * add: app_proc: PROC_THEME_SYNTAX_DATA_GET
 
 1.0.220 (app 1.38.2)
-* add: on_state event aslo called with new constants APPSTATE_nnnn
+* add: on_state supports new constants APPSTATE_nnnn
 
 1.0.221 (app 1.38.3)
 * add: Editor.get_prop/set_prop: PROP_INDENT_SIZE, PROP_INDENT_KEEP_ALIGN, PROP_INDENT_AUTO, PROP_INDENT_KIND
@@ -4131,8 +4142,8 @@ It provides:
 * add: dlg_commands: add "title" param
 
 1.0.267 (app 1.70.3)
-* add: on_state: add APPSTATE_CONFIG_REREAD
-* add: on_state: add APPSTATE_SESSION_LOAD
+* add: on_state supports also APPSTATE_CONFIG_REREAD
+* add: on_state supports also APPSTATE_SESSION_LOAD
 
 1.0.268 (app 1.71.5)
 * add: event on_save_naming
@@ -4621,7 +4632,7 @@ It provides:
 
 1.0.381 (app 1.131.1)
 * change: app_log: param "tag" is now ignored
-* add: on_state: add APPSTATE_SESSION_LOAD_BEGIN, APPSTATE_SESSION_LOAD_FAIL
+* add: on_state supports also APPSTATE_SESSION_LOAD_BEGIN, APPSTATE_SESSION_LOAD_FAIL
 
 1.0.383 (app 1.132.0)
 * add: msg_status_alt: added params "pos", "x", "y"
@@ -4629,8 +4640,8 @@ It provides:
 
 1.0.385 (app 1.132.0)
 * add: app_proc: PROC_SET_PROJECT
-* add: on_state: APPSTATE_PROJECT
-* add: on_console_nav: also it's called when Console input is changed
+* add: event on_state supports also APPSTATE_PROJECT
+* add: event on_console_nav: also it's called when Console input is changed
 
 1.0.388 (app 1.132.9)
 * add: dlg_proc: control "splitter" supports property "color"
@@ -4649,7 +4660,7 @@ It provides:
 * add: tree_proc: TREE_ITEM_SELECT with id_item=0 removes the selection
 
 1.0.392 (app 1.133.2)
-* add: on_state: add values APPSTATE_CODETREE_*
+* add: event on_state supports also APPSTATE_CODETREE_*
 * add: app_proc: PROC_SIDEPANEL_ENUM_ALL/PROC_BOTTOMPANEL_ENUM_ALL gets also button handles
 
 1.0.393 (app 1.133.6)
@@ -4720,7 +4731,7 @@ It provides:
 
 1.0.410 (app 1.142.1)
 * deprecate: option CARET_OPTION_UNFOLD (it's always On now)
-* add: event "on_state" is now fired with more states: APPSTATE_API_SUBCOMMANDS, APPSTATE_API_MENU_xxxx
+* add: event on_state supports also APPSTATE_API_SUBCOMMANDS, APPSTATE_API_MENU_xxxx
 
 1.0.411 (app 1.145.1)
 * add: callbacks (e.g. in toolbar buttons) can have form "exec=command_line_here"
@@ -4842,5 +4853,9 @@ It provides:
 1.0.442 (app 1.186.1)
 * add: event on_caret_line
 * add: Editor.get_line_len()
+
+1.0.443 (app 1.186.3)
+* add: app_proc: PROC_GET_WINDOW_STATE
+* add: event on_state supports also APPSTATE_WINDOW
 
 [[Category:CudaText]]

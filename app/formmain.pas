@@ -467,6 +467,7 @@ type
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormResize(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure FormWindowStateChange(Sender: TObject);
     procedure FrameAddRecent(Sender: TObject);
     procedure FrameOnMsgStatus(Sender: TObject; const AStr: string);
     procedure FrameOnEditorChangeCaretPos(Sender: TObject);
@@ -3707,6 +3708,11 @@ begin
   AppFormShowCompleted:= true;
 end;
 
+procedure TfmMain.FormWindowStateChange(Sender: TObject);
+begin
+  DoPyEvent_AppState(APPSTATE_WINDOW);
+end;
+
 procedure TfmMain.ShowWelcomeInfo;
 var
   Frame: TEditorFrame;
@@ -6184,6 +6190,7 @@ begin
   FShowFullScreen:= AValue;
   FShowFullScreen_DisFree:= false;
   SetFullScreen_Ex(AValue, false);
+  DoPyEvent_AppState(APPSTATE_WINDOW);
 end;
 
 procedure TfmMain.SetShowDistractionFree(AValue: boolean);
@@ -6192,6 +6199,7 @@ begin
   FShowFullScreen:= AValue;
   FShowFullScreen_DisFree:= AValue;
   SetFullScreen_Ex(AValue, true);
+  DoPyEvent_AppState(APPSTATE_WINDOW);
 end;
 
 procedure TfmMain.SetShowDistractionFree_Forced;
@@ -6260,6 +6268,15 @@ begin
     if AHideAll or (Pos('a', UiOps.FullScreen)>0) then ShowSideBar:= false;
     if AHideAll or (Pos('u', UiOps.FullScreen)>0) then ShowTabsMain:= false;
     if AHideAll or (Pos('g', UiOps.FullScreen)>0) then DoApplyGutterVisible(false);
+
+    {$ifdef windows}
+    if not ShowStatus then
+    begin
+      //workaround for Lazarus Win32 bug, where Ed.Height is bigger than needed, in distraction-free mode;
+      //it don't allow auto-scrolling timer to activate
+      //TODO
+    end;
+    {$endif}
   end
   else
   begin

@@ -5643,6 +5643,21 @@ begin
             Result:= PyHelper_GetThemeDict_Syntax;
           end;
 
+        APP_PROC_GET_WINDOW_STATE:
+          begin
+            if fmMain.ShowDistractionFree then
+              i:= WND_FULLSCREEN2
+            else if fmMain.ShowFullscreen then
+              i:= WND_FULLSCREEN
+            else if fmMain.WindowState=wsMaximized then
+              i:= WND_MAXIMIZED
+            else if fmMain.WindowState=wsMinimized then
+              i:= WND_MINIMIZED
+            else
+              i:= WND_NORMAL;
+            Result:= PyLong_FromLong(Ord(i));
+          end;
+
         APP_PROC_CONFIG_NEWDOC_EOL_GET:
           begin
             Result:= PyLong_FromLong(Ord(UiOps.NewdocEnds));
@@ -9697,6 +9712,7 @@ begin
             //don't do ShowModal for docked forms, this hangs the app
             if Form.Parent=nil then
             begin
+              FormPutToVisibleArea(Form);
               Form.DoEmulatedModalShow;
               Form.ShowInTaskBar:= Form.ShowInTaskbar_Pending; //after xxShow, for #4456
             end
@@ -9707,6 +9723,7 @@ begin
 
         DLG_SHOW_NONMODAL:
           begin
+            FormPutToVisibleArea(Form);
             Form.Show;
             Form.ShowInTaskBar:= Form.ShowInTaskbar_Pending; //after Show, for #4456
             Result:= ReturnNone;
