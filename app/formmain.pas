@@ -460,6 +460,7 @@ type
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormResize(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure FormWindowStateChange(Sender: TObject);
     procedure FrameAddRecent(Sender: TObject);
     procedure FrameOnMsgStatus(Sender: TObject; const AStr: string);
     procedure FrameOnEditorChangeCaretPos(Sender: TObject);
@@ -3698,6 +3699,11 @@ begin
   AppFormShowCompleted:= true;
 end;
 
+procedure TfmMain.FormWindowStateChange(Sender: TObject);
+begin
+  DoPyEvent_AppState(APPSTATE_WINDOW);
+end;
+
 procedure TfmMain.ShowWelcomeInfo;
 var
   Frame: TEditorFrame;
@@ -6175,6 +6181,7 @@ begin
   FShowFullScreen:= AValue;
   FShowFullScreen_DisFree:= false;
   SetFullScreen_Ex(AValue, false);
+  DoPyEvent_AppState(APPSTATE_WINDOW);
 end;
 
 procedure TfmMain.SetShowDistractionFree(AValue: boolean);
@@ -6183,6 +6190,7 @@ begin
   FShowFullScreen:= AValue;
   FShowFullScreen_DisFree:= AValue;
   SetFullScreen_Ex(AValue, true);
+  DoPyEvent_AppState(APPSTATE_WINDOW);
 end;
 
 procedure TfmMain.SetShowDistractionFree_Forced;

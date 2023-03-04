@@ -5,7 +5,7 @@ object fmMain: TfmMain
   Width = 1236
   AllowDropFiles = True
   Caption = 'CudaText'
-  ClientHeight = 497
+  ClientHeight = 493
   ClientWidth = 1236
   Constraints.MinHeight = 200
   Constraints.MinWidth = 300
@@ -22,11 +22,12 @@ object fmMain: TfmMain
   OnKeyDown = FormKeyDown
   OnResize = FormResize
   OnShow = FormShow
+  OnWindowStateChange = FormWindowStateChange
   LCLVersion = '2.3.0.0'
   Visible = True
   object PanelSide: TATPanelSimple
     Left = 0
-    Height = 497
+    Height = 493
     Top = 0
     Width = 75
     Align = alLeft
@@ -37,7 +38,7 @@ object fmMain: TfmMain
       AnchorSideBottom.Side = asrBottom
       Left = 0
       Height = 30
-      Top = 467
+      Top = 463
       Width = 75
       Anchors = [akLeft, akBottom]
       AutoSize = True
@@ -51,7 +52,7 @@ object fmMain: TfmMain
       AnchorSideTop.Control = PanelSide
       AnchorSideBottom.Control = ToolbarSideMid
       Left = 0
-      Height = 437
+      Height = 433
       Top = 0
       Width = 75
       Anchors = [akTop, akLeft, akBottom]
@@ -70,7 +71,7 @@ object fmMain: TfmMain
       AnchorSideBottom.Control = ToolbarSideLow
       Left = 0
       Height = 30
-      Top = 437
+      Top = 433
       Width = 75
       Anchors = [akLeft, akBottom]
       AutoSize = True
@@ -82,7 +83,7 @@ object fmMain: TfmMain
   end
   object PanelAll: TATPanelSimple
     Left = 75
-    Height = 497
+    Height = 493
     Top = 0
     Width = 1161
     Align = alClient
@@ -100,13 +101,13 @@ object fmMain: TfmMain
     end
     object PanelMain: TATPanelSimple
       Left = 0
-      Height = 473
+      Height = 469
       Top = 24
       Width = 1161
       Align = alClient
       object PanelEditors: TATPanelSimple
         Left = 0
-        Height = 473
+        Height = 469
         Top = 0
         Width = 1161
         Align = alClient
@@ -696,9 +697,9 @@ object fmMain: TfmMain
     ShowButtonGlyphs = sbgNever
     OnActivate = AppPropsActivate
     OnDeactivate = AppPropsDeactivate
-    OnDropFiles = AppPropsDropFiles
     OnEndSession = AppPropsEndSession
     OnQueryEndSession = AppPropsQueryEndSession
+    OnDropFiles = AppPropsDropFiles
     Left = 520
     Top = 424
   end
