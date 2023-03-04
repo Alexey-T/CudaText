@@ -346,7 +346,7 @@ begin
       if (not isSessionUpdated) and bModified then
       begin
         if (currFramesEditState[iFrame].Ed1_ModifiedVersion<>FPrevFramesEditState[iFrame].Ed1_ModifiedVersion) or
-           (currFramesEditState[iFrame].Ed1_ModifiedVersion<>FPrevFramesEditState[iFrame].Ed1_ModifiedVersion) then
+           (currFramesEditState[iFrame].Ed2_ModifiedVersion<>FPrevFramesEditState[iFrame].Ed2_ModifiedVersion) then
           isSessionUpdated:= true; // unsaved text has been updated
       end;
 
