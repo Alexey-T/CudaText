@@ -250,12 +250,12 @@ Parameter "text" is usually string, but can be of other types (bool, int, float,
 
 * PROC_PARSE_COMMAND_LINE: Parses/handles the text as the program command line. Separator of params is space, double-quoted params are supported. Here you may pass, for example, several filenames, including project and session filenames (.cuda-proj and .cuda-session extensions).
 
-* PROC_GET_WINDOW_STATE: Gets state of application window, one of string constants:
-** "norm": Window is normal
-** "max": Window is maximized
-** "min": Window is minimized
-** "fs": Full-screen mode
-** "fs2": Full-screen + Distraction-free mode
+* PROC_GET_WINDOW_STATE: Gets state of application window, one of int constants:
+** WND_NORMAL: Window is normal
+** WND_MAXIMIZED: Window is maximized
+** WND_MINIMIZED: Window is minimized
+** WND_FULLSCREEN: Full-screen mode
+** WND_FULLSCREEN2: Full-screen + Distraction-free mode
 
 ====app_proc - Search properties====
 
