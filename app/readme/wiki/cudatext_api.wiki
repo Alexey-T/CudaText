@@ -246,6 +246,13 @@ Parameter "text" is usually string, but can be of other types (bool, int, float,
 
 * PROC_PARSE_COMMAND_LINE: Parses/handles the text as the program command line. Separator of params is space, double-quoted params are supported. Here you may pass, for example, several filenames, including project and session filenames (.cuda-proj and .cuda-session extensions).
 
+* PROC_GET_WINDOW_STATE: Gets state of application window, one of string constants:
+** "norm": window is normal
+** "max": window is maximized
+** "min": window is minimized
+** "fs": full-screen mode
+** "fs2": full-screen + distraction-free mode
+
 ====app_proc - Search properties====
 
 Actions work with props of Find/Replace dialog, and props of low-level search engine. When user runs some search command in the dialog, dialog applies its props to the search engine. So most of the time, props of dialog and search engine are sync'ed. But they aren't sync'ed if user just typed new text in the dialog. They also aren't sync'ed if user runs some search command via Command Palette or hotkey (e.g. "find current word, previous").
@@ -4842,5 +4849,8 @@ It provides:
 1.0.442 (app 1.186.1)
 * add: event on_caret_line
 * add: Editor.get_line_len()
+
+1.0.443 (app 1.186.3)
+* add: app_proc: PROC_GET_WINDOW_STATE
 
 [[Category:CudaText]]
