@@ -46,8 +46,8 @@ type
     procedure chkHexTitleChange(Sender: TObject);
     procedure comboAnsiChange(Sender: TObject);
     procedure comboUnicodeChange(Sender: TObject);
-    procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormShow(Sender: TObject);
     procedure GridMouseDown(Sender: TObject; Button: TMouseButton;
@@ -375,7 +375,8 @@ begin
   DoShowAnsi;
 
   chkHexTitle.Checked:= true; //'hex titles' is better as On
-  FormHistoryLoad(Self, '/pos/charmap', false);
+  FormHistoryLoad(Self, '/pos/charmap', true);
+  FormPutToVisibleArea(Self);
 end;
 
 procedure TfmCharmaps.FormKeyDown(Sender: TObject; var Key: Word;
@@ -483,9 +484,9 @@ begin
   DoShowUnicode;
 end;
 
-procedure TfmCharmaps.FormClose(Sender: TObject; var CloseAction: TCloseAction);
+procedure TfmCharmaps.FormDestroy(Sender: TObject);
 begin
-  FormHistorySave(Self, '/pos/charmap', false);
+  FormHistorySave(Self, '/pos/charmap', true);
 end;
 
 procedure TfmCharmaps.btnAnsiClick(Sender: TObject);

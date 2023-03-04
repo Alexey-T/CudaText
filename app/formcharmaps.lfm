@@ -1,7 +1,7 @@
 object fmCharmaps: TfmCharmaps
-  Left = 481
+  Left = 200
   Height = 523
-  Top = 210
+  Top = 200
   Width = 516
   ActiveControl = Grid
   BorderIcons = [biSystemMenu]
@@ -11,11 +11,10 @@ object fmCharmaps: TfmCharmaps
   Constraints.MinHeight = 440
   Constraints.MinWidth = 450
   KeyPreview = True
-  OnClose = FormClose
   OnCreate = FormCreate
+  OnDestroy = FormDestroy
   OnKeyDown = FormKeyDown
   OnShow = FormShow
-  Position = poMainFormCenter
   ShowInTaskBar = stAlways
   LCLVersion = '2.3.0.0'
   object Grid: TStringGrid
