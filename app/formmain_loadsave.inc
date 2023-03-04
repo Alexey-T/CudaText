@@ -229,6 +229,8 @@ end;
 
 function TfmMain.DoOps_SaveSession(const ASessionId: string;
   ASaveModifiedFiles, ASaveUntitledTabs, AByTimer: boolean): boolean;
+const
+  keysToIgnore: array of UTF8String = ('text');
 var
   cfg: TJSONConfigEx;
   Frame: TEditorFrame;
@@ -240,18 +242,24 @@ var
   path, value: string;
   bModified, bUntitled: boolean;
   iFrame, iGroup: integer;
+  isSessionUpdated: boolean;
+  currFramesEditState: array of TFrameEditState;
 begin
   Result:= false;
   if ASessionId='' then exit;
 
   SSplitByChar(ASessionId, '|', sSessionFileName, sRootPath);
 
+  {
+  // this code breaks the save-only-updated-session feature
   if sRootPath='' then
   begin
     AppDiskCheckFreeSpace(sSessionFileName);
     DeleteFile(sSessionFileName);
   end;
+  }
 
+  isSessionUpdated:= false;
   nCountFiles:= 0;
   nCountUntitled:= 0;
 
@@ -269,6 +277,9 @@ begin
         exit;
       end;
     end;
+
+    if FPrevJsonObj=nil then
+      FPrevJsonObj:= CloneJsonObj(cfg.GetJsonObj, keysToIgnore);
 
     DoOps_SaveHistory_GroupView(cfg, sRootPath);
 
@@ -293,6 +304,10 @@ begin
     with AppPanels[cPaneOut] do
       if not Floating then
         cfg.SetValue(sRootPath+'/panels/bottom_size', PanelSize);
+
+    SetLength(currFramesEditState, FrameCount);
+    if FrameCount<>Length(FPrevFramesEditState) then
+      isSessionUpdated:= true; // number of opened documents has changed
 
     nSavedTabIndex:= 0;
     for iFrame:= 0 to FrameCount-1 do
@@ -324,6 +339,16 @@ begin
 
       GetFrameLocation(Frame, Gr, Pages, nLocalGroup, nGlobalGroup, nTabInGroup);
       bModified:= Frame.Ed1.Modified or (bUntitled and not Frame.IsEmpty);
+
+      currFramesEditState[iFrame].Ed1_ModifiedVersion:= Frame.Ed1.Strings.ModifiedVersion;
+      currFramesEditState[iFrame].Ed2_ModifiedVersion:= Frame.Ed1.Strings.ModifiedVersion;
+
+      if (not isSessionUpdated) and bModified then
+      begin
+        if (currFramesEditState[iFrame].Ed1_ModifiedVersion<>FPrevFramesEditState[iFrame].Ed1_ModifiedVersion) or
+           (currFramesEditState[iFrame].Ed1_ModifiedVersion<>FPrevFramesEditState[iFrame].Ed1_ModifiedVersion) then
+          isSessionUpdated:= true; // unsaved text has been updated
+      end;
 
       cfg.SetValue(path+'/modified', bModified);
       cfg.SetValue(path+'/file', AppCollapseHomeDirInFilename(sTabFilename));
@@ -383,24 +408,30 @@ begin
       end;
     end;
 
+    FPrevFramesEditState:= Copy(currFramesEditState, 0, Length(currFramesEditState));
+
     Result:= true;
   finally
     try
-      if (FPrevJsonObj <> nil) and IsJsonObjEqual(cfg.GetJsonObj, FPrevJsonObj, ['text']) then
-        MsgLogConsole('JSON config - equal')
-      else
+      if not isSessionUpdated then
       begin
-        MsgLogConsole('JSON config - different');
-        FPrevJsonObj := CloneJsonObj(cfg.GetJsonObj, ['text']);
+        if not IsJsonObjEqual(cfg.GetJsonObj, FPrevJsonObj, keysToIgnore) then
+          isSessionUpdated:= true; // the JSON config has been updated
       end;
 
-      cfg.Free; //saves json file
+      if isSessionUpdated then
+        FPrevJsonObj:= CloneJsonObj(cfg.GetJsonObj, keysToIgnore)
+      else
+        cfg.SetModified(false); // no need to save the session
+
+      cfg.Free; //saves json file if it has been modified
     except
       //for incorrect sess folder
+      FreeAndNil(FPrevJsonObj); // the session has not been saved
     end;
   end;
 
-  if UiOps.LogSessions then
+  if UiOps.LogSessions and isSessionUpdated then
   begin
     value:= Format('Saved session: "%s", %d file(s)', [ExtractFileName(sSessionFileName), nCountFiles]);
     if nCountUntitled>0 then
@@ -729,6 +760,14 @@ begin
     Ed:= Frame.Ed1;
     if not EditorIsEmpty(Ed) and not EditorCaretIsOnStart(Ed) then
       Ed.DoEventCarets;
+  end;
+
+  SetLength(FPrevFramesEditState, FrameCount);
+  for iFrame:= 0 to FrameCount-1 do
+  begin
+    Frame:= Frames[iFrame];
+    FPrevFramesEditState[iFrame].Ed1_ModifiedVersion:= Frame.Ed1.Strings.ModifiedVersion;
+    FPrevFramesEditState[iFrame].Ed2_ModifiedVersion:= Frame.Ed2.Strings.ModifiedVersion;
   end;
 end;
 
