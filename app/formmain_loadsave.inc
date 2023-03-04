@@ -341,7 +341,7 @@ begin
       bModified:= Frame.Ed1.Modified or (bUntitled and not Frame.IsEmpty);
 
       currFramesEditState[iFrame].Ed1_ModifiedVersion:= Frame.Ed1.Strings.ModifiedVersion;
-      currFramesEditState[iFrame].Ed2_ModifiedVersion:= Frame.Ed1.Strings.ModifiedVersion;
+      currFramesEditState[iFrame].Ed2_ModifiedVersion:= Frame.Ed2.Strings.ModifiedVersion;
 
       if (not isSessionUpdated) and bModified then
       begin
