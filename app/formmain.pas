@@ -728,7 +728,7 @@ type
     FOption_SidebarTab: string;
     FOption_BottomTab: string;
     FCmdlineFileCount: integer;
-    FPrevJsonObj: TJSONData; // TODO: where it should be created and destroyed?
+    FPrevJsonObj: TJSONData;
     FPrevFramesEditState: array of TFrameEditState;
 
     function ConfirmAllFramesAreSaved(AWithCancel: boolean): boolean;
