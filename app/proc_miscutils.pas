@@ -54,6 +54,8 @@ procedure FormUnlock(Ctl: TForm);
 procedure FormHistorySave(F: TForm; const AConfigPath: string; AWithPos: boolean);
 procedure FormHistoryLoad(F: TForm; const AConfigPath: string; AWithPos: boolean);
 
+procedure FormPutToVisibleArea(F: TForm);
+
 function Canvas_TextMultilineExtent(C: TCanvas; const AText: string): TPoint;
 function Canvas_NumberToFontStyles(Num: integer): TFontStyles;
 procedure Canvas_PaintPolygonFromSting(C: TCanvas; const AText: string);
@@ -1389,6 +1391,21 @@ begin
     FreeAndNil(cfg);
     DeleteFile(fn);
   end;
+end;
+
+procedure FormPutToVisibleArea(F: TForm);
+var
+  R: TRect;
+begin
+  R:= Screen.DesktopRect;
+
+  if F.Width>R.Width then
+    F.Width:= R.Width-2;
+  if F.Height>R.Height then
+    F.Height:= R.Height-2;
+
+  F.Left:= Max(R.Left, Min(R.Right-F.Width, F.Left));
+  F.Top:= Max(R.Top, Min(R.Bottom-F.Height, F.Top));
 end;
 
 

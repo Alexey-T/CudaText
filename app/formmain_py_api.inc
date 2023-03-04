@@ -9707,6 +9707,7 @@ begin
             //don't do ShowModal for docked forms, this hangs the app
             if Form.Parent=nil then
             begin
+              FormPutToVisibleArea(Form);
               Form.DoEmulatedModalShow;
               Form.ShowInTaskBar:= Form.ShowInTaskbar_Pending; //after xxShow, for #4456
             end
@@ -9717,6 +9718,7 @@ begin
 
         DLG_SHOW_NONMODAL:
           begin
+            FormPutToVisibleArea(Form);
             Form.Show;
             Form.ShowInTaskBar:= Form.ShowInTaskbar_Pending; //after Show, for #4456
             Result:= ReturnNone;
