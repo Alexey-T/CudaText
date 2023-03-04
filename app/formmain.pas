@@ -6222,11 +6222,6 @@ procedure TfmMain.SetFullScreen_Ex(AValue: boolean; AHideAll: boolean);
   begin
     Ed.OptMinimapVisible:= false;
     Ed.OptMicromapVisible:= false;
-    {$ifdef windows}
-    //workaround for Lazarus Win32 bug, where Ed.Height is bigger than needed, in distraction-free mode;
-    //it don't allow auto-scrolling timer to activate
-    Ed.BorderSpacing.Bottom:= MainMenu.Height+1;
-    {$endif}
     Ed.Update;
   end;
   //
@@ -6235,9 +6230,6 @@ procedure TfmMain.SetFullScreen_Ex(AValue: boolean; AHideAll: boolean);
     Ed.OptMinimapVisible:= EditorOps.OpMinimapShow;
     Ed.OptMicromapVisible:= EditorOps.OpMicromapShow;
     Ed.OptMicromapOnScrollbar:= EditorOps.OpMicromapOnScrollbar;
-    {$ifdef windows}
-    Ed.BorderSpacing.Bottom:= 0; //also for workaround
-    {$endif}
     Ed.Update;
   end;
   //
@@ -6267,6 +6259,15 @@ begin
     if AHideAll or (Pos('a', UiOps.FullScreen)>0) then ShowSideBar:= false;
     if AHideAll or (Pos('u', UiOps.FullScreen)>0) then ShowTabsMain:= false;
     if AHideAll or (Pos('g', UiOps.FullScreen)>0) then DoApplyGutterVisible(false);
+
+    {$ifdef windows}
+    if not ShowStatus then
+    begin
+      //workaround for Lazarus Win32 bug, where Ed.Height is bigger than needed, in distraction-free mode;
+      //it don't allow auto-scrolling timer to activate
+      //TODO
+    end;
+    {$endif}
   end
   else
   begin
