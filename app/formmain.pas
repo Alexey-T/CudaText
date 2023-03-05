@@ -224,6 +224,8 @@ type
   { TFrameEditState }
 
   TFrameEditState = record
+    Ed1_FileName: string;
+    Ed2_FileName: string;
     Ed1_ModifiedVersion: Int64;
     Ed2_ModifiedVersion: Int64;
   end;

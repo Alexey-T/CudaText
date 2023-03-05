@@ -343,8 +343,17 @@ begin
       GetFrameLocation(Frame, Gr, Pages, nLocalGroup, nGlobalGroup, nTabInGroup);
       bModified:= Frame.Ed1.Modified or (bUntitled and not Frame.IsEmpty);
 
+      currFramesEditState[iFrame].Ed1_FileName:= Frame.Ed1.FileName;
+      currFramesEditState[iFrame].Ed2_FileName:= Frame.Ed2.FileName;
       currFramesEditState[iFrame].Ed1_ModifiedVersion:= Frame.Ed1.Strings.ModifiedVersion;
       currFramesEditState[iFrame].Ed2_ModifiedVersion:= Frame.Ed2.Strings.ModifiedVersion;
+
+      if not isSessionUpdated then
+      begin
+        if (currFramesEditState[iFrame].Ed1_FileName<>FPrevFramesEditState[iFrame].Ed1_FileName) or
+           (currFramesEditState[iFrame].Ed2_FileName<>FPrevFramesEditState[iFrame].Ed2_FileName) then
+          isSessionUpdated:= true; // different file is opened in the same frame
+      end;
 
       if (not isSessionUpdated) and bModified then
       begin
@@ -769,6 +778,8 @@ begin
   for iFrame:= 0 to FrameCount-1 do
   begin
     Frame:= Frames[iFrame];
+    FPrevFramesEditState[iFrame].Ed1_FileName:= Frame.Ed1.FileName;
+    FPrevFramesEditState[iFrame].Ed2_FileName:= Frame.Ed2.FileName;
     FPrevFramesEditState[iFrame].Ed1_ModifiedVersion:= Frame.Ed1.Strings.ModifiedVersion;
     FPrevFramesEditState[iFrame].Ed2_ModifiedVersion:= Frame.Ed2.Strings.ModifiedVersion;
   end;
