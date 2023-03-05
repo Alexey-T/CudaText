@@ -278,6 +278,9 @@ begin
       end;
     end;
 
+    if not FileExists(sSessionFileName) then
+      isSessionUpdated:= true; // the session file has been physically deleted
+
     if FPrevJsonObj=nil then
       FPrevJsonObj:= CloneJsonObj(cfg.GetJsonObj, keysToIgnore);
 
@@ -424,7 +427,7 @@ begin
       else
         cfg.SetModified(false); // no need to save the session
 
-      cfg.Free; //saves json file if it has been modified
+      cfg.Free; //saves json file when its property 'Modified' is 'true'
     except
       //for incorrect sess folder
       FreeAndNil(FPrevJsonObj); // the session has not been saved

@@ -119,7 +119,6 @@ var
   obj: TJSONObject;
   resObj: TJSONObject;
   resArr: TJSONArray;
-  num: TJSONNumber;
 
 begin
   Result := nil;
