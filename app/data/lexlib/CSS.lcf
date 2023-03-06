@@ -1,4 +1,4 @@
-object SyntAnal6: TLibSyntAnalyzer
+object SyntAnal7: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Style'
@@ -195,6 +195,14 @@ object SyntAnal6: TLibSyntAnalyzer
       StyleName = 'Comment'
       TokenType = 1
       Expression = '(?s)/\*.*?(\*/|\Z)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'RGB func name'
+      StyleName = 'Std function'
+      TokenType = 13
+      Expression = '(?-i)\b(rgba?|hsla?|hwb|lab|lch)(?=\()'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -2374,6 +2382,7 @@ object SyntAnal6: TLibSyntAnalyzer
       BlockEnd = '}'
       Highlight = True
       InvertColors = True
+      DisplayInTree = False
       NameFmt = 'CSS'
       DynHighlight = dhRange
       HighlightPos = cpRange
@@ -2444,7 +2453,7 @@ object SyntAnal6: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
-      DisplayName = 'Colors'
+      DisplayName = 'Colors hex'
       ConditionList = <
         item
           TokenTypes = 64
@@ -2453,6 +2462,23 @@ object SyntAnal6: TLibSyntAnalyzer
       HighlightPos = cpAny
       NoEndRule = True
       TreeItemImage = 7
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'Colors func names'
+      ConditionList = <
+        item
+          TokenTypes = 8192
+        end>
+      BlockEnd = ')'
+      EndOfTextClose = True
+      NotCollapsed = True
+      NameFmt = '%s0~[)]'
+      GroupFmt = '\Colors'
+      RefToCondEnd = True
+      HighlightPos = cpAny
+      CancelNextRules = True
+      TreeItemImage = 6
       IgnoreAsParent = False
     end
     item
@@ -2485,6 +2511,18 @@ object SyntAnal6: TLibSyntAnalyzer
         end>
       HighlightPos = cpAny
       IgnoreAsParent = False
+    end
+    item
+      DisplayName = ')'
+      BlockType = btRangeEnd
+      ConditionList = <
+        item
+          TagList.Strings = (
+            ')')
+          TokenTypes = 8
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
     end>
   CodeTemplates = <>
   SubAnalyzers = <
@@ -2492,7 +2530,7 @@ object SyntAnal6: TLibSyntAnalyzer
       DisplayName = 'PHP'
       StartExpression = '<\?(php\b)?'
       EndExpression = '\?>'
-      SyntAnalyzer = SyntAnal15
+      SyntAnalyzer = SyntAnal18
     end>
   SampleText.Strings = (
     '/* Comment */'
@@ -2543,7 +2581,8 @@ object SyntAnal6: TLibSyntAnalyzer
     'Prop'
     'ValueUnit'
     'Media special'
-    'Prop others')
+    'Prop others'
+    'Color func name')
   Extentions = 'css'
   LexerName = 'CSS'
   Notes.Strings = (
