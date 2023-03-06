@@ -15,8 +15,8 @@ type
     function GetJsonObj: TJSONObject;
   end;
 
-  function IsJsonObjEqual(constref AObj1: TJSONData; constref AObj2: TJSONData; const AKeysToIgnore: array of UTF8String): Boolean;
-  function CloneJsonObj(constref AObj: TJSONData; const AKeysToIgnore: array of UTF8String): TJSONData;
+  function IsJsonObjEqual(const AObj1: TJSONData; const AObj2: TJSONData; const AKeysToIgnore: array of UTF8String): Boolean;
+  function CloneJsonObj(const AObj: TJSONData; const AKeysToIgnore: array of UTF8String): TJSONData;
 
 implementation
 
@@ -40,7 +40,7 @@ begin
   Result := FJSON;
 end;
 
-function IsJsonObjEqual(constref AObj1: TJSONData; constref AObj2: TJSONData; const AKeysToIgnore: array of UTF8String): Boolean;
+function IsJsonObjEqual(const AObj1: TJSONData; const AObj2: TJSONData; const AKeysToIgnore: array of UTF8String): Boolean;
 var
   i: integer;
   skip: boolean;
@@ -113,7 +113,7 @@ begin
 
 end;
 
-function CloneJsonObj(constref AObj: TJSONData; const AKeysToIgnore: array of UTF8String): TJSONData;
+function CloneJsonObj(const AObj: TJSONData; const AKeysToIgnore: array of UTF8String): TJSONData;
 var
   i: integer;
   skip: boolean;
