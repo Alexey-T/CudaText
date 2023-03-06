@@ -15,10 +15,20 @@ type
     function GetJsonObj: TJSONObject;
   end;
 
-  function IsJsonObjEqual(const AObj1: TJSONData; const AObj2: TJSONData; const AKeysToIgnore: array of UTF8String): Boolean;
-  function CloneJsonObj(const AObj: TJSONData; const AKeysToIgnore: array of UTF8String): TJSONData;
+  function IsJsonObjEqual(constref AObj1: TJSONData; constref AObj2: TJSONData; const AKeysToIgnore: array of UTF8String): Boolean;
+  function CloneJsonObj(constref AObj: TJSONData; const AKeysToIgnore: array of UTF8String): TJSONData;
 
 implementation
+
+function IsStrInArr(const AStr: UTF8String; const AArr: array of UTF8String): boolean;
+var
+  i: integer;
+begin
+  for i := 0 to length(AArr)-1 do
+    if AStr = AArr[i] then
+      Exit(true);
+  Result := false;
+end;
 
 procedure TJSONConfigEx.SetModified(AValue: Boolean);
 begin
@@ -30,9 +40,9 @@ begin
   Result := FJSON;
 end;
 
-function IsJsonObjEqual(const AObj1: TJSONData; const AObj2: TJSONData; const AKeysToIgnore: array of UTF8String): Boolean;
+function IsJsonObjEqual(constref AObj1: TJSONData; constref AObj2: TJSONData; const AKeysToIgnore: array of UTF8String): Boolean;
 var
-  i, j: integer;
+  i: integer;
   skip: boolean;
   obj1, obj2: TJSONObject;
   num1, num2: TJSONNumber;
@@ -55,16 +65,7 @@ begin
           if obj1.Names[i] <> obj2.Names[i] then
             Exit(false);
 
-          skip := false;
-          for j := 0 to length(AKeysToIgnore)-1 do
-          begin
-            if obj1.Names[i] = AKeysToIgnore[j] then
-            begin
-              skip := true;
-              break;
-            end;
-          end;
-
+          skip := IsStrInArr(obj1.Names[i], AKeysToIgnore);
           if not skip then
             if not IsJsonObjEqual(obj1.Items[i], obj2.Items[i], AKeysToIgnore) then
               Exit(false);
@@ -112,14 +113,13 @@ begin
 
 end;
 
-function CloneJsonObj(const AObj: TJSONData; const AKeysToIgnore: array of UTF8String): TJSONData;
+function CloneJsonObj(constref AObj: TJSONData; const AKeysToIgnore: array of UTF8String): TJSONData;
 var
-  i, j: integer;
+  i: integer;
   skip: boolean;
   obj: TJSONObject;
   resObj: TJSONObject;
   resArr: TJSONArray;
-
 begin
   Result := nil;
 
@@ -131,16 +131,7 @@ begin
 
         for i := 0 to obj.Count-1 do
         begin
-          skip := false;
-          for j := 0 to length(AKeysToIgnore)-1 do
-          begin
-            if obj.Names[i] = AKeysToIgnore[j] then
-            begin
-              skip := true;
-              break;
-            end;
-          end;
-
+          skip := IsStrInArr(obj.Names[i], AKeysToIgnore);
           if not skip then
             resObj.Add(obj.Names[i], CloneJsonObj(obj.Items[i], AKeysToIgnore))
           else
@@ -163,7 +154,8 @@ begin
 
     jtNumber,
     jtString,
-    jtBoolean:
+    jtBoolean,
+    jtNull:
       Result := AObj.Clone;
 
   end; // case

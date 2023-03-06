@@ -228,7 +228,11 @@ type
     Ed2_FileName: string;
     Ed1_ModifiedVersion: Int64;
     Ed2_ModifiedVersion: Int64;
+
+    procedure Assign(constref AFrame: TEditorFrame);
   end;
+
+  operator =(constref a, b: TFrameEditState): boolean; overload;
 
 const
   cMenuTabsizeMin = 1;
@@ -1889,6 +1893,25 @@ begin
       AppEventWatcher.SetEvent;
     end;
   until false;
+end;
+
+{ TFrameEditState }
+
+operator =(constref a, b: TFrameEditState): boolean; overload;
+begin
+  Result:=
+    (a.Ed1_FileName = b.Ed1_FileName) and
+    (a.Ed2_FileName = b.Ed2_FileName) and
+    (a.Ed1_ModifiedVersion = b.Ed1_ModifiedVersion) and
+    (a.Ed2_ModifiedVersion = b.Ed2_ModifiedVersion);
+end;
+
+procedure TFrameEditState.Assign(constref AFrame: TEditorFrame);
+begin
+  Ed1_FileName:= AFrame.Ed1.FileName;
+  Ed2_FileName:= AFrame.Ed2.FileName;
+  Ed1_ModifiedVersion:= AFrame.Ed1.Strings.ModifiedVersion;
+  Ed2_ModifiedVersion:= AFrame.Ed2.Strings.ModifiedVersion;
 end;
 
 { TfmMain }

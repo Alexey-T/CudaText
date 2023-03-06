@@ -244,6 +244,7 @@ var
   iFrame, iGroup: integer;
   isSessionUpdated: boolean;
   currFramesEditState: array of TFrameEditState;
+  fileWriteTimeBeforeSaving, fileWriteTimeAfterSaving: TDateTime;
 begin
   Result:= false;
   if ASessionId='' then exit;
@@ -343,26 +344,17 @@ begin
       GetFrameLocation(Frame, Gr, Pages, nLocalGroup, nGlobalGroup, nTabInGroup);
       bModified:= Frame.Ed1.Modified or (bUntitled and not Frame.IsEmpty);
 
-      currFramesEditState[iFrame].Ed1_FileName:= Frame.Ed1.FileName;
-      currFramesEditState[iFrame].Ed2_FileName:= Frame.Ed2.FileName;
-      currFramesEditState[iFrame].Ed1_ModifiedVersion:= Frame.Ed1.Strings.ModifiedVersion;
-      currFramesEditState[iFrame].Ed2_ModifiedVersion:= Frame.Ed2.Strings.ModifiedVersion;
+      currFramesEditState[iFrame].Assign(Frame);
 
       if not isSessionUpdated then
       begin
-        if (currFramesEditState[iFrame].Ed1_FileName<>FPrevFramesEditState[iFrame].Ed1_FileName) or
-           (currFramesEditState[iFrame].Ed2_FileName<>FPrevFramesEditState[iFrame].Ed2_FileName) then
-          isSessionUpdated:= true; // different file is opened in the same frame
-      end;
-
-      if (not isSessionUpdated) and bModified then
-      begin
-        if (currFramesEditState[iFrame].Ed1_ModifiedVersion<>FPrevFramesEditState[iFrame].Ed1_ModifiedVersion) or
-           (currFramesEditState[iFrame].Ed2_ModifiedVersion<>FPrevFramesEditState[iFrame].Ed2_ModifiedVersion) then
-          isSessionUpdated:= true; // unsaved text has been updated
+        if currFramesEditState[iFrame]<>FPrevFramesEditState[iFrame] then
+          isSessionUpdated:= true; // frame's FileName or unsaved text has been updated
       end;
 
       cfg.SetValue(path+'/modified', bModified);
+      if not bModified then
+        cfg.DeleteValue(path+'/text');
       cfg.SetValue(path+'/file', AppCollapseHomeDirInFilename(sTabFilename));
 
       if bModified then
@@ -407,6 +399,8 @@ begin
 
         bModified:= Frame.Ed2.Modified;
         cfg.SetValue(path+'/modified', bModified);
+        if not bModified then
+          cfg.DeleteValue(path+'/text');
         cfg.SetValue(path+'/file', AppCollapseHomeDirInFilename(sTabFilename2));
 
         if bModified and UiOps.HistoryItems[ahhText] then
@@ -432,20 +426,38 @@ begin
       end;
 
       if isSessionUpdated then
-        FPrevJsonObj:= CloneJsonObj(cfg.GetJsonObj, keysToIgnore)
+      begin
+        FPrevJsonObj.Free;
+        FPrevJsonObj:= CloneJsonObj(cfg.GetJsonObj, keysToIgnore);
+        if not FileAge(sSessionFileName, fileWriteTimeBeforeSaving) then
+          fileWriteTimeBeforeSaving:= Default(TDateTime);
+      end
       else
         cfg.SetModified(false); // no need to save the session
 
       cfg.Free; //saves json file when its property 'Modified' is 'true'
     except
       //for incorrect sess folder
-      FreeAndNil(FPrevJsonObj); // the session has not been saved
+    end;
+  end;
+
+  if isSessionUpdated then
+  begin
+    if not FileAge(sSessionFileName, fileWriteTimeAfterSaving) then
+      fileWriteTimeAfterSaving:= Default(TDateTime);
+    if fileWriteTimeBeforeSaving=fileWriteTimeAfterSaving then
+    begin
+      FPrevJsonObj.Free;
+      FPrevJsonObj:= TJSONNull.Create; // the session has not been saved!!!
     end;
   end;
 
   if UiOps.LogSessions and isSessionUpdated then
   begin
-    value:= Format('Saved session: "%s", %d file(s)', [ExtractFileName(sSessionFileName), nCountFiles]);
+    if fileWriteTimeBeforeSaving<>fileWriteTimeAfterSaving then
+      value:= Format('Saved session: "%s", %d file(s)', [ExtractFileName(sSessionFileName), nCountFiles])
+    else
+      value:= Format('Failed to save session: "%s", %d file(s)', [ExtractFileName(sSessionFileName), nCountFiles]);
     if nCountUntitled>0 then
       value+= Format(' + %d untitled', [nCountUntitled]);
     if AByTimer then
@@ -778,10 +790,7 @@ begin
   for iFrame:= 0 to FrameCount-1 do
   begin
     Frame:= Frames[iFrame];
-    FPrevFramesEditState[iFrame].Ed1_FileName:= Frame.Ed1.FileName;
-    FPrevFramesEditState[iFrame].Ed2_FileName:= Frame.Ed2.FileName;
-    FPrevFramesEditState[iFrame].Ed1_ModifiedVersion:= Frame.Ed1.Strings.ModifiedVersion;
-    FPrevFramesEditState[iFrame].Ed2_ModifiedVersion:= Frame.Ed2.Strings.ModifiedVersion;
+    FPrevFramesEditState[iFrame].Assign(Frame);
   end;
 end;
 
