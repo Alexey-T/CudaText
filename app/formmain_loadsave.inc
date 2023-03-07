@@ -676,13 +676,10 @@ begin
 
         if sTabFilename2<>'' then
         begin
-          Frame.DoLoadHistoryEx(Frame.Ed2, cfg, item_path2, true);
-
           sText2:= cfg.GetValue(item_path2+'text', '');
           bModified2:= cfg.GetValue(item_path2+'modified', false);
           if sText2='' then //don't load this file from session
             bModified2:= false;
-
           if bModified2 then
           begin
             Inc(nCountFilesModified);
@@ -691,6 +688,8 @@ begin
             Frame.Ed2.Modified:= bModified2;
             Frame.UpdateModified(Frame.Ed2);
           end;
+
+          Frame.DoLoadHistoryEx(Frame.Ed2, cfg, item_path2, true);
         end;
 
         Frame.TabPinned:= cfg.GetValue(item_path+'pinned', false);
