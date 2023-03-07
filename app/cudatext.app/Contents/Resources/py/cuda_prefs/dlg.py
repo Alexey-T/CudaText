@@ -604,6 +604,7 @@ class DialogMK2:
                 'w': 100,
                 #'sp_r': PAD,
                 'on_change': self._on_tree_click,
+                'tab_stop': False,
                 })
         self._h_tree = dlg_proc(h, DLG_CTL_HANDLE, index=n)
         tree_proc(self._h_tree, TREE_THEME)
@@ -630,6 +631,8 @@ class DialogMK2:
                 'on_change': self._on_opt_click,
                 'on_click_header': self._on_header_click,
                 'on_menu': self.listbox_menu,
+                'tab_stop': True,
+                'tab_order': 1,
                 })
         self._h_list = dlg_proc(h, DLG_CTL_HANDLE, index=n)
 
@@ -662,6 +665,7 @@ class DialogMK2:
                 'a_l': ('filter_label', ']'),   'a_r': ('', ']'),  'a_t': ('filter_label', '-'),
                 'on_change': self._on_filter,
                 'on_key_down': self._on_filter, # for later -- live filter
+                'tab_order': 0,
                 })
         h_ed = dlg_proc(h, DLG_CTL_HANDLE, index=n)
         self._filter_ed = Editor(h_ed)
@@ -687,6 +691,7 @@ class DialogMK2:
                 'a_l': None,   'a_r': ('', ']'),  'a_t': ('', '['),
                 'act': True,
                 'on_change': self._on_scope_change,
+                'tab_order': 2,
                 })
         h_scope_ed = dlg_proc(h, DLG_CTL_HANDLE, index=n)
         # scope label ###
@@ -711,6 +716,7 @@ class DialogMK2:
                 'sp_l': PAD, 'sp_r': 32,
                 'cap': _('Reset'),
                 'on_change': self._on_reset,
+                'tab_order': 4,
                 })
         # option description #########
         n = dlg_proc(h, DLG_CTL_ADD, 'editor')
@@ -720,6 +726,7 @@ class DialogMK2:
                 'sp_t': BTN_H + PAD,
                 'align': ALIGN_CLIENT,
                 'h': 100,
+                'tab_stop': False,
                 })
         h_ed = dlg_proc(h, DLG_CTL_HANDLE, index=n)
         edt = Editor(h_ed)
@@ -766,6 +773,7 @@ class DialogMK2:
                 'sp_r': PAD*2, 'sp_b': PAD*2,
                 'cap': _('OK'),
                 'on_change': lambda *args, **vargs: (self.apply_changes(closing=True), self.close()),
+                'tab_stop': False,
                 })
         # Apply #######
         n = dlg_proc(h, DLG_CTL_ADD, 'button_ex')
@@ -777,6 +785,7 @@ class DialogMK2:
                 'sp_r': PAD*2, 'sp_b': PAD*2,
                 'cap': _('Apply'),
                 'on_change': lambda *args, **vargs: self.apply_changes(),
+                'tab_stop': False,
                 })
         # Cancel #######
         n = dlg_proc(h, DLG_CTL_ADD, 'button_ex')
@@ -788,6 +797,7 @@ class DialogMK2:
                 'sp_r': PAD*2, 'sp_b': PAD*2,
                 'cap': _('Cancel'),
                 'on_change': lambda *args, **vargs: self.close(),
+                'tab_stop': False,
                 })
         # help #######
         n = dlg_proc(h, DLG_CTL_ADD, 'button_ex')
@@ -798,6 +808,7 @@ class DialogMK2:
                 'sp_l': PAD*2, 'sp_b': PAD*2,
                 'cap': _('Help'),
                 'on_change': self.dlg_help,
+                'tab_stop': False,
                 })
 
         # reverse buttons for Windows: [Cancel, Apply, OK] => [OK, Apply, Cancel]
