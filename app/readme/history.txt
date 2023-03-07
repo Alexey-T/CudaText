@@ -11,6 +11,7 @@
 + add: avoid plugin dialogs / floating groups / Char Map to show out of visible screen area
 - fix: when file-pair is loaded from session, modified state of 2nd file is not restored (thanks @d0vgan)
 - fix: commands "go to screen top/bottom" at the document edges (thanks @qwerky)
+- fix: Options Editor: better tabbing over UI controls
 
 1.186.2 (2023/03)
 
