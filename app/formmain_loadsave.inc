@@ -241,7 +241,7 @@ var
   nCountFiles, nCountUntitled, nSavedTabIndex: integer;
   path, value: string;
   bModified, bUntitled: boolean;
-  iFrame, iGroup: integer;
+  iFrame, iGroup, prevFrameCount: integer;
   isSessionUpdated: boolean;
   currFramesEditState: array of TFrameEditState;
   fileWriteTimeBeforeSaving, fileWriteTimeAfterSaving: TDateTime;
@@ -310,8 +310,17 @@ begin
         cfg.SetValue(sRootPath+'/panels/bottom_size', PanelSize);
 
     SetLength(currFramesEditState, FrameCount);
-    if FrameCount<>Length(FPrevFramesEditState) then
+    prevFrameCount:= Length(FPrevFramesEditState);
+    if FrameCount<>prevFrameCount then
+    begin
       isSessionUpdated:= true; // number of opened documents has changed
+
+      for iFrame:= FrameCount to prevFrameCount-1 do
+      begin
+        path:= sRootPath+'/'+Format('%3.3d', [iFrame]);
+        cfg.DeleteValue(path);
+      end;
+    end;
 
     nSavedTabIndex:= 0;
     for iFrame:= 0 to FrameCount-1 do
