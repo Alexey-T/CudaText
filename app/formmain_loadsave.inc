@@ -229,8 +229,10 @@ end;
 
 function TfmMain.DoOps_SaveSession(const ASessionId: string;
   ASaveModifiedFiles, ASaveUntitledTabs, AByTimer: boolean): boolean;
+const
+  keysToIgnore: array of UTF8String = ('text');
 var
-  cfg: TJSONConfig;
+  cfg: TJSONConfigEx;
   Frame: TEditorFrame;
   Gr: TATGroups;
   Pages: TATPages;
@@ -240,22 +242,29 @@ var
   path, value: string;
   bModified, bUntitled: boolean;
   iFrame, iGroup: integer;
+  isSessionUpdated: boolean;
+  currFramesEditState: array of TFrameEditState;
+  fileWriteTimeBeforeSaving, fileWriteTimeAfterSaving: TDateTime;
 begin
   Result:= false;
   if ASessionId='' then exit;
 
   SSplitByChar(ASessionId, '|', sSessionFileName, sRootPath);
 
+  {
+  // this code breaks the save-only-updated-session feature
   if sRootPath='' then
   begin
     AppDiskCheckFreeSpace(sSessionFileName);
     DeleteFile(sSessionFileName);
   end;
+  }
 
+  isSessionUpdated:= false;
   nCountFiles:= 0;
   nCountUntitled:= 0;
 
-  cfg:= TJSONConfig.Create(nil);
+  cfg:= TJSONConfigEx.Create(nil);
   try
     try
       cfg.Formatted:= true;
@@ -269,6 +278,12 @@ begin
         exit;
       end;
     end;
+
+    if not FileExists(sSessionFileName) then
+      isSessionUpdated:= true; // the session file has been physically deleted
+
+    if FPrevJsonObj=nil then
+      FPrevJsonObj:= CloneJsonObj(cfg.GetJsonObj, keysToIgnore);
 
     DoOps_SaveHistory_GroupView(cfg, sRootPath);
 
@@ -293,6 +308,10 @@ begin
     with AppPanels[cPaneOut] do
       if not Floating then
         cfg.SetValue(sRootPath+'/panels/bottom_size', PanelSize);
+
+    SetLength(currFramesEditState, FrameCount);
+    if FrameCount<>Length(FPrevFramesEditState) then
+      isSessionUpdated:= true; // number of opened documents has changed
 
     nSavedTabIndex:= 0;
     for iFrame:= 0 to FrameCount-1 do
@@ -325,7 +344,17 @@ begin
       GetFrameLocation(Frame, Gr, Pages, nLocalGroup, nGlobalGroup, nTabInGroup);
       bModified:= Frame.Ed1.Modified or (bUntitled and not Frame.IsEmpty);
 
+      currFramesEditState[iFrame].Assign(Frame);
+
+      if not isSessionUpdated then
+      begin
+        if currFramesEditState[iFrame]<>FPrevFramesEditState[iFrame] then
+          isSessionUpdated:= true; // frame's FileName or unsaved text has been updated
+      end;
+
       cfg.SetValue(path+'/modified', bModified);
+      if not bModified then
+        cfg.DeleteValue(path+'/text');
       cfg.SetValue(path+'/file', AppCollapseHomeDirInFilename(sTabFilename));
 
       if bModified then
@@ -370,6 +399,8 @@ begin
 
         bModified:= Frame.Ed2.Modified;
         cfg.SetValue(path+'/modified', bModified);
+        if not bModified then
+          cfg.DeleteValue(path+'/text');
         cfg.SetValue(path+'/file', AppCollapseHomeDirInFilename(sTabFilename2));
 
         if bModified and UiOps.HistoryItems[ahhText] then
@@ -383,18 +414,50 @@ begin
       end;
     end;
 
+    FPrevFramesEditState:= Copy(currFramesEditState, 0, Length(currFramesEditState));
+
     Result:= true;
   finally
     try
-      cfg.Free; //saves json file
+      if not isSessionUpdated then
+      begin
+        if not IsJsonObjEqual(cfg.GetJsonObj, FPrevJsonObj, keysToIgnore) then
+          isSessionUpdated:= true; // the JSON config has been updated
+      end;
+
+      if isSessionUpdated then
+      begin
+        FPrevJsonObj.Free;
+        FPrevJsonObj:= CloneJsonObj(cfg.GetJsonObj, keysToIgnore);
+        if not FileAge(sSessionFileName, fileWriteTimeBeforeSaving) then
+          fileWriteTimeBeforeSaving:= Default(TDateTime);
+      end
+      else
+        cfg.SetModified(false); // no need to save the session
+
+      cfg.Free; //saves json file when its property 'Modified' is 'true'
     except
       //for incorrect sess folder
     end;
   end;
 
-  if UiOps.LogSessions then
+  if isSessionUpdated then
   begin
-    value:= Format('Saved session: "%s", %d file(s)', [ExtractFileName(sSessionFileName), nCountFiles]);
+    if not FileAge(sSessionFileName, fileWriteTimeAfterSaving) then
+      fileWriteTimeAfterSaving:= Default(TDateTime);
+    if fileWriteTimeBeforeSaving=fileWriteTimeAfterSaving then
+    begin
+      FPrevJsonObj.Free;
+      FPrevJsonObj:= TJSONNull.Create; // the session has not been saved!!!
+    end;
+  end;
+
+  if UiOps.LogSessions and isSessionUpdated then
+  begin
+    if fileWriteTimeBeforeSaving<>fileWriteTimeAfterSaving then
+      value:= Format('Saved session: "%s", %d file(s)', [ExtractFileName(sSessionFileName), nCountFiles])
+    else
+      value:= Format('Failed to save session: "%s", %d file(s)', [ExtractFileName(sSessionFileName), nCountFiles]);
     if nCountUntitled>0 then
       value+= Format(' + %d untitled', [nCountUntitled]);
     if AByTimer then
@@ -721,6 +784,13 @@ begin
     Ed:= Frame.Ed1;
     if not EditorIsEmpty(Ed) and not EditorCaretIsOnStart(Ed) then
       Ed.DoEventCarets;
+  end;
+
+  SetLength(FPrevFramesEditState, FrameCount);
+  for iFrame:= 0 to FrameCount-1 do
+  begin
+    Frame:= Frames[iFrame];
+    FPrevFramesEditState[iFrame].Assign(Frame);
   end;
 end;
 
