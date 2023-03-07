@@ -315,8 +315,9 @@ begin
     nPrevFrameCount:= Length(FPrevFramesEditState);
     if nFrameCount<>nPrevFrameCount then
     begin
-      bSessionUpdated:= true; // number of opened documents has changed
+      bSessionUpdated:= true; //number of opened documents has changed
 
+      //cleanup session keys, left from the previous saving
       for iFrame:= nFrameCount to nPrevFrameCount-1 do
       begin
         path:= sRootPath+'/'+Format('%3.3d', [iFrame]);
