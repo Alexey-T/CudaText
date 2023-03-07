@@ -169,7 +169,7 @@ type
     procedure DoOnEditorScroll(Sender: TObject);
     procedure DoOnEditorKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure DoOnEditorKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure DoOnEditorClickGutter(Sender: TObject; ABand, ALine: integer);
+    procedure DoOnEditorClickGutter(Sender: TObject; ABand, ALine: integer; var AHandled: boolean);
     procedure DoOnEditorClickGap(Sender: TObject; AGapItem: TATGapItem; APos: TPoint);
     procedure DoOnEditorClickLink(Sender: TObject; const ALink: string);
     procedure DoOnEditorPaste(Sender: TObject; var AHandled: boolean; AKeepCaret, ASelectThen: boolean);
@@ -1178,7 +1178,8 @@ begin
 end;
 
 
-procedure TFormDummy.DoOnEditorClickGutter(Sender: TObject; ABand, ALine: integer);
+procedure TFormDummy.DoOnEditorClickGutter(Sender: TObject; ABand, ALine: integer;
+  var AHandled: boolean);
 var
   Props: TAppControlProps;
   IdControl: integer;
@@ -1206,7 +1207,8 @@ begin
   Data.Items[2].Typ:= avdInt;
   Data.Items[2].Int:= ABand;
 
-  DoEvent(IdControl, Callback, Data);
+  if not DoEvent(IdControl, Callback, Data) then
+    AHandled:= true;
 end;
 
 procedure TFormDummy.DoOnEditorClickGap(Sender: TObject; AGapItem: TATGapItem; APos: TPoint);

@@ -245,7 +245,7 @@ type
     procedure EditorOnChangeZoom(Sender: TObject);
     procedure EditorOnClick(Sender: TObject);
     procedure EditorOnClickGap(Sender: TObject; AGapItem: TATGapItem; APos: TPoint);
-    procedure EditorOnClickGutter(Sender: TObject; ABand, ALine: integer);
+    procedure EditorOnClickGutter(Sender: TObject; ABand, ALine: integer; var AHandled: boolean);
     procedure EditorOnClickDouble(Sender: TObject; var AHandled: boolean);
     procedure EditorOnClickLink(Sender: TObject; const ALink: string);
     procedure EditorOnClickMicroMap(Sender: TObject; AX, AY: integer);
@@ -3269,7 +3269,8 @@ begin
   UpdateEds;
 end;
 
-procedure TEditorFrame.EditorOnClickGutter(Sender: TObject; ABand, ALine: integer);
+procedure TEditorFrame.EditorOnClickGutter(Sender: TObject; ABand, ALine: integer;
+  var AHandled: boolean);
 var
   Ed: TATSynEdit;
 begin
@@ -3280,10 +3281,14 @@ begin
     AppVariant(ConvertShiftStateToString(KeyboardStateToShiftState)),
     AppVariant(ALine),
     AppVariant(ABand)
-    ]).Val = evrFalse then exit;
+    ]).Val = evrFalse then
+  begin
+    AHandled:= true;
+    exit;
+  end;
 
   if ABand=Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagBookmarks) then
-    ed.BookmarkToggleForLine(ALine, 1, '', bmadOption, true, 0);
+    Ed.BookmarkToggleForLine(ALine, 1, '', bmadOption, true, 0);
 end;
 
 procedure TEditorFrame.EditorOnDrawBookmarkIcon(Sender: TObject; C: TCanvas; ALineNum: integer;
