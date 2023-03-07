@@ -5,7 +5,7 @@
 
 1.187 (2023/03)
 
-+ add: session auto-saving: avoid saving if session is not yet changed (thanks @d0vgan for the patch)
++ add: option "ui_session_save_interval": avoid saving if session is not yet changed (thanks @d0vgan for the patch)
 + add: code-tree in lexer CSS shows colored squares also for: rgb() rgba() hsl() hsla() (thanks @Stefan)
 + add: dialog Char Map should save not only size, but also position
 + add: avoid plugin dialogs / floating groups / Char Map to show out of visible screen area
