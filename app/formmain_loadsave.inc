@@ -664,8 +664,6 @@ begin
       if bExist then
       begin
         Inc(nCountFiles);
-        if sTabFilename2<>'' then
-          Inc(nCountFiles);
         Frame:= DoFileOpen(sTabFilename, sTabFilename2, Pages, sOpenOptions+SOptionPassive+SOptionNoHistory);
       end;
 
@@ -678,8 +676,9 @@ begin
         begin
           sText2:= cfg.GetValue(item_path2+'text', '');
           bModified2:= cfg.GetValue(item_path2+'modified', false);
-          if sText2='' then //don't load this file from session
+          if sText2='' then
             bModified2:= false;
+
           if bModified2 then
           begin
             Inc(nCountFilesModified);
@@ -687,7 +686,10 @@ begin
               Frame.Ed2.Text:= sText2;
             Frame.Ed2.Modified:= bModified2;
             Frame.UpdateModified(Frame.Ed2);
-          end;
+          end
+          else
+          if bExist2 then
+            Inc(nCountFiles);
 
           Frame.DoLoadHistoryEx(Frame.Ed2, cfg, item_path2, true);
         end;
