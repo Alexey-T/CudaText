@@ -632,7 +632,6 @@ class DialogMK2:
                 'on_click_header': self._on_header_click,
                 'on_menu': self.listbox_menu,
                 'tab_stop': True,
-                'tab_order': 1,
                 })
         self._h_list = dlg_proc(h, DLG_CTL_HANDLE, index=n)
 
@@ -665,7 +664,6 @@ class DialogMK2:
                 'a_l': ('filter_label', ']'),   'a_r': ('', ']'),  'a_t': ('filter_label', '-'),
                 'on_change': self._on_filter,
                 'on_key_down': self._on_filter, # for later -- live filter
-                'tab_order': 0,
                 })
         h_ed = dlg_proc(h, DLG_CTL_HANDLE, index=n)
         self._filter_ed = Editor(h_ed)
@@ -691,7 +689,6 @@ class DialogMK2:
                 'a_l': None,   'a_r': ('', ']'),  'a_t': ('', '['),
                 'act': True,
                 'on_change': self._on_scope_change,
-                'tab_order': 2,
                 })
         h_scope_ed = dlg_proc(h, DLG_CTL_HANDLE, index=n)
         # scope label ###
@@ -716,7 +713,6 @@ class DialogMK2:
                 'sp_l': PAD, 'sp_r': 32,
                 'cap': _('Reset'),
                 'on_change': self._on_reset,
-                'tab_order': 4,
                 })
         # option description #########
         n = dlg_proc(h, DLG_CTL_ADD, 'editor')
@@ -824,6 +820,11 @@ class DialogMK2:
         h_iml = get_list_imagelist()
         listbox_proc(self._h_list, LISTBOX_SET_HEADER_IMAGELIST, text=h_iml)
 
+        # tab_order
+        dlg_proc(h, DLG_CTL_PROP_SET, name='filter',       prop={'tab_order': 0,})
+        dlg_proc(h, DLG_CTL_PROP_SET, name='options_list', prop={'tab_order': 1,})
+        dlg_proc(h, DLG_CTL_PROP_SET, name='scope',        prop={'tab_order': 2,})
+        dlg_proc(h, DLG_CTL_PROP_SET, name=ValueEds.VALUE_ED_RESET, prop={'tab_order': 3,})
 
         edt.set_prop(PROP_RO, True)
         edt.set_prop(PROP_RULER, False)
