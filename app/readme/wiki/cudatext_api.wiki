@@ -4858,5 +4858,6 @@ It provides:
 * add: app_proc: PROC_GET_WINDOW_STATE
 * add: event on_state supports also APPSTATE_WINDOW
 * fix: event on_click_gutter was not called for gutter bands "line numbers" and "folding"
+* add: event on_click_gutter was not able to block default processing
 
 [[Category:CudaText]]
