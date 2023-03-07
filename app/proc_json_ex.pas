@@ -1,3 +1,10 @@
+(*
+This Source Code Form is subject to the terms of the Mozilla Public
+License, v. 2.0. If a copy of the MPL was not distributed with this
+file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+Copyright (c) Alexey Torgashin
+*)
 unit proc_json_ex;
 
 {$mode ObjFPC}{$H+}
@@ -5,26 +12,26 @@ unit proc_json_ex;
 interface
 
 uses
-  Classes, SysUtils, at__jsonConf, at__fpjson;
+  SysUtils, Classes,
+  at__jsonConf, at__fpjson;
 
 type
-
   TJSONConfigEx = class(TJSONConfig)
   public
     procedure SetModified(AValue: Boolean);
     function GetJsonObj: TJSONObject;
   end;
 
-  function IsJsonObjEqual(const AObj1: TJSONData; const AObj2: TJSONData; const AKeysToIgnore: array of UTF8String): Boolean;
-  function CloneJsonObj(const AObj: TJSONData; const AKeysToIgnore: array of UTF8String): TJSONData;
+function IsJsonObjEqual(const AObj1: TJSONData; const AObj2: TJSONData; const AKeysToIgnore: array of UTF8String): Boolean;
+function CloneJsonObj(const AObj: TJSONData; const AKeysToIgnore: array of UTF8String): TJSONData;
 
 implementation
 
-function IsStrInArr(const AStr: UTF8String; const AArr: array of UTF8String): boolean;
+function IsStringInArray(const AStr: UTF8String; const AArr: array of UTF8String): boolean;
 var
   i: integer;
 begin
-  for i := 0 to length(AArr)-1 do
+  for i := 0 to High(AArr) do
     if AStr = AArr[i] then
       Exit(true);
   Result := false;
@@ -65,7 +72,7 @@ begin
           if obj1.Names[i] <> obj2.Names[i] then
             Exit(false);
 
-          skip := IsStrInArr(obj1.Names[i], AKeysToIgnore);
+          skip := IsStringInArray(obj1.Names[i], AKeysToIgnore);
           if not skip then
             if not IsJsonObjEqual(obj1.Items[i], obj2.Items[i], AKeysToIgnore) then
               Exit(false);
@@ -131,7 +138,7 @@ begin
 
         for i := 0 to obj.Count-1 do
         begin
-          skip := IsStrInArr(obj.Names[i], AKeysToIgnore);
+          skip := IsStringInArray(obj.Names[i], AKeysToIgnore);
           if not skip then
             resObj.Add(obj.Names[i], CloneJsonObj(obj.Items[i], AKeysToIgnore))
           else
@@ -159,7 +166,6 @@ begin
       Result := AObj.Clone;
 
   end; // case
-
 end;
 
 end.
