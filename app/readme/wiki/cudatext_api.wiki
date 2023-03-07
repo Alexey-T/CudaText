@@ -4854,8 +4854,9 @@ It provides:
 * add: event on_caret_line
 * add: Editor.get_line_len()
 
-1.0.443 (app 1.186.3)
+1.0.443 (app 1.186.5)
 * add: app_proc: PROC_GET_WINDOW_STATE
 * add: event on_state supports also APPSTATE_WINDOW
+* fix: event on_click_gutter was not called for gutter bands "line numbers" and "folding"
 
 [[Category:CudaText]]
