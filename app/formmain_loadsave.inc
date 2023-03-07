@@ -484,7 +484,7 @@ var
   Pages: TATPages;
   bModified, bModified2: boolean;
   bAllowOnState: boolean;
-  sText, sText2: UnicodeString;
+  sText: UnicodeString;
   bExist, bExist2: boolean;
   sDateSaved, sDateCurrent, sMessage: string;
   CurTabs: TATTabs;
@@ -674,16 +674,16 @@ begin
 
         if sTabFilename2<>'' then
         begin
-          sText2:= cfg.GetValue(item_path2+'text', '');
+          sText:= cfg.GetValue(item_path2+'text', '');
           bModified2:= cfg.GetValue(item_path2+'modified', false);
-          if sText2='' then
+          if sText='' then
             bModified2:= false;
 
           if bModified2 then
           begin
             Inc(nCountFilesModified);
-            if sText2<>'' then
-              Frame.Ed2.Text:= sText2;
+            if sText<>'' then
+              Frame.Ed2.Text:= sText;
             Frame.Ed2.Modified:= bModified2;
             Frame.UpdateModified(Frame.Ed2);
           end
