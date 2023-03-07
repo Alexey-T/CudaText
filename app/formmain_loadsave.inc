@@ -697,6 +697,8 @@ begin
         //event on_open was blocked in DoFileOpen, call it here
         //(plugin "Tab Icons" needs it)
         DoPyEvent_Open(Frame.Ed1);
+        if sTabFilename2<>'' then
+          DoPyEvent_Open(Frame.Ed2);
       end;
     end;
 
