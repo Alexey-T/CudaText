@@ -482,9 +482,9 @@ var
   item_path, item_path2: string;
   nCountFiles, nCountFilesModified, nCountFilesBefore: integer;
   Pages: TATPages;
-  bModified: boolean;
+  bModified, bModified2: boolean;
   bAllowOnState: boolean;
-  sText: UnicodeString;
+  sText, sText2: UnicodeString;
   bExist, bExist2: boolean;
   sDateSaved, sDateCurrent, sMessage: string;
   CurTabs: TATTabs;
@@ -675,7 +675,23 @@ begin
         Frame.DoLoadHistoryEx(Frame.Ed1, cfg, item_path, true);
 
         if sTabFilename2<>'' then
+        begin
           Frame.DoLoadHistoryEx(Frame.Ed2, cfg, item_path2, true);
+
+          sText2:= cfg.GetValue(item_path2+'text', '');
+          bModified2:= cfg.GetValue(item_path2+'modified', false);
+          if sText2='' then //don't load this file from session
+            bModified2:= false;
+
+          if bModified2 then
+          begin
+            Inc(nCountFilesModified);
+            if sText2<>'' then
+              Frame.Ed2.Text:= sText2;
+            Frame.Ed2.Modified:= bModified2;
+            Frame.UpdateModified(Frame.Ed2);
+          end;
+        end;
 
         Frame.TabPinned:= cfg.GetValue(item_path+'pinned', false);
 
