@@ -240,7 +240,7 @@ var
   nLocalGroup, nGlobalGroup, nTabInGroup: integer;
   nCountFiles, nCountUntitled, nSavedTabIndex: integer;
   nFrameCount, nPrevFrameCount: integer;
-  path, value: string;
+  path, sTabKind, sConsole: string;
   bModified, bUntitled: boolean;
   iFrame, iGroup: integer;
   isSessionUpdated: boolean;
@@ -375,13 +375,13 @@ begin
 
       case Frame.FrameKind of
         efkEditor:
-          value:= '';
+          sTabKind:= '';
         efkBinaryViewer:
-          value:= 'bin,'+IntToStr(Ord(Frame.Binary.Mode));
+          sTabKind:= 'bin,'+IntToStr(Ord(Frame.Binary.Mode));
         efkImageViewer:
-          value:= 'pic';
+          sTabKind:= 'pic';
       end;
-      cfg.SetValue(path+'/kind', value);
+      cfg.SetValue(path+'/kind', sTabKind);
 
       {
       //TODO: add together with restoring of 'v_pos'
@@ -466,14 +466,14 @@ begin
   if UiOps.LogSessions and isSessionUpdated then
   begin
     if fileWriteTimeBeforeSaving<>fileWriteTimeAfterSaving then
-      value:= Format('Saved session: "%s", %d file(s)', [ExtractFileName(sSessionFileName), nCountFiles])
+      sConsole:= Format('Saved session: "%s", %d file(s)', [ExtractFileName(sSessionFileName), nCountFiles])
     else
-      value:= Format('Failed to save session: "%s", %d file(s)', [ExtractFileName(sSessionFileName), nCountFiles]);
+      sConsole:= Format('Failed to save session: "%s", %d file(s)', [ExtractFileName(sSessionFileName), nCountFiles]);
     if nCountUntitled>0 then
-      value+= Format(' + %d untitled', [nCountUntitled]);
+      sConsole+= Format(' + %d untitled', [nCountUntitled]);
     if AByTimer then
-      value+= Format(', by timer at %s', [TimeToStr(Now)]);
-    MsgLogConsole(value);
+      sConsole+= Format(', by timer at %s', [TimeToStr(Now)]);
+    MsgLogConsole(sConsole);
   end;
 end;
 
