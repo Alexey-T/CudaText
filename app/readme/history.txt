@@ -9,7 +9,7 @@
 + add: code-tree in lexer CSS shows colored squares also for: rgb() rgba() hsl() hsla() (thanks @Stefan)
 + add: dialog Char Map should save not only size, but also position
 + add: avoid plugin dialogs / floating groups / Char Map to show out of visible screen area
-- fix: when document with files-pair is loaded from session, 'modified' state of 2nd file is not restored (thanks @d0vgan)
+- fix: when file-pair is loaded from session, modified state of 2nd file is not restored (thanks @d0vgan)
 - fix: commands "go to screen top/bottom" at the document edges (thanks @qwerky)
 
 1.186.2 (2023/03)
