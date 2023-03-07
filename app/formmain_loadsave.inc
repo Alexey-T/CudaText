@@ -488,12 +488,12 @@ var
   cfg: TJSONConfig;
   Frame: TEditorFrame;
   Ed: TATSynEdit;
-  list: TStringlist;
+  Pages: TATPages;
+  ListSessionKeys: TStringList;
   sSessionFileName, sTabFilename, sTabFilename2, sRootPath,
   sTabTitle, sTabKind, sOpenOptions,
   item_path, item_path2: string;
   nCountFiles, nCountFilesModified, nCountFilesBefore: integer;
-  Pages: TATPages;
   bModified, bModified2: boolean;
   bAllowOnState: boolean;
   sText: UnicodeString;
@@ -547,7 +547,7 @@ begin
   AppFileCheckForNullBytes(sSessionFileName);
 
   cfg:= TJSONConfig.Create(nil);
-  list:= TStringList.Create;
+  ListSessionKeys:= TStringList.Create;
   try
     try
       cfg.Filename:= sSessionFileName;
@@ -575,13 +575,13 @@ begin
     DoOps_LoadHistory_GroupView(cfg, sRootPath); //reads to variables
     DoApplyInitialGroupSizes; //applies that variables
 
-    cfg.EnumSubKeys(sRootPath+'/', list);
-    list.Sort;
+    cfg.EnumSubKeys(sRootPath+'/', ListSessionKeys);
+    ListSessionKeys.Sort;
 
-    for iList:= 0 to list.Count-1 do
+    for iList:= 0 to ListSessionKeys.Count-1 do
     begin
       //handle only sections like "000".."001"..etc, ignore sections like "panels", "gr"
-      item_path:= list[iList];
+      item_path:= ListSessionKeys[iList];
       if not IsHistorySectionForFilename(item_path) then Continue;
       item_path:= sRootPath+'/'+item_path+'/';
       item_path2:= item_path+'pair/';
@@ -775,7 +775,7 @@ begin
     Result:= true;
   finally
     AppSessionIsLoading:= false;
-    list.Free;
+    ListSessionKeys.Free;
     cfg.Free;
   end;
 
