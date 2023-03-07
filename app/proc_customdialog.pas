@@ -1992,6 +1992,9 @@ begin
 
   if AName='tab_stop' then
   begin
+    if C is TAppTreeContainer then
+      TAppTreeContainer(C).Tree.TabStop:= AppStrToBool(AValue)
+    else
     if C is TWinControl then
       TWinControl(C).TabStop:= AppStrToBool(AValue);
     exit;
@@ -1999,6 +2002,9 @@ begin
 
   if AName='tab_order' then
   begin
+    if C is TAppTreeContainer then
+      TAppTreeContainer(C).Tree.TabOrder:= StrToIntDef(AValue, -1)
+    else
     if C is TWinControl then
       TWinControl(C).TabOrder:= StrToIntDef(AValue, -1);
     exit;
