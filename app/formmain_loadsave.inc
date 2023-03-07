@@ -239,9 +239,10 @@ var
   sSessionFileName, sTabFilename, sTabFilename2, sRootPath: string;
   nLocalGroup, nGlobalGroup, nTabInGroup: integer;
   nCountFiles, nCountUntitled, nSavedTabIndex: integer;
+  nFrameCount, nPrevFrameCount: integer;
   path, value: string;
   bModified, bUntitled: boolean;
-  iFrame, iGroup, prevFrameCount: integer;
+  iFrame, iGroup: integer;
   isSessionUpdated: boolean;
   currFramesEditState: array of TFrameEditState;
   fileWriteTimeBeforeSaving, fileWriteTimeAfterSaving: TDateTime;
@@ -263,6 +264,7 @@ begin
   isSessionUpdated:= false;
   nCountFiles:= 0;
   nCountUntitled:= 0;
+  nFrameCount:= FrameCount;
 
   cfg:= TJSONConfigEx.Create(nil);
   try
@@ -309,13 +311,13 @@ begin
       if not Floating then
         cfg.SetValue(sRootPath+'/panels/bottom_size', PanelSize);
 
-    SetLength(currFramesEditState, FrameCount);
-    prevFrameCount:= Length(FPrevFramesEditState);
-    if FrameCount<>prevFrameCount then
+    SetLength(currFramesEditState, nFrameCount);
+    nPrevFrameCount:= Length(FPrevFramesEditState);
+    if nFrameCount<>nPrevFrameCount then
     begin
       isSessionUpdated:= true; // number of opened documents has changed
 
-      for iFrame:= FrameCount to prevFrameCount-1 do
+      for iFrame:= nFrameCount to nPrevFrameCount-1 do
       begin
         path:= sRootPath+'/'+Format('%3.3d', [iFrame]);
         cfg.DeleteValue(path);
@@ -323,7 +325,7 @@ begin
     end;
 
     nSavedTabIndex:= 0;
-    for iFrame:= 0 to FrameCount-1 do
+    for iFrame:= 0 to nFrameCount-1 do
     begin
       Frame:= Frames[iFrame];
       if Frame.IsEmpty then Continue;
