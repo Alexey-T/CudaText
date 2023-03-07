@@ -498,7 +498,7 @@ var
   bAllowOnState: boolean;
   sText: UnicodeString;
   bExist, bExist2: boolean;
-  sDateSaved, sDateCurrent, sMessage: string;
+  sDateSaved, sDateCurrent, sConsole: string;
   CurTabs: TATTabs;
   nTick: QWord;
   nGroupIndex, nTabInGroup: integer;
@@ -782,10 +782,10 @@ begin
   if UiOps.LogSessions then
   begin
     nTick:= (GetTickCount64-nTick) div 10 * 10;
-    sMessage:= Format('Loaded session: "%s", %dms, %d file(s)', [ExtractFileName(sSessionFileName), nTick, nCountFiles]);
+    sConsole:= Format('Loaded session: "%s", %dms, %d file(s)', [ExtractFileName(sSessionFileName), nTick, nCountFiles]);
     if nCountFilesModified>0 then
-      sMessage+= Format(' + %d modified', [nCountFilesModified]);
-    MsgLogConsole(sMessage);
+      sConsole+= Format(' + %d modified', [nCountFilesModified]);
+    MsgLogConsole(sConsole);
   end;
 
   //don't wait until plugin sets session name in PROC_SET_SESSION,
