@@ -242,8 +242,8 @@ var
   nFrameCount, nPrevFrameCount: integer;
   path, sTabKind, sConsole: string;
   bModified, bUntitled: boolean;
+  bSessionUpdated: boolean;
   iFrame, iGroup: integer;
-  isSessionUpdated: boolean;
   currFramesEditState: array of TFrameEditState;
   fileWriteTimeBeforeSaving, fileWriteTimeAfterSaving: TDateTime;
 begin
@@ -261,7 +261,7 @@ begin
   end;
   }
 
-  isSessionUpdated:= false;
+  bSessionUpdated:= false;
   nCountFiles:= 0;
   nCountUntitled:= 0;
   nFrameCount:= FrameCount;
@@ -282,7 +282,7 @@ begin
     end;
 
     if not FileExists(sSessionFileName) then
-      isSessionUpdated:= true; // the session file has been physically deleted
+      bSessionUpdated:= true; // the session file has been physically deleted
 
     if FPrevJsonObj=nil then
       FPrevJsonObj:= CloneJsonObj(cfg.GetJsonObj, keysToIgnore);
@@ -315,7 +315,7 @@ begin
     nPrevFrameCount:= Length(FPrevFramesEditState);
     if nFrameCount<>nPrevFrameCount then
     begin
-      isSessionUpdated:= true; // number of opened documents has changed
+      bSessionUpdated:= true; // number of opened documents has changed
 
       for iFrame:= nFrameCount to nPrevFrameCount-1 do
       begin
@@ -357,10 +357,10 @@ begin
 
       currFramesEditState[iFrame].Assign(Frame);
 
-      if not isSessionUpdated then
+      if not bSessionUpdated then
       begin
         if currFramesEditState[iFrame]<>FPrevFramesEditState[iFrame] then
-          isSessionUpdated:= true; // frame's FileName or unsaved text has been updated
+          bSessionUpdated:= true; // frame's FileName or unsaved text has been updated
       end;
 
       cfg.SetValue(path+'/modified', bModified);
@@ -430,13 +430,13 @@ begin
     Result:= true;
   finally
     try
-      if not isSessionUpdated then
+      if not bSessionUpdated then
       begin
         if not IsJsonObjEqual(cfg.GetJsonObj, FPrevJsonObj, keysToIgnore) then
-          isSessionUpdated:= true; // the JSON config has been updated
+          bSessionUpdated:= true; // the JSON config has been updated
       end;
 
-      if isSessionUpdated then
+      if bSessionUpdated then
       begin
         FPrevJsonObj.Free;
         FPrevJsonObj:= CloneJsonObj(cfg.GetJsonObj, keysToIgnore);
@@ -452,7 +452,7 @@ begin
     end;
   end;
 
-  if isSessionUpdated then
+  if bSessionUpdated then
   begin
     if not FileAge(sSessionFileName, fileWriteTimeAfterSaving) then
       fileWriteTimeAfterSaving:= Default(TDateTime);
@@ -463,7 +463,7 @@ begin
     end;
   end;
 
-  if UiOps.LogSessions and isSessionUpdated then
+  if UiOps.LogSessions and bSessionUpdated then
   begin
     if fileWriteTimeBeforeSaving<>fileWriteTimeAfterSaving then
       sConsole:= Format('Saved session: "%s", %d file(s)', [ExtractFileName(sSessionFileName), nCountFiles])
