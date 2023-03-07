@@ -228,11 +228,10 @@ type
     Ed2_FileName: string;
     Ed1_ModifiedVersion: Int64;
     Ed2_ModifiedVersion: Int64;
-
-    procedure Assign(const AFrame: TEditorFrame);
+    procedure Assign(AFrame: TEditorFrame);
   end;
 
-  operator =(constref a, b: TFrameEditState): boolean; overload;
+operator =(constref a, b: TFrameEditState): boolean;
 
 const
   cMenuTabsizeMin = 1;
@@ -1897,7 +1896,7 @@ end;
 
 { TFrameEditState }
 
-operator =(constref a, b: TFrameEditState): boolean; overload;
+operator =(constref a, b: TFrameEditState): boolean;
 begin
   Result:=
     (a.Ed1_FileName = b.Ed1_FileName) and
@@ -1906,7 +1905,7 @@ begin
     (a.Ed2_ModifiedVersion = b.Ed2_ModifiedVersion);
 end;
 
-procedure TFrameEditState.Assign(const AFrame: TEditorFrame);
+procedure TFrameEditState.Assign(AFrame: TEditorFrame);
 begin
   Ed1_FileName:= AFrame.Ed1.FileName;
   Ed2_FileName:= AFrame.Ed2.FileName;
