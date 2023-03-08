@@ -1569,7 +1569,7 @@ begin
   UiOps.ListboxSizeX:= cfg.GetValue('ui_listbox_size_x', UiOps.ListboxSizeX);
   UiOps.ListboxSizeY:= cfg.GetValue('ui_listbox_size_y', UiOps.ListboxSizeY);
   UiOps.ListboxAutoCompleteWidth:= cfg.GetValue('ui_listbox_complete_size_x', UiOps.ListboxAutoCompleteWidth);
-  UiOps.ListboxAutoCompleteMaxItems:= cfg.GetValue('ui_listbox_complete_items', UiOps.ListboxAutoCompleteMaxItems);
+  UiOps.ListboxAutoCompleteMaxItems:= cfg.GetValue('ui_listbox_complete_size_items', UiOps.ListboxAutoCompleteMaxItems);
   UiOps.ListboxFuzzySearch:= cfg.GetValue('ui_listbox_fuzzy', UiOps.ListboxFuzzySearch);
 
   UiOps.MaxHistoryEdits:= Max(0, Min(200, cfg.GetValue('ui_max_history_edits', UiOps.MaxHistoryEdits)));
