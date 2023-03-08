@@ -129,7 +129,7 @@ type
     procedure TimerChangeTimer(Sender: TObject);
   private
     { private declarations }
-    FFormDummy: TFormDummy;
+    FFormDummy: TFormDummy; //this form is the actual Parent of editors; this is to support dlg_proc() for "Editor" python objects
     Adapter1: TATAdapterEControl;
     Adapter2: TATAdapterEControl;
     PanelInfo: TPanel;
