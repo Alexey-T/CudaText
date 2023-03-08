@@ -6795,6 +6795,10 @@ begin
   CompletionOps.CommitIfSingleItem:= Ed.OptAutocompleteCommitIfSingleItem; //before DoPyEvent
   CompletionOps.ShortcutForDeleteWordPrev:= Ed.Keymap.GetShortcutFromCommand(cCommand_TextDeleteWordPrev);
   CompletionOps.ShortcutForDeleteWordNext:= Ed.Keymap.GetShortcutFromCommand(cCommand_TextDeleteWordNext);
+  CompletionOps.ShortcutForSelectLeft:= Ed.Keymap.GetShortcutFromCommand(cCommand_KeyLeft_Sel);
+  CompletionOps.ShortcutForSelectRight:= Ed.Keymap.GetShortcutFromCommand(cCommand_KeyRight_Sel);
+  CompletionOps.ShortcutForSwitchTab:= Ed.Keymap.GetShortcutFromCommand(cmd_SwitchTab_HotkeyNext);
+  CompletionOps.CommandForShitchTab:= cmd_SwitchTab_HotkeyNext;
   CompletionOps.ShortcutForAutocomplete:= Ed.Keymap.GetShortcutFromCommand(cmd_AutoComplete);
 
   //auto-completion for file:///, before plugins
