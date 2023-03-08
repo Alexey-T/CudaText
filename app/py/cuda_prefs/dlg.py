@@ -823,8 +823,13 @@ class DialogMK2:
         dlg_proc(h, DLG_CTL_PROP_SET, name='options_list', prop={'tab_order': 1,})
         dlg_proc(h, DLG_CTL_PROP_SET, name='scope',        prop={'tab_order': 2,})
         dlg_proc(h, DLG_CTL_PROP_SET, name=ValueEds.VALUE_ED_RESET, prop={'tab_order': 3,})
-        dlg_proc(h, DLG_CTL_PROP_SET, name='btn_apply',    prop={'tab_order': 4,})
-        dlg_proc(h, DLG_CTL_PROP_SET, name='btn_ok',       prop={'tab_order': 5,})
+        # reverse buttons for Windows: [Cancel, Apply, OK] => [OK, Apply, Cancel]
+        if IS_WIN:
+            dlg_proc(h, DLG_CTL_PROP_SET, name='btn_ok',       prop={'tab_order': 4,})
+            dlg_proc(h, DLG_CTL_PROP_SET, name='btn_apply',    prop={'tab_order': 5,})
+        else:
+            dlg_proc(h, DLG_CTL_PROP_SET, name='btn_apply',    prop={'tab_order': 4,})
+            dlg_proc(h, DLG_CTL_PROP_SET, name='btn_ok',       prop={'tab_order': 5,})
 
         edt.set_prop(PROP_RO, True)
         edt.set_prop(PROP_RULER, False)
