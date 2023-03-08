@@ -282,8 +282,8 @@ type
     ListboxCentered: boolean;
     ListboxSizeX: integer;
     ListboxSizeY: integer;
-    ListboxCompleteSizeX: integer;
-    ListboxCompleteSizeY: integer;
+    ListboxAutoCompleteWidth: integer;
+    ListboxAutoCompleteMaxItems: integer;
     ListboxFuzzySearch: boolean;
     ListboxHotkeyFontSizeDelta: integer;
     ListboxTopItemIndent: integer;
@@ -1944,8 +1944,8 @@ begin
     ListboxCentered:= true;
     ListboxSizeX:= 450;
     ListboxSizeY:= 300;
-    ListboxCompleteSizeX:= 550;
-    ListboxCompleteSizeY:= 200;
+    ListboxAutoCompleteWidth:= 550;
+    ListboxAutoCompleteMaxItems:= 12;
     ListboxFuzzySearch:= true;
     ListboxHotkeyFontSizeDelta:= 0; //2 gives too small hotkey font on Lin/Win
     ListboxTopItemIndent:= 4; //listbox TopItem will be ItemIndex-N

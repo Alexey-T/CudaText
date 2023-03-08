@@ -910,8 +910,8 @@
   //Listboxes: Auto-completion listbox width.
   "ui_listbox_complete_size_x": 550,
 
-  //Listboxes: Auto-completion listbox height.
-  "ui_listbox_complete_size_y": 200,
+  //Listboxes: Auto-completion listbox, max count of visible items.
+  "ui_listbox_complete_items": 12,
 
   //Listboxes: Enable fuzzy search in menu dialogs (see Wiki).
   "ui_listbox_fuzzy": true,

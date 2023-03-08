@@ -4232,8 +4232,8 @@ begin
   ATScrollbar.ATScrollbarTheme.ScalePercents:= ATEditorScalePercents;
   ATScrollbar.ATScrollbarTheme.BorderSize:= 1;
 
-  CompletionOps.FormWidth:= ATEditorScale(UiOps.ListboxCompleteSizeX);
-  //CompletionOps.FormHeight:= ATEditorScale(UiOps.ListboxCompleteSizeY);
+  CompletionOps.FormWidth:= ATEditorScale(UiOps.ListboxAutoCompleteWidth);
+  CompletionOps.FormMaxVisibleItems:= UiOps.ListboxAutoCompleteMaxItems;
 
   {$ifdef unix}
   if not AppAlwaysNewInstance and UiOps.OneInstance then
