@@ -108,9 +108,6 @@ type
     ButtonStop: TATButton;
   end;
 
-const
-  cFrameMaxEdIndex=1; //count of editors minus 1
-
 type
   { TEditorFrame }
 
@@ -134,8 +131,8 @@ type
     Adapter2: TATAdapterEControl;
     PanelInfo: TPanel;
     PanelNoHilite: TPanel;
-    NotifReloadControls: array[0..cFrameMaxEdIndex] of TAppFrameNotificationControls;
-    NotifDeletedControls: array[0..cFrameMaxEdIndex] of TAppFrameNotificationControls;
+    NotifReloadControls: array[0..1] of TAppFrameNotificationControls;
+    NotifDeletedControls: array[0..1] of TAppFrameNotificationControls;
     FTabCaption: string;
     FTabCaptionAddon: string;
     FTabCaptionUntitled: string;
@@ -4610,7 +4607,7 @@ var
   i: integer;
 begin
   if not Visible then exit;
-  for i:= 0 to cFrameMaxEdIndex do
+  for i:= 0 to 1 do
     if Assigned(NotifReloadControls[i].Panel) then
       if NotifReloadControls[i].Panel.Visible then
         NotifReloadControls[i].ButtonYes.SetFocus;
@@ -4634,7 +4631,7 @@ procedure TEditorFrame.DoHideNotificationPanels;
 var
   i: integer;
 begin
-  for i:= 0 to cFrameMaxEdIndex do
+  for i:= 0 to 1 do
   begin
     DoHideNotificationPanel(NotifReloadControls[i]);
     DoHideNotificationPanel(NotifDeletedControls[i]);
