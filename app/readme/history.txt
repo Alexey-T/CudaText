@@ -9,6 +9,7 @@
 + add: code-tree in lexer CSS shows colored squares also for: rgb() rgba() hsl() hsla() (thanks @Stefan)
 + add: dialog Char Map should save not only size, but also position
 + add: avoid plugin dialogs / floating groups / Char Map to show out of visible screen area
+* change: auto-completion listbox height is now determined by maximal items count, ie new option: "ui_listbox_complete_items" (thanks @pintassilgo)
 - fix: when file-pair is loaded from session, modified state of 2nd file is not restored (thanks @d0vgan)
 - fix: commands "go to screen top/bottom" at the document edges (thanks @qwerky)
 - fix: Options Editor: better tabbing over UI controls (thanks @Stefan)
