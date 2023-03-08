@@ -2619,8 +2619,7 @@ begin
     if EditorCaretInsideCommentOrString(Ed, Caret.PosX, Caret.PosY) then exit;
 
     ACharsTyped:= 0;
-    AppRunAutocomplete:= true;
-    AppRunAutocompleteInEditor:= Ed;
+    AppRunAutocomplete(Ed);
     exit;
   end;
 
@@ -2631,16 +2630,9 @@ begin
     bWordChar:= IsCharWord(STextW[1], Ed.OptNonWordChars);
     if not bWordChar then
     begin
-      AppRunAutocomplete:= false;
-      AppRunAutocompleteInEditor:= nil;
       ACharsTyped:= 0;
       exit;
     end;
-  end
-  else
-  begin
-    AppRunAutocomplete:= false;
-    AppRunAutocompleteInEditor:= nil;
   end;
 
   //autoshow for all, when typed N chars
@@ -2659,15 +2651,12 @@ begin
     if ACharsTyped>=Ed.OptAutocompleteAutoshowCharCount then
     begin
       //ACharsTyped:= 0; //don't reset, fix #4479
-      AppRunAutocomplete:= true;
-      AppRunAutocompleteInEditor:= Ed;
+      AppRunAutocomplete(Ed);
       exit;
     end;
   end
   else
   begin
-    AppRunAutocomplete:= false;
-    AppRunAutocompleteInEditor:= nil;
     ACharsTyped:= 0;
   end;
 
@@ -2676,8 +2665,7 @@ begin
   begin
     if Ed.Strings.LineCharAt(Caret.PosY, Caret.PosX-1)='<' then
     begin
-      AppRunAutocomplete:= true;
-      AppRunAutocompleteInEditor:= Ed;
+      AppRunAutocomplete(Ed);
     end;
     exit;
   end;
@@ -2693,7 +2681,6 @@ begin
   end;
   *)
 
-  AppRunAutocompleteInEditor:= nil;
   Result:= false;
 end;
 

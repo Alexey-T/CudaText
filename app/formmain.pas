@@ -863,6 +863,7 @@ type
     procedure DoBottom_FindClick(Sender: TObject);
     function DoAutoComplete_FromPlugins(Ed: TATSynEdit): boolean;
     function DoAutoComplete_PosOnBadToken(Ed: TATSynEdit; AX, AY: integer): boolean;
+    procedure DoAutoComplete_Callback(Ed: TATSynEdit);
     procedure DoAutoComplete(Ed: TATSynEdit);
     procedure DoPyCommand_CommandLineParam(const AModuleAndMethod: string);
     procedure DoPyCommand_Cudaxlib(Ed: TATSynEdit; const AMethod: string; AInvoke: TATEditorCommandInvoke);
@@ -2389,17 +2390,6 @@ begin
     UpdateMenuChecks_Global;
   end;
 
-  if Assigned(Frame) and AppRunAutocomplete then
-  begin
-    AppRunAutocomplete:= false;
-    if AppRunAutocompleteInEditor=Frame.Editor then //prevents event on_complete in wrong tab
-    begin
-      AppAutocompleteInvoke:= 'a';
-      Frame.TextCharsTyped:= 0;
-      DoAutoComplete(Frame.Editor);
-    end;
-  end;
-
   if Assigned(Frame) and not (Frame.IsTreeBusy or Frame.IsParsingBusy) then
     if AppCodetreeState.NeedsSelJump then
     begin
@@ -2776,6 +2766,7 @@ begin
   OnEnter:= @FormEnter;
   TimerCmd.Interval:= UiOps.CommandTimerInterval;
   mnuHelpCheckUpd.Enabled:= UiOps.AllowProgramUpdates;
+  AppRunAutocomplete:= @DoAutoComplete_Callback;
 
   with AppPanels[cPaneSide] do
   begin
@@ -6766,6 +6757,18 @@ begin
         end;
     end;
   end;
+end;
+
+
+procedure TfmMain.DoAutoComplete_Callback(Ed: TATSynEdit);
+var
+  Frame: TEditorFrame;
+begin
+  AppAutocompleteInvoke:= 'a';
+  Frame:= TGroupsHelper.GetEditorFrame(Ed);
+  if Assigned(Frame) then
+    Frame.TextCharsTyped:= 0;
+  DoAutoComplete(Ed);
 end;
 
 procedure TfmMain.DoAutoComplete(Ed: TATSynEdit);

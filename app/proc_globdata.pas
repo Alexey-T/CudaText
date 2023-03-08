@@ -1134,12 +1134,11 @@ type
 var
   AppManagerThread: TAppManagerThread = nil;
 
+type
+  TAppAutocomplete = procedure(Ed: TATSynEdit) of object;
+
 var
-  //if True, next IdleTimer call will fire the auto-completion.
-  //avoid direct firing of auto-completion for "autocomplete_autoshow_chars":3,
-  //with LSP Client it makes the work slower.
-  AppRunAutocomplete: boolean = false;
-  AppRunAutocompleteInEditor: TATSynEdit = nil;
+  AppRunAutocomplete: TAppAutocomplete = nil;
 
   //'c': by hotkey or command
   //'a': by 'autocomplete_autoshow_chars' option
