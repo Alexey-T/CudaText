@@ -6797,8 +6797,6 @@ begin
   CompletionOps.ShortcutForDeleteWordNext:= Ed.Keymap.GetShortcutFromCommand(cCommand_TextDeleteWordNext);
   CompletionOps.ShortcutForSelectLeft:= Ed.Keymap.GetShortcutFromCommand(cCommand_KeyLeft_Sel);
   CompletionOps.ShortcutForSelectRight:= Ed.Keymap.GetShortcutFromCommand(cCommand_KeyRight_Sel);
-  CompletionOps.ShortcutForHome:= Ed.Keymap.GetShortcutFromCommand(cCommand_KeyHome);
-  CompletionOps.ShortcutForEnd:= Ed.Keymap.GetShortcutFromCommand(cCommand_KeyEnd);
   CompletionOps.ShortcutForSelectHome:= Ed.Keymap.GetShortcutFromCommand(cCommand_KeyHome_Sel);
   CompletionOps.ShortcutForSelectEnd:= Ed.Keymap.GetShortcutFromCommand(cCommand_KeyEnd_Sel);
   CompletionOps.ShortcutForSwitchTab:= Ed.Keymap.GetShortcutFromCommand(cmd_SwitchTab_HotkeyNext);
