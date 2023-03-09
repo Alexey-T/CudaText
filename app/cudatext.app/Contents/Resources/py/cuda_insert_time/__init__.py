@@ -1,6 +1,7 @@
 import os
 from datetime import datetime
 from time import time, strftime, gmtime
+import locale
 import cudatext as app
 from cudatext import ed
 from cudax_lib import get_translation
@@ -11,9 +12,9 @@ DEF_CONFIG = '''#Documentation about formats: http://strftime.org/
 %d/%m/%Y %H:%M:%S
 %d.%m.%Y
 %Y.%m.%d
-%d. %B %Y
+%d %B %Y
 %d %b %Y
-%A %d. %B.%Y
+%A %d %B %Y
 %H:%M:%S
 rfc
 unix
@@ -74,6 +75,7 @@ class Command:
 
     def dialog(self):
 
+        self.fix_locale()
         lines = get_format_lines()
         lines = [do_format(s) for s in lines]
 
@@ -84,6 +86,7 @@ class Command:
 
     def ins_default(self):
 
+        self.fix_locale()
         fmt = get_default_format()
         if not fmt:
             app.msg_box(_('No default time format is specified. To specify it, open config file (menu Options / Settings-plugins / Insert Time), and prefix some format with @ char.'),
@@ -91,3 +94,8 @@ class Command:
             return
 
         self.do_insert(do_format(fmt))
+
+
+    def fix_locale(self):
+
+        locale.setlocale(locale.LC_ALL, '')
