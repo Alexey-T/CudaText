@@ -5,9 +5,9 @@
 
 1.187 (2023/03)
 
-* change: option "autocomplete_autoshow_chars": avoid the timer pause (thanks @pintassilgo)
+* change: option "autocomplete_autoshow_chars": avoid the timer pause, like in many other editors (thanks @pintassilgo)
 * change: auto-completion popup: height is now determined by items count, ie new option: "ui_listbox_complete_size_items"; popup height is decreased if listbox has less items (thanks @pintassilgo)
-* change: auto-completion popup: keys Home/End should move caret, not listbox selection (thanks @pintassilgo)
+* change: auto-completion popup: keys Home/End should move caret, not listbox selection, like in many other editors (thanks @pintassilgo)
 
 + add: option "ui_session_save_interval": avoid saving if session is not yet changed (thanks @d0vgan for the patch)
 + add: code-tree in lexer CSS shows colored squares also for: rgb() rgba() hsl() hsla() (thanks @Stefan)
