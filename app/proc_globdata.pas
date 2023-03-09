@@ -1713,7 +1713,7 @@ begin
     OpRulerShow:= false;
     OpRulerNumeration:= 0;
     OpRulerMarkCaret:= 1;
-    OpRulerHeight:= 120;
+    OpRulerHeight:= 100;
 
     OpMinimapShow:= false;
     OpMinimapShowSelAlways:= false;
