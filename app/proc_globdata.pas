@@ -1135,10 +1135,10 @@ var
   AppManagerThread: TAppManagerThread = nil;
 
 type
-  TAppAutocomplete = procedure(Ed: TATSynEdit) of object;
+  TAppAutocompleteCallback = procedure(Ed: TATSynEdit; AActivate: boolean) of object;
 
 var
-  AppRunAutocomplete: TAppAutocomplete = nil;
+  AppRunAutocomplete: TAppAutocompleteCallback = nil;
 
   //'c': by hotkey or command
   //'a': by 'autocomplete_autoshow_chars' option

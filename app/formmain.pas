@@ -863,7 +863,7 @@ type
     procedure DoBottom_FindClick(Sender: TObject);
     function DoAutoComplete_FromPlugins(Ed: TATSynEdit): boolean;
     function DoAutoComplete_PosOnBadToken(Ed: TATSynEdit; AX, AY: integer): boolean;
-    procedure DoAutoComplete_Callback(Ed: TATSynEdit);
+    procedure DoAutoComplete_Callback(Ed: TATSynEdit; AActivate: boolean);
     procedure DoAutoComplete(Ed: TATSynEdit);
     procedure DoPyCommand_CommandLineParam(const AModuleAndMethod: string);
     procedure DoPyCommand_Cudaxlib(Ed: TATSynEdit; const AMethod: string; AInvoke: TATEditorCommandInvoke);
@@ -6760,15 +6760,18 @@ begin
 end;
 
 
-procedure TfmMain.DoAutoComplete_Callback(Ed: TATSynEdit);
+procedure TfmMain.DoAutoComplete_Callback(Ed: TATSynEdit; AActivate: boolean);
 var
   Frame: TEditorFrame;
 begin
-  AppAutocompleteInvoke:= 'a';
-  Frame:= TGroupsHelper.GetEditorFrame(Ed);
-  if Assigned(Frame) then
-    Frame.TextCharsTyped:= 0;
-  DoAutoComplete(Ed);
+  if AActivate then
+  begin
+    AppAutocompleteInvoke:= 'a';
+    Frame:= TGroupsHelper.GetEditorFrame(Ed);
+    if Assigned(Frame) then
+      Frame.TextCharsTyped:= 0;
+    DoAutoComplete(Ed);
+  end;
 end;
 
 procedure TfmMain.DoAutoComplete(Ed: TATSynEdit);

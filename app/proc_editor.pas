@@ -2619,7 +2619,7 @@ begin
     if EditorCaretInsideCommentOrString(Ed, Caret.PosX, Caret.PosY) then exit;
 
     ACharsTyped:= 0;
-    AppRunAutocomplete(Ed);
+    AppRunAutocomplete(Ed, true);
     exit;
   end;
 
@@ -2651,7 +2651,7 @@ begin
     if ACharsTyped>=Ed.OptAutocompleteAutoshowCharCount then
     begin
       //ACharsTyped:= 0; //don't reset, fix #4479
-      AppRunAutocomplete(Ed);
+      AppRunAutocomplete(Ed, true);
       exit;
     end;
   end
@@ -2665,7 +2665,7 @@ begin
   begin
     if Ed.Strings.LineCharAt(Caret.PosY, Caret.PosX-1)='<' then
     begin
-      AppRunAutocomplete(Ed);
+      AppRunAutocomplete(Ed, true);
     end;
     exit;
   end;
