@@ -6761,6 +6761,13 @@ end;
 
 
 procedure TfmMain.DoAutoComplete_Callback(Ed: TATSynEdit; AActivate: boolean);
+{
+AActivate param is for future maybe, for _delayed_ autocomplete.
+AActivate=False means: cancel next planned _delayed_ autocomplete.
+if we will need _delayed_ acp, we will
+a) rewrite this callback to just set/clear the flag,
+b) add reaction to flag in TimerAppIdle handler.
+}
 var
   Frame: TEditorFrame;
 begin
