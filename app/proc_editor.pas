@@ -2631,9 +2631,12 @@ begin
     if not bWordChar then
     begin
       ACharsTyped:= 0;
+      AppRunAutocomplete(Ed, false);
       exit;
     end;
-  end;
+  end
+  else
+    AppRunAutocomplete(Ed, false);
 
   //autoshow for all, when typed N chars
   if (Ed.OptAutocompleteAutoshowCharCount>0) then
@@ -2658,6 +2661,7 @@ begin
   else
   begin
     ACharsTyped:= 0;
+    AppRunAutocomplete(Ed, false);
   end;
 
   //autoshow for HTML
