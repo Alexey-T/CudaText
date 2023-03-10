@@ -505,7 +505,7 @@
   "ruler_show": false,
 
   //Ruler: Height, in percents of average text cell.
-  "ruler_height": 120,
+  "ruler_height": 100,
 
   //Ruler: Numeration style.
   //  0: numbers 0 - 10 - 20 - 30...
