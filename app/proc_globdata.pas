@@ -1686,7 +1686,7 @@ begin
     OpAutoCloseBrackets:= '([{';
     OpAutocompleteAutoshowCharCount:= 0;
     OpAutocompleteTriggerChars:= '';
-    OpAutocompleteCommitChars:= ' ,;/\''"';
+    OpAutocompleteCommitChars:= ' ,;';
     OpAutocompleteCloseChars:= '<>()[]{}=';
     OpAutocompleteAddOpeningBracket:= true;
     OpAutocompleteUpDownAtEdge:= 1; //cudWrap
