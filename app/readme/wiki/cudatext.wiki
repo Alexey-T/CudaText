@@ -1334,7 +1334,9 @@ Session file contains data:
 
 * List of named documents (file names), and unnamed documents
 * For each document:
-** kind of document: text in editor, picture file, text in viewer (and viewer mode: text/binary/hex/unicode)
+** kind of the document: text editor / picture viewer / text viewer (and viewer mode: text/binary/hex/unicode)
+** text of the document, if document is modified
+** undo/redo data, if document is modified
 ** read-only state
 ** first caret position
 ** encoding
