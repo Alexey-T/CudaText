@@ -302,6 +302,7 @@ begin
     Ed.OptUnprintedSpacesBothEnds:= Pos('l', Op.OpUnprintedContent)>0;
     Ed.OptUnprintedSpacesOnlyInSelection:= Pos('x', Op.OpUnprintedContent)>0;
     Ed.OptUnprintedSpacesAlsoInSelection:= Pos('X', Op.OpUnprintedContent)>0;
+    Ed.OptUnprintedForceTabs:= Pos('T', Op.OpUnprintedContent)>0;
   end;
 
   Ed.OptMaxLineLenToTokenize:= Op.OpMaxLineLenToTokenize;
@@ -1844,6 +1845,7 @@ begin
   Ops.UnprintedSpacesInSel:= Ed.OptUnprintedSpacesOnlyInSelection;
   Ops.UnprintedEnds:= Ed.OptUnprintedEnds;
   Ops.UnprintedEndsDetails:= Ed.OptUnprintedEndsDetails;
+  Ops.UnprintedForceTabs:= Ed.OptUnprintedForceTabs;
 end;
 
 procedure EditorRestoreTempOptions(Ed: TATSynEdit; const ANew, AOld: TATEditorTempOptions);
@@ -1877,6 +1879,7 @@ begin
     Ed.OptUnprintedEnds:= ANew.UnprintedEnds;
   //if AOld.UnprintedEndsDetails<>ANew.UnprintedEndsDetails then
     Ed.OptUnprintedEndsDetails:= ANew.UnprintedEndsDetails;
+  Ed.OptUnprintedForceTabs:= ANew.UnprintedForceTabs;
 end;
 
 procedure EditorCopySelToPrimarySelection(Ed: TATSynEdit; AMaxLineCount: integer);
