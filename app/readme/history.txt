@@ -5,6 +5,7 @@
 
 1.187.1 (2023/03)
 
++ add: sub-option 'T' in "unprinted_content"
 + add: session also has Undo/Redo data; added sub-option for Undo/Redo to "ui_history_disabled" (thanks @pintassilgo)
 - fix: some regression in auto-completion in 1.187.0 (thanks @eltonfabricio10)
 
