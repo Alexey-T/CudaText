@@ -3,9 +3,12 @@
   - fixed
   * changed
 
-+ add: session also has Undo/Redo data; added sub-option for Undo/Redo to "ui_history_disabled" (thanks @pintassilgo)
+1.187.1 (2023/03)
 
-1.187 (2023/03)
++ add: session also has Undo/Redo data; added sub-option for Undo/Redo to "ui_history_disabled" (thanks @pintassilgo)
+- fix: some regression in auto-completion in 1.187.0 (thanks @eltonfabricio10)
+
+1.187.0 (2023/03)
 
 * change: option "autocomplete_autoshow_chars": avoid the timer pause, like in many other editors (thanks @pintassilgo)
 * change: auto-completion popup: height is now determined by items count, ie new option: "ui_listbox_complete_size_items"; popup height is decreased if listbox has less items (thanks @pintassilgo)
