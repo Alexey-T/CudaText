@@ -594,7 +594,7 @@
   //  if "X" in value: Whitespace also in selection (works together with "l", "t")
   //  if "l" in value: Whitespace only leading+trailing, ie at begin/end of lines (overrides "t")
   //  if "t" in value: Whitespace only trailing, ie at end of lines
-  //  if "T" in value: Force show tab-chars (overrides others)
+  //  if "T" in value: Show all tab-chars (overrides "x", "X", "l", "t")
   //  if "e" in value: Show end-of-lines marks
   //  if "d" in value: Detailed end-of-lines: "LF", "CRLF", "CR" (overrides ".")
   //  if "." in value: Instead of arrows at end-of-lines, show thick dots (overrides "p")
