@@ -663,7 +663,7 @@
   //  - "*": feature is enabled for all files,
   //  - ","-separated file extensions, like "c,h,txt".
   //Note: this option is global, not per-lexer.
-  //Note: option doesn't need to be set when you a) keep files in sessions,
+  //Note: option doesn't need to be set when: a) you keep changed files in sessions, and
   //      b) "ui_history_disabled" doesn't include 'U'.
   "undo_persistent": "",
 
