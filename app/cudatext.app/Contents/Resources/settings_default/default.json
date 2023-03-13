@@ -657,10 +657,14 @@
   //Undo: Undo is enabled even after file saving.
   "undo_after_save": true,
 
-  //Undo: For which files Undo is saved to disk (files in .cudatext folder).
-  //Value can be "": disabled, "*": enabled for all files,
-  //or ","-separated file extensions like "c,h,txt".
+  //Undo: For which files Undo-data is saved to disk (files in .cudatext subfolders).
+  //Value can be:
+  //  - "": feature is disabled,
+  //  - "*": feature is enabled for all files,
+  //  - ","-separated file extensions, like "c,h,txt".
   //Note: this option is global, not per-lexer.
+  //Note: option doesn't need to be set when you a) keep files in sessions,
+  //      b) "ui_history_disabled" doesn't include 'U'.
   "undo_persistent": "",
 
   //Undo: Pause (in milliseconds) for Undo/Redo commands, to show minimalistic animation.
