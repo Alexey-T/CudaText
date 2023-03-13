@@ -400,6 +400,11 @@ begin
           if (not bUntitled) and FileExists(sTabFilename) then
             cfg.SetValue(path+'/file_date', FormatFileDateAsNiceString(sTabFilename));
           Frame.VersionInSession:= Frame.Ed1.Strings.ModifiedVersion;
+          if UiOps.HistoryItems[ahhUndoRedo] then
+          begin
+            cfg.SetValue(path+'/undo', Frame.Ed1.UndoAsString);
+            cfg.SetValue(path+'/redo', Frame.Ed1.RedoAsString);
+          end;
         end;
 
       Frame.DoSaveHistoryEx(Frame.Ed1, cfg, path, true{AForSession});
@@ -420,6 +425,11 @@ begin
           cfg.SetValue(path+'/text', Frame.Ed2.Text);
           if FileExists(sTabFilename2) then
             cfg.SetValue(path+'/file_date', FormatFileDateAsNiceString(sTabFilename2));
+          if UiOps.HistoryItems[ahhUndoRedo] then
+          begin
+            cfg.SetValue(path+'/undo', Frame.Ed2.UndoAsString);
+            cfg.SetValue(path+'/redo', Frame.Ed2.RedoAsString);
+          end;
         end;
 
         Frame.DoSaveHistoryEx(Frame.Ed2, cfg, path, true{AForSession});
@@ -497,6 +507,7 @@ var
   bModified, bModified2: boolean;
   bAllowOnState: boolean;
   sText: UnicodeString;
+  sUndoString, sRedoString: string;
   bExist, bExist2: boolean;
   sDateSaved, sDateCurrent, sConsole: string;
   CurTabs: TATTabs;
@@ -604,6 +615,8 @@ begin
       end;
 
       sText:= cfg.GetValue(item_path+'text', '');
+      sUndoString:= cfg.GetValue(item_path+'undo', '');
+      sRedoString:= cfg.GetValue(item_path+'redo', '');
       sTabKind:= cfg.GetValue(item_path+'kind', '');
       bModified:= cfg.GetValue(item_path+'modified', false);
       if sText='' then //don't load this file from session
@@ -661,6 +674,10 @@ begin
         end;
         if sText<>'' then
           Frame.Editor.Text:= sText;
+        if sUndoString<>'' then
+          Frame.Editor.UndoAsString:= sUndoString;
+        if sRedoString<>'' then
+          Frame.Editor.RedoAsString:= sRedoString;
         Frame.Editor.Modified:= bModified;
         sTabTitle:= cfg.GetValue(item_path+'tab_title', '');
         if sTabTitle<>'' then
@@ -687,6 +704,8 @@ begin
         if sTabFilename2<>'' then
         begin
           sText:= cfg.GetValue(item_path2+'text', '');
+          sUndoString:= cfg.GetValue(item_path2+'undo', '');
+          sRedoString:= cfg.GetValue(item_path2+'redo', '');
           bModified2:= cfg.GetValue(item_path2+'modified', false);
           if sText='' then
             bModified2:= false;
@@ -696,6 +715,10 @@ begin
             Inc(nCountFilesModified);
             if sText<>'' then
               Frame.Ed2.Text:= sText;
+            if sUndoString<>'' then
+              Frame.Ed2.UndoAsString:= sUndoString;
+            if sRedoString<>'' then
+              Frame.Ed2.RedoAsString:= sRedoString;
             Frame.Ed2.Modified:= bModified2;
             Frame.UpdateModified(Frame.Ed2);
           end
