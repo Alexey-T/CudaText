@@ -134,7 +134,8 @@ type
 
 const
   cAppHistoryElementChar: array[TAppHistoryElement] of char =
-    'tchsTeblwMmrunSfkCFiIU';
+    ('t', 'c', 'h', 's', 'T', 'e', 'b', 'l', 'w', 'M', 'm', 'r', 'u', 'n',
+     'S', 'f', 'k', 'C', 'F', 'i', 'I', 'U');
 
 const
   cAppSessionDefaultBase = 'history session';
