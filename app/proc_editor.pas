@@ -167,6 +167,7 @@ procedure EditorHighlightAllMatches(AFinder: TATEditorFinder;
 function EditorAutoCompletionAfterTypingChar(Ed: TATSynEdit;
   const AText: string; var ACharsTyped: integer): boolean;
 function EditorGetLefterHtmlTag(Ed: TATSynEdit; AX, AY: integer): UnicodeString;
+function EditorGetLefterWordChars(Ed: TATSynEdit; AX, AY: integer): integer;
 procedure EditorAutoCloseOpeningHtmlTag(Ed: TATSynEdit; AX, AY: integer);
 procedure EditorAutoCloseClosingHtmlTag(Ed: TATSynEdit; AX, AY: integer);
 procedure EditorChangeLineEndsForSelection(Ed: TATSynEdit; AValue: TATLineEnds);
@@ -2729,6 +2730,25 @@ begin
     if not IsValidHtmlTagChar(SLine[i]) then exit;
 
   Result:= SLine;
+end;
+
+function EditorGetLefterWordChars(Ed: TATSynEdit; AX, AY: integer): integer;
+var
+  St: TATStrings;
+  i: integer;
+  SLine: UnicodeString;
+begin
+  Result:= 0;
+  St:= Ed.Strings;
+  if not St.IsIndexValid(AY) then exit;
+  if AX>St.LinesLen[AY] then exit;
+  SLine:= St.LineSub(AY, 1, AX);
+  for i:= AX-1 downto 0 do
+  begin
+    if not IsCharWord(SLine[i+1], Ed.OptNonWordChars) then
+      Break;
+    Inc(Result);
+  end;
 end;
 
 procedure EditorAutoCloseOpeningHtmlTag(Ed: TATSynEdit; AX, AY: integer);
