@@ -3,6 +3,8 @@
   - fixed
   * changed
 
++ add: session also has Undo/Redo data; added sub-option for Undo/Redo to "ui_history_disabled" (thanks @pintassilgo)
+
 1.187 (2023/03)
 
 * change: option "autocomplete_autoshow_chars": avoid the timer pause, like in many other editors (thanks @pintassilgo)
