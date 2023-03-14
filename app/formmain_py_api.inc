@@ -2441,7 +2441,7 @@ begin
   Caret:= Ed.Carets[0];
 
   //if caret moved by 1 char: repeat auto-complete
-  if (Abs(Caret.PosX-FPyCompletionProps.CaretPos.X)=1) and
+  if (Caret.PosX<>FPyCompletionProps.CaretPos.X) and
      (Caret.PosY=FPyCompletionProps.CaretPos.Y) then
   begin
     PrevCharsLeft:= FPyCompletionProps.CharsLeft;
