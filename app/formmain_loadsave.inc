@@ -230,7 +230,7 @@ end;
 function TfmMain.DoOps_SaveSession(const ASessionId: string;
   ASaveModifiedFiles, ASaveUntitledTabs, AByTimer: boolean): boolean;
 const
-  keysToIgnore: array of UTF8String = ('text');
+  keysToIgnore: array of UTF8String = ('text', 'undo', 'redo');
 var
   cfg: TJSONConfigEx;
   Frame: TEditorFrame;
