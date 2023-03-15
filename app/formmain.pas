@@ -4598,8 +4598,18 @@ begin
       Result:= D.TabObject as TEditorFrame;
     end;
 
+    if bAndActivate then
+    begin
+      SetFrame(Result);
+      DoFocusFrame(Result);
+    end;
+
+    {
+    //2023.03.15. why it was needed? seems it only makes bad: new opened file (in preview tab) don't have highlighting
     Result.Adapter[Result.Ed1].Stop;
     Result.Adapter[Result.Ed2].Stop;
+    }
+
     Result.DoFileOpen(AFileName, AFileName2,
       bEnableHistory,
       bEnableLoadBookmarks,
@@ -4608,9 +4618,6 @@ begin
       bEnableLoadUndo,
       OpenMode);
     MsgStatusFileOpened(AFileName, AFileName2);
-
-    if bAndActivate then
-      DoFocusFrame(Result);
 
     if bEnableEventOpened then
     begin
