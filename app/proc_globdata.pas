@@ -1183,13 +1183,11 @@ uses
   proc_lexer_styles;
 
 function MsgBox(const AText: string; AFlags: Longint): integer;
+//Application.MessageBox is not used, to translate button captions
 var
   Typ: TMsgDlgType;
   Res: TModalResult;
 begin
-  ////this is not used, to translate button captions:
-  //Result:= Application.MessageBox(PChar(AText), PChar(msgTitle), AFlags);
-
   case AFlags and $F0 of
     MB_ICONERROR:
       Typ:= mtError;
