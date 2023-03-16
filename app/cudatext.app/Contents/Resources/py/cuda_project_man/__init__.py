@@ -120,7 +120,11 @@ def is_mask_listed(s, masks):
 # only Py 3.5 supports os.stat(s).st_file_attributes
 # so this is to support Py 3.4
 def is_hidden_win32(s):
-    import ctypes # import here to avoid it on Unix
+    try:
+        # import here to avoid it on Unix
+        import ctypes
+    except (ImportError, ModuleNotFoundError):
+        return False
     try:
         attrs = ctypes.windll.kernel32.GetFileAttributesW(s)
         assert attrs != -1
