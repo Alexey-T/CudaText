@@ -17,6 +17,13 @@ import cudatext_cmd
 from cudax_lib import get_translation
 _   = get_translation(__file__)  # i18n
 
+ctypes = None
+if os.name=='nt':
+    try:
+        import ctypes
+    except (ImportError, ModuleNotFoundError):
+        pass
+
 IS_WIN = os.name == 'nt'
 PROJECT_EXTENSION = ".cuda-proj"
 PROJECT_DIALOG_FILTER = _("CudaText projects") + "|*" + PROJECT_EXTENSION
@@ -120,10 +127,7 @@ def is_mask_listed(s, masks):
 # only Py 3.5 supports os.stat(s).st_file_attributes
 # so this is to support Py 3.4
 def is_hidden_win32(s):
-    try:
-        # import here to avoid it on Unix
-        import ctypes
-    except (ImportError, ModuleNotFoundError):
+    if not ctypes:
         return False
     try:
         attrs = ctypes.windll.kernel32.GetFileAttributesW(s)
