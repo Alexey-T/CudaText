@@ -536,14 +536,14 @@ begin
     nColumns:= Abs(Caret.PosX-Caret.EndX);
 
   result:= MacroText;
-  result:= StringReplace(result, '{x}', inttostr(Caret.PosX+1), []);
-  result:= StringReplace(result, '{y}', inttostr(Caret.PosY+1), []);
-  result:= StringReplace(result, '{y2}', inttostr(ed.Carets[ed.Carets.Count-1].PosY+1), []);
-  result:= StringReplace(result, '{yb}', inttostr(yBegin+1), []);
-  result:= StringReplace(result, '{ye}', inttostr(yEnd+1), []);
-  result:= StringReplace(result, '{count}', inttostr(St.Count), []);
-  result:= StringReplace(result, '{carets}', inttostr(ed.Carets.Count), []);
-  result:= StringReplace(result, '{cols}', inttostr(nColumns), []);
+  result:= StringReplace(result, '{x}', IntToStr(Caret.PosX+1), []);
+  result:= StringReplace(result, '{y}', IntToStr(Caret.PosY+1), []);
+  result:= StringReplace(result, '{y2}', IntToStr(ed.Carets[ed.Carets.Count-1].PosY+1), []);
+  result:= StringReplace(result, '{yb}', IntToStr(yBegin+1), []);
+  result:= StringReplace(result, '{ye}', IntToStr(yEnd+1), []);
+  result:= StringReplace(result, '{count}', IntToStr(St.Count), []);
+  result:= StringReplace(result, '{carets}', IntToStr(ed.Carets.Count), []);
+  result:= StringReplace(result, '{cols}', IntToStr(nColumns), []);
 
   result:= StringReplace(result, '{_ln}', msgStatusbarTextLine, []);
   result:= StringReplace(result, '{_col}', msgStatusbarTextCol, []);
@@ -551,18 +551,18 @@ begin
   result:= StringReplace(result, '{_linesel}', msgStatusbarTextLinesSel, []);
   result:= StringReplace(result, '{_carets}', msgStatusbarTextCarets, []);
 
-  if pos('{sel}', result)>0 then
-    result:= StringReplace(result, '{sel}', inttostr(EditorGetSelLinesCount(ed)), []);
+  if Pos('{sel}', result)>0 then
+    result:= StringReplace(result, '{sel}', IntToStr(EditorGetSelLinesCount(ed)), []);
 
-  if pos('{selchars}', result)>0 then
-    result:= StringReplace(result, '{selchars}', inttostr(EditorGetSelCharsCount(ed)), []);
+  if Pos('{selchars}', result)>0 then
+    result:= StringReplace(result, '{selchars}', IntToStr(EditorGetSelCharsCount(ed)), []);
 
-  if pos('{xx}', result)>0 then
+  if Pos('{xx}', result)>0 then
     if St.IsIndexValid(Caret.PosY) then
     begin
       //optimized for huge lines
       nColumns:= St.CharPosToColumnPos(Caret.PosY, Caret.PosX, ed.TabHelper)+1;
-      result:= StringReplace(result, '{xx}', inttostr(nColumns), []);
+      result:= StringReplace(result, '{xx}', IntToStr(nColumns), []);
     end;
 
   if Pos('{offset_', result)>0 then
@@ -580,7 +580,7 @@ begin
     result:= StringReplace(result, '{offset_caret}', s, []);
   end;
 
-  if pos('{char', result)>0 then
+  if Pos('{char', result)>0 then
   begin
     s:= '';
     charCode:= -1;
