@@ -3,6 +3,10 @@
   - fixed
   * changed
 
+1.187.2 (2023/03)
+
++ add: support new macros in statusbar config: {offset_max}, {offset_caret} (thanks @pintassilgo)
+
 1.187.1 (2023/03)
 
 + add: session also has Undo/Redo data; added sub-option for Undo/Redo to "ui_history_disabled" (thanks @pintassilgo)

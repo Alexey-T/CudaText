@@ -1209,6 +1209,8 @@
   //  {char_dec}: character at first caret - decimal code (empty if no char)
   //  {char_hex}: character at first caret - 2...4-digit hex code (empty if no char)
   //  {char_hex4}: character at first caret - 4-digit hex code (empty if no char)
+  //  {offset_max}: total document length, in UTF-16 chars
+  //  {offset_caret}: offset of 1st caret from the start, in UTF-16 chars
   //  {_ln}: localized string "Ln"
   //  {_col}: localized string "Col"
   //  {_sel}: localized string "sel"
