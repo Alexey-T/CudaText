@@ -513,10 +513,10 @@ var
   Caret: TATCaretItem;
   cols, n, x_b, y_b, x_e, y_e: integer;
   bSel: boolean;
-  s, charStr: string;
   charCode: integer;
-  ch: WideChar;
   nOffsetMax, nOffsetCaret: integer;
+  ch: WideChar;
+  s: string;
 begin
   result:= '';
   St:= ed.Strings;
@@ -582,7 +582,7 @@ begin
 
   if pos('{char', result)>0 then
   begin
-    charStr:= '';
+    s:= '';
     charCode:= -1;
 
     if St.IsIndexValid(y_b) then
@@ -591,12 +591,12 @@ begin
         ch:= St.LineCharAt(y_b, x_b+1);
         if ch<>#0 then
         begin
-          charStr:= UTF8Encode(UnicodeString(ch));
+          s:= UTF8Encode(UnicodeString(ch));
           charCode:= Ord(ch);
         end;
       end;
 
-    result:= StringReplace(result, '{char}', charStr, []);
+    result:= StringReplace(result, '{char}', s, []);
 
     if charCode>=0 then
       s:= IntToStr(charCode)
