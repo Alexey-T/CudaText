@@ -399,6 +399,10 @@
   //Note: this option is global, not per-lexer.
   "max_line_len_for_editing_keeping_lexer": 2000,
 
+  //Maximal count of lines in document, for which app can calculate macros
+  //{offset_max} and {offset_caret}, for statusbar display.
+  "max_lines_to_calc_offsets": 7000,
+
   //[Lexers]
   //Maximal line length parsed, ie:
   //a) It limits the parsing of huge lines by "lite" lexers.
