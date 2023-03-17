@@ -509,22 +509,21 @@ end;
 
 function EditorFormatStatus(ed: TATSynEdit; const MacroText: string): string;
 var
-  st: TATStrings;
-  caret: TATCaretItem;
+  St: TATStrings;
+  Caret: TATCaretItem;
   cols, n, x_b, y_b, x_e, y_e: integer;
   bSel: boolean;
-  char_str: UnicodeString;
-  s: string;
-  char_code: integer;
+  s, charStr: string;
+  charCode: integer;
   ch: WideChar;
   nOffsetMax, nOffsetCaret: integer;
 begin
   result:= '';
-  st:= ed.Strings;
+  St:= ed.Strings;
   if ed.Carets.Count=0 then exit;
-  caret:= ed.Carets[0];
+  Caret:= ed.Carets[0];
 
-  caret.GetRange(x_b, y_b, x_e, y_e, bSel);
+  Caret.GetRange(x_b, y_b, x_e, y_e, bSel);
 
   //make {cols} work for column-sel and small-sel
   cols:= 0;
@@ -533,16 +532,16 @@ begin
     cols:= ed.SelRect.Right-ed.SelRect.Left
   else
   //small-sel?
-  if (ed.Carets.Count=1) and (caret.PosY=caret.EndY) then
-    cols:= Abs(caret.PosX-caret.EndX);
+  if (ed.Carets.Count=1) and (Caret.PosY=Caret.EndY) then
+    cols:= Abs(Caret.PosX-Caret.EndX);
 
   result:= MacroText;
-  result:= StringReplace(result, '{x}', inttostr(caret.PosX+1), []);
-  result:= StringReplace(result, '{y}', inttostr(caret.PosY+1), []);
+  result:= StringReplace(result, '{x}', inttostr(Caret.PosX+1), []);
+  result:= StringReplace(result, '{y}', inttostr(Caret.PosY+1), []);
   result:= StringReplace(result, '{y2}', inttostr(ed.carets[ed.carets.count-1].PosY+1), []);
   result:= StringReplace(result, '{yb}', inttostr(y_b+1), []);
   result:= StringReplace(result, '{ye}', inttostr(y_e+1), []);
-  result:= StringReplace(result, '{count}', inttostr(st.count), []);
+  result:= StringReplace(result, '{count}', inttostr(St.count), []);
   result:= StringReplace(result, '{carets}', inttostr(ed.carets.count), []);
   result:= StringReplace(result, '{cols}', inttostr(cols), []);
 
@@ -559,10 +558,10 @@ begin
     result:= StringReplace(result, '{selchars}', inttostr(EditorGetSelCharsCount(ed)), []);
 
   if pos('{xx}', result)>0 then
-    if st.IsIndexValid(caret.PosY) then
+    if St.IsIndexValid(Caret.PosY) then
     begin
       //optimized for huge lines
-      n:= st.CharPosToColumnPos(caret.PosY, caret.PosX, ed.TabHelper)+1;
+      n:= St.CharPosToColumnPos(Caret.PosY, Caret.PosX, ed.TabHelper)+1;
       result:= StringReplace(result, '{xx}', inttostr(n), []);
     end;
 
@@ -583,36 +582,36 @@ begin
 
   if pos('{char', result)>0 then
   begin
-    char_str:= '';
-    char_code:= -1;
+    charStr:= '';
+    charCode:= -1;
 
-    if st.IsIndexValid(y_b) then
-      if (x_b>=0) and (x_b<st.LinesLen[y_b]) then
+    if St.IsIndexValid(y_b) then
+      if (x_b>=0) and (x_b<St.LinesLen[y_b]) then
       begin
-        ch:= st.LineCharAt(y_b, x_b+1);
+        ch:= St.LineCharAt(y_b, x_b+1);
         if ch<>#0 then
         begin
-          char_str:= ch;
-          char_code:= Ord(ch);
+          charStr:= UTF8Encode(UnicodeString(ch));
+          charCode:= Ord(ch);
         end;
       end;
 
-    result:= StringReplace(result, '{char}', char_str, []);
+    result:= StringReplace(result, '{char}', charStr, []);
 
-    if char_code>=0 then
-      s:= IntToStr(char_code)
+    if charCode>=0 then
+      s:= IntToStr(charCode)
     else
       s:= '';
     result:= StringReplace(result, '{char_dec}', s, []);
 
-    if char_code>=0 then
-      s:= IntToHex(char_code, 2)
+    if charCode>=0 then
+      s:= IntToHex(charCode, 2)
     else
       s:= '';
     result:= StringReplace(result, '{char_hex}', s, []);
 
-    if char_code>=0 then
-      s:= IntToHex(char_code, 4)
+    if charCode>=0 then
+      s:= IntToHex(charCode, 4)
     else
       s:= '';
     result:= StringReplace(result, '{char_hex4}', s, []);
