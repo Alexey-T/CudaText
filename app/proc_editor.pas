@@ -538,11 +538,11 @@ begin
   result:= MacroText;
   result:= StringReplace(result, '{x}', inttostr(Caret.PosX+1), []);
   result:= StringReplace(result, '{y}', inttostr(Caret.PosY+1), []);
-  result:= StringReplace(result, '{y2}', inttostr(ed.carets[ed.carets.count-1].PosY+1), []);
+  result:= StringReplace(result, '{y2}', inttostr(ed.Carets[ed.Carets.Count-1].PosY+1), []);
   result:= StringReplace(result, '{yb}', inttostr(yBegin+1), []);
   result:= StringReplace(result, '{ye}', inttostr(yEnd+1), []);
-  result:= StringReplace(result, '{count}', inttostr(St.count), []);
-  result:= StringReplace(result, '{carets}', inttostr(ed.carets.count), []);
+  result:= StringReplace(result, '{count}', inttostr(St.Count), []);
+  result:= StringReplace(result, '{carets}', inttostr(ed.Carets.Count), []);
   result:= StringReplace(result, '{cols}', inttostr(nColumns), []);
 
   result:= StringReplace(result, '{_ln}', msgStatusbarTextLine, []);
