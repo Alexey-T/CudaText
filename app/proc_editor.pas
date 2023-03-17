@@ -509,6 +509,7 @@ end;
 
 function EditorFormatStatus(ed: TATSynEdit; const str: string): string;
 var
+  st: TATStrings;
   caret: TATCaretItem;
   cols, n, x_b, y_b, x_e, y_e: integer;
   bSel: boolean;
@@ -519,6 +520,7 @@ var
   nOffsetMax, nOffsetCaret: integer;
 begin
   result:= '';
+  st:= ed.Strings;
   if ed.Carets.Count=0 then exit;
   caret:= ed.Carets[0];
 
@@ -540,7 +542,7 @@ begin
   result:= StringReplace(result, '{y2}', inttostr(ed.carets[ed.carets.count-1].PosY+1), []);
   result:= StringReplace(result, '{yb}', inttostr(y_b+1), []);
   result:= StringReplace(result, '{ye}', inttostr(y_e+1), []);
-  result:= StringReplace(result, '{count}', inttostr(ed.strings.count), []);
+  result:= StringReplace(result, '{count}', inttostr(st.count), []);
   result:= StringReplace(result, '{carets}', inttostr(ed.carets.count), []);
   result:= StringReplace(result, '{cols}', inttostr(cols), []);
 
@@ -557,10 +559,10 @@ begin
     result:= StringReplace(result, '{selchars}', inttostr(EditorGetSelCharsCount(ed)), []);
 
   if pos('{xx}', result)>0 then
-    if ed.Strings.IsIndexValid(caret.PosY) then
+    if st.IsIndexValid(caret.PosY) then
     begin
       //optimized for huge lines
-      n:= ed.Strings.CharPosToColumnPos(caret.PosY, caret.PosX, ed.TabHelper)+1;
+      n:= st.CharPosToColumnPos(caret.PosY, caret.PosX, ed.TabHelper)+1;
       result:= StringReplace(result, '{xx}', inttostr(n), []);
     end;
 
@@ -584,10 +586,10 @@ begin
     char_str:= '';
     char_code:= -1;
 
-    if ed.Strings.IsIndexValid(y_b) then
-      if (x_b>=0) and (x_b<ed.Strings.LinesLen[y_b]) then
+    if st.IsIndexValid(y_b) then
+      if (x_b>=0) and (x_b<st.LinesLen[y_b]) then
       begin
-        ch:= ed.Strings.LineCharAt(y_b, x_b+1);
+        ch:= st.LineCharAt(y_b, x_b+1);
         if ch<>#0 then
         begin
           char_str:= ch;
