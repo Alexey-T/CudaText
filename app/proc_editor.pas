@@ -511,7 +511,7 @@ function EditorFormatStatus(ed: TATSynEdit; const MacroText: string): string;
 var
   St: TATStrings;
   Caret: TATCaretItem;
-  cols, n, x_b, y_b, x_e, y_e: integer;
+  nColumns, xBegin, yBegin, xEnd, yEnd: integer;
   bSel: boolean;
   charCode: integer;
   nOffsetMax, nOffsetCaret: integer;
@@ -523,27 +523,27 @@ begin
   if ed.Carets.Count=0 then exit;
   Caret:= ed.Carets[0];
 
-  Caret.GetRange(x_b, y_b, x_e, y_e, bSel);
+  Caret.GetRange(xBegin, yBegin, xEnd, yEnd, bSel);
 
-  //make {cols} work for column-sel and small-sel
-  cols:= 0;
-  //column-sel?
+  //make {cols} work for column-selection and small-selection
+  nColumns:= 0;
+  //column-selection?
   if not ed.IsSelRectEmpty then
-    cols:= ed.SelRect.Right-ed.SelRect.Left
+    nColumns:= ed.SelRect.Right-ed.SelRect.Left
   else
-  //small-sel?
+  //small-selection?
   if (ed.Carets.Count=1) and (Caret.PosY=Caret.EndY) then
-    cols:= Abs(Caret.PosX-Caret.EndX);
+    nColumns:= Abs(Caret.PosX-Caret.EndX);
 
   result:= MacroText;
   result:= StringReplace(result, '{x}', inttostr(Caret.PosX+1), []);
   result:= StringReplace(result, '{y}', inttostr(Caret.PosY+1), []);
   result:= StringReplace(result, '{y2}', inttostr(ed.carets[ed.carets.count-1].PosY+1), []);
-  result:= StringReplace(result, '{yb}', inttostr(y_b+1), []);
-  result:= StringReplace(result, '{ye}', inttostr(y_e+1), []);
+  result:= StringReplace(result, '{yb}', inttostr(yBegin+1), []);
+  result:= StringReplace(result, '{ye}', inttostr(yEnd+1), []);
   result:= StringReplace(result, '{count}', inttostr(St.count), []);
   result:= StringReplace(result, '{carets}', inttostr(ed.carets.count), []);
-  result:= StringReplace(result, '{cols}', inttostr(cols), []);
+  result:= StringReplace(result, '{cols}', inttostr(nColumns), []);
 
   result:= StringReplace(result, '{_ln}', msgStatusbarTextLine, []);
   result:= StringReplace(result, '{_col}', msgStatusbarTextCol, []);
@@ -561,8 +561,8 @@ begin
     if St.IsIndexValid(Caret.PosY) then
     begin
       //optimized for huge lines
-      n:= St.CharPosToColumnPos(Caret.PosY, Caret.PosX, ed.TabHelper)+1;
-      result:= StringReplace(result, '{xx}', inttostr(n), []);
+      nColumns:= St.CharPosToColumnPos(Caret.PosY, Caret.PosX, ed.TabHelper)+1;
+      result:= StringReplace(result, '{xx}', inttostr(nColumns), []);
     end;
 
   if Pos('{offset_', result)>0 then
@@ -585,10 +585,10 @@ begin
     s:= '';
     charCode:= -1;
 
-    if St.IsIndexValid(y_b) then
-      if (x_b>=0) and (x_b<St.LinesLen[y_b]) then
+    if St.IsIndexValid(yBegin) then
+      if (xBegin>=0) and (xBegin<St.LinesLen[yBegin]) then
       begin
-        ch:= St.LineCharAt(y_b, x_b+1);
+        ch:= St.LineCharAt(yBegin, xBegin+1);
         if ch<>#0 then
         begin
           s:= UTF8Encode(UnicodeString(ch));
