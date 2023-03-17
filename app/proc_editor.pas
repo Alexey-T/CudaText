@@ -3085,8 +3085,7 @@ begin
   if Ed.Carets.Count>0 then
   begin
     Caret:= Ed.Carets[0];
-    if St.IsIndexValid(Caret.PosY) then
-      AOffsetCaret:= Buffer.CaretToStr(Point(Caret.PosX, Caret.PosY));
+    AOffsetCaret:= Buffer.CaretToStr(Point(Caret.PosX, Caret.PosY));
   end;
 end;
 
