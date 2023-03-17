@@ -38,6 +38,7 @@ uses
   ATStrings,
   ATStringProc,
   ATStringProc_Separator,
+  ATStringProc_TextBuffer,
   proc_globdata,
   proc_colors,
   proc_msg,
@@ -175,6 +176,7 @@ procedure EditorClearHiAllMarkers(Ed: TATSynEdit);
 procedure EditorForceUpdateIfWrapped(Ed: TATSynEdit);
 procedure EditorScrollToCaret(Ed: TATSynEdit; ANeedWrapOff, AllowProcessMsg: boolean);
 procedure EditorCaretToView(Ed: TATSynEdit; ANeedWrapOff, AllowProcessMsg: boolean);
+procedure EditorCalcOffsetsForStatusbar(Ed: TATSynEdit; out AOffsetMax, AOffsetCaret: integer);
 
 implementation
 
@@ -511,8 +513,10 @@ var
   cols, n, x_b, y_b, x_e, y_e: integer;
   bSel: boolean;
   char_str, temp_str: UnicodeString;
+  macro_str: string;
   char_code: integer;
   ch: WideChar;
+  nOffsetMax, nOffsetCaret: integer;
 begin
   result:= '';
   if ed.Carets.Count=0 then exit;
@@ -559,6 +563,21 @@ begin
       n:= ed.Strings.CharPosToColumnPos(caret.PosY, caret.PosX, ed.TabHelper)+1;
       result:= StringReplace(result, '{xx}', inttostr(n), []);
     end;
+
+  if Pos('{offset_', result)>0 then
+  begin
+    EditorCalcOffsetsForStatusbar(ed, nOffsetMax, nOffsetCaret);
+    if nOffsetMax>=0 then
+      macro_str:= IntToStr(nOffsetMax)
+    else
+      macro_str:= '?';
+    result:= StringReplace(result, '{offset_max}', macro_str, []);
+    if nOffsetCaret>=0 then
+      macro_str:= IntToStr(nOffsetCaret)
+    else
+      macro_str:= '?';
+    result:= StringReplace(result, '{offset_caret}', macro_str, []);
+  end;
 
   if pos('{char', result)>0 then
   begin
@@ -3028,6 +3047,47 @@ begin
   Ed.Carets[0].PosX:= 0;
   Ed.DoEventCarets;
   Ed.Update;
+end;
+
+procedure EditorCalcOffsetsForStatusbar(Ed: TATSynEdit; out AOffsetMax, AOffsetCaret: integer);
+var
+  St: TATStrings;
+  Buffer: TATStringBuffer;
+  LineLens: array of integer;
+  Caret: TATCaretItem;
+  i: integer;
+begin
+  AOffsetMax:= -1;
+  AOffsetCaret:= -1;
+
+  St:= Ed.Strings;
+  if St.Count>ATEditorOptions.MaxLinesForStatusbarOffsetsCalc then exit;
+
+  if Ed.StringBufferObject=nil then
+    Ed.StringBufferObject:= TATStringBuffer.Create;
+  Buffer:= Ed.StringBufferObject as TATStringBuffer;
+
+  if Buffer.Version<>St.ModifiedVersion then
+  begin
+    LineLens:= nil;
+    SetLength(LineLens, St.Count);
+    for i:= 0 to St.Count-1 do
+      LineLens[i]:= St.LinesLen[i];
+    Buffer.Setup('', LineLens);
+    LineLens:= nil;
+    Buffer.Version:= St.ModifiedVersion;
+  end;
+
+  AOffsetMax:= Buffer.TextLength;
+  if AOffsetMax>0 then
+    Dec(AOffsetMax);
+
+  if Ed.Carets.Count>0 then
+  begin
+    Caret:= Ed.Carets[0];
+    if St.IsIndexValid(Caret.PosY) then
+      AOffsetCaret:= Buffer.CaretToStr(Point(Caret.PosX, Caret.PosY));
+  end;
 end;
 
 { TEditorHtmlTagList }
