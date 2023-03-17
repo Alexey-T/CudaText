@@ -82,7 +82,7 @@ type
   TEditorBooleanEvent = procedure(Ed: TATSynEdit; AValue: boolean) of object;
 
 function EditorGetSelectionKind(Ed: TATSynEdit): TEditorSelectionKind;
-function EditorFormatStatus(ed: TATSynEdit; const str: string): string;
+function EditorFormatStatus(ed: TATSynEdit; const MacroText: string): string;
 procedure EditorDeleteNewColorAttribs(ed: TATSynEdit);
 procedure EditorGotoLastEditingPos(Ed: TATSynEdit; AIndentHorz, AIndentVert: integer);
 function EditorGotoFromString(Ed: TATSynEdit; SInput: string): boolean;
@@ -507,14 +507,14 @@ begin
   end;
 end;
 
-function EditorFormatStatus(ed: TATSynEdit; const str: string): string;
+function EditorFormatStatus(ed: TATSynEdit; const MacroText: string): string;
 var
   st: TATStrings;
   caret: TATCaretItem;
   cols, n, x_b, y_b, x_e, y_e: integer;
   bSel: boolean;
-  char_str, temp_str: UnicodeString;
-  macro_str: string;
+  char_str: UnicodeString;
+  s: string;
   char_code: integer;
   ch: WideChar;
   nOffsetMax, nOffsetCaret: integer;
@@ -536,7 +536,7 @@ begin
   if (ed.Carets.Count=1) and (caret.PosY=caret.EndY) then
     cols:= Abs(caret.PosX-caret.EndX);
 
-  result:= str;
+  result:= MacroText;
   result:= StringReplace(result, '{x}', inttostr(caret.PosX+1), []);
   result:= StringReplace(result, '{y}', inttostr(caret.PosY+1), []);
   result:= StringReplace(result, '{y2}', inttostr(ed.carets[ed.carets.count-1].PosY+1), []);
@@ -570,15 +570,15 @@ begin
   begin
     EditorCalcOffsetsForStatusbar(ed, nOffsetMax, nOffsetCaret);
     if nOffsetMax>=0 then
-      macro_str:= IntToStr(nOffsetMax)
+      s:= IntToStr(nOffsetMax)
     else
-      macro_str:= '?';
-    result:= StringReplace(result, '{offset_max}', macro_str, []);
+      s:= '?';
+    result:= StringReplace(result, '{offset_max}', s, []);
     if nOffsetCaret>=0 then
-      macro_str:= IntToStr(nOffsetCaret)
+      s:= IntToStr(nOffsetCaret)
     else
-      macro_str:= '?';
-    result:= StringReplace(result, '{offset_caret}', macro_str, []);
+      s:= '?';
+    result:= StringReplace(result, '{offset_caret}', s, []);
   end;
 
   if pos('{char', result)>0 then
@@ -600,22 +600,22 @@ begin
     result:= StringReplace(result, '{char}', char_str, []);
 
     if char_code>=0 then
-      temp_str:= IntToStr(char_code)
+      s:= IntToStr(char_code)
     else
-      temp_str:= '';
-    result:= StringReplace(result, '{char_dec}', temp_str, []);
+      s:= '';
+    result:= StringReplace(result, '{char_dec}', s, []);
 
     if char_code>=0 then
-      temp_str:= IntToHex(char_code, 2)
+      s:= IntToHex(char_code, 2)
     else
-      temp_str:= '';
-    result:= StringReplace(result, '{char_hex}', temp_str, []);
+      s:= '';
+    result:= StringReplace(result, '{char_hex}', s, []);
 
     if char_code>=0 then
-      temp_str:= IntToHex(char_code, 4)
+      s:= IntToHex(char_code, 4)
     else
-      temp_str:= '';
-    result:= StringReplace(result, '{char_hex4}', temp_str, []);
+      s:= '';
+    result:= StringReplace(result, '{char_hex4}', s, []);
   end;
 end;
 
