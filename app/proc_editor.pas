@@ -3079,8 +3079,6 @@ begin
   end;
 
   AOffsetMax:= Buffer.TextLength;
-  if AOffsetMax>0 then
-    Dec(AOffsetMax);
 
   if Ed.Carets.Count>0 then
   begin
