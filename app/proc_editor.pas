@@ -3064,9 +3064,9 @@ begin
   St:= Ed.Strings;
   if St.Count>ATEditorOptions.MaxLinesForStatusbarOffsetsCalc then exit;
 
-  if Ed.StringBufferObject=nil then
-    Ed.StringBufferObject:= TATStringBuffer.Create;
-  Buffer:= Ed.StringBufferObject as TATStringBuffer;
+  if St.StringBufferObject=nil then
+    St.StringBufferObject:= TATStringBuffer.Create;
+  Buffer:= St.StringBufferObject as TATStringBuffer;
 
   if Buffer.Version<>St.ModifiedVersion then
   begin
