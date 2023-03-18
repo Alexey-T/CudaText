@@ -513,7 +513,7 @@ var
   Caret: TATCaretItem;
   nColumns, xBegin, yBegin, xEnd, yEnd: integer;
   bSel: boolean;
-  charCode: integer;
+  nCharCode: integer;
   nOffsetMax, nOffsetCaret: integer;
   ch: WideChar;
   s: string;
@@ -583,7 +583,7 @@ begin
   if Pos('{char', result)>0 then
   begin
     s:= '';
-    charCode:= -1;
+    nCharCode:= -1;
 
     if St.IsIndexValid(yBegin) then
       if (xBegin>=0) and (xBegin<St.LinesLen[yBegin]) then
@@ -592,26 +592,26 @@ begin
         if ch<>#0 then
         begin
           s:= UTF8Encode(UnicodeString(ch));
-          charCode:= Ord(ch);
+          nCharCode:= Ord(ch);
         end;
       end;
 
     result:= StringReplace(result, '{char}', s, []);
 
-    if charCode>=0 then
-      s:= IntToStr(charCode)
+    if nCharCode>=0 then
+      s:= IntToStr(nCharCode)
     else
       s:= '';
     result:= StringReplace(result, '{char_dec}', s, []);
 
-    if charCode>=0 then
-      s:= IntToHex(charCode, 2)
+    if nCharCode>=0 then
+      s:= IntToHex(nCharCode, 2)
     else
       s:= '';
     result:= StringReplace(result, '{char_hex}', s, []);
 
-    if charCode>=0 then
-      s:= IntToHex(charCode, 4)
+    if nCharCode>=0 then
+      s:= IntToHex(nCharCode, 4)
     else
       s:= '';
     result:= StringReplace(result, '{char_hex4}', s, []);
