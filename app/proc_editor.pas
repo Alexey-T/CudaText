@@ -584,8 +584,6 @@ begin
   if Pos('{char', result)>0 then
   begin
     s:= '';
-    nCodepoint:= 0;
-
     if St.IsIndexValid(yBegin) then
       if (xBegin>=0) and (xBegin<St.LinesLen[yBegin]) then
       begin
