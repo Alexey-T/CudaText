@@ -515,7 +515,7 @@ var
   bSel: boolean;
   nCharCode: integer;
   nOffsetMax, nOffsetCaret: integer;
-  ch: WideChar;
+  ch, ch2: WideChar;
   s: string;
 begin
   result:= '';
@@ -589,9 +589,16 @@ begin
       if (xBegin>=0) and (xBegin<St.LinesLen[yBegin]) then
       begin
         ch:= St.LineCharAt(yBegin, xBegin+1);
+        if IsCharSurrogateHigh(ch) then
+          ch2:= St.LineCharAt(yBegin, xBegin+2)
+        else
+          ch2:= #0;
         if ch<>#0 then
         begin
-          s:= UTF8Encode(UnicodeString(ch));
+          if ch2=#0 then
+            s:= UTF8Encode(UnicodeString(ch))
+          else
+            s:= UTF8Encode(UnicodeString(ch)+UnicodeString(ch2));
           nCharCode:= Ord(ch);
         end;
       end;

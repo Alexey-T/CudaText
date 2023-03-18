@@ -6,6 +6,7 @@
 1.187.2 (2023/03)
 
 + add: support new macros in statusbar config: {offset_max}, {offset_caret}; the maximal supported count of lines can be changed via new option "max_lines_to_calc_offsets" (thanks @pintassilgo)
++ add: statusbar macro {char} must show emojis correctly
 
 1.187.1 (2023/03)
 
