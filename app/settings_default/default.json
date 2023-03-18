@@ -3,8 +3,8 @@
 //
 //Some options have suffix for OS:
 //  Windows: empty
-//  Linux:   "__linux"
-//  macOS:   "__mac"
+//  Linux: "__linux"
+//  macOS: "__mac"
 //  FreeBSD: "__freebsd"
 //  OpenBSD: "__openbsd"
 //  NetBSD: "__netbsd"
