@@ -13,39 +13,12 @@ unit proc_editor;
 interface
 
 uses
-  Classes, SysUtils, Graphics, StrUtils,
-  Controls, LCLType, LCLIntf, LazUTF8,
-  Dialogs, Forms,
-  Clipbrd,
+  SysUtils,
+  Classes, Graphics, Controls,
   ATSynEdit,
-  ATSynEdit_Globals,
-  ATSynEdit_LineParts,
-  ATSynEdit_Carets,
-  ATSynEdit_Markers,
-  ATSynEdit_Commands,
-  ATSynEdit_CharSizer,
-  ATSynEdit_Gutter_Decor,
-  ATSynEdit_Adapters,
-  ATSynEdit_Adapter_EControl,
-  ATSynEdit_Adapter_LiteLexer,
-  ATSynEdit_Bookmarks,
   ATSynEdit_Finder,
-  ATSynEdit_Cmp_HTML,
-  ATSynEdit_Cmp_Form,
-  ATSynEdit_RegExpr,
-  ATSynEdit_Export_HTML,
-  ATSynEdit_FGL,
-  ATStrings,
   ATStringProc,
-  ATStringProc_Separator,
-  ATStringProc_TextBuffer,
-  proc_globdata,
-  proc_colors,
-  proc_msg,
-  proc_str,
-  ec_SyntAnal,
-  ec_syntax_format,
-  math;
+  proc_globdata;
 
 procedure EditorStartParse(Ed: TATSynEdit);
 procedure EditorAdjustForBigFile(Ed: TATSynEdit);
@@ -179,6 +152,36 @@ procedure EditorCaretToView(Ed: TATSynEdit; ANeedWrapOff, AllowProcessMsg: boole
 procedure EditorCalcOffsetsForStatusbar(Ed: TATSynEdit; out AOffsetMax, AOffsetCaret: integer);
 
 implementation
+
+uses
+  StrUtils,
+  Dialogs, Forms, Clipbrd,
+  LCLType, LCLIntf, LazUTF8,
+  ATSynEdit_Globals,
+  ATSynEdit_LineParts,
+  ATSynEdit_Carets,
+  ATSynEdit_Markers,
+  ATSynEdit_Commands,
+  ATSynEdit_CharSizer,
+  ATSynEdit_Gutter_Decor,
+  ATSynEdit_Adapters,
+  ATSynEdit_Adapter_EControl,
+  ATSynEdit_Adapter_LiteLexer,
+  ATSynEdit_Bookmarks,
+  ATSynEdit_Cmp_HTML,
+  ATSynEdit_Cmp_Form,
+  ATSynEdit_RegExpr,
+  ATSynEdit_Export_HTML,
+  ATSynEdit_FGL,
+  ATStrings,
+  ATStringProc_Separator,
+  ATStringProc_TextBuffer,
+  proc_colors,
+  proc_msg,
+  proc_str,
+  ec_SyntAnal,
+  ec_syntax_format,
+  math;
 
 procedure EditorApplyOps(Ed: TATSynEdit; const Op: TEditorOps;
   AApplyUnprintedAndWrap, AApplyTabSize, AApplyCentering, AOneLiner: boolean);
