@@ -1233,7 +1233,7 @@
   //Statusbar panels list. Can skip and reorder panels.
   //Panels are "|"-separated, where each item is ","-separated: name, alignment, width.
   //Panel names:
-  //    caret  : Caret(s) info.
+  //    caret  : Caret(s)/selection(s) information.
   //    enc    : Encoding name.
   //    ends   : Line ends characters.
   //    lexer  : Lexer name.
@@ -1245,12 +1245,12 @@
   //    zoom   : Zoom value in percents (%).
   //             Change zoom value by Command Palette commands "current document font size: bigger/smaller",
   //             and by Ctrl+<Mouse wheel> (when option "mouse_wheel_zoom":true).
-  //    msg    : Messages from CudaText and plugins. Panel should be auto-sized.
+  //    msg    : Messages from CudaText and plugins.
   //Panel alignments:
   //    C: center
   //    L: left
   //    R: right
-  //    A: auto-sized (size adjusts to text)
+  //    A: auto-sized (width adjusts to text)
   "ui_statusbar_panels": "caret,C,180|enc,C,125|ends,A,45|lexer,C,140|tabsize,A,75|selmode,A,15|msg,L,4000",
 
   //Statusbar messages: show time in seconds.
