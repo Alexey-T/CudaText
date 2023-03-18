@@ -517,7 +517,7 @@ var
   nCodepointLen: integer;
   nOffsetMax, nOffsetCaret: integer;
   ch, ch2: WideChar;
-  s: string;
+  s, sOneChar: string;
 begin
   result:= '';
   St:= ed.Strings;
@@ -583,7 +583,7 @@ begin
 
   if Pos('{char', result)>0 then
   begin
-    s:= '';
+    sOneChar:= '';
     if St.IsIndexValid(yBegin) then
       if (xBegin>=0) and (xBegin<St.LinesLen[yBegin]) then
       begin
@@ -595,17 +595,20 @@ begin
         if ch<>#0 then
         begin
           if ch2=#0 then
-            s:= UTF8Encode(UnicodeString(ch))
+            sOneChar:= UTF8Encode(UnicodeString(ch))
           else
-            s:= UTF8Encode(UnicodeString(ch)+UnicodeString(ch2));
+            sOneChar:= UTF8Encode(UnicodeString(ch)+UnicodeString(ch2));
         end;
       end;
 
-    result:= StringReplace(result, '{char}', s, []);
+    result:= StringReplace(result, '{char}', sOneChar, []);
 
     if Pos('{char_', result)>0 then
     begin
-      nCodepoint:= UTF8CodepointToUnicode(PChar(s), nCodepointLen);
+      if sOneChar<>'' then
+        nCodepoint:= UTF8CodepointToUnicode(PChar(sOneChar), nCodepointLen)
+      else
+        nCodepoint:= 0;
 
       if nCodepoint>0 then
         s:= IntToStr(nCodepoint)
