@@ -513,7 +513,7 @@ var
   Caret: TATCaretItem;
   nColumns, xBegin, yBegin, xEnd, yEnd: integer;
   bSel: boolean;
-  nCharCode: cardinal;
+  nCodepoint: cardinal;
   nCodepointLen: integer;
   nOffsetMax, nOffsetCaret: integer;
   ch, ch2: WideChar;
@@ -584,7 +584,7 @@ begin
   if Pos('{char', result)>0 then
   begin
     s:= '';
-    nCharCode:= 0;
+    nCodepoint:= 0;
 
     if St.IsIndexValid(yBegin) then
       if (xBegin>=0) and (xBegin<St.LinesLen[yBegin]) then
@@ -600,29 +600,33 @@ begin
             s:= UTF8Encode(UnicodeString(ch))
           else
             s:= UTF8Encode(UnicodeString(ch)+UnicodeString(ch2));
-          nCharCode:= UTF8CodepointToUnicode(PChar(s), nCodepointLen);
         end;
       end;
 
     result:= StringReplace(result, '{char}', s, []);
 
-    if nCharCode>0 then
-      s:= IntToStr(nCharCode)
-    else
-      s:= '';
-    result:= StringReplace(result, '{char_dec}', s, []);
+    if Pos('{char_', result)>0 then
+    begin
+      nCodepoint:= UTF8CodepointToUnicode(PChar(s), nCodepointLen);
 
-    if nCharCode>0 then
-      s:= IntToHex(nCharCode, 2)
-    else
-      s:= '';
-    result:= StringReplace(result, '{char_hex}', s, []);
+      if nCodepoint>0 then
+        s:= IntToStr(nCodepoint)
+      else
+        s:= '';
+      result:= StringReplace(result, '{char_dec}', s, []);
 
-    if nCharCode>0 then
-      s:= IntToHex(nCharCode, 4)
-    else
-      s:= '';
-    result:= StringReplace(result, '{char_hex4}', s, []);
+      if nCodepoint>0 then
+        s:= IntToHex(nCodepoint, 2)
+      else
+        s:= '';
+      result:= StringReplace(result, '{char_hex}', s, []);
+
+      if nCodepoint>0 then
+        s:= IntToHex(nCodepoint, 4)
+      else
+        s:= '';
+      result:= StringReplace(result, '{char_hex4}', s, []);
+    end;
   end;
 end;
 
