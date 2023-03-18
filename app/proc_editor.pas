@@ -14,7 +14,7 @@ interface
 
 uses
   Classes, SysUtils, Graphics, StrUtils,
-  Controls, LCLType, LCLIntf,
+  Controls, LCLType, LCLIntf, LazUTF8,
   Dialogs, Forms,
   Clipbrd,
   ATSynEdit,
@@ -513,7 +513,8 @@ var
   Caret: TATCaretItem;
   nColumns, xBegin, yBegin, xEnd, yEnd: integer;
   bSel: boolean;
-  nCharCode: integer;
+  nCharCode: cardinal;
+  nCodepointLen: integer;
   nOffsetMax, nOffsetCaret: integer;
   ch, ch2: WideChar;
   s: string;
@@ -583,7 +584,7 @@ begin
   if Pos('{char', result)>0 then
   begin
     s:= '';
-    nCharCode:= -1;
+    nCharCode:= 0;
 
     if St.IsIndexValid(yBegin) then
       if (xBegin>=0) and (xBegin<St.LinesLen[yBegin]) then
@@ -599,25 +600,25 @@ begin
             s:= UTF8Encode(UnicodeString(ch))
           else
             s:= UTF8Encode(UnicodeString(ch)+UnicodeString(ch2));
-          nCharCode:= Ord(ch);
+          nCharCode:= UTF8CodepointToUnicode(PChar(s), nCodepointLen);
         end;
       end;
 
     result:= StringReplace(result, '{char}', s, []);
 
-    if nCharCode>=0 then
+    if nCharCode>0 then
       s:= IntToStr(nCharCode)
     else
       s:= '';
     result:= StringReplace(result, '{char_dec}', s, []);
 
-    if nCharCode>=0 then
+    if nCharCode>0 then
       s:= IntToHex(nCharCode, 2)
     else
       s:= '';
     result:= StringReplace(result, '{char_hex}', s, []);
 
-    if nCharCode>=0 then
+    if nCharCode>0 then
       s:= IntToHex(nCharCode, 4)
     else
       s:= '';
