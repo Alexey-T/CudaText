@@ -720,7 +720,8 @@
   //  5: carets column on the right
   "caret_after_paste_column": 5,
 
-  //Keep caret on visible screen area, on commands "Scroll line up/down".
+  //Keep caret on visible screen area. Several commands respect this option:
+  //"scroll line up/down", "scroll page up/down", "scroll to document begin/end" etc.
   "caret_keep_visible_on_scroll": true,
 
   //Mode of column selection, value makes difference for wrapped lines
