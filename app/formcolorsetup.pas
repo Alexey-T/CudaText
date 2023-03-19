@@ -193,6 +193,8 @@ begin
       st.BorderTypeRight:= TecBorderLineType(cbBorderR.ItemIndex);
       st.BorderTypeTop:= TecBorderLineType(cbBorderT.ItemIndex);
       st.BorderTypeBottom:= TecBorderLineType(cbBorderB.ItemIndex);
+
+      ListStyles.Invalidate;
     end;
   finally
     Free
