@@ -491,6 +491,7 @@ TYPES = {
     "wls": ['Wolfram'],
     "wlt": ['Wolfram'],
     "wren": ['Wren'],
+    "wrl": ['VRML'],
     "wsc": ['PECmd script'],
     "wsd": ['PlantUML'],
     "wsf": ['WSH script'],
