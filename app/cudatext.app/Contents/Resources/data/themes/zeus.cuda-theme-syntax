@@ -226,8 +226,8 @@
   "Lex_BracketBG" : {
     "Type" : 1,
     "Styles" : "",
-    "CFont" : "#000000",
-    "CBack" : "#A0A0A4",
+    "CFont" : "#C0C0C0",
+    "CBack" : "#000080",
     "CBorder" : "#808080",
     "Border" : "0,0,0,0"
   },
@@ -356,38 +356,6 @@
     "Styles" : "",
     "CFont" : "#E0E0E0",
     "CBack" : "#1D2021",
-    "CBorder" : "",
-    "Border" : "0,0,0,0"
-  },
-  "Lex_TextBold" : {
-    "Type" : 1,
-    "Styles" : "b",
-    "CFont" : "#F8F8F2",
-    "CBack" : "",
-    "CBorder" : "",
-    "Border" : "0,0,0,0"
-  },
-  "Lex_TextItalic" : {
-    "Type" : 1,
-    "Styles" : "i",
-    "CFont" : "#F8F8F2",
-    "CBack" : "",
-    "CBorder" : "",
-    "Border" : "0,0,0,0"
-  },
-  "Lex_TextBoldItalic" : {
-    "Type" : 1,
-    "Styles" : "bi",
-    "CFont" : "#F8F8F2",
-    "CBack" : "",
-    "CBorder" : "",
-    "Border" : "0,0,0,0"
-  },
-  "Lex_TextCross" : {
-    "Type" : 1,
-    "Styles" : "s",
-    "CFont" : "#F8F8F2",
-    "CBack" : "",
     "CBorder" : "",
     "Border" : "0,0,0,0"
   }
