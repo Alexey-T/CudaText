@@ -1,4 +1,4 @@
-object SyntAnal10: TLibSyntAnalyzer
+object SyntAnal11: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Symbol'
@@ -833,7 +833,6 @@ object SyntAnal10: TLibSyntAnalyzer
     end
     item
       DisplayName = '{'
-      StyleName = 'Current block'
       ConditionList = <
         item
           TagList.Strings = (
@@ -842,8 +841,7 @@ object SyntAnal10: TLibSyntAnalyzer
         end>
       BlockEnd = '}'
       DisplayInTree = False
-      DynHighlight = dhBound
-      HighlightPos = cpRange
+      HighlightPos = cpAny
       DrawStaple = True
       CollapseFmt = '{ ... }'
       IgnoreAsParent = False
@@ -955,13 +953,13 @@ object SyntAnal10: TLibSyntAnalyzer
       DisplayName = 'PHP'
       StartExpression = '<\?(php)?'
       EndExpression = '\?>'
-      SyntAnalyzer = SyntAnal17
+      SyntAnalyzer = SyntAnal18
     end
     item
       DisplayName = 'JSDoc'
       StartExpression = '/\*\*[^/\*]'
       EndExpression = '[^/\*\n\r]*?\*/'
-      SyntAnalyzer = SyntAnal11
+      SyntAnalyzer = SyntAnal12
     end>
   SampleText.Strings = (
     '#!/bin/bash                         '
