@@ -228,6 +228,8 @@ object SyntAnal4: TLibSyntAnalyzer
       ConditionList = <
         item
           TagList.Strings = (
+            'alignas'
+            'alignof'
             'asm'
             'break'
             'case'
@@ -250,6 +252,9 @@ object SyntAnal4: TLibSyntAnalyzer
             'switch'
             'throw'
             'try'
+            'typedef'
+            'typeof'
+            'typeof_unqual'
             'union'
             'uuid'
             'while')
@@ -259,7 +264,7 @@ object SyntAnal4: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
-      DisplayName = 'keywords2'
+      DisplayName = 'keywords modifiers'
       StyleName = 'Id special'
       BlockType = btTagDetect
       ConditionList = <
@@ -292,17 +297,23 @@ object SyntAnal4: TLibSyntAnalyzer
             '__thiscall'
             '__try'
             '__uuidof'
+            '_Alignas'
+            '_Alignof'
             '_asm'
             '_Atomic'
             '_cdecl'
             '_export'
             '_fastcall'
             '_import'
+            '_Noreturn'
             '_pascal'
+            '_Static_assert'
             '_stdcall'
+            '_Thread_local'
             'auto'
             'cdecl'
             'const'
+            'constexpr'
             'explicit'
             'export'
             'extern'
@@ -316,8 +327,9 @@ object SyntAnal4: TLibSyntAnalyzer
             'register'
             'restrict'
             'static'
+            'static_assert'
             'this'
-            'typedef'
+            'thread_local'
             'typeid'
             'typename'
             'virtual'
@@ -334,6 +346,14 @@ object SyntAnal4: TLibSyntAnalyzer
       ConditionList = <
         item
           TagList.Strings = (
+            '_BitInt'
+            '_Bool'
+            '_Complex'
+            '_Decimal128'
+            '_Decimal32'
+            '_Decimal64'
+            '_Generic'
+            '_Imaginary'
             'bool'
             'char'
             'double'
@@ -343,6 +363,7 @@ object SyntAnal4: TLibSyntAnalyzer
             'long'
             'null'
             'NULL'
+            'nullptr'
             'short'
             'signed'
             'true'
