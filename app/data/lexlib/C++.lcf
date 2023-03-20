@@ -1,4 +1,4 @@
-object SyntAnal6: TLibSyntAnalyzer
+object SyntAnal5: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Symbol'
@@ -158,10 +158,10 @@ object SyntAnal6: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = '~Id with ::'
+      DisplayName = '~Id after ::'
       StyleName = 'Id'
       TokenType = 16
-      Expression = '(?<=::) ~[a-z_][\w\$]*'
+      Expression = '(?<=::)~[a-z_][\w\$]*'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -523,7 +523,7 @@ object SyntAnal6: TLibSyntAnalyzer
         end
         item
           CondType = tcSkip
-          TokenTypes = 2048
+          TokenTypes = 2050
         end
         item
           TagList.Strings = (
@@ -532,7 +532,7 @@ object SyntAnal6: TLibSyntAnalyzer
         end
         item
           CondType = tcSkip
-          TokenTypes = 622
+          TokenTypes = 2670
         end
         item
           TagList.Strings = (
@@ -553,49 +553,10 @@ object SyntAnal6: TLibSyntAnalyzer
         end
         item
           TokenTypes = 4
-        end
-        item
-          TagList.Strings = (
-            '-'
-            '!'
-            '!='
-            '&'
-            '&&'
-            '('
-            ')'
-            ','
-            '.'
-            ':'
-            '::'
-            ';'
-            '?'
-            '['
-            ']'
-            '^'
-            '^^'
-            '{'
-            '|'
-            '||'
-            '}'
-            '+'
-            '<'
-            '<<'
-            '<='
-            '='
-            '=='
-            '->'
-            '>='
-            '>>'
-            'else'
-            'new'
-            'return')
-          CondType = tcNotEqual
-          TokenTypes = 14216
         end>
-      BlockOffset = -1
       BlockEnd = '}'
-      NameFmt = '%s-5'
-      GroupFmt = '%s-1\%s-3'
+      NameFmt = '%s-4'
+      GroupFmt = '%s0\%s-2'
       RefToCondEnd = True
       HighlightPos = cpAny
       CancelNextRules = True
@@ -615,7 +576,7 @@ object SyntAnal6: TLibSyntAnalyzer
         end
         item
           CondType = tcSkip
-          TokenTypes = 2048
+          TokenTypes = 2050
         end
         item
           TagList.Strings = (
@@ -639,48 +600,10 @@ object SyntAnal6: TLibSyntAnalyzer
         end
         item
           TokenTypes = 4
-        end
-        item
-          TagList.Strings = (
-            '-'
-            '!'
-            '!='
-            '&&'
-            '('
-            ')'
-            ','
-            '.'
-            ':'
-            '::'
-            ';'
-            '?'
-            '['
-            ']'
-            '^'
-            '^^'
-            '{'
-            '|'
-            '||'
-            '}'
-            '+'
-            '<'
-            '<<'
-            '<='
-            '='
-            '=='
-            '->'
-            '>='
-            '>>'
-            'else'
-            'new'
-            'return')
-          CondType = tcNotEqual
-          TokenTypes = 14216
         end>
-      BlockOffset = -1
       BlockEnd = '}'
-      NameFmt = '%s-3'
-      GroupFmt = '%s-1'
+      NameFmt = '%s-2'
+      GroupFmt = '%s0'
       RefToCondEnd = True
       HighlightPos = cpBound
       CancelNextRules = True
