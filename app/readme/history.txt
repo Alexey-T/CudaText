@@ -7,6 +7,7 @@
 
 + add: support new macros in statusbar config: {offset_max}, {offset_caret}; the maximal supported count of lines can be changed via new option "max_lines_to_calc_offsets" (thanks @pintassilgo)
 + add: support emojis by statusbar macros {char} and {char_xxxx}
+- fix: lexer C++: don't catch 'case' lines to code-tree (thanks @d0vgan)
 
 1.187.1 (2023/03)
 
