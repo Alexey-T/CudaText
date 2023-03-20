@@ -517,6 +517,16 @@ object SyntAnal6: TLibSyntAnalyzer
       ConditionList = <
         item
           TagList.Strings = (
+            '{')
+          TokenTypes = 256
+          IgnoreCase = True
+        end
+        item
+          CondType = tcSkip
+          TokenTypes = 2048
+        end
+        item
+          TagList.Strings = (
             ')')
           TokenTypes = 1024
         end
@@ -573,7 +583,6 @@ object SyntAnal6: TLibSyntAnalyzer
             '<='
             '='
             '=='
-            '>'
             '->'
             '>='
             '>>'
@@ -584,14 +593,14 @@ object SyntAnal6: TLibSyntAnalyzer
           TokenTypes = 14216
         end>
       BlockOffset = -1
-      NotCollapsed = True
+      BlockEnd = '}'
       NameFmt = '%s-5'
       GroupFmt = '%s-1\%s-3'
       RefToCondEnd = True
       HighlightPos = cpAny
+      CancelNextRules = True
       CollapseFmt = '%sz0'
       SelfClose = True
-      NoEndRule = True
       TreeItemImage = 6
       TreeGroupImage = 1
       IgnoreAsParent = False
@@ -599,6 +608,15 @@ object SyntAnal6: TLibSyntAnalyzer
     item
       DisplayName = 'func ::'
       ConditionList = <
+        item
+          TagList.Strings = (
+            '{')
+          TokenTypes = 256
+        end
+        item
+          CondType = tcSkip
+          TokenTypes = 2048
+        end
         item
           TagList.Strings = (
             ')')
@@ -627,7 +645,6 @@ object SyntAnal6: TLibSyntAnalyzer
             '-'
             '!'
             '!='
-            '&'
             '&&'
             '('
             ')'
@@ -651,7 +668,6 @@ object SyntAnal6: TLibSyntAnalyzer
             '<='
             '='
             '=='
-            '>'
             '->'
             '>='
             '>>'
@@ -662,14 +678,14 @@ object SyntAnal6: TLibSyntAnalyzer
           TokenTypes = 14216
         end>
       BlockOffset = -1
-      NotCollapsed = True
+      BlockEnd = '}'
       NameFmt = '%s-3'
       GroupFmt = '%s-1'
       RefToCondEnd = True
       HighlightPos = cpBound
+      CancelNextRules = True
       CollapseFmt = '%sz0'
       SelfClose = True
-      NoEndRule = True
       TreeItemImage = 6
       TreeGroupImage = 1
       IgnoreAsParent = False
@@ -747,13 +763,13 @@ object SyntAnal6: TLibSyntAnalyzer
           TokenTypes = 14216
         end>
       BlockOffset = -1
-      NotCollapsed = True
+      BlockEnd = '}'
       NameFmt = '%s-1'
       RefToCondEnd = True
       HighlightPos = cpBound
+      CancelNextRules = True
       CollapseFmt = '%sz-1'
       SelfClose = True
-      NoEndRule = True
       TreeItemImage = 5
       IgnoreAsParent = False
     end
