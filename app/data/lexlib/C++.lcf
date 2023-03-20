@@ -1,4 +1,4 @@
-object SyntAnal5: TLibSyntAnalyzer
+object SyntAnal6: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Symbol'
@@ -269,6 +269,14 @@ object SyntAnal5: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
+      DisplayName = 'Symbol :'
+      StyleName = 'Symbol'
+      TokenType = 17
+      Expression = ':'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
       DisplayName = 'Symbol ( )'
       StyleName = 'Symbol'
       TokenType = 10
@@ -454,6 +462,31 @@ object SyntAnal5: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
+      DisplayName = 'case'
+      ConditionList = <
+        item
+          TagList.Strings = (
+            ':')
+          TokenTypes = 131072
+        end
+        item
+          CondType = tcSkip
+          TokenTypes = 1598
+        end
+        item
+          TagList.Strings = (
+            'case')
+          TokenTypes = 128
+        end>
+      DisplayInTree = False
+      NameFmt = '%sz0'
+      RefToCondEnd = True
+      HighlightPos = cpAny
+      CancelNextRules = True
+      NoEndRule = True
+      IgnoreAsParent = False
+    end
+    item
       DisplayName = 'class'
       ConditionList = <
         item
@@ -514,24 +547,26 @@ object SyntAnal5: TLibSyntAnalyzer
         item
           TagList.Strings = (
             '-'
-            '^'
-            '^^'
-            ','
-            ';'
-            ':'
-            '::'
             '!'
             '!='
-            '?'
-            '.'
-            '('
-            ')'
-            '['
-            ']'
-            '{'
-            '}'
             '&'
             '&&'
+            '('
+            ')'
+            ','
+            '.'
+            ':'
+            '::'
+            ';'
+            '?'
+            '['
+            ']'
+            '^'
+            '^^'
+            '{'
+            '|'
+            '||'
+            '}'
             '+'
             '<'
             '<<'
@@ -542,8 +577,6 @@ object SyntAnal5: TLibSyntAnalyzer
             '->'
             '>='
             '>>'
-            '|'
-            '||'
             'else'
             'new'
             'return')
@@ -592,24 +625,26 @@ object SyntAnal5: TLibSyntAnalyzer
         item
           TagList.Strings = (
             '-'
-            '^'
-            '^^'
-            ','
-            ';'
-            ':'
-            '::'
             '!'
             '!='
-            '?'
-            '.'
-            '('
-            ')'
-            '['
-            ']'
-            '{'
-            '}'
             '&'
             '&&'
+            '('
+            ')'
+            ','
+            '.'
+            ':'
+            '::'
+            ';'
+            '?'
+            '['
+            ']'
+            '^'
+            '^^'
+            '{'
+            '|'
+            '||'
+            '}'
             '+'
             '<'
             '<<'
@@ -620,8 +655,6 @@ object SyntAnal5: TLibSyntAnalyzer
             '->'
             '>='
             '>>'
-            '|'
-            '||'
             'else'
             'new'
             'return')
@@ -677,24 +710,26 @@ object SyntAnal5: TLibSyntAnalyzer
         item
           TagList.Strings = (
             '-'
-            '^'
-            '^^'
-            ','
-            ';'
-            ':'
-            '::'
             '!'
             '!='
-            '?'
-            '.'
-            '('
-            ')'
-            '['
-            ']'
-            '{'
-            '}'
             '&'
             '&&'
+            '('
+            ')'
+            ','
+            '.'
+            ':'
+            '::'
+            ';'
+            '?'
+            '['
+            ']'
+            '^'
+            '^^'
+            '{'
+            '|'
+            '||'
+            '}'
             '+'
             '<'
             '<<'
@@ -705,8 +740,6 @@ object SyntAnal5: TLibSyntAnalyzer
             '->'
             '>='
             '>>'
-            '|'
-            '||'
             'else'
             'new'
             'return')
@@ -894,7 +927,8 @@ object SyntAnal5: TLibSyntAnalyzer
     'Symbol ;'
     'Goto label'
     'Id after ~'
-    'Id after ::~')
+    'Id after ::~'
+    'Symbol :')
   Extentions = 'cpp cxx h hh hpp hxx cc c++ h++ ipp cppm'
   LexerName = 'C++'
   Notes.Strings = (
