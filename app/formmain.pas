@@ -932,7 +932,7 @@ type
     procedure InitPopupTab;
     procedure InitPopupTabSize;
     procedure InitBottomEditor(var Form: TAppFormWithEditor);
-    procedure InitFloatGroup(var F: TForm; var G: TATGroups; ATag: integer;
+    procedure InitFloatGroup(var F: TForm; var G: TATGroups; AIndexOfGroup: integer;
       const ARect: TRect; AOnClose: TCloseEvent; AOnGroupEmpty: TNotifyEvent);
     procedure InitFloatGroups;
     procedure InitSaveDlg;
@@ -8169,7 +8169,7 @@ begin
 end;
 
 
-procedure TfmMain.InitFloatGroup(var F: TForm; var G: TATGroups; ATag: integer;
+procedure TfmMain.InitFloatGroup(var F: TForm; var G: TATGroups; AIndexOfGroup: integer;
   const ARect: TRect; AOnClose: TCloseEvent; AOnGroupEmpty: TNotifyEvent);
 begin
   if not Assigned(F) then
@@ -8181,7 +8181,7 @@ begin
     F.BorderIcons:= [biSystemMenu, biMaximize, biMinimize];
     F.OnClose:= AOnClose;
     F.OnActivate:= @FormActivate;
-    F.Caption:= Format('[f%d]', [ATag]) + (' - ' + msgTitle);
+    F.Caption:= Format('[f%d]', [AIndexOfGroup]) + (' - ' + msgTitle);
 
     F.AllowDropFiles:= true;
     F.OnDropFiles:= @FormFloatGroups_OnDropFiles;
@@ -8189,7 +8189,7 @@ begin
 
     G:= TATGroups.Create(Self);
     G.Pages1.EnabledEmpty:= true;
-    G.Tag:= ATag;
+    G.IndexOfGroup:= AIndexOfGroup;
     G.Parent:= F;
     G.Align:= alClient;
     G.Mode:= gmOne;

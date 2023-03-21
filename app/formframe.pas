@@ -611,7 +611,8 @@ procedure GetFrameLocation(Frame: TEditorFrame;
   out AGroups: TATGroups; out APages: TATPages;
   out ALocalGroupIndex, AGlobalGroupIndex, ATabIndex: integer);
 begin
-  //Parent=nil occurs when I close single ui-tab with Ctrl+W, and some plugin calls "ed.get_prop()"
+  //Parent=nil occurs when I close single ui-tab with Ctrl+W,
+  //then Tabs List plugin reacts to on_tab_move and calls ed.get_prop()
   if Frame.Parent=nil then
   begin
     AGroups:= nil;
@@ -627,8 +628,8 @@ begin
   AGroups.FindPositionOfControl(Frame, ALocalGroupIndex, ATabIndex);
 
   AGlobalGroupIndex:= ALocalGroupIndex;
-  if AGroups.Tag<>0 then
-    Inc(AGlobalGroupIndex, High(TATGroupsNums) + AGroups.Tag);
+  if AGroups.IndexOfGroup<>0 then
+    Inc(AGlobalGroupIndex, High(TATGroupsNums) + AGroups.IndexOfGroup);
 end;
 
 procedure UpdateTabPreviewStyle(D: TATTabData; AValue: boolean);
