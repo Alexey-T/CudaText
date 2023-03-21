@@ -474,7 +474,7 @@ begin
   NIndex:= AppListTimers.IndexOfObject(Timer);
   if NIndex<0 then exit;
 
-  //if timer_start_one
+  //Timer.Tag=1 for TIMER_START_ONE action
   if Timer.Tag=1 then
     Timer.Enabled:= false;
 
