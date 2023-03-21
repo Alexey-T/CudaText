@@ -3,11 +3,12 @@
   - fixed
   * changed
 
-1.187.2 (2023/03)
+1.188.0 (2023/03)
 
 + add: support new macros in statusbar config: {offset_max}, {offset_caret}; the maximal supported count of lines can be changed via new option "max_lines_to_calc_offsets" (thanks @pintassilgo)
 + add: support emojis by statusbar macros {char} and {char_xxxx}
 + add: lexer C++: better code-tree for complex classes (thanks @d0vgan)
++ add: lexers C/C++: update keyword list from last standard
 
 1.187.1 (2023/03)
 
