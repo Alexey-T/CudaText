@@ -611,7 +611,16 @@ procedure GetFrameLocation(Frame: TEditorFrame;
   out AGroups: TATGroups; out APages: TATPages;
   out ALocalGroupIndex, AGlobalGroupIndex, ATabIndex: integer);
 begin
-  Assert(Assigned(Frame.Parent));
+  if Frame.Parent=nil then
+  begin
+    AGroups:= nil;
+    APages:= nil;
+    ALocalGroupIndex:= 0;
+    AGlobalGroupIndex:= 0;
+    ATabIndex:= 0;
+    exit;
+  end;
+
   APages:= Frame.GetTabPages;
   AGroups:= Frame.GetTabGroups;
   AGroups.FindPositionOfControl(Frame, ALocalGroupIndex, ATabIndex);
@@ -804,13 +813,25 @@ begin
 end;
 
 function TEditorFrame.GetTabPages: TATPages;
+var
+  P: TWinControl;
 begin
-  Result:= Parent as TATPages;
+  P:= Parent;
+  if Assigned(P) then
+    Result:= P as TATPages
+  else
+    Result:= nil;
 end;
 
 function TEditorFrame.GetTabGroups: TATGroups;
+var
+  P: TWinControl;
 begin
-  Result:= (Parent as TATPages).Owner as TATGroups;
+  P:= Parent;
+  if Assigned(P) then
+    Result:= (Parent as TATPages).Owner as TATGroups
+  else
+    Result:= nil;
 end;
 
 procedure TEditorFrame.DoShow;

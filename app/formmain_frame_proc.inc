@@ -17,6 +17,8 @@ var
 begin
   Frame:= Sender as TEditorFrame;
   GetFrameLocation(Frame, Gr, Pages, NLocalGroup, NGlobalGroup, NTab);
+  if Gr=nil then exit;
+
   D:= Pages.Tabs.GetTabData(NTab);
   if D=nil then Exit;
   D.TabCaption:= Frame.TabCaption;
