@@ -222,7 +222,7 @@ object SyntAnal4: TLibSyntAnalyzer
     end>
   BlockRules = <
     item
-      DisplayName = 'keywords'
+      DisplayName = 'id keywords'
       StyleName = 'Id keyword'
       BlockType = btTagDetect
       ConditionList = <
@@ -264,7 +264,7 @@ object SyntAnal4: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
-      DisplayName = 'keywords modifiers'
+      DisplayName = 'id modifiers'
       StyleName = 'Id special'
       BlockType = btTagDetect
       ConditionList = <
@@ -310,7 +310,6 @@ object SyntAnal4: TLibSyntAnalyzer
             '_Static_assert'
             '_stdcall'
             '_Thread_local'
-            'auto'
             'cdecl'
             'const'
             'constexpr'
@@ -340,7 +339,7 @@ object SyntAnal4: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
-      DisplayName = 'types'
+      DisplayName = 'id types'
       StyleName = 'Id types'
       BlockType = btTagDetect
       ConditionList = <
@@ -354,6 +353,7 @@ object SyntAnal4: TLibSyntAnalyzer
             '_Decimal64'
             '_Generic'
             '_Imaginary'
+            'auto'
             'bool'
             'char'
             'double'
