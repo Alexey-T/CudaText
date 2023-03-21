@@ -611,6 +611,7 @@ procedure GetFrameLocation(Frame: TEditorFrame;
   out AGroups: TATGroups; out APages: TATPages;
   out ALocalGroupIndex, AGlobalGroupIndex, ATabIndex: integer);
 begin
+  //Parent=nil occurs when I close single ui-tab with Ctrl+W, and some plugin calls "ed.get_prop()"
   if Frame.Parent=nil then
   begin
     AGroups:= nil;
