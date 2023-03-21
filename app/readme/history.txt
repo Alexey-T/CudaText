@@ -9,6 +9,7 @@
 + add: support emojis by statusbar macros {char} and {char_xxxx}
 + add: lexer C++: better code-tree for complex classes (thanks @d0vgan)
 + add: lexers C/C++: update keyword list from last standard
+- fix: error "Assertion failed" when closing single ui-tab, with visible plugin Tabs List
 
 1.187.1 (2023/03)
 
