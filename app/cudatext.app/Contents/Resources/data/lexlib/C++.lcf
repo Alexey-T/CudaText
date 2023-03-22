@@ -193,7 +193,7 @@ object SyntAnal5: TLibSyntAnalyzer
       DisplayName = 'Id templated'
       StyleName = 'Id templated'
       TokenType = 2
-      Expression = '[a-z_][\w\$]*<'#13#10'(<[^>";\x0A]*>|[^>";\x0A])*'#13#10'>'
+      Expression = '(?-i)[A-Z][\w\$]*<'#13#10'(<[^<>";\x0A\x09]*>|[^<>";\x0A\x09])*'#13#10'>'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -671,6 +671,55 @@ object SyntAnal5: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
+      DisplayName = 'func :: with : initing'
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '{')
+          TokenTypes = 256
+        end
+        item
+          CondType = tcSkip
+          TokenTypes = 1662
+        end
+        item
+          TokenTypes = 131072
+        end
+        item
+          TagList.Strings = (
+            ')')
+          TokenTypes = 1024
+        end
+        item
+          CondType = tcSkip
+          TokenTypes = 2670
+        end
+        item
+          TagList.Strings = (
+            '(')
+          TokenTypes = 1024
+        end
+        item
+          TokenTypes = 65540
+        end
+        item
+          TokenTypes = 512
+        end
+        item
+          TokenTypes = 4
+        end>
+      BlockEnd = '}'
+      NameFmt = '%s-2'
+      GroupFmt = '%s0'
+      RefToCondEnd = True
+      HighlightPos = cpAny
+      CancelNextRules = True
+      CollapseFmt = '%sz0'
+      TreeItemImage = 6
+      TreeGroupImage = 1
+      IgnoreAsParent = False
+    end
+    item
       DisplayName = 'func ::'
       ConditionList = <
         item
@@ -709,11 +758,56 @@ object SyntAnal5: TLibSyntAnalyzer
       NameFmt = '%s-2'
       GroupFmt = '%s0'
       RefToCondEnd = True
-      HighlightPos = cpBound
+      HighlightPos = cpAny
       CancelNextRules = True
       CollapseFmt = '%sz0'
       TreeItemImage = 6
       TreeGroupImage = 1
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'func with : initing'
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '{')
+          TokenTypes = 256
+        end
+        item
+          CondType = tcSkip
+          TokenTypes = 1662
+        end
+        item
+          TokenTypes = 131072
+        end
+        item
+          TagList.Strings = (
+            ')')
+          TokenTypes = 1024
+        end
+        item
+          CondType = tcSkip
+          TokenTypes = 2750
+        end
+        item
+          TagList.Strings = (
+            '(')
+          TokenTypes = 1024
+        end
+        item
+          CondType = tcSkip
+          TokenTypes = 2
+        end
+        item
+          TokenTypes = 4
+        end>
+      BlockEnd = '}'
+      NameFmt = '%s0'
+      RefToCondEnd = True
+      HighlightPos = cpAny
+      CancelNextRules = True
+      CollapseFmt = '%sz0'
+      TreeItemImage = 5
       IgnoreAsParent = False
     end
     item
@@ -791,10 +885,9 @@ object SyntAnal5: TLibSyntAnalyzer
       BlockEnd = '}'
       NameFmt = '%s-1'
       RefToCondEnd = True
-      HighlightPos = cpBound
+      HighlightPos = cpAny
       CancelNextRules = True
       CollapseFmt = '%sz-1'
-      SelfClose = True
       TreeItemImage = 5
       IgnoreAsParent = False
     end
