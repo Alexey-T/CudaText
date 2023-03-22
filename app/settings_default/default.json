@@ -1386,7 +1386,7 @@
   "duplicate_move_down": true,
 
   //[Text/Completion]
-  //Enable auto-completion from *.acp files (static lists of words)
+  //Enable auto-completion from *.acp files (static lists of words).
   "autocomplete_acp": true,
 
   //Enable special HTML auto-completion, see wiki.
@@ -1409,18 +1409,18 @@
   "autocomplete_file_uri": true,
 
   //Auto-show auto-completion after typing N word-chars (0: disabled)
-  //Option is for lexer-specific configs, not for user.json config.
+  //Option is (mostly) for lexer-specific configs.
   "autocomplete_autoshow_chars": 0,
 
   //Chars, which trigger auto-completion showing.
-  //Option is for lexer-specific configs, not for user.json config.
+  //Option is (mostly) for lexer-specific configs.
   //  E.g. if option is "@!" in config "lexer Nnn.json", then @ and !
   //  chars trigger auto-completion, in Nnn lexer.
   "autocomplete_trigger_chars": "",
 
   //When any of these chars is typed while showing completion listbox,
   //listbox enters selection, and typed char is appended too.
-  //Option is for lexer-specific configs, not for user.json config.
+  //Option is (mostly) for lexer-specific configs.
   "autocomplete_commit_chars": " ,;",
 
   //When any of these chars is typed while showing completion listbox,
