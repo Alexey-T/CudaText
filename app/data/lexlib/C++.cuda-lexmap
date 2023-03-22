@@ -1,11 +1,13 @@
 [ref]
 0=Assembly
 1=Assembly
+
 [comments]
 str1=/*
 str2=*/
 styles_cmt=Comment
 styles_str=String
+
 [map]
 Symbol=Symbol
 Number=Number
@@ -14,7 +16,9 @@ Id=Id
 Id keyword=IdKeyword
 Id type=Id2
 Id special=Id3
+Id templated=Id1
 Comment=Comment
 Preprocessor=Comment2
 Asm BG=IncludeBG1
 Label=Label
+Operator XX=Id4
