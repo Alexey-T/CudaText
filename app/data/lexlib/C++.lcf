@@ -825,22 +825,6 @@ object SyntAnal5: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
-      DisplayName = 'operator'
-      ConditionList = <
-        item
-          TagList.Strings = (
-            'operator')
-          TokenTypes = 128
-        end>
-      NameFmt = '%s0 %s-1'
-      RefToCondEnd = True
-      HighlightPos = cpAny
-      CollapseFmt = '%sz0'
-      NoEndRule = True
-      TreeItemImage = 7
-      IgnoreAsParent = False
-    end
-    item
       DisplayName = '{'
       ConditionList = <
         item

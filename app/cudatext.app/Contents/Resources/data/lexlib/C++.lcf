@@ -202,8 +202,8 @@ object SyntAnal5: TLibSyntAnalyzer
       StyleName = 'Operator XX'
       TokenType = 2
       Expression = 
-        '(?-i)operator('#13#10'\x20*[=!<>\+\-/\*&\|\^%~\[\]]+'#13#10'|\x20+const\x20+' +
-        '\w+\*?'#13#10')'
+        '(?-i)operator('#13#10'\x20*[=!<>\+\-/\*&\|\^%~]+'#13#10'|\x20*\(\)'#13#10'|\x20*\[' +
+        '\]'#13#10'|\x20+\w[\w\x20:]*\*?'#13#10')'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -822,22 +822,6 @@ object SyntAnal5: TLibSyntAnalyzer
       CancelNextRules = True
       CollapseFmt = '%sz0'
       TreeItemImage = 4
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = 'operator'
-      ConditionList = <
-        item
-          TagList.Strings = (
-            'operator')
-          TokenTypes = 128
-        end>
-      NameFmt = '%s0 %s-1'
-      RefToCondEnd = True
-      HighlightPos = cpAny
-      CollapseFmt = '%sz0'
-      NoEndRule = True
-      TreeItemImage = 7
       IgnoreAsParent = False
     end
     item
