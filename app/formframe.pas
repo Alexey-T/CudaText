@@ -196,7 +196,8 @@ type
     FCachedTreeview: array[0..1] of TTreeView;
     FLexerBackup: array[0..1] of TATAdapterHilite;
     FLexerChooseFunc: TecLexerChooseFunc;
-    FLexerNameBackup: string;
+    FLexerNameBackup1: string;
+    FLexerNameBackup2: string;
     FBracketHilite: boolean;
     FBracketHiliteUserChanged: boolean;
     FBracketSymbols: string;
@@ -4834,13 +4835,17 @@ end;
 
 procedure TEditorFrame.LexerBackupSave;
 begin
-  if FLexerNameBackup<>'' then
+  if FLexerNameBackup1<>'' then
     raise Exception.Create('Unexpected non-empty Frame.LexerNameBackup');
-  FLexerNameBackup:= LexerName[Ed1];
+  FLexerNameBackup1:= LexerName[Ed1];
 
   Lexer[Ed1]:= nil;
+
   if not EditorsLinked then
+  begin
+    FLexerNameBackup2:= LexerName[Ed2];
     Lexer[Ed2]:= nil;
+  end;
 
   //fix crash: lexer is active in passive tab, LoadLexerLib deletes all lexers, user switches tab
   LexerInitial[Ed1]:= nil;
@@ -4849,8 +4854,12 @@ end;
 
 procedure TEditorFrame.LexerBackupRestore;
 begin
-  LexerName[Ed1]:= FLexerNameBackup;
-  FLexerNameBackup:= '';
+  LexerName[Ed1]:= FLexerNameBackup1;
+  if not EditorsLinked then
+    LexerName[Ed2]:= FLexerNameBackup2;
+
+  FLexerNameBackup1:= '';
+  FLexerNameBackup2:= '';
 end;
 
 
