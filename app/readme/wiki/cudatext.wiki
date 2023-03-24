@@ -630,6 +630,7 @@ Most of them are located in the Addons Manager "Install" list.
 * Virgil
 * Visual Basic
 * Visual dBase
+* VRML
 * Vue
 * WikidPad
 * WinBuilder script
