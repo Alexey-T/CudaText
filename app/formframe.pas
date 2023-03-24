@@ -4860,6 +4860,10 @@ begin
 
   FLexerNameBackup1:= '';
   FLexerNameBackup2:= '';
+
+  //fix for: passive tabs have lexer turned off, after API call lexer_proc(LEXER_REREAD_LIB,'')
+  if not Visible then
+    FWasVisible:= false;
 end;
 
 
