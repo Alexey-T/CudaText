@@ -1517,7 +1517,7 @@
   "ui_toolbar_theme": "default_24x24",
 
   //Show main menu bar.
-  //Note: this option takes effect only after program restart
+  //Note: option takes effect only after app restart.
   "ui_menu_show": true,
 
   //Top menu bar is themed (Windows only, not possible in other OS).
