@@ -1491,6 +1491,11 @@ begin
     AppAllowFrameParsing:= true;
 
   UiOps.ShowMenubar:= cfg.GetValue('ui_menu_show', UiOps.ShowMenubar);
+  if ToolbarSideTop.ButtonCount>0 then
+    with ToolbarSideTop.Buttons[0] do
+      if OnClick=@DoSidebar_MainMenuClick then
+        Visible:= not UiOps.ShowMenubar;
+
   UiOps.ShowStatusbar:= cfg.GetValue('ui_statusbar_show', UiOps.ShowStatusbar);
   UiOps.ShowToolbar:= cfg.GetValue('ui_toolbar_show', UiOps.ShowToolbar);
 
