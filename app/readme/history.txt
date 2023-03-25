@@ -5,8 +5,8 @@
 
 1.188.1 (2023/03)
 
-* change: statusbar now reacts to caret moving/selection not immediately, it is needed to fix slower rendering on _fast_ mouse selection (we had a speed regression in 1.185) (thanks @veksha)
-- fix: on auto-installation of a lexer, passive ui-tabs lost their syntax highlight
+* change: statusbar now reacts to caret moving/selection with a delay, like in 1.184; it is needed to fix a rendering speed regression in 1.185 (thanks @veksha)
+- fix: after auto-installation of a lexer, passive ui-tabs lost their syntax highlighting
 
 1.188.0 (2023/03)
 
