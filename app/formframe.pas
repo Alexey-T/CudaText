@@ -81,6 +81,20 @@ type
     tcrFromPlugin
     );
 
+  TAppStatusbarUpdateReason = (
+    sbrCaret,
+    sbrZoom,
+    sbrInsOvr,
+    sbrLexer,
+    sbrFocusEnter,
+    sbrFileOpen,
+    sbrFileReload,
+    sbrViewerScroll,
+    sbrPictureScroll
+    );
+
+  TAppFrameStatusbarEvent = procedure(Sender: TObject; AReason: TAppStatusbarUpdateReason) of object;
+
 const
   cAppTabCaptionReasonStr: array[TAppTabCaptionReason] of char = (
     'u',
@@ -155,7 +169,7 @@ type
     FOnChangeCaption: TNotifyEvent;
     FOnChangeSlow: TNotifyEvent;
     FOnProgress: TATFinderProgress;
-    FOnUpdateStatusbar: TAppFrameStringEvent;
+    FOnUpdateStatusbar: TAppFrameStatusbarEvent;
     FOnUpdateState: TNotifyEvent;
     FOnFocusEditor: TNotifyEvent;
     FOnEditorCommand: TATSynEditCommandEvent;
@@ -225,7 +239,7 @@ type
     procedure DoImageboxScroll(Sender: TObject);
     procedure DoOnChangeCaption;
     procedure DoOnUpdateState;
-    procedure DoOnUpdateStatusbar(const AReason: string);
+    procedure DoOnUpdateStatusbar(AReason: TAppStatusbarUpdateReason);
     procedure EditorContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
     procedure EditorClickEndSelect(Sender: TObject; APrevPnt, ANewPnt: TPoint);
     procedure EditorClickMoveCaret(Sender: TObject; APrevPnt, ANewPnt: TPoint);
@@ -506,7 +520,7 @@ type
     property OnFocusEditor: TNotifyEvent read FOnFocusEditor write FOnFocusEditor;
     property OnChangeCaption: TNotifyEvent read FOnChangeCaption write FOnChangeCaption;
     property OnChangeSlow: TNotifyEvent read FOnChangeSlow write FOnChangeSlow;
-    property OnUpdateStatusbar: TAppFrameStringEvent read FOnUpdateStatusbar write FOnUpdateStatusbar;
+    property OnUpdateStatusbar: TAppFrameStatusbarEvent read FOnUpdateStatusbar write FOnUpdateStatusbar;
     property OnUpdateState: TNotifyEvent read FOnUpdateState write FOnUpdateState;
     property OnEditorCommand: TATSynEditCommandEvent read FOnEditorCommand write FOnEditorCommand;
     property OnEditorChangeCaretPos: TNotifyEvent read FOnEditorChangeCaretPos write FOnEditorChangeCaretPos;
@@ -883,7 +897,7 @@ begin
     Ed.AdapterForHilite:= Ada;
     FLexerBackup[EdIndex]:= nil;
     Ed.Update;
-    DoOnUpdateStatusbar('lexer'); //replace lexer name 'none' to restored one
+    DoOnUpdateStatusbar(sbrLexer); //replace lexer name 'none' to restored one
   end;
 end;
 
@@ -1011,7 +1025,7 @@ begin
   if Assigned(FOnEditorChangeCaretPos) then
     FOnEditorChangeCaretPos(Sender);
 
-  DoOnUpdateStatusbar('caret');
+  DoOnUpdateStatusbar(sbrCaret);
 
   //support Primary Selection on Linux
   {$ifdef linux}
@@ -1680,7 +1694,7 @@ end;
 
 procedure TEditorFrame.EditorOnChangeZoom(Sender: TObject);
 begin
-  DoOnUpdateStatusbar('zoom');
+  DoOnUpdateStatusbar(sbrZoom);
   DoPyEventState(Sender as TATSynEdit, EDSTATE_ZOOM);
 end;
 
@@ -1721,7 +1735,7 @@ begin
   if IsEd2<>FActiveSecondaryEd then
   begin
     FActiveSecondaryEd:= IsEd2;
-    DoOnUpdateStatusbar('enter');
+    DoOnUpdateStatusbar(sbrFocusEnter);
   end;
 
   if Assigned(FOnFocusEditor) then
@@ -1908,7 +1922,7 @@ begin
     cCommand_ToggleOverwrite:
       begin
         OnMsgStatus(Self, msgStatusbarCellInsOvr[Ed.ModeOverwrite]);
-        DoOnUpdateStatusbar('ovr');
+        DoOnUpdateStatusbar(sbrInsOvr);
         exit;
       end;
 
@@ -2626,7 +2640,7 @@ end;
 
 procedure TEditorFrame.DoImageboxScroll(Sender: TObject);
 begin
-  DoOnUpdateStatusbar('pic_scroll');
+  DoOnUpdateStatusbar(sbrPictureScroll);
 end;
 
 
@@ -2749,7 +2763,7 @@ begin
       AOpenMode);
   end;
 
-  DoOnUpdateStatusbar('file_open');
+  DoOnUpdateStatusbar(sbrFileOpen);
 end;
 
 procedure TEditorFrame.HandleStringsProgress(Sender: TObject);
@@ -3189,7 +3203,7 @@ begin
     false
     );
 
-  DoOnUpdateStatusbar('file_reload');
+  DoOnUpdateStatusbar(sbrFileReload);
 
   //fire 'on_change_slow' and disable its timer
   TimerChangeTimer(nil);
@@ -3437,7 +3451,7 @@ begin
   Ed2.Update;
 end;
 
-procedure TEditorFrame.DoOnUpdateStatusbar(const AReason: string);
+procedure TEditorFrame.DoOnUpdateStatusbar(AReason: TAppStatusbarUpdateReason);
 begin
   if Assigned(FOnUpdateStatusbar) then
     FOnUpdateStatusbar(Self, AReason);
@@ -4555,7 +4569,7 @@ end;
 
 procedure TEditorFrame.BinaryOnScroll(Sender: TObject);
 begin
-  DoOnUpdateStatusbar('binary_scroll');
+  DoOnUpdateStatusbar(sbrViewerScroll);
 end;
 
 procedure TEditorFrame.BinaryOnProgress(const ACurrentPos,

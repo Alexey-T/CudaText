@@ -42,13 +42,13 @@ begin
   UpdateCaption;
 end;
 
-procedure TfmMain.FrameOnUpdateStatusbar(Sender: TObject; const AReason: string);
+procedure TfmMain.FrameOnUpdateStatusbar(Sender: TObject; AReason: TAppStatusbarUpdateReason);
 begin
   case AReason of
-    //'caret', //it we enable 'caret', editor becomes _slower_ on fast mouse selection of block, issue #4917
-    'binary_scroll',
-    'ovr',
-    'zoom':
+    //sbrCaret, //it we enable sbrCaret, editor repaint becomes _slower_ on fast mouse selection; issue #4917
+    sbrViewerScroll,
+    sbrInsOvr,
+    sbrZoom:
       begin
         //some events only need the fast update of the statusbar
         UpdateStatusbar_RealWork;

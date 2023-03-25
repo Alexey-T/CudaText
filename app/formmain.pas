@@ -1166,7 +1166,7 @@ type
     procedure InitFinder;
     procedure InitBookmarkSetup;
     procedure FrameOnChangeCaption(Sender: TObject);
-    procedure FrameOnUpdateStatusbar(Sender: TObject; const AReason: string);
+    procedure FrameOnUpdateStatusbar(Sender: TObject; AReason: TAppStatusbarUpdateReason);
     procedure FrameOnUpdateState(Sender: TObject);
     function CreateTab(APages: TATPages; const ACaption: string;
       AndActivate: boolean=true;
