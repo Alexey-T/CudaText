@@ -45,7 +45,7 @@ end;
 procedure TfmMain.FrameOnUpdateStatusbar(Sender: TObject; const AReason: string);
 begin
   case AReason of
-    'caret',
+    //'caret', //it we enable 'caret', editor becomes _slower_ on fast mouse selection of block, issue #4917
     'binary_scroll',
     'ovr',
     'zoom':
