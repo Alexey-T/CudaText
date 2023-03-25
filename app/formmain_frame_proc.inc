@@ -45,7 +45,7 @@ end;
 procedure TfmMain.FrameOnUpdateStatusbar(Sender: TObject; AReason: TAppStatusbarUpdateReason);
 begin
   case AReason of
-    //sbrCaret, //it we enable sbrCaret, editor repaint becomes _slower_ on fast mouse selection; issue #4917
+    //sbrCaret: don't add here, it makes editor repaint slower on mouse selection; issue #4917
     sbrViewerScroll,
     sbrInsOvr,
     sbrZoom:
