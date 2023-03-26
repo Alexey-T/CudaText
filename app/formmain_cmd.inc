@@ -42,24 +42,26 @@ var
   NColor: TColor;
 begin
   Frame:= TGroupsHelper.GetEditorFrame(Ed);
+  EdGroup:= nil;
+  EdPages:= nil;
 
-  //support floating groups
   if Assigned(Frame) then
-  begin
-    EdGroup:= Frame.GetTabGroups;
-    EdPages:= Frame.GetTabPages;
-  end
-  else
-  begin
-    EdGroup:= nil;
-    EdPages:= nil;
-  end;
+    case CmdCode of
+      cmd_FileClose,
+      cmd_FileCloseOtherThis,
+      cmd_FileCloseOtherAll:
+      begin
+        EdGroup:= Frame.GetTabGroups;
+        EdPages:= Frame.GetTabPages;
+        if EdGroup=nil then exit;
+      end
+    end;
 
   case CmdCode of
 
     cmd_FileClose:
       begin
-        if Assigned(EdGroup) then
+        if Assigned(EdPages) then
         begin
           NIndex:= EdPages.Tabs.FindTabByObject(Frame);
           if NIndex>=0 then
