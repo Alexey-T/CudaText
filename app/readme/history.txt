@@ -5,7 +5,8 @@
 
 1.188.1 (2023/03)
 
-* change: statusbar now reacts to caret moving/selection with a delay, like in 1.184; it is needed to fix a rendering speed regression in 1.185 (thanks @veksha)
+* change: statusbar now reacts to caret moving/selection with a delay, like in 1.184; it is needed to avoid rendering speed regression in 1.185 (thanks @veksha)
+* change: hide sidebar button "3 dots" if "ui_menu_show":true
 + add: Project Manager icons recolored from black to gray, to support dark ui-themes (thanks @veksha)
 - fix: after installation of a lexer, passive ui-tabs lost their syntax highlighting (thanks @MichIs from linux.org.ru)
 
