@@ -36,7 +36,7 @@ end;
 procedure TfmMain.HandleTimerCommand(Ed: TATSynEdit; CmdCode: integer; CmdInvoke: TATEditorCommandInvoke);
 var
   Frame: TEditorFrame;
-  EdGrp: TATGroups;
+  EdGroup: TATGroups;
   NIndex: integer;
   NColor: TColor;
 begin
@@ -44,24 +44,27 @@ begin
 
   //support floating groups
   if Assigned(Frame) then
-    EdGrp:= Frame.GetTabGroups
+    EdGroup:= Frame.GetTabGroups
   else
-    EdGrp:= Groups;
+    EdGroup:= nil;
 
   case CmdCode of
 
     cmd_FileClose:
       begin
-        EdGrp.CloseTabs(tabCloseCurrent, false, true);
+        if Assigned(EdGroup) then
+        begin
+          EdGroup.CloseTabs(tabCloseCurrent, false, true);
 
-        Frame:= CurrentFrame;
-        if Assigned(Frame) then
-          Frame.SetFocus
-        else
-        if FrameCount>0 then
-          TGroupsHelper.ForceFrameVisible(Frames[0])
-        else
-          raise Exception.Create('No frames left after "Close tab"');
+          Frame:= CurrentFrame;
+          if Assigned(Frame) then
+            Frame.SetFocus
+          else
+          if FrameCount>0 then
+            TGroupsHelper.ForceFrameVisible(Frames[0])
+          else
+            raise Exception.Create('No frames left after "Close tab"');
+        end;
       end;
 
     cmd_FileCloseAll:
@@ -80,16 +83,22 @@ begin
 
     cmd_FileCloseOtherThis:
       begin
-        AppClosingTabs:= true;
-        EdGrp.CloseTabs(tabCloseOthersThisPage, false, false);
-        AppClosingTabs:= false;
+        if Assigned(EdGroup) then
+        begin
+          AppClosingTabs:= true;
+          EdGroup.CloseTabs(tabCloseOthersThisPage, false, false);
+          AppClosingTabs:= false;
+        end;
       end;
 
     cmd_FileCloseOtherAll:
       begin
-        AppClosingTabs:= true;
-        EdGrp.CloseTabs(tabCloseOthersAllPages, false, false);
-        AppClosingTabs:= false;
+        if Assigned(EdGroup) then
+        begin
+          AppClosingTabs:= true;
+          EdGroup.CloseTabs(tabCloseOthersAllPages, false, false);
+          AppClosingTabs:= false;
+        end;
       end;
 
     cmd_FileCloseAndDelete:
