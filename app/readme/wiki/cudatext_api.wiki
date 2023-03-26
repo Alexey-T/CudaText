@@ -4860,4 +4860,7 @@ It provides:
 * fix: event on_click_gutter was not called for gutter bands "line numbers" and "folding"
 * add: event on_click_gutter was not able to block default processing
 
+1.0.444 (app 1.188.1)
+* add: Editor(h).cmd(cmd_FileClose) now closes the handle's ui-tab (before it closed the active tab)
+
 [[Category:CudaText]]
