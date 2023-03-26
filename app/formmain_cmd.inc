@@ -37,6 +37,7 @@ procedure TfmMain.HandleTimerCommand(Ed: TATSynEdit; CmdCode: integer; CmdInvoke
 var
   Frame: TEditorFrame;
   EdGroup: TATGroups;
+  EdPages: TATPages;
   NIndex: integer;
   NColor: TColor;
 begin
@@ -44,9 +45,15 @@ begin
 
   //support floating groups
   if Assigned(Frame) then
-    EdGroup:= Frame.GetTabGroups
+  begin
+    EdGroup:= Frame.GetTabGroups;
+    EdPages:= Frame.GetTabPages;
+  end
   else
+  begin
     EdGroup:= nil;
+    EdPages:= nil;
+  end;
 
   case CmdCode of
 
@@ -54,7 +61,9 @@ begin
       begin
         if Assigned(EdGroup) then
         begin
-          EdGroup.CloseTabs(tabCloseCurrent, false, true);
+          NIndex:= EdPages.Tabs.FindTabByObject(Frame);
+          if NIndex>=0 then
+            EdPages.Tabs.DeleteTab(NIndex, true, true);
 
           Frame:= CurrentFrame;
           if Assigned(Frame) then
