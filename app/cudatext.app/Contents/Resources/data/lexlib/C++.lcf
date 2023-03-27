@@ -589,7 +589,7 @@ object SyntAnal5: TLibSyntAnalyzer
         end
         item
           CondType = tcSkip
-          TokenTypes = 2670
+          TokenTypes = 2814
         end
         item
           TagList.Strings = (
@@ -648,7 +648,7 @@ object SyntAnal5: TLibSyntAnalyzer
         end
         item
           CondType = tcSkip
-          TokenTypes = 2670
+          TokenTypes = 2814
         end
         item
           TagList.Strings = (
@@ -714,7 +714,7 @@ object SyntAnal5: TLibSyntAnalyzer
         end
         item
           CondType = tcSkip
-          TokenTypes = 2670
+          TokenTypes = 2814
         end
         item
           TagList.Strings = (
@@ -768,7 +768,7 @@ object SyntAnal5: TLibSyntAnalyzer
         end
         item
           CondType = tcSkip
-          TokenTypes = 2670
+          TokenTypes = 2814
         end
         item
           TagList.Strings = (
@@ -812,14 +812,10 @@ object SyntAnal5: TLibSyntAnalyzer
         end
         item
           CondType = tcSkip
-          TokenTypes = 1790
+          TokenTypes = 3838
         end
         item
-          TagList.Strings = (
-            '&'
-            '&&'
-            ':')
-          TokenTypes = 131080
+          TokenTypes = 131072
         end
         item
           TagList.Strings = (
@@ -828,7 +824,57 @@ object SyntAnal5: TLibSyntAnalyzer
         end
         item
           CondType = tcSkip
-          TokenTypes = 2670
+          TokenTypes = 2814
+        end
+        item
+          TagList.Strings = (
+            '(')
+          TokenTypes = 1024
+        end
+        item
+          TokenTypes = 65540
+        end
+        item
+          TokenTypes = 512
+        end
+        item
+          TokenTypes = 4
+        end>
+      BlockEnd = '}'
+      NameFmt = '%s-2~[)]'
+      GroupFmt = '%s0'
+      RefToCondEnd = True
+      HighlightPos = cpAny
+      CancelNextRules = True
+      DrawStaple = True
+      CollapseFmt = '%sz0'
+      TreeItemImage = 6
+      TreeGroupImage = 1
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'func :: with &'
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '{')
+          TokenTypes = 256
+        end
+        item
+          TagList.Strings = (
+            '&'
+            '&&'
+            'try')
+          TokenTypes = 136
+        end
+        item
+          TagList.Strings = (
+            ')')
+          TokenTypes = 1024
+        end
+        item
+          CondType = tcSkip
+          TokenTypes = 2814
         end
         item
           TagList.Strings = (
@@ -875,7 +921,7 @@ object SyntAnal5: TLibSyntAnalyzer
         end
         item
           CondType = tcSkip
-          TokenTypes = 2670
+          TokenTypes = 2814
         end
         item
           TagList.Strings = (
@@ -925,7 +971,7 @@ object SyntAnal5: TLibSyntAnalyzer
         end
         item
           CondType = tcSkip
-          TokenTypes = 2750
+          TokenTypes = 2814
         end
         item
           TagList.Strings = (
@@ -960,8 +1006,9 @@ object SyntAnal5: TLibSyntAnalyzer
         item
           TagList.Strings = (
             '&'
-            '&&')
-          TokenTypes = 8
+            '&&'
+            'try')
+          TokenTypes = 136
         end
         item
           TagList.Strings = (
@@ -970,7 +1017,7 @@ object SyntAnal5: TLibSyntAnalyzer
         end
         item
           CondType = tcSkip
-          TokenTypes = 2750
+          TokenTypes = 2814
         end
         item
           TagList.Strings = (
@@ -1004,7 +1051,7 @@ object SyntAnal5: TLibSyntAnalyzer
         end
         item
           CondType = tcSkip
-          TokenTypes = 6862
+          TokenTypes = 2
         end
         item
           TagList.Strings = (
@@ -1013,7 +1060,7 @@ object SyntAnal5: TLibSyntAnalyzer
         end
         item
           CondType = tcSkip
-          TokenTypes = 2750
+          TokenTypes = 2814
         end
         item
           TagList.Strings = (
@@ -1025,7 +1072,7 @@ object SyntAnal5: TLibSyntAnalyzer
           TokenTypes = 2
         end
         item
-          TokenTypes = 4
+          TokenTypes = 32772
         end>
       BlockEnd = '}'
       NameFmt = '%s0~[)]'
