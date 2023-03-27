@@ -551,7 +551,7 @@ object SyntAnal5: TLibSyntAnalyzer
         end
         item
           CondType = tcSkip
-          TokenTypes = 2622
+          TokenTypes = 133694
         end
         item
           TagList.Strings = (
@@ -905,52 +905,13 @@ object SyntAnal5: TLibSyntAnalyzer
         end
         item
           TokenTypes = 4
-        end
-        item
-          TagList.Strings = (
-            '-'
-            '!'
-            '!='
-            '&'
-            '&&'
-            '('
-            ')'
-            ','
-            '.'
-            ':'
-            ';'
-            '?'
-            '['
-            ']'
-            '^'
-            '^^'
-            '{'
-            '|'
-            '||'
-            '}'
-            '+'
-            '<'
-            '<<'
-            '<='
-            '='
-            '=='
-            '>'
-            '->'
-            '>='
-            '>>'
-            'else'
-            'new'
-            'return')
-          CondType = tcNotEqual
-          TokenTypes = 14216
         end>
-      BlockOffset = -1
       BlockEnd = '}'
-      NameFmt = '%s-1'
+      NameFmt = '%s0'
       RefToCondEnd = True
       HighlightPos = cpAny
       CancelNextRules = True
-      CollapseFmt = '%sz-1'
+      CollapseFmt = '%sz0'
       TreeItemImage = 5
       IgnoreAsParent = False
     end
