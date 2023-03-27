@@ -615,7 +615,7 @@ object SyntAnal5: TLibSyntAnalyzer
           TokenTypes = 4
         end>
       BlockEnd = '}'
-      NameFmt = '%s-6'
+      NameFmt = '%s-6~[)]'
       GroupFmt = '%s0\%s-2\%s-4'
       RefToCondEnd = True
       HighlightPos = cpAny
@@ -723,7 +723,7 @@ object SyntAnal5: TLibSyntAnalyzer
           TokenTypes = 4
         end>
       BlockEnd = '}'
-      NameFmt = '%s-4'
+      NameFmt = '%s-4~[)]'
       GroupFmt = '%s0\%s-2'
       RefToCondEnd = True
       HighlightPos = cpAny
@@ -818,7 +818,7 @@ object SyntAnal5: TLibSyntAnalyzer
           TokenTypes = 4
         end>
       BlockEnd = '}'
-      NameFmt = '%s-2'
+      NameFmt = '%s-2~[)]'
       GroupFmt = '%s0'
       RefToCondEnd = True
       HighlightPos = cpAny
@@ -907,7 +907,7 @@ object SyntAnal5: TLibSyntAnalyzer
           TokenTypes = 4
         end>
       BlockEnd = '}'
-      NameFmt = '%s0'
+      NameFmt = '%s0~[)]'
       RefToCondEnd = True
       HighlightPos = cpAny
       CancelNextRules = True
@@ -1001,7 +1001,7 @@ object SyntAnal5: TLibSyntAnalyzer
   SampleText.Strings = (
     '/* Test */'
     '#define max(a, b) ((a > b) ? a : b)'
-    '#  asm(" pop ax ");'
+    '#asm(" pop ax ");'
     '#include <some/path.h>'
     's = "text\"text" + L"test" + name<CName>;'
     
