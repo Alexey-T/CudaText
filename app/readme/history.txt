@@ -13,7 +13,7 @@
 + add: option "renderer_tweaks" has sub-option to avoid 'space at line-end in selection', like in Kate (thanks @pintassilgo)
 + add: auto-completion listbox must handle clipboard command hotkeys (thanks @veksha)
 + add: Project Manager icons recolored from black to gray, to support dark ui-themes (thanks @veksha)
-+ add: lexer C++: better code-tree
++ add: lexer C/C++: better code-tree (thanks @Forum0888 from linux.org.ru)
 - fix: after lexer installation, passive ui-tabs loose syntax highlighting (thanks @MichIs from linux.org.ru)
 - fix: regression: option "auto_fold_comments" was broken
 
