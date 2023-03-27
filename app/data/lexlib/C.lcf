@@ -407,23 +407,43 @@ object SyntAnal4: TLibSyntAnalyzer
         end
         item
           TokenTypes = 4
+        end>
+      BlockEnd = '}'
+      NameFmt = '%s0~[)]'
+      RefToCondEnd = True
+      HighlightPos = cpBound
+      CancelNextRules = True
+      TreeItemImage = 5
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'struct'
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '{')
+          TokenTypes = 256
         end
         item
           CondType = tcSkip
-          TokenTypes = 10
+          TokenTypes = 2
         end
         item
           TokenTypes = 4
+        end
+        item
+          TagList.Strings = (
+            'struct')
+          TokenTypes = 4
         end>
       BlockEnd = '}'
-      NotCollapsed = True
-      NameFmt = '%sz-1'
+      NameFmt = '%s-1'
       RefToCondEnd = True
-      HighlightPos = cpBound
-      NoEndRule = True
-      TreeItemImage = 5
+      HighlightPos = cpAny
+      CancelNextRules = True
+      DrawStaple = True
+      TreeItemImage = 4
       IgnoreAsParent = False
-      AutoCloseText = '}'#13#10
     end
     item
       DisplayName = '{'
@@ -452,33 +472,6 @@ object SyntAnal4: TLibSyntAnalyzer
           TokenTypes = 256
         end>
       HighlightPos = cpBound
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = 'struct'
-      ConditionList = <
-        item
-          TagList.Strings = (
-            '{')
-          TokenTypes = 256
-        end
-        item
-          CondType = tcSkip
-          TokenTypes = 2
-        end
-        item
-          TokenTypes = 4
-        end
-        item
-          TagList.Strings = (
-            'struct')
-          TokenTypes = 4
-        end>
-      NameFmt = '%s-1'
-      RefToCondEnd = True
-      HighlightPos = cpAny
-      NoEndRule = True
-      TreeItemImage = 3
       IgnoreAsParent = False
     end>
   CodeTemplates = <>
@@ -553,7 +546,7 @@ object SyntAnal4: TLibSyntAnalyzer
   LexerName = 'C'
   Notes.Strings = (
     'Based on original C lexer from EControl'
-    'Heavily reworked by Alexey (CudaText)')
+    'Heavily reworked by Alexey Torgashin (CudaText)')
   RestartFromLineStart = True
   LineComment = '//'
   Charset = DEFAULT_CHARSET
