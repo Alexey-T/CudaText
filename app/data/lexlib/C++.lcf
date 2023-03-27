@@ -854,11 +854,52 @@ object SyntAnal5: TLibSyntAnalyzer
           TokenTypes = 1662
         end
         item
+          TokenTypes = 131072
+        end
+        item
+          TagList.Strings = (
+            ')')
+          TokenTypes = 1024
+        end
+        item
+          CondType = tcSkip
+          TokenTypes = 2750
+        end
+        item
+          TagList.Strings = (
+            '(')
+          TokenTypes = 1024
+        end
+        item
+          CondType = tcSkip
+          TokenTypes = 2
+        end
+        item
+          TokenTypes = 4
+        end>
+      BlockEnd = '}'
+      NameFmt = '%s0~[)]'
+      RefToCondEnd = True
+      HighlightPos = cpAny
+      CancelNextRules = True
+      DrawStaple = True
+      CollapseFmt = '%sz0'
+      TreeItemImage = 5
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'func with &'
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '{')
+          TokenTypes = 256
+        end
+        item
           TagList.Strings = (
             '&'
-            '&&'
-            ':')
-          TokenTypes = 131080
+            '&&')
+          TokenTypes = 8
         end
         item
           TagList.Strings = (
