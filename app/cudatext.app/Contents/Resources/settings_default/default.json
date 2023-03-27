@@ -1253,7 +1253,7 @@
   //    L: left
   //    R: right
   //    A: auto-sized (width adjusts to text)
-  "ui_statusbar_panels": "caret,C,180|enc,C,125|ends,A,45|lexer,C,140|tabsize,A,75|selmode,A,15|msg,L,4000",
+  "ui_statusbar_panels": "caret,C,180|enc,C,125|ends,A,|lexer,C,140|tabsize,A,|selmode,A,|msg,L,",
 
   //Statusbar messages: show time in seconds.
   "ui_statusbar_time": 5,
