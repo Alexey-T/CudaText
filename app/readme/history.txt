@@ -9,7 +9,7 @@
 * change: hide sidebar button "3 dots" when "ui_menu_show":true
 * change: changed default hotkeys in the Find dialog, e.g. Alt+O to Ctrl+Alt+O, to avoid conflicts with Alt+ hotkeys in the menu bar (thanks @pintassilgo)
 
-+ add: option "renderer_tweaks" has new sub-option 'n' (thanks @pintassilgo)
++ add: option "renderer_tweaks" has sub-option to avoid 'space at line-end in selection', like in Kate (thanks @pintassilgo)
 + add: auto-completion listbox must handle clipboard command hotkeys (thanks @veksha)
 + add: Project Manager icons recolored from black to gray, to support dark ui-themes (thanks @veksha)
 + add: lexer C++: better code-tree
