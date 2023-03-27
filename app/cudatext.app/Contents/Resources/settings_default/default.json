@@ -301,7 +301,7 @@
   //will not find folding ranges, which makes parsing 1.5-3 times faster.
   //But this disables the work of code-tree for most of lexers.
   //Note: this option is global, not per-lexer.
-  "lexer_folding_max_lines": 10000,
+  "lexer_folding_max_lines": 15000,
 
   //[Text/Folding]
   //Style of folded blocks.
