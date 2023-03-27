@@ -568,6 +568,68 @@ object SyntAnal5: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
+      DisplayName = 'func :: :: :: with :'
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '{')
+          TokenTypes = 256
+        end
+        item
+          CondType = tcSkip
+          TokenTypes = 7934
+        end
+        item
+          TokenTypes = 131072
+        end
+        item
+          TagList.Strings = (
+            ')')
+          TokenTypes = 1024
+        end
+        item
+          CondType = tcSkip
+          TokenTypes = 2670
+        end
+        item
+          TagList.Strings = (
+            '(')
+          TokenTypes = 1024
+        end
+        item
+          TokenTypes = 65540
+        end
+        item
+          TokenTypes = 512
+        end
+        item
+          TokenTypes = 4
+        end
+        item
+          TokenTypes = 512
+        end
+        item
+          TokenTypes = 4
+        end
+        item
+          TokenTypes = 512
+        end
+        item
+          TokenTypes = 4
+        end>
+      BlockEnd = '}'
+      NameFmt = '%s-6~[)]'
+      GroupFmt = '%s0\%s-2\%s-4'
+      RefToCondEnd = True
+      HighlightPos = cpAny
+      CancelNextRules = True
+      DrawStaple = True
+      CollapseFmt = '%sz0'
+      TreeItemImage = 6
+      TreeGroupImage = 1
+      IgnoreAsParent = False
+    end
+    item
       DisplayName = 'func :: :: ::'
       ConditionList = <
         item
@@ -600,13 +662,13 @@ object SyntAnal5: TLibSyntAnalyzer
           TokenTypes = 512
         end
         item
-          TokenTypes = 65540
+          TokenTypes = 4
         end
         item
           TokenTypes = 512
         end
         item
-          TokenTypes = 65540
+          TokenTypes = 4
         end
         item
           TokenTypes = 512
@@ -627,7 +689,7 @@ object SyntAnal5: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
-      DisplayName = 'func :: :: with : initing'
+      DisplayName = 'func :: :: with :'
       ConditionList = <
         item
           TagList.Strings = (
@@ -636,7 +698,7 @@ object SyntAnal5: TLibSyntAnalyzer
         end
         item
           CondType = tcSkip
-          TokenTypes = 1662
+          TokenTypes = 1790
         end
         item
           TagList.Strings = (
@@ -741,7 +803,7 @@ object SyntAnal5: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
-      DisplayName = 'func :: with : initing'
+      DisplayName = 'func :: with :'
       ConditionList = <
         item
           TagList.Strings = (
@@ -750,7 +812,7 @@ object SyntAnal5: TLibSyntAnalyzer
         end
         item
           CondType = tcSkip
-          TokenTypes = 1662
+          TokenTypes = 1790
         end
         item
           TagList.Strings = (
@@ -842,7 +904,7 @@ object SyntAnal5: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
-      DisplayName = 'func with : initing'
+      DisplayName = 'func with :'
       ConditionList = <
         item
           TagList.Strings = (
@@ -851,7 +913,7 @@ object SyntAnal5: TLibSyntAnalyzer
         end
         item
           CondType = tcSkip
-          TokenTypes = 1662
+          TokenTypes = 1790
         end
         item
           TokenTypes = 131072
