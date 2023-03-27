@@ -545,7 +545,10 @@
   //Minimap: Place minimap to the left side.
   "minimap_at_left": false,
 
-  //Minimap: Custom scale in percents, if value>100.
+  //Minimap: Scale in percents.
+  //  value=0: use default look: 2 pixels per line, and consider "ui_scale"
+  //  0<value<100: use compact look: 1 pixel per line, and ignore "ui_scale"
+  //  value>=100: use specified line height in %, and consider "ui_scale"
   "minimap_scale": 0,
 
   //Minimap: Show "tooltip panel", when mouse cursor moves over minimap.
