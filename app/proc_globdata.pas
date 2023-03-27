@@ -3822,6 +3822,7 @@ begin
   else
     FixedSizes[cCharEllipsis]:= uw_fullwidth;
 
+  ATEditorOptions.RenderSpaceBgAtLineEOL:= Pos('n', s)=0;
   ATEditorOptions.PreciseCalculationOfCharWidth:= Pos('w', s)=0;
   ATEditorOptions.TextoutNeedsOffsets:= Pos('o', s)>0;
   ATEditorOptions.CaretTextOverInvertedRect:= Pos('c', s)>0;

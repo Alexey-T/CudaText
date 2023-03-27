@@ -131,6 +131,7 @@
   //                   If 's' not in value, show Unicode-spaces in hex form.
   //                   Unicode-spaces are: U+1680, U+2007, U+200B, U+202F, U+205F, U+2060, U+3000.
   //  if 'l' in value: On Windows: enable ligatures on line(s) with caret.
+  //  if 'n' in value: When line-end is selected, don't render empty cell at line-end.
   //
   //Note: default for Qt5/Qt6 version is different than for GTK version, it equals to macOS default.
   //Note: this option is global, not per-lexer.
