@@ -1797,6 +1797,7 @@ begin
         end;
       end;
 
+    cCommand_Undo,
     cCommand_KeyTab,
     cCommand_KeyEnter,
     cCommand_TextDeleteLine,
