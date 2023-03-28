@@ -650,13 +650,15 @@ We override method to ignore errors reported in imported files.
 == CudaFormatter ==
 CudaFormatter is plugin which uses 2nd-level plugins, "formatters", to change the source code. Each "formatter" supports one or more lexers, and provides one or more actions. For example, the Addon Manager contains two formatters for XML: XML IndentX and XML Pretty Print.
 
+CudaFormatter is located in the "plugins" category of Addons Manager install list. 2nd-level "formatters" are located in the "formatter" category of Addons Manager install list.
+
 For example, how to format code in XML?
 
 * Use "Plugins / Addon Manager / Install" to install the CudaFormatter, and formatter(s) for XML. Restart CudaText.
-* Open XML file.
-* Use "Plugins / CudaFormatter / Formatter (menu)". This will show the menu of actions from appropriate formatter(s) for current file.
+* Open XML file (normal or "lite" lexer XML must activate).
+* Use "Plugins / CudaFormatter / Formatter (menu)". This will show the menu of actions from appropriate formatter(s) for the XML (normal or "lite") lexer.
 
-Formatters may change entire file text or only selected text. If selection is made, formatter changes only the selection, otherwise the entire text.
+Formatters may change the entire file text or only selected text. If selection is made, formatter changes only the selection, otherwise the entire text. And special formatters called "minifiers" puts the resulting text to a separate ui-tab.
 
 ===CudaFormatter commands===
 
