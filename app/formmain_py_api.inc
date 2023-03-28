@@ -2424,6 +2424,12 @@ begin
     end;
 end;
 
+procedure TfmMain.TimerConsoleCompletionTick(Sender: TObject);
+begin
+  TimerConsoleCmp.Enabled:= false;
+  DoPyEvent(nil, cEventOnConsoleComplete, []);
+end;
+
 procedure TfmMain.PyCompletionOnGetProp(Sender: TObject; AContent: TStringList;
   out ACharsLeft, ACharsRight: integer);
 var
@@ -2447,7 +2453,22 @@ begin
     PrevCharsLeft:= FPyCompletionProps.CharsLeft;
 
     AppAutocompleteInvoke:= 'r';
-    DoPyEvent(Ed, cEventOnComplete, []);
+
+    if Assigned(fmConsole) and (Ed=fmConsole.EdInput) then
+    begin
+      if TimerConsoleCmp=nil then
+      begin
+        TimerConsoleCmp:= TTimer.Create(Self);
+        TimerConsoleCmp.Enabled:= false;
+        TimerConsoleCmp.Interval:= CompletionOps.ClosingTimerInverval+50;
+        TimerConsoleCmp.OnTimer:= @TimerConsoleCompletionTick;
+      end;
+      TimerConsoleCmp.Enabled:= false;
+      TimerConsoleCmp.Enabled:= true;
+      exit;
+    end
+    else
+      DoPyEvent(Ed, cEventOnComplete, []);
 
     //this check- to close listbox when no more matches after typing too much
     //MsgStatus(Format('prev %d now %d', [PrevCharsLeft, FPyComplete_CharsLeft]));

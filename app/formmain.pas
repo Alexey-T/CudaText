@@ -1086,6 +1086,7 @@ type
     procedure InitFormFind;
     function IsFocusedBottom: boolean;
     function IsFocusedFind: boolean;
+    procedure TimerConsoleCompletionTick(Sender: TObject);
     procedure PyCompletionOnGetProp(Sender: TObject; AContent: TStringList; out ACharsLeft, ACharsRight: integer);
     procedure PyCompletionOnResult(Sender: TObject; const ASnippetId: string; ASnippetIndex: integer);
     procedure DoPyCommand_ByPluginIndex(AIndex: integer; AInvoke: TATEditorCommandInvoke);
@@ -1188,6 +1189,7 @@ type
     PanelCodeTreeTop: TPanel;
     StatusProgress: TATGauge;
     ButtonCancel: TATButton;
+    TimerConsoleCmp: TTimer;
     function FrameCount: integer;
     property Frames[N: integer]: TEditorFrame read GetFrame;
     function CurrentGroups: TATGroups;
