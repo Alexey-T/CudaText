@@ -16,6 +16,8 @@
 + add: Project Manager icons recolored from black to gray, to support dark ui-themes (thanks @veksha)
 + add: lexer C/C++: better code-tree (thanks @Forum0888 from linux.org.ru)
 + add: word wrap: don't split chars '([' from word-chars (thanks @GenuZ) 
++ add: better support plugin "Console Auto-Completion" so it is activated only on pressing Ctrl+Space
+
 - fix: after lexer installation, passive ui-tabs loose syntax highlighting (thanks @MichIs from linux.org.ru)
 - fix: regression: option "auto_fold_comments" was broken
 
