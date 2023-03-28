@@ -9,6 +9,7 @@
 * change: hide sidebar button "3 dots" when "ui_menu_show":true
 * change: change default hotkeys in the Find dialog, e.g. Alt+O to Ctrl+Alt+O, to avoid conflicts with Alt+ hotkeys of the menu bar (thanks @pintassilgo)
 * change: change default value of "lexer_folding_max_lines" from 10000 to 15000
+* change: on macOS, hotkey for "auto-completion" changed to Alt+Space, because on author's computer (macOS 10.11) Ctrl+Space changes the input layout
 
 + add: option "minimap_scale" supports value<100 to show compact look
 + add: option "renderer_tweaks" has sub-option to avoid 'space at line-end in selection', like in Kate (thanks @pintassilgo)
