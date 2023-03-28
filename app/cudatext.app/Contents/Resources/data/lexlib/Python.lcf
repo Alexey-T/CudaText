@@ -274,7 +274,7 @@ object SyntAnal17: TLibSyntAnalyzer
       DisplayName = 'Ending :'
       StyleName = 'Symbol'
       TokenType = 12
-      Expression = ':\x20*$ | :(?=\x20*\#.*$)'
+      Expression = ':[\x20\x09]*$ | :(?=[\x20\x09]*\#.*$)'
       ColumnFrom = 0
       ColumnTo = 0
     end
