@@ -618,6 +618,7 @@ begin
   M.Add(cmd_ChooseTranslation, 'menu: translations', [], []);
   M.Add(cmd_ChooseThemeUI, 'menu: themes', [], []);
 
+  //on macOS 10.11, Ctrl+Space on author's PC is reserved to toggle keyboard layout, so use e.g. Alt+Space
   M.Add(cmd_AutoComplete, 'code: auto-completion menu', [{$ifdef darwin}'Alt+Space'{$else}'Ctrl+Space'{$endif}], []);
   M.Add(cmd_GotoDefinition, 'code: go to definition', [], []);
   M.Add(cmd_ShowFunctionHint, 'code: show function-hint', ['Ctrl+Shift+Space'], []);
