@@ -57,15 +57,14 @@ type
     FFormMain: TCustomForm;
     FAdapter: TATAdapterSimple;
     FOnNavigate: TAppConsoleEvent;
+    FOnComplete: TNotifyEvent;
     FOnNumberChange: TNotifyEvent;
     FOnGetMainEditor: TAppConsoleGetEditor;
     FCudatextImported: boolean;
-    FInputFirstChanged: boolean;
     mnuTextClear: TMenuItem;
     mnuTextNav: TMenuItem;
     mnuTextWrap: TMenuItem;
     procedure InputOnCommand(Sender: TObject; ACommand: integer; AInvoke: TATEditorCommandInvoke; const AText: string; var AHandled: boolean);
-    procedure InputOnChange(Sender: TObject);
     procedure DoGetLineColor(Ed: TATSynEdit; ALineIndex: integer; var AColorFont, AColorBg: TColor);
     procedure MemoClickDbl(Sender: TObject; var AHandled: boolean);
     procedure MemoCommand(Sender: TObject; ACommand: integer; AInvoke: TATEditorCommandInvoke; const AText: string; var AHandled: boolean);
@@ -86,6 +85,7 @@ type
     ErrorCounter: integer;
     constructor Create(AOwner: TComponent); override;
     property OnConsoleNav: TAppConsoleEvent read FOnNavigate write FOnNavigate;
+    property OnConsoleComplete: TNotifyEvent read FOnComplete write FOnComplete;
     property OnNumberChange: TNotifyEvent read FOnNumberChange write FOnNumberChange;
     property OnGetMainEditor: TAppConsoleGetEditor read FOnGetMainEditor write FOnGetMainEditor;
     procedure DoAddLine(const AText: UnicodeString);
@@ -304,7 +304,15 @@ begin
     else
     if EdMemo.Focused then
       EdInput.SetFocus;
-    key:= 0;
+    Key:= 0;
+    exit;
+  end;
+
+  if (Key=VK_SPACE) and (Shift=[ssCtrl]) then
+  begin
+    if Assigned(FOnComplete) then
+      FOnComplete(Self);
+    Key:= 0;
     exit;
   end;
 
@@ -330,7 +338,6 @@ begin
   EdInput.WantTabs:= false;
   EdInput.TabStop:= true;
   EdInput.OnCommand:= @InputOnCommand;
-  EdInput.OnChange:= @InputOnChange;
 
   EdInput.OptTabSize:= 4;
   EdInput.OptBorderWidth:= 1;
@@ -487,16 +494,6 @@ begin
   mnuTextWrap.Checked:= MemoWordWrap;
 
   Handled:= false;
-end;
-
-procedure TfmConsole.InputOnChange(Sender: TObject);
-begin
-  if not FInputFirstChanged then
-  begin
-    if Assigned(FOnNavigate) then
-      FOnNavigate('(console_input_change)');
-  end;
-  FInputFirstChanged:= true;
 end;
 
 procedure TfmConsole.SetIsDoubleBuffered(AValue: boolean);

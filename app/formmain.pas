@@ -1208,6 +1208,7 @@ type
     property ShowTabsMain: boolean read GetShowTabsMain write SetShowTabsMain;
     function DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent; const AParams: TAppVariantArray): TAppPyEventResult;
     function DoPyEvent_ConsoleNav(const AText: string): boolean;
+    procedure DoPyEvent_ConsoleComplete(Sender: TObject);
     function DoPyEvent_Message(const AText: string): boolean;
     procedure DoPyEvent_AppState(AState: integer);
     procedure DoPyEvent_EdState(Ed: TATSynEdit; AState: integer);
@@ -2842,6 +2843,7 @@ begin
   InitBottomEditor(fmValidate);
   InitConsole(Self, @FindDialogGetMainEditor);
   fmConsole.OnConsoleNav:= @DoPyEvent_ConsoleNav;
+  fmConsole.OnConsoleComplete:= @DoPyEvent_ConsoleComplete;
   fmConsole.OnNumberChange:= @DoOnConsoleNumberChange;
   fmConsole.OnKeyDown:=@DoOnConsoleKeyDown;
   InitSidebar; //after initing PanelCodeTreeAll, EditorOutput, EditorValidate, fmConsole
@@ -7623,6 +7625,11 @@ end;
 function TfmMain.DoPyEvent_ConsoleNav(const AText: string): boolean;
 begin
   Result:= DoPyEvent(nil, cEventOnConsoleNav, [AppVariant(AText)]).Val <> evrFalse;
+end;
+
+procedure TfmMain.DoPyEvent_ConsoleComplete(Sender: TObject);
+begin
+  DoPyEvent(nil, cEventOnConsoleComplete, []);
 end;
 
 function TfmMain.DoPyEvent_Message(const AText: string): boolean;

@@ -77,7 +77,7 @@ end;
 function TfmMain.DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent;
   const AParams: TAppVariantArray): TAppPyEventResult;
 const
-  cTheseEventsStoppedByTrue = [cEventOnComplete, cEventOnFuncHint{, cEventOnTabSwitch}];
+  cTheseEventsStoppedByTrue = [cEventOnComplete, cEventOnConsoleComplete, cEventOnFuncHint{, cEventOnTabSwitch}];
   cTheseEventsNeedGroupingUndo = [cEventOnComplete, cEventOnSnippet];
   cTheseEventsDontRequireFrame = [cEventOnSnippet, cEventOnDeleteFile, cEventOnSidebarPopup];
   cTheseEventsAlwaysLazy = [cEventOnExit];
