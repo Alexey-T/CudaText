@@ -7,7 +7,8 @@
 
 * change: statusbar now reacts to caret moving/selection with a delay, like in 1.184; it is needed to avoid rendering speed regression since 1.185 (thanks @veksha)
 * change: hide sidebar button "3 dots" when "ui_menu_show":true
-* change: changed default hotkeys in the Find dialog, e.g. Alt+O to Ctrl+Alt+O, to avoid conflicts with Alt+ hotkeys in the menu bar (thanks @pintassilgo)
+* change: change default hotkeys in the Find dialog, e.g. Alt+O to Ctrl+Alt+O, to avoid conflicts with Alt+ hotkeys of the menu bar (thanks @pintassilgo)
+* change: change default value of "lexer_folding_max_lines" to 15000
 
 + add: option "minimap_scale" supports value<100 to show compact look
 + add: option "renderer_tweaks" has sub-option to avoid 'space at line-end in selection', like in Kate (thanks @pintassilgo)
