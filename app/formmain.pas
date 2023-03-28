@@ -4170,6 +4170,7 @@ begin
     fmConsole.EdInput.Height:= ATEditorScale(UiOps.InputHeight);
     fmConsole.MemoWordWrap:= UiOps.ConsoleWordWrap;
     fmConsole.ApplyCaretView;
+    fmConsole.ShortCutForAutoCompletion:= AppKeymapMain.GetShortcutFromCommand(cmd_AutoComplete);
   end;
 
   EditorApplyOpsCommon(fmOutput.Ed);
@@ -4881,6 +4882,9 @@ begin
     Ed.DoCommand(NCmd, cInvokeAppPalette);
     UpdateCurrentFrame;
   end;
+
+  if Assigned(fmConsole) then
+    fmConsole.ShortCutForAutoCompletion:= AppKeymapMain.GetShortcutFromCommand(cmd_AutoComplete);
 end;
 
 

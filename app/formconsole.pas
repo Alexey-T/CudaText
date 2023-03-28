@@ -83,6 +83,7 @@ type
     EdInput: TATComboEdit;
     EdMemo: TATSynEdit;
     ErrorCounter: integer;
+    ShortCutForAutoCompletion: TShortCut;
     constructor Create(AOwner: TComponent); override;
     property OnConsoleNav: TAppConsoleEvent read FOnNavigate write FOnNavigate;
     property OnConsoleComplete: TNotifyEvent read FOnComplete write FOnComplete;
@@ -286,7 +287,12 @@ begin
 end;
 
 procedure TfmConsole.KeyDown(var Key: Word; Shift: TShiftState);
+var
+  NShortCut: TShortCut;
 begin
+  NShortCut:= ShortCut(Key, Shift);
+  if NShortCut=0 then exit;
+
   if (Key=VK_ESCAPE) and (Shift=[]) then
     if Assigned(FFormMain.OnKeyDown) then
     begin
@@ -308,7 +314,7 @@ begin
     exit;
   end;
 
-  if (Key=VK_SPACE) and (Shift=[ssCtrl]) then
+  if NShortCut=ShortCutForAutoCompletion then
   begin
     if Assigned(FOnComplete) then
       FOnComplete(Self);
