@@ -4678,6 +4678,10 @@ begin
         UpdateStatusbar;
       end;
 
+      //for _lite_ lexer, update code-tree (for _normal_ lexer it will run on parsing-done)
+      if F.Ed1.AdapterForHilite is TATLiteLexer then
+        UpdateTreeByTimer;
+
       Exit
     end;
   end;
