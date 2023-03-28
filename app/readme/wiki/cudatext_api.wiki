@@ -125,6 +125,7 @@ Constants in on_state_ed:
 * on_console_nav(self, ed_self, text): Called for Console panel events. Param "ed_self" is None here.
 ** Called on double-clicking lines, or calling context menu item "Navigate", in the Console's memo-field. Param "text" is line with caret.
 ** Called also when Console input-field is first changed. Param "text" value is "(console_input_change)".
+* on_console_complete(self, ed_self): Called when user presses Ctrl+Space in the Console input. Param "ed_self" is None here. True return value means that plugin handled the event, don't call other plugins.
 * on_output_nav(self, ed_self, text, tag): Called on clicking line, or pressing Enter, in the Output or Validate panel. Param "text" is clicked line, param "tag" is int value associated with line. Event is called only if app cannot parse output line by itself using given regex, or regex is not set. Param "ed_self" is None here.
 * on_sidebar_popup(self, ed_self, caption): Called on right-click on sidebar/bottombar buttons. Param "ed_self" is None here. Param "caption" is button caption.
 
@@ -4860,7 +4861,8 @@ It provides:
 * fix: event on_click_gutter was not called for gutter bands "line numbers" and "folding"
 * add: event on_click_gutter was not able to block default processing
 
-1.0.444 (app 1.188.5)
+1.0.444 (app 1.189.0)
+* add: event on_console_complete
 * add: Editor(h).cmd(cmd_FileClose) now closes the handle's ui-tab (before it closed the active tab)
 
 [[Category:CudaText]]
