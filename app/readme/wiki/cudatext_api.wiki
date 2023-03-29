@@ -2335,12 +2335,12 @@ Returns number of lines.
 
  get_filename(options="")
 
-Returns filename (str) of the editor.
+Returns filename (string) of the editor.
 
 * Returns empty string for untitled tab.
-* Returns string "?" if tab contains not normal text editor. See: get_prop(PROP_KIND).
+* Returns string "?" if ui-tab contains not normal text editor, but picture viewer or binary viewer. You can detect the kind of ui-tab: Editor.get_prop(PROP_KIND).
 
-If param "options" contains char "*", the real file name is always returned, even in hex/picture viewer mode.
+If param "options" contains char "*", the real file name is always returned, even in picture/binary viewer mode.
 
 ===Editor.get_prop===
 
