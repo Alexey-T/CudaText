@@ -580,7 +580,12 @@ object SyntAnal5: TLibSyntAnalyzer
           TokenTypes = 7934
         end
         item
-          TokenTypes = 135168
+          TagList.Strings = (
+            '&'
+            '&&'
+            ':'
+            '->')
+          TokenTypes = 135176
         end
         item
           TagList.Strings = (
