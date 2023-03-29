@@ -580,7 +580,7 @@ object SyntAnal5: TLibSyntAnalyzer
           TokenTypes = 7934
         end
         item
-          TokenTypes = 131072
+          TokenTypes = 135168
         end
         item
           TagList.Strings = (
@@ -704,8 +704,9 @@ object SyntAnal5: TLibSyntAnalyzer
           TagList.Strings = (
             '&'
             '&&'
-            ':')
-          TokenTypes = 131080
+            ':'
+            '->')
+          TokenTypes = 135176
         end
         item
           TagList.Strings = (
@@ -815,7 +816,7 @@ object SyntAnal5: TLibSyntAnalyzer
           TokenTypes = 3838
         end
         item
-          TokenTypes = 131072
+          TokenTypes = 135168
         end
         item
           TagList.Strings = (
@@ -959,10 +960,10 @@ object SyntAnal5: TLibSyntAnalyzer
         end
         item
           CondType = tcSkip
-          TokenTypes = 1790
+          TokenTypes = 3838
         end
         item
-          TokenTypes = 131072
+          TokenTypes = 135168
         end
         item
           TagList.Strings = (
@@ -1051,7 +1052,7 @@ object SyntAnal5: TLibSyntAnalyzer
         end
         item
           CondType = tcSkip
-          TokenTypes = 2
+          TokenTypes = 2050
         end
         item
           TagList.Strings = (
