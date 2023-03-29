@@ -698,7 +698,7 @@ object SyntAnal5: TLibSyntAnalyzer
         end
         item
           CondType = tcSkip
-          TokenTypes = 1790
+          TokenTypes = 3838
         end
         item
           TagList.Strings = (
