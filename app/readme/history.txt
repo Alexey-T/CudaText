@@ -3,6 +3,11 @@
   - fixed
   * changed
 
+1.189.1 (2023/03)
+
++ add: improve "minimap_drag_immediately":true, so that minimap click scrolls to clicked position (thanks @veksha)
+- fix: error with "auto_fold_comments":2 and command "move lines down" - sometimes syntax highlighting breaks 
+
 1.189.0 (2023/03)
 
 * change: statusbar now reacts to caret moving/selection with a delay, like in 1.184; it is needed to avoid rendering speed regression since 1.185 (thanks @veksha)
