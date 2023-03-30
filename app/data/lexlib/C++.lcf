@@ -1091,6 +1091,56 @@ object SyntAnal5: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
+      DisplayName = 'struct :: :: ::'
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '{')
+          TokenTypes = 256
+        end
+        item
+          CondType = tcSkip
+          TokenTypes = 2
+        end
+        item
+          TokenTypes = 4
+        end
+        item
+          TokenTypes = 512
+        end
+        item
+          TokenTypes = 4
+        end
+        item
+          TokenTypes = 512
+        end
+        item
+          TokenTypes = 4
+        end
+        item
+          TokenTypes = 512
+        end
+        item
+          TokenTypes = 4
+        end
+        item
+          TagList.Strings = (
+            'struct')
+          TokenTypes = 128
+        end>
+      BlockEnd = '}'
+      NameFmt = '%s-7~[{]1'
+      GroupFmt = '%s-1\%s-3\%s-5'
+      RefToCondEnd = True
+      HighlightPos = cpAny
+      CancelNextRules = True
+      DrawStaple = True
+      CollapseFmt = '%sz0'
+      TreeItemImage = 4
+      TreeGroupImage = 1
+      IgnoreAsParent = False
+    end
+    item
       DisplayName = 'struct :: ::'
       ConditionList = <
         item
@@ -1226,18 +1276,6 @@ object SyntAnal5: TLibSyntAnalyzer
           TokenTypes = 256
         end>
       HighlightPos = cpBound
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = 'destructor'
-      Enabled = False
-      ConditionList = <
-        item
-          TokenTypes = 32768
-        end>
-      HighlightPos = cpAny
-      NoEndRule = True
-      TreeItemImage = 5
       IgnoreAsParent = False
     end>
   CodeTemplates = <>
