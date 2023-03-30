@@ -7,7 +7,7 @@
 
 + add: improve "minimap_drag_immediately":true, so that minimap click scrolls to clicked position (thanks @veksha)
 + add: option "ui_menu_button", it allows to show '3 dots' sidebar button
-- fix: error with "auto_fold_comments":2 and command "move lines down" - sometimes syntax highlighting breaks 
+- fix: error with "auto_fold_comments":2 and command "move lines down"
 
 1.189.0 (2023/03)
 
