@@ -485,6 +485,7 @@ TYPES = {
     "w": ['OpenEdge ABL'],
     "wcs": ['PECmd script'],
     "wfm": ['Visual dBase'],
+    "wgsl": ['WGSL'],
     "wiki": ['WikidPad', 'MediaWiki'],
     "wikipedia": ['MediaWiki'],
     "wl": ['Wolfram'],
