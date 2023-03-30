@@ -1531,6 +1531,12 @@
   //Note: too big value is not supported: font will overlap menuitem area.
   "ui_menu_themed_font_size": 9,
 
+  //When show sidebar's "copy of top menu" button (icon with 3 dots).
+  //  0: Always hide
+  //  1: Always show
+  //  2: Auto show/hide depending on "ui_menu_show" value
+  "ui_menu_button": 2,
+
   //Side-panel's visible state on program start.
   //  0: Restore state from history file
   //  1: Show

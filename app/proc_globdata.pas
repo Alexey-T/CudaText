@@ -420,6 +420,7 @@ type
     ShowStatusbar: boolean;
     ShowToolbar: boolean;
     ShowTitlePath: boolean;
+    ShowSidebarMenuButton: integer;
 
     ReopenSession: boolean;
     ReopenSessionWithCmdLine: boolean;
@@ -2096,6 +2097,7 @@ begin
     ShowStatusbar:= true;
     ShowToolbar:= false;
     ShowTitlePath:= false;
+    ShowSidebarMenuButton:= 2;
 
     ReopenSession:= true;
     ReopenSessionWithCmdLine:= true;
