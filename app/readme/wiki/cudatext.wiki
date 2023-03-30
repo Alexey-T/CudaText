@@ -632,6 +632,7 @@ Most of them are located in the Addons Manager "Install" list.
 * Visual dBase
 * VRML
 * Vue
+* WGSL
 * WikidPad
 * WinBuilder script
 * Windows Resource Script
