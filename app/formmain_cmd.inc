@@ -1208,10 +1208,14 @@ begin
 
     cmd_Encoding_utf8bom_NoReload:   begin SetFrameEncoding(Ed, cEncNameUtf8_WithBom, false); AHandled:= true; exit end;
     cmd_Encoding_utf8nobom_NoReload: begin SetFrameEncoding(Ed, cEncNameUtf8_NoBom, false); AHandled:= true; exit end;
-    cmd_Encoding_utf16le_NoReload:   begin SetFrameEncoding(Ed, cEncNameUtf16LE_WithBom, false); AHandled:= true; exit end;
-    cmd_Encoding_utf16be_NoReload:   begin SetFrameEncoding(Ed, cEncNameUtf16BE_WithBom, false); AHandled:= true; exit end;
-    cmd_Encoding_utf32le_NoReload:   begin SetFrameEncoding(Ed, cEncNameUtf32LE_WithBom, false); AHandled:= true; exit end;
-    cmd_Encoding_utf32be_NoReload:   begin SetFrameEncoding(Ed, cEncNameUtf32BE_WithBom, false); AHandled:= true; exit end;
+    cmd_Encoding_utf16LE_NoReload:   begin SetFrameEncoding(Ed, cEncNameUtf16LE_NoBom, false); AHandled:= true; exit end;
+    cmd_Encoding_utf16BE_NoReload:   begin SetFrameEncoding(Ed, cEncNameUtf16BE_NoBom, false); AHandled:= true; exit end;
+    cmd_Encoding_utf16LEbom_NoReload:begin SetFrameEncoding(Ed, cEncNameUtf16LE_WithBom, false); AHandled:= true; exit end;
+    cmd_Encoding_utf16BEbom_NoReload:begin SetFrameEncoding(Ed, cEncNameUtf16BE_WithBom, false); AHandled:= true; exit end;
+    cmd_Encoding_utf32LE_NoReload:   begin SetFrameEncoding(Ed, cEncNameUtf32LE_NoBom, false); AHandled:= true; exit end;
+    cmd_Encoding_utf32BE_NoReload:   begin SetFrameEncoding(Ed, cEncNameUtf32BE_NoBom, false); AHandled:= true; exit end;
+    cmd_Encoding_utf32LEbom_NoReload:begin SetFrameEncoding(Ed, cEncNameUtf32LE_WithBom, false); AHandled:= true; exit end;
+    cmd_Encoding_utf32BEbom_NoReload:begin SetFrameEncoding(Ed, cEncNameUtf32BE_WithBom, false); AHandled:= true; exit end;
     cmd_Encoding_cp1250_NoReload:    begin SetFrameEncoding(Ed, cEncConvNames[eidCP1250], false); AHandled:= true; exit end;
     cmd_Encoding_cp1251_NoReload:    begin SetFrameEncoding(Ed, cEncConvNames[eidCP1251], false); AHandled:= true; exit end;
     cmd_Encoding_cp1252_NoReload:    begin SetFrameEncoding(Ed, cEncConvNames[eidCP1252], false); AHandled:= true; exit end;
@@ -1251,10 +1255,14 @@ begin
 
     cmd_Encoding_utf8bom_Reload:     begin SetFrameEncoding(Ed, cEncNameUtf8_WithBom, true); AHandled:= true; exit end;
     cmd_Encoding_utf8nobom_Reload:   begin SetFrameEncoding(Ed, cEncNameUtf8_NoBom, true); AHandled:= true; exit end;
-    cmd_Encoding_utf16le_Reload:     begin SetFrameEncoding(Ed, cEncNameUtf16LE_WithBom, true); AHandled:= true; exit end;
-    cmd_Encoding_utf16be_Reload:     begin SetFrameEncoding(Ed, cEncNameUtf16BE_WithBom, true); AHandled:= true; exit end;
-    cmd_Encoding_utf32le_Reload:     begin SetFrameEncoding(Ed, cEncNameUtf32LE_WithBom, true); AHandled:= true; exit end;
-    cmd_Encoding_utf32be_Reload:     begin SetFrameEncoding(Ed, cEncNameUtf32BE_WithBom, true); AHandled:= true; exit end;
+    cmd_Encoding_utf16LE_Reload:     begin SetFrameEncoding(Ed, cEncNameUtf16LE_NoBom, true); AHandled:= true; exit end;
+    cmd_Encoding_utf16BE_Reload:     begin SetFrameEncoding(Ed, cEncNameUtf16BE_NoBom, true); AHandled:= true; exit end;
+    cmd_Encoding_utf16LEbom_Reload:  begin SetFrameEncoding(Ed, cEncNameUtf16LE_WithBom, true); AHandled:= true; exit end;
+    cmd_Encoding_utf16BEbom_Reload:  begin SetFrameEncoding(Ed, cEncNameUtf16BE_WithBom, true); AHandled:= true; exit end;
+    cmd_Encoding_utf32LE_Reload:     begin SetFrameEncoding(Ed, cEncNameUtf32LE_NoBom, true); AHandled:= true; exit end;
+    cmd_Encoding_utf32BE_Reload:     begin SetFrameEncoding(Ed, cEncNameUtf32BE_NoBom, true); AHandled:= true; exit end;
+    cmd_Encoding_utf32LEbom_Reload:  begin SetFrameEncoding(Ed, cEncNameUtf32LE_WithBom, true); AHandled:= true; exit end;
+    cmd_Encoding_utf32BEbom_Reload:  begin SetFrameEncoding(Ed, cEncNameUtf32BE_WithBom, true); AHandled:= true; exit end;
     cmd_Encoding_cp1250_Reload:      begin SetFrameEncoding(Ed, cEncConvNames[eidCP1250], true); AHandled:= true; exit end;
     cmd_Encoding_cp1251_Reload:      begin SetFrameEncoding(Ed, cEncConvNames[eidCP1251], true); AHandled:= true; exit end;
     cmd_Encoding_cp1252_Reload:      begin SetFrameEncoding(Ed, cEncConvNames[eidCP1252], true); AHandled:= true; exit end;
