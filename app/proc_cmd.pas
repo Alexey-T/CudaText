@@ -637,8 +637,7 @@ begin
 
   M.Add(cmd_MenuEnc, 'menu: encodings', [], []);
   M.Add(cmd_MenuEnds, 'menu: line ends', [], []);
-  M.Add(cmd_MenuLexers, 'menu: lexers (popup)', [], []);
-  M.Add(cmd_DialogLexerMenu, 'menu: lexers (dialog)', [], []);
+  M.Add(cmd_MenuLexers, 'menu: lexers', [], []);
 
   M.Add(cmd_ChooseTranslation, 'menu: translations', [], []);
   M.Add(cmd_ChooseThemeUI, 'menu: themes', [], []);
