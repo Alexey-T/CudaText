@@ -264,86 +264,6 @@ const
   cmd_HelpIssues    = 2706;
   cmd_HelpCheckUpdates = 2708;
 
-  cmd_Encoding_utf8bom_NoReload   = 2711;
-  cmd_Encoding_utf8nobom_NoReload = 2712;
-  cmd_Encoding_utf16le_NoReload   = 2713;
-  cmd_Encoding_utf16be_NoReload   = 2714;
-  cmd_Encoding_cp1250_NoReload    = 2715;
-  cmd_Encoding_cp1251_NoReload    = 2716;
-  cmd_Encoding_cp1252_NoReload    = 2717;
-  cmd_Encoding_cp1253_NoReload    = 2718;
-  cmd_Encoding_cp1254_NoReload    = 2719;
-  cmd_Encoding_cp1255_NoReload    = 2720;
-  cmd_Encoding_cp1256_NoReload    = 2721;
-  cmd_Encoding_cp1257_NoReload    = 2722;
-  cmd_Encoding_cp1258_NoReload    = 2723;
-  cmd_Encoding_mac_NoReload       = 2724;
-  cmd_Encoding_iso1_NoReload      = 2725;
-  cmd_Encoding_iso2_NoReload      = 2726;
-  cmd_Encoding_iso15_NoReload     = 2727;
-  cmd_Encoding_iso16_NoReload     = 2728;
-  cmd_Encoding_cp865_NoReload     = 2729;
-  cmd_Encoding_cp437_NoReload     = 2730;
-  cmd_Encoding_cp850_NoReload     = 2731;
-  cmd_Encoding_cp852_NoReload     = 2732;
-  cmd_Encoding_cp866_NoReload     = 2733;
-  cmd_Encoding_cp874_NoReload     = 2734;
-  cmd_Encoding_cp932_NoReload     = 2735;
-  cmd_Encoding_cp936_NoReload     = 2736;
-  cmd_Encoding_cp949_NoReload     = 2737;
-  cmd_Encoding_cp950_NoReload     = 2738;
-  cmd_Encoding_utf32le_NoReload   = 2739;
-  cmd_Encoding_utf32be_NoReload   = 2740;
-  cmd_Encoding_iso9_NoReload      = 2741;
-  cmd_Encoding_iso14_NoReload     = 2742;
-  cmd_Encoding_iso5_NoReload      = 2743;
-  cmd_Encoding_iso10_NoReload     = 2744;
-  cmd_Encoding_iso13_NoReload     = 2745;
-  cmd_Encoding_iso7_NoReload      = 2746;
-  cmd_Encoding_iso3_NoReload      = 2747;
-  cmd_Encoding_iso4_NoReload      = 2748;
-  cmd_Encoding_cp861_NoReload     = 2749;
-
-  cmd_Encoding_utf8bom_Reload   = 2751;
-  cmd_Encoding_utf8nobom_Reload = 2752;
-  cmd_Encoding_utf16le_Reload   = 2753;
-  cmd_Encoding_utf16be_Reload   = 2754;
-  cmd_Encoding_cp1250_Reload    = 2755;
-  cmd_Encoding_cp1251_Reload    = 2756;
-  cmd_Encoding_cp1252_Reload    = 2757;
-  cmd_Encoding_cp1253_Reload    = 2758;
-  cmd_Encoding_cp1254_Reload    = 2759;
-  cmd_Encoding_cp1255_Reload    = 2760;
-  cmd_Encoding_cp1256_Reload    = 2761;
-  cmd_Encoding_cp1257_Reload    = 2762;
-  cmd_Encoding_cp1258_Reload    = 2763;
-  cmd_Encoding_mac_Reload       = 2764;
-  cmd_Encoding_iso1_Reload      = 2765;
-  cmd_Encoding_iso2_Reload      = 2766;
-  cmd_Encoding_iso15_Reload     = 2767;
-  cmd_Encoding_iso16_Reload     = 2768;
-  cmd_Encoding_cp865_Reload     = 2769;
-  cmd_Encoding_cp437_Reload     = 2770;
-  cmd_Encoding_cp850_Reload     = 2771;
-  cmd_Encoding_cp852_Reload     = 2772;
-  cmd_Encoding_cp866_Reload     = 2773;
-  cmd_Encoding_cp874_Reload     = 2774;
-  cmd_Encoding_cp932_Reload     = 2775;
-  cmd_Encoding_cp936_Reload     = 2776;
-  cmd_Encoding_cp949_Reload     = 2777;
-  cmd_Encoding_cp950_Reload     = 2778;
-  cmd_Encoding_utf32le_Reload   = 2779;
-  cmd_Encoding_utf32be_Reload   = 2780;
-  cmd_Encoding_iso9_Reload      = 2781;
-  cmd_Encoding_iso14_Reload     = 2782;
-  cmd_Encoding_iso5_Reload      = 2783;
-  cmd_Encoding_iso10_Reload     = 2784;
-  cmd_Encoding_iso13_Reload     = 2785;
-  cmd_Encoding_iso7_Reload      = 2786;
-  cmd_Encoding_iso3_Reload      = 2787;
-  cmd_Encoding_iso4_Reload      = 2788;
-  cmd_Encoding_cp861_Reload     = 2789;
-
   cmd_Markers_SelectToCaret      = 2798;
   cmd_Markers_DeleteToCaret      = 2799;
   cmd_Markers_DropAtCaret        = 2800;
@@ -391,6 +311,105 @@ const
   cmd_GroupActivateFloat1        = 2910;
   cmd_GroupActivateFloat2        = 2911;
   cmd_GroupActivateFloat3        = 2912;
+
+  //encoding without reload
+  cmd_Encoding_utf8bom_NoReload     = 3000;
+  cmd_Encoding_utf8nobom_NoReload   = 3001;
+  cmd_Encoding_utf16LE_NoReload     = 3002;
+  cmd_Encoding_utf16BE_NoReload     = 3003;
+  cmd_Encoding_utf16LEbom_NoReload  = 3004;
+  cmd_Encoding_utf16BEbom_NoReload  = 3005;
+  cmd_Encoding_utf32LE_NoReload     = 3006;
+  cmd_Encoding_utf32BE_NoReload     = 3007;
+  cmd_Encoding_utf32LEbom_NoReload  = 3008;
+  cmd_Encoding_utf32BEbom_NoReload  = 3009;
+
+  cmd_Encoding_cp1250_NoReload    = 3020;
+  cmd_Encoding_cp1251_NoReload    = 3021;
+  cmd_Encoding_cp1252_NoReload    = 3022;
+  cmd_Encoding_cp1253_NoReload    = 3023;
+  cmd_Encoding_cp1254_NoReload    = 3024;
+  cmd_Encoding_cp1255_NoReload    = 3025;
+  cmd_Encoding_cp1256_NoReload    = 3026;
+  cmd_Encoding_cp1257_NoReload    = 3027;
+  cmd_Encoding_cp1258_NoReload    = 3028;
+
+  cmd_Encoding_iso1_NoReload      = 3031;
+  cmd_Encoding_iso2_NoReload      = 3032;
+  cmd_Encoding_iso3_NoReload      = 3033;
+  cmd_Encoding_iso4_NoReload      = 3034;
+  cmd_Encoding_iso5_NoReload      = 3035;
+  cmd_Encoding_iso7_NoReload      = 3037;
+  cmd_Encoding_iso9_NoReload      = 3039;
+  cmd_Encoding_iso10_NoReload     = 3040;
+  cmd_Encoding_iso13_NoReload     = 3043;
+  cmd_Encoding_iso14_NoReload     = 3044;
+  cmd_Encoding_iso15_NoReload     = 3045;
+  cmd_Encoding_iso16_NoReload     = 3046;
+
+  cmd_Encoding_cp437_NoReload     = 3050;
+  cmd_Encoding_cp850_NoReload     = 3055;
+  cmd_Encoding_cp852_NoReload     = 3056;
+  cmd_Encoding_cp861_NoReload     = 3057;
+  cmd_Encoding_cp865_NoReload     = 3058;
+  cmd_Encoding_cp866_NoReload     = 3059;
+  cmd_Encoding_cp874_NoReload     = 3060;
+  cmd_Encoding_cp932_NoReload     = 3070;
+  cmd_Encoding_cp936_NoReload     = 3071;
+  cmd_Encoding_cp949_NoReload     = 3072;
+  cmd_Encoding_cp950_NoReload     = 3073;
+
+  cmd_Encoding_mac_NoReload       = 3080;
+
+  //encoding with reload
+  cmd_Encoding_utf8bom_Reload     = 3100;
+  cmd_Encoding_utf8nobom_Reload   = 3101;
+  cmd_Encoding_utf16LE_Reload     = 3102;
+  cmd_Encoding_utf16BE_Reload     = 3103;
+  cmd_Encoding_utf16LEbom_Reload  = 3104;
+  cmd_Encoding_utf16BEbom_Reload  = 3105;
+  cmd_Encoding_utf32LE_Reload     = 3106;
+  cmd_Encoding_utf32BE_Reload     = 3107;
+  cmd_Encoding_utf32LEbom_Reload  = 3108;
+  cmd_Encoding_utf32BEbom_Reload  = 3109;
+
+  cmd_Encoding_cp1250_Reload    = 3120;
+  cmd_Encoding_cp1251_Reload    = 3121;
+  cmd_Encoding_cp1252_Reload    = 3122;
+  cmd_Encoding_cp1253_Reload    = 3123;
+  cmd_Encoding_cp1254_Reload    = 3124;
+  cmd_Encoding_cp1255_Reload    = 3125;
+  cmd_Encoding_cp1256_Reload    = 3126;
+  cmd_Encoding_cp1257_Reload    = 3127;
+  cmd_Encoding_cp1258_Reload    = 3128;
+
+  cmd_Encoding_iso1_Reload      = 3131;
+  cmd_Encoding_iso2_Reload      = 3132;
+  cmd_Encoding_iso3_Reload      = 3133;
+  cmd_Encoding_iso4_Reload      = 3134;
+  cmd_Encoding_iso5_Reload      = 3135;
+  cmd_Encoding_iso7_Reload      = 3137;
+  cmd_Encoding_iso9_Reload      = 3139;
+  cmd_Encoding_iso10_Reload     = 3140;
+  cmd_Encoding_iso13_Reload     = 3143;
+  cmd_Encoding_iso14_Reload     = 3144;
+  cmd_Encoding_iso15_Reload     = 3145;
+  cmd_Encoding_iso16_Reload     = 3146;
+
+  cmd_Encoding_cp437_Reload     = 3150;
+  cmd_Encoding_cp850_Reload     = 3155;
+  cmd_Encoding_cp852_Reload     = 3156;
+  cmd_Encoding_cp861_Reload     = 3157;
+  cmd_Encoding_cp865_Reload     = 3158;
+  cmd_Encoding_cp866_Reload     = 3159;
+  cmd_Encoding_cp874_Reload     = 3160;
+  cmd_Encoding_cp932_Reload     = 3170;
+  cmd_Encoding_cp936_Reload     = 3171;
+  cmd_Encoding_cp949_Reload     = 3172;
+  cmd_Encoding_cp950_Reload     = 3173;
+
+  cmd_Encoding_mac_Reload       = 3180;
+
 
 implementation
 
