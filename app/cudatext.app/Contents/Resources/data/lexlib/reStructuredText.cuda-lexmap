@@ -1,8 +1,8 @@
 [comments]
 str1=
 str2=
-styles_cmt=
-styles_str=
+styles_cmt=Comment
+styles_str=Head,Quote,Bold,Italic,Bold-Italic,Crossed
 
 [map]
 Head=IdKeyword
