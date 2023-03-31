@@ -941,14 +941,12 @@ type
     procedure MenuRecentsClear(Sender: TObject);
     procedure MenuRecentsPopup(Sender: TObject);
     procedure MenuRecentItemClick(Sender: TObject);
-    procedure MenuEncWithReloadClick(Sender: TObject);
     procedure MenuitemClick_CommandFromTag(Sender: TObject);
     procedure MenuitemClick_CommandFromHint(Sender: TObject);
     procedure MenuPicScaleClick(Sender: TObject);
     procedure MenuPluginClick(Sender: TObject);
     procedure MenuTabsizeClick(Sender: TObject);
     procedure MenuViewerModeClick(Sender: TObject);
-    procedure MenuEncNoReloadClick(Sender: TObject);
     procedure MenuLexerClick(Sender: TObject);
     procedure MenuMainClick(Sender: TObject);
     procedure MsgStatus(AText: string; AFinderMessage: boolean=false);
@@ -1121,7 +1119,6 @@ type
     procedure UpdateMenuChecks_Frame(F: TEditorFrame);
     procedure UpdateMenuChecks_FrameSplit(F: TEditorFrame);
     procedure UpdateMenuChecks_Global;
-    procedure UpdateMenuEnc(AMenu: TMenuItem);
     procedure UpdateFrameLineEnds(Frame: TEditorFrame; AValue: TATLineEnds);
     procedure UpdateEditorCaretLineEnds(Frame: TEditorFrame; Ed: TATSynEdit; AValue: TATLineEnds);
     procedure UpdateStatusbarPanelsFromString(const AText: string);
@@ -5396,16 +5393,6 @@ begin
       mnuPlugins.Add(mi);
       {$endif}
     end;
-end;
-
-procedure TfmMain.MenuEncNoReloadClick(Sender: TObject);
-begin
-  SetFrameEncoding(CurrentEditor, (Sender as TMenuItem).Caption, false);
-end;
-
-procedure TfmMain.MenuEncWithReloadClick(Sender: TObject);
-begin
-  SetFrameEncoding(CurrentEditor, (Sender as TMenuItem).Caption, true);
 end;
 
 
