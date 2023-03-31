@@ -563,6 +563,12 @@ class Command:
             self.action_remove_node()
             self.add_node(str(new_location))
 
+        # fix filename of existing ui-tab
+        for h in ed_handles():
+            e = Editor(h)
+            if e.get_filename()==str(location):
+                e.save(str(new_location))
+
         self.action_refresh()
         self.jump_to_filename(str(new_location))
         msg_status(_("Renamed to: ") + str(new_location.name))
