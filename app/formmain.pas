@@ -7052,7 +7052,7 @@ end;
 procedure TfmMain.DoDialogMenuEnds;
 var
   List: TStringList;
-  NRes: integer;
+  NRes, NSelected: integer;
   Ed: TATSynEdit;
 begin
   Ed:= CurrentEditor;
@@ -7064,7 +7064,14 @@ begin
     List.Add(msgEndWin);
     List.Add(msgEndMac);
 
-    NRes:= DoDialogMenuList(msgStatusbarHintEnds, List, 0);
+    case Ed.Strings.Endings of
+      cEndUnix: NSelected:= 0;
+      cEndWin: NSelected:= 1;
+      cEndMac: NSelected:= 2;
+      else NSelected:= 0;
+    end;
+
+    NRes:= DoDialogMenuList(msgStatusbarHintEnds, List, NSelected);
     if NRes<0 then exit;
 
     case NRes of
