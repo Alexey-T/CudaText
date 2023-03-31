@@ -5,6 +5,7 @@
 
 1.189.1 (2023/03)
 
+* change: encodings menu changed to menu-like dialog, like in VSCode (thanks @Vivalzar)
 + add: improve "minimap_drag_immediately":true, so that minimap click scrolls to clicked position (thanks @veksha)
 + add: add option "ui_menu_button", to control showing of '3 dots' sidebar button
 + add: Project Manager: on renaming of project file, rename also corresponding opened ui-tab (thanks @ThaiDat)
