@@ -5396,10 +5396,14 @@ begin
   PythonModule.ModuleName:= 'cudatext_api';
   PythonModule.OnInitialization:= @PythonModuleInitialization;
 
-  //handle special empty value of "pylib"
-  if UiOps.PyLibrary='' then
+  if (UiOps.PyLibrary='') or
+    ((Pos('/', UiOps.PyLibrary)>0) and not FileExists(UiOps.PyLibrary)) then
   begin
-    DisablePluginMenuItems(false);
+    MsgLogConsole(msgCannotInitPython1);
+    MsgLogConsole(msgCannotInitPython2);
+    if msgCannotInitPython2b<>'' then
+      MsgLogConsole(msgCannotInitPython2b);
+    DisablePluginMenuItems({$ifdef darwin}false{$else}UiOps.PyLibrary<>''{$endif});
     exit;
   end;
 
