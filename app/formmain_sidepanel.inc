@@ -47,7 +47,7 @@ begin
 
   //better show menu from top-left corner, coz otherwise,
   //when sidebar is on the right, menu fly-outs overlap each other
-  Pnt:= PanelEditors.ClientToScreen(Point(0, 0));
+  Pnt:= PanelAll.ClientToScreen(Point(0, 0));
 
   UpdateMenuTheming(PopupSidebarClone);
   PopupSidebarClone.Popup(Pnt.X, Pnt.Y);
