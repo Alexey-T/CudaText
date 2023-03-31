@@ -54,6 +54,12 @@ def _file_ext(fn):
             return ''
     return s
 
+def _file_modified(fn):
+    for h in ed_handles():
+        e = Editor(h)
+        if e.get_filename()==fn:
+            return(e.get_prop(PROP_MODIFIED, ''))
+    return False
 
 # https://stackoverflow.com/questions/377017/test-if-executable-exists-in-python
 def which(program):
@@ -541,6 +547,9 @@ class Command:
 
     def action_rename(self):
         location = Path(self.get_location_by_index(self.selected))
+        if _file_modified(str(location)):
+            msg_status(_('Please save modified file first'))
+            return
         result = dlg_input(_("Rename to"), str(location.name))
         if not result:
             return
