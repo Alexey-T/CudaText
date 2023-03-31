@@ -10,6 +10,7 @@
 + add: Project Manager: on renaming of project file, rename also corresponding opened ui-tab (thanks @ThaiDat)
 + add: Command Palette did miss few commands for newly added encodings; renamed few CJK encoding-items (thanks @Vivalzar)
 - fix: error with "auto_fold_comments":2 and command "move lines down"
+- fix: lexer reStructuredText did not support spell-checker
 
 1.189.0 (2023/03)
 
