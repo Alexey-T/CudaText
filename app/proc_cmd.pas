@@ -681,10 +681,10 @@ begin
   M.Add(cmd_Encoding_cp865_NoReload, 'change encoding, no reload: cp865', [], []);
   M.Add(cmd_Encoding_cp866_NoReload, 'change encoding, no reload: cp866', [], []);
   M.Add(cmd_Encoding_cp874_NoReload, 'change encoding, no reload: cp874', [], []);
-  M.Add(cmd_Encoding_cp932_NoReload, 'change encoding, no reload: cp932', [], []);
-  M.Add(cmd_Encoding_cp936_NoReload, 'change encoding, no reload: cp936', [], []);
-  M.Add(cmd_Encoding_cp949_NoReload, 'change encoding, no reload: cp949', [], []);
-  M.Add(cmd_Encoding_cp950_NoReload, 'change encoding, no reload: cp950', [], []);
+  M.Add(cmd_Encoding_cp932_NoReload, 'change encoding, no reload: shift-jis', [], []);
+  M.Add(cmd_Encoding_cp936_NoReload, 'change encoding, no reload: gbk', [], []);
+  M.Add(cmd_Encoding_cp949_NoReload, 'change encoding, no reload: uhc', [], []);
+  M.Add(cmd_Encoding_cp950_NoReload, 'change encoding, no reload: big5', [], []);
 
   M.Add(cmd_Encoding_utf8bom_Reload, 'change encoding, reload: utf-8 BOM', [], []);
   M.Add(cmd_Encoding_utf8nobom_Reload, 'change encoding, reload: utf-8 no BOM', [], []);
@@ -721,10 +721,10 @@ begin
   M.Add(cmd_Encoding_cp865_Reload, 'change encoding, reload: cp865', [], []);
   M.Add(cmd_Encoding_cp866_Reload, 'change encoding, reload: cp866', [], []);
   M.Add(cmd_Encoding_cp874_Reload, 'change encoding, reload: cp874', [], []);
-  M.Add(cmd_Encoding_cp932_Reload, 'change encoding, reload: cp932', [], []);
-  M.Add(cmd_Encoding_cp936_Reload, 'change encoding, reload: cp936', [], []);
-  M.Add(cmd_Encoding_cp949_Reload, 'change encoding, reload: cp949', [], []);
-  M.Add(cmd_Encoding_cp950_Reload, 'change encoding, reload: cp950', [], []);
+  M.Add(cmd_Encoding_cp932_Reload, 'change encoding, reload: shift-jis', [], []);
+  M.Add(cmd_Encoding_cp936_Reload, 'change encoding, reload: gbk', [], []);
+  M.Add(cmd_Encoding_cp949_Reload, 'change encoding, reload: uhc', [], []);
+  M.Add(cmd_Encoding_cp950_Reload, 'change encoding, reload: big5', [], []);
 
   M.Add(cmd_Markers_DropAtCaret       , 'markers: drop marker at caret', [], []);
   M.Add(cmd_Markers_GotoLastNoDelete  , 'markers: go to last marker (don''t delete)', [], []);
