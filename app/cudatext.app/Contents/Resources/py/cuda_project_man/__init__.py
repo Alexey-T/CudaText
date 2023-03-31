@@ -552,7 +552,7 @@ class Command:
         # TODO: Support unsaved changes when API available       
         if e is not None \
         and e.get_prop(PROP_MODIFIED, '') == True \
-        and msg_box_ex('Warning', 'The file you are renaming has unsaved changes. Would you like to save the changes first?', ['Save', 'Cancel'], MB_ICONWARNING) == 1:
+        and msg_box_ex('Warning', 'The file you are renaming has unsaved changes. Would you like to save the changes first?', ['Save', 'Cancel'], MB_ICONWARNING) != 0:
             return
             
         result = dlg_input(_("Rename to"), str(location.name))
