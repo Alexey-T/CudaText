@@ -598,13 +598,11 @@ begin
       end;
     cmd_MenuEnds:
       begin
-        InitPopupEnds;
-        MenuShowAtEditorCorner(PopupEnds, CurrentEditor);
+        DoDialogMenuEnds;
       end;
     cmd_MenuLexers:
       begin
-        InitPopupLex;
-        MenuShowAtEditorCorner(PopupLex, CurrentEditor);
+        DoDialogLexerMenu;
       end;
 
     cmd_SetTabColor:

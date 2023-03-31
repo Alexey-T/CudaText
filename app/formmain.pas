@@ -548,8 +548,6 @@ type
     ImageListTree: TImageList;
     PopupTab: TPopupMenu;
     PopupTree: TPopupMenu;
-    PopupEnds: TPopupMenu;
-    PopupLex: TPopupMenu;
     PopupTabSize: TPopupMenu;
     PopupViewerMode: TPopupMenu;
     PopupPicScale: TPopupMenu;
@@ -593,9 +591,6 @@ type
     mnuTreeFold8: TMenuItem;
     mnuTreeFold9: TMenuItem;
     mnuTreeSorted: TMenuItem;
-    mnuEndsWin: TMenuItem;
-    mnuEndsUnix: TMenuItem;
-    mnuEndsMac: TMenuItem;
     mnuTabsizeSpace: TMenuItem;
     mnuTabsizeConvTabs: TMenuItem;
     mnuTabsizeConvSpaces: TMenuItem;
@@ -888,6 +883,7 @@ type
     procedure DoDialogMenuTranslations;
     procedure DoDialogMenuThemes;
     procedure DoDialogMenuEncodings;
+    procedure DoDialogMenuEnds;
     procedure DoFileExportHtml(Ed: TATSynEdit);
     function DoFileInstallZip(const fn: string; out DirTarget: string; ASilent: boolean): boolean;
     procedure DoFileCloseAndDelete(Ed: TATSynEdit);
@@ -926,8 +922,6 @@ type
     procedure InitPopupPicScale;
     procedure InitPopupBottom(var AMenu: TPopupMenu; AEditor: TATSynEdit);
     procedure InitPopupViewerMode;
-    procedure InitPopupEnds;
-    procedure InitPopupLex;
     procedure InitPopupTab;
     procedure InitPopupTabSize;
     procedure InitBottomEditor(var Form: TAppFormWithEditor);
@@ -1989,38 +1983,6 @@ begin
   end;
 end;
 
-procedure TfmMain.InitPopupEnds;
-begin
-  if PopupEnds=nil then
-  begin
-    PopupEnds:= TPopupMenu.Create(Self);
-    mnuEndsWin:= TMenuItem.Create(Self);
-    mnuEndsUnix:= TMenuItem.Create(Self);
-    mnuEndsMac:= TMenuItem.Create(Self);
-
-    UpdateMenuItemHotkey(mnuEndsWin, cmd_LineEndWin);
-    UpdateMenuItemHotkey(mnuEndsUnix, cmd_LineEndUnix);
-    UpdateMenuItemHotkey(mnuEndsMac, cmd_LineEndMac);
-
-    PopupEnds.Items.Add(mnuEndsWin);
-    PopupEnds.Items.Add(mnuEndsUnix);
-    PopupEnds.Items.Add(mnuEndsMac);
-  end;
-
-  mnuEndsWin.Caption:= msgEndWin;
-  mnuEndsUnix.Caption:= msgEndUnix;
-  mnuEndsMac.Caption:= msgEndMac;
-end;
-
-procedure TfmMain.InitPopupLex;
-begin
-  if PopupLex=nil then
-  begin
-    PopupLex:= TPopupMenu.Create(Self);
-  end;
-  UpdateMenuLexersTo(PopupLex.Items);
-end;
-
 procedure TfmMain.InitPopupTab;
 var
   mi: TMenuItem;
@@ -2254,15 +2216,11 @@ begin
     StatusbarTag_LineEnds:
       begin
         if not Frame.ReadOnly[Frame.Editor] then
-        begin
-          InitPopupEnds;
-          PopupEnds.PopUp;
-        end;
+          DoDialogMenuEnds;
       end;
     StatusbarTag_Lexer:
       begin
-        InitPopupLex;
-        PopupLex.PopUp;
+        DoDialogLexerMenu;
       end;
     StatusbarTag_TabSize:
       begin
@@ -7101,6 +7059,34 @@ begin
   finally
     FreeAndNil(ListNames);
     FreeAndNil(ListFiles);
+  end;
+end;
+
+procedure TfmMain.DoDialogMenuEnds;
+var
+  List: TStringList;
+  NRes: integer;
+  Ed: TATSynEdit;
+begin
+  Ed:= CurrentEditor;
+  if Ed=nil then exit;
+
+  List:= TStringList.Create;
+  try
+    List.Add(msgEndUnix);
+    List.Add(msgEndWin);
+    List.Add(msgEndMac);
+
+    NRes:= DoDialogMenuList(msgStatusbarHintEnds, List, 0);
+    if NRes<0 then exit;
+
+    case NRes of
+      0: Ed.DoCommand(cmd_LineEndUnix, cInvokeAppPalette);
+      1: Ed.DoCommand(cmd_LineEndWin, cInvokeAppPalette);
+      2: Ed.DoCommand(cmd_LineEndMac, cInvokeAppPalette);
+    end;
+  finally
+    FreeAndNil(List);
   end;
 end;
 
