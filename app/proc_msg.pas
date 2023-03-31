@@ -179,9 +179,9 @@ const
   msgEncReloadAs: string = 'Reload as';
   msgEncConvertTo: string = 'Convert to';
 
-  msgEndWin: string = 'CRLF';
-  msgEndUnix: string = 'LF';
-  msgEndMac: string = 'CR';
+  msgEndWin = 'CRLF';
+  msgEndUnix = 'LF';
+  msgEndMac = 'CR';
 
   msgTabsizeUseSpaces: string = 'Use spaces';
   msgTabsizeConvTabs: string = 'Convert indentation to spaces';
