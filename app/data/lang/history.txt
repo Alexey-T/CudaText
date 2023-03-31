@@ -1,5 +1,8 @@
 See http://wiki.freepascal.org/CudaText#How_to_make_translation
 
+2023.03.31
+* delete [m_f] e_eu, e_as, e_mi
+
 2023.02.22
 + [d_f] h_pres
 + [ui] fnd_pres

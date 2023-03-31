@@ -132,9 +132,6 @@ begin
 
     msgEncReloadAs:= ini.ReadString('m_f', 'e_r', msgEncReloadAs);
     msgEncConvertTo:= ini.ReadString('m_f', 'e_t', msgEncConvertTo);
-    msgEncEuropean:= ini.ReadString('m_f', 'e_eu', msgEncEuropean);
-    msgEncAsian:= ini.ReadString('m_f', 'e_as', msgEncAsian);
-    msgEncMisc:= ini.ReadString('m_f', 'e_mi', msgEncMisc);
 
     DoLocMenuItem(mnuFileEndWin, msgEndWin);
     DoLocMenuItem(mnuFileEndUn, msgEndUnix);

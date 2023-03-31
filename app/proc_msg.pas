@@ -178,9 +178,6 @@ const
 
   msgEncReloadAs: string = 'Reload as';
   msgEncConvertTo: string = 'Convert to';
-  msgEncEuropean: string = 'European';
-  msgEncAsian: string = 'Asian';
-  msgEncMisc: string = 'Misc';
 
   msgEndWin: string = 'CRLF';
   msgEndUnix: string = 'LF';
