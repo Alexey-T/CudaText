@@ -5403,7 +5403,7 @@ begin
     MsgLogConsole(msgCannotInitPython2);
     if msgCannotInitPython2b<>'' then
       MsgLogConsole(msgCannotInitPython2b);
-    DisablePluginMenuItems({$ifdef darwin}false{$else}UiOps.PyLibrary<>''{$endif});
+    DisablePluginMenuItems({$if defined(windows) or defined(darwin)}false{$else}UiOps.PyLibrary<>''{$endif});
     exit;
   end;
 
