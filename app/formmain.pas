@@ -7090,9 +7090,11 @@ var
   NRes, NSelected, i: integer;
   bReloadFile: boolean;
   Ed: TATSynEdit;
+  SEncName: string;
 begin
   Ed:= CurrentEditor;
   if Ed=nil then exit;
+  SEncName:= Ed.EncodingName;
 
   List:= TStringList.Create;
   try
@@ -7109,7 +7111,10 @@ begin
     for i:= Low(AppEncodings) to High(AppEncodings) do
     begin
       List.Add(AppEncodings[i].Name);
+      if SameText(AppEncodings[i].Name, SEncName) then
+        NSelected:= i;
     end;
+
     NRes:= DoDialogMenuList(msgStatusbarHintEnc, List, NSelected);
     if NRes<0 then exit;
 
