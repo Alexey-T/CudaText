@@ -646,12 +646,12 @@ begin
   M.Add(cmd_FoldingDisable, 'folding: disable folding functionality', [], []);
   M.Add(cmd_DeleteNewColorAttrs, 'clear custom color attributes (added in plugins)', [], []);
 
-  M.Add(cmd_Encoding_utf8bom_NoReload, 'change encoding, no reload: utf8 bom', [], []);
-  M.Add(cmd_Encoding_utf8nobom_NoReload, 'change encoding, no reload: utf8 no bom', [], []);
-  M.Add(cmd_Encoding_utf16le_NoReload, 'change encoding, no reload: utf16 le', [], []);
-  M.Add(cmd_Encoding_utf16be_NoReload, 'change encoding, no reload: utf16 be', [], []);
-  M.Add(cmd_Encoding_utf32le_NoReload, 'change encoding, no reload: utf32 le', [], []);
-  M.Add(cmd_Encoding_utf32be_NoReload, 'change encoding, no reload: utf32 be', [], []);
+  M.Add(cmd_Encoding_utf8bom_NoReload, 'change encoding, no reload: utf-8 BOM', [], []);
+  M.Add(cmd_Encoding_utf8nobom_NoReload, 'change encoding, no reload: utf-8 no BOM', [], []);
+  M.Add(cmd_Encoding_utf16le_NoReload, 'change encoding, no reload: utf-16 LE', [], []);
+  M.Add(cmd_Encoding_utf16be_NoReload, 'change encoding, no reload: utf-16 BE', [], []);
+  M.Add(cmd_Encoding_utf32le_NoReload, 'change encoding, no reload: utf-32 LE', [], []);
+  M.Add(cmd_Encoding_utf32be_NoReload, 'change encoding, no reload: utf-32 BE', [], []);
   M.Add(cmd_Encoding_cp1250_NoReload, 'change encoding, no reload: cp1250', [], []);
   M.Add(cmd_Encoding_cp1251_NoReload, 'change encoding, no reload: cp1251', [], []);
   M.Add(cmd_Encoding_cp1252_NoReload, 'change encoding, no reload: cp1252', [], []);
@@ -686,12 +686,12 @@ begin
   M.Add(cmd_Encoding_cp949_NoReload, 'change encoding, no reload: cp949', [], []);
   M.Add(cmd_Encoding_cp950_NoReload, 'change encoding, no reload: cp950', [], []);
 
-  M.Add(cmd_Encoding_utf8bom_Reload, 'change encoding, reload: utf8 bom', [], []);
-  M.Add(cmd_Encoding_utf8nobom_Reload, 'change encoding, reload: utf8 no bom', [], []);
-  M.Add(cmd_Encoding_utf16le_Reload, 'change encoding, reload: utf16 le', [], []);
-  M.Add(cmd_Encoding_utf16be_Reload, 'change encoding, reload: utf16 be', [], []);
-  M.Add(cmd_Encoding_utf32le_Reload, 'change encoding, reload: utf32 le', [], []);
-  M.Add(cmd_Encoding_utf32be_Reload, 'change encoding, reload: utf32 be', [], []);
+  M.Add(cmd_Encoding_utf8bom_Reload, 'change encoding, reload: utf-8 BOM', [], []);
+  M.Add(cmd_Encoding_utf8nobom_Reload, 'change encoding, reload: utf-8 no BOM', [], []);
+  M.Add(cmd_Encoding_utf16le_Reload, 'change encoding, reload: utf-16 LE', [], []);
+  M.Add(cmd_Encoding_utf16be_Reload, 'change encoding, reload: utf-16 BE', [], []);
+  M.Add(cmd_Encoding_utf32le_Reload, 'change encoding, reload: utf-32 LE', [], []);
+  M.Add(cmd_Encoding_utf32be_Reload, 'change encoding, reload: utf-32 BE', [], []);
   M.Add(cmd_Encoding_cp1250_Reload, 'change encoding, reload: cp1250', [], []);
   M.Add(cmd_Encoding_cp1251_Reload, 'change encoding, reload: cp1251', [], []);
   M.Add(cmd_Encoding_cp1252_Reload, 'change encoding, reload: cp1252', [], []);
