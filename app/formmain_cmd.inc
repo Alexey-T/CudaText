@@ -594,8 +594,7 @@ begin
 
     cmd_MenuEnc:
       begin
-        InitPopupEnc;
-        MenuShowAtEditorCorner(PopupEnc, CurrentEditor);
+        DoDialogMenuEncodings;
       end;
     cmd_MenuEnds:
       begin

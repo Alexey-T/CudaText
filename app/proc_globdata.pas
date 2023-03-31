@@ -839,7 +839,7 @@ type
   end;
 
 const
-  AppEncodings: array[0..52] of TAppEncodingRecord = (
+  AppEncodings: array[0..48] of TAppEncodingRecord = (
     (Sub: ''; Name: cEncNameUtf8_NoBom; ShortName: 'utf8'),
     (Sub: ''; Name: cEncNameUtf8_WithBom; ShortName: 'utf8_bom'),
     (Sub: ''; Name: cEncNameUtf16LE_NoBom; ShortName: 'utf16le'),
@@ -850,21 +850,24 @@ const
     (Sub: ''; Name: cEncNameUtf32LE_WithBom; ShortName: 'utf32le_bom'),
     (Sub: ''; Name: cEncNameUtf32BE_NoBom; ShortName: 'utf32be'),
     (Sub: ''; Name: cEncNameUtf32BE_WithBom; ShortName: 'utf32be_bom'),
-    (Sub: ''; Name: '-'; ShortName: ''),
+    //(Sub: ''; Name: '-'; ShortName: ''),
     (Sub: 'eu'; Name: 'cp1250'; ShortName: 'cp1250'),
     (Sub: 'eu'; Name: 'cp1251'; ShortName: 'cp1251'),
     (Sub: 'eu'; Name: 'cp1252'; ShortName: 'cp1252'),
     (Sub: 'eu'; Name: 'cp1253'; ShortName: 'cp1253'),
     (Sub: 'eu'; Name: 'cp1254'; ShortName: 'cp1254'),
+    (Sub: 'mi'; Name: 'cp1255'; ShortName: 'cp1255'),
+    (Sub: 'mi'; Name: 'cp1256'; ShortName: 'cp1256'),
     (Sub: 'eu'; Name: 'cp1257'; ShortName: 'cp1257'),
-    (Sub: 'eu'; Name: '-'; ShortName: ''),
+    (Sub: 'as'; Name: 'cp1258'; ShortName: 'cp1258'),
+    //(Sub: 'eu'; Name: '-'; ShortName: ''),
     (Sub: 'eu'; Name: 'cp437'; ShortName: 'cp437'),
     (Sub: 'eu'; Name: 'cp850'; ShortName: 'cp850'),
     (Sub: 'eu'; Name: 'cp852'; ShortName: 'cp852'),
     (Sub: 'eu'; Name: 'cp861'; ShortName: 'cp861'),
     (Sub: 'eu'; Name: 'cp865'; ShortName: 'cp865'),
     (Sub: 'eu'; Name: 'cp866'; ShortName: 'cp866'),
-    (Sub: 'eu'; Name: '-'; ShortName: ''),
+    //(Sub: 'eu'; Name: '-'; ShortName: ''),
     (Sub: 'eu'; Name: 'iso-8859-1'; ShortName: 'iso-8859-1'),
     (Sub: 'eu'; Name: 'iso-8859-2'; ShortName: 'iso-8859-2'),
     (Sub: 'eu'; Name: 'iso-8859-3'; ShortName: 'iso-8859-3'),
@@ -878,9 +881,7 @@ const
     (Sub: 'eu'; Name: 'iso-8859-15'; ShortName: 'iso-8859-15'),
     (Sub: 'eu'; Name: 'iso-8859-16'; ShortName: 'iso-8859-16'),
     (Sub: 'eu'; Name: 'mac'; ShortName: 'mac'),
-    (Sub: 'mi'; Name: 'cp1255'; ShortName: 'cp1255'),
-    (Sub: 'mi'; Name: 'cp1256'; ShortName: 'cp1256'),
-    (Sub: 'mi'; Name: '-'; ShortName: ''),
+    //(Sub: 'mi'; Name: '-'; ShortName: ''),
     (Sub: 'mi'; Name: 'koi8r'; ShortName: 'koi8r'),
     (Sub: 'mi'; Name: 'koi8u'; ShortName: 'koi8u'),
     (Sub: 'mi'; Name: 'koi8ru'; ShortName: 'koi8ru'),
@@ -891,8 +892,7 @@ const
     (Sub: 'as'; Name: 'uhc'; ShortName: 'uhc'),
     (Sub: 'as'; Name: 'big5'; ShortName: 'big5'),
     (Sub: 'as'; Name: 'gb2312'; ShortName: 'gb2312'),
-    (Sub: 'as'; Name: 'euc-kr'; ShortName: 'euc-kr'),
-    (Sub: 'as'; Name: 'cp1258'; ShortName: 'cp1258')
+    (Sub: 'as'; Name: 'euc-kr'; ShortName: 'euc-kr')
   );
 
 type

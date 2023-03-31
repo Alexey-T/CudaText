@@ -549,7 +549,6 @@ type
     PopupTab: TPopupMenu;
     PopupTree: TPopupMenu;
     PopupEnds: TPopupMenu;
-    PopupEnc: TPopupMenu;
     PopupLex: TPopupMenu;
     PopupTabSize: TPopupMenu;
     PopupViewerMode: TPopupMenu;
@@ -888,6 +887,7 @@ type
     function DoDialogMenuApi(const AProps: TDlgMenuProps): integer;
     procedure DoDialogMenuTranslations;
     procedure DoDialogMenuThemes;
+    procedure DoDialogMenuEncodings;
     procedure DoFileExportHtml(Ed: TATSynEdit);
     function DoFileInstallZip(const fn: string; out DirTarget: string; ASilent: boolean): boolean;
     procedure DoFileCloseAndDelete(Ed: TATSynEdit);
@@ -926,7 +926,6 @@ type
     procedure InitPopupPicScale;
     procedure InitPopupBottom(var AMenu: TPopupMenu; AEditor: TATSynEdit);
     procedure InitPopupViewerMode;
-    procedure InitPopupEnc;
     procedure InitPopupEnds;
     procedure InitPopupLex;
     procedure InitPopupTab;
@@ -1990,15 +1989,6 @@ begin
   end;
 end;
 
-procedure TfmMain.InitPopupEnc;
-begin
-  if PopupEnc=nil then
-  begin
-    PopupEnc:= TPopupMenu.Create(Self);
-  end;
-  UpdateMenuEnc(PopupEnc.Items);
-end;
-
 procedure TfmMain.InitPopupEnds;
 begin
   if PopupEnds=nil then
@@ -2259,10 +2249,7 @@ begin
     StatusbarTag_Enc:
       begin
         if not Frame.ReadOnly[Frame.Editor] then
-        begin
-          InitPopupEnc;
-          PopupEnc.PopUp;
-        end;
+          DoDialogMenuEncodings;
       end;
     StatusbarTag_LineEnds:
       begin
@@ -7114,6 +7101,41 @@ begin
   finally
     FreeAndNil(ListNames);
     FreeAndNil(ListFiles);
+  end;
+end;
+
+procedure TfmMain.DoDialogMenuEncodings;
+var
+  List: TStringList;
+  NRes, NSelected, i: integer;
+  bReloadFile: boolean;
+  Ed: TATSynEdit;
+begin
+  Ed:= CurrentEditor;
+  if Ed=nil then exit;
+
+  List:= TStringList.Create;
+  try
+    List.Clear;
+    List.Add(msgEncReloadAs);
+    List.Add(msgEncConvertTo);
+
+    NRes:= DoDialogMenuList(msgStatusbarHintEnc, List, 0);
+    if NRes<0 then exit;
+    bReloadFile:= NRes=0;
+
+    List.Clear;
+    NSelected:= 0;
+    for i:= Low(AppEncodings) to High(AppEncodings) do
+    begin
+      List.Add(AppEncodings[i].Name);
+    end;
+    NRes:= DoDialogMenuList(msgStatusbarHintEnc, List, NSelected);
+    if NRes<0 then exit;
+
+    SetFrameEncoding(Ed, AppEncodings[NRes].Name, bReloadFile);
+  finally
+    FreeAndNil(List);
   end;
 end;
 
