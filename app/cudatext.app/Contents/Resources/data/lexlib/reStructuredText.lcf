@@ -1,4 +1,4 @@
-object SyntAnal21: TLibSyntAnalyzer
+object SyntAnal20: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Head'
@@ -7,14 +7,6 @@ object SyntAnal21: TLibSyntAnalyzer
       Font.Height = -19
       Font.Name = 'Consolas'
       Font.Style = [fsBold]
-    end
-    item
-      DisplayName = 'Comment'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clGray
-      Font.Height = -13
-      Font.Name = 'Courier New'
-      Font.Style = [fsItalic]
     end
     item
       DisplayName = 'Quote'
@@ -142,6 +134,14 @@ object SyntAnal21: TLibSyntAnalyzer
       Font.Name = 'Courier New'
       Font.Style = []
       BgColor = 10084526
+    end
+    item
+      DisplayName = 'Usual'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
     end>
   TokenRules = <
     item
@@ -309,6 +309,14 @@ object SyntAnal21: TLibSyntAnalyzer
       StyleName = 'Table'
       TokenType = 10
       Expression = '\|'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Usual'
+      StyleName = 'Usual'
+      TokenType = 1
+      Expression = '[a-z_]\w*'
       ColumnFrom = 0
       ColumnTo = 0
     end>

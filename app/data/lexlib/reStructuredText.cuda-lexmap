@@ -1,12 +1,11 @@
 [comments]
 str1=
 str2=
-styles_cmt=Comment
-styles_str=Head,Quote,Bold,Italic,Bold-Italic,Crossed
+styles_cmt=
+styles_str=Head,Usual,Quote,Bold,Italic,Bold-Italic,Crossed
 
 [map]
 Head=IdKeyword
-Comment=Comment
 Quote=String
 Code-block begin=TagInclude
 Code-block BG=IncludeBG2
@@ -22,3 +21,4 @@ Var=IdVar
 Link=String2
 Link wiki=Label
 List head=IncludeBG1
+Usual=Id
