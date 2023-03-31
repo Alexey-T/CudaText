@@ -559,6 +559,9 @@ cmd_Encoding_cp932_NoReload     = 3070
 cmd_Encoding_cp936_NoReload     = 3071
 cmd_Encoding_cp949_NoReload     = 3072
 cmd_Encoding_cp950_NoReload     = 3073
+cmd_Encoding_cns_NoReload       = 3074
+cmd_Encoding_gb2312_NoReload    = 3075
+cmd_Encoding_euckr_NoReload     = 3076
 
 cmd_Encoding_mac_NoReload       = 3080
 
@@ -608,5 +611,8 @@ cmd_Encoding_cp932_Reload     = 3170
 cmd_Encoding_cp936_Reload     = 3171
 cmd_Encoding_cp949_Reload     = 3172
 cmd_Encoding_cp950_Reload     = 3173
+cmd_Encoding_cns_Reload       = 3174
+cmd_Encoding_gb2312_Reload    = 3175
+cmd_Encoding_euckr_Reload     = 3176
 
 cmd_Encoding_mac_Reload       = 3180

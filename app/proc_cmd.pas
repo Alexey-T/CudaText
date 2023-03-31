@@ -358,6 +358,9 @@ const
   cmd_Encoding_cp936_NoReload     = 3071;
   cmd_Encoding_cp949_NoReload     = 3072;
   cmd_Encoding_cp950_NoReload     = 3073;
+  cmd_Encoding_cns_NoReload       = 3074;
+  cmd_Encoding_gb2312_NoReload    = 3075;
+  cmd_Encoding_euckr_NoReload     = 3076;
 
   cmd_Encoding_mac_NoReload       = 3080;
 
@@ -407,6 +410,9 @@ const
   cmd_Encoding_cp936_Reload     = 3171;
   cmd_Encoding_cp949_Reload     = 3172;
   cmd_Encoding_cp950_Reload     = 3173;
+  cmd_Encoding_cns_Reload       = 3174;
+  cmd_Encoding_gb2312_Reload    = 3175;
+  cmd_Encoding_euckr_Reload     = 3176;
 
   cmd_Encoding_mac_Reload       = 3180;
 
@@ -685,6 +691,9 @@ begin
   M.Add(cmd_Encoding_cp936_NoReload, 'change encoding, no reload: gbk', [], []);
   M.Add(cmd_Encoding_cp949_NoReload, 'change encoding, no reload: uhc', [], []);
   M.Add(cmd_Encoding_cp950_NoReload, 'change encoding, no reload: big5', [], []);
+  M.Add(cmd_Encoding_cns_NoReload, 'change encoding, no reload: cns', [], []);
+  M.Add(cmd_Encoding_gb2312_NoReload, 'change encoding, no reload: gb2312', [], []);
+  M.Add(cmd_Encoding_euckr_NoReload, 'change encoding, no reload: euc-kr', [], []);
 
   M.Add(cmd_Encoding_utf8bom_Reload, 'change encoding, reload: utf-8 BOM', [], []);
   M.Add(cmd_Encoding_utf8nobom_Reload, 'change encoding, reload: utf-8 no BOM', [], []);
@@ -725,6 +734,9 @@ begin
   M.Add(cmd_Encoding_cp936_Reload, 'change encoding, reload: gbk', [], []);
   M.Add(cmd_Encoding_cp949_Reload, 'change encoding, reload: uhc', [], []);
   M.Add(cmd_Encoding_cp950_Reload, 'change encoding, reload: big5', [], []);
+  M.Add(cmd_Encoding_cns_Reload, 'change encoding, reload: cns', [], []);
+  M.Add(cmd_Encoding_gb2312_Reload, 'change encoding, reload: gb2312', [], []);
+  M.Add(cmd_Encoding_euckr_Reload, 'change encoding, reload: euc-kr', [], []);
 
   M.Add(cmd_Markers_DropAtCaret       , 'markers: drop marker at caret', [], []);
   M.Add(cmd_Markers_GotoLastNoDelete  , 'markers: go to last marker (don''t delete)', [], []);
