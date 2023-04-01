@@ -7091,6 +7091,7 @@ var
   bReloadFile: boolean;
   Ed: TATSynEdit;
   SEncName: string;
+  DlgProps: TDlgMenuProps;
 begin
   Ed:= CurrentEditor;
   if Ed=nil then exit;
@@ -7115,7 +7116,13 @@ begin
         NSelected:= i;
     end;
 
-    NRes:= DoDialogMenuList(msgStatusbarHintEnc, List, NSelected);
+    DlgProps:= Default(TDlgMenuProps);
+    DlgProps.Caption:= msgStatusbarHintEnc;
+    DlgProps.Collapse:= acsmRight;
+    DlgProps.InitialIndex:= NSelected;
+    DlgProps.ItemsText:= List.Text;
+
+    NRes:= DoDialogMenuApi(DlgProps);
     if NRes<0 then exit;
 
     SetFrameEncoding(Ed, AppEncodings[NRes].Name, bReloadFile);
