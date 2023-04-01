@@ -226,15 +226,15 @@ begin
     exit
   end;
 
-  if key=VK_NEXT then
+  if (key=VK_NEXT) and (Shift=[]) then
   begin
-    list.ItemIndex:= Min(list.ItemCount-1, list.ItemIndex+list.Height div list.ItemHeight);
+    list.ItemIndex:= Min(list.ItemCount-1, list.ItemIndex+list.VisibleItems);
     key:= 0;
     exit
   end;
-  if key=VK_PRIOR then
+  if (key=VK_PRIOR) and (Shift=[]) then
   begin
-    list.ItemIndex:= Max(0, list.ItemIndex-list.Height div list.ItemHeight);
+    list.ItemIndex:= Max(0, list.ItemIndex-list.VisibleItems);
     key:= 0;
     exit
   end;
