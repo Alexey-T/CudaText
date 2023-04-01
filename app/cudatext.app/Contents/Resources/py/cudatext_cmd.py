@@ -564,6 +564,8 @@ cmd_Encoding_gb2312_NoReload    = 3075
 cmd_Encoding_euckr_NoReload     = 3076
 
 cmd_Encoding_mac_NoReload       = 3080
+cmd_Encoding_koi8r_NoReload     = 3081
+cmd_Encoding_koi8u_NoReload     = 3082
 
 #encoding with reload
 cmd_Encoding_utf8bom_Reload     = 3100
@@ -616,3 +618,5 @@ cmd_Encoding_gb2312_Reload    = 3175
 cmd_Encoding_euckr_Reload     = 3176
 
 cmd_Encoding_mac_Reload       = 3180
+cmd_Encoding_koi8r_Reload     = 3181
+cmd_Encoding_koi8u_Reload     = 3182

@@ -363,6 +363,8 @@ const
   cmd_Encoding_euckr_NoReload     = 3076;
 
   cmd_Encoding_mac_NoReload       = 3080;
+  cmd_Encoding_koi8r_NoReload     = 3081;
+  cmd_Encoding_koi8u_NoReload     = 3082;
 
   //encoding with reload
   cmd_Encoding_utf8bom_Reload     = 3100;
@@ -415,6 +417,8 @@ const
   cmd_Encoding_euckr_Reload     = 3176;
 
   cmd_Encoding_mac_Reload       = 3180;
+  cmd_Encoding_koi8r_Reload     = 3181;
+  cmd_Encoding_koi8u_Reload     = 3182;
 
 
 implementation
@@ -671,6 +675,8 @@ begin
   M.Add(cmd_Encoding_cp1257_NoReload, 'change encoding, no reload: cp1257', [], []);
   M.Add(cmd_Encoding_cp1258_NoReload, 'change encoding, no reload: cp1258', [], []);
   M.Add(cmd_Encoding_mac_NoReload, 'change encoding, no reload: mac', [], []);
+  M.Add(cmd_Encoding_koi8r_NoReload, 'change encoding, no reload: koi8r', [], []);
+  M.Add(cmd_Encoding_koi8u_NoReload, 'change encoding, no reload: koi8u', [], []);
   M.Add(cmd_Encoding_iso1_NoReload, 'change encoding, no reload: iso-8859-1', [], []);
   M.Add(cmd_Encoding_iso2_NoReload, 'change encoding, no reload: iso-8859-2', [], []);
   M.Add(cmd_Encoding_iso3_NoReload, 'change encoding, no reload: iso-8859-3', [], []);
@@ -718,6 +724,8 @@ begin
   M.Add(cmd_Encoding_cp1257_Reload, 'change encoding, reload: cp1257', [], []);
   M.Add(cmd_Encoding_cp1258_Reload, 'change encoding, reload: cp1258', [], []);
   M.Add(cmd_Encoding_mac_Reload, 'change encoding, reload: mac', [], []);
+  M.Add(cmd_Encoding_koi8r_Reload, 'change encoding, reload: koi8r', [], []);
+  M.Add(cmd_Encoding_koi8u_Reload, 'change encoding, reload: koi8u', [], []);
   M.Add(cmd_Encoding_iso1_Reload, 'change encoding, reload: iso-8859-1', [], []);
   M.Add(cmd_Encoding_iso2_Reload, 'change encoding, reload: iso-8859-2', [], []);
   M.Add(cmd_Encoding_iso3_Reload, 'change encoding, reload: iso-8859-3', [], []);
