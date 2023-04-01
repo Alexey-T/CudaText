@@ -21,7 +21,8 @@ uses
   ATListbox,
   ATButtons,
   proc_globdata,
-  proc_colors;
+  proc_colors,
+  Math;
 
 type
   TAppListSelectEvent = procedure(AIndex: integer; const AStr: string) of object;
@@ -200,6 +201,20 @@ begin
   if (key=VK_END) and (Shift=[ssCtrl]) then
   begin
     List.ItemIndex:= List.ItemCount-1;
+    key:= 0;
+    exit;
+  end;
+
+  if (key=VK_PRIOR) and (Shift=[]) then
+  begin
+    List.ItemIndex:= Max(0, List.ItemIndex-List.VisibleItems);
+    key:= 0;
+    exit;
+  end;
+
+  if (key=VK_NEXT) and (Shift=[]) then
+  begin
+    List.ItemIndex:= Min(List.ItemCount-1, List.ItemIndex+List.VisibleItems);
     key:= 0;
     exit;
   end;
