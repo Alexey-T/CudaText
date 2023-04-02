@@ -901,6 +901,7 @@ Possible encoding names for command-line usage:
 * cp874
 * shift-jis
 * gbk
+* cns
 * uhc
 * big5
 * gb2312
@@ -918,6 +919,9 @@ Possible encoding names for command-line usage:
 * iso-8859-15
 * iso-8859-16
 * mac
+* koi8r
+* koi8u
+* koi8ru
 
 =Line ends=
 
