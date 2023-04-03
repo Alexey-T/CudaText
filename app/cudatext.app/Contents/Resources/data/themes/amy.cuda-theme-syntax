@@ -235,7 +235,7 @@
     "Type" : 3,
     "Styles" : "",
     "CFont" : "#000000",
-    "CBack" : "#008000",
+    "CBack" : "#003000",
     "CBorder" : "",
     "Border" : "0,0,0,0"
   },
@@ -356,38 +356,6 @@
     "Styles" : "",
     "CFont" : "#AE6A6A",
     "CBack" : "#1D2021",
-    "CBorder" : "",
-    "Border" : "0,0,0,0"
-  },
-  "Lex_TextBold" : {
-    "Type" : 1,
-    "Styles" : "b",
-    "CFont" : "#C0C0C0",
-    "CBack" : "",
-    "CBorder" : "",
-    "Border" : "0,0,0,0"
-  },
-  "Lex_TextItalic" : {
-    "Type" : 1,
-    "Styles" : "i",
-    "CFont" : "#C0C0C0",
-    "CBack" : "",
-    "CBorder" : "",
-    "Border" : "0,0,0,0"
-  },
-  "Lex_TextBoldItalic" : {
-    "Type" : 1,
-    "Styles" : "bi",
-    "CFont" : "#C0C0C0",
-    "CBack" : "",
-    "CBorder" : "",
-    "Border" : "0,0,0,0"
-  },
-  "Lex_TextCross" : {
-    "Type" : 1,
-    "Styles" : "s",
-    "CFont" : "#C0C0C0",
-    "CBack" : "",
     "CBorder" : "",
     "Border" : "0,0,0,0"
   }
