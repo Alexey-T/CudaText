@@ -1439,7 +1439,7 @@ Micromap visible state is not restored from history for files, which have line c
 
 = Paste with middle-button-click =
 
-To paste like in Linux, with middle-click, you need:
+To paste like in Linux/Unix, with middle-click, you need:
 
 * Set option "mouse_middle_click" to value 2 (in the user.json).
 * Set option "auto_copy_clp". Option supports pasting to usual editors (inside UI-tabs) and also to one-line input fields (Find/Replace, Console, Code-Tree filter).
