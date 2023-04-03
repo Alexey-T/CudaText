@@ -1441,9 +1441,8 @@ Micromap visible state is not restored from history for files, which have line c
 
 To paste like in Linux, with middle-click, you need:
 
-* Step 1. Set option "mouse_middle_click" to value 2 (in the user.json).
-* Step 2 before CudaText 1.171.5. Install plugin "Auto-Copy to Clipboard".
-* Step 2 after CudaText 1.171.5. Set option "auto_copy_clp". Option replaces old plugin and supports one-line input fields (Find/Replace, Console, Code-Tree filter).
+* Set option "mouse_middle_click" to value 2 (in the user.json).
+* Set option "auto_copy_clp". Option supports pasting to usual editors (inside UI-tabs) and also to one-line input fields (Find/Replace, Console, Code-Tree filter).
 
 =Full-screen mode=
 
