@@ -1203,19 +1203,20 @@ These panels have hotkeys:
 
 =Dialog Find/Replace=
 
-Find/Replace dialog has hotkeys, which work only when this dialog is focused. Hotkeys can be customized via options "find_hotkey_nnnn".
+Find/Replace dialog has hotkeys, which work only when this dialog is focused. Hotkeys can be customized via options "find_hotkey_xxxx".
 
 * Alt+Enter: Find first
-* Enter: Find next/ Replace next (depends of focused input)
+* Enter: Find next / Replace next (depends of focused input)
 * Shift+Enter: Find previous
 * Ctrl+Enter: Add new line in multi-line input (multi-line mode is activated by "+" button)
-* Alt+Z: Replace, and find next
-* Ctrl+Alt+Z: Replace, and don't find next
-* Alt+A: Replace all
-* Alt+O: Count all
-* Alt+E: Select all
-* Alt+K: Mark all
-* Alt+Q: Extract
+* Ctrl+Alt+Z: Replace and find next
+* Ctrl+Alt+Shift+Z: Replace and don't find next
+* Ctrl+Alt+A: Replace all occurrences
+* Ctrl+Alt+O: Count all occurrences
+* Ctrl+Alt+E: Select all occurrences
+* Ctrl+Alt+K: Mark all occurrences (with markers)
+* Ctrl+Alt+Q: Extract all RegEx matches
+* and hotkeys to toggle search/replace options (case sensitive, reg.ex., whole words etc)
 
 [[File:cudatext-find-dlg.png]]
 
