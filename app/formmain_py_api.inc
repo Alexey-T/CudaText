@@ -8880,6 +8880,7 @@ end;
 function api_timer_proc(Self, Args: PPyObject): PPyObject; cdecl;
 const
   cMinInterval = 10;
+  cTimerStopString: array[boolean] of string = ('TIMER_STOP', 'TIMER_DELETE');
 var
   NIdAction, NInterval, N: integer;
   PtrCallback, PtrTag: PChar;
@@ -8954,9 +8955,19 @@ begin
               if N>=0 then
               begin
                 Obj:= AppListTimers.Objects[N];
-                if Assigned(Obj) then
-                  Obj.Free;
                 AppListTimers.Delete(N);
+                try
+                  if Obj<>nil then
+                  begin
+                    if Obj.ClassName<>'TTimer' then
+                      begin end;
+                      //MsgLogConsole(Format('ERROR: timer_proc(%s, ...) must get TTimer class, but it is: %s', [cTimerStopString[NIdAction=TIMER_DELETE], Obj.ClassName]));
+                    Obj.Free;
+                  end;
+                except
+                  on E: Exception do
+                    MsgLogConsole(Format('ERROR: Exception in timer_proc(%s, ...): %s', [cTimerStopString[NIdAction=TIMER_DELETE], E.Message]));
+                end;
               end;
             end;
 
