@@ -2700,6 +2700,17 @@ Also note that CudaText has the "lite" lexer "XML ^", which is activated for too
 
 With the active "lite" lexer (when statusbar shows "XML ^"), syntax highlight is also not very rich, and there is no folding.
 
+==How to check the rendering speed==
+There is undocumented option in user.json:
+
+ "log_timing": true
+
+It shows the additional label in the editor corner, with red font. Label shows the time of the last rendered frame in milliseconds. Label also shows the counter of rendered frames, so developers can check if editor does redundant repaints.
+
+For text editing commands (e.g. typing of text), counter may increase by 3 on each command. Why? 3rd repaint is from "bracket_highlight":true (occurs in IdleTimer after a small delay), 2nd repaint is from lexer parser - parser makes the repaint when full document is parsed or the current screen is parsed. 1st repaint is the main immediate repaint.
+
+For caret moving commands, counter may increase by 2 on each command. 2nd repaint is from "bracket_highlight":true. 2nd repaint may occur also from the auto-showing of the horizontal scrollbar.
+
 =Troubleshooting the Windows shell extension for CudaText=
 
 There may be rare cases where CudaText's menu item shows up in Windows Explorer context menu but the entry's icon is missing and an error message states that the provided file name was not found.
