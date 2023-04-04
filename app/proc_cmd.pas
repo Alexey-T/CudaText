@@ -13,6 +13,7 @@ interface
 
 uses
   Classes, SysUtils,
+  LCLType,
   ATSynEdit_Keymap;
 
 procedure Keymap_AddCudatextItems(M: TATKeymap);
@@ -423,29 +424,26 @@ const
 
 implementation
 
-const
-  cXControl = {$ifdef darwin} 'Meta' {$else} 'Ctrl' {$endif};
-
 procedure Keymap_AddCudatextItems(M: TATKeymap);
 begin
   M.Add(cmd_RepaintEditor, 'repaint editor', [], []);
-  M.Add(cmd_FileNew, 'file: new file', [cXControl+'+N'], []);
+  M.Add(cmd_FileNew, 'file: new file', [scXControl+VK_N], []);
   M.Add(cmd_FileNewMenu, 'file: new file, from template', [], []);
-  M.Add(cmd_FileOpen, 'file: open file', [cXControl+'+O'], []);
+  M.Add(cmd_FileOpen, 'file: open file', [scXControl+VK_O], []);
   M.Add(cmd_FileOpen_NoPlugins, 'file: open file, ignore plugins', [], []);
   M.Add(cmd_FileOpen_TextViewer, 'file: open file, in text viewer', [], []);
   M.Add(cmd_FileOpen_HexViewer, 'file: open file, in hex viewer', [], []);
   M.Add(cmd_FileOpen_UnicodeViewer, 'file: open file, in unicode viewer', [], []);
-  M.Add(cmd_FileSave, 'file: save file', [cXControl+'+S'], []);
+  M.Add(cmd_FileSave, 'file: save file', [scXControl+VK_S], []);
   M.Add(cmd_FileSaveAs, 'file: save file as', [], []);
   M.Add(cmd_FileSaveAll, 'file: save all tabs', [], []);
   M.Add(cmd_FileReopen, 'file: reopen', [], []);
-  M.Add(cmd_FileClose, 'file: close tab', [cXControl+'+W'], []);
+  M.Add(cmd_FileClose, 'file: close tab', [scXControl+VK_W], []);
   M.Add(cmd_FileCloseAll, 'file: close all tabs', [], []);
   M.Add(cmd_FileCloseOtherThis, 'file: close other tabs (this group)', [], []);
   M.Add(cmd_FileCloseOtherAll, 'file: close other tabs (all groups)', [], []);
   M.Add(cmd_FileCloseAndDelete, 'file: close tab, delete file', [], []);
-  M.Add(cmd_FileExit, 'file: quit program', [cXControl+'+Q'], []);
+  M.Add(cmd_FileExit, 'file: quit program', [scXControl+VK_Q], []);
   M.Add(cmd_FileExportHtml, 'file: export to HTML', [], []);
   M.Add(cmd_FileReopenRecent, 'file: reopen recent file', [], []);
   M.Add(cmd_OpenContainingFolder, 'file: open folder containing the current file', [], []);
@@ -473,9 +471,9 @@ begin
   M.Add(cmd_RescanPythonPluginsInfFiles, 'plugins: rescan python plugins inf-files', [], []);
   M.Add(cmd_FindPythonLib, 'plugins: find python library in OS', [], []);
 
-  M.Add(cmd_ToggleFullScreen, 'ui: toggle full-screen mode', [{$ifndef darwin}'F11'{$else}'Ctrl+Meta+F'{$endif}], []);
-  M.Add(cmd_ToggleDistractionFree, 'ui: toggle distraction-free mode', [{$ifndef darwin}'Alt+F11'{$else}'Ctrl+Meta+G'{$endif}], []);
-  M.Add(cmd_ToggleSidePanel, 'ui: toggle side panel', [{$ifndef darwin}'F12'{$endif}], []);
+  M.Add(cmd_ToggleFullScreen, 'ui: toggle full-screen mode', [{$ifndef darwin}VK_F11{$else}scCtrl+scMeta+VK_F{$endif}], []);
+  M.Add(cmd_ToggleDistractionFree, 'ui: toggle distraction-free mode', [{$ifndef darwin}scAlt+VK_F11{$else}scCtrl+scMeta+VK_G{$endif}], []);
+  M.Add(cmd_ToggleSidePanel, 'ui: toggle side panel', [{$ifndef darwin}VK_F12{$endif}], []);
   M.Add(cmd_ToggleSidePanelAndSyntaxTree, 'ui: toggle side panel / code tree', [], []);
   M.Add(cmd_ToggleBottomPanel, 'ui: toggle bottom panel', [], []);
   M.Add(cmd_ToggleSidebar, 'ui: toggle sidebar', [], []);
@@ -495,7 +493,7 @@ begin
   M.Add(cmd_ShowPanelConsole,          'ui: show bottom panel / console', [], []);
   M.Add(cmd_ShowPanelOutput,           'ui: show bottom panel / output', [], []);
   M.Add(cmd_ShowPanelValidate,         'ui: show bottom panel / validate', [], []);
-  M.Add(cmd_ShowPanelConsole_AndFocus, 'ui: show+focus bottom panel / console', ['Ctrl+`'], []);
+  M.Add(cmd_ShowPanelConsole_AndFocus, 'ui: show+focus bottom panel / console', [scCtrl+VK_LCL_TILDE], []);
   M.Add(cmd_ShowPanelOutput_AndFocus,  'ui: show+focus bottom panel / output', [], []);
   M.Add(cmd_ShowPanelValidate_AndFocus, 'ui: show+focus bottom panel / validate', [], []);
 
@@ -505,8 +503,8 @@ begin
   M.Add(cmd_HideNotificationPanels, 'ui: hide editor notification panel(s)', [], []);
   M.Add(cmd_ToggleFileNotifications, 'ui: toggle file-change notifications', [], []);
 
-  M.Add(cmd_SwitchTab_HotkeyNext, 'ui: switch tab, to next', ['Ctrl+Tab'], []);
-  M.Add(cmd_SwitchTab_HotkeyPrev, 'ui: switch tab, to previous', ['Ctrl+Shift+Tab'], []);
+  M.Add(cmd_SwitchTab_HotkeyNext, 'ui: switch tab, to next', [scCtrl+VK_TAB], []);
+  M.Add(cmd_SwitchTab_HotkeyPrev, 'ui: switch tab, to previous', [scCtrl+scShift+VK_TAB], []);
   M.Add(cmd_SwitchTab_SimpleNext, 'ui: switch tab, simply to next', [], []);
   M.Add(cmd_SwitchTab_SimplePrev, 'ui: switch tab, simply to previous', [], []);
   M.Add(cmd_SwitchTab_Dialog, 'ui: switch tab, dialog', [], []);
@@ -514,9 +512,9 @@ begin
 
   M.Add(cmd_ShowMainMenuAsPopup, 'ui: show main menu as popup', [], []);
   M.Add(cmd_DialogSaveTabs, 'dialog: save tabs', [], []);
-  M.Add(cmd_DialogCommands, 'dialog: command palette', [cXControl+'+Shift+P'], ['F1']);
-  M.Add(cmd_DialogGoto, 'dialog: go to line', [cXControl+'+G'], []);
-  M.Add(cmd_DialogGotoBookmark, 'dialog: go to bookmark', [cXControl+'+B'], []);
+  M.Add(cmd_DialogCommands, 'dialog: command palette', [scXControl+scShift+VK_P], [VK_F1]);
+  M.Add(cmd_DialogGoto, 'dialog: go to line', [scXControl+VK_G], []);
+  M.Add(cmd_DialogGotoBookmark, 'dialog: go to bookmark', [scXControl+VK_B], []);
   M.Add(cmd_DialogLexerProp, 'dialog: lexer properties', [], []);
   M.Add(cmd_DialogLexerLib, 'dialog: lexer library', [], []);
   M.Add(cmd_DialogLexerStyleMap, 'dialog: lexer styles mapping', [], []);
@@ -524,16 +522,16 @@ begin
   M.Add(cmd_DialogThemeSyntax, 'dialog: configure syntax-theme', [], []);
   M.Add(cmd_DialogCharMap, 'dialog: char map', [], []);
 
-  M.Add(cmd_DialogFind, 'dialog: find: show dialog', [cXControl+'+F'], []);
+  M.Add(cmd_DialogFind, 'dialog: find: show dialog', [scXControl+VK_F], []);
   M.Add(cmd_DialogFind_Hide, 'dialog: find: hide dialog', [], []);
   M.Add(cmd_ToggleFindDialog, 'dialog: find: toggle dialog', [], []);
   M.Add(cmd_ToggleFindDialog_AndFocus, 'dialog: find: toggle+focus dialog', [], []);
-  M.Add(cmd_DialogReplace, 'dialog: replace: show dialog', [cXControl+'+R'], []);
+  M.Add(cmd_DialogReplace, 'dialog: replace: show dialog', [scXControl+VK_R], []);
   M.Add(cmd_ToggleReplaceDialog, 'dialog: replace: toggle dialog', [], []);
 
   M.Add(cmd_FindFirst, 'find, first', [], []);
-  M.Add(cmd_FindNext, 'find, next', ['F3'], []);
-  M.Add(cmd_FindPrev, 'find, previous', ['Shift+F3'], []);
+  M.Add(cmd_FindNext, 'find, next', [VK_F3], []);
+  M.Add(cmd_FindPrev, 'find, previous', [scShift+VK_F3], []);
   M.Add(cmd_FindAllAndSelect, 'find all, and select', [], []);
   M.Add(cmd_FindAllAndMarkers, 'find all, and place markers', [], []);
   M.Add(cmd_FindAllAndBookmarks, 'find all, and place bookmarks', [], []);
@@ -543,7 +541,7 @@ begin
   M.Add(cmd_FindCurSelPrev, 'find current selection, previous', [], []);
   M.Add(cmd_GotoLastEditingPos, 'go to last editing pos', [], []);
 
-  M.Add(cmd_SelectExpandToWord, 'selection: add next occurrence of selected word', [cXControl+'+Shift+D'], []);
+  M.Add(cmd_SelectExpandToWord, 'selection: add next occurrence of selected word', [scXControl+scShift+VK_D], []);
   M.Add(cmd_SelectExpandToText, 'selection: add next occurrence of selected text (not whole-word)', [], []);
   M.Add(cmd_SelectExpandToWord_Skip, 'selection: skip to next occurrence of selected word', [], []);
   M.Add(cmd_SelectExpandToText_Skip, 'selection: skip to next occurrence of selected text', [], []);
@@ -647,9 +645,9 @@ begin
   M.Add(cmd_ChooseThemeUI, 'menu: themes', [], []);
 
   //on macOS 10.11, Ctrl+Space on author's PC is reserved to toggle keyboard layout, so use e.g. Alt+Space
-  M.Add(cmd_AutoComplete, 'code: auto-completion menu', [{$ifdef darwin}'Alt+Space'{$else}'Ctrl+Space'{$endif}], []);
+  M.Add(cmd_AutoComplete, 'code: auto-completion menu', [{$ifdef darwin}scAlt+VK_SPACE{$else}scCtrl+VK_SPACE{$endif}], []);
   M.Add(cmd_GotoDefinition, 'code: go to definition', [], []);
-  M.Add(cmd_ShowFunctionHint, 'code: show function-hint', ['Ctrl+Shift+Space'], []);
+  M.Add(cmd_ShowFunctionHint, 'code: show function-hint', [scCtrl+scShift+VK_SPACE], []);
 
   M.Add(cmd_FoldingEnable, 'folding: enable folding functionality', [], []);
   M.Add(cmd_FoldingDisable, 'folding: disable folding functionality', [], []);
