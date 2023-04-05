@@ -82,12 +82,6 @@ begin
 
   EditorApplyTheme(CodeTreeFilterInput);
 
-  if Assigned(fmConsole) then
-    fmConsole.ApplyTheme;
-
-  if Assigned(fmFind) then
-    fmFind.ApplyTheme;
-
   ToolbarMain.Color:= GetAppColor(apclTabBg);
   Self.Color:= ToolbarMain.Color;
 
@@ -143,6 +137,17 @@ begin
   ATFlatTheme.ColorListboxBorderFocused:= GetAppColor(apclEdBorderFocused);
   //ATFlatTheme.ColorListboxBorderPassive:= GetAppColor(apclButtonBorderPassive);
   //ATFlatTheme.ColorListboxBorderFocused:= GetAppColor(apclButtonBorderFocused);
+
+  ToolbarMain.Invalidate;
+  ToolbarSideTop.Invalidate;
+  ToolbarSideMid.Invalidate;
+  ToolbarSideLow.Invalidate;
+
+  if Assigned(fmConsole) then
+    fmConsole.ApplyTheme;
+
+  if Assigned(fmFind) then
+    fmFind.ApplyTheme;
 
   UpdateThemeStatusbar;
 
