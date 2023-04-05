@@ -1,0 +1,30 @@
+[submodule "comp/bgrabitmap"]
+	path = comp/bgrabitmap
+	url = https://github.com/bgrabitmap/bgrabitmap
+[submodule "comp/EncConv"]
+	path = comp/EncConv
+	url = https://github.com/Alexey-T/EncConv
+[submodule "comp/ATBinHex-Lazarus"]
+	path = comp/ATBinHex-Lazarus
+	url = https://github.com/Alexey-T/ATBinHex-Lazarus
+[submodule "comp/ATFlatControls"]
+	path = comp/ATFlatControls
+	url = https://github.com/Alexey-T/ATFlatControls
+[submodule "comp/ATSynEdit"]
+	path = comp/ATSynEdit
+	url = https://github.com/Alexey-T/ATSynEdit
+[submodule "comp/ATSynEdit_Cmp"]
+	path = comp/ATSynEdit_Cmp
+	url = https://github.com/Alexey-T/ATSynEdit_Cmp
+[submodule "comp/EControl"]
+	path = comp/EControl
+	url = https://github.com/Alexey-T/EControl
+[submodule "comp/ATSynEdit_Ex"]
+	path = comp/ATSynEdit_Ex
+	url = https://github.com/Alexey-T/ATSynEdit_Ex
+[submodule "comp/Python-for-Lazarus"]
+	path = comp/Python-for-Lazarus
+	url = https://github.com/Alexey-T/Python-for-Lazarus
+[submodule "comp/Emmet-Pascal"]
+	path = comp/Emmet-Pascal
+	url = https://github.com/Alexey-T/Emmet-Pascal
