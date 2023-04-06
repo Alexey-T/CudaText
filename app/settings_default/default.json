@@ -377,8 +377,17 @@
   //Tab-char width.
   "tab_size": 4,
 
-  //Tab key inserts spaces, instead of tab-char.
+  //Tab-key inserts spaces, instead of tab-char.
   "tab_spaces": false,
+
+  //Tab-key has "Smart tabs" behaviour, known from many editors,
+  //e.g. Lazarus IDE has such an option. Description from Lazarus IDE Wiki:
+  //  The tab key will move forward to position below the start-position of the next
+  //  word in the preceding line. If below the last word of the preceding line,
+  //  then you move to the position below the end of the preceding line. If behind
+  //  the last word of the preceding line, it uses the next line above that is longer
+  //  than your current line.
+  "tab_smart": false,
 
   //Maximal X position, before which tab-characters visually expand to N spaces.
   //After this X position, tab-chars expand to 1 space.

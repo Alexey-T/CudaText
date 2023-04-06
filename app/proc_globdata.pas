@@ -520,6 +520,7 @@ type
     OpSpacingY: integer;
     OpTabSize: integer;
     OpTabSpaces: boolean;
+    OpTabSmart: boolean;
 
     OpMaxLineLenForBracketFinder: integer;
     OpMaxLineLenToTokenize: integer;
@@ -1668,6 +1669,8 @@ begin
 
     OpTabSize:= 4;
     OpTabSpaces:= false;
+    OpTabSmart:= false;
+
     OpMaxLineLenToTokenize:= 4000;
     OpMaxLineLenForBracketFinder:= 1000;
 

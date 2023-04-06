@@ -215,6 +215,7 @@ begin
     Ed.OptTabSize:= Op.OpTabSize;
     Ed.OptTabSpaces:= Op.OpTabSpaces;
   end;
+  Ed.OptTabSmart:= Op.OpTabSmart;
 
   Ed.OptBorderFocusedActive:= Op.OpActiveBorderInEditor;
   Ed.OptBorderWidthFocused:= ATEditorScale(Op.OpActiveBorderWidth);
