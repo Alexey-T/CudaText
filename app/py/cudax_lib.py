@@ -11,7 +11,7 @@ Duplicate:
 Authors:
     Andrey Kvichansky    (kvichans on github)
 Version:
-    '0.6.10 2020-10-14'
+    '0.6.11 2023-04-06'
 Wiki: github.com/kvichans/cudax_lib/wiki
 ToDo: (see end of file)
 """
@@ -55,6 +55,7 @@ OPT2PROP            = dict(
     ,ruler_show                 = app.PROP_RULER
     ,tab_size                   = app.PROP_TAB_SIZE
     ,tab_spaces                 = app.PROP_TAB_SPACES
+    ,tab_smart                  = app.PROP_TAB_SMART
     ,unprinted_ends             = app.PROP_UNPRINTED_ENDS
     ,unprinted_end_details      = app.PROP_UNPRINTED_END_DETAILS
     ,unprinted_show             = app.PROP_UNPRINTED_SHOW
