@@ -1,5 +1,6 @@
 # [CudaText](https://cudatext.github.io)
 > open source and cross-platform text editor.
+
 Written in Lazarus 2.0, Free Pascal 3.2.0.
 
 ## Installing from source
