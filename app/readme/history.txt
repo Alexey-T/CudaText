@@ -3,6 +3,10 @@
   - fixed
   * changed
 
+1.190.1 (2023/04)
+
++ add: smart-tabs option, "tab_smart", known from several text editors: PSPad, ConTEXT, Lazarus IDE (thanks @qwerky, @Vivalzar)
+
 1.190.0 (2023/04)
 
 * change: statusbar click on cells "file encoding", "end-of-line chars", "lexer" now shows menu-like dialogs, like in VSCode (thanks @Vivalzar)

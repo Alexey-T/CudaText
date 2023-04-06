@@ -38,9 +38,10 @@
 * Function "Find in files" is [[CudaText_plugins#FindInFiles|implemented in plugin]], with much more features
 * [[CudaText#Tab_switcher|Tab switcher]] dialog
 * Can split single UI-tab, for single file or 2 different files (helps to work with Differ plugin)
-* Color themes are universal, ie they have not per-syntax settings
+* Color themes do not have per-lexer settings
 * [[CudaText#Picture_file_viewer|Picture file viewer]] supports zooming of a picture
 * [[CudaText#Dialog "Go to"|Dialog "Go to"]] gives more features
+* Option "tab_smart" for smart-tabs, known from several other text editors
 * Option "caret_proximity_vert" to set minimal distance of caret to top/bottom edge
 * Option for "zebra" mode
 * Windows version can use different Python engine (packages in add-ons)

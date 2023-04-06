@@ -3309,6 +3309,9 @@ begin
         PROP_TAB_SIZE:
           Result:= PyLong_FromLong(Ed.OptTabSize);
 
+        PROP_TAB_SMART:
+          Result:= PyBool_FromLong(Ord(Ed.OptTabSmart));
+
         PROP_MARGIN:
           Result:= PyLong_FromLong(Ed.OptMarginRight);
 
@@ -4096,6 +4099,11 @@ begin
             Ed.OptTabSize:= ValueInt;
             if Assigned(F) then
               F.TabSizeChanged:= true;
+          end;
+
+        PROP_TAB_SMART:
+          begin
+            Ed.OptTabSmart:= ValueBool;
           end;
 
         PROP_MARGIN:
