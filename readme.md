@@ -3,6 +3,8 @@
 
 Written in Lazarus 2.0, Free Pascal 3.2.0.
 
+![CudaText](https://cudatext.github.io/img/cudatext-python-intel.gif)
+
 ## Installing from source
 ```
 git clone --recurse-submodules https://github.com/z4ziggy/CudaText.git
@@ -12,8 +14,8 @@ cd CudaText
 The `update.sh` script is used to pull the latest sources, build the required
 components & CudaText binary, install the components & rebuild the IDE.
 
-## Development
-Requires packages:
+<details>
+<summary>Components used</summary>
 
 * https://github.com/bgrabitmap/bgrabitmap
 * https://github.com/Alexey-T/EncConv
@@ -25,6 +27,7 @@ Requires packages:
 * https://github.com/Alexey-T/ATSynEdit_Ex
 * https://github.com/Alexey-T/Python-for-Lazarus
 * https://github.com/Alexey-T/Emmet-Pascal
+</details>
 
 ## Information
 
