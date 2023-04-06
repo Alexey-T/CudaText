@@ -2426,6 +2426,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_IN_HISTORY: bool: document history was loaded from history file (history embedded to "session" or main history file).
 * PROP_TAB_SPACES: bool: tab-key inserts spaces, not tab-char.
 * PROP_TAB_SIZE: int: size of tab-char.
+* PROP_TAB_SMART: bool: smart-tabs option, known from many text editors.
 * PROP_TAB_COLLECT_MARKERS: bool: tab-key collects (jumps to and deletes) markers (if markers placed).
 * PROP_TAB_TITLE: str: custom title of ui-tab; setting to empty string removes the custom title.
 * PROP_TAB_TITLE_REASON: str (1 char): reason of current ui-tab title.
@@ -2610,6 +2611,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 * PROP_LINKS_CLICKS: int: how mouse clicks activate hyperlinks. 0: disabled, 1: single click, 2: double click.
 * PROP_TAB_SPACES: bool: tab-key inserts spaces, not tab-char.
 * PROP_TAB_SIZE: int: size of tab-char.
+* PROP_TAB_SMART: bool: smart-tabs option, known from many text editors.
 * PROP_TAB_COLLECT_MARKERS: bool: tab-key collects (jumps to and deletes) markers.
 * PROP_TAB_COLOR: int: color of ui-tab title background, integer RGB value (e.g. 0x00FF00 is green); COLOR_NONE if not set.
 * PROP_TAB_COLOR_FONT: int: color of ui-tab title font, integer RGB value (e.g. 0x00FF00 is green); COLOR_NONE if not set.
@@ -4864,5 +4866,8 @@ It provides:
 1.0.444 (app 1.189.0)
 * add: event on_console_complete
 * add: Editor(h).cmd(cmd_FileClose) now closes the handle's ui-tab (before it closed the active tab)
+
+1.0.445 (app 1.190.1)
+* add: Editor.get_prop/set_prop: PROP_TAB_SMART
 
 [[Category:CudaText]]
