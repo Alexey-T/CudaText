@@ -1,6 +1,17 @@
-CudaText - open source and cross-platform text editor.
+# [CudaText](https://cudatext.github.io)
+> open source and cross-platform text editor.
 Written in Lazarus 2.0, Free Pascal 3.2.0.
 
+## Installing from source
+```
+git clone --recurse-submodules https://github.com/z4ziggy/CudaText.git
+cd CudaText
+./update.sh
+```
+The `update.sh` script is used to pull the latest sources, build the required
+components & CudaText binary, install the components & rebuild the IDE.
+
+## Development
 Requires packages:
 
 * https://github.com/bgrabitmap/bgrabitmap
@@ -14,7 +25,7 @@ Requires packages:
 * https://github.com/Alexey-T/Python-for-Lazarus
 * https://github.com/Alexey-T/Emmet-Pascal
 
-Information:
+## Information
 
 * Homepage with screenshots, animations, feature list: https://cudatext.github.io
 * Full documentation: https://wiki.freepascal.org/CudaText
