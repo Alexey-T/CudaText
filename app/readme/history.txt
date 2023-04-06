@@ -13,7 +13,7 @@
 + add: improve "minimap_drag_immediately":true, so that minimap click scrolls to clicked position (thanks @veksha)
 + add: add option "ui_menu_button", to control showing of '3 dots' sidebar button
 + add: Project Manager: on renaming of project file, rename also corresponding opened ui-tab (thanks @ThaiDat)
-+ add: Command Palette did miss few commands for newly added encodings; renamed few CJK encoding-items (thanks @Vivalzar)
++ add: Command Palette: add few missing items for newly added encodings; rename few CJK encoding items (thanks @Vivalzar)
 - fix: error with "auto_fold_comments":2 and command "move lines down"
 - fix: lexer reStructuredText did not support spell-checker
 
