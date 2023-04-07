@@ -1005,6 +1005,10 @@ begin
     TForm(PrevForms[i]).Enabled:= true;
   PrevForms.Clear;
   IsDlgModalEmulated:= false;
+
+  //fix issue #4965: if we show 'emulated modal' dialog, do Alt+Tab to another app and back,
+  //and close dialog - another app gets focus (Win10/Win11)
+  Application.MainForm.SetFocus;
 end;
 
 procedure TFormDummy.DoOnTreeviewChange(Sender: TObject; Node: TTreeNode);
