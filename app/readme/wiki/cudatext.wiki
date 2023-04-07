@@ -2701,7 +2701,7 @@ Also note that CudaText has the "lite" lexer "XML ^", which is activated for too
 With the active "lite" lexer (when statusbar shows "XML ^"), syntax highlight is also not very rich, and there is no folding.
 
 ==How to check the rendering speed==
-There is undocumented option in user.json:
+There is hidden option in user.json:
 
  "log_timing": true
 
