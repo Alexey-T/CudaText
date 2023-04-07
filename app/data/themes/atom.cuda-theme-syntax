@@ -306,8 +306,8 @@
   "Lex_LightBG2" : {
     "Type" : 1,
     "Styles" : "",
-    "CFont" : "#C0C0C0",
-    "CBack" : "#808000",
+    "CFont" : "#FFFFFF",
+    "CBack" : "#2D84DF",
     "CBorder" : "",
     "Border" : "0,0,0,0"
   },
