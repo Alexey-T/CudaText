@@ -3022,6 +3022,9 @@ begin
       F.Editor.Update;
   end;
 
+  if Assigned(FormAutoCompletion) and FormAutoCompletion.Visible then
+    FormAutoCompletion.Close;
+
   DoPyEvent_AppActivate(cEventOnAppDeactivate);
 end;
 
