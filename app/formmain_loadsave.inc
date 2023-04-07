@@ -1653,12 +1653,12 @@ begin
 
   UiOps.AltTooltipTime:= cfg.GetValue('ui_alt_hint_time', UiOps.AltTooltipTime);
 
-  S:= cfg.GetValue('ui_theme', '?');
+  S:= cfg.GetValue('ui_theme', 'atom');
   UiOps.ThemeUi_Loaded:= S<>'?';
   if UiOps.ThemeUi_Loaded then
     UiOps.ThemeUi:= S;
 
-  S:= cfg.GetValue('ui_theme_syntax', '?');
+  S:= cfg.GetValue('ui_theme_syntax', 'atom');
   UiOps.ThemeSyntax_Loaded:= S<>'?';
   if UiOps.ThemeSyntax_Loaded then
     UiOps.ThemeSyntax:= S;
