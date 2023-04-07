@@ -1778,7 +1778,7 @@ begin
     OpShowCurLineMinimal:= true;
     OpShowCurLineOnlyFocused:= false;
     OpShowCurCol:= false;
-    OpShowLastLineOnTop:= true;
+    OpShowLastLineOnTop:= false;
     OpShowFullBackgroundSel:= false;
     OpShowFullBackgroundSyntax:= true;
     OpShowMouseSelFrame:= true;
@@ -1842,7 +1842,7 @@ begin
     OpKeyLeftRightSwapSel:= true;
     OpKeyLeftRightSwapSelAndSelect:= false;
 
-    OpBracketHilite:= false;
+    OpBracketHilite:= true;
     OpBracketSymbols:= '()[]{}';
     OpBracketDistance:= 150;
   end;
@@ -1978,7 +1978,7 @@ begin
     TabRecentOnClose:= false;
     TabButtonLayout:= '<>,v';
     TabPreviewFontStyle:= 'iu';
-    TabSwitcherDialog:= true;
+    TabSwitcherDialog:= false;
 
     MaxHistoryEdits:= 20;
     MaxHistoryMenu:= 10;
