@@ -6,6 +6,7 @@
 1.190.1 (2023/04)
 
 + add: smart-tabs option, "tab_smart", known from several text editors: PSPad, ConTEXT, Lazarus IDE (thanks @qwerky, @Vivalzar)
+- fix: minor issue with Alt+Tab with plugin dialogs, on Windows (thanks @veksha)
 
 1.190.0 (2023/04)
 
