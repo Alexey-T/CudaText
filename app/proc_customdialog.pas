@@ -14,6 +14,7 @@ interface
 uses
   Classes, SysUtils, Graphics, Controls, StdCtrls, ExtCtrls, Forms,
   CheckLst, Spin, ComCtrls, Dialogs, Math,
+  TreeFilterEdit,
   ListFilterEdit,
   ListViewFilterEdit,
   LclIntf, LclProc, LclType,
@@ -773,13 +774,90 @@ begin
     //for some controls, OnClick already set to another handler
     if not Assigned(Ctl.OnClick) then
       Ctl.OnClick:= @AForm.DoOnClick;
-    TControlHack(Ctl).OnDblClick:= @AForm.DoOnDblClick;
-    TControlHack(Ctl).OnContextPopup:= @AForm.DoOnControlMenu;
+    if Ctl is TTreeFilterEdit then begin
+      TTreeFilterEdit(Ctl).OnDblClick:= @AForm.DoOnDblClick;
+      TTreeFilterEdit(Ctl).OnContextPopup:= @AForm.DoOnControlMenu;
 
-    TControlHack(Ctl).OnMouseEnter:= @AForm.DoOnControlMouseEnter;
-    TControlHack(Ctl).OnMouseLeave:= @AForm.DoOnControlMouseLeave;
-    TControlHack(Ctl).OnMouseDown:= @AForm.DoOnControlMouseDown;
-    TControlHack(Ctl).OnMouseUp:= @AForm.DoOnControlMouseUp;
+      TTreeFilterEdit(Ctl).OnMouseEnter:= @AForm.DoOnControlMouseEnter;
+      TTreeFilterEdit(Ctl).OnMouseLeave:= @AForm.DoOnControlMouseLeave;
+      TTreeFilterEdit(Ctl).OnMouseDown:= @AForm.DoOnControlMouseDown;
+      TTreeFilterEdit(Ctl).OnMouseUp:= @AForm.DoOnControlMouseUp;
+    end else if Ctl is TLabel then begin
+      TLabel(Ctl).OnDblClick:= @AForm.DoOnDblClick;
+      TLabel(Ctl).OnContextPopup:= @AForm.DoOnControlMenu;
+
+      TLabel(Ctl).OnMouseEnter:= @AForm.DoOnControlMouseEnter;
+      TLabel(Ctl).OnMouseLeave:= @AForm.DoOnControlMouseLeave;
+      TLabel(Ctl).OnMouseDown:= @AForm.DoOnControlMouseDown;
+      TLabel(Ctl).OnMouseUp:= @AForm.DoOnControlMouseUp;
+    end else if Ctl is TATListbox then begin
+      TATListbox(Ctl).OnDblClick:= @AForm.DoOnDblClick;
+      TATListbox(Ctl).OnContextPopup:= @AForm.DoOnControlMenu;
+
+      TATListbox(Ctl).OnMouseEnter:= @AForm.DoOnControlMouseEnter;
+      TATListbox(Ctl).OnMouseLeave:= @AForm.DoOnControlMouseLeave;
+      TATListbox(Ctl).OnMouseDown:= @AForm.DoOnControlMouseDown;
+      TATListbox(Ctl).OnMouseUp:= @AForm.DoOnControlMouseUp;
+    end else if Ctl is TPanel then begin
+      TPanel(Ctl).OnDblClick:= @AForm.DoOnDblClick;
+      TPanel(Ctl).OnContextPopup:= @AForm.DoOnControlMenu;
+
+      TPanel(Ctl).OnMouseEnter:= @AForm.DoOnControlMouseEnter;
+      TPanel(Ctl).OnMouseLeave:= @AForm.DoOnControlMouseLeave;
+      TPanel(Ctl).OnMouseDown:= @AForm.DoOnControlMouseDown;
+      TPanel(Ctl).OnMouseUp:= @AForm.DoOnControlMouseUp;
+    end else if Ctl is TATButton then begin
+      TATButton(Ctl).OnDblClick:= @AForm.DoOnDblClick;
+      TATButton(Ctl).OnContextPopup:= @AForm.DoOnControlMenu;
+
+      TATButton(Ctl).OnMouseEnter:= @AForm.DoOnControlMouseEnter;
+      TATButton(Ctl).OnMouseLeave:= @AForm.DoOnControlMouseLeave;
+      TATButton(Ctl).OnMouseDown:= @AForm.DoOnControlMouseDown;
+      TATButton(Ctl).OnMouseUp:= @AForm.DoOnControlMouseUp;
+
+    end else if Ctl is TATStatus then begin
+      TATStatus(Ctl).OnDblClick:= @AForm.DoOnDblClick;
+      TATStatus(Ctl).OnContextPopup:= @AForm.DoOnControlMenu;
+
+      //TATStatus(Ctl).OnMouseEnter:= @AForm.DoOnControlMouseEnter;
+      //TATStatus(Ctl).OnMouseLeave:= @AForm.DoOnControlMouseLeave;
+      //TATStatus(Ctl).OnMouseDown:= @AForm.DoOnControlMouseDown;
+      //TATStatus(Ctl).OnMouseUp:= @AForm.DoOnControlMouseUp;
+    end else if Ctl is TATComboEdit then begin
+      //TATComboEdit(Ctl).OnDblClick:= @AForm.DoOnDblClick;
+      TATComboEdit(Ctl).OnContextPopup:= @AForm.DoOnControlMenu;
+
+      TATComboEdit(Ctl).OnMouseEnter:= @AForm.DoOnControlMouseEnter;
+      TATComboEdit(Ctl).OnMouseLeave:= @AForm.DoOnControlMouseLeave;
+      TATComboEdit(Ctl).OnMouseDown:= @AForm.DoOnControlMouseDown;
+      TATComboEdit(Ctl).OnMouseUp:= @AForm.DoOnControlMouseUp;
+    end else if Ctl is TATSynEdit then begin
+      //TATSynEdit(Ctl).OnDblClick:= @AForm.DoOnDblClick;
+      TATSynEdit(Ctl).OnContextPopup:= @AForm.DoOnControlMenu;
+
+      TATSynEdit(Ctl).OnMouseEnter:= @AForm.DoOnControlMouseEnter;
+      TATSynEdit(Ctl).OnMouseLeave:= @AForm.DoOnControlMouseLeave;
+      TATSynEdit(Ctl).OnMouseDown:= @AForm.DoOnControlMouseDown;
+      TATSynEdit(Ctl).OnMouseUp:= @AForm.DoOnControlMouseUp;
+    end else if Ctl is TSplitter then begin
+      //TSplitter(Ctl).OnDblClick:= @AForm.DoOnDblClick;
+      //TSplitter(Ctl).OnContextPopup:= @AForm.DoOnControlMenu;
+
+      //TSplitter(Ctl).OnMouseEnter:= @AForm.DoOnControlMouseEnter;
+      //TSplitter(Ctl).OnMouseLeave:= @AForm.DoOnControlMouseLeave;
+      //TSplitter(Ctl).OnMouseDown:= @AForm.DoOnControlMouseDown;
+      //TSplitter(Ctl).OnMouseUp:= @AForm.DoOnControlMouseUp;
+
+      end else begin
+      TControlHack(Ctl).OnDblClick:= @AForm.DoOnDblClick;
+      TControlHack(Ctl).OnContextPopup:= @AForm.DoOnControlMenu;
+
+      TControlHack(Ctl).OnMouseEnter:= @AForm.DoOnControlMouseEnter;
+      TControlHack(Ctl).OnMouseLeave:= @AForm.DoOnControlMouseLeave;
+      TControlHack(Ctl).OnMouseDown:= @AForm.DoOnControlMouseDown;
+      TControlHack(Ctl).OnMouseUp:= @AForm.DoOnControlMouseUp;
+
+      end;
 
     if Ctl is TWinControl then
     begin
