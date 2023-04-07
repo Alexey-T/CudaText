@@ -12,14 +12,21 @@ ATSynEdit_Ex/atsynedit_ex/atsynedit_ex_package.lpk
 Python-for-Lazarus/python4lazarus/python4lazarus_package.lpk
 Emmet-Pascal/emmet/emmet_package.lpk"
 
+# ensure we have lazarus config
+cfg=~/.lazarus/miscellaneousoptions.xml
+[[ -f $cfg ]] || { echo "Could not find $cfg to patch, aborting"; exit; }
+
+# patch config if needed and add WITH_GTK2_IM flag
+grep -q WITH_GTK2_IM $cfg || sed -i '/<\/Profile0>/ s/.*/<Defines Count="1"><Item1 Value="WITH_GTK2_IM"\/><\/Defines>\n&/' $cfg
+
 # update submodules
 git submodule foreach git pull origin master
 
 # update upstream
 git pull upstream master
 
-# FIXME: fix Linux compile - remove GTK2_IME_CODE flag from atsynedit_package.lpk
-sed -i '/<Other>/,/<\/Other>/d' comp/ATSynEdit/atsynedit/atsynedit_package.lpk
+# add WITH_GTK2_IM to lazarus config if does not exists
+sed -i -n -e '/-dWITH_GTK2_IM/!p' -e '$a-dWITH_GTK2_IM' ~/.lazarus/idemake.cfg
 
 # compile components 
 #find . -name *.lpk -exec lazbuild '{}' \;
@@ -34,7 +41,3 @@ for comp in $comps;do lazbuild --add-package comp/$comp; done
 
 # rebuild IDE with new components
 lazbuild --build-ide=
-
-# FIXME: restore atsynedit_package.lpk
-(cd comp/ATSynEdit && git checkout atsynedit/atsynedit_package.lpk)
-
