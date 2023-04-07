@@ -1392,7 +1392,7 @@
   "comment_save_column": false,
 
   //Commenting: If selected >1 lines, insert comment at maximal common indent.
-  "comment_equal_column": true,
+  "comment_equal_column": false,
 
   //Command "Duplicate line (advanced)": If no selection, duplicate entire line.
   "duplicate_full_line_if_no_sel": true,
