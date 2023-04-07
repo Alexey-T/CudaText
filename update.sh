@@ -14,7 +14,7 @@ Emmet-Pascal/emmet/emmet_package.lpk"
 
 # ensure we have lazarus config
 cfg=~/.lazarus/miscellaneousoptions.xml
-[[ -f $cfg ]] || { echo "Could not find $cfg to patch, aborting"; exit; }
+[[ -f $cfg ]] || { echo "Could not find lazarus config at $cfg, aborting"; exit; }
 
 # patch config if needed and add WITH_GTK2_IM flag
 grep -q WITH_GTK2_IM $cfg || sed -i '/<\/Profile0>/ s/.*/<Defines Count="1"><Item1 Value="WITH_GTK2_IM"\/><\/Defines>\n&/' $cfg
