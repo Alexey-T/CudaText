@@ -3022,6 +3022,9 @@ begin
       F.Editor.Update;
   end;
 
+  if Assigned(FormComplete) and FormComplete.Visible then
+    FormComplete.Close;
+
   DoPyEvent_AppActivate(cEventOnAppDeactivate);
 end;
 
