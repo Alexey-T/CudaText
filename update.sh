@@ -25,9 +25,6 @@ git submodule foreach git pull origin master
 # update upstream
 git pull upstream master
 
-# add WITH_GTK2_IM to lazarus config if does not exists
-sed -i -n -e '/-dWITH_GTK2_IM/!p' -e '$a-dWITH_GTK2_IM' ~/.lazarus/idemake.cfg
-
 # compile components 
 #find . -name *.lpk -exec lazbuild '{}' \;
 (cd comp && echo "$comps" | xargs lazbuild)
