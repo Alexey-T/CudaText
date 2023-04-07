@@ -159,11 +159,16 @@ begin
   s_module:= ExtractFileName(dir_inf);
 
   ini:= TMemIniFile.Create(fn_inf);
-  sections:= TStringList.Create;
   try
     //ignore plugin for unsupported OS
     s_os:= ini.ReadString('info', 'os', '');
-    if not CheckValue_OS(s_os) then exit;
+    if not CheckValue_OS(s_os) then
+    begin
+      FreeAndNil(ini);
+      exit;
+    end;
+
+    sections:= TStringList.Create;
 
     ini.ReadSections(sections);
 
