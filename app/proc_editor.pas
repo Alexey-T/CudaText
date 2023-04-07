@@ -2647,7 +2647,7 @@ begin
   bIdentChar:= false;
 
   //avoid double firing on_complete API event, when user types chars with listbox visible; issue #4323
-  if IsAutocompletionFormVisible then exit;
+  if Assigned(FormAutoCompletion) and FormAutoCompletion.Visible then exit;
 
   SLexerName:= EditorLexerNameAtPos(Ed, Point(Caret.PosX, Caret.PosY));
   bLexerHTML:= Pos('HTML', SLexerName)>0;
