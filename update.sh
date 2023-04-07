@@ -30,7 +30,7 @@ lazbuild app/cudatext.lpr
 
 # install components to IDE
 #find . -name *.lpk -exec lazbuild --add-package '{}' \;
-(cd comp && echo "$comps" | xargs lazbuild --add-package)
+for comp in $comps;do lazbuild --add-package comp/$comp; done
 
 # rebuild IDE with new components
 lazbuild --build-ide=
