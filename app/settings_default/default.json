@@ -387,7 +387,8 @@
   //  then you move to the position below the end of the preceding line. If behind
   //  the last word of the preceding line, it uses the next line above that is longer
   //  than your current line.
-  //"Smart tabs" supports multi-carets, but without selection(s).
+  //"Smart tabs" supports multi-carets, but without selection(s), and moving
+  //of all carets are the same as for the first caret.
   "tab_smart": false,
 
   //Maximal X position, before which tab-characters visually expand to N spaces.
