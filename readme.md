@@ -9,9 +9,9 @@ Written in Lazarus 2.0, Free Pascal 3.2.0.
 ```
 git clone --recurse-submodules https://github.com/z4ziggy/CudaText.git
 cd CudaText
-./update.sh
+./setup/build.sh
 ```
-The `update.sh` script is used to pull the latest sources, build the required
+The `build.sh` script is used to pull the latest sources, build the required
 components & CudaText binary, install the components & rebuild the IDE.
 
 <details>
