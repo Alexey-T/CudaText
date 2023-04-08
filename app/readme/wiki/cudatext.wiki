@@ -2108,7 +2108,7 @@ homepage=https://github.com/nnnn/pppp
 * Test zip file: open zip file in CudaText, confirm installation.
 * Publish file at forum or https://github.com/Alexey-T/CudaText/issues
 
-==How to see all UI theme items==
+==Meaning of UI-theme elements==
 
 * "editor, font" - Color of font when no lexer is active. Click statusbar cell with lexer name, call "(none)" in menu.
 * "editor, disabled state, font/BG" - Editor is shown as disabled when Replace dialog runs 'Replace all' action, with option "Confirm on replace" (during confirm message editor is disabled). 'Font' color is shown when no lexer is active.
@@ -2120,6 +2120,9 @@ homepage=https://github.com/nnnn/pppp
 
 * "editor, markers" - To see markers, call Command Palette, command "drop marker at caret".
 * "editor, horizontal folding line" - This line is painted below the folded block, when option "fold_style" is 4.
+
+* "side-toolbar, button badges BG" - Background color of badges. To see a badge on sidebar, write to Console input field: print("ERROR: aaa"). The line "ERROR: aaa" will appear in the Console log, and sidebar will show badge "1", meaning you have 1 error line.
+* "side-toolbar, button badges font" - Font color of badges.
 
 * "listbox, ..." - Colors of Command Palette dialog.
 * "listbox, ..., auto-complete..." - Call C lexer, then press Ctrl+Space to call auto-completion (listbox has 3 columns, 3rd column shows not for all items).
