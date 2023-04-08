@@ -1343,6 +1343,9 @@ class Command:
             return
 
         files.sort()
+        for item in self.goto_history:
+            if item in files:
+                files.remove(item)
         files = self.goto_history + files
         files_nice = [os.path.basename(fn)+'\t'+collapse_filename(os.path.dirname(fn)) for fn in files]
 
