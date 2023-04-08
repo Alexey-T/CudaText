@@ -2110,25 +2110,24 @@ homepage=https://github.com/nnnn/pppp
 
 ==Meaning of UI-theme elements==
 
-* "editor, font" - Color of font when no lexer is active. Click statusbar cell with lexer name, call "(none)" in menu.
-* "editor, disabled state, font/BG" - Editor is shown as disabled when Replace dialog runs 'Replace all' action, with option "Confirm on replace" (during confirm message editor is disabled). 'Font' color is shown when no lexer is active.
+* "editor, font" - Color of editor font, when no lexer is active. To deactivate lexer in current editor ui-tab: click statusbar cell with lexer name, call item "(none)" in the menu.
+* "editor, disabled state, font/BG" - Editor is shown as disabled when Replace dialog runs 'Replace all' action, with option "Confirm on replace" (when the confirmation message is shown, editor is disabled). Too see the "..., font" color applied, deactivate the editor lexer.
 
-* "statusbar alt" - Shown on alternative statusbar. Run in console: <syntaxhighlight lang="python">msg_status_alt('d'*100, 8)</syntaxhighlight>
-* "search progressbar" - To see it, call Replace dialog, with RegEx option on, with Confirmation option on (2 options in the Replace dialog), and replace "." (any char) with "www".
+* "statusbar alt" - Color is used on alternative statusbar. Too see this statusbar, enter in the Console input field: <syntaxhighlight lang="python">msg_status_alt('d'*100, 8)</syntaxhighlight>.
+* "search progressbar" - To see it, call Replace dialog, with RegEx option on, with Confirmation option on (2 options in the Replace dialog), and do the mass replacement of RegEx "." with "www".
 
-* "editor, marked range BG" - Shows for marked range. To set marked range from line 5 to 10, use console: <syntaxhighlight lang="python">ed.set_prop(PROP_MARKED_RANGE, '5,10')</syntaxhighlight>
+* "editor, marked range BG" - Color is shown for marked range. To set marked range from line 5 to 10, enter in the Console: <syntaxhighlight lang="python">ed.set_prop(PROP_MARKED_RANGE, '5,10')</syntaxhighlight>.
 
-* "editor, markers" - To see markers, call Command Palette, command "drop marker at caret".
-* "editor, horizontal folding line" - This line is painted below the folded block, when option "fold_style" is 4.
+* "editor, markers" - To see editor markers, call Command Palette, command "drop marker at caret".
+* "editor, horizontal folding line" - This line is painted below the folded block, when option "fold_style" is 4, and you fold (collapse) some folding-range (with some lexer active).
 
-* "side-toolbar, button badges BG" - Background color of badges. To see a badge on sidebar, write to Console input field: print("ERROR: aaa"). The line "ERROR: aaa" will appear in the Console log, and sidebar will show badge "1", meaning you have 1 error line.
-* "side-toolbar, button badges font" - Font color of badges.
+* "side-toolbar, button badges font/BG" - Color of text badges. To see a badge on sidebar, write to Console input field: <syntaxhighlight lang="python">print("ERROR: aaa")</syntaxhighlight>. The line "ERROR: aaa" will appear in the Console log, and sidebar will show badge "1", meaning you have 1 error line.
 
-* "listbox, ..." - Colors of Command Palette dialog.
-* "listbox, ..., auto-complete..." - Call C lexer, then press Ctrl+Space to call auto-completion (listbox has 3 columns, 3rd column shows not for all items).
+* "listbox, ..." - Colors of Command Palette dialog, Go To dialog, and similar menu-like dialogs.
+* "listbox, ..., auto-complete..." - Colors of auto-completion listbox. To see the auto-completion listbox, activate e.g. Pascal lexer, write the incomplete word "Wr" and press Ctrl+Space to call auto-completion. Listbox has 3 columns, 3rd column is shown not for all items.
 
-* "splitters, main" - Shows on (vertical) splitter near Sidebar and above (horizontal) splitter near Bottom panel.
-* "splitters, groups" - Shows on splitters between groups (vertical and horizontal). Activate e.g. 2 or 3 groups using "=" top menu item.
+* "splitters, main" - Color is shown on (vertical) splitter near sidebar and above (horizontal) splitter near bottom panel.
+* "splitters, groups" - Color is shown on splitters between groups (vertical and horizontal). To see these splitters, activate e.g. 2 or 3 groups using "=" top menu item.
 
 ==Meaning of syntax-theme elements==
 
