@@ -1158,7 +1158,7 @@ begin
     EControlOptions.MaxLinesWhenParserEnablesFolding);
 
   ATFlatTheme.EnableColorBgOver:= cfg.GetValue('ui_button_hover',
-    ATFlatTheme.EnableColorBgOver);
+    true);
   ATScrollbarTheme.DirectJumpOnClickPageUpDown:= cfg.GetValue('scrollbar_click_jump',
     ATScrollbarTheme.DirectJumpOnClickPageUpDown);
 
