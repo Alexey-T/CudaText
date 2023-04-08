@@ -1,0 +1,60 @@
+name: build
+
+on:
+  pull_request:
+  push:
+    paths-ignore:
+    - "README.md"
+    branches:
+      - master
+      - releases/*
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout source code
+      uses: actions/checkout@v2
+      with:
+        submodules: recursive
+    - name: Install Lazarus
+      uses: gcarreno/setup-lazarus@v3.2
+      with:
+        lazarus-version: "dist"
+        include-packages: "Synapse 40.1"
+        with-cache: true
+    - name: Install default IDE config
+      run: |
+        cat > /tmp/miscellaneousoptions.xml <<EOF
+        <?xml version="1.0" encoding="UTF-8"?>
+        <CONFIG>
+        <MiscellaneousOptions>
+          <Version Value="3"/>
+          <BuildLazarusOptions>
+            <Profiles Count="4">
+              <Profile0 Name="Normal IDE">
+              <LCLPlatform Value="gtk2"/>
+              <IdeBuildMode Value="Build"/>
+              <Defines Count="1"><Item1 Value="WITH_GTK2_IM"/></Defines>
+              </Profile0>
+            </Profiles>
+          </BuildLazarusOptions>
+        </MiscellaneousOptions>
+        </CONFIG>
+        EOF
+    - name: Build the components
+      run: |
+        cat /tmp/miscellaneousoptions.xml
+        lazbuild --pcp=/tmp/ -B "comp/bgrabitmap/bgrabitmap/bgrabitmappack.lpk"
+        lazbuild --pcp=/tmp/ -B "comp/EncConv/encconv/encconv_package.lpk"
+        lazbuild --pcp=/tmp/ -B "comp/ATBinHex-Lazarus/atbinhex/atbinhex_package.lpk"
+        lazbuild --pcp=/tmp/ -B "comp/ATFlatControls/atflatcontrols/atflatcontrols_package.lpk"
+        lazbuild --pcp=/tmp/ -B "comp/ATSynEdit/atsynedit/atsynedit_package.lpk"
+        lazbuild --pcp=/tmp/ -B "comp/ATSynEdit_Cmp/atsynedit_cmp/atsynedit_cmp_package.lpk"
+        lazbuild --pcp=/tmp/ -B "comp/EControl/econtrol/econtrol_package.lpk"
+        lazbuild --pcp=/tmp/ -B "comp/ATSynEdit_Ex/atsynedit_ex/atsynedit_ex_package.lpk"
+        lazbuild --pcp=/tmp/ -B "comp/Python-for-Lazarus/python4lazarus/python4lazarus_package.lpk"
+        lazbuild --pcp=/tmp/ -B "comp/Emmet-Pascal/emmet/emmet_package.lpk"
+    - name: Build the CudaText Application
+      run: lazbuild --pcp=/tmp/ -B "app/cudatext.lpr"
