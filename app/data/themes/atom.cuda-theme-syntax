@@ -195,7 +195,7 @@
     "Type" : 3,
     "Styles" : "",
     "CFont" : "#000000",
-    "CBack" : "#000080",
+    "CBack" : "",
     "CBorder" : "",
     "Border" : "0,0,0,0"
   },
@@ -203,15 +203,15 @@
     "Type" : 3,
     "Styles" : "",
     "CFont" : "#000000",
-    "CBack" : "#006000",
+    "CBack" : "#4A4A4A",
     "CBorder" : "",
     "Border" : "0,0,0,0"
   },
   "Lex_SectionBG3" : {
     "Type" : 3,
     "Styles" : "",
-    "CFont" : "#000000",
-    "CBack" : "#800080",
+    "CFont" : "#FFFFFF",
+    "CBack" : "",
     "CBorder" : "",
     "Border" : "0,0,0,0"
   },
