@@ -1191,6 +1191,9 @@ To discover more features of FindInFiles dialog, hover mouse over other labels/b
 
 You can also '''replace in all UI-tabs''', of course. Additionally, CudaText gives built-in "Replace in all tabs" feature, it is the button "Rep global" in the built-in Find/Replace dialog. This is documented in the main CudaText wiki page.
 
+==How to use FindInFiles 4==
+FindInFiles v4 has two panels. Top panel shows found filenames, line by line. Bottom panel shows the entire document of one of the selected filenames. When you single click on a line of top panel, the bottom panel shows the content of a clicked file. When you double click the line again, the main editor of CudaText jumps to that location.
+
 ==FiF3 and FiF4: comparison and future==
 CudaText has two plugins to search in files/tabs:
 
