@@ -405,15 +405,10 @@ begin
           begin
             sUndo:= Frame.Ed1.UndoAsString;
             if Length(sUndo)<=UiOps.MaxUndoSizeForSessionFile then
-              cfg.SetValue(path+'/undo', sUndo)
-            else
-              cfg.DeleteValue(path+'/undo');
-
+              cfg.SetValue(path+'/undo', sUndo);
             sUndo:= Frame.Ed1.RedoAsString;
             if Length(sUndo)<=UiOps.MaxUndoSizeForSessionFile then
-              cfg.SetValue(path+'/redo', sUndo)
-            else
-              cfg.DeleteValue(path+'/redo');
+              cfg.SetValue(path+'/redo', sUndo);
           end;
         end;
 
@@ -437,8 +432,12 @@ begin
             cfg.SetValue(path+'/file_date', FormatFileDateAsNiceString(sTabFilename2));
           if UiOps.HistoryItems[ahhUndoRedo] then
           begin
-            cfg.SetValue(path+'/undo', Frame.Ed2.UndoAsString);
-            cfg.SetValue(path+'/redo', Frame.Ed2.RedoAsString);
+            sUndo:= Frame.Ed2.UndoAsString;
+            if Length(sUndo)<=UiOps.MaxUndoSizeForSessionFile then
+              cfg.SetValue(path+'/undo', sUndo);
+            sUndo:= Frame.Ed2.RedoAsString;
+            if Length(sUndo)<=UiOps.MaxUndoSizeForSessionFile then
+              cfg.SetValue(path+'/redo', sUndo);
           end;
         end;
 
