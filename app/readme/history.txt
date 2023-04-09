@@ -3,6 +3,8 @@
   - fixed
   * changed
 
++ add: added limit of undo-data-length in session files, 1M chars, to prevent too long session saving/loading when editing with multi-carets (thanks @rssguy2)
+
 1.190.1 (2023/04)
 
 + add: smart-tabs option, "tab_smart", known from several text editors: PSPad, ConTEXT, Lazarus IDE (thanks @qwerky, @Vivalzar)
