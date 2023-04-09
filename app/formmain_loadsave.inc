@@ -240,7 +240,7 @@ var
   nLocalGroup, nGlobalGroup, nTabInGroup: integer;
   nCountFiles, nCountUntitled, nSavedTabIndex: integer;
   nFrameCount, nPrevFrameCount: integer;
-  path, sTabKind, sConsole: string;
+  path, sTabKind, sConsole, sUndo: string;
   bModified, bUntitled: boolean;
   bSessionUpdated: boolean;
   iFrame, iGroup: integer;
@@ -400,10 +400,20 @@ begin
           if (not bUntitled) and FileExists(sTabFilename) then
             cfg.SetValue(path+'/file_date', FormatFileDateAsNiceString(sTabFilename));
           Frame.VersionInSession:= Frame.Ed1.Strings.ModifiedVersion;
+
           if UiOps.HistoryItems[ahhUndoRedo] then
           begin
-            cfg.SetValue(path+'/undo', Frame.Ed1.UndoAsString);
-            cfg.SetValue(path+'/redo', Frame.Ed1.RedoAsString);
+            sUndo:= Frame.Ed1.UndoAsString;
+            if Length(sUndo)<=UiOps.MaxUndoSizeForSessionFile then
+              cfg.SetValue(path+'/undo', sUndo)
+            else
+              cfg.DeleteValue(path+'/undo');
+
+            sUndo:= Frame.Ed1.RedoAsString;
+            if Length(sUndo)<=UiOps.MaxUndoSizeForSessionFile then
+              cfg.SetValue(path+'/redo', sUndo)
+            else
+              cfg.DeleteValue(path+'/redo');
           end;
         end;
 
