@@ -1191,6 +1191,11 @@ To discover more features of FindInFiles dialog, hover mouse over other labels/b
 
 You can also '''replace in all UI-tabs''', of course. Additionally, CudaText gives built-in "Replace in all tabs" feature, it is the button "Rep global" in the built-in Find/Replace dialog. This is documented in the main CudaText wiki page.
 
+==How to use FiF4==
+FiF4 has built-in two windows. Top window shows result line by line. Bottom window shows the entire document of one of the lines.
+
+When you single click on a line of top window, the bottom window's content will update to relatively content. Then you double click the line again, the main editor of cudatext will jump to that location.
+
 ==FiF3 and FiF4: comparison and future==
 CudaText has two plugins to search in files/tabs:
 
