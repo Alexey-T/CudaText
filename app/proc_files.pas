@@ -376,7 +376,7 @@ var
 begin
   if fn='' then exit;
   {$ifdef windows}
-  Params:= '/n,/select,'+fn;
+  Params:= '/n,/select,"'+fn+'"';
   ExecuteProcess('explorer.exe', Params);
   {$else}
   OpenURL(ExtractFileDir(fn));
