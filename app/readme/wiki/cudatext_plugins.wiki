@@ -372,32 +372,6 @@ For inserting the current date and time:
 * $CURRENT_SECOND - The current second
 * $CURRENT_SECONDS_UNIX - The number of seconds since the Unix epoch
 
-====Format of .cuda-snippet====
-
-First lines have format "key=value" (no spaces around "="), where "key" is one of strings:
-
-* "name": snippet full name, shown in dialog.
-* "id": snippet short alias for Tab-key (latin letters, digits, "_.$"), line is optional.
-* "lex": lexers list, comma-separated, for which snippet is active, line is optional, empty means snippet always active.
-
-Then follows the line "text=" without value, and all next lines - are snippet contents.
-
-* Trailing blank lines are discarded.
-* Use tab-chars in text indents, they are auto replaced to spaces if current editor configured so.
-
-====Format of .cuda-snips====
-
-File contains one or several lines, one snippet per line. Empty lines, lines starting with "#" or space, are ignored. Format of lines:
-
-* id text
-* /N=name text
-* id /N=name text
-* id /L=lexers text
-* id /L=lexers /N=name text
-* id /L="lexers" /N="name" text
-
-Here "id" is short alias for Tab-key, "name" (if not set, it's the same as "id") is full name for dialog, "lexers" is comma-separated lexer list, "text" is snippet contents. Contents can have escaped special chars: "\n", "\r", "\t" (tab-char), "\\" (backslash).
-
 == Snippet Panel ==
 
 Plugin "Snippet Panel" is preinstalled in CudaText. It gives an alternative way to use short text fragments (only simple ones) in editor. It adds button to sidebar, and command "Plugins / Snippet Panel". When called, plugin shows panel in the sidebar, with a drop-down list of folders, which contain several "snippets". You can double-click snippets to insert them into text (multi-carets are supported).
