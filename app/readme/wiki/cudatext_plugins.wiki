@@ -372,15 +372,6 @@ For inserting the current date and time:
 * $CURRENT_SECOND - The current second
 * $CURRENT_SECONDS_UNIX - The number of seconds since the Unix epoch
 
-====Snippets file names====
-
-Snippets are stored in separate files with extensions:
-
-* .cuda-snippet or .synw-snippet: main format.
-* .cuda-snips: compact format for collections of tiny snippets.
-
-Encoding is UTF-8, no BOM. Files can be placed in any subfolder of "data/snippets" folder, file/folder names have no meaning, but it's recommended to name subfolders like AuthorName.SyntaxName, so users can easily find newly installed snippets.
-
 ====Format of .cuda-snippet====
 
 First lines have format "key=value" (no spaces around "="), where "key" is one of strings:
