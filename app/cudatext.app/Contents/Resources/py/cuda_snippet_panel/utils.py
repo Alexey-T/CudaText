@@ -12,7 +12,7 @@ def enum_dir(dir):
 https://stackoverflow.com/questions/436220/determine-the-encoding-of-text-in-python
 '''
 
-def bom_type(file):
+def bom_type(fn):
     """
     returns file encoding string for open() function
     example:
@@ -20,7 +20,7 @@ def bom_type(file):
         open(f, encoding=bom, errors='ignore')
     """
 
-    f = open(file, 'rb')
+    f = open(fn, 'rb')
     b = f.read(4)
     f.close()
 
@@ -43,7 +43,7 @@ def bom_type(file):
     # For the United States its: cp1252
 
 
-def open_read(f):
+def open_read(fn):
 
-    bom = bom_type(f)
-    return open(f, 'r', encoding=bom, errors='ignore').read()
+    bom = bom_type(fn)
+    return open(fn, 'r', encoding=bom, errors='ignore').read()
