@@ -271,9 +271,10 @@ Dialog of Snippets plugin:
 
 Texts of snippets usually have tab-stop(s), e.g. ${1:some_text}. Plugin Snippets finds tab-stops and places "markers" for them. After markers are placed, Tab-key works specially: it jumps to the next marker. See detailed information in the [[CudaText#Markers]].
 
-Formats of snippets supported:
-* CudaText snippets. These are packages with prefix "snippets_ct" in the Addons Manager. They are installed into folder [CudaText]/data/snippets_ct.
-* VSCode snippets. These are VSCode packages located in the VSCode repositories. Read the separate topic about them below. They are installed to folder [CudaText]/data/snippets_vs.
+Plugin supports two snippets folder, but formats of data are the same, VSCode JSON format:
+
+* CudaText snippets. These are packages with prefix "snippets_ct" in the Addons Manager. They are installed into folder CudaText/data/snippets_ct.
+* VSCode snippets. These are VSCode packages located in the VSCode repositories. Read the separate topic about them below. They are installed to folder CudaText/data/snippets_vs.
 
 === Snippets from VSCode ===
 Since recent versions, Snippets plugin supports snippets from VSCode editor. It gives menu items in "Plugins / Snippets":
