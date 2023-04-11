@@ -1073,7 +1073,7 @@ Auto-completion behaviour for this case is described in the
 
 = Code-Tree =
 
-Code-tree is treeview UI control which shows structure of classes/functions/etc, structure info from lexer (if lexer supports this).
+Code-tree is treeview UI control which shows structure of classes/functions/etc, structure info from lexer (only if lexer supports this).
 To show code-tree, activate side-panel (default hotkey: F12). Many lexers support code-tree: most C-based, HTML, XML, CSS, JS etc. Example of tree for Pascal:
 
 [[File:atsynedit_tree.png]]
@@ -1082,15 +1082,15 @@ To show code-tree, activate side-panel (default hotkey: F12). Many lexers suppor
 * Tree is filled after few seconds after file opening (search for options ui_tree* to change this pause).
 * When you move caret, tree shows tree node for caret position, after a pause (search for options ui_tree* to change this).
 
-Tree has the "filter" input field: when not empty, tree shows only items containing the filter string. Button X near the input clears the filter. Last entered filter strings are saved/restored to/from sessions.
+Code-tree has the "filter" input field: when not empty, tree shows only items containing the filter string. Button X near the input - clears the filter. Shift+Enter press in the filter field - adds current filter string to the drop-down combobox history. Last entered filter strings are saved/restored to/from sessions.
 
-Tree has the context menu with items:
+Code-tree has the context menu with items:
 * "Fold all"
 * "Unfold all"
 * "Fold level", 2 to 9
 * "Sorted": to toggle the alphabetical sorted mode of the tree
 
-Tree for CSS lexer has additional feature: in the "Colors" node, it shows colored preview-squares.
+Code-tree for CSS lexer has additional feature: in the "Colors" node, it shows colored preview-squares for HTML color-tokens - #AABBCC / "rgb(...)" / "hsl(...)".
 
 [[File:cudatext-tree-css-colors.png]]
 
