@@ -1090,7 +1090,7 @@ Code-tree has the context menu with items:
 * "Fold level", 2 to 9
 * "Sorted": to toggle the alphabetical sorted mode of the tree
 
-Code-tree for CSS lexer has additional feature: in the "Colors" node, it shows colored preview-squares for HTML color-tokens - #AABBCC / "rgb(...)" / "hsl(...)".
+Code-tree for CSS lexer has additional feature: in the "Colors" node, it shows colored preview-squares for HTML color-tokens - #AABBCC / #ABC / rgb(...) / rgba(...) / hsl(...) / hsla(...).
 
 [[File:cudatext-tree-css-colors.png]]
 
