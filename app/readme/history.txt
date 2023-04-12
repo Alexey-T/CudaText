@@ -3,6 +3,9 @@
   - fixed
   * changed
 
+1.190.5 (2023/04)
+
++ add: option "minimap_tooltip_font_size", it allows to show smaller lines in minimap-tooltip (thanks @Vivalzar)
 + add: added limit of undo-data-length in session files, 1M chars, to prevent too long session saving/loading when editing with multi-carets (thanks @rssguy2)
 + add: Windows: X icon in menu-like dialogs now looks like ui-tabs X icon
 
