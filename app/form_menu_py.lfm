@@ -79,10 +79,13 @@ object fmMenuApi: TfmMenuApi
       Top = 0
       Width = 20
       Align = alRight
-      Caption = 'x'
+      Caption = ' '
       TabOrder = 0
       Focusable = False
       Flat = True
+      Arrow = True
+      ArrowKind = abakCross
+      ArrowAlign = taCenter
       OnClick = ButtonCancelClick
     end
   end
