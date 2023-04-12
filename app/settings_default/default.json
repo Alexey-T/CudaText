@@ -571,6 +571,9 @@
   //Minimap: Width of "tooltip panel" in percents of editor width.
   "minimap_tooltip_width": 60,
 
+  //Minimap: Special font size for minimap-tooltip, if value>2.
+  "minimap_tooltip_font_size": 0,
+
   //Minimap: Feature of Sublime Text 2 (removed in Sublime Text 3):
   //mouse-down on minimap starts the dragging of sel-rect immediately.
   //If turned off (default): click on minimap only scrolls.
