@@ -565,10 +565,10 @@
   //Minimap: Show "tooltip panel", when mouse cursor moves over minimap.
   "minimap_tooltip_show": false,
 
-  //Minimap: Number of lines in "tooltip panel".
+  //Minimap: Height of "tooltip panel", in usual (editor's) char-cells.
   "minimap_tooltip_line_count": 6,
 
-  //Minimap: Width of "tooltip panel" in percents of editor width.
+  //Minimap: Width of "tooltip panel", in percents of editor width.
   "minimap_tooltip_width": 60,
 
   //Minimap: Special font size for minimap-tooltip, if value>2.
