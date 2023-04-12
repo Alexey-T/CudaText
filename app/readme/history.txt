@@ -4,6 +4,7 @@
   * changed
 
 + add: added limit of undo-data-length in session files, 1M chars, to prevent too long session saving/loading when editing with multi-carets (thanks @rssguy2)
++ add: Windows: X icon in menu-like dialogs now looks like ui-tabs X icon
 
 1.190.1 (2023/04)
 
