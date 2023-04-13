@@ -6343,7 +6343,7 @@ var
 begin
   F:= DoFileOpen('', '');
   if F=nil then exit;
-  F.Ed1.Strings.LoadFromFile(fn);
+  F.Ed1.Strings.LoadFromFile(fn, []);
   F.DoLexerFromFilename(F.Ed1, fn);
   UpdateFrameEx(F, true);
   UpdateStatusbar;

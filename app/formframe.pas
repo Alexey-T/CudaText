@@ -2787,6 +2787,7 @@ procedure TEditorFrame.DoFileOpen_Ex(Ed: TATSynEdit; const AFileName: string;
   AAllowErrorMsgBox, AKeepScroll, AAllowLoadUndo: boolean; AOpenMode: TAppOpenMode);
 var
   NFileSize: Int64;
+  LoadOptions: TATLoadStreamOptions;
 begin
   FProgressForm:= nil;
   if not AppFormShowCompleted then
@@ -2809,9 +2810,13 @@ begin
 
   try
     try
+      LoadOptions:= [];
       if AKeepScroll then
+      begin
         Ed.Strings.EncodingDetect:= false;
-      Ed.LoadFromFile(AFileName, AKeepScroll);
+        Include(LoadOptions, cLoadOpKeepScroll);
+      end;
+      Ed.LoadFromFile(AFileName, LoadOptions);
       Ed.Strings.EncodingDetect:= true;
       SetFileName(Ed, AFileName);
       UpdateCaptionFromFilename;
@@ -3099,7 +3104,7 @@ begin
       ) <> ID_OK then exit;
 
   Ed.Strings.EncodingDetect:= false;
-  Ed.Strings.LoadFromFile(SFileName);
+  Ed.Strings.LoadFromFile(SFileName, [cLoadOpAllowBadCharsOfLen1]);
   Ed.Strings.EncodingDetect:= true;
   UpdateEds(true);
 end;
@@ -3889,7 +3894,7 @@ begin
         if not Ed.Modified then
         begin
           Ed.Strings.EncodingDetect:= false;
-          Ed.LoadFromFile(sFileName);
+          Ed.LoadFromFile(sFileName, [cLoadOpAllowBadCharsOfLen1]);
           Ed.Strings.EncodingDetect:= true;
         end;
     end;
