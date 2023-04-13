@@ -3093,19 +3093,28 @@ end;
 
 procedure TEditorFrame.DoFileReload_DisableDetectEncoding(Ed: TATSynEdit);
 var
+  St: TATStrings;
   SFileName: string;
+  LoadOptions: TATLoadStreamOptions;
 begin
+  St:= Ed.Strings;
   SFileName:= GetFileName(Ed);
   if SFileName='' then exit;
+
   if Ed.Modified then
     if MsgBox(
       Format(msgConfirmReopenModifiedTab, [AppCollapseHomeDirInFilename(SFileName)]),
       MB_OKCANCEL or MB_ICONWARNING
       ) <> ID_OK then exit;
 
-  Ed.Strings.EncodingDetect:= false;
-  Ed.Strings.LoadFromFile(SFileName, [cLoadOpAllowBadCharsOfLen1]);
-  Ed.Strings.EncodingDetect:= true;
+  LoadOptions:= [];
+  if St.Encoding=cEncUTF8 then
+    Include(LoadOptions, cLoadOpAllowBadCharsOfLen1);
+
+  St.EncodingDetect:= false;
+  St.LoadFromFile(SFileName, LoadOptions);
+  St.EncodingDetect:= true;
+
   UpdateEds(true);
 end;
 

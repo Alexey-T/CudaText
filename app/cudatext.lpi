@@ -1539,7 +1539,7 @@
     </Other>
   </CompilerOptions>
   <Debugging>
-    <Exceptions Count="16">
+    <Exceptions Count="17">
       <Item1>
         <Name Value="EAbort"/>
       </Item1>
@@ -1588,6 +1588,9 @@
       <Item16>
         <Name Value="EInvalidOperation"/>
       </Item16>
+      <Item17>
+        <Name Value="EBadUTF8Text"/>
+      </Item17>
     </Exceptions>
   </Debugging>
 </CONFIG>
