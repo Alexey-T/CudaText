@@ -3838,6 +3838,7 @@ procedure TEditorFrame.DoLoadHistoryEx(Ed: TATSynEdit; c: TJsonConfig;
 var
   str, str0, sFileName, sCaretString: string;
   Caret: TATCaretItem;
+  LoadOptions: TATLoadStreamOptions;
   NCaretPosX, NCaretPosY,
   NCaretEndX, NCaretEndY: integer;
   nTop, i: integer;
@@ -3902,8 +3903,11 @@ begin
       if sFileName<>'' then
         if not Ed.Modified then
         begin
+          LoadOptions:= [];
+          if Ed.Strings.Encoding=cEncUTF8 then
+            Include(LoadOptions, cLoadOpAllowBadCharsOfLen1);
           Ed.Strings.EncodingDetect:= false;
-          Ed.LoadFromFile(sFileName, [cLoadOpAllowBadCharsOfLen1]);
+          Ed.LoadFromFile(sFileName, LoadOptions);
           Ed.Strings.EncodingDetect:= true;
         end;
     end;
