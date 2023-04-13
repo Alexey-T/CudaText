@@ -2696,6 +2696,7 @@ begin
     if ACharsTyped>=Ed.OptAutocompleteAutoshowCharCount then
     begin
       //ACharsTyped:= 0; //don't reset, fix #4479
+      Application.ProcessMessages; //give time to lexer-parser, to fix https://github.com/CudaText-addons/cuda_lsp/issues/137
       AppRunAutocomplete(Ed, true);
       exit;
     end;
