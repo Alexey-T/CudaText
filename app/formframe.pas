@@ -3113,9 +3113,14 @@ begin
   if St.Encoding=cEncUTF8 then
     Include(LoadOptions, cLoadOpAllowBadCharsOfLen1);
 
-  St.EncodingDetect:= false;
-  St.LoadFromFile(SFileName, LoadOptions);
-  St.EncodingDetect:= true;
+  Ed.BeginUpdate;
+  try
+    St.EncodingDetect:= false;
+    St.LoadFromFile(SFileName, LoadOptions);
+    St.EncodingDetect:= true;
+  finally
+    Ed.EndUpdate;
+  end;
 
   UpdateEds(true);
 end;
