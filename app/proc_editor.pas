@@ -272,7 +272,7 @@ begin
     Ed.OptMinimapAtLeft:= Op.OpMinimapAtLeft;
     Ed.OptMinimapCustomScale:= Op.OpMinimapScale;
     Ed.OptMinimapTooltipVisible:= Op.OpMinimapTooltipShow;
-    Ed.OptMinimapTooltipLinesCount:= Op.OpMinimapTooltipLineCount;
+    Ed.OptMinimapTooltipHeight:= Op.OpMinimapTooltipHeight;
     Ed.OptMinimapTooltipWidthPercents:= Op.OpMinimapTooltipWidth;
     Ed.OptMinimapTooltipFontSize:= Op.OpMinimapTooltipFontSize;
     Ed.OptMinimapDragImmediately:= Op.OpMinimapDragImmediately;

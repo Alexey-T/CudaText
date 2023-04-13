@@ -576,7 +576,7 @@ type
     OpMinimapAtLeft: boolean;
     OpMinimapScale: integer;
     OpMinimapTooltipShow: boolean;
-    OpMinimapTooltipLineCount: integer;
+    OpMinimapTooltipHeight: integer;
     OpMinimapTooltipWidth: integer;
     OpMinimapTooltipFontSize: integer;
     OpMinimapDragImmediately: boolean;
@@ -1725,7 +1725,7 @@ begin
     OpMinimapAtLeft:= false;
     OpMinimapScale:= 0;
     OpMinimapTooltipShow:= false;
-    OpMinimapTooltipLineCount:= 6;
+    OpMinimapTooltipHeight:= 6;
     OpMinimapTooltipWidth:= 60;
     OpMinimapTooltipFontSize:= 0;
     OpMinimapDragImmediately:= false;
