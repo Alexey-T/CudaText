@@ -2786,9 +2786,11 @@ procedure TEditorFrame.DoFileOpen_Ex(Ed: TATSynEdit; const AFileName: string;
   AAllowLoadHistory, AAllowLoadHistoryEnc, AAllowLoadBookmarks, AAllowLexerDetect,
   AAllowErrorMsgBox, AKeepScroll, AAllowLoadUndo: boolean; AOpenMode: TAppOpenMode);
 var
+  St: TATStrings;
   NFileSize: Int64;
   LoadOptions: TATLoadStreamOptions;
 begin
+  St:= Ed.Strings;
   FProgressForm:= nil;
   if not AppFormShowCompleted then
   begin
@@ -2801,8 +2803,8 @@ begin
           NFileSize div (1024*1024)
           ]));
       FProgressOldProgress:= 0;
-      FProgressOldHandler:= Ed.Strings.OnProgress;
-      Ed.Strings.OnProgress:= @HandleStringsProgress;
+      FProgressOldHandler:= St.OnProgress;
+      St.OnProgress:= @HandleStringsProgress;
       FProgressForm.Show;
       Application.ProcessMessages;
     end;
@@ -2813,17 +2815,17 @@ begin
       LoadOptions:= [];
       if AKeepScroll then
       begin
-        Ed.Strings.EncodingDetect:= false;
+        St.EncodingDetect:= false;
         Include(LoadOptions, cLoadOpKeepScroll);
       end;
       Ed.LoadFromFile(AFileName, LoadOptions);
-      Ed.Strings.EncodingDetect:= true;
+      St.EncodingDetect:= true;
       SetFileName(Ed, AFileName);
       UpdateCaptionFromFilename;
     finally
       if Assigned(FProgressForm) then
       begin
-        Ed.Strings.OnProgress:= FProgressOldHandler;
+        St.OnProgress:= FProgressOldHandler;
         FProgressForm.Free;
         FProgressForm:= nil;
         FProgressGauge:= nil;
@@ -2841,7 +2843,7 @@ begin
   end;
 
   //turn off opts for huge files
-  FileWasBig[Ed]:= Ed.Strings.Count>EditorOps.OpWrapEnabledMaxLines;
+  FileWasBig[Ed]:= St.Count>EditorOps.OpWrapEnabledMaxLines;
 
   if AAllowLoadUndo then
     DoLoadUndo(Ed);
