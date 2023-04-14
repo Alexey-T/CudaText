@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.190.5 (2023/04)
+1.191.0 (2023/04)
 
 * change: rename option "minimap_tooltip_line_count" to "minimap_tooltip_height"
 + add: new option "minimap_tooltip_font_size" allows to use smaller font in minimap-tooltip (thanks @Vivalzar)
