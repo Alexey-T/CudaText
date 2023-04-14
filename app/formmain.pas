@@ -6331,10 +6331,23 @@ end;
 
 procedure TfmMain.DoEditorsLock(ALock: boolean);
 var
+  F: TEditorFrame;
   i: integer;
 begin
   for i:= 0 to FrameCount-1 do
-    Frames[i].Locked:= ALock;
+  begin
+    F:= Frames[i];
+    if ALock then
+    begin
+      F.Ed1.BeginUpdate;
+      F.Ed2.BeginUpdate;
+    end
+    else
+    begin
+      F.Ed1.EndUpdate;
+      F.Ed2.EndUpdate;
+    end;
+  end;
 end;
 
 procedure TfmMain.DoFileNewFrom(const fn: string);

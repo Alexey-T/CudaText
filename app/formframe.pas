@@ -184,7 +184,6 @@ type
     FSplitPos: double;
     FSplitHorz: boolean;
     FActiveSecondaryEd: boolean;
-    FLocked: boolean;
     FTabColor: TColor;
     FTabFontColor: TColor;
     FTabPinned: boolean;
@@ -321,7 +320,6 @@ type
     procedure SetFileName2(const AValue: string);
     procedure SetFileWasBig(Ed: TATSynEdit; AValue: boolean);
     procedure SetInitialLexer(Ed: TATSynEdit; AValue: TecSyntAnalyzer);
-    procedure SetLocked(AValue: boolean);
     procedure SetPictureScale(AValue: integer);
     procedure SetReadOnly(Ed: TATSynEdit; AValue: boolean);
     procedure SetTabCaptionAddon(const AValue: string);
@@ -394,6 +392,7 @@ type
     property TabIsPreview: boolean read GetIsPreview write SetIsPreview;
     property TabVisible: boolean read GetTabVisible write SetTabVisible;
     procedure UpdateCaptionFromFilename;
+    procedure UpdateLocked(Ed: TATSynEdit; AValue: boolean);
 
     property CachedTreeViewInited[Ed: TATSynEdit]: boolean read GetCachedTreeviewInited;
     property CachedTreeView[Ed: TATSynEdit]: TTreeView read GetCachedTreeview;
@@ -423,7 +422,6 @@ type
     procedure LexerBackupSave;
     procedure LexerBackupRestore;
 
-    property Locked: boolean read FLocked write SetLocked;
     property CommentString[Ed: TATSynEdit]: string read GetCommentString;
     property TabColor: TColor read FTabColor write SetTabColor;
     property TabFontColor: TColor read FTabFontColor write SetTabFontColor;
@@ -1400,20 +1398,32 @@ begin
   end;
 end;
 
-procedure TEditorFrame.SetLocked(AValue: boolean);
+procedure TEditorFrame.UpdateLocked(Ed: TATSynEdit; AValue: boolean);
+var
+  EdPair: TATSynEdit;
 begin
-  if AValue=FLocked then exit;
-  FLocked:= AValue;
+  if not EditorsLinked then
+    EdPair:= nil
+  else
+  if Ed=Ed1 then
+    EdPair:= Ed2
+  else
+  if Ed=Ed2 then
+    EdPair:= Ed1
+  else
+    EdPair:= nil;
 
-  if FLocked then
+  if AValue then
   begin
-    Ed1.BeginUpdate;
-    Ed2.BeginUpdate;
+    Ed.BeginUpdate;
+    if Assigned(EdPair) then
+      EdPair.BeginUpdate;
   end
   else
   begin
-    Ed1.EndUpdate;
-    Ed2.EndUpdate;
+    Ed.EndUpdate;
+    if Assigned(EdPair) then
+      EdPair.EndUpdate;
   end;
 end;
 
@@ -2818,7 +2828,9 @@ begin
         St.EncodingDetect:= false;
         Include(LoadOptions, cLoadOpKeepScroll);
       end;
+      UpdateLocked(Ed, true);
       Ed.LoadFromFile(AFileName, LoadOptions);
+      UpdateLocked(Ed, false);
       St.EncodingDetect:= true;
       SetFileName(Ed, AFileName);
       UpdateCaptionFromFilename;
@@ -3113,13 +3125,13 @@ begin
   if St.Encoding=cEncUTF8 then
     Include(LoadOptions, cLoadOpAllowBadCharsOfLen1);
 
-  Locked:= true;
+  UpdateLocked(Ed, true);
   try
     St.EncodingDetect:= false;
     St.LoadFromFile(SFileName, LoadOptions);
     St.EncodingDetect:= true;
   finally
-    Locked:= false;
+    UpdateLocked(Ed, false);
   end;
 
   UpdateEds(true);
@@ -3913,9 +3925,11 @@ begin
           LoadOptions:= [];
           if Ed.Strings.Encoding=cEncUTF8 then
             Include(LoadOptions, cLoadOpAllowBadCharsOfLen1);
+          UpdateLocked(Ed, true);
           Ed.Strings.EncodingDetect:= false;
           Ed.LoadFromFile(sFileName, LoadOptions);
           Ed.Strings.EncodingDetect:= true;
+          UpdateLocked(Ed, false);
         end;
     end;
   end;
