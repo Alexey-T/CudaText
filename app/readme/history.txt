@@ -11,6 +11,7 @@
 + add: long reloading of huge file, now shows editor as 'locked' (hourglass icon)
 + add: Windows: X icon in menu-like dialogs now looks like ui-tabs X icon
 - fix: regression since 2021/08: loading of huge (100M) file with rare 'umlaut' chars did not activate "fallback_encoding" and forced UTF-8 (thanks @Vivalzar)
+- fix: on reloading splitted ui-tab with huge file, must 'lock' both editors 
 
 1.190.1 (2023/04)
 
