@@ -3113,13 +3113,13 @@ begin
   if St.Encoding=cEncUTF8 then
     Include(LoadOptions, cLoadOpAllowBadCharsOfLen1);
 
-  Ed.BeginUpdate;
+  Locked:= true;
   try
     St.EncodingDetect:= false;
     St.LoadFromFile(SFileName, LoadOptions);
     St.EncodingDetect:= true;
   finally
-    Ed.EndUpdate;
+    Locked:= false;
   end;
 
   UpdateEds(true);
