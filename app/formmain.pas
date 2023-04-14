@@ -1000,7 +1000,6 @@ type
     procedure DoOps_LoadOptions(const AFileName: string; var Ops: TEditorOps; AllowGlobalOps: boolean);
     procedure DoOps_LoadOptionsFromString(const AString: string);
     procedure DoOps_FindPythonLib(Sender: TObject);
-    procedure DoEditorsLock(ALock: boolean);
     procedure DoFindCurrentWordOrSel(Ed: TATSynEdit; ANext, AWordOrSel: boolean);
     procedure DoDialogCommands;
     function DoDialogCommands_Custom(Ed: TATSynEdit; const AProps: TDlgCommandsProps): integer;
@@ -6326,28 +6325,6 @@ end;
 procedure TfmMain.SetShowTabsMain(AValue: boolean);
 begin
   Groups.SetTabOption(tabOptionShowTabs, Ord(AValue));
-end;
-
-
-procedure TfmMain.DoEditorsLock(ALock: boolean);
-var
-  F: TEditorFrame;
-  i: integer;
-begin
-  for i:= 0 to FrameCount-1 do
-  begin
-    F:= Frames[i];
-    if ALock then
-    begin
-      F.Ed1.BeginUpdate;
-      F.Ed2.BeginUpdate;
-    end
-    else
-    begin
-      F.Ed1.EndUpdate;
-      F.Ed2.EndUpdate;
-    end;
-  end;
 end;
 
 procedure TfmMain.DoFileNewFrom(const fn: string);

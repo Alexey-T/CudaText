@@ -393,6 +393,7 @@ type
     property TabVisible: boolean read GetTabVisible write SetTabVisible;
     procedure UpdateCaptionFromFilename;
     procedure UpdateLocked(Ed: TATSynEdit; AValue: boolean);
+    procedure UpdateLockedAll(AValue: boolean);
 
     property CachedTreeViewInited[Ed: TATSynEdit]: boolean read GetCachedTreeviewInited;
     property CachedTreeView[Ed: TATSynEdit]: TTreeView read GetCachedTreeview;
@@ -1424,6 +1425,20 @@ begin
     Ed.EndUpdate;
     if Assigned(EdPair) then
       EdPair.EndUpdate;
+  end;
+end;
+
+procedure TEditorFrame.UpdateLockedAll(AValue: boolean);
+begin
+  if AValue then
+  begin
+    Ed1.BeginUpdate;
+    Ed2.BeginUpdate;
+  end
+  else
+  begin
+    Ed1.EndUpdate;
+    Ed2.EndUpdate;
   end;
 end;
 
