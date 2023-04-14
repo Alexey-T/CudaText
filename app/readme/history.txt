@@ -8,10 +8,9 @@
 * change: rename option "minimap_tooltip_line_count" to "minimap_tooltip_height"
 + add: new option "minimap_tooltip_font_size" allows to use smaller font in minimap-tooltip (thanks @Vivalzar)
 + add: added limit of undo-data-length in session files, 1M chars, to prevent too long session saving/loading when editing with multi-carets (thanks @rssguy2)
-+ add: long reloading of huge file, now shows editor as 'locked' (hourglass icon)
++ add: long reloading of huge file, must show editor (or both splitted editors) as 'locked' (hourglass icon)
 + add: Windows: X icon in menu-like dialogs now looks like ui-tabs X icon
 - fix: regression since 2021/08: loading of huge (100M) file with rare 'umlaut' chars did not activate "fallback_encoding" and forced UTF-8 (thanks @Vivalzar)
-- fix: on reloading splitted ui-tab with huge file, must 'lock' both editors 
 
 1.190.1 (2023/04)
 
