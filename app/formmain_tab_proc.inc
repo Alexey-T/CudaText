@@ -292,6 +292,13 @@ begin
   end;
   }
 
+  //Frame may be deallocated here due to Application.ProcessMessages call
+  try
+    if (Frame=nil) or (Frame.ClassName='') then exit;
+  except
+    exit;
+  end;
+
   if Frame.IsEmpty then
     if FrameCount=1 then
     begin
