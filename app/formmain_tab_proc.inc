@@ -259,17 +259,17 @@ procedure TfmMain.DoOnTabClose(Sender: TObject; ATabIndex: Integer;
 var
   D: TATTabData;
   Frame: TEditorFrame;
-  Btn, Res: Integer;
-  Msg: string;
-  bNeedTreeUpd, bSavedOk: boolean;
-  bModified: boolean;
+  bNeedTreeUpd, bSavedOk, bModified, bParserWasBusy: boolean;
   Adapter: TATAdapterEControl;
+  Msg: string;
+  Btn, Res: Integer;
 begin
   D:= (Sender as TATTabs).GetTabData(ATabIndex);
   if D=nil then exit;
   Frame:= (D.TabObject as TEditorFrame);
   bNeedTreeUpd:= Frame.Visible;
   bSavedOk:= true;
+  bParserWasBusy:= false;
 
   DoTooltipHide;
 
@@ -281,6 +281,7 @@ begin
 
   while Frame.IsParsingBusy do
   begin
+    bParserWasBusy:= true;
     Sleep(50);
     Application.ProcessMessages;
   end;
@@ -292,11 +293,18 @@ begin
   end;
   }
 
-  //Frame may be deallocated here due to Application.ProcessMessages call
-  try
-    if (Frame=nil) or (Frame.ClassName='') then exit;
-  except
-    exit;
+  //Frame may be deallocated due to Application.ProcessMessages in the while-loop
+  if bParserWasBusy then
+  begin
+    D:= (Sender as TATTabs).GetTabData(ATabIndex);
+    if D=nil then exit;
+    Frame:= (D.TabObject as TEditorFrame);
+    if Frame=nil then exit;
+    try
+      if Frame.ClassName='' then exit;
+    except
+      exit;
+    end;
   end;
 
   if Frame.IsEmpty then
