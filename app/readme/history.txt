@@ -11,6 +11,7 @@
 + add: long reloading of huge file, must show editor (or both splitted editors) as 'locked' (hourglass icon)
 + add: Windows: X icon in menu-like dialogs now looks like ui-tabs X icon
 - fix: regression since 2021/08: loading of huge (100M) file with rare 'umlaut' chars did not activate "fallback_encoding" and forced UTF-8 (thanks @Vivalzar)
+- fix: several clicks on X-icon to close big file, while lexer parser is working, may lead to Access Violation (thanks @veksha)
 
 1.190.1 (2023/04)
 
