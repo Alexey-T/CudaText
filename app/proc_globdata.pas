@@ -3264,7 +3264,15 @@ begin
       if NCount=0 then
         Break;
       Frame:= TObject(AppFrameListDeleting[NCount-1]);
-      Frame.Free;
+
+      //hide AV when user makes N>1 clicks on ui-tab X icon,
+      //while this ui-tab has huge file and parsing is running
+      try
+        if Frame.ClassName<>'' then
+          Frame.Free;
+      except
+      end;
+
       AppFrameListDeleting.Count:= NCount-1;
       if GetTickCount64-NTick>=AMaxWorkTime then
         Break;
