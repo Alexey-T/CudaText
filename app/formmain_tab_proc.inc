@@ -266,7 +266,8 @@ var
 begin
   D:= (Sender as TATTabs).GetTabData(ATabIndex);
   if D=nil then exit;
-  Frame:= (D.TabObject as TEditorFrame);
+  if D.TabObject=nil then exit;
+  Frame:= D.TabObject as TEditorFrame;
   bNeedTreeUpd:= Frame.Visible;
   bSavedOk:= true;
 
@@ -286,8 +287,8 @@ begin
     //frame may be deallocated due to Application.ProcessMessages
     D:= (Sender as TATTabs).GetTabData(ATabIndex);
     if D=nil then exit;
-    Frame:= (D.TabObject as TEditorFrame);
-    if Frame=nil then exit;
+    if D.TabObject=nil then exit;
+    Frame:= D.TabObject as TEditorFrame;
     try
       if Frame.ClassName='' then exit;
     except
