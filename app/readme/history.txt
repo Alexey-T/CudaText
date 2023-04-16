@@ -12,6 +12,7 @@
 + add: Windows: X icon in menu-like dialogs now looks like ui-tabs X icon
 - fix: regression since 2021/08: loading of huge (100M) file with rare 'umlaut' chars did not activate "fallback_encoding" and forced UTF-8 (thanks @Vivalzar)
 - fix: several clicks on X-icon to close big file, while lexer parser is working, may lead to Access Violation (thanks @veksha)
+- fix: Qt5-version exposed bug with wrong scrolling to found words, in word-wrap mode, on some Unicode texts (thanks @pintassilgo)
 
 1.190.1 (2023/04)
 
