@@ -3494,11 +3494,6 @@ procedure TfmMain.FormShow(Sender: TObject);
       Frame.SetFocus;
   end;
   //
-  procedure _Init_FramesOnShow;
-  begin
-    DoShowForVisibleFrames;
-  end;
-  //
   procedure _Init_ShowStartupTimes;
   var
     NTick: QWord;
@@ -3620,7 +3615,7 @@ begin
 
   //postpone parsing until frames are shown
   AppAllowFrameParsing:= true;
-  _Init_FramesOnShow;
+  DoShowForVisibleFrames;
 
   FHandledUntilFirstFocus:= true;
 
