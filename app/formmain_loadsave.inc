@@ -840,6 +840,9 @@ begin
   //avoid getting N tabs for untitled of which only N-1 are translated
   DoLocalizeTabTitles;
 
+  //fix disabled parsing for passive tab-groups (issue #4995)
+  DoShowForVisibleFrames;
+
   Frame:= CurrentFrame;
   if Assigned(Frame) then
   begin

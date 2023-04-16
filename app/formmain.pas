@@ -765,6 +765,7 @@ type
     procedure CodeTreeFilter_OnCommand(Sender: TObject; ACmd: integer; AInvoke: TATEditorCommandInvoke;
       const AText: string; var AHandled: boolean);
     procedure DisablePluginMenuItems(AddFindLibraryItem: boolean);
+    procedure DoShowForVisibleFrames;
     procedure DoLocalizeTabTitles;
     procedure DoApplyCli(const ACliModule: string; const ACliParams: TAppStringArray);
     procedure DoApplyNewdocLexer(F: TEditorFrame);
@@ -3495,16 +3496,8 @@ procedure TfmMain.FormShow(Sender: TObject);
   end;
   //
   procedure _Init_FramesOnShow;
-  var
-    Frame: TEditorFrame;
-    i: integer;
   begin
-    for i:= 0 to FrameCount-1 do
-    begin
-      Frame:= Frames[i];
-      if Frame.Visible then
-        Frame.DoShow;
-    end;
+    DoShowForVisibleFrames;
   end;
   //
   procedure _Init_ShowStartupTimes;
@@ -9103,6 +9096,19 @@ begin
   Result:= FGroups=Self.Groups;
 end;
 
+
+procedure TfmMain.DoShowForVisibleFrames;
+var
+  Frame: TEditorFrame;
+  i: integer;
+begin
+  for i:= 0 to FrameCount-1 do
+  begin
+    Frame:= Frames[i];
+    if Frame.Visible then
+      Frame.DoShow;
+  end;
+end;
 
 //----------------------------
 {$I formmain_loadsave.inc}
