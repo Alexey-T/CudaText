@@ -741,7 +741,6 @@ type
     procedure FindAndExtractRegexMatches;
     function GetFileOpenOptionsString(AFileCount: integer): string;
     procedure HandleTimerCommand(Ed: TATSynEdit; CmdCode: integer; CmdInvoke: TATEditorCommandInvoke);
-    function IsFrameInMainWindow(Frame: TEditorFrame): boolean;
     function IsTooManyTabsOpened: boolean;
     function GetUntitledNumberedCaption: string;
     procedure PopupBottomOnPopup(Sender: TObject);
@@ -9084,16 +9083,6 @@ begin
 
   if Assigned(mnuEditCopyAppend) then
     mnuEditCopyAppend.Enabled:= bSel;
-end;
-
-function TfmMain.IsFrameInMainWindow(Frame: TEditorFrame): boolean;
-var
-  FGroups: TATGroups;
-  FPages: TATPages;
-  NLocalGroupIndex, NGlobalGroupIndex, NTabIndex: integer;
-begin
-  GetFrameLocation(Frame, FGroups, FPages, NLocalGroupIndex, NGlobalGroupIndex, NTabIndex);
-  Result:= FGroups=Self.Groups;
 end;
 
 
