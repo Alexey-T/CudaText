@@ -14,6 +14,7 @@
 - fix: several clicks on X-icon to close big file, while lexer parser is working, may lead to Access Violation (thanks @veksha)
 - fix: Qt5-version exposed bug with wrong scrolling to found words, in word-wrap mode, on some Unicode texts (thanks @pintassilgo)
 - fix: loading session with 2 groups: file in 2nd group looses syntax highlight (thanks @rssguy2)
+- fix: crash with multi-line comments + "auto_fold_comments":2 + code-tree visible (thanks @ildarkhasanshin)
 
 1.190.1 (2023/04)
 
