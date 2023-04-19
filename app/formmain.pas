@@ -2928,7 +2928,10 @@ begin
       DoPyEvent(F.Ed2, cEventOnClose, []);
   end;
 
+  DoPyEvent(nil, cEventOnExit, []);
+
   //after UpdateMenuRecent
+  //and after on_exit, so plugin can close its side-panels in on_exit, and panel will be hidden on next app start
   DoOps_SaveHistory(UiOps.SaveModifiedTabsOnClose);
 
   {
@@ -2941,8 +2944,6 @@ begin
   {$ifdef LCLGTK2}
   FixClipboardFinalization;
   {$endif}
-
-  DoPyEvent(nil, cEventOnExit, []);
 end;
 
 procedure TfmMain.ButtonCancelClick(Sender: TObject);
