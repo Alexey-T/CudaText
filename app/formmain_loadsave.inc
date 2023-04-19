@@ -1129,10 +1129,9 @@ begin
 
   N:= cfg.GetValue('ui_scale_font'+cOptionSystemSuffix, -1);
   if (N>=0) and (N<=cMaxScale) then
-  begin
     ATEditorScaleFontPercents:= N;
-    Screen.HintFont.Size:= ATEditorScaleFont(UiOps.VarFontSize);
-  end;
+
+  Screen.HintFont.Size:= ATEditorScaleFont(UiOps.VarFontSize);
 
   ATEditorOptions.CharSizeProportional:= cfg.GetValue('unicode_proportional', ATEditorOptions.CharSizeProportional);
   ATEditorOptions.CharScaleFullWidth:= cfg.GetValue('unicode_full_width', ATEditorOptions.CharScaleFullWidth);
