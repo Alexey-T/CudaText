@@ -3,7 +3,9 @@
   - fixed
   * changed
 
-- fix: "autocomplete_autoshow_chars" did not trigger inside syntax 'strings' (thanks @veksha)
+1.191.1 (2023/04)
+
+- fix: "autocomplete_autoshow_chars" did not trigger inside 'strings', while it makes sense for some LSP servers (thanks @veksha)
 
 1.191.0 (2023/04)
 
