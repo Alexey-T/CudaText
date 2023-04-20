@@ -80,7 +80,6 @@ procedure EditorHighlightBadRegexBrackets(Ed: TATSynEdit; AOnlyClear: boolean);
 
 procedure EditorCaretShapeFromString(Props: TATCaretShape; const AText: string);
 procedure EditorCaretShapeFromPyTuple(Props: TATCaretShape; const AText: string);
-function EditorCaretInsideCommentOrString(Ed: TATSynEdit; AX, AY: integer): boolean;
 function EditorCaretIsOnStart(Ed: TATSynEdit): boolean;
 
 type
@@ -2591,14 +2590,6 @@ begin
     end;
 end;
 
-function EditorCaretInsideCommentOrString(Ed: TATSynEdit; AX, AY: integer): boolean;
-var
-  Kind: TATTokenKind;
-begin
-  Kind:= EditorGetTokenKind(Ed, AX, AY);
-  Result:= (Kind=atkComment) or (Kind=atkString);
-end;
-
 function EditorCaretIsOnStart(Ed: TATSynEdit): boolean;
 var
   Caret: TATCaretItem;
@@ -2657,8 +2648,8 @@ begin
   if (Ed.OptAutocompleteTriggerChars<>'') and
     (Pos(AText[1], Ed.OptAutocompleteTriggerChars)>0) then
   begin
-    //check that we are not inside comment/string
-    if EditorCaretInsideCommentOrString(Ed, Caret.PosX, Caret.PosY) then exit;
+    //check that we are not inside comment (strings are OK)
+    if EditorGetTokenKind(Ed, Caret.PosX, Caret.PosY)=atkComment then exit;
 
     ACharsTyped:= 0;
     AppRunAutocomplete(Ed, true);
@@ -2687,10 +2678,9 @@ begin
     bIdentChar:= bWordChar and not IsCharDigit(AText[1]);
     if (ACharsTyped=0) and (not bIdentChar) then exit;
 
-    //check that we are not inside comment/string,
+    //check that we are not inside comment,
     //but allow autocomplete in HTML strings like in <a target="_bl|"
-    if not bLexerHTML then
-      if EditorCaretInsideCommentOrString(Ed, Caret.PosX, Caret.PosY) then exit;
+    if EditorGetTokenKind(Ed, Caret.PosX, Caret.PosY)=atkComment then exit;
 
     Inc(ACharsTyped);
     if ACharsTyped>=Ed.OptAutocompleteAutoshowCharCount then
