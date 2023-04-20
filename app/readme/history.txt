@@ -3,6 +3,8 @@
   - fixed
   * changed
 
+- fix: "autocomplete_autoshow_chars" did not trigger inside syntax 'strings' (thanks @veksha)
+
 1.191.0 (2023/04)
 
 * change: rename option "minimap_tooltip_line_count" to "minimap_tooltip_height"
