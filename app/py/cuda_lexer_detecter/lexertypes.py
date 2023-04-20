@@ -253,6 +253,7 @@ TYPES = {
     "j2": ['Jinja2'],
     "jade": ['Jade'],
     "jam": ['Perforce Jam'],
+    "janet": ['Janet'],
     "jav": ['Java'],
     "java": ['Java'],
     "jbuilder": ['Ruby'],
