@@ -5,7 +5,8 @@
 
 1.191.1 (2023/04)
 
-- fix: "autocomplete_autoshow_chars" did not trigger inside 'strings', while it makes sense for some LSP servers (thanks @veksha)
++ add: "autocomplete_autoshow_chars" must trigger also inside 'strings', it makes sense for some LSP servers (thanks @veksha)
++ add: "ui_scale_font" must affect font size in tooltips too (thanks @veksha)
 
 1.191.0 (2023/04)
 
