@@ -93,6 +93,7 @@ def do_install_from_github():
     url = dialog_github_install(history)
     if not url: return
     if '://' not in url: return
+    url = url.strip()
     save_history()
 
     branch = get_branch(url)
