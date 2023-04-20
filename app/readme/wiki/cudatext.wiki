@@ -485,6 +485,7 @@ Most of them are located in the Addons Manager "Install" list.
 * Inno Setup
 * Intel HEX
 * Jade
+* Janet
 * Jasmine JVM Assembler
 * Java
 * Java Velocity
