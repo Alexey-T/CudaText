@@ -8,6 +8,7 @@
 + add: "autocomplete_autoshow_chars" must trigger also inside 'strings', it makes sense for some LSP servers (thanks @veksha)
 + add: "ui_scale_font" must affect font size in tooltips too (thanks @veksha)
 * change: "autocomplete_html":true must work together with "autocomplete_autoshow_chars" (before: it overridden "autocomplete_autoshow_chars" to 1) (thanks @veksha)
+- fix: lexer XML: this must not be highlighted as string: <tag>"</tag>...<tag>"</tag>
 
 1.191.0 (2023/04)
 
