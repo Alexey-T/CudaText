@@ -240,6 +240,7 @@ object SyntAnal20: TLibSyntAnalyzer
     item
       DisplayName = 'Tag value'
       StyleName = 'Tag val'
+      BlockName = 'Tag begin'
       TokenType = 4
       Expression = '(?s)("|'#39').*?(\1|\Z)'
       ColumnFrom = 0
