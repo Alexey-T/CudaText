@@ -2697,7 +2697,9 @@ begin
     AppRunAutocomplete(Ed, false);
   end;
 
+  (*
   //autoshow for HTML
+  //block is commented, since HTML is handled good by AutoshowCharCount
   if UiOps.AutocompleteHtml and bLexerHTML then
   begin
     if Ed.Strings.LineCharAt(Caret.PosY, Caret.PosX-1)='<' then
@@ -2706,10 +2708,11 @@ begin
     end;
     exit;
   end;
+  *)
 
   (*
   //autoshow for CSS
-  //seems bad, so commented, CSS must work like other lexers with AutoshowCharCount
+  //block is commented, since CSS must work like other lexers with AutoshowCharCount
   if UiOps.AutocompleteCss and (SLexerName='CSS') then
   begin
     if EditorIsAutocompleteCssPosition(Ed, Caret.PosX-1, Caret.PosY) then
