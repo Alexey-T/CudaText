@@ -1131,7 +1131,8 @@ begin
   if (N>=0) and (N<=cMaxScale) then
     ATEditorScaleFontPercents:= N;
 
-  Screen.HintFont.Size:= ATEditorScaleFont(UiOps.VarFontSize);
+  if ATEditorScaleFontPercents>100 then //not always, as GTK2 widgetset has a bug: hint is clipped on bottom
+    Screen.HintFont.Size:= ATEditorScaleFont(UiOps.VarFontSize);
 
   ATEditorOptions.CharSizeProportional:= cfg.GetValue('unicode_proportional', ATEditorOptions.CharSizeProportional);
   ATEditorOptions.CharScaleFullWidth:= cfg.GetValue('unicode_full_width', ATEditorOptions.CharScaleFullWidth);
