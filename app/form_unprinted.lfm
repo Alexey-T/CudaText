@@ -161,8 +161,8 @@ object fmUnprinted: TfmUnprinted
     Left = 16
     Height = 23
     Top = 8
-    Width = 293
-    Caption = 'Show unprited chars (global enable flag)'
+    Width = 301
+    Caption = 'Show unprinted chars (global enable flag)'
     TabOrder = 0
   end
 end
