@@ -1,3 +1,10 @@
+(*
+This Source Code Form is subject to the terms of the Mozilla Public
+License, v. 2.0. If a copy of the MPL was not distributed with this
+file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+Copyright (c) Alexey Torgashin
+*)
 unit form_unprinted;
 
 {$mode ObjFPC}{$H+}
@@ -9,12 +16,15 @@ uses
   ATSynEdit;
 
 type
+  TFormUnprintedSaveOption = procedure(const APath, AValue: string) of object;
 
+type
   { TfmUnprinted }
 
   TfmUnprinted = class(TForm)
     btnOk: TButton;
     btnCancel: TButton;
+    btnSaveConfig: TButton;
     chkVisible: TCheckBox;
     chkShowWhitespace: TCheckBox;
     chkOnlyInSel: TCheckBox;
@@ -28,6 +38,7 @@ type
     chkEndDots: TRadioButton;
     chkEndArrows: TRadioButton;
     chkEndPilcrow: TRadioButton;
+    procedure btnSaveConfigClick(Sender: TObject);
     procedure chkAlsoInSelChange(Sender: TObject);
     procedure chkEndArrowsChange(Sender: TObject);
     procedure chkEndDetailedChange(Sender: TObject);
@@ -45,8 +56,10 @@ type
     procedure FormShow(Sender: TObject);
   private
     procedure Localize;
+    function GetConfigValue: string;
   public
     EdPreview: TATSynEdit;
+    OnSaveOption: TFormUnprintedSaveOption;
     procedure ApplyToEditor(Ed: TATSynEdit);
     procedure UpdateState;
   end;
@@ -127,6 +140,12 @@ end;
 procedure TfmUnprinted.chkAlsoInSelChange(Sender: TObject);
 begin
   UpdateState;
+end;
+
+procedure TfmUnprinted.btnSaveConfigClick(Sender: TObject);
+begin
+  if Assigned(OnSaveOption) then
+    OnSaveOption('/unprinted_content', GetConfigValue);
 end;
 
 procedure TfmUnprinted.chkEndArrowsChange(Sender: TObject);
@@ -225,6 +244,22 @@ begin
   finally
     FreeAndNil(ini);
   end;
+end;
+
+function TfmUnprinted.GetConfigValue: string;
+begin
+  Result:= '';
+  if chkShowWhitespace.Checked then Result+= 's';
+  if chkShowEndMarks.Checked then Result+= 'e';
+  if chkEndDetailed.Checked then Result+= 'd';
+  if chkOnlyTrail.Checked then Result+= 't';
+  if chkOnlyLeadAndTrail.Checked then Result+= 'l';
+  if chkOnlyInSel.Checked then Result+= 'x';
+  if chkAlsoInSel.Checked then Result+= 'X';
+  if chkForceShowTabs.Checked then Result+= 'T';
+
+  if chkEndDots.Checked then Result+= '.';
+  if chkEndPilcrow.Checked then Result+= 'p';
 end;
 
 end.

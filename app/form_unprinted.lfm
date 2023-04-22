@@ -86,12 +86,12 @@ object fmUnprinted: TfmUnprinted
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = btnCancel
-    Left = 16
+    Left = 8
     Height = 88
-    Top = 308
-    Width = 473
+    Top = 312
+    Width = 485
     Anchors = [akLeft, akRight, akBottom]
-    BorderSpacing.Around = 10
+    BorderSpacing.Around = 6
     BevelOuter = bvNone
     Color = clBtnShadow
     ParentColor = False
@@ -110,7 +110,7 @@ object fmUnprinted: TfmUnprinted
     Constraints.MinWidth = 98
     Default = True
     ModalResult = 1
-    TabOrder = 13
+    TabOrder = 14
   end
   object btnCancel: TButton
     AnchorSideRight.Control = Owner
@@ -128,7 +128,7 @@ object fmUnprinted: TfmUnprinted
     Caption = 'Cancel'
     Constraints.MinWidth = 98
     ModalResult = 2
-    TabOrder = 14
+    TabOrder = 15
   end
   object chkVisible: TCheckBox
     Left = 16
@@ -148,6 +148,7 @@ object fmUnprinted: TfmUnprinted
     Checked = True
     OnChange = chkEndDotsChange
     TabOrder = 9
+    TabStop = True
   end
   object chkEndArrows: TRadioButton
     Left = 160
@@ -166,5 +167,20 @@ object fmUnprinted: TfmUnprinted
     Caption = 'Pilcrow'
     OnChange = chkEndPilcrowChange
     TabOrder = 11
+  end
+  object btnSaveConfig: TButton
+    AnchorSideLeft.Control = Owner
+    AnchorSideBottom.Control = Owner
+    AnchorSideBottom.Side = asrBottom
+    Left = 6
+    Height = 33
+    Top = 406
+    Width = 108
+    Anchors = [akLeft, akBottom]
+    AutoSize = True
+    BorderSpacing.Around = 6
+    Caption = 'Save to config'
+    OnClick = btnSaveConfigClick
+    TabOrder = 13
   end
 end
