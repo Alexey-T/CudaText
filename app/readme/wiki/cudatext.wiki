@@ -355,6 +355,7 @@ Most of them are located in the Addons Manager "Install" list.
 * Amazon Ion
 * AMPL
 * AngelScript
+* ANSYS APDL
 * ANTLR
 * Apache config
 * Apache Hive
