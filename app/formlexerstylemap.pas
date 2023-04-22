@@ -228,6 +228,8 @@ begin
   Localize;
   DoForm_ScaleAuto(Self, false);
 
+  ListTh.ItemHeight:= Canvas.TextHeight('Tj');
+
   ItemsLex:= TStringList.Create;
   ItemsTh:= TStringList.Create;
   ItemsVal:= TStringList.Create;
