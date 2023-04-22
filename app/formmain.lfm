@@ -454,9 +454,6 @@ object fmMain: TfmMain
       object mnuViewMicromap: TMenuItem
         Caption = 'Toggle micr&omap'
       end
-      object mnuViewUnpri: TMenuItem
-        Caption = '&Unprinted chars...'
-      end
       object mnuViewSplitSub: TMenuItem
         Caption = '&Split tab'
         object mnuViewSplitNo: TMenuItem
@@ -471,6 +468,9 @@ object fmMain: TfmMain
           Caption = 'Horizontally'
           RadioItem = True
         end
+      end
+      object mnuViewUnpri: TMenuItem
+        Caption = '&Unprinted chars...'
       end
       object mnuLexers: TMenuItem
         Caption = 'Le&xers...'
