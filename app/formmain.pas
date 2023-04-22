@@ -9102,7 +9102,8 @@ begin
   try
     EditorApplyTheme(Form.EdPreview);
 
-    Form.OnSaveOption:= @DoOps_SaveOptionString;
+    Form.OnSaveBooleanOption:= @DoOps_SaveOptionBool;
+    Form.OnSaveStringOption:= @DoOps_SaveOptionString;
 
     Form.chkVisible.Checked:= Ed.OptUnprintedVisible;
     Form.chkShowWhitespace.Checked:= Ed.OptUnprintedSpaces;

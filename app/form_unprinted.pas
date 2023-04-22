@@ -16,7 +16,8 @@ uses
   ATSynEdit;
 
 type
-  TFormUnprintedSaveOption = procedure(const APath, AValue: string) of object;
+  TFormUnprintedSaveStringOption = procedure(const APath, AValue: string) of object;
+  TFormUnprintedSaveBooleanOption = procedure(const APath: string; AValue: boolean) of object;
 
 type
   { TfmUnprinted }
@@ -59,7 +60,8 @@ type
     function GetConfigValue: string;
   public
     EdPreview: TATSynEdit;
-    OnSaveOption: TFormUnprintedSaveOption;
+    OnSaveStringOption: TFormUnprintedSaveStringOption;
+    OnSaveBooleanOption: TFormUnprintedSaveBooleanOption;
     procedure ApplyToEditor(Ed: TATSynEdit);
     procedure UpdateState;
   end;
@@ -144,8 +146,11 @@ end;
 
 procedure TfmUnprinted.btnSaveConfigClick(Sender: TObject);
 begin
-  if Assigned(OnSaveOption) then
-    OnSaveOption('/unprinted_content', GetConfigValue);
+  if Assigned(OnSaveBooleanOption) then
+    OnSaveBooleanOption('/unprinted_show', chkVisible.Checked);
+
+  if Assigned(OnSaveStringOption) then
+    OnSaveStringOption('/unprinted_content', GetConfigValue);
 end;
 
 procedure TfmUnprinted.chkEndArrowChange(Sender: TObject);
