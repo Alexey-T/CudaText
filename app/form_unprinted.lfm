@@ -2,10 +2,10 @@ object fmUnprinted: TfmUnprinted
   Left = 721
   Height = 445
   Top = 114
-  Width = 559
+  Width = 499
   Caption = 'Unprinted characters'
   ClientHeight = 445
-  ClientWidth = 559
+  ClientWidth = 499
   OnCreate = FormCreate
   OnShow = FormShow
   Position = poScreenCenter
@@ -23,8 +23,8 @@ object fmUnprinted: TfmUnprinted
     Left = 16
     Height = 23
     Top = 72
-    Width = 215
-    Caption = 'Whitespace only in selection'
+    Width = 250
+    Caption = 'Show whitespace only in selection'
     OnChange = chkOnlyInSelChange
     TabOrder = 2
   end
@@ -32,8 +32,8 @@ object fmUnprinted: TfmUnprinted
     Left = 16
     Height = 23
     Top = 96
-    Width = 215
-    Caption = 'Whitespace also in selection'
+    Width = 250
+    Caption = 'Show whitespace also in selection'
     OnChange = chkAlsoInSelChange
     TabOrder = 3
   end
@@ -41,8 +41,8 @@ object fmUnprinted: TfmUnprinted
     Left = 16
     Height = 23
     Top = 120
-    Width = 403
-    Caption = 'Whitespace only leading+trailing, ie at begin/end of lines'
+    Width = 279
+    Caption = 'Show only leading+trailing whitespace'
     OnChange = chkOnlyLeadAndTrailChange
     TabOrder = 4
   end
@@ -50,8 +50,8 @@ object fmUnprinted: TfmUnprinted
     Left = 16
     Height = 23
     Top = 144
-    Width = 303
-    Caption = 'Whitespace only trailing, ie at end of lines'
+    Width = 222
+    Caption = 'Show only trailing whitespace'
     OnChange = chkOnlyTrailChange
     TabOrder = 5
   end
@@ -77,8 +77,8 @@ object fmUnprinted: TfmUnprinted
     Left = 16
     Height = 23
     Top = 232
-    Width = 289
-    Caption = 'Detailed end-of-lines: "LF", "CRLF", "CR"'
+    Width = 327
+    Caption = 'Detailed end-of-line marks: "LF", "CRLF", "CR"'
     OnChange = chkEndDetailedChange
     TabOrder = 8
   end
@@ -89,7 +89,7 @@ object fmUnprinted: TfmUnprinted
     Left = 16
     Height = 88
     Top = 308
-    Width = 533
+    Width = 473
     Anchors = [akLeft, akRight, akBottom]
     BorderSpacing.Around = 10
     BevelOuter = bvNone
@@ -100,7 +100,7 @@ object fmUnprinted: TfmUnprinted
   object btnOk: TButton
     AnchorSideTop.Control = btnCancel
     AnchorSideRight.Control = btnCancel
-    Left = 351
+    Left = 291
     Height = 33
     Top = 406
     Width = 98
@@ -117,7 +117,7 @@ object fmUnprinted: TfmUnprinted
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = Owner
     AnchorSideBottom.Side = asrBottom
-    Left = 455
+    Left = 395
     Height = 33
     Top = 406
     Width = 98
