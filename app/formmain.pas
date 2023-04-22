@@ -9100,16 +9100,14 @@ begin
     EditorApplyTheme(Form.EdPreview);
 
     Form.chkShowWhitespace.Checked:= Ed.OptUnprintedSpaces;
-    Form.chkShowEndMarks.Checked:= Ed.OptUnprintedEnds;
-    Form.chkEndDetailed.Checked:= Ed.OptUnprintedEndsDetails;
     Form.chkOnlyTrail.Checked:= Ed.OptUnprintedSpacesTrailing;
     Form.chkOnlyLeadAndTrail.Checked:= Ed.OptUnprintedSpacesBothEnds;
     Form.chkOnlyInSel.Checked:= Ed.OptUnprintedSpacesOnlyInSelection;
     Form.chkAlsoInSel.Checked:= Ed.OptUnprintedSpacesAlsoInSelection;
     Form.chkForceShowTabs.Checked:= Ed.OptUnprintedForceTabs;
-    Form.chkEndArrows.Checked:= ATEditorOptions.UnprintedEndSymbol=aeueArrowDown;
-    Form.chkEndDots.Checked:= ATEditorOptions.UnprintedEndSymbol=aeueDot;
-    Form.chkEndPilcrow.Checked:= ATEditorOptions.UnprintedEndSymbol=aeuePilcrow;
+    Form.chkShowEndMarks.Checked:= Ed.OptUnprintedEnds;
+    Form.comboEndMarks.ItemIndex:= Ord(ATEditorOptions.UnprintedEndSymbol);
+    Form.chkEndDetailed.Checked:= Ed.OptUnprintedEndsDetails;
 
     if Form.ShowModal=mrOk then
       Form.ApplyToEditor(Ed);
