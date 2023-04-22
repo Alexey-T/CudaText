@@ -76,11 +76,11 @@ object fmUnprinted: TfmUnprinted
   object chkEndDetailed: TCheckBox
     Left = 16
     Height = 23
-    Top = 272
+    Top = 240
     Width = 289
     Caption = 'Detailed end-of-lines: "LF", "CRLF", "CR"'
     OnChange = chkEndDetailedChange
-    TabOrder = 9
+    TabOrder = 8
   end
   object PanelPreview: TPanel
     AnchorSideRight.Control = Owner
@@ -137,7 +137,7 @@ object fmUnprinted: TfmUnprinted
     AnchorSideTop.Side = asrCenter
     Left = 142
     Height = 17
-    Top = 246
+    Top = 270
     Width = 125
     BorderSpacing.Left = 6
     Caption = 'Marks on line-ends'
@@ -145,7 +145,7 @@ object fmUnprinted: TfmUnprinted
   object comboEndMarks: TComboBox
     Left = 16
     Height = 29
-    Top = 240
+    Top = 264
     Width = 120
     ItemHeight = 0
     Items.Strings = (
@@ -155,7 +155,7 @@ object fmUnprinted: TfmUnprinted
     )
     OnChange = comboEndMarksChange
     Style = csDropDownList
-    TabOrder = 8
+    TabOrder = 9
   end
   object chkVisible: TCheckBox
     Left = 16

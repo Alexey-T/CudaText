@@ -150,6 +150,12 @@ end;
 procedure TfmUnprinted.UpdateState;
 begin
   ApplyToEditor(EdPreview);
+
+  chkOnlyLeadAndTrail.Enabled:= not chkOnlyInSel.Checked;
+  chkOnlyTrail.Enabled:= not chkOnlyInSel.Checked and not chkOnlyLeadAndTrail.Checked;
+  chkAlsoInSel.Enabled:= not chkOnlyInSel.Checked;
+
+  comboEndMarks.Enabled:= not chkEndDetailed.Checked;
 end;
 
 end.
