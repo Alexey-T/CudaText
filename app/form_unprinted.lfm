@@ -1,10 +1,11 @@
 object fmUnprinted: TfmUnprinted
   Left = 1382
-  Height = 445
+  Height = 421
   Top = 185
   Width = 470
+  BorderStyle = bsDialog
   Caption = 'Unprinted characters'
-  ClientHeight = 445
+  ClientHeight = 421
   ClientWidth = 470
   OnCreate = FormCreate
   OnShow = FormShow
@@ -88,7 +89,7 @@ object fmUnprinted: TfmUnprinted
     AnchorSideBottom.Control = btnCancel
     Left = 8
     Height = 88
-    Top = 312
+    Top = 288
     Width = 456
     Anchors = [akLeft, akRight, akBottom]
     BorderSpacing.Around = 6
@@ -102,7 +103,7 @@ object fmUnprinted: TfmUnprinted
     AnchorSideRight.Control = btnCancel
     Left = 262
     Height = 33
-    Top = 406
+    Top = 382
     Width = 98
     Anchors = [akTop, akRight]
     AutoSize = True
@@ -119,7 +120,7 @@ object fmUnprinted: TfmUnprinted
     AnchorSideBottom.Side = asrBottom
     Left = 366
     Height = 33
-    Top = 406
+    Top = 382
     Width = 98
     Anchors = [akRight, akBottom]
     AutoSize = True
@@ -142,7 +143,7 @@ object fmUnprinted: TfmUnprinted
   object chkEndDot: TRadioButton
     Left = 40
     Height = 23
-    Top = 264
+    Top = 256
     Width = 51
     Caption = 'Dot'
     Checked = True
@@ -153,9 +154,10 @@ object fmUnprinted: TfmUnprinted
   object chkEndArrow: TRadioButton
     AnchorSideLeft.Control = chkEndDot
     AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = chkEndDot
     Left = 101
     Height = 23
-    Top = 264
+    Top = 256
     Width = 67
     BorderSpacing.Left = 10
     Caption = 'Arrow'
@@ -165,9 +167,10 @@ object fmUnprinted: TfmUnprinted
   object chkEndPilcrow: TRadioButton
     AnchorSideLeft.Control = chkEndArrow
     AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = chkEndDot
     Left = 178
     Height = 23
-    Top = 264
+    Top = 256
     Width = 75
     BorderSpacing.Left = 10
     Caption = 'Pilcrow'
@@ -180,7 +183,7 @@ object fmUnprinted: TfmUnprinted
     AnchorSideBottom.Side = asrBottom
     Left = 6
     Height = 33
-    Top = 406
+    Top = 382
     Width = 108
     AutoSize = True
     BorderSpacing.Left = 6
