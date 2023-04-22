@@ -383,7 +383,7 @@ begin
     DoLocToolbarButtonHint(ToolbarMain, 'e_undo', ATEditorOptions.TextMenuitemUndo);
     DoLocToolbarButtonHint(ToolbarMain, 'e_redo', ATEditorOptions.TextMenuitemRedo);
     if Assigned(mnuOpUnprinted) then
-      DoLocToolbarButtonHint(ToolbarMain, 'unpri', mnuOpUnprinted.Caption);
+      DoLocToolbarButtonHint(ToolbarMain, 'unpri', TrimRightSet(mnuOpUnprinted.Caption, ['.']));
     if Assigned(mnuViewMinimap) then
       DoLocToolbarButtonHint(ToolbarMain, 'map', mnuViewMinimap.Caption);
     if Assigned(mnuEditIndent) then
