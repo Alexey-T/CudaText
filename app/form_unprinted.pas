@@ -6,8 +6,10 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ExtCtrls,
+  IniFiles,
   ATSynEdit,
   proc_globdata,
+  proc_msg,
   ATSynEdit_Globals;
 
 type
@@ -42,6 +44,7 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
   private
+    procedure Localize;
   public
     EdPreview: TATSynEdit;
     procedure ApplyToEditor(Ed: TATSynEdit);
@@ -126,6 +129,7 @@ end;
 
 procedure TfmUnprinted.FormShow(Sender: TObject);
 begin
+  Localize;
   UpdateState;
 end;
 
@@ -156,6 +160,38 @@ begin
   chkAlsoInSel.Enabled:= not chkOnlyInSel.Checked;
 
   comboEndMarks.Enabled:= not chkEndDetailed.Checked;
+end;
+
+procedure TfmUnprinted.Localize;
+const
+  section = 'd_unpri';
+var
+  ini: TIniFile;
+  fn: string;
+begin
+  fn:= AppFile_Language;
+  if not FileExists(fn) then exit;
+  ini:= TIniFile.Create(fn);
+  try
+    Caption:= ini.ReadString(section, '_', Caption);
+    with btnOk do Caption:= msgButtonOk;
+    with btnCancel do Caption:= msgButtonCancel;
+    with chkVisible do Caption:= ini.ReadString(section, 'vis', Caption);
+    with chkShowWhitespace do Caption:= ini.ReadString(section, 'sh_sp', Caption);
+    with chkOnlyInSel do Caption:= ini.ReadString(section, 'only_sel', Caption);
+    with chkAlsoInSel do Caption:= ini.ReadString(section, 'also_sel', Caption);
+    with chkOnlyLeadAndTrail do Caption:= ini.ReadString(section, 'only_l_tr', Caption);
+    with chkOnlyTrail do Caption:= ini.ReadString(section, 'only_tr', Caption);
+    with chkForceShowTabs do Caption:= ini.ReadString(section, 'sh_tabs', Caption);
+    with chkShowEndMarks do Caption:= ini.ReadString(section, 'sh_end', Caption);
+    with chkEndDetailed do Caption:= ini.ReadString(section, 'end_det', Caption);
+    with LabelEnds do Caption:= ini.ReadString(section, 'ends', Caption);
+    with comboEndMarks do Items[0]:= ini.ReadString(section, 'end_dot', Caption);
+    with comboEndMarks do Items[1]:= ini.ReadString(section, 'end_arr', Caption);
+    with comboEndMarks do Items[2]:= ini.ReadString(section, 'end_pil', Caption);
+  finally
+    FreeAndNil(ini);
+  end;
 end;
 
 end.
