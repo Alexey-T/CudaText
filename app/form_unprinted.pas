@@ -6,11 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ExtCtrls,
-  IniFiles,
-  ATSynEdit,
-  proc_globdata,
-  proc_msg,
-  ATSynEdit_Globals;
+  ATSynEdit;
 
 type
 
@@ -60,12 +56,21 @@ var
 
 implementation
 
+uses
+  IniFiles,
+  proc_globdata,
+  proc_msg,
+  proc_customdialog,
+  ATSynEdit_Globals;
+
 {$R *.lfm}
 
 { TfmUnprinted }
 
 procedure TfmUnprinted.FormCreate(Sender: TObject);
 begin
+  DoForm_ScaleAuto(Self, false);
+
   EdPreview:= TATSynEdit.Create(Self);
   EdPreview.Align:= alClient;
   EdPreview.Parent:= PanelPreview;
