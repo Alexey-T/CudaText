@@ -67,7 +67,7 @@ object fmUnprinted: TfmUnprinted
   object chkShowEndMarks: TCheckBox
     Left = 16
     Height = 23
-    Top = 216
+    Top = 208
     Width = 187
     Caption = 'Show end-of-lines marks'
     OnChange = chkShowEndMarksChange
@@ -76,7 +76,7 @@ object fmUnprinted: TfmUnprinted
   object chkEndDetailed: TCheckBox
     Left = 16
     Height = 23
-    Top = 240
+    Top = 232
     Width = 289
     Caption = 'Detailed end-of-lines: "LF", "CRLF", "CR"'
     OnChange = chkEndDetailedChange
@@ -163,6 +163,7 @@ object fmUnprinted: TfmUnprinted
     Top = 8
     Width = 301
     Caption = 'Show unprinted chars (global enable flag)'
+    OnChange = chkVisibleChange
     TabOrder = 0
   end
 end

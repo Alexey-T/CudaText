@@ -38,6 +38,7 @@ type
     procedure chkOnlyTrailChange(Sender: TObject);
     procedure chkShowEndMarksChange(Sender: TObject);
     procedure chkShowWhitespaceChange(Sender: TObject);
+    procedure chkVisibleChange(Sender: TObject);
     procedure comboEndMarksChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -75,6 +76,11 @@ begin
 end;
 
 procedure TfmUnprinted.chkShowWhitespaceChange(Sender: TObject);
+begin
+  UpdateState;
+end;
+
+procedure TfmUnprinted.chkVisibleChange(Sender: TObject);
 begin
   UpdateState;
 end;
