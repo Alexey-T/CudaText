@@ -14,19 +14,11 @@ interface
 uses
   Classes, SysUtils, Graphics, Forms, Controls, StdCtrls,
   Dialogs, ButtonPanel, ComCtrls, ExtCtrls, ColorBox, IniFiles,
-  LazUTF8, LazFileUtils,
-  LCLType,
-  ec_SyntAnal,
-  ec_syntax_format,
   ATSynEdit,
   ATSynEdit_Globals,
   ATSynEdit_Adapter_EControl,
-  proc_msg,
-  proc_globdata,
-  proc_lexer_styles,
-  proc_editor,
-  proc_miscutils,
-  formlexerstylemap;
+  ec_SyntAnal,
+  ec_syntax_format;
 
 type
   { TfmLexerProp }
@@ -126,6 +118,18 @@ function DoShowDialogLexerProp(
 
 implementation
 
+uses
+  LazUTF8,
+  LazFileUtils,
+  LCLType,
+  proc_msg,
+  proc_globdata,
+  proc_lexer_styles,
+  proc_editor,
+  proc_miscutils,
+  formlexerstylemap,
+  proc_customdialog;
+
 {$R *.lfm}
 
 var
@@ -223,6 +227,8 @@ end;
 
 procedure TfmLexerProp.FormCreate(Sender: TObject);
 begin
+  DoForm_ScaleAuto(Self, false);
+
   Localize;
 
   Adapter:= TATAdapterEControl.Create(Self);
