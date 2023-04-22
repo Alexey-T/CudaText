@@ -229,6 +229,7 @@ begin
     Caption:= ini.ReadString(section, '_', Caption);
     with btnOk do Caption:= msgButtonOk;
     with btnCancel do Caption:= msgButtonCancel;
+    with btnSaveConfig do Caption:= ini.ReadString(section, 'save', Caption);
     with chkVisible do Caption:= ini.ReadString(section, 'vis', Caption);
     with chkShowWhitespace do Caption:= ini.ReadString(section, 'sh_sp', Caption);
     with chkOnlyInSel do Caption:= ini.ReadString(section, 'only_sel', Caption);
