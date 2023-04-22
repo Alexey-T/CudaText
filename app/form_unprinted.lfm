@@ -2,10 +2,10 @@ object fmUnprinted: TfmUnprinted
   Left = 1382
   Height = 445
   Top = 185
-  Width = 499
+  Width = 470
   Caption = 'Unprinted characters'
   ClientHeight = 445
-  ClientWidth = 499
+  ClientWidth = 470
   OnCreate = FormCreate
   OnShow = FormShow
   Position = poScreenCenter
@@ -89,7 +89,7 @@ object fmUnprinted: TfmUnprinted
     Left = 8
     Height = 88
     Top = 312
-    Width = 485
+    Width = 456
     Anchors = [akLeft, akRight, akBottom]
     BorderSpacing.Around = 6
     BevelOuter = bvNone
@@ -100,7 +100,7 @@ object fmUnprinted: TfmUnprinted
   object btnOk: TButton
     AnchorSideTop.Control = btnCancel
     AnchorSideRight.Control = btnCancel
-    Left = 291
+    Left = 262
     Height = 33
     Top = 406
     Width = 98
@@ -117,7 +117,7 @@ object fmUnprinted: TfmUnprinted
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = Owner
     AnchorSideBottom.Side = asrBottom
-    Left = 395
+    Left = 366
     Height = 33
     Top = 406
     Width = 98
@@ -170,15 +170,14 @@ object fmUnprinted: TfmUnprinted
   end
   object btnSaveConfig: TButton
     AnchorSideLeft.Control = Owner
-    AnchorSideBottom.Control = Owner
+    AnchorSideTop.Control = btnCancel
     AnchorSideBottom.Side = asrBottom
     Left = 6
     Height = 33
     Top = 406
     Width = 108
-    Anchors = [akLeft, akBottom]
     AutoSize = True
-    BorderSpacing.Around = 6
+    BorderSpacing.Left = 6
     Caption = 'Save to config'
     OnClick = btnSaveConfigClick
     TabOrder = 13
