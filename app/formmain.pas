@@ -9114,13 +9114,13 @@ begin
     Form.chkShowEndMarks.Checked:= Ed.OptUnprintedEnds;
     case Symbol of
       aeueDot:
-        Form.chkEndDots.Checked:= true;
+        Form.chkEndDot.Checked:= true;
       aeueArrowDown:
-        Form.chkEndArrows.Checked:= true;
+        Form.chkEndArrow.Checked:= true;
       aeuePilcrow:
         Form.chkEndPilcrow.Checked:= true;
     end;
-    Form.chkEndDetailed.Checked:= Ed.OptUnprintedEndsDetails;
+    Form.chkEndDetails.Checked:= Ed.OptUnprintedEndsDetails;
 
     if Form.ShowModal=mrOk then
     begin

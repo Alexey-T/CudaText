@@ -33,16 +33,16 @@ type
     chkOnlyTrail: TCheckBox;
     chkForceShowTabs: TCheckBox;
     chkShowEndMarks: TCheckBox;
-    chkEndDetailed: TCheckBox;
+    chkEndDetails: TCheckBox;
     PanelPreview: TPanel;
-    chkEndDots: TRadioButton;
-    chkEndArrows: TRadioButton;
+    chkEndDot: TRadioButton;
+    chkEndArrow: TRadioButton;
     chkEndPilcrow: TRadioButton;
     procedure btnSaveConfigClick(Sender: TObject);
     procedure chkAlsoInSelChange(Sender: TObject);
-    procedure chkEndArrowsChange(Sender: TObject);
-    procedure chkEndDetailedChange(Sender: TObject);
-    procedure chkEndDotsChange(Sender: TObject);
+    procedure chkEndArrowChange(Sender: TObject);
+    procedure chkEndDetailsChange(Sender: TObject);
+    procedure chkEndDotChange(Sender: TObject);
     procedure chkEndPilcrowChange(Sender: TObject);
     procedure chkForceShowTabsChange(Sender: TObject);
     procedure chkOnlyInSelChange(Sender: TObject);
@@ -148,17 +148,17 @@ begin
     OnSaveOption('/unprinted_content', GetConfigValue);
 end;
 
-procedure TfmUnprinted.chkEndArrowsChange(Sender: TObject);
+procedure TfmUnprinted.chkEndArrowChange(Sender: TObject);
 begin
   UpdateState;
 end;
 
-procedure TfmUnprinted.chkEndDetailedChange(Sender: TObject);
+procedure TfmUnprinted.chkEndDetailsChange(Sender: TObject);
 begin
   UpdateState;
 end;
 
-procedure TfmUnprinted.chkEndDotsChange(Sender: TObject);
+procedure TfmUnprinted.chkEndDotChange(Sender: TObject);
 begin
   UpdateState;
 end;
@@ -184,7 +184,7 @@ begin
   Ed.OptUnprintedVisible:= chkVisible.Checked;
   Ed.OptUnprintedSpaces:= chkShowWhitespace.Checked;
   Ed.OptUnprintedEnds:= chkShowEndMarks.Checked;
-  Ed.OptUnprintedEndsDetails:= chkEndDetailed.Checked;
+  Ed.OptUnprintedEndsDetails:= chkEndDetails.Checked;
   Ed.OptUnprintedSpacesTrailing:= chkOnlyTrail.Checked;
   Ed.OptUnprintedSpacesBothEnds:= chkOnlyLeadAndTrail.Checked;
   Ed.OptUnprintedSpacesOnlyInSelection:= chkOnlyInSel.Checked;
@@ -194,7 +194,7 @@ begin
   if chkEndPilcrow.Checked then
     ATEditorOptions.UnprintedEndSymbol:= aeuePilcrow
   else
-  if chkEndArrows.Checked then
+  if chkEndArrow.Checked then
     ATEditorOptions.UnprintedEndSymbol:= aeueArrowDown
   else
     ATEditorOptions.UnprintedEndSymbol:= aeueDot;
@@ -210,9 +210,9 @@ begin
   chkOnlyTrail.Enabled:= not chkOnlyInSel.Checked and not chkOnlyLeadAndTrail.Checked;
   chkAlsoInSel.Enabled:= not chkOnlyInSel.Checked;
 
-  chkEndDots.Enabled:= not chkEndDetailed.Checked;
-  chkEndArrows.Enabled:= not chkEndDetailed.Checked;
-  chkEndPilcrow.Enabled:= not chkEndDetailed.Checked;
+  chkEndDot.Enabled:= not chkEndDetails.Checked;
+  chkEndArrow.Enabled:= not chkEndDetails.Checked;
+  chkEndPilcrow.Enabled:= not chkEndDetails.Checked;
 end;
 
 procedure TfmUnprinted.Localize;
@@ -238,9 +238,9 @@ begin
     with chkOnlyTrail do Caption:= ini.ReadString(section, 'only_tr', Caption);
     with chkForceShowTabs do Caption:= ini.ReadString(section, 'sh_tabs', Caption);
     with chkShowEndMarks do Caption:= ini.ReadString(section, 'sh_end', Caption);
-    with chkEndDetailed do Caption:= ini.ReadString(section, 'end_det', Caption);
-    with chkEndDots do Caption:= ini.ReadString(section, 'end_dot', Caption);
-    with chkEndArrows do Caption:= ini.ReadString(section, 'end_arr', Caption);
+    with chkEndDetails do Caption:= ini.ReadString(section, 'end_det', Caption);
+    with chkEndDot do Caption:= ini.ReadString(section, 'end_dot', Caption);
+    with chkEndArrow do Caption:= ini.ReadString(section, 'end_arr', Caption);
     with chkEndPilcrow do Caption:= ini.ReadString(section, 'end_pil', Caption);
   finally
     FreeAndNil(ini);
@@ -252,14 +252,14 @@ begin
   Result:= '';
   if chkShowWhitespace.Checked then Result+= 's';
   if chkShowEndMarks.Checked then Result+= 'e';
-  if chkEndDetailed.Checked then Result+= 'd';
+  if chkEndDetails.Checked then Result+= 'd';
   if chkOnlyTrail.Checked then Result+= 't';
   if chkOnlyLeadAndTrail.Checked then Result+= 'l';
   if chkOnlyInSel.Checked then Result+= 'x';
   if chkAlsoInSel.Checked then Result+= 'X';
   if chkForceShowTabs.Checked then Result+= 'T';
 
-  if chkEndDots.Checked then Result+= '.';
+  if chkEndDot.Checked then Result+= '.';
   if chkEndPilcrow.Checked then Result+= 'p';
 end;
 

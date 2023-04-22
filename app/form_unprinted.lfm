@@ -73,13 +73,13 @@ object fmUnprinted: TfmUnprinted
     OnChange = chkShowEndMarksChange
     TabOrder = 7
   end
-  object chkEndDetailed: TCheckBox
+  object chkEndDetails: TCheckBox
     Left = 40
     Height = 23
     Top = 232
     Width = 327
     Caption = 'Detailed end-of-line marks: "LF", "CRLF", "CR"'
-    OnChange = chkEndDetailedChange
+    OnChange = chkEndDetailsChange
     TabOrder = 8
   end
   object PanelPreview: TPanel
@@ -139,24 +139,24 @@ object fmUnprinted: TfmUnprinted
     OnChange = chkVisibleChange
     TabOrder = 0
   end
-  object chkEndDots: TRadioButton
+  object chkEndDot: TRadioButton
     Left = 40
     Height = 23
     Top = 264
-    Width = 58
-    Caption = 'Dots'
+    Width = 51
+    Caption = 'Dot'
     Checked = True
-    OnChange = chkEndDotsChange
+    OnChange = chkEndDotChange
     TabOrder = 9
     TabStop = True
   end
-  object chkEndArrows: TRadioButton
+  object chkEndArrow: TRadioButton
     Left = 160
     Height = 23
     Top = 264
-    Width = 74
-    Caption = 'Arrows'
-    OnChange = chkEndArrowsChange
+    Width = 67
+    Caption = 'Arrow'
+    OnChange = chkEndArrowChange
     TabOrder = 10
   end
   object chkEndPilcrow: TRadioButton
