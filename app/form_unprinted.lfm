@@ -2,10 +2,10 @@ object fmUnprinted: TfmUnprinted
   Left = 1530
   Height = 445
   Top = 194
-  Width = 589
+  Width = 559
   Caption = 'Unprinted characters'
   ClientHeight = 445
-  ClientWidth = 589
+  ClientWidth = 559
   OnCreate = FormCreate
   OnShow = FormShow
   Position = poScreenCenter
@@ -89,7 +89,7 @@ object fmUnprinted: TfmUnprinted
     Left = 16
     Height = 88
     Top = 308
-    Width = 563
+    Width = 533
     Anchors = [akLeft, akRight, akBottom]
     BorderSpacing.Around = 10
     BevelOuter = bvNone
@@ -100,7 +100,7 @@ object fmUnprinted: TfmUnprinted
   object btnOk: TButton
     AnchorSideTop.Control = btnCancel
     AnchorSideRight.Control = btnCancel
-    Left = 381
+    Left = 351
     Height = 33
     Top = 406
     Width = 98
@@ -117,7 +117,7 @@ object fmUnprinted: TfmUnprinted
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = Owner
     AnchorSideBottom.Side = asrBottom
-    Left = 485
+    Left = 455
     Height = 33
     Top = 406
     Width = 98

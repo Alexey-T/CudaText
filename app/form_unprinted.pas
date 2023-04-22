@@ -30,7 +30,6 @@ type
     LabelEnds: TLabel;
     PanelPreview: TPanel;
     procedure chkAlsoInSelChange(Sender: TObject);
-    procedure chkEndArrowsChange(Sender: TObject);
     procedure chkEndDetailedChange(Sender: TObject);
     procedure chkForceShowTabsChange(Sender: TObject);
     procedure chkOnlyInSelChange(Sender: TObject);
@@ -111,11 +110,6 @@ begin
 end;
 
 procedure TfmUnprinted.chkAlsoInSelChange(Sender: TObject);
-begin
-  UpdateState;
-end;
-
-procedure TfmUnprinted.chkEndArrowsChange(Sender: TObject);
 begin
   UpdateState;
 end;
