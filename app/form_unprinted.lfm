@@ -1,7 +1,7 @@
 object fmUnprinted: TfmUnprinted
-  Left = 721
+  Left = 1382
   Height = 445
-  Top = 114
+  Top = 185
   Width = 499
   Caption = 'Unprinted characters'
   ClientHeight = 445
