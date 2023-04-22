@@ -145,6 +145,7 @@ const
   cmd_DialogFind       = 2584;
   cmd_DialogReplace    = 2585;
   cmd_DialogFind_Hide  = 2586;
+  cmd_DialogUnprinted  = 2587;
 
   cmd_FindFirst        = 2589;
   cmd_FindNext         = 2590;
@@ -528,6 +529,7 @@ begin
   M.Add(cmd_ToggleFindDialog_AndFocus, 'dialog: find: toggle+focus dialog', [], []);
   M.Add(cmd_DialogReplace, 'dialog: replace: show dialog', [scXControl+VK_R], []);
   M.Add(cmd_ToggleReplaceDialog, 'dialog: replace: toggle dialog', [], []);
+  M.Add(cmd_DialogUnprinted, 'dialog: unprinted chars', [], []);
 
   M.Add(cmd_FindFirst, 'find, first', [], []);
   M.Add(cmd_FindNext, 'find, next', [VK_F3], []);

@@ -266,6 +266,9 @@ begin
     cmd_DialogCharMap:
       DoDialogCharMap;
 
+    cmd_DialogUnprinted:
+      DoDialogUnprinted(Ed);
+
     cmd_ShowMainMenuAsPopup:
       DoSidebar_MainMenuClick(nil);
 

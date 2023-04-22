@@ -121,6 +121,7 @@ uses
   form_menu_py,
   form_addon_report,
   form_choose_theme,
+  form_unprinted,
   Math;
 
 type
@@ -264,7 +265,6 @@ type
     mnuSelExtWord: TMenuItem;
     mnuViewOnTop: TMenuItem;
     mnuOpPlugins: TMenuItem;
-    mnuViewUnpriSpacesTail: TMenuItem;
     mnuViewMicromap: TMenuItem;
     mnuHelpCheckUpd: TMenuItem;
     MenuItem4: TMenuItem;
@@ -410,11 +410,6 @@ type
     mnuViewWrap: TMenuItem;
     mnuViewMinimap: TMenuItem;
     mnuViewSplitSub: TMenuItem;
-    MenuItem10: TMenuItem;
-    mnuViewUnpriShow: TMenuItem;
-    mnuViewUnpriSpaces: TMenuItem;
-    mnuViewUnpriEnds: TMenuItem;
-    mnuViewUnpriEndsDet: TMenuItem;
     mnuViewUnpri: TMenuItem;
     mnuHelp: TMenuItem;
     mnuView: TMenuItem;
@@ -773,6 +768,7 @@ type
     procedure DoClearSingleFirstTab;
     function DoCloseAllTabs(AClosePinned: boolean): boolean;
     procedure DoCloseAllTabs_Old;
+    procedure DoDialogUnprinted(Ed: TATSynEdit);
     procedure DoDialogMenuThemes_ThemeSetter(const AThemeUi, AThemeSyntax: string);
     procedure DoFileDialog_PrepareDir(Dlg: TFileDialog);
     procedure DoFileDialog_SaveDir(Dlg: TFileDialog);
@@ -9092,6 +9088,33 @@ begin
     Frame:= Frames[i];
     if Frame.Visible then
       Frame.DoShow;
+  end;
+end;
+
+procedure TfmMain.DoDialogUnprinted(Ed: TATSynEdit);
+var
+  Form: TfmUnprinted;
+begin
+  Form:= TfmUnprinted.Create(nil);
+  try
+    EditorApplyTheme(Form.EdPreview);
+
+    Form.chkShowWhitespace.Checked:= Ed.OptUnprintedSpaces;
+    Form.chkShowEndMarks.Checked:= Ed.OptUnprintedEnds;
+    Form.chkEndDetailed.Checked:= Ed.OptUnprintedEndsDetails;
+    Form.chkOnlyTrail.Checked:= Ed.OptUnprintedSpacesTrailing;
+    Form.chkOnlyLeadAndTrail.Checked:= Ed.OptUnprintedSpacesBothEnds;
+    Form.chkOnlyInSel.Checked:= Ed.OptUnprintedSpacesOnlyInSelection;
+    Form.chkAlsoInSel.Checked:= Ed.OptUnprintedSpacesAlsoInSelection;
+    Form.chkForceShowTabs.Checked:= Ed.OptUnprintedForceTabs;
+    Form.chkEndArrows.Checked:= ATEditorOptions.UnprintedEndSymbol=aeueArrowDown;
+    Form.chkEndDots.Checked:= ATEditorOptions.UnprintedEndSymbol=aeueDot;
+    Form.chkEndPilcrow.Checked:= ATEditorOptions.UnprintedEndSymbol=aeuePilcrow;
+
+    if Form.ShowModal=mrOk then
+      Form.ApplyToEditor(Ed);
+  finally
+    FreeAndNil(Form);
   end;
 end;
 

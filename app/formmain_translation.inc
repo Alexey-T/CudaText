@@ -279,13 +279,7 @@ begin
     DoLocMenuitem(ini, mnuViewRuler, 'm_v', 't_ru');
     DoLocMenuitem(ini, mnuViewMinimap, 'm_v', 't_mi');
     DoLocMenuitem(ini, mnuViewMicromap, 'm_v', 't_mo');
-
     DoLocMenuitem(ini, mnuViewUnpri, 'm_v', 'u_');
-    DoLocMenuitem(ini, mnuViewUnpriShow, 'm_v', 'u_sh');
-    DoLocMenuitem(ini, mnuViewUnpriSpaces, 'm_v', 'u_sp');
-    DoLocMenuitem(ini, mnuViewUnpriSpacesTail, 'm_v', 'u_spt');
-    DoLocMenuitem(ini, mnuViewUnpriEnds, 'm_v', 'u_e');
-    DoLocMenuitem(ini, mnuViewUnpriEndsDet, 'm_v', 'u_ed');
 
     DoLocMenuitem(ini, mnuViewToolbar, 'm_v', 't_tb');
     DoLocMenuitem(ini, mnuViewStatus, 'm_v', 't_sb');

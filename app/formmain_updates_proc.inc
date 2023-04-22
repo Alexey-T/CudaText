@@ -995,12 +995,7 @@ begin
   UpdateMenuItemHotkey(mnuViewRuler, cCommand_ToggleRuler);
   UpdateMenuItemHotkey(mnuViewMinimap, cCommand_ToggleMinimap);
   UpdateMenuItemHotkey(mnuViewMicromap, cCommand_ToggleMicromap);
-
-  UpdateMenuItemHotkey(mnuViewUnpriShow, cCommand_ToggleUnprinted);
-  UpdateMenuItemHotkey(mnuViewUnpriSpaces, cCommand_ToggleUnprintedSpaces);
-  UpdateMenuItemHotkey(mnuViewUnpriSpacesTail, cCommand_ToggleUnprintedSpacesTrailing);
-  UpdateMenuItemHotkey(mnuViewUnpriEnds, cCommand_ToggleUnprintedEnds);
-  UpdateMenuItemHotkey(mnuViewUnpriEndsDet, cCommand_ToggleUnprintedEndDetails);
+  UpdateMenuItemHotkey(mnuViewUnpri, cmd_DialogUnprinted);
 
   UpdateMenuItemHotkey(mnuViewFullscr, cmd_ToggleFullScreen);
   UpdateMenuItemHotkey(mnuViewDistFree, cmd_ToggleDistractionFree);
@@ -1086,12 +1081,6 @@ begin
   UpdateMenuItemChecked(mnuViewRuler, mnuViewRuler_Alt, Ed.OptRulerVisible);
   UpdateMenuItemChecked(mnuViewMinimap, mnuViewMinimap_Alt, Ed.OptMinimapVisible);
   UpdateMenuItemChecked(mnuViewMicromap, mnuViewMicromap_Alt, Ed.OptMicromapVisible);
-
-  UpdateMenuItemChecked(mnuViewUnpriShow, mnuViewUnpriShow_Alt, Ed.OptUnprintedVisible);
-  UpdateMenuItemChecked(mnuViewUnpriSpaces, mnuViewUnpriSpaces_Alt, Ed.OptUnprintedSpaces);
-  UpdateMenuItemChecked(mnuViewUnpriSpacesTail, mnuViewUnpriSpacesTail_Alt, Ed.OptUnprintedSpacesTrailing);
-  UpdateMenuItemChecked(mnuViewUnpriEnds, mnuViewUnpriEnds_Alt, Ed.OptUnprintedEnds);
-  UpdateMenuItemChecked(mnuViewUnpriEndsDet, mnuViewUnpriEndsDet_Alt, Ed.OptUnprintedEndsDetails);
 end;
 
 procedure TfmMain.UpdateMenuChecks_Global;

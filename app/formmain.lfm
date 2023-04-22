@@ -455,25 +455,7 @@ object fmMain: TfmMain
         Caption = 'Toggle micr&omap'
       end
       object mnuViewUnpri: TMenuItem
-        Caption = 'Toggle &unprinted chars'
-        object mnuViewUnpriShow: TMenuItem
-          Caption = '&Show'
-        end
-        object MenuItem10: TMenuItem
-          Caption = '-'
-        end
-        object mnuViewUnpriSpaces: TMenuItem
-          Caption = 'Show spaces/&tabs'
-        end
-        object mnuViewUnpriSpacesTail: TMenuItem
-          Caption = 'Show spaces/tabs trailing &only'
-        end
-        object mnuViewUnpriEnds: TMenuItem
-          Caption = 'Show &ends'
-        end
-        object mnuViewUnpriEndsDet: TMenuItem
-          Caption = 'Show ends &details'
-        end
+        Caption = '&Unprinted chars...'
       end
       object mnuViewSplitSub: TMenuItem
         Caption = '&Split tab'
