@@ -17,6 +17,7 @@ type
   TfmUnprinted = class(TForm)
     btnOk: TButton;
     btnCancel: TButton;
+    chkVisible: TCheckBox;
     chkShowWhitespace: TCheckBox;
     chkOnlyInSel: TCheckBox;
     chkAlsoInSel: TCheckBox;
@@ -130,6 +131,7 @@ end;
 
 procedure TfmUnprinted.ApplyToEditor(Ed: TATSynEdit);
 begin
+  Ed.OptUnprintedVisible:= chkVisible.Checked;
   Ed.OptUnprintedSpaces:= chkShowWhitespace.Checked;
   Ed.OptUnprintedEnds:= chkShowEndMarks.Checked;
   Ed.OptUnprintedEndsDetails:= chkEndDetailed.Checked;

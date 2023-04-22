@@ -9099,6 +9099,7 @@ begin
   try
     EditorApplyTheme(Form.EdPreview);
 
+    Form.chkVisible.Checked:= Ed.OptUnprintedVisible;
     Form.chkShowWhitespace.Checked:= Ed.OptUnprintedSpaces;
     Form.chkOnlyTrail.Checked:= Ed.OptUnprintedSpacesTrailing;
     Form.chkOnlyLeadAndTrail.Checked:= Ed.OptUnprintedSpacesBothEnds;
@@ -9110,7 +9111,10 @@ begin
     Form.chkEndDetailed.Checked:= Ed.OptUnprintedEndsDetails;
 
     if Form.ShowModal=mrOk then
+    begin
       Form.ApplyToEditor(Ed);
+      UpdateToolbarButtons(CurrentFrame);
+    end;
   finally
     FreeAndNil(Form);
   end;

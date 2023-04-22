@@ -1,11 +1,11 @@
 object fmUnprinted: TfmUnprinted
   Left = 1530
-  Height = 409
+  Height = 445
   Top = 194
-  Width = 588
+  Width = 589
   Caption = 'Unprinted characters'
-  ClientHeight = 409
-  ClientWidth = 588
+  ClientHeight = 445
+  ClientWidth = 589
   OnCreate = FormCreate
   OnShow = FormShow
   Position = poScreenCenter
@@ -13,106 +13,122 @@ object fmUnprinted: TfmUnprinted
   object chkShowWhitespace: TCheckBox
     Left = 16
     Height = 23
-    Top = 8
+    Top = 48
     Width = 140
     Caption = 'Show whitespace'
     OnChange = chkShowWhitespaceChange
-    TabOrder = 0
+    TabOrder = 1
   end
   object chkOnlyInSel: TCheckBox
     Left = 16
     Height = 23
-    Top = 32
+    Top = 72
     Width = 215
     Caption = 'Whitespace only in selection'
     OnChange = chkOnlyInSelChange
-    TabOrder = 1
+    TabOrder = 2
   end
   object chkAlsoInSel: TCheckBox
     Left = 16
     Height = 23
-    Top = 56
+    Top = 96
     Width = 215
     Caption = 'Whitespace also in selection'
     OnChange = chkAlsoInSelChange
-    TabOrder = 2
+    TabOrder = 3
   end
   object chkOnlyLeadAndTrail: TCheckBox
     Left = 16
     Height = 23
-    Top = 80
+    Top = 120
     Width = 403
     Caption = 'Whitespace only leading+trailing, ie at begin/end of lines'
     OnChange = chkOnlyLeadAndTrailChange
-    TabOrder = 3
+    TabOrder = 4
   end
   object chkOnlyTrail: TCheckBox
     Left = 16
     Height = 23
-    Top = 104
+    Top = 144
     Width = 303
     Caption = 'Whitespace only trailing, ie at end of lines'
     OnChange = chkOnlyTrailChange
-    TabOrder = 4
+    TabOrder = 5
   end
   object chkForceShowTabs: TCheckBox
     Left = 16
     Height = 23
-    Top = 128
+    Top = 168
     Width = 167
     Caption = 'Force show tab-chars'
     OnChange = chkForceShowTabsChange
-    TabOrder = 5
+    TabOrder = 6
   end
   object chkShowEndMarks: TCheckBox
     Left = 16
     Height = 23
-    Top = 168
+    Top = 216
     Width = 187
     Caption = 'Show end-of-lines marks'
     OnChange = chkShowEndMarksChange
-    TabOrder = 6
+    TabOrder = 7
   end
   object chkEndDetailed: TCheckBox
     Left = 16
     Height = 23
-    Top = 232
+    Top = 272
     Width = 289
     Caption = 'Detailed end-of-lines: "LF", "CRLF", "CR"'
     OnChange = chkEndDetailedChange
-    TabOrder = 8
-  end
-  object PanelPreview: TPanel
-    Left = 16
-    Height = 88
-    Top = 264
-    Width = 562
-    BevelOuter = bvNone
     TabOrder = 9
   end
+  object PanelPreview: TPanel
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = btnCancel
+    Left = 16
+    Height = 88
+    Top = 308
+    Width = 563
+    Anchors = [akLeft, akRight, akBottom]
+    BorderSpacing.Around = 10
+    BevelOuter = bvNone
+    Color = clBtnShadow
+    ParentColor = False
+    TabOrder = 10
+  end
   object btnOk: TButton
-    Left = 376
+    AnchorSideTop.Control = btnCancel
+    AnchorSideRight.Control = btnCancel
+    Left = 381
     Height = 33
-    Top = 368
+    Top = 406
     Width = 98
+    Anchors = [akTop, akRight]
     AutoSize = True
     Caption = 'OK'
     Constraints.MinWidth = 98
     Default = True
     ModalResult = 1
-    TabOrder = 10
+    TabOrder = 11
   end
   object btnCancel: TButton
-    Left = 480
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = Owner
+    AnchorSideBottom.Side = asrBottom
+    Left = 485
     Height = 33
-    Top = 368
+    Top = 406
     Width = 98
+    Anchors = [akRight, akBottom]
     AutoSize = True
+    BorderSpacing.Around = 6
     Cancel = True
     Caption = 'Cancel'
     Constraints.MinWidth = 98
     ModalResult = 2
-    TabOrder = 11
+    TabOrder = 12
   end
   object LabelEnds: TLabel
     AnchorSideLeft.Control = comboEndMarks
@@ -121,7 +137,7 @@ object fmUnprinted: TfmUnprinted
     AnchorSideTop.Side = asrCenter
     Left = 142
     Height = 17
-    Top = 198
+    Top = 246
     Width = 125
     BorderSpacing.Left = 6
     Caption = 'Marks on line-ends'
@@ -129,7 +145,7 @@ object fmUnprinted: TfmUnprinted
   object comboEndMarks: TComboBox
     Left = 16
     Height = 29
-    Top = 192
+    Top = 240
     Width = 120
     ItemHeight = 0
     Items.Strings = (
@@ -139,6 +155,14 @@ object fmUnprinted: TfmUnprinted
     )
     OnChange = comboEndMarksChange
     Style = csDropDownList
-    TabOrder = 7
+    TabOrder = 8
+  end
+  object chkVisible: TCheckBox
+    Left = 16
+    Height = 23
+    Top = 8
+    Width = 293
+    Caption = 'Show unprited chars (global enable flag)'
+    TabOrder = 0
   end
 end
