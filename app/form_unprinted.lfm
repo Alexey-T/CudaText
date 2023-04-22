@@ -151,19 +151,25 @@ object fmUnprinted: TfmUnprinted
     TabStop = True
   end
   object chkEndArrow: TRadioButton
-    Left = 160
+    AnchorSideLeft.Control = chkEndDot
+    AnchorSideLeft.Side = asrBottom
+    Left = 101
     Height = 23
     Top = 264
     Width = 67
+    BorderSpacing.Left = 10
     Caption = 'Arrow'
     OnChange = chkEndArrowChange
     TabOrder = 10
   end
   object chkEndPilcrow: TRadioButton
-    Left = 280
+    AnchorSideLeft.Control = chkEndArrow
+    AnchorSideLeft.Side = asrBottom
+    Left = 178
     Height = 23
     Top = 264
     Width = 75
+    BorderSpacing.Left = 10
     Caption = 'Pilcrow'
     OnChange = chkEndPilcrowChange
     TabOrder = 11
