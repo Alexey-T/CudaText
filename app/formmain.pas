@@ -9094,7 +9094,10 @@ end;
 procedure TfmMain.DoDialogUnprinted(Ed: TATSynEdit);
 var
   Form: TfmUnprinted;
+  Symbol: TATEditorUnptintedEolSymbol;
 begin
+  Symbol:= ATEditorOptions.UnprintedEndSymbol;
+
   Form:= TfmUnprinted.Create(nil);
   try
     EditorApplyTheme(Form.EdPreview);
@@ -9107,7 +9110,14 @@ begin
     Form.chkAlsoInSel.Checked:= Ed.OptUnprintedSpacesAlsoInSelection;
     Form.chkForceShowTabs.Checked:= Ed.OptUnprintedForceTabs;
     Form.chkShowEndMarks.Checked:= Ed.OptUnprintedEnds;
-    Form.comboEndMarks.ItemIndex:= Ord(ATEditorOptions.UnprintedEndSymbol);
+    case Symbol of
+      aeueDot:
+        Form.chkEndDots.Checked:= true;
+      aeueArrowDown:
+        Form.chkEndArrows.Checked:= true;
+      aeuePilcrow:
+        Form.chkEndPilcrow.Checked:= true;
+    end;
     Form.chkEndDetailed.Checked:= Ed.OptUnprintedEndsDetails;
 
     if Form.ShowModal=mrOk then

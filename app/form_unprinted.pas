@@ -28,11 +28,15 @@ type
     chkForceShowTabs: TCheckBox;
     chkShowEndMarks: TCheckBox;
     chkEndDetailed: TCheckBox;
-    comboEndMarks: TComboBox;
-    LabelEnds: TLabel;
     PanelPreview: TPanel;
+    chkEndDots: TRadioButton;
+    chkEndArrows: TRadioButton;
+    chkEndPilcrow: TRadioButton;
     procedure chkAlsoInSelChange(Sender: TObject);
+    procedure chkEndArrowsChange(Sender: TObject);
     procedure chkEndDetailedChange(Sender: TObject);
+    procedure chkEndDotsChange(Sender: TObject);
+    procedure chkEndPilcrowChange(Sender: TObject);
     procedure chkForceShowTabsChange(Sender: TObject);
     procedure chkOnlyInSelChange(Sender: TObject);
     procedure chkOnlyLeadAndTrailChange(Sender: TObject);
@@ -117,7 +121,22 @@ begin
   UpdateState;
 end;
 
+procedure TfmUnprinted.chkEndArrowsChange(Sender: TObject);
+begin
+  UpdateState;
+end;
+
 procedure TfmUnprinted.chkEndDetailedChange(Sender: TObject);
+begin
+  UpdateState;
+end;
+
+procedure TfmUnprinted.chkEndDotsChange(Sender: TObject);
+begin
+  UpdateState;
+end;
+
+procedure TfmUnprinted.chkEndPilcrowChange(Sender: TObject);
 begin
   UpdateState;
 end;
@@ -145,8 +164,13 @@ begin
   Ed.OptUnprintedSpacesAlsoInSelection:= chkAlsoInSel.Checked;
   Ed.OptUnprintedForceTabs:= chkForceShowTabs.Checked;
 
-  if comboEndMarks.ItemIndex>=0 then
-    ATEditorOptions.UnprintedEndSymbol:= TATEditorUnptintedEolSymbol(comboEndMarks.ItemIndex);
+  if chkEndPilcrow.Checked then
+    ATEditorOptions.UnprintedEndSymbol:= aeuePilcrow
+  else
+  if chkEndArrows.Checked then
+    ATEditorOptions.UnprintedEndSymbol:= aeueArrowDown
+  else
+    ATEditorOptions.UnprintedEndSymbol:= aeueDot;
 
   Ed.Update;
 end;
@@ -159,7 +183,9 @@ begin
   chkOnlyTrail.Enabled:= not chkOnlyInSel.Checked and not chkOnlyLeadAndTrail.Checked;
   chkAlsoInSel.Enabled:= not chkOnlyInSel.Checked;
 
-  comboEndMarks.Enabled:= not chkEndDetailed.Checked;
+  chkEndDots.Enabled:= not chkEndDetailed.Checked;
+  chkEndArrows.Enabled:= not chkEndDetailed.Checked;
+  chkEndPilcrow.Enabled:= not chkEndDetailed.Checked;
 end;
 
 procedure TfmUnprinted.Localize;
@@ -185,10 +211,9 @@ begin
     with chkForceShowTabs do Caption:= ini.ReadString(section, 'sh_tabs', Caption);
     with chkShowEndMarks do Caption:= ini.ReadString(section, 'sh_end', Caption);
     with chkEndDetailed do Caption:= ini.ReadString(section, 'end_det', Caption);
-    with LabelEnds do Caption:= ini.ReadString(section, 'ends', Caption);
-    with comboEndMarks do Items[0]:= ini.ReadString(section, 'end_dot', Caption);
-    with comboEndMarks do Items[1]:= ini.ReadString(section, 'end_arr', Caption);
-    with comboEndMarks do Items[2]:= ini.ReadString(section, 'end_pil', Caption);
+    with chkEndDots do Caption:= ini.ReadString(section, 'end_dot', Caption);
+    with chkEndArrows do Caption:= ini.ReadString(section, 'end_arr', Caption);
+    with chkEndPilcrow do Caption:= ini.ReadString(section, 'end_pil', Caption);
   finally
     FreeAndNil(ini);
   end;

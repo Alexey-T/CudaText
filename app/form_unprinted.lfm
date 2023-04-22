@@ -95,7 +95,7 @@ object fmUnprinted: TfmUnprinted
     BevelOuter = bvNone
     Color = clBtnShadow
     ParentColor = False
-    TabOrder = 10
+    TabOrder = 12
   end
   object btnOk: TButton
     AnchorSideTop.Control = btnCancel
@@ -110,7 +110,7 @@ object fmUnprinted: TfmUnprinted
     Constraints.MinWidth = 98
     Default = True
     ModalResult = 1
-    TabOrder = 11
+    TabOrder = 13
   end
   object btnCancel: TButton
     AnchorSideRight.Control = Owner
@@ -128,34 +128,7 @@ object fmUnprinted: TfmUnprinted
     Caption = 'Cancel'
     Constraints.MinWidth = 98
     ModalResult = 2
-    TabOrder = 12
-  end
-  object LabelEnds: TLabel
-    AnchorSideLeft.Control = comboEndMarks
-    AnchorSideLeft.Side = asrBottom
-    AnchorSideTop.Control = comboEndMarks
-    AnchorSideTop.Side = asrCenter
-    Left = 166
-    Height = 17
-    Top = 270
-    Width = 125
-    BorderSpacing.Left = 6
-    Caption = 'Marks on line-ends'
-  end
-  object comboEndMarks: TComboBox
-    Left = 40
-    Height = 29
-    Top = 264
-    Width = 120
-    ItemHeight = 0
-    Items.Strings = (
-      'Dot'
-      'Arrow'
-      'Pilcrow'
-    )
-    OnChange = comboEndMarksChange
-    Style = csDropDownList
-    TabOrder = 9
+    TabOrder = 14
   end
   object chkVisible: TCheckBox
     Left = 16
@@ -165,5 +138,33 @@ object fmUnprinted: TfmUnprinted
     Caption = 'Show unprinted chars (global enable flag)'
     OnChange = chkVisibleChange
     TabOrder = 0
+  end
+  object chkEndDots: TRadioButton
+    Left = 40
+    Height = 23
+    Top = 264
+    Width = 58
+    Caption = 'Dots'
+    Checked = True
+    OnChange = chkEndDotsChange
+    TabOrder = 9
+  end
+  object chkEndArrows: TRadioButton
+    Left = 160
+    Height = 23
+    Top = 264
+    Width = 74
+    Caption = 'Arrows'
+    OnChange = chkEndArrowsChange
+    TabOrder = 10
+  end
+  object chkEndPilcrow: TRadioButton
+    Left = 280
+    Height = 23
+    Top = 264
+    Width = 75
+    Caption = 'Pilcrow'
+    OnChange = chkEndPilcrowChange
+    TabOrder = 11
   end
 end
