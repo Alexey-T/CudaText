@@ -78,13 +78,15 @@ begin
   EdPreview.Font.Name:= EditorOps.OpFontName;
   EdPreview.Font.Size:= EditorOps.OpFontSize;
   EdPreview.OptTabSize:= 4;
-  EdPreview.Strings.LineAdd('    begin    end    ');
-  EdPreview.Strings.LineAdd(#9'begin'#9#9'end'#9#9);
-  EdPreview.UpdateWrapInfo(true, false);
+  EdPreview.OptGutterVisible:= false;
   EdPreview.OptRulerVisible:= false;
   EdPreview.OptMinimapVisible:= false;
   EdPreview.OptMicromapVisible:= false;
   EdPreview.Show;
+
+  EdPreview.Strings.LineAdd('    begin    end    ');
+  EdPreview.Strings.LineAdd(#9#9'begin'#9#9'end'#9#9);
+  EdPreview.UpdateWrapInfo(true, false);
 end;
 
 procedure TfmUnprinted.chkShowWhitespaceChange(Sender: TObject);
