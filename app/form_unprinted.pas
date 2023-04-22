@@ -57,13 +57,13 @@ type
     procedure FormShow(Sender: TObject);
   private
     procedure Localize;
+    procedure UpdateState;
     function GetConfigValue: string;
   public
     EdPreview: TATSynEdit;
     OnSaveOptionBool: TFormUnprintedSaveBool;
     OnSaveOptionString: TFormUnprintedSaveString;
     procedure ApplyToEditor(Ed: TATSynEdit);
-    procedure UpdateState;
   end;
 
 var
