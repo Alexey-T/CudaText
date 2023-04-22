@@ -242,6 +242,7 @@ type
   { TfmMain }
   TfmMain = class(TForm)
     AppProps: TApplicationProperties;
+    mnuOpUnprinted: TMenuItem;
     mnuEditPasteHist: TMenuItem;
     mnuEditPasteIndent: TMenuItem;
     mnuViewSplitNo: TMenuItem;
@@ -410,7 +411,6 @@ type
     mnuViewWrap: TMenuItem;
     mnuViewMinimap: TMenuItem;
     mnuViewSplitSub: TMenuItem;
-    mnuViewUnpri: TMenuItem;
     mnuHelp: TMenuItem;
     mnuView: TMenuItem;
     mnuViewBottom: TMenuItem;

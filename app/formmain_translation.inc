@@ -279,7 +279,6 @@ begin
     DoLocMenuitem(ini, mnuViewRuler, 'm_v', 't_ru');
     DoLocMenuitem(ini, mnuViewMinimap, 'm_v', 't_mi');
     DoLocMenuitem(ini, mnuViewMicromap, 'm_v', 't_mo');
-    DoLocMenuitem(ini, mnuViewUnpri, 'm_v', 'u_');
 
     DoLocMenuitem(ini, mnuViewToolbar, 'm_v', 't_tb');
     DoLocMenuitem(ini, mnuViewStatus, 'm_v', 't_sb');
@@ -301,7 +300,7 @@ begin
     DoLocMenuitem(ini, mnuOpLexer, 'm_o', 'lx');
     DoLocMenuitem(ini, mnuOpThemeUi, 'm_o', 'cou');
     DoLocMenuitem(ini, mnuOpThemeSyntax, 'm_o', 'cos');
-    //DoLocMenuitem(ini, mnuOpKeys, 'm_o', 'ke');
+    DoLocMenuitem(ini, mnuOpUnprinted, 'm_o', 'unpr');
 
     DoLocMenuitem(ini, mnuFontSub, 'm_o', 'f_');
     DoLocMenuitem(ini, mnuFontText, 'm_o', 'f_t');
@@ -383,8 +382,8 @@ begin
     DoLocToolbarButtonHint(ToolbarMain, 'e_paste', ATEditorOptions.TextMenuitemPaste);
     DoLocToolbarButtonHint(ToolbarMain, 'e_undo', ATEditorOptions.TextMenuitemUndo);
     DoLocToolbarButtonHint(ToolbarMain, 'e_redo', ATEditorOptions.TextMenuitemRedo);
-    if Assigned(mnuViewUnpri) then
-      DoLocToolbarButtonHint(ToolbarMain, 'unpri', mnuViewUnpri.Caption);
+    if Assigned(mnuOpUnprinted) then
+      DoLocToolbarButtonHint(ToolbarMain, 'unpri', mnuOpUnprinted.Caption);
     if Assigned(mnuViewMinimap) then
       DoLocToolbarButtonHint(ToolbarMain, 'map', mnuViewMinimap.Caption);
     if Assigned(mnuEditIndent) then

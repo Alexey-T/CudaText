@@ -995,7 +995,6 @@ begin
   UpdateMenuItemHotkey(mnuViewRuler, cCommand_ToggleRuler);
   UpdateMenuItemHotkey(mnuViewMinimap, cCommand_ToggleMinimap);
   UpdateMenuItemHotkey(mnuViewMicromap, cCommand_ToggleMicromap);
-  UpdateMenuItemHotkey(mnuViewUnpri, cmd_DialogUnprinted);
 
   UpdateMenuItemHotkey(mnuViewFullscr, cmd_ToggleFullScreen);
   UpdateMenuItemHotkey(mnuViewDistFree, cmd_ToggleDistractionFree);
@@ -1013,7 +1012,6 @@ begin
   UpdateMenuItemHotkey(mnuOpUser, cmd_OpsOpenUser);
   UpdateMenuItemHotkey(mnuOpDefaultUser, cmd_OpsOpenDefaultAndUser);
   UpdateMenuItemHotkey(mnuOpLexer, cmd_OpsOpenLexerSpecific);
-  //UpdateMenuItemHotkey(mnuOpKeys, cmd_HelpHotkeys);
 
   UpdateMenuItemHotkey(mnuFontText, cmd_OpsFontText);
   UpdateMenuItemHotkey(mnuFontUi, cmd_OpsFontUi);
@@ -1024,6 +1022,7 @@ begin
   UpdateMenuItemHotkey(mnuOpLexMap, cmd_DialogLexerStyleMap);
   UpdateMenuItemHotkey(mnuOpThemeUi, cmd_DialogThemeUi);
   UpdateMenuItemHotkey(mnuOpThemeSyntax, cmd_DialogThemeSyntax);
+  UpdateMenuItemHotkey(mnuOpUnprinted, cmd_DialogUnprinted);
   UpdateMenuItemHotkey(mnuOpThemes, cmd_ChooseThemeUI);
   UpdateMenuItemHotkey(mnuOpLangs, cmd_ChooseTranslation);
 

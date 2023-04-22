@@ -2,7 +2,8 @@ See http://wiki.freepascal.org/CudaText#How_to_make_translation
 
 2023.04.22
 + [d_unpri]
-* delete [m_v] u_sh, u_sp, u_spt, u_e, u_ed
++ [m_o] unpr
+* delete [m_v] u_, u_sh, u_sp, u_spt, u_e, u_ed
 * change [m_v] u_
 
 2023.03.31

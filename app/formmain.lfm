@@ -469,9 +469,6 @@ object fmMain: TfmMain
           RadioItem = True
         end
       end
-      object mnuViewUnpri: TMenuItem
-        Caption = '&Unprinted chars...'
-      end
       object mnuLexers: TMenuItem
         Caption = 'Le&xers...'
       end
@@ -571,6 +568,9 @@ object fmMain: TfmMain
         object mnuOpLexMap: TMenuItem
           Caption = 'Lexer styles &mapping...'
         end
+      end
+      object mnuOpUnprinted: TMenuItem
+        Caption = 'Unprinted chars...'
       end
       object mnuOpThemes: TMenuItem
         Caption = 'Select color theme...'
