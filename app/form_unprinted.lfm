@@ -12,7 +12,7 @@ object fmUnprinted: TfmUnprinted
   Position = poScreenCenter
   LCLVersion = '2.3.0.0'
   object chkShowWhitespace: TCheckBox
-    Left = 16
+    Left = 8
     Height = 23
     Top = 48
     Width = 140
@@ -66,7 +66,7 @@ object fmUnprinted: TfmUnprinted
     TabOrder = 6
   end
   object chkShowEndMarks: TCheckBox
-    Left = 16
+    Left = 6
     Height = 23
     Top = 208
     Width = 187
@@ -132,7 +132,7 @@ object fmUnprinted: TfmUnprinted
     TabOrder = 15
   end
   object chkVisible: TCheckBox
-    Left = 16
+    Left = 8
     Height = 23
     Top = 8
     Width = 301
