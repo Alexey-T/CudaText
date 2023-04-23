@@ -4,6 +4,7 @@
   * changed
 
 + add: new values of "ui_notif_confirm" to show _modal_ prompt to reload file (thanks @Crunchbits)
+- fix: lexer 'Ini files ^' small bug
 
 1.191.5 (2023/04)
 
