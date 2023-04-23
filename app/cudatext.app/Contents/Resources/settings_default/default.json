@@ -193,11 +193,12 @@
   "ui_notif_time": 2,
 
   //Notifications about file change in external programs:
-  //when to show confirmation to reload the changed file.
+  //when/how to show confirmation to reload the changed file.
   //  0: show modal-less prompt, always (on each change in external program)
   //  1: show modal-less prompt, if editor is modified or Undo-data is not empty
   //  2: show modal-less prompt, if editor is modified
   //  3: show modal prompt, always
+  //  4: show modal prompt, if editor is modified
   "ui_notif_confirm": 1,
 
   //[File/Detection]

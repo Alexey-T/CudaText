@@ -4419,6 +4419,14 @@ begin
 end;
 
 procedure TEditorFrame.NotifyAboutChange(Ed: TATSynEdit);
+  //
+  function ModalConfirm(const AFileName: string): boolean;
+  begin
+    Result:= MsgBox(
+      msgConfirmFileChangedOutside+#10+AFileName+#10#10+msgConfirmReloadIt,
+      MB_OKCANCEL or MB_ICONWARNING)=ID_OK;
+  end;
+  //
 var
   EdIndex: integer;
   SFileName: string;
@@ -4464,12 +4472,16 @@ begin
         bShowPanel:= Ed.Modified; //like Notepad++
       3:
         begin
-          if MsgBox(
-               msgConfirmFileChangedOutside+#10+SFileName+#10#10+msgConfirmReloadIt,
-               MB_OKCANCEL or MB_ICONWARNING)=ID_OK then
+          if ModalConfirm(SFileName) then
             DoFileReload(Ed);
           exit;
-        end
+        end;
+      4:
+        begin
+          if (not Ed.Modified) or ModalConfirm(SFileName) then
+            DoFileReload(Ed);
+          exit;
+        end;
       else
         bShowPanel:= true;
     end;

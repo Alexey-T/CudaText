@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-+ add: new value of "ui_notif_confirm" to show _modal_ prompt to reload file (thanks @Crunchbits)
++ add: new values of "ui_notif_confirm" to show _modal_ prompt to reload file (thanks @Crunchbits)
 
 1.191.5 (2023/04)
 
