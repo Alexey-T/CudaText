@@ -4462,6 +4462,14 @@ begin
         bShowPanel:= Ed.Modified or not Ed.Strings.UndoEmpty;
       2:
         bShowPanel:= Ed.Modified; //like Notepad++
+      3:
+        begin
+          if MsgBox(
+               msgConfirmFileChangedOutside+#10+SFileName+#10#10+msgConfirmReloadIt,
+               MB_OKCANCEL or MB_ICONWARNING)=ID_OK then
+            DoFileReload(Ed);
+          exit;
+        end
       else
         bShowPanel:= true;
     end;

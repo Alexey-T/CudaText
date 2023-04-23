@@ -320,7 +320,7 @@ const
   msgConfirmInstallIt: string = 'Do you want to install it?';
   msgConfirmFileChangedOutside: string = 'File was changed outside:';
   msgConfirmFileDeletedOutside: string = 'File was deleted outside:';
-  msgConfirmReloadIt: string = 'Reopen it?';
+  msgConfirmReloadIt: string = 'Reload it?';
   msgConfirmReloadYes: string = 'Reload';
   msgConfirmReloadNoMore: string = 'No more notifications';
   msgConfirmReloadItHotkeysSess: string = '(Yes: reopen. No: open text from previous session.)';
