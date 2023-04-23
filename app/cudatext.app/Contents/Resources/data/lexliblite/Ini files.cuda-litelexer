@@ -5,11 +5,7 @@
   "case_sens": true,
   "rules": {
     "cmt": {
-      "regex": "^;.*",
-      "style": "Comment"
-    },
-    "cmt2": {
-      "regex": "\\#.*",
+      "regex": "^[;\\#].*",
       "style": "Comment"
     },
     "section": {
