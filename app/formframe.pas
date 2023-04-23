@@ -4486,8 +4486,8 @@ begin
         end;
       else
         begin
+          bShowPanel:= true;
           MsgLogConsole(Format('ERROR: Wrong value of option "ui_notif_confirm": %d', [UiOps.NotificationConfirmReload]));
-          exit;
         end;
     end;
 
