@@ -9,6 +9,10 @@
       "regex": "^\\s*[;\\#].*",
       "style": "Comment"
     },
+    "cmt2": {
+      "regex": "\\s\\#\\s.*",
+      "style": "Comment"
+    },
     "section": {
       "regex": "^\\[.+?\\]",
       "style": "Label"
