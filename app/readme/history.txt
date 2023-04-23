@@ -3,6 +3,8 @@
   - fixed
   * changed
 
++ add: new value of "ui_notif_confirm" to show _modal_ prompt to reload file (thanks @Crunchbits)
+
 1.191.5 (2023/04)
 
 * change: submenu "View / Toggle unprinted chars" replaced with menuitem "Options / Unprinted chars..." which shows new dialog "Unprinted characters", it gives much more control
