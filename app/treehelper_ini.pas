@@ -41,8 +41,15 @@ begin
   begin
     S:= St.Lines[iLine];
     if S='' then Continue;
-    if S[1]=';' then Continue;
-    if S[1]='#' then Continue;
+
+    //skip commented lines
+    iSymbol:= 1;
+    while (iSymbol<=Length(S)) and (S[iSymbol]=' ') do
+      Inc(iSymbol);
+    if iSymbol>Length(S) then Continue;
+    if S[iSymbol]=';' then Continue;
+    if S[iSymbol]='#' then Continue;
+
     if (Length(S)>=3) and (S[1]='[') and (S[Length(S)]=']') then
     begin
       DataItem.X1:= 0;
