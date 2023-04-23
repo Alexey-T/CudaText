@@ -4466,6 +4466,8 @@ begin
   if not TabExtDeleted[EdIndex] and TabExtModified[EdIndex] then
   begin
     case UiOps.NotificationConfirmReload of
+      0:
+        bShowPanel:= true;
       1:
         bShowPanel:= Ed.Modified or not Ed.Strings.UndoEmpty;
       2:
@@ -4483,7 +4485,10 @@ begin
           exit;
         end;
       else
-        bShowPanel:= true;
+        begin
+          MsgLogConsole(Format('ERROR: Wrong value of option "ui_notif_confirm": %d', [UiOps.NotificationConfirmReload]));
+          exit;
+        end;
     end;
 
     if not bShowPanel then
