@@ -438,7 +438,7 @@ begin
   M.Add(cmd_FileSave, 'file: save file', [scXControl+VK_S], []);
   M.Add(cmd_FileSaveAs, 'file: save file as', [], []);
   M.Add(cmd_FileSaveAll, 'file: save all tabs', [], []);
-  M.Add(cmd_FileReopen, 'file: reopen', [], []);
+  M.Add(cmd_FileReopen, 'file: reload', [], []);
   M.Add(cmd_FileClose, 'file: close tab', [scXControl+VK_W], []);
   M.Add(cmd_FileCloseAll, 'file: close all tabs', [], []);
   M.Add(cmd_FileCloseOtherThis, 'file: close other tabs (this group)', [], []);
