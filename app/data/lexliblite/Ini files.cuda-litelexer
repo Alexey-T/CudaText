@@ -3,9 +3,10 @@
   "files": "*.ini;*.dsk;*.dti;*.dof;*.inf;*.lng;*.srv;*.reg;*.sas;*.cfg;*.desktop",
   "cmt_line": ";",
   "case_sens": true,
+  "consider_spaces": true,
   "rules": {
     "cmt": {
-      "regex": "^[;\\#].*",
+      "regex": "^\\s*[;\\#].*",
       "style": "Comment"
     },
     "section": {
