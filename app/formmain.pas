@@ -799,10 +799,12 @@ type
     procedure FormFloatGroups1_OnEmpty(Sender: TObject);
     procedure FormFloatGroups2_OnEmpty(Sender: TObject);
     procedure FormFloatGroups3_OnEmpty(Sender: TObject);
-    procedure FormFloatGroups_OnDropFiles(Sender: TObject; const FileNames: array of String);
     procedure FormFloatGroups1_OnClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormFloatGroups2_OnClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormFloatGroups3_OnClose(Sender: TObject; var CloseAction: TCloseAction);
+    procedure FormFloatGroups_OnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure FormFloatGroups_OnUTF8KeyPress(Sender: TObject; var UTF8Key: TUTF8Char);
+    procedure FormFloatGroups_OnDropFiles(Sender: TObject; const FileNames: array of String);
     procedure CharmapOnInsert(const AStr: string);
     procedure DoLocalize;
     procedure DoLocalizePopupTab;
@@ -3234,6 +3236,24 @@ begin
     else
     if FileExists(SName) then
       DoFileOpen(SName, '', Gr.Pages[0]);
+  end;
+end;
+
+procedure TfmMain.FormFloatGroups_OnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  if Assigned(FormAutoCompletion) and FormAutoCompletion.Visible then
+  begin
+    FormAutoCompletion.FormKeyDown(Sender, Key, Shift);
+    exit;
+  end;
+end;
+
+procedure TfmMain.FormFloatGroups_OnUTF8KeyPress(Sender: TObject; var UTF8Key: TUTF8Char);
+begin
+  if Assigned(FormAutoCompletion) and FormAutoCompletion.Visible then
+  begin
+    FormAutoCompletion.FormUTF8KeyPress(Sender, UTF8Key);
+    exit;
   end;
 end;
 
@@ -8202,7 +8222,10 @@ begin
     F.BorderIcons:= [biSystemMenu, biMaximize, biMinimize];
     F.OnClose:= AOnClose;
     F.OnActivate:= @FormActivate;
+    F.OnKeyDown:= @FormFloatGroups_OnKeyDown;
+    F.OnUTF8KeyPress:= @FormFloatGroups_OnUTF8KeyPress;
     F.Caption:= Format('[f%d]', [AIndexOfGroup]) + (' - ' + msgTitle);
+    F.KeyPreview:= true;
 
     F.AllowDropFiles:= true;
     F.OnDropFiles:= @FormFloatGroups_OnDropFiles;
