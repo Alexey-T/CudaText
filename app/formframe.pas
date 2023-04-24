@@ -208,6 +208,7 @@ type
     FTabExtDeleted: array[0..1] of boolean;
     FCachedTreeview: array[0..1] of TTreeView;
     FLexerBackup: array[0..1] of TATAdapterHilite;
+    FReloadConfirms: array[0..1] of boolean;
     FLexerChooseFunc: TecLexerChooseFunc;
     FLexerNameBackup1: string;
     FLexerNameBackup2: string;
@@ -370,7 +371,6 @@ type
     MacroStrings: TStringList;
     VersionInSession: Int64;
     FileProps: array[0..1] of TAppFileProps;
-    ShowReloadConfirms: array[0..1] of boolean;
 
     constructor Create(AOwner: TComponent; AApplyCentering: boolean); reintroduce;
     destructor Destroy; override;
@@ -867,9 +867,9 @@ var
 begin
   for iEd:= 0 to 1 do
   begin
-    if ShowReloadConfirms[iEd] then
+    if FReloadConfirms[iEd] then
     begin
-      ShowReloadConfirms[iEd]:= false;
+      FReloadConfirms[iEd]:= false;
       Ed:= EditorIndexToObj(iEd);
       case UiOps.NotificationConfirmReload of
         3:
@@ -4499,7 +4499,7 @@ begin
       3:
         begin
           if not Visible then
-            ShowReloadConfirms[EdIndex]:= true
+            FReloadConfirms[EdIndex]:= true
           else
           if MsgConfirmReload(SFileName) then
             DoFileReload(Ed);
@@ -4508,7 +4508,7 @@ begin
       4:
         begin
           if not Visible then
-            ShowReloadConfirms[EdIndex]:= true
+            FReloadConfirms[EdIndex]:= true
           else
           if (not Ed.Modified) or MsgConfirmReload(SFileName) then
             DoFileReload(Ed);
