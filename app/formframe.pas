@@ -370,6 +370,7 @@ type
     MacroStrings: TStringList;
     VersionInSession: Int64;
     FileProps: array[0..1] of TAppFileProps;
+    ShowReloadConfirms: array[0..1] of boolean;
 
     constructor Create(AOwner: TComponent; AApplyCentering: boolean); reintroduce;
     destructor Destroy; override;
@@ -621,6 +622,14 @@ begin
 end;
 
 
+function MsgConfirmReload(const AFileName: string): boolean;
+begin
+  Result:= MsgBox(
+    msgConfirmFileChangedOutside+#10+AFileName+#10#10+msgConfirmReloadIt,
+    MB_OKCANCEL or MB_ICONWARNING)=ID_OK;
+end;
+
+
 procedure GetFrameLocation(Frame: TEditorFrame;
   out AGroups: TATGroups; out APages: TATPages;
   out ALocalGroupIndex, AGlobalGroupIndex, ATabIndex: integer);
@@ -852,8 +861,31 @@ end;
 
 procedure TEditorFrame.DoShow;
 var
+  Ed: TATSynEdit;
   an: TecSyntAnalyzer;
+  iEd: integer;
 begin
+  for iEd:= 0 to 1 do
+  begin
+    if ShowReloadConfirms[iEd] then
+    begin
+      ShowReloadConfirms[iEd]:= false;
+      Ed:= EditorIndexToObj(iEd);
+      case UiOps.NotificationConfirmReload of
+        3:
+          begin
+            if MsgConfirmReload(Ed.FileName) then
+              DoFileReload(Ed);
+          end;
+        4:
+          begin
+            if (not Ed.Modified) or MsgConfirmReload(Ed.FileName) then
+              DoFileReload(Ed);
+          end;
+      end;
+    end;
+  end;
+
   //analyze file, when frame is shown for the 1st time
   if AppAllowFrameParsing and not FWasVisible then
   begin
@@ -4419,14 +4451,6 @@ begin
 end;
 
 procedure TEditorFrame.NotifyAboutChange(Ed: TATSynEdit);
-  //
-  function ModalConfirm(const AFileName: string): boolean;
-  begin
-    Result:= MsgBox(
-      msgConfirmFileChangedOutside+#10+AFileName+#10#10+msgConfirmReloadIt,
-      MB_OKCANCEL or MB_ICONWARNING)=ID_OK;
-  end;
-  //
 var
   EdIndex: integer;
   SFileName: string;
@@ -4474,13 +4498,19 @@ begin
         bShowPanel:= Ed.Modified; //like Notepad++
       3:
         begin
-          if ModalConfirm(SFileName) then
+          if not Visible then
+            ShowReloadConfirms[EdIndex]:= true
+          else
+          if MsgConfirmReload(SFileName) then
             DoFileReload(Ed);
           exit;
         end;
       4:
         begin
-          if (not Ed.Modified) or ModalConfirm(SFileName) then
+          if not Visible then
+            ShowReloadConfirms[EdIndex]:= true
+          else
+          if (not Ed.Modified) or MsgConfirmReload(SFileName) then
             DoFileReload(Ed);
           exit;
         end;
