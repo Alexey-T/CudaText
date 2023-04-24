@@ -467,6 +467,7 @@ type
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormResize(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure FormUTF8KeyPress(Sender: TObject; var UTF8Key: TUTF8Char);
     procedure FormWindowStateChange(Sender: TObject);
     procedure FrameAddRecent(Sender: TObject);
     procedure FrameOnMsgStatus(Sender: TObject; const AStr: string);
@@ -3236,6 +3237,15 @@ begin
   end;
 end;
 
+procedure TfmMain.FormUTF8KeyPress(Sender: TObject; var UTF8Key: TUTF8Char);
+begin
+  if Assigned(FormAutoCompletion) and FormAutoCompletion.Visible then
+  begin
+    FormAutoCompletion.FormUTF8KeyPress(Sender, UTF8Key);
+    exit;
+  end;
+end;
+
 procedure TfmMain.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 var
   bEditorActive,
@@ -3246,6 +3256,12 @@ var
   KeyArray: TATKeyArray;
   N: integer;
 begin
+  if Assigned(FormAutoCompletion) and FormAutoCompletion.Visible then
+  begin
+    FormAutoCompletion.FormKeyDown(Sender, Key, Shift);
+    exit;
+  end;
+
   if (Key=VK_ESCAPE) and (Shift=[]) then
   begin
     PyEscapeFlag:= true;
