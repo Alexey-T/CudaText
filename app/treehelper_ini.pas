@@ -33,7 +33,7 @@ var
   DataItem: TATTreeHelperRecord;
   St: TATStrings;
   S: UnicodeString;
-  iLine, NFirst, NEq, NLen: integer;
+  iLine, NFirst, NSymbol, NLen: integer;
 begin
   Data.Clear;
   St:= Ed.Strings;
@@ -63,15 +63,15 @@ begin
     end
     else
     begin
-      NEq:= Pos('=', S);
-      if NEq>0 then
+      NSymbol:= Pos('=', S);
+      if NSymbol>0 then
       begin
         DataItem.X1:= 0;
         DataItem.Y1:= iLine;
         DataItem.X2:= NLen;
         DataItem.Y2:= iLine;
         DataItem.Level:= 2;
-        DataItem.Title:= Copy(S, NFirst, NEq-NFirst);
+        DataItem.Title:= Copy(S, NFirst, NSymbol-NFirst);
         DataItem.Icon:= cIconArrow;
         Data.Add(DataItem);
       end;
