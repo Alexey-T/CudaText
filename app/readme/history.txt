@@ -6,7 +6,8 @@
 1.192.0 (2023/04)
 
 + add: new values of "ui_notif_confirm" to show _modal_ prompt to reload file (thanks @Crunchbits)
-- fix: lexer 'Ini files ^' small bug; tree-helper for Ini small bug
+- fix: lexer 'Ini files ^' small bug
+- fix: tree-helper for Ini: support '#' comments
 
 1.191.5 (2023/04)
 
