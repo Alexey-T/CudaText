@@ -48,8 +48,7 @@ begin
     while (NFirst<=NLen) and (S[NFirst]=' ') do
       Inc(NFirst);
     if NFirst>NLen then Continue;
-    if S[NFirst]=';' then Continue;
-    if S[NFirst]='#' then Continue;
+    if S[NFirst] in [';', '#', '='] then Continue;
 
     if (NLen>=3) and (S[1]='[') and (S[NLen]=']') then
     begin
