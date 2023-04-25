@@ -834,6 +834,8 @@ end;
 
 procedure TEditorFrame.EditorOnScroll(Sender: TObject);
 begin
+  CloseFormAutoCompletion;
+
   if Assigned(FOnEditorScroll) then
     FOnEditorScroll(Sender);
 
