@@ -21,6 +21,7 @@ uses
   ATSynEdit_Edits,
   ATSynEdit_Commands,
   ATSynEdit_Adapter_Simple,
+  ATSynEdit_Cmp_Form,
   ATStringProc,
   ec_SyntAnal,
   ec_syntax_format,
@@ -64,9 +65,11 @@ type
     mnuTextClear: TMenuItem;
     mnuTextNav: TMenuItem;
     mnuTextWrap: TMenuItem;
+    procedure InputOnClick(Sender: TObject);
     procedure InputOnCommand(Sender: TObject; ACommand: integer; AInvoke: TATEditorCommandInvoke; const AText: string; var AHandled: boolean);
     procedure DoGetLineColor(Ed: TATSynEdit; ALineIndex: integer; var AColorFont, AColorBg: TColor);
-    procedure MemoClickDbl(Sender: TObject; var AHandled: boolean);
+    procedure MemoOnClick(Sender: TObject);
+    procedure MemoOnClickDbl(Sender: TObject; var AHandled: boolean);
     procedure MemoCommand(Sender: TObject; ACommand: integer; AInvoke: TATEditorCommandInvoke; const AText: string; var AHandled: boolean);
     procedure MemoContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
     procedure DoNavigate(Sender: TObject);
@@ -343,6 +346,7 @@ begin
   EdInput.Keymap:= AppKeymapMain;
   EdInput.WantTabs:= false;
   EdInput.TabStop:= true;
+  EdInput.OnClick:= @InputOnClick;
   EdInput.OnCommand:= @InputOnCommand;
 
   EdInput.OptTabSize:= 4;
@@ -385,7 +389,8 @@ begin
   DoControl_InitPropsObject(EdInput, Self, 'editor_edit');
   DoControl_InitPropsObject(EdMemo, Self, 'editor');
 
-  EdMemo.OnClickDouble:= @MemoClickDbl;
+  EdMemo.OnClick:= @MemoOnClick;
+  EdMemo.OnClickDouble:= @MemoOnClickDbl;
   EdMemo.OnCommand:= @MemoCommand;
   //after DoControl_InitPropsObject, because it did set custom OnContextMenu
   EdMemo.OnContextPopup:= @MemoContextPopup;
@@ -525,7 +530,7 @@ var
 begin
   if ACommand=cCommand_KeyEnter then
   begin
-    MemoClickDbl(nil, AHandled);
+    MemoOnClickDbl(nil, AHandled);
     AHandled:= true;
     exit;
   end;
@@ -540,7 +545,17 @@ begin
 end;
 
 
-procedure TfmConsole.MemoClickDbl(Sender: TObject; var AHandled: boolean);
+procedure TfmConsole.InputOnClick(Sender: TObject);
+begin
+  CloseFormAutoCompletion;
+end;
+
+procedure TfmConsole.MemoOnClick(Sender: TObject);
+begin
+  CloseFormAutoCompletion;
+end;
+
+procedure TfmConsole.MemoOnClickDbl(Sender: TObject; var AHandled: boolean);
 var
   s: string;
   n: integer;
