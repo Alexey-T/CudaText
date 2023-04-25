@@ -7,6 +7,7 @@
 
 + add: auto-completion window is now parented in the main window: 1) no more separate shadow, 2) main window don't loose focus and don't blink, 3) no more showing of autocomplete-window in Alt+Tab list (thanks d0vgan)
 + add: new values of "ui_notif_confirm" to show _modal_ prompt to reload file (thanks @Crunchbits)
++ add: new option "ui_esc_close_finder" (thanks @NorbertJh)
 - fix: lexer 'Ini files ^' small bug
 - fix: tree-helper for Ini: support '#' comments
 
