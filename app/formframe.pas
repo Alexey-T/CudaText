@@ -21,6 +21,7 @@ uses
   ATSynEdit_Adapter_LiteLexer,
   ATSynEdit_Finder,
   ATSynEdit_Gaps,
+  ATSynEdit_Cmp_Form,
   ATStringProc,
   ATButtons,
   ATBinHex,
@@ -753,7 +754,10 @@ begin
   Ed:= Sender as TATSynEdit;
 
   StateString:= ConvertShiftStateToString(KeyboardStateToShiftState);
+
   CancelAutocompleteAutoshow;
+  if Assigned(FormAutoCompletion) and FormAutoCompletion.Visible then
+    FormAutoCompletion.Hide;
 
   if Ed.Markers.DeleteWithTag(UiOps.FindOccur_TagValue) then
     Ed.Update;
