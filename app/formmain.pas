@@ -3150,6 +3150,8 @@ end;
 
 procedure TfmMain.FormDestroy(Sender: TObject);
 begin
+  CloseFormAutoCompletion;
+
   AppStopListTimers;
 
   if Assigned(FFinder) then

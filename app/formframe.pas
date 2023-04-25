@@ -2310,6 +2310,8 @@ end;
 
 destructor TEditorFrame.Destroy;
 begin
+  CloseFormAutoCompletion;
+
   if Assigned(FBin) then
   begin
     FBin.OpenStream(nil, False); //ARedraw=False to not paint on Win desktop with DC=0
