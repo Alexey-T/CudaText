@@ -2964,6 +2964,7 @@ end;
 
 procedure TfmMain.FormChangeBounds(Sender: TObject);
 begin
+  CloseFormAutoCompletion;
   DoTooltipHide;
 end;
 
