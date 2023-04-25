@@ -6,6 +6,7 @@
 1.192.0 (2023/04)
 
 + add: auto-completion window is now parented in the main window: 1) no more separate shadow, 2) main window don't loose focus and don't blink, 3) no more showing of autocomplete-window in Alt+Tab list (thanks d0vgan, @veksha)
+* change: font of auto-completion listbox equals to 'editor font'
 + add: new values of "ui_notif_confirm" to show _modal_ prompt to reload file (thanks @Crunchbits)
 + add: option "autocomplete_closing_delay" (thanks @pintassilgo)
 + add: option "ui_esc_close_finder" (thanks @NorbertJh)
