@@ -1637,6 +1637,7 @@ begin
 
   UiOps.EscapeClose:= cfg.GetValue('ui_esc_close', UiOps.EscapeClose);
   UiOps.EscapeCloseConsole:= cfg.GetValue('ui_esc_close_console', UiOps.EscapeCloseConsole);
+  UiOps.EscapeCloseFinder:= cfg.GetValue('ui_esc_close_finder', UiOps.EscapeCloseFinder);
   UiOps.ConsoleWordWrap:= cfg.GetValue('ui_console_wrap', UiOps.ConsoleWordWrap);
   UiOps.InitialDir:= cfg.GetValue('ui_initial_dir', UiOps.InitialDir);
   UiOps.OpenDir:= cfg.GetValue('ui_open_dir', UiOps.OpenDir);

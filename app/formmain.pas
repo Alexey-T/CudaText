@@ -3325,8 +3325,13 @@ begin
     if bFindDockedAndVisible then
     begin
       Ed:= Ctl as TATSynEdit;
-      EditorClearHiAllMarkers(Ed);
-      fmFind.Hide;
+      if UiOps.EscapeCloseFinder then
+      begin
+        EditorClearHiAllMarkers(Ed);
+        fmFind.Hide;
+      end
+      else
+        Ed.SetFocus;
       Key:= 0;
     end
     else

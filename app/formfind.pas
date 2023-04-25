@@ -936,7 +936,10 @@ begin
 
   if (Key=VK_ESCAPE) and (Shift=[]) then
   begin
-    DoResult(afoCloseDlg);
+    if UiOps.EscapeCloseFinder then
+      DoResult(afoCloseDlg)
+    else
+      DoFocusEditor;
     key:= 0;
     exit;
   end;

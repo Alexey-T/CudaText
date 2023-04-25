@@ -368,6 +368,7 @@ type
     AllowProgramUpdates: boolean;
     EscapeClose: boolean;
     EscapeCloseConsole: boolean;
+    EscapeCloseFinder: boolean;
     ConsoleWordWrap: boolean;
     InputHeight: integer;
     InitialDir: string;
@@ -2030,6 +2031,7 @@ begin
     AllowProgramUpdates:= true;
     EscapeClose:= false;
     EscapeCloseConsole:= true;
+    EscapeCloseFinder:= true;
     ConsoleWordWrap:= true;
     InputHeight:= 26;
     InitialDir:= '';

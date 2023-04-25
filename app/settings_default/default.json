@@ -998,6 +998,9 @@
   //Close the Console panel by Esc key.
   "ui_esc_close_console": true,
 
+  //Close the Find/Replace dialog by Esc key.
+  "ui_esc_close_finder": true,
+
   //Sub-option of "ui_open_dir".
   //Supports several macros:
   //  {AppDir} - Folder path of CudaText executable file.
