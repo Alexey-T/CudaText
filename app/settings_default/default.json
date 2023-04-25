@@ -1463,6 +1463,11 @@
   //If completion listbox has just single item, then commit it without showing menus.
   "autocomplete_commit_single_item": false,
 
+  //Delay (in msec) of closing the auto-completion listbox, when there are no matching words.
+  //If value=0, close the listbox immediately (but it gives flickering with LSP plugin,
+  //when you press Left/Right arrows with LSP listbox).
+  "autocomplete_closing_delay": 300,
+
   //Auto-pair some chars on typing.
   //Value must have some of supported chars without spaces:
   //  ( [ { < ' " ` ~ * #
