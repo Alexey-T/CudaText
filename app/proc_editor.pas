@@ -2628,9 +2628,9 @@ function EditorAutoCompletionAfterTypingChar(Ed: TATSynEdit;
 var
   Caret: TATCaretItem;
   STextW: UnicodeString;
-  SLexerName: string;
   bWordChar, bIdentChar: boolean;
-  bLexerHTML: boolean;
+  //SLexerName: string;
+  //bLexerHTML: boolean;
 begin
   Result:= true;
   if Ed.Carets.Count=0 then exit;
@@ -2641,8 +2641,8 @@ begin
   //avoid double firing on_complete API event, when user types chars with listbox visible; issue #4323
   if Assigned(FormAutoCompletion) and FormAutoCompletion.Visible then exit;
 
-  SLexerName:= EditorLexerNameAtPos(Ed, Point(Caret.PosX, Caret.PosY));
-  bLexerHTML:= Pos('HTML', SLexerName)>0;
+  //SLexerName:= EditorLexerNameAtPos(Ed, Point(Caret.PosX, Caret.PosY));
+  //bLexerHTML:= Pos('HTML', SLexerName)>0;
 
   //autoshow by trigger chars
   if (Ed.OptAutocompleteTriggerChars<>'') and

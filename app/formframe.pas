@@ -756,8 +756,7 @@ begin
   StateString:= ConvertShiftStateToString(KeyboardStateToShiftState);
 
   CancelAutocompleteAutoshow;
-  if Assigned(FormAutoCompletion) and FormAutoCompletion.Visible then
-    FormAutoCompletion.Close;
+  CloseFormAutoCompletion;
 
   if Ed.Markers.DeleteWithTag(UiOps.FindOccur_TagValue) then
     Ed.Update;
@@ -3202,8 +3201,7 @@ begin
   EdIndex:= EditorObjToIndex(Ed);
   if EdIndex<0 then exit;
 
-  if Assigned(FormAutoCompletion) and FormAutoCompletion.Visible then
-    FormAutoCompletion.Close;
+  CloseFormAutoCompletion;
 
   if not FileExists(SFileName) then
   begin
@@ -4719,8 +4717,7 @@ end;
 
 procedure TEditorFrame.DoFileClose;
 begin
-  if Assigned(FormAutoCompletion) and FormAutoCompletion.Visible then
-    FormAutoCompletion.Close;
+  CloseFormAutoCompletion;
 
   //clear adapters
   Lexer[Ed1]:= nil;
