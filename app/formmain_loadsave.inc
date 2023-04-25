@@ -855,7 +855,7 @@ begin
   end;
 
   SetLength(FPrevFramesEditState, FrameCount);
-  for iFrame:= 0 to FrameCount-1 do
+  for iFrame:= 0 to Length(FPrevFramesEditState)-1 do
   begin
     Frame:= Frames[iFrame];
     FPrevFramesEditState[iFrame].Assign(Frame);
