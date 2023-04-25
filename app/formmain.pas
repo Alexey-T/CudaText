@@ -454,6 +454,7 @@ type
     procedure AppPropsDropFiles(Sender: TObject;
       const FileNames: array of string);
     procedure AppPropsEndSession(Sender: TObject);
+    procedure AppPropsModalBegin(Sender: TObject);
     procedure AppPropsQueryEndSession(var Cancel: Boolean);
     procedure ButtonCancelClick(Sender: TObject);
     procedure FormActivate(Sender: TObject);
@@ -3052,6 +3053,11 @@ end;
 procedure TfmMain.AppPropsEndSession(Sender: TObject);
 begin
   //
+end;
+
+procedure TfmMain.AppPropsModalBegin(Sender: TObject);
+begin
+  CloseFormAutoCompletion;
 end;
 
 procedure TfmMain.AppPropsQueryEndSession(var Cancel: Boolean);

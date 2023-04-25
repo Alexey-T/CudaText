@@ -682,6 +682,7 @@ object fmMain: TfmMain
     OnDeactivate = AppPropsDeactivate
     OnEndSession = AppPropsEndSession
     OnQueryEndSession = AppPropsQueryEndSession
+    OnModalBegin = AppPropsModalBegin
     OnDropFiles = AppPropsDropFiles
     Left = 520
     Top = 424
