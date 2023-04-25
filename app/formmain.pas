@@ -3012,8 +3012,6 @@ procedure TfmMain.AppPropsDeactivate(Sender: TObject);
 var
   F: TEditorFrame;
 begin
-  //Caption:= 'deact '+TimeToStr(Now);
-
   if EditorOps.OpDimUnfocused<>0 then
   begin
     F:= CurrentFrame;
@@ -3021,8 +3019,11 @@ begin
       F.Editor.Update;
   end;
 
+  {
+  //it was needed when autocomplete was non-docked window, to hide autocomplete from Alt+Tab
   if Assigned(FormAutoCompletion) and FormAutoCompletion.Visible then
     FormAutoCompletion.Close;
+  }
 
   DoPyEvent_AppActivate(cEventOnAppDeactivate);
 end;
