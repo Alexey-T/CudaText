@@ -4207,6 +4207,8 @@ begin
 
   ATFlatTheme.FontName:= UiOps.VarFontName;
   ATFlatTheme.FontSize:= UiOps.VarFontSize;
+  ATFlatTheme.MonoFontName:= EditorOps.OpFontName;
+  ATFlatTheme.MonoFontSize:= EditorOps.OpFontSize;
   ATFlatTheme.ScalePercents:= ATEditorScalePercents;
   ATFlatTheme.ScaleFontPercents:= ATEditorScaleFontPercents;
 
