@@ -7551,6 +7551,8 @@ var
 begin
   AHandled:= true; //avoid selection of word
 
+  CloseFormAutoCompletion;
+
   Form:= FindBottomForm_ByEditor(Sender as TATSynEdit);
   if Form=nil then exit;
 
