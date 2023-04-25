@@ -9749,6 +9749,7 @@ begin
 
         DLG_SHOW_MODAL:
           begin
+            CloseFormAutoCompletion;
             //don't do ShowModal for docked forms, this hangs the app
             if Form.Parent=nil then
             begin
@@ -9763,6 +9764,7 @@ begin
 
         DLG_SHOW_NONMODAL:
           begin
+            CloseFormAutoCompletion;
             FormPutToVisibleArea(Form);
             Form.Show;
             Form.ShowInTaskBar:= Form.ShowInTaskbar_Pending; //after Show, for #4456
