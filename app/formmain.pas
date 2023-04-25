@@ -6796,6 +6796,7 @@ begin
   CompletionOps.CommitIfSingleItem:= Ed.OptAutocompleteCommitIfSingleItem; //before DoPyEvent
   CompletionOps.CommandForShitchTab:= cmd_SwitchTab_HotkeyNext;
   CompletionOps.ShortcutForAutocomplete:= Ed.Keymap.GetShortcutFromCommand(cmd_AutoComplete);
+  CompletionOps.ClosingTimerInverval:= UiOps.AutocompleteClosingDelay;
 
   //auto-completion for file:///, before plugins
   if UiOps.AutocompleteFileURI and

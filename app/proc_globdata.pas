@@ -279,6 +279,7 @@ type
     AutocompleteInComments: boolean;
     AutocompleteInCommentsHTML: boolean;
     AutocompleteInStrings: boolean;
+    AutocompleteClosingDelay: integer;
 
     HtmlBackgroundColorPair: array[boolean] of TColor;
 
@@ -1933,6 +1934,7 @@ begin
     AutocompleteInComments:= false;
     AutocompleteInCommentsHTML:= true;
     AutocompleteInStrings:= true;
+    AutocompleteClosingDelay:= 300;
 
     HtmlBackgroundColorPair[false]:= $F0F0F0;
     HtmlBackgroundColorPair[true]:= $101010;
