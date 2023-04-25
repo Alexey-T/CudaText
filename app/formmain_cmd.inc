@@ -62,7 +62,7 @@ begin
     cmd_FileClose:
       begin
         if Assigned(FormAutoCompletion) and FormAutoCompletion.Visible then
-          FormAutoCompletion.Hide;
+          FormAutoCompletion.Close;
 
         if Assigned(EdPages) then
         begin
@@ -84,7 +84,7 @@ begin
     cmd_FileCloseAll:
       begin
         if Assigned(FormAutoCompletion) and FormAutoCompletion.Visible then
-          FormAutoCompletion.Hide;
+          FormAutoCompletion.Close;
 
         DoCloseAllTabs(false);
 

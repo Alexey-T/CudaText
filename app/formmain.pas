@@ -2441,7 +2441,7 @@ end;
 procedure TfmMain.DoCodetree_OnClick(Sender: TObject);
 begin
   if Assigned(FormAutoCompletion) and FormAutoCompletion.Visible then
-    FormAutoCompletion.Hide;
+    FormAutoCompletion.Close;
 end;
 
 procedure TfmMain.DoCodetree_OnDblClick(Sender: TObject);
@@ -3030,7 +3030,7 @@ begin
   {
   //it was needed when autocomplete was non-docked window, to hide autocomplete from Alt+Tab
   if Assigned(FormAutoCompletion) and FormAutoCompletion.Visible then
-    FormAutoCompletion.Hide;
+    FormAutoCompletion.Close;
   }
 
   DoPyEvent_AppActivate(cEventOnAppDeactivate);
@@ -5997,7 +5997,7 @@ begin
   if Frame=nil then exit;
 
   if Assigned(FormAutoCompletion) and FormAutoCompletion.Visible then
-    FormAutoCompletion.Hide;
+    FormAutoCompletion.Close;
 
   if not Frame.EditorsLinked then
   begin

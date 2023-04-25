@@ -757,7 +757,7 @@ begin
 
   CancelAutocompleteAutoshow;
   if Assigned(FormAutoCompletion) and FormAutoCompletion.Visible then
-    FormAutoCompletion.Hide;
+    FormAutoCompletion.Close;
 
   if Ed.Markers.DeleteWithTag(UiOps.FindOccur_TagValue) then
     Ed.Update;
@@ -3203,7 +3203,7 @@ begin
   if EdIndex<0 then exit;
 
   if Assigned(FormAutoCompletion) and FormAutoCompletion.Visible then
-    FormAutoCompletion.Hide;
+    FormAutoCompletion.Close;
 
   if not FileExists(SFileName) then
   begin
@@ -4720,7 +4720,7 @@ end;
 procedure TEditorFrame.DoFileClose;
 begin
   if Assigned(FormAutoCompletion) and FormAutoCompletion.Visible then
-    FormAutoCompletion.Hide;
+    FormAutoCompletion.Close;
 
   //clear adapters
   Lexer[Ed1]:= nil;
