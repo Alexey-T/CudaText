@@ -830,6 +830,7 @@ type
     procedure DoCodetree_OnContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
     procedure DoCodetree_GetSyntaxRange(ANode: TTreeNode; out APosBegin, APosEnd: TPoint);
     procedure DoCodetree_SetSyntaxRange(ANode: TTreeNode; const APosBegin, APosEnd: TPoint);
+    procedure DoCodetree_OnClick(Sender: TObject);
     procedure DoCodetree_OnDblClick(Sender: TObject);
     procedure DoCodetree_OnMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
     procedure DoCodetree_OnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -2437,6 +2438,12 @@ begin
     AppCodetreeState.Lexer:= '';
 end;
 
+procedure TfmMain.DoCodetree_OnClick(Sender: TObject);
+begin
+  if Assigned(FormAutoCompletion) and FormAutoCompletion.Visible then
+    FormAutoCompletion.Hide;
+end;
+
 procedure TfmMain.DoCodetree_OnDblClick(Sender: TObject);
 var
   Ed: TATSynEdit;
@@ -2589,6 +2596,7 @@ begin
   CodeTree.Parent:= PanelCodeTreeAll;
   CodeTree.Align:= alClient;
   CodeTree.Themed:= true;
+  CodeTree.Tree.OnClick:= @DoCodetree_OnClick;
   CodeTree.Tree.OnDblClick:= @DoCodetree_OnDblClick;
   CodeTree.Tree.OnMouseMove:= @DoCodetree_OnMouseMove;
   CodeTree.Tree.OnKeyDown:= @DoCodetree_OnKeyDown;
@@ -3022,7 +3030,7 @@ begin
   {
   //it was needed when autocomplete was non-docked window, to hide autocomplete from Alt+Tab
   if Assigned(FormAutoCompletion) and FormAutoCompletion.Visible then
-    FormAutoCompletion.Close;
+    FormAutoCompletion.Hide;
   }
 
   DoPyEvent_AppActivate(cEventOnAppDeactivate);
@@ -5987,6 +5995,9 @@ var
 begin
   Frame:= TGroupsHelper.GetEditorFrame(Ed);
   if Frame=nil then exit;
+
+  if Assigned(FormAutoCompletion) and FormAutoCompletion.Visible then
+    FormAutoCompletion.Hide;
 
   if not Frame.EditorsLinked then
   begin

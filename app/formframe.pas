@@ -3202,6 +3202,9 @@ begin
   EdIndex:= EditorObjToIndex(Ed);
   if EdIndex<0 then exit;
 
+  if Assigned(FormAutoCompletion) and FormAutoCompletion.Visible then
+    FormAutoCompletion.Hide;
+
   if not FileExists(SFileName) then
   begin
     OnMsgStatus(Self, msgCannotFindFile+' '+ExtractFileName(SFileName));
@@ -4716,6 +4719,9 @@ end;
 
 procedure TEditorFrame.DoFileClose;
 begin
+  if Assigned(FormAutoCompletion) and FormAutoCompletion.Visible then
+    FormAutoCompletion.Hide;
+
   //clear adapters
   Lexer[Ed1]:= nil;
   if not EditorsLinked then

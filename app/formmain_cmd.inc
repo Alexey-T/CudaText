@@ -61,6 +61,9 @@ begin
 
     cmd_FileClose:
       begin
+        if Assigned(FormAutoCompletion) and FormAutoCompletion.Visible then
+          FormAutoCompletion.Hide;
+
         if Assigned(EdPages) then
         begin
           NIndex:= EdPages.Tabs.FindTabByObject(Frame);
@@ -80,6 +83,9 @@ begin
 
     cmd_FileCloseAll:
       begin
+        if Assigned(FormAutoCompletion) and FormAutoCompletion.Visible then
+          FormAutoCompletion.Hide;
+
         DoCloseAllTabs(false);
 
         Frame:= CurrentFrame;
