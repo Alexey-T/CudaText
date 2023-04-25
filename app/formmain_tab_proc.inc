@@ -130,6 +130,7 @@ begin
   D:= Tabs.GetTabData(Tabs.TabIndex);
   if D=nil then exit;
 
+  CloseFormAutoCompletion;
   DoTooltipHide;
 
   F:= D.TabObject as TEditorFrame;
