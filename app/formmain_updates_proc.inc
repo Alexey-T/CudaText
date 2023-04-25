@@ -554,7 +554,7 @@ begin
 
   ATFlatTheme.FontName:= UiOps.VarFontName;
   ATFlatTheme.FontSize:= UiOps.VarFontSize;
-  ATFlatTheme.FontQuality:= EditorOps.OpFontQuality;
+  //ATFlatTheme.FontQuality:= EditorOps.OpFontQuality; //not helpful
   ATFlatTheme.ScalePercents:= ATEditorScalePercents;
   ATFlatTheme.ScaleFontPercents:= ATEditorScaleFontPercents;
 
