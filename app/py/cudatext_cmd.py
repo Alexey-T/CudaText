@@ -77,8 +77,8 @@ cCommand_TextDuplicateLine = 172
 cCommand_TextDeleteToLineBegin = 173 | _CmdFlag_SelReset
 cCommand_TextDeleteToLineEnd = 174 | _CmdFlag_SelReset
 cCommand_TextDeleteToTextEnd = 175 | _CmdFlag_SelReset
-cCommand_TextDeleteWordNext = 176 | _CmdFlag_SelReset
-cCommand_TextDeleteWordPrev = 177 | _CmdFlag_SelReset
+cCommand_TextDeleteWordNext = 176
+cCommand_TextDeleteWordPrev = 177
 cCommand_TextDeleteToTextBegin = 178 | _CmdFlag_SelReset
 cCommand_TextDeleteWordEntire = 179 | _CmdFlag_SelReset
 
