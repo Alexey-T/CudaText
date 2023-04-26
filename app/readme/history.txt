@@ -5,8 +5,9 @@
 
 1.192.0 (2023/04)
 
-* change: "delete word next"/"delete word previous" changed behaviour with selection, they delete the selection first, like in Sublime/VSCode (thanks @veksha); bad effect: custom hotkeys for these commands were reset
+* change: commands "delete word next"/"delete word previous" changed behaviour with selection, they delete the selection first, like in Sublime/VSCode (thanks @veksha); bad effect: custom hotkeys for these commands were reset
 * change: auto-completion font now equals to 'editor font'
+
 + add: auto-completion window is now parented in the main window: 1) no more separate shadow, 2) main window don't loose focus and don't blink, 3) no more showing of autocomplete-window in Alt+Tab list (thanks d0vgan, @veksha)
 + add: new values of "ui_notif_confirm" to show _modal_ prompt to reload file (thanks @Crunchbits)
 + add: option "autocomplete_closing_delay" (thanks @pintassilgo)
