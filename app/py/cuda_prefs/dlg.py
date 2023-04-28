@@ -1133,6 +1133,7 @@ class DialogMK2:
         # set scope
         if not is_opt_modified: # do not switch scope automatically if value of that scope was not changed yet.
             new_scope = 'u' # user scope
+            active_scoped_val = ( new_scope, self.optman.get_opt_scope_value(self._cur_opt, new_scope, is_ui=False) )
         new_scope_name = self._scope_captions[new_scope]
         with ignore_edit(self.h, self.scope_ed):
             self.scope_ed.set_text_all(new_scope_name)
