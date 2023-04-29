@@ -3,6 +3,8 @@
   - fixed
   * changed
 
+- fix: regression since 2022/07: lexer-specific config is not applied for N>1 files with the same lexer (thanks @veksha)
+
 1.192.0 (2023/04)
 
 * change: commands "delete word next"/"delete word previous" changed behaviour with selection, they delete the selection first, like in Sublime/VSCode (thanks @veksha); bad effect: custom hotkeys for these commands were reset
