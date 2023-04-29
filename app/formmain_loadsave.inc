@@ -1745,6 +1745,7 @@ procedure TfmMain.DoOps_LoadOptionsLexerSpecific(F: TEditorFrame; Ed: TATSynEdit
     PrevTabSpacesChanged:= F.TabSpacesChanged;
 
     EditorSaveTempOptions(Ed, TempOps);
+    TempOps.FontSize:= Ops.OpFontSize;
     DoApplyFrameOps(F, Ops, true);
     EditorRestoreTempOptions(Ed, TempOps, Ed.InitialOptions);
 
