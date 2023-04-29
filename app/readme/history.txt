@@ -3,7 +3,9 @@
   - fixed
   * changed
 
-- fix: regression since 2022/07: lexer-specific config is not applied for N>1 files with the same lexer (thanks @veksha)
+1.192.1 (2023/04)
+
+- fix: regression since 2022/07: lexer-specific config is not applied to all N>1 files with the same lexer (thanks @veksha)
 
 1.192.0 (2023/04)
 
