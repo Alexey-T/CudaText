@@ -1751,7 +1751,9 @@ begin
     PrevTabSpaces:= Ed.OptTabSpaces;
     PrevTabSpacesChanged:= F.TabSpacesChanged;
 
+    EditorSaveTempOptions(Ed, TempOps);
     DoApplyFrameOps(F, FLastLoadedEditorOps, true);
+    EditorRestoreTempOptions(Ed, TempOps, Ed.InitialOptions);
 
     if PrevTabSizeChanged then
       Ed.OptTabSize:= PrevTabSize;
