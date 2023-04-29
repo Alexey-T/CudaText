@@ -970,7 +970,7 @@ begin
 
     ////state
     case UiOps.SidepanelOnStart of
-      0: bFlag:= cfg.GetValue('show_sidepanel', true);
+      0: bFlag:= cfg.GetValue('show_sidepanel', false);
       1: bFlag:= true;
       2: bFlag:= false;
     end;
