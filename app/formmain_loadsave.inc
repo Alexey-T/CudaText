@@ -1773,7 +1773,6 @@ begin
   if bExistsDefault or bExistsUser then
   begin
     FLastLoadedEditorOps:= EditorOps;
-    EditorSaveTempOptions(Ed, TempOps);
 
     PrevTabSize:= Ed.OptTabSize;
     PrevTabSizeChanged:= F.TabSizeChanged;
@@ -1794,6 +1793,7 @@ begin
       AppOption_SaveToStringlist(EditorOps_CenteringDistFree, CurLexer, FLastLoadedEditorOps.OpCenteringForDistractionFree);
     end;
 
+    EditorSaveTempOptions(Ed, TempOps);
     DoApplyFrameOps(F, FLastLoadedEditorOps, true);
     EditorRestoreTempOptions(Ed, TempOps, Ed.InitialOptions);
 
