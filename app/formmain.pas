@@ -710,6 +710,7 @@ type
     FLastAppActivate: QWord;
     FLastSaveSessionTick: QWord;
     FLastLoadedConfig: string;
+    FLastLoadedEditorOps: TEditorOps;
     FDisableTreeClearing: boolean;
     FInvalidateShortcuts: boolean;
     FInvalidateShortcutsForce: boolean;

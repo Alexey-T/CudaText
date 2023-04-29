@@ -1731,7 +1731,6 @@ end;
 
 procedure TfmMain.DoOps_LoadOptionsLexerSpecific(F: TEditorFrame; Ed: TATSynEdit);
 var
-  Ops: TEditorOps;
   FilenameDefault, FilenameUser, CurLexer: string;
   bExistsDefault, bExistsUser: boolean;
   TempOps: TATEditorTempOptions;
@@ -1745,7 +1744,22 @@ begin
 
   CurLexer:= F.LexerName[Ed];
   SNewLoadedConfig:= 'lexer:'+CurLexer;
-  if FLastLoadedConfig=SNewLoadedConfig then exit; //fix issue #4225
+  if FLastLoadedConfig=SNewLoadedConfig then //fix issue #4225
+  begin
+    PrevTabSize:= Ed.OptTabSize;
+    PrevTabSizeChanged:= F.TabSizeChanged;
+    PrevTabSpaces:= Ed.OptTabSpaces;
+    PrevTabSpacesChanged:= F.TabSpacesChanged;
+
+    DoApplyFrameOps(F, FLastLoadedEditorOps, true);
+
+    if PrevTabSizeChanged then
+      Ed.OptTabSize:= PrevTabSize;
+    if PrevTabSpacesChanged then
+      Ed.OptTabSpaces:= PrevTabSpaces;
+
+    exit;
+  end;
   FLastLoadedConfig:= SNewLoadedConfig;
 
   FilenameDefault:= AppFile_LexerSpecificConfig(CurLexer, true);
@@ -1756,7 +1770,7 @@ begin
 
   if bExistsDefault or bExistsUser then
   begin
-    Ops:= EditorOps;
+    FLastLoadedEditorOps:= EditorOps;
     EditorSaveTempOptions(Ed, TempOps);
 
     PrevTabSize:= Ed.OptTabSize;
@@ -1766,19 +1780,19 @@ begin
 
     if bExistsDefault then
     begin
-      DoOps_LoadOptions(FilenameDefault, Ops, false);
+      DoOps_LoadOptions(FilenameDefault, FLastLoadedEditorOps, false);
     end;
 
     if bExistsUser then
     begin
-      DoOps_LoadOptions(FilenameUser, Ops, false);
+      DoOps_LoadOptions(FilenameUser, FLastLoadedEditorOps, false);
 
       //store 'centering...' options in special way
-      AppOption_SaveToStringlist(EditorOps_CenteringWidth, CurLexer, Ops.OpCenteringWidth);
-      AppOption_SaveToStringlist(EditorOps_CenteringDistFree, CurLexer, Ops.OpCenteringForDistractionFree);
+      AppOption_SaveToStringlist(EditorOps_CenteringWidth, CurLexer, FLastLoadedEditorOps.OpCenteringWidth);
+      AppOption_SaveToStringlist(EditorOps_CenteringDistFree, CurLexer, FLastLoadedEditorOps.OpCenteringForDistractionFree);
     end;
 
-    DoApplyFrameOps(F, Ops, true);
+    DoApplyFrameOps(F, FLastLoadedEditorOps, true);
     EditorRestoreTempOptions(Ed, TempOps, Ed.InitialOptions);
 
     if PrevTabSizeChanged then
