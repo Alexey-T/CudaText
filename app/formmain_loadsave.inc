@@ -1731,7 +1731,7 @@ end;
 
 procedure TfmMain.DoOps_LoadOptionsLexerSpecific(F: TEditorFrame; Ed: TATSynEdit);
   //
-  procedure ApplyOptions;
+  procedure ApplyOps(const Ops: TEditorOps);
   var
     PrevTabSize: integer;
     PrevTabSizeChanged: boolean;
@@ -1745,7 +1745,7 @@ procedure TfmMain.DoOps_LoadOptionsLexerSpecific(F: TEditorFrame; Ed: TATSynEdit
     PrevTabSpacesChanged:= F.TabSpacesChanged;
 
     EditorSaveTempOptions(Ed, TempOps);
-    DoApplyFrameOps(F, FLastLoadedEditorOps, true);
+    DoApplyFrameOps(F, Ops, true);
     EditorRestoreTempOptions(Ed, TempOps, Ed.InitialOptions);
 
     if PrevTabSizeChanged then
@@ -1765,7 +1765,7 @@ begin
   SNewLoadedConfig:= 'lexer:'+CurLexer;
   if FLastLoadedConfig=SNewLoadedConfig then //fix issue #4225
   begin
-    ApplyOptions;
+    ApplyOps(FLastLoadedEditorOps);
     exit;
   end;
   FLastLoadedConfig:= SNewLoadedConfig;
@@ -1794,7 +1794,7 @@ begin
       AppOption_SaveToStringlist(EditorOps_CenteringDistFree, CurLexer, FLastLoadedEditorOps.OpCenteringForDistractionFree);
     end;
 
-    ApplyOptions;
+    ApplyOps(FLastLoadedEditorOps);
   end;
 end;
 
