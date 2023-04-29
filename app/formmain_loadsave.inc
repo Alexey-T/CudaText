@@ -1730,21 +1730,14 @@ end;
 
 
 procedure TfmMain.DoOps_LoadOptionsLexerSpecific(F: TEditorFrame; Ed: TATSynEdit);
-var
-  FilenameDefault, FilenameUser, CurLexer: string;
-  bExistsDefault, bExistsUser: boolean;
-  TempOps: TATEditorTempOptions;
-  SNewLoadedConfig: string;
-  PrevTabSize: integer;
-  PrevTabSizeChanged: boolean;
-  PrevTabSpaces: boolean;
-  PrevTabSpacesChanged: boolean;
-begin
-  if F=nil then exit;
-
-  CurLexer:= F.LexerName[Ed];
-  SNewLoadedConfig:= 'lexer:'+CurLexer;
-  if FLastLoadedConfig=SNewLoadedConfig then //fix issue #4225
+  //
+  procedure ApplyOptions;
+  var
+    PrevTabSize: integer;
+    PrevTabSizeChanged: boolean;
+    PrevTabSpaces: boolean;
+    PrevTabSpacesChanged: boolean;
+    TempOps: TATEditorTempOptions;
   begin
     PrevTabSize:= Ed.OptTabSize;
     PrevTabSizeChanged:= F.TabSizeChanged;
@@ -1759,7 +1752,20 @@ begin
       Ed.OptTabSize:= PrevTabSize;
     if PrevTabSpacesChanged then
       Ed.OptTabSpaces:= PrevTabSpaces;
+  end;
+  //
+var
+  FilenameDefault, FilenameUser, CurLexer: string;
+  bExistsDefault, bExistsUser: boolean;
+  SNewLoadedConfig: string;
+begin
+  if F=nil then exit;
 
+  CurLexer:= F.LexerName[Ed];
+  SNewLoadedConfig:= 'lexer:'+CurLexer;
+  if FLastLoadedConfig=SNewLoadedConfig then //fix issue #4225
+  begin
+    ApplyOptions;
     exit;
   end;
   FLastLoadedConfig:= SNewLoadedConfig;
@@ -1773,11 +1779,6 @@ begin
   if bExistsDefault or bExistsUser then
   begin
     FLastLoadedEditorOps:= EditorOps;
-
-    PrevTabSize:= Ed.OptTabSize;
-    PrevTabSizeChanged:= F.TabSizeChanged;
-    PrevTabSpaces:= Ed.OptTabSpaces;
-    PrevTabSpacesChanged:= F.TabSpacesChanged;
 
     if bExistsDefault then
     begin
@@ -1793,14 +1794,7 @@ begin
       AppOption_SaveToStringlist(EditorOps_CenteringDistFree, CurLexer, FLastLoadedEditorOps.OpCenteringForDistractionFree);
     end;
 
-    EditorSaveTempOptions(Ed, TempOps);
-    DoApplyFrameOps(F, FLastLoadedEditorOps, true);
-    EditorRestoreTempOptions(Ed, TempOps, Ed.InitialOptions);
-
-    if PrevTabSizeChanged then
-      Ed.OptTabSize:= PrevTabSize;
-    if PrevTabSpacesChanged then
-      Ed.OptTabSpaces:= PrevTabSpaces;
+    ApplyOptions;
   end;
 end;
 
