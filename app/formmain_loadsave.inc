@@ -1769,6 +1769,7 @@ begin
     exit;
   end;
   FLastLoadedConfig:= SNewLoadedConfig;
+  FLastLoadedEditorOps:= EditorOps;
 
   FilenameDefault:= AppFile_LexerSpecificConfig(CurLexer, true);
   FilenameUser:= AppFile_LexerSpecificConfig(CurLexer, false);
@@ -1778,8 +1779,6 @@ begin
 
   if bExistsDefault or bExistsUser then
   begin
-    FLastLoadedEditorOps:= EditorOps;
-
     if bExistsDefault then
     begin
       DoOps_LoadOptions(FilenameDefault, FLastLoadedEditorOps, false);
