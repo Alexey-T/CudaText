@@ -36,7 +36,7 @@ procedure EditorStringToBookmarks(Ed: TATSynEdit; const AValue: string);
 procedure EditorClear(Ed: TATSynEdit);
 function EditorGetCurrentChar(Ed: TATSynEdit): Widechar;
 procedure EditorApplyOps(Ed: TATSynEdit; const Op: TEditorOps;
-  AApplyUnprintedAndWrap, AApplyTabSize, AApplyCentering, AOneLiner: boolean);
+  AApplyUnprintedAndWrap, AApplyTabSize, AApplyCentering: boolean);
 procedure EditorApplyOpsCommon(Ed: TATSynEdit);
 
 function EditorGetLinkAtScreenCoord(Ed: TATSynEdit; P: TPoint): atString;
@@ -183,7 +183,7 @@ uses
   math;
 
 procedure EditorApplyOps(Ed: TATSynEdit; const Op: TEditorOps;
-  AApplyUnprintedAndWrap, AApplyTabSize, AApplyCentering, AOneLiner: boolean);
+  AApplyUnprintedAndWrap, AApplyTabSize, AApplyCentering: boolean);
 var
   Sep: TATStringSeparator;
   MouseActions: TATEditorMouseActions;
@@ -233,7 +233,7 @@ begin
   Ed.OptAutocompleteUpDownAtEdge:= Op.OpAutocompleteUpDownAtEdge;
   Ed.OptAutocompleteCommitIfSingleItem:= Op.OpAutocompleteCommitIfSingleItem;
 
-  if not AOneLiner then
+  if not Ed.ModeOneLine then
   begin
     Ed.OptGutterVisible:= Op.OpGutterShow;
     Ed.OptGutterShowFoldAlways:= Op.OpGutterFoldAlways;
@@ -341,7 +341,7 @@ begin
   Ed.OptCaretBlinkTime:= Op.OpCaretBlinkTime;
   Ed.OptCaretBlinkEnabled:= Op.OpCaretBlinkEn;
 
-  if not AOneLiner then
+  if not Ed.ModeOneLine then
   begin
     if not Ed.IsCaretShapeChangedFromAPI then
     begin
@@ -381,7 +381,7 @@ begin
   Ed.OptScrollStyleHorz:= TATEditorScrollbarStyle(Op.OpScrollStyleHorz);
   Ed.OptNonWordChars:= Op.OpNonWordChars;
 
-  if not AOneLiner then
+  if not Ed.ModeOneLine then
   begin
     Ed.OptFoldStyle:= TATEditorFoldStyle(Op.OpFoldStyle);
     Ed.OptFoldTooltipVisible:= Op.OpFoldTooltipShow;

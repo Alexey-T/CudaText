@@ -687,7 +687,7 @@ begin
 end;
 
 procedure DoControl_ApplyEditorProps(Ed: TATSynEdit; AForm: TFormDummy;
-  AApplyUnprintedAndWrap, AApplyTabSize, AApplyCentering, AOneLiner: boolean);
+  AApplyUnprintedAndWrap, AApplyTabSize, AApplyCentering: boolean);
 begin
   Ed.Keymap:= AppKeymapMain;
 
@@ -716,8 +716,8 @@ begin
   Ed.OptThemed:= true;
   EditorApplyTheme(Ed);
 
-  if not AOneLiner then
-    EditorApplyOps(Ed, EditorOps, AApplyUnprintedAndWrap, AApplyTabSize, AApplyCentering, AOneLiner)
+  if not Ed.ModeOneLine then
+    EditorApplyOps(Ed, EditorOps, AApplyUnprintedAndWrap, AApplyTabSize, AApplyCentering)
   else
   begin
     Ed.OptCaretBlinkTime:= EditorOps.OpCaretBlinkTime;
@@ -816,7 +816,7 @@ begin
   if S='editor' then
   begin
     Ctl:= TATSynEdit.Create(AForm);
-    DoControl_ApplyEditorProps(TATSynEdit(Ctl), AForm, true, true, false, false);
+    DoControl_ApplyEditorProps(TATSynEdit(Ctl), AForm, true, true, false);
 
     Adapter:= TATAdapterEControl.Create(Ctl);
     Adapter.EnabledSublexerTreeNodes:= UiOps.TreeSublexers;
@@ -830,14 +830,14 @@ begin
   if S='editor_edit' then
   begin
     Ctl:= TATEdit.Create(AForm);
-    DoControl_ApplyEditorProps(TATSynEdit(Ctl), AForm, false, false, false, true);
+    DoControl_ApplyEditorProps(TATSynEdit(Ctl), AForm, false, false, false);
     exit;
   end;
 
   if S='editor_combo' then
   begin
     Ctl:= TATComboEdit.Create(AForm);
-    DoControl_ApplyEditorProps(TATSynEdit(Ctl), AForm, false, false, false, true);
+    DoControl_ApplyEditorProps(TATSynEdit(Ctl), AForm, false, false, false);
     exit;
   end;
 

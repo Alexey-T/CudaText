@@ -699,8 +699,8 @@ end;
 procedure TfmMain.DoApplyFrameOps(F: TEditorFrame; const Op: TEditorOps; AForceApply: boolean);
 begin
   if F=nil then exit;
-  EditorApplyOps(F.Ed1, Op, AForceApply, not F.TabSizeChanged, Groups.Mode=gmOne, false);
-  EditorApplyOps(F.Ed2, Op, AForceApply, not F.TabSizeChanged, Groups.Mode=gmOne, false);
+  EditorApplyOps(F.Ed1, Op, AForceApply, not F.TabSizeChanged, Groups.Mode=gmOne);
+  EditorApplyOps(F.Ed2, Op, AForceApply, not F.TabSizeChanged, Groups.Mode=gmOne);
 
   F.Adapter[F.Ed1].DynamicHiliteEnabled:= Op.OpLexerDynamicHiliteEnabled;
   F.Adapter[F.Ed1].DynamicHiliteMaxLines:= Op.OpLexerDynamicHiliteMaxLines;
