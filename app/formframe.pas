@@ -2884,11 +2884,11 @@ begin
       end;
       UpdateLocked(Ed, true);
       Ed.LoadFromFile(AFileName, LoadOptions);
-      UpdateLocked(Ed, false);
-      St.EncodingDetect:= true;
       SetFileName(Ed, AFileName);
       UpdateCaptionFromFilename;
     finally
+      UpdateLocked(Ed, false);
+      St.EncodingDetect:= true;
       if Assigned(FProgressForm) then
       begin
         St.OnProgress:= FProgressOldHandler;
