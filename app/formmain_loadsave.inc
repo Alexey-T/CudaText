@@ -1543,7 +1543,7 @@ begin
 
   UiOps.PictureTypes:= cfg.GetValue('picture_types', UiOps.PictureTypes);
 
-  UiOps.MaxFileSizeToOpen:= Min(cfg.GetValue('ui_max_size_open', UiOps.MaxFileSizeToOpen), 2047 {don't support >=2Gb files});
+  UiOps.MaxFileSizeToOpen:= cfg.GetValue('ui_max_size_open', UiOps.MaxFileSizeToOpen);
   UiOps.MaxFileSizeForLexer:= cfg.GetValue('ui_max_size_lexer', UiOps.MaxFileSizeForLexer);
 
   UiOps.AutocompleteAcpFiles:= cfg.GetValue('autocomplete_acp', UiOps.AutocompleteAcpFiles);
