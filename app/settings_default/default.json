@@ -1497,6 +1497,7 @@
 
   //[File]
   //Maximal file size, allowed to open, in Mb.
+  //Value is internally limited by 2047.
   "ui_max_size_open": 500,
 
   //Maximal file size, for which allowed to use lexers, in Mb.
