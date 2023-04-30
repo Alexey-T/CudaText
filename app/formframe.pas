@@ -2898,14 +2898,17 @@ begin
       end;
     end;
   except
-    if AAllowErrorMsgBox then
-      MsgBox(msgCannotOpenFile+#10+AFileName, MB_OK or MB_ICONERROR);
+    on E: Exception do
+    begin
+      if AAllowErrorMsgBox then
+        MsgBox(msgCannotOpenFile+#10+AFileName+#10+E.Message, MB_OK or MB_ICONERROR);
 
-    SetFileName(Ed, '');
-    UpdateCaptionFromFilename;
+      SetFileName(Ed, '');
+      UpdateCaptionFromFilename;
 
-    EditorClear(Ed);
-    exit
+      EditorClear(Ed);
+      exit
+    end;
   end;
 
   //turn off opts for huge files
