@@ -3,6 +3,7 @@
   - fixed
   * changed
 
++ add: if file has line with length >2G, don't crash but show nice error message
 - fix: regression since 2022/07: lexer-specific config is not applied to all N>1 files with the same lexer (thanks @veksha)
 
 1.192.0 (2023/04)
