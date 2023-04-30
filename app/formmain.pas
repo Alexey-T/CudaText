@@ -5678,6 +5678,7 @@ var
   NCellSize, NSizeX, NSizeY: integer;
   TempX, TempY: integer;
   P: TPoint;
+  PntCoord: TATPoint;
 begin
   if ASeconds<=0 then
   begin
@@ -5756,9 +5757,10 @@ begin
           if TempY>=0 then
             P.Y:= TempY;
         end;
-        P:= Ed.CaretPosToClientPos(P);
-        if P.Y<0 then exit;
-        if not PtInRect(Ed.ClientRect, P) then exit;
+        PntCoord:= Ed.CaretPosToClientPos(P);
+        if PntCoord.Y<0 then exit;
+        if not ATPointInRect(Ed.ClientRect, PntCoord) then exit;
+        P:= Point(PntCoord.X, PntCoord.Y);
         P:= Ed.ClientToScreen(P);
         Dec(P.Y, NSizeY);
         if P.Y<=WorkRect.Top then

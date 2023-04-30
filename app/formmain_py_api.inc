@@ -6047,6 +6047,7 @@ var
   StrValue: string;
   StrTemp: UnicodeString;
   Pnt: TPoint;
+  PntCoord: TATPoint;
   Details: TATEditorPosDetails;
 begin
   with AppPython.Engine do
@@ -6095,7 +6096,7 @@ begin
 
         CONVERT_PIXELS_TO_CARET:
           begin
-            Pnt:= Ed.ClientPosToCaretPos(Point(X, Y), Details);
+            Pnt:= Ed.ClientPosToCaretPos(ATPoint(X, Y), Details);
             if Pnt.Y<0 then
               exit(ReturnNone);
 
@@ -6107,11 +6108,11 @@ begin
             if (X<0) or (not Strs.IsIndexValid(Y)) then
               exit(ReturnNone);
 
-            Pnt:= Ed.CaretPosToClientPos(Point(X, Y));
-            if Pnt.Y<0 then
+            PntCoord:= Ed.CaretPosToClientPos(Point(X, Y));
+            if PntCoord.Y<0 then
               exit(ReturnNone);
 
-            Result:= Py_BuildValue('(ii)', Pnt.X, Pnt.Y);
+            Result:= Py_BuildValue('(LL)', PntCoord.X, PntCoord.Y);
           end;
 
         CONVERT_OFFSET_TO_CARET:

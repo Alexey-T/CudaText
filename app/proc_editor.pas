@@ -857,20 +857,22 @@ end;
 
 procedure EditorMouseClick_AtCursor(Ed: TATSynEdit; AAndSelect: boolean);
 var
-  Pnt: TPoint;
+  PntText: TPoint;
+  PntCoord: TATPoint;
+  P0: TPoint;
   Details: TATEditorPosDetails;
   Caret: TATCaretItem;
 begin
   if Ed.Carets.Count=0 then exit;
   Caret:= Ed.Carets[0];
 
-  Pnt:= Mouse.CursorPos;
-  Pnt:= Ed.ScreenToClient(Pnt);
-  Pnt:= Ed.ClientPosToCaretPos(Pnt, Details);
+  P0:= Ed.ScreenToClient(Mouse.CursorPos);
+  PntCoord:= ATPoint(P0.X, P0.Y);
+  PntText:= Ed.ClientPosToCaretPos(PntCoord, Details);
 
   Ed.DoCaretSingle(
-    Pnt.X,
-    Pnt.Y,
+    PntText.X,
+    PntText.Y,
     IfThen(AAndSelect, Caret.PosX, -1),
     IfThen(AAndSelect, Caret.PosY, -1)
     );
@@ -929,11 +931,13 @@ end;
 
 function EditorGetLinkAtScreenCoord(Ed: TATSynEdit; P: TPoint): atString;
 var
+  PntCoord: TATPoint;
   Details: TATEditorPosDetails;
 begin
   Result:= '';
   P:= Ed.ScreenToClient(P);
-  P:= Ed.ClientPosToCaretPos(P, Details);
+  PntCoord:= ATPoint(P.X, P.Y);
+  P:= Ed.ClientPosToCaretPos(PntCoord, Details);
   Result:= Ed.DoGetLinkAtPos(P.X, P.Y);
   if SBeginsWith(Result, 'www') then
     Result:= 'https://'+Result;
