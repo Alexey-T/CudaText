@@ -1544,7 +1544,7 @@ begin
   UiOps.PictureTypes:= cfg.GetValue('picture_types', UiOps.PictureTypes);
 
   UiOps.MaxFileSizeToOpen:= cfg.GetValue('ui_max_size_open', UiOps.MaxFileSizeToOpen);
-  UiOps.MaxFileSizeToOpen:= Min(UiOps.MaxFileSizeToOpen, 2047); //because TStream.ReadBuffer is called, it can handle only 32-bit LongInt
+  UiOps.MaxFileSizeToOpen:= Min(UiOps.MaxFileSizeToOpen, 4*1024-1); //because TStream.ReadBuffer is called, it can handle only 32-bit
   UiOps.MaxFileSizeForLexer:= cfg.GetValue('ui_max_size_lexer', UiOps.MaxFileSizeForLexer);
 
   UiOps.AutocompleteAcpFiles:= cfg.GetValue('autocomplete_acp', UiOps.AutocompleteAcpFiles);
