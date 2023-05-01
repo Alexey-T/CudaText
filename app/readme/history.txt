@@ -11,10 +11,11 @@ core changes for huge documents:
   + add: if file has line with length>2G, don't crash but show nice error message on opening
   - fix: caret up/down moving over huge lines worked very slow
   - fix: mouse selection over huge lines worked very slow
-  - fix: horizontal scrollbar could not scroll the the end of line length=2G
+  - fix: horizontal/vertical scrollbars could not scroll to the very end, on huge documents
   - fix: bad handling of error "too many lines in file"
 
 * change: don't save document's text to session, if text size>50M
+- fix: app always copied the selection to 'primary selection' on Unix, ignoring "auto_copy_clp" option
 - fix: regression since 2022/07: lexer-specific config is not applied to all N>1 files with the same lexer (thanks @veksha)
 
 1.192.0 (2023/04)
