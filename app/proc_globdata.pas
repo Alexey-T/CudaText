@@ -230,7 +230,7 @@ type
     PyOutputCopyToStdout: boolean;
 
     MaxLineLenForEditingKeepingLexer: integer;
-    MaxSizeToConsiderAsHuge: integer;
+    MaxSizeForSession: integer;
     InfoAboutOptionsEditor: boolean;
     AllowRunPkExec: boolean;
     AllowCheckConfigsForNullBytes: boolean;
@@ -2064,7 +2064,7 @@ begin
     PyOutputCopyToStdout:= false;
 
     MaxLineLenForEditingKeepingLexer:= 2000;
-    MaxSizeToConsiderAsHuge:= 50*1024*1024;
+    MaxSizeForSession:= 50*1024*1024;
     InfoAboutOptionsEditor:= true;
     AllowRunPkExec:= true;
     AllowCheckConfigsForNullBytes:= true;
