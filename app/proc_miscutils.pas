@@ -66,7 +66,8 @@ function DoClipboardFormatsAsString: string;
 
 procedure AppScalePanelControls(APanel: TWinControl);
 procedure AppScaleSplitter(C: TSplitter);
-procedure AppInitProgressForm(out AForm: TForm; out AProgress: TATGauge; const AText: string);
+procedure AppInitProgressForm(out AForm: TForm; out AProgress: TATGauge;
+  out AButtonCancel: TATButton; const AText: string);
 function AppValidateJson(const AText: string): boolean;
 
 procedure LexerEnumSublexers(An: TecSyntAnalyzer; List: TStringList);
@@ -1308,9 +1309,14 @@ begin
 end;
 
 
-procedure AppInitProgressForm(out AForm: TForm; out AProgress: TATGauge; const AText: string);
+procedure AppInitProgressForm(out AForm: TForm; out AProgress: TATGauge;
+  out AButtonCancel: TATButton; const AText: string);
+const
+  cIndent = 6;
+  cBtnHeight = 20;
+  cBtnWidth = 80;
 var
-  Pane: TPanel;
+  Pane, Pane2: TPanel;
 begin
   AForm:= TForm.CreateNew(nil, 0);
   AForm.Width:= 600;
@@ -1331,16 +1337,31 @@ begin
   Pane.Font.Color:= GetAppColor(apclTabFont);
   Pane.Caption:= AText;
 
+  Pane2:= TPanel.Create(AForm);
+  Pane2.Align:= alBottom;
+  Pane2.Height:= cBtnHeight+cIndent*2;
+  Pane2.Parent:= AForm;
+  Pane2.BevelInner:= bvNone;
+  Pane2.BevelOuter:= bvNone;
+  Pane2.Caption:= '';
+
   AProgress:= TATGauge.Create(AForm);
-  AProgress.Align:= alBottom;
+  AProgress.Align:= alClient;
+  AProgress.Parent:= Pane2;
   AProgress.Kind:= gkHorizontalBar;
   AProgress.ShowText:= false;
-  AProgress.Height:= 20;
-  AProgress.BorderSpacing.Bottom:= 6;
-  AProgress.BorderSpacing.Left:= 6;
-  AProgress.BorderSpacing.Right:= 6;
-  AProgress.Parent:= AForm;
+  AProgress.BorderSpacing.Bottom:= cIndent;
+  AProgress.BorderSpacing.Left:= cIndent;
+  AProgress.BorderSpacing.Right:= cIndent;
   AProgress.Progress:= 0;
+
+  AButtonCancel:= TATButton.Create(AForm);
+  AButtonCancel.Align:= alRight;
+  AButtonCancel.Parent:= Pane2;
+  AButtonCancel.Width:= cBtnWidth;
+  AButtonCancel.BorderSpacing.Bottom:= cIndent;
+  AButtonCancel.BorderSpacing.Left:= cIndent;
+  AButtonCancel.BorderSpacing.Right:= cIndent;
 end;
 
 
