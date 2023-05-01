@@ -5,10 +5,13 @@
 
 1.193.0 (2023/05)
 
-* change: Undo-list is cleared when any action touches line with length>100K
-+ add: caret must move OK in line with length>1G (note: edition of such line is very slow)
-+ add: if file has line with length>2G, don't crash but show nice error message
-+ add: Up/Down arrows over huge lines (e.g. length=1G) now work much faster
+core changes for huge documents:
+  * change: Undo-list is cleared when any action touches line with length>100K
+  * change: don't save document to session, if document size>50M
+  + add: caret must move OK in line with length up to 2G
+  + add: if file has line with length>2G, don't crash but show nice error message on opening
+  + add: Up/Down arrows over huge lines (e.g. length=1G) now work much faster
+
 - fix: regression since 2022/07: lexer-specific config is not applied to all N>1 files with the same lexer (thanks @veksha)
 
 1.192.0 (2023/04)
