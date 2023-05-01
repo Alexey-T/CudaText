@@ -3603,6 +3603,8 @@ end;
 
 procedure TEditorFrame.PaintMicromap(Ed: TATSynEdit; ACanvas: TCanvas; const ARect: TRect);
 begin
+  if Ed.Strings.Count>UiOps.MaxLinesForMicromapPaint then exit;
+
   if FMicromapBmp=nil then
     FMicromapBmp:= TBGRABitmap.Create;
   EditorPaintMicromap(Ed, ACanvas, ARect, FMicromapBmp);
