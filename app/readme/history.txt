@@ -11,7 +11,8 @@ core changes for huge documents:
   + add: if file has line with length>2G, don't crash but show nice error message on opening
   - fix: caret up/down moving over huge lines worked very slow
   - fix: mouse selection over huge lines worked very slow
-  - fix: horizontal/vertical scrollbars could not scroll to the very end, on huge documents
+  - fix: horizontal scrollbar could not scroll to the end, with line length=2G
+  - fix: vertical scrollbar could not scroll to the end, with 500M lines
   - fix: bad handling of error "too many lines in file"
 
 * change: don't save document's text to session, if text size>50M
