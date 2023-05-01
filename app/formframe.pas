@@ -1065,7 +1065,8 @@ begin
 
   //support Primary Selection on Linux
   {$ifdef linux}
-  EditorCopySelToPrimarySelection(Ed, cMaxSelectedLinesForAutoCopy);
+  if ATEditorOptions.AutoCopyToPrimarySel then
+    EditorCopySelToPrimarySelection(Ed, cMaxSelectedLinesForAutoCopy);
   {$endif}
 
   //on_caret, now
