@@ -10,7 +10,7 @@ core changes for huge documents:
   * change: don't save document to session, if document size>50M
   + add: caret must move OK in line with length up to 2G
   + add: if file has line with length>2G, don't crash but show nice error message on opening
-  + add: Up/Down arrows over huge lines (e.g. length=1G) now work much faster
+  - fix: Up/Down arrows over huge lines (e.g. length=1G) were very slow
 
 - fix: regression since 2022/07: lexer-specific config is not applied to all N>1 files with the same lexer (thanks @veksha)
 
