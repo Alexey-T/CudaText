@@ -406,6 +406,7 @@
   "max_line_len_for_accurate_width": 500,
 
   //Maximal line length, for which Undo is still working.
+  //Note: this option is global, not per-lexer.
   "max_line_len_for_undo": 102400,
 
   //Maximal line length, when editing of a line will not reset current lexer to 'none'
@@ -425,6 +426,7 @@
 
   //[Lexers]
   //Maximal line length, which is parsed by "lite" lexers.
+  //Note: this option is global, not per-lexer.
   "max_line_len_parsed": 4000,
 
   //[View/Gutter]
