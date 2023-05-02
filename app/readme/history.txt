@@ -16,6 +16,7 @@ core changes for huge documents:
   - fix: bad handling of error "too many lines in file"
 
 * change: don't save document's text to session, if text size>50M
++ add: option "max_line_len_brackets"
 - fix: app always copied the selection to 'primary selection' on Unix, ignoring "auto_copy_clp" option
 - fix: regression since 2022/07: lexer-specific config is not applied to all N>1 files with the same lexer (thanks @veksha)
 
