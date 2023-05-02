@@ -405,6 +405,9 @@
   //Note: this option is global, not per-lexer.
   "max_line_len_for_accurate_width": 500,
 
+  //Maximal line length, for which Undo is still working.
+  "max_line_len_for_undo": 102400,
+
   //Maximal line length, when editing of a line will not reset current lexer to 'none'
   //for a few seconds. For example, for CPU Intel Core i3, good value is 1900
   //(for longer lines, developer sees caret rendering glitches).
@@ -1497,6 +1500,7 @@
 
   //[File]
   //Maximal file size, allowed to open, in Mb.
+  //Value is internally limited by 2047.
   "ui_max_size_open": 500,
 
   //Maximal file size, for which allowed to use lexers, in Mb.
