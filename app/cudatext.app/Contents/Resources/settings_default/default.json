@@ -221,6 +221,7 @@
   //Value "oem" means OS-dependant OEM encoding: cp437, cp850, cp852, cp866,
   //cp874, shift-jis, gbk, uhc, big5.
   //UTF-8 / UTF-16 / UTF-32 variants are not allowed here.
+  //Note: this option is global, not per-lexer.
   "fallback_encoding": "ansi",
 
   //[File]
@@ -422,6 +423,7 @@
 
   //Maximal count of lines in document, for which app can calculate macros
   //{offset_max} and {offset_caret}, for statusbar display.
+  //Note: this option is global, not per-lexer.
   "max_lines_to_calc_offsets": 7000,
 
   //[Lexers]
