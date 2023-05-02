@@ -528,7 +528,6 @@ type
     OpTabSmart: boolean;
 
     OpMaxLineLenForBracketFinder: integer;
-    OpMaxLineLenToTokenize: integer;
 
     OpActiveBorderRaw: integer;
     OpActiveBorderInControls: boolean;
@@ -1677,7 +1676,6 @@ begin
     OpTabSpaces:= false;
     OpTabSmart:= false;
 
-    OpMaxLineLenToTokenize:= 4000;
     OpMaxLineLenForBracketFinder:= 1000;
 
     OpActiveBorderRaw:= 1;

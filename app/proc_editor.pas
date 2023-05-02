@@ -311,8 +311,6 @@ begin
     Ed.OptUnprintedForceTabs:= Pos('T', Op.OpUnprintedContent)>0;
   end;
 
-  Ed.OptMaxLineLenToTokenize:= Op.OpMaxLineLenToTokenize;
-
   if Pos('.', Op.OpUnprintedContent)>0 then
     ATEditorOptions.UnprintedEndSymbol:= aeueDot
   else

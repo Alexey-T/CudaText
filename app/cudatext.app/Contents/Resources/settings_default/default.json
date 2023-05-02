@@ -424,9 +424,7 @@
   "max_lines_to_calc_offsets": 7000,
 
   //[Lexers]
-  //Maximal line length parsed, ie:
-  //a) It limits the parsing of huge lines by "lite" lexers.
-  //b) It limits the pair-brackets finder.
+  //Maximal line length, which is parsed by "lite" lexers.
   "max_line_len_parsed": 4000,
 
   //[View/Gutter]
