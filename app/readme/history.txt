@@ -6,7 +6,7 @@
 1.193.0 (2023/05)
 
 core changes for huge documents:
-  * change: Undo-list is cleared when any action touches line with length>100K; added the option for this: "max_line_len_for_undo"
+  * change: Undo-list is cleared when any action touches a line with length>100K; added the option for this: "max_line_len_for_undo"
   + add: caret must move OK in line with length up to 2G
   + add: if file has line with length>2G, don't crash but show nice error message on opening
   - fix: caret up/down moving over huge lines worked very slow
@@ -17,7 +17,7 @@ core changes for huge documents:
 
 * change: don't save document's text to session, if text size>50M
 + add: option "max_line_len_brackets"
-- fix: app always copied the selection to 'primary selection' on Unix, ignoring "auto_copy_clp" option
+- fix: app always copied the selection to 'primary selection' on Unix, ignoring the "auto_copy_clp" option
 - fix: regression since 2022/07: lexer-specific config is not applied to all N>1 files with the same lexer (thanks @veksha)
 
 1.192.0 (2023/04)
