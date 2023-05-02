@@ -1256,7 +1256,7 @@ begin
   Op.OpTabSmart:= cfg.GetValue('tab_smart', Op.OpTabSmart);
 
   Op.OpMaxLineLenToTokenize:= cfg.GetValue('max_line_len_parsed', Op.OpMaxLineLenToTokenize);
-  Op.OpMaxLineLenForBracketFinder:= Op.OpMaxLineLenToTokenize; //do we need separate option?
+  Op.OpMaxLineLenForBracketFinder:= cfg.GetValue('max_line_len_brackets', Op.OpMaxLineLenForBracketFinder);
   ATLiteLexerMaxLineLength:= Op.OpMaxLineLenToTokenize;
 
   Op.OpOverwriteSel:= cfg.GetValue('ovr_sel', Op.OpOverwriteSel);
