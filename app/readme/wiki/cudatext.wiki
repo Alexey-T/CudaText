@@ -806,7 +806,7 @@ Feature enables to highlight some 'tokens' dynamically (with default greenish ba
 * HTML, PHP, XML: opening tag and corresponding closing tag are highlighted, when caret is over one of them
 * CSS: rule highlights {} block with different background color, when caret is inside that block
 * Bash: block edge tokens are highlighted when caret is inside the block: 'if'/'fi', 'case'/'esac', 'do'/'done'
-* Lua
+* Lua: block edge tokens are highlighted when caret is inside the block: 'function'/'end', 'if'/'end', 'do/end'
 
 Screenshot for HTML/XML/Lua:
 
