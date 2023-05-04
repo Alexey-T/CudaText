@@ -799,17 +799,14 @@ Note about SQL blocks. CudaText has lexer preinstalled, it's lite lexer "SQL ^",
 
 ==Dynamic highlight==
 
-Dynamic highlight is enabled by option '''"lexer_dynamic_hilite":true'''.
-Additional limitation option '''"lexer_dynamic_hilite_max_lines":2000''' allows the feature only in files which have not more than (option value) lines. This limitation is useful because dynamic highlight makes lexer parsing slower.
+Dynamic highlight is controlled by option "dynamic_highlight". Option value (default is 4000) allows the feature only in documents which have not more than N (option value) lines. This limitation is useful because dynamic highlight makes lexer parsing slower.
 
-Feature enables to highlight some lexer 'tokens' dynamically (with default greenish background color), when caret changes position. It is required that lexer utilizes this feature. These lexers in the CudaText distro utilize this feature:
+Feature enables to highlight some 'tokens' dynamically (with default greenish background color), when caret changes position. It works only when lexer is configured to use this feature. These lexers in the CudaText distro use it:
 
-* HTML
-* PHP, because it copies lot of HTML configuration
-* XML
+* HTML, PHP, XML: opening tag and corresponding closing tag are highlighted, when caret is over one of them
+* CSS: rule highlights {} block with different background color, when caret is inside that block
+* Bash: block edge tokens are highlighted when caret is inside the block: 'if'/'fi', 'case'/'esac', 'do'/'done'
 * Lua
-* CSS: rule highlights {}-block with background color when caret is inside
-* JavaScript: rule highlights {} brackets when caret is inside (here it is the same as another feature: pair-bracket highlighting)
 
 Screenshot for HTML/XML/Lua:
 
@@ -819,11 +816,11 @@ Screenshot for HTML/XML/Lua:
 * On the XML example editor, lexer highligts 'data' tag, surrounding the caret.
 * On the Lua example editor, lexer highlights 2 nested blocks, surrounding the caret: function/end and do/end.
 
-In old times, dynamic highlight was also utilized in Pascal lexer to highlight tokens begin/end when caret is inside begin/end block. Later Pascal lexer was simplified and setting was removed. Few other lexers from Addons Manager also utilize this feature.
+In the old times, dynamic highlight was also utilized in Pascal lexer to highlight tokens 'begin'/'end' when caret is inside the block. Later Pascal lexer was simplified and setting was removed. Few other lexers from Addons Manager also utilize this feature.
 
 It is possible to detect if some lexer utilizes this feature. Look inside LexerName.lcf file, find there "DynHighlight" parameter. Two typical configurations allow dynamic highlight:
 
-HTML, PHP, JavaScript, Lua:
+HTML, PHP, Lua:
 
       DynHighlight = dhBound
       HighlightPos = cpRange
