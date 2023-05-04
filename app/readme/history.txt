@@ -3,6 +3,11 @@
   - fixed
   * changed
 
+1.193.1 (2023/05)
+
+* change: replaced 2 options "lexer_dynamic_hilite" and "lexer_dynamic_hilite_max_lines" with single option "dynamic_highlight"; changed the default to 4000 ie it's enabled by default).
++ add: lexer Bash: added 'dynamic highlight' rules for blocks: if/fi, case/esac, do/done
+
 1.193.0 (2023/05)
 
 core changes for huge documents:
