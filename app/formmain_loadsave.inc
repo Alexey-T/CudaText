@@ -1371,8 +1371,7 @@ begin
   Op.OpCenteringForDistractionFree:= cfg.GetValue('centering_for_distraction_free', Op.OpCenteringForDistractionFree);
   Op.OpScrollStyleHorz:= cfg.GetValue('scroll_style_horz', Op.OpScrollStyleHorz);
 
-  Op.OpLexerDynamicHiliteEnabled:= cfg.GetValue('lexer_dynamic_hilite', Op.OpLexerDynamicHiliteEnabled);
-  Op.OpLexerDynamicHiliteMaxLines:= cfg.GetValue('lexer_dynamic_hilite_max_lines', Op.OpLexerDynamicHiliteMaxLines);
+  Op.OpLexerDynamicHiliteMaxLines:= cfg.GetValue('dynamic_highlight', Op.OpLexerDynamicHiliteMaxLines);
   Op.OpLexerLineSeparators:= false; //cfg.GetValue('lexer_line_separators', Op.OpLexerLineSeparators);
 
   Op.OpZebra:= cfg.GetValue('zebra', Op.OpZebra);

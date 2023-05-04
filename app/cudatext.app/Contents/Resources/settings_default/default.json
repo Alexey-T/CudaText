@@ -289,12 +289,10 @@
   "dim_unfocused": 0,
 
   //[Lexers]
-  //Enable dynamic (caret-depending) highlight.
-  //Feature is described in the Wiki topic "Dynamic highlight".
-  "lexer_dynamic_hilite": false,
-
-  //Max number of lines in editor, for which dynamic highlighting is enabled.
-  "lexer_dynamic_hilite_max_lines": 2000,
+  //Max number of lines in document, for which 'dynamic highlight' is enabled.
+  //Value 0: feature is disabled.
+  //See description in the Wiki topic "Dynamic highlight".
+  "dynamic_highlight": 4000,
 
   //On app start, postpone lexer parsing, until file tab becomes visible (ie don't parse hidden tabs).
   //This makes much faster app start, if session loads lot of files.

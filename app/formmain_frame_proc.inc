@@ -270,7 +270,7 @@ procedure TfmMain.FrameOnInitAdapter(Sender: TObject);
 begin
   with Sender as TATAdapterEControl do
   begin
-    DynamicHiliteEnabled:= EditorOps.OpLexerDynamicHiliteEnabled;
+    DynamicHiliteEnabled:= EditorOps.OpLexerDynamicHiliteMaxLines>0;
     DynamicHiliteMaxLines:= EditorOps.OpLexerDynamicHiliteMaxLines;
 
     OnParseDone:= @FrameParseDone;

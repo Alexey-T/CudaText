@@ -702,10 +702,10 @@ begin
   EditorApplyOps(F.Ed1, Op, AForceApply, not F.TabSizeChanged, Groups.Mode=gmOne);
   EditorApplyOps(F.Ed2, Op, AForceApply, not F.TabSizeChanged, Groups.Mode=gmOne);
 
-  F.Adapter[F.Ed1].DynamicHiliteEnabled:= Op.OpLexerDynamicHiliteEnabled;
+  F.Adapter[F.Ed1].DynamicHiliteEnabled:= Op.OpLexerDynamicHiliteMaxLines>0;
   F.Adapter[F.Ed1].DynamicHiliteMaxLines:= Op.OpLexerDynamicHiliteMaxLines;
 
-  F.Adapter[F.Ed2].DynamicHiliteEnabled:= Op.OpLexerDynamicHiliteEnabled;
+  F.Adapter[F.Ed2].DynamicHiliteEnabled:= Op.OpLexerDynamicHiliteMaxLines>0;
   F.Adapter[F.Ed2].DynamicHiliteMaxLines:= Op.OpLexerDynamicHiliteMaxLines;
 
   if not F.BracketHiliteUserChanged then
