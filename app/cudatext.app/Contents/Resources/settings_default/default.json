@@ -1450,7 +1450,7 @@
   //When any of these chars is typed while showing completion listbox,
   //listbox enters selection, and typed char is appended too.
   //Option is (mostly) for lexer-specific configs.
-  "autocomplete_commit_chars": " ,;",
+  "autocomplete_commit_chars": ",;",
 
   //When any of these chars is typed while showing completion listbox,
   //listbox is closed, and typed char is appended.
