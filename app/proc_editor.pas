@@ -989,9 +989,17 @@ begin
 end;
 
 
-function Editor_NextCharAllowed_AutoCloseBracket(ch: widechar): boolean;
+function Editor_NextCharAllowed_AutoCloseBracket(Ed: TATSynEdit; ch: widechar): boolean;
+var
+  S: UnicodeString;
 begin
-  Result:= Pos(ch, ' ])};:.,=>'#9)>0;
+  S:= Ed.OptNonWordChars+' '#9;
+  S:= UnicodeStringReplace(S, '"', '', [rfReplaceAll]);
+  S:= UnicodeStringReplace(S, '''', '', [rfReplaceAll]);
+  S:= UnicodeStringReplace(S, '(', '', [rfReplaceAll]);
+  S:= UnicodeStringReplace(S, '[', '', [rfReplaceAll]);
+  S:= UnicodeStringReplace(S, '{', '', [rfReplaceAll]);
+  Result:= Pos(ch, S)>0;
 end;
 
 
@@ -1139,7 +1147,7 @@ begin
 
   //bad context: caret is before a not-allowed symbol char
   if (NPos<Length(Str)) and
-    not Editor_NextCharAllowed_AutoCloseBracket(Str[NPos+1]) then
+    not Editor_NextCharAllowed_AutoCloseBracket(Ed, Str[NPos+1]) then
       exit(false);
 end;
 
