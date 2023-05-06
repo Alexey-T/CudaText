@@ -1112,6 +1112,7 @@ begin
       );
   end;
 
+  Ed.Update;
   Result:= true;
 end;
 
