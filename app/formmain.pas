@@ -2245,6 +2245,10 @@ begin
           UpdateStatusbar;
         end;
       end;
+    StatusbarTag_Msg:
+      begin
+        //nothing
+      end;
     21..MaxInt:
       begin
         PyStatusbarPanelClick(Sender, Data.Tag);
@@ -5652,9 +5656,9 @@ begin
     end;
 
     STime:= FormatDateTime('[HH:mm] ', Now);
+    AppStatusbarMessages.Add(STime+AText);
     while AppStatusbarMessages.Count>UiOps.MaxStatusbarMessages do
       AppStatusbarMessages.Delete(0);
-    AppStatusbarMessages.Add(STime+AText);
     FLastStatusbarMessage:= AText;
 
     DoStatusbarTextByTag(Status, StatusbarTag_Msg, {STime+}GetStatusbarPrefix(CurrentFrame)+AText);

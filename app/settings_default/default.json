@@ -1286,6 +1286,10 @@
   //Statusbar messages: show time in seconds.
   "ui_statusbar_time": 5,
 
+  //Max count of lines in the tooltip of last statusbar cell.
+  //If 0: tooltip is disabled.
+  "ui_statusbar_hint_lines": 35,
+
   //[UI]
   //Show full file path in the window title.
   "ui_title_path": false,
