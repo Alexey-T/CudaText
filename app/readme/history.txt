@@ -8,6 +8,8 @@
 * change: replaced 2 options "lexer_dynamic_hilite" / "lexer_dynamic_hilite_max_lines" with single option "dynamic_highlight"; changed the default to 4000, ie it's now enabled by default
 * change: removed space-char from option "autocomplete_commit_chars"
 + add: lexer Bash: added 'dynamic highlight' rules for blocks: if/fi, case/esac, do/done
+- fix: missed repaint on auto-deleting pair bracket, on Windows (thanks @veksha)
+- fix: editor 'scroll event' is called too much and may hide auto-completion (thanks @veksha)  
 
 1.193.0 (2023/05)
 
