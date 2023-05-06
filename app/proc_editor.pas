@@ -989,7 +989,7 @@ begin
 end;
 
 
-function Editor_NextCharAllowed_AutoCloseBracket(ch: char): boolean;
+function Editor_NextCharAllowed_AutoCloseBracket(ch: widechar): boolean;
 begin
   Result:= Pos(ch, ' ])};:.,=>'#9)>0;
 end;
