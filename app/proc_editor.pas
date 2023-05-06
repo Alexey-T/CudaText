@@ -1134,10 +1134,10 @@ begin
 
     //bad context: quote-char is typed after a word-char. issue #3331
     if AQuoteChar and IsCharWord(Str[NPos], Ed.OptNonWordChars) then
-       exit(false);
+      exit(false);
   end;
 
-  //bad context: caret is just before a word-char
+  //bad context: caret is before a not-allowed symbol char
   if (NPos<Length(Str)) and
     not Editor_NextCharAllowed_AutoCloseBracket(Str[NPos+1]) then
       exit(false);
