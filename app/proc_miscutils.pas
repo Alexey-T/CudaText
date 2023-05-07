@@ -156,6 +156,7 @@ var
 
 procedure InitHtmlTags;
 procedure StringsDeduplicate(L: TStringList; CaseSens: boolean);
+function StringsTrailingText(L: TStringList; AItemCount: integer): string;
 
 
 implementation
@@ -1429,6 +1430,18 @@ begin
   F.Top:= Max(R.Top, Min(R.Bottom-F.Height, F.Top));
 end;
 
+function StringsTrailingText(L: TStringList; AItemCount: integer): string;
+var
+  i: integer;
+begin
+  Result:= '';
+  for i:= Max(0, L.Count-AItemCount) to L.Count-1 do
+  begin
+    Result+= L[i];
+    if i<L.Count-1 then
+      Result+= #10;
+  end;
+end;
 
 finalization
 

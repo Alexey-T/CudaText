@@ -269,6 +269,7 @@ type
     MaxFileSizeForLexer: integer;
     MaxFileSizeWithoutProgressForm: integer;
     MaxStatusbarMessages: integer;
+    MaxMaxStatusbarMessages: integer;
     MaxUndoSizeForSessionFile: integer;
 
     AutocompleteAcpFiles: boolean;
@@ -1944,6 +1945,7 @@ begin
     MaxFileSizeForLexer:= 2;
     MaxFileSizeWithoutProgressForm:= 10*1024*1024;
     MaxStatusbarMessages:= 35; //Linux gtk2 shows maximal ~38 lines in tooltip
+    MaxMaxStatusbarMessages:= 35;
     MaxUndoSizeForSessionFile:= 1000000;
 
     ListboxCentered:= true;

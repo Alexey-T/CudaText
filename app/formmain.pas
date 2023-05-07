@@ -5676,13 +5676,13 @@ begin
 
     STime:= FormatDateTime('[HH:mm] ', Now);
     AppStatusbarMessages.Add(STime+AText);
-    while AppStatusbarMessages.Count>UiOps.MaxStatusbarMessages do
+    while AppStatusbarMessages.Count>UiOps.MaxMaxStatusbarMessages do
       AppStatusbarMessages.Delete(0);
     FLastStatusbarMessage:= AText;
 
     DoStatusbarTextByTag(Status, StatusbarTag_Msg, {STime+}GetStatusbarPrefix(CurrentFrame)+AText);
     DoStatusbarColorByTag(Status, StatusbarTag_Msg, GetAppColorOfStatusbarFont);
-    DoStatusbarHintByTag(Status, StatusbarTag_Msg, AppStatusbarMessages.Text);
+    DoStatusbarHintByTag(Status, StatusbarTag_Msg, StringsTrailingText(AppStatusbarMessages, UiOps.MaxStatusbarMessages));
 
     TimerStatusClear.Enabled:= false;
     TimerStatusClear.Enabled:= true;
