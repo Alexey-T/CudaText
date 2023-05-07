@@ -799,7 +799,7 @@ Note about SQL blocks. CudaText has lexer preinstalled, it's lite lexer "SQL ^",
 
 ==Dynamic highlight==
 
-Dynamic highlight is controlled by option "dynamic_highlight" (this is new option name since CudaText 1.193.1). Option value (default is 4000) allows the feature only in documents which have not more than N (option value) lines. This limitation is useful because dynamic highlight makes lexer parsing slower.
+Dynamic highlight is controlled by option "dynamic_highlight" (this is new option since CudaText 1.193.1, before it was 2 options "lexer_dynamic_hilite"/"lexer_dynamic_hilite_max_lines"). Option allows the caret-dependant highlighting only in documents which have not more than N (option value) lines. This limitation is useful because dynamic highlight makes lexer parsing slower.
 
 Feature enables to highlight some 'tokens' dynamically (with default greenish background color), when caret changes position. It works only when lexer is configured to use this feature. These lexers in the CudaText distro use it:
 
