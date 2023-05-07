@@ -548,6 +548,7 @@ type
     PopupTabSize: TPopupMenu;
     PopupViewerMode: TPopupMenu;
     PopupPicScale: TPopupMenu;
+    PopupStatusbarMsg: TPopupMenu;
     mnuTabCloseAllAll: TMenuItem;
     mnuTabCloseAllSame: TMenuItem;
     mnuTabCloseLeft: TMenuItem;
@@ -2160,6 +2161,9 @@ var
   Frame: TEditorFrame;
   FrameKind: TAppFrameKind;
   Data: TATStatusData;
+  Pnt: TPoint;
+  mi: TMenuItem;
+  i: integer;
 begin
   Frame:= CurrentFrame;
   if Frame=nil then exit;
@@ -2247,7 +2251,18 @@ begin
       end;
     StatusbarTag_Msg:
       begin
-        //nothing
+        if PopupStatusbarMsg=nil then
+          PopupStatusbarMsg:= TPopupMenu.Create(Self);
+        PopupStatusbarMsg.Items.Clear;
+        for i:= 0 to AppStatusbarMessages.Count-1 do
+        begin
+          mi:= TMenuItem.Create(Self);
+          mi.Caption:= AppStatusbarMessages[i];
+          mi.Enabled:= false;
+          PopupStatusbarMsg.Items.Add(mi);
+        end;
+        Pnt:= Mouse.CursorPos;
+        PopupStatusbarMsg.PopUp(Pnt.X, Pnt.Y);
       end;
     21..MaxInt:
       begin
