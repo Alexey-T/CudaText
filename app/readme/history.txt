@@ -10,7 +10,7 @@
 + add: new option "ui_statusbar_hint_lines" allows to set the statusbar hint height; also statusbar last cell now reacts to click (thanks @pintassilgo)
 + add: lexer Bash: added 'dynamic highlight' rules for blocks: if/fi, case/esac, do/done
 - fix: Windows: missed repaint on auto-deleting pair bracket (thanks @veksha)
-- fix: editor 'scroll event' was called too much and may hide auto-completion (thanks @veksha)  
+- fix: sometimes auto-completion was hiding on user typing (thanks @veksha)  
 
 1.193.0 (2023/05)
 
