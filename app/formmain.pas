@@ -740,6 +740,7 @@ type
     procedure FindAndExtractRegexMatches;
     function GetFileOpenOptionsString(AFileCount: integer): string;
     procedure HandleTimerCommand(Ed: TATSynEdit; CmdCode: integer; CmdInvoke: TATEditorCommandInvoke);
+    procedure InvalidateMouseoverDependantControls;
     function IsTooManyTabsOpened: boolean;
     function GetUntitledNumberedCaption: string;
     procedure PopupBottomOnPopup(Sender: TObject);
@@ -2334,6 +2335,9 @@ begin
   Frame:= CurrentFrame;
 
   UpdateToolbarButtons(Frame);
+
+  if not PtInRect(BoundsRect, Mouse.CursorPos) then
+    InvalidateMouseoverDependantControls;
 
   //frame requested to update statusbar
   if FNeedUpdateStatuses then
@@ -9219,6 +9223,23 @@ begin
     end;
   finally
     FreeAndNil(Form);
+  end;
+end;
+
+procedure TfmMain.InvalidateMouseoverDependantControls;
+var
+  i: integer;
+begin
+  for i:= 0 to Groups.PagesVisibleCount-1 do
+    Groups.Pages[i].Tabs.Invalidate;
+
+  Status.Invalidate;
+
+  if ATFlatTheme.EnableColorBgOver then
+  begin
+    ToolbarSideTop.Invalidate;
+    ToolbarSideMid.Invalidate;
+    ToolbarSideLow.Invalidate;
   end;
 end;
 
