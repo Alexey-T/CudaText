@@ -5,7 +5,7 @@ object fmMain: TfmMain
   Width = 1236
   AllowDropFiles = True
   Caption = 'CudaText'
-  ClientHeight = 493
+  ClientHeight = 518
   ClientWidth = 1236
   Constraints.MinHeight = 200
   Constraints.MinWidth = 300
@@ -28,7 +28,7 @@ object fmMain: TfmMain
   Visible = True
   object PanelSide: TATPanelSimple
     Left = 0
-    Height = 493
+    Height = 518
     Top = 0
     Width = 75
     Align = alLeft
@@ -39,7 +39,7 @@ object fmMain: TfmMain
       AnchorSideBottom.Side = asrBottom
       Left = 0
       Height = 30
-      Top = 463
+      Top = 488
       Width = 75
       Anchors = [akLeft, akBottom]
       AutoSize = True
@@ -53,7 +53,7 @@ object fmMain: TfmMain
       AnchorSideTop.Control = PanelSide
       AnchorSideBottom.Control = ToolbarSideMid
       Left = 0
-      Height = 433
+      Height = 458
       Top = 0
       Width = 75
       Anchors = [akTop, akLeft, akBottom]
@@ -72,7 +72,7 @@ object fmMain: TfmMain
       AnchorSideBottom.Control = ToolbarSideLow
       Left = 0
       Height = 30
-      Top = 433
+      Top = 458
       Width = 75
       Anchors = [akLeft, akBottom]
       AutoSize = True
@@ -84,7 +84,7 @@ object fmMain: TfmMain
   end
   object PanelAll: TATPanelSimple
     Left = 75
-    Height = 493
+    Height = 518
     Top = 0
     Width = 1161
     Align = alClient
@@ -102,13 +102,13 @@ object fmMain: TfmMain
     end
     object PanelMain: TATPanelSimple
       Left = 0
-      Height = 469
+      Height = 494
       Top = 24
       Width = 1161
       Align = alClient
       object PanelEditors: TATPanelSimple
         Left = 0
-        Height = 469
+        Height = 494
         Top = 0
         Width = 1161
         Align = alClient
@@ -784,7 +784,6 @@ object fmMain: TfmMain
   end
   object TimerAppIdle: TIdleTimer
     AutoEnabled = True
-    Interval = 300
     OnTimer = TimerAppIdleTimer
     Left = 392
     Top = 88
