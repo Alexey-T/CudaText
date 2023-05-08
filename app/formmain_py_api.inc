@@ -4149,7 +4149,6 @@ begin
               (Ed.AdapterForHilite as TATAdapterEControl).Lexer:= An;
               Ed.DoEventChange(0);
             end;
-            Application.ProcessMessages; //fix issue #5052
           end;
 
         PROP_COLOR:
