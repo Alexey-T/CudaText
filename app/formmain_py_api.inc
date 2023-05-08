@@ -3393,7 +3393,7 @@ begin
             else
             if Ed.AdapterForHilite is TATLiteLexer then
             begin
-              Result:= PyUnicodeFromString(TATLiteLexer(Ed.AdapterForHilite).LexerName);
+              Result:= PyUnicodeFromString(TATLiteLexer(Ed.AdapterForHilite).LexerName+msgLiteLexerSuffix);
             end
             else
               Result:= PyUnicodeFromString('');
