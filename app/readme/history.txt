@@ -3,6 +3,8 @@
   - fixed
   * changed
 
++ add: now it's possible to drag&drop text block from one ui-tab to another, without using 2+ groups: drag the block through the ui-tabs area (thanks @WebMechanic)
+
 1.193.3 (2023/05)
 
 * change: replaced 2 options "lexer_dynamic_hilite" / "lexer_dynamic_hilite_max_lines" with single option "dynamic_highlight"; changed the default to 4000, ie it's now enabled by default
