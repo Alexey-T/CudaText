@@ -726,7 +726,7 @@ def safe_open_url(url):
     '''
     if os.name=='nt':
         import subprocess
-        subprocess.Popen(['start', '', url], shell=True)
+        subprocess.Popen('start "" "{}"'.format(url), shell=True)
     else:
         import webbrowser
         webbrowser.open_new_tab(url)
