@@ -3,8 +3,10 @@
   - fixed
   * changed
 
-+ add: now it's possible to drag&drop text block from one ui-tab to another, without using 2+ groups: drag the block through the ui-tabs area (thanks @WebMechanic)
-+ add: drag&drop |-mark is shown also when dragging to another ui-tab
+drag&drop:
+  + add: now it's possible to drag&drop text block from one ui-tab to another, without using 2+   groups: drag through the ui-tabs area
+  + add: drag&drop |-mark is shown also when dragging to another ui-tab
+  + add: drag&drop is allowed into single-line fields
 
 1.193.3 (2023/05)
 
