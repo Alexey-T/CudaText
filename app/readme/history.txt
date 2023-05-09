@@ -10,6 +10,8 @@ drag&drop:
   + add: drag&drop |-mark is shown also when dragging to another ui-tab
   + add: drag&drop is allowed into single-line fields
 
++ add: Project Manager supports old Python 3.4 (thanks @de77)
+
 1.193.3 (2023/05)
 
 * change: replaced 2 options "lexer_dynamic_hilite" / "lexer_dynamic_hilite_max_lines" with single option "dynamic_highlight"; changed the default to 4000, ie it's now enabled by default
