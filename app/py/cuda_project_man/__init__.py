@@ -717,7 +717,11 @@ class Command:
             if not fn: return
             #print('Reading dir:', fn)
             try:
-                nodes = sorted(os.scandir(fn), key=Command.node_ordering_direntry)
+                if hasattr(os, "scandir") and callable(os.scandir):
+                    nodes = sorted(os.scandir(fn), key=Command.node_ordering_direntry)
+                else:
+                    # support for old Python 3.4
+                    nodes = sorted(Path(fn).iterdir(), key=Command.node_ordering)
             except:
                 tree_proc(self.tree, TREE_ITEM_SET_ICON, parent, image_index=self.ICON_BAD)
                 raise # good to see the error
