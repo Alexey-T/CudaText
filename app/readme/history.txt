@@ -7,8 +7,8 @@
 
 drag&drop:
   + add: now it's possible to drag&drop text block from one ui-tab to another, without using 2+ groups: drag through the ui-tabs area
-  + add: drag&drop |-mark is shown also when dragging to another ui-tab
-  + add: drag&drop is allowed into single-line fields
+  + add: drag&drop of single-line selection is allowed into single-line fields (Console input, Code-Tree filter)
+  + add: drag&drop of text / of ui-tab: drop-marker is shown also when dragging to another ui-tab
 
 + add: Project Manager supports old Python 3.4 (thanks @de77)
 
