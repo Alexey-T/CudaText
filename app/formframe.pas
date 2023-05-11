@@ -2524,7 +2524,7 @@ begin
       S:= IntToStr(cmd_SetLexer)+','+an.LexerName
     else
       S:= IntToStr(cmd_SetLexer)+',';
-    if not ((MacroStrings.Count>0) and (MacroStrings[MacroStrings.Count-1]=S)) then
+    if StringsTrailingText(MacroStrings, 1)<>S then
       MacroStrings.Add(S);
   end;
 
@@ -2638,7 +2638,7 @@ begin
       S:= IntToStr(cmd_SetLexer)+','+an.LexerName+msgLiteLexerSuffix
     else
       S:= IntToStr(cmd_SetLexer)+',';
-    if not ((MacroStrings.Count>0) and (MacroStrings[MacroStrings.Count-1]=S)) then
+    if StringsTrailingText(MacroStrings, 1)<>S then
       MacroStrings.Add(S);
   end;
 
