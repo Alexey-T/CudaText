@@ -10,6 +10,7 @@ drag&drop:
   + add: drag&drop of single-line selection is allowed into single-line fields (Console input, Code-Tree filter)
   + add: drag&drop of text / of ui-tab: drop-marker is shown also when dragging to another ui-tab
 
++ add: change of lexer is recorded to macros (thanks @veksha)
 + add: Project Manager supports old Python 3.4 (thanks @de77)
 
 1.193.3 (2023/05)
