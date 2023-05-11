@@ -55,6 +55,7 @@ const
   cmd_MouseClickNearCaret = 2490;
   cmd_MouseClickNearCaretAndSelect = 2491;
   cmd_FinderAction = 2492;
+  cmd_SetLexer = 2493;
 
   //normal commands
   cmd_FileNew            = 2500;

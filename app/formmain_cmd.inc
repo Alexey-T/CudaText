@@ -1348,6 +1348,11 @@ begin
       DoFindActionFromString(AText);
     cmd_GotoLastEditingPos:
       EditorGotoLastEditingPos(Ed, UiOps.FindIndentHorz, UiOps.FindIndentVert);
+    cmd_SetLexer:
+      begin
+        if Assigned(Frame) then
+          Frame.LexerName[Ed]:= AText;
+      end
 
     else
       AHandled:= false;

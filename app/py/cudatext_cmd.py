@@ -251,6 +251,7 @@ cmd_MouseClickNearCaret = 2490
 cmd_MouseClick = cmd_MouseClickNearCaret
 cmd_MouseSelect = 2491
 cmd_FinderAction = 2492
+cmd_SetLexer = 2493
 
 cmd_FileNew            = 2500
 cmd_FileOpen           = 2501

@@ -2517,6 +2517,14 @@ begin
     if not ada.Stop then exit;
   }
 
+  if MacroRecord then
+  begin
+    if Assigned(an) then
+      MacroStrings.Add(IntToStr(cmd_SetLexer)+','+an.LexerName)
+    else
+      MacroStrings.Add(IntToStr(cmd_SetLexer)+',');
+  end;
+
   if (an=nil) or IsFileTooBigForLexer(GetFileName(Ed)) then
   begin
     if EditorsLinked then
@@ -2607,7 +2615,8 @@ end;
 
 procedure TEditorFrame.SetLexerLite(Ed: TATSynEdit; an: TATLiteLexer);
 begin
-  Lexer[Ed]:= nil;
+  if Lexer[Ed]<>nil then
+    Lexer[Ed]:= nil;
 
   Ed.AdapterForHilite:= an;
   Ed.Update;
@@ -2617,6 +2626,12 @@ begin
     Ed2.AdapterForHilite:= an;
     Ed2.Update;
   end;
+
+  if MacroRecord then
+    if Assigned(an) then
+      MacroStrings.Add(IntToStr(cmd_SetLexer)+','+an.LexerName+msgLiteLexerSuffix)
+    else
+      MacroStrings.Add(IntToStr(cmd_SetLexer)+',');
 
   //to apply lexer-specific config
   OnLexerChange(Ed);
