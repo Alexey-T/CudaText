@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.193.5 (2023/05)
+1.194.0 (2023/05)
 
 drag&drop:
   + add: now it's possible to drag&drop text block from one ui-tab to another, without using 2+ groups: drag through the ui-tabs area
@@ -14,6 +14,7 @@ drag&drop:
 + add: change of lexer is recorded to macros (thanks @veksha)
 + add: Project Manager supports old Python 3.4 (thanks @de77)
 + add: lexers C/C++: highlight illegal numeric suffixes
++ add: lexer Batch: many improvements
 
 1.193.3 (2023/05)
 
