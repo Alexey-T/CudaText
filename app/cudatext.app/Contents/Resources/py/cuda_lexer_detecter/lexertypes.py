@@ -144,7 +144,7 @@ TYPES = {
     "cp": ['Oberon'],
     "cr": ['Crystal'],
     "crf": ['CRF'],
-    "cs": ['C#', 'GLSL'],
+    "cs": ['C#'],
     "cshtml": ['Razor'],
     "cson": ['CoffeeScript'],
     "csx": ['C#'],
