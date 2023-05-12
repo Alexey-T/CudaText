@@ -516,6 +516,7 @@ Most of them are located in the Addons Manager "Install" list.
 * Markdown
 * MATLAB
 * Maya
+* MDX (Markdown with JSX)
 * MediaWiki
 * Meson
 * Metafont
