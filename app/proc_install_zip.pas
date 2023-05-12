@@ -120,6 +120,7 @@ begin
 
   {$ifdef darwin}
   if Pos(',macos,', S)>0 then exit(true);
+  if Pos(',macos-'+CpuString+',', S)>0 then exit(true);
   {$endif}
 
   {$ifdef freebsd}
