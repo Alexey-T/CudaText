@@ -105,6 +105,16 @@ object SyntAnal5: TLibSyntAnalyzer
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
+    end
+    item
+      DisplayName = 'Incorrect'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+      BorderTypeBottom = blSolid
+      BorderColorBottom = clRed
     end>
   TokenRules = <
     item
@@ -208,6 +218,13 @@ object SyntAnal5: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
+      DisplayName = 'Bad number suffix'
+      StyleName = 'Incorrect'
+      Expression = '(?<=[\d'#39'\.])[a-z_]\w*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
       DisplayName = 'Id'
       StyleName = 'Id'
       TokenType = 2
@@ -220,8 +237,8 @@ object SyntAnal5: TLibSyntAnalyzer
       StyleName = 'Number'
       TokenType = 5
       Expression = 
-        '0x\h[\h'#39']* (\. \h[\h'#39']*)? p[\+\-]? \h[\h'#39']* \b |'#13#10'0x\h[\h'#39']* \. ' +
-        '\h[\h'#39']* \b'
+        '0x\h[\h'#39']* (\. \h[\h'#39']*)? p[\+\-]? \h[\h'#39']* |'#13#10'0x\h[\h'#39']* \. \h[' +
+        '\h'#39']*'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -229,7 +246,7 @@ object SyntAnal5: TLibSyntAnalyzer
       DisplayName = 'Num hex'
       StyleName = 'Number'
       TokenType = 5
-      Expression = '0x[\h'#39']+ [ul]*\b |'#13#10'0b[01'#39']+ [ul]*\b'
+      Expression = '0x[\h'#39']+ [ul]* |'#13#10'0b[01'#39']+ [ul]*'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -238,9 +255,8 @@ object SyntAnal5: TLibSyntAnalyzer
       StyleName = 'Number'
       TokenType = 5
       Expression = 
-        '\d[\d'#39']* (\.[\d'#39']*)? e[\+\-]? \d+ [Lf]?\b |'#13#10'\. [\d'#39']+ e[\+\-]? ' +
-        '\d+ [Lf]?\b |'#13#10'\d[\d'#39']* \. (\d[\d'#39']*)? [Lf]?\b |'#13#10'\. \d[\d'#39']* [L' +
-        'f]?\b'
+        '\d[\d'#39']* (\.[\d'#39']*)? e[\+\-]? \d+ [Lf]? |'#13#10'\. [\d'#39']+ e[\+\-]? \d' +
+        '+ [Lf]? |'#13#10'\d[\d'#39']* \. (\d[\d'#39']*)? [Lf]? |'#13#10'\. \d[\d'#39']* [Lf]?'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -248,7 +264,7 @@ object SyntAnal5: TLibSyntAnalyzer
       DisplayName = 'Num decimal'
       StyleName = 'Number'
       TokenType = 5
-      Expression = '\d[\d'#39']* [ul]*\b'
+      Expression = '\d[\d'#39']* [ul]*'
       ColumnFrom = 0
       ColumnTo = 0
     end
