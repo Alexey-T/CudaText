@@ -101,7 +101,9 @@ object SyntAnal3: TLibSyntAnalyzer
       DisplayName = 'Label'
       StyleName = 'Label'
       TokenType = 3
-      Expression = '^[\x20\x09]* :\w+ |'#13#10'(?<=goto\x20+)\w+'
+      Expression = 
+        '^:[a-z]\w*|'#13#10'(?<=[\x20\x09@]):[a-z]\w*|'#13#10'(?<=\bCALL):[a-z]\w*|'#13#10 +
+        '(?<=\bGOTO):[a-z]\w*|'#13#10'(?<=\bGOTO\x20+)\w+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -169,7 +171,7 @@ object SyntAnal3: TLibSyntAnalyzer
       DisplayName = 'Text'
       StyleName = 'Text'
       TokenType = 2
-      Expression = '(?r)\w[\w\-\./\\:]*'
+      Expression = '(?r)\w[\w\-\./\\]*'
       ColumnFrom = 0
       ColumnTo = 0
     end>
