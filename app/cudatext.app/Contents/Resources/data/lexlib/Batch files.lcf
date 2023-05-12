@@ -85,7 +85,7 @@ object SyntAnal3: TLibSyntAnalyzer
       DisplayName = 'Comment'
       StyleName = 'Comment'
       TokenType = 1
-      Expression = '^[\x20\x09]* @? [\x20\x09]* rem\b .*'
+      Expression = '^[\x20\x09]* @? [\x20\x09]* rem\b (\^\z|.)*'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -93,7 +93,7 @@ object SyntAnal3: TLibSyntAnalyzer
       DisplayName = 'Comment2'
       StyleName = 'Comment'
       TokenType = 1
-      Expression = '\: [\:\+\=,;\x20] .*'
+      Expression = '\:[\:\+\=,;\x20&\|%!](\^\z|.)*'
       ColumnFrom = 0
       ColumnTo = 0
     end
