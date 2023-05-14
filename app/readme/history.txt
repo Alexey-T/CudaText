@@ -5,6 +5,7 @@
 
 1.194.1 (2023/05)
 
++ add: minimap handles Shift+click and middle-click, it allows to revert to the old behaviour of minimap click which existed before version 1.190.0 (thanks @pintassilgo)
 + add: support for lexer MDX, its very special rules: it allows {...} blocks with nesting of curly brackets, it allows <...> blocks with nesting of angle brackets
 
 1.194.0 (2023/05)
