@@ -5,7 +5,7 @@
 
 1.194.1 (2023/05)
 
-+ add: support for lexer MDX: it allows {...} blocks with nesting of curly brackets, it allows <...> blocks with nesting of angle brackets
++ add: support for lexer MDX, its very special rules: it allows {...} blocks with nesting of curly brackets, it allows <...> blocks with nesting of angle brackets
 
 1.194.0 (2023/05)
 
