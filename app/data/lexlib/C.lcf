@@ -112,7 +112,7 @@ object SyntAnal4: TLibSyntAnalyzer
     item
       DisplayName = 'Bad number suffix'
       StyleName = 'Incorrect'
-      Expression = '(?<=[\d'#39'\.])[a-z_]\w*'
+      Expression = '(?<=[\d'#39'])[a-z_]\w*'
       ColumnFrom = 0
       ColumnTo = 0
     end
