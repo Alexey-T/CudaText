@@ -12,3 +12,4 @@ cache_minutes = 10
 suggest_readme = True
 install_confirm = True
 verify_https = True
+sf_mirror = '' # SF.net mirror id, like 'voxel'

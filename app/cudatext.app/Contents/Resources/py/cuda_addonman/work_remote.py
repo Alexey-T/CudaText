@@ -12,6 +12,11 @@ from cudax_lib import get_translation
 _   = get_translation(__file__)  # i18n
 
 def get_url(url, fn, del_first=False):
+
+    if opt.sf_mirror:
+        if url.startswith('https://sourceforge.net/projects/'):
+            url += '/download?use_mirror='+opt.sf_mirror
+
     fn_temp = fn+'.download'
     if os.path.isfile(fn_temp):
         os.remove(fn_temp)
