@@ -1284,6 +1284,11 @@ var
   N: integer;
   S: string;
 {$endif}
+{$ifdef unix}
+var
+  SFileList: TStringList;
+  SFile: string;
+{$endif}
 begin
   Result:= '';
 
@@ -1334,12 +1339,14 @@ begin
     {$endif}
   {$endif}
 
-  (*
-  //user gets crash with this value on Arch Linux
   {$ifdef unix}
-  exit('libpython3.so');
+  SFile:= '';
+  SFileList:= FindAllFiles(cSystemLibDir, 'libpython3.*.so.*', false);
+  if SFileList.Count>0 then
+    SFile:= SFileList[0];
+  FreeAndNil(SFileList);
+  exit(SFile);
   {$endif}
-  *)
 end;
 
 var
