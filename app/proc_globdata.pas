@@ -1334,9 +1334,12 @@ begin
     {$endif}
   {$endif}
 
+  (*
+  //user gets crash with this value on Arch Linux
   {$ifdef unix}
   exit('libpython3.so');
   {$endif}
+  *)
 end;
 
 var
