@@ -6,7 +6,7 @@
 1.194.1 (2023/05)
 
 + add: minimap handles Shift+click and middle-click, it allows to revert to the old behaviour of minimap click which existed before version 1.190.0 (thanks @pintassilgo)
-+ add: scrollbars now react to middle-click - this makes direct jump to clicked position, like with option "scrollbar_click_jump" (thanks @veksha)
++ add: scrollbars now react to Shift+click and middle-click - this makes direct jump to clicked position, like with option "scrollbar_click_jump" (thanks @veksha)
 + add: support for lexer MDX, its very special rules: it allows {...} blocks with nesting of curly brackets, it allows <...> blocks with nesting of angle brackets
 
 1.194.0 (2023/05)
