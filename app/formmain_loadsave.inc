@@ -1540,6 +1540,8 @@ begin
   {$ifndef windows}
   //option is ignored on win
   UiOps.PyLibrary:= cfg.GetValue('pylib'+cOptionSystemSuffix, UiOps.PyLibrary);
+  if UiOps.PyLibrary='' then
+    UiOps.PyLibrary:= InitPyLibraryPath;
   {$endif}
 
   UiOps.PictureTypes:= cfg.GetValue('picture_types', UiOps.PictureTypes);

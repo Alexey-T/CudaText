@@ -760,6 +760,7 @@ function IsDefaultSession(const S: string): boolean;
 function IsDefaultSessionActive: boolean;
 
 function IsSetToOneInstance: boolean;
+function InitPyLibraryPath: string;
 
 function MsgBox(const AText: string; AFlags: Longint): integer;
 procedure MsgBadConfig(const fn, msg: string);
@@ -1286,8 +1287,8 @@ var
 {$endif}
 {$ifdef unix}
 var
-  SFileList: TStringList;
-  SFile: string;
+  Dir: string;
+  FileInfo: TSearchRec;
 {$endif}
 begin
   Result:= '';
@@ -1340,12 +1341,22 @@ begin
   {$endif}
 
   {$ifdef unix}
-  SFile:= '';
-  SFileList:= FindAllFiles(cSystemLibDir, 'libpython3.*.so.*', false);
-  if SFileList.Count>0 then
-    SFile:= SFileList[0];
-  FreeAndNil(SFileList);
-  exit(SFile);
+  Dir:= cSystemLibDir;
+  if FindFirst(Dir+'/'+'libpython3.*.so.*', faAnyFile, FileInfo)=0 then
+  begin
+    Result:= Dir+'/'+FileInfo.Name;
+    FindClose(FileInfo);
+    exit;
+  end;
+
+  Dir:= cSystemLibDir+'/x86_64-linux-gnu';
+  if DirectoryExists(Dir) and
+    (FindFirst(Dir+'/'+'libpython3.*.so.*', faAnyFile, FileInfo)=0) then
+  begin
+    Result:= Dir+'/'+FileInfo.Name;
+    FindClose(FileInfo);
+    exit
+  end;
   {$endif}
 end;
 
@@ -2067,7 +2078,7 @@ begin
     TreeFillMaxTime:= 1000;
     TreeFillMaxTimeForAPI:= 6*1000;
 
-    PyLibrary:= InitPyLibraryPath;
+    PyLibrary:= '';
     PyCaretSlow:= 600;
     PyChangeSlow:= 2000;
     PyOutputCopyToStdout:= false;
