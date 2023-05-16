@@ -2638,6 +2638,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 * PROP_HILITE_CUR_LINE_MINIMAL: bool: highlight current line, only minimal part of line.
 * PROP_HILITE_CUR_LINE_IF_FOCUS: bool: highlight current line, only when editor focused.
 * PROP_CODETREE: bool: enable standard code-tree filling.
+* PROP_CODETREE_SUBLEXER: bool: enable code-tree to show nodes from sublexer(s) of current lexer.
 * PROP_EDITORS_LINKED: bool: enable sharing of the same text by primary/secondary editors in file tab.
 * PROP_ONE_LINE: bool: editor has single-line mode.
 * PROP_MODERN_SCROLLBAR: bool: use custom-drawn themed scrollbars.
@@ -2653,7 +2654,6 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 * PROP_FONT_B: 2-tuple (str, int): bold font: name, size. Empty name: not used.
 * PROP_FONT_I: 2-tuple (str, int): italic font: name, size. Empty name: not used.
 * PROP_FONT_BI: 2-tuple (str, int): bold+italic font: name, size. Empty name: not used.
-* PROP_CODETREE_SUBLEXER: bool: enable code-tree to show nodes from sublexer(s) of current lexer.
 
 * PROP_SPLIT: 2-tuple: information about primary/secondary editors splitting as tuple (split_kind, split_pos).
 ** "split_kind": str: "-" (not splitted), "v" (splitted vertically), "h" (splitted horizontally).
