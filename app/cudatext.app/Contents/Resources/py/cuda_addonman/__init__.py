@@ -602,6 +602,7 @@ class Command:
             print('  [%s] %s' % (a['kind'], a['name']))
             msg_status(_('Updating: [{}] {}').format(a['kind'], a['name']), True)
 
+            dir_to_remove = ''
             m = a.get('module', '')
             if m:
                 # special update for Git repos
@@ -615,14 +616,19 @@ class Command:
                         msg_status(_('Error running Git'), True)
                         print(_('  Error running Git'))
                 else:
-                    # delete old dir
-                    do_remove_dir(m_dir)
+                    dir_to_remove = m_dir
 
             url = a['url']
             if not url: continue
 
             fn = get_plugin_zip(url)
-            if not fn: continue
+            if not fn:
+                fail_count += 1
+                print(_('  Update failed: [{}] {}').format(a['kind'], a['name']) )
+                continue
+
+            if dir_to_remove:
+                do_remove_dir(dir_to_remove)
 
             if os.path.isfile(fn) and file_open(fn, options='/silent'):
                 do_save_version(url, fn, a['v'])

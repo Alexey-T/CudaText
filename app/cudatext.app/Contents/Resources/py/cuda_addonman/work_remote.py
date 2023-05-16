@@ -71,7 +71,8 @@ def get_plugin_zip(url):
     if is_file_html(fn):
         os.remove(fn)
     
-    return fn
+    if os.path.isfile(fn):
+        return fn
 
 
 def file_aged(fn):
