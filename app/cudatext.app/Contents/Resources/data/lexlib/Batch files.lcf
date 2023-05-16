@@ -134,12 +134,20 @@ object SyntAnal3: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
+      DisplayName = 'Symbol redirect'
+      StyleName = 'Symbol'
+      TokenType = 6
+      Expression = '\d?(<&?|>[&>]?)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
       DisplayName = 'Symbol'
       StyleName = 'Symbol'
       TokenType = 6
       Expression = 
-        '[\+\*\(\)\[\]\{\}<>,~!&\|;=%\^\#@/\?]|'#13#10'\bequ\b|\bneq\b|\blss\b|' +
-        '\bgtr\b|\bleq\b|\bgeq\b'
+        '[\+\*\(\)\[\]\{\},~!&\|;=%\^\#@/\?]|'#13#10'\bequ\b|\bneq\b|\blss\b|\b' +
+        'gtr\b|\bleq\b|\bgeq\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
