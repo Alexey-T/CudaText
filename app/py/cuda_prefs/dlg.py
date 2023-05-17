@@ -1631,6 +1631,7 @@ class ValueEds:
 
         self._hide_val_ed(h)
         _n = self._wgt_ind(h, M.WGT_NAME__EDIT, show=True) # ~resets wgt props
+        self._current_type = 'str'
         self.val_edit.set_text_all('')
 
     def get_name(self, id_ctl):
