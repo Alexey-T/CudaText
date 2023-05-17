@@ -1341,9 +1341,9 @@ begin
   {$endif}
 
   {$ifdef unix}
-  Dir:= cSystemLibDir;
-  if not DirectoryExists(Dir) and DirectoryExists('/usr/lib64') then
-    Dir:= '/usr/lib64';
+  Dir:= '/usr/lib64';
+  if not DirectoryExists(Dir) and DirectoryExists('/usr/lib') then
+    Dir:= '/usr/lib';
 
   if FindFirst(Dir+'/'+'libpython3.*.so.*', faAnyFile, FileInfo)=0 then
   begin
