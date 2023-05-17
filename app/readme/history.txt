@@ -9,7 +9,7 @@
 + add: scrollbars now react to Shift+click and middle-click - this makes direct jump to clicked position, like with option "scrollbar_click_jump" (thanks @veksha)
 + add: support for lexer MDX, its very special rules: it allows {...} blocks with nesting of curly brackets, it allows <...> blocks with nesting of angle brackets
 + add: better find Python library on first startup, for Linux systems with /usr/lib
-- fix: Addon Manager deleted old plugin folder, even if download of update fails
+- fix: Addon Manager was deleting the old plugin folder, even if download of update fails
 - fix: regression in C/C++ lexers
 
 1.194.0 (2023/05)
