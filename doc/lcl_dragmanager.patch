@@ -1,0 +1,26 @@
+diff --git a/lcl/include/dragmanager.inc b/lcl/include/dragmanager.inc
+index 1fb2356477..c7a405b9be 100644
+--- a/lcl/include/dragmanager.inc
++++ b/lcl/include/dragmanager.inc
+@@ -170,6 +170,7 @@ procedure TDragPerformer.DragMove(APosition: TPoint);
+ var 
+   ATarget: TControl;
+   DragCursor: TCursor;
++  bAccept: boolean;
+ begin
+   if FDragObject = nil then
+     Exit;
+@@ -190,7 +191,12 @@ begin
+   //TODO: Need to rewrite this(or even delete it, back to the roots)
+   if FDragObject.DragTarget <> nil then
+     FDragObject.DragTargetPos := FDragObject.DragTarget.ScreenToClient(APosition);
+-  DragCursor := FDragObject.GetDragCursor(SendCmDragMsg(FDragObject, dmDragMove),APosition.X, APosition.Y);
++  bAccept := SendCmDragMsg(FDragObject, dmDragMove);
++  if FDragObject = nil then // this hides possible Access Violation
++    Exit;
++  DragCursor := FDragObject.GetDragCursor(bAccept, APosition.X, APosition.Y);
++  if FDragObject = nil then
++    Exit;
+   if FDragImageList <> nil then
+   begin
+     if (ATarget = nil) or (csDisplayDragImage in ATarget.ControlStyle) or
