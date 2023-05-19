@@ -1177,7 +1177,6 @@ type
     CodeTree: TAppTreeContainer;
     CodeTreeFilter: TTreeFilterEdit;
     CodeTreeFilterInput: TATComboEdit;
-    CodeTreeFilterReset: TATButton;
     PanelCodeTreeAll: TFormDummy;
     PanelCodeTreeTop: TPanel;
     StatusProgress: TATGauge;
@@ -2642,6 +2641,7 @@ begin
   DoControl_InitPropsObject(CodeTreeFilter, PanelCodeTreeAll, 'tree_filter_edit');
   CodeTreeFilter.Hide;
 
+  {
   CodeTreeFilterReset:= TATButton.Create(PanelCodeTreeAll);
   CodeTreeFilterReset.Name:= 'CodeTreeFilterReset';
   DoControl_InitPropsObject(CodeTreeFilterReset, PanelCodeTreeAll, 'button_ex');
@@ -2655,6 +2655,7 @@ begin
   CodeTreeFilterReset.ShowHint:= true;
   CodeTreeFilterReset.Hint:= msgTooltipClearFilter;
   CodeTreeFilterReset.OnClick:= @CodeTreeFilter_ResetOnClick;
+  }
 
   CodeTreeFilterInput:= TATComboEdit.Create(PanelCodeTreeAll);
   CodeTreeFilterInput.Name:= 'CodeTreeFilterInput';
@@ -4170,7 +4171,7 @@ begin
   CodeTree.Invalidate;
 
   EditorApplyOpsCommon(CodeTreeFilterInput);
-  CodeTreeFilterReset.Width:= ATEditorScale(ATScrollbarTheme.InitialSize);
+  //CodeTreeFilterReset.Width:= ATEditorScale(ATScrollbarTheme.InitialSize);
 
   if Assigned(fmConsole) then
   begin

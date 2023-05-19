@@ -399,7 +399,7 @@ begin
     //cTextEditorLocked:= ini.ReadString('ui', 'ed_w', cTextEditorLocked);
     ATEditorOptions.TextHintScrollPrefix:= ini.ReadString('ui', 'line', ATEditorOptions.TextHintScrollPrefix);
     msgTooltipClearFilter:= ini.ReadString('ui', 'clr_f', msgTooltipClearFilter);
-    CodeTreeFilterReset.Hint:= msgTooltipClearFilter;
+    //CodeTreeFilterReset.Hint:= msgTooltipClearFilter;
     msgMenuLexersForFile:= ini.ReadString('ui', 'lex_dlg', msgMenuLexersForFile);
 
     msgTooltipCloseTab:= ini.ReadString('ui', 'ti_x', msgTooltipCloseTab);
