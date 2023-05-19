@@ -368,6 +368,7 @@ begin
   Ed.OptShowFullWidthForSelection:= Op.OpShowFullBackgroundSel;
   Ed.OptShowFullWidthForSyntaxHilite:= Op.OpShowFullBackgroundSyntax;
   Ed.OptShowMouseSelFrame:= Op.OpShowMouseSelFrame;
+  Ed.OptShowIndentLines:= Op.OpShowIndentLines;
   Ed.OptCopyLinesIfNoSel:= Op.OpCopyLineIfNoSel;
   Ed.OptCutLinesIfNoSel:= Op.OpCutLineIfNoSel;
   Ed.OptCopyColumnBlockAlignedBySpaces:= Op.OpCopyColumnAlignedBySpaces;

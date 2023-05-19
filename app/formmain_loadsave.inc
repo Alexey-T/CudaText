@@ -1359,6 +1359,7 @@ begin
   Op.OpShowFullBackgroundSel:= cfg.GetValue('show_full_sel_bg', Op.OpShowFullBackgroundSel);
   Op.OpShowFullBackgroundSyntax:= cfg.GetValue('show_full_syntax_bg', Op.OpShowFullBackgroundSyntax);
   Op.OpShowMouseSelFrame:= cfg.GetValue('show_mouse_sel_frame', Op.OpShowMouseSelFrame);
+  Op.OpShowIndentLines:= cfg.GetValue('show_indent_lines', Op.OpShowIndentLines);
   Op.OpCopyLineIfNoSel:= cfg.GetValue('copy_line_if_no_sel', Op.OpCopyLineIfNoSel);
   Op.OpCutLineIfNoSel:= cfg.GetValue('cut_line_if_no_sel', Op.OpCutLineIfNoSel);
   Op.OpCopyColumnAlignedBySpaces:= cfg.GetValue('copy_column_aligned_by_spaces', Op.OpCopyColumnAlignedBySpaces);

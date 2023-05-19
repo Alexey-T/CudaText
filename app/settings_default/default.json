@@ -255,6 +255,9 @@
   //Show additional dotted frame on mouse selection of block.
   "show_mouse_sel_frame": true,
 
+  //Show dotted vertical lines on the intented parts of long wrapped lines.
+  "show_indent_lines": true,
+
   //Allow last line to scroll to the top of window.
   "show_last_line_on_top": true,
 
