@@ -175,6 +175,9 @@ class Command:
         y1,y2,lines = (-1, -1, []) if use_rep_lines else (None, None, None)
         pass;                  #LOG and log('ed_.get_sel_mode(),app.SEL_NORMAL,app.SEL_COLUMN={}', (ed_.get_sel_mode(),app.SEL_NORMAL,app.SEL_COLUMN))
         crts        = ed_.get_carets()
+        if len(crts)>1:
+            app.msg_status(_('Cannot handle multi-carets'))
+            return
         if False:pass
         elif ed_.get_sel_mode() == app.SEL_NORMAL:
             empty_sel     = 1==len(crts) and -1==crts[0][3]
@@ -298,7 +301,7 @@ class Command:
             if use_rep_lines:
                 lines += [line]
             else:
-                pass;           log('line={}',(line))
+                pass;           #log('line={}',(line))
                 ed_.set_text_line(rWrk, line)
             #for rWrk
         if use_rep_lines:
