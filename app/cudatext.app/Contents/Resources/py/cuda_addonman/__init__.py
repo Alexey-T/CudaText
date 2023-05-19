@@ -112,6 +112,7 @@ class Command:
             opt.install_confirm = data.get('install_confirm', True)
             opt.verify_https = data.get('verify_https', True)
             opt.proxy = data.get('proxy', '')
+            opt.sf_mirror = data.get('sf_mirror', '')
 
 
     def do_config(self):
@@ -124,6 +125,7 @@ class Command:
         data['install_confirm'] = opt.install_confirm
         data['verify_https'] = opt.verify_https
         data['proxy'] = opt.proxy
+        data['sf_mirror'] = opt.sf_mirror
 
         with open(fn_config, 'w') as f:
             f.write(json.dumps(data, indent=4))
