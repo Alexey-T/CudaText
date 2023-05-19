@@ -3,6 +3,8 @@
   - fixed
   * changed
 
++ add: option "show_indent_lines"
+
 1.194.4 (2023/05)
 
 + add: minimap handles Shift+click and middle-click, it allows to revert to the old behaviour of minimap click which existed before version 1.190.0 (thanks @pintassilgo)
