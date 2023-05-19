@@ -3,6 +3,7 @@
   - fixed
   * changed
 
++ add: combobox-inputs have the embedded X icon to clear text, so code-tree 'X' button was removed
 + add: option "show_indent_lines"
 
 1.194.4 (2023/05)
