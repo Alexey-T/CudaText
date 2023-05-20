@@ -2267,6 +2267,8 @@ begin
 
   InitEditor(Ed1, 'ed1');
   InitEditor(Ed2, 'ed2');
+  Ed1.IsIniting:= true;
+  Ed2.IsIniting:= true;
 
   Ed1.Strings.GutterDecor1:= Ed1.GutterDecor;
   Ed1.Strings.GutterDecor2:= Ed2.GutterDecor;
@@ -2312,6 +2314,9 @@ begin
   //must clear Modified, it was set on initing
   Ed1.Modified:= false;
   Ed2.Modified:= false;
+
+  Ed1.IsIniting:= false;
+  Ed2.IsIniting:= false;
 end;
 
 destructor TEditorFrame.Destroy;
