@@ -156,7 +156,7 @@ class Command:
         for h in handles:
             edit = Editor(h)
             title = edit.get_prop(PROP_TAB_TITLE)
-            if filter_text and not (filter_text in title):
+            if filter_text and not (filter_text.lower() in title.lower()):
                 continue
             self.listed_editors.append(edit)
 
