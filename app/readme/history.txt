@@ -3,8 +3,8 @@
   - fixed
   * changed
 
-+ add: combobox-inputs have the embedded X icon to clear text, so code-tree 'X' button was removed
-+ add: option "show_indent_lines" (thanks @Vivalzar )
++ add: combobox inputs have the embedded X icon to clear text; code-tree X-button was removed
++ add: option "show_indent_lines" (thanks @Vivalzar)
 + add: Tabs List plugin has new 'filter' input (thanks @mix-7)
 - fix: Tabs List plugin could not detect change "tab modified"->"tab unmodified" (thanks @iconv)
 
