@@ -23,7 +23,7 @@ class Command:
     show_index_tab = False
     show_index_aligned = False
     font_name = 'default'
-    font_size = 10
+    font_size = 9
     column_name = 170
     column_folder = 0
     column_lexer = 80
