@@ -3969,6 +3969,9 @@ initialization
   InitUiOps(UiOps);
   InitBasicCommandLineOptions;
 
+  ATFlatTheme.FontName:= UiOps.VarFontName;
+  ATFlatTheme.FontSize:= UiOps.VarFontSize;
+
   AppConsoleQueue:= TAppConsoleQueue.Create;
   AppCommandsDelayed:= TAppCommandsDelayed.Create;
   AppCommandList:= TFPList.Create;
