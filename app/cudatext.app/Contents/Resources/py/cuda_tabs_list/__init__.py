@@ -79,6 +79,15 @@ class Command:
             'on_key_down': self.form_key_down,
         })
 
+        n = dlg_proc(self.h_dlg, DLG_CTL_ADD, prop='editor_edit')
+        self.ed_filter = Editor(dlg_proc(self.h_dlg, DLG_CTL_HANDLE, index=n))
+        dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'filter',
+            'align': ALIGN_TOP,
+            'texthint': _('Filter'),
+            'on_change': 'cuda_tabs_list.filter_change',
+        })
+
         n = dlg_proc(self.h_dlg, DLG_CTL_ADD, prop='listbox_ex')
 
         self.h_list = dlg_proc(self.h_dlg, DLG_CTL_HANDLE, index=n)
@@ -95,6 +104,7 @@ class Command:
 
         dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, index=n, prop={
             'name':'list',
+            'a_t':('filter', ']'),
             'a_r':('',']'), #anchor to entire form: l,r,t,b
             'a_b':('',']'),
             'on_select': 'cuda_tabs_list.list_on_sel',
@@ -133,9 +143,11 @@ class Command:
         if self.h_list is None: return
         self.busy_update = True
         self.clear_list()
+        self.listed_editors = []
 
         ed.set_prop(PROP_TAG, 'tag')
         handles = ed_handles()
+        filter_text = self.ed_filter.get_text_line(0)
 
         hh = list(handles)
         count = hh[-1]-hh[0]+1
@@ -143,6 +155,11 @@ class Command:
 
         for h in handles:
             edit = Editor(h)
+            title = edit.get_prop(PROP_TAB_TITLE)
+            if filter_text and not (filter_text in title):
+                continue
+            self.listed_editors.append(edit)
+
             image_index = h-handles[0]
 
             prefix = ''
@@ -168,7 +185,7 @@ class Command:
                 elif show_t:
                     prefix = '%s. '%s_tab
 
-            name = prefix + edit.get_prop(PROP_TAB_TITLE).lstrip('*').replace('|', '/') # ' | ' happens in file pair
+            name = prefix + title.lstrip('*').replace('|', '/') # ' | ' happens in file pair
             if self.show_column_folder:
                 name += '|' + os.path.dirname(edit.get_filename())
             if self.show_column_lexer:
@@ -192,8 +209,7 @@ class Command:
     def ed_of_sel(self):
         sel = listbox_proc(self.h_list, LISTBOX_GET_SEL)
         if sel<0: return
-        h = ed_handles()[sel]
-        return Editor(h)
+        return self.listed_editors[sel]
 
     def menu_close_sel(self):
         e = self.ed_of_sel()
@@ -261,3 +277,6 @@ class Command:
         if (key in [13, 32]) and (state==''):
             self.list_on_click(id_dlg, id_ctl)
             return False
+
+    def filter_change(self, id_dlg, id_ctl, data='', info=''):
+        self.update()
