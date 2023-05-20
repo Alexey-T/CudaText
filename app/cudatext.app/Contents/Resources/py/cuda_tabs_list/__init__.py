@@ -208,8 +208,8 @@ class Command:
 
     def ed_of_sel(self):
         sel = listbox_proc(self.h_list, LISTBOX_GET_SEL)
-        if sel<0: return
-        return self.listed_editors[sel]
+        if 0 <= sel < len(self.listed_editors):
+            return self.listed_editors[sel]
 
     def menu_close_sel(self):
         e = self.ed_of_sel()
