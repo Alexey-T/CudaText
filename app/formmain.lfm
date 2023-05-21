@@ -549,7 +549,7 @@ object fmMain: TfmMain
       object mnuFontSub: TMenuItem
         Caption = '&Fonts'
         object mnuFontText: TMenuItem
-          Caption = 'Select &text font...'
+          Caption = 'Select &document font...'
         end
         object mnuFontUi: TMenuItem
           Caption = 'Select &UI font...'
