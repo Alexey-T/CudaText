@@ -10,7 +10,7 @@
 + add: single-instance appearing is now faster, on Unix (thanks @pintassilgo)
 + add: Addon Manager has option (only in settings/cuda_addonman.json) to set SourceForge mirror (thanks @pintassilgo)
 + add: Tabs List plugin has new 'filter' input (thanks @mix-7)
-+ add: Tabs List plugin reacts to Shift+mouse_wheel (thanks @iconv)
++ add: Tabs List / Snippet Panel plugins support horizontal scrolling by Shift+mouse_wheel (thanks @iconv)
 - fix: Tabs List plugin did not react to change "tab modified"->"tab unmodified" (thanks @iconv)
 
 1.194.4 (2023/05)
