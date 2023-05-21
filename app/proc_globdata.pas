@@ -3840,6 +3840,7 @@ var
 begin
   AppUniqInstDummy:= TAppUniqInstDummy.Create;
   AppUniqInst:= TUniqueInstance.Create(nil);
+  AppUniqInst.UpdateInterval:= 100; //work faster, issue #5081
   AppUniqInst.Identifier:= AppUserName+'_'+AppServerId; //added username to fix CudaText #4079
   AppUniqInst.OnOtherInstance:= @AppUniqInstDummy.HandleOtherInstance;
   AppUniqInst.Enabled:= true;
