@@ -5396,6 +5396,9 @@ begin
   PythonIO.RawOutput:= False;
 
   PythonEng:= TPythonEngine.Create(Self);
+  {$ifdef LCLGTK2}
+  PythonEng.AutoFinalize:= false; //fix by @z4ziggy: quitting the app causes hanging and crash report
+  {$endif}
   PythonEng.AutoLoad:= false;
   PythonEng.FatalAbort:= false;
   PythonEng.FatalMsgDlg:= false;
