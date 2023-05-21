@@ -81,7 +81,7 @@ const
   cTheseEventsNeedGroupingUndo = [cEventOnComplete, cEventOnSnippet];
   cTheseEventsDontRequireFrame = [cEventOnSnippet, cEventOnDeleteFile, cEventOnSidebarPopup];
   cTheseEventsAlwaysLazy = [cEventOnExit];
-  cTheseEventsIgnoreCurrentLexer = [cEventOnLexer, cEventOnStart, cEventOnExit, cEventOnDeleteFile, cEventOnSidebarPopup];
+  cTheseEventsIgnoreCurrentLexer = [cEventOnLexer, cEventOnStart, cEventOnStart2, cEventOnExit, cEventOnDeleteFile, cEventOnSidebarPopup];
 var
   SCurLexer, KeyForFilter: string;
   bNeedGroup: boolean;
