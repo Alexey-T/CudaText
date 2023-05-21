@@ -72,7 +72,7 @@ const
   msgErrorNullBytesInFile = 'Config file is broken, because its leading bytes are NULLs:'#10'%s'#10'Press OK to delete it.';
 
   msgCmdPaletteCaption: string = 'Command palette';
-  msgCmdPaletteTextHint: string = 'F9: set hotkey; input "@hotkey": search';
+  msgCmdPaletteTextHint: string = 'F9 to set hotkey, @ to search, # for help';
   msgCmdPalettePrefixHelp: string = '#p – plugins'+EOL+'#l – lexers'+EOL+'#f – opened files'+EOL+'#r – recent files';
 
   msgErrorPluginIgnored = 'NOTE: Plugin %s is in ignore-list, please remove it';
