@@ -1348,8 +1348,8 @@ begin
     chkConfirm.Left:= 400; //to right
     chkRegexSubst.Parent:= PanelTopOps;
     chkPreserveCase.Parent:= PanelTopOps;
-    chkRegexSubst.Left:= chkConfirm.Left+80; //to right
-    chkPreserveCase.Left:= chkRegexSubst.Left+80; //to right
+    chkRegexSubst.Left:= chkConfirm.Left+chkConfirm.Width; //to right
+    chkPreserveCase.Left:= chkRegexSubst.Left+chkRegexSubst.Width; //to right
   end;
 
   PanelTopOps.Left:= edFind.Left;
