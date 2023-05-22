@@ -1864,7 +1864,7 @@ begin
     OpKeyLeftRightSwapSel:= true;
     OpKeyLeftRightSwapSelAndSelect:= false;
 
-    OpBracketHilite:= false;
+    OpBracketHilite:= true;
     OpBracketSymbols:= '()[]{}';
     OpBracketDistance:= 150;
   end;

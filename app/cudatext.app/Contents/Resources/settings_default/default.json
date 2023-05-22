@@ -1347,7 +1347,7 @@
 
   //[View/Brackets]
   //Enable to highlight pair brackets.
-  "bracket_highlight": false,
+  "bracket_highlight": true,
 
   //String containing pairs of brackets to highlight, in any order.
   //Supports these pairs: () [] {} <>.
