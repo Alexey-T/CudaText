@@ -13,6 +13,7 @@
 + add: Tabs List / Snippet Panel plugins support horizontal scrolling by Shift+mouse_wheel (thanks @iconv)
 - fix: Tabs List plugin did not react to change "tab modified"->"tab unmodified" (thanks @iconv)
 * change: set default hotkeys for "current document font size: bigger/smaller" to Ctrl+NumPlus / Ctrl+NumMinus
+* change: default of "show_last_line_on_top" changed to False, default of "ui_tab_switcher_dialog" changed to False (thanks @z4ziggy)
 
 1.194.4 (2023/05)
 
