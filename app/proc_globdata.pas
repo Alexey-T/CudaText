@@ -1800,7 +1800,7 @@ begin
     OpShowCurLineMinimal:= true;
     OpShowCurLineOnlyFocused:= false;
     OpShowCurCol:= false;
-    OpShowLastLineOnTop:= true;
+    OpShowLastLineOnTop:= false;
     OpShowFullBackgroundSel:= false;
     OpShowFullBackgroundSyntax:= true;
     OpShowMouseSelFrame:= true;
@@ -2003,7 +2003,7 @@ begin
     TabRecentOnClose:= false;
     TabButtonLayout:= '<>,v';
     TabPreviewFontStyle:= 'iu';
-    TabSwitcherDialog:= true;
+    TabSwitcherDialog:= false;
 
     MaxHistoryEdits:= 20;
     MaxHistoryMenu:= 10;

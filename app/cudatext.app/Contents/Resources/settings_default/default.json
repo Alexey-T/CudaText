@@ -259,7 +259,7 @@
   "show_indent_lines": true,
 
   //Allow last line to scroll to the top of window.
-  "show_last_line_on_top": true,
+  "show_last_line_on_top": false,
 
   //Highlight selection background till the right window edge
   //(otherwise: till line end).
@@ -845,7 +845,7 @@
   //UI tabs: use "Tab switcher" dialog on Ctrl+Tab, Ctrl+Shift+Tab. This dialog
   //sorts tabs by recently used order. If option is off: switch tabs without dialog,
   //and ignoring recently used order.
-  "ui_tab_switcher_dialog": true,
+  "ui_tab_switcher_dialog": false,
 
   //UI tabs: Use Single Document Interface, ie don't create tabs except the first one.
   "ui_tab_disabled": false,
