@@ -628,7 +628,7 @@ object SyntAnal13: TLibSyntAnalyzer
       StyleName = 'Math BG'
       StatesAbsent = 3072
       TokenType = 3
-      Expression = '(?s)\$\$.+?\$\$|\$.+?\$'
+      Expression = '(?s)\$\$[^\$].*?\$\$|\$[^\$].*?\$'
       ColumnFrom = 0
       ColumnTo = 0
     end
