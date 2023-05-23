@@ -2671,6 +2671,8 @@ end;
 
 procedure TfmMain.InitStatusbar;
 begin
+  {
+  //this is disabled as now we hide the MainMenu, it's better workaround
   {$ifdef windows}
   StatusFake:= TATStatus.Create(Self);
   StatusFake.Hide;
@@ -2679,6 +2681,7 @@ begin
   StatusFake.Top:= Height;
   StatusFake.Height:= 20; //magic number
   {$endif}
+  }
 
   Status:= TATStatus.Create(Self);
   Status.Parent:= Self;
@@ -6309,6 +6312,8 @@ procedure TfmMain.SetFullScreen_Ex(AValue: boolean; AHideAll: boolean);
 var
   F: TEditorFrame;
 begin
+  ShowMenu:= not AValue; //hide MainMenu to fix issues #5090 and #4857
+
   F:= CurrentFrame;
   if AValue then
   begin
