@@ -110,6 +110,8 @@ begin
   if NColor=clNone then
     NColor:= GetAppColor(apclTabBg);
   Status.Color:= NColor;
+  if Assigned(StatusFake) then
+    StatusFake.Color:= NColor;
 
   Status.ColorBorderTop:= GetAppColor(apclButtonBorderPassive);
   Status.ColorBorderR:= GetAppColor(apclButtonBorderPassive);
