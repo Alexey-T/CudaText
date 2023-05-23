@@ -6354,15 +6354,6 @@ begin
   {$ifdef windows}
   SetFullScreen_Win32(AValue);
 
-  //hide MainMenu in full-screen, to fix issues #5090 and #4857
-  //do it only on Windows (Linux gtk2 will have a problem - app cannot fully return from full-screen mode)
-  ShowMenu:= not AValue and UiOps.ShowMenubar;
-
-  {
-  if not UiOps.ShowMenubar then
-    ShowMenu:= false;
-  }
-
   if not AValue then
     ApplyFormDarkTitle(Self, IsColorDark(GetAppColor(apclTabBg)), true);
   {$else}
@@ -6396,6 +6387,10 @@ begin
 
   if AValue then
   begin
+    //hide MainMenu in full-screen, to fix issues #5090 and #4857
+    //do it only on Windows (Linux gtk2 will have a problem - app cannot fully return from full-screen mode)
+    ShowMenu:= false;
+
     FOrigWndState:= WindowState;
     FOrigBounds:= BoundsRect;
     BorderStyle:= bsNone;
@@ -6404,6 +6399,7 @@ begin
   else
   begin
     DoControlLock(Self); //reduces flickering with dark ui-theme
+    ShowMenu:= UiOps.ShowMenuBar;
     WindowState:= FOrigWndState;
     BoundsRect:= FOrigBounds;
     BorderStyle:= bsSizeable;
