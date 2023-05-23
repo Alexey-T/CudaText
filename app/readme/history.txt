@@ -14,7 +14,7 @@
 - fix: Tabs List plugin did not react to change "tab modified"->"tab unmodified" (thanks @iconv)
 * change: set default hotkeys for "current document font size: bigger/smaller" to Ctrl+NumPlus / Ctrl+NumMinus
 * change: default of "show_last_line_on_top" changed to False, default of "ui_tab_switcher_dialog" changed to False, default of "bracket_highlight" changed to True (thanks @z4ziggy)
-* change: in full-screen / distraction-free modes, app now hides the main menu bar (to fix missing bottom ~20 pixels, on Windows, which is Lazarus bug)
+* change: Windows: in full-screen mode, app now hides the main menu bar (to fix missing bottom ~20 pixels, it is Lazarus bug)
 
 1.194.4 (2023/05)
 
