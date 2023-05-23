@@ -6312,8 +6312,6 @@ procedure TfmMain.SetFullScreen_Ex(AValue: boolean; AHideAll: boolean);
 var
   F: TEditorFrame;
 begin
-  ShowMenu:= not AValue; //hide MainMenu to fix issues #5090 and #4857
-
   F:= CurrentFrame;
   if AValue then
   begin
@@ -6337,15 +6335,6 @@ begin
     if AHideAll or (Pos('a', UiOps.FullScreen)>0) then ShowSideBar:= false;
     if AHideAll or (Pos('u', UiOps.FullScreen)>0) then ShowTabsMain:= false;
     if AHideAll or (Pos('g', UiOps.FullScreen)>0) then DoApplyGutterVisible(false);
-
-    {$ifdef windows}
-    if not ShowStatus then
-    begin
-      //workaround for Lazarus Win32 bug, where Ed.Height is bigger than needed, in distraction-free mode;
-      //it don't allow auto-scrolling timer to activate
-      //TODO
-    end;
-    {$endif}
   end
   else
   begin
@@ -6365,8 +6354,14 @@ begin
   {$ifdef windows}
   SetFullScreen_Win32(AValue);
 
+  //hide MainMenu in full-screen, to fix issues #5090 and #4857
+  //do it only on Windows (Linux gtk2 will have a problem - app cannot fully return from full-screen mode)
+  ShowMenu:= not AValue and UiOps.ShowMenubar;
+
+  {
   if not UiOps.ShowMenubar then
     ShowMenu:= false;
+  }
 
   if not AValue then
     ApplyFormDarkTitle(Self, IsColorDark(GetAppColor(apclTabBg)), true);
