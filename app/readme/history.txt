@@ -12,6 +12,7 @@
 + add: Tabs List plugin has new 'filter' input (thanks @mix-7)
 + add: Tabs List / Snippet Panel plugins support horizontal scrolling by Shift+mouse_wheel (thanks @iconv)
 - fix: Tabs List plugin did not react to change "tab modified"->"tab unmodified" (thanks @iconv)
+- fix: lexer Markdown: fix $ rule, $$ rule (thanks @veksha)
 * change: set default hotkeys for "current document font size: bigger/smaller" to Ctrl+NumPlus / Ctrl+NumMinus
 * change: default of "show_last_line_on_top" changed to False, default of "ui_tab_switcher_dialog" changed to False, default of "bracket_highlight" changed to True (thanks @z4ziggy)
 * change: Windows: in full-screen mode, app now hides the main menu bar (to fix missing bottom ~20 pixels, it is Lazarus bug)
