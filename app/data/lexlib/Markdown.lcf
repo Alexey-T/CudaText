@@ -1,4 +1,4 @@
-object SyntAnal13: TLibSyntAnalyzer
+object SyntAnal15: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Heading'
@@ -624,11 +624,19 @@ object SyntAnal13: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Math block'
+      DisplayName = 'Math $$'
       StyleName = 'Math BG'
       StatesAbsent = 3072
       TokenType = 3
-      Expression = '(?s)(?<!\$)\$\$[^\$\x20\x09].*?\$\$|(?<!\$)\$[^\$\x20\x09].*?\$'
+      Expression = '(?s)(?<!\$)\$\$[^\$\x20\x09].*?\$\$'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Math $'
+      StyleName = 'Math BG'
+      TokenType = 3
+      Expression = '(?<!\$)\$[^\$\x20\x09].*?\$'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -945,7 +953,7 @@ object SyntAnal13: TLibSyntAnalyzer
       StatesAbsent = 3
       StartExpression = '<\?'
       EndExpression = '\?>'
-      SyntAnalyzer = SyntAnal15
+      SyntAnalyzer = SyntAnal18
       IncludeBounds = True
     end
     item
@@ -953,7 +961,7 @@ object SyntAnal13: TLibSyntAnalyzer
       StatesAbsent = 3
       StartExpression = '(?s)<script\b.*?>'
       EndExpression = '</script>'
-      SyntAnalyzer = SyntAnal9
+      SyntAnalyzer = SyntAnal11
     end
     item
       DisplayName = 'CSS'
@@ -966,19 +974,19 @@ object SyntAnal13: TLibSyntAnalyzer
       DisplayName = 'YAML front matter'
       StartExpression = '\A---(\s*yaml)?$'
       EndExpression = '^(---|\.\.\.)$'
-      SyntAnalyzer = SyntAnal21
+      SyntAnalyzer = SyntAnal26
     end
     item
       DisplayName = 'JSON front matter'
       StartExpression = '\A---\s*json$'
       EndExpression = '^---$'
-      SyntAnalyzer = SyntAnal11
+      SyntAnalyzer = SyntAnal13
     end
     item
       DisplayName = 'Fenced block'
       StartExpression = '(?<=^\x20{0,3})(`{3,}|~{3,})\x20*\w.*$'
       EndExpression = '(?<=^\x20{0,3})(`{3,}|~{3,})\x20*$'
-      SyntAnalyzer = SyntAnal8
+      SyntAnalyzer = SyntAnal9
     end>
   SampleText.Strings = (
     '---'
