@@ -616,7 +616,6 @@ type
     FConsoleMustShow: boolean;
     FColorDialog: TColorDialog;
     Status: TATStatus;
-    StatusFake: TATStatus;
     Groups: TATGroups;
     GroupsCtx: TATGroups;
     GroupsCtxIndex: integer;
@@ -2671,18 +2670,6 @@ end;
 
 procedure TfmMain.InitStatusbar;
 begin
-  {
-  //this is disabled as now we hide the MainMenu, it's better workaround
-  {$ifdef windows}
-  StatusFake:= TATStatus.Create(Self);
-  StatusFake.Hide;
-  StatusFake.Parent:= Self;
-  StatusFake.Align:= alBottom;
-  StatusFake.Top:= Height;
-  StatusFake.Height:= 20; //magic number
-  {$endif}
-  }
-
   Status:= TATStatus.Create(Self);
   Status.Parent:= Self;
   Status.Align:= alBottom;
@@ -6378,13 +6365,6 @@ end;
 
 procedure TfmMain.SetFullScreen_Win32(AValue: boolean);
 begin
-  //workaround for Lazarus bug on Windows: issues #5090 and #4857
-  if Assigned(StatusFake) then
-  begin
-    StatusFake.Visible:= AValue;
-    StatusFake.Top:= Height;
-  end;
-
   if AValue then
   begin
     //hide MainMenu in full-screen, to fix issues #5090 and #4857
