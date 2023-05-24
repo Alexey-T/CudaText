@@ -1144,7 +1144,7 @@ begin
   ATEditorOptions.MouseDragDropFocusesTargetEditor:= cfg.GetValue('mouse_drag_drop_focus_target', ATEditorOptions.MouseDragDropFocusesTargetEditor);
   ATEditorOptions.MaxTabPositionToExpand:= cfg.GetValue('tab_max_pos_expanded', ATEditorOptions.MaxTabPositionToExpand);
   ATEditorOptions.MaxLinesForStatusbarOffsetsCalc:= cfg.GetValue('max_lines_to_calc_offsets', ATEditorOptions.MaxLinesForStatusbarOffsetsCalc);
-  ATEditorOptions.MaxLineLenForAccurateCharWidths:= Min(1024, cfg.GetValue('max_line_len_for_accurate_width', ATEditorOptions.MaxLineLenForAccurateCharWidths));
+  ATEditorOptions.MaxLineLenForAccurateCharWidths:= 1024;
   ATEditorOptions.MaxLineLenForUndo:= cfg.GetValue('max_line_len_for_undo', ATEditorOptions.MaxLineLenForUndo);
   ATLiteLexerMaxLineLength:= cfg.GetValue('max_line_len_parsed', ATLiteLexerMaxLineLength);
   ATEditorMaxClipboardRecents:= cfg.GetValue('ui_max_history_clipboard', ATEditorMaxClipboardRecents);

@@ -401,12 +401,6 @@
   "tab_max_pos_expanded": 500,
 
   //[Text]
-  //Maximal line length, for which char-width calculations are slow+correct.
-  //This has effect for lines with CJK or another "wide" characters.
-  //Max value is currently 1024.
-  //Note: this option is global, not per-lexer.
-  "max_line_len_for_accurate_width": 500,
-
   //Maximal line length, for which Undo is still working.
   //Note: this option is global, not per-lexer.
   "max_line_len_for_undo": 102400,
