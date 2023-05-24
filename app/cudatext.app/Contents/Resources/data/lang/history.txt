@@ -1,7 +1,8 @@
 See http://wiki.freepascal.org/CudaText#How_to_make_translation
 
 2023.05.21
-* [d_about] cmd_tip
+* change [d_about] cmd_tip
+* change [sc] SaveModifiedTab
 
 2023.04.22
 + [d_unpri]
