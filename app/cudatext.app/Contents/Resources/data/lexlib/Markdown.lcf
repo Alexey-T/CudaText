@@ -635,6 +635,7 @@ object SyntAnal15: TLibSyntAnalyzer
     item
       DisplayName = 'Math $'
       StyleName = 'Math BG'
+      StatesAbsent = 3072
       TokenType = 3
       Expression = '(?<!\$)\$[^\$\x20\x09].*?\$'
       ColumnFrom = 0
