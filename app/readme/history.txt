@@ -16,6 +16,7 @@
 * change: set default hotkeys for "current document font size: bigger/smaller" to Ctrl+NumPlus / Ctrl+NumMinus
 * change: default of "show_last_line_on_top" changed to False, default of "ui_tab_switcher_dialog" changed to False, default of "bracket_highlight" changed to True (thanks @z4ziggy)
 * change: Windows: in full-screen mode, app now hides the main menu bar (to fix missing bottom ~20 pixels, it is Lazarus bug)
+* change: delete option "max_line_len_for_accurate_width" (internal value is 1024 now)
 
 1.194.4 (2023/05)
 
