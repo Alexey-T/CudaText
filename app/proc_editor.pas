@@ -1522,7 +1522,7 @@ begin
       if Kind=bracketUnknown then Continue;
 
       //ignore brackets in comments/strings, because of constants '{', '(' etc
-      if EditorGetTokenKind(Ed, iChar, iLine)<>atkOther then Continue;
+      if EditorGetTokenKind(Ed, iChar, iLine)<>TATTokenKind.Other then Continue;
 
       if Kind=bracketClosing then
       begin
@@ -1579,10 +1579,10 @@ begin
       for IndexX:= IndexXBegin to IndexXEnd do
       begin
         ch:= S[IndexX+1];
-        if (ch=CharFrom) and (EditorGetTokenKind(Ed, IndexX, IndexY)=atkOther) then
+        if (ch=CharFrom) and (EditorGetTokenKind(Ed, IndexX, IndexY)=TATTokenKind.Other) then
           Inc(Level)
         else
-        if (ch=CharTo) and (EditorGetTokenKind(Ed, IndexX, IndexY)=atkOther) then
+        if (ch=CharTo) and (EditorGetTokenKind(Ed, IndexX, IndexY)=TATTokenKind.Other) then
         begin
           if Level>0 then
             Dec(Level)
@@ -1613,10 +1613,10 @@ begin
       for IndexX:= IndexXEnd downto IndexXBegin do
       begin
         ch:= S[IndexX+1];
-        if (ch=CharFrom) and (EditorGetTokenKind(Ed, IndexX, IndexY)=atkOther) then
+        if (ch=CharFrom) and (EditorGetTokenKind(Ed, IndexX, IndexY)=TATTokenKind.Other) then
           Inc(Level)
         else
-        if (ch=CharTo) and (EditorGetTokenKind(Ed, IndexX, IndexY)=atkOther) then
+        if (ch=CharTo) and (EditorGetTokenKind(Ed, IndexX, IndexY)=TATTokenKind.Other) then
         begin
           if Level>0 then
             Dec(Level)
@@ -1673,7 +1673,7 @@ begin
   begin
     CharFrom:= S[PosX+1];
     if Pos(CharFrom, AllowedSymbols)>0 then
-      if EditorGetTokenKind(Ed, PosX, PosY)=atkOther then
+      if EditorGetTokenKind(Ed, PosX, PosY)=TATTokenKind.Other then
         EditorBracket_GetCharKind(CharFrom, Kind, CharTo);
   end;
 
@@ -1686,7 +1686,7 @@ begin
       CharFrom:= S[PosX+1];
       if Pos(CharFrom, AllowedSymbols)>0 then
       begin
-        if EditorGetTokenKind(Ed, PosX, PosY)=atkOther then
+        if EditorGetTokenKind(Ed, PosX, PosY)=TATTokenKind.Other then
           EditorBracket_GetCharKind(CharFrom, Kind, CharTo);
       end
       else
@@ -1949,7 +1949,7 @@ function EditorGetTokenKind(Ed: TATSynEdit; AX, AY: integer;
 var
   NLen: integer;
 begin
-  Result:= atkOther;
+  Result:= TATTokenKind.Other;
   if Ed.AdapterForHilite is TATAdapterEControl then
   begin
     if not Ed.Strings.IsIndexValid(AY) then
@@ -2196,7 +2196,7 @@ begin
   if AWordOrSel then
   begin
     Str:= Ed.TextCurrentWord;
-    Ed.DoCommand(cCommand_SelectWords, cInvokeAppInternal);
+    Ed.DoCommand(cCommand_SelectWords, TATEditorCommandInvoke.AppInternal);
   end
   else
   begin
@@ -2204,7 +2204,7 @@ begin
     if Str='' then
     begin
       Str:= Ed.TextCurrentWord;
-      Ed.DoCommand(cCommand_SelectWords, cInvokeAppInternal);
+      Ed.DoCommand(cCommand_SelectWords, TATEditorCommandInvoke.AppInternal);
     end;
   end;
   if Str='' then exit;
@@ -2584,7 +2584,7 @@ end;
 
 procedure EditorAdjustForBigFile(Ed: TATSynEdit);
 begin
-  Ed.OptWrapMode:= cWrapOff;
+  Ed.OptWrapMode:= TATEditorWrapMode.ModeOff;
   Ed.OptMicromapVisible:= false;
 end;
 
@@ -2661,7 +2661,7 @@ begin
     (Pos(AText[1], Ed.OptAutocompleteTriggerChars)>0) then
   begin
     //check that we are not inside comment (strings are OK)
-    if EditorGetTokenKind(Ed, Caret.PosX, Caret.PosY)=atkComment then exit;
+    if EditorGetTokenKind(Ed, Caret.PosX, Caret.PosY)=TATTokenKind.Comment then exit;
 
     ACharsTyped:= 0;
     AppRunAutocomplete(Ed, true);
@@ -2692,7 +2692,7 @@ begin
 
     //check that we are not inside comment,
     //but allow autocomplete in HTML strings like in <a target="_bl|"
-    if EditorGetTokenKind(Ed, Caret.PosX, Caret.PosY)=atkComment then exit;
+    if EditorGetTokenKind(Ed, Caret.PosX, Caret.PosY)=TATTokenKind.Comment then exit;
 
     Inc(ACharsTyped);
     if ACharsTyped>=Ed.OptAutocompleteAutoshowCharCount then
@@ -3041,7 +3041,7 @@ end;
 
 procedure EditorForceUpdateIfWrapped(Ed: TATSynEdit);
 begin
-  if Ed.OptWrapMode<>cWrapOff then
+  if Ed.OptWrapMode<>TATEditorWrapMode.ModeOff then
   begin
     Ed.UpdateWrapInfo;
     Ed.Update;
@@ -3052,19 +3052,19 @@ procedure EditorScrollToCaret(Ed: TATSynEdit; ANeedWrapOff, AllowProcessMsg: boo
 begin
   if Ed.Carets.Count=0 then exit;
   if ANeedWrapOff then
-    if Ed.OptWrapMode<>cWrapOff then exit;
+    if Ed.OptWrapMode<>TATEditorWrapMode.ModeOff then exit;
   if AllowProcessMsg then
     Application.ProcessMessages;
   if Ed.IsCaretOnVisibleRect then exit; //don't work on GTK2 without App.ProcessMessagess
 
-  Ed.DoCommand(cCommand_ScrollToCaretTop, cInvokeAppInternal);
+  Ed.DoCommand(cCommand_ScrollToCaretTop, TATEditorCommandInvoke.AppInternal);
 end;
 
 procedure EditorCaretToView(Ed: TATSynEdit; ANeedWrapOff, AllowProcessMsg: boolean);
 begin
   if Ed.Carets.Count=0 then exit;
   if ANeedWrapOff then
-    if Ed.OptWrapMode<>cWrapOff then exit;
+    if Ed.OptWrapMode<>TATEditorWrapMode.ModeOff then exit;
   if AllowProcessMsg then
     Application.ProcessMessages;
   if Ed.IsCaretOnVisibleRect then exit; //don't work on GTK2 without App.ProcessMessagess

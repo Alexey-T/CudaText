@@ -1036,7 +1036,7 @@ begin
   EdIndex:= (Sender as TComponent).Tag;
   Ed:= EditorIndexToObj(EdIndex);
   if Ed=nil then exit;
-  Ed.DoCommand(cmd_FileClose, cInvokeAppInternal);
+  Ed.DoCommand(cmd_FileClose, TATEditorCommandInvoke.AppInternal);
 end;
 
 procedure TEditorFrame.EditorOnCalcBookmarkColor(Sender: TObject;
@@ -1905,7 +1905,7 @@ begin
     cCommand_ToggleWordWrapAlt:
       begin
         AHandled:= false;
-        if Ed.OptWrapMode=cWrapOff then
+        if Ed.OptWrapMode=TATEditorWrapMode.ModeOff then
           if Ed.Strings.Count>=Ed.OptWrapEnabledForMaxLines then
           begin
             MsgBox(Format(msgCannotSetWrap,
@@ -4158,7 +4158,7 @@ begin
     Ed.DoEventCarets;
 
     //scroll to caret: needed for caret on a huge wrapped line
-    if Ed.OptWrapMode=cWrapOff then
+    if Ed.OptWrapMode=TATEditorWrapMode.ModeOff then
       if Caret.PosX>=Ed.GetVisibleColumns then
         Application.ProcessMessages;
 

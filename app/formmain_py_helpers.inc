@@ -494,6 +494,6 @@ var
 begin
   SSplitByChar(AModuleAndMethod, ',', SModule, SMethod);
   if (SModule<>'') and (SMethod<>'') then
-    DoPyCommand(SModule, SMethod, [], cInvokeAppInternal);
+    DoPyCommand(SModule, SMethod, [], TATEditorCommandInvoke.AppInternal);
 end;
 

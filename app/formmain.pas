@@ -1550,7 +1550,7 @@ var
 begin
   AEditor:= nil;
   ACommand:= 0;
-  AInvoke:= cInvokeAppInternal;
+  AInvoke:= TATEditorCommandInvoke.AppInternal;
   if AppCommandsDelayed.IsEmpty() then
     exit(acgNoCommands);
 
@@ -3228,7 +3228,7 @@ begin
       SOpenOptions:= SOpenOptionsAll;
 
     if DirectoryExistsUTF8(SName) then
-      DoFolderOpen(SName, False, cInvokeAppDragDrop)
+      DoFolderOpen(SName, False, TATEditorCommandInvoke.AppDragDrop)
     else
     if FileExists(SName) then
       DoFileOpen(SName, '', Pages, SOpenOptions);
@@ -3275,7 +3275,7 @@ begin
   begin
     SName:= FileNames[i];
     if DirectoryExistsUTF8(SName) then
-      DoFolderOpen(SName, False, cInvokeAppDragDrop)
+      DoFolderOpen(SName, False, TATEditorCommandInvoke.AppDragDrop)
     else
     if FileExists(SName) then
       DoFileOpen(SName, '', Gr.Pages[0]);
@@ -3412,7 +3412,7 @@ begin
       KeyArray.Clear;
       N:= Ed.Keymap.GetCommandFromShortcut(ShortCut(Key, Shift), KeyArray);
       if N>=0 then
-        Ed.DoCommand(N, cInvokeHotkey);
+        Ed.DoCommand(N, TATEditorCommandInvoke.Hotkey);
     end;
     Key:= 0;
     exit;
@@ -3429,7 +3429,7 @@ begin
       N:= Ed.Keymap.GetCommandFromShortcut(ShortCut(Key, Shift), KeyArray);
       if N>=0 then
       begin
-        Ed.DoCommand(N, cInvokeHotkey);
+        Ed.DoCommand(N, TATEditorCommandInvoke.Hotkey);
         Key:= 0;
       end;
     end;
@@ -3468,7 +3468,7 @@ begin
       Params[i]:= AppVariant(ACliParams[i]);
 
     MsgStdout(Format('Calling on_cli for "%s" with %d params', [ACliModule, Length(ACliParams)]));
-    DoPyCommand(ACliModule, cAppPyEvent[cEventOnCLI], Params, cInvokeAppAPI);
+    DoPyCommand(ACliModule, cAppPyEvent[cEventOnCLI], Params, TATEditorCommandInvoke.AppAPI);
   end;
 end;
 
@@ -4897,7 +4897,7 @@ begin
   if NCmd>0 then
   begin
     FLastSelectedCommand:= NCmd;
-    Ed.DoCommand(NCmd, cInvokeAppPalette);
+    Ed.DoCommand(NCmd, TATEditorCommandInvoke.AppPalette);
     UpdateCurrentFrame;
   end;
 
@@ -6698,14 +6698,14 @@ begin
   begin
     if SCallback<>'' then
     begin
-      F.Editor.CommandLog.Add(cmd_PluginRun, cInvokeMenuAPI, SCallback+SCaption);
+      F.Editor.CommandLog.Add(cmd_PluginRun, TATEditorCommandInvoke.MenuAPI, SCallback+SCaption);
       DoPyCallbackFromAPI(SCallback, [], []);
       if not PyEditorMaybeDeleted then
-        F.Editor.CommandLog.Add(cmd_PluginEnd, cInvokeMenuAPI, SCallback+SCaption);
+        F.Editor.CommandLog.Add(cmd_PluginEnd, TATEditorCommandInvoke.MenuAPI, SCallback+SCaption);
     end;
   end
   else
-    F.Editor.DoCommand(NCommand, cInvokeMenuMain);
+    F.Editor.DoCommand(NCommand, TATEditorCommandInvoke.MenuMain);
 
   if (NCommand<>-1)
     and (NCommand<>cmd_FileClose)
@@ -6763,7 +6763,7 @@ begin
   begin
     TokenKind:= EditorGetTokenKind(Ed, AX, AY, false{ADocCommentIsAlsoComment});
     case TokenKind of
-      atkComment:
+      TATTokenKind.Comment:
         begin
           bLexerHTML:= false;
           if Assigned(Ed.AdapterForHilite) then
@@ -6774,7 +6774,7 @@ begin
           else
             Result:= not UiOps.AutocompleteInComments;
         end;
-      atkString:
+      TATTokenKind.Str:
         begin
           Result:= not UiOps.AutocompleteInStrings;
         end;
@@ -7144,9 +7144,9 @@ begin
     if NRes<0 then exit;
 
     case NRes of
-      0: Ed.DoCommand(cmd_LineEndUnix, cInvokeAppPalette);
-      1: Ed.DoCommand(cmd_LineEndWin, cInvokeAppPalette);
-      2: Ed.DoCommand(cmd_LineEndMac, cInvokeAppPalette);
+      0: Ed.DoCommand(cmd_LineEndUnix, TATEditorCommandInvoke.AppPalette);
+      1: Ed.DoCommand(cmd_LineEndWin, TATEditorCommandInvoke.AppPalette);
+      2: Ed.DoCommand(cmd_LineEndMac, TATEditorCommandInvoke.AppPalette);
     end;
   finally
     FreeAndNil(List);
@@ -7380,7 +7380,7 @@ begin
       103:
         begin
           mi.Caption:= msgConsoleToggleWrap;
-          mi.Checked:= (mi.Owner as TATSynEdit).OptWrapMode<>cWrapOff;
+          mi.Checked:= (mi.Owner as TATSynEdit).OptWrapMode<>TATEditorWrapMode.ModeOff;
         end;
     end;
   end;
@@ -7520,7 +7520,7 @@ begin
   F:= FrameOfPopup;
   if F=nil then exit;
 
-  F.Editor.DoCommand(cmd_CopyFilenameDir, cInvokeMenuContext);
+  F.Editor.DoCommand(cmd_CopyFilenameDir, TATEditorCommandInvoke.MenuContext);
 end;
 
 procedure TfmMain.mnuTabCopyFullPathClick(Sender: TObject);
@@ -7530,7 +7530,7 @@ begin
   F:= FrameOfPopup;
   if F=nil then exit;
 
-  F.Editor.DoCommand(cmd_CopyFilenameFull, cInvokeMenuContext);
+  F.Editor.DoCommand(cmd_CopyFilenameFull, TATEditorCommandInvoke.MenuContext);
 end;
 
 procedure TfmMain.mnuTabCopyNameClick(Sender: TObject);
@@ -7540,7 +7540,7 @@ begin
   F:= FrameOfPopup;
   if F=nil then exit;
 
-  F.Editor.DoCommand(cmd_CopyFilenameName, cInvokeMenuContext);
+  F.Editor.DoCommand(cmd_CopyFilenameName, TATEditorCommandInvoke.MenuContext);
 end;
 
 procedure DoParseOutputLine(const AForm: TAppFormWithEditor;
@@ -7701,7 +7701,7 @@ var
 begin
   Ed:= CurrentEditor;
   if Ed.Carets.Count=0 then exit;
-  Ed.DoCommand(cCommand_TextInsert, cInvokeAppCharMap, Utf8Decode(AStr));
+  Ed.DoCommand(cCommand_TextInsert, TATEditorCommandInvoke.AppCharMap, Utf8Decode(AStr));
 
   UpdateCurrentFrame(true);
   UpdateStatusbar;
@@ -7879,7 +7879,7 @@ begin
     Frame:= CurrentFrame;
     if Assigned(Frame) then
     begin
-      Frame.Editor.DoCommand(NCmd, cInvokeAppToolbar);
+      Frame.Editor.DoCommand(NCmd, TATEditorCommandInvoke.AppToolbar);
       UpdateToolbarButtons(Frame);
     end;
   end
@@ -8140,7 +8140,7 @@ end;
 
 procedure TfmMain.DoFileNewMenu_ToolbarClick(Sender: TObject);
 begin
-  DoFileNewMenu(Sender, cInvokeAppToolbar);
+  DoFileNewMenu(Sender, TATEditorCommandInvoke.AppToolbar);
 end;
 
 procedure TfmMain.DoFileNewMenu(Sender: TObject; AInvoke: TATEditorCommandInvoke);
@@ -8337,7 +8337,7 @@ end;
 
 procedure TfmMain.MenuitemClick_CommandFromTag(Sender: TObject);
 begin
-  CurrentEditor.DoCommand((Sender as TComponent).Tag, cInvokeAppToolbar);
+  CurrentEditor.DoCommand((Sender as TComponent).Tag, TATEditorCommandInvoke.AppToolbar);
 end;
 
 procedure TfmMain.MenuitemClick_CommandFromHint(Sender: TObject);
@@ -8348,7 +8348,7 @@ begin
   Sep.Init((Sender as TMenuItem).Hint);
   Sep.GetItemStr(SModule);
   Sep.GetItemStr(SProc);
-  DoPyCommand(SModule, SProc, [], cInvokeAppToolbar);
+  DoPyCommand(SModule, SProc, [], TATEditorCommandInvoke.AppToolbar);
 end;
 
 
@@ -9024,7 +9024,7 @@ var
   Ed: TATSynEdit;
 begin
   Ed:= (Sender as TMenuItem).Owner as TATSynEdit;
-  Ed.DoCommand(cCommand_ClipboardCopy, cInvokeMenuContext);
+  Ed.DoCommand(cCommand_ClipboardCopy, TATEditorCommandInvoke.MenuContext);
 end;
 
 procedure TfmMain.PopupBottomSelectAllClick(Sender: TObject);
@@ -9032,7 +9032,7 @@ var
   Ed: TATSynEdit;
 begin
   Ed:= (Sender as TMenuItem).Owner as TATSynEdit;
-  Ed.DoCommand(cCommand_SelectAll, cInvokeMenuContext);
+  Ed.DoCommand(cCommand_SelectAll, TATEditorCommandInvoke.MenuContext);
 end;
 
 procedure TfmMain.PopupBottomWrapClick(Sender: TObject);
@@ -9040,7 +9040,7 @@ var
   Ed: TATSynEdit;
 begin
   Ed:= (Sender as TMenuItem).Owner as TATSynEdit;
-  Ed.DoCommand(cCommand_ToggleWordWrap, cInvokeMenuContext);
+  Ed.DoCommand(cCommand_ToggleWordWrap, TATEditorCommandInvoke.MenuContext);
 end;
 
 

@@ -1728,7 +1728,7 @@ begin
     OpGutterIconSize:= 4;
 
     OpNumbersShow:= true;
-    OpNumbersStyle:= Ord(cNumbersAll);
+    OpNumbersStyle:= Ord(TATEditorNumbersStyle.All);
     OpNumbersForCarets:= false;
     OpNumbersCenter:= true;
 
@@ -1788,7 +1788,7 @@ begin
     OpCaretViewReadonly:= '-100,2';
     OpCaretVirtual:= false;
     OpCaretMulti:= true;
-    OpCaretAfterPasteColumn:= Ord(cPasteCaretColumnRight);
+    OpCaretAfterPasteColumn:= Ord(TATEditorPasteCaret.ColumnRight);
     OpCaretsAddedToColumnSel:= true;
     OpCaretKeepVisibleOnScroll:= true;
     OpCaretsPrimitiveColumnSel:= true;
@@ -1829,7 +1829,7 @@ begin
     OpFoldIconForMinimalRangeHeight:= 0;
 
     OpIndentAuto:= true;
-    OpIndentAutoKind:= Ord(cIndentAsPrevLine);
+    OpIndentAutoKind:= Ord(TATEditorAutoIndentKind.AsPrevLine);
     OpIndentSize:= 0;
     OpIndentAutoRule:= '';
     OpUnIndentKeepsAlign:= false;
@@ -1838,7 +1838,7 @@ begin
     OpMouseGotoDefinition:= 'ca';
     OpMouse2ClickDragSelectsWords:= true;
     OpMouseDragDrop:= true;
-    OpMouseMiddleClickAction:= Ord(TATEditorMiddleClickAction.mcaScrolling);
+    OpMouseMiddleClickAction:= Ord(TATEditorMiddleClickAction.Scrolling);
     OpMouseRightClickMovesCaret:= false;
     OpMouseEnableColumnSelection:= true;
     OpMouseHideCursorOnType:= false;
@@ -1856,7 +1856,7 @@ begin
     OpKeyHomeEndNavigateWrapped:= true;
     OpKeyEndToNonSpace:= true;
     OpKeyPageKeepsRelativePos:= true;
-    OpKeyPageUpDownSize:= Ord(cPageSizeFullMinus1);
+    OpKeyPageUpDownSize:= Ord(TATEditorPageDownSize.FullMinus1);
     OpKeyUpDownKeepColumn:= true;
     OpKeyUpDownNavigateWrapped:= true;
     OpKeyUpDownAllowToEdge:= false;

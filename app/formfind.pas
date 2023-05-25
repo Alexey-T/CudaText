@@ -748,7 +748,7 @@ begin
   if (ACommand>=cmdFirstAppCommand) and (ACommand<=cmdLastAppCommand) then
   begin
     FOnGetMainEditor(Ed);
-    Ed.DoCommand(ACommand, cInvokeHotkey, '');
+    Ed.DoCommand(ACommand, TATEditorCommandInvoke.Hotkey, '');
     AHandled:= true;
     exit;
   end;
@@ -782,7 +782,7 @@ begin
   //Ctrl+Enter: add line-break
   if (Key=VK_RETURN) and (Shift=[ssCtrl]) then
   begin
-    (Sender as TATSynEdit).DoCommand(cCommand_KeyEnter, cInvokeAppInternal);
+    (Sender as TATSynEdit).DoCommand(cCommand_KeyEnter, TATEditorCommandInvoke.AppInternal);
     Key:= 0;
     exit;
   end;

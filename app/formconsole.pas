@@ -230,7 +230,7 @@ begin
   begin
     //we added some lines directly to EdMemo.Strings, so update WrapInfo
     UpdateWrapInfo(true);
-    DoCommand(cCommand_GotoTextEnd, cInvokeAppInternal);
+    DoCommand(cCommand_GotoTextEnd, TATEditorCommandInvoke.AppInternal);
     ColumnLeft:= 0;
 
     //extra params of Update() are not needed
@@ -365,7 +365,7 @@ begin
 
   IsDoubleBuffered:= UiOps.DoubleBuffered;
 
-  EdMemo.OptWrapMode:= cWrapOn;
+  EdMemo.OptWrapMode:= TATEditorWrapMode.ModeOn;
   EdMemo.OptScrollbarsNew:= EditorOps.OpScrollbarsNew;
   EdMemo.OptUndoLimit:= 0;
 
@@ -428,7 +428,7 @@ begin
   if (ACommand>=cmdFirstAppCommand) and (ACommand<=cmdLastAppCommand) then
   begin
     FOnGetMainEditor(Ed);
-    Ed.DoCommand(ACommand, cInvokeHotkey, '');
+    Ed.DoCommand(ACommand, TATEditorCommandInvoke.Hotkey, '');
     AHandled:= true;
     exit;
   end;
@@ -436,7 +436,7 @@ end;
 
 function TfmConsole.GetWordWrap: boolean;
 begin
-  Result:= EdMemo.OptWrapMode=cWrapOn;
+  Result:= EdMemo.OptWrapMode=TATEditorWrapMode.ModeOn;
 end;
 
 procedure TfmConsole.DoClearMemo(Sender: TObject);
@@ -453,8 +453,8 @@ end;
 
 procedure TfmConsole.DoClearInput(Sender: TObject);
 begin
-  EdInput.DoCommand(cCommand_GotoTextBegin, cInvokeAppInternal);
-  EdInput.DoCommand(cCommand_TextDeleteToTextEnd, cInvokeAppInternal);
+  EdInput.DoCommand(cCommand_GotoTextBegin, TATEditorCommandInvoke.AppInternal);
+  EdInput.DoCommand(cCommand_TextDeleteToTextEnd, TATEditorCommandInvoke.AppInternal);
   EdInput.DoCaretSingle(0, 0);
 end;
 
@@ -516,9 +516,9 @@ end;
 procedure TfmConsole.SetWordWrap(AValue: boolean);
 begin
   if AValue then
-    EdMemo.OptWrapMode:= cWrapOn
+    EdMemo.OptWrapMode:= TATEditorWrapMode.ModeOn
   else
-    EdMemo.OptWrapMode:= cWrapOff;
+    EdMemo.OptWrapMode:= TATEditorWrapMode.ModeOff;
   //EdMemo.OptAllowScrollbarHorz:= not AValue;
   EdMemo.Update;
 end;
@@ -538,7 +538,7 @@ begin
   if (ACommand>=cmdFirstAppCommand) and (ACommand<=cmdLastAppCommand) then
   begin
     FOnGetMainEditor(Ed);
-    Ed.DoCommand(ACommand, cInvokeHotkey, '');
+    Ed.DoCommand(ACommand, TATEditorCommandInvoke.Hotkey, '');
     AHandled:= true;
     exit;
   end;

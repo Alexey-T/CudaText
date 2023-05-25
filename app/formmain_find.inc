@@ -159,7 +159,7 @@ begin
 
   if NCounter>0 then
   begin
-    FFinder.Editor.DoCommand(cCommand_ScrollToCaretTop, cInvokeAppInternal);
+    FFinder.Editor.DoCommand(cCommand_ScrollToCaretTop, TATEditorCommandInvoke.AppInternal);
     //FFinder.Editor.DoGotoCaret(cEdgeTop); //also works, but it's more complicated, less wanted
   end;
 
@@ -809,7 +809,7 @@ begin
       end;
     markingBookmarks:
       begin
-        Ed.DoCommand(cmd_BookmarkClearAll, cInvokeAppInternal);
+        Ed.DoCommand(cmd_BookmarkClearAll, TATEditorCommandInvoke.AppInternal);
       end;
     else
       begin end;
@@ -1517,7 +1517,7 @@ begin
   NCmd:= Ed.Keymap.GetCommandFromShortcut(ShortCut(AKey, AShiftState), KeyHistory);
   if IsCommandHandledFromFindDialog(NCmd) then
   begin
-    Ed.DoCommand(NCmd, cInvokeHotkey);
+    Ed.DoCommand(NCmd, TATEditorCommandInvoke.Hotkey);
     Result:= true;
   end;
 end;

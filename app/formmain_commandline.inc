@@ -204,7 +204,7 @@ begin
     begin
       Application.ProcessMessages; //fix issue #3928
 
-      DoFolderOpen(SParam, bFirstFolder, cInvokeAppInternal);
+      DoFolderOpen(SParam, bFirstFolder, TATEditorCommandInvoke.AppInternal);
       bFirstFolder:= false;
     end
     else

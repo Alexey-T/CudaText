@@ -144,7 +144,7 @@ begin
   if ACallback<>'' then
   begin
     SSplitByChar(ACallback, '.', SModule, SMethod);
-    DoPyCommand(SModule, SMethod, [], cInvokeAppSidebar);
+    DoPyCommand(SModule, SMethod, [], TATEditorCommandInvoke.AppSidebar);
   end;
 end;
 

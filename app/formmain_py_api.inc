@@ -1922,7 +1922,7 @@ begin
       Ed:= PyHelper_EditorFromHandle(H);
       Str:= string(Ptr);
 
-      Ed.DoCommand(NCode, cInvokeAppAPI, UTF8Decode(Str));
+      Ed.DoCommand(NCode, TATEditorCommandInvoke.AppAPI, UTF8Decode(Str));
 
       //many commands use timer, so immediate quit is not ok, app didn't finish command yet.
       //example of bug: plugin Differ uses ed.cmd(cmd_FileClose) and immediately after that it calls
@@ -5145,7 +5145,7 @@ begin
             else
               Params:= [];
 
-            fmMain.DoPyCommand(Str1, Str2, Params, cInvokeAppAPI);
+            fmMain.DoPyCommand(Str1, Str2, Params, TATEditorCommandInvoke.AppAPI);
             Result:= ReturnNone;
           end;
 
@@ -7809,7 +7809,7 @@ begin
       begin
         Token:= An.PublicData.Tokens._GetItemPtr(iToken);
         TokenStr:= Adapter.GetTokenString(Token);
-        TokenKind:= atkOther;
+        TokenKind:= TATTokenKind.Other;
 
         if Assigned(Token^.Style) then
         begin
@@ -8850,13 +8850,13 @@ begin
 
         FOLDING_FOLD_ALL:
           begin
-            Ed.DoCommand(cCommand_FoldAll, cInvokeAppAPI);
+            Ed.DoCommand(cCommand_FoldAll, TATEditorCommandInvoke.AppAPI);
             Result:= ReturnNone;
           end;
 
         FOLDING_UNFOLD_ALL:
           begin
-            Ed.DoCommand(cCommand_UnfoldAll, cInvokeAppAPI);
+            Ed.DoCommand(cCommand_UnfoldAll, TATEditorCommandInvoke.AppAPI);
             Result:= ReturnNone;
           end;
 

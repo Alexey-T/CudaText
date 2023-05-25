@@ -520,7 +520,7 @@ end;
 
 procedure TfmMain.MenuPluginClick(Sender: TObject);
 begin
-  DoPyCommand_ByPluginIndex((Sender as TComponent).Tag, cInvokeMenuMain);
+  DoPyCommand_ByPluginIndex((Sender as TComponent).Tag, TATEditorCommandInvoke.MenuMain);
 end;
 
 

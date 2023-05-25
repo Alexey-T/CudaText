@@ -154,7 +154,7 @@ begin
 
   UpdateToolbarButton(ToolbarMain, cCommand_ToggleOverwrite, Ed.ModeOverwrite, bEditor);
   UpdateToolbarButton(ToolbarMain, cCommand_ToggleReadOnly, Ed.ModeReadOnly, bEditor);
-  UpdateToolbarButton(ToolbarMain, cCommand_ToggleWordWrap, Ed.OptWrapMode<>cWrapOff, bEditor);
+  UpdateToolbarButton(ToolbarMain, cCommand_ToggleWordWrap, Ed.OptWrapMode<>TATEditorWrapMode.ModeOff, bEditor);
   UpdateToolbarButton(ToolbarMain, cCommand_ToggleMinimap, Ed.OptMinimapVisible, bEditor);
   UpdateToolbarButton(ToolbarMain, cCommand_ToggleMicromap, Ed.OptMicromapVisible, bEditor);
   UpdateToolbarButton(ToolbarMain, cCommand_ToggleRuler, Ed.OptRulerVisible, bEditor);
@@ -1077,7 +1077,7 @@ begin
   if F=nil then exit;
   Ed:= F.Editor;
 
-  UpdateMenuItemChecked(mnuViewWrap, mnuViewWrap_Alt, Ed.OptWrapMode<>cWrapOff);
+  UpdateMenuItemChecked(mnuViewWrap, mnuViewWrap_Alt, Ed.OptWrapMode<>TATEditorWrapMode.ModeOff);
   UpdateMenuItemChecked(mnuViewNums, mnuViewNums_Alt, Ed.Gutter.Items[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagNumbers)].Visible);
   UpdateMenuItemChecked(mnuViewFold, mnuViewFold_Alt, Ed.Gutter.Items[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagFolding)].Visible);
   UpdateMenuItemChecked(mnuViewRuler, mnuViewRuler_Alt, Ed.OptRulerVisible);
