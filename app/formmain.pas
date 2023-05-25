@@ -5494,7 +5494,7 @@ begin
     if Frame.GetFileName(Ed)<>'' then
     begin
       Frame.DoFileReload_DisableDetectEncoding(Ed);
-      bBadUTF8:= Ed.Strings.LoadingForcedANSI and (Ed.Strings.Encoding=cEncAnsi);
+      bBadUTF8:= Ed.Strings.LoadingForcedANSI and (Ed.Strings.Encoding=TATFileEncoding.Ansi);
     end
     else
       MsgBox(msgCannotReloadUntitledTab, MB_OK or MB_ICONWARNING);
@@ -9211,11 +9211,11 @@ begin
     Form.chkForceShowTabs.Checked:= Ed.OptUnprintedForceTabs;
     Form.chkShowEndMarks.Checked:= Ed.OptUnprintedEnds;
     case Symbol of
-      aeueDot:
+      TATEditorUnptintedEolSymbol.Dot:
         Form.chkEndDot.Checked:= true;
-      aeueArrowDown:
+      TATEditorUnptintedEolSymbol.ArrowDown:
         Form.chkEndArrow.Checked:= true;
-      aeuePilcrow:
+      TATEditorUnptintedEolSymbol.Pilcrow:
         Form.chkEndPilcrow.Checked:= true;
     end;
     Form.chkEndDetails.Checked:= Ed.OptUnprintedEndsDetails;

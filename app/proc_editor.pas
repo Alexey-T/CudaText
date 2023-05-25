@@ -312,12 +312,12 @@ begin
   end;
 
   if Pos('.', Op.OpUnprintedContent)>0 then
-    ATEditorOptions.UnprintedEndSymbol:= aeueDot
+    ATEditorOptions.UnprintedEndSymbol:= TATEditorUnptintedEolSymbol.Dot
   else
   if Pos('p', Op.OpUnprintedContent)>0 then
-    ATEditorOptions.UnprintedEndSymbol:= aeuePilcrow
+    ATEditorOptions.UnprintedEndSymbol:= TATEditorUnptintedEolSymbol.Pilcrow
   else
-    ATEditorOptions.UnprintedEndSymbol:= aeueArrowDown;
+    ATEditorOptions.UnprintedEndSymbol:= TATEditorUnptintedEolSymbol.ArrowDown;
 
   if AApplyUnprintedAndWrap then
     if not Ed.IsModifiedWrapMode then

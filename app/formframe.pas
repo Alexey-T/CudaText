@@ -2926,7 +2926,7 @@ begin
       if AKeepScroll then
       begin
         St.EncodingDetect:= false;
-        Include(LoadOptions, cLoadOpKeepScroll);
+        Include(LoadOptions, TATLoadStreamOption.KeepScroll);
       end;
       UpdateLocked(Ed, true);
       Ed.LoadFromFile(AFileName, LoadOptions);
@@ -3225,8 +3225,8 @@ begin
       ) <> ID_OK then exit;
 
   LoadOptions:= [];
-  if St.Encoding=cEncUTF8 then
-    Include(LoadOptions, cLoadOpAllowBadCharsOfLen1);
+  if St.Encoding=TATFileEncoding.UTF8 then
+    Include(LoadOptions, TATLoadStreamOption.AllowBadCharsOfLen1);
 
   UpdateLocked(Ed, true);
   try
@@ -4030,8 +4030,8 @@ begin
         if not Ed.Modified then
         begin
           LoadOptions:= [];
-          if Ed.Strings.Encoding=cEncUTF8 then
-            Include(LoadOptions, cLoadOpAllowBadCharsOfLen1);
+          if Ed.Strings.Encoding=TATFileEncoding.UTF8 then
+            Include(LoadOptions, TATLoadStreamOption.AllowBadCharsOfLen1);
           UpdateLocked(Ed, true);
           Ed.Strings.EncodingDetect:= false;
           Ed.LoadFromFile(sFileName, LoadOptions);

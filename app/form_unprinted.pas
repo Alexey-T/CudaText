@@ -197,12 +197,12 @@ begin
   Ed.OptUnprintedForceTabs:= chkForceShowTabs.Checked;
 
   if chkEndPilcrow.Checked then
-    ATEditorOptions.UnprintedEndSymbol:= aeuePilcrow
+    ATEditorOptions.UnprintedEndSymbol:= TATEditorUnptintedEolSymbol.Pilcrow
   else
   if chkEndArrow.Checked then
-    ATEditorOptions.UnprintedEndSymbol:= aeueArrowDown
+    ATEditorOptions.UnprintedEndSymbol:= TATEditorUnptintedEolSymbol.ArrowDown
   else
-    ATEditorOptions.UnprintedEndSymbol:= aeueDot;
+    ATEditorOptions.UnprintedEndSymbol:= TATEditorUnptintedEolSymbol.Dot;
 
   Ed.Update;
 end;
