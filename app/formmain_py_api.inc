@@ -3498,9 +3498,9 @@ begin
         PROP_NEWLINE:
           begin
             case Ed.Strings.Endings of
-              cEndWin:
+              TATLineEnds.Windows:
                 Str:= 'crlf';
-              cEndMac:
+              TATLineEnds.Mac:
                 Str:= 'cr';
               else
                 Str:= 'lf';
@@ -4271,17 +4271,17 @@ begin
         PROP_NEWLINE:
           begin
             if Str='lf' then
-              LineEnd:= cEndUnix
+              LineEnd:= TATLineEnds.Unix
             else
             if Str='crlf' then
-              LineEnd:= cEndWin
+              LineEnd:= TATLineEnds.Windows
             else
             if Str='cr' then
-              LineEnd:= cEndMac
+              LineEnd:= TATLineEnds.Mac
             else
-              LineEnd:= cEndNone;
+              LineEnd:= TATLineEnds.None;
 
-            if LineEnd<>cEndNone then
+            if LineEnd<>TATLineEnds.None then
             begin
               if Assigned(F) then
                 fmMain.UpdateFrameLineEnds(F, LineEnd)

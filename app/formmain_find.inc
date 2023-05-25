@@ -137,7 +137,7 @@ begin
       Frame.TabCaption:= msgFinderRegexMatchesNumbered;
       Frame.TabCaptionReason:= tcrUnsavedSpecial;
       Ed:= Frame.Ed1;
-      Ed.Strings.LoadFromStrings(Matches, cEndUnix, false);
+      Ed.Strings.LoadFromStrings(Matches, TATLineEnds.Unix, false);
       Ed.UpdateWrapInfo(true, false); //AForceUpdate=True to fix #4609
       Ed.Update;
       Ed.DoEventChange;

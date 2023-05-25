@@ -2390,7 +2390,7 @@ begin
     //fix old last line not having the EOL mark
     if NLastIndex>=0 then
     begin
-      if Strs.LinesEnds[NLastIndex]=cEndNone then
+      if Strs.LinesEnds[NLastIndex]=TATLineEnds.None then
         Strs.LinesEnds[NLastIndex]:= Strs.Endings;
     end;
     if (AIndex=-2) and (AStr<>'') then
@@ -2401,7 +2401,7 @@ begin
   begin
     Strs.Lines[AIndex]:= AStr;
     if AIndex<Strs.Count-1 then
-      if Strs.LinesEnds[AIndex]=cEndNone then
+      if Strs.LinesEnds[AIndex]=TATLineEnds.None then
         Strs.LinesEnds[AIndex]:= Strs.Endings;
   end;
 

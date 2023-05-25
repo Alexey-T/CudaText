@@ -1011,38 +1011,38 @@ begin
 
     cmd_LineEndWin:
       begin
-        UpdateFrameLineEnds(Frame, cEndWin);
+        UpdateFrameLineEnds(Frame, TATLineEnds.Windows);
         AHandled:= true;
         exit
       end;
     cmd_LineEndUnix:
       begin
-        UpdateFrameLineEnds(Frame, cEndUnix);
+        UpdateFrameLineEnds(Frame, TATLineEnds.Unix);
         AHandled:= true;
         exit
       end;
     cmd_LineEndMac:
       begin
-        UpdateFrameLineEnds(Frame, cEndMac);
+        UpdateFrameLineEnds(Frame, TATLineEnds.Mac);
         AHandled:= true;
         exit
       end;
 
     cmd_LineEndWin_Caret:
       begin
-        UpdateEditorCaretLineEnds(Frame, Ed, cEndWin);
+        UpdateEditorCaretLineEnds(Frame, Ed, TATLineEnds.Windows);
         AHandled:= true;
         exit
       end;
     cmd_LineEndUnix_Caret:
       begin
-        UpdateEditorCaretLineEnds(Frame, Ed, cEndUnix);
+        UpdateEditorCaretLineEnds(Frame, Ed, TATLineEnds.Unix);
         AHandled:= true;
         exit
       end;
     cmd_LineEndMac_Caret:
       begin
-        UpdateEditorCaretLineEnds(Frame, Ed, cEndMac);
+        UpdateEditorCaretLineEnds(Frame, Ed, TATLineEnds.Mac);
         AHandled:= true;
         exit
       end;

@@ -7134,9 +7134,9 @@ begin
     List.Add(msgEndMac);
 
     case Ed.Strings.Endings of
-      cEndUnix: NSelected:= 0;
-      cEndWin: NSelected:= 1;
-      cEndMac: NSelected:= 2;
+      TATLineEnds.Unix: NSelected:= 0;
+      TATLineEnds.Windows: NSelected:= 1;
+      TATLineEnds.Mac: NSelected:= 2;
       else NSelected:= 0;
     end;
 

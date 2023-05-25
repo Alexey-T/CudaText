@@ -827,8 +827,8 @@ begin
   edFind.Keymap:= AppKeymapMain;
   edRep.Keymap:= AppKeymapMain;
 
-  edFind.Strings.Endings:= cEndUnix;
-  edRep.Strings.Endings:= cEndUnix;
+  edFind.Strings.Endings:= TATLineEnds.Unix;
+  edRep.Strings.Endings:= TATLineEnds.Unix;
 
   edFind.OptUnprintedSpaces:= false;
   edRep.OptUnprintedSpaces:= false;

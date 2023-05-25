@@ -204,7 +204,7 @@ begin
       Strs.Lines[0]:= AText
     else
     begin
-      Strs.LineAddRaw_NoUndo(AText, cEndUnix);
+      Strs.LineAddRaw_NoUndo(AText, TATLineEnds.Unix);
       for i:= 1 to Strs.Count-cConsoleMaxLines do
         Strs.LineDelete(0, false, false, false);
     end;

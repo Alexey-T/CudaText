@@ -271,9 +271,9 @@ begin
 
   //------
   case Ed.Strings.Endings of
-    cEndWin: S:= msgEndWin;
-    cEndUnix: S:= msgEndUnix;
-    cEndMac: S:= msgEndMac;
+    TATLineEnds.Windows: S:= msgEndWin;
+    TATLineEnds.Unix: S:= msgEndUnix;
+    TATLineEnds.Mac: S:= msgEndMac;
     else S:= '?';
   end;
   DoStatusbarTextByTag(AStatus, StatusbarTag_LineEnds, S);

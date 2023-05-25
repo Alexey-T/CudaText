@@ -153,10 +153,10 @@ begin
       if not St.IsIndexValid(NIndex) then Continue;
       LineState:= St.LinesState[NIndex];
       case LineState of
-        cLineStateNone: Continue;
-        cLineStateAdded: XColor.FromColor(Ed.Colors.StateAdded);
-        cLineStateChanged: XColor.FromColor(Ed.Colors.StateChanged);
-        cLineStateSaved: XColor.FromColor(Ed.Colors.StateSaved);
+        TATLineState.None: Continue;
+        TATLineState.Added: XColor.FromColor(Ed.Colors.StateAdded);
+        TATLineState.Changed: XColor.FromColor(Ed.Colors.StateChanged);
+        TATLineState.Saved: XColor.FromColor(Ed.Colors.StateSaved);
         else Continue;
       end;
       RectMark:= GetWrapItemRect(0{column_0}, i, i, markColumn);

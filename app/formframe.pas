@@ -2299,10 +2299,10 @@ begin
 
   //newdoc props
   case UiOps.NewdocEnds of
-    0: Ed1.Strings.Endings:= {$ifdef windows} cEndWin {$else} cEndUnix {$endif};
-    1: Ed1.Strings.Endings:= cEndUnix;
-    2: Ed1.Strings.Endings:= cEndWin;
-    3: Ed1.Strings.Endings:= cEndMac;
+    0: Ed1.Strings.Endings:= {$ifdef windows} TATLineEnds.Windows {$else} TATLineEnds.Unix {$endif};
+    1: Ed1.Strings.Endings:= TATLineEnds.Unix;
+    2: Ed1.Strings.Endings:= TATLineEnds.Windows;
+    3: Ed1.Strings.Endings:= TATLineEnds.Mac;
   end;
   Ed2.Strings.Endings:= Ed1.Strings.Endings;
 
