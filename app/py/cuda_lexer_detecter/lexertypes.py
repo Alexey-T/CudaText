@@ -337,6 +337,7 @@ TYPES = {
     "pch": ['Objective-C'],
     "pck": ['MySQL_Stored_Procedures', 'PL-SQL'],
     "pe": ['PECmd script'],
+    "php": ['PHP'],
     "picl": ['PICL'],
     "pig": ['Apache Pig'],
     "pig.substituted": ['Apache Pig'],
