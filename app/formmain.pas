@@ -5494,7 +5494,7 @@ begin
     if Frame.GetFileName(Ed)<>'' then
     begin
       Frame.DoFileReload_DisableDetectEncoding(Ed);
-      bBadUTF8:= Ed.Strings.LoadingForcedANSI and (Ed.Strings.Encoding=TATFileEncoding.Ansi);
+      bBadUTF8:= Ed.Strings.LoadingForcedANSI and (Ed.Strings.Encoding=TATFileEncoding.ANSI);
     end
     else
       MsgBox(msgCannotReloadUntitledTab, MB_OK or MB_ICONWARNING);
