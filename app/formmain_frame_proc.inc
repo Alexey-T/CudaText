@@ -262,7 +262,7 @@ begin
 
   //if it's user.json, reread app config (using timer!)
   if SameFileName(fn, AppFile_OptionsUser) then
-    CurrentEditor.DoCommand(cmd_OpsReloadAndApply, TATEditorCommandInvoke.AppInternal);
+    CurrentEditor.DoCommand(cmd_OpsReloadAndApply, TATCommandInvoke.AppInternal);
 end;
 
 

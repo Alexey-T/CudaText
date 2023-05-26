@@ -1922,7 +1922,7 @@ begin
       Ed:= PyHelper_EditorFromHandle(H);
       Str:= string(Ptr);
 
-      Ed.DoCommand(NCode, TATEditorCommandInvoke.AppAPI, UTF8Decode(Str));
+      Ed.DoCommand(NCode, TATCommandInvoke.AppAPI, UTF8Decode(Str));
 
       //many commands use timer, so immediate quit is not ok, app didn't finish command yet.
       //example of bug: plugin Differ uses ed.cmd(cmd_FileClose) and immediately after that it calls
@@ -3209,7 +3209,7 @@ end;
 
 function PyHelper_GetCommandLog(Ed: TATSynEdit): PPyObject;
 var
-  Item: TATEditorCommandLogItem;
+  Item: TATCommandLogItem;
   NCount, i: integer;
 begin
   with AppPython.Engine do
@@ -5145,7 +5145,7 @@ begin
             else
               Params:= [];
 
-            fmMain.DoPyCommand(Str1, Str2, Params, TATEditorCommandInvoke.AppAPI);
+            fmMain.DoPyCommand(Str1, Str2, Params, TATCommandInvoke.AppAPI);
             Result:= ReturnNone;
           end;
 
@@ -8850,13 +8850,13 @@ begin
 
         FOLDING_FOLD_ALL:
           begin
-            Ed.DoCommand(cCommand_FoldAll, TATEditorCommandInvoke.AppAPI);
+            Ed.DoCommand(cCommand_FoldAll, TATCommandInvoke.AppAPI);
             Result:= ReturnNone;
           end;
 
         FOLDING_UNFOLD_ALL:
           begin
-            Ed.DoCommand(cCommand_UnfoldAll, TATEditorCommandInvoke.AppAPI);
+            Ed.DoCommand(cCommand_UnfoldAll, TATCommandInvoke.AppAPI);
             Result:= ReturnNone;
           end;
 

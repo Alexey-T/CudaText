@@ -11,7 +11,7 @@ procedure TfmMain.TimerCmdTimer(Sender: TObject);
 var
   Ed: TATSynEdit;
   CmdCode: integer;
-  CmdInvoke: TATEditorCommandInvoke;
+  CmdInvoke: TATCommandInvoke;
 begin
   TimerCmd.Enabled:= false;
 
@@ -33,7 +33,7 @@ begin
 end;
 
 
-procedure TfmMain.HandleTimerCommand(Ed: TATSynEdit; CmdCode: integer; CmdInvoke: TATEditorCommandInvoke);
+procedure TfmMain.HandleTimerCommand(Ed: TATSynEdit; CmdCode: integer; CmdInvoke: TATCommandInvoke);
 var
   Frame: TEditorFrame;
   EdGroup: TATGroups;
@@ -756,7 +756,7 @@ begin
 end;
 
 procedure TfmMain.FrameOnEditorCommand(Sender: TObject; ACommand: integer;
-  AInvoke: TATEditorCommandInvoke; const AText: string; var AHandled: boolean);
+  AInvoke: TATCommandInvoke; const AText: string; var AHandled: boolean);
 var
   Ed: TATSynEdit;
   Frame: TEditorFrame;

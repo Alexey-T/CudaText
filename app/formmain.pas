@@ -739,7 +739,7 @@ type
     procedure FindAndReplaceInAllFrames(FramePrev: TEditorFrame; var NCounter: integer);
     procedure FindAndExtractRegexMatches;
     function GetFileOpenOptionsString(AFileCount: integer): string;
-    procedure HandleTimerCommand(Ed: TATSynEdit; CmdCode: integer; CmdInvoke: TATEditorCommandInvoke);
+    procedure HandleTimerCommand(Ed: TATSynEdit; CmdCode: integer; CmdInvoke: TATCommandInvoke);
     procedure InvalidateMouseoverDependantControls;
     function IsTooManyTabsOpened: boolean;
     function GetUntitledNumberedCaption: string;
@@ -761,7 +761,7 @@ type
     procedure CodeTreeFilter_OnChange(Sender: TObject);
     procedure CodeTreeFilter_OnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure CodeTreeFilter_ResetOnClick(Sender: TObject);
-    procedure CodeTreeFilter_OnCommand(Sender: TObject; ACmd: integer; AInvoke: TATEditorCommandInvoke;
+    procedure CodeTreeFilter_OnCommand(Sender: TObject; ACmd: integer; AInvoke: TATCommandInvoke;
       const AText: string; var AHandled: boolean);
     procedure DisablePluginMenuItems(AddFindLibraryItem: boolean);
     procedure DoShowForVisibleFrames;
@@ -782,8 +782,8 @@ type
     procedure DoFindOptions_OnChange(Sender: TObject);
     procedure DoFindOptions_ApplyDict(const AText: string);
     function DoFindOptions_GetDict: PPyObject;
-    procedure DoFolderOpen(const ADirName: string; ANewProject: boolean; AInvoke: TATEditorCommandInvoke);
-    procedure DoFolderAdd(AInvoke: TATEditorCommandInvoke);
+    procedure DoFolderOpen(const ADirName: string; ANewProject: boolean; AInvoke: TATCommandInvoke);
+    procedure DoFolderAdd(AInvoke: TATCommandInvoke);
     procedure DoGetSaveDialog(var ASaveDlg: TSaveDialog);
     procedure DoGroupsChangeMode(Sender: TObject);
     procedure DoOnLexerParseProgress(Sender: TObject; AProgress: integer);
@@ -864,7 +864,7 @@ type
     procedure DoAutoComplete_Callback(Ed: TATSynEdit; AActivate: boolean);
     procedure DoAutoComplete(Ed: TATSynEdit);
     procedure DoPyCommand_CommandLineParam(const AModuleAndMethod: string);
-    procedure DoPyCommand_Cudaxlib(Ed: TATSynEdit; const AMethod: string; AInvoke: TATEditorCommandInvoke);
+    procedure DoPyCommand_Cudaxlib(Ed: TATSynEdit; const AMethod: string; AInvoke: TATCommandInvoke);
     procedure DoDialogCharMap;
     procedure DoFindActionFromString(const AStr: string);
     procedure DoGotoFromInput(const AInput: string);
@@ -893,7 +893,7 @@ type
     procedure DoFileCloseAndDelete(Ed: TATSynEdit);
     procedure DoFileNew;
     procedure DoFileNewMenu_ToolbarClick(Sender: TObject);
-    procedure DoFileNewMenu(Sender: TObject; AInvoke: TATEditorCommandInvoke);
+    procedure DoFileNewMenu(Sender: TObject; AInvoke: TATCommandInvoke);
     procedure DoFileNewFrom(const fn: string);
     procedure DoFileSave(Frame: TEditorFrame; Ed: TATSynEdit);
     procedure DoFileSaveAs(Frame: TEditorFrame; Ed: TATSynEdit);
@@ -903,7 +903,7 @@ type
     procedure DoSwitchTabSimply(ANext: boolean);
     procedure DoSwitchTabToRecent;
     procedure DoPyTimerTick(Sender: TObject);
-    procedure DoPyRunLastPlugin(AInvoke: TATEditorCommandInvoke);
+    procedure DoPyRunLastPlugin(AInvoke: TATCommandInvoke);
     procedure DoPyResetPlugins;
     procedure DoPyRescanPlugins;
     function DoSplitter_StringToId(const AStr: string): integer;
@@ -1024,7 +1024,7 @@ type
     procedure DoShowOutput(AndFocus: boolean);
     procedure DoShowValidate(AndFocus: boolean);
     function FrameOfPopup: TEditorFrame;
-    procedure FrameOnEditorCommand(Sender: TObject; ACommand: integer; AInvoke: TATEditorCommandInvoke;
+    procedure FrameOnEditorCommand(Sender: TObject; ACommand: integer; AInvoke: TATCommandInvoke;
       const AText: string; var AHandled: boolean);
     function DoFileCloseAll(AWithCancel, AClosePinned: boolean): boolean;
     procedure DoDialogFind(AReplaceMode: boolean);
@@ -1083,7 +1083,7 @@ type
     procedure TimerConsoleCompletionTick(Sender: TObject);
     procedure PyCompletionOnGetProp(Sender: TObject; AContent: TStringList; out ACharsLeft, ACharsRight: integer);
     procedure PyCompletionOnResult(Sender: TObject; const ASnippetId: string; ASnippetIndex: integer);
-    procedure DoPyCommand_ByPluginIndex(AIndex: integer; AInvoke: TATEditorCommandInvoke);
+    procedure DoPyCommand_ByPluginIndex(AIndex: integer; AInvoke: TATCommandInvoke);
     procedure SetFrameEncoding(Ed: TATSynEdit; const AEnc: string; AAlsoReloadFile: boolean);
     procedure SetFrameLexerByIndex(Ed: TATSynEdit; AIndex: integer);
     procedure SetShowStatus(AValue: boolean);
@@ -1209,7 +1209,7 @@ type
     procedure DoPyEvent_AppActivate(AEvent: TAppPyEvent);
     procedure DoPyEvent_Open(Ed: TATSynEdit);
     procedure DoPyEvent_OpenNone(Ed: TATSynEdit);
-    procedure DoPyCommand(const AModule, AMethod: string; const AParams: TAppVariantArray; AInvoke: TATEditorCommandInvoke);
+    procedure DoPyCommand(const AModule, AMethod: string; const AParams: TAppVariantArray; AInvoke: TATCommandInvoke);
     function RunTreeHelper(Frame: TEditorFrame; Tree: TTreeView): boolean;
     function DoPyLexerDetection(const Filename: string; Lexers: TStringList): integer;
     procedure FinderOnGetToken(Sender: TObject; AX, AY: integer; out AKind: TATTokenKind);
@@ -1493,7 +1493,7 @@ begin
 end;
 
 
-procedure AppCommandPut(Ed: TATSynEdit; ACommand: integer; AInvoke: TATEditorCommandInvoke; AForceTimer: boolean);
+procedure AppCommandPut(Ed: TATSynEdit; ACommand: integer; AInvoke: TATCommandInvoke; AForceTimer: boolean);
 var
   Frame: TEditorFrame;
   Item: TAppCommandDelayed;
@@ -1541,7 +1541,7 @@ type
   TAppCommandGetStatus = (acgNoCommands, acgBadCommand, acgOkCommand);
 
 function AppCommandGet(out AEditor: TATSynEdit; out ACommand: integer;
-  out AInvoke: TATEditorCommandInvoke): TAppCommandGetStatus;
+  out AInvoke: TATCommandInvoke): TAppCommandGetStatus;
 var
   Item: TAppCommandDelayed;
   TabData: TATTabData;
@@ -1550,7 +1550,7 @@ var
 begin
   AEditor:= nil;
   ACommand:= 0;
-  AInvoke:= TATEditorCommandInvoke.AppInternal;
+  AInvoke:= TATCommandInvoke.AppInternal;
   if AppCommandsDelayed.IsEmpty() then
     exit(acgNoCommands);
 
@@ -3228,7 +3228,7 @@ begin
       SOpenOptions:= SOpenOptionsAll;
 
     if DirectoryExistsUTF8(SName) then
-      DoFolderOpen(SName, False, TATEditorCommandInvoke.AppDragDrop)
+      DoFolderOpen(SName, False, TATCommandInvoke.AppDragDrop)
     else
     if FileExists(SName) then
       DoFileOpen(SName, '', Pages, SOpenOptions);
@@ -3275,7 +3275,7 @@ begin
   begin
     SName:= FileNames[i];
     if DirectoryExistsUTF8(SName) then
-      DoFolderOpen(SName, False, TATEditorCommandInvoke.AppDragDrop)
+      DoFolderOpen(SName, False, TATCommandInvoke.AppDragDrop)
     else
     if FileExists(SName) then
       DoFileOpen(SName, '', Gr.Pages[0]);
@@ -3412,7 +3412,7 @@ begin
       KeyArray.Clear;
       N:= Ed.Keymap.GetCommandFromShortcut(ShortCut(Key, Shift), KeyArray);
       if N>=0 then
-        Ed.DoCommand(N, TATEditorCommandInvoke.Hotkey);
+        Ed.DoCommand(N, TATCommandInvoke.Hotkey);
     end;
     Key:= 0;
     exit;
@@ -3429,7 +3429,7 @@ begin
       N:= Ed.Keymap.GetCommandFromShortcut(ShortCut(Key, Shift), KeyArray);
       if N>=0 then
       begin
-        Ed.DoCommand(N, TATEditorCommandInvoke.Hotkey);
+        Ed.DoCommand(N, TATCommandInvoke.Hotkey);
         Key:= 0;
       end;
     end;
@@ -3468,7 +3468,7 @@ begin
       Params[i]:= AppVariant(ACliParams[i]);
 
     MsgStdout(Format('Calling on_cli for "%s" with %d params', [ACliModule, Length(ACliParams)]));
-    DoPyCommand(ACliModule, cAppPyEvent[cEventOnCLI], Params, TATEditorCommandInvoke.AppAPI);
+    DoPyCommand(ACliModule, cAppPyEvent[cEventOnCLI], Params, TATCommandInvoke.AppAPI);
   end;
 end;
 
@@ -4262,14 +4262,14 @@ begin
 end;
 
 procedure TfmMain.DoFolderOpen(const ADirName: string; ANewProject: boolean;
-  AInvoke: TATEditorCommandInvoke);
+  AInvoke: TATCommandInvoke);
 begin
   DoPyCommand('cuda_project_man', 'open_dir',
     [AppVariant(ADirName), AppVariant(ANewProject)],
     AInvoke);
 end;
 
-procedure TfmMain.DoFolderAdd(AInvoke: TATEditorCommandInvoke);
+procedure TfmMain.DoFolderAdd(AInvoke: TATCommandInvoke);
 begin
   if not AppPython.Inited then
   begin
@@ -4897,7 +4897,7 @@ begin
   if NCmd>0 then
   begin
     FLastSelectedCommand:= NCmd;
-    Ed.DoCommand(NCmd, TATEditorCommandInvoke.AppPalette);
+    Ed.DoCommand(NCmd, TATCommandInvoke.AppPalette);
     UpdateCurrentFrame;
   end;
 
@@ -6212,7 +6212,7 @@ begin
 end;
 
 procedure TfmMain.DoPyCommand_Cudaxlib(Ed: TATSynEdit; const AMethod: string;
-  AInvoke: TATEditorCommandInvoke);
+  AInvoke: TATCommandInvoke);
 begin
   Ed.Strings.BeginUndoGroup;
   try
@@ -6698,14 +6698,14 @@ begin
   begin
     if SCallback<>'' then
     begin
-      F.Editor.CommandLog.Add(cmd_PluginRun, TATEditorCommandInvoke.MenuAPI, SCallback+SCaption);
+      F.Editor.CommandLog.Add(cmd_PluginRun, TATCommandInvoke.MenuAPI, SCallback+SCaption);
       DoPyCallbackFromAPI(SCallback, [], []);
       if not PyEditorMaybeDeleted then
-        F.Editor.CommandLog.Add(cmd_PluginEnd, TATEditorCommandInvoke.MenuAPI, SCallback+SCaption);
+        F.Editor.CommandLog.Add(cmd_PluginEnd, TATCommandInvoke.MenuAPI, SCallback+SCaption);
     end;
   end
   else
-    F.Editor.DoCommand(NCommand, TATEditorCommandInvoke.MenuMain);
+    F.Editor.DoCommand(NCommand, TATCommandInvoke.MenuMain);
 
   if (NCommand<>-1)
     and (NCommand<>cmd_FileClose)
@@ -7144,9 +7144,9 @@ begin
     if NRes<0 then exit;
 
     case NRes of
-      0: Ed.DoCommand(cmd_LineEndUnix, TATEditorCommandInvoke.AppPalette);
-      1: Ed.DoCommand(cmd_LineEndWin, TATEditorCommandInvoke.AppPalette);
-      2: Ed.DoCommand(cmd_LineEndMac, TATEditorCommandInvoke.AppPalette);
+      0: Ed.DoCommand(cmd_LineEndUnix, TATCommandInvoke.AppPalette);
+      1: Ed.DoCommand(cmd_LineEndWin, TATCommandInvoke.AppPalette);
+      2: Ed.DoCommand(cmd_LineEndMac, TATCommandInvoke.AppPalette);
     end;
   finally
     FreeAndNil(List);
@@ -7520,7 +7520,7 @@ begin
   F:= FrameOfPopup;
   if F=nil then exit;
 
-  F.Editor.DoCommand(cmd_CopyFilenameDir, TATEditorCommandInvoke.MenuContext);
+  F.Editor.DoCommand(cmd_CopyFilenameDir, TATCommandInvoke.MenuContext);
 end;
 
 procedure TfmMain.mnuTabCopyFullPathClick(Sender: TObject);
@@ -7530,7 +7530,7 @@ begin
   F:= FrameOfPopup;
   if F=nil then exit;
 
-  F.Editor.DoCommand(cmd_CopyFilenameFull, TATEditorCommandInvoke.MenuContext);
+  F.Editor.DoCommand(cmd_CopyFilenameFull, TATCommandInvoke.MenuContext);
 end;
 
 procedure TfmMain.mnuTabCopyNameClick(Sender: TObject);
@@ -7540,7 +7540,7 @@ begin
   F:= FrameOfPopup;
   if F=nil then exit;
 
-  F.Editor.DoCommand(cmd_CopyFilenameName, TATEditorCommandInvoke.MenuContext);
+  F.Editor.DoCommand(cmd_CopyFilenameName, TATCommandInvoke.MenuContext);
 end;
 
 procedure DoParseOutputLine(const AForm: TAppFormWithEditor;
@@ -7701,7 +7701,7 @@ var
 begin
   Ed:= CurrentEditor;
   if Ed.Carets.Count=0 then exit;
-  Ed.DoCommand(cCommand_TextInsert, TATEditorCommandInvoke.AppCharMap, Utf8Decode(AStr));
+  Ed.DoCommand(cCommand_TextInsert, TATCommandInvoke.AppCharMap, Utf8Decode(AStr));
 
   UpdateCurrentFrame(true);
   UpdateStatusbar;
@@ -7879,7 +7879,7 @@ begin
     Frame:= CurrentFrame;
     if Assigned(Frame) then
     begin
-      Frame.Editor.DoCommand(NCmd, TATEditorCommandInvoke.AppToolbar);
+      Frame.Editor.DoCommand(NCmd, TATCommandInvoke.AppToolbar);
       UpdateToolbarButtons(Frame);
     end;
   end
@@ -8140,10 +8140,10 @@ end;
 
 procedure TfmMain.DoFileNewMenu_ToolbarClick(Sender: TObject);
 begin
-  DoFileNewMenu(Sender, TATEditorCommandInvoke.AppToolbar);
+  DoFileNewMenu(Sender, TATCommandInvoke.AppToolbar);
 end;
 
-procedure TfmMain.DoFileNewMenu(Sender: TObject; AInvoke: TATEditorCommandInvoke);
+procedure TfmMain.DoFileNewMenu(Sender: TObject; AInvoke: TATCommandInvoke);
 begin
   if not AppPython.Inited then
   begin
@@ -8337,7 +8337,7 @@ end;
 
 procedure TfmMain.MenuitemClick_CommandFromTag(Sender: TObject);
 begin
-  CurrentEditor.DoCommand((Sender as TComponent).Tag, TATEditorCommandInvoke.AppToolbar);
+  CurrentEditor.DoCommand((Sender as TComponent).Tag, TATCommandInvoke.AppToolbar);
 end;
 
 procedure TfmMain.MenuitemClick_CommandFromHint(Sender: TObject);
@@ -8348,7 +8348,7 @@ begin
   Sep.Init((Sender as TMenuItem).Hint);
   Sep.GetItemStr(SModule);
   Sep.GetItemStr(SProc);
-  DoPyCommand(SModule, SProc, [], TATEditorCommandInvoke.AppToolbar);
+  DoPyCommand(SModule, SProc, [], TATCommandInvoke.AppToolbar);
 end;
 
 
@@ -9024,7 +9024,7 @@ var
   Ed: TATSynEdit;
 begin
   Ed:= (Sender as TMenuItem).Owner as TATSynEdit;
-  Ed.DoCommand(cCommand_ClipboardCopy, TATEditorCommandInvoke.MenuContext);
+  Ed.DoCommand(cCommand_ClipboardCopy, TATCommandInvoke.MenuContext);
 end;
 
 procedure TfmMain.PopupBottomSelectAllClick(Sender: TObject);
@@ -9032,7 +9032,7 @@ var
   Ed: TATSynEdit;
 begin
   Ed:= (Sender as TMenuItem).Owner as TATSynEdit;
-  Ed.DoCommand(cCommand_SelectAll, TATEditorCommandInvoke.MenuContext);
+  Ed.DoCommand(cCommand_SelectAll, TATCommandInvoke.MenuContext);
 end;
 
 procedure TfmMain.PopupBottomWrapClick(Sender: TObject);
@@ -9040,7 +9040,7 @@ var
   Ed: TATSynEdit;
 begin
   Ed:= (Sender as TMenuItem).Owner as TATSynEdit;
-  Ed.DoCommand(cCommand_ToggleWordWrap, TATEditorCommandInvoke.MenuContext);
+  Ed.DoCommand(cCommand_ToggleWordWrap, TATCommandInvoke.MenuContext);
 end;
 
 

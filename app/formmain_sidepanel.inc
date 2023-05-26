@@ -112,7 +112,7 @@ end;
 
 
 procedure TfmMain.CodeTreeFilter_OnCommand(Sender: TObject; ACmd: integer;
-  AInvoke: TATEditorCommandInvoke; const AText: string; var AHandled: boolean);
+  AInvoke: TATCommandInvoke; const AText: string; var AHandled: boolean);
 var
   Ed: TATComboEdit;
   F: TEditorFrame;
@@ -144,7 +144,7 @@ begin
   if ACallback<>'' then
   begin
     SSplitByChar(ACallback, '.', SModule, SMethod);
-    DoPyCommand(SModule, SMethod, [], TATEditorCommandInvoke.AppSidebar);
+    DoPyCommand(SModule, SMethod, [], TATCommandInvoke.AppSidebar);
   end;
 end;
 

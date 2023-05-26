@@ -66,11 +66,11 @@ type
     mnuTextNav: TMenuItem;
     mnuTextWrap: TMenuItem;
     procedure InputOnClick(Sender: TObject);
-    procedure InputOnCommand(Sender: TObject; ACommand: integer; AInvoke: TATEditorCommandInvoke; const AText: string; var AHandled: boolean);
+    procedure InputOnCommand(Sender: TObject; ACommand: integer; AInvoke: TATCommandInvoke; const AText: string; var AHandled: boolean);
     procedure DoGetLineColor(Ed: TATSynEdit; ALineIndex: integer; var AColorFont, AColorBg: TColor);
     procedure MemoOnClick(Sender: TObject);
     procedure MemoOnClickDbl(Sender: TObject; var AHandled: boolean);
-    procedure MemoCommand(Sender: TObject; ACommand: integer; AInvoke: TATEditorCommandInvoke; const AText: string; var AHandled: boolean);
+    procedure MemoCommand(Sender: TObject; ACommand: integer; AInvoke: TATCommandInvoke; const AText: string; var AHandled: boolean);
     procedure MemoContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
     procedure DoNavigate(Sender: TObject);
     procedure DoToggleWrap(Sender: TObject);
@@ -230,7 +230,7 @@ begin
   begin
     //we added some lines directly to EdMemo.Strings, so update WrapInfo
     UpdateWrapInfo(true);
-    DoCommand(cCommand_GotoTextEnd, TATEditorCommandInvoke.AppInternal);
+    DoCommand(cCommand_GotoTextEnd, TATCommandInvoke.AppInternal);
     ColumnLeft:= 0;
 
     //extra params of Update() are not needed
@@ -408,7 +408,7 @@ begin
 end;
 
 procedure TfmConsole.InputOnCommand(Sender: TObject; ACommand: integer;
-  AInvoke: TATEditorCommandInvoke; const AText: string; var AHandled: boolean);
+  AInvoke: TATCommandInvoke; const AText: string; var AHandled: boolean);
 var
   Ed: TATSynEdit;
   s: string;
@@ -428,7 +428,7 @@ begin
   if (ACommand>=cmdFirstAppCommand) and (ACommand<=cmdLastAppCommand) then
   begin
     FOnGetMainEditor(Ed);
-    Ed.DoCommand(ACommand, TATEditorCommandInvoke.Hotkey, '');
+    Ed.DoCommand(ACommand, TATCommandInvoke.Hotkey, '');
     AHandled:= true;
     exit;
   end;
@@ -453,8 +453,8 @@ end;
 
 procedure TfmConsole.DoClearInput(Sender: TObject);
 begin
-  EdInput.DoCommand(cCommand_GotoTextBegin, TATEditorCommandInvoke.AppInternal);
-  EdInput.DoCommand(cCommand_TextDeleteToTextEnd, TATEditorCommandInvoke.AppInternal);
+  EdInput.DoCommand(cCommand_GotoTextBegin, TATCommandInvoke.AppInternal);
+  EdInput.DoCommand(cCommand_TextDeleteToTextEnd, TATCommandInvoke.AppInternal);
   EdInput.DoCaretSingle(0, 0);
 end;
 
@@ -524,7 +524,7 @@ begin
 end;
 
 procedure TfmConsole.MemoCommand(Sender: TObject; ACommand: integer;
-  AInvoke: TATEditorCommandInvoke; const AText: string; var AHandled: boolean);
+  AInvoke: TATCommandInvoke; const AText: string; var AHandled: boolean);
 var
   Ed: TATSynEdit;
 begin
@@ -538,7 +538,7 @@ begin
   if (ACommand>=cmdFirstAppCommand) and (ACommand<=cmdLastAppCommand) then
   begin
     FOnGetMainEditor(Ed);
-    Ed.DoCommand(ACommand, TATEditorCommandInvoke.Hotkey, '');
+    Ed.DoCommand(ACommand, TATCommandInvoke.Hotkey, '');
     AHandled:= true;
     exit;
   end;

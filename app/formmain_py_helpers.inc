@@ -2,7 +2,7 @@
 
 
 procedure TfmMain.DoPyCommand(const AModule, AMethod: string;
-  const AParams: TAppVariantArray; AInvoke: TATEditorCommandInvoke);
+  const AParams: TAppVariantArray; AInvoke: TATCommandInvoke);
 var
   Frame: TEditorFrame;
   Ed: TATSynEdit;
@@ -45,7 +45,7 @@ begin
 end;
 
 
-procedure TfmMain.DoPyCommand_ByPluginIndex(AIndex: integer; AInvoke: TATEditorCommandInvoke);
+procedure TfmMain.DoPyCommand_ByPluginIndex(AIndex: integer; AInvoke: TATCommandInvoke);
 var
   F: TEditorFrame;
   CurLexer: string;
@@ -449,7 +449,7 @@ begin
   MsgStatus(msgRescannedAllPlugins);
 end;
 
-procedure TfmMain.DoPyRunLastPlugin(AInvoke: TATEditorCommandInvoke);
+procedure TfmMain.DoPyRunLastPlugin(AInvoke: TATCommandInvoke);
 var
   Params: TAppVariantArray;
 begin
@@ -494,6 +494,6 @@ var
 begin
   SSplitByChar(AModuleAndMethod, ',', SModule, SMethod);
   if (SModule<>'') and (SMethod<>'') then
-    DoPyCommand(SModule, SMethod, [], TATEditorCommandInvoke.AppInternal);
+    DoPyCommand(SModule, SMethod, [], TATCommandInvoke.AppInternal);
 end;
 

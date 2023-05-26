@@ -265,7 +265,7 @@ type
     procedure EditorOnClickDouble(Sender: TObject; var AHandled: boolean);
     procedure EditorOnClickLink(Sender: TObject; const ALink: string);
     procedure EditorOnClickMicroMap(Sender: TObject; AX, AY: integer);
-    procedure EditorOnCommand(Sender: TObject; ACmd: integer; AInvoke: TATEditorCommandInvoke; const AText: string; var AHandled: boolean);
+    procedure EditorOnCommand(Sender: TObject; ACmd: integer; AInvoke: TATCommandInvoke; const AText: string; var AHandled: boolean);
     procedure EditorOnCommandAfter(Sender: TObject; ACommand: integer; const AText: string);
     procedure EditorOnDrawBookmarkIcon(Sender: TObject; C: TCanvas; ALineNum: integer; const ARect: TRect);
     procedure EditorOnPaint(Sender: TObject);
@@ -1036,7 +1036,7 @@ begin
   EdIndex:= (Sender as TComponent).Tag;
   Ed:= EditorIndexToObj(EdIndex);
   if Ed=nil then exit;
-  Ed.DoCommand(cmd_FileClose, TATEditorCommandInvoke.AppInternal);
+  Ed.DoCommand(cmd_FileClose, TATCommandInvoke.AppInternal);
 end;
 
 procedure TEditorFrame.EditorOnCalcBookmarkColor(Sender: TObject;
@@ -1813,7 +1813,7 @@ begin
 end;
 
 procedure TEditorFrame.EditorOnCommand(Sender: TObject; ACmd: integer;
-  AInvoke: TATEditorCommandInvoke; const AText: string; var AHandled: boolean);
+  AInvoke: TATCommandInvoke; const AText: string; var AHandled: boolean);
 var
   Ed: TATSynEdit;
   NCarets: integer;

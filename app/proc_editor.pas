@@ -2196,7 +2196,7 @@ begin
   if AWordOrSel then
   begin
     Str:= Ed.TextCurrentWord;
-    Ed.DoCommand(cCommand_SelectWords, TATEditorCommandInvoke.AppInternal);
+    Ed.DoCommand(cCommand_SelectWords, TATCommandInvoke.AppInternal);
   end
   else
   begin
@@ -2204,7 +2204,7 @@ begin
     if Str='' then
     begin
       Str:= Ed.TextCurrentWord;
-      Ed.DoCommand(cCommand_SelectWords, TATEditorCommandInvoke.AppInternal);
+      Ed.DoCommand(cCommand_SelectWords, TATCommandInvoke.AppInternal);
     end;
   end;
   if Str='' then exit;
@@ -3057,7 +3057,7 @@ begin
     Application.ProcessMessages;
   if Ed.IsCaretOnVisibleRect then exit; //don't work on GTK2 without App.ProcessMessagess
 
-  Ed.DoCommand(cCommand_ScrollToCaretTop, TATEditorCommandInvoke.AppInternal);
+  Ed.DoCommand(cCommand_ScrollToCaretTop, TATCommandInvoke.AppInternal);
 end;
 
 procedure EditorCaretToView(Ed: TATSynEdit; ANeedWrapOff, AllowProcessMsg: boolean);

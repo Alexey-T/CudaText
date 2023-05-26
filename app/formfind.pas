@@ -161,7 +161,7 @@ type
     procedure chkWordsClick(Sender: TObject);
     procedure chkWrapClick(Sender: TObject);
     procedure edFindChange(Sender: TObject);
-    procedure edFindCommand(Sender: TObject; ACommand: integer; AInvoke: TATEditorCommandInvoke;
+    procedure edFindCommand(Sender: TObject; ACommand: integer; AInvoke: TATCommandInvoke;
       const AText: string; var AHandled: boolean);
     procedure edFindEnter(Sender: TObject);
     procedure edFindKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -733,7 +733,7 @@ begin
 end;
 
 procedure TfmFind.edFindCommand(Sender: TObject; ACommand: integer;
-  AInvoke: TATEditorCommandInvoke; const AText: string; var AHandled: boolean);
+  AInvoke: TATCommandInvoke; const AText: string; var AHandled: boolean);
 var
   Ed: TATSynEdit;
 begin
@@ -748,7 +748,7 @@ begin
   if (ACommand>=cmdFirstAppCommand) and (ACommand<=cmdLastAppCommand) then
   begin
     FOnGetMainEditor(Ed);
-    Ed.DoCommand(ACommand, TATEditorCommandInvoke.Hotkey, '');
+    Ed.DoCommand(ACommand, TATCommandInvoke.Hotkey, '');
     AHandled:= true;
     exit;
   end;
@@ -782,7 +782,7 @@ begin
   //Ctrl+Enter: add line-break
   if (Key=VK_RETURN) and (Shift=[ssCtrl]) then
   begin
-    (Sender as TATSynEdit).DoCommand(cCommand_KeyEnter, TATEditorCommandInvoke.AppInternal);
+    (Sender as TATSynEdit).DoCommand(cCommand_KeyEnter, TATCommandInvoke.AppInternal);
     Key:= 0;
     exit;
   end;
