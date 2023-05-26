@@ -49,6 +49,7 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure FormResize(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure GridMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
@@ -65,7 +66,7 @@ type
     function DoGetCode(aCol, aRow: integer): integer;
     procedure DoShowAnsi;
     procedure DoShowUnicode;
-    procedure DoFormAutosize;
+    procedure DoAutosizeColumns;
     procedure DoInsert(aCol, aRow: integer);
     procedure DoShowStatus(aCol, aRow: integer);
     function GetCodepage: string;
@@ -271,6 +272,7 @@ procedure TfmCharmaps.SetHexTitles(Value: boolean);
 begin
   FHexTitles:= Value;
   UpdateTitles;
+  DoAutosizeColumns;
 end;
 
 procedure TfmCharmaps.UpdateTitles;
@@ -320,7 +322,7 @@ begin
   UpdateTitles;
 
   DoShowStatus(Grid.Col, Grid.Row);
-  DoFormAutosize;
+  DoAutosizeColumns;
 end;
 
 procedure TfmCharmaps.DoShowUnicode;
@@ -353,7 +355,7 @@ begin
   Grid.Row:= 0;
   Grid.Col:= 0;
   DoShowStatus(0, 0);
-  DoFormAutosize;
+  DoAutosizeColumns;
 end;
 
 procedure TfmCharmaps.FormCreate(Sender: TObject);
@@ -452,10 +454,30 @@ begin
   end;
 end;
 
-procedure TfmCharmaps.DoFormAutosize;
+procedure TfmCharmaps.FormResize(Sender: TObject);
 begin
-  Grid.AutoSizeColumns;
-  //ClientHeight:= 17{fixed}*(Grid.RowHeights[1]+1) + 6 + PanelBtm.Height;
+  DoAutosizeColumns;
+end;
+
+procedure TfmCharmaps.DoAutosizeColumns;
+var
+  NCellWidth, i: integer;
+begin
+  //Grid.AutoSizeColumns;
+
+  if FUnicodeMode then
+  begin
+    NCellWidth:= ClientWidth div 16 - 1;
+    for i:= 0 to 15 do
+      Grid.ColWidths[i]:= NCellWidth;
+  end
+  else
+  begin
+    Grid.AutoSizeColumn(0);
+    NCellWidth:= (ClientWidth-Grid.ColWidths[0]) div 16 - 1;
+    for i:= 1 to 16 do
+      Grid.ColWidths[i]:= NCellWidth;
+  end;
 end;
 
 procedure TfmCharmaps.btnCloseClick(Sender: TObject);

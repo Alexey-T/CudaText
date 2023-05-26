@@ -14,6 +14,7 @@ object fmCharmaps: TfmCharmaps
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnKeyDown = FormKeyDown
+  OnResize = FormResize
   OnShow = FormShow
   ShowInTaskBar = stAlways
   LCLVersion = '2.3.0.0'
