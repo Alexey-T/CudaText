@@ -164,7 +164,7 @@ begin
   UpdateFormOnTop(Self);
 
   //set bigger font
-  Grid.Font.Size:= UiOps.VarFontSize+6;
+  Grid.Font.Size:= UiOps.VarFontSize * UiOps.CharMapFontIncreasing div 100;
   //for Hi-DPI
   Grid.DefaultRowHeight:= ATEditorScale(Grid.Font.Size*18 div 10);
 

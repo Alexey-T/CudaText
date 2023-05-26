@@ -285,6 +285,7 @@ type
     AutocompleteClosingDelay: integer;
 
     HtmlBackgroundColorPair: array[boolean] of TColor;
+    CharMapFontIncreasing: integer;
 
     ListboxCentered: boolean;
     ListboxSizeX: integer;
@@ -1955,6 +1956,7 @@ begin
 
     HtmlBackgroundColorPair[false]:= $F0F0F0;
     HtmlBackgroundColorPair[true]:= $101010;
+    CharMapFontIncreasing:= 150;
 
     PictureTypes:= 'bmp,png,jpg,jpeg,gif,ico,webp,psd,tga,cur';
 
