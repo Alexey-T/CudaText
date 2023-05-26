@@ -1,5 +1,5 @@
 object fmCommands: TfmCommands
-  Left = 166
+  Left = 182
   Height = 248
   Top = 483
   Width = 500
@@ -32,8 +32,8 @@ object fmCommands: TfmCommands
     OnChange = editChange
     WantTabs = False
     WantReturns = False
-    OptScrollStyleHorz = aessHide
-    OptScrollStyleVert = aessHide
+    OptScrollStyleHorz = Hide
+    OptScrollStyleVert = Hide
     OptScrollIndentCaretHorz = 0
     OptShowURLs = False
     OptShowMouseSelFrame = False
@@ -44,7 +44,7 @@ object fmCommands: TfmCommands
     OptMarginRight = 1000
     OptUnprintedVisible = False
     OptMouseDragDrop = False
-    OptMouseMiddleClickAction = mcaNone
+    OptMouseMiddleClickAction = None
     OptMouseWheelZooms = False
     OptAllowReadOnly = False
     OptUndoLimit = 200

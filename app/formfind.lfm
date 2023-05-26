@@ -195,8 +195,8 @@ object fmFind: TfmFind
       OnChange = edFindChange
       OnCommand = edFindCommand
       WantTabs = False
-      OptScrollStyleHorz = aessHide
-      OptScrollStyleVert = aessHide
+      OptScrollStyleHorz = Hide
+      OptScrollStyleVert = Hide
       OptScrollIndentCaretHorz = 0
       OptShowURLs = False
       OptShowMouseSelFrame = False
@@ -208,7 +208,7 @@ object fmFind: TfmFind
       OptMarginRight = 1000
       OptUnprintedVisible = False
       OptMouseDragDrop = False
-      OptMouseMiddleClickAction = mcaNone
+      OptMouseMiddleClickAction = None
       OptMouseWheelZooms = False
       OptAllowReadOnly = False
       OptUndoLimit = 200
@@ -238,8 +238,8 @@ object fmFind: TfmFind
       OnKeyDown = edFindKeyDown
       OnCommand = edFindCommand
       WantTabs = False
-      OptScrollStyleHorz = aessHide
-      OptScrollStyleVert = aessHide
+      OptScrollStyleHorz = Hide
+      OptScrollStyleVert = Hide
       OptScrollIndentCaretHorz = 0
       OptShowURLs = False
       OptShowMouseSelFrame = False
@@ -251,7 +251,7 @@ object fmFind: TfmFind
       OptMarginRight = 1000
       OptUnprintedVisible = False
       OptMouseDragDrop = False
-      OptMouseMiddleClickAction = mcaNone
+      OptMouseMiddleClickAction = None
       OptMouseWheelZooms = False
       OptAllowReadOnly = False
       OptUndoLimit = 200
