@@ -163,6 +163,11 @@ var
 begin
   UpdateFormOnTop(Self);
 
+  //set bigger font
+  Grid.Font.Size:= UiOps.VarFontSize+6;
+  //for Hi-DPI
+  Grid.DefaultRowHeight:= ATEditorScale(Grid.Font.Size*18 div 10);
+
   {$ifdef windows}
   //select comboAnsi item for system codepage
   cp:= Windows.GetACP;
@@ -364,9 +369,6 @@ var
 begin
   MsgStatusAnsi:= 'Decimal %d, Hex %s, Char "%s"';
   MsgStatusUnicode:= 'U+%s, Char "%s"';
-
-  //for Hi-DPI
-  Grid.DefaultRowHeight:= ATEditorScale(22);
 
   comboUnicode.Items.Clear;
   for i:= Low(UnicodeBlocks) to High(UnicodeBlocks) do
