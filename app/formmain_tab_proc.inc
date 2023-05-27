@@ -173,8 +173,8 @@ begin
   begin
     CodeTreeFilterInput.Text:= SFilterText;
     CodeTreeFilter_OnChange(nil);
-    CodeTreeFilterInput.Items.Assign(F.CodetreeFilterHistory);
   end;
+  CodeTreeFilterInput.Items.Assign(F.CodetreeFilterHistory);
 
   //load lexer-specific config+keymap
   DoOps_LoadOptionsLexerSpecific(F, F.Ed1);
