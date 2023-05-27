@@ -7,7 +7,6 @@
 
 + add: combobox inputs have the embedded X icon to clear text; code-tree X button was removed
 + add: option "show_indent_lines" (thanks @Vivalzar)
-+ add: single-instance appearing is now faster, on Unix (thanks @pintassilgo)
 + add: Addon Manager has option (only in settings/cuda_addonman.json) to set SourceForge mirror (thanks @pintassilgo)
 + add: Tabs List plugin has new 'filter' input (thanks @mix-7)
 + add: Tabs List / Snippet Panel plugins support horizontal scrolling by Shift+mouse_wheel (thanks @iconv)
