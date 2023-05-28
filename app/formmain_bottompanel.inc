@@ -34,6 +34,15 @@ begin
     DoDialogFind(false);
 end;
 
+procedure TfmMain.DoBottom_OnBeforeToggle(Sender: TObject);
+var
+  Frame: TEditorFrame;
+begin
+  Frame:= CurrentFrame;
+  if Assigned(Frame) then
+    Frame.IsEditorCaretInView:= Frame.Editor.IsCaretOnVisibleRect;
+end;
+
 procedure TfmMain.DoBottom_OnHide(Sender: TObject);
 var
   Frame: TEditorFrame;
@@ -42,12 +51,17 @@ begin
   if Assigned(Frame) then
     Frame.SetFocus;
 
-  UpdateEditorShowCaret;
+  if Frame.IsEditorCaretInView then
+    UpdateEditorShowCaret;
 end;
 
 procedure TfmMain.DoBottom_OnShow(Sender: TObject);
+var
+  Frame: TEditorFrame;
 begin
-  UpdateEditorShowCaret;
+  Frame:= CurrentFrame;
+  if Frame.IsEditorCaretInView then
+    UpdateEditorShowCaret;
 end;
 
 procedure TfmMain.DoBottom_OnCloseFloatForm(Sender: TObject; var CloseAction: TCloseAction);

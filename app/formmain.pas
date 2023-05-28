@@ -855,6 +855,7 @@ type
     procedure DoSidebar_MainMenuClick(Sender: TObject);
     procedure DoSidebar_FocusCodetreeFilter;
     procedure DoSidebar_FocusCodetree;
+    procedure DoBottom_OnBeforeToggle(Sender: TObject);
     procedure DoBottom_OnShow(Sender: TObject);
     procedure DoBottom_OnHide(Sender: TObject);
     procedure DoBottom_OnCloseFloatForm(Sender: TObject; var CloseAction: TCloseAction);
@@ -2764,6 +2765,7 @@ begin
     Toolbar:= ToolbarSideLow;
     OnShow:= @DoBottom_OnShow;
     OnHide:= @DoBottom_OnHide;
+    OnBeforeToggle:= @DoBottom_OnBeforeToggle;
     OnCommand:= @DoSidebar_OnPythonCall;
     OnCloseFloatForm:= @DoBottom_OnCloseFloatForm;
     OnGetTranslatedTitle:= @DoSidebar_GetFormTitle;

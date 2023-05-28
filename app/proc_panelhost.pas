@@ -77,6 +77,7 @@ type
     ShowTitleForBottom: boolean;
     OnShow: TNotifyEvent;
     OnHide: TNotifyEvent;
+    OnBeforeToggle: TNotifyEvent;
     OnCommand: TAppPanelOnCommand;
     OnCloseFloatForm: TCloseEvent;
     OnGetTranslatedTitle: TAppPanelOnGetTitle;
@@ -235,6 +236,9 @@ var
   N: integer;
 begin
   if GetVisible=AValue then exit;
+
+  if Assigned(OnBeforeToggle) then
+    OnBeforeToggle(Self);
 
   PanelGrouper.Visible:= AValue;
   if Floating then
