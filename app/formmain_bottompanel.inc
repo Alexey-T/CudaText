@@ -40,7 +40,7 @@ var
 begin
   Frame:= CurrentFrame;
   if Assigned(Frame) then
-    Frame.IsEditorCaretInView:= Frame.Editor.IsCaretOnVisibleRect;
+    Frame.IsCaretInViewBeforeToggle:= Frame.Editor.IsCaretOnVisibleRect;
 end;
 
 procedure TfmMain.DoBottom_OnAfterToggle(Sender: TObject);
@@ -53,7 +53,7 @@ begin
   if not AppPanels[cPaneOut].Visible then
     Frame.SetFocus;
 
-  if Frame.IsEditorCaretInView then
+  if Frame.IsCaretInViewBeforeToggle then
     UpdateEditorShowCaret;
 end;
 

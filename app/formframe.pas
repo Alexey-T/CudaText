@@ -376,7 +376,7 @@ type
     MacroStrings: TStringList;
     VersionInSession: Int64;
     FileProps: array[0..1] of TAppFileProps;
-    IsEditorCaretInView: boolean;
+    IsCaretInViewBeforeToggle: boolean;
 
     constructor Create(AOwner: TComponent; AApplyCentering: boolean); reintroduce;
     destructor Destroy; override;
