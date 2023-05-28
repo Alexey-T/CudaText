@@ -43,23 +43,16 @@ begin
     Frame.IsEditorCaretInView:= Frame.Editor.IsCaretOnVisibleRect;
 end;
 
-procedure TfmMain.DoBottom_OnHide(Sender: TObject);
+procedure TfmMain.DoBottom_OnAfterToggle(Sender: TObject);
 var
   Frame: TEditorFrame;
 begin
   Frame:= CurrentFrame;
-  if Assigned(Frame) then
+  if Frame=nil then exit;
+
+  if not AppPanels[cPaneOut].Visible then
     Frame.SetFocus;
 
-  if Frame.IsEditorCaretInView then
-    UpdateEditorShowCaret;
-end;
-
-procedure TfmMain.DoBottom_OnShow(Sender: TObject);
-var
-  Frame: TEditorFrame;
-begin
-  Frame:= CurrentFrame;
   if Frame.IsEditorCaretInView then
     UpdateEditorShowCaret;
 end;

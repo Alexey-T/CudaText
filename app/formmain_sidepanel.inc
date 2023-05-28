@@ -166,7 +166,7 @@ begin
   Frame.IsEditorCaretInView:= Frame.Editor.IsCaretOnVisibleRect;
 end;
 
-procedure TfmMain.DoSidebar_OnShowHide(Sender: TObject);
+procedure TfmMain.DoSidebar_OnAfterToggle(Sender: TObject);
 var
   Frame: TEditorFrame;
 begin

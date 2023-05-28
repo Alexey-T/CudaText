@@ -847,7 +847,7 @@ type
     procedure DoSidebar_OnContextPopup(const ACaption: string);
     procedure DoSidebar_OnCloseFloatForm(Sender: TObject; var CloseAction: TCloseAction);
     procedure DoSidebar_OnBeforeToggle(Sender: TObject);
-    procedure DoSidebar_OnShowHide(Sender: TObject);
+    procedure DoSidebar_OnAfterToggle(Sender: TObject);
     function DoSidebar_GetFormTitle(const ACaption: string): string;
     procedure DoSidebar_OnPythonCall(const ACallback: string);
     procedure DoSidebar_OnShowCodeTree(Sender: TObject);
@@ -857,8 +857,7 @@ type
     procedure DoSidebar_FocusCodetreeFilter;
     procedure DoSidebar_FocusCodetree;
     procedure DoBottom_OnBeforeToggle(Sender: TObject);
-    procedure DoBottom_OnShow(Sender: TObject);
-    procedure DoBottom_OnHide(Sender: TObject);
+    procedure DoBottom_OnAfterToggle(Sender: TObject);
     procedure DoBottom_OnCloseFloatForm(Sender: TObject; var CloseAction: TCloseAction);
     procedure DoBottom_FindClick(Sender: TObject);
     function DoAutoComplete_FromPlugins(Ed: TATSynEdit): boolean;
@@ -2751,11 +2750,11 @@ begin
     PanelRoot:= Self.PanelMain;
     Toolbar:= ToolbarSideTop;
     DefaultPanel:= msgPanelTree_Init;
+    OnBeforeToggle:= @DoSidebar_OnBeforeToggle;
+    OnAfterToggle:= @DoSidebar_OnAfterToggle;
     OnCommand:= @DoSidebar_OnPythonCall;
     OnCloseFloatForm:= @DoSidebar_OnCloseFloatForm;
     OnGetTranslatedTitle:= @DoSidebar_GetFormTitle;
-    OnShow:= @DoSidebar_OnShowHide;
-    OnHide:= @DoSidebar_OnShowHide;
     Init(Self, alLeft);
     Splitter.OnPaint:= @SplitterOnPaintDummy;
   end;
@@ -2764,9 +2763,8 @@ begin
   begin
     PanelRoot:= Self.PanelAll;
     Toolbar:= ToolbarSideLow;
-    OnShow:= @DoBottom_OnShow;
-    OnHide:= @DoBottom_OnHide;
     OnBeforeToggle:= @DoBottom_OnBeforeToggle;
+    OnAfterToggle:= @DoBottom_OnAfterToggle;
     OnCommand:= @DoSidebar_OnPythonCall;
     OnCloseFloatForm:= @DoBottom_OnCloseFloatForm;
     OnGetTranslatedTitle:= @DoSidebar_GetFormTitle;

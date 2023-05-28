@@ -75,9 +75,8 @@ type
     FormFloatBounds: TRect;
     ShowTitleForSide: boolean;
     ShowTitleForBottom: boolean;
-    OnShow: TNotifyEvent;
-    OnHide: TNotifyEvent;
     OnBeforeToggle: TNotifyEvent;
+    OnAfterToggle: TNotifyEvent;
     OnCommand: TAppPanelOnCommand;
     OnCloseFloatForm: TCloseEvent;
     OnGetTranslatedTitle: TAppPanelOnGetTitle;
@@ -279,15 +278,10 @@ begin
 
       UpdateTitle;
     end;
-
-    if Assigned(OnShow) then
-      OnShow(Self);
-  end
-  else
-  begin
-    if Assigned(OnHide) then
-      OnHide(Self);
   end;
+
+  if Assigned(OnAfterToggle) then
+    OnAfterToggle(Self);
 
   UpdateButtons;
 end;
