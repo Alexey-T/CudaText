@@ -158,9 +158,21 @@ begin
   UpdateMenuItemChecked(mnuViewSide, mnuViewSide_Alt, false);
 end;
 
-procedure TfmMain.DoSidebar_OnShowHide(Sender: TObject);
+procedure TfmMain.DoSidebar_OnBeforeToggle(Sender: TObject);
+var
+  Frame: TEditorFrame;
 begin
-  UpdateEditorShowCaret;
+  Frame:= CurrentFrame;
+  Frame.IsEditorCaretInView:= Frame.Editor.IsCaretOnVisibleRect;
+end;
+
+procedure TfmMain.DoSidebar_OnShowHide(Sender: TObject);
+var
+  Frame: TEditorFrame;
+begin
+  Frame:= CurrentFrame;
+  if Frame.IsEditorCaretInView then
+    UpdateEditorShowCaret;
 end;
 
 procedure TfmMain.DoSidebar_OnContextPopup(const ACaption: string);

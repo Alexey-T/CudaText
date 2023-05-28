@@ -846,6 +846,7 @@ type
       var PaintImages, DefaultDraw: Boolean);
     procedure DoSidebar_OnContextPopup(const ACaption: string);
     procedure DoSidebar_OnCloseFloatForm(Sender: TObject; var CloseAction: TCloseAction);
+    procedure DoSidebar_OnBeforeToggle(Sender: TObject);
     procedure DoSidebar_OnShowHide(Sender: TObject);
     function DoSidebar_GetFormTitle(const ACaption: string): string;
     procedure DoSidebar_OnPythonCall(const ACallback: string);
