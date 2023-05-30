@@ -2640,7 +2640,7 @@ begin
 
   CodeTreeFilter:= TTreeFilterEdit.Create(PanelCodeTreeAll);
   CodeTreeFilter.Name:= 'CodeTreeFilter';
-  //CodeTreeFilter.OnFilterNode:= @CodeTreeFilter_OnFilterNode;
+  CodeTreeFilter.OnFilterNode:= @CodeTreeFilter_OnFilterNode;
   DoControl_InitPropsObject(CodeTreeFilter, PanelCodeTreeAll, 'tree_filter_edit');
   CodeTreeFilter.Hide;
 
@@ -9250,17 +9250,19 @@ begin
   end;
 end;
 
-//TODO: this method is added to add filtering by N space-separated words,
-//but it don't work...
 function TfmMain.CodeTreeFilter_OnFilterNode(ItemNode: TTreeNode; out Done: Boolean): Boolean;
 var
-  SNodeText: string;
+  SNodeText, SFilter: string;
   SItem: string;
   Sep: TATStringSeparator;
 begin
   SNodeText:= LowerCase(ItemNode.Text);
-  Sep.Init(CodeTreeFilter.FilterLowercase, ' ');
-  while Sep.GetItemStr(SItem) do
+
+  SFilter:= LowerCase(CodeTreeFilter.Filter);
+  SFilter:= Trim(StringReplace(SFilter, '  ', ' ', [rfReplaceAll]));
+
+  Sep.Init(SFilter, ' ');
+  while Sep.GetItemStr(SItem) and (SItem<>'') do
   begin
     if Pos(SItem, SNodeText)=0 then
     begin
