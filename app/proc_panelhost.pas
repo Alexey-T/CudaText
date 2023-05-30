@@ -159,7 +159,7 @@ begin
   Splitter:= TSplitter.Create(FOwner);
   Splitter.Align:= Align;
   Splitter.Parent:= PanelRoot;
-  Splitter.MinSize:= 100;
+  Splitter.MinSize:= 0;
 
   UpdateSplitter;
 end;
@@ -595,9 +595,9 @@ begin
       alLeft:
         Splitter.Left:= PanelGrouper.Width;
       alBottom:
-        Splitter.Top:= PanelGrouper.Top-8;
+        Splitter.Top:= 0;
       alRight:
-        Splitter.Left:= PanelGrouper.Left-8;
+        Splitter.Left:= 0;
       else
         begin end;
     end;
