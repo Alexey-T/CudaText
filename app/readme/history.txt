@@ -6,12 +6,12 @@
 1.195.0 (2023/05)
 
 + add: combobox inputs have the embedded X icon to clear text; code-tree X button was removed
-+ add: option "show_indent_lines" (thanks @Vivalzar)
-+ add: code-tree filter handles N space-separated words
++ add: code-tree filter field handles several space-separated words
 + add: Addon Manager has option (only in settings/cuda_addonman.json) to set SourceForge mirror (thanks @pintassilgo)
 + add: Tabs List plugin has new 'filter' input (thanks @mix-7)
 + add: Tabs List / Snippet Panel plugins support horizontal scrolling by Shift+mouse_wheel (thanks @iconv)
-+ add: Char Map dialog: cells have equal width; font size increased (thanks @iconv)
++ add: Char Map dialog: grid cells have equal width; font size increased (thanks @iconv)
++ add: option "show_indent_lines" (thanks @Vivalzar)
 - fix: Tabs List plugin did not react to change "tab modified"->"tab unmodified" (thanks @iconv)
 - fix: lexer Markdown: fix $ rule, $$ rule (thanks @veksha)
 - fix: if code-tree filter was empty on exiting, history of code-tree filters was not restored on next run (thanks @mix-7)
