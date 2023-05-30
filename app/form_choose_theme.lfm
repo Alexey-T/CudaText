@@ -1,11 +1,11 @@
 object fmChooseTheme: TfmChooseTheme
-  Left = 844
+  Left = 781
   Height = 496
   Top = 151
-  Width = 373
+  Width = 436
   Caption = 'Themes'
   ClientHeight = 496
-  ClientWidth = 373
+  ClientWidth = 436
   Constraints.MinHeight = 200
   Constraints.MinWidth = 200
   OnCreate = FormCreate
@@ -44,18 +44,18 @@ object fmChooseTheme: TfmChooseTheme
     Left = 190
     Height = 393
     Top = 6
-    Width = 177
+    Width = 240
     Align = alClient
     BorderSpacing.Around = 6
     Caption = 'Syntax themes'
     ClientHeight = 375
-    ClientWidth = 175
+    ClientWidth = 238
     TabOrder = 1
     object ListboxSyntax: TListBox
       Left = 0
       Height = 375
       Top = 0
-      Width = 175
+      Width = 238
       Align = alClient
       ItemHeight = 0
       OnClick = ListboxSyntaxClick
@@ -68,7 +68,7 @@ object fmChooseTheme: TfmChooseTheme
     Left = 6
     Height = 33
     Top = 457
-    Width = 361
+    Width = 424
     OKButton.Name = 'OKButton'
     OKButton.DefaultCaption = True
     HelpButton.Name = 'HelpButton'
@@ -85,7 +85,7 @@ object fmChooseTheme: TfmChooseTheme
     Left = 6
     Height = 23
     Top = 428
-    Width = 361
+    Width = 424
     Align = alBottom
     BorderSpacing.Left = 6
     BorderSpacing.Right = 6
@@ -97,7 +97,7 @@ object fmChooseTheme: TfmChooseTheme
     Left = 6
     Height = 23
     Top = 405
-    Width = 361
+    Width = 424
     Align = alBottom
     BorderSpacing.Left = 6
     BorderSpacing.Right = 6
