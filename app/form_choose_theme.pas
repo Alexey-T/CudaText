@@ -104,7 +104,7 @@ end;
 
 procedure TfmChooseTheme.FormResize(Sender: TObject);
 begin
-  GroupUI.Width:= Max(100, (ClientWidth - 2*6) div 2);
+  GroupUI.Width:= Max(100, (ClientWidth - 3*6) div 2);
 end;
 
 procedure TfmChooseTheme.chkEnableLexChange(Sender: TObject);
