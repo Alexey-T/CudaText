@@ -729,6 +729,7 @@ type
     FPrevJsonObj: TJSONData;
     FPrevFramesEditState: array of TFrameEditState;
 
+    function CodeTreeFilter_OnFilterNode(ItemNode: TTreeNode; out Done: Boolean): Boolean;
     function ConfirmAllFramesAreSaved(AWithCancel: boolean): boolean;
     procedure FindAndStop(ABack: boolean);
     procedure FindAndReplaceAll(var NCounter: integer);
@@ -2639,6 +2640,7 @@ begin
 
   CodeTreeFilter:= TTreeFilterEdit.Create(PanelCodeTreeAll);
   CodeTreeFilter.Name:= 'CodeTreeFilter';
+  //CodeTreeFilter.OnFilterNode:= @CodeTreeFilter_OnFilterNode;
   DoControl_InitPropsObject(CodeTreeFilter, PanelCodeTreeAll, 'tree_filter_edit');
   CodeTreeFilter.Hide;
 
@@ -9247,6 +9249,29 @@ begin
     ToolbarSideLow.Invalidate;
   end;
 end;
+
+//TODO: this method is added to add filtering by N space-separated words,
+//but it don't work...
+function TfmMain.CodeTreeFilter_OnFilterNode(ItemNode: TTreeNode; out Done: Boolean): Boolean;
+var
+  SNodeText: string;
+  SItem: string;
+  Sep: TATStringSeparator;
+begin
+  SNodeText:= LowerCase(ItemNode.Text);
+  Sep.Init(CodeTreeFilter.FilterLowercase, ' ');
+  while Sep.GetItemStr(SItem) do
+  begin
+    if Pos(SItem, SNodeText)=0 then
+    begin
+      Done:= true;
+      exit(false);
+    end;
+  end;
+  Done:= true;
+  Result:= true;
+end;
+
 
 //----------------------------
 {$I formmain_loadsave.inc}
