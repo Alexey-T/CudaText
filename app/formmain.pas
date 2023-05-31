@@ -9252,13 +9252,12 @@ end;
 
 function TfmMain.CodeTreeFilter_OnFilterNode(ItemNode: TTreeNode; out Done: Boolean): Boolean;
 var
-  SNodeText, SFilter: string;
-  SItem: string;
+  SNodeText, SFilter, SItem: string;
   Sep: TATStringSeparator;
 begin
-  SNodeText:= LowerCase(ItemNode.Text);
+  SNodeText:= AnsiLowerCase(ItemNode.Text);
 
-  SFilter:= LowerCase(CodeTreeFilter.Filter);
+  SFilter:= AnsiLowerCase(CodeTreeFilter.Filter);
   SFilter:= Trim(StringReplace(SFilter, '  ', ' ', [rfReplaceAll]));
 
   Sep.Init(SFilter, ' ');
