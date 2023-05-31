@@ -15,6 +15,8 @@
 - fix: Tabs List plugin did not react to change "tab modified"->"tab unmodified" (thanks @iconv)
 - fix: lexer Markdown: fix $ rule, $$ rule (thanks @veksha)
 - fix: if code-tree filter was empty on exiting, history of code-tree filters was not restored on next run (thanks @mix-7)
+- fix: changed "font_size" was not applied to autocompletion listbox (thanks @veksha)
+
 * change: set default hotkeys for "current document font size: bigger/smaller" to Ctrl+NumPlus / Ctrl+NumMinus
 * change: lexer PHP was removed to add-ons
 * change: default of "show_last_line_on_top" changed to False, default of "ui_tab_switcher_dialog" changed to False, default of "bracket_highlight" changed to True (thanks @z4ziggy)
