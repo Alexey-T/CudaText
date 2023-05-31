@@ -91,6 +91,9 @@ function DoDialogCharmapModal: string;
 
 implementation
 
+uses
+  ATCanvasPrimitives;
+
 {$R *.lfm}
 
 procedure TfmCharmaps.Localize;
@@ -166,7 +169,7 @@ begin
   //set bigger font
   Grid.Font.Size:= UiOps.VarFontSize * UiOps.CharMapFontIncreasing div 100;
   //for Hi-DPI
-  Grid.DefaultRowHeight:= ATEditorScale(Grid.Font.Size*18 div 10);
+  Grid.DefaultRowHeight:= CanvasFontSizeToPixels(ATEditorScale(Grid.Font.Size));
 
   {$ifdef windows}
   //select comboAnsi item for system codepage

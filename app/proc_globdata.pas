@@ -1182,6 +1182,7 @@ const
 implementation
 
 uses
+  ATCanvasPrimitives,
   ATSynEdit_LineParts,
   ATSynEdit_Adapter_EControl,
   ec_syntax_format,
@@ -2523,7 +2524,7 @@ end;
 
 function AppListboxItemHeight(AScale, ADoubleHeight: boolean): integer;
 begin
-  Result:= UiOps.VarFontSize * 18 div 10 +2;
+  Result:= CanvasFontSizeToPixels(UiOps.VarFontSize);
 
   {$ifdef windows}
   Result:= Result * Screen.PixelsPerInch div 96;
