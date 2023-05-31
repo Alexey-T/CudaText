@@ -7,6 +7,7 @@
 
 + add: combobox inputs have the embedded X icon to clear text; code-tree X button was removed
 + add: code-tree filter field handles several space-separated words
++ add: faster paint caret if it's 'empty inside' (thanks @veksha)
 + add: Addon Manager has option (only in settings/cuda_addonman.json) to set SourceForge mirror (thanks @pintassilgo)
 + add: Tabs List plugin has new 'filter' input (thanks @mix-7)
 + add: Tabs List / Snippet Panel plugins support horizontal scrolling by Shift+mouse_wheel (thanks @iconv)
