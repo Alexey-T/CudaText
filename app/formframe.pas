@@ -2912,7 +2912,7 @@ begin
           ]));
       FProgressOldProgress:= 0;
       FProgressOldHandler:= St.OnProgress;
-      FProgressButtonCancel.Caption:= msgButtonCancel;
+      FProgressButtonCancel.Caption:= StringReplace(msgButtonCancel, '&', '', [rfReplaceAll]);
       FProgressButtonCancel.OnClick:= @HandleProgressButtonCancel;
       FProgressCancelled:= false;
       St.OnProgress:= @HandleStringsProgress;
@@ -4500,9 +4500,9 @@ procedure TEditorFrame.UpdateNotificationPanel(
   var AControls: TAppFrameNotificationControls;
   const ACaptionYes, ACaptionNo, ACaptionStop, ALabel: string);
 begin
-  AControls.ButtonYes.Caption:= ACaptionYes;
-  AControls.ButtonNo.Caption:= ACaptionNo;
-  AControls.ButtonStop.Caption:= ACaptionStop;
+  AControls.ButtonYes.Caption:= StringReplace(ACaptionYes, '&', '', [rfReplaceAll]);
+  AControls.ButtonNo.Caption:= StringReplace(ACaptionNo, '&', '', [rfReplaceAll]);
+  AControls.ButtonStop.Caption:= StringReplace(ACaptionStop, '&', '', [rfReplaceAll]);
 
   AControls.ButtonYes.AutoSize:= true;
   AControls.ButtonNo.AutoSize:= true;
