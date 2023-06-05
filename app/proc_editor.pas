@@ -362,7 +362,9 @@ begin
     Ed.OptShowCurLineMinimal:= Op.OpShowCurLineMinimal;
     Ed.OptShowCurLineOnlyFocused:= Op.OpShowCurLineOnlyFocused;
     Ed.OptShowCurColumn:= Op.OpShowCurCol;
-    Ed.OptLastLineOnTop:= Op.OpShowLastLineOnTop;
+
+    if not Ed.IsModifiedLastLineOnTop then
+      Ed.OptLastLineOnTop:= Op.OpShowLastLineOnTop;
   end;
 
   Ed.OptShowFullWidthForSelection:= Op.OpShowFullBackgroundSel;

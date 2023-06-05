@@ -4449,7 +4449,10 @@ begin
           Ed.OptScaleFont:= ValueInt;
 
         PROP_LAST_LINE_ON_TOP:
-          Ed.OptLastLineOnTop:= ValueBool;
+          begin
+            Ed.OptLastLineOnTop:= ValueBool;
+            Ed.IsModifiedLastLineOnTop:= true;
+          end;
 
         PROP_FOCUSED:
           begin
