@@ -8235,9 +8235,10 @@ begin
               Ed.Gaps.DeleteForLineRange(Num1, Num1);
               if Ed.Gaps.Add(Num1, NSize, Bmp, Form, NTag, NColor) then
               begin
-                ////better to do always, to fix [v-scroll cannot reach end for many gaps at end]
+                ////better to set this prop always, to fix [v-scrollbar cannot reach end for many gaps at end]
                 //if Num1=Ed.Strings.Count-1 then
-                  Ed.OptLastLineOnTop:= true;
+                Ed.OptLastLineOnTop:= true;
+                Ed.IsModifiedLastLineOnTop:= true;
 
                 //if added gap before 1st line, scroll editor upper
                 if Num1=-1 then
