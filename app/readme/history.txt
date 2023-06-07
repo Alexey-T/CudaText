@@ -3,6 +3,8 @@
   - fixed
   * changed
 
+- fix: regression with plugin Insert Pics, because of "show_last_line_on_top" default changed (thanks @herbrot)
+
 1.195.0 (2023/05)
 
 + add: combobox inputs have the embedded X icon to clear text; code-tree X button was removed
