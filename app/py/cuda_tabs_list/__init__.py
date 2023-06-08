@@ -85,6 +85,7 @@ class Command:
             'name': 'filter',
             'align': ALIGN_TOP,
             'texthint': _('Filter'),
+            'tab_stop': True,
             'on_change': 'cuda_tabs_list.filter_change',
         })
 
@@ -113,6 +114,7 @@ class Command:
             'on_click_x': 'cuda_tabs_list.list_on_click_x',
             'font_name': self.font_name,
             'font_size': self.font_size,
+            'tab_stop': True,
             #'font_color': self.get_color_font(),
             #'color': self.get_color_back(),
             } )
