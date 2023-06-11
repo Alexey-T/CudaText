@@ -255,7 +255,6 @@ type
     procedure EditorOnChange(Sender: TObject);
     procedure EditorOnChangeModified(Sender: TObject);
     procedure EditorOnChangeCaretPos(Sender: TObject);
-    procedure EditorOnChangeCaretLine(Sender: TObject);
     procedure EditorOnChangeState(Sender: TObject);
     procedure EditorOnChangeBookmarks(Sender: TObject);
     procedure EditorOnChangeZoom(Sender: TObject);
@@ -1080,14 +1079,6 @@ begin
   TimerCaret.Enabled:= false;
   TimerCaret.Interval:= UiOps.PyCaretSlow;
   TimerCaret.Enabled:= true;
-end;
-
-procedure TEditorFrame.EditorOnChangeCaretLine(Sender: TObject);
-var
-  Ed: TATSynEdit;
-begin
-  Ed:= Sender as TATSynEdit;
-  DoPyEvent(Ed, cEventOnCaretLine, []);
 end;
 
 procedure TEditorFrame.EditorOnHotspotEnter(Sender: TObject; AHotspotIndex: integer);
@@ -2192,7 +2183,6 @@ begin
   ed.OnChange:= @EditorOnChange;
   ed.OnChangeModified:= @EditorOnChangeModified;
   ed.OnChangeCaretPos:= @EditorOnChangeCaretPos;
-  ed.OnChangeCaretLine:= @EditorOnChangeCaretLine;
   ed.OnChangeState:= @EditorOnChangeState;
   ed.OnChangeZoom:= @EditorOnChangeZoom;
   ed.OnChangeBookmarks:= @EditorOnChangeBookmarks;
