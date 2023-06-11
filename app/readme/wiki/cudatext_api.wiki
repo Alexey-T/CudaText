@@ -50,7 +50,6 @@ Event handlers (Command.on_nnnnn methods) return-value is ignored is many cases,
 * on_change(self, ed_self): Called after editor text is changed.
 * on_change_slow(self, ed_self): Called after editor text is changed, and small pause is passed (CudaText option "py_change_slow"), and application "idle" event happens (no keyboard/mouse input for 1-2sec).
 * on_caret(self, ed_self): Called after caret position/selection is changed.
-* on_caret_line(self, ed_self): Called after first caret's line-index is changed.
 * on_caret_slow(self, ed_self): Called after caret position/selection is changed, and small pause is passed. Pause is CudaText option "py_caret_slow".
 * on_insert(self, ed_self, text): Called before inserting a text. Method can return False to disable insertion, other return value is ignored.
 * on_key(self, ed_self, key, state): Called when user presses a key in editor. Param "key" is int key code; values are listed in the module cudatext_keys. Param "state" is string of chars: "a" if Alt pressed, "c" if Ctrl pressed, "s" if Shift pressed, "m" if Meta (Windows-key) pressed. Method can return False to disable key processing, other return value is ignored.
@@ -4869,5 +4868,8 @@ It provides:
 
 1.0.445 (app 1.190.1)
 * add: Editor.get_prop/set_prop: PROP_TAB_SMART
+
+1.0.446 (app 1.195.1)
+* delete event on_caret_line
 
 [[Category:CudaText]]
