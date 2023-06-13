@@ -5,6 +5,7 @@
 
 + add: plugin Tabs List: allow Tab-key to change the focus
 - fix: regression with plugin Insert Pics, because of "show_last_line_on_top" default changed (thanks @herbrot)
+- fix: small regression when EOL mark appeared on last line when not needed, on deleting multi-line selection (fixed by @ThaiDat)
 
 1.195.0 (2023/05)
 
