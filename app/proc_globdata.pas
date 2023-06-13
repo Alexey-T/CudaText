@@ -3686,15 +3686,20 @@ end;
 
 procedure AppDiskCheckFreeSpace(const fn: string);
 var
-  NSpace: Int64;
+  NSpace, NSpaceShow: Int64;
 begin
   if UiOps.CheckLowDiskSpace<=0 then exit;
   repeat
     NSpace:= AppDiskGetFreeSpace(fn);
     if NSpace<0 then exit; //cannot detect free space
     if NSpace>=UiOps.CheckLowDiskSpace then exit;
+
+    NSpaceShow:= NSpace div (1024*1024);
+    if NSpaceShow=0 then
+      NSpaceShow:= 1;
+
     if MsgBox(
-      Format(msgErrorLowDiskSpaceMb, [NSpace div (1024*1024)]),
+      Format(msgErrorLowDiskSpaceMb, [NSpaceShow]),
       MB_RETRYCANCEL or MB_ICONWARNING) = ID_CANCEL then exit;
   until false;
 end;
