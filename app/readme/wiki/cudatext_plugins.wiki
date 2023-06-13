@@ -1521,6 +1521,10 @@ It outputs on Ubuntu:
 
  /home/user/.local/bin/pyright-langserver
 
+* On macOS, install pyright via PIP, not via Homebrew. On macOS, see what output you have after you call this command: "nodeenv env". If you see certificate error, try to fix it with the following command:
+
+ /Applications/Python\ 3.10/Install\ Certificates.command
+
 2. Create config (CudaText)/settings/lsp_pyright.json:
 
 <syntaxhighlight lang="json">
@@ -1529,7 +1533,9 @@ It outputs on Ubuntu:
     "Python": "python"
   },
   "cmd_windows": ["pyright-langserver.exe", "--stdio"],
-  "cmd_unix": ["/home/user/.local/bin/pyright-langserver", "--stdio"]
+  "cmd_unix": ["/home/user/.local/bin/pyright-langserver", "--stdio"],
+  "cmd_macos": ["/Library/Frameworks/Python.framework/Versions/3.10/bin/pyright-langserver", "--stdio"],
+  "log_stderr": true
 }
 </syntaxhighlight>
 
