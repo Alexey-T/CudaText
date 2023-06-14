@@ -1626,6 +1626,10 @@ begin
 
   AppDir_Py:= OpDirLocal+DirectorySeparator+'py';
   AppDir_Data:= OpDirLocal+DirectorySeparator+'data';
+  {$ifdef haiku}
+  AppDir_Py:= '/boot/system/data/cudatext/data';
+  AppDir_Data:= '/boot/system/data/cudatext/data';
+  {$endif}
   AppDir_Lexers:= AppDir_Data+DirectorySeparator+'lexlib';
   AppDir_LexersLite:= AppDir_Data+DirectorySeparator+'lexliblite';
   AppDir_DataThemes:= AppDir_Data+DirectorySeparator+'themes';
