@@ -1108,6 +1108,7 @@ type
     procedure UpdateMenuTheming_MainMenu;
     procedure UpdateMenuTheming_WhiteLine;
     procedure UpdateMenuRecents(sub: TMenuItem);
+    procedure UpdateMenuSidebarButton(AWhenAutoShow: boolean);
     procedure UpdateSidebarButtonOverlay;
     procedure UpdateEditorTabsize(AValue: integer);
     procedure UpdateMenuItemAltObject(mi: TMenuItem; ACmd: integer);
@@ -5844,6 +5845,8 @@ begin
   else
     Windows.SetMenu(Handle, 0);
   {$endif}
+
+  UpdateMenuSidebarButton(not FMenuVisible);
 end;
 
 function TfmMain.GetShowOnTop: boolean;

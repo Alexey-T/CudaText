@@ -1516,14 +1516,7 @@ begin
   UiOps.ShowToolbar:= cfg.GetValue('ui_toolbar_show', UiOps.ShowToolbar);
   UiOps.ShowSidebarMenuButton:= cfg.GetValue('ui_menu_button', UiOps.ShowSidebarMenuButton);
 
-  if ToolbarSideTop.ButtonCount>0 then
-    with ToolbarSideTop.Buttons[0] do
-      if OnClick=@DoSidebar_MainMenuClick then
-        case UiOps.ShowSidebarMenuButton of
-          0: Visible:= false;
-          1: Visible:= true;
-          2: Visible:= not UiOps.ShowMenubar;
-        end;
+  UpdateMenuSidebarButton(not UiOps.ShowMenubar);
 
   UiOps.SidebarShow:= cfg.GetValue('ui_sidebar_show', UiOps.SidebarShow);
   UiOps.SidebarOnRight:= cfg.GetValue('ui_sidebar_on_right', UiOps.SidebarOnRight);

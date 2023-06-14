@@ -1693,3 +1693,15 @@ begin
   end;
 end;
 
+procedure TfmMain.UpdateMenuSidebarButton(AWhenAutoShow: boolean);
+begin
+  if ToolbarSideTop.ButtonCount>0 then
+    with ToolbarSideTop.Buttons[0] do
+      if OnClick=@DoSidebar_MainMenuClick then
+        case UiOps.ShowSidebarMenuButton of
+          0: Visible:= false;
+          1: Visible:= true;
+          2: Visible:= AWhenAutoShow;
+        end;
+end;
+
