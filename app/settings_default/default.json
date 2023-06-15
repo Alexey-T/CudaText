@@ -1390,7 +1390,7 @@
   "pylib__linux": "libpython3.so",
   "pylib__mac": "/Library/Frameworks/Python.framework/Versions/3.9/lib/libpython3.9.dylib",
   "pylib__freebsd": "libpython3.6m.so",
-  "pylib__haiku": "/boot/system/develop/lib/libpython3.6m.so",
+  "pylib__haiku": "/boot/system/develop/lib/libpython3.7m.so",
 
   //API delay for event "on_caret_slow", in milliseconds.
   "py_caret_slow": 600,
