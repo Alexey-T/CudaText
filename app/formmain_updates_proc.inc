@@ -411,6 +411,11 @@ end;
 procedure TfmMain.UpdateEnabledAll(b: boolean);
 begin
   Groups.Enabled:= b;
+
+  //fixes issue #5125
+  AppPanels[cPaneOut].PanelGrouper.Enabled:= b;
+  AppPanels[cPaneSide].PanelGrouper.Enabled:= b;
+
   if Assigned(fmFind) then
     fmFind.Enabled:= b;
 end;
