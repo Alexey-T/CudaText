@@ -279,7 +279,7 @@ begin
   Category:= cAppFinderOperationCategory[Res];
   if Category=afcNone then exit;
   bHiliteAll:= false;
-  bFocusFindDlg:= Assigned(fmFind) and fmFind.Visible and fmFind.Enabled and (fmFind.edFind.Focused and fmFind.edRep.Focused);
+  bFocusFindDlg:= Assigned(fmFind) and fmFind.Visible and fmFind.Enabled and (fmFind.edFind.Focused or fmFind.edRep.Focused);
   NCounter:= 0;
 
   if Category in [afcFind, afcReplaceOne] then
@@ -755,7 +755,7 @@ begin
   Frame:= CurrentFrame;
   if Frame=nil then exit;
   InitFormFind;
-  bFocusFindDlg:= Assigned(fmFind) and fmFind.Visible and fmFind.Enabled and (fmFind.edFind.Focused and fmFind.edRep.Focused);
+  bFocusFindDlg:= Assigned(fmFind) and fmFind.Visible and fmFind.Enabled and (fmFind.edFind.Focused or fmFind.edRep.Focused);
 
   ////always update Finder string when "Find next" called. issue #2182
   if fmFind.edFind.Text<>'' then
@@ -836,7 +836,7 @@ begin
   FFinder.OptBack:= false;
   FFinder.OptFromCaret:= false;
 
-  bFocusFindDlg:= Assigned(fmFind) and fmFind.Visible and fmFind.Enabled and (fmFind.edFind.Focused and fmFind.edRep.Focused);
+  bFocusFindDlg:= Assigned(fmFind) and fmFind.Visible and fmFind.Enabled and (fmFind.edFind.Focused or fmFind.edRep.Focused);
 
   DoFindMarkingInit(AMode);
   cnt:= FFinder.DoAction_CountAll(true);

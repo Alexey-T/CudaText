@@ -462,6 +462,8 @@ begin
     begin
       if AFocusFindDlg then
         fmFind.UpdateFocus(AFindMode);
+      //else
+      //  raise Exception.Create('unexpected AFocusFindDlg=False');
     end
     else
       Frame.SetFocus;
