@@ -271,7 +271,7 @@ procedure TfmMain.FindDialogDone(Sender: TObject; Res: TAppFinderOperation; AEna
 var
   Category: TAppFinderOperationCategory;
   Frame: TEditorFrame;
-  ok, bDoLock, bFindMode, bHiliteAll: boolean;
+  ok, bDoLock, bFindMode, bHiliteAll, bFocusFindDlg: boolean;
   NCounter: integer;
 begin
   InitFormFind;
@@ -279,6 +279,7 @@ begin
   Category:= cAppFinderOperationCategory[Res];
   if Category=afcNone then exit;
   bHiliteAll:= false;
+  bFocusFindDlg:= Assigned(fmFind) and fmFind.Visible and fmFind.Enabled and (fmFind.edFind.Focused and fmFind.edRep.Focused);
   NCounter:= 0;
 
   if Category in [afcFind, afcReplaceOne] then
@@ -315,7 +316,7 @@ begin
       Frame.SetFocus;
     fmFind.Hide;
     fmFind.ClearHiAll;
-    UpdateAppForSearch(false, false, bFindMode, AEnableUpdateAll);
+    UpdateAppForSearch(false, false, bFindMode, AEnableUpdateAll, bFocusFindDlg);
     Exit;
   end;
 
@@ -342,7 +343,7 @@ begin
 
   if Frame.FrameKind=efkBinaryViewer then
   begin
-    UpdateAppForSearch(true, false, true, AEnableUpdateAll);
+    UpdateAppForSearch(true, false, true, AEnableUpdateAll, bFocusFindDlg);
     Application.ProcessMessages;
 
     case Res of
@@ -363,7 +364,7 @@ begin
         end;
     end;
 
-    UpdateAppForSearch(false, false, true, AEnableUpdateAll);
+    UpdateAppForSearch(false, false, true, AEnableUpdateAll, bFocusFindDlg);
     exit;
   end;
 
@@ -387,7 +388,7 @@ begin
     //(Res=afoReplaceStop) or
     (Res=afoReplaceAll) or
     (Res=afoReplaceGlobal);
-  UpdateAppForSearch(true, bDoLock, bFindMode, AEnableUpdateAll);
+  UpdateAppForSearch(true, bDoLock, bFindMode, AEnableUpdateAll, bFocusFindDlg);
 
   if bDoLock then
   begin
@@ -441,7 +442,7 @@ begin
     end;
   end; //case Res of
 
-  UpdateAppForSearch(false, false, bFindMode, AEnableUpdateAll);
+  UpdateAppForSearch(false, false, bFindMode, AEnableUpdateAll, bFocusFindDlg);
 
   {$ifdef LCLgtk2}
   //Linux gtk2: UpdateAppForSearch don't put focus anywhere (Laz bug?) after "confirmation" form;
@@ -660,7 +661,7 @@ begin
       Frame.SetFocus;
 
     fmFind.Hide;
-    UpdateAppForSearch(false, false, true, true);
+    UpdateAppForSearch(false, false, true, true, false);
   end;
 end;
 
@@ -749,11 +750,12 @@ procedure TfmMain.DoFindNext(ANext: boolean);
 var
   Frame: TEditorFrame;
   Op: TAppFinderOperation;
-  ok, bChanged: boolean;
+  ok, bChanged, bFocusFindDlg: boolean;
 begin
   Frame:= CurrentFrame;
   if Frame=nil then exit;
   InitFormFind;
+  bFocusFindDlg:= Assigned(fmFind) and fmFind.Visible and fmFind.Enabled and (fmFind.edFind.Focused and fmFind.edRep.Focused);
 
   ////always update Finder string when "Find next" called. issue #2182
   if fmFind.edFind.Text<>'' then
@@ -782,7 +784,7 @@ begin
   ok:= FFinder.DoAction_FindOrReplace(false, false, bChanged, true);
   FinderUpdateEditor(false);
   FinderShowResult(ok, FFinder);
-  UpdateAppForSearch(false, false, true, true); //hide search progressbar
+  UpdateAppForSearch(false, false, true, true, bFocusFindDlg); //hide search progressbar
 
   //add string to history, issue #3326
   fmFind.edFind.DoAddLineToHistory(FFinder.StrFind, UiOps.MaxHistoryEdits);
@@ -819,6 +821,7 @@ end;
 procedure TfmMain.DoFindMarkAll(AMode: TATFindMarkingMode);
 var
   cnt: integer;
+  bFocusFindDlg: boolean;
 begin
   if Assigned(fmFind) {and (fmFind.edFind.Text<>'')} then
     FFinder.StrFind:= fmFind.edFind.Text;
@@ -833,6 +836,8 @@ begin
   FFinder.OptBack:= false;
   FFinder.OptFromCaret:= false;
 
+  bFocusFindDlg:= Assigned(fmFind) and fmFind.Visible and fmFind.Enabled and (fmFind.edFind.Focused and fmFind.edRep.Focused);
+
   DoFindMarkingInit(AMode);
   cnt:= FFinder.DoAction_CountAll(true);
   DoFindMarkingInit(markingNone);
@@ -842,7 +847,7 @@ begin
     Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind), cnt])+FinderOptionsToHint(FFinder),
     true);
 
-  UpdateAppForSearch(false, false, true, true); //hide search progressbar
+  UpdateAppForSearch(false, false, true, true, bFocusFindDlg); //hide search progressbar
 end;
 
 

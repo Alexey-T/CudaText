@@ -415,7 +415,7 @@ begin
     fmFind.Enabled:= b;
 end;
 
-procedure TfmMain.UpdateAppForSearch(AStart, AEdLock, AFindMode, AUpdateEnableAll: boolean);
+procedure TfmMain.UpdateAppForSearch(AStart, AEdLock, AFindMode, AUpdateEnableAll, AFocusFindDlg: boolean);
 var
   Frame: TEditorFrame;
   Ed: TATSynEdit;
@@ -454,7 +454,10 @@ begin
     end;
 
     if Assigned(fmFind) and fmFind.Visible and fmFind.Enabled then
-      fmFind.UpdateFocus(AFindMode)
+    begin
+      if AFocusFindDlg then
+        fmFind.UpdateFocus(AFindMode);
+    end
     else
       Frame.SetFocus;
   end;
