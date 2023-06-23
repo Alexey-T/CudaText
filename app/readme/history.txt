@@ -7,6 +7,7 @@
 - fix: on 'find next' (F3) app forced focus to the Find dialog (thanks @adoeller)
 - fix: regression with plugin Insert Pics, because of "show_last_line_on_top" default changed (thanks @herbrot)
 - fix: small regression when EOL mark appeared on last line when not needed, on deleting multi-line selection (fixed by @ThaiDat)
+- fix: Windows: Chinese IME may crash (thanks @actforjason, fixed by @rasberryrabbit)
 
 1.195.0 (2023/05)
 
