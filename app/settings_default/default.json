@@ -395,11 +395,6 @@
   //of all carets are the same as for the first caret.
   "tab_smart": false,
 
-  //Maximal X position, before which tab-characters visually expand to N spaces.
-  //After this X position, tab-chars expand to 1 space.
-  //Note: this option is global, not per-lexer.
-  "tab_max_pos_expanded": 500,
-
   //[Text]
   //Maximal line length, for which Undo is still working.
   //Note: this option is global, not per-lexer.
