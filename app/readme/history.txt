@@ -4,6 +4,7 @@
   * changed
 
 + add: plugin Tabs List: allow Tab-key to change the focus
+* change: delete option "tab_max_pos_expanded" (it is now max possible value 1024)
 - fix: on 'find next' (F3) app forced focus to the Find dialog (thanks @adoeller)
 - fix: regression with plugin Insert Pics, because of "show_last_line_on_top" default changed (thanks @herbrot)
 - fix: small regression when EOL mark appeared on last line when not needed, on deleting multi-line selection (fixed by @ThaiDat)
