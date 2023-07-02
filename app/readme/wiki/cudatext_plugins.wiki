@@ -1140,6 +1140,58 @@ Hello world.
 -- Done (-0.0s), return code: 0
 </pre>
 
+==Runner tool for Cobol==
+In Addons Manager, install the lexer "Cobol".
+
+Let's make build-system for GnuCOBOL on Windows.
+Install GnuCOBOL, usually [https://www.arnoldtrembley.com/GnuCOBOL.htm from this webpage], to "C:\GnuCOBOL".
+You must have file "C:\GnuCOBOL\bin\cobc.exe".
+
+Create Batch script "c:\GnuCOBOL\bin\runcobol.cmd" with such content:
+<pre>
+set Path=c:\gnucobol\bin
+set COB_CONFIG_DIR=c:\gnucobol\config
+set COB_COPY_DIR=c:\gnucobol\copy
+set COB_INCLUDE_PATH=c:\gnucobol\include
+set COB_LIB_PATH=c:\gnucobol\lib
+cobc -x -std=mf %1
+</pre>
+
+Create build-system file "[CudaText]\data\buildsystems\cobol.sublime-build":
+<syntaxhighlight lang="json">
+{
+  "file_patterns": ["*.cob", "*.cbl", "*.cpy"],
+  "name": "Compile",
+  "cmd": ["cmd.exe", "/c", "c:\\GnuCOBOL\\bin\\runcobol.cmd", "$file"],
+  "working_dir": "$file_path",
+  "file_regex": "^([^:]+):([0-9]+):"
+}
+</syntaxhighlight>
+
+Now running the "Plugins / Runner / Build" can give output panel like this:
+<pre>
+-- [07:49:02] Building: cobol: test.cbl
+-- Command: ['cmd.exe', '/c', 'c:\\GnuCOBOL\\bin\\runcobol.cmd', 'C:\\Work\\test.cbl']
+-- Working dir: C:\Work
+
+C:\Work>set Path=c:\gnucobol\bin 
+
+C:\Work>set COB_CONFIG_DIR=c:\gnucobol\config 
+
+C:\Work>set COB_COPY_DIR=c:\gnucobol\copy 
+
+C:\Work>set COB_INCLUDE_PATH=c:\gnucobol\include 
+
+C:\Work>set COB_LIB_PATH=c:\gnucobol\lib 
+
+C:\Work>cobc -x -std=mf C:\Work\test.cbl 
+C:\Work\test.cbl:1: error: invalid indicator 'u' at column 7
+C:\Work\test.cbl:2: warning: line not terminated by a newline [-Wmissing-newline]
+C:\Work\test.cbl:3: warning: PROGRAM-ID header missing [-Wothers]
+C:\Work\test.cbl:3: note: PROGRAM-ID header assumed [-Wothers]
+-- Done (0.3s), return code: 1
+</pre>
+
 =FindInFiles=
 This plugin implements searching in many files, starting from custom folder. CudaText doesn't have the built-in feature to search in many files, and seems it will not have it in future, because FindInFiles is so powerful, it even has the Configuration dialog with dozens of options.
 
