@@ -1164,31 +1164,33 @@ Create build-system file "[CudaText]\data\buildsystems\cobol.sublime-build":
   "name": "Compile",
   "cmd": ["cmd.exe", "/c", "c:\\GnuCOBOL\\bin\\runcobol.cmd", "$file"],
   "working_dir": "$file_path",
-  "file_regex": "^([^:]+):([0-9]+):"
+  "file_regex": "^([^:]+):([0-9]+):",
+  "variants": [
+    {
+      "name": "Run",
+      "cmd": ["$file_path/$file_base_name.exe"]
+    }
+  ]  
 }
 </syntaxhighlight>
 
-Now running the "Plugins / Runner / Build" can give output panel like this:
+Note: the build-system gives usual command "Build" and additional command "Run" to execute the .exe file, and "Run" has forward slash (Unix slash): "$file_path/$file_base_name.exe". Forward slash is required here, because with backslash Runner will fail to run the .exe (it will not expand the macro $file_base_name).
+
+Now running the "Plugins / Runner / Build" can give text in the "Output panel" like this:
 <pre>
 -- [07:49:02] Building: cobol: test.cbl
 -- Command: ['cmd.exe', '/c', 'c:\\GnuCOBOL\\bin\\runcobol.cmd', 'C:\\Work\\test.cbl']
 -- Working dir: C:\Work
 
 C:\Work>set Path=c:\gnucobol\bin 
-
 C:\Work>set COB_CONFIG_DIR=c:\gnucobol\config 
-
 C:\Work>set COB_COPY_DIR=c:\gnucobol\copy 
-
 C:\Work>set COB_INCLUDE_PATH=c:\gnucobol\include 
-
 C:\Work>set COB_LIB_PATH=c:\gnucobol\lib 
-
 C:\Work>cobc -x -std=mf C:\Work\test.cbl 
 C:\Work\test.cbl:1: error: invalid indicator 'u' at column 7
 C:\Work\test.cbl:2: warning: line not terminated by a newline [-Wmissing-newline]
 C:\Work\test.cbl:3: warning: PROGRAM-ID header missing [-Wothers]
-C:\Work\test.cbl:3: note: PROGRAM-ID header assumed [-Wothers]
 -- Done (0.3s), return code: 1
 </pre>
 
