@@ -130,9 +130,9 @@ Constants in on_state_ed:
 
 ==Events - Macros==
 
-* on_macro(self, ed_self, text): Called when command "start/stop macro recording" stops the recording. Param "text" is "\n"-separated list of macro items, which were run during the macro recording.
-** if item is "number" then it's simple command.
-** if item is "number,string" then it's command with str parameter (usually it's command cCommand_TextInsert).
+* on_macro(self, ed_self, text): Called when command "start/stop macro recording" stops the recording. Param "text" is string: "\n"-separated text of macro items, which were run during the macro recording.
+** if item is str(number) then it's simple command.
+** if item is "number,string" then it's command with string parameter (usually it's command cCommand_TextInsert).
 ** if item is "py:string_module,string_method,string_param" then it's call of Python plugin (usually string_param is empty).
 
 Note: To run each on_macro item (with number) later, call ed.cmd(): number is command code, string after comma is command text.
