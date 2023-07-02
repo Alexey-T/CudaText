@@ -195,16 +195,16 @@ Example of version check:
 
  app_path(id)
 
-Returns file-system path. Possible values of "id":
+Returns some file-system path. Possible values of "id":
 
 * APP_DIR_EXE: Folder of program executable.
-* APP_DIR_SETTINGS: Folder "settings" (it should contain user.json file).
-* APP_DIR_SETTINGS_DEF: Folder "settings_default".
+* APP_DIR_SETTINGS: Folder "settings" (which usually contains user.json file).
+* APP_DIR_SETTINGS_DEF: Folder "settings_default" (which usually contain default.json file).
 * APP_DIR_DATA: Folder "data".
-* APP_DIR_PY: Folder "py" with Python files.
-* APP_DIR_INSTALLED_ADDON: Folder of last installed addon (for plugins it is folder in "py", for data-files it is folder in "data", for lexers it is folder "lexlib"). This dir is updated only if addon installed via file_open() or from app (Open dialog or command line).
-* APP_FILE_SESSION: Filename of current session. Default filename is "history session.json" without path. Missing path means that folder "settings" will be used.
-* APP_FILE_RECENTS: Str: "\n"-separated filenames of recent files.
+* APP_DIR_PY: Folder "py" (with Python codes).
+* APP_DIR_INSTALLED_ADDON: Folder of last installed add-on. For plugins it is folder in "py", for data-files it is folder in "data", for lexers it is folder "lexlib". This path is internally updated only if add-on was installed via file_open() API, or via "Open file" dialog when you open .zip file, or via command-line with .zip file.
+* APP_FILE_SESSION: Filename of current session. Default filename is "history session.json" without path. Missing path means that session file is in the folder "settings".
+* APP_FILE_RECENTS: String, "\n"-separated filenames of recently used files.
 
 ===app_proc===
 
