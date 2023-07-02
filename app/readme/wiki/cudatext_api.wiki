@@ -324,9 +324,9 @@ Actions work with props of Find/Replace dialog, and props of low-level search en
 * PROC_SET_CLIP: Copies text to clipboard (usual clipboard). Note: this clears the clipboard first.
 * PROC_SET_CLIP_HTML: Copies HTML text to clipboard, text must be HTML. Note: this does not clear the clipboard first.
 * PROC_SET_CLIP_ALT: Copies text to alternate clipboard on Linux, called "primary selection".
-** CudaText Copy commands put text to usual clipboard + primary selection.
-** CudaText Paste commands get text from usual clipboard.
-** CudaText Paste with option "mouse_mid_click_paste":true gets text from primary selection.
+** CudaText "Copy" commands put text to usual clipboard + primary selection.
+** CudaText "Paste" commands get text from usual clipboard.
+** CudaText middle-click with option "mouse_mid_click_paste":true gets text from primary selection.
 
 * PROC_CLIP_ENUM: Returns string, where each char represents a format stored in Clipboard.
 ** "t": Text format.
