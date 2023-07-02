@@ -121,9 +121,7 @@ Constants in on_state_ed:
 ==Events - Panels==
 
 * on_message(self, ed_self, id, text): Called on showing a text in the statusbar. Param "id" means statusbar column index, currently only value 0 is used ("text message" statusbar cell). Method can return False to disable usual showing of message. Param "ed_self" is None here.
-* on_console_nav(self, ed_self, text): Called for Console panel events. Param "ed_self" is None here.
-** Called on double-clicking lines, or calling context menu item "Navigate", in the Console's memo-field. Param "text" is line with caret.
-** Called also when Console input-field is first changed. Param "text" value is "(console_input_change)".
+* on_console_nav(self, ed_self, text): Called on double-clicking a line, or calling context menu item "Navigate", in the Console's multi-line memo field. Param "text" is Console memo line with caret. Param "ed_self" is None here.
 * on_console_complete(self, ed_self): Called when user presses hotkey of "auto-complete" in the Console input. Param "ed_self" is None here. True return value means that plugin handled the event, don't call other plugins.
 * on_output_nav(self, ed_self, text, tag): Called on clicking line, or pressing Enter, in the Output or Validate panel. Param "text" is clicked line, param "tag" is int value associated with line. Event is called only if app cannot parse output line by itself using given regex, or regex is not set. Param "ed_self" is None here.
 * on_sidebar_popup(self, ed_self, caption): Called on right-click on sidebar/bottombar buttons. Param "ed_self" is None here. Param "caption" is button caption.
