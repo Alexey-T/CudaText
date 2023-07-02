@@ -124,7 +124,7 @@ Constants in on_state_ed:
 * on_console_nav(self, ed_self, text): Called on double-clicking a line, or calling context menu item "Navigate", in the Console's multi-line memo field. Param "text" is Console memo line with caret. Param "ed_self" is None here.
 * on_console_complete(self, ed_self): Called when user presses hotkey of "auto-complete" in the Console input. Param "ed_self" is None here. True return value means that plugin handled the event, don't call other plugins.
 * on_output_nav(self, ed_self, text, tag): Called on clicking line, or pressing Enter, in the Output or Validate panel. Param "text" is clicked line, param "tag" is int value associated with line. Event is called only if app cannot parse output line by itself using given regex, or regex is not set. Param "ed_self" is None here.
-* on_sidebar_popup(self, ed_self, caption): Called on right-click on sidebar/bottombar buttons. Param "ed_self" is None here. Param "caption" is button caption.
+* on_sidebar_popup(self, ed_self, caption): Called on right-click on sidebar (with bottom-bar) buttons. Param "caption" is caption of clicked button (this is non-translatable string, always in English). Param "ed_self" is None here.
 
 ==Events - Macros==
 
