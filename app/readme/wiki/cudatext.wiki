@@ -1394,9 +1394,17 @@ Dialog lists documents from all tab-groups, with prefixes: "[3-1] /home/user/fil
 Alternative way is plugin CudaExt. Plugin gives the command "Choose tab to switch to". You need to assign hotkey Ctrl+Tab to this command (hotkey will be removed from built-in tab switcher). Plugin's dialog is richer than CudaText's dialog: it allows to switch to Console/Output/Validate panels, it allows to cancel the operation.
 
 * When plugin's switcher is called with pressed Ctrl-key, it shows the dialog. 
-* When plugin's swithcer is called without Ctrl-key pressed, it immediately switches to previous tab. 
+* When plugin's switcher is called without Ctrl-key pressed, it immediately switches to previous tab.
 
 [[File:cudatext-tab-switcher-cudaext.png]]
+
+Command Palette has several commands to switch current ui-tab:
+
+* "ui: switch tab, to next": If option "ui_tab_switcher_dialog" is true, command shows this dialog with suggestion to activate next tab (using visit history). If option is off, command just activates the next ui-tab ignoring the visit history.
+* "ui: switch tab, to previous": Like above but in reverse order.
+* "ui: switch tab, simply to next": Activates the next ui-tab, ignoring the visit history. (It considers only visual order of ui-tabs).
+* "ui: switch tab, simply to previous": Like above but in reverse order.
+* "ui: switch tab, to recent": Activates the ui-tab previously activated in visit history. 
 
 =Minimap=
 Minimap is wide vertical bar near editor's right side (it can be shown on the left side too, by the option). To show it:
