@@ -1400,8 +1400,8 @@ Alternative way is plugin CudaExt. Plugin gives the command "Choose tab to switc
 
 Command Palette has several commands to switch current ui-tab:
 
-* "ui: switch tab, to next": If option "ui_tab_switcher_dialog" is true, command shows this dialog with suggestion to activate next tab (using visit history). If option is off, command just activates the next ui-tab ignoring the visit history.
-* "ui: switch tab, to previous": Like above but in reverse order.
+* "ui: switch tab, to next": If option "ui_tab_switcher_dialog" is true, command shows menu-like dialog with suggestion to activate recent tab (using visit history). If option is off, command just activates the next ui-tab ignoring the visit history.
+* "ui: switch tab, to previous": If option "ui_tab_switcher_dialog" is true, the same as above. If option is off, command just activates the previous ui-tab ignoring the visit history.
 * "ui: switch tab, simply to next": Activates the next ui-tab, ignoring the visit history. (It considers only visual order of ui-tabs).
 * "ui: switch tab, simply to previous": Like above but in reverse order.
 * "ui: switch tab, to recent": Activates the ui-tab previously activated in visit history. 
