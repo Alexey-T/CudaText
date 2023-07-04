@@ -10,8 +10,9 @@ Duplicate:
         Dub cur selection or cur line (by opt)
 Authors:
     Andrey Kvichansky    (kvichans on github)
+    Alexey Torgashin (CudaText)
 Version:
-    '0.6.11 2023-04-06'
+    '0.6.12 2023-07-04'
 Wiki: github.com/kvichans/cudax_lib/wiki
 ToDo: (see end of file)
 """
