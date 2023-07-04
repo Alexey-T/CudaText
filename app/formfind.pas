@@ -758,11 +758,11 @@ begin
   end;
 end;
 
-procedure TfmFind.edFindCommandAfter(Sender: TObject; ACommand: integer;
-  const AText: string);
+procedure TfmFind.edFindCommandAfter(Sender: TObject; ACommand: integer; const AText: string);
 begin
   if ACommand=cCommand_KeyEnter then
   begin
+    //fix bad scrollpos=1, after Ctrl+Enter activated multi-line mode
     if FMultiLineJustActivated then
     begin
       edFind.ScrollVert.SetZero;
