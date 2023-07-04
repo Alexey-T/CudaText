@@ -1423,7 +1423,7 @@ Command Palette has several commands to switch current ui-tab:
 * "ui: switch tab, to recent": Activates the ui-tab previously activated in visit history. 
 
 =Minimap=
-Minimap is wide vertical bar near editor's right side (it can be shown on the left side too, by the option). To show it:
+Minimap is wide vertical bar near editor's right side (it can be shown on the left side too, by option). To show it:
 
 * Set the option "minimap_show" (show permamently)
 * Use menu item "View / Toggle minimap" (show temporary, for the current document only)
@@ -1432,6 +1432,8 @@ If you drag mouse over minimap, editor will scroll entirely from top to bottom, 
 Text in minimap is painted by pixels, not by font rendering. Minimap is scaled according to CudaText UI, but can be scaled separately too (option "minimap_scale"). Screenshot shows 2 windows with different minimap scale.
 
 [[File:cudatext-minimap.png]]
+
+CudaText UI-theme doesn't have separate color for minimap slider. CudaText calculates the color of slider (when slider is hovered by mouse): if text background color is light - slider color is darker by 5-10% (there is no option); if text background color is dark - slider color is lighter by 5-10%.
 
 =Micromap=
 Micromap is thin (about 12 pixels) vertical bar near editor's right side. It is not scrollable, it shows overview of entire document from top to bottom. To show it:
