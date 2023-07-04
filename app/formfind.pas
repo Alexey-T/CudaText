@@ -163,6 +163,8 @@ type
     procedure edFindChange(Sender: TObject);
     procedure edFindCommand(Sender: TObject; ACommand: integer; AInvoke: TATCommandInvoke;
       const AText: string; var AHandled: boolean);
+    procedure edFindCommandAfter(Sender: TObject; ACommand: integer;
+      const AText: string);
     procedure edFindEnter(Sender: TObject);
     procedure edFindKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure edRepEnter(Sender: TObject);
@@ -201,6 +203,7 @@ type
     FMenuitemRepGlobal: TMenuItem;
     FReplace: boolean;
     FMultiLine: boolean;
+    FMultiLineJustActivated: boolean;
     FNarrow: boolean;
     FOnResult: TAppFinderOperationEvent;
     FOnChangeVisible: TNotifyEvent;
@@ -740,6 +743,7 @@ begin
   //auto turn on multi-line
   if ACommand=cCommand_KeyEnter then
   begin
+    FMultiLineJustActivated:= not IsMultiLine;
     IsMultiLine:= true;
     AHandled:= false;
     exit
@@ -750,6 +754,22 @@ begin
     FOnGetMainEditor(Ed);
     Ed.DoCommand(ACommand, TATCommandInvoke.Hotkey, '');
     AHandled:= true;
+    exit;
+  end;
+end;
+
+procedure TfmFind.edFindCommandAfter(Sender: TObject; ACommand: integer;
+  const AText: string);
+begin
+  if ACommand=cCommand_KeyEnter then
+  begin
+    if FMultiLineJustActivated then
+    begin
+      edFind.ScrollVert.SetZero;
+      edRep.ScrollVert.SetZero;
+      edFind.Update;
+      edRep.Update;
+    end;
     exit;
   end;
 end;

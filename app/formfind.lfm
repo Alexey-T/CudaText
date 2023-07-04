@@ -194,6 +194,7 @@ object fmFind: TfmFind
       OnKeyDown = edFindKeyDown
       OnChange = edFindChange
       OnCommand = edFindCommand
+      OnCommandAfter = edFindCommandAfter
       WantTabs = False
       OptScrollStyleHorz = Hide
       OptScrollStyleVert = Hide
@@ -212,6 +213,7 @@ object fmFind: TfmFind
       OptMouseWheelZooms = False
       OptAllowReadOnly = False
       OptUndoLimit = 200
+      OptComboboxShowX = True
     end
     object edRep: TATComboEdit
       AnchorSideLeft.Control = edFind
@@ -255,6 +257,7 @@ object fmFind: TfmFind
       OptMouseWheelZooms = False
       OptAllowReadOnly = False
       OptUndoLimit = 200
+      OptComboboxShowX = True
     end
     object PanelBtn: TATPanelSimple
       AnchorSideLeft.Control = edFind
