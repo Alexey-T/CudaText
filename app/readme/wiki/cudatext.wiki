@@ -848,6 +848,22 @@ Folded blocks can be rendered in few different ways, this is optional:
 * rectangle-mark after the end of the first line of the range
 * "− − −" dash line below the first line of the range
 
+'''Gutter right-click menu'''
+
+Gutter's folding band supports right-click menu. It gives commands to fold/unfold all blocks which touch the right-clicked editor line. When it can be useful? For example, you have JSON file with line:
+
+ "data": [{
+
+Here you have outer block (square brackets) with inner block (curly brackets).
+Click on folding icon will fold the outer block. What if you want to fold the inner block? Right-click on gutter's folding band, and you will see the popup menu with menu items:
+
+ Line 6:    "data": [{
+ Line 6:    "data": [{
+
+[[File:cudatext-folding-gutter-ctx-menu.png]]
+
+Clicking the first item will fold the outer block, clicking the second item will fold the inner block.
+
 ==Automatic folding of comments==
 
 There is an option "auto_fold_comments" (default is 0 - it's turned off) which allows to automatically
