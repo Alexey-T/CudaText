@@ -12,6 +12,7 @@
 - fix: small regression when EOL mark appeared on last line when not needed, on deleting multi-line selection (fixed by @ThaiDat)
 - fix: Windows: Chinese IME may crash (thanks @actforjason, fixed by @rasberryrabbit)
 - fix: irritating scrolling when user clicks top N lines, when "caret_proximity_vert":N (thanks @hiiamboris)
+- fix: Find dialog: empty Find field after typing text and Ctrl+Enter
 
 1.195.0 (2023/05)
 
