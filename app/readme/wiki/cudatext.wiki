@@ -862,7 +862,7 @@ Click on folding icon will fold the outer block. What if you want to fold the in
 
 [[File:cudatext-folding-gutter-ctx-menu.png]]
 
-Clicking the first item will fold the outer block, clicking the second item will fold the inner block.
+Clicking the first item will fold/unfold the outer block, clicking the second item will fold/unfold the inner block.
 
 ==Automatic folding of comments==
 
