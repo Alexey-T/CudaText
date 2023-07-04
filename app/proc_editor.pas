@@ -685,7 +685,6 @@ begin
   Ed.Colors.UnprintedBG:= GetAppColor(apclEdUnprintBg);
   Ed.Colors.UnprintedHexFont:= GetAppColor(apclEdUnprintHexFont);
   Ed.Colors.MinimapBorder:= GetAppColor(apclEdMinimapBorder);
-  Ed.Colors.MinimapSelBG:= GetAppColor(apclEdMinimapSelBg);
   Ed.Colors.MinimapTooltipBG:= GetAppColor(apclEdMinimapTooltipBg);
   Ed.Colors.MinimapTooltipBorder:= GetAppColor(apclEdMinimapTooltipBorder);
   Ed.Colors.StateChanged:= GetAppColor(apclEdStateChanged);
@@ -745,7 +744,6 @@ begin
     'EdUnprintBg'           : Ed.Colors.UnprintedBG:= AColor;
     'EdUnprintHexFont'      : Ed.Colors.UnprintedHexFont:= AColor;
     'EdMinimapBorder'       : Ed.Colors.MinimapBorder:= AColor;
-    'EdMinimapSelBg'        : Ed.Colors.MinimapSelBG:= AColor;
     'EdMinimapTooltipBg'    : Ed.Colors.MinimapTooltipBG:= AColor;
     'EdMinimapTooltipBorder': Ed.Colors.MinimapTooltipBorder:= AColor;
     'EdStateChanged'        : Ed.Colors.StateChanged:= AColor;
@@ -799,7 +797,6 @@ begin
     'EdUnprintBg'           : Result:= Ed.Colors.UnprintedBG;
     'EdUnprintHexFont'      : Result:= Ed.Colors.UnprintedHexFont;
     'EdMinimapBorder'       : Result:= Ed.Colors.MinimapBorder;
-    'EdMinimapSelBg'        : Result:= Ed.Colors.MinimapSelBG;
     'EdMinimapTooltipBg'    : Result:= Ed.Colors.MinimapTooltipBG;
     'EdMinimapTooltipBorder': Result:= Ed.Colors.MinimapTooltipBorder;
     'EdStateChanged'        : Result:= Ed.Colors.StateChanged;
