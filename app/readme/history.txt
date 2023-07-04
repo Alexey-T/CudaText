@@ -6,7 +6,7 @@
 1.196.0 (2023/07)
 
 + add: plugin Tabs List: allow Tab-key to change the focus
-+ add: if in JSON lexer, user folds block which last line is ending with "{", this last line is excluded from folding (thanks @reregaga)
+* change: if in JSON lexer, user folds block which last line is ending with "{", this last line is excluded from folding (thanks @reregaga)
 * change: delete option "tab_max_pos_expanded" (it is now max possible value 1024)
 - fix: on 'find next' (F3) app forced focus to the Find dialog (thanks @adoeller)
 - fix: regression with plugin Insert Pics, because of "show_last_line_on_top" default changed (thanks @herbrot)
