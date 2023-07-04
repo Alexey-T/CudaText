@@ -416,7 +416,7 @@ def set_opt(path, value, lev=CONFIG_LEV_USER, ed_cfg=ed, lexer='', user_json='us
                 # Skip! Value is same
                 return value
             # Update!
-            new_pair= '    "{}": {},'.format(path, value4js.replace('\\', r'\\'))
+            new_pair= ' '*SPACES + '"{}": {},'.format(path, value4js.replace('\\', r'\\'))
             body    = cre_key_val.sub(new_pair, body)   # NB! backslash escapes in 1st par are processed
         elif not has_pair and value is None:
             # Skip! Nothing to delete
