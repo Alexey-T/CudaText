@@ -739,7 +739,6 @@ type
     procedure FindAndMarkAll(var NCounter: integer);
     procedure FindAndReplaceInAllFrames(FramePrev: TEditorFrame; var NCounter: integer);
     procedure FindAndExtractRegexMatches;
-    procedure FlushConsole;
     function GetFileOpenOptionsString(AFileCount: integer): string;
     procedure HandleTimerCommand(Ed: TATSynEdit; CmdCode: integer; CmdInvoke: TATCommandInvoke);
     procedure InvalidateMouseoverDependantControls;
@@ -2275,28 +2274,6 @@ begin
   end;
 end;
 
-procedure TfmMain.FlushConsole;
-var
-  S: UnicodeString;
-  NCnt, i: integer;
-begin
-  if Assigned(fmConsole) and not AppConsoleQueue.IsEmpty() then
-  begin
-    //avoid output of huge items count at once
-    NCnt:= Min(AppConsoleQueue.Size, 300);
-    for i:= 1 to NCnt do
-    begin
-      S:= AppConsoleQueue.Front();
-      AppConsoleQueue.Pop();
-      fmConsole.DoAddLine(S);
-      if UiOps.LogConsole then
-        MsgLogToFilename(S, AppFile_LogConsole, false);
-    end;
-
-    fmConsole.DoUpdateMemo;
-  end;
-end;
-
 procedure TfmMain.TimerAppIdleTimer(Sender: TObject);
 var
   STemp: string;
@@ -2336,7 +2313,8 @@ begin
   end;
 
   //flush saved Python "print" results to console
-  FlushConsole;
+  if Assigned(fmConsole) then
+    fmConsole.FlushConsole;
 
   AppUpdateWatcherFrames;
   if AppCommandHandlerIsBusy then exit;
@@ -3748,7 +3726,8 @@ begin
   end;
 
   AppFormShowCompleted:= true;
-  FlushConsole;
+  if Assigned(fmConsole) then
+    fmConsole.FlushConsole;
 end;
 
 procedure TfmMain.FormWindowStateChange(Sender: TObject);

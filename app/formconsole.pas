@@ -13,7 +13,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
-  StrUtils, Menus, LclType,
+  StrUtils, Menus, LclType, Math,
   PythonEngine,
   ATStrings,
   ATSynEdit,
@@ -102,6 +102,7 @@ type
     procedure SetFocus; override;
     procedure ApplyTheme;
     procedure ApplyCaretView;
+    procedure FlushConsole;
   end;
 
 var
@@ -285,6 +286,8 @@ begin
       finally
         Py_DECREF(Obj);
       end;
+
+    FlushConsole;
   except
   end;
 end;
@@ -590,6 +593,28 @@ begin
   EditorCaretShapeFromString(EdMemo.CaretShapeNormal, EditorOps.OpCaretViewNormal);
   EditorCaretShapeFromString(EdMemo.CaretShapeOverwrite, EditorOps.OpCaretViewOverwrite);
   EditorCaretShapeFromString(EdMemo.CaretShapeReadonly, EditorOps.OpCaretViewReadonly);
+end;
+
+procedure TfmConsole.FlushConsole;
+var
+  S: UnicodeString;
+  NCnt, i: integer;
+begin
+  if not AppConsoleQueue.IsEmpty() then
+  begin
+    //avoid output of huge items count at once
+    NCnt:= Min(AppConsoleQueue.Size, 300);
+    for i:= 1 to NCnt do
+    begin
+      S:= AppConsoleQueue.Front();
+      AppConsoleQueue.Pop();
+      DoAddLine(S);
+      if UiOps.LogConsole then
+        MsgLogToFilename(S, AppFile_LogConsole, false);
+    end;
+
+    DoUpdateMemo;
+  end;
 end;
 
 finalization
