@@ -886,7 +886,7 @@ end;
 procedure TfmMain.FinderGetHiAllIndexes(AFinder: TATEditorFinder; out AIndex, ACount: integer);
 var
   Ed: TATSynEdit;
-  Pnt: TPoint;
+  MatchPos: TPoint;
   ItemPtr: PATMarkerItem;
   NTagValue: Int64;
   iItem: integer;
@@ -899,8 +899,11 @@ begin
 
   NTagValue:= UiOps.FindHiAll_TagValue;
 
-  Pnt:= AFinder.MatchEdPos;
-  if Pnt.Y<0 then exit;
+  if AFinder.OptBack then
+    MatchPos:= AFinder.MatchEdEnd
+  else
+    MatchPos:= AFinder.MatchEdPos;
+  if MatchPos.Y<0 then exit;
 
   for iItem:= 0 to Ed.Attribs.Count-1 do
   begin
@@ -908,8 +911,8 @@ begin
     if ItemPtr^.Tag<>NTagValue then Continue;
     Inc(ACount);
     if AIndex<0 then
-      if ItemPtr^.PosY=Pnt.Y then
-        if ItemPtr^.PosX=Pnt.X then
+      if ItemPtr^.PosY=MatchPos.Y then
+        if ItemPtr^.PosX=MatchPos.X then
           AIndex:= ACount-1;
   end;
 end;
