@@ -1134,7 +1134,8 @@
   //Mouse wheel scrolling speed, horizontal (in chars).
   "mouse_wheel_speed_horz": 10,
 
-  //Mouse scrolling speed, when selection is dragged out of editor top/bottom edge.
+  //Mouse scrolling speed, when selection is dragged out of editor top/bottom edge
+  //(in lines per one timer tick).
   //Note: this option is global, not per-lexer.
   "mouse_scroll_speed_vert": 1,
 
