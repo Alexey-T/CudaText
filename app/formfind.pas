@@ -858,9 +858,6 @@ begin
   edFind.OptPasteAtEndMakesFinalEmptyLine:= false;
   edRep.OptPasteAtEndMakesFinalEmptyLine:= false;
 
-  edFind.OptScrollbarsNew:= true;
-  edRep.OptScrollbarsNew:= true;
-
   IsDoubleBuffered:= UiOps.DoubleBuffered;
   AppScalePanelControls(Self);
 
@@ -1234,6 +1231,9 @@ begin
 
   edFind.OptPasteWithEolAtLineStart:= EditorOps.OpPasteWithEolAtLineStart;
   edRep.OptPasteWithEolAtLineStart:= EditorOps.OpPasteWithEolAtLineStart;
+
+  edFind.OptScrollbarsNew:= EditorOps.OpScrollbarsNew;
+  edRep.OptScrollbarsNew:= EditorOps.OpScrollbarsNew;
 
   EditorCaretShapeFromString(edFind.CaretShapeNormal, EditorOps.OpCaretViewNormal);
   EditorCaretShapeFromString(edFind.CaretShapeOverwrite, EditorOps.OpCaretViewOverwrite);
