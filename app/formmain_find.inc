@@ -899,10 +899,17 @@ begin
 
   NTagValue:= UiOps.FindHiAll_TagValue;
 
-  if AFinder.OptBack then
-    MatchPos:= AFinder.MatchEdEnd
+  //take minimum if MatchEdPos / MatchEdEnd
+  if IsPosSorted(
+    AFinder.MatchEdPos.X,
+    AFinder.MatchEdPos.Y,
+    AFinder.MatchEdEnd.X,
+    AFinder.MatchEdEnd.Y,
+    false)
+  then
+    MatchPos:= AFinder.MatchEdPos
   else
-    MatchPos:= AFinder.MatchEdPos;
+    MatchPos:= AFinder.MatchEdEnd;
   if MatchPos.Y<0 then exit;
 
   for iItem:= 0 to Ed.Attribs.Count-1 do
