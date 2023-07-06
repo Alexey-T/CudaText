@@ -858,6 +858,9 @@ begin
   edFind.OptPasteAtEndMakesFinalEmptyLine:= false;
   edRep.OptPasteAtEndMakesFinalEmptyLine:= false;
 
+  edFind.OptScrollbarsNew:= true;
+  edRep.OptScrollbarsNew:= true;
+
   IsDoubleBuffered:= UiOps.DoubleBuffered;
   AppScalePanelControls(Self);
 
