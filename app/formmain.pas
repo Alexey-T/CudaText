@@ -4115,6 +4115,7 @@ procedure TfmMain.DoApplyUiOps;
 var
   id: TAppPanelId;
   Pages: TATPages;
+  Ed: TATSynEdit;
   i: integer;
 begin
   AppScaleSplitter(AppPanels[cPaneSide].Splitter);
@@ -4154,6 +4155,8 @@ begin
   begin
     EditorApplyOpsCommon(fmFind.edFind);
     EditorApplyOpsCommon(fmFind.edRep);
+    Ed:= CurrentEditor;
+    fmFind.chkHiAll.Enabled:= Assigned(Ed) and (Ed.Strings.Count<UiOps.FindHiAll_MaxLines);
   end;
 
   UpdateStatusbarPanelsFromString(UiOps.StatusPanels);
