@@ -1287,7 +1287,9 @@ How to open ExTerminal in the directory of the current editor file? You can do t
 
 =Configure Menu=
 
-Plugin "Configure Menu" (in Addon Manager) allows to change top menu and context menu. Plugin can create file (settings/menu.json) with default menu configuration, which you edit to customize all menus. File has items like:
+Plugin "Configure Menu" (in Addons Manager) allows to change CudaText menus.
+You can add items to the CudaText top-menu, top menu submenu, editor context-menu, tab header context-menu and dropdown submenu of toolbar buttons.
+Plugin can create file (settings/menu.json) with default menu configuration, which you edit to customize all menus. File has items like:
 
 <syntaxhighlight lang="json">
   ,{"cap":"&Save", "cmd":"cmd_FileSave"}
@@ -1304,6 +1306,8 @@ How to add here plugin commands? For example, you have plugin "Comments", it is 
 Here "cuda_comments" is plugin folder name, and "cmt_toggle_line_body" is Python method from install.inf.
 
 You can add items to the CudaText top-menu and/or context-menu, it is different sections in "menu.json".
+Possible root sections in "menu.json" are listed in the API wiki page: [[CudaText_API#menu_proc_-_Menu_id]].
+
 Example screenshot shows how "menu.json" will look with new items for context-menu:
 
 [[File:cudatext-editing-context-menu.png]]
