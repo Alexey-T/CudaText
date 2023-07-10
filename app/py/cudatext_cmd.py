@@ -467,6 +467,11 @@ cmd_HelpLexers    = 2705
 cmd_HelpIssues    = 2706
 cmd_HelpCheckUpdates = 2708
 
+cmd_MoveTabToGroup3 = 2711
+cmd_MoveTabToGroup4 = 2712
+cmd_MoveTabToGroup5 = 2713
+cmd_MoveTabToGroup6 = 2714
+
 cmd_Markers_SelectToCaret      = 2798
 cmd_Markers_DeleteToCaret      = 2799
 cmd_Markers_DropAtCaret        = 2800

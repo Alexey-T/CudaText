@@ -267,6 +267,11 @@ const
   cmd_HelpIssues    = 2706;
   cmd_HelpCheckUpdates = 2708;
 
+  cmd_MoveTabToGroup3 = 2711;
+  cmd_MoveTabToGroup4 = 2712;
+  cmd_MoveTabToGroup5 = 2713;
+  cmd_MoveTabToGroup6 = 2714;
+
   cmd_Markers_SelectToCaret      = 2798;
   cmd_Markers_DeleteToCaret      = 2799;
   cmd_Markers_DropAtCaret        = 2800;
@@ -600,6 +605,10 @@ begin
   M.Add(cmd_MoveTabToGroupPrev, 'groups: move tab to previous group', [], []);
   M.Add(cmd_MoveTabToGroup1, 'groups: move tab to group 1', [], []);
   M.Add(cmd_MoveTabToGroup2, 'groups: move tab to group 2', [], []);
+  M.Add(cmd_MoveTabToGroup3, 'groups: move tab to group 3', [], []);
+  M.Add(cmd_MoveTabToGroup4, 'groups: move tab to group 4', [], []);
+  M.Add(cmd_MoveTabToGroup5, 'groups: move tab to group 5', [], []);
+  M.Add(cmd_MoveTabToGroup6, 'groups: move tab to group 6', [], []);
   M.Add(cmd_MoveTabToGroupFloating1, 'groups: move tab to group floating-1', [], []);
   M.Add(cmd_MoveTabToGroupFloating2, 'groups: move tab to group floating-2', [], []);
   M.Add(cmd_MoveTabToGroupFloating3, 'groups: move tab to group floating-3', [], []);
@@ -911,6 +920,10 @@ begin
     cmd_MoveTabToGroupPrev,
     cmd_MoveTabToGroup1,
     cmd_MoveTabToGroup2,
+    cmd_MoveTabToGroup3,
+    cmd_MoveTabToGroup4,
+    cmd_MoveTabToGroup5,
+    cmd_MoveTabToGroup6,
     cmd_MoveTabToGroupFloating1,
     cmd_MoveTabToGroupFloating2,
     cmd_MoveTabToGroupFloating3,

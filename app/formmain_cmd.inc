@@ -552,6 +552,14 @@ begin
       DoMoveTabToGroup(0, true);
     cmd_MoveTabToGroup2:
       DoMoveTabToGroup(1, true);
+    cmd_MoveTabToGroup3:
+      DoMoveTabToGroup(2, true);
+    cmd_MoveTabToGroup4:
+      DoMoveTabToGroup(3, true);
+    cmd_MoveTabToGroup5:
+      DoMoveTabToGroup(4, true);
+    cmd_MoveTabToGroup6:
+      DoMoveTabToGroup(5, true);
 
     cmd_MoveTabToGroupFloating1:
       DoMoveTabToGroup(6, true);
