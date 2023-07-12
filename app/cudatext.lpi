@@ -1128,6 +1128,9 @@
         </CompilerOptions>
       </Item27>
       <Item28 Name="linux x64 gtk3">
+        <MacroValues Count="1">
+          <Macro3 Name="LCLWidgetType" Value="gtk3"/>
+        </MacroValues>
         <CompilerOptions>
           <Version Value="11"/>
           <PathDelim Value="\"/>
@@ -1169,7 +1172,7 @@
       <SharedMatrixOptions Count="4">
         <Item1 ID="308953563203" Modes="macos x64,macos aarch64" Type="IDEMacro" MacroName="LCLWidgetType" Value="cocoa"/>
         <Item2 ID="619430612971" Modes="linux x64 qt5,linux x32 qt5,haiku x32 qt5,haiku x64 qt5,linux aarch64 qt5,linux arm qt5,freebsd x64 qt5" Type="IDEMacro" MacroName="LCLWidgetType" Value="qt5"/>
-        <Item3 ID="028184365614" Type="IDEMacro" MacroName="LCLWidgetType" Value="gtk3"/>
+        <Item3 ID="028184365614" Modes="linux x64 gtk3" Type="IDEMacro" MacroName="LCLWidgetType" Value="gtk3"/>
         <Item4 ID="128333415096" Modes="linux x64 qt6" Type="IDEMacro" MacroName="LCLWidgetType" Value="qt6"/>
       </SharedMatrixOptions>
     </BuildModes>
