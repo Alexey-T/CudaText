@@ -77,6 +77,8 @@ begin
     ColorArrowFillOver:= ColorArrowFill;
     ColorArrowFillPressed:= ColorArrowFill;
     ColorArrowSign:= GetAppColor(apclScrollArrow);
+    ColorArrowSignOver:= GetAppColor(apclTabArrowOver);
+    ColorArrowSignPressed:= ColorArrowSignOver;
     ColorScrolled:= GetAppColor(apclScrollScrolled);
   end;
 
