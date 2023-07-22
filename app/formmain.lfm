@@ -24,7 +24,7 @@ object fmMain: TfmMain
   OnShow = FormShow
   OnUTF8KeyPress = FormUTF8KeyPress
   OnWindowStateChange = FormWindowStateChange
-  LCLVersion = '2.3.0.0'
+  LCLVersion = '3.99.0.0'
   Visible = True
   object PanelSide: TATPanelSimple
     Left = 0

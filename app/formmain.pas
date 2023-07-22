@@ -242,12 +242,8 @@ type
   { TfmMain }
   TfmMain = class(TForm)
     AppProps: TApplicationProperties;
-    mnuFileReopen: TMenuItem;
-    mnuFindRepDialog: TMenuItem;
-    mnuFindNext: TMenuItem;
-    mnuFindDlg: TMenuItem;
-    mnuFindSep1: TMenuItem;
     mnuFile: TMenuItem;
+    mnuFileReopen: TMenuItem;
     mnuFileSaveAll: TMenuItem;
     mnuFileCloseAll: TMenuItem;
     mnuFileCloseOther: TMenuItem;
@@ -328,9 +324,13 @@ type
     mnuCaretsSep1: TMenuItem;
     mnuCaretsUp1Page: TMenuItem;
     mnuFind: TMenuItem;
+    mnuFindNext: TMenuItem;
     mnuFindPrev: TMenuItem;
+    mnuFindDlg: TMenuItem;
+    mnuFindRepDialog: TMenuItem;
     mnuFindWordNext: TMenuItem;
     mnuFindWordPrev: TMenuItem;
+    mnuFindSep1: TMenuItem;
     mnuFindSep2: TMenuItem;
     mnuGotoLine: TMenuItem;
     mnuGotoBm: TMenuItem;
@@ -346,6 +346,7 @@ type
     mnuBmClear: TMenuItem;
     mnuBmPrev: TMenuItem;
     mnuBmNext: TMenuItem;
+    mnuView: TMenuItem;
     mnuViewSplitNo: TMenuItem;
     mnuViewSplitV: TMenuItem;
     mnuViewSplitH: TMenuItem;
@@ -367,10 +368,10 @@ type
     mnuViewWrap: TMenuItem;
     mnuViewMinimap: TMenuItem;
     mnuViewSplitSub: TMenuItem;
-    mnuView: TMenuItem;
     mnuViewBottom: TMenuItem;
     mnuViewSep1: TMenuItem;
     mnuViewSep2: TMenuItem;
+    mnuLexers: TMenuItem;
     mnuPlugins: TMenuItem;
     mnuOp: TMenuItem;
     mnuOpUser: TMenuItem;
@@ -416,7 +417,6 @@ type
     mnuGr6: TMenuItem;
     mnuGr6H: TMenuItem;
     mnuGr6V: TMenuItem;
-    mnuLexers: TMenuItem;
     mnuTextOpenUrl: TMenuItem;
     mnuTextUndo: TMenuItem;
     mnuTextRedo: TMenuItem;
