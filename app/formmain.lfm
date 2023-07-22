@@ -138,7 +138,7 @@ object fmMain: TfmMain
       object mnuFileReopen: TMenuItem
         Caption = '&Reopen'
       end
-      object SepFile1: TMenuItem
+      object mnuFileSep1: TMenuItem
         Caption = '-'
       end
       object mnuFileSave: TMenuItem
@@ -150,7 +150,7 @@ object fmMain: TfmMain
       object mnuFileSaveAll: TMenuItem
         Caption = 'Sa&ve all'
       end
-      object SepFile2: TMenuItem
+      object mnuFileSep2: TMenuItem
         Caption = '-'
       end
       object mnuFileClose: TMenuItem
@@ -165,7 +165,7 @@ object fmMain: TfmMain
       object mnuFileCloseDel: TMenuItem
         Caption = 'Close and &delete file'
       end
-      object SepFile3: TMenuItem
+      object mnuFileSep3: TMenuItem
         Caption = '-'
       end
       object mnuFileEnc: TMenuItem
@@ -183,7 +183,7 @@ object fmMain: TfmMain
           Caption = 'CR'
         end
       end
-      object SepFile4: TMenuItem
+      object mnuFileSep4: TMenuItem
         Caption = '-'
       end
       object mnuFileExit: TMenuItem
@@ -199,7 +199,7 @@ object fmMain: TfmMain
       object mnuEditRedo: TMenuItem
         Caption = '&Redo'
       end
-      object SepEd1: TMenuItem
+      object mnuEditSep1: TMenuItem
         Caption = '-'
       end
       object mnuEditCut: TMenuItem
@@ -217,7 +217,7 @@ object fmMain: TfmMain
       object mnuEditPasteHist: TMenuItem
         Caption = 'Paste from history'
       end
-      object SepEd2: TMenuItem
+      object mnuEditSep2: TMenuItem
         Caption = '-'
       end
       object mnuEditCopySub: TMenuItem
@@ -228,7 +228,7 @@ object fmMain: TfmMain
         object mnuEditCopyAppend: TMenuItem
           Caption = 'Copy/&append selection'
         end
-        object SepEd4: TMenuItem
+        object mnuEditSep4: TMenuItem
           Caption = '-'
         end
         object mnuEditCopyFFull: TMenuItem
@@ -249,7 +249,7 @@ object fmMain: TfmMain
         object mnuEditLineDup: TMenuItem
           Caption = 'Du&plicate line(s)'
         end
-        object SepEd5: TMenuItem
+        object mnuEditSep5: TMenuItem
           Caption = '-'
         end
         object mnuEditLineMoveUp: TMenuItem
@@ -267,7 +267,7 @@ object fmMain: TfmMain
         object mnuEditUnindent: TMenuItem
           Caption = '&Unindent'
         end
-        object SepEd6: TMenuItem
+        object mnuEditSep6: TMenuItem
           Caption = '-'
         end
         object mnuEditTrimL: TMenuItem
@@ -279,7 +279,7 @@ object fmMain: TfmMain
         object mnuEditTrim: TMenuItem
           Caption = 'Trim spaces: &all'
         end
-        object SepEd7: TMenuItem
+        object mnuEditSep7: TMenuItem
           Caption = '-'
         end
         object mnuEditTabToSp: TMenuItem
@@ -322,7 +322,7 @@ object fmMain: TfmMain
       object mnuSelExtWord: TMenuItem
         Caption = 'Add next occurrence of selected &word'
       end
-      object MenuItem5: TMenuItem
+      object mnuSelSep1: TMenuItem
         Caption = '-'
       end
       object mnuSelSplit: TMenuItem
@@ -331,7 +331,7 @@ object fmMain: TfmMain
       object mnuSelInvert: TMenuItem
         Caption = '&Invert selection'
       end
-      object SepSel1: TMenuItem
+      object mnuSelSep2: TMenuItem
         Caption = '-'
       end
       object mnuCaretsCancel: TMenuItem
@@ -348,7 +348,7 @@ object fmMain: TfmMain
         object mnuCaretsUpBegin: TMenuItem
           Caption = 'More carets, up, &until begin'
         end
-        object MenuItem12: TMenuItem
+        object mnuCaretsSep1: TMenuItem
           Caption = '-'
         end
         object mnuCaretsDown1Line: TMenuItem
@@ -376,7 +376,7 @@ object fmMain: TfmMain
       object mnuFindPrev: TMenuItem
         Caption = 'Find &previous'
       end
-      object SepSr1: TMenuItem
+      object mnuFindSep1: TMenuItem
         Caption = '-'
       end
       object mnuFindWordNext: TMenuItem
@@ -385,7 +385,7 @@ object fmMain: TfmMain
       object mnuFindWordPrev: TMenuItem
         Caption = 'Find current word pr&evious'
       end
-      object SepSr2: TMenuItem
+      object mnuFindSep2: TMenuItem
         Caption = '-'
       end
       object mnuGotoLine: TMenuItem
@@ -402,7 +402,7 @@ object fmMain: TfmMain
         object mnuBmPrev: TMenuItem
           Caption = 'Go to &previous bookmark'
         end
-        object MenuItem14: TMenuItem
+        object mnuBmSep1: TMenuItem
           Caption = '-'
         end
         object mnuBmToggle: TMenuItem
@@ -420,7 +420,7 @@ object fmMain: TfmMain
         object mnuBmDeleteLines: TMenuItem
           Caption = 'Delete bookmarked lines'
         end
-        object MenuItem4: TMenuItem
+        object mnuBmSep2: TMenuItem
           Caption = '-'
         end
         object mnuBmPlaceCarets: TMenuItem
@@ -473,7 +473,7 @@ object fmMain: TfmMain
       object mnuLexers: TMenuItem
         Caption = 'Le&xers...'
       end
-      object SepV2: TMenuItem
+      object mnuViewSep1: TMenuItem
         Caption = '-'
       end
       object mnuViewHint2: TMenuItem
@@ -501,7 +501,7 @@ object fmMain: TfmMain
       object mnuViewFloatBottom: TMenuItem
         Caption = 'Toggle floating bottom panel'
       end
-      object SepV4: TMenuItem
+      object mnuViewSep2: TMenuItem
         Caption = '-'
       end
       object mnuViewFullscr: TMenuItem
@@ -531,7 +531,7 @@ object fmMain: TfmMain
       object mnuOpLexer: TMenuItem
         Caption = 'Settings - le&xer specific'
       end
-      object SepOp2: TMenuItem
+      object mnuOpSep1: TMenuItem
         Caption = '-'
       end
       object mnuOpThemeUi: TMenuItem
@@ -543,7 +543,7 @@ object fmMain: TfmMain
       object mnuOpPlugins: TMenuItem
         Caption = 'Settings - &plugins'
       end
-      object SepOp1: TMenuItem
+      object mnuOpSep2: TMenuItem
         Caption = '-'
       end
       object mnuFontSub: TMenuItem
@@ -585,7 +585,7 @@ object fmMain: TfmMain
       object mnuHelpCmd: TMenuItem
         Caption = '&Command palette...'
       end
-      object SepHelp1: TMenuItem
+      object mnuHelpSep1: TMenuItem
         Caption = '-'
       end
       object mnuHelpForum: TMenuItem
@@ -600,7 +600,7 @@ object fmMain: TfmMain
       object mnuHelpCheckUpd: TMenuItem
         Caption = 'Check for &updates'
       end
-      object SepHelp2: TMenuItem
+      object mnuHelpSep2: TMenuItem
         Caption = '-'
       end
       object mnuHelpAbout: TMenuItem
@@ -735,7 +735,7 @@ object fmMain: TfmMain
     object mnuTextRedo: TMenuItem
       Caption = 'Redo'
     end
-    object MenuItem32: TMenuItem
+    object mnuTextSep1: TMenuItem
       Caption = '-'
     end
     object mnuTextCut: TMenuItem
@@ -753,7 +753,7 @@ object fmMain: TfmMain
     object mnuTextSel: TMenuItem
       Caption = 'Select all'
     end
-    object MenuItem37: TMenuItem
+    object mnuTextSep2: TMenuItem
       Caption = '-'
     end
     object mnuTextGotoDef: TMenuItem
