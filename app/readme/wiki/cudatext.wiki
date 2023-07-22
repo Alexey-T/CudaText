@@ -1232,6 +1232,7 @@ Find/Replace dialog has hotkeys, which work only when this dialog is focused. Ho
 * Ctrl+Alt+K: Mark all occurrences (with markers)
 * Ctrl+Alt+Q: Extract all RegEx matches
 * and hotkeys to toggle search/replace options (case sensitive, reg.ex., whole words etc)
+* additional not customizable hotkey Ctrl+Down: when input field (find-what or replace-with) is focused, hotkey copies the "find-what" text to "replace-with".
 
 [[File:cudatext-find-dlg.png]]
 
@@ -1299,7 +1300,7 @@ Action buttons in dialog:
 
 ;Button "Rep global": Performs replacement of all matches in all opened documents in all editor groups. After showing the additional confirmation.
 
-The state of dialog search options is saved to the history file, and is restored after app restart.
+The state of dialog search options is saved to the history file (settings/history.json), and is restored after app restart.
 
 ==Text searcher features==
 
