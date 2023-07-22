@@ -226,7 +226,7 @@ begin
     DoLocMenuitem(ini, mnuCaretsDown1Page, 'm_se', 'd_p');
     DoLocMenuitem(ini, mnuCaretsDownEnd, 'm_se', 'd_z');
 
-    DoLocMenuitem(ini, mnuSr, 'm_sr', '_');
+    DoLocMenuitem(ini, mnuFind, 'm_sr', '_');
     DoLocMenuitem(ini, mnuFindDlg, 'm_sr', 'f');
     DoLocMenuitem(ini, mnuFindRepDialog, 'm_sr', 'r');
 

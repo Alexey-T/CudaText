@@ -435,7 +435,7 @@ begin
   if Str=PyMenuId_Top then exit(fmMain.MainMenu.Items);
   if Str=PyMenuId_TopEdit then exit(fmMain.mnuEdit);
   if Str=PyMenuId_TopSel then exit(fmMain.mnuSel);
-  if Str=PyMenuId_TopSearch then exit(fmMain.mnuSr);
+  if Str=PyMenuId_TopSearch then exit(fmMain.mnuFind);
   if Str=PyMenuId_TopFile then exit(fmMain.mnuFile);
   if Str=PyMenuId_TopView then exit(fmMain.mnuView);
   if Str=PyMenuId_TopOptions then exit(fmMain.mnuOp);

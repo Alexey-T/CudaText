@@ -327,7 +327,7 @@ type
     mnuCaretsExtSub: TMenuItem;
     mnuCaretsSep1: TMenuItem;
     mnuCaretsUp1Page: TMenuItem;
-    mnuSr: TMenuItem;
+    mnuFind: TMenuItem;
     mnuFindPrev: TMenuItem;
     mnuFindWordNext: TMenuItem;
     mnuFindWordPrev: TMenuItem;
@@ -2829,7 +2829,7 @@ begin
   UpdateMenuItemHint(mnuFile, 'top-file');
   UpdateMenuItemHint(mnuEdit, 'top-edit');
   UpdateMenuItemHint(mnuSel, 'top-sel');
-  UpdateMenuItemHint(mnuSr, 'top-sr');
+  UpdateMenuItemHint(mnuFind, 'top-sr');
   UpdateMenuItemHint(mnuView, 'top-view');
   UpdateMenuItemHint(mnuOp, 'top-op');
   UpdateMenuItemHint(mnuHelp, 'top-help');

@@ -362,7 +362,7 @@ object fmMain: TfmMain
         end
       end
     end
-    object mnuSr: TMenuItem
+    object mnuFind: TMenuItem
       Caption = '&Search'
       object mnuFindDlg: TMenuItem
         Caption = '&Find...'
