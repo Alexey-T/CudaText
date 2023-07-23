@@ -4873,6 +4873,6 @@ It provides:
 * delete event on_caret_line
 
 1.0.447 (app 1.196.3)
-* add: option "op_wrap_c" of search engine (default: on), and option "A" in text represenation of search options
+* add: option "op_wrap_c" of search engine (default: on), and option "A" in the string form of search options
 
 [[Category:CudaText]]
