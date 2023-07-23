@@ -1110,13 +1110,14 @@ end;
 procedure TfmMain.FinderOnWrapAtEdge(Sender: TObject);
 const
   NFlashDelay = 200;
+  NFlashThemedColor = apclEdMarkedRangeBg;
 var
   BackColor: TColor;
 begin
   if Assigned(fmFind) and fmFind.Visible then
   begin
     BackColor:= fmFind.edFind.Colors.TextBG;
-    fmFind.edFind.Colors.TextBG:= AppTheme.Colors[apclEdMarkedRangeBg].Color;
+    fmFind.edFind.Colors.TextBG:= AppTheme.Colors[NFlashThemedColor].Color;
     fmFind.edFind.Invalidate;
     Application.ProcessMessages;
     Sleep(NFlashDelay);
