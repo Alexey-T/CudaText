@@ -1,7 +1,7 @@
 See http://wiki.freepascal.org/CudaText#How_to_make_translation
 
 2023.07.23
-+ [sc] WrappedFwd, WrappedBack, WrappedCont
++ [sc] WrappedFwd, WrappedBack
 
 2023.05.21
 * change [d_about] cmd_tip
