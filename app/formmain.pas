@@ -1071,6 +1071,7 @@ type
     procedure FindDialogDone2(Sender: TObject; Res: TAppFinderOperation);
     procedure FinderOnFound(Sender: TObject; APos1, APos2: TPoint);
     procedure FinderOnProgress(Sender: TObject; const ACurPos, AMaxPos: Int64; var AContinue: boolean);
+    procedure FinderOnWrapAtEdge(Sender: TObject);
     procedure FinderUpdateEditor(AUpdateText: boolean; AUpdateStatusbar: boolean=true);
     procedure FrameOnSaveFile(Sender: TObject; const fn: string);
     procedure GetEditorIndexes(Ed: TATSynEdit; out AGroupIndex, ATabIndex: Integer);
@@ -2693,6 +2694,7 @@ begin
   FFinder.OnProgress:= @FinderOnProgress;
   FFinder.OnFound:=@FinderOnFound;
   FFinder.OnGetToken:= @FinderOnGetToken;
+  FFinder.OnWrapAtEdge:= @FinderOnWrapAtEdge;
 end;
 
 procedure TfmMain.InitBookmarkSetup;

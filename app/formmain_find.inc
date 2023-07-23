@@ -1107,6 +1107,25 @@ begin
   AKind:= EditorGetTokenKind(Sender as TATSynEdit, AX, AY)
 end;
 
+procedure TfmMain.FinderOnWrapAtEdge(Sender: TObject);
+const
+  NFlashDelay = 200;
+var
+  BackColor: TColor;
+begin
+  if Assigned(fmFind) and fmFind.Visible then
+  begin
+    BackColor:= fmFind.edFind.Colors.TextBG;
+    fmFind.edFind.Colors.TextBG:= AppTheme.Colors[apclEdMarkedRangeBg].Color;
+    fmFind.edFind.Invalidate;
+    Application.ProcessMessages;
+    Sleep(NFlashDelay);
+    fmFind.edFind.Colors.TextBG:= BackColor;
+    fmFind.edFind.Invalidate;
+  end;
+end;
+
+
 procedure TfmMain.FinderUpdateEditor(AUpdateText: boolean; AUpdateStatusbar: boolean=true);
 var
   Ed: TATSynEdit;
