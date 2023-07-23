@@ -273,6 +273,7 @@ Actions work with props of Find/Replace dialog, and props of low-level search en
 ** "op_cfm": option "confirm on replace" of search engine
 ** "op_insel": option "in selection" of search engine
 ** "op_wrap": option "wrapped search" of search engine
+** "op_wrap_c": option "show wrapped-search confirmation when search reaches the document edge" of search engine
 ** "op_back": option "backward search" (low level) of search engine
 ** "op_fromcaret": option "search from caret" (low level) of search engine
 ** "op_tokens": option "allowed syntax elements" of search engine (int)
@@ -3338,6 +3339,7 @@ Some APIs allow to specify finder options as a string. Such string can have the 
 * "s": Search in selection
 * "o": Confirm replaces
 * "a": Wrap search at edge of text
+* "A": When "wrap search at edge of text" is off, and search reaches the document edge, show confirmation to continue search from the opposite edge
 * "T" followed by a digit: Allowed syntax elements. Digit can be:
 ** "0": any
 ** "1": only comments
@@ -4869,5 +4871,8 @@ It provides:
 
 1.0.446 (app 1.195.1)
 * delete event on_caret_line
+
+1.0.447 (app 1.196.3)
+* add: option "op_wrap_c" of search engine (default: on), and option "A" in text represenation of search options
 
 [[Category:CudaText]]

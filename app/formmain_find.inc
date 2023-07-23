@@ -1234,7 +1234,7 @@ begin
       oTokens:= PyLong_FromLong(Ord(fmFind.bTokens.ItemIndex));
     end;
 
-    Result:= Py_BuildValue('{sOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsO}',
+    Result:= Py_BuildValue('{sOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsO}',
       'find', PyUnicodeFromString(FFinder.StrFind),
       'rep', PyUnicodeFromString(FFinder.StrReplace),
 
@@ -1252,6 +1252,7 @@ begin
       'op_fromcaret', PyBool_FromLong(Ord(FFinder.OptFromCaret)),
       'op_insel', PyBool_FromLong(Ord(FFinder.OptInSelection)),
       'op_wrap', PyBool_FromLong(Ord(FFinder.OptWrapped)),
+      'op_wrap_c', PyBool_FromLong(Ord(FFinder.OptWrappedConfirm)),
       'op_tokens', PyLong_FromLong(Ord(FFinder.OptTokens)),
       'op_prescase', PyBool_FromLong(Ord(FFinder.OptPreserveCase)),
 
@@ -1359,6 +1360,8 @@ begin
         FFinder.OptInSelection:= AppStrToBool(SValue);
       'op_wrap':
         FFinder.OptWrapped:= AppStrToBool(SValue);
+      'op_wrap_c':
+        FFinder.OptWrappedConfirm:= AppStrToBool(SValue);
       'op_tokens':
         FFinder.OptTokens:= TATFinderTokensAllowed(StrToIntDef(SValue, 0));
       'op_prescase':

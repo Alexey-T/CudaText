@@ -909,6 +909,8 @@ begin
     Result+= 'o';
   if F.OptWrapped then
     Result+= 'a';
+  if F.OptWrappedConfirm then
+    Result+= 'A';
   if F.OptPreserveCase then
     Result+= 'P';
   if F.OptTokens<>cTokensAll then
@@ -927,6 +929,7 @@ begin
   F.OptInSelection:= Pos('s', S)>0;
   F.OptConfirmReplace:= Pos('o', S)>0;
   F.OptWrapped:= Pos('a', S)>0;
+  F.OptWrappedConfirm:= Pos('A', S)>0;
   F.OptPreserveCase:= Pos('P', S)>0;
   F.OptTokens:= cTokensAll;
 
