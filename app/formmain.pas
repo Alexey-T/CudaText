@@ -2727,6 +2727,7 @@ begin
 
   //default "ui_scale":0 must be converted to Screen's DPI
   ATEditorScalePercents:= Max(100, 100*Screen.PixelsPerInch div 96);
+  ATSynEdit_Finder.MsgBox_InFinder:= @MsgBox;
 
   OnEnter:= @FormEnter;
   TimerCmd.Interval:= UiOps.CommandTimerInterval;
