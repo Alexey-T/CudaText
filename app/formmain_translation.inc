@@ -597,6 +597,9 @@ begin
     DoLocString(msgConfirmHotkeyBusy             , ini, 'sc', 'HotkeyBusy');
     DoLocString(msgConfirmReplaceGlobal          , ini, 'sc', 'ReplaceGlobal');
 
+    DoLocString(msgConfirmWrappedFwd             , ini, 'sc', 'WrappedFwd');
+    DoLocString(msgConfirmWrappedBack            , ini, 'sc', 'WrappedBack');
+    DoLocString(msgConfirmWrappedContinue        , ini, 'sc', 'WrappedCont');
   finally
     FreeAndNil(ini);
   end;
