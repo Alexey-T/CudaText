@@ -1114,6 +1114,9 @@ var
   ThemeColor: TColor;
   OldColor: TColor;
 begin
+  NDelay:= UiOps.FindWrapAtEdge_Delay;
+  if NDelay<=10 then exit;
+
   ThemeColor:= clNone;
   for iColor:= Low(iColor) to High(iColor) do
     if AppTheme.Colors[iColor].Name=UiOps.FindWrapAtEdge_ThemeItem then
@@ -1125,7 +1128,6 @@ begin
 
   if Assigned(fmFind) and fmFind.Visible then
   begin
-    NDelay:= UiOps.FindWrapAtEdge_Delay;
     OldColor:= fmFind.edFind.Colors.TextBG;
     fmFind.edFind.Colors.TextBG:= ThemeColor;
     fmFind.edFind.Invalidate;
