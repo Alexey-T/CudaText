@@ -369,6 +369,8 @@ type
     FindHiAll_TagValue: Int64;
     //FindHiAll_MoveCaret: boolean;
     FindOccur_TagValue: Int64;
+    FindWrapAtEdge_Delay: integer;
+    FindWrapAtEdge_ThemeItem: string;
 
     AllowProgramUpdates: boolean;
     EscapeClose: boolean;
@@ -2052,6 +2054,8 @@ begin
     FindHiAll_MaxLines:= 1000;
     FindHiAll_TagValue:= 99; //GET_UNIQUE_TAG starts with 120
     FindOccur_TagValue:= 98;
+    FindWrapAtEdge_Delay:= 300;
+    FindWrapAtEdge_ThemeItem:= 'EdMarkedRangeBg';
 
     AllowProgramUpdates:= true;
     EscapeClose:= false;

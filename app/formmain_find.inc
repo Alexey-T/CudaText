@@ -1108,20 +1108,30 @@ begin
 end;
 
 procedure TfmMain.FinderOnWrapAtEdge(Sender: TObject);
-const
-  NFlashDelay = 200;
-  NFlashThemedColor = apclEdMarkedRangeBg;
 var
-  BackColor: TColor;
+  NDelay: integer;
+  iColor: TAppThemeColorId;
+  ThemeColor: TColor;
+  OldColor: TColor;
 begin
+  ThemeColor:= clNone;
+  for iColor:= Low(iColor) to High(iColor) do
+    if AppTheme.Colors[iColor].Name=UiOps.FindWrapAtEdge_ThemeItem then
+    begin
+      ThemeColor:= AppTheme.Colors[iColor].Color;
+      Break;
+    end;
+  if ThemeColor=clNone then exit;
+
   if Assigned(fmFind) and fmFind.Visible then
   begin
-    BackColor:= fmFind.edFind.Colors.TextBG;
-    fmFind.edFind.Colors.TextBG:= AppTheme.Colors[NFlashThemedColor].Color;
+    NDelay:= UiOps.FindWrapAtEdge_Delay;
+    OldColor:= fmFind.edFind.Colors.TextBG;
+    fmFind.edFind.Colors.TextBG:= ThemeColor;
     fmFind.edFind.Invalidate;
     Application.ProcessMessages;
-    Sleep(NFlashDelay);
-    fmFind.edFind.Colors.TextBG:= BackColor;
+    Sleep(NDelay);
+    fmFind.edFind.Colors.TextBG:= OldColor;
     fmFind.edFind.Invalidate;
   end;
 end;
