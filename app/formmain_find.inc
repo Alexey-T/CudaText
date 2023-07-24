@@ -1119,7 +1119,7 @@ begin
 
   ThemeColor:= clNone;
   for iColor:= Low(iColor) to High(iColor) do
-    if AppTheme.Colors[iColor].Name=UiOps.FindWrapAtEdge_ThemeItem then
+    if SameText(AppTheme.Colors[iColor].Name, UiOps.FindWrapAtEdge_ThemeItem) then
     begin
       ThemeColor:= AppTheme.Colors[iColor].Color;
       Break;
