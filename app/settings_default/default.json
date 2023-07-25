@@ -815,7 +815,7 @@
   //Find-dialog input blinks with specified background color. Value must be the id
   //of some UI-theme item (as written in files data/themes/*.cuda-theme-ui).
   //Case-insensitive. Empty or incorrect string: blinking is disabled.
-  "find_wrapped_color": "EdMarkedRangeBg",
+  "find_wrapped_blinking": "EdMarkedRangeBg",
 
   //[UI]
   //UI scale factor in %, 70 to 500. [has suffix]
