@@ -672,6 +672,7 @@ type
     FFindConfirmAll: TModalResult;
     FFindMarkingMode: TATFindMarkingMode;
     FFindMarkingCaret1st: boolean;
+    FFindIsBusy: boolean;
     FShowFullScreen: boolean;
     FShowFullScreen_DisFree: boolean;
     FOrigBounds: TRect;

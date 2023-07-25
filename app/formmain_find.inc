@@ -752,6 +752,8 @@ var
   Op: TAppFinderOperation;
   ok, bChanged, bFocusFindDlg: boolean;
 begin
+  if FFindIsBusy then exit;
+
   Frame:= CurrentFrame;
   if Frame=nil then exit;
   InitFormFind;
@@ -1133,10 +1135,13 @@ begin
     OldColor:= fmFind.edFind.Colors.TextBG;
     fmFind.edFind.Colors.TextBG:= ThemeColor;
     fmFind.edFind.Invalidate;
+
+    FFindIsBusy:= true;
     Application.ProcessMessages;
     Sleep(NDelay);
     fmFind.edFind.Colors.TextBG:= OldColor;
     fmFind.edFind.Invalidate;
+    FFindIsBusy:= false;
   end;
 end;
 
