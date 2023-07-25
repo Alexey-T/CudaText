@@ -811,6 +811,12 @@
   //for which "Highlight all matches" still works.
   "find_hi_max_lines": 1000,
 
+  //When search silently wraps at the document edge (because of Find-dialog option "O"),
+  //Find-dialog input blinks with specified background color. Value must be the id
+  //of some UI-theme item (as written in files data/themes/*.cuda-theme-ui).
+  //Case-insensitive. Empty or incorrect string: blinking is disabled.
+  "find_wrapped_color": "EdMarkedRangeBg",
+
   //[UI]
   //UI scale factor in %, 70 to 500. [has suffix]
   //If value=0, then OS scaling is detected and used (currently only on Windows).

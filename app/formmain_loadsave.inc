@@ -1586,6 +1586,7 @@ begin
   {$endif}
   UiOps.FindHiAll_MaxLines:= cfg.GetValue('find_hi_max_lines', UiOps.FindHiAll_MaxLines);
   //UiOps.FindHiAll_MoveCaret:= cfg.GetValue('find_hi_move_caret', UiOps.FindHiAll_MoveCaret);
+  UiOps.FindWrapAtEdge_ThemeItem:= cfg.GetValue('find_wrapped_color', UiOps.FindWrapAtEdge_ThemeItem);
 
   EditorOps.OpUndoIndentVert:= UiOps.FindIndentVert;
   EditorOps.OpUndoIndentHorz:= UiOps.FindIndentHorz;
