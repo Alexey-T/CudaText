@@ -2247,6 +2247,7 @@ var
   SavedCarets: TATCarets;
   bChanged: boolean;
   bSaveCarets: boolean;
+  bSavedWrappedConfirm: boolean;
   NLineCount: integer;
 begin
   ColorBorder:= GetAppStyle(AppHiAll_ThemeStyleId).BgColor;
@@ -2282,6 +2283,9 @@ begin
       //now we need to do 'find next from caret' like Sublime does
       NLineCount:= AFinder.Editor.Strings.Count;
       if ACaretPos.Y>=NLineCount then exit;
+
+      bSavedWrappedConfirm:= AFinder.OptWrappedConfirm;
+      AFinder.OptWrappedConfirm:= false;
       AFinder.OptFromCaret:= true;
       AFinder.Editor.DoCaretSingle(ACaretPos.X, ACaretPos.Y);
 
@@ -2302,6 +2306,8 @@ begin
 
       if bSaveCarets then
         AFinder.Editor.Carets.Assign(SavedCarets);
+
+      AFinder.OptWrappedConfirm:= bSavedWrappedConfirm;
     finally
       if bSaveCarets then
         FreeAndNil(SavedCarets);
