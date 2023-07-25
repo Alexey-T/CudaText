@@ -1114,6 +1114,8 @@ var
   ThemeColor: TColor;
   OldColor: TColor;
 begin
+  if UiOps.FindWrapAtEdge_ThemeItem='' then exit;
+
   NDelay:= UiOps.FindWrapAtEdge_Delay;
   if NDelay<=10 then exit;
 
