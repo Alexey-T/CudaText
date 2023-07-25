@@ -230,6 +230,7 @@ procedure AppThemeSaveToFile(const AFileName: string; const D: TAppTheme; IsThem
 
 function GetAppColor(id: TAppThemeColorId): TColor;
 function GetAppStyle(id: TAppThemeStyleId): TecSyntaxFormat;
+function FindAppColorByName(const AName: string; ADefaultColor: TColor): TColor;
 
 implementation
 
@@ -608,6 +609,19 @@ begin
     styleId:= AppTheme.Styles[apstId];
     Result.Font.Color:= styleId.Font.Color;
   end;
+end;
+
+function FindAppColorByName(const AName: string; ADefaultColor: TColor): TColor;
+var
+  iColor: TAppThemeColorId;
+begin
+  Result:= ADefaultColor;
+  for iColor:= Low(iColor) to High(iColor) do
+    if SameText(AppTheme.Colors[iColor].Name, AName) then
+    begin
+      Result:= AppTheme.Colors[iColor].Color;
+      exit;
+    end;
 end;
 
 initialization

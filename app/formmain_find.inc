@@ -1112,7 +1112,6 @@ end;
 procedure TfmMain.FinderOnWrapAtEdge(Sender: TObject);
 var
   NDelay: integer;
-  iColor: TAppThemeColorId;
   ThemeColor: TColor;
   OldColor: TColor;
 begin
@@ -1121,13 +1120,7 @@ begin
   NDelay:= UiOps.FindWrapAtEdge_Delay;
   if NDelay<=10 then exit;
 
-  ThemeColor:= clNone;
-  for iColor:= Low(iColor) to High(iColor) do
-    if SameText(AppTheme.Colors[iColor].Name, UiOps.FindWrapAtEdge_ThemeItem) then
-    begin
-      ThemeColor:= AppTheme.Colors[iColor].Color;
-      Break;
-    end;
+  ThemeColor:= FindAppColorByName(UiOps.FindWrapAtEdge_ThemeItem, clNone);
   if ThemeColor=clNone then exit;
 
   if Assigned(fmFind) and fmFind.Visible then
