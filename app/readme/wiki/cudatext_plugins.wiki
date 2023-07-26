@@ -1200,7 +1200,7 @@ This plugin implements searching in many files, starting from custom folder. Cud
 Project Manager plugin allows to call FindInFiles functionality. Focus a folder in Project Manager, call context menu, and then "Selected directory / Find in directory..." menu item.
 
 ==How to find/replace in all UI-tabs==
-FindInFiles 4 supports search inside all UI-tabs. Hover mouse over "From:" label in the dialog, tooltip will appear. Tooltip says what to enter in the nearest input-field. Enter one of these strings:
+FindInFiles 4 supports search inside all UI-tabs. Hover mouse over "From:" label in the dialog, tooltip will appear. Tooltip says what to enter in the nearest input-field. Enter one of these strings in the input field:
 
  <tabs>
  {t}
@@ -1209,7 +1209,9 @@ FindInFiles 4 supports search inside all UI-tabs. Hover mouse over "From:" label
 
 To discover more features of FindInFiles dialog, hover mouse over other labels/buttons.
 
-You can also '''replace in all UI-tabs''', of course. Additionally, CudaText gives built-in "Replace in all tabs" feature, it is the button "Rep global" in the built-in Find/Replace dialog. This is documented in the main CudaText wiki page.
+You can also '''replace in all UI-tabs''', of course. To do it, fill all input fields in the FindInFiles main dialog, but instead of pressing "Find" - press "=" button and then choose "Replace with..." from appeared popup menu. Additional dialog will appear to confirm you replacement request, press "Replace" button there. 
+
+Additionally, CudaText gives built-in "Replace in all tabs" feature, it is the button "Rep global" in the built-in Find/Replace dialog. This is documented in the main CudaText wiki page.
 
 ==How to use FindInFiles 4==
 FindInFiles v4 has two panels. Top panel shows found filenames, line by line. Bottom panel shows the entire document of one of the selected filenames. When you single click on a line of top panel, the bottom panel shows the content of a clicked file. When you double click the line again, the main editor of CudaText jumps to that location.
