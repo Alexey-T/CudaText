@@ -350,7 +350,7 @@
   //Option works for all editor fields, not only for UI-tabs editors.
   //  if 'c' in value: Copy to usual clipboard (the only possibility on Windows).
   //  if 'p' in value: Copy to Unix 'primary selection'.
-  //  if 'm' with a following number in value: Set limit of selection length (in bytes). Default is 500k.
+  //  if 'm' with a following number in value: Limit the selection length, in bytes (suffix "k" is not supported here). Default is 500000.
   //Note: this option is global, not per-lexer.
   "auto_copy_clp": "",
 
