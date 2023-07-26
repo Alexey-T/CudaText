@@ -351,6 +351,7 @@
   //  if 'c' in value: Copy to usual clipboard (the only possibility on Windows).
   //  if 'p' in value: Copy to Unix 'primary selection'.
   //  if 'm' with a following number in value: Limit the selection length, in bytes (suffix "k" is not supported here). Default is 500000.
+  //Example value: "pm10000".
   //Note: this option is global, not per-lexer.
   "auto_copy_clp": "",
 
