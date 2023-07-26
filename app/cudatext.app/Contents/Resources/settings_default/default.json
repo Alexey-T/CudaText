@@ -143,7 +143,7 @@
   //Note: this option is global, not per-lexer.
   "unicode_proportional": true,
 
-  //If "unicode_proportional":false, sets width (in percents) of full-width characters.
+  //If "unicode_proportional":false, sets width (in %) of full-width characters.
   //Note: this option is global, not per-lexer.
   "unicode_full_width": 190,
 
@@ -498,7 +498,7 @@
   "scrollbar_click_jump": false,
 
   //[Text/Look]
-  //Marker size (Wiki "Markers" topic), in percents of line height.
+  //Marker size (see Wiki topic "Markers"), in % of line height.
   "marker_size": 30,
 
   //Style of block staples (aka indentation guides).
@@ -511,7 +511,7 @@
 
   //Properties of block staples. String value contains ","-separated options:
   //- Shift of staple to the right (-5..5, 0: staple is near the left edge of text cell).
-  //- Width (in percents) of staple's angled side (0..200).
+  //- Width (in %) of staple's angled side (0..200).
   //- Kind of top staple edge. Enum. 0: none; 1: angled; 2: simple line
   //- Kind of bottom staple edge.
   "staples_props": "-1,40,1,1",
@@ -520,7 +520,7 @@
   //Ruler: Show ruler (horizontal bar at the top).
   "ruler_show": false,
 
-  //Ruler: Height, in percents of average text cell.
+  //Ruler: Height, in % of average text cell.
   "ruler_height": 100,
 
   //Ruler: Numeration style.
@@ -556,10 +556,10 @@
   //Minimap: Place minimap to the left side.
   "minimap_at_left": false,
 
-  //Minimap: Scale in percents.
-  //  value=0: use default look: 2 pixels per line, and consider "ui_scale"
-  //  0<value<100: use compact look: 1 pixel per line, and ignore "ui_scale"
-  //  value>=100: use specified line height in %, and consider "ui_scale"
+  //Minimap: Scale in %.
+  //  value=0: use default look: 2 pixels per line, and consider "ui_scale".
+  //  0<value<100: use compact look: 1 pixel per line, and ignore "ui_scale".
+  //  value>=100: use specified line height in %, and consider "ui_scale".
   "minimap_scale": 0,
 
   //Minimap: Show "tooltip panel", when mouse cursor moves over minimap.
@@ -568,7 +568,7 @@
   //Minimap: Height of "tooltip panel", in editor's char-cells.
   "minimap_tooltip_height": 6,
 
-  //Minimap: Width of "tooltip panel", in percents of editor width.
+  //Minimap: Width of "tooltip panel", in % of editor width.
   "minimap_tooltip_width": 60,
 
   //Minimap: Special font size for minimap-tooltip, if value>2.
@@ -714,8 +714,8 @@
   "caret_multi": true,
 
   //Caret shape is 2-3 values (3rd is optional), comma-separated: width,height,options.
-  //- width: if > 0, in pixels; in < 0, in percents.
-  //- height: if > 0, in pixels; in < 0, in percents; can be taller than 100%.
+  //- width: if value>0, in pixels; if value<0, in %.
+  //- height: if value>0, in pixels; if value<0, in %; can be taller than 100%.
   //- options: if "_" in string, make caret empty inside;
   //
   //Caret: shape for normal state.
@@ -834,7 +834,7 @@
   "ui_scale_font__mac": 100,
 
   //[UI/Tabs]
-  //UI tabs: global visible flag for ui-tabs.
+  //UI tabs: global visibility flag for UI-tabs.
   "ui_tab_show": true,
 
   //UI tabs: use "Tab switcher" dialog on Ctrl+Tab, Ctrl+Shift+Tab. This dialog
@@ -911,7 +911,7 @@
   //UI tabs: Feature "Set tab color" colorizes the entire tab height.
   "ui_tab_fullcolor": false,
 
-  //UI tabs: Additional scaling of tab title font.
+  //UI tabs: Additional scaling of UI-tabs title font, in %.
   "ui_tab_font_scale": 100,
 
   //UI tabs: Double-click closes tab.
@@ -984,9 +984,9 @@
   //  if 'n' in value: Line numbers visible state
   //  if 'S' in value: Font scale in %
   //  if 'f' in value: List of folded ranges
-  //  if 'C' in value: Custom color of ui-tab header
+  //  if 'C' in value: Custom color of UI-tab header
   //  if 'F' in value: Code-tree filter: string and history
-  //  if 'i' in value: Splitted state of UI tab (horiz/vert, percents of size)
+  //  if 'i' in value: Splitted state of UI-tab (horiz/vert, % of size)
   //  if 'I' in value: Column of vertical 'margin' line
   //  if 'U' in value: Undo/Redo data
   "ui_history_disabled": "",
@@ -1015,14 +1015,14 @@
   //Has character(s), each character is a step to detect the folder.
   //  'p': If project is opened: selected folder in the Project Manager.
   //  'q': If project is opened: folder of the "projectname.cuda-proj" file.
-  //  'f': Folder of focused ui-tab, if it's named.
+  //  'f': Folder of focused UI-tab, if it's named.
   //  'l': Last user-chosen folder in the Open/Save-as dialog.
   //  'i': Value of option "ui_initial_dir", if not empty.
   //  'h': OS home folder.
   "ui_open_dir": "pflih",
 
   //[UI/Tree]
-  //Additional scaling, in percents, of the code-tree font size.
+  //Additional scaling, in %, of the code-tree font size.
   "ui_tree_font_scale": 100,
 
   //Sync code-tree selection to caret position. Ie after caret moves,
@@ -1274,7 +1274,7 @@
   //    selmode: Current selection mode.
   //             Shows "-" for normal selection mode, "||" for column selection mode.
   //    wrap   : Word-wrap mode: no wrap, wrap at window edge, wrap at fixed margin.
-  //    zoom   : Zoom value in percents (%).
+  //    zoom   : Zoom value in %.
   //             Change zoom value by Command Palette commands "current document font size: bigger/smaller",
   //             and by Ctrl+<Mouse wheel> (when option "mouse_wheel_zoom":true).
   //    msg    : Messages from CudaText and plugins.
