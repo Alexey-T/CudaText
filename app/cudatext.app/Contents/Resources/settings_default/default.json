@@ -1022,6 +1022,9 @@
   "ui_open_dir": "pflih",
 
   //[UI/Tree]
+  //Additional scaling, in percents, of the code-tree font size.
+  "ui_tree_font_scale": 100,
+
   //Sync code-tree selection to caret position. Ie after caret moves,
   //select appropriate code-tree node.
   "ui_tree_auto_sync": true,

@@ -388,6 +388,7 @@ type
     ExportHtmlFontName: string;
     ExportHtmlFontSize: integer;
 
+    TreeFontScale: integer;
     TreeTheme: string;
     TreeAutoSync: boolean;
     TreeTimeFill: integer;
@@ -2073,6 +2074,7 @@ begin
     ExportHtmlFontSize:= 12;
     ExportHtmlFontName:= '';
 
+    TreeFontScale:= 100;
     TreeAutoSync:= true;
     TreeTimeFill:= 2000;
     //TreeTimeCaret:= 300;

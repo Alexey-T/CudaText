@@ -1647,6 +1647,7 @@ begin
   UiOps.ExportHtmlFontName:= cfg.GetValue('export_html_font_name', UiOps.ExportHtmlFontName);
   UiOps.ExportHtmlFontSize:= Abs(cfg.GetValue('export_html_font_size', UiOps.ExportHtmlFontSize));
 
+  UiOps.TreeFontScale:= cfg.GetValue('ui_tree_font_scale', UiOps.TreeFontScale);
   UiOps.TreeAutoSync:= cfg.GetValue('ui_tree_auto_sync', UiOps.TreeAutoSync);
   UiOps.TreeTimeFill:= cfg.GetValue('ui_tree_time_fill', UiOps.TreeTimeFill);
   UiOps.TreeShowIcons:= cfg.GetValue('ui_tree_icons', UiOps.TreeShowIcons);

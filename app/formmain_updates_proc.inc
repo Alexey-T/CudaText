@@ -549,7 +549,7 @@ begin
 
   //dont set font for PanelLeft/PanelBottom, id effects
   CodeTree.Tree.Font.Name:= UiOps.VarFontName;
-  CodeTree.Tree.Font.Size:= ATEditorScaleFont(UiOps.VarFontSize);
+  CodeTree.Tree.Font.Size:= ATEditorScaleFont(UiOps.VarFontSize) * UiOps.TreeFontScale div 100;
 
   CodeTreeFilterInput.Font.Name:= EditorOps.OpFontName;
   CodeTreeFilterInput.Font.Size:= EditorOps.OpFontSize;
@@ -1226,7 +1226,7 @@ begin
     DoTreeviewCopy(FCodetreeBuffer, CodeTree.Tree);
 
     //force update scrollbar
-    CodeTree.Tree.Font.Size:= ATEditorScaleFont(UiOps.VarFontSize);
+    CodeTree.Tree.Font.Size:= ATEditorScaleFont(UiOps.VarFontSize) * UiOps.TreeFontScale div 100;
     CodeTree.Tree.Perform(CM_CHANGED, 0, 0);
 
     DoCodetree_UpdateVersion(Ed);
