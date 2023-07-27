@@ -2593,7 +2593,7 @@ So to run it (the first time you do it), you should right-click the application 
 ==Can app save files to system directories?==
 Under Linux / *BSD / Solaris systems, CudaText can save files even to system write-protected folders. It runs "pkexec" program for this purpose, and "pkexec" shows GUI confirmation to get admin rights. "Pkexec" runs "/bin/cp" to copy file from temp folder to the write-protected folder.
 
-For example, open some file from write-protected folder on Unix/Linux. CudaText should detect the low permissions, so it should open file in read-only mode. Then, from "Command Palette", call "toggle read-only mode". Then you can edit the file. Edit it and save it - CudaText will try to save it via "pkexec".
+For example, open some file from write-protected folder on Unix/Linux. CudaText detects file permissions, so it should open file in read-only mode. Then, from "Command Palette", call "toggle read-only mode". Then you can edit the file. Edit it and save it - CudaText will try to save it via "pkexec".
 
 ==How to select extra symbols by double-click==
 
