@@ -55,7 +55,7 @@ begin
 
   if cSystemHasPkExec and UiOps.AllowRunPkExec then
   begin
-    if DirectoryIsWritable(ExtractFileDir(fn)) then
+    if FileIsWritable(fn) then
     begin
       if not CopyFile(fnTemp, fn) then
         raise EWriteError.Create(msgCannotSaveFile+#10+AppCollapseHomeDirInFilename(fn));
