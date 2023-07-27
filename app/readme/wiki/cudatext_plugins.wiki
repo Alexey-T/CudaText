@@ -1207,6 +1207,8 @@ FindInFiles 4 supports search inside all UI-tabs. Hover mouse over "From:" label
 
 [[File:cudatext-findinfiles-intabs.png]]
 
+And in the "Files:" field, enter "*" for all files.
+
 To discover more features of FindInFiles dialog, hover mouse over other labels/buttons.
 
 You can also '''replace in all UI-tabs''', of course. To do it, fill all input fields in the FindInFiles main dialog, but instead of pressing "Find" - press "=" button and then choose "Replace with..." from appeared popup menu. Additional dialog will appear to confirm you replacement request, press "Replace" button there. 
