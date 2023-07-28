@@ -7,7 +7,7 @@
 
 + add: option "ui_tree_font_scale" (thanks @reregaga)
 + add: text search shows additional confirmation when 'wrapped search' is off and search reaches the edge of the document (thanks @d0vgan)
-+ add: when text search silently wraps at document edge (because of option "O"), Find dialog input field is blinking; added option for this: "find_wrapped_blinking" (thanks @d0vgan)
++ add: when text search silently wraps at document edge (because of Find dialog option "O"), Find dialog input field can blink (this is off by default); see new option: "find_wrapped_blinking" (thanks @d0vgan)
 + add: themed scrollbars: add coloring of mouse-over scrollbar arrows (thanks @reregaga)
 + add: commands "move tab to group 3 / 4 / 5 / 6" (thanks @reregaga)
 - fix: couple of minor UI issues in the Find dialog (thanks @reregaga)
