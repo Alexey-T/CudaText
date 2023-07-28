@@ -1034,7 +1034,7 @@ type
     procedure DoDialogFind_Hide;
     procedure DoDialogFind_Toggle(AReplaceMode, AAndFocus: boolean);
     procedure FinderFormChangeVisible(Sender: TObject);
-    procedure FinderShowResult(ok: boolean; AFinder: TATEditorFinder);
+    procedure FinderShowResult(ok, AIsReplace: boolean; AFinder: TATEditorFinder);
     procedure FinderShowResultSimple(ok: boolean; AFinder: TATEditorFinder);
     procedure FinderShowMatchesCount(AMatchCount, ATime: integer);
     function FinderHandleKeyDown(AKey: word; AShiftState: TShiftState): boolean;
@@ -1065,7 +1065,7 @@ type
     procedure DoToggleUiTabs;
     procedure FinderGetHiAllIndexes(AFinder: TATEditorFinder; out AIndex, ACount: integer);
     function FinderGetHiAllIndexesString(AFinder: TATEditorFinder): string;
-    function FinderOptionsToHint(AFinder: TATEditorFinder): string;
+    function FinderOptionsToHint(AFinder: TATEditorFinder; AIsReplace: boolean): string;
     function FinderReplaceAll(Ed: TATSynEdit; AResetCaret: boolean): integer;
     procedure FinderShowReplaceReport(ACounter, ATime: integer);
     procedure FindDialogDone(Sender: TObject; Res: TAppFinderOperation; AEnableUpdateAll: boolean);

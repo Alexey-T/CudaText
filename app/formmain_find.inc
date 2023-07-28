@@ -144,7 +144,7 @@ begin
       MsgStatus(Format(msgStatusFoundFragments, [Matches.Count]), true);
     end
     else
-      FinderShowResult(false, FFinder);
+      FinderShowResult(false, false, FFinder);
   finally
     FreeAndNil(Matches);
   end;
@@ -168,7 +168,7 @@ begin
   else
     MsgStatus(
       Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind), NCounter]) +
-      FinderOptionsToHint(FFinder),
+      FinderOptionsToHint(FFinder, false),
       true);
 end;
 
@@ -183,7 +183,7 @@ begin
   else
     MsgStatus(
       Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind), NCounter]) +
-      FinderOptionsToHint(FFinder),
+      FinderOptionsToHint(FFinder, false),
       true);
 end;
 
@@ -195,7 +195,7 @@ begin
     MsgStatusErrorInRegex
   else
     MsgStatus(
-      Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind), NCounter])+FinderOptionsToHint(FFinder),
+      Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind), NCounter])+FinderOptionsToHint(FFinder, false),
       true);
 end;
 
@@ -207,7 +207,7 @@ begin
   ok:= FFinder.DoAction_FindOrReplace(
     false, false, bChanged, true);
   FinderUpdateEditor(false);
-  FinderShowResult(ok, FFinder);
+  FinderShowResult(ok, false, FFinder);
 end;
 
 procedure TfmMain.FindAndReplaceOneMatch(AndStop: boolean);
@@ -221,7 +221,7 @@ begin
     if ok then
       ok:= FFinder.DoAction_FindOrReplace(false, false, bChanged, true);
   FinderUpdateEditor(true);
-  FinderShowResult(ok, FFinder);
+  FinderShowResult(ok, true, FFinder);
 end;
 
 procedure TfmMain.FindAndReplaceAll(var NCounter: integer);
@@ -743,7 +743,7 @@ begin
 
   ok:= FFinder.DoAction_FindOrReplace(false, false, bChanged, true);
   FinderUpdateEditor(false);
-  FinderShowResult(ok, FFinder);
+  FinderShowResult(ok, false, FFinder);
 end;
 
 procedure TfmMain.DoFindNext(ANext: boolean);
@@ -788,7 +788,7 @@ begin
 
   ok:= FFinder.DoAction_FindOrReplace(false, false, bChanged, true);
   FinderUpdateEditor(false);
-  FinderShowResult(ok, FFinder);
+  FinderShowResult(ok, false, FFinder);
   UpdateAppForSearch(false, false, true, true, bFocusFindDlg); //hide search progressbar
 
   //add string to history, issue #3326
@@ -833,7 +833,7 @@ begin
 
   if FFinder.StrFind='' then
   begin
-    FinderShowResult(false, FFinder);
+    FinderShowResult(false, false, FFinder);
     Exit
   end;
 
@@ -849,7 +849,7 @@ begin
 
   FinderUpdateEditor(false);
   MsgStatus(
-    Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind), cnt])+FinderOptionsToHint(FFinder),
+    Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind), cnt])+FinderOptionsToHint(FFinder, false),
     true);
 
   UpdateAppForSearch(false, false, true, true, bFocusFindDlg); //hide search progressbar
@@ -869,7 +869,7 @@ begin
     AContinue:= false;
 end;
 
-function TfmMain.FinderOptionsToHint(AFinder: TATEditorFinder): string;
+function TfmMain.FinderOptionsToHint(AFinder: TATEditorFinder; AIsReplace: boolean): string;
 const
   Sep=', ';
 begin
@@ -882,7 +882,9 @@ begin
   if AFinder.IsSearchWrapped then Result:= Result+msgFinderHintSearchWrapped+Sep;
   if AFinder.OptInSelection then Result:= Result+msgFinderHintInSel+Sep;
   if AFinder.OptFromCaret then Result:= Result+msgFinderHintFromCaret+Sep;
-  if AFinder.OptPreserveCase then Result:= Result+msgFinderHintPresCase+Sep;
+  if AIsReplace then
+    if AFinder.OptPreserveCase then Result:= Result+msgFinderHintPresCase+Sep;
+
   if SEndsWith(Result, Sep) then
     SetLength(Result, Length(Result)-Length(Sep));
   Result:= ' ('+Result+')';
@@ -939,12 +941,12 @@ begin
     Result:= Format(' [%d/%d]', [NCurrent+1, NTotal])
 end;
 
-procedure TfmMain.FinderShowResult(ok: boolean; AFinder: TATEditorFinder);
+procedure TfmMain.FinderShowResult(ok, AIsReplace: boolean; AFinder: TATEditorFinder);
 begin
   if ok then
   begin
     MsgStatus(
-      msgStatusFoundNextMatch+FinderGetHiAllIndexesString(AFinder)+FinderOptionsToHint(AFinder),
+      msgStatusFoundNextMatch+FinderGetHiAllIndexesString(AFinder)+FinderOptionsToHint(AFinder, AIsReplace),
       true);
 
     AFinder.Editor.EndUpdate;
@@ -964,7 +966,7 @@ begin
     MsgStatusErrorInRegex
   else
     MsgStatus(
-      msgCannotFindMatch+FinderOptionsToHint(AFinder)+': '+Utf8Encode(AFinder.StrFind),
+      msgCannotFindMatch+FinderOptionsToHint(AFinder, AIsReplace)+': '+Utf8Encode(AFinder.StrFind),
       true);
 end;
 
@@ -973,7 +975,7 @@ begin
   if ok then
     MsgStatus(msgStatusFoundNextMatch{+FinderGetHiAllIndexesString}, true)
   else
-    FinderShowResult(false, AFinder);
+    FinderShowResult(false, false, AFinder);
 end;
 
 procedure TfmMain.FinderShowMatchesCount(AMatchCount, ATime: integer);
