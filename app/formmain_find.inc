@@ -752,6 +752,9 @@ var
   Op: TAppFinderOperation;
   ok, bChanged, bFocusFindDlg: boolean;
 begin
+  //when user _holds_ Shift+F3 in Find dialog, command queue can be filled too much
+  //(because F3 and Shift+F3 call Application.ProcessMessages when search
+  //wraps at document edge). FFindIsBusy check fixes this.
   if FFindIsBusy then exit;
 
   Frame:= CurrentFrame;
