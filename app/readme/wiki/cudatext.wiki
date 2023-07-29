@@ -1096,8 +1096,8 @@ To show code-tree, activate the side-panel (default hotkey: F12). Many lexers su
 * Tree is filled after few seconds after file opening (search for options ui_tree* to change this pause).
 * When you move caret, tree shows tree node for caret position, after a pause (search for options ui_tree* to change this).
 
-Code-tree has the "filter" input field: when not empty, code-tree shows only items containing the filter text. This field also supports filtering by few space-separated words.
-'''Shift+Enter hotkey''' in the filter field - adds current filter string to the drop-down combobox history. Last entered filter strings are saved/restored to/from sessions.
+Code-tree has the "filter" input field: when not empty, code-tree shows only items containing the filter text. This field also supports filtering by few '''space-separated words'''.
+There is also '''Shift+Enter hotkey''' in the filter field: it adds current filter string to the drop-down combobox history. Last entered filter strings are saved/restored to/from sessions.
 
 Code-tree has the context menu with items:
 * "Fold all"
