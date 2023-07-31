@@ -4488,6 +4488,17 @@ begin
     end;
   end;
 
+  if not FileIsReadable(AFileName) then
+  begin
+    MsgBox(msgCannotOpenFile+#10+AFileName+#10#10+msgCannotOpenNoReadPermissions, MB_OK or MB_ICONERROR);
+    exit;
+  end;
+
+  if not FileIsReadable(AFileName2) then
+  begin
+    AFileName2:= '';
+  end;
+
   if OpenMode=cOpenModeEditor then
   begin
     //zip files

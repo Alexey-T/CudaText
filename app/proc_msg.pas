@@ -209,6 +209,7 @@ const
 
   msgCannotOpenFile: string = 'Cannot open file:';
   msgCannotFindFile: string = 'Cannot find file:';
+  msgCannotOpenNoReadPermissions: string = 'No read-permissions.';
   msgCannotHandleSplittedTab: string = 'Cannot handle the splitted UI-tab';
   msgCannotHandleUntitledTab: string = 'Cannot handle the untitled document';
   msgCannotFindLexerInLibrary: string = 'Cannot find lexer in library:';
