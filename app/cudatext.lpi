@@ -72,6 +72,9 @@
             </Options>
           </Linking>
           <Other>
+            <ConfigFile>
+              <WriteConfigFilePath Value="$(ProjOutDir)\fpclaz.cfg"/>
+            </ConfigFile>
             <CustomOptions Value="-dcomplete_at_scroll
 -dDisableLCLTIFF
 -dDisableLCLPNM"/>
@@ -113,6 +116,9 @@
             </Options>
           </Linking>
           <Other>
+            <ConfigFile>
+              <WriteConfigFilePath Value="$(ProjOutDir)\fpclaz.cfg"/>
+            </ConfigFile>
             <CustomOptions Value="-dcomplete_at_scroll"/>
           </Other>
         </CompilerOptions>
@@ -155,6 +161,9 @@
             </Options>
           </Linking>
           <Other>
+            <ConfigFile>
+              <WriteConfigFilePath Value="$(ProjOutDir)\fpclaz.cfg"/>
+            </ConfigFile>
             <CustomOptions Value="-dcomplete_at_scroll"/>
           </Other>
         </CompilerOptions>
@@ -197,6 +206,9 @@
             </Options>
           </Linking>
           <Other>
+            <ConfigFile>
+              <WriteConfigFilePath Value="$(ProjOutDir)\fpclaz.cfg"/>
+            </ConfigFile>
             <CustomOptions Value="-dcomplete_at_scroll
 -dGTK2_IME_CODE"/>
           </Other>
@@ -243,6 +255,9 @@
             </Options>
           </Linking>
           <Other>
+            <ConfigFile>
+              <WriteConfigFilePath Value="$(ProjOutDir)\fpclaz.cfg"/>
+            </ConfigFile>
             <CustomOptions Value="-dcomplete_at_scroll"/>
           </Other>
         </CompilerOptions>
@@ -288,6 +303,9 @@
             </Options>
           </Linking>
           <Other>
+            <ConfigFile>
+              <WriteConfigFilePath Value="$(ProjOutDir)\fpclaz.cfg"/>
+            </ConfigFile>
             <CustomOptions Value="-dcomplete_at_scroll"/>
           </Other>
         </CompilerOptions>
@@ -327,6 +345,9 @@
             </Options>
           </Linking>
           <Other>
+            <ConfigFile>
+              <WriteConfigFilePath Value="$(ProjOutDir)\fpclaz.cfg"/>
+            </ConfigFile>
             <CustomOptions Value="-dcomplete_at_scroll
 -dGTK2_IME_CODE"/>
           </Other>
@@ -370,6 +391,9 @@
             </Options>
           </Linking>
           <Other>
+            <ConfigFile>
+              <WriteConfigFilePath Value="$(ProjOutDir)\fpclaz.cfg"/>
+            </ConfigFile>
             <CustomOptions Value="-dcomplete_at_scroll"/>
           </Other>
         </CompilerOptions>
@@ -409,6 +433,9 @@
             </Options>
           </Linking>
           <Other>
+            <ConfigFile>
+              <WriteConfigFilePath Value="$(ProjOutDir)\fpclaz.cfg"/>
+            </ConfigFile>
             <CustomOptions Value="-dcomplete_at_scroll"/>
           </Other>
         </CompilerOptions>
@@ -451,6 +478,9 @@
             </Options>
           </Linking>
           <Other>
+            <ConfigFile>
+              <WriteConfigFilePath Value="$(ProjOutDir)\fpclaz.cfg"/>
+            </ConfigFile>
             <CustomOptions Value="-dcomplete_at_scroll"/>
           </Other>
         </CompilerOptions>
@@ -493,6 +523,9 @@
             </Options>
           </Linking>
           <Other>
+            <ConfigFile>
+              <WriteConfigFilePath Value="$(ProjOutDir)\fpclaz.cfg"/>
+            </ConfigFile>
             <CustomOptions Value="-dcomplete_at_scroll"/>
           </Other>
         </CompilerOptions>
@@ -535,6 +568,9 @@
             </Options>
           </Linking>
           <Other>
+            <ConfigFile>
+              <WriteConfigFilePath Value="$(ProjOutDir)\fpclaz.cfg"/>
+            </ConfigFile>
             <CustomOptions Value="-dcomplete_at_scroll"/>
           </Other>
         </CompilerOptions>
@@ -574,6 +610,9 @@
             </Options>
           </Linking>
           <Other>
+            <ConfigFile>
+              <WriteConfigFilePath Value="$(ProjOutDir)\fpclaz.cfg"/>
+            </ConfigFile>
             <CustomOptions Value="-dcomplete_at_scroll"/>
           </Other>
         </CompilerOptions>
@@ -614,6 +653,9 @@
             <LinkSmart Value="True"/>
           </Linking>
           <Other>
+            <ConfigFile>
+              <WriteConfigFilePath Value="$(ProjOutDir)\fpclaz.cfg"/>
+            </ConfigFile>
             <CustomOptions Value="-dcomplete_at_scroll"/>
           </Other>
         </CompilerOptions>
@@ -651,6 +693,9 @@
             <LinkSmart Value="True"/>
           </Linking>
           <Other>
+            <ConfigFile>
+              <WriteConfigFilePath Value="$(ProjOutDir)\fpclaz.cfg"/>
+            </ConfigFile>
             <CustomOptions Value="-dcomplete_at_scroll"/>
           </Other>
         </CompilerOptions>
@@ -693,6 +738,9 @@
             </Options>
           </Linking>
           <Other>
+            <ConfigFile>
+              <WriteConfigFilePath Value="$(ProjOutDir)\fpclaz.cfg"/>
+            </ConfigFile>
             <CustomOptions Value="-dcomplete_at_scroll"/>
           </Other>
         </CompilerOptions>
@@ -735,6 +783,9 @@
             </Options>
           </Linking>
           <Other>
+            <ConfigFile>
+              <WriteConfigFilePath Value="$(ProjOutDir)\fpclaz.cfg"/>
+            </ConfigFile>
             <CustomOptions Value="-dcomplete_at_scroll"/>
           </Other>
         </CompilerOptions>
@@ -780,6 +831,9 @@
             </Options>
           </Linking>
           <Other>
+            <ConfigFile>
+              <WriteConfigFilePath Value="$(ProjOutDir)\fpclaz.cfg"/>
+            </ConfigFile>
             <CustomOptions Value="-dcomplete_at_scroll"/>
           </Other>
         </CompilerOptions>
@@ -822,6 +876,9 @@
             </Options>
           </Linking>
           <Other>
+            <ConfigFile>
+              <WriteConfigFilePath Value="$(ProjOutDir)\fpclaz.cfg"/>
+            </ConfigFile>
             <CustomOptions Value="-dcomplete_at_scroll"/>
           </Other>
         </CompilerOptions>
@@ -864,6 +921,9 @@
             </Options>
           </Linking>
           <Other>
+            <ConfigFile>
+              <WriteConfigFilePath Value="$(ProjOutDir)\fpclaz.cfg"/>
+            </ConfigFile>
             <CustomOptions Value="-dcomplete_at_scroll"/>
           </Other>
         </CompilerOptions>
@@ -906,6 +966,9 @@
             </Options>
           </Linking>
           <Other>
+            <ConfigFile>
+              <WriteConfigFilePath Value="$(ProjOutDir)\fpclaz.cfg"/>
+            </ConfigFile>
             <CustomOptions Value="-dcomplete_at_scroll"/>
           </Other>
         </CompilerOptions>
@@ -948,6 +1011,9 @@
             </Options>
           </Linking>
           <Other>
+            <ConfigFile>
+              <WriteConfigFilePath Value="$(ProjOutDir)\fpclaz.cfg"/>
+            </ConfigFile>
             <CustomOptions Value="-dcomplete_at_scroll"/>
           </Other>
         </CompilerOptions>
@@ -990,6 +1056,9 @@
             </Options>
           </Linking>
           <Other>
+            <ConfigFile>
+              <WriteConfigFilePath Value="$(ProjOutDir)\fpclaz.cfg"/>
+            </ConfigFile>
             <CustomOptions Value="-dcomplete_at_scroll"/>
           </Other>
         </CompilerOptions>
@@ -1032,6 +1101,9 @@
             </Options>
           </Linking>
           <Other>
+            <ConfigFile>
+              <WriteConfigFilePath Value="$(ProjOutDir)\fpclaz.cfg"/>
+            </ConfigFile>
             <CustomOptions Value="-dcomplete_at_scroll"/>
           </Other>
         </CompilerOptions>
@@ -1076,6 +1148,9 @@
             </Options>
           </Linking>
           <Other>
+            <ConfigFile>
+              <WriteConfigFilePath Value="$(ProjOutDir)\fpclaz.cfg"/>
+            </ConfigFile>
             <CustomOptions Value="-dcomplete_at_scroll
 -dDisableLCLTIFF
 -dDisableLCLPNM"/>
@@ -1121,6 +1196,9 @@
             </Options>
           </Linking>
           <Other>
+            <ConfigFile>
+              <WriteConfigFilePath Value="$(ProjOutDir)\fpclaz.cfg"/>
+            </ConfigFile>
             <CustomOptions Value="-dcomplete_at_scroll
 -dDisableLCLTIFF
 -dDisableLCLPNM"/>
@@ -1165,6 +1243,9 @@
             </Options>
           </Linking>
           <Other>
+            <ConfigFile>
+              <WriteConfigFilePath Value="$(ProjOutDir)\fpclaz.cfg"/>
+            </ConfigFile>
             <CustomOptions Value="-dcomplete_at_scroll"/>
           </Other>
         </CompilerOptions>
@@ -1582,6 +1663,9 @@
       </Options>
     </Linking>
     <Other>
+      <ConfigFile>
+        <WriteConfigFilePath Value="$(ProjOutDir)\fpclaz.cfg"/>
+      </ConfigFile>
       <CustomOptions Value="-dcomplete_at_scroll
 -dDisableLCLTIFF
 -dDisableLCLPNM

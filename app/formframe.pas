@@ -2683,7 +2683,16 @@ begin
 
   if Assigned(FBinStream) then
     FreeAndNil(FBinStream);
-  FBinStream:= TFileStream.Create(AFileName, fmOpenRead or fmShareDenyWrite);
+
+  try
+    FBinStream:= TFileStream.Create(AFileName, fmOpenRead or fmShareDenyWrite);
+  except
+    on E: Exception do
+    begin
+      FBinStream:= nil;
+      MsgBox(msgCannotOpenFile+#10+AFileName+#10#10+E.Message, MB_OK or MB_ICONERROR);
+    end;
+  end;
 
   ViewerApplyTheme(FBin);
   FBin.Show;
@@ -2692,8 +2701,6 @@ begin
 
   if Visible and FBin.Visible and FBin.CanFocus then
     FBin.SetFocus;
-
-  //DoOnChangeCaption; //needed?
 end;
 
 
