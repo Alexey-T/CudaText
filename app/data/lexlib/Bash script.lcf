@@ -338,7 +338,7 @@ object SyntAnal2: TLibSyntAnalyzer
       BlockName = '(('
       NotParent = True
       TokenType = 13
-      Expression = '(?s)<<\-?\x20*('#39'|")([a-z]\w*)\1.+?^\x20*\2\b'
+      Expression = '(?s)<<\-?\x20*('#39'|")([a-z]\w*)\1.+?^\t*\2\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -348,7 +348,7 @@ object SyntAnal2: TLibSyntAnalyzer
       BlockName = '(('
       NotParent = True
       TokenType = 13
-      Expression = '(?s)<<\-?\x20*([a-z]\w*)\b.+?^\x20*\1\b'
+      Expression = '(?s)<<\-?\x20*([a-z]\w*)\b.+?^\t*\1\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
