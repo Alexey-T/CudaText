@@ -421,7 +421,15 @@ object SyntAnal2: TLibSyntAnalyzer
       DisplayName = 'String $"..."'
       StyleName = 'String'
       TokenType = 5
-      Expression = '(?s)\$?("|'#39') (\\\\|\\\1|.)*? (\1|\Z)'
+      Expression = '(?s)\$("|'#39')(\\.|.)*?(\1|\Z)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'String "..."'
+      StyleName = 'String'
+      TokenType = 5
+      Expression = '(?s)("|'#39').*?(\1|\Z)'
       ColumnFrom = 0
       ColumnTo = 0
     end
