@@ -12,7 +12,7 @@
 + add: commands "move tab to group 3 / 4 / 5 / 6" (thanks @reregaga)
 - fix: couple of minor UI issues in the Find dialog (thanks @reregaga)
 - fix: Linux/Unix: when owner of file is 'root' with 'rw-r--r--', and owner of file's dir is 'user', app could not save the file (thanks @timur-g)
-- fix: handle the case "file has no R permission" more gracefully
+- fix: the case "file has no R permission" leads to program error, especially when user chooses the binary viewer
 
 1.196.0 (2023/07)
 
