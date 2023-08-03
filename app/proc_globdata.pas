@@ -2099,7 +2099,7 @@ begin
     InfoAboutOptionsEditor:= true;
     AllowRunPkExec:= true;
     AllowCheckConfigsForNullBytes:= true;
-    MaxPanelSizeInPercents:= 90;
+    MaxPanelSizeInPercents:= 95;
 
     LogPluginIniting:= true;
     LogSessions:= true;
