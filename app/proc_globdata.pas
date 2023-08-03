@@ -235,7 +235,6 @@ type
     InfoAboutOptionsEditor: boolean;
     AllowRunPkExec: boolean;
     AllowCheckConfigsForNullBytes: boolean;
-    MaxPanelSizeInPercents: integer;
 
     LogPluginIniting: boolean;
     LogSessions: boolean;
@@ -2099,7 +2098,6 @@ begin
     InfoAboutOptionsEditor:= true;
     AllowRunPkExec:= true;
     AllowCheckConfigsForNullBytes:= true;
-    MaxPanelSizeInPercents:= 95;
 
     LogPluginIniting:= true;
     LogSessions:= true;

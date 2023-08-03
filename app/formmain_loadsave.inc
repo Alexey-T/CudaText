@@ -795,10 +795,10 @@ begin
     end;
 
     with AppPanels[cPaneSide] do
-      PanelSize:= Min(cfg.GetValue(sRootPath+'/panels/side_size', PanelSize), ClientWidth * UiOps.MaxPanelSizeInPercents div 100);
+      PanelSize:= cfg.GetValue(sRootPath+'/panels/side_size', PanelSize);
 
     with AppPanels[cPaneOut] do
-      PanelSize:= Min(cfg.GetValue(sRootPath+'/panels/bottom_size', PanelSize), ClientHeight * UiOps.MaxPanelSizeInPercents div 100);
+      PanelSize:= cfg.GetValue(sRootPath+'/panels/bottom_size', PanelSize);
 
     SText:= cfg.GetValue(sRootPath+'/panels/side_panel', '');
     if AppPanels[cPaneSide].Visible and (SText<>'') then
@@ -987,9 +987,9 @@ begin
     AppPanels[cPaneOut].Visible:= bFlag;
 
     N:= cfg.GetValue('size_side', 200);
-    AppPanels[cPaneSide].PanelSize:= Min(N, ClientWidth * UiOps.MaxPanelSizeInPercents div 100);
+    AppPanels[cPaneSide].PanelSize:= N; //Min(N, ClientWidth * UiOps.MaxPanelSizeInPercents div 100);
     N:= cfg.GetValue('size_bottom', 120);
-    AppPanels[cPaneOut].PanelSize:= Min(N, ClientHeight * UiOps.MaxPanelSizeInPercents div 100);
+    AppPanels[cPaneOut].PanelSize:= N; //Min(N, ClientHeight * UiOps.MaxPanelSizeInPercents div 100);
 
     AppPanels[cPaneSide].Floating:= cfg.GetValue('float_side', false);
     AppPanels[cPaneOut].Floating:= cfg.GetValue('float_bottom', false);
