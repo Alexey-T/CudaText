@@ -795,10 +795,10 @@ begin
     end;
 
     with AppPanels[cPaneSide] do
-      PanelSize:= Min(cfg.GetValue(sRootPath+'/panels/side_size', PanelSize), ClientWidth div 2);
+      PanelSize:= Min(cfg.GetValue(sRootPath+'/panels/side_size', PanelSize), ClientWidth * UiOps.MaxPanelSizeInPercents div 100);
 
     with AppPanels[cPaneOut] do
-      PanelSize:= Min(cfg.GetValue(sRootPath+'/panels/bottom_size', PanelSize), ClientHeight div 2);
+      PanelSize:= Min(cfg.GetValue(sRootPath+'/panels/bottom_size', PanelSize), ClientHeight * UiOps.MaxPanelSizeInPercents div 100);
 
     SText:= cfg.GetValue(sRootPath+'/panels/side_panel', '');
     if AppPanels[cPaneSide].Visible and (SText<>'') then
@@ -923,6 +923,7 @@ var
   cfg: TJSONConfig;
   bFlag: boolean;
   NTick: QWord;
+  N: integer;
   sFilename, sRootPath: string;
 begin
   NTick:= GetTickCount64;
@@ -985,8 +986,10 @@ begin
     end;
     AppPanels[cPaneOut].Visible:= bFlag;
 
-    AppPanels[cPaneSide].PanelSize:= Min(cfg.GetValue('size_side', 200), ClientWidth div 2);
-    AppPanels[cPaneOut].PanelSize:= Min(cfg.GetValue('size_bottom', 120), ClientHeight div 2);
+    N:= cfg.GetValue('size_side', 200);
+    AppPanels[cPaneSide].PanelSize:= Min(N, ClientWidth * UiOps.MaxPanelSizeInPercents div 100);
+    N:= cfg.GetValue('size_bottom', 120);
+    AppPanels[cPaneOut].PanelSize:= Min(N, ClientHeight * UiOps.MaxPanelSizeInPercents div 100);
 
     AppPanels[cPaneSide].Floating:= cfg.GetValue('float_side', false);
     AppPanels[cPaneOut].Floating:= cfg.GetValue('float_bottom', false);
