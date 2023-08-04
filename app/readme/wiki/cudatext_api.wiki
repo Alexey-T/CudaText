@@ -4889,6 +4889,7 @@ It provides:
 
 1.0.448 (app 1.197.0)
 * add: Editor.folding: FOLDING_ENUM
+* add: Editor.folding: add optional params "item_x2", "item_tag"
 * deprecate FOLDING_GET_LIST and FOLDING_GET_LIST_FILTERED (use FOLDING_ENUM instead of them)
 
 [[Category:CudaText]]
