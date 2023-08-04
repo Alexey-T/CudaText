@@ -2800,22 +2800,31 @@ Notes:
 
 Performs action on folding ranges. Possible values of "id":
 
-* FOLDING_GET_LIST: Returns list of folding ranges. Params used: none except "id". Returns list of tuples (y, y2, x, staple, folded), or None.
+* FOLDING_ENUM: Returns list of folding ranges. If param "item_y"<0, returns list of all ranges; otherwise makes filtering of ranges by params "item_y" and "item_y2" - ie, gets only ranges which contain line indexes from "item_y" to "item_y2" inclusive. Each list item is dict with fields:
+** "x": int, column index of range beginning.
+** "y": int, line index of range beginning.
+** "x2": int, column index of range ending.
+** "y2": int, line index of range ending.
+** "staple": bool, indicates that range has a 'block staple'.
+** "folded" bool, indicated that range is folded.
+** "hint": string, tooltip of range.
+
+* (deprecated) FOLDING_GET_LIST: Returns list of folding ranges. Params used: none except "id". Returns list of tuples (y, y2, x, staple, folded), or None.
 ** "y": int: line of range start.
 ** "y2": int: line of range end. If y==y2, then range is simple and don't have gutter-mark and staple.
 ** "x": int: x-offset of range start (char index in start line).
 ** "staple": bool: range has block staple.
 ** "folded": bool: range is currently folded.
 
-* FOLDING_GET_LIST_FILTERED: Returns list of folding ranges, which contain given range: line indexes from param "item_y" to param "item_y2" (inclusive). If item_y<0, then no filtering is done. You can perform this filtering from the result of FOLDING_GET_LIST, but it's slower.
+* (deprecated) FOLDING_GET_LIST_FILTERED: Returns list of folding ranges, which contain given range: line indexes from param "item_y" to param "item_y2" (inclusive). If item_y<0, then no filtering is done.
 
-* FOLDING_FOLD: Folds range with given index (index in list, from FOLDING_GET_LIST). Params used: "index".
+* FOLDING_FOLD: Folds range with given index (index in unfiltered list returned by FOLDING_ENUM). Params used: "index".
 * FOLDING_FOLD_ALL: Folds all ranges.
 * FOLDING_FOLD_LEVEL: Unfolds all ranges, then folds ranges starting with given nesting level. Params used: "index": nesting level, 0..9.
 
-* FOLDING_UNFOLD: Unfolds range with given index (index in list, from FOLDING_GET_LIST). Params used: "index".
+* FOLDING_UNFOLD: Unfolds range with given index (index in unfiltered list returned by FOLDING_ENUM). Params used: "index".
 * FOLDING_UNFOLD_ALL: Unfolds all ranges.
-* FOLDING_UNFOLD_LINE: Unfolds line with given index (index in lines list). Params used: "index".
+* FOLDING_UNFOLD_LINE: Unfolds line with given index. Params used: "index".
 
 * FOLDING_ADD: Adds folding range. Life time of this range is until lexer analisys runs (it clears ranges and adds ranges from lexer), which runs after any text change. Params used:
 ** "item_x": char index (offset in line) of range start.
@@ -2825,9 +2834,9 @@ Performs action on folding ranges. Possible values of "id":
 ** "item_hint" (optional): str, hint which is shown when range is folded.
 ** "index": if it's valid range index (0-based), range inserts at this index, otherwise range appends.
 
-* FOLDING_DELETE: Deletes folding range with given index (index in list, from FOLDING_GET_LIST). Params used: "index".
+* FOLDING_DELETE: Deletes folding range with given index (index in unfiltered list returned by FOLDING_ENUM). Params used: "index".
 * FOLDING_DELETE_ALL: Deletes all folding ranges. Params used: none except "id".
-* FOLDING_FIND: Finds index of range (index in list, from FOLDING_GET_LIST). Returns None if not found. Params used: "item_y" is line index at which range begins.
+* FOLDING_FIND: Finds index of range (index in unfiltered list returned by FOLDING_ENUM). Returns None if not found. Params used: "item_y" is line index at which range begins.
 * FOLDING_CHECK_RANGE_INSIDE: For 2 ranges, which indexes given by "index" and "item_x", detects: 1st range is inside 2nd range. Returns bool. Returns False if indexes incorrect.
 * FOLDING_CHECK_RANGES_SAME: For 2 ranges, which indexes given by "index" and "item_x", detects: ranges are "equal" (x, y, y2 in ranges may differ). Returns bool. Returns False if indexes incorrect.
 
@@ -4874,5 +4883,9 @@ It provides:
 
 1.0.447 (app 1.196.3)
 * add: PROC_GET_FINDER_PROP new option "op_wrap_c", and new option "A" in the string form of search options
+
+1.0.448 (app 1.197.0)
+* add: Editor.folding: FOLDING_ENUM
+* deprecate FOLDING_GET_LIST and FOLDING_GET_LIST_FILTERED (use FOLDING_ENUM instead of them)
 
 [[Category:CudaText]]
