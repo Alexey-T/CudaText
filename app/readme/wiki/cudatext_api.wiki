@@ -2807,7 +2807,8 @@ Performs action on folding ranges. Possible values of "id":
 ** "y2": int, line index of range ending.
 ** "staple": bool, indicates that range has a 'block staple'.
 ** "folded" bool, indicated that range is folded.
-** "hint": string, tooltip of range.
+** "hint": string, hint of range.
+** "tag": int, tag value. For example, it is -1 for ranges made by CudaText command "fold selected lines".
 
 * (deprecated) FOLDING_GET_LIST: Returns list of folding ranges. Params used: none except "id". Returns list of tuples (y, y2, x, staple, folded), or None.
 ** "y": int: line of range start.

@@ -6241,7 +6241,7 @@ begin
         begin
           Range:= PATSynRange(ListRanges[i]);
           PyList_SetItem(Result, i,
-            Py_BuildValue('{sisisisisOsOsO}',
+            Py_BuildValue('{sisisisisOsOsOsL}',
               string('x'),
               Range^.X-1,
               string('y'),
@@ -6255,7 +6255,9 @@ begin
               'folded',
               PyBool_FromLong(Ord(Range^.Folded)),
               'hint',
-              PyUnicodeFromString(Range^.Hint)
+              PyUnicodeFromString(Range^.Hint),
+              'tag',
+              Range^.Tag
               ));
         end;
       end;
