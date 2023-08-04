@@ -8809,7 +8809,8 @@ var
   Ok: boolean;
 begin
   with AppPython.Engine do
-    if Bool(PyArg_ParseTuple(Args, 'LiiiiiiisL:folding', @H, @Id, @NItem, @NX, @NY, @NX2, @NY2, @NStaple, @PtrText, @NTag)) then
+    if Bool(PyArg_ParseTuple(Args, 'LiiiiiiisL:folding',
+            @H, @Id, @NItem, @NX, @NY, @NX2, @NY2, @NStaple, @PtrText, @NTag)) then
     begin
       Ed:= PyHelper_EditorFromHandle(H);
       StrText:= string(PtrText);
