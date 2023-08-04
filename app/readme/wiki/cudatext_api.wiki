@@ -2796,7 +2796,7 @@ Notes:
 
 ===Editor.folding===
 
- folding(id, index=-1, item_x=-1, item_y=-1, item_y2=-1, item_staple=False, item_hint="")
+ folding(id, index=-1, item_x=-1, item_y=-1, item_y2=-1, item_staple=False, item_hint="", item_x2=0, item_tag=0)
 
 Performs action on folding ranges. Possible values of "id":
 
@@ -2828,11 +2828,13 @@ Performs action on folding ranges. Possible values of "id":
 * FOLDING_UNFOLD_LINE: Unfolds line with given index. Params used: "index".
 
 * FOLDING_ADD: Adds folding range. Life time of this range is until lexer analisys runs (it clears ranges and adds ranges from lexer), which runs after any text change. Params used:
-** "item_x": char index (offset in line) of range start.
+** "item_x": column index (offset in line) of range start.
 ** "item_y": line index of range start.
-** "item_y2": line index of range end.
-** "item_staple" (optional): bool, range has block staple.
+** "item_x2" (optional): column index (offset in line) of range ending.
+** "item_y2": line index of range ending.
+** "item_staple" (optional): bool, indicates that range has 'block staple'.
 ** "item_hint" (optional): str, hint which is shown when range is folded.
+** "item_tag" (optional): int, tag value.
 ** "index": if it's valid range index (0-based), range inserts at this index, otherwise range appends.
 
 * FOLDING_DELETE: Deletes folding range with given index (index in unfiltered list returned by FOLDING_ENUM). Params used: "index".

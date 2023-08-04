@@ -8801,20 +8801,18 @@ end;
 function api_ed_folding(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
+  Ed: TATSynEdit;
   Id, NItem, NX, NY, NX2, NY2, NStaple: integer;
+  NTag: Int64;
   PtrText: PChar;
   StrText: string;
-  Ed: TATSynEdit;
   Ok: boolean;
 begin
   with AppPython.Engine do
-    if Bool(PyArg_ParseTuple(Args, 'Liiiiiis:folding', @H, @Id, @NItem, @NX, @NY, @NY2, @NStaple, @PtrText)) then
+    if Bool(PyArg_ParseTuple(Args, 'LiiiiiiisL:folding', @H, @Id, @NItem, @NX, @NY, @NX2, @NY2, @NStaple, @PtrText, @NTag)) then
     begin
       Ed:= PyHelper_EditorFromHandle(H);
       StrText:= string(PtrText);
-
-      //todo: pass some parameter to NX2, in old APIs the X_ending was not used at all
-      NX2:= 0;
 
       case Id of
         FOLDING_ENUM:
@@ -8873,9 +8871,9 @@ begin
             if Ed.Strings.IsIndexValid(NY) and Ed.Strings.IsIndexValid(NY2) and (NX>=0) then
             begin
               if Ed.Fold.IsIndexValid(NItem) then
-                Ed.Fold.Insert(NItem, NX+1, NY, NX2+1, NY2, Bool(NStaple), StrText)
+                Ed.Fold.Insert(NItem, NX+1, NY, NX2+1, NY2, Bool(NStaple), StrText, NTag)
               else
-                Ed.Fold.Add(NX+1, NY, NX2+1, NY2, Bool(NStaple), StrText);
+                Ed.Fold.Add(NX+1, NY, NX2+1, NY2, Bool(NStaple), StrText, NTag);
 
               Ed.Update(true);
               Result:= ReturnTrue;

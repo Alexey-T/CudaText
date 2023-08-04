@@ -1461,8 +1461,8 @@ class Editor:
     def gap(self, id, num1, num2, tag=-1, size=0, color=COLOR_NONE):
         return ct.ed_gap(self.h, id, num1, num2, tag, size, color)
 
-    def folding(self, id, index=-1, item_x=-1, item_y=-1, item_y2=-1, item_staple=False, item_hint=''):
-        return ct.ed_folding(self.h, id, index, item_x, item_y, item_y2, item_staple, item_hint)
+    def folding(self, id, index=-1, item_x=-1, item_y=-1, item_y2=-1, item_staple=False, item_hint='', item_x2=0, item_tag=0):
+        return ct.ed_folding(self.h, id, index, item_x, item_y, item_x2, item_y2, item_staple, item_hint, item_tag)
 
     def get_wrapinfo(self, param1=-1, param2=-1):
         return ct.ed_get_wrapinfo(self.h, param1, param2)
