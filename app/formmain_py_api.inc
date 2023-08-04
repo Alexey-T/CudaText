@@ -8751,7 +8751,7 @@ end;
 function api_ed_folding(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
-  Id, NItem, NX, NY, NY2, NStaple: integer;
+  Id, NItem, NX, NY, NX2, NY2, NStaple: integer;
   PtrText: PChar;
   StrText: string;
   Ed: TATSynEdit;
@@ -8762,6 +8762,9 @@ begin
     begin
       Ed:= PyHelper_EditorFromHandle(H);
       StrText:= string(PtrText);
+
+      //todo: pass some parameter to NX2, in old APIs the X_ending was not used at all
+      NX2:= 0;
 
       case Id of
         FOLDING_GET_LIST:
@@ -8813,9 +8816,9 @@ begin
             if Ed.Strings.IsIndexValid(NY) and Ed.Strings.IsIndexValid(NY2) and (NX>=0) then
             begin
               if Ed.Fold.IsIndexValid(NItem) then
-                Ed.Fold.Insert(NItem, NX+1, NY, NY2, Bool(NStaple), StrText)
+                Ed.Fold.Insert(NItem, NX+1, NY, NX2+1, NY2, Bool(NStaple), StrText)
               else
-                Ed.Fold.Add(NX+1, NY, NY2, Bool(NStaple), StrText);
+                Ed.Fold.Add(NX+1, NY, NX2+1, NY2, Bool(NStaple), StrText);
 
               Ed.Update(true);
               Result:= ReturnTrue;
