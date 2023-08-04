@@ -6216,6 +6216,54 @@ begin
   end;
 end;
 
+function PyHelper_Folding_Enum(Ed: TATSynEdit; NeedY, NeedY2: integer): PPyObject; cdecl;
+var
+  ListRanges: TFPList;
+  Range: PATSynRange;
+  NLen, i: integer;
+begin
+  ListRanges:= TFPList.Create;
+  try
+    for i:= 0 to Ed.Fold.Count-1 do
+    begin
+      Range:= Ed.Fold.ItemPtr(i);
+      if (NeedY<0) or ((Range^.Y<=NeedY) and (Range^.Y2>=NeedY2)) then
+        ListRanges.Add(Range);
+    end;
+
+    with AppPython.Engine do
+      begin
+        NLen:= ListRanges.Count;
+        Result:= PyList_New(NLen);
+        if not Assigned(Result) then
+          raise EPythonError.Create(msgPythonListError);
+        for i:= 0 to NLen-1 do
+        begin
+          Range:= PATSynRange(ListRanges[i]);
+          PyList_SetItem(Result, i,
+            Py_BuildValue('{sisisisisOsOsO}',
+              string('x'),
+              Range^.X-1,
+              string('y'),
+              Range^.Y,
+              'x2',
+              Range^.X2-1,
+              'y2',
+              Range^.Y2,
+              'staple',
+              PyBool_FromLong(Ord(Range^.Staple)),
+              'folded',
+              PyBool_FromLong(Ord(Range^.Folded)),
+              'hint',
+              PyUnicodeFromString(Range^.Hint)
+              ));
+        end;
+      end;
+  finally
+    FreeAndNil(ListRanges);
+  end;
+end;
+
 
 function api_ed_get_sublexer_ranges(Self, Args: PPyObject): PPyObject; cdecl;
 //func returns string, and cudatext.py code makes final Py objects from string
@@ -8767,11 +8815,18 @@ begin
       NX2:= 0;
 
       case Id of
+        FOLDING_ENUM:
+          begin
+            Result:= PyHelper_Folding_Enum(Ed, NY, NY2);
+          end;
+
+        //deprecated in 2023.08
         FOLDING_GET_LIST:
           begin
             Result:= PyHelper_Folding_GetAll(Ed);
           end;
 
+        //deprecated in 2023.08
         FOLDING_GET_LIST_FILTERED:
           begin
             if NY<0 then
