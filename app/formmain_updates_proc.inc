@@ -635,6 +635,7 @@ var
   Frame: TEditorFrame;
   SFileName: string;
 begin
+  //Ed=nil means: don't add string item, but limit the max count in the list (param MaxItems)
   if Ed=nil then
   begin
     SAddStringToHistory('', AppListRecents, UiOps.MaxHistoryMenu);
