@@ -2509,11 +2509,12 @@ In short:
 
 ==Unix: Program takes 25 seconds to start==
 
-Q: CudaText takes exactly 25 seconds to start-up. (In fact a few ms more than that).
+Q1: CudaText takes exactly 25 seconds to start-up. (In fact a few ms more than that).
 I am sure the problem is at my end, but cannot place it. It is waiting for something and is timing out.
 
-A: As expected, nothing to do with CudaText as such.
-Setting the following environment variable solves the issue:
+Q2: On Debian 12 with Mate desktop I got an empty window and it would have content only after I moved the mouse: even if I waited more then 3 minutes without moving the mouse or pressing a key, the content would appear just after moving the mouse. 
+
+A: Setting the following environment variable solves the issue:
 
  IBUS_USE_PORTAL="1"
 
