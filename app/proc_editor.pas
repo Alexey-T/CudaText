@@ -203,9 +203,6 @@ begin
   Ed.OptShowFontLigatures:= Op.OpFontLigatures;
   Ed.OptFlickerReducingPause:= Op.OpFlickerReducingPause;
 
-  Ed.OptScrollAnimationSteps:= Op.OpScrollAnimationSteps;
-  Ed.OptScrollAnimationSleep:= Op.OpScrollAnimationSleep;
-
   Ed.OptScrollbarsNew:= Op.OpScrollbarsNew;
   Ed.OptSpacingY:= Op.OpSpacingY;
 

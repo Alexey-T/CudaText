@@ -523,9 +523,6 @@ type
     OpFontLigatures: boolean;
     OpFlickerReducingPause: integer;
 
-    OpScrollAnimationSteps: integer;
-    OpScrollAnimationSleep: integer;
-
     OpScrollbarsNew: boolean;
     OpSpacingY: integer;
     OpTabSize: integer;
@@ -1690,9 +1687,6 @@ begin
     OpFontLigatures:= true;
     OpFlickerReducingPause:= 0;
 
-    OpScrollAnimationSteps:= cInitScrollAnimationSteps;
-    OpScrollAnimationSleep:= cInitScrollAnimationSleep;
-
     OpScrollbarsNew:= true;
     OpSpacingY:= 1;
 
@@ -1724,7 +1718,7 @@ begin
     OpUnderlineColorFiles:= '*';
     OpUnderlineColorSize:= 3;
     OpLinks:= true;
-    OpLinksRegex:= ATSynEdit.cUrlRegexInitial;
+    OpLinksRegex:= TATSynEdit.cUrlRegexInitial;
 
     OpGutterShow:= true;
     OpGutterFold:= true;
@@ -1779,16 +1773,16 @@ begin
     OpWrapIndented:= true;
     OpWrapEnabledMaxLines:= 60*1000;
 
-    OpUndoLimit:= cInitUndoLimit;
+    OpUndoLimit:= TATSynEdit.cInitUndoLimit;
     OpUndoGrouped:= true;
     OpUndoAfterSave:= true;
-    OpUndoMaxCarets:= cInitUndoMaxCarets;
+    OpUndoMaxCarets:= TATSynEdit.cInitUndoMaxCarets;
     OpUndoIndentVert:= -5;
     OpUndoIndentHorz:= 10;
     OpUndoPause:= 300;
     OpUndoMouseClicks:= false;
 
-    OpCaretBlinkTime:= cInitCaretBlinkTime;
+    OpCaretBlinkTime:= TATSynEdit.cInitCaretBlinkTime;
     OpCaretBlinkEn:= true;
     OpCaretViewNormal:= '2,-100';
     OpCaretViewOverwrite:= '-100,-100';
