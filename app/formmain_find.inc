@@ -926,7 +926,8 @@ begin
     Inc(ACount);
     if AIndex<0 then
       if ItemPtr^.PosY=MatchPos.Y then
-        if ItemPtr^.PosX=MatchPos.X then
+        if (ItemPtr^.PosX=MatchPos.X) or
+          ((ItemPtr^.PosX<MatchPos.X) and (ItemPtr^.PosX+ItemPtr^.SelX>MatchPos.X)) then
           AIndex:= ACount-1;
   end;
 end;
