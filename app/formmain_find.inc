@@ -929,7 +929,7 @@ begin
         //exact X pos is OK
         if (ItemPtr^.PosX=MatchPos.X) or
           //not exact X pos can be also OK: when searching backwards for 'dd' with line 'ddd'
-          ((ItemPtr^.PosX<MatchPos.X) and (ItemPtr^.PosX+ItemPtr^.SelX>MatchPos.X)) then
+          (AFinder.OptBack and (ItemPtr^.PosX<MatchPos.X) and (ItemPtr^.PosX+ItemPtr^.SelX>MatchPos.X)) then
           AIndex:= ACount-1;
   end;
 end;
