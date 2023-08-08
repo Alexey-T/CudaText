@@ -11,6 +11,7 @@
 + add: themed scrollbars: add coloring of mouse-over scrollbar arrows (thanks @reregaga)
 + add: commands "move tab to group 3 / 4 / 5 / 6" (thanks @reregaga)
 + add: Project Manager: command "Add to project: folder on the current file" (thanks @reregaga)
++ add: Project Manager: context menu item "Copy path relative to project" (thanks @reregaga)
 - fix: couple of minor UI issues in the Find dialog (thanks @reregaga)
 - fix: Linux/Unix: when owner of file is 'root' with 'rw-r--r--', and owner of file's dir is 'user', app could not save the file (thanks @timur-g)
 - fix: Linux/Unix: the case "opening file has no R permission" leads to program error, especially when user chooses binary viewer
