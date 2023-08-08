@@ -1200,6 +1200,10 @@ class Command:
         self.init_panel()
         self.action_set_as_main_file()
 
+    def contextmenu_copy_relative_path(self):
+        self.init_panel()
+        self.action_copy_relative_path()
+
     def enum_all(self, callback):
         """
         Enum for all items.

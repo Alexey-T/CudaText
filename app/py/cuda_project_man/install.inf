@@ -187,3 +187,9 @@ section=commands
 caption=&Project Manager\Context menu\Set as main file
 method=contextmenu_set_as_main_file
 menu=0
+
+[item115]
+section=commands
+caption=&Project Manager\Context menu\Copy path relative to project
+method=contextmenu_copy_relative_path
+menu=0
