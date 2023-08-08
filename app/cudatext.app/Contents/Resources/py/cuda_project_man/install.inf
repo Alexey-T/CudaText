@@ -97,6 +97,11 @@ section=commands
 caption=&Project Manager\Add to project: all opened files
 method=add_opened_files
 
+[item67]
+section=commands
+caption=&Project Manager\Add to project: folder of the current file
+method=add_current_dir
+
 
 [item80]
 section=commands

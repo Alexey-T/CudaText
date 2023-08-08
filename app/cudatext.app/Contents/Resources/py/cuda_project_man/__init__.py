@@ -1523,6 +1523,17 @@ class Command:
         fn = ed.get_filename()
         self.add_node(fn)
 
+    def add_current_dir(self):
+
+        if not self.tree:
+            self.init_panel(False)
+
+        fn = ed.get_filename()
+        if fn:
+            d = os.path.dirname(fn)
+            if not (IS_WIN and d.endswith(':\\')):
+                self.add_node(d)
+
     def add_opened_files(self):
 
         if not self.tree:
