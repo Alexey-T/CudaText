@@ -601,8 +601,10 @@ class Command:
 
     def action_copy_relative_path(self):
         file_path = str(self.get_location_by_index(self.selected))
-        proj_path = os.path.dirname(self.project_file_path)
-        if proj_path and file_path.startswith(proj_path+os.sep):
+        proj_path = os.path.dirname(self.project_file_path or '')
+        if not proj_path:
+            return
+        if file_path.startswith(proj_path+os.sep):
             file_path = file_path[len(proj_path)+1:]
         app_proc(PROC_SET_CLIP, file_path)
 
