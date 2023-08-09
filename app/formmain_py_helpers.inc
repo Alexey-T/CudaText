@@ -78,6 +78,7 @@ function TfmMain.DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent;
   const AParams: TAppVariantArray): TAppPyEventResult;
 const
   cTheseEventsStoppedByTrue = [cEventOnComplete, cEventOnConsoleComplete, cEventOnFuncHint{, cEventOnTabSwitch}];
+  cTheseEventsStoppedByString = [cEventOnFuncHint];
   cTheseEventsNeedGroupingUndo = [cEventOnComplete, cEventOnSnippet];
   cTheseEventsDontRequireFrame = [cEventOnSnippet, cEventOnDeleteFile, cEventOnSidebarPopup];
   cTheseEventsAlwaysLazy = [cEventOnExit];
@@ -182,6 +183,10 @@ begin
         //True for _some_ events means "stop processing this event"
         if Result.Val=evrTrue then
           if AEvent in cTheseEventsStoppedByTrue then Exit;
+
+        //non-empty string for some events means "stop processing this event"
+        if AEvent in cTheseEventsStoppedByString then
+          if (Result.Val=evrString) and (Result.Str<>'') then Exit;
 
         //False means "stop processing this event".
         //It's used e.g. for on_complete, on_key - first plugin which returned False,
