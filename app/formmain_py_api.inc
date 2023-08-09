@@ -3951,6 +3951,15 @@ begin
         PROP_RULER_TEXT:
           Result:= PyUnicodeFromString(Ed.OptRulerText);
 
+        PROP_BORDER_COLOR:
+          Result:= PyLong_FromLong(Ed.OptBorderColor);
+
+        PROP_BORDER_TEXT:
+          Result:= PyUnicodeFromString(Ed.OptBorderText);
+
+        PROP_BORDER_WIDTH_WITH_COLOR:
+          Result:= PyLong_FromLong(Ed.OptBorderWidthWithColor);
+
         PROP_V_MODE:
           begin
             if Assigned(F) and (F.FrameKind=efkBinaryViewer) then
@@ -4634,6 +4643,15 @@ begin
 
         PROP_RULER_TEXT:
           Ed.OptRulerText:= Str;
+
+        PROP_BORDER_COLOR:
+          Ed.OptBorderColor:= ValueInt;
+
+        PROP_BORDER_TEXT:
+          Ed.OptBorderText:= Str;
+
+        PROP_BORDER_WIDTH_WITH_COLOR:
+          Ed.OptBorderWidthWithColor:= ValueInt;
 
         PROP_V_MODE:
           begin
