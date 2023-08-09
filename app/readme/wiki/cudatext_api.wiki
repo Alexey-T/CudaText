@@ -114,7 +114,7 @@ Constants in on_state_ed:
 ==Events - Smart commands==
 
 * on_complete(self, ed_self): Called by "auto-completion menu" command (default hotkey: Ctrl+Space). Method should read editor text, find all needed data, and call Editor.complete() API to show the actual auto-completion listbox to user. True return value means that plugin handled the event, don't call other plugins.
-* on_func_hint(self, ed_self): Called by "show function-hint" command (default hotkey: Ctrl+Shift+Space). Method should return function-hint string (comma-separated parameters, brackets are optional). Empty string or None mean that no hint was found. True return value means that plugin handled the event, don't call other plugins.
+* on_func_hint(self, ed_self): Called by "show function-hint" command (default hotkey: Ctrl+Shift+Space). Method should return function-hint string (comma-separated parameters, brackets are optional). Empty string or None mean that no hint was found.
 * on_goto_def(self, ed_self): Called by "go to definition" command (e.g. by mouse shortcut or by menu item in the editor context menu). Method must return True if it handled the command, otherwise None.
 * on_goto_enter(self, ed_self, text): Called after user entered text in the Go To dialog. Method can return False to disable default processing.
 
