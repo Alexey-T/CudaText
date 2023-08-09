@@ -80,7 +80,7 @@ const
   cTheseEventsStoppedByTrue = [cEventOnComplete, cEventOnConsoleComplete, cEventOnFuncHint{, cEventOnTabSwitch}];
   cTheseEventsStoppedByNonEmptyString = [cEventOnFuncHint];
   cTheseEventsNeedGroupingUndo = [cEventOnComplete, cEventOnSnippet];
-  cTheseEventsDontRequireFrame = [cEventOnSnippet, cEventOnDeleteFile, cEventOnSidebarPopup];
+  cTheseEventsDontRequireFrame = [cEventOnSnippet, cEventOnStart, cEventOnStart2, cEventOnExit, cEventOnDeleteFile, cEventOnSidebarPopup];
   cTheseEventsAlwaysLazy = [cEventOnExit];
   cTheseEventsIgnoreCurrentLexer = [cEventOnLexer, cEventOnStart, cEventOnStart2, cEventOnExit, cEventOnDeleteFile, cEventOnSidebarPopup];
 var
