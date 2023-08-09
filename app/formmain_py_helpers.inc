@@ -130,19 +130,18 @@ begin
   case AEvent of
     cEventOnKey:
       begin
-        //key code is 1st int parameter
+        //key is 1st int parameter
         KeyForFilter:= IntToStr(AParams[0].Int);
       end;
     cEventOnOpen:
       begin
-        //filename is attached to editor's frame
-        if Assigned(Frame) then
-          KeyForFilter:= Copy(ExtractFileExt(Frame.GetFileName(AEd)), 2, MaxInt);
+        //key is file extension without leading dot
+        KeyForFilter:= Copy(ExtractFileExt(AEd.FileName), 2);
       end;
     cEventOnOpenBefore:
       begin
-        //filename is 1st parameter
-        KeyForFilter:= Copy(ExtractFileExt(AParams[0].Str), 2, MaxInt);
+        //key is filename, it is 1st parameter
+        KeyForFilter:= Copy(ExtractFileExt(AParams[0].Str), 2);
       end;
   end;
 
