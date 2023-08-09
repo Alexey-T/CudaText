@@ -2323,6 +2323,10 @@ There is [https://github.com/Alexey-T/CudaText_up Linux script CudaText_up] - it
 
 '''GTK2 error on ATSynEdit compiling regarding IME'''
 
+You may get this error:
+
+ atsynedit.pas(9067,9) Error: (5000) Identifier not found "IM_Context_Set_Cursor_Pos"
+
 To fix this error, edit the file atsynedit/atsynedit_package.lpk and remove this block there:
 <syntaxhighlight lang="xml">
       <Other>
