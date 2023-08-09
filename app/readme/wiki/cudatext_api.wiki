@@ -2386,6 +2386,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_SCROLLSTYLE_VERT: int: style of vertical scrollbar, one of SCROLLSTYLE_ constants.
 
 * PROP_BORDER_COLOR: int: if active, ie value not equals to COLOR_NONE, show colored border inside the editor, with specified color (like with macro-recording active).
+* PROP_BORDER_COLOR_FONT: int: if PROP_BORDER_COLOR is active, use specified font-color for text in the corner.
 * PROP_BORDER_TEXT: str: if PROP_BORDER_COLOR is active, show given text in the right-bottom corner.
 * PROP_BORDER_WIDTH_WITH_COLOR: int: if PROP_BORDER_COLOR is active, use specified width of the border.
 
@@ -2584,6 +2585,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 * PROP_SCROLLSTYLE_VERT: int: style of vertical scrollbar, one of SCROLLSTYLE_ constants.
 
 * PROP_BORDER_COLOR: int: if active, ie value not equals to COLOR_NONE, show colored border inside the editor, with specified color (like with macro-recording active).
+* PROP_BORDER_COLOR_FONT: int: if PROP_BORDER_COLOR is active, use specified font-color for text in the corner.
 * PROP_BORDER_TEXT: str: if PROP_BORDER_COLOR is active, show given text in the right-bottom corner.
 * PROP_BORDER_WIDTH_WITH_COLOR: int: if PROP_BORDER_COLOR is active, use specified width of the border.
 
@@ -4899,8 +4901,9 @@ It provides:
 * add: Editor.folding: FOLDING_ENUM
 * add: Editor.folding: add optional params "item_x2", "item_tag"
 * deprecate FOLDING_GET_LIST and FOLDING_GET_LIST_FILTERED (use FOLDING_ENUM instead of them)
-* add: Editor.get_prop/set_prop: PROP_COLOR_BORDER
-* add: Editor.get_prop/set_prop: PROP_COLOR_TEXT
-* add: Editor.get_prop/set_prop: PROP_COLOR_WIDTH_WITH_COLOR
+* add: Editor.get_prop/set_prop: PROP_BORDER_COLOR
+* add: Editor.get_prop/set_prop: PROP_BORDER_COLOR_FONT
+* add: Editor.get_prop/set_prop: PROP_BORDER_TEXT
+* add: Editor.get_prop/set_prop: PROP_BORDER_WIDTH_WITH_COLOR
 
 [[Category:CudaText]]
