@@ -78,7 +78,7 @@ function TfmMain.DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent;
   const AParams: TAppVariantArray): TAppPyEventResult;
 const
   cTheseEventsStoppedByTrue = [cEventOnComplete, cEventOnConsoleComplete, cEventOnFuncHint{, cEventOnTabSwitch}];
-  cTheseEventsStoppedByString = [cEventOnFuncHint];
+  cTheseEventsStoppedByNonEmptyString = [cEventOnFuncHint];
   cTheseEventsNeedGroupingUndo = [cEventOnComplete, cEventOnSnippet];
   cTheseEventsDontRequireFrame = [cEventOnSnippet, cEventOnDeleteFile, cEventOnSidebarPopup];
   cTheseEventsAlwaysLazy = [cEventOnExit];
@@ -185,7 +185,7 @@ begin
           if AEvent in cTheseEventsStoppedByTrue then Exit;
 
         //non-empty string for some events means "stop processing this event"
-        if AEvent in cTheseEventsStoppedByString then
+        if AEvent in cTheseEventsStoppedByNonEmptyString then
           if (Result.Val=evrString) and (Result.Str<>'') then Exit;
 
         //False means "stop processing this event".
