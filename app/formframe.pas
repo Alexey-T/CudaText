@@ -3582,9 +3582,16 @@ begin
     MacroStrings.Clear;
   end;
 
-  Ed1.ModeMacroRecording:= FMacroRecord;
+  if FMacroRecord then
+  begin
+    Ed1.OptBorderColor:= GetAppColor(apclEdMarkers);
+    Ed1.OptBorderText:= 'R';
+  end
+  else
+    Ed1.OptBorderColor:= clNone;
   Ed1.Update;
-  Ed2.ModeMacroRecording:= FMacroRecord;
+  Ed2.OptBorderColor:= Ed1.OptBorderColor;
+  Ed2.OptBorderText:= Ed1.OptBorderText;
   Ed2.Update;
 end;
 
