@@ -3585,12 +3585,14 @@ begin
   if FMacroRecord then
   begin
     Ed1.OptBorderColor:= GetAppColor(apclEdMarkers);
+    Ed1.OptBorderColorFont:= GetAppColor(apclEdSelFont);
     Ed1.OptBorderText:= 'R';
   end
   else
     Ed1.OptBorderColor:= clNone;
   Ed1.Update;
   Ed2.OptBorderColor:= Ed1.OptBorderColor;
+  Ed2.OptBorderColorFont:= Ed1.OptBorderColorFont;
   Ed2.OptBorderText:= Ed1.OptBorderText;
   Ed2.Update;
 end;
