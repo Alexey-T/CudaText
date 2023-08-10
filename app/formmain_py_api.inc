@@ -3954,10 +3954,10 @@ begin
         PROP_BORDER_COLOR:
           Result:= PyLong_FromLong(Ed.OptBorderColor);
 
-        PROP_BORDER_COLOR_FONT:
+        PROP_BORDER_TEXT_COLOR_FONT:
           Result:= PyLong_FromLong(Ed.OptBorderColorFont);
 
-        PROP_BORDER_COLOR_BACK:
+        PROP_BORDER_TEXT_COLOR_BACK:
           Result:= PyLong_FromLong(Ed.OptBorderColorBack);
 
         PROP_BORDER_TEXT:
@@ -4653,10 +4653,10 @@ begin
         PROP_BORDER_COLOR:
           Ed.OptBorderColor:= ValueInt;
 
-        PROP_BORDER_COLOR_FONT:
+        PROP_BORDER_TEXT_COLOR_FONT:
           Ed.OptBorderColorFont:= ValueInt;
 
-        PROP_BORDER_COLOR_BACK:
+        PROP_BORDER_TEXT_COLOR_BACK:
           Ed.OptBorderColorBack:= ValueInt;
 
         PROP_BORDER_TEXT:
