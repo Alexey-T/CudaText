@@ -3589,11 +3589,17 @@ begin
     Ed1.OptBorderText:= 'R';
   end
   else
+  begin
     Ed1.OptBorderColor:= clNone;
-  Ed1.Update;
+    Ed1.OptBorderColorFont:= clBlack;
+    Ed1.OptBorderText:= '';
+  end;
+
   Ed2.OptBorderColor:= Ed1.OptBorderColor;
   Ed2.OptBorderColorFont:= Ed1.OptBorderColorFont;
   Ed2.OptBorderText:= Ed1.OptBorderText;
+
+  Ed1.Update;
   Ed2.Update;
 end;
 
