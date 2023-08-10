@@ -3954,14 +3954,26 @@ begin
         PROP_CORNERTEXT:
           Result:= PyUnicodeFromString(Ed.OptCornerText);
 
-        PROP_CORNERTEXT_COLOR_FONT:
+        PROP_CORNERTEXT_FONT:
           Result:= PyLong_FromLong(Ed.OptCornerTextColorFont);
 
-        PROP_CORNERTEXT_COLOR_BACK:
+        PROP_CORNERTEXT_BACK:
           Result:= PyLong_FromLong(Ed.OptCornerTextColorBack);
 
-        PROP_CORNERTEXT_COLOR_BORDER:
+        PROP_CORNERTEXT_BORDER:
           Result:= PyLong_FromLong(Ed.OptCornerTextColorBorder);
+
+        PROP_CORNERTEXT2:
+          Result:= PyUnicodeFromString(Ed.OptCornerText2);
+
+        PROP_CORNERTEXT2_FONT:
+          Result:= PyLong_FromLong(Ed.OptCornerText2ColorFont);
+
+        PROP_CORNERTEXT2_BACK:
+          Result:= PyLong_FromLong(Ed.OptCornerText2ColorBack);
+
+        PROP_CORNERTEXT2_BORDER:
+          Result:= PyLong_FromLong(Ed.OptCornerText2ColorBorder);
 
         PROP_BORDER_COLOR:
           Result:= PyLong_FromLong(Ed.OptBorderColor);
@@ -4656,14 +4668,26 @@ begin
         PROP_CORNERTEXT:
           Ed.OptCornerText:= Str;
 
-        PROP_CORNERTEXT_COLOR_FONT:
+        PROP_CORNERTEXT_FONT:
           Ed.OptCornerTextColorFont:= ValueInt;
 
-        PROP_CORNERTEXT_COLOR_BACK:
+        PROP_CORNERTEXT_BACK:
           Ed.OptCornerTextColorBack:= ValueInt;
 
-        PROP_CORNERTEXT_COLOR_BORDER:
+        PROP_CORNERTEXT_BORDER:
           Ed.OptCornerTextColorBorder:= ValueInt;
+
+        PROP_CORNERTEXT2:
+          Ed.OptCornerText2:= Str;
+
+        PROP_CORNERTEXT2_FONT:
+          Ed.OptCornerText2ColorFont:= ValueInt;
+
+        PROP_CORNERTEXT2_BACK:
+          Ed.OptCornerText2ColorBack:= ValueInt;
+
+        PROP_CORNERTEXT2_BORDER:
+          Ed.OptCornerText2ColorBorder:= ValueInt;
 
         PROP_BORDER_COLOR:
           Ed.OptBorderColor:= ValueInt;
