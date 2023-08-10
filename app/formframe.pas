@@ -3588,6 +3588,7 @@ begin
     Ed1.OptBorderText:= 'R';
     Ed1.OptBorderTextColorFont:= GetAppColor(apclEdSelFont);
     Ed1.OptBorderTextColorBack:= Ed1.OptBorderColor;
+    Ed1.OptBorderTextColorBorder:= clNone;
   end
   else
   begin
@@ -3595,12 +3596,14 @@ begin
     Ed1.OptBorderText:= '';
     Ed1.OptBorderTextColorFont:= clBlack;
     Ed1.OptBorderTextColorBack:= clWhite;
+    Ed1.OptBorderTextColorBorder:= clNone;
   end;
 
   Ed2.OptBorderColor:= Ed1.OptBorderColor;
   Ed2.OptBorderText:= Ed1.OptBorderText;
   Ed2.OptBorderTextColorFont:= Ed1.OptBorderTextColorFont;
   Ed2.OptBorderTextColorBack:= Ed1.OptBorderTextColorBack;
+  Ed2.OptBorderTextColorBorder:= Ed1.OptBorderTextColorBorder;
 
   Ed1.Update;
   Ed2.Update;
