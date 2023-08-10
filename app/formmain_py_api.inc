@@ -3951,8 +3951,8 @@ begin
         PROP_RULER_TEXT:
           Result:= PyUnicodeFromString(Ed.OptRulerText);
 
-        PROP_BORDER_COLOR:
-          Result:= PyLong_FromLong(Ed.OptBorderColor);
+        PROP_BORDER_TEXT:
+          Result:= PyUnicodeFromString(Ed.OptBorderText);
 
         PROP_BORDER_TEXT_COLOR_FONT:
           Result:= PyLong_FromLong(Ed.OptBorderColorFont);
@@ -3960,10 +3960,10 @@ begin
         PROP_BORDER_TEXT_COLOR_BACK:
           Result:= PyLong_FromLong(Ed.OptBorderColorBack);
 
-        PROP_BORDER_TEXT:
-          Result:= PyUnicodeFromString(Ed.OptBorderText);
+        PROP_BORDER_COLOR:
+          Result:= PyLong_FromLong(Ed.OptBorderColor);
 
-        PROP_BORDER_WIDTH_WITH_COLOR:
+        PROP_BORDER_COLOR_WIDTH:
           Result:= PyLong_FromLong(Ed.OptBorderWidthWithColor);
 
         PROP_V_MODE:
@@ -4650,8 +4650,8 @@ begin
         PROP_RULER_TEXT:
           Ed.OptRulerText:= Str;
 
-        PROP_BORDER_COLOR:
-          Ed.OptBorderColor:= ValueInt;
+        PROP_BORDER_TEXT:
+          Ed.OptBorderText:= Str;
 
         PROP_BORDER_TEXT_COLOR_FONT:
           Ed.OptBorderColorFont:= ValueInt;
@@ -4659,10 +4659,10 @@ begin
         PROP_BORDER_TEXT_COLOR_BACK:
           Ed.OptBorderColorBack:= ValueInt;
 
-        PROP_BORDER_TEXT:
-          Ed.OptBorderText:= Str;
+        PROP_BORDER_COLOR:
+          Ed.OptBorderColor:= ValueInt;
 
-        PROP_BORDER_WIDTH_WITH_COLOR:
+        PROP_BORDER_COLOR_WIDTH:
           Ed.OptBorderWidthWithColor:= ValueInt;
 
         PROP_V_MODE:
