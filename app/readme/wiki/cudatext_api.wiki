@@ -2386,8 +2386,9 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_SCROLLSTYLE_VERT: int: style of vertical scrollbar, one of SCROLLSTYLE_ constants.
 
 * PROP_BORDER_TEXT: str: short text (single line) in the right-bottom corner (rendered above editor text).
-* PROP_BORDER_TEXT_COLOR_FONT: int: if active, ie value not equals to COLOR_NONE, specifies font-color for PROP_BORDER_TEXT.
-* PROP_BORDER_TEXT_COLOR_BACK: int: specifies background-color for PROP_BORDER_TEXT.
+* PROP_BORDER_TEXT_COLOR_FONT: int: font-color for PROP_BORDER_TEXT; can be COLOR_NONE.
+* PROP_BORDER_TEXT_COLOR_BACK: int: background-color for PROP_BORDER_TEXT; can be COLOR_NONE.
+* PROP_BORDER_TEXT_COLOR_BORDER: int: border-color for PROP_BORDER_TEXT; can be COLOR_NONE.
 * PROP_BORDER_COLOR: int: if active, ie value not equals to COLOR_NONE, specifies color of border around the editor (like with macro-recording active).
 * PROP_BORDER_COLOR_WIDTH: int: border width for PROP_BORDER_COLOR.
 
@@ -2586,8 +2587,9 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 * PROP_SCROLLSTYLE_VERT: int: style of vertical scrollbar, one of SCROLLSTYLE_ constants.
 
 * PROP_BORDER_TEXT: str: short text (single line) in the right-bottom corner (rendered above editor text).
-* PROP_BORDER_TEXT_COLOR_FONT: int: if active, ie value not equals to COLOR_NONE, specifies font-color for PROP_BORDER_TEXT.
-* PROP_BORDER_TEXT_COLOR_BACK: int: specifies background-color for PROP_BORDER_TEXT.
+* PROP_BORDER_TEXT_COLOR_FONT: int: font-color for PROP_BORDER_TEXT; can be COLOR_NONE.
+* PROP_BORDER_TEXT_COLOR_BACK: int: background-color for PROP_BORDER_TEXT; can be COLOR_NONE.
+* PROP_BORDER_TEXT_COLOR_BORDER: int: border-color for PROP_BORDER_TEXT; can be COLOR_NONE.
 * PROP_BORDER_COLOR: int: if active, ie value not equals to COLOR_NONE, specifies color of border around the editor (like with macro-recording active).
 * PROP_BORDER_COLOR_WIDTH: int: border width for PROP_BORDER_COLOR.
 
@@ -4906,6 +4908,7 @@ It provides:
 * add: Editor.get_prop/set_prop: PROP_BORDER_TEXT
 * add: Editor.get_prop/set_prop: PROP_BORDER_TEXT_COLOR_FONT
 * add: Editor.get_prop/set_prop: PROP_BORDER_TEXT_COLOR_BACK
+* add: Editor.get_prop/set_prop: PROP_BORDER_TEXT_COLOR_BORDER
 * add: Editor.get_prop/set_prop: PROP_BORDER_COLOR
 * add: Editor.get_prop/set_prop: PROP_BORDER_COLOR_WIDTH
 

@@ -3960,6 +3960,9 @@ begin
         PROP_BORDER_TEXT_COLOR_BACK:
           Result:= PyLong_FromLong(Ed.OptBorderTextColorBack);
 
+        PROP_BORDER_TEXT_COLOR_BORDER:
+          Result:= PyLong_FromLong(Ed.OptBorderTextColorBorder);
+
         PROP_BORDER_COLOR:
           Result:= PyLong_FromLong(Ed.OptBorderColor);
 
@@ -4658,6 +4661,9 @@ begin
 
         PROP_BORDER_TEXT_COLOR_BACK:
           Ed.OptBorderTextColorBack:= ValueInt;
+
+        PROP_BORDER_TEXT_COLOR_BORDER:
+          Ed.OptBorderTextColorBorder:= ValueInt;
 
         PROP_BORDER_COLOR:
           Ed.OptBorderColor:= ValueInt;
