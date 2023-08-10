@@ -2388,6 +2388,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_BORDER_TEXT: str: text in the right-bottom corner (rendered above editor text).
 * PROP_BORDER_COLOR: int: if active, ie value not equals to COLOR_NONE, specifies color of border around the editor (like with macro-recording active).
 * PROP_BORDER_COLOR_FONT: int: if active, ie value not equals to COLOR_NONE, specifies font-color for PROP_BORDER_TEXT.
+* PROP_BORDER_COLOR_BACK: int: specifies background-color for PROP_BORDER_TEXT.
 * PROP_BORDER_WIDTH_WITH_COLOR: int: if PROP_BORDER_COLOR is active, use specified width of the border.
 
 * PROP_WHEEL_ZOOMS: bool: enable zooming by Ctrl+[mouse wheel up/down].
@@ -2587,6 +2588,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 * PROP_BORDER_TEXT: str: text in the right-bottom corner (rendered above editor text).
 * PROP_BORDER_COLOR: int: if active, ie value not equals to COLOR_NONE, specifies color of border around the editor (like with macro-recording active).
 * PROP_BORDER_COLOR_FONT: int: if active, ie value not equals to COLOR_NONE, specifies font-color for PROP_BORDER_TEXT.
+* PROP_BORDER_COLOR_BACK: int: specifies background-color for PROP_BORDER_TEXT.
 * PROP_BORDER_WIDTH_WITH_COLOR: int: if PROP_BORDER_COLOR is active, use specified width of the border.
 
 * PROP_WHEEL_ZOOMS: bool: enable zooming by Ctrl+[mouse wheel up/down].
@@ -4901,9 +4903,10 @@ It provides:
 * add: Editor.folding: FOLDING_ENUM
 * add: Editor.folding: add optional params "item_x2", "item_tag"
 * deprecate FOLDING_GET_LIST and FOLDING_GET_LIST_FILTERED (use FOLDING_ENUM instead of them)
+* add: Editor.get_prop/set_prop: PROP_BORDER_TEXT
 * add: Editor.get_prop/set_prop: PROP_BORDER_COLOR
 * add: Editor.get_prop/set_prop: PROP_BORDER_COLOR_FONT
-* add: Editor.get_prop/set_prop: PROP_BORDER_TEXT
+* add: Editor.get_prop/set_prop: PROP_BORDER_COLOR_BACK
 * add: Editor.get_prop/set_prop: PROP_BORDER_WIDTH_WITH_COLOR
 
 [[Category:CudaText]]
