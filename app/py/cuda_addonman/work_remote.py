@@ -101,7 +101,13 @@ def get_channel(url):
     if not os.path.isfile(temp_fn): return
 
     text = open(temp_fn, encoding='utf8').read()
-    d = json.loads(text)
+    
+    try:
+        d = json.loads(text)
+    except Exception as e:
+        app.msg_box(_('Cannot parse JSON file:\n{}\n{}').format(temp_fn, str(e)),
+                app.MB_OK + app.MB_ICONERROR)
+        return
 
     RE = r'http.+/(\w+)\.(.+?)\.zip'
     for item in d:
