@@ -3585,25 +3585,25 @@ begin
   if FMacroRecord then
   begin
     Ed1.OptBorderColor:= GetAppColor(apclEdMarkers);
-    Ed1.OptBorderText:= 'R';
-    Ed1.OptBorderTextColorFont:= GetAppColor(apclEdSelFont);
-    Ed1.OptBorderTextColorBack:= Ed1.OptBorderColor;
-    Ed1.OptBorderTextColorBorder:= clNone;
+    Ed1.OptCornerText:= 'R';
+    Ed1.OptCornerTextColorFont:= GetAppColor(apclEdSelFont);
+    Ed1.OptCornerTextColorBack:= Ed1.OptBorderColor;
+    Ed1.OptCornerTextColorBorder:= clNone;
   end
   else
   begin
     Ed1.OptBorderColor:= clNone;
-    Ed1.OptBorderText:= '';
-    Ed1.OptBorderTextColorFont:= clBlack;
-    Ed1.OptBorderTextColorBack:= clWhite;
-    Ed1.OptBorderTextColorBorder:= clNone;
+    Ed1.OptCornerText:= '';
+    Ed1.OptCornerTextColorFont:= clBlack;
+    Ed1.OptCornerTextColorBack:= clWhite;
+    Ed1.OptCornerTextColorBorder:= clNone;
   end;
 
   Ed2.OptBorderColor:= Ed1.OptBorderColor;
-  Ed2.OptBorderText:= Ed1.OptBorderText;
-  Ed2.OptBorderTextColorFont:= Ed1.OptBorderTextColorFont;
-  Ed2.OptBorderTextColorBack:= Ed1.OptBorderTextColorBack;
-  Ed2.OptBorderTextColorBorder:= Ed1.OptBorderTextColorBorder;
+  Ed2.OptCornerText:= Ed1.OptCornerText;
+  Ed2.OptCornerTextColorFont:= Ed1.OptCornerTextColorFont;
+  Ed2.OptCornerTextColorBack:= Ed1.OptCornerTextColorBack;
+  Ed2.OptCornerTextColorBorder:= Ed1.OptCornerTextColorBorder;
 
   Ed1.Update;
   Ed2.Update;
