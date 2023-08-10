@@ -3951,16 +3951,16 @@ begin
         PROP_RULER_TEXT:
           Result:= PyUnicodeFromString(Ed.OptRulerText);
 
-        PROP_BORDER_TEXT:
+        PROP_CORNERTEXT:
           Result:= PyUnicodeFromString(Ed.OptBorderText);
 
-        PROP_BORDER_TEXT_COLOR_FONT:
+        PROP_CORNERTEXT_COLOR_FONT:
           Result:= PyLong_FromLong(Ed.OptBorderTextColorFont);
 
-        PROP_BORDER_TEXT_COLOR_BACK:
+        PROP_CORNERTEXT_COLOR_BACK:
           Result:= PyLong_FromLong(Ed.OptBorderTextColorBack);
 
-        PROP_BORDER_TEXT_COLOR_BORDER:
+        PROP_CORNERTEXT_COLOR_BORDER:
           Result:= PyLong_FromLong(Ed.OptBorderTextColorBorder);
 
         PROP_BORDER_COLOR:
@@ -4653,16 +4653,16 @@ begin
         PROP_RULER_TEXT:
           Ed.OptRulerText:= Str;
 
-        PROP_BORDER_TEXT:
+        PROP_CORNERTEXT:
           Ed.OptBorderText:= Str;
 
-        PROP_BORDER_TEXT_COLOR_FONT:
+        PROP_CORNERTEXT_COLOR_FONT:
           Ed.OptBorderTextColorFont:= ValueInt;
 
-        PROP_BORDER_TEXT_COLOR_BACK:
+        PROP_CORNERTEXT_COLOR_BACK:
           Ed.OptBorderTextColorBack:= ValueInt;
 
-        PROP_BORDER_TEXT_COLOR_BORDER:
+        PROP_CORNERTEXT_COLOR_BORDER:
           Ed.OptBorderTextColorBorder:= ValueInt;
 
         PROP_BORDER_COLOR:
