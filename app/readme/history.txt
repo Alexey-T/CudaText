@@ -16,6 +16,7 @@
 - fix: Linux/Unix: when owner of file is 'root' with 'rw-r--r--', and owner of file's dir is 'user', app could not save the file (thanks @timur-g)
 - fix: Linux/Unix: the case "opening file has no R permission" leads to program error, especially when user chooses binary viewer
 - fix: bug in API which blocked 'function hint' in AutoIt_Helper plugin sometimes (thanks @veksha)
+- fix: bad painting of macro-recording border with "minimap_at_left":true
 - fix: lexer Bash: fix string-rule, fix HereDoc-rule
 
 1.196.0 (2023/07)
