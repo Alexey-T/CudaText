@@ -232,7 +232,7 @@ procedure AppThemeLoadFromFile(const AFileName: string; var D: TAppTheme; IsThem
 procedure AppThemeSaveToFile(const AFileName: string; const D: TAppTheme; IsThemeUI: boolean);
 
 function GetAppColor(id: TAppThemeColorId): TColor;
-function GetAppStyle(id: TAppThemeStyleId): TecSyntaxFormat;
+function GetAppStyle(id: TAppThemeStyleId): TecSyntaxFormat; inline;
 function FindAppColorByName(const AName: string; ADefaultColor: TColor): TColor;
 
 implementation
@@ -604,7 +604,7 @@ begin
     Result:= AppTheme.Colors[id].Color;
 end;
 
-function GetAppStyle(id: TAppThemeStyleId): TecSyntaxFormat;
+function GetAppStyle(id: TAppThemeStyleId): TecSyntaxFormat; inline;
 begin
   Result:= AppTheme.Styles[id];
 end;
