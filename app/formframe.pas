@@ -3586,24 +3586,24 @@ begin
   begin
     Ed1.OptBorderColor:= GetAppColor(apclEdMarkers);
     Ed1.OptCornerText:= 'R';
-    Ed1.OptCornerTextColorFont:= GetAppColor(apclEdSelFont);
-    Ed1.OptCornerTextColorBack:= Ed1.OptBorderColor;
-    Ed1.OptCornerTextColorBorder:= clNone;
+    Ed1.OptCornerColorFont:= GetAppColor(apclEdSelFont);
+    Ed1.OptCornerColorBack:= Ed1.OptBorderColor;
+    Ed1.OptCornerColorBorder:= clNone;
   end
   else
   begin
     Ed1.OptBorderColor:= clNone;
     Ed1.OptCornerText:= '';
-    Ed1.OptCornerTextColorFont:= clBlack;
-    Ed1.OptCornerTextColorBack:= clWhite;
-    Ed1.OptCornerTextColorBorder:= clNone;
+    Ed1.OptCornerColorFont:= clBlack;
+    Ed1.OptCornerColorBack:= clWhite;
+    Ed1.OptCornerColorBorder:= clNone;
   end;
 
   Ed2.OptBorderColor:= Ed1.OptBorderColor;
   Ed2.OptCornerText:= Ed1.OptCornerText;
-  Ed2.OptCornerTextColorFont:= Ed1.OptCornerTextColorFont;
-  Ed2.OptCornerTextColorBack:= Ed1.OptCornerTextColorBack;
-  Ed2.OptCornerTextColorBorder:= Ed1.OptCornerTextColorBorder;
+  Ed2.OptCornerColorFont:= Ed1.OptCornerColorFont;
+  Ed2.OptCornerColorBack:= Ed1.OptCornerColorBack;
+  Ed2.OptCornerColorBorder:= Ed1.OptCornerColorBorder;
 
   Ed1.Update;
   Ed2.Update;
