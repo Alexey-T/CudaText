@@ -2929,6 +2929,7 @@ end;
 procedure TfmMain.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 var
   F: TEditorFrame;
+  bAddTabsToRecents: boolean;
   i: integer;
 begin
   if Assigned(AppNotifThread) then
@@ -2937,14 +2938,20 @@ begin
     Sleep(cThreadSleepTime+10);
   end;
 
+  bAddTabsToRecents:= not UiOps.ReopenSession;
+
   //save history of all frames,
   //update recent-files list
   for i:= 0 to FrameCount-1 do
   begin
     F:= Frames[i];
-    UpdateMenuRecent(F.Ed1);
-    if not F.EditorsLinked then
-      UpdateMenuRecent(F.Ed2);
+
+    if bAddTabsToRecents then
+    begin
+      UpdateMenuRecent(F.Ed1);
+      if not F.EditorsLinked then
+        UpdateMenuRecent(F.Ed2);
+    end;
 
     //on_close are not fired automatically on app exit
     //(because we don't really close tabs on exit), so fire it here
