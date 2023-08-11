@@ -604,6 +604,8 @@ var
 begin
   Result:= AppTheme.Styles[id];
 
+  //trailing styles (bold, italic, bold+italic, etc)
+  //must be color-synced with the 'Id' style
   if id>=apstLastStyle then
   begin
     styleId:= AppTheme.Styles[apstId];
