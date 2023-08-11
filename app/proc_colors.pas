@@ -8,6 +8,7 @@ Copyright (c) Alexey Torgashin
 unit proc_colors;
 
 {$mode objfpc}{$H+}
+{$ModeSwitch advancedrecords}
 
 interface
 
@@ -216,6 +217,8 @@ type
   TAppTheme = record
     Colors: array[TAppThemeColorId] of TAppThemeColor;
     Styles: array[TAppThemeStyleId] of TecSyntaxFormat;
+    //trailing styles (bold, italic, bold+italic, etc) must be synced with 'Id' style
+    procedure UpdateBoldAndItalicColors;
   end;
 
 var
@@ -308,7 +311,7 @@ begin
     begin
       for iStyle:= Low(iStyle) to apstLastStyle do
       begin
-        st:= d.Styles[iStyle];
+        st:= D.Styles[iStyle];
         if not Lexer_LoadStyleFromFile_JsonTheme(st, cfg, 'Lex_'+st.DisplayName) then
           MsgLogConsole(Format(msgErrorInTheme,
             [ExtractFileName(AFileName), 'Lex_'+st.DisplayName]));
@@ -317,6 +320,9 @@ begin
   finally
     cfg.Free;
   end;
+
+  if not IsThemeUI then
+    D.UpdateBoldAndItalicColors;
 end;
 
 const
@@ -599,18 +605,18 @@ begin
 end;
 
 function GetAppStyle(id: TAppThemeStyleId): TecSyntaxFormat;
-var
-  styleId: TecSyntaxFormat;
 begin
   Result:= AppTheme.Styles[id];
+end;
 
-  //trailing styles (bold, italic, bold+italic, etc)
-  //must be color-synced with the 'Id' style
-  if id>=apstLastStyle then
-  begin
-    styleId:= AppTheme.Styles[apstId];
-    Result.Font.Color:= styleId.Font.Color;
-  end;
+procedure TAppTheme.UpdateBoldAndItalicColors;
+var
+  StyleOfId: TecSyntaxFormat;
+  iStyle: TAppThemeStyleId;
+begin
+  StyleOfId:= Styles[apstId];
+  for iStyle:= Succ(apstLastStyle) to High(iStyle) do
+    Styles[iStyle].Font.Color:= StyleOfId.Font.Color;
 end;
 
 function FindAppColorByName(const AName: string; ADefaultColor: TColor): TColor;

@@ -135,6 +135,8 @@ begin
   if an.AskedToApplyLexerMap then exit;
   an.AskedToApplyLexerMap:= true;
 
+  AppTheme.UpdateBoldAndItalicColors;
+
   //work for sublexers
   for i:= 0 to an.SubAnalyzers.Count-1 do
     if Assigned(an.SubAnalyzers[i]) then
