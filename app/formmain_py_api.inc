@@ -3951,28 +3951,28 @@ begin
         PROP_RULER_TEXT:
           Result:= PyUnicodeFromString(Ed.OptRulerText);
 
-        PROP_CORNERTEXT:
+        PROP_CORNER_TEXT:
           Result:= PyUnicodeFromString(Ed.OptCornerText);
 
-        PROP_CORNERTEXT_FONT:
+        PROP_CORNER_COLOR_FONT:
           Result:= PyLong_FromLong(Ed.OptCornerTextColorFont);
 
-        PROP_CORNERTEXT_BACK:
+        PROP_CORNER_COLOR_BACK:
           Result:= PyLong_FromLong(Ed.OptCornerTextColorBack);
 
-        PROP_CORNERTEXT_BORDER:
+        PROP_CORNER_COLOR_BORDER:
           Result:= PyLong_FromLong(Ed.OptCornerTextColorBorder);
 
-        PROP_CORNERTEXT2:
+        PROP_CORNER2_TEXT:
           Result:= PyUnicodeFromString(Ed.OptCornerText2);
 
-        PROP_CORNERTEXT2_FONT:
+        PROP_CORNER2_COLOR_FONT:
           Result:= PyLong_FromLong(Ed.OptCornerText2ColorFont);
 
-        PROP_CORNERTEXT2_BACK:
+        PROP_CORNER2_COLOR_BACK:
           Result:= PyLong_FromLong(Ed.OptCornerText2ColorBack);
 
-        PROP_CORNERTEXT2_BORDER:
+        PROP_CORNER2_COLOR_BORDER:
           Result:= PyLong_FromLong(Ed.OptCornerText2ColorBorder);
 
         PROP_BORDER_COLOR:
@@ -4665,28 +4665,28 @@ begin
         PROP_RULER_TEXT:
           Ed.OptRulerText:= Str;
 
-        PROP_CORNERTEXT:
+        PROP_CORNER_TEXT:
           Ed.OptCornerText:= Str;
 
-        PROP_CORNERTEXT_FONT:
+        PROP_CORNER_COLOR_FONT:
           Ed.OptCornerTextColorFont:= ValueInt;
 
-        PROP_CORNERTEXT_BACK:
+        PROP_CORNER_COLOR_BACK:
           Ed.OptCornerTextColorBack:= ValueInt;
 
-        PROP_CORNERTEXT_BORDER:
+        PROP_CORNER_COLOR_BORDER:
           Ed.OptCornerTextColorBorder:= ValueInt;
 
-        PROP_CORNERTEXT2:
+        PROP_CORNER2_TEXT:
           Ed.OptCornerText2:= Str;
 
-        PROP_CORNERTEXT2_FONT:
+        PROP_CORNER2_COLOR_FONT:
           Ed.OptCornerText2ColorFont:= ValueInt;
 
-        PROP_CORNERTEXT2_BACK:
+        PROP_CORNER2_COLOR_BACK:
           Ed.OptCornerText2ColorBack:= ValueInt;
 
-        PROP_CORNERTEXT2_BORDER:
+        PROP_CORNER2_COLOR_BORDER:
           Ed.OptCornerText2ColorBorder:= ValueInt;
 
         PROP_BORDER_COLOR:

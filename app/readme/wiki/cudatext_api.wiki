@@ -2385,14 +2385,14 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_SCROLLSTYLE_HORZ: int: style of horizontal scrollbar, one of SCROLLSTYLE_ constants.
 * PROP_SCROLLSTYLE_VERT: int: style of vertical scrollbar, one of SCROLLSTYLE_ constants.
 
-* PROP_CORNERTEXT: str: short text (single line) in the right-bottom corner (rendered above editor text).
-* PROP_CORNERTEXT_FONT: int: font-color for PROP_CORNERTEXT; can be COLOR_NONE.
-* PROP_CORNERTEXT_BACK: int: background-color for PROP_CORNERTEXT; can be COLOR_NONE.
-* PROP_CORNERTEXT_BORDER: int: border-color for PROP_CORNERTEXT; can be COLOR_NONE.
-* PROP_CORNERTEXT2: like PROP_CORNERTEXT but for the right-top corner.
-* PROP_CORNERTEXT2_FONT: like PROP_CORNERTEXT_FONT but for the right-top corner.
-* PROP_CORNERTEXT2_BACK: like PROP_CORNERTEXT_BACK but for the right-top corner.
-* PROP_CORNERTEXT2_BORDER: like PROP_CORNERTEXT_BORDER but for the right-top corner.
+* PROP_CORNER_TEXT: str: short text (single line) in the right-bottom corner (rendered above editor text).
+* PROP_CORNER_COLOR_FONT: int: font-color for PROP_CORNER_TEXT; can be COLOR_NONE.
+* PROP_CORNER_COLOR_BACK: int: background-color for PROP_CORNER_TEXT; can be COLOR_NONE.
+* PROP_CORNER_COLOR_BORDER: int: border-color for PROP_CORNER_TEXT; can be COLOR_NONE.
+* PROP_CORNER2_TEXT: like PROP_CORNER_TEXT but for the right-top corner.
+* PROP_CORNER2_COLOR_FONT: like PROP_CORNER_COLOR_FONT but for the right-top corner.
+* PROP_CORNER2_COLOR_BACK: like PROP_CORNER_COLOR_BACK but for the right-top corner.
+* PROP_CORNER2_COLOR_BORDER: like PROP_CORNER_COLOR_BORDER but for the right-top corner.
 
 * PROP_BORDER_COLOR: int: if active, ie value not equals to COLOR_NONE, specifies color of border around the editor (like with macro-recording active).
 * PROP_BORDER_COLOR_WIDTH: int: border width for PROP_BORDER_COLOR.
@@ -2591,14 +2591,14 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 * PROP_SCROLLSTYLE_HORZ: int: style of horizontal scrollbar, one of SCROLLSTYLE_ constants.
 * PROP_SCROLLSTYLE_VERT: int: style of vertical scrollbar, one of SCROLLSTYLE_ constants.
 
-* PROP_CORNERTEXT: str: short text (single line) in the right-bottom corner (rendered above editor text).
-* PROP_CORNERTEXT_FONT: int: font-color for PROP_CORNERTEXT; can be COLOR_NONE.
-* PROP_CORNERTEXT_BACK: int: background-color for PROP_CORNERTEXT; can be COLOR_NONE.
-* PROP_CORNERTEXT_BORDER: int: border-color for PROP_CORNERTEXT; can be COLOR_NONE.
-* PROP_CORNERTEXT2: like PROP_CORNERTEXT but for the right-top corner.
-* PROP_CORNERTEXT2_FONT: like PROP_CORNERTEXT_FONT but for the right-top corner.
-* PROP_CORNERTEXT2_BACK: like PROP_CORNERTEXT_BACK but for the right-top corner.
-* PROP_CORNERTEXT2_BORDER: like PROP_CORNERTEXT_BORDER but for the right-top corner.
+* PROP_CORNER_TEXT: str: short text (single line) in the right-bottom corner (rendered above editor text).
+* PROP_CORNER_COLOR_FONT: int: font-color for PROP_CORNER_TEXT; can be COLOR_NONE.
+* PROP_CORNER_COLOR_BACK: int: background-color for PROP_CORNER_TEXT; can be COLOR_NONE.
+* PROP_CORNER_COLOR_BORDER: int: border-color for PROP_CORNER_TEXT; can be COLOR_NONE.
+* PROP_CORNER2_TEXT: like PROP_CORNER_TEXT but for the right-top corner.
+* PROP_CORNER2_COLOR_FONT: like PROP_CORNER_COLOR_FONT but for the right-top corner.
+* PROP_CORNER2_COLOR_BACK: like PROP_CORNER_COLOR_BACK but for the right-top corner.
+* PROP_CORNER2_COLOR_BORDER: like PROP_CORNER_COLOR_BORDER but for the right-top corner.
 
 * PROP_BORDER_COLOR: int: if active, ie value not equals to COLOR_NONE, specifies color of border around the editor (like with macro-recording active).
 * PROP_BORDER_COLOR_WIDTH: int: border width for PROP_BORDER_COLOR.
@@ -4917,13 +4917,13 @@ It provides:
 * deprecate FOLDING_GET_LIST and FOLDING_GET_LIST_FILTERED (use FOLDING_ENUM instead of them)
 * add: Editor.get_prop/set_prop: PROP_BORDER_COLOR
 * add: Editor.get_prop/set_prop: PROP_BORDER_COLOR_WIDTH
-* add: Editor.get_prop/set_prop: PROP_CORNERTEXT
-* add: Editor.get_prop/set_prop: PROP_CORNERTEXT_FONT
-* add: Editor.get_prop/set_prop: PROP_CORNERTEXT_BACK
-* add: Editor.get_prop/set_prop: PROP_CORNERTEXT_BORDER
-* add: Editor.get_prop/set_prop: PROP_CORNERTEXT2
-* add: Editor.get_prop/set_prop: PROP_CORNERTEXT2_FONT
-* add: Editor.get_prop/set_prop: PROP_CORNERTEXT2_BACK
-* add: Editor.get_prop/set_prop: PROP_CORNERTEXT2_BORDER
+* add: Editor.get_prop/set_prop: PROP_CORNER_TEXT
+* add: Editor.get_prop/set_prop: PROP_CORNER_COLOR_FONT
+* add: Editor.get_prop/set_prop: PROP_CORNER_COLOR_BACK
+* add: Editor.get_prop/set_prop: PROP_CORNER_COLOR_BORDER
+* add: Editor.get_prop/set_prop: PROP_CORNER2_TEXT
+* add: Editor.get_prop/set_prop: PROP_CORNER2_COLOR_FONT
+* add: Editor.get_prop/set_prop: PROP_CORNER2_COLOR_BACK
+* add: Editor.get_prop/set_prop: PROP_CORNER2_COLOR_BORDER
 
 [[Category:CudaText]]
