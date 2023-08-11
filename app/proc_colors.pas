@@ -611,12 +611,12 @@ end;
 
 procedure TAppTheme.UpdateBoldAndItalicColors;
 var
-  StyleOfId: TecSyntaxFormat;
+  ColorOfId: TColor;
   iStyle: TAppThemeStyleId;
 begin
-  StyleOfId:= Styles[apstId];
+  ColorOfId:= Styles[apstId].Font.Color;
   for iStyle:= Succ(apstLastStyle) to High(iStyle) do
-    Styles[iStyle].Font.Color:= StyleOfId.Font.Color;
+    Styles[iStyle].Font.Color:= ColorOfId;
 end;
 
 function FindAppColorByName(const AName: string; ADefaultColor: TColor): TColor;
