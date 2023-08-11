@@ -5,6 +5,7 @@
 
 1.197.0 (2023/08)
 
+* change: if "ui_reopen_session":true, don't automatically add all opened files to 'recents' on exit, like in Sublime (thanks @mix-7)
 + add: font of code-tree can be additionally scaled, added option "ui_tree_font_scale" (thanks @reregaga)
 + add: text search shows additional confirmation when 'wrapped search' is off and search reaches the edge of the document (thanks @d0vgan)
 + add: when text search silently wraps at document edge (because of Find dialog option "O"), Find dialog input field can blink (this is off by default); added option: "find_wrapped_blinking" (thanks @d0vgan)
