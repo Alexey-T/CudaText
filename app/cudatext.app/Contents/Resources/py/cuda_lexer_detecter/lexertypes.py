@@ -342,6 +342,7 @@ TYPES = {
     "pig": ['Apache Pig'],
     "pig.substituted": ['Apache Pig'],
     "pike": ['Pike'],
+    "pixi": ['Pixilang'],
     "pkgbuild": ['PKGBUILD'],
     "pl": ['Prolog', 'Perl'],
     "plt": ['Prolog'],
