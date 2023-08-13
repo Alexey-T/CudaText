@@ -557,6 +557,7 @@ Most of them are located in the Addons Manager "Install" list.
 * PHP
 * PICL
 * Pike
+* Pixilang
 * PKGBUILD
 * PL/SQL
 * PlantUML
