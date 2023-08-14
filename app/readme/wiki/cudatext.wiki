@@ -651,7 +651,7 @@ Most of them are located in the Addons Manager "Install" list.
 
 == Lexers editing ==
 
-You can modify/create lexers. But not in CudaText. Install SynWrite (needed Wine on Linux) and in it you have lexer editor dialog.
+You can modify/create lexers. But not in CudaText. Install SynWrite (Windows program, which can be run under Wine on Linux). There, you have lexer editor dialog.
 
 * First, install your lexer to SynWrite. From the lexer's .zip package, copy files lexername.lcf and lexername.cuda-lexmap into SynWrite's "data\lexlib" folder.
 * In SynWrite, call "Lexer properties" dialog and edit all you need.
