@@ -291,13 +291,13 @@ begin
 end;
 
 
-function ParsePythonCallback_DotCommand(const AStr: string; out AResultModule, AResultFunc: string): boolean;
+function ParsePythonCallback_DotCommand(const AStr: string; out APart1, APart2: string): boolean;
 var
   NLen, NPosDot, i: integer;
 begin
   Result:= false;
-  AResultModule:= '';
-  AResultFunc:= '';
+  APart1:= '';
+  APart2:= '';
 
   NLen:= Length(AStr);
   if NLen<3 then exit;
@@ -311,8 +311,8 @@ begin
   while (i<=NLen) and IsCharWordA(AStr[i]) do Inc(i);
   if i<=NLen then exit;
 
-  AResultModule:= Copy(AStr, 1, NPosDot-1);
-  AResultFunc:= Copy(AStr, NPosDot+1, MaxInt);
+  APart1:= Copy(AStr, 1, NPosDot-1);
+  APart2:= Copy(AStr, NPosDot+1, MaxInt);
   Result:= true;
 end;
 
