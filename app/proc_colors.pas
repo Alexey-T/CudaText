@@ -316,13 +316,11 @@ begin
           MsgLogConsole(Format(msgErrorInTheme,
             [ExtractFileName(AFileName), 'Lex_'+st.DisplayName]));
       end;
+      D.UpdateBoldAndItalicColors;
     end;
   finally
     cfg.Free;
   end;
-
-  if not IsThemeUI then
-    D.UpdateBoldAndItalicColors;
 end;
 
 const
