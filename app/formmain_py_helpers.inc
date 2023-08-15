@@ -291,13 +291,13 @@ begin
 end;
 
 
-function ParsePythonCallback_DotCommand(const AStr: string; out AModule, AFunc: string): boolean;
+function ParsePythonCallback_DotCommand(const AStr: string; out AResultModule, AResultFunc: string): boolean;
 var
   NLen, NPosDot, i: integer;
 begin
   Result:= false;
-  AModule:= '';
-  AFunc:= '';
+  AResultModule:= '';
+  AResultFunc:= '';
 
   NLen:= Length(AStr);
   if NLen<3 then exit;
@@ -307,13 +307,12 @@ begin
   if (i>=NLen) or (AStr[i]<>'.') then exit;
 
   NPosDot:= i;
-  AModule:= Copy(AStr, 1, NPosDot-1);
-
   Inc(i);
   while (i<=NLen) and IsCharWordA(AStr[i]) do Inc(i);
   if i<=NLen then exit;
-  AFunc:= Copy(AStr, NPosDot+1, MaxInt);
 
+  AResultModule:= Copy(AStr, 1, NPosDot-1);
+  AResultFunc:= Copy(AStr, NPosDot+1, MaxInt);
   Result:= true;
 end;
 
