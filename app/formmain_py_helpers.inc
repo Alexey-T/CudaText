@@ -317,6 +317,43 @@ begin
 end;
 
 
+function ParsePythonCallback_CommaCommand(const AStr: string; out APart1, APart2, APart3: string): boolean;
+// regex '(\w+),(\w+)(,(.+))?$'
+var
+  NLen, NSep, i: integer;
+begin
+  Result:= false;
+  APart1:= '';
+  APart2:= '';
+  APart3:= '';
+
+  NLen:= Length(AStr);
+  if NLen<3 then exit;
+
+  i:= 1;
+  while (i<=NLen) and IsCharWordA(AStr[i]) do Inc(i);
+  if (i>=NLen) or (AStr[i]<>',') then exit;
+
+  NSep:= i;
+  Inc(i);
+  while (i<=NLen) and IsCharWordA(AStr[i]) do Inc(i);
+  if i>NLen then
+  begin
+    APart1:= Copy(AStr, 1, NSep-1);
+    APart2:= Copy(AStr, NSep+1, MaxInt);
+  end
+  else
+  begin
+    if AStr[i]<>',' then exit;
+    APart1:= Copy(AStr, 1, NSep-1);
+    APart2:= Copy(AStr, NSep+1, i-NSep-1);
+    APart3:= Copy(AStr, i+1, MaxInt);
+  end;
+
+  Result:= true;
+end;
+
+
 function ParsePythonCallback_3Prefixes(const AStr, APrefix1, APrefix2, APrefix3: string;
   out APart1, APart2, APart3: string): boolean;
 //   cRegex_SignCommand = 'module=(.+?);cmd=(.+?);(info=(.+?);)?$';
@@ -365,14 +402,12 @@ function DoPyCallbackFromAPI(const ACallback: string;
   const AParamVars: TAppVariantArray;
   const AParamNames: array of string): boolean;
 const
-  cRegex_CommaCommand = '(\w+),(\w+)(,(.+))?$'; //compatible with menu_proc, with 3rd param
   cPrefixExec = 'exec=';
 var
   FParamObjs: array of PPyObject;
   FParamNames: array of string;
   FParamVars: TAppVariantArray;
   SModule, SFunc, SParam, SInfo: string;
-  RegexParts: TRegexParts;
   Obj: PPyObject;
   i: integer;
 begin
@@ -451,12 +486,8 @@ begin
   end;
 
   //-----------------------------------------------------
-  if SRegexFindParts(cRegex_CommaCommand, ACallback, RegexParts) then
+  if ParsePythonCallback_CommaCommand(ACallback, SModule, SFunc, SParam) then
   begin
-    SModule:= RegexParts[1].Str;
-    SFunc:= RegexParts[2].Str;
-    SParam:= RegexParts[4].Str;
-
     if SParam<>'' then
       FParamVars:= [AppVariant(SParam)]
     else
