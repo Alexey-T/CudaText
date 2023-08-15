@@ -333,7 +333,7 @@ const
   nColorGutterFont = $909090;
   nColorArrow = $969696;
   nColorBorder = $b0b0b0;
-  nColorListBack = $c4b8b8;
+  nColorListBack = $b4d8a8;
   nColorListSelBack = $d0d0d0;
   nColorListSelBack2 = $f4f4f4;
 
@@ -426,7 +426,7 @@ begin
   SetColor(apclTreeSelBg, nColorListSelBack, 'TreeSelBg', 'treeview, selected BG');
   SetColor(apclTreeSelBg2, nColorListSelBack2, 'TreeSelBg2', 'treeview, selected BG, not focused');
   SetColor(apclTreeSign, nColorGutterFont, 'TreeSign', 'treeview, folding sign');
-  SetColor(apclListBg, $d4ebd0, 'ListBg', 'listbox, BG');
+  SetColor(apclListBg, nColorListBack, 'ListBg', 'listbox, BG');
   SetColor(apclListSelBg, nColorListSelBack, 'ListSelBg', 'listbox, selected line BG');
   SetColor(apclListFont, nColorText, 'ListFont', 'listbox, font');
   SetColor(apclListSelFont, nColorText, 'ListSelFont', 'listbox, selected line font');
