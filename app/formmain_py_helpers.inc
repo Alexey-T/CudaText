@@ -290,11 +290,37 @@ begin
   MsgLogConsole(Format(msgCallbackBad, [ACallback]));
 end;
 
+
+function ParsePythonCallback_DotCommand(const AStr: string; out AModule, AFunc: string): boolean;
+var
+  NLen, NPosDot, i: integer;
+begin
+  Result:= false;
+  AModule:= '';
+  AFunc:= '';
+
+  NLen:= Length(AStr);
+  if NLen<3 then exit;
+
+  i:= 1;
+  while (i<=NLen) and IsCharWordA(AStr[i]) do Inc(i);
+  if (i>=NLen) or (AStr[i]<>'.') then exit;
+
+  NPosDot:= i;
+  AModule:= Copy(AStr, 1, NPosDot-1);
+
+  Inc(i);
+  while (i<=NLen) and IsCharWordA(AStr[i]) do Inc(i);
+  if i<=NLen then exit;
+  AFunc:= Copy(AStr, NPosDot+1, MaxInt);
+
+  Result:= true;
+end;
+
 function DoPyCallbackFromAPI(const ACallback: string;
   const AParamVars: TAppVariantArray;
   const AParamNames: array of string): boolean;
 const
-  cRegex_DotCommand = '(\w+)\.(\w+)$';
   cRegex_SignCommand = 'module=(.+?);cmd=(.+?);(info=(.+?);)?$';
   cRegex_SignFunc = 'module=(.+?);func=(.+?);(info=(.+?);)?$';
   cRegex_CommaCommand = '(\w+),(\w+)(,(.+))?$'; //compatible with menu_proc, with 3rd param
@@ -324,11 +350,8 @@ begin
   end;
 
   //-----------------------------------------------------
-  if SRegexFindParts(cRegex_DotCommand, ACallback, RegexParts) then
+  if ParsePythonCallback_DotCommand(ACallback, SModule, SFunc) then
   begin
-    SModule:= RegexParts[1].Str;
-    SFunc:= RegexParts[2].Str;
-
     Result:= AppPython.RunCommand(SModule, SFunc, AParamVars);
     exit;
   end;
