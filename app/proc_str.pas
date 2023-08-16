@@ -58,7 +58,7 @@ function IsPythonExpression(const S: string): boolean;
 function SExtractNumberFromStringAfterChar(const S: string; ch: char; Default: integer): integer;
 
 function ParseNameWithWidthAndHeight(const AStr: string;
-  out AName: string; out AWidth, AHeight: integer): boolean;
+  {out AName: string;} out AWidth, AHeight: integer): boolean;
 
 
 implementation
@@ -468,7 +468,7 @@ end;
 
 
 function ParseNameWithWidthAndHeight(const AStr: string;
-  out AName: string; out AWidth, AHeight: integer): boolean;
+  {out AName: string;} out AWidth, AHeight: integer): boolean;
 var
   NLen, NSep, NX, i: integer;
 begin
@@ -490,8 +490,10 @@ begin
   if NSep=NX then exit;
   if AStr[NSep]<>'_' then exit;
 
+  {
   AName:= Copy(AStr, 1, NSep-1);
   if AName='' then exit;
+  }
 
   AWidth:= StrToIntDef(Copy(AStr, NSep+1, NX-NSep-1), 0);
   if AWidth=0 then exit;
