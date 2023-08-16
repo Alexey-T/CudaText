@@ -57,6 +57,9 @@ procedure SParseFilenameWithTwoNumbers(var fn: string; out NLine, NColumn: integ
 function IsPythonExpression(const S: string): boolean;
 function SExtractNumberFromStringAfterChar(const S: string; ch: char; Default: integer): integer;
 
+function ParseNameWithWidthAndHeight(const AStr: string;
+  out AName: string; out AWidth, AHeight: integer): boolean;
+
 
 implementation
 
@@ -462,6 +465,43 @@ begin
     n:= MaxLen;
   Result:= Copy(S, 1, n)+SepChar+SWrapLongString(Copy(S, n+1, MaxInt), MaxLen, SepChar);
 end;
+
+
+function ParseNameWithWidthAndHeight(const AStr: string;
+  out AName: string; out AWidth, AHeight: integer): boolean;
+var
+  NLen, NSep, NX, i: integer;
+begin
+  Result:= false;
+  NLen:= Length(AStr);
+  if NLen<5 then exit;
+
+  i:= NLen;
+  while (i>0) and IsCharDigit(AStr[i]) do Dec(i);
+  NX:= i;
+  if NX=0 then exit;
+  if NX=NLen then exit;
+  if AStr[NX]<>'x' then exit;
+
+  Dec(i);
+  while (i>0) and IsCharDigit(AStr[i]) do Dec(i);
+  NSep:= i;
+  if NSep=0 then exit;
+  if NSep=NX then exit;
+  if AStr[NSep]<>'_' then exit;
+
+  AName:= Copy(AStr, 1, NSep-1);
+  if AName='' then exit;
+
+  AWidth:= StrToIntDef(Copy(AStr, NSep+1, NX-NSep-1), 0);
+  if AWidth=0 then exit;
+
+  AHeight:= StrToIntDef(Copy(AStr, NX+1, MaxInt), 0);
+  if AHeight=0 then exit;
+
+  Result:= true;
+end;
+
 
 end.
 

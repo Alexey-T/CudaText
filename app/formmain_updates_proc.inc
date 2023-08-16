@@ -1385,16 +1385,16 @@ procedure TfmMain.DoOps_LoadSidebarIcons;
 const
   cCallerAPI = 'DoOps_LoadSidebarIcons';
 var
-  Parts: TRegexParts;
   Str: string;
   NTick: QWord;
+  W, H: integer;
 begin
   NTick:= GetTickCount64;
 
-  SRegexFindParts('.+_(\d+)x(\d+)', UiOps.SidebarTheme, Parts);
+  if not ParseNameWithWidthAndHeight(UiOps.SidebarTheme, Str, W, H) then exit;
 
-  ImageListSide.Width:= StrToIntDef(Parts[1].Str, ImageListSide.Width);
-  ImageListSide.Height:= StrToIntDef(Parts[2].Str, ImageListSide.Height);
+  ImageListSide.Width:= W;
+  ImageListSide.Height:= H;
   ImageListSide.Clear;
 
   Str:= AppDir_DataSidebarIcons+DirectorySeparator+UiOps.SidebarTheme;
@@ -1425,16 +1425,16 @@ end;
 
 procedure TfmMain.DoOps_LoadCodetreeIcons;
 var
-  Parts: TRegexParts;
   SPath, SItem: string;
   Sep: TATStringSeparator;
+  W, H: integer;
 begin
-  SRegexFindParts('.+_(\d+)x(\d+)', UiOps.TreeTheme, Parts);
+  if not ParseNameWithWidthAndHeight(UiOps.TreeTheme, SItem, W, H) then exit;
 
   if not Assigned(ImageListTree) then
     raise Exception.Create('ImageListTree nil');
-  ImageListTree.Width:= StrToIntDef(Parts[1].Str, 16);
-  ImageListTree.Height:= StrToIntDef(Parts[2].Str, 16);
+  ImageListTree.Width:= W;
+  ImageListTree.Height:= H;
   ImageListTree.Clear;
 
   SPath:= AppDir_DataCodetreeIcons+DirectorySeparator+UiOps.TreeTheme;
@@ -1455,14 +1455,14 @@ procedure TfmMain.DoOps_LoadToolbarIcons;
 const
   cCallerAPI = 'DoOps_LoadToolbarIcons';
 var
-  Parts: TRegexParts;
   Str: string;
   Img: TImageList;
   NTick: QWord;
+  W, H: integer;
 begin
   NTick:= GetTickCount64;
 
-  SRegexFindParts('.+_(\d+)x(\d+)', UiOps.ToolBarTheme, Parts);
+  if not ParseNameWithWidthAndHeight(UiOps.ToolBarTheme, Str, W, H) then exit;
 
   Str:= AppDir_DataToolbarIcons+DirectorySeparator+UiOps.ToolBarTheme;
   if not DirectoryExists(Str) then
@@ -1473,8 +1473,8 @@ begin
   end;
 
   Img:= ToolbarMain.Images;
-  Img.Width:= StrToIntDef(Parts[1].Str, 24);
-  Img.Height:= StrToIntDef(Parts[2].Str, 24);
+  Img.Width:= W;
+  Img.Height:= H;
   Img.Clear;
 
   Str+= DirectorySeparator;
