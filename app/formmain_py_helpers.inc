@@ -267,30 +267,6 @@ begin
 end;
 
 
-function DoPyCallbackFromAPI_2(const ACallback: string;
-  AEd: TATSynEdit;
-  const AParams: TAppVariantArray): TAppPyEventResult;
-const
-  cRegex_DotCommand = '([a-z_]\w*)\.([a-z_]\w*)$';
-var
-  RegexParts: TRegexParts;
-  SModule, SFunc: string;
-begin
-  Result:= Default(TAppPyEventResult);
-
-  if SRegexFindParts(cRegex_DotCommand, ACallback, RegexParts) then
-  begin
-    SModule:= RegexParts[1].Str;
-    SFunc:= RegexParts[2].Str;
-
-    Result:= AppPython.RunEvent(SModule, SFunc, AEd, AParams, false);
-    exit;
-  end;
-
-  MsgLogConsole(Format(msgCallbackBad, [ACallback]));
-end;
-
-
 function ParsePythonCallback_DotCommand(const AStr: string; out APart1, APart2: string): boolean;
 var
   NLen, NPosDot, i: integer;
@@ -395,6 +371,24 @@ begin
   if APart2='' then exit;
 
   Result:= true;
+end;
+
+
+function DoPyCallbackFromAPI_2(const ACallback: string;
+  AEd: TATSynEdit;
+  const AParams: TAppVariantArray): TAppPyEventResult;
+var
+  SModule, SFunc: string;
+begin
+  Result:= Default(TAppPyEventResult);
+
+  if ParsePythonCallback_DotCommand(ACallback, SModule, SFunc) then
+  begin
+    Result:= AppPython.RunEvent(SModule, SFunc, AEd, AParams, false);
+    exit;
+  end;
+
+  MsgLogConsole(Format(msgCallbackBad, [ACallback]));
 end;
 
 
