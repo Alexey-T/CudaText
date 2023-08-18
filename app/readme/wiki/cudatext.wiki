@@ -46,7 +46,7 @@ On the above picture you see UI elements:
 
 ;tb: Toolbar: buttons for some commands. Hidden by default. Configurable via plugin Config Toolbar.
 
-;sb: Sidebar. Has upper and bottom parts, bottom part has buttons to control bottom panels. Plugins can add buttons here, e.g. bottom black button is ExTerminal plugin.
+;sb: Sidebar. Vertical bar with buttons to activate different parts of the '''side panel''': Code-Tree (built-in), Project Manager (plugin), Snippet Panel (plugin) etc. Sidebar buttons on the bottom half activate parts of the '''bottom (horizontal) panel''': Console panel, Output panel etc. Plugins can add buttons to sidebar, for example the bottom black icon is the ExTerminal plugin.
 
 ;cons: Console. One of the bottom panels. You can activate others (Output and Validate panels) via sidebar.
 
