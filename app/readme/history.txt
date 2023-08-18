@@ -3,6 +3,8 @@
   - fixed
   * changed
 
+- fix: if "newdoc_lexer" is set, file-save-as dialog suggests bad filename for filter 'All files' (thanks @bb.slipers)
+
 1.197.0 (2023/08)
 
 * change: if "ui_reopen_session":true, don't automatically add all opened files to 'recents' on exit, like in Sublime (thanks @mix-7)
