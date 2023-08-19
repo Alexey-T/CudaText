@@ -829,7 +829,6 @@ type
     procedure DoOnTabMove(Sender: TObject; NFrom, NTo: Integer);
     procedure DoOnTabPopup(Sender: TObject; APages: TATPages; ATabIndex: integer);
     function DoOnTabGetTick(Sender: TObject; ATabObject: TObject): Int64;
-    function DoCodetree_CalculateCssColor(const S: string): TColor;
     procedure DoCodetree_UpdateVersion(Ed: TATSynEdit);
     procedure DoCodetree_Clear;
     procedure DoCodetree_PanelOnEnter(Sender: TObject);
@@ -7310,54 +7309,6 @@ begin
     );
 end;
 
-function TfmMain.DoCodetree_CalculateCssColor(const S: string): TColor;
-var
-  NLen, i: integer;
-begin
-  Result:= clNone;
-  if Length(S)<4 then exit;
-
-  i:= 1;
-  case S[i] of
-    '#':
-      begin
-        //find #rgb, #rrggbb
-        if IsCharHexDigit(S[i+1]) then
-        begin
-          Result:= TATHtmlColorParserA.ParseTokenRGB(@S[i+1], NLen, clNone);
-          Inc(NLen);
-          if Result<>clNone then Exit;
-        end;
-      end;
-    'r':
-      begin
-        //find rgb(...), rgba(...)
-        if (S[i+1]='g') and
-          (S[i+2]='b') and
-          ((i=1) or not IsCharWord(S[i-1], ATEditorOptions.DefaultNonWordChars)) //word boundary
-        then
-        begin
-          Result:= TATHtmlColorParserA.ParseFunctionRGB(S, i, NLen);
-          if Result<>clNone then Exit;
-          //bFoundBrackets:= true;
-        end;
-      end;
-    'h':
-      begin
-        //find hsl(...), hsla(...)
-        if (S[i+1]='s') and
-          (S[i+2]='l') and
-          ((i=1) or not IsCharWord(S[i-1], ATEditorOptions.DefaultNonWordChars)) //word boundary
-        then
-        begin
-          Result:= TATHtmlColorParserA.ParseFunctionHSL(S, i, NLen);
-          if Result<>clNone then Exit;
-          //bFoundBrackets:= true;
-        end;
-      end;
-  end;
-end;
-
 procedure TfmMain.DoCodetree_OnAdvDrawItem(Sender: TCustomTreeView;
   Node: TTreeNode; State: TCustomDrawState; Stage: TCustomDrawStage;
   var PaintImages, DefaultDraw: Boolean);
@@ -7371,7 +7322,7 @@ begin
   if (AppCodetreeState.Lexer='CSS') and (Stage=cdPostPaint) then
   begin
     DefaultDraw:= false;
-    NColor:= DoCodetree_CalculateCssColor(Node.Text);
+    NColor:= SFindCssColorInString(Node.Text);
     if NColor<>clNone then
     begin
       R:= Node.DisplayRect(true);
