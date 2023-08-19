@@ -829,6 +829,7 @@ type
     procedure DoOnTabMove(Sender: TObject; NFrom, NTo: Integer);
     procedure DoOnTabPopup(Sender: TObject; APages: TATPages; ATabIndex: integer);
     function DoOnTabGetTick(Sender: TObject; ATabObject: TObject): Int64;
+    function DoCodetree_CalculateCssColor(const S: string): TColor;
     procedure DoCodetree_UpdateVersion(Ed: TATSynEdit);
     procedure DoCodetree_Clear;
     procedure DoCodetree_PanelOnEnter(Sender: TObject);
@@ -7309,21 +7310,11 @@ begin
     );
 end;
 
-procedure TfmMain.DoCodetree_OnAdvDrawItem(Sender: TCustomTreeView;
-  Node: TTreeNode; State: TCustomDrawState; Stage: TCustomDrawStage;
-  var PaintImages, DefaultDraw: Boolean);
+function TfmMain.DoCodetree_CalculateCssColor(const S: string): TColor;
 var
-  R: TRect;
-  S: string;
-  C: TCanvas;
-  NColor: TColor;
   NLen, i: integer;
 begin
-  DefaultDraw:= not ((AppCodetreeState.Lexer='CSS') and (Stage=cdPostPaint));
-  if DefaultDraw then exit;
-
-  NColor:= clNone;
-  S:= Node.Text;
+  Result:= clNone;
   if Length(S)<4 then exit;
 
   i:= 1;
@@ -7333,8 +7324,9 @@ begin
         //find #rgb, #rrggbb
         if IsCharHexDigit(S[i+1]) then
         begin
-          NColor:= TATHtmlColorParserA.ParseTokenRGB(@S[i+1], NLen, clNone);
+          Result:= TATHtmlColorParserA.ParseTokenRGB(@S[i+1], NLen, clNone);
           Inc(NLen);
+          if Result<>clNone then Exit;
         end;
       end;
     'r':
@@ -7345,7 +7337,8 @@ begin
           ((i=1) or not IsCharWord(S[i-1], ATEditorOptions.DefaultNonWordChars)) //word boundary
         then
         begin
-          NColor:= TATHtmlColorParserA.ParseFunctionRGB(S, i, NLen);
+          Result:= TATHtmlColorParserA.ParseFunctionRGB(S, i, NLen);
+          if Result<>clNone then Exit;
           //bFoundBrackets:= true;
         end;
       end;
@@ -7357,24 +7350,41 @@ begin
           ((i=1) or not IsCharWord(S[i-1], ATEditorOptions.DefaultNonWordChars)) //word boundary
         then
         begin
-          NColor:= TATHtmlColorParserA.ParseFunctionHSL(S, i, NLen);
+          Result:= TATHtmlColorParserA.ParseFunctionHSL(S, i, NLen);
+          if Result<>clNone then Exit;
           //bFoundBrackets:= true;
         end;
       end;
   end;
+end;
 
-  if NColor<>clNone then
+procedure TfmMain.DoCodetree_OnAdvDrawItem(Sender: TCustomTreeView;
+  Node: TTreeNode; State: TCustomDrawState; Stage: TCustomDrawStage;
+  var PaintImages, DefaultDraw: Boolean);
+var
+  NColor: TColor;
+  R: TRect;
+  C: TCanvas;
+begin
+  DefaultDraw:= true;
+
+  if (AppCodetreeState.Lexer='CSS') and (Stage=cdPostPaint) then
   begin
-    R:= Node.DisplayRect(true);
-    Inc(R.Top);
-    Dec(R.Bottom);
-    R.Right:= R.Left-2;
-    R.Left:= R.Right-R.Height;
+    DefaultDraw:= false;
+    NColor:= DoCodetree_CalculateCssColor(Node.Text);
+    if NColor<>clNone then
+    begin
+      R:= Node.DisplayRect(true);
+      Inc(R.Top);
+      Dec(R.Bottom);
+      R.Right:= R.Left-2;
+      R.Left:= R.Right-R.Height;
 
-    C:= (Sender as TTreeView).Canvas;
-    C.Pen.Color:= clBlack;
-    C.Brush.Color:= NColor;
-    C.Rectangle(R);
+      C:= (Sender as TTreeView).Canvas;
+      C.Pen.Color:= clBlack;
+      C.Brush.Color:= NColor;
+      C.Rectangle(R);
+    end;
   end;
 end;
 
