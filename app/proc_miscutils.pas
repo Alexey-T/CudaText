@@ -158,7 +158,7 @@ var
 procedure InitHtmlTags;
 procedure StringsDeduplicate(L: TStringList; CaseSens: boolean);
 function StringsTrailingText(L: TStringList; AItemCount: integer): string;
-function SConvertCssColorToTColor(const S: string): TColor;
+function ConvertCssColorToTColor(const S: string): TColor;
 
 
 implementation
@@ -1448,7 +1448,7 @@ begin
   end;
 end;
 
-function SConvertCssColorToTColor(const S: string): TColor;
+function ConvertCssColorToTColor(const S: string): TColor;
 var
   NLen, i: integer;
 begin

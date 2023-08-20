@@ -7319,10 +7319,11 @@ var
 begin
   DefaultDraw:= true;
 
+  //feature for CSS lexer: convert Node.Text to TColor and render the colored rect
   if (AppCodetreeState.Lexer='CSS') and (Stage=cdPostPaint) then
   begin
     DefaultDraw:= false;
-    NColor:= SConvertCssColorToTColor(Node.Text);
+    NColor:= ConvertCssColorToTColor(Node.Text);
     if NColor<>clNone then
     begin
       R:= Node.DisplayRect(true);
