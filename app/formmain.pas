@@ -7322,7 +7322,7 @@ begin
   if (AppCodetreeState.Lexer='CSS') and (Stage=cdPostPaint) then
   begin
     DefaultDraw:= false;
-    NColor:= SFindCssColorInString(Node.Text);
+    NColor:= SConvertCssColorToTColor(Node.Text);
     if NColor<>clNone then
     begin
       R:= Node.DisplayRect(true);

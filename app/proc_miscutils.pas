@@ -158,7 +158,7 @@ var
 procedure InitHtmlTags;
 procedure StringsDeduplicate(L: TStringList; CaseSens: boolean);
 function StringsTrailingText(L: TStringList; AItemCount: integer): string;
-function SFindCssColorInString(const S: string): TColor;
+function SConvertCssColorToTColor(const S: string): TColor;
 
 
 implementation
@@ -1448,7 +1448,7 @@ begin
   end;
 end;
 
-function SFindCssColorInString(const S: string): TColor;
+function SConvertCssColorToTColor(const S: string): TColor;
 var
   NLen, i: integer;
 begin
@@ -1464,7 +1464,6 @@ begin
         begin
           Result:= TATHtmlColorParserA.ParseTokenRGB(@S[i+1], NLen, clNone);
           Inc(NLen);
-          if Result<>clNone then Exit;
         end;
       end;
     'r':
@@ -1476,7 +1475,6 @@ begin
         then
         begin
           Result:= TATHtmlColorParserA.ParseFunctionRGB(S, i, NLen);
-          if Result<>clNone then Exit;
           //bFoundBrackets:= true;
         end;
       end;
@@ -1489,7 +1487,6 @@ begin
         then
         begin
           Result:= TATHtmlColorParserA.ParseFunctionHSL(S, i, NLen);
-          if Result<>clNone then Exit;
           //bFoundBrackets:= true;
         end;
       end;
