@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-- fix: save-as dialog can suggest bad filename (like 'name.lua.yml' instead of 'name.lua' when YAML lexer is active) for filter 'All files' (thanks @bb.slipers)
+- fix: workaround for Windows save-as dialog bug: dialog can suggest bad filename for filter 'All files', like 'name.lua.yml' instead of 'name.lua' when YAML lexer is active (thanks @bb.slipers)
 
 1.197.0 (2023/08)
 
