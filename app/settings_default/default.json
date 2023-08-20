@@ -302,8 +302,10 @@
   "lexer_postpone_until_shown": true,
 
   //When number of lines in document is bigger than the option value, lexer parser
-  //will not find folding ranges, which makes parsing 1.5-3 times faster.
-  //But this disables the work of code-tree for most of lexers.
+  //will not find folding ranges. It means, for such big files:
+  //1) Lexer parsing runs 1.5-3 times faster.
+  //2) Code-tree is disabled.
+  //3) Code-tree helpers (written in Python and Pascal) are disabled.
   //Note: this option is global, not per-lexer.
   "lexer_folding_max_lines": 15000,
 
