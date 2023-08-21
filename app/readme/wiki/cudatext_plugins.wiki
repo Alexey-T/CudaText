@@ -254,6 +254,64 @@ You will see this confirmation when doing:
 
 You can disable that option (or press "Cancel" in the confirmation), to save even "not belonging" opened files to embedded session.
 
+== How to bind a hotkey to insert a snippet ==
+You can create plugin to insert any text fragment by any hotkey.
+First, create the plugin which gives the command to insert your fragment.
+Next, find this plugin in the Command Palette, press F9 and assign a hotkey there.
+
+Let's show how to make a primitive plugin which has 2 primitive commands:
+
+* Insert snippet "AA" at the caret position (supporting multi-carets).
+* Surround current line with square brackets.
+
+Make a new plugin by calling menu item "Plugins / Make Plugin". Fieds of dialog:
+
+* "Plugin name": set to "My plugin".
+* "Python module name": set to "my_snippet".
+* "Commands caption>method": set 2 lines:
+
+ My snippet>my_snippet
+ My edit>my_edit
+
+This will generate new plugin with 2 methods in the file "__init__.py": my_snippet and my_edit. Code will be like this:
+<syntaxhighlight lang="python">
+    def my_snippet(self):
+        #
+        #
+        #
+        msg_box(s, MB_OK)
+     
+    def my_edit(self):
+        pass
+</syntaxhighlight>
+
+At the top of the Python file, near "import" operators, add:
+<syntaxhighlight lang="python">
+import cudatext_cmd as cmds
+</syntaxhighlight>
+
+Now edit methods my_snippet / my_edit:
+<syntaxhighlight lang="python">
+    def my_snippet(self):
+        ''' Insert my snippet '''
+        ed.cmd(cmds.cCommand_TextInsert, 'AA')
+     
+    def my_edit(self):
+        ''' Surround line with brackets '''
+        x, y, x1, y1 = ed.get_carets()[0]
+        s = ed.get_text_line(y)
+        s = '[' + s + ']'
+        ed.set_text_line(y, s)
+        msg_status('Edited!')
+</syntaxhighlight>
+
+All done. Restart CudaText. You must have new menu items:
+
+* "Plugins / My plugin / My snippet"
+* "Plugins / My plugin / My edit"
+
+In the Command Palette, find these new commands, press F9 to set hotkey for them.
+
 == Snippets ==
 
 To use snippets you need:
