@@ -703,7 +703,10 @@ Formatters may change the entire file text or only selected text. If selection i
 ;Configure formatter (local): For those formatters which have configuration file, command will suggest to open "local" config (in the folder of current editor file). If local config not exists, plugin will suggest to create it from the global config.
 
 ===How to assign formatter ESLint to on_save===
-For example, we have package "formatter.JavaScript_JSON" installed and this package gives the formatter named "... ESLint" (for JavaScript lexer). How one can auto-run this formatter on file saving?
+* Install from Addons Manager: "CudaFormatter"
+* Install from Addons Manager: "formatter: JavaScript_JSON"
+
+You have package "formatter.JavaScript_JSON" installed and this package gives the formatter named "... ESLint" (for JavaScript lexer). How you can auto-run this formatter on saving?
 
 * Activate lexer JavaScript in the current document (can be empty).
 * Call menu item "Plugins / CudaFormatter / Configure on_save...".
