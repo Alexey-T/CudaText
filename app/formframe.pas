@@ -2726,6 +2726,7 @@ begin
   end;
 
   try
+    FImageBox.Color:= GetAppColor(apclEdTextBg);
     FImageBox.Show;
     FImageBox.LoadFromFile(AFileName);
   except
