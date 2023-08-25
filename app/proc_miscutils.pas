@@ -34,6 +34,7 @@ uses
   ATGauge,
   ATFlatToolbar,
   ATBinHex,
+  ATImageBox,
   ec_SyntAnal,
   ec_syntax_format,
   proc_globdata,
@@ -107,6 +108,7 @@ function AppGetLeveledPath(const AFileName: string; ALevel: integer): string;
 
 function ViewerGotoFromString(V: TATBinHex; SInput: string): boolean;
 procedure ViewerApplyTheme(V: TATBinHex);
+procedure ApplyThemeToImageBox(AImageBox: TATImageBox);
 
 function ExtractFileName_Fixed(const FileName: string): string;
 function ExtractFileDir_Fixed(const FileName: string): string;
@@ -693,6 +695,15 @@ begin
 
   St:= GetAppStyle(apstPale1);
   V.TextColorLines:= St.Font.Color;
+end;
+
+
+procedure ApplyThemeToImageBox(AImageBox: TATImageBox);
+begin
+  if Assigned(AImageBox) then
+  begin
+    AImageBox.Color:= GetAppColor(apclEdTextBg);
+  end;
 end;
 
 

@@ -2468,10 +2468,7 @@ begin
     FBin.Redraw();
   end;
 
-  if Assigned(FImageBox) then
-  begin
-    FImageBox.Color:= GetAppColor(apclEdTextBg);
-  end;
+  ApplyThemeToImageBox(FImageBox);
 
   Splitter.Color:= GetAppColor(apclSplitMain);
 
@@ -2726,7 +2723,7 @@ begin
   end;
 
   try
-    FImageBox.Color:= GetAppColor(apclEdTextBg);
+    ApplyThemeToImageBox(FImageBox);
     FImageBox.Show;
     FImageBox.LoadFromFile(AFileName);
   except
