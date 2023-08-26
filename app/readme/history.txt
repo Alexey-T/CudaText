@@ -5,7 +5,7 @@
 
 1.197.1 (2023/08)
 
-+ add: Wiki topic https://wiki.freepascal.org/CudaText_plugins#How_to_assign_formatter_ESLint_to_on_save
++ add: Wiki topic https://wiki.freepascal.org/CudaText_plugins#How_to_run_formatter_ESLint_on_saving
 + add: Wiki topic https://wiki.freepascal.org/CudaText_plugins#How_to_bind_a_hotkey_to_insert_a_snippet
 + add: double-click on 'preview' tab makes it 'normal' (thanks @ThaiDat)
 - fix: "ui_tab_recent_on_close":true didn't work in 'floating' groups
