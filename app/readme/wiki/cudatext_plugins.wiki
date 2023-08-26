@@ -702,7 +702,7 @@ Formatters may change the entire file text or only selected text. If selection i
 
 ;Configure formatter (local): For those formatters which have configuration file, command will suggest to open "local" config (in the folder of current editor file). If local config not exists, plugin will suggest to create it from the global config.
 
-===How to call formatter ESLint to on saving===
+===How to run formatter ESLint on saving===
 * Install from Addons Manager: "CudaFormatter"
 * Install from Addons Manager: "formatter: JavaScript_JSON"
 
