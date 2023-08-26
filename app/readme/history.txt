@@ -8,6 +8,7 @@
 + add: double-click on 'preview' tab makes it 'normal' (thanks @ThaiDat)
 + add: Wiki topic https://wiki.freepascal.org/CudaText_plugins#How_to_assign_formatter_ESLint_to_on_save
 + add: Wiki topic https://wiki.freepascal.org/CudaText_plugins#How_to_bind_a_hotkey_to_insert_a_snippet
+- fix: "ui_tab_recent_on_close" didn't work in 'floating' groups
 - fix: workaround for Windows save-as dialog bug: dialog can suggest bad filename for filter 'All files', like 'name.lua.yml' instead of 'name.lua' when YAML lexer is active (thanks @bb.slipers)
 
 1.197.0 (2023/08)
