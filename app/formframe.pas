@@ -2464,7 +2464,7 @@ begin
 
   if Assigned(FBin) then
   begin
-    ViewerApplyTheme(FBin);
+    ApplyThemeToViewer(FBin);
     FBin.Redraw();
   end;
 
@@ -2691,7 +2691,7 @@ begin
     end;
   end;
 
-  ViewerApplyTheme(FBin);
+  ApplyThemeToViewer(FBin);
   FBin.Show;
   FBin.OpenStream(FBinStream);
   FBin.PosBegin;

@@ -7780,7 +7780,7 @@ begin
         TREE_THEME:
           begin
             TreeContainer.Themed:= true;
-            DoApplyThemeToTreeview(TreeContainer.Tree, true, false);
+            ApplyThemeToTreeview(TreeContainer.Tree, true, false);
             Result:= ReturnNone;
           end;
 
@@ -9227,7 +9227,7 @@ begin
 
         TOOLBAR_THEME:
           begin
-            DoApplyThemeToToolbar(FToolbar);
+            ApplyThemeToToolbar(FToolbar);
             FToolbar.Themed:= true;
             Result:= ReturnNone;
           end;

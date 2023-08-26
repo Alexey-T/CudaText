@@ -21,11 +21,11 @@ begin
 
     if C is TAppTreeContainer then
       if TAppTreeContainer(C).Themed then
-        DoApplyThemeToTreeview(TAppTreeContainer(C).Tree, true, false);
+        ApplyThemeToTreeview(TAppTreeContainer(C).Tree, true, false);
 
     if C is TATFlatToolbar then
       if TATFlatToolbar(C).Themed then
-        DoApplyThemeToToolbar(TATFlatToolbar(C));
+        ApplyThemeToToolbar(TATFlatToolbar(C));
 
     if C is TATStatus then
       TATStatus(C).AutoSize;
@@ -170,7 +170,7 @@ begin
     DoApplyThemeToGroups(GroupsF3);
   end;
 
-  DoApplyThemeToTreeview(CodeTree.Tree, true, true);
+  ApplyThemeToTreeview(CodeTree.Tree, true, true);
   CodeTree.Invalidate;
 
   //proc_sidepanel_add_dialog

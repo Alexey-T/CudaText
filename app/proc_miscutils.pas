@@ -89,8 +89,9 @@ procedure DoTreeviewJump(ATree: TTreeView; AMode: TAppTreeGoto);
 procedure DoTreeviewFoldLevel(ATree: TTreeView; ALevel: integer);
 procedure DoTreeviewCopy(Src, Dst: TTreeView);
 
-procedure DoApplyThemeToTreeview(C: TTreeview; AThemed, AChangeShowRoot: boolean);
-procedure DoApplyThemeToToolbar(C: TATFlatToolbar);
+procedure ApplyThemeToTreeview(C: TTreeview; AThemed, AChangeShowRoot: boolean);
+procedure ApplyThemeToToolbar(C: TATFlatToolbar);
+procedure ApplyThemeToImageBox(AImageBox: TATImageBox);
 
 function ConvertTwoPointsToDiffPoint(APrevPnt, ANewPnt: TPoint): TPoint;
 function ConvertShiftStateToString(const Shift: TShiftState): string;
@@ -107,8 +108,7 @@ function AppAlignmentToString(const V: TAlignment): string;
 function AppGetLeveledPath(const AFileName: string; ALevel: integer): string;
 
 function ViewerGotoFromString(V: TATBinHex; SInput: string): boolean;
-procedure ViewerApplyTheme(V: TATBinHex);
-procedure ApplyThemeToImageBox(AImageBox: TATImageBox);
+procedure ApplyThemeToViewer(V: TATBinHex);
 
 function ExtractFileName_Fixed(const FileName: string): string;
 function ExtractFileDir_Fixed(const FileName: string): string;
@@ -457,7 +457,7 @@ begin
 end;
 
 
-procedure DoApplyThemeToTreeview(C: TTreeview; AThemed, AChangeShowRoot: boolean);
+procedure ApplyThemeToTreeview(C: TTreeview; AThemed, AChangeShowRoot: boolean);
 var
   Op: TTreeViewOptions;
 begin
@@ -518,7 +518,7 @@ end;
 
 
 
-procedure DoApplyThemeToToolbar(C: TATFlatToolbar);
+procedure ApplyThemeToToolbar(C: TATFlatToolbar);
 begin
   C.Color:= GetAppColor(apclTabBg);
   C.Invalidate;
@@ -669,7 +669,7 @@ begin
     V.PosAt(Num);
 end;
 
-procedure ViewerApplyTheme(V: TATBinHex);
+procedure ApplyThemeToViewer(V: TATBinHex);
 var
   St: TecSyntaxFormat;
 begin
