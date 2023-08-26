@@ -1670,6 +1670,7 @@
 -dDisableLCLTIFF
 -dDisableLCLPNM
 -dGTK2_IME_CODE
+-dQT_NO_SESSIONMANAGER
 -Oodfa"/>
     </Other>
   </CompilerOptions>
