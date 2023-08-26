@@ -436,6 +436,21 @@ begin
   end;
 end;
 
+procedure TfmMain.DoOnTabDblClick(Sender: TObject; AIndex: integer);
+var
+  Frame: TEditorFrame;
+  Pages: TATPages;
+  D: TATTabData;
+begin
+  Pages:= (Sender as TATTabs).Parent as TATPages;
+  D:= Pages.Tabs.GetTabData(AIndex);
+  if D=nil then exit;
+  Frame:= D.TabObject as TEditorFrame;
+
+  if Frame.TabIsPreview then
+    Frame.TabIsPreview:= false;
+end;
+
 procedure TfmMain.mnuTabCloseAllAllClick(Sender: TObject);
 begin
   //GroupsCtx.CloseTabs(tabCloseAll, false); //old way in CudaText 1.178

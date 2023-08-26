@@ -828,6 +828,7 @@ type
     procedure DoOnTabClose(Sender: TObject; ATabIndex: Integer; var ACanClose, ACanContinue: boolean);
     procedure DoOnTabMove(Sender: TObject; NFrom, NTo: Integer);
     procedure DoOnTabPopup(Sender: TObject; APages: TATPages; ATabIndex: integer);
+    procedure DoOnTabDblClick(Sender: TObject; AIndex: integer);
     function DoOnTabGetTick(Sender: TObject; ATabObject: TObject): Int64;
     procedure DoCodetree_UpdateVersion(Ed: TATSynEdit);
     procedure DoCodetree_Clear;
@@ -2686,6 +2687,7 @@ begin
   Groups.OnTabPopup:= @DoOnTabPopup;
   //Groups.OnTabOver:= @DoOnTabOver;
   Groups.OnTabGetTick:= @DoOnTabGetTick;
+  Groups.OnTabDblClick:= @DoOnTabDblClick;
 end;
 
 procedure TfmMain.InitFinder;
@@ -8283,6 +8285,7 @@ begin
     G.OnTabMove:= @DoOnTabMove;
     G.OnTabPopup:= @DoOnTabPopup;
     //G.OnTabOver:= @DoOnTabOver;
+    G.OnTabDblClick:= @DoOnTabDblClick;
     G.OnEmpty:= AOnGroupEmpty;
 
     DoApplyThemeToGroups(G);
