@@ -712,6 +712,8 @@ You have package "formatter.JavaScript_JSON" installed and this package gives th
 * Call menu item "Plugins / CudaFormatter / Configure on_save...".
 * Menu-like dialog appears. Choose item "... ESLint" and see that menu appears again, now showing that "... ESLint" item has "on_save" label. Now cancel the auto-shown menu.
 
+[[File:cudatext-fmt-onsave.png]]
+
 Now for all documents with JavaScript (and "JavaScript Babel") lexer, file saving will call ESLint formatter. Note: ESLint handles only named files, and files which have ESLint configuration created in the file's folder. Document "(CudaText)/py/cuda_fmt_js/readme/readme.txt" tells more details.
 
 ===How formatter can know filename===
