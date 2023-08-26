@@ -8285,6 +8285,7 @@ begin
     G.OnTabMove:= @DoOnTabMove;
     G.OnTabPopup:= @DoOnTabPopup;
     //G.OnTabOver:= @DoOnTabOver;
+    G.OnTabGetTick:= @DoOnTabGetTick;
     G.OnTabDblClick:= @DoOnTabDblClick;
     G.OnEmpty:= AOnGroupEmpty;
 
