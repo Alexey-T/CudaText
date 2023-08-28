@@ -1427,6 +1427,25 @@ These special lines need special integer IDs. You can find these IDs in the conf
         },
 </syntaxhighlight>
 
+=Config Toolbar=
+
+Plugin allows to change the content of the main (horizontal) toolbar: hide standard buttons, add user buttons for any actions, customize icons and nesting of menu items.
+
+For example, you installed two plugins:
+* Config Toolbar
+* Color Text
+
+And you want to call command "Apply bold" (from "Color Text") via toolbar. How to add such a button? Picture highlight your steps.
+
+[[File:cudatext-config-toolbar.png]]
+
+* From the Command Palette, call the item "Config Toolbar: Configure buttons...". Dialog will appear from the plugin.
+* In the "Configure toolbar" dialog, press "Add item...", and fill fields of new dialog "Button properties".
+** Caption
+** Tooltip (optional)
+** Command: should be "cuda_color_text.format_bold" for our task. You cannot type this text, instead press "Choose command" and find the command there, in the Command Palette-like menu.
+** Icon (optional)
+
 =Intext Bookmarks=
 
 Plugin allows to place special marks, and to show Goto dialog for its special marks.
