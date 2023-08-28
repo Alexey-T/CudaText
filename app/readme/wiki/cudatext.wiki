@@ -1605,12 +1605,14 @@ Note that plugin "Options Editor" makes it easy - for options "ui_toolbar_theme"
 * Change option in the dialog: "Options / Settings-plugins / Project Manager / Config".
 * Restart CudaText.
 
-;Icons in the Project Manager file list: To change them:
+;Icons in the Project Manager file list: [[File:cudatext-project-icons.png]]
+To change them:
 * Install add-on(s) of kind "file type icons".
 * Change option in the dialog: "Options / Settings-plugins / Project Manager / Config".
 * Restart CudaText.
 
-;Icons on UI-tab titles: [[File:cudatext-tab-icons.png]] You must install plugin "Tab Icons" from Addons Manager. It will show icons on UI-tabs (only for known file types). Plugin also allows to set custom icons for UI-tabs. Use right-click menu over UI-tab, and menu item "Set tab icon...". This shows menu with predefined custom icons, shipped with "Tab Icons" plugin. You can add your custom *.png file there too, folder is "(CudaText)/py/cuda_tab_icons/misc_icons".
+;Icons on UI-tab titles: [[File:cudatext-tab-icons.png]]
+You must install plugin "Tab Icons" from Addons Manager. It will show icons on UI-tabs (only for known file types). Plugin also allows to set custom icons for UI-tabs. Use right-click menu over UI-tab, and menu item "Set tab icon...". This shows menu with predefined custom icons, shipped with "Tab Icons" plugin. You can add your custom *.png file there too, folder is "(CudaText)/py/cuda_tab_icons/misc_icons".
 
 =Toolbar=
 CudaText has toolbar on the top, which can be shown by menu item "View / Toggle toolbar".
