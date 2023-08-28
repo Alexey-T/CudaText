@@ -153,7 +153,7 @@ This plugin is preinstalled in CudaText. It shows panel "Project" in the sidebar
 
 Plugin has context menu on its panel, with items:
 
-* Project file
+* '''Project file'''
 ** New project
 ** Open project
 ** Recent projects
@@ -161,14 +161,18 @@ Plugin has context menu on its panel, with items:
 ** Go to file... - this shows menu with all project files, and then tree-view selection jumps on selected file
 ** Project properties... - this shows dialog with current project's options
 ** Config... - this shows dialog with global Project Manager options
-* Root nodes - commands for nodes on the project's root level
+* '''Root nodes''' - commands for nodes on the project's root level
 ** Add folder...
 ** Add file...
 ** Clear project
 ** Remove node
-* Selected file - it's shown only for files
-* Selected directory - it's shown only for folders
-* Refresh - it re-reads state of files/folders from disk
+* '''Selected file''' - it's shown only for files
+* '''Selected directory''' - it's shown only for folders
+* '''Refresh''' - it re-reads state of files/folders from disk
+
+To manage the selected file/folder, use context menu items "Selected file"/"Selected directory". They give useful sub-items for file operations, like shown on the picture:
+
+[[File:cudatext-project-seldir.png]]
 
 Any project can have '''main file''', you can choose it in the context menu: "Selected file / Set as main file". Main file's path is used by plugin External Tools, when some tool is configured with macro {ProjMainFile}. This allows tools to run compilation of the main file.
 
