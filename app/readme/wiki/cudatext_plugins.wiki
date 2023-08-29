@@ -1435,7 +1435,7 @@ For example, you installed two plugins:
 * Config Toolbar
 * Color Text
 
-And you want to call command "Apply bold" (from "Color Text") via toolbar. How to add such a button? Picture highlight your steps.
+And you want to call command "Apply bold" (from "Color Text") via toolbar. How to add such a button? Picture highlights your steps.
 
 [[File:cudatext-config-toolbar.png]]
 
