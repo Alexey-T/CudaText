@@ -1577,42 +1577,58 @@ Line states help to see which lines were edited since the last opening of a file
 
 Screenshot shows 3 icon sets at once:
 
-* on the main toolbar
-* on the sidebar
-* on the Project Manager toolbar
+* on the main toolbar (horizontal)
+* on the sidebar (vertical)
+* on the Project Manager toolbar (horizontal, below "Project" text)
 
 [[File:cudatext_all_icons.png]]
 
-;Icons in the main toolbar: To change them:
+'''Icons on the main toolbar'''
+
+To change them:
 * (Optional) Install add-on(s) of kind "toolbar theme" (each add-on gives additional icon set or several sets).
 * Change option "ui_toolbar_theme" in user.json. Option value is some subfolder in data/toolbaricons.
 * Restart CudaText.
 
 Note that plugin "Options Editor" makes it easy - for options "ui_toolbar_theme"/"ui_sidebar_theme"/"ui_tree_theme" it shows the combobox dropdown, which is easy to change.
 
-;Icons in the sidebar (vertical band on the left): To change them:
+'''Icons on the sidebar'''
+
+To change them:
 * (Optional) Install add-on(s) of kind "sidebar theme".
 * Change option "ui_sidebar_theme" in user.json. Option value is some subfolder in data/sideicons.
 * Restart CudaText.
 
-;Icons in the Code-Tree panel: To change them:
-* Install add-on(s) of kind "codetreeicons" (each add-on gives additional icon set).
-* Change option "ui_tree_theme" in user.json. Option value is some subfolder in data/codetreeicons.
-* Restart CudaText.
+'''Icons on the Project Manager toolbar'''
 
-;Icons in the Project Manager toolbar: To change them:
+To change them:
 * (Optional) Install add-on(s) of kind "proj toolbar theme".
 * Change option in the dialog: "Options / Settings-plugins / Project Manager / Config".
 * Restart CudaText.
 
-;Icons in the Project Manager file list: [[File:cudatext-project-icons.png]]
+'''Icons in the Project Manager file list'''
+
+[[File:cudatext-project-icons.png]]
+
 To change them:
 * Install add-on(s) of kind "file type icons".
 * Change option in the dialog: "Options / Settings-plugins / Project Manager / Config".
 * Restart CudaText.
 
-;Icons on UI-tab titles: [[File:cudatext-tab-icons.png]]
+'''Icons on UI-tab titles'''
+
+[[File:cudatext-tab-icons.png]]
+
 You must install plugin "Tab Icons" from Addons Manager. It will show icons on UI-tabs (only for known file types). Plugin also allows to set custom icons for UI-tabs. Use right-click menu over UI-tab, and menu item "Set tab icon...". This shows menu with predefined custom icons, shipped with "Tab Icons" plugin. You can add *.png 16x16 icons there too, folder is "(CudaText)/data/tabsicons" (create folder if needed).
+
+'''Icons in the Code-Tree panel'''
+
+[[File:atsynedit_tree.png]]
+
+To change them:
+* Install add-on(s) of kind "codetreeicons" (each add-on gives additional icon set).
+* Change option "ui_tree_theme" in user.json. Option value is some subfolder in data/codetreeicons.
+* Restart CudaText.
 
 =Toolbar=
 CudaText has toolbar on the top, which can be shown by menu item "View / Toggle toolbar".
