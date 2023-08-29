@@ -1612,7 +1612,7 @@ To change them:
 * Restart CudaText.
 
 ;Icons on UI-tab titles: [[File:cudatext-tab-icons.png]]
-You must install plugin "Tab Icons" from Addons Manager. It will show icons on UI-tabs (only for known file types). Plugin also allows to set custom icons for UI-tabs. Use right-click menu over UI-tab, and menu item "Set tab icon...". This shows menu with predefined custom icons, shipped with "Tab Icons" plugin. You can add your custom *.png file there too, folder is "(CudaText)/py/cuda_tab_icons/misc_icons".
+You must install plugin "Tab Icons" from Addons Manager. It will show icons on UI-tabs (only for known file types). Plugin also allows to set custom icons for UI-tabs. Use right-click menu over UI-tab, and menu item "Set tab icon...". This shows menu with predefined custom icons, shipped with "Tab Icons" plugin. You can add *.png 16x16 icons there too, folder is "(CudaText)/data/tabsicons" (create folder if needed).
 
 =Toolbar=
 CudaText has toolbar on the top, which can be shown by menu item "View / Toggle toolbar".
