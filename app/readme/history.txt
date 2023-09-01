@@ -9,6 +9,7 @@
 + add: Wiki topic https://wiki.freepascal.org/CudaText_plugins#How_to_bind_a_hotkey_to_insert_a_snippet
 + add: Wiki topic https://wiki.freepascal.org/CudaText_plugins#Config_Toolbar
 + add: double-click on 'preview' tab makes it 'normal' (thanks @ThaiDat)
+- fix: few editor properties ('tabulation size', 'tabulation by spaces', 'saving: force final EOL', 'saving: trim line ends') were reset too much: from values set by EditorConfig plugin, to values from user.json  (thanks @ildarkhasanshin)
 - fix: "ui_tab_recent_on_close":true didn't work in 'floating' groups
 - fix: on opening picture by "File/Open", background color remained fixed white (thanks @bbslipers)
 - fix: workaround for Windows save-as dialog bug: dialog can suggest bad filename for filter 'All files', like 'name.lua.yml' instead of 'name.lua' when YAML lexer is active (thanks @bbslipers)
