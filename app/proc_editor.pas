@@ -1876,6 +1876,8 @@ end;
 procedure EditorSaveTempOptions(Ed: TATSynEdit; out Ops: TATEditorTempOptions);
 begin
   Ops.FontSize:= Ed.Font.Size;
+  Ops.TabSize:= Ed.OptTabSize;
+  Ops.TabSpaces:= Ed.OptTabSpaces;
   Ops.WrapMode:= Ed.OptWrapMode;
   Ops.ShowMinimap:= Ed.OptMinimapVisible;
   Ops.ShowMicromap:= Ed.OptMicromapVisible;
@@ -1886,6 +1888,7 @@ begin
 
   Ops.SavingTrimSpaces:= Ed.OptSavingTrimSpaces;
   Ops.SavingTrimFinalEmptyLines:= Ed.OptSavingTrimFinalEmptyLines;
+  Ops.SavingForceFinalEol:= Ed.OptSavingForceFinalEol;
 
   Ops.UnprintedSpaces:= Ed.OptUnprintedSpaces;
   Ops.UnprintedSpacesTrail:= Ed.OptUnprintedSpacesTrailing;
@@ -1899,6 +1902,10 @@ procedure EditorRestoreTempOptions(Ed: TATSynEdit; const ANew, AOld: TATEditorTe
 begin
   if AOld.FontSize<>ANew.FontSize then
     Ed.Font.Size:= ANew.FontSize;
+  if AOld.TabSize<>ANew.TabSize then
+    Ed.OptTabSize:= ANew.TabSize;
+  if AOld.TabSpaces<>ANew.TabSpaces then
+    Ed.OptTabSpaces:= ANew.TabSpaces;
   if AOld.WrapMode<>ANew.WrapMode then
     Ed.OptWrapMode:= ANew.WrapMode;
   if AOld.ShowMinimap<>ANew.ShowMinimap then
@@ -1916,6 +1923,8 @@ begin
     Ed.OptSavingTrimSpaces:= ANew.SavingTrimSpaces;
   if AOld.SavingTrimFinalEmptyLines<>ANew.SavingTrimFinalEmptyLines then
     Ed.OptSavingTrimFinalEmptyLines:= ANew.SavingTrimFinalEmptyLines;
+  if AOld.SavingForceFinalEol<>ANew.SavingForceFinalEol then
+    Ed.OptSavingForceFinalEol:= ANew.SavingForceFinalEol;
 
   if AOld.ShowUnprinted<>ANew.ShowUnprinted then
     Ed.OptUnprintedVisible:= ANew.ShowUnprinted;
