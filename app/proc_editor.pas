@@ -1884,6 +1884,9 @@ begin
   Ops.ShowFolding:= Ed.Gutter.Items[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagFolding)].Visible;
   Ops.ShowUnprinted:= Ed.OptUnprintedVisible;
 
+  Ops.SavingTrimSpaces:= Ed.OptSavingTrimSpaces;
+  Ops.SavingTrimFinalEmptyLines:= Ed.OptSavingTrimFinalEmptyLines;
+
   Ops.UnprintedSpaces:= Ed.OptUnprintedSpaces;
   Ops.UnprintedSpacesTrail:= Ed.OptUnprintedSpacesTrailing;
   Ops.UnprintedSpacesInSel:= Ed.OptUnprintedSpacesOnlyInSelection;
@@ -1908,6 +1911,12 @@ begin
     Ed.Gutter.Items[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagNumbers)].Visible:= ANew.ShowNumbers;
   if AOld.ShowFolding<>ANew.ShowFolding then
     Ed.Gutter.Items[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagFolding)].Visible:= ANew.ShowFolding;
+
+  if AOld.SavingTrimSpaces<>ANew.SavingTrimSpaces then
+    Ed.OptSavingTrimSpaces:= ANew.SavingTrimSpaces;
+  if AOld.SavingTrimFinalEmptyLines<>ANew.SavingTrimFinalEmptyLines then
+    Ed.OptSavingTrimFinalEmptyLines:= ANew.SavingTrimFinalEmptyLines;
+
   if AOld.ShowUnprinted<>ANew.ShowUnprinted then
     Ed.OptUnprintedVisible:= ANew.ShowUnprinted;
 
