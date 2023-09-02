@@ -150,16 +150,16 @@ procedure EditorCalcOffsetsForStatusbar(Ed: TATSynEdit; out AOffsetMax, AOffsetC
 
 type
   TATEditorTempOptions = record
-    FontSize: integer;                  //can be changed by Ctrl+mouse_wheel
-    TabSize: integer;                   //can be changed by CudaText UI
-    TabSpaces: boolean;                 //can be changed by CudaText UI
-    WrapMode: TATEditorWrapMode;        //can be changed by CudaText UI
-    ShowMinimap: boolean;               //can be changed by CudaText UI
-    ShowMicromap: boolean;              //can be changed by CudaText UI
-    ShowRuler: boolean;                 //can be changed by CudaText UI
-    ShowNumbers: boolean;               //can be changed by CudaText UI
-    ShowFolding: boolean;               //can be changed by CudaText UI
-    ShowUnprinted: boolean;             //can be changed by CudaText UI
+    FontSize: integer;
+    TabSize: integer;
+    TabSpaces: boolean;
+    WrapMode: TATEditorWrapMode;
+    ShowMinimap: boolean;
+    ShowMicromap: boolean;
+    ShowRuler: boolean;
+    ShowNumbers: boolean;
+    ShowFolding: boolean;
+    ShowUnprinted: boolean;
     UnprintedSpaces: boolean;
     UnprintedSpacesTrail: boolean;
     UnprintedSpacesInSel: boolean;
