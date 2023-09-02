@@ -338,7 +338,7 @@ begin
 
   if not Ed.ModeOneLine then
   begin
-    if not Ed.IsCaretShapeChangedFromAPI then
+    if not (TATEditorModifiedOption.CaretShape in Ed.ModifiedOptions) then
     begin
       EditorCaretShapeFromString(Ed.CaretShapeNormal, Op.OpCaretViewNormal);
       EditorCaretShapeFromString(Ed.CaretShapeOverwrite, Op.OpCaretViewOverwrite);

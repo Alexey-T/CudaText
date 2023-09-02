@@ -4422,19 +4422,19 @@ begin
         PROP_CARET_VIEW:
           begin
             EditorCaretShapeFromPyTuple(Ed.CaretShapeNormal, Str);
-            Ed.IsCaretShapeChangedFromAPI:= true;
+            Include(Ed.ModifiedOptions, TATEditorModifiedOption.CaretShape);
           end;
 
         PROP_CARET_VIEW_OVR:
           begin
             EditorCaretShapeFromPyTuple(Ed.CaretShapeOverwrite, Str);
-            Ed.IsCaretShapeChangedFromAPI:= true;
+            Include(Ed.ModifiedOptions, TATEditorModifiedOption.CaretShape);
           end;
 
         PROP_CARET_VIEW_RO:
           begin
             EditorCaretShapeFromPyTuple(Ed.CaretShapeReadonly, Str);
-            Ed.IsCaretShapeChangedFromAPI:= true;
+            Include(Ed.ModifiedOptions, TATEditorModifiedOption.CaretShape);
           end;
 
         PROP_CARET_VIRTUAL:
