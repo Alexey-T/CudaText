@@ -4591,13 +4591,22 @@ begin
           end;
 
         PROP_SAVING_FORCE_FINAL_EOL:
-          Ed.OptSavingForceFinalEol:= ValueBool;
+          begin
+            Ed.OptSavingForceFinalEol:= ValueBool;
+            Include(Ed.ModifiedOptions, TATEditorModifiedOption.SavingForceFinalEol);
+          end;
 
         PROP_SAVING_TRIM_SPACES:
-          Ed.OptSavingTrimSpaces:= ValueBool;
+          begin
+            Ed.OptSavingTrimSpaces:= ValueBool;
+            Include(Ed.ModifiedOptions, TATEditorModifiedOption.SavingTrimSpaces);
+          end;
 
         PROP_SAVING_TRIM_FINAL_EMPTY_LINES:
-          Ed.OptSavingTrimFinalEmptyLines:= ValueBool;
+          begin
+            Ed.OptSavingTrimFinalEmptyLines:= ValueBool;
+            Include(Ed.ModifiedOptions, TATEditorModifiedOption.SavingTrimFinalEmptyLines);
+          end;
 
         PROP_FOLD_TOOLTIP_SHOW:
           Ed.OptFoldTooltipVisible:= ValueBool;

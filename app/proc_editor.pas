@@ -160,9 +160,6 @@ type
     ShowNumbers: boolean;               //can be changed by CudaText UI
     ShowFolding: boolean;               //can be changed by CudaText UI
     ShowUnprinted: boolean;             //can be changed by CudaText UI
-    SavingTrimSpaces: boolean;          //changed by CudaText plugin EditorConfig
-    SavingTrimFinalEmptyLines: boolean; //changed by CudaText plugin EditorConfig
-    SavingForceFinalEol: boolean;       //changed by CudaText plugin EditorConfig
     UnprintedSpaces: boolean;
     UnprintedSpacesTrail: boolean;
     UnprintedSpacesInSel: boolean;
@@ -395,9 +392,14 @@ begin
   Ed.OptCopyLinesIfNoSel:= Op.OpCopyLineIfNoSel;
   Ed.OptCutLinesIfNoSel:= Op.OpCutLineIfNoSel;
   Ed.OptCopyColumnBlockAlignedBySpaces:= Op.OpCopyColumnAlignedBySpaces;
-  Ed.OptSavingTrimSpaces:= Op.OpSavingTrimSpaces;
-  Ed.OptSavingTrimFinalEmptyLines:= Op.OpSavingTrimFinalEmptyLines;
-  Ed.OptSavingForceFinalEol:= Op.OpSavingForceFinalEol;
+
+  if not (TATEditorModifiedOption.SavingTrimSpaces in Ed.ModifiedOptions) then
+    Ed.OptSavingTrimSpaces:= Op.OpSavingTrimSpaces;
+  if not (TATEditorModifiedOption.SavingTrimFinalEmptyLines in Ed.ModifiedOptions) then
+    Ed.OptSavingTrimFinalEmptyLines:= Op.OpSavingTrimFinalEmptyLines;
+  if not (TATEditorModifiedOption.SavingForceFinalEol in Ed.ModifiedOptions) then
+    Ed.OptSavingForceFinalEol:= Op.OpSavingForceFinalEol;
+
   Ed.OptShowScrollHint:= Op.OpShowHintOnVertScroll;
   Ed.OptScrollSmooth:= Op.OpSmoothScroll;
   Ed.OptScrollStyleHorz:= TATEditorScrollbarStyle(Op.OpScrollStyleHorz);
@@ -1910,10 +1912,6 @@ begin
   Ops.ShowFolding:= Ed.Gutter.Items[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagFolding)].Visible;
   Ops.ShowUnprinted:= Ed.OptUnprintedVisible;
 
-  Ops.SavingTrimSpaces:= Ed.OptSavingTrimSpaces;
-  Ops.SavingTrimFinalEmptyLines:= Ed.OptSavingTrimFinalEmptyLines;
-  Ops.SavingForceFinalEol:= Ed.OptSavingForceFinalEol;
-
   Ops.UnprintedSpaces:= Ed.OptUnprintedSpaces;
   Ops.UnprintedSpacesTrail:= Ed.OptUnprintedSpacesTrailing;
   Ops.UnprintedSpacesInSel:= Ed.OptUnprintedSpacesOnlyInSelection;
@@ -1942,13 +1940,6 @@ begin
     Ed.Gutter.Items[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagNumbers)].Visible:= ANew.ShowNumbers;
   if AOld.ShowFolding<>ANew.ShowFolding then
     Ed.Gutter.Items[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagFolding)].Visible:= ANew.ShowFolding;
-
-  if AOld.SavingTrimSpaces<>ANew.SavingTrimSpaces then
-    Ed.OptSavingTrimSpaces:= ANew.SavingTrimSpaces;
-  if AOld.SavingTrimFinalEmptyLines<>ANew.SavingTrimFinalEmptyLines then
-    Ed.OptSavingTrimFinalEmptyLines:= ANew.SavingTrimFinalEmptyLines;
-  if AOld.SavingForceFinalEol<>ANew.SavingForceFinalEol then
-    Ed.OptSavingForceFinalEol:= ANew.SavingForceFinalEol;
 
   if AOld.ShowUnprinted<>ANew.ShowUnprinted then
     Ed.OptUnprintedVisible:= ANew.ShowUnprinted;
