@@ -4099,13 +4099,22 @@ begin
           Ed.Gutter[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagLineStates)].Visible:= ValueBool;
 
         PROP_GUTTER_NUM:
-          Ed.Gutter[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagNumbers)].Visible:= ValueBool;
+          begin
+            Ed.Gutter[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagNumbers)].Visible:= ValueBool;
+            Include(Ed.ModifiedOptions, TATEditorModifiedOption.GutterNumbers);
+          end;
 
         PROP_GUTTER_FOLD:
-          Ed.Gutter[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagFolding)].Visible:= ValueBool;
+          begin
+            Ed.Gutter[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagFolding)].Visible:= ValueBool;
+            Include(Ed.ModifiedOptions, TATEditorModifiedOption.GutterFolding);
+          end;
 
         PROP_GUTTER_BM:
-          Ed.Gutter[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagBookmarks)].Visible:= ValueBool;
+          begin
+            Ed.Gutter[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagBookmarks)].Visible:= ValueBool;
+            Include(Ed.ModifiedOptions, TATEditorModifiedOption.GutterBookmarks);
+          end;
 
         PROP_GUTTER_EMPTY:
           Ed.Gutter[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagEmpty)].Visible:= ValueBool;
@@ -4117,10 +4126,16 @@ begin
           end;
 
         PROP_WRAP:
-          Ed.OptWrapMode:= TATEditorWrapMode(ValueInt);
+          begin
+            Ed.OptWrapMode:= TATEditorWrapMode(ValueInt);
+            Include(Ed.ModifiedOptions, TATEditorModifiedOption.WordWrap);
+          end;
 
         PROP_RO:
-          Ed.ModeReadOnly:= ValueBool;
+          begin
+            Ed.ModeReadOnly:= ValueBool;
+            Include(Ed.ModifiedOptions, TATEditorModifiedOption.ReadOnly);
+          end;
 
         PROP_TAB_SPACES:
           begin
@@ -4158,7 +4173,10 @@ begin
           end;
 
         PROP_RULER:
-          Ed.OptRulerVisible:= ValueBool;
+          begin
+            Ed.OptRulerVisible:= ValueBool;
+            Include(Ed.ModifiedOptions, TATEditorModifiedOption.RulerVisible);
+          end;
 
         PROP_LEXER_FILE:
           begin
@@ -4444,7 +4462,10 @@ begin
           Ed.OptCaretStopUnfocused:= ValueBool;
 
         PROP_MINIMAP:
-          Ed.OptMinimapVisible:= ValueBool;
+          begin
+            Ed.OptMinimapVisible:= ValueBool;
+            Include(Ed.ModifiedOptions, TATEditorModifiedOption.MinimapVisible);
+          end;
 
         PROP_MINIMAP_CHAR_WIDTH:
           Ed.OptMinimapCharWidth:= ValueInt;
@@ -4456,7 +4477,10 @@ begin
           Ed.OptMinimapCustomScale:= ValueInt;
 
         PROP_MICROMAP:
-          Ed.OptMicromapVisible:= ValueBool;
+          begin
+            Ed.OptMicromapVisible:= ValueBool;
+            Include(Ed.ModifiedOptions, TATEditorModifiedOption.MicromapVisible);
+          end;
 
         PROP_SCROLL_VERT:
           begin
