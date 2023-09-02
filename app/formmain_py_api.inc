@@ -4329,31 +4329,31 @@ begin
         PROP_UNPRINTED_SHOW:
           begin
             Ed.OptUnprintedVisible:= ValueBool;
-            Ed.SetModifiedProp('unprinted_visible');
+            Include(Ed.ModifiedOptions, TATEditorModifiedPropId.UnprintedVisible);
           end;
 
         PROP_UNPRINTED_SPACES:
           begin
             Ed.OptUnprintedSpaces:= ValueBool;
-            Ed.SetModifiedProp('unprinted_spaces');
+            Include(Ed.ModifiedOptions, TATEditorModifiedPropId.UnprintedSpaces);
           end;
 
         PROP_UNPRINTED_SPACES_TRAILING:
           begin
             Ed.OptUnprintedSpacesTrailing:= ValueBool;
-            Ed.SetModifiedProp('unprinted_trailing_only');
+            Include(Ed.ModifiedOptions, TATEditorModifiedPropId.UnprintedTrailingOnly);
           end;
 
         PROP_UNPRINTED_ENDS:
           begin
             Ed.OptUnprintedEnds:= ValueBool;
-            Ed.SetModifiedProp('unprinted_ends');
+            Include(Ed.ModifiedOptions, TATEditorModifiedPropId.UnprintedEnds);
           end;
 
         PROP_UNPRINTED_END_DETAILS:
           begin
             Ed.OptUnprintedEndsDetails:= ValueBool;
-            Ed.SetModifiedProp('unprinted_end_details');
+            Include(Ed.ModifiedOptions, TATEditorModifiedPropId.UnprintedEndDetails);
           end;
 
         PROP_TAB_ICON:
@@ -4496,7 +4496,7 @@ begin
         PROP_LAST_LINE_ON_TOP:
           begin
             Ed.OptLastLineOnTop:= ValueBool;
-            Ed.SetModifiedProp('last_line_on_top');
+            Include(Ed.ModifiedOptions, TATEditorModifiedPropId.LastLineOnTop);
           end;
 
         PROP_FOCUSED:
@@ -8363,7 +8363,7 @@ begin
                 ////better to set this prop always, to fix [v-scrollbar cannot reach end for many gaps at end]
                 //if Num1=Ed.Strings.Count-1 then
                 Ed.OptLastLineOnTop:= true;
-                Ed.SetModifiedProp('last_line_on_top');
+                Include(Ed.ModifiedOptions, TATEditorModifiedPropId.LastLineOnTop);
 
                 //if added gap before 1st line, scroll editor upper
                 if Num1=-1 then

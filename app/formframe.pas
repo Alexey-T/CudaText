@@ -4079,7 +4079,7 @@ begin
       if Ed.OptWrapMode<>TATEditorWrapMode(NFlag) then
       begin
         Ed.OptWrapMode:= TATEditorWrapMode(NFlag);
-        Ed.SetModifiedProp('wrap');
+        Include(Ed.ModifiedOptions, TATEditorModifiedPropId.WordWrap);
         //DoPyEventState(Ed, EDSTATE_WRAP); //is not needed for session loading
       end;
 
@@ -4087,7 +4087,7 @@ begin
     if NFlag>=0 then
     begin
       Ed.OptMicromapVisible:= NFlag=1;
-      Ed.SetModifiedProp('micromap');
+      Include(Ed.ModifiedOptions, TATEditorModifiedPropId.MicromapVisible);
     end;
   end;
 
@@ -4095,14 +4095,14 @@ begin
   if NFlag>=0 then
   begin
     Ed.OptMinimapVisible:= NFlag=1;
-    Ed.SetModifiedProp('minimap');
+    Include(Ed.ModifiedOptions, TATEditorModifiedPropId.MinimapVisible);
   end;
 
   NFlag:= c.GetValue(path+cHistory_Ruler, -1);
   if NFlag>=0 then
   begin
     Ed.OptRulerVisible:= NFlag=1;
-    Ed.SetModifiedProp('ruler');
+    Include(Ed.ModifiedOptions, TATEditorModifiedPropId.RulerVisible);
   end;
 
   Ed.OptTabSize:= c.GetValue(path+cHistory_TabSize, Ed.OptTabSize);
@@ -4112,42 +4112,42 @@ begin
   if NFlag>=0 then
   begin
     Ed.OptUnprintedVisible:= NFlag=1;
-    Ed.SetModifiedProp('unprinted_visible');
+    Include(Ed.ModifiedOptions, TATEditorModifiedPropId.UnprintedVisible);
   end;
 
   NFlag:= c.GetValue(path+cHistory_Unpri_Spaces, -1);
   if NFlag>=0 then
   begin
     Ed.OptUnprintedSpaces:= NFlag=1;
-    Ed.SetModifiedProp('unprinted_spaces');
+    Include(Ed.ModifiedOptions, TATEditorModifiedPropId.UnprintedSpaces);
   end;
 
   NFlag:= c.GetValue(path+cHistory_Unpri_Ends, -1);
   if NFlag>=0 then
   begin
     Ed.OptUnprintedEnds:= NFlag=1;
-    Ed.SetModifiedProp('unprinted_ends');
+    Include(Ed.ModifiedOptions, TATEditorModifiedPropId.UnprintedEnds);
   end;
 
   NFlag:= c.GetValue(path+cHistory_Unpri_Detail, -1);
   if NFlag>=0 then
   begin
     Ed.OptUnprintedEndsDetails:= NFlag=1;
-    Ed.SetModifiedProp('unprinted_end_details');
+    Include(Ed.ModifiedOptions, TATEditorModifiedPropId.UnprintedEndDetails);
   end;
 
   NFlag:= c.GetValue(path+cHistory_LineNums, -1);
   if NFlag>=0 then
   begin
     Ed.Gutter[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagNumbers)].Visible:= NFlag=1;
-    Ed.SetModifiedProp('gutter_numbers');
+    Include(Ed.ModifiedOptions, TATEditorModifiedPropId.GutterNumbers);
   end;
 
   NFlag:= c.GetValue(path+cHistory_FoldingShow, -1);
   if NFlag>=0 then
   begin
     Ed.Gutter[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagFolding)].Visible:= NFlag=1;
-    Ed.SetModifiedProp('gutter_folding');
+    Include(Ed.ModifiedOptions, TATEditorModifiedPropId.GutterFolding);
   end;
 
   NFlag:= c.GetValue(path+cHistory_Margin, -1);
