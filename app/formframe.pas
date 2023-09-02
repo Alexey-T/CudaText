@@ -375,6 +375,7 @@ type
     MacroStrings: TStringList;
     VersionInSession: Int64;
     FileProps: array[0..1] of TAppFileProps;
+    InitialOptions: array[0..1] of TATEditorTempOptions;
     IsCaretInViewBeforeToggle: boolean;
 
     constructor Create(AOwner: TComponent; AApplyCentering: boolean); reintroduce;
@@ -2888,7 +2889,11 @@ var
   St: TATStrings;
   NFileSize: Int64;
   LoadOptions: TATLoadStreamOptions;
+  EdIndex: integer;
 begin
+  EdIndex:= EditorObjToIndex(Ed);
+  if EdIndex<0 then exit;
+
   St:= Ed.Strings;
   FProgressForm:= nil;
   if not AppFormShowCompleted then
@@ -2963,7 +2968,7 @@ begin
 
   //save temp-options, to later know which options are changed,
   //during loading of lexer-specific config
-  EditorSaveTempOptions(Ed, Ed.InitialOptions);
+  EditorSaveTempOptions(Ed, InitialOptions[EdIndex]);
 
   if AAllowLexerDetect then
     DoLexerFromFilename(Ed, AFileName);

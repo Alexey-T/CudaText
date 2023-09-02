@@ -24,8 +24,6 @@ procedure EditorStartParse(Ed: TATSynEdit);
 procedure EditorAdjustForBigFile(Ed: TATSynEdit);
 function EditorIsEmpty(Ed: TATSynEdit): boolean;
 function EditorIsModifiedEx(Ed: TATSynEdit): boolean;
-procedure EditorSaveTempOptions(Ed: TATSynEdit; out Ops: TATEditorTempOptions);
-procedure EditorRestoreTempOptions(Ed: TATSynEdit; const ANew, AOld: TATEditorTempOptions);
 procedure EditorFocus(C: TWinControl);
 procedure EditorMouseClick_AtCursor(Ed: TATSynEdit; AAndSelect: boolean);
 procedure EditorMouseClick_NearCaret(Ed: TATSynEdit; const AParams: string; AAndSelect: boolean);
@@ -149,6 +147,32 @@ procedure EditorForceUpdateIfWrapped(Ed: TATSynEdit);
 procedure EditorScrollToCaret(Ed: TATSynEdit; ANeedWrapOff, AllowProcessMsg: boolean);
 procedure EditorCaretToView(Ed: TATSynEdit; ANeedWrapOff, AllowProcessMsg: boolean);
 procedure EditorCalcOffsetsForStatusbar(Ed: TATSynEdit; out AOffsetMax, AOffsetCaret: integer);
+
+type
+  TATEditorTempOptions = record
+    FontSize: integer;                  //can be changed by Ctrl+mouse_wheel
+    TabSize: integer;                   //can be changed by CudaText UI
+    TabSpaces: boolean;                 //can be changed by CudaText UI
+    WrapMode: TATEditorWrapMode;        //can be changed by CudaText UI
+    ShowMinimap: boolean;               //can be changed by CudaText UI
+    ShowMicromap: boolean;              //can be changed by CudaText UI
+    ShowRuler: boolean;                 //can be changed by CudaText UI
+    ShowNumbers: boolean;               //can be changed by CudaText UI
+    ShowFolding: boolean;               //can be changed by CudaText UI
+    ShowUnprinted: boolean;             //can be changed by CudaText UI
+    SavingTrimSpaces: boolean;          //changed by CudaText plugin EditorConfig
+    SavingTrimFinalEmptyLines: boolean; //changed by CudaText plugin EditorConfig
+    SavingForceFinalEol: boolean;       //changed by CudaText plugin EditorConfig
+    UnprintedSpaces: boolean;
+    UnprintedSpacesTrail: boolean;
+    UnprintedSpacesInSel: boolean;
+    UnprintedEnds: boolean;
+    UnprintedEndsDetails: boolean;
+    UnprintedForceTabs: boolean;
+  end;
+
+procedure EditorSaveTempOptions(Ed: TATSynEdit; out Ops: TATEditorTempOptions);
+procedure EditorRestoreTempOptions(Ed: TATSynEdit; const ANew, AOld: TATEditorTempOptions);
 
 implementation
 
