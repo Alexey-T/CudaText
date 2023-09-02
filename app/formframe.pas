@@ -2969,6 +2969,8 @@ begin
   //save temp-options, to later know which options are changed,
   //during loading of lexer-specific config
   EditorSaveTempOptions(Ed, InitialOptions[EdIndex]);
+  if EditorsLinked and (EdIndex=0) then
+    EditorSaveTempOptions(Ed, InitialOptions[High(InitialOptions)]);
 
   if AAllowLexerDetect then
     DoLexerFromFilename(Ed, AFileName);
