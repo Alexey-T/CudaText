@@ -246,7 +246,7 @@ begin
     Ed.OptGutterPlusSize:= Op.OpGutterIconSize;
     Ed.Gutter.Update;
 
-    if Op.OpNumbersStyle<=Ord(High(TATEditorNumbersStyle)) then
+    if (Op.OpNumbersStyle>=0) and (Op.OpNumbersStyle<=Ord(High(TATEditorNumbersStyle))) then
       Ed.OptNumbersStyle:= TATEditorNumbersStyle(Op.OpNumbersStyle);
     Ed.OptNumbersShowCarets:= Op.OpNumbersForCarets;
     if Op.OpNumbersCenter then
@@ -345,7 +345,7 @@ begin
       EditorCaretShapeFromString(Ed.CaretShapeReadonly, Op.OpCaretViewReadonly);
     end;
 
-    if Op.OpCaretAfterPasteColumn<=Ord(High(TATEditorPasteCaret)) then
+    if (Op.OpCaretAfterPasteColumn>=0) and (Op.OpCaretAfterPasteColumn<=Ord(High(TATEditorPasteCaret))) then
       Ed.OptCaretPosAfterPasteColumn:= TATEditorPasteCaret(Op.OpCaretAfterPasteColumn);
 
     Ed.OptCaretVirtual:= Op.OpCaretVirtual;
@@ -400,7 +400,7 @@ begin
     Ed.OptStapleEdge2:= TATEditorStapleEdge(N);
 
     Ed.OptAutoIndent:= Op.OpIndentAuto;
-    if Op.OpIndentAutoKind<=Ord(High(TATEditorAutoIndentKind)) then
+    if (Op.OpIndentAutoKind>=0) and (Op.OpIndentAutoKind<=Ord(High(TATEditorAutoIndentKind))) then
       Ed.OptAutoIndentKind:= TATEditorAutoIndentKind(Op.OpIndentAutoKind);
     Ed.OptAutoIndentBetterBracketsCurly:= Op.OpIndentAuto; //no separate option
     Ed.OptAutoIndentRegexRule:= Op.OpIndentAutoRule;
@@ -442,7 +442,7 @@ begin
   Ed.OptKeyHomeEndNavigateWrapped:= Op.OpKeyHomeEndNavigateWrapped;
   Ed.OptKeyEndToNonSpace:= Op.OpKeyEndToNonSpace;
   Ed.OptKeyPageKeepsRelativePos:= Op.OpKeyPageKeepsRelativePos;
-  if Op.OpKeyPageUpDownSize<=Ord(High(TATEditorPageDownSize)) then
+  if (Op.OpKeyPageUpDownSize>=0) and (Op.OpKeyPageUpDownSize<=Ord(High(TATEditorPageDownSize))) then
     Ed.OptKeyPageUpDownSize:= TATEditorPageDownSize(Op.OpKeyPageUpDownSize);
   Ed.OptKeyUpDownKeepColumn:= Op.OpKeyUpDownKeepColumn;
   Ed.OptKeyUpDownNavigateWrapped:= Op.OpKeyUpDownNavigateWrapped;
