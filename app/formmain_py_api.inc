@@ -4327,19 +4327,34 @@ begin
           Ed.TagString:= Str;
 
         PROP_UNPRINTED_SHOW:
-          Ed.OptUnprintedVisible:= ValueBool;
+          begin
+            Ed.OptUnprintedVisible:= ValueBool;
+            Ed.SetModifiedProp('unprinted_visible');
+          end;
 
         PROP_UNPRINTED_SPACES:
-          Ed.OptUnprintedSpaces:= ValueBool;
+          begin
+            Ed.OptUnprintedSpaces:= ValueBool;
+            Ed.SetModifiedProp('unprinted_spaces');
+          end;
 
         PROP_UNPRINTED_SPACES_TRAILING:
-          Ed.OptUnprintedSpacesTrailing:= ValueBool;
+          begin
+            Ed.OptUnprintedSpacesTrailing:= ValueBool;
+            Ed.SetModifiedProp('unprinted_trailing_only');
+          end;
 
         PROP_UNPRINTED_ENDS:
-          Ed.OptUnprintedEnds:= ValueBool;
+          begin
+            Ed.OptUnprintedEnds:= ValueBool;
+            Ed.SetModifiedProp('unprinted_ends');
+          end;
 
         PROP_UNPRINTED_END_DETAILS:
-          Ed.OptUnprintedEndsDetails:= ValueBool;
+          begin
+            Ed.OptUnprintedEndsDetails:= ValueBool;
+            Ed.SetModifiedProp('unprinted_end_details');
+          end;
 
         PROP_TAB_ICON:
           begin
