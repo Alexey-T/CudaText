@@ -4440,19 +4440,19 @@ begin
         PROP_CARET_VIEW:
           begin
             EditorCaretShapeFromPyTuple(Ed.CaretShapeNormal, Str);
-            Include(Ed.ModifiedOptions, TATEditorModifiedOption.CaretShape);
+            Include(Ed.ModifiedOptions, TATEditorModifiedOption.CaretShapeNormal);
           end;
 
         PROP_CARET_VIEW_OVR:
           begin
             EditorCaretShapeFromPyTuple(Ed.CaretShapeOverwrite, Str);
-            Include(Ed.ModifiedOptions, TATEditorModifiedOption.CaretShape);
+            Include(Ed.ModifiedOptions, TATEditorModifiedOption.CaretShapeOverwrite);
           end;
 
         PROP_CARET_VIEW_RO:
           begin
             EditorCaretShapeFromPyTuple(Ed.CaretShapeReadonly, Str);
-            Include(Ed.ModifiedOptions, TATEditorModifiedOption.CaretShape);
+            Include(Ed.ModifiedOptions, TATEditorModifiedOption.CaretShapeReadonly);
           end;
 
         PROP_CARET_VIRTUAL:

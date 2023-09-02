@@ -359,12 +359,12 @@ begin
 
   if not Ed.ModeOneLine then
   begin
-    if not (TATEditorModifiedOption.CaretShape in Ed.ModifiedOptions) then
-    begin
+    if not (TATEditorModifiedOption.CaretShapeNormal in Ed.ModifiedOptions) then
       EditorCaretShapeFromString(Ed.CaretShapeNormal, Op.OpCaretViewNormal);
+    if not (TATEditorModifiedOption.CaretShapeOverwrite in Ed.ModifiedOptions) then
       EditorCaretShapeFromString(Ed.CaretShapeOverwrite, Op.OpCaretViewOverwrite);
+    if not (TATEditorModifiedOption.CaretShapeReadonly in Ed.ModifiedOptions) then
       EditorCaretShapeFromString(Ed.CaretShapeReadonly, Op.OpCaretViewReadonly);
-    end;
 
     if (Op.OpCaretAfterPasteColumn>=0) and (Op.OpCaretAfterPasteColumn<=Ord(High(TATEditorPasteCaret))) then
       Ed.OptCaretPosAfterPasteColumn:= TATEditorPasteCaret(Op.OpCaretAfterPasteColumn);
