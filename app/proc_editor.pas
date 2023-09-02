@@ -1901,6 +1901,8 @@ end;
 
 procedure EditorSaveTempOptions(Ed: TATSynEdit; out Ops: TATEditorTempOptions);
 begin
+  Ops:= Default(TATEditorTempOptions);
+
   Ops.FontSize:= Ed.Font.Size;
   Ops.TabSize:= Ed.OptTabSize;
   Ops.TabSpaces:= Ed.OptTabSpaces;
