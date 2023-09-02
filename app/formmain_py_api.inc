@@ -4329,31 +4329,31 @@ begin
         PROP_UNPRINTED_SHOW:
           begin
             Ed.OptUnprintedVisible:= ValueBool;
-            Include(Ed.ModifiedOptions, TATEditorModifiedPropId.UnprintedVisible);
+            Include(Ed.ModifiedOptions, TATEditorModifiedOption.UnprintedVisible);
           end;
 
         PROP_UNPRINTED_SPACES:
           begin
             Ed.OptUnprintedSpaces:= ValueBool;
-            Include(Ed.ModifiedOptions, TATEditorModifiedPropId.UnprintedSpaces);
+            Include(Ed.ModifiedOptions, TATEditorModifiedOption.UnprintedSpaces);
           end;
 
         PROP_UNPRINTED_SPACES_TRAILING:
           begin
             Ed.OptUnprintedSpacesTrailing:= ValueBool;
-            Include(Ed.ModifiedOptions, TATEditorModifiedPropId.UnprintedTrailingOnly);
+            Include(Ed.ModifiedOptions, TATEditorModifiedOption.UnprintedTrailingOnly);
           end;
 
         PROP_UNPRINTED_ENDS:
           begin
             Ed.OptUnprintedEnds:= ValueBool;
-            Include(Ed.ModifiedOptions, TATEditorModifiedPropId.UnprintedEnds);
+            Include(Ed.ModifiedOptions, TATEditorModifiedOption.UnprintedEnds);
           end;
 
         PROP_UNPRINTED_END_DETAILS:
           begin
             Ed.OptUnprintedEndsDetails:= ValueBool;
-            Include(Ed.ModifiedOptions, TATEditorModifiedPropId.UnprintedEndDetails);
+            Include(Ed.ModifiedOptions, TATEditorModifiedOption.UnprintedEndDetails);
           end;
 
         PROP_TAB_ICON:
@@ -4496,7 +4496,7 @@ begin
         PROP_LAST_LINE_ON_TOP:
           begin
             Ed.OptLastLineOnTop:= ValueBool;
-            Include(Ed.ModifiedOptions, TATEditorModifiedPropId.LastLineOnTop);
+            Include(Ed.ModifiedOptions, TATEditorModifiedOption.LastLineOnTop);
           end;
 
         PROP_FOCUSED:
@@ -8363,7 +8363,7 @@ begin
                 ////better to set this prop always, to fix [v-scrollbar cannot reach end for many gaps at end]
                 //if Num1=Ed.Strings.Count-1 then
                 Ed.OptLastLineOnTop:= true;
-                Include(Ed.ModifiedOptions, TATEditorModifiedPropId.LastLineOnTop);
+                Include(Ed.ModifiedOptions, TATEditorModifiedOption.LastLineOnTop);
 
                 //if added gap before 1st line, scroll editor upper
                 if Num1=-1 then

@@ -235,11 +235,11 @@ begin
     Ed.OptGutterVisible:= Op.OpGutterShow;
     Ed.OptGutterShowFoldAlways:= Op.OpGutterFoldAlways;
     Ed.OptGutterIcons:= TATEditorGutterIcons(Op.OpGutterFoldIcons);
-    if not (TATEditorModifiedPropId.GutterBookmarks  in Ed.ModifiedOptions) then
+    if not (TATEditorModifiedOption.GutterBookmarks  in Ed.ModifiedOptions) then
       Ed.Gutter[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagBookmarks)].Visible:= Op.OpGutterBookmarks;
-    if not (TATEditorModifiedPropId.GutterFolding in Ed.ModifiedOptions) then
+    if not (TATEditorModifiedOption.GutterFolding in Ed.ModifiedOptions) then
       Ed.Gutter[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagFolding)].Visible:= Op.OpGutterFold;
-    if not (TATEditorModifiedPropId.GutterNumbers in Ed.ModifiedOptions) then
+    if not (TATEditorModifiedOption.GutterNumbers in Ed.ModifiedOptions) then
       Ed.Gutter[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagNumbers)].Visible:= Op.OpNumbersShow;
     //if not Ed.IsModifiedGutterLineStatesVisible then
       Ed.Gutter[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagLineStates)].Visible:= Op.OpGutterLineStates;
@@ -254,13 +254,13 @@ begin
     else
       Ed.OptNumbersAlignment:= taRightJustify;
 
-    if not (TATEditorModifiedPropId.RulerVisible in Ed.ModifiedOptions) then
+    if not (TATEditorModifiedOption.RulerVisible in Ed.ModifiedOptions) then
       Ed.OptRulerVisible:= Op.OpRulerShow;
     Ed.OptRulerNumeration:= TATEditorRulerNumeration(Op.OpRulerNumeration);
     Ed.OptRulerMarkSizeCaret:= Op.OpRulerMarkCaret;
     Ed.OptRulerHeightPercents:= Op.OpRulerHeight;
 
-    if not (TATEditorModifiedPropId.MinimapVisible in Ed.ModifiedOptions) then
+    if not (TATEditorModifiedOption.MinimapVisible in Ed.ModifiedOptions) then
       Ed.OptMinimapVisible:= Op.OpMinimapShow;
     Ed.OptMinimapShowSelAlways:= Op.OpMinimapShowSelAlways;
     Ed.OptMinimapShowSelBorder:= Op.OpMinimapShowSelBorder;
@@ -273,7 +273,7 @@ begin
     Ed.OptMinimapTooltipFontSize:= Op.OpMinimapTooltipFontSize;
     Ed.OptMinimapDragImmediately:= Op.OpMinimapDragImmediately;
 
-    if not (TATEditorModifiedPropId.MicromapVisible in Ed.ModifiedOptions) then
+    if not (TATEditorModifiedOption.MicromapVisible in Ed.ModifiedOptions) then
       Ed.OptMicromapVisible:= Op.OpMicromapShow;
     Ed.OptMicromapOnScrollbar:= Op.OpMicromapOnScrollbar;
     Ed.OptMicromapLineStates:= Op.OpMicromapLineStates;
@@ -289,16 +289,16 @@ begin
 
   if AApplyUnprintedAndWrap then
   begin
-    if not (TATEditorModifiedPropId.UnprintedVisible in Ed.ModifiedOptions) then
+    if not (TATEditorModifiedOption.UnprintedVisible in Ed.ModifiedOptions) then
       Ed.OptUnprintedVisible:= Op.OpUnprintedShow;
 
-    if not (TATEditorModifiedPropId.UnprintedSpaces in Ed.ModifiedOptions) then
+    if not (TATEditorModifiedOption.UnprintedSpaces in Ed.ModifiedOptions) then
       Ed.OptUnprintedSpaces:= Pos('s', Op.OpUnprintedContent)>0;
 
-    if not (TATEditorModifiedPropId.UnprintedEnds in Ed.ModifiedOptions) then
+    if not (TATEditorModifiedOption.UnprintedEnds in Ed.ModifiedOptions) then
       Ed.OptUnprintedEnds:= Pos('e', Op.OpUnprintedContent)>0;
 
-    if not (TATEditorModifiedPropId.UnprintedEndDetails in Ed.ModifiedOptions) then
+    if not (TATEditorModifiedOption.UnprintedEndDetails in Ed.ModifiedOptions) then
       Ed.OptUnprintedEndsDetails:= Pos('d', Op.OpUnprintedContent)>0;
 
     Ed.OptUnprintedSpacesTrailing:= Pos('t', Op.OpUnprintedContent)>0;
@@ -317,7 +317,7 @@ begin
     ATEditorOptions.UnprintedEndSymbol:= TATEditorUnptintedEolSymbol.ArrowDown;
 
   if AApplyUnprintedAndWrap then
-    if not (TATEditorModifiedPropId.WordWrap in Ed.ModifiedOptions) then
+    if not (TATEditorModifiedOption.WordWrap in Ed.ModifiedOptions) then
       if (Op.OpWrapMode>=0) and (Op.OpWrapMode<=Ord(High(TATEditorWrapMode))) then
         Ed.OptWrapMode:= TATEditorWrapMode(Op.OpWrapMode);
 
@@ -360,7 +360,7 @@ begin
     Ed.OptShowCurLineOnlyFocused:= Op.OpShowCurLineOnlyFocused;
     Ed.OptShowCurColumn:= Op.OpShowCurCol;
 
-    if not (TATEditorModifiedPropId.LastLineOnTop in Ed.ModifiedOptions) then
+    if not (TATEditorModifiedOption.LastLineOnTop in Ed.ModifiedOptions) then
       Ed.OptLastLineOnTop:= Op.OpShowLastLineOnTop;
   end;
 
