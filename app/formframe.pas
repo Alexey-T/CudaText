@@ -2980,7 +2980,7 @@ begin
   b:= AppIsFileReadonly(GetFileName(Ed));
   ReadOnly[Ed]:= b;
   if b then
-    Ed.IsReadOnlyAutodetected:= true;
+    Include(Ed.ModifiedOptions, TATEditorModifiedOption.ReadOnlyIsDetected);
 end;
 
 procedure TEditorFrame.UpdateFrame(AUpdatedText: boolean);
@@ -3833,7 +3833,7 @@ begin
   if UiOps.HistoryItems[ahhWordWrap] then
     c.SetDeleteValue(path+cHistory_Wrap, Ord(Ed.OptWrapMode), Ord(EditorOps.OpWrapMode));
 
-  if not Ed.IsReadOnlyAutodetected then
+  if not (TATEditorModifiedOption.ReadOnlyIsDetected in Ed.ModifiedOptions) then
     c.SetDeleteValue(path+cHistory_ReadOnly, ReadOnly[Ed], false);
 
   if UiOps.HistoryItems[ahhRuler] then
@@ -4067,7 +4067,7 @@ begin
     TabCaptionReason:= tcrUnsavedSpecial;
   end;
 
-  if not Ed.IsReadOnlyAutodetected then
+  if not (TATEditorModifiedOption.ReadOnlyIsDetected in Ed.ModifiedOptions) then
     ReadOnly[Ed]:= c.GetValue(path+cHistory_ReadOnly, ReadOnly[Ed]);
 
   if not FileWasBig[Ed] then
