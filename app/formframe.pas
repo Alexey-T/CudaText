@@ -2976,7 +2976,7 @@ procedure TEditorFrame.UpdateReadOnlyFromFile(Ed: TATSynEdit);
 var
   b: boolean;
 begin
-  if Ed.IsReadOnlyChanged then exit;
+  if TATEditorModifiedOption.ReadOnly in Ed.ModifiedOptions then exit;
   b:= AppIsFileReadonly(GetFileName(Ed));
   ReadOnly[Ed]:= b;
   if b then

@@ -5966,7 +5966,7 @@ begin
       MB_OKCANCEL or MB_ICONQUESTION
       ) <> ID_OK then exit;
 
-  bChangedRO:= Ed.IsReadOnlyChanged;
+  bChangedRO:= TATEditorModifiedOption.ReadOnly in Ed.ModifiedOptions;
   bPrevRO:= F.ReadOnly[Ed];
   PrevLexer:= F.LexerName[Ed];
   F.ReadOnly[Ed]:= false;
