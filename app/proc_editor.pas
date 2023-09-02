@@ -235,11 +235,11 @@ begin
     Ed.OptGutterVisible:= Op.OpGutterShow;
     Ed.OptGutterShowFoldAlways:= Op.OpGutterFoldAlways;
     Ed.OptGutterIcons:= TATEditorGutterIcons(Op.OpGutterFoldIcons);
-    if not Ed.IsModifiedGutterBookmarksVisible then
+    if not ('gutter_bookmarks' in Ed.ModifiedOptions) then
       Ed.Gutter[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagBookmarks)].Visible:= Op.OpGutterBookmarks;
-    if not Ed.IsModifiedGutterFoldingVisible then
+    if not ('gutter_folding' in Ed.ModifiedOptions) then
       Ed.Gutter[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagFolding)].Visible:= Op.OpGutterFold;
-    if not Ed.IsModifiedGutterNumbersVisible then
+    if not ('gutter_numbers' in Ed.ModifiedOptions) then
       Ed.Gutter[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagNumbers)].Visible:= Op.OpNumbersShow;
     //if not Ed.IsModifiedGutterLineStatesVisible then
       Ed.Gutter[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagLineStates)].Visible:= Op.OpGutterLineStates;
@@ -254,13 +254,13 @@ begin
     else
       Ed.OptNumbersAlignment:= taRightJustify;
 
-    if not Ed.IsModifiedRulerVisible then
+    if not ('ruler' in Ed.ModifiedOptions) then
       Ed.OptRulerVisible:= Op.OpRulerShow;
     Ed.OptRulerNumeration:= TATEditorRulerNumeration(Op.OpRulerNumeration);
     Ed.OptRulerMarkSizeCaret:= Op.OpRulerMarkCaret;
     Ed.OptRulerHeightPercents:= Op.OpRulerHeight;
 
-    if not Ed.IsModifiedMinimapVisible then
+    if not ('minimap' in Ed.ModifiedOptions) then
       Ed.OptMinimapVisible:= Op.OpMinimapShow;
     Ed.OptMinimapShowSelAlways:= Op.OpMinimapShowSelAlways;
     Ed.OptMinimapShowSelBorder:= Op.OpMinimapShowSelBorder;
@@ -273,7 +273,7 @@ begin
     Ed.OptMinimapTooltipFontSize:= Op.OpMinimapTooltipFontSize;
     Ed.OptMinimapDragImmediately:= Op.OpMinimapDragImmediately;
 
-    if not Ed.IsModifiedMicromapVisible then
+    if not ('micromap' in Ed.ModifiedOptions) then
       Ed.OptMicromapVisible:= Op.OpMicromapShow;
     Ed.OptMicromapOnScrollbar:= Op.OpMicromapOnScrollbar;
     Ed.OptMicromapLineStates:= Op.OpMicromapLineStates;
@@ -289,16 +289,16 @@ begin
 
   if AApplyUnprintedAndWrap then
   begin
-    if not Ed.IsModifiedUnprintedVisible then
+    if not ('unprinted_visible' in Ed.ModifiedOptions) then
       Ed.OptUnprintedVisible:= Op.OpUnprintedShow;
 
-    if not Ed.IsModifiedUnprintedSpaces then
+    if not ('unprinted_spaces' in Ed.ModifiedOptions) then
       Ed.OptUnprintedSpaces:= Pos('s', Op.OpUnprintedContent)>0;
 
-    if not Ed.IsModifiedUnprintedEnds then
+    if not ('unprinted_ends' in Ed.ModifiedOptions) then
       Ed.OptUnprintedEnds:= Pos('e', Op.OpUnprintedContent)>0;
 
-    if not Ed.IsModifiedUnprintedEndDetails then
+    if not ('unprinted_end_details' in Ed.ModifiedOptions) then
       Ed.OptUnprintedEndsDetails:= Pos('d', Op.OpUnprintedContent)>0;
 
     Ed.OptUnprintedSpacesTrailing:= Pos('t', Op.OpUnprintedContent)>0;
@@ -317,7 +317,7 @@ begin
     ATEditorOptions.UnprintedEndSymbol:= TATEditorUnptintedEolSymbol.ArrowDown;
 
   if AApplyUnprintedAndWrap then
-    if not Ed.IsModifiedWrapMode then
+    if not ('wrap' in Ed.ModifiedOptions) then
       if (Op.OpWrapMode>=0) and (Op.OpWrapMode<=Ord(High(TATEditorWrapMode))) then
         Ed.OptWrapMode:= TATEditorWrapMode(Op.OpWrapMode);
 
@@ -360,7 +360,7 @@ begin
     Ed.OptShowCurLineOnlyFocused:= Op.OpShowCurLineOnlyFocused;
     Ed.OptShowCurColumn:= Op.OpShowCurCol;
 
-    if not Ed.IsModifiedLastLineOnTop then
+    if not ('last_line_on_top' in Ed.ModifiedOptions) then
       Ed.OptLastLineOnTop:= Op.OpShowLastLineOnTop;
   end;
 

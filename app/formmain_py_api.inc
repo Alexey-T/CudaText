@@ -4481,7 +4481,7 @@ begin
         PROP_LAST_LINE_ON_TOP:
           begin
             Ed.OptLastLineOnTop:= ValueBool;
-            Ed.IsModifiedLastLineOnTop:= true;
+            Ed.SetModifiedProp('last_line_on_top');
           end;
 
         PROP_FOCUSED:
@@ -8348,7 +8348,7 @@ begin
                 ////better to set this prop always, to fix [v-scrollbar cannot reach end for many gaps at end]
                 //if Num1=Ed.Strings.Count-1 then
                 Ed.OptLastLineOnTop:= true;
-                Ed.IsModifiedLastLineOnTop:= true;
+                Ed.SetModifiedProp('last_line_on_top');
 
                 //if added gap before 1st line, scroll editor upper
                 if Num1=-1 then
