@@ -5506,7 +5506,9 @@ begin
         //-------------------
         APP_PROC_GET_LANG:
           begin
-            Result:= PyUnicodeFromString(UiOps.LangName);
+            Str:= UiOps.LangName;
+            Str:= Copy(Str, 1, 5); //trim suffix like '_4' in 'it_IT_4'
+            Result:= PyUnicodeFromString(Str);
           end;
 
         APP_PROC_GET_HOTKEY:
