@@ -1,4 +1,4 @@
-object SyntAnal20: TLibSyntAnalyzer
+object SyntAnal16: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Head'
@@ -259,6 +259,8 @@ object SyntAnal20: TLibSyntAnalyzer
     item
       DisplayName = 'Code spaces'
       StyleName = 'Code-block BG'
+      BlockName = 'Table begin'
+      NotParent = True
       TokenType = 4
       Expression = '^[\x20\x09]{4,}\S.*'
       ColumnFrom = 0
@@ -307,7 +309,7 @@ object SyntAnal20: TLibSyntAnalyzer
     item
       DisplayName = 'Table symbols'
       StyleName = 'Table'
-      TokenType = 10
+      TokenType = 1
       Expression = '\|'
       ColumnFrom = 0
       ColumnTo = 0
