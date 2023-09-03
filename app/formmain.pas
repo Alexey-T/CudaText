@@ -1268,13 +1268,6 @@ const
   StatusbarTag_Zoom = 18;
   StatusbarTag_Msg = 20;
 
-function _IsPointsDiffByDelta(const P1, P2: TPoint; Delta: integer): boolean; inline;
-begin
-  Result:=
-    (Abs(P1.X-P2.X)>=Delta) or
-    (Abs(P1.Y-P2.Y)>=Delta);
-end;
-
 function GetAppColorOfStatusbarFont: TColor;
 begin
   Result:= GetAppColor(apclStatusFont);
@@ -9063,6 +9056,14 @@ end;
 procedure TfmMain.TimerMouseStopTimer(Sender: TObject);
 //call API event on_mouse_stop.
 //we cannot reuse the TIdleTimer because it's not fired when Ctrl/Alt/Shift are holded.
+
+  function _IsPointsDiffByDelta(const P1, P2: TPoint; Delta: integer): boolean;
+  begin
+    Result:=
+      (Abs(P1.X-P2.X)>=Delta) or
+      (Abs(P1.Y-P2.Y)>=Delta);
+  end;
+
 const
   cPixelDelta = 7;
 var
