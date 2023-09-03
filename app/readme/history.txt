@@ -14,6 +14,7 @@
 - fix: "ui_tab_recent_on_close":true didn't work in 'floating' groups
 - fix: on opening picture by "File/Open", background color remained fixed white (thanks @bbslipers)
 - fix: workaround for Windows save-as dialog bug: dialog can suggest bad filename for filter 'All files', like 'name.lua.yml' instead of 'name.lua' when YAML lexer is active (thanks @bbslipers)
+- fix: lexer reST: better rule for '|' in tables
 
 1.197.0 (2023/08)
 
