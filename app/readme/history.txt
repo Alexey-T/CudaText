@@ -3,8 +3,9 @@
   - fixed
   * changed
 
-1.197.5 (2023/09)
+1.198.0 (2023/09)
 
++ add: updated TRegExpr engine from 1.158 to 1.163; see change log: https://github.com/andgineer/TRegExpr/blob/master/History.txt
 + add: Wiki topic https://wiki.freepascal.org/CudaText_plugins#How_to_run_formatter_ESLint_on_saving
 + add: Wiki topic https://wiki.freepascal.org/CudaText_plugins#How_to_bind_a_hotkey_to_insert_a_snippet
 + add: Wiki topic https://wiki.freepascal.org/CudaText_plugins#Config_Toolbar
