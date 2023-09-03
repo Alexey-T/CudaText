@@ -2254,8 +2254,9 @@ Example replaces selection of 1st caret with text:
 
  insert(x, y, text)
 
-Inserts given text at position (x, y). If y is too big, appends block to the end (even to final line without line-ending).
-Coordinate x is in the UTF-16 internal representation of line.
+Inserts given text at position (x, y).
+If param "y" is after the actual line-count, appends block to the end (even to final line without line-ending).
+Coordinate "x" is in the UTF-16 internal representation of line.
 Text can be multi-line, all CR LF will be converted to currently used line-breaks.
 
 Returns 2-tuple (x, y) of position after inserted text. It is on the same line, if text is single line. Returns None if cannot insert.
