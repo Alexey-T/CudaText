@@ -9071,7 +9071,6 @@ var
   iGroup: integer;
 begin
   PntScreen:= Mouse.CursorPos;
-  if PtInRect(BoundsRect, PntScreen) then
   if _IsPointsDiffByDelta(PntScreen, FLastMousePos, cPixelDelta) then
   begin
     FLastMousePos:= PntScreen;
