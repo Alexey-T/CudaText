@@ -6164,8 +6164,20 @@ begin
 end;
 
 procedure TfmMain.DoToggleOnTop;
+var
+  Form: TCustomForm;
 begin
-  ShowOnTop:= not ShowOnTop;
+  //support floating groups
+  Form:= GetParentForm(CurrentGroups);
+  if Form=Self then
+    ShowOnTop:= not ShowOnTop
+  else
+  begin
+    if Form.FormStyle=fsNormal then
+      Form.FormStyle:= fsSystemStayOnTop
+    else
+      Form.FormStyle:= fsNormal;
+  end;
 end;
 
 procedure TfmMain.DoToggleFullScreen;
