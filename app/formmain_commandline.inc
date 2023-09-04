@@ -200,7 +200,7 @@ begin
     SParseFilenameWithTwoNumbers(SParam, NLine, NColumn);
 
     //if folder, open it in ProjManager
-    if DirectoryExistsUTF8(SParam) then
+    if DirectoryExists(SParam) then
     begin
       Application.ProcessMessages; //fix issue #3928
 

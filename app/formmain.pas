@@ -3222,7 +3222,7 @@ begin
     else
       SOpenOptions:= SOpenOptionsAll;
 
-    if DirectoryExistsUTF8(SName) then
+    if DirectoryExists(SName) then
       DoFolderOpen(SName, False, TATCommandInvoke.AppDragDrop)
     else
     if FileExists(SName) then
@@ -3269,7 +3269,7 @@ begin
   for i:= 0 to Length(Filenames)-1 do
   begin
     SName:= FileNames[i];
-    if DirectoryExistsUTF8(SName) then
+    if DirectoryExists(SName) then
       DoFolderOpen(SName, False, TATCommandInvoke.AppDragDrop)
     else
     if FileExists(SName) then

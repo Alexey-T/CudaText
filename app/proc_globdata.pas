@@ -1500,7 +1500,7 @@ begin
   if AppDir_Home<>'' then
     AppDir_Home:= IncludeTrailingPathDelimiter(AppDir_Home);
   OpDirLocal:= AppDir_Home+'Library/Application Support/CudaText';
-  CreateDirUTF8(OpDirLocal);
+  CreateDir(OpDirLocal);
 end;
 
 procedure InitDirs_Haiku;
@@ -1510,7 +1510,7 @@ begin
   AppDir_Home:= '/boot/home';
   HomeConfig:= AppDir_Home+'/config/settings';
   OpDirLocal:= HomeConfig+'/cudatext';
-  CreateDirUTF8(OpDirLocal);
+  CreateDir(OpDirLocal);
 end;
 
 procedure InitDirs_UnixCommon;
@@ -1551,7 +1551,7 @@ begin
         HomeConfig:= IncludeTrailingPathDelimiter(HomeConfig);
 
       OpDirLocal:= HomeConfig+'cudatext';
-      CreateDirUTF8(OpDirLocal);
+      CreateDir(OpDirLocal);
       //MsgStdout('CudaText starts not portable: '+OpDirLocal);
     end;
   end;
@@ -1585,8 +1585,8 @@ begin
   if AppDir_Settings='' then
     AppDir_Settings:= OpDirLocal+DirectorySeparator+'settings';
 
-  if not DirectoryExistsUTF8(AppDir_Settings) then
-    if not CreateDirUTF8(AppDir_Settings) then
+  if not DirectoryExists(AppDir_Settings) then
+    if not CreateDir(AppDir_Settings) then
     begin
       MsgStdout('Cannot create folder: '+AppDir_Settings, true);
       MsgStdout('  Variable "HOME": '+GetEnvironmentVariable('HOME'));
@@ -1601,7 +1601,7 @@ begin
   {$ifdef linux}
   if OpDirLocal<>OpDirExe then
     if IsDistroUpdateNeeded then
-      if DirectoryExistsUTF8(OpDirPrecopy) then
+      if DirectoryExists(OpDirPrecopy) then
       begin
         RunCommand('cp', ['-R', '-u', '-t',
           OpDirLocal,
@@ -1615,7 +1615,7 @@ begin
   {$endif}
   {$ifdef darwin}
   if IsDistroUpdateNeeded then
-    if DirectoryExistsUTF8(OpDirPrecopy) then
+    if DirectoryExists(OpDirPrecopy) then
       //see rsync help. need options:
       // -u (update)
       // -r (recursive)
