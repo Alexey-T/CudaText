@@ -1588,9 +1588,9 @@ begin
   if not DirectoryExistsUTF8(AppDir_Settings) then
     if not CreateDirUTF8(AppDir_Settings) then
     begin
-      MsgStdout('Cannot create "settings" dir: '+AppDir_Settings, true);
-      MsgStdout('  Variable "HOME": "'+GetEnvironmentVariable('HOME')+'"');
-      MsgStdout('  Variable "XDG_CONFIG_HOME": "'+GetEnvironmentVariable('XDG_CONFIG_HOME')+'"');
+      MsgStdout('Cannot create folder: '+AppDir_Settings, true);
+      MsgStdout('  Variable "HOME": '+GetEnvironmentVariable('HOME'));
+      MsgStdout('  Variable "XDG_CONFIG_HOME": '+GetEnvironmentVariable('XDG_CONFIG_HOME'));
       MsgStdout('  OpDirLocal: '+OpDirLocal);
       MsgStdout('  OpDirExe: '+OpDirExe);
       Halt;
