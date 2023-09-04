@@ -3,6 +3,8 @@
   - fixed
   * changed
 
++ add: Command Palette "toggle window always on top" works for floating groups too (thanks @SamC)
+
 1.198.0 (2023/09)
 
 + add: updated TRegExpr engine from 1.158 to 1.163; see change log: https://github.com/andgineer/TRegExpr/blob/master/History.txt
