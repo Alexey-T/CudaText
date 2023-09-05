@@ -2479,18 +2479,35 @@ Q1: After some typing, the caret get unaligned with the text. It sort of creeps 
 
 Q2: When I select text that is inside a string literal (for example), the beginning of the selection gets a space before it, shifting the selected text to the right. As I select more the text continues to squish around.
 
-A: That's the issue specific to (Linux) Qt5 version. It's fixable by the option "renderer_tweaks" (for Linux: "renderer_tweaks__linux"). Description of this option in the default config:
+A: That's the issue specific to (Linux) Qt5 version. It's fixable by the option "renderer_tweaks__linux", its default value is:
 
- Value is a string of several chars:
- if 'w' in value: Use simplified calculation of average character width.
-                  On Windows, 'w' is good.
-                  On macOS, 'w' is bad.
-                  On GTK2, 'w' is not needed.
-                  On Qt5, 'w' gives various results, it depends on Desktop Environment.
+  "renderer_tweaks__linux": "ws",
 
-All you need is to remove "w" char from the "renderer_tweaks__linux" value. In the user.json config:
+Description of this option in the default config:
 
-   "renderer_tweaks__linux": "",
+  //Value is a string of several chars:
+  //  if 'w' in value: Use simplified calculation of average character width.
+  //                   On Windows, 'w' is good.
+  //                   On macOS, 'w' is bad.
+  //                   On GTK2, 'w' is not needed.
+  //                   On Qt5, 'w' gives various results, it depends on Desktop Environment.
+  //  if 'o' in value: Calculate 'offsets' for individual characters, ie use slower API to render.
+  //                   On Windows, 'offsets' don't decrease rendering speed.
+  //                   On macOS, 'offsets' decrease (2x) rendering speed.
+  //                   On GTK2 and Qt5, 'offsets' decrease rendering speed.
+
+Try this:
+
+* Remove "w" char from this option, ie 
+
+  "renderer_tweaks__linux" : "s",
+
+* Add "o" char to this option, ie
+
+  "renderer_tweaks__linux" : "wso",
+
+Do it in the user.json config, of course.
+Then restart the editor.
 
 On macOS, changing the option "renreder_tweaks__mac" is usually not needed - default value works good. But in Qt5 version, CudaText cannot detect Desktop Environment settings, so default value is wrong sometimes.
 
