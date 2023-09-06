@@ -4,7 +4,7 @@
   * changed
 
 + add: Command Palette "toggle window always on top" works for floating groups too (thanks @SamC)
-* change: *BSD versions: do not call 'pkexec', instead show only a messagebox, like IntelliJ (thanks @alex0x08 from linux.org.ru)
+* change: *BSD versions: do not call 'pkexec', instead only show a message-box, like IntelliJ (thanks @alex0x08 from linux.org.ru)
 
 1.198.0 (2023/09)
 
@@ -13,7 +13,7 @@
 + add: Wiki topic https://wiki.freepascal.org/CudaText_plugins#How_to_bind_a_hotkey_to_insert_a_snippet
 + add: Wiki topic https://wiki.freepascal.org/CudaText_plugins#Config_Toolbar
 + add: double-click on 'preview' tab makes it 'normal' (thanks @ThaiDat)
-- fix: LSP tooltip was not shown in floating groups
+- fix: LSP tooltip was not shown in 'floating' groups
 - fix: few editor properties ('tabulation size', 'tabulation by spaces', 'saving: force final EOL', 'saving: trim line ends') were reset on tab-switching: from values set by EditorConfig plugin, to values from user.json (thanks @ildarkhasanshin)
 - fix: "ui_tab_recent_on_close":true didn't work in 'floating' groups
 - fix: on opening picture by "File/Open", background color remained fixed white (thanks @bbslipers)
