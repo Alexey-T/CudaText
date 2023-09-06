@@ -4,6 +4,7 @@
   * changed
 
 + add: Command Palette "toggle window always on top" works for floating groups too (thanks @SamC)
+* change: *BSD versions: do not call 'pkexec', instead show only a messagebox, like IntelliJ (thanks @alex0x08 from linux.org.ru)
 
 1.198.0 (2023/09)
 
