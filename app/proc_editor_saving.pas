@@ -62,7 +62,8 @@ begin
     end
     else
     if cSystemDontWantToRunPkExec then
-      MsgBox(Format(msgCannotSaveAndDontWantToRunPkexec, [fnTemp, fn]), MB_OK or MB_ICONWARNING)
+      MsgBox(msgCannotSaveAndDontWantToRunPkExec+#10#10+
+             Format('cp -T "%s" "%s"', [fnTemp, fn]), MB_OK or MB_ICONWARNING)
     else
     begin
       if not RunCommand('pkexec', ['/bin/cp', '-T', fnTemp, fn], SOutput, [poWaitOnExit]) then

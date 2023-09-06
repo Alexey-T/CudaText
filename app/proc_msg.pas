@@ -249,7 +249,7 @@ const
   msgCannotAutocompleteMultiCarets: string = 'Cannot auto-complete with multi-carets';
   msgCannotFindPkExec: string = 'Cannot find "pkexec" program to copy as root.';
   msgCannotSetWrap: string = 'Cannot set word-wrap mode. Line count %d is bigger than value of option "wrap_enabled_max_lines": %d.';
-  msgCannotSaveAndDontWantToRunPkexec = 'Cannot save file to write-protected folder. Run as root:'#10#10'cp "%s" "%s"';
+  msgCannotSaveAndDontWantToRunPkExec = 'Cannot save file to write-protected folder. Run as root:';
 
   msgStatusbarTextTab: string = 'Tab';
   msgStatusbarTextSpaces: string = 'Spaces';
