@@ -1334,11 +1334,7 @@ begin
   {$endif}
 
   {$ifdef haiku}
-    {$ifdef CPU64}
-    exit('/boot/system/develop/lib/libpython3.7m.so');
-    {$else}
-    exit('/boot/system/develop/lib/x86/libpython3.7m.so');
-    {$endif}
+  exit('libpython3.10.so.1.0');
   {$endif}
 
   {$ifdef unix}
