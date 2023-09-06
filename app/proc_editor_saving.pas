@@ -61,6 +61,9 @@ begin
         raise EWriteError.Create(msgCannotSaveFile+#10+AppCollapseHomeDirInFilename(fn));
     end
     else
+    if cSystemDontWantToRunPkExec then
+      MsgBox(Format(msgCannotSaveAndDontWantToRunPkexec, [fnTemp, fn]), MB_OK or MB_ICONWARNING)
+    else
     begin
       if not RunCommand('pkexec', ['/bin/cp', '-T', fnTemp, fn], SOutput, [poWaitOnExit]) then
         raise EFileNotFoundException.Create(msgCannotFindPkExec+#10+msgStatusSavedTempFile+#10+AppCollapseHomeDirInFilename(fnTemp));

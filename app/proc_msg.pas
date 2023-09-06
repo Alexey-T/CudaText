@@ -57,6 +57,18 @@ const
     {$ifdef haiku}     false {$endif}
     ;
 
+  cSystemDontWantToRunPkExec =
+    {$ifdef windows}   false {$endif}
+    {$ifdef linux}     false {$endif}
+    {$ifdef darwin}    false {$endif}
+    {$ifdef freebsd}   true {$endif}
+    {$ifdef netbsd}    true {$endif}
+    {$ifdef openbsd}   true {$endif}
+    {$ifdef dragonfly} true {$endif}
+    {$ifdef solaris}   true {$endif}
+    {$ifdef haiku}     false {$endif}
+    ;
+
 const
   EOL = #10;
   msgPythonListError = 'Cannot create new list object'; //no need i18n
@@ -237,6 +249,7 @@ const
   msgCannotAutocompleteMultiCarets: string = 'Cannot auto-complete with multi-carets';
   msgCannotFindPkExec: string = 'Cannot find "pkexec" program to copy as root.';
   msgCannotSetWrap: string = 'Cannot set word-wrap mode. Line count %d is bigger than value of option "wrap_enabled_max_lines": %d.';
+  msgCannotSaveAndDontWantToRunPkexec = 'Cannot save file to write-protected folder. Run as root:'#10#10'cp "%s" "%s"';
 
   msgStatusbarTextTab: string = 'Tab';
   msgStatusbarTextSpaces: string = 'Spaces';
