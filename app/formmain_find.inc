@@ -752,10 +752,14 @@ var
   Op: TAppFinderOperation;
   ok, bChanged, bFocusFindDlg: boolean;
 begin
-  //when user _holds_ Shift+F3 in Find dialog, command queue can be filled too much
-  //(because F3 and Shift+F3 call Application.ProcessMessages when search
-  //wraps at document edge). FFindIsBusy check fixes this.
-  if FFindIsBusy then exit;
+  {
+  1) when user _holds_ Shift+F3 in Find dialog, command queue can be filled too much
+    (because F3 and Shift+F3 call Application.ProcessMessages when search
+    wraps at document edge). FFindIsBusy checking fixes this.
+  2) checking was disabled to fix ignored F3 presses:
+    https://github.com/Alexey-T/CudaText/issues/5215#issuecomment-1709890637
+  }
+  //if FFindIsBusy then exit;
 
   Frame:= CurrentFrame;
   if Frame=nil then exit;
