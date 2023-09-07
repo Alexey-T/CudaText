@@ -2049,7 +2049,7 @@ begin
     FindHiAll_MaxLines:= 1000;
     FindHiAll_TagValue:= 99; //GET_UNIQUE_TAG starts with 120
     FindOccur_TagValue:= 98;
-    FindWrapAtEdge_Delay:= 300;
+    FindWrapAtEdge_Delay:= 350;
     FindWrapAtEdge_ThemeItem:= ''; //'EdMarkedRangeBg';
 
     AllowProgramUpdates:= true;
