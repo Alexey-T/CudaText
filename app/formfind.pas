@@ -221,6 +221,7 @@ type
     procedure CopyFieldFindToReplace;
     procedure DoFocusEditor;
     procedure DoResult(Op: TAppFinderOperation);
+    procedure FixFocus;
     function GetHiAll: boolean;
     procedure InitPopupMore;
     procedure MenuitemTokensClick(Sender: TObject);
@@ -318,8 +319,17 @@ end;
 
 { TfmFind }
 
+procedure TfmFind.FixFocus;
+begin
+  //needed for Qt, so form won't loose focus on button clicking, issue #5216
+  {$if defined(LCLQT5) or defined(LCLQT6)}
+  SetFocus;
+  {$endif}
+end;
+
 procedure TfmFind.chkRegexClick(Sender: TObject);
 begin
+  FixFocus;
   with chkRegex do
     Checked:= not Checked;
   UpdateState(true);
@@ -328,6 +338,7 @@ end;
 
 procedure TfmFind.chkRegexSubstClick(Sender: TObject);
 begin
+  FixFocus;
   with chkRegexSubst do
     Checked:= not Checked;
   UpdateState(false);
@@ -336,33 +347,39 @@ end;
 
 procedure TfmFind.bRepClick(Sender: TObject);
 begin
+  FixFocus;
   if IsReplace then
     DoResult(afoReplace);
 end;
 
 procedure TfmFind.bRepStopClick(Sender: TObject);
 begin
+  FixFocus;
   if IsReplace then
     DoResult(afoReplaceStop);
 end;
 
 procedure TfmFind.bFindNextClick(Sender: TObject);
 begin
+  FixFocus;
   DoResult(afoFindNext);
 end;
 
 procedure TfmFind.bExtractClick(Sender: TObject);
 begin
+  FixFocus;
   DoResult(afoExtractAll);
 end;
 
 procedure TfmFind.bFindPrevClick(Sender: TObject);
 begin
+  FixFocus;
   DoResult(afoFindPrev);
 end;
 
 procedure TfmFind.bMarkAllClick(Sender: TObject);
 begin
+  FixFocus;
   DoResult(afoFindMarkAll);
 end;
 
@@ -611,6 +628,7 @@ procedure TfmFind.bMoreClick(Sender: TObject);
 var
   P: TPoint;
 begin
+  FixFocus;
   InitPopupMore;
   FMenuitemExtract.Enabled:= chkRegex.Checked;
 
@@ -620,12 +638,14 @@ end;
 
 procedure TfmFind.bRepAllClick(Sender: TObject);
 begin
+  FixFocus;
   if IsReplace then
     DoResult(afoReplaceAll);
 end;
 
 procedure TfmFind.bCountClick(Sender: TObject);
 begin
+  FixFocus;
   DoResult(afoCountAll);
 end;
 
@@ -636,6 +656,7 @@ end;
 
 procedure TfmFind.bRepGlobalClick(Sender: TObject);
 begin
+  FixFocus;
   if IsReplace then
     if MsgBox(msgConfirmReplaceGlobal, MB_OKCANCEL or MB_ICONWARNING)=ID_OK then
       DoResult(afoReplaceGlobal);
@@ -643,17 +664,20 @@ end;
 
 procedure TfmFind.bSelectAllClick(Sender: TObject);
 begin
+  FixFocus;
   DoResult(afoFindSelectAll);
 end;
 
 procedure TfmFind.bTokensClick(Sender: TObject);
 begin
+  FixFocus;
   UpdateState(true);
   DoOnChange;
 end;
 
 procedure TfmFind.chkCaseClick(Sender: TObject);
 begin
+  FixFocus;
   with chkCase do
     Checked:= not Checked;
   UpdateState(true);
@@ -662,6 +686,7 @@ end;
 
 procedure TfmFind.chkConfirmClick(Sender: TObject);
 begin
+  FixFocus;
   with chkConfirm do
     Checked:= not Checked;
   UpdateState(false);
@@ -670,6 +695,7 @@ end;
 
 procedure TfmFind.chkHiAllClick(Sender: TObject);
 begin
+  FixFocus;
   with chkHiAll do
     Checked:= not Checked;
   UpdateState(true);
@@ -678,6 +704,7 @@ end;
 
 procedure TfmFind.chkInSelClick(Sender: TObject);
 begin
+  FixFocus;
   with chkInSel do
     Checked:= not Checked;
   UpdateState(true);
@@ -686,12 +713,14 @@ end;
 
 procedure TfmFind.chkMulLineClick(Sender: TObject);
 begin
+  FixFocus;
   IsMultiLine:= not IsMultiLine;
   DoOnChange;
 end;
 
 procedure TfmFind.chkPreserveCaseClick(Sender: TObject);
 begin
+  FixFocus;
   with chkPreserveCase do
     Checked:= not Checked;
   UpdateState(false);
@@ -705,16 +734,19 @@ end;
 
 procedure TfmFind.bFindFirstClick(Sender: TObject);
 begin
+  FixFocus;
   DoResult(afoFindFirst);
 end;
 
 procedure TfmFind.chkRepClick(Sender: TObject);
 begin
+  FixFocus;
   UpdateState(false);
 end;
 
 procedure TfmFind.chkWordsClick(Sender: TObject);
 begin
+  FixFocus;
   with chkWords do
     Checked:= not Checked;
   UpdateState(true);
@@ -723,6 +755,7 @@ end;
 
 procedure TfmFind.chkWrapClick(Sender: TObject);
 begin
+  FixFocus;
   with chkWrap do
     Checked:= not Checked;
   UpdateState(false);
