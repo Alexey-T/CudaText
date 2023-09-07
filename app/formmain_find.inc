@@ -1121,7 +1121,6 @@ procedure TfmMain.FinderOnWrapAtEdge(Sender: TObject);
 var
   NDelay: integer;
   ThemeColor: TColor;
-  OldColor: TColor;
 begin
   if UiOps.FindWrapAtEdge_ThemeItem='' then exit;
 
@@ -1133,17 +1132,35 @@ begin
 
   if Assigned(fmFind) and fmFind.Visible then
   begin
-    OldColor:= fmFind.edFind.Colors.TextBG;
+    FPrevColorOfFindDialogInput:= fmFind.edFind.Colors.TextBG;
     fmFind.edFind.Colors.TextBG:= ThemeColor;
     fmFind.edFind.Invalidate;
 
     FFindIsBusy:= true;
     Application.ProcessMessages;
-    Sleep(NDelay);
-    fmFind.edFind.Colors.TextBG:= OldColor;
-    fmFind.edFind.Invalidate;
-    FFindIsBusy:= false;
+
+    if TimerFinderWrapped=nil then
+    begin
+      TimerFinderWrapped:= TTimer.Create(Self);
+      TimerFinderWrapped.Enabled:= false;
+      TimerFinderWrapped.Interval:= NDelay;
+      TimerFinderWrapped.OnTimer:= @TimerFinderWrappedTick;
+    end;
+    TimerFinderWrapped.Enabled:= false;
+    TimerFinderWrapped.Enabled:= true;
   end;
+end;
+
+
+procedure TfmMain.TimerFinderWrappedTick(Sender: TObject);
+begin
+  TimerFinderWrapped.Enabled:= false;
+  if Assigned(fmFind) then
+  begin
+    fmFind.edFind.Colors.TextBG:= FPrevColorOfFindDialogInput;
+    fmFind.edFind.Invalidate;
+  end;
+  FFindIsBusy:= false;
 end;
 
 
