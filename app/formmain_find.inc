@@ -1148,6 +1148,7 @@ begin
     end;
     TimerFinderWrapped.Enabled:= false;
     TimerFinderWrapped.Enabled:= true;
+    fmFind.IsInputColored:= true;
   end;
 end;
 
@@ -1157,6 +1158,7 @@ begin
   TimerFinderWrapped.Enabled:= false;
   if Assigned(fmFind) then
   begin
+    fmFind.IsInputColored:= false;
     fmFind.edFind.Colors.TextBG:= FPrevColorOfFindDialogInput;
     fmFind.edFind.Invalidate;
   end;

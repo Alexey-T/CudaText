@@ -238,6 +238,7 @@ type
     FCaptionReplace: string;
     FInitialCaretPos: TPoint;
     FForViewer: boolean;
+    IsInputColored: boolean;
     procedure Localize;
     procedure DoOnChange;
     procedure UpdateFormHeight;
@@ -1687,7 +1688,7 @@ begin
 
   ClearHiAll;
 
-  if UiOps.FindShowNoResultsByInputBgColor then
+  if UiOps.FindShowNoResultsByInputBgColor and not IsInputColored then
   begin
     NColorBG:= GetAppColor(apclEdTextBg);
     edFind.Colors.TextBG:= NColorBG;
@@ -1720,7 +1721,7 @@ begin
       EditorHighlightAllMatches(Finder, AEnableFindNext, NMatches, FInitialCaretPos);
       NTick:= GetTickCount64-NTick;
 
-      if UiOps.FindShowNoResultsByInputBgColor then
+      if UiOps.FindShowNoResultsByInputBgColor and not IsInputColored then
       begin
         if NMatches=0 then
           NColorBG:= ColorBlendHalf(

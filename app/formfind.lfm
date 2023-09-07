@@ -10,16 +10,16 @@ object fmFind: TfmFind
   ClientWidth = 963
   FormStyle = fsStayOnTop
   KeyPreview = True
+  ShowHint = True
+  ShowInTaskBar = stNever
+  LCLVersion = '3.99.0.0'
+  Scaled = False
   OnClose = FormClose
   OnCreate = FormCreate
   OnHide = FormHide
   OnKeyDown = FormKeyDown
   OnResize = FormResize
   OnShow = FormShow
-  ShowHint = True
-  ShowInTaskBar = stNever
-  LCLVersion = '2.3.0.0'
-  Scaled = False
   object PanelOps: TATPanelSimple
     Left = 0
     Height = 118
