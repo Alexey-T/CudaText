@@ -1135,6 +1135,7 @@ begin
     FPrevColorOfFindDialogInput:= fmFind.edFind.Colors.TextBG;
     fmFind.edFind.Colors.TextBG:= ThemeColor;
     fmFind.edFind.Invalidate;
+    fmFind.IsInputColored:= true;
 
     FFindIsBusy:= true;
     Application.ProcessMessages;
@@ -1148,7 +1149,6 @@ begin
     end;
     TimerFinderWrapped.Enabled:= false;
     TimerFinderWrapped.Enabled:= true;
-    fmFind.IsInputColored:= true;
   end;
 end;
 
