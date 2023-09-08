@@ -2454,4 +2454,26 @@ Some text.
 }
 </syntaxhighlight>
 
+==LSP server Vale==
+Steps for Windows OS.
+
+* Install Vale server. Add path of "vale-ls.exe" to system PATH.
+* Create "lsp_vale.json" in CudaText's "settings" folder. Specify empty lexer name because use none-lexer to write prose.
+<syntaxhighlight lang="json">
+{
+    "lexers": {
+        "": ""
+    },
+    
+    "cmd_windows": ["vale-ls.exe"],
+    "log_stderr": true,
+    "settings": {
+        "configPath": ""
+    }
+}
+</syntaxhighlight>
+
+* You need to put config file to %UserProfile% folder. For example: "C:\Users\john\.vale.ini".
+* Do not forget to run: "vale sync".
+
 [[Category:CudaText]]
