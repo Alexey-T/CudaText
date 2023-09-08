@@ -178,7 +178,9 @@ type
   private
     { private declarations }
     FTimerShow: TTimer;
+    FTimerWrapped: TTimer;
     FPopupMore: TPopupMenu;
+    FPrevColorOfInput: TColor;
     FMenuitemOptRegex: TMenuItem;
     FMenuitemOptCase: TMenuItem;
     FMenuitemOptWords: TMenuItem;
@@ -205,6 +207,7 @@ type
     FMultiLine: boolean;
     FMultiLineJustActivated: boolean;
     FNarrow: boolean;
+    FInputColored: boolean;
     FOnResult: TAppFinderOperationEvent;
     FOnChangeVisible: TNotifyEvent;
     FOnChangeOptions: TNotifyEvent;
@@ -225,11 +228,13 @@ type
     procedure InitPopupMore;
     procedure MenuitemTokensClick(Sender: TObject);
     procedure SetHiAll(AValue: boolean);
+    procedure SetInputColored(AValue: boolean);
     procedure SetIsDoubleBuffered(AValue: boolean);
     procedure SetMultiLine(AValue: boolean);
     procedure SetNarrow(AValue: boolean);
     procedure SetReplace(AValue: boolean);
     procedure TimerShowTick(Sender: TObject);
+    procedure TimerWrappedTick(Sender: TObject);
     procedure UpdateButtonBold;
     procedure UpdateRegexHighlight;
   public
@@ -238,7 +243,6 @@ type
     FCaptionReplace: string;
     FInitialCaretPos: TPoint;
     FForViewer: boolean;
-    IsInputColored: boolean;
     procedure Localize;
     procedure DoOnChange;
     procedure UpdateFormHeight;
@@ -266,6 +270,7 @@ type
     property IsNarrow: boolean read FNarrow write SetNarrow;
     property IsHiAll: boolean read GetHiAll write SetHiAll;
     property IsDoubleBuffered: boolean write SetIsDoubleBuffered;
+    property IsInputColored: boolean read FInputColored write SetInputColored;
   end;
 
 var
@@ -1305,6 +1310,39 @@ begin
   end;
 end;
 
+procedure TfmFind.SetInputColored(AValue: boolean);
+var
+  NewColor: TColor;
+begin
+  if FInputColored=AValue then Exit;
+  FInputColored:= AValue;
+
+  if AValue then
+  begin
+    FPrevColorOfInput:= edFind.Colors.TextBG;
+    NewColor:= FindAppColorByName(UiOps.FindWrapAtEdge_ThemeItem, clNone);
+    if NewColor=clNone then exit;
+    edFind.Colors.TextBG:= NewColor;
+    edFind.Update;
+    Application.ProcessMessages;
+
+    if FTimerWrapped=nil then
+    begin
+      FTimerWrapped:= TTimer.Create(Self);
+      FTimerWrapped.Enabled:= false;
+      FTimerWrapped.Interval:= UiOps.FindWrapAtEdge_Delay;
+      FTimerWrapped.OnTimer:= @TimerWrappedTick;
+    end;
+    FTimerWrapped.Enabled:= false;
+    FTimerWrapped.Enabled:= true;
+  end
+  else
+  begin
+    edFind.Colors.TextBG:= FPrevColorOfInput;
+    edFind.Update;
+  end;
+end;
+
 procedure TfmFind.SetIsDoubleBuffered(AValue: boolean);
 begin
   edFind.DoubleBuffered:= AValue;
@@ -1399,6 +1437,12 @@ begin
   //fixing caret in the middle of field, #4670
   edFind.Update;
   edRep.Update;
+end;
+
+procedure TfmFind.TimerWrappedTick(Sender: TObject);
+begin
+  FTimerWrapped.Enabled:= false;
+  IsInputColored:= false;
 end;
 
 procedure TfmFind.UpdateFormHeight;

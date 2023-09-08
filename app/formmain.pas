@@ -728,7 +728,6 @@ type
     FCmdlineFileCount: integer;
     FPrevJsonObj: TJSONData;
     FPrevFramesEditState: array of TFrameEditState;
-    FPrevColorOfFindDialogInput: TColor;
 
     function CodeTreeFilter_OnFilterNode(ItemNode: TTreeNode; out Done: Boolean): Boolean;
     function ConfirmAllFramesAreSaved(AWithCancel: boolean): boolean;
@@ -1097,7 +1096,6 @@ type
     procedure SetShowTabsMain(AValue: boolean);
     procedure SplitterOnPaintDummy(Sender: TObject);
     procedure StopAllTimers;
-    procedure TimerFinderWrappedTick(Sender: TObject);
     procedure UpdateGroupsOfContextMenu;
     procedure UpdateEditorShowCaret;
     procedure UpdateFindDialogFromSuggestions;
