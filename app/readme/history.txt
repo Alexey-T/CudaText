@@ -3,6 +3,9 @@
   - fixed
   * changed
 
+1.198.2 (2023/09)
+
++ add: updated TRegExpr to 1.165: added \R support
 + add: Command Palette "toggle window always on top" works for floating groups too (thanks @SamC)
 * change: *BSD versions: do not call 'pkexec', instead only show a message-box, like IntelliJ (thanks @alex0x08 from linux.org.ru)
 
