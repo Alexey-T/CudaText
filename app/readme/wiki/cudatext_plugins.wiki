@@ -2458,7 +2458,7 @@ Some text.
 Steps for Windows OS.
 
 * Install Vale server. Add path of "vale-ls.exe" to system PATH.
-* Create "lsp_vale.json" in CudaText's "settings" folder. Specify empty lexer name because use none-lexer to write prose.
+* Create "lsp_vale.json" in CudaText's "settings" folder. Specify empty lexer name.
 <syntaxhighlight lang="json">
 {
     "lexers": {
