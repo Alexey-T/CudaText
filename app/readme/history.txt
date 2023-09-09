@@ -8,6 +8,7 @@
 + add: updated TRegExpr to 1.165: added \R support
 + add: Command Palette "toggle window always on top" works for floating groups too (thanks @SamC)
 * change: *BSD versions: do not call 'pkexec', instead only show a message-box, like IntelliJ (thanks @alex0x08 from linux.org.ru)
+- fix: Qt5 version: Find dialog: click on a button looses form focus (thanks @pintassilgo) 
 
 1.198.0 (2023/09)
 
