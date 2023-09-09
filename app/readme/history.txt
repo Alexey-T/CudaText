@@ -5,14 +5,14 @@
 
 1.198.2 (2023/09)
 
-+ add: updated TRegExpr to 1.165: added \R support
-+ add: Command Palette "toggle window always on top" works for floating groups too (thanks @SamC)
++ add: update TRegExpr to 1.165: added \R support
++ add: Command Palette item "toggle window always on top" works for floating groups too (thanks @SamC)
 * change: *BSD versions: do not call 'pkexec', instead only show a message-box, like IntelliJ (thanks @alex0x08 from linux.org.ru)
-- fix: Qt5 version: Find dialog: click on a button looses form focus (thanks @pintassilgo) 
+- fix: Qt5 version: Find dialog: click on a button looses dialog focus (thanks @pintassilgo) 
 
 1.198.0 (2023/09)
 
-+ add: updated TRegExpr engine from 1.158 to 1.163; see change log: https://github.com/andgineer/TRegExpr/blob/master/History.txt
++ add: update TRegExpr engine from 1.158 to 1.163; see change log: https://github.com/andgineer/TRegExpr/blob/master/History.txt
 + add: Wiki topic https://wiki.freepascal.org/CudaText_plugins#How_to_run_formatter_ESLint_on_saving
 + add: Wiki topic https://wiki.freepascal.org/CudaText_plugins#How_to_bind_a_hotkey_to_insert_a_snippet
 + add: Wiki topic https://wiki.freepascal.org/CudaText_plugins#Config_Toolbar
