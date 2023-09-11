@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 . ./cuda_ver.sh
 cd ../app
 
@@ -7,6 +7,11 @@ widgets=$2
 cpu=$3
 exedir=$4
 outdir=$5
+
+if [[ "$outdir" == "" ]]; then
+    echo "Need script params"
+    exit
+fi
 
 mkdir -p $outdir
 tarfile2=$outdir/cudatext-$os-$widgets-$cpu-$cuda_ver.tar

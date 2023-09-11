@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 . ./cuda_ver.sh
 cd ../app
 
@@ -6,6 +6,11 @@ cpu=$1
 outdir=$2
 exedir=$3
 pydir=$4
+
+if [[ "$pydir" == "" ]]; then
+  echo "Need script params"
+  exit
+fi
 
 zipname2=cudatext-windows-$cpu-$cuda_ver.zip
 zipname=_cud.zip

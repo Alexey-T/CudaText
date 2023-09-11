@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 . ./cuda_ver.sh
 debsuffix=$1
