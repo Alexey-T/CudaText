@@ -30,3 +30,4 @@ rm -rf cudatext/
 unzip -d cudatext $zipname
 zip -r $outdir/$zipname2 cudatext
 rm $outdir/$zipname
+rm -rf cudatext/
