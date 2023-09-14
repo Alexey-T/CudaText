@@ -1635,11 +1635,15 @@
   //Show in console lines "Init: cuda_nnnn" about plugins initialization.
   "py_init_log": true,
 
-  //Write console contents to file settings/console.log.
+  //Write console contents to file "settings/console.log".
   "log_console": false,
 
   //Show in console lines "Loaded session...", "Saved session...".
   "log_sessions": true,
+
+  //Show red indicators 'rendering time' and 'count of rendered frames' in the
+  //screen corner. Useful for CudaText developers only.
+  "log_timing" : false,
 
   //[Emmet]
   //Add slash to empty tags.
