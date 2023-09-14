@@ -702,9 +702,18 @@ Now you need to create .zip installation of lexer, for both editors: SynWrite, C
 
 ==Lite lexers==
 
-Lite lexers are lexers is special format (internally it's JSON file), with very limited features. They don't support code-tree, folding, don't support multi-line comments, don't have rich highlighting (e.g. background highlight of string `12+$var` with additional highlight for 12 and $var inside). And they don't keep tokens information in memory (positions of found tokens in text). But they work very fast for any file size (note: lines longer than 4K chars are not parsed). Lite lexers process only lines visible on screen, not all document lines.
+Lite lexers are lexers is special format (internally it's JSON file), with very limited features. They don't support code-tree, folding, don't support multi-line comments, don't have rich highlighting (e.g. background highlight of string `12+$var` with additional highlight for 12 and $var inside). And they don't keep tokens information in memory (positions of found tokens in text). Lite lexers process only lines visible on screen, not all document lines. So, they work fast for any file size.
 
-Lite lexers have the " ^" suffix in name. Currently few lexers are preinstalled: XML ^, JSON ^, Log files ^, SQL ^. You can also choose them, from the usual lexers menu (they are visible by suffix).
+Limitation: on lines longer than 4K chars, only first 4K chars have the syntax highlighting.
+
+Lite lexers have the " ^" suffix in name. You can activate lite lexers from the usual lexers menu.
+Several lite lexers are preinstalled:
+
+* Ini files ^
+* JSON ^
+* Log files ^
+* SQL ^
+* XML ^
 
 Lite lexers are auto used for big files, if file size is bigger than option "ui_max_size_lexer". And for small files, if normal lexer not found (e.g. "SQL ^" is used also for small files, because "normal" SQL lexer is not preinstalled).
 
