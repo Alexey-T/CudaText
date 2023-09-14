@@ -3,9 +3,11 @@
   - fixed
   * changed
 
-1.198.2 (2023/09)
+1.198.5 (2023/09)
 
-+ add: update TRegExpr to 1.165: added \R support
++ add: update TRegExpr engine to 1.167; see change log: https://github.com/andgineer/TRegExpr/blob/master/History.txt
++ add: option "ui_session_max_text"
++ add: option "ui_session_max_undo"
 + add: Command Palette item "toggle window always on top" works for floating groups too (thanks @SamC)
 * change: *BSD versions: do not call 'pkexec', instead only show a message-box, like IntelliJ (thanks @alex0x08 from linux.org.ru)
 - fix: Qt5 version: Find dialog: click on a button looses dialog focus (thanks @pintassilgo) 
