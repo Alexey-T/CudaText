@@ -1332,6 +1332,14 @@
   //You can open these backups by plugin Session Manager, or rename them to a normal name.
   "ui_backup_sessions": 2,
 
+  //Maximal size of document body which can be saved to session.
+  //Note: this option is global, not per-lexer.
+  "ui_session_max_text": 50000000,
+
+  //Maximal size of Undo-data which can be saved to session.
+  //Note: this option is global, not per-lexer.
+  "ui_session_max_undo": 1000000,
+
   //[Lexers]
   //Allow to apply color-theme to lexer's styles.
   //(And auto-show dialog "Lexer styles mapping".)

@@ -2086,7 +2086,7 @@ begin
     PyOutputCopyToStdout:= false;
 
     MaxLineLenForEditingKeepingLexer:= 2000;
-    MaxSizeForSession:= 50*1024*1024;
+    MaxSizeForSession:= 50*1000*1000;
     MaxLinesForMicromapPaint:= 300*1024;
 
     InfoAboutOptionsEditor:= true;

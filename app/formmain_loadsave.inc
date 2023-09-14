@@ -1161,6 +1161,8 @@ begin
     ATEditorOptions.UnprintedReplaceSpecToCode:= StrToIntDef('$'+s, ATEditorOptions.UnprintedReplaceSpecToCode);
 
   UiOps.MaxLineLenForEditingKeepingLexer:= cfg.GetValue('max_line_len_for_editing_keeping_lexer', UiOps.MaxLineLenForEditingKeepingLexer);
+  UiOps.MaxUndoSizeForSessionFile:= cfg.GetValue('ui_session_max_undo', UiOps.MaxUndoSizeForSessionFile);
+  UiOps.MaxSizeForSession:= cfg.GetValue('ui_session_max_text', UiOps.MaxSizeForSession);
 
   s:= cfg.GetValue('fallback_encoding', '');
   if s<>'' then
