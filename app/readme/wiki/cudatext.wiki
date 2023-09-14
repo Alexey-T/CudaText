@@ -715,7 +715,8 @@ Several lite lexers are preinstalled:
 * SQL ^
 * XML ^
 
-Lite lexers are auto used for big files, if file size is bigger than option "ui_max_size_lexer". And for small files, if normal lexer not found (e.g. "SQL ^" is used also for small files, because "normal" SQL lexer is not preinstalled).
+Lite lexers are automatically activated for big files, when file size is bigger than option "ui_max_size_lexer". For example, for small sized JSON files normal "JSON" lexer is activated, but for huge JSON files - lite lexer "JSON ^" is automatically activated.
+Lite lexers are activated for small files, if normal lexer for file-extension is not found. For example, "SQL ^" is used for small SQL files, because "normal" SQL lexer is not preinstalled.
 
 How to change styles in lite lexers? For example, "Log files ^" uses styles "Id"/"Id2", and you want to change that? It's easy:
 
