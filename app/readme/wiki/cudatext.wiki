@@ -1729,7 +1729,7 @@ In viewer mode, you can click statusbar fields:
 * Encoding field. You can change viewer encoding only in non-Unicode modes.
 * Mode field, to change view mode: Text, Binary, Hex, Unciode, Unicode/Hex.
 
-'''Q: How to open some file into viewer?'''
+'''Q: How to open file in viewer?'''
 
 A1: If file is too big, CudaText suggests to use viewer automatically - see screenshot of the helper dialog above. If file is not too big, you can switch from the editor to viewer. You need the plugin CudaExt which gives the Command Palette command: '''"Cuda-Ext: File: Show in hex viewer"'''. After that, you can change viewer-mode via statusbar click: Text / Binary / Hex / etc. To switch back to the editor, use Command Palette command: '''"Cuda-Ext: File: Show in text editor"'''.
 
