@@ -1221,7 +1221,6 @@
   "key_left_right_wrap_with_carets": true,
 
   //Keys Left/Right-arrows: try to jump to opposite selection edge.
-  //It works only for single caret.
   "key_left_right_swap_sel": true,
 
   //Keys Left/Right-arrows: try to jump to opposite selection edge, and keep this selection.
