@@ -1705,7 +1705,7 @@ An option exists to change the delay of messages in the statusbar.
 
 This is not used in the main statusbar, but plugin API allows to colorize statusbar cells (used by Vim Mode plugin), and to show icons there.
 
-=File viewer=
+=Text/Hex viewer=
 CudaText has internal file viewer, for files on unlimited size. Only visible portion of file is loaded into memory, so viewer is fast for all files. Viewer has several modes:
 
 * Text: 1-byte encoding, variable line length
@@ -1728,6 +1728,18 @@ Viewer allows to use "Go to" dialog. In the "Go to" dialog, you can enter "2000"
 In viewer mode, you can click statusbar fields:
 * Encoding field. You can change viewer encoding only in non-Unicode modes.
 * Mode field, to change view mode: Text, Binary, Hex, Unciode, Unicode/Hex.
+
+'''Q: How to open some file into viewer?'''
+
+A1: If file is too big, CudaText suggests to use viewer automatically - see screenshot of the helper dialog above. If file is not too big, you can switch from the editor to viewer. You need the plugin CudaExt which gives the Command Palette command: '''"Cuda-Ext: File: Show in hex viewer"'''. After that, you can change viewer-mode via statusbar click: Text / Binary / Hex / etc. To switch back to the editor, use Command Palette command: '''"Cuda-Ext: File: Show in text editor"'''.
+
+A2: Start CudaText without any files, and call Command Palette item '''"file: open file, in text viewer"'''. It shows the Open File dialog and then loads file directly into viewer. Again, you can change viewer-mode via statusbar click: Text / Binary / Hex / etc.
+
+A3: Start CudaText from Terminal (console) like this:
+
+ cudatext -z=text FileName
+ cudatext -z=binary FileName
+ cudatext -z=hex FileName
 
 =Picture file viewer=
 CudaText has the emdedded picture file viewer. It's activated when you open a file with the picture file type, see the option "picture_types": BMP, PNG, JPEG, GIF, ICO (Windows icon), WEBP (general picture format), PSD (Photoshop image), TGA (Targa), CUR (Windows cursor).
