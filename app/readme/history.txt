@@ -11,7 +11,8 @@
 + add: Command Palette item "toggle window always on top" works for floating groups too (thanks @SamC)
 * change: *BSD versions: do not call 'pkexec', instead only show a message-box, like IntelliJ (thanks @alex0x08 from linux.org.ru)
 * change: reducing selection with Shift+click used the wrong direction; now Shift+click with selection works like in Firefox/Chromium (thanks @pintassilgo)
-- fix: Qt5 version: Find dialog: click on a button looses dialog focus (thanks @pintassilgo) 
+- fix: Qt5 version: Find dialog: click on a button looses dialog focus (thanks @pintassilgo)
+- fix: regression, option "key_left_right_swap_sel_and_select":true didn't work 
 
 1.198.0 (2023/09)
 
