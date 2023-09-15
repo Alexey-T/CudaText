@@ -10,7 +10,7 @@
 + add: option "ui_session_max_undo" (code for it was introduced in 1.191)
 + add: Command Palette item "toggle window always on top" works for floating groups too (thanks @SamC)
 * change: *BSD versions: do not call 'pkexec', instead only show a message-box, like IntelliJ (thanks @alex0x08 from linux.org.ru)
-- fix: reducing text selection with Shift+click uses the wrong direction (thanks @pintassilgo)
+- fix: reducing selection with Shift+click uses the wrong direction; now Shift+click with selection must work like in Firefox/Chromium (thanks @pintassilgo)
 - fix: Qt5 version: Find dialog: click on a button looses dialog focus (thanks @pintassilgo) 
 
 1.198.0 (2023/09)
