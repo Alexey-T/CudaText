@@ -3751,10 +3751,7 @@ begin
 
     //bookmarks are always saved to 'history files.json'
     if UiOps.HistoryItems[ahhBookmarks] then
-    begin
       DoSaveHistory_Bookmarks(Ed, cfg);
-      Ed.ModifiedBookmarks:= false;
-    end;
   finally
     cfg.Free;
   end;
@@ -3797,6 +3794,7 @@ begin
     SValue:= c.GetValue(SKey, '');
     if SValue<>'' then
       EditorStringToBookmarks(Ed, SValue);
+    Ed.ModifiedBookmarks:= false;
   end;
 end;
 
@@ -3811,6 +3809,7 @@ begin
       c.SetValue(SKey, EditorBookmarksToString(Ed))
     else
       c.DeleteValue(SKey);
+    Ed.ModifiedBookmarks:= false;
   end;
 end;
 
@@ -3989,7 +3988,6 @@ begin
 
     if AllowLoadBookmarks then
       DoLoadHistory_Bookmarks(Ed, cfg);
-    Ed.ModifiedBookmarks:= false;
   finally
     cfg.Free;
   end;
