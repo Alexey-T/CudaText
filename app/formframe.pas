@@ -2971,6 +2971,7 @@ begin
     DoLoadUndo(Ed);
 
   DoLoadHistory(Ed, AAllowLoadHistoryEnc, AAllowLoadHistory, AAllowLoadBookmarks);
+  Ed.ModifiedBookmarks:= false;
 
   //save temp-options, to later know which options are changed,
   //during loading of lexer-specific config
