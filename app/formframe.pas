@@ -1748,6 +1748,12 @@ end;
 
 procedure TEditorFrame.EditorOnChangeBookmarks(Sender: TObject);
 begin
+  if Splitted then
+  begin
+    Ed1.Update;
+    Ed2.Update;
+  end;
+
   DoPyEventState(Sender as TATSynEdit, EDSTATE_BOOKMARK);
 end;
 
