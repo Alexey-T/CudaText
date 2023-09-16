@@ -429,7 +429,7 @@ begin
 
       if Assigned(cfg_bookmarks) then
         if Frame.Ed1.ModifiedBookmarks then
-          Frame.DoSaveHistory_Bookmarks(Frame.Ed1, cfg_bookmarks);
+          Frame.DoSaveBookmarks(Frame.Ed1, cfg_bookmarks);
 
       //save info about paired-tab to subkey "pair"
       if sTabFilename2<>'' then
@@ -464,7 +464,7 @@ begin
         if not Frame.EditorsLinked then
           if Assigned(cfg_bookmarks) then
             if Frame.Ed2.ModifiedBookmarks then
-              Frame.DoSaveHistory_Bookmarks(Frame.Ed2, cfg_bookmarks);
+              Frame.DoSaveBookmarks(Frame.Ed2, cfg_bookmarks);
       end;
     end;
 

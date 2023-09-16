@@ -499,11 +499,10 @@ type
     //history
     procedure DoSaveHistory(Ed: TATSynEdit);
     procedure DoSaveHistoryEx(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString; AForSession: boolean);
-    procedure DoLoadHistory(Ed: TATSynEdit; AllowLoadEncoding, AllowLoadHistory,
-      AllowLoadBookmarks: boolean);
+    procedure DoLoadHistory(Ed: TATSynEdit; AllowLoadEncoding, AllowLoadHistory, AllowLoadBookmarks: boolean);
     procedure DoLoadHistoryEx(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString; AllowEnc: boolean);
-    procedure DoLoadHistory_Bookmarks(Ed: TATSynEdit; c: TJsonConfig);
-    procedure DoSaveHistory_Bookmarks(Ed: TATSynEdit; c: TJsonConfig);
+    procedure DoLoadBookmarks(Ed: TATSynEdit; c: TJsonConfig);
+    procedure DoSaveBookmarks(Ed: TATSynEdit; c: TJsonConfig);
     //misc
     function DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent; const AParams: TAppVariantArray): TAppPyEventResult;
     procedure DoPyEventState(Ed: TATSynEdit; AState: integer);
@@ -3751,7 +3750,7 @@ begin
 
     //bookmarks are always saved to 'history files.json'
     if UiOps.HistoryItems[ahhBookmarks] then
-      DoSaveHistory_Bookmarks(Ed, cfg);
+      DoSaveBookmarks(Ed, cfg);
   finally
     cfg.Free;
   end;
@@ -3784,7 +3783,7 @@ begin
    end;
 end;
 
-procedure TEditorFrame.DoLoadHistory_Bookmarks(Ed: TATSynEdit; c: TJsonConfig);
+procedure TEditorFrame.DoLoadBookmarks(Ed: TATSynEdit; c: TJsonConfig);
 var
   SKey, SValue: UnicodeString;
 begin
@@ -3798,7 +3797,7 @@ begin
   end;
 end;
 
-procedure TEditorFrame.DoSaveHistory_Bookmarks(Ed: TATSynEdit; c: TJsonConfig);
+procedure TEditorFrame.DoSaveBookmarks(Ed: TATSynEdit; c: TJsonConfig);
 var
   SKey: UnicodeString;
 begin
@@ -3987,7 +3986,7 @@ begin
       DoLoadHistoryEx(Ed, cfg, path, AllowLoadEncoding);
 
     if AllowLoadBookmarks then
-      DoLoadHistory_Bookmarks(Ed, cfg);
+      DoLoadBookmarks(Ed, cfg);
   finally
     cfg.Free;
   end;
