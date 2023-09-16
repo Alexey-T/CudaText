@@ -361,7 +361,6 @@ type
     procedure DoSaveUndo(Ed: TATSynEdit; const AFileName: string);
     procedure DoLoadUndo(Ed: TATSynEdit);
     procedure DoSaveHistory_Caret(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString);
-    procedure DoSaveHistory_Bookmarks(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString);
     procedure RestoreSavedLexer(Ed: TATSynEdit);
 
   protected
@@ -503,7 +502,8 @@ type
     procedure DoLoadHistory(Ed: TATSynEdit; AllowLoadEncoding, AllowLoadHistory,
       AllowLoadBookmarks: boolean);
     procedure DoLoadHistoryEx(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString; AllowEnc: boolean);
-    procedure DoLoadHistory_Bookmarks(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString);
+    procedure DoLoadHistory_Bookmarks(Ed: TATSynEdit; c: TJsonConfig);
+    procedure DoSaveHistory_Bookmarks(Ed: TATSynEdit; c: TJsonConfig);
     //misc
     function DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent; const AParams: TAppVariantArray): TAppPyEventResult;
     procedure DoPyEventState(Ed: TATSynEdit; AState: integer);
@@ -3743,7 +3743,7 @@ begin
     //bookmarks are always saved to 'history files.json'
     if UiOps.HistoryItems[ahhBookmarks] then
     begin
-      DoSaveHistory_Bookmarks(Ed, cfg, SKeyForFile);
+      DoSaveHistory_Bookmarks(Ed, cfg);
       Ed.ModifiedBookmarks:= false;
     end;
   finally
@@ -3778,7 +3778,7 @@ begin
    end;
 end;
 
-procedure TEditorFrame.DoLoadHistory_Bookmarks(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString);
+procedure TEditorFrame.DoLoadHistory_Bookmarks(Ed: TATSynEdit; c: TJsonConfig);
 var
   SKey, SValue: UnicodeString;
 begin
@@ -3791,7 +3791,7 @@ begin
   end;
 end;
 
-procedure TEditorFrame.DoSaveHistory_Bookmarks(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString);
+procedure TEditorFrame.DoSaveHistory_Bookmarks(Ed: TATSynEdit; c: TJsonConfig);
 var
   SKey: UnicodeString;
 begin
@@ -3979,7 +3979,7 @@ begin
       DoLoadHistoryEx(Ed, cfg, path, AllowLoadEncoding);
 
     if AllowLoadBookmarks then
-      DoLoadHistory_Bookmarks(Ed, cfg, path);
+      DoLoadHistory_Bookmarks(Ed, cfg);
     Ed.ModifiedBookmarks:= false;
   finally
     cfg.Free;

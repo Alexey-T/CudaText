@@ -232,7 +232,7 @@ function TfmMain.DoOps_SaveSession(const ASessionId: string;
 const
   keysToIgnore: array of UTF8String = ('text', 'undo', 'redo');
 var
-  cfg: TJSONConfigEx;
+  cfg, cfg_bookmarks: TJSONConfigEx;
   Frame: TEditorFrame;
   Gr: TATGroups;
   Pages: TATPages;
@@ -267,6 +267,7 @@ begin
   nFrameCount:= FrameCount;
 
   cfg:= TJSONConfigEx.Create(nil);
+  cfg_bookmarks:= TJSONConfigEx.Create(nil);
   try
     try
       cfg.Formatted:= true;
@@ -278,6 +279,17 @@ begin
       begin
         MsgBadConfig(sSessionFileName, E.Message);
         exit;
+      end;
+    end;
+
+    try
+      cfg_bookmarks.Formatted:= true;
+      cfg_bookmarks.Filename:= AppFile_HistoryFiles;
+    except
+      on E: Exception do
+      begin
+        MsgBadConfig(AppFile_HistoryFiles, E.Message);
+        FreeAndNil(cfg_bookmarks);
       end;
     end;
 
@@ -415,6 +427,10 @@ begin
 
       Frame.DoSaveHistoryEx(Frame.Ed1, cfg, path, true{AForSession});
 
+      if Assigned(cfg_bookmarks) then
+        if Frame.Ed1.ModifiedBookmarks then
+          Frame.DoSaveHistory_Bookmarks(Frame.Ed1, cfg_bookmarks);
+
       //save info about paired-tab to subkey "pair"
       if sTabFilename2<>'' then
       begin
@@ -444,6 +460,11 @@ begin
         end;
 
         Frame.DoSaveHistoryEx(Frame.Ed2, cfg, path, true{AForSession});
+
+        if not Frame.EditorsLinked then
+          if Assigned(cfg_bookmarks) then
+            if Frame.Ed2.ModifiedBookmarks then
+              Frame.DoSaveHistory_Bookmarks(Frame.Ed2, cfg_bookmarks);
       end;
     end;
 
@@ -468,9 +489,10 @@ begin
       else
         cfg.SetModified(false); // no need to save the session
 
-      cfg.Free; //saves json file when its property 'Modified' is 'true'
+      FreeAndNil(cfg_bookmarks);
+      FreeAndNil(cfg); //saves json file when its property Modified is True
     except
-      //for incorrect sess folder
+      //for incorrect session folder
     end;
   end;
 
