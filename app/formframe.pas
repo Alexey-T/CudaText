@@ -3742,7 +3742,10 @@ begin
 
     //bookmarks are always saved to 'history files.json'
     if UiOps.HistoryItems[ahhBookmarks] then
+    begin
       DoSaveHistory_Bookmarks(Ed, cfg, SKeyForFile);
+      Ed.ModifiedBookmarks:= false;
+    end;
   finally
     cfg.Free;
   end;
@@ -3977,6 +3980,7 @@ begin
 
     if AllowLoadBookmarks then
       DoLoadHistory_Bookmarks(Ed, cfg, path);
+    Ed.ModifiedBookmarks:= false;
   finally
     cfg.Free;
   end;
