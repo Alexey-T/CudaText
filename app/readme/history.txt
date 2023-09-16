@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.198.5 (2023/09)
+1.199.0 (2023/09)
 
 + add: update TRegExpr engine to 1.167; see change log: https://github.com/andgineer/TRegExpr/blob/master/History.txt
 + add: option "ui_session_max_text" (code for it was introduced in 1.193)
