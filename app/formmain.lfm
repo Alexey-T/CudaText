@@ -12,6 +12,8 @@ object fmMain: TfmMain
   DefaultMonitor = dmDesktop
   KeyPreview = True
   Menu = MainMenu
+  LCLVersion = '3.99.0.0'
+  Visible = True
   OnActivate = FormActivate
   OnChangeBounds = FormChangeBounds
   OnClose = FormClose
@@ -24,8 +26,6 @@ object fmMain: TfmMain
   OnShow = FormShow
   OnUTF8KeyPress = FormUTF8KeyPress
   OnWindowStateChange = FormWindowStateChange
-  LCLVersion = '3.99.0.0'
-  Visible = True
   object PanelSide: TATPanelSimple
     Left = 0
     Height = 518

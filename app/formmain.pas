@@ -2200,6 +2200,10 @@ begin
           InitPopupViewerMode;
           PopupViewerMode.PopUp;
         end;
+      21..MaxInt:
+        begin
+          PyStatusbarPanelClick(Sender, Data.Tag);
+        end;
     end;
     exit;
   end;
