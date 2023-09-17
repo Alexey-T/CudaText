@@ -2231,22 +2231,20 @@ begin
     StatusbarTag_SelMode:
       begin
         with Frame.Editor do
-        begin
           OptMouseColumnSelectionWithoutKey:= not OptMouseColumnSelectionWithoutKey;
-          UpdateStatusbar;
-        end;
+        UpdateStatusbar_RealWork;
       end;
     StatusbarTag_WrapMode:
       begin
-        //loop: no wrap - wrap at window - wrap at margin
+        //toggle values: no wrap / wrap at window / wrap at margin
         with Frame.Editor do
         begin
           if OptWrapMode=High(OptWrapMode) then
             OptWrapMode:= Low(OptWrapMode)
           else
             OptWrapMode:= Succ(OptWrapMode);
-          UpdateStatusbar;
         end;
+        UpdateStatusbar_RealWork;
       end;
     StatusbarTag_Msg:
       begin
