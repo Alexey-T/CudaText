@@ -2183,6 +2183,13 @@ begin
     exit;
   end;
 
+  //cell of plugin
+  if Data.Tag>20 then
+  begin
+    PyStatusbarPanelClick(Sender, Data.Tag);
+  end
+  else
+  //standard cell in viewer mode
   if FrameKind=efkBinaryViewer then
   begin
     case Data.Tag of
@@ -2200,14 +2207,10 @@ begin
           InitPopupViewerMode;
           PopupViewerMode.PopUp;
         end;
-      21..MaxInt:
-        begin
-          PyStatusbarPanelClick(Sender, Data.Tag);
-        end;
     end;
-    exit;
-  end;
-
+  end
+  else
+  //standard cell in editor mode
   case Data.Tag of
     StatusbarTag_Caret:
       begin
@@ -2264,10 +2267,6 @@ begin
         end;
         Pnt:= Mouse.CursorPos;
         PopupStatusbarMsg.PopUp(Pnt.X, Pnt.Y);
-      end;
-    21..MaxInt:
-      begin
-        PyStatusbarPanelClick(Sender, Data.Tag);
       end;
   end;
 end;
