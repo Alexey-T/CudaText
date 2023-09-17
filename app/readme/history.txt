@@ -5,7 +5,7 @@
 
 1.199.0 (2023/09)
 
-+ add: update TRegExpr engine to 1.167; see change log: https://github.com/andgineer/TRegExpr/blob/master/History.txt
++ add: update TRegExpr engine to 1.169; see change log: https://github.com/andgineer/TRegExpr/blob/master/History.txt
 + add: option "ui_session_max_text"
 + add: option "ui_session_max_undo"
 + add: Command Palette item "toggle window always on top" works for floating groups too (thanks @SamC)
