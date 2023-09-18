@@ -317,8 +317,10 @@ end;
 function _MakeHint(const AText, AHotkey: string): string;
 begin
   Result:= AText;
+  if Result<>'' then
+    Result+= ' ';
   if AHotkey<>'' then
-    Result+= ' ['+AHotkey+']';
+    Result+= '['+AHotkey+']';
 end;
 
 { TfmFind }
@@ -873,7 +875,7 @@ begin
   bRep.Hint:= UiOps.HotkeyReplaceAndFindNext;
   bRepAll.Hint:= UiOps.HotkeyReplaceAll;
   bRepGlobal.Hint:= UiOps.HotkeyReplaceGlobal;
-  bMore.Hint:= '['+UiOps.HotkeyFindMenu+']';
+  bMore.Hint:= _MakeHint('', UiOps.HotkeyFindMenu);
 
   for kind in TATFinderTokensAllowed do
   begin
