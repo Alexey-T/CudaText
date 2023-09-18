@@ -8,6 +8,7 @@
 + add: update TRegExpr engine to 1.169; see change log: https://github.com/andgineer/TRegExpr/blob/master/History.txt
 + add: option "ui_session_max_text"
 + add: option "ui_session_max_undo"
++ add: Find dialog: new hotkey Ctrl+Alt+dot for '...' button (thanks @MiroslavMatas)
 + add: Command Palette item "toggle window always on top" works for floating groups too (thanks @SamC)
 * change: Shift+click with selection works more like in VSCode (thanks @pintassilgo)
 * change: *BSD versions: do not call 'pkexec', instead only show a message-box, like IntelliJ (thanks @alex0x08 from linux.org.ru)
