@@ -873,6 +873,7 @@ begin
   bRep.Hint:= UiOps.HotkeyReplaceAndFindNext;
   bRepAll.Hint:= UiOps.HotkeyReplaceAll;
   bRepGlobal.Hint:= UiOps.HotkeyReplaceGlobal;
+  bMore.Hint:= '['+UiOps.HotkeyFindMenu+']';
 
   for kind in TATFinderTokensAllowed do
   begin
@@ -1171,6 +1172,13 @@ begin
     UpdateState(false);
     key:= 0;
     exit
+  end;
+
+  if (Str=UiOps.HotkeyFindMenu) or (Str=UiOps.HotkeyFindMenu2) then
+  begin
+    bMoreClick(nil);
+    key:= 0;
+    exit;
   end;
 
   //avoid handling of Shift+Tab in the editor (it runs "Unindent block")
