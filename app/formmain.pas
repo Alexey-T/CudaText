@@ -4189,6 +4189,8 @@ begin
   EditorApplyOpsCommon(fmOutput.Ed);
   EditorApplyOpsCommon(fmValidate.Ed);
 
+  DoApplyFont_Output;
+
   DoApplyUiOpsToGroups(Groups);
   if FloatGroups then
   begin

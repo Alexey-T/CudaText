@@ -1908,8 +1908,8 @@ begin
     VarFontName:= 'default';
     VarFontSize:= 9;
 
-    OutputFontName:= VarFontName;
-    OutputFontSize:= VarFontSize;
+    OutputFontName:= EditorOps.OpFontName;
+    OutputFontSize:= EditorOps.OpFontSize;
 
     DoubleBuffered:= IsDoubleBufferedNeeded;
 

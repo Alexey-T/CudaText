@@ -522,10 +522,6 @@ begin
   if Assigned(fmFind) then
     fmFind.UpdateFonts;
 
-  fmOutput.Ed.Font.Name:= EditorOps.OpFontName;
-  fmOutput.Ed.Font.Size:= EditorOps.OpFontSize;
-  fmOutput.Ed.Font.Quality:= EditorOps.OpFontQuality;
-
   fmValidate.Ed.Font.Name:= EditorOps.OpFontName;
   fmValidate.Ed.Font.Size:= EditorOps.OpFontSize;
   fmValidate.Ed.Font.Quality:= EditorOps.OpFontQuality;
@@ -586,7 +582,9 @@ end;
 
 procedure TfmMain.DoApplyFont_Output;
 begin
-  //empty now
+  fmOutput.Ed.Font.Name:= UiOps.OutputFontName;
+  fmOutput.Ed.Font.Size:= UiOps.OutputFontSize;
+  fmOutput.Ed.Update;
 end;
 
 procedure TfmMain.UpdateMenuRecents(sub: TMenuItem);
