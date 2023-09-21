@@ -3,6 +3,8 @@
   - fixed
   * changed
 
+- fix: regression: options "ui_font_output_name"/"ui_font_output_size" were ignored
+
 1.199.0 (2023/09)
 
 + add: update TRegExpr engine to 1.169; see change log: https://github.com/andgineer/TRegExpr/blob/master/History.txt
