@@ -109,3 +109,41 @@ class Command:
         lexer_proc(LEXER_REREAD_LIB, '')
 
         ed_self.set_prop(PROP_LEXER_FILE, lex)
+
+        # save data to packages.ini
+        def getZipFilesNames(f_):
+            from zipfile import ZipFile
+            n_ = []
+            with ZipFile(f_, 'r') as z_:
+                for i_ in z_.namelist():
+                    if i_ != 'install.inf':
+                        n_.append(i_)
+
+            return n_
+
+        def getVersion(l_):
+            from cuda_addonman import opt
+            urls_ = opt.ch_def
+            lexers_url_ = ''
+            for i_ in urls_:
+                if i_.find('lexer') != -1:
+                    lexers_url_ = i_
+            vers_ = ''
+            if lexers_url_:
+                from cuda_addonman.work_remote import get_url
+                lexers_json_ = tempfile.gettempdir() + os.sep + 'cudatext_lexers.json'
+                get_url(lexers_url_, lexers_json_, True)
+                import json
+                lexers_json_data_ = json.loads(open(lexers_json_).read())
+                for i_ in lexers_json_data_:
+                    for k_, v_ in i_.items():
+                        if k_ == 'url' and v_.find(l_) != -1:
+                            vers_ = i_['v']
+
+            return vers_
+
+        fn_ = os.path.join(app_path(APP_DIR_SETTINGS), 'packages.ini')
+        sec = 'lexer.' + quote(lex.replace(' ', '_')) + '.zip'
+        ini_write(fn_, sec, 'd', 'data/lexlib')
+        ini_write(fn_, sec, 'f', ';'.join(getZipFilesNames(tempname)))
+        ini_write(fn_, sec, 'v', getVersion(sec))
