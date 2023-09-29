@@ -1158,7 +1158,7 @@ begin
   for i:= 0 to ALevel do
   begin
     N:= RPosEx(DirectorySeparator, AFileName, N-1);
-    if N<0 then
+    if N<=0 then
       Break;
   end;
   Result:= Copy(AFileName, N+1, MaxInt);
