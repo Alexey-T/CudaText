@@ -3,7 +3,8 @@
   - fixed
   * changed
 
-- fix: regression: options "ui_font_output_name"/"ui_font_output_size" were ignored
+- fix: when clicking between main window and floating groups, code-tree was not updated (thanks @SamC)
+- fix: regression: options "ui_font_output_name"/"ui_font_output_size" were ignored (thanks @ildarkhasanshin)
 
 1.199.0 (2023/09)
 
