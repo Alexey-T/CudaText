@@ -2982,6 +2982,7 @@ end;
 procedure TfmMain.FormActivate(Sender: TObject);
 begin
   AppActiveForm:= Sender;
+  UpdateTreeByTimer;
 end;
 
 procedure TfmMain.FormChangeBounds(Sender: TObject);
