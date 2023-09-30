@@ -179,7 +179,7 @@ Supported flags:
 * Session files (<code>*.cuda-session</code>) can be loaded, too, even without the Session Manager plugin.
 * Non-existing filename can be specified, CudaText will ask if you wish to create the file.
 * File masks with the <code>*</code> wildcard are supported, e.g. <syntaxhighlight lang="shell" inline>cudatext test/t*.htm*</syntaxhighlight> will work.
-* Zip filenames can be specified, if they are zipped CudaText add-ons (zip file must contains "install.inf" in proper format).
+* Zip filenames can be specified, if they are zipped CudaText add-ons (zip file must contain "install.inf" in proper format).
 
 On macOS, you cannot run "cudatext" from the Terminal out of the box, but you can create an alias for "cudatext" first and then do so: <syntaxhighlight lang="shell" inline>alias cudatext=open\ /Applications/CudaText.app\ --args</syntaxhighlight>
 
