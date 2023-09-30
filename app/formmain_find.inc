@@ -57,7 +57,7 @@ begin
 
     markingBookmarks:
       begin
-        ed.BookmarkSetForLine(APos1.Y, 1, '', bmadOption, true, 0);
+        ed.BookmarkSetForLine(APos1.Y, 1, '', TATBookmarkAutoDelete.ByOption, true, 0);
       end;
   end;
 end;

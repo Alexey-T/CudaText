@@ -2001,7 +2001,7 @@ begin
       'hint',
       PChar(string(BmItem^.Data.Hint)),
       'auto_del',
-      PyBool_FromLong(Ord(BmItem^.Data.AutoDelete=bmadDelete)),
+      PyBool_FromLong(Ord(BmItem^.Data.AutoDelete=TATBookmarkAutoDelete.Delete)),
       'auto_delx',
       Ord(BmItem^.Data.AutoDelete),
       'show_in_list',
@@ -2058,9 +2058,9 @@ begin
         NKind:= High(AppBookmarkSetup);
 
       if Bool(NAutoDelete) then
-        AutoDel:= bmadDelete
+        AutoDel:= TATBookmarkAutoDelete.Delete
       else
-        AutoDel:= bmadOption;
+        AutoDel:= TATBookmarkAutoDelete.ByOption;
 
       case NId of
         BOOKMARK_GET_PROP:

@@ -2893,7 +2893,7 @@ begin
     begin
       Bm.LineNum:= nLine;
       Bm.Kind:= nKind;
-      Bm.AutoDelete:= bmadOption;
+      Bm.AutoDelete:= TATBookmarkAutoDelete.ByOption;
       Ed.Strings.Bookmarks.Add(Bm);
     end;
   end;

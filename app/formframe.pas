@@ -3475,7 +3475,7 @@ begin
   end;
 
   if ABand=Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagBookmarks) then
-    Ed.BookmarkToggleForLine(ALine, 1, '', bmadOption, true, 0);
+    Ed.BookmarkToggleForLine(ALine, 1, '', TATBookmarkAutoDelete.ByOption, true, 0);
 end;
 
 procedure TEditorFrame.EditorOnDrawBookmarkIcon(Sender: TObject; C: TCanvas; ALineNum: integer;
