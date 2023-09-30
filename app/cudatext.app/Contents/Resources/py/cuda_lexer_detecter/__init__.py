@@ -124,7 +124,8 @@ class Command:
         from urllib.parse import quote
         from cuda_addonman.work_remote import get_url
 
-        url = 'https://sourceforge.net/projects/cudatext/files/addons/lexers/lexer.' + quote(lex.replace(' ', '_')) + '.zip'
+        url_filename = 'lexer.' + quote(lex.replace(' ', '_')) + '.zip'
+        url = 'https://sourceforge.net/projects/cudatext/files/addons/lexers/' + url_filename
 
         tempname = tempfile.gettempdir()+os.sep+'cudatext_lexer.zip'
         get_url(url, tempname, True)
@@ -138,9 +139,8 @@ class Command:
         ed_self.set_prop(PROP_LEXER_FILE, lex)
 
         fn_pkg = os.path.join(app_path(APP_DIR_SETTINGS), 'packages.ini')
-        section = 'lexer.' + quote(lex.replace(' ', '_')) + '.zip'
-        version = get_lexer_version(section)
-        ini_write(fn_pkg, section, 'd', 'data/lexlib')
-        ini_write(fn_pkg, section, 'f', ';'.join(get_zip_filenames(tempname)))
-        ini_write(fn_pkg, section, 'v', version)
+        version = get_lexer_version(url_filename)
+        ini_write(fn_pkg, url_filename, 'd', 'data/lexlib')
+        ini_write(fn_pkg, url_filename, 'f', ';'.join(get_zip_filenames(tempname)))
+        ini_write(fn_pkg, url_filename, 'v', version)
         print(_('Installed lexer "%s", version "%s"')%(lex, version))
