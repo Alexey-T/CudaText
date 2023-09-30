@@ -13,7 +13,7 @@ if [[ "$pydir" == "" ]]; then
 fi
 
 zipname2=cudatext-windows-$cpu-$cuda_ver.zip
-zipname=_cud.zip
+zipname=tmp_$zipname2
 mkdir -p $outdir
 mkdir $outdir/src
 mkdir $pydir
