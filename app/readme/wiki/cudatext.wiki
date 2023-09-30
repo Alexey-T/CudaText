@@ -138,9 +138,11 @@ For not portable usage, folder "settings" is created here:
 * Haiku: /boot/home/config/settings/cudatext
 
 == Command line flags/arguments ==
-Usage: <syntaxhighlight lang="shell-session" inline>$ cudatext [ flag … ] filename …</syntaxhighlight>
+Usage:
 
-'''Supported flags:'''
+<syntaxhighlight lang="shell-session" inline>cudatext [ flag … ] filename …</syntaxhighlight>
+
+Supported flags:
 {{Columns-start}}
 ; <code>-h</code>/<code>--help</code> : Show command-line help and exit.
 ; <code>-v</code>/<code>--version</code> : Show application version and exit.
@@ -175,7 +177,7 @@ Usage: <syntaxhighlight lang="shell-session" inline>$ cudatext [ flag … ] file
 * Folders can be specified too, they will be opened as a "project" in the Project Manager.
 * Project files (<code>*.cuda-proj</code>) can be loaded from the command line.
 * Session files (<code>*.cuda-session</code>) can be loaded, too, but only if the Session Manager plugin is installed.
-* Non-existing filenames can be specified, CudaText will simply ask if you wish to create it.
+* Non-existing filename can be specified, CudaText will ask if you wish to create the file.
 * File masks with the <code>*</code> wildcard are supported, e.g. <syntaxhighlight lang="shell" inline>cudatext test/t*.htm*</syntaxhighlight> will work.
 
 On macOS, you cannot run "cudatext" from the Terminal out of the box, but you can create an alias for "cudatext" first and then do so: <syntaxhighlight lang="shell" inline>alias cudatext=open\ /Applications/CudaText.app\ --args</syntaxhighlight>
