@@ -140,7 +140,7 @@ For not portable usage, folder "settings" is created here:
 == Command line flags/arguments ==
 Usage: <syntaxhighlight lang="shell-session" inline>$ cudatext [ flag … ] filename …</syntaxhighlight>
 
-=== Supported flags ===
+'''Supported flags:'''
 {{Columns-start}}
 ; <code>-h</code>/<code>--help</code> : Show command-line help and exit.
 ; <code>-v</code>/<code>--version</code> : Show application version and exit.
@@ -265,8 +265,6 @@ Syntax highlighters in CudaText are called ''lexers'', and are compatible with t
  ! style="padding-bottom: 0.2em; width: 6%;" | <kbd style="background-color: #f7f7f7; border: 1px solid #ccc; border-radius: 3px; box-shadow: 0px 1px 0px rgba(0,0,0,0.2), inset 0px 0px 0px 2px #fff; color: #333; display: inline-block; font-family: sans-serif; font-size: 0.75rem; line-height: 1.4; margin: 0px 0.1em; padding: 0.1em 0.6em; text-shadow: 0 1px 0 #fff; -moz-border-radius: 3px; -moz-box-shadow: 0 1px 0px rgba(0,0,0,0.2), 0 0 0 2px #fff inset; -webkit-border-radius: 3px; -webkit-box-shadow: 0 1px 0px rgba(0,0,0,0.2), 0 0 0 2px #fff inset;">Del</kbd>
  | style="padding-bottom: 0.2em; width: 44%;" | same as "Delete" button
  |-
- ! style="padding-top: 0.2em; width: 10%;" | <kbd style="background-color: #f7f7f7; border: 1px solid #ccc; border-radius: 3px; box-shadow: 0px 1px 0px rgba(0,0,0,0.2), inset 0px 0px 0px 2px #fff; color: #333; display: inline-block; font-family: sans-serif; font-size: 0.75rem; line-height: 1.4; margin: 0px 0.1em; padding: 0.1em 1.6em; text-shadow: 0 1px 0 #fff; -moz-border-radius: 3px; -moz-box-shadow: 0 1px 0px rgba(0,0,0,0.2), 0 0 0 2px #fff inset; -webkit-border-radius: 3px; -webkit-box-shadow: 0 1px 0px rgba(0,0,0,0.2), 0 0 0 2px #fff inset;">Space</kbd>
- | style="padding-top: 0.2em; width: 40%;" | same as "Hide/Show" button
  ! style="padding-top: 0.2em; width: 6%;" | <kbd style="background-color: #f7f7f7; border: 1px solid #ccc; border-radius: 3px; box-shadow: 0px 1px 0px rgba(0,0,0,0.2), inset 0px 0px 0px 2px #fff; color: #333; display: inline-block; font-family: sans-serif; font-size: 0.75rem; line-height: 1.4; margin: 0px 0.1em; padding: 0.1em 0.6em; text-shadow: 0 1px 0 #fff; -moz-border-radius: 3px; -moz-box-shadow: 0 1px 0px rgba(0,0,0,0.2), 0 0 0 2px #fff inset; -webkit-border-radius: 3px; -webkit-box-shadow: 0 1px 0px rgba(0,0,0,0.2), 0 0 0 2px #fff inset;">Esc</kbd>
  | style="padding-top: 0.2em; width: 44%;" | Close the <samp>Lexer library</samp> dialog
 |}
