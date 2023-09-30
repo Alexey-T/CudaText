@@ -176,7 +176,7 @@ Supported flags:
 * Filenames can be passed with <code>:line</code> or <code>:line:column</code> appended to set the initial placement of the caret.
 * Folders can be specified too, they will be opened as a "project" in the Project Manager.
 * Project files (<code>*.cuda-proj</code>) can be loaded from the command line.
-* Session files (<code>*.cuda-session</code>) can be loaded, too, but only if the Session Manager plugin is installed.
+* Session files (<code>*.cuda-session</code>) can be loaded, too, even without the Session Manager plugin.
 * Non-existing filename can be specified, CudaText will ask if you wish to create the file.
 * File masks with the <code>*</code> wildcard are supported, e.g. <syntaxhighlight lang="shell" inline>cudatext test/t*.htm*</syntaxhighlight> will work.
 
