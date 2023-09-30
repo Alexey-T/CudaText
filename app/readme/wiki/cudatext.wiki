@@ -181,7 +181,7 @@ Supported flags:
 * File masks with the <code>*</code> wildcard are supported, e.g. <syntaxhighlight lang="shell" inline>cudatext test/t*.htm*</syntaxhighlight> will work.
 * Zip filenames can be specified, if they are zipped CudaText add-ons (zip file must contain "install.inf" in proper format).
 
-On macOS, you cannot run "cudatext" from the Terminal out of the box, but you can create an alias for "cudatext" first and then do so: <syntaxhighlight lang="shell" inline>alias cudatext=open\ /Applications/CudaText.app\ --args</syntaxhighlight>
+On macOS, you cannot run "cudatext" from the Terminal out of the box, but you can create an alias "cudatext" like this: <syntaxhighlight lang="shell" inline>alias cudatext=open\ /Applications/CudaText.app\ --args</syntaxhighlight>
 
 == Mouse shortcuts ==
 Note: For macOS, use the Command key instead of Ctrl key, in all the mouse shortcuts listed here.
