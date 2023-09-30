@@ -140,7 +140,7 @@ For not portable usage, folder "settings" is created here:
 == Command line flags/arguments ==
 Usage:
 
-<syntaxhighlight lang="shell-session" inline>cudatext [ flag … ] filename …</syntaxhighlight>
+ cudatext [ flag … ] filename …
 
 Supported flags:
 {{Columns-start}}
