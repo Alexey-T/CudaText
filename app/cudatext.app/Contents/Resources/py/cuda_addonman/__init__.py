@@ -397,6 +397,8 @@ class Command:
         module = item.get('module', '')
         if module:
             do_remove_version_of_plugin(module)
+        elif item['kind'] == 'lexer':
+            do_remove_version_of_lexer(item['name'])
 
         ok = True
         for fn in item['files']:

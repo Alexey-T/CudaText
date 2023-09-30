@@ -292,3 +292,15 @@ def do_remove_version_of_plugin(mod):
             del config[sec]
             with open(fn, 'w') as f:
                 config.write(f, False)
+
+
+def do_remove_version_of_lexer(lexer):
+
+    fn = get_packages_ini()
+    config = configparser.ConfigParser()
+    config.read(fn)
+    lexer_section = 'lexer.'+lexer.replace(' ', '_')+'.zip'
+    if lexer_section in config.sections():
+        del config[lexer_section]
+        with open(fn, 'w') as f:
+            config.write(f, False)
