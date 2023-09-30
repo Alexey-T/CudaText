@@ -22,11 +22,10 @@ def get_zip_filenames(filename):
     res.remove('install.inf')
     return res
 
-def get_lexer_version(section):
+def get_lexer_version(section, get_url):
     import json
     import tempfile
     from cuda_addonman import opt
-    from cuda_addonman.work_remote import get_url
     urls = [url for url in opt.ch_def if url.endswith('/lexers.json')]
     if not urls:
         return ''
@@ -139,7 +138,7 @@ class Command:
         ed_self.set_prop(PROP_LEXER_FILE, lex)
 
         fn_pkg = os.path.join(app_path(APP_DIR_SETTINGS), 'packages.ini')
-        version = get_lexer_version(url_filename)
+        version = get_lexer_version(url_filename, get_url)
         ini_write(fn_pkg, url_filename, 'd', 'data/lexlib')
         ini_write(fn_pkg, url_filename, 'f', ';'.join(get_zip_filenames(tempname)))
         ini_write(fn_pkg, url_filename, 'v', version)
