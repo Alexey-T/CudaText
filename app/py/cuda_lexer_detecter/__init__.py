@@ -13,6 +13,33 @@ def log(*args):
     pass
     #print(*args)
 
+
+def get_zip_filenames(filename):
+    from zipfile import ZipFile
+    res = []
+    with ZipFile(filename, 'r') as z:
+        res = z.namelist()
+    res.remove('install.inf')
+    return res
+
+def get_lexer_version(section):
+    import json
+    import tempfile
+    from cuda_addonman import opt
+    from cuda_addonman.work_remote import get_url
+    urls = [url for url in opt.ch_def if url.endswith('/lexers.json')]
+    if not urls:
+        return ''
+    lexers_url = urls[0]
+    lexers_json = tempfile.gettempdir() + os.sep + 'cudatext_lexers.json'
+    get_url(lexers_url, lexers_json, True)
+    lexers_json_data = json.loads(open(lexers_json).read())
+    for i_ in lexers_json_data:
+        for k_, v_ in i_.items():
+            if k_ == 'url' and section in v_:
+                return i_['v']
+
+
 class Command:
 
     def on_open_none(self, ed_self):
@@ -109,3 +136,11 @@ class Command:
         lexer_proc(LEXER_REREAD_LIB, '')
 
         ed_self.set_prop(PROP_LEXER_FILE, lex)
+
+        fn_pkg = os.path.join(app_path(APP_DIR_SETTINGS), 'packages.ini')
+        section = 'lexer.' + quote(lex.replace(' ', '_')) + '.zip'
+        version = get_lexer_version(section)
+        ini_write(fn_pkg, section, 'd', 'data/lexlib')
+        ini_write(fn_pkg, section, 'f', ';'.join(get_zip_filenames(tempname)))
+        ini_write(fn_pkg, section, 'v', version)
+        print(_('Installed lexer "%s", version "%s"')%(lex, version))
