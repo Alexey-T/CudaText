@@ -2195,7 +2195,7 @@ begin
           Point(0, 0),
           TATMarkerTags.Init(UiOps.FindOccur_TagValue, 0),
           nil,
-          mmmShowInTextOnly,
+          TATMarkerMicromapMode.TextOnly,
           -NSelLen //marker with underline looks good
           );
 

@@ -1141,7 +1141,7 @@ begin
               Point(NLenX, NLenY),
               TATMarkerTags.Init(NTag, 0),
               nil,
-              mmmShowInTextOnly,
+              TATMarkerMicromapMode.TextOnly,
               NLineLen
               );
             Ed.Update;
