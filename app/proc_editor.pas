@@ -3177,11 +3177,12 @@ begin
     end;
   finally
     St.EndUndoGroup;
-    if bChanged then
-    begin
-      Ed.Update(true);
-      Ed.DoEventChange;
-    end;
+  end;
+
+  if bChanged then
+  begin
+    Ed.Update(true);
+    Ed.DoEventChange;
   end;
 end;
 
@@ -3219,11 +3220,12 @@ begin
     end;
   finally
     St.EndUndoGroup;
-    if bChanged then
-    begin
-      Ed.Update(true);
-      Ed.DoEventChange;
-    end;
+  end;
+
+  if bChanged then
+  begin
+    Ed.Update(true);
+    Ed.DoEventChange;
   end;
 end;
 
