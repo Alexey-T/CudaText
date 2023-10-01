@@ -2287,9 +2287,9 @@ begin
   ColorBorder:= GetAppStyle(AppHiAll_ThemeStyleId).BgColor;
 
   if EditorOps.OpActiveBorderWidth>1 then
-    StyleBorder:= cLineStyleSolid2px
+    StyleBorder:= TATLineStyle.Solid2px
   else
-    StyleBorder:= cLineStyleRounded;
+    StyleBorder:= TATLineStyle.Rounded;
 
   //stage-1: highlight all matches
   AMatchesCount:= AFinder.DoAction_HighlightAllEditorMatches(
