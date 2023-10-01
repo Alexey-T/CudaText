@@ -3,10 +3,10 @@
   - fixed
   * changed
 
-1.199.1 (2023/09)
+1.199.2 (2023/10)
 
-+ add: 'Addons Manager' removes section from packages.ini on uninstalling lexer
-+ add: 'Lexer Detecter' writes lexer version to packages.ini (thanks @ildarkhasanshin)
++ add: Addons Manager removes section from packages.ini on uninstalling lexer
++ add: Lexer Detecter writes lexer version to packages.ini (thanks @ildarkhasanshin)
 - fix: when clicking between main window and floating groups, code-tree was not updated (thanks @SamC)
 - fix: regression: options "ui_font_output_name"/"ui_font_output_size" were ignored (thanks @ildarkhasanshin)
 - fix: if plugin sets ui-tab title ~15K characters, app freezes (thanks @ildarkhasanshin)
