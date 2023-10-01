@@ -853,19 +853,19 @@ begin
 
     cmd_ConvertTabsToSpaces:
       begin
-        Ed.DoConvertTabsToSpaces;
+        EditorConvertTabsToSpaces(Ed);
         AHandled:= true;
         exit
       end;
     cmd_ConvertTabsToSpacesLeading:
       begin
-        Ed.DoConvertIndentation(false);
+        EditorConvertIndentation(Ed, false);
         AHandled:= true;
         exit
       end;
     cmd_ConvertSpacesToTabsLeading:
       begin
-        Ed.DoConvertIndentation(true);
+        EditorConvertIndentation(Ed, true);
         AHandled:= true;
         exit
       end;

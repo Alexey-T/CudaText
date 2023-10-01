@@ -76,6 +76,9 @@ procedure EditorDeleteRange(Ed: TATSynEdit; X1, Y1, X2, Y2: integer);
 function EditorInsert(Ed: TATSynEdit; AX, AY: integer; const AStr: UnicodeString; out APosAfter: TPoint): boolean;
 procedure EditorHighlightBadRegexBrackets(Ed: TATSynEdit; AOnlyClear: boolean);
 
+procedure EditorConvertTabsToSpaces(Ed: TATSynEdit);
+procedure EditorConvertIndentation(Ed: TATSynEdit; ASpacesToTabs: boolean);
+
 procedure EditorCaretShapeFromString(Props: TATCaretShape; const AText: string);
 procedure EditorCaretShapeFromPyTuple(Props: TATCaretShape; const AText: string);
 function EditorCaretIsOnStart(Ed: TATSynEdit): boolean;
@@ -3147,6 +3150,75 @@ begin
     AOffsetCaret:= Buffer.CaretToStr(Point(Caret.PosX, Caret.PosY));
   end;
 end;
+
+
+procedure EditorConvertTabsToSpaces(Ed: TATSynEdit);
+var
+  St: TATStrings;
+  S1, S2: atString;
+  bChanged: boolean;
+  i: integer;
+begin
+  bChanged:= false;
+  St:= Ed.Strings;
+  St.BeginUndoGroup;
+  try
+    for i:= 0 to St.Count-1 do
+    begin
+      S1:= St.Lines[i];
+      if not SStringHasTab(S1) then Continue;
+
+      S2:= Ed.TabHelper.TabsToSpaces(i, S1);
+      if S1<>S2 then
+      begin
+        St.Lines[i]:= S2;
+        bChanged:= true;
+      end;
+    end;
+  finally
+    St.EndUndoGroup;
+    if bChanged then
+    begin
+      Ed.Update(true);
+      Ed.DoEventChange;
+    end;
+  end;
+end;
+
+
+procedure EditorConvertIndentation(Ed: TATSynEdit; ASpacesToTabs: boolean);
+var
+  St: TATStrings;
+  S1, SBegin, SBegin2, SEnd: atString;
+  N, i: integer;
+begin
+  St:= Ed.Strings;
+  St.BeginUndoGroup;
+  try
+    for i:= 0 to St.Count-1 do
+    begin
+      S1:= St.Lines[i];
+
+      N:= SGetIndentChars(S1);
+      if N=0 then Continue;
+      SBegin:= Copy(S1, 1, N);
+      SEnd:= Copy(S1, N+1, MaxInt);
+
+      if ASpacesToTabs then
+        SBegin2:= Ed.TabHelper.SpacesToTabs(i, SBegin)
+      else
+        SBegin2:= Ed.TabHelper.TabsToSpaces(i, SBegin);
+
+      if SBegin2<>SBegin then
+        St.Lines[i]:= SBegin2+SEnd;
+    end;
+  finally
+    St.EndUndoGroup;
+    Ed.Update(true);
+    Ed.DoEventChange;
+  end;
+end;
+
 
 { TEditorHtmlTagList }
 
