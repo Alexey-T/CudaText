@@ -3190,9 +3190,9 @@ end;
 procedure EditorConvertIndentation(Ed: TATSynEdit; ASpacesToTabs: boolean);
 var
   St: TATStrings;
-  S1, SBegin, SBeginNew, SEnd: atString;
+  SLine, SBegin, SBeginNew, SEnd: atString;
   bChanged: boolean;
-  N, i: integer;
+  NIndent, i: integer;
 begin
   bChanged:= false;
   St:= Ed.Strings;
@@ -3200,12 +3200,11 @@ begin
   try
     for i:= 0 to St.Count-1 do
     begin
-      S1:= St.Lines[i];
+      SLine:= St.Lines[i];
 
-      N:= SGetIndentChars(S1);
-      if N=0 then Continue;
-      SBegin:= Copy(S1, 1, N);
-      SEnd:= Copy(S1, N+1, MaxInt);
+      NIndent:= SGetIndentChars(SLine);
+      if NIndent=0 then Continue;
+      SBegin:= Copy(SLine, 1, NIndent);
 
       if ASpacesToTabs then
         SBeginNew:= Ed.TabHelper.SpacesToTabs(i, SBegin)
@@ -3214,6 +3213,7 @@ begin
 
       if SBeginNew<>SBegin then
       begin
+        SEnd:= Copy(SLine, NIndent+1, MaxInt);
         St.Lines[i]:= SBeginNew+SEnd;
         bChanged:= true;
       end;
