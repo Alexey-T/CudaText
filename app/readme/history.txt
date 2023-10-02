@@ -5,7 +5,7 @@
 
 1.199.2 (2023/10)
 
-+ add: new method to save big files, much faster (test with 150Mb: 15 secs -> 1 sec) but takes more memory; if new method fails app must call old slower method
++ add: big files (10Mb+) are saved _much_ faster
 + add: Addons Manager removes section from packages.ini on uninstalling lexer
 + add: Lexer Detecter writes lexer version to packages.ini (thanks @ildarkhasanshin)
 - fix: when clicking between main window and floating groups, code-tree was not updated (thanks @SamC)
