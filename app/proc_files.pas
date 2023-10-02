@@ -22,8 +22,8 @@ procedure AppCopyDir(const DirSrc, DirTarget: string);
 
 function AppIsFileContentText(const fn: string;
   BufSizeKb: integer;
-  BufSizeWords: integer;
-  DetectOEM: boolean): Boolean;
+  BufSizeWords: integer
+  {DetectOEM: boolean}): Boolean;
 
 function AppIsFileReadonly(const fn: string): boolean;
 
@@ -175,8 +175,7 @@ begin
 end;
 
 function AppIsFileContentText(const fn: string; BufSizeKb: integer;
-  BufSizeWords: integer;
-  DetectOEM: boolean): Boolean;
+  BufSizeWords: integer): Boolean;
 const
   cBadBytesAtEndAllowed = 2;
 var
@@ -248,6 +247,7 @@ begin
               Break
             end;
 
+          {
           //Calculate freq table
           if DetectOEM then
             if (n >= Low(Table)) and (n <= High(Table)) then
@@ -255,11 +255,12 @@ begin
               Inc(TableSize);
               Inc(Table[n]);
             end;
+            }
         end;
       end;
 
     {
-    //Analyze table; code is commented because IsOEM is not used
+    //Analyze table
     if DetectOEM then
       if Result and (TableSize > 0) then
         for i:= Low(Table) to High(Table) do
