@@ -155,8 +155,10 @@ begin
 end;
 
 
+{
 type
   TFreqTable = array[$80 .. $FF] of Integer;
+}
 
 function IsAsciiControlChar(n: integer): boolean; inline;
 const
@@ -181,12 +183,12 @@ const
 var
   Buffer: PAnsiChar;
   BufSize, BytesRead, i: DWORD;
-  n: Integer;
-  Table: TFreqTable;
-  TableSize: Integer;
+  //Table: TFreqTable;
+  //TableSize: Integer;
   Str: TFileStream;
   IsLE: boolean;
   bReadAllFile: boolean;
+  n: Integer;
 begin
   Result:= False;
   //IsOEM:= False;
@@ -196,9 +198,11 @@ begin
   if BufSizeKb<=0 then Exit;
   BufSize:= BufSizeKb*1024;
 
+  {
   //Init freq table
   TableSize:= 0;
   FillChar(Table{%H-}, SizeOf(Table), 0);
+  }
 
   try
     try
