@@ -22,8 +22,7 @@ procedure AppCopyDir(const DirSrc, DirTarget: string);
 
 function AppIsFileContentText(const fn: string;
   BufSizeKb: integer;
-  BufSizeWords: integer
-  {DetectOEM: boolean}): Boolean;
+  BufSizeWords: integer): boolean;
 
 function AppIsFileReadonly(const fn: string): boolean;
 
@@ -176,8 +175,10 @@ begin
   Result:= (n < 32) and not (byte(n) in cAllowedControlChars);
 end;
 
-function AppIsFileContentText(const fn: string; BufSizeKb: integer;
-  BufSizeWords: integer): Boolean;
+function AppIsFileContentText(const fn: string;
+  BufSizeKb: integer;
+  BufSizeWords: integer): boolean;
+  //DetectOEM: boolean; out IsOEM: boolean;
 const
   cBadBytesAtEndAllowed = 2;
 var
