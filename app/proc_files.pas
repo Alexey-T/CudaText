@@ -230,12 +230,12 @@ begin
 
         //Test UTF-16 signature
         if (Buffer[0]=#$ff) and (Buffer[1]=#$fe) then
-          exit(true);
+          exit(True);
         if (Buffer[0]=#$fe) and (Buffer[1]=#$ff) then
-          exit(true);
+          exit(True);
         //Test UTF-32 BE signature
         if (BytesRead>=8) and (Buffer[0]=#0) and (Buffer[1]=#0) and (Buffer[2]=#$fe) and (Buffer[3]=#$ff) then
-          exit(true);
+          exit(True);
 
         Result:= True;
         for i:= 0 to BytesRead - 1 do
@@ -276,7 +276,6 @@ begin
             end;
         end;
     }
-
   finally
     if Assigned(Buffer) then
       FreeMem(Buffer);
