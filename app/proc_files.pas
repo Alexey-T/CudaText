@@ -258,7 +258,8 @@ begin
         end;
       end;
 
-    //Analyze table
+    {
+    //Analyze table; code is commented because IsOEM is not used
     if DetectOEM then
       if Result and (TableSize > 0) then
         for i:= Low(Table) to High(Table) do
@@ -267,10 +268,11 @@ begin
           if ((i >= $B0) and (i <= $DF)) or (i = $FF) or (i = $A9) then
             if Table[i] >= 18 then
             begin
-              //IsOEM:= True;
+              IsOEM:= True;
               Break
             end;
         end;
+    }
 
   finally
     if Assigned(Buffer) then
