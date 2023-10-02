@@ -160,7 +160,7 @@ type
   TFreqTable = array[$80 .. $FF] of Integer;
 }
 
-function IsAsciiControlChar(n: integer): boolean; inline;
+function IsAsciiControlChar(n: byte): boolean; inline;
 const
   cAllowedControlChars: set of byte = [
     7, //Bell
@@ -188,7 +188,6 @@ var
   Str: TFileStream;
   IsLE: boolean;
   bReadAllFile: boolean;
-  n: Integer;
 begin
   Result:= False;
   //IsOEM:= False;
@@ -240,10 +239,8 @@ begin
         Result:= True;
         for i:= 0 to BytesRead - 1 do
         begin
-          n:= Ord(Buffer[i]);
-
           //If control chars present, then non-text
-          if IsAsciiControlChar(n) then
+          if IsAsciiControlChar(Ord(Buffer[i])) then
             //ignore bad bytes at the end, https://github.com/Alexey-T/CudaText/issues/2959
             if not (bReadAllFile and (i>=BytesRead-cBadBytesAtEndAllowed)) then
             begin
