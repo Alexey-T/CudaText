@@ -15,7 +15,7 @@ fi
 
 mkdir -p $outdir
 tarfile2=$outdir/cudatext-$os-$widgets-$cpu-$cuda_ver.tar
-tarfile=$outdir/_cud.tar
+tarfile=$outdir/tmp_cudatext-$os-$widgets-$cpu-$cuda_ver.tar
 
 rm $outdir/cudatext-$os-$widgets-$cpu-*.xz
 rm $tarfile
