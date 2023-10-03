@@ -681,7 +681,7 @@ def log(msg='', *args, **kwargs):
 
 
 def get_translation(plug_file):
-    ''' Part of i18n.
+    r''' Part of i18n.
         Full i18n-cycle:
         1. All GUI-string in code are used in form
             _('')
@@ -734,7 +734,7 @@ def safe_open_url(url):
         webbrowser.open_new_tab(url)
 
 
-'''
+r'''
 ToDo
 [S][кто-кому][дата] Что сделать
     [S] Состояние: [ ] Не реализовано, [+] Сделано, [-] Не требуется, [?] Нужны уточнения
