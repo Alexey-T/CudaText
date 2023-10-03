@@ -404,7 +404,7 @@ class DialogMK2:
                         item = _col_cfg[i]
                         colname,w = item
                         if not isinstance(w, int)  and  not (isinstance(w, str)
-                                                                and re.match('^\d+px$', w)):
+                                                                and re.match(r'^\d+px$', w)):
                             print(_('NOTE: {}: invalid column width format: {}')
                                         .format(self.title, item))
                             _col_cfg[i] = (colname,100)
