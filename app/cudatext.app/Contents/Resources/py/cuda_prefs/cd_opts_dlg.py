@@ -905,7 +905,7 @@ class OptionFilter:
             chp_conds    = (mt.group(1).upper() for mt in re.finditer(r'@([\w/]+)'    , filter_str))
             chp_conds    = [chp for chp in chp_conds if chp != NO_CHAP.upper()]
             #chp_no_c    = '@'+M.NO_CHAP in filter_str #WTF?
-            filter_str      = re.sub('@([\w/]*)', '', filter_str)             # @s* clear @ and cph
+            filter_str      = re.sub(r'@([\w/]*)', '', filter_str)             # @s* clear @ and cph
         return filter_str, chp_conds
 
 
