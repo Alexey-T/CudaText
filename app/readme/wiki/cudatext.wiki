@@ -600,7 +600,7 @@ You can modify/create lexers. But not in CudaText. Install SynWrite (Windows pro
 * In SynWrite, install "ExLexer" addon. Then call "ExLexer" from the "Plugins" menu, choose needed lexer to export. You will have exported .zip file.
 * In CudaText open this .zip file, confirm installation of lexer.
 
-== Lexers editing - styles only ==
+=== Lexers editing - styles only ===
 
 For full-featured lexer editing, you must use SynWrite as described in the topic above.
 CudaText itself allows to edit only lexer styles, ie colors/ borders/ font-style (bold/italic/strikeout) of lexer styles. How to do that:
@@ -611,7 +611,7 @@ CudaText itself allows to edit only lexer styles, ie colors/ borders/ font-style
 
 By default that option is On so UI is disabled. If you enable the UI, you can customize all lexer styles. Configuration will be saved to the files "settings/*.cuda-lexops". These files are auto-loaded by CudaText on start.
 
-== How to setup styles of hidden sublexer ==
+=== How to setup styles of hidden sublexer ===
 
 Some lexers are distributed in packages together with sub-lexer, and sub-lexer is hidden. Example: "HTML Django" with sub-lexer "HTML Django internal" (the second one isn't visible in the Lexers menu, so it's called hidden). Users, which have option "ui_lexer_themes" off, want to configure styles of all lexers. How to access hidden ones?
 
@@ -622,7 +622,7 @@ Some lexers are distributed in packages together with sub-lexer, and sub-lexer i
 
 You can change visibility of lexer in SynWrite lexer editor (the checkbox will write line "Internal = True" at the end of .lcf file).
 
-==How to create distributive of new lexer==
+===How to create distributive of new lexer===
 
 In SynWrite, you've created .lcf file in folder SynWrite/Data/LexLib.
 If you configured "Commenting" options, also file .cuda-lexmap is created.
@@ -637,7 +637,7 @@ Now you need to create .zip installation of lexer, for both editors: SynWrite, C
 * In prev step, you configured .cuda-lexmap file, in folder CudaText/data/lexlib. Copy this file to zip installation of your lexer.
 * Zip must contain: install.inf, .lcf file(s), .cuda-lexmap file per each lexer.
 
-==Lite lexers==
+===Lite lexers===
 
 Lite lexers are lexers is special format (internally it's JSON file), with very limited features. They don't support code-tree, folding, don't support multi-line comments, don't have rich highlighting (e.g. background highlight of string `12+$var` with additional highlight for 12 and $var inside). And they don't keep tokens information in memory (positions of found tokens in text). Lite lexers process only lines visible on screen, not all document lines. So, they work fast for any file size.
 
@@ -661,7 +661,7 @@ How to change styles in lite lexers? For example, "Log files ^" uses styles "Id"
 * find and edit styles names
 * all possible styles are listed in the CudaText dialog "Options / Settings - theme - syntax..."
 
-==Differences in lexer support in CudaText/SynWrite==
+===Differences in lexer support in CudaText/SynWrite===
 
 * SynWrite supports "lexer grammar", while CudaText does not support "grammar" anymore.
 * SynWrite lexers need constructs like \x0D\x0A or \z (to catch any line-break: LF, CRLF, CR), while CudaText lexers are OK with simple \n (because internal buffer always has LF separator).
@@ -678,7 +678,7 @@ How to change styles in lite lexers? For example, "Log files ^" uses styles "Id"
 ** Multiline border
 ** Options in groups "Syntax tree decoration", "Pen"
 
-==How to make editor re-scan entire document on editing==
+===How to make editor re-scan entire document on editing===
 
 The question makes sense, because when user types the block ending (e.g. "}" in C syntax), editor re-scans the document from the last changed line, and cannot detect that new block is just appeared.
 
@@ -694,7 +694,7 @@ Insert it near the end of file, like here:
 
 This tells lexer to re-scan entire document, on editing in any document place, when document size is less than 5000 chars.
 
-==How to support Spell Checker in lexer==
+===How to support Spell Checker in lexer===
 
 Plugin "Spell Checker" checks text, which is inside "strings" and "comments". So you must configure lexer and set there, which lexer elements (tokens) are "strings" and "comments". It is options in the "Lexer properties" dialog of SynWrite, in the "Commenting" tab of dialog. You can change these options without SynWrite too - they are in the data/lexlib/LexerName.cuda-lexmap file, both options are comma-separated names of lexer styles. 
 
