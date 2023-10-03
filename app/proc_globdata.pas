@@ -1275,9 +1275,9 @@ end;
 
 function InitPyLibraryPath: string;
 const
-  cMaxVersion = 12;
-  cMinVersionUnix = 5;
-  cMinVersionWindows = 4; //support Python 3.4 for WinXP
+  cMaxVersion = 12; //last supported is 3.12
+  cMinVersionUnix = 5; //first supported on Unix is 3.5
+  cMinVersionWindows = 4; //first supported on Windows is 3.4 (for WinXP)
 {$ifdef windows}
 var
   N: integer;
