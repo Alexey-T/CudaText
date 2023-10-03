@@ -13,7 +13,7 @@
  | style="background-color: #fdf6e3; border: 2px solid #fff; color: #586e75; font-size: 1.25rem; line-height: 1.1; padding: 0 1em 0.2em; width: 20%;" | [https://github.com/Alexey-T/CudaText github repository]
  | style="background-color: #eee8d5; border: 2px solid #fff; color: #657b83; font-size: 1.225rem; font-weight: 500; line-height: 1.1; padding: 0 1em 0.2em; width: 25%;" | [https://github.com/Alexey-T ''other required lazarus packages'']
 |}
-'''CudaText''' is a cross-platform text editor written in Lazarus, with a focus on performance and a broad featureset, which includes:
+'''CudaText''' is a cross-platform text editor, written in Object Pascal language using the Lazarus IDE, with a focus on performance and a broad featureset, which includes:
 {{Columns-start|num=3}}
 * Syntax highlighting for [[#List_of_lexers|300+ languages]]
 * Multi-carets, multi-selections
