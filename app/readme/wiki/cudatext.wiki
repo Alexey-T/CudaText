@@ -844,11 +844,11 @@ Possible encoding names for command-line usage:
 
 == Line ends ==
 All major types of line-ends are supported:
-* '''<big>&#9229;&#9226;</big>''' (usual for Windows)
-* '''<big>&#9226;</big>''' (usual for Linux and Unix)
-* '''<big>&#9229;</big>''' (usual for Mac OS 9, now almost not used)
+* CR LF (usual for Windows)
+* LF (usual for Linux and Unix)
+* CR (usual for Mac OS 9, now almost not used)
 
-Mixed line-ends ('''<big>&#9229;</big>''' with '''<big>&#9226;</big>''' with '''<big>&#9229;&#9226;</big>''') in one document are supported. Because of this feature, CudaText saves binary files to disk without corrupting them. To see mixed line-ends, use application option "unprinted_content", which can show text marks ("lf" etc) at line-ends.
+Mixed line-ends (LF with CR with CR LF) in one document are supported. Because of this feature, CudaText saves binary files to disk without corrupting them. To see mixed line-ends, use application option "unprinted_content", which can show text marks ("lf" etc) at line-ends.
 
 Commands:
 * To change line-ends for all lines in the current document, click statusbar cell for line-ends, menu will appear. You need to save file then. Changed line-ends can be undone via "Undo". Also 3 commands are available in the Command Palette.
