@@ -29,7 +29,7 @@
 * Extensibility via Python plug-ins, e.g. <abbr title="Language Server Protocol">LSP</abbr> support
 {{Column|num=3}}
 * Built-in HTML and CSS auto-completion
-* HTML tag completion with <kbd style="background-color: #f7f7f7; border: 1px solid #ccc; border-radius: 3px; box-shadow: 0px 1px 0px rgba(0,0,0,0.2), inset 0px 0px 0px 2px #fff; color: #333; display: inline-block; font-family: sans-serif; font-size: 0.75rem; line-height: 1.4; margin: 0px 0.1em; padding: 0.1em 0.6em; text-shadow: 0 1px 0 #fff; -moz-border-radius: 3px; -moz-box-shadow: 0 1px 0px rgba(0,0,0,0.2), 0 0 0 2px #fff inset; -webkit-border-radius: 3px; -webkit-box-shadow: 0 1px 0px rgba(0,0,0,0.2), 0 0 0 2px #fff inset;">Tab</kbd>
+* HTML tag completion with {{Keystroke|⭾ Tab}}
 * HTML tooltips on mouse-over
 * Hex color code underlining
 * Viewer for picture files (jpeg, png, gif, bmp, ico, webp)
@@ -58,15 +58,17 @@
 The CudaText configuration system uses JSON files: call menu item "Options | Settings - default" and you'll see the default configuration values. Copy lines from this file to the file displayed by selecting the menu item "Options | Settings - user" and edit the values there to customize your user configuration &mdash; this is the actual configuration file, the default configuration is provided solely to use as a reference.
 
 Note: You can copy the JSON comments from the default file into your user configuration, too. In the user config, include useful lines inside the curly braces <code>{ }</code>, this is JSON formatting. Trailing commas on the final key:value pair before a closing brace (<code>}</code>) are allowed here.
-
-; User config : File "settings/user.json". Can be opened via menu item "Options / Settings-user".
+{{Columns-start|num=2}}
 ; Default config : File "settings_default/default.json". Can be opened via menu item "Options / Settings-default". CudaText doesn't use this file, it's only for user reference. CudaText only opens this file by the command, and this file is parsed by plugin "Options Editor".
-; Lexer-specific configs : Files "settings/lexer NNN.json". It is layer which is read after user config, when user activates some lexer. E.g. if you open C file, config file "lexer C.json" is read. You should not write "ui_" options to lexer specific configs (it may give weird effects on changing lexer), and some other global options.<ul><li>For (None) lexer, config file is named "lexer -.json".</li><li>For lite lexers, config files are named with suffix, e.g. "lexer XML ^.json"</li></ul>
-; Default lexer specific configs : Files "settings_default/lexer NNN.json". It is layer which is read after user config, but before lexer specific config. CudaText provides several such files, with useful defaults.
 ; Hotkeys config : File "settings/keys.json". Special dialog allows to change all hotkeys in CudaText. You should not edit this config file. Dialog is called from "Help / Command palette" by F9. Dialog allows to set 1st and 2nd hotkeys for any command (except dynamically added commands to change lexer).
-; Lexer-specific hotkeys configs : Files "settings/keys lexer NNN.json". Each such config contains hotkeys for one lexer only.
 ; Plugin configs : Files "settings/cuda_*". Plugins store their settings in there, and files can be in any format (most used are JSON and INI). Good quality plugins provide menu items in "Options / Settings-plugins" to open their config file, or to show configuration dialog.
 ; History files : Files "settings/history*.json". Don't edit them. Mentioned here because sometimes users need to delete their history files (dialog positions, recent files list etc, recent search strings etc).
+{{Column|num=2}}
+; User config : File "settings/user.json". Can be opened via menu item "Options / Settings-user".
+; User lexer-specific configs : Files "settings/lexer NNN.json". It is layer which is read after user config, when user activates some lexer. E.g. if you open C file, config file "lexer C.json" is read. You should not write "ui_" options to lexer specific configs (it may give weird effects on changing lexer), and some other global options.<ul><li>For (None) lexer, config file is named "lexer -.json".</li><li>For lite lexers, config files are named with suffix, e.g. "lexer XML ^.json"</li></ul>
+; Default lexer-specific configs : Files "settings_default/lexer NNN.json". It is layer which is read after user config, but before lexer specific config. CudaText provides several such files, with useful defaults.
+; Lexer-specific hotkeys configs : Files "settings/keys lexer NNN.json". Each such config contains hotkeys for one lexer only.
+{{Columns-end}}
 
 === File types ===
 {| style="border-collapse: collapse; float: right; margin-left: 3em; margin-right: 3em; width: 20vw;"
@@ -173,7 +175,7 @@ Supported flags:
 {{Columns-end}}
 
 '''Notes:'''
-* Filenames can be passed with <code>:line</code> or <code>:line:column</code> appended to set the initial placement of the caret.
+* Filenames can be passed with numeric values specifying the line no. or line/column nos. for the initial placement of the caret with this syntax: <code>:<var>line</var></code> or <code>:<var>line</var>:<var>column</var></code>
 * Folders can be specified too, they will be opened as a "project" in the Project Manager.
 * Project files (<code>*.cuda-proj</code>) can be loaded from the command line.
 * Session files (<code>*.cuda-session</code>) can be loaded, too, even without the Session Manager plugin.
@@ -184,54 +186,48 @@ Supported flags:
 On macOS, you cannot run "cudatext" from the Terminal out of the box, but you can create an alias "cudatext" like this: <syntaxhighlight lang="shell" inline>alias cudatext=open\ /Applications/CudaText.app\ --args</syntaxhighlight>
 
 == Mouse shortcuts ==
-Note: For macOS, use the Command key instead of Ctrl key, in all the mouse shortcuts listed here.
-
-Multi-carets:
-* Ctrl+click - Add/remove caret.
-* Ctrl+wheel click - Add/remove caret.
-* Ctrl+drag - Add caret with selection.
-* Ctrl+Shift+click - Add column of vertically aligned carets, from previous caret position to the clicked line.
-
-Dragging:
-* Alt+drag - Make column selection. See [[#Behaviour of column selection]].
-* drag on gutter's line numbers - Select text by entire lines.
-* double-click and immediately drag - Select text by words.
-
-Clicks:
-* double-click - Select clicked word. See the option "nonword_chars".
-* triple-click - Select entire line (block is limited by newline characters).
-* wheel click - Configurable by option "mouse_middle_click", choices are:
-** Start "browser scrolling" mode: circle mark appears and mouse moving around this mark auto-scrolls text in 4 directions; speed of scrolling depends on distance of cursor from circle mark (any click to turn off).
-** Paste from clipboard. This mimics Linux apps behaviour.
-** Call "Go to definition" command.
-** Nothing.
-* click on Extra1/Extra2 mouse buttons - these clicks do nothing by default, but they produce keyboard actions BrowserBack/BrowserForward (extended keys on Windows keyboards), and so they can be assigned in the hotkeys setup dialog (F9 in the Command Palette). For example, Ctrl+Extra1 produces Ctrl+BrowserBack keyboard action.
-
-Misc:
-* Shift+Alt+click - Make vertical (column) selection, from the first caret to the clicked position.
-* Shift+ scroll mouse wheel - Scroll text horizontally.
-* Ctrl+ scroll mouse wheel (with option "mouse_wheel_zoom":true) - Zoom text in/out.
-* Ctrl+ scroll mouse wheel (in the picture viewer) - Zoom picture in/out.
-* Shift+click on gutter line number - Select lines, from 1st caret position to the index of clicked line.
-
-Drag-drop of selected text block:
-* Dragging inside single document: if Ctrl is pressed during the drop (you should press Ctrl after dragging is started), block will be copied (not moved) to the pointed position.
-* Dragging to a different document (see [[#Groups of tabs]]): if Ctrl is pressed during the drop, block will be moved (otherwise it will be copied).
-
-Command "Go to definition" can be called by different mouse shortcuts: by Ctrl+Alt+click (default), Alt+click, etc, this depends on option "mouse_goto_definition".
-
-== Multi-carets ==
+{{Note|For macOS, use the {{Keystroke|Cmd ⌘}} key instead of the {{Keystroke|Ctrl}} key in all of the mouse shortcuts listed below.}}
 [[File:atsynedit-carets.gif|frame|right|Multi-carets in action]]
-Multi-carets are several carets at once. All carets work together for many editing commands: caret moving, text typing, deleting, selection with keyboard. See "Mouse shortcuts", how to add/remove carets.
 
-==Multi-selections==
+=== Multi-carets ===
+Multi-carets are several carets at once. All carets work together for many editing commands: caret moving, text typing, deleting, selection with keyboard.
+* {{Keystroke|Ctrl}}+Left click - Add/remove caret.
+* {{Keystroke|Ctrl}}+Middle click - Add/remove caret.
+* {{Keystroke|Ctrl}}+Left click and drag - Add caret with selection.
+* {{Keystroke|Ctrl}}+{{Keystroke|Shift}}+Left click - Add column of vertically-aligned carets, from the previous caret position to the clicked line.
+
+<span id="Dragging" style="font-size: 1.17em; font-weight: 700;">Dragging</span>
+* {{Keystroke|⎇ Alt}}+drag - Make '''[[#Behaviour of column selection|column selection]]'''.
+* Drag on Gutter line numbers - Select text by entire lines.
+* Double left-click and immediately drag - Select text by words.
+
+<span id="Clicks" style="font-size: 1.17em; font-weight: 700;">Clicks</span>
+* Double left-click - Select clicked word; this behavior can be customized as described in '''[[#How to select extra symbols by double-click|§ How to select extra symbols by double-click]]''' using the <code>nonword_chars</code> option.
+* Triple left-click - Select entire line (block is limited by newline characters).
+* Middle-click - Configurable by option <code>mouse_middle_click</code>, choices are:<br /><ol start="0" style="list-style-type: none; margin-left: 1.6em;"><li>'''(0)''' Nothing.</li><li>'''(1)''' Start "browser scrolling" mode: circle mark appears and mouse moving around this mark auto-scrolls text in 4 directions; speed of scrolling depends on distance of cursor from circle mark (any click to turn off).</li><li>'''(2)''' Paste from clipboard. This mimics Linux apps behaviour.</li><li>'''(3)''' Call "Go to definition" command.</li></ol>
+* Click on Back/Forward mouse buttons - These clicks do nothing by default, but they produce keyboard actions <samp>BrowserBack</samp>/<samp>BrowserForward</samp> (extended keys on Windows keyboards), and so they can be assigned in the hotkeys setup dialog ({{Keystroke|F9}} in the Command Palette). For example, {{Keystroke|Ctrl}}+Back produces {{Keystroke|Ctrl}}+<samp>BrowserBack</samp> keyboard action.
+
+<span id="Miscellaneous" style="font-size: 1.17em; font-weight: 700;">Miscellaneous</span>
+* {{Keystroke|⇧ Shift}}+{{Keystroke|⎇ Alt}}+Left-click - Make vertical (column) selection, from the first caret to the clicked position.
+* {{Keystroke|⇧ Shift}}+Scroll mouse wheel - Scroll text horizontally.
+* {{Keystroke|Ctrl}}+Scroll mouse wheel (with option <syntaxhighlight lang="json" inline>mouse_wheel_zoom: true</syntaxhighlight>) - Zoom text in/out.
+* {{Keystroke|Ctrl}}+Scroll mouse wheel (in the picture viewer) - Zoom picture in/out.
+* {{Keystroke|⇧ Shift}}+Left-click on gutter line number - Select lines, from first caret position to the index of clicked line.
+
+<span id="Drag-drop of selected text block" style="font-size: 1.17em; font-weight: 700;">Drag-drop of selected text block</span>
+* Dragging inside single document: if {{Keystroke|Ctrl}} is pressed during the drop (you should press {{Keystroke|Ctrl}} after dragging is started), block will be copied (not moved) to the pointed position.
+* Dragging to a different document (see '''[[#Groups of tabs|§ Groups of tabs]]'''): if {{Keystroke|Ctrl}} is pressed during the drop, block will be moved (otherwise it will be copied).
+
+The command "Go to definition" can be called by different mouse shortcuts: by {{Keystroke|Ctrl}}+{{Keystroke|⎇ Alt}}+Left-click (default), {{Keystroke|⎇ Alt}}+Left-click, etc.; this depends on the <code>mouse_goto_definition</code> option.
+
+== Multi-selections ==
 [[File:atsynedit-sel.gif|thumb|right|562px|Multi-selection feature]]
-If you add caret with Ctrl+click, caret has no selection. If you add caret with Ctrl+drag, caret will have selection. You can add selections to carets later, by Shift+arrows, Shift+Home, Shift+End etc.
+If you place a caret with {{Keystroke|Ctrl}}+Left-click, the caret has no selection, whereas if you add a caret with {{Keystroke|Ctrl}}+Drag, the caret will have a selection. You can add selections to carets later, by {{Keystroke|⇧ Shift}}+{{Keystroke|◀}}/{{Keystroke|▲}}/{{Keystroke|▼}}/{{Keystroke|▶}}/{{Keystroke|Home}}/{{Keystroke|End}}, etc.
 
 Multi-selections are handled specially on copy/paste. If you copy selections, then move carets, then paste, paste will insert clipboard lines into carets: line-1 at caret-1, line-2 at caret-2 etc (only if carets count equals to lines count in clipboard, otherwise result is different).
 
 === Commands with selections ===
-Clipboard commands work with multi-carets and multi-selections the special way. Also "Delete char" commands (Delete/Backspace keys) works the special way.
+Clipboard commands work with multi-carets and multi-selections the special way. Also "Delete char" commands ({{Keystroke|Del ⌦}}/{{Keystroke|⌫ Backspace}} keys) works the special way.
 {| class="wikitable"
  |-
  ! scope="col" | Command
@@ -263,13 +259,13 @@ Syntax highlighters in CudaText are called ''lexers'', and are compatible with t
 * The '''<samp>Lexer properties</samp>''' dialog provides access to the configurable properties of the current lexer (selected via the status bar). Those properties are: lexer name, file types, commenting style, token colors, font styles (bold/italic/underline) and token borders.
 * The '''<samp>Lexer library</samp>''' dialog shows a list of the installed lexers, which reside in the folder <code>data/lexlib</code>. This dialog has the following hotkeys:
 {| style="border-collapse: collapse; margin-left: 3.5em; width: 50vw;"
- ! style="padding-bottom: 0.2em; width: 10%;" | <kbd style="background-color: #f7f7f7; border: 1px solid #ccc; border-radius: 3px; box-shadow: 0px 1px 0px rgba(0,0,0,0.2), inset 0px 0px 0px 2px #fff; color: #333; display: inline-block; font-family: sans-serif; font-size: 0.75rem; line-height: 1.4; margin: 0px 0.1em; padding: 0.1em 0.6em; text-shadow: 0 1px 0 #fff; -moz-border-radius: 3px; -moz-box-shadow: 0 1px 0px rgba(0,0,0,0.2), 0 0 0 2px #fff inset; -webkit-border-radius: 3px; -webkit-box-shadow: 0 1px 0px rgba(0,0,0,0.2), 0 0 0 2px #fff inset;">Enter</kbd>
+ ! style="padding-bottom: 0.2em; width: 10%;" | {{Keystroke|Enter ⏎}}
  | style="padding-bottom: 0.2em; width: 40%;" | same as "Configure" button
- ! style="padding-bottom: 0.2em; width: 6%;" | <kbd style="background-color: #f7f7f7; border: 1px solid #ccc; border-radius: 3px; box-shadow: 0px 1px 0px rgba(0,0,0,0.2), inset 0px 0px 0px 2px #fff; color: #333; display: inline-block; font-family: sans-serif; font-size: 0.75rem; line-height: 1.4; margin: 0px 0.1em; padding: 0.1em 0.6em; text-shadow: 0 1px 0 #fff; -moz-border-radius: 3px; -moz-box-shadow: 0 1px 0px rgba(0,0,0,0.2), 0 0 0 2px #fff inset; -webkit-border-radius: 3px; -webkit-box-shadow: 0 1px 0px rgba(0,0,0,0.2), 0 0 0 2px #fff inset;">Del</kbd>
- | style="padding-bottom: 0.2em; width: 44%;" | same as "Delete" button
+ ! style="padding-bottom: 0.2em; width: 8%;" | {{Keystroke|Del ⌦}}
+ | style="padding-bottom: 0.2em; width: 42%;" | same as "Delete" button
  |-
- ! style="padding-top: 0.2em; width: 6%;" | <kbd style="background-color: #f7f7f7; border: 1px solid #ccc; border-radius: 3px; box-shadow: 0px 1px 0px rgba(0,0,0,0.2), inset 0px 0px 0px 2px #fff; color: #333; display: inline-block; font-family: sans-serif; font-size: 0.75rem; line-height: 1.4; margin: 0px 0.1em; padding: 0.1em 0.6em; text-shadow: 0 1px 0 #fff; -moz-border-radius: 3px; -moz-box-shadow: 0 1px 0px rgba(0,0,0,0.2), 0 0 0 2px #fff inset; -webkit-border-radius: 3px; -webkit-box-shadow: 0 1px 0px rgba(0,0,0,0.2), 0 0 0 2px #fff inset;">Esc</kbd>
- | style="padding-top: 0.2em; width: 44%;" | Close the <samp>Lexer library</samp> dialog
+ ! style="padding-top: 0.2em; width: 8%;" | {{Keystroke|⎋ Esc}}
+ | style="padding-top: 0.2em; width: 42%;" | Close the <samp>Lexer library</samp> dialog
 |}
 
 === Lexers on SourceForge ===
@@ -279,7 +275,7 @@ To install "lexer.*.zip" (or any add-on ZIP file) in CudaText: open this ZIP fil
 
 === List of lexers ===
 The following lexers (counting only important ones) exist for SynWrite and CudaText. Most of them are available through the Addons Manager's '''<samp>Install…</samp>''' command.
-{{Columns-start|num=5|class=plainlinks}}
+{{Columns-start|num=4|class=plainlinks}}
 * [https://1c-dn.com/1c_enterprise/1c_programming_language/ 1C:Enterprise script]
 * [https://learning.sap-press.com/abap <abbr title="Advanced Business Application Programming">ABAP</abbr>]
 * [https://www.3ds.com/products-services/simulia/products/abaqus/ Abaqus Keywords]
@@ -298,14 +294,14 @@ The following lexers (counting only important ones) exist for SynWrite and CudaT
 * [https://asciidoc.org/ AsciiDoc]
 * [[wikipedia:Assembly language|Assembly (ASM)]]:
 ** [https://developer.arm.com/documentation/102438/0100/Learning-about-assembly-language ARM Assembly (armasm)]
-** Assembly AVR
-** Assembly FASM
-** Assembly GNU
-** Assembly JWASM
-** Assembly MASM x86
-** Assembly MIPS
-** Assembly Motorola 68k
-** Assembly NASM x86
+** [https://ww1.microchip.com/downloads/en/DeviceDoc/40001917A.pdf AVR Assembly (AVRASM2)]
+** [https://flatassembler.net/ Flat Assembly (fasm)]
+** [https://sourceware.org/binutils/docs-2.41/as.html GNU Assembly (as/gas)]
+** [https://www.japheth.de/JWasm/Manual.html JWasm Assembly]
+** [https://learn.microsoft.com/en-us/cpp/assembler/masm/microsoft-macro-assembler-reference?view=msvc-170 Microsoft Macro Assembler x86/x64 (MASM)]
+** [https://web.cse.ohio-state.edu/~crawfis.3/cse675-02/Slides/MIPS%20Instruction%20Set.pdf MIPS Assembly]
+** [http://68k.hax.com/ Motorola 68000 Assembly]
+** [https://www.nasm.us Netwide Assembly x86 (NASM)]
 ** Assembly PowerPC
 ** Assembly RISC-V
 ** Assembly SHARC DSP
@@ -341,7 +337,6 @@ The following lexers (counting only important ones) exist for SynWrite and CudaT
 * Clipper
 * Clojure
 * CMake
-{{Column|num=5}}
 * Cobol
 * CodeVisionAVR
 * CoffeeScript
@@ -357,6 +352,7 @@ The following lexers (counting only important ones) exist for SynWrite and CudaT
 * Dart
 * Delphi resources
 * Dhall
+{{Column|num=4}}
 * Dictu
 * Diff
 * Dockerfile
@@ -402,7 +398,6 @@ The following lexers (counting only important ones) exist for SynWrite and CudaT
 * Haxe
 * HCL (HashiCorp Configuration Language)
 * [https://cwiki.apache.org/confluence/display/Hive/LanguageManual HiveQL (Apache Hive)]
-{{Column|num=5}}
 * HJSON
 * HLSL
 * HTML
@@ -434,6 +429,7 @@ The following lexers (counting only important ones) exist for SynWrite and CudaT
 * JQ
 * JSON
 * Jsonnet
+{{Column|num=4}}
 * Julia
 * Just
 * Kivy
@@ -465,7 +461,6 @@ The following lexers (counting only important ones) exist for SynWrite and CudaT
 * Modelica
 * Modula-2
 * Modula-3
-{{Column|num=5}}
 * Monkey
 * MSVS Solution
 * MusicBrainz Picard Tagger Script
@@ -512,6 +507,7 @@ The following lexers (counting only important ones) exist for SynWrite and CudaT
 * Pug
 * Puppet
 * PyMOL
+{{Column|num=4}}
 * Pyret
 * Python
 * QML (Qt Modeling Language)
@@ -527,7 +523,6 @@ The following lexers (counting only important ones) exist for SynWrite and CudaT
 * reStructuredText
 * Rexx
 * RON
-{{Column|num=5}}
 * RPG/IV
 * RTF (Rich Text)
 * Ruby
@@ -601,10 +596,7 @@ You can modify/create lexers. But not in CudaText. Install SynWrite (Windows pro
 * In CudaText open this .zip file, confirm installation of lexer.
 
 === Lexers editing - styles only ===
-
-For full-featured lexer editing, you must use SynWrite as described in the topic above.
-CudaText itself allows to edit only lexer styles, ie colors/ borders/ font-style (bold/italic/strikeout) of lexer styles. How to do that:
-
+For full-featured lexer editing, you must use SynWrite as described in the topic above. CudaText itself allows to edit only lexer styles, ie colors/ borders/ font-style (bold/italic/strikeout) of lexer styles. How to do that:
 * Activate some lexer for the current document.
 * Call CudaText menu "Options / Lexers / Lexer properties", dialog "Lexer properties" will open.
 * In the "Lexer properties" dialog, activate "Styles" tab, it has UI to customize styles in the active lexer. This UI is enabled only when lexer themes are Off, ie option "ui_lexer_themes":false.
@@ -612,9 +604,7 @@ CudaText itself allows to edit only lexer styles, ie colors/ borders/ font-style
 By default that option is On so UI is disabled. If you enable the UI, you can customize all lexer styles. Configuration will be saved to the files "settings/*.cuda-lexops". These files are auto-loaded by CudaText on start.
 
 === How to setup styles of hidden sublexer ===
-
 Some lexers are distributed in packages together with sub-lexer, and sub-lexer is hidden. Example: "HTML Django" with sub-lexer "HTML Django internal" (the second one isn't visible in the Lexers menu, so it's called hidden). Users, which have option "ui_lexer_themes" off, want to configure styles of all lexers. How to access hidden ones?
-
 * Open "Lexer library" dialog (menu: Options / Lexer / Lexer library).
 * In dialog, focus needed lexer, press "Configure" button
 * Dialog "Lexer properties" will open for selected lexer
@@ -622,12 +612,8 @@ Some lexers are distributed in packages together with sub-lexer, and sub-lexer i
 
 You can change visibility of lexer in SynWrite lexer editor (the checkbox will write line "Internal = True" at the end of .lcf file).
 
-===How to create distributive of new lexer===
-
-In SynWrite, you've created .lcf file in folder SynWrite/Data/LexLib.
-If you configured "Commenting" options, also file .cuda-lexmap is created.
-Now you need to create .zip installation of lexer, for both editors: SynWrite, CudaText.
-
+=== How to create distributive of new lexer ===
+In SynWrite, you've created .lcf file in folder SynWrite/Data/LexLib. If you configured "Commenting" options, also file .cuda-lexmap is created. Now you need to create .zip installation of lexer, for both editors: SynWrite, CudaText.
 * In lexer file, replace system colors to usual colors: replace "clWindowText" to "clBlack" (clWindowText may be light on CudaText on Linux); replace "clInfoText" and "clInfoBk" too.
 * In SynWrite, in Addon Manager, install plugin "ExLexer".
 * In SynWrite, run menu item "Plugins / ExLexer", to create .zip for your lexer.
@@ -637,32 +623,26 @@ Now you need to create .zip installation of lexer, for both editors: SynWrite, C
 * In prev step, you configured .cuda-lexmap file, in folder CudaText/data/lexlib. Copy this file to zip installation of your lexer.
 * Zip must contain: install.inf, .lcf file(s), .cuda-lexmap file per each lexer.
 
-===Lite lexers===
-
+=== Lite lexers ===
 Lite lexers are lexers is special format (internally it's JSON file), with very limited features. They don't support code-tree, folding, don't support multi-line comments, don't have rich highlighting (e.g. background highlight of string `12+$var` with additional highlight for 12 and $var inside). And they don't keep tokens information in memory (positions of found tokens in text). Lite lexers process only lines visible on screen, not all document lines. So, they work fast for any file size.
 
 Limitation: on lines longer than 4K chars, only first 4K chars have the syntax highlighting.
 
-Lite lexers have the " ^" suffix in name. You can activate lite lexers from the usual lexers menu.
-Several lite lexers are preinstalled:
-
+Lite lexers have the " ^" suffix in name. You can activate lite lexers from the usual lexers menu. Several lite lexers are preinstalled:
 * Ini files ^
 * JSON ^
 * Log files ^
 * SQL ^
 * XML ^
 
-Lite lexers are automatically activated for big files, when file size is bigger than option "ui_max_size_lexer". For example, for small sized JSON files normal "JSON" lexer is activated, but for huge JSON files - lite lexer "JSON ^" is automatically activated.
-Lite lexers are activated for small files, if normal lexer for file-extension is not found. For example, "SQL ^" is used for small SQL files, because "normal" SQL lexer is not preinstalled.
+Lite lexers are automatically activated for big files, when file size is bigger than option "ui_max_size_lexer". For example, for small sized JSON files normal "JSON" lexer is activated, but for huge JSON files - lite lexer "JSON ^" is automatically activated. Lite lexers are activated for small files, if normal lexer for file-extension is not found. For example, "SQL ^" is used for small SQL files, because "normal" SQL lexer is not preinstalled.
 
 How to change styles in lite lexers? For example, "Log files ^" uses styles "Id"/"Id2", and you want to change that? It's easy:
-
 * open the file: [CudaText]/data/lexliblite/Log files.cuda-litelexer
 * find and edit styles names
 * all possible styles are listed in the CudaText dialog "Options / Settings - theme - syntax..."
 
-===Differences in lexer support in CudaText/SynWrite===
-
+=== Differences in lexer support in CudaText/SynWrite ===
 * SynWrite supports "lexer grammar", while CudaText does not support "grammar" anymore.
 * SynWrite lexers need constructs like \x0D\x0A or \z (to catch any line-break: LF, CRLF, CR), while CudaText lexers are OK with simple \n (because internal buffer always has LF separator).
 * Some lexers need to find equal identifiers at begin/end of blocks: HTML, Bash, others. Bash lexer needs extended feature: to see NAME and 'NAME' and "NAME" as equal identifiers (word and quoted word). Only CudaText has this extended feature, not SynWrite.
@@ -678,8 +658,7 @@ How to change styles in lite lexers? For example, "Log files ^" uses styles "Id"
 ** Multiline border
 ** Options in groups "Syntax tree decoration", "Pen"
 
-===How to make editor re-scan entire document on editing===
-
+=== How to make editor re-scan entire document on editing ===
 The question makes sense, because when user types the block ending (e.g. "}" in C syntax), editor re-scans the document from the last changed line, and cannot detect that new block is just appeared.
 
 Find the lexer file, .lcf file in the folder data/lexlib. This file has the ending with "end", before "end" you see several lexer settings. You can add there:
@@ -694,12 +673,10 @@ Insert it near the end of file, like here:
 
 This tells lexer to re-scan entire document, on editing in any document place, when document size is less than 5000 chars.
 
-===How to support Spell Checker in lexer===
-
+=== How to support Spell Checker in lexer ===
 Plugin "Spell Checker" checks text, which is inside "strings" and "comments". So you must configure lexer and set there, which lexer elements (tokens) are "strings" and "comments". It is options in the "Lexer properties" dialog of SynWrite, in the "Commenting" tab of dialog. You can change these options without SynWrite too - they are in the data/lexlib/LexerName.cuda-lexmap file, both options are comma-separated names of lexer styles. 
 
 For example, let's see XML lexer. We must specify styles:
-
 * style applied to XML/HTML comments
 * style applied to quoted strings in XML tags
 * style applied to usual text out of angle brackets
@@ -709,13 +686,10 @@ If you see lexer config in SynWrite, you will find that we need styles "Comment"
  styles_cmt=Comment
  styles_str=Text,Tag val
 
-==Fenced code-blocks==
-
-[[File:cudatext-fenced-blocks.png]]
-
-This is the feature of Markdown syntax: fenced code blocks.
-Blocks begin with:
-
+== Fenced code-blocks ==
+[[File:cudatext-fenced-blocks.png|thumb|right|Fenced code blocks]]
+[[File:cudatext-dynamic-hi.png|thumb|right|HTML/XML/Lua dynamic highlighting]]
+This is the feature of Markdown syntax: fenced code blocks. Blocks begin with:
 * start of line
 * optional spaces
 * 3 or more backtick-chars (also tilde-chars are allowed)
@@ -725,7 +699,6 @@ Blocks begin with:
 * end of line.
 
 Blocks end with:
-
 * start of line
 * optional spaces
 * 3 or more backtick-chars (also tilde-chars are allowed)
@@ -734,34 +707,26 @@ Blocks end with:
 
 The beginning and ending sequences are tokenized as single token.
 
-CudaText has the file which lists the supported lexer aliases: data/lexlib/aliases.ini.
-The file was compiled from [https://github.com/highlightjs/highlight.js/blob/main/SUPPORTED_LANGUAGES.md this document].
-Lexer alias will be resolved to the actual lexer name, only if that lexer is installed, otherwise
-you won't see an error, but block will not be syntax-highlighted.
+CudaText has the file which lists the supported lexer aliases: data/lexlib/aliases.ini. The file was compiled from [https://github.com/highlightjs/highlight.js/blob/main/SUPPORTED_LANGUAGES.md this document].
+Lexer alias will be resolved to the actual lexer name, only if that lexer is installed, otherwise you won't see an error, but block will not be syntax-highlighted.
 
 Note about SQL blocks. CudaText has lexer preinstalled, it's lite lexer "SQL ^", and it cannot be used here, because lite lexer cannot be called from normal lexer. But you can install (from "Plugins / Addons Manager") normal lexers: SQL; SQL White; SQL Blue; T-SQL (T-SQL has it's own alias "tsql"). Just install one of them, and it will be used for SQL blocks.
 
 '''Limitations:'''
-
 * Markdown standard tells that the beginning backticks must match the ending backticks, it must be the same amount of backticks. (And the same is valid for tildes.) This is currently not supported in CudaText.
 * Python Markdown description tells that the lexer alias may be replaced with the curly-brackets construct like "{ .lang }" or "{ .lang .foo .bar }" or even "{ #someid .lang .foo .bar }". This is currently not supported in CudaText.
 * The similar feature of the reStructuredText, as [https://pandemic-overview.readthedocs.io/en/latest/myGuides/reStructuredText-Source-Code.html documented here], is not supported. 
 
-==Dynamic highlight==
-
+== Dynamic highlight ==
 Dynamic highlight is controlled by option "dynamic_highlight" (this is new option since CudaText 1.193.3, before it was 2 options "lexer_dynamic_hilite"/"lexer_dynamic_hilite_max_lines"). Option allows the caret-dependant highlighting only in documents which have not more than N (option value) lines. This limitation is useful because dynamic highlight makes lexer parsing slower.
 
 Feature enables to highlight some 'tokens' dynamically (with default greenish background color), when caret changes position. It works only when lexer is configured to use this feature. These lexers in the CudaText distro use it:
-
 * HTML, PHP, XML: opening tag and corresponding closing tag are highlighted, when caret is over one of them
 * CSS: rule highlights {} block with different background color, when caret is inside that block
 * Bash: block edge tokens are highlighted when caret is inside the block: 'if'/'fi', 'case'/'esac', 'do'/'done'
 * Lua: block edge tokens are highlighted when caret is inside the block: 'function'/'end', 'if'/'end', 'do'/'end'
 
-Screenshot for HTML/XML/Lua:
-
-[[File:cudatext-dynamic-hi.png]]
-
+'''Examples:'''
 * On the HTML example editor, 2 fragments have dynamic highlighting (because of 2 multi-carets). First caret is placed inside tag 'h1' but before tag 'a'. Second caret is placed inside tag 'a'. So second caret enables dynamic highlight of angle brackets too, not only of a tag.
 * On the XML example editor, lexer highligts 'data' tag, surrounding the caret.
 * On the Lua example editor, lexer highlights 2 nested blocks, surrounding the caret: function/end and do/end.
@@ -780,25 +745,23 @@ CSS:
       DynHighlight = dhRange
       HighlightPos = cpRange
 
-=Folding=
-Folding is the feature allowing to collapse multi-line regions of code.
-Collapsed region shows the rectangle-like figure on the first line, and other block lines become hidden.
-Collapsed region can start from any column, but it consumes entire next lines.
-App shows special column in the "gutter" (vertical band with line numbers), with plus/minus icons - these icons collapse/uncollapse regions.
-Folding "rules" are configured in the lexer file.
+== Folding ==
+{| style="border-collapse: collapse; float: right;"
+ | style="vertical-align: top;" | [[File:cudatext-fold-comments.png|thumb|right|x341px|Folding comments]]
+ | [[File:cudatext-folding-gutter-ctx-menu.png|thumb|right|Code folding context menu, accessed from the gutter]]
+|}
+Folding is the feature allowing to collapse multi-line regions of code. Collapsed region shows the rectangle-like figure on the first line, and other block lines become hidden. Collapsed region can start from any column, but it consumes entire next lines. App shows special column in the "gutter" (vertical band with line numbers), with plus/minus icons - these icons collapse/uncollapse regions. Folding "rules" are configured in the lexer file.
 
 To select an entire folded block, place the caret right before the beginning of the block, and press Shift+Down. Ie, make selection to beginning of the next ''unfolded'' line.
 
 There are several options to customize related functionality: call menu item "Plugins / Options Editor Lite" and enter the filter string "fold".
 
 Folded blocks can be rendered in few different ways, this is optional:
-
 * rectangle-mark at the beginning of the range (maybe after some text in the line)
 * rectangle-mark after the end of the first line of the range
 * "− − −" dash line below the first line of the range
 
 '''Gutter right-click menu'''
-
 Gutter's folding band supports right-click menu. It gives commands to fold/unfold all blocks which touch the right-clicked editor line. When it can be useful? For example, you have JSON file with line:
 
  "data": [{
@@ -809,33 +772,22 @@ Click on folding icon will fold the outer block. What if you want to fold the in
  Line 6:    "data": [{
  Line 6:    "data": [{
 
-[[File:cudatext-folding-gutter-ctx-menu.png]]
-
 Clicking the first item will fold/unfold the outer block, clicking the second item will fold/unfold the inner block.
 
-==Automatic folding of comments==
-
-There is an option "auto_fold_comments" (default is 0 - it's turned off) which allows to automatically
-create folding ranges from N (or more) consecutive lines, which are all "syntax comments".
-This works for both line-comments and stream-comments, they can be even mixed
-(one comment after another, with any amount of blank lines in between,
-but not for several stream-comments on a single line).
-
-[[File:cudatext-fold-comments.png]]
+== Automatic folding of comments ==
+There is an option "auto_fold_comments" (default is 0 - it's turned off) which allows to automatically create folding ranges from N (or more) consecutive lines, which are all "syntax comments". This works for both line-comments and stream-comments, they can be even mixed (one comment after another, with any amount of blank lines in between, but not for several stream-comments on a single line).
 
 Previously, CudaText allowed something like this, via lexer configuration: all needed lexers must have
 special settings inside them, and this worked for 2+ lines, not for custom value.
 After the option "auto_fold_comments" appeared, all 3rd-party lexers should be stripped of those old settings.
 
-=Encodings=
-
+== Encodings ==
 You can change encoding of document by clicking on statusbar item, or by using menu "File / Encoding". Menu will give list of encodings. Menu gives 2 sub-menus:
-
 * "Reload as": Reload file in given encoding from disk.
 * "Convert to": Change encoding in memory only (this doesn't save the file).
 
 Possible encoding names for command-line usage:
-
+{{Columns-start|num=4}}
 * utf8
 * utf8_bom
 * utf16le
@@ -849,6 +801,7 @@ Possible encoding names for command-line usage:
 * cp1250
 * cp1251
 * cp1252
+{{Column|num=4}}
 * cp1253
 * cp1254
 * cp1255
@@ -861,6 +814,7 @@ Possible encoding names for command-line usage:
 * cp861
 * cp865
 * cp866
+{{Column|num=4}}
 * cp874
 * shift-jis
 * gbk
@@ -873,6 +827,7 @@ Possible encoding names for command-line usage:
 * iso-8859-2
 * iso-8859-3
 * iso-8859-4
+{{Column|num=4}}
 * iso-8859-5
 * iso-8859-7
 * iso-8859-9
@@ -885,19 +840,17 @@ Possible encoding names for command-line usage:
 * koi8r
 * koi8u
 * koi8ru
+{{Columns-end}}
 
-=Line ends=
-
+== Line ends ==
 All major types of line-ends are supported:
+* '''<big>&#9229;&#9226;</big>''' (usual for Windows)
+* '''<big>&#9226;</big>''' (usual for Linux and Unix)
+* '''<big>&#9229;</big>''' (usual for Mac OS 9, now almost not used)
 
-* CR LF (usual for Windows)
-* LF (usual for Linux and Unix)
-* CR (usual for Mac OS 9, now almost not used)
-
-Mixed line-ends (CR with LF with CR LF) in one document are supported. Because of this feature, CudaText saves binary files to disk without corrupting them. To see mixed line-ends, use application option "unprinted_content", which can show text marks ("lf" etc) at line-ends.
+Mixed line-ends ('''<big>&#9229;</big>''' with '''<big>&#9226;</big>''' with '''<big>&#9229;&#9226;</big>''') in one document are supported. Because of this feature, CudaText saves binary files to disk without corrupting them. To see mixed line-ends, use application option "unprinted_content", which can show text marks ("lf" etc) at line-ends.
 
 Commands:
-
 * To change line-ends for all lines in the current document, click statusbar cell for line-ends, menu will appear. You need to save file then. Changed line-ends can be undone via "Undo". Also 3 commands are available in the Command Palette.
 * To change line-ends for individial lines, use 3 commands in the Command Palette: "change line ends, for line(s) with caret: CR LF / LF / CR".
 
