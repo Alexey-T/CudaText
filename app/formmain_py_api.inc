@@ -5250,7 +5250,7 @@ begin
             Sep.Init(Str);
             Sep.GetItemStr(Str1);
             Sep.GetItemStr(Str2);
-            Sep.GetItemStr(Str3);
+            Sep.GetRest(Str3);
             if Str3<>'' then
               Params:= [AppVariant(Str3)]
             else
