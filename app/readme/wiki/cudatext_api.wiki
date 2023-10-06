@@ -3514,6 +3514,14 @@ This will show:
 Options Editor stores values in JSON with trailing comma, so to read these options, plugin must use cudax_lib.get_opt() instead of json.load().
 
 ==API of Project Manager==
+'''Opening project from plugin'''
+
+To open a project, you need to call the Project Manager's method Command.action_open_project, which can be done via action PROC_EXEC_PLUGIN. For example, this code loads the project "/home/user/tt.cuda-proj":
+
+ app_proc(PROC_EXEC_PLUGIN, 'cuda_project_man,action_open_project,/home/user/tt.cuda-proj')
+
+'''Getting current project info'''
+
 Project Manager plugin (preinstalled in CudaText) gives API to read properties of currently opened project. It has global variable '''global_project_info''', which is dict with keys:
 
 * "filename": Path of project file (*.cuda-proj), or empty string if project is not saved.
