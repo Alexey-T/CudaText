@@ -790,7 +790,7 @@ You can change encoding of document by clicking on statusbar item, or by using m
 * "Convert to": Change encoding in memory only (this doesn't save the file).
 
 Possible encoding names for command-line usage:
-{{Columns-start|num=4}}
+{{Columns-start|num=3}}
 * utf8
 * utf8_bom
 * utf16le
@@ -804,20 +804,19 @@ Possible encoding names for command-line usage:
 * cp1250
 * cp1251
 * cp1252
-{{Column|num=4}}
 * cp1253
 * cp1254
 * cp1255
 * cp1256
 * cp1257
 * cp1258
+{{Column|num=3}}
 * cp437
 * cp850
 * cp852
 * cp861
 * cp865
 * cp866
-{{Column|num=4}}
 * cp874
 * shift-jis
 * gbk
@@ -826,11 +825,11 @@ Possible encoding names for command-line usage:
 * big5
 * gb2312
 * euc-kr
+{{Column|num=3}}
 * iso-8859-1
 * iso-8859-2
 * iso-8859-3
 * iso-8859-4
-{{Column|num=4}}
 * iso-8859-5
 * iso-8859-7
 * iso-8859-9
