@@ -746,8 +746,7 @@ CSS:
       HighlightPos = cpRange
 
 == Folding ==
-{| style="border-collapse: collapse; float: right;"
- | style="vertical-align: top;" | [[File:cudatext-fold-comments.png|thumb|right|x341px|Folding comments]]
+{| style="border-collapse: collapse; float: right;" 
  | [[File:cudatext-folding-gutter-ctx-menu.png|thumb|right|Code folding context menu, accessed from the gutter]]
 |}
 Folding is the feature allowing to collapse multi-line regions of code. Collapsed region shows the rectangle-like figure on the first line, and other block lines become hidden. Collapsed region can start from any column, but it consumes entire next lines. App shows special column in the "gutter" (vertical band with line numbers), with plus/minus icons - these icons collapse/uncollapse regions. Folding "rules" are configured in the lexer file.
@@ -762,6 +761,7 @@ Folded blocks can be rendered in few different ways, this is optional:
 * "− − −" dash line below the first line of the range
 
 '''Gutter right-click menu'''
+
 Gutter's folding band supports right-click menu. It gives commands to fold/unfold all blocks which touch the right-clicked editor line. When it can be useful? For example, you have JSON file with line:
 
  "data": [{
@@ -775,6 +775,9 @@ Click on folding icon will fold the outer block. What if you want to fold the in
 Clicking the first item will fold/unfold the outer block, clicking the second item will fold/unfold the inner block.
 
 == Automatic folding of comments ==
+{| style="border-collapse: collapse; float: right;" 
+ | [[File:cudatext-fold-comments.png|thumb|right|x341px|Auto-folding of comments]]
+|}
 There is an option "auto_fold_comments" (default is 0 - it's turned off) which allows to automatically create folding ranges from N (or more) consecutive lines, which are all "syntax comments". This works for both line-comments and stream-comments, they can be even mixed (one comment after another, with any amount of blank lines in between, but not for several stream-comments on a single line).
 
 Previously, CudaText allowed something like this, via lexer configuration: all needed lexers must have
