@@ -99,7 +99,7 @@ Constants in on_state:
 * APPSTATE_CODETREE_AFTER_FILL: Code-Tree: after filling the content.
 * APPSTATE_CODETREE_SET_SELECTION: Code-Tree double-click changed scroll pos, or app sync'ed Code-Tree with caret pos.
 
-* APPSTATE_WINDOW: Changed state of the main window. Read current state via app_proc(PROC_GET_WINDOW_STATE, '').
+* APPSTATE_WINDOW: Changed state of the main window: minimized/normal/maximized/fullscreen. Read current state via app_proc(PROC_GET_WINDOW_STATE, '').
 
 Constants in on_state_ed:
 
