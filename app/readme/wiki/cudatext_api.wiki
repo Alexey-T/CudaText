@@ -77,7 +77,7 @@ Event handlers (Command.on_nnnnn methods) return-value is ignored is many cases,
 * on_state(self, ed_self, state): Called after some app state is changed. Param "state" is one of APPSTATE_nnnn constants. ed_self is None.
 * on_state_ed(self, ed_self, state): Called after some editor state is changed. Param "state" is one of EDSTATE_nnnn constants.
 
-Constants in on_state:
+Constants in "on_state":
 
 * APPSTATE_LANG: Changed UI translation.
 * APPSTATE_THEME_UI: Changed UI-theme.
@@ -99,9 +99,9 @@ Constants in on_state:
 * APPSTATE_CODETREE_AFTER_FILL: Code-Tree: after filling the content.
 * APPSTATE_CODETREE_SET_SELECTION: Code-Tree double-click changed scroll pos, or app sync'ed Code-Tree with caret pos.
 
-* APPSTATE_WINDOW: Changed state of the main window: minimized/normal/maximized/fullscreen. Read current state via app_proc(PROC_GET_WINDOW_STATE, '').
+* APPSTATE_WINDOW: Changed state of the main window: minimized/normal/maximized/fullscreen. Read current state via app_proc(PROC_GET_WINDOW_STATE, "").
 
-Constants in on_state_ed:
+Constants in "on_state_ed":
 
 * EDSTATE_WRAP: Word-wrap state is changed.
 * EDSTATE_TAB_TITLE: UI-tab title is changed.
