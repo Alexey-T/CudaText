@@ -892,8 +892,11 @@
   //  3: right
   "ui_tab_position": 0,
 
-  //UI tabs: indent between tab edge and text beginning.
+  //UI tabs: indent between left tab edge and text beginning.
   "ui_tab_padding": 6,
+
+  //UI tabs: indent between right tab edge and text ending.
+  "ui_tab_padding2": 6,
 
   //UI tabs: When to show "x" buttons on tabs.
   //  0: don't show

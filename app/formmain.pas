@@ -4090,6 +4090,7 @@ begin
   G.SetTabOption(tabOptionSpacer, IfThen(UiOps.TabPosition=0, UiOps.TabSpacer));
   G.SetTabOption(tabOptionSpacer2, 1); //for multiline mode
   G.SetTabOption(tabOptionSpaceBeforeText, UiOps.TabSpaceBeforeText);
+  G.SetTabOption(tabOptionSpaceAfterText, UiOps.TabSpaceAfterText);
   G.SetTabOption(tabOptionColoredBandSize, _InitOptColoredBandSize);
   G.SetTabOption(tabOptionActiveMarkSize, _InitOptActiveMarkSize);
   G.SetTabOption(tabOptionScrollMarkSizeX, _InitOptScrollMarkSizeX);

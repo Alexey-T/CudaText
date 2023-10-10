@@ -311,6 +311,7 @@ type
     TabHeightInner: integer;
     TabSpacer: integer;
     TabSpaceBeforeText: integer;
+    TabSpaceAfterText: integer;
     TabPosition: integer;
     TabColorFull: boolean;
     TabFontScale: integer;
@@ -1994,6 +1995,7 @@ begin
     TabHeightInner:= TabHeight-1;
     TabSpacer:= 2;
     TabSpaceBeforeText:= 6;
+    TabSpaceAfterText:= 6;
     TabPosition:= 0;
     TabColorFull:= false;
     TabFontScale:= 100;

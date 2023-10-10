@@ -1631,6 +1631,7 @@ begin
   UiOps.TabHeight:= cfg.GetValue('ui_tab_size_y', UiOps.TabHeight);
   UiOps.TabHeightInner:= UiOps.TabHeight-1;
   UiOps.TabSpaceBeforeText:= cfg.GetValue('ui_tab_padding', UiOps.TabSpaceBeforeText);
+  UiOps.TabSpaceAfterText:= cfg.GetValue('ui_tab_padding2', UiOps.TabSpaceAfterText);
   UiOps.TabPosition:= cfg.GetValue('ui_tab_position', UiOps.TabPosition);
   UiOps.TabColorFull:= cfg.GetValue('ui_tab_fullcolor', UiOps.TabColorFull);
   UiOps.TabFontScale:= cfg.GetValue('ui_tab_font_scale', UiOps.TabFontScale);
