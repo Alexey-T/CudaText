@@ -6,6 +6,7 @@
 1.200.1 (2023/10)
 
 + add: option "ui_tab_padding2" to set right padding (thanks @faerot)
++ add: 3 new commands to focus 3 floating groups
 
 1.200.0 (2023/10)
 
