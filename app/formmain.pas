@@ -9277,7 +9277,7 @@ end;
 procedure TfmMain.DoFocusUsualGroup(AIndex: integer);
 begin
   case AIndex of
-    0..5:
+    0..High(TATGroupsNums):
       Groups.PagesSetIndex(AIndex);
     else
       exit;
