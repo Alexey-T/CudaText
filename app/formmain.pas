@@ -741,6 +741,7 @@ type
     procedure FindAndExtractRegexMatches;
     procedure DoFocusUsualGroup(AIndex: integer);
     procedure DoFocusFloatingGroup(AIndex: integer);
+    procedure DoFocusNextGroup(ANext: boolean);
     function GetFileOpenOptionsString(AFileCount: integer): string;
     procedure HandleTimerCommand(Ed: TATSynEdit; CmdCode: integer; CmdInvoke: TATCommandInvoke);
     procedure InvalidateMouseoverDependantControls;
@@ -9313,6 +9314,110 @@ begin
   if Grp.GetTabTotalCount<=0 then exit;
 
   DoFormFocus(Form, true);
+end;
+
+
+procedure TfmMain.DoFocusNextGroup(ANext: boolean);
+  //
+  function TryFocusLastFloating(AFromIndex: integer): boolean;
+  begin
+    Result:= false;
+    if (AFromIndex>=2) and Assigned(FFormFloatGroups3) and FFormFloatGroups3.Visible then
+    begin
+      DoFocusFloatingGroup(2);
+      Result:= true;
+    end
+    else
+    if (AFromIndex>=1) and Assigned(FFormFloatGroups2) and FFormFloatGroups2.Visible then
+    begin
+      DoFocusFloatingGroup(1);
+      Result:= true;
+    end
+    else
+    if (AFromIndex>=0) and Assigned(FFormFloatGroups1) and FFormFloatGroups1.Visible then
+    begin
+      DoFocusFloatingGroup(0);
+      Result:= true;
+    end;
+  end;
+  //
+  function TryFocusFirstFloating(AFromIndex: integer): boolean;
+  begin
+    Result:= false;
+    if (AFromIndex<=0) and Assigned(FFormFloatGroups1) and FFormFloatGroups1.Visible then
+    begin
+      DoFocusFloatingGroup(0);
+      Result:= true;
+    end
+    else
+    if (AFromIndex<=1) and Assigned(FFormFloatGroups2) and FFormFloatGroups2.Visible then
+    begin
+      DoFocusFloatingGroup(1);
+      Result:= true;
+    end
+    else
+    if (AFromIndex<=2) and Assigned(FFormFloatGroups3) and FFormFloatGroups3.Visible then
+    begin
+      DoFocusFloatingGroup(2);
+      Result:= true;
+    end;
+  end;
+  //
+var
+  Frame: TEditorFrame;
+  Grp: TATGroups;
+  Pages: TATPages;
+  NNewGroupIndex, NLocalGroupIndex, NGlobalGroupIndex, NTabIndex: integer;
+  bWrapped: boolean;
+begin
+  Frame:= CurrentFrame;
+  if Frame=nil then exit;
+  GetFrameLocation(Frame, Grp, Pages, NLocalGroupIndex, NGlobalGroupIndex, NTabIndex);
+
+  case NGlobalGroupIndex of
+    0..High(TATGroupsNums):
+      begin
+        //usual group is focused
+        NNewGroupIndex:= Groups.PagesNextIndex(NLocalGroupIndex, ANext, false, bWrapped);
+        if bWrapped then
+        begin
+          if ANext then
+          begin
+            if not TryFocusFirstFloating(0) then
+              DoFocusUsualGroup(NNewGroupIndex);
+          end
+          else
+          begin
+            if not TryFocusLastFloating(2) then
+              DoFocusUsualGroup(NNewGroupIndex);
+          end;
+        end
+        else
+        begin
+          if NNewGroupIndex>=0 then
+            DoFocusUsualGroup(NNewGroupIndex);
+        end;
+      end;
+
+    High(TATGroupsNums)+1..High(TATGroupsNums)+4:
+      begin
+        //floating group is focused
+        NLocalGroupIndex:= NGlobalGroupIndex-(High(TATGroupsNums)+1);
+        if ANext then
+        begin
+          if not TryFocusFirstFloating(NLocalGroupIndex+1) then
+            DoFocusUsualGroup(0);
+        end
+        else
+        begin
+          if not TryFocusLastFloating(NLocalGroupIndex-1) then
+          begin
+            NLocalGroupIndex:= Groups.PagesNextIndex(High(TATGroupsNums), ANext, false, bWrapped);
+            DoFocusUsualGroup(NLocalGroupIndex);
+          end;
+        end;
+      end;
+  end;
 end;
 
 

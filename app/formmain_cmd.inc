@@ -516,9 +516,9 @@ begin
       UpdateGroupsMode(gm6grid);
 
     cmd_GroupActivateNext:
-      Groups.PagesSetNext(true);
+      DoFocusNextGroup(true);
     cmd_GroupActivatePrev:
-      Groups.PagesSetNext(false);
+      DoFocusNextGroup(false);
 
     cmd_GroupActivate1:
       DoFocusUsualGroup(0);
