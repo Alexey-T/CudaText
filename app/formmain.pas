@@ -9328,8 +9328,8 @@ var
     i: integer;
   begin
     Result:= false;
-    for i:= High(FormsArray) downto Low(FormsArray) do
-      if (AFromIndex>=i) and Assigned(FormsArray[i]) and FormsArray[i].Visible then
+    for i:= AFromIndex downto Low(FormsArray) do
+      if Assigned(FormsArray[i]) and FormsArray[i].Visible then
       begin
         DoFocusFloatingGroup(i);
         Result:= true;
@@ -9342,8 +9342,8 @@ var
     i: integer;
   begin
     Result:= false;
-    for i:= Low(FormsArray) to High(FormsArray) do
-      if (AFromIndex<=i) and Assigned(FormsArray[i]) and FormsArray[i].Visible then
+    for i:= AFromIndex to High(FormsArray) do
+      if Assigned(FormsArray[i]) and FormsArray[i].Visible then
       begin
         DoFocusFloatingGroup(i);
         Result:= true;
