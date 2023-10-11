@@ -739,6 +739,7 @@ type
     procedure FindAndMarkAll(var NCounter: integer);
     procedure FindAndReplaceInAllFrames(FramePrev: TEditorFrame; var NCounter: integer);
     procedure FindAndExtractRegexMatches;
+    procedure DoFocusUsualGroup(AIndex: integer);
     procedure DoFocusFloatingGroup(AIndex: integer);
     function GetFileOpenOptionsString(AFileCount: integer): string;
     procedure HandleTimerCommand(Ed: TATSynEdit; CmdCode: integer; CmdInvoke: TATCommandInvoke);
@@ -9271,6 +9272,16 @@ begin
   Result:= true;
 end;
 
+
+procedure TfmMain.DoFocusUsualGroup(AIndex: integer);
+begin
+  case AIndex of
+    0..5:
+      Groups.PagesSetIndex(AIndex);
+    else
+      exit;
+  end;
+end;
 
 procedure TfmMain.DoFocusFloatingGroup(AIndex: integer);
 var

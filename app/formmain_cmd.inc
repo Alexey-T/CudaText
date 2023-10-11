@@ -521,17 +521,17 @@ begin
       Groups.PagesSetNext(false);
 
     cmd_GroupActivate1:
-      Groups.PagesSetIndex(0);
+      DoFocusUsualGroup(0);
     cmd_GroupActivate2:
-      Groups.PagesSetIndex(1);
+      DoFocusUsualGroup(1);
     cmd_GroupActivate3:
-      Groups.PagesSetIndex(2);
+      DoFocusUsualGroup(2);
     cmd_GroupActivate4:
-      Groups.PagesSetIndex(3);
+      DoFocusUsualGroup(3);
     cmd_GroupActivate5:
-      Groups.PagesSetIndex(4);
+      DoFocusUsualGroup(4);
     cmd_GroupActivate6:
-      Groups.PagesSetIndex(5);
+      DoFocusUsualGroup(5);
 
     cmd_GroupActivateFloat1:
       DoFocusFloatingGroup(0);
