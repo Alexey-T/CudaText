@@ -9318,53 +9318,39 @@ end;
 
 
 procedure TfmMain.DoFocusNextGroup(ANext: boolean);
+const
+  cFloatingGroups = 3;
+var
+  FormsArray: array[0..Pred(cFloatingGroups)] of TForm;
   //
   function TryFocusLastFloating(AFromIndex: integer): boolean;
+  var
+    i: integer;
   begin
     Result:= false;
-    if (AFromIndex>=2) and Assigned(FFormFloatGroups3) and FFormFloatGroups3.Visible then
-    begin
-      DoFocusFloatingGroup(2);
-      Result:= true;
-    end
-    else
-    if (AFromIndex>=1) and Assigned(FFormFloatGroups2) and FFormFloatGroups2.Visible then
-    begin
-      DoFocusFloatingGroup(1);
-      Result:= true;
-    end
-    else
-    if (AFromIndex>=0) and Assigned(FFormFloatGroups1) and FFormFloatGroups1.Visible then
-    begin
-      DoFocusFloatingGroup(0);
-      Result:= true;
-    end;
+    for i:= High(FormsArray) downto Low(FormsArray) do
+      if (AFromIndex>=i) and Assigned(FormsArray[i]) and FormsArray[i].Visible then
+      begin
+        DoFocusFloatingGroup(i);
+        Result:= true;
+        exit;
+      end
   end;
   //
   function TryFocusFirstFloating(AFromIndex: integer): boolean;
+  var
+    i: integer;
   begin
     Result:= false;
-    if (AFromIndex<=0) and Assigned(FFormFloatGroups1) and FFormFloatGroups1.Visible then
-    begin
-      DoFocusFloatingGroup(0);
-      Result:= true;
-    end
-    else
-    if (AFromIndex<=1) and Assigned(FFormFloatGroups2) and FFormFloatGroups2.Visible then
-    begin
-      DoFocusFloatingGroup(1);
-      Result:= true;
-    end
-    else
-    if (AFromIndex<=2) and Assigned(FFormFloatGroups3) and FFormFloatGroups3.Visible then
-    begin
-      DoFocusFloatingGroup(2);
-      Result:= true;
-    end;
+    for i:= Low(FormsArray) to High(FormsArray) do
+      if (AFromIndex<=i) and Assigned(FormsArray[i]) and FormsArray[i].Visible then
+      begin
+        DoFocusFloatingGroup(i);
+        Result:= true;
+        exit;
+      end
   end;
   //
-const
-  cFloatingGroups = 3;
 var
   Frame: TEditorFrame;
   Grp: TATGroups;
@@ -9372,6 +9358,10 @@ var
   NNewGroupIndex, NLocalGroupIndex, NGlobalGroupIndex, NTabIndex: integer;
   bWrapped: boolean;
 begin
+  FormsArray[0]:= FFormFloatGroups1;
+  FormsArray[1]:= FFormFloatGroups2;
+  FormsArray[2]:= FFormFloatGroups3;
+
   Frame:= CurrentFrame;
   if Frame=nil then exit;
   GetFrameLocation(Frame, Grp, Pages, NLocalGroupIndex, NGlobalGroupIndex, NTabIndex);
