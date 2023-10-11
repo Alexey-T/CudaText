@@ -516,9 +516,9 @@ cmd_GroupActivate3             = 2903
 cmd_GroupActivate4             = 2904
 cmd_GroupActivate5             = 2905
 cmd_GroupActivate6             = 2906
-#cmd_GroupActivateFloat1        = 2910
-#cmd_GroupActivateFloat2        = 2911
-#cmd_GroupActivateFloat3        = 2912
+cmd_GroupActivateFloat1        = 2910
+cmd_GroupActivateFloat2        = 2911
+cmd_GroupActivateFloat3        = 2912
 
 #encoding without reload
 cmd_Encoding_utf8bom_NoReload     = 3000
