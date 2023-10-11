@@ -9363,6 +9363,8 @@ procedure TfmMain.DoFocusNextGroup(ANext: boolean);
     end;
   end;
   //
+const
+  cFloatingGroups = 3;
 var
   Frame: TEditorFrame;
   Grp: TATGroups;
@@ -9388,7 +9390,7 @@ begin
           end
           else
           begin
-            if not TryFocusLastFloating(2) then
+            if not TryFocusLastFloating(cFloatingGroups-1) then
               DoFocusUsualGroup(NNewGroupIndex);
           end;
         end
@@ -9399,7 +9401,8 @@ begin
         end;
       end;
 
-    High(TATGroupsNums)+1..High(TATGroupsNums)+4:
+    High(TATGroupsNums)+1..
+    High(TATGroupsNums)+1+cFloatingGroups:
       begin
         //floating group is focused
         NLocalGroupIndex:= NGlobalGroupIndex-(High(TATGroupsNums)+1);
