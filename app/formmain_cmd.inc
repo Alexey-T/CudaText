@@ -534,11 +534,11 @@ begin
       Groups.PagesSetIndex(5);
 
     cmd_GroupActivateFloat1:
-      DoFormFocus(FFormFloatGroups1, true);
+      DoFocusFloatingGroup(0);
     cmd_GroupActivateFloat2:
-      DoFormFocus(FFormFloatGroups2, true);
+      DoFocusFloatingGroup(1);
     cmd_GroupActivateFloat3:
-      DoFormFocus(FFormFloatGroups3, true);
+      DoFocusFloatingGroup(2);
 
     cmd_MoveTabToGroupNext,
     cmd_MoveTabToGroupPrev:

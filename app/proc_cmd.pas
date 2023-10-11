@@ -596,10 +596,9 @@ begin
   M.Add(cmd_GroupActivate5, 'groups: focus group 5', [], []);
   M.Add(cmd_GroupActivate6, 'groups: focus group 6', [], []);
 
-  ////not finished: floating window is focused but editor inside is not
-  //M.Add(cmd_GroupActivateFloat1, 'groups: focus group floating-1', [], []);
-  //M.Add(cmd_GroupActivateFloat2, 'groups: focus group floating-2', [], []);
-  //M.Add(cmd_GroupActivateFloat3, 'groups: focus group floating-3', [], []);
+  M.Add(cmd_GroupActivateFloat1, 'groups: focus group floating-1', [], []);
+  M.Add(cmd_GroupActivateFloat2, 'groups: focus group floating-2', [], []);
+  M.Add(cmd_GroupActivateFloat3, 'groups: focus group floating-3', [], []);
 
   M.Add(cmd_MoveTabToGroupNext, 'groups: move tab to next group', [], []);
   M.Add(cmd_MoveTabToGroupPrev, 'groups: move tab to previous group', [], []);

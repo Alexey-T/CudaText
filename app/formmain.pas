@@ -739,6 +739,7 @@ type
     procedure FindAndMarkAll(var NCounter: integer);
     procedure FindAndReplaceInAllFrames(FramePrev: TEditorFrame; var NCounter: integer);
     procedure FindAndExtractRegexMatches;
+    procedure DoFocusFloatingGroup(AIndex: integer);
     function GetFileOpenOptionsString(AFileCount: integer): string;
     procedure HandleTimerCommand(Ed: TATSynEdit; CmdCode: integer; CmdInvoke: TATCommandInvoke);
     procedure InvalidateMouseoverDependantControls;
@@ -9268,6 +9269,39 @@ begin
   end;
   Done:= true;
   Result:= true;
+end;
+
+
+procedure TfmMain.DoFocusFloatingGroup(AIndex: integer);
+var
+  Form: TForm;
+  Grp: TATGroups;
+begin
+  case AIndex of
+    0:
+      begin
+        Form:= FFormFloatGroups1;
+        Grp:= GroupsF1;
+      end;
+    1:
+      begin
+        Form:= FFormFloatGroups2;
+        Grp:= GroupsF2;
+      end;
+    2:
+      begin
+        Form:= FFormFloatGroups3;
+        Grp:= GroupsF3;
+      end;
+    else
+      exit;
+  end;
+
+  if Form=nil then exit;
+  if Grp=nil then exit;
+  if Grp.GetTabTotalCount<=0 then exit;
+
+  DoFormFocus(Form, true);
 end;
 
 
