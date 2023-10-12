@@ -9405,7 +9405,7 @@ begin
         begin
           if not TryFocusLastFloating(NLocalGroupIndex-1) then
           begin
-            NLocalGroupIndex:= Groups.PagesNextIndex(High(TATGroupsNums), ANext, false, bWrapped);
+            NLocalGroupIndex:= Groups.PagesNextIndex(High(TATGroupsNums)+1, ANext, false, bWrapped);
             DoFocusUsualGroup(NLocalGroupIndex);
           end;
         end;
