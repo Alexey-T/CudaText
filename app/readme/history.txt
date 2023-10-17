@@ -7,7 +7,8 @@
 
 + add: option "ui_tab_padding2" to set right padding (thanks @faerot)
 + add: commands "focus next group"/"focus previous group" should support floating-groups too (thanks @faerot)
-+ add: 3 new commands to focus 3 floating groups
++ add: new 3 commands (in the Command Palette) to focus 3 floating groups
++ add: lexer JavaScript: support more 'ligatures'
 
 1.200.0 (2023/10)
 
