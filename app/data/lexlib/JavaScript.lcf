@@ -1,4 +1,4 @@
-object SyntAnal11: TLibSyntAnalyzer
+object SyntAnal9: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Symbol'
@@ -331,18 +331,12 @@ object SyntAnal11: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Symbol single'
-      StyleName = 'Symbol'
-      TokenType = 3
-      Expression = '\?\?|\?\.|[\[\],;:\.\?/]'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
       DisplayName = 'Symbol'
       StyleName = 'Symbol'
       TokenType = 3
-      Expression = '[\-\+\*/=<>&\|\^]=? | [~!%\#@]+'
+      Expression = 
+        '[\[\],;:\.\?/~%\#@]|'#13#10'=>|<>|\+\+|\-\-|\|\||&&|\?\?|\?\.|'#13#10'[!\-\+' +
+        '\*/=<>&\|\^]=*'#13#10
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -953,13 +947,12 @@ object SyntAnal11: TLibSyntAnalyzer
       DisplayName = 'PHP'
       StartExpression = '<\?(php)?'
       EndExpression = '\?>'
-      SyntAnalyzer = SyntAnal18
     end
     item
       DisplayName = 'JSDoc'
       StartExpression = '/\*\*[^/\*]'
       EndExpression = '[^/\*\n\r]*?\*/'
-      SyntAnalyzer = SyntAnal12
+      SyntAnalyzer = SyntAnal10
     end>
   SampleText.Strings = (
     '#!/bin/bash                         '
