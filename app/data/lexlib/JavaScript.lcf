@@ -293,8 +293,8 @@ object SyntAnal9: TLibSyntAnalyzer
       StyleName = 'Number'
       TokenType = 5
       Expression = 
-        '\d[\d_]* (\.[\d_]*)? e [\+\-]? \d[\d_]*\b |'#13#10'\d[\d_]*\.[\d_]*\b ' +
-        '|'#13#10'\.\d[\d_]*\b'
+        '\d[\d_]*(\.[\d_]*)?e[\+\-]? \d[\d_]*\b|'#13#10'\d[\d_]*\.[\d_]+\b|'#13#10'\d' +
+        '[\d_]*\.|'#13#10'\.\d[\d_]*\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -335,8 +335,8 @@ object SyntAnal9: TLibSyntAnalyzer
       StyleName = 'Symbol'
       TokenType = 3
       Expression = 
-        '[\[\],;:\?/~%\#@]|\.+|'#13#10'=>|<>|\+\+|\-\-|\|\||&&|\?\?|\?\.|'#13#10'[!\-\+' +
-        '\*/=<>&\|\^]=*'#13#10
+        '[\[\],;:\?/~%\#@]|\.+|'#13#10'=>|<>|\+\+|\-\-|\|\||&&|\?\?|\?\.|'#13#10'[!\-' +
+        '\+\*/=<>&\|\^]=*'#13#10
       ColumnFrom = 0
       ColumnTo = 0
     end
