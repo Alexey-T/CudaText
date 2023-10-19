@@ -9,6 +9,7 @@
 + add: commands "focus next group"/"focus previous group" should support floating-groups too (thanks @faerot)
 + add: new 3 commands (in the Command Palette) to focus 3 floating groups
 + add: support more 'ligatures' in lexers JS / Python (thanks @faerot)
++ add: allow "tabulation size: set to N" to be in macros
 
 1.200.0 (2023/10)
 
