@@ -506,7 +506,9 @@ cmd_BracketJump                = 2845
 cmd_BracketSelect              = 2846
 cmd_BracketSelectInside        = 2847
 
+cmd_TabSize_Set1               = 2861
 cmd_TabSize_Set2               = 2862
+cmd_TabSize_Set3               = 2863
 cmd_TabSize_Set4               = 2864
 cmd_TabSize_Set8               = 2868
 

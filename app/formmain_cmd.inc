@@ -1199,9 +1199,21 @@ begin
         exit
       end;
 
+    cmd_TabSize_Set1:
+      begin
+        Ed.OptTabSize:= 1;
+        AHandled:= true;
+        exit
+      end;
     cmd_TabSize_Set2:
       begin
         Ed.OptTabSize:= 2;
+        AHandled:= true;
+        exit
+      end;
+    cmd_TabSize_Set3:
+      begin
+        Ed.OptTabSize:= 3;
         AHandled:= true;
         exit
       end;

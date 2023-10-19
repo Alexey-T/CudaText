@@ -306,7 +306,9 @@ const
   cmd_BracketSelect              = 2846;
   cmd_BracketSelectInside        = 2847;
 
+  cmd_TabSize_Set1               = 2861;
   cmd_TabSize_Set2               = 2862;
+  cmd_TabSize_Set3               = 2863;
   cmd_TabSize_Set4               = 2864;
   cmd_TabSize_Set8               = 2868;
 
@@ -564,7 +566,9 @@ begin
   M.Add(cmd_TabUsesSpaces_Off, 'tabulation-key uses spaces: turn off', [], []);
   M.Add(cmd_ToggleTabUsesSpaces, 'tabulation-key uses spaces: toggle', [], []);
 
+  M.Add(cmd_TabSize_Set1, 'tabulation size: set to 1', [], []);
   M.Add(cmd_TabSize_Set2, 'tabulation size: set to 2', [], []);
+  M.Add(cmd_TabSize_Set3, 'tabulation size: set to 3', [], []);
   M.Add(cmd_TabSize_Set4, 'tabulation size: set to 4', [], []);
   M.Add(cmd_TabSize_Set8, 'tabulation size: set to 8', [], []);
 
@@ -1093,10 +1097,6 @@ begin
     cmd_BracketJump,
     cmd_BracketSelect,
     cmd_BracketSelectInside,
-
-    cmd_TabSize_Set2,
-    cmd_TabSize_Set4,
-    cmd_TabSize_Set8,
 
     cmd_ResetPythonPlugins,
     cmd_RescanPythonPluginsInfFiles,
