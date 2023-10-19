@@ -310,6 +310,7 @@ const
   cmd_TabSize_Set2               = 2862;
   cmd_TabSize_Set3               = 2863;
   cmd_TabSize_Set4               = 2864;
+  cmd_TabSize_Set6               = 2866;
   cmd_TabSize_Set8               = 2868;
 
   cmd_GroupActivate1             = 2901;
@@ -570,6 +571,7 @@ begin
   M.Add(cmd_TabSize_Set2, 'tabulation size: set to 2', [], []);
   M.Add(cmd_TabSize_Set3, 'tabulation size: set to 3', [], []);
   M.Add(cmd_TabSize_Set4, 'tabulation size: set to 4', [], []);
+  M.Add(cmd_TabSize_Set6, 'tabulation size: set to 6', [], []);
   M.Add(cmd_TabSize_Set8, 'tabulation size: set to 8', [], []);
 
   M.Add(cmd_ConvertTabsToSpaces, 'convert tabs (all) to spaces', [], []);

@@ -1223,6 +1223,12 @@ begin
         AHandled:= true;
         exit
       end;
+    cmd_TabSize_Set6:
+      begin
+        Ed.OptTabSize:= 6;
+        AHandled:= true;
+        exit
+      end;
     cmd_TabSize_Set8:
       begin
         Ed.OptTabSize:= 8;
