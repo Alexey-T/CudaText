@@ -129,13 +129,10 @@ begin
     DoLocMenuitem(ini, mnuFileExit, 'm_f', 'q');
 
     DoMenuitemEllipsis(mnuFileEnc);
+    DoMenuitemEllipsis(mnuFileEnds);
 
     msgEncReloadAs:= ini.ReadString('m_f', 'e_r', msgEncReloadAs);
     msgEncConvertTo:= ini.ReadString('m_f', 'e_t', msgEncConvertTo);
-
-    DoLocMenuItem(mnuFileEndWin, msgEndWin);
-    DoLocMenuItem(mnuFileEndUn, msgEndUnix);
-    DoLocMenuItem(mnuFileEndMac, msgEndMac);
 
     DoLocString(ATEditorOptions.TextMenuitemUndo, ini, 'm_e', 'undo');
     DoLocString(ATEditorOptions.TextMenuitemRedo, ini, 'm_e', 'redo');

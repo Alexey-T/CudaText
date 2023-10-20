@@ -253,10 +253,7 @@ type
     mnuFileSep2: TMenuItem;
     mnuFileSep3: TMenuItem;
     mnuFileSep4: TMenuItem;
-    mnuFileEndUn: TMenuItem;
-    mnuFileEndMac: TMenuItem;
     mnuFileEnds: TMenuItem;
-    mnuFileEndWin: TMenuItem;
     mnuFileEnc: TMenuItem;
     mnuFileCloseDel: TMenuItem;
     mnuFileExit: TMenuItem;

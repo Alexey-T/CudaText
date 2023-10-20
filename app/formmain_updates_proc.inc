@@ -895,9 +895,7 @@ begin
   UpdateMenuItemHotkey(mnuApple_About, cmd_HelpAbout);
 
   UpdateMenuItemHotkey(mnuFileEnc, cmd_MenuEnc);
-  UpdateMenuItemHotkey(mnuFileEndWin, cmd_LineEndWin);
-  UpdateMenuItemHotkey(mnuFileEndUn, cmd_LineEndUnix);
-  UpdateMenuItemHotkey(mnuFileEndMac, cmd_LineEndMac);
+  UpdateMenuItemHotkey(mnuFileEnds, cmd_MenuEnds);
 
   UpdateMenuItemHotkey(mnuFileNew, cmd_FileNew);
   UpdateMenuItemHotkey(mnuFileNewMenu, cmd_FileNewMenu);

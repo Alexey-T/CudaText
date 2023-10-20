@@ -172,16 +172,7 @@ object fmMain: TfmMain
         Caption = '&Encoding...'
       end
       object mnuFileEnds: TMenuItem
-        Caption = 'L&ine ends'
-        object mnuFileEndWin: TMenuItem
-          Caption = 'CRLF'
-        end
-        object mnuFileEndUn: TMenuItem
-          Caption = 'LF'
-        end
-        object mnuFileEndMac: TMenuItem
-          Caption = 'CR'
-        end
+        Caption = 'L&ine ends...'
       end
       object mnuFileSep4: TMenuItem
         Caption = '-'
