@@ -10,6 +10,7 @@
 + add: new 3 commands (in the Command Palette) to focus 3 floating groups
 + add: support more 'ligatures' in lexers JS / Python (thanks @faerot)
 + add: allow commands "tabulation size: set to N" to be in macros
+* change: changed submenu "File / Line ends >" to menu-like dialog
 
 1.200.0 (2023/10)
 
