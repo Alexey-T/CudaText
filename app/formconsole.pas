@@ -379,7 +379,12 @@ begin
   EdMemo.OptShowURLs:= false;
   EdMemo.OptCaretVirtual:= false;
   EdMemo.OptCaretManyAllowed:= false;
-  EdMemo.OptGutterVisible:= false;
+  EdMemo.OptGutterVisible:= true;
+  EdMemo.Gutter[EdMemo.Gutter.FindIndexByTag(ATEditorOptions.GutterTagNumbers)].Visible:= false;
+  EdMemo.Gutter[EdMemo.Gutter.FindIndexByTag(ATEditorOptions.GutterTagFolding)].Visible:= false;
+  EdMemo.Gutter[EdMemo.Gutter.FindIndexByTag(ATEditorOptions.GutterTagLineStates)].Visible:= false;
+  EdMemo.Gutter[EdMemo.Gutter.FindIndexByTag(ATEditorOptions.GutterTagBookmarks)].Visible:= false;
+  EdMemo.Gutter[EdMemo.Gutter.FindIndexByTag(ATEditorOptions.GutterTagEmpty)].Size:= 3;
   EdMemo.OptRulerVisible:= false;
   EdMemo.OptUnprintedVisible:= false;
   EdMemo.OptMarginRight:= 2000;
