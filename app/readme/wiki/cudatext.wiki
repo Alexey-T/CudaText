@@ -461,6 +461,7 @@ The following lexers (counting only important ones) exist for SynWrite and CudaT
 * Modelica
 * Modula-2
 * Modula-3
+* Mojo
 * Monkey
 * MSVS Solution
 * MusicBrainz Picard Tagger Script
