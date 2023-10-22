@@ -308,6 +308,7 @@ TYPES = {
     "mnu": ['Visual dBase'],
     "mo": ['Modelica'],
     "mod": ['Oberon', 'Modula-2'],
+    "mojo": ['Mojo'],
     "monkey": ['Monkey'],
     "monkey2": ['Monkey'],
     "mos": ['Modelica'],
@@ -512,4 +513,5 @@ TYPES = {
     "zep": ['Zephir'],
     "zig": ['Zig'],
     "zs": ['ZenScript (MineTweaker)'],
+    "🔥": ['Mojo'],
 }
