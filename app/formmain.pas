@@ -6380,16 +6380,18 @@ end;
 procedure TfmMain.SetFullScreen_Universal(AValue: boolean);
 begin
   {$ifdef darwin}
+  //works OK on macOS, but not on GTK2
   if AValue then
-    BorderStyle:= bsNone
+    WindowState:= wsFullScreen
   else
-    BorderStyle:= bsSizeable;
-  {$endif}
-
+    WindowState:= wsNormal;
+  {$else}
+  //works OK on GTK2
   if AValue then
     ShowWindow(Handle, SW_SHOWFULLSCREEN)
   else
     ShowWindow(Handle, SW_SHOWNORMAL);
+  {$endif}
 end;
 
 procedure TfmMain.SetFullScreen_Win32(AValue: boolean);
