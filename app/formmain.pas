@@ -6379,7 +6379,8 @@ end;
 
 procedure TfmMain.SetFullScreen_Universal(AValue: boolean);
 begin
-  //works ok on GTK2 and macOS, while WindowState:=wsFullScreen works bad on GTK2
+  //works ok on GTK2 and macOS
+  //WindowState:=wsFullScreen works ok, but WindowState:=wsNormal don't restore form size on GTK2
   if AValue then
     ShowWindow(Handle, SW_SHOWFULLSCREEN)
   else
