@@ -21,8 +21,8 @@
 - fix: when clicking between main window and floating groups, code-tree was not updated (thanks @SamC)
 - fix: regression: options "ui_font_output_name"/"ui_font_output_size" were ignored (thanks @ildarkhasanshin)
 - fix: if plugin sets ui-tab title ~15K characters, app freezes (thanks @ildarkhasanshin)
-- fix: if bookmarks were only auto-shifted by edition above them, they could be not auto-saved
-- fix: Lexer Detecter missed file extensions for VBScript
+- fix: if bookmarks were only auto-shifted by edition above them, they could be not auto-saved (thanks @itsmyname)
+- fix: Lexer Detecter missed detection of VBScript
 
 1.199.0 (2023/09)
 
