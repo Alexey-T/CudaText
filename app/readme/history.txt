@@ -34,7 +34,7 @@
 * change: portable releases now have the folder "cudatext" in the root
 * change: Shift+click with selection works more like in VSCode (thanks @pintassilgo)
 * change: *BSD versions: do not call 'pkexec', instead only show a message-box, like IntelliJ (thanks @alex0x08 from linux.org.ru)
-- fix: new bookmarks were not auto-saved when ui-tab was not closed before exit
+- fix: new bookmarks were not auto-saved when ui-tab was not closed before exit (thanks @itsmyname)
 - fix: Qt5 version: Find dialog: click on a button looses dialog focus (thanks @pintassilgo)
 - fix: regression in 1.172: option "key_left_right_swap_sel_and_select" didn't work 
 
