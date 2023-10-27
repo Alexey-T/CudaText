@@ -499,22 +499,23 @@ class Command:
             _file_open(str(path))
 
     def action_open_def(self):
-        fn = str(self.get_location_by_index(self.selected))
-        if not os.path.isfile(fn):
+        fn = self.get_location_by_index(self.selected)
+        sfn = str(fn)
+        if not os.path.isfile(sfn):
             return
         suffix = app_proc(PROC_GET_OS_SUFFIX, '')
         if suffix=='':
             #Windows
-            os.startfile(fn)
+            os.startfile(sfn)
         elif suffix=='__mac':
             #macOS
-            os.system('open "'+fn+'"')
+            os.system('open "%s"'%sfn)
         elif suffix=='__haiku':
             #Haiku
             msg_status('TODO: implement "Open in default app" for Haiku')
         else:
             #other Unixes
-            os.system('xdg-open "'+fn+'"')
+            os.spawnvp(os.P_WAIT, 'xdg-open', ('xdg-open', fn.as_uri()))
 
     def action_focus_in_fileman(self):
         fn = str(self.get_location_by_index(self.selected))
