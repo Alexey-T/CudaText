@@ -499,53 +499,47 @@ class Command:
             _file_open(str(path))
 
     def action_open_def(self):
-        fn = str(self.get_location_by_index(self.selected))
-        if not os.path.isfile(fn):
+        fn = self.get_location_by_index(self.selected)
+        sfn = str(fn)
+        if not os.path.isfile(sfn):
             return
         suffix = app_proc(PROC_GET_OS_SUFFIX, '')
         if suffix=='':
             #Windows
-            os.startfile(fn)
+            os.startfile(sfn)
         elif suffix=='__mac':
             #macOS
-            os.system('open "'+fn+'"')
+            os.system('open "%s"'%sfn)
         elif suffix=='__haiku':
             #Haiku
             msg_status('TODO: implement "Open in default app" for Haiku')
         else:
             #other Unixes
-            os.system('xdg-open "'+fn+'"')
+            os.spawnvp(os.P_WAIT, 'xdg-open', ('xdg-open', fn.as_uri()))
 
     def action_focus_in_fileman(self):
-        fn = str(self.get_location_by_index(self.selected))
-        if not os.path.isfile(fn):
+        fn = self.get_location_by_index(self.selected)
+        sfn = str(fn)
+        if not os.path.isfile(sfn):
             return
         suffix = app_proc(PROC_GET_OS_SUFFIX, '')
 
         if suffix=='':
             #Windows
-            #os.system('explorer.exe /select,'+fn)
+            #os.system('explorer.exe /select,'+sfn)
             import subprocess
-            subprocess.Popen(['explorer.exe', '/select,', fn], shell=True) # works better
+            subprocess.Popen(('explorer.exe', '/select,', sfn), shell=True) # works better
         elif suffix=='__mac':
             #macOS
-            fn = fn.replace(' ', '\\ ') #macOS cannot handle quoted filename
-            os.system('open --new --reveal '+fn)
+            #macOS cannot handle quoted filename
+            os.system('open --new --reveal '+sfn.replace(' ', '\\ '))
         elif suffix=='__haiku':
             #Haiku
             msg_status('"Focus in file manager" not implemented for this OS')
         else:
             #Linux and others
-            if which('nautilus'):
-                os.system('nautilus "'+fn+'"')
-            elif which('thunar'):
-                os.system('thunar "'+os.path.dirname(fn)+'"')
-            elif which('caja'):
-                os.system('caja "'+os.path.dirname(fn)+'"')
-            elif which('dolphin'):
-                os.system('dolphin --select --new-window "'+fn+'"')
-            else:
-                msg_status('"Focus in file manager" does not support your file manager')
+            if os.spawnvp(os.P_WAIT, 'dbus-send', ('dbus-send', '--session', '--dest=org.freedesktop.FileManager1', '--type=method_call', '--print-reply', '/org/freedesktop/FileManager1', 'org.freedesktop.FileManager1.ShowItems', 'array:string:'+fn.as_uri(), 'string:')):
+                os.spawnvp(os.P_WAIT, 'xdg-open', ('xdg-open', fn.parent.as_uri()))
 
     def action_rename(self):
         location = Path(self.get_location_by_index(self.selected))
