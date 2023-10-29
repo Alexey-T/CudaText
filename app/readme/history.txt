@@ -10,7 +10,7 @@
 + add: new option "ui_tab_padding2" to set right padding (thanks @faerot)
 + add: commands "focus next group"/"focus previous group" support floating-groups too (thanks @faerot)
 + add: support more 'ligatures' in lexers JS / Python (thanks @faerot)
-+ add: Project Manager: correctly open files with $ or " or \ in path; respect default file manager; don't freeze after "Focus in file manager" until file manager exits (patch by @xBZZZZ)
++ add: Project Manager: "Focus in file manager": correctly open files with $ or " or \ in path; respect default file manager; don't freeze until file manager exits (patch by @xBZZZZ)
 + add: allow commands "tabulation size: set to N" to be in macros
 - fix: macOS: regression with 'full-screen mode'
 
