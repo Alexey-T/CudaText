@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.200.1 (2023/10)
+1.201.0 (2023/10)
 
 * change: changed submenu "File / Line ends >" to menu-like dialog
 + add: new 3 commands (in the Command Palette) to focus 3 floating groups
