@@ -692,7 +692,7 @@ Formatters may change the entire file text or only selected text. If selection i
 
 ;Formatter (menu): Runs formatter for current editor file. If several suitable formatters are found, menu-like dialog will suggest to choose one of them. If only single formatter is found, it will be run without confirmation.
 
-;Formatter per-lexer A...D: Runs formatter for current editor file, which has per-lexer label (A, B, C, D). Labels are configurable by another command. For example, for the label "A" you can have one formatter for C++, another formatter for HTML, and the 3rd one for CSS. 
+;Formatter per-lexer A...D: Runs formatter for current editor file, which has per-lexer label (A, B, C, D). Labels are configurable by another command. For example, for the label "B" you can have one formatter for C++, another formatter for HTML, and the 3rd one for CSS. All 3 formatters will be callable by the same command "Formatter per-lexer B".
 
 ;Formatter cross-lexer 1...4: Runs formatter for current editor file, which has cross-lexer label (1, 2, 3, 4). For example, when you have a formatter XY assigned to the label "2", the command "Formatter cross-lexer: 2" always runs XY, ignoring the current lexer.
 
