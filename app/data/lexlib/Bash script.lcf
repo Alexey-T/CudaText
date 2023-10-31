@@ -429,7 +429,15 @@ object SyntAnal2: TLibSyntAnalyzer
       DisplayName = 'String "..."'
       StyleName = 'String'
       TokenType = 5
-      Expression = '(?s)("|'#39').*?(\1|\Z)'
+      Expression = '(?s)"(\\.|.)*?("|\Z)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'String '#39'...'#39
+      StyleName = 'String'
+      TokenType = 5
+      Expression = '(?s)'#39'.*?('#39'|\Z)'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -1141,7 +1149,7 @@ object SyntAnal2: TLibSyntAnalyzer
   LexerName = 'Bash script'
   SkipSpaces = False
   Notes.Strings = (
-    'Initial by: Matthias Eberhardt (CudaText forum admin)'
+    'Initially by: Matthias Eberhardt (CudaText forum admin)'
     'Fully reworked by Alexey (CudaText)')
   RestartFromLineStart = True
   LineComment = '#'
