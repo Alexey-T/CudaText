@@ -63,6 +63,9 @@ function ParseNameWithWidthAndHeight(const AStr: string;
 
 implementation
 
+uses
+  Math;
+
 function SStringToPythonString(const Str: string; AndQuote: boolean=true): string;
 var
   i: integer;
@@ -159,7 +162,7 @@ begin
 
     if Result then
     begin
-      for i:= Low(AParts) to High(AParts) do
+      for i:= Low(AParts) to Min(High(AParts), Obj.SubExprMatchCount-1) do
       begin
         AParts[i].Pos:= Obj.MatchPos[i];
         AParts[i].Len:= Obj.MatchLen[i];
