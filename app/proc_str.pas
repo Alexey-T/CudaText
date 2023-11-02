@@ -133,7 +133,7 @@ end;
 function SRegexFindParts(const ARegex, AStr: string; out AParts: TRegexParts): boolean;
 var
   Obj: TRegExpr;
-  i: integer;
+  NCount, i: integer;
 begin
   Result:= false;
   for i:= Low(AParts) to High(AParts) do
@@ -162,7 +162,8 @@ begin
 
     if Result then
     begin
-      for i:= Low(AParts) to Min(High(AParts), Obj.SubExprMatchCount-1) do
+      NCount:= Obj.SubExprMatchCount;
+      for i:= Low(AParts) to Min(High(AParts), NCount) do
       begin
         AParts[i].Pos:= Obj.MatchPos[i];
         AParts[i].Len:= Obj.MatchLen[i];
