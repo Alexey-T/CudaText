@@ -728,6 +728,8 @@ type
 
     function CodeTreeFilter_OnFilterNode(ItemNode: TTreeNode; out Done: Boolean): Boolean;
     function ConfirmAllFramesAreSaved(AWithCancel: boolean): boolean;
+    procedure DoParseOutputLine(const AForm: TAppFormWithEditor;
+      const AStr: string; out AFilename: string; out ALine, ACol: integer);
     procedure FindAndStop(ABack: boolean);
     procedure FindAndReplaceAll(var NCounter: integer);
     procedure FindAndReplaceOneMatch(AndStop: boolean);
@@ -7529,7 +7531,7 @@ begin
   F.Editor.DoCommand(cmd_CopyFilenameName, TATCommandInvoke.MenuContext);
 end;
 
-procedure DoParseOutputLine(const AForm: TAppFormWithEditor;
+procedure TfmMain.DoParseOutputLine(const AForm: TAppFormWithEditor;
   const AStr: string;
   out AFilename: string;
   out ALine, ACol: integer);
@@ -7540,14 +7542,27 @@ begin
   ALine:= -1;
   ACol:= 0;
 
-  if AForm.RegexStr='' then exit;
-  if AForm.RegexIdLine=0 then exit;
+  if AForm.RegexStr='' then
+    exit;
 
-  if not SRegexFindParts(AForm.RegexStr, AStr, Parts) then exit;
+  if AForm.RegexIdLine=0 then
+  begin
+    MsgStatus('Log double-click: "line" index in RegEx is not set');
+    exit;
+  end;
+
+  if not SRegexFindParts(AForm.RegexStr, AStr, Parts) then
+  begin
+    MsgStatus('Log double-click: cannot find parts by RegEx');
+    exit;
+  end;
+
   if AForm.RegexIdName>0 then
     AFilename:= Parts[AForm.RegexIdName].Str;
+
   if AForm.RegexIdLine>0 then
     ALine:= StrToIntDef(Parts[AForm.RegexIdLine].Str, -1);
+
   if AForm.RegexIdCol>0 then
     ACol:= StrToIntDef(Parts[AForm.RegexIdCol].Str, 0);
 
@@ -7556,6 +7571,12 @@ begin
     if ALine>0 then Dec(ALine);
     if ACol>0 then Dec(ACol);
   end;
+
+  if AFilename='' then
+    MsgStatus('Log double-click: cannot find filename by RegEx');
+
+  if ALine<0 then
+    MsgStatus('Log double-click: cannot find line-index by RegEx');
 end;
 
 procedure TfmMain.EditorOutput_OnClickDbl(Sender: TObject; var AHandled: boolean);
@@ -7611,11 +7632,13 @@ begin
          true{Unfold}
          );
       UpdateStatusbar;
-    end;
+    end
+    else
+      MsgStatus(Format('Log double-click: no file "%s"', [ResFilename]));
   end
   else
   begin
-    MsgStatus(msgStatusClickingLogLine);
+    //MsgStatus(msgStatusClickingLogLine); //disabled to not overwrite msg from DoParseOutputLine
     DoPyEvent(nil, cEventOnOutputNav, [AppVariant(SText), AppVariant(0)]);
   end;
 end;
