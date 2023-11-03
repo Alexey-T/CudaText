@@ -127,7 +127,7 @@ object SyntAnal14: TLibSyntAnalyzer
       TokenType = 10
       Expression = 
         '(?-i)(?<=^[\x20\x09]*) (if|else|elif|for|async\x20+for|while|try' +
-        '|except|finally|switch|case|with|async\x20+with|match)\b'
+        '|except|finally|case|with|async\x20+with|match)\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
