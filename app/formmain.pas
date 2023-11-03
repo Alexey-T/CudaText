@@ -7545,6 +7545,13 @@ begin
   if AForm.RegexStr='' then
     exit;
 
+  if AFilename='' then
+    if AForm.RegexIdName=0 then
+    begin
+      MsgStatus('Log double-click: "filename" index in RegEx is not set');
+      exit;
+    end;
+
   if AForm.RegexIdLine=0 then
   begin
     MsgStatus('Log double-click: "line" index in RegEx is not set');
