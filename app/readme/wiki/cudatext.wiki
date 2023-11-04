@@ -358,6 +358,7 @@ The following lexers (counting only important ones) exist for SynWrite and CudaT
 * Dockerfile
 * DOORS DXL
 * DotENV
+* EdgeQL-ESDL
 * Eiffel
 * Elixir
 * Elm
