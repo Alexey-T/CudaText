@@ -728,8 +728,6 @@ type
 
     function CodeTreeFilter_OnFilterNode(ItemNode: TTreeNode; out Done: Boolean): Boolean;
     function ConfirmAllFramesAreSaved(AWithCancel: boolean): boolean;
-    procedure DoParseOutputLine(const AForm: TAppFormWithEditor;
-      const AStr: string; out AFilename: string; out ALine, ACol: integer);
     procedure FindAndStop(ABack: boolean);
     procedure FindAndReplaceAll(var NCounter: integer);
     procedure FindAndReplaceOneMatch(AndStop: boolean);
@@ -7531,16 +7529,18 @@ begin
   F.Editor.DoCommand(cmd_CopyFilenameName, TATCommandInvoke.MenuContext);
 end;
 
-procedure TfmMain.DoParseOutputLine(const AForm: TAppFormWithEditor;
+procedure DoParseOutputLine(const AForm: TAppFormWithEditor;
   const AStr: string;
   out AFilename: string;
-  out ALine, ACol: integer);
+  out ALine, ACol: integer;
+  out AMsg: string);
 var
   Parts: TRegexParts;
 begin
   AFilename:= AForm.DefFilename;
   ALine:= -1;
   ACol:= 0;
+  AMsg:= '';
 
   if AForm.RegexStr='' then
     exit;
@@ -7548,19 +7548,19 @@ begin
   if AFilename='' then
     if AForm.RegexIdName=0 then
     begin
-      MsgStatus('Log double-click: "filename" index in RegEx is not set');
+      AMsg:= 'Log double-click: "filename" index in RegEx is not set';
       exit;
     end;
 
   if AForm.RegexIdLine=0 then
   begin
-    MsgStatus('Log double-click: "line" index in RegEx is not set');
+    AMsg:= 'Log double-click: "line" index in RegEx is not set';
     exit;
   end;
 
   if not SRegexFindParts(AForm.RegexStr, AStr, Parts) then
   begin
-    MsgStatus('Log double-click: cannot find parts by RegEx');
+    AMsg:= 'Log double-click: cannot find parts by RegEx';
     exit;
   end;
 
@@ -7580,10 +7580,10 @@ begin
   end;
 
   if AFilename='' then
-    MsgStatus('Log double-click: cannot find filename by RegEx');
-
+    AMsg:= 'Log double-click: cannot find filename by RegEx'
+  else
   if ALine<0 then
-    MsgStatus('Log double-click: cannot find line-index by RegEx');
+    AMsg:= 'Log double-click: cannot find line-index by RegEx';
 end;
 
 procedure TfmMain.EditorOutput_OnClickDbl(Sender: TObject; var AHandled: boolean);
@@ -7594,7 +7594,7 @@ var
   Frame: TEditorFrame;
   CaretY: integer;
   bFound: boolean;
-  SText: string;
+  SText, SMsg: string;
 begin
   AHandled:= true; //avoid selection of word
 
@@ -7608,7 +7608,7 @@ begin
 
   SText:= Form.Ed.Strings.Lines[CaretY];
 
-  DoParseOutputLine(Form, SText, ResFilename, ResLine, ResCol);
+  DoParseOutputLine(Form, SText, ResFilename, ResLine, ResCol, SMsg);
   if (ResFilename<>'') and (ResLine>=0) then
   begin
     MsgStatus(Format(msgStatusGotoFileLineCol, [ResFilename, ResLine+1, ResCol+1]));
@@ -7641,11 +7641,17 @@ begin
       UpdateStatusbar;
     end
     else
-      MsgStatus(Format('Log double-click: no file "%s"', [ResFilename]));
+      SMsg:= Format('Log double-click: no file "%s"', [ResFilename]);
+
+    if SMsg<>'' then
+      MsgStatus(SMsg);
   end
   else
   begin
-    //MsgStatus(msgStatusClickingLogLine); //disabled to not overwrite msg from DoParseOutputLine
+    if SMsg='' then
+      SMsg:= msgStatusClickingLogLine;
+    if SMsg<>'' then
+      MsgStatus(SMsg);
     DoPyEvent(nil, cEventOnOutputNav, [AppVariant(SText), AppVariant(0)]);
   end;
 end;
