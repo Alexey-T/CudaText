@@ -3519,8 +3519,12 @@ procedure TfmMain.FormShow(Sender: TObject);
     if FLastMaximized then
     begin
       FLastMaximized:= false;
+      {
+      //code is Ok for Win32/Qt5, but gives fail on Gtk2: form is maximized incorrectly, form caption is invisible,
+      //also see issue #5259
       if (FLastMaximizedMonitor>=0) and (FLastMaximizedMonitor<Screen.MonitorCount) then
         BoundsRect:= Screen.Monitors[FLastMaximizedMonitor].BoundsRect;
+      }
       WindowState:= wsMaximized;
     end;
   end;
