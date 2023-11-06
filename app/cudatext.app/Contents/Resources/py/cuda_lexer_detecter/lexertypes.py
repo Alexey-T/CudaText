@@ -441,7 +441,7 @@ TYPES = {
     "sqs": ['Bohemia SQF'],
     "ss": ['Scheme'],
     "st": ['Smalltalk'],
-    "str": ['TypeScript'],
+    "stp": ['SystemTap'],
     "strace": ['Strace'],
     "sty": ['LaTeX'],
     "styl": ['Stylus'],
