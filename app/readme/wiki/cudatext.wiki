@@ -552,6 +552,7 @@ The following lexers (counting only important ones) exist for SynWrite and CudaT
 * Stylus
 * Svelte
 * Swift
+* SystemTap
 * T-SQL
 * TAGML
 * TakeCommand
