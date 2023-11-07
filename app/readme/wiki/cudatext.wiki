@@ -676,15 +676,16 @@ Insert it near the end of file, like here:
 This tells lexer to re-scan entire document, on editing in any document place, when document size is less than 5000 chars.
 
 === How to support Spell Checker in lexer ===
-Plugin "Spell Checker" checks text, which is inside "strings" and "comments". So you must configure lexer and set there, which lexer elements (tokens) are "strings" and "comments". It is options in the "Lexer properties" dialog of SynWrite, in the "Commenting" tab of dialog. You can change these options without SynWrite too - they are in the data/lexlib/LexerName.cuda-lexmap file, both options are comma-separated names of lexer styles. 
+Plugin "Spell Checker" checks text, which is inside "strings" and "comments". So you must configure lexer and set there, which lexer elements (tokens) are "strings" and "comments". It is options in the "Lexer properties" dialog of SynWrite, in the "Commenting" tab of dialog. You can change these options without SynWrite too - they are in the "data/lexlib/LexerName.cuda-lexmap" file, both options are comma-separated names of lexer styles. 
 
-For example, let's see XML lexer. We must specify styles:
+For example, let's see XML lexer. Spell Checker must handle these styles:
 * style applied to XML/HTML comments
 * style applied to quoted strings in XML tags
 * style applied to usual text out of angle brackets
 
-If you see lexer config in SynWrite, you will find that we need styles "Comment", "Text" and "Tag val". So we specify in the file data/lexlib/XML.cuda-lexmap:
+If you see lexer config in SynWrite, you will find that we need styles "Comment", "Text" and "Tag val". So we specify in the file "data/lexlib/XML.cuda-lexmap":
 
+ [comments]
  styles_cmt=Comment
  styles_str=Text,Tag val
 
