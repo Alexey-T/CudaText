@@ -2265,16 +2265,17 @@ begin
     Result:= Finder.DoAction_FindOrReplace(false, false, bFlag, false{UpdateCaret});
     if Result then
     begin
-      if ANext then
-      begin
+      {if ANext then
+      begin}
         PosBegin:= Finder.MatchEdEnd;
         PosEnd:= Finder.MatchEdPos;
-      end
+      {end
       else
       begin
         PosEnd:= Finder.MatchEdEnd;
         PosBegin:= Finder.MatchEdPos;
       end;
+      }
 
       Ed.DoGotoPos(
         PosBegin,
