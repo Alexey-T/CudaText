@@ -2221,6 +2221,7 @@ function EditorFindCurrentWordOrSel(Ed: TATSynEdit;
   out Str: UnicodeString): boolean;
 var
   Finder: TATEditorFinder;
+  PosBegin, PosEnd: TPoint;
   bFlag: boolean;
 begin
   Result:= false;
@@ -2263,14 +2264,27 @@ begin
 
     Result:= Finder.DoAction_FindOrReplace(false, false, bFlag, false{UpdateCaret});
     if Result then
+    begin
+      if ANext then
+      begin
+        PosBegin:= Finder.MatchEdEnd;
+        PosEnd:= Finder.MatchEdPos;
+      end
+      else
+      begin
+        PosEnd:= Finder.MatchEdEnd;
+        PosBegin:= Finder.MatchEdPos;
+      end;
+
       Ed.DoGotoPos(
-        Finder.MatchEdEnd,
-        Finder.MatchEdPos,
+        PosBegin,
+        PosEnd,
         UiOps.FindIndentHorz,
         UiOps.FindIndentVert,
         true,
         true
         );
+    end;
   finally
     FreeAndNil(Finder);
   end;
