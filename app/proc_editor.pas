@@ -2230,9 +2230,9 @@ begin
 
   if AWordOrSel then
   begin
-    if Ed.Carets[0].IsSelection then
+    {if Ed.Carets[0].IsSelection then
       Str:= Ed.TextSelected
-    else
+    else}
       Str:= Ed.TextCurrentWord;
     Ed.DoCommand(cCommand_SelectWords, TATCommandInvoke.AppInternal);
   end
