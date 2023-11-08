@@ -2223,6 +2223,7 @@ var
   Finder: TATEditorFinder;
   bFlag: boolean;
 begin
+  Result:= false;
   Str:= '';
   if Ed.Carets.Count<>1 then exit;
 
