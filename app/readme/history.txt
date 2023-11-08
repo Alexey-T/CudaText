@@ -3,6 +3,8 @@
   - fixed
   * changed
 
+- fix: command "find current word next" with length=1 words (thanks @faerot)
+
 1.201.0 (2023/10)
 
 * change: changed submenu "File / Line ends >" to menu-like dialog
