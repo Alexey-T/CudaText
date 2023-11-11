@@ -5,8 +5,9 @@
 
 1.201.5 (2023/11)
 
-+ add: with "fold_style" 3...4, click on folded line text must not unfold the block (thanks @victorel-petrovich)
 * change: when painting "- - - -" dashed underline for folded blocks with "fold_style":4, limit the line width by the text width (thanks @victorel-petrovich)
++ add: with "fold_style" 3...4, click on folded line text must not unfold the block (thanks @victorel-petrovich)
++ add: single click on [...] fold-mark is now ignored because we must react to double-click on it
 - fix: command "find current word next" fails with words of length=1 (thanks @faerot)
 - fix: regression: crash on double-click the Output panel with the "Runner" plugin output
 
