@@ -330,6 +330,7 @@
   //  0: From left edge to window right edge
   //  1: From left edge to line end
   //  2: From line indentation to line end
+  //  3: From left edge to "margin" column
   //Note: this option is global, not per-lexer.
   "fold_underline_size": 0,
 
