@@ -1175,6 +1175,7 @@ begin
   ATEditorMaxClipboardRecents:= cfg.GetValue('ui_max_history_clipboard', ATEditorMaxClipboardRecents);
   ATEditorOptions.MinimapColoringTime:= cfg.GetValue('minimap_coloring_time', ATEditorOptions.MinimapColoringTime);
   ATEditorOptions.SpeedScrollAutoVert:= cfg.GetValue('mouse_scroll_speed_vert', ATEditorOptions.SpeedScrollAutoVert);
+  ATEditorOptions.FoldedUnderlineFull:= cfg.GetValue('fold_underline_full', true);
 
   ATEditorOptions.UnprintedTabCharLength:= cfg.GetValue('unprinted_tab_len', ATEditorOptions.UnprintedTabCharLength);
   ATEditorOptions.UnprintedReplaceSpec:= cfg.GetValue('unprinted_replace_spec', ATEditorOptions.UnprintedReplaceSpec);
