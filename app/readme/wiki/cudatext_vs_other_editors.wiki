@@ -378,7 +378,7 @@ CudaText:
 =CudaText vs Notepad++=
 (From user '''dinkumoil''', quote from the Notepad++ forum.)
 
-But since this thread has the potential to be a useful information and I’m a user of CudaText as well, I respond to it (I also contributed to the CudaText source code, wrote a plugin similar to my AutoCodepage and AutoEolFormat plugins for Notepad++, helped to improve the SQL and VBScript lexers and currently maintain the german translation file).
+But since this thread has the potential to be a useful information and I’m a user of CudaText as well, I respond to it (I also contributed to the CudaText source code, wrote a plugin similar to my AutoCodepage and AutoEolFormat plugins for Notepad++, helped to improve the SQL and VBScript lexers and currently maintain the German translation file).
 
 Indeed, CudaText is a powerful text editor and its author is an experienced dev in writing text editors and software components needed for that as he is also the author of the discontinued SynWrite editor. Since the above feature list is only a usual catalog for text editors, I want to go a little bit into the details.
 
@@ -408,7 +408,7 @@ Indeed, CudaText is a powerful text editor and its author is an experienced dev 
 * There is no built-in preferences dialog. Instead you have to edit a JSON file (but that’s far better than writing CSS code like in Atom). There is a plugin available that tries to work like a preferences dialog but it’s only a tableized, textual view of all settings and a primitive UI to change them.
 * Under Windows, a plugin installs an Explorer context menu. But since its only backed by a shell\CudaText\command registry entry and not with a real shell handler like Notepad++'s context menu entry, it is not possible to open more than 15 files at once using the CudaText Explorer context menu entry. That’s a common limitation for all non-shell-handler context menu entries (tested under Windows 7 x64). ''Edited by Alexey: this is not actual anymore, since we have dedicated Explorer shell extension DLL.''
 * Releases of CudaText are published only as ZIP files without an installer. So, updating means all plugins, custom icons, additional lexers, autocompletion files, language files, theme and lexer customizations and so forth have to be migrated to the directory of the new version. You need a file and directory based diff tool for that.
-* Only a small community, the forum mostly is a lonely place. Like the developer a lot of the people commenting in the GitHub issue tracker are russian, thus they tend to write in cyrillic. But this is clearly an advantage for people from russia which have to take the burden to write and read in english, written in latin letters here in the Notepad++ forum and in the GitHub repo.
+* Only a small community, the forum mostly is a lonely place. Like the developer a lot of the people commenting in the GitHub issue tracker are russian, thus they tend to write in cyrillic. But this is clearly an advantage for people from Russia which have to take the burden to write and read in english, written in latin letters here in the Notepad++ forum and in the GitHub repo.
 * Somewhat chaotic project structure. Source code on GitHub, binary releases on SourceForge, forum on a SourceForge-hosted home page, lots of relations to the discontinued SynWrite editor (e.g. lexers are hosted in a separate SourceForge project called SynWrite add-ons , the lexer creation tool is an excerpt of that particular part of SynWrite).
 
 '''Conclusion'''
