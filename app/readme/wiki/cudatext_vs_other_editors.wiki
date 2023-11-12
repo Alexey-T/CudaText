@@ -375,5 +375,45 @@ CudaText:
 * Problems with symlinks
 * It needs additional options like "on which drives to use atomic saving"
 
+=CudaText vs Notepad++=
+(From user '''dinkumoil''', quote from the Notepad++ forum.)
+
+But since this thread has the potential to be a useful information and I’m a user of CudaText as well, I respond to it (I also contributed to the CudaText source code, wrote a plugin similar to my AutoCodepage and AutoEolFormat plugins for Notepad++, helped to improve the SQL and VBScript lexers and currently maintain the german translation file).
+
+Indeed, CudaText is a powerful text editor and its author is an experienced dev in writing text editors and software components needed for that as he is also the author of the discontinued SynWrite editor. Since the above feature list is only a usual catalog for text editors, I want to go a little bit into the details.
+
+'''Advantages'''
+
+* Quick evolving project.
+* Quick responding and very active developer.
+* Constant, nearly daily work at the project (have a look at the commit tracker).
+* No political activities.
+* Extensive and always up-to-date wiki and API documentation .
+* The UI follows Windows settings for font size in menus and dialog boxes, important when using high-DPI monitors.
+* The whole UI is themeable, not just the edit window.
+* Up to 6 edit windows, each with an unlimited number of tabs. Even a single tab can be splitted in two areas.
+* A plugin allows to fully customize the whole main menu.
+* Very well working Code Tree (in Notepad++ called Function List) that supports automatically all languages which are supported by lexers.
+* Monitoring of opened files for changes from other programs seems to work more reliable than in Notepad++.
+* Separate lexer creation tool with sophisticated abilities. It supports using regular expressions.
+* Plugins can be written in Python (but this has to be paid with lower execution speed for sophisticated tasks).
+* Only for the records, no advantage over Notepad++: Lots of useful plugins available, one of them is a plugin manager. It allows installing, updating and removing of plugins.
+
+'''Disadvantages'''
+
+* In some details slightly slower working speed than Notepad++.
+* Configuring the toolbar is a little bit tricky. It requires a plugin and needs intensive work.
+* Translations for the UI into other languages are available but a lot of them are outdated.
+* The Search & Replace feature uses a rather old regular expression engine which lacks some sophisticated features (IMO the biggest drawback).
+* There is no built-in preferences dialog. Instead you have to edit a JSON file (but that’s far better than writing CSS code like in Atom). There is a plugin available that tries to work like a preferences dialog but it’s only a tableized, textual view of all settings and a primitive UI to change them.
+* Under Windows, a plugin installs an Explorer context menu. But since its only backed by a shell\CudaText\command registry entry and not with a real shell handler like Notepad++'s context menu entry, it is not possible to open more than 15 files at once using the CudaText Explorer context menu entry. That’s a common limitation for all non-shell-handler context menu entries (tested under Windows 7 x64).
+* Releases of CudaText are published only as ZIP files without an installer. So, updating means all plugins, custom icons, additional lexers, autocompletion files, language files, theme and lexer customizations and so forth have to be migrated to the directory of the new version. You need a file and directory based diff tool for that.
+* Only a small community, the forum mostly is a lonely place. Like the developer a lot of the people commenting in the GitHub issue tracker are russian, thus they tend to write in cyrillic. But this is clearly an advantage for people from russia which have to take the burden to write and read in english, written in latin letters here in the Notepad++ forum and in the GitHub repo.
+* Somewhat chaotic project structure. Source code on GitHub, binary releases on SourceForge, forum on a SourceForge-hosted home page, lots of relations to the discontinued SynWrite editor (e.g. lexers are hosted in a separate SourceForge project called SynWrite add-ons , the lexer creation tool is an excerpt of that particular part of SynWrite).
+
+'''Conclusion'''
+
+All in all I would say CudaText is an excellent addition to Notepad++, but I personally will continue to use both editors since both of them have their strengths and weaknesses. And since I think the CudaText project deserves more support, I hereby appeal to participate in this project as well, if possible.
+
 [[Category: CudaText]]
 [[Category: Tools]]
