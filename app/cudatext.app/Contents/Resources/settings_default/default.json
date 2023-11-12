@@ -326,10 +326,12 @@
   //Value=0: show for all ranges.
   "fold_icon_min_range": 0,
 
-  //With "fold_style":4, render the folded block underline in full width.
-  //Otherwise, underline will start at the indentation and end at the line ending.
+  //How to render folded block underline from option "fold_style":4.
+  //  0: From left edge to window right edge
+  //  1: From left edge to line end
+  //  2: From line indentation to line end
   //Note: this option is global, not per-lexer.
-  "fold_underline_full": true,
+  "fold_underline_size": 0,
 
   //[Text/Commands]
   //If no selection, "Copy to clipboard" will take entire line with caret.
