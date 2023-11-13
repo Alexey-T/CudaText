@@ -557,6 +557,8 @@ The following lexers (counting only important ones) exist for SynWrite and CudaT
 * TakeCommand
 * Tcl/Tk
 * Textile
+* ToDo (for plugin "Plain Tasks")
+* Todo.txt (format from todotxt.org)
 * TOML
 * Tree
 * Twig
