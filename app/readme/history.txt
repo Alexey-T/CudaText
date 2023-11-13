@@ -10,6 +10,7 @@
 + add: single click on [...] fold-mark is now ignored because we must react to double-click on it
 + add: Wiki topic https://wiki.freepascal.org/CudaText_VS_other_editors#CudaText_vs_Notepad.2B.2B
 - fix: command "find current word next" fails with words of length=1 (thanks @faerot)
+- fix: editing of Markdown/reST/WikidPad header with folded upper header makes irritating scrolling to upper header (thanks @mix-7)
 - fix: regression: crash on double-click the Output panel with the "Runner" plugin output
 
 1.201.0 (2023/10)
