@@ -48,6 +48,7 @@ TYPES = {
     "/meson_options.txt": ['Meson'],
     "/nginx.conf": ['Nginx'],
     "/singularity": ['Singularity'],
+    "/todo.txt": ['Todo.txt'],
     "4gl": ['Informix 4GL'],
     "Appfile": ['Ruby'],
     "Appraisals": ['Ruby'],
