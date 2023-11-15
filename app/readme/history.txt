@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.201.5 (2023/11)
+1.202.0 (2023/11)
 
 + add: new option "fold_underline_size" to change look of folding-underline (thanks @victorel-petrovich)
 + add: with "fold_style" 3...4, click on folded line text must not unfold the block (thanks @victorel-petrovich)
