@@ -709,6 +709,7 @@ type
     FLastSaveSessionTick: QWord;
     FLastLoadedConfig: string;
     FLastLoadedEditorOps: TEditorOps;
+    FLastGotoInput: UnicodeString;
     FDisableTreeClearing: boolean;
     FInvalidateShortcuts: boolean;
     FInvalidateShortcutsForce: boolean;
@@ -5059,9 +5060,13 @@ begin
   fmGoto.Width:= ATEditorScale(UiOps.ListboxSizeX);
   UpdateInputForm(fmGoto, false);
 
+  fmGoto.edInput.Text:= FLastGotoInput;
+  fmGoto.edInput.DoSelect_All;
+
   if fmGoto.ShowModal=mrOk then
   begin
-    Str:= UTF8Encode(fmGoto.edInput.Text);
+    FLastGotoInput:= fmGoto.edInput.Text;
+    Str:= UTF8Encode(FLastGotoInput);
     if DoPyEvent(CurrentEditor, cEventOnGotoEnter, [AppVariant(Str)]).Val = evrFalse then exit;
     DoGotoFromInput(Str);
   end;
