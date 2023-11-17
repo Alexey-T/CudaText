@@ -1294,9 +1294,11 @@ Session file contains data:
 ** splitting to 2 editors: on/off, vertical/horizontal, percents of size
 ** column of vertical "margin" line, if it's not default
 * For each modified document: date of modification, full document text
-* Layout/sizes of side panel and bottom panel
-* Layout/sizes of editor groups
-* Index of active editor group and active tab in each group
+* Last input of "Go to" dialog for each ui-tab
+* Layout:
+** Layout/sizes of side panel and bottom panel
+** Layout/sizes of editor groups
+** Index of active editor group and active tab in each group
 
 Plugin "Session Manager" is present in Addon Manager, it gives commands to control sessions:
 open session file, save session, show list of recent sessions, etc.
