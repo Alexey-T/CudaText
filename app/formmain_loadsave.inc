@@ -396,6 +396,8 @@ begin
       end;
       cfg.SetValue(path+'/kind', sTabKind);
 
+      cfg.SetValue(path+'/goto', Frame.GotoInput);
+
       {
       //TODO: add together with restoring of 'v_pos'
       if Frame.IsBinary then
@@ -733,6 +735,7 @@ begin
       begin
         Frame.InSession:= true;
         Frame.DoLoadHistoryEx(Frame.Ed1, cfg, item_path, true);
+        Frame.GotoInput:= cfg.GetValue(item_path+'goto', '');
 
         if sTabFilename2<>'' then
         begin
@@ -760,6 +763,7 @@ begin
             Inc(nCountFiles);
 
           Frame.DoLoadHistoryEx(Frame.Ed2, cfg, item_path2, true);
+          Frame.GotoInput:= cfg.GetValue(item_path2+'goto', '');;
         end;
 
         Frame.TabPinned:= cfg.GetValue(item_path+'pinned', false);
