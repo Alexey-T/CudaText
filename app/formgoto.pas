@@ -147,7 +147,7 @@ begin
 
   edInput.OptCaretBlinkEnabled:= EditorOps.OpCaretBlinkEn;
   edInput.OptCaretBlinkTime:= EditorOps.OpCaretBlinkTime;
-  edInput.OptMaxLen:= 50;
+  edInput.OptMaxLen:= 80;
 
   IsDoubleBuffered:= UiOps.DoubleBuffered;
 end;
