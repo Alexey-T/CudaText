@@ -5054,6 +5054,7 @@ var
   Frame: TEditorFrame;
 begin
   Frame:= CurrentFrame;
+  if Frame=nil then exit;
 
   if not Assigned(fmGoto) then
     fmGoto:= TfmGoto.Create(Self);
