@@ -385,6 +385,7 @@ begin
         cfg.SetValue(path+'/tab_title', Frame.TabCaption);
       cfg.SetValue(path+'/group', nLocalGroup+1); //support old sessions with 1-based index
       cfg.SetDeleteValue(path+'/pinned', Frame.TabPinned, false);
+      cfg.SetDeleteValue(path+'/goto', Frame.GotoInput, '');
 
       case Frame.FrameKind of
         efkEditor:
@@ -395,8 +396,6 @@ begin
           sTabKind:= 'pic';
       end;
       cfg.SetValue(path+'/kind', sTabKind);
-
-      cfg.SetValue(path+'/goto', Frame.GotoInput);
 
       {
       //TODO: add together with restoring of 'v_pos'
@@ -735,7 +734,6 @@ begin
       begin
         Frame.InSession:= true;
         Frame.DoLoadHistoryEx(Frame.Ed1, cfg, item_path, true);
-        Frame.GotoInput:= cfg.GetValue(item_path+'goto', '');
 
         if sTabFilename2<>'' then
         begin
@@ -763,9 +761,9 @@ begin
             Inc(nCountFiles);
 
           Frame.DoLoadHistoryEx(Frame.Ed2, cfg, item_path2, true);
-          Frame.GotoInput:= cfg.GetValue(item_path2+'goto', '');;
         end;
 
+        Frame.GotoInput:= cfg.GetValue(item_path+'goto', '');
         Frame.TabPinned:= cfg.GetValue(item_path+'pinned', false);
 
         //event on_open was blocked in DoFileOpen, call it here
