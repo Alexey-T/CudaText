@@ -1281,7 +1281,7 @@ const
   cMinVersionWindows = 4; //first supported on Windows is 3.4 (for WinXP)
 {$ifdef windows}
 var
-  N: integer;
+  N, NMaxVersion: integer;
   S, SFile: string;
 {$endif}
 {$ifdef darwin}
@@ -1298,9 +1298,14 @@ begin
   Result:= '';
 
   {$ifdef windows}
+  //Windows XP? limit max Python version to 3.4
+  if (Win32MajorVersion=5) and (Win32MinorVersion=1) then
+    NMaxVersion:= 4
+  else
+    NMaxVersion:= cMaxVersion;
   //detect latest existing file python3x.dll in app folder
   S:= ExtractFilePath(Application.ExeName);
-  for N:= cMaxVersion downto cMinVersionWindows do
+  for N:= NMaxVersion downto cMinVersionWindows do
   begin
     SFile:= Format('python3%d.dll', [N]);
     //don't return full filename, this loads DLL with full filename and plugins cannot load
