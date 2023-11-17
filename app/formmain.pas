@@ -5106,11 +5106,7 @@ begin
 end;
 
 procedure TfmMain.DoGotoFromInput(Frame: TEditorFrame; const AInput: string);
-var
-  Ed: TATSynEdit;
 begin
-  Ed:= Frame.Editor;
-
   case Frame.FrameKind of
     efkBinaryViewer:
     begin
@@ -5121,7 +5117,7 @@ begin
     end;
     efkEditor:
     begin
-      if EditorGotoFromString(Ed, AInput) then
+      if EditorGotoFromString(Frame.Editor, AInput) then
         MsgStatus('')
       else
         MsgStatus(msgStatusBadLineNum);
