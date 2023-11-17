@@ -161,6 +161,7 @@ type
     FTextCharsTyped: integer;
     FTextChange: array[0..1] of boolean;
     FTextChangeSlow: array[0..1] of boolean;
+    FGotoInput: UnicodeString;
     FActivationTime: Int64;
     FCodetreeFilter: string;
     FCodetreeFilterHistory: TStringList;
@@ -447,6 +448,7 @@ type
     property CodetreeFilterHistory: TStringList read FCodetreeFilterHistory;
     property CodetreeSortType: TSortType read FCodetreeSortType write FCodetreeSortType;
     property ActivationTime: Int64 read FActivationTime write FActivationTime;
+    property GotoInput: UnicodeString read FGotoInput write FGotoInput;
     function IsEmpty: boolean;
     procedure ApplyLexerStyleMap;
     procedure LexerReparse;

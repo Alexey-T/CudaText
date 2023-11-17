@@ -709,7 +709,6 @@ type
     FLastSaveSessionTick: QWord;
     FLastLoadedConfig: string;
     FLastLoadedEditorOps: TEditorOps;
-    FLastGotoInput: UnicodeString;
     FDisableTreeClearing: boolean;
     FInvalidateShortcuts: boolean;
     FInvalidateShortcutsForce: boolean;
@@ -871,7 +870,7 @@ type
     procedure DoPyCommand_Cudaxlib(Ed: TATSynEdit; const AMethod: string; AInvoke: TATCommandInvoke);
     procedure DoDialogCharMap;
     procedure DoFindActionFromString(const AStr: string);
-    procedure DoGotoFromInput(const AInput: string);
+    procedure DoGotoFromInput(Frame: TEditorFrame; const AInput: string);
     procedure DoGotoDefinition(Ed: TATSynEdit);
     procedure DoShowFuncHint(Ed: TATSynEdit);
     procedure DoApplyGutterVisible(AValue: boolean);
@@ -5052,7 +5051,10 @@ end;
 procedure TfmMain.DoDialogGoto;
 var
   Str: string;
+  Frame: TEditorFrame;
 begin
+  Frame:= CurrentFrame;
+
   if not Assigned(fmGoto) then
     fmGoto:= TfmGoto.Create(Self);
 
@@ -5060,15 +5062,15 @@ begin
   fmGoto.Width:= ATEditorScale(UiOps.ListboxSizeX);
   UpdateInputForm(fmGoto, false);
 
-  fmGoto.edInput.Text:= FLastGotoInput;
+  fmGoto.edInput.Text:= Frame.GotoInput;
   fmGoto.edInput.DoSelect_All;
 
   if fmGoto.ShowModal=mrOk then
   begin
-    FLastGotoInput:= fmGoto.edInput.Text;
-    Str:= UTF8Encode(FLastGotoInput);
-    if DoPyEvent(CurrentEditor, cEventOnGotoEnter, [AppVariant(Str)]).Val = evrFalse then exit;
-    DoGotoFromInput(Str);
+    Frame.GotoInput:= fmGoto.edInput.Text;
+    Str:= UTF8Encode(Frame.GotoInput);
+    if DoPyEvent(Frame.Editor, cEventOnGotoEnter, [AppVariant(Str)]).Val = evrFalse then exit;
+    DoGotoFromInput(Frame, Str);
   end;
 end;
 
@@ -5103,12 +5105,10 @@ begin
     ANames, 0);
 end;
 
-procedure TfmMain.DoGotoFromInput(const AInput: string);
+procedure TfmMain.DoGotoFromInput(Frame: TEditorFrame; const AInput: string);
 var
-  Frame: TEditorFrame;
   Ed: TATSynEdit;
 begin
-  Frame:= CurrentFrame;
   Ed:= Frame.Editor;
 
   case Frame.FrameKind of
