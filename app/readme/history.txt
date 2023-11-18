@@ -10,7 +10,7 @@
 + add: single click on [...] fold-mark is now ignored because we must react to double-click on it
 + add: Go To dialog remembers last input, per each editor-tab, and value now saves to session (thanks @faerot)
 + add: Wiki topic https://wiki.freepascal.org/CudaText_VS_other_editors#CudaText_vs_Notepad.2B.2B
-* change: theme "Zeus" was renamed to "Zeu" and removed to Addons Manager (because of complain from religious man)
+* change: theme "Zeus" was renamed to "Zeu" and removed to Addons Manager
 - fix: command "find current word next" fails with words of length=1 (thanks @faerot)
 - fix: editing of Markdown/reST/WikidPad header with folded previous header makes irritating unfolding of previous header (thanks @mix-7)
 - fix: regression: crash on double-click the Output panel with the "Runner" plugin output
