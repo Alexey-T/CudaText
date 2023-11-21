@@ -548,6 +548,7 @@ The following lexers (counting only important ones) exist for SynWrite and CudaT
 * Standard ML
 * Stata
 * Strace
+* Structured Text (IEC 61131-3)
 * Stylus
 * Svelte
 * Swift
