@@ -4,6 +4,7 @@
   * changed
 
 + add: new command "folding: select block(s) at caret(s)"
+- fix: sometimes, after holding 'Undo' hotkey, lexer parser stops working with broken highlight
 
 1.202.0 (2023/11)
 
