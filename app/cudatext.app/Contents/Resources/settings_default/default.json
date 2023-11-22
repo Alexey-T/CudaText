@@ -297,10 +297,6 @@
   //See description in the Wiki topic "Dynamic highlight".
   "dynamic_highlight": 4000,
 
-  //On app start, postpone lexer parsing, until file tab becomes visible (ie don't parse hidden tabs).
-  //This makes much faster app start, if session loads lot of files.
-  "lexer_postpone_until_shown": true,
-
   //When number of lines in document is bigger than the option value, lexer parser
   //will not find folding ranges. It means, for such big files:
   //1) Lexer parsing runs 1.5-3 times faster.

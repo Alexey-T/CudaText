@@ -1537,7 +1537,7 @@ begin
 
   UiOps.LexerThemes:= cfg.GetValue('ui_lexer_themes', UiOps.LexerThemes);
   UiOps.LexerMenuGrouped:= cfg.GetValue('ui_lexers_grouped', UiOps.LexerMenuGrouped);
-  UiOps.LexerPostponeUntilShown:= cfg.GetValue('lexer_postpone_until_shown', UiOps.LexerPostponeUntilShown);
+  //UiOps.LexerPostponeUntilShown:= cfg.GetValue('lexer_postpone_until_shown', UiOps.LexerPostponeUntilShown);
   if not UiOps.LexerPostponeUntilShown then
     AppAllowFrameParsing:= true;
 
