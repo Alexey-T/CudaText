@@ -151,7 +151,6 @@ cCommand_MoveSelectionUp = 268
 cCommand_MoveSelectionDown = 269
 cCommand_TextInsertEmptyAbove = 270 | _CmdFlag_SelReset | _CmdFlag_MovesCaret
 cCommand_TextInsertEmptyBelow = 271 | _CmdFlag_SelReset | _CmdFlag_MovesCaret
-cCommand_SelectFoldingRangeAtCaret = 280
 
 cCommand_ToggleOverwrite = 300
 cCommand_ToggleReadOnly = 301
@@ -228,6 +227,7 @@ cCommand_FoldingFoldAtCurLine = 1040
 cCommand_FoldingUnfoldAtCurLine = 1041
 cCommand_FoldingToggleAtCurLine = 1042
 cCommand_FoldingFoldSelection = 1043
+cCommand_FoldingSelectRangeAtCaret = 1045
 
 cCommand_CancelKeepSel = 1998
 cCommand_CancelKeepLast = 1999

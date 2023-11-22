@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-+ add: command "select folding range(s) at caret(s)"
++ add: new command "folding: select block(s) at caret(s)"
 
 1.202.0 (2023/11)
 
