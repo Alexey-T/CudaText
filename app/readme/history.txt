@@ -3,6 +3,8 @@
   - fixed
   * changed
 
++ add: command "select folding range(s) at caret(s)"
+
 1.202.0 (2023/11)
 
 + add: new option "fold_underline_size" to change look of folding-underline (thanks @victorel-petrovich)
