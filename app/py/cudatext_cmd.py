@@ -151,6 +151,7 @@ cCommand_MoveSelectionUp = 268
 cCommand_MoveSelectionDown = 269
 cCommand_TextInsertEmptyAbove = 270 | _CmdFlag_SelReset | _CmdFlag_MovesCaret
 cCommand_TextInsertEmptyBelow = 271 | _CmdFlag_SelReset | _CmdFlag_MovesCaret
+cCommand_SelectFoldingRangeAtCaret = 280
 
 cCommand_ToggleOverwrite = 300
 cCommand_ToggleReadOnly = 301
