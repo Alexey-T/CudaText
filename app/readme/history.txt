@@ -3,9 +3,11 @@
   - fixed
   * changed
 
-+ add: new command "folding: select block(s) at caret(s)"
+1.202.1 (2023/11)
+
 * change: deleted option "lexer_postpone_until_shown"
-- fix: sometimes, after holding 'Undo' hotkey, lexer parser stops working with broken highlight
++ add: new command "folding: select block(s) at caret(s)"
+- fix: sometimes on doing 'Undo' lexer parser stops working with broken highlight
 
 1.202.0 (2023/11)
 
