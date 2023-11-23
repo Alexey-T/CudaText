@@ -468,7 +468,7 @@ begin
   M.Add(cmd_OpsOpenDefaultAndUser, 'settings: open default/user configs', [], []);
   M.Add(cmd_OpsOpenLexerSpecific, 'settings: open lexer-specific config', [], []);
 
-  M.Add(cmd_OpsFontText, 'settings: select font: text', [], []);
+  M.Add(cmd_OpsFontText, 'settings: select font: document', [], []);
   M.Add(cmd_OpsFontUi, 'settings: select font: ui', [], []);
   M.Add(cmd_OpsFontOutput, 'settings: select font: output panel', [], []);
 
