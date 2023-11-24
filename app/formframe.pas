@@ -1722,8 +1722,10 @@ begin
   if Splitted and EditorsLinked then
   begin
     EdOther.DoCaretsFixIncorrectPos(false);
-    //not lite lexer? don't call Update, it will get Update called from adapter
-    if not EdOther.IsNormalLexerActive then
+    //not lite lexer? don't call Update, it will get Update called later from adapter
+    if EdOther.IsNormalLexerActive then
+      EdOther.UpdateWrapInfo(true)
+    else
       EdOther.Update(true);
   end;
 
