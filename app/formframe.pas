@@ -1722,7 +1722,9 @@ begin
   if Splitted and EditorsLinked then
   begin
     EdOther.DoCaretsFixIncorrectPos(false);
-    EdOther.Update(true);
+    //not lite lexer? don't call Update, it will get Update called from adapter
+    if not EdOther.IsNormalLexerActive then
+      EdOther.Update(true);
   end;
 
   DoPyEvent(Ed, cEventOnChange, []);
