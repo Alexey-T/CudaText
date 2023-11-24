@@ -1722,11 +1722,10 @@ begin
   if Splitted and EditorsLinked then
   begin
     EdOther.DoCaretsFixIncorrectPos(false);
+    EdOther.UpdateWrapInfo(true);
     //not lite lexer? don't call Update, it will get Update called later from adapter
     if EdOther.IsNormalLexerActive then
-      EdOther.UpdateWrapInfo(true)
-    else
-      EdOther.Update(true);
+      EdOther.Update(false);
   end;
 
   DoPyEvent(Ed, cEventOnChange, []);
