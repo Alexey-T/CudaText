@@ -1723,8 +1723,11 @@ begin
   begin
     EdOther.DoCaretsFixIncorrectPos(false);
     EdOther.UpdateWrapInfo(true);
-    //not lite lexer? don't call Update, it will get Update called later from adapter
-    if EdOther.IsNormalLexerActive then
+
+    //EControl lexer active? don't call Update:
+    //- editor will get Update called later (parsing done) from adapter
+    //- Update gives flickering (when one editor is on top, splitted editor is on bottom)
+    if not EdOther.IsNormalLexerActive then
       EdOther.Update(false);
   end;
 
