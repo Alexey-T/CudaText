@@ -3,6 +3,10 @@
   - fixed
   * changed
 
+
++ add: lexer Python: support f-strings with inner quotes from Python 3.12
+- fix: reduced flickering of paired split-editor, on editing big files with lexer (thanks @mix-7)
+
 1.202.1 (2023/11)
 
 * change: deleted option "lexer_postpone_until_shown"
