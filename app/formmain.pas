@@ -15,7 +15,7 @@ unit FormMain;
 {$ENDIF}
 //{$define debug_on_lexer}
 
-//{$DEFINE ADD_FOLD} //allow Pascal tree-helpers to add Fold ranges
+{$DEFINE ADD_FOLD} //allow Pascal tree-helpers to add Fold ranges
 
 interface
 
@@ -8552,13 +8552,13 @@ begin
         NLevelPrev:= NLevel;
 
         {$ifdef ADD_FOLD}
-        //add folding ranges
         if NY2-NY1>=1 then
           Ed.Fold.Add(NX1+1, NY1, NX2+1, NY2, false, STitle);
         {$endif}
       end;
 
       {$ifdef ADD_FOLD}
+      Ed.Fold.ClearLineIndexer(Ed.Strings.Count);
       Ed.Fold.UpdateLineIndexer;
       Ed.Update;
       {$endif}

@@ -63,7 +63,7 @@ begin
       Data.Add(DataItem);
 
       if PrevHeaderIndex>=0 then
-        Data._GetItemPtr(PrevHeaderIndex)^.Y2:= iLine;
+        Data._GetItemPtr(PrevHeaderIndex)^.Y2:= iLine-1;
       PrevHeaderIndex:= Data.Count-1;
     end
     else
