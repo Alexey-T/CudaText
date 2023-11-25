@@ -96,12 +96,20 @@ begin
     if (iChar+2<=NLen) then
     begin
       ch1:= St.LineCharAt(iLine, iChar+1);
-      ch2:= St.LineCharAt(iLine, iChar+2);
-      if (ch1='<') and (ch2='<') then
-        bPreformatted:= true
-      else
-      if (ch1='>') and (ch2='>') then
-        bPreformatted:= false;
+      case ch1 of
+        '<':
+          begin
+            ch2:= St.LineCharAt(iLine, iChar+2);
+            if ch2='<' then
+              bPreformatted:= true;
+          end;
+        '>':
+          begin
+            ch2:= St.LineCharAt(iLine, iChar+2);
+            if ch2='>' then
+              bPreformatted:= false;
+          end;
+      end;
     end;
     if bPreformatted then Continue;
 
