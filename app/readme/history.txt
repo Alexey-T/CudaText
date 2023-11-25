@@ -3,10 +3,11 @@
   - fixed
   * changed
 
-1.202.5 (2023/11)
+1.203.0 (2023/11)
 
-+ add: lexer Markdown supports _proper_ folding, considers header levels 1...6 (note: when code-tree is visible)
-+ add: lexer reStructuredText supports _proper_ folding, considers header levels 1...8 (note: when code-tree is visible)
++ add: lexer Markdown supports _proper_ folding, considers header levels (note: when code-tree is visible)
++ add: lexer MediaWiki supports _proper_ folding, considers header levels (note: when code-tree is visible)
++ add: lexer reStructuredText supports _proper_ folding, considers header levels (note: when code-tree is visible)
 + add: lexer 'Ini files ^' supports folding (note: when code-tree is visible)
 + add: reduced flickering in paired (splitted) editor, on editing big files with lexer (thanks @mix-7)
 + add: lexer Python: support f-strings with inner quotes from Python 3.12
