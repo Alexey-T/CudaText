@@ -7,6 +7,7 @@
 
 + add: reduced flickering in paired (splitted) editor, on editing big files with lexer (thanks @mix-7)
 + add: lexer Python: support f-strings with inner quotes from Python 3.12
+* change: disabled automatic unfolding of blocks above the editing line, in Python; it was irritating sometimes (and bad if unfolding block height is bigger than screen height)
 
 1.202.1 (2023/11)
 
