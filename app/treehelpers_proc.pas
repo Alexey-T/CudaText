@@ -26,7 +26,8 @@ uses
   TreeHelper_Markdown,
   TreeHelper_MediaWiki,
   TreeHelper_Ini,
-  TreeHelper_reST;
+  TreeHelper_reST,
+  TreeHelper_WikidPad;
 
 //--------------------------------------------------------------
 function TreeHelperInPascal(Ed: TATSynEdit; const ALexer: string;
@@ -54,6 +55,11 @@ begin
       begin
         Result:= true;
         TTreeHelperRest.GetHeaders(Ed, Data);
+      end;
+    'WikidPad':
+      begin
+        Result:= true;
+        TTreeHelperWikidpad.GetHeaders(Ed, Data);
       end;
   end;
 end;
