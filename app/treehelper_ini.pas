@@ -26,27 +26,12 @@ type
 implementation
 
 class procedure TTreeHelperIni.GetHeaders(Ed: TATSynEdit; Data: TATTreeHelperRecords);
-  //
-  function GetPrevHeaderItem(AFromIndex: integer): PATTreeHelperRecord;
-  var
-    ItemPtr: PATTreeHelperRecord;
-    i: integer;
-  begin
-    for i:= AFromIndex-1 downto 0 do
-    begin
-      ItemPtr:= Data._GetItemPtr(i);
-      if ItemPtr^.Level=1 then
-        exit(ItemPtr);
-    end;
-    Result:= nil;
-  end;
-  //
 const
   cIconFolder = 0;
   cIconArrow = 7;
 var
   DataItem: TATTreeHelperRecord;
-  PrevItem: PATTreeHelperRecord;
+  PrevHeaderIndex: integer = -1;
   St: TATStrings;
   S: UnicodeString;
   iLine, NFirst, NSymbol, NLen: integer;
@@ -77,9 +62,9 @@ begin
       DataItem.Icon:= cIconFolder;
       Data.Add(DataItem);
 
-      PrevItem:= GetPrevHeaderItem(Data.Count-2);
-      if Assigned(PrevItem) then
-        PrevItem^.Y2:= iLine-1;
+      if PrevHeaderIndex>=0 then
+        Data._GetItemPtr(PrevHeaderIndex)^.Y2:= iLine;
+      PrevHeaderIndex:= Data.Count-1;
     end
     else
     begin
@@ -98,9 +83,8 @@ begin
     end;
   end;
 
-  PrevItem:= GetPrevHeaderItem(Data.Count-1);
-  if Assigned(PrevItem) then
-    PrevItem^.Y2:= St.Count-1;
+  if PrevHeaderIndex>=0 then
+    Data._GetItemPtr(PrevHeaderIndex)^.Y2:= St.Count-1;
 end;
 
 end.

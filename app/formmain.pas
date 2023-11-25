@@ -15,7 +15,7 @@ unit FormMain;
 {$ENDIF}
 //{$define debug_on_lexer}
 
-//{$DEFINE ADD_FOLD}
+//{$DEFINE ADD_FOLD} //allow Pascal tree-helpers to add Fold ranges
 
 interface
 
