@@ -7,7 +7,7 @@
 
 + add: reduced flickering in paired (splitted) editor, on editing big files with lexer (thanks @mix-7)
 + add: lexer Python: support f-strings with inner quotes from Python 3.12
-* change: disabled automatic unfolding of blocks above the editing line, in Python; it was irritating sometimes (and bad if unfolding block height is bigger than screen height)
+* change: disabled automatic unfolding of blocks above the editing line, in Python; it was irritating sometimes (and bad if unfolding block height is bigger than screen height); it reverts fix from 1.167.5 (2022/07)
 
 1.202.1 (2023/11)
 
@@ -604,7 +604,7 @@ core changes for huge documents:
 - fix: Linux: file 'ast.py' in the current folder was breaking many plugins (thanks @veksha)
 - fix: lexer Bash: wrong highlight in '~/.local' (thanks @eltonfabricio10)
 
-1.167.5 (2022/07)                                              
+1.167.5 (2022/07)
 
 + add: use translated button captions in message-boxes, both internal and API (thanks @hexaae)
 + add: wiki page https://wiki.freepascal.org/CudaText_VS_other_editors
