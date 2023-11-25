@@ -723,6 +723,7 @@ object SyntAnal15: TLibSyntAnalyzer
   BlockRules = <
     item
       DisplayName = 'Header'
+      Enabled = False
       ConditionList = <
         item
           TokenTypes = 1
