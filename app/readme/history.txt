@@ -7,6 +7,7 @@
 
 + add: lexer Markdown supports _proper_ folding, considers header levels
 + add: lexer MediaWiki supports _proper_ folding, considers header levels
++ add: lexer WikidPad supports _proper_ folding, considers header levels
 + add: lexer reStructuredText supports _proper_ folding, considers header levels
 + add: lexer 'Ini files ^' supports folding
 + add: reduced flickering in paired (splitted) editor, on editing big files with lexer (thanks @mix-7)
