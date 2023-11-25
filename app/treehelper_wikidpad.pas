@@ -77,15 +77,38 @@ var
   St: TATStrings;
   HeadLevel: integer;
   SHead: UnicodeString;
-  NLen, iLine: integer;
+  bPreformatted: boolean;
+  NLen, iLine, iChar: integer;
+  ch1, ch2: WideChar;
 begin
   Data.Clear;
   St:= Ed.Strings;
+  bPreformatted:= false;
+
   for iLine:= 0 to St.Count-1 do
   begin
     NLen:= St.LinesLen[iLine];
+
+    //detect we are inside << ... >> block, skip it
+    iChar:= 0;
+    while (iChar<NLen) and (St.LineCharAt(iLine, iChar+1)=' ') do
+      Inc(iChar);
+    if (iChar+2<=NLen) then
+    begin
+      ch1:= St.LineCharAt(iLine, iChar+1);
+      ch2:= St.LineCharAt(iLine, iChar+2);
+      if (ch1='<') and (ch2='<') then
+        bPreformatted:= true
+      else
+      if (ch1='>') and (ch2='>') then
+        bPreformatted:= false;
+    end;
+    if bPreformatted then Continue;
+
+    //detect header '++ Text'
     if NLen<3 then Continue; //at least 3 chars: '+ A'
     if St.LineCharAt(iLine, 1)<>'+' then Continue;
+
     SHead:= St.Lines[iLine];
     HeadLevel:= GetHeadLevel(SHead);
     if HeadLevel>0 then
