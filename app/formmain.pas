@@ -15,8 +15,6 @@ unit FormMain;
 {$ENDIF}
 //{$define debug_on_lexer}
 
-{$DEFINE ADD_FOLD} //allow Pascal tree-helpers to add Fold ranges
-
 interface
 
 uses
@@ -8518,9 +8516,7 @@ begin
     Result:= TreeHelperInPascal(Ed, ALexer, Data);
     if Result and (Data.Count>0) then
     begin
-      {$ifdef ADD_FOLD}
       Ed.Fold.Clear;
-      {$endif}
 
       for iItem:= 0 to Data.Count-1 do
       begin
@@ -8559,17 +8555,13 @@ begin
         //end part which needs ATree
        end;
 
-        {$ifdef ADD_FOLD}
         if NY2-NY1>=1 then
           Ed.Fold.Add(NX1+1, NY1, NX2+1, NY2, false, STitle);
-        {$endif}
       end;
 
-      {$ifdef ADD_FOLD}
       Ed.Fold.ClearLineIndexer(Ed.Strings.Count);
       Ed.Fold.UpdateLineIndexer;
       Ed.Update;
-      {$endif}
     end;
   finally
     FreeAndNil(Data);
