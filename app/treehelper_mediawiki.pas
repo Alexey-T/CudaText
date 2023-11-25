@@ -67,6 +67,26 @@ end;
 
 class procedure TTreeHelperMediawiki.GetHeaders(Ed: TATSynEdit; Data: TATTreeHelperRecords);
 var
+  PrevHeadIndex: array[1..8] of integer = (-1, -1, -1, -1, -1, -1, -1, -1);
+  //
+  procedure ClosePrevHeader(head, iLine: integer);
+  var
+    ItemPtr: PATTreeHelperRecord;
+    iHead: integer;
+  begin
+    for iHead:= head to High(PrevHeadIndex) do
+      if PrevHeadIndex[iHead]>=0 then
+      begin
+        ItemPtr:= Data._GetItemPtr(PrevHeadIndex[iHead]);
+        if ItemPtr^.Y2<0 then
+          ItemPtr^.Y2:= iLine-1;
+      end;
+
+    if (head>=Low(PrevHeadIndex)) and (head<=High(PrevHeadIndex)) then
+      PrevHeadIndex[head]:= Data.Count-1;
+  end;
+  //
+var
   DataItem: TATTreeHelperRecord;
   St: TATStrings;
   HeadLevel: integer;
@@ -87,13 +107,15 @@ begin
       DataItem.X1:= 0;
       DataItem.Y1:= iLine;
       DataItem.X2:= 0;
-      DataItem.Y2:= iLine+1;
+      DataItem.Y2:= -1;
       DataItem.Level:= HeadLevel;
       DataItem.Title:= TrimHead(S);
       DataItem.Icon:= -1;
-      Data.Add(DataItem)
+      Data.Add(DataItem);
+      ClosePrevHeader(HeadLevel, iLine);
     end
   end;
+  ClosePrevHeader(Low(PrevHeadIndex), St.Count-1);
 end;
 
 end.
