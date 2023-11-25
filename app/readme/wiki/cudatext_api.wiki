@@ -321,7 +321,7 @@ Actions work with props of Find/Replace dialog, and props of low-level search en
 ** "tick_current": int: OS tick-count in milliseconds, at the moment of this API call.
 
 * PROC_SET_CLIP: Copies text to clipboard (usual clipboard). Note: this clears the clipboard first.
-* PROC_SET_CLIP_HTML: Copies HTML text to clipboard, text must be HTML. Note: this does not clear the clipboard first.
+* PROC_SET_CLIP_HTML: Copies text to clipboard (usual clipboard) in HTML format, additionally to clipboard contents in plain-text format. Param "text" must be HTML-formatted fragment. Note: this does not clear the clipboard first.
 * PROC_SET_CLIP_ALT: Copies text to alternate clipboard on Linux, called "primary selection".
 ** CudaText "Copy" commands put text to usual clipboard + primary selection.
 ** CudaText "Paste" commands get text from usual clipboard.
