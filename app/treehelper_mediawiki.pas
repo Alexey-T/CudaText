@@ -21,7 +21,7 @@ type
   TTreeHelperMediawiki = class
   private
     class function TrimHead(const S: UnicodeString): UnicodeString;
-    class function GetHead(const S: UnicodeString): integer;
+    class function GetHeadLevel(const S: UnicodeString): integer;
   public
     class procedure GetHeaders(Ed: TATSynEdit; Data: TATTreeHelperRecords);
   end;
@@ -42,7 +42,7 @@ begin
 end;
 
 
-class function TTreeHelperMediawiki.GetHead(const S: UnicodeString): integer;
+class function TTreeHelperMediawiki.GetHeadLevel(const S: UnicodeString): integer;
 var
   NLen, r, r2, i: integer;
 begin
@@ -69,7 +69,7 @@ class procedure TTreeHelperMediawiki.GetHeaders(Ed: TATSynEdit; Data: TATTreeHel
 var
   DataItem: TATTreeHelperRecord;
   St: TATStrings;
-  head: integer;
+  HeadLevel: integer;
   S: UnicodeString;
   iLine: integer;
 begin
@@ -81,14 +81,14 @@ begin
     if S='' then Continue;
     if S[1]<>'=' then Continue;
     if S[Length(S)]<>'=' then Continue;
-    head:= GetHead(S);
-    if head>0 then
+    HeadLevel:= GetHeadLevel(S);
+    if HeadLevel>0 then
     begin
       DataItem.X1:= 0;
       DataItem.Y1:= iLine;
       DataItem.X2:= 0;
       DataItem.Y2:= iLine+1;
-      DataItem.Level:= head;
+      DataItem.Level:= HeadLevel;
       DataItem.Title:= TrimHead(S);
       DataItem.Icon:= -1;
       Data.Add(DataItem)
