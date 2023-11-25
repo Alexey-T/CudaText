@@ -90,18 +90,19 @@ var
   DataItem: TATTreeHelperRecord;
   St: TATStrings;
   HeadLevel: integer;
-  S: UnicodeString;
-  iLine: integer;
+  SHead: UnicodeString;
+  NLen, iLine: integer;
 begin
   Data.Clear;
   St:= Ed.Strings;
   for iLine:= 0 to St.Count-1 do
   begin
-    S:= St.Lines[iLine];
-    if S='' then Continue;
-    if S[1]<>'=' then Continue;
-    if S[Length(S)]<>'=' then Continue;
-    HeadLevel:= GetHeadLevel(S);
+    NLen:= St.LinesLen[iLine];
+    if NLen<3 then Continue; //at least 3 chars: '=A='
+    if St.LineCharAt(iLine, 1)<>'=' then Continue;
+    if St.LineCharAt(iLine, NLen)<>'=' then Continue;
+    SHead:= St.Lines[iLine];
+    HeadLevel:= GetHeadLevel(SHead);
     if HeadLevel>0 then
     begin
       DataItem.X1:= 0;
@@ -109,7 +110,7 @@ begin
       DataItem.X2:= 0;
       DataItem.Y2:= -1;
       DataItem.Level:= HeadLevel;
-      DataItem.Title:= TrimHead(S);
+      DataItem.Title:= TrimHead(SHead);
       DataItem.Icon:= -1;
       Data.Add(DataItem);
       ClosePrevHeader(HeadLevel, iLine);
