@@ -92,6 +92,7 @@ var
   St: TATStrings;
   tick, tick_r, pre, r: boolean;
   head: integer;
+  PrevHeadIndex: array[1..6] of integer = (-1, -1, -1, -1, -1, -1);
   S, S0, S2: UnicodeString;
   iLine: integer;
 begin
@@ -148,7 +149,10 @@ begin
       DataItem.Level:= head;
       DataItem.Title:= TrimHead(S);
       DataItem.Icon:= -1;
-      Data.Add(DataItem)
+      Data.Add(DataItem);
+
+      if (head>=Low(PrevHeadIndex)) and (head<=High(PrevHeadIndex)) then
+        PrevHeadIndex[head]:= Data.Count-1;
     end
     else
     begin
@@ -171,7 +175,10 @@ begin
           DataItem.Level:= head;
           DataItem.Title:= S0;
           DataItem.Icon:= -1;
-          Data.Add(DataItem)
+          Data.Add(DataItem);
+
+          if (head>=Low(PrevHeadIndex)) and (head<=High(PrevHeadIndex)) then
+            PrevHeadIndex[head]:= Data.Count-1;
         end;
       end;
     end;

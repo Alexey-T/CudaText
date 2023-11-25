@@ -8559,7 +8559,8 @@ begin
       end;
 
       {$ifdef ADD_FOLD}
-      Ed.Update(false, true);
+      Ed.Fold.UpdateLineIndexer;
+      Ed.Update;
       {$endif}
     end;
   finally
