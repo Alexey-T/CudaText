@@ -1182,9 +1182,9 @@ begin
     begin
       RunTreeHelper(
         Frame,
-        nil{ATree},
-        true{PascalHelpers},
-        false{PythonHelpers}
+        nil, //ATree
+        true, //PascalHelpers, only they give folding yet
+        false //PythonHelpers
         );
       exit;
     end;
