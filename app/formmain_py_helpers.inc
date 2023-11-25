@@ -214,7 +214,7 @@ begin
 end;
 
 
-function TfmMain.RunTreeHelper(Frame: TEditorFrame; Tree: TTreeView;
+function TfmMain.RunTreeHelper(Frame: TEditorFrame; ATree: TTreeView;
   AllowPascalHelpers, AllowPythonHelpers: boolean): boolean;
 var
   Ed: TATSynEdit;
@@ -230,18 +230,18 @@ begin
   CurLexer:= Frame.LexerName[Ed];
   if CurLexer='' then exit;
 
-  //don't run tree-helper on huge files
+  //don't run helper on huge files
   if Ed.Strings.Count > EControlOptions.MaxLinesWhenParserEnablesFolding then exit;
 
-  //Pascal tree-helpers
+  //Pascal helpers
   if AllowPascalHelpers then
   begin
-    Result:= DoCodetree_ApplyTreeHelperInPascal(Ed, Tree, CurLexer);
+    Result:= DoCodetree_ApplyTreeHelperInPascal(Ed, ATree, CurLexer);
     if Result then exit;
   end;
 
-  //Python tree-helpers
-  if AllowPythonHelpers and AppPython.Inited then
+  //Python helpers
+  if AllowPythonHelpers and AppPython.Inited and Assigned(ATree) then
   with AppPython.Engine do
     for NHelper:= 0 to AppTreeHelpers.Count-1 do
     begin
@@ -257,7 +257,7 @@ begin
         try
           //refresh CodeTree only if TreeData is list
           if PyObject_TypeCheck(TreeData, PyList_Type) then
-            DoCodetree_ApplyTreeHelperResults(Tree, TreeData);
+            DoCodetree_ApplyTreeHelperResults(ATree, TreeData);
         finally
           Py_DECREF(TreeData);
         end;

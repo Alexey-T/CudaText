@@ -1179,7 +1179,15 @@ begin
 
   if AConsiderTreeVisible then
     if not AppPanels[cPaneSide].Visible then
+    begin
+      RunTreeHelper(
+        Frame,
+        nil{ATree},
+        true{PascalHelpers},
+        false{PythonHelpers}
+        );
       exit;
+    end;
 
   if not Frame.EnabledCodeTree[Ed] then
   begin

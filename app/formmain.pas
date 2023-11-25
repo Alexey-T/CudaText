@@ -844,7 +844,7 @@ type
     procedure DoCodetree_OnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure DoCodetree_GotoBlockForCurrentNode(AndSelect: boolean);
     procedure DoCodetree_ApplyTreeHelperResults(Tree: TTreeView; Data: PPyObject);
-    function DoCodetree_ApplyTreeHelperInPascal(Ed: TATSynEdit; Tree: TTreeView; const ALexer: string): boolean;
+    function DoCodetree_ApplyTreeHelperInPascal(Ed: TATSynEdit; ATree: TTreeView; const ALexer: string): boolean;
     procedure DoCodetree_OnAdvDrawItem(Sender: TCustomTreeView;
       Node: TTreeNode; State: TCustomDrawState; Stage: TCustomDrawStage;
       var PaintImages, DefaultDraw: Boolean);
@@ -1218,7 +1218,7 @@ type
     procedure DoPyEvent_Open(Ed: TATSynEdit);
     procedure DoPyEvent_OpenNone(Ed: TATSynEdit);
     procedure DoPyCommand(const AModule, AMethod: string; const AParams: TAppVariantArray; AInvoke: TATCommandInvoke);
-    function RunTreeHelper(Frame: TEditorFrame; Tree: TTreeView;
+    function RunTreeHelper(Frame: TEditorFrame; ATree: TTreeView;
       AllowPascalHelpers, AllowPythonHelpers: boolean): boolean;
     function DoPyLexerDetection(const Filename: string; Lexers: TStringList): integer;
     procedure FinderOnGetToken(Sender: TObject; AX, AY: integer; out AKind: TATTokenKind);
@@ -8493,8 +8493,7 @@ end;
 
 
 function TfmMain.DoCodetree_ApplyTreeHelperInPascal(Ed: TATSynEdit;
-  Tree: TTreeView;
-  const ALexer: string): boolean;
+  ATree: TTreeView; const ALexer: string): boolean;
 var
   Data: TATTreeHelperRecords;
   DataItem: PATTreeHelperRecord;
@@ -8505,9 +8504,12 @@ var
   iItem, iLevel: integer;
 begin
   Data:= TATTreeHelperRecords.Create;
-  Tree.BeginUpdate;
+  if Assigned(ATree) then
+    ATree.BeginUpdate;
+
   try
-    Tree.Items.Clear;
+    if Assigned(ATree) then
+      ATree.Items.Clear;
 
     Node:= nil;
     NodeParent:= nil;
@@ -8532,6 +8534,9 @@ begin
         STitle:= DataItem^.Title;
         NIcon:= DataItem^.Icon;
 
+       if Assigned(ATree) then
+       begin
+        //begin part which needs ATree
         if (Node=nil) or (NLevel<=1) then
           NodeParent:= nil
         else
@@ -8546,11 +8551,13 @@ begin
         Range.PosBegin:= Point(NX1, NY1);
         Range.PosEnd:= Point(NX2, NY2);
 
-        Node:= Tree.Items.AddChildObject(NodeParent, STitle, Range);
+        Node:= ATree.Items.AddChildObject(NodeParent, STitle, Range);
         Node.ImageIndex:= NIcon;
         Node.SelectedIndex:= NIcon;
 
         NLevelPrev:= NLevel;
+        //end part which needs ATree
+       end;
 
         {$ifdef ADD_FOLD}
         if NY2-NY1>=1 then
@@ -8566,7 +8573,8 @@ begin
     end;
   finally
     FreeAndNil(Data);
-    Tree.EndUpdate;
+    if Assigned(ATree) then
+      ATree.EndUpdate;
   end;
 end;
 
