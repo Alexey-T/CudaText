@@ -20,7 +20,7 @@ uses
 type
   TTreeHelperMarkdown = class
   private
-    class function IsHead(const S: UnicodeString): integer;
+    class function GetHeadLevel(const S: UnicodeString): integer;
     class function IsTicks(const S: UnicodeString): boolean;
     class function IsAfterHead(const S: UnicodeString; ch: WideChar): boolean;
     class function TrimHead(const S: UnicodeString): UnicodeString;
@@ -30,7 +30,7 @@ type
 
 implementation
 
-class function TTreeHelperMarkdown.IsHead(const S: UnicodeString): integer;
+class function TTreeHelperMarkdown.GetHeadLevel(const S: UnicodeString): integer;
 var
   r, NLen: integer;
 begin
@@ -111,7 +111,7 @@ var
   DataItem: TATTreeHelperRecord;
   St: TATStrings;
   tick, tick_r, pre, r: boolean;
-  head: integer;
+  HeadLevel: integer;
   S, S0, S2: UnicodeString;
   iLine: integer;
 begin
@@ -158,18 +158,18 @@ begin
     if tick then
       Continue;
 
-    head:= IsHead(S);
-    if head>0 then
+    HeadLevel:= GetHeadLevel(S);
+    if HeadLevel>0 then
     begin
       DataItem.X1:= 0;
       DataItem.Y1:= iLine;
       DataItem.X2:= 0;
       DataItem.Y2:= -1;
-      DataItem.Level:= head;
+      DataItem.Level:= HeadLevel;
       DataItem.Title:= TrimHead(S);
       DataItem.Icon:= -1;
       Data.Add(DataItem);
-      ClosePrevHeader(head, iLine);
+      ClosePrevHeader(HeadLevel, iLine);
     end
     else
     begin
@@ -177,23 +177,23 @@ begin
       begin
         S2:= St.Lines[iLine+1];
         if IsAfterHead(S2, '=') then
-          head:= 1
+          HeadLevel:= 1
         else
         if IsAfterHead(S2, '-') then
-          head:= 2
+          HeadLevel:= 2
         else
-          head:= 0;
-        if head>0 then
+          HeadLevel:= 0;
+        if HeadLevel>0 then
         begin
           DataItem.X1:= 0;
           DataItem.Y1:= iLine;
           DataItem.X2:= 0;
           DataItem.Y2:= -1;
-          DataItem.Level:= head;
+          DataItem.Level:= HeadLevel;
           DataItem.Title:= S0;
           DataItem.Icon:= -1;
           Data.Add(DataItem);
-          ClosePrevHeader(head, iLine);
+          ClosePrevHeader(HeadLevel, iLine);
         end;
       end;
     end;
