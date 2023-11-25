@@ -21,7 +21,7 @@ type
   TTreeHelperMarkdown = class
   private
     class function GetHeadLevel(const S: UnicodeString): integer;
-    class function IsTicks(const S: UnicodeString): boolean;
+    class function IsFencedBlock(const S: UnicodeString): boolean;
     class function IsAfterHead(const S: UnicodeString; ch: WideChar): boolean;
     class function TrimHead(const S: UnicodeString): UnicodeString;
   public
@@ -44,7 +44,7 @@ begin
     Result:= r;
 end;
 
-class function TTreeHelperMarkdown.IsTicks(const S: UnicodeString): boolean;
+class function TTreeHelperMarkdown.IsFencedBlock(const S: UnicodeString): boolean;
 //regex '^\s*`{3,}\s*\w*$'
 var
   NLen, i, r: integer;
@@ -110,15 +110,16 @@ var
 var
   DataItem: TATTreeHelperRecord;
   St: TATStrings;
-  tick, tick_r, pre, r: boolean;
+  bFencedEntered, bFencedPrev, bFencedCurrent, bPreformatted: boolean;
   HeadLevel: integer;
   S, S0, S2: UnicodeString;
   iLine: integer;
 begin
   Data.Clear;
-  tick:= false;
-  tick_r:= false;
-  pre:= false;
+  bFencedEntered:= false;
+  bFencedPrev:= false;
+  bFencedCurrent:= false;
+  bPreformatted:= false;
   St:= Ed.Strings;
 
   for iLine:= 0 to St.Count-1 do
@@ -129,33 +130,33 @@ begin
     if S0='' then Continue;
     if S0='<pre>' then
     begin
-      pre:= true;
+      bPreformatted:= true;
       Continue;
     end;
     if S0='</pre>' then
     begin
-      pre:= false;
+      bPreformatted:= false;
       Continue;
     end;
-    if pre then
+    if bPreformatted then
       Continue;
 
-    r:= IsTicks(S);
-    if r then
+    bFencedCurrent:= IsFencedBlock(S);
+    if bFencedCurrent then
     begin
-      if tick and (r=tick_r) then
+      if bFencedEntered and (bFencedCurrent=bFencedPrev) then
       begin
-        tick:= false;
-        tick_r:= false;
+        bFencedEntered:= false;
+        bFencedPrev:= false;
       end
       else
       begin
-        tick:= true;
-        tick_r:= r;
+        bFencedEntered:= true;
+        bFencedPrev:= bFencedCurrent;
       end;
       Continue;
     end;
-    if tick then
+    if bFencedEntered then
       Continue;
 
     HeadLevel:= GetHeadLevel(S);
