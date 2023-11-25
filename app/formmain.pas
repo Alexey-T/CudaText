@@ -1218,7 +1218,8 @@ type
     procedure DoPyEvent_Open(Ed: TATSynEdit);
     procedure DoPyEvent_OpenNone(Ed: TATSynEdit);
     procedure DoPyCommand(const AModule, AMethod: string; const AParams: TAppVariantArray; AInvoke: TATCommandInvoke);
-    function RunTreeHelper(Frame: TEditorFrame; Tree: TTreeView): boolean;
+    function RunTreeHelper(Frame: TEditorFrame; Tree: TTreeView;
+      AllowPascalHelpers, AllowPythonHelpers: boolean): boolean;
     function DoPyLexerDetection(const Filename: string; Lexers: TStringList): integer;
     procedure FinderOnGetToken(Sender: TObject; AX, AY: integer; out AKind: TATTokenKind);
     procedure FinderOnConfirmReplace(Sender: TObject; APos1, APos2: TPoint;

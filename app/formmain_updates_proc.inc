@@ -1204,7 +1204,7 @@ begin
     if not Assigned(FCodetreeBuffer) then
       FCodetreeBuffer:= TTreeView.Create(Self);
 
-    if not RunTreeHelper(Frame, FCodetreeBuffer) then
+    if not RunTreeHelper(Frame, FCodetreeBuffer, true, true) then
       if Assigned(Ada) then
       begin
         //Tick:= GetTickCount64;

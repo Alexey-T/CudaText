@@ -214,7 +214,8 @@ begin
 end;
 
 
-function TfmMain.RunTreeHelper(Frame: TEditorFrame; Tree: TTreeView): boolean;
+function TfmMain.RunTreeHelper(Frame: TEditorFrame; Tree: TTreeView;
+  AllowPascalHelpers, AllowPythonHelpers: boolean): boolean;
 var
   Ed: TATSynEdit;
   CurLexer, CurFilename: string;
@@ -233,11 +234,14 @@ begin
   if Ed.Strings.Count > EControlOptions.MaxLinesWhenParserEnablesFolding then exit;
 
   //Pascal tree-helpers
-  Result:= DoCodetree_ApplyTreeHelperInPascal(Ed, Tree, CurLexer);
-  if Result then exit;
+  if AllowPascalHelpers then
+  begin
+    Result:= DoCodetree_ApplyTreeHelperInPascal(Ed, Tree, CurLexer);
+    if Result then exit;
+  end;
 
   //Python tree-helpers
-  if not AppPython.Inited then exit;
+  if AllowPythonHelpers and AppPython.Inited then
   with AppPython.Engine do
     for NHelper:= 0 to AppTreeHelpers.Count-1 do
     begin
