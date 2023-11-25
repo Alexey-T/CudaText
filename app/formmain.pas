@@ -15,6 +15,8 @@ unit FormMain;
 {$ENDIF}
 //{$define debug_on_lexer}
 
+//{$DEFINE ADD_FOLD}
+
 interface
 
 uses
@@ -8557,7 +8559,7 @@ begin
       end;
 
       {$ifdef ADD_FOLD}
-      Ed.Update;
+      Ed.Update(false, true);
       {$endif}
     end;
   finally
