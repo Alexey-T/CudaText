@@ -8530,30 +8530,28 @@ begin
         STitle:= DataItem^.Title;
         NIcon:= DataItem^.Icon;
 
-       if Assigned(ATree) then
-       begin
-        //begin part which needs ATree
-        if (Node=nil) or (NLevel<=1) then
-          NodeParent:= nil
-        else
+        if Assigned(ATree) then
         begin
-          NodeParent:= Node;
-          for iLevel:= NLevel to NLevelPrev do
-            if Assigned(NodeParent) then
-              NodeParent:= NodeParent.Parent;
+          if (Node=nil) or (NLevel<=1) then
+            NodeParent:= nil
+          else
+          begin
+            NodeParent:= Node;
+            for iLevel:= NLevel to NLevelPrev do
+              if Assigned(NodeParent) then
+                NodeParent:= NodeParent.Parent;
+          end;
+
+          Range:= TATRangeInCodeTree.Create;
+          Range.PosBegin:= Point(NX1, NY1);
+          Range.PosEnd:= Point(NX2, NY2);
+
+          Node:= ATree.Items.AddChildObject(NodeParent, STitle, Range);
+          Node.ImageIndex:= NIcon;
+          Node.SelectedIndex:= NIcon;
+
+          NLevelPrev:= NLevel;
         end;
-
-        Range:= TATRangeInCodeTree.Create;
-        Range.PosBegin:= Point(NX1, NY1);
-        Range.PosEnd:= Point(NX2, NY2);
-
-        Node:= ATree.Items.AddChildObject(NodeParent, STitle, Range);
-        Node.ImageIndex:= NIcon;
-        Node.SelectedIndex:= NIcon;
-
-        NLevelPrev:= NLevel;
-        //end part which needs ATree
-       end;
 
         if NY2-NY1>=1 then
           Ed.Fold.Add(NX1+1, NY1, NX2+1, NY2, false, STitle);
