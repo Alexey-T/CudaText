@@ -110,11 +110,12 @@ var
 var
   DataItem: TATTreeHelperRecord;
   St: TATStrings;
-  bFencedEntered, bFencedPrev, bFencedCurrent, bPreformatted: boolean;
+  bFencedEntered, bFencedPrev, bFencedCurrent: boolean;
+  bPreformatted, bMaybeUnderlined: boolean;
   HeadLevel: integer;
-  S, S0, S2: UnicodeString;
-  NLen, iLine, iChar: integer;
-  ch: WideChar;
+  S, S2: UnicodeString;
+  NLineCount, NLen, iLine, iChar: integer;
+  ch, ch2: WideChar;
 begin
   Data.Clear;
   bFencedEntered:= false;
@@ -122,8 +123,9 @@ begin
   bFencedCurrent:= false;
   bPreformatted:= false;
   St:= Ed.Strings;
+  NLineCount:= St.Count;
 
-  for iLine:= 0 to St.Count-1 do
+  for iLine:= 0 to NLineCount-1 do
   begin
     NLen:= St.LinesLen[iLine];
 
@@ -133,7 +135,16 @@ begin
     if (iChar+2>NLen) then Continue;
 
     ch:= St.LineCharAt(iLine, iChar+1);
-    if (ch<>'<') and (ch<>'#') then Continue;
+
+    if iLine+1<NLineCount then
+    begin
+      ch2:= St.LineCharAt(iLine+1, 1);
+      bMaybeUnderlined:= (ch2='-') or (ch2='=');
+    end
+    else
+      bMaybeUnderlined:= false;
+
+    if (ch<>'<') and (ch<>'#') and not bMaybeUnderlined then Continue;
     S:= St.Lines[iLine];
 
     if ch='<' then
@@ -184,29 +195,27 @@ begin
       ClosePrevHeader(HeadLevel, iLine);
     end
     else
+    if bMaybeUnderlined then
     begin
-      if (iLine+1<St.Count) and (S[1]<>'-') and (S[1]<>'=') then
+      S2:= St.Lines[iLine+1];
+      if IsAfterHead(S2, '=') then
+        HeadLevel:= 1
+      else
+      if IsAfterHead(S2, '-') then
+        HeadLevel:= 2
+      else
+        HeadLevel:= 0;
+      if HeadLevel>0 then
       begin
-        S2:= St.Lines[iLine+1];
-        if IsAfterHead(S2, '=') then
-          HeadLevel:= 1
-        else
-        if IsAfterHead(S2, '-') then
-          HeadLevel:= 2
-        else
-          HeadLevel:= 0;
-        if HeadLevel>0 then
-        begin
-          DataItem.X1:= 0;
-          DataItem.Y1:= iLine;
-          DataItem.X2:= 0;
-          DataItem.Y2:= -1;
-          DataItem.Level:= HeadLevel;
-          DataItem.Title:= S0;
-          DataItem.Icon:= -1;
-          Data.Add(DataItem);
-          ClosePrevHeader(HeadLevel, iLine);
-        end;
+        DataItem.X1:= 0;
+        DataItem.Y1:= iLine;
+        DataItem.X2:= 0;
+        DataItem.Y2:= -1;
+        DataItem.Level:= HeadLevel;
+        DataItem.Title:= Trim(S);
+        DataItem.Icon:= -1;
+        Data.Add(DataItem);
+        ClosePrevHeader(HeadLevel, iLine);
       end;
     end;
   end;
