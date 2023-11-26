@@ -121,7 +121,7 @@ begin
   if OpenDialog1.Execute then
   begin
     FFileName:= OpenDialog1.FileName;
-    Ed.LoadFromFile(FFileName);
+    Ed.LoadFromFile(FFileName, []);
 
     case ExtractFileExt(FFileName) of
       '.md':
