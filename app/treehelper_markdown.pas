@@ -107,16 +107,14 @@ var
 var
   DataItem: TATTreeHelperRecord;
   St: TATStrings;
-  bFencedEntered, bFencedCurrent: boolean;
-  bPreformatted: boolean;
+  bPreformatted, bFenced: boolean;
   HeadLevel, HeadLevelUnderlined: integer;
   S: UnicodeString;
   ch: WideChar;
   NLineCount, NLen, iLine, iChar: integer;
 begin
   Data.Clear;
-  bFencedEntered:= false;
-  bFencedCurrent:= false;
+  bFenced:= false;
   bPreformatted:= false;
   St:= Ed.Strings;
   NLineCount:= St.Count;
@@ -161,15 +159,12 @@ begin
       Continue;
 
     if ch='`' then
-    begin
-      bFencedCurrent:= IsFencedBlock(S);
-      if bFencedCurrent then
+      if IsFencedBlock(S) then
       begin
-        bFencedEntered:= not bFencedEntered;
+        bFenced:= not bFenced;
         Continue;
       end;
-    end;
-    if bFencedEntered then
+    if bFenced then
       Continue;
 
     if ch='#' then
