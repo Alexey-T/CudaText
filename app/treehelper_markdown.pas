@@ -129,14 +129,15 @@ begin
       Inc(iChar);
     if (iChar+2>NLen) then Continue;
 
+    //fist (after spaces) line char
     ch:= St.LineCharAt(iLine, iChar+1);
 
     HeadLevelUnderlined:= 0;
     if iLine+1<NLineCount then
       case St.LineCharAt(iLine+1, 1) of
-        '=':
+        '=': // underline '======' means level 1
           HeadLevelUnderlined:= GetUnderlineLevel(St, iLine+1, '=', 1);
-        '-':
+        '-': // underline '------' means level 2
           HeadLevelUnderlined:= GetUnderlineLevel(St, iLine+1, '-', 2);
       end;
 
