@@ -22,7 +22,6 @@ type
   private
     class function GetHeadLevel(const S: UnicodeString): integer;
     class function IsFencedBlock(const S: UnicodeString): boolean;
-    class function IsAfterHead(const S: UnicodeString; ch: WideChar): boolean;
     class function TrimHead(const S: UnicodeString): UnicodeString;
   public
     class procedure GetHeaders(Ed: TATSynEdit; Data: TATTreeHelperRecords);
@@ -64,18 +63,6 @@ begin
   Result:= r>=3;
 end;
 
-class function TTreeHelperMarkdown.IsAfterHead(const S: UnicodeString; ch: WideChar): boolean;
-var
-  NLen, i: integer;
-begin
-  Result:= false;
-  NLen:= Length(S);
-  if NLen=0 then exit;
-  for i:= 1 to Length(S) do
-    if S[i]<>ch then exit;
-  Result:= true;
-end;
-
 class function TTreeHelperMarkdown.TrimHead(const S: UnicodeString): UnicodeString;
 var
   i: integer;
@@ -83,7 +70,7 @@ begin
   i:= 1;
   while (i<=Length(S)) and ((S[i]='#') or (S[i]=' ')) do
     Inc(i);
-  Result:= Copy(S, i, MaxInt);
+  Result:= Copy(S, i);
 end;
 
 class procedure TTreeHelperMarkdown.GetHeaders(Ed: TATSynEdit; Data: TATTreeHelperRecords);
@@ -107,15 +94,25 @@ var
       PrevHeadIndex[head]:= Data.Count-1;
   end;
   //
+  function CheckUnderline(St: TATStrings; ALine: integer; AChar: WideChar; ALevel: integer): integer;
+  var
+    i: integer;
+  begin
+    for i:= 1 to St.LinesLen[ALine] do
+      if St.LineCharAt(ALine, i)<>AChar then
+        exit(0);
+    Result:= ALevel;
+  end;
+  //
 var
   DataItem: TATTreeHelperRecord;
   St: TATStrings;
   bFencedEntered, bFencedPrev, bFencedCurrent: boolean;
-  bPreformatted, bMaybeUnderlined: boolean;
-  HeadLevel: integer;
+  bPreformatted: boolean;
+  HeadLevel, HeadLevelUnderlined: integer;
   S, S2: UnicodeString;
   NLineCount, NLen, iLine, iChar: integer;
-  ch, ch2: WideChar;
+  ch: WideChar;
 begin
   Data.Clear;
   bFencedEntered:= false;
@@ -136,15 +133,16 @@ begin
 
     ch:= St.LineCharAt(iLine, iChar+1);
 
+    HeadLevelUnderlined:= 0;
     if iLine+1<NLineCount then
-    begin
-      ch2:= St.LineCharAt(iLine+1, 1);
-      bMaybeUnderlined:= (ch2='-') or (ch2='=');
-    end
-    else
-      bMaybeUnderlined:= false;
+      case St.LineCharAt(iLine+1, 1) of
+        '=':
+          HeadLevelUnderlined:= CheckUnderline(St, iLine+1, '=', 1);
+        '-':
+          HeadLevelUnderlined:= CheckUnderline(St, iLine+1, '-', 2);
+      end;
 
-    if (ch<>'<') and (ch<>'#') and not bMaybeUnderlined then Continue;
+    if (ch<>'<') and (ch<>'#') and (HeadLevelUnderlined=0) then Continue;
     S:= St.Lines[iLine];
 
     if ch='<' then
@@ -195,25 +193,17 @@ begin
       ClosePrevHeader(HeadLevel, iLine);
     end
     else
-    if bMaybeUnderlined then
+    if HeadLevelUnderlined>0 then
     begin
-      S2:= St.Lines[iLine+1];
-      if IsAfterHead(S2, '=') then
-        HeadLevel:= 1
-      else
-      if IsAfterHead(S2, '-') then
-        HeadLevel:= 2
-      else
-        Continue;
       DataItem.X1:= 0;
       DataItem.Y1:= iLine;
       DataItem.X2:= 0;
       DataItem.Y2:= -1;
-      DataItem.Level:= HeadLevel;
+      DataItem.Level:= HeadLevelUnderlined;
       DataItem.Title:= Trim(S);
       DataItem.Icon:= -1;
       Data.Add(DataItem);
-      ClosePrevHeader(HeadLevel, iLine);
+      ClosePrevHeader(HeadLevelUnderlined, iLine);
     end;
   end;
 
