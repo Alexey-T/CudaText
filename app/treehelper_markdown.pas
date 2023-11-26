@@ -161,20 +161,23 @@ begin
     if bPreformatted then
       Continue;
 
-    bFencedCurrent:= IsFencedBlock(S);
-    if bFencedCurrent then
+    if ch='`' then
     begin
-      if bFencedEntered and (bFencedCurrent=bFencedPrev) then
+      bFencedCurrent:= IsFencedBlock(S);
+      if bFencedCurrent then
       begin
-        bFencedEntered:= false;
-        bFencedPrev:= false;
-      end
-      else
-      begin
-        bFencedEntered:= true;
-        bFencedPrev:= bFencedCurrent;
+        if bFencedEntered and (bFencedCurrent=bFencedPrev) then
+        begin
+          bFencedEntered:= false;
+          bFencedPrev:= false;
+        end
+        else
+        begin
+          bFencedEntered:= true;
+          bFencedPrev:= bFencedCurrent;
+        end;
+        Continue;
       end;
-      Continue;
     end;
     if bFencedEntered then
       Continue;
