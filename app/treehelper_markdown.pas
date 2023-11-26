@@ -179,18 +179,21 @@ begin
     if bFencedEntered then
       Continue;
 
-    HeadLevel:= GetHeadLevel(S);
-    if HeadLevel>0 then
+    if ch='#' then
     begin
-      DataItem.X1:= 0;
-      DataItem.Y1:= iLine;
-      DataItem.X2:= 0;
-      DataItem.Y2:= -1;
-      DataItem.Level:= HeadLevel;
-      DataItem.Title:= TrimHead(S);
-      DataItem.Icon:= -1;
-      Data.Add(DataItem);
-      ClosePrevHeader(HeadLevel, iLine);
+      HeadLevel:= GetHeadLevel(S);
+      if HeadLevel>0 then
+      begin
+        DataItem.X1:= 0;
+        DataItem.Y1:= iLine;
+        DataItem.X2:= 0;
+        DataItem.Y2:= -1;
+        DataItem.Level:= HeadLevel;
+        DataItem.Title:= TrimHead(S);
+        DataItem.Icon:= -1;
+        Data.Add(DataItem);
+        ClosePrevHeader(HeadLevel, iLine);
+      end;
     end
     else
     if HeadLevelUnderlined>0 then
