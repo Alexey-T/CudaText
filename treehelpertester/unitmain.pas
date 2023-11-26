@@ -141,6 +141,8 @@ begin
       '.textile',
       '.tx':
         FLexer:= 'Textile';
+      '.ini':
+        FLexer:= 'Ini files ^';
       else
         FLexer:= '-'
     end;
