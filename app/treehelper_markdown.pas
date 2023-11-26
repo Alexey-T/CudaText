@@ -94,7 +94,7 @@ var
       PrevHeadIndex[head]:= Data.Count-1;
   end;
   //
-  function CheckUnderline(St: TATStrings; ALine: integer; AChar: WideChar; ALevel: integer): integer;
+  function GetUnderlineLevel(St: TATStrings; ALine: integer; AChar: WideChar; ALevel: integer): integer;
   var
     i: integer;
   begin
@@ -137,9 +137,9 @@ begin
     if iLine+1<NLineCount then
       case St.LineCharAt(iLine+1, 1) of
         '=':
-          HeadLevelUnderlined:= CheckUnderline(St, iLine+1, '=', 1);
+          HeadLevelUnderlined:= GetUnderlineLevel(St, iLine+1, '=', 1);
         '-':
-          HeadLevelUnderlined:= CheckUnderline(St, iLine+1, '-', 2);
+          HeadLevelUnderlined:= GetUnderlineLevel(St, iLine+1, '-', 2);
       end;
 
     if (ch<>'<') and (ch<>'#') and (HeadLevelUnderlined=0) then Continue;
