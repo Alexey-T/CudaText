@@ -110,9 +110,9 @@ var
   bFencedEntered, bFencedPrev, bFencedCurrent: boolean;
   bPreformatted: boolean;
   HeadLevel, HeadLevelUnderlined: integer;
-  S, S2: UnicodeString;
-  NLineCount, NLen, iLine, iChar: integer;
+  S: UnicodeString;
   ch: WideChar;
+  NLineCount, NLen, iLine, iChar: integer;
 begin
   Data.Clear;
   bFencedEntered:= false;
@@ -210,7 +210,7 @@ begin
     end;
   end;
 
-  ClosePrevHeader(Low(PrevHeadIndex), St.Count-1);
+  ClosePrevHeader(Low(PrevHeadIndex), NLineCount-1);
 end;
 
 end.
