@@ -113,7 +113,8 @@ var
   bFencedEntered, bFencedPrev, bFencedCurrent, bPreformatted: boolean;
   HeadLevel: integer;
   S, S0, S2: UnicodeString;
-  iLine: integer;
+  NLen, iLine, iChar: integer;
+  ch: WideChar;
 begin
   Data.Clear;
   bFencedEntered:= false;
@@ -124,19 +125,28 @@ begin
 
   for iLine:= 0 to St.Count-1 do
   begin
+    NLen:= St.LinesLen[iLine];
+
+    iChar:= 0;
+    while (iChar<NLen) and (St.LineCharAt(iLine, iChar+1)=' ') do
+      Inc(iChar);
+    if (iChar+2>NLen) then Continue;
+
+    ch:= St.LineCharAt(iLine, iChar+1);
+    if (ch<>'<') and (ch<>'#') then Continue;
+
     S:= St.Lines[iLine];
-    if S='' then Continue;
-    S0:= Trim(S);
-    if S0='' then Continue;
-    if S0='<pre>' then
-    begin
-      bPreformatted:= true;
-      Continue;
-    end;
-    if S0='</pre>' then
-    begin
-      bPreformatted:= false;
-      Continue;
+    case Trim(S) of
+      '<pre>':
+        begin
+          bPreformatted:= true;
+          Continue;
+        end;
+      '</pre>':
+        begin
+          bPreformatted:= false;
+          Continue;
+        end;
     end;
     if bPreformatted then
       Continue;
