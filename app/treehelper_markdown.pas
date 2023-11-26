@@ -123,6 +123,7 @@ begin
   begin
     NLen:= St.LinesLen[iLine];
 
+    //skip leading spaces, it's needed for '  <pre>' and for '   ```'
     iChar:= 0;
     while (iChar<NLen) and (St.LineCharAt(iLine, iChar+1)=' ') do
       Inc(iChar);
