@@ -204,19 +204,16 @@ begin
       if IsAfterHead(S2, '-') then
         HeadLevel:= 2
       else
-        HeadLevel:= 0;
-      if HeadLevel>0 then
-      begin
-        DataItem.X1:= 0;
-        DataItem.Y1:= iLine;
-        DataItem.X2:= 0;
-        DataItem.Y2:= -1;
-        DataItem.Level:= HeadLevel;
-        DataItem.Title:= Trim(S);
-        DataItem.Icon:= -1;
-        Data.Add(DataItem);
-        ClosePrevHeader(HeadLevel, iLine);
-      end;
+        Continue;
+      DataItem.X1:= 0;
+      DataItem.Y1:= iLine;
+      DataItem.X2:= 0;
+      DataItem.Y2:= -1;
+      DataItem.Level:= HeadLevel;
+      DataItem.Title:= Trim(S);
+      DataItem.Icon:= -1;
+      Data.Add(DataItem);
+      ClosePrevHeader(HeadLevel, iLine);
     end;
   end;
 
