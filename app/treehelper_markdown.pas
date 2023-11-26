@@ -134,20 +134,21 @@ begin
 
     ch:= St.LineCharAt(iLine, iChar+1);
     if (ch<>'<') and (ch<>'#') then Continue;
-
     S:= St.Lines[iLine];
-    case Trim(S) of
-      '<pre>':
-        begin
-          bPreformatted:= true;
-          Continue;
-        end;
-      '</pre>':
-        begin
-          bPreformatted:= false;
-          Continue;
-        end;
-    end;
+
+    if ch='<' then
+      case Trim(S) of
+        '<pre>':
+          begin
+            bPreformatted:= true;
+            Continue;
+          end;
+        '</pre>':
+          begin
+            bPreformatted:= false;
+            Continue;
+          end;
+      end;
     if bPreformatted then
       Continue;
 
