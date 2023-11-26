@@ -126,8 +126,11 @@ begin
     case ExtractFileExt(FFileName) of
       '.md':
         FLexer:= 'Markdown';
-      '.wiki':
+      '.wiki',
+      '.mediawiki':
         FLexer:= 'MediaWiki';
+      '.wikidpad':
+        FLexer:= 'WikidPad';
       '.rst':
         FLexer:= 'reStructuredText';
       else

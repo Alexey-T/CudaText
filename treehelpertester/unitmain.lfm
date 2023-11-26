@@ -6,9 +6,9 @@ object Form1: TForm1
   Caption = 'CudaText tree-helper tester'
   ClientHeight = 609
   ClientWidth = 1000
-  OnCreate = FormCreate
   Position = poScreenCenter
-  LCLVersion = '2.1.0.0'
+  LCLVersion = '3.99.0.0'
+  OnCreate = FormCreate
   object FTree: TTreeView
     Left = 0
     Height = 609
@@ -18,8 +18,8 @@ object Form1: TForm1
     ReadOnly = True
     RowSelect = True
     TabOrder = 0
-    OnDblClick = FTreeDblClick
     Options = [tvoAutoItemHeight, tvoHideSelection, tvoKeepCollapsedNodes, tvoReadOnly, tvoRowSelect, tvoShowButtons, tvoShowLines, tvoShowRoot, tvoToolTips, tvoThemedDraw]
+    OnDblClick = FTreeDblClick
   end
   object Splitter1: TSplitter
     Left = 259
@@ -69,8 +69,8 @@ object Form1: TForm1
         Top = 8
         Width = 104
         Caption = 'Open file...'
-        OnClick = btnFileClick
         TabOrder = 0
+        OnClick = btnFileClick
       end
       object Label1: TLabel
         Left = 112
