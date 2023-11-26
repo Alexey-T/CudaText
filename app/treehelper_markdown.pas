@@ -142,7 +142,7 @@ begin
           HeadLevelUnderlined:= GetUnderlineLevel(St, iLine+1, '-', 2);
       end;
 
-    if (ch<>'<') and (ch<>'#') and (HeadLevelUnderlined=0) then Continue;
+    if (ch<>'<') and (ch<>'#') and (ch<>'`') and (HeadLevelUnderlined=0) then Continue;
     S:= St.Lines[iLine];
 
     if ch='<' then
