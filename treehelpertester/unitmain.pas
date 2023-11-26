@@ -173,7 +173,15 @@ begin
   begin
     Info:= TMyTreeInfo(Node.Data);
     Ed.DoCaretSingle(Info.X1, Info.Y1, -1, -1);
-    Ed.DoGotoCaret(cEdgeTop);
+    Ed.DoShowPos(
+      Point(Info.X1, Info.Y1),
+      10,
+      10,
+      true,
+      false,
+      false
+      );
+    Ed.Update;
   end;
 end;
 
