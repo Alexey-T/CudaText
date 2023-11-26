@@ -107,7 +107,7 @@ var
 var
   DataItem: TATTreeHelperRecord;
   St: TATStrings;
-  bFencedEntered, bFencedPrev, bFencedCurrent: boolean;
+  bFencedEntered, bFencedCurrent: boolean;
   bPreformatted: boolean;
   HeadLevel, HeadLevelUnderlined: integer;
   S: UnicodeString;
@@ -116,7 +116,6 @@ var
 begin
   Data.Clear;
   bFencedEntered:= false;
-  bFencedPrev:= false;
   bFencedCurrent:= false;
   bPreformatted:= false;
   St:= Ed.Strings;
@@ -166,16 +165,7 @@ begin
       bFencedCurrent:= IsFencedBlock(S);
       if bFencedCurrent then
       begin
-        if bFencedEntered and (bFencedCurrent=bFencedPrev) then
-        begin
-          bFencedEntered:= false;
-          bFencedPrev:= false;
-        end
-        else
-        begin
-          bFencedEntered:= true;
-          bFencedPrev:= bFencedCurrent;
-        end;
+        bFencedEntered:= not bFencedEntered;
         Continue;
       end;
     end;
