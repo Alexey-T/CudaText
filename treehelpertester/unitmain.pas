@@ -137,7 +137,7 @@ begin
       '.tx':
         FLexer:= 'Textile';
       else
-        FLexer:= 'none'
+        FLexer:= '-'
     end;
 
     Label1.Caption:= Format('File "%s", Lexer "%s"', [ExtractFileName(FFileName), FLexer]);

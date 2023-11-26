@@ -1,0 +1,113 @@
+++ L2
+
+As you type you can enter formatting commands in plain text.
+
+*bold*
+_italic_
+<<
++ Heading1
+++ Heading2
++++ Heading3
+>>
+++++ Heading4
+
+When you type in a really really really really really really really really really really really really
+long line you can tell wikidPad to rewrap it for you by pressing Ctrl-W. Try it on this line.
+
+You can even change the wrap position by adding a wrap attribute to your document.
+[wrap: 20]
+Changes the wrapping on this page to 20.
+
+[global.wrap: 70]
+changes the global wrap position to 70.
+
+For creating bulleted or numbered lists, see BulletedLists.
+
+
++++ Escaping Formatting
+
+++++ Escaping markup
+To create a section of text with no formatting, wrap that section 
+in a "\<< >>" block. Example:
+
+escape formatting
+
+<<
+*This should be bold* ThisShouldBeALink
+>> 
+
+with formatting
+
+You can also use this on a single line <<like here>>. Inside the markup no newline is allowed.
+
+*This should be bold* ThisShouldBeALink
+
+Before and after the begin and end tags only whitespaces are allowed on the same line, so a << in the text does not prevent ALink from being highlighted.
+
+++++ Preformatted blocks
+
+You can use \<<\pre and >> to enclose blocks which have no special formatting (wiki words, italics) as the default escaping blocks but are shown in HTML as monospaced blocks and have exactly the same formatting as written in the source text.
+
+This is helpful especially for programming source code.
+
+Example:
+<<pre
+                     / \
+                    /   \
+>>
+
+
+++++ Hidden markup
+
+Hidden markups are not published to HTML or shown in preview but are otherwise fully processed by WikidPad so you can enclose comments in it as well as attributes or todos which show up in tree.
+
+A hidden markup is written as \<<\hide >> either on a single line (no newline in it) or as a block like the escaping markup.
+
+<<hide
+You only see this in editor
+>>
+
+++++ Escaping characters
+To escape single characters, prepend them with a backslash. These characters are then interpreted as normal text, the backslash is suppressed in HTML preview and export. If you want to really write a backslash, write two of them: \\.
+
+With this, you can write \[brackets] or \*asterisks\* which are not seen as formatting commands by \WikidPad.
+
+
++++ Tables
+
+A table is enclosed in <<| and >> tags which must be alone on a line as for format escaping tags.
+Each line with text is a table row, cells are separated by '|'. A table cell can contain wiki word links, bold and italic text. Tables show up properly only in preview mode.
+
+Example:
+
+<<|
+ScratchPad| This is| *a table*
+with two| rows and| three columns delimited by \| and \
+                                                    with two lines in a cell
+>>
+
+
+To use tabulators instead of vertical bar | as cell delimiters, use <<|t to start the table:
+
+<<|t
+ScratchPad	This is	*a table*
+with two	rows and	three columns delimited by tabs (not |) and \
+                                                    with two lines in a cell
+>>
+
+If you want a particular style (see [Cascading style sheets]) for a table, start it with
+
+<<|sStylename
+>>
+
+where "Stylename" can be replaced by the name of a style you defined in one of the CSS files described in [Cascading style sheets].
+
+You can also combine this with the tabulator option:
+
+<<|sStylename;t
+>>
+
+
+anchor: html
++++ HTML tags and entities
+You can also use <b>HTML tags</b> and &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;entities in WikidPad. Use preview to show the effect of them.
