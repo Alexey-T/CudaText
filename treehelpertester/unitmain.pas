@@ -133,6 +133,9 @@ begin
         FLexer:= 'WikidPad';
       '.rst':
         FLexer:= 'reStructuredText';
+      '.textile',
+      '.tx':
+        FLexer:= 'Textile';
       else
         FLexer:= 'none'
     end;
