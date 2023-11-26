@@ -154,7 +154,7 @@ object SyntAnal16: TLibSyntAnalyzer
     item
       DisplayName = 'Head simpler'
       StyleName = 'Head'
-      Expression = '^[\l_].+$ \z'#13#10'^([\*\#=\-\+\^`~!"'#39':\._])\1{3,}$'
+      Expression = '^[\l_].+$ \z'#13#10'^([\*\#=\-\+\^`~!"'#39':\._])\1{2,}$'
       ColumnFrom = 0
       ColumnTo = 0
     end
