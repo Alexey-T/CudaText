@@ -5,12 +5,14 @@
 
 1.203.0 (2023/11)
 
-+ add: lexer Markdown supports _proper_ folding, considers header levels
-+ add: lexer MediaWiki supports _proper_ folding
-+ add: lexer reStructuredText supports _proper_ folding
-+ add: lexer 'Ini files ^' supports folding
-+ add: tree-helper for WikidPad is now built-in (it also gives _proper_ folding), so you must remove Python tree-helper
-+ add: tree-helper for Textile is now built-in (it also gives _proper_ folding), so you must remove Python tree-helper
+built-in tree-helpers:
++ add: tree-helper for Markdown supports _proper_ folding, considers header levels
++ add: tree-helper for MediaWiki supports _proper_ folding
++ add: tree-helper for reStructuredText supports _proper_ folding
++ add: tree-helper for 'Ini files ^' supports folding
++ add: new tree-helper for WikidPad, so you must remove Python tree-helper
++ add: new tree-helper for Textile, so you must remove Python tree-helper
+
 + add: reduced flickering in paired (splitted) editor, on editing big files with lexer (thanks @mix-7)
 + add: lexer Python: support f-strings with inner quotes from Python 3.12
 * change: disabled automatic unfolding of blocks above the editing line, in Python; it was irritating sometimes (and bad if unfolding block height is bigger than screen height); it reverts fix from 1.167.5 2022/07 (thanks @victorel-petrovich)
