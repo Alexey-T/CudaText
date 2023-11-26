@@ -27,6 +27,7 @@ uses
   TreeHelper_MediaWiki,
   TreeHelper_Ini,
   TreeHelper_reST,
+  TreeHelper_Textile,
   TreeHelper_WikidPad;
 
 //--------------------------------------------------------------
@@ -60,6 +61,11 @@ begin
       begin
         Result:= true;
         TTreeHelperWikidpad.GetHeaders(Ed, Data);
+      end;
+    'Textile':
+      begin
+        Result:= true;
+        TTreeHelperTextile.GetHeaders(Ed, Data);
       end;
   end;
 end;
