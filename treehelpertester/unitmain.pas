@@ -69,6 +69,9 @@ begin
     NodeParent:= nil;
     NLevelPrev:= 1;
 
+    Ed.Fold.Clear;
+    Ed.Fold.ClearLineIndexer(Ed.Strings.Count);
+
     Result:= TreeHelperInPascal(Ed, ALexer, Data);
     if Result and (Data.Count>0) then
     begin
@@ -103,6 +106,8 @@ begin
         Node:= Tree.Items.AddChildObject(NodeParent, STitle, Info);
         Node.ImageIndex:= NIcon;
         Node.SelectedIndex:= NIcon;
+
+        Ed.Fold.Add(NX1+1, NY1, NX2+1, NY2, false, STitle);
 
         NLevelPrev:= NLevel;
       end;
