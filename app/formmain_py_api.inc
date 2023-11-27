@@ -986,7 +986,7 @@ begin
                 UiOps.FindIndentHorz,
                 UiOps.FindIndentVert,
                 false, //APlaceCaret
-                true //ADoUnfold
+                TATEditorActionIfFolded.Unfold //ADoUnfold
                 );
             end;
 
@@ -2924,7 +2924,8 @@ begin
               UiOps.FindIndentHorz,
               UiOps.FindIndentVert,
               true,
-              true);
+              TATEditorActionIfFolded.Unfold
+              );
             Result:= ReturnNone;
           end;
 

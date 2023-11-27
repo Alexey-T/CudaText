@@ -1076,7 +1076,7 @@ begin
     UiOps.FindIndentHorz,
     UiOps.FindIndentVert,
     false{place caret},
-    true{unfold}
+    TATEditorActionIfFolded.Unfold{unfold}
     );
   Ed.Update(true);
 

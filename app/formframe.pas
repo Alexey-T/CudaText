@@ -2104,7 +2104,7 @@ begin
       UiOps.FindIndentHorz,
       UiOps.FindIndentVert,
       cPlaceCaretOnClick{APlaceCaret},
-      true
+      TATEditorActionIfFolded.Unfold
       );
   end;
 end;
@@ -3360,7 +3360,7 @@ begin
     1,
     1, //indentVert must be >0
     true,
-    false
+    TATEditorActionIfFolded.Ignore
     );
 
   DoOnUpdateStatusbar(sbrFileReload);
@@ -4212,7 +4212,7 @@ begin
       UiOps.FindIndentHorz,
       UiOps.FindIndentVert,
       false,
-      false //ADoUnfold must be False, to fix issue #4564
+      TATEditorActionIfFolded.DoExit //ADoUnfold must be False, to fix issue #4564
       );
   end;
 
@@ -4686,7 +4686,7 @@ begin
     UiOps.FindIndentHorz,
     UiOps.FindIndentVert,
     true,
-    true
+    TATEditorActionIfFolded.Unfold
     );
   Ed.Update;
 end;

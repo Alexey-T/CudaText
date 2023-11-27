@@ -2469,7 +2469,7 @@ begin
       UiOps.FindIndentHorz,
       UiOps.FindIndentVert,
       true,
-      true
+      TATEditorActionIfFolded.Unfold
       );
     DoFocusEditor(Ed);
 
@@ -5286,7 +5286,7 @@ begin
       UiOps.FindIndentHorz,
       UiOps.FindIndentVert,
       true,
-      true
+      TATEditorActionIfFolded.Unfold
       );
   finally
     FreeAndNil(ListItems);
@@ -7318,7 +7318,7 @@ begin
     UiOps.FindIndentHorz,
     UiOps.FindIndentVert,
     true,
-    true
+    TATEditorActionIfFolded.Unfold
     );
 end;
 
@@ -7643,7 +7643,7 @@ begin
          UiOps.FindIndentHorz,
          UiOps.FindIndentVert,
          true{PlaceCaret},
-         true{Unfold}
+         TATEditorActionIfFolded.Unfold{Unfold}
          );
       UpdateStatusbar;
     end

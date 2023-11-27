@@ -1320,7 +1320,7 @@ begin
       AIndentHorz,
       AIndentVert,
       true,
-      true
+      TATEditorActionIfFolded.Unfold
       );
   end;
 end;
@@ -1435,7 +1435,7 @@ begin
     UiOps.FindIndentHorz,
     UiOps.FindIndentVert,
     true,
-    true
+    TATEditorActionIfFolded.Unfold
     );
   Ed.Update;
 end;
@@ -1842,7 +1842,7 @@ begin
           UiOps.FindIndentHorz,
           UiOps.FindIndentVert,
           true,
-          true
+          TATEditorActionIfFolded.Unfold
           );
       end;
 
@@ -1865,7 +1865,7 @@ begin
             UiOps.FindIndentHorz,
             UiOps.FindIndentVert,
             true,
-            true
+            TATEditorActionIfFolded.Unfold
             )
       end;
 
@@ -1888,7 +1888,7 @@ begin
             UiOps.FindIndentHorz,
             UiOps.FindIndentVert,
             true,
-            true
+            TATEditorActionIfFolded.Unfold
             )
       end;
   end;
@@ -2283,7 +2283,7 @@ begin
         UiOps.FindIndentHorz,
         UiOps.FindIndentVert,
         true,
-        true
+        TATEditorActionIfFolded.Unfold
         );
     end;
   finally
@@ -2354,7 +2354,7 @@ begin
           AFinder.IndentHorz,
           100{big value to center vertically},
           true{APlaceCaret},
-          true{ADoUnfold}
+          TATEditorActionIfFolded.Unfold{ADoUnfold}
           );
 
       if bSaveCarets then
