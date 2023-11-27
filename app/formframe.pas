@@ -4212,7 +4212,7 @@ begin
       UiOps.FindIndentHorz,
       UiOps.FindIndentVert,
       false,
-      TATEditorActionIfFolded.DoExit //ADoUnfold must be False, to fix issue #4564
+      TATEditorActionIfFolded.DoExit //don't unfold, to fix issue #4564
       );
   end;
 
