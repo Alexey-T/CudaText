@@ -57,7 +57,8 @@ begin
         Result:= true;
         TTreeHelperRest.GetHeaders(Ed, Data);
       end;
-    'WikidPad':
+    'WikidPad',
+    'WikidPad ^':
       begin
         Result:= true;
         TTreeHelperWikidpad.GetHeaders(Ed, Data);
