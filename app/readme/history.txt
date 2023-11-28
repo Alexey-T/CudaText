@@ -3,6 +3,10 @@
   - fixed
   * changed
 
+1.203.2 (2023/11)
+
++ add: reworked GTK2 IME support (patch by @rasberryrabbit)
+
 1.203.0 (2023/11)
 
 built-in tree-helpers:
