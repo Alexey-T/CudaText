@@ -1,0 +1,8 @@
+In the Lazarus IDE dialog 'Configure "Build Lazarus"'
+better define these words:
+
+WITH_GTK2_IM
+QT_NO_SESSIONMANAGER
+DisableAsianCodePages
+DisableLCLTIFF
+DisableLCLPNM
