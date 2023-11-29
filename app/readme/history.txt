@@ -6,6 +6,7 @@
 1.203.2 (2023/11)
 
 + add: reworked GTK2 IME support (patch by @rasberryrabbit)
+- fix: macOS icon size was too big for macOS 11+ (thanks @xiongyihui @JairoMartinezA)
 
 1.203.0 (2023/11)
 
