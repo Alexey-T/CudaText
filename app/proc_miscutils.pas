@@ -675,9 +675,11 @@ var
 begin
   V.Font.Name:= EditorOps.OpFontName;
   V.Font.Size:= EditorOps.OpFontSize;
+  V.Font.Quality:= EditorOps.OpFontQuality;
   V.Font.Color:= GetAppColor(apclEdTextFont);
   V.FontGutter.Name:= EditorOps.OpFontName;
   V.FontGutter.Size:= EditorOps.OpFontSize;
+  V.FontGutter.Quality:= EditorOps.OpFontQuality;
   V.FontGutter.Color:= GetAppColor(apclEdGutterFont);
   V.Color:= GetAppColor(apclEdTextBg);
   V.TextColorGutter:= GetAppColor(apclEdGutterBg);
