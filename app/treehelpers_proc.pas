@@ -33,6 +33,7 @@ uses
 //--------------------------------------------------------------
 function TreeHelperInPascal(Ed: TATSynEdit; const ALexer: string;
   Data: TATTreeHelperRecords): boolean;
+//calling function with Ed=nil and Data=nil allows to check: is lexer supported by treehelpers
 begin
   Result:= false;
   if Assigned(Data) then
