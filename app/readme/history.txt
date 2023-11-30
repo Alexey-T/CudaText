@@ -12,6 +12,7 @@
 - fix: URL highlight must catch paired brackets (...) but ignore single closing bracket, because URLs are included in () in Markdown
 - fix: binary viewer was blurry on macOS Retina (thanks @papirosko)
 - fix: dialog 'Select document font' did not apply font to visible ui-tabs (thanks @papirosko)
+- fix: built-in tree-helpers didn't work in splitted editors (thanks @mix-7)
 
 1.203.0 (2023/11)
 

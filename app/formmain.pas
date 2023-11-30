@@ -8507,6 +8507,8 @@ end;
 function TfmMain.DoCodetree_ApplyTreeHelperInPascal(Ed: TATSynEdit;
   ATree: TTreeView; const ALexer: string): boolean;
 var
+  Frame: TEditorFrame;
+  EdPair: TATSynEdit;
   Data: TATTreeHelperRecords;
   DataItem: PATTreeHelperRecord;
   NX1, NY1, NX2, NY2, NLevel, NLevelPrev, NIcon: integer;
@@ -8518,6 +8520,18 @@ begin
   Data:= TATTreeHelperRecords.Create;
   if Assigned(ATree) then
     ATree.BeginUpdate;
+
+  //find linked pair-editor EdPair
+  Frame:= TGroupsHelper.GetEditorFrame(Ed);
+  if (Frame=nil) or (not Frame.EditorsLinked) then
+    EdPair:= nil
+  else
+  begin
+    if Ed=Frame.Ed1 then
+      EdPair:= Frame.Ed2
+    else
+      EdPair:= Frame.Ed1;
+  end;
 
   try
     if Assigned(ATree) then
@@ -8531,6 +8545,8 @@ begin
     if Result and (Data.Count>0) then
     begin
       Ed.Fold.Clear;
+      if Assigned(EdPair) then
+        EdPair.Fold.Clear;
 
       for iItem:= 0 to Data.Count-1 do
       begin
@@ -8568,12 +8584,24 @@ begin
         end;
 
         if NY2-NY1>=1 then
+        begin
           Ed.Fold.Add(NX1+1, NY1, NX2+1, NY2, false, STitle);
+          if Assigned(EdPair) then
+            EdPair.Fold.Add(NX1+1, NY1, NX2+1, NY2, false, STitle);
+        end;
       end;
 
       Ed.Fold.ClearLineIndexer(Ed.Strings.Count);
       Ed.Fold.UpdateLineIndexer;
       Ed.Update;
+
+      if Assigned(EdPair) then
+      begin
+        EdPair.Fold.ClearLineIndexer(EdPair.Strings.Count);
+        EdPair.Fold.UpdateLineIndexer;
+        if EdPair.Visible then
+          EdPair.Update;
+      end;
     end;
   finally
     FreeAndNil(Data);
