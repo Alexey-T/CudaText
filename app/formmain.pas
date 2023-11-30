@@ -4129,6 +4129,7 @@ var
   id: TAppPanelId;
   Pages: TATPages;
   Ed: TATSynEdit;
+  F: TEditorFrame;
   i: integer;
 begin
   AppScaleSplitter(AppPanels[cPaneSide].Splitter);
@@ -4149,13 +4150,19 @@ begin
   end;
 
   for i:= 0 to FrameCount-1 do
-    with Frames[i] do
     begin
-      Ed1.DoubleBuffered:= UiOps.DoubleBuffered;
-      Ed2.DoubleBuffered:= UiOps.DoubleBuffered;
-      Ed1.Font.Size:= EditorOps.OpFontSize;
-      Ed2.Font.Size:= EditorOps.OpFontSize;
+      F:= Frames[i];
+      F.Ed1.DoubleBuffered:= UiOps.DoubleBuffered;
+      F.Ed2.DoubleBuffered:= UiOps.DoubleBuffered;
+      F.Ed1.Font.Size:= EditorOps.OpFontSize;
+      F.Ed2.Font.Size:= EditorOps.OpFontSize;
+      if Assigned(F.Binary) then
+      begin
+        F.Binary.DoubleBuffered:= UiOps.DoubleBuffered;
+        F.Binary.Font.Size:= EditorOps.OpFontSize;
+      end;
     end;
+
   Status.DoubleBuffered:= UiOps.DoubleBuffered;
   //LexerProgress.DoubleBuffered:= UiOps.DoubleBuffered;
   if Assigned(fmConsole) then

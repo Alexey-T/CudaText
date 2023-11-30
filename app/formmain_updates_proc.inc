@@ -523,7 +523,7 @@ begin
       F.Binary.Font.Name:= EditorOps.OpFontName;
       F.Binary.Font.Size:= EditorOps.OpFontSize;
       F.Binary.Font.Quality:= EditorOps.OpFontQuality;
-      F.Binary.Redraw;
+      F.Binary.Invalidate;
     end;
 
     {

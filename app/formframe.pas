@@ -1951,12 +1951,12 @@ begin
       cCommand_ZoomReset:
         begin
           Binary.Font.Size:= EditorOps.OpFontSize;
-          Binary.Redraw;
+          Binary.Invalidate;
         end;
       cCommand_ToggleUnprinted:
         begin
           Binary.TextNonPrintable:= not Binary.TextNonPrintable;
-          Binary.Redraw;
+          Binary.Invalidate;
         end;
     end;
     exit;
@@ -2480,7 +2480,7 @@ begin
   if Assigned(FBin) then
   begin
     ApplyThemeToViewer(FBin);
-    FBin.Redraw();
+    FBin.Invalidate;
   end;
 
   ApplyThemeToImageBox(FImageBox);
@@ -2689,6 +2689,7 @@ begin
     FBin.Show;
   end;
 
+  FBin.DoubleBuffered:= UiOps.DoubleBuffered;
   FBin.TextWidth:= UiOps.ViewerBinaryWidth;
   FBin.TextNonPrintable:= UiOps.ViewerNonPrintable;
   FBin.Mode:= AMode;

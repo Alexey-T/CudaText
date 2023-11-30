@@ -4806,7 +4806,7 @@ begin
             if F.FrameKind=efkBinaryViewer then
             begin
               F.Binary.TextWidth:= ValueInt;
-              F.Binary.Redraw();
+              F.Binary.Invalidate;
             end;
           end;
 
@@ -4816,7 +4816,7 @@ begin
             if F.FrameKind=efkBinaryViewer then
             begin
               F.Binary.TextWidthHex:= ValueInt;
-              F.Binary.Redraw();
+              F.Binary.Invalidate;
             end;
           end;
 
@@ -4826,7 +4826,7 @@ begin
             if F.FrameKind=efkBinaryViewer then
             begin
               F.Binary.TextWidthUHex:= ValueInt;
-              F.Binary.Redraw();
+              F.Binary.Invalidate;
             end;
           end;
 
@@ -4836,7 +4836,7 @@ begin
             if F.FrameKind=efkBinaryViewer then
             begin
               F.Binary.TextEncoding:= EncConvFindEncoding(Str);
-              F.Binary.Redraw();
+              F.Binary.Invalidate;
               fmMain.UpdateStatusbar;
             end;
           end;
