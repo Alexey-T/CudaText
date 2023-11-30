@@ -514,9 +514,16 @@ begin
     F.Ed1.Font.Quality:= EditorOps.OpFontQuality;
     F.Ed2.Font.Quality:= EditorOps.OpFontQuality;
 
+    F.Ed1.Update;
+    if F.Splitted then
+      F.Ed2.Update;
+
+    {
+    //2023.11: block commented, to not reset newly applied font from DoOps_LoadOptionsLexerSpecific
     DoOps_LoadOptionsLexerSpecific(F, F.Ed1);
     if not F.EditorsLinked then
       DoOps_LoadOptionsLexerSpecific(F, F.Ed2);
+      }
   end;
 
   if Assigned(fmFind) then
