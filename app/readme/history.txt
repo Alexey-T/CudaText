@@ -10,6 +10,7 @@
 + add: reworked GTK2 IME support (patch by @rasberryrabbit)
 - fix: macOS icon size was too big for macOS 11+ (thanks @xiongyihui @JairoMartinezA)
 - fix: URL highlight must catch paired brackets (...) but ignore single closing bracket, because URLs are included in () in Markdown
+- fix: binary viewer was blurry on macOS Retina (thanks @papirosko)
 - fix: dialog 'Select document font' did not apply font to visible ui-tabs (thanks @papirosko)
 
 1.203.0 (2023/11)
