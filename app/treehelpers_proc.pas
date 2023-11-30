@@ -35,38 +35,46 @@ function TreeHelperInPascal(Ed: TATSynEdit; const ALexer: string;
   Data: TATTreeHelperRecords): boolean;
 begin
   Result:= false;
-  Data.Clear;
+  if Assigned(Data) then
+    Data.Clear;
+
   case ALexer of
     'Ini files ^':
       begin
         Result:= true;
-        TTreeHelperIni.GetHeaders(Ed, Data);
+        if Assigned(Ed) then
+          TTreeHelperIni.GetHeaders(Ed, Data);
       end;
     'Markdown':
       begin
         Result:= true;
-        TTreeHelperMarkdown.GetHeaders(Ed, Data);
+        if Assigned(Ed) then
+          TTreeHelperMarkdown.GetHeaders(Ed, Data);
       end;
     'MediaWiki':
       begin
         Result:= true;
-        TTreeHelperMediawiki.GetHeaders(Ed, Data);
+        if Assigned(Ed) then
+          TTreeHelperMediawiki.GetHeaders(Ed, Data);
       end;
     'reStructuredText':
       begin
         Result:= true;
-        TTreeHelperRest.GetHeaders(Ed, Data);
+        if Assigned(Ed) then
+          TTreeHelperRest.GetHeaders(Ed, Data);
       end;
     'WikidPad',
     'WikidPad ^':
       begin
         Result:= true;
-        TTreeHelperWikidpad.GetHeaders(Ed, Data);
+        if Assigned(Ed) then
+          TTreeHelperWikidpad.GetHeaders(Ed, Data);
       end;
     'Textile':
       begin
         Result:= true;
-        TTreeHelperTextile.GetHeaders(Ed, Data);
+        if Assigned(Ed) then
+          TTreeHelperTextile.GetHeaders(Ed, Data);
       end;
   end;
 end;

@@ -8594,6 +8594,12 @@ begin
     if Assigned(ATree) then
       ATree.EndUpdate;
   end;
+
+  if Ed.FoldingAsStringTodo<>'' then
+  begin
+    Ed.FoldingAsString:= Ed.FoldingAsStringTodo;
+    Ed.FoldingAsStringTodo:= '';
+  end;
 end;
 
 
