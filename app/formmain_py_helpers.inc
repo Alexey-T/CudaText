@@ -217,7 +217,7 @@ end;
 function TfmMain.RunTreeHelper(Frame: TEditorFrame; ATree: TTreeView;
   AllowPascalHelpers, AllowPythonHelpers: boolean): boolean;
 var
-  Ed: TATSynEdit;
+  Ed, Ed2: TATSynEdit;
   CurLexer, CurFilename: string;
   TreeData: PPyObject;
   ParamFilename, ParamText: PPyObject;
@@ -227,6 +227,11 @@ begin
   Result:= false;
 
   Ed:= Frame.Editor;
+  if Frame.EditorsLinked then
+    Ed2:= Frame.EditorBrother
+  else
+    Ed2:= nil;
+
   CurLexer:= Frame.LexerName[Ed];
   if CurLexer='' then exit;
 
@@ -236,7 +241,7 @@ begin
   //Pascal helpers
   if AllowPascalHelpers then
   begin
-    Result:= DoCodetree_ApplyTreeHelperInPascal(Ed, ATree, CurLexer);
+    Result:= DoCodetree_ApplyTreeHelperInPascal(Ed, Ed2, ATree, CurLexer);
     if Result then exit;
   end;
 

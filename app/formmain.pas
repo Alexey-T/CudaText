@@ -842,7 +842,7 @@ type
     procedure DoCodetree_OnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure DoCodetree_GotoBlockForCurrentNode(AndSelect: boolean);
     procedure DoCodetree_ApplyTreeHelperResults(Tree: TTreeView; Data: PPyObject);
-    function DoCodetree_ApplyTreeHelperInPascal(Ed: TATSynEdit; ATree: TTreeView; const ALexer: string): boolean;
+    function DoCodetree_ApplyTreeHelperInPascal(Ed, EdPair: TATSynEdit; ATree: TTreeView; const ALexer: string): boolean;
     procedure DoCodetree_OnAdvDrawItem(Sender: TCustomTreeView;
       Node: TTreeNode; State: TCustomDrawState; Stage: TCustomDrawStage;
       var PaintImages, DefaultDraw: Boolean);
@@ -8504,11 +8504,9 @@ begin
 end;
 
 
-function TfmMain.DoCodetree_ApplyTreeHelperInPascal(Ed: TATSynEdit;
+function TfmMain.DoCodetree_ApplyTreeHelperInPascal(Ed, EdPair: TATSynEdit;
   ATree: TTreeView; const ALexer: string): boolean;
 var
-  Frame: TEditorFrame;
-  EdPair: TATSynEdit;
   Data: TATTreeHelperRecords;
   DataItem: PATTreeHelperRecord;
   NX1, NY1, NX2, NY2, NLevel, NLevelPrev, NIcon: integer;
@@ -8520,18 +8518,6 @@ begin
   Data:= TATTreeHelperRecords.Create;
   if Assigned(ATree) then
     ATree.BeginUpdate;
-
-  //find linked pair-editor EdPair
-  Frame:= TGroupsHelper.GetEditorFrame(Ed);
-  if (Frame=nil) or (not Frame.EditorsLinked) then
-    EdPair:= nil
-  else
-  begin
-    if Ed=Frame.Ed1 then
-      EdPair:= Frame.Ed2
-    else
-      EdPair:= Frame.Ed1;
-  end;
 
   try
     if Assigned(ATree) then
