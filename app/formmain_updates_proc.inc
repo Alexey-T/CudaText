@@ -220,7 +220,12 @@ begin
 
     case FrameKind of
       efkBinaryViewer:
-        S:= cEncConvNames[F.Binary.TextEncoding];
+      begin
+        if F.Binary.TextEncoding=eidUTF8 then
+          S:= cEncNameUtf8_NoBom
+        else
+          S:= cEncConvNames[F.Binary.TextEncoding];
+      end
       else
         S:= '';
     end;
