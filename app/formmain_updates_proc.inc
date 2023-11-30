@@ -207,6 +207,7 @@ begin
   //hide hints for pictures/viewer
   AStatus.ShowHint:= FrameKind=efkEditor;
 
+  //for FrameKind<>Editor
   if FrameKind<>efkEditor then
   begin
     case FrameKind of
@@ -247,10 +248,20 @@ begin
     DoStatusbarTextByTag(AStatus, StatusbarTag_TabSize, S);
 
     DoStatusbarTextByTag(AStatus, StatusbarTag_InsOvr, '');
+
+    case FrameKind of
+      efkBinaryViewer:
+        S:= msgStatusbarWrapStates[Ord(F.Binary.TextWrap)]
+      else
+        S:= '';
+    end;
+    DoStatusbarTextByTag(AStatus, StatusbarTag_WrapMode, S);
+
     exit;
   end;
+  //end for FrameKind<>Editor
 
-  //------
+  //for FrameKind=Editor
   case EditorGetSelectionKind(Ed) of
     selkindSmallSel:
       fmt:= UiOps.StatusSmallSel;
@@ -1099,7 +1110,7 @@ begin
   if F=nil then exit;
   Ed:= F.Editor;
 
-  UpdateMenuItemChecked(mnuViewWrap, mnuViewWrap_Alt, Ed.OptWrapMode<>TATEditorWrapMode.ModeOff);
+  UpdateMenuItemChecked(mnuViewWrap, mnuViewWrap_Alt, F.WordWrap<>TATEditorWrapMode.ModeOff);
   UpdateMenuItemChecked(mnuViewNums, mnuViewNums_Alt, Ed.Gutter.Items[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagNumbers)].Visible);
   UpdateMenuItemChecked(mnuViewFold, mnuViewFold_Alt, Ed.Gutter.Items[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagFolding)].Visible);
   UpdateMenuItemChecked(mnuViewRuler, mnuViewRuler_Alt, Ed.OptRulerVisible);

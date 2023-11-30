@@ -284,6 +284,7 @@ type
     function GetCachedTreeview(Ed: TATSynEdit): TTreeView;
     function GetCommentString(Ed: TATSynEdit): string;
     function GetTextChangeSlow(EdIndex: integer): boolean;
+    function GetWordWrap: TATEditorWrapMode;
     procedure HandleProgressButtonCancel(Sender: TObject);
     procedure HandleStringsProgress(Sender: TObject; var ACancel: boolean);
     procedure SetTextChangeSlow(EdIndex: integer; AValue: boolean);
@@ -390,6 +391,7 @@ type
     function EditorIndexToObj(N: integer): TATSynEdit;
     function EditorObjToIndex(Ed: TATSynEdit): integer;
     property ReadOnly[Ed: TATSynEdit]: boolean read GetReadOnly write SetReadOnly;
+    property WordWrap: TATEditorWrapMode read GetWordWrap;
     property TabCaption: string read FTabCaption write SetTabCaption;
     property TabCaptionAddon: string read FTabCaptionAddon write SetTabCaptionAddon;
     property TabCaptionUntitled: string read FTabCaptionUntitled write FTabCaptionUntitled;
@@ -1912,6 +1914,13 @@ begin
     cCommand_ToggleWordWrapAlt:
       begin
         AHandled:= false;
+        if FrameKind=efkBinaryViewer then
+        begin
+          if Assigned(FBin) then
+            FBin.TextWrap:= not FBin.TextWrap;
+          AHandled:= true;
+        end
+        else
         if Ed.OptWrapMode=TATEditorWrapMode.ModeOff then
           if Ed.Strings.Count>=Ed.OptWrapEnabledForMaxLines then
           begin
@@ -2692,6 +2701,7 @@ begin
   FBin.DoubleBuffered:= UiOps.DoubleBuffered;
   FBin.TextWidth:= UiOps.ViewerBinaryWidth;
   FBin.TextNonPrintable:= UiOps.ViewerNonPrintable;
+  FBin.TextWrap:= Ed1.OptWrapMode<>TATEditorWrapMode.ModeOff;
   FBin.Mode:= AMode;
 
   if Assigned(FBinStream) then
@@ -3540,6 +3550,23 @@ end;
 function TEditorFrame.GetTextChangeSlow(EdIndex: integer): boolean;
 begin
   Result:= FTextChangeSlow[EdIndex];
+end;
+
+function TEditorFrame.GetWordWrap: TATEditorWrapMode;
+begin
+  case FrameKind of
+    efkEditor:
+      Result:= Editor.OptWrapMode;
+    efkBinaryViewer:
+      begin
+        if Assigned(FBin) and FBin.TextWrap then
+          Result:= TATEditorWrapMode.ModeOn
+        else
+          Result:= TATEditorWrapMode.ModeOff;
+      end;
+    else
+      Result:= TATEditorWrapMode.ModeOff;
+  end;
 end;
 
 procedure TEditorFrame.SetTextChangeSlow(EdIndex: integer; AValue: boolean);

@@ -2208,6 +2208,12 @@ begin
           InitPopupViewerMode;
           PopupViewerMode.PopUp;
         end;
+      StatusbarTag_WrapMode:
+        begin
+          Frame.Binary.TextWrap:= not Frame.Binary.TextWrap;
+          UpdateStatusbar;
+          UpdateMenuChecks_Frame(Frame);
+        end;
     end;
   end
   else
