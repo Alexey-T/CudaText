@@ -518,6 +518,13 @@ begin
     if F.Splitted then
       F.Ed2.Update;
 
+    if (F.FrameKind=efkBinaryViewer) and Assigned(F.Binary) then
+    begin
+      F.Binary.Font.Name:= EditorOps.OpFontName;
+      F.Binary.Font.Size:= EditorOps.OpFontSize;
+      F.Binary.Redraw;
+    end;
+
     {
     //2023.11: block commented, to not reset newly applied font from DoOps_LoadOptionsLexerSpecific
     DoOps_LoadOptionsLexerSpecific(F, F.Ed1);
