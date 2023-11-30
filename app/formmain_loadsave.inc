@@ -1296,6 +1296,7 @@ begin
   Op.OpAutocompleteAutoshowCharCount:= cfg.GetValue('autocomplete_autoshow_chars', Op.OpAutocompleteAutoshowCharCount);
   Op.OpAutocompleteTriggerChars:= cfg.GetValue('autocomplete_trigger_chars', Op.OpAutocompleteTriggerChars);
   Op.OpAutocompleteCommitChars:= cfg.GetValue('autocomplete_commit_chars', Op.OpAutocompleteCommitChars);
+  Op.OpAutocompleteCommitOnEnter:= cfg.GetValue('autocomplete_commit_on_enter', Op.OpAutocompleteCommitOnEnter);
   Op.OpAutocompleteCloseChars:= cfg.GetValue('autocomplete_close_chars', Op.OpAutocompleteCloseChars);
   Op.OpAutocompleteAddOpeningBracket:= cfg.GetValue('autocomplete_add_opening_bracket', Op.OpAutocompleteAddOpeningBracket);
   Op.OpAutocompleteUpDownAtEdge:= cfg.GetValue('autocomplete_up_down_at_edge', Op.OpAutocompleteUpDownAtEdge);

@@ -6855,6 +6855,7 @@ begin
   CompletionOps.AppendOpeningBracket:= Ed.OptAutocompleteAddOpeningBracket;
   CompletionOps.UpDownAtEdge:= TATCompletionUpDownAtEdge(Ed.OptAutocompleteUpDownAtEdge);
   CompletionOps.CommitChars:= Ed.OptAutocompleteCommitChars; //before DoPyEvent
+  CompletionOps.CommitOnEnter:= Ed.OptAutocompleteCommitOnEnter;
   CompletionOps.CloseChars:= Ed.OptAutocompleteCloseChars; //before DoPyEvent
   CompletionOps.CommitIfSingleItem:= Ed.OptAutocompleteCommitIfSingleItem; //before DoPyEvent
   CompletionOps.CommandForShitchTab:= cmd_SwitchTab_HotkeyNext;

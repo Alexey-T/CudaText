@@ -249,6 +249,7 @@ begin
   Ed.OptAutocompleteAutoshowCharCount:= Op.OpAutocompleteAutoshowCharCount;
   Ed.OptAutocompleteTriggerChars:= Op.OpAutocompleteTriggerChars;
   Ed.OptAutocompleteCommitChars:= Op.OpAutocompleteCommitChars;
+  Ed.OptAutocompleteCommitOnEnter:= Op.OpAutocompleteCommitOnEnter;
   Ed.OptAutocompleteCloseChars:= Op.OpAutocompleteCloseChars;
   Ed.OptAutocompleteAddOpeningBracket:= Op.OpAutocompleteAddOpeningBracket;
   Ed.OptAutocompleteUpDownAtEdge:= Op.OpAutocompleteUpDownAtEdge;

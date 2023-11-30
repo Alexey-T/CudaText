@@ -1479,6 +1479,10 @@
   //Option is (mostly) for lexer-specific configs.
   "autocomplete_commit_chars": ",;",
 
+  //Allow Enter-key to commit the auto-completion result.
+  //Tab-key always commits the result.
+  "autocomplete_commit_on_enter": true,
+
   //When any of these chars is typed while showing completion listbox,
   //listbox is closed, and typed char is appended.
   "autocomplete_close_chars": "<>()[]{}=",

@@ -548,6 +548,7 @@ type
     OpAutocompleteAutoshowCharCount: integer;
     OpAutocompleteTriggerChars: string;
     OpAutocompleteCommitChars: string;
+    OpAutocompleteCommitOnEnter: boolean;
     OpAutocompleteCloseChars: string;
     OpAutocompleteAddOpeningBracket: boolean;
     OpAutocompleteUpDownAtEdge: integer;
@@ -1718,6 +1719,7 @@ begin
     OpAutocompleteAutoshowCharCount:= 0;
     OpAutocompleteTriggerChars:= '';
     OpAutocompleteCommitChars:= ',;';
+    OpAutocompleteCommitOnEnter:= true;
     OpAutocompleteCloseChars:= '<>()[]{}=';
     OpAutocompleteAddOpeningBracket:= true;
     OpAutocompleteUpDownAtEdge:= 1; //cudWrap
