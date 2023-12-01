@@ -3,15 +3,15 @@
   - fixed
   * changed
 
-1.204.0 (2023/11)
+1.204.0 (2023/12)
 
 + add: new option "autocomplete_commit_on_enter" (thanks @DUOLabs333)
-+ add: binary viewer also allows to change word-wrap mode, in its 'text' mode
-+ add: reworked GTK2 IME support (patch by @rasberryrabbit)
-- fix: macOS icon size was too big for macOS 11+ (thanks @xiongyihui @JairoMartinezA)
++ add: binary viewer now allows to change word-wrap mode, in its 'text' mode
++ add: reworked IME dialog for Gtk2 version (patch by @rasberryrabbit)
 - fix: URL highlight must catch paired brackets (...) but ignore single closing bracket, because URLs are included in () in Markdown
-- fix: binary viewer was blurry on macOS Retina (thanks @papirosko)
-- fix: built-in tree-helpers didn't work in splitted editors (thanks @mix-7)
+- fix: built-in tree-helpers didn't work in 2nd editor of 'splitted' ui-tab (thanks @mix-7)
+- fix: macOS: icon size was too big for macOS 11+ (thanks @xiongyihui @JairoMartinezA)
+- fix: macOS: binary viewer was blurry on macOS Retina (thanks @papirosko)
 
 1.203.0 (2023/11)
 
