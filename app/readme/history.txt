@@ -10,11 +10,11 @@
 + add: on editing with ui-tab splitted, carets/markers in the 2nd half must auto-adjust like in the 1st half (thanks @mix-7)
 + add: folded state is now restored from session for built-in tree-helpers too
 + add: reworked IME dialog in Gtk2 version (patch by @rasberryrabbit)
-* change: text viewer: disabled selection with UTF8 encoding, due to unsolved problems with selection rendering with UTF-8 encoding
+* change: text viewer: disabled selection with UTF-8 encoding due to unsolved problems with selection rendering in UTF-8
 - fix: URL highlight must catch paired brackets (...) but ignore single closing bracket, because URLs are included in () in Markdown
-- fix: built-in tree-helpers didn't work in 2nd editor of 'splitted' ui-tab (thanks @mix-7)
+- fix: built-in tree-helpers didn't affect the 2nd half of splitted ui-tab (thanks @mix-7)
 - fix: macOS: icon size was too big for macOS 11+ (thanks @xiongyihui @JairoMartinezA)
-- fix: macOS: binary viewer was blurry on macOS Retina (thanks @papirosko)
+- fix: macOS: text viewer was blurry on Retina (thanks @papirosko)
 
 1.203.0 (2023/11)
 
