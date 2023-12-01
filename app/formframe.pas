@@ -228,6 +228,7 @@ type
     FProgressOldHandler: TATStringsProgressEvent;
     FProgressButtonCancel: TATButton;
     FProgressCancelled: boolean;
+    FBusyOnChangeDetailed: boolean;
 
     procedure ApplyThemeToInfoPanel(APanel: TPanel);
     procedure BinaryOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -254,6 +255,7 @@ type
       ARect2: TRect; var ACanDraw: boolean);
     function EditorObjToTreeviewIndex(Ed: TATSynEdit): integer; inline;
     procedure EditorOnChange(Sender: TObject);
+    procedure EditorOnChangeDetailed(Sender: TObject; APos, APosEnd, AShift, APosAfter: TPoint);
     procedure EditorOnChangeModified(Sender: TObject);
     procedure EditorOnChangeCaretPos(Sender: TObject);
     procedure EditorOnChangeState(Sender: TObject);
@@ -1744,6 +1746,30 @@ begin
     FTextChange[EdIndex]:= true;
 end;
 
+procedure TEditorFrame.EditorOnChangeDetailed(Sender: TObject;
+  APos, APosEnd, AShift, APosAfter: TPoint);
+var
+  EdOther: TATSynEdit;
+begin
+  if FBusyOnChangeDetailed then exit;
+  if Splitted and EditorsLinked then
+  begin
+    if Sender=Ed1 then
+      EdOther:= Ed2
+    else
+      EdOther:= Ed1;
+    FBusyOnChangeDetailed:= true;
+    EdOther.UpdateCaretsAndMarkersOnEditing(0, APos, APosEnd, AShift, APosAfter);
+    EdOther.DoGotoCaret(
+      TATCaretEdge.Top,
+      false,
+      false,
+      false
+      );
+    FBusyOnChangeDetailed:= false;
+  end;
+end;
+
 procedure TEditorFrame.EditorOnChangeModified(Sender: TObject);
 begin
   if AppSessionIsLoading then exit; //fix issue #4436
@@ -2205,6 +2231,7 @@ begin
   ed.OnPaint:= @EditorOnPaint;
   ed.OnEnter:= @EditorOnEnter;
   ed.OnChange:= @EditorOnChange;
+  ed.OnChangeDetailed:= @EditorOnChangeDetailed;
   ed.OnChangeModified:= @EditorOnChangeModified;
   ed.OnChangeCaretPos:= @EditorOnChangeCaretPos;
   ed.OnChangeState:= @EditorOnChangeState;
