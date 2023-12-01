@@ -6,10 +6,11 @@
 1.204.0 (2023/12)
 
 + add: new option "autocomplete_commit_on_enter" (thanks @DUOLabs333)
-+ add: binary viewer now allows to change word-wrap mode, in its 'text' mode
-+ add: reworked IME dialog for Gtk2 version (patch by @rasberryrabbit)
++ add: text viewer: it can change word-wrap mode in its 'text' mode (not correct with UTF-8 viewer encoding, sorry)
++ add: on editing with ui-tab splitted, carets/markers in the 2nd half must auto-adjust like in the 1st half (thanks @mix-7)
 + add: folded state is now restored from session for built-in tree-helpers too
-* change: text viewer: disabled selection with UTF8 encoding, due to unsolved problems with selection rendering with UTF8
++ add: reworked IME dialog in Gtk2 version (patch by @rasberryrabbit)
+* change: text viewer: disabled selection with UTF8 encoding, due to unsolved problems with selection rendering with UTF-8 encoding
 - fix: URL highlight must catch paired brackets (...) but ignore single closing bracket, because URLs are included in () in Markdown
 - fix: built-in tree-helpers didn't work in 2nd editor of 'splitted' ui-tab (thanks @mix-7)
 - fix: macOS: icon size was too big for macOS 11+ (thanks @xiongyihui @JairoMartinezA)
