@@ -1752,13 +1752,13 @@ var
   EdOther: TATSynEdit;
 begin
   if FBusyOnChangeDetailed then exit;
+  FBusyOnChangeDetailed:= true;
   if Splitted and EditorsLinked then
   begin
     if Sender=Ed1 then
       EdOther:= Ed2
     else
       EdOther:= Ed1;
-    FBusyOnChangeDetailed:= true;
     EdOther.UpdateCaretsAndMarkersOnEditing(0, APos, APosEnd, AShift, APosAfter);
     EdOther.DoGotoCaret(
       TATCaretEdge.Top,
@@ -1766,8 +1766,8 @@ begin
       false,
       false
       );
-    FBusyOnChangeDetailed:= false;
   end;
+  FBusyOnChangeDetailed:= false;
 end;
 
 procedure TEditorFrame.EditorOnChangeModified(Sender: TObject);
@@ -3263,6 +3263,21 @@ begin
   end
   else
     FileProps[EdIndex].Init(SFileName);
+
+  {
+  fixes issue:
+  - open new tab
+  - save to file
+  - split it to ed1/ed2
+  - edit in ed2; then edit in ed1 -> circle-mark shows
+  - focus ed2, save to file -> circle-mark hides
+  - focus ed1, edit -> circle-mark don't show (ed1 don't fire OnChangeModified)
+  }
+  if Result and EditorsLinked then
+  begin
+    Ed1.Modified:= false;
+    Ed2.Modified:= false;
+  end;
 
   NotifEnabled:= bNotifWasEnabled or bNameChanged;
 end;
