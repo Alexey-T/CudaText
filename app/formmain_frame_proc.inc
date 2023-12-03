@@ -48,7 +48,8 @@ begin
     //sbrCaret: don't add here, it makes editor repaint slower on mouse selection; issue #4917
     sbrViewerScroll,
     sbrInsOvr,
-    sbrZoom:
+    sbrZoom,
+    sbrPictureZoom:
       begin
         //some events only need the fast update of the statusbar
         UpdateStatusbar_RealWork;
