@@ -266,19 +266,33 @@ end;
 
 procedure TATImageBox.MouseWheelUp(Sender: TObject; Shift: TShiftState;
   MousePos: TPoint; var Handled: boolean);
+var
+  N: integer;
 begin
   if (Shift = []) then
   begin
     with VertScrollBar do
-      Position:= Max(0, Position - FScrollSmallStep);
-    DoEventScroll;
+    begin
+      N:= Max(0, Position - FScrollSmallStep);
+      if N<>Position then
+      begin
+        Position:= N;
+        DoEventScroll;
+      end;
+    end;
   end
   else
   if (Shift = [FModifierMouseHorzScroll]) then
   begin
     with HorzScrollBar do
-      Position:= Max(0, Position - FScrollSmallStep);
-    DoEventScroll;
+    begin
+      N:= Max(0, Position - FScrollSmallStep);
+      if N<>Position then
+      begin
+        Position:= N;
+        DoEventScroll;
+      end;
+    end;
   end
   else
   if (Shift = [FModifierMouseZoom]) or FMouseDown then
@@ -294,19 +308,33 @@ end;
 
 procedure TATImageBox.MouseWheelDown(Sender: TObject; Shift: TShiftState;
   MousePos: TPoint; var Handled: boolean);
+var
+  N: integer;
 begin
   if (Shift = []) then
   begin
     with VertScrollBar do
-      Position:= Max(0, Min(Range-Page, Position + FScrollSmallStep));
-    DoEventScroll;
+    begin
+      N:= Max(0, Min(Range-Page, Position + FScrollSmallStep));
+      if N<>Position then
+      begin
+        Position:= N;
+        DoEventScroll;
+      end;
+    end;
   end
   else
   if (Shift = [FModifierMouseHorzScroll]) then
   begin
     with HorzScrollBar do
-      Position:= Max(0, Min(Range-Page, Position + FScrollSmallStep));
-    DoEventScroll;
+    begin
+      N:= Max(0, Min(Range-Page, Position + FScrollSmallStep));
+      if N<>Position then
+      begin
+        Position:= N;
+        DoEventScroll;
+      end;
+    end;
   end
   else
   if (Shift = [FModifierMouseZoom]) or FMouseDown then
@@ -352,6 +380,8 @@ begin
 end;
 
 procedure TATImageBox.KeyDown(var Key: Word; Shift: TShiftState);
+var
+  N: integer;
 begin
   case Key of
     VK_LEFT:
@@ -359,16 +389,28 @@ begin
       if Shift = [] then
       begin
         with HorzScrollBar do
-          Position:= Position - FScrollSmallStep;
-        DoEventScroll;
+        begin
+          N:= Max(0, Position - FScrollSmallStep);
+          if N<>Position then
+          begin
+            Position:= N;
+            DoEventScroll;
+          end;
+        end;
         Key:= 0;
       end
       else
       if Shift = [FModifierArrowsToEdge] then
       begin
         with HorzScrollBar do
-          Position:= 0;
-        DoEventScroll;
+        begin
+          N:= 0;
+          if N<>Position then
+          begin
+            Position:= N;
+            DoEventScroll;
+          end;
+        end;
         Key:= 0;
       end;
     end;
@@ -396,8 +438,14 @@ begin
       if Shift = [] then
       begin
         with HorzScrollBar do
-          Position:= Position - GetPageSize(ClientWidth);
-        DoEventScroll;
+        begin
+          N:= Max(0, Position - GetPageSize(ClientWidth));
+          if N<>Position then
+          begin
+            Position:= N;
+            DoEventScroll;
+          end;
+        end;
         Key:= 0;
       end;
 
@@ -415,16 +463,28 @@ begin
       if Shift = [] then
       begin
         with VertScrollBar do
-          Position:= Position - FScrollSmallStep;
-        DoEventScroll;
+        begin
+          N:= Max(0, Position - FScrollSmallStep);
+          if N<>Position then
+          begin
+            Position:= N;
+            DoEventScroll;
+          end;
+        end;
         Key:= 0;
       end
       else
       if Shift = [FModifierArrowsToEdge] then
       begin
         with VertScrollBar do
-          Position:= 0;
-        DoEventScroll;
+        begin
+          N:= 0;
+          if N<>Position then
+          begin
+            Position:= N;
+            DoEventScroll;
+          end;
+        end;
         Key:= 0;
       end;
     end;
@@ -452,8 +512,14 @@ begin
       if Shift = [] then
       begin
         with VertScrollBar do
-          Position:= Position - GetPageSize(ClientHeight);
-        DoEventScroll;
+        begin
+          N:= Max(0, Position - GetPageSize(ClientHeight));
+          if N<>Position then
+          begin
+            Position:= N;
+            DoEventScroll;
+          end;
+        end;
         Key:= 0;
       end;
 
@@ -778,7 +844,9 @@ begin
       HorzScrollBar.Position:= HorzScrollBar.Position + (FDraggingPoint.X - X);
     if bAllowY then
       VertScrollBar.Position:= VertScrollBar.Position + (FDraggingPoint.Y - Y);
-    DoEventScroll;
+
+    if bAllowX or bAllowY then
+      DoEventScroll;
   end;
 
   P.X:= X+FImage.Left;
