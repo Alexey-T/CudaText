@@ -92,7 +92,7 @@ type
     sbrFileOpen,
     sbrFileReload,
     sbrViewerScroll,
-    sbrPictureOptionChange
+    sbrPictureResize
     );
 
   TAppFrameStatusbarEvent = procedure(Sender: TObject; AReason: TAppStatusbarUpdateReason) of object;
@@ -242,7 +242,7 @@ type
       AAllowLoadHistory, AAllowLoadHistoryEnc, AAllowLoadBookmarks,
       AAllowLexerDetect, AAllowErrorMsgBox,
       AKeepScroll, AAllowLoadUndo: boolean; AOpenMode: TAppOpenMode);
-    procedure DoImageboxOptionsChange(Sender: TObject);
+    procedure DoImageboxImageResize(Sender: TObject);
     procedure DoOnChangeCaption;
     procedure DoOnUpdateState;
     procedure DoOnUpdateStatusbar(AReason: TAppStatusbarUpdateReason);
@@ -2772,8 +2772,7 @@ begin
     FImageBox.BorderStyle:= bsNone;
     FImageBox.OptFitToWindow:= true;
     FImageBox.OnKeyDown:= @BinaryOnKeyDown;
-    FImageBox.OnOptionsChange:= @DoImageboxOptionsChange;
-    //FImageBox.OnScroll:= @DoImageboxScroll;
+    FImageBox.OnImageResize:= @DoImageboxImageResize;
   end;
 
   try
@@ -2786,9 +2785,9 @@ begin
   //DoOnChangeCaption; //needed?
 end;
 
-procedure TEditorFrame.DoImageboxOptionsChange(Sender: TObject);
+procedure TEditorFrame.DoImageboxImageResize(Sender: TObject);
 begin
-  DoOnUpdateStatusbar(sbrPictureOptionChange);
+  DoOnUpdateStatusbar(sbrPictureResize);
 end;
 
 

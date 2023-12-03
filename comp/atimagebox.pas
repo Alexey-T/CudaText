@@ -64,6 +64,7 @@ type
 
     FOnScroll: TNotifyEvent;
     FOnOptionsChange: TNotifyEvent;
+    FOnImageResize: TNotifyEvent;
 
     FOldLeft: integer;
     FOldTop: integer;
@@ -71,9 +72,11 @@ type
     FOldHeight: integer;
     FOldSelfW: integer;
     FOldSelfH: integer;
+    FImageResized: boolean;
 
-    procedure DoScroll;
-    procedure DoOptionsChange;
+    procedure DoEventScroll;
+    procedure DoEventOptionsChange;
+    procedure DoEventImageResize;
     function GetImageHeight: integer;
     function GetImageWidth: integer;
     function GetPageSize(AClientSize: integer): integer;
@@ -146,6 +149,7 @@ type
 
     property OnScroll: TNotifyEvent read FOnScroll write FOnScroll;
     property OnOptionsChange: TNotifyEvent read FOnOptionsChange write FOnOptionsChange;
+    property OnImageResize: TNotifyEvent read FOnImageResize write FOnImageResize;
   end;
 
 
@@ -248,22 +252,16 @@ begin
   end;
 end;
 
-procedure TATImageBox.DoScroll;
-begin
-  if Assigned(FOnScroll) then
-    FOnScroll(Self);
-end;
-
 procedure TATImageBox.WMHScroll(var Message: TLMHScroll);
 begin
   inherited;
-  DoScroll;
+  DoEventScroll;
 end;
 
 procedure TATImageBox.WMVScroll(var Message: TLMVScroll);
 begin
   inherited;
-  DoScroll;
+  DoEventScroll;
 end;
 
 procedure TATImageBox.MouseWheelUp(Sender: TObject; Shift: TShiftState;
@@ -273,14 +271,14 @@ begin
   begin
     with VertScrollBar do
       Position:= Max(0, Position - FScrollSmallStep);
-    DoScroll;
+    DoEventScroll;
   end
   else
   if (Shift = [FModifierMouseHorzScroll]) then
   begin
     with HorzScrollBar do
       Position:= Max(0, Position - FScrollSmallStep);
-    DoScroll;
+    DoEventScroll;
   end
   else
   if (Shift = [FModifierMouseZoom]) or FMouseDown then
@@ -301,14 +299,14 @@ begin
   begin
     with VertScrollBar do
       Position:= Max(0, Min(Range-Page, Position + FScrollSmallStep));
-    DoScroll;
+    DoEventScroll;
   end
   else
   if (Shift = [FModifierMouseHorzScroll]) then
   begin
     with HorzScrollBar do
       Position:= Max(0, Min(Range-Page, Position + FScrollSmallStep));
-    DoScroll;
+    DoEventScroll;
   end
   else
   if (Shift = [FModifierMouseZoom]) or FMouseDown then
@@ -362,7 +360,7 @@ begin
       begin
         with HorzScrollBar do
           Position:= Position - FScrollSmallStep;
-        DoScroll;
+        DoEventScroll;
         Key:= 0;
       end
       else
@@ -370,7 +368,7 @@ begin
       begin
         with HorzScrollBar do
           Position:= 0;
-        DoScroll;
+        DoEventScroll;
         Key:= 0;
       end;
     end;
@@ -381,7 +379,7 @@ begin
       begin
         with HorzScrollBar do
           Position:= Position + FScrollSmallStep;
-        DoScroll;
+        DoEventScroll;
         Key:= 0;
       end
       else
@@ -389,7 +387,7 @@ begin
       begin
         with HorzScrollBar do
           Position:= Range;
-        DoScroll;
+        DoEventScroll;
         Key:= 0;
       end;
     end;
@@ -399,7 +397,7 @@ begin
       begin
         with HorzScrollBar do
           Position:= Position - GetPageSize(ClientWidth);
-        DoScroll;
+        DoEventScroll;
         Key:= 0;
       end;
 
@@ -408,7 +406,7 @@ begin
       begin
         with HorzScrollBar do
           Position:= Position + GetPageSize(ClientWidth);
-        DoScroll;
+        DoEventScroll;
         Key:= 0;
       end;
 
@@ -418,7 +416,7 @@ begin
       begin
         with VertScrollBar do
           Position:= Position - FScrollSmallStep;
-        DoScroll;
+        DoEventScroll;
         Key:= 0;
       end
       else
@@ -426,7 +424,7 @@ begin
       begin
         with VertScrollBar do
           Position:= 0;
-        DoScroll;
+        DoEventScroll;
         Key:= 0;
       end;
     end;
@@ -437,7 +435,7 @@ begin
       begin
         with VertScrollBar do
           Position:= Position + FScrollSmallStep;
-        DoScroll;
+        DoEventScroll;
         Key:= 0;
       end
       else
@@ -445,7 +443,7 @@ begin
       begin
         with VertScrollBar do
           Position:= Range;
-        DoScroll;
+        DoEventScroll;
         Key:= 0;
       end;
     end;
@@ -455,7 +453,7 @@ begin
       begin
         with VertScrollBar do
           Position:= Position - GetPageSize(ClientHeight);
-        DoScroll;
+        DoEventScroll;
         Key:= 0;
       end;
 
@@ -464,7 +462,7 @@ begin
       begin
         with VertScrollBar do
           Position:= Position + GetPageSize(ClientHeight);
-        DoScroll;
+        DoEventScroll;
         Key:= 0;
       end;
   end;
@@ -589,10 +587,13 @@ begin
       NewTop:= (CliHeight - NewHeight) div 2;
   end;
 
-  if (FOldLeft<>NewLeft - HorzScrollBar.Position) or
-    (FOldTop<>NewTop - VertScrollBar.Position) or
+  FImageResized:=
     (FOldWidth<>NewWidth) or
-    (FOldHeight<>NewHeight) then
+    (FOldHeight<>NewHeight);
+
+  if FImageResized or
+    (FOldLeft<>NewLeft - HorzScrollBar.Position) or
+    (FOldTop<>NewTop - VertScrollBar.Position) then
   begin
     FOldLeft:= NewLeft - HorzScrollBar.Position;
     FOldTop:= NewTop - VertScrollBar.Position;
@@ -633,7 +634,13 @@ begin
   if VertScrollBar.Visible then
     VertScrollbar.Range:= NewHeight;
 
-  DoScroll;
+  if FImageResized then
+  begin
+    FImageResized:= false;
+    DoEventImageResize;
+  end;
+
+  DoEventScroll;
 end;
 
 procedure TATImageBox.SetImageFit(AValue: boolean);
@@ -644,7 +651,6 @@ begin
     if not FImageFit then
       FImageZoom:= 100;
     UpdateImagePosition(True);
-    DoOptionsChange; //indicate zoom is changed
   end;
 end;
 
@@ -654,7 +660,6 @@ begin
   begin
     FImageFitOnlyBig:= AValue;
     UpdateImagePosition(True);
-    DoOptionsChange; //indicate zoom is changed
   end;
 end;
 
@@ -703,7 +708,6 @@ begin
     HorzScrollBar.Position:= 0;
     VertScrollBar.Position:= 0;
     UpdateImagePosition;
-    DoOptionsChange;
   end;
 end;
 
@@ -774,7 +778,7 @@ begin
       HorzScrollBar.Position:= HorzScrollBar.Position + (FDraggingPoint.X - X);
     if bAllowY then
       VertScrollBar.Position:= VertScrollBar.Position + (FDraggingPoint.Y - Y);
-    DoScroll;
+    DoEventScroll;
   end;
 
   P.X:= X+FImage.Left;
@@ -806,10 +810,22 @@ begin
   end;
 end;
 
-procedure TATImageBox.DoOptionsChange;
+procedure TATImageBox.DoEventScroll;
+begin
+  if Assigned(FOnScroll) then
+    FOnScroll(Self);
+end;
+
+procedure TATImageBox.DoEventOptionsChange;
 begin
   if Assigned(FOnOptionsChange) then
     FOnOptionsChange(Self);
+end;
+
+procedure TATImageBox.DoEventImageResize;
+begin
+  if Assigned(FOnImageResize) then
+    FOnImageResize(Self);
 end;
 
 function TATImageBox.GetImageHeight: integer;
