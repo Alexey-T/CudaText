@@ -7,7 +7,7 @@ License: MPL 2.0 or LGPL
 unit ATImageBox;
 
 {$mode objfpc}{$H+}
-{$define USE_BGRA}
+{$I atimagebox_options.inc}
 
 interface
 
