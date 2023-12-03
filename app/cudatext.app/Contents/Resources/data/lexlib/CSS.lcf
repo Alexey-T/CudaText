@@ -199,23 +199,6 @@ object SyntAnal7: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'RGB func name'
-      StyleName = 'Std function'
-      TokenType = 13
-      Expression = '(?-i)\b(rgba?|hsla?|hwb|lab|lch)(?=\()'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
-      DisplayName = 'RGB color'
-      Enabled = False
-      StyleName = 'Color'
-      TokenType = 6
-      Expression = '(?-i)\b(rgba?|hsla?|hwb|lab|lch)\([\d\x20,\.%/]+?\)'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
       DisplayName = 'Prop user'
       StyleName = 'Prop user'
       TokenType = 2
