@@ -49,7 +49,7 @@ begin
     sbrViewerScroll,
     sbrInsOvr,
     sbrZoom,
-    sbrPictureZoom:
+    sbrPictureOptionChange:
       begin
         //some events only need the fast update of the statusbar
         UpdateStatusbar_RealWork;
