@@ -546,6 +546,12 @@ var
   ScrollMaxX, ScrollMaxY: integer;
   NRatio, NImageRatio, CenterRatioX, CenterRatioY: Double;
   NScrollbarSize: integer;
+  OldVertScrollbarPos,
+  OldVertScrollbarRange,
+  OldVertScrollbarPage,
+  OldHorzScrollbarPos,
+  OldHorzScrollbarRange,
+  OldHorzScrollbarPage: integer;
 begin
   bKeepPosition:= FImageKeepPosition and not AResetPosition;
 
@@ -563,6 +569,13 @@ begin
   HorzScrollBar.Visible:= not FImageFit;
   CliWidth:= Width-NScrollbarSize;
   CliHeight:= Height-NScrollbarSize;
+
+  OldVertScrollbarPos:= VertScrollBar.Position;
+  OldVertScrollbarRange:= VertScrollBar.Range;
+  OldVertScrollbarPage:= VertScrollBar.Page;
+  OldHorzScrollbarPos:= HorzScrollBar.Position;
+  OldHorzScrollbarRange:= HorzScrollBar.Range;
+  OldHorzScrollbarPage:= HorzScrollBar.Page;
 
   //Save center position, need to restore it later
   CenterRatioX:= 0;
@@ -706,7 +719,13 @@ begin
     DoEventImageResize;
   end;
 
-  DoEventScroll;
+  if (OldVertScrollbarPos<>VertScrollbar.Position) or
+    (OldVertScrollbarRange<>VertScrollBar.Range) or
+    (OldVertScrollbarPage<>VertScrollbar.Page) or
+    (OldHorzScrollbarPos<>HorzScrollbar.Position) or
+    (OldHorzScrollbarRange<>HorzScrollBar.Range) or
+    (OldHorzScrollbarPage<>HorzScrollbar.Page) then
+    DoEventScroll;
 end;
 
 procedure TATImageBox.SetImageFit(AValue: boolean);
