@@ -644,6 +644,7 @@ begin
     if not FImageFit then
       FImageZoom:= 100;
     UpdateImagePosition(True);
+    DoOptionsChange; //indicate zoom is changed
   end;
 end;
 
@@ -653,6 +654,7 @@ begin
   begin
     FImageFitOnlyBig:= AValue;
     UpdateImagePosition(True);
+    DoOptionsChange; //indicate zoom is changed
   end;
 end;
 
