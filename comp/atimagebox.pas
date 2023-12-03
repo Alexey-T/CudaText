@@ -7,6 +7,7 @@ License: MPL 2.0 or LGPL
 unit ATImageBox;
 
 {$mode objfpc}{$H+}
+{$ModeSwitch advancedrecords}
 {$I atimagebox_options.inc}
 
 interface
@@ -155,6 +156,18 @@ type
 
 implementation
 
+type
+  { TATScrollbarBackup }
+
+  TATScrollbarBackup = record
+  private
+    NPos, NPage, NRange: integer;
+  public
+    procedure Save(C: TControlScrollbar);
+    function IsChanged(C: TControlScrollbar): boolean;
+  end;
+
+
 procedure DoPaintCheckers(C: TCanvas;
   ASizeX, ASizeY: integer;
   ACellSize: integer;
@@ -174,6 +187,22 @@ begin
       end;
 end;
 
+{ TScrollbarValue }
+
+procedure TATScrollbarBackup.Save(C: TControlScrollbar);
+begin
+  NPos:= C.Position;
+  NPage:= C.Page;
+  NRange:= C.Range;
+end;
+
+function TATScrollbarBackup.IsChanged(C: TControlScrollbar): boolean;
+begin
+  Result:=
+    (NPos<>C.Position) or
+    (NPage<>C.Page) or
+    (NRange<>C.Range);
+end;
 
 { TATImageBox }
 
@@ -546,12 +575,7 @@ var
   ScrollMaxX, ScrollMaxY: integer;
   NRatio, NImageRatio, CenterRatioX, CenterRatioY: Double;
   NScrollbarSize: integer;
-  OldVertScrollbarPos,
-  OldVertScrollbarRange,
-  OldVertScrollbarPage,
-  OldHorzScrollbarPos,
-  OldHorzScrollbarRange,
-  OldHorzScrollbarPage: integer;
+  ScrollVertBackup, ScrollHorzBackup: TATScrollbarBackup;
 begin
   bKeepPosition:= FImageKeepPosition and not AResetPosition;
 
@@ -570,12 +594,8 @@ begin
   CliWidth:= Width-NScrollbarSize;
   CliHeight:= Height-NScrollbarSize;
 
-  OldVertScrollbarPos:= VertScrollBar.Position;
-  OldVertScrollbarRange:= VertScrollBar.Range;
-  OldVertScrollbarPage:= VertScrollBar.Page;
-  OldHorzScrollbarPos:= HorzScrollBar.Position;
-  OldHorzScrollbarRange:= HorzScrollBar.Range;
-  OldHorzScrollbarPage:= HorzScrollBar.Page;
+  ScrollHorzBackup.Save(HorzScrollBar);
+  ScrollVertBackup.Save(VertScrollBar);
 
   //Save center position, need to restore it later
   CenterRatioX:= 0;
@@ -719,12 +739,8 @@ begin
     DoEventImageResize;
   end;
 
-  if (OldVertScrollbarPos<>VertScrollbar.Position) or
-    (OldVertScrollbarRange<>VertScrollBar.Range) or
-    (OldVertScrollbarPage<>VertScrollbar.Page) or
-    (OldHorzScrollbarPos<>HorzScrollbar.Position) or
-    (OldHorzScrollbarRange<>HorzScrollBar.Range) or
-    (OldHorzScrollbarPage<>HorzScrollbar.Page) then
+  if ScrollHorzBackup.IsChanged(HorzScrollBar) or
+    ScrollVertBackup.IsChanged(VertScrollBar) then
     DoEventScroll;
 end;
 
