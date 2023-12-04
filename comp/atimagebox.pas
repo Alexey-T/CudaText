@@ -449,16 +449,28 @@ begin
       if Shift = [] then
       begin
         with HorzScrollBar do
-          Position:= Position + FScrollSmallStep;
-        DoEventScroll;
+        begin
+          N:= Min(Range, Position + FScrollSmallStep);
+          if N<>Position then
+          begin
+            Position:= N;
+            DoEventScroll;
+          end;
+        end;
         Key:= 0;
       end
       else
       if Shift = [FModifierArrowsToEdge] then
       begin
         with HorzScrollBar do
-          Position:= Range;
-        DoEventScroll;
+        begin
+          N:= Range;
+          if N<>Position then
+          begin
+            Position:= N;
+            DoEventScroll;
+          end;
+        end;
         Key:= 0;
       end;
     end;
@@ -482,8 +494,14 @@ begin
       if Shift = [] then
       begin
         with HorzScrollBar do
-          Position:= Position + GetPageSize(ClientWidth);
-        DoEventScroll;
+        begin
+          N:= Min(Range, Position + GetPageSize(ClientWidth));
+          if N<>Position then
+          begin
+            Position:= N;
+            DoEventScroll;
+          end;
+        end;
         Key:= 0;
       end;
 
@@ -523,16 +541,28 @@ begin
       if Shift = [] then
       begin
         with VertScrollBar do
-          Position:= Position + FScrollSmallStep;
-        DoEventScroll;
+        begin
+          N:= Min(Range, Position + FScrollSmallStep);
+          if N<>Position then
+          begin
+            Position:= N;
+            DoEventScroll;
+          end;
+        end;
         Key:= 0;
       end
       else
       if Shift = [FModifierArrowsToEdge] then
       begin
         with VertScrollBar do
-          Position:= Range;
-        DoEventScroll;
+        begin
+          N:= Range;
+          if N<>Position then
+          begin
+            Position:= N;
+            DoEventScroll;
+          end;
+        end;
         Key:= 0;
       end;
     end;
@@ -556,8 +586,14 @@ begin
       if Shift = [] then
       begin
         with VertScrollBar do
-          Position:= Position + GetPageSize(ClientHeight);
-        DoEventScroll;
+        begin
+          N:= Min(Range, Position + GetPageSize(ClientHeight));
+          if N<>Position then
+          begin
+            Position:= N;
+            DoEventScroll;
+          end;
+        end;
         Key:= 0;
       end;
   end;
