@@ -3,6 +3,11 @@
   - fixed
   * changed
 
+1.204.1 (2023/12)
+
+- fix: picture viewer: statusbar didn't update on Ctrl+MouseWheel (thanks @xBZZZZ)
+- fix: Find dialog: changed hotkey for '...' menu from Ctrl+Alt+. to Ctrl+Alt+D because Ctrl+Alt+. is used in Slovak keyboard layout
+
 1.204.0 (2023/12)
 
 + add: new option "autocomplete_commit_on_enter" (thanks @DUOLabs333)
@@ -15,7 +20,6 @@
 - fix: built-in tree-helpers didn't affect the 2nd half of splitted ui-tab (thanks @mix-7)
 - fix: macOS: icon size was too big for macOS 11+ (thanks @xiongyihui @JairoMartinezA)
 - fix: macOS: text viewer was blurry on Retina (thanks @papirosko)
-- fix: picture viewer: statusbar didn't update on Ctrl+MouseWheel (thanks @xBZZZZ)
 
 1.203.0 (2023/11)
 

@@ -494,8 +494,7 @@ type
     HotkeyToggleTokens,
     HotkeyToggleHiAll,
     HotkeyTogglePresCase,
-    HotkeyFindMenu,
-    HotkeyFindMenu2
+    HotkeyFindMenu
       : string;
   end;
 var
@@ -2204,8 +2203,7 @@ begin
     HotkeyToggleTokens:= '';
     HotkeyToggleHiAll:= '';
     HotkeyTogglePresCase:= '';
-    HotkeyFindMenu:= 'Ctrl+Alt+.';
-    HotkeyFindMenu2:= 'Ctrl+Alt+NumDot';
+    HotkeyFindMenu:= 'Ctrl+Alt+D';
   end;
 end;
 

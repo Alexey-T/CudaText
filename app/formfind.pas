@@ -1176,7 +1176,7 @@ begin
     exit
   end;
 
-  if (Str=UiOps.HotkeyFindMenu) or (Str=UiOps.HotkeyFindMenu2) then
+  if (Str=UiOps.HotkeyFindMenu) {or (Str=UiOps.HotkeyFindMenu2)} then
   begin
     bMoreClick(nil);
     key:= 0;
