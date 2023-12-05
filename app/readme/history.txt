@@ -3,8 +3,9 @@
   - fixed
   * changed
 
-1.204.1 (2023/12)
+1.204.2 (2023/12)
 
++ add: updated TRegExpr engine to 1.182; it now supports \K
 + add: new option "find_hotkey_more" can change Find-dialog hotkey of "..."
 - fix: Find dialog: changed hotkey of "..." menu from Ctrl+Alt+. to Ctrl+Alt+D because Ctrl+Alt+. is used in Slovak keyboard layout (thanks @vidovan)
 - fix: picture viewer: statusbar wasn't updated on Ctrl+MouseWheel (thanks @xBZZZZ)
