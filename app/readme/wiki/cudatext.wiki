@@ -274,7 +274,7 @@ CudaText installs with a limited set of lexers. All other lexers are available a
 To install "lexer.*.zip" (or any add-on ZIP file) in CudaText: open this ZIP file via "File / Open", CudaText will suggest to install it.
 
 === List of lexers ===
-The following lexers (counting only important ones) exist for SynWrite and CudaText. Most of them are available through the Addons Manager's '''<samp>Install…</samp>''' command.
+The following lexers (counting only important ones) exist for CudaText. They are available through the Addons Manager's '''<samp>Install…</samp>''' command.
 {{Columns-start|num=3|class=plainlinks}}
 * [https://1c-dn.com/1c_enterprise/1c_programming_language/ 1C:Enterprise script]
 * [https://learning.sap-press.com/abap <abbr title="Advanced Business Application Programming">ABAP</abbr>]
@@ -594,7 +594,7 @@ The following lexers (counting only important ones) exist for SynWrite and CudaT
 
 === Lexers modification and creation ===
 [[File:cudatext-lexer-editor-dlg.png|thumb|right|480px|alt=SynWrite "Lexer properties" dialog|Screenshot of SynWrite's "Lexer properties" dialog]]
-You can modify/create lexers. But not in CudaText. Install SynWrite (Windows program, which can be run under Wine on Linux). There, you have lexer editor dialog.
+You can modify/create lexers. But not in CudaText. Install [https://cudatext.github.io/synwrite/ SynWrite] (Windows program, which can be run under Wine on Linux). There, you have lexer editor dialog.
 * First, install your lexer to SynWrite. From the lexer's .zip package, copy files lexername.lcf and lexername.cuda-lexmap into SynWrite's "data\lexlib" folder.
 * In SynWrite, call "Lexer properties" dialog and edit all you need.
 * In SynWrite, install "ExLexer" addon. Then call "ExLexer" from the "Plugins" menu, choose needed lexer to export. You will have exported .zip file.
