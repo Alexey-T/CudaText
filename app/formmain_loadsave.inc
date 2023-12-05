@@ -1525,6 +1525,7 @@ begin
   UiOps.HotkeyExtractAll:= cfg.GetValue('find_hotkey_extract', UiOps.HotkeyExtractAll);
   UiOps.HotkeySelectAll:= cfg.GetValue('find_hotkey_select_all', UiOps.HotkeySelectAll);
   UiOps.HotkeyMarkAll:= cfg.GetValue('find_hotkey_mark_all', UiOps.HotkeyMarkAll);
+  UiOps.HotkeyFindMenu:= cfg.GetValue('find_hotkey_more', UiOps.HotkeyFindMenu);
   UiOps.HotkeyToggleRegex:= cfg.GetValue('find_hotkey_op_regex', UiOps.HotkeyToggleRegex);
   UiOps.HotkeyToggleCaseSens:= cfg.GetValue('find_hotkey_op_case', UiOps.HotkeyToggleCaseSens);
   UiOps.HotkeyToggleWords:= cfg.GetValue('find_hotkey_op_words', UiOps.HotkeyToggleWords);
