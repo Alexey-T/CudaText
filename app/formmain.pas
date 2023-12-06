@@ -531,8 +531,8 @@ type
     procedure TimerStatusWorkTimer(Sender: TObject);
     procedure TimerStatusClearTimer(Sender: TObject);
     procedure TimerTreeFillTimer(Sender: TObject);
-    procedure HandleOtherInstance(Sender: TObject; ParamCount: Integer;
-      const Parameters: array of String);
+    procedure HandleOtherInstance(Sender: TObject; AParamCount: Integer;
+      const AParameters: array of String);
     {$ifdef windows}
     procedure SecondInstance(const Msg: TBytes);
     {$endif}

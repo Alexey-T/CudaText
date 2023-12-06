@@ -311,13 +311,13 @@ begin
 end;
 
 procedure TfmMain.HandleOtherInstance(Sender: TObject;
-  ParamCount: Integer; const Parameters: array of String);
+  AParamCount: Integer; const AParameters: array of String);
 begin
   if not IsAllowedToOpenFileNow then exit;
 
   DoLoadCommandParams(
-    Parameters,
-    GetFileOpenOptionsString(ParamCount)
+    AParameters,
+    GetFileOpenOptionsString(AParamCount)
     );
 
   if WindowState=wsMinimized then
