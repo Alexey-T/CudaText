@@ -788,7 +788,7 @@ Clicking the first item will fold/unfold the outer block, clicking the second it
 {| style="border-collapse: collapse; float: right;" 
  | [[File:cudatext-fold-comments.png|thumb|right|x341px|Auto-folding of comments]]
 |}
-There is an option "auto_fold_comments" (default is 0 - it's turned off) which allows to automatically create folding ranges from N (or more) consecutive lines, which are all "syntax comments" and/or "syntax strings". This works for both line-comments and stream-comments, they can be even mixed (one comment after another, with any amount of blank lines in between, but not for several stream-comments on a single line). This works for multi-line string literals and for single-line string literals (single-line literals must go one after another without symbols in between, which is rarely supported by languages but it occurs sometimes).
+There is an option "auto_fold_comments" (default is 0 - it's turned off) which allows to automatically create folding ranges from N (or more) consecutive lines, which are all "syntax comments" and/or "syntax strings". This works for both line-comments and stream-comments, they can be even mixed (one comment after another without blank lines in between, but not for several stream-comments on a single line). This works for multi-line string literals and for single-line string literals (single-line literals can go one after another without symbols in between, which is rarely supported by languages, but it occurs sometimes).
 
 Previously, CudaText allowed something like this, via lexer configuration: all needed lexers must have
 special settings inside them, and this worked for 2+ lines, not for custom value.
