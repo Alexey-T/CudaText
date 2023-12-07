@@ -40,7 +40,7 @@ mkdir $dd/usr/share/applications
 mkdir $dd/usr/share/doc
 mkdir $dd/usr/share/doc/cudatext
 
-cp ../app/builds/linux-$binsuffix/cudatext $dd/usr/bin
+cp ../app/bin/linux-$binsuffix/cudatext $dd/usr/bin
 cp debfiles/cudatext.desktop $dd/usr/share/applications
 cp debfiles/cudatext-512.png $dd/usr/share/pixmaps
 cp -r ../app/data $dd/usr/share/cudatext

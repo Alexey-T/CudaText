@@ -10,7 +10,7 @@ outdir_tmp=$outdir/tmp_solaris
 
 # make .tar.xz
 
-./unix_common.sh $os $widgets $cpu builds/solaris-x64-gtk2 $outdir
+./unix_common.sh $os $widgets $cpu bin/solaris-x64-gtk2 $outdir
 
 
 # make .zip too

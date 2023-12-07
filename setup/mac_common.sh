@@ -13,7 +13,7 @@ sudo mount -o loop $IMG $TMP
 
 sudo cp -a ~/cuda/cuda/app/cudatext.app $TMP/CudaText.app
 sudo mkdir $TMP/CudaText.app/Contents/MacOS
-sudo cp -a ~/cuda/cuda/app/builds/macos-$arch/cudatext $TMP/CudaText.app/Contents/MacOS
+sudo cp -a ~/cuda/cuda/app/bin/macos-$arch/cudatext $TMP/CudaText.app/Contents/MacOS
 
 sudo ln -s /Applications $TMP/Applications
 

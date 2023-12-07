@@ -86,7 +86,7 @@
           <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
-            <Filename Value="builds\linux-x32-gtk2\cudatext"/>
+            <Filename Value="bin\linux-x32-gtk2\cudatext"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
@@ -131,7 +131,7 @@
           <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
-            <Filename Value="builds\linux-x32-qt5\cudatext"/>
+            <Filename Value="bin\linux-x32-qt5\cudatext"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
@@ -173,7 +173,7 @@
           <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
-            <Filename Value="builds\linux-x64-gtk2\cudatext"/>
+            <Filename Value="bin\linux-x64-gtk2\cudatext"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
@@ -222,7 +222,7 @@
           <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
-            <Filename Value="builds\linux-x64-qt5\cudatext"/>
+            <Filename Value="bin\linux-x64-qt5\cudatext"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
@@ -270,7 +270,7 @@
           <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
-            <Filename Value="builds\linux-x64-qt6\cudatext"/>
+            <Filename Value="bin\linux-x64-qt6\cudatext"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
@@ -315,7 +315,7 @@
           <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
-            <Filename Value="builds\linux-arm-gtk2\cudatext"/>
+            <Filename Value="bin\linux-arm-gtk2\cudatext"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
@@ -361,7 +361,7 @@
           <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
-            <Filename Value="builds\linux-arm-qt5\cudatext"/>
+            <Filename Value="bin\linux-arm-qt5\cudatext"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
@@ -403,7 +403,7 @@
           <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
-            <Filename Value="builds\linux-aarch64\cudatext"/>
+            <Filename Value="bin\linux-aarch64\cudatext"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
@@ -448,7 +448,7 @@
           <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
-            <Filename Value="builds\linux-aarch64-qt5\cudatext"/>
+            <Filename Value="bin\linux-aarch64-qt5\cudatext"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
@@ -490,7 +490,7 @@
           <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
-            <Filename Value="builds\win64\cudatext.exe" ApplyConventions="False"/>
+            <Filename Value="bin\win64\cudatext.exe" ApplyConventions="False"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
@@ -535,7 +535,7 @@
           <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
-            <Filename Value="builds\win32\cudatext.exe" ApplyConventions="False"/>
+            <Filename Value="bin\win32\cudatext.exe" ApplyConventions="False"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
@@ -580,7 +580,7 @@
           <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
-            <Filename Value="builds\win_arm64\cudatext.exe"/>
+            <Filename Value="bin\win_arm64\cudatext.exe"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
@@ -625,7 +625,7 @@
           <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
-            <Filename Value="builds\macos-amd64\cudatext"/>
+            <Filename Value="bin\macos-amd64\cudatext"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
@@ -670,7 +670,7 @@
           <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
-            <Filename Value="builds\macos-aarch64\cudatext"/>
+            <Filename Value="bin\macos-aarch64\cudatext"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
@@ -709,7 +709,7 @@
           <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
-            <Filename Value="builds\freebsd-x32-gtk2\cudatext"/>
+            <Filename Value="bin\freebsd-x32-gtk2\cudatext"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
@@ -754,7 +754,7 @@
           <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
-            <Filename Value="builds\freebsd-x64-gtk2\cudatext"/>
+            <Filename Value="bin\freebsd-x64-gtk2\cudatext"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
@@ -799,7 +799,7 @@
           <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
-            <Filename Value="builds\openbsd-x64-gtk2\cudatext"/>
+            <Filename Value="bin\openbsd-x64-gtk2\cudatext"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
@@ -844,7 +844,7 @@
           <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
-            <Filename Value="builds\openbsd-x32-gtk2\cudatext"/>
+            <Filename Value="bin\openbsd-x32-gtk2\cudatext"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
@@ -889,7 +889,7 @@
           <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
-            <Filename Value="builds\netbsd-x64-gtk2\cudatext"/>
+            <Filename Value="bin\netbsd-x64-gtk2\cudatext"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
@@ -934,7 +934,7 @@
           <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
-            <Filename Value="builds\netbsd-x32-gtk2\cudatext"/>
+            <Filename Value="bin\netbsd-x32-gtk2\cudatext"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
@@ -979,7 +979,7 @@
           <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
-            <Filename Value="builds\dragonflybsd-x64-gtk2\cudatext"/>
+            <Filename Value="bin\dragonflybsd-x64-gtk2\cudatext"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
@@ -1024,7 +1024,7 @@
           <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
-            <Filename Value="builds\solaris-x64-gtk2\cudatext"/>
+            <Filename Value="bin\solaris-x64-gtk2\cudatext"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
@@ -1072,7 +1072,7 @@
           <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
-            <Filename Value="builds\haiku-x32-qt5\cudatext"/>
+            <Filename Value="bin\haiku-x32-qt5\cudatext"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
@@ -1117,7 +1117,7 @@
           <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
-            <Filename Value="builds\haiku-x64-qt5\cudatext"/>
+            <Filename Value="bin\haiku-x64-qt5\cudatext"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
@@ -1159,7 +1159,7 @@
           <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
-            <Filename Value="builds\linux-x64-debug\cudatext"/>
+            <Filename Value="bin\linux-x64-debug\cudatext"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
@@ -1208,7 +1208,7 @@
           <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
-            <Filename Value="builds\win64-debug\cudatext"/>
+            <Filename Value="bin\win64-debug\cudatext"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
@@ -1259,7 +1259,7 @@
           <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
-            <Filename Value="builds\win32-debug\cudatext"/>
+            <Filename Value="bin\win32-debug\cudatext"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
@@ -1313,7 +1313,7 @@
           <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
-            <Filename Value="builds\linux-x64-gtk3\cudatext"/>
+            <Filename Value="bin\linux-x64-gtk3\cudatext"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
