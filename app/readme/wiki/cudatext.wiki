@@ -2005,7 +2005,7 @@ You can make Pull-Request there, if needed.
 
 ;formatters: Sub-plugins for CudaFormatter plugin. Each supports one or several lexers and can reformat source code for these lexers. Examples: Python ReIndent, JS Sort Imports, AStyle Format.
 
-;tree helpers: Plugins which show Code-Tree structure for some lexer (useful if language is complex, and lexer cannot handle all language complexity).
+;tree helpers: Plugins which show Code-Tree structure and/or folding, for some lexers. For the following lexers tree-helpers are built-in (ie written in Pascal): Ini (lite lexer "Ini files ^"), Markdown, MediaWiki, reStructuredText, WikidPad, Textile. 
 
 ;snippets_ct: Collections of text fragments, for "Snippets" plugin (which is required to use snippets). See details in the [[CudaText_plugins#Snippets]].
 
