@@ -9,6 +9,7 @@
 + add: option "auto_fold_comments" now makes ranges not only for 'comments' but also for 'strings', ie any multi-line string literals (thanks @victorel-petrovich)
 + add: new option "find_hotkey_more" can change Find dialog hotkey of "..." button
 * change: Find dialog: changed hotkey of "..." button from Ctrl+Alt+dot to Ctrl+Alt+D because Ctrl+Alt+dot is used in Slovak keyboard layout (thanks @vidovan)
+- fix: cannot load broken UTF-8 text at all, but we must be able to auto-reload it in CP1252 (thanks @zeuwas)
 - fix: picture viewer: statusbar wasn't updated on Ctrl+MouseWheel (thanks @xBZZZZ)
 
 1.204.0 (2023/12)
