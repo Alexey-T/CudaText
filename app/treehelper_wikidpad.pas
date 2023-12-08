@@ -119,6 +119,10 @@ begin
 
     SHead:= St.Lines[iLine];
     HeadLevel:= GetHeadLevel(SHead);
+
+    SHead:= TrimHead(SHead);
+    if SHead='' then Continue;
+
     if HeadLevel>0 then
     begin
       DataItem.X1:= 0;
@@ -126,7 +130,7 @@ begin
       DataItem.X2:= 0;
       DataItem.Y2:= -1;
       DataItem.Level:= HeadLevel;
-      DataItem.Title:= TrimHead(SHead);
+      DataItem.Title:= SHead;
       DataItem.Icon:= -1;
       Data.Add(DataItem);
       ClosePrevHeader(HeadLevel, iLine);
