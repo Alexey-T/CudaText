@@ -168,7 +168,7 @@ type
 
   TAppCodetreeSavedFold = record
   private
-    ParentText: string;
+    Cap, Cap2: string;
   public
     procedure Save(Ed: TATSynEdit; ATree: TTreeView);
     procedure Restore(Ed: TATSynEdit; ATree: TTreeView);
@@ -1525,12 +1525,17 @@ procedure TAppCodetreeSavedFold.Save(Ed: TATSynEdit; ATree: TTreeView);
 var
   Node: TTreeNode;
 begin
-  ParentText:= '';
+  Cap:= '';
+  Cap2:= '';
   if Ed.Carets.Count>0 then
   begin
     Node:= CodetreeFindItemForPosition(ATree, Ed.Carets[0].PosX, Ed.Carets[0].PosY);
     if Assigned(Node) then
-      ParentText:= Node.Text;
+    begin
+      Cap:= Node.Text;
+      if Assigned(Node.Parent) then
+        Cap2:= Node.Parent.Text;
+    end;
   end;
 end;
 
@@ -1538,12 +1543,14 @@ procedure TAppCodetreeSavedFold.Restore(Ed: TATSynEdit; ATree: TTreeView);
 var
   Node: TTreeNode;
 begin
-  if (Ed.Carets.Count>0) and (ParentText<>'') then
-  begin
-    Node:= CodetreeFindItemForPosition(ATree, Ed.Carets[0].PosX, Ed.Carets[0].PosY);
-    if Assigned(Node) and (ParentText=Node.Text) then
-      Node.Expand(false);
-  end;
+  if (Cap<>'') or (Cap2<>'') then
+    if (Ed.Carets.Count>0) then
+    begin
+      Node:= CodetreeFindItemForPosition(ATree, Ed.Carets[0].PosX, Ed.Carets[0].PosY);
+      if Assigned(Node) then
+        if (Cap=Node.Text) or (Cap2=Node.Text) then
+          Node.Expand(false);
+    end;
 end;
 
 
