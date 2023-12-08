@@ -174,12 +174,14 @@ begin
       HeadLevel:= GetHeadLevel(S);
       if HeadLevel>0 then
       begin
+        S:= TrimHead(S);
+        if S='' then Continue;
         DataItem.X1:= 0;
         DataItem.Y1:= iLine;
         DataItem.X2:= 0;
         DataItem.Y2:= -1;
         DataItem.Level:= HeadLevel;
-        DataItem.Title:= TrimHead(S);
+        DataItem.Title:= S;
         DataItem.Icon:= -1;
         Data.Add(DataItem);
         ClosePrevHeader(HeadLevel, iLine);
@@ -188,12 +190,14 @@ begin
     else
     if HeadLevelUnderlined>0 then
     begin
+      S:= Trim(S);
+      if S='' then Continue;
       DataItem.X1:= 0;
       DataItem.Y1:= iLine;
       DataItem.X2:= 0;
       DataItem.Y2:= -1;
       DataItem.Level:= HeadLevelUnderlined;
-      DataItem.Title:= Trim(S);
+      DataItem.Title:= S;
       DataItem.Icon:= -1;
       Data.Add(DataItem);
       ClosePrevHeader(HeadLevelUnderlined, iLine);
