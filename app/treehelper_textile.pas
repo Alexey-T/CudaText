@@ -52,6 +52,7 @@ var
   St: TATStrings;
   HeadLevel: integer;
   NLen, iLine: integer;
+  SHead: string;
   ch: WideChar;
 begin
   Data.Clear;
@@ -74,12 +75,15 @@ begin
     ch:= St.LineCharAt(iLine, 4);
     if ch<>' ' then Continue;
 
+    SHead:= Trim(Copy(St.Lines[iLine], 5));
+    if SHead='' then Continue;
+
     DataItem.X1:= 0;
     DataItem.Y1:= iLine;
     DataItem.X2:= 0;
     DataItem.Y2:= -1;
     DataItem.Level:= HeadLevel;
-    DataItem.Title:= Copy(St.Lines[iLine], 5);
+    DataItem.Title:= SHead;
     DataItem.Icon:= -1;
     Data.Add(DataItem);
     ClosePrevHeader(HeadLevel, iLine);
