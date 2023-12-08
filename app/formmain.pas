@@ -8518,17 +8518,13 @@ begin
   Data:= TATTreeHelperRecords.Create;
   if Assigned(ATree) then
   begin
-    ATree.BeginUpdate;
     TreeSavedFold:= Default(TAppCodetreeSavedFold);
+    TreeSavedFold.Save(Ed, ATree);
+    ATree.BeginUpdate;
+    ATree.Items.Clear;
   end;
 
   try
-    if Assigned(ATree) then
-    begin
-      TreeSavedFold.Save(Ed, ATree);
-      ATree.Items.Clear;
-    end;
-
     Node:= nil;
     NodeParent:= nil;
     NLevelPrev:= 1;
