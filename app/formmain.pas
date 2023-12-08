@@ -8512,6 +8512,8 @@ var
   NX1, NY1, NX2, NY2, NLevel, NLevelPrev, NIcon: integer;
   STitle: string;
   Node, NodeParent: TTreeNode;
+  PrevParentNode: TTreeNode = nil;
+  PrevParentText: string = '';
   Range: TATRangeInCodeTree;
   iItem, iLevel: integer;
 begin
@@ -8521,7 +8523,15 @@ begin
 
   try
     if Assigned(ATree) then
+    begin
+      if Ed.Carets.Count>0 then
+      begin
+        PrevParentNode:= CodetreeFindItemForPosition(ATree, Ed.Carets[0].PosX, Ed.Carets[0].PosY);
+        if Assigned(PrevParentNode) then
+          PrevParentText:= PrevParentNode.Text;
+      end;
       ATree.Items.Clear;
+    end;
 
     Node:= nil;
     NodeParent:= nil;
@@ -8592,7 +8602,15 @@ begin
   finally
     FreeAndNil(Data);
     if Assigned(ATree) then
+    begin
+      if (Ed.Carets.Count>0) and (PrevParentText<>'') then
+      begin
+        Node:= CodetreeFindItemForPosition(ATree, Ed.Carets[0].PosX, Ed.Carets[0].PosY);
+        if Assigned(Node) and (PrevParentText=Node.Text) then
+          Node.Expand(false);
+      end;
       ATree.EndUpdate;
+    end;
   end;
 
   if Ed.FoldingAsStringTodo<>'' then
