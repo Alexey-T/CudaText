@@ -8503,6 +8503,44 @@ begin
   end;
 end;
 
+type
+
+  { TAppCodetreeSavedFold }
+
+  TAppCodetreeSavedFold = record
+  private
+    ParentText: string;
+  public
+    procedure Save(Ed: TATSynEdit; ATree: TTreeView);
+    procedure Restore(Ed: TATSynEdit; ATree: TTreeView);
+  end;
+
+{ TAppCodetreeSavedFold }
+
+procedure TAppCodetreeSavedFold.Save(Ed: TATSynEdit; ATree: TTreeView);
+var
+  Node: TTreeNode;
+begin
+  ParentText:= '';
+  if Ed.Carets.Count>0 then
+  begin
+    Node:= CodetreeFindItemForPosition(ATree, Ed.Carets[0].PosX, Ed.Carets[0].PosY);
+    if Assigned(Node) then
+      ParentText:= Node.Text;
+  end;
+end;
+
+procedure TAppCodetreeSavedFold.Restore(Ed: TATSynEdit; ATree: TTreeView);
+var
+  Node: TTreeNode;
+begin
+  if (Ed.Carets.Count>0) and (ParentText<>'') then
+  begin
+    Node:= CodetreeFindItemForPosition(ATree, Ed.Carets[0].PosX, Ed.Carets[0].PosY);
+    if Assigned(Node) and (ParentText=Node.Text) then
+      Node.Expand(false);
+  end;
+end;
 
 function TfmMain.DoCodetree_ApplyTreeHelperInPascal(Ed, EdPair: TATSynEdit;
   ATree: TTreeView; const ALexer: string): boolean;
@@ -8512,24 +8550,21 @@ var
   NX1, NY1, NX2, NY2, NLevel, NLevelPrev, NIcon: integer;
   STitle: string;
   Node, NodeParent: TTreeNode;
-  PrevParentNode: TTreeNode = nil;
-  PrevParentText: string = '';
+  TreeSavedFold: TAppCodetreeSavedFold;
   Range: TATRangeInCodeTree;
   iItem, iLevel: integer;
 begin
   Data:= TATTreeHelperRecords.Create;
   if Assigned(ATree) then
+  begin
     ATree.BeginUpdate;
+    TreeSavedFold:= Default(TAppCodetreeSavedFold);
+  end;
 
   try
     if Assigned(ATree) then
     begin
-      if Ed.Carets.Count>0 then
-      begin
-        PrevParentNode:= CodetreeFindItemForPosition(ATree, Ed.Carets[0].PosX, Ed.Carets[0].PosY);
-        if Assigned(PrevParentNode) then
-          PrevParentText:= PrevParentNode.Text;
-      end;
+      TreeSavedFold.Save(Ed, ATree);
       ATree.Items.Clear;
     end;
 
@@ -8603,12 +8638,7 @@ begin
     FreeAndNil(Data);
     if Assigned(ATree) then
     begin
-      if (Ed.Carets.Count>0) and (PrevParentText<>'') then
-      begin
-        Node:= CodetreeFindItemForPosition(ATree, Ed.Carets[0].PosX, Ed.Carets[0].PosY);
-        if Assigned(Node) and (PrevParentText=Node.Text) then
-          Node.Expand(false);
-      end;
+      TreeSavedFold.Restore(Ed, ATree);
       ATree.EndUpdate;
     end;
   end;
