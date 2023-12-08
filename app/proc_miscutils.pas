@@ -8,6 +8,7 @@ Copyright (c) Alexey Torgashin
 unit proc_miscutils;
 
 {$mode objfpc}{$H+}
+{$ModeSwitch advancedrecords}
 
 interface
 
@@ -161,6 +162,17 @@ procedure InitHtmlTags;
 procedure StringsDeduplicate(L: TStringList; CaseSens: boolean);
 function StringsTrailingText(L: TStringList; AItemCount: integer): string;
 function ConvertCssColorToTColor(const S: string): TColor;
+
+type
+  { TAppCodetreeSavedFold }
+
+  TAppCodetreeSavedFold = record
+  private
+    ParentText: string;
+  public
+    procedure Save(Ed: TATSynEdit; ATree: TTreeView);
+    procedure Restore(Ed: TATSynEdit; ATree: TTreeView);
+  end;
 
 
 implementation
@@ -1503,6 +1515,34 @@ begin
           //bFoundBrackets:= true;
         end;
       end;
+  end;
+end;
+
+
+{ TAppCodetreeSavedFold }
+
+procedure TAppCodetreeSavedFold.Save(Ed: TATSynEdit; ATree: TTreeView);
+var
+  Node: TTreeNode;
+begin
+  ParentText:= '';
+  if Ed.Carets.Count>0 then
+  begin
+    Node:= CodetreeFindItemForPosition(ATree, Ed.Carets[0].PosX, Ed.Carets[0].PosY);
+    if Assigned(Node) then
+      ParentText:= Node.Text;
+  end;
+end;
+
+procedure TAppCodetreeSavedFold.Restore(Ed: TATSynEdit; ATree: TTreeView);
+var
+  Node: TTreeNode;
+begin
+  if (Ed.Carets.Count>0) and (ParentText<>'') then
+  begin
+    Node:= CodetreeFindItemForPosition(ATree, Ed.Carets[0].PosX, Ed.Carets[0].PosY);
+    if Assigned(Node) and (ParentText=Node.Text) then
+      Node.Expand(false);
   end;
 end;
 

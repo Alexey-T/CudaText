@@ -8503,45 +8503,6 @@ begin
   end;
 end;
 
-type
-
-  { TAppCodetreeSavedFold }
-
-  TAppCodetreeSavedFold = record
-  private
-    ParentText: string;
-  public
-    procedure Save(Ed: TATSynEdit; ATree: TTreeView);
-    procedure Restore(Ed: TATSynEdit; ATree: TTreeView);
-  end;
-
-{ TAppCodetreeSavedFold }
-
-procedure TAppCodetreeSavedFold.Save(Ed: TATSynEdit; ATree: TTreeView);
-var
-  Node: TTreeNode;
-begin
-  ParentText:= '';
-  if Ed.Carets.Count>0 then
-  begin
-    Node:= CodetreeFindItemForPosition(ATree, Ed.Carets[0].PosX, Ed.Carets[0].PosY);
-    if Assigned(Node) then
-      ParentText:= Node.Text;
-  end;
-end;
-
-procedure TAppCodetreeSavedFold.Restore(Ed: TATSynEdit; ATree: TTreeView);
-var
-  Node: TTreeNode;
-begin
-  if (Ed.Carets.Count>0) and (ParentText<>'') then
-  begin
-    Node:= CodetreeFindItemForPosition(ATree, Ed.Carets[0].PosX, Ed.Carets[0].PosY);
-    if Assigned(Node) and (ParentText=Node.Text) then
-      Node.Expand(false);
-  end;
-end;
-
 function TfmMain.DoCodetree_ApplyTreeHelperInPascal(Ed, EdPair: TATSynEdit;
   ATree: TTreeView; const ALexer: string): boolean;
 var
