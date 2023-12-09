@@ -29,7 +29,7 @@ settings/
 __trash/
 _test/
 python3*/
-/app/builds
+/app/bin
 /app/cudatext
 /app/cudatext-mac
 treehelpertester/app
