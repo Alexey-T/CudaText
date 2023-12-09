@@ -78,3 +78,6 @@ cuda_exterminal*
 cuda_git_status
 cuda_options_editor/
 cuda_color_text/
+cuda_complete_from_text/
+cuda_runner/
+cuda_tab_icons/
