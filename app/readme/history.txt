@@ -8,7 +8,7 @@
 + add: updated TRegExpr engine to 1.182; it now supports \K
 + add: option "auto_fold_comments" now makes ranges not only for 'comments' but also for 'strings', ie any multi-line string literals (thanks @victorel-petrovich)
 + add: new option "find_hotkey_more" can change Find dialog hotkey of "..." button
-+ add: tree-helpers in Pascal now restore unfolded state of caret's tree node (thanks @mix-7)
++ add: tree-helpers in Pascal: after edition, unfold previously unfolded code-tree node for caret (thanks @mix-7)
 * change: Find dialog: changed hotkey of "..." button from Ctrl+Alt+dot to Ctrl+Alt+D because Ctrl+Alt+dot is used in Slovak keyboard layout (thanks @vidovan)
 - fix: could not load broken UTF-8 text at all, but app must be able to auto-reload it in encoding cp1252 (thanks @zeuwas)
 - fix: picture viewer: statusbar wasn't updated on Ctrl+MouseWheel (thanks @xBZZZZ)
