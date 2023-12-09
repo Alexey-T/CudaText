@@ -281,8 +281,16 @@ begin
       dir:= AppDir_DataAutocompleteSpec;
       filenameSnips:= dir+DirectorySeparator+'emmet_snippets.ini';
       filenameLorem:= dir+DirectorySeparator+'emmet_lorem.txt';
-      if not FileExists(filenameSnips) then exit(ReturnNone);
-      if not FileExists(filenameLorem) then exit(ReturnNone);
+      if not FileExists(filenameSnips) then
+      begin
+        MsgLogConsole(Format(msgCannotFindData, [filenameSnips]));
+        exit(ReturnNone);
+      end;
+      if not FileExists(filenameLorem) then
+      begin
+        MsgLogConsole(Format(msgCannotFindData, [filenameLorem]));
+        exit(ReturnNone);
+      end;
       AppEmmet:= TEmmet.Create(filenameSnips, filenameLorem);
       InitHtmlTags;
       AppEmmet.AddHTMLTagListForValidation(HtmlTags);
