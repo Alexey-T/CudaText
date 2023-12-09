@@ -7,6 +7,7 @@ bundle=$4
 app=$cud/app
 
 strip $exe
+mkdir -p $bundle/Contents/MacOS
 rm $bundle/Contents/MacOS/cudatext
 cp $exe $bundle/Contents/MacOS/cudatext
 
