@@ -2535,8 +2535,10 @@ Get it from [https://github.com/davidbannon/libqt5pas/releases releases on this 
 
 In the GutHub page, press the link like "Show all 22 asserts" and there you will see files:
 
-* libqt5pas1_2.15-1_amd64.deb - Ubuntu package
-* libqt5pas_1_2_15-1_amd64.tar.gz - just compressed .so files
+* libqt5pas1_2.15-1_amd64.deb - Ubuntu package.
+* libqt5pas_1_2_15-1_amd64.tar.gz - just compressed .so files. You can put .so files near the binary "cudatext" and run the editor with such command:
+
+ LD_LIBRARY_PATH=. ./cudatext
 
 Some package managers have Qt5Pas package. On Ubuntu: "libqt5pas-dev", on Manjaro: "qt5pas". At the end of 2023 year, these packages are outdated. CudaText crashes with them on closing file-save dialog, with error in Terminal:
 
