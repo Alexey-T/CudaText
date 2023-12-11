@@ -2533,7 +2533,9 @@ The GTK2 and Qt5 binaries can also be installed via the AUR if you are on an Arc
 For Linux Qt5 version, library libQt5Pas is required, release 1.2.15 or newer.
 Get it from [https://github.com/davidbannon/libqt5pas/releases releases on this page].
 
-Some package managers have Qt5Pas package. On Ubuntu: package '''libqt5pas-dev''', on Manjaro: package '''qt5pas'''. But these packages contain too old library, CudaText will crash with this library. You need newer library from the above GitHub link.
+Some package managers have Qt5Pas package. On Ubuntu: package '''libqt5pas-dev''', on Manjaro: package '''qt5pas'''. But these packages contain too old library, CudaText will crash with this library with such error:
+
+ symbol lookup error: /home/user/cudatext/cudatext: undefined symbol: QTimer_singleShot3
 
 '''Qt6'''
 
