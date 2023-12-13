@@ -8573,9 +8573,9 @@ begin
 
         if NY2-NY1>=1 then
         begin
-          Ed.Fold.Add(NX1+1, NY1, NX2+1, NY2, false, STitle);
+          Ed.Fold.Add(NX1+1, NY1, NX2+1, NY2, false, STitle, cTagPersistentFoldRange);
           if Assigned(EdPair) then
-            EdPair.Fold.Add(NX1+1, NY1, NX2+1, NY2, false, STitle);
+            EdPair.Fold.Add(NX1+1, NY1, NX2+1, NY2, false, STitle, cTagPersistentFoldRange);
         end;
       end;
 
