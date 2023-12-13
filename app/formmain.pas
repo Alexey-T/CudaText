@@ -8573,6 +8573,9 @@ begin
 
         if NY2-NY1>=1 then
         begin
+          //must mark fold ranges with tag=cTagPersistentFoldRange, so lexer adapter
+          //won't clear ranges immediately on parsing start.
+          //so user is able to do many editings and fold ranges are kept, until next tree-helper run.
           Ed.Fold.Add(NX1+1, NY1, NX2+1, NY2, false, STitle, cTagPersistentFoldRange);
           if Assigned(EdPair) then
             EdPair.Fold.Add(NX1+1, NY1, NX2+1, NY2, false, STitle, cTagPersistentFoldRange);
