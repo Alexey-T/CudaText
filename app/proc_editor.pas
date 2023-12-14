@@ -3254,25 +3254,26 @@ end;
 
 
 procedure EditorFold_MergeRange(Ed: TATSynEdit; AX, AY, AX2, AY2: integer; const AHint: string; const ATag: Int64);
-//procedure tries to find old Ed.Fold item for the same range;
-//if found - it updates found range and doesn't change it's Folded state
+//try to find old Ed.Fold item for the AY pos;
+//if found, update found range and doesn't change it's Folded state
 var
   Item: PATSynRange;
   NIndex: integer;
 begin
-  NIndex:= Ed.Fold.FindRangeWithPlusAtLine(AY);
+  NIndex:= Ed.Fold.FindRangeWithPlusAtLine(AY, true);
   if NIndex>=0 then
   begin
     Item:= Ed.Fold.ItemPtr(NIndex);
-    if (Item^.Hint=AHint) then
+    if (Item^.Y=AY) and (Item^.Hint=AHint) and (Item^.Tag=ATag) then
     begin
       Item^.X2:= AX2;
       Item^.Y2:= AY2;
-      exit;
-    end;
-  end;
-
-  Ed.Fold.AddSorted(AX, AY, AX2, AY2, false, AHint, ATag, NIndex);
+    end
+    else
+      Ed.Fold.Insert(NIndex, AX, AY, AX2, AY2, false, AHint, ATag);
+  end
+  else
+    Ed.Fold.Add(AX, AY, AX2, AY2, false, AHint, ATag);
 end;
 
 
