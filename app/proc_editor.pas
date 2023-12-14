@@ -174,7 +174,7 @@ type
 procedure EditorSaveTempOptions(Ed: TATSynEdit; out Ops: TATEditorTempOptions);
 procedure EditorRestoreTempOptions(Ed: TATSynEdit; const ANew, AOld: TATEditorTempOptions);
 
-procedure EditorFold_MergeRange(Ed: TATSynEdit; AX1, AY1, AX2, AY2: integer; const AHint: string; const ATag: integer);
+procedure EditorFold_MergeRange(Ed: TATSynEdit; AX, AY, AX2, AY2: integer; const AHint: string; const ATag: Int64);
 
 implementation
 
@@ -3253,23 +3253,18 @@ begin
 end;
 
 
-procedure EditorFold_MergeRange(Ed: TATSynEdit; AX1, AY1, AX2, AY2: integer; const AHint: string; const ATag: integer);
+procedure EditorFold_MergeRange(Ed: TATSynEdit; AX, AY, AX2, AY2: integer; const AHint: string; const ATag: Int64);
 //procedure tries to find old Ed.Fold item for the same range;
 //if found - it updates found range and doesn't change it's Folded state
 var
   Item: PATSynRange;
-  NIndex, i: integer;
+  NIndex: integer;
 begin
-  NIndex:= -1;
-  for i:= 0 to Ed.Fold.Count-1 do
+  NIndex:= Ed.Fold.FindRangeWithPlusAtLine(AY);
+  if NIndex>=0 then
   begin
-    Item:= Ed.Fold.ItemPtr(i);
-    if Item^.Y>AY1 then
-    begin
-      NIndex:= i;
-      Break;
-    end;
-    if (Item^.Y=AY1) and (Item^.Hint=AHint) then
+    Item:= Ed.Fold.ItemPtr(NIndex);
+    if (Item^.Hint=AHint) then
     begin
       Item^.X2:= AX2;
       Item^.Y2:= AY2;
@@ -3277,10 +3272,7 @@ begin
     end;
   end;
 
-  if NIndex>=0 then
-    Ed.Fold.Insert(NIndex, AX1, AY1, AX2, AY2, false, AHint, ATag)
-  else
-    Ed.Fold.Add(AX1, AY1, AX2, AY2, false, AHint, ATag);
+  Ed.Fold.AddSorted(AX, AY, AX2, AY2, false, AHint, ATag, NIndex);
 end;
 
 
