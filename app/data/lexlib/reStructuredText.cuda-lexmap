@@ -3,6 +3,7 @@ str1=
 str2=
 styles_cmt=
 styles_str=Head,Usual,Quote,Bold,Italic,Bold-Italic,Crossed
+autofold=0
 
 [map]
 Head=IdKeyword

@@ -3,6 +3,7 @@ str1=<!--
 str2=-->
 styles_cmt=Comment
 styles_str=Quote,Text,Bold,Italic,Bold-Italic,Heading,Link,Definition,Crossed out
+autofold=0
 [ref]
 0=PHP_
 1=JavaScript
