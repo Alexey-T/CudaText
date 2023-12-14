@@ -8532,9 +8532,12 @@ begin
     Result:= TreeHelperInPascal(Ed, ALexer, Data);
     if Result and (Data.Count>0) then
     begin
+      {
+      //don't clear Fold, it's needed for EditorFold_MergeRange
       Ed.Fold.Clear;
       if Assigned(EdPair) then
         EdPair.Fold.Clear;
+        }
 
       for iItem:= 0 to Data.Count-1 do
       begin
@@ -8576,9 +8579,9 @@ begin
           //must mark fold ranges with tag=cTagPersistentFoldRange, so lexer adapter
           //won't clear ranges immediately on parsing start.
           //so user is able to do many editings and fold ranges are kept, until next tree-helper run.
-          Ed.Fold.Add(NX1+1, NY1, NX2+1, NY2, false, STitle, cTagPersistentFoldRange);
+          EditorFold_MergeRange(Ed, NX1+1, NY1, NX2+1, NY2, STitle, cTagPersistentFoldRange);
           if Assigned(EdPair) then
-            EdPair.Fold.Add(NX1+1, NY1, NX2+1, NY2, false, STitle, cTagPersistentFoldRange);
+            EditorFold_MergeRange(EdPair, NX1+1, NY1, NX2+1, NY2, STitle, cTagPersistentFoldRange);
         end;
       end;
 

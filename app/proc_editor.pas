@@ -174,6 +174,8 @@ type
 procedure EditorSaveTempOptions(Ed: TATSynEdit; out Ops: TATEditorTempOptions);
 procedure EditorRestoreTempOptions(Ed: TATSynEdit; const ANew, AOld: TATEditorTempOptions);
 
+procedure EditorFold_MergeRange(Ed: TATSynEdit; AX1, AY1, AX2, AY2: integer; const AHint: string; const ATag: integer);
+
 implementation
 
 uses
@@ -191,6 +193,7 @@ uses
   ATSynEdit_Adapter_EControl,
   ATSynEdit_Adapter_LiteLexer,
   ATSynEdit_Bookmarks,
+  ATSynEdit_Ranges,
   ATSynEdit_Cmp_HTML,
   ATSynEdit_Cmp_Form,
   ATSynEdit_RegExpr,
@@ -3247,6 +3250,37 @@ begin
     Ed.Update(true);
     Ed.DoEventChange;
   end;
+end;
+
+
+procedure EditorFold_MergeRange(Ed: TATSynEdit; AX1, AY1, AX2, AY2: integer; const AHint: string; const ATag: integer);
+//procedure tries to find old Ed.Fold item for the same range;
+//if found - it updates found range and doesn't change it's Folded state
+var
+  Item: PATSynRange;
+  NIndex, i: integer;
+begin
+  NIndex:= -1;
+  for i:= 0 to Ed.Fold.Count-1 do
+  begin
+    Item:= Ed.Fold.ItemPtr(i);
+    if Item^.Y>AY1 then
+    begin
+      NIndex:= i;
+      Break;
+    end;
+    if (Item^.Y=AY1) and (Item^.Hint=AHint) then
+    begin
+      Item^.X2:= AX2;
+      Item^.Y2:= AY2;
+      exit;
+    end;
+  end;
+
+  if NIndex>=0 then
+    Ed.Fold.Insert(NIndex, AX1, AY1, AX2, AY2, false, AHint, ATag)
+  else
+    Ed.Fold.Add(AX1, AY1, AX2, AY2, false, AHint, ATag);
 end;
 
 
