@@ -3,6 +3,12 @@
   - fixed
   * changed
 
+1.205.1 (2023/12)
+
++ add: lexer files *.cuda-lexmap support new option: [comments] fold_exclude_line=1 ; it allows JSON lexer to skip last block line on folding; added Wiki text about this feature
++ add: lexer files *.cuda-lexmap support new option: [comments] autofold=0 ; it allows to disable option "auto_fold_comments" for lexer (it's used for: Markdown, reST, MediaWiki, WikidPad, Textile)
++ add: auto-adjustment of _folded_ blocks on editing in documents with Pascal tree-helper: Markdown, reST, WikidPad etc (thanks @mix-7)
+
 1.205.0 (2023/12)
 
 + add: updated TRegExpr engine to 1.182; it now supports \K
