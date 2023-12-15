@@ -8579,9 +8579,9 @@ begin
           //must mark fold ranges with tag=cTagPersistentFoldRange, so lexer adapter
           //won't clear ranges immediately on parsing start.
           //so user is able to do many editings and fold ranges are kept, until next tree-helper run.
-          EditorFold_MergeRange(Ed, NX1+1, NY1, NX2+1, NY2, STitle, cTagPersistentFoldRange);
+          Ed.Fold.Merge(NX1+1, NY1, NX2+1, NY2, STitle, cTagPersistentFoldRange);
           if Assigned(EdPair) then
-            EditorFold_MergeRange(EdPair, NX1+1, NY1, NX2+1, NY2, STitle, cTagPersistentFoldRange);
+            EdPair.Fold.Merge(NX1+1, NY1, NX2+1, NY2, STitle, cTagPersistentFoldRange);
         end;
       end;
 
