@@ -2309,6 +2309,7 @@ begin
 
   InitEditor(Ed1, 'ed1');
   InitEditor(Ed2, 'ed2');
+  Ed1.Strings.OnChangeEx2:= @Ed2.DoStringsOnChangeEx;
   Ed1.IsIniting:= true;
   Ed2.IsIniting:= true;
 
@@ -3458,10 +3459,12 @@ begin
   if FEditorsLinked then
   begin
     Ed1.Strings.GutterDecor2:= Ed2.GutterDecor;
+    Ed1.Strings.OnChangeEx2:= @Ed2.DoStringsOnChangeEx;
   end
   else
   begin
     Ed1.Strings.GutterDecor2:= nil;
+    Ed1.Strings.OnChangeEx2:= nil;
     Ed2.Strings.GutterDecor1:= Ed2.GutterDecor;
     Ed2.Strings.GutterDecor2:= nil;
   end;
