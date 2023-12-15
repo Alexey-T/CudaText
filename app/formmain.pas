@@ -8532,13 +8532,6 @@ begin
     Result:= TreeHelperInPascal(Ed, ALexer, Data);
     if Result and (Data.Count>0) then
     begin
-      {
-      //don't clear Fold, it's needed for EditorFold_MergeRange
-      Ed.Fold.Clear;
-      if Assigned(EdPair) then
-        EdPair.Fold.Clear;
-        }
-
       for iItem:= 0 to Data.Count-1 do
       begin
         DataItem:= Data.ItemPtr[iItem];
