@@ -227,7 +227,7 @@ begin
   Result:= false;
 
   Ed:= Frame.Editor;
-  if Frame.EditorsLinked then
+  if Frame.EditorsLinked and Frame.Splitted then //Ed2 should be Nil when tab is not splitted
     Ed2:= Frame.EditorBrother
   else
     Ed2:= nil;
