@@ -2309,10 +2309,10 @@ begin
 
   InitEditor(Ed1, 'ed1');
   InitEditor(Ed2, 'ed2');
-  Ed1.Strings.OnChangeEx2:= @Ed2.DoStringsOnChangeEx;
   Ed1.IsIniting:= true;
   Ed2.IsIniting:= true;
 
+  Ed1.Strings.OnChangeEx2:= @Ed2.DoStringsOnChangeEx;
   Ed1.Strings.GutterDecor1:= Ed1.GutterDecor;
   Ed1.Strings.GutterDecor2:= Ed2.GutterDecor;
 
