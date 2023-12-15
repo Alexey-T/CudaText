@@ -8503,6 +8503,14 @@ begin
   end;
 end;
 
+procedure EditorFold_SetTag(Ed: TATSynEdit; const ATag: Int64);
+var
+  i: integer;
+begin
+  for i:= 0 to Ed.Fold.Count-1 do
+    Ed.Fold.ItemPtr(i)^.Tag:= ATag;
+end;
+
 function TfmMain.DoCodetree_ApplyTreeHelperInPascal(Ed, EdPair: TATSynEdit;
   ATree: TTreeView; const ALexer: string): boolean;
 var
@@ -8514,6 +8522,8 @@ var
   TreeSavedFold: TAppCodetreeSavedFold;
   Range: TATRangeInCodeTree;
   iItem, iLevel: integer;
+const
+  cTagOlder = -10;
 begin
   Data:= TATTreeHelperRecords.Create;
   if Assigned(ATree) then
@@ -8532,6 +8542,10 @@ begin
     Result:= TreeHelperInPascal(Ed, ALexer, Data);
     if Result and (Data.Count>0) then
     begin
+      EditorFold_SetTag(Ed, cTagOlder);
+      if Assigned(EdPair) then
+        EditorFold_SetTag(EdPair, cTagOlder);
+
       for iItem:= 0 to Data.Count-1 do
       begin
         DataItem:= Data.ItemPtr[iItem];
@@ -8577,6 +8591,10 @@ begin
             EdPair.Fold.Merge(NX1+1, NY1, NX2+1, NY2, STitle, cTagPersistentFoldRange);
         end;
       end;
+
+      Ed.Fold.DeleteAllByTag(cTagOlder);
+      if Assigned(EdPair) then
+        EdPair.Fold.DeleteAllByTag(cTagOlder);
 
       Ed.Fold.ClearLineIndexer(Ed.Strings.Count);
       Ed.Fold.UpdateLineIndexer;
