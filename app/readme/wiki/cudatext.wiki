@@ -800,7 +800,7 @@ Lexer JSON has special behaviour of folding, for such situations (example file):
 
 Try to fold first 2 blocks in this example. You see that last line of block is excluded from folding. To have this feature, lexer has special setting in its file data/lexlib/*.cuda-lexmap:
 
- [comments]
+ [op]
  fold_exclude_line=1
 
 == Automatic folding of comments ==
@@ -817,7 +817,7 @@ Which lexer literals are "comment"/"string"? This is setting of lexer, it is sto
 
 There is also per-lexer setting to disable auto-folding for lexer. It is also in the *.cuda-lexmap file:
 
- [comments]
+ [op]
  autofold=0
 
 This setting is present for lexers:
