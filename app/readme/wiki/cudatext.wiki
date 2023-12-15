@@ -809,15 +809,26 @@ Try to fold first 2 blocks in this example. You see that last line of block is e
 |}
 There is an option "auto_fold_comments" (default is 0 - it's turned off) which allows to automatically create folding ranges from N (or more) consecutive lines, which are all "syntax comments" and/or "syntax strings". This works for both line-comments and stream-comments, they can be even mixed (one comment after another without blank lines in between, but not for several stream-comments on a single line). This works for multi-line string literals and for single-line string literals (single-line literals can go one after another without symbols in between, which is rarely supported by languages, but it occurs sometimes).
 
-Previously, CudaText allowed something like this, via lexer configuration: all needed lexers must have
-special settings inside them, and this worked for 2+ lines, not for custom value.
-After the option "auto_fold_comments" appeared, all 3rd-party lexers should be stripped of those old settings.
-
 Which lexer literals are "comment"/"string"? This is setting of lexer, it is stored in the data/lexlib/*.cuda-lexmap file like this:
 
  [comments]
  styles_cmt=Comment,Comment doc
  styles_str=Text,Tag string
+
+There is also per-lexer setting to disable auto-folding for lexer. It is also in the *.cuda-lexmap file:
+
+ [comments]
+ autofold=0
+
+This setting is present for lexers:
+
+* Markdown
+* reStructuredText
+* MediaWiki
+* WikidPad
+* Textile
+
+ie for all lexers which support built-in Pascal tree-helpers. Because Pascal tree-helpers make folding ranges which conflict with auto-folding ranges.
 
 == Encodings ==
 You can change encoding of document by clicking on statusbar item, or by using menu "File / Encoding". Menu will give list of encodings. Menu gives 2 sub-menus:
