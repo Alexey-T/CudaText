@@ -1669,6 +1669,11 @@ begin
     //Ed2.BrotherEditor:= nil;
   end;
 
+  if FEditorsLinked and Splitted then
+    Ed1.Strings.OnChangeEx2:= @Ed2.DoStringsOnChangeEx
+  else
+    Ed1.Strings.OnChangeEx2:= nil;
+
   Ed2.Update(true);
 end;
 
@@ -2313,7 +2318,6 @@ begin
   Ed1.IsIniting:= true;
   Ed2.IsIniting:= true;
 
-  Ed1.Strings.OnChangeEx2:= @Ed2.DoStringsOnChangeEx;
   Ed1.Strings.GutterDecor1:= Ed1.GutterDecor;
   Ed1.Strings.GutterDecor2:= Ed2.GutterDecor;
 
@@ -3457,15 +3461,18 @@ begin
   if FEditorsLinked then
   begin
     Ed1.Strings.GutterDecor2:= Ed2.GutterDecor;
-    Ed1.Strings.OnChangeEx2:= @Ed2.DoStringsOnChangeEx;
   end
   else
   begin
     Ed1.Strings.GutterDecor2:= nil;
-    Ed1.Strings.OnChangeEx2:= nil;
     Ed2.Strings.GutterDecor1:= Ed2.GutterDecor;
     Ed2.Strings.GutterDecor2:= nil;
   end;
+
+  if FEditorsLinked and Splitted then
+    Ed1.Strings.OnChangeEx2:= @Ed2.DoStringsOnChangeEx
+  else
+    Ed1.Strings.OnChangeEx2:= nil;
 
   Adapter1.AddEditor(nil);
   if Assigned(Adapter2) then
