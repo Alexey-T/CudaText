@@ -3,6 +3,8 @@ str1=/*
 str2=*/
 styles_cmt=Comment
 styles_str=String
+
+[op]
 fold_exclude_line=1
 
 [map]
