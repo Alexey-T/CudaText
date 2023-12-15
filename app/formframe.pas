@@ -308,7 +308,7 @@ type
     function GetUnprintedEndsDetails: boolean;
     function GetUnprintedShow: boolean;
     function GetUnprintedSpaces: boolean;
-    procedure InitEditor(var ed: TATSynEdit; const AName: string);
+    procedure InitEditor(var ed: TATSynEdit; const AName: string; AEditorIndex: integer);
     procedure InitNotificationPanel(Index: integer;
       AIsDeleted: boolean;
       var AControls: TAppFrameNotificationControls;
@@ -2190,11 +2190,12 @@ begin
   SplitPos:= SplitPos;
 end;
 
-procedure TEditorFrame.InitEditor(var ed: TATSynEdit; const AName: string);
+procedure TEditorFrame.InitEditor(var ed: TATSynEdit; const AName: string; AEditorIndex: integer);
 begin
   ed:= TATSynEdit.Create(FFormDummy);
   ed.ParentFrameObject:= Self;
   ed.Name:= AName;
+  ed.EditorIndex:= AEditorIndex;
   ed.Parent:= FFormDummy;
   DoControl_InitPropsObject(ed, FFormDummy, 'editor');
 
@@ -2307,8 +2308,8 @@ begin
   FBracketSymbols:= EditorOps.OpBracketSymbols;
   FBracketMaxDistance:= EditorOps.OpBracketDistance;
 
-  InitEditor(Ed1, 'ed1');
-  InitEditor(Ed2, 'ed2');
+  InitEditor(Ed1, 'ed1', 0);
+  InitEditor(Ed2, 'ed2', 1);
   Ed1.IsIniting:= true;
   Ed2.IsIniting:= true;
 
@@ -2318,9 +2319,6 @@ begin
 
   Ed2.Visible:= false;
   Splitter.Visible:= false;
-
-  Ed1.EditorIndex:= 0;
-  Ed2.EditorIndex:= 1;
 
   FSplitHorz:= UiOps.DefaultTabSplitIsHorz;
   Splitted:= false;
