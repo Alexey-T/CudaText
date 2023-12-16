@@ -512,6 +512,13 @@ var
   Ed: TATSynEdit;
   NewLexer: string;
 begin
+  //THIS CODE IS DISABLED 2023.12
+  //because we cannot yet differ between TMenuItem.Tag as command value / as object address.
+  //so in theory, this code can assign to MenuItem shortcut of wrong command.
+  //see https://github.com/Alexey-T/CudaText/issues/4892#issuecomment-1858842781
+  exit;
+  //---------------------
+
   if Application.Terminated then exit;
 
   F:= CurrentFrame;
