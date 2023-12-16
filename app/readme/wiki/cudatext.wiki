@@ -818,7 +818,7 @@ Which lexer literals are "comment"/"string"? This is setting of lexer, it is sto
 There is also per-lexer setting to disable auto-folding for lexer. It is also in the *.cuda-lexmap file:
 
  [op]
- autofold=0
+ auto_fold=0
 
 This setting is present for lexers:
 
