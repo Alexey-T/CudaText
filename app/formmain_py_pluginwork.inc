@@ -493,7 +493,7 @@ procedure TfmMain.UpdateMenuPlugins_Shortcuts_Work(AForceUpdate: boolean);
       if miSub.Count>0 then
         UpdMenu(miSub, AKeymap)
       else
-        if miSub.Tag>0 then
+        if (miSub.Tag>0) and (miSub.Tag<MaxInt-cmdFirstPluginCommand) then
           miSub.ShortCut:= AKeymap.GetShortcutFromCommand(cmdFirstPluginCommand+miSub.Tag);
     end;
   end;
