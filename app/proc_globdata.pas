@@ -143,6 +143,7 @@ const
 
 const
   cAppMaxGroup = Pred(6+3); //6 normal groups + 3 floating groups
+  cAppMinMemoryAddress = 10000; //object's memory address is >10000
 
 var
   //ATSynEdit has range for bookmarks 0..63, 0=none

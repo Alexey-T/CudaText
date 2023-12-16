@@ -502,12 +502,17 @@ code can assign to MenuItem shortcut of wrong command.
       if miSub.Count>0 then
         UpdMenu(miSub, AKeymap)
       else
-      if (miSub.Tag>0) then
+      if miSub.Tag>cAppMinMemoryAddress then
+        Continue
+      else
+      if miSub.Tag>0 then
       begin
+        {
         if (miSub.Tag>MaxInt-cmdFirstPluginCommand) then
           Continue;
           //raise Exception.Create('Too big menuitem.Tag. Menuitem caption: '+miSub.Caption+'; Tag: '+IntToHex(miSub.Tag));
           ////too big value in Tag occurs when menuitem is created via API menu_proc(). It's object address.
+        }
         NCommand:= integer(cmdFirstPluginCommand+miSub.Tag);
         miSub.ShortCut:= AKeymap.GetShortcutFromCommand(NCommand);
       end;
