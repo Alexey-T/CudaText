@@ -7940,7 +7940,7 @@ function TfmMain.DoMenu_GetPyProps(mi: TMenuItem): PPyObject;
 var
   NTag: PtrInt;
   NCommand: integer;
-  SCommand, STagString: string;
+  SCommand, STagString, SShortCut: string;
   CmdObject: PPyObject;
 begin
   NTag:= mi.Tag;
@@ -7966,6 +7966,11 @@ begin
     else
       CmdObject:= PyUnicodeFromString(SCommand);
 
+    if mi.ShortCut<>0 then
+      SShortCut:= ShortCutToText(mi.ShortCut)
+    else
+      SShortCut:= '';
+
     Result:= Py_BuildValue('{sLsssisssssssOsOsOsOsO}',
       'id',
       Int64(PtrInt(mi)),
@@ -7976,7 +7981,7 @@ begin
       'hint',
       PChar(SCommand),
       'hotkey',
-      PChar(ShortCutToText(mi.ShortCut)),
+      PChar(SShortCut),
       'tag',
       PChar(STagString),
       'command',
