@@ -485,16 +485,25 @@ procedure TfmMain.UpdateMenuPlugins_Shortcuts_Work(AForceUpdate: boolean);
   procedure UpdMenu(AMenu: TMenuItem; AKeymap: TATKeymap);
   var
     miSub: TMenuItem;
-    i: integer;
+    NCommand, i: integer;
   begin
     for i:= 0 to AMenu.Count-1 do
     begin
       miSub:= AMenu.Items[i];
+      if miSub.Caption='-' then
+        Continue;
       if miSub.Count>0 then
         UpdMenu(miSub, AKeymap)
       else
-        if (miSub.Tag>0) and (miSub.Tag<MaxInt-cmdFirstPluginCommand) then
-          miSub.ShortCut:= AKeymap.GetShortcutFromCommand(cmdFirstPluginCommand+miSub.Tag);
+      if (miSub.Tag>0) then
+      begin
+        if (miSub.Tag>MaxInt-cmdFirstPluginCommand) then
+          Continue;
+          //raise Exception.Create('Too big menuitem.Tag. Menuitem caption: '+miSub.Caption+'; Tag: '+IntToHex(miSub.Tag));
+          ////too big value in Tag occurs when menuitem is created via API menu_proc(). It's object address.
+        NCommand:= integer(cmdFirstPluginCommand+miSub.Tag);
+        miSub.ShortCut:= AKeymap.GetShortcutFromCommand(NCommand);
+      end;
     end;
   end;
   //
