@@ -1527,11 +1527,11 @@
   "picture_types": "bmp,png,jpg,jpeg,jpe,gif,ico,webp,psd,tga,cur",
 
   //[View/Web]
-  //Highlight+underline links (URL and emails).
+  //Highlight+underline hyperlinks (URL and emails).
   "links_hilite": true,
 
-  //Regular expression, which finds links.
-  "links_regex": "\\b(mailto:)?\\w[\\w\\-\\.]*@\\w[\\w\\-\\.]*\\.\\w{2,}\\b|\\b(https?://|ftp://|magnet:\\?|www\\.|ftp\\.)\\w[\\w\\-\\.@]*(:\\d+)?(/[~\\w\\.,\\-\\+\\/%]*)?(\\?[^<>'\"\\s]+)?(\\#[\\w\\-]*)?",
+  //Regular expression, which finds hyperlinks.
+  "links_regex": "\\b(mailto:)?\\w[\\w\\-\\+\\.]*@\\w[\\w\\-\\.]*\\.\\w{2,}\\b|\\b(https?://|ftp://)\\w[\\w\\-\\.@]*(:\\d+)?(/([~\\w\\.\\-\\+\\/%@!%]|\\(.*?\\))*)?(\\?[^<>\'\"\\s]+)?(\\#[\\w\\-\\./%:!]*)?",
 
   //[File]
   //Maximal file size, allowed to open, in Mb.
