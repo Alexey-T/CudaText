@@ -1531,7 +1531,7 @@
   "links_hilite": true,
 
   //Regular expression, which finds hyperlinks.
-  "links_regex": "\\b(mailto:)?\\w[\\w\\-\\+\\.]*@\\w[\\w\\-\\.]*\\.\\w{2,}\\b|\\b(https?://|ftp://)\\w[\\w\\-\\.@]*(:\\d+)?(/([~\\w\\.\\-\\+\\/%@!%]|\\(.*?\\))*)?(\\?[^<>\'\"\\s]+)?(\\#[\\w\\-\\./%:!]*)?",
+  "links_regex": "\\b(mailto:)?\\w[\\w\\-\\+\\.]*@\\w[\\w\\-\\.]*\\.\\w{2,}\\b|\\b(https?://|ftp://)\\w[\\w\\-\\.@]*(:\\d+)?(/([~\\w\\.\\-\\+\\/%@!%]|\\(.*?\\))*)?(\\?[^<>'\"\\s]+)?(\\#[\\w\\-\\./%:!]*)?",
 
   //[File]
   //Maximal file size, allowed to open, in Mb.
