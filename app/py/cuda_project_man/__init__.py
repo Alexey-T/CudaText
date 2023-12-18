@@ -811,7 +811,10 @@ class Command:
 
                     if 'nodes' in self.project:
                         for i in range(len(self.project['nodes'])):
-                            self.project['nodes'][i] = expand_macros(self.project['nodes'][i])
+                            node = self.project['nodes'][i]
+                            # normalize os separators
+                            node = os.path.normpath(node)
+                            self.project['nodes'][i] = expand_macros(node)
 
                         # delete orphan items
                         bads = [fn for fn in self.project["nodes"] if not os.path.exists(fn)]
