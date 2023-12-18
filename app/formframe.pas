@@ -2258,6 +2258,8 @@ begin
 end;
 
 constructor TEditorFrame.Create(AOwner: TComponent; AApplyCentering: boolean);
+var
+  St: TATStrings;
 begin
   inherited Create(AOwner);
   Visible:= false;
@@ -2313,9 +2315,10 @@ begin
   InitEditor(Ed2, 'ed2', 1);
   Ed1.IsIniting:= true;
   Ed2.IsIniting:= true;
+  St:= Ed1.Strings;
 
-  Ed1.Strings.GutterDecor1:= Ed1.GutterDecor;
-  Ed1.Strings.GutterDecor2:= Ed2.GutterDecor;
+  St.GutterDecor1:= Ed1.GutterDecor;
+  St.GutterDecor2:= Ed2.GutterDecor;
 
   Ed2.Visible:= false;
   Splitter.Visible:= false;
@@ -2340,15 +2343,15 @@ begin
 
   //newdoc props
   case UiOps.NewdocEnds of
-    0: Ed1.Strings.Endings:= {$ifdef windows} TATLineEnds.Windows {$else} TATLineEnds.Unix {$endif};
-    1: Ed1.Strings.Endings:= TATLineEnds.Unix;
-    2: Ed1.Strings.Endings:= TATLineEnds.Windows;
-    3: Ed1.Strings.Endings:= TATLineEnds.Mac;
+    0: St.Endings:= {$ifdef windows} TATLineEnds.Windows {$else} TATLineEnds.Unix {$endif};
+    1: St.Endings:= TATLineEnds.Unix;
+    2: St.Endings:= TATLineEnds.Windows;
+    3: St.Endings:= TATLineEnds.Mac;
   end;
-  Ed2.Strings.Endings:= Ed1.Strings.Endings;
+  Ed2.Strings.Endings:= St.Endings;
 
-  Ed1.Strings.ClearUndo;
-  Ed1.Strings.EncodingDetectDefaultUtf8:= true; //UiOps.DefaultEncUtf8;
+  St.ClearUndo;
+  St.EncodingDetectDefaultUtf8:= true; //UiOps.DefaultEncUtf8;
 
   Ed1.EncodingName:= AppEncodingShortnameToFullname(UiOps.NewdocEnc);
 
