@@ -2349,13 +2349,6 @@ begin
     UpdateMenuPlugins; //takes ~30 msec, so it is handled now in TimerAppIdle
     UpdateMenuPlugins_Shortcuts(true); //after loading keymap-main
     UpdateMenuHotkeys;
-
-    //on_start2 must run after Plugins menu is filled (for Favorites plugin)
-    if not FHandledOnStart2 then
-    begin
-      FHandledOnStart2:= true;
-      DoPyEvent(nil, cEventOnStart2, []);
-    end;
   end;
 
   if FNeedUpdateMenuChecks then
@@ -3747,6 +3740,12 @@ begin
   _Init_ForceRepaintEditor;
 
   _Init_ShortcutsForCustomizedMainMenu;
+
+  if not FHandledOnStart2 then
+  begin
+    FHandledOnStart2:= true;
+    DoPyEvent(nil, cEventOnStart2, []);
+  end;
 
   AppFormShowCompleted:= true;
   if Assigned(fmConsole) then
