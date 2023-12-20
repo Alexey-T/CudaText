@@ -683,7 +683,6 @@ type
     FHandledOnShowPartly: boolean;
     FHandledOnShowFully: boolean;
     FHandledOnStart2: boolean;
-    FHandledOnInitPluginsMenu: boolean;
     FHandledMakeCaretVisible: boolean;
     FCodetreeBuffer: TTreeView;
     FCfmPanel: TPanel;
@@ -2347,15 +2346,10 @@ begin
   if FNeedUpdateMenuPlugins then
   begin
     FNeedUpdateMenuPlugins:= false;
-    UpdateMenuPlugins; //takes ~30 msec, so it is handled now in TimerAppIdle
-    UpdateMenuPlugins_Shortcuts(true); //after loading keymap-main
+    UpdateMenuPlugins; //takes ~30 msec, so it is now in TimerAppIdle
+    UpdateMenuPlugins_Shortcuts(true);
     UpdateMenuHotkeys;
-
-    if not FHandledOnInitPluginsMenu then
-    begin
-      FHandledOnInitPluginsMenu:= true;
-      DoPyEvent(nil, cEventOnInitPluginsMenu, []);
-    end;
+    DoPyEvent(nil, cEventOnInitPluginsMenu, []);
   end;
 
   if FNeedUpdateMenuChecks then
@@ -3890,6 +3884,7 @@ begin
           DoOps_LoadPlugins(true);
           UpdateMenuPlugins;
           UpdateMenuPlugins_Shortcuts(true);
+          DoPyEvent(nil, cEventOnInitPluginsMenu, []);
         end;
     end;
 
@@ -8158,6 +8153,7 @@ begin
       mnuPlugins:= mi;
       MenuProps.CommandString:= 'plugins';
       UpdateMenuPlugins;
+      DoPyEvent(nil, cEventOnInitPluginsMenu, []);
     end
     else
     if AMenuCmd='_oplugins' then

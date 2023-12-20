@@ -540,6 +540,7 @@ begin
   if not AppPython.Inited then exit;
   DoOps_LoadPlugins(true);
   UpdateMenuPlugins;
+  DoPyEvent(nil, cEventOnInitPluginsMenu, []);
   MsgStatus(msgRescannedAllPlugins);
 end;
 
