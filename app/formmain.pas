@@ -8153,7 +8153,6 @@ begin
       mnuPlugins:= mi;
       MenuProps.CommandString:= 'plugins';
       UpdateMenuPlugins;
-      DoPyEvent(nil, cEventOnInitPluginsMenu, []);
     end
     else
     if AMenuCmd='_oplugins' then
