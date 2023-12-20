@@ -34,6 +34,7 @@ Event handlers (Command.on_nnnnn methods) return-value is ignored is many cases,
 * on_delete_file(self, ed_self, filename): Called on running command "File / Close and delete file". ed_self is None.
 * on_start(self, ed_self): Called once on program start. Called early, before applying config files. ed_self is None.
 * on_start2(self, ed_self): Called once on program start. Called later than on_start, after configs are applied, just before the main form shows. ed_self is None.
+* on_init_plugins_menu(self, ed_self): Called once on program start. Called later than on_start/on_start2, and after app goes into 'idle' state for the first time. App inits the "Plugins" menu in the 'idle' state and then fires on_init_plugins_menu. ed_self is None.
 * on_exit(self, ed_self): Called on exiting application. This event is lazy, ie it's called only for already loaded plugins. ed_self is None.
 * on_app_activate(self, ed_self): Called when application window gets focus. ed_self is None.
 * on_app_deactivate(self, ed_self): Called when application window looses focus. ed_self is None.
@@ -4934,5 +4935,8 @@ It provides:
 * add: Editor.get_prop/set_prop: PROP_CORNER2_COLOR_FONT
 * add: Editor.get_prop/set_prop: PROP_CORNER2_COLOR_BACK
 * add: Editor.get_prop/set_prop: PROP_CORNER2_COLOR_BORDER
+
+1.0.449 (app 1.205.6)
+* add: event on_init_plugins_menu
 
 [[Category:CudaText]]
