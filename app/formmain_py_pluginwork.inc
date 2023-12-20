@@ -332,7 +332,7 @@ end;
 
 
 procedure TfmMain.DoOps_AddPluginMenuItem(const ACaption: string;
-  ASubMenu: TMenuItem; ALangFile: TIniFile; ATag: integer);
+  ASubMenu: TMenuItem; ALangFile: TIniFile; ACommandListIndex: integer);
 var
   CmdItem: TAppCommandInfo;
   MenuProps: TAppMenuProps;
@@ -390,8 +390,8 @@ begin
 
   if Assigned(mi) and (mi.Caption<>'-') then
   begin
-    if not ((ATag>=0) and (ATag<AppCommandList.Count)) then exit;
-    CmdItem:= TAppCommandInfo(AppCommandList[ATag]);
+    if not ((ACommandListIndex>=0) and (ACommandListIndex<AppCommandList.Count)) then exit;
+    CmdItem:= TAppCommandInfo(AppCommandList[ACommandListIndex]);
 
     MenuProps:= TAppMenuProps.Create(Self);
     MenuProps.CommandCode:= -1;

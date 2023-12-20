@@ -791,7 +791,8 @@ type
     procedure DoOnLexerParseProgress(Sender: TObject; AProgress: integer);
     //procedure DoOnLexerParseProgress(Sender: TObject; ALineIndex, ALineCount: integer);
     procedure DoOnLexerParseProgress_Sync();
-    procedure DoOps_AddPluginMenuItem(const ACaption: string; ASubMenu: TMenuItem; ALangFile: TIniFile; ATag: integer);
+    procedure DoOps_AddPluginMenuItem(const ACaption: string; ASubMenu: TMenuItem;
+      ALangFile: TIniFile; ACommandListIndex: integer);
     procedure DoOps_LexersBackupSave;
     procedure DoOps_LexersBackupRestore;
     procedure DoOps_LoadOptions_Editor(cfg: TJSONConfig; var Op: TEditorOps);
