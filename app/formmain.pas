@@ -8160,6 +8160,7 @@ begin
       UpdateMenuPlugins;
     end
     else
+    if AMenuCaption<>'-' then
     begin
       MenuProps.CommandCode:= -1;
       MenuProps.CommandString:= AMenuCmd;
