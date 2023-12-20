@@ -427,7 +427,7 @@ var
   CmdItem: TAppCommandInfo;
   LangFile: TIniFile;
   //tick: QWord;
-  i: integer;
+  iCommand: integer;
 begin
   if not AppPython.Inited then exit;
   if mnuPlugins=nil then exit;
@@ -440,9 +440,9 @@ begin
   if Assigned(mnuOpPlugins) then
     mnuOpPlugins.Clear;
 
-  for i:= 0 to AppCommandList.Count-1 do
+  for iCommand:= 0 to AppCommandList.Count-1 do
   begin
-    CmdItem:= TAppCommandInfo(AppCommandList[i]);
+    CmdItem:= TAppCommandInfo(AppCommandList[iCommand]);
     if CmdItem.ItemModule='' then Break;
     if CmdItem.ItemFromApi then Continue;
 
@@ -475,12 +475,12 @@ begin
 
     //add to Plugins
     if (SInMenu='') or (Pos('p', SInMenu)>0) then
-      DoOps_AddPluginMenuItem(GroupValue(SCaption)+SCaption, mnuPlugins, LangFile, i);
+      DoOps_AddPluginMenuItem(GroupValue(SCaption)+SCaption, mnuPlugins, LangFile, iCommand);
 
     //add to Settings-plugins
     if Assigned(mnuOpPlugins) then
     if Pos('o', SInMenu)>0 then
-      DoOps_AddPluginMenuItem(SCaption, mnuOpPlugins, LangFile, i);
+      DoOps_AddPluginMenuItem(SCaption, mnuOpPlugins, LangFile, iCommand);
   end;
 
   UpdateMenuTheming_MainMenu;
