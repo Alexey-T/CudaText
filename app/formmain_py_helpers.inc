@@ -80,9 +80,9 @@ const
   cTheseEventsStoppedByTrue = [cEventOnComplete, cEventOnConsoleComplete, cEventOnFuncHint{, cEventOnTabSwitch}];
   cTheseEventsStoppedByNonEmptyString = [cEventOnFuncHint];
   cTheseEventsNeedGroupingUndo = [cEventOnComplete, cEventOnSnippet];
-  cTheseEventsDontRequireFrame = [cEventOnSnippet, cEventOnStart, cEventOnStart2, cEventOnExit, cEventOnDeleteFile, cEventOnSidebarPopup];
+  cTheseEventsDontRequireFrame = [cEventOnSnippet, cEventOnStart, cEventOnStart2, cEventOnExit, cEventOnDeleteFile, cEventOnSidebarPopup, cEventOnInitPluginsMenu];
   cTheseEventsAlwaysLazy = [cEventOnExit];
-  cTheseEventsIgnoreCurrentLexer = [cEventOnLexer, cEventOnStart, cEventOnStart2, cEventOnExit, cEventOnDeleteFile, cEventOnSidebarPopup];
+  cTheseEventsIgnoreCurrentLexer = [cEventOnLexer, cEventOnStart, cEventOnStart2, cEventOnExit, cEventOnDeleteFile, cEventOnSidebarPopup, cEventOnInitPluginsMenu];
 var
   SCurLexer, KeyForFilter: string;
   bNeedGroup: boolean;

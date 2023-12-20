@@ -683,6 +683,7 @@ type
     FHandledOnShowPartly: boolean;
     FHandledOnShowFully: boolean;
     FHandledOnStart2: boolean;
+    FHandledOnInitPluginsMenu: boolean;
     FHandledMakeCaretVisible: boolean;
     FCodetreeBuffer: TTreeView;
     FCfmPanel: TPanel;
@@ -2349,6 +2350,12 @@ begin
     UpdateMenuPlugins; //takes ~30 msec, so it is handled now in TimerAppIdle
     UpdateMenuPlugins_Shortcuts(true); //after loading keymap-main
     UpdateMenuHotkeys;
+
+    if not FHandledOnInitPluginsMenu then
+    begin
+      FHandledOnInitPluginsMenu:= true;
+      DoPyEvent(nil, cEventOnInitPluginsMenu, []);
+    end;
   end;
 
   if FNeedUpdateMenuChecks then
