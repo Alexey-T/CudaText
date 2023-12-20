@@ -415,11 +415,13 @@ var
   LangFN, LastModule: string;
   CmdItem: TAppCommandInfo;
   LangFile: TIniFile;
+  //tick: QWord;
   i: integer;
 begin
   if not AppPython.Inited then exit;
   if mnuPlugins=nil then exit;
 
+  //tick:= GetTickCount64;
   LastModule:= '';
   LangFile:= nil;
 
@@ -471,6 +473,9 @@ begin
   end;
 
   UpdateMenuTheming_MainMenu;
+
+  //tick:= GetTickCount64-tick;
+  //MsgLogConsole('UpdateMenuPlugins: '+IntToStr(tick)+'ms')
 end;
 
 procedure TfmMain.UpdateMenuPlugins_Shortcuts(AForceUpdate: boolean = false);

@@ -692,6 +692,7 @@ type
     FPyCompletionProps: TAppCompletionApiProps;
     FNeedUpdateStatuses: boolean;
     FNeedUpdateMenuChecks: boolean;
+    FNeedUpdateMenuPlugins: boolean;
     FNeedAppState_SubCommands: boolean;
     FNeedAppState_MenuAdd: boolean;
     FNeedAppState_MenuRemove: boolean;
@@ -2342,6 +2343,21 @@ begin
     UpdateStatusbar_RealWork;
   end;
 
+  if FNeedUpdateMenuPlugins then
+  begin
+    FNeedUpdateMenuPlugins:= false;
+    UpdateMenuPlugins; //takes ~30 msec, so it is handled now in TimerAppIdle
+    UpdateMenuPlugins_Shortcuts(true); //after loading keymap-main
+    UpdateMenuHotkeys;
+
+    //on_start2 must run after Plugins menu is filled (for Favorites plugin)
+    if not FHandledOnStart2 then
+    begin
+      FHandledOnStart2:= true;
+      DoPyEvent(nil, cEventOnStart2, []);
+    end;
+  end;
+
   if FNeedUpdateMenuChecks then
   begin
     FNeedUpdateMenuChecks:= false;
@@ -3684,12 +3700,6 @@ begin
   DoApplyUiOps;
   DoApplyInitialSidebarPanel;
 
-  UpdateMenuPlugins;
-
-  //after loading keymap-main
-  UpdateMenuPlugins_Shortcuts(true);
-  UpdateMenuHotkeys;
-
   AppPanels[cPaneSide].UpdateButtons;
   AppPanels[cPaneOut].UpdateButtons;
   UpdateStatusbar;
@@ -3729,6 +3739,7 @@ begin
 
   FHandledOnShowFully:= true;
   FNeedUpdateMenuChecks:= true;
+  FNeedUpdateMenuPlugins:= true;
 
   _Init_CheckExePath;
 
@@ -3736,12 +3747,6 @@ begin
   _Init_ForceRepaintEditor;
 
   _Init_ShortcutsForCustomizedMainMenu;
-
-  if not FHandledOnStart2 then
-  begin
-    FHandledOnStart2:= true;
-    DoPyEvent(nil, cEventOnStart2, []);
-  end;
 
   AppFormShowCompleted:= true;
   if Assigned(fmConsole) then
