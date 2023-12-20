@@ -952,7 +952,6 @@ type
     procedure MenuitemClick_CommandFromTag(Sender: TObject);
     procedure MenuitemClick_CommandFromHint(Sender: TObject);
     procedure MenuPicScaleClick(Sender: TObject);
-    procedure MenuPluginClick(Sender: TObject);
     procedure MenuTabsizeClick(Sender: TObject);
     procedure MenuViewerModeClick(Sender: TObject);
     procedure MenuLexerClick(Sender: TObject);

@@ -334,8 +334,10 @@ end;
 procedure TfmMain.DoOps_AddPluginMenuItem(const ACaption: string;
   ASubMenu: TMenuItem; ALangFile: TIniFile; ATag: integer);
 var
-  mi: TMenuItem;
+  CmdItem: TAppCommandInfo;
+  MenuProps: TAppMenuProps;
   Sep: TATStringSeparator;
+  mi: TMenuItem;
   strItem, strLocal: string;
   idx, NInsert: integer;
   bRoot: boolean;
@@ -386,10 +388,19 @@ begin
     end;
   until false;
 
-  if Assigned(mi) then
+  if Assigned(mi) and (mi.Caption<>'-') then
   begin
-    mi.OnClick:= @MenuPluginClick;
-    mi.Tag:= ATag;
+    if not ((ATag>=0) and (ATag<AppCommandList.Count)) then exit;
+    CmdItem:= TAppCommandInfo(AppCommandList[ATag]);
+
+    MenuProps:= TAppMenuProps.Create(Self);
+    MenuProps.CommandCode:= -1;
+    MenuProps.CommandString:= Format('module=%s;cmd=%s;', [CmdItem.ItemModule, CmdItem.ItemProc]);
+    if CmdItem.ItemProcParam<>'' then
+      MenuProps.CommandString+= Format('info=%s;', [CmdItem.ItemProcParam]);
+
+    mi.Tag:= PtrInt(MenuProps);
+    mi.OnClick:= @MenuMainClick;
   end;
 end;
 
@@ -544,11 +555,4 @@ begin
 
   UpdMenu(mnuPlugins, Ed.Keymap);
 end;
-
-
-procedure TfmMain.MenuPluginClick(Sender: TObject);
-begin
-  DoPyCommand_ByPluginIndex((Sender as TComponent).Tag, TATCommandInvoke.MenuMain);
-end;
-
 
