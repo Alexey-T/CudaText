@@ -4938,5 +4938,6 @@ It provides:
 
 1.0.449 (app 1.205.6)
 * add: event on_init_plugins_menu
+* change: initing of "Plugins" menu is now performed _after_ on_start2, in new event on_init_plugins_menu
 
 [[Category:CudaText]]
