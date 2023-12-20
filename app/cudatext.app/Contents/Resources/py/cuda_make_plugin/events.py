@@ -23,6 +23,7 @@ EVENTS = [
     'on_goto_def',
     'on_goto_enter',
     'on_hotspot',
+    'on_init_plugins_menu',
     'on_insert',
     'on_key',
     'on_key_up',
