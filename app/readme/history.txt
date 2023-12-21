@@ -5,7 +5,7 @@
 
 1.205.6 (2023/12)
 
-+ add: make app start by 30ms faster on Alexey's PC
++ add: make app start faster by 30ms on Alexey's PC, by moving Plugins-menu filling to 'app is idle' event (hotkeys must work anyway)
 + add: make 'nice' scrolling (middle click) 2x smoother (thanks @ThaiDat)
 - fix: on loading file with lexer, avoid temporary applying None-lexer-specific config (thanks @ThaiDat)
 
