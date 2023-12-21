@@ -793,7 +793,7 @@ type
     procedure DoDialogMenuThemes_ThemeSetter(const AThemeUi, AThemeSyntax: string);
     procedure DoFileDialog_PrepareDir(Dlg: TFileDialog);
     procedure DoFileDialog_SaveDir(Dlg: TFileDialog);
-    procedure DoCommandsMsgStatus(Sender: TObject; const ARes: string);
+    procedure DoCommands_OnMsg(Sender: TObject; const ARes: string);
     procedure DoFindFirst;
     procedure DoFindNext(ANext: boolean);
     procedure DoFindMarkAll(AMode: TATFindMarkingMode);
@@ -5049,7 +5049,7 @@ begin
     fmCommands.OptAllowConfig:= AProps.AllowConfig;
     fmCommands.OptAllowConfigForLexer:= AProps.AllowConfigForLexer;
     fmCommands.OptFocusedCommand:= AProps.FocusedCommand;
-    fmCommands.OnMsg:= @DoCommandsMsgStatus;
+    fmCommands.OnMsg:= @DoCommands_OnMsg;
     fmCommands.CurrentLexerName:= AProps.LexerName;
     fmCommands.Keymap:= Ed.Keymap;
     fmCommands.ListCaption:= AProps.Caption;
@@ -8228,7 +8228,7 @@ begin
   DoPyCommand('cuda_new_file', 'menu', [], AInvoke);
 end;
 
-procedure TfmMain.DoCommandsMsgStatus(Sender: TObject; const ARes: string);
+procedure TfmMain.DoCommands_OnMsg(Sender: TObject; const ARes: string);
 begin
   MsgStatus(ARes);
 end;
