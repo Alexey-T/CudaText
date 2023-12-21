@@ -672,29 +672,29 @@ begin
       case NPos of
         HINTPOS_CARET:
           begin
-            TooltipPos:= atpEditorCaret;
+            TooltipPos:= TAppTooltipPos.EditorCaret;
           end;
         HINTPOS_CARET_BRACKET:
           begin
-            TooltipPos:= atpEditorCaret;
+            TooltipPos:= TAppTooltipPos.EditorCaret;
             bGotoBracket:= true;
           end;
         HINTPOS_TEXT:
           begin
-            TooltipPos:= atpCustomTextPos;
+            TooltipPos:= TAppTooltipPos.CustomTextPos;
           end;
         HINTPOS_TEXT_BRACKET:
           begin
-            TooltipPos:= atpCustomTextPos;
+            TooltipPos:= TAppTooltipPos.CustomTextPos;
             bGotoBracket:= true;
           end;
         HINTPOS_WINDOW_TOP:
           begin
-            TooltipPos:= atpWindowTop;
+            TooltipPos:= TAppTooltipPos.WindowTop;
           end;
         HINTPOS_WINDOW_BOTTOM:
           begin
-            TooltipPos:= atpWindowBottom;
+            TooltipPos:= TAppTooltipPos.WindowBottom;
           end;
         else
           exit(ReturnNone);

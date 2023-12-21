@@ -1058,6 +1058,13 @@ type
     );
   TAppConfigHistoryElements = set of TAppConfigHistoryElement;
 
+  TAppTooltipPos = (
+    WindowTop,
+    WindowBottom,
+    EditorCaret,
+    CustomTextPos
+    );
+
 type
 
   { TAppCommandInfo }

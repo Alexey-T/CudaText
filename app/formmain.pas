@@ -142,9 +142,6 @@ var
   AppNotifThread: TAppNotifThread = nil;
 
 type
-  TAppTooltipPos = (atpWindowTop, atpWindowBottom, atpEditorCaret, atpCustomTextPos);
-
-type
 
   { TAppFormWithEditor }
 
@@ -5789,20 +5786,20 @@ begin
   FFormTooltip.ClientHeight:= NSizeY;
 
   case APosition of
-    atpWindowTop:
+    TAppTooltipPos.WindowTop:
       begin
         P:= Self.ClientToScreen(Point(0, 0));
       end;
-    atpWindowBottom:
+    TAppTooltipPos.WindowBottom:
       begin
         P:= Status.ClientToScreen(Point(0, 0));
       end;
-    atpEditorCaret,
-    atpCustomTextPos:
+    TAppTooltipPos.EditorCaret,
+    TAppTooltipPos.CustomTextPos:
       begin
         Ed:= CurrentEditor;
         NCellSize:= Ed.TextCharSize.Y;
-        if APosition=atpEditorCaret then
+        if APosition=TAppTooltipPos.EditorCaret then
         begin
           if Ed.Carets.Count=0 then exit;
           P.X:= Ed.Carets[0].PosX;
@@ -7691,7 +7688,7 @@ begin
   S:= DoPyEvent(Ed, TAppPyEvent.OnFuncHint, []).Str;
   S:= Trim(S);
   if S<>'' then
-    DoTooltipShow(S, UiOps.AltTooltipTime, atpEditorCaret, true, -1, -1);
+    DoTooltipShow(S, UiOps.AltTooltipTime, TAppTooltipPos.EditorCaret, true, -1, -1);
 end;
 
 procedure TfmMain.DoTooltipHide;
