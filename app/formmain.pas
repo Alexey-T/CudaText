@@ -8183,7 +8183,7 @@ begin
     else
     if AMenuCaption<>'-' then
     begin
-      MenuProps.CommandCode:= 0;
+      MenuProps.CommandCode:= -1;
       MenuProps.CommandString:= AMenuCmd;
       if (AMenuCmd<>'0') and (AMenuCmd<>'') then
         mi.OnClick:= @MenuMainClick;
