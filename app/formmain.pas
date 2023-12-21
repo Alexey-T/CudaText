@@ -7970,7 +7970,6 @@ var
 begin
   NTag:= mi.Tag;
   if NTag>cAppMinMemoryAddress then
-    //'if NTag<>0' is not correct, because items in Plugins menu have tags like 235
   begin
     NCommand:= TAppMenuProps(NTag).CommandCode;
     SCommand:= TAppMenuProps(NTag).CommandString;
@@ -7985,13 +7984,6 @@ begin
 
   with AppPython.Engine do
   begin
-    {
-    if NCommand>0 then
-      CmdObject:= PyLong_FromLong(NCommand)
-    else
-      CmdObject:= PyUnicodeFromString(SCommand);
-    }
-
     if mi.ShortCut<>0 then
       SShortCut:= ShortCutToText(mi.ShortCut)
     else
@@ -8010,10 +8002,6 @@ begin
       PChar(SShortCut),
       'tag',
       PChar(STagString),
-      {
-      'command',
-      CmdObject,
-      }
       'checked',
       PyBool_FromLong(Ord(mi.Checked)),
       'radio',
