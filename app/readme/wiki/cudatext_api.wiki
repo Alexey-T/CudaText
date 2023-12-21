@@ -1844,7 +1844,6 @@ Some actions get dict for menu items. Dict keys:
 * "cmd": command code (e.g. from module cudatext_cmd), int
 * "hint": callback (used if "cmd" value <=0), str
 * "hotkey": hotkey, str
-* "command": combined command description: int value of "cmd" (if code>0), or str value of "hint" (otherwise)
 * "tag": plugin-defined tag, str
 * "en": enabled state, bool
 * "vis": visible state, bool
@@ -4936,9 +4935,10 @@ It provides:
 * add: Editor.get_prop/set_prop: PROP_CORNER2_COLOR_BACK
 * add: Editor.get_prop/set_prop: PROP_CORNER2_COLOR_BORDER
 
-1.0.449 (app 1.205.6)
+1.0.449 (app 1.206.0)
 * add: event on_init_plugins_menu
 * change: initing of "Plugins" menu is now performed _after_ on_start2, before on_init_plugins_menu
-* add: menu items in "Plugins" menu support introspection by menu_proc() better: "command" property is filled now
+* change: menu_proc: don't return redundant dict key 'command'
+* add: menu items in "Plugins" menu support introspection by menu_proc() better: "hint" property is filled by Python callback
 
 [[Category:CudaText]]
