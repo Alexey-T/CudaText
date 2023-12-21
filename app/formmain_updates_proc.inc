@@ -793,7 +793,7 @@ begin
       (ACmd<>cCommand_SelectAll) then
       mi.ShortCut:= AppKeymapMain.GetShortcutFromCommand(ACmd);
 
-    //don't set Esc here: for OSX/ Qt, else Esc blocked in Find/ Goto/ closing app
+    //don't set Esc here: for macOS/ Qt5, otherwise Esc is blocked in Find/ Goto/ closing app
     if mi.Shortcut=AppShortcutEscape then
       mi.ShortCut:= 0;
     //don't allow Shift+Tab in menu: it blocks tabbing in Find/Replace
