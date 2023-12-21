@@ -7966,7 +7966,7 @@ function TfmMain.DoMenu_GetPyProps(mi: TMenuItem): PPyObject;
 var
   NTag: PtrInt;
   NCommand: integer;
-  SCommand, STagString, SShortCut: string;
+  SCommand, STagString: string;
 begin
   NTag:= mi.Tag;
   if NTag>cAppMinMemoryAddress then
@@ -7984,33 +7984,35 @@ begin
 
   with AppPython.Engine do
   begin
-    if mi.ShortCut<>0 then
-      SShortCut:= ShortCutToText(mi.ShortCut)
-    else
-      SShortCut:= '';
-
-    Result:= Py_BuildValue('{sLsssisssssssOsOsOsO}',
+    Result:= Py_BuildValue('{sLsssi}',
       'id',
       Int64(PtrInt(mi)),
       'cap',
       PChar(mi.Caption),
       'cmd',
-      NCommand,
-      'hint',
-      PChar(SCommand),
-      'hotkey',
-      PChar(SShortCut),
-      'tag',
-      PChar(STagString),
-      'checked',
-      PyBool_FromLong(Ord(mi.Checked)),
-      'radio',
-      PyBool_FromLong(Ord(mi.RadioItem)),
-      'en',
-      PyBool_FromLong(Ord(mi.Enabled)),
-      'vis',
-      PyBool_FromLong(Ord(mi.Visible))
+      NCommand
       );
+
+    if SCommand<>'' then
+      PyDict_SetItemString(Result, 'hint', PyUnicodeFromString(SCommand));
+
+    if mi.ShortCut<>0 then
+      PyDict_SetItemString(Result, 'hotkey', PyUnicodeFromString(ShortCutToText(mi.ShortCut)));
+
+    if STagString<>'' then
+      PyDict_SetItemString(Result, 'tag', PyUnicodeFromString(STagString));
+
+    if mi.Checked then
+      PyDict_SetItemString(Result, 'checked', Py_True);
+
+    if mi.RadioItem then
+      PyDict_SetItemString(Result, 'radio', Py_True);
+
+    if not mi.Enabled then
+      PyDict_SetItemString(Result, 'en', Py_False);
+
+    if not mi.Visible then
+      PyDict_SetItemString(Result, 'vis', Py_False);
   end;
 end;
 
