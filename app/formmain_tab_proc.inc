@@ -41,7 +41,7 @@ begin
 end;
 
 function TfmMain.CreateTab(APages: TATPages; const ACaption: string;
-  AndActivate: boolean; AAllowNearCurrent: TApp3States): TATTabData;
+  AndActivate: boolean; AAllowNearCurrent: TAppNewTabNearCurrent): TATTabData;
 var
   F: TEditorFrame;
   Data: TATTabData;
@@ -65,11 +65,11 @@ begin
   InitFrameEvents(F);
 
   case AAllowNearCurrent of
-    a3sOff:
+    TAppNewTabNearCurrent.Disabled:
       bAllowNear:= false;
-    a3sOn:
+    TAppNewTabNearCurrent.Enabled:
       bAllowNear:= true;
-    a3sPassive:
+    TAppNewTabNearCurrent.ByOption:
       bAllowNear:= UiOps.TabNewNearCurrent;
   end;
 

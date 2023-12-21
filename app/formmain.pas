@@ -1170,7 +1170,7 @@ type
     procedure FrameOnUpdateState(Sender: TObject);
     function CreateTab(APages: TATPages; const ACaption: string;
       AndActivate: boolean=true;
-      AAllowNearCurrent: TApp3States=a3sPassive): TATTabData;
+      AAllowNearCurrent: TAppNewTabNearCurrent=ByOption): TATTabData;
     procedure FrameOnEditorFocus(Sender: TObject);
     function GetFrame(AIndex: integer): TEditorFrame;
     procedure SetFrame(Frame: TEditorFrame);
@@ -4396,7 +4396,7 @@ var
   bAllowZip, bAllowPics, bAllowLexerDetect, bDetectedPics,
   bAndActivate: boolean;
   bFileTooBig, bFileTooBig2: boolean;
-  AllowNear: TApp3States;
+  AllowNear: TAppNewTabNearCurrent;
   OpenMode, NonTextMode: TAppOpenMode;
   CurGroups: TATGroups;
   //tick: QWord;
@@ -4436,12 +4436,12 @@ begin
   bAllowZip:= not SubInString('/nozip', AOptions);
   bAllowPics:= not SubInString('/nopictures', AOptions);
 
-  AllowNear:= a3sPassive;
+  AllowNear:= TAppNewTabNearCurrent.ByOption;
   if SubInString('/donear', AOptions) then
-    AllowNear:= a3sOn
+    AllowNear:= TAppNewTabNearCurrent.Enabled
   else
   if SubInString('/nonear', AOptions) then
-    AllowNear:= a3sOff;
+    AllowNear:= TAppNewTabNearCurrent.Disabled;
 
   if SubInString('/view-text', AOptions) then
     OpenMode:= cOpenModeViewText
@@ -4650,7 +4650,7 @@ begin
       if UiOps.TabsDisabled then
         D:= APages.Tabs.GetTabData(0)
       else
-        D:= CreateTab(APages, 'pre', true, a3sOff);
+        D:= CreateTab(APages, 'pre', true, TAppNewTabNearCurrent.Disabled);
       if not Assigned(D) then exit;
       UpdateTabPreviewStyle(D, true);
       Result:= D.TabObject as TEditorFrame;

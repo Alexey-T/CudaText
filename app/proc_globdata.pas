@@ -101,10 +101,10 @@ var
   AppLexersLastDetected: TStringList = nil;
 
 type
-  TApp3States = (
-    a3sOff,
-    a3sOn,
-    a3sPassive
+  TAppNewTabNearCurrent = (
+    Disabled,
+    Enabled,
+    ByOption
     );
 
   TAppHistoryElement = (
