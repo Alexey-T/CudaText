@@ -100,6 +100,7 @@ var
 
   AppLexersLastDetected: TStringList = nil;
 
+{$ScopedEnums on}
 type
   TAppNewTabNearCurrent = (
     Disabled,
@@ -108,29 +109,30 @@ type
     );
 
   TAppHistoryElement = (
-    ahhText,
-    ahhCaret,
-    ahhCaretSel,
-    ahhTopLine,
-    ahhTabSize,
-    ahhEncoding,
-    ahhBookmarks,
-    ahhLexer,
-    ahhWordWrap,
-    ahhMinimap,
-    ahhMicromap,
-    ahhRuler,
-    ahhUnprinted,
-    ahhLineNumbers,
-    ahhScale,
-    ahhFolding,
-    ahhMarkers,
-    ahhTabColor,
-    ahhCodeTreeFilter,
-    ahhTabSplit,
-    ahhMargin,
-    ahhUndoRedo
+    Text,
+    Caret,
+    CaretSel,
+    TopLine,
+    TabSize,
+    Encoding,
+    Bookmarks,
+    Lexer,
+    WordWrap,
+    Minimap,
+    Micromap,
+    Ruler,
+    Unprinted,
+    LineNumbers,
+    Scale,
+    Folding,
+    Markers,
+    TabColor,
+    CodeTreeFilter,
+    TabSplit,
+    Margin,
+    UndoRedo
     );
+{$ScopedEnums off}
 
 const
   cAppHistoryElementChar: array[TAppHistoryElement] of char =

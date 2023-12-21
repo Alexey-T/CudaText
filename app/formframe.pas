@@ -3838,7 +3838,7 @@ begin
     DoSaveHistoryEx(Ed, cfg, SKeyForFile, false);
 
     //bookmarks are always saved to 'history files.json'
-    if UiOps.HistoryItems[ahhBookmarks] then
+    if UiOps.HistoryItems[TAppHistoryElement.Bookmarks] then
       DoSaveBookmarks(Ed, cfg);
   finally
     cfg.Free;
@@ -3853,7 +3853,7 @@ begin
   if Ed.Carets.Count>0 then
   begin
     Caret:= Ed.Carets[0];
-    if UiOps.HistoryItems[ahhCaretSel] then
+    if UiOps.HistoryItems[TAppHistoryElement.CaretSel] then
     begin
       EndX:= Caret.EndX;
       EndY:= Caret.EndY;
@@ -3907,7 +3907,7 @@ begin
   //save 'split' value only when we have single file splitted,
   //but not 2 different files (like user.json + default.json)
   if FileName2='' then
-  if UiOps.HistoryItems[ahhTabSplit] then
+  if UiOps.HistoryItems[TAppHistoryElement.TabSplit] then
   begin
     if Splitted then
       c.SetValue(path+cHistory_TabSplit, Format('%s,%d', [
@@ -3923,41 +3923,41 @@ begin
   else
     c.DeleteValue(path+cHistory_TabCaption);
 
-  if UiOps.HistoryItems[ahhLexer] then
+  if UiOps.HistoryItems[TAppHistoryElement.Lexer] then
     c.SetDeleteValue(path+cHistory_Lexer, LexerName[Ed], '');
 
-  if UiOps.HistoryItems[ahhEncoding] then
+  if UiOps.HistoryItems[TAppHistoryElement.Encoding] then
     c.SetValue(path+cHistory_Enc, Ed.EncodingName);
 
-  if UiOps.HistoryItems[ahhTopLine] then
+  if UiOps.HistoryItems[TAppHistoryElement.TopLine] then
   begin
     c.SetDeleteValue(path+cHistory_TopLine, Ed.LineTop, 0);
     if EditorsLinked and Splitted then
       c.SetDeleteValue(path+cHistory_TopLine2, Ed2.LineTop, 0);
   end;
 
-  if UiOps.HistoryItems[ahhWordWrap] then
+  if UiOps.HistoryItems[TAppHistoryElement.WordWrap] then
     c.SetDeleteValue(path+cHistory_Wrap, Ord(Ed.OptWrapMode), Ord(EditorOps.OpWrapMode));
 
   if not (TATEditorModifiedOption.ReadOnlyIsDetected in Ed.ModifiedOptions) then
     c.SetDeleteValue(path+cHistory_ReadOnly, ReadOnly[Ed], false);
 
-  if UiOps.HistoryItems[ahhRuler] then
+  if UiOps.HistoryItems[TAppHistoryElement.Ruler] then
     c.SetDeleteValue(path+cHistory_Ruler, Ord(Ed.OptRulerVisible), Ord(EditorOps.OpRulerShow));
 
-  if UiOps.HistoryItems[ahhMinimap] then
+  if UiOps.HistoryItems[TAppHistoryElement.Minimap] then
     c.SetDeleteValue(path+cHistory_Minimap, Ord(Ed.OptMinimapVisible), Ord(EditorOps.OpMinimapShow));
 
-  if UiOps.HistoryItems[ahhMicromap] then
+  if UiOps.HistoryItems[TAppHistoryElement.Micromap] then
     c.SetDeleteValue(path+cHistory_Micromap, Ord(Ed.OptMicromapVisible), Ord(EditorOps.OpMicromapShow));
 
-  if UiOps.HistoryItems[ahhTabSize] then
+  if UiOps.HistoryItems[TAppHistoryElement.TabSize] then
   begin
     c.SetValue(path+cHistory_TabSize, Ed.OptTabSize);
     c.SetValue(path+cHistory_TabSpace, Ed.OptTabSpaces);
   end;
 
-  if UiOps.HistoryItems[ahhUnprinted] then
+  if UiOps.HistoryItems[TAppHistoryElement.Unprinted] then
   begin
     c.SetDeleteValue(path+cHistory_Unpri,        Ord(Ed.OptUnprintedVisible),     Ord(EditorOps.OpUnprintedShow));
     c.SetDeleteValue(path+cHistory_Unpri_Spaces, Ord(Ed.OptUnprintedSpaces),      Ord(Pos('s', EditorOps.OpUnprintedContent)>0));
@@ -3965,19 +3965,19 @@ begin
     c.SetDeleteValue(path+cHistory_Unpri_Detail, Ord(Ed.OptUnprintedEndsDetails), Ord(Pos('d', EditorOps.OpUnprintedContent)>0));
   end;
 
-  if UiOps.HistoryItems[ahhLineNumbers] then
+  if UiOps.HistoryItems[TAppHistoryElement.LineNumbers] then
     c.SetDeleteValue(path+cHistory_LineNums, Ord(Ed.Gutter[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagNumbers)].Visible), 1);
 
-  if UiOps.HistoryItems[ahhScale] then
+  if UiOps.HistoryItems[TAppHistoryElement.Scale] then
     c.SetDeleteValue(path+cHistory_FontScale, Ed.OptScaleFont, 0);
 
-  if UiOps.HistoryItems[ahhFolding] then
+  if UiOps.HistoryItems[TAppHistoryElement.Folding] then
   begin
     c.SetDeleteValue(path+cHistory_FoldingShow, Ord(Ed.Gutter[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagFolding)].Visible), 1);
     c.SetDeleteValue(path+cHistory_FoldedRanges, Ed.FoldingAsString, '');
   end;
 
-  if UiOps.HistoryItems[ahhTabColor] then
+  if UiOps.HistoryItems[TAppHistoryElement.TabColor] then
   begin
     if TabColor=clNone then
       c.DeleteValue(path+cHistory_TabColor)
@@ -3985,7 +3985,7 @@ begin
       c.SetValue(path+cHistory_TabColor, ColorToString(TabColor));
   end;
 
-  if UiOps.HistoryItems[ahhCaret] then
+  if UiOps.HistoryItems[TAppHistoryElement.Caret] then
     DoSaveHistory_Caret(Ed, c, path);
 
   {
@@ -3996,7 +3996,7 @@ begin
     c.SetDeleteValue(path+cHistory_Markers, Ed.Markers.AsMarkerString, '');
   }
 
-  if UiOps.HistoryItems[ahhCodeTreeFilter] then
+  if UiOps.HistoryItems[TAppHistoryElement.CodeTreeFilter] then
   begin
     c.SetDeleteValue(path+cHistory_CodeTreeFilter, FCodetreeFilter, '');
 
@@ -4006,7 +4006,7 @@ begin
       c.DeleteValue(path+cHistory_CodeTreeFilters);
   end;
 
-  if UiOps.HistoryItems[ahhMargin] then
+  if UiOps.HistoryItems[TAppHistoryElement.Margin] then
     c.SetDeleteValue(path+cHistory_Margin, Ed.OptMarginRight, EditorOps.OpMarginFixed);
 end;
 

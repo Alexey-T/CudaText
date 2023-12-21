@@ -1170,7 +1170,7 @@ type
     procedure FrameOnUpdateState(Sender: TObject);
     function CreateTab(APages: TATPages; const ACaption: string;
       AndActivate: boolean=true;
-      AAllowNearCurrent: TAppNewTabNearCurrent=ByOption): TATTabData;
+      AAllowNearCurrent: TAppNewTabNearCurrent=TAppNewTabNearCurrent.ByOption): TATTabData;
     procedure FrameOnEditorFocus(Sender: TObject);
     function GetFrame(AIndex: integer): TEditorFrame;
     procedure SetFrame(Frame: TEditorFrame);
@@ -3126,7 +3126,7 @@ begin
     ACanClose:= (
       UiOps.ReopenSession and
       UiOps.SessionSaveOnExit and
-      UiOps.HistoryItems[ahhText]
+      UiOps.HistoryItems[TAppHistoryElement.Text]
       )
       or DoDialogSaveTabs
   else

@@ -405,7 +405,7 @@ begin
         cfg.DeleteValue(path+'/v_pos');
         }
 
-      if bModified and UiOps.HistoryItems[ahhText] then
+      if bModified and UiOps.HistoryItems[TAppHistoryElement.Text] then
         if (not bUntitled and ASaveModifiedFiles) or
           (bUntitled and ASaveUntitledTabs) then
           if not Frame.Ed1.Strings.IsSizeBig(UiOps.MaxSizeForSession) then
@@ -415,7 +415,7 @@ begin
             cfg.SetValue(path+'/file_date', FormatFileDateAsNiceString(sTabFilename));
           Frame.VersionInSession:= Frame.Ed1.Strings.ModifiedVersion;
 
-          if UiOps.HistoryItems[ahhUndoRedo] then
+          if UiOps.HistoryItems[TAppHistoryElement.UndoRedo] then
           begin
             sUndo:= Frame.Ed1.UndoAsString;
             if Length(sUndo)<=UiOps.MaxUndoSizeForSessionFile then
@@ -443,13 +443,13 @@ begin
           cfg.DeleteValue(path+'/text');
         cfg.SetValue(path+'/file', AppCollapseHomeDirInFilename(sTabFilename2));
 
-        if bModified and UiOps.HistoryItems[ahhText] then
+        if bModified and UiOps.HistoryItems[TAppHistoryElement.Text] then
           if not Frame.Ed2.Strings.IsSizeBig(UiOps.MaxSizeForSession) then
         begin
           cfg.SetValue(path+'/text', Frame.Ed2.Text);
           if FileExists(sTabFilename2) then
             cfg.SetValue(path+'/file_date', FormatFileDateAsNiceString(sTabFilename2));
-          if UiOps.HistoryItems[ahhUndoRedo] then
+          if UiOps.HistoryItems[TAppHistoryElement.UndoRedo] then
           begin
             sUndo:= Frame.Ed2.UndoAsString;
             if Length(sUndo)<=UiOps.MaxUndoSizeForSessionFile then
