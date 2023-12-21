@@ -1162,11 +1162,11 @@ var
 begin
   bCase:= true;
   case UiOps.FindCurrentWordCaseSensitive of
-    ufcsCaseIgnore:
+    TUiOpsFindCaseSensitive.CaseIgnore:
       bCase:= false;
-    ufcsCaseSens:
+    TUiOpsFindCaseSensitive.CaseSens:
       bCase:= true;
-    ufcsCaseFromDialog:
+    TUiOpsFindCaseSensitive.FromDialog:
       begin
         if Assigned(fmFind) then
           bCase:= fmFind.chkCase.Checked;

@@ -203,12 +203,14 @@ const
   AppExtensionThemeUi = '.cuda-theme-ui';
   AppExtensionThemeSyntax = '.cuda-theme-syntax';
 
+{$ScopedEnums on}
 type
   TUiOpsFindCaseSensitive = (
-    ufcsCaseIgnore,
-    ufcsCaseSens,
-    ufcsCaseFromDialog
+    CaseIgnore,
+    CaseSens,
+    FromDialog
     );
+{$ScopedEnums off}
 
 type
   TUiOps = record
@@ -2036,7 +2038,7 @@ begin
     FindSuggestSel:= true;
     FindSuggestWord:= false;
     FindSuggestInSelection:= false;
-    FindCurrentWordCaseSensitive:= ufcsCaseFromDialog;
+    FindCurrentWordCaseSensitive:= TUiOpsFindCaseSensitive.FromDialog;
     FindShowNoResultsByInputBgColor:= true;
 
     FindHiddenButtons:= '';
