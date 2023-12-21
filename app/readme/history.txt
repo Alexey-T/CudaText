@@ -5,6 +5,7 @@
 
 1.205.6 (2023/12)
 
++ add: make app start by 30ms faster on Alexey's PC
 + add: make 'nice' scrolling (middle click) 2x smoother (thanks @ThaiDat)
 - fix: on loading file with lexer, avoid temporary applying None-lexer-specific config (thanks @ThaiDat)
 
