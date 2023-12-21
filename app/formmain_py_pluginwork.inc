@@ -393,7 +393,7 @@ begin
     CmdItem:= TAppCommandInfo(AppCommandList[ACommandListIndex]);
 
     MenuProps:= TAppMenuProps.Create(Self);
-    MenuProps.CommandCode:= -1;
+    MenuProps.CommandCode:= cmdFirstPluginCommand+ACommandListIndex;
     MenuProps.CommandString:= Format('module=%s;cmd=%s;', [CmdItem.ItemModule, CmdItem.ItemProc]);
     if CmdItem.ItemProcParam<>'' then
       MenuProps.CommandString+= Format('info=%s;', [CmdItem.ItemProcParam]);
@@ -496,18 +496,14 @@ begin
 end;
 
 procedure TfmMain.UpdateMenuPlugins_Shortcuts_Work(AForceUpdate: boolean);
-{
-problem with this procedure:
-app-created menuitems: TMenuItem.Tag is a command value minus cmdFirstPluginCommand;
-plugin API-created menuitems: TMenuItem.Tag is object address.
-so if Plugins-menu has API-created menuitems (like Favorites plugin fork did),
-code can assign to MenuItem shortcut of wrong command.
-}
+var
+  EdKeymap: TATKeymap;
   //
-  procedure UpdMenu(AMenu: TMenuItem; AKeymap: TATKeymap);
+  procedure UpdMenu(AMenu: TMenuItem);
   var
     miSub: TMenuItem;
-    NCommand, i: integer;
+    MenuProps: TAppMenuProps;
+    i: integer;
   begin
     for i:= 0 to AMenu.Count-1 do
     begin
@@ -515,21 +511,15 @@ code can assign to MenuItem shortcut of wrong command.
       if miSub.Caption='-' then
         Continue;
       if miSub.Count>0 then
-        UpdMenu(miSub, AKeymap)
+        UpdMenu(miSub)
       else
       if miSub.Tag>cAppMinMemoryAddress then
-        Continue
-      else
-      if miSub.Tag>0 then
       begin
-        {
-        if (miSub.Tag>MaxInt-cmdFirstPluginCommand) then
-          Continue;
-          //raise Exception.Create('Too big menuitem.Tag. Menuitem caption: '+miSub.Caption+'; Tag: '+IntToHex(miSub.Tag));
-          ////too big value in Tag occurs when menuitem is created via API menu_proc(). It's object address.
-        }
-        NCommand:= integer(cmdFirstPluginCommand+miSub.Tag);
-        miSub.ShortCut:= AKeymap.GetShortcutFromCommand(NCommand);
+        MenuProps:= TAppMenuProps(miSub.Tag);
+        if MenuProps.CommandCode>0 then
+          miSub.ShortCut:= EdKeymap.GetShortcutFromCommand(MenuProps.CommandCode)
+        else
+          miSub.ShortCut:= 0;
       end;
     end;
   end;
@@ -552,6 +542,7 @@ begin
     FLastLexerForPluginsMenu:= NewLexer;
   end;
 
-  UpdMenu(mnuPlugins, Ed.Keymap);
+  EdKeymap:= Ed.Keymap;
+  UpdMenu(mnuPlugins);
 end;
 
