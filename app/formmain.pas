@@ -4758,7 +4758,7 @@ begin
   Result:= F;
 
   //use AndActivate=false in CreateTab() and focus here manually,
-  //to avoid setting (None) lexer and apply lexer-specific config for it; issue #5320
+  //to avoid setting None-lexer + applying lexer-specific config for it; issue #5320
   SetFrame(F);
 
   UpdateStatusbar;
