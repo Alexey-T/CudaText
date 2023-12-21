@@ -492,8 +492,8 @@ end;
 procedure TfmMain.UpdateMenuPlugins_Shortcuts(AForceUpdate: boolean = false);
 begin
   //real work will run in OnIdleTimer (it's rather slow)
-  FInvalidateShortcuts:= true;
-  FInvalidateShortcutsForce:= AForceUpdate;
+  FNeedUpdateMenuShortcuts:= true;
+  FNeedUpdateMenuShortcuts_Force:= AForceUpdate;
 end;
 
 procedure TfmMain.UpdateMenuPlugins_Shortcuts_Work(AForceUpdate: boolean);

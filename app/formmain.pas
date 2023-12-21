@@ -691,8 +691,10 @@ type
     FNewClickedEditor: TATSynEdit;
     FPyCompletionProps: TAppCompletionApiProps;
     FNeedUpdateStatuses: boolean;
-    FNeedUpdateMenuChecks: boolean;
     FNeedUpdateMenuPlugins: boolean;
+    FNeedUpdateMenuChecks: boolean;
+    FNeedUpdateMenuShortcuts: boolean;
+    FNeedUpdateMenuShortcuts_Force: boolean;
     FNeedAppState_SubCommands: boolean;
     FNeedAppState_MenuAdd: boolean;
     FNeedAppState_MenuRemove: boolean;
@@ -711,8 +713,6 @@ type
     FLastLoadedConfig: string;
     FLastLoadedEditorOps: TEditorOps;
     FDisableTreeClearing: boolean;
-    FInvalidateShortcuts: boolean;
-    FInvalidateShortcutsForce: boolean;
     FLexerProgressIndex: integer;
     FOption_WindowPos: string;
     FOption_AllowSessionLoad: TAppAllowSomething;
@@ -2345,7 +2345,7 @@ begin
     FNeedUpdateMenuPlugins:= false;
     UpdateMenuPlugins; //takes ~30 msec, so it is now in TimerAppIdle
     UpdateMenuPlugins_Shortcuts(true);
-    UpdateMenuHotkeys;
+    UpdateMenuHotkeys; //takes ~3 msec
     DoPyEvent(nil, TAppPyEvent.OnInitPluginsMenu, []);
   end;
 
@@ -2379,10 +2379,10 @@ begin
     end;
   end;
 
-  if FInvalidateShortcuts then
+  if FNeedUpdateMenuShortcuts then
   begin
-    FInvalidateShortcuts:= false;
-    UpdateMenuPlugins_Shortcuts_Work(FInvalidateShortcutsForce);
+    FNeedUpdateMenuShortcuts:= false;
+    UpdateMenuPlugins_Shortcuts_Work(FNeedUpdateMenuShortcuts_Force);
   end;
 
   if FNeedAppState_MenuAdd then
