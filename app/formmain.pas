@@ -138,9 +138,6 @@ type
     procedure Execute; override;
   end;
 
-  TAppConfigHistoryElement = (acheRecentFiles, acheSearch, acheConsole);
-  TAppConfigHistoryElements = set of TAppConfigHistoryElement;
-
 var
   AppNotifThread: TAppNotifThread = nil;
 
@@ -3847,7 +3844,7 @@ end;
 
 procedure TfmMain.MenuRecentsClear(Sender: TObject);
 begin
-  DoOps_ClearConfigHistory([acheRecentFiles]);
+  DoOps_ClearConfigHistory([TAppConfigHistoryElement.RecentFiles]);
 end;
 
 function TfmMain.DoFileInstallZip(const fn: string; out DirTarget: string;

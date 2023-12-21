@@ -447,11 +447,11 @@ begin
       EditorExpandSelectionToWord(Ed, @FinderShowResultSimple, false, false);
 
     cmd_OpsClearRecent:
-      DoOps_ClearConfigHistory([acheRecentFiles]);
+      DoOps_ClearConfigHistory([TAppConfigHistoryElement.RecentFiles]);
     cmd_OpsClearSearchHistory:
-      DoOps_ClearConfigHistory([acheSearch]);
+      DoOps_ClearConfigHistory([TAppConfigHistoryElement.Search]);
     cmd_OpsClearConsoleHistory:
-      DoOps_ClearConfigHistory([acheConsole]);
+      DoOps_ClearConfigHistory([TAppConfigHistoryElement.Console]);
 
     cmd_OpsOpenDefault:
       DoOps_OpenFile_Default;

@@ -1051,6 +1051,13 @@ type
     NotGood
     );
 
+  TAppConfigHistoryElement = (
+    RecentFiles,
+    Search,
+    Console
+    );
+  TAppConfigHistoryElements = set of TAppConfigHistoryElement;
+
 type
 
   { TAppCommandInfo }

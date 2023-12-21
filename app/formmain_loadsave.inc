@@ -78,7 +78,7 @@ begin
       exit;
     end;
 
-    if acheRecentFiles in AMode then
+    if TAppConfigHistoryElement.RecentFiles in AMode then
     begin
       cfg.DeleteValue('/recent_files');
       //
@@ -88,7 +88,7 @@ begin
       DeleteFileUTF8(AppFile_HistoryFiles);
     end;
 
-    if acheSearch in AMode then
+    if TAppConfigHistoryElement.Search in AMode then
     begin
       cfg.DeleteValue('/list_find');
       cfg.DeleteValue('/list_replace');
@@ -99,7 +99,7 @@ begin
       end;
     end;
 
-    if acheConsole in AMode then
+    if TAppConfigHistoryElement.Console in AMode then
     begin
       cfg.DeleteValue('/list_console');
       if Assigned(fmConsole) then
