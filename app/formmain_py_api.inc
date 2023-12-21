@@ -5556,12 +5556,12 @@ begin
 
         APP_PROC_HOTKEY_INT_TO_STR:
           begin
-            Str:= ShortCutToText(StrToIntDef(Str, 0));
+            Str:= ShortCutToTextRaw(StrToIntDef(Str, 0));
             Result:= PyUnicodeFromString(Str);
           end;
         APP_PROC_HOTKEY_STR_TO_INT:
           begin
-            Str:= IntToStr(TextToShortCut(Str));
+            Str:= IntToStr(TextToShortCutRaw(Str));
             Result:= PyUnicodeFromString(Str);
           end;
 
@@ -6537,7 +6537,7 @@ begin
           begin
             PopupItem:= PyHelper_MenuItemFromId(StrMenu);
             if Assigned(PopupItem) then
-              PopupItem.ShortCut:= TextToShortCut(StrCmd);
+              PopupItem.ShortCut:= TextToShortCutRaw(StrCmd);
             fmMain.FNeedAppState_MenuChange:= true;
             Result:= ReturnNone;
           end;

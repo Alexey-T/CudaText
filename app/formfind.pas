@@ -539,24 +539,24 @@ begin
 
   FMenuitemOptRegex.Caption:= msgFindHint_Regex;
   FMenuitemOptRegex.Checked:= chkRegex.Checked;
-  FMenuitemOptRegex.ShortCut:= TextToShortCut(UiOps.HotkeyToggleRegex);
+  FMenuitemOptRegex.ShortCut:= TextToShortCutRaw(UiOps.HotkeyToggleRegex);
   FMenuitemOptCase.Caption:= msgFindHint_Case;
   FMenuitemOptCase.Checked:= chkCase.Checked;
-  FMenuitemOptCase.ShortCut:= TextToShortCut(UiOps.HotkeyToggleCaseSens);
+  FMenuitemOptCase.ShortCut:= TextToShortCutRaw(UiOps.HotkeyToggleCaseSens);
   FMenuitemOptWords.Caption:= msgFindHint_Words;
   FMenuitemOptWords.Checked:= chkWords.Checked;
-  FMenuitemOptWords.ShortCut:= TextToShortCut(UiOps.HotkeyToggleWords);
+  FMenuitemOptWords.ShortCut:= TextToShortCutRaw(UiOps.HotkeyToggleWords);
   FMenuitemOptWrapped.Caption:= msgFindHint_Wrapped;
   FMenuitemOptWrapped.Checked:= chkWrap.Checked;
-  FMenuitemOptWrapped.ShortCut:= TextToShortCut(UiOps.HotkeyToggleWrapped);
+  FMenuitemOptWrapped.ShortCut:= TextToShortCutRaw(UiOps.HotkeyToggleWrapped);
   FMenuitemOptInSel.Caption:= msgFindHint_InSelect;
   FMenuitemOptInSel.Checked:= chkInSel.Checked;
-  FMenuitemOptInSel.ShortCut:= TextToShortCut(UiOps.HotkeyToggleInSelect);
+  FMenuitemOptInSel.ShortCut:= TextToShortCutRaw(UiOps.HotkeyToggleInSelect);
   FMenuitemOptMulti.Caption:= msgFindHint_MultiLine;
   FMenuitemOptMulti.Checked:= chkMulLine.Checked;
-  FMenuitemOptMulti.ShortCut:= TextToShortCut(UiOps.HotkeyToggleMultiline);
+  FMenuitemOptMulti.ShortCut:= TextToShortCutRaw(UiOps.HotkeyToggleMultiline);
   FMenuitemOptTokens.Caption:= msgFindHint_Tokens;
-  FMenuitemOptTokens.ShortCut:= TextToShortCut(UiOps.HotkeyToggleTokens);
+  FMenuitemOptTokens.ShortCut:= TextToShortCutRaw(UiOps.HotkeyToggleTokens);
   for kind in TATFinderTokensAllowed do
   begin
     FMenuitemOptTokensSub[kind].Caption:= bTokens.Items[Ord(kind)];
@@ -565,7 +565,7 @@ begin
 
   FMenuitemOptHiAll.Caption:= msgFindHint_HiAll;
   FMenuitemOptHiAll.Checked:= chkHiAll.Checked;
-  FMenuitemOptHiAll.ShortCut:= TextToShortCut(UiOps.HotkeyToggleHiAll);
+  FMenuitemOptHiAll.ShortCut:= TextToShortCutRaw(UiOps.HotkeyToggleHiAll);
   FMenuitemOptHiAll.Enabled:= chkHiAll.Enabled;
   if not FMenuitemOptHiAll.Enabled then
     FMenuitemOptHiAll.Caption:= FMenuitemOptHiAll.Caption+' '+
@@ -578,33 +578,33 @@ begin
   FMenuitemOptPreserveCase.Caption:= msgFindHint_PresCase;
   FMenuitemOptPreserveCase.Checked:= chkPreserveCase.Checked;
   FMenuitemOptPreserveCase.Enabled:= IsReplace and not chkRegex.Checked;
-  FMenuitemOptPreserveCase.ShortCut:= TextToShortCut(UiOps.HotkeyTogglePresCase);
+  FMenuitemOptPreserveCase.ShortCut:= TextToShortCutRaw(UiOps.HotkeyTogglePresCase);
 
   FMenuitemFindFirst.Caption:= SCaptionFindFirst;
-  FMenuitemFindFirst.ShortCut:= TextToShortCut(UiOps.HotkeyFindFirst);
+  FMenuitemFindFirst.ShortCut:= TextToShortCutRaw(UiOps.HotkeyFindFirst);
   FMenuitemFindPrev.Caption:= SCaptionFindPrev;
-  FMenuitemFindPrev.Shortcut:= TextToShortcut(UiOps.HotkeyFindPrev);
+  FMenuitemFindPrev.Shortcut:= TextToShortCutRaw(UiOps.HotkeyFindPrev);
   FMenuitemFindNext.Caption:= SCaptionFindNext;
-  FMenuitemFindNext.Shortcut:= TextToShortcut(UiOps.HotkeyFindNext);
+  FMenuitemFindNext.Shortcut:= TextToShortCutRaw(UiOps.HotkeyFindNext);
   FMenuitemCount.Caption:= SCaptionCount;
-  FMenuitemCount.Shortcut:= TextToShortcut(UiOps.HotkeyCountAll);
+  FMenuitemCount.Shortcut:= TextToShortCutRaw(UiOps.HotkeyCountAll);
   FMenuitemExtract.Caption:= SCaptionExtract;
-  FMenuitemExtract.Shortcut:= TextToShortcut(UiOps.HotkeyExtractAll);
+  FMenuitemExtract.Shortcut:= TextToShortCutRaw(UiOps.HotkeyExtractAll);
   FMenuitemSelectAll.Caption:= SCaptionSelect;
-  FMenuitemSelectAll.Shortcut:= TextToShortcut(UiOps.HotkeySelectAll);
+  FMenuitemSelectAll.Shortcut:= TextToShortCutRaw(UiOps.HotkeySelectAll);
   FMenuitemMarkAll.Caption:= SCaptionMark;
-  FMenuitemMarkAll.Shortcut:= TextToShortcut(UiOps.HotkeyMarkAll);
+  FMenuitemMarkAll.Shortcut:= TextToShortCutRaw(UiOps.HotkeyMarkAll);
   FMenuitemRep.Caption:= SCaptionRep;
-  FMenuitemRep.Shortcut:= TextToShortcut(UiOps.HotkeyReplaceAndFindNext);
+  FMenuitemRep.Shortcut:= TextToShortCutRaw(UiOps.HotkeyReplaceAndFindNext);
   FMenuitemRep.Enabled:= IsReplace;
   FMenuitemRepStop.Caption:= SCaptionRepStop;
-  FMenuitemRepStop.Shortcut:= TextToShortcut(UiOps.HotkeyReplaceNoFindNext);
+  FMenuitemRepStop.Shortcut:= TextToShortCutRaw(UiOps.HotkeyReplaceNoFindNext);
   FMenuitemRepStop.Enabled:= IsReplace;
   FMenuitemRepAll.Caption:= SCaptionRepAll;
-  FMenuitemRepAll.Shortcut:= TextToShortcut(UiOps.HotkeyReplaceAll);
+  FMenuitemRepAll.Shortcut:= TextToShortCutRaw(UiOps.HotkeyReplaceAll);
   FMenuitemRepAll.Enabled:= IsReplace;
   FMenuitemRepGlobal.Caption:= SCaptionRepGlobal;
-  FMenuitemRepGlobal.Shortcut:= TextToShortcut(UiOps.HotkeyReplaceGlobal);
+  FMenuitemRepGlobal.Shortcut:= TextToShortCutRaw(UiOps.HotkeyReplaceGlobal);
   FMenuitemRepGlobal.Enabled:= IsReplace;
 end;
 
@@ -960,7 +960,7 @@ procedure TfmFind.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState
 var
   Str: string;
 begin
-  Str:= ShortcutToText(KeyToShortCut(Key, Shift));
+  Str:= ShortCutToTextRaw(KeyToShortCut(Key, Shift));
   if Str='' then exit; //only Shift is pressed
 
   if (Key=VK_ESCAPE) and (Shift=[]) then

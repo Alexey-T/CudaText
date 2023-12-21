@@ -7997,7 +7997,7 @@ begin
       PyDict_SetItemString(Result, 'hint', PyUnicodeFromString(SCommand));
 
     if mi.ShortCut<>0 then
-      PyDict_SetItemString(Result, 'hotkey', PyUnicodeFromString(ShortCutToText(mi.ShortCut)));
+      PyDict_SetItemString(Result, 'hotkey', PyUnicodeFromString(ShortCutToTextRaw(mi.ShortCut)));
 
     if STagString<>'' then
       PyDict_SetItemString(Result, 'tag', PyUnicodeFromString(STagString));
@@ -8183,7 +8183,7 @@ begin
     end;
 
     if AMenuHotkey<>'' then
-      mi.ShortCut:= TextToShortCut(AMenuHotkey);
+      mi.ShortCut:= TextToShortCutRaw(AMenuHotkey);
 
     if AIndex>=0 then
       miMain.Insert(AIndex, mi)

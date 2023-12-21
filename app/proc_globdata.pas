@@ -2451,13 +2451,13 @@ begin
     sl.Clear;
     for i:= 0 to High(TATKeyArray.Data) do
       if K.Keys1.Data[i]<>0 then
-        sl.Add(ShortCutToText(K.Keys1.Data[i]));
+        sl.Add(ShortCutToTextRaw(K.Keys1.Data[i]));
     c.SetValue(path+'/s1', sl);
 
     sl.clear;
     for i:= 0 to High(TATKeyArray.Data) do
       if K.Keys2.Data[i]<>0 then
-        sl.Add(ShortCutToText(K.Keys2.Data[i]));
+        sl.Add(ShortCutToTextRaw(K.Keys2.Data[i]));
 
     if sl.Count>0 then
       c.SetValue(path+'/s2', sl)
@@ -2888,7 +2888,7 @@ var
     for j:= 0 to skeys.count-1 do
     begin
       if skeys[j]<>'' then
-        keys.Data[j]:= TextToShortCut(skeys[j]);
+        keys.Data[j]:= TextToShortCutRaw(skeys[j]);
     end;
   end;
   //

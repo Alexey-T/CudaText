@@ -487,8 +487,8 @@ begin
     fmFind.Color:= GetAppColor(apclTabBg);
     fmFind.UpdateInitialCaretPos;
 
-    UiOps.HotkeyFindDialog:= ShortcutToText(AppKeymapMain.GetShortcutFromCommand(cmd_DialogFind));
-    UiOps.HotkeyReplaceDialog:= ShortcutToText(AppKeymapMain.GetShortcutFromCommand(cmd_DialogReplace));
+    UiOps.HotkeyFindDialog:= ShortCutToTextRaw(AppKeymapMain.GetShortcutFromCommand(cmd_DialogFind));
+    UiOps.HotkeyReplaceDialog:= ShortCutToTextRaw(AppKeymapMain.GetShortcutFromCommand(cmd_DialogReplace));
 
     if not UiOps.FindSeparateForm then
     begin

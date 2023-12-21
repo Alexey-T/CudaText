@@ -98,7 +98,7 @@ begin
     exit
   end;
 
-  FHotkey:= ShortCutToText(ShortCut(Key, Shift));
+  FHotkey:= ShortCutToTextRaw(ShortCut(Key, Shift));
   ModalResult:= mrOk;
   Key:= 0;
 end;
