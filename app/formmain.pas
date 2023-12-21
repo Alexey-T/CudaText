@@ -232,6 +232,27 @@ const
   cMenuTabsizeMax = 10;
 
 type
+  TAppAllowSomething = (
+    Enable,
+    Disable,
+    NotGood
+    );
+
+  TAppConfigHistoryElement = (
+    RecentFiles,
+    Search,
+    Console
+    );
+  TAppConfigHistoryElements = set of TAppConfigHistoryElement;
+
+  TAppTooltipPos = (
+    WindowTop,
+    WindowBottom,
+    EditorCaret,
+    CustomTextPos
+    );
+
+type
   { TfmMain }
   TfmMain = class(TForm)
     AppProps: TApplicationProperties;
