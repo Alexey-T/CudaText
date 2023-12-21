@@ -794,10 +794,15 @@ type
     procedure DoFileDialog_PrepareDir(Dlg: TFileDialog);
     procedure DoFileDialog_SaveDir(Dlg: TFileDialog);
     procedure DoCommandsMsgStatus(Sender: TObject; const ARes: string);
+    procedure DoFindFirst;
+    procedure DoFindNext(ANext: boolean);
+    procedure DoFindMarkAll(AMode: TATFindMarkingMode);
     procedure DoFindMarkingInit(AMode: TATFindMarkingMode);
     procedure DoFindOptions_OnChange(Sender: TObject);
     procedure DoFindOptions_ApplyDict(const AText: string);
     function DoFindOptions_GetDict: PPyObject;
+    procedure DoFindActionFromString(const AStr: string);
+    procedure DoFindCurrentWordOrSel(Ed: TATSynEdit; ANext, AWordOrSel: boolean);
     procedure DoFolderOpen(const ADirName: string; ANewProject: boolean; AInvoke: TATCommandInvoke);
     procedure DoFolderAdd(AInvoke: TATCommandInvoke);
     procedure DoGetSaveDialog(var ASaveDlg: TSaveDialog);
@@ -885,7 +890,6 @@ type
     procedure DoPyCommand_CommandLineParam(const AModuleAndMethod: string);
     procedure DoPyCommand_Cudaxlib(Ed: TATSynEdit; const AMethod: string; AInvoke: TATCommandInvoke);
     procedure DoDialogCharMap;
-    procedure DoFindActionFromString(const AStr: string);
     procedure DoGotoFromInput(Frame: TEditorFrame; const AInput: string);
     procedure DoGotoDefinition(Ed: TATSynEdit);
     procedure DoShowFuncHint(Ed: TATSynEdit);
@@ -1022,7 +1026,6 @@ type
     procedure DoOps_LoadOptions(const AFileName: string; var Ops: TEditorOps; AllowGlobalOps: boolean);
     procedure DoOps_LoadOptionsFromString(const AString: string);
     procedure DoOps_FindPythonLib(Sender: TObject);
-    procedure DoFindCurrentWordOrSel(Ed: TATSynEdit; ANext, AWordOrSel: boolean);
     procedure DoDialogCommands;
     function DoDialogCommands_Custom(Ed: TATSynEdit; const AProps: TDlgCommandsProps): integer;
     function DoDialogCommands_Py(var AProps: TDlgCommandsProps): string;
@@ -1053,9 +1056,6 @@ type
     procedure FinderShowResultSimple(ok: boolean; AFinder: TATEditorFinder);
     procedure FinderShowMatchesCount(AMatchCount, ATime: integer);
     function FinderHandleKeyDown(AKey: word; AShiftState: TShiftState): boolean;
-    procedure DoFindFirst;
-    procedure DoFindNext(ANext: boolean);
-    procedure DoFindMarkAll(AMode: TATFindMarkingMode);
     procedure DoMoveTabToGroup(AGroupIndex: Integer; AFromCommandPalette: boolean=false);
     function DoFileOpen(AFileName, AFileName2: string; APages: TATPages=nil; const AOptions: string=''): TEditorFrame;
     procedure DoFileOpenDialog(const AOptions: string='');
