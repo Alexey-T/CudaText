@@ -1840,15 +1840,15 @@ Value of "command" parameter for MENU_ADD can be:
 Some actions get dict for menu items. Dict keys:
 
 * "id": menu_id, int
-* "cap": caption, str (for separator items it is "-")
-* "cmd": command code (e.g. from module cudatext_cmd), int
-* "hint": callback (used if "cmd" value <=0), str
-* "hotkey": hotkey, str
-* "tag": plugin-defined tag, str
-* "en": enabled state, bool
-* "vis": visible state, bool
-* "checked": checked state, bool
-* "radio": radio-item state, bool (it means round checkmark in checked state)
+* "cap": caption (for separator items it is "-"), str
+* "cmd": command code (e.g. from module cudatext_cmd), int (for plugin menu items it can be 0 or -1)
+* (optional) "hint": callback (used if "cmd" value <=0), str
+* (optional) "hotkey": hotkey, str
+* (optional) "tag": some plugin-defined data, str
+* (optional) "en": menu item is enabled, bool
+* (optional) "vis": menu item is visible, bool
+* (optional) "checked": menu item is checked, bool
+* (optional) "radio": menu item has rounded checkmark, bool
 
 ====menu_proc - Actions====
 
@@ -4939,6 +4939,7 @@ It provides:
 * add: event on_init_plugins_menu
 * change: initing of "Plugins" menu is now performed _after_ on_start2, before on_init_plugins_menu
 * change: menu_proc: don't return redundant dict key 'command'
+* change: menu_proc: don't return dict keys if they are defaults: 'vis', 'en', 'checked', 'radio', 'hotkey', 'hint', 'tag'
 * add: menu items in "Plugins" menu support introspection by menu_proc() better: "hint" property is filled by Python callback
 
 [[Category:CudaText]]
