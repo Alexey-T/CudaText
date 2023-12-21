@@ -300,7 +300,7 @@ begin
 
   //do on_lexer_parsed only if parsing was long
   if Ada.LexerParsingElapsed>=UiOps.LexerParsingMinTimeForEvent then
-    DoPyEvent(Ed, cEventOnLexerParsed, []);
+    DoPyEvent(Ed, TAppPyEvent.OnLexerParsed, []);
 end;
 
 function TfmMain.FrameOfPopup: TEditorFrame;

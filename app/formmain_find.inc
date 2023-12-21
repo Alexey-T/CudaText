@@ -1028,7 +1028,7 @@ begin
     ]);
 
   case EventRes.Val of
-    evrInt:
+    TAppPyEventValue.Int:
       case EventRes.Int of
         HOWREP_CANCEL:
           begin
@@ -1041,7 +1041,7 @@ begin
             AConfirm:= false;
           end;
       end;
-    evrString:
+    TAppPyEventValue.Str:
       AReplacement:= EventRes.Str;
   end;
 end;

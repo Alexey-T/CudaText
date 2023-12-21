@@ -123,27 +123,27 @@ end;
 
 procedure TAppPython.ValueToRecord(Obj: PPyObject; out R: TAppPyEventResult);
 begin
-  R.Val:= evrOther;
+  R.Val:= TAppPyEventValue.Other;
   R.Str:= '';
 
   with FEngine do
     if Assigned(Obj) then
     try
       if Pointer(Obj)=Pointer(Py_True) then
-        R.Val:= evrTrue
+        R.Val:= TAppPyEventValue.True
       else
       if Pointer(Obj)=Pointer(Py_False) then
-        R.Val:= evrFalse
+        R.Val:= TAppPyEventValue.False
       else
       if Obj^.ob_type=PyUnicode_Type then
       begin
-        R.Val:= evrString;
+        R.Val:= TAppPyEventValue.Str;
         R.Str:= PyUnicodeAsUTF8String(Obj);
       end
       else
       if (Obj^.ob_type=PyLong_Type) then
       begin
-        R.Val:= evrInt;
+        R.Val:= TAppPyEventValue.Int;
         R.Int:= PyLong_AsLong(Obj);
       end;
     finally
@@ -477,7 +477,7 @@ var
   ObjName: string;
   tick: QWord;
 begin
-  Result.Val:= evrOther;
+  Result.Val:= TAppPyEventValue.Other;
   Result.Str:= '';
 
   if not FInited then exit;

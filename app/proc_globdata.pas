@@ -9,6 +9,7 @@ unit proc_globdata;
 
 {$mode objfpc}{$H+}
 {$IOChecks off}
+{$ScopedEnums on}
 {$ModeSwitch advancedrecords}
 
 interface
@@ -100,7 +101,6 @@ var
 
   AppLexersLastDetected: TStringList = nil;
 
-{$ScopedEnums on}
 type
   TAppNewTabNearCurrent = (
     Disabled,
@@ -132,7 +132,6 @@ type
     Margin,
     UndoRedo
     );
-{$ScopedEnums off}
 
 const
   cAppHistoryElementChar: array[TAppHistoryElement] of char =
@@ -203,14 +202,12 @@ const
   AppExtensionThemeUi = '.cuda-theme-ui';
   AppExtensionThemeSyntax = '.cuda-theme-syntax';
 
-{$ScopedEnums on}
 type
   TUiOpsFindCaseSensitive = (
     CaseIgnore,
     CaseSens,
     FromDialog
     );
-{$ScopedEnums off}
 
 type
   TUiOps = record
@@ -908,66 +905,74 @@ const
   );
 
 type
+  TAppPyEventValue = (
+    True,
+    False,
+    Int,
+    Str,
+    Other
+    );
+
   TAppPyEventResult = record
-    Val: (evrTrue, evrFalse, evrInt, evrString, evrOther);
+    Val: TAppPyEventValue;
     Int: integer;
     Str: string;
   end;
 
 type
   TAppPyEvent = (
-    cEventOnKey,
-    cEventOnKeyUp,
-    cEventOnHotspot,
-    cEventOnInsert,
-    cEventOnChange,
-    cEventOnChangeSlow,
-    cEventOnCaret,
-    cEventOnCaretSlow,
-    cEventOnScroll,
-    cEventOnMouseStop,
-    cEventOnClick,
-    cEventOnClickDbl,
-    cEventOnClickGutter,
-    cEventOnClickGap,
-    cEventOnClickLink,
-    cEventOnClickRight,
-    cEventOnState,
-    cEventOnStateEd,
-    cEventOnFocus,
-    cEventOnStart,
-    cEventOnStart2,
-    cEventOnInitPluginsMenu,
-    cEventOnOpen,
-    cEventOnOpenBefore,
-    cEventOnOpenNone,
-    cEventOnClose,
-    cEventOnCloseBefore,
-    cEventOnSaveAfter,
-    cEventOnSaveBefore,
-    cEventOnSaveNaming,
-    cEventOnLexer,
-    cEventOnLexerParsed,
-    cEventOnComplete,
-    cEventOnGotoDef,
-    cEventOnGotoEnter,
-    cEventOnFuncHint,
-    cEventOnTabChange,
-    cEventOnTabMove,
-    cEventOnTabMenu,
-    cEventOnPaste,
-    cEventOnMessage,
-    cEventOnConsoleNav,
-    cEventOnConsoleComplete,
-    cEventOnOutputNav,
-    cEventOnSnippet,
-    cEventOnMacro,
-    cEventOnAppActivate,
-    cEventOnAppDeactivate,
-    cEventOnDeleteFile,
-    cEventOnSidebarPopup,
-    cEventOnCLI,
-    cEventOnExit
+    OnKey,
+    OnKeyUp,
+    OnHotspot,
+    OnInsert,
+    OnChange,
+    OnChangeSlow,
+    OnCaret,
+    OnCaretSlow,
+    OnScroll,
+    OnMouseStop,
+    OnClick,
+    OnClickDbl,
+    OnClickGutter,
+    OnClickGap,
+    OnClickLink,
+    OnClickRight,
+    OnState,
+    OnStateEd,
+    OnFocus,
+    OnStart,
+    OnStart2,
+    OnInitPluginsMenu,
+    OnOpen,
+    OnOpenBefore,
+    OnOpenNone,
+    OnClose,
+    OnCloseBefore,
+    OnSaveAfter,
+    OnSaveBefore,
+    OnSaveNaming,
+    OnLexer,
+    OnLexerParsed,
+    OnComplete,
+    OnGotoDef,
+    OnGotoEnter,
+    OnFuncHint,
+    OnTabChange,
+    OnTabMove,
+    OnTabMenu,
+    OnPaste,
+    OnMessage,
+    OnConsoleNav,
+    OnConsoleComplete,
+    OnOutputNav,
+    OnSnippet,
+    OnMacro,
+    OnAppActivate,
+    OnAppDeactivate,
+    OnDeleteFile,
+    OnSidebarPopup,
+    OnCLI,
+    OnExit
     );
   TAppPyEvents = set of TAppPyEvent;
   TAppPyEventsPrior = array[TAppPyEvent] of byte;

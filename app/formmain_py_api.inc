@@ -2435,7 +2435,7 @@ end;
 procedure TfmMain.TimerConsoleCompletionTick(Sender: TObject);
 begin
   TimerConsoleCmp.Enabled:= false;
-  DoPyEvent(nil, cEventOnConsoleComplete, []);
+  DoPyEvent(nil, TAppPyEvent.OnConsoleComplete, []);
 end;
 
 procedure TfmMain.PyCompletionOnGetProp(Sender: TObject; AContent: TStringList;
@@ -2476,7 +2476,7 @@ begin
       exit;
     end
     else
-      DoPyEvent(Ed, cEventOnComplete, []);
+      DoPyEvent(Ed, TAppPyEvent.OnComplete, []);
 
     //this check- to close listbox when no more matches after typing too much
     //MsgStatus(Format('prev %d now %d', [PrevCharsLeft, FPyComplete_CharsLeft]));
@@ -2521,7 +2521,7 @@ begin
 
   //ShowMessage('id: '+ASnippetId+#10+'text:'#10+StrSnippet);
 
-  DoPyEvent(FPyCompletionProps.Editor, cEventOnSnippet,
+  DoPyEvent(FPyCompletionProps.Editor, TAppPyEvent.OnSnippet,
     [
     AppVariant(ASnippetId),
     AppVariant(StrSnippet)
@@ -4441,7 +4441,7 @@ begin
               if NTab>=0 then
               begin
                 Pages.Tabs.MoveTab(NTab, NIndexNew, true);
-                fmMain.DoPyEvent(Ed, cEventOnTabMove, []);
+                fmMain.DoPyEvent(Ed, TAppPyEvent.OnTabMove, []);
               end;
             end;
           end;

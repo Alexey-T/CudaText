@@ -793,7 +793,7 @@ begin
   if (ACommand=cCommand_TextInsert) and
     (AText<>'') then
   begin
-    if DoPyEvent(Ed, cEventOnInsert, [AppVariant(AText)]).Val = evrFalse then
+    if DoPyEvent(Ed, TAppPyEvent.OnInsert, [AppVariant(AText)]).Val = TAppPyEventValue.False then
     begin
       AHandled:= true;
       exit

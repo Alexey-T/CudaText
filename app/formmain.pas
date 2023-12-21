@@ -2303,7 +2303,7 @@ begin
     DoPyCommand_CommandLineParam(STemp);
   end;
 
-  TimerMouseStop.Enabled:= TPluginHelper.EventIsUsed(cEventOnMouseStop);
+  TimerMouseStop.Enabled:= TPluginHelper.EventIsUsed(TAppPyEvent.OnMouseStop);
 
   if not FHandledMakeCaretVisible and AppFormShowCompleted then
   begin
@@ -2349,7 +2349,7 @@ begin
     UpdateMenuPlugins; //takes ~30 msec, so it is now in TimerAppIdle
     UpdateMenuPlugins_Shortcuts(true);
     UpdateMenuHotkeys;
-    DoPyEvent(nil, cEventOnInitPluginsMenu, []);
+    DoPyEvent(nil, TAppPyEvent.OnInitPluginsMenu, []);
   end;
 
   if FNeedUpdateMenuChecks then
@@ -2373,12 +2373,12 @@ begin
     if Frame.TextChangeSlow[0] then
     begin
       Frame.TextChangeSlow[0]:= false;
-      DoPyEvent(Frame.Ed1, cEventOnChangeSlow, []);
+      DoPyEvent(Frame.Ed1, TAppPyEvent.OnChangeSlow, []);
     end;
     if Frame.TextChangeSlow[1] then
     begin
       Frame.TextChangeSlow[1]:= false;
-      DoPyEvent(Frame.Ed2, cEventOnChangeSlow, []);
+      DoPyEvent(Frame.Ed2, TAppPyEvent.OnChangeSlow, []);
     end;
   end;
 
@@ -2968,12 +2968,12 @@ begin
 
     //on_close are not fired automatically on app exit
     //(because we don't really close tabs on exit), so fire it here
-    DoPyEvent(F.Ed1, cEventOnClose, []);
+    DoPyEvent(F.Ed1, TAppPyEvent.OnClose, []);
     if not F.EditorsLinked then
-      DoPyEvent(F.Ed2, cEventOnClose, []);
+      DoPyEvent(F.Ed2, TAppPyEvent.OnClose, []);
   end;
 
-  DoPyEvent(nil, cEventOnExit, []);
+  DoPyEvent(nil, TAppPyEvent.OnExit, []);
 
   //after UpdateMenuRecent
   //and after on_exit, so plugin can close its side-panels in on_exit, and panel will be hidden on next app start
@@ -3010,12 +3010,12 @@ end;
 
 procedure TfmMain.DoPyEvent_AppState(AState: integer);
 begin
-  DoPyEvent(nil, cEventOnState, [AppVariant(AState)]);
+  DoPyEvent(nil, TAppPyEvent.OnState, [AppVariant(AState)]);
 end;
 
 procedure TfmMain.DoPyEvent_EdState(Ed: TATSynEdit; AState: integer);
 begin
-  DoPyEvent(Ed, cEventOnStateEd, [AppVariant(AState)]);
+  DoPyEvent(Ed, TAppPyEvent.OnStateEd, [AppVariant(AState)]);
 end;
 
 procedure TfmMain.DoPyEvent_AppActivate(AEvent: TAppPyEvent);
@@ -3032,12 +3032,12 @@ end;
 
 procedure TfmMain.DoPyEvent_Open(Ed: TATSynEdit);
 begin
-  DoPyEvent(Ed, cEventOnOpen, []);
+  DoPyEvent(Ed, TAppPyEvent.OnOpen, []);
 end;
 
 procedure TfmMain.DoPyEvent_OpenNone(Ed: TATSynEdit);
 begin
-  DoPyEvent(Ed, cEventOnOpenNone, []);
+  DoPyEvent(Ed, TAppPyEvent.OnOpenNone, []);
 end;
 
 procedure TfmMain.AppPropsActivate(Sender: TObject);
@@ -3053,7 +3053,7 @@ begin
       F.Editor.Update;
   end;
 
-  DoPyEvent_AppActivate(cEventOnAppActivate);
+  DoPyEvent_AppActivate(TAppPyEvent.OnAppActivate);
 end;
 
 procedure TfmMain.AppPropsDeactivate(Sender: TObject);
@@ -3072,7 +3072,7 @@ begin
   CloseFormAutoCompletion;
   }
 
-  DoPyEvent_AppActivate(cEventOnAppDeactivate);
+  DoPyEvent_AppActivate(TAppPyEvent.OnAppDeactivate);
 end;
 
 procedure TfmMain.AppPropsDropFiles(Sender: TObject;
@@ -3117,9 +3117,9 @@ begin
   for i:= 0 to FrameCount-1 do
   begin
     F:= Frames[i];
-    DoPyEvent(F.Ed1, cEventOnCloseBefore, []);
+    DoPyEvent(F.Ed1, TAppPyEvent.OnCloseBefore, []);
     if not F.EditorsLinked then
-      DoPyEvent(F.Ed2, cEventOnCloseBefore, []);
+      DoPyEvent(F.Ed2, TAppPyEvent.OnCloseBefore, []);
   end;
 
   if GetModifiedCount>0 then
@@ -3482,7 +3482,7 @@ begin
       Params[i]:= AppVariant(ACliParams[i]);
 
     MsgStdout(Format('Calling on_cli for "%s" with %d params', [ACliModule, Length(ACliParams)]));
-    DoPyCommand(ACliModule, cAppPyEvent[cEventOnCLI], Params, TATCommandInvoke.AppAPI);
+    DoPyCommand(ACliModule, cAppPyEvent[TAppPyEvent.OnCLI], Params, TATCommandInvoke.AppAPI);
   end;
 end;
 
@@ -3548,7 +3548,7 @@ procedure TfmMain.FormShow(Sender: TObject);
   //
   procedure _Init_ApiOnStart;
   begin
-    DoPyEvent(nil, cEventOnStart, []);
+    DoPyEvent(nil, TAppPyEvent.OnStart, []);
     AppApiOnStartActivated:= true;
   end;
   //
@@ -3745,7 +3745,7 @@ begin
   if not FHandledOnStart2 then
   begin
     FHandledOnStart2:= true;
-    DoPyEvent(nil, cEventOnStart2, []);
+    DoPyEvent(nil, TAppPyEvent.OnStart2, []);
   end;
 
   AppFormShowCompleted:= true;
@@ -3884,7 +3884,7 @@ begin
           DoOps_LoadPlugins(true);
           UpdateMenuPlugins;
           UpdateMenuPlugins_Shortcuts(true);
-          DoPyEvent(nil, cEventOnInitPluginsMenu, []);
+          DoPyEvent(nil, TAppPyEvent.OnInitPluginsMenu, []);
         end;
     end;
 
@@ -4550,7 +4550,7 @@ begin
     //py event
     if bEnableEventPre then
     begin
-      if DoPyEvent(CurrentEditor, cEventOnOpenBefore, [AppVariant(AFileName)]).Val = evrFalse then exit;
+      if DoPyEvent(CurrentEditor, TAppPyEvent.OnOpenBefore, [AppVariant(AFileName)]).Val = TAppPyEventValue.False then exit;
     end;
 
     bDetectedPics:= bAllowPics and IsFilenameListedInExtensionList(AFileName, UiOps.PictureTypes);
@@ -5092,7 +5092,7 @@ begin
   begin
     Frame.GotoInput:= fmGoto.edInput.Text;
     Str:= UTF8Encode(Frame.GotoInput);
-    if DoPyEvent(Frame.Editor, cEventOnGotoEnter, [AppVariant(Str)]).Val = evrFalse then exit;
+    if DoPyEvent(Frame.Editor, TAppPyEvent.OnGotoEnter, [AppVariant(Str)]).Val = TAppPyEventValue.False then exit;
     DoGotoFromInput(Frame, Str);
   end;
 end;
@@ -6119,7 +6119,7 @@ begin
 
       MenuRecent_RemoveFilename(fn);
 
-      DoPyEvent(nil, cEventOnDeleteFile, [AppVariant(fn)]);
+      DoPyEvent(nil, TAppPyEvent.OnDeleteFile, [AppVariant(fn)]);
     end;
 end;
 
@@ -6799,7 +6799,7 @@ end;
 
 function TfmMain.DoAutoComplete_FromPlugins(Ed: TATSynEdit): boolean;
 begin
-  Result:= DoPyEvent(Ed, cEventOnComplete, []).Val = evrTrue;
+  Result:= DoPyEvent(Ed, TAppPyEvent.OnComplete, []).Val = TAppPyEventValue.True;
 end;
 
 function TfmMain.DoAutoComplete_PosOnBadToken(Ed: TATSynEdit; AX, AY: integer): boolean;
@@ -7681,14 +7681,14 @@ begin
       SMsg:= msgStatusClickingLogLine;
     if SMsg<>'' then
       MsgStatus(SMsg);
-    DoPyEvent(nil, cEventOnOutputNav, [AppVariant(SText), AppVariant(0)]);
+    DoPyEvent(nil, TAppPyEvent.OnOutputNav, [AppVariant(SText), AppVariant(0)]);
   end;
 end;
 
 
 procedure TfmMain.DoGotoDefinition(Ed: TATSynEdit);
 begin
-  if DoPyEvent(Ed, cEventOnGotoDef, []).Val <> evrTrue then
+  if DoPyEvent(Ed, TAppPyEvent.OnGotoDef, []).Val <> TAppPyEventValue.True then
     MsgStatus(msgStatusNoGotoDefinitionPlugins);
 end;
 
@@ -7696,7 +7696,7 @@ procedure TfmMain.DoShowFuncHint(Ed: TATSynEdit);
 var
   S: string;
 begin
-  S:= DoPyEvent(Ed, cEventOnFuncHint, []).Str;
+  S:= DoPyEvent(Ed, TAppPyEvent.OnFuncHint, []).Str;
   S:= Trim(S);
   if S<>'' then
     DoTooltipShow(S, UiOps.AltTooltipTime, atpEditorCaret, true, -1, -1);
@@ -7774,18 +7774,18 @@ end;
 
 function TfmMain.DoPyEvent_ConsoleNav(const AText: string): boolean;
 begin
-  Result:= DoPyEvent(nil, cEventOnConsoleNav, [AppVariant(AText)]).Val <> evrFalse;
+  Result:= DoPyEvent(nil, TAppPyEvent.OnConsoleNav, [AppVariant(AText)]).Val <> TAppPyEventValue.False;
 end;
 
 procedure TfmMain.DoPyEvent_ConsoleComplete(Sender: TObject);
 begin
-  DoPyEvent(nil, cEventOnConsoleComplete, []);
+  DoPyEvent(nil, TAppPyEvent.OnConsoleComplete, []);
 end;
 
 function TfmMain.DoPyEvent_Message(const AText: string): boolean;
 begin
-  Result:= DoPyEvent(nil, cEventOnMessage,
-    [AppVariant(0), AppVariant(AText)]).Val <> evrFalse;
+  Result:= DoPyEvent(nil, TAppPyEvent.OnMessage,
+    [AppVariant(0), AppVariant(AText)]).Val <> TAppPyEventValue.False;
 end;
 
 
@@ -7894,7 +7894,7 @@ begin
       MsgLogConsole('on_lexer: file "'+ExtractFileName(SFileName)+'" -> "'+SLexerName+'"');
       {$endif}
 
-      DoPyEvent(Ed, cEventOnLexer, []);
+      DoPyEvent(Ed, TAppPyEvent.OnLexer, []);
     end;
 
   //apply lexer-specific keymap
@@ -9227,7 +9227,7 @@ begin
       if PtInRect(Ed.ClientRect, PntLocal) then
       begin
         if not EditorIsEmpty(Ed) then
-          DoPyEvent(Ed, cEventOnMouseStop,
+          DoPyEvent(Ed, TAppPyEvent.OnMouseStop,
             [AppVariant(PntLocal.X), AppVariant(PntLocal.Y)]);
         Break;
       end;

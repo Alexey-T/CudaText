@@ -177,7 +177,7 @@ end;
 
 procedure TfmMain.DoSidebar_OnContextPopup(const ACaption: string);
 begin
-  DoPyEvent(nil, cEventOnSidebarPopup, [
+  DoPyEvent(nil, TAppPyEvent.OnSidebarPopup, [
     AppVariant(ACaption)
     ]);
 end;

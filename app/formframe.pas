@@ -773,11 +773,11 @@ begin
   if EditorOps.OpMouseGotoDefinition<>'' then
     if StateString=EditorOps.OpMouseGotoDefinition then
     begin
-      DoPyEvent(Ed, cEventOnGotoDef, []);
+      DoPyEvent(Ed, TAppPyEvent.OnGotoDef, []);
       exit;
     end;
 
-  DoPyEvent(Ed, cEventOnClick, [AppVariant(StateString)]);
+  DoPyEvent(Ed, TAppPyEvent.OnClick, [AppVariant(StateString)]);
 end;
 
 function TEditorFrame.GetSplitPosCurrent: double;
@@ -801,12 +801,12 @@ var
   Res: TAppPyEventResult;
 begin
   //result=False: block the key
-  Res:= DoPyEvent(Sender as TATSynEdit, cEventOnKey,
+  Res:= DoPyEvent(Sender as TATSynEdit, TAppPyEvent.OnKey,
     [
     AppVariant(Key),
     AppVariant(ConvertShiftStateToString(Shift))
     ]);
-  if Res.Val=evrFalse then
+  if Res.Val=TAppPyEventValue.False then
   begin
     Key:= 0;
     Exit
@@ -822,7 +822,7 @@ begin
     VK_MENU,
     VK_SHIFT,
     VK_RSHIFT:
-      DoPyEvent(Sender as TATSynEdit, cEventOnKeyUp,
+      DoPyEvent(Sender as TATSynEdit, TAppPyEvent.OnKeyUp,
         [
         AppVariant(Key),
         AppVariant(ConvertShiftStateToString(Shift))
@@ -833,11 +833,11 @@ end;
 procedure TEditorFrame.EditorOnPaste(Sender: TObject; var AHandled: boolean;
   AKeepCaret, ASelectThen: boolean);
 begin
-  if DoPyEvent(Sender as TATSynEdit, cEventOnPaste,
+  if DoPyEvent(Sender as TATSynEdit, TAppPyEvent.OnPaste,
     [
     AppVariant(AKeepCaret),
     AppVariant(ASelectThen)
-    ]).Val = evrFalse then
+    ]).Val = TAppPyEventValue.False then
     AHandled:= true;
 end;
 
@@ -848,7 +848,7 @@ begin
   if Assigned(FOnEditorScroll) then
     FOnEditorScroll(Sender);
 
-  DoPyEvent(Sender as TATSynEdit, cEventOnScroll, []);
+  DoPyEvent(Sender as TATSynEdit, TAppPyEvent.OnScroll, []);
 end;
 
 function TEditorFrame.GetTabPages: TATPages;
@@ -975,7 +975,7 @@ begin
   TimerCaret.Enabled:= false;
 
   Ed:= Editor;
-  DoPyEvent(Ed, cEventOnCaretSlow, []);
+  DoPyEvent(Ed, TAppPyEvent.OnCaretSlow, []);
 
   if FBracketHilite then
     EditorBracket_Action(Ed,
@@ -1079,7 +1079,7 @@ begin
   {$endif}
 
   //on_caret, now
-  DoPyEvent(Editor, cEventOnCaret, []);
+  DoPyEvent(Editor, TAppPyEvent.OnCaret, []);
 
   //on_caret_slow, later
   TimerCaret.Enabled:= false;
@@ -1089,7 +1089,7 @@ end;
 
 procedure TEditorFrame.EditorOnHotspotEnter(Sender: TObject; AHotspotIndex: integer);
 begin
-  DoPyEvent(Sender as TATSynEdit, cEventOnHotspot,
+  DoPyEvent(Sender as TATSynEdit, TAppPyEvent.OnHotspot,
     [
     AppVariant(true), //hotspot enter
     AppVariant(AHotspotIndex)
@@ -1098,7 +1098,7 @@ end;
 
 procedure TEditorFrame.EditorOnHotspotExit(Sender: TObject; AHotspotIndex: integer);
 begin
-  DoPyEvent(Sender as TATSynEdit, cEventOnHotspot,
+  DoPyEvent(Sender as TATSynEdit, TAppPyEvent.OnHotspot,
     [
     AppVariant(false), //hotspot exit
     AppVariant(AHotspotIndex)
@@ -1736,7 +1736,7 @@ begin
       EdOther.Update(false);
   end;
 
-  DoPyEvent(Ed, cEventOnChange, []);
+  DoPyEvent(Ed, TAppPyEvent.OnChange, []);
 
   TimerChange.Enabled:= false;
   TimerChange.Interval:= UiOps.PyChangeSlow;
@@ -1843,7 +1843,7 @@ begin
   if Assigned(FOnFocusEditor) then
     FOnFocusEditor(Sender);
 
-  DoPyEvent(Sender as TATSynEdit, cEventOnFocus, []);
+  DoPyEvent(Sender as TATSynEdit, TAppPyEvent.OnFocus, []);
 
   FActivationTime:= GetTickCount64;
 end;
@@ -2099,8 +2099,8 @@ var
   Res: TAppPyEventResult;
 begin
   StateString:= ConvertShiftStateToString(KeyboardStateToShiftState);
-  Res:= DoPyEvent(Sender as TATSynEdit, cEventOnClickDbl, [AppVariant(StateString)]);
-  AHandled:= Res.Val=evrFalse;
+  Res:= DoPyEvent(Sender as TATSynEdit, TAppPyEvent.OnClickDbl, [AppVariant(StateString)]);
+  AHandled:= Res.Val=TAppPyEventValue.False;
 end;
 
 procedure TEditorFrame.EditorOnClickLink(Sender: TObject; const ALink: string);
@@ -2110,12 +2110,12 @@ var
   bHandled: boolean;
 begin
   StateString:= ConvertShiftStateToString(KeyboardStateToShiftState);
-  Res:= DoPyEvent(Sender as TATSynEdit, cEventOnClickLink,
+  Res:= DoPyEvent(Sender as TATSynEdit, TAppPyEvent.OnClickLink,
     [
     AppVariant(StateString),
     AppVariant(ALink)
     ]);
-  bHandled:= Res.Val=evrFalse;
+  bHandled:= Res.Val=TAppPyEventValue.False;
   if not bHandled then
     if Assigned(FOnAppClickLink) then
       FOnAppClickLink(Sender, ALink);
@@ -2165,7 +2165,7 @@ begin
     H:= 0;
   end;
 
-  DoPyEvent(Ed, cEventOnClickGap,
+  DoPyEvent(Ed, TAppPyEvent.OnClickGap,
     [
     AppVariant(ConvertShiftStateToString(KeyboardStateToShiftState)),
     AppVariant(AGapItem.LineIndex),
@@ -2395,9 +2395,9 @@ begin
 
   if not Application.Terminated then //prevent crash on exit
   begin
-    DoPyEvent(Ed1, cEventOnClose, []);
+    DoPyEvent(Ed1, TAppPyEvent.OnClose, []);
     if not EditorsLinked then
-      DoPyEvent(Ed2, cEventOnClose, []);
+      DoPyEvent(Ed2, TAppPyEvent.OnClose, []);
   end;
 
   FreeAndNil(MacroStrings);
@@ -2608,7 +2608,7 @@ begin
   if not (Visible and AppAllowFrameParsing) then
   begin
     LexerInitial[Ed]:= an;
-    DoPyEvent(Ed, cEventOnLexer, []);
+    DoPyEvent(Ed, TAppPyEvent.OnLexer, []);
     exit;
   end;
 
@@ -3138,8 +3138,8 @@ begin
   Result:= true;
   if FrameKind<>efkEditor then exit(true); //disable saving, but close
 
-  EventRes:= DoPyEvent(Ed, cEventOnSaveBefore, []);
-  if EventRes.Val=evrFalse then exit(true); //disable saving, but close
+  EventRes:= DoPyEvent(Ed, TAppPyEvent.OnSaveBefore, []);
+  if EventRes.Val=TAppPyEventValue.False then exit(true); //disable saving, but close
 
   EdIndex:= EditorObjToIndex(Ed);
   if EdIndex<0 then exit(false);
@@ -3167,8 +3167,8 @@ begin
     if SFileName='' then
     begin
       NameInitial:= '';
-      EventRes:= DoPyEvent(Ed, cEventOnSaveNaming, []);
-      if EventRes.Val=evrString then
+      EventRes:= DoPyEvent(Ed, TAppPyEvent.OnSaveNaming, []);
+      if EventRes.Val=TAppPyEventValue.Str then
         NameInitial:= EventRes.Str;
       if NameInitial='' then
         NameInitial:= 'new';
@@ -3255,7 +3255,7 @@ begin
     UpdateCaptionFromFilename;
 
     DoSaveUndo(Ed, SFileName);
-    DoPyEvent(Ed, cEventOnSaveAfter, []);
+    DoPyEvent(Ed, TAppPyEvent.OnSaveAfter, []);
     if Assigned(FOnSaveFile) then
       FOnSaveFile(Ed, SFileName);
   end;
@@ -3533,12 +3533,12 @@ var
 begin
   Ed:= Sender as TATSynEdit;
 
-  if DoPyEvent(Ed, cEventOnClickGutter,
+  if DoPyEvent(Ed, TAppPyEvent.OnClickGutter,
     [
     AppVariant(ConvertShiftStateToString(KeyboardStateToShiftState)),
     AppVariant(ALine),
     AppVariant(ABand)
-    ]).Val = evrFalse then
+    ]).Val = TAppPyEventValue.False then
   begin
     AHandled:= true;
     exit;
@@ -3725,8 +3725,8 @@ var
 begin
   Ed:= Sender as TATSynEdit;
   StateString:= ConvertShiftStateToString(KeyboardStateToShiftState);
-  Res:= DoPyEvent(Ed, cEventOnClickRight, [AppVariant(StateString)]);
-  Handled:= Res.Val=evrFalse;
+  Res:= DoPyEvent(Ed, TAppPyEvent.OnClickRight, [AppVariant(StateString)]);
+  Handled:= Res.Val=TAppPyEventValue.False;
 end;
 
 procedure TEditorFrame.DoOnUpdateState;
@@ -4331,19 +4331,19 @@ begin
     Result:= FOnPyEvent(AEd, AEvent, AParams)
   else
   begin
-    Result.Val:= evrOther;
+    Result.Val:= TAppPyEventValue.Other;
     Result.Str:= '';
   end;
 end;
 
 procedure TEditorFrame.DoPyEventState(Ed: TATSynEdit; AState: integer);
 begin
-  DoPyEvent(Ed, cEventOnStateEd, [AppVariant(AState)]);
+  DoPyEvent(Ed, TAppPyEvent.OnStateEd, [AppVariant(AState)]);
 end;
 
 function TEditorFrame.DoPyEvent_Macro(const AText: string): boolean;
 begin
-  Result:= DoPyEvent(Editor, cEventOnMacro, [AppVariant(AText)]).Val <> evrFalse;
+  Result:= DoPyEvent(Editor, TAppPyEvent.OnMacro, [AppVariant(AText)]).Val <> TAppPyEventValue.False;
 end;
 
 

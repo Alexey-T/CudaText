@@ -77,12 +77,12 @@ end;
 function TfmMain.DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent;
   const AParams: TAppVariantArray): TAppPyEventResult;
 const
-  cTheseEventsStoppedByTrue = [cEventOnComplete, cEventOnConsoleComplete, cEventOnFuncHint{, cEventOnTabSwitch}];
-  cTheseEventsStoppedByNonEmptyString = [cEventOnFuncHint];
-  cTheseEventsNeedGroupingUndo = [cEventOnComplete, cEventOnSnippet];
-  cTheseEventsDontRequireFrame = [cEventOnSnippet, cEventOnStart, cEventOnStart2, cEventOnExit, cEventOnDeleteFile, cEventOnSidebarPopup, cEventOnInitPluginsMenu];
-  cTheseEventsAlwaysLazy = [cEventOnExit];
-  cTheseEventsIgnoreCurrentLexer = [cEventOnLexer, cEventOnStart, cEventOnStart2, cEventOnExit, cEventOnDeleteFile, cEventOnSidebarPopup, cEventOnInitPluginsMenu];
+  cTheseEventsStoppedByTrue = [TAppPyEvent.OnComplete, TAppPyEvent.OnConsoleComplete, TAppPyEvent.OnFuncHint{, cEventOnTabSwitch}];
+  cTheseEventsStoppedByNonEmptyString = [TAppPyEvent.OnFuncHint];
+  cTheseEventsNeedGroupingUndo = [TAppPyEvent.OnComplete, TAppPyEvent.OnSnippet];
+  cTheseEventsDontRequireFrame = [TAppPyEvent.OnSnippet, TAppPyEvent.OnStart, TAppPyEvent.OnStart2, TAppPyEvent.OnExit, TAppPyEvent.OnDeleteFile, TAppPyEvent.OnSidebarPopup, TAppPyEvent.OnInitPluginsMenu];
+  cTheseEventsAlwaysLazy = [TAppPyEvent.OnExit];
+  cTheseEventsIgnoreCurrentLexer = [TAppPyEvent.OnLexer, TAppPyEvent.OnStart, TAppPyEvent.OnStart2, TAppPyEvent.OnExit, TAppPyEvent.OnDeleteFile, TAppPyEvent.OnSidebarPopup, TAppPyEvent.OnInitPluginsMenu];
 var
   SCurLexer, KeyForFilter: string;
   bNeedGroup: boolean;
@@ -92,14 +92,14 @@ var
   bCheckLexer: boolean;
   bLazy: boolean;
 begin
-  Result.Val:= evrOther;
+  Result.Val:= TAppPyEventValue.Other;
   Result.Str:= '';
   if not AppPython.Inited then exit;
 
   //block all events fired in FormCreate
   if not FHandledOnShowPartly then exit;
   //block on_focus/on_lexer fired too early
-  if (AEvent in [cEventOnFocus, cEventOnLexer]) and not FHandledUntilFirstFocus then exit;
+  if (AEvent in [TAppPyEvent.OnFocus, TAppPyEvent.OnLexer]) and not FHandledUntilFirstFocus then exit;
 
   //-1 if no such plugins
   MaxPriority:= AppEventsMaxPriorities[AEvent];
@@ -128,17 +128,17 @@ begin
 
   KeyForFilter:= '';
   case AEvent of
-    cEventOnKey:
+    TAppPyEvent.OnKey:
       begin
         //key is 1st int parameter
         KeyForFilter:= IntToStr(AParams[0].Int);
       end;
-    cEventOnOpen:
+    TAppPyEvent.OnOpen:
       begin
         //key is file extension without leading dot
         KeyForFilter:= Copy(ExtractFileExt(AEd.FileName), 2);
       end;
-    cEventOnOpenBefore:
+    TAppPyEvent.OnOpenBefore:
       begin
         //key is filename, it is 1st parameter
         KeyForFilter:= Copy(ExtractFileExt(AParams[0].Str), 2);
@@ -180,18 +180,18 @@ begin
         end;
 
         //True for _some_ events means "stop processing this event"
-        if Result.Val=evrTrue then
+        if Result.Val=TAppPyEventValue.True then
           if AEvent in cTheseEventsStoppedByTrue then Exit;
 
         //non-empty string for some events means "stop processing this event"
         if AEvent in cTheseEventsStoppedByNonEmptyString then
-          if (Result.Val=evrString) and (Result.Str<>'') then Exit;
+          if (Result.Val=TAppPyEventValue.Str) and (Result.Str<>'') then Exit;
 
         //False means "stop processing this event".
         //It's used e.g. for on_complete, on_key - first plugin which returned False,
         //stops event processing in other plugins.
         //Other results (e.g. None, 0, 1, list, dict) are ignored.
-        if Result.Val=evrFalse then Exit;
+        if Result.Val=TAppPyEventValue.False then Exit;
       end;
 end;
 
@@ -532,7 +532,7 @@ begin
   AppPython.ClearCache;
 
   //support on_start, issue #1253
-  DoPyEvent(nil, cEventOnStart, []);
+  DoPyEvent(nil, TAppPyEvent.OnStart, []);
 end;
 
 procedure TfmMain.DoPyRescanPlugins;
@@ -540,7 +540,7 @@ begin
   if not AppPython.Inited then exit;
   DoOps_LoadPlugins(true);
   UpdateMenuPlugins;
-  DoPyEvent(nil, cEventOnInitPluginsMenu, []);
+  DoPyEvent(nil, TAppPyEvent.OnInitPluginsMenu, []);
   MsgStatus(msgRescannedAllPlugins);
 end;
 

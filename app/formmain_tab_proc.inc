@@ -184,7 +184,7 @@ begin
   UpdateStatusbar;
 
   if AAllowEventOnTabChange then
-    DoPyEvent(F.Editor, cEventOnTabChange, []);
+    DoPyEvent(F.Editor, TAppPyEvent.OnTabChange, []);
 
   UpdateFindDialogOnTabFocusing(F);
 end;
@@ -317,7 +317,7 @@ begin
 
   if not Application.Terminated then
   begin
-    if DoPyEvent(Frame.Editor, cEventOnCloseBefore, []).Val = evrFalse then
+    if DoPyEvent(Frame.Editor, TAppPyEvent.OnCloseBefore, []).Val = TAppPyEventValue.False then
     begin
       ACanClose:= false;
       Exit
@@ -419,7 +419,7 @@ begin
     begin
       Frame:= Frames[i];
       if (Frame.Ed1.FileName='') and Frame.Ed1.Modified then
-        DoPyEvent(Frame.Ed1, cEventOnChangeSlow, []);
+        DoPyEvent(Frame.Ed1, TAppPyEvent.OnChangeSlow, []);
     end;
 
     InitPopupTab;
@@ -428,7 +428,7 @@ begin
     if Assigned(Data) and Assigned(Data.TabObject) then
     begin
       Frame:= Data.TabObject as TEditorFrame;
-      if DoPyEvent(Frame.Ed1, cEventOnTabMenu, []).Val=evrFalse then
+      if DoPyEvent(Frame.Ed1, TAppPyEvent.OnTabMenu, []).Val=TAppPyEventValue.False then
         exit;
     end;
 
@@ -658,7 +658,7 @@ begin
   if NTo=-1 then
     PyEditorMaybeDeleted:= true;
 
-  DoPyEvent(CurrentEditor, cEventOnTabMove, []);
+  DoPyEvent(CurrentEditor, TAppPyEvent.OnTabMove, []);
 end;
 
 
