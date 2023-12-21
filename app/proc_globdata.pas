@@ -1083,7 +1083,8 @@ procedure AppClearPluginLists;
 type
   TAppMenuProps = class(TComponent)
   public
-    CommandCode: integer;
+    CommandCode: integer; //-1 for plugin commands
+    CommandCodeHidden: integer; //value>0 for plugin commands, must be not used in Py API
     CommandString: string;
     TagString: string;
   end;

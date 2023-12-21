@@ -393,7 +393,8 @@ begin
     CmdItem:= TAppCommandInfo(AppCommandList[ACommandListIndex]);
 
     MenuProps:= TAppMenuProps.Create(Self);
-    MenuProps.CommandCode:= cmdFirstPluginCommand+ACommandListIndex;
+    MenuProps.CommandCode:= -1;
+    MenuProps.CommandCodeHidden:= cmdFirstPluginCommand+ACommandListIndex;
     MenuProps.CommandString:= Format('module=%s;cmd=%s;', [CmdItem.ItemModule, CmdItem.ItemProc]);
     if CmdItem.ItemProcParam<>'' then
       MenuProps.CommandString+= Format('info=%s;', [CmdItem.ItemProcParam]);
@@ -516,8 +517,8 @@ var
       if miSub.Tag>cAppMinMemoryAddress then
       begin
         MenuProps:= TAppMenuProps(miSub.Tag);
-        if MenuProps.CommandCode>0 then
-          miSub.ShortCut:= EdKeymap.GetShortcutFromCommand(MenuProps.CommandCode)
+        if MenuProps.CommandCodeHidden>0 then
+          miSub.ShortCut:= EdKeymap.GetShortcutFromCommand(MenuProps.CommandCodeHidden)
         else
           miSub.ShortCut:= 0;
       end;
