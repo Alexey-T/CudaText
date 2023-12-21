@@ -4939,6 +4939,6 @@ It provides:
 1.0.449 (app 1.205.6)
 * add: event on_init_plugins_menu
 * change: initing of "Plugins" menu is now performed _after_ on_start2, before on_init_plugins_menu
-* add: all menu items in "Plugins" menu support introspection, ie filled "command" property
+* add: menu items in "Plugins" menu support introspection by menu_proc() better: "command" property is filled now
 
 [[Category:CudaText]]
