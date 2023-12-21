@@ -1246,6 +1246,13 @@ var
   PythonModule: TPythonModule = nil;
   PythonIO: TPythonInputOutput = nil;
 
+type
+  TAppCommandGetStatus = (
+    NoCommands,
+    BadCommand,
+    OkCommand
+    );
+
 const
   cThreadSleepTime = 50;
   cThreadSleepCount = 20;

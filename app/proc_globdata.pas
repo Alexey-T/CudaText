@@ -1039,12 +1039,6 @@ const
     );
 
 type
-  TAppCommandGetStatus = (
-    NoCommands,
-    BadCommand,
-    OkCommand
-    );
-
   TAppAllowSomething = (
     Enable,
     Disable,
