@@ -4740,7 +4740,7 @@ begin
   end;
 
   //did not find frame to reuse, create new frame
-  D:= CreateTab(APages, ExtractFileName(AFileName), bAndActivate, AllowNear);
+  D:= CreateTab(APages, ExtractFileName(AFileName), false{AndActivate}, AllowNear);
   if not Assigned(D) then
   begin
     D:= Groups.Pages1.Tabs.GetTabData(0);
@@ -4756,6 +4756,10 @@ begin
     bEnableLoadUndo,
     OpenMode);
   Result:= F;
+
+  //use AndActivate=false in CreateTab() and focus here manually,
+  //to avoid setting (None) lexer and apply lexer-specific config for it; issue #5320
+  SetFrame(F);
 
   UpdateStatusbar;
   UpdateFindDialogEnabled(F);

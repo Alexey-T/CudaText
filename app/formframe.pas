@@ -2842,9 +2842,11 @@ begin
       (CompareFilenames(AFileName, AppFile_OptionsDefault)=0) then
       InitPanelInfo(PanelInfo, GetMsgSuggestOptionsEditor, @PanelInfoClick, true);
 
-  Lexer[Ed1]:= nil;
+  if Lexer[Ed1]<>nil then
+    Lexer[Ed1]:= nil;
   if not EditorsLinked then
-    Lexer[Ed2]:= nil;
+    if Lexer[Ed2]<>nil then
+      Lexer[Ed2]:= nil;
 
   case AOpenMode of
     cOpenModeViewText:
