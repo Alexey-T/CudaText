@@ -18,8 +18,8 @@ var
   i: integer;
 begin
   AWindowPos:= '';
-  AAllowSessionLoad:= aalsEnable;
-  AAllowSessionSave:= aalsEnable;
+  AAllowSessionLoad:= TAppAllowSomething.Enable;
+  AAllowSessionSave:= TAppAllowSomething.Enable;
   AStartupCommand:= '';
   AFileFolderCount:= 0;
 
@@ -28,8 +28,8 @@ begin
     SParam:= ParamStr(i);
     if not SBeginsWith(SParam, '-') then
     begin
-      if AAllowSessionLoad=aalsEnable then
-        AAllowSessionLoad:= aalsNotGood; //block loading last session if any filenames present
+      if AAllowSessionLoad=TAppAllowSomething.Enable then
+        AAllowSessionLoad:= TAppAllowSomething.NotGood; //block loading last session if any filenames present
       Inc(AFileFolderCount);
       Continue;
     end;
@@ -48,20 +48,20 @@ begin
 
     if (SParam='-ns') then
     begin
-      AAllowSessionLoad:= aalsDisable;
-      AAllowSessionSave:= aalsDisable;
+      AAllowSessionLoad:= TAppAllowSomething.Disable;
+      AAllowSessionSave:= TAppAllowSomething.Disable;
       Continue;
     end;
 
     if (SParam='-nsl') then
     begin
-      AAllowSessionLoad:= aalsDisable;
+      AAllowSessionLoad:= TAppAllowSomething.Disable;
       Continue;
     end;
 
     if (SParam='-nss') then
     begin
-      AAllowSessionSave:= aalsDisable;
+      AAllowSessionSave:= TAppAllowSomething.Disable;
       Continue;
     end;
 

@@ -209,7 +209,7 @@ begin
   end;
 
   if UiOps.ReopenSession and
-    ((FOption_AllowSessionSave=aalsEnable) or not IsDefaultSessionActive)
+    ((FOption_AllowSessionSave=TAppAllowSomething.Enable) or not IsDefaultSessionActive)
     //// see http://synwrite.sourceforge.net/forums/viewtopic.php?f=20&t=2576
     //// @tmsg wants to save session always, even with -ns cmdline opt
   then
@@ -1027,7 +1027,7 @@ begin
     if UiOps.LangName<>'' then
       DoLocalize;
 
-    if FOption_AllowSessionLoad=aalsEnable then
+    if FOption_AllowSessionLoad=TAppAllowSomething.Enable then
     begin
       AppSessionName:= cfg.GetValue('session', AppSessionName);
 
@@ -1482,8 +1482,8 @@ begin
   UiOps.ReopenSession:= cfg.GetValue('ui_reopen_session', UiOps.ReopenSession);
   UiOps.ReopenSessionWithCmdLine:= cfg.GetValue('ui_reopen_session_cmdline', UiOps.ReopenSessionWithCmdLine);
   if UiOps.ReopenSessionWithCmdLine then
-    if FOption_AllowSessionLoad=aalsNotGood then
-      FOption_AllowSessionLoad:= aalsEnable;
+    if FOption_AllowSessionLoad=TAppAllowSomething.NotGood then
+      FOption_AllowSessionLoad:= TAppAllowSomething.Enable;
   UiOps.SessionSaveInterval:= cfg.GetValue('ui_session_save_interval', UiOps.SessionSaveInterval);
   UiOps.SessionSaveOnExit:= cfg.GetValue('ui_auto_save_session', UiOps.SessionSaveOnExit);
   UiOps.BackupLastSessions:= cfg.GetValue('ui_backup_sessions', UiOps.BackupLastSessions);

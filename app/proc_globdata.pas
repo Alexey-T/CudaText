@@ -1045,6 +1045,12 @@ type
     OkCommand
     );
 
+  TAppAllowSomething = (
+    Enable,
+    Disable,
+    NotGood
+    );
+
 type
 
   { TAppCommandInfo }
