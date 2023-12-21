@@ -14,7 +14,7 @@ var
 begin
   Ed:= FFinder.Editor;
   case FFindMarkingMode of
-    markingNone:
+    TATFindMarkingMode.None:
       begin
         //don't do Ed.DoGotoPos here, because it resets selection,
         //while we need to keep sel, on 'find next' with 'in selection'
@@ -27,7 +27,7 @@ begin
           true);
       end;
 
-    markingSelections:
+    TATFindMarkingMode.Selections:
       begin
         if FFindMarkingCaret1st then
         begin
@@ -38,7 +38,7 @@ begin
         //Ed.Carets.Sort; //better comment, to not merge many selections, on "Select all"
       end;
 
-    markingMarkers:
+    TATFindMarkingMode.Markers:
       begin
         //show marker line, if range is one-liner
         if APos2.Y=APos1.Y then
@@ -55,7 +55,7 @@ begin
           );
       end;
 
-    markingBookmarks:
+    TATFindMarkingMode.Bookmarks:
       begin
         ed.BookmarkSetForLine(APos1.Y, 1, '', TATBookmarkAutoDelete.ByOption, true, 0);
       end;
@@ -152,9 +152,9 @@ end;
 
 procedure TfmMain.FindAndSelectAll(var NCounter: integer);
 begin
-  DoFindMarkingInit(markingSelections);
+  DoFindMarkingInit(TATFindMarkingMode.Selections);
   NCounter:= FFinder.DoAction_CountAll(true);
-  DoFindMarkingInit(markingNone);
+  DoFindMarkingInit(TATFindMarkingMode.None);
   FinderUpdateEditor(false);
 
   if NCounter>0 then
@@ -174,9 +174,9 @@ end;
 
 procedure TfmMain.FindAndMarkAll(var NCounter: integer);
 begin
-  DoFindMarkingInit(markingMarkers);
+  DoFindMarkingInit(TATFindMarkingMode.Markers);
   NCounter:= FFinder.DoAction_CountAll(true);
-  DoFindMarkingInit(markingNone);
+  DoFindMarkingInit(TATFindMarkingMode.None);
   FinderUpdateEditor(false);
   if (NCounter=0) and FFinder.IsRegexBad then
     MsgStatusErrorInRegex
@@ -189,7 +189,7 @@ end;
 
 procedure TfmMain.FindAndCountAll(var NCounter: integer);
 begin
-  DoFindMarkingInit(markingNone);
+  DoFindMarkingInit(TATFindMarkingMode.None);
   NCounter:= FFinder.DoAction_CountAll(false);
   if (NCounter=0) and FFinder.IsRegexBad then
     MsgStatusErrorInRegex
@@ -811,14 +811,14 @@ begin
   FFindMarkingCaret1st:= true;
 
   case AMode of
-    markingSelections:
+    TATFindMarkingMode.Selections:
       begin
       end;
-    markingMarkers:
+    TATFindMarkingMode.Markers:
       begin
         Ed.Markers.Clear;
       end;
-    markingBookmarks:
+    TATFindMarkingMode.Bookmarks:
       begin
         Ed.DoCommand(cmd_BookmarkClearAll, TATCommandInvoke.AppInternal);
       end;
@@ -849,7 +849,7 @@ begin
 
   DoFindMarkingInit(AMode);
   cnt:= FFinder.DoAction_CountAll(true);
-  DoFindMarkingInit(markingNone);
+  DoFindMarkingInit(TATFindMarkingMode.None);
 
   FinderUpdateEditor(false);
   MsgStatus(

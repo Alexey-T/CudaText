@@ -9,6 +9,7 @@ unit FormMain;
 
 {$mode objfpc}{$H+}
 {$ModeSwitch advancedrecords}
+{$ScopedEnums on}
 
 {$IFDEF DEBUG}
 {$INLINE OFF}
@@ -163,10 +164,10 @@ type
 
 type
   TATFindMarkingMode = (
-    markingNone,
-    markingSelections,
-    markingMarkers,
-    markingBookmarks
+    None,
+    Selections,
+    Markers,
+    Bookmarks
     );
 
   TATMenuItemsAlt = record

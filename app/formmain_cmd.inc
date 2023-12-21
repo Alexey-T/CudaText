@@ -420,11 +420,11 @@ begin
       DoFindNext(false);
 
     cmd_FindAllAndSelect:
-      DoFindMarkAll(markingSelections);
+      DoFindMarkAll(TATFindMarkingMode.Selections);
     cmd_FindAllAndMarkers:
-      DoFindMarkAll(markingMarkers);
+      DoFindMarkAll(TATFindMarkingMode.Markers);
     cmd_FindAllAndBookmarks:
-      DoFindMarkAll(markingBookmarks);
+      DoFindMarkAll(TATFindMarkingMode.Bookmarks);
 
     cmd_FindCurWordNext:
       DoFindCurrentWordOrSel(Ed, true, true);

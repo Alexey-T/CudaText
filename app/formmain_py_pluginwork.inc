@@ -135,15 +135,14 @@ begin
 end;
 
 
-procedure TfmMain.DoOps_LoadPluginFromInf(const fn_inf: string;
-  IniPlugins: TMemIniFile);
+procedure TfmMain.DoOps_LoadPluginFromInf(const fn_inf: string; IniPlugins: TMemIniFile);
 type
   TAppInfSection = (
-    sidNone,
-    sidItem,
-    sidTreeHelper,
-    sidSidebar,
-    sidBottombar
+    None,
+    Item,
+    TreeHelper,
+    Sidebar,
+    Bottombar
     );
 var
   ini: TMemIniFile;
@@ -172,21 +171,21 @@ begin
     for ini_section in sections do
     begin
       if SBeginsWith(ini_section, 'item') then
-        sectionId:= sidItem
+        sectionId:= TAppInfSection.Item
       else
       if SBeginsWith(ini_section, 'treehelper') then
-        sectionId:= sidTreeHelper
+        sectionId:= TAppInfSection.TreeHelper
       else
       if SBeginsWith(ini_section, 'sidebar') then
-        sectionId:= sidSidebar
+        sectionId:= TAppInfSection.Sidebar
       else
       if SBeginsWith(ini_section, 'bottombar') then
-        sectionId:= sidBottombar
+        sectionId:= TAppInfSection.Bottombar
       else
-        sectionId:= sidNone;
+        sectionId:= TAppInfSection.None;
 
-      if (sectionId=sidSidebar) or
-        (sectionId=sidBottombar) then
+      if (sectionId=TAppInfSection.Sidebar) or
+        (sectionId=TAppInfSection.Bottombar) then
       begin
         s_caption:= ini.ReadString(ini_section, 'hint', '');
         if s_caption='' then Continue;
@@ -202,9 +201,9 @@ begin
         if s_method='' then Continue;
 
         case sectionId of
-          sidSidebar:
+          TAppInfSection.Sidebar:
             PanelId:= cPaneSide;
-          sidBottombar:
+          TAppInfSection.Bottombar:
             PanelId:= cPaneOut;
           else
             Continue;
@@ -218,7 +217,7 @@ begin
           );
       end
       else
-      if sectionId=sidTreeHelper then
+      if sectionId=TAppInfSection.TreeHelper then
       begin
         s_method:= ini.ReadString(ini_section, 'method', '');
         s_lexers:= ini.ReadString(ini_section, 'lexers', '');
@@ -229,7 +228,7 @@ begin
         AppTreeHelpers.Add(TreeHelper);
       end
       else
-      if sectionId=sidItem then
+      if sectionId=TAppInfSection.Item then
       begin
         s_itemkind:= ini.ReadString(ini_section, 'section', '');
         s_caption:= ini.ReadString(ini_section, 'caption', '');
