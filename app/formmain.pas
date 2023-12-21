@@ -7967,7 +7967,6 @@ var
   NTag: PtrInt;
   NCommand: integer;
   SCommand, STagString, SShortCut: string;
-  CmdObject: PPyObject;
 begin
   NTag:= mi.Tag;
   if NTag>cAppMinMemoryAddress then
@@ -7986,17 +7985,19 @@ begin
 
   with AppPython.Engine do
   begin
+    {
     if NCommand>0 then
       CmdObject:= PyLong_FromLong(NCommand)
     else
       CmdObject:= PyUnicodeFromString(SCommand);
+    }
 
     if mi.ShortCut<>0 then
       SShortCut:= ShortCutToText(mi.ShortCut)
     else
       SShortCut:= '';
 
-    Result:= Py_BuildValue('{sLsssisssssssOsOsOsOsO}',
+    Result:= Py_BuildValue('{sLsssisssssssOsOsOsO}',
       'id',
       Int64(PtrInt(mi)),
       'cap',
@@ -8009,8 +8010,10 @@ begin
       PChar(SShortCut),
       'tag',
       PChar(STagString),
+      {
       'command',
       CmdObject,
+      }
       'checked',
       PyBool_FromLong(Ord(mi.Checked)),
       'radio',
