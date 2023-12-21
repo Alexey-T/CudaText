@@ -17,9 +17,9 @@ begin
 
   repeat
     case AppCommandGet(Ed, CmdCode, CmdInvoke) of
-      acgNoCommands:
+      TAppCommandGetStatus.NoCommands:
         Break;
-      acgBadCommand:
+      TAppCommandGetStatus.BadCommand:
         begin
           Sleep(15);
           Continue;

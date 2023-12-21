@@ -1039,6 +1039,13 @@ const
     );
 
 type
+  TAppCommandGetStatus = (
+    NoCommands,
+    BadCommand,
+    OkCommand
+    );
+
+type
 
   { TAppCommandInfo }
 

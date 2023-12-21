@@ -1538,9 +1538,6 @@ begin
 end;
 
 
-type
-  TAppCommandGetStatus = (acgNoCommands, acgBadCommand, acgOkCommand);
-
 function AppCommandGet(out AEditor: TATSynEdit; out ACommand: integer;
   out AInvoke: TATCommandInvoke): TAppCommandGetStatus;
 var
@@ -1553,12 +1550,12 @@ begin
   ACommand:= 0;
   AInvoke:= TATCommandInvoke.AppInternal;
   if AppCommandsDelayed.IsEmpty() then
-    exit(acgNoCommands);
+    exit(TAppCommandGetStatus.NoCommands);
 
   if AppCommandHandlerIsBusy then
-    exit(acgBadCommand);
+    exit(TAppCommandGetStatus.BadCommand);
 
-  Result:= acgBadCommand;
+  Result:= TAppCommandGetStatus.BadCommand;
   Item:= AppCommandsDelayed.Front();
   AppCommandsDelayed.Pop();
 
@@ -1578,7 +1575,7 @@ begin
   AEditor:= EdTemp;
   ACommand:= Item.Code;
   AInvoke:= Item.Invoke;
-  Result:= acgOkCommand;
+  Result:= TAppCommandGetStatus.OkCommand;
 
   if ACommand=cmd_FileCloseAll then
     AppCommandHandlerIsBusy:= true;
