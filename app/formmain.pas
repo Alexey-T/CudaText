@@ -4759,7 +4759,11 @@ begin
 
   //use AndActivate=false in CreateTab() and focus here manually,
   //to avoid setting None-lexer + applying lexer-specific config for it; issue #5320
-  SetFrame(F);
+  if bAndActivate then
+  begin
+    SetFrame(Result);
+    DoFocusFrame(Result);
+  end;
 
   UpdateStatusbar;
   UpdateFindDialogEnabled(F);
