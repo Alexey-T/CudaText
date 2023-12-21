@@ -1000,6 +1000,10 @@ end;
 procedure TfmMain.FinderOnConfirmReplace_API(Sender: TObject; APos1,
   APos2: TPoint; AForMany: boolean; var AConfirm, AContinue: boolean;
   var AReplacement: UnicodeString);
+const
+  HOWREP_CANCEL  = 0;
+  HOWREP_REPLACE = 1;
+  HOWREP_SKIP    = 2;
 var
   ThisFinder: TATEditorFinder;
   Callback: string;

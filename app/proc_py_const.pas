@@ -848,10 +848,6 @@ const
   FINDER_REP_ALL          = 38;
   FINDER_REP_ALL_EX       = 39;
 
-  HOWREP_CANCEL  = 0;
-  HOWREP_REPLACE = 1;
-  HOWREP_SKIP    = 2;
-
   HINTPOS_CARET         = 0;
   HINTPOS_CARET_BRACKET = 1;
   HINTPOS_TEXT          = 2;
