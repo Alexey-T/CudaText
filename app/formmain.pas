@@ -2749,7 +2749,7 @@ var
 {$endif}
 begin
   {$ifdef windows}
-  Prev:= Windows.WNDPROC(SetWindowLongPtr(Self.Handle, GWL_WNDPROC, PtrInt(@WndCallback)));
+  Prev:= Windows.WNDPROC(SetWindowLongPtrW(Self.Handle, GWL_WNDPROC, PtrInt(@WndCallback)));
   if not Assigned(PrevWndProc) then
     PrevWndProc:= Prev;
   {$endif}
