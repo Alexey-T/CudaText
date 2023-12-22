@@ -1261,6 +1261,9 @@ begin
 
     DoTreeviewCopy(FCodetreeBuffer, CodeTree.Tree);
 
+    if UiOps.TreeUnfold then
+      CodeTree.Tree.FullExpand;
+
     //force update scrollbar
     CodeTree.Tree.Font.Size:= ATEditorScaleFont(UiOps.VarFontSize) * UiOps.TreeFontScale div 100;
     CodeTree.Tree.Perform(CM_CHANGED, 0, 0);

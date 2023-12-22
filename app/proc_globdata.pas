@@ -403,6 +403,7 @@ type
     TreeIconFilenames: string;
     TreeFillMaxTime: integer;
     TreeFillMaxTimeForAPI: integer;
+    TreeUnfold: boolean;
 
     NewdocLexer: string;
     NewdocEnc: string;
@@ -2102,6 +2103,7 @@ begin
     TreeIconFilenames:= 'dir,st1,st2,st3,box,fx,ar1,ar2,';
     TreeFillMaxTime:= 1000;
     TreeFillMaxTimeForAPI:= 6*1000;
+    TreeUnfold:= false;
 
     PyLibrary:= '';
     PyCaretSlow:= 600;
