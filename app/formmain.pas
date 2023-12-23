@@ -163,7 +163,7 @@ type
   end;
 
 type
-  TATFindMarkingMode = (
+  TAppFinderMarking = (
     None,
     Selections,
     Markers,
@@ -681,7 +681,7 @@ type
     FFinder: TATEditorFinder;
     FFindStop: boolean;
     FFindConfirmAll: TModalResult;
-    FFindMarkingMode: TATFindMarkingMode;
+    FFindMarkingMode: TAppFinderMarking;
     FFindMarkingCaret1st: boolean;
     FShowFullScreen: boolean;
     FShowFullScreen_DisFree: boolean;
@@ -796,8 +796,8 @@ type
     procedure DoCommands_OnMsg(Sender: TObject; const ARes: string);
     procedure DoFindFirst;
     procedure DoFindNext(ANext: boolean);
-    procedure DoFindMarkAll(AMode: TATFindMarkingMode);
-    procedure DoFindMarkingInit(AMode: TATFindMarkingMode);
+    procedure DoFindMarkAll(AMode: TAppFinderMarking);
+    procedure DoFindMarkingInit(AMode: TAppFinderMarking);
     procedure DoFindOptions_OnChange(Sender: TObject);
     procedure DoFindOptions_ApplyDict(const AText: string);
     function DoFindOptions_GetDict: PPyObject;

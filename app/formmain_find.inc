@@ -14,7 +14,7 @@ var
 begin
   Ed:= FFinder.Editor;
   case FFindMarkingMode of
-    TATFindMarkingMode.None:
+    TAppFinderMarking.None:
       begin
         //don't do Ed.DoGotoPos here, because it resets selection,
         //while we need to keep sel, on 'find next' with 'in selection'
@@ -27,7 +27,7 @@ begin
           true);
       end;
 
-    TATFindMarkingMode.Selections:
+    TAppFinderMarking.Selections:
       begin
         if FFindMarkingCaret1st then
         begin
@@ -38,7 +38,7 @@ begin
         //Ed.Carets.Sort; //better comment, to not merge many selections, on "Select all"
       end;
 
-    TATFindMarkingMode.Markers:
+    TAppFinderMarking.Markers:
       begin
         //show marker line, if range is one-liner
         if APos2.Y=APos1.Y then
@@ -55,7 +55,7 @@ begin
           );
       end;
 
-    TATFindMarkingMode.Bookmarks:
+    TAppFinderMarking.Bookmarks:
       begin
         ed.BookmarkSetForLine(APos1.Y, 1, '', TATBookmarkAutoDelete.ByOption, true, 0);
       end;
@@ -152,9 +152,9 @@ end;
 
 procedure TfmMain.FindAndSelectAll(var NCounter: integer);
 begin
-  DoFindMarkingInit(TATFindMarkingMode.Selections);
+  DoFindMarkingInit(TAppFinderMarking.Selections);
   NCounter:= FFinder.DoAction_CountAll(true);
-  DoFindMarkingInit(TATFindMarkingMode.None);
+  DoFindMarkingInit(TAppFinderMarking.None);
   FinderUpdateEditor(false);
 
   if NCounter>0 then
@@ -174,9 +174,9 @@ end;
 
 procedure TfmMain.FindAndMarkAll(var NCounter: integer);
 begin
-  DoFindMarkingInit(TATFindMarkingMode.Markers);
+  DoFindMarkingInit(TAppFinderMarking.Markers);
   NCounter:= FFinder.DoAction_CountAll(true);
-  DoFindMarkingInit(TATFindMarkingMode.None);
+  DoFindMarkingInit(TAppFinderMarking.None);
   FinderUpdateEditor(false);
   if (NCounter=0) and FFinder.IsRegexBad then
     MsgStatusErrorInRegex
@@ -189,7 +189,7 @@ end;
 
 procedure TfmMain.FindAndCountAll(var NCounter: integer);
 begin
-  DoFindMarkingInit(TATFindMarkingMode.None);
+  DoFindMarkingInit(TAppFinderMarking.None);
   NCounter:= FFinder.DoAction_CountAll(false);
   if (NCounter=0) and FFinder.IsRegexBad then
     MsgStatusErrorInRegex
@@ -799,7 +799,7 @@ begin
   fmFind.edFind.DoAddLineToHistory(FFinder.StrFind, UiOps.MaxHistoryEdits);
 end;
 
-procedure TfmMain.DoFindMarkingInit(AMode: TATFindMarkingMode);
+procedure TfmMain.DoFindMarkingInit(AMode: TAppFinderMarking);
 var
   Ed: TATSynEdit;
 begin
@@ -811,14 +811,14 @@ begin
   FFindMarkingCaret1st:= true;
 
   case AMode of
-    TATFindMarkingMode.Selections:
+    TAppFinderMarking.Selections:
       begin
       end;
-    TATFindMarkingMode.Markers:
+    TAppFinderMarking.Markers:
       begin
         Ed.Markers.Clear;
       end;
-    TATFindMarkingMode.Bookmarks:
+    TAppFinderMarking.Bookmarks:
       begin
         Ed.DoCommand(cmd_BookmarkClearAll, TATCommandInvoke.AppInternal);
       end;
@@ -827,7 +827,7 @@ begin
   end;
 end;
 
-procedure TfmMain.DoFindMarkAll(AMode: TATFindMarkingMode);
+procedure TfmMain.DoFindMarkAll(AMode: TAppFinderMarking);
 var
   cnt: integer;
   bFocusFindDlg: boolean;
@@ -849,7 +849,7 @@ begin
 
   DoFindMarkingInit(AMode);
   cnt:= FFinder.DoAction_CountAll(true);
-  DoFindMarkingInit(TATFindMarkingMode.None);
+  DoFindMarkingInit(TAppFinderMarking.None);
 
   FinderUpdateEditor(false);
   MsgStatus(
