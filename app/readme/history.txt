@@ -7,6 +7,7 @@
 
 * change: default of "ui_tree_fill_max_time" changed from 1000 to 150
 * change: auto-disable 'dynamic highlight' for very long one-liners: 1st or 2nd line has len>500
++ add: improved rendering speed for such case: one-liner HTML with 700k chars with word-wrapping on
 
 1.206.0 (2023/12)
 
