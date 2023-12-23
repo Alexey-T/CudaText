@@ -2101,7 +2101,7 @@ begin
     TreeFilterLayout:= 1;
     TreeSublexers:= false;
     TreeIconFilenames:= 'dir,st1,st2,st3,box,fx,ar1,ar2,';
-    TreeFillMaxTime:= 1000;
+    TreeFillMaxTime:= 150;
     TreeFillMaxTimeForAPI:= 6*1000;
     TreeUnfold:= false;
 

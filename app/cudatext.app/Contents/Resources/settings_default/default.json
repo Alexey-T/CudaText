@@ -1066,8 +1066,8 @@
 
   //Maximal time, in milliseconds, of the code-tree filling procedure.
   //No tree nodes are added after that limit, instead only dummy node
-  //is added: ">1000ms, skipped 1000/2000".
-  "ui_tree_fill_max_time": 1000,
+  //is added: ">200ms, skipped 1500/2000".
+  "ui_tree_fill_max_time": 150,
 
   //Fully unfold code-tree after filling.
   "ui_tree_unfold": false,
