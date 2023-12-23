@@ -1837,18 +1837,18 @@ Value of "command" parameter for MENU_ADD can be:
 
 ====menu_proc - Properties as dict====
 
-Some actions get dict for menu items. Dict keys:
+Some actions get dict for menu items. Note that some keys are optional, they are returned only when value is not the default (e.g. "vis" is returned only when visibility is off). Dict keys:
 
-* "id": menu_id, int
-* "cap": caption (for separator items it is "-"), str
-* "cmd": command code (e.g. from module cudatext_cmd), int (for plugin menu items it can be 0 or -1)
-* (optional) "hint": callback (used if "cmd" value <=0), str
-* (optional) "hotkey": hotkey, str
-* (optional) "tag": some plugin-defined data, str
-* (optional) "en": menu item is enabled, bool
-* (optional) "vis": menu item is visible, bool
-* (optional) "checked": menu item is checked, bool
-* (optional) "radio": menu item has rounded checkmark, bool
+* "id", int: menu id
+* "cap", str: caption; for separator items it is "-"
+* "cmd", int: command code (e.g. from module cudatext_cmd); for plugin menu items it can be 0 or -1
+* (optional) "hint", str: callback, used if "cmd" value <=0
+* (optional) "hotkey", str: keyboard hotkey
+* (optional) "tag", str: some plugin-defined data, if plugin set it
+* (optional) "en", bool: menu item is enabled
+* (optional) "vis", bool: menu item is visible
+* (optional) "checked", bool: menu item is checked
+* (optional) "radio", bool: menu item has rounded checkmark
 
 ====menu_proc - Actions====
 
