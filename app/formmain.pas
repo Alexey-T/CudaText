@@ -1629,7 +1629,7 @@ begin
     begin
       //backup hotkeys of plugins
       //this function must not loose any hotkeys!
-      if ACategory in [categ_Plugin, categ_PluginSub] then
+      if ACategory in [TAppCommandCategory.Plugin, TAppCommandCategory.PluginSub] then
         ABackup.Add(MapItem, MapItem.Description);
 
       AKeymap.Delete(i);
@@ -1652,7 +1652,7 @@ begin
   for i:= 0 to AppCommandList.Count-1 do
   begin
     CmdItem:= TAppCommandInfo(AppCommandList[i]);
-    if CmdItem.ItemFromApi xor (ACategory=categ_PluginSub) then Continue;
+    if CmdItem.ItemFromApi xor (ACategory=TAppCommandCategory.PluginSub) then Continue;
     if CmdItem.ItemModule='' then Break;
     if SEndsWith(CmdItem.ItemCaption, '-') then Continue;
     SCommandText:= CmdItem.CommaStr;
@@ -1682,7 +1682,7 @@ begin
   //  MsgBox('1'#10+TKeymapHelperMain.Debug_PluginCommands(AKeymap, 'Macro'), MB_OK); ///////debug
 
   case ACategory of
-    categ_Lexer:
+    TAppCommandCategory.Lexer:
       begin
         sl:= TStringList.Create;
         try
@@ -1716,13 +1716,13 @@ begin
         end;
       end;
 
-    categ_Plugin,
-    categ_PluginSub:
+    TAppCommandCategory.Plugin,
+    TAppCommandCategory.PluginSub:
       begin
         AddPluginsWithHotkeyBackup(AKeymap, KeysBackup, ACategory);
       end;
 
-    categ_OpenedFile:
+    TAppCommandCategory.OpenedFile:
       for i:= 0 to AppFrameList1.Count-1 do
       begin
         Frame:= TEditorFrame(AppFrameList1[i]);
@@ -1733,7 +1733,7 @@ begin
             [], []);
       end;
 
-    categ_RecentFile:
+    TAppCommandCategory.RecentFile:
     begin
       for i:= 0 to AppListRecents.Count-1 do
       begin
@@ -1771,7 +1771,7 @@ begin
   for i:= 0 to AKeymap.Count-1 do
   begin
     Cmd:= AKeymap.Items[i].Command;
-    if TPluginHelper.CommandCategory(Cmd) in [categ_Plugin, categ_PluginSub] then
+    if TPluginHelper.CommandCategory(Cmd) in [TAppCommandCategory.Plugin, TAppCommandCategory.PluginSub] then
       if Pos(AText, AKeymap.Items[i].Name)>0 then
         Result+= AKeymap.Items[i].Name+#10;
   end;
@@ -4935,9 +4935,9 @@ begin
   F:= CurrentFrame;
   Ed:= F.Editor;
 
-  TKeymapHelperMain.UpdateDynamic(categ_Lexer);
-  TKeymapHelperMain.UpdateDynamic(categ_OpenedFile);
-  TKeymapHelperMain.UpdateDynamic(categ_RecentFile);
+  TKeymapHelperMain.UpdateDynamic(TAppCommandCategory.Lexer);
+  TKeymapHelperMain.UpdateDynamic(TAppCommandCategory.OpenedFile);
+  TKeymapHelperMain.UpdateDynamic(TAppCommandCategory.RecentFile);
 
   Props:= Default(TDlgCommandsProps);
   Props.Caption:= msgCmdPaletteCaption;
@@ -4983,8 +4983,8 @@ begin
 
   case Category of
     //PluginSub is needed here, e.g. for ExtTools plugin with its subcommands
-    categ_Plugin,
-    categ_PluginSub:
+    TAppCommandCategory.Plugin,
+    TAppCommandCategory.PluginSub:
       begin
         NIndex:= NCmd-cmdFirstPluginCommand;
         with TAppCommandInfo(AppCommandList[NIndex]) do
@@ -4994,7 +4994,7 @@ begin
             Result:= Format('p:%s.%s', [ItemModule, ItemProc]);
       end;
 
-    categ_Lexer:
+    TAppCommandCategory.Lexer:
       begin
         NIndex:= NCmd-cmdFirstLexerCommand;
         if NIndex<AppManager.LexerCount then
@@ -5009,7 +5009,7 @@ begin
         end;
       end;
 
-    categ_OpenedFile:
+    TAppCommandCategory.OpenedFile:
       begin
         NIndex:= NCmd-cmdFirstFileCommand;
         if NIndex<AppFrameList1.Count then
@@ -5018,7 +5018,7 @@ begin
           Result:= 'c:'+IntToStr(NCmd);
       end;
 
-    categ_RecentFile:
+    TAppCommandCategory.RecentFile:
       begin
         NIndex:= NCmd-cmdFirstRecentCommand;
         if NIndex<AppListRecents.Count then

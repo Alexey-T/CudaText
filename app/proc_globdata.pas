@@ -2419,7 +2419,7 @@ end;
 
 class function TPluginHelper.CommandCode_To_HotkeyStringId(ACmd: integer): string;
 begin
-  if CommandCategory(ACmd) in [categ_Plugin, categ_PluginSub] then
+  if CommandCategory(ACmd) in [TAppCommandCategory.Plugin, TAppCommandCategory.PluginSub] then
     Result:= TAppCommandInfo(AppCommandList[ACmd-cmdFirstPluginCommand]).CommaStr
   else
     Result:= IntToStr(ACmd);
@@ -3352,32 +3352,36 @@ begin
   case Cmd of
     cmdFirstPluginCommand..cmdLastPluginCommand:
       begin
-        Result:= categ_Plugin;
+        Result:= TAppCommandCategory.Plugin;
         N:= Cmd-cmdFirstPluginCommand;
         if N<AppCommandList.Count then
         begin
           if TAppCommandInfo(AppCommandList[N]).ItemFromApi then
-            Result:= categ_PluginSub;
+            Result:= TAppCommandCategory.PluginSub;
         end
         else
           //we are here when e.g. in plugin Macros user deletes a macro,
           //so code detects category of deleted command-code
-          Result:= categ_PluginSub;
+          Result:= TAppCommandCategory.PluginSub;
       end;
     cmdFirstLexerCommand..cmdLastLexerCommand:
-      Result:= categ_Lexer;
+      Result:= TAppCommandCategory.Lexer;
     cmdFirstFileCommand..cmdLastFileCommand:
-      Result:= categ_OpenedFile;
+      Result:= TAppCommandCategory.OpenedFile;
     cmdFirstRecentCommand..cmdLastRecentCommand:
-      Result:= categ_RecentFile;
+      Result:= TAppCommandCategory.RecentFile;
     else
-      Result:= categ_Normal;
+      Result:= TAppCommandCategory.Normal;
   end;
 end;
 
 class function TPluginHelper.CommandHasConfigurableHotkey(Cmd: integer): boolean;
 begin
-  Result:= CommandCategory(Cmd) in [categ_Normal, categ_Plugin, categ_PluginSub];
+  Result:= CommandCategory(Cmd) in [
+             TAppCommandCategory.Normal,
+             TAppCommandCategory.Plugin,
+             TAppCommandCategory.PluginSub
+             ];
 end;
 
 procedure InitBasicCommandLineOptions;

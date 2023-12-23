@@ -624,11 +624,11 @@ begin
   Category:= TPluginHelper.CommandCategory(NCmd);
 
   //filter by options
-  if (Category=categ_Plugin) and not OptShowPlugins then exit(false);
-  if (Category=categ_Lexer) and not OptShowLexers then exit(false);
-  if (Category=categ_OpenedFile) and not OptShowFiles then exit(false);
-  if (Category=categ_RecentFile) and not OptShowRecents then exit(false);
-  if (Category=categ_Normal) and not OptShowUsual then exit(false);
+  if (Category=TAppCommandCategory.Plugin) and not OptShowPlugins then exit(false);
+  if (Category=TAppCommandCategory.Lexer) and not OptShowLexers then exit(false);
+  if (Category=TAppCommandCategory.OpenedFile) and not OptShowFiles then exit(false);
+  if (Category=TAppCommandCategory.RecentFile) and not OptShowRecents then exit(false);
+  if (Category=TAppCommandCategory.Normal) and not OptShowUsual then exit(false);
 
   //filter by input field
   StrFind:= Trim(edit.Text);
@@ -639,10 +639,10 @@ begin
   bPrefixFile:= _GetPrefix(StrFind, 'f');
   bPrefixRecent:= _GetPrefix(StrFind, 'r');
 
-  if bPrefixLexer and (Category<>categ_Lexer) then exit(false);
-  if bPrefixPlugin and (Category<>categ_Plugin) then exit(false);
-  if bPrefixFile and (Category<>categ_OpenedFile) then exit(false);
-  if bPrefixRecent and (Category<>categ_RecentFile) then exit(false);
+  if bPrefixLexer and (Category<>TAppCommandCategory.Lexer) then exit(false);
+  if bPrefixPlugin and (Category<>TAppCommandCategory.Plugin) then exit(false);
+  if bPrefixFile and (Category<>TAppCommandCategory.OpenedFile) then exit(false);
+  if bPrefixRecent and (Category<>TAppCommandCategory.RecentFile) then exit(false);
 
   if StrFind='' then exit(true);
 

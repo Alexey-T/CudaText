@@ -8,6 +8,7 @@ Copyright (c) Alexey Torgashin
 unit proc_cmd;
 
 {$mode objfpc}{$H+}
+{$ScopedEnums on}
 
 interface
 
@@ -24,12 +25,12 @@ function IsCommandHandledFromFindDialog(Cmd: integer): boolean;
 
 type
   TAppCommandCategory = (
-    categ_Normal,
-    categ_Plugin,
-    categ_PluginSub, //commands added via API app_proc
-    categ_Lexer,
-    categ_OpenedFile,
-    categ_RecentFile
+    Normal,
+    Plugin,
+    PluginSub, //commands added via API app_proc
+    Lexer,
+    OpenedFile,
+    RecentFile
     );
 
 const

@@ -3054,9 +3054,9 @@ begin
     begin
       StrTitle:= string(PtrTitle);
 
-      TKeymapHelperMain.UpdateDynamic(categ_Lexer);
-      TKeymapHelperMain.UpdateDynamic(categ_OpenedFile);
-      TKeymapHelperMain.UpdateDynamic(categ_RecentFile);
+      TKeymapHelperMain.UpdateDynamic(TAppCommandCategory.Lexer);
+      TKeymapHelperMain.UpdateDynamic(TAppCommandCategory.OpenedFile);
+      TKeymapHelperMain.UpdateDynamic(TAppCommandCategory.RecentFile);
 
       Props:= Default(TDlgCommandsProps);
       Props.Caption:= StrTitle;
@@ -4884,7 +4884,7 @@ begin
       begin
         Item:= AppKeymapMain[i];
         case TPluginHelper.CommandCategory(Item.Command) of
-          categ_Lexer:
+          TAppCommandCategory.Lexer:
             begin
               PyList_SetItem(Result, i,
                 Py_BuildValue('{sssissssssssss}',
@@ -4905,8 +4905,8 @@ begin
                   ));
             end;
 
-          categ_Plugin,
-          categ_PluginSub:
+          TAppCommandCategory.Plugin,
+          TAppCommandCategory.PluginSub:
             begin
               ItemPlugin:= TAppCommandInfo(AppCommandList[Item.Command-cmdFirstPluginCommand]);
               PyList_SetItem(Result, i,
@@ -4938,7 +4938,7 @@ begin
                   ));
             end;
 
-          categ_Normal:
+          TAppCommandCategory.Normal:
             begin
               SKeyInit1:= '';
               SKeyInit2:= '';
@@ -4968,7 +4968,7 @@ begin
                   ));
             end;
 
-          categ_OpenedFile:
+          TAppCommandCategory.OpenedFile:
             begin
               PyList_SetItem(Result, i,
                 Py_BuildValue('{sssissssssssss}',
@@ -4989,7 +4989,7 @@ begin
                   ));
             end;
 
-          categ_RecentFile:
+          TAppCommandCategory.RecentFile:
             begin
               PyList_SetItem(Result, i,
                 Py_BuildValue('{sssissssssssss}',
@@ -5147,9 +5147,9 @@ begin
 
         APP_PROC_GET_COMMANDS:
           begin
-            TKeymapHelperMain.UpdateDynamic(categ_Lexer);
-            TKeymapHelperMain.UpdateDynamic(categ_OpenedFile);
-            TKeymapHelperMain.UpdateDynamic(categ_RecentFile);
+            TKeymapHelperMain.UpdateDynamic(TAppCommandCategory.Lexer);
+            TKeymapHelperMain.UpdateDynamic(TAppCommandCategory.OpenedFile);
+            TKeymapHelperMain.UpdateDynamic(TAppCommandCategory.RecentFile);
             Result:= PyHelper_CommandList;
           end;
 
@@ -5219,7 +5219,7 @@ begin
         APP_PROC_SET_SUBCOMMANDS:
           begin
             TPluginHelper.CommandUpdateSubcommands(Str);
-            TKeymapHelperMain.UpdateDynamic(categ_PluginSub);
+            TKeymapHelperMain.UpdateDynamic(TAppCommandCategory.PluginSub);
             fmMain.FNeedAppState_SubCommands:= true;
             Result:= ReturnNone;
           end;
