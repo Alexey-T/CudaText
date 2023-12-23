@@ -866,7 +866,7 @@ end;
 
 procedure TfmMain.UpdateMenuItemAltObject(mi: TMenuItem; ACmd: integer);
   //
-  procedure DoSave(mi: TMenuItem; var save: TATMenuItemsAlt);
+  procedure DoSave(mi: TMenuItem; var save: TAppMenuItemsAlt);
   begin
     if save.active0 then
       save.item0:= mi
@@ -1101,7 +1101,7 @@ begin
   UpdateStatusbar;
 end;
 
-procedure TfmMain.UpdateMenuItemChecked(mi: TMenuItem; saved: TATMenuItemsAlt; AValue: boolean);
+procedure TfmMain.UpdateMenuItemChecked(mi: TMenuItem; saved: TAppMenuItemsAlt; AValue: boolean);
 begin
   if Assigned(mi) then mi.Checked:= AValue;
   if Assigned(saved.item0) then saved.item0.Checked:= AValue;

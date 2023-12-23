@@ -170,7 +170,7 @@ type
     Bookmarks
     );
 
-  TATMenuItemsAlt = record
+  TAppMenuItemsAlt = record
     item0: TMenuItem;
     item1: TMenuItem;
     active0: boolean;
@@ -676,7 +676,7 @@ type
     mnuGr4G_Alt,
     mnuGr6H_Alt,
     mnuGr6V_Alt,
-    mnuGr6_Alt: TATMenuItemsAlt;
+    mnuGr6_Alt: TAppMenuItemsAlt;
 
     FFinder: TATEditorFinder;
     FFindStop: boolean;
@@ -1128,7 +1128,7 @@ type
     procedure UpdateSidebarButtonOverlay;
     procedure UpdateEditorTabsize(AValue: integer);
     procedure UpdateMenuItemAltObject(mi: TMenuItem; ACmd: integer);
-    procedure UpdateMenuItemChecked(mi: TMenuItem; saved: TATMenuItemsAlt; AValue: boolean);
+    procedure UpdateMenuItemChecked(mi: TMenuItem; saved: TAppMenuItemsAlt; AValue: boolean);
     procedure UpdateMenuItemHint(mi: TMenuItem; const AHint: string);
     procedure UpdateMenuItemHotkey(mi: TMenuItem; ACmd: integer; AllowSetShortcut: boolean=true);
     procedure UpdateMenuItem_SetShortcutFromProps(mi: TMenuItem);
