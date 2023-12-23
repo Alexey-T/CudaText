@@ -8,6 +8,7 @@ Copyright (c) Alexey Torgashin
 unit proc_install_zip;
 
 {$mode objfpc}{$H+}
+{$ScopedEnums on}
 
 interface
 
@@ -18,12 +19,12 @@ uses
 
 type
   TAppAddonType = (
-    cAddonTypeUnknown,
-    cAddonTypePlugin,
-    cAddonTypeLexer,
-    cAddonTypeLexerLite,
-    cAddonTypeData,
-    cAddonTypePackage
+    Unknown,
+    Plugin,
+    Lexer,
+    LexerLite,
+    Data,
+    Package
     );
 
 const
@@ -555,7 +556,7 @@ function AppAddonKindFromString(const AId: string): TAppAddonType;
 var
   kind: TAppAddonType;
 begin
-  Result:= cAddonTypeUnknown;
+  Result:= TAppAddonType.Unknown;
   for kind:= Succ(Low(TAppAddonType)) to High(TAppAddonType) do
     if cAppAddonTypeString[kind]=AId then
       exit(kind);
@@ -586,7 +587,7 @@ begin
   AStrReport:= '';
   AStrMessage:= '';
   AIsInstalled:= false;
-  AAddonType:= cAddonTypeUnknown;
+  AAddonType:= TAppAddonType.Unknown;
   ADirTarget:= '';
   dir_temp:= GetTempDirCounted;
 
@@ -702,7 +703,7 @@ begin
   end;
 
   AAddonType:= AppAddonKindFromString(s_type);
-  if AAddonType=cAddonTypeUnknown then
+  if AAddonType=TAppAddonType.Unknown then
   begin
     MsgBox(msgStatusUnsupportedAddonType+' '+s_type, MB_OK or MB_ICONERROR);
     exit
@@ -715,7 +716,7 @@ begin
       msgStatusPackageContains+#10#10+
       msgStatusPackageName+' '+s_title+#10+
       IfThen(s_desc<>'', msgStatusPackageDesc+' '+s_desc+#10)+
-      msgStatusPackageType+' '+s_type+ IfThen(AAddonType=cAddonTypeData, ' / '+s_subdir)+
+      msgStatusPackageType+' '+s_type+ IfThen(AAddonType=TAppAddonType.Data, ' / '+s_subdir)+
       IfThen(NumHotkeys>0, #10+Format(msgConfirmHotkeyList, [NumHotkeys, s_allhotkeys]))+
       #10#10+msgConfirmInstallIt;
 
@@ -754,26 +755,26 @@ begin
 
   AStrReport:= '';
   case AAddonType of
-    cAddonTypeLexer:
+    TAppAddonType.Lexer:
       begin
         DoInstallLexer(fn_inf, ADirAcp, AStrReport);
         ADirTarget:= AppDir_Lexers;
       end;
-    cAddonTypeLexerLite:
+    TAppAddonType.LexerLite:
       begin
         DoInstallLexerLite(fn_inf, AStrReport);
         ADirTarget:= AppDir_LexersLite;
       end;
-    cAddonTypePlugin:
+    TAppAddonType.Plugin:
       begin
         AStrMessage:= msgStatusInstalledNeedRestart;
         DoInstallPlugin(fn_inf, AStrReport, ADirTarget, ANeedRestart, bAllowHotkeys)
       end;
-    cAddonTypeData:
+    TAppAddonType.Data:
       begin
         DoInstallData(fn_inf, AStrReport, ADirTarget)
       end;
-    cAddonTypePackage:
+    TAppAddonType.Package:
       begin
         DoInstallPackage(fn_inf, AStrReport, ADirTarget);
       end;

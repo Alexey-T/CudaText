@@ -3892,12 +3892,12 @@ begin
   if Result then
   begin
     case AddonType of
-      cAddonTypeLexer,
-      cAddonTypeLexerLite:
+      TAppAddonType.Lexer,
+      TAppAddonType.LexerLite:
         begin
           DoOps_LoadLexerLib(true); //AOnCreate=true - don't backup lexers
         end;
-      cAddonTypePlugin:
+      TAppAddonType.Plugin:
         begin
           DoOps_LoadPlugins(true);
           UpdateMenuPlugins;
