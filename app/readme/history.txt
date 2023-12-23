@@ -3,6 +3,11 @@
   - fixed
   * changed
 
+1.206.1 (2023/12)
+
+* change: default of "ui_tree_fill_max_time" changed from 1000 to 150
+* change: auto-disable 'dynamic highlight' for very long one-liners: 1st or 2nd line has len>500
+
 1.206.0 (2023/12)
 
 + add: make app start faster by 30ms (on Alexey's PC), by moving top menu initing (and Plugins menu filling) to 'app is idle' event
@@ -11,7 +16,6 @@
 - fix: on loading file with lexer, avoid temporary applying None-lexer-specific config (thanks @ThaiDat)
 - fix: regression on Windows since 1.176: window title shows Unicode as '??????' (thanks @veksha)
 - fix: when "ui_tab_position" is left/right + "ui_tab_variable_width" is on, "ui_tab_size_y" was ignored (thanks @veksha)
-* change: default of "ui_tree_fill_max_time" changed from 1000 to 150
 
 1.205.5 (2023/12)
 
