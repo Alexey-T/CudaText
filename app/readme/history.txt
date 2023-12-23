@@ -11,6 +11,7 @@
 - fix: on loading file with lexer, avoid temporary applying None-lexer-specific config (thanks @ThaiDat)
 - fix: regression on Windows since 1.176: window title shows Unicode as '??????' (thanks @veksha)
 - fix: when "ui_tab_position" is left/right + "ui_tab_variable_width" is on, "ui_tab_size_y" was ignored (thanks @veksha)
+* change: default of "ui_tree_fill_max_time" changed from 1000 to 150
 
 1.205.5 (2023/12)
 
