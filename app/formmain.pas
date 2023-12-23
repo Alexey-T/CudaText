@@ -912,7 +912,7 @@ type
     procedure DoDialogMenuEncodings;
     procedure DoDialogMenuEnds;
     procedure DoFileExportHtml(Ed: TATSynEdit);
-    function DoFileInstallZip(const fn: string; out DirTarget: string; ASilent: boolean): boolean;
+    function DoFileInstallZip(const AFileName: string; out DirTarget: string; ASilent: boolean): boolean;
     procedure DoFileCloseAndDelete(Ed: TATSynEdit);
     procedure DoFileNew;
     procedure DoFileNewMenu_ToolbarClick(Sender: TObject);
@@ -3873,7 +3873,7 @@ begin
   DoOps_ClearConfigHistory([TAppConfigHistoryElement.RecentFiles]);
 end;
 
-function TfmMain.DoFileInstallZip(const fn: string; out DirTarget: string;
+function TfmMain.DoFileInstallZip(const AFileName: string; out DirTarget: string;
   ASilent: boolean): boolean;
 var
   msg, msg2: string;
@@ -3886,7 +3886,7 @@ begin
   if bKeepFrameLexers then
     DoOps_LexersBackupSave;
 
-  DoInstallAddonFromZip(fn, AppDir_DataAutocomplete, msg, msg2,
+  DoInstallAddonFromZip(AFileName, AppDir_DataAutocomplete, msg, msg2,
     Result, AddonType, DirTarget, bNeedRestart, ASilent);
 
   if Result then
