@@ -1796,7 +1796,6 @@ var
   StrText: string;
   Strs: TATStrings;
   bAllText: boolean;
-  ScrollInfo: TATEditorScrollInfo;
 begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'Liiiis:replace', @H, @X1, @Y1, @X2, @Y2, @PtrText)) then
@@ -1820,13 +1819,9 @@ begin
         Shift,
         PosAfter);
 
+      //reset ScrollHorz.Max, it's needed because CudaFormatter can replace long one-liner to short lines
       if bAllText then
-      begin
-        //reset ScrollHorz.Max, it's needed because CudaFormatter could replace long one-liner to short lines
-        ScrollInfo:= Ed.ScrollHorz;
-        ScrollInfo.NMax:= 1;
-        Ed.ScrollHorz:= ScrollInfo;
-      end;
+        EditorResetHorizontalScrollbarMax(Ed);
 
       Ed.DoEventChange(Y1);
       Ed.UpdateWrapInfo(true); //fixing #4173

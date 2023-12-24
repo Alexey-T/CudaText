@@ -150,6 +150,7 @@ procedure EditorForceUpdateIfWrapped(Ed: TATSynEdit);
 procedure EditorScrollToCaret(Ed: TATSynEdit; ANeedWrapOff, AllowProcessMsg: boolean);
 procedure EditorCaretToView(Ed: TATSynEdit; ANeedWrapOff, AllowProcessMsg: boolean);
 procedure EditorCalcOffsetsForStatusbar(Ed: TATSynEdit; out AOffsetMax, AOffsetCaret: integer);
+procedure EditorResetHorizontalScrollbarMax(Ed: TATSynEdit);
 
 type
   TATEditorTempOptions = record
@@ -3249,6 +3250,15 @@ begin
   end;
 end;
 
+
+procedure EditorResetHorizontalScrollbarMax(Ed: TATSynEdit);
+var
+  Info: TATEditorScrollInfo;
+begin
+  Info:= Ed.ScrollHorz;
+  Info.NMax:= 1;
+  Ed.ScrollHorz:= Info;
+end;
 
 { TEditorHtmlTagList }
 
