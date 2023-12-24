@@ -1388,6 +1388,10 @@ Text in minimap is painted by pixels, not by font rendering. Minimap is scaled a
 
 CudaText UI-theme doesn't have separate color for minimap slider. CudaText calculates the color of slider (when slider is hovered by mouse): if text background color is light - slider color is darker by 5-10% (there is no option); if text background color is dark - slider color is lighter by 5-10%.
 
+Feature: for document line(s) affected by selection(s), minimap lines have additional full-width background coloring. This feature cannot be turned off yet.
+
+Feature: minimap rendering time is limited by 40 msec (no option for this yet). For rather slow CPU and maximized app window, the entire minimap rendering can take more time, so bottom minimap lines won't be colored at all.
+
 =Micromap=
 Micromap is thin (about 12 pixels) vertical bar near editor's right side. It is not scrollable, it shows overview of entire document from top to bottom. To show it:
 
