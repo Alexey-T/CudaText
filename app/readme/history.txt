@@ -3,11 +3,12 @@
   - fixed
   * changed
 
-1.206.1 (2023/12)
+1.206.2 (2023/12)
 
 + add: improved rendering speed (4 times faster) for such case: one-liner HTML with 700k chars with word-wrapping on
-* change: auto-disable 'dynamic highlight' for very long one-liners: 1st or 2nd line has len>500
+* change: auto-disable 'dynamic highlight' for very long one-liners: when 1st/2nd line has len>500
 * change: default of "ui_tree_fill_max_time" changed from 1000 to 150
+- fix: minimap rendering can make _big slowdown_ in some cases (thanks @adoeller)
 
 1.206.0 (2023/12)
 
