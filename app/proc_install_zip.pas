@@ -375,7 +375,7 @@ begin
             if Keymap.GetCommandFromHotkeyString(s_hotkey, '|')>=0 then
               AReport:= Format(msgStatusPluginHotkeyBusy, [s_hotkey])+#10+AReport
             else
-              TKeymapHelper.SaveKey_ForPlugin(Keymap, false, 'plugin: '+s_caption_nice, s_module, s_method, '', s_hotkey)
+              TKeymapHelper.SaveKey_ForPlugin(false, 'plugin: '+s_caption_nice, s_module, s_method, '', s_hotkey)
           end
           else
           begin
@@ -387,7 +387,7 @@ begin
               if Keymap.GetCommandFromHotkeyString(s_hotkey, '|')>=0 then
                 AReport:= Format(msgStatusPluginHotkeyBusy, [s_hotkey])+#10+AReport
               else
-                TKeymapHelper.SaveKey_ForPlugin(Keymap, false, 'plugin: '+s_caption_nice, s_module, s_method, s_lexer_item, s_hotkey);
+                TKeymapHelper.SaveKey_ForPlugin(false, 'plugin: '+s_caption_nice, s_module, s_method, s_lexer_item, s_hotkey);
             end;
           end;
         end;

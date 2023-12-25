@@ -800,24 +800,36 @@ type
 
   TKeymapHelper = class
   public
+    //clear hotkey with specified AItemIndex; AKeyIndex is 0 (primary hotkey) or 1 (2nd hotkey)
     class procedure ClearKey(AKeymap: TATKeymap; AItemIndex, AKeyIndex: integer);
+
+    //clear hotkey: in AppKeymapMain + all items in AppKeymapLexers
     class procedure ClearKeyInAll(AItemIndex, AKeyIndex: integer);
 
+    //get/set hotkey (e.g. 'Alt+A|Alt+B' - 1st and 2nd hotkeys)
+    //by specified command code (ACmdString='100') or callback (has comma char: 'module,method')
     class function GetHotkey(AKeymap: TATKeymap; const ACmdString: string): string;
     class function SetHotkey(AKeymap: TATKeymap; const AParams: string; AndSaveFile: boolean): boolean;
 
+    //finds in AppKeymapMain the KeymapItem's hotkey; returns its command code (0 if not found);
+    //if AOverwriteAndSave - does not return code but saves to config
     class function CheckDuplicateForCommand(
       AKeymapItem: TATKeymapItem;
       const ALexerName: string;
       AOverwriteAndSave: boolean): integer;
 
+    //finds Keymap object (in AppKeymapLexers list) by lexer name
     class function GetForLexer(const ALexer: string): TATKeymap;
+
+    //loads keymap from config ('keys.json' or 'keys lexer Name.json')
     class procedure LoadConfig(AKeymap: TATKeymap; const AFileName: string; AForLexer: boolean);
 
+    //save/delete KeymapItem to config ('keys.json' or 'keys lexer Name.json')
     class procedure ItemSaveToConfig(K: TATKeymapItem; const path, ALexerName: string; ALexerSpecific: boolean);
     class procedure ItemDeleteInConfig(K: TATKeymapItem; const path, ALexerName: string; ALexerSpecific: boolean);
 
-    class function SaveKey_ForPlugin(AKeymap: TATKeymap; AOverwriteKey: boolean;
+    //save hotkey to config ('keys.json' or 'keys lexer Name.json')
+    class function SaveKey_ForPlugin(AOverwriteKey: boolean;
       const AMenuitemCaption, AModuleName, AMethodName, ALexerName, AHotkey: string): boolean;
   end;
 
@@ -2500,7 +2512,7 @@ begin
 end;
 
 
-class function TKeymapHelper.SaveKey_ForPlugin(AKeymap: TATKeymap;
+class function TKeymapHelper.SaveKey_ForPlugin(
   AOverwriteKey: boolean;
   const AMenuitemCaption, AModuleName, AMethodName, ALexerName, AHotkey: string): boolean;
 const
