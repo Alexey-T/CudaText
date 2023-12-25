@@ -1118,7 +1118,6 @@ type
     procedure UpdateFindDialogOnTabFocusing(F: TEditorFrame);
     procedure UpdateFindDialogEnabled(Frame: TEditorFrame);
     procedure UpdateGlobalProgressbar(AValue: integer; AVisible: boolean; AMaxValue: integer=100);
-    procedure UpdateKeymapsInFrames;
     procedure UpdateLexerProgressbar(AValue: integer; AVisible: boolean; AMaxValue: integer=100);
     procedure UpdateGroupsMode(AMode: TATGroupsMode);
     procedure UpdateMenuTheming(AMenu: TPopupMenu);
@@ -3874,22 +3873,6 @@ begin
   DoOps_ClearConfigHistory([TAppConfigHistoryElement.RecentFiles]);
 end;
 
-
-procedure TfmMain.UpdateKeymapsInFrames;
-var
-  Frame: TEditorFrame;
-  i: integer;
-begin
-  for i:= 0 to FrameCount-1 do
-  begin
-    Frame:= Frames[i];
-    TKeymapHelper.UpdateKeymapInEditor(Frame.Ed1);
-    if Frame.EditorsLinked then
-      Frame.Ed2.Keymap:= Frame.Ed1.Keymap
-    else
-      TKeymapHelper.UpdateKeymapInEditor(Frame.Ed2);
-  end;
-end;
 
 function TfmMain.DoFileInstallZip(const AFileName: string; out DirTarget: string;
   ASilent: boolean): boolean;
