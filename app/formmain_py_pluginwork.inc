@@ -105,13 +105,13 @@ begin
     if AKeepHotkeys then
     begin
       //restore hotkey-backup of main keymap
-      TKeymapHelperMain.AddPluginsWithHotkeyBackup(AppKeymapMain, BackupMain, TAppCommandCategory.Plugin);
+      TKeymapHelperMain.AddPluginsWithHotkeyBackup(AppKeymapMain, BackupMain, false);
 
       //restore hotkey-backup of lexers keymaps
       for i:= 0 to AppKeymapLexers.Count-1 do
       begin
         BackupTemp:= TAppHotkeyBackup(BackupLexers[i]);
-        TKeymapHelperMain.AddPluginsWithHotkeyBackup(AppKeymapLexers.Objects[i] as TATKeymap, BackupTemp, TAppCommandCategory.Plugin);
+        TKeymapHelperMain.AddPluginsWithHotkeyBackup(AppKeymapLexers.Objects[i] as TATKeymap, BackupTemp, false);
       end;
     end;
 

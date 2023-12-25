@@ -1609,7 +1609,7 @@ type
   TKeymapHelperMain = class
   public
     class procedure DeleteCategoryWithHotkeyBackup(AKeymap: TATKeymap; ABackup: TAppHotkeyBackup; ACategory: TAppCommandCategory);
-    class procedure AddPluginsWithHotkeyBackup(AKeymap: TATKeymap; ABackup: TAppHotkeyBackup; ACategory: TAppCommandCategory);
+    class procedure AddPluginsWithHotkeyBackup(AKeymap: TATKeymap; ABackup: TAppHotkeyBackup; AItemsFromAPI: boolean);
     class procedure UpdateDynamicEx(AKeymap: TATKeymap; ACategory: TAppCommandCategory);
     class procedure UpdateDynamic(ACategory: TAppCommandCategory);
     class function Debug_PluginCommands(AKeymap: TATKeymap; const AText: string): string;
@@ -1638,7 +1638,7 @@ begin
   end;
 end;
 
-class procedure TKeymapHelperMain.AddPluginsWithHotkeyBackup(AKeymap: TATKeymap; ABackup: TAppHotkeyBackup; ACategory: TAppCommandCategory);
+class procedure TKeymapHelperMain.AddPluginsWithHotkeyBackup(AKeymap: TATKeymap; ABackup: TAppHotkeyBackup; AItemsFromAPI: boolean);
 var
   CmdItem: TAppCommandInfo;
   SCommandText: string;
@@ -1653,7 +1653,7 @@ begin
   for i:= 0 to AppCommandList.Count-1 do
   begin
     CmdItem:= TAppCommandInfo(AppCommandList[i]);
-    if CmdItem.ItemFromApi xor (ACategory=TAppCommandCategory.PluginSub) then Continue;
+    if CmdItem.ItemFromApi xor AItemsFromAPI then Continue;
     if CmdItem.ItemModule='' then Break;
     if SEndsWith(CmdItem.ItemCaption, '-') then Continue;
     SCommandText:= CmdItem.CommaStr;
@@ -1720,7 +1720,7 @@ begin
     TAppCommandCategory.Plugin,
     TAppCommandCategory.PluginSub:
       begin
-        AddPluginsWithHotkeyBackup(AKeymap, KeysBackup, ACategory);
+        AddPluginsWithHotkeyBackup(AKeymap, KeysBackup, ACategory=TAppCommandCategory.PluginSub);
       end;
 
     TAppCommandCategory.OpenedFile:
