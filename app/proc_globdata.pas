@@ -831,6 +831,9 @@ type
     //save hotkey to config ('keys.json' or 'keys lexer Name.json')
     class function SaveKey_ForPlugin(AOverwriteKey: boolean;
       const AMenuitemCaption, AModuleName, AMethodName, ALexerName, AHotkey: string): boolean;
+
+    //apply Keymap to editor object
+    class procedure UpdateKeymapInEditor(Ed: TATSynEdit);
   end;
 
 function DoReadOneStringFromFile(const AFilename: string): string;
@@ -2561,6 +2564,17 @@ begin
     sl.Free;
   end;
 end;
+
+class procedure TKeymapHelper.UpdateKeymapInEditor(Ed: TATSynEdit);
+var
+  SLexer: string;
+begin
+  if Ed.AdapterForHilite=nil then exit;
+  SLexer:= Ed.AdapterForHilite.GetLexerName;
+  if SLexer='' then exit;
+  Ed.Keymap:= GetForLexer(SLexer);
+end;
+
 
 function AppListboxItemHeight(AScale, ADoubleHeight: boolean): integer;
 begin
