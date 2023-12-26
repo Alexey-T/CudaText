@@ -3,6 +3,11 @@
   - fixed
   * changed
 
+1.206.5
+
+- fix: bug when after installation of plugin without app restart, Command Palette items become 'shifted' by N elements; it required lot of code rework - so report any regressions
+- fix: bug in finder_proc() API
+
 1.206.2 (2023/12)
 
 + add: improved rendering speed (4 times faster) for such case: one-liner HTML with 700k chars with word-wrapping on
