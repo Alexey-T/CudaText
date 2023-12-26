@@ -1734,15 +1734,15 @@ begin
       end;
 
     TAppCommandCategory.RecentFile:
-    begin
-      for i:= 0 to AppListRecents.Count-1 do
       begin
-        AKeymap.Add(
-          cmdFirstRecentCommand+i,
-          'recent file: '+FormatFilenameForMenu(AppListRecents[i]),
-          [], []);
+        for i:= 0 to AppListRecents.Count-1 do
+        begin
+          AKeymap.Add(
+            cmdFirstRecentCommand+i,
+            'recent file: '+FormatFilenameForMenu(AppListRecents[i]),
+            [], []);
+        end;
       end;
-    end;
   end;
 
   FreeAndNil(KeysBackup);
