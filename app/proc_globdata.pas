@@ -2695,8 +2695,8 @@ begin
 
   //add items for SParams
   Sep.Init(SParams, cSepParams);
-  repeat
-    if not Sep.GetItemStr(SItem) then Break;
+  while Sep.GetItemStr(SItem) do
+  begin
     SSplitByChar(SItem, cSepNameParam, SItemCaption, SItemParam);
 
     if List.Count>= cmdLastPluginSubCommand-cmdFirstPluginSubCommand-1 then
@@ -2711,7 +2711,7 @@ begin
     CmdItem.ItemProcParam:= SItemParam;
     CmdItem.ItemCaption:= SItemCaption;
     List.Add(CmdItem);
-  until false;
+  end;
 end;
 
 
