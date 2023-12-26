@@ -45,7 +45,7 @@ const
   cmdFirstPluginCommand = Succ(cmdLastLexerCommand);
   cmdLastPluginCommand = 8000-1;
   cmdFirstPluginSubCommand = Succ(cmdLastPluginCommand);
-  cmdLastPluginSubCommand = 8100-1;
+  cmdLastPluginSubCommand = 8200-1;
   cmdFirstFileCommand = Succ(cmdLastPluginSubCommand);
   cmdLastFileCommand = 8800-1;
   cmdFirstRecentCommand = Succ(cmdLastFileCommand);
