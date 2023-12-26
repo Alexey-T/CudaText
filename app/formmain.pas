@@ -1674,7 +1674,7 @@ begin
 
     AKeymap.Add(
       cmdFirstPluginSubCommand+i,
-      'plugin2: '+AppNicePluginCaption(CmdItem.ItemCaption),
+      'plugin: '+AppNicePluginCaption(CmdItem.ItemCaption),
       [], [],
       SCommandText);
 

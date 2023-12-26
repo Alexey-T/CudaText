@@ -2304,7 +2304,7 @@ begin
     Result:= StrToIntDef(AId, -1);
 
     //for broken keys config which has incorrect int keys, issue #4590
-    if (Result>=cmdFirstPluginCommand) and (Result<=cmdLastPluginCommand) then
+    if TPluginHelper.CommandCategory(Result) in [TAppCommandCategory.Plugin, TAppCommandCategory.PluginSub] then
     begin
       MsgLogConsole(Format('ERROR: Hotkeys config: bad key "%d", in the range [%d, %d]', [Result, cmdFirstPluginCommand, cmdLastPluginCommand]));
       Result:= -1;
@@ -2656,6 +2656,7 @@ begin
       exit(i+cmdFirstPluginSubCommand);
   end;
 
+  if SProcParam='' then
   for i:= 0 to AppCommandList.Count-1 do
   begin
     Cmd:= TAppCommandInfo(AppCommandList[i]);
