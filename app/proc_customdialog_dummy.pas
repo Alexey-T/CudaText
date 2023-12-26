@@ -8,6 +8,7 @@ Copyright (c) Alexey Torgashin
 unit proc_customdialog_dummy;
 
 {$mode objfpc}{$H+}
+{$ScopedEnums on}
 
 interface
 
@@ -36,10 +37,10 @@ type
 
 type
   TAppCtlMouseEvent = (
-    cControlEventMouseEnter,
-    cControlEventMouseExit,
-    cControlEventMouseDown,
-    cControlEventMouseUp
+    Enter,
+    Exit,
+    Down,
+    Up
     );
 
 var
@@ -444,18 +445,18 @@ end;
 
 procedure TFormDummy.DoOnControlMouseEnter(Sender: TObject);
 begin
-  _HandleMouseEvent(Sender, cControlEventMouseEnter, AppVariantNil);
+  _HandleMouseEvent(Sender, TAppCtlMouseEvent.Enter, AppVariantNil);
 end;
 
 procedure TFormDummy.DoOnControlMouseLeave(Sender: TObject);
 begin
-  _HandleMouseEvent(Sender, cControlEventMouseExit, AppVariantNil);
+  _HandleMouseEvent(Sender, TAppCtlMouseEvent.Exit, AppVariantNil);
 end;
 
 procedure TFormDummy.DoOnControlMouseDown(Sender: TObject;
   Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 begin
-  _HandleMouseEvent(Sender, cControlEventMouseDown,
+  _HandleMouseEvent(Sender, TAppCtlMouseEvent.Down,
     AppVariant_MouseData(Button, Shift, X, Y)
     );
 end;
@@ -463,7 +464,7 @@ end;
 procedure TFormDummy.DoOnControlMouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
-  _HandleMouseEvent(Sender, cControlEventMouseUp,
+  _HandleMouseEvent(Sender, TAppCtlMouseEvent.Up,
     AppVariant_MouseData(Button, Shift, X, Y)
     );
 end;
@@ -813,13 +814,13 @@ begin
   IdControl:= FindControlIndexByOurObject(Sender);
 
   case AEventKind of
-    cControlEventMouseEnter:
+    TAppCtlMouseEvent.Enter:
       SCallback:= Props.FEventOnMouseEnter;
-    cControlEventMouseExit:
+    TAppCtlMouseEvent.Exit:
       SCallback:= Props.FEventOnMouseExit;
-    cControlEventMouseDown:
+    TAppCtlMouseEvent.Down:
       SCallback:= Props.FEventOnMouseDown;
-    cControlEventMouseUp:
+    TAppCtlMouseEvent.Up:
       SCallback:= Props.FEventOnMouseUp;
     else
       SCallback:= '';
