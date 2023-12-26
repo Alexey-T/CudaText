@@ -4559,7 +4559,7 @@ It provides:
 
 1.0.352 (app 1.115.6)
 * add: app_path: APP_DIR_SETTINGS_DEF
-* add: file_open: added possible option "/nontext-view-uhex"
+* add: file_open: added option "/nontext-view-uhex"
 
 1.0.353 (app 1.115.7)
 * add: Editor.markers: add param "line_len"
@@ -4942,5 +4942,8 @@ It provides:
 * change: menu_proc: don't return redundant dict key 'command'
 * change: menu_proc: don't return dict keys if they are defaults: 'vis', 'en', 'checked', 'radio', 'hotkey', 'hint', 'tag'
 * add: menu items in "Plugins" menu support introspection by menu_proc() better: "hint" property is filled by Python callback
+
+1.0.450 (app 1.206.4)
+* add: file_open: option "/noupdateaddons"
 
 [[Category:CudaText]]
