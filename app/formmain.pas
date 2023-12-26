@@ -4983,6 +4983,15 @@ end;
 
 
 function TfmMain.DoDialogCommands_Py(var AProps: TDlgCommandsProps): string;
+  //
+  function _GetPyCommand(Cmd: TAppCommandInfo): string;
+  begin
+    if Cmd.ItemProcParam<>'' then
+      Result:= Format('p:module=%s;cmd=%s;info=%s;', [Cmd.ItemModule, Cmd.ItemProc, Cmd.ItemProcParam])
+    else
+      Result:= Format('p:%s.%s', [Cmd.ItemModule, Cmd.ItemProc]);
+  end;
+  //
 var
   F: TEditorFrame;
   NCmd, NIndex: integer;
@@ -4999,17 +5008,12 @@ begin
   Category:= TPluginHelper.CommandCategory(NCmd);
 
   case Category of
+    TAppCommandCategory.Plugin:
+      Result:= _GetPyCommand(TAppCommandInfo(AppCommandList[NCmd-cmdFirstPluginCommand]));
+
     //PluginSub is needed here, e.g. for ExtTools plugin with its subcommands
-    TAppCommandCategory.Plugin,
     TAppCommandCategory.PluginSub:
-      begin
-        NIndex:= NCmd-cmdFirstPluginCommand;
-        with TAppCommandInfo(AppCommandList[NIndex]) do
-          if ItemProcParam<>'' then
-            Result:= Format('p:module=%s;cmd=%s;info=%s;', [ItemModule, ItemProc, ItemProcParam])
-          else
-            Result:= Format('p:%s.%s', [ItemModule, ItemProc]);
-      end;
+      Result:= _GetPyCommand(TAppCommandInfo(AppCommand2List[NCmd-cmdFirstPluginSubCommand]));
 
     TAppCommandCategory.Lexer:
       begin

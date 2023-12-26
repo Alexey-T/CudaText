@@ -1388,7 +1388,7 @@ int main(int argc, char *argv[])
             })
 
         dlg_proc(h, DLG_SHOW_MODAL)
-        dlg_free(h)
+        dlg_proc(h, DLG_FREE)
         
 
     def test_labels_render(self):
