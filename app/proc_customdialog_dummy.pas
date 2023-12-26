@@ -203,7 +203,7 @@ end;
 function AppVariant_KeyData(AKey: word; AShift: TShiftState): TAppVariant;
 begin
   Result:= Default(TAppVariant);
-  Result.Typ:= avrTuple;
+  Result.Typ:= TAppVariantTypeId.Tuple;
   SetLength(Result.Items, 2);
 
   Result.Items[0].Typ:= avdInt;
@@ -217,7 +217,7 @@ end;
 function AppVariant_MouseData(AButton: TMouseButton; AShift: TShiftState; AX, AY: Integer): TAppVariant;
 begin
   Result:= Default(TAppVariant);
-  Result.Typ:= avrDict;
+  Result.Typ:= TAppVariantTypeId.Dict;
   SetLength(Result.Items, 4);
 
   Result.Items[0].KeyName:= 'btn';
@@ -430,7 +430,7 @@ begin
   P:= (Sender as TControl).ScreenToClient(Mouse.CursorPos);
 
   Data:= Default(TAppVariant);
-  Data.Typ:= avrTuple;
+  Data.Typ:= TAppVariantTypeId.Tuple;
   SetLength(Data.Items, 2);
 
   Data.Items[0].Typ:= avdInt;
@@ -846,7 +846,7 @@ begin
   IdControl:= FindControlIndexByOurObject(Sender);
 
   Data:= Default(TAppVariant);
-  Data.Typ:= avrDict;
+  Data.Typ:= TAppVariantTypeId.Dict;
   SetLength(Data.Items, 3);
 
   Data.Items[0].KeyName:= 'canvas';
@@ -897,7 +897,7 @@ begin
   IdControl:= FindControlIndexByOurObject(Sender);
 
   Data:= Default(TAppVariant);
-  Data.Typ:= avrTuple;
+  Data.Typ:= TAppVariantTypeId.Tuple;
   SetLength(Data.Items, 2);
 
   Data.Items[0].Typ:= avdInt;
@@ -963,7 +963,7 @@ begin
     'id_ctl'
     ];
 
-  if AData.Typ<>avrNil then
+  if AData.Typ<>TAppVariantTypeId.Null then
   begin
     ParamVars:= Concat(ParamVars, [AData]);
     ParamNames:= Concat(ParamNames, ['data']);
@@ -1203,7 +1203,7 @@ begin
   IdControl:= FindControlIndexByOurObject(Sender);
 
   Data:= Default(TAppVariant);
-  Data.Typ:= avrDict;
+  Data.Typ:= TAppVariantTypeId.Dict;
   SetLength(Data.Items, 3);
 
   Data.Items[0].KeyName:= 'state';
@@ -1237,7 +1237,7 @@ begin
   IdControl:= FindControlIndexByOurObject(Sender);
 
   Data:= Default(TAppVariant);
-  Data.Typ:= avrDict;
+  Data.Typ:= TAppVariantTypeId.Dict;
   SetLength(Data.Items, 7);
 
   Data.Items[0].KeyName:= 'state';
@@ -1295,7 +1295,7 @@ begin
   IdControl:= FindControlIndexByOurObject(Sender);
 
   Data:= Default(TAppVariant);
-  Data.Typ:= avrStr;
+  Data.Typ:= TAppVariantTypeId.Str;
   Data.Str:= ALink;
 
   DoEvent(IdControl, Callback, Data);
@@ -1324,7 +1324,7 @@ begin
   IdControl:= FindControlIndexByOurObject(Sender);
 
   Data:= Default(TAppVariant);
-  Data.Typ:= avrDict;
+  Data.Typ:= TAppVariantTypeId.Dict;
   SetLength(Data.Items, 2);
 
   Data.Items[0].KeyName:= 'keep_caret';

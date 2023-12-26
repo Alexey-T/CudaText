@@ -17,14 +17,16 @@ uses
   proc_str;
 
 type
+  {$ScopedEnums on}
   TAppVariantTypeId = (
-    avrNil,
-    avrBool,
-    avrInt,
-    avrStr,
-    avrTuple,
-    avrDict
+    Null,
+    Bool,
+    Int,
+    Str,
+    Tuple,
+    Dict
     );
+  {$ScopedEnums off}
 
   TAppVariantItemTypeId = (
     avdBool,
@@ -81,21 +83,21 @@ end;
 function AppVariant(Value: boolean): TAppVariant;
 begin
   Result:= Default(TAppVariant);
-  Result.Typ:= avrBool;
+  Result.Typ:= TAppVariantTypeId.Bool;
   Result.Bool:= Value;
 end;
 
 function AppVariant(const Value: Int64): TAppVariant;
 begin
   Result:= Default(TAppVariant);
-  Result.Typ:= avrInt;
+  Result.Typ:= TAppVariantTypeId.Int;
   Result.Int:= Value;
 end;
 
 function AppVariant(const Value: string): TAppVariant;
 begin
   Result:= Default(TAppVariant);
-  Result.Typ:= avrStr;
+  Result.Typ:= TAppVariantTypeId.Str;
   Result.Str:= Value;
 end;
 
@@ -104,7 +106,7 @@ var
   i: integer;
 begin
   Result:= Default(TAppVariant);
-  Result.Typ:= avrTuple;
+  Result.Typ:= TAppVariantTypeId.Tuple;
   SetLength(Result.Items, Length(Value));
   for i:= 0 to Length(Value)-1 do
   begin
@@ -143,16 +145,16 @@ var
   i: integer;
 begin
   case V.Typ of
-    avrNil:
+    TAppVariantTypeId.Null:
       raise Exception.Create('Nil value in AppVariantToString');
 
-    avrInt:
+    TAppVariantTypeId.Int:
       Result:= IntToStr(V.Int);
 
-    avrStr:
+    TAppVariantTypeId.Str:
       Result:= SStringToPythonString(V.Str, AndQuote);
 
-    avrBool:
+    TAppVariantTypeId.Bool:
       begin
         if V.Bool then
           Result:= 'True'
@@ -160,7 +162,7 @@ begin
           Result:= 'False';
       end;
 
-    avrDict:
+    TAppVariantTypeId.Dict:
       begin
         Result:= '{';
         for i:= 0 to Length(V.Items)-1 do
@@ -168,7 +170,7 @@ begin
         Result+= '}';
       end;
 
-    avrTuple:
+    TAppVariantTypeId.Tuple:
       begin
         Result:= '(';
         for i:= 0 to Length(V.Items)-1 do
@@ -215,19 +217,19 @@ var
 begin
   with FEngine do
     case V.Typ of
-      avrNil:
+      TAppVariantTypeId.Null:
         raise Exception.Create('Nil type in AppVariantToPyObject');
 
-      avrInt:
+      TAppVariantTypeId.Int:
         Result:= PyLong_FromLongLong(V.Int);
 
-      avrStr:
+      TAppVariantTypeId.Str:
         Result:= PyUnicodeFromString(V.Str);
 
-      avrBool:
+      TAppVariantTypeId.Bool:
         Result:= PyBool_FromLong(Ord(V.Bool));
 
-      avrDict:
+      TAppVariantTypeId.Dict:
         begin
           Result:= PyDict_New();
           NLen:= Length(V.Items);
@@ -238,7 +240,7 @@ begin
               );
         end;
 
-      avrTuple:
+      TAppVariantTypeId.Tuple:
         begin
           NLen:= Length(V.Items);
           Result:= PyTuple_New(NLen);
@@ -273,7 +275,7 @@ var
 initialization
 
   FillChar(AppVariantNil, SizeOf(AppVariantNil), 0);
-  AppVariantNil.Typ:= avrNil;
+  AppVariantNil.Typ:= TAppVariantTypeId.Null;
 
   {
   n:= SizeOf(TAppVariant);

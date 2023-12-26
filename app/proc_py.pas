@@ -365,7 +365,7 @@ begin
   FLastCommandMethod:= AMethod;
   FLastCommandParam:= '';
   if Length(AParams)>0 then
-    if AParams[0].Typ=avrStr then
+    if AParams[0].Typ=TAppVariantTypeId.Str then
       FLastCommandParam:= AParams[0].Str;
 
   ObjName:= NamePrefix+AModule;
