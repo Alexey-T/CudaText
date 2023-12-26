@@ -8,6 +8,7 @@ Copyright (c) Alexey Torgashin
 unit formfind;
 
 {$mode objfpc}{$H+}
+{$ScopedEnums on}
 
 interface
 
@@ -73,28 +74,28 @@ const
 
 type
   TAppFinderOperationCategory = (
-    afcNone,
-    afcCloseDlg,
-    afcFind,
-    afcReplaceOne,
-    afcReplaceGlobal
+    None,
+    CloseDlg,
+    Find,
+    ReplaceOne,
+    ReplaceGlobal
     );
 
 const
   cAppFinderOperationCategory: array[TAppFinderOperation] of TAppFinderOperationCategory = (
-    afcNone,
-    afcCloseDlg,
-    afcFind,
-    afcFind,
-    afcFind,
-    afcFind,
-    afcFind,
-    afcFind,
-    afcFind,
-    afcReplaceOne,
-    afcReplaceOne,
-    afcReplaceOne,
-    afcReplaceGlobal
+    TAppFinderOperationCategory.None,
+    TAppFinderOperationCategory.CloseDlg,
+    TAppFinderOperationCategory.Find,
+    TAppFinderOperationCategory.Find,
+    TAppFinderOperationCategory.Find,
+    TAppFinderOperationCategory.Find,
+    TAppFinderOperationCategory.Find,
+    TAppFinderOperationCategory.Find,
+    TAppFinderOperationCategory.Find,
+    TAppFinderOperationCategory.ReplaceOne,
+    TAppFinderOperationCategory.ReplaceOne,
+    TAppFinderOperationCategory.ReplaceOne,
+    TAppFinderOperationCategory.ReplaceGlobal
     );
 
 type

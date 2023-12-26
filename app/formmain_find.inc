@@ -277,12 +277,12 @@ begin
   InitFormFind;
   Frame:= CurrentFrame;
   Category:= cAppFinderOperationCategory[Res];
-  if Category=afcNone then exit;
+  if Category=TAppFinderOperationCategory.None then exit;
   bHiliteAll:= false;
   bFocusFindDlg:= Assigned(fmFind) and fmFind.Visible and fmFind.Enabled and (fmFind.edFind.Focused or fmFind.edRep.Focused);
   NCounter:= 0;
 
-  if Category in [afcFind, afcReplaceOne] then
+  if Category in [TAppFinderOperationCategory.Find, TAppFinderOperationCategory.ReplaceOne] then
   begin
     if Frame.FrameKind=efkImageViewer then exit;
     if Frame.Editor.Carets.Count=0 then
@@ -292,7 +292,7 @@ begin
     end;
   end;
 
-  if Category=afcReplaceOne then
+  if Category=TAppFinderOperationCategory.ReplaceOne then
   begin
     if Frame.FrameKind<>efkEditor then exit;
     if Frame.Editor.ModeReadOnly then exit;
@@ -305,9 +305,9 @@ begin
   if fmFind.edRep.Focused then
     bFindMode:= false
   else
-    bFindMode:= Category=afcFind;
+    bFindMode:= Category=TAppFinderOperationCategory.Find;
 
-  if Category=afcCloseDlg then
+  if Category=TAppFinderOperationCategory.CloseDlg then
   begin
     //handy to reset in-sel, on closing dialog
     FFinder.OptInSelection:= false;
