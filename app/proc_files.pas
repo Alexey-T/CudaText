@@ -213,7 +213,7 @@ begin
 
     if Str.Size<=2 then
       exit(true);
-    if DetectStreamUtf8NoBom(Str, BufSizeKb)=TBufferUTF8State.u8sYes then
+    if DetectStreamUtf8NoBom(Str, BufSizeKb)=TATBufferUTF8State.Yes then
       exit(true);
     if DetectStreamUtf16NoBom(Str, BufSizeWords, IsLE) then
       exit(true);
