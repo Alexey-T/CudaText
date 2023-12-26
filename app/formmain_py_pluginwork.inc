@@ -444,7 +444,6 @@ begin
   begin
     CmdItem:= TAppCommandInfo(AppCommandList[iCommand]);
     if CmdItem.ItemModule='' then Break;
-    if CmdItem.ItemFromApi then Continue;
 
     SCaption:= CmdItem.ItemCaption;
     SInMenu:= CmdItem.ItemInMenu;

@@ -110,9 +110,9 @@ function DoDialogHotkeys_Plugin(AKeymap: TATKeymap;
 var
   N: integer;
 begin
-  N:= TPluginHelper.CommandGetIndexFromModuleAndMethod(AModuleAndMethod);
-  if N>=0 then
-    Result:= DoDialogHotkeys(AKeymap, N+cmdFirstPluginCommand, ALexerName)
+  N:= TPluginHelper.CommandGetFromModuleAndMethod(AModuleAndMethod);
+  if N>0 then
+    Result:= DoDialogHotkeys(AKeymap, N, ALexerName)
   else
     Result:= false;
 end;

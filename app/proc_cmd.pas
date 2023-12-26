@@ -43,8 +43,10 @@ const
   cmdFirstLexerCommand = 6000;
   cmdLastLexerCommand = 6400-1;
   cmdFirstPluginCommand = 6400;
-  cmdLastPluginCommand = 8000-1;
-  cmdFirstFileCommand = 8000;
+  cmdLastPluginCommand = 7900-1;
+  cmdFirstPluginSubCommand = 7900;
+  cmdLastPluginSubCommand = 8100-1;
+  cmdFirstFileCommand = 8100;
   cmdLastFileCommand = 8800-1;
   cmdFirstRecentCommand = 8800;
   cmdLastRecentCommand = 9000-1;
@@ -818,6 +820,7 @@ begin
   case Cmd of
     cmdFirstLexerCommand..cmdLastLexerCommand,
     cmdFirstPluginCommand..cmdLastPluginCommand,
+    cmdFirstPluginSubCommand..cmdLastPluginSubCommand,
     cmdFirstFileCommand..cmdLastFileCommand,
     cmdFirstRecentCommand..cmdLastRecentCommand:
       Result:= true;
@@ -1003,6 +1006,7 @@ begin
 
     cmdFirstLexerCommand..cmdLastLexerCommand,
     cmdFirstPluginCommand..cmdLastPluginCommand,
+    cmdFirstPluginSubCommand..cmdLastPluginSubCommand,
     cmdFirstFileCommand..cmdLastFileCommand,
     cmdFirstRecentCommand..cmdLastRecentCommand,
     cmd_MacroStart,

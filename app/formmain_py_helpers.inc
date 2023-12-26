@@ -45,16 +45,12 @@ begin
 end;
 
 
-procedure TfmMain.DoPyCommand_ByPluginIndex(AIndex: integer; AInvoke: TATCommandInvoke);
+procedure TfmMain.DoPyCommand_ByPluginIndex(CmdItem: TAppCommandInfo; AInvoke: TATCommandInvoke);
 var
   F: TEditorFrame;
   CurLexer: string;
-  CmdItem: TAppCommandInfo;
   Params: TAppVariantArray;
 begin
-  if not ((AIndex>=0) and (AIndex<AppCommandList.Count)) then exit;
-  CmdItem:= TAppCommandInfo(AppCommandList[AIndex]);
-
   F:= CurrentFrame;
   if F=nil then exit;
   CurLexer:= F.LexerName[F.Editor];

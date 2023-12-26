@@ -1066,7 +1066,6 @@ type
     ItemCaption: string;
     ItemLexers: string;
     ItemInMenu: string;
-    ItemFromApi: boolean;
     function CommaStr: string;
   end;
 
@@ -1090,7 +1089,8 @@ type
 var
   AppConsoleQueue: TAppConsoleQueue = nil;
   AppCommandsDelayed: TAppCommandsDelayed = nil;
-  AppCommandList: TFPList = nil;
+  AppCommandList: TFPList = nil; //has plugin commands from install.inf files
+  AppCommand2List: TFPList = nil; //has plugin sub-commands, ie added by API app_proc()
   AppEventList: TFPList = nil;
   AppTreeHelpers: TFPList = nil;
 
@@ -1113,8 +1113,9 @@ type
     class function CommandCategory(Cmd: integer): TAppCommandCategory;
     class function CommandHasConfigurableHotkey(Cmd: integer): boolean;
     class procedure CommandsClearButKeepApiItems;
-    class function CommandGetIndexFromModuleAndMethod(const AText: string): integer;
-    class procedure CommandUpdateSubcommands(const AText: string);
+    class function CommandGetFromModuleAndMethod(const ACommaSeparatedText: string): integer;
+    class procedure CommandUpdateSubcommands(AppCommandList: TFPList;
+      const AText: string; AMaxItems: integer);
 
     class function EventIsUsed(AEvent: TAppPyEvent): boolean;
     class procedure EventStringToEventData(const AEventStr: string;
@@ -1127,7 +1128,7 @@ type
     class function CommandCode_To_HotkeyStringId(ACmd: integer): string;
     class function HotkeyStringId_To_CommandCode(const AId: string): integer;
 
-    class function Debug_PluginCommands(const AModule: string): string;
+    class function Debug_PluginCommands(AppCommandList: TFPList; const AModule: string): string;
   end;
 
 
@@ -2292,12 +2293,10 @@ end;
 
 class function TPluginHelper.HotkeyStringId_To_CommandCode(const AId: string): integer;
 begin
-  //plugin item 'module,method'
+  //plugin item: 'module,method'
   if Pos(',', AId)>0 then
   begin
-    Result:= CommandGetIndexFromModuleAndMethod(AId);
-    if Result>=0 then
-      Inc(Result, cmdFirstPluginCommand);
+    Result:= CommandGetFromModuleAndMethod(AId);
   end
   else
   begin
@@ -2313,7 +2312,7 @@ begin
   end;
 end;
 
-class function TPluginHelper.Debug_PluginCommands(const AModule: string): string;
+class function TPluginHelper.Debug_PluginCommands(AppCommandList: TFPList; const AModule: string): string;
 var
   CmdItem: TAppCommandInfo;
   i: integer;
@@ -2434,10 +2433,14 @@ end;
 
 class function TPluginHelper.CommandCode_To_HotkeyStringId(ACmd: integer): string;
 begin
-  if CommandCategory(ACmd) in [TAppCommandCategory.Plugin, TAppCommandCategory.PluginSub] then
-    Result:= TAppCommandInfo(AppCommandList[ACmd-cmdFirstPluginCommand]).CommaStr
-  else
-    Result:= IntToStr(ACmd);
+  case CommandCategory(ACmd) of
+    TAppCommandCategory.Plugin:
+      Result:= TAppCommandInfo(AppCommandList[ACmd-cmdFirstPluginCommand]).CommaStr;
+    TAppCommandCategory.PluginSub:
+      Result:= TAppCommandInfo(AppCommand2List[ACmd-cmdFirstPluginSubCommand]).CommaStr;
+    else
+      Result:= IntToStr(ACmd);
+  end;
 end;
 
 class procedure TKeymapHelper.ItemSaveToConfig(K: TATKeymapItem; const path, ALexerName: string;
@@ -2627,16 +2630,16 @@ begin
 end;
 
 
-class function TPluginHelper.CommandGetIndexFromModuleAndMethod(const AText: string): integer;
+class function TPluginHelper.CommandGetFromModuleAndMethod(const ACommaSeparatedText: string): integer;
 var
   Sep: TATStringSeparator;
   SModule, SProc, SProcParam: string;
-  AppCmd: TAppCommandInfo;
+  Cmd: TAppCommandInfo;
   i: integer;
 begin
-  Result:= -1;
+  Result:= 0;
 
-  Sep.Init(AText);
+  Sep.Init(ACommaSeparatedText);
   Sep.GetItemStr(SModule);
   Sep.GetItemStr(SProc);
   Sep.GetItemStr(SProcParam);
@@ -2644,18 +2647,27 @@ begin
   if SModule='' then exit;
   if SProc='' then exit;
 
+  for i:= 0 to AppCommand2List.Count-1 do
+  begin
+    Cmd:= TAppCommandInfo(AppCommand2List[i]);
+    if (Cmd.ItemModule=SModule) and
+      (Cmd.ItemProc=SProc) and
+      (Cmd.ItemProcParam=SProcParam) then
+      exit(i+cmdFirstPluginSubCommand);
+  end;
+
   for i:= 0 to AppCommandList.Count-1 do
   begin
-    AppCmd:= TAppCommandInfo(AppCommandList[i]);
-    if (AppCmd.ItemModule=SModule) and
-      (AppCmd.ItemProc=SProc) and
-      (AppCmd.ItemProcParam=SProcParam) then
-      exit(i);
+    Cmd:= TAppCommandInfo(AppCommandList[i]);
+    if (Cmd.ItemModule=SModule) and
+      (Cmd.ItemProc=SProc) and
+      (Cmd.ItemProcParam=SProcParam) then
+      exit(i+cmdFirstPluginCommand);
   end;
 end;
 
 
-class procedure TPluginHelper.CommandUpdateSubcommands(const AText: string);
+class procedure TPluginHelper.CommandUpdateSubcommands(AppCommandList: TFPList; const AText: string; AMaxItems: integer);
 const
   cSepRoot=';';
   cSepParams=#10;
@@ -2688,9 +2700,8 @@ begin
     CmdItem.ItemProc:= SProc;
     CmdItem.ItemProcParam:= SItemParam;
     CmdItem.ItemCaption:= SItemCaption;
-    CmdItem.ItemFromApi:= true;
 
-    if AppCommandList.Count>(cmdLastPluginCommand-cmdFirstPluginCommand) then
+    if AppCommandList.Count>AMaxItems then
       MsgLogConsole('ERROR: Too many plugin commands');
     AppCommandList.Add(CmdItem);
   until false;
@@ -2767,12 +2778,9 @@ begin
   if Pos(',', ACmdString)=0 then
     NCode:= StrToIntDef(ACmdString, 0)
   else
-  begin
-    NIndex:= TPluginHelper.CommandGetIndexFromModuleAndMethod(ACmdString);
-    if NIndex<0 then exit;
-    NCode:= NIndex+cmdFirstPluginCommand;
-  end;
+    NCode:= TPluginHelper.CommandGetFromModuleAndMethod(ACmdString);
 
+  if NCode<=0 then exit;
   NIndex:= AKeymap.IndexOf(NCode);
   if NIndex<0 then exit;
   with AKeymap[NIndex] do
@@ -2796,12 +2804,9 @@ begin
   if Pos(',', SCmd)=0 then
     NCode:= StrToIntDef(SCmd, 0)
   else
-  begin
-    NIndex:= TPluginHelper.CommandGetIndexFromModuleAndMethod(SCmd);
-    if NIndex<0 then exit;
-    NCode:= NIndex+cmdFirstPluginCommand;
-  end;
+    NCode:= TPluginHelper.CommandGetFromModuleAndMethod(SCmd);
 
+  if NCode<=0 then exit;
   NIndex:= AKeymap.IndexOf(NCode);
   if NIndex<0 then exit;
   with AKeymap[NIndex] do
@@ -3058,6 +3063,10 @@ begin
   for i:= AppCommandList.Count-1 downto 0 do
     TObject(AppCommandList[i]).Free;
   FreeAndNil(AppCommandList);
+
+  for i:= AppCommand2List.Count-1 downto 0 do
+    TObject(AppCommand2List[i]).Free;
+  FreeAndNil(AppCommand2List);
 
   for i:= AppEventList.Count-1 downto 0 do
     TObject(AppEventList[i]).Free;
@@ -3372,24 +3381,12 @@ end;
 
 
 class function TPluginHelper.CommandCategory(Cmd: integer): TAppCommandCategory;
-var
-  N: integer;
 begin
   case Cmd of
     cmdFirstPluginCommand..cmdLastPluginCommand:
-      begin
-        Result:= TAppCommandCategory.Plugin;
-        N:= Cmd-cmdFirstPluginCommand;
-        if N<AppCommandList.Count then
-        begin
-          if TAppCommandInfo(AppCommandList[N]).ItemFromApi then
-            Result:= TAppCommandCategory.PluginSub;
-        end
-        else
-          //we are here when e.g. in plugin Macros user deletes a macro,
-          //so code detects category of deleted command-code
-          Result:= TAppCommandCategory.PluginSub;
-      end;
+      Result:= TAppCommandCategory.Plugin;
+    cmdFirstPluginSubCommand..cmdLastPluginSubCommand:
+      Result:= TAppCommandCategory.PluginSub;
     cmdFirstLexerCommand..cmdLastLexerCommand:
       Result:= TAppCommandCategory.Lexer;
     cmdFirstFileCommand..cmdLastFileCommand:
@@ -3555,9 +3552,8 @@ var
   i: integer;
 begin
   for i:= AppCommandList.Count-1 downto 0 do
-    with TAppCommandInfo(AppCommandList[i]) do
-      if (ItemModule<>'') and (not ItemFromApi) then
-        AppCommandList.Delete(i);
+    TObject(AppCommandList[i]).Free;
+  AppCommandList.Clear;
 end;
 
 class procedure TPluginHelper.EventsMaxPrioritiesUpdate;
@@ -4031,6 +4027,7 @@ initialization
   AppConsoleQueue:= TAppConsoleQueue.Create;
   AppCommandsDelayed:= TAppCommandsDelayed.Create;
   AppCommandList:= TFPList.Create;
+  AppCommand2List:= TFPList.Create;
   AppEventList:= TFPList.Create;
   AppTreeHelpers:= TFPList.Create;
 
@@ -4138,6 +4135,7 @@ finalization
   AppClearPluginLists;
   //FreeAndNil(AppTreeHelpers);
   //FreeAndNil(AppEventList);
+  //FreeAndNil(AppCommand2List);
   //FreeAndNil(AppCommandList);
 
   AppConsoleQueue.Push(''); // fix for #5037: Adds dummy data to avoid exception on free

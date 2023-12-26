@@ -1102,7 +1102,7 @@ type
     procedure TimerConsoleCompletionTick(Sender: TObject);
     procedure PyCompletionOnGetProp(Sender: TObject; AContent: TStringList; out ACharsLeft, ACharsRight: integer);
     procedure PyCompletionOnResult(Sender: TObject; const ASnippetId: string; ASnippetIndex: integer);
-    procedure DoPyCommand_ByPluginIndex(AIndex: integer; AInvoke: TATCommandInvoke);
+    procedure DoPyCommand_ByPluginIndex(CmdItem: TAppCommandInfo; AInvoke: TATCommandInvoke);
     procedure SetFrameEncoding(Ed: TATSynEdit; const AEnc: string; AAlsoReloadFile: boolean);
     procedure SetFrameLexerByIndex(Ed: TATSynEdit; AIndex: integer);
     procedure SetShowStatus(AValue: boolean);
@@ -1649,10 +1649,10 @@ begin
     MsgBox(SCommandText, MB_OK);
     }
 
+  if not AItemsFromAPI then
   for i:= 0 to AppCommandList.Count-1 do
   begin
     CmdItem:= TAppCommandInfo(AppCommandList[i]);
-    if CmdItem.ItemFromApi xor AItemsFromAPI then Continue;
     if CmdItem.ItemModule='' then Break;
     if SEndsWith(CmdItem.ItemCaption, '-') then Continue;
     SCommandText:= CmdItem.CommaStr;
@@ -1660,6 +1660,21 @@ begin
     AKeymap.Add(
       cmdFirstPluginCommand+i,
       'plugin: '+AppNicePluginCaption(CmdItem.ItemCaption),
+      [], [],
+      SCommandText);
+
+    ABackup.Get(AKeymap[AKeymap.Count-1], SCommandText);
+  end
+  else
+  for i:= 0 to AppCommand2List.Count-1 do
+  begin
+    CmdItem:= TAppCommandInfo(AppCommand2List[i]);
+    if CmdItem.ItemModule='' then Break;
+    SCommandText:= CmdItem.CommaStr;
+
+    AKeymap.Add(
+      cmdFirstPluginSubCommand+i,
+      'plugin2: '+AppNicePluginCaption(CmdItem.ItemCaption),
       [], [],
       SCommandText);
 

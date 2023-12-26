@@ -4912,8 +4912,7 @@ begin
                   ));
             end;
 
-          TAppCommandCategory.Plugin,
-          TAppCommandCategory.PluginSub:
+          TAppCommandCategory.Plugin:
             begin
               ItemPlugin:= TAppCommandInfo(AppCommandList[Item.Command-cmdFirstPluginCommand]);
               PyList_SetItem(Result, i,
@@ -4937,7 +4936,39 @@ begin
                   'p_lexers',
                   PChar(ItemPlugin.ItemLexers),
                   'p_from_api',
-                  PyBool_FromLong(Ord(ItemPlugin.ItemFromApi)),
+                  Py_False,
+                  'p_caption',
+                  PChar(ItemPlugin.ItemCaption),
+                  'p_in_menu',
+                  PChar(ItemPlugin.ItemInMenu)
+                  ));
+            end;
+
+          TAppCommandCategory.PluginSub:
+            begin
+              ItemPlugin:= TAppCommandInfo(AppCommand2List[Item.Command-cmdFirstPluginSubCommand]);
+              PyList_SetItem(Result, i,
+                Py_BuildValue('{sssisssssssssssssssOssss}',
+                  'type',
+                  'plugin',
+                  'cmd',
+                  Item.Command,
+                  'name',
+                  PChar(Item.Name),
+                  'key1',
+                  PChar(Item.Keys1.ToString),
+                  'key2',
+                  PChar(Item.Keys2.ToString),
+                  'p_module',
+                  PChar(ItemPlugin.ItemModule),
+                  'p_method',
+                  PChar(ItemPlugin.ItemProc),
+                  'p_method_params',
+                  PChar(ItemPlugin.ItemProcParam),
+                  'p_lexers',
+                  PChar(ItemPlugin.ItemLexers),
+                  'p_from_api',
+                  Py_True,
                   'p_caption',
                   PChar(ItemPlugin.ItemCaption),
                   'p_in_menu',
@@ -5225,7 +5256,7 @@ begin
 
         APP_PROC_SET_SUBCOMMANDS:
           begin
-            TPluginHelper.CommandUpdateSubcommands(Str);
+            TPluginHelper.CommandUpdateSubcommands(AppCommand2List, Str, cmdLastPluginSubCommand-cmdFirstPluginSubCommand);
             TKeymapHelperMain.UpdateDynamic(TAppCommandCategory.PluginSub);
             fmMain.FNeedAppState_SubCommands:= true;
             Result:= ReturnNone;
