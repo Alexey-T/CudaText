@@ -10252,7 +10252,7 @@ begin
         exit(ReturnNone);
 
       Obj:= TObject(PtrInt(IdFinder));
-      if not (Obj is TATEditorFinder) then
+      if (IdAction<>FINDER_CREATE) and not (Obj is TATEditorFinder) then
       begin
         MsgLogConsole('ERROR: finder_proc() gets bad handle, of type '+Obj.ClassName);
         exit(ReturnNone);
