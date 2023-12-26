@@ -10249,7 +10249,10 @@ begin
       bSetCaret:= Bool(NSetCaret);
 
       if (IdFinder=0) and (IdAction<>FINDER_CREATE) then
+      begin
+        MsgLogConsole('ERROR: finder_proc() gets handle==0');
         exit(ReturnNone);
+      end;
 
       Obj:= TObject(PtrInt(IdFinder));
       if (IdAction<>FINDER_CREATE) and not (Obj is TATEditorFinder) then
