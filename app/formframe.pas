@@ -979,7 +979,7 @@ begin
 
   if FBracketHilite then
     EditorBracket_Action(Ed,
-      bracketActionHilite,
+      TEditorBracketAction.Hilite,
       FBracketSymbols,
       FBracketMaxDistance
       );
@@ -5058,7 +5058,7 @@ end;
 procedure TEditorFrame.BracketJump(Ed: TATSynEdit);
 begin
   EditorBracket_Action(Ed,
-    bracketActionJump,
+    TEditorBracketAction.Jump,
     FBracketSymbols,
     MaxInt
     );
@@ -5067,7 +5067,7 @@ end;
 procedure TEditorFrame.BracketSelect(Ed: TATSynEdit);
 begin
   EditorBracket_Action(Ed,
-    bracketActionSelect,
+    TEditorBracketAction.Select,
     FBracketSymbols,
     MaxInt
     );
@@ -5076,7 +5076,7 @@ end;
 procedure TEditorFrame.BracketSelectInside(Ed: TATSynEdit);
 begin
   EditorBracket_Action(Ed,
-    bracketActionSelectInside,
+    TEditorBracketAction.SelectInside,
     FBracketSymbols,
     MaxInt
     );

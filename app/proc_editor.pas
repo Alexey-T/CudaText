@@ -9,6 +9,7 @@ unit proc_editor;
 
 {$mode objfpc}{$H+}
 {$ModeSwitch advancedrecords}
+{$ScopedEnums on}
 
 interface
 
@@ -42,7 +43,6 @@ function EditorGetLinkAtCaret(Ed: TATSynEdit): atString;
 function EditorLexerNameAtPos(Ed: TATSynEdit; APos: TPoint): string;
 
 type
-  {$ScopedEnums on}
   TEditorSelectionKind = (
     None,
     SmallSel,
@@ -50,7 +50,6 @@ type
     ColumnSel,
     Carets
     );
-  {$ScopedEnums off}
 
   TEditorSimpleEvent = procedure(Ed: TATSynEdit) of object;
   TEditorBooleanEvent = procedure(Ed: TATSynEdit; AValue: boolean) of object;
@@ -87,19 +86,17 @@ procedure EditorCaretShapeFromPyTuple(Props: TATCaretShape; const AText: string)
 function EditorCaretIsOnStart(Ed: TATSynEdit): boolean;
 
 type
-  {$ScopedEnums on}
   TEditorBracketKind = (
     None,
     Opening,
     Closing
     );
-  {$ScopedEnums off}
 
-  TATEditorBracketAction = (
-    bracketActionHilite,
-    bracketActionJump,
-    bracketActionSelect,
-    bracketActionSelectInside
+  TEditorBracketAction = (
+    Hilite,
+    Jump,
+    Select,
+    SelectInside
     );
 
 const
@@ -120,7 +117,7 @@ procedure EditorBracket_FindBoth(Ed: TATSynEdit;
   out CharFrom, CharTo: atChar;
   out Kind: TEditorBracketKind);
 procedure EditorBracket_Action(Ed: TATSynEdit;
-  Action: TATEditorBracketAction;
+  Action: TEditorBracketAction;
   const AllowedSymbols: string;
   MaxDistance: integer);
 procedure EditorBracket_FindOpeningBracketBackward(Ed: TATSynEdit;
@@ -1749,7 +1746,7 @@ end;
 
 
 procedure EditorBracket_Action(Ed: TATSynEdit;
-  Action: TATEditorBracketAction;
+  Action: TEditorBracketAction;
   const AllowedSymbols: string;
   MaxDistance: integer);
 var
@@ -1787,7 +1784,7 @@ begin
   if FoundY<0 then exit;
 
   case Action of
-    bracketActionHilite:
+    TEditorBracketAction.Hilite:
       begin
         InitLinePart(LinePart);
         ApplyPartStyleFromEcontrolStyle(LinePart, GetAppStyle(apstBracketBG));
@@ -1841,7 +1838,7 @@ begin
         Ed.Update;
       end;
 
-    bracketActionJump:
+    TEditorBracketAction.Jump:
       begin
         Ed.DoGotoPos(
           Point(FoundX, FoundY),
@@ -1853,7 +1850,7 @@ begin
           );
       end;
 
-    bracketActionSelect:
+    TEditorBracketAction.Select:
       begin
         if IsPosSorted(PosX, PosY, FoundX, FoundY, true) then
         begin
@@ -1876,7 +1873,7 @@ begin
             )
       end;
 
-    bracketActionSelectInside:
+    TEditorBracketAction.SelectInside:
       begin
         if IsPosSorted(PosX, PosY, FoundX, FoundY, true) then
         begin
