@@ -2162,7 +2162,7 @@ begin
       Finder.OptFromCaret:= false;
       Finder.OptWrapped:= true; //wrapped search, like in Sublime
       Finder.OptInSelection:= false;
-      Finder.OptTokens:= cTokensAll;
+      Finder.OptTokens:= TATFinderTokensAllowed.All;
       Finder.OptPreserveCase:= false;
 
       Result:= Finder.DoAction_FindSimple(Point(X2, Y2));
@@ -2264,7 +2264,7 @@ begin
     Finder.OptFromCaret:= true;
     Finder.OptBack:= not ANext;
     Finder.OptInSelection:= false;
-    Finder.OptTokens:= cTokensAll;
+    Finder.OptTokens:= TATFinderTokensAllowed.All;
 
     Result:= Finder.DoAction_FindOrReplace(false, false, bFlag, false{UpdateCaret});
     if Result then

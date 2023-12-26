@@ -941,7 +941,7 @@ begin
     Result+= 'A';
   if F.OptPreserveCase then
     Result+= 'P';
-  if F.OptTokens<>cTokensAll then
+  if F.OptTokens<>TATFinderTokensAllowed.All then
     Result+= 'T'+IntToStr(Ord(F.OptTokens));
 end;
 
@@ -959,7 +959,7 @@ begin
   F.OptWrapped:= Pos('a', S)>0;
   F.OptWrappedConfirm:= Pos('A', S)>0;
   F.OptPreserveCase:= Pos('P', S)>0;
-  F.OptTokens:= cTokensAll;
+  F.OptTokens:= TATFinderTokensAllowed.All;
 
   N:= Pos('T', S);
   if (N>0) and (N<Length(S)) then
