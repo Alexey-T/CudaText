@@ -378,7 +378,7 @@ type
     MacroStrings: TStringList;
     VersionInSession: Int64;
     FileProps: array[0..1] of TAppFileProps;
-    InitialOptions: array[0..1] of TATEditorTempOptions;
+    InitialOptions: array[0..1] of TEditorTempOptions;
     IsCaretInViewBeforeToggle: boolean;
 
     constructor Create(AOwner: TComponent; AApplyCentering: boolean); reintroduce;

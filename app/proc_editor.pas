@@ -103,7 +103,7 @@ const
   cEditorTagForBracket = 1;
 
 type
-  TATEditorGetTokenKind = function(Ed: TATSynEdit; AX, AY: integer): TATTokenKind of object;
+  TEditorGetTokenKind = function(Ed: TATSynEdit; AX, AY: integer): TATTokenKind of object;
 
 function EditorBracket_GetPairForOpeningBracketOrQuote(ch: char): char;
 function EditorBracket_GetPairForClosingBracketOrQuote(ch: char): char;
@@ -127,12 +127,12 @@ procedure EditorBracket_FindOpeningBracketBackward(Ed: TATSynEdit;
   out FoundX, FoundY: integer);
 
 type
-  TATEditorFinderCallback = procedure(AFound: boolean; AFinder: TATEditorFinder) of object;
+  TEditorFinderCallback = procedure(AFound: boolean; AFinder: TATEditorFinder) of object;
 
 function EditorGetTokenKind(Ed: TATSynEdit; AX, AY: integer;
   ADocCommentIsAlsoComment: boolean=true): TATTokenKind;
 function EditorExpandSelectionToWord(Ed: TATSynEdit;
-  AFinderResultCallback: TATEditorFinderCallback;
+  AFinderResultCallback: TEditorFinderCallback;
   AAddOrSkip, AWholeWords: boolean): boolean;
 function EditorFindCurrentWordOrSel(Ed: TATSynEdit;
   ANext, AWordOrSel, AOptCase, AOptWrapped: boolean;
@@ -155,7 +155,7 @@ procedure EditorCalcOffsetsForStatusbar(Ed: TATSynEdit; out AOffsetMax, AOffsetC
 procedure EditorResetHorizontalScrollbarMax(Ed: TATSynEdit);
 
 type
-  TATEditorTempOptions = record
+  TEditorTempOptions = record
     FontSize: integer;
     TabSize: integer;
     TabSpaces: boolean;
@@ -174,8 +174,8 @@ type
     UnprintedForceTabs: boolean;
   end;
 
-procedure EditorSaveTempOptions(Ed: TATSynEdit; out Ops: TATEditorTempOptions);
-procedure EditorRestoreTempOptions(Ed: TATSynEdit; const ANew, AOld: TATEditorTempOptions);
+procedure EditorSaveTempOptions(Ed: TATSynEdit; out Ops: TEditorTempOptions);
+procedure EditorRestoreTempOptions(Ed: TATSynEdit; const ANew, AOld: TEditorTempOptions);
 
 implementation
 
@@ -1906,9 +1906,9 @@ begin
     Result:= Ed.Modified;
 end;
 
-procedure EditorSaveTempOptions(Ed: TATSynEdit; out Ops: TATEditorTempOptions);
+procedure EditorSaveTempOptions(Ed: TATSynEdit; out Ops: TEditorTempOptions);
 begin
-  Ops:= Default(TATEditorTempOptions);
+  Ops:= Default(TEditorTempOptions);
 
   Ops.FontSize:= Ed.Font.Size;
   Ops.TabSize:= Ed.OptTabSize;
@@ -1929,7 +1929,7 @@ begin
   Ops.UnprintedForceTabs:= Ed.OptUnprintedForceTabs;
 end;
 
-procedure EditorRestoreTempOptions(Ed: TATSynEdit; const ANew, AOld: TATEditorTempOptions);
+procedure EditorRestoreTempOptions(Ed: TATSynEdit; const ANew, AOld: TEditorTempOptions);
 begin
   if AOld.FontSize<>ANew.FontSize then
     Ed.Font.Size:= ANew.FontSize;
@@ -2084,7 +2084,7 @@ end;
 
 
 function EditorExpandSelectionToWord(Ed: TATSynEdit;
-  AFinderResultCallback: TATEditorFinderCallback;
+  AFinderResultCallback: TEditorFinderCallback;
   AAddOrSkip, AWholeWords: boolean): boolean;
 var
   Caret: TATCaretItem;

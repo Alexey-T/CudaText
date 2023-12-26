@@ -1773,7 +1773,7 @@ procedure TfmMain.DoOps_LoadOptionsLexerSpecific(F: TEditorFrame; Ed: TATSynEdit
     PrevTabSizeChanged: boolean;
     PrevTabSpaces: boolean;
     PrevTabSpacesChanged: boolean;
-    TempOps: TATEditorTempOptions;
+    TempOps: TEditorTempOptions;
   begin
     EdIndex:= F.EditorObjToIndex(Ed);
     if EdIndex<0 then exit;
