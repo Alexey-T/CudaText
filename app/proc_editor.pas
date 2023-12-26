@@ -42,13 +42,16 @@ function EditorGetLinkAtCaret(Ed: TATSynEdit): atString;
 function EditorLexerNameAtPos(Ed: TATSynEdit; APos: TPoint): string;
 
 type
+  {$ScopedEnums on}
   TEditorSelectionKind = (
-    selkindNone,
-    selkindSmallSel,
-    selkindStreamSel,
-    selkindColumnSel,
-    selkindCarets
+    None,
+    SmallSel,
+    StreamSel,
+    ColumnSel,
+    Carets
     );
+  {$ScopedEnums off}
+
   TEditorSimpleEvent = procedure(Ed: TATSynEdit) of object;
   TEditorBooleanEvent = procedure(Ed: TATSynEdit; AValue: boolean) of object;
 
@@ -675,21 +678,21 @@ var
   NFrom, NTo: integer;
 begin
   if not Ed.IsSelRectEmpty then
-    Result:= selkindColumnSel
+    Result:= TEditorSelectionKind.ColumnSel
   else
   if Ed.Carets.Count>1 then
-    Result:= selkindCarets
+    Result:= TEditorSelectionKind.Carets
   else
   if Ed.Carets.IsSelection then
   begin
     Ed.Carets[0].GetSelLines(NFrom, NTo);
     if NTo>NFrom then
-      Result:= selkindStreamSel
+      Result:= TEditorSelectionKind.StreamSel
     else
-      Result:= selkindSmallSel;
+      Result:= TEditorSelectionKind.SmallSel;
   end
   else
-    Result:= selkindNone;
+    Result:= TEditorSelectionKind.None;
 end;
 
 

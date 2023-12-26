@@ -268,13 +268,13 @@ begin
 
   //for FrameKind=Editor
   case EditorGetSelectionKind(Ed) of
-    selkindSmallSel:
+    TEditorSelectionKind.SmallSel:
       fmt:= UiOps.StatusSmallSel;
-    selkindStreamSel:
+    TEditorSelectionKind.StreamSel:
       fmt:= UiOps.StatusStreamSel;
-    selkindColumnSel:
+    TEditorSelectionKind.ColumnSel:
       fmt:= UiOps.StatusColSel;
-    selkindCarets:
+    TEditorSelectionKind.Carets:
       fmt:= UiOps.StatusCarets;
     else
       fmt:= UiOps.StatusNoSel;
