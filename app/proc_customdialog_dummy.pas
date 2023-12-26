@@ -206,10 +206,10 @@ begin
   Result.Typ:= TAppVariantTypeId.Tuple;
   SetLength(Result.Items, 2);
 
-  Result.Items[0].Typ:= avdInt;
+  Result.Items[0].Typ:= TAppVariantItemTypeId.Int;
   Result.Items[0].Int:= AKey;
 
-  Result.Items[1].Typ:= avdStr;
+  Result.Items[1].Typ:= TAppVariantItemTypeId.Str;
   Result.Items[1].Str:= ConvertShiftStateToString(AShift);
 end;
 
@@ -221,19 +221,19 @@ begin
   SetLength(Result.Items, 4);
 
   Result.Items[0].KeyName:= 'btn';
-  Result.Items[0].Typ:= avdInt;
+  Result.Items[0].Typ:= TAppVariantItemTypeId.Int;
   Result.Items[0].Int:= Ord(AButton);
 
   Result.Items[1].KeyName:= 'state';
-  Result.Items[1].Typ:= avdStr;
+  Result.Items[1].Typ:= TAppVariantItemTypeId.Str;
   Result.Items[1].Str:= ConvertShiftStateToString(AShift);
 
   Result.Items[2].KeyName:= 'x';
-  Result.Items[2].Typ:= avdInt;
+  Result.Items[2].Typ:= TAppVariantItemTypeId.Int;
   Result.Items[2].Int:= AX;
 
   Result.Items[3].KeyName:= 'y';
-  Result.Items[3].Typ:= avdInt;
+  Result.Items[3].Typ:= TAppVariantItemTypeId.Int;
   Result.Items[3].Int:= AY;
 end;
 
@@ -433,10 +433,10 @@ begin
   Data.Typ:= TAppVariantTypeId.Tuple;
   SetLength(Data.Items, 2);
 
-  Data.Items[0].Typ:= avdInt;
+  Data.Items[0].Typ:= TAppVariantItemTypeId.Int;
   Data.Items[0].Int:= P.X;
 
-  Data.Items[1].Typ:= avdInt;
+  Data.Items[1].Typ:= TAppVariantItemTypeId.Int;
   Data.Items[1].Int:= P.Y;
 
   DoEvent(IdControl, Callback, Data);
@@ -850,15 +850,15 @@ begin
   SetLength(Data.Items, 3);
 
   Data.Items[0].KeyName:= 'canvas';
-  Data.Items[0].Typ:= avdInt;
+  Data.Items[0].Typ:= TAppVariantItemTypeId.Int;
   Data.Items[0].Int:= PtrInt(ACanvas);
 
   Data.Items[1].KeyName:= 'index';
-  Data.Items[1].Typ:= avdInt;
+  Data.Items[1].Typ:= TAppVariantItemTypeId.Int;
   Data.Items[1].Int:= AIndex;
 
   Data.Items[2].KeyName:= 'rect';
-  Data.Items[2].Typ:= avdRect;
+  Data.Items[2].Typ:= TAppVariantItemTypeId.Rect;
   Data.Items[2].Rect:= ARect;
 
   DoEvent(IdControl, Callback, Data);
@@ -900,10 +900,10 @@ begin
   Data.Typ:= TAppVariantTypeId.Tuple;
   SetLength(Data.Items, 2);
 
-  Data.Items[0].Typ:= avdInt;
+  Data.Items[0].Typ:= TAppVariantItemTypeId.Int;
   Data.Items[0].Int:= Item.Index;
 
-  Data.Items[1].Typ:= avdBool;
+  Data.Items[1].Typ:= TAppVariantItemTypeId.Bool;
   Data.Items[1].Bool:= Selected;
 
   try
@@ -1207,15 +1207,15 @@ begin
   SetLength(Data.Items, 3);
 
   Data.Items[0].KeyName:= 'state';
-  Data.Items[0].Typ:= avdStr;
+  Data.Items[0].Typ:= TAppVariantItemTypeId.Str;
   Data.Items[0].Str:= ConvertShiftStateToString(KeyboardStateToShiftState);
 
   Data.Items[1].KeyName:= 'line';
-  Data.Items[1].Typ:= avdInt;
+  Data.Items[1].Typ:= TAppVariantItemTypeId.Int;
   Data.Items[1].Int:= ALine;
 
   Data.Items[2].KeyName:= 'band';
-  Data.Items[2].Typ:= avdInt;
+  Data.Items[2].Typ:= TAppVariantItemTypeId.Int;
   Data.Items[2].Int:= ABand;
 
   if not DoEvent(IdControl, Callback, Data) then
@@ -1241,31 +1241,31 @@ begin
   SetLength(Data.Items, 7);
 
   Data.Items[0].KeyName:= 'state';
-  Data.Items[0].Typ:= avdStr;
+  Data.Items[0].Typ:= TAppVariantItemTypeId.Str;
   Data.Items[0].Str:= ConvertShiftStateToString(KeyboardStateToShiftState);
 
   Data.Items[1].KeyName:= 'line';
-  Data.Items[1].Typ:= avdInt;
+  Data.Items[1].Typ:= TAppVariantItemTypeId.Int;
   Data.Items[1].Int:= AGapItem.LineIndex;
 
   Data.Items[2].KeyName:= 'tag';
-  Data.Items[2].Typ:= avdInt;
+  Data.Items[2].Typ:= TAppVariantItemTypeId.Int;
   Data.Items[2].Int:= AGapItem.Tag;
 
   Data.Items[3].KeyName:= 'gap_w';
-  Data.Items[3].Typ:= avdInt;
+  Data.Items[3].Typ:= TAppVariantItemTypeId.Int;
   Data.Items[3].Int:= AGapItem.Bitmap.Width;
 
   Data.Items[4].KeyName:= 'gap_h';
-  Data.Items[4].Typ:= avdInt;
+  Data.Items[4].Typ:= TAppVariantItemTypeId.Int;
   Data.Items[4].Int:= AGapItem.Bitmap.Height;
 
   Data.Items[5].KeyName:= 'x';
-  Data.Items[5].Typ:= avdInt;
+  Data.Items[5].Typ:= TAppVariantItemTypeId.Int;
   Data.Items[5].Int:= APos.X;
 
   Data.Items[6].KeyName:= 'y';
-  Data.Items[6].Typ:= avdInt;
+  Data.Items[6].Typ:= TAppVariantItemTypeId.Int;
   Data.Items[6].Int:= APos.Y;
 
   DoEvent(IdControl, Callback, Data);
@@ -1328,11 +1328,11 @@ begin
   SetLength(Data.Items, 2);
 
   Data.Items[0].KeyName:= 'keep_caret';
-  Data.Items[0].Typ:= avdBool;
+  Data.Items[0].Typ:= TAppVariantItemTypeId.Bool;
   Data.Items[0].Bool:= AKeepCaret;
 
   Data.Items[1].KeyName:= 'sel_then';
-  Data.Items[1].Typ:= avdBool;
+  Data.Items[1].Typ:= TAppVariantItemTypeId.Bool;
   Data.Items[1].Bool:= ASelectThen;
 
   if not DoEvent(IdControl, Callback, Data) then

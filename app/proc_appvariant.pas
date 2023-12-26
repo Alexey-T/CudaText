@@ -8,6 +8,7 @@ Copyright (c) Alexey Torgashin
 unit proc_appvariant;
 
 {$mode objfpc}{$H+}
+{$ScopedEnums on}
 
 interface
 
@@ -17,7 +18,6 @@ uses
   proc_str;
 
 type
-  {$ScopedEnums on}
   TAppVariantTypeId = (
     Null,
     Bool,
@@ -26,13 +26,12 @@ type
     Tuple,
     Dict
     );
-  {$ScopedEnums off}
 
   TAppVariantItemTypeId = (
-    avdBool,
-    avdInt,
-    avdStr,
-    avdRect
+    Bool,
+    Int,
+    Str,
+    Rect
     );
 
   TAppVariantItem = record
@@ -110,7 +109,7 @@ begin
   SetLength(Result.Items, Length(Value));
   for i:= 0 to Length(Value)-1 do
   begin
-    Result.Items[i].Typ:= avdInt;
+    Result.Items[i].Typ:= TAppVariantItemTypeId.Int;
     Result.Items[i].Int:= Value[i];
   end;
 end;
@@ -118,7 +117,7 @@ end;
 function AppVariantItemToString(const V: TAppVariantItem): string;
 begin
   case V.Typ of
-    avdBool:
+    TAppVariantItemTypeId.Bool:
       begin
         if V.Bool then
           Result:= 'True'
@@ -126,13 +125,13 @@ begin
           Result:= 'False';
       end;
 
-    avdInt:
+    TAppVariantItemTypeId.Int:
       Result:= IntToStr(V.Int);
 
-    avdRect:
+    TAppVariantItemTypeId.Rect:
       Result:= Format('(%d,%d,%d,%d)', [V.Rect.Left, V.Rect.Top, V.Rect.Right, V.Rect.Bottom]);
 
-    avdStr:
+    TAppVariantItemTypeId.Str:
       Result:= SStringToPythonString(V.Str);
 
     else
@@ -198,13 +197,13 @@ function AppVariantItemToPyObject(const V: TAppVariantItem): PPyObject;
 begin
   with FEngine do
     case V.Typ of
-      avdBool:
+      TAppVariantItemTypeId.Bool:
         Result:= PyBool_FromLong(Ord(V.Bool));
-      avdInt:
+      TAppVariantItemTypeId.Int:
         Result:= PyLong_FromLongLong(V.Int);
-      avdStr:
+      TAppVariantItemTypeId.Str:
         Result:= PyUnicodeFromString(V.Str);
-      avdRect:
+      TAppVariantItemTypeId.Rect:
         Result:= Py_BuildValue('(iiii)', V.Rect.Left, V.Rect.Top, V.Rect.Right, V.Rect.Bottom);
       else
         raise Exception.Create('Unhandled item in AppVariantItemToPyObject');
