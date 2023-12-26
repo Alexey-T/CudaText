@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.206.5
+1.206.4
 
 - fix: bug when after installation of plugin without app restart, Command Palette items become 'shifted' by N elements; it required lot of code rework - so report any regressions
 - fix: bug in finder_proc() API
