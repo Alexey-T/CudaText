@@ -8,6 +8,7 @@ Copyright (c) Alexey Torgashin
 unit FormFrame;
 
 {$mode objfpc}{$H+}
+{$ScopedEnums on}
 
 interface
 
@@ -61,16 +62,15 @@ type
 
 type
   TAppOpenMode = (
-    cOpenModeNone,
-    cOpenModeEditor,
-    cOpenModeViewText,
-    cOpenModeViewBinary,
-    cOpenModeViewHex,
-    cOpenModeViewUnicode,
-    cOpenModeViewUHex
+    None,
+    Editor,
+    ViewText,
+    ViewBinary,
+    ViewHex,
+    ViewUnicode,
+    ViewUHex
     );
 
-  {$ScopedEnums on}
   TAppFrameKind = (
     Editor,
     BinaryViewer,
@@ -2851,27 +2851,27 @@ begin
       Lexer[Ed2]:= nil;
 
   case AOpenMode of
-    cOpenModeViewText:
+    TAppOpenMode.ViewText:
       begin
         DoFileOpen_AsBinary(AFileName, vbmodeText);
         exit;
       end;
-    cOpenModeViewBinary:
+    TAppOpenMode.ViewBinary:
       begin
         DoFileOpen_AsBinary(AFileName, vbmodeBinary);
         exit;
       end;
-    cOpenModeViewHex:
+    TAppOpenMode.ViewHex:
       begin
         DoFileOpen_AsBinary(AFileName, vbmodeHex);
         exit;
       end;
-    cOpenModeViewUnicode:
+    TAppOpenMode.ViewUnicode:
       begin
         DoFileOpen_AsBinary(AFileName, vbmodeUnicode);
         exit;
       end;
-    cOpenModeViewUHex:
+    TAppOpenMode.ViewUHex:
       begin
         DoFileOpen_AsBinary(AFileName, vbmodeUHex);
         exit;
@@ -3365,21 +3365,21 @@ begin
     (Ed.Strings.Count>0) and
     (PrevCaretY=Ed.Strings.Count-1);
 
-  Mode:= cOpenModeEditor;
+  Mode:= TAppOpenMode.Editor;
   if FrameKind=TAppFrameKind.BinaryViewer then
     case FBin.Mode of
       vbmodeText:
-        Mode:= cOpenModeViewText;
+        Mode:= TAppOpenMode.ViewText;
       vbmodeBinary:
-        Mode:= cOpenModeViewBinary;
+        Mode:= TAppOpenMode.ViewBinary;
       vbmodeHex:
-        Mode:= cOpenModeViewHex;
+        Mode:= TAppOpenMode.ViewHex;
       vbmodeUnicode:
-        Mode:= cOpenModeViewUnicode;
+        Mode:= TAppOpenMode.ViewUnicode;
       vbmodeUHex:
-        Mode:= cOpenModeViewUHex;
+        Mode:= TAppOpenMode.ViewUHex;
       else
-        Mode:= cOpenModeViewHex;
+        Mode:= TAppOpenMode.ViewHex;
     end;
 
   //reopen

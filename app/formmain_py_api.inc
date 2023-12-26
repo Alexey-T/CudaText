@@ -4768,7 +4768,7 @@ begin
               begin
                 Str:= F.FileName;
                 F.DoFileClose;
-                F.DoFileOpen(Str, '', false, false, true, true, true, cOpenModeEditor);
+                F.DoFileOpen(Str, '', false, false, true, true, true, TAppOpenMode.Editor);
               end;
             end
             else

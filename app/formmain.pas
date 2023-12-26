@@ -4488,41 +4488,41 @@ begin
     AllowNear:= TAppNewTabNearCurrent.Disabled;
 
   if SubInString('/view-text', AOptions) then
-    OpenMode:= cOpenModeViewText
+    OpenMode:= TAppOpenMode.ViewText
   else
   if SubInString('/view-binary', AOptions) then
-    OpenMode:= cOpenModeViewBinary
+    OpenMode:= TAppOpenMode.ViewBinary
   else
   if SubInString('/view-hex', AOptions) then
-    OpenMode:= cOpenModeViewHex
+    OpenMode:= TAppOpenMode.ViewHex
   else
   if SubInString('/view-unicode', AOptions) then
-    OpenMode:= cOpenModeViewUnicode
+    OpenMode:= TAppOpenMode.ViewUnicode
   else
   if SubInString('/view-uhex', AOptions) then
-    OpenMode:= cOpenModeViewUHex
+    OpenMode:= TAppOpenMode.ViewUHex
   else
-    OpenMode:= cOpenModeEditor;
+    OpenMode:= TAppOpenMode.Editor;
 
   if SubInString('/nontext-view-text', AOptions) then
-    NonTextMode:= cOpenModeViewText
+    NonTextMode:= TAppOpenMode.ViewText
   else
   if SubInString('/nontext-view-binary', AOptions) then
-    NonTextMode:= cOpenModeViewBinary
+    NonTextMode:= TAppOpenMode.ViewBinary
   else
   if SubInString('/nontext-view-hex', AOptions) then
-    NonTextMode:= cOpenModeViewHex
+    NonTextMode:= TAppOpenMode.ViewHex
   else
   if SubInString('/nontext-view-unicode', AOptions) then
-    NonTextMode:= cOpenModeViewUnicode
+    NonTextMode:= TAppOpenMode.ViewUnicode
   else
   if SubInString('/nontext-view-uhex', AOptions) then
-    NonTextMode:= cOpenModeViewUHex
+    NonTextMode:= TAppOpenMode.ViewUHex
   else
   if SubInString('/nontext-cancel', AOptions) then
-    NonTextMode:= cOpenModeNone
+    NonTextMode:= TAppOpenMode.None
   else
-    NonTextMode:= cOpenModeEditor;
+    NonTextMode:= TAppOpenMode.Editor;
 
   if APages=nil then
     APages:= CurGroups.PagesCurrent;
@@ -4573,7 +4573,7 @@ begin
     AFileName2:= '';
   end;
 
-  if OpenMode=cOpenModeEditor then
+  if OpenMode=TAppOpenMode.Editor then
   begin
     //zip files
     if bAllowZip and (ExtractFileExt(AFileName)='.zip') then
@@ -4610,52 +4610,52 @@ begin
                ATEditorOptions.DetectUTF16BufferWords
                ) then
       begin
-        if NonTextMode=cOpenModeNone then
+        if NonTextMode=TAppOpenMode.None then
           Exit;
-        if NonTextMode<>cOpenModeEditor then
+        if NonTextMode<>TAppOpenMode.Editor then
           OpenMode:= NonTextMode
         else
         case UiOps.NonTextFiles of
           0:
             case DoDialogConfirmBinaryFile(AFileName, bFileTooBig) of
               ConfirmBinaryViewText:
-                OpenMode:= cOpenModeViewText;
+                OpenMode:= TAppOpenMode.ViewText;
               ConfirmBinaryViewBinary:
-                OpenMode:= cOpenModeViewBinary;
+                OpenMode:= TAppOpenMode.ViewBinary;
               ConfirmBinaryViewHex:
-                OpenMode:= cOpenModeViewHex;
+                OpenMode:= TAppOpenMode.ViewHex;
               ConfirmBinaryViewUnicode:
-                OpenMode:= cOpenModeViewUnicode;
+                OpenMode:= TAppOpenMode.ViewUnicode;
               ConfirmBinaryViewUHex:
-                OpenMode:= cOpenModeViewUHex;
+                OpenMode:= TAppOpenMode.ViewUHex;
               ConfirmBinaryCancel:
                 Exit;
             end;
           2:
             Exit;
           3:
-            OpenMode:= cOpenModeViewBinary;
+            OpenMode:= TAppOpenMode.ViewBinary;
           4:
-            OpenMode:= cOpenModeViewHex;
+            OpenMode:= TAppOpenMode.ViewHex;
           else
             Exit;
         end;
       end;
 
     //too big size?
-    if (OpenMode=cOpenModeEditor) and bFileTooBig then
+    if (OpenMode=TAppOpenMode.Editor) and bFileTooBig then
     begin
       case DoDialogConfirmBinaryFile(AFileName, bFileTooBig) of
         ConfirmBinaryViewText:
-          OpenMode:= cOpenModeViewText;
+          OpenMode:= TAppOpenMode.ViewText;
         ConfirmBinaryViewBinary:
-          OpenMode:= cOpenModeViewBinary;
+          OpenMode:= TAppOpenMode.ViewBinary;
         ConfirmBinaryViewHex:
-          OpenMode:= cOpenModeViewHex;
+          OpenMode:= TAppOpenMode.ViewHex;
         ConfirmBinaryViewUnicode:
-          OpenMode:= cOpenModeViewUnicode;
+          OpenMode:= TAppOpenMode.ViewUnicode;
         ConfirmBinaryViewUHex:
-          OpenMode:= cOpenModeViewUHex;
+          OpenMode:= TAppOpenMode.ViewUHex;
         ConfirmBinaryCancel:
           Exit;
       end;
