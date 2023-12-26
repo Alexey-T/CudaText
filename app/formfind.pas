@@ -36,21 +36,23 @@ uses
   formlexerstylemap;
 
 type
+  {$ScopedEnums on}
   TAppFinderOperation = (
-    afoNone,
-    afoCloseDlg,
-    afoFindFirst,
-    afoFindNext,
-    afoFindPrev,
-    afoCountAll,
-    afoExtractAll,
-    afoFindSelectAll,
-    afoFindMarkAll,
-    afoReplace,
-    afoReplaceStop,
-    afoReplaceAll,
-    afoReplaceGlobal
+    None,
+    CloseDlg,
+    FindFirst,
+    FindNext,
+    FindPrev,
+    CountAll,
+    ExtractAll,
+    FindSelectAll,
+    FindMarkAll,
+    Replace,
+    ReplaceStop,
+    ReplaceAll,
+    ReplaceGlobal
     );
+  {$ScopedEnums off}
 
 const
   cAppFinderOperationString: array[TAppFinderOperation] of string = (
@@ -311,7 +313,7 @@ begin
   for op:= Low(TAppFinderOperation) to High(TAppFinderOperation) do
     if Str=cAppFinderOperationString[op] then
       exit(op);
-  Result:= afoNone;
+  Result:= TAppFinderOperation.None;
 end;
 
 function _MakeHint(const AText, AHotkey: string): string;
@@ -344,33 +346,33 @@ end;
 procedure TfmFind.bRepClick(Sender: TObject);
 begin
   if IsReplace then
-    DoResult(afoReplace);
+    DoResult(TAppFinderOperation.Replace);
 end;
 
 procedure TfmFind.bRepStopClick(Sender: TObject);
 begin
   if IsReplace then
-    DoResult(afoReplaceStop);
+    DoResult(TAppFinderOperation.ReplaceStop);
 end;
 
 procedure TfmFind.bFindNextClick(Sender: TObject);
 begin
-  DoResult(afoFindNext);
+  DoResult(TAppFinderOperation.FindNext);
 end;
 
 procedure TfmFind.bExtractClick(Sender: TObject);
 begin
-  DoResult(afoExtractAll);
+  DoResult(TAppFinderOperation.ExtractAll);
 end;
 
 procedure TfmFind.bFindPrevClick(Sender: TObject);
 begin
-  DoResult(afoFindPrev);
+  DoResult(TAppFinderOperation.FindPrev);
 end;
 
 procedure TfmFind.bMarkAllClick(Sender: TObject);
 begin
-  DoResult(afoFindMarkAll);
+  DoResult(TAppFinderOperation.FindMarkAll);
 end;
 
 procedure TfmFind.InitPopupMore;
@@ -628,29 +630,29 @@ end;
 procedure TfmFind.bRepAllClick(Sender: TObject);
 begin
   if IsReplace then
-    DoResult(afoReplaceAll);
+    DoResult(TAppFinderOperation.ReplaceAll);
 end;
 
 procedure TfmFind.bCountClick(Sender: TObject);
 begin
-  DoResult(afoCountAll);
+  DoResult(TAppFinderOperation.CountAll);
 end;
 
 procedure TfmFind.bCancelClick(Sender: TObject);
 begin
-  DoResult(afoCloseDlg);
+  DoResult(TAppFinderOperation.CloseDlg);
 end;
 
 procedure TfmFind.bRepGlobalClick(Sender: TObject);
 begin
   if IsReplace then
     if MsgBox(msgConfirmReplaceGlobal, MB_OKCANCEL or MB_ICONWARNING)=ID_OK then
-      DoResult(afoReplaceGlobal);
+      DoResult(TAppFinderOperation.ReplaceGlobal);
 end;
 
 procedure TfmFind.bSelectAllClick(Sender: TObject);
 begin
-  DoResult(afoFindSelectAll);
+  DoResult(TAppFinderOperation.FindSelectAll);
 end;
 
 procedure TfmFind.bTokensClick(Sender: TObject);
@@ -712,7 +714,7 @@ end;
 
 procedure TfmFind.bFindFirstClick(Sender: TObject);
 begin
-  DoResult(afoFindFirst);
+  DoResult(TAppFinderOperation.FindFirst);
 end;
 
 procedure TfmFind.chkRepClick(Sender: TObject);
@@ -966,7 +968,7 @@ begin
   if (Key=VK_ESCAPE) and (Shift=[]) then
   begin
     if UiOps.EscapeCloseFinder then
-      DoResult(afoCloseDlg)
+      DoResult(TAppFinderOperation.CloseDlg)
     else
       DoFocusEditor;
     key:= 0;
@@ -975,14 +977,14 @@ begin
 
   if Str=UiOps.HotkeyFindFirst then
   begin
-    DoResult(afoFindFirst);
+    DoResult(TAppFinderOperation.FindFirst);
     key:= 0;
     exit
   end;
 
   if (Str=UiOps.HotkeyFindNext) and (Str<>'Enter') then
   begin
-    DoResult(afoFindNext);
+    DoResult(TAppFinderOperation.FindNext);
     key:= 0;
     exit
   end;
@@ -991,16 +993,16 @@ begin
   begin
     //Enter: action depends on focus
     if IsReplace and edRep.Focused then
-      DoResult(afoReplace)
+      DoResult(TAppFinderOperation.Replace)
     else
-      DoResult(afoFindNext);
+      DoResult(TAppFinderOperation.FindNext);
     key:= 0;
     exit
   end;
 
   if Str=UiOps.HotkeyFindPrev then
   begin
-    DoResult(afoFindPrev);
+    DoResult(TAppFinderOperation.FindPrev);
     key:= 0;
     exit
   end;
@@ -1008,7 +1010,7 @@ begin
   if (Str=UiOps.HotkeyReplaceAndFindNext) and IsReplace then
   begin
     if IsReplace then
-      DoResult(afoReplace);
+      DoResult(TAppFinderOperation.Replace);
     key:= 0;
     exit
   end;
@@ -1016,7 +1018,7 @@ begin
   if (Str=UiOps.HotkeyReplaceNoFindNext) and IsReplace then
   begin
     if IsReplace then
-      DoResult(afoReplaceStop);
+      DoResult(TAppFinderOperation.ReplaceStop);
     key:= 0;
     exit
   end;
@@ -1283,21 +1285,21 @@ var
   bUpdateState: boolean;
 begin
   if edFind.Text='' then
-    if Op<>afoCloseDlg then exit;
+    if Op<>TAppFinderOperation.CloseDlg then exit;
 
   if Assigned(FOnResult) then
     FOnResult(Self, Op);
 
   bUpdateState:= not (Op in [
-    afoNone,
-    afoCloseDlg,
-    afoCountAll,
-    afoExtractAll,
-    afoFindMarkAll,
-    afoFindSelectAll
+    TAppFinderOperation.None,
+    TAppFinderOperation.CloseDlg,
+    TAppFinderOperation.CountAll,
+    TAppFinderOperation.ExtractAll,
+    TAppFinderOperation.FindMarkAll,
+    TAppFinderOperation.FindSelectAll
     ]);
 
-  if Op<>afoCloseDlg then
+  if Op<>TAppFinderOperation.CloseDlg then
   begin
     edFind.DoAddLineToHistory(edFind.Text, UiOps.MaxHistoryEdits);
     edRep.DoAddLineToHistory(edRep.Text, UiOps.MaxHistoryEdits);

@@ -334,7 +334,7 @@ begin
     FFinder.OptRegexSubst:= chkRegexSubst.Checked;
     FFinder.OptWrapped:= chkWrap.Checked;
     FFinder.OptInSelection:= chkInSel.Checked;
-    FFinder.OptFromCaret:= (Res=afoFindNext) or (Res=afoFindPrev) or (Res=afoReplace);
+    FFinder.OptFromCaret:= (Res=TAppFinderOperation.FindNext) or (Res=TAppFinderOperation.FindPrev) or (Res=TAppFinderOperation.Replace);
     FFinder.OptConfirmReplace:= chkConfirm.Checked;
     FFinder.OptTokens:= TATFinderTokensAllowed(bTokens.ItemIndex);
     FFinder.OptPreserveCase:= chkPreserveCase.Checked;
@@ -347,19 +347,19 @@ begin
     Application.ProcessMessages;
 
     case Res of
-      afoFindFirst:
+      TAppFinderOperation.FindFirst:
         begin
           ok:= Frame.BinaryFindFirst(FFinder, bHiliteAll);
           FinderShowResultSimple(ok, FFinder);
         end;
 
-      afoFindNext,
-      afoFindPrev:
+      TAppFinderOperation.FindNext,
+      TAppFinderOperation.FindPrev:
         begin
           if (not Frame.Binary.SearchStarted) or (Frame.Binary.SearchString<>FFinder.StrFind) then
             ok:= Frame.BinaryFindFirst(FFinder, bHiliteAll)
           else
-            ok:= Frame.BinaryFindNext(Res=afoFindPrev);
+            ok:= Frame.BinaryFindNext(Res=TAppFinderOperation.FindPrev);
           FinderShowResultSimple(ok, FFinder);
         end;
     end;
@@ -386,8 +386,8 @@ begin
   bDoLock:=
     //(Res=afoReplace) or //don't lock for single replace, issue #1216
     //(Res=afoReplaceStop) or
-    (Res=afoReplaceAll) or
-    (Res=afoReplaceGlobal);
+    (Res=TAppFinderOperation.ReplaceAll) or
+    (Res=TAppFinderOperation.ReplaceGlobal);
   UpdateAppForSearch(true, bDoLock, bFindMode, AEnableUpdateAll, bFocusFindDlg);
 
   if bDoLock then
@@ -398,45 +398,45 @@ begin
   end;
 
   case Res of
-    afoFindFirst,
-    afoFindNext,
-    afoFindPrev:
+    TAppFinderOperation.FindFirst,
+    TAppFinderOperation.FindNext,
+    TAppFinderOperation.FindPrev:
     begin
-      FindAndStop(Res=afoFindPrev);
+      FindAndStop(Res=TAppFinderOperation.FindPrev);
     end;
 
-    afoReplace,
-    afoReplaceStop:
+    TAppFinderOperation.Replace,
+    TAppFinderOperation.ReplaceStop:
     begin
-      FindAndReplaceOneMatch(Res=afoReplaceStop);
+      FindAndReplaceOneMatch(Res=TAppFinderOperation.ReplaceStop);
     end;
 
-    afoReplaceAll:
+    TAppFinderOperation.ReplaceAll:
     begin
       FindAndReplaceAll(NCounter);
     end;
 
-    afoReplaceGlobal:
+    TAppFinderOperation.ReplaceGlobal:
     begin
       FindAndReplaceInAllFrames(Frame, NCounter);
     end;
 
-    afoCountAll:
+    TAppFinderOperation.CountAll:
     begin
       FindAndCountAll(NCounter);
     end;
 
-    afoExtractAll:
+    TAppFinderOperation.ExtractAll:
     begin
       FindAndExtractRegexMatches;
     end;
 
-    afoFindSelectAll:
+    TAppFinderOperation.FindSelectAll:
     begin
       FindAndSelectAll(NCounter);
     end;
 
-    afoFindMarkAll:
+    TAppFinderOperation.FindMarkAll:
     begin
       FindAndMarkAll(NCounter);
     end;
@@ -447,7 +447,7 @@ begin
   {$ifdef LCLgtk2}
   //Linux gtk2: UpdateAppForSearch don't put focus anywhere (Laz bug?) after "confirmation" form;
   //make workaround
-  if Res in [afoReplaceAll, afoReplaceGlobal] then
+  if Res in [TAppFinderOperation.ReplaceAll, TAppFinderOperation.ReplaceGlobal] then
   begin
     Frame:= CurrentFrame;
     if Assigned(Frame) then
@@ -456,7 +456,7 @@ begin
   {$endif}
 
   //close dialog after 'Select all'/'Mark all', issue #4503
-  if Res in [afoFindSelectAll, afoFindMarkAll] then
+  if Res in [TAppFinderOperation.FindSelectAll, TAppFinderOperation.FindMarkAll] then
     if NCounter>0 then
     begin
       fmFind.Hide;
@@ -733,7 +733,7 @@ begin
 
   if Frame.FrameKind=efkBinaryViewer then
   begin
-    FindDialogDone(Frame, afoFindFirst, false);
+    FindDialogDone(Frame, TAppFinderOperation.FindFirst, false);
     exit;
   end;
 
@@ -779,9 +779,9 @@ begin
   if Frame.FrameKind=efkBinaryViewer then
   begin
     if ANext then
-      Op:= afoFindNext
+      Op:= TAppFinderOperation.FindNext
     else
-      Op:= afoFindPrev;
+      Op:= TAppFinderOperation.FindPrev;
     FindDialogDone(Frame, Op, false);
     exit;
   end;
