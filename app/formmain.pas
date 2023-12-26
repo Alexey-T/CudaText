@@ -3920,7 +3920,8 @@ begin
       TAppAddonType.Lexer,
       TAppAddonType.LexerLite:
         begin
-          DoOps_LoadLexerLib(true); //AOnCreate=true - don't backup lexers
+          if AAllowUpdatePlugins then
+            DoOps_LoadLexerLib(true); //AOnCreate=true - don't backup lexers
         end;
 
       TAppAddonType.Plugin:
