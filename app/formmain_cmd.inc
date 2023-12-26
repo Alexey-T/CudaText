@@ -381,34 +381,34 @@ begin
 
     cmd_ShowSidePanelAsIs:
       begin
-        AppPanels[cPaneSide].Visible:= true;
+        AppPanels[TAppPanelId.Side].Visible:= true;
         FNeedUpdateMenuChecks:= true;
       end;
 
     cmd_ShowSidePanelAndSyntaxTree:
       begin
-        AppPanels[cPaneSide].UpdatePanels(msgPanelTree_Init, false, true);
+        AppPanels[TAppPanelId.Side].UpdatePanels(msgPanelTree_Init, false, true);
         FNeedUpdateMenuChecks:= true;
       end;
 
     cmd_ToggleSidePanelAndSyntaxTree:
       begin
-        if AppPanels[cPaneSide].Visible then
-          AppPanels[cPaneSide].Visible:= false
+        if AppPanels[TAppPanelId.Side].Visible then
+          AppPanels[TAppPanelId.Side].Visible:= false
         else
-          AppPanels[cPaneSide].UpdatePanels(msgPanelTree_Init, false, true);
+          AppPanels[TAppPanelId.Side].UpdatePanels(msgPanelTree_Init, false, true);
         FNeedUpdateMenuChecks:= true;
       end;
 
     cmd_HideSidePanel:
       begin
-        AppPanels[cPaneSide].Visible:= false;
+        AppPanels[TAppPanelId.Side].Visible:= false;
         FNeedUpdateMenuChecks:= true;
       end;
 
     cmd_HideBottomPanel:
       begin
-        AppPanels[cPaneOut].Visible:= false;
+        AppPanels[TAppPanelId.Btm].Visible:= false;
         FNeedUpdateMenuChecks:= true;
       end;
 

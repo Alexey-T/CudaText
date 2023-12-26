@@ -97,7 +97,7 @@ begin
 
   //floating side-panel and bottom-panel
   for id in TAppPanelId do
-    if id<>cPaneNone then
+    if id<>TAppPanelId.None then
       with AppPanels[id] do
       begin
         PanelTitle.Color:= ToolbarMain.Color;

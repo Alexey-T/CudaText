@@ -8,6 +8,7 @@ Copyright (c) Alexey Torgashin
 unit proc_panelhost;
 
 {$mode objfpc}{$H+}
+{$ScopedEnums on}
 
 interface
 
@@ -20,9 +21,9 @@ uses
 
 type
   TAppPanelId = (
-    cPaneNone,
-    cPaneSide,
-    cPaneOut
+    None,
+    Side,
+    Btm
     );
 
 type
@@ -656,13 +657,13 @@ var
 initialization
 
   for id in TAppPanelId do
-    if id<>cPaneNone then
+    if id<>TAppPanelId.None then
       AppPanels[id]:= TAppPanelHost.Create;
 
 finalization
 
   for id in TAppPanelId do
-    if id<>cPaneNone then
+    if id<>TAppPanelId.None then
       FreeAndNil(AppPanels[id]);
 
 end.

@@ -50,7 +50,7 @@ begin
   Frame:= CurrentFrame;
   if Frame=nil then exit;
 
-  if not AppPanels[cPaneOut].Visible then
+  if not AppPanels[TAppPanelId.Btm].Visible then
     Frame.SetFocus;
 
   if Frame.IsCaretInViewBeforeToggle then

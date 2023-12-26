@@ -202,9 +202,9 @@ begin
 
         case sectionId of
           TAppInfSection.Sidebar:
-            PanelId:= cPaneSide;
+            PanelId:= TAppPanelId.Side;
           TAppInfSection.Bottombar:
-            PanelId:= cPaneOut;
+            PanelId:= TAppPanelId.Btm;
           else
             Continue;
         end;

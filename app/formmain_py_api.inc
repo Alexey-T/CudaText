@@ -5424,7 +5424,7 @@ begin
             Sep.GetItemStr(StrFilename); //icon filename
 
             fmMain.DisableAutoSizing; //fix horizontal twitch of main Groups
-            ok:= AppPanels[cPaneSide].Add(
+            ok:= AppPanels[TAppPanelId.Side].Add(
               StrCaption,
               fmMain.DoSidebar_FilenameToImageIndex(StrCaption, StrFilename),
               StrToInt64Def(StrIndex, 0),
@@ -5442,32 +5442,32 @@ begin
             Sep.GetItemInt(i, -1); //imageindex
             Sep.GetItemStr(StrIndex); //hint
 
-            ok:= AppPanels[cPaneSide].SetProp(StrCaption, i, StrIndex);
+            ok:= AppPanels[TAppPanelId.Side].SetProp(StrCaption, i, StrIndex);
             Result:= PyBool_FromLong(Ord(ok));
           end;
 
         APP_PROC_SIDEPANEL_REMOVE:
           begin
             StrCaption:= Str;
-            ok:= AppPanels[cPaneSide].Delete(StrCaption);
+            ok:= AppPanels[TAppPanelId.Side].Delete(StrCaption);
             Result:= PyBool_FromLong(Ord(ok));
           end;
 
         APP_PROC_SIDEPANEL_ACTIVATE:
           begin
             SSplitByChar(Str, ',', Str1, Str2);
-            ok:= AppPanels[cPaneSide].UpdatePanels(Str1, AppStrToBool(Str2), true);
+            ok:= AppPanels[TAppPanelId.Side].UpdatePanels(Str1, AppStrToBool(Str2), true);
             Result:= PyBool_FromLong(Ord(ok));
           end;
 
         APP_PROC_SIDEPANEL_ENUM_ALL:
           begin
-            Result:= PyHelper_EnumSidebar(fmMain.ToolbarSideTop, AppPanels[cPaneSide]);
+            Result:= PyHelper_EnumSidebar(fmMain.ToolbarSideTop, AppPanels[TAppPanelId.Side]);
           end;
 
         APP_PROC_SIDEPANEL_GET_CONTROL:
           begin
-            Num64:= AppPanels[cPaneSide].CaptionToControlHandle(Str);
+            Num64:= AppPanels[TAppPanelId.Side].CaptionToControlHandle(Str);
             if Num64<>0 then
               Result:= PyLong_FromLongLong(Num64)
             else
@@ -5476,7 +5476,7 @@ begin
 
         APP_PROC_SIDEPANEL_GET:
           begin
-            Str:= AppPanels[cPaneSide].LastActivePanel;
+            Str:= AppPanels[TAppPanelId.Side].LastActivePanel;
             Result:= PyUnicodeFromString(Str);
           end;
 
@@ -5488,7 +5488,7 @@ begin
         //-------------------
         APP_PROC_BOTTOMPANEL_GET_CONTROL:
           begin
-            Num64:= AppPanels[cPaneOut].CaptionToControlHandle(Str);
+            Num64:= AppPanels[TAppPanelId.Btm].CaptionToControlHandle(Str);
             if Num64<>0 then
               Result:= PyLong_FromLongLong(Num64)
             else
@@ -5503,7 +5503,7 @@ begin
             Sep.GetItemStr(StrFilename); //icon filename
 
             fmMain.DisableAutoSizing; //fix horizontal twitch of main Groups
-            ok:= AppPanels[cPaneOut].Add(
+            ok:= AppPanels[TAppPanelId.Btm].Add(
               StrCaption,
               fmMain.DoSidebar_FilenameToImageIndex(StrCaption, StrFilename),
               StrToInt64Def(StrIndex, 0),
@@ -5521,32 +5521,32 @@ begin
             Sep.GetItemInt(i, -1); //imageindex
             Sep.GetItemStr(StrIndex); //hint
 
-            ok:= AppPanels[cPaneOut].SetProp(StrCaption, i, StrIndex);
+            ok:= AppPanels[TAppPanelId.Btm].SetProp(StrCaption, i, StrIndex);
             Result:= PyBool_FromLong(Ord(ok));
           end;
 
         APP_PROC_BOTTOMPANEL_REMOVE:
           begin
             StrCaption:= Str;
-            ok:= AppPanels[cPaneOut].Delete(StrCaption);
+            ok:= AppPanels[TAppPanelId.Btm].Delete(StrCaption);
             Result:= PyBool_FromLong(Ord(ok));
           end;
 
         APP_PROC_BOTTOMPANEL_ACTIVATE:
           begin
             SSplitByChar(Str, ',', Str1, Str2);
-            ok:= AppPanels[cPaneOut].UpdatePanels(Str1, AppStrToBool(Str2), true);
+            ok:= AppPanels[TAppPanelId.Btm].UpdatePanels(Str1, AppStrToBool(Str2), true);
             Result:= PyBool_FromLong(Ord(ok));
           end;
 
         APP_PROC_BOTTOMPANEL_ENUM_ALL:
           begin
-            Result:= PyHelper_EnumSidebar(fmMain.ToolbarSideLow, AppPanels[cPaneOut]);
+            Result:= PyHelper_EnumSidebar(fmMain.ToolbarSideLow, AppPanels[TAppPanelId.Btm]);
           end;
 
         APP_PROC_BOTTOMPANEL_GET:
           begin
-            Str:= AppPanels[cPaneOut].LastActivePanel;
+            Str:= AppPanels[TAppPanelId.Btm].LastActivePanel;
             Result:= PyUnicodeFromString(Str);
           end;
 
@@ -5631,22 +5631,22 @@ begin
 
         APP_PROC_SHOW_SIDEPANEL_SET:
           begin
-            AppPanels[cPaneSide].Visible:= ParamBool;
+            AppPanels[TAppPanelId.Side].Visible:= ParamBool;
             Result:= ReturnNone;
           end;
         APP_PROC_SHOW_SIDEPANEL_GET:
           begin
-            Result:= PyBool_FromLong(Ord(AppPanels[cPaneSide].Visible));
+            Result:= PyBool_FromLong(Ord(AppPanels[TAppPanelId.Side].Visible));
           end;
 
         APP_PROC_SHOW_BOTTOMPANEL_SET:
           begin
-            AppPanels[cPaneOut].Visible:= ParamBool;
+            AppPanels[TAppPanelId.Btm].Visible:= ParamBool;
             Result:= ReturnNone;
           end;
         APP_PROC_SHOW_BOTTOMPANEL_GET:
           begin
-            Result:= PyBool_FromLong(Ord(AppPanels[cPaneOut].Visible));
+            Result:= PyBool_FromLong(Ord(AppPanels[TAppPanelId.Btm].Visible));
           end;
 
         APP_PROC_SHOW_TABS_SET:
@@ -5711,22 +5711,22 @@ begin
 
         APP_PROC_FLOAT_SIDE_SET:
           begin
-            AppPanels[cPaneSide].Floating:= ParamBool;
+            AppPanels[TAppPanelId.Side].Floating:= ParamBool;
             Result:= ReturnNone;
           end;
         APP_PROC_FLOAT_SIDE_GET:
           begin
-            Result:= PyBool_FromLong(Ord(AppPanels[cPaneSide].Floating));
+            Result:= PyBool_FromLong(Ord(AppPanels[TAppPanelId.Side].Floating));
           end;
 
         APP_PROC_FLOAT_BOTTOM_SET:
           begin
-            AppPanels[cPaneOut].Floating:= ParamBool;
+            AppPanels[TAppPanelId.Btm].Floating:= ParamBool;
             Result:= ReturnNone;
           end;
         APP_PROC_FLOAT_BOTTOM_GET:
           begin
-            Result:= PyBool_FromLong(Ord(AppPanels[cPaneOut].Floating));
+            Result:= PyBool_FromLong(Ord(AppPanels[TAppPanelId.Btm].Floating));
           end;
 
         APP_PROC_COORD_WINDOW_GET:
