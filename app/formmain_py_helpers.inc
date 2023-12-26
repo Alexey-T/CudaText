@@ -45,7 +45,7 @@ begin
 end;
 
 
-procedure TfmMain.DoPyCommand_ByPluginIndex(CmdItem: TAppCommandInfo; AInvoke: TATCommandInvoke);
+procedure TfmMain.DoPyCommand_ByCommandInfo(CmdItem: TAppCommandInfo; AInvoke: TATCommandInvoke);
 var
   F: TEditorFrame;
   CurLexer: string;

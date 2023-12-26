@@ -724,11 +724,11 @@ begin
 
     cmdFirstPluginCommand..
     cmdLastPluginCommand:
-      DoPyCommand_ByPluginIndex(TAppCommandInfo(AppCommandList[CmdCode-cmdFirstPluginCommand]), CmdInvoke);
+      DoPyCommand_ByCommandInfo(TAppCommandInfo(AppCommandList[CmdCode-cmdFirstPluginCommand]), CmdInvoke);
 
     cmdFirstPluginSubCommand..
     cmdLastPluginSubCommand:
-      DoPyCommand_ByPluginIndex(TAppCommandInfo(AppCommand2List[CmdCode-cmdFirstPluginSubCommand]), CmdInvoke);
+      DoPyCommand_ByCommandInfo(TAppCommandInfo(AppCommand2List[CmdCode-cmdFirstPluginSubCommand]), CmdInvoke);
 
     cmdFirstFileCommand..
     cmdLastFileCommand:
