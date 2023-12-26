@@ -83,17 +83,19 @@ type
     tcrFromPlugin
     );
 
+  {$ScopedEnums on}
   TAppStatusbarUpdateReason = (
-    sbrCaret,
-    sbrZoom,
-    sbrInsOvr,
-    sbrLexer,
-    sbrFocusEnter,
-    sbrFileOpen,
-    sbrFileReload,
-    sbrViewerScroll,
-    sbrPictureResize
+    Caret,
+    Zoom,
+    InsOvr,
+    Lexer,
+    FocusEnter,
+    FileOpen,
+    FileReload,
+    ViewerScroll,
+    PictureResize
     );
+  {$ScopedEnums off}
 
   TAppFrameStatusbarEvent = procedure(Sender: TObject; AReason: TAppStatusbarUpdateReason) of object;
 
@@ -942,7 +944,7 @@ begin
     Ed.AdapterForHilite:= Ada;
     FLexerBackup[EdIndex]:= nil;
     Ed.Update;
-    DoOnUpdateStatusbar(sbrLexer); //replace lexer name 'none' to restored one
+    DoOnUpdateStatusbar(TAppStatusbarUpdateReason.Lexer); //replace lexer name 'none' to restored one
   end;
 end;
 
@@ -1070,7 +1072,7 @@ begin
   if Assigned(FOnEditorChangeCaretPos) then
     FOnEditorChangeCaretPos(Sender);
 
-  DoOnUpdateStatusbar(sbrCaret);
+  DoOnUpdateStatusbar(TAppStatusbarUpdateReason.Caret);
 
   //support Primary Selection on Linux
   {$ifdef linux}
@@ -1796,7 +1798,7 @@ end;
 
 procedure TEditorFrame.EditorOnChangeZoom(Sender: TObject);
 begin
-  DoOnUpdateStatusbar(sbrZoom);
+  DoOnUpdateStatusbar(TAppStatusbarUpdateReason.Zoom);
   DoPyEventState(Sender as TATSynEdit, EDSTATE_ZOOM);
 end;
 
@@ -1837,7 +1839,7 @@ begin
   if IsEd2<>FActiveSecondaryEd then
   begin
     FActiveSecondaryEd:= IsEd2;
-    DoOnUpdateStatusbar(sbrFocusEnter);
+    DoOnUpdateStatusbar(TAppStatusbarUpdateReason.FocusEnter);
   end;
 
   if Assigned(FOnFocusEditor) then
@@ -2032,7 +2034,7 @@ begin
     cCommand_ToggleOverwrite:
       begin
         OnMsgStatus(Self, msgStatusbarCellInsOvr[Ed.ModeOverwrite]);
-        DoOnUpdateStatusbar(sbrInsOvr);
+        DoOnUpdateStatusbar(TAppStatusbarUpdateReason.InsOvr);
         exit;
       end;
 
@@ -2789,7 +2791,7 @@ end;
 
 procedure TEditorFrame.DoImageboxImageResize(Sender: TObject);
 begin
-  DoOnUpdateStatusbar(sbrPictureResize);
+  DoOnUpdateStatusbar(TAppStatusbarUpdateReason.PictureResize);
 end;
 
 
@@ -2914,7 +2916,7 @@ begin
       AOpenMode);
   end;
 
-  DoOnUpdateStatusbar(sbrFileOpen);
+  DoOnUpdateStatusbar(TAppStatusbarUpdateReason.FileOpen);
 end;
 
 procedure TEditorFrame.HandleProgressButtonCancel(Sender: TObject);
@@ -3420,7 +3422,7 @@ begin
     TATEditorActionIfFolded.Ignore
     );
 
-  DoOnUpdateStatusbar(sbrFileReload);
+  DoOnUpdateStatusbar(TAppStatusbarUpdateReason.FileReload);
 
   //fire 'on_change_slow' and disable its timer
   TimerChangeTimer(nil);
@@ -4862,7 +4864,7 @@ end;
 
 procedure TEditorFrame.BinaryOnScroll(Sender: TObject);
 begin
-  DoOnUpdateStatusbar(sbrViewerScroll);
+  DoOnUpdateStatusbar(TAppStatusbarUpdateReason.ViewerScroll);
 end;
 
 procedure TEditorFrame.BinaryOnProgress(const ACurrentPos,

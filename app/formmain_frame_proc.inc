@@ -46,10 +46,10 @@ procedure TfmMain.FrameOnUpdateStatusbar(Sender: TObject; AReason: TAppStatusbar
 begin
   case AReason of
     //sbrCaret: don't add here, it makes editor repaint slower on mouse selection; issue #4917
-    sbrViewerScroll,
-    sbrInsOvr,
-    sbrZoom,
-    sbrPictureResize:
+    TAppStatusbarUpdateReason.ViewerScroll,
+    TAppStatusbarUpdateReason.InsOvr,
+    TAppStatusbarUpdateReason.Zoom,
+    TAppStatusbarUpdateReason.PictureResize:
       begin
         //some events only need the fast update of the statusbar
         UpdateStatusbar_RealWork;
