@@ -116,7 +116,7 @@ function DoApplyLexerStylesMap(an: TecSyntAnalyzer; out anNotCorrect: TecSyntAna
 var
   value: string;
   st: TecSyntaxFormat;
-  iStyle: TAppThemeStyleId;
+  iStyle: TAppThemeStyle;
   anSub: TecSyntAnalyzer;
   NewThemeName: string;
   i: integer;
@@ -180,7 +180,7 @@ function DoDialogLexerStylesMap(an: TecSyntAnalyzer): boolean;
 var
   F: TfmLexerStyleMap;
   anNotCorrent: TecSyntAnalyzer;
-  iStyle: TAppThemeStyleId;
+  iStyle: TAppThemeStyle;
   st: TecSyntaxFormat;
   i: integer;
 begin

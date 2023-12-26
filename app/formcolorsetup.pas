@@ -100,7 +100,7 @@ procedure TfmColorSetup.UpdateList;
 var
   st: TecSyntaxFormat;
   iColor: TAppThemeColorId;
-  iStyle: TAppThemeStyleId;
+  iStyle: TAppThemeStyle;
   NPrevIndex: integer;
 begin
   NPrevIndex:= List.ItemIndex;

@@ -351,7 +351,7 @@ end;
 
 function PyHelper_GetThemeDict_Syntax: PPyObject;
 var
-  iStyle: TAppThemeStyleId;
+  iStyle: TAppThemeStyle;
   St: TecSyntaxFormat;
 begin
   with AppPython.Engine do

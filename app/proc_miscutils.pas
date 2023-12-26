@@ -699,16 +699,16 @@ begin
   V.TextColorURL:= GetAppColor(apclEdLinks);
   V.TextColorHi:= GetAppColor(apclEdMarkers);
 
-  St:= GetAppStyle(apstSectionBG1);
+  St:= GetAppStyle(TAppThemeStyle.SectionBG1);
   V.TextColorHexBack:= St.BgColor;
 
-  St:= GetAppStyle(apstId);
+  St:= GetAppStyle(TAppThemeStyle.Id);
   V.TextColorHex:= St.Font.Color;
 
-  St:= GetAppStyle(apstId1);
+  St:= GetAppStyle(TAppThemeStyle.Id1);
   V.TextColorHex2:= St.Font.Color;
 
-  St:= GetAppStyle(apstPale1);
+  St:= GetAppStyle(TAppThemeStyle.Pale1);
   V.TextColorLines:= St.Font.Color;
 end;
 

@@ -148,65 +148,67 @@ const
     ];
 
 type
-  TAppThemeStyleId = (
-    apstId,
-    apstId1,
-    apstId2,
-    apstId3,
-    apstId4,
-    apstIdKeyword,
-    apstIdVar,
-    apstIdBad,
-    apstString,
-    apstString2,
-    apstString3,
-    apstSymbol,
-    apstSymbol2,
-    apstSymbolBad,
-    apstComment,
-    apstComment2,
-    apstCommentDoc,
-    apstNumber,
-    apstLabel,
-    apstColor,
-    apstIncludeBG1,
-    apstIncludeBG2,
-    apstIncludeBG3,
-    apstIncludeBG4,
-    apstSectionBG1,
-    apstSectionBG2,
-    apstSectionBG3,
-    apstSectionBG4,
-    apstBracketBG,
-    apstCurBlockBG,
-    apstSeparLine,
-    apstTagBound,
-    apstTagId,
-    apstTagIdBad,
-    apstTagProp,
-    apstTagPropBad,
-    apstTagInclude,
-    apstLightBG1,
-    apstLightBG2,
-    apstLightBG3,
-    apstLightBG4,
-    apstLightBG5,
-    apstPale1,
-    apstPale2,
-    apstPale3,
+  {$ScopedEnums on}
+  TAppThemeStyle = (
+    Id,
+    Id1,
+    Id2,
+    Id3,
+    Id4,
+    IdKeyword,
+    IdVar,
+    IdBad,
+    String_,
+    String2,
+    String3,
+    Symbol,
+    Symbol2,
+    SymbolBad,
+    Comment,
+    Comment2,
+    CommentDoc,
+    Number,
+    Label_,
+    Color,
+    IncludeBG1,
+    IncludeBG2,
+    IncludeBG3,
+    IncludeBG4,
+    SectionBG1,
+    SectionBG2,
+    SectionBG3,
+    SectionBG4,
+    BracketBG,
+    CurBlockBG,
+    SeparLine,
+    TagBound,
+    TagId,
+    TagIdBad,
+    TagProp,
+    TagPropBad,
+    TagInclude,
+    LightBG1,
+    LightBG2,
+    LightBG3,
+    LightBG4,
+    LightBG5,
+    Pale1,
+    Pale2,
+    Pale3,
     //styles below must not be saved to file, see apstLastStyle
-    apstTextBold,
-    apstTextItalic,
-    apstTextBoldItalic,
-    apstTextCross,
-    apstTextCrossBold,
-    apstTextCrossItalic,
-    apstTextCrossBoldItalic
+    TextBold,
+    TextItalic,
+    TextBoldItalic,
+    TextCross,
+    TextCrossBold,
+    TextCrossItalic,
+    TextCrossBoldItalic
     );
+  {$ScopedEnums off}
 
 const
   //saving theme to file considers it, to skip last items 'bold'/'italic'/etc
-  apstLastStyle = Pred(apstTextBold);
+  apstLastStyle = Pred(TAppThemeStyle.TextBold);
 
 type
   TAppThemeColor = record
@@ -216,14 +218,14 @@ type
 
   TAppTheme = record
     Colors: array[TAppThemeColorId] of TAppThemeColor;
-    Styles: array[TAppThemeStyleId] of TecSyntaxFormat;
+    Styles: array[TAppThemeStyle] of TecSyntaxFormat;
     //trailing styles (bold, italic, bold+italic, etc) must be synced with 'Id' style
     procedure UpdateBoldAndItalicColors;
   end;
 
 var
   AppTheme: TAppTheme;
-  AppHiAll_ThemeStyleId: TAppThemeStyleId = apstSeparLine;
+  AppHiAll_ThemeStyleId: TAppThemeStyle = TAppThemeStyle.SeparLine;
 
 procedure AppThemeInit_UI(var D: TAppTheme);
 procedure AppThemeInit_Syntax(var D: TAppTheme);
@@ -232,7 +234,7 @@ procedure AppThemeLoadFromFile(const AFileName: string; var D: TAppTheme; IsThem
 procedure AppThemeSaveToFile(const AFileName: string; const D: TAppTheme; IsThemeUI: boolean);
 
 function GetAppColor(id: TAppThemeColorId): TColor;
-function GetAppStyle(id: TAppThemeStyleId): TecSyntaxFormat; inline;
+function GetAppStyle(id: TAppThemeStyle): TecSyntaxFormat; inline;
 function FindAppColorByName(const AName: string; ADefaultColor: TColor): TColor;
 
 implementation
@@ -244,9 +246,9 @@ uses
 procedure AppThemeFree(var D: TAppTheme);
 var
   St: TecSyntaxFormat;
-  id: TAppThemeStyleId;
+  id: TAppThemeStyle;
 begin
-  for id:= High(TAppThemeStyleId) downto Low(TAppThemeStyleId) do
+  for id:= High(TAppThemeStyle) downto Low(TAppThemeStyle) do
   begin
     St:= D.Styles[id];
     if Assigned(St) then
@@ -281,7 +283,7 @@ var
 var
   st: TecSyntaxFormat;
   iColor: TAppThemeColorId;
-  iStyle: TAppThemeStyleId;
+  iStyle: TAppThemeStyle;
 begin
   if not FileExists(AFileName) then
   begin
@@ -461,7 +463,7 @@ end;
 
 procedure AppThemeInit_Syntax(var D: TAppTheme);
   //
-  procedure SetStyle(AId: TAppThemeStyleId; const AName: string;
+  procedure SetStyle(AId: TAppThemeStyle; const AName: string;
     AColorFont, AColorBg, AColorBorder: TColor;
     AFontStyle: TFontStyles;
     ABorderLeft, ABorderRight, ABorderUp, ABorderDown: TecBorderLineType;
@@ -489,77 +491,77 @@ procedure AppThemeInit_Syntax(var D: TAppTheme);
   end;
   //
 begin
-  SetStyle(apstId, 'Id', nColorText, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
-  SetStyle(apstId1, 'Id1', clNavy, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
-  SetStyle(apstId2, 'Id2', clPurple, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
-  SetStyle(apstId3, 'Id3', clOlive, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
-  SetStyle(apstId4, 'Id4', clBlue, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
-  SetStyle(apstIdKeyword, 'IdKeyword', clBlack, clNone, clNone, [fsBold], blNone, blNone, blNone, blNone, ftFontAttr);
-  SetStyle(apstIdVar, 'IdVar', clGreen, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
-  SetStyle(apstIdBad, 'IdBad', clBlack, clNone, clRed, [], blNone, blNone, blNone, blSolid, ftFontAttr);
+  SetStyle(TAppThemeStyle.Id, 'Id', nColorText, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(TAppThemeStyle.Id1, 'Id1', clNavy, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(TAppThemeStyle.Id2, 'Id2', clPurple, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(TAppThemeStyle.Id3, 'Id3', clOlive, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(TAppThemeStyle.Id4, 'Id4', clBlue, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(TAppThemeStyle.IdKeyword, 'IdKeyword', clBlack, clNone, clNone, [fsBold], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(TAppThemeStyle.IdVar, 'IdVar', clGreen, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(TAppThemeStyle.IdBad, 'IdBad', clBlack, clNone, clRed, [], blNone, blNone, blNone, blSolid, ftFontAttr);
 
-  SetStyle(apstString, 'String', clTeal, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
-  SetStyle(apstString2, 'String2', clOlive, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
-  SetStyle(apstString3, 'String3', $C8C040, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(TAppThemeStyle.String_, 'String', clTeal, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(TAppThemeStyle.String2, 'String2', clOlive, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(TAppThemeStyle.String3, 'String3', $C8C040, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
 
-  SetStyle(apstSymbol, 'Symbol', clMaroon, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
-  SetStyle(apstSymbol2, 'Symbol2', $0000C0, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
-  SetStyle(apstSymbolBad, 'SymbolBad', clMaroon, clNone, clRed, [], blNone, blNone, blNone, blSolid, ftFontAttr);
+  SetStyle(TAppThemeStyle.Symbol, 'Symbol', clMaroon, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(TAppThemeStyle.Symbol2, 'Symbol2', $0000C0, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(TAppThemeStyle.SymbolBad, 'SymbolBad', clMaroon, clNone, clRed, [], blNone, blNone, blNone, blSolid, ftFontAttr);
 
   //don't use Italic for comments, coz comments often have Unicode
-  SetStyle(apstComment, 'Comment', clGray, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
-  SetStyle(apstComment2, 'Comment2', $00C080, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
-  SetStyle(apstCommentDoc, 'CommentDoc', $809070, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(TAppThemeStyle.Comment, 'Comment', clGray, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(TAppThemeStyle.Comment2, 'Comment2', $00C080, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(TAppThemeStyle.CommentDoc, 'CommentDoc', $809070, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
 
-  SetStyle(apstNumber, 'Number', clNavy, clNone, clNone, [fsBold], blNone, blNone, blNone, blNone, ftFontAttr);
-  SetStyle(apstLabel, 'Label', $406090, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
-  SetStyle(apstColor, 'Color', $0080C0, clNone, clNone, [fsBold], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(TAppThemeStyle.Number, 'Number', clNavy, clNone, clNone, [fsBold], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(TAppThemeStyle.Label_, 'Label', $406090, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(TAppThemeStyle.Color, 'Color', $0080C0, clNone, clNone, [fsBold], blNone, blNone, blNone, blNone, ftFontAttr);
 
-  SetStyle(apstIncludeBG1, 'IncludeBG1', clBlack, clMoneyGreen, clNone, [], blNone, blNone, blNone, blNone, ftBackGround);
-  SetStyle(apstIncludeBG2, 'IncludeBG2', clBlack, $F0E0C0, clNone, [], blNone, blNone, blNone, blNone, ftBackGround);
-  SetStyle(apstIncludeBG3, 'IncludeBG3', clBlack, $F0B0F0, clNone, [], blNone, blNone, blNone, blNone, ftBackGround);
-  SetStyle(apstIncludeBG4, 'IncludeBG4', clBlack, $B0F0F0, clNone, [], blNone, blNone, blNone, blNone, ftBackGround);
+  SetStyle(TAppThemeStyle.IncludeBG1, 'IncludeBG1', clBlack, clMoneyGreen, clNone, [], blNone, blNone, blNone, blNone, ftBackGround);
+  SetStyle(TAppThemeStyle.IncludeBG2, 'IncludeBG2', clBlack, $F0E0C0, clNone, [], blNone, blNone, blNone, blNone, ftBackGround);
+  SetStyle(TAppThemeStyle.IncludeBG3, 'IncludeBG3', clBlack, $F0B0F0, clNone, [], blNone, blNone, blNone, blNone, ftBackGround);
+  SetStyle(TAppThemeStyle.IncludeBG4, 'IncludeBG4', clBlack, $B0F0F0, clNone, [], blNone, blNone, blNone, blNone, ftBackGround);
 
-  SetStyle(apstSectionBG1, 'SectionBG1', clBlack, clCream, clNone, [], blNone, blNone, blNone, blNone, ftBackGround);
-  SetStyle(apstSectionBG2, 'SectionBG2', clBlack, $E0FFE0, clNone, [], blNone, blNone, blNone, blNone, ftBackGround);
-  SetStyle(apstSectionBG3, 'SectionBG3', clBlack, $F0F0E0, clNone, [], blNone, blNone, blNone, blNone, ftBackGround);
-  SetStyle(apstSectionBG4, 'SectionBG4', clBlack, $FFE0FF, clNone, [], blNone, blNone, blNone, blNone, ftBackGround);
+  SetStyle(TAppThemeStyle.SectionBG1, 'SectionBG1', clBlack, clCream, clNone, [], blNone, blNone, blNone, blNone, ftBackGround);
+  SetStyle(TAppThemeStyle.SectionBG2, 'SectionBG2', clBlack, $E0FFE0, clNone, [], blNone, blNone, blNone, blNone, ftBackGround);
+  SetStyle(TAppThemeStyle.SectionBG3, 'SectionBG3', clBlack, $F0F0E0, clNone, [], blNone, blNone, blNone, blNone, ftBackGround);
+  SetStyle(TAppThemeStyle.SectionBG4, 'SectionBG4', clBlack, $FFE0FF, clNone, [], blNone, blNone, blNone, blNone, ftBackGround);
 
-  SetStyle(apstBracketBG, 'BracketBG', clBlack, clMoneyGreen, clGray, [], blSolid, blSolid, blSolid, blSolid, ftFontAttr);
-  SetStyle(apstCurBlockBG, 'CurBlockBG', clBlack, $E8E8E8, clNone, [], blNone, blNone, blNone, blNone, ftBackGround);
-  SetStyle(apstSeparLine, 'SeparLine', clBlack, $00E000, clNone, [], blNone, blNone, blNone, blNone, ftBackGround);
+  SetStyle(TAppThemeStyle.BracketBG, 'BracketBG', clBlack, clMoneyGreen, clGray, [], blSolid, blSolid, blSolid, blSolid, ftFontAttr);
+  SetStyle(TAppThemeStyle.CurBlockBG, 'CurBlockBG', clBlack, $E8E8E8, clNone, [], blNone, blNone, blNone, blNone, ftBackGround);
+  SetStyle(TAppThemeStyle.SeparLine, 'SeparLine', clBlack, $00E000, clNone, [], blNone, blNone, blNone, blNone, ftBackGround);
 
-  SetStyle(apstTagBound, 'TagBound', clGray, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
-  SetStyle(apstTagId, 'TagId', $F06060, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
-  SetStyle(apstTagIdBad, 'TagIdBad', $F06060, clNone, clRed, [], blNone, blNone, blNone, blWavyLine, ftFontAttr);
-  SetStyle(apstTagProp, 'TagProp', $40A040, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
-  SetStyle(apstTagPropBad, 'TagPropBad', $40A040, clNone, clRed, [], blNone, blNone, blNone, blWavyLine, ftFontAttr);
-  SetStyle(apstTagInclude, 'TagInclude', clOlive, clNone, clNone, [fsBold], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(TAppThemeStyle.TagBound, 'TagBound', clGray, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(TAppThemeStyle.TagId, 'TagId', $F06060, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(TAppThemeStyle.TagIdBad, 'TagIdBad', $F06060, clNone, clRed, [], blNone, blNone, blNone, blWavyLine, ftFontAttr);
+  SetStyle(TAppThemeStyle.TagProp, 'TagProp', $40A040, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(TAppThemeStyle.TagPropBad, 'TagPropBad', $40A040, clNone, clRed, [], blNone, blNone, blNone, blWavyLine, ftFontAttr);
+  SetStyle(TAppThemeStyle.TagInclude, 'TagInclude', clOlive, clNone, clNone, [fsBold], blNone, blNone, blNone, blNone, ftFontAttr);
 
-  SetStyle(apstLightBG1, 'LightBG1', clBlack, $8080F0, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
-  SetStyle(apstLightBG2, 'LightBG2', clBlack, $60F0F0, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
-  SetStyle(apstLightBG3, 'LightBG3', clBlack, $80F080, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
-  SetStyle(apstLightBG4, 'LightBG4', clBlack, $F08080, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
-  SetStyle(apstLightBG5, 'LightBG5', clBlack, $C0C0B0, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(TAppThemeStyle.LightBG1, 'LightBG1', clBlack, $8080F0, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(TAppThemeStyle.LightBG2, 'LightBG2', clBlack, $60F0F0, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(TAppThemeStyle.LightBG3, 'LightBG3', clBlack, $80F080, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(TAppThemeStyle.LightBG4, 'LightBG4', clBlack, $F08080, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(TAppThemeStyle.LightBG5, 'LightBG5', clBlack, $C0C0B0, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
 
-  SetStyle(apstPale1, 'Pale1', $A0E0E0, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
-  SetStyle(apstPale2, 'Pale2', $E0E0A0, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
-  SetStyle(apstPale3, 'Pale3', $E0E0E0, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(TAppThemeStyle.Pale1, 'Pale1', $A0E0E0, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(TAppThemeStyle.Pale2, 'Pale2', $E0E0A0, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(TAppThemeStyle.Pale3, 'Pale3', $E0E0E0, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
 
-  SetStyle(apstTextBold, 'TextBold', clBlack, clNone, clNone, [fsBold], blNone, blNone, blNone, blNone, ftFontAttr);
-  SetStyle(apstTextItalic, 'TextItalic', clBlack, clNone, clNone, [fsItalic], blNone, blNone, blNone, blNone, ftFontAttr);
-  SetStyle(apstTextBoldItalic, 'TextBoldItalic', clBlack, clNone, clNone, [fsBold, fsItalic], blNone, blNone, blNone, blNone, ftFontAttr);
-  SetStyle(apstTextCross, 'TextCross', clBlack, clNone, clNone, [fsStrikeOut], blNone, blNone, blNone, blNone, ftFontAttr);
-  SetStyle(apstTextCrossBold, 'TextCrossBold', clBlack, clNone, clNone, [fsBold, fsStrikeOut], blNone, blNone, blNone, blNone, ftFontAttr);
-  SetStyle(apstTextCrossItalic, 'TextCrossItalic', clBlack, clNone, clNone, [fsItalic, fsStrikeOut], blNone, blNone, blNone, blNone, ftFontAttr);
-  SetStyle(apstTextCrossBoldItalic, 'TextCrossBoldItalic', clBlack, clNone, clNone, [fsBold, fsItalic, fsStrikeOut], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(TAppThemeStyle.TextBold, 'TextBold', clBlack, clNone, clNone, [fsBold], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(TAppThemeStyle.TextItalic, 'TextItalic', clBlack, clNone, clNone, [fsItalic], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(TAppThemeStyle.TextBoldItalic, 'TextBoldItalic', clBlack, clNone, clNone, [fsBold, fsItalic], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(TAppThemeStyle.TextCross, 'TextCross', clBlack, clNone, clNone, [fsStrikeOut], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(TAppThemeStyle.TextCrossBold, 'TextCrossBold', clBlack, clNone, clNone, [fsBold, fsStrikeOut], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(TAppThemeStyle.TextCrossItalic, 'TextCrossItalic', clBlack, clNone, clNone, [fsItalic, fsStrikeOut], blNone, blNone, blNone, blNone, ftFontAttr);
+  SetStyle(TAppThemeStyle.TextCrossBoldItalic, 'TextCrossBoldItalic', clBlack, clNone, clNone, [fsBold, fsItalic, fsStrikeOut], blNone, blNone, blNone, blNone, ftFontAttr);
 end;
 
 procedure AppThemeSaveToFile(const AFileName: string; const D: TAppTheme; IsThemeUI: boolean);
 var
   cfg: TJSONConfig;
   iColor: TAppThemeColorId;
-  iStyle: TAppThemeStyleId;
+  iStyle: TAppThemeStyle;
   st: TecSyntaxFormat;
 begin
   cfg:= TJSONConfig.Create(nil);
@@ -602,7 +604,7 @@ begin
     Result:= AppTheme.Colors[id].Color;
 end;
 
-function GetAppStyle(id: TAppThemeStyleId): TecSyntaxFormat; inline;
+function GetAppStyle(id: TAppThemeStyle): TecSyntaxFormat; inline;
 begin
   Result:= AppTheme.Styles[id];
 end;
@@ -610,9 +612,9 @@ end;
 procedure TAppTheme.UpdateBoldAndItalicColors;
 var
   ColorOfId: TColor;
-  iStyle: TAppThemeStyleId;
+  iStyle: TAppThemeStyle;
 begin
-  ColorOfId:= Styles[apstId].Font.Color;
+  ColorOfId:= Styles[TAppThemeStyle.Id].Font.Color;
   for iStyle:= Succ(apstLastStyle) to High(iStyle) do
     Styles[iStyle].Font.Color:= ColorOfId;
 end;

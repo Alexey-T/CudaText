@@ -3676,7 +3676,7 @@ end;
 
 function LiteLexer_GetStyleHash(const AStyleName: string): integer;
 var
-  iStyle: TAppThemeStyleId;
+  iStyle: TAppThemeStyle;
 begin
   Result:= -1;
   for iStyle:= Low(iStyle) to High(iStyle) do
@@ -3689,7 +3689,7 @@ var
   st: TecSyntaxFormat;
 begin
   if AStyleHash<0 then exit;
-  st:= AppTheme.Styles[TAppThemeStyleId(AStyleHash)];
+  st:= AppTheme.Styles[TAppThemeStyle(AStyleHash)];
   ApplyPartStyleFromEcontrolStyle(APart, st);
 end;
 

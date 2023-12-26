@@ -1787,7 +1787,7 @@ begin
     TEditorBracketAction.Hilite:
       begin
         InitLinePart(LinePart);
-        ApplyPartStyleFromEcontrolStyle(LinePart, GetAppStyle(apstBracketBG));
+        ApplyPartStyleFromEcontrolStyle(LinePart, GetAppStyle(TAppThemeStyle.BracketBG));
         Ed.Attribs.Add(
           Point(PosX, PosY),
           Point(1, 0),
@@ -1795,7 +1795,7 @@ begin
           @LinePart
           );
 
-        ApplyPartStyleFromEcontrolStyle(LinePart, GetAppStyle(apstBracketBG));
+        ApplyPartStyleFromEcontrolStyle(LinePart, GetAppStyle(TAppThemeStyle.BracketBG));
         Ed.Attribs.Add(
           Point(FoundX, FoundY),
           Point(1, 0),
@@ -1804,7 +1804,7 @@ begin
           );
 
         Decor:= Default(TATGutterDecorData);
-        StyleSymbol:= GetAppStyle(apstSymbol);
+        StyleSymbol:= GetAppStyle(TAppThemeStyle.Symbol);
         Decor.DeleteOnDelLine:= true;
         Decor.ImageIndex:= -1;
         Decor.Tag:= cEditorTagForBracket;
@@ -2410,7 +2410,7 @@ begin
 end;
 
 procedure EditorHighlightCharsInLine(Ed: TATSynEdit; AY: integer;
-  const AX: TATIntArray; AStyle: TAppThemeStyleId; ATag: integer);
+  const AX: TATIntArray; AStyle: TAppThemeStyle; ATag: integer);
 var
   LinePart: TATLinePart;
   i: integer;
@@ -2640,7 +2640,7 @@ begin
   begin
     for i:= 0 to High(Bads) do
       Dec(Bads[i]);
-    EditorHighlightCharsInLine(Ed, 0, Bads, apstSymbolBad, cBadRegexTag);
+    EditorHighlightCharsInLine(Ed, 0, Bads, TAppThemeStyle.SymbolBad, cBadRegexTag);
   end;
 end;
 

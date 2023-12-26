@@ -168,23 +168,23 @@ begin
   case ParseLine(Str) of
     TAppConsoleLineKind.Prompt:
       begin
-        fmt:= GetAppStyle(apstId2);
+        fmt:= GetAppStyle(TAppThemeStyle.Id2);
         AColorFont:= fmt.Font.Color;
         exit;
       end;
     TAppConsoleLineKind.Note:
       begin
-        fmt:= GetAppStyle(apstLightBG2);
+        fmt:= GetAppStyle(TAppThemeStyle.LightBG2);
         AColorBg:= fmt.BgColor;
-        fmt:= GetAppStyle(apstId);
+        fmt:= GetAppStyle(TAppThemeStyle.Id);
         AColorFont:= fmt.Font.Color;
         exit
       end;
     TAppConsoleLineKind.Error:
       begin
-        fmt:= GetAppStyle(apstLightBG1);
+        fmt:= GetAppStyle(TAppThemeStyle.LightBG1);
         AColorBg:= fmt.BgColor;
-        fmt:= GetAppStyle(apstId);
+        fmt:= GetAppStyle(TAppThemeStyle.Id);
         AColorFont:= fmt.Font.Color;
         exit
       end;
