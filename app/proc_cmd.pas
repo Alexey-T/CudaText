@@ -42,13 +42,13 @@ const
   cmdFirstAppCommand = 2500;
   cmdFirstLexerCommand = 6000;
   cmdLastLexerCommand = 6400-1;
-  cmdFirstPluginCommand = 6400;
-  cmdLastPluginCommand = 7900-1;
-  cmdFirstPluginSubCommand = 7900;
+  cmdFirstPluginCommand = Succ(cmdLastLexerCommand);
+  cmdLastPluginCommand = 8000-1;
+  cmdFirstPluginSubCommand = Succ(cmdLastPluginCommand);
   cmdLastPluginSubCommand = 8100-1;
-  cmdFirstFileCommand = 8100;
+  cmdFirstFileCommand = Succ(cmdLastPluginSubCommand);
   cmdLastFileCommand = 8800-1;
-  cmdFirstRecentCommand = 8800;
+  cmdFirstRecentCommand = Succ(cmdLastFileCommand);
   cmdLastRecentCommand = 9000-1;
   cmdLastAppCommand = cmdLastRecentCommand;
 
