@@ -1460,7 +1460,7 @@ For zip file (only first filename is checked for it), returns True only if zip f
 ** If it has "/donear", then app option "ui_tab_new_near_current" will be ignored, tab will be opened near the active one.
 ** If it has "/nozip", then .zip files will not be handled specially.
 ** If it has "/nopictures", then picture files will not be handled specially.
-** If it has "/noupdateplugins", then after installing plugins from .zip file(s), Plugins menu will not be reloaded from install.inf files.
+** If it has "/noupdateaddons", then after installing add-ons from .zip file(s), Plugins menu will not be reloaded / lexer library will not be reloaded.
 ** If it has "/view-text', then file will open in internal viewer, text (variable width) mode.
 ** If it has "/view-binary', then file will open in internal viewer, binary (fixed width) mode.
 ** If it has "/view-hex', then file will open in internal viewer, hex mode.

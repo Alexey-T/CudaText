@@ -913,7 +913,7 @@ type
     procedure DoDialogMenuEnds;
     procedure DoFileExportHtml(Ed: TATSynEdit);
     function DoFileInstallZip(const AFileName: string; out DirTarget: string;
-      ASilent, AAllowUpdatePlugins: boolean): boolean;
+      ASilent, AAllowUpdateAddons: boolean): boolean;
     procedure DoFileCloseAndDelete(Ed: TATSynEdit);
     procedure DoFileNew;
     procedure DoFileNewMenu_ToolbarClick(Sender: TObject);
@@ -3899,7 +3899,7 @@ begin
 end;
 
 function TfmMain.DoFileInstallZip(const AFileName: string; out DirTarget: string;
-  ASilent, AAllowUpdatePlugins: boolean): boolean;
+  ASilent, AAllowUpdateAddons: boolean): boolean;
 var
   msg, msg2: string;
   AddonType: TAppAddonType;
@@ -3920,13 +3920,13 @@ begin
       TAppAddonType.Lexer,
       TAppAddonType.LexerLite:
         begin
-          if AAllowUpdatePlugins then
+          if AAllowUpdateAddons then
             DoOps_LoadLexerLib(true); //AOnCreate=true - don't backup lexers
         end;
 
       TAppAddonType.Plugin:
         begin
-          if AAllowUpdatePlugins then
+          if AAllowUpdateAddons then
             UpdatePlugins_AfterInstallingZip;
         end;
     end;
@@ -4437,7 +4437,7 @@ var
   bSilent, bPreviewTab, bEnableHistory, bEnableLoadUndo, bEnableLoadBookmarks,
   bEnableEventPre, bEnableEventOpened, bEnableEventOpenedNone,
   bAllowZip, bAllowPics, bAllowLexerDetect, bDetectedPics,
-  bAllowUpdatePlugins, bAndActivate: boolean;
+  bAllowUpdateAddons, bAndActivate: boolean;
   bFileTooBig, bFileTooBig2: boolean;
   AllowNear: TAppNewTabNearCurrent;
   OpenMode, NonTextMode: TAppOpenMode;
@@ -4478,7 +4478,7 @@ begin
   bAllowLexerDetect:= not SubInString('/nolexerdetect', AOptions);
   bAllowZip:= not SubInString('/nozip', AOptions);
   bAllowPics:= not SubInString('/nopictures', AOptions);
-  bAllowUpdatePlugins:= not SubInString('/noupdateplugins', AOptions);
+  bAllowUpdateAddons:= not SubInString('/noupdateaddons', AOptions);
 
   AllowNear:= TAppNewTabNearCurrent.ByOption;
   if SubInString('/donear', AOptions) then
@@ -4578,7 +4578,7 @@ begin
     //zip files
     if bAllowZip and (ExtractFileExt(AFileName)='.zip') then
     begin
-      if DoFileInstallZip(AFileName, AppDir_LastInstalledAddon, bSilent, bAllowUpdatePlugins) then
+      if DoFileInstallZip(AFileName, AppDir_LastInstalledAddon, bSilent, bAllowUpdateAddons) then
         Result:= CurrentFrame;
       exit
     end;
@@ -4879,7 +4879,7 @@ procedure TfmMain.DoFileOpenDialog(const AOptions: string='');
 const
   //passive option used only for many files
   SOptionPassive = '/passive /nonear';
-  SOptionSilent = '/silent /noupdateplugins';
+  SOptionSilent = '/silent /noupdateaddons';
 var
   dlg: TOpenDialog;
   NFileCount, NCountZip, i: integer;
