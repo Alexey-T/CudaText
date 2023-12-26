@@ -912,7 +912,8 @@ type
     procedure DoDialogMenuEncodings;
     procedure DoDialogMenuEnds;
     procedure DoFileExportHtml(Ed: TATSynEdit);
-    function DoFileInstallZip(const AFileName: string; out DirTarget: string; ASilent: boolean): boolean;
+    function DoFileInstallZip(const AFileName: string; out DirTarget: string;
+      ASilent, AAllowUpdatePlugins: boolean): boolean;
     procedure DoFileCloseAndDelete(Ed: TATSynEdit);
     procedure DoFileNew;
     procedure DoFileNewMenu_ToolbarClick(Sender: TObject);
@@ -1112,6 +1113,7 @@ type
     procedure SplitterOnPaintDummy(Sender: TObject);
     procedure StopAllTimers;
     procedure UpdateGroupsOfContextMenu;
+    procedure UpdatePlugins_AfterInstallingZip;
     procedure UpdateEditorShowCaret;
     procedure UpdateFindDialogFromSuggestions;
     procedure UpdateFindDialogParent;
@@ -3888,9 +3890,16 @@ begin
   DoOps_ClearConfigHistory([TAppConfigHistoryElement.RecentFiles]);
 end;
 
+procedure TfmMain.UpdatePlugins_AfterInstallingZip;
+begin
+  DoOps_LoadPlugins(true);
+  UpdateMenuPlugins;
+  UpdateMenuPlugins_Shortcuts(true);
+  DoPyEvent(nil, TAppPyEvent.OnInitPluginsMenu, []);
+end;
 
 function TfmMain.DoFileInstallZip(const AFileName: string; out DirTarget: string;
-  ASilent: boolean): boolean;
+  ASilent, AAllowUpdatePlugins: boolean): boolean;
 var
   msg, msg2: string;
   AddonType: TAppAddonType;
@@ -3916,10 +3925,8 @@ begin
 
       TAppAddonType.Plugin:
         begin
-          DoOps_LoadPlugins(true);
-          UpdateMenuPlugins;
-          UpdateMenuPlugins_Shortcuts(true);
-          DoPyEvent(nil, TAppPyEvent.OnInitPluginsMenu, []);
+          if AAllowUpdatePlugins then
+            UpdatePlugins_AfterInstallingZip;
         end;
     end;
 
@@ -4429,7 +4436,7 @@ var
   bSilent, bPreviewTab, bEnableHistory, bEnableLoadUndo, bEnableLoadBookmarks,
   bEnableEventPre, bEnableEventOpened, bEnableEventOpenedNone,
   bAllowZip, bAllowPics, bAllowLexerDetect, bDetectedPics,
-  bAndActivate: boolean;
+  bAllowUpdatePlugins, bAndActivate: boolean;
   bFileTooBig, bFileTooBig2: boolean;
   AllowNear: TAppNewTabNearCurrent;
   OpenMode, NonTextMode: TAppOpenMode;
@@ -4470,6 +4477,7 @@ begin
   bAllowLexerDetect:= not SubInString('/nolexerdetect', AOptions);
   bAllowZip:= not SubInString('/nozip', AOptions);
   bAllowPics:= not SubInString('/nopictures', AOptions);
+  bAllowUpdatePlugins:= not SubInString('/noupdateplugins', AOptions);
 
   AllowNear:= TAppNewTabNearCurrent.ByOption;
   if SubInString('/donear', AOptions) then
@@ -4569,7 +4577,7 @@ begin
     //zip files
     if bAllowZip and (ExtractFileExt(AFileName)='.zip') then
     begin
-      if DoFileInstallZip(AFileName, AppDir_LastInstalledAddon, bSilent) then
+      if DoFileInstallZip(AFileName, AppDir_LastInstalledAddon, bSilent, bAllowUpdatePlugins) then
         Result:= CurrentFrame;
       exit
     end;
@@ -4870,7 +4878,7 @@ procedure TfmMain.DoFileOpenDialog(const AOptions: string='');
 const
   //passive option used only for many files
   SOptionPassive = '/passive /nonear';
-  SOptionSilent = '/silent';
+  SOptionSilent = '/silent /noupdateplugins';
 var
   dlg: TOpenDialog;
   NFileCount, NCountZip, i: integer;
@@ -4920,9 +4928,12 @@ begin
 
       UpdateGlobalProgressbar(0, false);
       if NCountZip>0 then
+      begin
+        UpdatePlugins_AfterInstallingZip;
         MsgBox(
           Format(msgStatusAddonsInstalled, [NCountZip]),
           MB_OK or MB_ICONINFORMATION);
+      end;
     end
     else
     begin
