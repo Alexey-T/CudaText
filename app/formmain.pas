@@ -1917,7 +1917,7 @@ begin
         CurFrame:= TEditorFrame(AppFrameList2[i]);
         if CurFrame.FileName='' then Continue;
         if not CurFrame.NotifEnabled then Continue;
-        if CurFrame.FrameKind<>efkEditor then Continue;
+        if CurFrame.FrameKind<>TAppFrameKind.Editor then Continue;
         HandleOneFrame;
       end;
     finally
@@ -1959,7 +1959,7 @@ var
 begin
   F:= CurrentFrame;
   if F=nil then exit;
-  if F.FrameKind<>efkBinaryViewer then exit;
+  if F.FrameKind<>TAppFrameKind.BinaryViewer then exit;
   F.Binary.Mode:= TATBinHexMode((Sender as TComponent).Tag);
   UpdateStatusbar;
 end;
@@ -2208,7 +2208,7 @@ begin
   Data:= Status.GetPanelData(AIndex);
   if Data=nil then exit;
 
-  if FrameKind=efkImageViewer then
+  if FrameKind=TAppFrameKind.ImageViewer then
   begin
     case Data.Tag of
       StatusbarTag_TabSize:
@@ -2227,7 +2227,7 @@ begin
   end
   else
   //standard cell in viewer mode
-  if FrameKind=efkBinaryViewer then
+  if FrameKind=TAppFrameKind.BinaryViewer then
   begin
     case Data.Tag of
       StatusbarTag_Caret:
@@ -4751,7 +4751,7 @@ begin
         DoPyEvent_Open(F.Ed1);
 
       if bEnableEventOpenedNone and IsFilenameForLexerDetecter(AFileName) then
-        if (F.FrameKind=efkEditor) and (F.LexerName[F.Ed1]='') then
+        if (F.FrameKind=TAppFrameKind.Editor) and (F.LexerName[F.Ed1]='') then
         begin
           DoPyEvent_OpenNone(F.Ed1);
           UpdateStatusbar;
@@ -4763,7 +4763,7 @@ begin
           DoPyEvent_Open(F.Ed2);
 
         if bEnableEventOpenedNone and IsFilenameForLexerDetecter(AFileName2) then
-          if (F.FrameKind=efkEditor) and (F.LexerName[F.Ed2]='') then
+          if (F.FrameKind=TAppFrameKind.Editor) and (F.LexerName[F.Ed2]='') then
             DoPyEvent_OpenNone(F.Ed2);
 
         UpdateStatusbar;
@@ -4812,7 +4812,7 @@ begin
 
   if bEnableEventOpenedNone then
     if IsFilenameForLexerDetecter(AFileName) then
-      if (F.FrameKind=efkEditor) and (F.LexerName[F.Ed1]='') then
+      if (F.FrameKind=TAppFrameKind.Editor) and (F.LexerName[F.Ed1]='') then
         DoPyEvent_OpenNone(F.Ed1);
 
   if bEnableEventOpened then
@@ -5182,14 +5182,14 @@ end;
 procedure TfmMain.DoGotoFromInput(Frame: TEditorFrame; const AInput: string);
 begin
   case Frame.FrameKind of
-    efkBinaryViewer:
+    TAppFrameKind.BinaryViewer:
     begin
       if ViewerGotoFromString(Frame.Binary, AInput) then
         MsgStatus('')
       else
         MsgStatus(msgStatusBadLineNum);
     end;
-    efkEditor:
+    TAppFrameKind.Editor:
     begin
       if EditorGotoFromString(Frame.Editor, AInput) then
         MsgStatus('')
@@ -5753,7 +5753,7 @@ function TfmMain.GetStatusbarPrefix(Frame: TEditorFrame): string;
 begin
   Result:= '';
   if Frame=nil then exit;
-  if Frame.FrameKind=efkEditor then
+  if Frame.FrameKind=TAppFrameKind.Editor then
   begin
     //if Frame.ReadOnly[Frame.Editor] then
     //  Result+= msgStatusReadonly+' ';
@@ -7543,7 +7543,7 @@ var
   F: TEditorFrame;
 begin
   F:= CurrentFrame;
-  if F.FrameKind=efkImageViewer then
+  if F.FrameKind=TAppFrameKind.ImageViewer then
   begin
     F.PictureScale:= (Sender as TComponent).Tag;
   end;
@@ -8785,7 +8785,7 @@ var
 begin
   Frame:= CurrentFrame;
   if Frame=nil then exit;
-  if Frame.FrameKind<>efkEditor then exit;
+  if Frame.FrameKind<>TAppFrameKind.Editor then exit;
 
   with TIniFile.Create(AppFile_Language) do
   try

@@ -388,11 +388,11 @@ begin
       cfg.SetDeleteValue(path+'/goto', Frame.GotoInput, '');
 
       case Frame.FrameKind of
-        efkEditor:
+        TAppFrameKind.Editor:
           sTabKind:= '';
-        efkBinaryViewer:
+        TAppFrameKind.BinaryViewer:
           sTabKind:= 'bin,'+IntToStr(Ord(Frame.Binary.Mode));
-        efkImageViewer:
+        TAppFrameKind.ImageViewer:
           sTabKind:= 'pic';
       end;
       cfg.SetValue(path+'/kind', sTabKind);

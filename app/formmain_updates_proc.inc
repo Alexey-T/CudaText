@@ -118,21 +118,21 @@ begin
   Ed:= F.Editor;
 
   case F.FrameKind of
-    efkEditor:
+    TAppFrameKind.Editor:
       begin
         bEditor:= true;
         bEditable:= not Ed.ModeReadOnly;
         bBinViewer:= false;
         bShowNonPrinted:= Ed.OptUnprintedVisible;
       end;
-    efkBinaryViewer:
+    TAppFrameKind.BinaryViewer:
       begin
         bEditor:= false;
         bEditable:= false;
         bBinViewer:= true;
         bShowNonPrinted:= F.Binary.TextNonPrintable;
       end;
-    efkImageViewer:
+    TAppFrameKind.ImageViewer:
       begin
         bEditor:= false;
         bEditable:= false;
@@ -205,13 +205,13 @@ begin
   FrameKind:= F.FrameKind;
 
   //hide hints for pictures/viewer
-  AStatus.ShowHint:= FrameKind=efkEditor;
+  AStatus.ShowHint:= FrameKind=TAppFrameKind.Editor;
 
   //for FrameKind<>Editor
-  if FrameKind<>efkEditor then
+  if FrameKind<>TAppFrameKind.Editor then
   begin
     case FrameKind of
-      efkBinaryViewer:
+      TAppFrameKind.BinaryViewer:
         S:= IntToStr(F.Binary.PosPercent)+'%';
       else
         S:= '';
@@ -219,7 +219,7 @@ begin
     DoStatusbarTextByTag(AStatus, StatusbarTag_Caret, S);
 
     case FrameKind of
-      efkBinaryViewer:
+      TAppFrameKind.BinaryViewer:
       begin
         if F.Binary.TextEncoding=eidUTF8 then
           S:= cEncNameUtf8_NoBom
@@ -234,9 +234,9 @@ begin
     DoStatusbarTextByTag(AStatus, StatusbarTag_LineEnds, '');
 
     case FrameKind of
-      efkBinaryViewer:
+      TAppFrameKind.BinaryViewer:
         S:= msgViewer+': '+msgViewerModes[F.Binary.Mode];
-      efkImageViewer:
+      TAppFrameKind.ImageViewer:
         begin
           Size:= F.PictureSizes;
           S:= Format(msgStatusPictureNxN, [Size.X, Size.Y]);
@@ -245,9 +245,9 @@ begin
     DoStatusbarTextByTag(AStatus, StatusbarTag_Lexer, S);
 
     case FrameKind of
-      efkBinaryViewer:
+      TAppFrameKind.BinaryViewer:
         S:= '';
-      efkImageViewer:
+      TAppFrameKind.ImageViewer:
         S:= IntToStr(F.PictureScale)+'%';
     end;
     DoStatusbarTextByTag(AStatus, StatusbarTag_TabSize, S);
@@ -255,7 +255,7 @@ begin
     DoStatusbarTextByTag(AStatus, StatusbarTag_InsOvr, '');
 
     case FrameKind of
-      efkBinaryViewer:
+      TAppFrameKind.BinaryViewer:
         S:= msgStatusbarWrapStates[Ord(F.Binary.TextWrap)]
       else
         S:= '';
@@ -534,7 +534,7 @@ begin
     if F.Splitted then
       F.Ed2.Update;
 
-    if (F.FrameKind=efkBinaryViewer) and Assigned(F.Binary) then
+    if (F.FrameKind=TAppFrameKind.BinaryViewer) and Assigned(F.Binary) then
     begin
       F.Binary.Font.Name:= EditorOps.OpFontName;
       F.Binary.Font.Size:= EditorOps.OpFontSize;
@@ -677,7 +677,7 @@ begin
   SFileName:= Frame.FileName;
   if SFileName='' then exit;
 
-  if Frame.FrameKind=efkEditor then
+  if Frame.FrameKind=TAppFrameKind.Editor then
     Frame.DoSaveHistory(Ed);
 
   if (not Frame.InSession) or IsDefaultSessionActive then

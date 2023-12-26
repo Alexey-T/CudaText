@@ -70,13 +70,13 @@ type
     cOpenModeViewUHex
     );
 
+  {$ScopedEnums on}
   TAppFrameKind = (
-    efkEditor,
-    efkBinaryViewer,
-    efkImageViewer
+    Editor,
+    BinaryViewer,
+    ImageViewer
     );
 
-  {$ScopedEnums on}
   TAppTabCaptionReason = (
     Unsaved,
     UnsavedSpecial,
@@ -84,7 +84,6 @@ type
     FromPlugin
     );
 
-  {$ScopedEnums on}
   TAppStatusbarUpdateReason = (
     Caret,
     Zoom,
@@ -1605,7 +1604,7 @@ var
   al: TAlign;
 begin
   FSplitHorz:= AValue;
-  if FrameKind<>efkEditor then exit;
+  if FrameKind<>TAppFrameKind.Editor then exit;
 
   al:= cSplitHorzToAlign[AValue];
   Splitter.Align:= al;
@@ -1621,7 +1620,7 @@ const
 var
   N: integer;
 begin
-  if FrameKind<>efkEditor then exit;
+  if FrameKind<>TAppFrameKind.Editor then exit;
   if not Splitted then exit;
 
   AValue:= Max(0.0, Min(1.0, AValue));
@@ -1643,7 +1642,7 @@ end;
 
 procedure TEditorFrame.SetSplitted(AValue: boolean);
 begin
-  if FrameKind<>efkEditor then exit;
+  if FrameKind<>TAppFrameKind.Editor then exit;
   if GetSplitted=AValue then exit;
 
   if not AValue and Ed2.Focused then
@@ -1944,7 +1943,7 @@ begin
     cCommand_ToggleWordWrapAlt:
       begin
         AHandled:= false;
-        if FrameKind=efkBinaryViewer then
+        if FrameKind=TAppFrameKind.BinaryViewer then
         begin
           if Assigned(FBin) then
             FBin.TextWrap:= not FBin.TextWrap;
@@ -1976,7 +1975,7 @@ var
 begin
   Ed:= Sender as TATSynEdit;
 
-  if FrameKind=efkBinaryViewer then
+  if FrameKind=TAppFrameKind.BinaryViewer then
   begin
     case ACommand of
       cCommand_ZoomIn:
@@ -2545,12 +2544,12 @@ end;
 function TEditorFrame.FrameKind: TAppFrameKind;
 begin
   if Assigned(FBin) and FBin.Visible then
-    Result:= efkBinaryViewer
+    Result:= TAppFrameKind.BinaryViewer
   else
   if Assigned(FImageBox) and FImageBox.Visible then
-    Result:= efkImageViewer
+    Result:= TAppFrameKind.ImageViewer
   else
-    Result:= efkEditor;
+    Result:= TAppFrameKind.Editor;
 end;
 
 
@@ -3139,7 +3138,7 @@ var
   EventRes: TAppPyEventResult;
 begin
   Result:= true;
-  if FrameKind<>efkEditor then exit(true); //disable saving, but close
+  if FrameKind<>TAppFrameKind.Editor then exit(true); //disable saving, but close
 
   EventRes:= DoPyEvent(Ed, TAppPyEvent.OnSaveBefore, []);
   if EventRes.Val=TAppPyEventValue.False then exit(true); //disable saving, but close
@@ -3367,7 +3366,7 @@ begin
     (PrevCaretY=Ed.Strings.Count-1);
 
   Mode:= cOpenModeEditor;
-  if FrameKind=efkBinaryViewer then
+  if FrameKind=TAppFrameKind.BinaryViewer then
     case FBin.Mode of
       vbmodeText:
         Mode:= cOpenModeViewText;
@@ -3609,9 +3608,9 @@ end;
 function TEditorFrame.GetWordWrap: TATEditorWrapMode;
 begin
   case FrameKind of
-    efkEditor:
+    TAppFrameKind.Editor:
       Result:= Editor.OptWrapMode;
-    efkBinaryViewer:
+    TAppFrameKind.BinaryViewer:
       begin
         if Assigned(FBin) and FBin.TextWrap then
           Result:= TATEditorWrapMode.ModeOn
@@ -4823,20 +4822,20 @@ begin
   if Visible and Enabled then
   begin
     case FrameKind of
-      efkEditor:
+      TAppFrameKind.Editor:
         begin
           Ed:= Editor;
           if Ed.Visible and Ed.Enabled then
             EditorFocus(Ed);
         end;
 
-      efkBinaryViewer:
+      TAppFrameKind.BinaryViewer:
         begin
           if Assigned(FBin) and FBin.Visible and FBin.CanFocus then
             EditorFocus(FBin);
         end;
 
-      efkImageViewer:
+      TAppFrameKind.ImageViewer:
         begin
           if Assigned(FImageBox) and FImageBox.Visible and FImageBox.CanFocus then
             FImageBox.SetFocus;

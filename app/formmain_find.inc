@@ -250,7 +250,7 @@ begin
   for IndexFrame:= 0 to FrameCount-1 do
   begin
     FrameNew:= Frames[IndexFrame];
-    if FrameNew.FrameKind<>efkEditor then Continue;
+    if FrameNew.FrameKind<>TAppFrameKind.Editor then Continue;
 
     if bChangeFrame then
       SetFrame(FrameNew);
@@ -284,7 +284,7 @@ begin
 
   if Category in [TAppFinderOperationCategory.Find, TAppFinderOperationCategory.ReplaceOne] then
   begin
-    if Frame.FrameKind=efkImageViewer then exit;
+    if Frame.FrameKind=TAppFrameKind.ImageViewer then exit;
     if Frame.Editor.Carets.Count=0 then
     begin
       MsgStatus(msgCannotFindWithoutCaret);
@@ -294,7 +294,7 @@ begin
 
   if Category=TAppFinderOperationCategory.ReplaceOne then
   begin
-    if Frame.FrameKind<>efkEditor then exit;
+    if Frame.FrameKind<>TAppFrameKind.Editor then exit;
     if Frame.Editor.ModeReadOnly then exit;
   end;
 
@@ -341,7 +341,7 @@ begin
     bHiliteAll:= chkHiAll.Checked;
   end;
 
-  if Frame.FrameKind=efkBinaryViewer then
+  if Frame.FrameKind=TAppFrameKind.BinaryViewer then
   begin
     UpdateAppForSearch(true, false, true, AEnableUpdateAll, bFocusFindDlg);
     Application.ProcessMessages;
@@ -620,10 +620,10 @@ begin
   if fmFind=nil then exit;
 
   bEnabledPrev:= fmFind.Enabled;
-  bEnabledNow:= Frame.FrameKind in [efkEditor, efkBinaryViewer];
+  bEnabledNow:= Frame.FrameKind in [TAppFrameKind.Editor, TAppFrameKind.BinaryViewer];
 
   bBinaryPrev:= fmFind.FForViewer;
-  bBinaryNow:= Frame.FrameKind=efkBinaryViewer;
+  bBinaryNow:= Frame.FrameKind=TAppFrameKind.BinaryViewer;
 
   fmFind.Enabled:= bEnabledNow;
   fmFind.FForViewer:= bBinaryNow;
@@ -731,7 +731,7 @@ begin
     Exit
   end;
 
-  if Frame.FrameKind=efkBinaryViewer then
+  if Frame.FrameKind=TAppFrameKind.BinaryViewer then
   begin
     FindDialogDone(Frame, TAppFinderOperation.FindFirst, false);
     exit;
@@ -776,7 +776,7 @@ begin
     Exit
   end;
 
-  if Frame.FrameKind=efkBinaryViewer then
+  if Frame.FrameKind=TAppFrameKind.BinaryViewer then
   begin
     if ANext then
       Op:= TAppFinderOperation.FindNext
