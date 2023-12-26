@@ -656,15 +656,15 @@ begin
       end;
 
     cmd_TreeGotoNext:
-      DoTreeviewJump(CodeTree.Tree, treeGoNext);
+      DoTreeviewJump(CodeTree.Tree, TAppTreeGoto.Next);
     cmd_TreeGotoPrev:
-      DoTreeviewJump(CodeTree.Tree, treeGoPrev);
+      DoTreeviewJump(CodeTree.Tree, TAppTreeGoto.Prev);
     cmd_TreeGotoParent:
-      DoTreeviewJump(CodeTree.Tree, treeGoParent);
+      DoTreeviewJump(CodeTree.Tree, TAppTreeGoto.Parent);
     cmd_TreeGotoNextBrother:
-      DoTreeviewJump(CodeTree.Tree, treeGoNextBro);
+      DoTreeviewJump(CodeTree.Tree, TAppTreeGoto.NextBro);
     cmd_TreeGotoPrevBrother:
-      DoTreeviewJump(CodeTree.Tree, treeGoPrevBro);
+      DoTreeviewJump(CodeTree.Tree, TAppTreeGoto.PrevBro);
     cmd_TreeUpdate:
       UpdateTree(true, false{ignore visible});
     cmd_TreeSelectBlockForCurNode:

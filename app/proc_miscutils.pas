@@ -9,6 +9,7 @@ unit proc_miscutils;
 
 {$mode objfpc}{$H+}
 {$ModeSwitch advancedrecords}
+{$ScopedEnums on}
 
 interface
 
@@ -79,11 +80,11 @@ function LexerFilenameToComponentName(const fn: string): string;
 
 type
   TAppTreeGoto = (
-    treeGoNext,
-    treeGoPrev,
-    treeGoParent,
-    treeGoNextBro,
-    treeGoPrevBro
+    Next,
+    Prev,
+    Parent,
+    NextBro,
+    PrevBro
     );
 
 procedure DoTreeviewJump(ATree: TTreeView; AMode: TAppTreeGoto);
@@ -210,13 +211,13 @@ begin
     if Selected<>nil then
     begin
       case AMode of
-        treeGoNext:
+        TAppTreeGoto.Next:
           tn:= Selected.GetNext;
-        treeGoPrev:
+        TAppTreeGoto.Prev:
           tn:= Selected.GetPrev;
-        treeGoParent:
+        TAppTreeGoto.Parent:
           tn:= Selected.Parent;
-        treeGoNextBro:
+        TAppTreeGoto.NextBro:
           begin
             tn:= Selected.GetNextSibling;
             tn2:= Selected;
@@ -228,7 +229,7 @@ begin
                 if tn<>nil then Break;
               until false;
           end;
-        treeGoPrevBro:
+        TAppTreeGoto.PrevBro:
           begin
             tn:= Selected.GetPrevSibling;
             if tn=nil then
