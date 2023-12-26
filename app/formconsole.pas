@@ -8,6 +8,7 @@ Copyright (c) Alexey Torgashin
 unit formconsole;
 
 {$mode objfpc}{$H+}
+{$ScopedEnums on}
 
 interface
 
@@ -42,10 +43,10 @@ type
   TAppConsoleGetEditor = procedure(out AEditor: TATSynEdit) of object;
 
   TAppConsoleLineKind = (
-    acLineUsual,
-    acLinePrompt,
-    acLineNote,
-    acLineError
+    Usual,
+    Prompt,
+    Note,
+    Error
     );
 
 type
@@ -139,22 +140,22 @@ end;
 function TfmConsole.ParseLine(const S: string): TAppConsoleLineKind;
 begin
   if StartsStr(cConsolePrompt, S) then
-    exit(acLinePrompt);
+    exit(TAppConsoleLineKind.Prompt);
 
   if StartsText('NOTE:', S) then
-    exit(acLineNote);
+    exit(TAppConsoleLineKind.Note);
 
   if StartsText('ERROR:', S) then
-    exit(acLineError);
+    exit(TAppConsoleLineKind.Error);
 
   //EndsText is better than compare, to find FindInFiles4 log string added to 'traceback'
   if EndsText('Traceback (most recent call last):', S) then
-    exit(acLineError);
+    exit(TAppConsoleLineKind.Error);
 
   if IsConsoleErrorLine(S) then
-    exit(acLineError);
+    exit(TAppConsoleLineKind.Error);
 
-  Result:= acLineUsual;
+  Result:= TAppConsoleLineKind.Usual;
 end;
 
 procedure TfmConsole.DoGetLineColor(Ed: TATSynEdit; ALineIndex: integer;
@@ -165,13 +166,13 @@ var
 begin
   Str:= Ed.Strings.Lines[ALineIndex];
   case ParseLine(Str) of
-    acLinePrompt:
+    TAppConsoleLineKind.Prompt:
       begin
         fmt:= GetAppStyle(apstId2);
         AColorFont:= fmt.Font.Color;
         exit;
       end;
-    acLineNote:
+    TAppConsoleLineKind.Note:
       begin
         fmt:= GetAppStyle(apstLightBG2);
         AColorBg:= fmt.BgColor;
@@ -179,7 +180,7 @@ begin
         AColorFont:= fmt.Font.Color;
         exit
       end;
-    acLineError:
+    TAppConsoleLineKind.Error:
       begin
         fmt:= GetAppStyle(apstLightBG1);
         AColorBg:= fmt.BgColor;
@@ -212,7 +213,7 @@ begin
 
     ModeReadOnly:= true;
 
-    if ParseLine(AText) in [acLineError, acLineNote] then
+    if ParseLine(AText) in [TAppConsoleLineKind.Error, TAppConsoleLineKind.Note] then
     begin
       Inc(ErrorCounter);
       if Assigned(FOnNumberChange) then
