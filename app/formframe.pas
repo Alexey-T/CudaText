@@ -76,11 +76,12 @@ type
     efkImageViewer
     );
 
+  {$ScopedEnums on}
   TAppTabCaptionReason = (
-    tcrUnsaved,
-    tcrUnsavedSpecial,
-    tcrFromFilename,
-    tcrFromPlugin
+    Unsaved,
+    UnsavedSpecial,
+    FromFilename,
+    FromPlugin
     );
 
   {$ScopedEnums on}
@@ -716,7 +717,7 @@ var
   Name1, Name2, SFinalCaption: string;
 begin
   //avoid updating caption if API already had set it
-  if FTabCaptionReason in [tcrUnsavedSpecial, tcrFromPlugin] then
+  if FTabCaptionReason in [TAppTabCaptionReason.UnsavedSpecial, TAppTabCaptionReason.FromPlugin] then
   begin
     DoOnChangeCaption; //remove 'modified' font color, repaint
     exit;
@@ -753,7 +754,7 @@ begin
   end;
 
   TabCaption:= SFinalCaption;
-  TabCaptionReason:= tcrFromFilename;
+  TabCaptionReason:= TAppTabCaptionReason.FromFilename;
   UpdateTabTooltip;
 end;
 
@@ -3920,7 +3921,7 @@ begin
       c.DeleteValue(path+cHistory_TabSplit);
   end;
 
-  if TabCaptionReason in [tcrUnsavedSpecial, tcrFromPlugin] then
+  if TabCaptionReason in [TAppTabCaptionReason.UnsavedSpecial, TAppTabCaptionReason.FromPlugin] then
     c.SetValue(path+cHistory_TabCaption, TabCaption)
   else
     c.DeleteValue(path+cHistory_TabCaption);
@@ -4172,7 +4173,7 @@ begin
   if str<>'' then
   begin
     TabCaption:= str;
-    TabCaptionReason:= tcrUnsavedSpecial;
+    TabCaptionReason:= TAppTabCaptionReason.UnsavedSpecial;
   end;
 
   if not (TATEditorModifiedOption.ReadOnlyIsDetected in Ed.ModifiedOptions) then

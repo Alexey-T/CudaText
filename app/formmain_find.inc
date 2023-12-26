@@ -135,7 +135,7 @@ begin
       Frame:= DoFileOpen('', '');
       if Frame=nil then exit;
       Frame.TabCaption:= msgFinderRegexMatchesNumbered;
-      Frame.TabCaptionReason:= tcrUnsavedSpecial;
+      Frame.TabCaptionReason:= TAppTabCaptionReason.UnsavedSpecial;
       Ed:= Frame.Ed1;
       Ed.Strings.LoadFromStrings(Matches, TATLineEnds.Unix, false);
       Ed.UpdateWrapInfo(true, false); //AForceUpdate=True to fix #4609

@@ -716,7 +716,7 @@ begin
     for i:= 0 to FrameCount-1 do
     begin
       Frame:= Frames[i];
-      if Frame.TabCaptionReason=tcrFromPlugin then Continue; //solve issue #3360
+      if Frame.TabCaptionReason=TAppTabCaptionReason.FromPlugin then Continue; //solve issue #3360
       SName:= Frame.FileName;
       if (SName<>'') and Frame.EditorsLinked then
       begin

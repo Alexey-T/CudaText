@@ -32,7 +32,7 @@ begin
       Value:= r;
       exit(true);
     end;
-  Value:= tcrUnsaved;
+  Value:= TAppTabCaptionReason.Unsaved;
   Result:= false;
 end;
 
@@ -4282,17 +4282,17 @@ begin
             begin
               if Str<>'' then
               begin
-                F.TabCaptionReason:= tcrFromPlugin;
+                F.TabCaptionReason:= TAppTabCaptionReason.FromPlugin;
                 F.TabCaption:= Str;
               end
               else
               begin
-                if F.TabCaptionReason=tcrFromPlugin then
+                if F.TabCaptionReason=TAppTabCaptionReason.FromPlugin then
                 begin
                   if F.FileName<>'' then
-                    F.TabCaptionReason:= tcrFromFilename
+                    F.TabCaptionReason:= TAppTabCaptionReason.FromFilename
                   else
-                    F.TabCaptionReason:= tcrUnsaved;
+                    F.TabCaptionReason:= TAppTabCaptionReason.Unsaved;
                 end;
                 F.UpdateCaptionFromFilename;
               end;

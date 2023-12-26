@@ -171,7 +171,7 @@ begin
       if Assigned(Frame) then
       begin
         Frame.TabCaption:= 'stdin';
-        Frame.TabCaptionReason:= tcrUnsavedSpecial;
+        Frame.TabCaptionReason:= TAppTabCaptionReason.UnsavedSpecial;
         Frame.Ed1.Strings.LoadFromString(_GetStdin);
         //Frame.Ed1.Modified:= false;
       end;

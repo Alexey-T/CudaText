@@ -704,7 +704,7 @@ begin
         begin
           Frame.SetFileName(Frame.Ed1, sTabFilename);
           Frame.TabCaption:= ExtractFileName(sTabFilename);
-          Frame.TabCaptionReason:= tcrFromFilename;
+          Frame.TabCaptionReason:= TAppTabCaptionReason.FromFilename;
         end;
         if sText<>'' then
           Frame.Editor.Text:= sText;
@@ -717,9 +717,9 @@ begin
         if sTabTitle<>'' then
           Frame.TabCaption:= sTabTitle;
         if sTabFilename<>'' then
-          Frame.TabCaptionReason:= tcrFromFilename
+          Frame.TabCaptionReason:= TAppTabCaptionReason.FromFilename
         else
-          Frame.TabCaptionReason:= tcrUnsaved;
+          Frame.TabCaptionReason:= TAppTabCaptionReason.Unsaved;
         Frame.UpdateModified(Frame.Editor);
       end
       else
