@@ -8715,7 +8715,7 @@ var
   TreeContainer: TAppTreeContainer;
   Sep: TATStringSeparator;
   CharFrom, CharTo: atChar;
-  Kind: TATEditorBracketKind;
+  Kind: TEditorBracketKind;
   AllowedSymbols: string;
   Distance: integer;
   Obj: TObject;
