@@ -1114,8 +1114,7 @@ type
     class function CommandHasConfigurableHotkey(Cmd: integer): boolean;
     class procedure CommandsClearButKeepApiItems;
     class function CommandGetFromModuleAndMethod(const ACommaSeparatedText: string): integer;
-    class procedure CommandUpdateSubcommands(AppCommandList: TFPList;
-      const AText: string; AMaxItems: integer);
+    class procedure CommandUpdateSubcommands(const AText: string);
 
     class function EventIsUsed(AEvent: TAppPyEvent): boolean;
     class procedure EventStringToEventData(const AEventStr: string;
@@ -2668,27 +2667,31 @@ begin
 end;
 
 
-class procedure TPluginHelper.CommandUpdateSubcommands(AppCommandList: TFPList; const AText: string; AMaxItems: integer);
+class procedure TPluginHelper.CommandUpdateSubcommands(const AText: string);
 const
   cSepRoot=';';
   cSepParams=#10;
   cSepNameParam=#9;
 var
+  List: TFPList;
   Sep: TATStringSeparator;
   SModule, SProc, SParams, SItem, SItemParam, SItemCaption: string;
   CmdItem: TAppCommandInfo;
   N: integer;
 begin
+  //all sub-commands must be in AppCommand2List
+  List:= AppCommand2List;
+
   Sep.Init(AText, cSepRoot);
   Sep.GetItemStr(SModule);
   Sep.GetItemStr(SProc);
   Sep.GetRest(SParams);
 
   //del items for module/method
-  for N:= AppCommandList.Count-1 downto 0 do
-    with TAppCommandInfo(AppCommandList[N]) do
+  for N:= List.Count-1 downto 0 do
+    with TAppCommandInfo(List[N]) do
       if (ItemModule=SModule) and (ItemProc=SProc) and (ItemProcParam<>'') then
-        AppCommandList.Delete(N);
+        List.Delete(N);
 
   //add items for SParams
   Sep.Init(SParams, cSepParams);
@@ -2696,15 +2699,18 @@ begin
     if not Sep.GetItemStr(SItem) then Break;
     SSplitByChar(SItem, cSepNameParam, SItemCaption, SItemParam);
 
+    if List.Count>= cmdLastPluginSubCommand-cmdFirstPluginSubCommand-1 then
+    begin
+      MsgLogConsole('ERROR: Too many plugin sub-commands');
+      exit;
+    end;
+
     CmdItem:= TAppCommandInfo.Create;
     CmdItem.ItemModule:= SModule;
     CmdItem.ItemProc:= SProc;
     CmdItem.ItemProcParam:= SItemParam;
     CmdItem.ItemCaption:= SItemCaption;
-
-    if AppCommandList.Count>AMaxItems then
-      MsgLogConsole('ERROR: Too many plugin commands');
-    AppCommandList.Add(CmdItem);
+    List.Add(CmdItem);
   until false;
 end;
 

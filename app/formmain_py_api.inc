@@ -5256,7 +5256,7 @@ begin
 
         APP_PROC_SET_SUBCOMMANDS:
           begin
-            TPluginHelper.CommandUpdateSubcommands(AppCommand2List, Str, cmdLastPluginSubCommand-cmdFirstPluginSubCommand);
+            TPluginHelper.CommandUpdateSubcommands(Str);
             TKeymapHelperMain.UpdateDynamic(TAppCommandCategory.PluginSub);
             fmMain.FNeedAppState_SubCommands:= true;
             Result:= ReturnNone;
