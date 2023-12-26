@@ -13,6 +13,9 @@ str2=-->
 styles_cmt=Comment,Comment doc
 styles_str=Text,Tag string
 
+[op]
+auto_fold=0
+
 [map]
 Text=Id
 Tag bound=TagBound
