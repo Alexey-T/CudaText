@@ -2701,7 +2701,7 @@ begin
 
     if List.Count>= cmdLastPluginSubCommand-cmdFirstPluginSubCommand-1 then
     begin
-      MsgLogConsole('ERROR: Too many plugin sub-commands');
+      MsgLogConsole(Format('ERROR: Too many plugin sub-commands (update for "%s")', [SModule]));
       exit;
     end;
 
