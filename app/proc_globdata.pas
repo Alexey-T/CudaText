@@ -2300,13 +2300,13 @@ begin
   else
   begin
     //str(number) item
-    Result:= StrToIntDef(AId, -1);
+    Result:= StrToIntDef(AId, 0);
 
     //for broken keys config which has incorrect int keys, issue #4590
     if TPluginHelper.CommandCategory(Result) in [TAppCommandCategory.Plugin, TAppCommandCategory.PluginSub] then
     begin
-      MsgLogConsole(Format('ERROR: Hotkeys config: bad key "%d", in the range [%d, %d]', [Result, cmdFirstPluginCommand, cmdLastPluginCommand]));
-      Result:= -1;
+      MsgLogConsole(Format('ERROR: Hotkeys config incorrect key "%d", in plugins range', [Result]));
+      Result:= 0;
     end;
   end;
 end;
@@ -2953,7 +2953,7 @@ begin
     begin
       StrId:= slist[i];
       ncmd:= TPluginHelper.HotkeyStringId_To_CommandCode(StrId);
-      if ncmd<0 then Continue;
+      if ncmd<=0 then Continue;
 
       nitem:= AKeymap.IndexOf(ncmd);
       if nitem<0 then Continue;
