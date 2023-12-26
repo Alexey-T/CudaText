@@ -179,8 +179,8 @@ end;
 
 function PyHelper_GetThemeDict_UI: PPyObject;
 var
-  iColor: TAppThemeColorId;
-  ColorItem: TAppThemeColor;
+  iColor: TAppThemeColor;
+  ColorItem: TAppThemeColorRec;
 begin
   with AppPython.Engine do
   begin
@@ -8521,8 +8521,8 @@ begin
   SFontName:= UiOps.ExportHtmlFontName;
   NFontSize:= UiOps.ExportHtmlFontSize;
   bWithNums:= UiOps.ExportHtmlNumbers;
-  NColorBg:= GetAppColor(apclExportHtmlBg);
-  NColorNums:= GetAppColor(apclExportHtmlNumbers);
+  NColorBg:= GetAppColor(TAppThemeColor.ExportHtmlBg);
+  NColorNums:= GetAppColor(TAppThemeColor.ExportHtmlNumbers);
   PosBegin:= Point(0, 0);
   PosEnd:= Point(0, Ed.Strings.Count);
 

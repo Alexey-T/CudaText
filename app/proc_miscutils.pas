@@ -478,16 +478,16 @@ begin
   begin
     C.Font.Name:= UiOps.VarFontName;
     C.Font.Size:= ATEditorScaleFont(UiOps.VarFontSize);
-    C.Font.Color:= GetAppColor(apclTreeFont);
-    C.BackgroundColor:= GetAppColor(apclTreeBg);
-    C.SelectionFontColor:= GetAppColor(apclTreeSelFont);
+    C.Font.Color:= GetAppColor(TAppThemeColor.TreeFont);
+    C.BackgroundColor:= GetAppColor(TAppThemeColor.TreeBg);
+    C.SelectionFontColor:= GetAppColor(TAppThemeColor.TreeSelFont);
     C.SelectionFontColorUsed:= true;
     if C.Focused then
-      C.SelectionColor:= GetAppColor(apclTreeSelBg)
+      C.SelectionColor:= GetAppColor(TAppThemeColor.TreeSelBg)
     else
-      C.SelectionColor:= GetAppColor(apclTreeSelBg2);
+      C.SelectionColor:= GetAppColor(TAppThemeColor.TreeSelBg2);
     C.TreeLinePenStyle:= psSolid;
-    C.ExpandSignColor:= GetAppColor(apclTreeSign);
+    C.ExpandSignColor:= GetAppColor(TAppThemeColor.TreeSign);
   end;
 
   C.BorderStyle:= bsNone;
@@ -533,7 +533,7 @@ end;
 
 procedure ApplyThemeToToolbar(C: TATFlatToolbar);
 begin
-  C.Color:= GetAppColor(apclTabBg);
+  C.Color:= GetAppColor(TAppThemeColor.TabBg);
   C.Invalidate;
 end;
 
@@ -689,15 +689,15 @@ begin
   V.Font.Name:= EditorOps.OpFontName;
   V.Font.Size:= EditorOps.OpFontSize;
   V.Font.Quality:= EditorOps.OpFontQuality;
-  V.Font.Color:= GetAppColor(apclEdTextFont);
+  V.Font.Color:= GetAppColor(TAppThemeColor.EdTextFont);
   V.FontGutter.Name:= EditorOps.OpFontName;
   V.FontGutter.Size:= EditorOps.OpFontSize;
   V.FontGutter.Quality:= EditorOps.OpFontQuality;
-  V.FontGutter.Color:= GetAppColor(apclEdGutterFont);
-  V.Color:= GetAppColor(apclEdTextBg);
-  V.TextColorGutter:= GetAppColor(apclEdGutterBg);
-  V.TextColorURL:= GetAppColor(apclEdLinks);
-  V.TextColorHi:= GetAppColor(apclEdMarkers);
+  V.FontGutter.Color:= GetAppColor(TAppThemeColor.EdGutterFont);
+  V.Color:= GetAppColor(TAppThemeColor.EdTextBg);
+  V.TextColorGutter:= GetAppColor(TAppThemeColor.EdGutterBg);
+  V.TextColorURL:= GetAppColor(TAppThemeColor.EdLinks);
+  V.TextColorHi:= GetAppColor(TAppThemeColor.EdMarkers);
 
   St:= GetAppStyle(TAppThemeStyle.SectionBG1);
   V.TextColorHexBack:= St.BgColor;
@@ -717,7 +717,7 @@ procedure ApplyThemeToImageBox(AImageBox: TATImageBox);
 begin
   if Assigned(AImageBox) then
   begin
-    AImageBox.Color:= GetAppColor(apclEdTextBg);
+    AImageBox.Color:= GetAppColor(TAppThemeColor.EdTextBg);
   end;
 end;
 
@@ -1357,7 +1357,7 @@ begin
   AForm.FormStyle:= fsStayOnTop;
   AForm.Position:= poScreenCenter;
   AForm.BorderStyle:= bsDialog;
-  AForm.Color:= GetAppColor(apclTabBg);
+  AForm.Color:= GetAppColor(TAppThemeColor.TabBg);
 
   Pane:= TPanel.Create(AForm);
   Pane.Align:= alClient;
@@ -1366,7 +1366,7 @@ begin
   Pane.BevelOuter:= bvNone;
   Pane.Font.Name:= UiOps.VarFontName;
   Pane.Font.Size:= UiOps.VarFontSize;
-  Pane.Font.Color:= GetAppColor(apclTabFont);
+  Pane.Font.Color:= GetAppColor(TAppThemeColor.TabFont);
   Pane.Caption:= AText;
 
   Pane2:= TPanel.Create(AForm);

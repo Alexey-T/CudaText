@@ -18,13 +18,13 @@ begin
   Listbox:= Sender as TATListbox;
   if not Listbox.IsIndexValid(AIndex) then exit;
 
-  C.Font.Color:= GetAppColor(apclListFont);
-  C.Brush.Color:= GetAppColor(apclListBg);
+  C.Font.Color:= GetAppColor(TAppThemeColor.ListFont);
+  C.Brush.Color:= GetAppColor(TAppThemeColor.ListBg);
 
   if AIndex=Listbox.ItemIndex then
   begin
-    C.Font.Color:= GetAppColor(apclListSelFont);
-    C.Brush.Color:= GetAppColor(apclListSelBg);
+    C.Font.Color:= GetAppColor(TAppThemeColor.ListSelFont);
+    C.Brush.Color:= GetAppColor(TAppThemeColor.ListSelBg);
     C.FillRect(ARect);
   end;
 

@@ -1295,7 +1295,7 @@ const
 
 function GetAppColorOfStatusbarFont: TColor;
 begin
-  Result:= GetAppColor(apclStatusFont);
+  Result:= GetAppColor(TAppThemeColor.StatusFont);
   if Result=clNone then
     Result:= ATFlatTheme.ColorFont;
 end;
@@ -1306,7 +1306,7 @@ var
 begin
   NColorFont:= GetAppColorOfStatusbarFont;
 
-  NColorBg:= GetAppColor(apclStatusBg);
+  NColorBg:= GetAppColor(TAppThemeColor.StatusBg);
   if NColorBg=clNone then
     NColorBg:= ATFlatTheme.ColorBgPassive;
 
@@ -1330,7 +1330,7 @@ begin
   else
     AppThemeStatusbar.FontSize:= UiOps.VarFontSize;
 
-  NColor:= GetAppColor(apclStatusFont);
+  NColor:= GetAppColor(TAppThemeColor.StatusFont);
   if NColor<>clNone then
     AppThemeStatusbar.ColorFont:= NColor;
 end;
@@ -7107,8 +7107,8 @@ begin
       UiOps.ExportHtmlFontName,
       UiOps.ExportHtmlFontSize,
       UiOps.ExportHtmlNumbers,
-      GetAppColor(apclExportHtmlBg),
-      GetAppColor(apclExportHtmlNumbers)
+      GetAppColor(TAppThemeColor.ExportHtmlBg),
+      GetAppColor(TAppThemeColor.ExportHtmlNumbers)
       );
     List.SaveToFile(SFileName);
   finally
@@ -8917,10 +8917,10 @@ begin
     FCfmPanel.OnMouseLeave:= @ConfirmPanelMouseLeave;
   end;
 
-  FCfmPanel.Color:= GetAppColor(apclButtonBgOver);
+  FCfmPanel.Color:= GetAppColor(TAppThemeColor.ButtonBgOver);
   FCfmPanel.Font.Name:= UiOps.VarFontName;
   FCfmPanel.Font.Size:= ATEditorScaleFont(UiOps.VarFontSize);
-  FCfmPanel.Font.Color:= GetAppColor(apclButtonFont);
+  FCfmPanel.Font.Color:= GetAppColor(TAppThemeColor.ButtonFont);
 
   //FCfmPanel.Width:= AppScaleFont(UiOps.VarFontSize)*cW;
   FCfmPanel.Height:= Trunc(ATEditorScaleFont(UiOps.VarFontSize)*cH);

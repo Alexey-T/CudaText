@@ -366,7 +366,7 @@ begin
   C.Font.Style:= st.Font.Style;
   C.Brush.Color:= st.BgColor;
   if st.BgColor=clNone then
-    C.Brush.Color:= AppTheme.Colors[apclEdTextBg].Color;
+    C.Brush.Color:= AppTheme.Colors[TAppThemeColor.EdTextBg].Color;
 
   NWidth:= C.TextWidth(cExample);
   C.TextOut(ARect.Right-NWidth, ARect.Top, cExample);

@@ -484,7 +484,7 @@ begin
     fmFind.OnGetToken:= @FinderOnGetToken;
     fmFind.OnShowMatchesCount:= @FinderShowMatchesCount;
     fmFind.OnHandleKeyDown:= @FinderHandleKeyDown;
-    fmFind.Color:= GetAppColor(apclTabBg);
+    fmFind.Color:= GetAppColor(TAppThemeColor.TabBg);
     fmFind.UpdateInitialCaretPos;
 
     UiOps.HotkeyFindDialog:= ShortCutToTextRaw(AppKeymapMain.GetShortcutFromCommand(cmd_DialogFind));

@@ -100,13 +100,13 @@ begin
   edInput.OptCaretBlinkEnabled:= EditorOps.OpCaretBlinkEn;
   edInput.OptCaretBlinkTime:= EditorOps.OpCaretBlinkTime;
 
-  Color:= GetAppColor(apclListBg);
+  Color:= GetAppColor(TAppThemeColor.ListBg);
   EditorApplyTheme(edInput);
 
   plCaption.Height:= ATEditorScale(26);
   plCaption.Font.Name:= UiOps.VarFontName;
   plCaption.Font.Size:= ATEditorScaleFont(UiOps.VarFontSize);
-  plCaption.Font.Color:= GetAppColor(apclListFont);
+  plCaption.Font.Color:= GetAppColor(TAppThemeColor.ListFont);
 
   UpdateFormOnTop(Self);
 

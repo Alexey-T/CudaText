@@ -1054,7 +1054,7 @@ begin
   begin
     AColor:= AppBookmarkSetup[ABookmarkKind].Color;
     if AColor=clDefault then
-      AColor:= GetAppColor(apclEdBookmarkBg);
+      AColor:= GetAppColor(TAppThemeColor.EdBookmarkBg);
   end;
 end;
 
@@ -2285,7 +2285,7 @@ begin
   Splitter.AutoSnap:= false;
   Splitter.ResizeStyle:= rsPattern;
   Splitter.MinSize:= 100;
-  Splitter.Color:= GetAppColor(apclSplitMain);
+  Splitter.Color:= GetAppColor(TAppThemeColor.SplitMain);
   DoControl_InitPropsObject(Splitter, FFormDummy, 'splitter');
 
   FFileName:= '';
@@ -2476,8 +2476,8 @@ begin
   if APanel=nil then exit;
   APanel.Font.Name:= UiOps.VarFontName;
   APanel.Font.Size:= ATEditorScaleFont(UiOps.VarFontSize);
-  APanel.Color:= GetAppColor(apclEdMarkedRangeBg); //GetAppColor(apclListBg);
-  APanel.Font.Color:= GetAppColor(apclListFont);
+  APanel.Color:= GetAppColor(TAppThemeColor.EdMarkedRangeBg); //GetAppColor(apclListBg);
+  APanel.Font.Color:= GetAppColor(TAppThemeColor.ListFont);
 end;
 
 procedure TEditorFrame.ApplyLexerStyleMap;
@@ -2525,7 +2525,7 @@ begin
 
   ApplyThemeToImageBox(FImageBox);
 
-  Splitter.Color:= GetAppColor(apclSplitMain);
+  Splitter.Color:= GetAppColor(TAppThemeColor.SplitMain);
 
   ApplyThemeToInfoPanel(PanelInfo);
   ApplyThemeToInfoPanel(PanelNoHilite);
@@ -3568,7 +3568,7 @@ begin
   kind:= Ed.Strings.Bookmarks[index]^.Data.Kind;
   if kind<=1 then
   begin
-    c.Brush.Color:= GetAppColor(apclEdBookmarkIcon);
+    c.Brush.Color:= GetAppColor(TAppThemeColor.EdBookmarkIcon);
     c.Pen.Color:= c.Brush.Color;
     inc(R.Top, 1);
     inc(R.Left, 4);
@@ -3688,9 +3688,9 @@ begin
 
   if FMacroRecord then
   begin
-    Ed1.OptBorderColor:= GetAppColor(apclEdMarkers);
+    Ed1.OptBorderColor:= GetAppColor(TAppThemeColor.EdMarkers);
     Ed1.OptCornerText:= 'R';
-    Ed1.OptCornerColorFont:= GetAppColor(apclEdSelFont);
+    Ed1.OptCornerColorFont:= GetAppColor(TAppThemeColor.EdSelFont);
     Ed1.OptCornerColorBack:= Ed1.OptBorderColor;
     Ed1.OptCornerColorBorder:= clNone;
   end
@@ -4668,7 +4668,7 @@ begin
     DoHideNotificationPanel(NotifDeletedControls[EdIndex]);
 
   if TabExtDeleted[0] or TabExtDeleted[1] then
-    TabFontColor:= GetAppColor(apclTabMarks)
+    TabFontColor:= GetAppColor(TAppThemeColor.TabMarks)
   else
     TabFontColor:= clNone;
 

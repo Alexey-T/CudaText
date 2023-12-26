@@ -122,11 +122,11 @@ end;
 
 procedure TfmMenuList.UpdateColors;
 begin
-  FColorBg:= GetAppColor(apclListBg);
-  FColorBgSel:= GetAppColor(apclListSelBg);
-  FColorFont:= GetAppColor(apclListFont);
-  FColorFontSel:= GetAppColor(apclListSelFont);
-  FColorFontAlt:= GetAppColor(apclListFontHotkey);
+  FColorBg:= GetAppColor(TAppThemeColor.ListBg);
+  FColorBgSel:= GetAppColor(TAppThemeColor.ListSelBg);
+  FColorFont:= GetAppColor(TAppThemeColor.ListFont);
+  FColorFontSel:= GetAppColor(TAppThemeColor.ListSelFont);
+  FColorFontAlt:= GetAppColor(TAppThemeColor.ListFontHotkey);
 
   self.Color:= FColorBg;
   List.Color:= FColorBg;
@@ -144,7 +144,7 @@ begin
   plCaption.Height:= ATEditorScale(26);
   plCaption.Font.Name:= UiOps.VarFontName;
   plCaption.Font.Size:= ATEditorScaleFont(UiOps.VarFontSize);
-  plCaption.Font.Color:= GetAppColor(apclListFont);
+  plCaption.Font.Color:= GetAppColor(TAppThemeColor.ListFont);
 
   self.Width:= ATEditorScale(UiOps.ListboxSizeX);
   self.Height:= ATEditorScale(UiOps.ListboxSizeY);

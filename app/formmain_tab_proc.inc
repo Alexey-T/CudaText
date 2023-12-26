@@ -198,10 +198,10 @@ var
   NLocalGroups, NGlobalGroup, NTab, i: integer;
   bGroupActive: boolean;
 begin
-  NColorTabActive:= GetAppColor(apclTabActive);
-  NColorTabOther:= GetAppColor(apclTabActiveOthers);
+  NColorTabActive:= GetAppColor(TAppThemeColor.TabActive);
+  NColorTabOther:= GetAppColor(TAppThemeColor.TabActiveOthers);
 
-  NColorMarkActive:= GetAppColor(apclTabActiveMark);
+  NColorMarkActive:= GetAppColor(TAppThemeColor.TabActiveMark);
   NColorMarkOther:= ColorBlendHalf(NColorMarkActive, NColorTabOther);
 
   GetFrameLocation(F, Gr, Pages, NLocalGroups, NGlobalGroup, NTab);

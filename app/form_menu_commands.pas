@@ -145,11 +145,11 @@ begin
   ButtonCancel.Width:= ButtonCancel.Height;
 
   self.Color:= FColorBg;
-  edit.Colors.TextFont:= GetAppColor(apclEdTextFont);
-  edit.Colors.TextBG:= GetAppColor(apclEdTextBg);
-  edit.Colors.TextSelFont:= GetAppColor(apclEdSelFont);
-  edit.Colors.TextSelBG:= GetAppColor(apclEdSelBg);
-  edit.Colors.BorderLine:= GetAppColor(apclEdBorder);
+  edit.Colors.TextFont:= GetAppColor(TAppThemeColor.EdTextFont);
+  edit.Colors.TextBG:= GetAppColor(TAppThemeColor.EdTextBg);
+  edit.Colors.TextSelFont:= GetAppColor(TAppThemeColor.EdSelFont);
+  edit.Colors.TextSelBG:= GetAppColor(TAppThemeColor.EdSelBg);
+  edit.Colors.BorderLine:= GetAppColor(TAppThemeColor.EdBorder);
   list.Color:= FColorBg;
   PanelInfo.Font.Color:= FColorFont;
 
@@ -191,12 +191,12 @@ end;
 
 procedure TfmCommands.FormCreate(Sender: TObject);
 begin
-  FColorBg:= GetAppColor(apclListBg);
-  FColorBgSel:= GetAppColor(apclListSelBg);
-  FColorFont:= GetAppColor(apclListFont);
-  FColorFontSel:= GetAppColor(apclListSelFont);
-  FColorFontHilite:= GetAppColor(apclListFontHilite);
-  FColorFontHotkey:= GetAppColor(apclListFontHotkey);
+  FColorBg:= GetAppColor(TAppThemeColor.ListBg);
+  FColorBgSel:= GetAppColor(TAppThemeColor.ListSelBg);
+  FColorFont:= GetAppColor(TAppThemeColor.ListFont);
+  FColorFontSel:= GetAppColor(TAppThemeColor.ListSelFont);
+  FColorFontHilite:= GetAppColor(TAppThemeColor.ListFontHilite);
+  FColorFontHotkey:= GetAppColor(TAppThemeColor.ListFontHotkey);
 
   if UiOps.ShowMenuDialogsWithBorder then
     BorderStyle:= bsDialog;

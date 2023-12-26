@@ -1737,7 +1737,7 @@ var
 begin
   if FForViewer then
   begin
-    NColorBG:= GetAppColor(apclEdTextBg);
+    NColorBG:= GetAppColor(TAppThemeColor.EdTextBg);
     edFind.Colors.TextBG:= NColorBG;
     edFind.Update;
     exit;
@@ -1747,7 +1747,7 @@ begin
 
   if UiOps.FindShowNoResultsByInputBgColor and not IsInputColored then
   begin
-    NColorBG:= GetAppColor(apclEdTextBg);
+    NColorBG:= GetAppColor(TAppThemeColor.EdTextBg);
     edFind.Colors.TextBG:= NColorBG;
     edFind.Update;
   end;
@@ -1782,10 +1782,10 @@ begin
       begin
         if NMatches=0 then
           NColorBG:= ColorBlendHalf(
-                       GetAppColor(apclEdTextBg),
-                       GetAppColor(apclButtonBgDisabled))
+                       GetAppColor(TAppThemeColor.EdTextBg),
+                       GetAppColor(TAppThemeColor.ButtonBgDisabled))
         else
-          NColorBG:= GetAppColor(apclEdTextBg);
+          NColorBG:= GetAppColor(TAppThemeColor.EdTextBg);
 
         edFind.Colors.TextBG:= NColorBG;
         edFind.Update;
@@ -1810,7 +1810,7 @@ procedure TfmFind.ApplyTheme;
 var
   TempLexer: TecSyntAnalyzer;
 begin
-  Color:= GetAppColor(apclTabBg);
+  Color:= GetAppColor(TAppThemeColor.TabBg);
 
   EditorApplyTheme(edFind);
   EditorApplyTheme(edRep);

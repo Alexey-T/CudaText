@@ -127,12 +127,12 @@ end;
 
 procedure TfmMenuApi.FormCreate(Sender: TObject);
 begin
-  FColorBg:= GetAppColor(apclListBg);
-  FColorBgSel:= GetAppColor(apclListSelBg);
-  FColorFont:= GetAppColor(apclListFont);
-  FColorFontSel:= GetAppColor(apclListSelFont);
-  FColorFontAlt:= GetAppColor(apclListFontHotkey);
-  FColorFontHilite:= GetAppColor(apclListFontHilite);
+  FColorBg:= GetAppColor(TAppThemeColor.ListBg);
+  FColorBgSel:= GetAppColor(TAppThemeColor.ListSelBg);
+  FColorFont:= GetAppColor(TAppThemeColor.ListFont);
+  FColorFontSel:= GetAppColor(TAppThemeColor.ListSelFont);
+  FColorFontAlt:= GetAppColor(TAppThemeColor.ListFontHotkey);
+  FColorFontHilite:= GetAppColor(TAppThemeColor.ListFontHilite);
 
   if UiOps.ShowMenuDialogsWithBorder then
     BorderStyle:= bsDialog;
@@ -147,11 +147,11 @@ begin
   edit.Font.Name:= EditorOps.OpFontName;
   edit.Font.Size:= EditorOps.OpFontSize;
   edit.Font.Quality:= EditorOps.OpFontQuality;
-  edit.Colors.TextFont:= GetAppColor(apclEdTextFont);
-  edit.Colors.TextBG:= GetAppColor(apclEdTextBg);
-  edit.Colors.TextSelFont:= GetAppColor(apclEdSelFont);
-  edit.Colors.TextSelBG:= GetAppColor(apclEdSelBg);
-  edit.Colors.BorderLine:= GetAppColor(apclEdBorder);
+  edit.Colors.TextFont:= GetAppColor(TAppThemeColor.EdTextFont);
+  edit.Colors.TextBG:= GetAppColor(TAppThemeColor.EdTextBg);
+  edit.Colors.TextSelFont:= GetAppColor(TAppThemeColor.EdSelFont);
+  edit.Colors.TextSelBG:= GetAppColor(TAppThemeColor.EdSelBg);
+  edit.Colors.BorderLine:= GetAppColor(TAppThemeColor.EdBorder);
 
   edit.OptCaretBlinkEnabled:= EditorOps.OpCaretBlinkEn;
   edit.OptCaretBlinkTime:= EditorOps.OpCaretBlinkTime;

@@ -99,7 +99,7 @@ end;
 procedure TfmColorSetup.UpdateList;
 var
   st: TecSyntaxFormat;
-  iColor: TAppThemeColorId;
+  iColor: TAppThemeColor;
   iStyle: TAppThemeStyle;
   NPrevIndex: integer;
 begin
@@ -132,7 +132,7 @@ begin
   ColorDialog1.Color:= PtrInt(List.Items.Objects[List.ItemIndex]);
   if ColorDialog1.Execute then
   begin
-    Data.Colors[TAppThemeColorId(List.ItemIndex)].color:= ColorDialog1.Color;
+    Data.Colors[TAppThemeColor(List.ItemIndex)].color:= ColorDialog1.Color;
     UpdateList;
 
     FChanged:= true;
@@ -142,7 +142,7 @@ end;
 
 procedure TfmColorSetup.bNoneClick(Sender: TObject);
 begin
-  Data.Colors[TAppThemeColorId(List.ItemIndex)].color:= clNone;
+  Data.Colors[TAppThemeColor(List.ItemIndex)].color:= clNone;
   UpdateList;
 
   FChanged:= true;
@@ -233,7 +233,7 @@ begin
   List.ItemIndex:= 0;
   ListStyles.ItemIndex:= 0;
 
-  FColorBg:= Data.Colors[apclEdTextBg].color;
+  FColorBg:= Data.Colors[TAppThemeColor.EdTextBg].color;
 
   if PanelUi.Visible then
     ActiveControl:= List
@@ -267,7 +267,7 @@ var
 begin
   //disable "None color" button to some elements
   NSel:= List.ItemIndex;
-  bNone.Enabled:= (NSel>=0) and (TAppThemeColorId(NSel) in cAppThemeColorsWhichAllowNone);
+  bNone.Enabled:= (NSel>=0) and (TAppThemeColor(NSel) in cAppThemeColorsWhichAllowNone);
 end;
 
 procedure TfmColorSetup.ListStylesDrawItem(Control: TWinControl; AIndex: Integer; ARect: TRect;

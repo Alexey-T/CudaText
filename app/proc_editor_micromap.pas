@@ -131,20 +131,20 @@ begin
 
   ABitmap.SetSize(ARect.Width, ARect.Height);
 
-  XColor.FromColor(GetAppColor(apclEdMicromapBg));
+  XColor.FromColor(GetAppColor(TAppThemeColor.EdMicromapBg));
   ABitmap.Fill(XColor);
 
   //paint full-width area of current visible area
   NIndex1:= Ed.ScrollVert.NPos;
   NIndex2:= NIndex1+Ed.GetVisibleLines; //note: limiting this by Ed.WrapInfo.Count-1 causes issue #4718
   RectMark:= GetWrapItemRect(0, NIndex1, NIndex2, TMicromapMark.Full);
-  XColor.FromColor(GetAppColor(apclEdMicromapViewBg));
+  XColor.FromColor(GetAppColor(TAppThemeColor.EdMicromapViewBg));
   ABitmap.FillRect(RectMark, XColor);
 
   XColorSelected.FromColor(Ed.Colors.TextSelBG);
   XColorBkmk.FromColor(Ed.Colors.StateAdded); //not sure what color to use
-  XColorOccur.FromColor(GetAppColor(apclEdMicromapOccur));
-  XColorSpell.FromColor(GetAppColor(apclEdMicromapSpell));
+  XColorOccur.FromColor(GetAppColor(TAppThemeColor.EdMicromapOccur));
+  XColorSpell.FromColor(GetAppColor(TAppThemeColor.EdMicromapSpell));
 
   //paint line states
   if Ed.OptMicromapLineStates and (Wr.Count>=Ed.OptMicromapShowForMinCount) then

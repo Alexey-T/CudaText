@@ -564,7 +564,7 @@ var
 begin
   Self.Font.Name:= UiOps.VarFontName;
   Self.Font.Size:= ATEditorScaleFont(UiOps.VarFontSize);
-  Self.Font.Color:= GetAppColor(apclTabFont);
+  Self.Font.Color:= GetAppColor(TAppThemeColor.TabFont);
 
   Groups.SetTabFont(Self.Font);
   if FloatGroups then

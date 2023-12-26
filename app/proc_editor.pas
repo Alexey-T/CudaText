@@ -697,60 +697,60 @@ end;
 
 procedure EditorApplyTheme(Ed: TATSynedit);
 begin
-  Ed.Colors.TextFont:= GetAppColor(apclEdTextFont);
-  Ed.Colors.TextBG:= GetAppColor(apclEdTextBg);
-  Ed.Colors.TextSelFont:= GetAppColor(apclEdSelFont);
-  Ed.Colors.TextSelBG:= GetAppColor(apclEdSelBg);
+  Ed.Colors.TextFont:= GetAppColor(TAppThemeColor.EdTextFont);
+  Ed.Colors.TextBG:= GetAppColor(TAppThemeColor.EdTextBg);
+  Ed.Colors.TextSelFont:= GetAppColor(TAppThemeColor.EdSelFont);
+  Ed.Colors.TextSelBG:= GetAppColor(TAppThemeColor.EdSelBg);
 
-  Ed.Colors.TextDisabledFont:= GetAppColor(apclEdDisableFont);
-  Ed.Colors.TextDisabledBG:= GetAppColor(apclEdDisableBg);
-  Ed.Colors.Caret:= GetAppColor(apclEdCaret);
-  Ed.Colors.Markers:= GetAppColor(apclEdMarkers);
+  Ed.Colors.TextDisabledFont:= GetAppColor(TAppThemeColor.EdDisableFont);
+  Ed.Colors.TextDisabledBG:= GetAppColor(TAppThemeColor.EdDisableBg);
+  Ed.Colors.Caret:= GetAppColor(TAppThemeColor.EdCaret);
+  Ed.Colors.Markers:= GetAppColor(TAppThemeColor.EdMarkers);
   Ed.Colors.DragDropMarker:= Ed.Colors.Markers;
   Ed.Colors.GitMarkerBG:= Ed.Colors.Markers;
-  Ed.Colors.CurrentLineBG:= GetAppColor(apclEdCurLineBg);
-  Ed.Colors.IndentVertLines:= GetAppColor(apclEdIndentVLine);
-  Ed.Colors.UnprintedFont:= GetAppColor(apclEdUnprintFont);
-  Ed.Colors.UnprintedBG:= GetAppColor(apclEdUnprintBg);
-  Ed.Colors.UnprintedHexFont:= GetAppColor(apclEdUnprintHexFont);
-  Ed.Colors.MinimapBorder:= GetAppColor(apclEdMinimapBorder);
-  Ed.Colors.MinimapTooltipBG:= GetAppColor(apclEdMinimapTooltipBg);
-  Ed.Colors.MinimapTooltipBorder:= GetAppColor(apclEdMinimapTooltipBorder);
-  Ed.Colors.StateChanged:= GetAppColor(apclEdStateChanged);
-  Ed.Colors.StateAdded:= GetAppColor(apclEdStateAdded);
-  Ed.Colors.StateSaved:= GetAppColor(apclEdStateSaved);
-  Ed.Colors.BlockStaple:= GetAppColor(apclEdBlockStaple);
-  Ed.Colors.BlockStapleForCaret:= GetAppColor(apclEdBlockStapleActive);
-  Ed.Colors.BlockSepLine:= GetAppColor(apclEdBlockSepLine);
-  Ed.Colors.Links:= GetAppColor(apclEdLinks);
-  Ed.Colors.LockedBG:= GetAppColor(apclEdLockedBg);
-  Ed.Colors.ComboboxArrow:= GetAppColor(apclEdComboArrow);
-  Ed.Colors.ComboboxArrowBG:= GetAppColor(apclEdComboArrowBg);
-  Ed.Colors.CollapseLine:= GetAppColor(apclEdFoldMarkLine);
-  Ed.Colors.CollapseMarkFont:= GetAppColor(apclEdFoldMarkFont);
-  Ed.Colors.CollapseMarkBorder:= GetAppColor(apclEdFoldMarkBorder);
-  Ed.Colors.CollapseMarkBG:= GetAppColor(apclEdFoldMarkBg);
+  Ed.Colors.CurrentLineBG:= GetAppColor(TAppThemeColor.EdCurLineBg);
+  Ed.Colors.IndentVertLines:= GetAppColor(TAppThemeColor.EdIndentVLine);
+  Ed.Colors.UnprintedFont:= GetAppColor(TAppThemeColor.EdUnprintFont);
+  Ed.Colors.UnprintedBG:= GetAppColor(TAppThemeColor.EdUnprintBg);
+  Ed.Colors.UnprintedHexFont:= GetAppColor(TAppThemeColor.EdUnprintHexFont);
+  Ed.Colors.MinimapBorder:= GetAppColor(TAppThemeColor.EdMinimapBorder);
+  Ed.Colors.MinimapTooltipBG:= GetAppColor(TAppThemeColor.EdMinimapTooltipBg);
+  Ed.Colors.MinimapTooltipBorder:= GetAppColor(TAppThemeColor.EdMinimapTooltipBorder);
+  Ed.Colors.StateChanged:= GetAppColor(TAppThemeColor.EdStateChanged);
+  Ed.Colors.StateAdded:= GetAppColor(TAppThemeColor.EdStateAdded);
+  Ed.Colors.StateSaved:= GetAppColor(TAppThemeColor.EdStateSaved);
+  Ed.Colors.BlockStaple:= GetAppColor(TAppThemeColor.EdBlockStaple);
+  Ed.Colors.BlockStapleForCaret:= GetAppColor(TAppThemeColor.EdBlockStapleActive);
+  Ed.Colors.BlockSepLine:= GetAppColor(TAppThemeColor.EdBlockSepLine);
+  Ed.Colors.Links:= GetAppColor(TAppThemeColor.EdLinks);
+  Ed.Colors.LockedBG:= GetAppColor(TAppThemeColor.EdLockedBg);
+  Ed.Colors.ComboboxArrow:= GetAppColor(TAppThemeColor.EdComboArrow);
+  Ed.Colors.ComboboxArrowBG:= GetAppColor(TAppThemeColor.EdComboArrowBg);
+  Ed.Colors.CollapseLine:= GetAppColor(TAppThemeColor.EdFoldMarkLine);
+  Ed.Colors.CollapseMarkFont:= GetAppColor(TAppThemeColor.EdFoldMarkFont);
+  Ed.Colors.CollapseMarkBorder:= GetAppColor(TAppThemeColor.EdFoldMarkBorder);
+  Ed.Colors.CollapseMarkBG:= GetAppColor(TAppThemeColor.EdFoldMarkBg);
 
-  Ed.Colors.GutterFont:= GetAppColor(apclEdGutterFont);
-  Ed.Colors.GutterBG:= GetAppColor(apclEdGutterBg);
-  Ed.Colors.GutterCaretFont:= GetAppColor(apclEdGutterCaretFont);
-  Ed.Colors.GutterCaretBG:= GetAppColor(apclEdGutterCaretBg);
+  Ed.Colors.GutterFont:= GetAppColor(TAppThemeColor.EdGutterFont);
+  Ed.Colors.GutterBG:= GetAppColor(TAppThemeColor.EdGutterBg);
+  Ed.Colors.GutterCaretFont:= GetAppColor(TAppThemeColor.EdGutterCaretFont);
+  Ed.Colors.GutterCaretBG:= GetAppColor(TAppThemeColor.EdGutterCaretBg);
 
-  Ed.Colors.BookmarkBG:= GetAppColor(apclEdBookmarkBg);
-  Ed.Colors.RulerFont:= GetAppColor(apclEdRulerFont);
-  Ed.Colors.RulerBG:= GetAppColor(apclEdRulerBg);
+  Ed.Colors.BookmarkBG:= GetAppColor(TAppThemeColor.EdBookmarkBg);
+  Ed.Colors.RulerFont:= GetAppColor(TAppThemeColor.EdRulerFont);
+  Ed.Colors.RulerBG:= GetAppColor(TAppThemeColor.EdRulerBg);
 
-  Ed.Colors.GutterFoldLine:= GetAppColor(apclEdFoldLine);
-  Ed.Colors.GutterFoldLine2:= GetAppColor(apclEdFoldLine2);
-  Ed.Colors.GutterFoldBG:= GetAppColor(apclEdFoldBg);
+  Ed.Colors.GutterFoldLine:= GetAppColor(TAppThemeColor.EdFoldLine);
+  Ed.Colors.GutterFoldLine2:= GetAppColor(TAppThemeColor.EdFoldLine2);
+  Ed.Colors.GutterFoldBG:= GetAppColor(TAppThemeColor.EdFoldBg);
 
-  Ed.Colors.MarginRight:= GetAppColor(apclEdMarginFixed);
-  Ed.Colors.MarginCaret:= GetAppColor(apclEdMarginCaret);
-  Ed.Colors.MarginUser:= GetAppColor(apclEdMarginUser);
+  Ed.Colors.MarginRight:= GetAppColor(TAppThemeColor.EdMarginFixed);
+  Ed.Colors.MarginCaret:= GetAppColor(TAppThemeColor.EdMarginCaret);
+  Ed.Colors.MarginUser:= GetAppColor(TAppThemeColor.EdMarginUser);
 
-  Ed.Colors.MarkedLinesBG:= GetAppColor(apclEdMarkedRangeBg);
-  Ed.Colors.BorderLine:= GetAppColor(apclEdBorder);
-  Ed.Colors.BorderLineFocused:= GetAppColor(apclEdBorderFocused);
+  Ed.Colors.MarkedLinesBG:= GetAppColor(TAppThemeColor.EdMarkedRangeBg);
+  Ed.Colors.BorderLine:= GetAppColor(TAppThemeColor.EdBorder);
+  Ed.Colors.BorderLineFocused:= GetAppColor(TAppThemeColor.EdBorderFocused);
 
   Ed.Update;
 end;
@@ -2064,7 +2064,7 @@ begin
       UiOps.ExportHtmlFontName,
       UiOps.ExportHtmlFontSize,
       false,
-      GetAppColor(apclExportHtmlBg),
+      GetAppColor(TAppThemeColor.ExportHtmlBg),
       clBlack
       );
 

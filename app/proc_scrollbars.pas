@@ -222,7 +222,7 @@ end;
 procedure TAppTreeView.DoEnter;
 begin
   inherited;
-  SelectionColor:= GetAppColor(apclTreeSelBg);
+  SelectionColor:= GetAppColor(TAppThemeColor.TreeSelBg);
 
   //focus at least 1st item if no selection yet
   if Selected=nil then
@@ -233,7 +233,7 @@ end;
 procedure TAppTreeView.DoExit;
 begin
   inherited;
-  SelectionColor:= GetAppColor(apclTreeSelBg2);
+  SelectionColor:= GetAppColor(TAppThemeColor.TreeSelBg2);
 end;
 
 procedure TAppTreeView.KeyDown(var Key: Word; Shift: TShiftState);
