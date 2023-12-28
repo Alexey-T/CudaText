@@ -4932,10 +4932,10 @@ It provides:
 * change: initing of "Plugins" menu is now performed _after_ on_start2, before on_init_plugins_menu
 * change: menu_proc: don't return redundant dict key 'command'
 * change: menu_proc: don't return dict keys if they are defaults: 'vis', 'en', 'checked', 'radio', 'hotkey', 'hint', 'tag'
-* add: menu items in "Plugins" menu support introspection by menu_proc() better: "hint" property is filled by Python callback
+* add: menu items in "Plugins" menu support introspection by menu_proc() better: "hint" property is filled for them now
 
 1.0.450 (app 1.206.4)
-* add: file_open: option "/noupdateaddons"
 * delete deprecated actions FOLDING_GET_LIST and FOLDING_GET_LIST_FILTERED (use FOLDING_ENUM instead of them)
+* add: file_open: option "/noupdateaddons"
 
 [[Category:CudaText]]
