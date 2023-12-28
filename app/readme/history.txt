@@ -9,6 +9,7 @@
 * change: deleted deprecated API: FOLDING_GET_LIST*, all related plugins were updated - update them from Addons Manager
 - fix: bug when after installation of plugin without app restart, Command Palette items become 'shifted' by N elements; it required lot of code rework - so report any regressions
 - fix: bug in finder_proc() API
+- fix: bug in timer_proc(TIMER_DELETE, ...) API
 
 1.206.2 (2023/12)
 
