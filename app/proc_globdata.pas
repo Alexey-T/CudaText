@@ -1127,7 +1127,7 @@ type
     class function CommandCode_To_HotkeyStringId(ACmd: integer): string;
     class function HotkeyStringId_To_CommandCode(const AId: string): integer;
 
-    class function Debug_PluginCommands(AppCommandList: TFPList; const AModule: string): string;
+    class function Debug_PluginCommands(AList: TFPList; const AModule: string): string;
   end;
 
 
@@ -2311,15 +2311,15 @@ begin
   end;
 end;
 
-class function TPluginHelper.Debug_PluginCommands(AppCommandList: TFPList; const AModule: string): string;
+class function TPluginHelper.Debug_PluginCommands(AList: TFPList; const AModule: string): string;
 var
   CmdItem: TAppCommandInfo;
   i: integer;
 begin
   Result:= '';
-  for i:= 0 to AppCommandList.Count-1 do
+  for i:= 0 to AList.Count-1 do
   begin
-    CmdItem:= TAppCommandInfo(AppCommandList[i]);
+    CmdItem:= TAppCommandInfo(AList[i]);
     if CmdItem.ItemModule=AModule then
       Result+= CmdItem.CommaStr+#10;
   end;
