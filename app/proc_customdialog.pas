@@ -828,6 +828,7 @@ begin
     Adapter.DynamicHiliteMaxLines:= EditorOps.OpLexerDynamicHiliteMaxLines;
     }
     Adapter.DynamicHiliteEnabled:= false;
+    Adapter.DynamicHiliteMaxLines:= 0;
     Adapter.AddEditor(TATSynEdit(Ctl));
 
     exit;
