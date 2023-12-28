@@ -258,7 +258,7 @@ begin
               CmdItem.ItemInMenu:= s_inmenu;
 
               if AppCommandList.Count>(cmdLastPluginCommand-cmdFirstPluginCommand) then
-                MsgLogConsole('ERROR: Too many plugin commands');
+                MsgLogConsole('ERROR: Too many plugin commands: '+IntToStr(AppCommandList.Count));
               AppCommandList.Add(CmdItem);
             end;
           'events':
