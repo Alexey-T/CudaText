@@ -6306,73 +6306,6 @@ begin
     Result:= ReturnNone;
 end;
 
-procedure PyHelper_Folding_SetItem(AObj: PPyObject; AListIndex: integer; AItem: PATSynRange);
-begin
-  with AppPython.Engine do
-    PyList_SetItem(AObj, AListIndex,
-      Py_BuildValue('(iiiOO)',
-        AItem^.Y,
-        AItem^.Y2,
-        AItem^.X-1,
-        PyBool_FromLong(Ord(AItem^.Staple)),
-        PyBool_FromLong(Ord(AItem^.Folded))
-        ));
-end;
-
-function PyHelper_Folding_GetAll(Ed: TATSynEdit): PPyObject; cdecl;
-var
-  Item: PATSynRange;
-  NLen, i: integer;
-begin
-  with AppPython.Engine do
-    begin
-      NLen:= Ed.Fold.Count;
-      Result:= PyList_New(NLen);
-      if not Assigned(Result) then
-        raise EPythonError.Create(msgPythonListError);
-      for i:= 0 to NLen-1 do
-      begin
-        Item:= Ed.Fold.ItemPtr(i);
-        PyHelper_Folding_SetItem(Result, i, Item);
-      end;
-    end;
-end;
-
-function PyHelper_Folding_GetFiltered(Ed: TATSynEdit; NeedY, NeedY2: integer): PPyObject; cdecl;
-var
-  L: TFPList;
-  Item: PATSynRange;
-  NLen, i: integer;
-begin
-  if Ed.Fold.Count=0 then
-    exit(AppPython.Engine.ReturnNone);
-
-  L:= TFPList.Create;
-  try
-    for i:= 0 to Ed.Fold.Count-1 do
-    begin
-      Item:= Ed.Fold.ItemPtr(i);
-      if (Item^.Y<=NeedY) and (Item^.Y2>=NeedY2) then
-        L.Add(Item);
-    end;
-
-    with AppPython.Engine do
-      begin
-        NLen:= L.Count;
-        Result:= PyList_New(NLen);
-        if not Assigned(Result) then
-          raise EPythonError.Create(msgPythonListError);
-        for i:= 0 to NLen-1 do
-        begin
-          Item:= PATSynRange(L[i]);
-          PyHelper_Folding_SetItem(Result, i, Item);
-        end;
-      end;
-  finally
-    FreeAndNil(L);
-  end;
-end;
-
 function PyHelper_Folding_Enum(Ed: TATSynEdit; NeedY, NeedY2: integer): PPyObject; cdecl;
 var
   ListRanges: TFPList;
@@ -8976,21 +8909,6 @@ begin
         FOLDING_ENUM:
           begin
             Result:= PyHelper_Folding_Enum(Ed, NY, NY2);
-          end;
-
-        //deprecated in 2023.08
-        FOLDING_GET_LIST:
-          begin
-            Result:= PyHelper_Folding_GetAll(Ed);
-          end;
-
-        //deprecated in 2023.08
-        FOLDING_GET_LIST_FILTERED:
-          begin
-            if NY<0 then
-              Result:= PyHelper_Folding_GetAll(Ed)
-            else
-              Result:= PyHelper_Folding_GetFiltered(Ed, NY, NY2);
           end;
 
         FOLDING_FOLD:

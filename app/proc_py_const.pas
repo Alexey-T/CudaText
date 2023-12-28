@@ -569,7 +569,6 @@ const
   GAP_GET_ALL     = 5;
   GAP_DELETE_BY_TAG = 6;
 
-  FOLDING_GET_LIST           = 0;
   FOLDING_FOLD               = 1;
   FOLDING_UNFOLD             = 2;
   FOLDING_ADD                = 3;
@@ -582,7 +581,6 @@ const
   FOLDING_CHECK_RANGE_INSIDE = 10;
   FOLDING_CHECK_RANGES_SAME  = 11;
   FOLDING_FOLD_LEVEL         = 12;
-  FOLDING_GET_LIST_FILTERED  = 13;
   FOLDING_ENUM               = 14;
 
   PyMenuId_Top = 'top';

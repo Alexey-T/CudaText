@@ -4945,5 +4945,6 @@ It provides:
 
 1.0.450 (app 1.206.4)
 * add: file_open: option "/noupdateaddons"
+* delete deprecated actions FOLDING_GET_LIST and FOLDING_GET_LIST_FILTERED (use FOLDING_ENUM instead of them)
 
 [[Category:CudaText]]
