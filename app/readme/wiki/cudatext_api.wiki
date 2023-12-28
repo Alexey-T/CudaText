@@ -2836,15 +2836,6 @@ Performs action on folding ranges. Possible values of "id":
 ** "hint": string, hint of range (it is rendered when range is folded).
 ** "tag": int 64-bit, tag value. For example, it is -1 for ranges created by CudaText command "fold selected lines".
 
-* (deprecated) FOLDING_GET_LIST: Returns list of folding ranges. Params used: none except "id". Returns list of tuples (y, y2, x, staple, folded), or None.
-** "y": int: line of range start.
-** "y2": int: line of range end. If y==y2, then range is simple and don't have gutter-mark and staple.
-** "x": int: x-offset of range start (char index in start line).
-** "staple": bool: range has block staple.
-** "folded": bool: range is currently folded.
-
-* (deprecated) FOLDING_GET_LIST_FILTERED: Returns list of folding ranges, which contain given range: line indexes from param "item_y" to param "item_y2" (inclusive). If item_y<0, then no filtering is done.
-
 * FOLDING_FOLD: Folds range with given index (index in unfiltered list returned by FOLDING_ENUM). Params used: "index".
 * FOLDING_FOLD_ALL: Folds all ranges.
 * FOLDING_FOLD_LEVEL: Unfolds all ranges, then folds ranges starting with given nesting level. Params used: "index": nesting level, 0..9.
