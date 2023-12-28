@@ -818,10 +818,16 @@ begin
     Ctl:= TATSynEdit.Create(AForm);
     DoControl_ApplyEditorProps(TATSynEdit(Ctl), AForm, true, true, false);
 
+    //URL clicking don't work in API-created editors
+    TATSynEdit(Ctl).OptShowURLs:= false;
+
     Adapter:= TATAdapterEControl.Create(Ctl);
     Adapter.EnabledSublexerTreeNodes:= UiOps.TreeSublexers;
+    {
     Adapter.DynamicHiliteEnabled:= EditorOps.OpLexerDynamicHiliteMaxLines>0;
     Adapter.DynamicHiliteMaxLines:= EditorOps.OpLexerDynamicHiliteMaxLines;
+    }
+    Adapter.DynamicHiliteEnabled:= false;
     Adapter.AddEditor(TATSynEdit(Ctl));
 
     exit;
