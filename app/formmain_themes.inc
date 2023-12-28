@@ -186,7 +186,7 @@ begin
   CompletionOps.ColorFontParams:= GetAppColor(TAppThemeColor.ListCompleteParams);
 
   {$ifdef windows}
-  ApplyFormDarkTitle(Self, IsColorDark(GetAppColor(apclTabBg)), false);
+  ApplyFormDarkTitle(Self, IsColorDark(GetAppColor(TAppThemeColor.TabBg)), false);
   {$endif}
 
   DoApplyTheme_ThemedMainMenu;
@@ -221,31 +221,31 @@ begin
     end;
   end;
 
-  NColor:= GetAppColor(apclMenuBg);
+  NColor:= GetAppColor(TAppThemeColor.MenuBg);
   if NColor=clNone then
-    NColor:= GetAppColor(apclTabBg);
+    NColor:= GetAppColor(TAppThemeColor.TabBg);
   MenuStylerTheme.ColorBk:= NColor;
 
-  NColor:= GetAppColor(apclMenuSelBg);
+  NColor:= GetAppColor(TAppThemeColor.MenuSelBg);
   if NColor=clNone then
-    NColor:= GetAppColor(apclTabOver);
+    NColor:= GetAppColor(TAppThemeColor.TabOver);
   MenuStylerTheme.ColorBkSelected:= NColor;
 
-  NColor:= GetAppColor(apclMenuFont);
+  NColor:= GetAppColor(TAppThemeColor.MenuFont);
   if NColor=clNone then
-    NColor:= GetAppColor(apclTabFont);
+    NColor:= GetAppColor(TAppThemeColor.TabFont);
   MenuStylerTheme.ColorFont:= NColor;
 
-  NColor:= GetAppColor(apclMenuFontDisabled);
+  NColor:= GetAppColor(TAppThemeColor.MenuFontDisabled);
   if NColor=clNone then
-    NColor:= GetAppColor(apclTabBorderPassive);
+    NColor:= GetAppColor(TAppThemeColor.TabBorderPassive);
   MenuStylerTheme.ColorFontDisabled:= NColor;
 
-  NColor:= GetAppColor(apclMenuFontHotkey);
+  NColor:= GetAppColor(TAppThemeColor.MenuFontHotkey);
   if NColor=clNone then
-    NColor:= GetAppColor(apclMenuFont);
+    NColor:= GetAppColor(TAppThemeColor.MenuFont);
   if NColor=clNone then
-    NColor:= GetAppColor(apclTabFontMod);
+    NColor:= GetAppColor(TAppThemeColor.TabFontMod);
   MenuStylerTheme.ColorFontShortcut:= NColor;
 
   MenuStylerTheme.CharSubmenu:= '>'; //old Win don't have triangle char in default font
