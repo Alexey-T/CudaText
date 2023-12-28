@@ -7,6 +7,7 @@
 
 + add: optimized installation of 100 addons from .zip's, when file-open dialog multi-selection is used
 * change: deleted deprecated API: FOLDING_GET_LIST*, all related plugins were updated - update them from Addons Manager
+* change: disable URL highlighting + dynamic highlighting in API-created editors
 - fix: bug when after installation of plugin without app restart, Command Palette items become 'shifted' by N elements; it required lot of code rework - so report any regressions
 - fix: bug in finder_proc() API
 - fix: bug in timer_proc(TIMER_DELETE, ...) API
