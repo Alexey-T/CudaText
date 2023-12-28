@@ -6,6 +6,7 @@
 1.206.4 (2024/01)
 
 + add: optimized installation of 100 addons from .zip's, when file-open dialog multi-selection is used
+* change: deleted deprecated API: FOLDING_GET_LIST*, all related plugins were updated - update them from Addons Manager
 - fix: bug when after installation of plugin without app restart, Command Palette items become 'shifted' by N elements; it required lot of code rework - so report any regressions
 - fix: bug in finder_proc() API
 
