@@ -398,6 +398,7 @@ The following lexers (counting only important ones) exist for CudaText. They are
 * Haskell
 * Haxe
 * HCL (HashiCorp Configuration Language)
+* Heta
 * [https://cwiki.apache.org/confluence/display/Hive/LanguageManual HiveQL (Apache Hive)]
 * HJSON
 * HLSL
