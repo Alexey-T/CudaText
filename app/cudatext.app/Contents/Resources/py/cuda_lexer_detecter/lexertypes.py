@@ -235,6 +235,7 @@ TYPES = {
     "hbs": ['HTML Handlebars'],
     "hbx": ['Harbour'],
     "hcl": ['HCL'],
+    "heta": ['Heta'],
     "hex": ['Intel HEX'],
     "hjson": ['HJSON'],
     "hlsl": ['HLSL'],
