@@ -55,7 +55,7 @@
 {{Columns-end}}
 
 == Configuration ==
-The CudaText configuration system uses JSON files: call menu item "Options | Settings - default" and you'll see the default configuration values. Copy lines from this file to the file displayed by selecting the menu item "Options | Settings - user" and edit the values there to customize your user configuration &mdash; this is the actual configuration file, the default configuration is provided solely to use as a reference.
+The CudaText configuration system uses JSON files: call menu item "Options | Settings - default" and you'll see the default configuration file "default.json". Copy lines from this file to the file "user.json" displayed by selecting the menu item "Options | Settings - user" and edit the values there to customize your user configuration. The "user.json" is the actual configuration file, the default configuration is provided solely to use as a reference.
 
 Note: You can copy the JSON comments from the default file into your user configuration, too. In the user config, include useful lines inside the curly braces <code>{ }</code>, this is JSON formatting. Trailing commas on the final key:value pair before a closing brace (<code>}</code>) are allowed here.
 {{Columns-start|num=2}}
