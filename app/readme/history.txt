@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.206.4 (2024/01)
+1.206.5 (2024/01)
 
 + add: optimized installation of 100 addons from .zip's, when file-open dialog multi-selection is used
 * change: deleted deprecated API: FOLDING_GET_LIST*, all related plugins were updated - update them from Addons Manager
