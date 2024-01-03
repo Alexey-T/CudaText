@@ -1268,7 +1268,7 @@ class DialogMK2:
             # update check state
             current_columns, _col_ws = self.columns
             for prop in menu_proc(self._h_col_menu, MENU_ENUM):
-                _checked = prop['tag'] in current_columns
+                _checked = prop.get('tag', False) in current_columns
                 menu_proc(prop['id'], MENU_SET_CHECKED, command=_checked)
 
             menu_proc(self._h_col_menu, MENU_SHOW)
