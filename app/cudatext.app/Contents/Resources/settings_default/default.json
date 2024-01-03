@@ -1559,10 +1559,11 @@
   "ui_fullscreen": "tp",
 
   //Highlight border of focused input box.
-  //(Find/Replace dialog, Console panel, Code Tree filter input.)
-  //  value=0: don't highlight
-  //  value>0: highlight with the specified border width, in pixels
-  //  if 100 is added, then highlight in the main editor too (and plugins' editors)
+  //Affects Find/Replace dialog, Console panel, Code Tree filter input.
+  //  Value=0: don't highlight focused input.
+  //  Value>0: highlight focused input with specified border width, in pixels.
+  //  If 100 is added, then highlight in the main editor too (and plugins' editors).
+  //E.g. value 102 means: "highlight with border width=2, also in the main editor".
   "ui_active_border": 1,
 
   //Console panel (Ctrl+`): word-wrap mode.
