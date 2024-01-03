@@ -7915,7 +7915,7 @@ begin
   while (ALineTo<=NMaxLine) and (An.PublicData.TokenIndexer[ALineTo]<0) do
     Inc(ALineTo);
   if ALineTo<=NMaxLine then
-    ResTo:= Min(NMaxToken, An.PublicData.TokenIndexer[ALineTo]-1)
+    ResTo:= Min(NMaxToken, An.PublicData.TokenIndexer[ALineTo])
   else
     ResTo:= NMaxToken;
 end;
