@@ -74,7 +74,8 @@
           <Other>
             <CustomOptions Value="-dcomplete_at_scroll
 -dDisableLCLTIFF
--dDisableLCLPNM"/>
+-dDisableLCLPNM
+-dDisableAsianCodePages"/>
           </Other>
         </CompilerOptions>
       </Item2>
@@ -204,7 +205,11 @@
           </Linking>
           <Other>
             <CustomOptions Value="-dcomplete_at_scroll
--dGTK2_IME_CODE"/>
+-dDisableLCLTIFF
+-dDisableLCLPNM
+-dDisableAsianCodePages
+-dGTK2_IME_CODE
+-dQT_NO_SESSIONMANAGER"/>
           </Other>
         </CompilerOptions>
       </Item5>
@@ -249,7 +254,12 @@
             </Options>
           </Linking>
           <Other>
-            <CustomOptions Value="-dcomplete_at_scroll"/>
+            <CustomOptions Value="-dcomplete_at_scroll
+-dDisableLCLTIFF
+-dDisableLCLPNM
+-dDisableAsianCodePages
+-dGTK2_IME_CODE
+-dQT_NO_SESSIONMANAGER"/>
           </Other>
         </CompilerOptions>
       </Item6>
@@ -294,7 +304,12 @@
             </Options>
           </Linking>
           <Other>
-            <CustomOptions Value="-dcomplete_at_scroll"/>
+            <CustomOptions Value="-dcomplete_at_scroll
+-dDisableLCLTIFF
+-dDisableLCLPNM
+-dDisableAsianCodePages
+-dGTK2_IME_CODE
+-dQT_NO_SESSIONMANAGER"/>
           </Other>
         </CompilerOptions>
       </Item7>
@@ -337,7 +352,11 @@
           </Linking>
           <Other>
             <CustomOptions Value="-dcomplete_at_scroll
--dGTK2_IME_CODE"/>
+-dDisableLCLTIFF
+-dDisableLCLPNM
+-dDisableAsianCodePages
+-dGTK2_IME_CODE
+-dQT_NO_SESSIONMANAGER"/>
           </Other>
         </CompilerOptions>
       </Item8>
@@ -382,7 +401,12 @@
             </Options>
           </Linking>
           <Other>
-            <CustomOptions Value="-dcomplete_at_scroll"/>
+            <CustomOptions Value="-dcomplete_at_scroll
+-dDisableLCLTIFF
+-dDisableLCLPNM
+-dDisableAsianCodePages
+-dGTK2_IME_CODE
+-dQT_NO_SESSIONMANAGER"/>
           </Other>
         </CompilerOptions>
       </Item9>
@@ -424,7 +448,12 @@
             </Options>
           </Linking>
           <Other>
-            <CustomOptions Value="-dcomplete_at_scroll"/>
+            <CustomOptions Value="-dcomplete_at_scroll
+-dDisableLCLTIFF
+-dDisableLCLPNM
+-dDisableAsianCodePages
+-dGTK2_IME_CODE
+-dQT_NO_SESSIONMANAGER"/>
           </Other>
         </CompilerOptions>
       </Item10>
@@ -469,7 +498,12 @@
             </Options>
           </Linking>
           <Other>
-            <CustomOptions Value="-dcomplete_at_scroll"/>
+            <CustomOptions Value="-dcomplete_at_scroll
+-dDisableLCLTIFF
+-dDisableLCLPNM
+-dDisableAsianCodePages
+-dGTK2_IME_CODE
+-dQT_NO_SESSIONMANAGER"/>
           </Other>
         </CompilerOptions>
       </Item11>
@@ -511,7 +545,12 @@
             </Options>
           </Linking>
           <Other>
-            <CustomOptions Value="-dcomplete_at_scroll"/>
+            <CustomOptions Value="-dcomplete_at_scroll
+-dDisableLCLTIFF
+-dDisableLCLPNM
+-dDisableAsianCodePages
+-dGTK2_IME_CODE
+-dQT_NO_SESSIONMANAGER"/>
           </Other>
         </CompilerOptions>
       </Item12>
@@ -553,7 +592,12 @@
             </Options>
           </Linking>
           <Other>
-            <CustomOptions Value="-dcomplete_at_scroll"/>
+            <CustomOptions Value="-dcomplete_at_scroll
+-dDisableLCLTIFF
+-dDisableLCLPNM
+-dDisableAsianCodePages
+-dGTK2_IME_CODE
+-dQT_NO_SESSIONMANAGER"/>
           </Other>
         </CompilerOptions>
       </Item13>
@@ -592,7 +636,12 @@
             </Options>
           </Linking>
           <Other>
-            <CustomOptions Value="-dcomplete_at_scroll"/>
+            <CustomOptions Value="-dcomplete_at_scroll
+-dDisableLCLTIFF
+-dDisableLCLPNM
+-dDisableAsianCodePages
+-dGTK2_IME_CODE
+-dQT_NO_SESSIONMANAGER"/>
           </Other>
         </CompilerOptions>
       </Item14>
@@ -637,7 +686,10 @@
             <LinkSmart Value="True"/>
           </Linking>
           <Other>
-            <CustomOptions Value="-dcomplete_at_scroll"/>
+            <CustomOptions Value="-dcomplete_at_scroll
+-dDisableLCLTIFF
+-dDisableLCLPNM
+-dDisableAsianCodePages"/>
           </Other>
         </CompilerOptions>
       </Item15>
@@ -679,7 +731,10 @@
             <LinkSmart Value="True"/>
           </Linking>
           <Other>
-            <CustomOptions Value="-dcomplete_at_scroll"/>
+            <CustomOptions Value="-dcomplete_at_scroll
+-dDisableLCLTIFF
+-dDisableLCLPNM
+-dDisableAsianCodePages"/>
           </Other>
         </CompilerOptions>
       </Item16>
@@ -721,7 +776,10 @@
             </Options>
           </Linking>
           <Other>
-            <CustomOptions Value="-dcomplete_at_scroll"/>
+            <CustomOptions Value="-dcomplete_at_scroll
+-dDisableLCLTIFF
+-dDisableLCLPNM
+-dDisableAsianCodePages"/>
           </Other>
         </CompilerOptions>
       </Item17>
@@ -763,7 +821,10 @@
             </Options>
           </Linking>
           <Other>
-            <CustomOptions Value="-dcomplete_at_scroll"/>
+            <CustomOptions Value="-dcomplete_at_scroll
+-dDisableLCLTIFF
+-dDisableLCLPNM
+-dDisableAsianCodePages"/>
           </Other>
         </CompilerOptions>
       </Item18>
@@ -805,7 +866,10 @@
             </Options>
           </Linking>
           <Other>
-            <CustomOptions Value="-dcomplete_at_scroll"/>
+            <CustomOptions Value="-dcomplete_at_scroll
+-dDisableLCLTIFF
+-dDisableLCLPNM
+-dDisableAsianCodePages"/>
           </Other>
         </CompilerOptions>
       </Item19>
@@ -847,7 +911,10 @@
             </Options>
           </Linking>
           <Other>
-            <CustomOptions Value="-dcomplete_at_scroll"/>
+            <CustomOptions Value="-dcomplete_at_scroll
+-dDisableLCLTIFF
+-dDisableLCLPNM
+-dDisableAsianCodePages"/>
           </Other>
         </CompilerOptions>
       </Item20>
@@ -889,7 +956,10 @@
             </Options>
           </Linking>
           <Other>
-            <CustomOptions Value="-dcomplete_at_scroll"/>
+            <CustomOptions Value="-dcomplete_at_scroll
+-dDisableLCLTIFF
+-dDisableLCLPNM
+-dDisableAsianCodePages"/>
           </Other>
         </CompilerOptions>
       </Item21>
@@ -931,7 +1001,10 @@
             </Options>
           </Linking>
           <Other>
-            <CustomOptions Value="-dcomplete_at_scroll"/>
+            <CustomOptions Value="-dcomplete_at_scroll
+-dDisableLCLTIFF
+-dDisableLCLPNM
+-dDisableAsianCodePages"/>
           </Other>
         </CompilerOptions>
       </Item22>
@@ -973,7 +1046,10 @@
             </Options>
           </Linking>
           <Other>
-            <CustomOptions Value="-dcomplete_at_scroll"/>
+            <CustomOptions Value="-dcomplete_at_scroll
+-dDisableLCLTIFF
+-dDisableLCLPNM
+-dDisableAsianCodePages"/>
           </Other>
         </CompilerOptions>
       </Item23>
@@ -1015,7 +1091,10 @@
             </Options>
           </Linking>
           <Other>
-            <CustomOptions Value="-dcomplete_at_scroll"/>
+            <CustomOptions Value="-dcomplete_at_scroll
+-dDisableLCLTIFF
+-dDisableLCLPNM
+-dDisableAsianCodePages"/>
           </Other>
         </CompilerOptions>
       </Item24>
@@ -1706,6 +1785,7 @@
       <CustomOptions Value="-dcomplete_at_scroll
 -dDisableLCLTIFF
 -dDisableLCLPNM
+-dDisableAsianCodePages
 -dGTK2_IME_CODE
 -dQT_NO_SESSIONMANAGER
 -Oodfa"/>
