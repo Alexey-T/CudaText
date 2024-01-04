@@ -7918,6 +7918,7 @@ begin
   ResTo:= An.PublicData.TokenIndexer[ALineTo]; //1st token which touches ALineTo - not final result
   ResTo:= Min(NMaxToken, ResTo);
 
+  //last token which touches ALineTo
   while (ResTo+1<=NMaxToken) and (An.PublicData.Tokens[ResTo+1].Range.PointStart.Y<=ALineTo) do
     Inc(ResTo);
 end;
