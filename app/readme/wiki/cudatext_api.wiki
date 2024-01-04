@@ -1674,7 +1674,7 @@ Possible values of "id_action":
 
 ### Step 3 - enumerate sub-items of 'Command' node.
 ### We got last node with 'text'=='Command' and 'sub_items':True.
-### Copy its ID 140556582911904 and pass it to param "id_item".
+### Copy its id and pass it to param "id_item".
 
 >>> =tree_proc(ct, TREE_ITEM_ENUM_EX, id_item=140556582911904)
 [{'id': 140556582912064, 'text': '__init__', 'data': '', 'img': 5, 'sub_items': False},
@@ -1682,7 +1682,7 @@ Possible values of "id_action":
 {'id': 140556582913504, 'text': 'work', 'data': '', 'img': 5, 'sub_items': False}]
 
 ### Step 4 - get text range of node.
-### Copy ID of last item (node 'work' under node 'Command') and get its text range.
+### Copy id of some item and get its text range (x1, y1, x2, y2).
 
 >>> =tree_proc(ct, TREE_ITEM_GET_RANGE, id_item=140556582913504)
 (4, 102, 21, 180)
