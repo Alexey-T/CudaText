@@ -22,13 +22,18 @@ def get_offsets():
 
 def get_num_and_text(s):
     n = 0
-    while n<len(s) and s[n].isdigit(): n += 1
+    while n<len(s) and not s[n].isdigit():
+        n += 1
+    s_before = s[:n]
+    n0 = n
+    while n<len(s) and s[n].isdigit():
+        n += 1
     try:
-        num = int(s[:n])
+        num = int(s[n0:n])
     except:
         num = 0
-    text = s[n:]
-    return (num, text)
+    s_after = s[n:]
+    return (s_before, num, s_after)
 
 
 def get_shuffle(lines):
@@ -217,9 +222,9 @@ def do_sort(
 
         #numeric must be after offsets
         if is_numeric:
-            num, text = get_num_and_text(s.lstrip())
-            #print('parts "%s": %d %s' % (s, num, text))
-            s = '%20.20d ' % num + text
+            k = get_num_and_text(s)
+            #print('numeric key:', k)
+            return k
 
         return s
 
