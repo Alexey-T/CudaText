@@ -208,8 +208,7 @@
 -dDisableLCLTIFF
 -dDisableLCLPNM
 -dDisableAsianCodePages
--dGTK2_IME_CODE
--dQT_NO_SESSIONMANAGER"/>
+-dGTK2_IME_CODE"/>
           </Other>
         </CompilerOptions>
       </Item5>
@@ -257,9 +256,7 @@
             <CustomOptions Value="-dcomplete_at_scroll
 -dDisableLCLTIFF
 -dDisableLCLPNM
--dDisableAsianCodePages
--dGTK2_IME_CODE
--dQT_NO_SESSIONMANAGER"/>
+-dDisableAsianCodePages"/>
           </Other>
         </CompilerOptions>
       </Item6>
@@ -307,9 +304,7 @@
             <CustomOptions Value="-dcomplete_at_scroll
 -dDisableLCLTIFF
 -dDisableLCLPNM
--dDisableAsianCodePages
--dGTK2_IME_CODE
--dQT_NO_SESSIONMANAGER"/>
+-dDisableAsianCodePages"/>
           </Other>
         </CompilerOptions>
       </Item7>
@@ -355,8 +350,7 @@
 -dDisableLCLTIFF
 -dDisableLCLPNM
 -dDisableAsianCodePages
--dGTK2_IME_CODE
--dQT_NO_SESSIONMANAGER"/>
+-dGTK2_IME_CODE"/>
           </Other>
         </CompilerOptions>
       </Item8>
@@ -404,9 +398,7 @@
             <CustomOptions Value="-dcomplete_at_scroll
 -dDisableLCLTIFF
 -dDisableLCLPNM
--dDisableAsianCodePages
--dGTK2_IME_CODE
--dQT_NO_SESSIONMANAGER"/>
+-dDisableAsianCodePages"/>
           </Other>
         </CompilerOptions>
       </Item9>
@@ -452,8 +444,7 @@
 -dDisableLCLTIFF
 -dDisableLCLPNM
 -dDisableAsianCodePages
--dGTK2_IME_CODE
--dQT_NO_SESSIONMANAGER"/>
+-dGTK2_IME_CODE"/>
           </Other>
         </CompilerOptions>
       </Item10>
@@ -501,9 +492,7 @@
             <CustomOptions Value="-dcomplete_at_scroll
 -dDisableLCLTIFF
 -dDisableLCLPNM
--dDisableAsianCodePages
--dGTK2_IME_CODE
--dQT_NO_SESSIONMANAGER"/>
+-dDisableAsianCodePages"/>
           </Other>
         </CompilerOptions>
       </Item11>
@@ -548,9 +537,7 @@
             <CustomOptions Value="-dcomplete_at_scroll
 -dDisableLCLTIFF
 -dDisableLCLPNM
--dDisableAsianCodePages
--dGTK2_IME_CODE
--dQT_NO_SESSIONMANAGER"/>
+-dDisableAsianCodePages"/>
           </Other>
         </CompilerOptions>
       </Item12>
@@ -595,9 +582,7 @@
             <CustomOptions Value="-dcomplete_at_scroll
 -dDisableLCLTIFF
 -dDisableLCLPNM
--dDisableAsianCodePages
--dGTK2_IME_CODE
--dQT_NO_SESSIONMANAGER"/>
+-dDisableAsianCodePages"/>
           </Other>
         </CompilerOptions>
       </Item13>
@@ -639,9 +624,7 @@
             <CustomOptions Value="-dcomplete_at_scroll
 -dDisableLCLTIFF
 -dDisableLCLPNM
--dDisableAsianCodePages
--dGTK2_IME_CODE
--dQT_NO_SESSIONMANAGER"/>
+-dDisableAsianCodePages"/>
           </Other>
         </CompilerOptions>
       </Item14>
