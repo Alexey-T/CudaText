@@ -1646,7 +1646,7 @@ Possible values of "id_action":
 * TREE_ITEM_GET_RANGE: Should be used only for code-tree. Returns range, stored in tree-item, as 4-tuple (start_x, start_y, end_x, end_y). If range is not set, returns (-1,-1,-1,-1).
 * TREE_ITEM_SET_RANGE: Should be used only for code-tree. Sets range for tree-item. Param "text" must be 4-tuple of int (start_x, start_y, end_x, end_y).
 
-Example of fast treeview filling, with locking to prevert treeview repaints:
+'''Example of fast treeview filling''', with locking to prevert treeview repaints:
 
 <syntaxhighlight lang="python">
     tree_proc(h_tree, TREE_LOCK)
@@ -1657,30 +1657,40 @@ Example of fast treeview filling, with locking to prevert treeview repaints:
     tree_proc(h_tree, TREE_UNLOCK)
 </syntaxhighlight>
 
-Example of getting code-tree text range for some code-tree node. The following is the Console input commands and their outputs:
+'''Example of getting code-tree text range''' for some code-tree node. The following is the Console input commands and their outputs. Comments "### ..." are inserted by hands later.
 
 <syntaxhighlight lang="python">
-### Step 1 - get handle of code-tree
+### Step 1 - get handle of code-tree.
 
 >>> ct=app_proc(PROC_GET_CODETREE,'')
 >>> ct
 140556715678064
 
-### Step 2 - enumerate code-tree root level
+### Step 2 - enumerate code-tree root level.
 
 >>> =tree_proc(ct, TREE_ITEM_ENUM_EX, id_item=0)
-[{'id': 140556582911424, 'text': 'log', 'data': '', 'img': 5, 'sub_items': False}, {'id': 140556582911584, 'text': 'get_color', 'data': '', 'img': 5, 'sub_items': False}, {'id': 140556582911744, 'text': 'load_config', 'data': '', 'img': 5, 'sub_items': False}, {'id': 140556582911904, 'text': 'Command', 'data': '', 'img': 1, 'sub_items': True}]
+[{'id': 140556582911424, 'text': 'log', 'data': '', 'img': 5, 'sub_items': False}, 
+{'id': 140556582911584, 'text': 'get_color', 'data': '', 'img': 5, 'sub_items': False}, 
+{'id': 140556582911744, 'text': 'load_config', 'data': '', 'img': 5, 'sub_items': False}, 
+{'id': 140556582911904, 'text': 'Command', 'data': '', 'img': 1, 'sub_items': True}]
 
-### Here we get only last tree-node with 'sub_items':True. It is node 'Command' in Python file.
-I copy its ID 140556582911904 and pass it to param "id_item":
-
-### Step 3 - enumerate sub-items of 'Command' node
+### Step 3 - enumerate sub-items of 'Command' node.
+### We got last node with 'text'=='Command' and 'sub_items':True.
+### Copy its ID 140556582911904 and pass it to param "id_item".
 
 >>> =tree_proc(ct, TREE_ITEM_ENUM_EX, id_item=140556582911904)
-[{'id': 140556582912064, 'text': '__init__', 'data': '', 'img': 5, 'sub_items': False}, {'id': 140556582912224, 'text': 'config', 'data': '', 'img': 5, 'sub_items': False}, {'id': 140556582912384, 'text': 'on_change_slow', 'data': '', 'img': 5, 'sub_items': False}, {'id': 140556582912544, 'text': 'on_lexer', 'data': '', 'img': 5, 'sub_items': False}, {'id': 140556582912704, 'text': 'on_lexer_parsed', 'data': '', 'img': 5, 'sub_items': False}, {'id': 140556582912864, 'text': 'on_scroll', 'data': '', 'img': 5, 'sub_items': False}, {'id': 140556582913184, 'text': 'by_timer', 'data': '', 'img': 5, 'sub_items': False}, {'id': 140556582913344, 'text': 'on_focus', 'data': '', 'img': 5, 'sub_items': False}, {'id': 140556582913504, 'text': 'work', 'data': '', 'img': 5, 'sub_items': False}]
+[{'id': 140556582912064, 'text': '__init__', 'data': '', 'img': 5, 'sub_items': False}, 
+{'id': 140556582912224, 'text': 'config', 'data': '', 'img': 5, 'sub_items': False}, 
+{'id': 140556582912384, 'text': 'on_change_slow', 'data': '', 'img': 5, 'sub_items': False}, 
+{'id': 140556582912544, 'text': 'on_lexer', 'data': '', 'img': 5, 'sub_items': False}, 
+{'id': 140556582912704, 'text': 'on_lexer_parsed', 'data': '', 'img': 5, 'sub_items': False}, 
+{'id': 140556582912864, 'text': 'on_scroll', 'data': '', 'img': 5, 'sub_items': False}, 
+{'id': 140556582913184, 'text': 'by_timer', 'data': '', 'img': 5, 'sub_items': False}, 
+{'id': 140556582913344, 'text': 'on_focus', 'data': '', 'img': 5, 'sub_items': False}, 
+{'id': 140556582913504, 'text': 'work', 'data': '', 'img': 5, 'sub_items': False}]
 
-### Step 4 - get text range of node
-### I copy ID of last item (node 'work' under node 'Command') and get its text range
+### Step 4 - get text range of node.
+### Copy ID of last item (node 'work' under node 'Command') and get its text range.
 
 >>> =tree_proc(ct, TREE_ITEM_GET_RANGE, id_item=140556582913504)
 (4, 102, 21, 180)
