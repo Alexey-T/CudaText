@@ -4,7 +4,7 @@ jsonconf.pp
 Const
   DefaultJSONOptions = [joUTF8,joComments,joIgnoreTrailingComma];
  
-2) Must use fmShareDenyMode in TFileStream:
+2) Must use fmShareDenyNone in TFileStream:
 
 procedure TJSONConfig.LoadFromFile(const AFileName: String);
 
