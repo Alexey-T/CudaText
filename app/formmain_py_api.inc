@@ -7890,6 +7890,7 @@ procedure PyHelper_FindTokenRange(An: TecClientSyntAnalyzer; ALineFrom, ALineTo:
   out ResFrom, ResTo: integer);
 var
   NMaxLine, NMaxToken: integer;
+  Token: TecSyntToken;
 begin
   ResFrom:= -1;
   ResTo:= -1;
@@ -7914,8 +7915,15 @@ begin
   Inc(ALineTo);
   while (ALineTo<=NMaxLine) and (An.PublicData.TokenIndexer[ALineTo]<0) do
     Inc(ALineTo);
+
   if ALineTo<=NMaxLine then
-    ResTo:= Min(NMaxToken, An.PublicData.TokenIndexer[ALineTo])
+  begin
+    ResTo:= Min(NMaxToken, An.PublicData.TokenIndexer[ALineTo]-1);
+    Token:= An.PublicData.Tokens[ResTo];
+    //multi-line token? then increase ResTo
+    if Token.Range.PointEnd.Y<>Token.Range.PointStart.Y then
+      ResTo:= Min(NMaxToken, ResTo+1);
+  end
   else
     ResTo:= NMaxToken;
 end;
