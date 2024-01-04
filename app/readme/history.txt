@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-+ add: plugin Sort: 'Numeric' option handles leading letters too, e.g. line 'before123after' will be treated as tuple ('before', 123, 'after')
++ add: plugin Sort: 'Numeric' option handles leading letters too, e.g. line 'before123after' will be treated as tuple ['before', 123, 'after'] (thanks @BBServ)
 
 1.206.5 (2024/01)
 
