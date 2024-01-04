@@ -1669,9 +1669,7 @@ Possible values of "id_action":
 ### Step 2 - enumerate code-tree root level.
 
 >>> =tree_proc(ct, TREE_ITEM_ENUM_EX, id_item=0)
-[{'id': 140556582911424, 'text': 'log', 'data': '', 'img': 5, 'sub_items': False}, 
-{'id': 140556582911584, 'text': 'get_color', 'data': '', 'img': 5, 'sub_items': False}, 
-{'id': 140556582911744, 'text': 'load_config', 'data': '', 'img': 5, 'sub_items': False}, 
+[{'id': 140556582911424, 'text': 'log', 'data': '', 'img': 5, 'sub_items': False},
 {'id': 140556582911904, 'text': 'Command', 'data': '', 'img': 1, 'sub_items': True}]
 
 ### Step 3 - enumerate sub-items of 'Command' node.
@@ -1679,14 +1677,8 @@ Possible values of "id_action":
 ### Copy its ID 140556582911904 and pass it to param "id_item".
 
 >>> =tree_proc(ct, TREE_ITEM_ENUM_EX, id_item=140556582911904)
-[{'id': 140556582912064, 'text': '__init__', 'data': '', 'img': 5, 'sub_items': False}, 
-{'id': 140556582912224, 'text': 'config', 'data': '', 'img': 5, 'sub_items': False}, 
-{'id': 140556582912384, 'text': 'on_change_slow', 'data': '', 'img': 5, 'sub_items': False}, 
-{'id': 140556582912544, 'text': 'on_lexer', 'data': '', 'img': 5, 'sub_items': False}, 
-{'id': 140556582912704, 'text': 'on_lexer_parsed', 'data': '', 'img': 5, 'sub_items': False}, 
-{'id': 140556582912864, 'text': 'on_scroll', 'data': '', 'img': 5, 'sub_items': False}, 
-{'id': 140556582913184, 'text': 'by_timer', 'data': '', 'img': 5, 'sub_items': False}, 
-{'id': 140556582913344, 'text': 'on_focus', 'data': '', 'img': 5, 'sub_items': False}, 
+[{'id': 140556582912064, 'text': '__init__', 'data': '', 'img': 5, 'sub_items': False},
+{'id': 140556582913344, 'text': 'on_focus', 'data': '', 'img': 5, 'sub_items': False},
 {'id': 140556582913504, 'text': 'work', 'data': '', 'img': 5, 'sub_items': False}]
 
 ### Step 4 - get text range of node.
