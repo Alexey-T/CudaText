@@ -7905,30 +7905,21 @@ begin
   if ALineTo>NMaxLine then
     ALineTo:= NMaxLine;
 
+  //increase ALineFrom until we get TokenIndexer[]>=0 (ie skip empty lines)
   while (ALineFrom<=NMaxLine) and (An.PublicData.TokenIndexer[ALineFrom]<0) do
     Inc(ALineFrom);
-  if ALineFrom<=NMaxLine then
-    ResFrom:= An.PublicData.TokenIndexer[ALineFrom]
-  else
-    exit;
+  if ALineFrom>NMaxLine then exit;
 
-  Inc(ALineTo);
-  while (ALineTo<=NMaxLine) and (An.PublicData.TokenIndexer[ALineTo]<0) do
-    Inc(ALineTo);
+  //decrease ALineTo until we get TokenIndexer[]>=0 (ie skip empty lines)
+  while (ALineTo>ALineFrom) and (An.PublicData.TokenIndexer[ALineTo]<0) do
+    Dec(ALineTo);
 
-  if ALineTo<=NMaxLine then
-  begin
-    ResTo:= Min(NMaxToken, An.PublicData.TokenIndexer[ALineTo]-1);
-    //next token is multi-line? then take it too. fix for plugin Highlight Variables.
-    if ResTo+1<=NMaxToken then
-    begin
-      Token:= An.PublicData.Tokens[ResTo+1];
-      if Token.Range.PointEnd.Y<>Token.Range.PointStart.Y then
-        Inc(ResTo);
-    end;
-  end
-  else
-    ResTo:= NMaxToken;
+  ResFrom:= An.PublicData.TokenIndexer[ALineFrom]; //1st token which touches ALineFrom
+  ResTo:= An.PublicData.TokenIndexer[ALineTo]; //1st token which touches ALineTo - not final result
+  ResTo:= Min(NMaxToken, ResTo);
+
+  while (ResTo+1<=NMaxToken) and (An.PublicData.Tokens[ResTo+1].Range.PointStart.Y<=ALineTo) do
+    Inc(ResTo);
 end;
 
 function PyHelper_GetTokenList(Adapter: TATAdapterEControl; ALineFrom, ALineTo: integer): PPyObject;
