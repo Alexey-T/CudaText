@@ -3,6 +3,8 @@
   - fixed
   * changed
 
++ add: plugin Sort: 'Numeric' option handles leading letters too, e.g. line 'before123after' will be treated as tuple ('before', 123, 'after')
+
 1.206.5 (2024/01)
 
 + add: optimized installation of 100 addons from .zip's, when file-open dialog multi-selection is used
