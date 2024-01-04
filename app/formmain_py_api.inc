@@ -7887,13 +7887,12 @@ begin
 end;
 
 procedure PyHelper_FindTokenRange(An: TecClientSyntAnalyzer; ALineFrom, ALineTo: integer;
-  out ResFrom, ResTo: integer);
+  out ATokenIndexFrom, ATokenIndexTo: integer);
 var
   NMaxLine, NMaxToken: integer;
-  Token: TecSyntToken;
 begin
-  ResFrom:= -1;
-  ResTo:= -1;
+  ATokenIndexFrom:= -1;
+  ATokenIndexTo:= -1;
 
   if ALineFrom<0 then exit;
   if ALineFrom>ALineTo then exit;
@@ -7914,13 +7913,13 @@ begin
   while (ALineTo>ALineFrom) and (An.PublicData.TokenIndexer[ALineTo]<0) do
     Dec(ALineTo);
 
-  ResFrom:= An.PublicData.TokenIndexer[ALineFrom]; //1st token which touches ALineFrom
-  ResTo:= An.PublicData.TokenIndexer[ALineTo]; //1st token which touches ALineTo - not final result
-  ResTo:= Min(NMaxToken, ResTo);
+  ATokenIndexFrom:= An.PublicData.TokenIndexer[ALineFrom]; //1st token which touches ALineFrom
+  ATokenIndexTo:= An.PublicData.TokenIndexer[ALineTo]; //1st token which touches ALineTo - not final result
+  ATokenIndexTo:= Min(NMaxToken, ATokenIndexTo);
 
   //last token which touches ALineTo
-  while (ResTo+1<=NMaxToken) and (An.PublicData.Tokens[ResTo+1].Range.PointStart.Y<=ALineTo) do
-    Inc(ResTo);
+  while (ATokenIndexTo+1<=NMaxToken) and (An.PublicData.Tokens[ATokenIndexTo+1].Range.PointStart.Y<=ALineTo) do
+    Inc(ATokenIndexTo);
 end;
 
 function PyHelper_GetTokenList(Adapter: TATAdapterEControl; ALineFrom, ALineTo: integer): PPyObject;
