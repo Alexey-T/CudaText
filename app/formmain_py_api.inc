@@ -7919,10 +7919,13 @@ begin
   if ALineTo<=NMaxLine then
   begin
     ResTo:= Min(NMaxToken, An.PublicData.TokenIndexer[ALineTo]-1);
-    Token:= An.PublicData.Tokens[ResTo];
-    //multi-line token? then increase ResTo
-    if Token.Range.PointEnd.Y<>Token.Range.PointStart.Y then
-      ResTo:= Min(NMaxToken, ResTo+1);
+    //next token is multi-line? then take it too. fix for plugin Highlight Variables.
+    if ResTo+1<=NMaxToken then
+    begin
+      Token:= An.PublicData.Tokens[ResTo+1];
+      if Token.Range.PointEnd.Y<>Token.Range.PointStart.Y then
+        Inc(ResTo);
+    end;
   end
   else
     ResTo:= NMaxToken;
