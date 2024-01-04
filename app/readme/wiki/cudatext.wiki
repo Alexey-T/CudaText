@@ -571,7 +571,7 @@ The following lexers (counting only important ones) exist for CudaText. They are
 * VBScript
 * Verilog HDL
 * VHDL
-* VimL (Vimscript)
+* Vimscript
 * Virgil
 * Visual Basic
 * Visual dBase
