@@ -522,6 +522,7 @@ The following lexers (counting only important ones) exist for CudaText. They are
 * Razor
 * ReasonML
 * Red
+* ReScript
 * reStructuredText
 * Rexx
 * RON
