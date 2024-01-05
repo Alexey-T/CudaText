@@ -2475,5 +2475,6 @@ Steps for Windows OS.
 
 * You need to put config file to %UserProfile% folder. For example: "C:\Users\john\.vale.ini".
 * Do not forget to run: "vale sync".
+* Vale server did not support filenames with spaces on Windows OS. To fix it, update Vale to 0.3.7 or newer.
 
 [[Category:CudaText]]
