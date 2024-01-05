@@ -399,6 +399,8 @@ TYPES = {
     "red": ['Red'],
     "reds": ['Red'],
     "rei": ['ReasonML'],
+    "res": ['ReScript'],
+    "resi": ['ReScript'],
     "rex": ['Rexx'],
     "rhtml": ['HTML Ruby-ERB'],
     "rjs": ['Ruby'],
