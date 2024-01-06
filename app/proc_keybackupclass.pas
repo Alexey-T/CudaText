@@ -45,6 +45,7 @@ begin
   L:= TStringList.Create;
   L.OwnsObjects:= true;
   L.Duplicates:= dupIgnore;
+  L.UseLocale:= false;
   L.Sorted:= true;
 end;
 
