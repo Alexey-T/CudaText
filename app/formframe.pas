@@ -3890,13 +3890,16 @@ end;
 
 procedure TEditorFrame.DoSaveBookmarks(Ed: TATSynEdit; c: TJsonConfig);
 var
-  SKey: UnicodeString;
+  SKey, SData: string;
 begin
   if Ed.FileName<>'' then
   begin
     SKey:= AppConfigKeyForBookmarks(Ed);
     if Ed.Strings.Bookmarks.Count>0 then
-      c.SetValue(SKey, EditorBookmarksToString(Ed))
+    begin
+      SData:= EditorBookmarksToString(Ed);
+      c.SetValue(SKey, SData);
+    end
     else
       c.DeleteValue(SKey);
     Ed.ModifiedBookmarks:= false;
