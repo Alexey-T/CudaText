@@ -6160,9 +6160,9 @@ begin
         LEXER_GET_LEXERS:
           begin
             List:= TStringList.Create;
-            List.UseLocale:= false;
-            List.Sorted:= true;
             try
+              List.UseLocale:= false;
+              List.Sorted:= true;
               Lexer_EnumAll(List, AppStrToBool(StrValue));
               Result:= StringsToPyList(List);
             finally
