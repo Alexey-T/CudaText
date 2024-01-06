@@ -2884,17 +2884,17 @@ end;
 function EditorBookmarksToString(Ed: TATSynEdit): string;
 var
   List: TStringList;
-  St: TATStrings;
+  BmList: TATBookmarks;
   Bm: PATBookmarkItem;
   i: integer;
 begin
-  St:= Ed.Strings;
+  BmList:= Ed.Strings.Bookmarks;
   List:= TStringList.Create;
   try
     List.Delimiter:= ' ';
-    for i:= 0 to St.Bookmarks.Count-1 do
+    for i:= 0 to BmList.Count-1 do
     begin
-      Bm:= St.Bookmarks[i];
+      Bm:= BmList[i];
       //save usual bookmarks and numbered bookmarks (kind=1..10)
       if Bm^.Data.Kind>10 then Continue;
       List.Add(IntToStr(Bm^.Data.LineNum)+','+IntToStr(Bm^.Data.Kind));
