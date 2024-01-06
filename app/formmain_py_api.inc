@@ -2006,7 +2006,7 @@ end;
 function PyHelper_BookmarkGetItem(BmItem: PATBookmarkItem): PPyObject;
 begin
   with AppPython.Engine do
-    Result:= Py_BuildValue('{sisLsisssOsisO}',
+    Result:= Py_BuildValue('{sisLsisssisO}',
       'line',
       BmItem^.Data.LineNum,
       'tag',
@@ -2015,8 +2015,6 @@ begin
       Integer(BmItem^.Data.Kind),
       'hint',
       PChar(string(BmItem^.Data.Hint)),
-      'auto_del',
-      PyBool_FromLong(Ord(BmItem^.Data.AutoDelete=TATBookmarkAutoDelete.Delete)),
       'auto_delx',
       Ord(BmItem^.Data.AutoDelete),
       'show_in_list',
