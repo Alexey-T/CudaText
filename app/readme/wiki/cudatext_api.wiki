@@ -1486,14 +1486,20 @@ Example opens untitled tab, and writes multi-line text to it:
 
 Returns range object, which contains int handles of all editor UI-tabs. Pass each handle to Editor() to make editor object from handle.
 
-Note: resulting int handles are virtual. They are not memory addsesses, they are not unique across app run time. To get unique handle which is memory address of an editor, use: Editor(h).get_prop(PROP_HANDLE_SELF, '').
-
 Example which shows filenames of all tabs:
 
 <syntaxhighlight lang="python">
     for h in ed_handles():
         e = Editor(h)
         print(e.get_filename())
+</syntaxhighlight>
+
+Note: resulting int handles are virtual (small int numbers, not memory addresses). To get unique handle which is memory address of an editor, use PROP_HANDLE_SELF:
+
+<syntaxhighlight lang="python">
+    for h in ed_handles():
+        e = Editor(h)
+        print('Unique handle:', e.get_prop(PROP_HANDLE_SELF, ''))
 </syntaxhighlight>
 
 ===ed_group===
