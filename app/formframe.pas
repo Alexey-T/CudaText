@@ -285,7 +285,6 @@ type
     function GetAdapter(Ed: TATSynEdit): TATAdapterEControl;
     function GetCachedTreeviewInited(Ed: TATSynEdit): boolean;
     function GetCachedTreeview(Ed: TATSynEdit): TTreeView;
-    function GetCommentString(Ed: TATSynEdit): string;
     function GetTextChangeSlow(EdIndex: integer): boolean;
     function GetWordWrap: TATEditorWrapMode;
     procedure HandleProgressButtonCancel(Sender: TObject);
@@ -435,7 +434,6 @@ type
     procedure LexerBackupSave;
     procedure LexerBackupRestore;
 
-    property CommentString[Ed: TATSynEdit]: string read GetCommentString;
     property TabColor: TColor read FTabColor write SetTabColor;
     property TabFontColor: TColor read FTabFontColor write SetTabFontColor;
     property TabPinned: boolean read FTabPinned write SetTabPinned;
@@ -3585,16 +3583,6 @@ begin
   end;
 end;
 
-
-function TEditorFrame.GetCommentString(Ed: TATSynEdit): string;
-var
-  an: TecSyntAnalyzer;
-begin
-  Result:= '';
-  an:= Adapter[Ed].Lexer;
-  if Assigned(an) then
-    Result:= an.LineComment;
-end;
 
 function TEditorFrame.GetTextChangeSlow(EdIndex: integer): boolean;
 begin
