@@ -2783,7 +2783,6 @@ Controls bookmarks. Possible values of "id":
 ** "tag": int
 ** "hint": str
 ** "auto_delx": enum, 0: don't auto-delete; 1: auto-delete; 2: auto-delete if global option is set
-** "auto_del" (deprecated): bool, True if "auto_delx" is 1
 ** "show_in_list": bool
 * BOOKMARK_GET_LIST: Returns list of line indexes, which have bookmarks. Param "nline" ignored.
 * BOOKMARK_GET_PROP: Returns properties of bookmark at line index, given by param "nline". Returns dict, like for BOOKMARK_GET_ALL, or None.
