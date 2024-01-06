@@ -260,7 +260,7 @@ end;
 
 procedure TfmLexerLib.UpdateList;
 var
-  sl: tstringlist;
+  sl: TStringList;
   an: TecSyntAnalyzer;
   an_sub: TecSubAnalyzerRule;
   links, suffix: string;
@@ -309,7 +309,7 @@ begin
       List.Items.AddObject(sl[i] + links + suffix, an);
     end;
   finally
-    sl.free;
+    FreeAndNil(sl);
   end;
 
   List.Items.EndUpdate;

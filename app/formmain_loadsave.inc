@@ -835,8 +835,8 @@ begin
     Result:= true;
   finally
     AppSessionIsLoading:= false;
-    ListSessionKeys.Free;
-    cfg.Free;
+    FreeAndNil(ListSessionKeys);
+    FreeAndNil(cfg);
   end;
 
   if UiOps.LogSessions then

@@ -2456,7 +2456,7 @@ begin
     SFilename:= AppFile_Hotkeys;
 
   c:= TJSONConfig.Create(nil);
-  sl:= TStringlist.create;
+  sl:= TStringList.Create;
   try
     try
       c.Formatted:= true;
@@ -2483,8 +2483,8 @@ begin
     else
       c.DeleteValue(path+'/s2')
   finally
-    c.Free;
-    sl.Free;
+    FreeAndNil(c);
+    FreeAndNil(sl);
   end;
 end;
 
@@ -2537,7 +2537,7 @@ begin
     SFilename:= AppFile_Hotkeys;
 
   c:= TJSONConfig.Create(nil);
-  sl:= TStringlist.create;
+  sl:= TStringList.Create();
   try
     try
       c.Formatted:= true;
@@ -2562,8 +2562,8 @@ begin
     c.SetValue(path+'/s1', sl);
     Result:= true;
   finally
-    c.Free;
-    sl.Free;
+    FreeAndNil(c);
+    FreeAndNil(sl);
   end;
 end;
 
@@ -2973,9 +2973,9 @@ begin
           }
     end;
   finally
-    skeys.Free;
-    slist.Free;
-    cfg.Free;
+    FreeAndNil(skeys);
+    FreeAndNil(slist);
+    FreeAndNil(cfg);
   end;
 end;
 

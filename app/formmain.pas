@@ -5745,7 +5745,7 @@ begin
         AMenu.Add(mi);
     end;
   finally
-    sl.Free;
+    FreeAndNil(sl);
   end;
 end;
 

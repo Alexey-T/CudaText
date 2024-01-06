@@ -1234,6 +1234,7 @@ procedure InitHtmlTags;
 begin
   if Assigned(HtmlTags) then exit;
   HtmlTags:= TStringList.Create;
+  HtmlTags.UseLocale:= false;
   HtmlTags.Sorted:= true;
   HtmlTags.Add('a');
   HtmlTags.Add('abbr');
