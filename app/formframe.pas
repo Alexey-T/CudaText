@@ -164,7 +164,6 @@ type
     FTextChange: array[0..1] of boolean;
     FTextChangeSlow: array[0..1] of boolean;
     FGotoInput: UnicodeString;
-    FActivationTime: Int64;
     FCodetreeFilter: string;
     FCodetreeFilterHistory: TStringList;
     FCodetreeSortType: TSortType;
@@ -453,7 +452,6 @@ type
     property CodetreeFilter: string read FCodetreeFilter write FCodetreeFilter;
     property CodetreeFilterHistory: TStringList read FCodetreeFilterHistory;
     property CodetreeSortType: TSortType read FCodetreeSortType write FCodetreeSortType;
-    property ActivationTime: Int64 read FActivationTime write FActivationTime;
     property GotoInput: UnicodeString read FGotoInput write FGotoInput;
     function IsEmpty: boolean;
     procedure ApplyLexerStyleMap;
@@ -1846,8 +1844,6 @@ begin
     FOnFocusEditor(Sender);
 
   DoPyEvent(Sender as TATSynEdit, TAppPyEvent.OnFocus, []);
-
-  FActivationTime:= GetTickCount64;
 end;
 
 procedure TEditorFrame.EditorOnCommand(Sender: TObject; ACmd: integer;

@@ -3687,10 +3687,7 @@ begin
 
         PROP_ACTIVATION_TIME:
           begin
-            if Assigned(F) then
-              Result:= PyLong_FromLongLong(Int64(F.ActivationTime))
-            else
-              Result:= ReturnNone;
+            Result:= PyLong_FromLongLong(Ed.ActivationTime);
           end;
 
         PROP_LINK_AT_POS:

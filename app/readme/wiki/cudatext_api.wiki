@@ -2522,7 +2522,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_FONT_B: 2-tuple (str, int): bold font: name, size. Empty name: not used.
 * PROP_FONT_I: 2-tuple (str, int): italic font: name, size. Empty name: not used.
 * PROP_FONT_BI: 2-tuple (str, int): bold+italic font: name, size. Empty name: not used.
-* PROP_ACTIVATION_TIME: int: time (in milliseconds since OS start) when ui-tab (containing the editor object) was last focused. It's 0 for not yet focused ui-tabs. It's None for editors created by dlg_proc(). It's the same for the "primary" and "secondary" editor objects in the same ui-tab.
+* PROP_ACTIVATION_TIME: int: time (in milliseconds since OS start) when ui-tab (containing the editor object) was last focused. It's 0 for not yet focused ui-tabs.
 * PROP_KIND: str: kind of UI control in the tab.
 ** "text": normal editor.
 ** "bin": text/binary/hex viewer.
@@ -4971,5 +4971,9 @@ It provides:
 1.0.450 (app 1.206.4)
 * delete deprecated actions FOLDING_GET_LIST and FOLDING_GET_LIST_FILTERED (use FOLDING_ENUM instead of them)
 * add: file_open: option "/noupdateaddons"
+
+1.0.451 (app 1.206.6)
+* delete deprecated key "auto_del" in results of BOOKMARK_GET_ALL
+* change: Editor.get_prop/set_prop: PROP_ACTIVATION_TIME is now available for editors created via dlg_proc; it is different now for primary/secondary editor in the same ui-tab 
 
 [[Category:CudaText]]

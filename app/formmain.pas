@@ -6601,9 +6601,9 @@ begin
   begin
     Frame:= Frames[i];
     if Frame=CurFrame then Continue;
-    if Frame.ActivationTime>Time then
+    if Frame.Editor.ActivationTime>Time then
     begin
-      Time:= Frame.ActivationTime;
+      Time:= Frame.Editor.ActivationTime;
       NewFrame:= Frame;
     end;
   end;
@@ -8429,7 +8429,7 @@ end;
 
 function TfmMain.DoOnTabGetTick(Sender: TObject; ATabObject: TObject): Int64;
 begin
-  Result:= TEditorFrame(ATabObject).ActivationTime;
+  Result:= TEditorFrame(ATabObject).Editor.ActivationTime;
 end;
 
 function TfmMain.IsWindowMaximizedOrFullscreen: boolean;
@@ -8702,8 +8702,8 @@ function _FrameListCompare(List: TStringList; Index1, Index2: Integer): Integer;
 var
   t1, t2: Int64;
 begin
-  t1:= TEditorFrame(List.Objects[Index1]).ActivationTime;
-  t2:= TEditorFrame(List.Objects[Index2]).ActivationTime;
+  t1:= TEditorFrame(List.Objects[Index1]).Editor.ActivationTime;
+  t2:= TEditorFrame(List.Objects[Index2]).Editor.ActivationTime;
   if t1>t2 then
     Result:= -1
   else

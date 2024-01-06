@@ -806,9 +806,9 @@ begin
     begin
       Frame:= Frames[iFrame];
       if Frame.Visible then
-        Frame.ActivationTime:= GetTickCount64
+        Frame.Ed1.ActivationTime:= GetTickCount64
       else
-        Frame.ActivationTime:= 0;
+        Frame.Ed1.ActivationTime:= 0;
     end;
 
     //restore panel sizes
