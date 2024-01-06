@@ -2539,8 +2539,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_HANDLE_SELF: int: handle of editor object, for which get_prop() is called. This handle is unique among all objects in program (it is memory address). Why not just use "ed.h"? Because: 1) For "ed" object its handle "ed.h" is zero - zero handle is virtual handle pointing to the focused editor. 2) For "ed_handles()" result, handles are also virtual, they are some small integer numbers, not memory addresses. Note: to get editor object from handle, use "Editor(handle_value)".
 * PROP_HANDLE_PRIMARY: int: handle of editor object, which is primary editor in ui-tab (primary editor is always visible). It's None for editor objects created from dlg_proc().
 * PROP_HANDLE_SECONDARY: int: handle of editor object, which is secondary editor in ui-tab (secondary editor is visible only when ui-tab is splitted). It's None for editor objects created from dlg_proc().
-* PROP_HANDLE_PARENT: int: handle of parent of editor object, or 0 if no such parent. This handle is needed to dock forms near the editor.
-
+* PROP_HANDLE_PARENT: int: handle of parent of editor object, or 0 if no such parent. This is handle of dialog containing the editor, it can be passed to dlg_proc(). This handle is needed to dock custom dialogs into the editor, again via dlg_proc().
 * PROP_COORDS: 4-tuple of int: rectangle of entire editor area, relative to screen.
 * PROP_RECT_CLIENT: 4-tuple of int: rectangle of entire editor area, relative to editor.
 * PROP_RECT_TEXT: 4-tuple of int: rectangle of "main text" editor area (excluding gutter/minimap/micromap/ruler), relative to editor.
