@@ -3,6 +3,8 @@
   - fixed
   * changed
 
+- fix: when Project Manager opens files in 'preview tab', old bookmarks are not cleared (thanks @veksha)
+
 1.206.5 (2024/01)
 
 + add: plugin Sort: 'Numeric' option handles leading letters too, e.g. line 'before123after' will be treated as tuple ['before', 123, 'after'] (thanks @BBServ)
