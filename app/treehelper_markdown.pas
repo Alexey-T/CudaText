@@ -192,6 +192,7 @@ begin
     begin
       S:= Trim(S);
       if S='' then Continue;
+      if Pos(S[1], '-=|')>0 then Continue; //header cannot start with some chars
       DataItem.X1:= 0;
       DataItem.Y1:= iLine;
       DataItem.X2:= 0;
