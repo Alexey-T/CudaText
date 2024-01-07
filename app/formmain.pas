@@ -4713,8 +4713,13 @@ begin
         Result.DoSaveHistory(Result.Ed2);
     end;
 
-    Result.Ed1.BookmarkDeleteAll();
-    Result.Ed2.BookmarkDeleteAll();
+    //we load file into existing editor, so clear bookmarks/markers
+    Result.Ed1.BookmarkDeleteAll;
+    Result.Ed2.BookmarkDeleteAll;
+    Result.Ed1.MarkerClearAll;
+    Result.Ed2.MarkerClearAll;
+    Result.Ed1.AttribClearAll;
+    Result.Ed2.AttribClearAll;
 
     Result.DoFileOpen(AFileName, AFileName2,
       bEnableHistory,
