@@ -4706,6 +4706,13 @@ begin
       DoFocusFrame(Result);
     end;
 
+    Result.DoSaveHistory(Result.Ed1);
+    if not Result.EditorsLinked then
+      Result.DoSaveHistory(Result.Ed2);
+
+    Result.Ed1.BookmarkDeleteAll();
+    Result.Ed2.BookmarkDeleteAll();
+
     Result.DoFileOpen(AFileName, AFileName2,
       bEnableHistory,
       bEnableLoadBookmarks,
