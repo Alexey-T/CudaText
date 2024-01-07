@@ -2522,7 +2522,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_FONT_B: 2-tuple (str, int): bold font: name, size. Empty name: not used.
 * PROP_FONT_I: 2-tuple (str, int): italic font: name, size. Empty name: not used.
 * PROP_FONT_BI: 2-tuple (str, int): bold+italic font: name, size. Empty name: not used.
-* PROP_ACTIVATION_TIME: int: time (in milliseconds since OS start) when ui-tab (containing the editor object) was last focused. It's 0 for not yet focused ui-tabs.
+* PROP_ACTIVATION_TIME: int: time (in milliseconds since OS start) when editor was last focused. It's 0 for not yet focused editors.
 * PROP_KIND: str: kind of UI control in the tab.
 ** "text": normal editor.
 ** "bin": text/binary/hex viewer.
