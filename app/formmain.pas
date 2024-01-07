@@ -4706,9 +4706,12 @@ begin
       DoFocusFrame(Result);
     end;
 
-    Result.DoSaveHistory(Result.Ed1);
-    if not Result.EditorsLinked then
-      Result.DoSaveHistory(Result.Ed2);
+    if bEnableHistory then
+    begin
+      Result.DoSaveHistory(Result.Ed1);
+      if not Result.EditorsLinked then
+        Result.DoSaveHistory(Result.Ed2);
+    end;
 
     Result.Ed1.BookmarkDeleteAll();
     Result.Ed2.BookmarkDeleteAll();
