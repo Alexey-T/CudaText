@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-- fix: when Project Manager opens files in 'preview tab', old bookmarks are not cleared (thanks @veksha)
+- fix: when Project Manager opens files in the same 'preview' tab, it must clear old bookmarks/markers/attribs (thanks @veksha)
 
 1.206.5 (2024/01)
 
