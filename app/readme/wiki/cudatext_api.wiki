@@ -2876,7 +2876,7 @@ Performs action on folding ranges. Possible values of "id":
 
 * FOLDING_UNFOLD: Unfolds range with given index (index in unfiltered list returned by FOLDING_ENUM). Params used: "index".
 * FOLDING_UNFOLD_ALL: Unfolds all ranges.
-* FOLDING_UNFOLD_LINE: Unfolds line with given index. Params used: "index".
+* FOLDING_UNFOLD_LINE: Unfolds all ranges containing editor line with given index. Params used: "index".
 
 * FOLDING_ADD: Adds folding range. Life time of this range is until lexer analisys runs (it clears ranges and adds ranges from lexer), which runs after any text change. Params used:
 ** "item_x": column index (offset in line) of range start.
