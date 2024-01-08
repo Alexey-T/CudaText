@@ -6,6 +6,7 @@
 1.206.7 (2024/01)
 
 + add: updating of parser data in parser-thread now blocks main thread much less (e.g. before: 9 msec, now: 0.1 msec)
++ add: optimization of search/replace in long lines: faster by ~20%
 - fix: when Project Manager opens files in the same 'preview' tab, it must clear old bookmarks/markers/attribs (thanks @veksha)
 - fix: issue with External Tools plugin in Qt5 version: list selection was ignored (thanks @veksha)
 - fix: lexer Bash: fix continuation char in comment (thanks @Flashwalker)
