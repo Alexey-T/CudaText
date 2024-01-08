@@ -213,6 +213,7 @@ object SyntAnal2: TLibSyntAnalyzer
     end
     item
       DisplayName = 'IP-Address'
+      Enabled = False
       StyleName = 'String'
       TokenType = 5
       Expression = '\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b'
@@ -226,9 +227,18 @@ object SyntAnal2: TLibSyntAnalyzer
       StrictParent = True
       NotParent = True
       TokenType = 1
-      Expression = 
-        '^\s*\#(\\\n|.)* | (?<=[\x20\x09`])\# (?![\}\]]) (.*?(?=`)|(\\\n|' +
-        '.)*$)'#13#10'#support comments inside `..`'
+      Expression = '^[\x20\x09]*\#.*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Comment in `...`'
+      StyleName = 'Comment'
+      BlockName = '(('
+      StrictParent = True
+      NotParent = True
+      TokenType = 1
+      Expression = '(?<=[\x20\x09`])\#[^\}\]](.*?(?=`)|(\\\n|.)*$)'
       ColumnFrom = 0
       ColumnTo = 0
     end
