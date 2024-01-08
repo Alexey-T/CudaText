@@ -637,6 +637,7 @@ begin
     C.ItemIndex:= N;
     C.ItemFocused:= C.Items[N];
     C.Selected:= C.Items[N];
+    C.Items[N].Selected:= true; //needed only for Qt5, issue #4280
     if Assigned(C.Selected) then
       C.Selected.MakeVisible(false);
   end;
