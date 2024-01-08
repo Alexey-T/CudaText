@@ -616,7 +616,7 @@ procedure DoControl_SetState_SpinEdit(C: TSpinEdit; const SValue: string);
 var
   N: integer;
 begin
-  N:= StrToIntDef(SValue, -10000);
+  N:= StrToIntDef(SValue, C.MinValue);
   if N<C.MinValue then N:= C.MinValue;
   if N>C.MaxValue then N:= C.MaxValue;
   C.Value:= N;
