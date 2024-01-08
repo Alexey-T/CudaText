@@ -4,6 +4,7 @@
   * changed
 
 - fix: when Project Manager opens files in the same 'preview' tab, it must clear old bookmarks/markers/attribs (thanks @veksha)
+- fix: lexer Bash: fix continuation char in comment (thanks @Flashwalker)
 
 1.206.5 (2024/01)
 
