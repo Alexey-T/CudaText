@@ -7,6 +7,7 @@
 
 + add: optimization of search/replace in huge lines: faster by ~20%
 + add: optimization of code-tree filling in Pascal tree-helpers (thanks @mix-7)
++ add: option "ui_tree_fill_max_time" is used for Pascal tree-helpers too
 + add: updating of data in parser-thread now blocks main thread much less; e.g. before on 400Kb file: 8 msec, now: 0.1 msec
 - fix: when Project Manager opens files in the same 'preview' tab, it must clear old bookmarks/markers/attribs (thanks @veksha)
 - fix: issue with External Tools plugin in Qt5 version: list selection was ignored (thanks @veksha)
