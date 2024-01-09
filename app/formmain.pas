@@ -8594,9 +8594,12 @@ var
   TreeSavedFold: TAppCodetreeSavedFold;
   Range: TATRangeInCodeTree;
   iItem, iLevel: integer;
+  NStartTick: QWord;
 const
   cTagOlder = -10;
 begin
+  NStartTick:= GetTickCount64;
+
   Data:= TATTreeHelperRecords.Create;
   if Assigned(ATree) then
   begin
@@ -8662,7 +8665,18 @@ begin
           if Assigned(EdPair) then
             EdPair.Fold.Merge(NX1+1, NY1, NX2+1, NY2, STitle, cTagPersistentFoldRange);
         end;
-      end;
+
+        if GetTickCount64-NStartTick>UiOps.TreeFillMaxTime then
+        begin
+          STitle:= Format(OptCodeTreeMaxTimeMessage, [
+              UiOps.TreeFillMaxTime,
+              FormatIntegerByKilo(Data.Count-ATree.Items.Count),
+              FormatIntegerByKilo(Data.Count)
+              ]);
+          NodeParent:= ATree.Items.AddChildObject(nil, STitle, nil);
+          Break;
+        end;
+      end; //for iItem:= 0 to Data.Count-1 do
 
       Ed.Fold.DeleteAllByTag(cTagOlder);
       if Assigned(EdPair) then
