@@ -825,7 +825,7 @@ begin
     cmdFirstRecentCommand..cmdLastRecentCommand:
       Result:= true;
 
-    cmd_FileNew,
+    //cmd_FileNew, //don't need timer
     cmd_FileNewMenu,
     cmd_FileOpen,
     cmd_FileOpen_NoPlugins,

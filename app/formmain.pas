@@ -6195,10 +6195,6 @@ var
 begin
   Frame:= DoFileOpen('', '');
   DoApplyNewdocLexer(Frame);
-
-  //ProcessMessages is only needed for macOS, for plugin API:
-  //'ed' will be updated ok, and next command like 'ed.set_prop()' will affect the new tab
-  Application.ProcessMessages;
 end;
 
 procedure TfmMain.DoApplyNewdocLexer(F: TEditorFrame);
