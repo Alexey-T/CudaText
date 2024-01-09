@@ -8598,8 +8598,6 @@ var
 const
   cTagOlder = -10;
 begin
-  NStartTick:= GetTickCount64;
-
   Data:= TATTreeHelperRecords.Create;
   if Assigned(ATree) then
   begin
@@ -8620,6 +8618,8 @@ begin
       EditorFold_SetTag(Ed, cTagOlder);
       if Assigned(EdPair) then
         EditorFold_SetTag(EdPair, cTagOlder);
+
+      NStartTick:= GetTickCount64;
 
       for iItem:= 0 to Data.Count-1 do
       begin
