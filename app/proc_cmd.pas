@@ -463,7 +463,7 @@ begin
   M.Add(cmd_OpenFileInDefaultApp, 'file: open file in default application', [], []);
 
   M.Add(cmd_OpsReloadAndApply, 'settings: reload/apply config', [], []);
-  M.Add(cmd_OpsClearRecent, 'settings: clear recent files history', [], []);
+  M.Add(cmd_OpsClearRecent, 'settings: clear recent files history and bookmarks', [], []);
   M.Add(cmd_OpsClearSearchHistory, 'settings: clear find/replace dialog history', [], []);
   M.Add(cmd_OpsClearConsoleHistory, 'settings: clear console input history', [], []);
   M.Add(cmd_OpsOpenDefault, 'settings: open default config', [], []);
