@@ -8622,7 +8622,7 @@ begin
       begin
         Res:= ResList[i];
         PyList_SetItem(Result, i,
-          Py_BuildValue('(iiii)', Res.FPos.X, Res.FPos.Y, Res.FEnd.X, Res.FEnd.Y));
+          Py_BuildValue('(iiii)', Res.PosBegin.X, Res.PosBegin.Y, Res.PosEnd.X, Res.PosEnd.Y));
       end;
     end;
   finally
@@ -10378,10 +10378,10 @@ begin
                   ResItem:= ResList[i];
                   PyList_SetItem(Result, i,
                     Py_BuildValue('(iiii)',
-                      ResItem.FPos.X,
-                      ResItem.FPos.Y,
-                      ResItem.FEnd.X,
-                      ResItem.FEnd.Y
+                      ResItem.PosBegin.X,
+                      ResItem.PosBegin.Y,
+                      ResItem.PosEnd.X,
+                      ResItem.PosEnd.Y
                       ));
                 end;
               end;
