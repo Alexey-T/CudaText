@@ -820,7 +820,8 @@ begin
     cCommand_Cancel,
     cCommand_CancelKeepLast,
     cCommand_CancelKeepSel,
-    cCommand_CancelKeepLastAndSel:
+    cCommand_CancelKeepLastAndSel,
+    cCommand_CancelKeepFirstVisible:
       begin
         if Ed.Markers.DeleteWithTag(UiOps.FindOccur_TagValue) then
           Ed.Update;

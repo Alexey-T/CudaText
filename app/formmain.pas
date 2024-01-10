@@ -3440,6 +3440,7 @@ begin
           case N of
             cCommand_Cancel,
             cCommand_CancelKeepLast,
+            cCommand_CancelKeepFirstVisible,
             cCommand_SelectNone:
               exit;
           end;
