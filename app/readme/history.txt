@@ -6,10 +6,11 @@
 1.207.0 (2024/01)
 
 + add: optimization of search/replace in huge lines: faster by ~20%
-+ add: option "ui_tree_fill_max_time" is used for Pascal tree-helpers too
++ add: new command "cancel carets, but keep first visible caret"
 + add: updating of data in parser-thread now blocks main thread much less; e.g. before on 400Kb file: 8 msec, now: 0.1 msec
 + add: 'statusbar' controls show their icons auto-scaled (thanks @veksha)
 + add: auto-decrease font size of 'overlay' on buttons/statusbars; useful for LSP plugin with 'overlay' numbers on statusbar (thanks @veksha)
++ add: old option "ui_tree_fill_max_time" is now used for Pascal tree-helpers too
 - fix: filling of code-tree in Pascal tree-helpers had big slowdown (thanks @mix-7)
 - fix: when Project Manager opens files in the same 'preview' tab, it must clear old bookmarks/markers/attribs (thanks @veksha)
 - fix: issue with External Tools plugin in Qt5 version: list selection was ignored (thanks @veksha)
