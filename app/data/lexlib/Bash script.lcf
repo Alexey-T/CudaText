@@ -364,10 +364,11 @@ object SyntAnal2: TLibSyntAnalyzer
     end
     item
       DisplayName = 'Regexp'
+      Enabled = False
       StyleName = 'String regexp'
       BlockName = '[['
       TokenType = 14
-      Expression = '(?<=\=~\x20*)\S+'
+      Expression = '(?<=\=~\x20*)\S+'#13#10'#2024.01: it breaks: [[ $vv =~ '#39'text'#39' ]]'
       ColumnFrom = 0
       ColumnTo = 0
     end
