@@ -225,8 +225,8 @@ const
   msgCannotHandleSplittedTab: string = 'Cannot handle the splitted UI-tab';
   msgCannotHandleUntitledTab: string = 'Cannot handle the untitled document';
   msgCannotFindLexerInLibrary: string = 'Cannot find lexer in library:';
-  msgCannotFindLexerFile: string = 'Cannot find lexer file:';
-  msgCannotLoadLexerFile: string = 'Cannot load lexer file:';
+  msgCannotFindLexerFile: string = 'Cannot find lexer:';
+  msgCannotLoadLexerFile: string = 'Cannot load lexer:';
   msgCannotFindSublexerInLibrary: string = 'Cannot find linked sublexer:';
   msgCannotFindWithoutCaret: string = 'Cannot find/replace without caret';
   msgCannotCreateDir: string = 'Cannot create folder:';
