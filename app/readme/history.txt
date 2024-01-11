@@ -3,6 +3,9 @@
   - fixed
   * changed
 
+- fix: rendering bug when minimap is on + selections exist (thanks @veksha)
+- fix: wrong handling of error when lite-lexer is broken (thanks @mix-7) 
+
 1.207.0 (2024/01)
 
 + add: optimization of search/replace in huge lines: faster by ~20%
