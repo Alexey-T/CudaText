@@ -3693,6 +3693,11 @@ begin
   ApplyPartStyleFromEcontrolStyle(APart, st);
 end;
 
+procedure LiteLexer_MessageBox(const S: string);
+begin
+  MsgLogConsole('ERROR: '+S);
+end;
+
 function IsDefaultSession(const S: string): boolean;
 var
   sFilename, sJsonPath: string;
@@ -4086,6 +4091,7 @@ initialization
   AppManagerLite:= TATLiteLexers.Create(nil);
   AppManagerLite.OnGetStyleHash:= @LiteLexer_GetStyleHash;
   AppManagerLite.OnApplyStyle:= @LiteLexer_ApplyStyle;
+  AppManagerLite.OnMessageBox:= @LiteLexer_MessageBox;
   AppManagerThread:= TAppManagerThread.Create(false);
 
   ATEditorMaxClipboardRecents:= 15;
