@@ -110,7 +110,6 @@ const
   msgLinkOpenSite: string = 'Open link';
   msgLinkOpenEmail: string = 'Send e-mail';
 
-  msgTooltipClearFilter: string = 'Clear filter';
   msgTooltipCloseTab: string = 'Close tab';
   msgTooltipAddTab: string = 'Add tab';
   msgTooltipArrowLeft: string = 'Scroll tabs left';

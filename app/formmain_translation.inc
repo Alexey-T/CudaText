@@ -391,7 +391,6 @@ begin
     msgThemeDefault:= ini.ReadString('ui', 'deft', msgThemeDefault);
     msgThemeName:= ini.ReadString('ui', 'th_nm', msgThemeName);
     ATEditorOptions.TextHintScrollPrefix:= ini.ReadString('ui', 'line', ATEditorOptions.TextHintScrollPrefix);
-    msgTooltipClearFilter:= ini.ReadString('ui', 'clr_f', msgTooltipClearFilter);
     msgMenuLexersForFile:= ini.ReadString('ui', 'lex_dlg', msgMenuLexersForFile);
 
     msgTooltipCloseTab:= ini.ReadString('ui', 'ti_x', msgTooltipCloseTab);
