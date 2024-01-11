@@ -6304,7 +6304,7 @@ end;
 function PyHelper_Folding_Enum(Ed: TATSynEdit; NeedY, NeedY2: integer): PPyObject; cdecl;
 var
   ListRanges: TFPList;
-  Range: PATSynRange;
+  Range: PATFoldRange;
   NLen, i: integer;
 begin
   ListRanges:= TFPList.Create;
@@ -6324,7 +6324,7 @@ begin
           raise EPythonError.Create(msgPythonListError);
         for i:= 0 to NLen-1 do
         begin
-          Range:= PATSynRange(ListRanges[i]);
+          Range:= PATFoldRange(ListRanges[i]);
           PyList_SetItem(Result, i,
             Py_BuildValue('{sisisisisOsOsOsL}',
               string('x'),
