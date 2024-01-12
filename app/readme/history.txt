@@ -3,9 +3,10 @@
   - fixed
   * changed
 
-1.207.1 (2024/01)
+1.208.0 (2024/01)
 
 + add: update TRegExpr engine to 1.186
+* change: reworked code for fold-blocks storage; report any regressions
 - fix: rendering bug when minimap is on + selections exist (thanks @veksha)
 - fix: wrong handling of error when lite-lexer is broken (thanks @mix-7) 
 
