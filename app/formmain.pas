@@ -8617,8 +8617,15 @@ begin
     if Result and (Data.Count>0) then
     begin
       EditorFold_SetTag(Ed, cTagOlder);
+      Ed.Fold.BackupFoldedStates;
+      Ed.Fold.Clear;
+
       if Assigned(EdPair) then
+      begin
         EditorFold_SetTag(EdPair, cTagOlder);
+        EdPair.Fold.BackupFoldedStates;
+        EdPair.Fold.Clear;
+      end;
 
       NStartTick:= GetTickCount64;
 
@@ -8657,14 +8664,14 @@ begin
           NLevelPrev:= NLevel;
         end;
 
-        if NY2-NY1>=1 then
+        if NY2>NY1 then
         begin
           //must mark fold ranges with tag=cTagPersistentFoldRange, so lexer adapter
           //won't clear ranges immediately on parsing start.
           //so user is able to do many editings and fold ranges are kept, until next tree-helper run.
-          Ed.Fold.Merge(NX1+1, NY1, NX2+1, NY2, STitle, cTagPersistentFoldRange);
+          Ed.Fold.Add(NX1+1, NY1, NX2+1, NY2, false, STitle, cTagPersistentFoldRange);
           if Assigned(EdPair) then
-            EdPair.Fold.Merge(NX1+1, NY1, NX2+1, NY2, STitle, cTagPersistentFoldRange);
+            EdPair.Fold.Add(NX1+1, NY1, NX2+1, NY2, false, STitle, cTagPersistentFoldRange);
         end;
 
         if GetTickCount64-NStartTick>UiOps.TreeFillMaxTime then
@@ -8680,17 +8687,17 @@ begin
       end; //for iItem:= 0 to Data.Count-1 do
 
       Ed.Fold.DeleteAllByTag(cTagOlder);
-      if Assigned(EdPair) then
-        EdPair.Fold.DeleteAllByTag(cTagOlder);
-
       Ed.Fold.ClearLineIndexer(Ed.Strings.Count);
       Ed.Fold.UpdateLineIndexer;
+      Ed.Fold.RestoreFoldedStates;
       Ed.Update;
 
       if Assigned(EdPair) then
       begin
+        EdPair.Fold.DeleteAllByTag(cTagOlder);
         EdPair.Fold.ClearLineIndexer(EdPair.Strings.Count);
         EdPair.Fold.UpdateLineIndexer;
+        EdPair.Fold.RestoreFoldedStates;
         if EdPair.Visible then
           EdPair.Update;
       end;
