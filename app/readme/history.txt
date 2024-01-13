@@ -9,10 +9,11 @@
 * change: reworked code for fold-blocks storage; report any regressions
 * change: now deepness of 'block staples' is limited by ~20 levels, deeper staples are not rendered / folding is not shown
 - fix: rendering bug when minimap is on + selections exist (thanks @veksha)
+- fix: text in Console can become 'folded' sometimes (thanks @veksha)
 - fix: wrong handling of error when lite-lexer is broken (thanks @mix-7)
+- fix: wrong caret pos on mouse click, if text is scrolled horizontally (thanks @Stem75)
 - fix: blocks from command "fold selected lines" were not preserved by Pascal tree-helpers
 - fix: regression in 1.206.0: plugins menu-items did not check allowed lexer(s)
-- fix: wrong caret pos on mouse click, if text is scrolled horizontally (thanks @Stem75)
 
 1.207.0 (2024/01)
 
