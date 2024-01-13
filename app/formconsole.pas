@@ -451,9 +451,12 @@ end;
 procedure TfmConsole.DoClearMemo(Sender: TObject);
 begin
   EdMemo.ModeReadOnly:= false;
-  EdMemo.Text:= '';
+  EdMemo.Strings.Clear;
+  //EdMemo.Strings.LineAdd('');
+  EdMemo.UpdateWrapInfo(true);
   EdMemo.DoCaretSingle(0, 0);
   EdMemo.ModeReadOnly:= true;
+  EdMemo.Update;
 
   ErrorCounter:= 0;
   if Assigned(FOnNumberChange) then
