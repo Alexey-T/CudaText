@@ -1498,7 +1498,7 @@ class Command:
             self.icon_dir = os.path.join(app_path(APP_DIR_DATA), 'filetypeicons', 'vscode_16x16')
 
         self.icon_json = os.path.join(self.icon_dir, 'icons.json')
-        self.icon_json_dict = json.loads(open(self.icon_json).read())
+        self.icon_json_dict = json.loads(open(self.icon_json, encoding='utf8').read())
         self.icon_indexes = {}
 
 
