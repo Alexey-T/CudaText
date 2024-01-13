@@ -11,6 +11,7 @@
 - fix: rendering bug when minimap is on + selections exist (thanks @veksha)
 - fix: wrong handling of error when lite-lexer is broken (thanks @mix-7)
 - fix: blocks from command "fold selected lines" were not preserved by Pascal tree-helpers
+- fix: regression in 1.206: plugin menu-items did not check allowed lexer(s)
 
 1.207.0 (2024/01)
 
