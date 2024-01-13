@@ -8,7 +8,8 @@
 + add: update TRegExpr engine to 1.186
 * change: reworked code for fold-blocks storage; report any regressions
 - fix: rendering bug when minimap is on + selections exist (thanks @veksha)
-- fix: wrong handling of error when lite-lexer is broken (thanks @mix-7) 
+- fix: wrong handling of error when lite-lexer is broken (thanks @mix-7)
+- fix: blocks from command "fold selected lines" were not preserved by Pascal tree-helpers
 
 1.207.0 (2024/01)
 
