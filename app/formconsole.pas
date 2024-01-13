@@ -453,7 +453,6 @@ begin
   EdMemo.ModeReadOnly:= false;
   EdMemo.Text:= '';
   EdMemo.ModeReadOnly:= true;
-  EdMemo.Update;
 
   ErrorCounter:= 0;
   if Assigned(FOnNumberChange) then
