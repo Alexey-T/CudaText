@@ -7,7 +7,7 @@
 
 + add: update TRegExpr engine to 1.186
 * change: reworked code for fold-blocks storage; report any regressions
-* change: now deepness of 'block staples' is limited by ~20, deeper staples are not rendered / folding for them is not shown
+* change: now deepness of 'block staples' is limited by ~20 levels, deeper staples are not rendered / folding is not shown
 - fix: rendering bug when minimap is on + selections exist (thanks @veksha)
 - fix: wrong handling of error when lite-lexer is broken (thanks @mix-7)
 - fix: blocks from command "fold selected lines" were not preserved by Pascal tree-helpers
