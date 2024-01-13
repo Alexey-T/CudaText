@@ -8576,14 +8576,6 @@ begin
   end;
 end;
 
-procedure EditorFold_SetTag(Ed: TATSynEdit; const ATag: Int64);
-var
-  i: integer;
-begin
-  for i:= 0 to Ed.Fold.Count-1 do
-    Ed.Fold.ItemPtr(i)^.Tag:= ATag;
-end;
-
 function TfmMain.DoCodetree_ApplyTreeHelperInPascal(Ed, EdPair: TATSynEdit;
   ATree: TTreeView; const ALexer: string): boolean;
 var
