@@ -37,8 +37,8 @@ class Command:
         #-------------
         # create __init__.py
         fn_py = os.path.join(dir_plugin, '__init__.py')
-        with open(fn_py, 'w') as f:
-            text = open(fn_sample_begin).read()
+        with open(fn_py, 'w', encoding='utf8') as f:
+            text = open(fn_sample_begin, encoding='utf8').read()
             text = text.format(module=s_module)
             f.write(text)
 
@@ -46,7 +46,7 @@ class Command:
             for (i, item) in enumerate(cmd_list):
                 f.write('    def %s(self):\n'%(item[1]))
                 if i==0:
-                    f.write(open(fn_sample_body).read())
+                    f.write(open(fn_sample_body, encoding='utf8').read())
                 else:
                     f.write('        pass\n')
 
@@ -62,7 +62,7 @@ class Command:
         #------------
         # create install.inf
         fn_inf = os.path.join(dir_plugin, 'install.inf')
-        with open(fn_inf, 'w') as f:
+        with open(fn_inf, 'w', encoding='utf8') as f:
             f.write('[info]\n')
             f.write('title='+s_caption+'\n')
             f.write('desc='+_('(Fill the description)\n'))
