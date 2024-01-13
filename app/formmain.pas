@@ -8596,8 +8596,6 @@ var
   Range: TATRangeInCodeTree;
   iItem, iLevel: integer;
   NStartTick: QWord;
-const
-  cTagOlder = -10;
 begin
   Data:= TATTreeHelperRecords.Create;
   if Assigned(ATree) then
@@ -8616,13 +8614,11 @@ begin
     Result:= TreeHelperInPascal(Ed, ALexer, Data);
     if Result and (Data.Count>0) then
     begin
-      EditorFold_SetTag(Ed, cTagOlder);
       Ed.Fold.BackupFoldedStates;
       Ed.Fold.Clear;
 
       if Assigned(EdPair) then
       begin
-        EditorFold_SetTag(EdPair, cTagOlder);
         EdPair.Fold.BackupFoldedStates;
         EdPair.Fold.Clear;
       end;
@@ -8686,7 +8682,6 @@ begin
         end;
       end; //for iItem:= 0 to Data.Count-1 do
 
-      Ed.Fold.DeleteAllByTag(cTagOlder);
       Ed.Fold.ClearLineIndexer(Ed.Strings.Count);
       Ed.Fold.UpdateLineIndexer;
       Ed.Fold.RestoreFoldedStates;
@@ -8694,7 +8689,6 @@ begin
 
       if Assigned(EdPair) then
       begin
-        EdPair.Fold.DeleteAllByTag(cTagOlder);
         EdPair.Fold.ClearLineIndexer(EdPair.Strings.Count);
         EdPair.Fold.UpdateLineIndexer;
         EdPair.Fold.RestoreFoldedStates;
