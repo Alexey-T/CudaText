@@ -147,7 +147,7 @@ def get_app_default_opts(lexer='', **kw):
         kw['fn']    = def_json
         APP_DEFAULT_OPTS = _json_loads(open(def_json, encoding='utf8').read(), **kw)
 #       APP_DEFAULT_OPTS = _json_loads(open(def_json, encoding='utf8').read(), object_pairs_hook=collections.OrderedDict, **kw)
-#       APP_DEFAULT_OPTS = _json_loads(open(def_json).read(), **kw)
+#       APP_DEFAULT_OPTS = _json_loads(open(def_json, encoding='utf8').read(), **kw)
     if not lexer:
         return APP_DEFAULT_OPTS
     lex_json        = os.path.join(get_def_setting_dir(), 'lexer {}.json'.format(lexer))
@@ -501,7 +501,7 @@ def _json_loads(s, **kw):
         pass;                   #LOG and log('FAIL: s={}',s)
         pass;                   #LOG and log('sys.exc_info()={}',sys.exc_info())
         log_file    = kw.get('log_file', _get_log_file())
-        open(log_file, 'a').write('_json_loads FAIL: filename "'+fn+'", text:\n'+s+'\n')
+        open(log_file, 'a', encoding='utf8').write('_json_loads FAIL: filename "'+fn+'", text:\n'+s+'\n')
         print('ERROR: error on loading json. Log file:', log_file)
         ans = {}
     return ans
@@ -669,7 +669,7 @@ def log(msg='', *args, **kwargs):
     elif _out_h:
         _out_h.write(msg+chr(10))
     elif _out_s:
-        with open(_out_s, 'a') as _out_h:
+        with open(_out_s, 'a', encoding='utf8') as _out_h:
             _out_h.write(msg+chr(10))
     else:
         print(msg)
