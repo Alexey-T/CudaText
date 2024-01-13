@@ -231,7 +231,7 @@ begin
   with EdMemo do
   begin
     //we added some lines directly to EdMemo.Strings, so update WrapInfo
-    UpdateWrapInfo(true, false);
+    UpdateWrapInfo(true, false{important});
     DoCommand(cCommand_GotoTextEnd, TATCommandInvoke.AppInternal);
     ColumnLeft:= 0;
 
