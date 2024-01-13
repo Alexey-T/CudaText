@@ -6763,7 +6763,7 @@ var
   bFindFocused, bPanelFocused: boolean;
   NTag: PtrInt;
   NCommand: integer;
-  SCaption, SCallback: string;
+  SCaption, SCallback, SLexers, CurLexer: string;
   mi: TMenuItem;
 begin
   NTag:= (Sender as TComponent).Tag;
@@ -6785,6 +6785,7 @@ begin
 
   NCommand:= TAppMenuProps(NTag).CommandCode;
   SCallback:= TAppMenuProps(NTag).CommandString;
+  SLexers:= TAppMenuProps(NTag).CommandLexers;
 
   F:= CurrentFrame;
 
@@ -6792,6 +6793,14 @@ begin
   //(e.g. loaded session with bad focused tab in group-2, and group-2 is empty)
   if F=nil then
     F:= Frames[0];
+
+  //check allowed lexers
+  CurLexer:= F.LexerName[F.Editor];
+  if not IsLexerListed(CurLexer, SLexers) then
+  begin
+    MsgStatus(msgStatusCommandOnlyForLexers+' '+SLexers);
+    Exit
+  end;
 
   if IsCommandForClipboardAction(NCommand) then
   //if (NCommand>0) and (NCommand<cmdFirstAppCommand) then

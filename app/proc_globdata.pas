@@ -1102,6 +1102,7 @@ type
     CommandCode: integer; //-1 for plugin commands
     CommandCodeHidden: integer; //value>0 for plugin commands, must be not used in Py API
     CommandString: string;
+    CommandLexers: string;
     TagString: string;
   end;
 

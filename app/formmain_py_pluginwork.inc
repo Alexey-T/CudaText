@@ -398,6 +398,7 @@ begin
     MenuProps.CommandString:= Format('module=%s;cmd=%s;', [CmdItem.ItemModule, CmdItem.ItemProc]);
     if CmdItem.ItemProcParam<>'' then
       MenuProps.CommandString+= Format('info=%s;', [CmdItem.ItemProcParam]);
+    MenuProps.CommandLexers:= CmdItem.ItemLexers;
 
     mi.Tag:= PtrInt(MenuProps);
     mi.OnClick:= @MenuMainClick;
