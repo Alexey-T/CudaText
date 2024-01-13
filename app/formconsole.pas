@@ -231,7 +231,7 @@ begin
   with EdMemo do
   begin
     //we added some lines directly to EdMemo.Strings, so update WrapInfo
-    UpdateWrapInfo(true);
+    UpdateWrapInfo(true, false);
     DoCommand(cCommand_GotoTextEnd, TATCommandInvoke.AppInternal);
     ColumnLeft:= 0;
 
@@ -451,10 +451,7 @@ end;
 procedure TfmConsole.DoClearMemo(Sender: TObject);
 begin
   EdMemo.ModeReadOnly:= false;
-  EdMemo.Strings.Clear;
-  //EdMemo.Strings.LineAdd('');
-  EdMemo.UpdateWrapInfo(true);
-  EdMemo.DoCaretSingle(0, 0);
+  EdMemo.Text:= '';
   EdMemo.ModeReadOnly:= true;
   EdMemo.Update;
 
