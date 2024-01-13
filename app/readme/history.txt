@@ -12,6 +12,7 @@
 - fix: wrong handling of error when lite-lexer is broken (thanks @mix-7)
 - fix: blocks from command "fold selected lines" were not preserved by Pascal tree-helpers
 - fix: regression in 1.206.0: plugins menu-items did not check allowed lexer(s)
+- fix: wrong caret pos on mouse click, if text is scrolled horizontally (thanks @Stem75)
 
 1.207.0 (2024/01)
 
