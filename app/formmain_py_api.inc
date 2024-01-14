@@ -8969,6 +8969,7 @@ begin
           begin
             Ed.Fold.Clear;
             Ed.Fold.ClearLineIndexer(Ed.Strings.Count); //fix #4553
+            Ed.DoMarkAllLinesVisible;
             Ed.Update(true);
             Result:= ReturnNone;
           end;
