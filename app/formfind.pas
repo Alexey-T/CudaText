@@ -1396,7 +1396,8 @@ begin
   edRep.OptUnprintedVisible:= FMultiLine;
 
   NSizeY:= bFindFirst.Height;
-  if FMultiLine then NSizeY:= Trunc(NSizeY*UiOps.FindMultiLineScale);
+  if FMultiLine then
+    NSizeY:= NSizeY*UiOps.FindMultilineHeight div 100;
 
   edFind.Height:= NSizeY;
   edRep.Height:= NSizeY;

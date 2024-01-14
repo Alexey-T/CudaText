@@ -800,8 +800,8 @@
   //  if 'g' in value: "Replace global" button
   "find_hidden_buttons": "",
 
-  //Find dialog: multi-line mode: how height of inputs is increased.
-  "find_multiline_scale": 2.5,
+  //Find dialog: multi-line mode: height of input fields, in percents of button height.
+  "find_multiline_height": 250,
 
   //When doing "Go to" or "Find", and new position is out of current screen,
   //scroll vertically by N lines from new position.

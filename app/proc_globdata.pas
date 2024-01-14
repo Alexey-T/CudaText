@@ -366,7 +366,7 @@ type
 
     FindIndentVert: integer;
     FindIndentHorz: integer;
-    FindMultiLineScale: double;
+    FindMultilineHeight: integer;
     FindSeparateForm: boolean;
     FindHiAll_MaxLines: integer;
     FindHiAll_TagValue: Int64;
@@ -2084,7 +2084,7 @@ begin
 
     FindIndentVert:= -5;
     FindIndentHorz:= 10;
-    FindMultiLineScale:= 2.5;
+    FindMultilineHeight:= 250;
     FindSeparateForm:= false;
     FindHiAll_MaxLines:= 1000;
     FindHiAll_TagValue:= 99; //GET_UNIQUE_TAG starts with 120
