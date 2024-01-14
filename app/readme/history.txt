@@ -8,6 +8,7 @@
 + add: update TRegExpr engine to 1.186
 * change: reworked code for fold-blocks storage; report any regressions
 * change: now deepness of 'block staples' is limited by ~20 levels, deeper staples are not rendered / folding is not shown
+* change: replaced option "find_multiline_scale" (float number) with "find_multiline_height" (int value in percents)
 - fix: rendering bug when minimap is on + selections exist (thanks @veksha)
 - fix: text in Console can become 'folded' sometimes (thanks @veksha)
 - fix: wrong handling of error when lite-lexer is broken (thanks @mix-7)
