@@ -8615,13 +8615,13 @@ begin
     Result:= TreeHelperInPascal(Ed, ALexer, Data);
     if Result and (Data.Count>0) then
     begin
-      Ed.Fold.BackupPersistentRanges;
+      //Ed.Fold.BackupPersistentRanges; //if uncommented: fold-states +- are not kept during editing
       Ed.Fold.BackupFoldedStates;
       Ed.Fold.Clear;
 
       if Assigned(EdPair) then
       begin
-        EdPair.Fold.BackupPersistentRanges;
+        //EdPair.Fold.BackupPersistentRanges;
         EdPair.Fold.BackupFoldedStates;
         EdPair.Fold.Clear;
       end;
@@ -8685,7 +8685,7 @@ begin
         end;
       end; //for iItem:= 0 to Data.Count-1 do
 
-      Ed.Fold.RestorePersistentRanges;
+      //Ed.Fold.RestorePersistentRanges; //if uncommented: fold-states +- are not kept during editing
       Ed.Fold.ClearLineIndexer(Ed.Strings.Count);
       Ed.Fold.UpdateLineIndexer;
       Ed.Fold.RestoreFoldedStates;
@@ -8693,7 +8693,7 @@ begin
 
       if Assigned(EdPair) then
       begin
-        EdPair.Fold.RestorePersistentRanges;
+        //EdPair.Fold.RestorePersistentRanges;
         EdPair.Fold.ClearLineIndexer(EdPair.Strings.Count);
         EdPair.Fold.UpdateLineIndexer;
         EdPair.Fold.RestoreFoldedStates;
