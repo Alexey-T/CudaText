@@ -8968,7 +8968,7 @@ begin
         FOLDING_DELETE_ALL:
           begin
             Ed.Fold.Clear;
-            Ed.UpdateFoldLineIndexer; //fix #4553
+            Ed.UpdateFoldLineIndexerLen; //fix #4553
             Ed.Update(true);
             Result:= ReturnNone;
           end;
