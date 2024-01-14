@@ -8893,6 +8893,7 @@ var
   NTag: Int64;
   PtrText: PChar;
   StrText: string;
+  FoldRange: PATFoldRange;
   Ok: boolean;
 begin
   with AppPython.Engine do
@@ -8959,6 +8960,9 @@ begin
           begin
             if Ed.Fold.IsIndexValid(NItem) then
             begin
+              FoldRange:= Ed.Fold.ItemPtr(NItem);
+              if FoldRange^.Folded then
+                Ed.DoRangeUnfold(NItem);
               Ed.Fold.Delete(NItem);
               Ed.Update(true);
             end;
@@ -8969,7 +8973,7 @@ begin
           begin
             Ed.Fold.Clear;
             Ed.Fold.ClearLineIndexer(Ed.Strings.Count); //fix #4553
-            Ed.DoMarkAllLinesVisible;
+            Ed.DoMarkLinesVisible(0, MaxInt);
             Ed.Update(true);
             Result:= ReturnNone;
           end;
