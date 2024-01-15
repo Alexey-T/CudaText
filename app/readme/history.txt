@@ -3,6 +3,9 @@
   - fixed
   * changed
 
++ add: command "open file in default app" sets current directory (thanks @veksha)
++ add: URL highlight missed ":" possible char (thanks @xbarbie)
+
 1.208.0 (2024/01)
 
 + add: update TRegExpr engine to 1.186
