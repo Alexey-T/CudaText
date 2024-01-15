@@ -1,7 +1,7 @@
 # [CudaText](https://cudatext.github.io)
-> open source and cross-platform text editor.
 
-Written in Lazarus 2.0, Free Pascal 3.2.0.
+Open source and cross-platform text editor.
+Written in Free Pascal, using Lazarus.
 
 ![CudaText](https://cudatext.github.io/img/cudatext-python-intel.gif)
 
