@@ -176,8 +176,7 @@ begin
 
     cmd_OpenFileInDefaultApp:
       begin
-        if Ed.FileName<>'' then
-          OpenDocument(Ed.FileName);
+        AppOpenDocument(Ed.FileName);
       end;
 
     cmd_ToggleFocusSplitEditors:

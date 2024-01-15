@@ -35,6 +35,7 @@ function AppFileExtentionCreatable(const fn: string): boolean;
 procedure AppFileCheckForNullBytes(const fn: string);
 procedure AppMakeBackupFiles(const AFilename, AExtension: string; ACount: integer);
 procedure AppFindFilesByMask(List: TStringList; AMask: string);
+procedure AppOpenDocument(const fn: string);
 
 type
   { TAppFileProps }
@@ -569,6 +570,17 @@ begin
   end;
 end;
 {$endif}
+
+procedure AppOpenDocument(const fn: string);
+var
+  OldDir: string;
+begin
+  if fn='' then exit;
+  OldDir:= GetCurrentDirUTF8;
+  SetCurrentDirUTF8(ExtractFilePath(fn));
+  OpenDocument(fn);
+  SetCurrentDirUTF8(OldDir);
+end;
 
 end.
 
