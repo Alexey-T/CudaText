@@ -506,7 +506,7 @@ class Command:
         suffix = app_proc(PROC_GET_OS_SUFFIX, '')
         if suffix=='':
             #Windows
-            os.startfile(sfn)
+            os.startfile(sfn, cwd=os.path.dirname(sfn))
         elif suffix=='__mac':
             #macOS
             os.system('open "%s"'%sfn)
