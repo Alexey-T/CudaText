@@ -3,8 +3,11 @@
   - fixed
   * changed
 
+1.208.1 (2024/01)
+
 + add: command "open file in default app" sets current directory (thanks @veksha)
 + add: URL highlight missed ":" possible char (thanks @xbarbie)
+- fix: Qt5 and macOS versions: text selection highlight was 'shifted'
 
 1.208.0 (2024/01)
 
