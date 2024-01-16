@@ -2122,7 +2122,7 @@ begin
     TreeUnfold:= false;
 
     PyLibrary:= '';
-    PyCaretSlow:= 600;
+    PyCaretSlow:= 500;
     PyChangeSlow:= 2000;
     PyOutputCopyToStdout:= false;
 
