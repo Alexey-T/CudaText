@@ -972,6 +972,8 @@ var
 begin
   TimerCaret.Enabled:= false;
 
+  DoOnUpdateStatusbar(TAppStatusbarUpdateReason.Caret);
+
   Ed:= Editor;
   DoPyEvent(Ed, TAppPyEvent.OnCaretSlow, []);
 
@@ -1067,8 +1069,6 @@ begin
   Ed:= Sender as TATSynEdit;
   if Assigned(FOnEditorChangeCaretPos) then
     FOnEditorChangeCaretPos(Sender);
-
-  DoOnUpdateStatusbar(TAppStatusbarUpdateReason.Caret);
 
   //support Primary Selection on Linux
   {$ifdef linux}
