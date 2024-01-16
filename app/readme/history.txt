@@ -5,6 +5,7 @@
 
 1.208.1 (2024/01)
 
+* change: before, caret movement updated the statusbar after rather big pause (2000ms); now the pause is smaller, 500ms (option "py_caret_slow")
 + add: command "open file in default app" sets current directory (thanks @veksha)
 + add: URL highlight missed ":" possible char (thanks @xbarbie)
 - fix: Qt5 and macOS versions: text selection highlight was 'shifted'
