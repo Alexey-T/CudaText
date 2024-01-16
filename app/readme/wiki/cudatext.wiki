@@ -1652,13 +1652,20 @@ An option exists to change the delay of messages in the statusbar.
 This is not used in the main statusbar, but plugin API allows to colorize statusbar cells (used by Vim Mode plugin), and to show icons there.
 
 =Text/Hex viewer=
-CudaText has internal file viewer, for files on unlimited size. Only visible portion of file is loaded into memory, so viewer is fast for all files. Viewer has several modes:
+CudaText has internal file viewer, for files on unlimited size. Viewer is based on different component: not ATSynEdit but ATBinHex. Viewer loads into memory only visible portion of file, so viewer is fast for files of any size. To activate the viewer for normal small text files, use these Command Palette commands:
 
-* Text: 1-byte encoding, variable line length
-* Binary: 1-byte encoding, fixed width (line breaks are ignored)
-* Hex: 1-byte encoding, fixed width
-* Unicode: like Text, but in UTF-16 encoding
-* Unicode/Hex: like Hex, but in UTF-16 encoding
+* file: open file, in text viewer
+* file: open file, in hex viewer
+* file: open file, in unicode viewer
+* plugin: Cuda-Ext: File: Show in hex viewer (this command is from CudaExt plugin)
+
+Viewer component supports several modes:
+
+* Text mode: 1-byte encoding, variable line length
+* Binary mode: 1-byte encoding, fixed width (line breaks are ignored)
+* Hex mode: 1-byte encoding, fixed width
+* Unicode mode: like Text, but in UTF-16 encoding
+* Unicode/Hex mode: like Hex, but in UTF-16 encoding
 
 Combined screenshot shows the different modes in action: Text, Binary, Hex, Unicode.
 
