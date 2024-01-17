@@ -3029,7 +3029,8 @@ begin
     EditorSaveTempOptions(Ed, InitialOptions[High(InitialOptions)]);
 
   if AAllowLexerDetect then
-    DoLexerFromFilename(Ed, AFileName);
+    if (Ed.AdapterForHilite=nil) or (Ed.AdapterForHilite.GetLexerName='') then
+      DoLexerFromFilename(Ed, AFileName);
 
   UpdateReadOnlyFromFile(Ed);
   NotifEnabled:= true;
