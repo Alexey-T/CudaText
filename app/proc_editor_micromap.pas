@@ -98,9 +98,7 @@ var
   Caret: TATCaretItem;
   LineState: TATLineState;
   Marker: TATMarkerItem;
-  Bookmarks: TATBookmarks;
   BookmarkPtr: PATBookmarkItem;
-  BoolArray: packed array of boolean;
   PropArray: packed array of record
     Column: integer;
     XColor: TBGRAPixel;
@@ -198,27 +196,16 @@ begin
   //paint bookmarks
   if Ed.OptMicromapBookmarks then
   begin
-    BoolArray:= nil;
-    SetLength(BoolArray, St.Count);
-    Bookmarks:= Ed.Strings.Bookmarks;
-    for i:= 0 to Bookmarks.Count-1 do
+    for i:= 0 to St.Bookmarks.Count-1 do
     begin
-      BookmarkPtr:= Bookmarks.ItemPtr[i];
-      NIndex:= BookmarkPtr^.Data.LineNum;
-      if (NIndex>=0) and (NIndex<=High(BoolArray)) then
-        BoolArray[NIndex]:= true;
+      BookmarkPtr:= St.Bookmarks.ItemPtr[i];
+      Wr.FindIndexesOfLineNumber(BookmarkPtr^.Data.LineNum, NIndex1, NIndex2);
+      if NIndex1>=0 then
+      begin
+        RectMark:= EditorRectMicromapMark(Ed, 1{column}, NIndex1, NIndex2, ARect.Height, EditorOps.OpMicromapMinMarkHeight, NScaleDiv);
+        ABitmap.FillRect(RectMark, XColorBkmk);
+      end;
     end;
-    for i:= 0 to Wr.Count-1 do
-    begin
-      NIndex:= Wr.Data[i].NLineIndex;
-      if (NIndex>=0) and (NIndex<=High(BoolArray)) then
-        if BoolArray[NIndex] then
-        begin
-          RectMark:= EditorRectMicromapMark(Ed, 1{column}, i, i, ARect.Height, EditorOps.OpMicromapMinMarkHeight, NScaleDiv);
-          ABitmap.FillRect(RectMark, XColorBkmk);
-        end;
-    end;
-    BoolArray:= nil;
   end;
 
   //paint marks for plugins
