@@ -57,20 +57,6 @@ begin
 end;
 
 
-type
-  TEditorMicromapMark = (Column, Full, Right);
-
-//these are variables of EditorPaintMicromap,
-//moved here to avoid big stack usage
-var
-  BoolArray: packed array of boolean;
-  PropArray: packed array of record
-    Column: integer;
-    XColor: TBGRAPixel;
-    Inited: boolean;
-    MarkPos: TEditorMicromapMark;
-  end;
-
 procedure EditorPaintMicromap(Ed: TATSynEdit; ACanvas: TCanvas; const ARect: TRect; ABitmap: TBGRABitmap);
 {
   micromap has columns:
@@ -84,6 +70,8 @@ procedure EditorPaintMicromap(Ed: TATSynEdit; ACanvas: TCanvas; const ARect: TRe
 + add: reworked how micromap is painted in word-wrapped mode (both on vert scrollbar and not);
 now it paints all WrapInfo items, so e.g. long wrapped line gives several cells on micromap
 }
+type
+  TMicromapMark = (Column, Full, Right);
 const
   cTagOccurrences = 101; //see plugin 'Highlight Occurrences'
   cTagSpellChecker = 105; //see plugin 'Spell Checker'
@@ -92,16 +80,16 @@ var
   NWidthSmall: integer;
   NScaleDiv: integer;
 //
-  function GetWrapItemRect(AColumn, AIndexFrom, AIndexTo: integer; AMarkPos: TEditorMicromapMark): TRect;
+  function GetWrapItemRect(AColumn, AIndexFrom, AIndexTo: integer; AMarkPos: TMicromapMark): TRect;
   begin
     Result:= EditorRectMicromapMark(Ed, AColumn, AIndexFrom, AIndexTo, ARect.Height, EditorOps.OpMicromapMinMarkHeight, NScaleDiv);
     case AMarkPos of
-      TEditorMicromapMark.Right:
+      TMicromapMark.Right:
         begin
           Result.Right:= ARect.Width;
           Result.Left:= Result.Right - NWidthSmall;
         end;
-      TEditorMicromapMark.Full:
+      TMicromapMark.Full:
         begin
           Result.Left:= 0;
           Result.Right:= ARect.Width;
@@ -116,6 +104,13 @@ var
   LineState: TATLineState;
   Marker: TATMarkerItem;
   BookmarkPtr: PATBookmarkItem;
+  BoolArray: packed array of boolean;
+  PropArray: packed array of record
+    Column: integer;
+    XColor: TBGRAPixel;
+    Inited: boolean;
+    MarkPos: TMicromapMark;
+  end;
   XColor, XColorBkmk, XColorSelected, XColorOccur, XColorSpell: TBGRAPixel;
   NColor: TColor;
   RectMark: TRect;
@@ -147,7 +142,7 @@ begin
   //paint full-width area of current visible area
   NIndex1:= Ed.ScrollVert.NPos;
   NIndex2:= NIndex1+Ed.GetVisibleLines; //note: limiting this by Ed.WrapInfo.Count-1 causes issue #4718
-  RectMark:= GetWrapItemRect(0, NIndex1, NIndex2, TEditorMicromapMark.Full);
+  RectMark:= GetWrapItemRect(0, NIndex1, NIndex2, TMicromapMark.Full);
   XColor.FromColor(GetAppColor(TAppThemeColor.EdMicromapViewBg));
   ABitmap.FillRect(RectMark, XColor);
 
@@ -170,7 +165,7 @@ begin
         TATLineState.Saved: XColor.FromColor(Ed.Colors.StateSaved);
         else Continue;
       end;
-      RectMark:= GetWrapItemRect(0{column_0}, i, i, TEditorMicromapMark.Column);
+      RectMark:= GetWrapItemRect(0{column_0}, i, i, TMicromapMark.Column);
       ABitmap.FillRect(RectMark, XColor);
     end;
 
@@ -188,7 +183,7 @@ begin
       else
         NIndex2:= Wr.FindIndexOfCaretPos(Point(CaretX2, CaretY2));
 
-      RectMark:= GetWrapItemRect(0, NIndex1, NIndex2, TEditorMicromapMark.Right);
+      RectMark:= GetWrapItemRect(0, NIndex1, NIndex2, TMicromapMark.Right);
       ABitmap.FillRect(RectMark, XColorSelected);
     end;
 
@@ -251,14 +246,14 @@ begin
         begin
           PropArray[NLine1].Inited:= true;
           PropArray[NLine1].Column:= 1;
-          PropArray[NLine1].MarkPos:= TEditorMicromapMark.Column;
+          PropArray[NLine1].MarkPos:= TMicromapMark.Column;
           PropArray[NLine1].XColor:= XColorSpell;
         end;
       cTagOccurrences:
         begin
           PropArray[NLine1].Inited:= true;
           PropArray[NLine1].Column:= 1;
-          PropArray[NLine1].MarkPos:= TEditorMicromapMark.Column;
+          PropArray[NLine1].MarkPos:= TMicromapMark.Column;
           PropArray[NLine1].XColor:= XColorOccur;
         end
       else
@@ -275,7 +270,7 @@ begin
               XColor.FromColor(Marker.LinePart.ColorBorder);
             PropArray[NLine1].Inited:= true;
             PropArray[NLine1].Column:= NColumnIndex;
-            PropArray[NLine1].MarkPos:= TEditorMicromapMark.Column;
+            PropArray[NLine1].MarkPos:= TMicromapMark.Column;
             PropArray[NLine1].XColor:= XColor;
           end;
         end
@@ -284,7 +279,7 @@ begin
         begin
           PropArray[NLine1].Inited:= true;
           PropArray[NLine1].Column:= 0;
-          PropArray[NLine1].MarkPos:= TEditorMicromapMark.Full;
+          PropArray[NLine1].MarkPos:= TMicromapMark.Full;
           PropArray[NLine1].XColor.FromColor(Marker.LinePart.ColorBG);
         end;
       end;
@@ -298,7 +293,7 @@ begin
     if PropArray[NIndex].Inited then
     begin
       RectMark:= GetWrapItemRect(PropArray[NIndex].Column, i, i, PropArray[NIndex].MarkPos);
-      if PropArray[NIndex].MarkPos<>TEditorMicromapMark.Full then
+      if PropArray[NIndex].MarkPos<>TMicromapMark.Full then
         ABitmap.FillRect(RectMark, PropArray[NIndex].XColor)
       else
         //todo: not tested with BGRABitmap - it must give inverted colors
