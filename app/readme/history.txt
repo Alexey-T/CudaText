@@ -8,7 +8,7 @@
 * change: before, caret movement updated the statusbar after rather big pause ~2000ms; now the pause is smaller, ~500ms (option "py_caret_slow")
 + add: command "open file in default app" sets current directory (thanks @veksha)
 + add: URL highlight missed ":" possible char (thanks @xbarbie)
-- fix: on fast editing of big code, gutter folding lines were not auto-adjusted _fast_, and also _folded_ blocks below the caret can be corrupted by fast editing
+- fix: important: on fast editing of big code, gutter folding lines were not auto-adjusted _fast_, and also _folded_ blocks below the caret can be corrupted by fast editing
 - fix: Qt5 and macOS versions: in viewer, text selection highlight was 'shifted' (thanks @papirosko)
 
 1.208.0 (2024/01)
