@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.208.1 (2024/01)
+1.208.5 (2024/01)
 
 * change: before, caret movement updated the statusbar after rather big pause ~2000ms; now the pause is smaller, ~500ms (option "py_caret_slow")
 + add: on fast editing of big code, gutter folding lines were not auto-adjusted _fast_, now they do it
