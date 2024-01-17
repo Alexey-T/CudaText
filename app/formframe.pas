@@ -1945,7 +1945,7 @@ begin
         end
         else
         if Ed.OptWrapMode=TATEditorWrapMode.ModeOff then
-          if Ed.Strings.Count>=Ed.OptWrapEnabledForMaxLines then
+          if Ed.Strings.Count>Ed.OptWrapEnabledForMaxLines then
           begin
             MsgBox(Format(msgCannotSetWrap,
               [Ed.Strings.Count, Ed.OptWrapEnabledForMaxLines]), MB_OK+MB_ICONWARNING);
