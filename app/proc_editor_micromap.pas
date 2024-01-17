@@ -36,9 +36,8 @@ uses
 function EditorRectMicromapMark(Ed: TATSynEdit; AColumn, AIndexFrom, AIndexTo: integer;
   AMapHeight, AMinMarkHeight, AScaleDiv: integer): TRect;
 //to make things safe, don't pass the ARect, but only its height
+//no need to check Ed.Micromap.IsIndexValid(AColumn), checked already
 begin
-  if Ed.Micromap.IsIndexValid(AColumn) then
-  begin
     if AIndexFrom>=0 then
       Result.Top:= Int64(AIndexFrom) * AMapHeight div AScaleDiv
     else
@@ -55,9 +54,6 @@ begin
       Result.Left:= NLeft;
       Result.Right:= NRight;
     end;
-  end
-  else
-    Result:= cRectEmpty;
 end;
 
 
@@ -114,9 +110,10 @@ var
   XColor, XColorBkmk, XColorSelected, XColorOccur, XColorSpell: TBGRAPixel;
   NColor: TColor;
   RectMark: TRect;
-  NLine1, NIndex, NIndex1, NIndex2, NColumnIndex, NMaxLineIndex, i: integer;
+  NLine1, NIndex, NIndex1, NIndex2, NColumnIndex, NMaxLineIndex, NColumnCount: integer;
   CaretX1, CaretY1, CaretX2, CaretY2: integer;
   bSel: boolean;
+  i: integer;
 begin
   St:= Ed.Strings;
   if St.Count=0 then exit;
@@ -124,6 +121,9 @@ begin
   if Wr.Count=0 then exit;
 
   NMaxLineIndex:= St.Count-1;
+  NColumnCount:= Length(Ed.Micromap.Columns);
+  if NColumnCount<2 then exit;
+
   NWidthSmall:= Ed.TextCharSize.XScaled * EditorOps.OpMicromapSmallMarkSizePercents div 100 div ATEditorCharXScale;
 
   NScaleDiv:= Max(1, Wr.Count);
