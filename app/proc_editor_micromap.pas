@@ -65,6 +65,11 @@ procedure EditorPaintMicromap(Ed: TATSynEdit; ACanvas: TCanvas; const ARect: TRe
     right edge column: width 50% of char cell, it's used for selections
   so, for different micromap rect widths, some columns may overlap, e.g. right_edge and column_1
 }
+{
+1.180.0 (2022/12)
++ add: reworked how micromap is painted in word-wrapped mode (both on vert scrollbar and not);
+now it paints all WrapInfo items, so e.g. long wrapped line gives several cells on micromap
+}
 type
   TMicromapMark = (Column, Full, Right);
 const
