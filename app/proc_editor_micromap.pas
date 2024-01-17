@@ -114,7 +114,7 @@ var
   XColor, XColorBkmk, XColorSelected, XColorOccur, XColorSpell: TBGRAPixel;
   NColor: TColor;
   RectMark: TRect;
-  NLine1, NIndex, NIndex1, NIndex2, NColumnIndex, i: integer;
+  NLine1, NIndex, NIndex1, NIndex2, NColumnIndex, NMaxLineIndex, i: integer;
   CaretX1, CaretY1, CaretX2, CaretY2: integer;
   bSel: boolean;
 begin
@@ -123,6 +123,7 @@ begin
   Wr:= Ed.WrapInfo;
   if Wr.Count=0 then exit;
 
+  NMaxLineIndex:= St.Count-1;
   NWidthSmall:= Ed.TextCharSize.XScaled * EditorOps.OpMicromapSmallMarkSizePercents div 100 div ATEditorCharXScale;
 
   NScaleDiv:= Max(1, Wr.Count);
@@ -151,7 +152,7 @@ begin
     for i:= 0 to Wr.Count-1 do
     begin
       NIndex:= Wr.Data[i].NLineIndex;
-      if not St.IsIndexValid(NIndex) then Continue;
+      if NIndex>NMaxLineIndex then Break;
       LineState:= St.LinesState[NIndex];
       case LineState of
         TATLineState.None: Continue;
