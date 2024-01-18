@@ -275,7 +275,6 @@ To install "lexer.*.zip" (or any add-on ZIP file) in CudaText: open this ZIP fil
 
 === List of lexers ===
 The following lexers (counting only important ones) exist for CudaText. They are available through the Addons Manager's '''<samp>Install…</samp>''' command.
-{{Columns-start|num=3|class=plainlinks}}
 * [https://1c-dn.com/1c_enterprise/1c_programming_language/ 1C:Enterprise script]
 * [https://learning.sap-press.com/abap <abbr title="Advanced Business Application Programming">ABAP</abbr>]
 * [https://www.3ds.com/products-services/simulia/products/abaqus/ Abaqus Keywords]
@@ -378,7 +377,6 @@ The following lexers (counting only important ones) exist for CudaText. They are
 * GAMS
 * GDScript
 * Gemini (web pages)
-{{Column|num=3}}
 * Gherkin (Cucumber; Behat)
 * GHS.com MULTI IDE (3 lexers)
 * GLSL
@@ -483,7 +481,6 @@ The following lexers (counting only important ones) exist for CudaText. They are
 * OpenCL
 * OpenEdge
 * OpenSCAD
-{{Column|num=3}}
 * Org-mode
 * Papyrus (for Skyrim game)
 * Parser3
@@ -592,7 +589,6 @@ The following lexers (counting only important ones) exist for CudaText. They are
 * ZenScript (MineTweaker)
 * Zephir
 * Zig
-{{Columns-end}}
 
 === Lexers modification and creation ===
 [[File:cudatext-lexer-editor-dlg.png|thumb|right|480px|alt=SynWrite "Lexer properties" dialog|Screenshot of SynWrite's "Lexer properties" dialog]]
