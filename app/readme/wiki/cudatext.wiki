@@ -367,7 +367,7 @@ The following lexers (counting only important ones) exist for CudaText. They are
 * Factor
 * Falcon
 * Fish
-* FIX Message<br />(Financial Information eXchange)
+* FIX Message (Financial Information eXchange)
 * Forth
 * Fortran
 * FoxPro
