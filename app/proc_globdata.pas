@@ -1984,7 +1984,7 @@ begin
     AutocompleteAcpFiles:= true;
     AutocompleteHtml:= true;
     AutocompleteHtml_AutoClose:= true;
-    AutocompleteHtml_Lexers:= '.*HTML.*|\bPHP\b';
+    AutocompleteHtml_Lexers:= 'HTML.*|\bPHP\b';
     AutocompleteCss:= true;
     AutocompleteCss_Lexers:= 'CSS';
     AutocompleteFileURI:= true;
