@@ -3,7 +3,10 @@
   - fixed
   * changed
 
+1.208.6 (2024/01)
+
 + add: optimization for plugins ExTerminal / Terminal Plus (thanks @veksha)
+* change: addition to the format of Undo-history, format is backward compatible with 1.208.5
 
 1.208.5 (2024/01)
 
