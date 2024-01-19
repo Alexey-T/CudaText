@@ -3,6 +3,8 @@
   - fixed
   * changed
 
++ add: optimization for plugins ExTerminal / Terminal Plus (thanks @veksha)
+
 1.208.5 (2024/01)
 
 * change: before, caret movement updated the statusbar after rather big pause ~2000ms; now the pause is smaller, ~500ms (option "py_caret_slow")
