@@ -2940,27 +2940,26 @@ procedure TEditorFrame.InitProgressForm(AEd: TATSynEdit; const AFileName: string
 var
   St: TATStrings;
 begin
-  if AFileSize>UiOps.MaxFileSizeWithoutProgressForm then
-  begin
-    St:= AEd.Strings;
-    AppInitProgressForm(
-      FProgressForm,
-      FProgressGauge,
-      FProgressButtonCancel,
-      Format('%s (%d Mb)', [
-        ExtractFileName(AFileName),
-        //AppCollapseHomeDirInFilename(ExtractFileDir(AFileName)),
-        AFileSize div (1024*1024)
-        ]));
-    FProgressOldProgress:= 0;
-    FProgressOldHandler:= St.OnProgress;
-    FProgressButtonCancel.Caption:= StringReplace(msgButtonCancel, '&', '', [rfReplaceAll]);
-    FProgressButtonCancel.OnClick:= @HandleProgressButtonCancel;
-    FProgressCancelled:= false;
-    St.OnProgress:= @HandleStringsProgress;
-    FProgressForm.Show;
-    Application.ProcessMessages;
-  end;
+  if AppFormShowCompleted then exit;
+  if AFileSize<=UiOps.MaxFileSizeWithoutProgressForm then exit;
+
+  St:= AEd.Strings;
+  AppInitProgressForm(
+    FProgressForm,
+    FProgressGauge,
+    FProgressButtonCancel,
+    Format('%s (%d Mb)', [
+      ExtractFileName(AFileName),
+      AFileSize div (1024*1024)
+      ]));
+  FProgressOldProgress:= 0;
+  FProgressOldHandler:= St.OnProgress;
+  FProgressButtonCancel.Caption:= StringReplace(msgButtonCancel, '&', '', [rfReplaceAll]);
+  FProgressButtonCancel.OnClick:= @HandleProgressButtonCancel;
+  FProgressCancelled:= false;
+  St.OnProgress:= @HandleStringsProgress;
+  FProgressForm.Show;
+  Application.ProcessMessages;
 end;
 
 procedure TEditorFrame.HideProgressForm(AEd: TATSynEdit);
@@ -2986,8 +2985,7 @@ begin
   if EdIndex<0 then exit;
 
   St:= Ed.Strings;
-  if not AppFormShowCompleted then
-    InitProgressForm(Ed, AFileName, FileSize(AFileName));
+  InitProgressForm(Ed, AFileName, FileSize(AFileName));
 
   try
     try
