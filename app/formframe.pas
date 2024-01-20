@@ -2986,7 +2986,6 @@ begin
   if EdIndex<0 then exit;
 
   St:= Ed.Strings;
-  FProgressForm:= nil;
   if not AppFormShowCompleted then
     InitProgressForm(Ed, AFileName, FileSize(AFileName));
 
