@@ -2940,9 +2940,9 @@ procedure TEditorFrame.InitProgressForm(AEd: TATSynEdit; const AFileName: string
 var
   St: TATStrings;
 begin
-  St:= AEd.Strings;
   if AFileSize>UiOps.MaxFileSizeWithoutProgressForm then
   begin
+    St:= AEd.Strings;
     AppInitProgressForm(
       FProgressForm,
       FProgressGauge,
