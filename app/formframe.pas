@@ -289,8 +289,6 @@ type
     function GetWordWrap: TATEditorWrapMode;
     procedure HandleProgressButtonCancel(Sender: TObject);
     procedure HandleStringsProgress(Sender: TObject; var ACancel: boolean);
-    procedure InitProgressForm(AEd: TATSynEdit; const AFileName: string;
-      const AFileSize: Int64);
     procedure SetTextChangeSlow(EdIndex: integer; AValue: boolean);
     function GetEnabledCodeTree(Ed: TATSynEdit): boolean;
     function GetEnabledFolding: boolean;
@@ -407,6 +405,8 @@ type
     procedure UpdateCaptionFromFilename;
     procedure UpdateLocked(Ed: TATSynEdit; AValue: boolean);
     procedure UpdateLockedAll(AValue: boolean);
+    procedure InitProgressForm(AEd: TATSynEdit; const AFileName: string; const AFileSize: Int64);
+    procedure HideProgressForm(AEd: TATSynEdit);
 
     property CachedTreeViewInited[Ed: TATSynEdit]: boolean read GetCachedTreeviewInited;
     property CachedTreeView[Ed: TATSynEdit]: TTreeView read GetCachedTreeview;
@@ -2963,6 +2963,17 @@ begin
   end;
 end;
 
+procedure TEditorFrame.HideProgressForm(AEd: TATSynEdit);
+begin
+  if Assigned(FProgressForm) then
+  begin
+    AEd.Strings.OnProgress:= FProgressOldHandler;
+    FProgressForm.Free;
+    FProgressForm:= nil;
+    FProgressGauge:= nil;
+  end;
+end;
+
 procedure TEditorFrame.DoFileOpen_Ex(Ed: TATSynEdit; const AFileName: string;
   AAllowLoadHistory, AAllowLoadHistoryEnc, AAllowLoadBookmarks, AAllowLexerDetect,
   AAllowErrorMsgBox, AKeepScroll, AAllowLoadUndo: boolean; AOpenMode: TAppOpenMode);
@@ -2994,13 +3005,7 @@ begin
     finally
       UpdateLocked(Ed, false);
       St.EncodingDetect:= true;
-      if Assigned(FProgressForm) then
-      begin
-        St.OnProgress:= FProgressOldHandler;
-        FProgressForm.Free;
-        FProgressForm:= nil;
-        FProgressGauge:= nil;
-      end;
+      HideProgressForm(Ed);
     end;
   except
     on E: Exception do

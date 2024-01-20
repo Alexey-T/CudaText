@@ -707,7 +707,11 @@ begin
           Frame.TabCaptionReason:= TAppTabCaptionReason.FromFilename;
         end;
         if sText<>'' then
+        begin
+          Frame.InitProgressForm(Frame.Editor, 'history', Length(sText));
           Frame.Editor.Text:= sText;
+          Frame.HideProgressForm(Frame.Editor);
+        end;
         if sUndoString<>'' then
           Frame.Editor.UndoAsString:= sUndoString;
         if sRedoString<>'' then
