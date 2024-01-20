@@ -289,6 +289,8 @@ type
     function GetWordWrap: TATEditorWrapMode;
     procedure HandleProgressButtonCancel(Sender: TObject);
     procedure HandleStringsProgress(Sender: TObject; var ACancel: boolean);
+    procedure InitProgressForm(AEd: TATSynEdit; const AFileName: string;
+      const AFileSize: Int64);
     procedure SetTextChangeSlow(EdIndex: integer; AValue: boolean);
     function GetEnabledCodeTree(Ed: TATSynEdit): boolean;
     function GetEnabledFolding: boolean;
@@ -2934,12 +2936,38 @@ begin
   ACancel:= FProgressCancelled;
 end;
 
+procedure TEditorFrame.InitProgressForm(AEd: TATSynEdit; const AFileName: string; const AFileSize: Int64);
+var
+  St: TATStrings;
+begin
+  St:= AEd.Strings;
+  if AFileSize>UiOps.MaxFileSizeWithoutProgressForm then
+  begin
+    AppInitProgressForm(
+      FProgressForm,
+      FProgressGauge,
+      FProgressButtonCancel,
+      Format('%s (%d Mb)', [
+        ExtractFileName(AFileName),
+        //AppCollapseHomeDirInFilename(ExtractFileDir(AFileName)),
+        AFileSize div (1024*1024)
+        ]));
+    FProgressOldProgress:= 0;
+    FProgressOldHandler:= St.OnProgress;
+    FProgressButtonCancel.Caption:= StringReplace(msgButtonCancel, '&', '', [rfReplaceAll]);
+    FProgressButtonCancel.OnClick:= @HandleProgressButtonCancel;
+    FProgressCancelled:= false;
+    St.OnProgress:= @HandleStringsProgress;
+    FProgressForm.Show;
+    Application.ProcessMessages;
+  end;
+end;
+
 procedure TEditorFrame.DoFileOpen_Ex(Ed: TATSynEdit; const AFileName: string;
   AAllowLoadHistory, AAllowLoadHistoryEnc, AAllowLoadBookmarks, AAllowLexerDetect,
   AAllowErrorMsgBox, AKeepScroll, AAllowLoadUndo: boolean; AOpenMode: TAppOpenMode);
 var
   St: TATStrings;
-  NFileSize: Int64;
   LoadOptions: TATLoadStreamOptions;
   EdIndex: integer;
 begin
@@ -2949,29 +2977,7 @@ begin
   St:= Ed.Strings;
   FProgressForm:= nil;
   if not AppFormShowCompleted then
-  begin
-    NFileSize:= FileSize(AFileName);
-    if NFileSize>UiOps.MaxFileSizeWithoutProgressForm then
-    begin
-      AppInitProgressForm(
-        FProgressForm,
-        FProgressGauge,
-        FProgressButtonCancel,
-        Format('%s (%d Mb)', [
-          ExtractFileName(AFileName),
-          //AppCollapseHomeDirInFilename(ExtractFileDir(AFileName)),
-          NFileSize div (1024*1024)
-          ]));
-      FProgressOldProgress:= 0;
-      FProgressOldHandler:= St.OnProgress;
-      FProgressButtonCancel.Caption:= StringReplace(msgButtonCancel, '&', '', [rfReplaceAll]);
-      FProgressButtonCancel.OnClick:= @HandleProgressButtonCancel;
-      FProgressCancelled:= false;
-      St.OnProgress:= @HandleStringsProgress;
-      FProgressForm.Show;
-      Application.ProcessMessages;
-    end;
-  end;
+    InitProgressForm(Ed, AFileName, FileSize(AFileName));
 
   try
     try
