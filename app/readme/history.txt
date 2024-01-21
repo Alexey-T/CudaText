@@ -6,6 +6,7 @@
 1.208.6 (2024/01)
 
 + add: optimization for plugins ExTerminal / Terminal Plus (thanks @veksha)
++ add: progressbar-form is shown additionally when loading big text from session (> 10Mb; < option "ui_session_max_text")
 * change: addition to the format of Undo-history, format is backward compatible with 1.208.5
 - fix: Project Manager crashed when calling "Open in default application" with LSP running (thanks @veksha)
 
