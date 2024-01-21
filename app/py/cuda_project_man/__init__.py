@@ -850,6 +850,8 @@ class Command:
                 sess = self.project.get('def_session', '')
                 if sess not in ('', '-'):
                     self.session_load(sess, False)
+                if 'unfolds' in self.project:    
+                    self.enum_all_setfolds(self.project['unfolds'])
             else:
                 msg_status(_("Project file not found: ") + path)
 
@@ -927,6 +929,10 @@ class Command:
             if 'nodes' in d:
                 for i in range(len(d['nodes'])):
                     d['nodes'][i] = collapse_macros(d['nodes'][i])
+            
+            unfolds = []
+            self.enum_all_getfolds(unfolds)
+            d['unfolds'] = unfolds
 
             self.project_file_path = path
             with path.open("w", encoding='utf8') as fout:
@@ -1103,6 +1109,10 @@ class Command:
             self.init_panel()
             self.action_open_project(filename)
             return False #block opening
+    
+    def on_exit(self, ed_self):
+        if self.project_file_path:
+            self.action_save_project_as(self.project_file_path)
 
     def config(self):
 
