@@ -3,17 +3,18 @@ object fmChooseTheme: TfmChooseTheme
   Height = 496
   Top = 151
   Width = 436
+  BorderIcons = [biSystemMenu, biMaximize]
   Caption = 'Themes'
   ClientHeight = 496
   ClientWidth = 436
   Constraints.MinHeight = 200
   Constraints.MinWidth = 200
+  Position = poScreenCenter
+  LCLVersion = '3.99.0.0'
+  Scaled = False
   OnCreate = FormCreate
   OnResize = FormResize
   OnShow = FormShow
-  Position = poScreenCenter
-  LCLVersion = '2.3.0.0'
-  Scaled = False
   object GroupUI: TGroupBox
     Left = 6
     Height = 393
@@ -34,10 +35,10 @@ object fmChooseTheme: TfmChooseTheme
       Width = 176
       Align = alClient
       ItemHeight = 0
-      OnClick = ListboxUIClick
       ScrollWidth = 174
       TabOrder = 0
       TopIndex = -1
+      OnClick = ListboxUIClick
     end
   end
   object GroupSyntax: TGroupBox
@@ -58,10 +59,10 @@ object fmChooseTheme: TfmChooseTheme
       Width = 238
       Align = alClient
       ItemHeight = 0
-      OnClick = ListboxSyntaxClick
       ScrollWidth = 173
       TabOrder = 0
       TopIndex = -1
+      OnClick = ListboxSyntaxClick
     end
   end
   object ButtonPanel1: TButtonPanel
@@ -90,8 +91,8 @@ object fmChooseTheme: TfmChooseTheme
     BorderSpacing.Left = 6
     BorderSpacing.Right = 6
     Caption = 'Synchronized change of UI+syntax themes'
-    OnChange = chkSyncChange
     TabOrder = 3
+    OnChange = chkSyncChange
   end
   object chkEnableLex: TCheckBox
     Left = 6
@@ -102,8 +103,8 @@ object fmChooseTheme: TfmChooseTheme
     BorderSpacing.Left = 6
     BorderSpacing.Right = 6
     Caption = 'Enable lexer themes (requires CudaText restart)'
-    OnChange = chkEnableLexChange
     TabOrder = 2
+    OnChange = chkEnableLexChange
   end
   object IdleTimer1: TIdleTimer
     AutoEnabled = True
