@@ -1732,7 +1732,7 @@ begin
     //EControl lexer active? don't call Update:
     //- editor will get Update called later (parsing done) from adapter
     //- Update gives flickering (when one editor is on top, splitted editor is on bottom)
-    if not EdOther.IsNormalLexerActive then
+    if not EdOther.IsLexerNormal then
       EdOther.Update(false);
   end;
 
@@ -3037,8 +3037,7 @@ begin
     EditorSaveTempOptions(Ed, InitialOptions[High(InitialOptions)]);
 
   if AAllowLexerDetect then
-    if (Ed.AdapterForHilite=nil) or
-       (Ed.AdapterForHilite.GetLexerName='') then
+    if Ed.IsLexerNone then
       DoLexerFromFilename(Ed, AFileName);
 
   UpdateReadOnlyFromFile(Ed);
