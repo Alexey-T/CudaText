@@ -3038,8 +3038,7 @@ begin
 
   if AAllowLexerDetect then
     if (Ed.AdapterForHilite=nil) or
-      (Ed.AdapterForHilite.GetLexerName='-') or
-      (Ed.AdapterForHilite.GetLexerName='') then
+       (Ed.AdapterForHilite.GetLexerName='') then
       DoLexerFromFilename(Ed, AFileName);
 
   UpdateReadOnlyFromFile(Ed);
