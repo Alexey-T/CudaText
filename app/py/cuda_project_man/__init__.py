@@ -1496,7 +1496,7 @@ class Command:
 
     def set_imagelist_size(self, theme_name, imglist):
 
-        res = re.match('^\S+x(\d+)$', theme_name)
+        res = re.match(r'^\S+x(\d+)$', theme_name)
         if not res:
             return msg_box(_('Project Manager: bad icons folder name: "%s"') % theme_name, MB_OK+MB_ICONERROR)
         n = int(res.group(1))
