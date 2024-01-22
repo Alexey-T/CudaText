@@ -7552,6 +7552,7 @@ end;
 procedure TfmMain.EditorOutput_OnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 var
   Frame: TEditorFrame;
+  bHandled: boolean;
 begin
   if (Key=VK_ESCAPE) and (Shift=[]) then
   begin
@@ -7560,6 +7561,15 @@ begin
       Frame.SetFocus;
     Key:= 0;
     exit
+  end;
+
+  if (Key=VK_RETURN) and (Shift=[]) then
+  begin
+    bHandled:= false;
+    EditorOutput_OnClickDbl(Sender, bHandled);
+    if bHandled then
+      Key:= 0;
+    exit;
   end;
 end;
 
