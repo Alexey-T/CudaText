@@ -10,7 +10,8 @@
 + add: Project Manager saves to project 'unfolded tree-nodes' list (patch by @veksha)
 * change: addition to the format of Undo-history, format is backward compatible with 1.208.5
 * change: Project Manager: 2 menu items (configure plugin; configure project) removed from context menu / from 'gear' toolbar menu
-- fix: Project Manager crashed when calling "Open in default application" with LSP running (patch by @veksha)
+- fix: on Windows, Project Manager crashed when calling "Open in default application" with LSP running (patch by @veksha)
+- fix: lexer Python: f-strings must support '{{' (thanks @DUOLabs333)
 
 1.208.5 (2024/01)
 
