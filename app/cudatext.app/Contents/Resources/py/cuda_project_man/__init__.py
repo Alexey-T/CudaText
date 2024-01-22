@@ -221,8 +221,6 @@ class Command:
         (_("Refresh")              , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_refresh"),
         ("-"                       , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], ""),
         (_("Go to file...")        , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_go_to_file"),
-        (_("Project properties..."), "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_project_properties"),
-        (_("Project Manager options..."), "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_config"),
     )
 
     options = {
@@ -1005,9 +1003,9 @@ class Command:
         if os.path.basename(sess)=='history session.json':
             menu_proc(id, MENU_SET_ENABLED, command=False)
 
-        menu_proc(self.h_menu_cfg, MENU_ADD, caption='-')
-        menu_proc(self.h_menu_cfg, MENU_ADD, command='cuda_project_man.action_project_properties', caption=_('Project properties...'))
-        menu_proc(self.h_menu_cfg, MENU_ADD, command='cuda_project_man.action_config', caption=_('Project Manager options...'))
+        #menu_proc(self.h_menu_cfg, MENU_ADD, caption='-')
+        #menu_proc(self.h_menu_cfg, MENU_ADD, command='cuda_project_man.action_project_properties', caption=_('Project properties...'))
+        #menu_proc(self.h_menu_cfg, MENU_ADD, command='cuda_project_man.action_config', caption=_('Project Manager options...'))
 
         menu_proc(self.h_menu_cfg, MENU_SHOW)
 
