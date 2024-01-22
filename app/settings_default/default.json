@@ -1073,16 +1073,17 @@
   "ui_tree_unfold": false,
 
   //[Text/NewDocument]
-  //New tabs: Lexer name.
+  //New empty documents: Lexer name.
   "newdoc_lexer": "",
 
-  //New tabs: Encoding name. Possible names are listed in Wiki (utf8, utf8_bom, cp1250 etc).
+  //New empty documents: Encoding name.
+  //Possible names are listed in Wiki (utf8, utf8_bom, cp1250 etc).
   "newdoc_encoding": "utf8",
 
-  //New tabs: Line endings sequence.
+  //New empty documents: Line endings sequence.
   //  0: Auto: CRLF on Windows, LF otherwise
   //  1: LF
-  //  2: CRLF (Windows)
+  //  2: CRLF
   //  3: CR
   "newdoc_ends": 0,
 
