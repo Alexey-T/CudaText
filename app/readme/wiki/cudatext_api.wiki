@@ -3074,13 +3074,16 @@ Possible values of "id":
 
 ===Editor.save===
 
- save(filename="")
+ save(filename="", as_copy=False)
 
-Saves editor's text to disk.
+Saves editor's text to file.
+Returns bool: file was saved without errors.
 
-Shows "Save as" dialog for untitled tab.
-If param "filename" is not empty, saves to the given filename (untitled tab becomes titled).
-Returns bool: file was saved.
+Param "filename": if not empty, save to given filename.
+
+Param "as_copy" (bool):
+* False: Editor uses new filename. Untitled document becomes titled. If filename is empty, function shows "Save as" dialog for untitled document.
+* True: Just create the file and don't use new filename. Filename must be not empty in this case, otherwise function will return False.
 
 ===Editor.cmd===
 
@@ -4982,5 +4985,6 @@ It provides:
 
 1.0.452 (app 1.209.0)
 * add: Editor.decor: DECOR_GET_ALL now can return all items for given line, if "line">=0
+* add: Editor.save: add optional parameter "as_copy"
 
 [[Category:CudaText]]
