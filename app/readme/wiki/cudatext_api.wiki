@@ -3086,7 +3086,7 @@ Param "as_copy" (bool):
 * True: Just create the copy and don't use new filename. Filename must be not empty in this case, otherwise function will return False.
 
 Notes:
-* Function can be used even for editor in dlg_proc() dialog only if param "as_copy" is False.
+* Function can be used for editor in dlg_proc() dialog only if param "as_copy" is False, otherwise it will return None.
 
 ===Editor.cmd===
 
