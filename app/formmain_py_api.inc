@@ -832,18 +832,16 @@ function api_ed_save(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
   Ed: TATSynEdit;
-  Frame: TEditorFrame;
   PtrName: PChar;
   StrName: string;
   bSaveAsCopy: LongBool;
+  Frame: TEditorFrame;
   Ok: boolean;
 begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'Lsi:save', @H, @PtrName, @bSaveAsCopy)) then
     begin
       Ed:= PyHelper_EditorFromHandle(H);
-      Frame:= TGroupsHelper.GetEditorFrame(Ed);
-      if Frame=nil then exit(ReturnNone);
       StrName:= string(PtrName);
 
       if bSaveAsCopy then
@@ -866,6 +864,10 @@ begin
       else
       begin
         //save + use new filename
+        Frame:= TGroupsHelper.GetEditorFrame(Ed);
+        if Frame=nil then
+          exit(ReturnNone);
+
         if StrName<>'' then
         begin
           Frame.SetFileName(Ed, StrName);
