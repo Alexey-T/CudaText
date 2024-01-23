@@ -2829,8 +2829,12 @@ Notes:
 
 Controls decorations on gutter. It is used to show some visual marks, which look like bookmark icons, but independent of bookmarks. Possible values of "id":
 
-* DECOR_GET_ALL: Returns list of all decorations, as list of dict.
+* DECOR_GET_ALL:
+** If param "line" <0: returns list of all decorations, as list of dict.
+** If param "line" >=0: return list of decorations for the given line index, as list of dict.
+
 * DECOR_GET: Returns decoration for given line, as dict. Params used: "line".
+
 * DECOR_SET: Sets decoration for given line. Returns bool: line index correct, item added. Params used:
 ** "line": int, line index.
 ** "tag": int, some value attached to item.
@@ -4975,5 +4979,8 @@ It provides:
 1.0.451 (app 1.206.6)
 * delete deprecated key "auto_del" in results of BOOKMARK_GET_ALL
 * change: Editor.get_prop/set_prop: PROP_ACTIVATION_TIME is now available for editors created via dlg_proc; it is different now for primary/secondary editor in the same ui-tab 
+
+1.0.452 (app 1.209.0)
+* add: Editor.decor: DECOR_GET_ALL now can return all items for given line, if "line">=0
 
 [[Category:CudaText]]
