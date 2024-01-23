@@ -3085,6 +3085,9 @@ Param "as_copy" (bool):
 * False: Editor uses new filename. Untitled document becomes titled. If filename is empty, function shows "Save as" dialog for untitled document.
 * True: Just create the file and don't use new filename. Filename must be not empty in this case, otherwise function will return False.
 
+Notes:
+* Function can be used even for editor in dlg_proc() dialog only if param "as_copy" is False.
+
 ===Editor.cmd===
 
  cmd(code, text="")
