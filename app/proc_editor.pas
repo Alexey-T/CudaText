@@ -383,6 +383,7 @@ begin
     Ed.OptCaretProximityVert:= Op.OpCaretProximityVert;
     Ed.OptScrollLineCommandsKeepCaretOnScreen:= Op.OpCaretKeepVisibleOnScroll;
 
+    Ed.OptKeepSelFontColor:= Op.OpKeepSelFontColor;
     Ed.OptShowCurLine:= Op.OpShowCurLine;
     Ed.OptShowCurLineMinimal:= Op.OpShowCurLineMinimal;
     Ed.OptShowCurLineOnlyFocused:= Op.OpShowCurLineOnlyFocused;

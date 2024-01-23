@@ -232,7 +232,7 @@ procedure AppThemeFree(var D: TAppTheme);
 procedure AppThemeLoadFromFile(const AFileName: string; var D: TAppTheme; IsThemeUI: boolean);
 procedure AppThemeSaveToFile(const AFileName: string; const D: TAppTheme; IsThemeUI: boolean);
 
-function GetAppColor(id: TAppThemeColor): TColor;
+function GetAppColor(id: TAppThemeColor): TColor; inline;
 function GetAppStyle(id: TAppThemeStyle): TecSyntaxFormat; inline;
 function FindAppColorByName(const AName: string; ADefaultColor: TColor): TColor;
 
@@ -597,13 +597,10 @@ end;
 
 function GetAppColor(id: TAppThemeColor): TColor;
 begin
-  if (id=TAppThemeColor.EdSelFont) and EditorOps.OpKeepSelFontColor then
-    Result:= clNone
-  else
-    Result:= AppTheme.Colors[id].Color;
+  Result:= AppTheme.Colors[id].Color;
 end;
 
-function GetAppStyle(id: TAppThemeStyle): TecSyntaxFormat; inline;
+function GetAppStyle(id: TAppThemeStyle): TecSyntaxFormat;
 begin
   Result:= AppTheme.Styles[id];
 end;
