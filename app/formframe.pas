@@ -3683,7 +3683,9 @@ begin
   begin
     Ed1.OptBorderColor:= GetAppColor(TAppThemeColor.EdMarkers);
     Ed1.OptCornerText:= 'R';
-    Ed1.OptCornerColorFont:= GetAppColor(TAppThemeColor.EdSelFont);
+    Ed1.OptCornerColorFont:=
+      //GetAppColor(TAppThemeColor.EdSelFont); //this can return clNone, so don't use it
+      AppTheme.Colors[TAppThemeColor.EdSelFont].Color;
     Ed1.OptCornerColorBack:= Ed1.OptBorderColor;
     Ed1.OptCornerColorBorder:= clNone;
   end
