@@ -6294,9 +6294,16 @@ begin
   with AppPanels[TAppPanelId.Side] do
   begin
     Visible:= not Visible;
-    if not Visible then
+    if Visible then
+    begin
+      if LastActivePanel='' then
+        UpdatePanels(msgPanelTree_Init, false, true);
+    end
+    else
+    begin
       if ActiveControl=nil then
         DoFocusEditor(CurrentEditor);
+    end;
   end;
 end;
 
@@ -6305,9 +6312,16 @@ begin
   with AppPanels[TAppPanelId.Btm] do
   begin
     Visible:= not Visible;
-    if not Visible then
+    if Visible then
+    begin
+      if LastActivePanel='' then
+        UpdatePanels(msgPanelConsole_Init, false, true);
+    end
+    else
+    begin
       if ActiveControl=nil then
         DoFocusEditor(CurrentEditor);
+    end;
   end;
 end;
 
