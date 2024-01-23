@@ -2221,6 +2221,7 @@ var
   NFontBold, NFontItalic, NAutoDelete: integer;
   NTag: Int64;
   Data: TATGutterDecorData;
+  ItemPtr: PATGutterDecorItem;
   NCount, i: integer;
 begin
   with AppPython.Engine do
@@ -2232,7 +2233,10 @@ begin
 
       case NId of
         DECOR_GET_ALL:
+          begin
+            if NLine<0 then
             begin
+              //return all items
               NCount:= Ed.GutterDecor.Count;
               Result:= PyList_New(NCount);
               if not Assigned(Result) then
@@ -2241,7 +2245,21 @@ begin
                 PyList_SetItem(Result, i,
                   PyHelper_DecorGetItem(Ed.GutterDecor.ItemPtr(i))
                   );
+            end
+            else
+            begin
+              //return items for given line index
+              Result:= PyList_New(0);
+              if not Assigned(Result) then
+                raise EPythonError.Create(msgPythonListError);
+              for i:= 0 to Ed.GutterDecor.Count-1 do
+              begin
+                ItemPtr:= Ed.GutterDecor.ItemPtr(i);
+                if ItemPtr^.Data.LineNum=NLine then
+                  PyList_Append(Result, PyHelper_DecorGetItem(ItemPtr));
+              end;
             end;
+          end;
 
         DECOR_GET:
           begin
