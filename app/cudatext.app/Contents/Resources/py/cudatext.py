@@ -1363,8 +1363,8 @@ class Editor:
     def get_filename(self, options=''):
         return ct.ed_get_filename(self.h, options)
 
-    def save(self, filename=''):
-        return ct.ed_save(self.h, filename)
+    def save(self, filename='', as_copy=False):
+        return ct.ed_save(self.h, filename, as_copy)
 
     def cmd(self, code, text=''):
         return ct.ed_cmd(self.h, code, esc_z(text))

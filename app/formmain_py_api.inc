@@ -835,22 +835,44 @@ var
   Frame: TEditorFrame;
   PtrName: PChar;
   StrName: string;
+  bSaveAsCopy: LongBool;
   Ok: boolean;
 begin
   with AppPython.Engine do
-    if Bool(PyArg_ParseTuple(Args, 'Ls:save', @H, @PtrName)) then
+    if Bool(PyArg_ParseTuple(Args, 'Lsi:save', @H, @PtrName, @bSaveAsCopy)) then
     begin
       Ed:= PyHelper_EditorFromHandle(H);
       Frame:= TGroupsHelper.GetEditorFrame(Ed);
       if Frame=nil then exit(ReturnNone);
       StrName:= string(PtrName);
 
-      if StrName<>'' then
+      if bSaveAsCopy then
       begin
-        Frame.SetFileName(Ed, StrName);
-        Frame.DoLexerFromFilename(Ed, StrName);
+        //save copy, don't use new filename
+        if StrName='' then
+          Ok:= false
+        else
+          try
+            Ed.Strings.SaveToFile(StrName);
+            Ok:= true;
+          except
+            on E: Exception do
+            begin
+              Ok:= false;
+              MsgBox(E.Message, MB_OK or MB_ICONERROR);
+            end;
+          end;
+      end
+      else
+      begin
+        //save + use new filename
+        if StrName<>'' then
+        begin
+          Frame.SetFileName(Ed, StrName);
+          Frame.DoLexerFromFilename(Ed, StrName);
+        end;
+        Ok:= Frame.DoFileSave_Ex(Ed, false);
       end;
-      Ok:= Frame.DoFileSave_Ex(Ed, false);
 
       Result:= PyBool_FromLong(Ord(Ok));
     end
