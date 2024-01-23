@@ -3087,6 +3087,7 @@ Param "as_copy" (bool):
 
 Notes:
 * Function can be used for editor in dlg_proc() dialog only if param "as_copy" is False, otherwise it will return None.
+* For "as_copy" = False, function uses more detailed write-error checks, and handles situation of already existing filenames (suggests changed filename).
 
 ===Editor.cmd===
 
