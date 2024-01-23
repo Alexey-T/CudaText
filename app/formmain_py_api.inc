@@ -851,7 +851,7 @@ begin
           Ok:= false
         else
           try
-            Ed.Strings.SaveToFile(StrName);
+            Ed.Strings.SaveToFile(StrName, true);
             Ok:= true;
           except
             on E: Exception do
