@@ -2433,6 +2433,8 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_CORNER2_COLOR_FONT: like PROP_CORNER_COLOR_FONT but for the right-top corner.
 * PROP_CORNER2_COLOR_BACK: like PROP_CORNER_COLOR_BACK but for the right-top corner.
 * PROP_CORNER2_COLOR_BORDER: like PROP_CORNER_COLOR_BORDER but for the right-top corner.
+* PROP_CORNER_FONT_NAME: str: if not empty, specifies font name for PROP_CORNER_TEXT.
+* PROP_CORNER_FONT_SIZE: int: if >0, specifies font size for PROP_CORNER_TEXT.
 
 * PROP_BORDER_COLOR: int: if active, ie value not equals to COLOR_NONE, specifies color of border around the editor (like with macro-recording active).
 * PROP_BORDER_COLOR_WIDTH: int: border width for PROP_BORDER_COLOR.
@@ -2636,6 +2638,8 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 * PROP_CORNER2_COLOR_FONT: like PROP_CORNER_COLOR_FONT but for the right-top corner.
 * PROP_CORNER2_COLOR_BACK: like PROP_CORNER_COLOR_BACK but for the right-top corner.
 * PROP_CORNER2_COLOR_BORDER: like PROP_CORNER_COLOR_BORDER but for the right-top corner.
+* PROP_CORNER_FONT_NAME: str: if not empty, specifies font name for PROP_CORNER_TEXT.
+* PROP_CORNER_FONT_SIZE: int: if >0, specifies font size for PROP_CORNER_TEXT.
 
 * PROP_BORDER_COLOR: int: if active, ie value not equals to COLOR_NONE, specifies color of border around the editor (like with macro-recording active).
 * PROP_BORDER_COLOR_WIDTH: int: border width for PROP_BORDER_COLOR.
@@ -4991,5 +4995,6 @@ It provides:
 * add: Editor.decor: DECOR_GET_ALL now can return all items for given line, if "line">=0
 * add: Editor.save: add optional parameter "as_copy"
 * add: PROP_CORNER_TEXT supports multi-line text
+* add: Editor.get_prop/set_prop: PROP_CORNER_FONT_NAME, PROP_CORNER_FONT_SIZE
 
 [[Category:CudaText]]
