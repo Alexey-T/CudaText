@@ -2425,7 +2425,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_SCROLLSTYLE_HORZ: int: style of horizontal scrollbar, one of SCROLLSTYLE_ constants.
 * PROP_SCROLLSTYLE_VERT: int: style of vertical scrollbar, one of SCROLLSTYLE_ constants.
 
-* PROP_CORNER_TEXT: str: short text (single line) in the right-bottom corner (rendered above editor text).
+* PROP_CORNER_TEXT: str: short text (multi-line is allowed, separator chr(10)) in the right-bottom corner (rendered above editor text).
 * PROP_CORNER_COLOR_FONT: int: font-color for PROP_CORNER_TEXT; can be COLOR_NONE.
 * PROP_CORNER_COLOR_BACK: int: background-color for PROP_CORNER_TEXT; can be COLOR_NONE.
 * PROP_CORNER_COLOR_BORDER: int: border-color for PROP_CORNER_TEXT; can be COLOR_NONE.
@@ -2628,7 +2628,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 * PROP_SCROLLSTYLE_HORZ: int: style of horizontal scrollbar, one of SCROLLSTYLE_ constants.
 * PROP_SCROLLSTYLE_VERT: int: style of vertical scrollbar, one of SCROLLSTYLE_ constants.
 
-* PROP_CORNER_TEXT: str: short text (single line) in the right-bottom corner (rendered above editor text).
+* PROP_CORNER_TEXT: str: short text (multi-line is allowed, separator chr(10)) in the right-bottom corner (rendered above editor text).
 * PROP_CORNER_COLOR_FONT: int: font-color for PROP_CORNER_TEXT; can be COLOR_NONE.
 * PROP_CORNER_COLOR_BACK: int: background-color for PROP_CORNER_TEXT; can be COLOR_NONE.
 * PROP_CORNER_COLOR_BORDER: int: border-color for PROP_CORNER_TEXT; can be COLOR_NONE.
@@ -4990,5 +4990,6 @@ It provides:
 1.0.452 (app 1.209.0)
 * add: Editor.decor: DECOR_GET_ALL now can return all items for given line, if "line">=0
 * add: Editor.save: add optional parameter "as_copy"
+* add: PROP_CORNER_TEXT supports multi-line text
 
 [[Category:CudaText]]
