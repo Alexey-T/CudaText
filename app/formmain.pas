@@ -3534,6 +3534,7 @@ end;
 procedure TfmMain._QtCheckLibValidity;
 begin
   {$ifdef LCLQT5}
+  //if you use Lazarus 2.x, this line cannot be compiled, so comment it
   QTimer_singleShot(10, @_QtDelayTimeOut);
   {$endif}
 end;
