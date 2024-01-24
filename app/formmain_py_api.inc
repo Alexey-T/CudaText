@@ -4028,6 +4028,12 @@ begin
         PROP_CORNER2_COLOR_BORDER:
           Result:= PyLong_FromLong(Ed.OptCorner2ColorBorder);
 
+        PROP_CORNER_FONT_NAME:
+          Result:= PyUnicodeFromString(Ed.OptCornerFontName);
+
+        PROP_CORNER_FONT_SIZE:
+          Result:= PyLong_FromLong(Ed.OptCornerFontSize);
+
         PROP_BORDER_COLOR:
           Result:= PyLong_FromLong(Ed.OptBorderColor);
 
@@ -4789,6 +4795,12 @@ begin
 
         PROP_CORNER2_COLOR_BORDER:
           Ed.OptCorner2ColorBorder:= ValueInt;
+
+        PROP_CORNER_FONT_NAME:
+          Ed.OptCornerFontName:= Str;
+
+        PROP_CORNER_FONT_SIZE:
+          Ed.OptCornerFontSize:= ValueInt;
 
         PROP_BORDER_COLOR:
           Ed.OptBorderColor:= ValueInt;
