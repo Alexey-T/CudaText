@@ -1194,6 +1194,8 @@ type
     procedure DoTooltipShow(const AText: string; ASeconds: integer;
       APosition: TAppTooltipPos; AGotoBracket: boolean; APosX, APosY: integer);
     procedure DoOnDeleteLexer(Sender: TObject; const ALexerName: string);
+    procedure _QtCheckLibValidity;
+    procedure _QtDelayTimeOut; cdecl;
   public
     { public declarations }
     CodeTree: TAppTreeContainer;
@@ -1259,6 +1261,9 @@ uses
   EmmetHelper,
   TreeHelpers_Base,
   TreeHelpers_Proc,
+  {$ifdef LCLQT5}
+  qt5,
+  {$endif}
   ATSynEdit_ClipRecents,
   ATStringProc_HtmlColor;
 
@@ -3522,6 +3527,17 @@ begin
   end;
 end;
 
+procedure TfmMain._QtDelayTimeOut; cdecl;
+begin
+end;
+
+procedure TfmMain._QtCheckLibValidity;
+begin
+  {$ifdef LCLQT5}
+  QTimer_singleShot(10, @_QtDelayTimeOut);
+  {$endif}
+end;
+
 procedure TfmMain.FormShow(Sender: TObject);
   //
   procedure _Init_FixSplitters;
@@ -3695,6 +3711,7 @@ procedure TfmMain.FormShow(Sender: TObject);
 var
   Frame: TEditorFrame;
 begin
+  _QtCheckLibValidity;
   _Init_FixSplitters;
   _Init_DisableSomeMenuItems;
   _Init_SidebarEvents;
