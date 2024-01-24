@@ -451,7 +451,7 @@ class Command:
     def new_project(self, forget_session=True, apply_on_start=True):
         if self.project_file_path:
             self.action_save_project_as(self.project_file_path)
-        
+
         if forget_session:
             self.session_forget()
 
@@ -547,14 +547,14 @@ class Command:
 
     def action_rename(self):
         location = Path(self.get_location_by_index(self.selected))
-        e = _file_editor(str(location)) 
-        
-        # TODO: Support unsaved changes when API available       
+        e = _file_editor(str(location))
+
+        # TODO: Support unsaved changes when API available
         if e is not None \
         and e.get_prop(PROP_MODIFIED, '') == True \
         and msg_box(_('The file you are renaming has unsaved changes. Would you like to save the changes first?'), MB_OKCANCEL+MB_ICONWARNING) != ID_OK:
             return
-            
+
         result = dlg_input(_("Rename to"), str(location.name))
         if not result:
             return
@@ -562,8 +562,8 @@ class Command:
         new_location = location.parent / result
         if location == new_location:
             return
-        
-        if e is not None: 
+
+        if e is not None:
             e.save(str(new_location))
             location.unlink(True)
         else:
@@ -800,7 +800,7 @@ class Command:
     def action_open_project(self, info=None):
         if self.project_file_path:
             self.action_save_project_as(self.project_file_path)
-        
+
         path = info
         if path is None:
             path = dlg_file(True, "", "", PROJECT_DIALOG_FILTER)
@@ -855,8 +855,8 @@ class Command:
                 sess = self.project.get('def_session', '')
                 if sess not in ('', '-'):
                     self.session_load(sess, False)
-                if 'unfolds' in self.project:    
-                    self.enum_all_setfolds(self.project['unfolds'])
+                if 'unfold' in self.project:
+                    self.enum_all_setfolds(self.project['unfold'])
             else:
                 msg_status(_("Project file not found: ") + path)
 
@@ -934,10 +934,10 @@ class Command:
             if 'nodes' in d:
                 for i in range(len(d['nodes'])):
                     d['nodes'][i] = collapse_macros(d['nodes'][i])
-            
+
             unfolds = []
             self.enum_all_getfolds(unfolds)
-            d['unfolds'] = unfolds
+            d['unfold'] = unfolds
 
             self.project_file_path = path
             with path.open("w", encoding='utf8') as fout:
@@ -1114,7 +1114,7 @@ class Command:
             self.init_panel()
             self.action_open_project(filename)
             return False #block opening
-    
+
     def on_exit(self, ed_self):
         if self.project_file_path:
             self.action_save_project_as(self.project_file_path)
