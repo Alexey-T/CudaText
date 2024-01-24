@@ -15,6 +15,7 @@
 - fix: on Windows, Project Manager crashed when calling "Open in default application" with LSP running (patch by @veksha)
 - fix: lexer Python: f-strings must support '{{' (thanks @DUOLabs333)
 - fix: in Markdown, in fenced blocks, back-color of empty line was wrong sometimes (thanks @SamC)
+- fix: commands "markers: ...." were not recorded to macros (thanks @hi5)
 
 1.208.5 (2024/01)
 
