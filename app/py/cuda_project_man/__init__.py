@@ -1823,7 +1823,7 @@ class Command:
             if msg_box(_('Save current state to the session "%s"?')%sess, MB_OKCANCEL+MB_ICONQUESTION)==ID_OK:
                 app_proc(PROC_SAVE_SESSION, sess)
 
-        app_proc(PROC_SET_SESSION, '')
+        app_proc(PROC_SET_SESSION, 'history session.json')
 
         fn += '|/sessions/'+name
         app_proc(PROC_LOAD_SESSION, fn)
@@ -1909,7 +1909,7 @@ class Command:
 
     def session_forget(self):
 
-        app_proc(PROC_SET_SESSION, '')
+        app_proc(PROC_SET_SESSION, 'history session.json')
 
     def session_forget_ex(self):
 
@@ -1935,7 +1935,7 @@ class Command:
             sess = cur_fn+'|/sessions/'+cur_sess
             app_proc(PROC_SAVE_SESSION, sess)
             if and_forget:
-                app_proc(PROC_SET_SESSION, '')
+                app_proc(PROC_SET_SESSION, 'history session.json')
 
     def is_path_in_root(self, path):
 
