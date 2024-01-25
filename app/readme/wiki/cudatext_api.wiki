@@ -3087,15 +3087,15 @@ Possible values of "id":
 Saves editor's text to file.
 Returns bool: file was saved without errors.
 
-Param "filename": if not empty, save to given filename.
+Param "filename" (str): suggested filename to save to.
 
 Param "as_copy" (bool):
-* False: Editor uses new filename. Untitled document becomes titled. If filename is empty, and document is untitled, function shows "Save as" dialog first.
-* True: Just create the copy and don't use new filename. Filename must be not empty in this case, otherwise function will return False.
+* False: Editor uses new filename (if it's not empty). Untitled document becomes titled. If filename is empty and document is untitled, function shows "Save as" dialog first.
+* True: Creates the file but editor doesn't use new filename. Filename must be not empty, otherwise function will return False.
 
 Notes:
-* Function can be used for editor in dlg_proc() dialog only if param "as_copy" is False, otherwise it will return None.
-* For "as_copy" = False, function uses more detailed write-error checks, and handles situation of already existing filenames (suggests changed filename).
+* Function can be used for editor created in dlg_proc() only if param "as_copy" is False, otherwise it will return None.
+* For "as_copy" = False, code performs more detailed write-error checks.
 
 ===Editor.cmd===
 
