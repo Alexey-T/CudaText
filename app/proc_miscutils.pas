@@ -499,7 +499,8 @@ begin
     tvoShowButtons,
     tvoRowSelect,
     tvoRightClickSelect,
-    tvoReadOnly
+    tvoReadOnly,
+    tvoNoDoubleClickExpand
     ];
 
   if AChangeShowRoot or C.ShowRoot then
