@@ -1749,7 +1749,7 @@ class Command:
             
             # 3. and forget current session if name is the same
             if name == self.session_cur_name():
-                app_proc(PROC_SET_SESSION, '')
+                app_proc(PROC_SET_SESSION, 'history session.json')
 
     def session_delete_all(self):
 

@@ -1735,12 +1735,21 @@ class Command:
 
         fn = self.project_file_path
         if fn and os.path.isfile(fn):
+            # 1. delete session from .cuda-proj file
             with open(fn, 'r', encoding='utf8') as f:
                 data = json.load(f)
             if data.get('sessions'):
                 del data['sessions'][name]
             with open(fn, 'w', encoding='utf8') as f:
                 json.dump(data, f, indent=2)
+            
+            # 2. also delete from memory dict (self.project)
+            if self.project.get('sessions'):
+                del self.project['sessions'][name]
+            
+            # 3. and forget current session if name is the same
+            if name == self.session_cur_name():
+                app_proc(PROC_SET_SESSION, 'history session.json')
 
     def session_delete_all(self):
 
