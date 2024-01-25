@@ -17,14 +17,15 @@ import cudatext_cmd
 from cudax_lib import get_translation
 _   = get_translation(__file__)  # i18n
 
+IS_WIN = os.name == 'nt'
+
 ctypes = None
-if os.name=='nt':
+if IS_WIN:
     try:
         import ctypes
     except (ImportError, ModuleNotFoundError):
         pass
 
-IS_WIN = os.name == 'nt'
 PROJECT_EXTENSION = ".cuda-proj"
 PROJECT_DIALOG_FILTER = _("CudaText projects") + "|*" + PROJECT_EXTENSION
 PROJECT_UNSAVED_NAME = _("(Unsaved project)")
