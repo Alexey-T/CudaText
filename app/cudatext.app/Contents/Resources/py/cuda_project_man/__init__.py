@@ -1795,6 +1795,10 @@ class Command:
         sess = fn+'|/sessions/'+s
         app_proc(PROC_SAVE_SESSION, sess)
         app_proc(PROC_SET_SESSION, sess)
+        
+        # update "self.project" dict
+        with open(fn, 'r', encoding='utf8') as f:
+            self.project = json.load(f)
 
     def session_load_menu(self):
 
