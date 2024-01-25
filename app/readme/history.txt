@@ -12,6 +12,7 @@
 + add: improved API for file saving, it allows to make command "Save a copy as..." which exists in Notepad++; seems this new command will be added to CudaExt plugin
 * change: addition to the format of Undo-history, format is backward compatible with 1.208.5
 * change: Project Manager: 2 menu items (configure plugin; configure project) removed from context menu / from 'gear' toolbar menu
+* change: disabled code-tree node fold/unfold on double-click
 - fix: on Windows, Project Manager crashed when calling "Open in default application" with LSP running (patch by @veksha)
 - fix: lexer Python: f-strings must support '{{' (thanks @DUOLabs333)
 - fix: in Markdown, in fenced blocks, back-color of empty line was wrong sometimes (thanks @SamC)
