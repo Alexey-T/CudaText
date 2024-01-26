@@ -382,10 +382,15 @@ Actions work with props of Find/Replace dialog, and props of low-level search en
 
 ====app_proc - Hotkeys====
 
-* PROC_GET_ESCAPE: Returns Esc-key flag (bool). This flag is set when user presses Esc key, each Esc press is counted since app start. Note: to allow app to handle key press in long loop, call msg_status('text', True).
-* PROC_SET_ESCAPE: Sets Esc-key flag. Param "text" must be bool (or "0"/"1").
-* PROC_GET_HOTKEY: Returns hotkeys strings for given command_id. Examples of result: "F1", "Ctrl+B * B", "Ctrl+B * B * C|Ctrl+B * D" (two hotkeys for one command). Returns empty str for unknown command_id.
-* PROC_SET_HOTKEY: Sets hotkeys for given command_id from strings. Text must be "command_id|hotkey1|hotkey2", where hotkey1/hotkey2 examples: "F1", "Ctrl+B * B", "Ctrl+B * B * C". Symbol "*" can be without near spaces. Returns bool: command_id exists, changed.
+* PROC_GET_ESCAPE: Returns Esc-key flag (bool). This flag is set when user presses Esc key, each Esc press is counted since app start.
+** Note: if you run long loop, to allow app to react to keyboard/mouse in the loop, call msg_status(text, True).
+* PROC_SET_ESCAPE: Sets Esc-key flag. Param "text" must be bool.
+
+* PROC_GET_HOTKEY: Returns hotkey(s) string for given command_id. Returns empty string for unknown command_id.
+** Command_id can be: str(int_command_code) or "module,method" or "module,method,param".
+** Examples of result: "F1", "Ctrl+B * B", "Ctrl+B * B * C|Ctrl+B * D" (two hotkeys for one command). 
+* PROC_SET_HOTKEY: Sets hotkeys for given command_id from strings. Param "text" must be "command_id|hotkey1|hotkey2", where hotkey1/hotkey2 examples are: "F1", "Ctrl+B * B", "Ctrl+B * B * C". Symbol "*" can be without near spaces. Returns bool: command_id exists, hotkey(s) was set.
+
 * PROC_GET_KEYSTATE: Returns state of pressed keyboard keys and mouse buttons. String result has chars:
 ** "c" for Ctrl
 ** "a" for Alt
@@ -396,12 +401,11 @@ Actions work with props of Find/Replace dialog, and props of low-level search en
 ** "M" for middle mouse button
 ** "4" for the 4th mouse button
 ** "5" for the 5th mouse button
-* PROC_HOTKEY_STR_TO_INT: Converts given string hotkey to int. Returns 0 for incorrect string. Example: converts "alt+shift+z" to 41050.
-* PROC_HOTKEY_INT_TO_STR: Converts given int hotkey to string. Returns empty str for unknown code. Example: converts 41050 to "Shift+Alt+Z".
 
-Notes:
-
-* Value of command_id can be: str(int_command_code) or "module,method" or "module,method,param".
+* PROC_HOTKEY_STR_TO_INT: Converts given string hotkey to int. Returns 0 for incorrect hotkey string.
+** Example: converts "alt+shift+z" to 41050.
+* PROC_HOTKEY_INT_TO_STR: Converts given int hotkey to string. Returns empty string for incorrect hotkey code.
+** Example: converts 41050 to "Shift+Alt+Z".
 
 ====app_proc - Python====
 * PROC_EXEC_PYTHON: Runs Python string in the context of Console. It is not the same as standard exec() call, it uses the same globals/locals as CudaText Console.
