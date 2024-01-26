@@ -1462,6 +1462,8 @@ var
   S: string;
   element: TAppHistoryElement;
 begin
+  TimerAppIdle.Interval:= Max(10, cfg.GetValue('ui_timer_idle', TimerAppIdle.Interval));
+
   UiOps.VarFontName:= cfg.GetValue(OpStr_UiFontName, UiOps.VarFontName);
   UiOps.VarFontSize:= Abs(cfg.GetValue(OpStr_UiFontSize, UiOps.VarFontSize)); //Abs for macOS
 
