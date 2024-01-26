@@ -1016,8 +1016,8 @@
   //Close the Find/Replace dialog by Esc key.
   "ui_esc_close_finder": true,
 
-  //Idle timer interval, in msec.
-  //This timer 'ticks' when no keyboard/mouse input occurs for some time. It performs
+  //"Idle timer" interval, in milliseconds.
+  //This timer "ticks" when no keyboard/mouse input occurs for some time. It performs
   //some application-wide actions, like updating of menu hotkeys/checkmarks.
   "ui_timer_idle": 1000,
 
