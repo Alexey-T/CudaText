@@ -3,11 +3,10 @@
   - fixed
   * changed
 
-+ add: new option "ui_timer_idle"; value 10 speeds up reaction of LSP plugin to text editing, ie appearance of LSP diagnostics gutter icons (thanks @veksha)
-+ add: removed limitation 500 for option "py_change_slow"; value 10 speeds up reaction of LSP plugin to text editing (thanks @veksha)
-
 1.209.0 (2024/01)
 
++ add: new option "ui_timer_idle"; value 10 speeds up reaction of LSP plugin to text editing, ie appearance of LSP diagnostics gutter icons (thanks @veksha)
++ add: removed limitation 500 for option "py_change_slow"; value 10 speeds up reaction of LSP plugin to text editing (thanks @veksha)
 + add: optimization for plugins ExTerminal / Terminal Plus: adding a line to document end now works faster (thanks @veksha)
 + add: progressbar-form is shown additionally when loading big text from session (> 10Mb; < option "ui_session_max_text")
 + add: Project Manager saves to project 'unfolded tree-nodes' list (patch by @veksha)
