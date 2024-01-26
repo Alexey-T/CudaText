@@ -122,6 +122,8 @@ implementation
 //{$R *.lfm} //not needed for console
 
 function IsConsoleErrorLine(const S: string): boolean;
+// checks for Python exception string like:
+// ZeroDivisionError: division by zero
 var
   N, i: integer;
 begin
