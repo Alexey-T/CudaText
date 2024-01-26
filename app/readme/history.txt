@@ -3,6 +3,9 @@
   - fixed
   * changed
 
++ add: new option "ui_timer_idle"; value 10 speeds up reaction of LSP plugin to text editing, ie appearance of LSP diagnostics gutter icons (thanks @veksha)
++ add: removed limitation 500 for option "py_change_slow"; value 10 speeds up reaction of LSP plugin to text editing (thanks @veksha)
+
 1.209.0 (2024/01)
 
 + add: optimization for plugins ExTerminal / Terminal Plus: adding a line to document end now works faster (thanks @veksha)
