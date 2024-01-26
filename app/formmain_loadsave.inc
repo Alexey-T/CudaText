@@ -1696,8 +1696,8 @@ begin
   UiOps.TreeFillMaxTime:= cfg.GetValue('ui_tree_fill_max_time', UiOps.TreeFillMaxTime);
   UiOps.TreeUnfold:= cfg.GetValue('ui_tree_unfold', UiOps.TreeUnfold);
 
-  UiOps.PyCaretSlow:= Max(100, cfg.GetValue('py_caret_slow', UiOps.PyCaretSlow));
-  UiOps.PyChangeSlow:= Max(500, cfg.GetValue('py_change_slow', UiOps.PyChangeSlow));
+  UiOps.PyCaretSlow:= Max(20, cfg.GetValue('py_caret_slow', UiOps.PyCaretSlow));
+  UiOps.PyChangeSlow:= Max(20, cfg.GetValue('py_change_slow', UiOps.PyChangeSlow));
 
   UiOps.LogPluginIniting:= cfg.GetValue('py_init_log', UiOps.LogPluginIniting);
   UiOps.LogSessions:= cfg.GetValue('log_sessions', UiOps.LogSessions);
