@@ -7886,7 +7886,7 @@ begin
     fmCharmaps.Localize;
   end;
 
-  fmCharmaps.InitialStr:= Utf8Encode(Widestring(EditorGetCurrentChar(CurrentEditor)));
+  fmCharmaps.InitialStr:= UTF8Encode(UnicodeString(EditorGetCurrentChar(CurrentEditor)));
   fmCharmaps.Show;
 end;
 
