@@ -1799,7 +1799,8 @@ class Command:
         
         # update "self.project" dict
         with open(fn, 'r', encoding='utf8') as f:
-            self.project = json.load(f)
+            _newdata = json.load(f)
+        self.project['sessions'] = _newdata['sessions']
 
     def session_load_menu(self):
 
