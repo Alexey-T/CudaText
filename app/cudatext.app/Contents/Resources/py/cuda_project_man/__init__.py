@@ -107,6 +107,16 @@ NodeInfo = collections.namedtuple("NodeInfo", "caption image")
 
 _homedir = os.path.expanduser('~')
 
+def collapse_macros(proj_dir, fn):
+    if (fn+os.sep).startswith(proj_dir+os.sep):
+        fn = fn.replace(proj_dir, '{ProjDir}', 1)
+    fn = fn.replace(os.sep, '/') if IS_WIN else fn
+    return fn
+    
+def expand_macros(proj_dir, s):
+    s = s.replace('{ProjDir}', proj_dir, 1)
+    return os.path.normpath(s)
+
 def collapse_filename(fn):
     if (fn+'/').startswith(_homedir+'/'):
         fn = fn.replace(_homedir, '~', 1)
@@ -809,8 +819,6 @@ class Command:
             self.session_save(True)
 
             proj_dir = os.path.dirname(path)
-            def expand_macros(s):
-                return s.replace('{ProjDir}', proj_dir, 1)
 
             if Path(path).exists():
                 print(_('Loading project: ') + collapse_filename(path))
@@ -822,7 +830,7 @@ class Command:
                             node = self.project['nodes'][i]
                             # normalize os separators
                             node = os.path.normpath(node)
-                            self.project['nodes'][i] = expand_macros(node)
+                            self.project['nodes'][i] = expand_macros(proj_dir, node)
 
                         # delete orphan items
                         bads = [fn for fn in self.project["nodes"] if not os.path.exists(fn)]
@@ -857,7 +865,10 @@ class Command:
                 if sess not in ('', '-'):
                     self.session_load(sess, False)
                 if 'unfold' in self.project:
-                    self.enum_all_setfolds(self.project['unfold'])
+                    unfolds = self.project['unfold']
+                    for i in range(len(unfolds)):
+                        unfolds[i] = expand_macros(proj_dir, unfolds[i])
+                    self.enum_all_setfolds(unfolds)
             else:
                 msg_status(_("Project file not found: ") + path)
 
@@ -920,11 +931,6 @@ class Command:
 
         if path:
             proj_dir = os.path.dirname(str(path))
-            def collapse_macros(s):
-                fn = s
-                if (fn+os.sep).startswith(proj_dir+os.sep):
-                    fn = fn.replace(proj_dir, '{ProjDir}', 1)
-                return fn
 
             path = Path(path)
             if path.suffix != PROJECT_EXTENSION:
@@ -934,10 +940,11 @@ class Command:
             d = copy.deepcopy(self.project)
             if 'nodes' in d:
                 for i in range(len(d['nodes'])):
-                    d['nodes'][i] = collapse_macros(d['nodes'][i])
+                    d['nodes'][i] = collapse_macros(proj_dir, d['nodes'][i])
 
             unfolds = []
             self.enum_all_getfolds(unfolds)
+            unfolds = list(map(lambda x: collapse_macros(proj_dir, x), unfolds))
             d['unfold'] = unfolds
 
             self.project_file_path = path
