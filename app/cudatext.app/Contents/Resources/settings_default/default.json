@@ -161,13 +161,13 @@
 
   //How to show main window on taskbar. [has suffix]
   //If on (default): App is minimized/restored with proper Windows OS animation.
-  //   But Windows Alt+Tab will show additional cells for opened modal dialogs.
+  //   But Windows Alt+Tab will show additional cells for opened dialogs.
   //If off: Alt+Tab will not show additional cells for dialogs, which is useful.
   "ui_taskbar_mode": true,
   "ui_taskbar_mode__linux": true,
   "ui_taskbar_mode__mac": true,
 
-  //Show modal plugin's dialogs with separate taskbar button. [has suffix]
+  //Show plugins' dialogs with separate taskbar buttons. [has suffix]
   //Note: Linux desktop Cinnamon has problem if you set 'false'.
   "ui_dialogs_in_taskbar": false,
   "ui_dialogs_in_taskbar__linux": true,
