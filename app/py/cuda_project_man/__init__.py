@@ -112,7 +112,7 @@ def collapse_macros(proj_dir, fn):
         fn = fn.replace(proj_dir, '{ProjDir}', 1)
     fn = fn.replace(os.sep, '/') if IS_WIN else fn
     return fn
-    
+
 def expand_macros(proj_dir, s):
     s = s.replace('{ProjDir}', proj_dir, 1)
     return os.path.normpath(s)
@@ -224,6 +224,7 @@ class Command:
                                    , "file", [NODE_FILE], "cuda_project_man.action_open_def"),
         (_("Focus in file manager"), "file", [NODE_FILE], "cuda_project_man.action_focus_in_fileman"),
         (_("Rename...")            , "file", [NODE_FILE], "cuda_project_man.action_rename"),
+        (_("Backup...")            , "file", [NODE_FILE], "cuda_project_man.action_backup"),
         (_("Delete file")          , "file", [NODE_FILE], "cuda_project_man.action_delete_file"),
         (_("Set as main file")     , "file", [NODE_FILE], "cuda_project_man.action_set_as_main_file"),
         (_("Copy path relative to project"), "file", [NODE_FILE], "cuda_project_man.action_copy_relative_path"),
@@ -593,6 +594,33 @@ class Command:
         self.action_refresh()
         self.jump_to_filename(str(new_location))
         msg_status(_("Renamed to: ") + str(new_location.name))
+
+    def action_backup(self):
+        location = Path(self.get_location_by_index(self.selected))
+        e = _file_editor(str(location))
+
+        fn_parts = location.name.split('.')
+        from datetime import datetime
+        backup_name = fn_parts[0] + '_' + datetime.now().strftime("%y%m%d_%H%M%S") + '.' + '.'.join(fn_parts[i+1] for i in range(len(fn_parts) - 1))
+        result = dlg_input(_("Backup to"), str(backup_name))
+        if not result:
+            return
+
+        new_location = location.parent / result
+        if location == new_location:
+            return
+
+        if e is not None:
+            e.save(str(new_location))
+        else:
+            import shutil
+            shutil.copy2(location, new_location)
+
+        if self.is_path_in_root(location):
+            self.add_node(str(new_location))
+
+        self.action_refresh()
+        msg_status(_("Backup to: ") + str(new_location.name))
 
     def action_delete_file(self):
         location = Path(self.get_location_by_index(self.selected))
@@ -1750,11 +1778,11 @@ class Command:
                 del data['sessions'][name]
             with open(fn, 'w', encoding='utf8') as f:
                 json.dump(data, f, indent=2)
-            
+
             # 2. also delete from memory dict (self.project)
             if self.project.get('sessions'):
                 del self.project['sessions'][name]
-            
+
             # 3. and forget current session if name is the same
             if name == self.session_cur_name():
                 app_proc(PROC_SET_SESSION, 'history session.json')
@@ -1803,7 +1831,7 @@ class Command:
         sess = fn+'|/sessions/'+s
         app_proc(PROC_SAVE_SESSION, sess)
         app_proc(PROC_SET_SESSION, sess)
-        
+
         # update "self.project" dict
         with open(fn, 'r', encoding='utf8') as f:
             _newdata = json.load(f)
