@@ -214,8 +214,8 @@ class Command:
         (_("Remove node")          , "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_remove_node"),
 
         (_("New file...")          , "dir", [NODE_DIR], "cuda_project_man.action_new_file"),
-        (_("Rename...")            , "dir", [NODE_DIR], "cuda_project_man.action_rename"),
-        (_("Delete directory")     , "dir", [NODE_DIR], "cuda_project_man.action_delete_directory"),
+        (_("Rename... (F2)")       , "dir", [NODE_DIR], "cuda_project_man.action_rename"),
+        (_("Delete directory (DEL)"), "dir", [NODE_DIR], "cuda_project_man.action_delete_directory"),
         (_("New directory...")     , "dir", [NODE_DIR], "cuda_project_man.action_new_directory"),
         (_("Find in directory...") , "dir", [NODE_DIR], "cuda_project_man.action_find_in_directory"),
         (_("Copy path relative to project"), "dir", [NODE_DIR], "cuda_project_man.action_copy_relative_path"),
@@ -223,14 +223,14 @@ class Command:
         (_("Open in default application")
                                    , "file", [NODE_FILE], "cuda_project_man.action_open_def"),
         (_("Focus in file manager"), "file", [NODE_FILE], "cuda_project_man.action_focus_in_fileman"),
-        (_("Rename...")            , "file", [NODE_FILE], "cuda_project_man.action_rename"),
+        (_("Rename... (F2)")       , "file", [NODE_FILE], "cuda_project_man.action_rename"),
         (_("Backup...")            , "file", [NODE_FILE], "cuda_project_man.action_backup"),
-        (_("Delete file")          , "file", [NODE_FILE], "cuda_project_man.action_delete_file"),
+        (_("Delete file (DEL)")    , "file", [NODE_FILE], "cuda_project_man.action_delete_file"),
         (_("Set as main file")     , "file", [NODE_FILE], "cuda_project_man.action_set_as_main_file"),
         (_("Copy path relative to project"), "file", [NODE_FILE], "cuda_project_man.action_copy_relative_path"),
 
         ("-"                       , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], ""),
-        (_("Refresh")              , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_refresh"),
+        (_("Refresh (F5)")         , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_refresh"),
         ("-"                       , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], ""),
         (_("Go to file...")        , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_go_to_file"),
     )
@@ -1575,10 +1575,30 @@ class Command:
         self.icon_indexes[key] = n
         return n
 
+    def get_node_type(self):
+        node_type = None
+        if self.selected is not None:
+            n = self.get_info(self.selected).image
+            if n == self.ICON_PROJ: node_type = NODE_PROJECT
+            elif n == self.ICON_DIR: node_type = NODE_DIR
+            elif n == self.ICON_BAD: node_type = NODE_BAD
+            else: node_type = NODE_FILE
+        return node_type
+
     def form_key_down(self, id_dlg, id_ctl, data):
         if id_ctl in [VK_SPACE, VK_ENTER, VK_F4]:
             self.do_open_current_file(self.get_open_options())
-            return False #block key
+        elif id_ctl == VK_DELETE:
+            node_type = self.get_node_type()
+            if node_type == NODE_FILE:
+                self.action_delete_file()
+            elif node_type == NODE_DIR:
+                self.action_delete_directory()
+        elif (id_ctl == VK_F5) or (data == 'c' and id_ctl == 0x52):
+            self.action_refresh()
+        elif id_ctl == VK_F2:
+            self.action_rename()
+        return False #block key
 
     def add_current_file(self):
 
