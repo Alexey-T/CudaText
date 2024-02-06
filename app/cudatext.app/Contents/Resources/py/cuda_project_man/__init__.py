@@ -213,19 +213,19 @@ class Command:
         (_("Clear project")        , "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_clear_project"),
         (_("Remove node")          , "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_remove_node"),
 
-        (_("New file...")          , "dir", [NODE_DIR], "cuda_project_man.action_new_file"),
-        (_("Rename... (F2)")       , "dir", [NODE_DIR], "cuda_project_man.action_rename"),
-        (_("Delete directory (DEL)"), "dir", [NODE_DIR], "cuda_project_man.action_delete_directory"),
-        (_("New directory...")     , "dir", [NODE_DIR], "cuda_project_man.action_new_directory"),
-        (_("Find in directory...") , "dir", [NODE_DIR], "cuda_project_man.action_find_in_directory"),
-        (_("Copy path relative to project"), "dir", [NODE_DIR], "cuda_project_man.action_copy_relative_path"),
+        (_("New file... (Ctrl+N)")          , "dir", [NODE_DIR], "cuda_project_man.action_new_file"),
+        (_("Rename... (F2)")                , "dir", [NODE_DIR], "cuda_project_man.action_rename"),
+        (_("Delete directory (Del)")        , "dir", [NODE_DIR], "cuda_project_man.action_delete_directory"),
+        (_("New directory... (F7)")         , "dir", [NODE_DIR], "cuda_project_man.action_new_directory"),
+        (_("Find in directory...")          , "dir", [NODE_DIR], "cuda_project_man.action_find_in_directory"),
+        (_("Copy path relative to project") , "dir", [NODE_DIR], "cuda_project_man.action_copy_relative_path"),
 
         (_("Open in default application")
                                    , "file", [NODE_FILE], "cuda_project_man.action_open_def"),
         (_("Focus in file manager"), "file", [NODE_FILE], "cuda_project_man.action_focus_in_fileman"),
         (_("Rename... (F2)")       , "file", [NODE_FILE], "cuda_project_man.action_rename"),
         (_("Backup...")            , "file", [NODE_FILE], "cuda_project_man.action_backup"),
-        (_("Delete file (DEL)")    , "file", [NODE_FILE], "cuda_project_man.action_delete_file"),
+        (_("Delete file (Del)")    , "file", [NODE_FILE], "cuda_project_man.action_delete_file"),
         (_("Set as main file")     , "file", [NODE_FILE], "cuda_project_man.action_set_as_main_file"),
         (_("Copy path relative to project"), "file", [NODE_FILE], "cuda_project_man.action_copy_relative_path"),
 
@@ -1599,6 +1599,10 @@ class Command:
             self.action_refresh()
         elif id_ctl == VK_F2:
             self.action_rename()
+        elif id_ctl == VK_F7:
+            self.action_new_directory()
+        elif (data == 'c' and id_ctl == 0x4e):
+            self.action_new_file()
 
     def add_current_file(self):
 
