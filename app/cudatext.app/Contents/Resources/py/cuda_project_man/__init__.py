@@ -1588,6 +1588,7 @@ class Command:
     def form_key_down(self, id_dlg, id_ctl, data):
         if id_ctl in [VK_SPACE, VK_ENTER, VK_F4]:
             self.do_open_current_file(self.get_open_options())
+            return False #block key
         elif id_ctl == VK_DELETE:
             node_type = self.get_node_type()
             if node_type == NODE_FILE:
@@ -1598,7 +1599,6 @@ class Command:
             self.action_refresh()
         elif id_ctl == VK_F2:
             self.action_rename()
-        return False #block key
 
     def add_current_file(self):
 
