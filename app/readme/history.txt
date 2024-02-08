@@ -3,6 +3,10 @@
   - fixed
   * changed
 
+1.209.1 (2024/02)
+
+- fix: Qt5 version: hotkeys display for `, Ctrl+`, Minus, Shift+Minus, Shift+=
+
 1.209.0 (2024/01)
 
 + add: new option "ui_timer_idle"; e.g. value 50 will speed up reaction of LSP plugin to text editing, ie appearance of LSP diagnostics gutter icons (thanks @veksha)
