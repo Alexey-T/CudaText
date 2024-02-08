@@ -6,6 +6,7 @@
 1.209.1 (2024/02)
 
 - fix: Qt5 version: hotkeys display for `, Ctrl+`, Minus, Shift+Minus, Shift+=
+- fix: Qt5 version: FindInFiles plugin input fields are empty after pressing "Find"
 
 1.209.0 (2024/01)
 
