@@ -536,8 +536,8 @@ class Command:
     def action_focus_in_fileman(self):
         fn = self.get_location_by_index(self.selected)
         sfn = str(fn)
-        if not os.path.isfile(sfn):
-            return
+        #if not os.path.isfile(sfn):
+            #return
         suffix = app_proc(PROC_GET_OS_SUFFIX, '')
 
         if suffix=='':
