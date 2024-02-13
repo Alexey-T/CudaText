@@ -200,39 +200,58 @@ class Command:
     cur_dir = ''
     project_file_path = None
 
-    title ="Project"    # No _() here, the translation is offered in "translation template.ini".
+    title ="Project" # No _() here, the translation is offered in "translation template.ini".
     menuitems = (
-        #   item_caption , item_parent , item_types , item_action
-        (_("New project")          , "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_new_project"),
-        (_("Open project...")      , "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_open_project"),
-        (_("Recent projects")      , "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "collect_recent_projects"),
-        (_("Save project as...")   , "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_save_project_as"),
+        # item_caption, item_parent, item_types, item_action
+        (_("New project"), "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_new_project"),
+        (_("Open project..."), "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_open_project"),
+        (_("Recent projects"), "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "collect_recent_projects"),
+        (_("Save project as..."), "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_save_project_as"),
 
-        (_("Add folder...")        , "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_add_folder"),
-        (_("Add file...")          , "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_add_file"),
-        (_("Clear project")        , "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_clear_project"),
-        (_("Remove node")          , "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_remove_node"),
+        (_("Add folder..."), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_add_folder"),
+        (_("Add file..."), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_add_file"),
+        (_("Clear project"), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_clear_project"),
+        (_("Remove node"), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_remove_node"),
 
-        (_("New file... (Ctrl+N)")          , "dir", [NODE_DIR], "cuda_project_man.action_new_file"),
-        (_("Rename... (F2)")                , "dir", [NODE_DIR], "cuda_project_man.action_rename"),
-        (_("Delete directory (Del)")        , "dir", [NODE_DIR], "cuda_project_man.action_delete_directory"),
-        (_("New directory... (F7)")         , "dir", [NODE_DIR], "cuda_project_man.action_new_directory"),
-        (_("Find in directory...")          , "dir", [NODE_DIR], "cuda_project_man.action_find_in_directory"),
-        (_("Copy path relative to project") , "dir", [NODE_DIR], "cuda_project_man.action_copy_relative_path"),
+        (_("New file... (Ctrl+N)"), "dir", [NODE_DIR], "cuda_project_man.action_new_file"),
+        (_("New directory... (F7)"), "dir", [NODE_DIR], "cuda_project_man.action_new_directory"),
+        (_("-"), "dir", [NODE_DIR], ""),
+        (_("Cut"), "dir", [NODE_DIR], "cuda_project_man.action_cut"),
+        (_("Copy"), "dir", [NODE_DIR], "cuda_project_man.action_copy"),
+        (_("Paste"), "dir", [NODE_DIR], "cuda_project_man.action_paste"),
+        (_("-"), "dir", [NODE_DIR], ""),
+        (_("Rename... (F2)"), "dir", [NODE_DIR], "cuda_project_man.action_rename"),
+        (_("Delete (Del)"), "dir", [NODE_DIR], "cuda_project_man.action_delete_directory"),
+        (_("-"), "dir", [NODE_DIR], ""),
+        (_("Find in directory..."), "dir", [NODE_DIR], "cuda_project_man.action_find_in_directory"),
+        (_("-"), "dir", [NODE_DIR], ""),
+        (_("Copy Path"), "dir", [NODE_DIR], "cuda_project_man.action_copy_path"),
+        (_("Copy Relative Path") , "dir", [NODE_DIR], "cuda_project_man.action_copy_relative_path"),
+        (_("-"), "dir", [NODE_DIR], ""),
+        (_("Focus in file manager"), "dir", [NODE_DIR], "cuda_project_man.action_focus_in_fileman"),
 
-        (_("Open in default application")
-                                   , "file", [NODE_FILE], "cuda_project_man.action_open_def"),
+        (_("Open in default application"), "file", [NODE_FILE], "cuda_project_man.action_open_def"),
+        (_("-"), "file", [NODE_FILE], ""),
+        (_("Cut"), "file", [NODE_FILE], "cuda_project_man.action_cut"),
+        (_("Copy"), "file", [NODE_FILE], "cuda_project_man.action_copy"),
+        (_("Paste"), "file", [NODE_FILE], "cuda_project_man.action_paste"),
+        (_("-"), "file", [NODE_FILE], ""),
+        (_("Copy Path"), "file", [NODE_FILE], "cuda_project_man.action_copy_path"),
+        (_("Copy Relative Path"), "file", [NODE_FILE], "cuda_project_man.action_copy_relative_path"),
+        (_("-"), "file", [NODE_FILE], ""),
+        (_("Rename... (F2)"), "file", [NODE_FILE], "cuda_project_man.action_rename"),
+        (_("Delete (Del)"), "file", [NODE_FILE], "cuda_project_man.action_delete_file"),
+        (_("-"), "file", [NODE_FILE], ""),
+        (_("Backup..."), "file", [NODE_FILE], "cuda_project_man.action_backup"),
+        (_("-"), "file", [NODE_FILE], ""),
+        (_("Set as main file"), "file", [NODE_FILE], "cuda_project_man.action_set_as_main_file"),
+        (_("-"), "file", [NODE_FILE], ""),
         (_("Focus in file manager"), "file", [NODE_FILE], "cuda_project_man.action_focus_in_fileman"),
-        (_("Rename... (F2)")       , "file", [NODE_FILE], "cuda_project_man.action_rename"),
-        (_("Backup...")            , "file", [NODE_FILE], "cuda_project_man.action_backup"),
-        (_("Delete file (Del)")    , "file", [NODE_FILE], "cuda_project_man.action_delete_file"),
-        (_("Set as main file")     , "file", [NODE_FILE], "cuda_project_man.action_set_as_main_file"),
-        (_("Copy path relative to project"), "file", [NODE_FILE], "cuda_project_man.action_copy_relative_path"),
 
-        ("-"                       , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], ""),
-        (_("Refresh (F5)")         , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_refresh"),
-        ("-"                       , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], ""),
-        (_("Go to file...")        , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_go_to_file"),
+        ("-"   , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], ""),
+        (_("Refresh (F5)"), "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_refresh"),
+        ("-"   , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], ""),
+        (_("Go to file...")  , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_go_to_file"),
     )
 
     options = {
