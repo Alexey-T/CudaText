@@ -638,6 +638,16 @@ class Command:
 
     def action_copy_relative_path(self):
         file_path = str(self.get_location_by_index(self.selected))
+        project_nodes = ''
+        for idx, node in enumerate(self.project["nodes"]):
+            if node in file_path:
+                project_nodes = self.project["nodes"][idx]
+        if project_nodes != '':
+            file_path = file_path.replace(project_nodes + os.sep, '')
+        app_proc(PROC_SET_CLIP, file_path)
+
+    def action_copy_path(self):
+        file_path = str(self.get_location_by_index(self.selected))
         proj_path = os.path.dirname(self.project_file_path or '')
         if not proj_path:
             return
