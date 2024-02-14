@@ -678,16 +678,14 @@ class Command:
 
     def action_cut(self):
         selected = self.get_location_by_index(self.selected)
-        file_path = str(selected)
         if (selected.is_file() or selected.is_dir()):
-            app_proc(PROC_SET_CLIP, file_path)
+            app_proc(PROC_SET_CLIP, str(selected))
         self.action_cut_activate = True
 
     def action_copy(self):
         selected = self.get_location_by_index(self.selected)
-        file_path = str(selected)
         if (selected.is_file() or selected.is_dir()):
-            app_proc(PROC_SET_CLIP, file_path)
+            app_proc(PROC_SET_CLIP, str(selected))
 
     def action_paste(self):
         location = app_proc(PROC_GET_CLIP, '')
