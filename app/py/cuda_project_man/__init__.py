@@ -677,31 +677,36 @@ class Command:
         app_proc(PROC_SET_CLIP, file_path)
 
     def action_cut(self):
-        file_path = str(self.get_location_by_index(self.selected))
-        app_proc(PROC_SET_CLIP, file_path)
+        selected = self.get_location_by_index(self.selected)
+        file_path = str(selected)
+        if (selected.is_file() or selected.is_dir()):
+            app_proc(PROC_SET_CLIP, file_path)
         self.action_cut_activate = True
 
     def action_copy(self):
-        file_path = str(self.get_location_by_index(self.selected))
-        app_proc(PROC_SET_CLIP, file_path)
+        selected = self.get_location_by_index(self.selected)
+        file_path = str(selected)
+        if (selected.is_file() or selected.is_dir()):
+            app_proc(PROC_SET_CLIP, file_path)
 
     def action_paste(self):
         location = app_proc(PROC_GET_CLIP, '')
         new_location = Path(self.get_location_by_index(self.selected))
-        if new_location.is_file():
-            new_location = new_location.parent
-        new_location_path = str(new_location) + os.sep + str(Path(location).name)
-        if location == new_location_path:
-            from datetime import datetime
-            fn_parts = Path(location).name.split('.')
-            new_name = fn_parts[0] + '_' + datetime.now().strftime("%y%m%d_%H%M%S") + '.' + '.'.join(fn_parts[i+1] for i in range(len(fn_parts) - 1))
-            new_location = str(new_location) + os.sep + new_name
-        import shutil
-        if self.action_cut_activate:
-            shutil.move(location, new_location)
-        else:
-            shutil.copy2(location, new_location)
-        self.action_refresh()
+        if (Path(location).is_file() or Path(location).is_dir()):
+            if new_location.is_file():
+                new_location = new_location.parent
+            new_location_path = str(new_location) + os.sep + str(Path(location).name)
+            if location == new_location_path:
+                from datetime import datetime
+                fn_parts = Path(location).name.split('.')
+                new_name = fn_parts[0] + '_' + datetime.now().strftime("%y%m%d_%H%M%S") + '.' + '.'.join(fn_parts[i+1] for i in range(len(fn_parts) - 1))
+                new_location = str(new_location) + os.sep + new_name
+            import shutil
+            if self.action_cut_activate:
+                shutil.move(location, new_location)
+            else:
+                shutil.copy2(location, new_location)
+            self.action_refresh()
 
     def do_delete_dir(self, location):
         for path in location.glob("*"):
