@@ -693,17 +693,24 @@ class Command:
         if (Path(location).is_file() or Path(location).is_dir()):
             if new_location.is_file():
                 new_location = new_location.parent
-            new_location_path = str(new_location) + os.sep + str(Path(location).name)
-            if location == new_location_path:
-                from datetime import datetime
-                fn_parts = Path(location).name.split('.')
-                new_name = fn_parts[0] + '_' + datetime.now().strftime("%y%m%d_%H%M%S") + '.' + '.'.join(fn_parts[i+1] for i in range(len(fn_parts) - 1))
-                new_location = str(new_location) + os.sep + new_name
-            import shutil
-            if self.action_cut_activate:
-                shutil.move(location, new_location)
+            if Path(location).is_file():
+                new_location_path = str(new_location) + os.sep + str(Path(location).name)
+                if location == new_location_path:
+                    from datetime import datetime
+                    fn_parts = Path(location).name.split('.')
+                    new_name = fn_parts[0] + '_' + datetime.now().strftime("%y%m%d_%H%M%S") + '.' + '.'.join(fn_parts[i+1] for i in range(len(fn_parts) - 1))
+                    new_location = str(new_location) + os.sep + new_name
+                import shutil
+                if self.action_cut_activate:
+                    shutil.move(location, new_location)
+                else:
+                    shutil.copy2(location, new_location)
             else:
-                shutil.copy2(location, new_location)
+                new_location = str(new_location) + os.sep + Path(location).name
+                from distutils.dir_util import copy_tree
+                copy_tree(str(location), new_location)
+                import shutil
+                shutil.copystat(str(location), new_location)
             self.action_refresh()
 
     def do_delete_dir(self, location):
