@@ -270,6 +270,8 @@ class Command:
     h_menu = None
     h_menu_cfg = None
 
+    action_cut_activate = False
+
     def __init__(self):
         settings_dir = Path(app_path(APP_DIR_SETTINGS))
         self.options_filename = settings_dir / "cuda_project_man.json"
@@ -677,6 +679,7 @@ class Command:
     def action_cut(self):
         file_path = str(self.get_location_by_index(self.selected))
         app_proc(PROC_SET_CLIP, file_path)
+        self.action_cut_activate = True
 
     def action_copy(self):
         file_path = str(self.get_location_by_index(self.selected))
@@ -694,7 +697,10 @@ class Command:
             new_name = fn_parts[0] + '_' + datetime.now().strftime("%y%m%d_%H%M%S") + '.' + '.'.join(fn_parts[i+1] for i in range(len(fn_parts) - 1))
             new_location = str(new_location) + os.sep + new_name
         import shutil
-        shutil.copy2(location, new_location)
+        if self.action_cut_activate:
+            shutil.move(location, new_location)
+        else:
+            shutil.copy2(location, new_location)
         self.action_refresh()
 
     def do_delete_dir(self, location):
@@ -1655,6 +1661,8 @@ class Command:
             self.action_new_directory()
         elif (data == 'c' and (id_ctl in (ord('n'), ord('N')))):
             self.action_new_file()
+        elif (data == 'c' and (id_ctl in (ord('x'), ord('X')))):
+            self.action_cut()
         elif (data == 'c' and (id_ctl in (ord('c'), ord('C')))):
             self.action_copy()
         elif (data == 'c' and (id_ctl in (ord('v'), ord('V')))):
