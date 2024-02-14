@@ -229,6 +229,8 @@ class Command:
         (_("Copy Relative Path") , "dir", [NODE_DIR], "cuda_project_man.action_copy_relative_path"),
         (_("-"), "dir", [NODE_DIR], ""),
         (_("Focus in file manager"), "dir", [NODE_DIR], "cuda_project_man.action_focus_in_fileman"),
+        (_("-"), "dir", [NODE_DIR], ""),
+        (_("Properties"), "dir", [NODE_DIR], "cuda_project_man.action_get_properties"),
 
         (_("Open in default application"), "file", [NODE_FILE], "cuda_project_man.action_open_def"),
         (_("-"), "file", [NODE_FILE], ""),
@@ -247,6 +249,8 @@ class Command:
         (_("Set as main file"), "file", [NODE_FILE], "cuda_project_man.action_set_as_main_file"),
         (_("-"), "file", [NODE_FILE], ""),
         (_("Focus in file manager"), "file", [NODE_FILE], "cuda_project_man.action_focus_in_fileman"),
+        (_("-"), "file", [NODE_FILE], ""),
+        (_("Properties"), "file", [NODE_FILE], "cuda_project_man.action_get_properties"),
 
         ("-"   , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], ""),
         (_("Refresh (F5)"), "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_refresh"),
@@ -715,6 +719,96 @@ class Command:
                     copy_tree(str(location), new_location)
                     shutil.copystat(str(location), new_location)
             self.action_refresh()
+
+    def get_w_h(self):
+        w_ = 600
+        h_ = 600
+        r = app_proc(PROC_COORD_MONITOR, 0)
+        if r:
+            w_ = (r[2]-r[0]) // 3
+            h_ = (r[3]-r[1]) // 4
+
+        return w_, h_
+
+    def callback_button_ok(self, id_dlg, id_ctl, data='', info=''):
+        dlg_proc(id_dlg, DLG_HIDE)
+
+    def show_memo(self, text, caption):
+        w_, h_ = self.get_w_h()
+        h = dlg_proc(0, DLG_CREATE)
+        dlg_proc(h, DLG_PROP_SET, prop={
+            'w': w_,
+            'h': h_,
+            'cap': caption,
+            'border': DBORDER_DIALOG,
+        })
+
+        n = dlg_proc(h, DLG_CTL_ADD, prop='button')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'btn_ok',
+            'x': w_-100,
+            'y': h_-6-25,
+            'w': 100-6,
+            'cap': _('&OK'),
+            'on_change': 'module=cuda_project_man;cmd=callback_button_ok;',
+            'ex0': True,
+        })
+
+        n = dlg_proc(h, DLG_CTL_ADD, prop='memo')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'memo_log',
+            'val': text,
+            'x': 6,
+            'y': 6,
+            'w': w_-6*2,
+            'h': h_-6*3-25,
+            'ex0': True,
+            'ex1': True,
+        })
+
+        dlg_proc(h, DLG_CTL_FOCUS, name='btn_ok')
+        dlg_proc(h, DLG_SCALE)
+        dlg_proc(h, DLG_SHOW_MODAL)
+        dlg_proc(h, DLG_FREE)
+
+    def convert_size(self, size_bytes):
+        size_bytes = int(size_bytes)
+        if size_bytes == 0:
+            return '0 b'
+        size_name = ('b', 'kB', 'mB', 'gB')
+        import math
+        i = int(math.floor(math.log(size_bytes, 1024)))
+        p = math.pow(1024, i)
+        s = round(size_bytes / p, 2)
+        return str("%s %s" % (s, size_name[i]))
+
+    def action_get_properties(self):
+        import os
+        import datetime
+        selected = self.get_location_by_index(self.selected)
+        if os.path.exists(selected):
+            if os.path.isfile(selected):
+                text = _('File: ') + str(selected) + "\n"
+                text += _('Size: ') + self.convert_size(os.path.getsize(selected)) + "\n"
+                text += _('Date of creation: ') + str(datetime.datetime.fromtimestamp(int(os.path.getctime(selected)))) + "\n"
+                text += _('Date of opening: ') + str(datetime.datetime.fromtimestamp(int(os.path.getatime(selected)))) + "\n"
+                text += _('Date of modified: ') + str(datetime.datetime.fromtimestamp(int(os.path.getmtime(selected)))) + "\n"
+            elif os.path.isdir(selected):
+                text = _('Directory: ') + str(selected) + "\n"
+                def folder_size(path):
+                    total = 0
+                    for entry in os.scandir(path):
+                        if entry.is_file():
+                            total += entry.stat().st_size
+                        elif entry.is_dir():
+                            total += folder_size(entry.path)
+                    return total
+                text += _('Size: ') + str(self.convert_size(folder_size(selected))) + "\n"
+        else:
+            text = _('Object not found')
+
+        if text:
+            self.show_memo(text, _('Properties'))
 
     def do_delete_dir(self, location):
         for path in location.glob("*"):
