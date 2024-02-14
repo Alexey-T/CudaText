@@ -1647,17 +1647,17 @@ class Command:
                 self.action_delete_file()
             elif node_type == NODE_DIR:
                 self.action_delete_directory()
-        elif (id_ctl == VK_F5) or (data == 'c' and (id_ctl == ord('r') or (id_ctl == ord('R')))):
+        elif (id_ctl == VK_F5) or (data == 'c' and (id_ctl in (ord('r'), ord('R')))):
             self.action_refresh()
         elif id_ctl == VK_F2:
             self.action_rename()
         elif id_ctl == VK_F7:
             self.action_new_directory()
-        elif (data == 'c' and (id_ctl == ord('n') or (id_ctl == ord('N')))):
+        elif (data == 'c' and (id_ctl in (ord('n'), ord('N')))):
             self.action_new_file()
-        elif (data == 'c' and (id_ctl == ord('c') or (id_ctl == ord('C')))):
+        elif (data == 'c' and (id_ctl in (ord('c'), ord('C')))):
             self.action_copy()
-        elif (data == 'c' and (id_ctl == ord('v') or (id_ctl == ord('V')))):
+        elif (data == 'c' and (id_ctl in (ord('v'), ord('V')))):
             self.action_paste()
 
     def add_current_file(self):
