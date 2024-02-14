@@ -232,9 +232,9 @@ class Command:
 
         (_("Open in default application"), "file", [NODE_FILE], "cuda_project_man.action_open_def"),
         (_("-"), "file", [NODE_FILE], ""),
-        (_("Cut"), "file", [NODE_FILE], "cuda_project_man.action_cut"),
-        (_("Copy"), "file", [NODE_FILE], "cuda_project_man.action_copy"),
-        (_("Paste"), "file", [NODE_FILE], "cuda_project_man.action_paste"),
+        (_("Cut (Ctrl+X)"), "file", [NODE_FILE], "cuda_project_man.action_cut"),
+        (_("Copy (Ctrl+C)"), "file", [NODE_FILE], "cuda_project_man.action_copy"),
+        (_("Paste (Ctrl+V)"), "file", [NODE_FILE], "cuda_project_man.action_paste"),
         (_("-"), "file", [NODE_FILE], ""),
         (_("Copy Path"), "file", [NODE_FILE], "cuda_project_man.action_copy_path"),
         (_("Copy Relative Path"), "file", [NODE_FILE], "cuda_project_man.action_copy_relative_path"),
@@ -1647,17 +1647,17 @@ class Command:
                 self.action_delete_file()
             elif node_type == NODE_DIR:
                 self.action_delete_directory()
-        elif (id_ctl == VK_F5) or (data == 'c' and id_ctl == 0x52):
+        elif (id_ctl == VK_F5) or (data == 'c' and (id_ctl == ord('r') or (id_ctl == ord('R')))):
             self.action_refresh()
         elif id_ctl == VK_F2:
             self.action_rename()
         elif id_ctl == VK_F7:
             self.action_new_directory()
-        elif (data == 'c' and id_ctl == 0x4e):
+        elif (data == 'c' and (id_ctl == ord('n') or (id_ctl == ord('N')))):
             self.action_new_file()
-        elif (data == 'c' and id_ctl == 67):
+        elif (data == 'c' and (id_ctl == ord('c') or (id_ctl == ord('C')))):
             self.action_copy()
-        elif (data == 'c' and id_ctl == 86):
+        elif (data == 'c' and (id_ctl == ord('v') or (id_ctl == ord('V')))):
             self.action_paste()
 
     def add_current_file(self):
