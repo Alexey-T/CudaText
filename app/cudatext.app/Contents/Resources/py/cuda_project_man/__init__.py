@@ -707,10 +707,13 @@ class Command:
                     shutil.copy2(location, new_location)
             else:
                 new_location = str(new_location) + os.sep + Path(location).name
-                from distutils.dir_util import copy_tree
-                copy_tree(str(location), new_location)
                 import shutil
-                shutil.copystat(str(location), new_location)
+                if self.action_cut_activate:
+                    shutil.move(str(location), new_location)
+                else:
+                    from distutils.dir_util import copy_tree
+                    copy_tree(str(location), new_location)
+                    shutil.copystat(str(location), new_location)
             self.action_refresh()
 
     def do_delete_dir(self, location):
