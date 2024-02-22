@@ -9966,7 +9966,7 @@ begin
             FormPutToVisibleArea(Form);
             {$ifdef windows}
             //ifdef for windows is to fix issue #5397, patch by veksha
-            Form.ShowInTaskBar:= Form.ShowInTaskbar_Pending; //after Show, for #4456
+            Form.ShowInTaskBar:= Form.ShowInTaskbar_Pending;
             RecreateWnd(Form);
             Form.Show;
             {$else}
