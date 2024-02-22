@@ -9964,8 +9964,15 @@ begin
           begin
             CloseFormAutoCompletion;
             FormPutToVisibleArea(Form);
+            {$ifdef windows}
+            //ifdef for windows is to fix issue #5397, patch by veksha
+            Form.ShowInTaskBar:= Form.ShowInTaskbar_Pending; //after Show, for #4456
+            RecreateWnd(Form);
+            Form.Show;
+            {$else}
             Form.Show;
             Form.ShowInTaskBar:= Form.ShowInTaskbar_Pending; //after Show, for #4456
+            {$endif}
             Result:= ReturnNone;
           end;
 
