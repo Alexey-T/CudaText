@@ -5,6 +5,7 @@
 
 1.209.1 (2024/02)
 
+- fix: Windows: fix focusing main app window by Alt-Tab from _non-modal_ plugin dialogs (no such major plugins exist yet) (thanks @veksha)
 - fix: Qt5 version: hotkeys display for `, Ctrl+`, Minus, Shift+Minus, Shift+= (fixed in Lazarus)
 - fix: Qt5 version: FindInFiles plugin input fields are empty after pressing "Find" (fixed in Lazarus)
 
