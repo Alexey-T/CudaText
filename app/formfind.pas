@@ -1773,6 +1773,7 @@ begin
       Finder.OptTokens:= TATFinderTokensAllowed(bTokens.ItemIndex);
       Finder.OptWrapped:= chkWrap.Checked;
       Finder.OptPreserveCase:= chkPreserveCase.Checked;
+      Finder.MaxLineLen:= UiOps.FindHiAll_MaxLineLen;
       Finder.OnGetToken:= FOnGetToken;
 
       NTick:= GetTickCount64;
