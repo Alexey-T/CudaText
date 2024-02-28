@@ -375,6 +375,7 @@ type
     FindOccur_TagValue: Int64;
     FindWrapAtEdge_Delay: integer;
     FindWrapAtEdge_ThemeItem: string;
+    FindEnableCtrlEnterInSinleLineMode: boolean;
 
     AllowProgramUpdates: boolean;
     EscapeClose: boolean;
@@ -2093,6 +2094,7 @@ begin
     FindOccur_TagValue:= 98;
     FindWrapAtEdge_Delay:= 350;
     FindWrapAtEdge_ThemeItem:= ''; //'EdMarkedRangeBg';
+    FindEnableCtrlEnterInSinleLineMode:= true;
 
     AllowProgramUpdates:= true;
     EscapeClose:= false;

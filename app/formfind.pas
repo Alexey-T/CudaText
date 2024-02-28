@@ -813,7 +813,8 @@ begin
   //Ctrl+Enter: add line-break
   if (Key=VK_RETURN) and (Shift=[ssCtrl]) then
   begin
-    (Sender as TATSynEdit).DoCommand(cCommand_KeyEnter, TATCommandInvoke.AppInternal);
+    if IsMultiLine or UiOps.FindEnableCtrlEnterInSinleLineMode then
+      (Sender as TATSynEdit).DoCommand(cCommand_KeyEnter, TATCommandInvoke.AppInternal);
     Key:= 0;
     exit;
   end;
