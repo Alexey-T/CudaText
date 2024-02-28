@@ -2087,8 +2087,8 @@ begin
     FindIndentHorz:= 10;
     FindMultilineHeight:= 250;
     FindSeparateForm:= false;
-    FindHiAll_MaxLines:= 1000;
-    FindHiAll_MaxLineLen:= 1000;
+    FindHiAll_MaxLines:= 4000;
+    FindHiAll_MaxLineLen:= 4000;
     FindHiAll_TagValue:= 99; //GET_UNIQUE_TAG starts with 120
     FindOccur_TagValue:= 98;
     FindWrapAtEdge_Delay:= 350;
