@@ -2060,10 +2060,10 @@ begin
     for element:= Low(element) to High(element) do
       HistoryItems[element]:= true;
 
-    FindSuggestSel:= true;
-    FindSuggestWord:= false;
-    FindSuggestInSelection:= false;
-    FindCurrentWordCaseSensitive:= TUiOpsFindCaseSensitive.FromDialog;
+    FindSuggestSel:= true; //option "find_suggest_sel"
+    FindSuggestWord:= false; //option "find_suggest_cur_word"
+    FindSuggestInSelection:= false; //option "find_suggest_in_selection"
+    FindCurrentWordCaseSensitive:= TUiOpsFindCaseSensitive.FromDialog; //option "find_sel_case"
     FindShowNoResultsByInputBgColor:= true;
 
     FindHiddenButtons:= '';
@@ -2084,17 +2084,18 @@ begin
     FindShow_RegexSubst:= true;
     FindShow_PreserveCase:= true;
 
-    FindIndentVert:= -5;
-    FindIndentHorz:= 10;
-    FindMultilineHeight:= 250;
+    FindIndentVert:= -5; //option "find_indent_vert"
+    FindIndentHorz:= 10; //option "find_indent_horz"
+    FindMultilineHeight:= 250; //option "find_multiline_height"
     FindSeparateForm:= false;
-    FindHiAll_MaxLines:= 4000;
-    FindHiAll_MaxLineLen:= 4000;
-    FindHiAll_TagValue:= 99; //GET_UNIQUE_TAG starts with 120
-    FindOccur_TagValue:= 98;
+    FindHiAll_MaxLines:= 4000; //option "find_hi_max_lines"
+    FindHiAll_MaxLineLen:= 4000; //option "find_hi_max_line_len"
+    FindHiAll_TagValue:= 99; //attrib-tag for Highlight_all_matches option ('Hi')
+    FindOccur_TagValue:= 98; //attrib-tag for 'expand selection to next word' command
+                             //tags must be <120, coz GET_UNIQUE_TAG starts with 120
     FindWrapAtEdge_Delay:= 350;
-    FindWrapAtEdge_ThemeItem:= ''; //'EdMarkedRangeBg';
-    FindEnableCtrlEnterInSinleLineMode:= true;
+    FindWrapAtEdge_ThemeItem:= ''; //option "find_wrapped_blinking", ok value is 'EdMarkedRangeBg'
+    FindEnableCtrlEnterInSinleLineMode:= true; //enable Ctrl+Enter to insert line-break in single-line mode of Find dlg
 
     AllowProgramUpdates:= true;
     EscapeClose:= false;
