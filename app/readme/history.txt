@@ -7,7 +7,7 @@
 
 + add: use new version of fcl-json lib to faster load big 40Mb-size session files with big changed file text
 + add: can disable Ctrl+Enter hotkey in the Find-dialog via new option "find_ctrl_enter" (thanks @pintassilgo)
-+ add: can disable 'Highlight all' Find-dialog option in huge lines via new option "find_hi_max_line_len" (thanks @pintassilgo)
++ add: can disable 'Highlight all' feature of Find-dialog for huge lines via new option "find_hi_max_line_len" (thanks @pintassilgo)
 - fix: plugin Insert_Pics cannot set 'scroll last line on top' property for the splitted-view editor (thanks @SamC)
 - fix: Windows: fix focusing main app window by Alt-Tab from _non-modal_ plugin dialogs (no such major plugins exist yet) (thanks @veksha)
 - fix: Qt5 version: hotkeys display for `, Ctrl+`, Minus, Shift+Minus, Shift+= (fixed in Lazarus)
