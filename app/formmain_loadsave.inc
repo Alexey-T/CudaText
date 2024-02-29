@@ -1628,6 +1628,7 @@ begin
   UiOps.FindHiAll_MaxLineLen:= cfg.GetValue('find_hi_max_line_len', UiOps.FindHiAll_MaxLineLen);
   //UiOps.FindHiAll_MoveCaret:= cfg.GetValue('find_hi_move_caret', UiOps.FindHiAll_MoveCaret);
   UiOps.FindWrapAtEdge_ThemeItem:= cfg.GetValue('find_wrapped_blinking', UiOps.FindWrapAtEdge_ThemeItem);
+  UiOps.FindEnableCtrlEnterInSinleLineMode:= cfg.GetValue('find_ctrl_enter', UiOps.FindEnableCtrlEnterInSinleLineMode);
 
   EditorOps.OpUndoIndentVert:= UiOps.FindIndentVert;
   EditorOps.OpUndoIndentHorz:= UiOps.FindIndentHorz;

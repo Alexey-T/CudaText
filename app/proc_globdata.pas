@@ -2087,7 +2087,7 @@ begin
     FindIndentVert:= -5; //option "find_indent_vert"
     FindIndentHorz:= 10; //option "find_indent_horz"
     FindMultilineHeight:= 250; //option "find_multiline_height"
-    FindSeparateForm:= false;
+    FindSeparateForm:= false; //initially Find dlg is not docked to main dlg
     FindHiAll_MaxLines:= 4000; //option "find_hi_max_lines"
     FindHiAll_MaxLineLen:= 4000; //option "find_hi_max_line_len"
     FindHiAll_TagValue:= 99; //attrib-tag for Highlight_all_matches option ('Hi')

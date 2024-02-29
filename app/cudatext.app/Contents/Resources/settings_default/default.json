@@ -830,6 +830,10 @@
   //Good example value to enable the feature: "EdMarkedRangeBg".
   "find_wrapped_blinking": "",
 
+  //Find dialog: enable Ctrl+Enter hotkey (to insert line-break) in the single-line
+  //mode. In the multi-line mode Ctrl+Enter works always.
+  "find_ctrl_enter": true,
+
   //[UI]
   //UI scale factor in %, 70 to 500. [has suffix]
   //If value=0, then OS scaling is detected and used (currently only on Windows).
