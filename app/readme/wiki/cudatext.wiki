@@ -2074,9 +2074,9 @@ You can make Pull-Request there, if needed.
 ==How to install add-ons offline==
 Usually users install add-ons online, using "Plugins / Addons Manager / Install" command. But for some users online method is not available. How to install add-ons offline:
 
-1. Download all add-ons in one zip file from this SourceForge page: https://sourceforge.net/projects/cudatext/files/addons_all/ . Unpack this zip file to some folder.
-2. You will find there individual add-ons, like "plugin.xxxx.zip", "lexer.yyyy.zip", "linter.zzzz.zip" etc.
-3. To install individual add-on, just open its zip file in CudaText "File / Open file" dialog. CudaText will handle zip archive and suggest to install add-on from it.
+* Download all add-ons in one zip file from this SourceForge page: https://sourceforge.net/projects/cudatext/files/addons_all/ . Unpack this zip file to some folder.
+* You will find there individual add-ons, like "plugin.xxxx.zip", "lexer.yyyy.zip", "linter.zzzz.zip" etc.
+* To install individual add-on, just open its zip file in CudaText "File / Open file" dialog. CudaText will handle zip archive and suggest to install add-on from it.
 
 =Color themes=
 ==Color themes introduction==
