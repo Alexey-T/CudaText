@@ -617,8 +617,13 @@ var
   N: integer;
 begin
   N:= StrToIntDef(SValue, C.MinValue);
-  if N<C.MinValue then N:= C.MinValue;
-  if N>C.MaxValue then N:= C.MaxValue;
+  if C.MinValue<C.MaxValue then
+  begin
+    if N<C.MinValue then
+      N:= C.MinValue;
+    if N>C.MaxValue then
+      N:= C.MaxValue;
+  end;
   C.Value:= N;
 end;
 
