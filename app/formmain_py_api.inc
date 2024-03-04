@@ -4740,13 +4740,22 @@ begin
           end;
 
         PROP_FONT:
-          EditorSetFont(Ed.Font, Str);
+          begin
+            EditorSetFont(Ed.Font, Str);
+            Ed.OptForceSeparateCharSizer:= true;
+          end;
         PROP_FONT_B:
-          EditorSetFont(Ed.FontBold, Str);
+          begin
+            EditorSetFont(Ed.FontBold, Str);
+          end;
         PROP_FONT_I:
-          EditorSetFont(Ed.FontItalic, Str);
+          begin
+            EditorSetFont(Ed.FontItalic, Str);
+          end;
         PROP_FONT_BI:
-          EditorSetFont(Ed.FontBoldItalic, Str);
+          begin
+            EditorSetFont(Ed.FontBoldItalic, Str);
+          end;
 
         PROP_WHEEL_ZOOMS:
           Ed.OptMouseWheelZooms:= ValueBool;

@@ -1968,6 +1968,8 @@ begin
   begin
     with DoControl_Target(C) do
       Font.Name:= AValue;
+    if C is TATSynEdit then
+      TATSynEdit(C).OptForceSeparateCharSizer:= true;
     if C is TATListbox then
       TATListbox(C).ThemedFont:= false;
     exit;
@@ -1977,6 +1979,8 @@ begin
   begin
     with DoControl_Target(C) do
       Font.Size:= StrToIntDef(AValue, Font.Size);
+    if C is TATSynEdit then
+      TATSynEdit(C).OptForceSeparateCharSizer:= true;
     if C is TATListbox then
       TATListbox(C).ThemedFont:= false;
     exit;
