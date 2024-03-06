@@ -3,6 +3,8 @@
   - fixed
   * changed
 
+- fix: CSS autocompletion: better add ';' if both {} brackets are on the current line (thanks @d-mal)
+
 1.210.0 (2024/03)
 
 + add: use new version of fcl-json lib to faster load big 40Mb-size session files with big changed file text
