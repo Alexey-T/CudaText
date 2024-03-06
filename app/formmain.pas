@@ -6796,6 +6796,7 @@ var
   NTag: PtrInt;
   NCommand: integer;
   SCaption, SCallback, SLexers, CurLexer: string;
+  SCallbackModule, SCallbackFunc, SCallbackInfo: string;
   mi: TMenuItem;
 begin
   NTag:= (Sender as TComponent).Tag;
@@ -6859,6 +6860,12 @@ begin
     if SCallback<>'' then
     begin
       F.Editor.CommandLog.Add(cmd_PluginRun, TATCommandInvoke.MenuAPI, SCallback+SCaption);
+
+      //click of MainMenu must also record macro command
+      if F.MacroRecord then
+        if ParsePythonCallback_3Prefixes(SCallback, 'module=', 'cmd=', 'info=', SCallbackModule, SCallbackFunc, SCallbackInfo) then
+          F.MacroStrings.Add('py:'+SCallbackModule+','+SCallbackFunc+','+SCallbackInfo);
+
       DoPyCallbackFromAPI(SCallback, [], []);
       if not PyEditorMaybeDeleted then
         F.Editor.CommandLog.Add(cmd_PluginEnd, TATCommandInvoke.MenuAPI, SCallback+SCaption);
