@@ -4,6 +4,7 @@
   * changed
 
 - fix: CSS autocompletion: better add ';' if both {} brackets are on the current line; don't add ';' at all if we completed the property name (thanks @d-mal)
+- fix: click of main-menu items did not record plugin commands to macros
 
 1.210.0 (2024/03)
 
