@@ -43,7 +43,7 @@
     },
     "Tag area": {
         "body": [
-            "<area shape=\"${1:rect}\"${2: coords=\"${3:0,0,10,10}\"}${4: href=\"${5:example.htm}\"}${6: target=\"${7:_blank}\"}${8: alt=\"${9:example}\"}/>${0}"
+            "<area shape=\"${1:rect}\"${2: coords=\"${3:0,0,10,10}\"}${4: href=\"${5:example.htm}\"}${6: target=\"${7:_blank}\"}${8: alt=\"${9:example}\"}>${0}"
         ],
         "prefix": [
             "area"
@@ -89,7 +89,7 @@
     },
     "Tag base": {
         "body": [
-            "<base href=\"${1:http://www.com}\"${2: target=\"${3:_blank}\"}/>${0}"
+            "<base href=\"${1:http://www.com}\"${2: target=\"${3:_blank}\"}>${0}"
         ],
         "prefix": [
             "base"
@@ -147,7 +147,7 @@
     },
     "Tag br": {
         "body": [
-            "<br />${0}"
+            "<br>${0}"
         ],
         "prefix": [
             "br"
@@ -205,7 +205,7 @@
     },
     "Tag col": {
         "body": [
-            "<col width=\"${1:50}\">${0}</col>"
+            "<col width=\"${1:50}\">${0}"
         ],
         "prefix": [
             "col"
@@ -328,7 +328,7 @@
     },
     "Tag embed": {
         "body": [
-            "<embed src=\"${1:flash.swf}\"/>${0}"
+            "<embed src=\"${1:flash.swf}\">${0}"
         ],
         "prefix": [
             "embed"
@@ -488,7 +488,7 @@
     },
     "Tag hr": {
         "body": [
-            "<hr />${0}"
+            "<hr>${0}"
         ],
         "prefix": [
             "hr"
@@ -530,7 +530,7 @@
     },
     "Tag img": {
         "body": [
-            "<img src=\"${1:images/untitled.jpg}\"${2: width=\"${3:10}\"}${4: height=\"${5:10}\"}${6: alt=\"${7:untitled}\"}/>${0}"
+            "<img src=\"${1:images/untitled.jpg}\"${2: width=\"${3:10}\"}${4: height=\"${5:10}\"}${6: alt=\"${7:untitled}\"}>${0}"
         ],
         "prefix": [
             "img"
@@ -538,7 +538,7 @@
     },
     "Tag input": {
         "body": [
-            "<input type=\"${1:text}\"${2: name=\"${3:test}\"}${4: value=\"${5:value}\"}/>${0}"
+            "<input type=\"${1:text}\"${2: name=\"${3:test}\"}${4: value=\"${5:value}\"}>${0}"
         ],
         "prefix": [
             "input"
@@ -594,7 +594,7 @@
     },
     "Tag link": {
         "body": [
-            "<link rel=\"${1:stylesheet}\"${2: href=\"${3:global.css}\"}${4: type=\"${5:text/css}\"}/>${0}"
+            "<link rel=\"${1:stylesheet}\"${2: href=\"${3:global.css}\"}${4: type=\"${5:text/css}\"}>${0}"
         ],
         "prefix": [
             "link"
@@ -628,7 +628,7 @@
     },
     "Tag meta": {
         "body": [
-            "<meta http-equiv=\"${1:Content-type}\"${2: content=\"${3:text/html; charset=UTF-8}\"}/>${0}"
+            "<meta http-equiv=\"${1:Content-type}\"${2: content=\"${3:text/html; charset=UTF-8}\"}>${0}"
         ],
         "prefix": [
             "meta"
@@ -850,7 +850,7 @@
     },
     "Tag source": {
         "body": [
-            "<source src=\"${1:song.mp3}\"${2: type=\"${3:audio/mpeg}\"}/>${0}"
+            "<source src=\"${1:song.mp3}\"${2: type=\"${3:audio/mpeg}\"}>${0}"
         ],
         "prefix": [
             "source"
@@ -1060,7 +1060,7 @@
     },
     "Tag wbr": {
         "body": [
-            "<wbr>${0}</wbr>"
+            "<wbr>${0}"
         ],
         "prefix": [
             "wbr"
