@@ -394,7 +394,7 @@ begin
   if ext='.bmp' then
     Result:= TBitmap.Create
   else
-  if SBeginsWith(ext, '.j') then //jpg, jpeg, jpe, jfif
+  if (ext='.jpg') or (ext='.jpeg') or (ext='.jfif') then
     Result:= TJPEGImage.Create
   else
   if ext='.webp' then
