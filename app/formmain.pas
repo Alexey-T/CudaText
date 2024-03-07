@@ -3475,7 +3475,7 @@ begin
 
   //allow F12 keypress from Project Manager when main menu is hidden
   //check Sender=nil to allow F-keys only when called from another form, to not block key-combos with F-keys
-  if (Key>=VK_F1) and (Key<=VK_F24) and (Sender=nil) then
+  if (Key>=VK_F1) and (Key<=VK_F12) and (Sender=nil) then
   begin
     Ed:= CurrentEditor;
     if Assigned(Ed) then //we may here check Ed.Focused to not block key-combos with F-keys
