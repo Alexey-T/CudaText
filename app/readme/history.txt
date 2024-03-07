@@ -3,6 +3,9 @@
   - fixed
   * changed
 
+1.210.1 (2024/03)
+
++ add: allow plugin HTML_Tooltips to show preview for WEBP pictures too
 - fix: CSS autocompletion: better add ';' if both {} brackets are on the current line; don't add ';' at all if we completed the property name (thanks @d-mal)
 - fix: click of main-menu items did not record plugin commands to macros
 
