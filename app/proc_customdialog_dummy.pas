@@ -475,6 +475,10 @@ var
   Img: TImage;
 begin
   Img:= ASender as TImage;
+
+  //don't paint checkers for TBitmap, it gives bug: checkers are painted _over_ the bitmap in small rect
+  if Img.Picture.Graphic is TBitmap then exit;
+
   DoPaintCheckers(
     Img.Canvas,
     Img.Width,
