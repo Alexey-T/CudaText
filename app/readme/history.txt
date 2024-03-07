@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.210.1 (2024/03)
+1.210.5 (2024/03)
 
 + add: allow plugin HTML_Tooltips to show preview for WEBP pictures too
 - fix: fixed snippets for 'void' HTML tags (thanks @d-mal)
