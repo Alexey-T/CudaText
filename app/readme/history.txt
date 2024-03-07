@@ -6,9 +6,9 @@
 1.210.5 (2024/03)
 
 + add: allow plugin HTML_Tooltips to show preview for WEBP pictures too
-- fix: fixed snippets for 'void' HTML tags (thanks @d-mal)
 - fix: CSS autocompletion: better add ';' if both {} brackets are on the current line; don't add ';' at all if we completed the property name (thanks @d-mal)
-- fix: Qt5 version: char '|' cannot be entered in Code-tree-filter field (thanks @mix-7) 
+- fix: snippets for 'void' HTML tags had bad endings (thanks @d-mal)
+- fix: Qt5 version: char '|' cannot be entered in Code-tree filter field / FindInFiles plugin (thanks @mix-7) 
 - fix: Windows: fix for installation/uninstallation problems of the shell extension on new versions of Windows 11 (by @dinkumoil)
 - fix: plugin commands were not recorded to macros, if called from Plugins menu
 - fix: plugin HTML_Tooltips shows preview of BMP pictures buggy
