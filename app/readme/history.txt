@@ -8,7 +8,8 @@
 + add: allow plugin HTML_Tooltips to show preview for WEBP pictures too
 - fix: fixed snippets for 'void' HTML tags (thanks @d-mal)
 - fix: CSS autocompletion: better add ';' if both {} brackets are on the current line; don't add ';' at all if we completed the property name (thanks @d-mal)
-- fix: click of main-menu items did not record plugin commands to macros
+- fix: Qt5 version: char '|' cannot be entered in Code-tree-filter field (thanks @mix-7) 
+- fix: plugin commands were not recorded to macros, if called (by mouse) from Plugins menu
 
 1.210.0 (2024/03)
 
