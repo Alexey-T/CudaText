@@ -1250,6 +1250,8 @@ Action buttons in dialog:
 
 The state of dialog search options is saved to the history file (settings/history.json), and is restored after app restart.
 
+Button "..." is enabled in "editor mode", so if button is disabled for you, it means CudaText was opened in [[#Text/Hex viewer]] mode. "Viewer mode" is activated when you pass the name of huge file with size>500 Mbytes (this is controlled by option "ui_max_size_open").
+
 ==Text searcher features==
 
 Search engine supports actions with multi-selections. This makes sense mainly for mass-search actions (Find all, Select all, Mark all, Replace all).
