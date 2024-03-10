@@ -7,11 +7,11 @@ object fmConfirmBinary: TfmConfirmBinary
   Caption = 'CudaText'
   ClientHeight = 272
   ClientWidth = 452
-  OnCreate = FormCreate
-  OnShow = FormShow
   Position = poScreenCenter
   ShowInTaskBar = stNever
-  LCLVersion = '2.3.0.0'
+  LCLVersion = '3.99.0.0'
+  OnCreate = FormCreate
+  OnShow = FormShow
   object LabelText: TLabel
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
@@ -32,15 +32,15 @@ object fmConfirmBinary: TfmConfirmBinary
     AnchorSideTop.Control = LabelFN
     AnchorSideTop.Side = asrBottom
     Left = 106
-    Height = 29
+    Height = 33
     Top = 56
     Width = 240
     AutoSize = True
     BorderSpacing.Top = 10
     Caption = 'Edit anyway'
     Constraints.MinWidth = 240
-    OnClick = btnEditClick
     TabOrder = 0
+    OnClick = btnEditClick
   end
   object btnViewBinary: TButton
     AnchorSideLeft.Control = btnEdit
@@ -49,15 +49,15 @@ object fmConfirmBinary: TfmConfirmBinary
     AnchorSideRight.Control = btnEdit
     AnchorSideRight.Side = asrBottom
     Left = 106
-    Height = 29
-    Top = 126
+    Height = 33
+    Top = 134
     Width = 240
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
     BorderSpacing.Top = 6
     Caption = 'Viewer - binary mode'
-    OnClick = btnViewBinaryClick
     TabOrder = 2
+    OnClick = btnViewBinaryClick
   end
   object btnCancel: TButton
     AnchorSideLeft.Control = btnEdit
@@ -66,16 +66,16 @@ object fmConfirmBinary: TfmConfirmBinary
     AnchorSideRight.Control = btnEdit
     AnchorSideRight.Side = asrBottom
     Left = 106
-    Height = 29
-    Top = 231
+    Height = 33
+    Top = 251
     Width = 240
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
     BorderSpacing.Top = 6
     Cancel = True
     Caption = 'Cancel'
-    OnClick = btnCancelClick
     TabOrder = 5
+    OnClick = btnCancelClick
   end
   object LabelFN: TLabel
     AnchorSideLeft.Control = LabelText
@@ -95,15 +95,15 @@ object fmConfirmBinary: TfmConfirmBinary
     AnchorSideRight.Control = btnEdit
     AnchorSideRight.Side = asrBottom
     Left = 106
-    Height = 29
-    Top = 161
+    Height = 33
+    Top = 173
     Width = 240
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
     BorderSpacing.Top = 6
     Caption = 'Viewer - hex mode'
-    OnClick = btnViewHexClick
     TabOrder = 3
+    OnClick = btnViewHexClick
   end
   object btnViewText: TButton
     AnchorSideLeft.Control = btnEdit
@@ -112,15 +112,15 @@ object fmConfirmBinary: TfmConfirmBinary
     AnchorSideRight.Control = btnEdit
     AnchorSideRight.Side = asrBottom
     Left = 106
-    Height = 29
-    Top = 91
+    Height = 33
+    Top = 95
     Width = 240
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
     BorderSpacing.Top = 6
     Caption = 'Viewer - text mode'
-    OnClick = btnViewTextClick
     TabOrder = 1
+    OnClick = btnViewTextClick
   end
   object btnViewUnicode: TButton
     AnchorSideLeft.Control = btnEdit
@@ -129,14 +129,14 @@ object fmConfirmBinary: TfmConfirmBinary
     AnchorSideRight.Control = btnEdit
     AnchorSideRight.Side = asrBottom
     Left = 106
-    Height = 29
-    Top = 196
+    Height = 33
+    Top = 212
     Width = 240
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
     BorderSpacing.Top = 6
     Caption = 'Viewer - unicode mode'
-    OnClick = btnViewUnicodeClick
     TabOrder = 4
+    OnClick = btnViewUnicodeClick
   end
 end

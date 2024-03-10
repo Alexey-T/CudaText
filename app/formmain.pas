@@ -4637,17 +4637,17 @@ begin
         case UiOps.NonTextFiles of
           0:
             case DoDialogConfirmBinaryFile(AFileName, bFileTooBig) of
-              ConfirmBinaryViewText:
+              TAppConfirmBinary.ViewerText:
                 OpenMode:= TAppOpenMode.ViewText;
-              ConfirmBinaryViewBinary:
+              TAppConfirmBinary.ViewerBinary:
                 OpenMode:= TAppOpenMode.ViewBinary;
-              ConfirmBinaryViewHex:
+              TAppConfirmBinary.ViewerHex:
                 OpenMode:= TAppOpenMode.ViewHex;
-              ConfirmBinaryViewUnicode:
+              TAppConfirmBinary.ViewerUnicode:
                 OpenMode:= TAppOpenMode.ViewUnicode;
-              ConfirmBinaryViewUHex:
+              TAppConfirmBinary.ViewerUHex:
                 OpenMode:= TAppOpenMode.ViewUHex;
-              ConfirmBinaryCancel:
+              TAppConfirmBinary.Cancel:
                 Exit;
             end;
           2:
@@ -4665,17 +4665,17 @@ begin
     if (OpenMode=TAppOpenMode.Editor) and bFileTooBig then
     begin
       case DoDialogConfirmBinaryFile(AFileName, bFileTooBig) of
-        ConfirmBinaryViewText:
+        TAppConfirmBinary.ViewerText:
           OpenMode:= TAppOpenMode.ViewText;
-        ConfirmBinaryViewBinary:
+        TAppConfirmBinary.ViewerBinary:
           OpenMode:= TAppOpenMode.ViewBinary;
-        ConfirmBinaryViewHex:
+        TAppConfirmBinary.ViewerHex:
           OpenMode:= TAppOpenMode.ViewHex;
-        ConfirmBinaryViewUnicode:
+        TAppConfirmBinary.ViewerUnicode:
           OpenMode:= TAppOpenMode.ViewUnicode;
-        ConfirmBinaryViewUHex:
+        TAppConfirmBinary.ViewerUHex:
           OpenMode:= TAppOpenMode.ViewUHex;
-        ConfirmBinaryCancel:
+        TAppConfirmBinary.Cancel:
           Exit;
       end;
     end;
