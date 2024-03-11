@@ -2815,7 +2815,7 @@ Controls bookmarks. Possible values of "id":
 * BOOKMARK_CLEAR_ALL: Removes all bookmarks ("nline" ignored).
 * BOOKMARK_DELETE_BY_TAG: Removes all bookmarks, which have the tag, given by "tag" param.
 
-* BOOKMARK_SETUP: Configures bookmarks with kind, given by "nkind" param.
+* BOOKMARK_SETUP: Configures bookmarks with kind, given by "nkind" param. This setup is global, ie it is shared by all editor objects in UI-tabs.
 ** Param "ncolor": Color of bookmarked line.
 *** Can be COLOR_NONE to not use background color.
 *** Can be COLOR_DEFAULT to use current themed color.
