@@ -5009,7 +5009,7 @@ It provides:
 * add: Editor.get_prop/set_prop: PROP_CORNER2_FONT_NAME
 * add: Editor.get_prop/set_prop: PROP_CORNER2_FONT_SIZE
 
-1.0.453 (app 1.210.1)
+1.0.453 (app 1.210.5)
 * add: image_proc: support WEBP format
 
 [[Category:CudaText]]
