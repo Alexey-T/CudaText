@@ -2345,10 +2345,7 @@ begin
         DECOR_GET_IMAGELIST:
           begin
             if Ed.ImagesGutterDecor=nil then
-            begin
               Ed.ImagesGutterDecor:= TImageList.Create(Ed);
-              Ed.ImagesGutterDecorOwned:= true;
-            end;
             Result:= PyHelper_ObjectHandle(Ed.ImagesGutterDecor);
           end;
 
