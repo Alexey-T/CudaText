@@ -3,6 +3,10 @@
   - fixed
   * changed
 
+1.210.6 (2024/03)
+
++ add: text search without RegEx has big speedup on huge lines: e.g. for line len=400K, 'Count all'/'Select all' is now 30-60 times faster
+
 1.210.5 (2024/03)
 
 + add: allow plugin HTML_Tooltips to show preview for WEBP pictures too
