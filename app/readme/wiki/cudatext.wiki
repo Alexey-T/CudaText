@@ -1693,15 +1693,26 @@ A3: Start CudaText from Terminal (console) like this:
  cudatext -z=hex FileName
 
 =Picture file viewer=
-CudaText has the emdedded picture file viewer. It's activated when you open a file with the picture file type, see the option "picture_types": BMP, PNG, JPEG, GIF, ICO (Windows icon), WEBP (general picture format), PSD (Photoshop image), TGA (Targa), CUR (Windows cursor).
+CudaText has the emdedded picture file viewer. Picture mode is activated for files with several known extensions:
+
+* BMP
+* PNG
+* JPEG, JPG
+* GIF
+* ICO (Windows icon)
+* WEBP, it requires libwebp library (on Windows it is files libwebp32.dll / libwebp64.dll in the application folder)
+* PSD (Photoshop image)
+* TGA (Targa)
+* CUR (Windows cursor)
 
 Viewer supports zooming of an image:
+
 * use Ctrl + mouse wheel
 * click the statusbar cell with the zoom value, and choose one of predefined zoom values: 33%, 50%, 100%, 150%, 200%, 500%, 1000%, 1500%.
 
 While picture is zoomed so that it's bigger than the current window, you can drag the picture by mouse.
 
-While picture viewer is active, Find/Replace-dialog is disabled.
+While picture viewer is active, Find/Replace dialog is disabled.
 
 =Pair brackets=
 CudaText has built-in pair bracket finder. Bracket finder can highlight pair brackets, when there is only single caret, and no selection is placed. It finds symbols "()[]{}<>" (configurable per lexer via lexer-specific configs). Bracket finder respects lexer context: it skips symbols inside syntax "comments" and syntax "strings". If caret is placed not directly on/after a bracket, program will find nearest surrounding brackets.
