@@ -370,6 +370,7 @@ type
     FindSeparateForm: boolean;
     FindHiAll_TimerInterval: integer;
     FindHiAll_MinInputLen: integer;
+    FindHiAll_MaxLinesToAvoidTimer: integer;
     FindHiAll_MaxLines: integer;
     FindHiAll_MaxLineLen: integer;
     FindHiAll_TagValue: Int64;
@@ -2092,6 +2093,7 @@ begin
     FindSeparateForm:= false; //initially Find dlg is not docked to main dlg
     FindHiAll_TimerInterval:= 500; //interval of timer which starts Hi_All action after typing in Find dlg
     FindHiAll_MinInputLen:= 1; //minimal count of chars in Find-dlg input to start Hi_All action
+    FindHiAll_MaxLinesToAvoidTimer:= 2000;
     FindHiAll_MaxLines:= 4000; //option "find_hi_max_lines"
     FindHiAll_MaxLineLen:= 800000; //option "find_hi_max_line_len"
     FindHiAll_TagValue:= 99; //attrib-tag for Highlight_all_matches option ('Hi')

@@ -1741,6 +1741,7 @@ end;
 procedure TfmFind.UpdateHiAll(AEnableFindNext: boolean);
 var
   NColorBG: TColor;
+  Ed: TATSynEdit;
 begin
   FTimerHiAll.Enabled:= false;
 
@@ -1768,8 +1769,14 @@ begin
     if edFind.Strings.LinesLen[0]<UiOps.FindHiAll_MinInputLen then exit;
 
   FHiAllEnableFindNext:= AEnableFindNext;
-  FTimerHiAll.Interval:= UiOps.FindHiAll_TimerInterval;
-  FTimerHiAll.Enabled:= true;
+  FOnGetMainEditor(Ed);
+  if Ed.Strings.Count>UiOps.FindHiAll_MaxLinesToAvoidTimer then
+  begin
+    FTimerHiAll.Interval:= UiOps.FindHiAll_TimerInterval;
+    FTimerHiAll.Enabled:= true;
+  end
+  else
+    TimerHiAllTick(nil);
 end;
 
 
