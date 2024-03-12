@@ -1306,7 +1306,10 @@ begin
     TAppFinderOperation.CountAll,
     TAppFinderOperation.ExtractAll,
     TAppFinderOperation.FindMarkAll,
-    TAppFinderOperation.FindSelectAll
+    TAppFinderOperation.FindSelectAll,
+    //FindNext/FindPrev do not change Find dlg input - no need to update HiAll
+    TAppFinderOperation.FindNext,
+    TAppFinderOperation.FindPrev
     ]);
 
   if Op<>TAppFinderOperation.CloseDlg then
