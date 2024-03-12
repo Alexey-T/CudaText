@@ -826,6 +826,10 @@
   //Note: RegEx search is not affected.
   "find_hi_max_line_len": 800000,
 
+  //When document has count of lines bigger than option value, "Highlight all matches"
+  //works not immediately on typing in Find dialog, but by timer, with delay ~500 msec.
+  "find_hi_timer_lines": 2000,
+
   //When search silently wraps at the document edge (because of Find-dialog option "O"),
   //Find-dialog input can blink with specified background color. Value must be the id
   //of some UI-theme item (as written in files data/themes/*.cuda-theme-ui).
