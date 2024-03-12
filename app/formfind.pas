@@ -1300,18 +1300,12 @@ begin
   if Assigned(FOnResult) then
     FOnResult(Self, Op);
 
-  bUpdateState:= not (Op in [
-    TAppFinderOperation.None,
-    TAppFinderOperation.CloseDlg,
-    TAppFinderOperation.CountAll,
-    TAppFinderOperation.ExtractAll,
-    TAppFinderOperation.FindMarkAll,
-    TAppFinderOperation.FindSelectAll,
-    //FindFirst/FindNext/FindPrev do not change Find dlg input - no need to update HiAll marks
-    TAppFinderOperation.FindFirst,
-    TAppFinderOperation.FindNext,
-    TAppFinderOperation.FindPrev
-    ]);
+  bUpdateState:= Op in [
+    TAppFinderOperation.Replace,
+    TAppFinderOperation.ReplaceStop,
+    TAppFinderOperation.ReplaceAll,
+    TAppFinderOperation.ReplaceGlobal
+    ];
 
   if Op<>TAppFinderOperation.CloseDlg then
   begin
