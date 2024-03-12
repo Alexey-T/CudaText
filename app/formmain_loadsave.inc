@@ -1626,6 +1626,7 @@ begin
 
   UiOps.FindHiAll_MaxLines:= cfg.GetValue('find_hi_max_lines', UiOps.FindHiAll_MaxLines);
   UiOps.FindHiAll_MaxLineLen:= cfg.GetValue('find_hi_max_line_len', UiOps.FindHiAll_MaxLineLen);
+  UiOps.FindHiAll_TimerInterval:= cfg.GetValue('find_hi_timer_interval', UiOps.FindHiAll_TimerInterval);
   UiOps.FindHiAll_TimerLines:= cfg.GetValue('find_hi_timer_lines', UiOps.FindHiAll_TimerLines);
   //UiOps.FindHiAll_MoveCaret:= cfg.GetValue('find_hi_move_caret', UiOps.FindHiAll_MoveCaret);
   UiOps.FindWrapAtEdge_ThemeItem:= cfg.GetValue('find_wrapped_blinking', UiOps.FindWrapAtEdge_ThemeItem);

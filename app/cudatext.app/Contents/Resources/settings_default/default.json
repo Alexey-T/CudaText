@@ -827,8 +827,11 @@
   "find_hi_max_line_len": 800000,
 
   //When document has count of lines bigger than option value, "Highlight all matches"
-  //works not immediately on typing in Find dialog, but by timer, with delay ~500 msec.
+  //works not immediately on typing in Find dialog, but by timer.
   "find_hi_timer_lines": 2000,
+
+  //Interval of timer mentioned in the option "find_hi_timer_lines", in msec.
+  "find_hi_timer_interval": 500,
 
   //When search silently wraps at the document edge (because of Find-dialog option "O"),
   //Find-dialog input can blink with specified background color. Value must be the id
