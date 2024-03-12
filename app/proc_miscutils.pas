@@ -409,7 +409,8 @@ begin
     Result:= Bmp;
     exit;
   finally
-    FreeAndNil(ImageEx);
+    if Assigned(ImageEx) then
+      FreeAndNil(ImageEx);
   end
   else
     exit;
