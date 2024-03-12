@@ -914,6 +914,8 @@ end;
 
 procedure TfmFind.FormHide(Sender: TObject);
 begin
+  FTimerHiAll.Enabled:= false; //fixes caret is resetting after dlg closed
+
   if Assigned(FOnChangeVisible) then
     FOnChangeVisible(Self);
 end;
