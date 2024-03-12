@@ -7,7 +7,7 @@
 
 + add: text search without RegEx has big speedup on huge lines; e.g. for line len=400K, with 25K matches, 'Count all'/'Select all'/'Mark all' are improved from ~30 sec to ~0.5 sec
 + add: text replacement (with and without RegEx) has big speedup on huge lines; e.g. for line len=400K, with 25K matches, 'Replace all' is improved from ~110 sec to ~0.5 sec
-* change: Find dialog: on typing in input fields, Highlight_All action is started not immediately, but by timer with delay of ~500 msec (thanks @pintassilgo)
+* change: Find dialog: on typing in input fields in big documents (> 2000 lines), Highlight_All action is started not immediately, but by timer with delay of ~500 msec (thanks @pintassilgo)
 * change: Find dialog: Highlight_All action needs at least 2 typed chars (in "Find what" input field) to run
 * change: changed default of option "find_hi_max_line_len" from 4k to 800k, because 'find all' is much faster now
 
