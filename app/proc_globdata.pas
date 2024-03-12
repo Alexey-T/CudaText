@@ -368,6 +368,7 @@ type
     FindIndentHorz: integer;
     FindMultilineHeight: integer;
     FindSeparateForm: boolean;
+    FindHiAll_TimerInterval: integer;
     FindHiAll_MaxLines: integer;
     FindHiAll_MaxLineLen: integer;
     FindHiAll_TagValue: Int64;
@@ -2088,6 +2089,7 @@ begin
     FindIndentHorz:= 10; //option "find_indent_horz"
     FindMultilineHeight:= 250; //option "find_multiline_height"
     FindSeparateForm:= false; //initially Find dlg is not docked to main dlg
+    FindHiAll_TimerInterval:= 500; //interval of timer which starts Hi_All action after typing in Find dlg
     FindHiAll_MaxLines:= 4000; //option "find_hi_max_lines"
     FindHiAll_MaxLineLen:= 800000; //option "find_hi_max_line_len"
     FindHiAll_TagValue:= 99; //attrib-tag for Highlight_all_matches option ('Hi')

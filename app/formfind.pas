@@ -182,6 +182,7 @@ type
     { private declarations }
     FTimerShow: TTimer;
     FTimerWrapped: TTimer;
+    FTimerHiAll: TTimer;
     FPopupMore: TPopupMenu;
     FPrevColorOfInput: TColor;
     FMenuitemOptRegex: TMenuItem;
@@ -220,6 +221,7 @@ type
     FOnShowMatchesCount: TAppFinderShowMatchesCount;
     FOnHandleKeyDown: TAppFinderKeyDownEvent;
     FLexerRegexThemed: boolean;
+    FHiAllEnableFindNext: boolean;
     Adapter: TATAdapterEControl;
     AdapterActive: boolean;
     procedure bRepStopClick(Sender: TObject);
@@ -238,6 +240,7 @@ type
     procedure SetReplace(AValue: boolean);
     procedure TimerShowTick(Sender: TObject);
     procedure TimerWrappedTick(Sender: TObject);
+    procedure TimerHiAllTick(Sender: TObject);
     procedure UpdateButtonBold;
     procedure UpdateRegexHighlight;
   public
@@ -902,6 +905,11 @@ begin
   FTimerShow.Enabled:= false;
   FTimerShow.Interval:= 100;
   FTimerShow.OnTimer:= @TimerShowTick;
+
+  FTimerHiAll:= TTimer.Create(Self);
+  FTimerHiAll.Enabled:= false;
+  FTimerHiAll.Interval:= UiOps.FindHiAll_TimerInterval;
+  FTimerHiAll.OnTimer:= @TimerHiAllTick;
 end;
 
 procedure TfmFind.FormHide(Sender: TObject);
@@ -1732,11 +1740,10 @@ end;
 
 procedure TfmFind.UpdateHiAll(AEnableFindNext: boolean);
 var
-  Finder: TATEditorFinder;
-  NMatches: integer;
   NColorBG: TColor;
-  NTick: QWord;
 begin
+  FTimerHiAll.Enabled:= false;
+
   if FForViewer then
   begin
     NColorBG:= GetAppColor(TAppThemeColor.EdTextBg);
@@ -1757,6 +1764,19 @@ begin
   if edFind.Text='' then exit;
   if not chkHiAll.Enabled then exit;
 
+  FHiAllEnableFindNext:= AEnableFindNext;
+  FTimerHiAll.Interval:= UiOps.FindHiAll_TimerInterval;
+  FTimerHiAll.Enabled:= true;
+end;
+
+
+procedure TfmFind.TimerHiAllTick(Sender: TObject);
+var
+  Finder: TATEditorFinder;
+  NMatches: integer;
+  NTick: QWord;
+  NColorBG: TColor;
+begin
   if IsHiAll then
   begin
     Finder:= TATEditorFinder.Create;
@@ -1778,7 +1798,7 @@ begin
       Finder.OnGetToken:= FOnGetToken;
 
       NTick:= GetTickCount64;
-      EditorHighlightAllMatches(Finder, AEnableFindNext, NMatches, FInitialCaretPos);
+      EditorHighlightAllMatches(Finder, FHiAllEnableFindNext, NMatches, FInitialCaretPos);
       NTick:= GetTickCount64-NTick;
 
       if UiOps.FindShowNoResultsByInputBgColor and not IsInputColored then
