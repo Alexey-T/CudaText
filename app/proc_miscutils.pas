@@ -399,6 +399,7 @@ begin
   else
   if ext='.webp' then
   try
+    ImageEx:= nil;
     ImageEx:= TBGRABitmap.Create(AFilename);
     if not Assigned(ImageEx) then exit;
     Bmp:= TBitmap.Create;
