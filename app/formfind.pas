@@ -1307,7 +1307,8 @@ begin
     TAppFinderOperation.ExtractAll,
     TAppFinderOperation.FindMarkAll,
     TAppFinderOperation.FindSelectAll,
-    //FindNext/FindPrev do not change Find dlg input - no need to update HiAll
+    //FindFirst/FindNext/FindPrev do not change Find dlg input - no need to update HiAll marks
+    TAppFinderOperation.FindFirst,
     TAppFinderOperation.FindNext,
     TAppFinderOperation.FindPrev
     ]);
