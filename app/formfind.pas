@@ -1770,7 +1770,7 @@ begin
 
   FHiAllEnableFindNext:= AEnableFindNext;
   FOnGetMainEditor(Ed);
-  if Ed.Strings.Count>UiOps.FindHiAll_MaxLinesWithoutTimer then
+  if Ed.Strings.Count>UiOps.FindHiAll_TimerLines then
   begin
     FTimerHiAll.Interval:= UiOps.FindHiAll_TimerInterval;
     FTimerHiAll.Enabled:= true;
