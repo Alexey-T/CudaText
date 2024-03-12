@@ -7,6 +7,7 @@
 
 + add: text search without RegEx has big speedup on huge lines; e.g. for line len=400K, with 25K matches, 'Count all'/'Select all'/'Mark all' are improved from ~30 sec to ~0.5 sec
 + add: text replacement (with and without RegEx) has big speedup on huge lines; e.g. for line len=400K, with 25K matches, 'Replace all' is improved from ~110 sec to ~0.5 sec
+* change: changed default of option "find_hi_max_line_len" to 800000 (because 'find all' is much faster now)
 
 1.210.5 (2024/03)
 
