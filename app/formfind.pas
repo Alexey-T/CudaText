@@ -914,8 +914,6 @@ end;
 
 procedure TfmFind.FormHide(Sender: TObject);
 begin
-  FTimerHiAll.Enabled:= false; //fixes caret is resetting after dlg closed
-
   if Assigned(FOnChangeVisible) then
     FOnChangeVisible(Self);
 end;
@@ -1789,6 +1787,7 @@ var
   NTick: QWord;
   NColorBG: TColor;
 begin
+  FTimerHiAll.Enabled:= false;
   if IsHiAll then
   begin
     Finder:= TATEditorFinder.Create;
