@@ -1753,8 +1753,6 @@ begin
     exit;
   end;
 
-  ClearHiAll;
-
   if UiOps.FindShowNoResultsByInputBgColor and not IsInputColored then
   begin
     NColorBG:= GetAppColor(TAppThemeColor.EdTextBg);
@@ -1762,11 +1760,23 @@ begin
     edFind.Update;
   end;
 
-  if edFind.Text='' then exit;
-  if not chkHiAll.Enabled then exit;
+  if edFind.Text='' then
+  begin
+    ClearHiAll;
+    exit;
+  end;
+  if not chkHiAll.Enabled then
+  begin
+    ClearHiAll;
+    exit;
+  end;
 
   if edFind.Strings.IsIndexValid(0) then
-    if edFind.Strings.LinesLen[0]<UiOps.FindHiAll_MinInputLen then exit;
+    if edFind.Strings.LinesLen[0]<UiOps.FindHiAll_MinInputLen then
+    begin
+      ClearHiAll;
+      exit;
+    end;
 
   FHiAllEnableFindNext:= AEnableFindNext;
   FOnGetMainEditor(Ed);
@@ -1788,6 +1798,8 @@ var
   NColorBG: TColor;
 begin
   FTimerHiAll.Enabled:= false;
+
+  ClearHiAll;
   if IsHiAll then
   begin
     Finder:= TATEditorFinder.Create;
