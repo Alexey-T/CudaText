@@ -824,7 +824,7 @@
   //Find dialog option "Highlight all matches": maximal line length (lines
   //of bigger length will be not highlighted).
   //Note: RegEx search is not affected.
-  "find_hi_max_line_len": 4000,
+  "find_hi_max_line_len": 800000,
 
   //When search silently wraps at the document edge (because of Find-dialog option "O"),
   //Find-dialog input can blink with specified background color. Value must be the id

@@ -2089,7 +2089,7 @@ begin
     FindMultilineHeight:= 250; //option "find_multiline_height"
     FindSeparateForm:= false; //initially Find dlg is not docked to main dlg
     FindHiAll_MaxLines:= 4000; //option "find_hi_max_lines"
-    FindHiAll_MaxLineLen:= 4000; //option "find_hi_max_line_len"
+    FindHiAll_MaxLineLen:= 800000; //option "find_hi_max_line_len"
     FindHiAll_TagValue:= 99; //attrib-tag for Highlight_all_matches option ('Hi')
     FindOccur_TagValue:= 98; //attrib-tag for 'expand selection to next word' command
                              //tags must be <120, coz GET_UNIQUE_TAG starts with 120
