@@ -1764,6 +1764,9 @@ begin
   if edFind.Text='' then exit;
   if not chkHiAll.Enabled then exit;
 
+  if edFind.Strings.IsIndexValid(0) then
+    if edFind.Strings.LinesLen[0]<UiOps.FindHiAll_MinInputLen then exit;
+
   FHiAllEnableFindNext:= AEnableFindNext;
   FTimerHiAll.Interval:= UiOps.FindHiAll_TimerInterval;
   FTimerHiAll.Enabled:= true;
