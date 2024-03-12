@@ -1576,7 +1576,7 @@ begin
   if UiOps.PyLibrary='' then
     UiOps.PyLibrary:= InitPyLibraryPath;
 
-  UiOps.PictureTypes:= cfg.GetValue('picture_types', UiOps.PictureTypes);
+  //UiOps.PictureTypes:= cfg.GetValue('picture_types', UiOps.PictureTypes);
 
   UiOps.MaxFileSizeToOpen:= cfg.GetValue('ui_max_size_open', UiOps.MaxFileSizeToOpen);
   UiOps.MaxFileSizeToOpen:= Min(UiOps.MaxFileSizeToOpen, 2*1024-1); //because TStream.ReadBuffer is called, it can handle only 32-bit LongInt

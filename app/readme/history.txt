@@ -11,6 +11,7 @@
     * count of lines is controlled by new option "find_hi_timer_lines":2000
     * timer interval is controlled by new option "find_hi_timer_interval":500
 * change: changed default of option "find_hi_max_line_len" from 4k to 800k, because 'find all' is much faster now
+* change: deleted option "picture_types"
 - fix: Windows: forgot to add DLL files libwebp32.dll / libwebp64.dll
 
 1.210.5 (2024/03)
