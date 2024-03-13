@@ -101,7 +101,7 @@ def check_cudatext():
             _('Check for updates'),
             _('Latest CudaText is already here.\n\nLocal: {}\nInternet: {}').format(ver_local, ver_inet),
             [_('OK'), _('Open changelog')],
-            app.MB_ICONQUESTION
+            app.MB_ICONINFO
             )
         if msg_ == 1:
             safe_open_url(CHANGELOG_PAGE)
