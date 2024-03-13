@@ -1535,7 +1535,6 @@ end;
 
 procedure TfmFind.UpdateState(AEnableFindNextForHiOption: boolean);
 var
-  Ed: TATSynEdit;
   bEnabled: boolean;
 begin
   cPadding:= ATEditorScale(4);
@@ -1555,10 +1554,6 @@ begin
   bRepAll.Enabled:= bEnabled and IsReplace and not FForViewer;
   bRepGlobal.Enabled:= bEnabled and IsReplace and not FForViewer;
   bMore.Enabled:= bEnabled and not FForViewer;
-
-  FOnGetMainEditor(Ed);
-  //sometimes, Ed=Nil here (after changing groups 2->1)
-  chkHiAll.Enabled:= bEnabled and Assigned(Ed) and (Ed.Strings.Count<UiOps.FindHiAll_MaxLines);
 
   chkCase.Enabled:= bEnabled;
   chkWords.Enabled:= bEnabled and not chkRegex.Checked and (edFind.Strings.Count<2); //disable "w" for multi-line input
@@ -1782,7 +1777,7 @@ begin
 
   FHiAllEnableFindNext:= AEnableFindNext;
   FOnGetMainEditor(Ed);
-  if Ed.Strings.Count>UiOps.FindHiAll_TimerLines then
+  if Assigned(Ed) and (Ed.Strings.Count>UiOps.FindHiAll_TimerLines) then
   begin
     FTimerHiAll.Interval:= UiOps.FindHiAll_TimerInterval;
     FTimerHiAll.Enabled:= true;

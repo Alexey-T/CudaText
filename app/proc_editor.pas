@@ -2300,52 +2300,73 @@ end;
 procedure EditorHighlightAllMatches(AFinder: TATEditorFinder;
   AEnableFindNext: boolean; out AMatchesCount: integer; ACaretPos: TPoint);
 var
+  Ed: TATSynEdit;
   ColorBorder: TColor;
   StyleBorder: TATLineStyle;
-  SavedCarets: TATCarets;
+  SavedCarets: TATCarets = nil;
+  bOldInSelection: boolean;
   bChanged: boolean;
   bSaveCarets: boolean;
   bSavedWrappedConfirm: boolean;
-  NLineCount: integer;
+  bTooBigDocument: boolean;
+  NLineCount, NLineTop, NLineBottom: integer;
 begin
-  ColorBorder:= GetAppStyle(AppHiAll_ThemeStyleId).BgColor;
+  Ed:= AFinder.Editor;
+  if Ed=nil then exit;
+  NLineCount:= Ed.Strings.Count;
+  if NLineCount=0 then exit;
+  bTooBigDocument:= NLineCount>UiOps.FindHiAll_MaxLines;
+  bOldInSelection:= AFinder.OptInSelection;
 
+  ColorBorder:= GetAppStyle(AppHiAll_ThemeStyleId).BgColor;
   if EditorOps.OpActiveBorderWidth>1 then
     StyleBorder:= TATLineStyle.Solid2px
   else
     StyleBorder:= TATLineStyle.Rounded;
+
+  //CudaText issue #3950.
+  //we save selections before running HighlightAll, later we restore them.
+  bSaveCarets:= (AFinder.OptInSelection and Ed.Carets.IsSelection) or bTooBigDocument;
+  if bSaveCarets then
+  begin
+    SavedCarets:= TATCarets.Create;
+    SavedCarets.Assign(Ed.Carets);
+  end;
+
+  if bTooBigDocument then
+  begin
+    AFinder.OptInSelection:= true;
+    NLineTop:= Max(0, Ed.LineTop-UiOps.FindHiAll_LinesGap);
+    NLineBottom:= Min(NLineCount-1, Ed.LineBottom+UiOps.FindHiAll_LinesGap);
+    Ed.DoCaretSingle(
+      0,
+      NLineTop,
+      Ed.Strings.LinesLen[NLineBottom],
+      NLineBottom
+      );
+  end;
 
   //stage-1: highlight all matches
   AMatchesCount:= AFinder.DoAction_HighlightAllEditorMatches(
     ColorBorder,
     StyleBorder,
     UiOps.FindHiAll_TagValue,
-    UiOps.FindHiAll_MaxLines
+    MaxInt
     );
 
   //stage-2: perform find-next from ACaretPos
   ////if UiOps.FindHiAll_MoveCaret then
-  if AEnableFindNext then
-  begin
-    //CudaText issue #3950.
-    //we save selections before running HighlightAll, later we restore them.
-    bSaveCarets:= AFinder.OptInSelection and AFinder.Editor.Carets.IsSelection;
-    if bSaveCarets then
-      SavedCarets:= TATCarets.Create;
-
-    try
-      if bSaveCarets then
-        SavedCarets.Assign(AFinder.Editor.Carets);
-
+  try
+    if AEnableFindNext then
+    begin
       //we found and highlighted all matches,
       //now we need to do 'find next from caret' like Sublime does
-      NLineCount:= AFinder.Editor.Strings.Count;
       if ACaretPos.Y>=NLineCount then exit;
 
       bSavedWrappedConfirm:= AFinder.OptWrappedConfirm;
       AFinder.OptWrappedConfirm:= false;
       AFinder.OptFromCaret:= true;
-      AFinder.Editor.DoCaretSingle(ACaretPos.X, ACaretPos.Y);
+      Ed.DoCaretSingle(ACaretPos.X, ACaretPos.Y);
 
       if AFinder.DoAction_FindOrReplace(
         false{AReplace},
@@ -2353,7 +2374,7 @@ begin
         bChanged,
         false{AUpdateCaret}
         ) then
-        AFinder.Editor.DoGotoPos(
+        Ed.DoGotoPos(
           AFinder.MatchEdPos,
           AFinder.MatchEdEnd,
           AFinder.IndentHorz,
@@ -2362,14 +2383,15 @@ begin
           TATEditorActionIfFolded.Unfold{ADoUnfold}
           );
 
-      if bSaveCarets then
-        AFinder.Editor.Carets.Assign(SavedCarets);
-
       AFinder.OptWrappedConfirm:= bSavedWrappedConfirm;
-    finally
-      if bSaveCarets then
-        FreeAndNil(SavedCarets);
     end;
+  finally
+    if bSaveCarets then
+    begin
+      Ed.Carets.Assign(SavedCarets);
+      FreeAndNil(SavedCarets);
+    end;
+    AFinder.OptInSelection:= bOldInSelection;
   end;
 end;
 
