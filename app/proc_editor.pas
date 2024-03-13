@@ -2357,12 +2357,10 @@ begin
   //stage-2: perform find-next from ACaretPos
   ////if UiOps.FindHiAll_MoveCaret then
   try
-    if AEnableFindNext then
+    if AEnableFindNext and Ed.Strings.IsIndexValid(ACaretPos.Y) then
     begin
       //we found and highlighted all matches,
       //now we need to do 'find next from caret' like Sublime does
-      if ACaretPos.Y>=NLineCount then exit;
-
       bSavedWrappedConfirm:= AFinder.OptWrappedConfirm;
       AFinder.OptWrappedConfirm:= false;
       AFinder.OptFromCaret:= true;
