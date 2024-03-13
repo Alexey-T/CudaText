@@ -981,6 +981,7 @@ begin
       DoResult(TAppFinderOperation.CloseDlg)
     else
       DoFocusEditor;
+    TimerHiAllTick(nil); //disarm timer, requested at #5353
     key:= 0;
     exit;
   end;
@@ -995,6 +996,7 @@ begin
   if (Str=UiOps.HotkeyFindNext) and (Str<>'Enter') then
   begin
     DoResult(TAppFinderOperation.FindNext);
+    TimerHiAllTick(nil); //disarm timer, requested at #5353
     key:= 0;
     exit
   end;
@@ -1006,6 +1008,7 @@ begin
       DoResult(TAppFinderOperation.Replace)
     else
       DoResult(TAppFinderOperation.FindNext);
+    TimerHiAllTick(nil); //disarm timer, requested at #5353
     key:= 0;
     exit
   end;
@@ -1013,6 +1016,7 @@ begin
   if Str=UiOps.HotkeyFindPrev then
   begin
     DoResult(TAppFinderOperation.FindPrev);
+    TimerHiAllTick(nil); //disarm timer, requested at #5353
     key:= 0;
     exit
   end;
