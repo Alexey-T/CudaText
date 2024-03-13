@@ -53,7 +53,7 @@ object SyntAnal20: TLibSyntAnalyzer
       DisplayName = 'Coord'
       StyleName = 'Coord'
       TokenType = 4
-      Expression = '(?<=^[\x20\x09]*)<[\d\x20\(].*?>:'
+      Expression = '(?<=^[\x20\x09]*)<\(?\x20*\d+\)?>:'
       ColumnFrom = 0
       ColumnTo = 0
     end
