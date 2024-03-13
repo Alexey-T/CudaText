@@ -15,6 +15,7 @@
 * change: changed default of option "find_hi_max_line_len" from 4k to 800k, because 'find all' is much faster now
 * change: deleted option "picture_types"
 - fix: Windows: forgot to add DLL files libwebp32.dll / libwebp64.dll
+- fix: allow plugin Highlight_Occurrences to react also to window maximizing/restoring
 
 1.210.5 (2024/03)
 
