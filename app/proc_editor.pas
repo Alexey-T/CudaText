@@ -2304,10 +2304,10 @@ var
   ColorBorder: TColor;
   StyleBorder: TATLineStyle;
   SavedCarets: TATCarets = nil;
-  bOldInSelection: boolean;
   bChanged: boolean;
   bSaveCarets: boolean;
   bSavedWrappedConfirm: boolean;
+  bSavedInSelection: boolean;
   bTooBigDocument: boolean;
   NLineCount, NLineTop, NLineBottom: integer;
 begin
@@ -2316,7 +2316,7 @@ begin
   NLineCount:= Ed.Strings.Count;
   if NLineCount=0 then exit;
   bTooBigDocument:= NLineCount>UiOps.FindHiAll_MaxLines;
-  bOldInSelection:= AFinder.OptInSelection;
+  bSavedInSelection:= AFinder.OptInSelection;
 
   ColorBorder:= GetAppStyle(AppHiAll_ThemeStyleId).BgColor;
   if EditorOps.OpActiveBorderWidth>1 then
@@ -2391,7 +2391,7 @@ begin
       Ed.Carets.Assign(SavedCarets);
       FreeAndNil(SavedCarets);
     end;
-    AFinder.OptInSelection:= bOldInSelection;
+    AFinder.OptInSelection:= bSavedInSelection;
   end;
 end;
 
