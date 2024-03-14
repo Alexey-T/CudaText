@@ -1700,7 +1700,7 @@ CudaText has the emdedded picture file viewer. Picture mode is activated for fil
 * JPEG, JPG
 * GIF
 * ICO (Windows icon)
-* WEBP, it requires libwebp library (on Windows it is files libwebp32.dll / libwebp64.dll in the application folder)
+* WEBP, it requires libwebp library: on Windows it is file libwebp32.dll / libwebp64.dll in the CudaText folder; on Linux/Unix it is file libwebp.so.6 in system folder
 * PSD (Photoshop image)
 * TGA (Targa)
 * CUR (Windows cursor)
