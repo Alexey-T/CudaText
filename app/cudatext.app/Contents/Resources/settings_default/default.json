@@ -1137,9 +1137,9 @@
   //Otherwise, selection will be like before, shifted.
   "indent_makes_whole_line_sel": false,
 
-  //Auto-indent by Enter: if line matches this reg-ex, make additional indent (from "tab_size").
+  //Auto-indent by Enter: if line matches this RegEx, make additional indent (from "tab_size").
   //Option is for lexer-specific configs, not for user.json config.
-  //Reg-ex is case-sensitive.
+  //RegEx is case-sensitive.
   //You don't need this option for C-like lexers, because Enter inside {} brackets
   //is handled specially.
   "indent_auto_rule": "",
