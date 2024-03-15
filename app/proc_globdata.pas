@@ -4085,6 +4085,7 @@ initialization
   AppConfig_DetectLine.Add('\#!\/bin\/(ba)?sh', 'Bash script');
   AppConfig_DetectLine.Add('\#!\/usr\/bin\/env (ba)?sh', 'Bash script');
   AppConfig_DetectLine.Add('\#!\/usr\/bin\/env python\d*', 'Python');
+  AppConfig_DetectLine.Add('\#!(node|js|bun|osascript\s+-l\s+JavaScript)', 'JavaScript');
 
   AppFrameList1:= TFPList.Create;
   AppFrameList2:= TFPList.Create;
