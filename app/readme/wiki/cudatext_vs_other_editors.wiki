@@ -99,16 +99,16 @@ for n in range(4*1000*1000):
 
 PC is HP Pavilion g6, CPU AMD A10 x64, 4 cores, RAM 8G, Ubuntu 18.04. Each time is average of 2-3 tries in the same session.
 
-* CudaText 1.98: 9 sec.
-* Sublime Text 3.2: 11.5 sec.
-* Geany 1.32: 6.5 sec., jump to end: additional 4-5 sec.
-* Kate 17.12.3: 7 sec.
-* gedit 3.28.1: 1 min 10 sec.
-* Vim 8.0, NeoVim 0.2.2: 3 sec.
-* Emacs GUI 25.2.2: 2 sec., after showing confirmation for big file
-* Bluefish 2.2.10: 24 sec.
+* CudaText 1.98: 9 sec
+* Sublime Text 3.2: 11.5 sec
+* Geany 1.32: 6.5 sec, jump to file end: additional 4-5 sec
+* Kate 17.12.3: 7 sec
+* gedit 3.28.1: 1 min 10 sec
+* Vim 8.0, NeoVim 0.2.2: 3 sec
+* Emacs GUI 25.2.2: 2 sec, after showing confirmation for big file
+* Bluefish 2.2.10: 24 sec
 
-==Performance on huge lines==
+==Performance of editing huge lines==
 
 It's interesting how some Linux editors handle huge lines. Tested several editors on Ubuntu 19.10 on Intel i3 CPU. With XML file with a single line of length 4M. XML file contains line like <id name="nnnnnnnnnnnnnnn"> with the huge "name" value of 4M.
 
@@ -123,21 +123,25 @@ for n in range(1, 4096):
 f.write('">\n')
 </syntaxhighlight>
 
-*    CudaText 1.96. Opens file: 1.5sec. Caret moves at the end of line: very fast (<0.1sec). Editing of this line: adding each char is about 0.5sec.
+* CudaText 1.96. Opens file: 1.5 sec. Caret moves at the end of line: very fast (<0.1 sec). Editing of this line: adding each char is about 0.5 sec.
 
-*    Sublime Text 3.2. Opens file: 2sec. Caret moves at the end of line: each Left/Right arrow is 0.5sec delay. Editing of this line: not fast.
+* Sublime Text 3.2. Opens file: 2 sec. Caret moves at the end of line: each Left/Right arrow is 0.5 sec delay. Editing of this line: not fast.
 
-*    Geany 1.35. Opens file: about 10sec, then for next 5-10sec I cannot place caret by mouse, then it works. Caret moves at line begin: fast, caret moves at line end: slow (delay 0.5sec after each Left/Right key). Editing at the end: adding each char is about 6sec.
+* Geany 1.35. Opens file: about 10 sec, then for next 5-10 sec I cannot place caret by mouse, then it works. Caret moves at line begin: fast, caret moves at line end: slow (delay 0.5 sec after each Left/Right key). Editing at the end: adding each char is about 6 sec.
 
-*    Kate 19.04. Gives colored panel "The file ... was opened and contained lines longer than ... The lines were wrapped and document is set to read-only mode...". Caret moves at the end of wrapped doc: fast. Editing is disabled.
+* Kate 19.04. Gives colored panel "The file ... was opened and contained lines longer than ... The lines were wrapped and document is set to read-only mode...". Caret moves at the end of wrapped doc: fast. Editing is disabled.
 
-*    gedit 3.34. Hanged on opening file (from command line and from editor), waited it for 20sec.
+* gedit 3.34. Hanged on opening file (from command line and from editor), waited it for 20 sec.
 
-*    Vim 8.0. Opens file: 2-3sec. In word-wrapped mode. Caret moves at the end of line: each Left/Right command (Vim hotkeys) is 2sec delay. Editing of this line: adding each char is about 3sec.
+* Vim 8.0. Opens file: 2-3 sec. In word-wrapped mode. Caret moves at the end of line: each Left/Right command (Vim hotkeys) is 2 sec delay. Editing of this line: adding each char is about 3 sec.
 
-*    Emacs 26.3 GUI. Opens file: 1sec. In word-wrapped mode. With the statusbar error "Internal error in rng-validate-mode triggered at buffer position 10. Stack overflow in regexp matcher". Pressing Ctrl+End to move to end: editor hanged with "wait" cursor.
+* Emacs 26.3 GUI. Opens file: 1 sec. In word-wrapped mode. With the statusbar error "Internal error in rng-validate-mode triggered at buffer position 10. Stack overflow in regexp matcher". Pressing Ctrl+End to move to end: editor hanged with "wait" cursor.
 
-*    Bluefish 2.2.10. On opening file, gives the warning about too long lines, on choosing "don't split lines" it hanged, waited for 30sec.
+* Bluefish 2.2.10. On opening file, gives the warning about too long lines, on choosing "don't split lines" it hanged, waited for 30 sec.
+
+==Performance of search/replace in huge lines==
+
+
 
 ==Performance of built-in sorting==
 
@@ -145,16 +149,16 @@ Test on ~100M text file with short ASCII lines.
 Test on Ubuntu 19.10 on Intel i3 CPU.
 
 CudaText 1.97:
-* sort time: 18sec
-* sort time with ignoring case: 19sec
-* memory used after file loading: ~1.0G
-* peak memory used on sorting: the same (inplace sorting in the same list)
+* sort time of command palette command "(without undo) sort asc.": 18 sec
+* sort time of command palette command "(without undo) sort asc., ignore case": 19 sec
+* memory used after file loading: ~1.0 G
+* peak memory used on sorting: the same (because sorting is inplace, in the same list)
 
 Sublime Text 3.2:
-* sort time: 14sec
-* sort time with ignoring case: 16sec
-* memory used after file loading: ~1.3G
-* peak memory used on sorting: ~3.3G
+* sort time: 14 sec
+* sort time with ignoring case: 16 sec
+* memory used after file loading: ~1.3 G
+* peak memory used on sorting: ~3.3 G
 
 =CudaText vs Sublime Text, different answers to questions=
 
@@ -163,6 +167,8 @@ Sublime Text 3.2:
 ST3: Use feature of editor called "build systems".
 
 CudaText: Use plugin "External Tools", which adds "Tools" item to the top menu. Or: use plugin "Runner". Both plugins are described here: [[CudaText_plugins]].
+
+Alternative answer for CudaText: Use plugin "Runner" which handles build-systems almost compatible with Sublime's build-systems.
 
 ==How to change settings for one OS only?==
 
