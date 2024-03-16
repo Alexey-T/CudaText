@@ -105,10 +105,14 @@ The key:value pairs in the <code>"detect_line"</code> object in <code>user.json<
 * Key value: Lexer name. As noted earlier, a value of <code>-</code> means "don't activate a lexer".
 
 CudaText has several default values:
-* <syntaxhighlight lang="json" inline>"<\?xml .+": "XML"</syntaxhighlight>
-* <syntaxhighlight lang="json" inline>"\#!\/bin\/(ba)?sh": "Bash script"</syntaxhighlight>
-* <syntaxhighlight lang="json" inline>"\#!\/usr\/bin\/env (ba)?sh": "Bash script"</syntaxhighlight>
-* <syntaxhighlight lang="json" inline>"\#!\/usr\/bin\/env python\d*": "Python"</syntaxhighlight>
+
+<syntaxhighlight lang="json">
+"<\?xml .+": "XML",
+"\#!\/bin\/(ba)?sh": "Bash script",
+"\#!\/usr\/bin\/env (ba)?sh": "Bash script",
+"\#!\/usr\/bin\/env python\d*": "Python",
+"\#!.*\b(node|js|bun|osascript\s+-l\s+JavaScript)": "JavaScript",
+</syntaxhighlight>
 
 === Plugins menu custom groupings ===
 <syntaxhighlight lang="json" style="float: right; margin-left: 3em; margin-right: 3em; width: 20vw;">{
