@@ -10,7 +10,7 @@
 + add: when option "find_hi_max_lines" limit is over, still highlight occurrences, but only in the visible editor area; button "Hi" in the Find dialog is not disabled anymore (thanks @pintassilgo)
 + add: lexer 'Search results' better supports code-tree
 + add: after inserting line-break by Enter line became space-only? then make it empty. like Sublime (thanks @pintassilgo)
-+ add: detection of JS scripts by 'shebang', like '#!node'
++ add: detection of JS scripts by 'shebang', like '#!/usr/bin/node'
 
 * change: Find dialog: on typing in input field with 'big' document (count of lines > 2000), Highlight_All action is started not immediately, but by timer (thanks @pintassilgo)
     * count of lines is controlled by new option "find_hi_timer_lines":2000
