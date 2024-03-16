@@ -132,11 +132,11 @@ f.write('">\n')
 
 * Kate 23.08.4. Gives colored panel "The file ... was opened and contained lines longer than ... Those lines were wrapped and the document is set to read-only mode ...". Caret moves at the end of wrapped line: fast. But editing is disabled.
 
-* gedit 3.36.2. Hanged on opening file (from command line and from GUI), waited it for 20 sec.
-
 * Vim 8.1. Opens file: 1 sec. In word-wrapped mode and with partially colored line. Caret moves at the end of line: each Left/Right command (Vim hotkeys) is 2 sec delay. Editing of this line: adding each char is about 3 sec.
 
 * Emacs 29.2 GUI. Opens file: 3 sec. Caret moves at the end of line: very fast. Editing of this line: adding each char is instant.
+
+* gedit 3.36.2. Hanged on opening file (from command line and from GUI), waited it for 20 sec.
 
 * Bluefish 2.2.11. On opening file, gives the warning about too long lines, on choosing "don't split lines" it hanged, waited for 30 sec.
 
