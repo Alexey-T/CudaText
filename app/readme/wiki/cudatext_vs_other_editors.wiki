@@ -88,8 +88,9 @@ CudaText starts quite fast: about 0.3 sec with about 30 plugins (all preinstalle
 
 ==Performance of loading huge files==
 
-It's interesting how fast Linux editors open huge log files.
-Test file has about 300M size, 4M ASCII lines, it's created by Python script:
+How fast Linux editors open huge files?
+
+Test file has about 300M size, it has 4M ASCII lines, it's created by Python script:
 <syntaxhighlight lang="python">
 f = open("a.log", "w")
 for n in range(4*1000*1000):
@@ -97,16 +98,15 @@ for n in range(4*1000*1000):
     f.write(str(n+1)+' '+chr(k%26+ord('a'))*k+'\n')
 </syntaxhighlight>
 
-PC is HP Pavilion g6, CPU AMD A10 x64, 4 cores, RAM 8G, Ubuntu 18.04. Each time is average of 2-3 tries in the same session.
+Testing on Ubuntu 20.04, CPU: Intel Core i3 3GHz, RAM: 12G. Each time is average of 2-3 tries in the same session.
 
-* CudaText 1.98: 9 sec
-* Sublime Text 3.2: 11.5 sec
-* Geany 1.32: 6.5 sec, jump to file end: additional 4-5 sec
-* Kate 17.12.3: 7 sec
-* gedit 3.28.1: 1 min 10 sec
-* Vim 8.0, NeoVim 0.2.2: 3 sec
-* Emacs GUI 25.2.2: 2 sec, after showing confirmation for big file
-* Bluefish 2.2.10: 24 sec
+* CudaText 1.211.0: 8 sec
+* Sublime Text 4 4169: 8 sec
+* Geany 1.36: hangs, waited for it 90 sec
+* Kate 23.08.4: 5 sec, then go to end (Ctrl+End hotkey) took additional 30 sec
+* Vim 8.1.1847: 2 sec
+* Emacs GUI 29.2: 2 sec, after showing confirmation for big file
+* gedit 3.36.2: 19 sec, then go to end (Ctrl+End hotkey) hangs: waited for it 100 sec
 
 ==Performance of editing huge lines==
 
@@ -124,7 +124,7 @@ for n in range(1, 4096):
 f.write('">\n')
 </syntaxhighlight>
 
-* CudaText 1.211. Opens file: 1 sec. Caret moves at the end of line: very fast (<0.1 sec). Editing of this line: adding each char is about 0.1-0.2 sec.
+* CudaText 1.211.0. Opens file: 1 sec. Caret moves at the end of line: very fast (<0.1 sec). Editing of this line: adding each char is about 0.1-0.2 sec.
 
 * Sublime Text 4 4169. Opens file: 1 sec. Caret moves at the end of line: very fast (0.1-0.2 sec). Editing of this line: adding each char is about 0.1-0.2 sec.
 
