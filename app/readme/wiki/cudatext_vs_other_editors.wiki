@@ -139,9 +139,18 @@ f.write('">\n')
 
 * Bluefish 2.2.10. On opening file, gives the warning about too long lines, on choosing "don't split lines" it hanged, waited for 30 sec.
 
-==Performance of search/replace in huge lines==
+==Performance of mass replace in huge lines==
 
+Compared a few editors in the task of replacing 25K single-char matches by two-chars-string in a 1.5MB file with a line with 800K chars.
+Running on Linux x64, CPU: Ryzen 5 1600, RAM: 32GB.
+Results:
 
+* SciTE 5.4.1: after 6min I could see the replaced text, but editor was still unresponsive (frozen). Awaited 6 more minutes and nothing changed, so I had to kill the window/process.
+* Kate 23.08.4: complained about line length, took a long time to open the file, very poor performance while it was open... I couldn't even try replacing, it was unusable.
+* Sublime Text 4 4169: crashed after 4 min processing the replace.
+* Sublime Text 3.2.2: it took 2 min 30 sec to replace, the best one after CudaText.
+* Notepad++ 8.6.4 with Wine: froze while replacing. I waited for 6 minutes but was still unable to do anything after that, so I had to quit.
+* CudaText 1.211.0: did the task in 1 second.
 
 ==Performance of built-in sorting==
 
