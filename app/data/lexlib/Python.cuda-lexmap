@@ -11,6 +11,7 @@ Symbol=Symbol
 Comment=Comment
 Id=Id
 Id keyword=Id1
+Id keyword import=Id1
 Id keyword def=IdKeyword
 Id function=Id4
 Id func name=Label

@@ -49,6 +49,14 @@ object SyntAnal16: TLibSyntAnalyzer
       Font.Style = []
     end
     item
+      DisplayName = 'Id keyword import'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clNavy
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
       DisplayName = 'Id keyword def'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
@@ -328,6 +336,21 @@ object SyntAnal16: TLibSyntAnalyzer
       HighlightPos = cpAny
       IgnoreAsParent = False
     end
+   item
+      DisplayName = 'Keywords import'
+      StyleName = 'Id keyword import'
+      BlockType = btTagDetect
+      ConditionList = <
+        item
+          TagList.Strings = (
+            'as'
+            'from'
+            'import')
+          TokenTypes = 516
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end
     item
       DisplayName = 'Keywords'
       StyleName = 'Id keyword'
@@ -336,7 +359,6 @@ object SyntAnal16: TLibSyntAnalyzer
         item
           TagList.Strings = (
             'and'
-            'as'
             'assert'
             'async'
             'await'
@@ -348,9 +370,7 @@ object SyntAnal16: TLibSyntAnalyzer
             'except'
             'finally'
             'for'
-            'from'
             'if'
-            'import'
             'in'
             'is'
             'not'
