@@ -81,6 +81,14 @@ object SyntAnal16: TLibSyntAnalyzer
       Font.Style = []
     end
     item
+      DisplayName = 'Id named literals'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clPurple
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
       DisplayName = 'Id exception'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clOlive
@@ -461,8 +469,6 @@ object SyntAnal16: TLibSyntAnalyzer
             'bytes'
             'complex'
             'dict'
-            'Ellipsis'
-            'False'
             'file'
             'float'
             'frozenset'
@@ -470,14 +476,29 @@ object SyntAnal16: TLibSyntAnalyzer
             'list'
             'long'
             'memoryview'
-            'None'
             'object'
             'set'
             'slice'
             'str'
-            'True'
             'tuple'
             'unicode')
+          TokenTypes = 516
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'Named literals'
+      StyleName = 'Id named literals'
+      BlockType = btTagDetect
+      ConditionList = <
+        item
+          TagList.Strings = (
+            'Ellipsis'
+            'False'
+            'None'
+            'NotImplemented'
+            'True')
           TokenTypes = 516
         end>
       HighlightPos = cpAny
@@ -527,7 +548,6 @@ object SyntAnal16: TLibSyntAnalyzer
             'ModuleNotFoundError'
             'NameError'
             'NotADirectoryError'
-            'NotImplemented'
             'NotImplementedError'
             'OSError'
             'OverflowError'
