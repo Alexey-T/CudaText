@@ -199,7 +199,7 @@ object SyntAnal16: TLibSyntAnalyzer
       DisplayName = 'Id func name'
       StyleName = 'Id func name'
       TokenType = 13
-      Expression = '(?r-i)(?<=\bclass\x20+)\w+ |'#13#10'(?r-i)(?<=\bdef\x20+)\w+'
+      Expression = '(?r-i)(?<=\bclass\x20+)\w+ |(?r-i)(?<=\bfrom\x20+)[\w.]+|'#13#10'(?r-i)(?<=\bdef\x20+)\w+'
       ColumnFrom = 0
       ColumnTo = 0
     end
