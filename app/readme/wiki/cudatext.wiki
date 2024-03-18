@@ -2105,7 +2105,7 @@ There are two kinds of themes:
 
 Two dialogs allow to paint these kinds of themes. To paint a theme:
 
-* Call dialog: "Options / Settings - more / Settings - theme - nnnnn"
+* Call dialog: "Options / Settings - theme - nnnn"
 * For UI themes: customize colors in dialog
 * For syntax themes: customize lexer-styles in dialog
 * For syntax themes: test theme at least on JavaScript/HTML/CSS/C/Pascal/Ini/Markdown lexers. On what files to test:
