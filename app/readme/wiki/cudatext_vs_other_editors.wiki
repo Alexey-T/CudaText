@@ -146,7 +146,7 @@ Compared a few editors in the task of replacing 25K single-char matches by two-c
 Running on Linux x64, CPU: Ryzen 5 1600, RAM: 32GB.
 Results:
 
-* SciTE 5.4.1: after 6min I could see the replaced text, but editor was still unresponsive (frozen). Awaited 6 more minutes and nothing changed, so I had to kill the window/process.
+* SciTE 5.4.1: after 6 min I could see the replaced text, but editor was still unresponsive (frozen). Awaited 6 more minutes and nothing changed, so I had to kill the window/process.
 * Kate 23.08.4: complained about line length, took a long time to open the file, very poor performance while it was open... I couldn't even try replacing, it was unusable.
 * Sublime Text 4 4169: crashed after 4 min processing the replace.
 * Sublime Text 3.2.2: it took 2 min 30 sec to replace, the best one after CudaText.
