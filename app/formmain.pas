@@ -1257,6 +1257,7 @@ var
 implementation
 
 uses
+  fptimer,
   Emmet,
   EmmetHelper,
   TreeHelpers_Base,

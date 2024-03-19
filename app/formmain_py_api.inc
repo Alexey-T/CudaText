@@ -9124,7 +9124,7 @@ var
   NIdAction, NInterval, N: integer;
   PtrCallback, PtrTag: PChar;
   StrCallback, StrTag: string;
-  Timer: TTimer;
+  Timer: TFPTimer;
   Obj: TObject;
   SAll, SItem: string;
 begin
@@ -9148,7 +9148,7 @@ begin
         SSplitByChar(AppListTimers[N], '|', SItem, SAll);
         if SItem=StrCallback then
         begin
-          Timer:= TTimer(AppListTimers.Objects[N]);
+          Timer:= TFPTimer(AppListTimers.Objects[N]);
           //timer already exists? update its tag to new value StrTag
           AppListTimers[N]:= StrCallback+'|'+StrTag;
           Break
@@ -9164,7 +9164,7 @@ begin
 
             if Timer=nil then
             begin
-              Timer:= TTimer.Create(fmMain);
+              Timer:= TFPTimer.Create(fmMain);
               Timer.OnTimer:= @fmMain.DoPyTimerTick;
               AppListTimers.AddObject(StrCallback+'|'+StrTag, Timer);
             end;

@@ -557,11 +557,11 @@ end;
 
 procedure TfmMain.DoPyTimerTick(Sender: TObject);
 var
-  Timer: TTimer;
+  Timer: TFPTimer;
   SCallback, STag: string;
   NIndex: integer;
 begin
-  Timer:= Sender as TTimer;
+  Timer:= Sender as TFPTimer;
   NIndex:= AppListTimers.IndexOfObject(Timer);
   if NIndex<0 then exit;
 
