@@ -406,6 +406,7 @@ TYPES = {
     "rjs": ['Ruby'],
     "rkt": ['Racket'],
     "rl": ['Ragel'],
+    "roc": ['Roc'],
     "ron": ['RON'],
     "rpg": ['RPG_IV'],
     "rpgle": ['RPG_IV'],
