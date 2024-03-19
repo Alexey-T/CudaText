@@ -159,8 +159,8 @@ Test on ~100M text file with short ASCII lines.
 Test on Ubuntu 19.10 on Intel i3 CPU.
 
 CudaText 1.97:
-* sort time of command palette command "(without undo) sort asc.": 18 sec
-* sort time of command palette command "(without undo) sort asc., ignore case": 19 sec
+* sort time of Command Palette command "(without undo) sort asc.": 18 sec
+* sort time of Command Palette command "(without undo) sort asc., ignore case": 19 sec
 * memory used after file loading: ~1.0 G
 * peak memory used on sorting: the same (because sorting is inplace, in the same list)
 
