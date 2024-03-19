@@ -14,7 +14,9 @@ unit FormMain;
 {$IFDEF DEBUG}
 {$INLINE OFF}
 {$ENDIF}
-//{$define debug_on_lexer}
+
+{.$define debug_on_lexer}
+{.$define ApiTimerFP}
 
 interface
 
@@ -1257,7 +1259,9 @@ var
 implementation
 
 uses
+  {$ifdef ApiTimerFP}
   fptimer,
+  {$endif}
   Emmet,
   EmmetHelper,
   TreeHelpers_Base,

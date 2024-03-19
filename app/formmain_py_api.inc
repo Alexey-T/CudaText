@@ -9117,6 +9117,14 @@ begin
 end;
 
 
+{$ifdef ApiTimerFP}
+type
+  TAppApiTimer = TFPTimer;
+{$else}
+type
+  TAppApiTimer = TTimer;
+{$endif}
+
 function api_timer_proc(Self, Args: PPyObject): PPyObject; cdecl;
 const
   cMinInterval = 10;
@@ -9124,8 +9132,7 @@ var
   NIdAction, NInterval, N: integer;
   PtrCallback, PtrTag: PChar;
   StrCallback, StrTag: string;
-  Timer: TFPTimer;
-  Obj: TObject;
+  Timer: TAppApiTimer;
   SAll, SItem: string;
 begin
   with AppPython.Engine do
@@ -9148,7 +9155,7 @@ begin
         SSplitByChar(AppListTimers[N], '|', SItem, SAll);
         if SItem=StrCallback then
         begin
-          Timer:= TFPTimer(AppListTimers.Objects[N]);
+          Timer:= TAppApiTimer(AppListTimers.Objects[N]);
           //timer already exists? update its tag to new value StrTag
           AppListTimers[N]:= StrCallback+'|'+StrTag;
           Break
@@ -9164,7 +9171,7 @@ begin
 
             if Timer=nil then
             begin
-              Timer:= TFPTimer.Create(fmMain);
+              Timer:= TAppApiTimer.Create(fmMain);
               Timer.OnTimer:= @fmMain.DoPyTimerTick;
               AppListTimers.AddObject(StrCallback+'|'+StrTag, Timer);
             end;
