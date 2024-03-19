@@ -3860,8 +3860,32 @@ begin
 end;
 
 procedure TfmMain.FrameOnEditorScroll(Sender: TObject);
+var
+  Ed, SavedEd: TATSynEdit;
+  SavedStr: UnicodeString;
+  NMatchCount: integer;
 begin
   DoTooltipHide;
+
+  Ed:= Sender as TATSynEdit;
+  if Assigned(fmFind) and fmFind.IsHiAll and (Ed.Strings.Count>UiOps.FindHiAll_MaxLines) then
+  begin
+    SavedEd:= FFinder.Editor;
+    SavedStr:= FFinder.StrFind;
+
+    FFinder.Editor:= Ed;
+    FFinder.StrFind:= fmFind.edFind.Text;
+    Ed.Attribs.DeleteWithTag(UiOps.FindHiAll_TagValue);
+    EditorHighlightAllMatches(
+      FFinder,
+      false,
+      NMatchCount,
+      Point(0, 0)
+      );
+
+    FFinder.Editor:= SavedEd;
+    FFinder.StrFind:= SavedStr;
+  end;
 end;
 
 procedure TfmMain.FrameOnMsgStatus(Sender: TObject; const AStr: string);

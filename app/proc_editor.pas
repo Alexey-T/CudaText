@@ -2309,7 +2309,7 @@ var
   bSavedWrappedConfirm: boolean;
   bSavedInSelection: boolean;
   bTooBigDocument: boolean;
-  NLineCount, NLinesGap,
+  NLineCount, NLineDebugDelta,
   NLineTop, NLineBottom: integer;
 begin
   Ed:= AFinder.Editor;
@@ -2337,9 +2337,9 @@ begin
   if bTooBigDocument then
   begin
     AFinder.OptInSelection:= true;
-    NLinesGap:= Max(0, (UiOps.FindHiAll_MaxLines-Ed.GetVisibleLines) div 2);
-    NLineTop:= Max(0, Ed.LineTop-NLinesGap);
-    NLineBottom:= Min(NLineCount-1, Ed.LineBottom+NLinesGap);
+    NLineDebugDelta:= 0; //if >0 - it's debug
+    NLineTop:= Max(0, Ed.LineTop+NLineDebugDelta);
+    NLineBottom:= Min(NLineCount-1, Ed.LineBottom-NLineDebugDelta);
     Ed.DoCaretSingle(
       0,
       NLineTop,
