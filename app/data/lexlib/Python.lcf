@@ -809,7 +809,7 @@ object SyntAnal16: TLibSyntAnalyzer
     'smk vpy wscript bazel bzl'
   LexerName = 'Python'
   Notes.Strings = (
-    'Python lexer by Alexey (CudaText)')
+    'Alexey Torgashin (CudaText)')
   RestartFromLineStart = True
   LineComment = '#'
   Charset = DEFAULT_CHARSET
