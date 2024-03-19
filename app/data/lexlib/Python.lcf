@@ -763,10 +763,10 @@ object SyntAnal16: TLibSyntAnalyzer
     'from urllib.parse import urlsplit, urlunparse as unparse'
     'str = r'#39'\test\test'#39' + u'#39'test'#39' + r"\test"'
     'func = lambda x: x'
-    'func_str = f'function is defined as {func}'
-    'some_builtins = [None, False, list, bool, sorted, isinstance]
+    'func_str = f"function is defined as {func}"'
+    'some_builtins = [None, False, list, bool, sorted, isinstance]'
     ''
-    'def func(num):      #cmt  '
+    'def func(num): #cmt'
     '    for n in range(len(sys.argv)):'
     '        print("Arg %s" % s)'
     '        if n>2:'
