@@ -3,6 +3,10 @@
   - fixed
   * changed
 
+1.211.1 (2024/03)
+
++ add/change: when find-dialog "Hi" option is on, and document is too big (option "find_hi_max_lines"), show Hi_All marks only for the visible screen area and update marks on scrolling; it should not slow down editor significantly (thanks @pintassilgo) 
+
 1.211.0 (2024/03)
 
 + add: text search without RegEx has big speedup on huge lines; e.g. for line len=400K, with 25K matches, 'Count all'/'Select all'/'Mark all' are improved from ~30 sec to ~0.5 sec
