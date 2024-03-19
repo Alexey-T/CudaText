@@ -526,6 +526,7 @@ The following lexers (counting only important ones) exist for CudaText. They are
 * ReScript
 * reStructuredText
 * Rexx
+* Roc
 * RON
 * RPG/IV
 * RTF (Rich Text)
