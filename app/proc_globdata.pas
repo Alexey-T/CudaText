@@ -786,6 +786,7 @@ procedure MsgFileFromSessionNotFound(const fn: string);
 function AppListboxItemHeight(AScale, ADoubleHeight: boolean): integer;
 procedure AppUpdateWatcherFrames(AMaxWorkTime: integer = 500);
 procedure AppStopListTimers;
+function AppFormatTimeInMilliseconds(const N: QWord): string;
 
 procedure FixFormPositionToDesktop(F: TForm);
 procedure FixRectPositionToDesktop(var F: TRect);
@@ -4039,6 +4040,14 @@ begin
     L.AddObject(AKey, TObject(PtrInt(AValue)));
 end;
 
+
+function AppFormatTimeInMilliseconds(const N: QWord): string;
+begin
+  if N>=1000 then
+    Result:= IntToStr(N div 1000)+'s'+IntToStr(N mod 1000)+'ms'
+  else
+    Result:= IntToStr(N)+'ms';
+end;
 
 
 initialization
