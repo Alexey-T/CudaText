@@ -373,6 +373,7 @@ type
     FindHiAll_MinInputLen: integer;
     FindHiAll_MaxLines: integer;
     FindHiAll_MaxLineLen: integer;
+    FindHiAll_LongLineLen: integer;
     FindHiAll_TagValue: Int64;
     //FindHiAll_MoveCaret: boolean;
     FindOccur_TagValue: Int64;
@@ -2097,6 +2098,7 @@ begin
     FindHiAll_MinInputLen:= 1; //minimal count of chars in Find-dlg input to start Hi_All action
     FindHiAll_MaxLines:= 4000; //option "find_hi_max_lines"
     FindHiAll_MaxLineLen:= 800000; //option "find_hi_max_line_len"
+    FindHiAll_LongLineLen:= 500; //if ScrollHorz.NMax>value, Hi_All highlights only marks on visible line area
     FindHiAll_TagValue:= 99; //attrib-tag for Highlight_all_matches option ('Hi')
     FindOccur_TagValue:= 98; //attrib-tag for 'expand selection to next word' command
                              //tags must be <120, coz GET_UNIQUE_TAG starts with 120

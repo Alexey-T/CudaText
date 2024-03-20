@@ -3879,7 +3879,11 @@ begin
   DoTooltipHide;
 
   Ed:= Sender as TATSynEdit;
-  if Assigned(fmFind) and fmFind.IsHiAll and (Ed.Strings.Count>UiOps.FindHiAll_MaxLines) then
+  if Assigned(fmFind) and fmFind.IsHiAll and
+    (
+    (Ed.Strings.Count>UiOps.FindHiAll_MaxLines) or
+    (Ed.ScrollHorz.NMax>UiOps.FindHiAll_LongLineLen)
+    ) then
   begin
     SavedEd:= FFinder.Editor;
     SavedStr:= FFinder.StrFind;

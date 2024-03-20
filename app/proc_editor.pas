@@ -2301,6 +2301,7 @@ procedure EditorHighlightAllMatches(AFinder: TATEditorFinder;
   AEnableFindNext: boolean; out AMatchesCount: integer; ACaretPos: TPoint);
 var
   Ed: TATSynEdit;
+  St: TATStrings;
   ColorBorder: TColor;
   StyleBorder: TATLineStyle;
   SavedCarets: TATCarets = nil;
@@ -2309,14 +2310,22 @@ var
   bSavedWrappedConfirm: boolean;
   bSavedInSelection: boolean;
   bTooBigDocument: boolean;
-  NLineCount, NLineDebugDelta,
-  NLineTop, NLineBottom: integer;
+  NLineCount,
+  NLineTop, NLineBottom,
+  NColumnLeft, NColumnRight,
+  iLine, NLineLen: integer;
+const
+  cVertDelta = 0; //if >0: it's debug
+  cHorzDelta = 5;
 begin
   Ed:= AFinder.Editor;
   if Ed=nil then exit;
-  NLineCount:= Ed.Strings.Count;
+  St:= Ed.Strings;
+  NLineCount:= St.Count;
   if NLineCount=0 then exit;
-  bTooBigDocument:= NLineCount>UiOps.FindHiAll_MaxLines;
+  bTooBigDocument:=
+    (NLineCount>UiOps.FindHiAll_MaxLines) or
+    (Ed.ScrollHorz.NMax>UiOps.FindHiAll_LongLineLen);
   bSavedInSelection:= AFinder.OptInSelection;
 
   ColorBorder:= GetAppStyle(AppHiAll_ThemeStyleId).BgColor;
@@ -2337,15 +2346,32 @@ begin
   if bTooBigDocument then
   begin
     AFinder.OptInSelection:= true;
-    NLineDebugDelta:= 0; //if >0 - it's debug
-    NLineTop:= Max(0, Ed.LineTop+NLineDebugDelta);
-    NLineBottom:= Min(NLineCount-1, Ed.LineBottom-NLineDebugDelta);
-    Ed.DoCaretSingle(
-      0,
-      NLineTop,
-      Ed.Strings.LinesLen[NLineBottom],
-      NLineBottom
-      );
+    NLineTop:= Max(0, Ed.LineTop+cVertDelta);
+    NLineBottom:= Min(NLineCount-1, Ed.LineBottom-cVertDelta);
+    if Ed.OptWrapMode<>TATEditorWrapMode.ModeOff then
+      Ed.DoCaretSingle(
+        0,
+        NLineTop,
+        St.LinesLen[NLineBottom],
+        NLineBottom)
+    else
+    begin
+      NColumnLeft:= Max(0, Ed.ScrollHorz.NPos-cHorzDelta);
+      NColumnRight:= NColumnLeft+Ed.GetVisibleColumns+cHorzDelta*3;
+      Ed.Carets.Clear;
+      for iLine:= NLineTop to NLineBottom do
+        if St.IsIndexValid(iLine) then
+        begin
+          NLineLen:= St.LinesLen[iLine];
+          Ed.Carets.Add(
+            Min(NLineLen, NColumnLeft),
+            iLine,
+            Min(NLineLen, NColumnRight),
+            iLine,
+            false
+            );
+        end;
+    end;
   end;
 
   //stage-1: highlight all matches
