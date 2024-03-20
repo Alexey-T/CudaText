@@ -818,7 +818,10 @@
   "find_indent_horz": 10,
 
   //Find dialog option "Highlight all matches": maximal count of document lines,
-  //for which "Highlight all matches" still works.
+  //for which "Highlight all matches" processes the entire document. For bigger
+  //documents, app will behave differently: it will highlight marks only in the
+  //visible editor area, and update marks on scrolling (should not slow down
+  //editor significantly).
   "find_hi_max_lines": 4000,
 
   //Find dialog option "Highlight all matches": maximal line length (lines
