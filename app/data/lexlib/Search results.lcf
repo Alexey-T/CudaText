@@ -50,6 +50,14 @@ object SyntAnal20: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
+      DisplayName = 'Coord 2'
+      StyleName = 'Coord'
+      TokenType = 4
+      Expression = '(?<=^[\x20\x09]*)<[^>]*?:\x20*\d+>:'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
       DisplayName = 'Coord'
       StyleName = 'Coord'
       TokenType = 4
@@ -93,7 +101,7 @@ object SyntAnal20: TLibSyntAnalyzer
       NameFmt = '%s0'
       RefToCondEnd = True
       HighlightPos = cpAny
-      GroupIndex = 20
+      GroupIndex = 21
       CollapseFmt = '%s0'
       IgnoreAsParent = False
     end
@@ -107,7 +115,7 @@ object SyntAnal20: TLibSyntAnalyzer
       NameFmt = '%s0'
       RefToCondEnd = True
       HighlightPos = cpAny
-      GroupIndex = 20
+      GroupIndex = 21
       CollapseFmt = '%s0'
       IgnoreAsParent = False
     end
@@ -121,7 +129,7 @@ object SyntAnal20: TLibSyntAnalyzer
       DisplayInTree = False
       RefToCondEnd = True
       HighlightPos = cpAny
-      GroupIndex = 20
+      GroupIndex = 21
       IgnoreAsParent = False
     end>
   CodeTemplates = <>
