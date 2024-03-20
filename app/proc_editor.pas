@@ -2325,7 +2325,7 @@ begin
   if NLineCount=0 then exit;
   bTooBigDocument:=
     (NLineCount>UiOps.FindHiAll_MaxLines) or
-    (Ed.ScrollHorz.NMax>UiOps.FindHiAll_LongLineLen);
+    (Ed.ScrollHorz.NMax>UiOps.FindHiAll_MaxVisibleColumns);
   bSavedInSelection:= AFinder.OptInSelection;
 
   ColorBorder:= GetAppStyle(AppHiAll_ThemeStyleId).BgColor;

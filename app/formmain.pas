@@ -3882,7 +3882,7 @@ begin
   if Assigned(fmFind) and fmFind.IsHiAll and
     (
     (Ed.Strings.Count>UiOps.FindHiAll_MaxLines) or
-    (Ed.ScrollHorz.NMax>UiOps.FindHiAll_LongLineLen)
+    (Ed.ScrollHorz.NMax>UiOps.FindHiAll_MaxVisibleColumns)
     ) then
   begin
     SavedEd:= FFinder.Editor;
