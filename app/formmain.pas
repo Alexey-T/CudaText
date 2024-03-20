@@ -3664,8 +3664,14 @@ procedure TfmMain.FormShow(Sender: TObject);
 
     {
     MsgLogConsole('Toolbar updates: '+
-      IntToStr(AppPanels[cPaneSide].ToolbarUpdateCount + AppPanels[cPaneOut].ToolbarUpdateCount)+' times, '+
-      IntToStr(AppPanels[cPaneSide].ToolbarUpdateTime + AppPanels[cPaneOut].ToolbarUpdateTime)+'ms');
+      IntToStr(
+        AppPanels[cPaneSide].ToolbarUpdateCount +
+        AppPanels[cPaneOut].ToolbarUpdateCount
+        )+' times, '+
+      AppFormatTimeInMilliseconds(
+        AppPanels[cPaneSide].ToolbarUpdateTime +
+        AppPanels[cPaneOut].ToolbarUpdateTime
+        ));
       }
   end;
   //
@@ -3711,7 +3717,7 @@ procedure TfmMain.FormShow(Sender: TObject);
     UpdateMenuItem_SetShortcutsRecursively(MainMenu.Items, 2);
 
     //tick:= GetTickCount64-tick;
-    //MsgLogConsole('Init top menu shortcuts: '+IntToStr(tick)+'ms');
+    //MsgLogConsole('Init top menu shortcuts: '+AppFormatTimeInMilliseconds(tick));
   end;
   //
 var
