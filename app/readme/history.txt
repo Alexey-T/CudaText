@@ -6,6 +6,7 @@
 1.211.1 (2024/03)
 
 + add/change: when find-dialog "Hi" option is on, and document is too big (option "find_hi_max_lines"), show Hi_All marks only for the visible screen area and update marks on scrolling; it should not slow down editor significantly (thanks @pintassilgo) 
++ add: find-dialog "Hi" option: finding in the visible screen area is now much faster for huge lines
 
 1.211.0 (2024/03)
 
