@@ -9131,9 +9131,8 @@ const
 var
   NIdAction, NInterval, N: integer;
   PtrCallback, PtrTag: PChar;
-  StrCallback, StrTag: string;
+  StrCallback, StrTag, StrCallbackWithPipe: string;
   Timer: TAppApiTimer;
-  SAll, SItem: string;
 begin
   with AppPython.Engine do
   begin
@@ -9142,6 +9141,7 @@ begin
     begin
       StrCallback:= string(PtrCallback);
       StrTag:= string(PtrTag);
+      StrCallbackWithPipe:= StrCallback+'|';
 
       if Application.Terminated then
         exit(ReturnNone);
@@ -9152,12 +9152,11 @@ begin
       Timer:= nil;
       for N:= 0 to AppListTimers.Count-1 do
       begin
-        SSplitByChar(AppListTimers[N], '|', SItem, SAll);
-        if SItem=StrCallback then
+        if SBeginsWith(AppListTimers[N], StrCallbackWithPipe) then
         begin
           Timer:= TAppApiTimer(AppListTimers.Objects[N]);
           //timer already exists? update its tag to new value StrTag
-          AppListTimers[N]:= StrCallback+'|'+StrTag;
+          AppListTimers[N]:= StrCallbackWithPipe+StrTag;
           Break
         end;
       end;
@@ -9173,7 +9172,7 @@ begin
             begin
               Timer:= TAppApiTimer.Create(fmMain);
               Timer.OnTimer:= @fmMain.DoPyTimerTick;
-              AppListTimers.AddObject(StrCallback+'|'+StrTag, Timer);
+              AppListTimers.AddObject(StrCallbackWithPipe+StrTag, Timer);
             end;
 
             if NIdAction=TIMER_START_ONE then
