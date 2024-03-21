@@ -3291,9 +3291,9 @@ Performs some action in editor. Possible values of "id":
 * EDACTION_FIND_ALL: Perform text search and get all matches in a list. Result list items are 4-tuples of int: (start_x, start_y, end_x, end_y). This uses finder independent from CudaText Find/Replace dialog, you must configure this finder via options string.
 ** "param1": Search string.
 ** "param2": Search options, see [[#Finder_options_as_string]].
-** "param3": Optional. Maximal line length (default is 0x7FFFFFFF). Lines longer than this value will be skipped during search.
+** "param3": Optional. Maximal line length, 32-bit signed integer, default is 0x7FFFFFFF. Lines longer than this value will be skipped during search.
 ** Note: returns False for incorrect RegEx.
-** Limitation: with editor multi-selections and search option 'in selection only', only the first selection will be handled.
+** Limitation: with multi-selections and search option 'in selection only', only the first selection will be handled.
 
 * EDACTION_FIND_BRACKETS: Find position of nearest opening bracket with its pair bracket. Returns 4-tuple (col_start, line_start, col_end, line_end), where line_end<0 if brackets not found.
 ** "param1": Text position as 2-tuple (column, line).
