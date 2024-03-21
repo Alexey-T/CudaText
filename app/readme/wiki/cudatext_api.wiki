@@ -3293,7 +3293,6 @@ Performs some action in editor. Possible values of "id":
 ** "param2": Search options, see [[#Finder_options_as_string]].
 ** "param3": Optional. Maximal line length, 32-bit signed integer, default is 0x7FFFFFFF. Lines longer than this value will be skipped during search.
 ** Note: returns False for incorrect RegEx.
-** Limitation: with multi-selections and search option 'in selection only', only the first selection will be handled.
 
 * EDACTION_FIND_BRACKETS: Find position of nearest opening bracket with its pair bracket. Returns 4-tuple (col_start, line_start, col_end, line_end), where line_end<0 if brackets not found.
 ** "param1": Text position as 2-tuple (column, line).
@@ -5012,5 +5011,8 @@ It provides:
 
 1.0.453 (app 1.210.5)
 * add: image_proc: support WEBP format
+
+1.0.454 (app 1.211.1)
+* add: Editor.action: EDACTION_FIND_ALL supports multi-selections too (before it handled only 1st selection)
 
 [[Category:CudaText]]
