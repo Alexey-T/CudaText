@@ -1303,6 +1303,12 @@ const
   StatusbarTag_Zoom = 18;
   StatusbarTag_Msg = 20;
 
+const
+  cBottomPanelMenu_Copy = 100;
+  cBottomPanelMenu_SelAll = 101;
+  cBottomPanelMenu_Clear = 102;
+  cBottomPanelMenu_Wrap = 103;
+
 function GetAppColorOfStatusbarFont: TColor;
 begin
   Result:= GetAppColor(TAppThemeColor.StatusFont);
@@ -1985,25 +1991,25 @@ begin
 
     mi:= TMenuItem.Create(AEditor);
     mi.Caption:= 'copy';
-    mi.Tag:= 100;
+    mi.Tag:= cBottomPanelMenu_Copy;
     mi.OnClick:=@PopupBottomCopyClick;
     AMenu.Items.Add(mi);
 
     mi:= TMenuItem.Create(AEditor);
     mi.Caption:= 'select all';
-    mi.Tag:= 101;
+    mi.Tag:= cBottomPanelMenu_SelAll;
     mi.OnClick:=@PopupBottomSelectAllClick;
     AMenu.Items.Add(mi);
 
     mi:= TMenuItem.Create(AEditor);
     mi.Caption:= 'clear';
-    mi.Tag:= 102;
+    mi.Tag:= cBottomPanelMenu_Clear;
     mi.OnClick:=@PopupBottomClearClick;
     AMenu.Items.Add(mi);
 
     mi:= TMenuItem.Create(AEditor);
     mi.Caption:= 'toggle word wrap';
-    mi.Tag:= 103;
+    mi.Tag:= cBottomPanelMenu_Wrap;
     mi.OnClick:=@PopupBottomWrapClick;
     AMenu.Items.Add(mi);
   end;
@@ -7540,13 +7546,13 @@ begin
   begin
     mi:= Popup.Items[i];
     case mi.Tag of
-      100:
+      cBottomPanelMenu_Copy:
         mi.Caption:= ATEditorOptions.TextMenuitemCopy;
-      101:
+      cBottomPanelMenu_SelAll:
         mi.Caption:= ATEditorOptions.TextMenuitemSelectAll;
-      102:
+      cBottomPanelMenu_Clear:
         mi.Caption:= msgConsoleClear;
-      103:
+      cBottomPanelMenu_Wrap:
         begin
           mi.Caption:= msgConsoleToggleWrap;
           mi.Checked:= (mi.Owner as TATSynEdit).OptWrapMode<>TATEditorWrapMode.ModeOff;
