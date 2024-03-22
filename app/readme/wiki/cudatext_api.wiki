@@ -5013,7 +5013,7 @@ It provides:
 * add: image_proc: support WEBP format
 
 1.0.454 (app 1.211.1)
-* add: Editor.action: EDACTION_FIND_ALL supports multi-selections too (before it handled only 1st selection)
+* add: Editor.action: EDACTION_FIND_ALL supports multi-selections when searching with 's' option (before it handled only first selection)
 * delete deprecated CARET_OPTION_UNFOLD
 
 [[Category:CudaText]]
