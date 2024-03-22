@@ -1321,6 +1321,9 @@ class Editor:
     def get_line_count(self):
         return ct.ed_get_line_count(self.h)
 
+    def get_char_count(self, max_chars, max_time):
+        return ct.ed_get_char_count(self.h, max_chars, max_time)
+
     def get_text_all(self):
         return ct.ed_get_text_all(self.h)
 
