@@ -2373,6 +2373,18 @@ Returns 4-tuple (x1, y1, x2, y2). All 0 if no column selection.
 
 Returns number of lines.
 
+===Editor.get_char_count===
+
+ get_char_count(max_chars, max_time)
+
+Returns number of UTF-16 characters.
+
+Each UTF-16 character in internal storage is counted as 1.
+Line-break is counted as 1, even for CR LF endings.
+
+* Param "max_chars": If result becomes (in internal loop) bigger than param value, stop counting and return -1. Pass for example 0x7fffFFFF to avoid the limit.
+* Param "max_time": If method working time becomes bigger than param value (in milliseconds), stop counting and return -2. Pass for example 0x7fffFFFF to avoid the limit.
+
 ===Editor.get_filename===
 
  get_filename(options="")
@@ -5013,6 +5025,7 @@ It provides:
 * add: image_proc: support WEBP format
 
 1.0.454 (app 1.211.1)
+* add: Editor.get_char_count
 * add: Editor.action: EDACTION_FIND_ALL supports multi-selections when searching with 's' option (before it handled only first selection)
 * delete deprecated CARET_OPTION_UNFOLD
 
