@@ -2385,6 +2385,8 @@ Line-break is counted as 1, even for CR LF endings.
 * Param "max_chars": If result becomes (in internal loop) bigger than param value, stop counting and return -1. Pass for example 0x7fffFFFF to avoid the limit.
 * Param "max_time": If method working time becomes bigger than param value (in milliseconds), stop counting and return -2. Pass for example 0x7fffFFFF to avoid the limit.
 
+Example for "max_time": on author's PC (CPU Intel Core i3), with file "torrent.cpp" with 5K lines with 414K chars, "max_time" must be >=10 to count all content.
+
 ===Editor.get_filename===
 
  get_filename(options="")
