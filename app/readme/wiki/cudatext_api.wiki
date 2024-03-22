@@ -5025,7 +5025,7 @@ It provides:
 1.0.453 (app 1.210.5)
 * add: image_proc: support WEBP format
 
-1.0.454 (app 1.211.1)
+1.0.454 (app 1.211.3)
 * add: Editor.get_char_count
 * add: Editor.action: EDACTION_FIND_ALL supports multi-selections when searching with 's' option (before it handled only first selection)
 * delete deprecated CARET_OPTION_UNFOLD
