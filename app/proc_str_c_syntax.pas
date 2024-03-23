@@ -54,15 +54,11 @@ end;
 
 procedure CSyntax_DeleteStringsAndComments(var S: UnicodeString);
   //
-  function _ReplaceByRegex(const SRepl: UnicodeString; RE: TRegExpr): boolean;
+  function _ReplaceByRegex(ReplChar: WideChar; RE: TRegExpr): boolean;
   begin
     Result:= RE.Exec(S);
     if Result then
-    begin
-      Delete(S, RE.MatchPos[0], RE.MatchLen[0]);
-      if SRepl<>'' then
-        Insert(SRepl, S, RE.MatchPos[0]);
-    end;
+      FillWord(S[RE.MatchPos[0]], RE.MatchLen[0], Ord(ReplChar));
   end;
   //
 var
@@ -85,13 +81,13 @@ begin
     else
     if (N_Cmt>0) and ((N_Str=0) or (N_Str>N_Cmt)) then
     begin
-      if not _ReplaceByRegex('', RE_Cmt) then Break;
+      if not _ReplaceByRegex(' ', RE_Cmt) then Break;
     end
     else
       Break;
   until false;
 
-  S:= RE_CmtLine.Replace(S, '');
+  _ReplaceByRegex(' ', RE_CmtLine);
 end;
 
 
