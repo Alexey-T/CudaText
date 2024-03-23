@@ -32,6 +32,11 @@ procedure CSyntax_DeleteStringsAndComments(var S: UnicodeString);
 
 implementation
 
+var
+  RE_Str,
+  RE_Cmt,
+  RE_CmtLine: TRegExpr;
+
 function CSyntax_LineBeginsWithBlockKeyword(const S: UnicodeString): boolean;
 var
   RE: TRegExpr;
@@ -61,45 +66,32 @@ procedure CSyntax_DeleteStringsAndComments(var S: UnicodeString);
   end;
   //
 var
-  RE_Str, RE_Cmt: TRegExpr;
   N_Str, N_Cmt: integer;
 begin
-  RE_Str:= TRegExpr.Create('"(\\.|.)*?"');
-  RE_Cmt:= TRegExpr.Create('/\*.*?\*/');
+  if RE_Str=nil then
+    RE_Str:= TRegExpr.Create('"(\\.|.)*?"');
+  if RE_Cmt=nil then
+    RE_Cmt:= TRegExpr.Create('/\*.*?\*/');
+  if RE_CmtLine=nil then
+    RE_CmtLine:= TRegExpr.Create('//.*$');
 
-  try
-    RE_Str.Compile;
-    RE_Cmt.Compile;
+  repeat
+    N_Str:= Pos('"', S);
+    N_Cmt:= Pos('/*', S);
+    if (N_Str>0) and ((N_Cmt=0) or (N_Str<N_Cmt)) then
+    begin
+      if not _ReplaceByRegex('_', RE_Str) then Break;
+    end
+    else
+    if (N_Cmt>0) and ((N_Str=0) or (N_Str>N_Cmt)) then
+    begin
+      if not _ReplaceByRegex('', RE_Cmt) then Break;
+    end
+    else
+      Break;
+  until false;
 
-    repeat
-      N_Str:= Pos('"', S);
-      N_Cmt:= Pos('/*', S);
-      if (N_Str>0) and ((N_Cmt=0) or (N_Str<N_Cmt)) then
-      begin
-        if not _ReplaceByRegex('_', RE_Str) then Break;
-      end
-      else
-      if (N_Cmt>0) and ((N_Str=0) or (N_Str>N_Cmt)) then
-      begin
-        if not _ReplaceByRegex('', RE_Cmt) then Break;
-      end
-      else
-        Break;
-    until false;
-
-  finally
-    FreeAndNil(RE_Str);
-    FreeAndNil(RE_Cmt);
-  end;
-
-  //delete line comment
-  RE_Cmt:= TRegExpr.Create('//.*$');
-  try
-    RE_Cmt.Compile;
-    S:= RE_Cmt.Replace(S, '');
-  finally
-    FreeAndNil(RE_Cmt);
-  end;
+  S:= RE_CmtLine.Replace(S, '');
 end;
 
 
@@ -115,6 +107,14 @@ begin
       ',': Result:= TEditorCSyntaxSymbol.Comma;
     end;
 end;
+
+finalization
+  if Assigned(RE_Str) then
+    FreeAndNil(RE_Str);
+  if Assigned(RE_Cmt) then
+    FreeAndNil(RE_Cmt);
+  if Assigned(RE_CmtLine) then
+    FreeAndNil(RE_CmtLine);
 
 end.
 
