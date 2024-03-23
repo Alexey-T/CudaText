@@ -76,12 +76,22 @@ begin
     N_Cmt:= Pos('/*', S);
     if (N_Str>0) and ((N_Cmt=0) or (N_Str<N_Cmt)) then
     begin
-      if not _ReplaceByRegex('_', RE_Str) then Break;
+      if not _ReplaceByRegex('_', RE_Str) then
+      begin
+        //if regex cannot find ending, still fill
+        FillWord(S[N_Str], Length(S)-N_Str+1, Ord('_'));
+        Break;
+      end;
     end
     else
     if (N_Cmt>0) and ((N_Str=0) or (N_Str>N_Cmt)) then
     begin
-      if not _ReplaceByRegex(' ', RE_Cmt) then Break;
+      if not _ReplaceByRegex(' ', RE_Cmt) then
+      begin
+        //if regex cannot find ending, still fill
+        FillWord(S[N_Cmt], Length(S)-N_Cmt+1, Ord(' '));
+        Break;
+      end;
     end
     else
       Break;
