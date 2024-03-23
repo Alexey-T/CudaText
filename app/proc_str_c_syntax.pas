@@ -49,10 +49,15 @@ end;
 
 procedure CSyntax_DeleteStringsAndComments(var S: UnicodeString);
   //
-  procedure DeleteByRegex(var S: UnicodeString; RE: TRegExpr);
+  function _ReplaceByRegex(var S: UnicodeString; const SRepl: UnicodeString; RE: TRegExpr): boolean;
   begin
-    if RE.Exec(S) then
+    Result:= RE.Exec(S);
+    if Result then
+    begin
       Delete(S, RE.MatchPos[0], RE.MatchLen[0]);
+      if SRepl<>'' then
+        Insert(SRepl, S, RE.MatchPos[0]);
+    end;
   end;
   //
 var
@@ -70,10 +75,14 @@ begin
       N_Str:= Pos('"', S);
       N_Cmt:= Pos('/*', S);
       if (N_Str>0) and ((N_Cmt=0) or (N_Str<N_Cmt)) then
-        DeleteByRegex(S, RE_Str)
+      begin
+        if not _ReplaceByRegex(S, '_', RE_Str) then Break;
+      end
       else
       if (N_Cmt>0) and ((N_Str=0) or (N_Str>N_Cmt)) then
-        DeleteByRegex(S, RE_Cmt)
+      begin
+        if not _ReplaceByRegex(S, '', RE_Cmt) then Break;
+      end
       else
         Break;
     until false;
