@@ -17,22 +17,19 @@ procedure CSyntax_DeleteStringsAndComments(var S: UnicodeString);
 implementation
 
 var
+  RE_BeginWord,
   RE_Str,
   RE_Cmt,
   RE_CmtLine: TRegExpr;
 
 function CSyntax_LineBeginsWithBlockKeyword(const S: UnicodeString): boolean;
-var
-  RE: TRegExpr;
 begin
-  RE:= TRegExpr.Create('^\s*(if|while|do|for|foreach|else)\b');
-  try
-    RE.ModifierI:= false;
-    RE.Compile;
-    Result:= RE.Exec(S);
-  finally
-    FreeAndNil(RE);
+  if RE_BeginWord=nil then
+  begin
+    RE_BeginWord:= TRegExpr.Create('^\s*(if|while|do|for|foreach|else)\b');
+    RE_BeginWord.ModifierI:= false;
   end;
+  Result:= RE_BeginWord.Exec(S);
 end;
 
 
@@ -108,6 +105,8 @@ finalization
     FreeAndNil(RE_Cmt);
   if Assigned(RE_CmtLine) then
     FreeAndNil(RE_CmtLine);
+  if Assigned(RE_BeginWord) then
+    FreeAndNil(RE_BeginWord);
 
 end.
 
