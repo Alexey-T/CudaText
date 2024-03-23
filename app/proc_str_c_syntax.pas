@@ -26,7 +26,7 @@ const
     );
 
 function CSyntax_LineBeginsWithBlockKeyword(const S: UnicodeString): boolean;
-function CSyntax_LineEndSymbol(S: UnicodeString): TEditorCSyntaxSymbol;
+function CSyntax_LineEndSymbol(const S: UnicodeString): TEditorCSyntaxSymbol;
 procedure CSyntax_DeleteStringsAndComments(var S: UnicodeString);
 
 
@@ -91,13 +91,20 @@ begin
 end;
 
 
-function CSyntax_LineEndSymbol(S: UnicodeString): TEditorCSyntaxSymbol;
+function CSyntax_LineEndSymbol(const S: UnicodeString): TEditorCSyntaxSymbol;
+var
+  T: UnicodeString;
+  i: integer;
 begin
   Result:= TEditorCSyntaxSymbol.Unknown;
-  CSyntax_DeleteStringsAndComments(S);
-  S:= Trim(S);
-  if S<>'' then
-    case S[Length(S)] of
+  T:= S;
+  UniqueString(T);
+  CSyntax_DeleteStringsAndComments(T);
+  i:= Length(T);
+  while (i>0) and (T[i]=' ') do
+    Dec(i);
+  if i>0 then
+    case T[i] of
       '{': Result:= TEditorCSyntaxSymbol.OpenCurly;
       ';': Result:= TEditorCSyntaxSymbol.Semicolon;
       ',': Result:= TEditorCSyntaxSymbol.Comma;
