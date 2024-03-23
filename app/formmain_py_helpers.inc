@@ -479,6 +479,7 @@ begin
         //only check for False
         Result:= Pointer(Obj)<>Pointer(Py_False);
         Py_DECREF(Obj);
+        //WriteLn('DoPyCallbackFromAPI refcnt: ', Obj^.ob_refcnt);
       end;
 
     exit;
