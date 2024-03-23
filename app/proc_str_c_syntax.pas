@@ -9,26 +9,8 @@ uses
   Classes, SysUtils,
   atsynedit_regexpr;
 
-type
-  TEditorCSyntaxSymbol = (
-    Unknown,
-    OpenCurly,
-    CloseCurly,
-    Semicolon,
-    Comma
-  );
-
-const
-  cEditorCSyntaxSymbol: array[TEditorCSyntaxSymbol] of string = (
-    '??',
-    '{',
-    '}',
-    ';',
-    ','
-    );
-
 function CSyntax_LineBeginsWithBlockKeyword(const S: UnicodeString): boolean;
-function CSyntax_LineEndSymbol(const S: UnicodeString): TEditorCSyntaxSymbol;
+function CSyntax_LineEndSymbol(const S: UnicodeString): WideChar;
 procedure CSyntax_DeleteStringsAndComments(var S: UnicodeString);
 
 
@@ -103,12 +85,12 @@ begin
 end;
 
 
-function CSyntax_LineEndSymbol(const S: UnicodeString): TEditorCSyntaxSymbol;
+function CSyntax_LineEndSymbol(const S: UnicodeString): WideChar;
 var
   T: UnicodeString;
   i: integer;
 begin
-  Result:= TEditorCSyntaxSymbol.Unknown;
+  Result:= '?';
   T:= S;
   UniqueString(T);
   CSyntax_DeleteStringsAndComments(T);
@@ -116,12 +98,7 @@ begin
   while (i>0) and (T[i]=' ') do
     Dec(i);
   if i>0 then
-    case T[i] of
-      '{': Result:= TEditorCSyntaxSymbol.OpenCurly;
-      '}': Result:= TEditorCSyntaxSymbol.CloseCurly;
-      ';': Result:= TEditorCSyntaxSymbol.Semicolon;
-      ',': Result:= TEditorCSyntaxSymbol.Comma;
-    end;
+    Result:= T[i];
 end;
 
 finalization
