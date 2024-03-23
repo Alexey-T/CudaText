@@ -49,7 +49,7 @@ end;
 
 procedure CSyntax_DeleteStringsAndComments(var S: UnicodeString);
   //
-  function _ReplaceByRegex(var S: UnicodeString; const SRepl: UnicodeString; RE: TRegExpr): boolean;
+  function _ReplaceByRegex(const SRepl: UnicodeString; RE: TRegExpr): boolean;
   begin
     Result:= RE.Exec(S);
     if Result then
@@ -76,12 +76,12 @@ begin
       N_Cmt:= Pos('/*', S);
       if (N_Str>0) and ((N_Cmt=0) or (N_Str<N_Cmt)) then
       begin
-        if not _ReplaceByRegex(S, '_', RE_Str) then Break;
+        if not _ReplaceByRegex('_', RE_Str) then Break;
       end
       else
       if (N_Cmt>0) and ((N_Str=0) or (N_Str>N_Cmt)) then
       begin
-        if not _ReplaceByRegex(S, '', RE_Cmt) then Break;
+        if not _ReplaceByRegex('', RE_Cmt) then Break;
       end
       else
         Break;
