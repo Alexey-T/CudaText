@@ -25,7 +25,7 @@ function CSyntax_LineBeginsWithBlockKeyword(const S: UnicodeString): boolean;
 var
   RE: TRegExpr;
 begin
-  RE:= TRegExpr.Create('^\s*(if|while|do|for|foreach|else|catch|switch|try)\b.+');
+  RE:= TRegExpr.Create('^\s*(if|while|do|for|foreach|else)\b');
   try
     RE.ModifierI:= false;
     RE.Compile;
