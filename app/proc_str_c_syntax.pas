@@ -25,14 +25,14 @@ const
     ','
     );
 
-function LineBeginsWithCBlockKeyword(const S: UnicodeString): boolean;
-function LineEndsWithCSymbol(S: UnicodeString): TEditorCSyntaxSymbol;
-procedure LineDeleteCStringsAndComments(var S: UnicodeString);
+function CSyntax_LineBeginsWithBlockKeyword(const S: UnicodeString): boolean;
+function CSyntax_LineEndSymbol(S: UnicodeString): TEditorCSyntaxSymbol;
+procedure CSyntax_DeleteStringsAndComments(var S: UnicodeString);
 
 
 implementation
 
-function LineBeginsWithCBlockKeyword(const S: UnicodeString): boolean;
+function CSyntax_LineBeginsWithBlockKeyword(const S: UnicodeString): boolean;
 var
   RE: TRegExpr;
 begin
@@ -46,43 +46,58 @@ begin
   end;
 end;
 
-procedure LineDeleteCStringsAndComments(var S: UnicodeString);
-var
-  RE: TRegExpr;
-begin
-  //delete string tokens
-  RE:= TRegExpr.Create('"(\\.|.)*?"');
-  try
-    RE.Compile;
-    S:= RE.Replace(S, '');
-  finally
-    FreeAndNil(RE);
-  end;
 
-  //delete block comments
-  RE:= TRegExpr.Create('/\*.*?\*/');
+procedure CSyntax_DeleteStringsAndComments(var S: UnicodeString);
+  //
+  procedure DeleteByRegex(var S: UnicodeString; RE: TRegExpr);
+  begin
+    if RE.Exec(S) then
+      Delete(S, RE.MatchPos[0], RE.MatchLen[0]);
+  end;
+  //
+var
+  RE_Str, RE_Cmt: TRegExpr;
+  N_Str, N_Cmt: integer;
+begin
+  RE_Str:= TRegExpr.Create('"(\\.|.)*?"');
+  RE_Cmt:= TRegExpr.Create('/\*.*?\*/');
+
   try
-    RE.Compile;
-    S:= RE.Replace(S, '');
+    RE_Str.Compile;
+    RE_Cmt.Compile;
+
+    repeat
+      N_Str:= Pos('"', S);
+      N_Cmt:= Pos('/*', S);
+      if (N_Str>0) and ((N_Cmt=0) or (N_Str<N_Cmt)) then
+        DeleteByRegex(S, RE_Str)
+      else
+      if (N_Cmt>0) and ((N_Str=0) or (N_Str>N_Cmt)) then
+        DeleteByRegex(S, RE_Cmt)
+      else
+        Break;
+    until false;
+
   finally
-    FreeAndNil(RE);
+    FreeAndNil(RE_Str);
+    FreeAndNil(RE_Cmt);
   end;
 
   //delete line comment
-  RE:= TRegExpr.Create('//.*$');
+  RE_Cmt:= TRegExpr.Create('//.*$');
   try
-    RE.Compile;
-    S:= RE.Replace(S, '');
+    RE_Cmt.Compile;
+    S:= RE_Cmt.Replace(S, '');
   finally
-    FreeAndNil(RE);
+    FreeAndNil(RE_Cmt);
   end;
 end;
 
 
-function LineEndsWithCSymbol(S: UnicodeString): TEditorCSyntaxSymbol;
+function CSyntax_LineEndSymbol(S: UnicodeString): TEditorCSyntaxSymbol;
 begin
   Result:= TEditorCSyntaxSymbol.Unknown;
-  LineDeleteCStringsAndComments(S);
+  CSyntax_DeleteStringsAndComments(S);
   S:= Trim(S);
   if S<>'' then
     case S[Length(S)] of
