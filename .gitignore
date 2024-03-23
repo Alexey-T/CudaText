@@ -32,7 +32,8 @@ python3*/
 /app/bin
 /app/cudatext
 /app/cudatext-mac
-treehelpertester/app
+testapps/test_treehelpers/app
+testapps/test_proc_c_syntax/test
 app.res
 
 cudatext-mac-cocoa/
