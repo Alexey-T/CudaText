@@ -16,11 +16,8 @@ procedure CSyntax_DeleteStringsAndComments(var S: UnicodeString);
 implementation
 
 uses
-  ATStringProc,
-  atsynedit_regexpr;
+  ATStringProc;
 
-var
-  RE_Str: TRegExpr;
 
 function CSyntax_LineBeginsWithBlockKeyword(const S: UnicodeString): boolean;
 var
@@ -53,38 +50,42 @@ end;
 
 
 procedure CSyntax_DeleteStringsAndComments(var S: UnicodeString);
-  //
-  function _FillByRegex(RE: TRegExpr; ReplChar: WideChar): boolean;
-  begin
-    Result:= RE.Exec(S);
-    if Result then
-      FillWord(S[RE.MatchPos[0]], RE.MatchLen[0], Ord(ReplChar));
-  end;
-  //
 var
-  N_Str, N_Cmt, N_CmtEnd: integer;
+  N_Str, N_Cmt, N_End, Len: integer;
 begin
-  if RE_Str=nil then
-    RE_Str:= TRegExpr.Create('"(\\.|.)*?"');
-
   repeat
     N_Str:= Pos('"', S);
     N_Cmt:= Pos('/*', S);
+
     if (N_Str>0) and ((N_Cmt=0) or (N_Str<N_Cmt)) then
     begin
-      if not _FillByRegex(RE_Str, '_') then
-      begin
-        //if regex cannot find ending, still fill
-        FillWord(S[N_Str], Length(S)-N_Str+1, Ord('_'));
-        Break;
-      end;
+      Len:= Length(S);
+      N_End:= N_Str;
+      repeat
+        Inc(N_End);
+        if N_End>Len then
+        begin
+          FillWord(S[N_Str], Length(S)-N_Str+1, Ord('_'));
+          Break;
+        end;
+        if S[N_End]='\' then //support escape char
+        begin
+          Inc(N_End);
+          Continue;
+        end;
+        if S[N_End]='"' then
+        begin
+          FillWord(S[N_Str], N_End-N_Str+1, Ord('_'));
+          Break;
+        end;
+      until false;
     end
     else
     if (N_Cmt>0) and ((N_Str=0) or (N_Str>N_Cmt)) then
     begin
-      N_CmtEnd:= Pos('*/', S, N_Cmt+2);
-      if N_CmtEnd>0 then
-        FillWord(S[N_Cmt], N_CmtEnd-N_Cmt+2, Ord(' '))
+      N_End:= Pos('*/', S, N_Cmt+2);
+      if N_End>0 then
+        FillWord(S[N_Cmt], N_End-N_Cmt+2, Ord(' '))
       else
       begin
         FillWord(S[N_Cmt], Length(S)-N_Cmt+1, Ord(' '));
@@ -116,10 +117,6 @@ begin
   if i>0 then
     Result:= T[i];
 end;
-
-finalization
-  if Assigned(RE_Str) then
-    FreeAndNil(RE_Str);
 
 end.
 
