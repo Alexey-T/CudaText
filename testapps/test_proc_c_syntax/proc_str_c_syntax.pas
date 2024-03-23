@@ -89,8 +89,7 @@ begin
       begin
         FillWord(S[N_Cmt], Length(S)-N_Cmt+1, Ord(' '));
         Break;
-      end
-
+      end;
     end
     else
       Break;
