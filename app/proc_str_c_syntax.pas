@@ -13,6 +13,7 @@ type
   TEditorCSyntaxSymbol = (
     Unknown,
     OpenCurly,
+    CloseCurly,
     Semicolon,
     Comma
   );
@@ -21,6 +22,7 @@ const
   cEditorCSyntaxSymbol: array[TEditorCSyntaxSymbol] of string = (
     '??',
     '{',
+    '}',
     ';',
     ','
     );
@@ -116,6 +118,7 @@ begin
   if i>0 then
     case T[i] of
       '{': Result:= TEditorCSyntaxSymbol.OpenCurly;
+      '}': Result:= TEditorCSyntaxSymbol.CloseCurly;
       ';': Result:= TEditorCSyntaxSymbol.Semicolon;
       ',': Result:= TEditorCSyntaxSymbol.Comma;
     end;
