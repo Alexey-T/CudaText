@@ -6,8 +6,7 @@ unit proc_str_c_syntax;
 interface
 
 uses
-  Classes, SysUtils,
-  atsynedit_regexpr;
+  Classes, SysUtils;
 
 function CSyntax_LineBeginsWithBlockKeyword(const S: UnicodeString): boolean;
 function CSyntax_LineEndSymbol(const S: UnicodeString): WideChar;
@@ -16,20 +15,40 @@ procedure CSyntax_DeleteStringsAndComments(var S: UnicodeString);
 
 implementation
 
+uses
+  ATStringProc,
+  atsynedit_regexpr;
+
 var
-  RE_BeginWord,
-  RE_Str,
-  RE_Cmt,
-  RE_CmtLine: TRegExpr;
+  RE_Str: TRegExpr;
 
 function CSyntax_LineBeginsWithBlockKeyword(const S: UnicodeString): boolean;
+var
+  Len, i1, i2: integer;
+  Sub: UnicodeString;
 begin
-  if RE_BeginWord=nil then
-  begin
-    RE_BeginWord:= TRegExpr.Create('^\s*(if|while|do|for(each)?|else)\b');
-    RE_BeginWord.ModifierI:= false;
+  Result:= false;
+
+  Len:= Length(S);
+  i1:= 1;
+  while (i1<=Len) and (S[i1]=' ') do Inc(i1);
+  if i1>Len then exit;
+
+  i2:= i1;
+  while (i2<=Len) and IsCharWordInIdentifier(s[i2]) do Inc(i2);
+  Sub:= Copy(S, i1, i2-i1);
+
+  case Sub of
+    'if',
+    'while',
+    'do',
+    'for',
+    'else',
+    'foreach':
+      Result:= true
+    else
+      Result:= false;
   end;
-  Result:= RE_BeginWord.Exec(S);
 end;
 
 
@@ -43,14 +62,10 @@ procedure CSyntax_DeleteStringsAndComments(var S: UnicodeString);
   end;
   //
 var
-  N_Str, N_Cmt: integer;
+  N_Str, N_Cmt, N_CmtEnd: integer;
 begin
   if RE_Str=nil then
     RE_Str:= TRegExpr.Create('"(\\.|.)*?"');
-  if RE_Cmt=nil then
-    RE_Cmt:= TRegExpr.Create('/\*.*?\*/');
-  if RE_CmtLine=nil then
-    RE_CmtLine:= TRegExpr.Create('//.*$');
 
   repeat
     N_Str:= Pos('"', S);
@@ -67,18 +82,23 @@ begin
     else
     if (N_Cmt>0) and ((N_Str=0) or (N_Str>N_Cmt)) then
     begin
-      if not _FillByRegex(RE_Cmt, ' ') then
+      N_CmtEnd:= Pos('*/', S, N_Cmt+2);
+      if N_CmtEnd>0 then
+        FillWord(S[N_Cmt], N_CmtEnd-N_Cmt+2, Ord(' '))
+      else
       begin
-        //if regex cannot find ending, still fill
         FillWord(S[N_Cmt], Length(S)-N_Cmt+1, Ord(' '));
         Break;
-      end;
+      end
+
     end
     else
       Break;
   until false;
 
-  _FillByRegex(RE_CmtLine, ' ');
+  N_Cmt:= Pos('//', S);
+  if N_Cmt>0 then
+    FillWord(S[N_Cmt], Length(S)-N_Cmt+1, Ord(' '));
 end;
 
 
@@ -101,12 +121,6 @@ end;
 finalization
   if Assigned(RE_Str) then
     FreeAndNil(RE_Str);
-  if Assigned(RE_Cmt) then
-    FreeAndNil(RE_Cmt);
-  if Assigned(RE_CmtLine) then
-    FreeAndNil(RE_CmtLine);
-  if Assigned(RE_BeginWord) then
-    FreeAndNil(RE_BeginWord);
 
 end.
 
