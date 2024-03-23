@@ -54,7 +54,7 @@ end;
 
 procedure CSyntax_DeleteStringsAndComments(var S: UnicodeString);
   //
-  function _ReplaceByRegex(ReplChar: WideChar; RE: TRegExpr): boolean;
+  function _FillByRegex(RE: TRegExpr; ReplChar: WideChar): boolean;
   begin
     Result:= RE.Exec(S);
     if Result then
@@ -76,7 +76,7 @@ begin
     N_Cmt:= Pos('/*', S);
     if (N_Str>0) and ((N_Cmt=0) or (N_Str<N_Cmt)) then
     begin
-      if not _ReplaceByRegex('_', RE_Str) then
+      if not _FillByRegex(RE_Str, '_') then
       begin
         //if regex cannot find ending, still fill
         FillWord(S[N_Str], Length(S)-N_Str+1, Ord('_'));
@@ -86,7 +86,7 @@ begin
     else
     if (N_Cmt>0) and ((N_Str=0) or (N_Str>N_Cmt)) then
     begin
-      if not _ReplaceByRegex(' ', RE_Cmt) then
+      if not _FillByRegex(RE_Cmt, ' ') then
       begin
         //if regex cannot find ending, still fill
         FillWord(S[N_Cmt], Length(S)-N_Cmt+1, Ord(' '));
@@ -97,7 +97,7 @@ begin
       Break;
   until false;
 
-  _ReplaceByRegex(' ', RE_CmtLine);
+  _FillByRegex(RE_CmtLine, ' ');
 end;
 
 
