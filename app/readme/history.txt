@@ -3,6 +3,8 @@
   - fixed
   * changed
 
++ add: scrollbar width can be adjusted with new option "scrollbar_size" (thanks @stewcam)
+
 1.211.3 (2024/03)
 
 + add/change: when find-dialog "Hi" option is on, and document is 'big' (option "find_hi_max_lines" has effect, or horizontal scrollbar is wider than 400 chars), show Hi_All marks only for the visible screen area and update marks on scrolling; it should not slow down editor significantly (thanks @pintassilgo) 
