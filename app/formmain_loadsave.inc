@@ -1215,6 +1215,8 @@ begin
   ATScrollbarTheme.DirectJumpOnClickPageUpDown:= cfg.GetValue('scrollbar_click_jump',
     ATScrollbarTheme.DirectJumpOnClickPageUpDown);
 
+  ATScrollbarTheme.InitialSize:= cfg.GetValue('scrollbar_size', ATScrollbarTheme.InitialSize);
+
   s:= cfg.GetValue('scrollbar_arrows', '');
   if s<>'' then
     AppApplyScrollbarStyles(s);

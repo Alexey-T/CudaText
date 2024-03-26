@@ -495,6 +495,9 @@
   //Use custom-painted scrollbars in editor, instead of OS-painted scrollbars.
   "scrollbar_themed": true,
 
+  //Width of scrollbars (before applying global scaling).
+  "scrollbar_size": 14,
+
   //Style of arrows in editor's themed scrollbars.
   //Value is 2 numbers ","-separated, for horizontal/vertical bars.
   //Numbers: 0: normal position of arrows; 1: both below; 2: both above; 3: hide arrows.
