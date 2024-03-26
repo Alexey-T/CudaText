@@ -112,7 +112,7 @@ def collapse_macros(proj_dir, fn):
         fn = fn.replace(proj_dir, '{ProjDir}', 1)
     fn = fn.replace(os.sep, '/') if IS_WIN else fn
     return fn
-    
+
 def expand_macros(proj_dir, s):
     s = s.replace('{ProjDir}', proj_dir, 1)
     return os.path.normpath(s)
@@ -200,38 +200,62 @@ class Command:
     cur_dir = ''
     project_file_path = None
 
-    title ="Project"    # No _() here, the translation is offered in "translation template.ini".
+    title ="Project" # No _() here, the translation is offered in "translation template.ini".
     menuitems = (
-        #   item_caption , item_parent , item_types , item_action
-        (_("New project")          , "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_new_project"),
-        (_("Open project...")      , "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_open_project"),
-        (_("Recent projects")      , "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "collect_recent_projects"),
-        (_("Save project as...")   , "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_save_project_as"),
+        # item_caption, item_parent, item_types, item_action
+        (_("New project"), "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_new_project"),
+        (_("Open project..."), "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_open_project"),
+        (_("Recent projects"), "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "collect_recent_projects"),
+        (_("Save project as..."), "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_save_project_as"),
 
-        (_("Add folder...")        , "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_add_folder"),
-        (_("Add file...")          , "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_add_file"),
-        (_("Clear project")        , "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_clear_project"),
-        (_("Remove node")          , "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_remove_node"),
+        (_("Add folder..."), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_add_folder"),
+        (_("Add file..."), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_add_file"),
+        (_("Clear project"), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_clear_project"),
+        (_("Remove node"), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_remove_node"),
 
-        (_("New file...")          , "dir", [NODE_DIR], "cuda_project_man.action_new_file"),
-        (_("Rename...")            , "dir", [NODE_DIR], "cuda_project_man.action_rename"),
-        (_("Delete directory")     , "dir", [NODE_DIR], "cuda_project_man.action_delete_directory"),
-        (_("New directory...")     , "dir", [NODE_DIR], "cuda_project_man.action_new_directory"),
-        (_("Find in directory...") , "dir", [NODE_DIR], "cuda_project_man.action_find_in_directory"),
-        (_("Copy path relative to project"), "dir", [NODE_DIR], "cuda_project_man.action_copy_relative_path"),
+        (_("New file... (Ctrl+N)"), "dir", [NODE_DIR], "cuda_project_man.action_new_file"),
+        (_("New directory... (F7)"), "dir", [NODE_DIR], "cuda_project_man.action_new_directory"),
+        (_("-"), "dir", [NODE_DIR], ""),
+        (_("Cut"), "dir", [NODE_DIR], "cuda_project_man.action_cut"),
+        (_("Copy"), "dir", [NODE_DIR], "cuda_project_man.action_copy"),
+        (_("Paste"), "dir", [NODE_DIR], "cuda_project_man.action_paste"),
+        (_("-"), "dir", [NODE_DIR], ""),
+        (_("Rename... (F2)"), "dir", [NODE_DIR], "cuda_project_man.action_rename"),
+        (_("Delete (Del)"), "dir", [NODE_DIR], "cuda_project_man.action_delete_directory"),
+        (_("-"), "dir", [NODE_DIR], ""),
+        (_("Find in directory..."), "dir", [NODE_DIR], "cuda_project_man.action_find_in_directory"),
+        (_("-"), "dir", [NODE_DIR], ""),
+        (_("Copy Path"), "dir", [NODE_DIR], "cuda_project_man.action_copy_path"),
+        (_("Copy Relative Path") , "dir", [NODE_DIR], "cuda_project_man.action_copy_relative_path"),
+        (_("-"), "dir", [NODE_DIR], ""),
+        (_("Focus in file manager"), "dir", [NODE_DIR], "cuda_project_man.action_focus_in_fileman"),
+        (_("-"), "dir", [NODE_DIR], ""),
+        (_("Properties"), "dir", [NODE_DIR], "cuda_project_man.action_get_properties"),
 
-        (_("Open in default application")
-                                   , "file", [NODE_FILE], "cuda_project_man.action_open_def"),
+        (_("Open in default application"), "file", [NODE_FILE], "cuda_project_man.action_open_def"),
+        (_("-"), "file", [NODE_FILE], ""),
+        (_("Cut (Ctrl+X)"), "file", [NODE_FILE], "cuda_project_man.action_cut"),
+        (_("Copy (Ctrl+C)"), "file", [NODE_FILE], "cuda_project_man.action_copy"),
+        (_("Paste (Ctrl+V)"), "file", [NODE_FILE], "cuda_project_man.action_paste"),
+        (_("-"), "file", [NODE_FILE], ""),
+        (_("Copy Path"), "file", [NODE_FILE], "cuda_project_man.action_copy_path"),
+        (_("Copy Relative Path"), "file", [NODE_FILE], "cuda_project_man.action_copy_relative_path"),
+        (_("-"), "file", [NODE_FILE], ""),
+        (_("Rename... (F2)"), "file", [NODE_FILE], "cuda_project_man.action_rename"),
+        (_("Delete (Del)"), "file", [NODE_FILE], "cuda_project_man.action_delete_file"),
+        (_("-"), "file", [NODE_FILE], ""),
+        (_("Backup..."), "file", [NODE_FILE], "cuda_project_man.action_backup"),
+        (_("-"), "file", [NODE_FILE], ""),
+        (_("Set as main file"), "file", [NODE_FILE], "cuda_project_man.action_set_as_main_file"),
+        (_("-"), "file", [NODE_FILE], ""),
         (_("Focus in file manager"), "file", [NODE_FILE], "cuda_project_man.action_focus_in_fileman"),
-        (_("Rename...")            , "file", [NODE_FILE], "cuda_project_man.action_rename"),
-        (_("Delete file")          , "file", [NODE_FILE], "cuda_project_man.action_delete_file"),
-        (_("Set as main file")     , "file", [NODE_FILE], "cuda_project_man.action_set_as_main_file"),
-        (_("Copy path relative to project"), "file", [NODE_FILE], "cuda_project_man.action_copy_relative_path"),
+        (_("-"), "file", [NODE_FILE], ""),
+        (_("Properties"), "file", [NODE_FILE], "cuda_project_man.action_get_properties"),
 
-        ("-"                       , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], ""),
-        (_("Refresh")              , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_refresh"),
-        ("-"                       , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], ""),
-        (_("Go to file...")        , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_go_to_file"),
+        ("-"   , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], ""),
+        (_("Refresh (F5)"), "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_refresh"),
+        ("-"   , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], ""),
+        (_("Go to file...")  , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_go_to_file"),
     )
 
     options = {
@@ -249,6 +273,8 @@ class Command:
     h_dlg = None
     h_menu = None
     h_menu_cfg = None
+
+    action_cut_activate = False
 
     def __init__(self):
         settings_dir = Path(app_path(APP_DIR_SETTINGS))
@@ -286,6 +312,7 @@ class Command:
         self.set_imagelist_size(toolbar_theme, self.toolbar_imglist)
 
         dirname = os.path.join(app_path(APP_DIR_DATA), 'projtoolbaricons', toolbar_theme)
+        icon_recents = imagelist_proc(self.toolbar_imglist, IMAGELIST_ADD, value = os.path.join(dirname, 'recents.png'))
         icon_open = imagelist_proc(self.toolbar_imglist, IMAGELIST_ADD, value = os.path.join(dirname, 'open.png'))
         icon_save = imagelist_proc(self.toolbar_imglist, IMAGELIST_ADD, value = os.path.join(dirname, 'save.png'))
         icon_add_file = imagelist_proc(self.toolbar_imglist, IMAGELIST_ADD, value = os.path.join(dirname, 'add-file.png'))
@@ -294,6 +321,7 @@ class Command:
         icon_cfg = imagelist_proc(self.toolbar_imglist, IMAGELIST_ADD, value = os.path.join(dirname, 'cfg.png'))
 
         toolbar_proc(self.h_bar, TOOLBAR_THEME)
+        _toolbar_add_btn(self.h_bar, hint=_('Recent projects'), icon=icon_recents, command='cuda_project_man.menu_recents' )
         _toolbar_add_btn(self.h_bar, hint=_('Open project'), icon=icon_open, command='cuda_project_man.action_open_project' )
         _toolbar_add_btn(self.h_bar, hint=_('Save project as'), icon=icon_save, command='cuda_project_man.action_save_project_as' )
         _toolbar_add_btn(self.h_bar, hint='-' )
@@ -535,8 +563,8 @@ class Command:
     def action_focus_in_fileman(self):
         fn = self.get_location_by_index(self.selected)
         sfn = str(fn)
-        if not os.path.isfile(sfn):
-            return
+        #if not os.path.isfile(sfn):
+            #return
         suffix = app_proc(PROC_GET_OS_SUFFIX, '')
 
         if suffix=='':
@@ -594,6 +622,33 @@ class Command:
         self.jump_to_filename(str(new_location))
         msg_status(_("Renamed to: ") + str(new_location.name))
 
+    def action_backup(self):
+        location = Path(self.get_location_by_index(self.selected))
+        e = _file_editor(str(location))
+
+        fn_parts = location.name.split('.')
+        from datetime import datetime
+        backup_name = fn_parts[0] + '_' + datetime.now().strftime("%y%m%d_%H%M%S") + '.' + '.'.join(fn_parts[i+1] for i in range(len(fn_parts) - 1))
+        result = dlg_input(_("Backup to"), str(backup_name))
+        if not result:
+            return
+
+        new_location = location.parent / result
+        if location == new_location:
+            return
+
+        if e is not None:
+            e.save(str(new_location))
+        else:
+            import shutil
+            shutil.copy2(location, new_location)
+
+        if self.is_path_in_root(location):
+            self.add_node(str(new_location))
+
+        self.action_refresh()
+        msg_status(_("Backup to: ") + str(new_location.name))
+
     def action_delete_file(self):
         location = Path(self.get_location_by_index(self.selected))
         if msg_box(_("Delete file from disk:\n") + str(location), MB_OKCANCEL + MB_ICONWARNING) != ID_OK:
@@ -610,12 +665,152 @@ class Command:
 
     def action_copy_relative_path(self):
         file_path = str(self.get_location_by_index(self.selected))
+        project_nodes = ''
+        for idx, node in enumerate(self.project["nodes"]):
+            if node in file_path:
+                project_nodes = self.project["nodes"][idx]
+        if project_nodes != '':
+            file_path = file_path.replace(project_nodes + os.sep, '')
+        app_proc(PROC_SET_CLIP, file_path)
+
+    def action_copy_path(self):
+        file_path = str(self.get_location_by_index(self.selected))
         proj_path = os.path.dirname(self.project_file_path or '')
         if not proj_path:
             return
         if file_path.startswith(proj_path+os.sep):
             file_path = file_path[len(proj_path)+1:]
         app_proc(PROC_SET_CLIP, file_path)
+
+    def action_cut(self):
+        selected = self.get_location_by_index(self.selected)
+        if (selected.is_file() or selected.is_dir()):
+            app_proc(PROC_SET_CLIP, str(selected))
+        self.action_cut_activate = True
+
+    def action_copy(self):
+        selected = self.get_location_by_index(self.selected)
+        if (selected.is_file() or selected.is_dir()):
+            app_proc(PROC_SET_CLIP, str(selected))
+
+    def action_paste(self):
+        location = app_proc(PROC_GET_CLIP, '')
+        new_location = Path(self.get_location_by_index(self.selected))
+        if (Path(location).is_file() or Path(location).is_dir()):
+            if new_location.is_file():
+                new_location = new_location.parent
+            if Path(location).is_file():
+                new_location_path = str(new_location) + os.sep + str(Path(location).name)
+                if location == new_location_path:
+                    from datetime import datetime
+                    fn_parts = Path(location).name.split('.')
+                    new_name = fn_parts[0] + '_' + datetime.now().strftime("%y%m%d_%H%M%S") + '.' + '.'.join(fn_parts[i+1] for i in range(len(fn_parts) - 1))
+                    new_location = str(new_location) + os.sep + new_name
+                import shutil
+                if self.action_cut_activate:
+                    shutil.move(location, new_location)
+                else:
+                    shutil.copy2(location, new_location)
+            else:
+                new_location = str(new_location) + os.sep + Path(location).name
+                import shutil
+                if self.action_cut_activate:
+                    shutil.move(str(location), new_location)
+                else:
+                    from distutils.dir_util import copy_tree
+                    copy_tree(str(location), new_location)
+                    shutil.copystat(str(location), new_location)
+            self.action_refresh()
+
+    def get_w_h(self):
+        w_ = 600
+        h_ = 600
+        r = app_proc(PROC_COORD_MONITOR, 0)
+        if r:
+            w_ = (r[2]-r[0]) // 3
+            h_ = (r[3]-r[1]) // 4
+
+        return w_, h_
+
+    def callback_button_ok(self, id_dlg, id_ctl, data='', info=''):
+        dlg_proc(id_dlg, DLG_HIDE)
+
+    def show_memo(self, text, caption):
+        w_, h_ = self.get_w_h()
+        h = dlg_proc(0, DLG_CREATE)
+        dlg_proc(h, DLG_PROP_SET, prop={
+            'w': w_,
+            'h': h_,
+            'cap': caption,
+            'border': DBORDER_DIALOG,
+        })
+
+        n = dlg_proc(h, DLG_CTL_ADD, prop='button')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'btn_ok',
+            'x': w_-100,
+            'y': h_-6-25,
+            'w': 100-6,
+            'cap': _('&OK'),
+            'on_change': 'module=cuda_project_man;cmd=callback_button_ok;',
+            'ex0': True,
+        })
+
+        n = dlg_proc(h, DLG_CTL_ADD, prop='memo')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'memo_log',
+            'val': text,
+            'x': 6,
+            'y': 6,
+            'w': w_-6*2,
+            'h': h_-6*3-25,
+            'ex0': True,
+            'ex1': True,
+        })
+
+        dlg_proc(h, DLG_CTL_FOCUS, name='btn_ok')
+        dlg_proc(h, DLG_SCALE)
+        dlg_proc(h, DLG_SHOW_MODAL)
+        dlg_proc(h, DLG_FREE)
+
+    def convert_size(self, size_bytes):
+        size_bytes = int(size_bytes)
+        if size_bytes == 0:
+            return '0 b'
+        size_name = ('b', 'kB', 'mB', 'gB')
+        import math
+        i = int(math.floor(math.log(size_bytes, 1024)))
+        p = math.pow(1024, i)
+        s = round(size_bytes / p, 2)
+        return str("%s %s" % (s, size_name[i]))
+
+    def action_get_properties(self):
+        import os
+        import datetime
+        selected = self.get_location_by_index(self.selected)
+        if os.path.exists(selected):
+            if os.path.isfile(selected):
+                text = _('File: ') + str(selected) + "\n"
+                text += _('Size: ') + self.convert_size(os.path.getsize(selected)) + "\n"
+                text += _('Date of creation: ') + str(datetime.datetime.fromtimestamp(int(os.path.getctime(selected)))) + "\n"
+                text += _('Date of opening: ') + str(datetime.datetime.fromtimestamp(int(os.path.getatime(selected)))) + "\n"
+                text += _('Date of modified: ') + str(datetime.datetime.fromtimestamp(int(os.path.getmtime(selected)))) + "\n"
+            elif os.path.isdir(selected):
+                text = _('Directory: ') + str(selected) + "\n"
+                def folder_size(path):
+                    total = 0
+                    for entry in os.scandir(path):
+                        if entry.is_file():
+                            total += entry.stat().st_size
+                        elif entry.is_dir():
+                            total += folder_size(entry.path)
+                    return total
+                text += _('Size: ') + str(self.convert_size(folder_size(selected))) + "\n"
+        else:
+            text = _('Object not found')
+
+        if text:
+            self.show_memo(text, _('Properties'))
 
     def do_delete_dir(self, location):
         for path in location.glob("*"):
@@ -1547,10 +1742,40 @@ class Command:
         self.icon_indexes[key] = n
         return n
 
+    def get_node_type(self):
+        node_type = None
+        if self.selected is not None:
+            n = self.get_info(self.selected).image
+            if n == self.ICON_PROJ: node_type = NODE_PROJECT
+            elif n == self.ICON_DIR: node_type = NODE_DIR
+            elif n == self.ICON_BAD: node_type = NODE_BAD
+            else: node_type = NODE_FILE
+        return node_type
+
     def form_key_down(self, id_dlg, id_ctl, data):
         if id_ctl in [VK_SPACE, VK_ENTER, VK_F4]:
             self.do_open_current_file(self.get_open_options())
             return False #block key
+        elif id_ctl == VK_DELETE:
+            node_type = self.get_node_type()
+            if node_type == NODE_FILE:
+                self.action_delete_file()
+            elif node_type == NODE_DIR:
+                self.action_delete_directory()
+        elif (id_ctl == VK_F5) or (data == 'c' and (id_ctl in (ord('r'), ord('R')))):
+            self.action_refresh()
+        elif id_ctl == VK_F2:
+            self.action_rename()
+        elif id_ctl == VK_F7:
+            self.action_new_directory()
+        elif (data == 'c' and (id_ctl in (ord('n'), ord('N')))):
+            self.action_new_file()
+        elif (data == 'c' and (id_ctl in (ord('x'), ord('X')))):
+            self.action_cut()
+        elif (data == 'c' and (id_ctl in (ord('c'), ord('C')))):
+            self.action_copy()
+        elif (data == 'c' and (id_ctl in (ord('v'), ord('V')))):
+            self.action_paste()
 
     def add_current_file(self):
 
@@ -1750,11 +1975,11 @@ class Command:
                 del data['sessions'][name]
             with open(fn, 'w', encoding='utf8') as f:
                 json.dump(data, f, indent=2)
-            
+
             # 2. also delete from memory dict (self.project)
             if self.project.get('sessions'):
                 del self.project['sessions'][name]
-            
+
             # 3. and forget current session if name is the same
             if name == self.session_cur_name():
                 app_proc(PROC_SET_SESSION, 'history session.json')
@@ -1803,7 +2028,7 @@ class Command:
         sess = fn+'|/sessions/'+s
         app_proc(PROC_SAVE_SESSION, sess)
         app_proc(PROC_SET_SESSION, sess)
-        
+
         # update "self.project" dict
         with open(fn, 'r', encoding='utf8') as f:
             _newdata = json.load(f)
