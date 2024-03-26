@@ -4306,7 +4306,6 @@ begin
   CodeTree.Invalidate;
 
   EditorApplyOpsCommon(CodeTreeFilterInput);
-  //CodeTreeFilterReset.Width:= ATEditorScale(ATScrollbarTheme.InitialSize);
 
   if Assigned(fmConsole) then
   begin
