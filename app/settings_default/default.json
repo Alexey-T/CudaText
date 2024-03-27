@@ -495,7 +495,7 @@
   //Use custom-painted scrollbars in editor, instead of OS-painted scrollbars.
   "scrollbar_themed": true,
 
-  //Width of scrollbars (before applying global scaling).
+  //Width of (application-themed) scrollbars, before applying UI scaling.
   "scrollbar_size": 14,
 
   //Style of arrows in editor's themed scrollbars.
