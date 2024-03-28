@@ -5,7 +5,7 @@
 
 1.211.4 (2024/03)
 
-+ add: scrollbar (only themed scrollbar) width can be adjusted with new option "scrollbar_size" (thanks @stewcam)
++ add: scrollbar (application-themed scrollbar) width can be adjusted with new option "scrollbar_size" (thanks @stewcam)
 
 1.211.3 (2024/03)
 
