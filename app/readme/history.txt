@@ -6,6 +6,7 @@
 1.211.4 (2024/03)
 
 + add: scrollbar (application-themed scrollbar) width can be adjusted with new option "scrollbar_size" (thanks @stewcam)
+- fix: many seconds freezing when 'delete all' runs in ~600K lines file (thanks @hycmos)
 
 1.211.3 (2024/03)
 
