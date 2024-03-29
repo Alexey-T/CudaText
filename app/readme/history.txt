@@ -6,12 +6,9 @@
 1.211.4 (2024/03)
 
 + add: scrollbar (application-themed scrollbar) width can be adjusted with new option "scrollbar_size" (thanks @stewcam)
-- fix: many seconds freezing when 'select all' + 'delete' runs in ~600K lines file (thanks @hycmos)
-
-1.211.3 (2024/03)
-
 + add/change: when find-dialog "Hi" option is on, and document is 'big' (option "find_hi_max_lines" has effect, or horizontal scrollbar is wider than 400 chars), show Hi_All marks only for the visible screen area and update marks on scrolling; it should not slow down editor significantly (thanks @pintassilgo) 
 + add: find-dialog "Hi" option: finding in the visible screen area is now much faster for huge lines (handles only visible portion of the line)
+- fix: many seconds freezing when 'select all' + 'delete' runs in ~600K lines file (thanks @hycmos)
 
 1.211.0 (2024/03)
 
