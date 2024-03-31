@@ -177,6 +177,10 @@ type
 procedure EditorSaveTempOptions(Ed: TATSynEdit; out Ops: TEditorTempOptions);
 procedure EditorRestoreTempOptions(Ed: TATSynEdit; const ANew, AOld: TEditorTempOptions);
 
+type
+  TEditorNeededIndent = (None, Indent, Unindent);
+function EditorCSyntaxNeedsSpecialIndent(Ed: TATSynEdit): TEditorNeededIndent;
+
 implementation
 
 uses
@@ -205,6 +209,7 @@ uses
   proc_colors,
   proc_msg,
   proc_str,
+  proc_str_c_syntax,
   ec_SyntAnal,
   ec_syntax_format,
   math;
@@ -3329,6 +3334,60 @@ end;
 class operator TEditorHtmlTagRecord.=(const a, b: TEditorHtmlTagRecord): boolean;
 begin
   Result:= false;
+end;
+
+
+function EditorCSyntaxNeedsSpecialIndent(Ed: TATSynEdit): TEditorNeededIndent;
+const
+  cMaxLineLen = 400;
+var
+  Caret: TATCaretItem;
+  St: TATStrings;
+  iLine, NLineWithKeyword: integer;
+  SLine: UnicodeString;
+  bKeywordLineWithCurlyBracket: boolean;
+  CharEnd: WideChar;
+begin
+  Result:= TEditorNeededIndent.None;
+
+  if Ed.Carets.Count=0 then exit;
+  Caret:= Ed.Carets[0];
+  St:= Ed.Strings;
+  if not St.IsIndexValid(Caret.PosY) then exit;
+
+  NLineWithKeyword:= -1;
+  bKeywordLineWithCurlyBracket:= false;
+
+  for iLine:= Caret.PosY-1 downto Max(0, Caret.PosY-5) do
+  begin
+    if St.LinesLen[iLine]>cMaxLineLen then exit;
+    SLine:= St.Lines[iLine];
+    if SBeginsWith(STrimLeft(SLine), UnicodeString('//')) then
+      Continue;
+    if CSyntax_LineBeginsWithBlockKeyword(SLine) then
+    begin
+      NLineWithKeyword:= iLine;
+      bKeywordLineWithCurlyBracket:= CSyntax_LineEndSymbol(SLine)='{';
+      Break;
+    end;
+  end;
+
+  if NLineWithKeyword<0 then exit;
+  if NLineWithKeyword=Caret.PosY-1 then
+  begin
+    { //option "indent_auto_rule" handles this already
+    if bKeywordLineWithCurlyBracket then
+      Result:= TEditorNeededIndent.Indent;
+      }
+    exit;
+  end;
+
+  if bKeywordLineWithCurlyBracket then exit;
+
+  SLine:= St.Lines[Caret.PosY-1];
+  CharEnd:= CSyntax_LineEndSymbol(SLine);
+  if IsCharWordInIdentifier(CharEnd) or (CharEnd=';') or (CharEnd=')') then
+    Result:= TEditorNeededIndent.Unindent;
 end;
 
 end.

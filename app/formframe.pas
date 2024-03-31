@@ -2084,6 +2084,17 @@ begin
             CancelAutocompleteAutoshow;
         end;
       end;
+
+    cCommand_KeyEnter:
+      begin
+        if Ed.OptAutoIndent then
+          case EditorCSyntaxNeedsSpecialIndent(Ed) of
+            TEditorNeededIndent.Indent:
+              Ed.DoCommand(cCommand_TextIndent, TATCommandInvoke.Internal);
+            TEditorNeededIndent.Unindent:
+              Ed.DoCommand(cCommand_TextUnindent, TATCommandInvoke.Internal);
+          end;
+      end;
   end; //case ACommand of
 
   if Ed.LastCommandChangedLines>0 then
