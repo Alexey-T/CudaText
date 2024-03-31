@@ -3407,7 +3407,7 @@ begin
   if Ed.AdapterForHilite is TATAdapterEControl then
   begin
     An:= TATAdapterEControl(Ed.AdapterForHilite).Lexer;
-    Result:= Assigned(An) and An.SupportsCurlyBrackets;
+    Result:= Assigned(An) and (An.LineComment='//') and An.SupportsCurlyBrackets;
   end;
 end;
 
