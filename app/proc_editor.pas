@@ -180,6 +180,7 @@ procedure EditorRestoreTempOptions(Ed: TATSynEdit; const ANew, AOld: TEditorTemp
 type
   TEditorNeededIndent = (None, Indent, Unindent);
 function EditorCSyntaxNeedsSpecialIndent(Ed: TATSynEdit): TEditorNeededIndent;
+function EditorLexerIsCLike(Ed: TATSynEdit): boolean;
 
 implementation
 
@@ -3388,6 +3389,18 @@ begin
   CharEnd:= CSyntax_LineEndSymbol(SLine);
   if IsCharWordInIdentifier(CharEnd) or (CharEnd=';') or (CharEnd=')') then
     Result:= TEditorNeededIndent.Unindent;
+end;
+
+
+function EditorLexerIsCLike(Ed: TATSynEdit): boolean;
+var
+  an: TecSyntAnalyzer;
+begin
+  Result:= false;
+  if Ed.AdapterForHilite=nil then exit;
+  if not (Ed.AdapterForHilite is TATAdapterEControl) then exit;
+  an:= TATAdapterEControl(Ed.AdapterForHilite).Lexer;
+  Result:= Assigned(an) and an.SupportsCurlyBrackets;
 end;
 
 end.

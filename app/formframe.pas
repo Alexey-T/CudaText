@@ -2087,7 +2087,7 @@ begin
 
     cCommand_KeyEnter:
       begin
-        if Ed.OptAutoIndent then
+        if Ed.OptAutoIndent and EditorLexerIsCLike(Ed) then
           case EditorCSyntaxNeedsSpecialIndent(Ed) of
             TEditorNeededIndent.Indent:
               Ed.DoCommand(cCommand_TextIndent, TATCommandInvoke.Internal);
