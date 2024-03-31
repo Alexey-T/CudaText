@@ -3341,13 +3341,14 @@ end;
 function EditorCSyntaxNeedsSpecialIndent(Ed: TATSynEdit): TEditorNeededIndent;
 const
   cMaxLineLen = 400;
+  cMaxBlockLines = 7;
 var
   Caret: TATCaretItem;
   St: TATStrings;
   iLine, NLineWithKeyword: integer;
   SLine: UnicodeString;
   bKeywordLineWithCurlyBracket: boolean;
-  NIndentOfKeyword, NIndentOfCaret: integer;
+  NIndentCaret, NIndentLoop: integer;
   CharEnd: WideChar;
 begin
   Result:= TEditorNeededIndent.None;
@@ -3359,28 +3360,30 @@ begin
 
   NLineWithKeyword:= -1;
   bKeywordLineWithCurlyBracket:= false;
-  NIndentOfKeyword:= 0;
-  NIndentOfCaret:= Ed.TabHelper.CharPosToColumnPos(Caret.PosY, St.Lines[Caret.PosY], Caret.PosX);
+  NIndentCaret:= Ed.TabHelper.CharPosToColumnPos(Caret.PosY, St.Lines[Caret.PosY], Caret.PosX);
+  if NIndentCaret=0 then exit;
 
-  for iLine:= Caret.PosY-1 downto Max(0, Caret.PosY-5) do
+  for iLine:= Caret.PosY-1 downto Max(0, Caret.PosY-cMaxBlockLines) do
   begin
     if St.LinesLen[iLine]>cMaxLineLen then exit;
     SLine:= St.Lines[iLine];
     if SBeginsWith(STrimLeft(SLine), UnicodeString('//')) then
       Continue;
-    if CSyntax_LineBeginsWithBlockKeyword(SLine) then
+    NIndentLoop:= Ed.TabHelper.GetIndentExpanded(iLine, SLine);
+    if NIndentLoop>NIndentCaret then
+      Break;
+    if NIndentLoop<NIndentCaret then
     begin
-      NLineWithKeyword:= iLine;
-      bKeywordLineWithCurlyBracket:= CSyntax_LineEndSymbol(SLine)='{';
-      NIndentOfKeyword:= Ed.TabHelper.GetIndentExpanded(iLine, SLine);
+      if CSyntax_LineBeginsWithBlockKeyword(SLine) then
+      begin
+        NLineWithKeyword:= iLine;
+        bKeywordLineWithCurlyBracket:= CSyntax_LineEndSymbol(SLine)='{';
+      end;
       Break;
     end;
   end;
 
   if NLineWithKeyword<0 then exit;
-
-  if NIndentOfKeyword>=NIndentOfCaret then exit;
-
   if NLineWithKeyword=Caret.PosY-1 then
   begin
     { //option "indent_auto_rule" handles this already
