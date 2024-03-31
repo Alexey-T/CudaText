@@ -3401,13 +3401,14 @@ end;
 
 function EditorLexerIsCLike(Ed: TATSynEdit): boolean;
 var
-  an: TecSyntAnalyzer;
+  An: TecSyntAnalyzer;
 begin
   Result:= false;
-  if Ed.AdapterForHilite=nil then exit;
-  if not (Ed.AdapterForHilite is TATAdapterEControl) then exit;
-  an:= TATAdapterEControl(Ed.AdapterForHilite).Lexer;
-  Result:= Assigned(an) and an.SupportsCurlyBrackets;
+  if Ed.AdapterForHilite is TATAdapterEControl then
+  begin
+    An:= TATAdapterEControl(Ed.AdapterForHilite).Lexer;
+    Result:= Assigned(An) and An.SupportsCurlyBrackets;
+  end;
 end;
 
 end.
