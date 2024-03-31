@@ -3347,6 +3347,7 @@ var
   iLine, NLineWithKeyword: integer;
   SLine: UnicodeString;
   bKeywordLineWithCurlyBracket: boolean;
+  NIndentOfKeyword, NIndentOfCaret: integer;
   CharEnd: WideChar;
 begin
   Result:= TEditorNeededIndent.None;
@@ -3358,6 +3359,8 @@ begin
 
   NLineWithKeyword:= -1;
   bKeywordLineWithCurlyBracket:= false;
+  NIndentOfKeyword:= 0;
+  NIndentOfCaret:= Ed.TabHelper.CharPosToColumnPos(Caret.PosY, St.Lines[Caret.PosY], Caret.PosX);
 
   for iLine:= Caret.PosY-1 downto Max(0, Caret.PosY-5) do
   begin
@@ -3369,11 +3372,15 @@ begin
     begin
       NLineWithKeyword:= iLine;
       bKeywordLineWithCurlyBracket:= CSyntax_LineEndSymbol(SLine)='{';
+      NIndentOfKeyword:= Ed.TabHelper.GetIndentExpanded(iLine, SLine);
       Break;
     end;
   end;
 
   if NLineWithKeyword<0 then exit;
+
+  if NIndentOfKeyword>=NIndentOfCaret then exit;
+
   if NLineWithKeyword=Caret.PosY-1 then
   begin
     { //option "indent_auto_rule" handles this already
