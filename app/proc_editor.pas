@@ -3461,12 +3461,22 @@ begin
   if NIndentCaret>=NIndent then exit;
 
   St.BeginUndoGroup;
-  St.Lines[Caret.PosY]:= StringOfCharW(' ', NIndent);
-  Caret.PosX:= NIndent;
+  try
+    St.Lines[Caret.PosY]:= StringOfCharW(' ', NIndent);
+    Caret.PosX:= NIndent;
 
-  if EditorCSyntaxNeedsSpecialIndent(Ed)= TEditorNeededIndent.Unindent then
-    Ed.DoCommand(cCommand_TextUnindent, TATCommandInvoke.Internal);
-  St.EndUndoGroup;
+    if CSyntax_LineEndSymbol(St.Lines[PrevY])='{' then
+    begin
+      Ed.DoCommand(cCommand_TextIndent, TATCommandInvoke.Internal);
+    end
+    else
+    begin
+      if EditorCSyntaxNeedsSpecialIndent(Ed)= TEditorNeededIndent.Unindent then
+        Ed.DoCommand(cCommand_TextUnindent, TATCommandInvoke.Internal);
+    end;
+  finally
+    St.EndUndoGroup;
+  end;
 end;
 
 end.
