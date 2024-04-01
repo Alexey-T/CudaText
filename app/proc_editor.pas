@@ -3367,7 +3367,7 @@ begin
   begin
     if St.LinesLen[iLine]>cMaxLineLen then exit;
     SLine:= St.Lines[iLine];
-    if SBeginsWith(STrimLeft(SLine), UnicodeString('//')) then
+    if CSyntax_IsLineComment(SLine) then
       Continue;
     NIndentLoop:= Ed.TabHelper.GetIndentExpanded(iLine, SLine);
     if NIndentLoop>NIndentCaret then
