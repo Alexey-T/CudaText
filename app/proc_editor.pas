@@ -3457,8 +3457,6 @@ begin
   if not St.IsIndexValid(PrevY) then exit;
 
   NIndent:= Ed.TabHelper.GetIndentExpanded(PrevY, St.Lines[PrevY]);
-  if NIndent=0 then exit;
-  if NIndentCaret>=NIndent then exit;
 
   St.BeginUndoGroup;
   try
