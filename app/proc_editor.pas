@@ -181,6 +181,7 @@ type
   TEditorNeededIndent = (None, Indent, Unindent);
 function EditorCSyntaxNeedsSpecialIndent(Ed: TATSynEdit): TEditorNeededIndent;
 function EditorLexerIsCLike(Ed: TATSynEdit): boolean;
+procedure EditorTryCSyntaxIndent(Ed: TATSynEdit);
 
 implementation
 
@@ -3418,6 +3419,37 @@ begin
       (An.CommentRangeBegin='/*') and
       An.SupportsCurlyBrackets;
   end;
+end;
+
+
+procedure EditorTryCSyntaxIndent(Ed: TATSynEdit);
+var
+  Caret: TATCaretItem;
+  St: TATStrings;
+  NIndent, i: integer;
+  bSpace: boolean;
+  SLine: UnicodeString;
+begin
+  if Ed.Carets.Count<>1 then exit;
+  Caret:= Ed.Carets[0];
+  St:= Ed.Strings;
+  if not St.IsIndexValid(Caret.PosY) then exit;
+  if not St.IsIndexValid(Caret.PosY-1) then exit;
+
+  //current line must be all spaces/tabs
+  SLine:= St.Lines[Caret.PosY];
+  for i:= 1 to Length(SLine) do
+    if not IsCharSpace(SLine[i]) then exit;
+
+  NIndent:= Ed.TabHelper.GetIndentExpanded(Caret.PosY-1, St.Lines[Caret.PosY-1]);
+
+  St.BeginUndoGroup;
+  St.Lines[Caret.PosY]:= StringOfCharW(' ', NIndent);
+  Caret.PosX:= NIndent;
+
+  if EditorCSyntaxNeedsSpecialIndent(Ed)= TEditorNeededIndent.Unindent then
+    Ed.DoCommand(cCommand_TextUnindent, TATCommandInvoke.Internal);
+  St.EndUndoGroup;
 end;
 
 end.

@@ -2095,6 +2095,12 @@ begin
               Ed.DoCommand(cCommand_TextUnindent, TATCommandInvoke.Internal);
           end;
       end;
+
+    cCommand_KeyTab:
+      begin
+        if Ed.OptAutoIndent and EditorLexerIsCLike(Ed) then
+          EditorTryCSyntaxIndent(Ed);
+      end;
   end; //case ACommand of
 
   if Ed.LastCommandChangedLines>0 then
