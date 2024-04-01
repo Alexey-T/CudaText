@@ -3,6 +3,9 @@
   - fixed
   * changed
 
++ add: C-like languages: Tab press on empty line makes indent considering above code
++ add: C-like languages: Enter press on line-end can make unindent considering above code
+
 1.211.4 (2024/03)
 
 + add: scrollbar (application-themed scrollbar) width can be adjusted with new option "scrollbar_size" (thanks @stewcam)
