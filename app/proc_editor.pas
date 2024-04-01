@@ -179,7 +179,7 @@ procedure EditorRestoreTempOptions(Ed: TATSynEdit; const ANew, AOld: TEditorTemp
 
 type
   TEditorNeededIndent = (None, Indent, Unindent);
-function EditorCSyntaxNeedsSpecialIndent(Ed: TATSynEdit): TEditorNeededIndent;
+function EditorCSyntaxNeedsSpecialIndent(Ed: TATSynEdit; AIndentOfCaret: integer=-1): TEditorNeededIndent;
 function EditorLexerIsCLike(Ed: TATSynEdit): boolean;
 procedure EditorCSyntaxDoTabIndent(Ed: TATSynEdit);
 
@@ -3355,7 +3355,7 @@ begin
 end;
 
 
-function EditorCSyntaxNeedsSpecialIndent(Ed: TATSynEdit): TEditorNeededIndent;
+function EditorCSyntaxNeedsSpecialIndent(Ed: TATSynEdit; AIndentOfCaret: integer=-1): TEditorNeededIndent;
 const
   cMaxLineLen = 400;
   cMaxBlockLines = 7;
@@ -3391,7 +3391,10 @@ begin
   NLineWithKeyword:= -1;
   bKeywordLineWithCurlyBracket:= false;
 
-  NIndentCaret:= Ed.TabHelper.CharPosToColumnPos(Caret.PosY, St.Lines[Caret.PosY], Caret.PosX);
+  if AIndentOfCaret>=0 then
+    NIndentCaret:= AIndentOfCaret
+  else
+    NIndentCaret:= Ed.TabHelper.CharPosToColumnPos(Caret.PosY, St.Lines[Caret.PosY], Caret.PosX);
   if NIndentCaret=0 then exit;
 
   for iLine:= PrevY downto Max(0, PrevY-cMaxBlockLines) do
@@ -3466,7 +3469,7 @@ begin
   end
   else
   begin
-    if EditorCSyntaxNeedsSpecialIndent(Ed)= TEditorNeededIndent.Unindent then
+    if EditorCSyntaxNeedsSpecialIndent(Ed, NIndent{!})= TEditorNeededIndent.Unindent then
       NIndent:= Max(0, NIndent-NTabSize);
   end;
 
