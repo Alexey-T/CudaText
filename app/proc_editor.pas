@@ -3358,8 +3358,11 @@ begin
   St:= Ed.Strings;
   if not St.IsIndexValid(Caret.PosY) then exit;
 
+  if CSyntax_IsLineComment(St.Lines[Caret.PosY-1]) then exit;
+
   NLineWithKeyword:= -1;
   bKeywordLineWithCurlyBracket:= false;
+
   NIndentCaret:= Ed.TabHelper.CharPosToColumnPos(Caret.PosY, St.Lines[Caret.PosY], Caret.PosX);
   if NIndentCaret=0 then exit;
 
