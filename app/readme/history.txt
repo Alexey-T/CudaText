@@ -3,8 +3,10 @@
   - fixed
   * changed
 
-+ add: C-like languages: Tab press on empty line makes indent considering above code
-+ add: C-like languages: Enter press on line-end can make unindent considering above code
+1.211.5 (2024/04)
+
++ add: C-like languages: Enter press on line-end can make unindent considering above code, if "indent_auto" is on (idea by @pintassilgo)
++ add: C-like languages: Tab press on empty line can make indent considering above code, if "indent_auto" is on (idea by @pintassilgo)
 
 1.211.4 (2024/03)
 
