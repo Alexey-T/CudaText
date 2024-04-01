@@ -3354,7 +3354,7 @@ var
 begin
   Result:= TEditorNeededIndent.None;
 
-  if Ed.Carets.Count=0 then exit;
+  if Ed.Carets.Count<>1 then exit;
   Caret:= Ed.Carets[0];
   St:= Ed.Strings;
   if not St.IsIndexValid(Caret.PosY) then exit;
@@ -3431,8 +3431,8 @@ procedure EditorTryCSyntaxIndent(Ed: TATSynEdit);
 var
   Caret: TATCaretItem;
   St: TATStrings;
-  SLine: UnicodeString;
-  NIndent, i: integer;
+  NIndent, NIndentCaret: integer;
+  S: UnicodeString;
 begin
   if Ed.Carets.Count<>1 then exit;
   Caret:= Ed.Carets[0];
@@ -3440,13 +3440,13 @@ begin
   if not St.IsIndexValid(Caret.PosY) then exit;
   if not St.IsIndexValid(Caret.PosY-1) then exit;
 
-  //current line must be all spaces/tabs
-  SLine:= St.Lines[Caret.PosY];
-  for i:= 1 to Length(SLine) do
-    if not IsCharSpace(SLine[i]) then exit;
+  S:= St.Lines[Caret.PosY];
+  if not IsStringSpaces(S) then exit;
+  NIndentCaret:= Ed.TabHelper.CharPosToColumnPos(Caret.PosY, S, Caret.PosX);
 
   NIndent:= Ed.TabHelper.GetIndentExpanded(Caret.PosY-1, St.Lines[Caret.PosY-1]);
   if NIndent=0 then exit;
+  if NIndentCaret>=NIndent then exit;
 
   St.BeginUndoGroup;
   St.Lines[Caret.PosY]:= StringOfCharW(' ', NIndent);
