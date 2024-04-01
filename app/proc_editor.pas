@@ -3437,9 +3437,10 @@ procedure EditorCSyntaxDoTabIndent(Ed: TATSynEdit);
 var
   Caret: TATCaretItem;
   St: TATStrings;
-  NIndent, NIndentCaret, PrevY: integer;
+  NIndent, NIndentOld, PrevY, NTabSize: integer;
   S: UnicodeString;
 begin
+  if Ed.ModeReadOnly then exit;
   if Ed.Carets.Count<>1 then exit;
   Caret:= Ed.Carets[0];
   St:= Ed.Strings;
@@ -3448,7 +3449,7 @@ begin
 
   S:= St.Lines[Caret.PosY];
   if not IsStringSpaces(S) then exit;
-  NIndentCaret:= Ed.TabHelper.CharPosToColumnPos(Caret.PosY, S, Caret.PosX);
+  NTabSize:= Ed.OptTabSize;
 
   //skip space-only lines above
   PrevY:= Caret.PosY-1;
@@ -3456,25 +3457,29 @@ begin
     Dec(PrevY);
   if not St.IsIndexValid(PrevY) then exit;
 
+  NIndentOld:= Ed.TabHelper.GetIndentExpanded(Caret.PosY, St.Lines[Caret.PosY]);
   NIndent:= Ed.TabHelper.GetIndentExpanded(PrevY, St.Lines[PrevY]);
 
-  St.BeginUndoGroup;
-  try
-    St.Lines[Caret.PosY]:= StringOfCharW(' ', NIndent);
-    Caret.PosX:= NIndent;
-
-    if CSyntax_LineEndSymbol(St.Lines[PrevY])='{' then
-    begin
-      Ed.DoCommand(cCommand_TextIndent, TATCommandInvoke.Internal);
-    end
-    else
-    begin
-      if EditorCSyntaxNeedsSpecialIndent(Ed)= TEditorNeededIndent.Unindent then
-        Ed.DoCommand(cCommand_TextUnindent, TATCommandInvoke.Internal);
-    end;
-  finally
-    St.EndUndoGroup;
+  if CSyntax_LineEndSymbol(St.Lines[PrevY])='{' then
+  begin
+    Inc(NIndent, NTabSize);
+  end
+  else
+  begin
+    if EditorCSyntaxNeedsSpecialIndent(Ed)= TEditorNeededIndent.Unindent then
+      NIndent:= Max(0, NIndent-NTabSize);
   end;
+
+  if NIndent<=NIndentOld then exit;
+
+  S:= StringOfCharW(' ', NIndent);
+  if not Ed.OptTabSpaces then
+    S:= Ed.TabHelper.SpacesToTabs(Caret.PosY, S);
+
+  St.Lines[Caret.PosY]:= S;
+  Caret.PosX:= Length(S);
+  Ed.UpdateWrapInfo(true);
+  Ed.DoEventChange(Caret.PosY);
 end;
 
 end.
