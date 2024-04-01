@@ -3473,6 +3473,7 @@ begin
       NIndent:= Max(0, NIndent-NTabSize);
   end;
 
+  //this is handler of Tab-key, it must always do indent>0
   if NIndent<=NIndentOld then exit;
 
   S:= StringOfCharW(' ', NIndent);
