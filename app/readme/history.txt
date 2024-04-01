@@ -3,10 +3,11 @@
   - fixed
   * changed
 
-1.211.5 (2024/04)
+1.212.0 (2024/04)
 
 + add: C-like languages: Enter press on line-end can make unindent considering above code, if "indent_auto" is on (idea by @pintassilgo)
 + add: C-like languages: Tab press on empty line can make indent considering above code, if "indent_auto" is on (idea by @pintassilgo)
++ add: improved auto-completion: it auto-hides when listbox shows single id 'return' and user types 'return' (thanks @pintassilgo)
 + add: on saving "user.json", avoid extra space before ":", ie "key : value,"
 - fix: command 'indent' without selection gave empty selection which was expanded with arrow-keys
 
