@@ -181,7 +181,7 @@ type
   TEditorNeededIndent = (None, Indent, Unindent);
 function EditorCSyntaxNeedsSpecialIndent(Ed: TATSynEdit): TEditorNeededIndent;
 function EditorLexerIsCLike(Ed: TATSynEdit): boolean;
-procedure EditorTryCSyntaxIndent(Ed: TATSynEdit);
+procedure EditorCSyntaxDoTabIndent(Ed: TATSynEdit);
 
 implementation
 
@@ -3339,6 +3339,22 @@ begin
 end;
 
 
+function EditorLexerIsCLike(Ed: TATSynEdit): boolean;
+var
+  An: TecSyntAnalyzer;
+begin
+  Result:= false;
+  if Ed.AdapterForHilite is TATAdapterEControl then
+  begin
+    An:= TATAdapterEControl(Ed.AdapterForHilite).Lexer;
+    Result:= Assigned(An) and
+      (An.LineComment='//') and
+      (An.CommentRangeBegin='/*') and
+      An.SupportsCurlyBrackets;
+  end;
+end;
+
+
 function EditorCSyntaxNeedsSpecialIndent(Ed: TATSynEdit): TEditorNeededIndent;
 const
   cMaxLineLen = 400;
@@ -3411,23 +3427,7 @@ begin
 end;
 
 
-function EditorLexerIsCLike(Ed: TATSynEdit): boolean;
-var
-  An: TecSyntAnalyzer;
-begin
-  Result:= false;
-  if Ed.AdapterForHilite is TATAdapterEControl then
-  begin
-    An:= TATAdapterEControl(Ed.AdapterForHilite).Lexer;
-    Result:= Assigned(An) and
-      (An.LineComment='//') and
-      (An.CommentRangeBegin='/*') and
-      An.SupportsCurlyBrackets;
-  end;
-end;
-
-
-procedure EditorTryCSyntaxIndent(Ed: TATSynEdit);
+procedure EditorCSyntaxDoTabIndent(Ed: TATSynEdit);
 var
   Caret: TATCaretItem;
   St: TATStrings;

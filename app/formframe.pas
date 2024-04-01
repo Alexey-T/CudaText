@@ -2099,7 +2099,7 @@ begin
     cCommand_KeyTab:
       begin
         if Ed.OptAutoIndent and EditorLexerIsCLike(Ed) then
-          EditorTryCSyntaxIndent(Ed);
+          EditorCSyntaxDoTabIndent(Ed);
       end;
   end; //case ACommand of
 
