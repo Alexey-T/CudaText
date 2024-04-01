@@ -7,6 +7,7 @@
 
 + add: C-like languages: Enter press on line-end can make unindent considering above code, if "indent_auto" is on (idea by @pintassilgo)
 + add: C-like languages: Tab press on empty line can make indent considering above code, if "indent_auto" is on (idea by @pintassilgo)
+- fix: command 'indent' without selection gave empty selection which was expanded with arrow-keys
 
 1.211.4 (2024/03)
 
