@@ -2095,7 +2095,6 @@ begin
             TEditorNeededIndent.Unindent:
               Ed.DoCommand(cCommand_TextUnindent, TATCommandInvoke.Internal);
           end;
-          Ed.DoSelect_None;
         end;
       end;
 
