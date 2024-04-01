@@ -3358,8 +3358,13 @@ begin
   Caret:= Ed.Carets[0];
   St:= Ed.Strings;
   if not St.IsIndexValid(Caret.PosY) then exit;
+  if not St.IsIndexValid(Caret.PosY-1) then exit;
 
-  if CSyntax_IsLineComment(St.Lines[Caret.PosY-1]) then exit;
+  SLine:= St.Lines[Caret.PosY-1];
+  if CSyntax_IsLineComment(SLine) then exit;
+  case CSyntax_LineEndSymbol(SLine) of
+    '{', '}': exit;
+  end;
 
   NLineWithKeyword:= -1;
   bKeywordLineWithCurlyBracket:= false;
@@ -3426,9 +3431,8 @@ procedure EditorTryCSyntaxIndent(Ed: TATSynEdit);
 var
   Caret: TATCaretItem;
   St: TATStrings;
-  NIndent, i: integer;
-  bSpace: boolean;
   SLine: UnicodeString;
+  NIndent, i: integer;
 begin
   if Ed.Carets.Count<>1 then exit;
   Caret:= Ed.Carets[0];
