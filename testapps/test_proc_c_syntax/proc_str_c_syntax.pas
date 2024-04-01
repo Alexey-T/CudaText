@@ -10,6 +10,7 @@ uses
 
 function CSyntax_LineBeginsWithBlockKeyword(const S: UnicodeString): boolean;
 function CSyntax_LineEndSymbol(const S: UnicodeString): WideChar;
+function CSyntax_IsLineComment(const S: UnicodeString): boolean;
 procedure CSyntax_DeleteStringsAndComments(var S: UnicodeString);
 
 
@@ -47,7 +48,6 @@ begin
       Result:= false;
   end;
 end;
-
 
 procedure CSyntax_DeleteStringsAndComments(var S: UnicodeString);
 var
@@ -117,6 +117,21 @@ begin
   if i>0 then
     Result:= T[i];
 end;
+
+function CSyntax_IsLineComment(const S: UnicodeString): boolean;
+var
+  Len, i: integer;
+begin
+  Result:= false;
+  Len:= Length(S);
+  i:= 1;
+  while (i<Len) and IsCharSpace(S[i]) do
+    Inc(i);
+  if i>Len then exit;
+  if i+1>Len then exit;
+  Result:= (S[i]='/') and (S[i+1]='/');
+end;
+
 
 end.
 
