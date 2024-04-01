@@ -3365,7 +3365,7 @@ var
   iLine, NLineWithKeyword: integer;
   SLine: UnicodeString;
   bKeywordLineWithCurlyBracket: boolean;
-  NIndentCaret, NIndentLoop: integer;
+  NIndentCaret, NIndentLoop, PrevY: integer;
   CharEnd: WideChar;
 begin
   Result:= TEditorNeededIndent.None;
@@ -3376,7 +3376,13 @@ begin
   if not St.IsIndexValid(Caret.PosY) then exit;
   if not St.IsIndexValid(Caret.PosY-1) then exit;
 
-  SLine:= St.Lines[Caret.PosY-1];
+  //skip space-only lines above
+  PrevY:= Caret.PosY-1;
+  while St.IsIndexValid(PrevY) and IsStringSpaces(St.Lines[PrevY]) do
+    Dec(PrevY);
+  if not St.IsIndexValid(PrevY) then exit;
+
+  SLine:= St.Lines[PrevY];
   if CSyntax_IsLineComment(SLine) then exit;
   case CSyntax_LineEndSymbol(SLine) of
     '{', '}': exit;
@@ -3388,7 +3394,7 @@ begin
   NIndentCaret:= Ed.TabHelper.CharPosToColumnPos(Caret.PosY, St.Lines[Caret.PosY], Caret.PosX);
   if NIndentCaret=0 then exit;
 
-  for iLine:= Caret.PosY-1 downto Max(0, Caret.PosY-cMaxBlockLines) do
+  for iLine:= PrevY downto Max(0, PrevY-cMaxBlockLines) do
   begin
     if St.LinesLen[iLine]>cMaxLineLen then exit;
     SLine:= St.Lines[iLine];
@@ -3409,7 +3415,7 @@ begin
   end;
 
   if NLineWithKeyword<0 then exit;
-  if NLineWithKeyword=Caret.PosY-1 then
+  if NLineWithKeyword=PrevY then
   begin
     { //option "indent_auto_rule" handles this already
     if bKeywordLineWithCurlyBracket then
@@ -3420,7 +3426,7 @@ begin
 
   if bKeywordLineWithCurlyBracket then exit;
 
-  SLine:= St.Lines[Caret.PosY-1];
+  SLine:= St.Lines[PrevY];
   CharEnd:= CSyntax_LineEndSymbol(SLine);
   if IsCharWordInIdentifier(CharEnd) or (CharEnd=';') or (CharEnd=')') then
     Result:= TEditorNeededIndent.Unindent;
@@ -3431,7 +3437,7 @@ procedure EditorCSyntaxDoTabIndent(Ed: TATSynEdit);
 var
   Caret: TATCaretItem;
   St: TATStrings;
-  NIndent, NIndentCaret: integer;
+  NIndent, NIndentCaret, PrevY: integer;
   S: UnicodeString;
 begin
   if Ed.Carets.Count<>1 then exit;
@@ -3444,7 +3450,13 @@ begin
   if not IsStringSpaces(S) then exit;
   NIndentCaret:= Ed.TabHelper.CharPosToColumnPos(Caret.PosY, S, Caret.PosX);
 
-  NIndent:= Ed.TabHelper.GetIndentExpanded(Caret.PosY-1, St.Lines[Caret.PosY-1]);
+  //skip space-only lines above
+  PrevY:= Caret.PosY-1;
+  while St.IsIndexValid(PrevY) and IsStringSpaces(St.Lines[PrevY]) do
+    Dec(PrevY);
+  if not St.IsIndexValid(PrevY) then exit;
+
+  NIndent:= Ed.TabHelper.GetIndentExpanded(PrevY, St.Lines[PrevY]);
   if NIndent=0 then exit;
   if NIndentCaret>=NIndent then exit;
 
