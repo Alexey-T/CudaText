@@ -2088,12 +2088,15 @@ begin
     cCommand_KeyEnter:
       begin
         if Ed.OptAutoIndent and EditorLexerIsCLike(Ed) then
+        begin
           case EditorCSyntaxNeedsSpecialIndent(Ed) of
             TEditorNeededIndent.Indent:
               Ed.DoCommand(cCommand_TextIndent, TATCommandInvoke.Internal);
             TEditorNeededIndent.Unindent:
               Ed.DoCommand(cCommand_TextUnindent, TATCommandInvoke.Internal);
           end;
+          Ed.DoSelect_None;
+        end;
       end;
 
     cCommand_KeyTab:
