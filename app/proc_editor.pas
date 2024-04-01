@@ -3442,6 +3442,7 @@ begin
     if not IsCharSpace(SLine[i]) then exit;
 
   NIndent:= Ed.TabHelper.GetIndentExpanded(Caret.PosY-1, St.Lines[Caret.PosY-1]);
+  if NIndent=0 then exit;
 
   St.BeginUndoGroup;
   St.Lines[Caret.PosY]:= StringOfCharW(' ', NIndent);
