@@ -10,6 +10,7 @@
 + add: improved auto-completion: in several cases, user actions must auto-close the listbox (thanks @pintassilgo)
 + add: on saving "user.json", avoid extra space before ":", it was like '"key" : "value"'
 + add: painting of 'block staples': always paint the 'bottom edge' for lexers with indent-based folding, even if option "staples_props" tells to hide bottom edge
+* change: changed default of option "staples_props" to "0,40,0,0", to look like Sublime and VSCode (thanks @pintassilgo)
 * change: minimal height of micromap's thumb area was increased: 4 -> 12
 - fix: command 'indent' without selection gave empty selection which was expanded with arrow-keys
 - fix: too slow repainting of 'red text-drag-drop mark', at least in Qt5 version (thanks @pintassilgo)
