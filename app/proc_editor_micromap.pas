@@ -128,8 +128,7 @@ begin
   NColumnCount:= Length(Ed.Micromap.Columns);
   if NColumnCount<2 then exit;
 
-  //NWidthSmall:= Ed.TextCharSize.XScaled * EditorOps.OpMicromapSmallMarkSizePercents div 100 div ATEditorCharXScale;
-  NWidthSmall:= ARect.Width div NColumnCount;
+  NWidthSmall:= Ed.TextCharSize.XScaled div 2 div ATEditorCharXScale;
 
   NScaleDiv:= Max(1, Wr.Count);
   if Ed.OptLastLineOnTop then
