@@ -143,7 +143,7 @@ begin
   NIndex1:= Ed.ScrollVert.NPos;
   NIndex2:= NIndex1+Ed.GetVisibleLines; //note: limiting this by Ed.WrapInfo.Count-1 causes issue #4718
   RectMark:= GetWrapItemRect(0, NIndex1, NIndex2, TMicromapMark.Full);
-  RectMark.Bottom:= Max(RectMark.Bottom, RectMark.Top+EditorOps.OpMicromapMinViewAreaHeight);
+  RectMark.Bottom:= Max(RectMark.Bottom, RectMark.Top+EditorOps.OpMicromapMinViewareaHeight);
   XColor.FromColor(GetAppColor(TAppThemeColor.EdMicromapViewBg));
   ABitmap.FillRect(RectMark, XColor);
 
