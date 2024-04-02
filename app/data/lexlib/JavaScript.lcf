@@ -731,6 +731,7 @@ object SyntAnal9: TLibSyntAnalyzer
       RefToCondEnd = True
       HighlightPos = cpAny
       CancelNextRules = True
+      DrawStaple = True
       CollapseFmt = 'func %s0'
       TreeItemImage = 5
       IgnoreAsParent = False
@@ -771,6 +772,7 @@ object SyntAnal9: TLibSyntAnalyzer
       RefToCondEnd = True
       HighlightPos = cpAny
       CancelNextRules = True
+      DrawStaple = True
       CollapseFmt = 'func <anon>'
       TreeItemImage = 5
       IgnoreAsParent = False
@@ -821,6 +823,7 @@ object SyntAnal9: TLibSyntAnalyzer
       RefToCondEnd = True
       HighlightPos = cpBound
       CancelNextRules = True
+      DrawStaple = True
       CollapseFmt = 'func %s-11~s[)]'
       TreeItemImage = 5
       IgnoreAsParent = False
