@@ -613,6 +613,7 @@ object SyntAnal9: TLibSyntAnalyzer
       RefToCondEnd = True
       HighlightPos = cpAny
       CancelNextRules = True
+      DrawStaple = True
       CollapseFmt = 'func <arrow>'
       TreeItemImage = 5
       IgnoreAsParent = False
@@ -683,6 +684,7 @@ object SyntAnal9: TLibSyntAnalyzer
       RefToCondEnd = True
       HighlightPos = cpAny
       CancelNextRules = True
+      DrawStaple = True
       CollapseFmt = 'func <arrow>'
       TreeItemImage = 5
       IgnoreAsParent = False
