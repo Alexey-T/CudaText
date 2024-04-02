@@ -8,8 +8,10 @@
 + add: C-like languages: Enter press on line-end can make unindent considering above code, if "indent_auto" is on (idea by @pintassilgo)
 + add: C-like languages: Tab press on empty line can make indent considering above code, if "indent_auto" is on (idea by @pintassilgo)
 + add: improved auto-completion: in several cases, user actions must auto-close the listbox (thanks @pintassilgo)
-+ add: on saving "user.json", avoid extra space before ":", ie "key : value,"
++ add: on saving "user.json", avoid extra space before ":", it was like '"key" : "value"'
+* change: minimal height of micromap's thumb area was increased: 4 -> 12
 - fix: command 'indent' without selection gave empty selection which was expanded with arrow-keys
+- fix: too slow repainting of 'red text-drag-drop mark', at least in Qt5 version (thanks @pintassilgo)
 
 1.211.4 (2024/03)
 
