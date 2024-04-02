@@ -603,7 +603,6 @@ type
     OpMicromapLineStates: boolean;
     OpMicromapSelections: boolean;
     OpMicromapBookmarks: boolean;
-    OpMicromapSmallMarkSizePercents: integer;
     OpMicromapMinMarkHeight: integer;
     OpMicromapMinViewareaHeight: integer;
 
@@ -1802,11 +1801,10 @@ begin
     OpMicromapLineStates:= true;
     OpMicromapSelections:= true;
     OpMicromapBookmarks:= false;
-    OpMicromapSmallMarkSizePercents:= 50;
     OpMicromapMinMarkHeight:= 4;
     OpMicromapMinViewareaHeight:= 16;
 
-    OpMarginFixed:= 2000; //hide margin
+    OpMarginFixed:= 2000; //big value effectively hides the margin
     OpMarginString:= '';
 
     OpMarkerSize:= 30;
