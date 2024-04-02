@@ -605,6 +605,7 @@ type
     OpMicromapBookmarks: boolean;
     OpMicromapSmallMarkSizePercents: integer;
     OpMicromapMinMarkHeight: integer;
+    OpMicromapMinViewAreaHeight: integer;
 
     OpMarginFixed: integer;
     OpMarginString: string;
@@ -1803,6 +1804,7 @@ begin
     OpMicromapBookmarks:= false;
     OpMicromapSmallMarkSizePercents:= 50;
     OpMicromapMinMarkHeight:= 4;
+    OpMicromapMinViewAreaHeight:= 12;
 
     OpMarginFixed:= 2000; //hide margin
     OpMarginString:= '';
