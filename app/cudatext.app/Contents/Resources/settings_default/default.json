@@ -525,9 +525,9 @@
   //Properties of block staples. String value contains ","-separated options:
   //- Shift of staple to the right (-5..5, 0: staple is near the left edge of text cell).
   //- Width (in %) of staple's angled side (0..200).
-  //- Kind of top staple edge. Enum. 0: none; 1: angled; 2: simple line
+  //- Kind of top staple edge. Enum. 0: none; 1: angled; 2: simple line.
   //- Kind of bottom staple edge.
-  "staples_props": "-1,40,1,1",
+  "staples_props": "0,40,0,0",
 
   //[View/Ruler]
   //Ruler: Show ruler (horizontal bar at the top).

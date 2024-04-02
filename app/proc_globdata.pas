@@ -1809,7 +1809,7 @@ begin
 
     OpMarkerSize:= 30;
     OpStaplesStyle:= 1; //Ord(cLineStyleSolid)
-    OpStaplesProps:= '-1,40,1,1';
+    OpStaplesProps:= '0,40,0,0';
     OpStapleIndentConsidersEnd:= true;
 
     OpUnprintedShow:= false;
