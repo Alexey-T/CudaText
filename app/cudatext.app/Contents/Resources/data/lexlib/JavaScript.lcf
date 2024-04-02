@@ -900,6 +900,7 @@ object SyntAnal9: TLibSyntAnalyzer
       BlockEnd = ']'
       DisplayInTree = False
       HighlightPos = cpAny
+      DrawStaple = True
       CollapseFmt = '[ ... ]'
       IgnoreAsParent = False
     end
