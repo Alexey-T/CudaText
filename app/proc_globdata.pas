@@ -234,9 +234,11 @@ type
     MaxLineLenForEditingKeepingLexer: integer;
     MaxSizeForSession: integer;
     MaxLinesForMicromapPaint: integer;
+
     InfoAboutOptionsEditor: boolean;
     AllowRunPkExec: boolean;
     AllowCheckConfigsForNullBytes: boolean;
+    AllowCSyntaxSpecialIndents: boolean;
 
     LogPluginIniting: boolean;
     LogSessions: boolean;
@@ -2147,6 +2149,7 @@ begin
     InfoAboutOptionsEditor:= true;
     AllowRunPkExec:= true;
     AllowCheckConfigsForNullBytes:= true;
+    AllowCSyntaxSpecialIndents:= true;
 
     LogPluginIniting:= true;
     LogSessions:= true;

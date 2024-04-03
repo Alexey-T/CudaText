@@ -2087,7 +2087,7 @@ begin
 
     cCommand_KeyEnter:
       begin
-        if Ed.OptAutoIndent and EditorLexerIsCLike(Ed) then
+        if UiOps.AllowCSyntaxSpecialIndents and Ed.OptAutoIndent and EditorLexerIsCLike(Ed) then
         begin
           case EditorCSyntaxNeedsSpecialIndent(Ed) of
             TEditorNeededIndent.Indent:
@@ -2100,7 +2100,7 @@ begin
 
     cCommand_KeyTab:
       begin
-        if Ed.OptAutoIndent and EditorLexerIsCLike(Ed) then
+        if UiOps.AllowCSyntaxSpecialIndents and Ed.OptAutoIndent and EditorLexerIsCLike(Ed) then
           EditorCSyntaxDoTabIndent(Ed);
       end;
   end; //case ACommand of
