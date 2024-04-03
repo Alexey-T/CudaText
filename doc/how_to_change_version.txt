@@ -1,0 +1,10 @@
+In which places to change app version:
+
+1. app/proc_msg.pas
+
+2. setup/cuda_ver.sh
+
+3. setup/debfiles/gtk2_amd64/control and
+  setup/debfiles/qt5_amd64/control
+
+4. Lazarus 'Project Options' dialog -> 'Version info' tab of dialog
