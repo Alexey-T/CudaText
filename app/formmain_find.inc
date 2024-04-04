@@ -949,12 +949,14 @@ begin
 end;
 
 procedure TfmMain.FinderShowResult(ok, AIsReplace: boolean; AFinder: TATEditorFinder);
+var
+  Details: string;
 begin
   if ok then
   begin
-    MsgStatus(
-      msgStatusFoundNextMatch+FinderGetHiAllIndexesString(AFinder)+FinderOptionsToHint(AFinder, AIsReplace),
-      true);
+    Details:= FinderGetHiAllIndexesString(AFinder);
+    Details+= FinderOptionsToHint(AFinder, AIsReplace);
+    MsgStatus(msgStatusFoundNextMatch+Details, true);
 
     AFinder.Editor.EndUpdate;
     Application.ProcessMessages;
@@ -978,9 +980,14 @@ begin
 end;
 
 procedure TfmMain.FinderShowResultSimple(ok: boolean; AFinder: TATEditorFinder);
+var
+  Details: string;
 begin
   if ok then
-    MsgStatus(msgStatusFoundNextMatch{+FinderGetHiAllIndexesString}, true)
+  begin
+    Details:= FinderGetHiAllIndexesString(AFinder);
+    MsgStatus(msgStatusFoundNextMatch+Details, true);
+  end
   else
     FinderShowResult(false, false, AFinder);
 end;
