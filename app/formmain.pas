@@ -1055,8 +1055,8 @@ type
     procedure DoDialogFind_Hide;
     procedure DoDialogFind_Toggle(AReplaceMode, AAndFocus: boolean);
     procedure FinderFormChangeVisible(Sender: TObject);
-    procedure FinderShowResult(ok, AIsReplace: boolean; AFinder: TATEditorFinder);
-    procedure FinderShowResultSimple(ok: boolean; AFinder: TATEditorFinder);
+    procedure FinderShowResult(AFound, AIsReplace: boolean; AFinder: TATEditorFinder);
+    procedure FinderShowResultSimple(AFound: boolean; AFinder: TATEditorFinder);
     procedure FinderShowMatchesCount(AMatchCount, ATime: integer);
     function FinderHandleKeyDown(AKey: word; AShiftState: TShiftState): boolean;
     procedure DoMoveTabToGroup(AGroupIndex: Integer; AFromCommandPalette: boolean=false);

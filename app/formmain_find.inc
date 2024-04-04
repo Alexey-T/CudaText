@@ -948,11 +948,11 @@ begin
     Result:= Format(' [%d/%d]', [NCurrent+1, NTotal])
 end;
 
-procedure TfmMain.FinderShowResult(ok, AIsReplace: boolean; AFinder: TATEditorFinder);
+procedure TfmMain.FinderShowResult(AFound, AIsReplace: boolean; AFinder: TATEditorFinder);
 var
   Details: string;
 begin
-  if ok then
+  if AFound then
   begin
     Details:= FinderGetHiAllIndexesString(AFinder);
     Details+= FinderOptionsToHint(AFinder, AIsReplace);
@@ -979,11 +979,11 @@ begin
       true);
 end;
 
-procedure TfmMain.FinderShowResultSimple(ok: boolean; AFinder: TATEditorFinder);
+procedure TfmMain.FinderShowResultSimple(AFound: boolean; AFinder: TATEditorFinder);
 var
   Details: string;
 begin
-  if ok then
+  if AFound then
   begin
     Details:= FinderGetHiAllIndexesString(AFinder);
     MsgStatus(msgStatusFoundNextMatch+Details, true);
