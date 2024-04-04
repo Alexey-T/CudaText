@@ -1285,6 +1285,7 @@ begin
     FOnChangeVisible(Self);
 
   FTimerShow.Enabled:= true;
+  UpdateState(false);
 end;
 
 procedure TfmFind.UpdateInitialCaretPos;
