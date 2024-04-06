@@ -14,7 +14,7 @@
 * change: minimal height of micromap's thumb area was increased from 4 to 16
 - fix: command 'indent' without selection gave empty selection which was expanded with arrow-keys
 - fix: too slow repainting of 'red text-drag-drop mark', at least in Qt5 version (thanks @pintassilgo)
-- fix: Find-dialog did not apply Hi option on showing, with search already made (thanks @iconv)
+- fix: Find-dialog did not apply Hi option on dialog showing, when some search was already made (thanks @iconv)
 
 1.211.4 (2024/03)
 
