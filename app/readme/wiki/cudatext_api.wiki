@@ -3112,7 +3112,7 @@ Param "as_copy" (bool):
 * True: Creates the file but editor doesn't use new filename. Filename must be not empty, otherwise function will return False.
 
 Notes:
-* Function can be used for editor created in dlg_proc() only if param "as_copy" is False, otherwise it will return None.
+* Function can be used for editor created in dlg_proc() only if param "as_copy" is True, otherwise it will return None.
 * For "as_copy" = False, code performs more detailed write-error checks.
 
 ===Editor.cmd===
