@@ -5028,7 +5028,7 @@ It provides:
 * add: Editor.action: EDACTION_FIND_ALL supports multi-selections when searching with 's' option (before it handled only first selection)
 * delete deprecated CARET_OPTION_UNFOLD
 
-1.0.455 (app 1.212.0)
+1.0.455 (app 1.212.1)
 * change: Editor.micromap: changed scale of parameter "column width" from 'percents of char cell' (e.g. 50) to 'percents of normal column' (e.g. 100)
 * delete deprecated: delete param "tag" in app_log()
 
