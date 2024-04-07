@@ -3344,12 +3344,12 @@ Controls editor's micromap. Possible values of "id":
 * MICROMAP_GET: Get list of micromap columns, as list of dict. Dict keys are:
 ** "size_perc": Width of column in percents of average char width.
 ** "size_px": Width of column in pixels.
-** "tag": Int tag of column. CudaText has 2 default columns with tag 0 and 1.
+** "tag": Int (signed 64 bit) tag of column. CudaText has 3 default columns, with tags 0 (line states), 1 (marks of plugins), 2 (selections).
 ** "color": RGB color of column background. Can be COLOR_NONE.
 
 * MICROMAP_ADD: Add micromap column. Returns bool: tag was not used, column was added.
-** "param1": Int (64 bit) tag of column.
-** "param2": Width of column in percents of average char width.
+** "param1": Int (signed 64 bit) tag of column.
+** "param2": Width of column in 'units'. Where 100 'units' correspond to 'normal' column width. Note: column width will be 1) auto-sized to the current editor font if "micromap_on_scrollbar":false, 2) auto-sized to scrollbar width if "micromap_on_scrollbar":true.
 ** "param3": RGB color of column background, or COLOR_NONE for default themed color.
 
 * MICROMAP_DELETE: Delete micromap column by its tag. Param "param1": tag. Returns bool: column was found and deleted.
