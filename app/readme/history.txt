@@ -3,10 +3,9 @@
   - fixed
   * changed
 
-+ add: command 'duplicate line(s)' moves caret down, like in Sublime and VSCode (thanks @victorel-petrovich)
-
 1.212.1 (2024/04)
 
++ add: command 'duplicate line(s)' moves caret down, like in Sublime and VSCode (thanks @victorel-petrovich)
 + add: micromap column widths are now always auto-sized to the current micromap width, which is often different with "micromap_on_scrollbar":true (idea by @pintassilgo)
 + add: C-like languages: Enter press on line-end can make unindent considering above code, if "indent_auto" is on (idea by @pintassilgo)
 + add: C-like languages: Tab press on empty line can make indent considering above code, if "indent_auto" is on (idea by @pintassilgo)
