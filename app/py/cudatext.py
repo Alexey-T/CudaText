@@ -1024,11 +1024,9 @@ def app_path(id):
 def app_proc(id, val):
     return ct.app_proc(id, to_str(val))
 
-def app_log(id, text, tag=0, panel=''):
+def app_log(id, text, panel=''):
     if type(text) is not str:
         raise ValueError('app_log() parameter "text" must be string')
-    if tag!=0:
-        print('ERROR: app_log() parameter "tag" has no effect, but %d is given'%tag)
     return ct.app_log(id, text, tag, panel)
 
 def app_idle(wait=False):
