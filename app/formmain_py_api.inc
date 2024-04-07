@@ -2885,12 +2885,11 @@ var
   PtrText, PtrPanel: PChar;
   StrText, StrPanel: string;
   Id, NLen, i: integer;
-  NTag: Int64;
   Form: TAppFormWithEditor;
   List: TStringList;
 begin
   with AppPython.Engine do
-    if Bool(PyArg_ParseTuple(Args, 'isLs:app_log', @Id, @PtrText, @NTag, @PtrPanel)) then
+    if Bool(PyArg_ParseTuple(Args, 'iss:app_log', @Id, @PtrText, @PtrPanel)) then
     begin
       StrText:= string(PtrText);
       StrPanel:= string(PtrPanel);

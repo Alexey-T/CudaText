@@ -616,7 +616,7 @@ Actions:
 
 ===app_log===
 
- app_log(id, text, tag=0, panel="")
+ app_log(id, text, panel="")
 
 Performs action with standard panels in the bottom panel: Output, Validate, Console.
 
@@ -639,7 +639,7 @@ Possible values of "id" for Output/Validate panels:
 * LOG_GET_LINEINDEX: Returns index of selected line in panel's listbox.
 * LOG_SET_LINEINDEX: Sets index of selected line in panel's listbox. Param "text" must be str(number).
 
-Possible values of "id" for "Console" panel:
+Possible values of "id" for Console panel:
 
 * LOG_CONSOLE_CLEAR: Clears UI controls in console.
 ** If text empty or has "m" then memo-control (above) is cleared.
@@ -648,8 +648,6 @@ Possible values of "id" for "Console" panel:
 * LOG_CONSOLE_ADD: Adds line to console (its combobox and memo).
 * LOG_CONSOLE_GET_COMBO_LINES: Returns list of lines in combobox-control.
 * LOG_CONSOLE_GET_MEMO_LINES: Returns list of lines in memo-control.
-
-Parameter "tag" is deprecated and is not used.
 
 ====Example====
 
@@ -5032,5 +5030,6 @@ It provides:
 
 1.0.455 (app 1.212.0)
 * change: Editor.micromap: changed scale of parameter "column width" from 'percents of char cell' (e.g. 50) to 'percents of normal column' (e.g. 100)
+* delete deprecated: delete param "tag" in app_log()
 
 [[Category:CudaText]]
