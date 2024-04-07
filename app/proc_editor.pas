@@ -2423,6 +2423,7 @@ begin
     begin
       Ed.Carets.Assign(SavedCarets);
       FreeAndNil(SavedCarets);
+      Ed.Update; //important, because SavedCarets don't have screen coords
     end;
     AFinder.OptInSelection:= bSavedInSelection;
   end;
