@@ -4319,6 +4319,8 @@ begin
 
   EditorApplyOpsCommon(fmOutput.Ed);
   EditorApplyOpsCommon(fmValidate.Ed);
+  fmOutput.Ed.OptCaretVirtual:= false;
+  fmValidate.Ed.OptCaretVirtual:= false;
 
   DoApplyFont_Output;
 
