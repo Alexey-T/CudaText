@@ -1027,7 +1027,7 @@ def app_proc(id, val):
 def app_log(id, text, panel=''):
     if type(text) is not str:
         raise ValueError('app_log() parameter "text" must be string')
-    return ct.app_log(id, text, tag, panel)
+    return ct.app_log(id, text, panel)
 
 def app_idle(wait=False):
     return ct.app_idle(wait)
