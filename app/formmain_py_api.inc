@@ -8941,7 +8941,7 @@ begin
                     'size_perc',
                     NWidthUnits,
                     'size_px',
-                    NWidthPixels,
+                    NRight-NLeft,
                     'tag',
                     NTag,
                     'color',
