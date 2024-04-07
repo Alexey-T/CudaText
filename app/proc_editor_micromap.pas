@@ -184,7 +184,7 @@ begin
       else
         NIndex2:= Wr.FindIndexOfCaretPos(Point(CaretX2, CaretY2));
 
-      RectMark:= GetWrapItemRect(0, NIndex1, NIndex2, TMicromapMark.Right);
+      RectMark:= GetWrapItemRect(2{column_2}, NIndex1, NIndex2, TMicromapMark.Column);
       ABitmap.FillRect(RectMark, XColorSelected);
     end;
 

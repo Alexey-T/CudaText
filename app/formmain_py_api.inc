@@ -8939,7 +8939,7 @@ begin
                 PyList_SetItem(Result, i,
                   Py_BuildValue('{sisisLsi}',
                     'size_perc',
-                    NWidthPercents,
+                    NWidthUnits,
                     'size_px',
                     NWidthPixels,
                     'tag',
