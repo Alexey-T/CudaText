@@ -3342,7 +3342,7 @@ Performs some action in editor. Possible values of "id":
 Controls editor's micromap. Possible values of "id":
 
 * MICROMAP_GET: Get list of micromap columns, as list of dict. Dict keys are:
-** "size_perc": Width of column in percents of average char width.
+** "size_perc": Width of column in 'units'. See description in MICROMAP_ADD.
 ** "size_px": Width of column in pixels.
 ** "tag": Int (signed 64 bit) tag of column. CudaText has 3 default columns, with tags 0 (line states), 1 (marks of plugins), 2 (selections).
 ** "color": RGB color of column background. Can be COLOR_NONE.
