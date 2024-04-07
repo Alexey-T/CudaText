@@ -143,7 +143,7 @@ object SyntAnal16: TLibSyntAnalyzer
       DisplayName = 'String 3-quotes'
       StyleName = 'String'
       TokenType = 4
-      Expression = '(?s-i)[rbuf]*("""|'#39#39#39')(\\.|.)*?(\1|\Z)'
+      Expression = '[rbuf]*("""|'#39#39#39')(\\.|.)*?(\1|\Z)'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -151,7 +151,7 @@ object SyntAnal16: TLibSyntAnalyzer
       DisplayName = 'String raw \ at eol'
       StyleName = 'String'
       TokenType = 4
-      Expression = '(?-i)(r|rf|rb|br|ur)("|'#39')(\\\z|\\.|.)*?\2'
+      Expression = '(r|rf|rb|br|ur)("|'#39')(\\\z|\\.|.)*?\2'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -159,7 +159,7 @@ object SyntAnal16: TLibSyntAnalyzer
       DisplayName = 'String \ at eol'
       StyleName = 'String'
       TokenType = 4
-      Expression = '(?-i)(b|u)?("|'#39')(\\\z|\\.|.)*?\2'
+      Expression = '(b|u)?("|'#39')(\\\z|\\.|.)*?\2'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -167,7 +167,7 @@ object SyntAnal16: TLibSyntAnalyzer
       DisplayName = 'String raw'
       StyleName = 'String'
       TokenType = 4
-      Expression = '(?-i)(rf|fr|rb|r|br|ur)("|'#39')(\\.|.)*?(\2|$)'
+      Expression = '(rf|fr|rb|r|br|ur)("|'#39')(\\.|.)*?(\2|$)'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -175,7 +175,7 @@ object SyntAnal16: TLibSyntAnalyzer
       DisplayName = 'String f'
       StyleName = 'String'
       TokenType = 4
-      Expression = '(?s-i)f("|'#39')(\\.|\{\{|(\{(\{.*?\}|.)*?\}|.))*?(\1|\Z)'
+      Expression = 'f("|'#39')(\\.|\{\{|(\{(\{.*?\}|.)*?\}|.))*?(\1|\Z)'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -183,7 +183,7 @@ object SyntAnal16: TLibSyntAnalyzer
       DisplayName = 'String'
       StyleName = 'String'
       TokenType = 4
-      Expression = '(?-i)(b|u)?("|'#39')(\\.|.)*?(\2|$)'
+      Expression = '(b|u)?("|'#39')(\\.|.)*?(\2|$)'
       ColumnFrom = 0
       ColumnTo = 0
     end
