@@ -3,10 +3,9 @@
   - fixed
   * changed
 
-* change: micromap column widths are now always auto-sized to the current micromap width, which is often different with "micromap_on_scrollbar":true (idea by @pintassilgo)
+1.212.1 (2024/04)
 
-1.212.0 (2024/04)
-
++ add: micromap column widths are now always auto-sized to the current micromap width, which is often different with "micromap_on_scrollbar":true (idea by @pintassilgo)
 + add: C-like languages: Enter press on line-end can make unindent considering above code, if "indent_auto" is on (idea by @pintassilgo)
 + add: C-like languages: Tab press on empty line can make indent considering above code, if "indent_auto" is on (idea by @pintassilgo)
 + add: improved auto-completion: in several cases, user actions must auto-close the listbox (thanks @pintassilgo)
@@ -17,6 +16,7 @@
 - fix: command 'indent' without selection gave empty selection which was expanded with arrow-keys
 - fix: too slow repainting of 'red text-drag-drop mark', at least in Qt5 version (thanks @pintassilgo)
 - fix: Find-dialog did not apply Hi option on dialog showing, when some search was already made (thanks @iconv)
+- fix: regression in 1.211.4: caret jumps to the top of the editor on scrolling, if 'Hi' find-option is on
 
 1.211.4 (2024/03)
 
