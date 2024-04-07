@@ -304,7 +304,6 @@ const
   msgStatusBadRegex: string = 'Incorrect regex passed:';
   msgStatusFoundNextMatch: string = 'Found next match';
   msgStatusTryingAutocomplete: string = 'Trying auto-complete for:';
-  msgStatusNoLineCmtDefined: string = 'No line comment defined for lexer';
   msgStatusReplaceCount: string = 'Replaces made: %d';
   msgStatusFindCount: string = 'Count of "%s": %d';
   msgStatusFoundFragments: string = 'Found %d different fragment(s)';
