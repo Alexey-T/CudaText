@@ -3,6 +3,8 @@
   - fixed
   * changed
 
+* change: reworked micromap column widths, they are now auto-sized to the current micromap width, which is different with "micromap_on_scrollbar":true (idea by @pintassilgo)
+
 1.212.0 (2024/04)
 
 + add: C-like languages: Enter press on line-end can make unindent considering above code, if "indent_auto" is on (idea by @pintassilgo)
