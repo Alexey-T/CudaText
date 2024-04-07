@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-+ add: command 'duplicate line(s)' moves caret down, like in Sublime (thanks @victorel-petrovich)
++ add: command 'duplicate line(s)' moves caret down, like in Sublime and VSCode (thanks @victorel-petrovich)
 
 1.212.1 (2024/04)
 
