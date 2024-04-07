@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-* change: reworked micromap column widths, they are now auto-sized to the current micromap width, which is different with "micromap_on_scrollbar":true (idea by @pintassilgo)
+* change: micromap column widths are now always auto-sized to the current micromap width, which is often different with "micromap_on_scrollbar":true (idea by @pintassilgo)
 
 1.212.0 (2024/04)
 
