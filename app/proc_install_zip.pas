@@ -339,7 +339,7 @@ begin
       if SRegexMatchesString(ini_section, 'fmt\d+', true) then
       begin
         s_caption:= ini.ReadString(ini_section, 'caption', '');
-        AReport+= msgStatusPackageFormatter+' '+s_caption;
+        AReport+= msgStatusPackageFormatter+' '+s_caption+#10;
       end
       else
       if SRegexMatchesString(ini_section, 'item\d+', true) then
@@ -358,20 +358,14 @@ begin
         begin
           if s_caption='' then Continue;
           if s_method='' then Continue;
+          if SEndsWith(s_caption, '\-') then Continue;
 
           s_caption_nice:= s_caption;
           s_caption_nice:= StringReplace(s_caption_nice, '&', '', [rfReplaceAll]);
           s_caption_nice:= StringReplace(s_caption_nice, '\', ': ', [rfReplaceAll]);
 
-          if not SEndsWith(s_caption, '\-') then
-          begin
-            AReport+= msgStatusPackageCommand+' '+s_caption_nice;
-            if s_hotkey<>'' then
-              AReport+= '  ['+s_hotkey+']';
-            AReport+= #10;
-          end;
+          AReport+= msgStatusPackageCommand+' '+s_caption_nice + IfThen(s_hotkey<>'', '  ['+s_hotkey+']') + #10;
 
-          //handle "hotkey"
           if s_hotkey<>'' then
           begin
             if s_lexers='' then
@@ -403,7 +397,7 @@ begin
         begin
           if s_events='' then Continue;
           ANeedRestart:= true;
-          AReport:= AReport+msgStatusPackageEvents+' '+s_events+#10;
+          AReport+= msgStatusPackageEvents+' '+s_events+#10;
         end;
       end; //if SRegexMatchesString(ini_section, 'item\d+', true)
     end;
