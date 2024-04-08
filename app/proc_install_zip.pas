@@ -336,6 +336,13 @@ begin
 
     for ini_section in sections do
     begin
+      if SRegexMatchesString(ini_section, 'fmt\d+', true) then
+      begin
+        s_caption:= ini.ReadString(ini_section, 'caption', '');
+        AReport+= msgStatusPackageFormatter+' '+s_caption;
+        Continue;
+      end;
+
       if not SRegexMatchesString(ini_section, 'item\d+', true) then Continue;
 
       s_section:= ini.ReadString(ini_section, 'section', '');
