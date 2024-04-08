@@ -340,11 +340,10 @@ begin
       begin
         s_caption:= ini.ReadString(ini_section, 'caption', '');
         AReport+= msgStatusPackageFormatter+' '+s_caption;
-        Continue;
-      end;
-
-      if not SRegexMatchesString(ini_section, 'item\d+', true) then Continue;
-
+      end
+     else
+     if SRegexMatchesString(ini_section, 'item\d+', true) then
+     begin
       s_section:= ini.ReadString(ini_section, 'section', '');
       s_caption:= ini.ReadString(ini_section, 'caption', '');
       s_method:= ini.ReadString(ini_section, 'method', '');
@@ -406,6 +405,7 @@ begin
         ANeedRestart:= true;
         AReport:= AReport+msgStatusPackageEvents+' '+s_events+#10;
       end;
+     end;
     end;
   finally
     FreeAndNil(sections);
