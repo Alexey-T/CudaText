@@ -1,0 +1,9 @@
+<?xml encoding="Windows-1253" ?>
+<?xml encoding="US-ASCII" ?>
+<?xml encoding="IBM866" ?>
+<?xml encoding="UTF-8" ?>
+# encoding=US
+
+move one of the first lines to the top.
+then reopen the file.
+it must reopen in different encoding (from first file line).

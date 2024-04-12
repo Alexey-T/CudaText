@@ -182,6 +182,7 @@ type
     { private declarations }
     FTimerShow: TTimer;
     FTimerWrapped: TTimer;
+    FTimerHiAll: TTimer;
     FPopupMore: TPopupMenu;
     FPrevColorOfInput: TColor;
     FMenuitemOptRegex: TMenuItem;
@@ -220,6 +221,7 @@ type
     FOnShowMatchesCount: TAppFinderShowMatchesCount;
     FOnHandleKeyDown: TAppFinderKeyDownEvent;
     FLexerRegexThemed: boolean;
+    FHiAllEnableFindNext: boolean;
     Adapter: TATAdapterEControl;
     AdapterActive: boolean;
     procedure bRepStopClick(Sender: TObject);
@@ -238,6 +240,7 @@ type
     procedure SetReplace(AValue: boolean);
     procedure TimerShowTick(Sender: TObject);
     procedure TimerWrappedTick(Sender: TObject);
+    procedure TimerHiAllTick(Sender: TObject);
     procedure UpdateButtonBold;
     procedure UpdateRegexHighlight;
   public
@@ -813,7 +816,8 @@ begin
   //Ctrl+Enter: add line-break
   if (Key=VK_RETURN) and (Shift=[ssCtrl]) then
   begin
-    (Sender as TATSynEdit).DoCommand(cCommand_KeyEnter, TATCommandInvoke.AppInternal);
+    if IsMultiLine or UiOps.FindEnableCtrlEnterInSinleLineMode then
+      (Sender as TATSynEdit).DoCommand(cCommand_KeyEnter, TATCommandInvoke.AppInternal);
     Key:= 0;
     exit;
   end;
@@ -901,6 +905,11 @@ begin
   FTimerShow.Enabled:= false;
   FTimerShow.Interval:= 100;
   FTimerShow.OnTimer:= @TimerShowTick;
+
+  FTimerHiAll:= TTimer.Create(Self);
+  FTimerHiAll.Enabled:= false;
+  FTimerHiAll.Interval:= UiOps.FindHiAll_TimerInterval;
+  FTimerHiAll.OnTimer:= @TimerHiAllTick;
 end;
 
 procedure TfmFind.FormHide(Sender: TObject);
@@ -972,6 +981,8 @@ begin
       DoResult(TAppFinderOperation.CloseDlg)
     else
       DoFocusEditor;
+    if FTimerHiAll.Enabled then
+      TimerHiAllTick(nil); //disarm timer, requested at #5353
     key:= 0;
     exit;
   end;
@@ -986,6 +997,8 @@ begin
   if (Str=UiOps.HotkeyFindNext) and (Str<>'Enter') then
   begin
     DoResult(TAppFinderOperation.FindNext);
+    if FTimerHiAll.Enabled then
+      TimerHiAllTick(nil); //disarm timer, requested at #5353
     key:= 0;
     exit
   end;
@@ -997,6 +1010,8 @@ begin
       DoResult(TAppFinderOperation.Replace)
     else
       DoResult(TAppFinderOperation.FindNext);
+    if FTimerHiAll.Enabled then
+      TimerHiAllTick(nil); //disarm timer, requested at #5353
     key:= 0;
     exit
   end;
@@ -1004,6 +1019,8 @@ begin
   if Str=UiOps.HotkeyFindPrev then
   begin
     DoResult(TAppFinderOperation.FindPrev);
+    if FTimerHiAll.Enabled then
+      TimerHiAllTick(nil); //disarm timer, requested at #5353
     key:= 0;
     exit
   end;
@@ -1268,6 +1285,7 @@ begin
     FOnChangeVisible(Self);
 
   FTimerShow.Enabled:= true;
+  UpdateState(false);
 end;
 
 procedure TfmFind.UpdateInitialCaretPos;
@@ -1291,14 +1309,12 @@ begin
   if Assigned(FOnResult) then
     FOnResult(Self, Op);
 
-  bUpdateState:= not (Op in [
-    TAppFinderOperation.None,
-    TAppFinderOperation.CloseDlg,
-    TAppFinderOperation.CountAll,
-    TAppFinderOperation.ExtractAll,
-    TAppFinderOperation.FindMarkAll,
-    TAppFinderOperation.FindSelectAll
-    ]);
+  bUpdateState:= Op in [
+    TAppFinderOperation.Replace,
+    TAppFinderOperation.ReplaceStop,
+    TAppFinderOperation.ReplaceAll,
+    TAppFinderOperation.ReplaceGlobal
+    ];
 
   if Op<>TAppFinderOperation.CloseDlg then
   begin
@@ -1524,7 +1540,6 @@ end;
 
 procedure TfmFind.UpdateState(AEnableFindNextForHiOption: boolean);
 var
-  Ed: TATSynEdit;
   bEnabled: boolean;
 begin
   cPadding:= ATEditorScale(4);
@@ -1544,10 +1559,6 @@ begin
   bRepAll.Enabled:= bEnabled and IsReplace and not FForViewer;
   bRepGlobal.Enabled:= bEnabled and IsReplace and not FForViewer;
   bMore.Enabled:= bEnabled and not FForViewer;
-
-  FOnGetMainEditor(Ed);
-  //sometimes, Ed=Nil here (after changing groups 2->1)
-  chkHiAll.Enabled:= bEnabled and Assigned(Ed) and (Ed.Strings.Count<UiOps.FindHiAll_MaxLines);
 
   chkCase.Enabled:= bEnabled;
   chkWords.Enabled:= bEnabled and not chkRegex.Checked and (edFind.Strings.Count<2); //disable "w" for multi-line input
@@ -1731,11 +1742,11 @@ end;
 
 procedure TfmFind.UpdateHiAll(AEnableFindNext: boolean);
 var
-  Finder: TATEditorFinder;
-  NMatches: integer;
   NColorBG: TColor;
-  NTick: QWord;
+  Ed: TATSynEdit;
 begin
+  FTimerHiAll.Enabled:= false;
+
   if FForViewer then
   begin
     NColorBG:= GetAppColor(TAppThemeColor.EdTextBg);
@@ -1744,8 +1755,6 @@ begin
     exit;
   end;
 
-  ClearHiAll;
-
   if UiOps.FindShowNoResultsByInputBgColor and not IsInputColored then
   begin
     NColorBG:= GetAppColor(TAppThemeColor.EdTextBg);
@@ -1753,9 +1762,46 @@ begin
     edFind.Update;
   end;
 
-  if edFind.Text='' then exit;
-  if not chkHiAll.Enabled then exit;
+  if edFind.Text='' then
+  begin
+    ClearHiAll;
+    exit;
+  end;
+  if not chkHiAll.Enabled then
+  begin
+    ClearHiAll;
+    exit;
+  end;
 
+  if edFind.Strings.IsIndexValid(0) then
+    if edFind.Strings.LinesLen[0]<UiOps.FindHiAll_MinInputLen then
+    begin
+      ClearHiAll;
+      exit;
+    end;
+
+  FHiAllEnableFindNext:= AEnableFindNext;
+  FOnGetMainEditor(Ed);
+  if Assigned(Ed) and (Ed.Strings.Count>UiOps.FindHiAll_TimerLines) then
+  begin
+    FTimerHiAll.Interval:= UiOps.FindHiAll_TimerInterval;
+    FTimerHiAll.Enabled:= true;
+  end
+  else
+    TimerHiAllTick(nil);
+end;
+
+
+procedure TfmFind.TimerHiAllTick(Sender: TObject);
+var
+  Finder: TATEditorFinder;
+  NMatches: integer;
+  NTick: QWord;
+  NColorBG: TColor;
+begin
+  FTimerHiAll.Enabled:= false;
+
+  ClearHiAll;
   if IsHiAll then
   begin
     Finder:= TATEditorFinder.Create;
@@ -1773,10 +1819,11 @@ begin
       Finder.OptTokens:= TATFinderTokensAllowed(bTokens.ItemIndex);
       Finder.OptWrapped:= chkWrap.Checked;
       Finder.OptPreserveCase:= chkPreserveCase.Checked;
+      Finder.MaxLineLen:= UiOps.FindHiAll_MaxLineLen;
       Finder.OnGetToken:= FOnGetToken;
 
       NTick:= GetTickCount64;
-      EditorHighlightAllMatches(Finder, AEnableFindNext, NMatches, FInitialCaretPos);
+      EditorHighlightAllMatches(Finder, FHiAllEnableFindNext, NMatches, FInitialCaretPos);
       NTick:= GetTickCount64-NTick;
 
       if UiOps.FindShowNoResultsByInputBgColor and not IsInputColored then

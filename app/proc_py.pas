@@ -169,7 +169,8 @@ var
   tick: PtrInt;
   SModule: string;
 begin
-  Result:= IntToStr((EventTime+5) div 10 * 10)+'ms (';
+  Result:= AppFormatTimeInMilliseconds((EventTime+5) div 10 * 10);
+  Result+= ' (';
   for i:= 0 to EventTimes.Count-1 do
   begin
     tick:= PtrInt(EventTimes.Objects[i]);
@@ -180,7 +181,7 @@ begin
       Delete(SModule, 1, Length(cKnownPrefix));
     Result+=
       SModule+' '+
-      IntToStr(tick)+'ms';
+      AppFormatTimeInMilliseconds(tick);
   end;
   Result+= ')';
 end;

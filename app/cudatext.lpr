@@ -8,14 +8,12 @@ uses
   {$ENDIF}
   proc_inittick,
   Interfaces, // this includes the LCL widgetset
-  SysUtils, Forms, lazcontrols,
-  FormMain, FormConsole,
-  form_menu_commands, formgoto, form_menu_list, formsavetabs,
-  formconfirmrep, formlexerprop, formlexerlib,
-  formcolorsetup, formabout, formkeys, formcharmaps,
-  formlexerstyle, formlexerstylemap, formkeyinput,
-  form_addon_report, formconfirmbinary, form_choose_theme,
-  proc_globdata, fix_focus_window, proc_json_ex, form_unprinted;
+  SysUtils, Forms, lazcontrols, FormMain, FormConsole, form_menu_commands,
+  formgoto, form_menu_list, formsavetabs, formconfirmrep, formlexerprop,
+  formlexerlib, formcolorsetup, formabout, formkeys, formcharmaps,
+  formlexerstyle, formlexerstylemap, formkeyinput, form_addon_report,
+  formconfirmbinary, form_choose_theme, proc_globdata, fix_focus_window,
+  proc_json_ex, form_unprinted, proc_editor_micromap;
 
 {$R *.res}
 

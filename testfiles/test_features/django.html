@@ -1,0 +1,11 @@
+<section class="blog-archive">
+  <ul class='post-link'>
+      {% for post in site.pages.blog.posts %}
+      <li><a href='{{post.url}}'>{{post.title}}</a></li>
+      {% endfor %}
+  </ul>
+</section>
+
+{% for page in site.pages %}
+<li><a href="{{page.url}}" {% if page.url == url %} class="current" {% endif %}>{{page.title}}</a></li>
+{% endfor %}

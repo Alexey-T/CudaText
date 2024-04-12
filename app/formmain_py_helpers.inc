@@ -479,6 +479,7 @@ begin
         //only check for False
         Result:= Pointer(Obj)<>Pointer(Py_False);
         Py_DECREF(Obj);
+        //WriteLn('DoPyCallbackFromAPI refcnt: ', Obj^.ob_refcnt);
       end;
 
     exit;
@@ -557,11 +558,11 @@ end;
 
 procedure TfmMain.DoPyTimerTick(Sender: TObject);
 var
-  Timer: TTimer;
+  Timer: TAppApiTimer;
   SCallback, STag: string;
   NIndex: integer;
 begin
-  Timer:= Sender as TTimer;
+  Timer:= Sender as TAppApiTimer;
   NIndex:= AppListTimers.IndexOfObject(Timer);
   if NIndex<0 then exit;
 

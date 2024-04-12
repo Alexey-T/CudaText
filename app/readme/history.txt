@@ -3,6 +3,66 @@
   - fixed
   * changed
 
+1.212.1 (2024/04)
+
++ add: command 'duplicate line(s)' moves caret down, like in Sublime and VSCode (thanks @victorel-petrovich)
++ add: micromap column widths are now always auto-sized to the current micromap width, which is often different with "micromap_on_scrollbar":true (idea by @pintassilgo)
++ add: C-like languages: Enter press on line-end can make unindent considering above code, if "indent_auto" is on (idea by @pintassilgo)
++ add: C-like languages: Tab press on empty line can make indent considering above code, if "indent_auto" is on (idea by @pintassilgo)
++ add: improved auto-completion: in several cases, user actions must auto-close the listbox (thanks @pintassilgo)
++ add: on saving "user.json", avoid extra space before ":", it was like '"key" : "value"'
++ add: painting of 'block staples': always paint the 'bottom edge' for lexers with indent-based folding, even if option "staples_props" tells to hide bottom edge
+* change: changed default of option "staples_props" to "0,40,0,0", to look like Sublime and VSCode (thanks @pintassilgo)
+* change: minimal height of micromap's thumb area was increased from 4 to 16
+- fix: command 'indent' without selection gave empty selection which was expanded with arrow-keys
+- fix: too slow repainting of 'red text-drag-drop mark', at least in Qt5 version (thanks @pintassilgo)
+- fix: Find-dialog did not apply Hi option on dialog showing, when some search was already made (thanks @iconv)
+- fix: regression in 1.211.4: caret jumps to the top of the editor on scrolling, if 'Hi' find-option is on
+
+1.211.4 (2024/03)
+
++ add: scrollbar (application-themed scrollbar) width can be adjusted with new option "scrollbar_size" (thanks @stewcam)
++ add/change: when find-dialog "Hi" option is on, and document is 'big' (option "find_hi_max_lines" has effect, or horizontal scrollbar is wider than 400 chars), show Hi_All marks only for the visible screen area and update marks on scrolling; it should not slow down editor significantly (thanks @pintassilgo) 
++ add: find-dialog "Hi" option: finding in the visible screen area is now much faster for huge lines (handles only visible portion of the line)
+- fix: many seconds freezing when 'select all' + 'delete' runs in ~600K lines file (thanks @hycmos)
+
+1.211.0 (2024/03)
+
++ add: text search without RegEx has big speedup on huge lines; e.g. for line len=400K, with 25K matches, 'Count all'/'Select all'/'Mark all' are improved from ~30 sec to ~0.5 sec
++ add: text replacement (with and without RegEx) has big speedup on huge lines; e.g. for line len=400K, with 25K matches, 'Replace all' is improved from ~110 sec to ~0.5 sec
++ add: when option "find_hi_max_lines" limit is over, still highlight occurrences, but only in the visible editor area; button "Hi" in the Find dialog is not disabled anymore (thanks @pintassilgo)
++ add: lexer 'Search results' better supports code-tree
++ add: after inserting line-break by Enter line became space-only? then make it empty. like Sublime (thanks @pintassilgo)
++ add: detection of JS scripts by 'shebang', like '#!/usr/bin/node'
+
+* change: Find dialog: on typing in input field with 'big' document (count of lines > 2000), Highlight_All action is started not immediately, but by timer (thanks @pintassilgo)
+    * count of lines is controlled by new option "find_hi_timer_lines":2000
+    * timer interval is controlled by new option "find_hi_timer_interval":500
+* change: changed default of option "find_hi_max_line_len" from 4k to 800k, because 'find all' is much faster now
+* change: deleted option "picture_types"
+- fix: Windows: forgot to add DLL files libwebp32.dll / libwebp64.dll
+- fix: allow plugin Highlight_Occurrences to react (by on_scroll) also to window resizing
+
+1.210.5 (2024/03)
+
++ add: allow plugin HTML_Tooltips to show preview for WEBP pictures too
+- fix: CSS autocompletion: better add ';' if both {} brackets are on the current line; don't add ';' at all if we completed the property name (thanks @d-mal)
+- fix: snippets for 'void' HTML tags had bad endings (thanks @d-mal)
+- fix: Qt5 version: char '|' cannot be entered in Code-tree filter field / FindInFiles plugin (thanks @mix-7) 
+- fix: Windows: fix for installation/uninstallation problems of the shell extension on new versions of Windows 11 (by @dinkumoil)
+- fix: plugin commands were not recorded to macros, if called from Plugins menu
+- fix: plugin HTML_Tooltips shows preview of BMP pictures buggy
+
+1.210.0 (2024/03)
+
++ add: use new version of fcl-json lib to faster load big 40Mb-size session files with big changed file text
++ add: can disable Ctrl+Enter hotkey in the Find-dialog via new option "find_ctrl_enter" (thanks @pintassilgo)
++ add: can disable 'Highlight all' feature of Find-dialog for huge lines via new option "find_hi_max_line_len" (thanks @pintassilgo)
+- fix: plugin Insert_Pics cannot set 'scroll last line on top' property for the splitted-view editor (thanks @SamC)
+- fix: Windows: fix focusing main app window by Alt-Tab from _non-modal_ plugin dialogs (no such major plugins exist yet) (thanks @veksha)
+- fix: Qt5 version: hotkeys display for `, Ctrl+`, Minus, Shift+Minus, Shift+= (fixed in Lazarus)
+- fix: Qt5 version: FindInFiles plugin input fields are empty after pressing "Find" (fixed in Lazarus)
+
 1.209.0 (2024/01)
 
 + add: new option "ui_timer_idle"; e.g. value 50 will speed up reaction of LSP plugin to text editing, ie appearance of LSP diagnostics gutter icons (thanks @veksha)

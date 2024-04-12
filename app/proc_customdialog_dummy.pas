@@ -476,7 +476,7 @@ var
 begin
   Img:= ASender as TImage;
   DoPaintCheckers(
-    Img.Canvas,
+    ACanvas,
     Img.Width,
     Img.Height,
     8,

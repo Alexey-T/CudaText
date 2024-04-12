@@ -617,8 +617,13 @@ var
   N: integer;
 begin
   N:= StrToIntDef(SValue, C.MinValue);
-  if N<C.MinValue then N:= C.MinValue;
-  if N>C.MaxValue then N:= C.MaxValue;
+  if C.MinValue<C.MaxValue then
+  begin
+    if N<C.MinValue then
+      N:= C.MinValue;
+    if N>C.MaxValue then
+      N:= C.MaxValue;
+  end;
   C.Value:= N;
 end;
 
@@ -1968,6 +1973,8 @@ begin
   begin
     with DoControl_Target(C) do
       Font.Name:= AValue;
+    if C is TATSynEdit then
+      TATSynEdit(C).OptForceSeparateCharSizer:= true;
     if C is TATListbox then
       TATListbox(C).ThemedFont:= false;
     exit;
@@ -1977,6 +1984,8 @@ begin
   begin
     with DoControl_Target(C) do
       Font.Size:= StrToIntDef(AValue, Font.Size);
+    if C is TATSynEdit then
+      TATSynEdit(C).OptForceSeparateCharSizer:= true;
     if C is TATListbox then
       TATListbox(C).ThemedFont:= false;
     exit;

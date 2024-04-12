@@ -234,9 +234,11 @@ type
     MaxLineLenForEditingKeepingLexer: integer;
     MaxSizeForSession: integer;
     MaxLinesForMicromapPaint: integer;
+
     InfoAboutOptionsEditor: boolean;
     AllowRunPkExec: boolean;
     AllowCheckConfigsForNullBytes: boolean;
+    AllowCSyntaxSpecialIndents: boolean;
 
     LogPluginIniting: boolean;
     LogSessions: boolean;
@@ -368,12 +370,18 @@ type
     FindIndentHorz: integer;
     FindMultilineHeight: integer;
     FindSeparateForm: boolean;
+    FindHiAll_TimerInterval: integer;
+    FindHiAll_TimerLines: integer;
+    FindHiAll_MinInputLen: integer;
     FindHiAll_MaxLines: integer;
+    FindHiAll_MaxLineLen: integer;
+    FindHiAll_MaxVisibleColumns: integer;
     FindHiAll_TagValue: Int64;
     //FindHiAll_MoveCaret: boolean;
     FindOccur_TagValue: Int64;
     FindWrapAtEdge_Delay: integer;
     FindWrapAtEdge_ThemeItem: string;
+    FindEnableCtrlEnterInSinleLineMode: boolean;
 
     AllowProgramUpdates: boolean;
     EscapeClose: boolean;
@@ -597,8 +605,8 @@ type
     OpMicromapLineStates: boolean;
     OpMicromapSelections: boolean;
     OpMicromapBookmarks: boolean;
-    OpMicromapSmallMarkSizePercents: integer;
     OpMicromapMinMarkHeight: integer;
+    OpMicromapMinViewareaHeight: integer;
 
     OpMarginFixed: integer;
     OpMarginString: string;
@@ -781,6 +789,7 @@ procedure MsgFileFromSessionNotFound(const fn: string);
 function AppListboxItemHeight(AScale, ADoubleHeight: boolean): integer;
 procedure AppUpdateWatcherFrames(AMaxWorkTime: integer = 500);
 procedure AppStopListTimers;
+function AppFormatTimeInMilliseconds(const N: QWord): string;
 
 procedure FixFormPositionToDesktop(F: TForm);
 procedure FixRectPositionToDesktop(var F: TRect);
@@ -1794,15 +1803,15 @@ begin
     OpMicromapLineStates:= true;
     OpMicromapSelections:= true;
     OpMicromapBookmarks:= false;
-    OpMicromapSmallMarkSizePercents:= 50;
     OpMicromapMinMarkHeight:= 4;
+    OpMicromapMinViewareaHeight:= 16;
 
-    OpMarginFixed:= 2000; //hide margin
+    OpMarginFixed:= 2000; //big value effectively hides the margin
     OpMarginString:= '';
 
     OpMarkerSize:= 30;
     OpStaplesStyle:= 1; //Ord(cLineStyleSolid)
-    OpStaplesProps:= '-1,40,1,1';
+    OpStaplesProps:= '0,40,0,0';
     OpStapleIndentConsidersEnd:= true;
 
     OpUnprintedShow:= false;
@@ -2058,10 +2067,10 @@ begin
     for element:= Low(element) to High(element) do
       HistoryItems[element]:= true;
 
-    FindSuggestSel:= true;
-    FindSuggestWord:= false;
-    FindSuggestInSelection:= false;
-    FindCurrentWordCaseSensitive:= TUiOpsFindCaseSensitive.FromDialog;
+    FindSuggestSel:= true; //option "find_suggest_sel"
+    FindSuggestWord:= false; //option "find_suggest_cur_word"
+    FindSuggestInSelection:= false; //option "find_suggest_in_selection"
+    FindCurrentWordCaseSensitive:= TUiOpsFindCaseSensitive.FromDialog; //option "find_sel_case"
     FindShowNoResultsByInputBgColor:= true;
 
     FindHiddenButtons:= '';
@@ -2082,15 +2091,22 @@ begin
     FindShow_RegexSubst:= true;
     FindShow_PreserveCase:= true;
 
-    FindIndentVert:= -5;
-    FindIndentHorz:= 10;
-    FindMultilineHeight:= 250;
-    FindSeparateForm:= false;
-    FindHiAll_MaxLines:= 1000;
-    FindHiAll_TagValue:= 99; //GET_UNIQUE_TAG starts with 120
-    FindOccur_TagValue:= 98;
+    FindIndentVert:= -5; //option "find_indent_vert"
+    FindIndentHorz:= 10; //option "find_indent_horz"
+    FindMultilineHeight:= 250; //option "find_multiline_height"
+    FindSeparateForm:= false; //initially Find dlg is not docked to main dlg
+    FindHiAll_TimerInterval:= 500; //interval of timer which starts Hi_All action after typing in Find dlg
+    FindHiAll_TimerLines:= 2000; //option "find_hi_timer_lines"
+    FindHiAll_MinInputLen:= 1; //minimal count of chars in Find-dlg input to start Hi_All action
+    FindHiAll_MaxLines:= 4000; //option "find_hi_max_lines"
+    FindHiAll_MaxLineLen:= 800000; //option "find_hi_max_line_len"
+    FindHiAll_MaxVisibleColumns:= 400; //if ScrollHorz.NMax>value, Hi_All highlights only marks on visible line area
+    FindHiAll_TagValue:= 99; //attrib-tag for Highlight_all_matches option ('Hi')
+    FindOccur_TagValue:= 98; //attrib-tag for 'expand selection to next word' command
+                             //tags must be <120, coz GET_UNIQUE_TAG starts with 120
     FindWrapAtEdge_Delay:= 350;
-    FindWrapAtEdge_ThemeItem:= ''; //'EdMarkedRangeBg';
+    FindWrapAtEdge_ThemeItem:= ''; //option "find_wrapped_blinking", ok value is 'EdMarkedRangeBg'
+    FindEnableCtrlEnterInSinleLineMode:= true; //enable Ctrl+Enter to insert line-break in single-line mode of Find dlg
 
     AllowProgramUpdates:= true;
     EscapeClose:= false;
@@ -2133,6 +2149,7 @@ begin
     InfoAboutOptionsEditor:= true;
     AllowRunPkExec:= true;
     AllowCheckConfigsForNullBytes:= true;
+    AllowCSyntaxSpecialIndents:= true;
 
     LogPluginIniting:= true;
     LogSessions:= true;
@@ -4029,6 +4046,14 @@ begin
 end;
 
 
+function AppFormatTimeInMilliseconds(const N: QWord): string;
+begin
+  if N>=1000 then
+    Result:= IntToStr(N div 1000)+'s'+IntToStr(N mod 1000)+'ms'
+  else
+    Result:= IntToStr(N)+'ms';
+end;
+
 
 initialization
 
@@ -4074,6 +4099,7 @@ initialization
   AppConfig_DetectLine.Add('\#!\/bin\/(ba)?sh', 'Bash script');
   AppConfig_DetectLine.Add('\#!\/usr\/bin\/env (ba)?sh', 'Bash script');
   AppConfig_DetectLine.Add('\#!\/usr\/bin\/env python\d*', 'Python');
+  AppConfig_DetectLine.Add('\#!.*\b(node|js|bun|osascript\s+-l\s+JavaScript)', 'JavaScript');
 
   AppFrameList1:= TFPList.Create;
   AppFrameList2:= TFPList.Create;

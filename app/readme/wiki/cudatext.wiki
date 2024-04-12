@@ -105,10 +105,14 @@ The key:value pairs in the <code>"detect_line"</code> object in <code>user.json<
 * Key value: Lexer name. As noted earlier, a value of <code>-</code> means "don't activate a lexer".
 
 CudaText has several default values:
-* <syntaxhighlight lang="json" inline>"<\?xml .+": "XML"</syntaxhighlight>
-* <syntaxhighlight lang="json" inline>"\#!\/bin\/(ba)?sh": "Bash script"</syntaxhighlight>
-* <syntaxhighlight lang="json" inline>"\#!\/usr\/bin\/env (ba)?sh": "Bash script"</syntaxhighlight>
-* <syntaxhighlight lang="json" inline>"\#!\/usr\/bin\/env python\d*": "Python"</syntaxhighlight>
+
+<syntaxhighlight lang="json">
+"<\?xml .+": "XML",
+"\#!\/bin\/(ba)?sh": "Bash script",
+"\#!\/usr\/bin\/env (ba)?sh": "Bash script",
+"\#!\/usr\/bin\/env python\d*": "Python",
+"\#!.*\b(node|js|bun|osascript\s+-l\s+JavaScript)": "JavaScript",
+</syntaxhighlight>
 
 === Plugins menu custom groupings ===
 <syntaxhighlight lang="json" style="float: right; margin-left: 3em; margin-right: 3em; width: 20vw;">{
@@ -495,6 +499,7 @@ The following lexers (counting only important ones) exist for CudaText. They are
 * Pike
 * Pixilang
 * PKGBUILD
+* Pkl
 * PL/SQL
 * PlantUML
 * Pony
@@ -522,6 +527,7 @@ The following lexers (counting only important ones) exist for CudaText. They are
 * ReScript
 * reStructuredText
 * Rexx
+* Roc
 * RON
 * RPG/IV
 * RTF (Rich Text)
@@ -1250,6 +1256,8 @@ Action buttons in dialog:
 
 The state of dialog search options is saved to the history file (settings/history.json), and is restored after app restart.
 
+Button "..." is enabled in "editor mode", so if button is disabled for you, it means CudaText was opened in [[#Text/Hex viewer]] mode. "Viewer mode" is activated when you pass the name of huge file with size>500 Mbytes (this is controlled by option "ui_max_size_open").
+
 ==Text searcher features==
 
 Search engine supports actions with multi-selections. This makes sense mainly for mass-search actions (Find all, Select all, Mark all, Replace all).
@@ -1691,15 +1699,26 @@ A3: Start CudaText from Terminal (console) like this:
  cudatext -z=hex FileName
 
 =Picture file viewer=
-CudaText has the emdedded picture file viewer. It's activated when you open a file with the picture file type, see the option "picture_types": BMP, PNG, JPEG, GIF, ICO (Windows icon), WEBP (general picture format), PSD (Photoshop image), TGA (Targa), CUR (Windows cursor).
+CudaText has the emdedded picture file viewer. Picture mode is activated for files with several known extensions:
+
+* BMP
+* PNG
+* JPEG, JPG
+* GIF
+* ICO (Windows icon)
+* WEBP, it requires libwebp library: on Windows it is file libwebp32.dll / libwebp64.dll in the CudaText folder; on Linux/Unix it is file libwebp.so.6 in system folder
+* PSD (Photoshop image)
+* TGA (Targa)
+* CUR (Windows cursor)
 
 Viewer supports zooming of an image:
+
 * use Ctrl + mouse wheel
 * click the statusbar cell with the zoom value, and choose one of predefined zoom values: 33%, 50%, 100%, 150%, 200%, 500%, 1000%, 1500%.
 
 While picture is zoomed so that it's bigger than the current window, you can drag the picture by mouse.
 
-While picture viewer is active, Find/Replace-dialog is disabled.
+While picture viewer is active, Find/Replace dialog is disabled.
 
 =Pair brackets=
 CudaText has built-in pair bracket finder. Bracket finder can highlight pair brackets, when there is only single caret, and no selection is placed. It finds symbols "()[]{}<>" (configurable per lexer via lexer-specific configs). Bracket finder respects lexer context: it skips symbols inside syntax "comments" and syntax "strings". If caret is placed not directly on/after a bracket, program will find nearest surrounding brackets.
@@ -2071,6 +2090,13 @@ You can make Pull-Request there, if needed.
 
 ;packages: Packages with possible binary files, which will be unpacked to the CudaText installation folder. For the date 2021.08, these are only Python engines, for CudaText Windows build.
 
+==How to install add-ons offline==
+Usually users install add-ons online, using "Plugins / Addons Manager / Install" command. But for some users online method is not available. How to install add-ons offline:
+
+* Download all add-ons in one zip file from this SourceForge page: https://sourceforge.net/projects/cudatext/files/addons_all/ . Unpack this zip file to some folder.
+* You will find there individual add-ons, like "plugin.xxxx.zip", "lexer.yyyy.zip", "linter.zzzz.zip" etc.
+* To install individual add-on, just open its zip file in CudaText "File / Open file" dialog. CudaText will handle zip archive and suggest to install add-on from it.
+
 =Color themes=
 ==Color themes introduction==
 
@@ -2081,7 +2107,7 @@ There are two kinds of themes:
 
 Two dialogs allow to paint these kinds of themes. To paint a theme:
 
-* Call dialog: "Options / Settings - more / Settings - theme - nnnnn"
+* Call dialog: "Options / Settings - theme - nnnn"
 * For UI themes: customize colors in dialog
 * For syntax themes: customize lexer-styles in dialog
 * For syntax themes: test theme at least on JavaScript/HTML/CSS/C/Pascal/Ini/Markdown lexers. On what files to test:

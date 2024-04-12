@@ -14,7 +14,9 @@ unit FormMain;
 {$IFDEF DEBUG}
 {$INLINE OFF}
 {$ENDIF}
-//{$define debug_on_lexer}
+
+{.$define debug_on_lexer}
+{.$define ApiTimerFP}
 
 interface
 
@@ -1053,8 +1055,8 @@ type
     procedure DoDialogFind_Hide;
     procedure DoDialogFind_Toggle(AReplaceMode, AAndFocus: boolean);
     procedure FinderFormChangeVisible(Sender: TObject);
-    procedure FinderShowResult(ok, AIsReplace: boolean; AFinder: TATEditorFinder);
-    procedure FinderShowResultSimple(ok: boolean; AFinder: TATEditorFinder);
+    procedure FinderShowResult(AFound, AIsReplace: boolean; AFinder: TATEditorFinder);
+    procedure FinderShowResultSimple(AFound: boolean; AFinder: TATEditorFinder);
     procedure FinderShowMatchesCount(AMatchCount, ATime: integer);
     function FinderHandleKeyDown(AKey: word; AShiftState: TShiftState): boolean;
     procedure DoMoveTabToGroup(AGroupIndex: Integer; AFromCommandPalette: boolean=false);
@@ -1257,6 +1259,9 @@ var
 implementation
 
 uses
+  {$ifdef ApiTimerFP}
+  fptimer,
+  {$endif}
   Emmet,
   EmmetHelper,
   TreeHelpers_Base,
@@ -1297,6 +1302,12 @@ const
   StatusbarTag_WrapMode = 17;
   StatusbarTag_Zoom = 18;
   StatusbarTag_Msg = 20;
+
+const
+  cBottomPanelMenu_Copy = 100;
+  cBottomPanelMenu_SelAll = 101;
+  cBottomPanelMenu_Clear = 102;
+  cBottomPanelMenu_Wrap = 103;
 
 function GetAppColorOfStatusbarFont: TColor;
 begin
@@ -1980,25 +1991,25 @@ begin
 
     mi:= TMenuItem.Create(AEditor);
     mi.Caption:= 'copy';
-    mi.Tag:= 100;
+    mi.Tag:= cBottomPanelMenu_Copy;
     mi.OnClick:=@PopupBottomCopyClick;
     AMenu.Items.Add(mi);
 
     mi:= TMenuItem.Create(AEditor);
     mi.Caption:= 'select all';
-    mi.Tag:= 101;
+    mi.Tag:= cBottomPanelMenu_SelAll;
     mi.OnClick:=@PopupBottomSelectAllClick;
     AMenu.Items.Add(mi);
 
     mi:= TMenuItem.Create(AEditor);
     mi.Caption:= 'clear';
-    mi.Tag:= 102;
+    mi.Tag:= cBottomPanelMenu_Clear;
     mi.OnClick:=@PopupBottomClearClick;
     AMenu.Items.Add(mi);
 
     mi:= TMenuItem.Create(AEditor);
     mi.Caption:= 'toggle word wrap';
-    mi.Tag:= 103;
+    mi.Tag:= cBottomPanelMenu_Wrap;
     mi.OnClick:=@PopupBottomWrapClick;
     AMenu.Items.Add(mi);
   end;
@@ -3475,7 +3486,7 @@ begin
 
   //allow F12 keypress from Project Manager when main menu is hidden
   //check Sender=nil to allow F-keys only when called from another form, to not block key-combos with F-keys
-  if (Key>=VK_F1) and (Key<=VK_F24) and (Sender=nil) then
+  if (Key>=VK_F1) and (Key<=VK_F12) and (Sender=nil) then
   begin
     Ed:= CurrentEditor;
     if Assigned(Ed) then //we may here check Ed.Focused to not block key-combos with F-keys
@@ -3652,15 +3663,21 @@ procedure TfmMain.FormShow(Sender: TObject);
   begin
     NTick:= GetTickCount64;
     MsgLogConsole(Format(
-      'Startup: %dms, plugins: %s', [
-      (NTick-AppTickInitial) div 10 * 10,
+      'Startup: %s, plugins: %s', [
+      AppFormatTimeInMilliseconds((NTick-AppTickInitial) div 10 * 10),
       AppPython.GetTimingReport
       ]));
 
     {
     MsgLogConsole('Toolbar updates: '+
-      IntToStr(AppPanels[cPaneSide].ToolbarUpdateCount + AppPanels[cPaneOut].ToolbarUpdateCount)+' times, '+
-      IntToStr(AppPanels[cPaneSide].ToolbarUpdateTime + AppPanels[cPaneOut].ToolbarUpdateTime)+'ms');
+      IntToStr(
+        AppPanels[cPaneSide].ToolbarUpdateCount +
+        AppPanels[cPaneOut].ToolbarUpdateCount
+        )+' times, '+
+      AppFormatTimeInMilliseconds(
+        AppPanels[cPaneSide].ToolbarUpdateTime +
+        AppPanels[cPaneOut].ToolbarUpdateTime
+        ));
       }
   end;
   //
@@ -3706,7 +3723,7 @@ procedure TfmMain.FormShow(Sender: TObject);
     UpdateMenuItem_SetShortcutsRecursively(MainMenu.Items, 2);
 
     //tick:= GetTickCount64-tick;
-    //MsgLogConsole('Init top menu shortcuts: '+IntToStr(tick)+'ms');
+    //MsgLogConsole('Init top menu shortcuts: '+AppFormatTimeInMilliseconds(tick));
   end;
   //
 var
@@ -3860,8 +3877,36 @@ begin
 end;
 
 procedure TfmMain.FrameOnEditorScroll(Sender: TObject);
+var
+  Ed, SavedEd: TATSynEdit;
+  SavedStr: UnicodeString;
+  NMatchCount: integer;
 begin
   DoTooltipHide;
+
+  Ed:= Sender as TATSynEdit;
+  if Assigned(fmFind) and fmFind.IsHiAll and
+    (
+    (Ed.Strings.Count>UiOps.FindHiAll_MaxLines) or
+    (Ed.ScrollHorz.NMax>UiOps.FindHiAll_MaxVisibleColumns)
+    ) then
+  begin
+    SavedEd:= FFinder.Editor;
+    SavedStr:= FFinder.StrFind;
+
+    FFinder.Editor:= Ed;
+    FFinder.StrFind:= fmFind.edFind.Text;
+    Ed.Attribs.DeleteWithTag(UiOps.FindHiAll_TagValue);
+    EditorHighlightAllMatches(
+      FFinder,
+      false,
+      NMatchCount,
+      Point(0, 0)
+      );
+
+    FFinder.Editor:= SavedEd;
+    FFinder.StrFind:= SavedStr;
+  end;
 end;
 
 procedure TfmMain.FrameOnMsgStatus(Sender: TObject; const AStr: string);
@@ -4261,7 +4306,6 @@ begin
   CodeTree.Invalidate;
 
   EditorApplyOpsCommon(CodeTreeFilterInput);
-  //CodeTreeFilterReset.Width:= ATEditorScale(ATScrollbarTheme.InitialSize);
 
   if Assigned(fmConsole) then
   begin
@@ -4275,6 +4319,8 @@ begin
 
   EditorApplyOpsCommon(fmOutput.Ed);
   EditorApplyOpsCommon(fmValidate.Ed);
+  fmOutput.Ed.OptCaretVirtual:= false;
+  fmValidate.Ed.OptCaretVirtual:= false;
 
   DoApplyFont_Output;
 
@@ -4637,17 +4683,17 @@ begin
         case UiOps.NonTextFiles of
           0:
             case DoDialogConfirmBinaryFile(AFileName, bFileTooBig) of
-              ConfirmBinaryViewText:
+              TAppConfirmBinary.ViewerText:
                 OpenMode:= TAppOpenMode.ViewText;
-              ConfirmBinaryViewBinary:
+              TAppConfirmBinary.ViewerBinary:
                 OpenMode:= TAppOpenMode.ViewBinary;
-              ConfirmBinaryViewHex:
+              TAppConfirmBinary.ViewerHex:
                 OpenMode:= TAppOpenMode.ViewHex;
-              ConfirmBinaryViewUnicode:
+              TAppConfirmBinary.ViewerUnicode:
                 OpenMode:= TAppOpenMode.ViewUnicode;
-              ConfirmBinaryViewUHex:
+              TAppConfirmBinary.ViewerUHex:
                 OpenMode:= TAppOpenMode.ViewUHex;
-              ConfirmBinaryCancel:
+              TAppConfirmBinary.Cancel:
                 Exit;
             end;
           2:
@@ -4665,17 +4711,17 @@ begin
     if (OpenMode=TAppOpenMode.Editor) and bFileTooBig then
     begin
       case DoDialogConfirmBinaryFile(AFileName, bFileTooBig) of
-        ConfirmBinaryViewText:
+        TAppConfirmBinary.ViewerText:
           OpenMode:= TAppOpenMode.ViewText;
-        ConfirmBinaryViewBinary:
+        TAppConfirmBinary.ViewerBinary:
           OpenMode:= TAppOpenMode.ViewBinary;
-        ConfirmBinaryViewHex:
+        TAppConfirmBinary.ViewerHex:
           OpenMode:= TAppOpenMode.ViewHex;
-        ConfirmBinaryViewUnicode:
+        TAppConfirmBinary.ViewerUnicode:
           OpenMode:= TAppOpenMode.ViewUnicode;
-        ConfirmBinaryViewUHex:
+        TAppConfirmBinary.ViewerUHex:
           OpenMode:= TAppOpenMode.ViewUHex;
-        ConfirmBinaryCancel:
+        TAppConfirmBinary.Cancel:
           Exit;
       end;
     end;
@@ -6796,6 +6842,7 @@ var
   NTag: PtrInt;
   NCommand: integer;
   SCaption, SCallback, SLexers, CurLexer: string;
+  SCallbackModule, SCallbackFunc, SCallbackInfo: string;
   mi: TMenuItem;
 begin
   NTag:= (Sender as TComponent).Tag;
@@ -6859,6 +6906,12 @@ begin
     if SCallback<>'' then
     begin
       F.Editor.CommandLog.Add(cmd_PluginRun, TATCommandInvoke.MenuAPI, SCallback+SCaption);
+
+      //click of MainMenu must also record macro command
+      if F.MacroRecord then
+        if ParsePythonCallback_3Prefixes(SCallback, 'module=', 'cmd=', 'info=', SCallbackModule, SCallbackFunc, SCallbackInfo) then
+          F.MacroStrings.Add('py:'+SCallbackModule+','+SCallbackFunc+','+SCallbackInfo);
+
       DoPyCallbackFromAPI(SCallback, [], []);
       if not PyEditorMaybeDeleted then
         F.Editor.CommandLog.Add(cmd_PluginEnd, TATCommandInvoke.MenuAPI, SCallback+SCaption);
@@ -7494,13 +7547,13 @@ begin
   begin
     mi:= Popup.Items[i];
     case mi.Tag of
-      100:
+      cBottomPanelMenu_Copy:
         mi.Caption:= ATEditorOptions.TextMenuitemCopy;
-      101:
+      cBottomPanelMenu_SelAll:
         mi.Caption:= ATEditorOptions.TextMenuitemSelectAll;
-      102:
+      cBottomPanelMenu_Clear:
         mi.Caption:= msgConsoleClear;
-      103:
+      cBottomPanelMenu_Wrap:
         begin
           mi.Caption:= msgConsoleToggleWrap;
           mi.Checked:= (mi.Owner as TATSynEdit).OptWrapMode<>TATEditorWrapMode.ModeOff;

@@ -2885,12 +2885,11 @@ var
   PtrText, PtrPanel: PChar;
   StrText, StrPanel: string;
   Id, NLen, i: integer;
-  NTag: Int64;
   Form: TAppFormWithEditor;
   List: TStringList;
 begin
   with AppPython.Engine do
-    if Bool(PyArg_ParseTuple(Args, 'isLs:app_log', @Id, @PtrText, @NTag, @PtrPanel)) then
+    if Bool(PyArg_ParseTuple(Args, 'iss:app_log', @Id, @PtrText, @PtrPanel)) then
     begin
       StrText:= string(PtrText);
       StrPanel:= string(PtrPanel);
@@ -4740,13 +4739,22 @@ begin
           end;
 
         PROP_FONT:
-          EditorSetFont(Ed.Font, Str);
+          begin
+            EditorSetFont(Ed.Font, Str);
+            Ed.OptForceSeparateCharSizer:= true;
+          end;
         PROP_FONT_B:
-          EditorSetFont(Ed.FontBold, Str);
+          begin
+            EditorSetFont(Ed.FontBold, Str);
+          end;
         PROP_FONT_I:
-          EditorSetFont(Ed.FontItalic, Str);
+          begin
+            EditorSetFont(Ed.FontItalic, Str);
+          end;
         PROP_FONT_BI:
-          EditorSetFont(Ed.FontBoldItalic, Str);
+          begin
+            EditorSetFont(Ed.FontBoldItalic, Str);
+          end;
 
         PROP_WHEEL_ZOOMS:
           Ed.OptMouseWheelZooms:= ValueBool;
@@ -8386,7 +8394,8 @@ function api_ed_gap(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H, Num1, Num2, NTag: Int64;
   Id, NColor, NSize: integer;
-  Ed: TATSynEdit;
+  Ed, EdBrother: TATSynEdit;
+  Frame: TEditorFrame;
   Bmp: TBitmap;
   Form: TCustomForm;
   GapObject: TObject;
@@ -8438,10 +8447,22 @@ begin
               Ed.Gaps.DeleteForLineRange(Num1, Num1);
               if Ed.Gaps.Add(Num1, NSize, Bmp, Form, NTag, NColor) then
               begin
-                ////better to set this prop always, to fix [v-scrollbar cannot reach end for many gaps at end]
+                ////better to set OptLastLineOnTop always, to fix [v-scrollbar cannot reach end for many gaps at end]
                 //if Num1=Ed.Strings.Count-1 then
                 Ed.OptLastLineOnTop:= true;
                 Include(Ed.ModifiedOptions, TATEditorModifiedOption.LastLineOnTop);
+
+                //set OptLastLineOnTop for split-view editor too
+                Frame:= TGroupsHelper.GetEditorFrame(Ed);
+                if Assigned(Frame) and Frame.EditorsLinked then
+                begin
+                  EdBrother:= TGroupsHelper.GetEditorBrother(Ed);
+                  if Assigned(EdBrother) then
+                  begin
+                    EdBrother.OptLastLineOnTop:= true;
+                    Include(EdBrother.ModifiedOptions, TATEditorModifiedOption.LastLineOnTop);
+                  end;
+                end;
 
                 //if added gap before 1st line, scroll editor upper
                 if Num1=-1 then
@@ -8917,9 +8938,9 @@ begin
                 PyList_SetItem(Result, i,
                   Py_BuildValue('{sisisLsi}',
                     'size_perc',
-                    NWidthPercents,
+                    NWidthUnits,
                     'size_px',
-                    NWidthPixels,
+                    NRight-NLeft,
                     'tag',
                     NTag,
                     'color',
@@ -9095,16 +9116,69 @@ begin
 end;
 
 
+function api_ed_get_char_count(Self, Args: PPyObject): PPyObject; cdecl;
+var
+  H: Int64;
+  Ed: TATSynEdit;
+  St: TATStrings;
+  NMaxChars, NMaxTime, NResult: Int64;
+  NStartTick: QWord = 0;
+  NEndTick: QWord = 0;
+  iLine: SizeInt;
+  bUseTime: boolean;
+begin
+  with AppPython.Engine do
+    if Bool(PyArg_ParseTuple(Args, 'LLL:get_char_count',
+            @H, @NMaxChars, @NMaxTime)) then
+    begin
+      Ed:= PyHelper_EditorFromHandle(H);
+      St:= Ed.Strings;
+
+      bUseTime:= NMaxTime<$7fffFFFF;
+      if bUseTime then
+      begin
+        NStartTick:= GetTickCount64;
+        NEndTick:= NStartTick+NMaxTime;
+      end;
+
+      NResult:= 0;
+      for iLine:= 0 to St.Count-2 do
+      begin
+        Inc(NResult, St.LinesLen[iLine]);
+        Inc(NResult); //EOL char
+        if NResult>NMaxChars then
+          exit(PyLong_FromLong(-1));
+        if bUseTime then
+          if GetTickCount64>NEndTick then
+            exit(PyLong_FromLong(-2));
+      end;
+
+      iLine:= St.Count-1;
+      Inc(NResult, St.LinesLen[iLine]);
+
+      Result:= PyLong_FromLongLong(NResult);
+    end
+    else
+      Result:= ReturnNone;
+end;
+
+
+{$ifdef ApiTimerFP}
+type
+  TAppApiTimer = TFPTimer;
+{$else}
+type
+  TAppApiTimer = TTimer;
+{$endif}
+
 function api_timer_proc(Self, Args: PPyObject): PPyObject; cdecl;
 const
   cMinInterval = 10;
 var
   NIdAction, NInterval, N: integer;
   PtrCallback, PtrTag: PChar;
-  StrCallback, StrTag: string;
-  Timer: TTimer;
-  Obj: TObject;
-  SAll, SItem: string;
+  StrCallback, StrTag, StrCallbackWithPipe: string;
+  Timer: TAppApiTimer;
 begin
   with AppPython.Engine do
   begin
@@ -9113,6 +9187,7 @@ begin
     begin
       StrCallback:= string(PtrCallback);
       StrTag:= string(PtrTag);
+      StrCallbackWithPipe:= StrCallback+'|';
 
       if Application.Terminated then
         exit(ReturnNone);
@@ -9123,12 +9198,11 @@ begin
       Timer:= nil;
       for N:= 0 to AppListTimers.Count-1 do
       begin
-        SSplitByChar(AppListTimers[N], '|', SItem, SAll);
-        if SItem=StrCallback then
+        if SBeginsWith(AppListTimers[N], StrCallbackWithPipe) then
         begin
-          Timer:= TTimer(AppListTimers.Objects[N]);
+          Timer:= TAppApiTimer(AppListTimers.Objects[N]);
           //timer already exists? update its tag to new value StrTag
-          AppListTimers[N]:= StrCallback+'|'+StrTag;
+          AppListTimers[N]:= StrCallbackWithPipe+StrTag;
           Break
         end;
       end;
@@ -9142,9 +9216,9 @@ begin
 
             if Timer=nil then
             begin
-              Timer:= TTimer.Create(fmMain);
+              Timer:= TAppApiTimer.Create(fmMain);
               Timer.OnTimer:= @fmMain.DoPyTimerTick;
-              AppListTimers.AddObject(StrCallback+'|'+StrTag, Timer);
+              AppListTimers.AddObject(StrCallbackWithPipe+StrTag, Timer);
             end;
 
             if NIdAction=TIMER_START_ONE then
@@ -9964,8 +10038,15 @@ begin
           begin
             CloseFormAutoCompletion;
             FormPutToVisibleArea(Form);
+            {$ifdef windows}
+            //ifdef for windows is to fix issue #5397, patch by veksha
+            Form.ShowInTaskBar:= Form.ShowInTaskbar_Pending;
+            RecreateWnd(Form);
+            Form.Show;
+            {$else}
             Form.Show;
             Form.ShowInTaskBar:= Form.ShowInTaskbar_Pending; //after Show, for #4456
+            {$endif}
             Result:= ReturnNone;
           end;
 
@@ -10591,6 +10672,7 @@ begin
     Addmethod('ed_get_text_substr', @api_ed_get_text_substr, '');
     Addmethod('ed_get_line_len', @api_ed_get_line_len, '');
     Addmethod('ed_get_line_count', @api_ed_get_line_count, '');
+    AddMethod('ed_get_char_count', @api_ed_get_char_count, '');
     AddMethod('ed_delete', @api_ed_delete, '');
     AddMethod('ed_insert', @api_ed_insert, '');
     AddMethod('ed_replace', @api_ed_replace, '');

@@ -29,7 +29,6 @@ CARET_SET_INDEX  = 100
 CARET_DELETE_INDEX = 2000000
 
 CARET_OPTION_NO_SCROLL = 1
-CARET_OPTION_UNFOLD = 2
 
 APP_DIR_EXE             = 0
 APP_DIR_SETTINGS        = 1
@@ -1025,12 +1024,10 @@ def app_path(id):
 def app_proc(id, val):
     return ct.app_proc(id, to_str(val))
 
-def app_log(id, text, tag=0, panel=''):
+def app_log(id, text, panel=''):
     if type(text) is not str:
         raise ValueError('app_log() parameter "text" must be string')
-    if tag!=0:
-        print('ERROR: app_log() parameter "tag" has no effect, but %d is given'%tag)
-    return ct.app_log(id, text, tag, panel)
+    return ct.app_log(id, text, panel)
 
 def app_idle(wait=False):
     return ct.app_idle(wait)
@@ -1321,6 +1318,9 @@ class Editor:
 
     def get_line_count(self):
         return ct.ed_get_line_count(self.h)
+
+    def get_char_count(self, max_chars, max_time):
+        return ct.ed_get_char_count(self.h, max_chars, max_time)
 
     def get_text_all(self):
         return ct.ed_get_text_all(self.h)

@@ -1215,6 +1215,8 @@ begin
   ATScrollbarTheme.DirectJumpOnClickPageUpDown:= cfg.GetValue('scrollbar_click_jump',
     ATScrollbarTheme.DirectJumpOnClickPageUpDown);
 
+  ATScrollbarTheme.InitialSize:= cfg.GetValue('scrollbar_size', ATScrollbarTheme.InitialSize);
+
   s:= cfg.GetValue('scrollbar_arrows', '');
   if s<>'' then
     AppApplyScrollbarStyles(s);
@@ -1576,7 +1578,7 @@ begin
   if UiOps.PyLibrary='' then
     UiOps.PyLibrary:= InitPyLibraryPath;
 
-  UiOps.PictureTypes:= cfg.GetValue('picture_types', UiOps.PictureTypes);
+  //UiOps.PictureTypes:= cfg.GetValue('picture_types', UiOps.PictureTypes);
 
   UiOps.MaxFileSizeToOpen:= cfg.GetValue('ui_max_size_open', UiOps.MaxFileSizeToOpen);
   UiOps.MaxFileSizeToOpen:= Min(UiOps.MaxFileSizeToOpen, 2*1024-1); //because TStream.ReadBuffer is called, it can handle only 32-bit LongInt
@@ -1625,8 +1627,12 @@ begin
   {$endif}
 
   UiOps.FindHiAll_MaxLines:= cfg.GetValue('find_hi_max_lines', UiOps.FindHiAll_MaxLines);
+  UiOps.FindHiAll_MaxLineLen:= cfg.GetValue('find_hi_max_line_len', UiOps.FindHiAll_MaxLineLen);
+  UiOps.FindHiAll_TimerInterval:= cfg.GetValue('find_hi_timer_interval', UiOps.FindHiAll_TimerInterval);
+  UiOps.FindHiAll_TimerLines:= cfg.GetValue('find_hi_timer_lines', UiOps.FindHiAll_TimerLines);
   //UiOps.FindHiAll_MoveCaret:= cfg.GetValue('find_hi_move_caret', UiOps.FindHiAll_MoveCaret);
   UiOps.FindWrapAtEdge_ThemeItem:= cfg.GetValue('find_wrapped_blinking', UiOps.FindWrapAtEdge_ThemeItem);
+  UiOps.FindEnableCtrlEnterInSinleLineMode:= cfg.GetValue('find_ctrl_enter', UiOps.FindEnableCtrlEnterInSinleLineMode);
 
   EditorOps.OpUndoIndentVert:= UiOps.FindIndentVert;
   EditorOps.OpUndoIndentHorz:= UiOps.FindIndentHorz;

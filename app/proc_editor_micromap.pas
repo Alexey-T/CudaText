@@ -71,24 +71,26 @@ procedure EditorPaintMicromap(Ed: TATSynEdit; ACanvas: TCanvas; const ARect: TRe
 now it paints all WrapInfo items, so e.g. long wrapped line gives several cells on micromap
 }
 type
-  TMicromapMark = (Column, Full, Right);
+  TMicromapMark = (Column, Full);
 const
   cTagOccurrences = 101; //see plugin 'Highlight Occurrences'
   cTagSpellChecker = 105; //see plugin 'Spell Checker'
   cTagColumnFullsized = -2;
 var
-  NWidthSmall: integer;
+  //NWidthSmall: integer;
   NScaleDiv: integer;
 //
   function GetWrapItemRect(AColumn, AIndexFrom, AIndexTo: integer; AMarkPos: TMicromapMark): TRect;
   begin
     Result:= EditorRectMicromapMark(Ed, AColumn, AIndexFrom, AIndexTo, ARect.Height, EditorOps.OpMicromapMinMarkHeight, NScaleDiv);
     case AMarkPos of
+      {
       TMicromapMark.Right:
         begin
           Result.Right:= ARect.Width;
           Result.Left:= Result.Right - NWidthSmall;
         end;
+        }
       TMicromapMark.Full:
         begin
           Result.Left:= 0;
@@ -128,7 +130,7 @@ begin
   NColumnCount:= Length(Ed.Micromap.Columns);
   if NColumnCount<2 then exit;
 
-  NWidthSmall:= Ed.TextCharSize.XScaled * EditorOps.OpMicromapSmallMarkSizePercents div 100 div ATEditorCharXScale;
+  //NWidthSmall:= Ed.TextCharSize.XScaled div 2 div ATEditorCharXScale; //50% of char width
 
   NScaleDiv:= Max(1, Wr.Count);
   if Ed.OptLastLineOnTop then
@@ -143,6 +145,7 @@ begin
   NIndex1:= Ed.ScrollVert.NPos;
   NIndex2:= NIndex1+Ed.GetVisibleLines; //note: limiting this by Ed.WrapInfo.Count-1 causes issue #4718
   RectMark:= GetWrapItemRect(0, NIndex1, NIndex2, TMicromapMark.Full);
+  RectMark.Bottom:= Max(RectMark.Bottom, RectMark.Top+EditorOps.OpMicromapMinViewareaHeight);
   XColor.FromColor(GetAppColor(TAppThemeColor.EdMicromapViewBg));
   ABitmap.FillRect(RectMark, XColor);
 
@@ -183,7 +186,7 @@ begin
       else
         NIndex2:= Wr.FindIndexOfCaretPos(Point(CaretX2, CaretY2));
 
-      RectMark:= GetWrapItemRect(0, NIndex1, NIndex2, TMicromapMark.Right);
+      RectMark:= GetWrapItemRect(2{column_2}, NIndex1, NIndex2, TMicromapMark.Column);
       ABitmap.FillRect(RectMark, XColorSelected);
     end;
 

@@ -88,8 +88,9 @@ CudaText starts quite fast: about 0.3 sec with about 30 plugins (all preinstalle
 
 ==Performance of loading huge files==
 
-It's interesting how fast Linux editors open huge log files.
-Test file has about 300M size, 4M ASCII lines, it's created by Python script:
+How fast Linux editors open huge files?
+
+Test file has about 300M size, it has 4M ASCII lines, it's created by Python script:
 <syntaxhighlight lang="python">
 f = open("a.log", "w")
 for n in range(4*1000*1000):
@@ -97,22 +98,22 @@ for n in range(4*1000*1000):
     f.write(str(n+1)+' '+chr(k%26+ord('a'))*k+'\n')
 </syntaxhighlight>
 
-PC is HP Pavilion g6, CPU AMD A10 x64, 4 cores, RAM 8G, Ubuntu 18.04. Each time is average of 2-3 tries in the same session.
+Testing on Ubuntu 20.04, CPU: Intel Core i3 3GHz, RAM: 12G. Each time is average of 2-3 tries in the same session.
 
-* CudaText 1.98: 9 sec.
-* Sublime Text 3.2: 11.5 sec.
-* Geany 1.32: 6.5 sec., jump to end: additional 4-5 sec.
-* Kate 17.12.3: 7 sec.
-* gedit 3.28.1: 1 min 10 sec.
-* Vim 8.0, NeoVim 0.2.2: 3 sec.
-* Emacs GUI 25.2.2: 2 sec., after showing confirmation for big file
-* Bluefish 2.2.10: 24 sec.
+* CudaText 1.211.0: 8 sec
+* Sublime Text 4 4169: 8 sec
+* Geany 1.36: hangs, waited for it 90 sec
+* Kate 23.08.4: 5 sec, then go to end (Ctrl+End hotkey) took additional 30 sec
+* Vim 8.1.1847: 2 sec
+* Emacs GUI 29.2: 2 sec, after showing confirmation for big file
+* gedit 3.36.2: 19 sec, then go to end (Ctrl+End hotkey) hangs: waited for it 100 sec
 
-==Performance on huge lines==
+==Performance of editing huge lines==
 
-It's interesting how some Linux editors handle huge lines. Tested several editors on Ubuntu 19.10 on Intel i3 CPU. With XML file with a single line of length 4M. XML file contains line like <id name="nnnnnnnnnnnnnnn"> with the huge "name" value of 4M.
+Tested several editors on Ubuntu 20.04 on Intel Core i3 CPU.
 
-Python script to generate test file:
+XML file: single line of length 4M. XML file contains line like <id name="nnnnnnn"> with the huge "name" value of 4M.
+Python script to generate XML file:
 
 <syntaxhighlight lang="python">
 #!/usr/bin/python3
@@ -123,21 +124,34 @@ for n in range(1, 4096):
 f.write('">\n')
 </syntaxhighlight>
 
-*    CudaText 1.96. Opens file: 1.5sec. Caret moves at the end of line: very fast (<0.1sec). Editing of this line: adding each char is about 0.5sec.
+* CudaText 1.211.0. Opens file: 1 sec. Caret moves at the end of line: very fast (<0.1 sec). Editing of this line: adding each char is about 0.1-0.2 sec.
 
-*    Sublime Text 3.2. Opens file: 2sec. Caret moves at the end of line: each Left/Right arrow is 0.5sec delay. Editing of this line: not fast.
+* Sublime Text 4 4169. Opens file: 1 sec. Caret moves at the end of line: very fast (0.1-0.2 sec). Editing of this line: adding each char is about 0.1-0.2 sec.
 
-*    Geany 1.35. Opens file: about 10sec, then for next 5-10sec I cannot place caret by mouse, then it works. Caret moves at line begin: fast, caret moves at line end: slow (delay 0.5sec after each Left/Right key). Editing at the end: adding each char is about 6sec.
+* Geany 1.36. Opens file: 7 sec, then to go to end (Ctrl+End hotkey) it took 4 sec. Caret moves at line begin: fast, caret moves at line end: fast (delay about 0.3 sec after each Left/Right key). Moving up/down between 1st huge line and 2nd empty line: 3-4 sec. Editing at the end: adding each char is about 6 sec.
 
-*    Kate 19.04. Gives colored panel "The file ... was opened and contained lines longer than ... The lines were wrapped and document is set to read-only mode...". Caret moves at the end of wrapped doc: fast. Editing is disabled.
+* Kate 23.08.4. Gives colored panel "The file ... was opened and contained lines longer than ... Those lines were wrapped and the document is set to read-only mode ...". Caret moves at the end of wrapped line: fast. But editing is disabled.
 
-*    gedit 3.34. Hanged on opening file (from command line and from editor), waited it for 20sec.
+* Vim 8.1. Opens file: 1 sec. In word-wrapped mode and with partially colored line. Caret moves at the end of line: each Left/Right command (Vim hotkeys) is 2 sec delay. Editing of this line: adding each char is about 3 sec.
 
-*    Vim 8.0. Opens file: 2-3sec. In word-wrapped mode. Caret moves at the end of line: each Left/Right command (Vim hotkeys) is 2sec delay. Editing of this line: adding each char is about 3sec.
+* Emacs 29.2 GUI. Opens file: 3 sec. Caret moves at the end of line: very fast. Editing of this line: adding each char is instant.
 
-*    Emacs 26.3 GUI. Opens file: 1sec. In word-wrapped mode. With the statusbar error "Internal error in rng-validate-mode triggered at buffer position 10. Stack overflow in regexp matcher". Pressing Ctrl+End to move to end: editor hanged with "wait" cursor.
+* gedit 3.36.2. Hanged on opening file (from command line and from GUI), waited it for 20 sec.
 
-*    Bluefish 2.2.10. On opening file, gives the warning about too long lines, on choosing "don't split lines" it hanged, waited for 30sec.
+* Bluefish 2.2.11. On opening file, gives the warning about too long lines, on choosing "don't split lines" it hanged, waited for 30 sec.
+
+==Performance of mass replace in huge lines==
+
+Compared a few editors in the task of replacing 25K single-char matches by two-chars-string in a 1.5MB file with a line with 800K chars.
+Running on Linux x64, CPU: Ryzen 5 1600, RAM: 32GB.
+Results:
+
+* SciTE 5.4.1: after 6 min I could see the replaced text, but editor was still unresponsive (frozen). Awaited 6 more minutes and nothing changed, so I had to kill the window/process.
+* Kate 23.08.4: complained about line length, took a long time to open the file, very poor performance while it was open... I couldn't even try replacing, it was unusable.
+* Sublime Text 4 4169: crashed after 4 min processing the replace.
+* Sublime Text 3.2.2: it took 2 min 30 sec to replace, the best one after CudaText.
+* Notepad++ 8.6.4 with Wine: froze while replacing. I waited for 6 minutes but was still unable to do anything after that, so I had to quit.
+* CudaText 1.211.0: did the task in 1 second.
 
 ==Performance of built-in sorting==
 
@@ -145,16 +159,16 @@ Test on ~100M text file with short ASCII lines.
 Test on Ubuntu 19.10 on Intel i3 CPU.
 
 CudaText 1.97:
-* sort time: 18sec
-* sort time with ignoring case: 19sec
-* memory used after file loading: ~1.0G
-* peak memory used on sorting: the same (inplace sorting in the same list)
+* sort time of Command Palette command "(without undo) sort asc.": 18 sec
+* sort time of Command Palette command "(without undo) sort asc., ignore case": 19 sec
+* memory used after file loading: ~1.0 G
+* peak memory used on sorting: the same (because sorting is inplace, in the same list)
 
 Sublime Text 3.2:
-* sort time: 14sec
-* sort time with ignoring case: 16sec
-* memory used after file loading: ~1.3G
-* peak memory used on sorting: ~3.3G
+* sort time: 14 sec
+* sort time with ignoring case: 16 sec
+* memory used after file loading: ~1.3 G
+* peak memory used on sorting: ~3.3 G
 
 =CudaText vs Sublime Text, different answers to questions=
 
@@ -163,6 +177,8 @@ Sublime Text 3.2:
 ST3: Use feature of editor called "build systems".
 
 CudaText: Use plugin "External Tools", which adds "Tools" item to the top menu. Or: use plugin "Runner". Both plugins are described here: [[CudaText_plugins]].
+
+Alternative answer for CudaText: Use plugin "Runner" which handles build-systems almost compatible with Sublime's build-systems.
 
 ==How to change settings for one OS only?==
 
@@ -409,7 +425,7 @@ Indeed, CudaText is a powerful text editor and its author is an experienced dev 
 * Under Windows, a plugin installs an Explorer context menu. But since its only backed by a shell\CudaText\command registry entry and not with a real shell handler like Notepad++'s context menu entry, it is not possible to open more than 15 files at once using the CudaText Explorer context menu entry. That’s a common limitation for all non-shell-handler context menu entries (tested under Windows 7 x64). ''Edited by Alexey: this is not actual anymore, since we have dedicated Explorer shell extension DLL.''
 * Releases of CudaText are published only as ZIP files without an installer. So, updating means all plugins, custom icons, additional lexers, autocompletion files, language files, theme and lexer customizations and so forth have to be migrated to the directory of the new version. You need a file and directory based diff tool for that.
 * Only a small community, the forum mostly is a lonely place. Like the developer a lot of the people commenting in the GitHub issue tracker are russian, thus they tend to write in cyrillic. But this is clearly an advantage for people from Russia which have to take the burden to write and read in English, written in latin letters here in the Notepad++ forum and in the GitHub repo.
-* Somewhat chaotic project structure. Source code on GitHub, binary releases on SourceForge, forum on a SourceForge-hosted home page, lots of relations to the discontinued SynWrite editor (e.g. lexers are hosted in a separate SourceForge project called SynWrite add-ons , the lexer creation tool is an excerpt of that particular part of SynWrite).
+* Somewhat chaotic project structure. Source code on GitHub, binary releases on SourceForge, forum on a SourceForge-hosted home page, lots of relations to the discontinued SynWrite editor (e.g. lexers are hosted in a separate SourceForge project called SynWrite add-ons, the lexer creation tool is an excerpt of that particular part of SynWrite).
 
 '''Conclusion'''
 

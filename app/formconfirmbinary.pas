@@ -8,6 +8,7 @@ Copyright (c) Alexey Torgashin
 unit formconfirmbinary;
 
 {$mode objfpc}{$H+}
+{$ScopedEnums on}
 
 interface
 
@@ -45,13 +46,13 @@ type
 
 type
   TAppConfirmBinary = (
-    ConfirmBinaryCancel,
-    ConfirmBinaryEditor,
-    ConfirmBinaryViewText,
-    ConfirmBinaryViewBinary,
-    ConfirmBinaryViewHex,
-    ConfirmBinaryViewUnicode,
-    ConfirmBinaryViewUHex
+    Cancel,
+    Editor,
+    ViewerText,
+    ViewerBinary,
+    ViewerHex,
+    ViewerUnicode,
+    ViewerUHex
     );
 
 function DoDialogConfirmBinaryFile(const AFilename: string; ATooBig: boolean): TAppConfirmBinary;
@@ -68,7 +69,7 @@ begin
   F:= TfmConfirmBinary.Create(nil);
   try
     if ATooBig then
-      S:= msgFileTooBig + Format(' (%dM, "ui_max_size_open": %d)', [FileSize(AFilename) div (1024*1024), UiOps.MaxFileSizeToOpen])
+      S:= msgFileTooBig + Format(' (%d Mb, "ui_max_size_open": %d)', [FileSize(AFilename) div (1024*1024), UiOps.MaxFileSizeToOpen])
     else
       S:= msgFileMaybeNotText;
 
@@ -77,12 +78,12 @@ begin
     F.btnEdit.Enabled:= not ATooBig;
 
     case F.ShowModal of
-      mrOk: Result:= ConfirmBinaryEditor;
-      200: Result:= ConfirmBinaryViewText;
-      201: Result:= ConfirmBinaryViewBinary;
-      202: Result:= ConfirmBinaryViewHex;
-      203: Result:= ConfirmBinaryViewUnicode;
-      else Result:= ConfirmBinaryCancel;
+      mrOk: Result:= TAppConfirmBinary.Editor;
+      200: Result:= TAppConfirmBinary.ViewerText;
+      201: Result:= TAppConfirmBinary.ViewerBinary;
+      202: Result:= TAppConfirmBinary.ViewerHex;
+      203: Result:= TAppConfirmBinary.ViewerUnicode;
+      else Result:= TAppConfirmBinary.Cancel;
     end;
   finally
     F.Free;

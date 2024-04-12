@@ -1249,7 +1249,7 @@ begin
         //Tick:= GetTickCount64;
         Ada.TreeFill(FCodetreeBuffer, UiOps.TreeFillMaxTime);
         //Tick:= GetTickCount64-Tick;
-        //MsgLogConsole('Tree filling: '+IntToStr(Tick)+'ms');
+        //MsgLogConsole('Tree filling: '+AppFormatTimeInMilliseconds(Tick));
       end;
 
     if FCodetreeBuffer.Items.Count>0 then

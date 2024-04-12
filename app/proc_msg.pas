@@ -17,8 +17,8 @@ uses
   ATSynEdit;
 
 const
-  cAppExeVersion = '1.209.0.2';
-  cAppApiVersion = 452;
+  cAppExeVersion = '1.212.1.4';
+  cAppApiVersion = 455;
 
 const
   cOptionSystemSuffix =
@@ -291,6 +291,7 @@ const
   msgStatusPackageLexerSettings: string = 'lexer settings:';
   msgStatusPackageAutoCompletion: string = 'static auto-completion:';
   msgStatusPackageData: string = 'data:';
+  msgStatusPackageFormatter: string = 'formatter:';
   msgStatusPackagePackage: string = 'package:';
   msgStatusPackageMissedLexerMap: string = 'lexer misses themes support (.cuda-lexmap file)';
   msgStatusInstalledNeedRestart: string = 'Package will take effect after program restart';
@@ -304,7 +305,6 @@ const
   msgStatusBadRegex: string = 'Incorrect regex passed:';
   msgStatusFoundNextMatch: string = 'Found next match';
   msgStatusTryingAutocomplete: string = 'Trying auto-complete for:';
-  msgStatusNoLineCmtDefined: string = 'No line comment defined for lexer';
   msgStatusReplaceCount: string = 'Replaces made: %d';
   msgStatusFindCount: string = 'Count of "%s": %d';
   msgStatusFoundFragments: string = 'Found %d different fragment(s)';

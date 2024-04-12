@@ -616,7 +616,7 @@ Actions:
 
 ===app_log===
 
- app_log(id, text, tag=0, panel="")
+ app_log(id, text, panel="")
 
 Performs action with standard panels in the bottom panel: Output, Validate, Console.
 
@@ -639,7 +639,7 @@ Possible values of "id" for Output/Validate panels:
 * LOG_GET_LINEINDEX: Returns index of selected line in panel's listbox.
 * LOG_SET_LINEINDEX: Sets index of selected line in panel's listbox. Param "text" must be str(number).
 
-Possible values of "id" for "Console" panel:
+Possible values of "id" for Console panel:
 
 * LOG_CONSOLE_CLEAR: Clears UI controls in console.
 ** If text empty or has "m" then memo-control (above) is cleared.
@@ -648,8 +648,6 @@ Possible values of "id" for "Console" panel:
 * LOG_CONSOLE_ADD: Adds line to console (its combobox and memo).
 * LOG_CONSOLE_GET_COMBO_LINES: Returns list of lines in combobox-control.
 * LOG_CONSOLE_GET_MEMO_LINES: Returns list of lines in memo-control.
-
-Parameter "tag" is deprecated and is not used.
 
 ====Example====
 
@@ -2094,7 +2092,7 @@ Possible values of "id_action":
 ** If it is 0, main application form is used as owner, and object will be persistent.
 
 * IMAGE_GET_SIZE: Returns current image size as 2-tuple (width, height).
-* IMAGE_LOAD: Reads picture file into image object. Param "value" must be full file path (png, jpg, bmp, gif, ico).
+* IMAGE_LOAD: Reads picture file into image object. Param "value" must be full file path. Supported formats: PNG, JPEG (extensions: jpg/jpeg/jfif), BMP, GIF, ICO, WEBP.
 * IMAGE_PAINT: Paints image object on given canvas, at given coords. Param "value" must be tuple (canvas_id, x, y). Value canvas_id can be 0, for testing paintbox in CudaText.
 * IMAGE_PAINT_SIZED: Paints image object on given canvas, resized to given rectangle. Param "value" must be tuple (canvas_id, x1, y1, x2, y2).
 
@@ -2372,6 +2370,19 @@ Returns 4-tuple (x1, y1, x2, y2). All 0 if no column selection.
  get_line_count()
 
 Returns number of lines.
+
+===Editor.get_char_count===
+
+ get_char_count(max_chars, max_time)
+
+Returns number of UTF-16 characters.
+
+Each UTF-16 character in internal storage is counted as 1.
+Line-break is counted as 1, even for CR LF endings.
+
+* Param "max_chars": If result becomes (in internal loop) bigger than param value, stop counting and return -1. Pass very big value, for example 0x7fffFFFF, to avoid the limit.
+* Param "max_time": If method working time becomes bigger than param value (in milliseconds), stop counting and return -2. Pass 0x7fffFFFF to avoid time checking.
+** Example: on CPU Intel Core i3 3GHz, with file "torrent.cpp" with 5K lines with 414K chars, "max_time" must be >=10 to count all content.
 
 ===Editor.get_filename===
 
@@ -2815,7 +2826,8 @@ Controls bookmarks. Possible values of "id":
 * BOOKMARK_CLEAR_ALL: Removes all bookmarks ("nline" ignored).
 * BOOKMARK_DELETE_BY_TAG: Removes all bookmarks, which have the tag, given by "tag" param.
 
-* BOOKMARK_SETUP: Configures bookmarks with kind, given by "nkind" param.
+* BOOKMARK_SETUP: Configures bookmarks background color and icon for the given "kind". This setup is global, ie it is shared by all editors in UI-tabs. Once you applied some color and/or icon here, it will be shared by bookmarks in all editors in UI-tabs.
+** Param "nkind": Integer kind of bookmarks which will be configured.
 ** Param "ncolor": Color of bookmarked line.
 *** Can be COLOR_NONE to not use background color.
 *** Can be COLOR_DEFAULT to use current themed color.
@@ -3098,7 +3110,7 @@ Param "as_copy" (bool):
 * True: Creates the file but editor doesn't use new filename. Filename must be not empty, otherwise function will return False.
 
 Notes:
-* Function can be used for editor created in dlg_proc() only if param "as_copy" is False, otherwise it will return None.
+* Function can be used for editor created in dlg_proc() only if param "as_copy" is True, otherwise it will return None.
 * For "as_copy" = False, code performs more detailed write-error checks.
 
 ===Editor.cmd===
@@ -3290,7 +3302,7 @@ Performs some action in editor. Possible values of "id":
 * EDACTION_FIND_ALL: Perform text search and get all matches in a list. Result list items are 4-tuples of int: (start_x, start_y, end_x, end_y). This uses finder independent from CudaText Find/Replace dialog, you must configure this finder via options string.
 ** "param1": Search string.
 ** "param2": Search options, see [[#Finder_options_as_string]].
-** "param3": Optional. Maximal line length (default is 0x7FFFFFFF). Lines longer than this value will be skipped during search.
+** "param3": Optional. Maximal line length, 32-bit signed integer, default is 0x7FFFFFFF. Lines longer than this value will be skipped during search.
 ** Note: returns False for incorrect RegEx.
 
 * EDACTION_FIND_BRACKETS: Find position of nearest opening bracket with its pair bracket. Returns 4-tuple (col_start, line_start, col_end, line_end), where line_end<0 if brackets not found.
@@ -3328,14 +3340,14 @@ Performs some action in editor. Possible values of "id":
 Controls editor's micromap. Possible values of "id":
 
 * MICROMAP_GET: Get list of micromap columns, as list of dict. Dict keys are:
-** "size_perc": Width of column in percents of average char width.
+** "size_perc": Width of column in 'units'. See description in MICROMAP_ADD.
 ** "size_px": Width of column in pixels.
-** "tag": Int tag of column. CudaText has 2 default columns with tag 0 and 1.
+** "tag": Int (signed 64 bit) tag of column. CudaText has 3 default columns, with tags 0 (line states), 1 (marks of plugins), 2 (selections).
 ** "color": RGB color of column background. Can be COLOR_NONE.
 
 * MICROMAP_ADD: Add micromap column. Returns bool: tag was not used, column was added.
-** "param1": Int (64 bit) tag of column.
-** "param2": Width of column in percents of average char width.
+** "param1": Int (signed 64 bit) tag of column.
+** "param2": Width of column in 'units'. Where 100 'units' correspond to 'normal' column width. Note: column width will be 1) auto-sized to the current editor font if "micromap_on_scrollbar":false, 2) auto-sized to scrollbar width if "micromap_on_scrollbar":true.
 ** "param3": RGB color of column background, or COLOR_NONE for default themed color.
 
 * MICROMAP_DELETE: Delete micromap column by its tag. Param "param1": tag. Returns bool: column was found and deleted.
@@ -5007,5 +5019,17 @@ It provides:
 * add: Editor.get_prop/set_prop: PROP_CORNER_FONT_SIZE
 * add: Editor.get_prop/set_prop: PROP_CORNER2_FONT_NAME
 * add: Editor.get_prop/set_prop: PROP_CORNER2_FONT_SIZE
+
+1.0.453 (app 1.210.5)
+* add: image_proc: support WEBP format
+
+1.0.454 (app 1.211.3)
+* add: Editor.get_char_count
+* add: Editor.action: EDACTION_FIND_ALL supports multi-selections when searching with 's' option (before it handled only first selection)
+* delete deprecated CARET_OPTION_UNFOLD
+
+1.0.455 (app 1.212.1)
+* change: Editor.micromap: changed scale of parameter "column width" from 'percents of char cell' (e.g. 50) to 'percents of normal column' (e.g. 100)
+* delete deprecated: delete param "tag" in app_log()
 
 [[Category:CudaText]]

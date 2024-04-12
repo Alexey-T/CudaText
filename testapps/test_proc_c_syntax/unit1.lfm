@@ -1,0 +1,42 @@
+object Form1: TForm1
+  Left = 1486
+  Height = 240
+  Top = 173
+  Width = 536
+  Caption = 'Form1'
+  ClientHeight = 240
+  ClientWidth = 536
+  Position = poScreenCenter
+  LCLVersion = '3.99.0.0'
+  OnCreate = FormCreate
+  object Edit1: TEdit
+    Left = 8
+    Height = 33
+    Top = 8
+    Width = 520
+    TabOrder = 0
+    Text = '    if(.."dd\"dd;//dd"..) { /*dd*/ //dd'
+    OnChange = Edit1Change
+  end
+  object Label1: TLabel
+    Left = 9
+    Height = 17
+    Top = 67
+    Width = 45
+    Caption = 'Label1'
+  end
+  object Label2: TLabel
+    Left = 9
+    Height = 17
+    Top = 94
+    Width = 45
+    Caption = 'Label2'
+  end
+  object Label3: TLabel
+    Left = 8
+    Height = 17
+    Top = 202
+    Width = 45
+    Caption = 'Label3'
+  end
+end

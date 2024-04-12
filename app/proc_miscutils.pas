@@ -378,6 +378,8 @@ end;
 function DoPictureLoadFromFile(const AFilename: string): TGraphic;
 var
   ext: string;
+  ImageEx: TBGRABitmap;
+  Bmp: TBitmap;
 begin
   Result:= nil;
   if not FileExists(AFilename) then exit;
@@ -392,8 +394,25 @@ begin
   if ext='.bmp' then
     Result:= TBitmap.Create
   else
-  if SBeginsWith(ext, '.j') then //jpg, jpeg, jpe, jfif
+  if (ext='.jpg') or (ext='.jpeg') or (ext='.jfif') then
     Result:= TJPEGImage.Create
+  else
+  if ext='.webp' then
+  try
+    ImageEx:= nil; //important, init it for the case of exception in TBGRABitmap.Create()
+    ImageEx:= TBGRABitmap.Create(AFilename);
+    if not Assigned(ImageEx) then exit;
+    Bmp:= TBitmap.Create;
+    Bmp.PixelFormat:= pf24bit;
+    Bmp.Transparent:= true;
+    Bmp.SetSize(ImageEx.Width, ImageEx.Height);
+    ImageEx.Draw(Bmp.Canvas, 0, 0, True);
+    Result:= Bmp;
+    exit;
+  finally
+    if Assigned(ImageEx) then
+      FreeAndNil(ImageEx);
+  end
   else
     exit;
 

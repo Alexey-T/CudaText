@@ -336,69 +336,70 @@ begin
 
     for ini_section in sections do
     begin
-      if not SRegexMatchesString(ini_section, 'item\d+', true) then Continue;
-
-      s_section:= ini.ReadString(ini_section, 'section', '');
-      s_caption:= ini.ReadString(ini_section, 'caption', '');
-      s_method:= ini.ReadString(ini_section, 'method', '');
-      s_events:= ini.ReadString(ini_section, 'events', '');
-      s_lexers:= ini.ReadString(ini_section, 'lexers', '');
-      if AllowHotkeys then
-        s_hotkey:= ini.ReadString(ini_section, 'hotkey', '')
-      else
-        s_hotkey:= '';
-
-      if s_section='commands' then
+      if SRegexMatchesString(ini_section, 'fmt\d+', true) then
       begin
-        if s_caption='' then Continue;
-        if s_method='' then Continue;
+        s_caption:= ini.ReadString(ini_section, 'caption', '');
+        AReport+= msgStatusPackageFormatter+' '+s_caption+#10;
+      end
+      else
+      if SRegexMatchesString(ini_section, 'item\d+', true) then
+      begin
+        s_section:= ini.ReadString(ini_section, 'section', '');
+        s_caption:= ini.ReadString(ini_section, 'caption', '');
+        s_method:= ini.ReadString(ini_section, 'method', '');
+        s_events:= ini.ReadString(ini_section, 'events', '');
+        s_lexers:= ini.ReadString(ini_section, 'lexers', '');
+        if AllowHotkeys then
+          s_hotkey:= ini.ReadString(ini_section, 'hotkey', '')
+        else
+          s_hotkey:= '';
 
-        s_caption_nice:= s_caption;
-        s_caption_nice:= StringReplace(s_caption_nice, '&', '', [rfReplaceAll]);
-        s_caption_nice:= StringReplace(s_caption_nice, '\', ': ', [rfReplaceAll]);
-
-        if not SEndsWith(s_caption, '\-') then
+        if s_section='commands' then
         begin
-          AReport+= msgStatusPackageCommand+' '+s_caption_nice;
+          if s_caption='' then Continue;
+          if s_method='' then Continue;
+          if SEndsWith(s_caption, '\-') then Continue;
+
+          s_caption_nice:= s_caption;
+          s_caption_nice:= StringReplace(s_caption_nice, '&', '', [rfReplaceAll]);
+          s_caption_nice:= StringReplace(s_caption_nice, '\', ': ', [rfReplaceAll]);
+
+          AReport+= msgStatusPackageCommand+' '+s_caption_nice + IfThen(s_hotkey<>'', '  ['+s_hotkey+']') + #10;
+
           if s_hotkey<>'' then
-            AReport+= '  ['+s_hotkey+']';
-          AReport+= #10;
-        end;
-
-        //handle "hotkey"
-        if s_hotkey<>'' then
-        begin
-          if s_lexers='' then
           begin
-            //save to keys.json
-            Keymap:= AppKeymapMain;
-            if Keymap.GetCommandFromHotkeyString(s_hotkey, '|')>=0 then
-              AReport:= Format(msgStatusPluginHotkeyBusy, [s_hotkey])+#10+AReport
-            else
-              TKeymapHelper.SaveKey_ForPlugin(false, 'plugin: '+s_caption_nice, s_module, s_method, '', s_hotkey)
-          end
-          else
-          begin
-            //save to "keys nn.json" for all items in s_lexers
-            Sep.Init(s_lexers);
-            while Sep.GetItemStr(s_lexer_item) do
+            if s_lexers='' then
             begin
-              Keymap:= TKeymapHelper.GetForLexer(s_lexer_item);
+              //save to keys.json
+              Keymap:= AppKeymapMain;
               if Keymap.GetCommandFromHotkeyString(s_hotkey, '|')>=0 then
                 AReport:= Format(msgStatusPluginHotkeyBusy, [s_hotkey])+#10+AReport
               else
-                TKeymapHelper.SaveKey_ForPlugin(false, 'plugin: '+s_caption_nice, s_module, s_method, s_lexer_item, s_hotkey);
+                TKeymapHelper.SaveKey_ForPlugin(false, 'plugin: '+s_caption_nice, s_module, s_method, '', s_hotkey)
+            end
+            else
+            begin
+              //save to "keys nn.json" for all items in s_lexers
+              Sep.Init(s_lexers);
+              while Sep.GetItemStr(s_lexer_item) do
+              begin
+                Keymap:= TKeymapHelper.GetForLexer(s_lexer_item);
+                if Keymap.GetCommandFromHotkeyString(s_hotkey, '|')>=0 then
+                  AReport:= Format(msgStatusPluginHotkeyBusy, [s_hotkey])+#10+AReport
+                else
+                  TKeymapHelper.SaveKey_ForPlugin(false, 'plugin: '+s_caption_nice, s_module, s_method, s_lexer_item, s_hotkey);
+              end;
             end;
           end;
         end;
-      end;
 
-      if s_section='events' then
-      begin
-        if s_events='' then Continue;
-        ANeedRestart:= true;
-        AReport:= AReport+msgStatusPackageEvents+' '+s_events+#10;
-      end;
+        if s_section='events' then
+        begin
+          if s_events='' then Continue;
+          ANeedRestart:= true;
+          AReport+= msgStatusPackageEvents+' '+s_events+#10;
+        end;
+      end; //if SRegexMatchesString(ini_section, 'item\d+', true)
     end;
   finally
     FreeAndNil(sections);

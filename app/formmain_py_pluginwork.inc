@@ -486,7 +486,7 @@ begin
   UpdateMenuTheming_MainMenu;
 
   //tick:= GetTickCount64-tick;
-  //MsgLogConsole('UpdateMenuPlugins: '+IntToStr(tick)+'ms')
+  //MsgLogConsole('UpdateMenuPlugins: '+AppFormatTimeInMilliseconds(tick))
 end;
 
 procedure TfmMain.UpdateMenuPlugins_Shortcuts(AForceUpdate: boolean = false);

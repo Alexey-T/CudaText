@@ -2084,6 +2084,25 @@ begin
             CancelAutocompleteAutoshow;
         end;
       end;
+
+    cCommand_KeyEnter:
+      begin
+        if UiOps.AllowCSyntaxSpecialIndents and Ed.OptAutoIndent and EditorLexerIsCLike(Ed) then
+        begin
+          case EditorCSyntaxNeedsSpecialIndent(Ed) of
+            TEditorNeededIndent.Indent:
+              Ed.DoCommand(cCommand_TextIndent, TATCommandInvoke.Internal);
+            TEditorNeededIndent.Unindent:
+              Ed.DoCommand(cCommand_TextUnindent, TATCommandInvoke.Internal);
+          end;
+        end;
+      end;
+
+    cCommand_KeyTab:
+      begin
+        if UiOps.AllowCSyntaxSpecialIndents and Ed.OptAutoIndent and EditorLexerIsCLike(Ed) then
+          EditorCSyntaxDoTabIndent(Ed);
+      end;
   end; //case ACommand of
 
   if Ed.LastCommandChangedLines>0 then

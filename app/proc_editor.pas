@@ -177,6 +177,12 @@ type
 procedure EditorSaveTempOptions(Ed: TATSynEdit; out Ops: TEditorTempOptions);
 procedure EditorRestoreTempOptions(Ed: TATSynEdit; const ANew, AOld: TEditorTempOptions);
 
+type
+  TEditorNeededIndent = (None, Indent, Unindent);
+function EditorCSyntaxNeedsSpecialIndent(Ed: TATSynEdit; AIndentOfCaret: integer=-1): TEditorNeededIndent;
+function EditorLexerIsCLike(Ed: TATSynEdit): boolean;
+procedure EditorCSyntaxDoTabIndent(Ed: TATSynEdit);
+
 implementation
 
 uses
@@ -205,6 +211,7 @@ uses
   proc_colors,
   proc_msg,
   proc_str,
+  proc_str_c_syntax,
   ec_SyntAnal,
   ec_syntax_format,
   math;
@@ -2300,52 +2307,99 @@ end;
 procedure EditorHighlightAllMatches(AFinder: TATEditorFinder;
   AEnableFindNext: boolean; out AMatchesCount: integer; ACaretPos: TPoint);
 var
+  Ed: TATSynEdit;
+  St: TATStrings;
   ColorBorder: TColor;
   StyleBorder: TATLineStyle;
-  SavedCarets: TATCarets;
+  SavedCarets: TATCarets = nil;
   bChanged: boolean;
   bSaveCarets: boolean;
   bSavedWrappedConfirm: boolean;
-  NLineCount: integer;
+  bSavedInSelection: boolean;
+  bTooBigDocument: boolean;
+  NLineCount,
+  NLineTop, NLineBottom,
+  NColumnLeft, NColumnRight,
+  iLine, NLineLen: integer;
+const
+  cVertDelta = 0; //if >0: it's debug
+  cHorzDelta = 5;
 begin
-  ColorBorder:= GetAppStyle(AppHiAll_ThemeStyleId).BgColor;
+  Ed:= AFinder.Editor;
+  if Ed=nil then exit;
+  St:= Ed.Strings;
+  NLineCount:= St.Count;
+  if NLineCount=0 then exit;
+  bTooBigDocument:=
+    (NLineCount>UiOps.FindHiAll_MaxLines) or
+    (Ed.ScrollHorz.NMax>UiOps.FindHiAll_MaxVisibleColumns);
+  bSavedInSelection:= AFinder.OptInSelection;
 
+  ColorBorder:= GetAppStyle(AppHiAll_ThemeStyleId).BgColor;
   if EditorOps.OpActiveBorderWidth>1 then
     StyleBorder:= TATLineStyle.Solid2px
   else
     StyleBorder:= TATLineStyle.Rounded;
+
+  //CudaText issue #3950.
+  //we save selections before running HighlightAll, later we restore them.
+  bSaveCarets:= (AFinder.OptInSelection and Ed.Carets.IsSelection) or bTooBigDocument;
+  if bSaveCarets then
+  begin
+    SavedCarets:= TATCarets.Create;
+    SavedCarets.Assign(Ed.Carets);
+  end;
+
+  if bTooBigDocument then
+  begin
+    AFinder.OptInSelection:= true;
+    NLineTop:= Max(0, Ed.LineTop+cVertDelta);
+    NLineBottom:= Min(NLineCount-1, Ed.LineBottom-cVertDelta);
+    if Ed.OptWrapMode<>TATEditorWrapMode.ModeOff then
+      Ed.DoCaretSingle(
+        0,
+        NLineTop,
+        St.LinesLen[NLineBottom],
+        NLineBottom)
+    else
+    begin
+      NColumnLeft:= Max(0, Ed.ScrollHorz.NPos-cHorzDelta);
+      NColumnRight:= NColumnLeft+Ed.GetVisibleColumns+cHorzDelta*3;
+      Ed.Carets.Clear;
+      for iLine:= NLineTop to NLineBottom do
+        if St.IsIndexValid(iLine) then
+        begin
+          NLineLen:= St.LinesLen[iLine];
+          Ed.Carets.Add(
+            Min(NLineLen, NColumnLeft),
+            iLine,
+            Min(NLineLen, NColumnRight),
+            iLine,
+            false
+            );
+        end;
+    end;
+  end;
 
   //stage-1: highlight all matches
   AMatchesCount:= AFinder.DoAction_HighlightAllEditorMatches(
     ColorBorder,
     StyleBorder,
     UiOps.FindHiAll_TagValue,
-    UiOps.FindHiAll_MaxLines
+    MaxInt
     );
 
   //stage-2: perform find-next from ACaretPos
   ////if UiOps.FindHiAll_MoveCaret then
-  if AEnableFindNext then
-  begin
-    //CudaText issue #3950.
-    //we save selections before running HighlightAll, later we restore them.
-    bSaveCarets:= AFinder.OptInSelection and AFinder.Editor.Carets.IsSelection;
-    if bSaveCarets then
-      SavedCarets:= TATCarets.Create;
-
-    try
-      if bSaveCarets then
-        SavedCarets.Assign(AFinder.Editor.Carets);
-
+  try
+    if AEnableFindNext and Ed.Strings.IsIndexValid(ACaretPos.Y) then
+    begin
       //we found and highlighted all matches,
       //now we need to do 'find next from caret' like Sublime does
-      NLineCount:= AFinder.Editor.Strings.Count;
-      if ACaretPos.Y>=NLineCount then exit;
-
       bSavedWrappedConfirm:= AFinder.OptWrappedConfirm;
       AFinder.OptWrappedConfirm:= false;
       AFinder.OptFromCaret:= true;
-      AFinder.Editor.DoCaretSingle(ACaretPos.X, ACaretPos.Y);
+      Ed.DoCaretSingle(ACaretPos.X, ACaretPos.Y);
 
       if AFinder.DoAction_FindOrReplace(
         false{AReplace},
@@ -2353,7 +2407,7 @@ begin
         bChanged,
         false{AUpdateCaret}
         ) then
-        AFinder.Editor.DoGotoPos(
+        Ed.DoGotoPos(
           AFinder.MatchEdPos,
           AFinder.MatchEdEnd,
           AFinder.IndentHorz,
@@ -2362,14 +2416,15 @@ begin
           TATEditorActionIfFolded.Unfold{ADoUnfold}
           );
 
-      if bSaveCarets then
-        AFinder.Editor.Carets.Assign(SavedCarets);
-
       AFinder.OptWrappedConfirm:= bSavedWrappedConfirm;
-    finally
-      if bSaveCarets then
-        FreeAndNil(SavedCarets);
     end;
+  finally
+    if bSaveCarets then
+    begin
+      Ed.Carets.Assign(SavedCarets);
+      FreeAndNil(SavedCarets);
+    end;
+    AFinder.OptInSelection:= bSavedInSelection;
   end;
 end;
 
@@ -3281,6 +3336,154 @@ end;
 class operator TEditorHtmlTagRecord.=(const a, b: TEditorHtmlTagRecord): boolean;
 begin
   Result:= false;
+end;
+
+
+function EditorLexerIsCLike(Ed: TATSynEdit): boolean;
+var
+  An: TecSyntAnalyzer;
+begin
+  Result:= false;
+  if Ed.AdapterForHilite is TATAdapterEControl then
+  begin
+    An:= TATAdapterEControl(Ed.AdapterForHilite).Lexer;
+    Result:= Assigned(An) and
+      (An.LineComment='//') and
+      (An.CommentRangeBegin='/*') and
+      An.SupportsCurlyBrackets;
+  end;
+end;
+
+
+function EditorCSyntaxNeedsSpecialIndent(Ed: TATSynEdit; AIndentOfCaret: integer=-1): TEditorNeededIndent;
+const
+  cMaxLineLen = 400;
+  cMaxBlockLines = 7;
+var
+  Caret: TATCaretItem;
+  St: TATStrings;
+  iLine, NLineWithKeyword: integer;
+  SLine: UnicodeString;
+  bKeywordLineWithCurlyBracket: boolean;
+  NIndentCaret, NIndentLoop, PrevY: integer;
+  CharEnd: WideChar;
+begin
+  Result:= TEditorNeededIndent.None;
+
+  if Ed.Carets.Count<>1 then exit;
+  Caret:= Ed.Carets[0];
+  St:= Ed.Strings;
+  if not St.IsIndexValid(Caret.PosY) then exit;
+  if not St.IsIndexValid(Caret.PosY-1) then exit;
+
+  //skip space-only lines above
+  PrevY:= Caret.PosY-1;
+  while St.IsIndexValid(PrevY) and IsStringSpaces(St.Lines[PrevY]) do
+    Dec(PrevY);
+  if not St.IsIndexValid(PrevY) then exit;
+
+  SLine:= St.Lines[PrevY];
+  if CSyntax_IsLineComment(SLine) then exit;
+  case CSyntax_LineEndSymbol(SLine) of
+    '{', '}': exit;
+  end;
+
+  NLineWithKeyword:= -1;
+  bKeywordLineWithCurlyBracket:= false;
+
+  if AIndentOfCaret>=0 then
+    NIndentCaret:= AIndentOfCaret
+  else
+    NIndentCaret:= Ed.TabHelper.CharPosToColumnPos(Caret.PosY, St.Lines[Caret.PosY], Caret.PosX);
+  if NIndentCaret=0 then exit;
+
+  for iLine:= PrevY downto Max(0, PrevY-cMaxBlockLines) do
+  begin
+    if St.LinesLen[iLine]>cMaxLineLen then exit;
+    SLine:= St.Lines[iLine];
+    if CSyntax_IsLineComment(SLine) then
+      Continue;
+    NIndentLoop:= Ed.TabHelper.GetIndentExpanded(iLine, SLine);
+    if NIndentLoop>NIndentCaret then
+      Break;
+    if NIndentLoop<NIndentCaret then
+    begin
+      if CSyntax_LineBeginsWithBlockKeyword(SLine) then
+      begin
+        NLineWithKeyword:= iLine;
+        bKeywordLineWithCurlyBracket:= CSyntax_LineEndSymbol(SLine)='{';
+      end;
+      Break;
+    end;
+  end;
+
+  if NLineWithKeyword<0 then exit;
+  if NLineWithKeyword=PrevY then
+  begin
+    { //option "indent_auto_rule" handles this already
+    if bKeywordLineWithCurlyBracket then
+      Result:= TEditorNeededIndent.Indent;
+      }
+    exit;
+  end;
+
+  if bKeywordLineWithCurlyBracket then exit;
+
+  SLine:= St.Lines[PrevY];
+  CharEnd:= CSyntax_LineEndSymbol(SLine);
+  if IsCharWordInIdentifier(CharEnd) or (CharEnd=';') or (CharEnd=')') then
+    Result:= TEditorNeededIndent.Unindent;
+end;
+
+
+procedure EditorCSyntaxDoTabIndent(Ed: TATSynEdit);
+var
+  Caret: TATCaretItem;
+  St: TATStrings;
+  NIndent, NIndentOld, PrevY, NTabSize: integer;
+  S: UnicodeString;
+begin
+  if Ed.ModeReadOnly then exit;
+  if Ed.Carets.Count<>1 then exit;
+  Caret:= Ed.Carets[0];
+  St:= Ed.Strings;
+  if not St.IsIndexValid(Caret.PosY) then exit;
+  if not St.IsIndexValid(Caret.PosY-1) then exit;
+
+  S:= St.Lines[Caret.PosY];
+  if not IsStringSpaces(S) then exit;
+  NTabSize:= Ed.OptTabSize;
+
+  //skip space-only lines above
+  PrevY:= Caret.PosY-1;
+  while St.IsIndexValid(PrevY) and IsStringSpaces(St.Lines[PrevY]) do
+    Dec(PrevY);
+  if not St.IsIndexValid(PrevY) then exit;
+
+  NIndentOld:= Ed.TabHelper.GetIndentExpanded(Caret.PosY, St.Lines[Caret.PosY]);
+  NIndent:= Ed.TabHelper.GetIndentExpanded(PrevY, St.Lines[PrevY]);
+
+  if CSyntax_LineEndSymbol(St.Lines[PrevY])='{' then
+  begin
+    Inc(NIndent, NTabSize);
+  end
+  else
+  begin
+    if EditorCSyntaxNeedsSpecialIndent(Ed, NIndent{!})= TEditorNeededIndent.Unindent then
+      NIndent:= Max(0, NIndent-NTabSize);
+  end;
+
+  //this is handler of Tab-key, it must always do indent>0
+  if NIndent<=NIndentOld then exit;
+
+  S:= StringOfCharW(' ', NIndent);
+  if not Ed.OptTabSpaces then
+    S:= Ed.TabHelper.SpacesToTabs(Caret.PosY, S);
+
+  St.Lines[Caret.PosY]:= S;
+  Caret.PosX:= Length(S);
+  Ed.UpdateWrapInfo(true);
+  Ed.DoEventChange(Caret.PosY);
 end;
 
 end.

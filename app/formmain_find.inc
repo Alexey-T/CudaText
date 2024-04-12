@@ -603,7 +603,7 @@ begin
   UpdateFindDialogFromSuggestions;
   UpdateFindDialogParent;
   fmFind.IsReplace:= AReplaceMode;
-  fmFind.UpdateState(true);
+  fmFind.UpdateState(false); //param False! to disable jumping to first match on Ctrl+F with find-bar visible
   fmFind.Show;
   fmFind.UpdateFormHeight; //update 'Replace' buttons visibility, when dlg is in the floating-grp-form
 
@@ -948,13 +948,15 @@ begin
     Result:= Format(' [%d/%d]', [NCurrent+1, NTotal])
 end;
 
-procedure TfmMain.FinderShowResult(ok, AIsReplace: boolean; AFinder: TATEditorFinder);
+procedure TfmMain.FinderShowResult(AFound, AIsReplace: boolean; AFinder: TATEditorFinder);
+var
+  Details: string;
 begin
-  if ok then
+  if AFound then
   begin
-    MsgStatus(
-      msgStatusFoundNextMatch+FinderGetHiAllIndexesString(AFinder)+FinderOptionsToHint(AFinder, AIsReplace),
-      true);
+    Details:= FinderGetHiAllIndexesString(AFinder);
+    Details+= FinderOptionsToHint(AFinder, AIsReplace);
+    MsgStatus(msgStatusFoundNextMatch+Details, true);
 
     AFinder.Editor.EndUpdate;
     Application.ProcessMessages;
@@ -977,10 +979,15 @@ begin
       true);
 end;
 
-procedure TfmMain.FinderShowResultSimple(ok: boolean; AFinder: TATEditorFinder);
+procedure TfmMain.FinderShowResultSimple(AFound: boolean; AFinder: TATEditorFinder);
+var
+  Details: string;
 begin
-  if ok then
-    MsgStatus(msgStatusFoundNextMatch{+FinderGetHiAllIndexesString}, true)
+  if AFound then
+  begin
+    Details:= FinderGetHiAllIndexesString(AFinder);
+    MsgStatus(msgStatusFoundNextMatch+Details, true);
+  end
   else
     FinderShowResult(false, false, AFinder);
 end;
