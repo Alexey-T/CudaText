@@ -362,7 +362,11 @@ object SyntAnal5: TLibSyntAnalyzer
           TagList.Strings = (
             '__asm'
             '_asm'
+            '_Alignas'
+            '_Alignof'
             '_Pragma'
+            '_Static_assert'
+            '_Thread_local'
             'alignas'
             'alignof'
             'and'
@@ -410,6 +414,8 @@ object SyntAnal5: TLibSyntAnalyzer
             'typedef'
             'typeid'
             'typename'
+            'typeof'
+            'typeof_unqual'
             'union'
             'using'
             'while'
@@ -485,8 +491,12 @@ object SyntAnal5: TLibSyntAnalyzer
         item
           TagList.Strings = (
             '__asm__'
+            '_BitInt'
             '_Bool'
             '_Complex'
+            '_Decimal128'
+            '_Decimal32'
+            '_Decimal64'
             '_Imaginary'
             'asm'
             'auto'
