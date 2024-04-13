@@ -1826,6 +1826,8 @@ begin
       EditorHighlightAllMatches(Finder, FHiAllEnableFindNext, NMatches, FInitialCaretPos);
       NTick:= GetTickCount64-NTick;
 
+      {
+      //disable this block: it gives bug #5465
       if UiOps.FindShowNoResultsByInputBgColor and not IsInputColored then
       begin
         if NMatches=0 then
@@ -1838,6 +1840,7 @@ begin
         edFind.Colors.TextBG:= NColorBG;
         edFind.Update;
       end;
+      }
 
       if NMatches=0 then //fixing #4775
         if Assigned(FOnShowMatchesCount) then
