@@ -3,6 +3,8 @@
   - fixed
   * changed
 
+* change: removed the reddish highlight of the Find-dialog input, because with 'Hi' option this highlight can be misleading ('Hi' handles only visible part of the screen)
+
 1.212.1 (2024/04)
 
 + add: command 'duplicate line(s)' moves caret down, like in Sublime and VSCode (thanks @victorel-petrovich)
