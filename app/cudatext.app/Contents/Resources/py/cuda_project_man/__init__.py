@@ -230,7 +230,7 @@ class Command:
         (_("-"), "dir", [NODE_DIR], ""),
         (_("Focus in file manager"), "dir", [NODE_DIR], "cuda_project_man.action_focus_in_fileman"),
         (_("-"), "dir", [NODE_DIR], ""),
-        (_("Properties"), "dir", [NODE_DIR], "cuda_project_man.action_get_properties"),
+        (_("Properties..."), "dir", [NODE_DIR], "cuda_project_man.action_get_properties"),
 
         (_("Open in default application"), "file", [NODE_FILE], "cuda_project_man.action_open_def"),
         (_("-"), "file", [NODE_FILE], ""),
@@ -250,7 +250,7 @@ class Command:
         (_("-"), "file", [NODE_FILE], ""),
         (_("Focus in file manager"), "file", [NODE_FILE], "cuda_project_man.action_focus_in_fileman"),
         (_("-"), "file", [NODE_FILE], ""),
-        (_("Properties"), "file", [NODE_FILE], "cuda_project_man.action_get_properties"),
+        (_("Properties..."), "file", [NODE_FILE], "cuda_project_man.action_get_properties"),
 
         ("-"   , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], ""),
         (_("Refresh") + " (F5)", "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_refresh"),
