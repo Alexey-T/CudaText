@@ -190,6 +190,7 @@ type
     FTimerHiAll: TTimer;
     FPopupMore: TPopupMenu;
     FPrevColorOfInput: TColor;
+    FPrevInputEmpty: boolean;
     FMenuitemOptRegex: TMenuItem;
     FMenuitemOptCase: TMenuItem;
     FMenuitemOptWords: TMenuItem;
@@ -770,16 +771,54 @@ begin
 end;
 
 procedure TfmFind.edFindChange(Sender: TObject);
+var
+  Ed: TATSynEdit;
+  Caret: TATCaretItem;
+  X1, Y1, X2, Y2: integer;
+  bSel: boolean;
 begin
-  if IsImmediate then
-  begin
-    if not chkRegex.Checked or IsRegexInputOk then
-      bFindFirst.Click;
-  end;
   {
-  if IsHiAll then
-    UpdateState(true);
-    }
+  Look at how your browser works (Firefox). Cuda should behave the same.
+
+  If find input is empty, when you start typing it finds from the start of the
+  document. But once there's at least one char in find input, further find
+  commands (find next, find previous or typing more chars in the input) should
+  always find starting from caret position (or focus position in case of browser).
+
+  https://github.com/Alexey-T/CudaText/issues/5466
+  }
+  if IsImmediate then
+    if not chkRegex.Checked or IsRegexInputOk then
+    begin
+      OnGetMainEditor(Ed);
+      if Ed=nil then exit;
+
+      if edFind.Text='' then
+      begin
+        FPrevInputEmpty:= true;
+        Ed.DoCommand(cCommand_Cancel, TATCommandInvoke.AppInternal);
+      end
+      else
+      if FPrevInputEmpty and (Length(edFind.Text)=1) then
+      begin
+        FPrevInputEmpty:= false;
+        bFindFirst.Click;
+      end
+      else
+      begin
+        FPrevInputEmpty:= false;
+        if Ed.Carets.Count>0 then
+        begin
+          Caret:= Ed.Carets[0];
+          Caret.GetRange(X1, Y1, X2, Y2, bSel);
+          Ed.DoCaretSingle(X1, Y1);
+          bFindNext.Click;
+        end;
+      end;
+
+      if IsHiAll then
+        UpdateState(false);
+    end;
 
   UpdateRegexHighlight;
 
