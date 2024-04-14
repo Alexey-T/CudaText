@@ -796,6 +796,7 @@
   //  if 'M' in value: "Multi-line inputs" option button
   //  if 'X' in value: "Allowed syntax elements" option button
   //  if 'H' in value: "Highlight all matches" option button
+  //  if 'i' in value: "Immediate search" option button
   //  if 'C' in value: "Confirm on replace" option button
   //  if 'E' in value: "RegEx substitution for 'Replace with'" option button
   //  if 'P' in value: "Preserve case on replacement" option button
