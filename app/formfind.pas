@@ -269,6 +269,7 @@ type
     procedure UpdateInputReplace(const AText: UnicodeString);
     procedure UpdateCaption(const AText: string);
     procedure UpdateHiAll(AEnableFindNext: boolean);
+    procedure UpdateInputErrorBackColor(AFound: boolean);
     procedure ClearHiAll;
     procedure ApplyTheme;
     function CurrentCaption: string;
@@ -1902,7 +1903,6 @@ var
   Finder: TATEditorFinder;
   NMatches: integer;
   NTick: QWord;
-  NColorBG: TColor;
 begin
   FTimerHiAll.Enabled:= false;
 
@@ -1931,19 +1931,7 @@ begin
       EditorHighlightAllMatches(Finder, FHiAllEnableFindNext, NMatches, FInitialCaretPos);
       NTick:= GetTickCount64-NTick;
 
-      //this block gives bug #5465
-      if UiOps.FindShowNoResultsByInputBgColor and not IsInputColored then
-      begin
-        if NMatches=0 then
-          NColorBG:= ColorBlendHalf(
-                       GetAppColor(TAppThemeColor.EdTextBg),
-                       GetAppColor(TAppThemeColor.ButtonBgDisabled))
-        else
-          NColorBG:= GetAppColor(TAppThemeColor.EdTextBg);
-
-        edFind.Colors.TextBG:= NColorBG;
-        edFind.Update;
-      end;
+      UpdateInputErrorBackColor(NMatches>0);
 
       if NMatches=0 then //fixing #4775
         if Assigned(FOnShowMatchesCount) then
@@ -1951,6 +1939,24 @@ begin
     finally
       FreeAndNil(Finder);
     end;
+  end;
+end;
+
+procedure TfmFind.UpdateInputErrorBackColor(AFound: boolean);
+var
+  NColorBG: TColor;
+begin
+  if UiOps.FindShowNoResultsByInputBgColor and not IsInputColored then
+  begin
+    if AFound then
+      NColorBG:= GetAppColor(TAppThemeColor.EdTextBg)
+    else
+      NColorBG:= ColorBlendHalf(
+                   GetAppColor(TAppThemeColor.EdTextBg),
+                   GetAppColor(TAppThemeColor.ButtonBgDisabled));
+
+    edFind.Colors.TextBG:= NColorBG;
+    edFind.Update;
   end;
 end;
 
