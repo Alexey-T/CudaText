@@ -766,6 +766,8 @@ begin
       bFindFirst.Click;
   end;
 
+  UpdateRegexHighlight;
+
   if AdapterActive then
     EditorHighlightBadRegexBrackets(edFind, false);
 end;
@@ -1648,8 +1650,6 @@ begin
   UpdateButtonBold;
   UpdateFormHeight;
   FormResize(nil);
-
-  UpdateRegexHighlight;
 
   UpdateHiAll(AEnableFindNextForHiOption);
 end;
