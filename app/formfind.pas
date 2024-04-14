@@ -199,6 +199,7 @@ type
     FMenuitemOptTokens: TMenuItem;
     FMenuitemOptTokensSub: array[TATFinderTokensAllowed] of TMenuItem;
     FMenuitemOptHiAll: TMenuItem;
+    FMenuitemOptIm: TMenuItem;
     FMenuitemOptRegexSubst: TMenuItem;
     FMenuitemOptPreserveCase: TMenuItem;
     FMenuitemFindFirst: TMenuItem;
@@ -478,6 +479,9 @@ begin
     FMenuitemOptHiAll:= TMenuItem.Create(Self);
     FMenuitemOptHiAll.OnClick:= @chkHiAllClick;
 
+    FMenuitemOptIm:= TMenuItem.Create(Self);
+    FMenuitemOptIm.OnClick:= @chkImmediateClick;
+
     FMenuitemOptRegexSubst:= TMenuItem.Create(Self);
     FMenuitemOptRegexSubst.OnClick:= @chkRegexSubstClick;
 
@@ -534,6 +538,7 @@ begin
     FPopupMore.Items.Add(FMenuitemOptMulti);
     FPopupMore.Items.Add(FMenuitemOptTokens);
     FPopupMore.Items.Add(FMenuitemOptHiAll);
+    FPopupMore.Items.Add(FMenuitemOptIm);
     FPopupMore.Items.Add(FMenuitemOptRegexSubst);
     FPopupMore.Items.Add(FMenuitemOptPreserveCase);
     FPopupMore.Items.Add(Sep1);
@@ -585,6 +590,10 @@ begin
   if not FMenuitemOptHiAll.Enabled then
     FMenuitemOptHiAll.Caption:= FMenuitemOptHiAll.Caption+' '+
       Format('("find_hi_max_lines": %d)', [UiOps.FindHiAll_MaxLines]);
+
+  FMenuitemOptIm.Caption:= msgFindHint_Immediate;
+  FMenuitemOptIm.Checked:= chkImmediate.Checked;
+  FMenuitemOptIm.ShortCut:= TextToShortCutRaw(UiOps.HotkeyToggleImmediate);
 
   FMenuitemOptRegexSubst.Caption:= msgFindHint_RegexSubst;
   FMenuitemOptRegexSubst.Checked:= chkRegexSubst.Checked;
