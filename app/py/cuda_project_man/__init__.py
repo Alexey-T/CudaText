@@ -794,7 +794,7 @@ class Command:
                 text += _('Size: ') + self.convert_size(os.path.getsize(selected)) + "\n"
                 text += _('Date of creation: ') + str(datetime.datetime.fromtimestamp(int(os.path.getctime(selected)))) + "\n"
                 text += _('Date of opening: ') + str(datetime.datetime.fromtimestamp(int(os.path.getatime(selected)))) + "\n"
-                text += _('Date of modified: ') + str(datetime.datetime.fromtimestamp(int(os.path.getmtime(selected)))) + "\n"
+                text += _('Date of modification: ') + str(datetime.datetime.fromtimestamp(int(os.path.getmtime(selected)))) + "\n"
             elif os.path.isdir(selected):
                 text = _('Directory: ') + str(selected) + "\n"
                 def folder_size(path):
