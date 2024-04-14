@@ -190,7 +190,6 @@ type
     FTimerHiAll: TTimer;
     FPopupMore: TPopupMenu;
     FPrevColorOfInput: TColor;
-    FPrevInputEmpty: boolean;
     FMenuitemOptRegex: TMenuItem;
     FMenuitemOptCase: TMenuItem;
     FMenuitemOptWords: TMenuItem;
@@ -793,27 +792,19 @@ begin
       OnGetMainEditor(Ed);
       if Ed=nil then exit;
 
+      if Ed.Carets.Count=0 then
+        Ed.DoCaretSingle(0, 0);
+      Caret:= Ed.Carets[0];
+
       if edFind.Text='' then
       begin
-        FPrevInputEmpty:= true;
         Ed.DoCommand(cCommand_Cancel, TATCommandInvoke.AppInternal);
       end
       else
-      if FPrevInputEmpty and (Length(edFind.Text)=1) then
       begin
-        FPrevInputEmpty:= false;
-        bFindFirst.Click;
-      end
-      else
-      begin
-        FPrevInputEmpty:= false;
-        if Ed.Carets.Count>0 then
-        begin
-          Caret:= Ed.Carets[0];
-          Caret.GetRange(X1, Y1, X2, Y2, bSel);
-          Ed.DoCaretSingle(X1, Y1);
-          bFindNext.Click;
-        end;
+        Caret.GetRange(X1, Y1, X2, Y2, bSel);
+        Ed.DoCaretSingle(X1, Y1);
+        bFindNext.Click;
       end;
 
       if IsHiAll then
