@@ -1938,7 +1938,7 @@ procedure TfmFind.UpdateInputReddishIndicator(AFound: boolean);
 var
   NColorBG: TColor;
 begin
-  if UiOps.FindShowNoResultsByInputBgColor and not IsInputColored then
+  if UiOps.FindUseReddishIndicator and not IsInputColored then
   begin
     if AFound then
       NColorBG:= GetAppColor(TAppThemeColor.EdTextBg)

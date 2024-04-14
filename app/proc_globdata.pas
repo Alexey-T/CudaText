@@ -346,7 +346,7 @@ type
     FindSuggestWord: boolean;
     FindSuggestInSelection: boolean;
     FindCurrentWordCaseSensitive: TUiOpsFindCaseSensitive;
-    FindShowNoResultsByInputBgColor: boolean;
+    FindUseReddishIndicator: boolean;
 
     FindHiddenButtons: string;
     FindShow_FindFirst: boolean;
@@ -2073,7 +2073,7 @@ begin
     FindSuggestWord:= false; //option "find_suggest_cur_word"
     FindSuggestInSelection:= false; //option "find_suggest_in_selection"
     FindCurrentWordCaseSensitive:= TUiOpsFindCaseSensitive.FromDialog; //option "find_sel_case"
-    FindShowNoResultsByInputBgColor:= true;
+    FindUseReddishIndicator:= true;
 
     FindHiddenButtons:= '';
     FindShow_FindFirst:= true;
