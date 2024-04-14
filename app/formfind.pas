@@ -768,7 +768,7 @@ begin
       UpdateState(true)
     else
     begin
-      if IsRegexInputOk then
+      if not chkRegex.Checked or IsRegexInputOk then
         bFindFirst.Click;
     end;
   end;
