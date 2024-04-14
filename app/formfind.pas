@@ -27,6 +27,7 @@ uses
   ATSynEdit_Commands,
   ATSynEdit_Finder,
   ATSynEdit_Adapter_EControl,
+  ATSynEdit_Regexpr,
   proc_msg,
   proc_globdata,
   proc_miscutils,
@@ -176,12 +177,14 @@ type
     procedure edRepExit(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
     procedure FormHide(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormResize(Sender: TObject);
     procedure FormShow(Sender: TObject);
   private
     { private declarations }
+    FRegexObj: TRegExpr;
     FTimerShow: TTimer;
     FTimerWrapped: TTimer;
     FTimerHiAll: TTimer;
@@ -234,6 +237,7 @@ type
     function GetHiAll: boolean;
     function GetImmediate: boolean;
     procedure InitPopupMore;
+    function IsRegexInputOk: boolean;
     procedure MenuitemTokensClick(Sender: TObject);
     procedure SetHiAll(AValue: boolean);
     procedure SetImmediate(AValue: boolean);
@@ -763,7 +767,10 @@ begin
     if IsHiAll then
       UpdateState(true)
     else
-      bFindFirst.Click;
+    begin
+      if IsRegexInputOk then
+        bFindFirst.Click;
+    end;
   end;
 
   UpdateRegexHighlight;
@@ -896,6 +903,8 @@ begin
   edFind.OptPasteAtEndMakesFinalEmptyLine:= false;
   edRep.OptPasteAtEndMakesFinalEmptyLine:= false;
 
+  FRegexObj:= TRegExpr.Create;
+
   IsDoubleBuffered:= UiOps.DoubleBuffered;
   AppScalePanelControls(Self);
 
@@ -933,6 +942,11 @@ begin
   FTimerHiAll.Enabled:= false;
   FTimerHiAll.Interval:= UiOps.FindHiAll_TimerInterval;
   FTimerHiAll.OnTimer:= @TimerHiAllTick;
+end;
+
+procedure TfmFind.FormDestroy(Sender: TObject);
+begin
+  FreeAndNil(FRegexObj);
 end;
 
 procedure TfmFind.FormHide(Sender: TObject);
@@ -1917,6 +1931,22 @@ begin
   FLexerRegexThemed:= true;
 
   Invalidate;
+end;
+
+function TfmFind.IsRegexInputOk: boolean;
+begin
+  Result:= true;
+  if (edFind.Text<>'') and chkRegex.Checked then
+  try
+    try
+      FRegexObj.Expression:= edFind.Text;
+      FRegexObj.Compile;
+    except
+      Result:= false;
+    end;
+  finally
+    FRegexObj.Expression:= '';
+  end;
 end;
 
 end.

@@ -16,6 +16,7 @@ object fmFind: TfmFind
   Scaled = False
   OnClose = FormClose
   OnCreate = FormCreate
+  OnDestroy = FormDestroy
   OnHide = FormHide
   OnKeyDown = FormKeyDown
   OnResize = FormResize
