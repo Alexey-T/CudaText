@@ -449,6 +449,7 @@ const
   msgFindHint_InSelect: string = 'Search in selection';
   msgFindHint_Tokens: string = 'Allowed syntax elements';
   msgFindHint_HiAll: string = 'Highlight all matches';
+  msgFindHint_Immediate: string = 'Immediate search (find as you type)';
   msgFindHint_PresCase: string = 'Preserve case on replacement';
 
 function msgTranslatedPanelCaption(const ACaption: string): string;

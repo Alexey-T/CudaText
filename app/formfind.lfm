@@ -24,7 +24,7 @@ object fmFind: TfmFind
     Left = 0
     Height = 118
     Top = 30
-    Width = 252
+    Width = 284
     Align = alLeft
     object PanelOps2: TATPanelSimple
       AnchorSideLeft.Control = PanelOps1
@@ -73,7 +73,7 @@ object fmFind: TfmFind
       Left = 8
       Height = 25
       Top = 4
-      Width = 248
+      Width = 272
       object chkRegex: TATButton
         Left = 0
         Height = 25
@@ -163,15 +163,26 @@ object fmFind: TfmFind
         Focusable = False
         OnClick = chkHiAllClick
       end
+      object chkImmediate: TATButton
+        Left = 240
+        Height = 25
+        Top = 0
+        Width = 30
+        Align = alLeft
+        Caption = 'Im'
+        TabOrder = 8
+        Focusable = False
+        OnClick = chkImmediateClick
+      end
     end
   end
   object PanelAll: TATPanelSimple
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
-    Left = 252
+    Left = 284
     Height = 118
     Top = 30
-    Width = 711
+    Width = 679
     Align = alLeft
     Anchors = [akTop, akLeft, akRight, akBottom]
     object edFind: TATComboEdit
@@ -182,7 +193,7 @@ object fmFind: TfmFind
       Left = 0
       Height = 25
       Top = 4
-      Width = 325
+      Width = 293
       Anchors = [akTop, akLeft, akRight]
       DoubleBuffered = True
       Font.Height = -12
@@ -226,7 +237,7 @@ object fmFind: TfmFind
       Left = 0
       Height = 25
       Top = 33
-      Width = 325
+      Width = 293
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Top = 4
       DoubleBuffered = True
@@ -264,7 +275,7 @@ object fmFind: TfmFind
       AnchorSideLeft.Side = asrBottom
       AnchorSideRight.Control = PanelAll
       AnchorSideRight.Side = asrBottom
-      Left = 331
+      Left = 299
       Height = 25
       Top = 4
       Width = 374
@@ -321,7 +332,7 @@ object fmFind: TfmFind
       AnchorSideTop.Control = edRep
       AnchorSideRight.Control = PanelBtn
       AnchorSideRight.Side = asrBottom
-      Left = 331
+      Left = 299
       Height = 25
       Top = 33
       Width = 374

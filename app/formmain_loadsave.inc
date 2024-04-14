@@ -1613,6 +1613,7 @@ begin
   UiOps.FindShow_MultiLine:=     Pos('M', UiOps.FindHiddenButtons)=0;
   UiOps.FindShow_SyntaxElements:=Pos('X', UiOps.FindHiddenButtons)=0;
   UiOps.FindShow_HiAll:=         Pos('H', UiOps.FindHiddenButtons)=0;
+  UiOps.FindShow_Immediate:=     Pos('i', UiOps.FindHiddenButtons)=0;
   UiOps.FindShow_ConfirmRep:=    Pos('C', UiOps.FindHiddenButtons)=0;
   UiOps.FindShow_RegexSubst:=    Pos('E', UiOps.FindHiddenButtons)=0;
   UiOps.FindShow_PreserveCase:=  Pos('P', UiOps.FindHiddenButtons)=0;

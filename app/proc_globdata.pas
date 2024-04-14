@@ -362,6 +362,7 @@ type
     FindShow_MultiLine: boolean;
     FindShow_SyntaxElements: boolean;
     FindShow_HiAll: boolean;
+    FindShow_Immediate: boolean;
     FindShow_ConfirmRep: boolean;
     FindShow_RegexSubst: boolean;
     FindShow_PreserveCase: boolean;
@@ -504,6 +505,7 @@ type
     HotkeyToggleConfirmRep,
     HotkeyToggleTokens,
     HotkeyToggleHiAll,
+    HotkeyToggleImmediate,
     HotkeyTogglePresCase,
     HotkeyFindMenu
       : string;
@@ -2087,6 +2089,7 @@ begin
     FindShow_MultiLine:= true;
     FindShow_SyntaxElements:= true;
     FindShow_HiAll:= true;
+    FindShow_Immediate:= true;
     FindShow_ConfirmRep:= true;
     FindShow_RegexSubst:= true;
     FindShow_PreserveCase:= true;
@@ -2250,6 +2253,7 @@ begin
     HotkeyToggleConfirmRep:= 'Ctrl+Alt+Y';
     HotkeyToggleTokens:= '';
     HotkeyToggleHiAll:= '';
+    HotkeyToggleImmediate:= '';
     HotkeyTogglePresCase:= '';
     HotkeyFindMenu:= 'Ctrl+Alt+D';
   end;

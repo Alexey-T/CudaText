@@ -119,6 +119,7 @@ type
     bRepGlobal: TATButton;
     chkCase: TATButton;
     chkConfirm: TATButton;
+    chkImmediate: TATButton;
     chkRegexSubst: TATButton;
     chkInSel: TATButton;
     chkHiAll: TATButton;
@@ -153,6 +154,7 @@ type
     procedure chkCaseClick(Sender: TObject);
     procedure chkConfirmClick(Sender: TObject);
     procedure chkHiAllClick(Sender: TObject);
+    procedure chkImmediateClick(Sender: TObject);
     procedure chkInSelClick(Sender: TObject);
     procedure chkMulLineClick(Sender: TObject);
     procedure chkPreserveCaseClick(Sender: TObject);
@@ -689,6 +691,14 @@ begin
   DoOnChange;
 end;
 
+procedure TfmFind.chkImmediateClick(Sender: TObject);
+begin
+  with chkImmediate do
+    Checked:= not Checked;
+  if chkImmediate.Checked then
+    DoOnChange;
+end;
+
 procedure TfmFind.chkInSelClick(Sender: TObject);
 begin
   with chkInSel do
@@ -1132,6 +1142,14 @@ begin
     exit
   end;
 
+  if Str=UiOps.HotkeyToggleImmediate then
+  begin
+    chkImmediate.Click;
+    UpdateState(false);
+    key:= 0;
+    exit
+  end;
+
   if Str=UiOps.HotkeyToggleMultiline then
   begin
     chkMulLineClick(Self);
@@ -1436,6 +1454,7 @@ begin
     chkMulLine.Parent:= PanelTopOps;
     bTokens.Parent:= PanelTopOps;
     chkHiAll.Parent:= PanelTopOps;
+    chkImmediate.Parent:= PanelTopOps;
     chkConfirm.Parent:= PanelTopOps;
     chkConfirm.Left:= 400; //to right
     chkRegexSubst.Parent:= PanelTopOps;
@@ -1520,7 +1539,8 @@ begin
     chkInSel,
     chkMulLine,
     bTokens,
-    chkHiAll
+    chkHiAll,
+    chkImmediate
     ];
 
   N:= 10; //indents left/right
@@ -1585,6 +1605,7 @@ begin
   chkMulLine.Visible:= UiOps.FindShow_MultiLine;
   bTokens.Visible:= UiOps.FindShow_SyntaxElements;
   chkHiAll.Visible:= UiOps.FindShow_HiAll;
+  chkImmediate.Visible:= UiOps.FindShow_Immediate;
   chkConfirm.Visible:= (IsReplace or IsNarrow) and UiOps.FindShow_ConfirmRep;
   chkRegexSubst.Visible:= (IsReplace or IsNarrow) and UiOps.FindShow_RegexSubst;
   chkPreserveCase.Visible:= (IsReplace or IsNarrow) and UiOps.FindShow_PreserveCase;
@@ -1723,6 +1744,7 @@ begin
   chkMulLine.Hint:= _MakeHint(msgFindHint_MultiLine, UiOps.HotkeyToggleMultiline);
   bTokens.Hint:= _MakeHint(msgFindHint_Tokens, UiOps.HotkeyToggleTokens);
   chkHiAll.Hint:= _MakeHint(msgFindHint_HiAll, UiOps.HotkeyToggleHiAll);
+  chkImmediate.Hint:= _MakeHint(msgFindHint_Immediate, UiOps.HotkeyToggleImmediate);
   chkPreserveCase.Hint:= _MakeHint(msgFindHint_PresCase, UiOps.HotkeyTogglePresCase);
 
   bFindFirst.AutoSize:= true;
