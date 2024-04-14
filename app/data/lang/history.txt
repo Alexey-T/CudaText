@@ -1,5 +1,8 @@
 See http://wiki.freepascal.org/CudaText#How_to_make_translation
 
+2024.04.14
++ [d_f] h_im
+
 2024.04.07
 * delete [si] NoLineCmtDefined
 

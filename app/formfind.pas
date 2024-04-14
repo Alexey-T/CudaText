@@ -1709,6 +1709,7 @@ begin
       msgFindHint_MultiLine:= ini.ReadString(section, 'h_mul', msgFindHint_MultiLine);
       msgFindHint_Tokens:= ini.ReadString(section, 'h_tok', msgFindHint_Tokens);
       msgFindHint_HiAll:= ini.ReadString(section, 'h_hi', msgFindHint_HiAll);
+      msgFindHint_Immediate:= ini.ReadString(section, 'h_im', msgFindHint_Immediate);
       msgFindHint_PresCase:= ini.ReadString(section, 'h_pres', msgFindHint_PresCase);
 
       with bTokens do
