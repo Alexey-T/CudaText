@@ -696,7 +696,8 @@ begin
   with chkImmediate do
     Checked:= not Checked;
   if chkImmediate.Checked then
-    DoOnChange;
+    edFind.OnChange(nil);
+  DoOnChange;
 end;
 
 procedure TfmFind.chkInSelClick(Sender: TObject);
@@ -723,7 +724,8 @@ end;
 
 procedure TfmFind.chkRepChange(Sender: TObject);
 begin
-  UpdateState(false);
+  if chkImmediate.Checked then
+    UpdateState(false);
 end;
 
 procedure TfmFind.bFindFirstClick(Sender: TObject);
@@ -754,7 +756,8 @@ end;
 
 procedure TfmFind.edFindChange(Sender: TObject);
 begin
-  UpdateState(true);
+  if chkImmediate.Checked then
+    UpdateState(true);
   if AdapterActive then
     EditorHighlightBadRegexBrackets(edFind, false);
 end;
