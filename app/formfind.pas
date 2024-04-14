@@ -795,17 +795,12 @@ begin
       if Ed.Carets.Count=0 then
         Ed.DoCaretSingle(0, 0);
       Caret:= Ed.Carets[0];
+      Caret.GetRange(X1, Y1, X2, Y2, bSel);
 
-      if edFind.Text='' then
-      begin
-        Ed.DoCommand(cCommand_Cancel, TATCommandInvoke.AppInternal);
-      end
-      else
-      begin
-        Caret.GetRange(X1, Y1, X2, Y2, bSel);
-        Ed.DoCaretSingle(X1, Y1);
+      Ed.DoCaretSingle(X1, Y1); //jump to left side of selection
+      Ed.Update;
+      if edFind.Text<>'' then
         bFindNext.Click;
-      end;
 
       if IsHiAll then
         UpdateState(false);
