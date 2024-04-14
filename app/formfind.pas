@@ -799,6 +799,14 @@ begin
 
       Ed.DoCaretSingle(X1, Y1); //jump to left side of selection
       Ed.Update;
+
+      {
+      why always 'find next'? this is more like in other editors.
+      from issue #5466:
+      is Cuda the only editor with "find first"? Others I tested now don't have (Kate, Sublime, VSCode, Notepad++).
+      Interesting. It's an useful command. With find first + always 'b', Cuda users have more control
+      over find than users of other editors.
+      }
       if edFind.Text<>'' then
         bFindNext.Click;
 
