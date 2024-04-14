@@ -773,14 +773,13 @@ procedure TfmFind.edFindChange(Sender: TObject);
 begin
   if IsImmediate then
   begin
-    if IsHiAll then
-      UpdateState(true)
-    else
-    begin
-      if not chkRegex.Checked or IsRegexInputOk then
-        bFindFirst.Click;
-    end;
+    if not chkRegex.Checked or IsRegexInputOk then
+      bFindFirst.Click;
   end;
+  {
+  if IsHiAll then
+    UpdateState(true);
+    }
 
   UpdateRegexHighlight;
 
