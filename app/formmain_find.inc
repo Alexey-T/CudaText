@@ -978,6 +978,9 @@ begin
     MsgStatus(
       msgCannotFindMatch+FinderOptionsToHint(AFinder, AIsReplace)+': '+Utf8Encode(AFinder.StrFind),
       true);
+
+  if Assigned(fmFind) and fmFind.Visible then
+    fmFind.UpdateInputErrorBackColor(AFound);
 end;
 
 procedure TfmMain.FinderShowResultSimple(AFound: boolean; AFinder: TATEditorFinder);
@@ -1003,6 +1006,9 @@ begin
     S:= msgCannotFindMatch;
   S+= Format(' (%dms)', [ATime]);
   MsgStatus(S, true);
+
+  if Assigned(fmFind) and fmFind.Visible then
+    fmFind.UpdateInputErrorBackColor(AMatchCount>0);
 end;
 
 procedure TfmMain.FinderOnConfirmReplace_API(Sender: TObject; APos1,
