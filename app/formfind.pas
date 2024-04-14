@@ -1848,24 +1848,14 @@ end;
 
 procedure TfmFind.UpdateHiAll(AEnableFindNext: boolean);
 var
-  NColorBG: TColor;
   Ed: TATSynEdit;
 begin
   FTimerHiAll.Enabled:= false;
 
   if FForViewer then
   begin
-    NColorBG:= GetAppColor(TAppThemeColor.EdTextBg);
-    edFind.Colors.TextBG:= NColorBG;
-    edFind.Update;
+    UpdateInputErrorBackColor(true);
     exit;
-  end;
-
-  if UiOps.FindShowNoResultsByInputBgColor and not IsInputColored then
-  begin
-    NColorBG:= GetAppColor(TAppThemeColor.EdTextBg);
-    edFind.Colors.TextBG:= NColorBG;
-    edFind.Update;
   end;
 
   if edFind.Text='' then
@@ -1931,11 +1921,13 @@ begin
       EditorHighlightAllMatches(Finder, FHiAllEnableFindNext, NMatches, FInitialCaretPos);
       NTick:= GetTickCount64-NTick;
 
-      UpdateInputErrorBackColor(NMatches>0);
-
+      {
+      //removed, to avoid reddish indicator, when 'Hi' cannot find anything,
+      //but Im' could find the match before 'Hi'
       if NMatches=0 then //fixing #4775
         if Assigned(FOnShowMatchesCount) then
           FOnShowMatchesCount(NMatches, NTick);
+          }
     finally
       FreeAndNil(Finder);
     end;
