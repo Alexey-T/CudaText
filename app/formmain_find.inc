@@ -980,7 +980,7 @@ begin
       true);
 
   if Assigned(fmFind) and fmFind.Visible then
-    fmFind.UpdateInputErrorBackColor(AFound);
+    fmFind.UpdateInputReddishIndicator(AFound);
 end;
 
 procedure TfmMain.FinderShowResultSimple(AFound: boolean; AFinder: TATEditorFinder);
@@ -1008,7 +1008,7 @@ begin
   MsgStatus(S, true);
 
   if Assigned(fmFind) and fmFind.Visible then
-    fmFind.UpdateInputErrorBackColor(AMatchCount>0);
+    fmFind.UpdateInputReddishIndicator(AMatchCount>0);
 end;
 
 procedure TfmMain.FinderOnConfirmReplace_API(Sender: TObject; APos1,

@@ -269,7 +269,7 @@ type
     procedure UpdateInputReplace(const AText: UnicodeString);
     procedure UpdateCaption(const AText: string);
     procedure UpdateHiAll(AEnableFindNext: boolean);
-    procedure UpdateInputErrorBackColor(AFound: boolean);
+    procedure UpdateInputReddishIndicator(AFound: boolean);
     procedure ClearHiAll;
     procedure ApplyTheme;
     function CurrentCaption: string;
@@ -1854,7 +1854,7 @@ begin
 
   if FForViewer then
   begin
-    UpdateInputErrorBackColor(true);
+    UpdateInputReddishIndicator(true);
     exit;
   end;
 
@@ -1934,7 +1934,7 @@ begin
   end;
 end;
 
-procedure TfmFind.UpdateInputErrorBackColor(AFound: boolean);
+procedure TfmFind.UpdateInputReddishIndicator(AFound: boolean);
 var
   NColorBG: TColor;
 begin
