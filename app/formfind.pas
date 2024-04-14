@@ -727,8 +727,7 @@ end;
 
 procedure TfmFind.chkRepChange(Sender: TObject);
 begin
-  if IsImmediate then
-    UpdateState(false);
+  UpdateState(false);
 end;
 
 procedure TfmFind.bFindFirstClick(Sender: TObject);
