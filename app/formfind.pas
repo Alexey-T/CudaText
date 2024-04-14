@@ -829,6 +829,7 @@ end;
 
 procedure TfmFind.edFindEnter(Sender: TObject);
 begin
+  if edFind.Focused then exit; //must have for Qt5 build
   edFind.DoSelect_All;
   UpdateButtonBold;
 end;
@@ -864,6 +865,7 @@ end;
 
 procedure TfmFind.edRepEnter(Sender: TObject);
 begin
+  if edRep.Focused then exit; //must have for Qt5
   edRep.DoSelect_All;
   UpdateButtonBold;
 end;
