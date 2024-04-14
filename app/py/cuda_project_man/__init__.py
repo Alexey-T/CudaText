@@ -1762,20 +1762,28 @@ class Command:
                 self.action_delete_file()
             elif node_type == NODE_DIR:
                 self.action_delete_directory()
+            return False #block key
         elif (id_ctl == VK_F5) or (data == 'c' and (id_ctl in (ord('r'), ord('R')))):
             self.action_refresh()
+            return False #block key
         elif id_ctl == VK_F2:
             self.action_rename()
+            return False #block key
         elif id_ctl == VK_F7:
             self.action_new_directory()
+            return False #block key
         elif (data == 'c' and (id_ctl in (ord('n'), ord('N')))):
             self.action_new_file()
+            return False #block key
         elif (data == 'c' and (id_ctl in (ord('x'), ord('X')))):
             self.action_cut()
+            return False #block key
         elif (data == 'c' and (id_ctl in (ord('c'), ord('C')))):
             self.action_copy()
+            return False #block key
         elif (data == 'c' and (id_ctl in (ord('v'), ord('V')))):
             self.action_paste()
+            return False #block key
 
     def add_current_file(self):
 
