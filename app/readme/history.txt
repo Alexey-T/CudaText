@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-* change: removed the reddish highlight of the Find-dialog input, because with 'Hi' option this highlight can be misleading ('Hi' handles only visible part of the screen)
++ add: Find-dialog has new option 'Im': immediate search, ie find-as-you-type (idea by @pintassilgo)
 
 1.212.1 (2024/04)
 
