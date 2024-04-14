@@ -518,6 +518,7 @@ begin
           FormPosSetFromString(fmFind, cfg.GetValue('/pos/find', ''), false);
         fmFind.IsMultiLine:= cfg.GetValue('/finder/mline', false);
         fmFind.IsHiAll:= cfg.GetValue('/finder/hi', false);
+        fmFind.IsImmediate:= cfg.GetValue('/finder/im', false);
         fmFind.chkRegexSubst.Checked:= cfg.GetValue('/finder/regex_subst', true);
       except
       end;

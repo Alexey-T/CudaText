@@ -232,9 +232,11 @@ type
     procedure DoFocusEditor;
     procedure DoResult(Op: TAppFinderOperation);
     function GetHiAll: boolean;
+    function GetImmediate: boolean;
     procedure InitPopupMore;
     procedure MenuitemTokensClick(Sender: TObject);
     procedure SetHiAll(AValue: boolean);
+    procedure SetImmediate(AValue: boolean);
     procedure SetInputColored(AValue: boolean);
     procedure SetIsDoubleBuffered(AValue: boolean);
     procedure SetMultiLine(AValue: boolean);
@@ -277,6 +279,7 @@ type
     property IsMultiLine: boolean read FMultiLine write SetMultiLine;
     property IsNarrow: boolean read FNarrow write SetNarrow;
     property IsHiAll: boolean read GetHiAll write SetHiAll;
+    property IsImmediate: boolean read GetImmediate write SetImmediate;
     property IsDoubleBuffered: boolean write SetIsDoubleBuffered;
     property IsInputColored: boolean read FInputColored write SetInputColored;
   end;
@@ -724,7 +727,7 @@ end;
 
 procedure TfmFind.chkRepChange(Sender: TObject);
 begin
-  if chkImmediate.Checked then
+  if IsImmediate then
     UpdateState(false);
 end;
 
@@ -756,8 +759,14 @@ end;
 
 procedure TfmFind.edFindChange(Sender: TObject);
 begin
-  if chkImmediate.Checked then
-    UpdateState(true);
+  if IsImmediate then
+  begin
+    if IsHiAll then
+      UpdateState(true)
+    else
+      bFindFirst.Click;
+  end;
+
   if AdapterActive then
     EditorHighlightBadRegexBrackets(edFind, false);
 end;
@@ -1351,11 +1360,25 @@ begin
   Result:= chkHiAll.Checked;
 end;
 
+function TfmFind.GetImmediate: boolean;
+begin
+  Result:= chkImmediate.Checked;
+end;
+
 procedure TfmFind.SetHiAll(AValue: boolean);
 begin
   if chkHiAll.Checked<>AValue then
   begin
     chkHiAll.Checked:= AValue;
+    UpdateState(true);
+  end;
+end;
+
+procedure TfmFind.SetImmediate(AValue: boolean);
+begin
+  if chkImmediate.Checked<>AValue then
+  begin
+    chkImmediate.Checked:= AValue;
     UpdateState(true);
   end;
 end;
