@@ -1135,7 +1135,7 @@ end;
 procedure TfmMain.FinderOnWrapAtEdge(Sender: TObject);
 begin
   {
-  //disabled, seems it doesnt help at all
+  //disabled in Cud 1.212.2
   if UiOps.FindWrapAtEdge_ThemeItem='' then exit;
   if Assigned(fmFind) and fmFind.Visible then
     fmFind.IsInputColored:= true;

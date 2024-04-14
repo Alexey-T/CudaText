@@ -1827,7 +1827,7 @@ begin
       NTick:= GetTickCount64-NTick;
 
       {
-      //disable this block: it gives bug #5465
+      //disable this block in Cud 1.212.2: it gives bug #5465
       if UiOps.FindShowNoResultsByInputBgColor and not IsInputColored then
       begin
         if NMatches=0 then
