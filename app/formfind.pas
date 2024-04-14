@@ -774,8 +774,7 @@ procedure TfmFind.edFindChange(Sender: TObject);
 var
   Ed: TATSynEdit;
   Caret: TATCaretItem;
-  X1, Y1, X2, Y2: integer;
-  bSel: boolean;
+  Pnt: TPoint;
 begin
   {
   Look at how your browser works (Firefox). Cuda should behave the same.
@@ -796,9 +795,9 @@ begin
       if Ed.Carets.Count=0 then
         Ed.DoCaretSingle(0, 0);
       Caret:= Ed.Carets[0];
-      Caret.GetRange(X1, Y1, X2, Y2, bSel);
 
-      Ed.DoCaretSingle(X1, Y1); //jump to left side of selection
+      Pnt:= Caret.GetLeftEdge;
+      Ed.DoCaretSingle(Pnt.X, Pnt.Y);
       Ed.Update;
 
       {
