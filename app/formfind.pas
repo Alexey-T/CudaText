@@ -1172,7 +1172,7 @@ begin
   if Str=UiOps.HotkeyToggleImmediate then
   begin
     chkImmediate.Click;
-    UpdateState(false);
+    UpdateState(true);
     key:= 0;
     exit
   end;

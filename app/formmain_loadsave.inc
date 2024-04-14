@@ -1544,6 +1544,7 @@ begin
   UiOps.HotkeyToggleConfirmRep:= cfg.GetValue('find_hotkey_op_confirm_rep', UiOps.HotkeyToggleConfirmRep);
   UiOps.HotkeyToggleTokens:= cfg.GetValue('find_hotkey_op_tokens', UiOps.HotkeyToggleTokens);
   UiOps.HotkeyToggleHiAll:= cfg.GetValue('find_hotkey_op_hi', UiOps.HotkeyToggleHiAll);
+  UiOps.HotkeyToggleImmediate:= cfg.GetValue('find_hotkey_op_im', UiOps.HotkeyToggleImmediate);
   UiOps.HotkeyTogglePresCase:= cfg.GetValue('find_hotkey_op_prescase', UiOps.HotkeyTogglePresCase);
 
   UiOps.LexerThemes:= cfg.GetValue('ui_lexer_themes', UiOps.LexerThemes);
