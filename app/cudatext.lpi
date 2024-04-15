@@ -1580,7 +1580,7 @@
         <ResourceBaseClass Value="Form"/>
       </Unit31>
       <Unit32>
-        <Filename Value="formcharmaps.pas"/>
+        <Filename Value="form_charmaps.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmCharmaps"/>
         <HasResources Value="True"/>
