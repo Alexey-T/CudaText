@@ -5,7 +5,7 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 Copyright (c) Alexey Torgashin
 *)
-unit formabout;
+unit form_about;
 
 {$mode objfpc}{$H+}
 

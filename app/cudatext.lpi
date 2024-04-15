@@ -1555,7 +1555,7 @@
         <ResourceBaseClass Value="Form"/>
       </Unit27>
       <Unit28>
-        <Filename Value="formabout.pas"/>
+        <Filename Value="form_about.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmAbout"/>
         <HasResources Value="True"/>

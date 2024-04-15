@@ -10,7 +10,7 @@ uses
   Interfaces, // this includes the LCL widgetset
   SysUtils, Forms, lazcontrols, FormMain, FormConsole, form_menu_commands,
   formgoto, form_menu_list, formsavetabs, formconfirmrep, formlexerprop,
-  formlexerlib, formcolorsetup, formabout, formkeys, form_charmaps,
+  formlexerlib, formcolorsetup, form_about, formkeys, form_charmaps,
   formlexerstyle, formlexerstylemap, formkeyinput, form_addon_report,
   formconfirmbinary, form_choose_theme, proc_globdata, fix_focus_window,
   proc_json_ex, form_unprinted, proc_editor_micromap;
