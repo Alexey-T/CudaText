@@ -324,7 +324,7 @@ begin
   if Assigned(Sender) then
   with fmFind do
   begin
-    if edFind.Text='' then Exit;
+    if edFind.IsEmpty then Exit;
     FFinder.StrFind:= edFind.Text;
     FFinder.StrReplace:= edRep.Text;
     FFinder.OptBack:= false;
@@ -768,7 +768,7 @@ begin
   bFocusFindDlg:= Assigned(fmFind) and fmFind.Visible and fmFind.Enabled and (fmFind.edFind.Focused or fmFind.edRep.Focused);
 
   ////always update Finder string when "Find next" called. issue #2182
-  if fmFind.edFind.Text<>'' then
+  if not fmFind.edFind.IsEmpty then
     FFinder.StrFind:= fmFind.edFind.Text
   else
   if FFinder.StrFind='' then
@@ -833,7 +833,7 @@ var
   cnt: integer;
   bFocusFindDlg: boolean;
 begin
-  if Assigned(fmFind) {and (fmFind.edFind.Text<>'')} then
+  if Assigned(fmFind) {and not fmFind.edFind.IsEmpty} then
     FFinder.StrFind:= fmFind.edFind.Text;
 
   if FFinder.StrFind='' then

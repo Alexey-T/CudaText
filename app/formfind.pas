@@ -1397,7 +1397,7 @@ procedure TfmFind.DoResult(Op: TAppFinderOperation);
 var
   bUpdateState: boolean;
 begin
-  if edFind.Text='' then
+  if edFind.IsEmpty then
     if Op<>TAppFinderOperation.CloseDlg then exit;
 
   if Assigned(FOnResult) then
@@ -1863,7 +1863,7 @@ begin
     exit;
   end;
 
-  if edFind.Text='' then
+  if edFind.IsEmpty then
   begin
     ClearHiAll;
     exit;
@@ -1985,7 +1985,7 @@ end;
 function TfmFind.IsRegexInputOk: boolean;
 begin
   Result:= true;
-  if (edFind.Text<>'') and chkRegex.Checked then
+  if not edFind.IsEmpty and chkRegex.Checked then
   try
     try
       FRegexObj.Expression:= edFind.Text;
