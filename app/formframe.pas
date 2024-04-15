@@ -571,7 +571,7 @@ uses
   ATStringProc_HtmlColor,
   ATSynEdit_Cmp_RenderHTML,
   ATStreamSearch,
-  formlexerstylemap;
+  form_lexer_stylemap;
 
 {$R *.lfm}
 

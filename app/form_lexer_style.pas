@@ -5,7 +5,7 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 Copyright (c) Alexey Torgashin
 *)
-unit formlexerstyle;
+unit form_lexer_style;
 
 {$mode objfpc}{$H+}
 
@@ -195,4 +195,3 @@ begin
 end;
 
 end.
-

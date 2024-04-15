@@ -19,7 +19,7 @@ uses
   ATSynEdit_Globals,
   ec_SyntAnal,
   ec_syntax_format,
-  formlexerstyle,
+  form_lexer_style,
   proc_msg,
   proc_globdata,
   proc_colors;

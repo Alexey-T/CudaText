@@ -5,7 +5,7 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 Copyright (c) Alexey Torgashin
 *)
-unit formlexerstylemap;
+unit form_lexer_stylemap;
 
 {$mode objfpc}{$H+}
 
@@ -400,4 +400,3 @@ initialization
 finalization
 
 end.
-

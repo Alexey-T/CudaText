@@ -5,7 +5,7 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 Copyright (c) Alexey Torgashin
 *)
-unit formlexerlib;
+unit form_lexer_lib;
 
 {$mode objfpc}{$H+}
 
@@ -18,7 +18,7 @@ uses
   LazUTF8, LazFileUtils,
   ATStringProc,
   ec_SyntAnal,
-  formlexerprop,
+  form_lexer_prop,
   proc_globdata,
   proc_customdialog,
   proc_miscutils,
@@ -318,4 +318,3 @@ begin
 end;
 
 end.
-

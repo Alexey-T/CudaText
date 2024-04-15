@@ -35,7 +35,7 @@ uses
   proc_editor,
   proc_cmd,
   ec_SyntAnal,
-  formlexerstylemap;
+  form_lexer_stylemap;
 
 type
   {$ScopedEnums on}
