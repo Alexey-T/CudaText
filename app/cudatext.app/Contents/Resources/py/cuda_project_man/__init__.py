@@ -640,7 +640,7 @@ class Command:
             return
 
         if e is not None:
-            e.save(str(new_location))
+            e.save(str(new_location), True)
         else:
             import shutil
             shutil.copy2(location, new_location)
