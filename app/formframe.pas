@@ -2480,10 +2480,10 @@ function TEditorFrame.IsEmpty: boolean;
 begin
   //dont check Modified here
   if EditorsLinked then
-    Result:= (FFileName='') and EditorIsEmpty(Ed1)
+    Result:= (FFileName='') and Ed1.IsEmpty
   else
     Result:= (FFileName='') and (FFileName2='') and
-      EditorIsEmpty(Ed1) and EditorIsEmpty(Ed2);
+      Ed1.IsEmpty and Ed2.IsEmpty;
 end;
 
 procedure TEditorFrame.ApplyThemeToInfoPanel(APanel: TPanel);

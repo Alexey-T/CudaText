@@ -45,7 +45,7 @@ var
   SOutput: string;
   bDocEmpty: boolean;
 begin
-  bDocEmpty:= EditorIsEmpty(Ed);
+  bDocEmpty:= Ed.IsEmpty;
   fnTemp:= GetTempFileName('', 'cudatext_');
   SaveSimple(Ed, fnTemp);
   Ed.FileName:= fn; //Ed.FileName was changed to fnTemp

@@ -23,7 +23,6 @@ uses
 
 procedure EditorStartParse(Ed: TATSynEdit);
 procedure EditorAdjustForBigFile(Ed: TATSynEdit);
-function EditorIsEmpty(Ed: TATSynEdit): boolean;
 function EditorIsModifiedEx(Ed: TATSynEdit): boolean;
 procedure EditorFocus(C: TWinControl);
 procedure EditorMouseClick_AtCursor(Ed: TATSynEdit; AAndSelect: boolean);
@@ -1909,7 +1908,7 @@ end;
 function EditorIsModifiedEx(Ed: TATSynEdit): boolean;
 begin
   if (Ed.FileName='') and (not UiOps.ConfirmSaveEmptyUntitledTab) then
-    Result:= Ed.Modified and not EditorIsEmpty(Ed)
+    Result:= Ed.Modified and not Ed.IsEmpty
   else
     Result:= Ed.Modified;
 end;
@@ -2428,16 +2427,6 @@ begin
   end;
 end;
 
-
-function EditorIsEmpty(Ed: TATSynEdit): boolean;
-var
-  Str: TATStrings;
-begin
-  //dont check Modified here
-  Str:= Ed.Strings;
-  Result:=
-    (Str.Count=0) or ((Str.Count=1) and (Str.LinesLen[0]=0));
-end;
 
 procedure DeleteArrayItem(var Ar: TATIntArray; Val: integer);
 var

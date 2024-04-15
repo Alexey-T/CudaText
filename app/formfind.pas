@@ -777,7 +777,7 @@ var
   Pnt: TPoint;
   bEmpty: boolean;
 begin
-  bEmpty:= EditorIsEmpty(edFind);
+  bEmpty:= edFind.IsEmpty;
 
   {
   Look at how your browser works (Firefox). Cuda should behave the same.

@@ -7172,7 +7172,7 @@ var
   SFileName, STitle: string;
   SaveCarets: TATCarets;
 begin
-  if EditorIsEmpty(Ed) then exit;
+  if Ed.IsEmpty then exit;
 
   STitle:= ExtractFileName(Ed.FileName);
   if STitle='' then
@@ -8059,7 +8059,7 @@ begin
   //API event on_lexer
   //better avoid it for empty editor
   if not AppSessionIsLoading then
-    if (SLexerName<>'') or not EditorIsEmpty(Ed) then
+    if (SLexerName<>'') or not Ed.IsEmpty then
     begin
       {$ifdef debug_on_lexer}
       MsgLogConsole('on_lexer: file "'+ExtractFileName(SFileName)+'" -> "'+SLexerName+'"');
@@ -9401,7 +9401,7 @@ begin
       PntLocal:= Ed.ScreenToClient(PntScreen);
       if PtInRect(Ed.ClientRect, PntLocal) then
       begin
-        if not EditorIsEmpty(Ed) then
+        if not Ed.IsEmpty then
           DoPyEvent(Ed, TAppPyEvent.OnMouseStop,
             [AppVariant(PntLocal.X), AppVariant(PntLocal.Y)]);
         Break;
