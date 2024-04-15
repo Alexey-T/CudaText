@@ -1937,7 +1937,7 @@ procedure TfmFind.UpdateInputReddishIndicator(AFound: boolean);
 var
   NColorBG: TColor;
 begin
-  if UiOps.FindUseReddishIndicator and not IsInputColored then
+  if UiOps.FindUseReddishIndicator {and not IsInputColored} then
   begin
     if AFound then
       NColorBG:= GetAppColor(TAppThemeColor.EdTextBg)
@@ -1948,6 +1948,9 @@ begin
 
     edFind.Colors.TextBG:= NColorBG;
     edFind.Update;
+
+    //fixing disappeared reddish indicator after SetInputColored(true) call
+    FPrevColorOfInput:= NColorBG;
   end;
 end;
 
