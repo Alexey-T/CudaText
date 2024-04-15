@@ -808,13 +808,14 @@ begin
       over find than users of other editors.
       }
       if edFind.Text<>'' then
-        bFindNext.Click
-      else
-        UpdateInputReddishIndicator(true);
+        bFindNext.Click;
 
       if IsHiAll then
         UpdateState(false);
     end;
+
+  if edFind.Text='' then
+    UpdateInputReddishIndicator(true);
 
   UpdateRegexHighlight;
 
