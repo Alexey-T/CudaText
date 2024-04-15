@@ -808,7 +808,9 @@ begin
       over find than users of other editors.
       }
       if edFind.Text<>'' then
-        bFindNext.Click;
+        bFindNext.Click
+      else
+        UpdateInputReddishIndicator(true);
 
       if IsHiAll then
         UpdateState(false);
