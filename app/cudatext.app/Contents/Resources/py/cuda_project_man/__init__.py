@@ -649,7 +649,7 @@ class Command:
             self.add_node(str(new_location))
 
         self.action_refresh()
-        msg_status(_("Backup up to: ") + str(collapse_filename(str(new_location.name))))
+        msg_status(_("Copied to: ") + str(collapse_filename(str(new_location.name))))
 
     def action_delete_file(self):
         location = Path(self.get_location_by_index(self.selected))
