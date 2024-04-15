@@ -1,0 +1,68 @@
+object fmRenameFile: TfmRenameFile
+  Left = 1485
+  Height = 125
+  Top = 348
+  Width = 454
+  BorderStyle = bsDialog
+  Caption = 'Rename file'
+  ClientHeight = 125
+  ClientWidth = 454
+  Position = poScreenCenter
+  LCLVersion = '3.99.0.0'
+  OnCloseQuery = FormCloseQuery
+  OnShow = FormShow
+  object ButtonPanel1: TButtonPanel
+    Left = 6
+    Height = 33
+    Top = 86
+    Width = 442
+    OKButton.Name = 'OKButton'
+    OKButton.DefaultCaption = True
+    HelpButton.Name = 'HelpButton'
+    HelpButton.DefaultCaption = True
+    CloseButton.Name = 'CloseButton'
+    CloseButton.DefaultCaption = True
+    CancelButton.Name = 'CancelButton'
+    CancelButton.DefaultCaption = True
+    TabOrder = 0
+    ShowButtons = [pbOK, pbCancel]
+    ShowGlyphs = []
+    ShowBevel = False
+  end
+  object LabelPrompt: TLabel
+    Left = 6
+    Height = 17
+    Top = 8
+    Width = 76
+    Caption = 'Rename to:'
+  end
+  object EditName: TEdit
+    AnchorSideLeft.Control = LabelPrompt
+    AnchorSideTop.Control = LabelPrompt
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = EditExt
+    Left = 6
+    Height = 33
+    Top = 31
+    Width = 357
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Top = 6
+    BorderSpacing.Right = 6
+    TabOrder = 1
+    OnChange = EditNameChange
+  end
+  object EditExt: TEdit
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = EditName
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 369
+    Height = 33
+    Top = 31
+    Width = 79
+    Anchors = [akTop, akRight]
+    BorderSpacing.Right = 6
+    TabOrder = 2
+    OnChange = EditNameChange
+  end
+end
