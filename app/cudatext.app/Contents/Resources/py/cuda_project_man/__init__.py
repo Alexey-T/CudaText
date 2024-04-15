@@ -620,7 +620,7 @@ class Command:
 
         self.action_refresh()
         self.jump_to_filename(str(new_location))
-        msg_status(_("Renamed to: ") + str(new_location.name))
+        msg_status(_("Renamed to: ") + str(collapse_filename(str(new_location.name))))
 
     def action_backup(self):
         location = Path(self.get_location_by_index(self.selected))
@@ -628,7 +628,9 @@ class Command:
 
         fn_parts = location.name.split('.')
         from datetime import datetime
-        backup_name = fn_parts[0] + '_' + datetime.now().strftime("%y%m%d_%H%M%S") + '.' + '.'.join(fn_parts[i+1] for i in range(len(fn_parts) - 1))
+        fn_1 = location.name if not fn_parts[0] else fn_parts[0]
+        fn_2 = '' if not fn_parts[0] else ('.' + '.'.join(fn_parts[i+1] for i in range(len(fn_parts) - 1)))
+        backup_name = fn_1 + '_' + datetime.now().strftime("%y%m%d_%H%M%S") + fn_2
         result = dlg_input(_("Backup to"), str(backup_name))
         if not result:
             return
@@ -647,7 +649,7 @@ class Command:
             self.add_node(str(new_location))
 
         self.action_refresh()
-        msg_status(_("Backup to: ") + str(new_location.name))
+        msg_status(_("Backup to: ") + str(collapse_filename(str(new_location.name))))
 
     def action_delete_file(self):
         location = Path(self.get_location_by_index(self.selected))
@@ -1065,7 +1067,7 @@ class Command:
                         unfolds[i] = expand_macros(proj_dir, unfolds[i])
                     self.enum_all_setfolds(unfolds)
             else:
-                msg_status(_("Project file not found: ") + path)
+                msg_status(_("Project file not found: ") + collapse_filename(str(path)))
 
     def action_add_folder(self):
         fn = dlg_dir("")
@@ -1251,7 +1253,7 @@ class Command:
         if not items:
             return
 
-        items_nice = [os.path.basename(fn)+'\t'+os.path.dirname(fn) for fn in items]
+        items_nice = [os.path.basename(fn)+'\t'+collapse_filename(str(os.path.dirname(fn))) for fn in items]
         res = dlg_menu(DMENU_LIST, items_nice, caption=_('Recent projects'))
         if res is None:
             return
