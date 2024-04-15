@@ -594,7 +594,7 @@ class Command:
         and msg_box(_('The file you are renaming has unsaved changes. Would you like to save the changes first?'), MB_OKCANCEL+MB_ICONWARNING) != ID_OK:
             return
 
-        result = dlg_input(_("Rename to"), str(location.name))
+        result = dlg_input(_("Rename to:"), str(location.name))
         if not result:
             return
 
@@ -631,7 +631,7 @@ class Command:
         fn_1 = location.name if not fn_parts[0] else fn_parts[0]
         fn_2 = '' if not fn_parts[0] else ('.' + '.'.join(fn_parts[i+1] for i in range(len(fn_parts) - 1)))
         backup_name = fn_1 + '_' + datetime.now().strftime("%y%m%d_%H%M%S") + fn_2
-        result = dlg_input(_("Backup to"), str(backup_name))
+        result = dlg_input(_("Backup to:"), str(backup_name))
         if not result:
             return
 
@@ -649,7 +649,7 @@ class Command:
             self.add_node(str(new_location))
 
         self.action_refresh()
-        msg_status(_("Backup to: ") + str(collapse_filename(str(new_location.name))))
+        msg_status(_("Backup up to: ") + str(collapse_filename(str(new_location.name))))
 
     def action_delete_file(self):
         location = Path(self.get_location_by_index(self.selected))
