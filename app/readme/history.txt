@@ -5,7 +5,7 @@
 
 1.212.2 (2024/04)
 
-+ add: Find-dialog has new option 'Im': immediate search, ie find-as-you-type (idea+testing by @pintassilgo)
++ add: Find-dialog has new option 'Im': immediate search, ie find-as-you-type; old option 'Hi' is not connected with find-as-you-type anymore (idea+testing by @pintassilgo)
 
 1.212.1 (2024/04)
 
