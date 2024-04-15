@@ -775,7 +775,10 @@ var
   Ed: TATSynEdit;
   Caret: TATCaretItem;
   Pnt: TPoint;
+  bEmpty: boolean;
 begin
+  bEmpty:= EditorIsEmpty(edFind);
+
   {
   Look at how your browser works (Firefox). Cuda should behave the same.
 
@@ -807,14 +810,14 @@ begin
       Interesting. It's an useful command. With find first + always 'b', Cuda users have more control
       over find than users of other editors.
       }
-      if edFind.Text<>'' then
+      if not bEmpty then
         bFindNext.Click;
 
       if IsHiAll then
         UpdateState(false);
     end;
 
-  if edFind.Text='' then
+  if bEmpty then
     UpdateInputReddishIndicator(true);
 
   UpdateRegexHighlight;
