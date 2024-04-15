@@ -1548,7 +1548,7 @@
         <IsPartOfProject Value="True"/>
       </Unit26>
       <Unit27>
-        <Filename Value="formcolorsetup.pas"/>
+        <Filename Value="form_color_setup.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmColorSetup"/>
         <HasResources Value="True"/>

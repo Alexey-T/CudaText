@@ -114,7 +114,7 @@ uses
   form_lexer_prop,
   form_lexer_lib,
   form_lexer_stylemap,
-  formcolorsetup,
+  form_color_setup,
   form_about,
   form_charmaps,
   form_keyinput,
