@@ -5,7 +5,7 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 Copyright (c) Alexey Torgashin
 *)
-unit formconfirmbinary;
+unit form_confirm_binary;
 
 {$mode objfpc}{$H+}
 {$ScopedEnums on}
@@ -158,4 +158,3 @@ begin
 end;
 
 end.
-

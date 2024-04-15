@@ -5,7 +5,7 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 Copyright (c) Alexey Torgashin
 *)
-unit formconfirmrep;
+unit form_confirm_rep;
 
 {$mode objfpc}{$H+}
 
@@ -164,4 +164,3 @@ end;
 
 
 end.
-

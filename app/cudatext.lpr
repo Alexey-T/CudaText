@@ -9,10 +9,10 @@ uses
   proc_inittick,
   Interfaces, // this includes the LCL widgetset
   SysUtils, Forms, lazcontrols, FormMain, FormConsole, form_menu_commands,
-  formgoto, form_menu_list, formsavetabs, formconfirmrep, form_lexer_prop,
+  formgoto, form_menu_list, formsavetabs, form_confirm_rep, form_lexer_prop,
   form_lexer_lib, formcolorsetup, form_about, formkeys, form_charmaps,
   form_lexer_style, form_lexer_stylemap, formkeyinput, form_addon_report,
-  formconfirmbinary, form_choose_theme, proc_globdata, fix_focus_window,
+  form_confirm_binary, form_choose_theme, proc_globdata, fix_focus_window,
   proc_json_ex, form_unprinted, proc_editor_micromap;
 
 {$R *.res}

@@ -1507,7 +1507,7 @@
         <ResourceBaseClass Value="Form"/>
       </Unit18>
       <Unit19>
-        <Filename Value="formconfirmrep.pas"/>
+        <Filename Value="form_confirm_rep.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmConfirmReplace"/>
         <HasResources Value="True"/>
@@ -1671,7 +1671,7 @@
         <IsPartOfProject Value="True"/>
       </Unit50>
       <Unit51>
-        <Filename Value="formconfirmbinary.pas"/>
+        <Filename Value="form_confirm_binary.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmConfirmBinary"/>
         <HasResources Value="True"/>
