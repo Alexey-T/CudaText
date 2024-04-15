@@ -157,7 +157,7 @@ begin
   FixFormPositionToDesktop(Self);
 
   edit.Text:= CurrentFilterText;
-  if edit.Text<>'' then
+  if not edit.IsEmpty then
   begin
     edit.DoSelect_All;
     if Assigned(edit.OnChange) then
