@@ -1417,7 +1417,7 @@
         <UnitName Value="FormMain"/>
       </Unit1>
       <Unit2>
-        <Filename Value="formconsole.pas"/>
+        <Filename Value="form_console.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmConsole"/>
         <HasResources Value="True"/>
@@ -1436,7 +1436,7 @@
         <IsPartOfProject Value="True"/>
       </Unit5>
       <Unit6>
-        <Filename Value="formframe.pas"/>
+        <Filename Value="form_frame.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="EditorFrame"/>
         <HasResources Value="True"/>
@@ -1467,7 +1467,7 @@
         <IsPartOfProject Value="True"/>
       </Unit11>
       <Unit12>
-        <Filename Value="formgoto.pas"/>
+        <Filename Value="form_goto.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmGoto"/>
         <HasResources Value="True"/>
@@ -1493,14 +1493,14 @@
         <IsPartOfProject Value="True"/>
       </Unit16>
       <Unit17>
-        <Filename Value="formfind.pas"/>
+        <Filename Value="form_find.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmFind"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit17>
       <Unit18>
-        <Filename Value="formsavetabs.pas"/>
+        <Filename Value="form_savetabs.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmSaveTabs"/>
         <HasResources Value="True"/>
@@ -1562,7 +1562,7 @@
         <ResourceBaseClass Value="Form"/>
       </Unit28>
       <Unit29>
-        <Filename Value="formkeys.pas"/>
+        <Filename Value="form_keys.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmKeys"/>
         <HasResources Value="True"/>
@@ -1617,7 +1617,7 @@
         <ResourceBaseClass Value="Form"/>
       </Unit38>
       <Unit39>
-        <Filename Value="formkeyinput.pas"/>
+        <Filename Value="form_keyinput.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmKeyInput"/>
         <HasResources Value="True"/>

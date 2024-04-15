@@ -16,7 +16,7 @@ uses
   ATSynEdit_Keymap,
   proc_globdata,
   proc_cmd,
-  formkeys;
+  form_keys;
 
 function DoDialogHotkeys(AKeymap: TATKeymap; ACmd: integer; const ALexerName: string): boolean;
 function DoDialogHotkeys_Plugin(AKeymap: TATKeymap; const AModuleAndMethod: string; const ALexerName: string): boolean;
@@ -119,4 +119,3 @@ end;
 
 
 end.
-
