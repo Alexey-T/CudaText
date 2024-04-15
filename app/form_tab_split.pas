@@ -5,7 +5,7 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 Copyright (c) Alexey Torgashin
 *)
-unit form_tabsplit;
+unit form_tab_split;
 
 {$mode objfpc}{$H+}
 
@@ -166,4 +166,3 @@ end;
 
 
 end.
-
