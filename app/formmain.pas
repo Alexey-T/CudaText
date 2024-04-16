@@ -918,6 +918,7 @@ type
     procedure DoDialogMenuEncodings;
     procedure DoDialogMenuEnds;
     procedure DoFileExportHtml(Ed: TATSynEdit);
+    procedure DoFileRenameAction(Frame: TEditorFrame; Ed: TATSynEdit);
     function DoFileInstallZip(const AFileName: string; out DirTarget: string;
       ASilent, AAllowUpdateAddons: boolean): boolean;
     procedure DoFileCloseAndDelete(Ed: TATSynEdit);
@@ -9727,13 +9728,18 @@ procedure TfmMain.DoFileRenameDialog;
 var
   Ed: TATSynEdit;
   Frame: TEditorFrame;
-  NewFileName: string;
 begin
   Ed:= CurrentEditor;
   if Ed=nil then exit;
   Frame:= TGroupsHelper.GetEditorFrame(Ed);
   if Frame=nil then exit;
+  DoFileRenameAction(Frame, Ed);
+end;
 
+procedure TfmMain.DoFileRenameAction(Frame: TEditorFrame; Ed: TATSynEdit);
+var
+  NewFileName: string;
+begin
   if not Frame.EditorsLinked then
   begin
     MsgStatus(msgCannotHandleSplittedTab);
