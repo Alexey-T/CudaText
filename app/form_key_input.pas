@@ -5,7 +5,7 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 Copyright (c) Alexey Torgashin
 *)
-unit form_keyinput;
+unit form_key_input;
 
 {$mode objfpc}{$H+}
 

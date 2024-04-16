@@ -1617,7 +1617,7 @@
         <ResourceBaseClass Value="Form"/>
       </Unit38>
       <Unit39>
-        <Filename Value="form_keyinput.pas"/>
+        <Filename Value="form_key_input.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmKeyInput"/>
         <HasResources Value="True"/>

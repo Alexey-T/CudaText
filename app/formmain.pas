@@ -117,7 +117,7 @@ uses
   form_color_setup,
   form_about,
   form_char_map,
-  form_keyinput,
+  form_key_input,
   form_confirm_binary,
   form_menu_commands,
   form_menu_list,
