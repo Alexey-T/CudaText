@@ -1271,7 +1271,7 @@ class Command:
         items_nice = []
         items_ = []
         for fn in items:
-            if os.path.basename(fn) != self.get_project_name() + PROJECT_EXTENSION:
+            if Path(fn) != self.project_file_path:
                  items_nice.append(os.path.basename(fn) + '\t' + collapse_filename(str(os.path.dirname(fn))))
                  items_.append(fn)
 
