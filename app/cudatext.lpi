@@ -1500,7 +1500,7 @@
         <ResourceBaseClass Value="Form"/>
       </Unit17>
       <Unit18>
-        <Filename Value="form_savetabs.pas"/>
+        <Filename Value="form_tabs_save.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmSaveTabs"/>
         <HasResources Value="True"/>

@@ -109,7 +109,7 @@ uses
   form_frame,
   form_goto,
   form_find,
-  form_savetabs,
+  form_tabs_save,
   form_confirm_rep,
   form_lexer_prop,
   form_lexer_lib,
