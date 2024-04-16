@@ -9734,6 +9734,12 @@ begin
   Frame:= TGroupsHelper.GetEditorFrame(Ed);
   if Frame=nil then exit;
 
+  if not Frame.EditorsLinked then
+  begin
+    MsgStatus(msgCannotHandleSplittedTab);
+    exit;
+  end;
+
   if Ed.FileName='' then exit;
   if DoDialogRenameFile(Ed.FileName, NewFileName) then
   begin
