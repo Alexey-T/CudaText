@@ -917,8 +917,9 @@ type
     procedure DoDialogMenuThemes;
     procedure DoDialogMenuEncodings;
     procedure DoDialogMenuEnds;
-    procedure DoFileExportHtml(Ed: TATSynEdit);
     procedure DoFileRenameAction(Frame: TEditorFrame; Ed: TATSynEdit);
+    procedure DoFileRenameDialog;
+    procedure DoFileExportHtml(Ed: TATSynEdit);
     function DoFileInstallZip(const AFileName: string; out DirTarget: string;
       ASilent, AAllowUpdateAddons: boolean): boolean;
     procedure DoFileCloseAndDelete(Ed: TATSynEdit);
@@ -1071,7 +1072,6 @@ type
     function DoFileSaveAll: boolean;
     procedure DoFileReopen(F: TEditorFrame; Ed: TATSynEdit);
     procedure DoFileReopenRecent;
-    procedure DoFileRenameDialog;
     procedure DoLoadCommandParams(const AParams: array of string; AOpenOptions: string);
     procedure DoLoadCommandLine;
     procedure DoLoadCommandLine_FromString(const AText: string);
