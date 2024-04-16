@@ -3,11 +3,12 @@ object fmRenameFile: TfmRenameFile
   Height = 125
   Top = 348
   Width = 454
+  ActiveControl = EditName
   BorderStyle = bsDialog
   Caption = 'Rename file'
   ClientHeight = 125
   ClientWidth = 454
-  Position = poScreenCenter
+  Position = poMainFormCenter
   LCLVersion = '3.99.0.0'
   OnCloseQuery = FormCloseQuery
   OnShow = FormShow
@@ -24,7 +25,7 @@ object fmRenameFile: TfmRenameFile
     CloseButton.DefaultCaption = True
     CancelButton.Name = 'CancelButton'
     CancelButton.DefaultCaption = True
-    TabOrder = 0
+    TabOrder = 2
     ShowButtons = [pbOK, pbCancel]
     ShowGlyphs = []
     ShowBevel = False
@@ -48,7 +49,7 @@ object fmRenameFile: TfmRenameFile
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 6
     BorderSpacing.Right = 6
-    TabOrder = 1
+    TabOrder = 0
     OnChange = EditNameChange
   end
   object EditExt: TEdit
@@ -62,7 +63,7 @@ object fmRenameFile: TfmRenameFile
     Width = 79
     Anchors = [akTop, akRight]
     BorderSpacing.Right = 6
-    TabOrder = 2
+    TabOrder = 1
     OnChange = EditNameChange
   end
 end

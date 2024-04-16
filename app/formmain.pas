@@ -125,6 +125,7 @@ uses
   form_addon_report,
   form_choose_theme,
   form_unprinted,
+  form_rename_file,
   Math;
 
 type
@@ -258,6 +259,7 @@ type
   { TfmMain }
   TfmMain = class(TForm)
     AppProps: TApplicationProperties;
+    mnuFileRename: TMenuItem;
     mnuFile: TMenuItem;
     mnuFileReopen: TMenuItem;
     mnuFileSaveAll: TMenuItem;
@@ -1066,6 +1068,7 @@ type
     function DoFileSaveAll: boolean;
     procedure DoFileReopen(F: TEditorFrame; Ed: TATSynEdit);
     procedure DoFileReopenRecent;
+    procedure DoFileRenameDialog;
     procedure DoLoadCommandParams(const AParams: array of string; AOpenOptions: string);
     procedure DoLoadCommandLine;
     procedure DoLoadCommandLine_FromString(const AText: string);
@@ -9712,6 +9715,25 @@ begin
   end;
 end;
 
+
+procedure TfmMain.DoFileRenameDialog;
+var
+  Ed: TATSynEdit;
+  Frame: TEditorFrame;
+  NewFileName: string;
+begin
+  Ed:= CurrentEditor;
+  if Ed=nil then exit;
+  Frame:= TGroupsHelper.GetEditorFrame(Ed);
+  if Frame=nil then exit;
+
+  if Ed.FileName='' then exit;
+  if DoDialogRenameFile(Ed.FileName, NewFileName) then
+  begin
+    Frame.SetFileName(Ed, NewFileName);
+    Frame.UpdateCaptionFromFilename;
+  end;
+end;
 
 //----------------------------
 {$I formmain_loadsave.inc}

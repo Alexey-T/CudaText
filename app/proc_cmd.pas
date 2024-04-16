@@ -79,6 +79,7 @@ const
   cmd_FileExportHtml     = 2515;
   cmd_RepaintEditor      = 2516;
   cmd_FileReopenRecent   = 2517;
+  cmd_FileRename         = 2518;
 
   cmd_OpsOpenDefaultAndUser = 2519;
   cmd_OpsClearRecent     = 2520;
@@ -451,6 +452,7 @@ begin
   M.Add(cmd_FileSaveAs, 'file: save file as', [], []);
   M.Add(cmd_FileSaveAll, 'file: save all tabs', [], []);
   M.Add(cmd_FileReopen, 'file: reload', [], []);
+  M.Add(cmd_FileRename, 'file: rename', [], []);
   M.Add(cmd_FileClose, 'file: close tab', [scXControl+VK_W], []);
   M.Add(cmd_FileCloseAll, 'file: close all tabs', [], []);
   M.Add(cmd_FileCloseOtherThis, 'file: close other tabs (this group)', [], []);
@@ -833,6 +835,7 @@ begin
     cmd_FileOpen_HexViewer,
     cmd_FileOpen_UnicodeViewer,
     cmd_FileReopen,
+    cmd_FileRename,
     cmd_FileExit,
     cmd_FileClose,
     cmd_FileCloseOtherThis,
@@ -1031,6 +1034,7 @@ begin
     cmd_FileOpen_UnicodeViewer,
     cmd_FileOpen_NoPlugins,
     cmd_FileOpenFolder,
+    cmd_FileRename,
     cmd_FileSaveAs,
     cmd_FileExit,
     cmd_FileClose,

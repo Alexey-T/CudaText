@@ -933,6 +933,7 @@ begin
   UpdateMenuItemHotkey(mnuFileOpen, cmd_FileOpen);
   UpdateMenuItemHotkey(mnuFileOpenDir, cmd_FileOpenFolder);
   UpdateMenuItemHotkey(mnuFileReopen, cmd_FileReopen);
+  UpdateMenuItemHotkey(mnuFileRename, cmd_FileRename);
   UpdateMenuItemHotkey(mnuFileSave, cmd_FileSave);
   UpdateMenuItemHotkey(mnuFileSaveAs, cmd_FileSaveAs);
   UpdateMenuItemHotkey(mnuFileSaveAll, cmd_FileSaveAll);

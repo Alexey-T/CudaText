@@ -138,6 +138,9 @@ object fmMain: TfmMain
       object mnuFileReopen: TMenuItem
         Caption = '&Reopen'
       end
+      object mnuFileRename: TMenuItem
+        Caption = 'Rename...'
+      end
       object mnuFileSep1: TMenuItem
         Caption = '-'
       end

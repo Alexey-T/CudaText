@@ -148,6 +148,9 @@ begin
     cmd_FileReopen:
       DoFileReopen(Frame, Ed);
 
+    cmd_FileRename:
+      DoFileRenameDialog;
+
     cmd_FileSave:
       DoFileSave(Frame, Ed);
 

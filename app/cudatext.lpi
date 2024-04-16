@@ -1403,7 +1403,7 @@
         <PackageName Value="LCL"/>
       </Item12>
     </RequiredPackages>
-    <Units Count="64">
+    <Units Count="65">
       <Unit0>
         <Filename Value="cudatext.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -1441,7 +1441,6 @@
         <ComponentName Value="EditorFrame"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
-        <UnitName Value="FormFrame"/>
       </Unit6>
       <Unit7>
         <Filename Value="formmain_updates_proc.inc"/>
@@ -1732,6 +1731,11 @@
         <Filename Value="proc_editor_micromap.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit63>
+      <Unit64>
+        <Filename Value="form_rename_file.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+      </Unit64>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
