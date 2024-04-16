@@ -917,7 +917,7 @@ type
     procedure DoDialogMenuThemes;
     procedure DoDialogMenuEncodings;
     procedure DoDialogMenuEnds;
-    procedure DoFileRenameAction(Frame: TEditorFrame; Ed: TATSynEdit);
+    procedure DoFileRenameEx(Frame: TEditorFrame; Ed: TATSynEdit);
     procedure DoFileRenameDialog;
     procedure DoFileExportHtml(Ed: TATSynEdit);
     function DoFileInstallZip(const AFileName: string; out DirTarget: string;
@@ -9734,10 +9734,10 @@ begin
   if Ed=nil then exit;
   Frame:= TGroupsHelper.GetEditorFrame(Ed);
   if Frame=nil then exit;
-  DoFileRenameAction(Frame, Ed);
+  DoFileRenameEx(Frame, Ed);
 end;
 
-procedure TfmMain.DoFileRenameAction(Frame: TEditorFrame; Ed: TATSynEdit);
+procedure TfmMain.DoFileRenameEx(Frame: TEditorFrame; Ed: TATSynEdit);
 var
   NewFileName: string;
 begin

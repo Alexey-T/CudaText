@@ -619,7 +619,7 @@ var
 begin
   F:= FrameOfPopup;
   if F=nil then exit;
-  DoFileRenameAction(F, F.Ed1);
+  DoFileRenameEx(F, F.Ed1);
 end;
 
 procedure TfmMain.mnuTabSaveAsClick(Sender: TObject);
