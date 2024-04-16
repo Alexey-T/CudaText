@@ -116,7 +116,7 @@ uses
   form_lexer_stylemap,
   form_color_setup,
   form_about,
-  form_charmaps,
+  form_char_map,
   form_keyinput,
   form_confirm_binary,
   form_menu_commands,

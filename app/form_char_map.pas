@@ -5,7 +5,7 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 Copyright (c) Alexey Torgashin
 *)
-unit form_charmaps;
+unit form_char_map;
 
 {$mode objfpc}{$H+}
 
@@ -534,4 +534,3 @@ begin
 end;
 
 end.
-
