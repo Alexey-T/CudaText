@@ -5533,6 +5533,7 @@ begin
   UpdateMenuEnabled(mnuTabMoveNext, (NVis>=2) and (NCur<6));
   UpdateMenuEnabled(mnuTabMovePrev, (NVis>=2) and (NCur<6));
   UpdateMenuChecked(mnuTabPinned, Assigned(Frame) and Frame.TabPinned);
+  UpdateMenuEnabled(mnuTabRename, Assigned(Frame) and (Frame.FileName<>'') and Frame.EditorsLinked);
 end;
 
 procedure TfmMain.PythonEngineAfterInit(Sender: TObject);
