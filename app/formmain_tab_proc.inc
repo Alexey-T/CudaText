@@ -613,6 +613,30 @@ begin
   Groups.MovePopupTabToNext(false);
 end;
 
+procedure TfmMain.mnuTabRenameClick(Sender: TObject);
+var
+  F: TEditorFrame;
+  Ed: TATSynEdit;
+  NewFileName: string;
+begin
+  F:= FrameOfPopup;
+  if F=nil then exit;
+
+  if not F.EditorsLinked then
+  begin
+    MsgStatus(msgCannotHandleSplittedTab);
+    exit;
+  end;
+
+  Ed:= F.Ed1;
+  if Ed.FileName='' then exit;
+  if DoDialogRenameFile(Ed.FileName, NewFileName) then
+  begin
+    F.SetFileName(Ed, NewFileName);
+    F.UpdateCaptionFromFilename;
+  end;
+end;
+
 procedure TfmMain.mnuTabSaveAsClick(Sender: TObject);
 var
   F: TEditorFrame;

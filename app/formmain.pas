@@ -524,6 +524,7 @@ type
     procedure mnuTabMoveF1Click(Sender: TObject);
     procedure mnuTabMoveNextClick(Sender: TObject);
     procedure mnuTabMovePrevClick(Sender: TObject);
+    procedure mnuTabRenameClick(Sender: TObject);
     procedure mnuTabSaveAsClick(Sender: TObject);
     procedure mnuTabSaveClick(Sender: TObject);
     procedure mnuTabsizeSpaceClick(Sender: TObject);
@@ -590,6 +591,7 @@ type
     mnuTabMoveNext: TMenuItem;
     mnuTabMovePrev: TMenuItem;
     mnuTabMoveSub: TMenuItem;
+    mnuTabRename: TMenuItem;
     mnuTabSave: TMenuItem;
     mnuTabSaveAs: TMenuItem;
     mnuTreeFoldAll: TMenuItem;
@@ -2096,6 +2098,11 @@ begin
     mi:= TMenuItem.Create(Self);
     mi.Caption:= '-';
     PopupTab.Items.Add(mi);
+
+    mnuTabRename:= TMenuItem.Create(Self);
+    mnuTabRename.Caption:= 'Rename...';
+    mnuTabRename.OnClick:= @mnuTabRenameClick;
+    PopupTab.Items.Add(mnuTabRename);
 
     mnuTabSave:= TMenuItem.Create(Self);
     mnuTabSave.Caption:= 'Save';
