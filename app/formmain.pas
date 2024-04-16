@@ -9748,8 +9748,18 @@ begin
     exit;
   end;
 
-  if Ed.FileName='' then exit;
-  if not FileExists(Ed.FileName) then exit; //file is removed outside of app?
+  if Ed.FileName='' then
+  begin
+    MsgStatus(msgCannotHandleUntitledTab);
+    exit;
+  end;
+
+  //file is removed outside of app?
+  if not FileExists(Ed.FileName) then
+  begin
+    MsgStatus(msgCannotFindFile+' '+ExtractFileName(Ed.FileName));
+    exit;
+  end;
 
   if DoDialogRenameFile(Ed.FileName, NewFileName) then
   begin
