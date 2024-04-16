@@ -5533,7 +5533,8 @@ begin
   UpdateMenuEnabled(mnuTabMoveNext, (NVis>=2) and (NCur<6));
   UpdateMenuEnabled(mnuTabMovePrev, (NVis>=2) and (NCur<6));
   UpdateMenuChecked(mnuTabPinned, Assigned(Frame) and Frame.TabPinned);
-  UpdateMenuEnabled(mnuTabRename, Assigned(Frame) and (Frame.FileName<>'') and Frame.EditorsLinked);
+
+  UpdateMenuEnabled(mnuTabRename, Assigned(Frame) and Frame.EditorsLinked and (Frame.FileName<>'') and FileExists(Frame.FileName));
 end;
 
 procedure TfmMain.PythonEngineAfterInit(Sender: TObject);
@@ -9748,6 +9749,8 @@ begin
   end;
 
   if Ed.FileName='' then exit;
+  if not FileExists(Ed.FileName) then exit; //file is removed outside of app?
+
   if DoDialogRenameFile(Ed.FileName, NewFileName) then
   begin
     Frame.SetFileName(Ed, NewFileName);
