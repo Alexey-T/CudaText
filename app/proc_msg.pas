@@ -180,6 +180,7 @@ const
   msgFileNew: string = 'New file';
   msgFileOpen: string = 'Open file...';
   msgFileSave: string = 'Save file';
+  msgFileRename: string = 'Rename...';
   msgFileClearList: string = 'Clear list';
   msgCopySub: string = 'Copy to clipboard';
   msgCopyFilenameName: string = 'Copy filename only';

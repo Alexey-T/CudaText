@@ -73,6 +73,7 @@ begin
       DoLocMenuitem(ini, mnuTabCloseLeft, 'ct', 'c_lt_s');
       DoLocMenuitem(ini, mnuTabCloseRight, 'ct', 'c_rt_s');
 
+      DoLocMenuitem(mnuTabRename, msgFileRename);
       DoLocMenuitem(ini, mnuTabSave, 'ct', 'sv');
       DoLocMenuitem(ini, mnuTabSaveAs, 'ct', 'sv_as');
       DoLocMenuitem(ini, mnuTabColor, 'ct', 'col_t');
@@ -109,6 +110,7 @@ begin
     msgFileNew:= ini.ReadString('m_f', 'new', msgFileNew);
     msgFileOpen:= ini.ReadString('m_f', 'op', msgFileOpen);
     msgFileSave:= ini.ReadString('m_f', 's', msgFileSave);
+    msgFileRename:= ini.ReadString('m_f', 'ren', msgFileRename);
 
     DoLocMenuitem(ini, mnuFile, 'm_f', '_');
     DoLocMenuitem(mnuFileNew, msgFileNew);
@@ -117,6 +119,7 @@ begin
     DoLocMenuitem(ini, mnuFileOpenSub, 'm_f', 'rec');
     DoLocMenuitem(ini, mnuFileOpenDir, 'm_f', 'op_dir');
     DoLocMenuitem(ini, mnuFileReopen, 'm_f', 'reop');
+    DoLocMenuitem(mnuFileRename, msgFileRename);
     DoLocMenuitem(mnuFileSave, msgFileSave);
     DoLocMenuitem(ini, mnuFileSaveAs, 'm_f', 's_as');
     DoLocMenuitem(ini, mnuFileSaveAll, 'm_f', 's_all');

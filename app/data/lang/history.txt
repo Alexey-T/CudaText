@@ -1,6 +1,8 @@
 See http://wiki.freepascal.org/CudaText#How_to_make_translation
 
-2024.04.14
+2024.04.16
++ [m_f] ren
++ [d_about] ren_to
 + [d_f] h_im
 
 2024.04.07
