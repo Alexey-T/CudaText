@@ -725,9 +725,11 @@ class Command:
             if Path(location).is_file():
                 new_location_path = str(new_location) + os.sep + str(Path(location).name)
                 if location == new_location_path:
-                    from datetime import datetime
                     fn_parts = Path(location).name.split('.')
-                    new_name = fn_parts[0] + '_' + datetime.now().strftime("%y%m%d_%H%M%S") + '.' + '.'.join(fn_parts[i+1] for i in range(len(fn_parts) - 1))
+                    from datetime import datetime
+                    fn_1 = Path(location).name if not fn_parts[0] else fn_parts[0]
+                    fn_2 = '' if not fn_parts[0] else ('.' + '.'.join(fn_parts[i+1] for i in range(len(fn_parts) - 1)))
+                    new_name = fn_1 + '_' + datetime.now().strftime("%y%m%d_%H%M%S") + fn_2
                     new_location = str(new_location) + os.sep + new_name
                 import shutil
                 if self.action_cut_activate:
