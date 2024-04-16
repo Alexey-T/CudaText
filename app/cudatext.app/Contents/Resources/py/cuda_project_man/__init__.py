@@ -1,4 +1,5 @@
 import os
+import sys
 import re
 import collections
 import json
@@ -18,6 +19,10 @@ from cudax_lib import get_translation
 _   = get_translation(__file__)  # i18n
 
 IS_WIN = os.name == 'nt'
+IS_MAC = sys.platform == 'darwin'
+
+S_CTRL_API = 'm' if IS_MAC else 'c'
+S_CTRL_NAME = 'Meta' if IS_MAC else 'Ctrl'
 
 ctypes = None
 if IS_WIN:
@@ -259,11 +264,11 @@ class Command:
     )
 
     hotkeys = {
-        'cuda_project_man.action_new_file': 'Ctrl+N',
+        'cuda_project_man.action_new_file': S_CTRL_NAME + '+N',
         'cuda_project_man.action_new_directory': 'F7',
-        'cuda_project_man.action_cut': 'Ctrl+X',
-        'cuda_project_man.action_copy': 'Ctrl+C',
-        'cuda_project_man.action_paste': 'Ctrl+V',
+        'cuda_project_man.action_cut': S_CTRL_NAME + '+X',
+        'cuda_project_man.action_copy': S_CTRL_NAME + '+C',
+        'cuda_project_man.action_paste': S_CTRL_NAME + '+V',
         'cuda_project_man.action_rename': 'F2',
         'cuda_project_man.action_delete_directory': 'Del',
         'cuda_project_man.action_delete_file': 'Del',
@@ -1781,7 +1786,7 @@ class Command:
             elif node_type == NODE_DIR:
                 self.action_delete_directory()
             return False #block key
-        elif (id_ctl == VK_F5) or (data == 'c' and (id_ctl in (ord('r'), ord('R')))):
+        elif (id_ctl == VK_F5) or (data == S_CTRL_API and (id_ctl in (ord('r'), ord('R')))):
             self.action_refresh()
             return False #block key
         elif id_ctl == VK_F2:
@@ -1790,16 +1795,16 @@ class Command:
         elif id_ctl == VK_F7:
             self.action_new_directory()
             return False #block key
-        elif (data == 'c' and (id_ctl in (ord('n'), ord('N')))):
+        elif (data == S_CTRL_API and (id_ctl in (ord('n'), ord('N')))):
             self.action_new_file()
             return False #block key
-        elif (data == 'c' and (id_ctl in (ord('x'), ord('X')))):
+        elif (data == S_CTRL_API and (id_ctl in (ord('x'), ord('X')))):
             self.action_cut()
             return False #block key
-        elif (data == 'c' and (id_ctl in (ord('c'), ord('C')))):
+        elif (data == S_CTRL_API and (id_ctl in (ord('c'), ord('C')))):
             self.action_copy()
             return False #block key
-        elif (data == 'c' and (id_ctl in (ord('v'), ord('V')))):
+        elif (data == S_CTRL_API and (id_ctl in (ord('v'), ord('V')))):
             self.action_paste()
             return False #block key
 
