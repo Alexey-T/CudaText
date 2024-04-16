@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.212.2 (2024/04)
+1.212.5 (2024/04)
 
 + add: new command "File / Rename..."
 + add: Find-dialog has new option 'Im': immediate search, ie find-as-you-type; old option 'Hi' is not connected with find-as-you-type anymore (idea+testing by @pintassilgo)
