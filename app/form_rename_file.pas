@@ -79,8 +79,7 @@ procedure TfmRenameFile.EditNameChange(Sender: TObject);
 begin
   ButtonPanel1.OKButton.Enabled:=
     (EditName.Text<>'') and
-    (Pos(DirectorySeparator, EditName.Text)=0) and
-    (Pos(DirectorySeparator, EditExt.Text)=0) and
+    (PosSet(['/', '\', '*', ':'], EditName.Text+'.'+EditExt.Text)=0) and
     not SameFileName(NewFileName, OldFileName);
 end;
 
