@@ -124,7 +124,7 @@ object fmMain: TfmMain
         Caption = '&New file'
       end
       object mnuFileNewMenu: TMenuItem
-        Caption = 'New from te&mplate...'
+        Caption = 'New from tem&plate...'
       end
       object mnuFileOpen: TMenuItem
         Caption = '&Open file...'
@@ -139,7 +139,7 @@ object fmMain: TfmMain
         Caption = '&Reopen'
       end
       object mnuFileRename: TMenuItem
-        Caption = 'Rename...'
+        Caption = 'Rena&me...'
       end
       object mnuFileSep1: TMenuItem
         Caption = '-'
