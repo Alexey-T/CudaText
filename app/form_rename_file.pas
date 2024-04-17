@@ -15,6 +15,7 @@ uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ButtonPanel, StdCtrls,
   StrUtils, IniFiles,
   proc_globdata,
+  proc_customdialog,
   proc_msg;
 
 type
@@ -68,6 +69,9 @@ end;
 
 procedure TfmRenameFile.FormShow(Sender: TObject);
 begin
+  DoForm_ScaleAuto(Self, true);
+  UpdateFormOnTop(Self);
+
   Localize;
 
   EditName.Text:= ChangeFileExt(ExtractFileName(OldFileName), '');

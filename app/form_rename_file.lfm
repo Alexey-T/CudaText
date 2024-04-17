@@ -10,6 +10,7 @@ object fmRenameFile: TfmRenameFile
   ClientWidth = 454
   Position = poMainFormCenter
   LCLVersion = '3.99.0.0'
+  Scaled = False
   OnCloseQuery = FormCloseQuery
   OnShow = FormShow
   object ButtonPanel1: TButtonPanel
