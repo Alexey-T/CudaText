@@ -427,9 +427,6 @@ class Command:
         if node_type == NODE_DIR:
             menu_dir = self.add_context_menu_node(menu_all, "0", _("Selected folder"))
 
-        def in_dictionary(key, dict):
-            return key in dict
-
         for item in self.menuitems:
             item_caption = item[0]
             item_parent = item[1]
