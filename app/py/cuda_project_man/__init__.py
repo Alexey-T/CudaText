@@ -1264,23 +1264,22 @@ class Command:
             json.dump(self.options, fout, indent=2)
 
     def menu_recents(self):
-        items = self.options["recent_projects"]
+        items = list(self.options["recent_projects"])
+
+        if '' in items:
+            items.remove('')
+        if str(self.project_file_path) in items:
+            items.remove(str(self.project_file_path))
         if not items:
             return
 
-        items_nice = []
-        items_ = []
-        for fn in items:
-            if Path(fn) != self.project_file_path:
-                 items_nice.append(os.path.basename(fn) + '\t' + collapse_filename(str(os.path.dirname(fn))))
-                 items_.append(fn)
-
+        items_nice = [os.path.basename(fn)+'\t'+collapse_filename(str(os.path.dirname(fn))) for fn in items]
         res = dlg_menu(DMENU_LIST, items_nice, caption=_('Recent projects'))
         if res is None:
             return
 
         self.init_panel()
-        self.action_open_project(items_[res])
+        self.action_open_project(items[res])
 
     def do_unfold_first(self):
         """unfold 1st item under root"""
