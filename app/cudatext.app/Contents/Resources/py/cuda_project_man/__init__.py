@@ -219,7 +219,7 @@ class Command:
         (_("Remove node"), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_remove_node", ""),
 
         (_("New file..."), "dir", [NODE_DIR], "cuda_project_man.action_new_file", S_CTRL_NAME + "+N"),
-        (_("New directory..."), "dir", [NODE_DIR], "cuda_project_man.action_new_directory", "F7"),
+        (_("New folder..."), "dir", [NODE_DIR], "cuda_project_man.action_new_directory", "F7"),
         (_("-"), "dir", [NODE_DIR], "", ""),
         (_("Cut"), "dir", [NODE_DIR], "cuda_project_man.action_cut", S_CTRL_NAME + "+X"),
         (_("Copy"), "dir", [NODE_DIR], "cuda_project_man.action_copy", S_CTRL_NAME + "+C"),
@@ -228,7 +228,7 @@ class Command:
         (_("Rename..."), "dir", [NODE_DIR], "cuda_project_man.action_rename", "F2"),
         (_("Delete"), "dir", [NODE_DIR], "cuda_project_man.action_delete_directory", "Del"),
         (_("-"), "dir", [NODE_DIR], "", ""),
-        (_("Find in directory..."), "dir", [NODE_DIR], "cuda_project_man.action_find_in_directory", ""),
+        (_("Find in folder..."), "dir", [NODE_DIR], "cuda_project_man.action_find_in_directory", ""),
         (_("-"), "dir", [NODE_DIR], "", ""),
         (_("Copy path"), "dir", [NODE_DIR], "cuda_project_man.action_copy_path", ""),
         (_("Copy relative path") , "dir", [NODE_DIR], "cuda_project_man.action_copy_relative_path", ""),
@@ -425,7 +425,7 @@ class Command:
         if node_type == NODE_FILE:
             menu_file = self.add_context_menu_node(menu_all, "0", _("Selected file"))
         if node_type == NODE_DIR:
-            menu_dir = self.add_context_menu_node(menu_all, "0", _("Selected directory"))
+            menu_dir = self.add_context_menu_node(menu_all, "0", _("Selected folder"))
 
         def in_dictionary(key, dict):
             return key in dict
@@ -813,7 +813,7 @@ class Command:
                 text += _('Date of opening: ') + str(datetime.datetime.fromtimestamp(int(os.path.getatime(selected)))) + "\n"
                 text += _('Date of modification: ') + str(datetime.datetime.fromtimestamp(int(os.path.getmtime(selected)))) + "\n"
             elif os.path.isdir(selected):
-                text = _('Directory: ') + str(selected) + "\n"
+                text = _('Folder: ') + str(selected) + "\n"
                 def folder_size(path):
                     total = 0
                     for entry in os.scandir(path):
@@ -839,7 +839,7 @@ class Command:
 
     def action_delete_directory(self):
         location = Path(self.get_location_by_index(self.selected))
-        if msg_box(_("Delete directory from disk:\n") + str(location), MB_OKCANCEL + MB_ICONWARNING) != ID_OK:
+        if msg_box(_("Delete folder from disk:\n") + str(location), MB_OKCANCEL + MB_ICONWARNING) != ID_OK:
             return
 
         self.do_delete_dir(location)
@@ -860,7 +860,7 @@ class Command:
         location = Path(self.get_location_by_index(self.selected))
         if location.is_file():
             location = location.parent
-        result = dlg_input(_("New directory"), "")
+        result = dlg_input(_("New folder:"), "")
         if not result:
             return
 
@@ -1264,23 +1264,22 @@ class Command:
             json.dump(self.options, fout, indent=2)
 
     def menu_recents(self):
-        items = self.options["recent_projects"]
+        items = list(self.options["recent_projects"])
+
+        if '' in items:
+            items.remove('')
+        if str(self.project_file_path) in items:
+            items.remove(str(self.project_file_path))
         if not items:
             return
 
-        items_nice = []
-        items_ = []
-        for fn in items:
-            if Path(fn) != self.project_file_path:
-                 items_nice.append(os.path.basename(fn) + '\t' + collapse_filename(str(os.path.dirname(fn))))
-                 items_.append(fn)
-
+        items_nice = [os.path.basename(fn)+'\t'+collapse_filename(str(os.path.dirname(fn))) for fn in items]
         res = dlg_menu(DMENU_LIST, items_nice, caption=_('Recent projects'))
         if res is None:
             return
 
         self.init_panel()
-        self.action_open_project(items_[res])
+        self.action_open_project(items[res])
 
     def do_unfold_first(self):
         """unfold 1st item under root"""
