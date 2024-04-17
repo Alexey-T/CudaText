@@ -677,12 +677,13 @@ class Command:
 
     def action_copy_relative_path(self):
         file_path = str(self.get_location_by_index(self.selected))
-        project_nodes = ''
-        for idx, node in enumerate(self.project["nodes"]):
-            if node in file_path:
-                project_nodes = self.project["nodes"][idx]
-        if project_nodes != '':
-            file_path = file_path.replace(project_nodes + os.sep, '')
+        project_node = ''
+        for node in self.project["nodes"]:
+            if file_path.startswith(node+os.sep):
+                project_node = node
+                break
+        if project_node:
+            file_path = file_path[len(project_node)+1:]
         app_proc(PROC_SET_CLIP, file_path)
 
     def action_copy_path(self):
