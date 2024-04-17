@@ -5,11 +5,11 @@
 
 1.213.0 (2024/04)
 
-+ add: new command "File / Rename..."
++ add: new command "File / Rename..." (idea by @pintassilgo)
 + add: Find-dialog has new option 'Im': immediate search, ie find-as-you-type; old option 'Hi' is not connected with find-as-you-type anymore (idea+testing by @pintassilgo)
 + add: Project Manager improvements: added hotkeys Ctrl+C / Ctrl+X / Ctrl+V / Del / etc (all visible in the context menu); added context menu commands "Backup", "Copy path", "Properties..."; added toolbar button "Recent projects" (patch by @ildarkhasanshin)
-- fix: on toggle word-wrap, show caret position because caret can be on the end of a huge line
-- fix: on toggle split-view, show folding for paired editor, if it has Pascal tree-helper (thanks @mix-7)
++ add: better "links_regex" option value
+- fix: on toggle split-view, show folding for paired editor if it has Pascal tree-helper (thanks @mix-7)
 
 1.212.1 (2024/04)
 
