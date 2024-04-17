@@ -180,6 +180,7 @@ type
     FOnEditorChangeCaretPos: TNotifyEvent;
     FOnEditorScroll: TNotifyEvent;
     FOnEditorPaint: TNotifyEvent;
+    FOnEditorShow: TNotifyEvent;
     FOnSaveFile: TAppFrameStringEvent;
     FOnAddRecent: TNotifyEvent;
     FOnPyEvent: TAppFramePyEvent;
@@ -537,6 +538,7 @@ type
     property OnEditorChangeCaretPos: TNotifyEvent read FOnEditorChangeCaretPos write FOnEditorChangeCaretPos;
     property OnEditorScroll: TNotifyEvent read FOnEditorScroll write FOnEditorScroll;
     property OnEditorPaint: TNotifyEvent read FOnEditorPaint write FOnEditorPaint;
+    property OnEditorShow: TNotifyEvent read FOnEditorShow write FOnEditorShow;
     property OnSaveFile: TAppFrameStringEvent read FOnSaveFile write FOnSaveFile;
     property OnAddRecent: TNotifyEvent read FOnAddRecent write FOnAddRecent;
     property OnPyEvent: TAppFramePyEvent read FOnPyEvent write FOnPyEvent;
@@ -1658,6 +1660,8 @@ begin
     begin
       Ed2.Strings:= Ed1.Strings;
     end;
+    if Assigned(FOnEditorShow) then
+      FOnEditorShow(Ed2);
   end
   else
   begin

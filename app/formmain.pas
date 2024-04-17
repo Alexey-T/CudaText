@@ -487,6 +487,7 @@ type
     procedure FormWindowStateChange(Sender: TObject);
     procedure FrameAddRecent(Sender: TObject);
     procedure FrameOnMsgStatus(Sender: TObject; const AStr: string);
+    procedure FrameOnEditorShow(Sender: TObject);
     procedure FrameOnEditorChangeCaretPos(Sender: TObject);
     procedure FrameOnEditorScroll(Sender: TObject);
     procedure FrameOnEditorPaint(Sender: TObject);
@@ -3958,6 +3959,20 @@ begin
   begin
     Ed.OptTextCenteringCharWidth:= 0;
   end;
+end;
+
+procedure TfmMain.FrameOnEditorShow(Sender: TObject);
+var
+  Ed: TATSynEdit;
+  SLexer: string;
+begin
+  Ed:= Sender as TATSynEdit;
+  if Ed.AdapterForHilite=nil then exit;
+  SLexer:= Ed.AdapterForHilite.GetLexerName;
+
+  //lexer is supported by tree-helpers?
+  if TreeHelperInPascal(nil, SLexer, nil) then
+    DoCodetree_ApplyTreeHelperInPascal(Ed, nil, nil, SLexer);
 end;
 
 procedure TfmMain.MenuRecentsClear(Sender: TObject);
@@ -9724,7 +9739,6 @@ begin
       end;
   end;
 end;
-
 
 procedure TfmMain.DoFileRenameDialog;
 var
