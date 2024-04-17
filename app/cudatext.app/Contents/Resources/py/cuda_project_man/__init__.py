@@ -683,7 +683,7 @@ class Command:
                 project_node = node
                 break
         if project_node:
-            file_path = file_path[len(project_node)+1:]
+            file_path = file_path[len(os.path.dirname(project_node))+1:]
         app_proc(PROC_SET_CLIP, file_path)
 
     def action_copy_path(self):
