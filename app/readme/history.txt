@@ -7,6 +7,7 @@
 
 + add: new command "File / Rename..."
 + add: Find-dialog has new option 'Im': immediate search, ie find-as-you-type; old option 'Hi' is not connected with find-as-you-type anymore (idea+testing by @pintassilgo)
+- fix: on toggle word-wrap, show caret position because caret can be on the end of a huge line
 - fix: on toggle split-view, show folding for paired editor, if it has Pascal tree-helper (thanks @mix-7)
 
 1.212.1 (2024/04)
