@@ -679,7 +679,7 @@ class Command:
         file_path = str(self.get_location_by_index(self.selected))
         project_node = ''
         for node in self.project["nodes"]:
-            if file_path.startswith(node+os.sep):
+            if (file_path+os.sep).startswith(node+os.sep):
                 project_node = node
                 break
         if project_node:
