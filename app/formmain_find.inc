@@ -1232,7 +1232,7 @@ var
   oFind, oRep,
   oFindHist, oRepHist,
   bCase, bWord, bRegex, bRegexSubst, bCfm,
-  bInSel, bWrap, bMulLine, bHiAll, bPresCase, oTokens: PPyObject;
+  bInSel, bWrap, bMulLine, bHiAll, bImmediate, bPresCase, oTokens: PPyObject;
 begin
   with AppPython.Engine do
   begin
@@ -1252,6 +1252,7 @@ begin
     bWrap:= ReturnNone;
     bMulLine:= ReturnNone;
     bHiAll:= ReturnNone;
+    bImmediate:= ReturnNone;
     bPresCase:= ReturnNone;
     oTokens:= ReturnNone;
 
@@ -1270,11 +1271,12 @@ begin
       bWrap:= PyBool_FromLong(Ord(fmFind.chkWrap.Checked));
       bMulLine:= PyBool_FromLong(Ord(fmFind.chkMulLine.Checked));
       bHiAll:= PyBool_FromLong(Ord(fmFind.IsHiAll));
+      bImmediate:= PyBool_FromLong(Ord(fmFind.IsImmediate));
       bPresCase:= PyBool_FromLong(Ord(fmFind.chkPreserveCase.Checked));
       oTokens:= PyLong_FromLong(Ord(fmFind.bTokens.ItemIndex));
     end;
 
-    Result:= Py_BuildValue('{sOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsO}',
+    Result:= Py_BuildValue('{sOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsO}',
       'find', PyUnicodeFromString(FFinder.StrFind),
       'rep', PyUnicodeFromString(FFinder.StrReplace),
 
@@ -1306,6 +1308,7 @@ begin
       'op_mulline_d', bMulLine,
       'op_tokens_d', oTokens,
       'op_hi_d', bHiAll,
+      'op_im_d', bImmediate,
       'op_prescase_d', bPresCase
       );
   end;
@@ -1492,6 +1495,15 @@ begin
           begin
             fmFind.IsHiAll:= AppStrToBool(SValue);
             fmFind.chkHiAll.Invalidate;
+            fmFind.DoOnChange;
+          end;
+        end;
+      'op_im_d':
+        begin
+          if Assigned(fmFind) then
+          begin
+            fmFind.IsImmediate:= AppStrToBool(SValue);
+            fmFind.chkImmediate.Invalidate;
             fmFind.DoOnChange;
           end;
         end;
