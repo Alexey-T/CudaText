@@ -290,6 +290,7 @@ Actions work with props of Find/Replace dialog, and props of low-level search en
 ** "op_tokens_d": option "allowed syntax elements" of dialog (int), None if dialog not inited
 ** "op_prescase_d": option "preserve case on replacement" of dialog, None if dialog not inited
 ** "op_hi_d": option "highlight all matches" of dialog, None if dialog not inited
+** "op_im_d": option "immediate search" of dialog, None if dialog not inited
 
 * PROC_SET_FINDER_PROP: Sets properties of Find/Replace dialog and search engine. Param "text" must be dict, with all or some keys listed in PROC_GET_FINDER_PROP. Values types: str (for text fields), bool (for flags), int (for choices).
 
