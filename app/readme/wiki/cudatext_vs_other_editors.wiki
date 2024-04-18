@@ -46,6 +46,10 @@
 * Option for "zebra" mode
 * Windows version can use different Python engine (packages in add-ons)
 * Add-ons do not disappear due to GitHub repository deletions
+* Find/Replace dialog:
+** Dialog has "Allowed syntax elements" option
+** Dialog has "Find first" button (ST: only "Find" which means "Find next")
+** Dialog has "Immediate search" option (ST: search is always immediate)
 
 =CudaText advantages over Visual Studio Code=
 
