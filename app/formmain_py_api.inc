@@ -9120,42 +9120,14 @@ function api_ed_get_char_count(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
   Ed: TATSynEdit;
-  St: TATStrings;
   NMaxChars, NMaxTime, NResult: Int64;
-  NStartTick: QWord = 0;
-  NEndTick: QWord = 0;
-  iLine: SizeInt;
-  bUseTime: boolean;
 begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'LLL:get_char_count',
             @H, @NMaxChars, @NMaxTime)) then
     begin
       Ed:= PyHelper_EditorFromHandle(H);
-      St:= Ed.Strings;
-
-      bUseTime:= NMaxTime<$7fffFFFF;
-      if bUseTime then
-      begin
-        NStartTick:= GetTickCount64;
-        NEndTick:= NStartTick+NMaxTime;
-      end;
-
-      NResult:= 0;
-      for iLine:= 0 to St.Count-2 do
-      begin
-        Inc(NResult, St.LinesLen[iLine]);
-        Inc(NResult); //EOL char
-        if NResult>NMaxChars then
-          exit(PyLong_FromLong(-1));
-        if bUseTime then
-          if GetTickCount64>NEndTick then
-            exit(PyLong_FromLong(-2));
-      end;
-
-      iLine:= St.Count-1;
-      Inc(NResult, St.LinesLen[iLine]);
-
+      NResult:= EditorGetCharCount(Ed, NMaxChars, NMaxTime);
       Result:= PyLong_FromLongLong(NResult);
     end
     else

@@ -182,6 +182,8 @@ function EditorCSyntaxNeedsSpecialIndent(Ed: TATSynEdit; AIndentOfCaret: integer
 function EditorLexerIsCLike(Ed: TATSynEdit): boolean;
 procedure EditorCSyntaxDoTabIndent(Ed: TATSynEdit);
 
+function EditorGetCharCount(Ed: TATSynEdit; AMaxChars, AMaxTime: Int64): Int64;
+
 implementation
 
 uses
@@ -3473,6 +3475,45 @@ begin
   Caret.PosX:= Length(S);
   Ed.UpdateWrapInfo(true);
   Ed.DoEventChange(Caret.PosY);
+end;
+
+
+function EditorGetCharCount(Ed: TATSynEdit; AMaxChars, AMaxTime: Int64): Int64;
+{
+Special result values:
+  -1: AMaxChars is reached
+  -2: AMaxTime is reached
+}
+var
+  St: TATStrings;
+  NStartTick: QWord = 0;
+  NEndTick: QWord = 0;
+  iLine: SizeInt;
+  bUseTime: boolean;
+begin
+  St:= Ed.Strings;
+
+  bUseTime:= AMaxTime<$7fffFFFF;
+  if bUseTime then
+  begin
+    NStartTick:= GetTickCount64;
+    NEndTick:= NStartTick+AMaxTime;
+  end;
+
+  Result:= 0;
+  for iLine:= 0 to St.Count-2 do
+  begin
+    Inc(Result, St.LinesLen[iLine]);
+    Inc(Result); //EOL char
+    if Result>AMaxChars then
+      exit(-1);
+    if bUseTime then
+      if GetTickCount64>NEndTick then
+        exit(-2);
+  end;
+
+  iLine:= St.Count-1;
+  Inc(Result, St.LinesLen[iLine]);
 end;
 
 end.
