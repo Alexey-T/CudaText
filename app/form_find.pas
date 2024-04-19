@@ -771,6 +771,11 @@ begin
 end;
 
 procedure TfmFind.edFindChange(Sender: TObject);
+var
+  Ed: TATSynEdit;
+  NMaxDocumentSize: Int64;
+const
+  cMaxCalcTime = 40;
 begin
   {
   Look at how your browser works (Firefox). Cuda should behave the same.
@@ -786,8 +791,18 @@ begin
     if not chkRegex.Checked or IsRegexInputOk then
     begin
       //start search by timer, to solve issue #5471
-      FTimerHiAll.Enabled:= false;
-      FTimerHiAll.Enabled:= true;
+      OnGetMainEditor(Ed);
+      if Ed=nil then exit;
+      {
+      NMaxDocumentSize:= UiOps.FindHiAll_MaxLines*50;
+      if EditorGetCharCount(Ed, NMaxDocumentSize, cMaxCalcTime)<=NMaxDocumentSize then
+        TimerHiAllTick(Self)
+      else
+      }
+      begin
+        FTimerHiAll.Enabled:= false;
+        FTimerHiAll.Enabled:= true;
+      end;
     end;
 
   if edFind.IsEmpty then
