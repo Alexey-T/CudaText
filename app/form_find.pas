@@ -771,14 +771,7 @@ begin
 end;
 
 procedure TfmFind.edFindChange(Sender: TObject);
-var
-  Ed: TATSynEdit;
-  Caret: TATCaretItem;
-  Pnt: TPoint;
-  bEmpty: boolean;
 begin
-  bEmpty:= edFind.IsEmpty;
-
   {
   Look at how your browser works (Firefox). Cuda should behave the same.
 
@@ -792,32 +785,12 @@ begin
   if IsImmediate then
     if not chkRegex.Checked or IsRegexInputOk then
     begin
-      OnGetMainEditor(Ed);
-      if Ed=nil then exit;
-
-      if Ed.Carets.Count=0 then
-        Ed.DoCaretSingle(0, 0);
-      Caret:= Ed.Carets[0];
-
-      Pnt:= Caret.GetLeftEdge;
-      Ed.DoCaretSingle(Pnt.X, Pnt.Y);
-      Ed.Update;
-
-      {
-      why always 'find next'? this is more like in other editors.
-      from issue #5466:
-      is Cuda the only editor with "find first"? Others I tested now don't have (Kate, Sublime, VSCode, Notepad++).
-      Interesting. It's an useful command. With find first + always 'b', Cuda users have more control
-      over find than users of other editors.
-      }
-      if not bEmpty then
-        bFindNext.Click;
-
-      if IsHiAll then
-        UpdateState(false);
+      //start search by timer, to solve issue #5471
+      FTimerHiAll.Enabled:= false;
+      FTimerHiAll.Enabled:= true;
     end;
 
-  if bEmpty then
+  if edFind.IsEmpty then
     UpdateInputReddishIndicator(true);
 
   UpdateRegexHighlight;
@@ -1895,11 +1868,35 @@ end;
 
 procedure TfmFind.TimerHiAllTick(Sender: TObject);
 var
+  Ed: TATSynEdit;
+  Caret: TATCaretItem;
   Finder: TATEditorFinder;
+  Pnt: TPoint;
   NMatches: integer;
   NTick: QWord;
 begin
   FTimerHiAll.Enabled:= false;
+
+  OnGetMainEditor(Ed);
+  if Ed=nil then exit;
+
+  if Ed.Carets.Count=0 then
+    Ed.DoCaretSingle(0, 0);
+  Caret:= Ed.Carets[0];
+
+  Pnt:= Caret.GetLeftEdge;
+  Ed.DoCaretSingle(Pnt.X, Pnt.Y);
+  //Ed.Update;
+
+  {
+  why always 'find next'? this is more like in other editors.
+  from issue #5466:
+  is Cuda the only editor with "find first"? Others I tested now don't have (Kate, Sublime, VSCode, Notepad++).
+  Interesting. It's an useful command. With find first + always 'b', Cuda users have more control
+  over find than users of other editors.
+  }
+  if not edFind.IsEmpty then
+    bFindNext.Click;
 
   ClearHiAll;
   if IsHiAll then
