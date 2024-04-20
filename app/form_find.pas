@@ -773,7 +773,7 @@ end;
 procedure TfmFind.edFindChange(Sender: TObject);
 var
   Ed: TATSynEdit;
-  NMaxDocumentSize: Int64;
+  NMaxDocumentSize, NCharCount: Int64;
 const
   cMaxCalcTime = 40;
   cAverageLineLen = 50;
@@ -791,11 +791,11 @@ begin
   if IsImmediate then
     if not chkRegex.Checked or IsRegexInputOk then
     begin
-      //start search by timer, to solve issue #5471
       OnGetMainEditor(Ed);
       if Ed=nil then exit;
       NMaxDocumentSize:= UiOps.FindHiAll_MaxLines*cAverageLineLen;
-      if EditorGetCharCount(Ed, NMaxDocumentSize, cMaxCalcTime)<=NMaxDocumentSize then
+      NCharCount:= EditorGetCharCount(Ed, NMaxDocumentSize, cMaxCalcTime);
+      if (NCharCount>=0) and (NCharCount<=NMaxDocumentSize) then //NCharCount can be -1 and -2
         TimerHiAllTick(Self)
       else
       begin
