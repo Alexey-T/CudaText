@@ -826,6 +826,9 @@
   //documents, app will behave differently: it will highlight marks only in the
   //visible editor area, and update marks on scrolling (should not slow down
   //editor significantly).
+  //Option is used also here: when document size is bigger than option_value*50,
+  //Find-dialog will use timer for 'immediate search' ('Im') option. Ie 'immediate
+  //search' will search for a next match 'on timer tick'.
   "find_hi_max_lines": 4000,
 
   //Find dialog option "Highlight all matches": maximal line length (lines
