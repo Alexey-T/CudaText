@@ -776,6 +776,7 @@ var
   NMaxDocumentSize: Int64;
 const
   cMaxCalcTime = 40;
+  cAverageLineLen = 50;
 begin
   {
   Look at how your browser works (Firefox). Cuda should behave the same.
@@ -793,7 +794,7 @@ begin
       //start search by timer, to solve issue #5471
       OnGetMainEditor(Ed);
       if Ed=nil then exit;
-      NMaxDocumentSize:= UiOps.FindHiAll_MaxLines*50;
+      NMaxDocumentSize:= UiOps.FindHiAll_MaxLines*cAverageLineLen;
       if EditorGetCharCount(Ed, NMaxDocumentSize, cMaxCalcTime)<=NMaxDocumentSize then
         TimerHiAllTick(Self)
       else
