@@ -4273,7 +4273,7 @@ procedure TfmMain.DoApplyUiOps;
 var
   id: TAppPanelId;
   Pages: TATPages;
-  Ed: TATSynEdit;
+  //Ed: TATSynEdit;
   F: TEditorFrame;
   i: integer;
 begin
@@ -4320,8 +4320,10 @@ begin
   begin
     EditorApplyOpsCommon(fmFind.edFind);
     EditorApplyOpsCommon(fmFind.edRep);
+    { //not needed, 2024.04
     Ed:= CurrentEditor;
     fmFind.chkHiAll.Enabled:= Assigned(Ed) and (Ed.Strings.Count<UiOps.FindHiAll_MaxLines);
+    }
   end;
 
   UpdateStatusbarPanelsFromString(UiOps.StatusPanels);
