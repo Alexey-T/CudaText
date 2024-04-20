@@ -793,12 +793,10 @@ begin
       //start search by timer, to solve issue #5471
       OnGetMainEditor(Ed);
       if Ed=nil then exit;
-      {
       NMaxDocumentSize:= UiOps.FindHiAll_MaxLines*50;
       if EditorGetCharCount(Ed, NMaxDocumentSize, cMaxCalcTime)<=NMaxDocumentSize then
         TimerHiAllTick(Self)
       else
-      }
       begin
         FTimerHiAll.Enabled:= false;
         FTimerHiAll.Enabled:= true;

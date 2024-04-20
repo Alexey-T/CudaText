@@ -116,8 +116,11 @@ end;
 
 
 procedure TfmMain.FindDialogDone2(Sender: TObject; Res: TAppFinderOperation);
+var
+  bEnableUpdateAll: boolean;
 begin
-  FindDialogDone(Sender, Res, true);
+  bEnableUpdateAll:= Res<>TAppFinderOperation.FindNext; //to fix issue #5471
+  FindDialogDone(Sender, Res, bEnableUpdateAll);
 end;
 
 procedure TfmMain.FindAndExtractRegexMatches;
