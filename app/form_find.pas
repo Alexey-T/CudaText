@@ -1910,7 +1910,12 @@ begin
   over find than users of other editors.
   }
   if not edFind.IsEmpty then
-    DoResult(TAppFinderOperation.FindNext, false); //param False to fix issue #5471
+    DoResult(TAppFinderOperation.FindNext, false);
+  {
+  it's important to pass param AUpdateEnableAll to False; to fix issue #5471.
+  without False, DoResult will toggle fmFind.Enabled, so _fast_ key input
+  to edFind will be partially lost.
+  }
 
   ClearHiAll;
   if IsHiAll then
