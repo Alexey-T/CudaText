@@ -1094,7 +1094,7 @@ type
     function FinderReplaceAll(Ed: TATSynEdit; AResetCaret: boolean): integer;
     procedure FinderShowReplaceReport(ACounter, ATime: integer);
     procedure FindDialogDone(Sender: TObject; Res: TAppFinderOperation; AEnableUpdateAll: boolean);
-    procedure FindDialogDone2(Sender: TObject; Res: TAppFinderOperation);
+    procedure FindDialogDone2(Sender: TObject; Res: TAppFinderOperation; AEnableUpdateAll: boolean);
     procedure FinderOnFound(Sender: TObject; APos1, APos2: TPoint);
     procedure FinderOnProgress(Sender: TObject; const ACurPos, AMaxPos: Int64; var AContinue: boolean);
     procedure FinderOnWrapAtEdge(Sender: TObject);

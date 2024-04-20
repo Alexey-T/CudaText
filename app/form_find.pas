@@ -100,7 +100,7 @@ const
     );
 
 type
-  TAppFinderOperationEvent = procedure(Sender: TObject; Op: TAppFinderOperation) of object;
+  TAppFinderOperationEvent = procedure(Sender: TObject; Op: TAppFinderOperation; AUpdateEnabledAll: boolean) of object;
   TAppFinderGetEditor = procedure(out AEditor: TATSynEdit) of object;
   TAppFinderShowMatchesCount = procedure(AMatchCount, ATime: integer) of object;
   TAppFinderKeyDownEvent = function(AKey: word; AShiftState: TShiftState): boolean of object;
@@ -234,7 +234,7 @@ type
     procedure ControlAutosizeOptionsByWidth;
     procedure CopyFieldFindToReplace;
     procedure DoFocusEditor;
-    procedure DoResult(Op: TAppFinderOperation);
+    procedure DoResult(Op: TAppFinderOperation; AUpdateEnabledAll: boolean=true);
     function GetHiAll: boolean;
     function GetImmediate: boolean;
     procedure InitPopupMore;
@@ -1379,7 +1379,7 @@ begin
     FInitialCaretPos:= Ed.Carets[0].GetLeftEdge;
 end;
 
-procedure TfmFind.DoResult(Op: TAppFinderOperation);
+procedure TfmFind.DoResult(Op: TAppFinderOperation; AUpdateEnabledAll: boolean=true);
 var
   bUpdateState: boolean;
 begin
@@ -1387,7 +1387,7 @@ begin
     if Op<>TAppFinderOperation.CloseDlg then exit;
 
   if Assigned(FOnResult) then
-    FOnResult(Self, Op);
+    FOnResult(Self, Op, AUpdateEnabledAll);
 
   bUpdateState:= Op in [
     TAppFinderOperation.Replace,
@@ -1909,7 +1909,7 @@ begin
   over find than users of other editors.
   }
   if not edFind.IsEmpty then
-    bFindNext.Click;
+    DoResult(TAppFinderOperation.FindNext, false); //param False to fix issue #5471
 
   ClearHiAll;
   if IsHiAll then
