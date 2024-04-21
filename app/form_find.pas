@@ -1865,13 +1865,6 @@ begin
     exit;
   end;
 
-  if edFind.Strings.IsIndexValid(0) then
-    if edFind.Strings.LinesLen[0]<UiOps.FindHiAll_MinInputLen then
-    begin
-      ClearHiAll;
-      exit;
-    end;
-
   FHiAllEnableFindNext:= AEnableFindNext;
   OnGetMainEditor(Ed);
   if Assigned(Ed) and (Ed.Strings.Count>UiOps.FindHiAll_TimerLines) then

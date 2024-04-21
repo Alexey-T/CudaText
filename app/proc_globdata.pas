@@ -373,7 +373,6 @@ type
     FindSeparateForm: boolean;
     FindHiAll_TimerInterval: integer;
     FindHiAll_TimerLines: integer;
-    FindHiAll_MinInputLen: integer;
     FindHiAll_MaxLines: integer;
     FindHiAll_MaxLineLen: integer;
     FindHiAll_MaxVisibleColumns: integer;
@@ -2100,7 +2099,6 @@ begin
     FindSeparateForm:= false; //initially Find dlg is not docked to main dlg
     FindHiAll_TimerInterval:= 500; //interval of timer which starts Hi_All action after typing in Find dlg
     FindHiAll_TimerLines:= 2000; //option "find_hi_timer_lines"
-    FindHiAll_MinInputLen:= 1; //minimal count of chars in Find-dlg input to start Hi_All action
     FindHiAll_MaxLines:= 4000; //option "find_hi_max_lines"
     FindHiAll_MaxLineLen:= 800000; //option "find_hi_max_line_len"
     FindHiAll_MaxVisibleColumns:= 400; //if ScrollHorz.NMax>value, Hi_All highlights only marks on visible line area
