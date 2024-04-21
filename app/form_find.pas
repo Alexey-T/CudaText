@@ -1379,7 +1379,7 @@ var
   Ed: TATSynEdit;
 begin
   OnGetMainEditor(Ed);
-  if Ed.Carets.Count>0 then
+  if Assigned(Ed) and (Ed.Carets.Count>0) then
     FInitialCaretPos:= Ed.Carets[0].GetLeftEdge;
 end;
 
