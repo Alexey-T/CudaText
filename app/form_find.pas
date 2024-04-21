@@ -1891,31 +1891,33 @@ begin
   OnGetMainEditor(Ed);
   if Ed=nil then exit;
 
-  if Ed.Carets.Count=0 then
-    Ed.DoCaretSingle(0, 0);
-  Caret:= Ed.Carets[0];
-
-  Pnt:= Caret.GetLeftEdge;
-  Ed.DoCaretSingle(Pnt.X, Pnt.Y);
-  //Ed.Update;
-
-  {
-  why always 'find next'? this is more like in other editors.
-  from issue #5466:
-  is Cuda the only editor with "find first"? Others I tested now don't have (Kate, Sublime, VSCode, Notepad++).
-  Interesting. It's an useful command. With find first + always 'b', Cuda users have more control
-  over find than users of other editors.
-  }
   if FInputChanged then
   begin
     FInputChanged:= false;
     if not edFind.IsEmpty then
+    begin
+      if Ed.Carets.Count=0 then
+        Ed.DoCaretSingle(0, 0);
+      Caret:= Ed.Carets[0];
+
+      Pnt:= Caret.GetLeftEdge;
+      Ed.DoCaretSingle(Pnt.X, Pnt.Y);
+      //Ed.Update;
+
       DoResult(TAppFinderOperation.FindNext, false);
       {
       it's important to pass param AUpdateEnableAll=False, to fix issue #5471.
       without False, DoResult will toggle fmFind.Enabled, so _fast_ key input
       to edFind will be partially lost.
       }
+      {
+      why always 'find next'? this is more like in other editors.
+      from issue #5466:
+      is Cuda the only editor with "find first"? Others I tested now don't have (Kate, Sublime, VSCode, Notepad++).
+      Interesting. It's an useful command. With find first + always 'b', Cuda users have more control
+      over find than users of other editors.
+      }
+    end;
   end;
 
   ClearHiAll;
