@@ -832,8 +832,9 @@ begin
 
   if (ACommand>=cmdFirstAppCommand) and (ACommand<=cmdLastAppCommand) then
   begin
-    FOnGetMainEditor(Ed);
-    Ed.DoCommand(ACommand, TATCommandInvoke.Hotkey, '');
+    OnGetMainEditor(Ed);
+    if Assigned(Ed) then
+      Ed.DoCommand(ACommand, TATCommandInvoke.Hotkey, '');
     AHandled:= true;
     exit;
   end;
@@ -913,7 +914,7 @@ procedure TfmFind.ClearHiAll;
 var
   Ed: TATSynEdit;
 begin
-  FOnGetMainEditor(Ed);
+  OnGetMainEditor(Ed);
   if Assigned(Ed) then
     EditorClearHiAllMarkers(Ed);
 end;
@@ -1872,7 +1873,7 @@ begin
     end;
 
   FHiAllEnableFindNext:= AEnableFindNext;
-  FOnGetMainEditor(Ed);
+  OnGetMainEditor(Ed);
   if Assigned(Ed) and (Ed.Strings.Count>UiOps.FindHiAll_TimerLines) then
   begin
     FTimerHiAll.Interval:= UiOps.FindHiAll_TimerInterval;
@@ -1929,7 +1930,7 @@ begin
   begin
     Finder:= TATEditorFinder.Create;
     try
-      FOnGetMainEditor(Finder.Editor);
+      Finder.Editor:= Ed;
       Finder.StrFind:= edFind.Text;
       Finder.OptConfirmReplace:= false;
       Finder.OptFromCaret:= false;
