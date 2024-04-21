@@ -217,6 +217,7 @@ type
     FMultiLine: boolean;
     FMultiLineJustActivated: boolean;
     FNarrow: boolean;
+    FInputChanged: boolean;
     FInputColored: boolean;
     FOnResult: TAppFinderOperationEvent;
     FOnChangeVisible: TNotifyEvent;
@@ -778,6 +779,8 @@ const
   cMaxCalcTime = 40;
   cAverageLineLen = 50;
 begin
+  FInputChanged:= true;
+
   {
   Look at how your browser works (Firefox). Cuda should behave the same.
 
@@ -1909,13 +1912,17 @@ begin
   Interesting. It's an useful command. With find first + always 'b', Cuda users have more control
   over find than users of other editors.
   }
-  if not edFind.IsEmpty then
-    DoResult(TAppFinderOperation.FindNext, false);
-  {
-  it's important to pass param AUpdateEnableAll to False; to fix issue #5471.
-  without False, DoResult will toggle fmFind.Enabled, so _fast_ key input
-  to edFind will be partially lost.
-  }
+  if FInputChanged then
+  begin
+    FInputChanged:= false;
+    if not edFind.IsEmpty then
+      DoResult(TAppFinderOperation.FindNext, false);
+      {
+      it's important to pass param AUpdateEnableAll=False, to fix issue #5471.
+      without False, DoResult will toggle fmFind.Enabled, so _fast_ key input
+      to edFind will be partially lost.
+      }
+  end;
 
   ClearHiAll;
   if IsHiAll then
