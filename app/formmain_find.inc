@@ -594,7 +594,11 @@ begin
 
   fmFind.UpdateInitialCaretPos;
   if StrSuggested<>'' then
+  begin
+    if fmFind.chkRegex.Checked then //turn off 'RegEx' to avoid error msgbox on incorrect regex
+      fmFind.chkRegex.Click;
     fmFind.UpdateInputFind(StrSuggested);
+  end;
 
   fmFind.edFind.DoSelect_All;
   fmFind.edRep.DoSelect_All;
