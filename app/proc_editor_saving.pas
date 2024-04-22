@@ -26,6 +26,9 @@ uses
   proc_editor,
   proc_files,
   proc_msg,
+  {$ifdef windows}
+  proc_windows_elevated,
+  {$endif}
   proc_globdata;
 
 procedure SaveSimple(Ed: TATSynEdit; const fn: string);
@@ -53,6 +56,10 @@ begin
   if IsBadResultFile(fnTemp, bDocEmpty) then
     raise EFileNotFoundException.Create(msgCannotSaveFile+#10+AppCollapseHomeDirInFilename(fnTemp));
 
+  {$ifdef windows}
+  if not RunElevated('xcopy.exe', Format('"%s" "%s"', [fnTemp, fn])) then
+    raise EWriteError.Create(msgCannotSaveFile+#10+AppCollapseHomeDirInFilename(fn));
+  {$else}
   if cSystemHasPkExec and UiOps.AllowRunPkExec then
   begin
     if FileIsWritable(fn) then
@@ -75,6 +82,7 @@ begin
     if not CopyFile(fnTemp, fn) then
       raise EWriteError.Create(msgCannotSaveFile+#10+AppCollapseHomeDirInFilename(fn));
   end;
+  {$endif}
 
   if IsBadResultFile(fn, bDocEmpty) then
     raise EFileNotFoundException.Create(
