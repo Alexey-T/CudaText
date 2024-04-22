@@ -46,9 +46,12 @@ end;
 procedure SaveViaTempCopy(Ed: TATSynEdit; const fn: string);
 var
   fnTemp: string;
-  SOutput: string;
-  SCopyParams: UnicodeString;
   bDocEmpty: boolean;
+  {$ifdef windows}
+  SCopyParams: UnicodeString;
+  {$else}
+  SOutput: string;
+  {$endif}
 begin
   bDocEmpty:= Ed.IsEmpty;
   fnTemp:= GetTempFileName('', 'cudatext_');
