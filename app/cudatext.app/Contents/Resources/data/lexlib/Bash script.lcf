@@ -425,7 +425,7 @@ object SyntAnal2: TLibSyntAnalyzer
       Enabled = False
       StyleName = 'String $'
       TokenType = 5
-      Expression = '(?s)"\$\( ( "\$\([^"]+?\)" |[^"])+?\)"'
+      Expression = '(?s)"\$\( ( "\$\([^"]+?\)" |[^"])+? (\)"|\Z)'
       ColumnFrom = 0
       ColumnTo = 0
     end
