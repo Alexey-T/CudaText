@@ -1197,6 +1197,10 @@ begin
   if s<>'' then
     ATEditorOptions.UnprintedReplaceSpecToCode:= StrToIntDef('$'+s, ATEditorOptions.UnprintedReplaceSpecToCode);
 
+  UiOps.MaxFileSizeToOpen:= cfg.GetValue('ui_max_size_open', UiOps.MaxFileSizeToOpen);
+  UiOps.MaxFileSizeToOpen:= Min(UiOps.MaxFileSizeToOpen, 2*1024-1); //because TStream.ReadBuffer is called, it can handle only 32-bit LongInt
+  UiOps.MaxFileSizeForLexer:= cfg.GetValue('ui_max_size_lexer', UiOps.MaxFileSizeForLexer);
+  UiOps.MaxStatusbarMessages:= cfg.GetValue('ui_statusbar_hint_lines', UiOps.MaxStatusbarMessages);
   UiOps.MaxLineLenForEditingKeepingLexer:= cfg.GetValue('max_line_len_for_editing_keeping_lexer', UiOps.MaxLineLenForEditingKeepingLexer);
   UiOps.MaxUndoSizeForSessionFile:= cfg.GetValue('ui_session_max_undo', UiOps.MaxUndoSizeForSessionFile);
   UiOps.MaxSizeForSession:= cfg.GetValue('ui_session_max_text', UiOps.MaxSizeForSession);
@@ -1579,11 +1583,6 @@ begin
   UiOps.ThemedMainMenu:= cfg.GetValue('ui_menu_themed', UiOps.ThemedMainMenu);
   UiOps.ThemedMainMenuFontSize:= cfg.GetValue('ui_menu_themed_font_size', UiOps.ThemedMainMenuFontSize);
   {$endif}
-
-  UiOps.MaxFileSizeToOpen:= cfg.GetValue('ui_max_size_open', UiOps.MaxFileSizeToOpen);
-  UiOps.MaxFileSizeToOpen:= Min(UiOps.MaxFileSizeToOpen, 2*1024-1); //because TStream.ReadBuffer is called, it can handle only 32-bit LongInt
-  UiOps.MaxFileSizeForLexer:= cfg.GetValue('ui_max_size_lexer', UiOps.MaxFileSizeForLexer);
-  UiOps.MaxStatusbarMessages:= cfg.GetValue('ui_statusbar_hint_lines', UiOps.MaxStatusbarMessages);
 
   UiOps.AutocompleteAcpFiles:= cfg.GetValue('autocomplete_acp', UiOps.AutocompleteAcpFiles);
   UiOps.AutocompleteHtml:= cfg.GetValue('autocomplete_html', UiOps.AutocompleteHtml);
