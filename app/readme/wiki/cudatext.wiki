@@ -2634,6 +2634,8 @@ Also note, that our application bundle is not digitally signed.
 So to run it (the first time you do it), you should right-click the application bundle, and choose "Open" menu item, and confirm that you trust the vendor.
 
 ==Can app save files to system directories?==
+Under Windows OS, app runs XCOPY command to save files to write-protected folders. XCOPY runs with elevated priviledges. Note: to save for example 'hosts' file on Windows 64-bit, you must use 64-bit version of CudaText.
+
 Under Linux OS (but not under *BSD/Solaris), CudaText can save files even to system write-protected folders. It runs "pkexec" program for this purpose, and "pkexec" shows GUI confirmation to get admin rights. "pkexec" runs "/bin/cp" to copy file from temp folder to the write-protected folder.
 
 For example, open some file from write-protected folder on Linux. CudaText detects file permissions, so it should open file in read-only mode. Then, from "Command Palette", call "toggle read-only mode". Then you can edit the file. Edit it and save it - CudaText will try to save it via "pkexec".
