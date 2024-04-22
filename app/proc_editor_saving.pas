@@ -22,13 +22,14 @@ implementation
 uses
   SysUtils, Classes, Controls, LCLType,
   FileUtil, LazFileUtils,
-  Process,
-  proc_editor,
-  proc_files,
-  proc_msg,
   {$ifdef windows}
   proc_windows_elevated,
+  {$else}
+  Process,
+  proc_editor,
   {$endif}
+  proc_files,
+  proc_msg,
   proc_globdata;
 
 procedure SaveSimple(Ed: TATSynEdit; const fn: string);
@@ -57,7 +58,7 @@ begin
   if IsBadResultFile(fnTemp, bDocEmpty) then
     raise EFileNotFoundException.Create(msgCannotSaveFile+#10+AppCollapseHomeDirInFilename(fnTemp));
 
-  {$ifdef windows_tst} //disabled this block yet, XCOPY.exe cannot copy, why?
+  {$ifdef windows}
   SCopyParams:= WideFormat('"%s" "%s" /r /h /y', [fnTemp, fn]);
   if not RunElevated('xcopy.exe', SCopyParams) then
     raise EWriteError.Create(msgCannotSaveFile+#10+AppCollapseHomeDirInFilename(fn));

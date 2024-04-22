@@ -55,6 +55,7 @@
               <OverflowChecks Value="True"/>
             </Checks>
             <TargetCPU Value="x86_64"/>
+            <TargetOS Value="win64"/>
             <Optimizations>
               <OptimizationLevel Value="0"/>
             </Optimizations>

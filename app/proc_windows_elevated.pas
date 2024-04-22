@@ -36,11 +36,13 @@ begin
   begin
     WaitForSingleObject(sei.hProcess, INFINITE);
     CloseHandle(sei.hProcess);
-  end
+  end;
+  {
   else
     Application.MessageBox(
       PChar(Format('ShellExecuteExW failed: %d', [GetLastError])),
       'CudaText');
+  }
 end;
 
 
