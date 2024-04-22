@@ -58,7 +58,7 @@ begin
     raise EFileNotFoundException.Create(msgCannotSaveFile+#10+AppCollapseHomeDirInFilename(fnTemp));
 
   {$ifdef windows}
-  SCopyParams:= Format('"%s" "%s" /r /h /y', [fnTemp, fn]);
+  SCopyParams:= WideFormat('"%s" "%s" /r /h /y', [fnTemp, fn]);
   if not RunElevated('xcopy.exe', SCopyParams) then
     raise EWriteError.Create(msgCannotSaveFile+#10+AppCollapseHomeDirInFilename(fn));
   {$else}
