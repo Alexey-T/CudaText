@@ -5584,6 +5584,9 @@ end;
 procedure TfmMain.InitPyEngine;
 var
   NTick: QWord;
+  LibSeparator: TATStringSeparator;
+  SLibItem: string = '';
+  bLibFound: boolean;
 begin
   NTick:= GetTickCount64;
 
@@ -5613,8 +5616,19 @@ begin
   PythonModule.ModuleName:= 'cudatext_api';
   PythonModule.OnInitialization:= @PythonModuleInitialization;
 
-  if (UiOps.PyLibrary='') or
-    ((Pos('/', UiOps.PyLibrary)>0) and not FileExists(UiOps.PyLibrary)) then
+  bLibFound:= false;
+  LibSeparator.Init(UiOps.PyLibrary, ';');
+  while LibSeparator.GetItemStr(SLibItem) do
+  begin
+    if SLibItem='' then Continue;
+    if (Pos('/', SLibItem)=0) or FileExists(SLibItem) then
+    begin
+      bLibFound:= true;
+      Break;
+    end;
+  end;
+
+  if not bLibFound then
   begin
     MsgLogConsole(msgCannotInitPython1);
     MsgLogConsole(msgCannotInitPython2);
@@ -5630,8 +5644,8 @@ begin
   end;
 
   PythonEng.UseLastKnownVersion:= False;
-  PythonEng.DllPath:= ExtractFilePath(UiOps.PyLibrary);
-  PythonEng.DllName:= ExtractFileName(UiOps.PyLibrary);
+  PythonEng.DllPath:= ExtractFilePath(SLibItem);
+  PythonEng.DllName:= ExtractFileName(SLibItem);
   PythonEng.LoadDll;
 
   if not AppPython.Inited then
