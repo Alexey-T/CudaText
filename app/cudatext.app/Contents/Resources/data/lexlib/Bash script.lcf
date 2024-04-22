@@ -151,14 +151,6 @@ object SyntAnal2: TLibSyntAnalyzer
       Font.Style = []
     end
     item
-      DisplayName = 'String $'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clFuchsia
-      Font.Height = -13
-      Font.Name = 'Courier New'
-      Font.Style = []
-    end
-    item
       DisplayName = 'Pair tokens BG'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
