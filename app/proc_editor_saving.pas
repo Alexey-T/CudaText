@@ -57,7 +57,7 @@ begin
   if IsBadResultFile(fnTemp, bDocEmpty) then
     raise EFileNotFoundException.Create(msgCannotSaveFile+#10+AppCollapseHomeDirInFilename(fnTemp));
 
-  {$ifdef windows}
+  {$ifdef windows_tst} //disabled this block yet, XCOPY.exe cannot copy, why?
   SCopyParams:= WideFormat('"%s" "%s" /r /h /y', [fnTemp, fn]);
   if not RunElevated('xcopy.exe', SCopyParams) then
     raise EWriteError.Create(msgCannotSaveFile+#10+AppCollapseHomeDirInFilename(fn));
