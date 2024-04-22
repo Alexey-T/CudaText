@@ -1151,6 +1151,13 @@ var
   s: string;
   N: integer;
 begin
+  {$ifndef windows}
+  //option is ignored on windows
+  UiOps.PyLibrary:= cfg.GetValue('pylib'+cOptionSystemSuffix, UiOps.PyLibrary);
+  {$endif}
+  if UiOps.PyLibrary='' then
+    UiOps.PyLibrary:= InitPyLibraryPath;
+
   Application.{%H-}MainFormOnTaskBar:= cfg.GetValue('ui_taskbar_mode'+cOptionSystemSuffix, Application.{%H-}MainFormOnTaskBar);
 
   N:= cfg.GetValue('ui_scale'+cOptionSystemSuffix, -1);
@@ -1572,15 +1579,6 @@ begin
   UiOps.ThemedMainMenu:= cfg.GetValue('ui_menu_themed', UiOps.ThemedMainMenu);
   UiOps.ThemedMainMenuFontSize:= cfg.GetValue('ui_menu_themed_font_size', UiOps.ThemedMainMenuFontSize);
   {$endif}
-
-  {$ifndef windows}
-  //option is ignored on windows
-  UiOps.PyLibrary:= cfg.GetValue('pylib'+cOptionSystemSuffix, UiOps.PyLibrary);
-  {$endif}
-  if UiOps.PyLibrary='' then
-    UiOps.PyLibrary:= InitPyLibraryPath;
-
-  //UiOps.PictureTypes:= cfg.GetValue('picture_types', UiOps.PictureTypes);
 
   UiOps.MaxFileSizeToOpen:= cfg.GetValue('ui_max_size_open', UiOps.MaxFileSizeToOpen);
   UiOps.MaxFileSizeToOpen:= Min(UiOps.MaxFileSizeToOpen, 2*1024-1); //because TStream.ReadBuffer is called, it can handle only 32-bit LongInt
