@@ -6,6 +6,7 @@
 1.213.1 (2024/04)
 
 + add: on Windows, app can save files to write-protected folders too, using elevated running of 'xcopy' (thanks @micheldiemer, @dinkumoil)
++ add: option "pylib" supports several paths ";"-separated
 
 1.213.0 (2024/04)
 
