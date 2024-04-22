@@ -63,7 +63,7 @@ begin
 
   {$ifdef windows}
   SCopyParams:= WideFormat('"%s" "%s" /r /h /y', [fnTemp, fn]);
-  if not RunElevated('xcopy.exe', SCopyParams) then
+  if not RunElevated('xcopy.exe', SCopyParams, true) then
     raise EWriteError.Create(msgCannotSaveFile+#10+AppCollapseHomeDirInFilename(fn));
   {$else}
   if cSystemHasPkExec and UiOps.AllowRunPkExec then

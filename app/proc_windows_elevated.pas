@@ -11,14 +11,14 @@ unit proc_windows_elevated;
 
 interface
 
-function RunElevated(const AProgram, AParameters: UnicodeString): boolean;
+function RunElevated(const AProgram, AParameters: UnicodeString; AHideWindow: boolean): boolean;
 
 implementation
 
 uses
   Windows, ShellAPI, SysUtils, Classes, Forms;
 
-function RunElevated(const AProgram, AParameters: UnicodeString): boolean;
+function RunElevated(const AProgram, AParameters: UnicodeString; AHideWindow: boolean): boolean;
 var
   sei: TShellExecuteInfoW;
 begin
@@ -29,7 +29,10 @@ begin
   sei.lpVerb := 'runas';
   sei.lpFile := PWideChar(AProgram);
   sei.lpParameters := PWideChar(AParameters);
-  sei.nShow := SW_SHOW;
+  if AHideWindow then
+    sei.nShow := SW_HIDE
+  else
+    sei.nShow := SW_SHOW;
 
   Result := ShellExecuteExW(@sei);
   if Result then
