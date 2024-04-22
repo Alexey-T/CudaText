@@ -422,9 +422,10 @@ object SyntAnal2: TLibSyntAnalyzer
     end
     item
       DisplayName = 'String "$(...)"'
+      Enabled = False
       StyleName = 'String $'
       TokenType = 5
-      Expression = '(?s)"\$\( ( "\$\(.+?\)" |.)+?\)"'
+      Expression = '(?s)"\$\( ( "\$\([^"]+?\)" |[^"])+?\)"'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -1160,8 +1161,8 @@ object SyntAnal2: TLibSyntAnalyzer
   LexerName = 'Bash script'
   SkipSpaces = False
   Notes.Strings = (
-    'Initially by: Matthias Eberhardt (CudaText forum admin)'
-    'Fully reworked by Alexey (CudaText)')
+    'Initially by Matthias Eberhardt (CudaText forum admin)'
+    'Fully reworked by Alexey Torgashin (CudaText)')
   RestartFromLineStart = True
   LineComment = '#'
   Charset = DEFAULT_CHARSET
