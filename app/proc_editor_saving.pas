@@ -46,6 +46,7 @@ procedure SaveViaTempCopy(Ed: TATSynEdit; const fn: string);
 var
   fnTemp: string;
   SOutput: string;
+  SCopyParams: UnicodeString;
   bDocEmpty: boolean;
 begin
   bDocEmpty:= Ed.IsEmpty;
@@ -57,7 +58,8 @@ begin
     raise EFileNotFoundException.Create(msgCannotSaveFile+#10+AppCollapseHomeDirInFilename(fnTemp));
 
   {$ifdef windows}
-  if not RunElevated('xcopy.exe', Format('"%s" "%s"', [fnTemp, fn])) then
+  SCopyParams:= Format('"%s" "%s" /r /h /y', [fnTemp, fn]);
+  if not RunElevated('xcopy.exe', SCopyParams) then
     raise EWriteError.Create(msgCannotSaveFile+#10+AppCollapseHomeDirInFilename(fn));
   {$else}
   if cSystemHasPkExec and UiOps.AllowRunPkExec then

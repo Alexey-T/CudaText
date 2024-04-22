@@ -29,7 +29,7 @@ begin
   sei.lpVerb := 'runas';
   sei.lpFile := PWideChar(AProgram);
   sei.lpParameters := PWideChar(AParameters);
-  sei.nShow := SW_HIDE;
+  sei.nShow := SW_SHOW;
 
   Result := ShellExecuteExW(@sei);
   if Result then
