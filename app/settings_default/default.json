@@ -1430,7 +1430,7 @@
   "export_html_font_size": 12,
 
   //[Python]
-  //Sets Python engine file path. [has suffix].
+  //Sets Python engine file path. [has suffix]
   //Several values are allowed, ";"-separated.
   //If option is correct, you must see Python version in console panel (Ctrl+`)
   //and command "=sys.path" must work in console.
