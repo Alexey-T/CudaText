@@ -143,7 +143,7 @@ object SyntAnal16: TLibSyntAnalyzer
       DisplayName = 'String 3-quotes'
       StyleName = 'String'
       TokenType = 4
-      Expression = '[rbuf]*("""|'#39#39#39')(\\.|.)*?(\1|\Z)'
+      Expression = '(?s)[rbuf]*("""|'#39#39#39')(\\.|.)*?(\1|\Z)'
       ColumnFrom = 0
       ColumnTo = 0
     end
