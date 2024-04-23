@@ -8,12 +8,12 @@ object fmGoto: TfmGoto
   ClientHeight = 84
   ClientWidth = 453
   KeyPreview = True
+  ShowInTaskBar = stNever
+  LCLVersion = '3.99.0.0'
+  Scaled = False
   OnCreate = FormCreate
   OnKeyDown = FormKeyDown
   OnShow = FormShow
-  ShowInTaskBar = stNever
-  LCLVersion = '2.3.0.0'
-  Scaled = False
   object edInput: TATEdit
     AnchorSideBottom.Side = asrBottom
     Left = 6
@@ -66,10 +66,13 @@ object fmGoto: TfmGoto
       Top = 0
       Width = 20
       Align = alRight
-      Caption = 'x'
+      Caption = ' '
       TabOrder = 0
       Focusable = False
       Flat = True
+      Arrow = True
+      ArrowKind = abakCross
+      ArrowAlign = taCenter
       OnClick = ButtonCancelClick
     end
   end
