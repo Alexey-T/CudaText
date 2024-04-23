@@ -771,13 +771,25 @@ begin
   DoOnChange;
 end;
 
-procedure TfmFind.edFindChange(Sender: TObject);
+function EditorSizeIsSmall(Ed: TATSynEdit): boolean;
 var
-  Ed: TATSynEdit;
   NMaxDocumentSize, NCharCount: Int64;
 const
   cMaxCalcTime = 40;
   cAverageLineLen = 50;
+begin
+  NMaxDocumentSize:= UiOps.FindHiAll_MaxLines*cAverageLineLen;
+  NCharCount:= EditorGetCharCount(Ed, NMaxDocumentSize, cMaxCalcTime);
+  {
+  -1: AMaxChars is reached
+  -2: AMaxTime is reached
+  }
+  Result:= (NCharCount>=0) and (NCharCount<=NMaxDocumentSize);
+end;
+
+procedure TfmFind.edFindChange(Sender: TObject);
+var
+  Ed: TATSynEdit;
 begin
   FInputChanged:= true;
 
@@ -796,9 +808,7 @@ begin
     begin
       OnGetMainEditor(Ed);
       if Ed=nil then exit;
-      NMaxDocumentSize:= UiOps.FindHiAll_MaxLines*cAverageLineLen;
-      NCharCount:= EditorGetCharCount(Ed, NMaxDocumentSize, cMaxCalcTime);
-      if (NCharCount>=0) and (NCharCount<=NMaxDocumentSize) then //NCharCount can be -1 and -2
+      if EditorSizeIsSmall(Ed) then
         TimerHiAllTick(Self)
       else
       begin
