@@ -9,6 +9,7 @@
 + add: option "pylib" supports several paths ";"-separated
 - fix: regression in 1.212.1: lexer Python: bad rule for """...""" (thanks @victorel-petrovich)
 - fix: lexer Bash: bad rule for "$(...)" (thanks @rizaumami)
+- fix: gutter numbers symbols '.' and '-' were not scaled to current font scale
 
 1.213.0 (2024/04)
 
