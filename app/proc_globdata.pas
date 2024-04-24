@@ -377,8 +377,8 @@ type
     FindHiAll_MaxLineLen: integer;
     FindHiAll_MaxVisibleColumns: integer;
     FindHiAll_TagValue: Int64;
-    //FindHiAll_MoveCaret: boolean;
     FindOccur_TagValue: Int64;
+    FindPairBracket_TagValue: Int64;
     FindWrapAtEdge_Delay: integer;
     FindWrapAtEdge_ThemeItem: string;
     FindEnableCtrlEnterInSinleLineMode: boolean;
@@ -2105,6 +2105,7 @@ begin
     FindHiAll_TagValue:= 99; //attrib-tag for Highlight_all_matches option ('Hi')
     FindOccur_TagValue:= 98; //attrib-tag for 'expand selection to next word' command
                              //tags must be <120, coz GET_UNIQUE_TAG starts with 120
+    FindPairBracket_TagValue:= 1;
     FindWrapAtEdge_Delay:= 350;
     FindWrapAtEdge_ThemeItem:= ''; //option "find_wrapped_blinking", ok value is 'EdMarkedRangeBg'
     FindEnableCtrlEnterInSinleLineMode:= true; //enable Ctrl+Enter to insert line-break in single-line mode of Find dlg

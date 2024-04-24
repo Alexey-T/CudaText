@@ -98,9 +98,6 @@ type
     SelectInside
     );
 
-const
-  cEditorTagForBracket = 1;
-
 type
   TEditorGetTokenKind = function(Ed: TATSynEdit; AX, AY: integer): TATTokenKind of object;
 
@@ -1673,8 +1670,8 @@ function EditorBracket_ClearHilite(Ed: TATSynEdit): boolean;
 var
   bChange1, bChange2: boolean;
 begin
-  bChange1:= Ed.Attribs.DeleteWithTag(cEditorTagForBracket);
-  bChange2:= Ed.GutterDecor.DeleteByTag(cEditorTagForBracket);
+  bChange1:= Ed.Attribs.DeleteWithTag(UiOps.FindPairBracket_TagValue);
+  bChange2:= Ed.GutterDecor.DeleteByTag(UiOps.FindPairBracket_TagValue);
   Result:= bChange1 or bChange2;
   if Result then
     Ed.Update;
@@ -1800,7 +1797,7 @@ begin
         Ed.Attribs.Add(
           Point(PosX, PosY),
           Point(1, 0),
-          TATMarkerTags.Init(cEditorTagForBracket, 0),
+          TATMarkerTags.Init(UiOps.FindPairBracket_TagValue, 0),
           @LinePart
           );
 
@@ -1808,7 +1805,7 @@ begin
         Ed.Attribs.Add(
           Point(FoundX, FoundY),
           Point(1, 0),
-          TATMarkerTags.Init(cEditorTagForBracket, 0),
+          TATMarkerTags.Init(UiOps.FindPairBracket_TagValue, 0),
           @LinePart
           );
 
@@ -1816,7 +1813,7 @@ begin
         StyleSymbol:= GetAppStyle(TAppThemeStyle.Symbol);
         Decor.DeleteOnDelLine:= true;
         Decor.ImageIndex:= -1;
-        Decor.Tag:= cEditorTagForBracket;
+        Decor.Tag:= UiOps.FindPairBracket_TagValue;
         Decor.TextBold:= fsBold in StyleSymbol.Font.Style;
         Decor.TextItalic:= fsItalic in StyleSymbol.Font.Style;
         Decor.TextColor:= StyleSymbol.Font.Color;
