@@ -405,7 +405,6 @@ type
     TreeShowTooltips: boolean;
     TreeFilterLayout: integer;
     TreeSublexers: boolean;
-    TreeIconFilenames: string;
     TreeFillMaxTime: integer;
     TreeFillMaxTimeForAPI: integer;
     TreeUnfold: boolean;
@@ -505,6 +504,8 @@ type
     HotkeyTogglePresCase,
     HotkeyFindMenu
       : string;
+
+    const TreeIconFilenames = 'dir,st1,st2,st3,box,fx,ar1,ar2,';
 
     const FindHiAll_TagValue = 99; //attrib-tag for Highlight_all_matches option ('Hi')
     const FindOccur_TagValue = 98; //attrib-tag for 'expand selection to next word' command
@@ -2134,7 +2135,6 @@ begin
     TreeShowTooltips:= {$if defined(LCLQt5) or defined(LCLQt6)} false; {$else} true; {$endif} //solve issue #3642
     TreeFilterLayout:= 1;
     TreeSublexers:= false;
-    TreeIconFilenames:= 'dir,st1,st2,st3,box,fx,ar1,ar2,';
     TreeFillMaxTime:= 150;
     TreeFillMaxTimeForAPI:= 6*1000;
     TreeUnfold:= false;
