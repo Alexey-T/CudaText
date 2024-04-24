@@ -242,20 +242,21 @@ begin
 
     if (NLine1<0) or (NLine1>High(PropArray)) then Continue; //fix issue #4821
 
-    if Marker.Tag=UiOps.PluginSpellChecker_TagValue then
+    case Marker.Tag of
+      TUiOps.PluginSpellChecker_TagValue:
         begin
           PropArray[NLine1].Inited:= true;
           PropArray[NLine1].Column:= 1;
           PropArray[NLine1].MarkPos:= TMicromapMark.Column;
           PropArray[NLine1].XColor:= XColorSpell;
-        end
-    else if Marker.Tag=UiOps.PluginHiOccur_TagValue then
+        end;
+      TUiOps.PluginHiOccur_TagValue:
         begin
           PropArray[NLine1].Inited:= true;
           PropArray[NLine1].Column:= 1;
           PropArray[NLine1].MarkPos:= TMicromapMark.Column;
           PropArray[NLine1].XColor:= XColorOccur;
-        end
+        end;
     else
       begin
         if Marker.TagEx>0 then
@@ -283,6 +284,7 @@ begin
           PropArray[NLine1].XColor.FromColor(Marker.LinePart.ColorBG);
         end;
       end;
+    end; //case Marker.Tag of
   end;
 
   for i:= 0 to Wr.Count-1 do

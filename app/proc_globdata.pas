@@ -376,15 +376,9 @@ type
     FindHiAll_MaxLines: integer;
     FindHiAll_MaxLineLen: integer;
     FindHiAll_MaxVisibleColumns: integer;
-    FindHiAll_TagValue: Int64;
-    FindOccur_TagValue: Int64;
-    FindPairBracket_TagValue: Int64;
     FindWrapAtEdge_Delay: integer;
     FindWrapAtEdge_ThemeItem: string;
     FindEnableCtrlEnterInSinleLineMode: boolean;
-
-    PluginHiOccur_TagValue: Int64;
-    PluginSpellChecker_TagValue: Int64;
 
     AllowProgramUpdates: boolean;
     EscapeClose: boolean;
@@ -511,6 +505,13 @@ type
     HotkeyTogglePresCase,
     HotkeyFindMenu
       : string;
+
+    const FindHiAll_TagValue = 99; //attrib-tag for Highlight_all_matches option ('Hi')
+    const FindOccur_TagValue = 98; //attrib-tag for 'expand selection to next word' command
+                                   //tags must be <120, coz GET_UNIQUE_TAG starts with 120
+    const FindPairBracket_TagValue = 1;
+    const PluginHiOccur_TagValue = 101;
+    const PluginSpellChecker_TagValue = 105;
   end;
 var
   UiOps: TUiOps;
@@ -2105,16 +2106,9 @@ begin
     FindHiAll_MaxLines:= 4000; //option "find_hi_max_lines"
     FindHiAll_MaxLineLen:= 800000; //option "find_hi_max_line_len"
     FindHiAll_MaxVisibleColumns:= 400; //if ScrollHorz.NMax>value, Hi_All highlights only marks on visible line area
-    FindHiAll_TagValue:= 99; //attrib-tag for Highlight_all_matches option ('Hi')
-    FindOccur_TagValue:= 98; //attrib-tag for 'expand selection to next word' command
-                             //tags must be <120, coz GET_UNIQUE_TAG starts with 120
-    FindPairBracket_TagValue:= 1;
     FindWrapAtEdge_Delay:= 350;
     FindWrapAtEdge_ThemeItem:= ''; //option "find_wrapped_blinking", ok value is 'EdMarkedRangeBg'
     FindEnableCtrlEnterInSinleLineMode:= true; //enable Ctrl+Enter to insert line-break in single-line mode of Find dlg
-
-    PluginHiOccur_TagValue:= 101;
-    PluginSpellChecker_TagValue:= 105;
 
     AllowProgramUpdates:= true;
     EscapeClose:= false;
