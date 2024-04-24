@@ -8,8 +8,8 @@
 + add: on Windows, app can save files to write-protected folders too, using elevated running of 'xcopy' (thanks @micheldiemer, @dinkumoil)
 + add: option "pylib" supports several paths ";"-separated
 + add: gutter symbols '.' and '-' (with "numbers_style":2) are now scaled to current font scale
-- fix: big slowdown (seconds->minutes) in mass replace, when lexer is active (thanks @pintassilgo)
-- fix: big slowdown in mass replace if 10K colored attribs are placed by 'Hi' feature
+- fix: big slowdown in mass replace when lexer is active (thanks @pintassilgo)
+- fix: big slowdown in mass replace when lot of colored attribs are placed by 'Hi' feature (thanks @pintassilgo)
 - fix: after Undo/Redo after Paste of N-lines block, could not Undo the 1st line (thanks @pintassilgo)
 - fix: regression in 1.212.1: lexer Python: bad rule for """...""" (thanks @victorel-petrovich)
 - fix: lexer Bash: bad rule for "$(...)" (thanks @rizaumami)
