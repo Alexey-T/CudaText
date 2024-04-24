@@ -3,10 +3,11 @@
   - fixed
   * changed
 
-1.213.1 (2024/04)
+1.214.0 (2024/04)
 
 + add: on Windows, app can save files to write-protected folders too, using elevated running of 'xcopy' (thanks @micheldiemer, @dinkumoil)
 + add: option "pylib" supports several paths ";"-separated
++ add: option "pylib" supports new special value "?" to totally disable Python
 + add: gutter symbols '.' and '-' (with "numbers_style":2) are now scaled to current font scale
 - fix: big slowdown in mass replace when lexer is active (thanks @pintassilgo)
 - fix: big slowdown in mass replace when lot of colored attribs are placed by 'Hi' feature (thanks @pintassilgo)
