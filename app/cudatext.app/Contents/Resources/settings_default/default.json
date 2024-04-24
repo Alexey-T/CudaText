@@ -1430,12 +1430,14 @@
   "export_html_font_size": 12,
 
   //[Python]
-  //Sets Python engine file path. [has suffix].
+  //Sets Python engine file path. [has suffix]
   //Several values are allowed, ";"-separated.
-  //If option is correct, you must see Python version in console panel (Ctrl+`)
-  //and command "=sys.path" must work in console.
+  //Special value "?" means: totally disable Python engine.
   //
-  //  Instruction for Linux/FreeBSD/Solaris, if Python engine was not auto-detected:
+  //If option is correct, you must see Python version in Console panel (Ctrl+`)
+  //and command "=sys.path" must work in Console.
+  //
+  //Instruction for Linux/*BSD, if Python engine was not auto-detected:
   //  1) open file manager, go to /usr
   //  2) search for "libpython3.*so*"
   //     Terminal command:
@@ -1446,10 +1448,9 @@
   //     of the found filenames. for example:
   //     "pylib__linux" : "/usr/lib/x86_64-linux-gnu/libpython3.7m.so.1.0",
   //
-  //  macOS:
-  //  Python installed via Homebrew is not OK, it doesn't install 32-bit .dylib file.
-  //  So you must install Python from www.python.org
-  //  CudaText will find Python then (any version until 3.9).
+  //macOS:
+  //  Python installed via Homebrew is not OK.
+  //  You should install Python from www.python.org . App will find Python then.
   //
   "pylib__linux": "libpython3.so",
   "pylib__mac": "/Library/Frameworks/Python.framework/Versions/3.9/lib/libpython3.9.dylib",
