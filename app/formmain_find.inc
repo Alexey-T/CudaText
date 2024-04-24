@@ -94,6 +94,8 @@ begin
     //avoid big slowdown when 'Hi' highlighted 10k chars (Undo saves all attribs)
     Ed.Attribs.DeleteWithTag(UiOps.FindHiAll_TagValue);
     Ed.Attribs.DeleteWithTag(UiOps.FindOccur_TagValue);
+    //plugin 'Highlight Occurrences' makes many attribs too
+    Ed.Attribs.DeleteWithTag(UiOps.HiOccur_TagValue);
 
     FFinder.Editor:= Ed;
     Result:= FFinder.DoAction_ReplaceAll;
