@@ -1151,10 +1151,10 @@ var
   s: string;
   N: integer;
 begin
-  {$ifndef windows}
+  //{$ifndef windows}
   //option is ignored on windows
   UiOps.PyLibrary:= cfg.GetValue('pylib'+cOptionSystemSuffix, UiOps.PyLibrary);
-  {$endif}
+  //{$endif}
   if UiOps.PyLibrary='' then
     UiOps.PyLibrary:= InitPyLibraryPath;
 
