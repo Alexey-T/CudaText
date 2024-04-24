@@ -95,7 +95,7 @@ begin
     Ed.Attribs.DeleteWithTag(UiOps.FindHiAll_TagValue);
     Ed.Attribs.DeleteWithTag(UiOps.FindOccur_TagValue);
     //plugin 'Highlight Occurrences' makes many attribs too
-    Ed.Attribs.DeleteWithTag(UiOps.HiOccur_TagValue);
+    Ed.Attribs.DeleteWithTag(UiOps.PluginHiOccur_TagValue);
 
     FFinder.Editor:= Ed;
     Result:= FFinder.DoAction_ReplaceAll;

@@ -382,7 +382,7 @@ type
     FindWrapAtEdge_Delay: integer;
     FindWrapAtEdge_ThemeItem: string;
     FindEnableCtrlEnterInSinleLineMode: boolean;
-    HiOccur_TagValue: Int64;
+    PluginHiOccur_TagValue: Int64;
 
     AllowProgramUpdates: boolean;
     EscapeClose: boolean;
@@ -2110,7 +2110,7 @@ begin
     FindWrapAtEdge_Delay:= 350;
     FindWrapAtEdge_ThemeItem:= ''; //option "find_wrapped_blinking", ok value is 'EdMarkedRangeBg'
     FindEnableCtrlEnterInSinleLineMode:= true; //enable Ctrl+Enter to insert line-break in single-line mode of Find dlg
-    HiOccur_TagValue:= 101;
+    PluginHiOccur_TagValue:= 101;
 
     AllowProgramUpdates:= true;
     EscapeClose:= false;
