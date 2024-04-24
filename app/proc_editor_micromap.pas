@@ -73,8 +73,6 @@ now it paints all WrapInfo items, so e.g. long wrapped line gives several cells 
 type
   TMicromapMark = (Column, Full);
 const
-  cTagOccurrences = 101; //see plugin 'Highlight Occurrences'
-  cTagSpellChecker = 105; //see plugin 'Spell Checker'
   cTagColumnFullsized = -2;
 var
   //NWidthSmall: integer;
@@ -244,22 +242,21 @@ begin
 
     if (NLine1<0) or (NLine1>High(PropArray)) then Continue; //fix issue #4821
 
-    case Marker.Tag of
-      cTagSpellChecker:
+    if Marker.Tag=UiOps.PluginSpellChecker_TagValue then
         begin
           PropArray[NLine1].Inited:= true;
           PropArray[NLine1].Column:= 1;
           PropArray[NLine1].MarkPos:= TMicromapMark.Column;
           PropArray[NLine1].XColor:= XColorSpell;
-        end;
-      cTagOccurrences:
+        end
+    else if Marker.Tag=UiOps.PluginHiOccur_TagValue then
         begin
           PropArray[NLine1].Inited:= true;
           PropArray[NLine1].Column:= 1;
           PropArray[NLine1].MarkPos:= TMicromapMark.Column;
           PropArray[NLine1].XColor:= XColorOccur;
         end
-      else
+    else
       begin
         if Marker.TagEx>0 then
         begin
@@ -286,7 +283,6 @@ begin
           PropArray[NLine1].XColor.FromColor(Marker.LinePart.ColorBG);
         end;
       end;
-    end;
   end;
 
   for i:= 0 to Wr.Count-1 do
