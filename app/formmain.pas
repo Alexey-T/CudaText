@@ -5588,6 +5588,14 @@ var
   SLibItem: string = '';
   bLibFound: boolean;
 begin
+  //totally disable Python?
+  if UiOps.PyLibrary='?' then
+  begin
+    MsgLogConsole(msgCannotInitPythonDisabled);
+    DisablePluginMenuItems(false);
+    exit;
+  end;
+
   NTick:= GetTickCount64;
 
   {$ifdef windows}

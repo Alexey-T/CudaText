@@ -204,6 +204,7 @@ const
   msgPythonFindFromDir: string = 'Search from folder:';
   msgCannotFindPython: string = 'Cannot find Python library';
 
+  msgCannotInitPythonDisabled: string = 'NOTE: Python engine is disabled';
   msgCannotInitPython1: string = 'NOTE: No Python 3 engine found. Python plugins don''t work now. To fix this:';
   {$ifdef darwin}
   msgCannotInitPython2: string = 'install Python 3.x from www.python.org, it should be found by CudaText then.';
