@@ -9,6 +9,7 @@
 + add: option "pylib" supports several paths ";"-separated
 + add: option "pylib" supports new special value "?" to totally disable Python
 + add: gutter symbols '.' and '-' (with "numbers_style":2) are now scaled to current font scale
++ add: command-line "cudatext filename:0" andm "cudatext filename:" should put caret to line 1 (thanks @Gregory-K)
 - fix: big slowdown in mass replace when lexer is active (thanks @pintassilgo)
 - fix: big slowdown in mass replace when lot of colored attribs are placed by 'Hi' feature (thanks @pintassilgo)
 - fix: after Undo/Redo after Paste of N-lines block, could not Undo the 1st line (thanks @pintassilgo)
