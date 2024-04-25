@@ -384,7 +384,7 @@ const
       '  -c=cuda_module,method           - Run command plugin on startup'+EOL+
       '  -p=cuda_module#param1#param2... - Run event "on_cli" on startup'+EOL+
       ''+EOL+
-      'Filenames can be with ":line" or ":line:column" suffix to place caret.'+EOL+
+      'Filenames can be with "@line" or "@line@column" suffix to place caret.'+EOL+
       'Folder can be passed, will be opened in Project Manager plugin.'+EOL+
       'Projects (*.cuda-proj) can be passed, will be opened in Project Manager.'+EOL+
       'Sessions (*.cuda-session) can be passed, even without Session Manager plugin.'+EOL;

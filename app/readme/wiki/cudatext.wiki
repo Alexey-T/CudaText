@@ -179,7 +179,7 @@ Supported flags:
 {{Columns-end}}
 
 '''Notes:'''
-* Filenames can be passed with numeric values specifying the line no. or line/column nos. for the initial placement of the caret with this syntax: <code>:<var>line</var></code> or <code>:<var>line</var>:<var>column</var></code>
+* Filenames can be passed with numeric values specifying the line no. or line/column nos. for the initial placement of the caret with this syntax: <code>@<var>line</var></code> or <code>@<var>line</var>@<var>column</var></code>
 * Folders can be specified too, they will be opened as a "project" in the Project Manager.
 * Project files (<code>*.cuda-proj</code>) can be loaded from the command line.
 * Session files (<code>*.cuda-session</code>) can be loaded, too, even without the Session Manager plugin.

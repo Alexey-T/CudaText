@@ -350,7 +350,7 @@ var
 begin
   Result:= 0;
 
-  n:= RPos(':', fn);
+  n:= RPos('@', fn);
   if n=0 then exit;
 
   sNum:= Copy(fn, n+1, MaxInt);
