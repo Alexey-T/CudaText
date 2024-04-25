@@ -77,10 +77,11 @@ const
 var
   //NWidthSmall: integer;
   NScaleDiv: integer;
+  NRectHeight: integer;
 //
   function GetWrapItemRect(AColumn, AIndexFrom, AIndexTo: integer; AMarkPos: TMicromapMark): TRect;
   begin
-    Result:= EditorRectMicromapMark(Ed, AColumn, AIndexFrom, AIndexTo, ARect.Height, UiOps.MicromapMinMarkHeight, NScaleDiv);
+    Result:= EditorRectMicromapMark(Ed, AColumn, AIndexFrom, AIndexTo, NRectHeight, UiOps.MicromapMinMarkHeight, NScaleDiv);
     case AMarkPos of
       {
       TMicromapMark.Right:
@@ -128,6 +129,7 @@ begin
   NColumnCount:= Length(Ed.Micromap.Columns);
   if NColumnCount<2 then exit;
 
+  NRectHeight:= ARect.Height-UiOps.MicromapMinViewareaHeight;
   //NWidthSmall:= Ed.TextCharSize.XScaled div 2 div ATEditorCharXScale; //50% of char width
 
   NScaleDiv:= Max(1, Wr.Count);
@@ -144,14 +146,6 @@ begin
   NIndex2:= NIndex1+Ed.GetVisibleLines; //note: limiting this by Ed.WrapInfo.Count-1 causes issue #4718
   RectMark:= GetWrapItemRect(0, NIndex1, NIndex2, TMicromapMark.Full);
   RectMark.Bottom:= Max(RectMark.Bottom, RectMark.Top+UiOps.MicromapMinViewareaHeight);
-  {
-  //thumb-rect reached the bottom and is barely visible? move the thumb-rect up
-  if RectMark.Bottom>ARect.Height then
-  begin
-    RectMark.Top:= Max(0, ARect.Height-RectMark.Height);
-    RectMark.Bottom:= ARect.Height;
-  end;
-  }
   XColor.FromColor(GetAppColor(TAppThemeColor.EdMicromapViewBg));
   ABitmap.FillRect(RectMark, XColor);
 
@@ -203,7 +197,7 @@ begin
     if NColor<>clNone then
     begin
       XColor.FromColor(NColor);
-      RectMark:= EditorRectMicromapMark(Ed, i, -1, -1, ARect.Height, UiOps.MicromapMinMarkHeight, NScaleDiv);
+      RectMark:= EditorRectMicromapMark(Ed, i, -1, -1, NRectHeight, UiOps.MicromapMinMarkHeight, NScaleDiv);
       ABitmap.FillRect(RectMark, XColor);
     end;
   end;
@@ -227,7 +221,7 @@ begin
       if (NIndex>=0) and (NIndex<=High(BoolArray)) then
         if BoolArray[NIndex] then
         begin
-          RectMark:= EditorRectMicromapMark(Ed, 1{column}, i, i, ARect.Height, UiOps.MicromapMinMarkHeight, NScaleDiv);
+          RectMark:= EditorRectMicromapMark(Ed, 1{column}, i, i, NRectHeight, UiOps.MicromapMinMarkHeight, NScaleDiv);
           ABitmap.FillRect(RectMark, XColorBkmk);
         end;
     end;
