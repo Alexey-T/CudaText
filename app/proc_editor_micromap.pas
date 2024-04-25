@@ -147,8 +147,8 @@ begin
   //thumb-rect reached the bottom and is barely visible? move the thumb-rect up
   if RectMark.Bottom>ARect.Height then
   begin
-    RectMark.Top:= Max(ARect.Top, ARect.Height-RectMark.Height);
-    RectMark.Bottom:= ARect.Bottom;
+    RectMark.Top:= Max(0, ARect.Height-RectMark.Height);
+    RectMark.Bottom:= ARect.Height;
   end;
   XColor.FromColor(GetAppColor(TAppThemeColor.EdMicromapViewBg));
   ABitmap.FillRect(RectMark, XColor);
