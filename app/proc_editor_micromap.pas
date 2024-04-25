@@ -133,6 +133,7 @@ begin
   if Ed.OptLastLineOnTop then
     NScaleDiv:= Max(1, NScaleDiv+Ed.GetVisibleLines-1);
 
+  //decrement NRectHeight if editor has too many lines
   NRectHeight:= ARect.Height;
   i:= Ed.GetVisibleLines * NRectHeight div NScaleDiv;
   if i < UiOps.MicromapMinViewareaHeight then
