@@ -129,7 +129,7 @@ begin
   NColumnCount:= Length(Ed.Micromap.Columns);
   if NColumnCount<2 then exit;
 
-  NRectHeight:= ARect.Height-UiOps.MicromapMinViewareaHeight;
+  NRectHeight:= Max(1, ARect.Height-UiOps.MicromapMinViewareaHeight);
   //NWidthSmall:= Ed.TextCharSize.XScaled div 2 div ATEditorCharXScale; //50% of char width
 
   NScaleDiv:= Max(1, Wr.Count);
