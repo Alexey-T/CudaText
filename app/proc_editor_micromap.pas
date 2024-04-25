@@ -138,7 +138,7 @@ begin
   //but gap is absent for small count of lines and for very big doc
   NRectHeight:= ARect.Height;
   if Ed.GetVisibleLines * NRectHeight div NScaleDiv < UiOps.MicromapMinViewareaHeight then
-  Dec(NRectHeight, UiOps.MicromapMinViewareaHeight-1);
+    Dec(NRectHeight, UiOps.MicromapMinViewareaHeight-1);
   NRectHeight:= Max(1, NRectHeight);
 
   //NWidthSmall:= Ed.TextCharSize.XScaled div 2 div ATEditorCharXScale; //50% of char width
