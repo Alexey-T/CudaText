@@ -31,7 +31,7 @@ object fmFind: TfmFind
       AnchorSideLeft.Control = PanelOps1
       AnchorSideTop.Control = PanelOps1
       AnchorSideTop.Side = asrBottom
-      Left = 8
+      Left = 6
       Height = 25
       Top = 33
       Width = 120
@@ -71,7 +71,7 @@ object fmFind: TfmFind
       end
     end
     object PanelOps1: TATPanelSimple
-      Left = 8
+      Left = 6
       Height = 25
       Top = 4
       Width = 272
