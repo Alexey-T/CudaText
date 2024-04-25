@@ -34,7 +34,7 @@ uses
   proc_colors;
 
 function EditorRectMicromapMark(Ed: TATSynEdit; AColumn, AIndexFrom, AIndexTo: integer;
-  AMapHeight, AMinMarkHeight, AScaleDiv: integer): TRect;
+  AMapHeight, AScaleDiv: integer): TRect;
 //to make things safe, don't pass the ARect, but only its height
 //no need to check Ed.Micromap.IsIndexValid(AColumn), checked already
 begin
@@ -44,7 +44,7 @@ begin
       Result.Top:= 0;
 
     if AIndexTo>=0 then
-      Result.Bottom:= Max(Result.Top + AMinMarkHeight,
+      Result.Bottom:= Max(Result.Top + UiOps.MicromapMinMarkHeight,
                           Int64(AIndexTo+1) * AMapHeight div AScaleDiv)
     else
       Result.Bottom:= AMapHeight;
@@ -81,7 +81,7 @@ var
 //
   function GetWrapItemRect(AColumn, AIndexFrom, AIndexTo: integer; AMarkPos: TMicromapMark): TRect;
   begin
-    Result:= EditorRectMicromapMark(Ed, AColumn, AIndexFrom, AIndexTo, NRectHeight, UiOps.MicromapMinMarkHeight, NScaleDiv);
+    Result:= EditorRectMicromapMark(Ed, AColumn, AIndexFrom, AIndexTo, NRectHeight, NScaleDiv);
     case AMarkPos of
       {
       TMicromapMark.Right:
@@ -197,7 +197,7 @@ begin
     if NColor<>clNone then
     begin
       XColor.FromColor(NColor);
-      RectMark:= EditorRectMicromapMark(Ed, i, -1, -1, NRectHeight, UiOps.MicromapMinMarkHeight, NScaleDiv);
+      RectMark:= EditorRectMicromapMark(Ed, i, -1, -1, NRectHeight, NScaleDiv);
       ABitmap.FillRect(RectMark, XColor);
     end;
   end;
@@ -221,7 +221,7 @@ begin
       if (NIndex>=0) and (NIndex<=High(BoolArray)) then
         if BoolArray[NIndex] then
         begin
-          RectMark:= EditorRectMicromapMark(Ed, 1{column}, i, i, NRectHeight, UiOps.MicromapMinMarkHeight, NScaleDiv);
+          RectMark:= EditorRectMicromapMark(Ed, 1{column}, i, i, NRectHeight, NScaleDiv);
           ABitmap.FillRect(RectMark, XColorBkmk);
         end;
     end;
