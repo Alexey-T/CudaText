@@ -365,7 +365,7 @@ begin
   SetColor(TAppThemeColor.EdMinimapTooltipBg, clMoneyGreen, 'EdMinimapTooltipBg', 'editor, minimap, tooltip BG');
   SetColor(TAppThemeColor.EdMinimapTooltipBorder, clMedGray, 'EdMinimapTooltipBorder', 'editor, minimap, tooltip border');
   SetColor(TAppThemeColor.EdMicromapBg, $e0e0e0, 'EdMicromapBg', 'editor, micromap, BG');
-  SetColor(TAppThemeColor.EdMicromapViewBg, $d0d0d0, 'EdMicromapViewBg', 'editor, micromap, current view area');
+  SetColor(TAppThemeColor.EdMicromapViewBg, $b8d0b8, 'EdMicromapViewBg', 'editor, micromap, current view area');
   SetColor(TAppThemeColor.EdMicromapOccur, $c05050, 'EdMicromapOccur', 'editor, micromap, word occurrences');
   SetColor(TAppThemeColor.EdMicromapSpell, $6060d0, 'EdMicromapSpell', 'editor, micromap, misspelled marks');
   SetColor(TAppThemeColor.EdStateChanged, $70b0b0, 'EdStateChanged', 'editor, line states, changed');
