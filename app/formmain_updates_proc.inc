@@ -1116,6 +1116,13 @@ begin
   if F=nil then exit;
   Ed:= F.Editor;
 
+  if Assigned(mnuFileReopen) then
+    mnuFileReopen.Enabled:= Ed.FileName<>'';
+  if Assigned(mnuFileRename) then
+    mnuFileRename.Enabled:= Ed.FileName<>'';
+  if Assigned(mnuFileCloseDel) then
+    mnuFileCloseDel.Enabled:= Ed.FileName<>'';
+
   UpdateMenuItemChecked(mnuViewWrap, mnuViewWrap_Alt, F.WordWrap<>TATEditorWrapMode.ModeOff);
   UpdateMenuItemChecked(mnuViewNums, mnuViewNums_Alt, Ed.Gutter.Items[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagNumbers)].Visible);
   UpdateMenuItemChecked(mnuViewFold, mnuViewFold_Alt, Ed.Gutter.Items[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagFolding)].Visible);
