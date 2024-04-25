@@ -514,7 +514,6 @@ type
     function DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent; const AParams: TAppVariantArray): TAppPyEventResult;
     procedure DoPyEventState(Ed: TATSynEdit; AState: integer);
     function DoPyEvent_Macro(const AText: string): boolean;
-    procedure DoGotoPos(Ed: TATSynEdit; APosX, APosY: integer);
     procedure DoRemovePreviewStyle;
     procedure DoToggleFocusSplitEditors;
     procedure DoFocusNotificationPanel;
@@ -4773,23 +4772,6 @@ begin
     Result:= Point(0, 0);
 end;
 
-
-procedure TEditorFrame.DoGotoPos(Ed: TATSynEdit; APosX, APosY: integer);
-begin
-  if APosY<0 then exit;
-  if APosX<0 then APosX:= 0; //allow x<0
-
-  Ed.LineTop:= APosY;
-  Ed.DoGotoPos(
-    Point(APosX, APosY),
-    Point(-1, -1),
-    UiOps.FindIndentHorz,
-    UiOps.FindIndentVert,
-    true,
-    TATEditorActionIfFolded.Unfold
-    );
-  Ed.Update;
-end;
 
 procedure TEditorFrame.DoLexerFromFilename(Ed: TATSynEdit; const AFileName: string);
 var

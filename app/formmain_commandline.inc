@@ -87,6 +87,23 @@ begin
   end;
 end;
 
+procedure EditorGoToPos(Ed: TATSynEdit; APosX, APosY: integer);
+begin
+  if APosY<0 then exit;
+  if APosX<0 then APosX:= 0; //allow x<0
+
+  Ed.LineTop:= APosY;
+  Ed.DoGotoPos(
+    Point(APosX, APosY),
+    Point(-1, -1),
+    UiOps.FindIndentHorz,
+    UiOps.FindIndentVert,
+    true,
+    TATEditorActionIfFolded.Unfold
+    );
+end;
+
+
 procedure TfmMain.DoLoadCommandParams(const AParams: array of string; AOpenOptions: string);
 // Function handles passed file names, folder names, and such params as -r -nh -z -e,
 // while others params are handled in InitAdditionalCommandLineOptions
@@ -219,7 +236,7 @@ begin
           SetFrameEncoding(Frame.Ed1, sEncoding, true);
 
         if (NLine>0) then
-          Frame.DoGotoPos(Frame.Ed1, NColumn-1, NLine-1);
+          EditorGoToPos(Frame.Ed1, NColumn-1, NLine-1);
 
         if bReadOnly then
           Frame.ReadOnly[Frame.Ed1]:= true;

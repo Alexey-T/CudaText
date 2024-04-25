@@ -350,12 +350,13 @@ var
 begin
   Result:= 0;
 
-  n:= Length(fn);
-  while (n>0) and (fn[n]<>':') do Dec(n);
+  n:= RPos(':', fn);
   if n=0 then exit;
 
   sNum:= Copy(fn, n+1, MaxInt);
-  Result:= StrToIntDef(sNum, 0);
+  Result:= StrToIntDef(sNum, 1);
+  if Result=0 then
+    Result:= 1;
   if Result>0 then
     SetLength(fn, Length(fn)-Length(sNum)-1);
 end;
