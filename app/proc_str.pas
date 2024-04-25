@@ -354,6 +354,11 @@ begin
   if n=0 then exit;
 
   sNum:= Copy(fn, n+1, MaxInt);
+
+  //allow only number chars, if not then it is NTFS stream "c:/path/filename:stream"
+  for n:= 1 to Length(sNum) do
+    if not IsCharDigit(sNum[n]) then exit;
+
   Result:= StrToIntDef(sNum, 1);
   if Result=0 then
     Result:= 1;
