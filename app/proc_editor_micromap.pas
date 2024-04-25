@@ -133,12 +133,10 @@ begin
   if Ed.OptLastLineOnTop then
     NScaleDiv:= Max(1, NScaleDiv+Ed.GetVisibleLines-1);
 
-  //this calc of NRectHeight is incorrect in general case;
-  //it makes gap at the bottom, when count of lines is from ~1000 to some big value (10k?);
-  //but gap is absent for small count of lines and for very big doc
   NRectHeight:= ARect.Height;
-  if Ed.GetVisibleLines * NRectHeight div NScaleDiv < UiOps.MicromapMinViewareaHeight then
-    Dec(NRectHeight, UiOps.MicromapMinViewareaHeight-1);
+  i:= Ed.GetVisibleLines * NRectHeight div NScaleDiv;
+  if i < UiOps.MicromapMinViewareaHeight then
+    Dec(NRectHeight, UiOps.MicromapMinViewareaHeight-1-i);
   NRectHeight:= Max(1, NRectHeight);
 
   //NWidthSmall:= Ed.TextCharSize.XScaled div 2 div ATEditorCharXScale; //50% of char width
