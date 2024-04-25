@@ -507,6 +507,9 @@ type
 
     const TreeIconFilenames = 'dir,st1,st2,st3,box,fx,ar1,ar2,';
 
+    const MicromapMinMarkHeight = 4;
+    const MicromapMinViewareaHeight = 16;
+
     const FindHiAll_TagValue = 99; //attrib-tag for Highlight_all_matches option ('Hi')
     const FindOccur_TagValue = 98; //attrib-tag for 'expand selection to next word' command
                                    //tags must be <120, coz GET_UNIQUE_TAG starts with 120
@@ -611,8 +614,6 @@ type
     OpMicromapLineStates: boolean;
     OpMicromapSelections: boolean;
     OpMicromapBookmarks: boolean;
-    OpMicromapMinMarkHeight: integer;
-    OpMicromapMinViewareaHeight: integer;
 
     OpMarginFixed: integer;
     OpMarginString: string;
@@ -1809,8 +1810,6 @@ begin
     OpMicromapLineStates:= true;
     OpMicromapSelections:= true;
     OpMicromapBookmarks:= false;
-    OpMicromapMinMarkHeight:= 4;
-    OpMicromapMinViewareaHeight:= 16;
 
     OpMarginFixed:= 2000; //big value effectively hides the margin
     OpMarginString:= '';

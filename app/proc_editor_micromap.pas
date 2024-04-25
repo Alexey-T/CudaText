@@ -80,7 +80,7 @@ var
 //
   function GetWrapItemRect(AColumn, AIndexFrom, AIndexTo: integer; AMarkPos: TMicromapMark): TRect;
   begin
-    Result:= EditorRectMicromapMark(Ed, AColumn, AIndexFrom, AIndexTo, ARect.Height, EditorOps.OpMicromapMinMarkHeight, NScaleDiv);
+    Result:= EditorRectMicromapMark(Ed, AColumn, AIndexFrom, AIndexTo, ARect.Height, UiOps.MicromapMinMarkHeight, NScaleDiv);
     case AMarkPos of
       {
       TMicromapMark.Right:
@@ -143,7 +143,7 @@ begin
   NIndex1:= Ed.ScrollVert.NPos;
   NIndex2:= NIndex1+Ed.GetVisibleLines; //note: limiting this by Ed.WrapInfo.Count-1 causes issue #4718
   RectMark:= GetWrapItemRect(0, NIndex1, NIndex2, TMicromapMark.Full);
-  RectMark.Bottom:= Max(RectMark.Bottom, RectMark.Top+EditorOps.OpMicromapMinViewareaHeight);
+  RectMark.Bottom:= Max(RectMark.Bottom, RectMark.Top+UiOps.MicromapMinViewareaHeight);
   XColor.FromColor(GetAppColor(TAppThemeColor.EdMicromapViewBg));
   ABitmap.FillRect(RectMark, XColor);
 
@@ -195,7 +195,7 @@ begin
     if NColor<>clNone then
     begin
       XColor.FromColor(NColor);
-      RectMark:= EditorRectMicromapMark(Ed, i, -1, -1, ARect.Height, EditorOps.OpMicromapMinMarkHeight, NScaleDiv);
+      RectMark:= EditorRectMicromapMark(Ed, i, -1, -1, ARect.Height, UiOps.MicromapMinMarkHeight, NScaleDiv);
       ABitmap.FillRect(RectMark, XColor);
     end;
   end;
@@ -219,7 +219,7 @@ begin
       if (NIndex>=0) and (NIndex<=High(BoolArray)) then
         if BoolArray[NIndex] then
         begin
-          RectMark:= EditorRectMicromapMark(Ed, 1{column}, i, i, ARect.Height, EditorOps.OpMicromapMinMarkHeight, NScaleDiv);
+          RectMark:= EditorRectMicromapMark(Ed, 1{column}, i, i, ARect.Height, UiOps.MicromapMinMarkHeight, NScaleDiv);
           ABitmap.FillRect(RectMark, XColorBkmk);
         end;
     end;
