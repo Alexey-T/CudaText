@@ -118,6 +118,7 @@ var
   NLine1, NIndex, NIndex1, NIndex2, NColumnIndex, NMaxLineIndex, NColumnCount: integer;
   CaretX1, CaretY1, CaretX2, CaretY2: integer;
   bSel: boolean;
+  bPaintBottomLine: boolean = false;
   i: integer;
 begin
   St:= Ed.Strings;
@@ -137,7 +138,10 @@ begin
   NRectHeight:= ARect.Height;
   i:= Ed.GetVisibleLines * NRectHeight div NScaleDiv;
   if i < UiOps.MicromapMinViewareaHeight then
+  begin
     Dec(NRectHeight, UiOps.MicromapMinViewareaHeight-1-i);
+    bPaintBottomLine:= true;
+  end;
   NRectHeight:= Max(1, NRectHeight);
 
   //NWidthSmall:= Ed.TextCharSize.XScaled div 2 div ATEditorCharXScale; //50% of char width
@@ -310,6 +314,14 @@ begin
     end;
   end;
   PropArray:= nil;
+
+  //paint bottom line
+  if bPaintBottomLine then
+  begin
+    RectMark:= GetWrapItemRect(0, Wr.Count, Wr.Count, TMicromapMark.Column);
+    XColor.FromColor(GetAppColor(TAppThemeColor.ScrollArrow));
+    ABitmap.HorizLine(0, RectMark.Top, ABitmap.Width, XColor);
+  end;
 
   //all done
   ABitmap.Draw(ACanvas, ARect.Left, ARect.Top);
