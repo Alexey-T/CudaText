@@ -1400,14 +1400,14 @@ Feature: for document line(s) affected by selection(s), minimap lines have addit
 Feature: minimap rendering time is limited by 40 msec (no option for this yet). For rather slow CPU and maximized app window, the entire minimap rendering can take more time, so bottom minimap lines won't be colored at all.
 
 =Micromap=
-Micromap is thin (about 12 pixels) vertical bar near editor's right side. It is not scrollable, it shows overview of entire document from top to bottom. To show it:
+Micromap is thin vertical bar near editor's right side. It is not scrollable, it shows overview of entire document from top to bottom. To show it:
 
-* set the option "micromap_show" (show permanently)
-* use menu item "View / Toggle micromap" (show temporary, for the current document only)
+* set option "micromap_show": to show micromap permanently for all documents.
+* use menu item "View / Toggle micromap": to show micromap for the current document only.
 
 Micromap has several thin columns (from column 1 to column 3, but this can be changed by plugins) for different categories of marks. It shows:
 
-* full-width single mark: current visible area of editor.
+* full-width single mark: 'thumb', ie current visible area of editor.
 * on column 1 (leftmost): [[#Line_states]] marks.
 * on column 2:
 ** marks from plugins: Spell Checker, Highlight Occurrences, etc;
