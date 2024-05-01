@@ -1427,6 +1427,8 @@ Micromap visible state is not restored from history for files, which have line c
 
 [[File:cudatext-micromap-on-scrollbar.png]]
 
+In rather big documents (e.g. 2000+ lines), micromap renders the horizontal line near the bottom. What is this line? This line denotes the maximal position which you can click. Space below that line is 'reserved' for the micromap 'thumb'. 'Thumb' height is limited by 16 pixels, so last 16 pixels are reserved to render the 'thumb' nicely, when you scroll to the very bottom.
+
 = Paste with middle-button-click =
 
 To paste like in Linux/Unix, with middle-click, you need:
