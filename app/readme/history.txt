@@ -3,6 +3,8 @@
   - fixed
   * changed
 
+- fix: mass-replace with $0 $1 $2 etc, was giving empty replacements if regex has (?=text) (thanks @phi from forum)
+
 1.214.0 (2024/04)
 
 + add: on Windows, app can save files to write-protected folders too, using elevated running of 'xcopy' (thanks @micheldiemer, @dinkumoil)
