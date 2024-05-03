@@ -2074,7 +2074,7 @@ You can make Pull-Request there, if needed.
 
 ;plugintranslation: Translation of plugin strings to different languages. This includes translation of strings from Python code, and strings from "install.inf" files.
 
-;themes: UI/syntax themes for the "Options / Color themes" menu. UI themes change colors of CudaText interface. Syntax themes change colors of words in syntax highlighted files.
+;themes: UI/syntax themes for the "Options / Select color theme..." dialog. "UI" themes change colors of CudaText interface. "Syntax" themes change colors of text in syntax highlighted files.
 
 ;Icons:
 :;sidebar themes: Icon sets for the sidebar (vertical row of buttons on the left side).
