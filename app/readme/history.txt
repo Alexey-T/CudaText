@@ -3,9 +3,7 @@
   - fixed
   * changed
 
-- fix: mass-replace with $0 $1 $2 etc, was giving empty replacements if regex has (?=text) (thanks @phi from forum)
-
-1.214.0 (2024/04)
+1.214.0 (2024/05)
 
 + add: on Windows, app can save files to write-protected folders too, using elevated running of 'xcopy' (thanks @micheldiemer, @dinkumoil)
 + add: option "pylib" supports several paths ";"-separated
@@ -18,6 +16,7 @@
 - fix: after Undo/Redo after Paste of N-lines block, could not Undo the 1st line (thanks @pintassilgo)
 - fix: regression in 1.212.1: lexer Python: bad rule for """...""" (thanks @victorel-petrovich)
 - fix: lexer Bash: bad rule for "$(...)" (thanks @rizaumami)
+- fix: mass-replace with regex with variables $0 $1 etc: variables are empty if regex has assertion (?=text) (thanks @phi from forum)
 
 1.213.0 (2024/04)
 
