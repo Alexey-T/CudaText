@@ -649,7 +649,7 @@ Lite lexers are automatically activated for big files, when file size is bigger 
 How to change styles in lite lexers? For example, "Log files ^" uses styles "Id"/"Id2", and you want to change that? It's easy:
 * open the file: [CudaText]/data/lexliblite/Log files.cuda-litelexer
 * find and edit styles names
-* all possible styles are listed in the CudaText dialog "Options / Settings - theme - syntax..."
+* all possible styles are listed in the CudaText dialog "Options / Themes / Settings - theme - syntax..."
 
 === Differences in lexer support in CudaText/SynWrite ===
 * SynWrite supports "lexer grammar", while CudaText does not support "grammar" anymore.
@@ -2026,7 +2026,7 @@ In the menu "Plugins / Addons Manager / Install" you will find several categorie
 
 Top menu (together with some context menus and menu from the "hamburger" icon) can be themed. Only on Windows. This needs the option "ui_menu_themed":true (it's 'true' by default). When option is on, menu font/background/selection/checkmarks become colored from other CudaText UI theme colors. Also, option "ui_menu_themed_font_size" allows to change the font size.
 
-You can also set colors of menu elements directly; dialog "Options / Settings - theme - ui" provides theme items for this. For example, to set the font-color of the top menu, change the color of element "top menu, font" in the dialog.
+You can also set colors of menu elements directly; dialog "Options / Themes / Settings - theme - ui" provides theme items for this. For example, to set the font-color of the top menu, change the color of element "top menu, font" in the dialog.
 
 [[File:cudatext-menu-colorsetup.png]]
 
@@ -2078,7 +2078,7 @@ You can make Pull-Request there, if needed.
 
 ;plugintranslation: Translation of plugin strings to different languages. This includes translation of strings from Python code, and strings from "install.inf" files.
 
-;themes: UI/syntax themes for the "Options / Select color theme..." dialog. "UI" themes change colors of CudaText interface. "Syntax" themes change colors of text in syntax highlighted files.
+;themes: UI/syntax themes for the "Options / Themes / Select color theme..." dialog. "UI" themes change colors of CudaText interface. "Syntax" themes change colors of text in syntax highlighted files.
 
 ;Icons:
 :;sidebar themes: Icon sets for the sidebar (vertical row of buttons on the left side).
@@ -2114,16 +2114,16 @@ There are two kinds of themes:
 
 2 dialogs allow to customize these 2 kinds of themes:
 
-* "Options / Settings - theme - ui..."
-* "Options / Settings - theme - syntax..."
+* "Options / Themes / Settings - theme - ui..."
+* "Options / Themes / Settings - theme - syntax..."
 
 And 3rd dialog allows to switch the currently active theme:
 
-* "Options / Select color theme..."
+* "Options / Themes / Select color theme..."
 
 How to use customization dialogs, steps:
 
-* Call dialog: "Options / Settings - theme - nnnn"
+* Call dialog: "Options / Themes / Settings - theme - xxxx..."
 * For UI themes: customize colors in dialog
 * For syntax themes: customize lexer-styles in dialog
 * For syntax themes: test theme at least on JavaScript/HTML/CSS/C/Pascal/Ini/Markdown lexers. On what files to test:
