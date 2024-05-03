@@ -1486,21 +1486,21 @@ begin
         if AShowFloatingGroup then
           fmMain.ShowFloatGroup1:= true;
         if Assigned(fmMain.GroupsF1) then
-          Result:= fmMain.GroupsF1.Pages[0]
+          Result:= fmMain.GroupsF1.Pages[0];
       end;
     7:
       begin
         if AShowFloatingGroup then
           fmMain.ShowFloatGroup2:= true;
         if Assigned(fmMain.GroupsF2) then
-          Result:= fmMain.GroupsF2.Pages[0]
+          Result:= fmMain.GroupsF2.Pages[0];
       end;
     8:
       begin
         if AShowFloatingGroup then
           fmMain.ShowFloatGroup3:= true;
         if Assigned(fmMain.GroupsF3) then
-          Result:= fmMain.GroupsF3.Pages[0]
+          Result:= fmMain.GroupsF3.Pages[0];
       end;
   end;
 end;
