@@ -259,6 +259,7 @@ type
   { TfmMain }
   TfmMain = class(TForm)
     AppProps: TApplicationProperties;
+    mnuThemesSub: TMenuItem;
     mnuFileRename: TMenuItem;
     mnuFile: TMenuItem;
     mnuFileReopen: TMenuItem;

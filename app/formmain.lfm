@@ -1,7 +1,7 @@
 object fmMain: TfmMain
   Left = 44
   Height = 518
-  Top = 88
+  Top = 87
   Width = 1236
   AllowDropFiles = True
   Caption = 'CudaText'
@@ -525,19 +525,10 @@ object fmMain: TfmMain
       object mnuOpLexer: TMenuItem
         Caption = 'Settings - le&xer specific'
       end
-      object mnuOpSep1: TMenuItem
-        Caption = '-'
-      end
-      object mnuOpThemeUi: TMenuItem
-        Caption = 'Settings - theme - u&i'
-      end
-      object mnuOpThemeSyntax: TMenuItem
-        Caption = 'Settings - theme - &syntax'
-      end
       object mnuOpPlugins: TMenuItem
         Caption = 'Settings - &plugins'
       end
-      object mnuOpSep2: TMenuItem
+      object mnuOpSep1: TMenuItem
         Caption = '-'
       end
       object mnuFontSub: TMenuItem
@@ -564,11 +555,23 @@ object fmMain: TfmMain
           Caption = 'Lexer styles &mapping...'
         end
       end
+      object mnuThemesSub: TMenuItem
+        Caption = 'Themes'
+        object mnuOpThemeUi: TMenuItem
+          Caption = 'Settings - theme - u&i'
+        end
+        object mnuOpThemeSyntax: TMenuItem
+          Caption = 'Settings - theme - &syntax'
+        end
+        object mnuOpSep2: TMenuItem
+          Caption = '-'
+        end
+        object mnuOpThemes: TMenuItem
+          Caption = 'Select color theme...'
+        end
+      end
       object mnuOpUnprinted: TMenuItem
         Caption = 'Unprinted chars...'
-      end
-      object mnuOpThemes: TMenuItem
-        Caption = 'Select color theme...'
       end
       object mnuOpLangs: TMenuItem
         Caption = 'Select translation...'
