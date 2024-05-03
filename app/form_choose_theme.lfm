@@ -4,7 +4,7 @@ object fmChooseTheme: TfmChooseTheme
   Top = 151
   Width = 436
   BorderIcons = [biSystemMenu, biMaximize]
-  Caption = 'Themes'
+  Caption = 'Color theme'
   ClientHeight = 496
   ClientWidth = 436
   Constraints.MinHeight = 200
