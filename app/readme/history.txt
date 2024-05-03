@@ -5,7 +5,7 @@
 
 1.214.1 (2024/05)
 
-* change: in the "Options" menu, 3 themes-related menu items were moved into submenu "Options / Themes"
+* change: 3 themes-related "Options" menu items were moved into submenu "Options / Themes" (thanks @GenSekY from linux.org.ru)
 + add: commands "Move line(s) up/down" set line-states 'changed' for moved lines
 - fix: regression in Windows (Win11 only?) IME handler (thanks @mrkim819)
 - fix: replace with RegEx with variables $0 $1 etc: variables are empty if RegEx has assertion (?=text) (thanks @phi from forum)
