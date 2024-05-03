@@ -1100,7 +1100,6 @@ type
     procedure FinderOnWrapAtEdge(Sender: TObject);
     procedure FinderUpdateEditor(AUpdateText: boolean; AUpdateStatusbar: boolean=true);
     procedure FrameOnSaveFile(Sender: TObject; const fn: string);
-    procedure GetEditorIndexes(Ed: TATSynEdit; out AGroupIndex, ATabIndex: Integer);
     function GetModifiedCount: integer;
     function GetShowSideBar: boolean;
     function GetShowStatus: boolean;
@@ -1421,6 +1420,7 @@ type
     class function GetEditorActiveInGroup(AIndex: integer): TATSynEdit;
     class procedure ForceFrameVisible(Frame: TEditorFrame);
     class function FindPagesUnderCursorPos(ACursorPos: TPoint; AGroups: TATGroups): TATPages;
+    class procedure GetGroupAndTabIndexes(Ed: TATSynEdit; out AGroupIndex, ATabIndex: integer);
   end;
 
 class function TGroupsHelper.GetEditorFrame(Ed: TATSynEdit): TEditorFrame;
@@ -1537,6 +1537,24 @@ begin
         Result:= AGroups.Pages[i];
         exit;
       end;
+end;
+
+class procedure TGroupsHelper.GetGroupAndTabIndexes(Ed: TATSynEdit; out
+  AGroupIndex, ATabIndex: integer);
+var
+  Gr: TATGroups;
+  Pages: TATPages;
+  Frame: TEditorFrame;
+  NLocalGroup: integer;
+begin
+  Frame:= GetEditorFrame(Ed);
+  if Assigned(Frame) and Assigned(Frame.Parent) then
+    GetFrameLocation(Frame, Gr, Pages, NLocalGroup, AGroupIndex, ATabIndex)
+  else
+  begin
+    AGroupIndex:= -1;
+    ATabIndex:= -1;
+  end;
 end;
 
 
@@ -7467,23 +7485,6 @@ begin
   //empty, to disable themed paint
 end;
 
-
-procedure TfmMain.GetEditorIndexes(Ed: TATSynEdit; out AGroupIndex, ATabIndex: Integer);
-var
-  Gr: TATGroups;
-  Pages: TATPages;
-  Frame: TEditorFrame;
-  NLocalGroup: integer;
-begin
-  Frame:= TGroupsHelper.GetEditorFrame(Ed);
-  if Assigned(Frame) and Assigned(Frame.Parent) then
-    GetFrameLocation(Frame, Gr, Pages, NLocalGroup, AGroupIndex, ATabIndex)
-  else
-  begin
-    AGroupIndex:= -1;
-    ATabIndex:= -1;
-  end;
-end;
 
 procedure TfmMain.DoHelpWiki;
 begin
