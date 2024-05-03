@@ -1557,7 +1557,6 @@ begin
   end;
 end;
 
-
 procedure AppCommandPut(Ed: TATSynEdit; ACommand: integer; AInvoke: TATCommandInvoke; AForceTimer: boolean);
 var
   Frame: TEditorFrame;

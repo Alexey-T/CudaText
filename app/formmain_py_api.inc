@@ -4452,35 +4452,18 @@ begin
 
         PROP_INDEX_GROUP:
           begin
-            NIndexNew:= ValueInt;
             if Assigned(F) then
             begin
-             GetFrameLocation(F, Gr, Pages, NLocalGroup, NGlobalGroup, NTab);
-             if NTab>=0 then
-              if NGlobalGroup<>NIndexNew then
+              NIndexNew:= ValueInt;
+              GetFrameLocation(F, Gr, Pages, NLocalGroup, NGlobalGroup, NTab);
+              if (NTab>=0) and (NGlobalGroup<>NIndexNew) then
               begin
                 case NIndexNew of
-                  0..5:
-                    PagesTo:= fmMain.Groups.Pages[NIndexNew];
-                  6:
-                    begin
-                      fmMain.ShowFloatGroup1:= true;
-                      PagesTo:= fmMain.GroupsF1.Pages1;
-                    end;
-                  7:
-                    begin
-                      fmMain.ShowFloatGroup2:= true;
-                      PagesTo:= fmMain.GroupsF2.Pages1;
-                    end;
-                  8:
-                    begin
-                      fmMain.ShowFloatGroup3:= true;
-                      PagesTo:= fmMain.GroupsF3.Pages1;
-                    end;
-                  else
-                    PagesTo:= nil;
+                  6: fmMain.ShowFloatGroup1:= true;
+                  7: fmMain.ShowFloatGroup2:= true;
+                  8: fmMain.ShowFloatGroup3:= true;
                 end;
-
+                PagesTo:= TGroupsHelper.GetPagesOfGroupIndex(NIndexNew);
                 if Assigned(PagesTo) then
                   Gr.MoveTab(Pages, NTab, PagesTo, -1, true);
               end;
