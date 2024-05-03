@@ -2464,7 +2464,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_LEXER_FILE: str: name of lexer for entire file (empty str if none is active).
 * PROP_LEXER_POS: str: name of lexer at specified position. Param "value" must be 2-tuple (column, line), or string str(column)+','+str(line), with 0-based indexes.
 * PROP_LEXER_CARET: str: name of lexer at the position of 1st caret.
-* PROP_INDEX_GROUP: int: index of group with editor's tab, 0-based.
+* PROP_INDEX_GROUP: int: index of group with editor's tab, 0-based. Value 0...5: 6 fixed groups, value 6...8: 3 floating groups. 
 * PROP_INDEX_TAB: int: index of editor's tab in group, 0-based.
 * PROP_UNPRINTED_SHOW: bool: unprinted chars: global enable-flag.
 * PROP_UNPRINTED_SPACES: bool: unprinted chars: show spaces/tabs.
@@ -2669,7 +2669,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 * PROP_ENC: str: encoding name. Names listed at [[CudaText#Encodings]].
 * PROP_ENC_RELOAD: str: like PROP_ENC, but setting this property also reloads file in new encoding (if it's not modified). Supported only for editors embedded in ui-tabs.
 * PROP_LEXER_FILE: str: name of lexer.
-* PROP_INDEX_GROUP: int: index of group with editor's tab, 0-based.
+* PROP_INDEX_GROUP: int: index of group with editor's tab, 0-based. Value 0...5: 6 fixed groups, value 6...8: 3 floating groups. 
 * PROP_INDEX_TAB: int: index of editor's tab in group, 0-based.
 * PROP_UNPRINTED_SHOW: bool: unprinted chars: global enable-flag.
 * PROP_UNPRINTED_SPACES: bool: unprinted chars: show spaces/tabs.
