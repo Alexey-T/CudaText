@@ -939,7 +939,11 @@ First group cannot be empty, at least one tab exists in it. Other groups can be 
 
 =Auto-completion=
 
-Command "auto-completion menu" (default hotkey: Ctrl+Space) shows auto-completion listbox. It works in several sutiations differently.
+Command "auto-completion menu" (default hotkey: Ctrl+Space) shows auto-completion listbox.
+
+Command "go to definition" (default activation: see [[#Mouse_shortcuts]]), jumps to the declaration of the identifier under first caret.
+
+"Go to definition" and "auto-completion menu" require installed plugin (for example, "LSP Client" with configuration file "settings/lsp_xxxx.json"). If you did not install plugin yet - "go to defintion" does nothing, showing the error "No goto-definition plugin installed for this lexer" in the bottom statusbar.
 
 ==IntelliSense==
 
