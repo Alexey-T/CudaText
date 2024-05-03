@@ -18,6 +18,7 @@
 - fix: lexer Bash: bad rule for "$(...)" (thanks @rizaumami)
 - fix: regression in Windows IME handler (thanks @mrkim819)
 - fix: replace with RegEx with variables $0 $1 etc: variables are empty if RegEx has assertion (?=text) (thanks @phi from forum)
+- fix: commands "Move line(s) up/down" should set line-states for moved lines
 
 1.213.0 (2024/04)
 
