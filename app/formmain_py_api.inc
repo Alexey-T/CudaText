@@ -4137,8 +4137,8 @@ var
   ValueBool: boolean;
   ValueInt: Int64;
   ScrollInfo: TATEditorScrollInfo;
-  Gr: TATGroups;
-  Pages, PagesTo: TATPages;
+  TempGroup: TATGroups;
+  TempPages, TempPagesTo: TATPages;
   NLocalGroup, NGlobalGroup, NTab, NIndexNew, N1, N2: integer;
   LineEnd: TATLineEnds;
   CaptionReason: TAppTabCaptionReason;
@@ -4455,12 +4455,12 @@ begin
             if Assigned(F) then
             begin
               NIndexNew:= ValueInt;
-              GetFrameLocation(F, Gr, Pages, NLocalGroup, NGlobalGroup, NTab);
+              GetFrameLocation(F, TempGroup, TempPages, NLocalGroup, NGlobalGroup, NTab);
               if (NTab>=0) and (NGlobalGroup<>NIndexNew) then
               begin
-                PagesTo:= TGroupsHelper.GetPagesOfGroupIndex(NIndexNew, true{AShowFloatingGroup});
-                if Assigned(PagesTo) then
-                  Gr.MoveTab(Pages, NTab, PagesTo, -1, true);
+                TempPagesTo:= TGroupsHelper.GetPagesOfGroupIndex(NIndexNew, true{AShowFloatingGroup});
+                if Assigned(TempPagesTo) then
+                  TempGroup.MoveTab(TempPages, NTab, TempPagesTo, -1, true);
               end;
             end;
           end;
@@ -4470,10 +4470,10 @@ begin
             if Assigned(F) then
             begin
               NIndexNew:= ValueInt;
-              GetFrameLocation(F, Gr, Pages, NLocalGroup, NGlobalGroup, NTab);
+              GetFrameLocation(F, TempGroup, TempPages, NLocalGroup, NGlobalGroup, NTab);
               if NTab>=0 then
               begin
-                Pages.Tabs.MoveTab(NTab, NIndexNew, true);
+                TempPages.Tabs.MoveTab(NTab, NIndexNew, true);
                 fmMain.DoPyEvent(Ed, TAppPyEvent.OnTabMove, []);
               end;
             end;
