@@ -3295,8 +3295,8 @@ var
   Ed: TATSynEdit;
   F: TEditorFrame;
   Pnt: TPoint;
-  Ada: TATAdapterEControl;
-  Lex: TecSyntAnalyzer;
+  Adapter: TATAdapterEControl;
+  An: TecSyntAnalyzer;
   Sep: TATStringSeparator;
   CharSize: TATEditorCharSize;
   bValue: boolean;
@@ -3438,10 +3438,10 @@ begin
             else
             if Ed.AdapterForHilite is TATAdapterEControl then
             begin
-              Ada:= Ed.AdapterForHilite as TATAdapterEControl;
-              Lex:= Ada.Lexer;
-              if Assigned(Lex) then
-                Result:= PyUnicodeFromString(Lex.LexerName)
+              Adapter:= Ed.AdapterForHilite as TATAdapterEControl;
+              An:= Adapter.Lexer;
+              if Assigned(An) then
+                Result:= PyUnicodeFromString(An.LexerName)
               else
                 Result:= PyUnicodeFromString('');
             end
