@@ -528,6 +528,8 @@ begin
           Result:= PyUnicodeFromString(AppDir_LastInstalledAddon);
         APP_FILE_RECENTS:
           Result:= PyUnicodeFromString(AppListRecents.Text);
+        APP_FILE_RECENT_LIST:
+          Result:= StringsToPyList(AppListRecents);
 
         else
           Result:= ReturnNone;
