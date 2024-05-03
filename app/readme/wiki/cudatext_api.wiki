@@ -243,9 +243,9 @@ Parameter "text" is usually string, but can be of other types (bool, int, float,
 * PROC_CONFIG_NEWDOC_EOL_SET: Sets str: line endings of newly created documents.
 * PROC_CONFIG_NEWDOC_ENC_GET: Returns str: encoding of newly created documents (app option "newdoc_encoding").
 * PROC_CONFIG_NEWDOC_ENC_SET: Sets str: encoding of newly created documents.
-
 * PROC_CONFIG_SCALE_GET: Returns UI scales, as 2-tuple (int_scale_UI, int_scale_font). Both values are in percents, defaults are 100.
 * PROC_CONFIG_SCALE_SET: Sets UI scales, value must be 2-tuple (int_scale_UI, int_scale_font).
+* PROC_CONFIG_HISTORY_SAVE: Saves app's history file ("history.json").
 
 * PROC_PARSE_COMMAND_LINE: Parses/handles the text as the program command line. Separator of params is space, double-quoted params are supported. Here you may pass, for example, several filenames, including project and session filenames (.cuda-proj and .cuda-session extensions).
 
@@ -5032,5 +5032,8 @@ It provides:
 1.0.455 (app 1.212.1)
 * change: Editor.micromap: changed scale of parameter "column width" from 'percents of char cell' (e.g. 50) to 'percents of normal column' (e.g. 100)
 * delete deprecated: delete param "tag" in app_log()
+
+1.0.456 (app 1.214.0.2)
+* add: app_proc: PROC_CONFIG_HISTORY_SAVE
 
 [[Category:CudaText]]
