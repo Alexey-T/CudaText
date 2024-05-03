@@ -1009,7 +1009,7 @@ type
     procedure DoOps_LoadCodetreeIcons;
     procedure DoOps_LoadToolbarIcons;
     procedure DoOps_LoadLexerLib(AOnCreate: boolean);
-    procedure DoOps_SaveHistory(ASaveModifiedTabs: boolean);
+    procedure DoOps_SaveHistory(const AFileName: string; ASaveModifiedTabs, AReopenSession: boolean);
     procedure DoOps_ClearConfigHistory(AMode: TAppConfigHistoryElements);
     procedure DoOps_SaveHistory_GroupView(cfg: TJsonConfig; const AJsonPath: string);
     procedure DoOps_SaveOptionBool(const APath: string; AValue: boolean);
@@ -3063,7 +3063,7 @@ begin
 
   //after UpdateMenuRecent
   //and after on_exit, so plugin can close its side-panels in on_exit, and panel will be hidden on next app start
-  DoOps_SaveHistory(UiOps.SaveModifiedTabsOnClose);
+  DoOps_SaveHistory(AppFile_History, UiOps.SaveModifiedTabsOnClose, UiOps.ReopenSession);
 
   {
   //seems doing DoCloseAllTabs in FormClose is bad idea:

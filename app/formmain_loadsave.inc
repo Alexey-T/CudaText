@@ -110,19 +110,20 @@ begin
   end;
 end;
 
-procedure TfmMain.DoOps_SaveHistory(ASaveModifiedTabs: boolean);
+procedure TfmMain.DoOps_SaveHistory(const AFileName: string;
+  ASaveModifiedTabs, AReopenSession: boolean);
 var
   cfg: TJSONConfig;
   bMax: boolean;
   fnBase: string;
 begin
-  AppDiskCheckFreeSpace(AppFile_History);
+  AppDiskCheckFreeSpace(AFileName);
 
   cfg:= TJSONConfig.Create(nil);
   try
     try
       cfg.Formatted:= true; //needs last at__jsonconf.pp
-      cfg.Filename:= AppFile_History;
+      cfg.Filename:= AFileName;
     except
       exit;
     end;
@@ -209,7 +210,7 @@ begin
     cfg.Free;
   end;
 
-  if UiOps.ReopenSession and
+  if AReopenSession and
     ((FOption_AllowSessionSave=TAppAllowSomething.Enable) or not IsDefaultSessionActive)
     //// see http://synwrite.sourceforge.net/forums/viewtopic.php?f=20&t=2576
     //// @tmsg wants to save session always, even with -ns cmdline opt

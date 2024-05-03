@@ -5936,6 +5936,12 @@ begin
             Result:= ReturnNone;
           end;
 
+        APP_PROC_CONFIG_HISTORY_SAVE:
+          begin
+            fmMain.DoOps_SaveHistory(AppFile_History, false, UiOps.ReopenSession);
+            Result:= ReturnNone;
+          end;
+
         else
           Result:= ReturnNone;
       end;
