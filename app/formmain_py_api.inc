@@ -4458,12 +4458,7 @@ begin
               GetFrameLocation(F, Gr, Pages, NLocalGroup, NGlobalGroup, NTab);
               if (NTab>=0) and (NGlobalGroup<>NIndexNew) then
               begin
-                case NIndexNew of
-                  6: fmMain.ShowFloatGroup1:= true;
-                  7: fmMain.ShowFloatGroup2:= true;
-                  8: fmMain.ShowFloatGroup3:= true;
-                end;
-                PagesTo:= TGroupsHelper.GetPagesOfGroupIndex(NIndexNew);
+                PagesTo:= TGroupsHelper.GetPagesOfGroupIndex(NIndexNew, true{AShowFloatingGroup});
                 if Assigned(PagesTo) then
                   Gr.MoveTab(Pages, NTab, PagesTo, -1, true);
               end;

@@ -1416,7 +1416,7 @@ type
     class function GetEditorFrame(Ed: TATSynEdit): TEditorFrame;
     class function GetEditorBrother(Ed: TATSynEdit): TATSynEdit;
     class function GetEditorFirstSecond(Ed: TATSynEdit; AFirst: boolean): TATSynEdit;
-    class function GetPagesOfGroupIndex(AIndex: integer): TATPages;
+    class function GetPagesOfGroupIndex(AIndex: integer; AShowFloatingGroup: boolean=false): TATPages;
     class function GetEditorActiveInGroup(AIndex: integer): TATSynEdit;
     class procedure ForceFrameVisible(Frame: TEditorFrame);
     class function FindPagesUnderCursorPos(ACursorPos: TPoint; AGroups: TATGroups): TATPages;
@@ -1475,7 +1475,7 @@ begin
 end;
 
 
-class function TGroupsHelper.GetPagesOfGroupIndex(AIndex: integer): TATPages;
+class function TGroupsHelper.GetPagesOfGroupIndex(AIndex: integer; AShowFloatingGroup: boolean=false): TATPages;
 begin
   Result:= nil;
   case AIndex of
@@ -1483,16 +1483,22 @@ begin
       Result:= fmMain.Groups.Pages[AIndex];
     6:
       begin
+        if AShowFloatingGroup then
+          fmMain.ShowFloatGroup1:= true;
         if Assigned(fmMain.GroupsF1) then
           Result:= fmMain.GroupsF1.Pages[0]
       end;
     7:
       begin
+        if AShowFloatingGroup then
+          fmMain.ShowFloatGroup2:= true;
         if Assigned(fmMain.GroupsF2) then
           Result:= fmMain.GroupsF2.Pages[0]
       end;
     8:
       begin
+        if AShowFloatingGroup then
+          fmMain.ShowFloatGroup3:= true;
         if Assigned(fmMain.GroupsF3) then
           Result:= fmMain.GroupsF3.Pages[0]
       end;
