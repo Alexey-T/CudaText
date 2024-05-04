@@ -1145,7 +1145,7 @@ type
     procedure UpdateMenuItem_SetShortcutsRecursively(AMenuItem: TMenuItem; AMaxMenuLevel: integer);
     procedure UpdateMenuLexersTo(AMenu: TMenuItem);
     procedure UpdateMenuRecent(Ed: TATSynEdit);
-    procedure UpdateMenuChecks;
+    procedure UpdateMenuChecks(AndGlobalMenuitems: boolean=true);
     procedure UpdateMenuHotkeys;
     procedure UpdateMenuPlugins;
     procedure UpdateMenuPlugins_Shortcuts(AForceUpdate: boolean=false);
@@ -9801,7 +9801,7 @@ begin
   end;
 end;
 
-procedure TfmMain.UpdateMenuChecks;
+procedure TfmMain.UpdateMenuChecks(AndGlobalMenuitems: boolean=true);
 var
   Frame: TEditorFrame;
 begin
@@ -9810,7 +9810,9 @@ begin
 
   UpdateMenuChecks_Frame(Frame);
   UpdateMenuChecks_FrameSplit(Frame);
-  UpdateMenuChecks_Global;
+
+  if AndGlobalMenuitems then
+    UpdateMenuChecks_Global;
 end;
 
 

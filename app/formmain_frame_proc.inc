@@ -64,7 +64,7 @@ end;
 
 procedure TfmMain.FrameOnUpdateState(Sender: TObject);
 begin
-  UpdateMenuChecks;
+  UpdateMenuChecks(false);
 end;
 
 procedure TfmMain.DoCodetree_StopUpdate;
