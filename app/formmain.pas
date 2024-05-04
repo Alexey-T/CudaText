@@ -7440,7 +7440,7 @@ var
   Ed: TATSynEdit;
   SEncName: string;
   DlgProps: TDlgMenuProps;
-  MenuPrefixStr: string;
+  StrAction: string;
 begin
   Ed:= CurrentEditor;
   if Ed=nil then exit;
@@ -7457,21 +7457,21 @@ begin
     bReloadFile:= NRes=0;
 
     if bReloadFile then
-      MenuPrefixStr:= msgEncReloadAs
+      StrAction:= msgEncReloadAs
     else
-      MenuPrefixStr:= msgEncConvertTo;
+      StrAction:= msgEncConvertTo;
 
     List.Clear;
     NSelected:= 0;
     for i:= Low(AppEncodings) to High(AppEncodings) do
     begin
-      List.Add(MenuPrefixStr+': '+AppEncodings[i].Name);
+      List.Add(AppEncodings[i].Name);
       if SameText(AppEncodings[i].Name, SEncName) then
         NSelected:= i;
     end;
 
     DlgProps:= Default(TDlgMenuProps);
-    DlgProps.Caption:= msgStatusbarHintEnc;
+    DlgProps.Caption:= msgStatusbarHintEnc+' / '+StrAction;
     DlgProps.Collapse:= acsmRight;
     DlgProps.InitialIndex:= NSelected;
     DlgProps.ItemsText:= List.Text;
