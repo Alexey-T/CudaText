@@ -5036,7 +5036,7 @@ It provides:
 * change: Editor.micromap: changed scale of parameter "column width" from 'percents of char cell' (e.g. 50) to 'percents of normal column' (e.g. 100)
 * delete deprecated: delete param "tag" in app_log()
 
-1.0.456 (app 1.214.1)
+1.0.456 (app 1.214.2)
 * deprecate: APP_FILE_RECENTS
 * add: app_path: APP_FILE_RECENT_LIST
 * add: app_proc: PROC_CONFIG_HISTORY_SAVE

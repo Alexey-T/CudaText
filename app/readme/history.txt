@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.214.1 (2024/05)
+1.214.2 (2024/05)
 
 * change: 3 themes-related "Options" menu items were moved into submenu "Options / Themes" (thanks @GenSekY from linux.org.ru)
 + add: commands "Move line(s) up/down" set line-states 'changed' for moved lines
