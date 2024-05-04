@@ -7,6 +7,7 @@
 
 * change: 3 themes-related "Options" menu items were moved into submenu "Options / Themes" (thanks @GenSekY from linux.org.ru)
 + add: commands "Move line(s) up/down" set line-states 'changed' for moved lines
++ add: command "File / Rename" disallows filename already opened in another ui-tab
 - fix: regression in Windows (Win11 only?) IME handler (thanks @mrkim819)
 - fix: replace with RegEx with variables $0 $1 etc: variables are empty if RegEx has assertion (?=text) (thanks @phi from forum)
 - fix: after saving of untitled document, app did not enable menuitems "Rename", "Close and delete"
