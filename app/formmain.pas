@@ -1145,11 +1145,11 @@ type
     procedure UpdateMenuItem_SetShortcutsRecursively(AMenuItem: TMenuItem; AMaxMenuLevel: integer);
     procedure UpdateMenuLexersTo(AMenu: TMenuItem);
     procedure UpdateMenuRecent(Ed: TATSynEdit);
-    procedure UpdateMenuChecks(AndGlobalMenuitems: boolean=true);
     procedure UpdateMenuHotkeys;
     procedure UpdateMenuPlugins;
     procedure UpdateMenuPlugins_Shortcuts(AForceUpdate: boolean=false);
     procedure UpdateMenuPlugins_Shortcuts_Work(AForceUpdate: boolean);
+    procedure UpdateMenuChecks(AndGlobalMenuitems: boolean=true);
     procedure UpdateMenuChecks_Frame(F: TEditorFrame);
     procedure UpdateMenuChecks_FrameSplit(F: TEditorFrame);
     procedure UpdateMenuChecks_Global;

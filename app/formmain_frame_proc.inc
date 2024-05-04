@@ -265,7 +265,7 @@ begin
     CurrentEditor.DoCommand(cmd_OpsReloadAndApply, TATCommandInvoke.AppInternal);
 
   //untitled tab maybe became titled
-  UpdateMenuChecks;
+  UpdateMenuChecks(false);
 end;
 
 
