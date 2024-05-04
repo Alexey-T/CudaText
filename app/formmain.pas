@@ -9235,7 +9235,7 @@ begin
   FDisableTreeClearing:= true;
   try
     Groups.Mode:= AMode;
-    UpdateMenuChecks;
+    UpdateMenuChecks_Global;
   finally
     FDisableTreeClearing:= false;
   end;
