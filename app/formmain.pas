@@ -7440,7 +7440,6 @@ var
   Ed: TATSynEdit;
   SEncName: string;
   DlgProps: TDlgMenuProps;
-  StrAction: string;
 begin
   Ed:= CurrentEditor;
   if Ed=nil then exit;
@@ -7456,11 +7455,6 @@ begin
     if NRes<0 then exit;
     bReloadFile:= NRes=0;
 
-    if bReloadFile then
-      StrAction:= msgEncReloadAs
-    else
-      StrAction:= msgEncConvertTo;
-
     List.Clear;
     NSelected:= 0;
     for i:= Low(AppEncodings) to High(AppEncodings) do
@@ -7471,7 +7465,7 @@ begin
     end;
 
     DlgProps:= Default(TDlgMenuProps);
-    DlgProps.Caption:= msgStatusbarHintEnc+' / '+StrAction;
+    DlgProps.Caption:= msgStatusbarHintEnc+' / '+IfThen(bReloadFile, msgEncReloadAs, msgEncConvertTo);
     DlgProps.Collapse:= acsmRight;
     DlgProps.InitialIndex:= NSelected;
     DlgProps.ItemsText:= List.Text;
