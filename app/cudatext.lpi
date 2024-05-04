@@ -1735,7 +1735,9 @@
       <Unit64>
         <Filename Value="form_rename_file.pas"/>
         <IsPartOfProject Value="True"/>
+        <ComponentName Value="fmRenameFile"/>
         <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
       </Unit64>
     </Units>
   </ProjectOptions>
