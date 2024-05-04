@@ -1149,7 +1149,7 @@ type
     procedure UpdateMenuPlugins;
     procedure UpdateMenuPlugins_Shortcuts(AForceUpdate: boolean=false);
     procedure UpdateMenuPlugins_Shortcuts_Work(AForceUpdate: boolean);
-    procedure UpdateMenuChecks(AndGlobalMenuitems: boolean=true);
+    procedure UpdateMenuChecks(AUpdateGlobalMenuitems: boolean=true);
     procedure UpdateMenuChecks_Frame(F: TEditorFrame);
     procedure UpdateMenuChecks_FrameSplit(F: TEditorFrame);
     procedure UpdateMenuChecks_Global;
@@ -9801,7 +9801,7 @@ begin
   end;
 end;
 
-procedure TfmMain.UpdateMenuChecks(AndGlobalMenuitems: boolean=true);
+procedure TfmMain.UpdateMenuChecks(AUpdateGlobalMenuitems: boolean=true);
 var
   Frame: TEditorFrame;
 begin
@@ -9811,7 +9811,7 @@ begin
   UpdateMenuChecks_Frame(Frame);
   UpdateMenuChecks_FrameSplit(Frame);
 
-  if AndGlobalMenuitems then
+  if AUpdateGlobalMenuitems then
     UpdateMenuChecks_Global;
 end;
 
