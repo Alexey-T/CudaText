@@ -714,7 +714,6 @@ type
     FPyCompletionProps: TAppCompletionApiProps;
     FNeedUpdateStatuses: boolean;
     FNeedUpdateMenuPlugins: boolean;
-    FNeedUpdateMenuChecks: boolean;
     FNeedUpdateMenuShortcuts: boolean;
     FNeedUpdateMenuShortcuts_Force: boolean;
     FNeedAppState_SubCommands: boolean;
@@ -1146,6 +1145,7 @@ type
     procedure UpdateMenuItem_SetShortcutsRecursively(AMenuItem: TMenuItem; AMaxMenuLevel: integer);
     procedure UpdateMenuLexersTo(AMenu: TMenuItem);
     procedure UpdateMenuRecent(Ed: TATSynEdit);
+    procedure UpdateMenuChecks;
     procedure UpdateMenuHotkeys;
     procedure UpdateMenuPlugins;
     procedure UpdateMenuPlugins_Shortcuts(AForceUpdate: boolean=false);
@@ -2437,14 +2437,6 @@ begin
     UpdateMenuPlugins_Shortcuts(true);
     UpdateMenuHotkeys; //takes ~3 msec
     DoPyEvent(nil, TAppPyEvent.OnInitPluginsMenu, []);
-  end;
-
-  if FNeedUpdateMenuChecks then
-  begin
-    FNeedUpdateMenuChecks:= false;
-    UpdateMenuChecks_Frame(Frame);
-    UpdateMenuChecks_FrameSplit(Frame);
-    UpdateMenuChecks_Global;
   end;
 
   if Assigned(Frame) and not (Frame.IsTreeBusy or Frame.IsParsingBusy) then
@@ -3839,8 +3831,8 @@ begin
   end;
 
   FHandledOnShowFully:= true;
-  FNeedUpdateMenuChecks:= true;
   FNeedUpdateMenuPlugins:= true;
+  UpdateMenuChecks;
 
   _Init_CheckExePath;
 
@@ -9243,7 +9235,7 @@ begin
   FDisableTreeClearing:= true;
   try
     Groups.Mode:= AMode;
-    FNeedUpdateMenuChecks:= true;
+    UpdateMenuChecks;
   finally
     FDisableTreeClearing:= false;
   end;
@@ -9808,6 +9800,19 @@ begin
     Frame.UpdateCaptionFromFilename;
   end;
 end;
+
+procedure TfmMain.UpdateMenuChecks;
+var
+  Frame: TEditorFrame;
+begin
+  Frame:= CurrentFrame;
+  if Frame=nil then exit;
+
+  UpdateMenuChecks_Frame(Frame);
+  UpdateMenuChecks_FrameSplit(Frame);
+  UpdateMenuChecks_Global;
+end;
+
 
 //----------------------------
 {$I formmain_loadsave.inc}

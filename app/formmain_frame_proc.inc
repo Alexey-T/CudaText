@@ -64,8 +64,7 @@ end;
 
 procedure TfmMain.FrameOnUpdateState(Sender: TObject);
 begin
-  FNeedUpdateMenuChecks:= true;
-  //real updating will run on TimerAppIdle work
+  UpdateMenuChecks;
 end;
 
 procedure TfmMain.DoCodetree_StopUpdate;
@@ -265,8 +264,8 @@ begin
   if SameFileName(fn, AppFile_OptionsUser) then
     CurrentEditor.DoCommand(cmd_OpsReloadAndApply, TATCommandInvoke.AppInternal);
 
-  //untitled tab became titled?
-  FNeedUpdateMenuChecks:= true;
+  //untitled tab maybe became titled
+  UpdateMenuChecks;
 end;
 
 

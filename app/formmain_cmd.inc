@@ -32,7 +32,6 @@ begin
   UpdateStatusbar;
 end;
 
-
 procedure TfmMain.HandleTimerCommand(Ed: TATSynEdit; CmdCode: integer; CmdInvoke: TATCommandInvoke);
 var
   Frame: TEditorFrame;
@@ -281,23 +280,23 @@ begin
     cmd_ToggleFullScreen:
       begin
         DoToggleFullScreen;
-        FNeedUpdateMenuChecks:= true;
+        UpdateMenuChecks;
       end;
     cmd_ToggleDistractionFree:
       begin
         DoToggleDistractionFree;
-        FNeedUpdateMenuChecks:= true;
+        UpdateMenuChecks;
       end;
 
     cmd_ToggleSidePanel:
       begin
         DoToggleSidePanel;
-        FNeedUpdateMenuChecks:= true;
+        UpdateMenuChecks;
       end;
     cmd_ToggleBottomPanel:
       begin
         DoToggleBottomPanel;
-        FNeedUpdateMenuChecks:= true;
+        UpdateMenuChecks;
       end;
 
     cmd_ToggleFindDialog:
@@ -310,19 +309,19 @@ begin
     cmd_ToggleSidebar:
       begin
         DoToggleSidebar;
-        FNeedUpdateMenuChecks:= true;
+        UpdateMenuChecks;
       end;
 
     cmd_ToggleToolbar:
       begin
         DoToggleToolbar;
-        FNeedUpdateMenuChecks:= true;
+        UpdateMenuChecks;
       end;
 
     cmd_ToggleStatusbar:
       begin
         DoToggleStatusbar;
-        FNeedUpdateMenuChecks:= true;
+        UpdateMenuChecks;
       end;
 
     cmd_ToggleUiTabs:
@@ -331,19 +330,19 @@ begin
     cmd_ToggleOnTop:
       begin
         DoToggleOnTop;
-        FNeedUpdateMenuChecks:= true;
+        UpdateMenuChecks;
       end;
 
     cmd_ToggleFloatSide:
     begin
       DoToggleFloatSide;
-      FNeedUpdateMenuChecks:= true;
+      UpdateMenuChecks;
     end;
 
     cmd_ToggleFloatBottom:
     begin
       DoToggleFloatBottom;
-      FNeedUpdateMenuChecks:= true;
+      UpdateMenuChecks;
     end;
 
     cmd_OpsReloadAndApply:
@@ -352,45 +351,45 @@ begin
     cmd_ShowPanelConsole:
       begin
         DoShowConsole(false);
-        FNeedUpdateMenuChecks:= true;
+        UpdateMenuChecks;
       end;
     cmd_ShowPanelOutput:
       begin
         DoShowOutput(false);
-        FNeedUpdateMenuChecks:= true;
+        UpdateMenuChecks;
       end;
     cmd_ShowPanelValidate:
       begin
         DoShowValidate(false);
-        FNeedUpdateMenuChecks:= true;
+        UpdateMenuChecks;
       end;
 
     cmd_ShowPanelConsole_AndFocus:
       begin
         DoShowConsole(true);
-        FNeedUpdateMenuChecks:= true;
+        UpdateMenuChecks;
       end;
     cmd_ShowPanelOutput_AndFocus:
       begin
         DoShowOutput(true);
-        FNeedUpdateMenuChecks:= true;
+        UpdateMenuChecks;
       end;
     cmd_ShowPanelValidate_AndFocus:
       begin
         DoShowValidate(true);
-        FNeedUpdateMenuChecks:= true;
+        UpdateMenuChecks;
       end;
 
     cmd_ShowSidePanelAsIs:
       begin
         AppPanels[TAppPanelId.Side].Visible:= true;
-        FNeedUpdateMenuChecks:= true;
+        UpdateMenuChecks;
       end;
 
     cmd_ShowSidePanelAndSyntaxTree:
       begin
         AppPanels[TAppPanelId.Side].UpdatePanels(msgPanelTree_Init, false, true);
-        FNeedUpdateMenuChecks:= true;
+        UpdateMenuChecks;
       end;
 
     cmd_ToggleSidePanelAndSyntaxTree:
@@ -399,19 +398,19 @@ begin
           AppPanels[TAppPanelId.Side].Visible:= false
         else
           AppPanels[TAppPanelId.Side].UpdatePanels(msgPanelTree_Init, false, true);
-        FNeedUpdateMenuChecks:= true;
+        UpdateMenuChecks;
       end;
 
     cmd_HideSidePanel:
       begin
         AppPanels[TAppPanelId.Side].Visible:= false;
-        FNeedUpdateMenuChecks:= true;
+        UpdateMenuChecks;
       end;
 
     cmd_HideBottomPanel:
       begin
         AppPanels[TAppPanelId.Btm].Visible:= false;
-        FNeedUpdateMenuChecks:= true;
+        UpdateMenuChecks;
       end;
 
     cmd_FindFirst:

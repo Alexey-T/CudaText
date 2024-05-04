@@ -155,7 +155,7 @@ begin
   UpdateToolbarButtons(F);
 
   //focused another tab? update menu checkmarks
-  FNeedUpdateMenuChecks:= true;
+  UpdateMenuChecks;
 
   //if we fire 'on_tab_change' during session loading, Auto Save plugin may activate
   //and overwrite the session (it saves the session)
