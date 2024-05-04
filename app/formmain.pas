@@ -762,6 +762,7 @@ type
     procedure DoFocusFloatingGroup(AIndex: integer);
     procedure DoFocusNextGroup(ANext: boolean);
     function GetFileOpenOptionsString(AFileCount: integer): string;
+    function HandleRenameCheckAllowed(const AFileName: string): boolean;
     procedure HandleTimerCommand(Ed: TATSynEdit; CmdCode: integer; CmdInvoke: TATCommandInvoke);
     procedure InvalidateMouseoverDependantControls;
     function IsTooManyTabsOpened: boolean;
@@ -9771,6 +9772,11 @@ begin
   DoFileRenameEx(Frame, Ed);
 end;
 
+function TfmMain.HandleRenameCheckAllowed(const AFileName: string): boolean;
+begin
+  Result:= FindFrameOfFilename(AFileName)=nil;
+end;
+
 procedure TfmMain.DoFileRenameEx(Frame: TEditorFrame; Ed: TATSynEdit);
 var
   NewFileName: string;
@@ -9794,7 +9800,7 @@ begin
     exit;
   end;
 
-  if DoDialogRenameFile(Ed.FileName, NewFileName) then
+  if DoDialogRenameFile(Ed.FileName, NewFileName, @HandleRenameCheckAllowed) then
   begin
     Frame.SetFileName(Ed, NewFileName);
     Frame.UpdateCaptionFromFilename;

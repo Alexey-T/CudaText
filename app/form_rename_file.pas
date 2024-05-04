@@ -19,7 +19,9 @@ uses
   proc_msg;
 
 type
+  TAppRenameCheckAllowed = function(const AFileName: string): boolean of object;
 
+type
   { TfmRenameFile }
 
   TfmRenameFile = class(TForm)
@@ -35,17 +37,19 @@ type
     procedure Localize;
   public
     OldFileName: string;
+    OnCheckAllowed: TAppRenameCheckAllowed;
     function NewFileName: string;
-
   end;
 
-function DoDialogRenameFile(const AOldFileName: string; out ANewFileName: string): boolean;
+function DoDialogRenameFile(const AOldFileName: string; out ANewFileName: string;
+  ACheckAllowedName: TAppRenameCheckAllowed): boolean;
 
 implementation
 
 {$R *.lfm}
 
-function DoDialogRenameFile(const AOldFileName: string; out ANewFileName: string): boolean;
+function DoDialogRenameFile(const AOldFileName: string; out ANewFileName: string;
+  ACheckAllowedName: TAppRenameCheckAllowed): boolean;
 var
   Dlg: TfmRenameFile;
 begin
@@ -55,6 +59,7 @@ begin
   Dlg:= TfmRenameFile.Create(nil);
   try
     Dlg.OldFileName:= AOldFileName;
+    Dlg.OnCheckAllowed:= ACheckAllowedName;
     if Dlg.ShowModal=mrOk then
     begin
       ANewFileName:= Dlg.NewFileName;
@@ -115,7 +120,8 @@ begin
   ButtonPanel1.OKButton.Enabled:=
     (EditName.Text<>'') and
     (PosSet(['/', '\', '*', ':'], EditName.Text+'.'+EditExt.Text)=0) and
-    not SameFileName(NewFileName, OldFileName);
+    not SameFileName(NewFileName, OldFileName) and
+    OnCheckAllowed(NewFileName);
 end;
 
 procedure TfmRenameFile.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
