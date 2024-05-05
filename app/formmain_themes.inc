@@ -89,6 +89,10 @@ begin
 
   ToolbarMain.Color:= GetAppColor(TAppThemeColor.TabBg);
   Self.Color:= ToolbarMain.Color;
+  {$if defined(LCLQt5) or defined(LCLQt6)}
+  //fix MainMenu bg-color for dark themes
+  Self.Color:= clMedGray;
+  {$endif}
 
   PanelCodeTreeTop.Color:= ToolbarMain.Color;
   ToolbarSideTop.Color:= GetAppColor(TAppThemeColor.SideBg);
