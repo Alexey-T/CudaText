@@ -2133,9 +2133,9 @@ How to use customization dialogs, steps:
 
 Don't configure custom lexer styles in the "Options / Lexers / Lexer properties" dialog, if option "ui_lexer_themes" is on (usually it's on), because syntax-theme will override all your colors from that dialog. You can configure colors there, if option is off.
 
-==UI theme empty values==
+==UI theme items with none-values==
 
-The following UI theme items allow "none" values, it means that JSON theme-file stores the empty value for them, and plugin API returns COLOR_NONE value for them.
+The following UI theme items allow "none" values, it means that JSON theme-file stores the empty string for them, and plugin API returns COLOR_NONE value for them.
 
 * EdBlockStapleActive: when "none", it falls back to EdBlockStaple
 * TabFontActive: when "none", it falls back to TabFont
@@ -2143,7 +2143,7 @@ The following UI theme items allow "none" values, it means that JSON theme-file 
 * StatusFont: when "none", it falls back to ButtonFont 
 * StatusBg: when "none", it falls back to TabBg
 
-Plus the following items, which colorize the main menu on Windows:
+And the following items, which colorize the main menu - they are used only on Windows:
 
 * MenuFont: when "none", it falls back to TabFont
 * MenuFontHotkey: when "none", it falls back to MenuFont, then to TabFontMod
