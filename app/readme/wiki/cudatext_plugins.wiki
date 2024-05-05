@@ -1612,6 +1612,15 @@ Clicking the buttons from the code-tree shows the same tree-popup but with
 a different content - with symbols of the documents. Clicking the nodes
 in the tree-popup scrolls the document to different symbols.
 
+=Spell Checker=
+Frequent question: how to make spell checking 'live', ie run it after each change? Do this:
+
+* Menu "Options / Settings-plugins / Spell Checker / Configure events": check there all events.
+* Menu "Options / Settings-plugins / Spell Checker / Configure": check that your file-extension is enabled in the option "file_extension_list=". Option value "*" means that all extensions are enabled.
+* Restart CudaText
+
+Now checking should be 'live'. Note: it needs a pause after text editing (about 1 second), because it uses "on_change_slow" to avoid slowdown on editing.
+
 =LSP Client=
 
 Plugin "LSP Client" allows to use Microsoft LSP protocol in CudaText with servers for many languages. 
