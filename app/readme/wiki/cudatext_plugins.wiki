@@ -1616,8 +1616,8 @@ in the tree-popup scrolls the document to different symbols.
 Frequent question: how to make spell checking 'live', ie run it after each change? Do this:
 
 * Menu "Options / Settings-plugins / Spell Checker / Configure events": check there all events.
-* Menu "Options / Settings-plugins / Spell Checker / Configure": check that your file-extension is enabled in the option "file_extension_list=". Option value "*" means that all extensions are enabled.
-* Restart CudaText
+* Menu "Options / Settings-plugins / Spell Checker / Configure": check that your file-extension is enabled in the option "file_extension_list". Option value "*" means that all extensions are enabled.
+* Restart CudaText.
 
 Now checking should be 'live'. Note: it needs a pause after text editing (about 1 second), because it uses "on_change_slow" to avoid slowdown on editing.
 
