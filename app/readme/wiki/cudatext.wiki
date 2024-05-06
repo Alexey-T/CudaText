@@ -1075,7 +1075,9 @@ Panel is called by key Ctrl+tilde (Ctrl+`). It has read-only memo with output an
 
 * If you enter command beginning with "=", then it's the same as you enterted "print()". E.g. command "=10+12" will give "22".
 * If you end command with ";", it won't be added to dropdown history.
-* Double-click on memo lines starting with ">>>" repeats entered command (after ">>>" symbols).
+* Double-click on memo lines:
+** If line starts with ">>>", it repeats the old command (after ">>>" symbols).
+** For other lines, it runs "Navigate" context-menu command.
 
 You can enter commands from CudaText API. Example clears all bookmarks and sets bookmark on line 11 (these are several commands, run one by one):
 
