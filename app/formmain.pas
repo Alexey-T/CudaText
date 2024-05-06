@@ -1010,7 +1010,7 @@ type
     procedure DoOps_LoadCodetreeIcons;
     procedure DoOps_LoadToolbarIcons;
     procedure DoOps_LoadLexerLib(AOnCreate: boolean);
-    procedure DoOps_SaveHistory(const AFileName: string; ASaveModifiedTabs, AReopenSession: boolean);
+    procedure DoOps_SaveHistory(const AFileName: string; ASaveModifiedTabs, ASaveSession: boolean);
     procedure DoOps_ClearConfigHistory(AMode: TAppConfigHistoryElements);
     procedure DoOps_SaveHistory_GroupView(cfg: TJsonConfig; const AJsonPath: string);
     procedure DoOps_SaveOptionBool(const APath: string; AValue: boolean);
@@ -2501,6 +2501,7 @@ begin
     begin
       FLastSaveSessionTick:= NTick;
       DoOps_SaveSession(AppFile_Session, true{ASaveModifiedTabs}, true{ASaveUntitledTabs}, true{AByTimer});
+      DoOps_SaveHistory(AppFile_History, false, false);
     end;
   end;
 end;

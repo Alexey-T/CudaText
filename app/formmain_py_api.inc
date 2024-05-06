@@ -5940,7 +5940,7 @@ begin
 
         APP_PROC_CONFIG_HISTORY_SAVE:
           begin
-            fmMain.DoOps_SaveHistory(AppFile_History, false, UiOps.ReopenSession);
+            fmMain.DoOps_SaveHistory(AppFile_History, false, false);
             Result:= ReturnNone;
           end;
 

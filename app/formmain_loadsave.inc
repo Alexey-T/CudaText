@@ -111,7 +111,7 @@ begin
 end;
 
 procedure TfmMain.DoOps_SaveHistory(const AFileName: string;
-  ASaveModifiedTabs, AReopenSession: boolean);
+  ASaveModifiedTabs, ASaveSession: boolean);
 var
   cfg: TJSONConfig;
   bMax: boolean;
@@ -210,7 +210,7 @@ begin
     cfg.Free;
   end;
 
-  if AReopenSession and
+  if ASaveSession and
     ((FOption_AllowSessionSave=TAppAllowSomething.Enable) or not IsDefaultSessionActive)
     //// see http://synwrite.sourceforge.net/forums/viewtopic.php?f=20&t=2576
     //// @tmsg wants to save session always, even with -ns cmdline opt
