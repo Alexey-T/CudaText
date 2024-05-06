@@ -5,7 +5,7 @@
 
 1.214.3 (2024/05)
 
-+ add: new ui-theme color "OtherTextBg" to customize single-line inputs; it's 'none' by default to retain editor-bg color (thanks @pintassilgo)
++ add: new ui-theme items "single-line inputs, font/BG"; they are 'none' by default to retain editor color (thanks @pintassilgo)
 
 1.214.2 (2024/05)
 
