@@ -202,7 +202,6 @@ end;
 procedure TfmMain.DoApplyTheme_ThemedMainMenu;
 {$ifdef windows}
 var
-  NColor: TColor;
   NPadding: integer;
   SPadding: string;
   i: integer;
@@ -227,32 +226,11 @@ begin
     end;
   end;
 
-  NColor:= GetAppColor(TAppThemeColor.MenuBg);
-  if NColor=clNone then
-    NColor:= GetAppColor(TAppThemeColor.TabBg);
-  MenuStylerTheme.ColorBk:= NColor;
-
-  NColor:= GetAppColor(TAppThemeColor.MenuSelBg);
-  if NColor=clNone then
-    NColor:= GetAppColor(TAppThemeColor.TabOver);
-  MenuStylerTheme.ColorBkSelected:= NColor;
-
-  NColor:= GetAppColor(TAppThemeColor.MenuFont);
-  if NColor=clNone then
-    NColor:= GetAppColor(TAppThemeColor.TabFont);
-  MenuStylerTheme.ColorFont:= NColor;
-
-  NColor:= GetAppColor(TAppThemeColor.MenuFontDisabled);
-  if NColor=clNone then
-    NColor:= GetAppColor(TAppThemeColor.TabBorderPassive);
-  MenuStylerTheme.ColorFontDisabled:= NColor;
-
-  NColor:= GetAppColor(TAppThemeColor.MenuFontHotkey);
-  if NColor=clNone then
-    NColor:= GetAppColor(TAppThemeColor.MenuFont);
-  if NColor=clNone then
-    NColor:= GetAppColor(TAppThemeColor.TabFontMod);
-  MenuStylerTheme.ColorFontShortcut:= NColor;
+  MenuStylerTheme.ColorBk:= GetAppColor(TAppThemeColor.MenuBg, TAppThemeColor.TabBg);
+  MenuStylerTheme.ColorBkSelected:= GetAppColor(TAppThemeColor.MenuSelBg, TAppThemeColor.TabOver);
+  MenuStylerTheme.ColorFont:= GetAppColor(TAppThemeColor.MenuFont, TAppThemeColor.TabFont);
+  MenuStylerTheme.ColorFontDisabled:= GetAppColor(TAppThemeColor.MenuFontDisabled, TAppThemeColor.TabBorderPassive);
+  MenuStylerTheme.ColorFontShortcut:= GetAppColor(TAppThemeColor.MenuFontHotkey, TAppThemeColor.MenuFont, TAppThemeColor.TabFontMod);
 
   MenuStylerTheme.CharSubmenu:= '>'; //old Win don't have triangle char in default font
   UpdateMenuTheming_MainMenu;
