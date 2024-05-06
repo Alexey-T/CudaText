@@ -1010,7 +1010,7 @@ procedure TfmFind.UpdateFonts;
   //
   procedure UpdateEdFont(Ed: TATSynEdit);
   var
-    NColorBG: TColor;
+    NColor: TColor;
   begin
     Ed.Font.Name:= EditorOps.OpFontName;
     Ed.Font.Size:= EditorOps.OpFontSize;
@@ -1019,10 +1019,15 @@ procedure TfmFind.UpdateFonts;
     Ed.OptBorderWidthFocused:= ATEditorScale(EditorOps.OpActiveBorderWidth);
     EditorApplyTheme(Ed);
 
-    NColorBG:= GetAppColor(TAppThemeColor.OtherTextBg);
-    if NColorBG=clNone then
-      NColorBG:= GetAppColor(TAppThemeColor.EdTextBg);
-    Ed.Colors.TextBG:= NColorBG;
+    NColor:= GetAppColor(TAppThemeColor.OtherTextFont);
+    if NColor=clNone then
+      NColor:= GetAppColor(TAppThemeColor.EdTextFont);
+    Ed.Colors.TextFont:= NColor;
+
+    NColor:= GetAppColor(TAppThemeColor.OtherTextBg);
+    if NColor=clNone then
+      NColor:= GetAppColor(TAppThemeColor.EdTextBg);
+    Ed.Colors.TextBG:= NColor;
 
     Ed.Update;
   end;
@@ -2008,18 +2013,25 @@ end;
 procedure TfmFind.ApplyTheme;
 var
   TempLexer: TecSyntAnalyzer;
-  NColorBG: TColor;
+  NColor: TColor;
 begin
   Color:= GetAppColor(TAppThemeColor.TabBg);
 
   EditorApplyTheme(edFind);
   EditorApplyTheme(edRep);
 
-  NColorBG:= GetAppColor(TAppThemeColor.OtherTextBg);
-  if NColorBG=clNone then
-    NColorBG:= GetAppColor(TAppThemeColor.EdTextBg);
-  edFind.Colors.TextBG:= NColorBG;
-  edRep.Colors.TextBG:= NColorBG;
+  NColor:= GetAppColor(TAppThemeColor.OtherTextFont);
+  if NColor=clNone then
+    NColor:= GetAppColor(TAppThemeColor.EdTextFont);
+  edFind.Colors.TextFont:= NColor;
+  edRep.Colors.TextFont:= NColor;
+
+  NColor:= GetAppColor(TAppThemeColor.OtherTextBg);
+  if NColor=clNone then
+    NColor:= GetAppColor(TAppThemeColor.EdTextBg);
+  edFind.Colors.TextBG:= NColor;
+  edRep.Colors.TextBG:= NColor;
+
   edFind.Update;
   edRep.Update;
 

@@ -87,6 +87,10 @@ begin
 
   EditorApplyTheme(CodeTreeFilterInput);
 
+  NColor:= GetAppColor(TAppThemeColor.OtherTextFont);
+  if NColor=clNone then
+    NColor:= GetAppColor(TAppThemeColor.EdTextFont);
+  CodeTreeFilterInput.Colors.TextFont:= NColor;
   NColor:= GetAppColor(TAppThemeColor.OtherTextBg);
   if NColor=clNone then
     NColor:= GetAppColor(TAppThemeColor.EdTextBg);

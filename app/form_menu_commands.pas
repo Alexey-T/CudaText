@@ -145,7 +145,9 @@ begin
   ButtonCancel.Width:= ButtonCancel.Height;
 
   self.Color:= FColorBg;
-  edit.Colors.TextFont:= GetAppColor(TAppThemeColor.EdTextFont);
+  edit.Colors.TextFont:= GetAppColor(TAppThemeColor.OtherTextFont);
+  if edit.Colors.TextFont=clNone then
+    edit.Colors.TextFont:= GetAppColor(TAppThemeColor.EdTextFont);
   edit.Colors.TextBG:= GetAppColor(TAppThemeColor.OtherTextBg);
   if edit.Colors.TextBG=clNone then
     edit.Colors.TextBG:= GetAppColor(TAppThemeColor.EdTextBg);
