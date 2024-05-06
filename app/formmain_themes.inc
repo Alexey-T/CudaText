@@ -87,6 +87,11 @@ begin
 
   EditorApplyTheme(CodeTreeFilterInput);
 
+  CodeTreeFilterInput.Colors.TextBG:= GetAppColor(TAppThemeColor.OtherTextBg);
+  if CodeTreeFilterInput.Colors.TextBG=clNone then
+    CodeTreeFilterInput.Colors.TextBG:= GetAppColor(TAppThemeColor.EdTextBg);
+  CodeTreeFilterInput.Update;
+
   ToolbarMain.Color:= GetAppColor(TAppThemeColor.TabBg);
   Self.Color:= ToolbarMain.Color;
 
