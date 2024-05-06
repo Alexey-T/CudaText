@@ -47,8 +47,10 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure HelpButtonClick(Sender: TObject);
+    procedure ListDblClick(Sender: TObject);
     procedure ListKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure ListSelectionChange(Sender: TObject; User: boolean);
+    procedure ListStylesDblClick(Sender: TObject);
     procedure ListStylesDrawItem(Control: TWinControl; AIndex: Integer; ARect: TRect; State: TOwnerDrawState);
     procedure OKButtonClick(Sender: TObject);
   private
@@ -250,6 +252,11 @@ begin
     OnApply(Data, ThemeUI);
 end;
 
+procedure TfmColorSetup.ListDblClick(Sender: TObject);
+begin
+  bChange.Click;
+end;
+
 procedure TfmColorSetup.ListKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
@@ -268,6 +275,11 @@ begin
   //disable "None color" button to some elements
   NSel:= List.ItemIndex;
   bNone.Enabled:= (NSel>=0) and (TAppThemeColor(NSel) in cAppThemeColorsWhichAllowNone);
+end;
+
+procedure TfmColorSetup.ListStylesDblClick(Sender: TObject);
+begin
+  bStyle.Click;
 end;
 
 procedure TfmColorSetup.ListStylesDrawItem(Control: TWinControl; AIndex: Integer; ARect: TRect;

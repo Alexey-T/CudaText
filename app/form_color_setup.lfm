@@ -9,12 +9,12 @@ object fmColorSetup: TfmColorSetup
   ClientWidth = 558
   Constraints.MinHeight = 200
   Constraints.MinWidth = 200
+  Position = poMainFormCenter
+  ShowInTaskBar = stNever
+  LCLVersion = '3.99.0.0'
   OnClose = FormClose
   OnCreate = FormCreate
   OnShow = FormShow
-  Position = poMainFormCenter
-  ShowInTaskBar = stNever
-  LCLVersion = '2.3.0.0'
   object ButtonPanel1: TButtonPanel
     Left = 6
     Height = 33
@@ -58,6 +58,7 @@ object fmColorSetup: TfmColorSetup
       Anchors = [akTop, akLeft, akRight, akBottom]
       BorderSpacing.Around = 6
       ItemHeight = 0
+      OnDblClick = ListDblClick
       OnKeyDown = ListKeyDown
       OnSelectionChange = ListSelectionChange
       TabOrder = 0
@@ -74,8 +75,8 @@ object fmColorSetup: TfmColorSetup
       AutoSize = True
       BorderSpacing.Around = 6
       Caption = '&Change color...'
-      OnClick = bChangeClick
       TabOrder = 1
+      OnClick = bChangeClick
     end
     object bNone: TButton
       AnchorSideLeft.Control = bChange
@@ -90,8 +91,8 @@ object fmColorSetup: TfmColorSetup
       Anchors = [akTop, akLeft, akRight]
       AutoSize = True
       Caption = 'Set "&none color"'
-      OnClick = bNoneClick
       TabOrder = 2
+      OnClick = bNoneClick
     end
   end
   object PanelSyntax: TPanel
@@ -113,11 +114,12 @@ object fmColorSetup: TfmColorSetup
       Anchors = [akTop, akLeft, akRight, akBottom]
       BorderSpacing.Around = 6
       ItemHeight = 0
-      OnDrawItem = ListStylesDrawItem
       ScrollWidth = 416
       Style = lbOwnerDrawFixed
       TabOrder = 0
       TopIndex = -1
+      OnDblClick = ListStylesDblClick
+      OnDrawItem = ListStylesDrawItem
     end
     object bStyle: TButton
       AnchorSideLeft.Side = asrBottom
@@ -131,8 +133,8 @@ object fmColorSetup: TfmColorSetup
       AutoSize = True
       BorderSpacing.Around = 6
       Caption = '&Config style...'
-      OnClick = bStyleClick
       TabOrder = 1
+      OnClick = bStyleClick
     end
   end
   object ColorDialog1: TColorDialog
