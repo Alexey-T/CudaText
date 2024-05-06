@@ -1009,8 +1009,6 @@ end;
 procedure TfmFind.UpdateFonts;
   //
   procedure UpdateEdFont(Ed: TATSynEdit);
-  var
-    NColor: TColor;
   begin
     Ed.Font.Name:= EditorOps.OpFontName;
     Ed.Font.Size:= EditorOps.OpFontSize;
@@ -1019,16 +1017,8 @@ procedure TfmFind.UpdateFonts;
     Ed.OptBorderWidthFocused:= ATEditorScale(EditorOps.OpActiveBorderWidth);
     EditorApplyTheme(Ed);
 
-    NColor:= GetAppColor(TAppThemeColor.OtherTextFont);
-    if NColor=clNone then
-      NColor:= GetAppColor(TAppThemeColor.EdTextFont);
-    Ed.Colors.TextFont:= NColor;
-
-    NColor:= GetAppColor(TAppThemeColor.OtherTextBg);
-    if NColor=clNone then
-      NColor:= GetAppColor(TAppThemeColor.EdTextBg);
-    Ed.Colors.TextBG:= NColor;
-
+    Ed.Colors.TextFont:= GetAppColor(TAppThemeColor.OtherTextFont, TAppThemeColor.EdTextFont);
+    Ed.Colors.TextBG:= GetAppColor(TAppThemeColor.OtherTextBg, TAppThemeColor.EdTextBg);
     Ed.Update;
   end;
   //
@@ -1987,9 +1977,7 @@ var
 begin
   if UiOps.FindUseReddishIndicator then
   begin
-    NColorBG:= GetAppColor(TAppThemeColor.OtherTextBg);
-    if NColorBG=clNone then
-      NColorBG:= GetAppColor(TAppThemeColor.EdTextBg);
+    NColorBG:= GetAppColor(TAppThemeColor.OtherTextBg, TAppThemeColor.EdTextBg);
 
     if not AFound then
       NColorBG:= ColorBlendHalf(
@@ -2020,15 +2008,10 @@ begin
   EditorApplyTheme(edFind);
   EditorApplyTheme(edRep);
 
-  NColor:= GetAppColor(TAppThemeColor.OtherTextFont);
-  if NColor=clNone then
-    NColor:= GetAppColor(TAppThemeColor.EdTextFont);
+  NColor:= GetAppColor(TAppThemeColor.OtherTextFont, TAppThemeColor.EdTextFont);
   edFind.Colors.TextFont:= NColor;
   edRep.Colors.TextFont:= NColor;
-
-  NColor:= GetAppColor(TAppThemeColor.OtherTextBg);
-  if NColor=clNone then
-    NColor:= GetAppColor(TAppThemeColor.EdTextBg);
+  NColor:= GetAppColor(TAppThemeColor.OtherTextBg, TAppThemeColor.EdTextBg);
   edFind.Colors.TextBG:= NColor;
   edRep.Colors.TextBG:= NColor;
 

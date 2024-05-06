@@ -60,7 +60,6 @@ end;
 procedure TfmMain.DoApplyTheme;
 var
   id: TAppPanelId;
-  NColor: TColor;
   i: integer;
 begin
   with ATScrollbarTheme do
@@ -87,14 +86,8 @@ begin
 
   EditorApplyTheme(CodeTreeFilterInput);
 
-  NColor:= GetAppColor(TAppThemeColor.OtherTextFont);
-  if NColor=clNone then
-    NColor:= GetAppColor(TAppThemeColor.EdTextFont);
-  CodeTreeFilterInput.Colors.TextFont:= NColor;
-  NColor:= GetAppColor(TAppThemeColor.OtherTextBg);
-  if NColor=clNone then
-    NColor:= GetAppColor(TAppThemeColor.EdTextBg);
-  CodeTreeFilterInput.Colors.TextBG:= NColor;
+  CodeTreeFilterInput.Colors.TextFont:= GetAppColor(TAppThemeColor.OtherTextFont, TAppThemeColor.EdTextFont);
+  CodeTreeFilterInput.Colors.TextBG:= GetAppColor(TAppThemeColor.OtherTextBg, TAppThemeColor.EdTextBg);
   CodeTreeFilterInput.Update;
 
   ToolbarMain.Color:= GetAppColor(TAppThemeColor.TabBg);
@@ -124,10 +117,7 @@ begin
           FormFloat.Invalidate;
       end;
 
-  NColor:= GetAppColor(TAppThemeColor.StatusBg);
-  if NColor=clNone then
-    NColor:= GetAppColor(TAppThemeColor.TabBg);
-  Status.Color:= NColor;
+  Status.Color:= GetAppColor(TAppThemeColor.StatusBg, TAppThemeColor.TabBg);
 
   Status.ColorBorderTop:= GetAppColor(TAppThemeColor.ButtonBorderPassive);
   Status.ColorBorderR:= GetAppColor(TAppThemeColor.ButtonBorderPassive);

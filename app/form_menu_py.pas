@@ -147,12 +147,8 @@ begin
   edit.Font.Name:= EditorOps.OpFontName;
   edit.Font.Size:= EditorOps.OpFontSize;
   edit.Font.Quality:= EditorOps.OpFontQuality;
-  edit.Colors.TextFont:= GetAppColor(TAppThemeColor.OtherTextFont);
-  if edit.Colors.TextFont=clNone then
-    edit.Colors.TextFont:= GetAppColor(TAppThemeColor.EdTextFont);
-  edit.Colors.TextBG:= GetAppColor(TAppThemeColor.OtherTextBg);
-  if edit.Colors.TextBG=clNone then
-    edit.Colors.TextBG:= GetAppColor(TAppThemeColor.EdTextBg);
+  edit.Colors.TextFont:= GetAppColor(TAppThemeColor.OtherTextFont, TAppThemeColor.EdTextFont);
+  edit.Colors.TextBG:= GetAppColor(TAppThemeColor.OtherTextBg, TAppThemeColor.EdTextBg);
   edit.Colors.TextSelFont:= GetAppColor(TAppThemeColor.EdSelFont);
   edit.Colors.TextSelBG:= GetAppColor(TAppThemeColor.EdSelBg);
   edit.Colors.BorderLine:= GetAppColor(TAppThemeColor.EdBorder);

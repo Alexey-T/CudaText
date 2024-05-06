@@ -235,6 +235,7 @@ procedure AppThemeLoadFromFile(const AFileName: string; var D: TAppTheme; IsThem
 procedure AppThemeSaveToFile(const AFileName: string; const D: TAppTheme; IsThemeUI: boolean);
 
 function GetAppColor(id: TAppThemeColor): TColor; inline;
+function GetAppColor(id1, id2: TAppThemeColor): TColor;
 function GetAppStyle(id: TAppThemeStyle): TecSyntaxFormat; inline;
 function FindAppColorByName(const AName: string; ADefaultColor: TColor): TColor;
 
@@ -602,6 +603,13 @@ end;
 function GetAppColor(id: TAppThemeColor): TColor;
 begin
   Result:= AppTheme.Colors[id].Color;
+end;
+
+function GetAppColor(id1, id2: TAppThemeColor): TColor;
+begin
+  Result:= AppTheme.Colors[id1].Color;
+  if Result=clNone then
+    Result:= AppTheme.Colors[id2].Color;
 end;
 
 function GetAppStyle(id: TAppThemeStyle): TecSyntaxFormat;
