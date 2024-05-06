@@ -3,6 +3,10 @@
   - fixed
   * changed
 
+1.214.3 (2024/05)
+
++ add: new ui-theme color "OtherTextBg" to customize single-line inputs; it's 'none' by default to retain editor-bg color (thanks @pintassilgo)
+
 1.214.2 (2024/05)
 
 * change: 3 themes-related "Options" menu items were moved into submenu "Options / Themes" (thanks @GenSekY from linux.org.ru)
