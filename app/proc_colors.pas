@@ -74,6 +74,7 @@ type
     EdBookmarkBg,
     EdBookmarkIcon,
     EdMarkedRangeBg,
+    OtherTextBg,
     TabBg,
     SideBg,
     SideBadgeBg,
@@ -397,6 +398,7 @@ begin
   SetColor(TAppThemeColor.EdBookmarkBg, clMoneyGreen, 'EdBookmarkBg', 'editor, bookmark, line BG');
   SetColor(TAppThemeColor.EdBookmarkIcon, clMedGray, 'EdBookmarkIcon', 'editor, bookmark, gutter mark');
   SetColor(TAppThemeColor.EdMarkedRangeBg, $f0e0b0, 'EdMarkedRangeBg', 'editor, marked range BG / info panels BG');
+  SetColor(TAppThemeColor.OtherTextBg, clNone, 'OtherTextBg', 'single-line inputs text BG');
   SetColor(TAppThemeColor.TabBg, nColorBack2, 'TabBg', 'main-toolbar, tabs BG');
   SetColor(TAppThemeColor.SideBg, $808080, 'SideBg', 'side-toolbar BG');
   SetColor(TAppThemeColor.SideBadgeBg, clNavy, 'SideBadgeBg', 'side-toolbar, button badges BG');

@@ -1009,6 +1009,8 @@ end;
 procedure TfmFind.UpdateFonts;
   //
   procedure UpdateEdFont(Ed: TATSynEdit);
+  var
+    NColorBG: TColor;
   begin
     Ed.Font.Name:= EditorOps.OpFontName;
     Ed.Font.Size:= EditorOps.OpFontSize;
@@ -1016,6 +1018,12 @@ procedure TfmFind.UpdateFonts;
     Ed.OptBorderFocusedActive:= EditorOps.OpActiveBorderInControls;
     Ed.OptBorderWidthFocused:= ATEditorScale(EditorOps.OpActiveBorderWidth);
     EditorApplyTheme(Ed);
+
+    NColorBG:= GetAppColor(TAppThemeColor.OtherTextBg);
+    if NColorBG=clNone then
+      NColorBG:= GetAppColor(TAppThemeColor.EdTextBg);
+    Ed.Colors.TextBG:= NColorBG;
+
     Ed.Update;
   end;
   //
@@ -1974,11 +1982,13 @@ var
 begin
   if UiOps.FindUseReddishIndicator then
   begin
-    if AFound then
-      NColorBG:= GetAppColor(TAppThemeColor.EdTextBg)
-    else
+    NColorBG:= GetAppColor(TAppThemeColor.OtherTextBg);
+    if NColorBG=clNone then
+      NColorBG:= GetAppColor(TAppThemeColor.EdTextBg);
+
+    if not AFound then
       NColorBG:= ColorBlendHalf(
-                   GetAppColor(TAppThemeColor.EdTextBg),
+                   NColorBG,
                    GetAppColor(TAppThemeColor.ButtonBgDisabled));
 
     edFind.Colors.TextBG:= NColorBG;
@@ -1998,11 +2008,20 @@ end;
 procedure TfmFind.ApplyTheme;
 var
   TempLexer: TecSyntAnalyzer;
+  NColorBG: TColor;
 begin
   Color:= GetAppColor(TAppThemeColor.TabBg);
 
   EditorApplyTheme(edFind);
   EditorApplyTheme(edRep);
+
+  NColorBG:= GetAppColor(TAppThemeColor.OtherTextBg);
+  if NColorBG=clNone then
+    NColorBG:= GetAppColor(TAppThemeColor.EdTextBg);
+  edFind.Colors.TextBG:= NColorBG;
+  edRep.Colors.TextBG:= NColorBG;
+  edFind.Update;
+  edRep.Update;
 
   if Assigned(Adapter.Lexer) then
     DoApplyLexerStylesMap(Adapter.Lexer, TempLexer);
