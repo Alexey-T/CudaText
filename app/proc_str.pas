@@ -142,7 +142,7 @@ var
   end;
   //
 var
-  N, i: integer;
+  //N, i: integer;
   Deltas: word;
 begin
   Result:= nil;
@@ -151,6 +151,8 @@ begin
   STextUpper:= UnicodeUpperCase(SText);
   SFindUpper:= UnicodeUpperCase(SFind);
 
+  {
+  //commented 2024.05: block is not called at all
   //if simple match is found, don't calculate complex fuzzy matches
   N:= Pos(SFindUpper, STextUpper);
   if N>0 then
@@ -160,6 +162,7 @@ begin
       Result[i]:= N+i;
     Exit;
   end;
+  }
 
   //calculate complex matches
   SetLength(Result, Length(SFindUpper));
