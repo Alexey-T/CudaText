@@ -163,7 +163,7 @@ begin
 
   //calculate complex matches
   SetLength(Result, Length(SFindUpper));
-  for Deltas:= 0 to 63 do
+  for Deltas:= 0 to $FF do
     if TryMatch(Result, Deltas) then Exit;
   Result:= nil;
 end;
