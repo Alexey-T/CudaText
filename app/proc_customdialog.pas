@@ -35,6 +35,7 @@ uses
   proc_globdata,
   proc_py,
   proc_editor,
+  proc_colors,
   proc_scrollbars,
   proc_lexer_styles,
   proc_str,
@@ -728,6 +729,8 @@ begin
   begin
     Ed.OptCaretBlinkTime:= EditorOps.OpCaretBlinkTime;
     Ed.OptCaretBlinkEnabled:= EditorOps.OpCaretBlinkEn;
+    Ed.Colors.TextFont:= GetAppColor(TAppThemeColor.OtherTextFont, TAppThemeColor.EdTextFont);
+    Ed.Colors.TextBG:= GetAppColor(TAppThemeColor.OtherTextBg, TAppThemeColor.EdTextBg);
   end;
 
   //after EditorApplyOps
