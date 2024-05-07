@@ -791,7 +791,8 @@ procedure TfmFind.edFindChange(Sender: TObject);
 var
   Ed: TATSynEdit;
 begin
-  FInputChanged:= true;
+  if chkImmediate.Checked then
+    FInputChanged:= true;
 
   {
   Look at how your browser works (Firefox). Cuda should behave the same.
