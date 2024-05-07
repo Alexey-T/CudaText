@@ -1110,10 +1110,6 @@ Command Palette (and menu-like dialog in Python API) has the filter field. Filte
 
 If option is off, filter uses normal search. "Normal" means that filter leaves only those listbox items, which contain all words from the filter (in any order).
 
-Screenshot shows two Command Palette calls with some filtering: one when the "fuzzy" is on, and another when it's off.
-
-[[File:cudatext-fuzzy-and-normal.png]]
-
 Filter field can find hotkeys too. Enter only hotkey substring, with first "@" char. E.g. "@ho" finds "Ctrl+Home". This search is not fuzzy.
 
 Command Palette lists all internal CudaText commands, all plugin commands (prefixed with "plugin:"), all lexers (prefixed with "lexer:"), and currently opened files (prefixed with "opened file:"). Filter field allows to type hash symbol "#" followed by a letter, to make filtering by category:
