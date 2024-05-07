@@ -99,6 +99,8 @@ begin
 end;
 
 function SFindFuzzyPositions(const SText, SFind: UnicodeString): TATIntArray;
+var
+  STextUpper, SFindUpper: UnicodeString;
   //
   function IsCharSep(const ch: WideChar): boolean;
   begin
@@ -110,9 +112,31 @@ function SFindFuzzyPositions(const SText, SFind: UnicodeString): TATIntArray;
     Result:= (ch>='A') and (ch<='Z');
   end;
   //
+  function TryMatch(var ResArray: TATIntArray): boolean;
+  var
+    i, N, N2: integer;
+  begin
+    Result:= false;
+    N2:= 0;
+    for i:= 1 to Length(SFindUpper) do
+    begin
+      N:= N2;
+      repeat
+        N2:= PosEx(SFindUpper[i], STextUpper, N2+1);
+        if N2=0 then Exit;
+
+        if N2=N+1 then Break;
+        if IsCharUpperLetter(SText[N2]) then Break;
+        if (N2>1) and IsCharSep(SText[N2-1]) then Break;
+      until false;
+
+      ResArray[i-1]:= N2;
+    end;
+    Result:= true;
+  end;
+  //
 var
-  STextUpper, SFindUpper: UnicodeString;
-  i, N, N2: integer;
+  N, i: integer;
 begin
   Result:= nil;
   if SText='' then exit;
@@ -133,21 +157,8 @@ begin
 
   //calculate complex matches
   SetLength(Result, Length(SFindUpper));
-  N2:= 0;
-  for i:= 1 to Length(SFindUpper) do
-  begin
-    N:= N2;
-    repeat
-      N2:= PosEx(SFindUpper[i], STextUpper, N2+1);
-      if N2=0 then Exit(nil);
-
-      if N2=N+1 then Break;
-      if IsCharUpperLetter(SText[N2]) then Break;
-      if (N2>1) and IsCharSep(SText[N2-1]) then Break;
-    until false;
-
-    Result[i-1]:= N2;
-  end;
+  if not TryMatch(Result) then
+    Result:= nil;
 end;
 
 
