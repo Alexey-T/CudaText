@@ -140,6 +140,7 @@ type
     PanelOps2: TATPanelSimple;
     PanelTop: TATPanelSimple;
     PanelTopOps: TATPanelSimple;
+    TimerIdle: TTimer;
     procedure bExtractClick(Sender: TObject);
     procedure bFindNextClick(Sender: TObject);
     procedure bFindPrevClick(Sender: TObject);
@@ -182,6 +183,7 @@ type
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormResize(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure TimerIdleTimer(Sender: TObject);
   private
     { private declarations }
     FRegexObj: TRegExpr;
@@ -1417,8 +1419,8 @@ begin
 
   if Op<>TAppFinderOperation.CloseDlg then
   begin
-    edFind.DoAddLineToHistory(edFind.Text, UiOps.MaxHistoryEdits);
-    edRep.DoAddLineToHistory(edRep.Text, UiOps.MaxHistoryEdits);
+    TimerIdle.Enabled:= false;
+    TimerIdle.Enabled:= true;
     if bUpdateState then
       UpdateState(false);
   end;
@@ -2041,5 +2043,13 @@ begin
     FRegexObj.Expression:= '';
   end;
 end;
+
+procedure TfmFind.TimerIdleTimer(Sender: TObject);
+begin
+  TimerIdle.Enabled:= false;
+  edFind.DoAddLineToHistory(edFind.Text, UiOps.MaxHistoryEdits);
+  edRep.DoAddLineToHistory(edRep.Text, UiOps.MaxHistoryEdits);
+end;
+
 
 end.

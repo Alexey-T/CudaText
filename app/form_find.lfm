@@ -1,5 +1,5 @@
 object fmFind: TfmFind
-  Left = 20
+  Left = 21
   Height = 148
   Top = 420
   Width = 963
@@ -218,6 +218,7 @@ object fmFind: TfmFind
       OptGutterVisible = False
       OptRulerVisible = False
       OptMicromapVisible = True
+      OptMicromapScalePerColumn = 300
       OptMarginRight = 1000
       OptUnprintedVisible = False
       OptMouseDragDrop = False
@@ -262,6 +263,7 @@ object fmFind: TfmFind
       OptGutterVisible = False
       OptRulerVisible = False
       OptMicromapVisible = True
+      OptMicromapScalePerColumn = 300
       OptMarginRight = 1000
       OptUnprintedVisible = False
       OptMouseDragDrop = False
@@ -385,5 +387,10 @@ object fmFind: TfmFind
       Top = 4
       Width = 392
     end
+  end
+  object TimerIdle: TTimer
+    OnTimer = TimerIdleTimer
+    Left = 237
+    Top = 104
   end
 end
