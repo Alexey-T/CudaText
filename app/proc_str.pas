@@ -156,9 +156,8 @@ begin
   if N>0 then
   begin
     SetLength(Result, Length(SFind));
-    Result[0]:= N;
-    for i:= 1 to High(Result) do
-      Result[i]:= Result[i-1]+1;
+    for i:= 0 to High(Result) do
+      Result[i]:= N+i;
     Exit;
   end;
 
