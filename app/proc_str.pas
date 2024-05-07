@@ -98,10 +98,6 @@ begin
   result:= StringReplace(result, '\', '|', [rfReplaceAll]);
 end;
 
-
-type
-  TAppFuzzyDeltas = array[0..15] of boolean;
-
 function SFindFuzzyPositions(const SText, SFind: UnicodeString): TATIntArray;
 var
   STextUpper, SFindUpper: UnicodeString;
@@ -116,7 +112,7 @@ var
     Result:= (ch>='A') and (ch<='Z');
   end;
   //
-  function TryMatch(var ResArray: TATIntArray; const Deltas: TAppFuzzyDeltas): boolean;
+  function TryMatch(var ResArray: TATIntArray; Deltas: word): boolean;
   var
     NLenFind, i, N, N2, NDelta: integer;
   begin
@@ -128,8 +124,8 @@ var
       N:= N2;
       repeat
         NDelta:= 1;
-        if (NLenFind-i<=High(Deltas)) and Deltas[NLenFind-i] then
-          Inc(NDelta); //ie search from 2 chars ahead
+        if Deltas shr Min(16, NLenFind-i) and 1<>0 then
+          Inc(NDelta); //ie search not for next char, but 2 steps
 
         N2:= PosEx(SFindUpper[i], STextUpper, N2+NDelta);
         if N2=0 then Exit;
@@ -146,8 +142,8 @@ var
   end;
   //
 var
-  Deltas: TAppFuzzyDeltas;
-  i, j: integer;
+  //N, i: integer;
+  Deltas: word;
 begin
   Result:= nil;
   if SText='' then exit;
@@ -170,13 +166,8 @@ begin
 
   //calculate complex matches
   SetLength(Result, Length(SFindUpper));
-  for i:= 0 to 127 do
-  begin
-    for j:= 0 to High(Deltas) do
-      Deltas[j]:= i shr j <> 0;
+  for Deltas:= 0 to 127 do
     if TryMatch(Result, Deltas) then Exit;
-  end;
-
   Result:= nil;
 end;
 
