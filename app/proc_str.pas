@@ -130,6 +130,7 @@ var
         N2:= PosEx(SFindUpper[i], STextUpper, N2+NDelta);
         if N2=0 then Exit;
 
+        if i=1 then Break; //this can be commented, so it will be like VSCode
         if N2=N+1 then Break;
         if IsCharUpperLetter(SText[N2]) then Break;
         if (N2>1) and IsCharSep(SText[N2-1]) then Break;
