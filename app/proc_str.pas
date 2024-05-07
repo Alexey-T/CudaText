@@ -112,17 +112,22 @@ var
     Result:= (ch>='A') and (ch<='Z');
   end;
   //
-  function TryMatch(var ResArray: TATIntArray): boolean;
+  function TryMatch(var ResArray: TATIntArray; Deltas: word): boolean;
   var
-    i, N, N2: integer;
+    NLenFind, i, N, N2, NDelta: integer;
   begin
     Result:= false;
+    NLenFind:= Length(SFindUpper);
     N2:= 0;
-    for i:= 1 to Length(SFindUpper) do
+    for i:= 1 to NLenFind do
     begin
       N:= N2;
       repeat
-        N2:= PosEx(SFindUpper[i], STextUpper, N2+1);
+        NDelta:= 1;
+        if Deltas shr Min(16, NLenFind-i) and 1<>0 then
+          Inc(NDelta); //ie search not for next char, but 2 steps
+
+        N2:= PosEx(SFindUpper[i], STextUpper, N2+NDelta);
         if N2=0 then Exit;
 
         if N2=N+1 then Break;
@@ -137,6 +142,7 @@ var
   //
 var
   N, i: integer;
+  Deltas: word;
 begin
   Result:= nil;
   if SText='' then exit;
@@ -152,13 +158,14 @@ begin
     Result[0]:= N;
     for i:= 1 to High(Result) do
       Result[i]:= Result[i-1]+1;
-    exit;
+    Exit;
   end;
 
   //calculate complex matches
   SetLength(Result, Length(SFindUpper));
-  if not TryMatch(Result) then
-    Result:= nil;
+  for Deltas:= 0 to $FF do
+    if TryMatch(Result, Deltas) then Exit;
+  Result:= nil;
 end;
 
 
