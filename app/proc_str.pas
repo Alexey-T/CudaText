@@ -111,14 +111,15 @@ function SFindFuzzyPositions(const SText, SFind: UnicodeString): TATIntArray;
   end;
   //
 var
-  STextUpper: UnicodeString;
+  STextUpper, SFindUpper: UnicodeString;
   i, N, N2: integer;
 begin
   Result:= nil;
   STextUpper:= UnicodeUpperCase(SText);
+  SFindUpper:= UnicodeUpperCase(SFind);
 
   //if simple match is found, don't calculate complex fuzzy matches
-  N:= Pos(UnicodeUpperCase(SFind), UnicodeUpperCase(SText));
+  N:= Pos(SFindUpper, STextUpper);
   if N>0 then
   begin
     SetLength(Result, Length(SFind));
@@ -129,13 +130,13 @@ begin
   end;
 
   //calculate complex matches
-  SetLength(Result, Length(SFind));
+  SetLength(Result, Length(SFindUpper));
   N2:= 0;
-  for i:= 1 to Length(SFind) do
+  for i:= 1 to Length(SFindUpper) do
   begin
     N:= N2;
     repeat
-      N2:= PosEx(UpCase(SFind[i]), STextUpper, N2+1);
+      N2:= PosEx(SFindUpper[i], STextUpper, N2+1);
       if N2=0 then Exit(nil);
 
       if N2=N+1 then Break;
