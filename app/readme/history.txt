@@ -6,6 +6,7 @@
 1.214.3 (2024/05)
 
 + add: new ui-theme items "single-line inputs, font/BG"; they are 'none' by default to retain editor color (thanks @pintassilgo)
++ add: with "scrollbar_click_jump":true, middle-click makes the PageDown/PageUp (thanks @pintassilgo)
 - fix: Qt5 version: with dark theme, menubar was dark with black font, so menubar text was not readable (thanks @pintassilgo)
 
 1.214.2 (2024/05)
