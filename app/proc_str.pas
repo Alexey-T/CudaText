@@ -115,6 +115,8 @@ var
   i, N, N2: integer;
 begin
   Result:= nil;
+  if SText='' then exit;
+  if SFind='' then exit;
   STextUpper:= UnicodeUpperCase(SText);
   SFindUpper:= UnicodeUpperCase(SFind);
 
