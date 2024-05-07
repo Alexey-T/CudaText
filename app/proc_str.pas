@@ -104,7 +104,7 @@ var
   //
   function IsCharSep(const ch: WideChar): boolean;
   begin
-    Result:= Pos(ch, ' _.,:;/\-+()[]{}=|')>0;
+    Result:= Pos(ch, ' _.,:;/\-+*()[]{}=|''"<>?!@^&~')>0;
   end;
   //
   function IsCharUpperLetter(const ch: WideChar): boolean;
