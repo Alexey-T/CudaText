@@ -98,15 +98,26 @@ begin
   result:= StringReplace(result, '\', '|', [rfReplaceAll]);
 end;
 
-function SFindFuzzyPositions(SText, SFind: UnicodeString): TATIntArray;
+function SFindFuzzyPositions(const SText, SFind: UnicodeString): TATIntArray;
+  //
+  function IsCharSep(const ch: WideChar): boolean;
+  begin
+    Result:= Pos(ch, ' _.,:;/\-+()[]{}=|')>0;
+  end;
+  //
+  function IsCharUpperLetter(const ch: WideChar): boolean;
+  begin
+    Result:= (ch>='A') and (ch<='Z');
+  end;
+  //
 var
-  i, N: integer;
+  STextUpper: UnicodeString;
+  i, N, N1, N2: integer;
 begin
   Result:= nil;
+  STextUpper:= UnicodeUpperCase(SText);
 
-  SText:= UnicodeLowerCase(SText);
-  SFind:= UnicodeLowerCase(SFind);
-
+  {
   //if simple match is found, don't calculate complex fuzzy matches
   N:= Pos(SFind, SText);
   if N>0 then
@@ -117,15 +128,25 @@ begin
       Result[i]:= Result[i-1]+1;
     exit;
   end;
+  }
 
   //calculate complex matches
-  N:= 0;
   SetLength(Result, Length(SFind));
+  N2:= 0;
   for i:= 1 to Length(SFind) do
   begin
-    N:= PosEx(SFind[i], SText, N+1);
-    if N=0 then Exit(nil);
-    Result[i-1]:= N;
+    N1:= N2;
+    repeat
+      N:= N2;
+      N2:= PosEx(UpCase(SFind[i]), STextUpper, N+1);
+      if N2=0 then Exit(nil);
+
+      if N2=N1+1 then Break;
+      if IsCharUpperLetter(SText[N2]) then Break;
+      if (N2>1) and IsCharSep(SText[N2-1]) then Break;
+    until false;
+
+    Result[i-1]:= N2;
   end;
 end;
 
