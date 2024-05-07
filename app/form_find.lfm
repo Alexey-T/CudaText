@@ -389,6 +389,7 @@ object fmFind: TfmFind
     end
   end
   object TimerIdle: TTimer
+    Enabled = False
     OnTimer = TimerIdleTimer
     Left = 237
     Top = 104

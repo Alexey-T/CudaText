@@ -2047,8 +2047,12 @@ end;
 procedure TfmFind.TimerIdleTimer(Sender: TObject);
 begin
   TimerIdle.Enabled:= false;
-  edFind.DoAddLineToHistory(edFind.Text, UiOps.MaxHistoryEdits);
-  edRep.DoAddLineToHistory(edRep.Text, UiOps.MaxHistoryEdits);
+
+  if edFind.Text<>'' then
+    edFind.DoAddLineToHistory(edFind.Text, UiOps.MaxHistoryEdits);
+
+  if edRep.Text<>'' then
+    edRep.DoAddLineToHistory(edRep.Text, UiOps.MaxHistoryEdits);
 end;
 
 
