@@ -996,7 +996,7 @@ begin
     FFinder.OptWords:= cfg.GetValue('/finder/words', false);
     FFinder.OptBack:= cfg.GetValue('/finder/back', false);
     FFinder.OptConfirmReplace:= cfg.GetValue('/finder/confirm', false);
-    FFinder.OptWrapped:= cfg.GetValue('/finder/wrap', false);
+    FFinder.OptWrapped:= cfg.GetValue('/finder/wrap', true); //most other apps have 'wrapped' hardcoded to On
     FFinder.OptInSelection:= cfg.GetValue('/finder/insel', false);
     FFinder.OptTokens:= TATFinderTokensAllowed(cfg.GetValue('/finder/tokens', 0));
     FFinder.OptPreserveCase:= cfg.GetValue('/finder/prescase', false);
