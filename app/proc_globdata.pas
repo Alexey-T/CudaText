@@ -1760,7 +1760,7 @@ begin
     OpPasteWithEolAtLineStart:= false; //maybe change it later to True (like Sublime, VSCode)
 
     OpAutoCloseBracketsMultiCarets:= true; //must be True, issue #3235
-    OpAutoCloseBrackets:= '([{';
+    OpAutoCloseBrackets:= '([{"';
     OpAutocompleteAutoshowCharCount:= 0;
     OpAutocompleteTriggerChars:= '';
     OpAutocompleteCommitChars:= ',;';
