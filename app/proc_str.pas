@@ -101,6 +101,7 @@ end;
 function SFindFuzzyPositions(const SText, SFind: UnicodeString): TATIntArray;
 var
   STextUpper, SFindUpper: UnicodeString;
+  {
   //
   function IsCharSep(const ch: WideChar): boolean;
   begin
@@ -112,9 +113,9 @@ var
     Result:= (ch>='A') and (ch<='Z');
   end;
   //
+  }
 var
   N, i: integer;
-  //Deltas: word;
 begin
   Result:= nil;
   if SText='' then exit;
@@ -133,14 +134,6 @@ begin
       Result[i]:= N+i;
     Exit;
   end;
-  }
-
-  {
-  //calculate complex matches
-  SetLength(Result, Length(SFindUpper));
-  for Deltas:= 0 to 127 do
-    if TryMatch(Result, Deltas) then Exit;
-  Result:= nil;
   }
 
   //calculate complex matches
