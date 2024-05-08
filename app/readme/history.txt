@@ -8,6 +8,8 @@
 + add: new ui-theme items "single-line inputs, font/BG"; they are 'none' by default to retain editor color (thanks @pintassilgo)
 + add: with "scrollbar_click_jump":true, middle-click makes the PageDown/PageUp (thanks @pintassilgo)
 + add: Find dialog: update search-history with 'Im' flag not immediately, but by timer (thanks @Hexaae)
+* change: default of "show_mouse_sel_frame" changed to 'false'
+* change: default of "key_up_down_allow_edge" changed to 'true'
 - fix: Find dialog: few bugs in UI (thanks @Hexaae)
 - fix: Qt5 version: with dark theme, menubar was dark with black font, so menubar text was not readable (thanks @pintassilgo)
 
