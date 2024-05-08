@@ -1857,7 +1857,7 @@ begin
     OpShowLastLineOnTop:= false;
     OpShowFullBackgroundSel:= false;
     OpShowFullBackgroundSyntax:= true;
-    OpShowMouseSelFrame:= true;
+    OpShowMouseSelFrame:= false;
     OpShowIndentLines:= true;
     OpCopyLineIfNoSel:= true;
     OpCutLineIfNoSel:= false;
