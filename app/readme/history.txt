@@ -10,6 +10,7 @@
 + add: Find dialog: update search-history with 'Im' flag not immediately, but by timer (thanks @Hexaae)
 * change: default of "key_end_to_nonspace" changed to 'false' to be like VSCode
 * change: default of "key_up_down_allow_edge" changed to 'true' to be like VSCode
+* change: default of "auto_close_brackets" includes "-char to be like others
 * change: default of "show_mouse_sel_frame" changed to 'false' to be like others
 - fix: Find dialog: few bugs in UI (thanks @Hexaae)
 - fix: Qt5 version: with dark theme, menubar was dark with black font, so menubar text was not readable (thanks @pintassilgo)
