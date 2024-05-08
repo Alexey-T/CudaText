@@ -1908,7 +1908,7 @@ begin
     OpKeyTabIndents:= true;
     OpKeyHomeToNonSpace:= true;
     OpKeyHomeEndNavigateWrapped:= true;
-    OpKeyEndToNonSpace:= true;
+    OpKeyEndToNonSpace:= false;
     OpKeyPageKeepsRelativePos:= true;
     OpKeyPageUpDownSize:= Ord(TATEditorPageDownSize.FullMinus1);
     OpKeyUpDownKeepColumn:= true;

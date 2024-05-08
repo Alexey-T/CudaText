@@ -1233,7 +1233,7 @@
   "key_home_to_nonspace": true,
 
   //Key End: first jump to trailing non-space char, then to line end.
-  "key_end_to_nonspace": true,
+  "key_end_to_nonspace": false,
 
   //Keys Home/End: when moving on long wrapped lines, treat wrapped parts like
   //separate lines and first jump to wrapped parts edge.
