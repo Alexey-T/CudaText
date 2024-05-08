@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.214.4 (2024/05)
+1.214.5 (2024/05)
 
 + add: new ui-theme items "single-line inputs, font/BG"; they are 'none' by default to retain editor color (thanks @pintassilgo)
 + add: with "scrollbar_click_jump":true, middle-click makes the PageDown/PageUp (thanks @pintassilgo)
