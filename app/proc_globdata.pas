@@ -1913,7 +1913,7 @@ begin
     OpKeyPageUpDownSize:= Ord(TATEditorPageDownSize.FullMinus1);
     OpKeyUpDownKeepColumn:= true;
     OpKeyUpDownNavigateWrapped:= true;
-    OpKeyUpDownAllowToEdge:= false;
+    OpKeyUpDownAllowToEdge:= true;
     OpKeyLeftRightGoToNextLineWithCarets:= true;
     OpKeyLeftRightSwapSel:= true;
     OpKeyLeftRightSwapSelAndSelect:= false;
