@@ -1407,22 +1407,25 @@ begin
   if edFind.IsEmpty then
     if Op<>TAppFinderOperation.CloseDlg then exit;
 
-  if Assigned(FOnResult) then
-    FOnResult(Self, Op, AUpdateEnabledAll);
-
   bUpdateState:= Op in [
+    TAppFinderOperation.FindFirst,
+    TAppFinderOperation.FindNext,
+    TAppFinderOperation.FindPrev,
     TAppFinderOperation.Replace,
     TAppFinderOperation.ReplaceStop,
     TAppFinderOperation.ReplaceAll,
     TAppFinderOperation.ReplaceGlobal
     ];
+  if bUpdateState then
+    UpdateState(false);
+
+  if Assigned(FOnResult) then
+    FOnResult(Self, Op, AUpdateEnabledAll);
 
   if Op<>TAppFinderOperation.CloseDlg then
   begin
     TimerIdle.Enabled:= false;
     TimerIdle.Enabled:= true;
-    if bUpdateState then
-      UpdateState(false);
   end;
 end;
 
