@@ -112,38 +112,9 @@ var
     Result:= (ch>='A') and (ch<='Z');
   end;
   //
-  function TryMatch(var ResArray: TATIntArray; Deltas: word): boolean;
-  var
-    NLenFind, i, N, N2, NDelta: integer;
-  begin
-    Result:= false;
-    NLenFind:= Length(SFindUpper);
-    N2:= 0;
-    for i:= 1 to NLenFind do
-    begin
-      N:= N2;
-      repeat
-        NDelta:= 1;
-        if Deltas shr Min(16, NLenFind-i) and 1<>0 then
-          Inc(NDelta); //ie search not for next char, but 2 steps
-
-        N2:= PosEx(SFindUpper[i], STextUpper, N2+NDelta);
-        if N2=0 then Exit;
-
-        if i=1 then Break; //this can be commented, so it will be like VSCode
-        if N2=N+1 then Break;
-        if IsCharUpperLetter(SText[N2]) then Break;
-        if (N2>1) and IsCharSep(SText[N2-1]) then Break;
-      until false;
-
-      ResArray[i-1]:= N2;
-    end;
-    Result:= true;
-  end;
-  //
 var
-  //N, i: integer;
-  Deltas: word;
+  N, i: integer;
+  //Deltas: word;
 begin
   Result:= nil;
   if SText='' then exit;
@@ -164,11 +135,23 @@ begin
   end;
   }
 
+  {
   //calculate complex matches
   SetLength(Result, Length(SFindUpper));
   for Deltas:= 0 to 127 do
     if TryMatch(Result, Deltas) then Exit;
   Result:= nil;
+  }
+
+  //calculate complex matches
+  N:= 0;
+  SetLength(Result, Length(SFindUpper));
+  for i:= 1 to Length(SFindUpper) do
+  begin
+    N:= PosEx(SFindUpper[i], STextUpper, N+1);
+    if N=0 then Exit(nil);
+    Result[i-1]:= N;
+  end;
 end;
 
 
