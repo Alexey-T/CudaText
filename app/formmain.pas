@@ -772,7 +772,7 @@ type
     procedure PopupBottomCopyClick(Sender: TObject);
     procedure PopupBottomSelectAllClick(Sender: TObject);
     procedure PopupBottomWrapClick(Sender: TObject);
-    procedure ConfirmButtonOkClick(Sender: TObject);
+    procedure ConfirmPanelClick(Sender: TObject);
     procedure ConfirmPanelMouseLeave(Sender: TObject);
     procedure FindDialogFocusEditor(Sender: TObject);
     procedure FindDialogGetMainEditor(out AEditor: TATSynEdit);
@@ -9093,7 +9093,7 @@ begin
     FCfmPanel.BevelInner:= bvNone;
     FCfmPanel.BevelOuter:= bvNone;
     FCfmPanel.Caption:= '??';
-    FCfmPanel.OnClick:= @ConfirmButtonOkClick;
+    FCfmPanel.OnClick:= @ConfirmPanelClick;
     FCfmPanel.OnMouseLeave:= @ConfirmPanelMouseLeave;
   end;
 
@@ -9106,7 +9106,7 @@ begin
   FCfmPanel.Height:= Trunc(ATEditorScaleFont(UiOps.VarFontSize)*cH);
 end;
 
-procedure TfmMain.ConfirmButtonOkClick(Sender: TObject);
+procedure TfmMain.ConfirmPanelClick(Sender: TObject);
 begin
   FCfmPanel.Hide;
   EditorOpenLink(FCfmLink);
