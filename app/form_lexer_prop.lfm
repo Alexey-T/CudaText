@@ -1,28 +1,28 @@
 object fmLexerProp: TfmLexerProp
-  Left = 425
+  Left = 428
   Height = 601
   Top = 140
-  Width = 654
+  Width = 651
   BorderIcons = [biSystemMenu]
   Caption = 'Lexer properties'
   ClientHeight = 601
-  ClientWidth = 654
+  ClientWidth = 651
   Constraints.MinHeight = 350
   Constraints.MinWidth = 600
   KeyPreview = True
+  Position = poMainFormCenter
+  ShowInTaskBar = stNever
+  LCLVersion = '3.99.0.0'
   OnClose = FormClose
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnKeyDown = FormKeyDown
   OnShow = FormShow
-  Position = poMainFormCenter
-  ShowInTaskBar = stNever
-  LCLVersion = '2.1.0.0'
   object ButtonPanel1: TButtonPanel
     Left = 6
-    Height = 29
-    Top = 566
-    Width = 642
+    Height = 33
+    Top = 562
+    Width = 639
     OKButton.Name = 'OKButton'
     OKButton.DefaultCaption = True
     HelpButton.Name = 'HelpButton'
@@ -37,17 +37,17 @@ object fmLexerProp: TfmLexerProp
   end
   object Pages: TPageControl
     Left = 0
-    Height = 560
+    Height = 556
     Top = 0
-    Width = 654
+    Width = 651
     ActivePage = TabSheetGeneral
     Align = alClient
     TabIndex = 0
     TabOrder = 0
     object TabSheetGeneral: TTabSheet
       Caption = 'General'
-      ClientHeight = 529
-      ClientWidth = 650
+      ClientHeight = 525
+      ClientWidth = 641
       object LabelLexerName: TLabel
         AnchorSideLeft.Control = TabSheetGeneral
         AnchorSideTop.Control = TabSheetGeneral
@@ -68,16 +68,16 @@ object fmLexerProp: TfmLexerProp
         AnchorSideRight.Control = TabSheetGeneral
         AnchorSideRight.Side = asrBottom
         Left = 6
-        Height = 26
+        Height = 33
         Top = 26
-        Width = 638
+        Width = 629
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Left = 6
         BorderSpacing.Top = 3
         BorderSpacing.Right = 6
-        OnChange = edNameChange
         ReadOnly = True
         TabOrder = 0
+        OnChange = edNameChange
       end
       object LabelFileTypes: TLabel
         AnchorSideLeft.Control = LabelLexerName
@@ -85,7 +85,7 @@ object fmLexerProp: TfmLexerProp
         AnchorSideTop.Side = asrBottom
         Left = 6
         Height = 17
-        Top = 55
+        Top = 62
         Width = 68
         BorderSpacing.Top = 3
         Caption = 'File types:'
@@ -99,13 +99,13 @@ object fmLexerProp: TfmLexerProp
         AnchorSideRight.Control = edName
         AnchorSideRight.Side = asrBottom
         Left = 6
-        Height = 26
-        Top = 75
-        Width = 638
+        Height = 33
+        Top = 82
+        Width = 629
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Top = 3
-        OnChange = edNameChange
         TabOrder = 1
+        OnChange = edNameChange
       end
       object LabelSample: TLabel
         AnchorSideLeft.Control = LabelFileTypes
@@ -113,7 +113,7 @@ object fmLexerProp: TfmLexerProp
         AnchorSideTop.Side = asrBottom
         Left = 6
         Height = 17
-        Top = 104
+        Top = 118
         Width = 84
         BorderSpacing.Top = 3
         Caption = 'Sample text:'
@@ -124,9 +124,9 @@ object fmLexerProp: TfmLexerProp
         AnchorSideTop.Control = LabelSample
         AnchorSideTop.Side = asrBottom
         Left = 6
-        Height = 399
-        Top = 124
-        Width = 638
+        Height = 381
+        Top = 138
+        Width = 629
         Align = alBottom
         Anchors = [akTop, akLeft, akRight, akBottom]
         BorderSpacing.Left = 6
@@ -148,8 +148,8 @@ object fmLexerProp: TfmLexerProp
     end
     object TabSheetComments: TTabSheet
       Caption = 'Commenting'
-      ClientHeight = 529
-      ClientWidth = 650
+      ClientHeight = 525
+      ClientWidth = 641
       object LabelCmtLine: TLabel
         AnchorSideLeft.Control = TabSheetComments
         AnchorSideTop.Control = TabSheetComments
@@ -168,13 +168,13 @@ object fmLexerProp: TfmLexerProp
         AnchorSideTop.Control = LabelCmtLine
         AnchorSideTop.Side = asrBottom
         Left = 6
-        Height = 27
+        Height = 33
         Top = 26
         Width = 130
         BorderSpacing.Top = 3
-        OnChange = edNameChange
         ReadOnly = True
         TabOrder = 0
+        OnChange = edNameChange
       end
       object LabelCmtStream: TLabel
         AnchorSideLeft.Control = LabelCmtLine
@@ -182,7 +182,7 @@ object fmLexerProp: TfmLexerProp
         AnchorSideTop.Side = asrBottom
         Left = 6
         Height = 17
-        Top = 56
+        Top = 62
         Width = 111
         BorderSpacing.Top = 3
         Caption = 'Comment range:'
@@ -195,27 +195,27 @@ object fmLexerProp: TfmLexerProp
         AnchorSideRight.Control = edCmtLine
         AnchorSideRight.Side = asrBottom
         Left = 6
-        Height = 27
-        Top = 76
+        Height = 33
+        Top = 82
         Width = 130
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Top = 3
-        OnChange = edCmtStream1Change
         ReadOnly = True
         TabOrder = 1
+        OnChange = edCmtStream1Change
       end
       object edCmtStream2: TEdit
         AnchorSideLeft.Control = edCmtStream1
         AnchorSideLeft.Side = asrBottom
         AnchorSideTop.Control = edCmtStream1
         Left = 142
-        Height = 27
-        Top = 76
+        Height = 33
+        Top = 82
         Width = 130
         BorderSpacing.Left = 6
-        OnChange = edCmtStream1Change
         ReadOnly = True
         TabOrder = 2
+        OnChange = edCmtStream1Change
       end
       object LabelCmtFull: TLabel
         AnchorSideLeft.Control = edCmtStream1
@@ -223,7 +223,7 @@ object fmLexerProp: TfmLexerProp
         AnchorSideTop.Side = asrBottom
         Left = 6
         Height = 17
-        Top = 106
+        Top = 118
         Width = 198
         BorderSpacing.Top = 3
         Caption = 'Comment range, for full lines:'
@@ -236,14 +236,14 @@ object fmLexerProp: TfmLexerProp
         AnchorSideRight.Control = edCmtStream1
         AnchorSideRight.Side = asrBottom
         Left = 6
-        Height = 27
-        Top = 126
+        Height = 33
+        Top = 138
         Width = 130
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Top = 3
-        OnChange = edCmtStream1Change
         ReadOnly = True
         TabOrder = 3
+        OnChange = edCmtStream1Change
       end
       object edCmtFull2: TEdit
         AnchorSideLeft.Control = edCmtFull1
@@ -252,14 +252,14 @@ object fmLexerProp: TfmLexerProp
         AnchorSideRight.Control = edCmtStream2
         AnchorSideRight.Side = asrBottom
         Left = 142
-        Height = 27
-        Top = 126
+        Height = 33
+        Top = 138
         Width = 130
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Left = 6
-        OnChange = edCmtStream1Change
         ReadOnly = True
         TabOrder = 4
+        OnChange = edCmtStream1Change
       end
       object LabelStylesCmt: TLabel
         AnchorSideLeft.Control = LabelCmtLine
@@ -267,7 +267,7 @@ object fmLexerProp: TfmLexerProp
         AnchorSideTop.Side = asrBottom
         Left = 6
         Height = 17
-        Top = 178
+        Top = 196
         Width = 136
         BorderSpacing.Top = 25
         Caption = 'Styles of comments:'
@@ -280,15 +280,15 @@ object fmLexerProp: TfmLexerProp
         AnchorSideRight.Control = TabSheetComments
         AnchorSideRight.Side = asrBottom
         Left = 6
-        Height = 27
-        Top = 198
-        Width = 638
+        Height = 33
+        Top = 216
+        Width = 629
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Top = 3
         BorderSpacing.Right = 6
-        OnChange = edCmtStream1Change
         ReadOnly = True
         TabOrder = 5
+        OnChange = edCmtStream1Change
       end
       object LabelStylesStrings: TLabel
         AnchorSideLeft.Control = LabelCmtLine
@@ -296,7 +296,7 @@ object fmLexerProp: TfmLexerProp
         AnchorSideTop.Side = asrBottom
         Left = 6
         Height = 17
-        Top = 228
+        Top = 252
         Width = 111
         BorderSpacing.Top = 3
         Caption = 'Styles of strings:'
@@ -309,48 +309,48 @@ object fmLexerProp: TfmLexerProp
         AnchorSideRight.Control = edStylesCmt
         AnchorSideRight.Side = asrBottom
         Left = 6
-        Height = 27
-        Top = 248
-        Width = 638
+        Height = 33
+        Top = 272
+        Width = 629
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Top = 3
-        OnChange = edCmtStream1Change
         ReadOnly = True
         TabOrder = 6
+        OnChange = edCmtStream1Change
       end
     end
     object TabSheetStyles: TTabSheet
       Caption = 'Styles'
-      ClientHeight = 529
-      ClientWidth = 650
+      ClientHeight = 525
+      ClientWidth = 641
       object ListStyles: TListBox
         Left = 6
-        Height = 459
+        Height = 455
         Top = 6
         Width = 176
         Align = alLeft
         BorderSpacing.Around = 6
         ItemHeight = 0
-        OnClick = ListStylesClick
         ScrollWidth = 174
         TabOrder = 0
         TopIndex = -1
+        OnClick = ListStylesClick
       end
       object Panel1: TPanel
         Left = 188
-        Height = 459
+        Height = 455
         Top = 6
-        Width = 456
+        Width = 447
         Align = alClient
         BorderSpacing.Around = 6
         BevelOuter = bvNone
-        ClientHeight = 459
-        ClientWidth = 456
+        ClientHeight = 455
+        ClientWidth = 447
         TabOrder = 1
         object edColorFont: TColorBox
           AnchorSideTop.Control = edColorBG
           Left = 208
-          Height = 31
+          Height = 29
           Top = 20
           Width = 190
           ColorRectWidth = 22
@@ -358,14 +358,14 @@ object fmLexerProp: TfmLexerProp
           Style = [cbStandardColors, cbExtendedColors, cbIncludeNone, cbCustomColor, cbPrettyNames]
           DropDownCount = 20
           ItemHeight = 0
-          OnChange = edColorBGChange
           TabOrder = 1
+          OnChange = edColorBGChange
         end
         object edColorBG: TColorBox
           AnchorSideTop.Control = LabelColorBg
           AnchorSideTop.Side = asrBottom
           Left = 8
-          Height = 31
+          Height = 29
           Top = 20
           Width = 190
           ColorRectWidth = 22
@@ -374,8 +374,8 @@ object fmLexerProp: TfmLexerProp
           BorderSpacing.Top = 3
           DropDownCount = 20
           ItemHeight = 0
-          OnChange = edColorBGChange
           TabOrder = 0
+          OnChange = edColorBGChange
         end
         object LabelColorFont: TLabel
           AnchorSideTop.Control = LabelColorBg
@@ -404,7 +404,7 @@ object fmLexerProp: TfmLexerProp
           AnchorSideTop.Side = asrBottom
           Left = 8
           Height = 17
-          Top = 54
+          Top = 52
           Width = 77
           BorderSpacing.Top = 3
           Caption = 'Font styles:'
@@ -414,59 +414,60 @@ object fmLexerProp: TfmLexerProp
           AnchorSideTop.Control = LabelFontStyles
           AnchorSideTop.Side = asrBottom
           Left = 8
-          Height = 24
-          Top = 74
+          Height = 23
+          Top = 72
           Width = 57
           BorderSpacing.Top = 3
           Caption = 'Bold'
-          OnChange = chkBoldChange
           TabOrder = 2
+          OnChange = chkBoldChange
         end
         object chkItalic: TCheckBox
           AnchorSideLeft.Control = chkBold
           AnchorSideLeft.Side = asrBottom
           AnchorSideTop.Control = chkBold
           Left = 75
-          Height = 24
-          Top = 74
+          Height = 23
+          Top = 72
           Width = 59
           BorderSpacing.Left = 10
           Caption = 'Italic'
-          OnChange = chkBoldChange
           TabOrder = 3
+          OnChange = chkBoldChange
         end
         object chkStrik: TCheckBox
           AnchorSideLeft.Control = chkUnder
           AnchorSideLeft.Side = asrBottom
           AnchorSideTop.Control = chkBold
           Left = 245
-          Height = 24
-          Top = 74
-          Width = 83
+          Height = 23
+          Top = 72
+          Width = 82
           BorderSpacing.Left = 10
           Caption = 'Stikeout'
-          OnChange = chkBoldChange
           TabOrder = 5
+          OnChange = chkBoldChange
         end
         object chkUnder: TCheckBox
           AnchorSideLeft.Control = chkItalic
           AnchorSideLeft.Side = asrBottom
           AnchorSideTop.Control = chkBold
           Left = 144
-          Height = 24
-          Top = 74
+          Height = 23
+          Top = 72
           Width = 91
           BorderSpacing.Left = 10
           Caption = 'Underline'
-          OnChange = chkBoldChange
           TabOrder = 4
+          Visible = False
+          OnChange = chkBoldChange
         end
         object LabelBorder: TLabel
           AnchorSideTop.Control = chkBold
           AnchorSideTop.Side = asrBottom
           Left = 8
           Height = 17
-          Top = 101
+          Top = 98
           Width = 58
           BorderSpacing.Top = 3
           Caption = 'Borders:'
@@ -476,59 +477,59 @@ object fmLexerProp: TfmLexerProp
           AnchorSideTop.Control = LabelBorderL
           AnchorSideTop.Side = asrBottom
           Left = 8
-          Height = 31
-          Top = 141
+          Height = 33
+          Top = 138
           Width = 100
           BorderSpacing.Top = 3
           DropDownCount = 20
           ItemHeight = 0
-          OnChange = cbBorderLChange
           Style = csDropDownList
           TabOrder = 6
+          OnChange = cbBorderLChange
         end
         object cbBorderT: TComboBox
           AnchorSideTop.Control = cbBorderL
           Left = 112
-          Height = 31
-          Top = 141
+          Height = 33
+          Top = 138
           Width = 100
           DropDownCount = 20
           ItemHeight = 0
-          OnChange = cbBorderLChange
           Style = csDropDownList
           TabOrder = 7
+          OnChange = cbBorderLChange
         end
         object cbBorderR: TComboBox
           AnchorSideTop.Control = cbBorderL
           Left = 216
-          Height = 31
-          Top = 141
+          Height = 33
+          Top = 138
           Width = 100
           DropDownCount = 20
           ItemHeight = 0
-          OnChange = cbBorderLChange
           Style = csDropDownList
           TabOrder = 8
+          OnChange = cbBorderLChange
         end
         object cbBorderB: TComboBox
           AnchorSideTop.Control = cbBorderL
           Left = 320
-          Height = 31
-          Top = 141
+          Height = 33
+          Top = 138
           Width = 100
           DropDownCount = 20
           ItemHeight = 0
-          OnChange = cbBorderLChange
           Style = csDropDownList
           TabOrder = 9
+          OnChange = cbBorderLChange
         end
         object LabelBorderL: TLabel
           AnchorSideTop.Control = LabelBorder
           AnchorSideTop.Side = asrBottom
           Left = 8
           Height = 17
-          Top = 121
-          Width = 28
+          Top = 118
+          Width = 27
           BorderSpacing.Top = 3
           Caption = 'Left'
           FocusControl = cbBorderL
@@ -538,7 +539,7 @@ object fmLexerProp: TfmLexerProp
           AnchorSideTop.Control = LabelBorderL
           Left = 112
           Height = 17
-          Top = 121
+          Top = 118
           Width = 25
           Caption = 'Top'
           FocusControl = cbBorderT
@@ -548,7 +549,7 @@ object fmLexerProp: TfmLexerProp
           AnchorSideTop.Control = LabelBorderL
           Left = 216
           Height = 17
-          Top = 121
+          Top = 118
           Width = 35
           Caption = 'Right'
           FocusControl = cbBorderR
@@ -558,7 +559,7 @@ object fmLexerProp: TfmLexerProp
           AnchorSideTop.Control = LabelBorderL
           Left = 320
           Height = 17
-          Top = 121
+          Top = 118
           Width = 52
           Caption = 'Bottom'
           FocusControl = cbBorderB
@@ -569,7 +570,7 @@ object fmLexerProp: TfmLexerProp
           AnchorSideTop.Side = asrBottom
           Left = 8
           Height = 17
-          Top = 175
+          Top = 174
           Width = 109
           BorderSpacing.Top = 3
           Caption = 'Color of border:'
@@ -580,8 +581,8 @@ object fmLexerProp: TfmLexerProp
           AnchorSideTop.Control = LabelColorBorder
           AnchorSideTop.Side = asrBottom
           Left = 8
-          Height = 31
-          Top = 195
+          Height = 29
+          Top = 194
           Width = 190
           ColorRectWidth = 22
           NoneColorColor = clNone
@@ -589,15 +590,15 @@ object fmLexerProp: TfmLexerProp
           BorderSpacing.Top = 3
           DropDownCount = 20
           ItemHeight = 0
-          OnChange = edColorBGChange
           TabOrder = 10
+          OnChange = edColorBGChange
         end
       end
       object LabelInfoThemes: TLabel
         Left = 6
         Height = 52
-        Top = 471
-        Width = 638
+        Top = 467
+        Width = 629
         Align = alBottom
         Alignment = taCenter
         AutoSize = False
@@ -609,13 +610,13 @@ object fmLexerProp: TfmLexerProp
     end
     object TabSheetNotes: TTabSheet
       Caption = 'Notes'
-      ClientHeight = 529
-      ClientWidth = 650
+      ClientHeight = 525
+      ClientWidth = 641
       object edNotes: TMemo
         Left = 6
-        Height = 482
+        Height = 513
         Top = 6
-        Width = 607
+        Width = 629
         Align = alClient
         BorderSpacing.Around = 6
         ReadOnly = True

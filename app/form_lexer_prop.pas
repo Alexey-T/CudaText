@@ -464,6 +464,7 @@ begin
   chkBold.Enabled:= fmt in [ftCustomFont, ftFontAttr];
   chkItalic.Enabled:= chkBold.Enabled;
   chkUnder.Enabled:= false; //chkBold.Enabled; //disabled because it don't have effect
+  chkUnder.Visible:= false;
   chkStrik.Enabled:= chkBold.Enabled;
 end;
 
