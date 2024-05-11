@@ -4198,10 +4198,8 @@ begin
 
   if not FileWasBig[Ed] then
   begin
-    NFlag:= Min(
-      c.GetValue(path+cHistory_Wrap, -1),
-      Ord(High(TATEditorWrapMode)) );
-    if NFlag>=0 then
+    NFlag:= c.GetValue(path+cHistory_Wrap, -1);
+    if (NFlag>=0) and (NFlag<=Ord(High(TATEditorWrapMode))) then
       if Ed.OptWrapMode<>TATEditorWrapMode(NFlag) then
       begin
         Ed.OptWrapMode:= TATEditorWrapMode(NFlag);
