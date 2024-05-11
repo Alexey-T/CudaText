@@ -1945,18 +1945,18 @@ begin
     Ed.OptTabSpaces:= ANew.TabSpaces;
   if (AOld.WrapMode<>ANew.WrapMode) and (TATEditorModifiedOption.WordWrap in Ed.ModifiedOptions) then
     Ed.OptWrapMode:= ANew.WrapMode;
-  if AOld.ShowMinimap<>ANew.ShowMinimap then
+  if (AOld.ShowMinimap<>ANew.ShowMinimap) and (TATEditorModifiedOption.MinimapVisible in Ed.ModifiedOptions) then
     Ed.OptMinimapVisible:= ANew.ShowMinimap;
-  if AOld.ShowMicromap<>ANew.ShowMicromap then
+  if (AOld.ShowMicromap<>ANew.ShowMicromap) and (TATEditorModifiedOption.MicromapVisible in Ed.ModifiedOptions) then
     Ed.OptMicromapVisible:= ANew.ShowMicromap;
-  if AOld.ShowRuler<>ANew.ShowRuler then
+  if (AOld.ShowRuler<>ANew.ShowRuler) and (TATEditorModifiedOption.RulerVisible in Ed.ModifiedOptions) then
     Ed.OptRulerVisible:= ANew.ShowRuler;
   if AOld.ShowNumbers<>ANew.ShowNumbers then
     Ed.Gutter.Items[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagNumbers)].Visible:= ANew.ShowNumbers;
   if AOld.ShowFolding<>ANew.ShowFolding then
     Ed.Gutter.Items[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagFolding)].Visible:= ANew.ShowFolding;
 
-  if AOld.ShowUnprinted<>ANew.ShowUnprinted then
+  if (AOld.ShowUnprinted<>ANew.ShowUnprinted) and (TATEditorModifiedOption.UnprintedVisible in Ed.ModifiedOptions) then
     Ed.OptUnprintedVisible:= ANew.ShowUnprinted;
 
   //let's not compare AOld.*<>ANew.*, to fix issue #2908
