@@ -263,7 +263,8 @@ const
 
   msgStatusbarWrapStates: array[0..Ord(High(TATEditorWrapMode))] of string =
     //('no wrap', 'wrap', 'margin');
-    ('─>', '<┘', '<┘│');
+    //('─>', '<┘', '<┘│');
+    ('→', '↵', '↵│');
 
   msgStatusbarHintCaret: string = 'Caret position, selection';
   msgStatusbarHintEnc: string = 'File encoding';

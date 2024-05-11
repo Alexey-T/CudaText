@@ -260,7 +260,7 @@ begin
       else
         S:= '';
     end;
-    DoStatusbarTextByTag(AStatus, StatusbarTag_WrapMode, S);
+    DoStatusbarTextByTag(AStatus, StatusbarTag_WrapMode, S, 'Courier New');
 
     exit;
   end;
