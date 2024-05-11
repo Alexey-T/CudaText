@@ -1943,7 +1943,7 @@ begin
     Ed.OptTabSize:= ANew.TabSize;
   if AOld.TabSpaces<>ANew.TabSpaces then
     Ed.OptTabSpaces:= ANew.TabSpaces;
-  if AOld.WrapMode<>ANew.WrapMode then
+  if (AOld.WrapMode<>ANew.WrapMode) and (TATEditorModifiedOption.WordWrap in Ed.ModifiedOptions) then
     Ed.OptWrapMode:= ANew.WrapMode;
   if AOld.ShowMinimap<>ANew.ShowMinimap then
     Ed.OptMinimapVisible:= ANew.ShowMinimap;
