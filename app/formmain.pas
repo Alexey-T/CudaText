@@ -2249,6 +2249,8 @@ end;
 
 procedure TfmMain.StatusPanelDraw(Sender: TObject; AIndex: integer; ACanvas: TCanvas;
   const ARect: TRect; var ACanDraw: boolean);
+var
+  NFontColor: TColor;
   //
   procedure PaintArrowRight(AArrowSize: integer);
   var
@@ -2258,7 +2260,7 @@ procedure TfmMain.StatusPanelDraw(Sender: TObject; AIndex: integer; ACanvas: TCa
     CanvasArrowHorz(
       ACanvas,
       Rect(NX-AArrowSize div 2, ARect.Top, NX+AArrowSize div 2, ARect.Bottom),
-      Status.Font.Color,
+      NFontColor,
       AArrowSize,
       true,
       25
@@ -2273,7 +2275,7 @@ procedure TfmMain.StatusPanelDraw(Sender: TObject; AIndex: integer; ACanvas: TCa
     CanvasArrowWrapped(
       ACanvas,
       Rect(NX-AArrowSize div 2, ARect.Top, NX+AArrowSize div 2, ARect.Bottom),
-      Status.Font.Color,
+      NFontColor,
       40,
       100,
       25
@@ -2310,6 +2312,8 @@ begin
           else
             exit;
         end;
+
+        NFontColor:= GetAppColorOfStatusbarFont;
         NHeight:= Status.Height;
         NArrowWidth:= NHeight*2 div 3;
         case WrapMode of
@@ -2326,7 +2330,7 @@ begin
               PaintArrowWrapped(NArrowWidth);
               CanvasLine_Dotted(
                 ACanvas,
-                Status.Font.Color,
+                NFontColor,
                 (ARect.Left+ARect.Right+NArrowWidth+3) div 2,
                 3,
                 (ARect.Left+ARect.Right) div 2,
