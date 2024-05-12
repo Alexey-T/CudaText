@@ -2263,7 +2263,7 @@ var
       NFontColor,
       AArrowSize,
       true,
-      25
+      20
       );
   end;
   //
@@ -2278,7 +2278,7 @@ var
       NFontColor,
       40,
       100,
-      25
+      20
       );
   end;
   //
