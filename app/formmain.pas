@@ -2282,7 +2282,8 @@ procedure TfmMain.StatusPanelDraw(Sender: TObject; AIndex: integer; ACanvas: TCa
   //
 var
   Data: TATStatusData;
-  Ed: TATSynEdit;
+  Frame: TEditorFrame;
+  WrapMode: TATEditorWrapMode;
   NHeight, NArrowWidth: integer;
 begin
   ACanDraw:= true;
@@ -2292,11 +2293,26 @@ begin
   case Data.Tag of
     StatusbarTag_WrapMode:
       begin
+        Frame:= CurrentFrame;
+        if Frame=nil then exit;
+        case Frame.FrameKind of
+          TAppFrameKind.BinaryViewer:
+            begin
+              if Frame.Binary.TextWrap then
+                WrapMode:= TATEditorWrapMode.ModeOn
+              else
+                WrapMode:= TATEditorWrapMode.ModeOff;
+            end;
+          TAppFrameKind.Editor:
+            begin
+              WrapMode:= Frame.Editor.OptWrapMode;
+            end;
+          else
+            exit;
+        end;
         NHeight:= Status.Height;
         NArrowWidth:= NHeight*2 div 3;
-        Ed:= CurrentEditor;
-        if Ed=nil then exit;
-        case Ed.OptWrapMode of
+        case WrapMode of
           TATEditorWrapMode.ModeOff:
             begin
               PaintArrowRight(NArrowWidth);

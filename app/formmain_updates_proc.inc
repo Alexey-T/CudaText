@@ -254,6 +254,7 @@ begin
 
     DoStatusbarTextByTag(AStatus, StatusbarTag_InsOvr, '');
 
+    {
     case FrameKind of
       TAppFrameKind.BinaryViewer:
         S:= msgStatusbarWrapStates[Ord(F.Binary.TextWrap)]
@@ -261,7 +262,8 @@ begin
         S:= '';
     end;
     DoStatusbarTextByTag(AStatus, StatusbarTag_WrapMode, S, 'Courier New');
-      //set some common font to make pseudo-graphic in 'wrap' cell always visible
+    //set some common font to make pseudo-graphic in 'wrap' cell always visible
+    }
 
     exit;
   end;
@@ -319,7 +321,7 @@ begin
   DoStatusbarTextByTag(AStatus, StatusbarTag_SelMode, S);
 
   //------
-  DoStatusbarTextByTag(AStatus, StatusbarTag_WrapMode, msgStatusbarWrapStates[Ord(Ed.OptWrapMode)]);
+  //DoStatusbarTextByTag(AStatus, StatusbarTag_WrapMode, msgStatusbarWrapStates[Ord(Ed.OptWrapMode)]);
 
   N:= Ed.OptScaleFont;
   if N=0 then N:= 100;
