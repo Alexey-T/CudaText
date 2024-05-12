@@ -3,9 +3,9 @@
   - fixed
   * changed
 
-1.214.5.1 (2024/05)
+1.214.6 (2024/05)
 
-* change: changed statusbar wrap-cell text 'wrap'/'no wrap' to pseudo-graphic: ↵ / → (font Courier New is used here, it should have glyphs on all OSes?)
+* change: changed statusbar wrap-cell text 'wrap'/'no wrap' to pseudo-graphic
 - fix: sometimes with word-wrap on, End-key did not place caret on the very end (thanks @pintassilgo)
 - fix: None lexer-specific settings influence other lexers, if file is opened in the same ui-tab (thanks @ThaiDat)
 

@@ -545,6 +545,8 @@ type
     procedure PopupTabPopup(Sender: TObject);
     procedure PopupTextPopup(Sender: TObject);
     procedure StatusPanelClick(Sender: TObject; AIndex: Integer);
+    procedure StatusPanelDraw(Sender: TObject; AIndex: integer; ACanvas: TCanvas;
+      const ARect: TRect; var ACanDraw: boolean);
     procedure TimerAppIdleTimer(Sender: TObject);
     procedure TimerCmdTimer(Sender: TObject);
     procedure TimerMouseStopTimer(Sender: TObject);
@@ -2245,6 +2247,82 @@ begin
   DoLocalizePopupTab;
 end;
 
+procedure TfmMain.StatusPanelDraw(Sender: TObject; AIndex: integer; ACanvas: TCanvas;
+  const ARect: TRect; var ACanDraw: boolean);
+  //
+  procedure PaintArrowRight(AArrowSize: integer);
+  var
+    NX: integer;
+  begin
+    NX:= (ARect.Left+ARect.Right) div 2;
+    CanvasArrowHorz(
+      ACanvas,
+      Rect(NX-AArrowSize div 2, ARect.Top, NX+AArrowSize div 2, ARect.Bottom),
+      Status.Font.Color,
+      AArrowSize,
+      true,
+      25
+      );
+  end;
+  //
+  procedure PaintArrowWrapped(AArrowSize: integer);
+  var
+    NX: integer;
+  begin
+    NX:= (ARect.Left+ARect.Right) div 2;
+    CanvasArrowWrapped(
+      ACanvas,
+      Rect(NX-AArrowSize div 2, ARect.Top, NX+AArrowSize div 2, ARect.Bottom),
+      Status.Font.Color,
+      40,
+      100,
+      25
+      );
+  end;
+  //
+var
+  Data: TATStatusData;
+  Ed: TATSynEdit;
+  NHeight, NArrowWidth: integer;
+begin
+  ACanDraw:= true;
+  Data:= Status.GetPanelData(AIndex);
+  if Data=nil then exit;
+
+  case Data.Tag of
+    StatusbarTag_WrapMode:
+      begin
+        NHeight:= Status.Height;
+        NArrowWidth:= NHeight*2 div 3;
+        Ed:= CurrentEditor;
+        if Ed=nil then exit;
+        case Ed.OptWrapMode of
+          TATEditorWrapMode.ModeOff:
+            begin
+              PaintArrowRight(NArrowWidth);
+            end;
+          TATEditorWrapMode.ModeOn:
+            begin
+              PaintArrowWrapped(NArrowWidth);
+            end;
+          TATEditorWrapMode.AtWindowOrMargin:
+            begin
+              PaintArrowWrapped(NArrowWidth);
+              CanvasLine_Dotted(
+                ACanvas,
+                Status.Font.Color,
+                (ARect.Left+ARect.Right+NArrowWidth+3) div 2,
+                3,
+                (ARect.Left+ARect.Right) div 2,
+                NHeight-3
+                );
+            end;
+        end;
+        ACanDraw:= false;
+      end;
+  end;
+end;
+
 procedure TfmMain.StatusPanelClick(Sender: TObject; AIndex: Integer);
 var
   Frame: TEditorFrame;
@@ -2760,6 +2838,7 @@ begin
   Status.Top:= Height;
   Status.ScaleFromFont:= true; //statusbar is autosized via its font size
   Status.OnPanelClick:= @StatusPanelClick;
+  Status.OnPanelDrawBefore:= @StatusPanelDraw;
   Status.ShowHint:= true;
   Status.Theme:= @AppThemeStatusbar;
 end;
