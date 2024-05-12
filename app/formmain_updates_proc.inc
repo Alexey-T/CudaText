@@ -261,6 +261,7 @@ begin
         S:= '';
     end;
     DoStatusbarTextByTag(AStatus, StatusbarTag_WrapMode, S, 'Courier New');
+      //set some common font to make pseudo-graphic in 'wrap' cell always visible
 
     exit;
   end;
