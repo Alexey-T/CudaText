@@ -8,6 +8,7 @@
 * change: changed statusbar wrap-cell text 'wrap'/'no wrap' to pseudo-graphic
 - fix: sometimes with word-wrap on, End-key did not place caret on the very end (thanks @pintassilgo)
 - fix: None lexer-specific settings influence other lexers, if file is opened in the same ui-tab (thanks @ThaiDat)
+- fix: avoid crash when editor calculates auto-indent string, via RegEx, for line len 100K (thanks @ivsatel)
 
 1.214.5 (2024/05)
 
