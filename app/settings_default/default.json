@@ -355,8 +355,9 @@
   //paste block at the line start, ignoring caret column.
   "paste_multiline_at_line_start": false,
 
-  //Enables auto-copying of selected text to clipboard after selection change.
+  //Configures auto-copying of selected text to clipboard, after selection changes.
   //Option works for all editor fields, not only for UI-tabs editors.
+  //Option is string of few chars.
   //  if 'c' in value: Copy to usual clipboard (the only possibility on Windows).
   //  if 'p' in value: Copy to Unix 'primary selection'.
   //  if 'm' with a following number in value: Limit the selection length, in bytes (suffix "k" is not supported here). Default is 500000.
