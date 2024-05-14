@@ -1458,12 +1458,13 @@
   "pylib__freebsd": "libpython3.6m.so",
   "pylib__haiku": "libpython3.10.so.1.0",
 
-  //API delay for event "on_caret_slow", in milliseconds.
-  "py_caret_slow": 500,
+  //Python API delay for event "on_caret_slow", in milliseconds.
+  //It also affects how fast pair-brackets highlight reacts to caret moving.
+  "py_caret_slow": 100,
 
-  //API delay for event "on_change_slow", in milliseconds.
-  //For example, it's used in CudaLint.
-  "py_change_slow": 2000,
+  //Python API delay for event "on_change_slow", in milliseconds.
+  //For example, it's used in CudaLint plugin.
+  "py_change_slow": 1500,
 
   //[Text/Commands]
   //Commenting: If no selection then move caret to next line.

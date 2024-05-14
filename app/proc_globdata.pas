@@ -2139,8 +2139,8 @@ begin
     TreeUnfold:= false;
 
     PyLibrary:= '';
-    PyCaretSlow:= 500;
-    PyChangeSlow:= 2000;
+    PyCaretSlow:= 100;
+    PyChangeSlow:= 1500;
     PyOutputCopyToStdout:= false;
 
     MaxLineLenForEditingKeepingLexer:= 2000;
