@@ -9,6 +9,7 @@
 - fix: sometimes with word-wrap on, End-key did not place caret on the very end (thanks @pintassilgo)
 - fix: None lexer-specific settings influence other lexers, if file is opened in the same ui-tab (thanks @ThaiDat)
 - fix: avoid crash (real reason: stack overflow) when editor calculates auto-indent string, via RegEx ".+:\s*$", for line len 130K (thanks @ivsatel)
+- fix: Del key with multiline selection could repaint document as broken (thanks @ivsatel)
 
 1.214.5 (2024/05)
 
