@@ -4581,8 +4581,8 @@ begin
   end;
 
   CodeTreeFilter.FilteredTreeview:= CodeTree.Tree;
-  CodeTreeFilter.Text:= ''; //fixes issue #5524
   CodeTreeFilter.Text:= S;
+  CodeTreeFilter.ForceFilter(S); //fixes #5524
 end;
 
 procedure TfmMain.CodeTreeFilter_OnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
