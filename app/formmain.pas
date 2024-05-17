@@ -4581,6 +4581,7 @@ begin
   end;
 
   CodeTreeFilter.FilteredTreeview:= CodeTree.Tree;
+  CodeTreeFilter.Text:= ''; //fixes issue #5524
   CodeTreeFilter.Text:= S;
 end;
 
