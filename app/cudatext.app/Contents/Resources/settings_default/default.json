@@ -1326,11 +1326,13 @@
   //    ins    : Insert/Overwrite mode (toggled by Ins key).
   //    selmode: Current selection mode.
   //             Shows "-" for normal selection mode, "||" for column selection mode.
-  //    wrap   : Word-wrap mode: no wrap, wrap at window edge, wrap at fixed margin.
-  //    zoom   : Zoom value in %.
-  //             Change zoom value by Command Palette commands "current document font size: bigger/smaller",
+  //             Additionally shows "RO" when document has read-only state.
+  //    wrap   : Word-wrap mode.
+  //             Shows one of 3 icons: no wrap, wrap at window edge, wrap at fixed margin.
+  //    zoom   : Text scale in %.
+  //             Change this scale by Command Palette commands "current document font size: bigger/smaller",
   //             and by Ctrl+<Mouse wheel> (when option "mouse_wheel_zoom":true).
-  //    msg    : Messages from CudaText and plugins.
+  //    msg    : Various messages from app and plugins.
   //Panel alignments:
   //    C: center
   //    L: left
