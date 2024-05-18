@@ -11,6 +11,7 @@
 - fix: avoid crash (real reason: stack overflow) when editor calculates auto-indent string, via RegEx ".+:\s*$", for line len 130K (thanks @ivsatel)
 - fix: commands Delete / char-typing, with multiline selection, sometimes could repaint document as broken (thanks @ivsatel)
 - fix: old code-tree filter was not applied after ui-tab switching (thanks @mix-7)
+- fix: for wrapped line, URL highlight may be stopped if finder 'Hi' feature places its marks (thanks @pintassilgo)
 
 1.214.5 (2024/05)
 
