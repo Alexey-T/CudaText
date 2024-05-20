@@ -613,6 +613,8 @@ end;
 
 procedure TfmMain.DoDialogFind(AReplaceMode: boolean);
 begin
+  CloseFormAutoCompletion;
+
   UpdateFindDialogFromSuggestions;
   UpdateFindDialogParent;
   fmFind.IsReplace:= AReplaceMode;
