@@ -545,7 +545,7 @@ begin
   M.Add(cmd_ToggleReplaceDialog, 'dialog: replace: toggle dialog', [], []);
   M.Add(cmd_DialogUnprinted, 'dialog: unprinted chars', [], []);
 
-  M.Add(cmd_FindFirst, 'find, first', [], []);
+  M.Add(cmd_FindFirst, 'find, first', [scAlt+VK_RETURN], []);
   M.Add(cmd_FindNext, 'find, next', [VK_F3], []);
   M.Add(cmd_FindPrev, 'find, previous', [scShift+VK_F3], []);
   M.Add(cmd_FindAllAndSelect, 'find all, and select', [], []);
