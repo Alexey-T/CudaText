@@ -538,6 +538,7 @@ begin
   fmFind.Localize;
 end;
 
+
 procedure TfmMain.UpdateFindDialogFromSuggestions;
 var
   Frame: TEditorFrame;
@@ -577,7 +578,7 @@ begin
   if UiOps.FindSuggestSel and (StrSel<>'') then
   begin
     if not FFinder.OptInSelection then
-      StrSuggested:= StrSel;
+      StrSuggested:= STrimEols(StrSel);
   end
   else
   if UiOps.FindSuggestWord and (StrWord<>'') then
