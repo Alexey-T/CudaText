@@ -920,7 +920,7 @@ Note for C-like lexers. Pressing Enter when caret is inside {} brackets (just af
 
 =Groups of tabs=
 
-"Groups" are tab sets, each tab has attached editor control. By default only the first group is shown. Totally 6 groups can be shown at once. Menu item "=" (rightmost item in the top menu) allows to choose grouping mode:
+"Groups" are sets of ui-tabs, where each ui-tab has attached editor control. By default only the first group is shown. Totally 6 "fixed" groups (located in the main app window) + 3 "floating" groups can be shown. Menu item "=" (rightmost item in the top menu) allows to choose grouping mode:
 
 * one group
 * 2 groups: vertically or horizontally
@@ -935,7 +935,7 @@ First group cannot be empty, at least one tab exists in it. Other groups can be 
 * In grouping modes "2 groups" and "1+2" there's a context menu for splitter, to choose splitting 50/50, 40/60 etc.
 * On changing grouping mode, tabs from disappearing group(s) are moved to still visible group.
 
-"Floating" groups are available, besides "fixed" 6 groups, they are inside separate windows (so can be moved to separate monitor). To place some tab to a floating group (1, 2, 3), call context menu over a tab title, "Move tab to group / Floating n" (n=1, 2, 3).
+3 "floating" groups are available, besides 6 "fixed" groups, they are inside separate windows (so can be moved to separate monitor). To move some ui-tab to floating group, call context menu over ui-tab title, choose menu item "Move tab to group / Floating n" (n = 1, 2, 3).
 
 =Auto-completion=
 
