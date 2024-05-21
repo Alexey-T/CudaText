@@ -835,10 +835,13 @@ var
   Ed: TATSynEdit;
 begin
   //auto turn on multi-line
-  if (ACommand=cCommand_KeyEnter) and not IsMultiline then
+  if (ACommand=cCommand_KeyEnter) then
   begin
-    FMultiLineJustActivated:= not IsMultiLine;
-    IsMultiLine:= true;
+    if not IsMultiline then
+    begin
+      FMultiLineJustActivated:= true;
+      IsMultiLine:= true;
+    end;
     AHandled:= false;
     exit
   end;
