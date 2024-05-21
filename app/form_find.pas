@@ -860,6 +860,7 @@ begin
     //fix bad scrollpos=1, after Ctrl+Enter activated multi-line mode
     if FMultiLineJustActivated then
     begin
+      FMultiLineJustActivated:= false;
       edFind.ScrollVert.SetZero;
       edRep.ScrollVert.SetZero;
       edFind.Update;
