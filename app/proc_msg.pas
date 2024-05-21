@@ -450,7 +450,7 @@ const
   msgFindHint_Words: string = 'Whole words';
   msgFindHint_Wrapped: string = 'Wrapped search';
   msgFindHint_ConfirmRep: string = 'Confirm on replace';
-  msgFindHint_MultiLine: string = 'Multi-line inputs (Ctrl+Enter for new-line)';
+  msgFindHint_MultiLine: string = 'Multi-line input (Ctrl+Enter for new-line)';
   msgFindHint_InSelect: string = 'Search in selection';
   msgFindHint_Tokens: string = 'Allowed syntax elements';
   msgFindHint_HiAll: string = 'Highlight all matches';
