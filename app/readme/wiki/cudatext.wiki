@@ -937,6 +937,8 @@ First group cannot be empty, at least one tab exists in it. Other groups can be 
 
 3 "floating" groups are available, besides 6 "fixed" groups, they are inside separate windows (so can be moved to separate monitor). To move some ui-tab to floating group, call context menu over ui-tab title, choose menu item "Move tab to group / Floating n" (n = 1, 2, 3).
 
+If a "floating" group is focused, you should not click main window's menu items to perform commands. Instead, call commands by hotkeys. By clicking on the main window (for example: on the code-tree, when code-tree is in the main window), you move the focus to the "fixed" group and editor command will execute for the "fixed" group.
+
 =Auto-completion=
 
 Command "auto-completion menu" (default hotkey: Ctrl+Space) shows auto-completion listbox.
