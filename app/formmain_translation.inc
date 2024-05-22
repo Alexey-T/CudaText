@@ -340,6 +340,7 @@ begin
     DoLocMenuitem(ini, mnuHelpIssues, 'm_h', 'iss');
     DoLocMenuitem(ini, mnuHelpAbout, 'm_h', 'ab');
     DoLocMenuitem(ini, mnuHelpCheckUpd, 'm_h', 'chk');
+    DoMenuitemEllipsis(mnuHelpCheckUpd);
 
     DoLocString(msgCommentLineAdd, ini, 'tb', 'cm_ln_add');
     DoLocString(msgCommentLineDel, ini, 'tb', 'cm_ln_del');

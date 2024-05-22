@@ -595,7 +595,7 @@ object fmMain: TfmMain
         Caption = '&Report an issue'
       end
       object mnuHelpCheckUpd: TMenuItem
-        Caption = 'Check for &updates'
+        Caption = 'Check for &updates...'
       end
       object mnuHelpSep2: TMenuItem
         Caption = '-'
