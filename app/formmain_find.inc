@@ -109,6 +109,7 @@ begin
   FinderUpdateEditor(Result>0, false);
 
   Ed.DoCaretSingle(NCaretX, NCaretY);
+  Ed.DoCaretsFixIncorrectPos(true);
   Ed.LineTop:= NTop;
   Ed.ColumnLeft:= NLeft;
 end;
