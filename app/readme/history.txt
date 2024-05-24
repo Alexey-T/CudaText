@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.214.7 (2024/05)
+1.214.6 (2024/05)
 
 * change: changed statusbar 'wrap' cell text 'wrap'/'no wrap' to graphic
 - fix: sometimes with word-wrap on, End-key did not place caret on the very end (thanks @pintassilgo)
