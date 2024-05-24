@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.214.6 (2024/05)
+1.214.7 (2024/05)
 
 * change: changed statusbar 'wrap' cell text 'wrap'/'no wrap' to graphic
 - fix: sometimes with word-wrap on, End-key did not place caret on the very end (thanks @pintassilgo)
@@ -14,6 +14,7 @@
 - fix: old code-tree filter was not applied after ui-tab switching (thanks @mix-7)
 - fix: for wrapped line, URL highlight may be stopped if finder 'Hi' feature places its marks (thanks @pintassilgo)
 - fix: with plugin Hi_Occur, Shift+Up could select block until the screen corner (thanks @pintassilgo)
+- fix: color "current line BG" should have bigger priority than color "marked range BG" (thanks @SamC)
 
 1.214.5 (2024/05)
 
