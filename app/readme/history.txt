@@ -15,6 +15,7 @@
 - fix: for wrapped line, URL highlight may be stopped if finder 'Hi' feature places its marks (thanks @pintassilgo)
 - fix: with plugin Hi_Occur, Shift+Up could select block until the screen corner (thanks @pintassilgo)
 - fix: color "current line BG" should have bigger priority than color "marked range BG" (thanks @SamC)
+- fix: memory leak, visible in LSP plugin during long work (fixed by @DUOLabs333)
 
 1.214.5 (2024/05)
 
