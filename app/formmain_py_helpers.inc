@@ -473,6 +473,12 @@ begin
     end;
 
     Obj:= AppPython.RunModuleFunction(SModule, SFunc, FParamObjs, FParamNames);
+
+    for i:=0 to Length(FParamObjs)-1 do
+    	begin
+    		AppPython.Engine.Py_DECREF(FParamObjs[i]);
+    	end;
+
     if Assigned(Obj) then
       with AppPython.Engine do
       begin
