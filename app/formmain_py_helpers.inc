@@ -474,10 +474,9 @@ begin
 
     Obj:= AppPython.RunModuleFunction(SModule, SFunc, FParamObjs, FParamNames);
 
-    for i:=0 to Length(FParamObjs)-1 do
-    	begin
-    		AppPython.Engine.Py_DECREF(FParamObjs[i]);
-    	end;
+    //fix the mem leak
+    for i:= 0 to Length(FParamObjs)-1 do
+      AppPython.Engine.Py_DECREF(FParamObjs[i]);
 
     if Assigned(Obj) then
       with AppPython.Engine do
