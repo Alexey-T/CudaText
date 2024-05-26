@@ -61,9 +61,6 @@ begin
       end;
       Py_DECREF(Obj);
     end;
-
-  with AppPython.Engine do
-    Py_DECREF(FParamObjs[0]);
 end;
 
 end.
