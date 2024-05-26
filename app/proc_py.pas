@@ -394,6 +394,9 @@ begin
           Py_XDECREF(Obj);
         end;
 
+      for i:= 0 to Length(ParamObjs)-1 do
+        FEngine.Py_DECREF(ParamObjs[i]);
+
       if FEngine.PyErr_Occurred <> nil then
         FEngine.CheckError(False);
     except
@@ -477,6 +480,7 @@ var
 var
   ObjName: string;
   tick: QWord;
+  i: integer;
 begin
   Result.Val:= TAppPyEventValue.Other;
   Result.Str:= '';
@@ -509,6 +513,9 @@ begin
       InitParamsObj;
       Result:= MethodEvalEx(ObjName, ACmd, ParamsObj);
     end;
+
+    for i:= 0 to Length(ParamsObj)-1 do
+      FEngine.Py_DECREF(ParamsObj[i]);
 
     if FEngine.PyErr_Occurred <> nil then
       FEngine.CheckError(False);
