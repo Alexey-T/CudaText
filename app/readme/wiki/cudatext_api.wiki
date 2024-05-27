@@ -1611,7 +1611,8 @@ Possible values of "id_action":
 ** Param "data": optional data string attached to item.
 * TREE_ITEM_DELETE: Deletes item (with all subitems). Params: "id_item".
 * TREE_ITEM_SET_TEXT: Sets item's text. Params: "id_item", "text".
-* TREE_ITEM_SET_ICON: Sets item's icon. Params: "id_item", "image_index".
+* TREE_ITEM_SET_ICON: Sets item's main icon. Params: "id_item", "image_index".
+* TREE_ITEM_SET_ICON_2: Sets item's secondary icon. Params: "id_item", "image_index".
 
 * TREE_ITEM_SELECT: Selects the item specified by "id_item". If "id_item" is 0, it removes the selection.
 * TREE_ITEM_SHOW: Makes item visible, ie scrolls control to this item.
@@ -5044,5 +5045,6 @@ It provides:
 
 1.0.457 (app 1.214.7)
 * add: on_state new Id APPSTATE_CODETREE_DBL_CLICK
+* add: tree_proc: TREE_ITEM_SET_ICON_2
 
 [[Category:CudaText]]
