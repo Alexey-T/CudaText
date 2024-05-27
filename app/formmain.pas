@@ -2674,7 +2674,7 @@ begin
       AppCodetreeState.Editor:= Ed;
       AppCodetreeState.SelLine:= PntBegin.Y;
       if AppCodetreeState.SelLine>=0 then
-        DoPyEvent_AppState(APPSTATE_CODETREE_SET_SELECTION);
+        DoPyEvent_AppState(APPSTATE_CODETREE_DBL_CLICK);
     end;
   finally
     AppCodetreeState.DblClicking:= false;
