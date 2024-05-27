@@ -7620,7 +7620,8 @@ begin
             Result:= ReturnNone;
           end;
 
-        TREE_ITEM_SET_ICON:
+        TREE_ITEM_SET_ICON,
+        TREE_ITEM_SET_ICON_2:
           begin
             //issue #3400
             if bStandardCodeTree then
@@ -7631,9 +7632,18 @@ begin
 
             if Assigned(TreeNode) then
             begin
-              TreeNode.ImageIndex:= NImageIndex;
-              TreeNode.SelectedIndex:= NImageIndex;
+              if IdAction=TREE_ITEM_SET_ICON then
+              begin
+                TreeNode.ImageIndex:= NImageIndex;
+                TreeNode.SelectedIndex:= NImageIndex;
+              end
+              else
+              begin
+                TreeContainer.Tree.StateImages:= TreeContainer.Tree.Images;
+                TreeNode.StateIndex:= NImageIndex;
+              end;
             end;
+
             TreeContainer.Tree.Invalidate;
             Result:= ReturnNone;
           end;

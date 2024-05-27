@@ -439,6 +439,7 @@ const
   TREE_ITEM_UNFOLD           = 9;
   TREE_ITEM_UNFOLD_DEEP      = 10;
   TREE_ITEM_GET_SELECTED     = 11;
+  TREE_ITEM_SET_ICON_2       = 12;
   TREE_ITEM_SET_RANGE        = 13;
   TREE_ITEM_GET_RANGE        = 14;
   TREE_ITEM_FOLD_LEVEL       = 15;
