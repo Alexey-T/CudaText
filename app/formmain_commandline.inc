@@ -330,14 +330,11 @@ end;
 procedure TfmMain.HandleOtherInstance(Sender: TObject;
   AParamCount: Integer; const AParameters: array of String);
 var
-  NFilenameCount, i: integer;
+  NFilenameCount: integer;
 begin
   if not IsAllowedToOpenFileNow then exit;
 
-  NFilenameCount:= 0;
-  for i:= 0 to High(AParameters) do
-    if not SBeginsWith(AParameters[i], '-') then
-      Inc(NFilenameCount);
+  NFilenameCount:= SCountArrayItemsExceptPrefixed(AParameters, '-');
 
   DoLoadCommandParams(
     AParameters,

@@ -40,6 +40,7 @@ function STextListsFuzzyInput(const AText, AFind: string;
   AEnableFuzzy: boolean): boolean;
 function SRegexReplaceSubstring(const AStr, AStrFind, AStrReplace: string; AUseSubstitute: boolean): string;
 function SRegexMatchesString(const ASubject, ARegex: string; ACaseSensitive: boolean): boolean;
+function SCountArrayItemsExceptPrefixed(const Ar: array of string; const AIgnorePrefix: char): integer;
 
 function IsLexerListed(const AItem, AItemList: string): boolean;
 function IsFilenameListedInExtensionList(const AFilename, AExtList: string): boolean;
@@ -547,6 +548,15 @@ begin
   result := Copy(S, Ofs, 1 + Len - Ofs);
 end;
 
+function SCountArrayItemsExceptPrefixed(const Ar: array of string; const AIgnorePrefix: char): integer;
+var
+  i: integer;
+begin
+  Result:= 0;
+  for i:= 0 to High(Ar) do
+    if not SBeginsWith(Ar[i], AIgnorePrefix) then
+      Inc(Result);
+end;
 
 end.
 
