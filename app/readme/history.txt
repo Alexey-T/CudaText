@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.214.6 (2024/05)
+1.214.7 (2024/05)
 
 * change: changed statusbar 'wrap' cell text 'wrap'/'no wrap' to graphic
 - fix: sometimes with word-wrap on, End-key did not place caret on the very end (thanks @pintassilgo)
@@ -16,6 +16,7 @@
 - fix: with plugin Hi_Occur, Shift+Up could select block until the screen corner (thanks @pintassilgo)
 - fix: color "current line BG" should have bigger priority than color "marked range BG" (thanks @SamC)
 - fix: memory leak, visible in LSP plugin during long work (fixed by @DUOLabs333)
+- fix: bugs with RegEx _backward_ search together with wrapped-at-edge option (thanks @pintassilgo)
 
 1.214.5 (2024/05)
 
