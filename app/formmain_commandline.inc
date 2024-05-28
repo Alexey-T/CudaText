@@ -329,16 +329,12 @@ end;
 
 procedure TfmMain.HandleOtherInstance(Sender: TObject;
   AParamCount: Integer; const AParameters: array of String);
-var
-  NFilenameCount: integer;
 begin
   if not IsAllowedToOpenFileNow then exit;
 
-  NFilenameCount:= SCountCommandlineFilenames(AParameters);
-
   DoLoadCommandParams(
     AParameters,
-    GetFileOpenOptionsString(NFilenameCount)
+    GetFileOpenOptionsString(SCountCommandlineFilenames(AParameters))
     );
 
   if WindowState=wsMinimized then
@@ -363,7 +359,7 @@ var
 begin
   DoLoadCommandParams(
     AppDroppedFiles,
-    GetFileOpenOptionsString(100) //open with /passive flag
+    GetFileOpenOptionsString(100) //drag-dropped files: open with /passive flag
     );
 
   Params:= nil;
@@ -373,7 +369,7 @@ begin
 
   DoLoadCommandParams(
     Params,
-    GetFileOpenOptionsString(Length(Params))
+    GetFileOpenOptionsString(SCountCommandlineFilenames(Params))
     );
 end;
 
