@@ -334,7 +334,7 @@ begin
 
   DoLoadCommandParams(
     AParameters,
-    GetFileOpenOptionsString(SCountCommandlineFilenames(AParameters))
+    GetFileOpenOptionsString(AppCountCommandlineFilenames(AParameters))
     );
 
   if WindowState=wsMinimized then
@@ -369,7 +369,7 @@ begin
 
   DoLoadCommandParams(
     Params,
-    GetFileOpenOptionsString(SCountCommandlineFilenames(Params))
+    GetFileOpenOptionsString(AppCountCommandlineFilenames(Params))
     );
 end;
 

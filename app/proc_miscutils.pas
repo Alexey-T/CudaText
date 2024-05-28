@@ -73,6 +73,7 @@ procedure AppScaleSplitter(C: TSplitter);
 procedure AppInitProgressForm(out AForm: TForm; out AProgress: TATGauge;
   out AButtonCancel: TATButton; const AText: string);
 function AppValidateJson(const AText: string): boolean;
+function AppCountCommandlineFilenames(const Ar: array of string): integer;
 
 procedure LexerEnumSublexers(An: TecSyntAnalyzer; List: TStringList);
 procedure LexerEnumStyles(An: TecSyntAnalyzer; List: TStringList);
@@ -1573,6 +1574,17 @@ begin
         if (Cap=Node.Text) or (Cap2=Node.Text) then
           Node.Expand(false);
     end;
+end;
+
+
+function AppCountCommandlineFilenames(const Ar: array of string): integer;
+var
+  i: integer;
+begin
+  Result:= 0;
+  for i:= 0 to High(Ar) do
+    if not SBeginsWith(Ar[i], '-') then
+      Inc(Result);
 end;
 
 
