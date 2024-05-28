@@ -334,7 +334,7 @@ var
 begin
   if not IsAllowedToOpenFileNow then exit;
 
-  NFilenameCount:= SCountArrayItemsExceptPrefixed(AParameters, '-');
+  NFilenameCount:= SCountCommandlineFilenames(AParameters);
 
   DoLoadCommandParams(
     AParameters,
