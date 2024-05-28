@@ -17,6 +17,7 @@
 - fix: color "current line BG" should have bigger priority than color "marked range BG" (thanks @SamC)
 - fix: memory leak, visible in LSP plugin during long work (fixed by @DUOLabs333)
 - fix: bugs with RegEx _backward_ search together with wrapped-at-edge option (thanks @pintassilgo)
+- fix: command-line: if filename is with "-nsl", it is opened _in background_ (thanks @tmsg-gh)
 
 1.214.5 (2024/05)
 
