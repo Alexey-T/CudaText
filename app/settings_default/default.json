@@ -255,9 +255,6 @@
   //Highlight background of lines with carets: only for focused editor.
   "show_cur_line_only_focused": false,
 
-  //Show additional dotted frame on mouse selection of block.
-  "show_mouse_sel_frame": false,
-
   //Show dotted vertical lines on the intented parts of long wrapped lines.
   "show_indent_lines": true,
 
