@@ -329,9 +329,9 @@ class Command:
         if ed.get_sel_mode() != app.SEL_NORMAL:
             return app.msg_status(f(_('{} works only with normal selection'), _('Commenting')))
         lex     = ed.get_prop(app.PROP_LEXER_CARET)
-        ((bgn_sgn
-        ,end_sgn)
-        ,bOnlyLn)=self._get_cmt_pair(lex)
+        if not lex:
+            return app.msg_status(_('Commenting requires an active lexer'))
+        ((bgn_sgn, end_sgn), bOnlyLn) = self._get_cmt_pair(lex)
         if not bgn_sgn:
             return app.msg_status(f(_('No stream comment for lexer "{}"'), lex))
         crts    = ed.get_carets()
