@@ -1777,15 +1777,17 @@ This assumes that "typescript-language-server" is in the PATH (it is true on Ubu
 <syntaxhighlight lang="json">
 {
   "lexers": {
-    "TypeScript": "ts"
+    "TypeScript": "typescript"
   },
   "cmd_unix": [
     "typescript-language-server", 
-    "--stdio" 
+    "--stdio",
+    "--log-level", "4"
   ],
   "cmd_windows": [
     "typescript-language-server.cmd",
-    "--stdio" 
+    "--stdio",
+    "--log-level", "4"
   ]
 }
 </syntaxhighlight>
@@ -1796,19 +1798,19 @@ Here it is on Ubuntu:
 <syntaxhighlight lang="json">
 {
   "lexers": {
-    "TypeScript": "ts"
+    "TypeScript": "typescript"
   },
   "cmd_unix": [
     "typescript-language-server", 
     "--stdio", 
-    "--log-level=4", 
+    "--log-level", "4",
     "--tsserver-log-verbosity=verbose",
     "--tsserver-path=/usr/local/lib/node_modules/typescript/lib/"
   ],
   "cmd_windows": [
     "typescript-language-server.cmd",
     "--stdio", 
-    "--log-level=4", 
+    "--log-level", "4",
     "--tsserver-log-verbosity=verbose",
     "--tsserver-path=\"%APPDATA%\\npm\\node_modules\\typescript\\lib\\\""
   ]
