@@ -6010,7 +6010,7 @@ end;
 
 procedure TfmMain.MsgStatus(AText: string; AFinderMessage: boolean=false);
 var
-  STime: string;
+  STime, SLine: string;
 begin
   SReplaceAll(AText, #10, ' ');
   SReplaceAll(AText, #13, ' ');
@@ -6025,7 +6025,9 @@ begin
     end;
 
     STime:= FormatDateTime('[HH:mm] ', Now);
-    AppStatusbarMessages.Add(STime+AText);
+    SLine:= STime+AText;
+    if (AppStatusbarMessages.Count=0) or (AppStatusbarMessages[AppStatusbarMessages.Count-1]<>SLine) then
+      AppStatusbarMessages.Add(SLine);
     while AppStatusbarMessages.Count>UiOps.MaxMaxStatusbarMessages do
       AppStatusbarMessages.Delete(0);
     FLastStatusbarMessage:= AText;
