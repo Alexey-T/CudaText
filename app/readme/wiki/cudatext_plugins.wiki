@@ -1391,9 +1391,14 @@ How to open ExTerminal in the directory of the current editor file? You can do t
 
 =Configure Menu=
 
-Plugin "Configure Menu" (in Addons Manager) allows to change CudaText menus.
-You can add items to the CudaText top-menu, top menu submenu, editor context-menu, tab header context-menu and dropdown submenu of toolbar buttons.
-Plugin can create file (settings/menu.json) with default menu configuration, which you edit to customize all menus. File has items like:
+Plugin "Configure Menu" (in Addons Manager) allows to customize CudaText menus:
+* top menu, top menu sub-menus
+* editor context menu
+* ui-tab header context menu
+* dropdown sub-menus of toolbar buttons (toolbar is hidden in CudaText by default, use "View" menu to show it)
+
+"Configure Menu" gives the dialog via its menu item in "Plugins" menu. In the dialog you should create the file "menu.json" first (it is created in the CudaText "settings" folder), and check the checkbox to load "menu.json" on app startup.
+File "menu.json" has items like:
 
 <syntaxhighlight lang="json">
   ,{"cap":"&Save", "cmd":"cmd_FileSave"}
