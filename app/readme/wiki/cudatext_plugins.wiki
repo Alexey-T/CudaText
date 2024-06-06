@@ -1406,7 +1406,7 @@ File "menu.json" has items like:
 
 How to add here built-in commands? See identifiers of CudaText commands in the file "py/cudatext_cmd.py", they have prefixes "cCommand_" (low level commands) and "cmd_" (high level commands). For example, "cmd_FileSave" is the command to save current file.
 
-How to add here plugin commands? For example, you have plugin "Comments", it is in the folder "py/cuda_comments". See plugin's file install.inf, and find there needed Python methods. Then add in the "settings/menu.json" item like this:
+How to add here plugin commands? For example, you have plugin "Comments", it is in the folder "py/cuda_comments". See plugin's file install.inf, and find there needed Python methods. Then add in the "menu.json" item like this:
 
 <syntaxhighlight lang="json">
   ,{"cap":"Toggle line comment", "cmd":"module=cuda_comments;cmd=cmt_toggle_line_body;"}
