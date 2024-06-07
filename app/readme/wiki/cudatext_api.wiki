@@ -5046,7 +5046,7 @@ It provides:
 1.0.457 (app 1.214.7)
 * add: on_state new Id APPSTATE_CODETREE_DBL_CLICK
 * add: tree_proc: TREE_ITEM_SET_ICON_2
-* deprecate DLG_POS_GET_STR
-* deprecate DLG_POS_SET_FROM_STR
+* deprecate: DLG_POS_GET_STR
+* deprecate: DLG_POS_SET_FROM_STR
 
 [[Category:CudaText]]
