@@ -790,7 +790,7 @@ procedure MsgBadConfig(const fn, msg: string);
 procedure MsgStdout(const Str: string; AllowMsgBox: boolean = false);
 procedure MsgLogConsole(const AText: string);
 procedure MsgLogToFilename(const AText, AFilename: string; AWithTime: boolean);
-procedure MsgOldApi(const s: string);
+procedure MsgDeprecatedAPI(const s: string);
 procedure MsgFileFromSessionNotFound(const fn: string);
 
 function AppListboxItemHeight(AScale, ADoubleHeight: boolean): integer;
@@ -3072,7 +3072,7 @@ begin
   {$Pop}
 end;
 
-procedure MsgOldApi(const s: string);
+procedure MsgDeprecatedAPI(const s: string);
 begin
   MsgLogConsole(Format(msgApiDeprecated, [s]));
 end;
