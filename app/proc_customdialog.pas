@@ -2489,16 +2489,46 @@ end;
 
 
 procedure DoForm_SetPropsFromStringDict(F: TFormDummy; const AText: string);
+//text is '{key1:value1;key2:value2}' from to_str()
 var
   Sep: TATStringSeparator;
-  SItem, SKey, SValue: string;
+  STextStripped, SItem, SKey, SValue: string;
+  bHasX, bHasY, bHasW, bHasH: boolean;
+  RectBounds: TRect;
 begin
-  //text is '{key1:value1;key2:value2}' from to_str()
-  Sep.Init(SDeleteCurlyBrackets(AText), #1);
+  STextStripped:= SDeleteCurlyBrackets(AText);
+  bHasX:= false;
+  bHasY:= false;
+  bHasW:= false;
+  bHasH:= false;
+  RectBounds:= F.BoundsRect;
+
+  Sep.Init(STextStripped, #1);
   repeat
     if not Sep.GetItemStr(SItem) then Break;
     SSplitByChar(SItem, ':', SKey, SValue);
     SValue:= StringReplace(SValue, #2, ',', [rfReplaceAll]);
+    case SKey of
+      'x': begin bHasX:= true; RectBounds.Left:= StrToIntDef(SValue, RectBounds.Left); end;
+      'y': begin bHasY:= true; RectBounds.Top:= StrToIntDef(SValue, RectBounds.Top); end;
+      'w': begin bHasW:= true; RectBounds.Width:= StrToIntDef(SValue, RectBounds.Width); end;
+      'h': begin bHasH:= true; RectBounds.Height:= StrToIntDef(SValue, RectBounds.Height); end;
+    end;
+  until false;
+
+  if bHasX or bHasY or bHasW or bHasH then
+    if F.BoundsRect<>RectBounds then
+      F.BoundsRect:= RectBounds;
+
+  Sep.Init(STextStripped, #1);
+  repeat
+    if not Sep.GetItemStr(SItem) then Break;
+    SSplitByChar(SItem, ':', SKey, SValue);
+    SValue:= StringReplace(SValue, #2, ',', [rfReplaceAll]);
+    case SKey of
+      'x', 'y', 'w', 'h': //they were handled before
+        Continue;
+    end;
     DoForm_SetPropFromPair(F, SKey, SValue);
   until false;
 end;
