@@ -2493,14 +2493,11 @@ procedure DoForm_SetPropsFromStringDict(F: TFormDummy; const AText: string);
 var
   Sep: TATStringSeparator;
   STextStripped, SItem, SKey, SValue: string;
-  bHasX, bHasY, bHasW, bHasH: boolean;
+  bHasPos: boolean;
   RectBounds: TRect;
 begin
   STextStripped:= SDeleteCurlyBrackets(AText);
-  bHasX:= false;
-  bHasY:= false;
-  bHasW:= false;
-  bHasH:= false;
+  bHasPos:= false;
   RectBounds:= F.BoundsRect;
 
   Sep.Init(STextStripped, #1);
@@ -2509,16 +2506,16 @@ begin
     SSplitByChar(SItem, ':', SKey, SValue);
     SValue:= StringReplace(SValue, #2, ',', [rfReplaceAll]);
     case SKey of
-      'x': begin bHasX:= true; RectBounds.Left:= StrToIntDef(SValue, RectBounds.Left); end;
-      'y': begin bHasY:= true; RectBounds.Top:= StrToIntDef(SValue, RectBounds.Top); end;
-      'w': begin bHasW:= true; RectBounds.Width:= StrToIntDef(SValue, RectBounds.Width); end;
-      'h': begin bHasH:= true; RectBounds.Height:= StrToIntDef(SValue, RectBounds.Height); end;
+      'x': begin bHasPos:= true; RectBounds.Left:= StrToIntDef(SValue, RectBounds.Left); end;
+      'y': begin bHasPos:= true; RectBounds.Top:= StrToIntDef(SValue, RectBounds.Top); end;
+      'w': begin bHasPos:= true; RectBounds.Width:= StrToIntDef(SValue, RectBounds.Width); end;
+      'h': begin bHasPos:= true; RectBounds.Height:= StrToIntDef(SValue, RectBounds.Height); end;
       else
         DoForm_SetPropFromPair(F, SKey, SValue);
     end;
   until false;
 
-  if bHasX or bHasY or bHasW or bHasH then
+  if bHasPos then
     if F.BoundsRect<>RectBounds then
       F.BoundsRect:= RectBounds;
 end;
