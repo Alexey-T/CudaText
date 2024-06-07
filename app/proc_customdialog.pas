@@ -2513,24 +2513,14 @@ begin
       'y': begin bHasY:= true; RectBounds.Top:= StrToIntDef(SValue, RectBounds.Top); end;
       'w': begin bHasW:= true; RectBounds.Width:= StrToIntDef(SValue, RectBounds.Width); end;
       'h': begin bHasH:= true; RectBounds.Height:= StrToIntDef(SValue, RectBounds.Height); end;
+      else
+        DoForm_SetPropFromPair(F, SKey, SValue);
     end;
   until false;
 
   if bHasX or bHasY or bHasW or bHasH then
     if F.BoundsRect<>RectBounds then
       F.BoundsRect:= RectBounds;
-
-  Sep.Init(STextStripped, #1);
-  repeat
-    if not Sep.GetItemStr(SItem) then Break;
-    SSplitByChar(SItem, ':', SKey, SValue);
-    SValue:= StringReplace(SValue, #2, ',', [rfReplaceAll]);
-    case SKey of
-      'x', 'y', 'w', 'h': //they were handled before
-        Continue;
-    end;
-    DoForm_SetPropFromPair(F, SKey, SValue);
-  until false;
 end;
 
 function DoControl_GetPropsAsStringDict(C: TControl): PPyObject;
