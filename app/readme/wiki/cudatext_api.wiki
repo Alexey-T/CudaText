@@ -3135,7 +3135,11 @@ Notes:
 
  focus()
 
-Activates editor's tab and focuses editor itself. It's needed when you want to activate inactive tab. You can get Editor objects of inactive tabs using ed_handles().
+Focuses editor-control (and activates editor's ui-tab if editor is contained in ui-tab).
+
+Notes:
+* You can get Editor objects of inactive ui-tabs using ed_handles().
+* It also focuses the dialog on which the editor is placed, so it can bring CudaText to front.
 
 ===Editor.lock, Editor.unlock===
 
