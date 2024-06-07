@@ -2489,7 +2489,7 @@ begin
     DoPyCommand_CommandLineParam(STemp);
   end;
 
-  TimerMouseStop.Enabled:= TPluginHelper.EventIsUsed(TAppPyEvent.OnMouseStop);
+  TimerMouseStop.Enabled:= Application.Active and TPluginHelper.EventIsUsed(TAppPyEvent.OnMouseStop);
 
   if not FHandledMakeCaretVisible and AppFormShowCompleted then
   begin
@@ -9539,6 +9539,9 @@ var
   Ed: TATSynEdit;
   iGroup: integer;
 begin
+  TimerMouseStop.Enabled:= false;
+  if not Application.Active then exit;
+
   PntScreen:= Mouse.CursorPos;
   if _IsPointsDiffByDelta(PntScreen, FLastMousePos, cPixelDelta) then
   begin
