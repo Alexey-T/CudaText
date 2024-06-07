@@ -3787,7 +3787,7 @@ begin
           begin
             CharSize:= Ed.TextCharSize;
             Result:= Py_BuildValue('(ii)',
-                       integer(CharSize.XScaled div ATEditorCharXScale),
+                       integer(CharSize.XScaled div ATEditorCharXScale) {$if defined(LCLQT5) or defined(LCLQT6)}+1{$endif},
                        integer(CharSize.Y));
           end;
 
