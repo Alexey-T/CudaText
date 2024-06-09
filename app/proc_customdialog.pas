@@ -1238,6 +1238,31 @@ begin
     TWinControlHack(C).BorderStyle:= cControlBorderStyles[AValue];
 end;
 
+procedure DoControl_SetMonospacedFont(C: TControl);
+const
+  cMonoFonts: array of string = (
+    {$ifdef windows}
+    'Consolas',
+    {$endif}
+    {$ifdef darwin}
+    'SF Mono',
+    {$endif}
+    {$ifdef unix}
+    'DejaVu Sans Mono',
+    {$endif}
+    'Courier New'
+    );
+var
+  S: string;
+begin
+  for S in cMonoFonts do
+    if Screen.Fonts.IndexOf(S)>=0 then
+      C.Font.Name:= S;
+  {$ifdef windows}
+  C.Font.Size:= 9;
+  {$endif}
+end;
+
 procedure DoControl_SetEx(C: TControl; const S: string; AIndex: integer);
 const
   cResizeStyle: array[boolean] of TResizeStyle = (rsPattern, rsUpdate);
@@ -1296,17 +1321,7 @@ begin
       1: //Monospaced
         begin
           if AppStrToBool(S) then
-          begin
-            {$if defined(LCLQt5) or defined(LCLQt6)}
-            if Screen.Fonts.IndexOf('DejaVu Sans Mono')>=0 then
-              C.Font.Name:= 'DejaVu Sans Mono';
-            {$else}
-            C.Font.Name:= 'Courier New';
-            {$endif}
-            {$ifdef windows}
-            C.Font.Size:= 9;
-            {$endif}
-          end;
+            DoControl_SetMonospacedFont(C);
         end;
       2: //Border
         begin
