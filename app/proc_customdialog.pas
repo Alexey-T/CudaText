@@ -1297,7 +1297,12 @@ begin
         begin
           if AppStrToBool(S) then
           begin
+            {$if defined(LCLQt5) or defined(LCLQt6)}
+            if Screen.Fonts.IndexOf('DejaVu Sans Mono')>=0 then
+              C.Font.Name:= 'DejaVu Sans Mono';
+            {$else}
             C.Font.Name:= 'Courier New';
+            {$endif}
             {$ifdef windows}
             C.Font.Size:= 9;
             {$endif}
