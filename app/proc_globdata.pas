@@ -1208,7 +1208,7 @@ const
     ('Consolas', 'Courier New', 'Courier');
     {$else}
       {$ifdef darwin}
-      ('SF Mono', 'Monaco', 'Liberation Mono');
+      ('Menlo', 'Monaco', 'Liberation Mono');
       {$else}
         {$ifdef haiku}
         ('Noto Sans Mono');
