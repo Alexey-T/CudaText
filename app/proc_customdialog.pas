@@ -2339,116 +2339,87 @@ procedure DoForm_SetPropFromPair(F: TFormDummy; const AName, AValue: string);
 var
   Num64: Int64;
 begin
-  if AName='cap' then
-    F.Caption:= AValue
-  else
-  if AName='x' then
-  begin
-    F.Position:= poDesigned;
-    F.Left:= StrToIntDef(AValue, F.Left)
-  end
-  else
-  if AName='y' then
-  begin
-    F.Position:= poDesigned;
-    F.Top:= StrToIntDef(AValue, F.Top)
-  end
-  else
-  if AName='w' then
-    F.ClientWidth:= StrToIntDef(AValue, F.ClientWidth)
-  else
-  if AName='h' then
-    F.ClientHeight:= StrToIntDef(AValue, F.ClientHeight)
-  else
-  if AName='w_min' then
-    F.Constraints.MinWidth:= StrToIntDef(AValue, 0)
-  else
-  if AName='w_max' then
-    F.Constraints.MaxWidth:= StrToIntDef(AValue, 1000)
-  else
-  if AName='h_min' then
-    F.Constraints.MinHeight:= StrToIntDef(AValue, 0)
-  else
-  if AName='h_max' then
-    F.Constraints.MaxHeight:= StrToIntDef(AValue, 1000)
-  else
-  if AName='tag' then
-    F.TagString:= AValue
-  else
-  if AName='border' then
-    F.BorderStyle:= TFormBorderStyle(StrToIntDef(AValue, Ord(bsDialog)))
-  else
-  if AName='topmost' then
-  begin
-    if AppStrToBool(AValue) then
-      F.FormStyle:= fsStayOnTop
-    else
-      F.FormStyle:= fsNormal;
-  end
-  else
-  if AName='taskbar' then
-  begin
-    F.ShowInTaskbar_Pending:= TShowInTaskbar(StrToIntDef(AValue, 0));
-  end
-  else
-  if AName='on_resize' then
-    F.FEventOnResize:= AValue
-  else
-  if AName='on_close' then
-    F.FEventOnClose:= AValue
-  else
-  if AName='on_close_query' then
-    F.FEventOnCloseQuery:= AValue
-  else
-  if AName='on_key_down' then
-    F.FEventOnKeyDown:= AValue
-  else
-  if AName= 'on_key_up' then
-    F.FEventOnKeyUp:= AValue
-  else
-  if AName='on_key_press' then
-    F.FEventOnKeyPress:= AValue
-  else
-  if AName= 'on_act' then
-    F.FEventOnActivate:= AValue
-  else
-  if AName= 'on_deact' then
-    F.FEventOnDeactivate:= AValue
-  else
-  if AName='on_mouse_enter' then
-    F.FEventOnMouseEnter:= AValue
-  else
-  if AName='on_mouse_exit' then
-    F.FEventOnMouseExit:= AValue
-  else
-  if AName='on_show' then
-    F.FEventOnShow:= AValue
-  else
-  if AName='on_hide' then
-    F.FEventOnHide:= AValue
-  else
-  if AName='on_form_state' then
-    F.FEventOnFormState:= AValue
-  else
-  if AName='vis' then
-    F.Visible:= AppStrToBool(AValue)
-  else
-  if AName='keypreview' then
-    F.KeyPreview:= AppStrToBool(AValue)
-  else
-  if AName='color' then
-    F.Color:= StrToIntDef(AValue, F.Color)
-  else
-  if AName='autosize' then
-    F.AutoSize:= AppStrToBool(AValue)
-  else
-  if AName='p' then
-  begin
-    Num64:= StrToInt64Def(AValue, 0);
-    if Num64<>0 then
-      F.Parent:= TWinControl(PtrInt(Num64));
-  end
-  else;
+  case AName of
+    'cap':
+      F.Caption:= AValue;
+    'x':
+      begin
+        F.Position:= poDesigned;
+        F.Left:= StrToIntDef(AValue, F.Left);
+      end;
+    'y':
+      begin
+        F.Position:= poDesigned;
+        F.Top:= StrToIntDef(AValue, F.Top);
+      end;
+    'w':
+      F.ClientWidth:= StrToIntDef(AValue, F.ClientWidth);
+    'h':
+      F.ClientHeight:= StrToIntDef(AValue, F.ClientHeight);
+    'w_min':
+      F.Constraints.MinWidth:= StrToIntDef(AValue, 0);
+    'w_max':
+      F.Constraints.MaxWidth:= StrToIntDef(AValue, 1000);
+    'h_min':
+      F.Constraints.MinHeight:= StrToIntDef(AValue, 0);
+    'h_max':
+      F.Constraints.MaxHeight:= StrToIntDef(AValue, 1000);
+    'tag':
+      F.TagString:= AValue;
+    'border':
+      F.BorderStyle:= TFormBorderStyle(StrToIntDef(AValue, Ord(bsDialog)));
+    'topmost':
+      begin
+        if AppStrToBool(AValue) then
+          F.FormStyle:= fsStayOnTop
+        else
+          F.FormStyle:= fsNormal;
+      end;
+    'taskbar':
+      begin
+        F.ShowInTaskbar_Pending:= TShowInTaskbar(StrToIntDef(AValue, 0));
+      end;
+    'on_resize':
+      F.FEventOnResize:= AValue;
+    'on_close':
+      F.FEventOnClose:= AValue;
+    'on_close_query':
+      F.FEventOnCloseQuery:= AValue;
+    'on_key_down':
+      F.FEventOnKeyDown:= AValue;
+    'on_key_up':
+      F.FEventOnKeyUp:= AValue;
+    'on_key_press':
+      F.FEventOnKeyPress:= AValue;
+    'on_act':
+      F.FEventOnActivate:= AValue;
+    'on_deact':
+      F.FEventOnDeactivate:= AValue;
+    'on_mouse_enter':
+      F.FEventOnMouseEnter:= AValue;
+    'on_mouse_exit':
+      F.FEventOnMouseExit:= AValue;
+    'on_show':
+      F.FEventOnShow:= AValue;
+    'on_hide':
+      F.FEventOnHide:= AValue;
+    'on_form_state':
+      F.FEventOnFormState:= AValue;
+    'vis':
+      F.Visible:= AppStrToBool(AValue);
+    'keypreview':
+      F.KeyPreview:= AppStrToBool(AValue);
+    'color':
+      F.Color:= StrToIntDef(AValue, F.Color);
+    'autosize':
+      F.AutoSize:= AppStrToBool(AValue);
+    'p':
+      begin
+        Num64:= StrToInt64Def(AValue, 0);
+        if Num64<>0 then
+          F.Parent:= TWinControl(PtrInt(Num64));
+      end;
+  end;
 end;
 
 
