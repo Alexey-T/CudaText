@@ -1256,8 +1256,12 @@ var
   S: string;
 begin
   for S in cMonoFonts do
-    if Screen.Fonts.IndexOf(S)>=0 then
+    if (S<>'') and (Screen.Fonts.IndexOf(S)>=0) then
+    begin
       C.Font.Name:= S;
+      Break
+    end;
+
   {$ifdef windows}
   C.Font.Size:= 9;
   {$endif}
