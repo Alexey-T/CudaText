@@ -2509,7 +2509,7 @@ begin
   begin
     PrevCharsLeft:= FPyCompletionProps.CharsLeft;
 
-    AppAutocompleteInvoke:= 'r';
+    AppAutocompleteInvoke:= TAppAutocompleteInvoke.ShowAgain;
 
     if Assigned(fmConsole) and (Ed=fmConsole.EdInput) then
     begin
@@ -5844,7 +5844,7 @@ begin
 
         APP_PROC_GET_AUTOCOMPLETION_INVOKE:
           begin
-            Result:= PyUnicodeFromString(string(AppAutocompleteInvoke));
+            Result:= PyUnicodeFromString(string(cAppAutocompleteInvokeChar[AppAutocompleteInvoke]));
           end;
 
         APP_PROC_SEND_MESSAGE:

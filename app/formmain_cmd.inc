@@ -598,7 +598,7 @@ begin
 
     cmd_AutoComplete:
       begin
-        AppAutocompleteInvoke:= 'c';
+        AppAutocompleteInvoke:= TAppAutocompleteInvoke.HotkeyOrCommand;
         DoAutoComplete(Ed);
       end;
 

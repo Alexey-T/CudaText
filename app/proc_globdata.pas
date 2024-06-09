@@ -1196,10 +1196,22 @@ type
 var
   AppRunAutocomplete: TAppAutocompleteCallback = nil;
 
-  //'c': by hotkey or command
-  //'a': by 'autocomplete_autoshow_chars' option
-  //'r': by showing again by typing or left/right
-  AppAutocompleteInvoke: char = 'c';
+type
+  TAppAutocompleteInvoke = (
+    HotkeyOrCommand, //by hotkey or command
+    AutoShow, //by 'autocomplete_autoshow_chars' option
+    ShowAgain //by showing again by typing or left/right
+    );
+
+var
+  AppAutocompleteInvoke: TAppAutocompleteInvoke = TAppAutocompleteInvoke.HotkeyOrCommand;
+
+const
+  cAppAutocompleteInvokeChar: array[TAppAutocompleteInvoke] of char = (
+    'c',
+    'a',
+    'r'
+    );
 
 const
   AppDefaultEdFont: string = '';

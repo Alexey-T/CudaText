@@ -7176,7 +7176,7 @@ var
 begin
   if AActivate then
   begin
-    AppAutocompleteInvoke:= 'a';
+    AppAutocompleteInvoke:= TAppAutocompleteInvoke.AutoShow;
     Frame:= TGroupsHelper.GetEditorFrame(Ed);
     if Assigned(Frame) then
       Frame.TextCharsTyped:= 0;
