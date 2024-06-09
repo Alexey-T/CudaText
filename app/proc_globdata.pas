@@ -1203,15 +1203,15 @@ var
 
 const
   AppDefaultEdFont: string = '';
-  AppDefaultEdFonts: array[0..2] of string =
+  AppDefaultEdFonts: array of string =
     {$ifdef windows}
     ('Consolas', 'Courier New', 'Courier');
     {$else}
       {$ifdef darwin}
-      ('Monaco', 'Liberation Mono', 'DejaVu Sans Mono');
+      ('SF Mono', 'Monaco', 'Liberation Mono');
       {$else}
         {$ifdef haiku}
-        ('Noto Sans Mono', '', '');
+        ('Noto Sans Mono');
         {$else}
         ('DejaVu Sans Mono', 'Liberation Mono', 'Courier New');
         {$endif}

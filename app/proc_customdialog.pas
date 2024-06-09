@@ -1239,32 +1239,17 @@ begin
 end;
 
 procedure DoControl_SetMonospacedFont(C: TControl);
-const
-  cMonoFonts: array of string = (
-    {$ifdef windows}
-    'Consolas',
-    {$endif}
-    {$ifdef darwin}
-    'SF Mono',
-    {$endif}
-    {$ifdef unix}
-    'DejaVu Sans Mono',
-    {$endif}
-    'Courier New'
-    );
 var
   S: string;
 begin
-  for S in cMonoFonts do
-    if (S<>'') and (Screen.Fonts.IndexOf(S)>=0) then
+  for S in AppDefaultEdFonts do
+    if Screen.Fonts.IndexOf(S)>=0 then
     begin
       C.Font.Name:= S;
       Break
     end;
 
-  {$ifdef windows}
-  C.Font.Size:= 9;
-  {$endif}
+  C.Font.Size:= AppDefaultEdFontSize;
 end;
 
 procedure DoControl_SetEx(C: TControl; const S: string; AIndex: integer);
