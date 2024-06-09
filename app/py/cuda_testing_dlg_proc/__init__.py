@@ -1240,6 +1240,31 @@ int main(int argc, char *argv[])
         dlg_proc(h, DLG_FREE)
 
 
+    def test_memo(self):
+
+        id = dlg_proc(0, DLG_CREATE)
+
+        dlg_proc(id, DLG_PROP_SET, {
+            'w': 500,
+            'h': 400,
+            'cap': 'Test type=memo',
+            'border': DBORDER_SIZE,
+            })
+
+        n = dlg_proc(id, DLG_CTL_ADD, 'memo')
+        dlg_proc(id, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'my',
+            'align': ALIGN_CLIENT,
+            'sp_a': 10,
+            'val': 'text1 www iii www\ttext2 iii www\ttext3',
+            'ex0': False, # read-only
+            'ex1': True, # monospaced font
+            'ex2': True, # border
+            })
+
+        dlg_proc(id, DLG_SHOW_MODAL)
+        dlg_proc(id, DLG_FREE)
+        
     def test_listview(self):
         self.click_num   = 0
         self.click_col   = -1
