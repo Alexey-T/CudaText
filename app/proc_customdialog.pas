@@ -1238,20 +1238,6 @@ begin
     TWinControlHack(C).BorderStyle:= cControlBorderStyles[AValue];
 end;
 
-procedure DoControl_SetMonospacedFont(C: TControl);
-var
-  S: string;
-begin
-  for S in AppDefaultEdFonts do
-    if Screen.Fonts.IndexOf(S)>=0 then
-    begin
-      C.Font.Name:= S;
-      Break
-    end;
-
-  C.Font.Size:= AppDefaultEdFontSize;
-end;
-
 procedure DoControl_SetEx(C: TControl; const S: string; AIndex: integer);
 const
   cResizeStyle: array[boolean] of TResizeStyle = (rsPattern, rsUpdate);
@@ -1307,10 +1293,13 @@ begin
           TCustomEdit(C).ReadOnly:= AppStrToBool(S);
           TCustomEditHack(C).ParentColor:= AppStrToBool(S);
         end;
-      1: //Monospaced
+      1: //Monospaced font
         begin
           if AppStrToBool(S) then
-            DoControl_SetMonospacedFont(C);
+          begin
+            C.Font.Name:= AppDefaultEdFont;
+            C.Font.Size:= AppDefaultEdFontSize;
+          end;
         end;
       2: //Border
         begin
