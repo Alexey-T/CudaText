@@ -1707,11 +1707,11 @@ end;
 
 function InitAppDefaultEdFont: string;
 var
-  i: integer;
+  S: string;
 begin
-  for i:= 0 to High(AppDefaultEdFonts) do
+  for S in AppDefaultEdFonts do
   begin
-    Result:= AppDefaultEdFonts[i];
+    Result:= S;
     if Screen.Fonts.IndexOf(Result)>=0 then exit;
   end;
 end;
