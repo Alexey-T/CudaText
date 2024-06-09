@@ -5844,7 +5844,7 @@ begin
 
         APP_PROC_GET_AUTOCOMPLETION_INVOKE:
           begin
-            Result:= PyUnicodeFromString(string(cAppAutocompleteInvokeChar[AppAutocompleteInvoke]));
+            Result:= PyUnicodeFromString(cAppAutocompleteInvokeStr[AppAutocompleteInvoke]);
           end;
 
         APP_PROC_SEND_MESSAGE:

@@ -1207,7 +1207,7 @@ var
   AppAutocompleteInvoke: TAppAutocompleteInvoke = TAppAutocompleteInvoke.HotkeyOrCommand;
 
 const
-  cAppAutocompleteInvokeChar: array[TAppAutocompleteInvoke] of char = (
+  cAppAutocompleteInvokeStr: array[TAppAutocompleteInvoke] of string = (
     'c',
     'a',
     'r'
