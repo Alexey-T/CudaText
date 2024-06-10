@@ -10157,13 +10157,6 @@ begin
             Form.BringToFront;
             Result:= ReturnNone;
           end;
-        {
-        DLG_TO_BACK:
-          begin
-            Form.SendToBack;
-            Result:= ReturnNone;
-          end;
-          }
 
         DLG_CTL_FOCUS:
           begin
