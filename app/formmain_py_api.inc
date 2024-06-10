@@ -10218,19 +10218,6 @@ begin
             Result:= Py_BuildValue('(ii)', Pnt.X, Pnt.Y);
           end;
 
-        DLG_POS_GET_STR:
-          begin
-            MsgDeprecatedAPI('DLG_POS_GET_STR');
-            Result:= PyUnicodeFromString(FormPosGetAsString(Form, false));
-          end;
-
-        DLG_POS_SET_FROM_STR:
-          begin
-            MsgDeprecatedAPI('DLG_POS_SET_FROM_STR');
-            FormPosSetFromString(Form, StrProp, false);
-            Result:= ReturnNone;
-          end;
-
         else
           Result:= ReturnNone;
       end;
