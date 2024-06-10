@@ -1350,11 +1350,6 @@ Possible values of "id_action":
 * DLG_COORD_LOCAL_TO_SCREEN: Converts x/y coordinates from form-related, to screen-related. Param "index" is x, "index2" is y. Returns tuple (x,y).
 * DLG_COORD_SCREEN_TO_LOCAL: Converts x/y coordinates from screen-related, to form-related. Param "index" is x, "index2" is y. Returns tuple (x,y).
 
-* (deprecated) DLG_POS_GET_STR: Returns form position/size as string.
-* (deprecated) DLG_POS_SET_FROM_STR: Sets form position/size from string. Param "prop" is string value.
-** It is faster than setting form properties "x", "y", "w", "h", it makes single resize.
-** String format is the same as in DLG_POS_GET_STR, comma-separated numbers "x,y,w,h", any number can be skipped to keep old value.
-
 ====dlg_proc - Anchors====
 
 Anchor is attaching of control's side to another control, or to the parent form, so control is auto positioned, initially and on form resize. Lazarus IDE has such Anchor Editor dialog:
@@ -5050,7 +5045,9 @@ It provides:
 1.0.457 (app 1.214.7)
 * add: on_state new Id APPSTATE_CODETREE_DBL_CLICK
 * add: tree_proc: TREE_ITEM_SET_ICON_2
-* deprecate: DLG_POS_GET_STR
-* deprecate: DLG_POS_SET_FROM_STR
+
+1.0.458 (app 1.214.7.2)
+* deleted: DLG_POS_GET_STR (use DLG_PROP_GET instead)
+* deleted: DLG_POS_SET_FROM_STR (use DLG_PROP_SET instead)
 
 [[Category:CudaText]]
