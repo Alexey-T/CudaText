@@ -65,7 +65,9 @@ def dialog_github_install(history):
 
 fn_history = os.path.join(app_path(APP_DIR_SETTINGS), 'cuda_addonman_github.ini')
 history = [
-    'https://github.com/kvichans/cuda_find_in_files',
+    'https://github.com/kvichans/cuda_find_in_files4',
+    'https://github.com/CudaText-addons/cuda_git_status',
+    'https://github.com/CudaText-addons/cuda_lsp',
     ]
 
 def rescan_plugins():
