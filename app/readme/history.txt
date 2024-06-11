@@ -20,6 +20,7 @@
 - fix: bugs with RegEx _backward_ search together with wrapped-at-edge option (thanks @pintassilgo)
 - fix: command-line: if filename is with "-nsl", it is opened _in background_ (thanks @tmsg-gh)
 - fix: some Undo commands may be merged after Undo/Redo, but they must not merge (thanks @pintassilgo)
+- fix: regressin in 1.211: mass replace breaks syntax highlighting (thanks @ThaiDat)
 
 1.214.5 (2024/05)
 
