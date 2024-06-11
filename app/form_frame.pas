@@ -2604,6 +2604,8 @@ begin
         Adapter1.Lexer:= nil;
       if Assigned(Adapter2) then
         Adapter2.Lexer:= nil;
+      Ed1.Update;
+      Ed2.Update;
     end
     else
     begin
@@ -2618,8 +2620,8 @@ begin
         if Assigned(Adapter2) then
           Adapter2.Lexer:= nil;
       end;
+      Ed.Update;
     end;
-    Ed.Update;
     exit;
   end;
 
