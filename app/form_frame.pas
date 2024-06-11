@@ -2619,6 +2619,7 @@ begin
           Adapter2.Lexer:= nil;
       end;
     end;
+    Ed.Update;
     exit;
   end;
 
