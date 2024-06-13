@@ -9,6 +9,7 @@
 + add: can show Find-dialog on start, via new option "find_show_on_start" (idea by @sl23)
 - fix: some Undo-steps may be merged after Undo/Redo, but they must not merge (thanks @pintassilgo)
 - fix: regressin in 1.211: mass replace breaks syntax highlighting (thanks @ThaiDat)
+- fix: widths of some Serbian chars (thanks @joz9)
 
 1.214.7 (2024/05)
 
