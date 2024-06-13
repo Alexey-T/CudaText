@@ -764,6 +764,12 @@
   "caret_proximity_vert": 0,
 
   //[Find]
+  //Find dialog: how to show it on app start.
+  //  0: don't show
+  //  1: show, in "find" mode
+  //  2: show, in "replace" mode
+  "find_show_on_start": 0,
+
   //Find dialog: show Find dialog as separate window (not docked to the main window).
   //Option is applied after app restart.
   //Option is disabled in GTK2 versions due to the bug in Lazarus.

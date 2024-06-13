@@ -613,7 +613,7 @@ begin
   fmFind.edRep.DoSelect_All;
 end;
 
-procedure TfmMain.DoDialogFind(AReplaceMode: boolean);
+procedure TfmMain.DoDialogFind(AReplaceMode, AUpdateFocus: boolean);
 begin
   CloseFormAutoCompletion;
 
@@ -625,8 +625,10 @@ begin
   fmFind.UpdateFormHeight; //update 'Replace' buttons visibility, when dlg is in the floating-grp-form
 
   UpdateFindDialogEnabled(CurrentFrame);
-  if fmFind.Enabled then
-    fmFind.UpdateFocus(true);
+
+  if AUpdateFocus then
+    if fmFind.Enabled then
+      fmFind.UpdateFocus(true);
 end;
 
 procedure TfmMain.UpdateFindDialogEnabled(Frame: TEditorFrame);
@@ -744,7 +746,7 @@ begin
 
   if FFinder.StrFind='' then
   begin
-    DoDialogFind(false);
+    DoDialogFind(false, true);
     Exit
   end;
 
@@ -789,7 +791,7 @@ begin
   else
   if FFinder.StrFind='' then
   begin
-    DoDialogFind(false);
+    DoDialogFind(false, true);
     Exit
   end;
 

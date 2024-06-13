@@ -342,6 +342,7 @@ type
     HistoryDisabledStr: string;
     HistoryItems: array[TAppHistoryElement] of boolean;
 
+    FindShowOnStart: integer;
     FindSuggestSel: boolean;
     FindSuggestWord: boolean;
     FindSuggestInSelection: boolean;
@@ -2084,6 +2085,7 @@ begin
     for element:= Low(element) to High(element) do
       HistoryItems[element]:= true;
 
+    FindShowOnStart:= 0;
     FindSuggestSel:= true; //option "find_suggest_sel"
     FindSuggestWord:= false; //option "find_suggest_cur_word"
     FindSuggestInSelection:= false; //option "find_suggest_in_selection"

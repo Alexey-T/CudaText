@@ -1061,7 +1061,7 @@ type
     procedure FrameOnEditorCommand(Sender: TObject; ACommand: integer; AInvoke: TATCommandInvoke;
       const AText: string; var AHandled: boolean);
     function DoFileCloseAll(AWithCancel, AClosePinned: boolean): boolean;
-    procedure DoDialogFind(AReplaceMode: boolean);
+    procedure DoDialogFind(AReplaceMode, AUpdateFocus: boolean);
     procedure DoDialogFind_Hide;
     procedure DoDialogFind_Toggle(AReplaceMode, AAndFocus: boolean);
     procedure FinderFormChangeVisible(Sender: TObject);

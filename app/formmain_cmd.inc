@@ -236,13 +236,13 @@ begin
       DoDialogGotoBookmark;
 
     cmd_DialogFind:
-      DoDialogFind(false);
+      DoDialogFind(false, true);
 
     cmd_DialogFind_Hide:
       DoDialogFind_Hide;
 
     cmd_DialogReplace:
-      DoDialogFind(true);
+      DoDialogFind(true, true);
 
     cmd_DialogSaveTabs:
       DoDialogSaveTabs;

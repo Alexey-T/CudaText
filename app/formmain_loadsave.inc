@@ -1002,6 +1002,12 @@ begin
     FFinder.OptPreserveCase:= cfg.GetValue('/finder/prescase', false);
 
     ////state
+    case UiOps.FindShowOnStart of
+      0: begin end;
+      1: begin DoDialogFind(false, false); end;
+      2: begin DoDialogFind(true, false); end;
+    end;
+
     case UiOps.SidepanelOnStart of
       0: bFlag:= cfg.GetValue('show_sidepanel', false);
       1: bFlag:= true;
@@ -1593,6 +1599,7 @@ begin
   UiOps.AutocompleteFileURI:= cfg.GetValue('autocomplete_file_uri', UiOps.AutocompleteFileURI);
   UiOps.AutocompleteClosingDelay:= cfg.GetValue('autocomplete_closing_delay', UiOps.AutocompleteClosingDelay);
 
+  UiOps.FindShowOnStart:= cfg.GetValue('find_show_on_start', UiOps.FindShowOnStart);
   UiOps.FindSuggestSel:= cfg.GetValue('find_suggest_sel', UiOps.FindSuggestSel);
   UiOps.FindSuggestWord:= cfg.GetValue('find_suggest_cur_word', UiOps.FindSuggestWord);
   UiOps.FindSuggestInSelection:= cfg.GetValue('find_suggest_in_selection', UiOps.FindSuggestInSelection);

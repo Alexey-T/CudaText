@@ -31,7 +31,7 @@ begin
       fmFind.IsReplace:= true;
   end
   else
-    DoDialogFind(false);
+    DoDialogFind(false, true);
 end;
 
 procedure TfmMain.DoBottom_OnBeforeToggle(Sender: TObject);
