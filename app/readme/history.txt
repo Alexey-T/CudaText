@@ -3,11 +3,16 @@
   - fixed
   * changed
 
-1.214.7 (2024/06)
+1.214.8 (2024/06)
+
++ add: can show Find-dialog on start, via new option "find_show_on_start" (idea by @sl23)
+- fix: some Undo-steps may be merged after Undo/Redo, but they must not merge (thanks @pintassilgo)
+- fix: regressin in 1.211: mass replace breaks syntax highlighting (thanks @ThaiDat)
+
+1.214.7 (2024/05)
 
 * change: changed statusbar 'wrap' cell text 'wrap'/'no wrap' to graphic
 * change: deleted option "show_mouse_sel_frame"
-+ add: can show Find-dialog on start, via new option "find_show_on_start" (idea by @sl23)
 - fix: sometimes with word-wrap on, End-key did not place caret on the very end (thanks @pintassilgo)
 - fix: None lexer-specific settings influence other lexers, if file is opened in the same ui-tab (thanks @ThaiDat)
 - fix: avoid crash (real reason: stack overflow) when editor calculates auto-indent string, via RegEx ".+:\s*$", for line len 130K (thanks @ivsatel)
@@ -20,8 +25,6 @@
 - fix: memory leak, visible in LSP plugin during long work (fixed by @DUOLabs333)
 - fix: bugs with RegEx _backward_ search together with wrapped-at-edge option (thanks @pintassilgo)
 - fix: command-line: if filename is with "-nsl", it is opened _in background_ (thanks @tmsg-gh)
-- fix: some Undo commands may be merged after Undo/Redo, but they must not merge (thanks @pintassilgo)
-- fix: regressin in 1.211: mass replace breaks syntax highlighting (thanks @ThaiDat)
 
 1.214.5 (2024/05)
 
