@@ -766,8 +766,7 @@
   //[Find]
   //Find dialog: how to show it on app start.
   //  0: don't show
-  //  1: show, in "find" mode
-  //  2: show, in "replace" mode
+  //  1: show
   "find_show_on_start": 0,
 
   //Find dialog: show Find dialog as separate window (not docked to the main window).
