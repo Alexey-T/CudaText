@@ -3,10 +3,11 @@
   - fixed
   * changed
 
-1.214.7 (2024/05)
+1.214.7 (2024/06)
 
 * change: changed statusbar 'wrap' cell text 'wrap'/'no wrap' to graphic
 * change: deleted option "show_mouse_sel_frame"
++ add: can show Find-dialog on start, via new option "find_show_on_start" (idea by @sl23)
 - fix: sometimes with word-wrap on, End-key did not place caret on the very end (thanks @pintassilgo)
 - fix: None lexer-specific settings influence other lexers, if file is opened in the same ui-tab (thanks @ThaiDat)
 - fix: avoid crash (real reason: stack overflow) when editor calculates auto-indent string, via RegEx ".+:\s*$", for line len 130K (thanks @ivsatel)
