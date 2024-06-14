@@ -193,14 +193,11 @@ object fmUnprinted: TfmUnprinted
     OnClick = btnSaveConfigClick
   end
   object chkEndsOnlyWraps: TCheckBox
-    AnchorSideLeft.Control = chkEndDetails
-    AnchorSideTop.Control = chkEndDot
     AnchorSideTop.Side = asrBottom
     Left = 40
     Height = 21
     Top = 281
     Width = 162
-    BorderSpacing.Top = 4
     Caption = 'Only wrapped-line marks'
     TabOrder = 12
     OnChange = chkEndsOnlyWrapsChange
