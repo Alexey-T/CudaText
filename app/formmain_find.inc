@@ -566,8 +566,6 @@ begin
   if Ed.Carets.Count>1 then
     bMultiLineSel:= Ed.Carets.IsSelectionInAllCarets;
 
-  InitFormFind;
-
   if StrSel='' then
   begin
     fmFind.chkInSel.Checked:= false;
@@ -584,14 +582,6 @@ begin
   else
   if UiOps.FindSuggestWord and (StrWord<>'') then
     StrSuggested:= StrWord;
-
-  fmFind.chkCase.Checked:= FFinder.OptCase;
-  fmFind.chkWords.Checked:= FFinder.OptWords;
-  fmFind.chkRegex.Checked:= FFinder.OptRegex;
-  fmFind.chkConfirm.Checked:= FFinder.OptConfirmReplace;
-  fmFind.chkWrap.Checked:= FFinder.OptWrapped;
-  fmFind.bTokens.ItemIndex:= Ord(FFinder.OptTokens);
-  fmFind.chkPreserveCase.Checked:= FFinder.OptPreserveCase;
 
   if UiOps.FindSuggestInSelection and bMultiLineSel then
   begin
@@ -617,18 +607,30 @@ procedure TfmMain.DoDialogFind(AReplaceMode, AUpdateFocus: boolean);
 begin
   CloseFormAutoCompletion;
 
-  UpdateFindDialogFromSuggestions;
+  InitFormFind;
+  fmFind.chkCase.Checked:= FFinder.OptCase;
+  fmFind.chkWords.Checked:= FFinder.OptWords;
+  fmFind.chkRegex.Checked:= FFinder.OptRegex;
+  fmFind.chkConfirm.Checked:= FFinder.OptConfirmReplace;
+  fmFind.chkWrap.Checked:= FFinder.OptWrapped;
+  fmFind.bTokens.ItemIndex:= Ord(FFinder.OptTokens);
+  fmFind.chkPreserveCase.Checked:= FFinder.OptPreserveCase;
+
+  if AUpdateFocus then
+    UpdateFindDialogFromSuggestions;
+
   UpdateFindDialogParent;
   fmFind.IsReplace:= AReplaceMode;
   fmFind.UpdateState(false); //param False! to disable jumping to first match on Ctrl+F with find-bar visible
   fmFind.Show;
   fmFind.UpdateFormHeight; //update 'Replace' buttons visibility, when dlg is in the floating-grp-form
 
-  UpdateFindDialogEnabled(CurrentFrame);
-
   if AUpdateFocus then
+  begin
+    UpdateFindDialogEnabled(CurrentFrame);
     if fmFind.Enabled then
       fmFind.UpdateFocus(true);
+  end;
 end;
 
 procedure TfmMain.UpdateFindDialogEnabled(Frame: TEditorFrame);

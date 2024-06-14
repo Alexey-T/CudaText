@@ -1003,9 +1003,8 @@ begin
 
     ////state
     case UiOps.FindShowOnStart of
-      0: begin end;
-      1: begin DoDialogFind(false, false); end;
-      2: begin DoDialogFind(true, false); end;
+      1: DoDialogFind(false, false);
+      2: DoDialogFind(true, false);
     end;
 
     case UiOps.SidepanelOnStart of
