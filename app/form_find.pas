@@ -1577,6 +1577,8 @@ begin
   if FReplace=AValue then Exit;
   FReplace:= AValue;
 
+  edRep.Visible:= FReplace;
+
   //in find mode: focus input, because old focused control maybe hidden now
   if not FReplace then
     if edFind.CanFocus then
@@ -1601,32 +1603,24 @@ begin
 end;
 
 procedure TfmFind.UpdateFormHeight;
-  //
-  function MaxY(C: TControl): integer;
-  var
-    P: TPoint;
-  begin
-    if not C.Visible then exit(0);
-    P:= Point(0, C.Height);
-    P:= C.ClientToScreen(P);
-    P:= Self.ScreenToClient(P);
-    Result:= P.Y;
-    //Lazarus sometimes gets big negative p.x/p.y
-    if Result<0 then
-      Result:= 0;
-  end;
-  //
 const
   cMinHeight = 30;
   cHeightIncrease = 4;
 var
   N: integer;
+  Ctl: TControl;
 begin
   if IsReplace then
-    N:= MaxY(edRep)
+    Ctl:= edRep
   else
-    N:= MaxY(edFind);
+    Ctl:= edFind;
+
+  if Ctl.Visible then
+    N:= Ctl.Top+Ctl.Height
+  else
+    N:= 0;
   N:= Max(cMinHeight, N+cHeightIncrease);
+
   Constraints.MinHeight:= N;
   Constraints.MaxHeight:= N;
   Height:= N;
