@@ -5374,12 +5374,12 @@ begin
 
         APP_PROC_GET_FINDER_PROP:
           begin
-            Result:= fmMain.DoFindOptions_GetDict;
+            Result:= fmMain.FindDialog_GetOptionsPyDict;
           end;
 
         APP_PROC_SET_FINDER_PROP:
           begin
-            fmMain.DoFindOptions_ApplyDict(Str);
+            fmMain.FindDialog_ApplyOptionsString(Str);
             Result:= ReturnNone;
           end;
 

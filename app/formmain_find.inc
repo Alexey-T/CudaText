@@ -486,13 +486,14 @@ begin
   begin
     fmFind:= TfmFind.Create(Self);
     fmFind.OnResult:= @FindDialogDone2;
-    fmFind.OnChangeOptions:= @DoFindOptions_OnChange;
-    fmFind.OnChangeVisible:= @FinderFormChangeVisible;
-    fmFind.OnFocusEditor:= @FindDialogFocusEditor;
-    fmFind.OnGetMainEditor:= @FindDialogGetMainEditor;
+    fmFind.OnChangeOptions:= @FindDialogOnChangeOptions;
+    fmFind.OnChangeVisible:= @FindDialogOnChangeVisible;
+    fmFind.OnFocusEditor:= @FindDialogOnFocusEditor;
+    fmFind.OnGetMainEditor:= @FindDialogOnGetMainEditor;
     fmFind.OnGetToken:= @FinderOnGetToken;
-    fmFind.OnShowMatchesCount:= @FinderShowMatchesCount;
-    fmFind.OnHandleKeyDown:= @FinderHandleKeyDown;
+    fmFind.OnShowMatchesCount:= @FindDialogOnShowMatchesCount;
+    fmFind.OnHandleKeyDown:= @FindDialogOnHandleKeyDown;
+
     fmFind.Color:= GetAppColor(TAppThemeColor.TabBg);
     fmFind.UpdateInitialCaretPos;
 
@@ -1023,7 +1024,7 @@ begin
     FinderShowResult(false, false, AFinder);
 end;
 
-procedure TfmMain.FinderShowMatchesCount(AMatchCount, ATime: integer);
+procedure TfmMain.FindDialogOnShowMatchesCount(AMatchCount, ATime: integer);
 var
   S: string;
 begin
@@ -1249,7 +1250,7 @@ begin
 end;
 
 
-function TfmMain.DoFindOptions_GetDict: PPyObject;
+function TfmMain.FindDialog_GetOptionsPyDict: PPyObject;
 var
   oFind, oRep,
   oFindHist, oRepHist,
@@ -1337,7 +1338,7 @@ begin
 end;
 
 
-procedure TfmMain.DoFindOptions_ApplyDict(const AText: string);
+procedure TfmMain.FindDialog_ApplyOptionsString(const AText: string);
 var
   Sep, Sep2: TATStringSeparator;
   SItem, SKey, SValue: string;
@@ -1572,7 +1573,7 @@ begin
   FinderOptionsFromString(FFinder, SOptOld);
 end;
 
-procedure TfmMain.DoFindOptions_OnChange(Sender: TObject);
+procedure TfmMain.FindDialogOnChangeOptions(Sender: TObject);
 begin
   //options are used for some commands
   //apply options immediately, so user dont need to do a search to apply them
@@ -1590,12 +1591,12 @@ begin
   end;
 end;
 
-procedure TfmMain.FindDialogFocusEditor(Sender: TObject);
+procedure TfmMain.FindDialogOnFocusEditor(Sender: TObject);
 begin
   DoFocusEditor(CurrentEditor);
 end;
 
-function TfmMain.FinderHandleKeyDown(AKey: word; AShiftState: TShiftState): boolean;
+function TfmMain.FindDialogOnHandleKeyDown(AKey: word; AShiftState: TShiftState): boolean;
 var
   Ed: TATSynEdit;
   NCmd: integer;
@@ -1614,7 +1615,7 @@ begin
   end;
 end;
 
-procedure TfmMain.FinderFormChangeVisible(Sender: TObject);
+procedure TfmMain.FindDialogOnChangeVisible(Sender: TObject);
 begin
   UpdateSidebarButtonFind;
 end;

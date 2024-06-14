@@ -776,8 +776,6 @@ type
     procedure PopupBottomWrapClick(Sender: TObject);
     procedure ConfirmPanelClick(Sender: TObject);
     procedure ConfirmPanelMouseLeave(Sender: TObject);
-    procedure FindDialogFocusEditor(Sender: TObject);
-    procedure FindDialogGetMainEditor(out AEditor: TATSynEdit);
     procedure FrameConfirmLink(Sender: TObject; const ALink: string);
     procedure FormEnter(Sender: TObject);
     function GetShowDistractionFree: boolean;
@@ -808,9 +806,6 @@ type
     procedure DoFindNext(ANext: boolean);
     procedure DoFindMarkAll(AMode: TAppFinderMarking);
     procedure DoFindMarkingInit(AMode: TAppFinderMarking);
-    procedure DoFindOptions_OnChange(Sender: TObject);
-    procedure DoFindOptions_ApplyDict(const AText: string);
-    function DoFindOptions_GetDict: PPyObject;
     procedure DoFindActionFromString(const AStr: string);
     procedure DoFindCurrentWordOrSel(Ed: TATSynEdit; ANext, AWordOrSel: boolean);
     procedure DoFolderOpen(const ADirName: string; ANewProject: boolean; AInvoke: TATCommandInvoke);
@@ -1064,11 +1059,8 @@ type
     procedure DoDialogFind(AReplaceMode, AUpdateFocus: boolean);
     procedure DoDialogFind_Hide;
     procedure DoDialogFind_Toggle(AReplaceMode, AAndFocus: boolean);
-    procedure FinderFormChangeVisible(Sender: TObject);
     procedure FinderShowResult(AFound, AIsReplace: boolean; AFinder: TATEditorFinder);
     procedure FinderShowResultSimple(AFound: boolean; AFinder: TATEditorFinder);
-    procedure FinderShowMatchesCount(AMatchCount, ATime: integer);
-    function FinderHandleKeyDown(AKey: word; AShiftState: TShiftState): boolean;
     procedure DoMoveTabToGroup(AGroupIndex: Integer; AFromCommandPalette: boolean=false);
     function DoFileOpen(AFileName, AFileName2: string; APages: TATPages=nil; const AOptions: string=''): TEditorFrame;
     procedure DoFileOpenDialog(const AOptions: string='');
@@ -1096,8 +1088,6 @@ type
     function FinderOptionsToHint(AFinder: TATEditorFinder; AIsReplace: boolean): string;
     function FinderReplaceAll(Ed: TATSynEdit; AResetCaret: boolean): integer;
     procedure FinderShowReplaceReport(ACounter, ATime: integer);
-    procedure FindDialogDone(Sender: TObject; Res: TAppFinderOperation; AEnableUpdateAll: boolean);
-    procedure FindDialogDone2(Sender: TObject; Res: TAppFinderOperation; AEnableUpdateAll: boolean);
     procedure FinderOnFound(Sender: TObject; APos1, APos2: TPoint);
     procedure FinderOnProgress(Sender: TObject; const ACurPos, AMaxPos: Int64; var AContinue: boolean);
     procedure FinderOnWrapAtEdge(Sender: TObject);
@@ -1251,6 +1241,16 @@ type
     function RunTreeHelper(Frame: TEditorFrame; ATree: TTreeView;
       AllowPascalHelpers, AllowPythonHelpers: boolean): boolean;
     function DoPyLexerDetection(const Filename: string; Lexers: TStringList): integer;
+    procedure FindDialogDone(Sender: TObject; Res: TAppFinderOperation; AEnableUpdateAll: boolean);
+    procedure FindDialogDone2(Sender: TObject; Res: TAppFinderOperation; AEnableUpdateAll: boolean);
+    procedure FindDialogOnFocusEditor(Sender: TObject);
+    procedure FindDialogOnGetMainEditor(out AEditor: TATSynEdit);
+    procedure FindDialogOnChangeOptions(Sender: TObject);
+    procedure FindDialogOnChangeVisible(Sender: TObject);
+    procedure FindDialogOnShowMatchesCount(AMatchCount, ATime: integer);
+    function FindDialogOnHandleKeyDown(AKey: word; AShiftState: TShiftState): boolean;
+    procedure FindDialog_ApplyOptionsString(const AText: string);
+    function FindDialog_GetOptionsPyDict: PPyObject;
     procedure FinderOnGetToken(Sender: TObject; AX, AY: integer; out AKind: TATTokenKind);
     procedure FinderOnConfirmReplace(Sender: TObject; APos1, APos2: TPoint;
       AForMany: boolean; var AConfirm, AContinue: boolean; var AReplacement: UnicodeString);
@@ -3003,7 +3003,7 @@ begin
   InitCodeTree;
   InitBottomEditor(fmOutput);
   InitBottomEditor(fmValidate);
-  InitConsole(Self, @FindDialogGetMainEditor);
+  InitConsole(Self, @FindDialogOnGetMainEditor);
   fmConsole.OnConsoleNav:= @DoPyEvent_ConsoleNav;
   fmConsole.OnConsoleComplete:= @DoPyEvent_ConsoleComplete;
   fmConsole.OnNumberChange:= @DoOnConsoleNumberChange;
@@ -9364,7 +9364,7 @@ begin
   }
 end;
 
-procedure TfmMain.FindDialogGetMainEditor(out AEditor: TATSynEdit);
+procedure TfmMain.FindDialogOnGetMainEditor(out AEditor: TATSynEdit);
 begin
   AEditor:= CurrentEditor;
 end;
