@@ -1362,6 +1362,8 @@ end;
 
 procedure TfmFind.FormShow(Sender: TObject);
 begin
+  Localize;
+
   edFind.OptCaretBlinkEnabled:= EditorOps.OpCaretBlinkEn;
   edRep.OptCaretBlinkEnabled:= EditorOps.OpCaretBlinkEn;
   edFind.OptCaretBlinkTime:= EditorOps.OpCaretBlinkTime;

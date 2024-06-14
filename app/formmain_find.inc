@@ -535,8 +535,6 @@ begin
       cfg.Free
     end;
   end;
-
-  fmFind.Localize;
 end;
 
 
