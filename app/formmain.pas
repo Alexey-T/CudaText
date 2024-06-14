@@ -1126,6 +1126,7 @@ type
     procedure UpdateGroupsOfContextMenu;
     procedure UpdatePlugins_AfterInstallingZip;
     procedure UpdateEditorShowCaret;
+    procedure UpdateFindDialogChecks;
     procedure UpdateFindDialogFromSuggestions;
     procedure UpdateFindDialogParent;
     procedure UpdateFindDialogOnTabFocusing(F: TEditorFrame);

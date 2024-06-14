@@ -604,11 +604,10 @@ begin
   fmFind.edRep.DoSelect_All;
 end;
 
-procedure TfmMain.DoDialogFind(AReplaceMode, AUpdateFocus: boolean);
+procedure TfmMain.UpdateFindDialogChecks;
 begin
-  CloseFormAutoCompletion;
-
-  InitFormFind;
+  if fmFind=nil then
+    raise Exception.Create('fmFind is not created');
   fmFind.chkCase.Checked:= FFinder.OptCase;
   fmFind.chkWords.Checked:= FFinder.OptWords;
   fmFind.chkRegex.Checked:= FFinder.OptRegex;
@@ -616,10 +615,16 @@ begin
   fmFind.chkWrap.Checked:= FFinder.OptWrapped;
   fmFind.bTokens.ItemIndex:= Ord(FFinder.OptTokens);
   fmFind.chkPreserveCase.Checked:= FFinder.OptPreserveCase;
+end;
 
+procedure TfmMain.DoDialogFind(AReplaceMode, AUpdateFocus: boolean);
+begin
+  CloseFormAutoCompletion;
+
+  InitFormFind;
   if AUpdateFocus then
     UpdateFindDialogFromSuggestions;
-
+  UpdateFindDialogChecks;
   UpdateFindDialogParent;
   fmFind.IsReplace:= AReplaceMode;
   fmFind.UpdateState(false); //param False! to disable jumping to first match on Ctrl+F with find-bar visible
@@ -708,6 +713,7 @@ begin
   end
   else
   begin
+    UpdateFindDialogChecks;
     UpdateFindDialogFromSuggestions;
     UpdateFindDialogParent;
     fmFind.IsReplace:= AReplaceMode;
