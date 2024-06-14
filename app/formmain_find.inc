@@ -547,6 +547,9 @@ var
   StrSel, StrWord, StrSuggested: atString;
   bMultiLineSel: boolean;
 begin
+  if not Assigned(fmFind) then
+    raise Exception.Create('fmFind is not created');
+
   Frame:= CurrentFrame;
   if Frame=nil then exit;
   Ed:= Frame.Editor;
