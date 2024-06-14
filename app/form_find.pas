@@ -1611,12 +1611,10 @@ begin
     Ctl:= edRep
   else
     Ctl:= edFind;
+  if not Ctl.Visible then
+    Ctl:= edFind;
 
-  if Ctl.Visible then
-    N:= Ctl.Top+Ctl.Height
-  else
-    N:= edFind.Top+edFind.Height;
-
+  N:= Ctl.Top+Ctl.Height;
   Inc(N, NPadding);
   if IsNarrow then
     Inc(N, PanelTopOps.Height+NPadding);
