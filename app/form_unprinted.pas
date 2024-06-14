@@ -26,7 +26,7 @@ type
     btnOk: TButton;
     btnCancel: TButton;
     btnSaveConfig: TButton;
-    chkEndsOnlyWraps: TCheckBox;
+    chkEndOnlyWraps: TCheckBox;
     chkVisible: TCheckBox;
     chkShowWhitespace: TCheckBox;
     chkOnlyInSel: TCheckBox;
@@ -46,7 +46,7 @@ type
     procedure chkEndDetailsChange(Sender: TObject);
     procedure chkEndDotChange(Sender: TObject);
     procedure chkEndPilcrowChange(Sender: TObject);
-    procedure chkEndsOnlyWrapsChange(Sender: TObject);
+    procedure chkEndOnlyWrapsChange(Sender: TObject);
     procedure chkForceShowTabsChange(Sender: TObject);
     procedure chkOnlyInSelChange(Sender: TObject);
     procedure chkOnlyLeadAndTrailChange(Sender: TObject);
@@ -175,7 +175,7 @@ begin
   UpdateState;
 end;
 
-procedure TfmUnprinted.chkEndsOnlyWrapsChange(Sender: TObject);
+procedure TfmUnprinted.chkEndOnlyWrapsChange(Sender: TObject);
 begin
   UpdateState;
 end;
@@ -196,7 +196,7 @@ begin
   Ed.OptUnprintedVisible:= chkVisible.Checked;
   Ed.OptUnprintedSpaces:= chkShowWhitespace.Checked;
   Ed.OptUnprintedEnds:= chkShowEndMarks.Checked;
-  Ed.OptUnprintedEndsOnlyWraps:= chkEndsOnlyWraps.Checked;
+  Ed.OptUnprintedEndsOnlyWraps:= chkEndOnlyWraps.Checked;
   Ed.OptUnprintedEndsDetails:= chkEndDetails.Checked;
   Ed.OptUnprintedSpacesTrailing:= chkOnlyTrail.Checked;
   Ed.OptUnprintedSpacesBothEnds:= chkOnlyLeadAndTrail.Checked;
@@ -251,7 +251,7 @@ begin
     with chkOnlyTrail do Caption:= ini.ReadString(section, 'only_tr', Caption);
     with chkForceShowTabs do Caption:= ini.ReadString(section, 'sh_tabs', Caption);
     with chkShowEndMarks do Caption:= ini.ReadString(section, 'sh_end', Caption);
-    with chkEndsOnlyWraps do Caption:= ini.ReadString(section, 'end_wrp', Caption);
+    with chkEndOnlyWraps do Caption:= ini.ReadString(section, 'end_wrp', Caption);
     with chkEndDetails do Caption:= ini.ReadString(section, 'end_det', Caption);
     with chkEndDot do Caption:= ini.ReadString(section, 'end_dot', Caption);
     with chkEndArrow do Caption:= ini.ReadString(section, 'end_arr', Caption);
@@ -266,7 +266,7 @@ begin
   Result:= '';
   if chkShowWhitespace.Checked then Result+= 's';
   if chkShowEndMarks.Checked then Result+= 'e';
-  if chkEndsOnlyWraps.Checked then Result+= 'E';
+  if chkEndOnlyWraps.Checked then Result+= 'E';
   if chkEndDetails.Checked then Result+= 'd';
   if chkOnlyTrail.Checked then Result+= 't';
   if chkOnlyLeadAndTrail.Checked then Result+= 'l';

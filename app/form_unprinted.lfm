@@ -192,14 +192,14 @@ object fmUnprinted: TfmUnprinted
     TabOrder = 14
     OnClick = btnSaveConfigClick
   end
-  object chkEndsOnlyWraps: TCheckBox
+  object chkEndOnlyWraps: TCheckBox
     AnchorSideTop.Side = asrBottom
     Left = 40
     Height = 21
     Top = 281
-    Width = 162
-    Caption = 'Only wrapped-line marks'
+    Width = 142
+    Caption = 'Only in wrapped lines'
     TabOrder = 12
-    OnChange = chkEndsOnlyWrapsChange
+    OnChange = chkEndOnlyWrapsChange
   end
 end
