@@ -255,6 +255,7 @@ type
     procedure TimerHiAllTick(Sender: TObject);
     procedure UpdateButtonBold;
     procedure UpdateRegexHighlight;
+    function CurrentCaption: string;
   public
     { public declarations }
     FCaptionFind: string;
@@ -275,7 +276,6 @@ type
     procedure UpdateInputReddishIndicator(AFound: boolean);
     procedure ClearHiAll;
     procedure ApplyTheme;
-    function CurrentCaption: string;
     property OnResult: TAppFinderOperationEvent read FOnResult write FOnResult;
     property OnChangeOptions: TNotifyEvent read FOnChangeOptions write FOnChangeOptions;
     property OnChangeVisible: TNotifyEvent read FOnChangeVisible write FOnChangeVisible;
