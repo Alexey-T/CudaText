@@ -629,7 +629,8 @@
   //  if "t" in value: Whitespace only trailing, ie at end of lines
   //  if "T" in value: Show all tab-chars (overrides "x", "X", "l", "t")
   //  if "e" in value: Show end-of-lines marks
-  //  if "d" in value: Detailed end-of-lines: "LF", "CRLF", "CR" (overrides ".")
+  //  if "E" in value: Show end-of-lines marks only for wrapped line parts (needs "e")
+  //  if "d" in value: Detailed end-of-lines marks: "LF", "CRLF", "CR" (overrides ".")
   //  if "." in value: Instead of arrows at end-of-lines, show thick dots (overrides "p")
   //  if "p" in value: Instead of arrows at end-of-lines, show pilcrow chars
   "unprinted_content": "se",

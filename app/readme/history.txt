@@ -5,6 +5,7 @@
 
 1.214.8 (2024/06)
 
++ add: option "unprinted_content" has additional flag to show end-of-line marks only for wrapped lines, like in Textadept (idea by @pintassilgo)
 + add: improve aesthetics during mouse column-selection: a) limit carets to line-ends if "caret_after_end":false; b) draw selection rectangle (ideas by @pintassilgo)
 + add: can show Find-dialog on start, via new option "find_show_on_start" (idea by @sl23)
 - fix: some Undo-steps may be merged after Undo/Redo, but they must not merge (thanks @pintassilgo)
