@@ -1602,7 +1602,6 @@ end;
 
 procedure TfmFind.UpdateFormHeight;
 const
-  cMinHeight = 30;
   cHeightIncrease = 4;
 var
   N: integer;
@@ -1618,7 +1617,8 @@ begin
   else
     N:= 0;
   Inc(N, cHeightIncrease);
-  N:= Max(cMinHeight, N);
+
+  N:= Max(N, edFind.Top+edFind.Height);
 
   Constraints.MinHeight:= N;
   Constraints.MaxHeight:= N;
