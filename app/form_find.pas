@@ -1617,7 +1617,8 @@ begin
     N:= Ctl.Top+Ctl.Height
   else
     N:= 0;
-  N:= Max(cMinHeight, N+cHeightIncrease);
+  Inc(N, cHeightIncrease);
+  N:= Max(cMinHeight, N);
 
   Constraints.MinHeight:= N;
   Constraints.MaxHeight:= N;
