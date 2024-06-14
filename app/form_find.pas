@@ -1601,12 +1601,12 @@ begin
 end;
 
 procedure TfmFind.UpdateFormHeight;
-const
-  cHeightIncrease = 4;
 var
-  N: integer;
+  N, NPadding: integer;
   Ctl: TControl;
 begin
+  NPadding:= edFind.Top;
+
   if IsReplace then
     Ctl:= edRep
   else
@@ -1616,9 +1616,9 @@ begin
     N:= Ctl.Top+Ctl.Height
   else
     N:= 0;
-  Inc(N, cHeightIncrease);
+  Inc(N, NPadding);
   if IsNarrow then
-    Inc(N, PanelTopOps.Height+cHeightIncrease);
+    Inc(N, PanelTopOps.Height+NPadding);
 
   N:= Max(N, edFind.Top+edFind.Height);
 
