@@ -1154,11 +1154,6 @@ begin
     Utf8Encode(FFinder.StrFind)+#10+
     FFinder.RegexErrorMsg,
     MB_OK or MB_ICONERROR);
-
-  {
-  if Assigned(fmFind) then
-    fmFind.UpdateCaption(msgStatusBadRegex+': '+FFinder.RegexErrorMsg);
-    }
 end;
 
 procedure TfmMain.FinderOnGetToken(Sender: TObject; AX, AY: integer; out AKind: TATTokenKind);
