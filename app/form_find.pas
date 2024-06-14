@@ -1577,8 +1577,6 @@ begin
   if FReplace=AValue then Exit;
   FReplace:= AValue;
 
-  edRep.Visible:= FReplace;
-
   //in find mode: focus input, because old focused control maybe hidden now
   if not FReplace then
     if edFind.CanFocus then
