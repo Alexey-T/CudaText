@@ -1615,12 +1615,11 @@ begin
   if Ctl.Visible then
     N:= Ctl.Top+Ctl.Height
   else
-    N:= 0;
+    N:= edFind.Top+edFind.Height;
+
   Inc(N, NPadding);
   if IsNarrow then
     Inc(N, PanelTopOps.Height+NPadding);
-
-  N:= Max(N, edFind.Top+edFind.Height);
 
   Constraints.MinHeight:= N;
   Constraints.MaxHeight:= N;
