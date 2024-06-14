@@ -251,6 +251,7 @@ begin
     with chkOnlyTrail do Caption:= ini.ReadString(section, 'only_tr', Caption);
     with chkForceShowTabs do Caption:= ini.ReadString(section, 'sh_tabs', Caption);
     with chkShowEndMarks do Caption:= ini.ReadString(section, 'sh_end', Caption);
+    with chkEndsOnlyWraps do Caption:= ini.ReadString(section, 'end_wrp', Caption);
     with chkEndDetails do Caption:= ini.ReadString(section, 'end_det', Caption);
     with chkEndDot do Caption:= ini.ReadString(section, 'end_dot', Caption);
     with chkEndArrow do Caption:= ini.ReadString(section, 'end_arr', Caption);
