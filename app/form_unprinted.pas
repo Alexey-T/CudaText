@@ -26,6 +26,7 @@ type
     btnOk: TButton;
     btnCancel: TButton;
     btnSaveConfig: TButton;
+    chkEndsOnlyWraps: TCheckBox;
     chkVisible: TCheckBox;
     chkShowWhitespace: TCheckBox;
     chkOnlyInSel: TCheckBox;
@@ -45,6 +46,7 @@ type
     procedure chkEndDetailsChange(Sender: TObject);
     procedure chkEndDotChange(Sender: TObject);
     procedure chkEndPilcrowChange(Sender: TObject);
+    procedure chkEndsOnlyWrapsChange(Sender: TObject);
     procedure chkForceShowTabsChange(Sender: TObject);
     procedure chkOnlyInSelChange(Sender: TObject);
     procedure chkOnlyLeadAndTrailChange(Sender: TObject);
@@ -173,6 +175,11 @@ begin
   UpdateState;
 end;
 
+procedure TfmUnprinted.chkEndsOnlyWrapsChange(Sender: TObject);
+begin
+  UpdateState;
+end;
+
 procedure TfmUnprinted.chkForceShowTabsChange(Sender: TObject);
 begin
   UpdateState;
@@ -189,6 +196,7 @@ begin
   Ed.OptUnprintedVisible:= chkVisible.Checked;
   Ed.OptUnprintedSpaces:= chkShowWhitespace.Checked;
   Ed.OptUnprintedEnds:= chkShowEndMarks.Checked;
+  Ed.OptUnprintedEndsOnlyWraps:= chkEndsOnlyWraps.Checked;
   Ed.OptUnprintedEndsDetails:= chkEndDetails.Checked;
   Ed.OptUnprintedSpacesTrailing:= chkOnlyTrail.Checked;
   Ed.OptUnprintedSpacesBothEnds:= chkOnlyLeadAndTrail.Checked;
@@ -257,6 +265,7 @@ begin
   Result:= '';
   if chkShowWhitespace.Checked then Result+= 's';
   if chkShowEndMarks.Checked then Result+= 'e';
+  if chkEndsOnlyWraps.Checked then Result+= 'E';
   if chkEndDetails.Checked then Result+= 'd';
   if chkOnlyTrail.Checked then Result+= 't';
   if chkOnlyLeadAndTrail.Checked then Result+= 'l';

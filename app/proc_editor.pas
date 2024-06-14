@@ -166,6 +166,7 @@ type
     UnprintedSpacesTrail: boolean;
     UnprintedSpacesInSel: boolean;
     UnprintedEnds: boolean;
+    UnprintedEndsOnlyWraps: boolean;
     UnprintedEndsDetails: boolean;
     UnprintedForceTabs: boolean;
   end;
@@ -330,6 +331,9 @@ begin
 
     if not (TATEditorModifiedOption.UnprintedEnds in Ed.ModifiedOptions) then
       Ed.OptUnprintedEnds:= Pos('e', Op.OpUnprintedContent)>0;
+
+    if not (TATEditorModifiedOption.UnprintedEndsOnlyWraps in Ed.ModifiedOptions) then
+      Ed.OptUnprintedEndsOnlyWraps:= Pos('E', Op.OpUnprintedContent)>0;
 
     if not (TATEditorModifiedOption.UnprintedEndDetails in Ed.ModifiedOptions) then
       Ed.OptUnprintedEndsDetails:= Pos('d', Op.OpUnprintedContent)>0;
@@ -1931,6 +1935,7 @@ begin
   Ops.UnprintedSpacesTrail:= Ed.OptUnprintedSpacesTrailing;
   Ops.UnprintedSpacesInSel:= Ed.OptUnprintedSpacesOnlyInSelection;
   Ops.UnprintedEnds:= Ed.OptUnprintedEnds;
+  Ops.UnprintedEndsOnlyWraps:= Ed.OptUnprintedEndsOnlyWraps;
   Ops.UnprintedEndsDetails:= Ed.OptUnprintedEndsDetails;
   Ops.UnprintedForceTabs:= Ed.OptUnprintedForceTabs;
 end;
@@ -1969,6 +1974,7 @@ begin
     Ed.OptUnprintedSpacesOnlyInSelection:= ANew.UnprintedSpacesInSel;
   //if AOld.UnprintedEnds<>ANew.UnprintedEnds then
     Ed.OptUnprintedEnds:= ANew.UnprintedEnds;
+    Ed.OptUnprintedEndsOnlyWraps:= ANew.UnprintedEndsOnlyWraps;
   //if AOld.UnprintedEndsDetails<>ANew.UnprintedEndsDetails then
     Ed.OptUnprintedEndsDetails:= ANew.UnprintedEndsDetails;
   Ed.OptUnprintedForceTabs:= ANew.UnprintedForceTabs;

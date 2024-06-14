@@ -596,6 +596,7 @@ const
   cHistory_Unpri        = '/unprinted_show';
   cHistory_Unpri_Spaces = '/unprinted_spaces';
   cHistory_Unpri_Ends   = '/unprinted_ends';
+  cHistory_Unpri_EndWrap= '/unprinted_end_wraps';
   cHistory_Unpri_Detail = '/unprinted_end_details';
   cHistory_Caret       = '/crt';
   cHistory_TabColor    = '/color';
@@ -1508,6 +1509,7 @@ begin
   Ed2.OptUnprintedVisible:= Ed1.OptUnprintedVisible;
   Ed2.OptUnprintedSpaces:= Ed1.OptUnprintedSpaces;
   Ed2.OptUnprintedEnds:= Ed1.OptUnprintedEnds;
+  Ed2.OptUnprintedEndsOnlyWraps:= Ed1.OptUnprintedEndsOnlyWraps;
   Ed2.OptUnprintedEndsDetails:= Ed1.OptUnprintedEndsDetails;
 
   Ed1.Update(AUpdateWrapInfo);
@@ -3985,6 +3987,7 @@ begin
     c.SetDeleteValue(path+cHistory_Unpri,        Ord(Ed.OptUnprintedVisible),     Ord(EditorOps.OpUnprintedShow));
     c.SetDeleteValue(path+cHistory_Unpri_Spaces, Ord(Ed.OptUnprintedSpaces),      Ord(Pos('s', EditorOps.OpUnprintedContent)>0));
     c.SetDeleteValue(path+cHistory_Unpri_Ends,   Ord(Ed.OptUnprintedEnds),        Ord(Pos('e', EditorOps.OpUnprintedContent)>0));
+    c.SetDeleteValue(path+cHistory_Unpri_EndWrap,Ord(Ed.OptUnprintedEndsOnlyWraps),Ord(Pos('E', EditorOps.OpUnprintedContent)>0));
     c.SetDeleteValue(path+cHistory_Unpri_Detail, Ord(Ed.OptUnprintedEndsDetails), Ord(Pos('d', EditorOps.OpUnprintedContent)>0));
   end;
 
@@ -4254,6 +4257,13 @@ begin
   begin
     Ed.OptUnprintedEnds:= NFlag=1;
     Include(Ed.ModifiedOptions, TATEditorModifiedOption.UnprintedEnds);
+  end;
+
+  NFlag:= c.GetValue(path+cHistory_Unpri_EndWrap, -1);
+  if NFlag>=0 then
+  begin
+    Ed.OptUnprintedEndsOnlyWraps:= NFlag=1;
+    Include(Ed.ModifiedOptions, TATEditorModifiedOption.UnprintedEndsOnlyWraps);
   end;
 
   NFlag:= c.GetValue(path+cHistory_Unpri_Detail, -1);
