@@ -1617,6 +1617,8 @@ begin
   else
     N:= 0;
   Inc(N, cHeightIncrease);
+  if IsNarrow then
+    Inc(N, PanelTopOps.Height+cHeightIncrease);
 
   N:= Max(N, edFind.Top+edFind.Height);
 
