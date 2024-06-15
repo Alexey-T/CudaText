@@ -5,6 +5,7 @@
 
 1.215.0 (2024/06)
 
++ add: option "renreder_tweaks" has additional flag to draw wrapped-line-mark at the right edge (idea by @pintassilgo)
 + add: option "unprinted_content" has additional flag to show end-of-line marks _only_ for wrapped lines, like in Visual Studio and Textadept (idea by @pintassilgo)
 + add: improve aesthetics during mouse column-selection: a) limit carets to line-ends if "caret_after_end":false; b) draw selection rectangle (ideas by @pintassilgo)
 + add: can show Find-dialog on start, via new option "find_show_on_start" (idea by @sl23)
