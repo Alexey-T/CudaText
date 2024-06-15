@@ -1865,7 +1865,7 @@ Value of "command" parameter for MENU_ADD can be:
 
 * int_command or str(int_command) - int command code, from module cudatext_cmd (pass 0 if item does nothing)
 * callback in one of these forms: [[#Callback_parameter]].
-* callback in the form "module,method" or "module,method,param" (param can be of any primitive type).
+* (deprecated callback form) callback in the form "module,method" or "module,method,param" (param can be of any primitive type).
 
 * to create standard special sub-menus, special values:
 ** "_recents": Recent-files submenu
