@@ -526,8 +526,6 @@ begin
           Result:= PyUnicodeFromString(AppFile_Session);
         APP_DIR_INSTALLED_ADDON:
           Result:= PyUnicodeFromString(AppDir_LastInstalledAddon);
-        APP_FILE_RECENTS:
-          Result:= PyUnicodeFromString(AppListRecents.Text);
         APP_FILE_RECENT_LIST:
           Result:= StringsToPyList(AppListRecents);
 

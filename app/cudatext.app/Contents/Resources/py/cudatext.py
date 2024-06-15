@@ -36,7 +36,6 @@ APP_DIR_DATA            = 2
 APP_DIR_PY              = 3
 APP_FILE_SESSION        = 4
 APP_DIR_INSTALLED_ADDON = 5
-APP_FILE_RECENTS        = 6 # deprecated 2024.04
 APP_DIR_SETTINGS_DEF    = 7
 APP_FILE_RECENT_LIST    = 8
 
