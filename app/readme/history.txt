@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.214.8 (2024/06)
+1.215.0 (2024/06)
 
 + add: option "unprinted_content" has additional flag to show end-of-line marks _only_ for wrapped lines, like in Visual Studio and Textadept (idea by @pintassilgo)
 + add: improve aesthetics during mouse column-selection: a) limit carets to line-ends if "caret_after_end":false; b) draw selection rectangle (ideas by @pintassilgo)

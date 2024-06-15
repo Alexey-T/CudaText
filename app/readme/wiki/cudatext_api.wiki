@@ -5049,7 +5049,7 @@ It provides:
 * deleted: DLG_POS_GET_STR (use DLG_PROP_GET instead)
 * deleted: DLG_POS_SET_FROM_STR (use DLG_PROP_SET instead)
 
-1.0.459 (app 1.214.8)
+1.0.459 (app 1.215.0)
 * add: Editor.get_prop/set_prop: PROP_UNPRINTED_END_ONLY_WRAP
 * delete deprecated: APP_FILE_RECENTS (use APP_FILE_RECENT_LIST instead)
 * delete deprecated: GROUPS_3PLUS (use GROUPS_1P2VERT instead)
