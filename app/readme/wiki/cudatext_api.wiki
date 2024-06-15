@@ -5054,5 +5054,6 @@ It provides:
 1.0.459 (app 1.214.8)
 * add: Editor.get_prop/set_prop: PROP_UNPRINTED_END_ONLY_WRAP
 * delete deprecated: APP_FILE_RECENTS (use APP_FILE_RECENT_LIST instead)
+* delete deprecated: GROUPS_3PLUS (use GROUPS_1P2VERT instead)
 
 [[Category:CudaText]]
