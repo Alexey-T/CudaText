@@ -73,7 +73,6 @@ const
   EOL = #10;
   msgPythonListError = 'Cannot create new list object'; //no need i18n
   msgCallbackBad = 'NOTE: Bad API callback, report to plugin author: %s'; //no i18n
-  msgCallbackDeprecated = 'NOTE: Deprecated API callback, report to plugin author: %s'; //no i18n
   msgApiDeprecated = 'NOTE: Deprecated API usage: %s'; //no i18n
   msgErrorInTheme = 'NOTE: Theme "%s" misses item "%s"';
   msgRescannedAllPlugins = 'Rescanned all plugins';

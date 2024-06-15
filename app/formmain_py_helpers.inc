@@ -298,6 +298,7 @@ begin
 end;
 
 
+(* deleted 2024.06
 function ParsePythonCallback_CommaCommand(const AStr: string; out APart1, APart2, APart3: string): boolean;
 // regex '(\w+),(\w+)(,(.+))?$'
 var
@@ -333,7 +334,7 @@ begin
 
   Result:= true;
 end;
-
+*)
 
 function ParsePythonCallback_3Prefixes(const AStr, APrefix1, APrefix2, APrefix3: string;
   out APart1, APart2, APart3: string): boolean;
@@ -491,6 +492,7 @@ begin
   end;
 
   //-----------------------------------------------------
+  { //deleted 2024.06
   if ParsePythonCallback_CommaCommand(ACallback, SModule, SFunc, SParam) then
   begin
     if SParam<>'' then
@@ -502,6 +504,7 @@ begin
     MsgLogConsole(Format(msgCallbackDeprecated, [ACallback]));
     exit;
   end;
+  }
 
   MsgLogConsole(Format(msgCallbackBad, [ACallback]));
 end;
