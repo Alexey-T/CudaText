@@ -2468,6 +2468,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_UNPRINTED_SPACES: bool: unprinted chars: show spaces/tabs.
 * PROP_UNPRINTED_SPACES_TRAILING: bool: unprinted chars: show spaces/tabs only at end of lines.
 * PROP_UNPRINTED_ENDS: bool: unprinted chars: show line ends.
+* PROP_UNPRINTED_END_WRAP_ONLY: bool: unprinted chars: show line end marks only for wrapped lines.
 * PROP_UNPRINTED_END_DETAILS: bool: unprinted chars: show line end details.
 * PROP_TAG: str: some string attached to editor. Value must be "key:defvalue" or simply "defvalue". Saved value for "key" is returned, or "defvalue" returned if value for key was not set. Empty key means key "_".
 * PROP_CARET_VIEW: 3-tuple: shape of caret, normal mode. Tuple contents is (int_width, int_height, bool_empty_inside). Width/height<0 means value in percents.
@@ -2673,6 +2674,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 * PROP_UNPRINTED_SPACES: bool: unprinted chars: show spaces/tabs.
 * PROP_UNPRINTED_SPACES_TRAILING: bool: unprinted chars: show spaces/tabs only at end of lines.
 * PROP_UNPRINTED_ENDS: bool: unprinted chars: show line ends.
+* PROP_UNPRINTED_END_WRAP_ONLY: bool: unprinted chars: show line end marks only for wrapped lines.
 * PROP_UNPRINTED_END_DETAILS: bool: unprinted chars: show line end details.
 * PROP_TAG: str: some string attached to editor. Param text must be pair "key:value" or simply "value", this sets value for specified key (internally it is dictionary). Empty key means key "_".
 * PROP_CARET_VIEW: 3-tuple: shape of caret, normal mode. Tuple contents is (int_width, int_height, bool_empty_inside). Width/height<0 means value in percents.
@@ -5049,5 +5051,8 @@ It provides:
 1.0.458 (app 1.214.7.2)
 * deleted: DLG_POS_GET_STR (use DLG_PROP_GET instead)
 * deleted: DLG_POS_SET_FROM_STR (use DLG_PROP_SET instead)
+
+1.0.459 (app 1.214.8)
+* add: Editor.get_prop/set_prop: PROP_UNPRINTED_END_WRAP_ONLY
 
 [[Category:CudaText]]
