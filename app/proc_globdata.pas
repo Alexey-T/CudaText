@@ -3979,11 +3979,12 @@ begin
   else
     FixedSizes[cCharEllipsis]:= uw_fullwidth;
 
-  ATEditorOptions.RenderSpaceBgAtLineEOL:= Pos('n', s)=0;
-  ATEditorOptions.PreciseCalculationOfCharWidth:= Pos('w', s)=0;
-  ATEditorOptions.TextoutNeedsOffsets:= Pos('o', s)>0;
-  ATEditorOptions.CaretTextOverInvertedRect:= Pos('c', s)>0;
+  ATEditorOptions.RenderSpaceBgAtLineEOL:=         Pos('n', s)=0;
+  ATEditorOptions.PreciseCalculationOfCharWidth:=  Pos('w', s)=0;
+  ATEditorOptions.TextoutNeedsOffsets:=            Pos('o', s)>0;
+  ATEditorOptions.CaretTextOverInvertedRect:=      Pos('c', s)>0;
   ATEditorOptions.EnableLigaturesOnLineWithCaret:= Pos('l', s)>0;
+  ATEditorOptions.UnprintedWrapArrowAtEdge:=       Pos('W', s)>0;
 
   bValue:= Pos('s', s)=0;
   FixedSizes[$1680]:= cHexShow[bValue];
