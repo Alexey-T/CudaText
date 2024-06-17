@@ -12,6 +12,7 @@
 - fix: some Undo-steps may be merged after Undo/Redo, but they must not merge (thanks @pintassilgo)
 - fix: regression in 1.211: mass replace breaks syntax highlighting (thanks @ThaiDat)
 - fix: fixed width of some Serbian chars (thanks @joz9)
+- fix: when editing in the _floating_ group, auto-completion listbox can appear in the main window (thanks @MiroslavMatas)
 
 1.214.7 (2024/05)
 
