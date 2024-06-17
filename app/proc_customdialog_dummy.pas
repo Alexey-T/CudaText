@@ -602,6 +602,7 @@ end;
 function TFormDummy.CloseQuery: boolean;
 begin
   inherited;
+  if not Enabled then exit(false); //on Linux gtk2, OS can close the disabled window by X click
   Result:= DoEvent(-1, FEventOnCloseQuery, AppVariantNil);
 end;
 
