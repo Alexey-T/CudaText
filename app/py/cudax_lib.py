@@ -12,7 +12,7 @@ Authors:
     Andrey Kvichansky    (kvichans on github)
     Alexey Torgashin (CudaText)
 Version:
-    '0.6.12 2023-07-04'
+    '0.6.14 2024-06-17'
 Wiki: github.com/kvichans/cudax_lib/wiki
 ToDo: (see end of file)
 """
@@ -521,7 +521,6 @@ def get_groups_count():
         app.GROUPS_2HORZ    : 2,
         app.GROUPS_3VERT    : 3,
         app.GROUPS_3HORZ    : 3,
-        app.GROUPS_3PLUS    : 3,
         app.GROUPS_1P2VERT  : 3,
         app.GROUPS_1P2HORZ  : 3,
         app.GROUPS_4VERT    : 4,
