@@ -1078,7 +1078,7 @@ def dlg_file(is_open, init_filename, init_dir, filters, caption=''):
         caption = 'Open file' if is_open else 'Save file'
     return ct.dlg_file(is_open, init_filename, init_dir, filters, caption)
 
-def dlg_dir(init_dir, caption='Select folder'):
+def dlg_dir(init_dir, caption=''):
     return ct.dlg_dir(init_dir, caption)
 
 def dlg_hotkey(title=''):
