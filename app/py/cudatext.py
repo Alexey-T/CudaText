@@ -1074,8 +1074,6 @@ def dlg_menu(id, items, focused=0, caption='', clip=0, w=0, h=0):
     return ct.dlg_menu(id, s, focused, caption, clip, w, h)
 
 def dlg_file(is_open, init_filename, init_dir, filters, caption=''):
-    if not caption:
-        caption = 'Open file' if is_open else 'Save file'
     return ct.dlg_file(is_open, init_filename, init_dir, filters, caption)
 
 def dlg_dir(init_dir, caption=''):

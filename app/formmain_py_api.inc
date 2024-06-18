@@ -2430,7 +2430,8 @@ begin
           Dlg.Options:= Dlg.Options+[ofAllowMultiSelect];
         end;
 
-        Dlg.Title:= StrCaption;
+        if StrCaption<>'' then
+          Dlg.Title:= StrCaption;
         Dlg.FileName:= StrFilename;
         Dlg.InitialDir:= StrFolder;
         Dlg.Filter:= StrFilter;
