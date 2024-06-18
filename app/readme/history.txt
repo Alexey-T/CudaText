@@ -3,6 +3,8 @@
   - fixed
   * changed
 
+- fix: plugin API file-dialog and folder-dialog had hardcoded English title not affected by translations (thanks @adoeller)
+
 1.215.0 (2024/06)
 
 + add: option "renreder_tweaks" has additional flag to draw wrapped-line-mark at the right edge (idea by @pintassilgo)
