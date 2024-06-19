@@ -382,7 +382,6 @@ begin
 
     msgUntitledTab:= ini.ReadString('ui', 'unt', msgUntitledTab);
     msgAllFiles:= ini.ReadString('ui', 'allf', msgAllFiles);
-    msgThemeDefault:= ini.ReadString('ui', 'deft', msgThemeDefault);
     msgThemeName:= ini.ReadString('ui', 'th_nm', msgThemeName);
     ATEditorOptions.TextHintScrollPrefix:= ini.ReadString('ui', 'line', ATEditorOptions.TextHintScrollPrefix);
 

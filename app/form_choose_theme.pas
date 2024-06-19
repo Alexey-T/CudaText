@@ -45,6 +45,7 @@ type
   private
     FBusyClickUi: boolean;
     FBusyClickSyntax: boolean;
+    FThemeDefaultStr: string;
     procedure Localize;
     function GetEnableLexerThemes: boolean;
     function GetEnableSync: boolean;
@@ -88,11 +89,11 @@ begin
     FindAllFiles(Files_sy, AppDir_DataThemes, '*'+AppExtensionThemeSyntax, false);
     Files_sy.Sort;
 
-    ListboxUI.Items.Add(msgThemeDefault);
+    ListboxUI.Items.Add(FThemeDefaultStr);
     for s in Files_ui do
       ListboxUI.Items.Add(ExtractFileNameOnly(s));
 
-    ListboxSyntax.Items.Add(msgThemeDefault);
+    ListboxSyntax.Items.Add(FThemeDefaultStr);
     for s in Files_sy do
       ListboxSyntax.Items.Add(ExtractFileNameOnly(s));
 
@@ -214,6 +215,8 @@ var
   ini: TIniFile;
   fn: string;
 begin
+  FThemeDefaultStr:= '(default)';
+
   fn:= AppFile_Language;
   if not FileExists(fn) then exit;
   ini:= TIniFile.Create(fn);
@@ -227,6 +230,8 @@ begin
 
     with chkEnableLex do Caption:= ini.ReadString(section, 'ele', Caption);
     with chkSync do Caption:= ini.ReadString(section, 'syn', Caption);
+
+    FThemeDefaultStr:= ini.ReadString('ui', 'deft', FThemeDefaultStr);
   finally
     FreeAndNil(ini);
   end;
