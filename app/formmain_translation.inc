@@ -329,11 +329,6 @@ begin
     DoLocMenuitem(ini, mnuHelpCheckUpd, 'm_h', 'chk');
     DoMenuitemEllipsis(mnuHelpCheckUpd);
 
-    DoLocString(msgCommentLineAdd, ini, 'tb', 'cm_ln_add');
-    DoLocString(msgCommentLineDel, ini, 'tb', 'cm_ln_del');
-    DoLocString(msgCommentLineToggle, ini, 'tb', 'cm_ln_tog');
-    DoLocString(msgCommentStreamToggle, ini, 'tb', 'cm_st_tog');
-
     msgDialogTitleOpen:= ini.ReadString('ui', 'dl_op', msgDialogTitleOpen);
     msgDialogTitleSaveAs:= ini.ReadString('ui', 'dl_sav', msgDialogTitleSaveAs);
 

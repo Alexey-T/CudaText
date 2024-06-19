@@ -7791,6 +7791,11 @@ begin
 end;
 
 procedure TfmMain.PopupToolbarCommentOnPopup(Sender: TObject);
+var
+  msgCommentLineAdd: string;
+  msgCommentLineDel: string;
+  msgCommentLineToggle: string;
+  msgCommentStreamToggle: string;
 begin
   if not AppPython.Inited then exit;
 
@@ -7816,6 +7821,16 @@ begin
     PopupToolbarComment.Items.Add(mnuToolbarCommentLineAdd);
     PopupToolbarComment.Items.Add(mnuToolbarCommentLineDel);
     PopupToolbarComment.Items.Add(mnuToolbarCommentStream);
+  end;
+
+  with TIniFile.Create(AppFile_Language) do
+  try
+    msgCommentLineAdd:= ReadString('tb', 'cm_ln_add', 'Line comment: add');
+    msgCommentLineDel:= ReadString('tb', 'cm_ln_del', 'Line comment: remove');
+    msgCommentLineToggle:= ReadString('tb', 'cm_ln_tog', 'Line comment: toggle');
+    msgCommentStreamToggle:= ReadString('tb', 'cm_st_tog', 'Stream comment: toggle');
+  finally
+    Free;
   end;
 
   mnuToolbarCommentLineAdd.Caption:= msgCommentLineAdd;

@@ -402,11 +402,6 @@ const
   msgTextCaseInvert: string = 'Invert case';
   msgTextCaseSentence: string = 'Sentence case';
 
-  msgCommentLineAdd: string = 'Line comment: add';
-  msgCommentLineDel: string = 'Line comment: remove';
-  msgCommentLineToggle: string = 'Line comment: toggle';
-  msgCommentStreamToggle: string = 'Stream comment: toggle';
-
   msgFindHint_InputFind: string = 'Find what';
   msgFindHint_InputRep: string = 'Replace with';
   msgFindHint_FindFirst: string = 'Find first';
