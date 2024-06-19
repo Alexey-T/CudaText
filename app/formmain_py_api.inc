@@ -2807,7 +2807,7 @@ begin
 
       with TIniFile.Create(AppFile_Language) do
       try
-        fmMain.FColorDialog.Title:= ReadString('ui', 'dl_clr', 'Select color');
+        fmMain.FColorDialog.Title:= ReadString('d_about', '_clr', 'Colors');
       finally
         Free;
       end;
