@@ -2468,7 +2468,14 @@ begin
         if StrCaption<>'' then
           Dlg.Title:= StrCaption
         else
-          Dlg.Title:= msgDialogTitleSelFolder;
+        begin
+          with TIniFile.Create(AppFile_Language) do
+          try
+            Dlg.Title:= ReadString('ui', 'dl_fld', 'Select folder');
+          finally
+            Free;
+          end;
+        end;
         Dlg.InitialDir:= StrFolder;
         if Dlg.Execute then
           Result:= PyUnicodeFromString(Dlg.FileName)
@@ -2797,8 +2804,16 @@ begin
     begin
       if not Assigned(fmMain.FColorDialog) then
         fmMain.FColorDialog:= TColorDialog.Create(fmMain);
-      fmMain.FColorDialog.Title:= msgDialogTitleSelColor;
+
+      with TIniFile.Create(AppFile_Language) do
+      try
+        fmMain.FColorDialog.Title:= ReadString('ui', 'dl_clr', 'Select color');
+      finally
+        Free;
+      end;
+
       fmMain.FColorDialog.Color:= NCode;
+
       if fmMain.FColorDialog.Execute then
         Result:= PyLong_FromLong(fmMain.FColorDialog.Color)
       else
