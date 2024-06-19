@@ -789,7 +789,6 @@ type
       const AText: string; var AHandled: boolean);
     procedure DisablePluginMenuItems(AddFindLibraryItem: boolean);
     procedure DoShowForVisibleFrames;
-    procedure LocalizeTabTitles;
     procedure DoApplyCli(const ACliModule: string; const ACliParams: TAppStringArray);
     procedure DoApplyNewdocLexer(F: TEditorFrame);
     procedure DoApplyLexerStylesMapsToFrames(AndApplyTheme: boolean);
@@ -838,6 +837,7 @@ type
     procedure FormFloatGroups_OnDropFiles(Sender: TObject; const FileNames: array of String);
     procedure CharmapOnInsert(const AStr: string);
     procedure Localize;
+    procedure LocalizeTabTitles;
     procedure LocalizePopupTab;
     function DoCheckFilenameOpened(const AName: string): boolean;
     procedure DoInvalidateEditors;
