@@ -2797,6 +2797,7 @@ begin
     begin
       if not Assigned(fmMain.FColorDialog) then
         fmMain.FColorDialog:= TColorDialog.Create(fmMain);
+      fmMain.FColorDialog.Title:= msgDialogTitleSelColor;
       fmMain.FColorDialog.Color:= NCode;
       if fmMain.FColorDialog.Execute then
         Result:= PyLong_FromLong(fmMain.FColorDialog.Color)

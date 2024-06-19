@@ -350,6 +350,7 @@ begin
     msgDialogTitleOpen:= ini.ReadString('ui', 'dl_op', msgDialogTitleOpen);
     msgDialogTitleSaveAs:= ini.ReadString('ui', 'dl_sav', msgDialogTitleSaveAs);
     msgDialogTitleSelFolder:= ini.ReadString('ui', 'dl_fld', msgDialogTitleSelFolder);
+    msgDialogTitleSelColor:= ini.ReadString('ui', 'dl_clr', msgDialogTitleSelColor);
 
     msgPanelMenu:= ini.ReadString('ui', 't_menu', msgPanelMenu_Init);
     msgPanelTree:= ini.ReadString('ui', 't_tre', msgPanelTree_Init);

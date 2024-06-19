@@ -102,6 +102,7 @@ const
   msgDialogTitleOpen: string = 'Open file';
   msgDialogTitleSaveAs: string = 'Save file as';
   msgDialogTitleSelFolder: string = 'Select folder';
+  msgDialogTitleSelColor: string = 'Select color';
 
   msgFileMaybeNotText: string = 'File is maybe not text:';
   msgFileTooBig: string = 'File is too big to edit:';
