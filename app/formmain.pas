@@ -4666,7 +4666,8 @@ begin
   if bFileTooBig2 then
   begin
     MsgBox(
-      msgFileTooBig+#10+AFileName2+#10+Format('(%d M)', [FileSize(AFileName2) div (1024*1024)]),
+      msgFileTooBig+#10+AFileName2+#10+
+      Format('(%d Mb, "ui_max_size_open": %d)', [FileSize(AFilename2) div (1024*1024), UiOps.MaxFileSizeToOpen]),
       MB_OK+MB_ICONERROR);
     AFileName2:= '';
   end;
