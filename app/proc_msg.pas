@@ -105,9 +105,6 @@ const
   msgFileMaybeNotText: string = 'File is maybe not text:';
   msgFileTooBig: string = 'File is too big to edit:';
 
-  msgLinkOpenSite: string = 'Open link';
-  msgLinkOpenEmail: string = 'Send e-mail';
-
   msgTooltipCloseTab: string = 'Close tab';
   msgTooltipAddTab: string = 'Add tab';
   msgTooltipArrowLeft: string = 'Scroll tabs left';

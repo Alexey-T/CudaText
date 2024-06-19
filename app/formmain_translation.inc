@@ -479,9 +479,6 @@ begin
     CompletionOpsFile.PrefixDir:= CompletionOpsHtml.PrefixDir;
     CompletionOpsFile.PrefixFile:= CompletionOpsHtml.PrefixFile;
 
-    DoLocString(msgLinkOpenSite, ini, 'ui', 'lnk_a');
-    DoLocString(msgLinkOpenEmail, ini, 'ui', 'lnk_e');
-
     DoLocMenuitem(mnuTextUndo, ATEditorOptions.TextMenuitemUndo);
     DoLocMenuitem(mnuTextRedo, ATEditorOptions.TextMenuitemRedo);
     DoLocMenuitem(mnuTextCut, ATEditorOptions.TextMenuitemCut);

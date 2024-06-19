@@ -9221,6 +9221,8 @@ end;
 
 procedure TfmMain.FrameConfirmLink(Sender: TObject; const ALink: string);
 var
+  StrOpenSite: string;
+  StrOpenEmail: string;
   P: TPoint;
   CurForm: TCustomForm;
 begin
@@ -9228,6 +9230,14 @@ begin
   begin
     EditorOpenLink(ALink);
     exit;
+  end;
+
+  with TIniFile.Create(AppFile_Language) do
+  try
+    StrOpenSite:= ReadString('ui', 'lnk_a', 'Open link');
+    StrOpenEmail:= ReadString('ui', 'lnk_e', 'Send e-mail');
+  finally
+    Free;
   end;
 
   FCfmLink:= ALink;
@@ -9238,9 +9248,9 @@ begin
   FCfmPanel.Parent:= CurForm;
 
   if EditorLinkIsEmail(ALink) then
-    FCfmPanel.Caption:= '['+msgLinkOpenEmail+']'
+    FCfmPanel.Caption:= '['+StrOpenEmail+']'
   else
-    FCfmPanel.Caption:= '['+msgLinkOpenSite+']';
+    FCfmPanel.Caption:= '['+StrOpenSite+']';
 
   FCfmPanel.Width:= FCfmPanel.Canvas.TextWidth(FCfmPanel.Caption)+6;
 
