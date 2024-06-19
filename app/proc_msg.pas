@@ -115,7 +115,6 @@ const
   msgUntitledTab: string = msgUntitledEnglish;
   msgAllFiles: string = 'All files';
   msgNoLexer: string = '(none)';
-  msgThemeName: string = 'Theme name:';
   msgGotoDialogTooltip: string = '(10, 10:10, 10%%, d100, xFFF, %s)';
   msgGotoDialogInfoExt: string = 'with "+": select';
   msgIgnoredCommandIfNotFocused: string = 'Ignoring the command, editor isn''t focused';
