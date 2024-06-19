@@ -472,10 +472,6 @@ begin
     DoLocMenuitem(ini, mnuTextGotoDef, 'ct', 'godef');
     DoLocMenuitem(ini, mnuTextOpenUrl, 'ct', 'url');
 
-    DoLocString(msgConsoleClear, ini, 'ct', 'clr');
-    DoLocString(msgConsoleNavigate, ini, 'ct', 'nav');
-    DoLocString(msgConsoleToggleWrap, ini, 'ct', 'wr');
-
     DoLocString(ATEditorOptions.TextMenuitemFoldAll, ini, 'ct', 'fld_a');
     DoLocString(ATEditorOptions.TextMenuitemUnfoldAll, ini, 'ct', 'fld_un');
     DoLocString(ATEditorOptions.TextMenuitemFoldLevel, ini, 'ct', 'fld_lv');

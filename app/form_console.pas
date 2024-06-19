@@ -14,7 +14,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
-  StrUtils, Menus, LclType, Math,
+  StrUtils, Menus, LclType, Math, IniFiles,
   PythonEngine,
   ATStrings,
   ATSynEdit,
@@ -493,6 +493,10 @@ begin
 end;
 
 procedure TfmConsole.MemoContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
+var
+  msgConsoleClear: string;
+  msgConsoleToggleWrap: string;
+  msgConsoleNavigate: string;
 begin
   if mnuTextClear=nil then
   begin
@@ -507,6 +511,15 @@ begin
     mnuTextNav:= TMenuItem.Create(Self);
     mnuTextNav.OnClick:= @DoNavigate;
     EdMemo.PopupTextDefault.Items.Add(mnuTextNav);
+  end;
+
+  with TIniFile.Create(AppFile_Language) do
+  try
+    msgConsoleClear:= ReadString('ct', 'clr', 'Clear');
+    msgConsoleNavigate:= ReadString('ct', 'nav', 'Navigate');
+    msgConsoleToggleWrap:= ReadString('ct', 'wr', 'Toggle word wrap');
+  finally
+    Free;
   end;
 
   mnuTextClear.Caption:= msgConsoleClear;

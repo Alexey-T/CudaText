@@ -407,10 +407,6 @@ const
   msgCommentLineToggle: string = 'Line comment: toggle';
   msgCommentStreamToggle: string = 'Stream comment: toggle';
 
-  msgConsoleClear: string = 'Clear';
-  msgConsoleToggleWrap: string = 'Toggle word wrap';
-  msgConsoleNavigate: string = 'Navigate';
-
   msgFindHint_InputFind: string = 'Find what';
   msgFindHint_InputRep: string = 'Replace with';
   msgFindHint_FindFirst: string = 'Find first';

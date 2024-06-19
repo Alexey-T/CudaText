@@ -7718,10 +7718,20 @@ end;
 
 procedure TfmMain.PopupBottomOnPopup(Sender: TObject);
 var
+  msgConsoleClear: string;
+  msgConsoleToggleWrap: string;
   Popup: TPopupMenu;
   mi: TMenuItem;
   i: integer;
 begin
+  with TIniFile.Create(AppFile_Language) do
+  try
+    msgConsoleClear:= ReadString('ct', 'clr', 'Clear');
+    msgConsoleToggleWrap:= ReadString('ct', 'wr', 'Toggle word wrap');
+  finally
+    Free;
+  end;
+
   Popup:= Sender as TPopupMenu;
   for i:= 0 to Popup.Items.Count-1 do
   begin
