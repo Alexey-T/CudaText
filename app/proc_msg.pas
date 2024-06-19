@@ -124,7 +124,6 @@ const
 
   msgMenuThemesUI: string = 'UI themes';
   msgMenuThemesSyntax: string = 'Syntax themes';
-  msgMenuLexersForFile: string = 'Lexer for "%s"';
 
   msgPanelMenu_Init = 'Menu';
   msgPanelTree_Init = 'Code tree';

@@ -5395,9 +5395,18 @@ begin
 end;
 
 function TfmMain.DoDialogMenuLexerChoose(const AFilename: string; ANames: TStringList): integer;
+var
+  STitle: string;
 begin
+  with TIniFile.Create(AppFile_Language) do
+  try
+    STitle:= ReadString('ui', 'lex_dlg', 'Lexer for "%s"');
+  finally
+    Free;
+  end;
+
   Result:= DoDialogMenuList(
-    Format(msgMenuLexersForFile, [ExtractFileName(AFilename)]),
+    Format(STitle, [ExtractFileName(AFilename)]),
     ANames, 0);
 end;
 
