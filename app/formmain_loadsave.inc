@@ -870,7 +870,7 @@ begin
   end;
 
   //avoid getting N tabs for untitled of which only N-1 are translated
-  DoLocalizeTabTitles;
+  LocalizeTabTitles;
 
   //fix disabled parsing for passive tab-groups (issue #4995)
   DoShowForVisibleFrames;
@@ -1036,7 +1036,7 @@ begin
 
     UiOps.LangName:= cfg.GetValue('lang', '');
     if UiOps.LangName<>'' then
-      DoLocalize;
+      Localize;
 
     if FOption_AllowSessionLoad=TAppAllowSomething.Enable then
     begin

@@ -43,7 +43,7 @@ type
     FGotoInfoExt: string;
     procedure SetIsDoubleBuffered(AValue: boolean);
     procedure EditCheckInput(Sender: TObject; AChar: WideChar; var AllowInput: boolean);
-    procedure DoLocalize;
+    procedure Localize;
   public
     { public declarations }
     property IsDoubleBuffered: boolean write SetIsDoubleBuffered;
@@ -74,7 +74,7 @@ begin
   end;
 end;
 
-procedure TfmGoto.DoLocalize;
+procedure TfmGoto.Localize;
 var
   STitle: string;
 begin
@@ -116,7 +116,7 @@ begin
 
   UpdateFormOnTop(Self);
 
-  DoLocalize;
+  Localize;
 
   if UiOps.ShowMenuDialogsWithBorder then
   begin

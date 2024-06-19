@@ -789,7 +789,7 @@ type
       const AText: string; var AHandled: boolean);
     procedure DisablePluginMenuItems(AddFindLibraryItem: boolean);
     procedure DoShowForVisibleFrames;
-    procedure DoLocalizeTabTitles;
+    procedure LocalizeTabTitles;
     procedure DoApplyCli(const ACliModule: string; const ACliParams: TAppStringArray);
     procedure DoApplyNewdocLexer(F: TEditorFrame);
     procedure DoApplyLexerStylesMapsToFrames(AndApplyTheme: boolean);
@@ -837,8 +837,8 @@ type
     procedure FormFloatGroups_OnUTF8KeyPress(Sender: TObject; var UTF8Key: TUTF8Char);
     procedure FormFloatGroups_OnDropFiles(Sender: TObject; const FileNames: array of String);
     procedure CharmapOnInsert(const AStr: string);
-    procedure DoLocalize;
-    procedure DoLocalizePopupTab;
+    procedure Localize;
+    procedure LocalizePopupTab;
     function DoCheckFilenameOpened(const AName: string): boolean;
     procedure DoInvalidateEditors;
     function DoMenuAdd_Params(const AMenuId, AMenuCmd, AMenuCaption, AMenuHotkey, AMenuTagString: string; AIndex: integer): string;
@@ -2245,7 +2245,7 @@ begin
     PopupTab.Items.Add(mnuTabColor);
   end;
 
-  DoLocalizePopupTab;
+  LocalizePopupTab;
 end;
 
 procedure TfmMain.StatusPanelDraw(Sender: TObject; AIndex: integer; ACanvas: TCanvas;
@@ -7507,7 +7507,7 @@ begin
     else
     begin
       UiOps.LangName:= ListNames[NResult];
-      DoLocalize;
+      Localize;
 
       if DirectoryExists(AppDir_Data+DirectorySeparator+'langmenu') then
         MsgBox(msgStatusI18nPluginsMenuAfterRestart, MB_OK or MB_ICONINFORMATION);

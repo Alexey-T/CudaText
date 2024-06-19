@@ -54,7 +54,7 @@ begin
   end;
 end;
 
-procedure TfmMain.DoLocalizePopupTab;
+procedure TfmMain.LocalizePopupTab;
 var
   fn: string;
   ini: TIniFile;
@@ -96,7 +96,7 @@ begin
   end;
 end;
 
-procedure TfmMain.DoLocalize;
+procedure TfmMain.Localize;
 var
   fn: string;
   ini: TIniFile;
@@ -592,10 +592,10 @@ begin
   if Assigned(fmCharmaps) then
     fmCharmaps.Localize;
 
-  DoLocalizeTabTitles;
+  LocalizeTabTitles;
 end;
 
-procedure TfmMain.DoLocalizeTabTitles;
+procedure TfmMain.LocalizeTabTitles;
 var
   Frame: TEditorFrame;
   i: integer;
