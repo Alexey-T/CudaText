@@ -709,8 +709,8 @@ type
     FHandledOnStart2: boolean;
     FHandledMakeCaretVisible: boolean;
     FCodetreeBuffer: TTreeView;
-    FCfmPanel: TPanel;
-    FCfmLink: string;
+    FWebPanel: TPanel;
+    FWebPanelLink: string;
     FMenuVisible: boolean;
     FNewClickedEditor: TATSynEdit;
     FPyCompletionProps: TAppCompletionApiProps;
@@ -9188,35 +9188,35 @@ const
   //cW = 10; //in avg chars
   cH = 2.5; //in avg chars
 begin
-  if FCfmPanel=nil then
+  if FWebPanel=nil then
   begin
-    FCfmPanel:= TPanel.Create(Self);
-    FCfmPanel.Hide;
-    FCfmPanel.BevelInner:= bvNone;
-    FCfmPanel.BevelOuter:= bvNone;
-    FCfmPanel.Caption:= '??';
-    FCfmPanel.OnClick:= @ConfirmPanelClick;
-    FCfmPanel.OnMouseLeave:= @ConfirmPanelMouseLeave;
+    FWebPanel:= TPanel.Create(Self);
+    FWebPanel.Hide;
+    FWebPanel.BevelInner:= bvNone;
+    FWebPanel.BevelOuter:= bvNone;
+    FWebPanel.Caption:= '??';
+    FWebPanel.OnClick:= @ConfirmPanelClick;
+    FWebPanel.OnMouseLeave:= @ConfirmPanelMouseLeave;
   end;
 
-  FCfmPanel.Color:= GetAppColor(TAppThemeColor.ButtonBgOver);
-  FCfmPanel.Font.Name:= UiOps.VarFontName;
-  FCfmPanel.Font.Size:= ATEditorScaleFont(UiOps.VarFontSize);
-  FCfmPanel.Font.Color:= GetAppColor(TAppThemeColor.ButtonFont);
+  FWebPanel.Color:= GetAppColor(TAppThemeColor.ButtonBgOver);
+  FWebPanel.Font.Name:= UiOps.VarFontName;
+  FWebPanel.Font.Size:= ATEditorScaleFont(UiOps.VarFontSize);
+  FWebPanel.Font.Color:= GetAppColor(TAppThemeColor.ButtonFont);
 
-  //FCfmPanel.Width:= AppScaleFont(UiOps.VarFontSize)*cW;
-  FCfmPanel.Height:= Trunc(ATEditorScaleFont(UiOps.VarFontSize)*cH);
+  //FWebPanel.Width:= AppScaleFont(UiOps.VarFontSize)*cW;
+  FWebPanel.Height:= Trunc(ATEditorScaleFont(UiOps.VarFontSize)*cH);
 end;
 
 procedure TfmMain.ConfirmPanelClick(Sender: TObject);
 begin
-  FCfmPanel.Hide;
-  EditorOpenLink(FCfmLink);
+  FWebPanel.Hide;
+  EditorOpenLink(FWebPanelLink);
 end;
 
 procedure TfmMain.ConfirmPanelMouseLeave(Sender: TObject);
 begin
-  FCfmPanel.Hide;
+  FWebPanel.Hide;
 end;
 
 procedure TfmMain.FrameConfirmLink(Sender: TObject; const ALink: string);
@@ -9240,25 +9240,25 @@ begin
     Free;
   end;
 
-  FCfmLink:= ALink;
+  FWebPanelLink:= ALink;
   InitConfirmPanel;
 
   CurForm:= GetParentForm(Sender as TControl);
-  FCfmPanel.Hide;
-  FCfmPanel.Parent:= CurForm;
+  FWebPanel.Hide;
+  FWebPanel.Parent:= CurForm;
 
   if EditorLinkIsEmail(ALink) then
-    FCfmPanel.Caption:= '['+StrOpenEmail+']'
+    FWebPanel.Caption:= '['+StrOpenEmail+']'
   else
-    FCfmPanel.Caption:= '['+StrOpenSite+']';
+    FWebPanel.Caption:= '['+StrOpenSite+']';
 
-  FCfmPanel.Width:= FCfmPanel.Canvas.TextWidth(FCfmPanel.Caption)+6;
+  FWebPanel.Width:= FWebPanel.Canvas.TextWidth(FWebPanel.Caption)+6;
 
   P:= Mouse.CursorPos;
   P:= CurForm.ScreenToClient(P);
-  FCfmPanel.Left:= P.X - FCfmPanel.Width div 2;
-  FCfmPanel.Top:= P.Y - FCfmPanel.Height div 2;
-  FCfmPanel.Show;
+  FWebPanel.Left:= P.X - FWebPanel.Width div 2;
+  FWebPanel.Top:= P.Y - FWebPanel.Height div 2;
+  FWebPanel.Show;
 end;
 
 procedure TfmMain.DoOps_FindPythonLib(Sender: TObject);
