@@ -1,11 +1,11 @@
 object fmUnprinted: TfmUnprinted
-  Left = 894
-  Height = 439
+  Left = 810
+  Height = 451
   Top = 185
   Width = 470
   BorderStyle = bsDialog
   Caption = 'Unprinted characters'
-  ClientHeight = 439
+  ClientHeight = 451
   ClientWidth = 470
   Position = poScreenCenter
   LCLVersion = '3.99.0.0'
@@ -13,72 +13,72 @@ object fmUnprinted: TfmUnprinted
   OnShow = FormShow
   object chkShowWhitespace: TCheckBox
     Left = 8
-    Height = 21
+    Height = 23
     Top = 48
-    Width = 119
+    Width = 140
     Caption = 'Show whitespace'
     TabOrder = 1
     OnChange = chkShowWhitespaceChange
   end
   object chkOnlyInSel: TCheckBox
     Left = 40
-    Height = 21
+    Height = 23
     Top = 72
-    Width = 211
+    Width = 250
     Caption = 'Show whitespace only in selection'
     TabOrder = 2
     OnChange = chkOnlyInSelChange
   end
   object chkAlsoInSel: TCheckBox
     Left = 40
-    Height = 21
+    Height = 23
     Top = 96
-    Width = 211
+    Width = 250
     Caption = 'Show whitespace also in selection'
     TabOrder = 3
     OnChange = chkAlsoInSelChange
   end
   object chkOnlyLeadAndTrail: TCheckBox
     Left = 40
-    Height = 21
+    Height = 23
     Top = 120
-    Width = 235
+    Width = 279
     Caption = 'Show only leading+trailing whitespace'
     TabOrder = 4
     OnChange = chkOnlyLeadAndTrailChange
   end
   object chkOnlyTrail: TCheckBox
     Left = 40
-    Height = 21
+    Height = 23
     Top = 144
-    Width = 187
+    Width = 222
     Caption = 'Show only trailing whitespace'
     TabOrder = 5
     OnChange = chkOnlyTrailChange
   end
   object chkForceShowTabs: TCheckBox
     Left = 40
-    Height = 21
+    Height = 23
     Top = 168
-    Width = 142
+    Width = 167
     Caption = 'Force show tab-chars'
     TabOrder = 6
     OnChange = chkForceShowTabsChange
   end
   object chkShowEndMarks: TCheckBox
     Left = 6
-    Height = 21
+    Height = 23
     Top = 208
-    Width = 160
+    Width = 187
     Caption = 'Show end-of-lines marks'
     TabOrder = 7
     OnChange = chkShowEndMarksChange
   end
   object chkEndDetails: TCheckBox
     Left = 40
-    Height = 21
+    Height = 23
     Top = 232
-    Width = 273
+    Width = 327
     Caption = 'Detailed end-of-line marks: "LF", "CRLF", "CR"'
     TabOrder = 8
     OnChange = chkEndDetailsChange
@@ -89,7 +89,7 @@ object fmUnprinted: TfmUnprinted
     AnchorSideBottom.Control = btnCancel
     Left = 8
     Height = 88
-    Top = 312
+    Top = 318
     Width = 456
     Anchors = [akLeft, akRight, akBottom]
     BorderSpacing.Around = 6
@@ -103,8 +103,8 @@ object fmUnprinted: TfmUnprinted
     AnchorSideTop.Control = btnCancel
     AnchorSideRight.Control = btnCancel
     Left = 262
-    Height = 27
-    Top = 406
+    Height = 33
+    Top = 412
     Width = 98
     Anchors = [akTop, akRight]
     AutoSize = True
@@ -120,8 +120,8 @@ object fmUnprinted: TfmUnprinted
     AnchorSideBottom.Control = Owner
     AnchorSideBottom.Side = asrBottom
     Left = 366
-    Height = 27
-    Top = 406
+    Height = 33
+    Top = 412
     Width = 98
     Anchors = [akRight, akBottom]
     AutoSize = True
@@ -134,18 +134,18 @@ object fmUnprinted: TfmUnprinted
   end
   object chkVisible: TCheckBox
     Left = 8
-    Height = 21
+    Height = 23
     Top = 8
-    Width = 254
+    Width = 301
     Caption = 'Show unprinted chars (global enable flag)'
     TabOrder = 0
     OnChange = chkVisibleChange
   end
   object chkEndDot: TRadioButton
     Left = 40
-    Height = 21
+    Height = 23
     Top = 256
-    Width = 43
+    Width = 51
     Caption = 'Dot'
     Checked = True
     TabOrder = 9
@@ -156,10 +156,10 @@ object fmUnprinted: TfmUnprinted
     AnchorSideLeft.Control = chkEndDot
     AnchorSideLeft.Side = asrBottom
     AnchorSideTop.Control = chkEndDot
-    Left = 93
-    Height = 21
+    Left = 101
+    Height = 23
     Top = 256
-    Width = 57
+    Width = 67
     BorderSpacing.Left = 10
     Caption = 'Arrow'
     TabOrder = 10
@@ -169,10 +169,10 @@ object fmUnprinted: TfmUnprinted
     AnchorSideLeft.Control = chkEndArrow
     AnchorSideLeft.Side = asrBottom
     AnchorSideTop.Control = chkEndDot
-    Left = 160
-    Height = 21
+    Left = 178
+    Height = 23
     Top = 256
-    Width = 63
+    Width = 75
     BorderSpacing.Left = 10
     Caption = 'Pilcrow'
     TabOrder = 11
@@ -183,9 +183,9 @@ object fmUnprinted: TfmUnprinted
     AnchorSideTop.Control = btnCancel
     AnchorSideBottom.Side = asrBottom
     Left = 6
-    Height = 27
-    Top = 406
-    Width = 88
+    Height = 33
+    Top = 412
+    Width = 108
     AutoSize = True
     BorderSpacing.Left = 6
     Caption = 'Save to config'
@@ -195,9 +195,9 @@ object fmUnprinted: TfmUnprinted
   object chkEndOnlyWraps: TCheckBox
     AnchorSideTop.Side = asrBottom
     Left = 40
-    Height = 21
+    Height = 23
     Top = 281
-    Width = 142
+    Width = 168
     Caption = 'Only in wrapped lines'
     TabOrder = 12
     OnChange = chkEndOnlyWrapsChange
