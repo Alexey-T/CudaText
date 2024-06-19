@@ -386,9 +386,6 @@ const
       '---------------------------------------------------------------'+EOL;
 
 const
-  msgDefault: string = 'Default';
-  msgTreeSorted: string = 'Sorted';
-
   msgViewer: string = 'Viewer';
   msgViewerModes: array[TATBinHexMode] of string = (
     'Text',

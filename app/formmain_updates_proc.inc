@@ -1644,6 +1644,7 @@ end;
 procedure TfmMain.InitPopupTree;
 var
   mi: TMenuItem;
+  msgTreeSorted: string;
 begin
   if PopupTree=nil then
   begin
@@ -1709,6 +1710,13 @@ begin
     PopupTree.Items.Add(mnuTreeSorted);
   end;
 
+  with TIniFile.Create(AppFile_Language) do
+  try
+    msgTreeSorted:= ReadString('ct', 'tr_sr', 'Sorted');
+  finally
+    Free;
+  end;
+
   mnuTreeFoldAll.Caption:= ATEditorOptions.TextMenuitemFoldAll;
   mnuTreeUnfoldAll.Caption:= ATEditorOptions.TextMenuitemUnfoldAll;
   mnuTreeFoldLevel.Caption:= ATEditorOptions.TextMenuitemFoldLevel;
@@ -1724,10 +1732,19 @@ const
 var
   mi: TMenuItem;
   i: integer;
+  msgDefault: string;
 begin
   if PopupPicScale=nil then
   begin
     PopupPicScale:= TPopupMenu.Create(Self);
+
+    with TIniFile.Create(AppFile_Language) do
+    try
+      msgDefault:= ReadString('sta', 'def', 'Default');
+    finally
+      Free;
+    end;
+
     for i:= Low(cSizes) to High(cSizes) do
     begin
       mi:= TMenuItem.Create(Self);

@@ -421,7 +421,6 @@ begin
     Sep.GetItemStr(msgViewerModes[vbmodeUnicode]);
     Sep.GetItemStr(msgViewerModes[vbmodeUHex]);
 
-    msgDefault:= ini.ReadString('sta', 'def', msgDefault);
     msgNoLexer:= ini.ReadString('ui', 'nlex', msgNoLexer);
     msgFileClearList:= ini.ReadString('ui', 'clr', msgFileClearList);
     UpdateMenuRecent(nil);
@@ -480,7 +479,6 @@ begin
     DoLocString(ATEditorOptions.TextMenuitemFoldAll, ini, 'ct', 'fld_a');
     DoLocString(ATEditorOptions.TextMenuitemUnfoldAll, ini, 'ct', 'fld_un');
     DoLocString(ATEditorOptions.TextMenuitemFoldLevel, ini, 'ct', 'fld_lv');
-    DoLocString(msgTreeSorted, ini, 'ct', 'tr_sr');
 
     if Assigned(ButtonCancel) then
       ButtonCancel.Caption:= msgButtonCancel;
