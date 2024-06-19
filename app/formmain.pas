@@ -5811,6 +5811,7 @@ begin
     mnuOpPlugins.Enabled:= false;
 
   if AddFindLibraryItem then
+  begin
     if Assigned(mnuPlugins) then
     begin
       {$ifdef windows}
@@ -5823,6 +5824,12 @@ begin
       mnuPlugins.Add(mi);
       {$endif}
     end;
+  end
+  else
+  begin
+    if Assigned(mnuPlugins) then
+      mnuPlugins.Enabled:= false;
+  end;
 end;
 
 
