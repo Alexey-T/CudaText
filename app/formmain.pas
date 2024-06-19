@@ -7453,10 +7453,20 @@ procedure TfmMain.DoDialogMenuTranslations;
 const
   cEnLang = 'en (built-in)';
 var
+  STitle: string;
   ListFiles, ListNames: TStringList;
   NResult, NItemIndex, i: integer;
   S: string;
 begin
+  with TIniFile.Create(AppFile_Language) do
+  try
+    STitle:= ReadString('m_o', 'tr_', 'Translations');
+    STitle:= StringReplace(STitle, '...', '', []);
+    STitle:= StringReplace(STitle, '&', '', [rfReplaceAll]);
+  finally
+    Free;
+  end;
+
   ListFiles:= TStringList.Create;
   ListNames:= TStringList.Create;
   try
@@ -7476,7 +7486,7 @@ begin
     if NItemIndex<0 then
       NItemIndex:= 0;
 
-    NResult:= DoDialogMenuList(msgMenuTranslations, ListNames, NItemIndex);
+    NResult:= DoDialogMenuList(STitle, ListNames, NItemIndex);
     if NResult<0 then exit;
 
     if ListNames[NResult]=cEnLang then

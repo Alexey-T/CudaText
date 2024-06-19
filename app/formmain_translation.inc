@@ -318,9 +318,6 @@ begin
     DoLocMenuitem(ini, mnuOpThemes, 'm_o', 'thm');
     DoLocMenuitem(ini, mnuOpLangs, 'm_o', 'tr_');
 
-    msgMenuTranslations:= StringReplace(
-      ini.ReadString('m_o', 'tr_', msgMenuTranslations),
-      '&', '', [rfReplaceAll]);
     msgMenuThemesUI:= StringReplace(
       ini.ReadString('m_o', 'the_u', msgMenuThemesUI),
       '&', '', [rfReplaceAll]);
