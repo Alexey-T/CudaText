@@ -177,10 +177,6 @@ const
   msgEndUnix = 'LF';
   msgEndMac = 'CR';
 
-  msgTabsizeUseSpaces: string = 'Use spaces';
-  msgTabsizeConvTabs: string = 'Convert indentation to spaces';
-  msgTabsizeConvSpaces: string = 'Convert indentation to tabs';
-
   msgPythonFindCaption: string = 'Find Python library';
   msgPythonFindCaptionLong = 'Python engine was not found; find it...';
   msgPythonFindFromDir: string = 'Search from folder:';

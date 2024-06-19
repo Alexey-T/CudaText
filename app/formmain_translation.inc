@@ -482,10 +482,6 @@ begin
     DoLocString(ATEditorOptions.TextMenuitemFoldLevel, ini, 'ct', 'fld_lv');
     DoLocString(msgTreeSorted, ini, 'ct', 'tr_sr');
 
-    DoLocString(msgTabsizeUseSpaces, ini, 'ct', 'ussp');
-    DoLocString(msgTabsizeConvSpaces, ini, 'ct', 'cnv_t');
-    DoLocString(msgTabsizeConvTabs, ini, 'ct', 'cnv_s');
-
     if Assigned(ButtonCancel) then
       ButtonCancel.Caption:= msgButtonCancel;
 

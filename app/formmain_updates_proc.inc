@@ -1572,10 +1572,22 @@ var
   Msg: string;
   NTab, i: integer;
   mi: TMenuItem;
+  msgTabsizeUseSpaces: string;
+  msgTabsizeConvTabs: string;
+  msgTabsizeConvSpaces: string;
 begin
   if PopupTabSize=nil then
   begin
     PopupTabSize:= TPopupMenu.Create(Self);
+
+    with TIniFile.Create(AppFile_Language) do
+    try
+      msgTabsizeUseSpaces:= ReadString('ct', 'ussp', 'Use spaces');
+      msgTabsizeConvSpaces:= ReadString('ct', 'cnv_t', 'Convert indentation to tabs');
+      msgTabsizeConvTabs:= ReadString('ct', 'cnv_s', 'Convert indentation to spaces');
+    finally
+      Free;
+    end;
 
     mi:= TMenuItem.Create(Self);
     mi.Caption:= '-';
