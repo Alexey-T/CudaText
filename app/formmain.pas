@@ -774,8 +774,8 @@ type
     procedure PopupBottomCopyClick(Sender: TObject);
     procedure PopupBottomSelectAllClick(Sender: TObject);
     procedure PopupBottomWrapClick(Sender: TObject);
-    procedure ConfirmPanelClick(Sender: TObject);
-    procedure ConfirmPanelMouseLeave(Sender: TObject);
+    procedure WebPanelClick(Sender: TObject);
+    procedure WebPanelMouseLeave(Sender: TObject);
     procedure FrameConfirmLink(Sender: TObject; const ALink: string);
     procedure FormEnter(Sender: TObject);
     function GetShowDistractionFree: boolean;
@@ -9185,8 +9185,7 @@ end;
 
 procedure TfmMain.InitConfirmPanel;
 const
-  //cW = 10; //in avg chars
-  cH = 2.5; //in avg chars
+  cHeightScale = 250; //in percents of avg chars
 begin
   if FWebPanel=nil then
   begin
@@ -9195,8 +9194,8 @@ begin
     FWebPanel.BevelInner:= bvNone;
     FWebPanel.BevelOuter:= bvNone;
     FWebPanel.Caption:= '??';
-    FWebPanel.OnClick:= @ConfirmPanelClick;
-    FWebPanel.OnMouseLeave:= @ConfirmPanelMouseLeave;
+    FWebPanel.OnClick:= @WebPanelClick;
+    FWebPanel.OnMouseLeave:= @WebPanelMouseLeave;
   end;
 
   FWebPanel.Color:= GetAppColor(TAppThemeColor.ButtonBgOver);
@@ -9204,17 +9203,16 @@ begin
   FWebPanel.Font.Size:= ATEditorScaleFont(UiOps.VarFontSize);
   FWebPanel.Font.Color:= GetAppColor(TAppThemeColor.ButtonFont);
 
-  //FWebPanel.Width:= AppScaleFont(UiOps.VarFontSize)*cW;
-  FWebPanel.Height:= Trunc(ATEditorScaleFont(UiOps.VarFontSize)*cH);
+  FWebPanel.Height:= ATEditorScaleFont(UiOps.VarFontSize)*cHeightScale div 100;
 end;
 
-procedure TfmMain.ConfirmPanelClick(Sender: TObject);
+procedure TfmMain.WebPanelClick(Sender: TObject);
 begin
   FWebPanel.Hide;
   EditorOpenLink(FWebPanelLink);
 end;
 
-procedure TfmMain.ConfirmPanelMouseLeave(Sender: TObject);
+procedure TfmMain.WebPanelMouseLeave(Sender: TObject);
 begin
   FWebPanel.Hide;
 end;
