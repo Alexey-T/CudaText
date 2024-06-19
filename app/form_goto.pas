@@ -39,6 +39,8 @@ type
     procedure FormShow(Sender: TObject);
   private
     { private declarations }
+    FGotoTooltip: string;
+    FGotoInfoExt: string;
     procedure SetIsDoubleBuffered(AValue: boolean);
     procedure EditCheckInput(Sender: TObject; AChar: WideChar; var AllowInput: boolean);
     procedure DoLocalize;
@@ -76,15 +78,19 @@ procedure TfmGoto.DoLocalize;
 var
   STitle: string;
 begin
+  FGotoTooltip:= '(10, 10:10, 10%%, d100, xFFF, %s)';
+  FGotoInfoExt:= 'with "+": select';
+
   with TIniFile.Create(AppFile_Language) do
   try
     STitle:= ReadString('d_f', 'go_', 'Go to');
+    FGotoInfoExt:= ReadString('si', 'GotoInfoExt', FGotoInfoExt);
   finally
     Free
   end;
 
   STitle:= STitle+' '+
-    Format(msgGotoDialogTooltip, [msgGotoDialogInfoExt]);
+    Format(FGotoTooltip, [FGotoInfoExt]);
 
   Caption:= STitle;
   plCaption.Caption:= STitle;
