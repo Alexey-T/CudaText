@@ -134,9 +134,6 @@ begin
     DoMenuitemEllipsis(mnuFileEnc);
     DoMenuitemEllipsis(mnuFileEnds);
 
-    msgEncReloadAs:= ini.ReadString('m_f', 'e_r', msgEncReloadAs);
-    msgEncConvertTo:= ini.ReadString('m_f', 'e_t', msgEncConvertTo);
-
     DoLocString(ATEditorOptions.TextMenuitemUndo, ini, 'm_e', 'undo');
     DoLocString(ATEditorOptions.TextMenuitemRedo, ini, 'm_e', 'redo');
     DoLocString(ATEditorOptions.TextMenuitemCut, ini, 'm_e', 'cut');

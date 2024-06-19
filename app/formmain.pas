@@ -7563,10 +7563,19 @@ var
   Ed: TATSynEdit;
   SEncName: string;
   DlgProps: TDlgMenuProps;
+  msgEncReloadAs, msgEncConvertTo: string;
 begin
   Ed:= CurrentEditor;
   if Ed=nil then exit;
   SEncName:= Ed.EncodingName;
+
+  with TIniFile.Create(AppFile_Language) do
+  try
+    msgEncReloadAs:= ReadString('m_f', 'e_r', 'Reload as');
+    msgEncConvertTo:= ReadString('m_f', 'e_t', 'Convert to');
+  finally
+    Free;
+  end;
 
   List:= TStringList.Create;
   try

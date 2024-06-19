@@ -173,9 +173,6 @@ const
   msgCopyFilenameFull: string = 'Copy full filepath';
   msgCopyCurrentLine: string = 'Copy current line';
 
-  msgEncReloadAs: string = 'Reload as';
-  msgEncConvertTo: string = 'Convert to';
-
   msgEndWin = 'CRLF';
   msgEndUnix = 'LF';
   msgEndMac = 'CR';
