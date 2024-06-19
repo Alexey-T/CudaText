@@ -122,9 +122,6 @@ const
   msgIgnoredCommandIfNotFocused: string = 'Ignoring the command, editor isn''t focused';
   msgSuggestOptEditor = '"Options Editor" provides the dialog - click here to open';
 
-  msgMenuThemesUI: string = 'UI themes';
-  msgMenuThemesSyntax: string = 'Syntax themes';
-
   msgPanelMenu_Init = 'Menu';
   msgPanelTree_Init = 'Code tree';
   msgPanelProject_Init = 'Project';

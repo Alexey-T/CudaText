@@ -318,13 +318,6 @@ begin
     DoLocMenuitem(ini, mnuOpThemes, 'm_o', 'thm');
     DoLocMenuitem(ini, mnuOpLangs, 'm_o', 'tr_');
 
-    msgMenuThemesUI:= StringReplace(
-      ini.ReadString('m_o', 'the_u', msgMenuThemesUI),
-      '&', '', [rfReplaceAll]);
-    msgMenuThemesSyntax:= StringReplace(
-      ini.ReadString('m_o', 'the_s', msgMenuThemesSyntax),
-      '&', '', [rfReplaceAll]);
-
     DoMenuitemEllipsis(mnuOpThemeUi);
     DoMenuitemEllipsis(mnuOpThemeSyntax);
     DoMenuitemEllipsis(mnuOpThemes);
