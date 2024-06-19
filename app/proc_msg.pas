@@ -120,7 +120,6 @@ const
   msgGotoDialogTooltip: string = '(10, 10:10, 10%%, d100, xFFF, %s)';
   msgGotoDialogInfoExt: string = 'with "+": select';
   msgIgnoredCommandIfNotFocused: string = 'Ignoring the command, editor isn''t focused';
-  msgSuggestOptEditor = '"Options Editor" provides the dialog - click here to open';
 
   msgPanelMenu_Init = 'Menu';
   msgPanelTree_Init = 'Code tree';

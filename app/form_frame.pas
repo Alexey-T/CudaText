@@ -613,24 +613,13 @@ var
   FLastTabId: integer = 0;
 
 function GetMsgSuggestOptionsEditor: string;
-var
-  ini: TIniFile;
-  S, fn: string;
 begin
-  S:= msgSuggestOptEditor;
-
-  fn:= AppFile_Language;
-  if FileExists(fn) then
-  begin
-    ini:= TIniFile.Create(fn);
-    try
-      S:= ini.ReadString('si', 'CallOptEditor', S);
-    finally
-      FreeAndNil(ini);
-    end;
+  with TIniFile.Create(AppFile_Language) do
+  try
+    Result:= ReadString('si', 'CallOptEditor', '"Options Editor" provides the dialog - click here to open');
+  finally
+    Free;
   end;
-
-  Result:= S;
 end;
 
 
