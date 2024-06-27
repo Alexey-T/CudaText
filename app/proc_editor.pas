@@ -1776,8 +1776,9 @@ begin
   PosX:= Caret.PosX;
   PosY:= Caret.PosY;
 
-  //don't work if selection
-  if Caret.EndY>=0 then exit;
+  if Caret.IsSelection then
+    if not UiOps.EnableBracketFinderWithSelection then exit;
+
   if not Ed.Strings.IsIndexValid(PosY) then exit;
 
   //don't work on huge lines

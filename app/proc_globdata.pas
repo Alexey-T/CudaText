@@ -290,6 +290,7 @@ type
 
     HtmlBackgroundColorPair: array[boolean] of TColor;
     CharMapFontIncreasing: integer;
+    EnableBracketFinderWithSelection: boolean;
 
     ListboxCentered: boolean;
     ListboxSizeX: integer;
@@ -2023,6 +2024,7 @@ begin
     HtmlBackgroundColorPair[false]:= $F0F0F0;
     HtmlBackgroundColorPair[true]:= $101010;
     CharMapFontIncreasing:= 150;
+    EnableBracketFinderWithSelection:= false;
 
     PictureTypes:= 'bmp,png,jpg,jpeg,gif,ico,webp,psd,tga,cur';
 
