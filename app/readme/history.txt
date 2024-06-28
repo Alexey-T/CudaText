@@ -3,7 +3,8 @@
   - fixed
   * changed
 
-* change: toolbar: don't add 'New' button, because ui-tabs '+' does the same; the less buttons the better
+* change: pair-bracker finder is enabled even with selection, like in Notepad++/Kate (thanks @pintassilgo)
+* change: toolbar: don't add 'New' button, because ui-tabs '+' does the same
 - fix: plugin API file-dialog and folder-dialog had hardcoded English title not affected by translations (thanks @adoeller)
 
 1.215.0 (2024/06)

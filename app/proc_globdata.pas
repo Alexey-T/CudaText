@@ -2024,7 +2024,7 @@ begin
     HtmlBackgroundColorPair[false]:= $F0F0F0;
     HtmlBackgroundColorPair[true]:= $101010;
     CharMapFontIncreasing:= 150;
-    EnableBracketFinderWithSelection:= false;
+    EnableBracketFinderWithSelection:= true;
 
     PictureTypes:= 'bmp,png,jpg,jpeg,gif,ico,webp,psd,tga,cur';
 
