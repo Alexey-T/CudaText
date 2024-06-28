@@ -58,7 +58,7 @@ procedure SParseFilenameWithTwoNumbers(var fn: string; out NLine, NColumn: integ
 function IsPythonExpression(const S: string): boolean;
 function SExtractNumberFromStringAfterChar(const S: string; ch: char; Default: integer): integer;
 
-function ParseNameWithWidthAndHeight(const AStr: string;
+function SParseIconFilenameWithWidthHeight(const AStr: string;
   {out AName: string;} out AWidth, AHeight: integer): boolean;
 
 
@@ -496,12 +496,15 @@ begin
 end;
 
 
-function ParseNameWithWidthAndHeight(const AStr: string;
+function SParseIconFilenameWithWidthHeight(const AStr: string;
   {out AName: string;} out AWidth, AHeight: integer): boolean;
 var
   NLen, NSep, NX, i: integer;
 begin
   Result:= false;
+  AWidth:= 0;
+  AHeight:= 0;
+
   NLen:= Length(AStr);
   if NLen<5 then exit;
 

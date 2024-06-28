@@ -1443,7 +1443,7 @@ var
 begin
   NTick:= GetTickCount64;
 
-  if not ParseNameWithWidthAndHeight(UiOps.SidebarTheme, W, H) then exit;
+  if not SParseIconFilenameWithWidthHeight(UiOps.SidebarTheme, W, H) then exit;
 
   ImageListSide.Width:= W;
   ImageListSide.Height:= H;
@@ -1481,7 +1481,7 @@ var
   Sep: TATStringSeparator;
   W, H: integer;
 begin
-  if not ParseNameWithWidthAndHeight(UiOps.TreeTheme, W, H) then exit;
+  if not SParseIconFilenameWithWidthHeight(UiOps.TreeTheme, W, H) then exit;
 
   if not Assigned(ImageListTree) then
     raise Exception.Create('ImageListTree nil');
@@ -1514,7 +1514,7 @@ var
 begin
   NTick:= GetTickCount64;
 
-  if not ParseNameWithWidthAndHeight(UiOps.ToolBarTheme, W, H) then exit;
+  if not SParseIconFilenameWithWidthHeight(UiOps.ToolBarTheme, W, H) then exit;
 
   Str:= AppDir_DataToolbarIcons+DirectorySeparator+UiOps.ToolBarTheme;
   if not DirectoryExists(Str) then
