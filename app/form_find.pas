@@ -561,6 +561,7 @@ begin
     FPopupMore.Items.Add(FMenuitemRepGlobal);
   end;
 
+  FMenuitemOptRegex.Enabled:= chkRegex.Enabled;
   FMenuitemOptRegex.Caption:= msgFindHint_Regex;
   FMenuitemOptRegex.Checked:= chkRegex.Checked;
   FMenuitemOptRegex.ShortCut:= TextToShortCutRaw(UiOps.HotkeyToggleRegex);
@@ -570,6 +571,7 @@ begin
   FMenuitemOptWords.Caption:= msgFindHint_Words;
   FMenuitemOptWords.Checked:= chkWords.Checked;
   FMenuitemOptWords.ShortCut:= TextToShortCutRaw(UiOps.HotkeyToggleWords);
+  FMenuitemOptWrapped.Enabled:= chkWrap.Enabled;
   FMenuitemOptWrapped.Caption:= msgFindHint_Wrapped;
   FMenuitemOptWrapped.Checked:= chkWrap.Checked;
   FMenuitemOptWrapped.ShortCut:= TextToShortCutRaw(UiOps.HotkeyToggleWrapped);
@@ -579,6 +581,7 @@ begin
   FMenuitemOptMulti.Caption:= msgFindHint_MultiLine;
   FMenuitemOptMulti.Checked:= chkMulLine.Checked;
   FMenuitemOptMulti.ShortCut:= TextToShortCutRaw(UiOps.HotkeyToggleMultiline);
+  FMenuitemOptTokens.Enabled:= bTokens.Enabled;
   FMenuitemOptTokens.Caption:= msgFindHint_Tokens;
   FMenuitemOptTokens.ShortCut:= TextToShortCutRaw(UiOps.HotkeyToggleTokens);
   for kind in TATFinderTokensAllowed do
@@ -614,12 +617,16 @@ begin
   FMenuitemFindPrev.Shortcut:= TextToShortCutRaw(UiOps.HotkeyFindPrev);
   FMenuitemFindNext.Caption:= SCaptionFindNext;
   FMenuitemFindNext.Shortcut:= TextToShortCutRaw(UiOps.HotkeyFindNext);
+  FMenuitemCount.Enabled:= not FForViewer;
   FMenuitemCount.Caption:= SCaptionCount;
   FMenuitemCount.Shortcut:= TextToShortCutRaw(UiOps.HotkeyCountAll);
+  FMenuitemExtract.Enabled:= not FForViewer;
   FMenuitemExtract.Caption:= SCaptionExtract;
   FMenuitemExtract.Shortcut:= TextToShortCutRaw(UiOps.HotkeyExtractAll);
+  FMenuitemSelectAll.Enabled:= not FForViewer;
   FMenuitemSelectAll.Caption:= SCaptionSelect;
   FMenuitemSelectAll.Shortcut:= TextToShortCutRaw(UiOps.HotkeySelectAll);
+  FMenuitemMarkAll.Enabled:= not FForViewer;
   FMenuitemMarkAll.Caption:= SCaptionMark;
   FMenuitemMarkAll.Shortcut:= TextToShortCutRaw(UiOps.HotkeyMarkAll);
   FMenuitemRep.Caption:= SCaptionRep;
@@ -647,8 +654,6 @@ var
   P: TPoint;
 begin
   InitPopupMore;
-  FMenuitemExtract.Enabled:= chkRegex.Checked;
-
   P:= bMore.ClientToScreen(Point(0, 0));
   FPopupMore.Popup(P.X, P.Y);
 end;
@@ -1676,10 +1681,10 @@ begin
   bRep.Enabled:= bEnabled and IsReplace and not FForViewer;
   bRepAll.Enabled:= bEnabled and IsReplace and not FForViewer;
   bRepGlobal.Enabled:= bEnabled and IsReplace and not FForViewer;
-  bMore.Enabled:= bEnabled and not FForViewer;
+  bMore.Enabled:= bEnabled;
 
   chkCase.Enabled:= bEnabled;
-  chkWords.Enabled:= bEnabled and not chkRegex.Checked and (edFind.Strings.Count<2); //disable "w" for multi-line input
+  chkWords.Enabled:= bEnabled and (FForViewer or not chkRegex.Checked) and (edFind.Strings.Count<2); //disable "w" for multi-line input
   chkRegex.Enabled:= bEnabled and not FForViewer;
   chkWrap.Enabled:= bEnabled and not FForViewer;
   chkInSel.Enabled:= bEnabled;
