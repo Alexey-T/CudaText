@@ -4882,6 +4882,7 @@ begin
   Ops:= [];
   if AFinder.OptCase then Include(Ops, asoCaseSens);
   if AFinder.OptWords then Include(Ops, asoWholeWords);
+  if AFinder.OptInSelection then Include(Ops, asoInSelection);
   if AShowAll then Include(Ops, asoShowAll);
 
   Result:= FBin.FindFirst(

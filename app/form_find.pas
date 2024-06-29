@@ -1682,7 +1682,7 @@ begin
   chkWords.Enabled:= bEnabled and not chkRegex.Checked and (edFind.Strings.Count<2); //disable "w" for multi-line input
   chkRegex.Enabled:= bEnabled and not FForViewer;
   chkWrap.Enabled:= bEnabled and not FForViewer;
-  chkInSel.Enabled:= bEnabled and not FForViewer;
+  chkInSel.Enabled:= bEnabled;
   chkMulLine.Enabled:= bEnabled;
   chkConfirm.Enabled:= bEnabled and IsReplace and not FForViewer;
   chkRegexSubst.Enabled:= bEnabled and IsReplace and not FForViewer and chkRegex.Checked;
