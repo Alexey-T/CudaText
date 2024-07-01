@@ -490,6 +490,7 @@ begin
     fmFind.OnChangeVisible:= @FindDialogOnChangeVisible;
     fmFind.OnFocusEditor:= @FindDialogOnFocusEditor;
     fmFind.OnGetMainEditor:= @FindDialogOnGetMainEditor;
+    fmFind.OnResetSearchString:= @FindDialogOnResetSearchString;
     fmFind.OnGetToken:= @FinderOnGetToken;
     fmFind.OnShowMatchesCount:= @FindDialogOnShowMatchesCount;
     fmFind.OnHandleKeyDown:= @FindDialogOnHandleKeyDown;

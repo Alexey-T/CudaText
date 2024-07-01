@@ -226,6 +226,7 @@ type
     FOnChangeOptions: TNotifyEvent;
     FOnFocusEditor: TNotifyEvent;
     FOnGetMainEditor: TAppFinderGetEditor;
+    FOnResetSearchString: TNotifyEvent;
     FOnGetToken: TATFinderGetToken;
     FOnShowMatchesCount: TAppFinderShowMatchesCount;
     FOnHandleKeyDown: TAppFinderKeyDownEvent;
@@ -281,6 +282,7 @@ type
     property OnChangeVisible: TNotifyEvent read FOnChangeVisible write FOnChangeVisible;
     property OnFocusEditor: TNotifyEvent read FOnFocusEditor write FOnFocusEditor;
     property OnGetMainEditor: TAppFinderGetEditor read FOnGetMainEditor write FOnGetMainEditor;
+    property OnResetSearchString: TNotifyEvent read FOnResetSearchString write FOnResetSearchString;
     property OnGetToken: TATFinderGetToken read FOnGetToken write FOnGetToken;
     property OnShowMatchesCount: TAppFinderShowMatchesCount read FOnShowMatchesCount write FOnShowMatchesCount;
     property OnHandleKeyDown: TAppFinderKeyDownEvent read FOnHandleKeyDown write FOnHandleKeyDown;
@@ -799,7 +801,11 @@ var
   Ed: TATSynEdit;
 begin
   if chkImmediate.Checked then
+  begin
     FInputChanged:= true;
+    if Assigned(FOnResetSearchString) then
+      FOnResetSearchString(nil);
+  end;
 
   {
   Look at how your browser works (Firefox). Cuda should behave the same.

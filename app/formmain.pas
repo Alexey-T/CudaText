@@ -1245,6 +1245,7 @@ type
     procedure FindDialogDone2(Sender: TObject; Res: TAppFinderOperation; AEnableUpdateAll: boolean);
     procedure FindDialogOnFocusEditor(Sender: TObject);
     procedure FindDialogOnGetMainEditor(out AEditor: TATSynEdit);
+    procedure FindDialogOnResetSearchString(Sender: TObject);
     procedure FindDialogOnChangeOptions(Sender: TObject);
     procedure FindDialogOnChangeVisible(Sender: TObject);
     procedure FindDialogOnShowMatchesCount(AMatchCount, ATime: integer);
@@ -9436,6 +9437,15 @@ end;
 procedure TfmMain.FindDialogOnGetMainEditor(out AEditor: TATSynEdit);
 begin
   AEditor:= CurrentEditor;
+end;
+
+procedure TfmMain.FindDialogOnResetSearchString(Sender: TObject);
+var
+  F: TEditorFrame;
+begin
+  F:= CurrentFrame;
+  if F=nil then exit;
+  F.Binary.SearchStarted:= false;
 end;
 
 procedure TfmMain.PyStatusbarPanelClick(Sender: TObject; const ATag: Int64);
