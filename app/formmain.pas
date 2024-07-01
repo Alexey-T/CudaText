@@ -9445,7 +9445,8 @@ var
 begin
   F:= CurrentFrame;
   if F=nil then exit;
-  F.Binary.SearchStarted:= false;
+  if Assigned(F.Binary) then
+    F.Binary.SearchStarted:= false;
 end;
 
 procedure TfmMain.PyStatusbarPanelClick(Sender: TObject; const ATag: Int64);
