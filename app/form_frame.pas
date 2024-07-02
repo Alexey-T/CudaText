@@ -467,7 +467,7 @@ type
     property PictureScale: integer read GetPictureScale write SetPictureScale;
     property Binary: TATBinHex read FBin;
     function BinaryFindFirst(AFinder: TATEditorFinder; AShowAll: boolean): boolean;
-    function BinaryFindNext(AFinder: TATEditorFinder; ABack: boolean): boolean;
+    function BinaryFindNext(AFinder: TATEditorFinder; AShowAll, ABack: boolean): boolean;
     //
     property BracketHilite: boolean read FBracketHilite write SetBracketHilite;
     property BracketHiliteUserChanged: boolean read FBracketHiliteUserChanged write FBracketHiliteUserChanged;
@@ -4889,10 +4889,14 @@ var
   Ops: TATStreamSearchOptions;
 begin
   Ops:= [];
-  if AFinder.OptCase then Include(Ops, asoCaseSens);
-  if AFinder.OptWords then Include(Ops, asoWholeWords);
-  if AFinder.OptInSelection then Include(Ops, asoInSelection);
-  if AShowAll then Include(Ops, asoShowAll);
+  if AFinder.OptCase then
+    Include(Ops, asoCaseSens);
+  if AFinder.OptWords then
+    Include(Ops, asoWholeWords);
+  if AFinder.OptInSelection then
+    Include(Ops, asoInSelection);
+  if AShowAll then
+    Include(Ops, asoShowAll);
 
   if AFinder.OptInSelection and (FBin.SelLength=0) then
     exit(false);
@@ -4902,10 +4906,10 @@ begin
     UTF8Encode(AFinder.StrFind), Ops, 0);
 end;
 
-function TEditorFrame.BinaryFindNext(AFinder: TATEditorFinder; ABack: boolean): boolean;
+function TEditorFrame.BinaryFindNext(AFinder: TATEditorFinder; AShowAll, ABack: boolean): boolean;
 begin
   if AFinder.OptInSelection and FBinSelectionChanged then
-    exit(BinaryFindFirst(AFinder, false));
+    exit(BinaryFindFirst(AFinder, AShowAll));
 
   if FBinStream=nil then
     Result:= false

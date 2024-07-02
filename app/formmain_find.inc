@@ -368,7 +368,7 @@ begin
           if (not Frame.Binary.SearchStarted) or (Frame.Binary.SearchString<>FFinder.StrFind) then
             ok:= Frame.BinaryFindFirst(FFinder, bHiliteAll)
           else
-            ok:= Frame.BinaryFindNext(FFinder, Res=TAppFinderOperation.FindPrev);
+            ok:= Frame.BinaryFindNext(FFinder, bHiliteAll, Res=TAppFinderOperation.FindPrev);
           FinderShowResultSimple(ok, FFinder);
         end;
     end;
