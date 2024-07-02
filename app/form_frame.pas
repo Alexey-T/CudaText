@@ -2745,6 +2745,7 @@ begin
   FBin.TextWidth:= UiOps.ViewerBinaryWidth;
   FBin.TextNonPrintable:= UiOps.ViewerNonPrintable;
   FBin.TextWrap:= Ed1.OptWrapMode<>TATEditorWrapMode.ModeOff;
+  FBin.TextLineSpacing:= EditorOps.OpSpacingY;
   FBin.Mode:= AMode;
 
   if Assigned(FBinStream) then
