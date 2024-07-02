@@ -719,7 +719,7 @@ begin
   V.Color:= GetAppColor(TAppThemeColor.EdTextBg);
   V.TextColorGutter:= GetAppColor(TAppThemeColor.EdGutterBg);
   V.TextColorURL:= GetAppColor(TAppThemeColor.EdLinks);
-  V.TextColorHi:= GetAppColor(TAppThemeColor.EdStateChanged);
+  V.TextColorHi:= GetAppColor(TAppThemeColor.EdStateAdded);
   V.TextColorMarker:= GetAppColor(TAppThemeColor.EdMarkers);
 
   St:= GetAppStyle(TAppThemeStyle.SectionBG1);
