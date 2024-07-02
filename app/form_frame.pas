@@ -4894,6 +4894,9 @@ begin
   if AFinder.OptInSelection then Include(Ops, asoInSelection);
   if AShowAll then Include(Ops, asoShowAll);
 
+  if AFinder.OptInSelection and (FBin.SelLength=0) then
+    exit(false);
+
   FBinSelectionChanged:= false;
   Result:= FBin.FindFirst(
     UTF8Encode(AFinder.StrFind), Ops, 0);
