@@ -563,9 +563,7 @@ begin
   begin
     StrWord:= Ed.TextCurrentWord;
 
-    if Ed.IsSelColumn then
-      StrSel:= ''
-    else
+    if not Ed.IsSelColumn then
       StrSel:= Ed.TextSelected;
 
     if Ed.Carets.Count=1 then
