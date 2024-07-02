@@ -2748,7 +2748,8 @@ begin
   FBin.TextWidth:= UiOps.ViewerBinaryWidth;
   FBin.TextNonPrintable:= UiOps.ViewerNonPrintable;
   FBin.TextWrap:= Ed1.OptWrapMode<>TATEditorWrapMode.ModeOff;
-  FBin.TextLineSpacing:= EditorOps.OpSpacingY;
+  //don't sync spacing yet! value>0 shows the ATBinHex bug during mouse selection: mouse coord in spacing makes selection flicker
+  //FBin.TextLineSpacing:= EditorOps.OpSpacingY;
   FBin.Mode:= AMode;
 
   if Assigned(FBinStream) then
