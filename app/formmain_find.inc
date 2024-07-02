@@ -557,6 +557,7 @@ begin
   StrSel:= '';
   StrWord:= '';
   StrSuggested:= '';
+  bMultiLineSel:= false;
 
   if Frame.FrameKind=TAppFrameKind.Editor then
   begin
@@ -567,7 +568,6 @@ begin
     else
       StrSel:= Ed.TextSelected;
 
-    bMultiLineSel:= false;
     if Ed.Carets.Count=1 then
       bMultiLineSel:= Ed.Carets[0].IsMultilineSelection
     else
