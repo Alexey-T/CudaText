@@ -720,6 +720,7 @@ begin
   V.TextColorGutter:= GetAppColor(TAppThemeColor.EdGutterBg);
   V.TextColorURL:= GetAppColor(TAppThemeColor.EdLinks);
   V.TextColorHi:= GetAppColor(TAppThemeColor.EdMarkers);
+  V.TextColorMarker:= GetAppColor(TAppThemeColor.EdMarkers);
 
   St:= GetAppStyle(TAppThemeStyle.SectionBG1);
   V.TextColorHexBack:= St.BgColor;
