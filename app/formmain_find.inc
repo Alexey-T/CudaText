@@ -544,7 +544,7 @@ procedure TfmMain.UpdateFindDialogFromSuggestions;
 var
   Frame: TEditorFrame;
   Ed: TATSynEdit;
-  StrSel, StrWord, StrSuggested: atString;
+  StrSel, StrWord, StrSuggested: UnicodeString;
   bMultiLineSel: boolean;
 begin
   if not Assigned(fmFind) then
@@ -554,45 +554,51 @@ begin
   if Frame=nil then exit;
   Ed:= Frame.Editor;
 
-  StrWord:= Ed.TextCurrentWord;
+  StrSel:= '';
+  StrWord:= '';
   StrSuggested:= '';
 
-  if Ed.IsSelColumn then
-    StrSel:= ''
-  else
-    StrSel:= Ed.TextSelected;
-
-  bMultiLineSel:= false;
-  if Ed.Carets.Count=1 then
-    bMultiLineSel:= Ed.Carets[0].IsMultilineSelection
-  else
-  if Ed.Carets.Count>1 then
-    bMultiLineSel:= Ed.Carets.IsSelectionInAllCarets;
-
-  if (StrSel='') and (Frame.FrameKind=TAppFrameKind.Editor) then
+  if Frame.FrameKind=TAppFrameKind.Editor then
   begin
-    fmFind.chkInSel.Checked:= false;
-    FFinder.OptInSelection:= false;
+    StrWord:= Ed.TextCurrentWord;
+
+    if Ed.IsSelColumn then
+      StrSel:= ''
+    else
+      StrSel:= Ed.TextSelected;
+
+    bMultiLineSel:= false;
+    if Ed.Carets.Count=1 then
+      bMultiLineSel:= Ed.Carets[0].IsMultilineSelection
+    else
+    if Ed.Carets.Count>1 then
+      bMultiLineSel:= Ed.Carets.IsSelectionInAllCarets;
+
+    if (StrSel='') then
+    begin
+      fmFind.chkInSel.Checked:= false;
+      FFinder.OptInSelection:= false;
+    end;
+
+    //change Find field only if options SuggestSel/SuggestWord on,
+    //else dont touch Find field
+    if UiOps.FindSuggestSel and (StrSel<>'') then
+    begin
+      if not FFinder.OptInSelection then
+        StrSuggested:= STrimEols(StrSel);
+    end
+    else
+    if UiOps.FindSuggestWord and (StrWord<>'') then
+      StrSuggested:= StrWord;
+
+    if UiOps.FindSuggestInSelection and bMultiLineSel then
+    begin
+      fmFind.chkInSel.Checked:= true;
+      StrSuggested:= '';
+    end
+    else
+      fmFind.chkInSel.Checked:= FFinder.OptInSelection;
   end;
-
-  //change Find field only if options SuggestSel/SuggestWord on,
-  //else dont touch Find field
-  if UiOps.FindSuggestSel and (StrSel<>'') then
-  begin
-    if not FFinder.OptInSelection then
-      StrSuggested:= STrimEols(StrSel);
-  end
-  else
-  if UiOps.FindSuggestWord and (StrWord<>'') then
-    StrSuggested:= StrWord;
-
-  if UiOps.FindSuggestInSelection and bMultiLineSel then
-  begin
-    fmFind.chkInSel.Checked:= true;
-    StrSuggested:= '';
-  end
-  else
-    fmFind.chkInSel.Checked:= FFinder.OptInSelection;
 
   fmFind.UpdateInitialCaretPos;
   if StrSuggested<>'' then
