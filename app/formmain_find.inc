@@ -569,7 +569,7 @@ begin
   if Ed.Carets.Count>1 then
     bMultiLineSel:= Ed.Carets.IsSelectionInAllCarets;
 
-  if StrSel='' then
+  if (StrSel='') and (Frame.FrameKind=TAppFrameKind.Editor) then
   begin
     fmFind.chkInSel.Checked:= false;
     FFinder.OptInSelection:= false;
