@@ -358,7 +358,7 @@ begin
     case Res of
       TAppFinderOperation.FindFirst:
         begin
-          ok:= Frame.BinaryFindFirst(FFinder, bHiliteAll);
+          ok:= Frame.BinaryFind(FFinder, bHiliteAll, false, false);
           FinderShowResultSimple(ok, FFinder);
         end;
 
@@ -366,9 +366,9 @@ begin
       TAppFinderOperation.FindPrev:
         begin
           if (not Frame.Binary.SearchStarted) or (Frame.Binary.SearchString<>FFinder.StrFind) then
-            ok:= Frame.BinaryFindFirst(FFinder, bHiliteAll)
+            ok:= Frame.BinaryFind(FFinder, bHiliteAll, false, false)
           else
-            ok:= Frame.BinaryFindNext(FFinder, bHiliteAll, Res=TAppFinderOperation.FindPrev);
+            ok:= Frame.BinaryFind(FFinder, bHiliteAll, true, Res=TAppFinderOperation.FindPrev);
           FinderShowResultSimple(ok, FFinder);
         end;
     end;

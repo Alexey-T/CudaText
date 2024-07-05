@@ -466,8 +466,7 @@ type
     function PictureSizes: TPoint;
     property PictureScale: integer read GetPictureScale write SetPictureScale;
     property Binary: TATBinHex read FBin;
-    function BinaryFindFirst(AFinder: TATEditorFinder; AShowAll: boolean): boolean;
-    function BinaryFindNext(AFinder: TATEditorFinder; AShowAll, ABack: boolean): boolean;
+    function BinaryFind(AFinder: TATEditorFinder; AShowAll, AFindNextOrPrev, AFindPrev: boolean): boolean;
     //
     property BracketHilite: boolean read FBracketHilite write SetBracketHilite;
     property BracketHiliteUserChanged: boolean read FBracketHiliteUserChanged write FBracketHiliteUserChanged;
@@ -4885,11 +4884,37 @@ begin
   FBinSelectionChanged:= true;
 end;
 
-function TEditorFrame.BinaryFindFirst(AFinder: TATEditorFinder; AShowAll: boolean): boolean;
+function TEditorFrame.BinaryFind(AFinder: TATEditorFinder; AShowAll, AFindNextOrPrev, AFindPrev: boolean): boolean;
 var
+  NStartPos: Int64;
   Ops: TATStreamSearchOptions;
+  bForward: boolean;
 begin
+  Assert(Assigned(FBin), 'Viewer not inited for search');
+  Result:= false;
+  if FBinStream=nil then exit;
+
+  bForward:= not AFinder.OptBack xor AFindPrev;
+
+  if bForward then
+    NStartPos := 0
+  else
+    NStartPos:= High(Int64);
+
+  if AFinder.OptInSelection and (FBin.SelLength=0) then
+    exit;
+
+  if AFindNextOrPrev and (FBin.FoundLength>0) and not (AFinder.OptInSelection and FBinSelectionChanged) then
+  begin
+    if bForward then
+      NStartPos:= FBin.FoundStart+FBin.FoundLength
+    else
+      NStartPos:= FBin.FoundStart;
+  end;
+
   Ops:= [];
+  if not bForward then
+    Include(Ops, asoBackward);
   if AFinder.OptCase then
     Include(Ops, asoCaseSens);
   if AFinder.OptWords then
@@ -4899,24 +4924,13 @@ begin
   if AShowAll then
     Include(Ops, asoShowAll);
 
-  if AFinder.OptInSelection and (FBin.SelLength=0) then
-    exit(false);
-
   FBinSelectionChanged:= false;
-  Result:= FBin.FindFirst(
-    UTF8Encode(AFinder.StrFind), Ops, 0);
+  Result:= FBin.Find(
+    UTF8Encode(AFinder.StrFind),
+    Ops,
+    NStartPos);
 end;
 
-function TEditorFrame.BinaryFindNext(AFinder: TATEditorFinder; AShowAll, ABack: boolean): boolean;
-begin
-  if AFinder.OptInSelection and FBinSelectionChanged then
-    exit(BinaryFindFirst(AFinder, AShowAll));
-
-  if FBinStream=nil then
-    Result:= false
-  else
-    Result:= FBin.FindNext(ABack);
-end;
 
 procedure TEditorFrame.DoFileClose;
 begin
