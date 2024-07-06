@@ -8,6 +8,7 @@
 + add: for binary viewer, supported search "in selection", which now renders red underline for found fragment (like app can do for editor already) (thanks @pintassilgo)
 * change: pair-bracker finder is enabled even with selection, like in Notepad++/Kate (thanks @pintassilgo)
 * change: toolbar: don't add 'New' button, because ui-tabs '+' does the same
+- fix: viewer: go-to dialog did not handle "d99" and "xFF", "99" was handled as percents instead of offset
 - fix: plugin API file-dialog and folder-dialog had hardcoded English title not affected by translations (thanks @adoeller)
 
 1.215.0 (2024/06)
