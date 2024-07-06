@@ -111,7 +111,7 @@ function AppAlignmentToString(const V: TAlignment): string;
 function AppGetLeveledPath(const AFileName: string; ALevel: integer): string;
 function IsPointsDiffByDelta(const P1, P2: TPoint; Delta: integer): boolean;
 
-function ViewerGotoFromString(V: TATBinHex; SInput: string): boolean;
+function ViewerGotoFromString(V: TATBinHex; const SInput: string): boolean;
 procedure ApplyThemeToViewer(V: TATBinHex);
 
 function ExtractFileName_Fixed(const FileName: string): string;
@@ -685,23 +685,31 @@ begin
 end;
 
 
-function ViewerGotoFromString(V: TATBinHex; SInput: string): boolean;
+function ViewerGotoFromString(V: TATBinHex; const SInput: string): boolean;
 var
   Num: Int64;
 begin
+  Result:= false;
   if SEndsWith(SInput, '%') then
   begin
     Num:= StrToIntDef(Copy(SInput, 1, Length(SInput)-1), -1);
-    Num:= V.FileSize * Num div 100;
+    Result:= Num>=0;
+    if Result then
+      V.PosPercent:= Num;
   end
   else
   begin
-    Num:= StrToInt64Def('$'+SInput, -1);
+    if SBeginsWith(SInput, 'x') then
+      Num:= StrToInt64Def('$'+Copy(SInput, 2), -1)
+    else
+    if SBeginsWith(SInput, 'd') then
+      Num:= StrToInt64Def(Copy(SInput, 2), -1)
+    else
+      Num:= StrToInt64Def(SInput, -1);
+    Result:= Num>=0;
+    if Result then
+      V.PosAt(Num);
   end;
-
-  Result:= Num>=0;
-  if Result then
-    V.PosAt(Num);
 end;
 
 procedure ApplyThemeToViewer(V: TATBinHex);
