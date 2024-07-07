@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.215.1 (2024/07)
+1.215.5 (2024/07)
 
 + add: for binary viewer, supported search "in selection", which now renders red underline for found fragment (like app can do for editor already) (thanks @pintassilgo)
 * change: pair-bracker finder is enabled even with selection, like in Notepad++/Kate (thanks @pintassilgo)
