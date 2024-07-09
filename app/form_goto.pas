@@ -156,6 +156,9 @@ begin
   edInput.OptMaxLen:= 80;
 
   IsDoubleBuffered:= UiOps.DoubleBuffered;
+
+  EditorCaretShapeFromString(edInput.CaretShapeNormal, EditorOps.OpCaretViewNormal);
+  EditorCaretShapeFromString(edInput.CaretShapeOverwrite, EditorOps.OpCaretViewOverwrite);
 end;
 
 procedure TfmGoto.ButtonCancelClick(Sender: TObject);
