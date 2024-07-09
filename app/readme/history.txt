@@ -10,6 +10,7 @@
 * change: toolbar: don't add 'New' button, because ui-tabs '+' does the same
 - fix: viewer: go-to dialog did not handle "d99" and "xFF", "99" was handled as percents instead of offset
 - fix: plugin API file-dialog and folder-dialog had hardcoded English title not affected by translations (thanks @adoeller)
+- fix: go-to dialog ignored the "caret_view" option (thanks @iconv)
 
 1.215.0 (2024/06)
 
