@@ -1241,8 +1241,8 @@ type
     function RunTreeHelper(Frame: TEditorFrame; ATree: TTreeView;
       AllowPascalHelpers, AllowPythonHelpers: boolean): boolean;
     function DoPyLexerDetection(const Filename: string; Lexers: TStringList): integer;
-    procedure FindDialogDone(Sender: TObject; Res: TAppFinderOperation; AEnableUpdateAll: boolean);
-    procedure FindDialogDone2(Sender: TObject; Res: TAppFinderOperation; AEnableUpdateAll: boolean);
+    procedure FindDialogDone(Sender: TObject; Res: TAppFinderOperation; AEnableUpdateAll, ADocumentIsSmall: boolean);
+    procedure FindDialogDone2(Sender: TObject; Res: TAppFinderOperation; AEnableUpdateAll, ADocumentIsSmall: boolean);
     procedure FindDialogOnFocusEditor(Sender: TObject);
     procedure FindDialogOnGetMainEditor(out AEditor: TATSynEdit);
     procedure FindDialogOnResetSearchString(Sender: TObject);

@@ -124,9 +124,9 @@ end;
 
 
 procedure TfmMain.FindDialogDone2(Sender: TObject; Res: TAppFinderOperation;
-  AEnableUpdateAll: boolean);
+  AEnableUpdateAll, ADocumentIsSmall: boolean);
 begin
-  FindDialogDone(Sender, Res, AEnableUpdateAll);
+  FindDialogDone(Sender, Res, AEnableUpdateAll, ADocumentIsSmall);
 end;
 
 procedure TfmMain.FindAndExtractRegexMatches;
@@ -276,7 +276,8 @@ begin
   FinderShowReplaceReport(NCounter, NTime);
 end;
 
-procedure TfmMain.FindDialogDone(Sender: TObject; Res: TAppFinderOperation; AEnableUpdateAll: boolean);
+procedure TfmMain.FindDialogDone(Sender: TObject; Res: TAppFinderOperation;
+  AEnableUpdateAll, ADocumentIsSmall: boolean);
 var
   Category: TAppFinderOperationCategory;
   Frame: TEditorFrame;
@@ -767,7 +768,7 @@ begin
 
   if Frame.FrameKind=TAppFrameKind.BinaryViewer then
   begin
-    FindDialogDone(Frame, TAppFinderOperation.FindFirst, false);
+    FindDialogDone(Frame, TAppFinderOperation.FindFirst, false, false);
     exit;
   end;
 
@@ -816,7 +817,7 @@ begin
       Op:= TAppFinderOperation.FindNext
     else
       Op:= TAppFinderOperation.FindPrev;
-    FindDialogDone(Frame, Op, false);
+    FindDialogDone(Frame, Op, false, false);
     exit;
   end;
 
@@ -1573,7 +1574,8 @@ begin
   FindDialogDone(
     nil, //skip dialog
     AppFinderOperationFromString(SAction),
-    false //'false' to solve issue #3303
+    false, //'false' to solve issue #3303
+    false
     );
   FinderOptionsFromString(FFinder, SOptOld);
 end;

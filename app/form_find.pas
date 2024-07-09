@@ -100,7 +100,8 @@ const
     );
 
 type
-  TAppFinderOperationEvent = procedure(Sender: TObject; Op: TAppFinderOperation; AUpdateEnabledAll: boolean) of object;
+  TAppFinderOperationEvent = procedure(Sender: TObject; Op: TAppFinderOperation;
+    AUpdateEnabledAll, ADocumentIsSmall: boolean) of object;
   TAppFinderGetEditor = procedure(out AEditor: TATSynEdit) of object;
   TAppFinderShowMatchesCount = procedure(AMatchCount, ATime: integer) of object;
   TAppFinderKeyDownEvent = function(AKey: word; AShiftState: TShiftState): boolean of object;
@@ -221,6 +222,7 @@ type
     FNarrow: boolean;
     FInputChanged: boolean;
     FInputColored: boolean;
+    FDocumentIsSmall: boolean;
     FOnResult: TAppFinderOperationEvent;
     FOnChangeVisible: TNotifyEvent;
     FOnChangeOptions: TNotifyEvent;
@@ -800,6 +802,8 @@ procedure TfmFind.edFindChange(Sender: TObject);
 var
   Ed: TATSynEdit;
 begin
+  FDocumentIsSmall:= false;
+
   if IsImmediate then
   begin
     FInputChanged:= true;
@@ -822,7 +826,8 @@ begin
     begin
       OnGetMainEditor(Ed);
       if Ed=nil then exit;
-      if EditorSizeIsSmall(Ed) then
+      FDocumentIsSmall:= EditorSizeIsSmall(Ed);
+      if FDocumentIsSmall then
         TimerHiAllTick(Self)
       else
       begin
@@ -1437,7 +1442,7 @@ begin
     UpdateState(false);
 
   if Assigned(FOnResult) then
-    FOnResult(Self, Op, AUpdateEnabledAll);
+    FOnResult(Self, Op, AUpdateEnabledAll, FDocumentIsSmall);
 
   if Op<>TAppFinderOperation.CloseDlg then
   begin
