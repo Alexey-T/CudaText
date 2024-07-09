@@ -800,7 +800,7 @@ procedure TfmFind.edFindChange(Sender: TObject);
 var
   Ed: TATSynEdit;
 begin
-  if chkImmediate.Checked then
+  if IsImmediate then
   begin
     FInputChanged:= true;
     if Assigned(FOnResetSearchString) then
