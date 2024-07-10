@@ -454,8 +454,11 @@ begin
     FFindStop:= false;
     FFindConfirmAll:= mrNone;
     InitButtonCancel;
-    ButtonCancel.Show;
-    UpdateGlobalProgressbar(0, true);
+    if not FFinder.OptDisableOnProgress then
+    begin
+      ButtonCancel.Show;
+      UpdateGlobalProgressbar(0, true);
+    end;
     if AUpdateEnableAll then
       UpdateEnabledAll(false);
     if AEdLock then
