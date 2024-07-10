@@ -291,6 +291,9 @@ begin
   bHiliteAll:= false;
   bFocusFindDlg:= Assigned(fmFind) and fmFind.Visible and fmFind.Enabled and (fmFind.edFind.Focused or fmFind.edRep.Focused);
   NCounter:= 0;
+
+  //fixes issue #5605
+  //maybe we need to reset OptDisableOnProgress at the end of function?
   FFinder.OptDisableOnProgress:= ADocumentIsSmall;
 
   if Category in [TAppFinderOperationCategory.Find, TAppFinderOperationCategory.ReplaceOne] then
