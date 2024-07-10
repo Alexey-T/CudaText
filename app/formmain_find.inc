@@ -291,6 +291,7 @@ begin
   bHiliteAll:= false;
   bFocusFindDlg:= Assigned(fmFind) and fmFind.Visible and fmFind.Enabled and (fmFind.edFind.Focused or fmFind.edRep.Focused);
   NCounter:= 0;
+  FFinder.OptDisableOnProgress:= ADocumentIsSmall;
 
   if Category in [TAppFinderOperationCategory.Find, TAppFinderOperationCategory.ReplaceOne] then
   begin
