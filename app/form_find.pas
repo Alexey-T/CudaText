@@ -1493,7 +1493,9 @@ begin
     if NewColor=clNone then exit;
     edFind.Colors.TextBG:= NewColor;
     edFind.Update;
-    Application.ProcessMessages;
+
+    if not FDocumentIsSmall then
+      Application.ProcessMessages;
 
     if FTimerWrapped=nil then
     begin

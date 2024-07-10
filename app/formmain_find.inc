@@ -995,7 +995,9 @@ begin
     MsgStatus(msgStatusFoundNextMatch+Details, true);
 
     AFinder.Editor.EndUpdate;
-    Application.ProcessMessages;
+
+    if not AFinder.OptDisableOnProgress then
+      Application.ProcessMessages;
 
     //not DoGotoPos, we may need to show marker, not caret
     AFinder.Editor.DoShowPos(
