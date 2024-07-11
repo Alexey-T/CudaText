@@ -411,7 +411,7 @@ Actions work with props of Find/Replace dialog, and props of low-level search en
 
 ====app_proc - Python====
 * PROC_EXEC_PYTHON: Runs Python string in the context of Console. It is not the same as standard exec() call, it uses the same globals/locals as CudaText Console.
-* PROC_EXEC_PLUGIN: Runs Python plugin's method. Text must be comma-separated: "module_name,method_name,params", where "params" is optional part, it is parameter(s) for the method.
+* PROC_EXEC_PLUGIN: Runs Python plugin's method. Param "text" must be comma-separated: "module_name,method_name" or "module_name,method_name,params", where "params" is optional part, it is parameter(s) for the method. The "module_name" is folder name inside "py" CudaText folder. The "method_name" is Python function name inside "Command" class in given module.
 
 ====app_proc - Themes====
 
