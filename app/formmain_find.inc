@@ -779,6 +779,7 @@ begin
   FFinder.Editor:= Frame.Editor;
   FFinder.OptBack:= false;
   FFinder.OptFromCaret:= false;
+  FFinder.OptDisableOnProgress:= false;
 
   ok:= FFinder.DoAction_FindOrReplace(false, false, bChanged, true);
   FinderUpdateEditor(false);
@@ -828,6 +829,7 @@ begin
   FFinder.Editor:= Frame.Editor;
   FFinder.OptFromCaret:= true;
   FFinder.OptBack:= not ANext;
+  FFinder.OptDisableOnProgress:= false;
 
   ok:= FFinder.DoAction_FindOrReplace(false, false, bChanged, true);
   FinderUpdateEditor(false);
@@ -883,6 +885,7 @@ begin
   FFinder.Editor:= CurrentEditor;
   FFinder.OptBack:= false;
   FFinder.OptFromCaret:= false;
+  FFinder.OptDisableOnProgress:= false;
 
   bFocusFindDlg:= Assigned(fmFind) and fmFind.Visible and fmFind.Enabled and (fmFind.edFind.Focused or fmFind.edRep.Focused);
 

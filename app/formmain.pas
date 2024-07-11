@@ -4027,6 +4027,8 @@ begin
 
     FFinder.Editor:= Ed;
     FFinder.StrFind:= fmFind.edFind.Text;
+    FFinder.OptDisableOnProgress:= false;
+
     Ed.Attribs.DeleteWithTag(UiOps.FindHiAll_TagValue);
     EditorHighlightAllMatches(
       FFinder,
