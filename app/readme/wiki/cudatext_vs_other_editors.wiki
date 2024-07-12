@@ -395,6 +395,11 @@ CudaText:
 * Problems with symlinks
 * It needs additional options like "on which drives to use atomic saving"
 
+==How to join lines==
+Sublime Text: "Join lines" in a built-in command.
+
+CudaText: "Join lines" is a command from plugin CudaExt, so install CudaExt from "Addons Manager" first. Then you will find "Join lines" in the Command Palette easily.
+
 =CudaText vs Notepad++=
 (From user '''dinkumoil''', quote from the Notepad++ forum.)
 
