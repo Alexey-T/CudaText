@@ -487,6 +487,8 @@ class Command:
             key = -os.path.getmtime(path.path)
         elif sort_order=='mtime-':
             key = os.path.getmtime(path.path)
+        else:
+            raise ValueError('Unknown sort_order: '+sort_order)
 
         return isfile, key, path.name.upper()
 
