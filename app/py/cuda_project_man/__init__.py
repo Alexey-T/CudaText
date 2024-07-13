@@ -37,6 +37,7 @@ PROJECT_UNSAVED_NAME = _("(Unsaved project)")
 PROJECT_TEMP_FILENAME = os.path.join(app_path(APP_DIR_SETTINGS), 'temporary'+PROJECT_EXTENSION)
 NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD = range(4)
 global_project_info = {}
+sort_order = 'ext'
 
 def is_session_name(s):
     allowed = string.ascii_letters+string.digits+'., ()-+_$%='
@@ -272,6 +273,7 @@ class Command:
         "preview": True,
         "d_click": False,
         "goto_open": False,
+        "sort_order": "ext",
     }
 
     tree = None
@@ -473,11 +475,20 @@ class Command:
     def node_ordering_direntry(path):
         # node_ordering() for DirEntry
         isfile = path.is_file()
-        if isfile:
-            ext = _file_ext(path.name).upper()
-        else:
-            ext = ''
-        return isfile, ext, path.name.upper()
+        global sort_order
+        if sort_order=='ext':
+            if isfile:
+                key = _file_ext(path.name).upper()
+            else:
+                key = ''
+        elif sort_order=='name':
+            key = path.name.upper()
+        elif sort_order=='mtime':
+            key = -os.path.getmtime(path.path)
+        elif sort_order=='mtime-':
+            key = os.path.getmtime(path.path)
+
+        return isfile, key, path.name.upper()
 
     def add_node(self, path):
         if path:
@@ -946,6 +957,8 @@ class Command:
             fn = str(self.get_location_by_index(parent)) # str() is required for old Python 3.5 for os.scandir()
             if not fn: return
             #print('Reading dir:', fn)
+            global sort_order
+            sort_order = self.options.get('sort_order', 'ext')
             try:
                 if hasattr(os, "scandir") and callable(os.scandir):
                     nodes = sorted(os.scandir(fn), key=Command.node_ordering_direntry)
