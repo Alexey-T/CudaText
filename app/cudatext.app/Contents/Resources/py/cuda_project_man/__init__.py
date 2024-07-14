@@ -473,7 +473,7 @@ class Command:
 
     @staticmethod
     def node_ordering_direntry(path):
-        # node_ordering() for DirEntry
+        # node_ordering() for os.DirEntry and pathlib.Path
         isfile = path.is_file()
         global sort_order
         if sort_order=='ext':
@@ -487,27 +487,6 @@ class Command:
             key = -path.stat().st_mtime
         elif sort_order=='mtime-':
             key = path.stat().st_mtime
-        else:
-            raise ValueError('Unknown sort_order: '+sort_order)
-
-        return isfile, key, path.name.upper()
-
-    @staticmethod
-    def node_ordering_path(path):
-        # node_ordering() for pathlib.Path
-        isfile = path.is_file()
-        global sort_order
-        if sort_order=='ext':
-            if isfile:
-                key = _file_ext(path.name).upper()
-            else:
-                key = ''
-        elif sort_order=='name':
-            key = path.name.upper()
-        elif sort_order=='mtime':
-            key = -os.path.getmtime(path.absolute())
-        elif sort_order=='mtime-':
-            key = os.path.getmtime(path.absolute())
         else:
             raise ValueError('Unknown sort_order: '+sort_order)
 
@@ -979,7 +958,7 @@ class Command:
             tree_proc(self.tree, TREE_ITEM_SELECT, items_root[0][0])
 
             nodes = map(Path, self.project["nodes"])
-            nodes = sorted(nodes, key=Command.node_ordering_path)
+            nodes = sorted(nodes, key=Command.node_ordering_direntry)
         else:
             fn = str(self.get_location_by_index(parent)) # str() is required for old Python 3.5 for os.scandir()
             if not fn: return
