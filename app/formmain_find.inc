@@ -551,6 +551,7 @@ var
   Ed: TATSynEdit;
   StrSel, StrWord, StrSuggested: UnicodeString;
   bMultiLineSel: boolean;
+  bPrevImmediate: boolean;
 begin
   if not Assigned(fmFind) then
     raise Exception.Create('fmFind is not created');
@@ -608,7 +609,10 @@ begin
   begin
     if fmFind.chkRegex.Checked then //turn off 'RegEx' to avoid error msgbox on incorrect regex
       fmFind.chkRegex.Click;
+    bPrevImmediate:= fmFind.chkImmediate.Checked; //avoid finder action on showing the find dlg
+    fmFind.chkImmediate.Checked:= false;
     fmFind.UpdateInputFind(StrSuggested);
+    fmFind.chkImmediate.Checked:= bPrevImmediate;
   end;
 
   fmFind.edFind.DoSelect_All;
