@@ -609,8 +609,8 @@ begin
   begin
     if fmFind.chkRegex.Checked then //turn off 'RegEx' to avoid error msgbox on incorrect regex
       fmFind.chkRegex.Click;
-    bPrevImmediate:= fmFind.chkImmediate.Checked; //avoid finder action on showing the find dlg
-    fmFind.chkImmediate.Checked:= false;
+    bPrevImmediate:= fmFind.chkImmediate.Checked;
+    fmFind.chkImmediate.Checked:= false; //avoid finder action on showing the find dlg
     fmFind.UpdateInputFind(StrSuggested);
     fmFind.chkImmediate.Checked:= bPrevImmediate;
   end;
