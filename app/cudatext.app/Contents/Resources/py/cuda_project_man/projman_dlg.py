@@ -57,12 +57,16 @@ def dialog_config(op):
     items_sort_id = [
         'name',
         'ext',
+        'size',
+        'size-',
         'mtime',
         'mtime-'
         ]
     items_sort_str = [
         _('by name'),
         _('by extension'),
+        _('by size'),
+        _('by size, descending'),
         _('by date'),
         _('by date, descending')
         ]
@@ -79,7 +83,7 @@ def dialog_config(op):
 
         +[c1.join(['type=check', 'pos=6,62,500,84', 'cap='+_('Ignore all &hidden files/folders'),
           'val='+bool_to_str(op.get('no_hidden', True))])]
-        
+
         +[c1.join(['type=label', 'pos=6,88,500,0', 'cap='+_('&Recent projects:')])]
         +[c1.join(['type=memo', 'pos=6,104,500,180',
             'val='+'\t'.join(op.get('recent_projects', [])) ])]

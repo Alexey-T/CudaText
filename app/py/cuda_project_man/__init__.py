@@ -483,6 +483,16 @@ class Command:
                 key = ''
         elif sort_order=='name':
             key = path.name.upper()
+        elif sort_order=='size':
+            if isfile:
+                key = -path.stat().st_size
+            else:
+                key = ''
+        elif sort_order=='size-':
+            if isfile:
+                key = path.stat().st_size
+            else:
+                key = ''
         elif sort_order=='mtime':
             key = -path.stat().st_mtime
         elif sort_order=='mtime-':
