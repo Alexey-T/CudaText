@@ -484,9 +484,9 @@ class Command:
         elif sort_order=='name':
             key = path.name.upper()
         elif sort_order=='mtime':
-            key = -os.path.getmtime(path.path)
+            key = -path.stat().st_mtime
         elif sort_order=='mtime-':
-            key = os.path.getmtime(path.path)
+            key = path.stat().st_mtime
         else:
             raise ValueError('Unknown sort_order: '+sort_order)
 
