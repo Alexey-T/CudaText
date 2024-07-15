@@ -716,13 +716,14 @@ var
   Frame: TEditorFrame;
   L: TFPList;
   Prop, Prop2: TAppFrameX;
-  bFoundPair: boolean;
+  bFoundPair, bChanged: boolean;
   iLevel, i, j: integer;
 begin
   if not UiOps.TabsShowFoldersSuffix then exit;
 
   FillChar(PagesArray, SizeOf(PagesArray), 0);
   PagesCount:= 0;
+  bChanged:= false;
 
   L:= TFPList.Create;
   try
@@ -768,6 +769,7 @@ begin
         SName:= ExtractFileDir(Prop.GetKey);
       if Prop.Frame.TabCaptionAddon<>SName then
       begin
+        bChanged:= true;
         Prop.Frame.TabCaptionAddon:= SName;
         AddPagesToArray(Prop.Frame.GetTabPages);
       end;
@@ -777,6 +779,8 @@ begin
       TObject(L[i]).Free;
     FreeAndNil(L);
   end;
+
+  if not bChanged then Exit;
 
   for i:= 0 to PagesCount-1 do
     PagesArray[i].Invalidate;
