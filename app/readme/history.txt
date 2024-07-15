@@ -10,6 +10,7 @@
 * change: pair-bracker finder is enabled even with selection, like in Notepad++/Kate (thanks @pintassilgo)
 * change: toolbar: don't add 'New' button, because ui-tabs '+' does the same
 - fix: viewer: go-to dialog did not handle "d99" and "xFF", "99" was handled as percents instead of offset
+- fix: avoid ui-tabs-bar scrolling when _passive_ ui-tab is closed by mouse (thanks @pintassilgo)
 - fix: plugin API file-dialog and folder-dialog had hardcoded English title not affected by translations (thanks @adoeller)
 - fix: go-to dialog ignored the "caret_view" option (thanks @iconv)
 - fix: Find dlg may have 'case'/'regex' options reset, if command "Add next occurrence of selected word" was used (thanks @tmsg-gh)
