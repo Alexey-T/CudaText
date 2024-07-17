@@ -363,17 +363,17 @@ begin
     case Res of
       TAppFinderOperation.FindFirst:
         begin
-          ok:= Frame.BinaryFind(FFinder, bHiliteAll, false, false);
+          ok:= Frame.ViewerFind(FFinder, bHiliteAll, false, false);
           FinderShowResultSimple(ok, FFinder);
         end;
 
       TAppFinderOperation.FindNext,
       TAppFinderOperation.FindPrev:
         begin
-          if (not Frame.Binary.SearchStarted) or (Frame.Binary.SearchString<>FFinder.StrFind) then
-            ok:= Frame.BinaryFind(FFinder, bHiliteAll, false, false)
+          if (not Frame.Viewer.SearchStarted) or (Frame.Viewer.SearchString<>FFinder.StrFind) then
+            ok:= Frame.ViewerFind(FFinder, bHiliteAll, false, false)
           else
-            ok:= Frame.BinaryFind(FFinder, bHiliteAll, true, Res=TAppFinderOperation.FindPrev);
+            ok:= Frame.ViewerFind(FFinder, bHiliteAll, true, Res=TAppFinderOperation.FindPrev);
           FinderShowResultSimple(ok, FFinder);
         end;
     end;

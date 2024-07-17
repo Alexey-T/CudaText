@@ -2012,7 +2012,7 @@ begin
   F:= CurrentFrame;
   if F=nil then exit;
   if F.FrameKind<>TAppFrameKind.BinaryViewer then exit;
-  F.Binary.Mode:= TATBinHexMode((Sender as TComponent).Tag);
+  F.Viewer.Mode:= TATBinHexMode((Sender as TComponent).Tag);
   UpdateStatusbar;
 end;
 
@@ -2302,7 +2302,7 @@ begin
         case Frame.FrameKind of
           TAppFrameKind.BinaryViewer:
             begin
-              if Frame.Binary.TextWrap then
+              if Frame.Viewer.TextWrap then
                 WrapMode:= TATEditorWrapMode.ModeOn
               else
                 WrapMode:= TATEditorWrapMode.ModeOff;
@@ -2390,7 +2390,7 @@ begin
       StatusbarTag_Enc:
         begin
           with Mouse.CursorPos do
-            Frame.Binary.TextEncodingsMenu(X, Y);
+            Frame.Viewer.TextEncodingsMenu(X, Y);
         end;
       StatusbarTag_Lexer:
         begin
@@ -2399,7 +2399,7 @@ begin
         end;
       StatusbarTag_WrapMode:
         begin
-          Frame.Binary.TextWrap:= not Frame.Binary.TextWrap;
+          Frame.Viewer.TextWrap:= not Frame.Viewer.TextWrap;
           UpdateStatusbar;
           UpdateMenuChecks_Frame(Frame);
         end;
@@ -4422,10 +4422,10 @@ begin
       F.Ed2.DoubleBuffered:= UiOps.DoubleBuffered;
       F.Ed1.Font.Size:= EditorOps.OpFontSize;
       F.Ed2.Font.Size:= EditorOps.OpFontSize;
-      if Assigned(F.Binary) then
+      if Assigned(F.Viewer) then
       begin
-        F.Binary.DoubleBuffered:= UiOps.DoubleBuffered;
-        F.Binary.Font.Size:= EditorOps.OpFontSize;
+        F.Viewer.DoubleBuffered:= UiOps.DoubleBuffered;
+        F.Viewer.Font.Size:= EditorOps.OpFontSize;
       end;
     end;
 
@@ -5419,7 +5419,7 @@ begin
   case Frame.FrameKind of
     TAppFrameKind.BinaryViewer:
     begin
-      if ViewerGotoFromString(Frame.Binary, AInput) then
+      if ViewerGotoFromString(Frame.Viewer, AInput) then
         MsgStatus('')
       else
         MsgStatus(msgStatusBadLineNum);
@@ -9447,8 +9447,8 @@ var
 begin
   F:= CurrentFrame;
   if F=nil then exit;
-  if Assigned(F.Binary) then
-    F.Binary.ResetSearch;
+  if Assigned(F.Viewer) then
+    F.Viewer.ResetSearch;
   FFindStop:= true;
 end;
 

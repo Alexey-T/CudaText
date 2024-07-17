@@ -130,7 +130,7 @@ begin
         bEditor:= false;
         bEditable:= false;
         bBinViewer:= true;
-        bShowNonPrinted:= F.Binary.TextNonPrintable;
+        bShowNonPrinted:= F.Viewer.TextNonPrintable;
       end;
     TAppFrameKind.ImageViewer:
       begin
@@ -212,7 +212,7 @@ begin
   begin
     case FrameKind of
       TAppFrameKind.BinaryViewer:
-        S:= IntToStr(F.Binary.PosPercent)+'%';
+        S:= IntToStr(F.Viewer.PosPercent)+'%';
       else
         S:= '';
     end;
@@ -221,10 +221,10 @@ begin
     case FrameKind of
       TAppFrameKind.BinaryViewer:
       begin
-        if F.Binary.TextEncoding=eidUTF8 then
+        if F.Viewer.TextEncoding=eidUTF8 then
           S:= cEncNameUtf8_NoBom
         else
-          S:= cEncConvNames[F.Binary.TextEncoding];
+          S:= cEncConvNames[F.Viewer.TextEncoding];
       end
       else
         S:= '';
@@ -235,7 +235,7 @@ begin
 
     case FrameKind of
       TAppFrameKind.BinaryViewer:
-        S:= msgViewer+': '+msgViewerModes[F.Binary.Mode];
+        S:= msgViewer+': '+msgViewerModes[F.Viewer.Mode];
       TAppFrameKind.ImageViewer:
         begin
           Size:= F.PictureSizes;
@@ -257,7 +257,7 @@ begin
     {
     case FrameKind of
       TAppFrameKind.BinaryViewer:
-        S:= msgStatusbarWrapStates[Ord(F.Binary.TextWrap)]
+        S:= msgStatusbarWrapStates[Ord(F.Viewer.TextWrap)]
       else
         S:= '';
     end;
@@ -540,12 +540,12 @@ begin
     if F.Splitted then
       F.Ed2.Update;
 
-    if (F.FrameKind=TAppFrameKind.BinaryViewer) and Assigned(F.Binary) then
+    if (F.FrameKind=TAppFrameKind.BinaryViewer) and Assigned(F.Viewer) then
     begin
-      F.Binary.Font.Name:= EditorOps.OpFontName;
-      F.Binary.Font.Size:= EditorOps.OpFontSize;
-      F.Binary.Font.Quality:= EditorOps.OpFontQuality;
-      F.Binary.Invalidate;
+      F.Viewer.Font.Name:= EditorOps.OpFontName;
+      F.Viewer.Font.Size:= EditorOps.OpFontSize;
+      F.Viewer.Font.Quality:= EditorOps.OpFontQuality;
+      F.Viewer.Invalidate;
     end;
 
     {

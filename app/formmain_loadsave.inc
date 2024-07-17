@@ -393,7 +393,7 @@ begin
         TAppFrameKind.Editor:
           sTabKind:= '';
         TAppFrameKind.BinaryViewer:
-          sTabKind:= 'bin,'+IntToStr(Ord(Frame.Binary.Mode));
+          sTabKind:= 'bin,'+IntToStr(Ord(Frame.Viewer.Mode));
         TAppFrameKind.ImageViewer:
           sTabKind:= 'pic';
       end;
@@ -402,7 +402,7 @@ begin
       {
       //TODO: add together with restoring of 'v_pos'
       if Frame.IsBinary then
-        cfg.SetValue(path+'/v_pos', Frame.Binary.PosOffset)
+        cfg.SetValue(path+'/v_pos', Frame.Viewer.PosOffset)
       else
         cfg.DeleteValue(path+'/v_pos');
         }

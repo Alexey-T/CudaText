@@ -4068,7 +4068,7 @@ begin
         PROP_V_MODE:
           begin
             if Assigned(F) and (F.FrameKind=TAppFrameKind.BinaryViewer) then
-              Num1:= Ord(F.Binary.Mode)
+              Num1:= Ord(F.Viewer.Mode)
             else
               Num1:= VMODE_NONE;
             Result:= PyLong_FromLong(Num1);
@@ -4078,7 +4078,7 @@ begin
           begin
             if not Assigned(F) then exit(ReturnNone);
             if F.FrameKind=TAppFrameKind.BinaryViewer then
-              Result:= PyLong_FromLongLong(F.Binary.PosOffset)
+              Result:= PyLong_FromLongLong(F.Viewer.PosOffset)
             else
               Result:= ReturnNone;
           end;
@@ -4087,7 +4087,7 @@ begin
           begin
             if not Assigned(F) then exit(ReturnNone);
             if F.FrameKind=TAppFrameKind.BinaryViewer then
-              Result:= PyLong_FromLongLong(F.Binary.SelStart)
+              Result:= PyLong_FromLongLong(F.Viewer.SelStart)
             else
               Result:= ReturnNone;
           end;
@@ -4096,7 +4096,7 @@ begin
           begin
             if not Assigned(F) then exit(ReturnNone);
             if F.FrameKind=TAppFrameKind.BinaryViewer then
-              Result:= PyLong_FromLongLong(F.Binary.SelLength)
+              Result:= PyLong_FromLongLong(F.Viewer.SelLength)
             else
               Result:= ReturnNone;
           end;
@@ -4105,7 +4105,7 @@ begin
           begin
             if not Assigned(F) then exit(ReturnNone);
             if F.FrameKind=TAppFrameKind.BinaryViewer then
-              Result:= PyLong_FromLong(F.Binary.TextWidth)
+              Result:= PyLong_FromLong(F.Viewer.TextWidth)
             else
               Result:= ReturnNone;
           end;
@@ -4114,7 +4114,7 @@ begin
           begin
             if not Assigned(F) then exit(ReturnNone);
             if F.FrameKind=TAppFrameKind.BinaryViewer then
-              Result:= PyLong_FromLong(F.Binary.TextWidthHex)
+              Result:= PyLong_FromLong(F.Viewer.TextWidthHex)
             else
               Result:= ReturnNone;
           end;
@@ -4123,7 +4123,7 @@ begin
           begin
             if not Assigned(F) then exit(ReturnNone);
             if F.FrameKind=TAppFrameKind.BinaryViewer then
-              Result:= PyLong_FromLong(F.Binary.TextWidthUHex)
+              Result:= PyLong_FromLong(F.Viewer.TextWidthUHex)
             else
               Result:= ReturnNone;
           end;
@@ -4132,7 +4132,7 @@ begin
           begin
             if not Assigned(F) then exit(ReturnNone);
             if F.FrameKind=TAppFrameKind.BinaryViewer then
-              Result:= PyUnicodeFromString(cEncConvNames[F.Binary.TextEncoding])
+              Result:= PyUnicodeFromString(cEncConvNames[F.Viewer.TextEncoding])
             else
               Result:= ReturnNone;
           end
@@ -4848,7 +4848,7 @@ begin
             if (ValueInt>=0) and (ValueInt<=Ord(High(TATBinHexMode))) then
             begin
               if F.FrameKind=TAppFrameKind.BinaryViewer then
-                F.Binary.Mode:= TATBinHexMode(ValueInt)
+                F.Viewer.Mode:= TATBinHexMode(ValueInt)
               else
               begin
                 if F.EditorsLinked and (F.FileName<>'') then
@@ -4865,16 +4865,16 @@ begin
           begin
             if not Assigned(F) then exit(ReturnNone);
             if F.FrameKind=TAppFrameKind.BinaryViewer then
-              F.Binary.PosOffset:= ValueInt;
+              F.Viewer.PosOffset:= ValueInt;
           end;
 
         PROP_V_SEL_START:
           begin
             if not Assigned(F) then exit(ReturnNone);
             if F.FrameKind=TAppFrameKind.BinaryViewer then
-              F.Binary.SetSelection(
+              F.Viewer.SetSelection(
                 ValueInt,
-                F.Binary.SelLength,
+                F.Viewer.SelLength,
                 false);
           end;
 
@@ -4882,8 +4882,8 @@ begin
           begin
             if not Assigned(F) then exit(ReturnNone);
             if F.FrameKind=TAppFrameKind.BinaryViewer then
-              F.Binary.SetSelection(
-                F.Binary.SelStart,
+              F.Viewer.SetSelection(
+                F.Viewer.SelStart,
                 ValueInt,
                 false);
           end;
@@ -4893,8 +4893,8 @@ begin
             if not Assigned(F) then exit(ReturnNone);
             if F.FrameKind=TAppFrameKind.BinaryViewer then
             begin
-              F.Binary.TextWidth:= ValueInt;
-              F.Binary.Invalidate;
+              F.Viewer.TextWidth:= ValueInt;
+              F.Viewer.Invalidate;
             end;
           end;
 
@@ -4903,8 +4903,8 @@ begin
             if not Assigned(F) then exit(ReturnNone);
             if F.FrameKind=TAppFrameKind.BinaryViewer then
             begin
-              F.Binary.TextWidthHex:= ValueInt;
-              F.Binary.Invalidate;
+              F.Viewer.TextWidthHex:= ValueInt;
+              F.Viewer.Invalidate;
             end;
           end;
 
@@ -4913,8 +4913,8 @@ begin
             if not Assigned(F) then exit(ReturnNone);
             if F.FrameKind=TAppFrameKind.BinaryViewer then
             begin
-              F.Binary.TextWidthUHex:= ValueInt;
-              F.Binary.Invalidate;
+              F.Viewer.TextWidthUHex:= ValueInt;
+              F.Viewer.Invalidate;
             end;
           end;
 
@@ -4923,8 +4923,8 @@ begin
             if not Assigned(F) then exit(ReturnNone);
             if F.FrameKind=TAppFrameKind.BinaryViewer then
             begin
-              F.Binary.TextEncoding:= EncConvFindEncoding(Str);
-              F.Binary.Invalidate;
+              F.Viewer.TextEncoding:= EncConvFindEncoding(Str);
+              F.Viewer.Invalidate;
               fmMain.UpdateStatusbar;
             end;
           end;

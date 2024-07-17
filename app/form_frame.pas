@@ -465,8 +465,8 @@ type
     procedure SetFocus; reintroduce;
     function PictureSizes: TPoint;
     property PictureScale: integer read GetPictureScale write SetPictureScale;
-    property Binary: TATBinHex read FViewer;
-    function BinaryFind(AFinder: TATEditorFinder; AShowAll, AFindNextOrPrev, AFindPrev: boolean): boolean;
+    property Viewer: TATBinHex read FViewer;
+    function ViewerFind(AFinder: TATEditorFinder; AShowAll, AFindNextOrPrev, AFindPrev: boolean): boolean;
     //
     property BracketHilite: boolean read FBracketHilite write SetBracketHilite;
     property BracketHiliteUserChanged: boolean read FBracketHiliteUserChanged write FBracketHiliteUserChanged;
@@ -1971,21 +1971,21 @@ begin
     case ACommand of
       cCommand_ZoomIn:
         begin
-          Binary.IncreaseFontSize(true);
+          Viewer.IncreaseFontSize(true);
         end;
       cCommand_ZoomOut:
         begin
-          Binary.IncreaseFontSize(false);
+          Viewer.IncreaseFontSize(false);
         end;
       cCommand_ZoomReset:
         begin
-          Binary.Font.Size:= EditorOps.OpFontSize;
-          Binary.Invalidate;
+          Viewer.Font.Size:= EditorOps.OpFontSize;
+          Viewer.Invalidate;
         end;
       cCommand_ToggleUnprinted:
         begin
-          Binary.TextNonPrintable:= not Binary.TextNonPrintable;
-          Binary.Invalidate;
+          Viewer.TextNonPrintable:= not Viewer.TextNonPrintable;
+          Viewer.Invalidate;
         end;
     end;
     exit;
@@ -2842,7 +2842,7 @@ procedure TEditorFrame.DoFileOpen(const AFileName, AFileName2: string;
 var
   bFilename2Valid: boolean;
 begin
-  NotifEnabled:= false; //for binary-viewer and pictures, NotifEnabled must be False
+  NotifEnabled:= false; //for binary viewer and pictures, NotifEnabled must be False
   FileProps[0].Inited:= false; //loading of new filename must not trigger notif-thread
   FileProps[1].Inited:= false;
 
@@ -4884,7 +4884,7 @@ begin
   FViewerSelectionChanged:= true;
 end;
 
-function TEditorFrame.BinaryFind(AFinder: TATEditorFinder; AShowAll, AFindNextOrPrev, AFindPrev: boolean): boolean;
+function TEditorFrame.ViewerFind(AFinder: TATEditorFinder; AShowAll, AFindNextOrPrev, AFindPrev: boolean): boolean;
 var
   NStartPos: Int64;
   Ops: TATStreamSearchOptions;
