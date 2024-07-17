@@ -95,7 +95,6 @@ type
     ViewerScroll,
     PictureResize
     );
-  {$ScopedEnums off}
 
   TAppFrameStatusbarEvent = procedure(Sender: TObject; AReason: TAppStatusbarUpdateReason) of object;
 
