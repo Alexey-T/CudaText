@@ -607,7 +607,7 @@ begin
   fmFind.UpdateInitialCaretPos;
   if StrSuggested<>'' then
   begin
-    if fmFind.chkRegex.Checked then
+    if FFinder.OptRegex then
       StrSuggested:= SEscapeRegexSpecialChars(StrSuggested); //to solve issue #5613
     bPrevImmediate:= fmFind.IsImmediate;
     fmFind.IsImmediate:= false; //avoid finder action on showing the find dlg
