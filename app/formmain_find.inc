@@ -608,7 +608,7 @@ begin
   if StrSuggested<>'' then
   begin
     if FFinder.OptRegex then
-      StrSuggested:= SEscapeRegexSpecialChars(StrSuggested); //to solve issue #5613
+      StrSuggested:= SEscapeRegexSpecialChars(StrSuggested);
     bPrevImmediate:= fmFind.IsImmediate;
     fmFind.IsImmediate:= false; //avoid finder action on showing the find dlg
     fmFind.UpdateInputFind(StrSuggested);
