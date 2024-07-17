@@ -270,8 +270,8 @@ type
     procedure UpdateFormHeight;
     procedure UpdateCaretPosVar;
     procedure UpdateState(AEnableFindNextForHiOption: boolean);
-    procedure UpdateFonts;
     procedure UpdateFocus(AFindMode: boolean);
+    procedure UpdateInputFieldsProps;
     procedure UpdateInputFind(const AText: UnicodeString);
     procedure UpdateInputReplace(const AText: UnicodeString);
     procedure UpdateCaption(const AText: string);
@@ -1029,9 +1029,9 @@ begin
 end;
 
 
-procedure TfmFind.UpdateFonts;
+procedure TfmFind.UpdateInputFieldsProps;
   //
-  procedure UpdateEdFont(Ed: TATSynEdit);
+  procedure UpdateEdProps(Ed: TATSynEdit);
   begin
     Ed.Font.Name:= EditorOps.OpFontName;
     Ed.Font.Size:= EditorOps.OpFontSize;
@@ -1046,9 +1046,8 @@ procedure TfmFind.UpdateFonts;
   end;
   //
 begin
-  UpdateEdFont(edFind);
-  UpdateEdFont(edRep);
-  //bCancel.Font.Assign(LabelFind.Font);
+  UpdateEdProps(edFind);
+  UpdateEdProps(edRep);
 end;
 
 procedure TfmFind.UpdateFocus(AFindMode: boolean);
@@ -1400,7 +1399,7 @@ begin
   EditorCaretShapeFromString(edRep.CaretShapeOverwrite, EditorOps.OpCaretViewOverwrite);
 
   UpdateFormHeight;
-  UpdateFonts;
+  UpdateInputFieldsProps;
   FixFormPositionToDesktop(Self);
   OnResize(Self);
 

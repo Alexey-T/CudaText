@@ -557,7 +557,7 @@ begin
   end;
 
   if Assigned(fmFind) then
-    fmFind.UpdateFonts;
+    fmFind.UpdateInputFieldsProps;
 
   fmValidate.Ed.Font.Name:= EditorOps.OpFontName;
   fmValidate.Ed.Font.Size:= EditorOps.OpFontSize;
@@ -604,7 +604,7 @@ begin
   ATFlatTheme.ScaleFontPercents:= ATEditorScaleFontPercents;
 
   if Assigned(fmFind) then
-    fmFind.UpdateFonts;
+    fmFind.UpdateInputFieldsProps;
 
   DoApplyFont_UiStatusbar;
 end;
