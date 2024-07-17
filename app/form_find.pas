@@ -234,6 +234,7 @@ type
     FOnHandleKeyDown: TAppFinderKeyDownEvent;
     FLexerRegexThemed: boolean;
     FHiAllEnableFindNext: boolean;
+    FInitialCaretPos: TPoint;
     Adapter: TATAdapterEControl;
     AdapterActive: boolean;
     procedure bRepStopClick(Sender: TObject);
@@ -263,7 +264,6 @@ type
     { public declarations }
     FCaptionFind: string;
     FCaptionReplace: string;
-    FInitialCaretPos: TPoint;
     FForViewer: boolean;
     procedure Localize;
     procedure DoOnChange;
