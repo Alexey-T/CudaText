@@ -232,6 +232,8 @@ type
     FOnGetToken: TATFinderGetToken;
     FOnShowMatchesCount: TAppFinderShowMatchesCount;
     FOnHandleKeyDown: TAppFinderKeyDownEvent;
+    FCaptionFind: string;
+    FCaptionReplace: string;
     FLexerRegexThemed: boolean;
     FHiAllEnableFindNext: boolean;
     FInitialCaretPos: TPoint;
@@ -262,8 +264,6 @@ type
     function CurrentCaption: string;
   public
     { public declarations }
-    FCaptionFind: string;
-    FCaptionReplace: string;
     FForViewer: boolean;
     procedure Localize;
     procedure DoOnChange;
