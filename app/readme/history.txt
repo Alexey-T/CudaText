@@ -3,6 +3,8 @@
   - fixed
   * changed
 
++ add: option "unprinted_content": flag for trailing spaces supports space-only lines too (thanks @pintassilgo)
+
 1.215.5 (2024/07)
 
 + add: for binary viewer, supported search "in selection", which now renders red underline for found fragment (like app can do for editor already) (thanks @pintassilgo)
