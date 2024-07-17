@@ -268,7 +268,7 @@ type
     procedure Localize;
     procedure DoOnChange;
     procedure UpdateFormHeight;
-    procedure UpdateInitialCaretPosVar;
+    procedure UpdateCaretPosVar;
     procedure UpdateState(AEnableFindNextForHiOption: boolean);
     procedure UpdateFonts;
     procedure UpdateFocus(AFindMode: boolean);
@@ -1411,7 +1411,7 @@ begin
   UpdateState(false);
 end;
 
-procedure TfmFind.UpdateInitialCaretPosVar;
+procedure TfmFind.UpdateCaretPosVar;
 //should be called on dlg creation + on each dialog activation,
 //like in Sublime
 var
