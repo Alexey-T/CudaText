@@ -46,13 +46,8 @@ caption=Comments\Toggle stream comment
 method=cmt_toggle_stream
 ;menu=0
 
-[item100]
-section=commands
-caption=Comments\-
-method=_
-
 [item120]
 section=commands
 caption=Comments\Config...
 method=dlg_config
-menu=op
+menu=o
