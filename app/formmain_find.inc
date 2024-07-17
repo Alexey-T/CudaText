@@ -607,8 +607,8 @@ begin
   fmFind.UpdateInitialCaretPos;
   if StrSuggested<>'' then
   begin
-    if fmFind.chkRegex.Checked then //turn off 'RegEx' to avoid error msgbox on incorrect regex
-      fmFind.chkRegex.Click;
+    if fmFind.chkRegex.Checked then
+      StrSuggested:= SEscapeRegexSpecialChars(StrSuggested); //to solve issue #5613
     bPrevImmediate:= fmFind.IsImmediate;
     fmFind.IsImmediate:= false; //avoid finder action on showing the find dlg
     fmFind.UpdateInputFind(StrSuggested);
@@ -1255,10 +1255,17 @@ begin
       fmFind.UpdateInputFind(Str);
   end;
 
+  {
   //make command "find next" working with new text, issue #2803
   FFinder.StrFind:= Str;
   //and clear regex option (issue #2812)
   FFinder.OptRegex:= false;
+  }
+  //instead of above commented block, due to issue #5613, use this:
+  if FFinder.OptRegex then
+    FFinder.StrFind:= SEscapeRegexSpecialChars(Str)
+  else
+    FFinder.StrFind:= Str;
 
   if Assigned(fmFind) then
     if bHiAll then
