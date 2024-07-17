@@ -665,11 +665,11 @@ begin
   bEnabledPrev:= fmFind.Enabled;
   bEnabledNow:= Frame.FrameKind in [TAppFrameKind.Editor, TAppFrameKind.BinaryViewer];
 
-  bBinaryPrev:= fmFind.FForViewer;
+  bBinaryPrev:= fmFind.ForViewer;
   bBinaryNow:= Frame.FrameKind=TAppFrameKind.BinaryViewer;
 
   fmFind.Enabled:= bEnabledNow;
-  fmFind.FForViewer:= bBinaryNow;
+  fmFind.ForViewer:= bBinaryNow;
 
   if (bEnabledPrev<>bEnabledNow) or
     (bBinaryPrev<>bBinaryNow) then

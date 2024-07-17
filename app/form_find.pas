@@ -222,6 +222,7 @@ type
     FNarrow: boolean;
     FInputChanged: boolean;
     FInputColored: boolean;
+    FForViewer: boolean;
     FDocumentIsSmall: boolean;
     FOnResult: TAppFinderOperationEvent;
     FOnChangeVisible: TNotifyEvent;
@@ -264,7 +265,7 @@ type
     function CurrentCaption: string;
   public
     { public declarations }
-    FForViewer: boolean;
+    property ForViewer: boolean read FForViewer write FForViewer;
     procedure Localize;
     procedure DoOnChange;
     procedure UpdateFormHeight;
