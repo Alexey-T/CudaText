@@ -559,7 +559,7 @@ begin
   Result:= '';
   for i:= 1 to Length(S) do
   begin
-    if Pos(S[i], '-+*=\()[]{}<>.,:;?!#$%^&|')=0 then
+    if Pos(S[i], '-+*=\()[]{}<>.,:?#$^|')=0 then
       Result+= S[i]
     else
       Result+= '\'+S[i];
