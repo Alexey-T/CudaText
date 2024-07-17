@@ -501,7 +501,7 @@ begin
     fmFind.OnHandleKeyDown:= @FindDialogOnHandleKeyDown;
 
     fmFind.Color:= GetAppColor(TAppThemeColor.TabBg);
-    fmFind.UpdateInitialCaretPos;
+    fmFind.UpdateInitialCaretPosVar;
 
     UiOps.HotkeyFindDialog:= ShortCutToTextRaw(AppKeymapMain.GetShortcutFromCommand(cmd_DialogFind));
     UiOps.HotkeyReplaceDialog:= ShortCutToTextRaw(AppKeymapMain.GetShortcutFromCommand(cmd_DialogReplace));
@@ -604,7 +604,8 @@ begin
       fmFind.chkInSel.Checked:= FFinder.OptInSelection;
   end;
 
-  fmFind.UpdateInitialCaretPos;
+  fmFind.UpdateInitialCaretPosVar;
+
   if StrSuggested<>'' then
   begin
     if FFinder.OptRegex then //fmFind.chkRegex.Checked is not yet set
