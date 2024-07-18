@@ -4,6 +4,7 @@
   * changed
 
 + add: option "unprinted_content": flag for trailing spaces supports space-only lines too (thanks @pintassilgo)
++ add: options "find_suggest_*": on inserting find-dialog text, escape special regex-chars, if regex option is set (thanks @pintassilgo)
 
 1.215.5 (2024/07)
 
