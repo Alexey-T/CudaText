@@ -103,6 +103,8 @@ begin
 
   EdPreview.Strings.LineAdd('    begin    end    ');
   EdPreview.Strings.LineAdd(#9#9'begin'#9#9'end'#9#9);
+  EdPreview.Strings.LineAdd('  '#9#9'  ');
+
   EdPreview.UpdateWrapInfo(true, false);
 end;
 
