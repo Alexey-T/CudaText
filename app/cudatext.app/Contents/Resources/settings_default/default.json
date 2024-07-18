@@ -634,6 +634,7 @@
   //  if "p" in value: Instead of arrows at end-of-lines, show pilcrow chars
   //  if "." in value: Instead of arrows at end-of-lines, show thick dots (overrides "p")
   //  if "d" in value: Detailed end-of-lines marks: "LF", "CRLF", "CR" (overrides ".")
+  //Note: GUI dialog "Options / Unprinted chars..." helps to change this option.
   "unprinted_content": "se",
 
   //Unprinted symbols: Replace control ASCII characters (codes 0..31) with replacement-char.
