@@ -101,9 +101,12 @@ begin
   EdPreview.OptMicromapVisible:= false;
   EdPreview.Show;
 
-  EdPreview.Strings.LineAdd('    begin    end    ');
-  EdPreview.Strings.LineAdd(#9#9'begin'#9#9'end'#9#9);
-  EdPreview.Strings.LineAdd('  '#9#9'  ');
+  with EdPreview.Strings do
+  begin
+    LineAdd('    begin    end    ');
+    LineAdd(#9#9'begin'#9#9'end'#9#9);
+    LineAdd('  '#9#9'  ');
+  end;
 
   EdPreview.UpdateWrapInfo(true, false);
 end;
