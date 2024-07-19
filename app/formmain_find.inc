@@ -987,12 +987,14 @@ end;
 
 function TfmMain.FinderGetHiAllIndexesString(AFinder: TATEditorFinder): string;
 var
-  NCurrent, NTotal: integer;
+  NIndex, NCount: integer;
 begin
   Result:= '';
-  FinderGetHiAllIndexes(AFinder, NCurrent, NTotal);
-  if NCurrent>=0 then
-    Result:= Format(' [%d/%d]', [NCurrent+1, NTotal])
+  FinderGetHiAllIndexes(AFinder, NIndex, NCount);
+  if NIndex>=0 then
+    Result:= Format(' [%d/%d]', [NIndex+1, NCount])
+  else if NCount>0 then
+    Result:= Format(' [?/%d]', [NCount]);
 end;
 
 procedure TfmMain.FinderShowResult(AFound, AIsReplace: boolean; AFinder: TATEditorFinder);
