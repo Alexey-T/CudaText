@@ -7220,7 +7220,11 @@ begin
   Caret:= Ed.Carets[0];
 
   //disable completion in comments/strings
-  if DoAutoComplete_PosOnBadToken(Ed, Caret.PosX, Caret.PosY) then exit;
+  if DoAutoComplete_PosOnBadToken(Ed, Caret.PosX, Caret.PosY) then
+  begin
+    MsgStatus('Auto-completion doesn''t work inside comments/strings');
+    exit;
+  end;
 
   CompletionOps.AppendOpeningBracket:= Ed.OptAutocompleteAddOpeningBracket;
   CompletionOps.UpDownAtEdge:= TATCompletionUpDownAtEdge(Ed.OptAutocompleteUpDownAtEdge);
