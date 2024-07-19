@@ -156,16 +156,20 @@ object SyntAnal9: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Comment doc'
+      DisplayName = 'Comment doc begin'
       StyleName = 'Comment doc'
+      StatesAdd = 1
+      StatesAbsent = 1
       TokenType = 1
-      Expression = '(?s)/\*\*.*?(\*/|\Z)'
+      Expression = '/\*{2,}'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
-      DisplayName = 'Comment doc end-only'
+      DisplayName = 'Comment doc end'
       StyleName = 'Comment doc'
+      StatesRemove = 1
+      StatesPresent = 1
       TokenType = 1
       Expression = '\*/'
       ColumnFrom = 0
@@ -957,8 +961,10 @@ object SyntAnal9: TLibSyntAnalyzer
     end
     item
       DisplayName = 'JSDoc'
+      StatesAdd = 1
+      StatesRemove = 1
       StartExpression = '/\*{2,}(?!/)'
-      EndExpression = '[^/\*\n\r]*?\*/'
+      EndExpression = '\*/'
       SyntAnalyzer = SyntAnal10
     end>
   SampleText.Strings = (
