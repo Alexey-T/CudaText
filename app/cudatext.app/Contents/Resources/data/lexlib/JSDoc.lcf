@@ -87,7 +87,7 @@ object SyntAnal10: TLibSyntAnalyzer
     item
       DisplayName = 'Comment'
       StyleName = 'Comment doc'
-      Expression = '[^\x20\x09\n\r\*/]+'
+      Expression = '\*|[^\x20\x09\n\r\*/]+'
       ColumnFrom = 0
       ColumnTo = 0
     end>
