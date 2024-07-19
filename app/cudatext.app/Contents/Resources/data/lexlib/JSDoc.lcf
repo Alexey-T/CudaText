@@ -1,4 +1,4 @@
-object SyntAnal12: TLibSyntAnalyzer
+object SyntAnal10: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Comment doc'
@@ -87,7 +87,7 @@ object SyntAnal12: TLibSyntAnalyzer
     item
       DisplayName = 'Comment'
       StyleName = 'Comment doc'
-      Expression = '\*|[^\x20\x09\n\r]+'
+      Expression = '[^\x20\x09\n\r\*/]+'
       ColumnFrom = 0
       ColumnTo = 0
     end>
