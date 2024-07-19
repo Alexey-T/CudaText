@@ -1034,8 +1034,8 @@ object SyntAnal9: TLibSyntAnalyzer
   Extentions = 'js htc es6 pjs mjs'
   LexerName = 'JavaScript'
   Notes.Strings = (
-    'Based on lexer from EControl'
-    'Reworked by Alexey (CudaText)')
+    'It was based on lexer from EControl'
+    'Reworked by Alexey Torgashin (CudaText)')
   RestartFromLineStart = True
   LineComment = '//'
   Charset = DEFAULT_CHARSET
