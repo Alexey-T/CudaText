@@ -749,6 +749,7 @@ type
     FCmdlineFileCount: integer;
     FPrevJsonObj: TJSONData;
     FPrevFramesEditState: array of TFrameEditState;
+    FPrevFindDlgVisible: boolean;
 
     function CodeTreeFilter_OnFilterNode(ItemNode: TTreeNode; out Done: Boolean): Boolean;
     function ConfirmAllFramesAreSaved(AWithCancel: boolean): boolean;
@@ -3235,6 +3236,12 @@ begin
       F.Editor.Update;
   end;
 
+  {$if defined(LCLQt5) or defined(LCLQt6)}
+  //workaround for issue https://gitlab.com/freepascal.org/lazarus/lazarus/-/issues/40933
+  if FPrevFindDlgVisible and Assigned(fmFind) and not fmFind.Visible then
+    fmFind.Show;
+  {$ifend}
+
   DoPyEvent_AppActivate(TAppPyEvent.OnAppActivate);
 end;
 
@@ -3253,6 +3260,13 @@ begin
   //it was needed when autocomplete was non-docked window, to hide autocomplete from Alt+Tab
   CloseFormAutoCompletion;
   }
+
+  {$if defined(LCLQt5) or defined(LCLQt6)}
+  //workaround for issue https://gitlab.com/freepascal.org/lazarus/lazarus/-/issues/40933
+  FPrevFindDlgVisible:= Assigned(fmFind) and (fmFind.Parent=nil) and fmFind.Visible;
+  if FPrevFindDlgVisible then
+    fmFind.Hide;
+  {$ifend}
 
   DoPyEvent_AppActivate(TAppPyEvent.OnAppDeactivate);
 end;
