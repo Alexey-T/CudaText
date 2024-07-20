@@ -4020,11 +4020,14 @@ begin
       DoTooltipHide;
   end;
 
+  {
+  //works not fully ok, so removed; suggested in issue #5622
   if FFindLastHiAllCount>0 then
   begin
     MsgStatus(msgStatusFoundNextMatch+Format(' [?/%d]', [FFindLastHiAllCount]), true);
     FFindLastHiAllCount:= 0;
   end;
+  }
 end;
 
 procedure TfmMain.FrameOnEditorScroll(Sender: TObject);
