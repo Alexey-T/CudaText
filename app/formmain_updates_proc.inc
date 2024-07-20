@@ -328,7 +328,7 @@ begin
   DoStatusbarTextByTag(AStatus, StatusbarTag_Zoom, IntToStr(N)+'%');
 
   //to update '[Read only]' in the message
-  DoStatusbarTextByTag(AStatus, StatusbarTag_Msg, GetStatusbarPrefix(F)+FLastStatusbarMessage);
+  //DoStatusbarTextByTag(AStatus, StatusbarTag_Msg, FLastStatusbarMessage);
 end;
 
 procedure TfmMain.InitStatusProgress;

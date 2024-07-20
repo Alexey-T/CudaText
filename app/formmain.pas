@@ -690,6 +690,7 @@ type
 
     FFinder: TATEditorFinder;
     FFindStop: boolean;
+    FFindLastHiAllCount: integer;
     FFindConfirmAll: TModalResult;
     FFindMarkingMode: TAppFinderMarking;
     FFindMarkingCaret1st: boolean;
@@ -987,7 +988,6 @@ type
     procedure MsgStatus(AText: string; AFinderMessage: boolean=false);
     procedure MsgStatusErrorInRegex;
     procedure MsgStatusFileOpened(const AFileName1, AFileName2: string);
-    function GetStatusbarPrefix(Frame: TEditorFrame): string;
     procedure SearcherDirectoryEnter(FileIterator: TFileIterator);
     procedure SetShowFloatGroup1(AValue: boolean);
     procedure SetShowFloatGroup2(AValue: boolean);
@@ -4019,6 +4019,12 @@ begin
     if (FLastTooltipLine>=0) and (Caret.PosY<>FLastTooltipLine) then
       DoTooltipHide;
   end;
+
+  if FFindLastHiAllCount>0 then
+  begin
+    MsgStatus(msgStatusFoundNextMatch+Format(' [?/%d]', [FFindLastHiAllCount]), true);
+    FFindLastHiAllCount:= 0;
+  end;
 end;
 
 procedure TfmMain.FrameOnEditorScroll(Sender: TObject);
@@ -6029,20 +6035,6 @@ begin
   end;
 end;
 
-function TfmMain.GetStatusbarPrefix(Frame: TEditorFrame): string;
-begin
-  Result:= '';
-  if Frame=nil then exit;
-  if Frame.FrameKind=TAppFrameKind.Editor then
-  begin
-    //if Frame.ReadOnly[Frame.Editor] then
-    //  Result+= msgStatusReadonly+' ';
-
-    //if Frame.MacroRecord then
-    //  Result+= msgStatusMacroRec+' ';
-  end;
-end;
-
 procedure TfmMain.MsgStatus(AText: string; AFinderMessage: boolean=false);
 var
   STime, SLine: string;
@@ -6067,7 +6059,7 @@ begin
       AppStatusbarMessages.Delete(0);
     FLastStatusbarMessage:= AText;
 
-    DoStatusbarTextByTag(Status, StatusbarTag_Msg, {STime+}GetStatusbarPrefix(CurrentFrame)+AText);
+    DoStatusbarTextByTag(Status, StatusbarTag_Msg, AText);
     DoStatusbarColorByTag(Status, StatusbarTag_Msg, GetAppColorOfStatusbarFont);
     DoStatusbarHintByTag(Status, StatusbarTag_Msg, StringsTrailingText(AppStatusbarMessages, UiOps.MaxStatusbarMessages));
 
