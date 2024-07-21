@@ -179,7 +179,7 @@ const
 
   msgPythonFindCaption: string = 'Find Python library';
   msgPythonFindCaptionLong = 'Python engine was not found; find it...';
-  msgPythonFindFromDir: string = 'Search from folder:';
+  msgPythonFindFromDir: string = 'Search for Python library in this folder and all its subfolders:';
   msgCannotFindPython: string = 'Cannot find Python library';
 
   msgCannotInitPythonDisabled: string = 'NOTE: Python engine is disabled';
