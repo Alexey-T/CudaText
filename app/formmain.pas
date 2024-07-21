@@ -690,7 +690,6 @@ type
 
     FFinder: TATEditorFinder;
     FFindStop: boolean;
-    FFindLastHiAllCount: integer;
     FFindConfirmAll: TModalResult;
     FFindMarkingMode: TAppFinderMarking;
     FFindMarkingCaret1st: boolean;
@@ -4019,15 +4018,6 @@ begin
     if (FLastTooltipLine>=0) and (Caret.PosY<>FLastTooltipLine) then
       DoTooltipHide;
   end;
-
-  {
-  //works not fully ok, so removed; suggested in issue #5622
-  if FFindLastHiAllCount>0 then
-  begin
-    MsgStatus(msgStatusFoundNextMatch+Format(' [?/%d]', [FFindLastHiAllCount]), true);
-    FFindLastHiAllCount:= 0;
-  end;
-  }
 end;
 
 procedure TfmMain.FrameOnEditorScroll(Sender: TObject);

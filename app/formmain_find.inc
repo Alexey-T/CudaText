@@ -995,15 +995,12 @@ begin
     Result:= Format(' [%d/%d]', [NIndex+1, NCount])
   else if NCount>0 then
     Result:= Format(' [?/%d]', [NCount]);
-
-  FFindLastHiAllCount:= NCount;
 end;
 
 procedure TfmMain.FinderShowResult(AFound, AIsReplace: boolean; AFinder: TATEditorFinder);
 var
   Details: string;
 begin
-  FFindLastHiAllCount:= 0;
   if AFound then
   begin
     Details:= FinderGetHiAllIndexesString(AFinder);
@@ -1040,7 +1037,6 @@ procedure TfmMain.FinderShowResultSimple(AFound: boolean; AFinder: TATEditorFind
 var
   Details: string;
 begin
-  FFindLastHiAllCount:= 0;
   if AFound then
   begin
     Details:= FinderGetHiAllIndexesString(AFinder);
