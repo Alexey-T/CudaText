@@ -1597,6 +1597,7 @@ begin
   UiOps.AutocompleteCss_Lexers:= cfg.GetValue('autocomplete_css_lexers', UiOps.AutocompleteCss_Lexers);
   UiOps.AutocompleteFileURI:= cfg.GetValue('autocomplete_file_uri', UiOps.AutocompleteFileURI);
   UiOps.AutocompleteClosingDelay:= cfg.GetValue('autocomplete_closing_delay', UiOps.AutocompleteClosingDelay);
+  UiOps.AutocompleteReplaceOnRight:= cfg.GetValue('autocomplete_replace_on_right', UiOps.AutocompleteReplaceOnRight);
 
   UiOps.FindShowOnStart:= cfg.GetValue('find_show_on_start', UiOps.FindShowOnStart);
   UiOps.FindSuggestSel:= cfg.GetValue('find_suggest_sel', UiOps.FindSuggestSel);

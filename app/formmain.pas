@@ -7234,6 +7234,7 @@ begin
   CompletionOps.CommandForShitchTab:= cmd_SwitchTab_HotkeyNext;
   CompletionOps.ShortcutForAutocomplete:= Ed.Keymap.GetShortcutFromCommand(cmd_AutoComplete);
   CompletionOps.ClosingTimerInverval:= UiOps.AutocompleteClosingDelay;
+  CompletionOps.ReplaceOnRight:= UiOps.AutocompleteReplaceOnRight;
 
   //auto-completion for file:///, before plugins
   if UiOps.AutocompleteFileURI and
