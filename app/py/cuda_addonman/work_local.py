@@ -171,7 +171,7 @@ def get_installed_addons(ignore={}):
     d_acp = os.path.join(DIR_DATA, 'autocomplete')
     if os.path.isdir(d):
         l = os.listdir(d)
-        l = [i.split('.')[0] for i in l if i.endswith('.lcf')]
+        l = ['.'.join(i.split('.')[:-1]) for i in l if i.endswith('.lcf')]
         l = [i for i in l if not i in exclude_lexers]
         l = sorted(l)
         res += [{
