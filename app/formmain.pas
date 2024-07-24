@@ -861,6 +861,7 @@ type
     procedure DoCodetree_PanelOnEnter(Sender: TObject);
     procedure DoCodetree_StopUpdate;
     procedure DoCodetree_OnContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
+    procedure DoCodetree_OnCollapsedOrExpanded(Sender: TObject; Node: TTreeNode);
     procedure DoCodetree_GetSyntaxRange(ANode: TTreeNode; out APosBegin, APosEnd: TPoint);
     procedure DoCodetree_SetSyntaxRange(ANode: TTreeNode; const APosBegin, APosEnd: TPoint);
     procedure DoCodetree_OnClick(Sender: TObject);
@@ -1204,6 +1205,7 @@ type
     CodeTree: TAppTreeContainer;
     CodeTreeFilter: TTreeFilterEdit;
     CodeTreeFilterInput: TATComboEdit;
+    CodeTree_CurrentNode: TTreeNode;
     PanelCodeTreeAll: TFormDummy;
     PanelCodeTreeTop: TPanel;
     StatusProgress: TATGauge;
@@ -2747,6 +2749,12 @@ begin
   end;
 end;
 
+procedure TfmMain.DoCodetree_OnCollapsedOrExpanded(Sender: TObject; Node: TTreeNode);
+begin
+  CodeTree_CurrentNode:= Node;
+  DoPyEvent_AppState(APPSTATE_CODETREE_FOLDED_UNFOLDED);
+  CodeTree_CurrentNode:= nil;
+end;
 
 procedure TfmMain.DoCodetree_OnMouseMove(Sender: TObject; Shift: TShiftState; X,
   Y: Integer);
@@ -2809,6 +2817,8 @@ begin
   CodeTree.Tree.OnKeyDown:= @DoCodetree_OnKeyDown;
   CodeTree.Tree.OnContextPopup:= @DoCodetree_OnContextPopup;
   CodeTree.Tree.OnAdvancedCustomDrawItem:=@DoCodetree_OnAdvDrawItem;
+  CodeTree.Tree.OnCollapsed:= @DoCodetree_OnCollapsedOrExpanded;
+  CodeTree.Tree.OnExpanded:= @DoCodetree_OnCollapsedOrExpanded;
 
   PanelCodeTreeTop:= TPanel.Create(PanelCodeTreeAll);
   PanelCodeTreeTop.Name:= 'PanelCodeTreeTop';
