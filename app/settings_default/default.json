@@ -1554,7 +1554,7 @@
   //when you press Left/Right arrows with LSP listbox).
   "autocomplete_closing_delay": 300,
 
-  //If false, auto-completion will not replace nearest word-chars on the right  of the caret.
+  //If false, auto-completion will not replace nearest word-chars on the right of the caret.
   "autocomplete_replace_on_right": true,
 
   //Auto-pair some chars on typing.
