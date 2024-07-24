@@ -95,7 +95,8 @@ Constants in "on_state":
 * APPSTATE_API_MENU_REMOVE: API menu_proc() removed some menu item.
 * APPSTATE_API_MENU_CHANGE: API menu_proc() changed some menu item.
 
-* APPSTATE_CODETREE_CLEAR: Code-Tree: content is cleared.
+* APPSTATE_CODETREE_BEFORE_CLEAR: Code-Tree: content is about to be cleared.
+* APPSTATE_CODETREE_CLEAR: Code-Tree: content was just cleared.
 * APPSTATE_CODETREE_BEFORE_FILL: Code-Tree: before filling the content.
 * APPSTATE_CODETREE_AFTER_FILL: Code-Tree: after filling the content.
 * APPSTATE_CODETREE_SET_SELECTION: Code-Tree: caret position changed, then app sync'ed tree selection.
@@ -5054,5 +5055,8 @@ It provides:
 * delete deprecated: APP_FILE_RECENTS (use APP_FILE_RECENT_LIST instead)
 * delete deprecated: GROUPS_3PLUS (use GROUPS_1P2VERT instead)
 * delete deprecated: menu_proc() callback in the form "module,method" / "module,method,param"
+
+1.0.460 (app 1.215.6)
+* add: on_state new Id APPSTATE_CODETREE_BEFORE_CLEAR
 
 [[Category:CudaText]]
