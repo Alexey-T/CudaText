@@ -1264,7 +1264,7 @@ Special events for control "listbox_ex":
 
 Special events for control "treeview":
 
-* "on_fold", "on_unfold": Called before treeview node is folded/unfolded. Param "data" is int handle of treeview node.
+* "on_fold", "on_unfold": Called before treeview node is folded/unfolded. Param "data" is int handle of treeview node. Handler can return False to disable the folding/unfolding.
 * "on_select": Called after selection is changed.
 
 ====dlg_proc - Control events - for editor control====

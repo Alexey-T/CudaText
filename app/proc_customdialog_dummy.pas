@@ -1044,7 +1044,7 @@ begin
   Props:= TAppControlProps((Sender as TControl).Tag);
   IdControl:= FindControlIndexByOurObject(Sender);
   Data:= AppVariant(PtrInt(Node));
-  DoEvent(IdControl, Props.FEventOnUnfold, Data);
+  AllowExpansion:= DoEvent(IdControl, Props.FEventOnUnfold, Data);
 end;
 
 procedure TFormDummy.DoOnTreeviewCollapsing(Sender: TObject; Node: TTreeNode;
@@ -1059,7 +1059,7 @@ begin
   Props:= TAppControlProps((Sender as TControl).Tag);
   IdControl:= FindControlIndexByOurObject(Sender);
   Data:= AppVariant(PtrInt(Node));
-  DoEvent(IdControl, Props.FEventOnFold, Data);
+  AllowCollapse:= DoEvent(IdControl, Props.FEventOnFold, Data);
 end;
 
 procedure TFormDummy.DoOnStatusbarPanelClick(Sender: TObject; AIndex: integer);
