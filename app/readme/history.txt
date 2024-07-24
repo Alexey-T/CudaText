@@ -5,7 +5,7 @@
 
 1.215.6 (2024/07)
 
-+ add: auto-completion: it's possible to _not_ replace chars on the right, like in VSCode, via new option "autocomplete_on_right" (thanks @pintassilgo)
++ add: auto-completion: it's possible to _not_ replace chars on the right, like in VSCode, via new option "autocomplete_replace_on_right" (thanks @pintassilgo)
 + add: options "find_suggest_*": on inserting find-dialog text, escape special regex-chars, if regex option is set (thanks @pintassilgo)
 + add: option "unprinted_content": flag for trailing spaces supports space-only lines too (thanks @pintassilgo)
 - fix: 'Indent selection' shouldn't add spaces/tab to empty lines (thanks @pintassilgo)
