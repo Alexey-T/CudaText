@@ -5464,6 +5464,10 @@ begin
           begin
             Result:= PyHelper_ObjectHandle(fmMain.CodeTree);
           end;
+        APP_PROC_GET_CODETREE_CURRENT_NODE:
+          begin
+            Result:= PyHelper_ObjectHandle(fmMain.CodeTree_CurrentNode);
+          end;
 
         APP_PROC_WINDOW_TOPMOST_GET:
           begin
