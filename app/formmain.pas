@@ -2739,6 +2739,7 @@ begin
 
   if CodeTree.Tree.Items.Count>0 then
   begin
+    DoPyEvent_AppState(APPSTATE_CODETREE_BEFORE_CLEAR);
     CodeTree.Tree.Items.Clear;
     DoCodetree_UpdateVersion(nil);
     AppCodetreeState.NeedsSelJump:= false;
