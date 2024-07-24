@@ -101,6 +101,7 @@ Constants in "on_state":
 * APPSTATE_CODETREE_AFTER_FILL: Code-Tree: after filling the content.
 * APPSTATE_CODETREE_SET_SELECTION: Code-Tree: caret position changed, then app sync'ed tree selection.
 * APPSTATE_CODETREE_DBL_CLICK: Code-Tree: user made double-click in tree, then app sync'ed caret position with tree selection.
+* APPSTATE_CODETREE_FOLDED_UNFOLDED: Code-Tree: some tree node was just folded or unfolded. You can get this node's handle via app_proc(PROC_GET_CODETREE_CURRENT_NODE, '').
 
 * APPSTATE_WINDOW: Changed state of the main window: minimized/normal/maximized/fullscreen. Read current state via app_proc(PROC_GET_WINDOW_STATE, "").
 
@@ -221,6 +222,7 @@ Parameter "text" is usually string, but can be of other types (bool, int, float,
 
 * PROC_GET_TAB_IMAGELIST: Returns int handle of imagelist, containing icons of all UI-tabs. Use imagelist_proc() to work with it. Use PROP_TAB_ICON property to get/set file-tab icon index (index in this imagelist).
 * PROC_GET_CODETREE: Returns int handle of built-in code-tree UI control. Use tree_proc() to work with it.
+* PROC_GET_CODETREE_CURRENT_NODE: Returns int handle of code-tree's node, for on_state event "node was just folded/unfolded".
 * PROC_GET_CONSOLE_FORM: Returns int handle of built-in Console form. Use dlg_proc() to work with it.
 * PROC_GET_OUTPUT_FORM: Returns int handle of built-in Output form (contains the Output read-only editor). Use dlg_proc() to work with it.
 * PROC_GET_VALIDATE_FORM: Returns int handle of built-in Validate form (contains the Validate read-only editor). Use dlg_proc() to work with it.
@@ -5058,5 +5060,7 @@ It provides:
 
 1.0.460 (app 1.215.6)
 * add: on_state new Id APPSTATE_CODETREE_BEFORE_CLEAR
+* add: on_state new Id APPSTATE_CODETREE_FOLDED_UNFOLDED
+* add: app_proc: PROC_GET_CODETREE_CURRENT_NODE
 
 [[Category:CudaText]]
