@@ -3246,11 +3246,13 @@ begin
       F.Editor.Update;
   end;
 
+  (*
   {$if defined(LCLQt5) or defined(LCLQt6)}
   //workaround for issue https://gitlab.com/freepascal.org/lazarus/lazarus/-/issues/40933
   if FPrevFindDlgVisible and Assigned(fmFind) and not fmFind.Visible then
     fmFind.Show;
   {$ifend}
+  *)
 
   DoPyEvent_AppActivate(TAppPyEvent.OnAppActivate);
 end;
@@ -3275,7 +3277,7 @@ begin
   //workaround for issue https://gitlab.com/freepascal.org/lazarus/lazarus/-/issues/40933
   FPrevFindDlgVisible:= Assigned(fmFind) and (fmFind.Parent=nil) and fmFind.Visible;
   if FPrevFindDlgVisible then
-    fmFind.Hide;
+    fmFind.Close;
   {$ifend}
 
   DoPyEvent_AppActivate(TAppPyEvent.OnAppDeactivate);
