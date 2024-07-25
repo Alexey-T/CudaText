@@ -5062,6 +5062,6 @@ It provides:
 * add: on_state new Id APPSTATE_CODETREE_BEFORE_CLEAR
 * add: on_state new Id APPSTATE_CODETREE_FOLDED_UNFOLDED
 * add: app_proc: PROC_GET_CODETREE_CURRENT_NODE
-* add: dlg_proc: treeview events on_fold/on_unfold can return False to disable folding/unfolding
+* add: dlg_proc: treeview event handler on_fold/on_unfold can return False to disable folding/unfolding
 
 [[Category:CudaText]]
