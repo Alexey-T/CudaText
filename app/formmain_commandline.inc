@@ -88,11 +88,12 @@ begin
 end;
 
 procedure EditorGoToPos(Ed: TATSynEdit; APosX, APosY: integer);
+var
+  NLine: integer;
 begin
   if APosY<0 then exit;
   if APosX<0 then APosX:= 0; //allow x<0
 
-  Ed.LineTop:= Max(0, APosY-2);
   Ed.DoGotoPos(
     Point(APosX, APosY),
     Point(-1, -1),
@@ -101,6 +102,10 @@ begin
     true,
     TATEditorActionIfFolded.Unfold
     );
+
+  NLine:= Max(0, APosY-2);
+  Ed.LineTop:= NLine;
+  Ed.LineTopTodo:= NLine;
 end;
 
 
