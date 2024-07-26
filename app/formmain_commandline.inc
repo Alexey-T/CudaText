@@ -92,7 +92,7 @@ begin
   if APosY<0 then exit;
   if APosX<0 then APosX:= 0; //allow x<0
 
-  Ed.LineTop:= APosY;
+  Ed.LineTop:= Max(0, APosY-2);
   Ed.DoGotoPos(
     Point(APosX, APosY),
     Point(-1, -1),
