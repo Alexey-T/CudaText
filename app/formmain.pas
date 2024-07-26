@@ -725,6 +725,7 @@ type
     FLastDirOfOpenDlg: string;
     FLastLexerForPluginsMenu: string;
     FLastStatusbarMessage: string;
+    FLastStatusbarMessageIsFoundIndexes: boolean;
     FLastSelectedCommand: integer;
     FLastMousePos: TPoint;
     FLastMaximized: boolean;
@@ -4016,6 +4017,28 @@ begin
   UpdateMenuRecent(Sender as TATSynEdit);
 end;
 
+procedure _StatusbarReplaceFoundIndexWithQuestionMark(AStatusBar: TATStatus);
+var
+  NPanel, NChar: integer;
+  S: string;
+begin
+  NPanel:= AStatusBar.FindPanel(StatusbarTag_Msg);
+  if NPanel>=0 then
+  begin
+    S:= AStatusBar.Captions[NPanel];
+    NChar:= Pos('[', S);
+    if NChar>0 then
+    begin
+      Inc(NChar);
+      while (NChar<=Length(S)) and IsCharDigit(S[NChar]) do
+        Delete(S, NChar, 1);
+      Insert('?', S, NChar);
+      AStatusBar.Captions[NPanel]:= S;
+      AStatusBar.Invalidate;
+    end;
+  end;
+end;
+
 procedure TfmMain.FrameOnEditorChangeCaretPos(Sender: TObject);
 var
   Ed: TATSynEdit;
@@ -4030,6 +4053,13 @@ begin
     Caret:= Ed.Carets[0];
     if (FLastTooltipLine>=0) and (Caret.PosY<>FLastTooltipLine) then
       DoTooltipHide;
+  end;
+
+  //on caret move, replace statusbar msg 'Found next match .. [12/34]' with 'Found next match .. [?/34]'
+  if FLastStatusbarMessageIsFoundIndexes then
+  begin
+    FLastStatusbarMessageIsFoundIndexes:= false;
+    _StatusbarReplaceFoundIndexWithQuestionMark(Status);
   end;
 end;
 
@@ -6072,6 +6102,12 @@ begin
     TimerStatusClear.Enabled:= false;
     TimerStatusClear.Enabled:= true;
   end;
+
+  FLastStatusbarMessageIsFoundIndexes:=
+    AFinderMessage and
+    SBeginsWith(AText, msgStatusFoundNextMatch) and
+    (Pos('[', AText)>0) and
+    (Pos(']', AText)>0);
 
   if AFinderMessage then
     if Assigned(fmFind) then
