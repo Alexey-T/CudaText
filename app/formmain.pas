@@ -4020,21 +4020,21 @@ end;
 
 procedure _StatusbarReplaceFoundIndexWithQuestionMark(AStatusBar: TATStatus);
 var
-  NPanel, NFrom, NTo: integer;
+  NPanel, N, NTo: integer;
   S: string;
 begin
   NPanel:= AStatusBar.FindPanel(StatusbarTag_Msg);
   if NPanel>=0 then
   begin
     S:= AStatusBar.Captions[NPanel];
-    NFrom:= Pos('[', S);
-    if (NFrom>0) and (Pos(']', S, NFrom)>0) then
+    N:= Pos('[', S);
+    if (N>0) and (Pos(']', S, N)>0) then
     begin
-      Inc(NFrom);
-      NTo:= NFrom;
+      Inc(N);
+      NTo:= N;
       while (NTo+1<=Length(S)) and IsCharDigit(S[NTo+1]) do Inc(NTo);
-      Delete(S, NFrom, NTo-NFrom+1);
-      Insert('?', S, NFrom);
+      Delete(S, N, NTo-N+1);
+      Insert('?', S, N);
       AStatusBar.Captions[NPanel]:= S;
       AStatusBar.Invalidate;
     end;
