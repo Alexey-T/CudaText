@@ -4028,7 +4028,7 @@ begin
   begin
     S:= AStatusBar.Captions[NPanel];
     NChar:= Pos('[', S);
-    if NChar>0 then
+    if (NChar>0) and (Pos(']', S, NChar)>0) then
     begin
       Inc(NChar);
       while (NChar<=Length(S)) and IsCharDigit(S[NChar]) do
@@ -4057,7 +4057,8 @@ begin
   end;
 
   //on caret move, replace statusbar msg 'Found next match .. [12/34]' with 'Found next match .. [?/34]'
-  if FLastStatusbarMessageIsFoundIndexes and (GetTickCount64-FLastStatusbarMessageTick>1000) then
+  if FLastStatusbarMessageIsFoundIndexes and
+     (GetTickCount64-FLastStatusbarMessageTick>UiOps.FindStatusbarDelayToReplaceIndexToQuestion) then
   begin
     FLastStatusbarMessageIsFoundIndexes:= false;
     _StatusbarReplaceFoundIndexWithQuestionMark(Status);
