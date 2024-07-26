@@ -105,7 +105,7 @@ begin
 
   NLine:= Max(0, APosY-2);
   Ed.LineTop:= NLine;
-  Ed.LineTopTodo:= NLine;
+  Ed.LineTopTodo:= NLine; //helps to scroll ok, if before the LineTop was set (from file history) to different value
 end;
 
 
