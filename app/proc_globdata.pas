@@ -2096,7 +2096,7 @@ begin
     FindSuggestInSelection:= false; //option "find_suggest_in_selection"
     FindCurrentWordCaseSensitive:= TUiOpsFindCaseSensitive.FromDialog; //option "find_sel_case"
     FindUseReddishIndicator:= true;
-    FindStatusbarDelayToReplaceIndexToQuestion:= 300;
+    FindStatusbarDelayToReplaceIndexToQuestion:= 150;
 
     FindHiddenButtons:= '';
     FindShow_FindFirst:= true;
