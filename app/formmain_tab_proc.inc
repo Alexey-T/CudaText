@@ -185,6 +185,7 @@ begin
   if not F.EditorsLinked then
     DoOps_LoadOptionsLexerSpecific(F, F.Ed2);
 
+  MsgStatus(''); //makes no sense to keep old message on tab switching
   UpdateStatusbar;
 
   if AAllowEventOnTabChange then
