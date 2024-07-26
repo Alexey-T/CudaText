@@ -726,6 +726,7 @@ type
     FLastLexerForPluginsMenu: string;
     FLastStatusbarMessage: string;
     FLastStatusbarMessageIsFoundIndexes: boolean;
+    FLastStatusbarMessageTick: QWord;
     FLastSelectedCommand: integer;
     FLastMousePos: TPoint;
     FLastMaximized: boolean;
@@ -4056,7 +4057,7 @@ begin
   end;
 
   //on caret move, replace statusbar msg 'Found next match .. [12/34]' with 'Found next match .. [?/34]'
-  if FLastStatusbarMessageIsFoundIndexes then
+  if FLastStatusbarMessageIsFoundIndexes and (GetTickCount64-FLastStatusbarMessageTick>1000) then
   begin
     FLastStatusbarMessageIsFoundIndexes:= false;
     _StatusbarReplaceFoundIndexWithQuestionMark(Status);
@@ -6103,6 +6104,7 @@ begin
     TimerStatusClear.Enabled:= true;
   end;
 
+  FLastStatusbarMessageTick:= GetTickCount64;
   FLastStatusbarMessageIsFoundIndexes:=
     AFinderMessage and
     SBeginsWith(AText, msgStatusFoundNextMatch) and
