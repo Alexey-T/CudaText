@@ -111,7 +111,7 @@ end;
 
 procedure TfmMain.DoLoadCommandParams(const AParams: array of string; AOpenOptions: string);
 // Function handles passed file names, folder names, and such params as -r -nh -z -e,
-// while others params are handled in InitAdditionalCommandLineOptions
+// while other params are handled in InitAdditionalCommandLineOptions
 var
   Frame: TEditorFrame;
   SParam: string;
