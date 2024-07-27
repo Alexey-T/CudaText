@@ -6119,13 +6119,13 @@ begin
 
     TimerStatusClear.Enabled:= false;
     TimerStatusClear.Enabled:= true;
-  end;
 
-  FLastStatusbarMessageTick:= GetTickCount64;
-  FLastStatusbarMessageIsFoundIndexes:=
-    AFinderMessage and
-    SBeginsWith(AText, msgStatusFoundNextMatch) and
-    IsBracketsIndexes(AText);
+    FLastStatusbarMessageTick:= GetTickCount64;
+    FLastStatusbarMessageIsFoundIndexes:=
+      AFinderMessage and
+      SBeginsWith(AText, msgStatusFoundNextMatch) and
+      IsBracketsIndexes(AText);
+  end;
 
   if AFinderMessage then
     if Assigned(fmFind) then
