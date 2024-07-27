@@ -6075,6 +6075,21 @@ begin
 end;
 
 procedure TfmMain.MsgStatus(AText: string; AFinderMessage: boolean=false);
+  //
+  function IsBracketsIndexes(const S: string): boolean;
+  var
+    N1, N2, N3: integer;
+  begin
+    Result:= false;
+    N1:= Pos('[', S);
+    if N1=0 then exit;
+    N2:= Pos('/', S, N1);
+    if N2=0 then exit;
+    N3:= Pos(']', S, N2);
+    if N3=0 then exit;
+    Result:= true;
+  end;
+  //
 var
   STime, SLine: string;
 begin
@@ -6110,8 +6125,7 @@ begin
   FLastStatusbarMessageIsFoundIndexes:=
     AFinderMessage and
     SBeginsWith(AText, msgStatusFoundNextMatch) and
-    (Pos('[', AText)>0) and
-    (Pos(']', AText)>0);
+    IsBracketsIndexes(AText);
 
   if AFinderMessage then
     if Assigned(fmFind) then
