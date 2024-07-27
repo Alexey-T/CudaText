@@ -272,7 +272,7 @@ type
     procedure EditorOnClickMicroMap(Sender: TObject; AX, AY: integer);
     procedure EditorOnCommand(Sender: TObject; ACmd: integer; AInvoke: TATCommandInvoke; const AText: string; var AHandled: boolean);
     procedure EditorOnCommandAfter(Sender: TObject; ACommand: integer; const AText: string);
-    procedure EditorOnDrawBookmarkIcon(Sender: TObject; C: TCanvas; ALineNum: integer; const ARect: TRect);
+    procedure EditorOnDrawBookmarkIcon(Sender: TObject; C: TCanvas; ALineIndex, ABookmarkIndex: integer; const ARect: TRect; var AHandled: boolean);
     procedure EditorOnPaint(Sender: TObject);
     procedure EditorOnEnter(Sender: TObject);
     procedure EditorOnDrawLine(Sender: TObject; C: TCanvas; ALineIndex, AX, AY: integer;
@@ -3572,42 +3572,28 @@ begin
     Ed.BookmarkToggleForLine(ALine, 1, '', TATBookmarkAutoDelete.ByOption, true, 0);
 end;
 
-procedure TEditorFrame.EditorOnDrawBookmarkIcon(Sender: TObject; C: TCanvas; ALineNum: integer;
-  const ARect: TRect);
+procedure TEditorFrame.EditorOnDrawBookmarkIcon(Sender: TObject; C: TCanvas;
+  ALineIndex, ABookmarkIndex: integer; const ARect: TRect; var AHandled: boolean);
 var
   Ed: TATSynEdit;
-  R: TRect;
-  dx: integer;
-  index, kind: integer;
+  BmKind: integer;
 begin
-  R:= ARect;
-  if R.Left>=R.Right then exit;
+  if ARect.Left>=ARect.Right then exit;
+  if ABookmarkIndex<0 then exit;
 
   Ed:= Sender as TATSynEdit;
-  index:= Ed.Strings.Bookmarks.Find(ALineNum);
-  if index<0 then exit;
+  BmKind:= Ed.Strings.Bookmarks[ABookmarkIndex]^.Data.Kind;
 
-  kind:= Ed.Strings.Bookmarks[index]^.Data.Kind;
-  if kind<=1 then
-  begin
-    c.Brush.Color:= Ed.Colors.BookmarkIcon;
-    c.Pen.Color:= Ed.Colors.BookmarkIcon;
-    inc(R.Top, 1);
-    inc(R.Left, 4);
-    dx:= R.Height div 2-1;
-    c.Polygon([
-      Point(R.Left, R.Top),
-      Point(R.Left+dx, R.Top+dx),
-      Point(R.Left, R.Top+2*dx)
-      ]);
-  end
+  if BmKind<=1 then
+    exit
   else
-  if (kind>=Low(AppBookmarkSetup)) and (kind<=High(AppBookmarkSetup)) then
+  if (BmKind>=Low(AppBookmarkSetup)) and (BmKind<=High(AppBookmarkSetup)) then
   begin
-    AppBookmarkImagelist.Draw(c,
-      R.Left,
-      (R.Top+R.Bottom-AppBookmarkImagelist.Height) div 2,
-      AppBookmarkSetup[kind].ImageIndex);
+    AppBookmarkImagelist.Draw(C,
+      ARect.Left,
+      (ARect.Top+ARect.Bottom-AppBookmarkImagelist.Height) div 2,
+      AppBookmarkSetup[BmKind].ImageIndex);
+    AHandled:= true;
   end;
 end;
 
