@@ -5058,7 +5058,7 @@ It provides:
 * delete deprecated: GROUPS_3PLUS (use GROUPS_1P2VERT instead)
 * delete deprecated: menu_proc() callback in the form "module,method" / "module,method,param"
 
-1.0.460 (app 1.215.6)
+1.0.460 (app 1.216.0)
 * add: on_state new Id APPSTATE_CODETREE_BEFORE_CLEAR
 * add: on_state new Id APPSTATE_CODETREE_FOLDED_UNFOLDED
 * add: app_proc: PROC_GET_CODETREE_CURRENT_NODE
