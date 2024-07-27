@@ -3590,8 +3590,8 @@ begin
   kind:= Ed.Strings.Bookmarks[index]^.Data.Kind;
   if kind<=1 then
   begin
-    c.Brush.Color:= GetAppColor(TAppThemeColor.EdBookmarkIcon);
-    c.Pen.Color:= c.Brush.Color;
+    c.Brush.Color:= Ed.Colors.BookmarkIcon;
+    c.Pen.Color:= Ed.Colors.BookmarkIcon;
     inc(R.Top, 1);
     inc(R.Left, 4);
     dx:= R.Height div 2-1;

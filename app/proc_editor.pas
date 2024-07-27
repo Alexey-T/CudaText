@@ -747,6 +747,7 @@ begin
   Ed.Colors.GutterCaretBG:= GetAppColor(TAppThemeColor.EdGutterCaretBg);
 
   Ed.Colors.BookmarkBG:= GetAppColor(TAppThemeColor.EdBookmarkBg);
+  Ed.Colors.BookmarkIcon:= GetAppColor(TAppThemeColor.EdBookmarkIcon);
   Ed.Colors.RulerFont:= GetAppColor(TAppThemeColor.EdRulerFont);
   Ed.Colors.RulerBG:= GetAppColor(TAppThemeColor.EdRulerBg);
 
@@ -804,6 +805,7 @@ begin
     'EdGutterCaretFont'     : Ed.Colors.GutterCaretFont:= AColor;
     'EdGutterCaretBg'       : Ed.Colors.GutterCaretBG:= AColor;
     'EdBookmarkBg'          : Ed.Colors.BookmarkBG:= AColor;
+    'EdBookmarkIcon'        : Ed.Colors.BookmarkIcon:= AColor;
     'EdRulerFont'           : Ed.Colors.RulerFont:= AColor;
     'EdRulerBg'             : Ed.Colors.RulerBG:= AColor;
     'EdFoldLine'            : Ed.Colors.GutterFoldLine:= AColor;
@@ -857,6 +859,7 @@ begin
     'EdGutterCaretFont'     : Result:= Ed.Colors.GutterCaretFont;
     'EdGutterCaretBg'       : Result:= Ed.Colors.GutterCaretBG;
     'EdBookmarkBg'          : Result:= Ed.Colors.BookmarkBG;
+    'EdBookmarkIcon'        : Result:= Ed.Colors.BookmarkIcon;
     'EdRulerFont'           : Result:= Ed.Colors.RulerFont;
     'EdRulerBg'             : Result:= Ed.Colors.RulerBG;
     'EdFoldLine'            : Result:= Ed.Colors.GutterFoldLine;
