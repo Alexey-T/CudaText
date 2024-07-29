@@ -13,7 +13,7 @@
 - fix: after dbl-clicking a word, holding and expanding to the left, selection appeared to the right (thanks @pintassilgo)
 - fix: lexer JS: issue with highlighting of doc-comments (thanks @pintassilgo)
 - fix: sometimes command-line param "filename@line" don't scroll to specified line (thanks @cydonia)
-- fix: Windows: single instance mode, opened ui-tab is not activated if app runs with "-r" param (thanks @cydonia)
+- fix: Windows: single instance mode, opened ui-tab is not activated for "cudatext.exe -r filename" (thanks @cydonia)
 
 1.215.5 (2024/07)
 
