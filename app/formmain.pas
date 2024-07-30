@@ -3275,12 +3275,14 @@ begin
   CloseFormAutoCompletion;
   }
 
+  (*
   {$if defined(LCLQt5) or defined(LCLQt6)}
   //workaround for issue https://gitlab.com/freepascal.org/lazarus/lazarus/-/issues/40933
   FPrevFindDlgVisible:= Assigned(fmFind) and (fmFind.Parent=nil) and fmFind.Visible;
   if FPrevFindDlgVisible then
     fmFind.Close;
   {$ifend}
+  *)
 
   DoPyEvent_AppActivate(TAppPyEvent.OnAppDeactivate);
 end;
