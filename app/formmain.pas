@@ -10042,20 +10042,20 @@ begin
     exit;
   end;
 
-  if Ed.FileName='' then
+  if Frame.FileName='' then
   begin
     MsgStatus(msgCannotHandleUntitledTab);
     exit;
   end;
 
   //file is removed outside of app?
-  if not FileExists(Ed.FileName) then
+  if not FileExists(Frame.FileName) then
   begin
-    MsgStatus(msgCannotFindFile+' '+ExtractFileName(Ed.FileName));
+    MsgStatus(msgCannotFindFile+' '+ExtractFileName(Frame.FileName));
     exit;
   end;
 
-  if DoDialogRenameFile(Ed.FileName, NewFileName, @HandleRenameCheckAllowed) then
+  if DoDialogRenameFile(Frame.FileName, NewFileName, @HandleRenameCheckAllowed) then
   begin
     Frame.SetFileName(Ed, NewFileName);
     Frame.UpdateCaptionFromFilename;

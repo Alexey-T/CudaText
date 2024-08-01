@@ -1123,11 +1123,11 @@ begin
   Ed:= F.Editor;
 
   if Assigned(mnuFileReopen) then
-    mnuFileReopen.Enabled:= Ed.FileName<>'';
+    mnuFileReopen.Enabled:= F.FileName<>'';
   if Assigned(mnuFileRename) then
-    mnuFileRename.Enabled:= Ed.FileName<>'';
+    mnuFileRename.Enabled:= F.FileName<>'';
   if Assigned(mnuFileCloseDel) then
-    mnuFileCloseDel.Enabled:= Ed.FileName<>'';
+    mnuFileCloseDel.Enabled:= F.FileName<>'';
 
   UpdateMenuItemChecked(mnuViewWrap, mnuViewWrap_Alt, F.WordWrap<>TATEditorWrapMode.ModeOff);
   UpdateMenuItemChecked(mnuViewNums, mnuViewNums_Alt, Ed.Gutter.Items[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagNumbers)].Visible);
