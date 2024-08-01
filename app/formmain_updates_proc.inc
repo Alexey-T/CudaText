@@ -1118,16 +1118,12 @@ end;
 procedure TfmMain.UpdateMenuChecks_Frame(F: TEditorFrame);
 var
   Ed: TATSynEdit;
-  SFileName: string;
-  FrameKind: TAppFrameKind;
   bFileAndNotViewer: boolean;
 begin
   if F=nil then exit;
   Ed:= F.Editor;
-  SFileName:= F.FileName;
-  FrameKind:= F.FrameKind;
 
-  bFileAndNotViewer:= (SFileName<>'') and (FrameKind in [TAppFrameKind.Editor, TAppFrameKind.ImageViewer]);
+  bFileAndNotViewer:= (F.FileName<>'') and (F.FrameKind in [TAppFrameKind.Editor, TAppFrameKind.ImageViewer]);
 
   if Assigned(mnuFileReopen) then
     mnuFileReopen.Enabled:= bFileAndNotViewer;
