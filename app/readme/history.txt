@@ -3,6 +3,8 @@
   - fixed
   * changed
 
++ add: commands "File/Reopen", "File/Rename", "File/ Close and delete file" are supported for picture files too (thanks @ildarkhasanshin)
+
 1.216.0 (2024/07)
 
 + add: auto-completion: it's possible to _not_ replace chars on the right, like in VSCode, via new option "autocomplete_replace_on_right" (thanks @pintassilgo)
