@@ -2896,6 +2896,7 @@ begin
   if IsFilenameListedInExtensionList(AFileName, UiOps.PictureTypes) then
   begin
     DoFileOpen_AsPicture(AFileName);
+    DoOnUpdateStatusbar(TAppStatusbarUpdateReason.FileOpen);
     exit;
   end;
 
