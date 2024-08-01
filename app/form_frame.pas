@@ -497,7 +497,7 @@ type
       AAllowLoadHistory, AAllowLoadBookmarks, AAllowLexerDetect,
       AAllowErrorMsgBox, AAllowLoadUndo: boolean; AOpenMode: TAppOpenMode);
     procedure DoFileOpen_AsBinary(const AFileName: string; AMode: TATBinHexMode);
-    procedure DoFileOpen_AsPicture(const AFileName: string);
+    procedure DoFileOpen_AsPicture(const AFileName: string; AIsReload: boolean);
     function DoFileSave(ASaveAs, AAllEditors: boolean): boolean;
     function DoFileSave_Ex(Ed: TATSynEdit; ASaveAs: boolean): boolean;
     procedure DoFileReload_DisableDetectEncoding(Ed: TATSynEdit);
@@ -2770,10 +2770,13 @@ begin
 
   if Visible and FViewer.Visible and FViewer.CanFocus then
     FViewer.SetFocus;
+
+  DoOnUpdateStatusbar(TAppStatusbarUpdateReason.FileOpen);
 end;
 
 
-procedure TEditorFrame.DoFileOpen_AsPicture(const AFileName: string);
+procedure TEditorFrame.DoFileOpen_AsPicture(const AFileName: string;
+  AIsReload: boolean);
 begin
   FFileName:= AFileName;
   UpdateCaptionFromFilename;
@@ -2801,7 +2804,10 @@ begin
   except
   end;
 
-  //DoOnChangeCaption; //needed?
+  if AIsReload then
+    DoOnUpdateStatusbar(TAppStatusbarUpdateReason.FileReload)
+  else
+    DoOnUpdateStatusbar(TAppStatusbarUpdateReason.FileOpen);
 end;
 
 procedure TEditorFrame.DoImageboxImageResize(Sender: TObject);
@@ -2895,8 +2901,7 @@ begin
 
   if IsFilenameListedInExtensionList(AFileName, UiOps.PictureTypes) then
   begin
-    DoFileOpen_AsPicture(AFileName);
-    DoOnUpdateStatusbar(TAppStatusbarUpdateReason.FileOpen);
+    DoFileOpen_AsPicture(AFileName, false);
     exit;
   end;
 
@@ -3359,8 +3364,7 @@ begin
 
   if FrameKind=TAppFrameKind.ImageViewer then
   begin
-    DoFileOpen_AsPicture(SFileName);
-    DoOnUpdateStatusbar(TAppStatusbarUpdateReason.FileReload);
+    DoFileOpen_AsPicture(SFileName, true);
     exit;
   end;
 
