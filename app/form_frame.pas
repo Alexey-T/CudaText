@@ -3359,16 +3359,7 @@ begin
 
   if FrameKind=TAppFrameKind.ImageViewer then
   begin
-    DoFileOpen(
-      SFileName,
-      '',
-      false,
-      false,
-      false,
-      true,
-      false,
-      TAppOpenMode.None
-      );
+    DoFileOpen_AsPicture(SFileName);
     DoOnUpdateStatusbar(TAppStatusbarUpdateReason.FileReload);
     exit;
   end;
