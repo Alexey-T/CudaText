@@ -1118,16 +1118,23 @@ end;
 procedure TfmMain.UpdateMenuChecks_Frame(F: TEditorFrame);
 var
   Ed: TATSynEdit;
+  SFileName: string;
+  FrameKind: TAppFrameKind;
+  bFileAndNotViewer: boolean;
 begin
   if F=nil then exit;
   Ed:= F.Editor;
+  SFileName:= F.FileName;
+  FrameKind:= F.FrameKind;
+
+  bFileAndNotViewer:= (SFileName<>'') and (FrameKind in [TAppFrameKind.Editor, TAppFrameKind.ImageViewer]);
 
   if Assigned(mnuFileReopen) then
-    mnuFileReopen.Enabled:= F.FileName<>'';
+    mnuFileReopen.Enabled:= bFileAndNotViewer;
   if Assigned(mnuFileRename) then
-    mnuFileRename.Enabled:= F.FileName<>'';
+    mnuFileRename.Enabled:= bFileAndNotViewer;
   if Assigned(mnuFileCloseDel) then
-    mnuFileCloseDel.Enabled:= F.FileName<>'';
+    mnuFileCloseDel.Enabled:= bFileAndNotViewer;
 
   UpdateMenuItemChecked(mnuViewWrap, mnuViewWrap_Alt, F.WordWrap<>TATEditorWrapMode.ModeOff);
   UpdateMenuItemChecked(mnuViewNums, mnuViewNums_Alt, Ed.Gutter.Items[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagNumbers)].Visible);
