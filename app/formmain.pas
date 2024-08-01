@@ -6372,21 +6372,26 @@ begin
     exit;
   end;
 
-  if Ed.Modified and UiOps.ReloadUnsavedConfirm then
-    if MsgBox(
-      Format(msgConfirmReopenModifiedTab, [AppCollapseHomeDirInFilename(fn)]),
-      MB_OKCANCEL or MB_ICONQUESTION
-      ) <> ID_OK then exit;
+  if F.FrameKind=TAppFrameKind.Editor then
+  begin
+    if Ed.Modified and UiOps.ReloadUnsavedConfirm then
+      if MsgBox(
+        Format(msgConfirmReopenModifiedTab, [AppCollapseHomeDirInFilename(fn)]),
+        MB_OKCANCEL or MB_ICONQUESTION
+        ) <> ID_OK then exit;
 
-  bChangedRO:= TATEditorModifiedOption.ReadOnly in Ed.ModifiedOptions;
-  bPrevRO:= F.ReadOnly[Ed];
-  PrevLexer:= F.LexerName[Ed];
-  F.ReadOnly[Ed]:= false;
-  F.DoFileReload(Ed);
-  F.LexerName[Ed]:= PrevLexer;
-  if bChangedRO then
-    F.ReadOnly[Ed]:= bPrevRO;
-  Ed.Modified:= false;
+    bChangedRO:= TATEditorModifiedOption.ReadOnly in Ed.ModifiedOptions;
+    bPrevRO:= F.ReadOnly[Ed];
+    PrevLexer:= F.LexerName[Ed];
+    F.ReadOnly[Ed]:= false;
+    F.DoFileReload(Ed);
+    F.LexerName[Ed]:= PrevLexer;
+    if bChangedRO then
+      F.ReadOnly[Ed]:= bPrevRO;
+    Ed.Modified:= false;
+  end
+  else
+    F.DoFileReload(Ed);
 
   UpdateStatusbar;
   MsgStatus(msgStatusReopened+' '+ExtractFileName(fn));

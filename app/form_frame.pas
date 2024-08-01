@@ -3356,6 +3356,22 @@ begin
   EdIndex:= EditorObjToIndex(Ed);
   if EdIndex<0 then exit;
 
+  if FrameKind=TAppFrameKind.ImageViewer then
+  begin
+    DoFileOpen(
+      SFileName,
+      '',
+      false,
+      false,
+      false,
+      true,
+      false,
+      TAppOpenMode.None
+      );
+    DoOnUpdateStatusbar(TAppStatusbarUpdateReason.FileReload);
+    exit;
+  end;
+
   CloseFormAutoCompletion;
 
   if not FileExists(SFileName) then
