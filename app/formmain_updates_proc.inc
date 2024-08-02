@@ -1130,7 +1130,7 @@ begin
   if Assigned(mnuFileRename) then
     mnuFileRename.Enabled:= bFileAndNotViewer;
   if Assigned(mnuFileCloseDel) then
-    mnuFileCloseDel.Enabled:= bFileAndNotViewer;
+    mnuFileCloseDel.Enabled:= (F.FileName<>'');
 
   UpdateMenuItemChecked(mnuViewWrap, mnuViewWrap_Alt, F.WordWrap<>TATEditorWrapMode.ModeOff);
   UpdateMenuItemChecked(mnuViewNums, mnuViewNums_Alt, Ed.Gutter.Items[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagNumbers)].Visible);
