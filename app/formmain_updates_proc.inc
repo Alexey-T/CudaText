@@ -1118,26 +1118,44 @@ end;
 procedure TfmMain.UpdateMenuChecks_Frame(F: TEditorFrame);
 var
   Ed: TATSynEdit;
-  bFileAndNotViewer: boolean;
+  bNotViewer, bEditor: boolean;
 begin
   if F=nil then exit;
   Ed:= F.Editor;
 
-  bFileAndNotViewer:= (F.FileName<>'') and (F.FrameKind in [TAppFrameKind.Editor, TAppFrameKind.ImageViewer]);
+  bEditor:= F.FrameKind=TAppFrameKind.Editor;
+  bNotViewer:= F.FrameKind in [TAppFrameKind.Editor, TAppFrameKind.ImageViewer];
 
   if Assigned(mnuFileReopen) then
-    mnuFileReopen.Enabled:= bFileAndNotViewer;
+    mnuFileReopen.Enabled:= (F.FileName<>'') and bNotViewer;
   if Assigned(mnuFileRename) then
-    mnuFileRename.Enabled:= bFileAndNotViewer;
+    mnuFileRename.Enabled:= (F.FileName<>'') and bNotViewer;
   if Assigned(mnuFileCloseDel) then
     mnuFileCloseDel.Enabled:= (F.FileName<>'');
 
-  UpdateMenuItemChecked(mnuViewWrap, mnuViewWrap_Alt, F.WordWrap<>TATEditorWrapMode.ModeOff);
-  UpdateMenuItemChecked(mnuViewNums, mnuViewNums_Alt, Ed.Gutter.Items[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagNumbers)].Visible);
-  UpdateMenuItemChecked(mnuViewFold, mnuViewFold_Alt, Ed.Gutter.Items[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagFolding)].Visible);
-  UpdateMenuItemChecked(mnuViewRuler, mnuViewRuler_Alt, Ed.OptRulerVisible);
-  UpdateMenuItemChecked(mnuViewMinimap, mnuViewMinimap_Alt, Ed.OptMinimapVisible);
-  UpdateMenuItemChecked(mnuViewMicromap, mnuViewMicromap_Alt, Ed.OptMicromapVisible);
+  UpdateMenuItemChecked(mnuViewWrap, mnuViewWrap_Alt, bEditor and (F.WordWrap<>TATEditorWrapMode.ModeOff));
+  UpdateMenuItemChecked(mnuViewNums, mnuViewNums_Alt, bEditor and Ed.Gutter.Items[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagNumbers)].Visible);
+  UpdateMenuItemChecked(mnuViewFold, mnuViewFold_Alt, bEditor and Ed.Gutter.Items[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagFolding)].Visible);
+  UpdateMenuItemChecked(mnuViewRuler, mnuViewRuler_Alt, bEditor and Ed.OptRulerVisible);
+  UpdateMenuItemChecked(mnuViewMinimap, mnuViewMinimap_Alt, bEditor and Ed.OptMinimapVisible);
+  UpdateMenuItemChecked(mnuViewMicromap, mnuViewMicromap_Alt, bEditor and Ed.OptMicromapVisible);
+
+  if Assigned(mnuViewWrap) then
+    mnuViewWrap.Enabled:= bEditor;
+  if Assigned(mnuViewNums) then
+    mnuViewNums.Enabled:= bEditor;
+  if Assigned(mnuViewFold) then
+    mnuViewFold.Enabled:= bEditor;
+  if Assigned(mnuViewRuler) then
+    mnuViewRuler.Enabled:= bEditor;
+  if Assigned(mnuViewMinimap) then
+    mnuViewMinimap.Enabled:= bEditor;
+  if Assigned(mnuViewMicromap) then
+    mnuViewMicromap.Enabled:= bEditor;
+  if Assigned(mnuViewSplitSub) then
+    mnuViewSplitSub.Enabled:= bEditor;
+  if Assigned(mnuLexers) then
+    mnuLexers.Enabled:= bEditor;
 end;
 
 procedure TfmMain.UpdateMenuChecks_Global;
