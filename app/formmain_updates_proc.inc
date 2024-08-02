@@ -1118,22 +1118,23 @@ end;
 procedure TfmMain.UpdateMenuChecks_Frame(F: TEditorFrame);
 var
   Ed: TATSynEdit;
-  bNotViewer, bEditor: boolean;
+  bEditor, bBinary, bPicture: boolean;
 begin
   if F=nil then exit;
   Ed:= F.Editor;
 
   bEditor:= F.FrameKind=TAppFrameKind.Editor;
-  bNotViewer:= F.FrameKind in [TAppFrameKind.Editor, TAppFrameKind.ImageViewer];
+  bBinary:= F.FrameKind=TAppFrameKind.BinaryViewer;
+  bPicture:= F.FrameKind=TAppFrameKind.ImageViewer;
 
   if Assigned(mnuFileReopen) then
-    mnuFileReopen.Enabled:= (F.FileName<>'') and bNotViewer;
+    mnuFileReopen.Enabled:= (F.FileName<>'') and (bEditor or bPicture);
   if Assigned(mnuFileRename) then
-    mnuFileRename.Enabled:= (F.FileName<>'') and bNotViewer;
+    mnuFileRename.Enabled:= (F.FileName<>'') and (bEditor or bPicture);
   if Assigned(mnuFileCloseDel) then
     mnuFileCloseDel.Enabled:= (F.FileName<>'');
 
-  UpdateMenuItemChecked(mnuViewWrap, mnuViewWrap_Alt, bEditor and (F.WordWrap<>TATEditorWrapMode.ModeOff));
+  UpdateMenuItemChecked(mnuViewWrap, mnuViewWrap_Alt, (bEditor or bBinary) and (F.WordWrap<>TATEditorWrapMode.ModeOff));
   UpdateMenuItemChecked(mnuViewNums, mnuViewNums_Alt, bEditor and Ed.Gutter.Items[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagNumbers)].Visible);
   UpdateMenuItemChecked(mnuViewFold, mnuViewFold_Alt, bEditor and Ed.Gutter.Items[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagFolding)].Visible);
   UpdateMenuItemChecked(mnuViewRuler, mnuViewRuler_Alt, bEditor and Ed.OptRulerVisible);
@@ -1141,7 +1142,7 @@ begin
   UpdateMenuItemChecked(mnuViewMicromap, mnuViewMicromap_Alt, bEditor and Ed.OptMicromapVisible);
 
   if Assigned(mnuViewWrap) then
-    mnuViewWrap.Enabled:= bEditor;
+    mnuViewWrap.Enabled:= bEditor or bBinary;
   if Assigned(mnuViewNums) then
     mnuViewNums.Enabled:= bEditor;
   if Assigned(mnuViewFold) then
