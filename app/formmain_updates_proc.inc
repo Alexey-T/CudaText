@@ -1127,6 +1127,10 @@ begin
   bBinary:= F.FrameKind=TAppFrameKind.BinaryViewer;
   bPicture:= F.FrameKind=TAppFrameKind.ImageViewer;
 
+  if Assigned(mnuFileSave) then
+    mnuFileSave.Enabled:= bEditor;
+  if Assigned(mnuFileSaveAs) then
+    mnuFileSaveAs.Enabled:= bEditor;
   if Assigned(mnuFileReopen) then
     mnuFileReopen.Enabled:= (F.FileName<>'') and (bEditor or bPicture);
   if Assigned(mnuFileRename) then
