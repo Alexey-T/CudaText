@@ -275,6 +275,35 @@ You will see this confirmation when doing:
 
 You can disable that option (or press "Cancel" in the confirmation), to save even "not belonging" opened files to embedded session.
 
+== How to bind a hotkey to change lexer ==
+
+You can bind a hotkey to the command "menu: lexers". Find this command in the Command Palette dialog, press F9 - hotkey dialog will appear.
+
+But what if you want to bind a hotkey to change current lexer to e.g. C++? This is possible via primitive plugin.
+Make a new plugin by calling menu item "Plugins / Make Plugin". Fieds of dialog:
+
+* "Plugin name": set to "My plugin".
+* "Python module name": set to "my_lexer".
+* "Commands caption>method": set to 1 line:
+
+ Lexer C++>run_cpp
+
+This will generate new plugin in the file "py/my_lexer/__init__.py" with method "run_cpp". Change code to this:
+
+<syntaxhighlight lang="python">
+from cudatext import *
+
+class Command:
+    def run_cpp(self):
+        ed.set_prop(PROP_LEXER_FILE, 'C++')
+</syntaxhighlight>
+
+All done. Restart CudaText. You must have new menu item:
+
+* "Plugins / My plugin / Lexer C++"
+
+In the Command Palette, find this new command, press F9 to set hotkey for it.
+
 == How to bind a hotkey to insert a snippet ==
 You can create plugin to insert any text fragment by any hotkey.
 First, create the plugin which gives the command to insert your fragment.
@@ -294,7 +323,7 @@ Make a new plugin by calling menu item "Plugins / Make Plugin". Fieds of dialog:
  My snippet>my_snippet
  My edit>my_edit
 
-This will generate new plugin with 2 methods in the file "__init__.py": my_snippet and my_edit. Code will be like this:
+This will generate new plugin in the file "py/my_snippet/__init__.py" with 2 methods: "my_snippet" and "my_edit". Code will be like this:
 <syntaxhighlight lang="python">
     def my_snippet(self):
         #
