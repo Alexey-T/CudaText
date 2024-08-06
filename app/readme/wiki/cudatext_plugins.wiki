@@ -231,22 +231,22 @@ If you need to open clicked files in different tab-groups, you can do it - by un
 
 3) There is also a way to quickly switch between projects:
 
-* Install plugins: "Config Toolbar", "External Tools" and "Session Manager". Restart CudaText.
+* Install plugins: "Configure Toolbar", "External Tools" and "Session Manager". Restart CudaText.
 * Set CudaText option "ui_one_instance": true.
 * In "External Tools" make a tool which starts CudaText (yes, from within CudaText) with parameter: full path of a project. The command line can look like: "c:\Apps\cudatext.exe "c:\Apps\some_project.cuda-proj"". You can add here additional parameter: full path of a session file, *.cuda-session / *.json. So this external tool will open given project (and maybe a session too). It will open it inside the same CudaText instance (because "ui_one_instance":true).
 * Add more such tools in the "External Tools", for different projects (and maybe sessions).
 
 [[File:cudatext-tools-and-projects.png]]
 
-* In the plugin "Config Toolbar", add the toolbar drop-down menu, with menu-items referring to different tools. Or add the individual menu-items for separate tools.
+* In the plugin "Configure Toolbar", add the toolbar drop-down menu, with menu-items referring to different tools. Or add the individual menu-items for separate tools.
 
 [[File:cudatext-tools-and-projects-config.png]]
 
 4)
 
-* Install plugin "Config Toolbar" (only 1 plugin here, comparing to the previous method).
+* Install plugin "Configure Toolbar" (only 1 plugin here, comparing to the previous method).
 * CudaText option "ui_one_instance" can be any.
-* In the plugin "Config Toolbar", add the toolbar button which will switch the project and/or session. The properties of this button are tricky. In the "Command" property of the button, you must enter "exec=path_of_project_file path_of_session file". You cannot type this directly to the dialog field, but you should press the "Enter command line..." button in the dialog and enter the command line contents (full path of .cuda-proj file and/or full path of .cuda-session file). "Config Toolbar" will store your command line with the "exec=" prefix.
+* In the plugin "Configure Toolbar", add the toolbar button which will switch the project and/or session. The properties of this button are tricky. In the "Command" property of the button, you must enter "exec=path_of_project_file path_of_session file". You cannot type this directly to the dialog field, but you should press the "Enter command line..." button in the dialog and enter the command line contents (full path of .cuda-proj file and/or full path of .cuda-session file). "Configure Toolbar" will store your command line with the "exec=" prefix.
 * CudaText will use the new command-line which you entered after "exec=".
 
 === Sessions embedded to project ===
@@ -1459,19 +1459,19 @@ These special lines need special integer IDs. You can find these IDs in the conf
         },
 </syntaxhighlight>
 
-=Config Toolbar=
+=Configure Toolbar=
 
 Plugin allows to change the content of the main (horizontal) toolbar: hide standard buttons, add user buttons for any actions, customize icons and nesting of menu items.
 
 For example, you installed two plugins:
-* Config Toolbar
+* Configure Toolbar
 * Color Text
 
 And you want to call command "Apply bold" (from "Color Text") via toolbar. How to add such a button? Picture highlights your steps.
 
 [[File:cudatext-config-toolbar.png]]
 
-* From the Command Palette, call the item "Config Toolbar: Configure buttons...". Dialog will appear from the plugin.
+* From the Command Palette, call the item "Configure Toolbar: Configure buttons...". Dialog will appear from the plugin.
 * In the "Configure toolbar" dialog, press "Add item...", and fill fields of new dialog "Button properties".
 ** Caption
 ** Tooltip (optional)
