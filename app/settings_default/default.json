@@ -1660,7 +1660,7 @@
   "ui_bottom_on_start": 0,
 
   //[Find/Hotkeys]
-  //Hotkeys in Find/Replace dialog.
+  //Hotkeys in the Find/Replace dialog. They work only inside that dialog.
   "find_hotkey_find_dlg": "Ctrl+F",
   "find_hotkey_replace_dlg": "Ctrl+R",
   "find_hotkey_find_first": "Alt+Enter",
