@@ -1660,7 +1660,9 @@
   "ui_bottom_on_start": 0,
 
   //[Find/Hotkeys]
-  //Hotkeys in Find/Replace dialog.
+  //Hotkeys in the Find/Replace dialog. They work only when Find/Replace dialog is focused.
+  //Hotkey to change Find/Replace mode can be different than "replace dialog" hotkey, which
+  //you set in the Command Palette. These hotkeys cannot be combo (2 hotkeys at once).
   "find_hotkey_find_dlg": "Ctrl+F",
   "find_hotkey_replace_dlg": "Ctrl+R",
   "find_hotkey_find_first": "Alt+Enter",
