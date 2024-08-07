@@ -541,7 +541,7 @@ begin
   M.Add(cmd_DialogFind_Hide, 'dialog: find: hide dialog', [], []);
   M.Add(cmd_ToggleFindDialog, 'dialog: find: toggle dialog', [], []);
   M.Add(cmd_ToggleFindDialog_AndFocus, 'dialog: find: toggle+focus dialog', [], []);
-  M.Add(cmd_DialogReplace, 'dialog: replace: show dialog', [scXControl+VK_R], []);
+  M.Add(cmd_DialogReplace, 'dialog: replace: show dialog', [scXControl+VK_H], []);
   M.Add(cmd_ToggleReplaceDialog, 'dialog: replace: toggle dialog', [], []);
   M.Add(cmd_DialogUnprinted, 'dialog: unprinted chars', [], []);
 

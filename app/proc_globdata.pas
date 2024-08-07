@@ -2250,7 +2250,7 @@ begin
     Emmet_WordWrap:= false;
 
     HotkeyFindDialog:= 'Ctrl+F';
-    HotkeyReplaceDialog:= 'Ctrl+R';
+    HotkeyReplaceDialog:= 'Ctrl+H';
     HotkeyFindFirst:= 'Alt+Enter';
     HotkeyFindNext:= 'F3';
     HotkeyFindPrev:= 'Shift+Enter';

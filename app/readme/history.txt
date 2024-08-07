@@ -3,6 +3,7 @@
   - fixed
   * changed
 
+* change: hotkey to call Replace dialog changed from Ctrl+F to more standard Ctrl+H, like in Sublime/VSCode/GEdit/SynWrite (thanks @RRPollack)
 + add: commands "File/Reopen", "File/Rename", "File/ Close and delete file" are supported for picture files too (thanks @ildarkhasanshin)
 
 1.216.0 (2024/07)
