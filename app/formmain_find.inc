@@ -503,9 +503,6 @@ begin
     fmFind.Color:= GetAppColor(TAppThemeColor.TabBg);
     fmFind.UpdateCaretPosVar;
 
-    UiOps.HotkeyFindDialog:= ShortCutToTextRaw(AppKeymapMain.GetShortcutFromCommand(cmd_DialogFind));
-    UiOps.HotkeyReplaceDialog:= ShortCutToTextRaw(AppKeymapMain.GetShortcutFromCommand(cmd_DialogReplace));
-
     if not UiOps.FindSeparateForm then
     begin
       fmFind.Parent:= PanelMain;

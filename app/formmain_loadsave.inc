@@ -1537,8 +1537,6 @@ begin
   UiOps.Emmet_TrimLineMarkers:= cfg.GetValue('emmet_trim_line_markers', UiOps.Emmet_TrimLineMarkers);
   UiOps.Emmet_WordWrap:= cfg.GetValue('emmet_word_wrap', UiOps.Emmet_WordWrap);
 
-  UiOps.HotkeyFindDialog:= cfg.GetValue('find_hotkey_find_dlg', UiOps.HotkeyFindDialog);
-  UiOps.HotkeyReplaceDialog:= cfg.GetValue('find_hotkey_replace_dlg', UiOps.HotkeyReplaceDialog);
   UiOps.HotkeyFindFirst:= cfg.GetValue('find_hotkey_find_first', UiOps.HotkeyFindFirst);
   UiOps.HotkeyFindNext:= cfg.GetValue('find_hotkey_find_next', UiOps.HotkeyFindNext);
   UiOps.HotkeyFindPrev:= cfg.GetValue('find_hotkey_find_prev', UiOps.HotkeyFindPrev);

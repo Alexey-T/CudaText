@@ -482,8 +482,6 @@ type
     Emmet_TrimLineMarkers: boolean;
     Emmet_WordWrap: boolean;
 
-    HotkeyFindDialog,
-    HotkeyReplaceDialog,
     HotkeyFindFirst,
     HotkeyFindNext,
     HotkeyFindPrev,
@@ -2249,8 +2247,6 @@ begin
     Emmet_TrimLineMarkers:= true;
     Emmet_WordWrap:= false;
 
-    HotkeyFindDialog:= 'Ctrl+F';
-    HotkeyReplaceDialog:= 'Ctrl+H';
     HotkeyFindFirst:= 'Alt+Enter';
     HotkeyFindNext:= 'F3';
     HotkeyFindPrev:= 'Shift+Enter';

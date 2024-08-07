@@ -1154,7 +1154,7 @@ begin
     exit
   end;
 
-  if Str=UiOps.HotkeyFindDialog then
+  if Str=ShortcutToTextRaw(AppKeymapMain.GetShortcutFromCommand(cmd_DialogFind)) then
   begin
     //ST4 and VSCode both stay in the Find dlg on pressing Ctrl+F
     if IsReplace then
@@ -1169,7 +1169,7 @@ begin
     exit;
   end;
 
-  if Str=UiOps.HotkeyReplaceDialog then
+  if Str=ShortcutToTextRaw(AppKeymapMain.GetShortcutFromCommand(cmd_DialogReplace)) then
   begin
     //ST4 and VSCode both stay in the Replace dlg on pressing Ctrl+H
     if not IsReplace then
