@@ -1661,10 +1661,7 @@
 
   //[Find/Hotkeys]
   //Hotkeys in the Find/Replace dialog. They work only when Find/Replace dialog is focused.
-  //"find_hotkey_replace_dlg" can be different from usual "replace dialog" hotkey, which
-  //you set in the Command Palette. Also, these hotkeys cannot be combo (2 sequental hotkeys).
-  "find_hotkey_find_dlg": "Ctrl+F",
-  "find_hotkey_replace_dlg": "Ctrl+R",
+  //These hotkeys cannot be combo (ie 2 sequental hotkeys).
   "find_hotkey_find_first": "Alt+Enter",
   "find_hotkey_find_next": "F3",
   "find_hotkey_find_prev": "Shift+Enter",
