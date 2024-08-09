@@ -1,11 +1,11 @@
 object fmMain: TfmMain
   Left = 44
-  Height = 455
+  Height = 434
   Top = 87
   Width = 1236
   AllowDropFiles = True
   Caption = 'CudaText'
-  ClientHeight = 455
+  ClientHeight = 434
   ClientWidth = 1236
   Constraints.MinHeight = 200
   Constraints.MinWidth = 300
@@ -28,7 +28,7 @@ object fmMain: TfmMain
   OnWindowStateChange = FormWindowStateChange
   object PanelSide: TATPanelSimple
     Left = 0
-    Height = 455
+    Height = 434
     Top = 0
     Width = 75
     Align = alLeft
@@ -39,7 +39,7 @@ object fmMain: TfmMain
       AnchorSideBottom.Side = asrBottom
       Left = 0
       Height = 30
-      Top = 425
+      Top = 404
       Width = 75
       Anchors = [akLeft, akBottom]
       AutoSize = True
@@ -53,7 +53,7 @@ object fmMain: TfmMain
       AnchorSideTop.Control = PanelSide
       AnchorSideBottom.Control = ToolbarSideMid
       Left = 0
-      Height = 395
+      Height = 374
       Top = 0
       Width = 75
       Anchors = [akTop, akLeft, akBottom]
@@ -72,7 +72,7 @@ object fmMain: TfmMain
       AnchorSideBottom.Control = ToolbarSideLow
       Left = 0
       Height = 30
-      Top = 395
+      Top = 374
       Width = 75
       Anchors = [akLeft, akBottom]
       AutoSize = True
@@ -84,7 +84,7 @@ object fmMain: TfmMain
   end
   object PanelAll: TATPanelSimple
     Left = 75
-    Height = 455
+    Height = 434
     Top = 0
     Width = 1161
     Align = alClient
@@ -102,13 +102,13 @@ object fmMain: TfmMain
     end
     object PanelMain: TATPanelSimple
       Left = 0
-      Height = 431
+      Height = 410
       Top = 24
       Width = 1161
       Align = alClient
       object PanelEditors: TATPanelSimple
         Left = 0
-        Height = 431
+        Height = 410
         Top = 0
         Width = 1161
         Align = alClient

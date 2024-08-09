@@ -8197,6 +8197,7 @@ begin
   if Assigned(mnuTextPaste) then
     mnuTextPaste.Enabled:= not Ed.ModeReadOnly and Clipboard.HasFormat(CF_Text);
 
+  //auto hide 'Delete' to make other menuitems closer to cursor
   if Assigned(mnuTextDelete) then
     mnuTextDelete.Visible:= not Ed.ModeReadOnly and Ed.Carets.IsSelection;
 
@@ -8208,6 +8209,7 @@ begin
 
   if Assigned(mnuTextOpenUrl) then
   begin
+    //'Open URL' item is on top, so auto hide it
     mnuTextOpenUrl.Visible:= EditorGetLinkAtScreenCoord(Ed, PopupText.PopupPoint)<>'';
     if Assigned(mnuTextSepUrl) then
       mnuTextSepUrl.Visible:= mnuTextOpenUrl.Visible;
