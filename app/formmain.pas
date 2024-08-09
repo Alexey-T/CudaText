@@ -8198,7 +8198,7 @@ begin
     mnuTextPaste.Enabled:= not Ed.ModeReadOnly and Clipboard.HasFormat(CF_Text);
 
   if Assigned(mnuTextDelete) then
-    mnuTextDelete.Enabled:= not Ed.ModeReadOnly and Ed.Carets.IsSelection;
+    mnuTextDelete.Visible:= not Ed.ModeReadOnly and Ed.Carets.IsSelection;
 
   if Assigned(mnuTextUndo) then
     mnuTextUndo.Enabled:= not Ed.ModeReadOnly and (Ed.UndoCount>0);
