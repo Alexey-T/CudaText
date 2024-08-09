@@ -7,6 +7,7 @@
 
 * change: changed hotkey to call Replace dialog from Ctrl+R to more standard Ctrl+H, like in Sublime/VSCode/GEdit/SynWrite (thanks @RRPollack)
 * change: deleted options "find_hotkey_find_dlg", "find_hotkey_replace_dlg", now usual Command Palette hotkeys are used here
+* change: context menu item "Open URL": a) use URL under mouse cursor, not under 1st caret; b) move menu item to the top of context menu (thanks @pintassilgo)
 + add: commands "File/Reopen", "File/Rename", "File/ Close and delete file" are supported for picture files too (thanks @ildarkhasanshin)
 
 1.216.0 (2024/07)
