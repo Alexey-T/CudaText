@@ -444,6 +444,7 @@ type
     mnuTextSep2: TMenuItem;
     mnuTextSel: TMenuItem;
     mnuTextGotoDef: TMenuItem;
+    mnuTextSepUrl: TMenuItem;
     TimerMouseStop: TTimer;
     TimerStatusWork: TTimer;
     TimerAppIdle: TIdleTimer;
@@ -8186,7 +8187,7 @@ begin
   UpdateMenuItemHotkey(mnuTextDelete, cCommand_TextDeleteSelection);
   UpdateMenuItemHotkey(mnuTextSel, cCommand_SelectAll);
   UpdateMenuItemHotkey(mnuTextGotoDef, cmd_GotoDefinition);
-  UpdateMenuItemHotkey(mnuTextOpenUrl, cmd_LinkAtCaret_Open);
+  UpdateMenuItemHotkey(mnuTextOpenUrl, cmd_LinkAtPopup_Open);
 
   Ed:= CurrentEditor;
 
@@ -8206,7 +8207,11 @@ begin
     mnuTextRedo.Enabled:= not Ed.ModeReadOnly and (Ed.RedoCount>0);
 
   if Assigned(mnuTextOpenUrl) then
-    mnuTextOpenUrl.Enabled:= EditorGetLinkAtCaret(Ed)<>'';
+  begin
+    mnuTextOpenUrl.Visible:= EditorGetLinkAtScreenCoord(Ed, PopupText.PopupPoint)<>'';
+    if Assigned(mnuTextSepUrl) then
+      mnuTextSepUrl.Visible:= mnuTextOpenUrl.Visible;
+  end;
 end;
 
 
