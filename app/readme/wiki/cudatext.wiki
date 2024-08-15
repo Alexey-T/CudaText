@@ -2632,6 +2632,14 @@ Some package managers have Qt5Pas package. On Ubuntu: "libqt5pas-dev", on Manjar
 For Linux Qt6 version, library libQt6Pas is required, release 6.2.2 or newer.
 Get it from [https://github.com/davidbannon/libqt6pas/releases releases on this page].
 
+==Linux: App cannot run with GLIBC error==
+
+Some Linux distros may show such error:
+
+ ./cudatext: /lib64/libc.so.6: version `GLIBC_2.34' not found (required by ./cudatext)
+
+This is reported for CudaText builds made by author on 2nd PC with newer GLIBC version. If app was compiled with newer GLIBC, OS with older GLIBC cannot run the app. What to do? Take the older release: you can find it on '''CudaText.SF.net''' page, near *BSD releases. So look at several last releases, find the folder with *BSD files - take Linux release from this folder.
+
 ==FreeBSD: App cannot run==
 
 If you run app in Terminal, you'll see an error about missing .so file. Reason of this error: FreeBSD version was compiled on Linux with different .so files. To fix error, run command in Terminal:
