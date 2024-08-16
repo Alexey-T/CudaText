@@ -1,4 +1,4 @@
-object SyntAnal7: TLibSyntAnalyzer
+object SyntAnal6: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Style'
@@ -302,6 +302,14 @@ object SyntAnal7: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
+      DisplayName = '!important'
+      StyleName = 'Value'
+      TokenType = 2
+      Expression = '!(important)\b'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
       DisplayName = 'Symbol'
       StyleName = 'Symbol'
       TokenType = 3
@@ -523,14 +531,14 @@ object SyntAnal7: TLibSyntAnalyzer
             'compact'
             'condensed'
             'contain'
+            'container'
+            'container-name'
+            'container-type'
             'contain-intrinsic-block-size'
             'contain-intrinsic-height'
             'contain-intrinsic-inline-size'
             'contain-intrinsic-size'
             'contain-intrinsic-width'
-            'container'
-            'container-name'
-            'container-type'
             'content'
             'content-box'
             'contents'
@@ -2198,12 +2206,12 @@ object SyntAnal7: TLibSyntAnalyzer
             'cap'
             'ch'
             'cm'
-            'cqw'
+            'cqb'
             'cqh'
             'cqi'
-            'cqb'
-            'cqmin'
             'cqmax'
+            'cqmin'
+            'cqw'
             'deg'
             'dpcm'
             'dpi'
@@ -2401,53 +2409,6 @@ object SyntAnal7: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
-      DisplayName = 'Media'
-      Enabled = False
-      StyleName = 'Current block BG'
-      ConditionList = <
-        item
-          TokenTypes = 32
-        end>
-      DisplayInTree = False
-      NameFmt = '%sz0'
-      GroupFmt = '@Rules'
-      RefToCondEnd = True
-      DynHighlight = dhRange
-      HighlightPos = cpRange
-      DynSelectMin = True
-      NoEndRule = True
-      TreeItemImage = 2
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = 'Prop'
-      Enabled = False
-      BlockName = '{'
-      ConditionList = <
-        item
-          TokenTypes = 512
-        end>
-      BlockEnd = 'Prop end'
-      HighlightPos = cpBound
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = 'Prop end'
-      Enabled = False
-      BlockType = btRangeEnd
-      ConditionList = <
-        item
-          TagList.Strings = (
-            ';'
-            '}')
-          TokenTypes = 9
-        end>
-      BlockOffset = 1
-      DisplayInTree = False
-      HighlightPos = cpBound
-      IgnoreAsParent = False
-    end
-    item
       DisplayName = 'Colors hex'
       ConditionList = <
         item
@@ -2525,7 +2486,6 @@ object SyntAnal7: TLibSyntAnalyzer
       DisplayName = 'PHP'
       StartExpression = '<\?(php\b)?'
       EndExpression = '\?>'
-      SyntAnalyzer = SyntAnal18
     end>
   SampleText.Strings = (
     '/* Comment */'
