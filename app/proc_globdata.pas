@@ -2228,7 +2228,7 @@ begin
 
     NotificationEnabled:= true;
     NotificationTimeSeconds:= 2;
-    NotificationConfirmReload:= 1;
+    NotificationConfirmReload:= 0;
     NotificationPanelHeight:= 31;
     NotificationButtonHeight:= 25;
     NotificationButtonsDistance:= 4;
