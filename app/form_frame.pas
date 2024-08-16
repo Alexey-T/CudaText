@@ -4608,34 +4608,34 @@ begin
   AControls.InfoPanel.AnchorSideTop.Control:= AControls.Panel;
   AControls.InfoPanel.AnchorSideTop.Side:= asrCenter;
 
-  AControls.ButtonStop:= TATButton.Create(Self);
-  AControls.ButtonStop.Tag:= Index;
-  AControls.ButtonStop.Parent:= AControls.Panel;
-  AControls.ButtonStop.AnchorSideTop.Control:= AControls.Panel;
-  AControls.ButtonStop.AnchorSideTop.Side:= asrCenter;
-  AControls.ButtonStop.AnchorSideRight.Control:= AControls.Panel;
-  AControls.ButtonStop.AnchorSideRight.Side:= asrBottom;
-  AControls.ButtonStop.Anchors:= [akTop, akRight];
-  AControls.ButtonStop.Height:= NBtnHeight;
-  AControls.ButtonStop.BorderSpacing.Right:= NBtnDistance;
-  AControls.ButtonStop.OnClick:= AClickStop;
-
   AControls.ButtonNo:= TATButton.Create(Self);
   AControls.ButtonNo.Tag:= Index;
   AControls.ButtonNo.Parent:= AControls.Panel;
-  AControls.ButtonNo.AnchorSideTop.Control:= AControls.ButtonStop;
-  AControls.ButtonNo.AnchorSideRight.Control:= AControls.ButtonStop;
+  AControls.ButtonNo.AnchorSideTop.Control:= AControls.Panel;
+  AControls.ButtonNo.AnchorSideTop.Side:= asrCenter;
+  AControls.ButtonNo.AnchorSideRight.Control:= AControls.Panel;
+  AControls.ButtonNo.AnchorSideRight.Side:= asrBottom;
   AControls.ButtonNo.Anchors:= [akTop, akRight];
   AControls.ButtonNo.Height:= NBtnHeight;
   AControls.ButtonNo.BorderSpacing.Right:= NBtnDistance;
   AControls.ButtonNo.OnClick:= AClickNo;
   AControls.ButtonNo.Visible:= not AIsDeleted;
 
+  AControls.ButtonStop:= TATButton.Create(Self);
+  AControls.ButtonStop.Tag:= Index;
+  AControls.ButtonStop.Parent:= AControls.Panel;
+  AControls.ButtonStop.AnchorSideTop.Control:= AControls.ButtonNo;
+  AControls.ButtonStop.AnchorSideRight.Control:= AControls.ButtonNo;
+  AControls.ButtonStop.Anchors:= [akTop, akRight];
+  AControls.ButtonStop.Height:= NBtnHeight;
+  AControls.ButtonStop.BorderSpacing.Right:= NBtnDistance;
+  AControls.ButtonStop.OnClick:= AClickStop;
+
   AControls.ButtonYesAlways:= TATButton.Create(Self);
   AControls.ButtonYesAlways.Tag:= Index;
   AControls.ButtonYesAlways.Parent:= AControls.Panel;
-  AControls.ButtonYesAlways.AnchorSideTop.Control:= AControls.ButtonStop;;
-  AControls.ButtonYesAlways.AnchorSideRight.Control:= AControls.ButtonNo;
+  AControls.ButtonYesAlways.AnchorSideTop.Control:= AControls.ButtonStop;
+  AControls.ButtonYesAlways.AnchorSideRight.Control:= AControls.ButtonStop;
   AControls.ButtonYesAlways.Anchors:= [akTop, akRight];
   AControls.ButtonYesAlways.Height:= NBtnHeight;
   AControls.ButtonYesAlways.BorderSpacing.Right:= NBtnDistance;
@@ -4644,7 +4644,7 @@ begin
   AControls.ButtonYes:= TATButton.Create(Self);
   AControls.ButtonYes.Tag:= Index;
   AControls.ButtonYes.Parent:= AControls.Panel;
-  AControls.ButtonYes.AnchorSideTop.Control:= AControls.ButtonStop;;
+  AControls.ButtonYes.AnchorSideTop.Control:= AControls.ButtonStop;
   AControls.ButtonYes.AnchorSideRight.Control:= AControls.ButtonYesAlways;
   AControls.ButtonYes.Anchors:= [akTop, akRight];
   AControls.ButtonYes.Height:= NBtnHeight;
@@ -4657,8 +4657,8 @@ begin
 
   AControls.ButtonYes.TabOrder:= 0;
   AControls.ButtonYesAlways.TabOrder:= 1;
-  AControls.ButtonNo.TabOrder:= 2;
-  AControls.ButtonStop.TabOrder:= 3;
+  AControls.ButtonStop.TabOrder:= 2;
+  AControls.ButtonNo.TabOrder:= 3;
 end;
 
 procedure TEditorFrame.UpdateNotificationPanel(
@@ -4765,8 +4765,8 @@ begin
   ApplyThemeToInfoPanel(NotifDeletedControls[EdIndex].Panel);
 
   SFileName:= ExtractFileName(SFileName);
-  UpdateNotificationPanel(EdIndex, NotifReloadControls[EdIndex], msgConfirmReloadYes, msgConfirmReloadYesAlways, msgButtonCancel, msgConfirmReloadNoMore, msgConfirmFileChangedOutside+' '+SFileName);
-  UpdateNotificationPanel(EdIndex, NotifDeletedControls[EdIndex], msgTooltipCloseTab, '-', msgButtonCancel, msgConfirmReloadNoMore, msgConfirmFileDeletedOutside+' '+SFileName);
+  UpdateNotificationPanel(EdIndex, NotifReloadControls[EdIndex], msgConfirmReloadYes, msgConfirmReloadYesAlways, {msgButtonCancel}' × ', msgConfirmReloadNoMore, msgConfirmFileChangedOutside+' '+SFileName);
+  UpdateNotificationPanel(EdIndex, NotifDeletedControls[EdIndex], msgTooltipCloseTab, '-', {msgButtonCancel}' × ', msgConfirmReloadNoMore, msgConfirmFileDeletedOutside+' '+SFileName);
 
   NotifReloadControls[EdIndex].Panel.Visible:= TabExtModified[EdIndex] and not TabExtDeleted[EdIndex];
   NotifDeletedControls[EdIndex].Panel.Visible:= TabExtDeleted[EdIndex];
