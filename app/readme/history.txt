@@ -8,10 +8,11 @@
 * change: changed hotkey to call Replace dialog from Ctrl+R to more standard Ctrl+H, like in Sublime/VSCode/GEdit/SynWrite (thanks @RRPollack)
 * change: deleted options "find_hotkey_find_dlg", "find_hotkey_replace_dlg", now usual Command Palette hotkeys are used here
 * change: context menu item "Open URL": a) use URL under mouse cursor, not under 1st caret; b) move menu item to the top of context menu (thanks @pintassilgo)
-+ add: ui-tab bar: drap-drop reddish marker works more similar to other apps (thanks @pintassilgo)
+* change: renamed notification-panel button '×' to 'Never ask for this file'
 + add: commands "File/Reopen", "File/Rename", "File/ Close and delete file" are supported for picture files too (thanks @ildarkhasanshin)
++ add: ui-tab bar: drap-drop reddish marker works more similar to other apps (thanks @pintassilgo)
 - fix: ui-tab bar: fix making visible the partially visible ui-tab on mouse-down (thanks @pintassilgo)
-- fix: CSS lexer: fix highlight of '!important'
+- fix: CSS lexer: fix highlight of '!important' (thanks @pintassilgo)
 
 1.216.0 (2024/07)
 
