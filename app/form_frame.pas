@@ -121,6 +121,7 @@ type
     Panel: TPanel;
     InfoPanel: TPanel;
     ButtonYes,
+    ButtonYesAlways,
     ButtonNo,
     ButtonStop: TATButton;
   end;
@@ -136,6 +137,7 @@ type
     procedure NotifReloadStopClick(Sender: TObject);
     procedure NotifReloadNoClick(Sender: TObject);
     procedure NotifReloadYesClick(Sender: TObject);
+    procedure NotifReloadYesAlwaysClick(Sender: TObject);
     procedure NotifDeletedStopClick(Sender: TObject);
     procedure NotifDeletedNoClick(Sender: TObject);
     procedure NotifDeletedYesClick(Sender: TObject);
@@ -150,6 +152,7 @@ type
     PanelNoHilite: TPanel;
     NotifReloadControls: array[0..1] of TAppFrameNotificationControls;
     NotifDeletedControls: array[0..1] of TAppFrameNotificationControls;
+    NotifReloadAlways: array[0..1] of boolean;
     FTabCaption: string;
     FTabCaptionAddon: string;
     FTabCaptionUntitled: string;
@@ -314,13 +317,13 @@ type
     procedure InitNotificationPanel(Index: integer;
       AIsDeleted: boolean;
       var AControls: TAppFrameNotificationControls;
-      AClickYes, AClickNo, AClickStop: TNotifyEvent);
+      AClickYes, AClickYesAlways, AClickNo, AClickStop: TNotifyEvent);
     procedure InitPanelInfo(var APanel: TPanel; const AText: string;
       AOnClick: TNotifyEvent; ARequirePython: boolean);
     procedure UpdateNotificationPanel(
       Index: integer;
       var AControls: TAppFrameNotificationControls;
-      const ACaptionYes, ACaptionNo, ACaptionStop, ALabel: string);
+      const ACaptionYes, ACaptionYesAlways, ACaptionNo, ACaptionStop, ALabel: string);
     procedure PaintMicromap(Ed: TATSynEdit; ACanvas: TCanvas; const ARect: TRect);
     procedure PanelInfoClick(Sender: TObject);
     procedure PanelNoHiliteClick(Sender: TObject);
@@ -989,6 +992,15 @@ begin
   if Ed=nil then exit;
   DoFileReload(Ed);
   EditorFocus(Ed);
+end;
+
+procedure TEditorFrame.NotifReloadYesAlwaysClick(Sender: TObject);
+var
+  EdIndex: integer;
+begin
+  EdIndex:= (Sender as TComponent).Tag;
+  NotifReloadAlways[EdIndex]:= true;
+  NotifReloadYesClick(Sender);
 end;
 
 procedure TEditorFrame.NotifReloadNoClick(Sender: TObject);
@@ -4570,7 +4582,7 @@ end;
 procedure TEditorFrame.InitNotificationPanel(Index: integer;
   AIsDeleted: boolean;
   var AControls: TAppFrameNotificationControls;
-  AClickYes, AClickNo, AClickStop: TNotifyEvent);
+  AClickYes, AClickYesAlways, AClickNo, AClickStop: TNotifyEvent);
 var
   NPanelHeight, NBtnHeight, NBtnDistance: integer;
 begin
@@ -4619,11 +4631,21 @@ begin
   AControls.ButtonNo.OnClick:= AClickNo;
   AControls.ButtonNo.Visible:= not AIsDeleted;
 
+  AControls.ButtonYesAlways:= TATButton.Create(Self);
+  AControls.ButtonYesAlways.Tag:= Index;
+  AControls.ButtonYesAlways.Parent:= AControls.Panel;
+  AControls.ButtonYesAlways.AnchorSideTop.Control:= AControls.ButtonStop;;
+  AControls.ButtonYesAlways.AnchorSideRight.Control:= AControls.ButtonNo;
+  AControls.ButtonYesAlways.Anchors:= [akTop, akRight];
+  AControls.ButtonYesAlways.Height:= NBtnHeight;
+  AControls.ButtonYesAlways.BorderSpacing.Right:= NBtnDistance;
+  AControls.ButtonYesAlways.OnClick:= AClickYesAlways;
+
   AControls.ButtonYes:= TATButton.Create(Self);
   AControls.ButtonYes.Tag:= Index;
   AControls.ButtonYes.Parent:= AControls.Panel;
   AControls.ButtonYes.AnchorSideTop.Control:= AControls.ButtonStop;;
-  AControls.ButtonYes.AnchorSideRight.Control:= AControls.ButtonNo;
+  AControls.ButtonYes.AnchorSideRight.Control:= AControls.ButtonYesAlways;
   AControls.ButtonYes.Anchors:= [akTop, akRight];
   AControls.ButtonYes.Height:= NBtnHeight;
   AControls.ButtonYes.BorderSpacing.Right:= NBtnDistance;
@@ -4634,20 +4656,24 @@ begin
   AControls.InfoPanel.Anchors:= [akTop, akLeft, akRight];
 
   AControls.ButtonYes.TabOrder:= 0;
-  AControls.ButtonNo.TabOrder:= 1;
-  AControls.ButtonStop.TabOrder:= 2;
+  AControls.ButtonYesAlways.TabOrder:= 1;
+  AControls.ButtonNo.TabOrder:= 2;
+  AControls.ButtonStop.TabOrder:= 3;
 end;
 
 procedure TEditorFrame.UpdateNotificationPanel(
   Index: integer;
   var AControls: TAppFrameNotificationControls;
-  const ACaptionYes, ACaptionNo, ACaptionStop, ALabel: string);
+  const ACaptionYes, ACaptionYesAlways, ACaptionNo, ACaptionStop, ALabel: string);
 begin
   AControls.ButtonYes.Caption:= StringReplace(ACaptionYes, '&', '', [rfReplaceAll]);
+  AControls.ButtonYesAlways.Caption:= StringReplace(ACaptionYesAlways, '&', '', [rfReplaceAll]);
   AControls.ButtonNo.Caption:= StringReplace(ACaptionNo, '&', '', [rfReplaceAll]);
   AControls.ButtonStop.Caption:= StringReplace(ACaptionStop, '&', '', [rfReplaceAll]);
 
   AControls.ButtonYes.AutoSize:= true;
+  AControls.ButtonYesAlways.AutoSize:= true;
+  AControls.ButtonYesAlways.Visible:= ACaptionYesAlways<>'-';
   AControls.ButtonNo.AutoSize:= true;
   AControls.ButtonStop.AutoSize:= true;
 
@@ -4659,7 +4685,7 @@ var
   EdIndex: integer;
   SFileName: string;
   bNewDeleted, bDeletedChanged: boolean;
-  bShowPanel: boolean;
+  bShowPanel: boolean = true;
 begin
   EdIndex:= EditorObjToIndex(Ed);
   if EdIndex<0 then exit;
@@ -4725,22 +4751,22 @@ begin
         end;
     end;
 
-    if not bShowPanel then
+    if not bShowPanel or NotifReloadAlways[EdIndex] then
     begin
       DoFileReload(Ed);
       exit
     end;
   end;
 
-  InitNotificationPanel(EdIndex, false, NotifReloadControls[EdIndex], @NotifReloadYesClick, @NotifReloadNoClick, @NotifReloadStopClick);
-  InitNotificationPanel(EdIndex, true, NotifDeletedControls[EdIndex], @NotifDeletedYesClick, @NotifDeletedNoClick, @NotifDeletedStopClick);
+  InitNotificationPanel(EdIndex, false, NotifReloadControls[EdIndex], @NotifReloadYesClick, @NotifReloadYesAlwaysClick, @NotifReloadNoClick, @NotifReloadStopClick);
+  InitNotificationPanel(EdIndex, true, NotifDeletedControls[EdIndex], @NotifDeletedYesClick, @NotifReloadYesAlwaysClick, @NotifDeletedNoClick, @NotifDeletedStopClick);
 
   ApplyThemeToInfoPanel(NotifReloadControls[EdIndex].Panel);
   ApplyThemeToInfoPanel(NotifDeletedControls[EdIndex].Panel);
 
   SFileName:= ExtractFileName(SFileName);
-  UpdateNotificationPanel(EdIndex, NotifReloadControls[EdIndex], msgConfirmReloadYes, msgButtonCancel, msgConfirmReloadNoMore, msgConfirmFileChangedOutside+' '+SFileName);
-  UpdateNotificationPanel(EdIndex, NotifDeletedControls[EdIndex], msgTooltipCloseTab, msgButtonCancel, msgConfirmReloadNoMore, msgConfirmFileDeletedOutside+' '+SFileName);
+  UpdateNotificationPanel(EdIndex, NotifReloadControls[EdIndex], msgConfirmReloadYes, msgConfirmReloadYesAlways, msgButtonCancel, msgConfirmReloadNoMore, msgConfirmFileChangedOutside+' '+SFileName);
+  UpdateNotificationPanel(EdIndex, NotifDeletedControls[EdIndex], msgTooltipCloseTab, '-', msgButtonCancel, msgConfirmReloadNoMore, msgConfirmFileDeletedOutside+' '+SFileName);
 
   NotifReloadControls[EdIndex].Panel.Visible:= TabExtModified[EdIndex] and not TabExtDeleted[EdIndex];
   NotifDeletedControls[EdIndex].Panel.Visible:= TabExtDeleted[EdIndex];
