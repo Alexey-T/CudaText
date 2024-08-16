@@ -318,7 +318,7 @@ const
   msgConfirmFileDeletedOutside: string = 'File was deleted outside:';
   msgConfirmReloadIt: string = 'Reload it?';
   msgConfirmReloadYes: string = 'Reload';
-  msgConfirmReloadYesAlways: string = 'Always reload';
+  msgConfirmReloadYesAlways: string = 'Auto reload this file';
   msgConfirmReloadNoMore: string = 'Never ask for this file';
   msgConfirmReloadItHotkeysSess: string = '(Yes: reopen. No: open text from previous session.)';
   msgConfirmOpenCreatedDoc: string = 'Open created document?';
