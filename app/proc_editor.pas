@@ -1587,7 +1587,7 @@ end;
 procedure EditorBracket_FindPair(
   Ed: TATSynEdit;
   CharFrom, CharTo: atChar;
-  Kind: TEditorBracketKind;
+  SearchForward: boolean;
   MaxDistance: integer;
   FromX, FromY: integer;
   out FoundX, FoundY: integer);
@@ -1603,7 +1603,7 @@ begin
   Level:= 0;
   St:= Ed.Strings;
 
-  if Kind=TEditorBracketKind.Opening then
+  if SearchForward then
   begin
     for IndexY:= FromY to Min(Int64(St.Count-1), Int64(FromY)+MaxDistance) do
     begin
@@ -1753,8 +1753,16 @@ begin
     if Kind=TEditorBracketKind.None then exit;
   end;
 
-  EditorBracket_FindPair(Ed, CharFrom, CharTo, Kind,
-    MaxDistance, PosX, PosY, FoundX, FoundY);
+  EditorBracket_FindPair(Ed,
+    CharFrom,
+    CharTo,
+    Kind=TEditorBracketKind.Opening,
+    MaxDistance,
+    PosX,
+    PosY,
+    FoundX,
+    FoundY
+    );
 end;
 
 
