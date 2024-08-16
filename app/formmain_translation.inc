@@ -547,7 +547,7 @@ begin
     DoLocString(msgConfirmFileDeletedOutside     , ini, 'sc', 'FileDeletedOutside');
     DoLocString(msgConfirmReloadIt               , ini, 'sc', 'ReloadIt');
     DoLocString(msgConfirmReloadYes              , ini, 'sc', 'ReloadYes');
-    //DoLocString(msgConfirmReloadNoMore           , ini, 'sc', 'ReloadNoMore');
+    DoLocString(msgConfirmReloadNoMore           , ini, 'sc', 'ReloadNoMore');
     DoLocString(msgConfirmReloadItHotkeysSess    , ini, 'sc', 'ReloadItHotkeysSess');
     DoLocString(msgConfirmOpenCreatedDoc         , ini, 'sc', 'OpenCreatedDoc');
     DoLocString(msgConfirmSaveColorsToFile       , ini, 'sc', 'SaveColorsToFile');

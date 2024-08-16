@@ -1,5 +1,8 @@
 See http://wiki.freepascal.org/CudaText#How_to_make_translation
 
+2024.08.16
+* [sc] ReloadNoMore
+
 2024.06.14
 + [d_unpri] end_wrp
 
