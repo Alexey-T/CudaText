@@ -5174,6 +5174,7 @@ var
   fn: string;
   bZip, bZipAllowed: boolean;
 begin
+  CloseFormAutoCompletion;
   bZipAllowed:= not SubInString('/nozip', AOptions);
 
   dlg:= TOpenDialog.Create(nil);
@@ -6327,6 +6328,7 @@ var
   i: integer;
 begin
   Result:= true;
+  CloseFormAutoCompletion;
   for i:= 0 to FrameCount-1 do
   begin
     F:= Frames[i];
@@ -6879,6 +6881,7 @@ var
   SFilename: string;
 begin
   if Frame=nil then exit;
+  CloseFormAutoCompletion;
 
   InitSaveDlg;
   DoFileDialog_PrepareDir(SaveDlg);
@@ -6904,6 +6907,7 @@ end;
 procedure TfmMain.DoFileSaveAs(Frame: TEditorFrame; Ed: TATSynEdit);
 begin
   if Frame=nil then exit;
+  CloseFormAutoCompletion;
 
   InitSaveDlg;
   DoFileDialog_PrepareDir(SaveDlg);
