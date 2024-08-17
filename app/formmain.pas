@@ -7664,7 +7664,7 @@ begin
 
   with TIniFile.Create(AppFile_Language) do
   try
-    msgEncReloadAs:= ReadString('m_f', 'e_r', 'Reload as');
+    msgEncReloadAs:= ReadString('m_f', 'e_r', 'Reopen as');
     msgEncConvertTo:= ReadString('m_f', 'e_t', 'Convert to');
   finally
     Free;
