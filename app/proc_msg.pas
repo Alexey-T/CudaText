@@ -316,9 +316,9 @@ const
   msgConfirmInstallIt: string = 'Do you want to install it?';
   msgConfirmFileChangedOutside: string = 'File was changed outside:';
   msgConfirmFileDeletedOutside: string = 'File was deleted outside:';
-  msgConfirmReloadIt: string = 'Reload it?';
-  msgConfirmReloadYes: string = 'Reload';
-  msgConfirmReloadYesAlways: string = 'Auto reload this file';
+  msgConfirmReloadIt: string = 'Reopen it?';
+  msgConfirmReloadYes: string = 'Reopen';
+  msgConfirmReloadYesAlways: string = 'Auto reopen this file';
   msgConfirmReloadNoMore: string = 'Never ask for this file';
   msgConfirmReloadItHotkeysSess: string = '(Yes: reopen. No: open text from previous session.)';
   msgConfirmOpenCreatedDoc: string = 'Open created document?';
