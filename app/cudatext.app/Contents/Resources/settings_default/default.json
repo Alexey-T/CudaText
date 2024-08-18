@@ -418,7 +418,7 @@
   "max_line_len_for_editing_keeping_lexer": 2000,
 
   //Maximal line length, which will be processed by 'pair brackets' finder.
-  "max_line_len_brackets": 1000,
+  "max_line_len_brackets": 4000,
 
   //Maximal count of lines in document, for which app can calculate macros
   //{offset_max} and {offset_caret}, for statusbar display.
@@ -1399,8 +1399,12 @@
   "ui_session_max_undo": 1000000,
 
   //[Lexers]
-  //Allow to apply color-theme to lexer's styles.
+  //Allow to apply syntax-theme to lexer styles.
   //(And auto-show dialog "Lexer styles mapping".)
+  //Option is true: current syntax-theme is fully used, and it overwrites
+  //embedded styles in all lexers (data/lexlib/*.lcf files).
+  //Options is false: syntax-theme is not used (except special theme items
+  //like "SeparLine", for example).
   "ui_lexer_themes": true,
 
   //[View/Web]
