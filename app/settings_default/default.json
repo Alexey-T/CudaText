@@ -1408,7 +1408,7 @@
   //Program has 2 layers of syntax colors:
   //Layer1: lexer styles. Blocks in data/lexlib/*.lcf files.
   //Layer2: syntax theme. Blocks in data/themes/* files.
-  //Layer2 overwrites layer1 if "ui_lexer_themes" is true.
+  //Layer2 overrides layer1 if "ui_lexer_themes" is true.
   "ui_lexer_themes": true,
 
   //[View/Web]
