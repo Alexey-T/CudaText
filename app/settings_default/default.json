@@ -418,7 +418,7 @@
   "max_line_len_for_editing_keeping_lexer": 2000,
 
   //Maximal line length, which will be processed by 'pair brackets' finder.
-  "max_line_len_brackets": 1000,
+  "max_line_len_brackets": 4000,
 
   //Maximal count of lines in document, for which app can calculate macros
   //{offset_max} and {offset_caret}, for statusbar display.

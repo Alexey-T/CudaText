@@ -1762,7 +1762,7 @@ begin
     OpTabSpaces:= false;
     OpTabSmart:= false;
 
-    OpMaxLineLenForBracketFinder:= 1000;
+    OpMaxLineLenForBracketFinder:= 4000;
 
     OpActiveBorderRaw:= 1;
     OpActiveBorderInControls:= true;
