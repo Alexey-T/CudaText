@@ -7,6 +7,7 @@
 
 + add: notification panel about changes in external program: added button 'Auto reopen this file', renamed button 'x' to 'Never ask for this file' (thanks @pintassilgo)
 - fix: rename in UI, in command palette: 'reload'->'reopen'
+- fix: regression in ui-tab bar: x-mark was not highlighted on mouse-over
 
 1.216.5 (2024/08)
 
