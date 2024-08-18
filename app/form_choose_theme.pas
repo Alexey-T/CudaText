@@ -113,7 +113,7 @@ end;
 procedure TfmChooseTheme.chkEnableLexChange(Sender: TObject);
 begin
   EnableLexerThemes:= chkEnableLex.Checked;
-  ListboxSyntax.Enabled:= chkEnableLex.Checked;
+  //ListboxSyntax.Enabled:= chkEnableLex.Checked; //enable always, coz 'SeparLine' change is needed always
 end;
 
 procedure TfmChooseTheme.chkSyncChange(Sender: TObject);
@@ -129,7 +129,7 @@ begin
   ListboxSyntax.ItemIndex:= Max(0, ListboxSyntax.Items.IndexOf(UiOps.ThemeSyntax));
   chkSync.Checked:= EnableSync;
   chkEnableLex.Checked:= EnableLexerThemes;
-  ListboxSyntax.Enabled:= chkEnableLex.Checked;
+  //ListboxSyntax.Enabled:= chkEnableLex.Checked; //enable always, coz 'SeparLine' change is needed always
 end;
 
 function TfmChooseTheme.SelectedThemeUI: string;

@@ -17,7 +17,7 @@ object fmChooseTheme: TfmChooseTheme
   OnShow = FormShow
   object GroupUI: TGroupBox
     Left = 6
-    Height = 393
+    Height = 403
     Top = 6
     Width = 178
     Align = alLeft
@@ -25,14 +25,14 @@ object fmChooseTheme: TfmChooseTheme
     BorderSpacing.Top = 6
     BorderSpacing.Bottom = 6
     Caption = 'UI themes'
-    ClientHeight = 375
-    ClientWidth = 176
+    ClientHeight = 384
+    ClientWidth = 174
     TabOrder = 0
     object ListboxUI: TListBox
       Left = 0
-      Height = 375
+      Height = 384
       Top = 0
-      Width = 176
+      Width = 174
       Align = alClient
       ItemHeight = 0
       ScrollWidth = 174
@@ -43,20 +43,20 @@ object fmChooseTheme: TfmChooseTheme
   end
   object GroupSyntax: TGroupBox
     Left = 190
-    Height = 393
+    Height = 403
     Top = 6
     Width = 240
     Align = alClient
     BorderSpacing.Around = 6
     Caption = 'Syntax themes'
-    ClientHeight = 375
-    ClientWidth = 238
+    ClientHeight = 384
+    ClientWidth = 236
     TabOrder = 1
     object ListboxSyntax: TListBox
       Left = 0
-      Height = 375
+      Height = 384
       Top = 0
-      Width = 238
+      Width = 236
       Align = alClient
       ItemHeight = 0
       ScrollWidth = 173
@@ -67,8 +67,8 @@ object fmChooseTheme: TfmChooseTheme
   end
   object ButtonPanel1: TButtonPanel
     Left = 6
-    Height = 33
-    Top = 457
+    Height = 27
+    Top = 463
     Width = 424
     OKButton.Name = 'OKButton'
     OKButton.DefaultCaption = True
@@ -84,8 +84,8 @@ object fmChooseTheme: TfmChooseTheme
   end
   object chkSync: TCheckBox
     Left = 6
-    Height = 23
-    Top = 428
+    Height = 21
+    Top = 436
     Width = 424
     Align = alBottom
     BorderSpacing.Left = 6
@@ -96,8 +96,8 @@ object fmChooseTheme: TfmChooseTheme
   end
   object chkEnableLex: TCheckBox
     Left = 6
-    Height = 23
-    Top = 405
+    Height = 21
+    Top = 415
     Width = 424
     Align = alBottom
     BorderSpacing.Left = 6
