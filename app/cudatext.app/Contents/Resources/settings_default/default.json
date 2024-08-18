@@ -1404,7 +1404,11 @@
   //Option is true: current syntax-theme is fully used, and it overwrites
   //embedded styles in all lexers (data/lexlib/*.lcf files).
   //Options is false: syntax-theme is not used (except special theme items
-  //like "SeparLine", for example).
+  //like "SeparLine").
+  //Program has 2 layers of syntax colors:
+  //Layer1: lexer styles. Blocks in data/lexlib/*.lcf files.
+  //Layer2: syntax theme. Blocks in data/themes/* files.
+  //Layer2 overwrites layer1 if "ui_lexer_themes" is true.
   "ui_lexer_themes": true,
 
   //[View/Web]
