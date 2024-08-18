@@ -37,6 +37,12 @@ begin
     D.TabModified2:= Frame.Ed2.Modified;
   end;
 
+  if NTab=Pages.Tabs.TabIndex then
+  begin
+    Pages.Tabs.PaintSimulated; //updates tab rects, for MakeVisible
+    Pages.Tabs.MakeVisible(NTab);
+  end;
+
   Pages.Invalidate;
 
   UpdateCaption;
