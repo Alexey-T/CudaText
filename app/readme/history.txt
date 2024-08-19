@@ -5,7 +5,7 @@
 
 1.216.6 (2024/08)
 
-+ add: notification panel about changes in external program: added button 'Auto reopen this file', renamed button 'x' to 'Never ask for this file' (thanks @pintassilgo)
++ add: notification panel about changes in external program: added button 'Auto reopen this file' (thanks @pintassilgo)
 * change: changed default of "max_line_len_brackets", 1000->4000
 - fix: rename in UI, in command palette: 'reload'->'reopen'
 - fix: regression in 1.216.5: ui-tab bar x-mark is not highlighted on mouse-over
