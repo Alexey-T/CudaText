@@ -1401,13 +1401,12 @@
   //[Lexers]
   //Allow to apply syntax-theme to lexer styles.
   //(And auto-show dialog "Lexer styles mapping".)
-  //Option is true: current syntax-theme is fully used, and it overrides
-  //embedded styles in lexers (data/lexlib/*.lcf files).
-  //Options is false: syntax-theme is not used (except special theme items
-  //like "SeparLine").
-  //In other words, CudaText has 2 layers of syntax colors:
-  //Layer 1: lexer styles. Blocks in data/lexlib/*.lcf files.
-  //Layer 2: syntax-theme. Blocks in data/themes/* files.
+  //If option is true: current syntax-theme is fully used, and it overrides embedded styles
+  //in lexers (data/lexlib/*.lcf files). If option is false: syntax-theme is not used
+  //(except special theme items like "SeparLine").
+  //In other words, CudaText has 2 layers of colors:
+  //Layer 1: lexer styles - in data/lexlib/*.lcf files.
+  //Layer 2: syntax-theme - in data/themes/* files.
   //Layer 2 overrides layer 1 if "ui_lexer_themes" is true.
   "ui_lexer_themes": true,
 
