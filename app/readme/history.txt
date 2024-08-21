@@ -3,6 +3,8 @@
   - fixed
   * changed
 
+- fix: auto-indentation in JS didn't work when pressing Enter on: "text {|text" (thanks @pintassilgo)
+
 1.216.6 (2024/08)
 
 + add: notification panel about changes in external program: added button 'Auto reopen this file' (thanks @pintassilgo)
