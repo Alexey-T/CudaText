@@ -157,7 +157,7 @@ class Command:
         prop = app.lexer_proc(app.LEXER_GET_PROP, lex)
         if not prop:
             return
-        cmt_sgn   = prop['c_line']
+        cmt_sgn   = prop['c_line'].rstrip() # remove trailing space, we will force space anyway
         cmt_range = prop['c_str']
         pass; #log('cmt_type, lex, cmt_sgn={}', (cmt_type, lex, cmt_sgn))
 
@@ -239,8 +239,9 @@ class Command:
                 col_min_bd  = min(pos_body, col_min_bd)
                 if 0==col_min_bd:
                     break # for rWrk
-        blnks4cmt   = ' '*len(cmt_sgn) # '\t'.expandtabs(len(cmt_sgn))
+        blnks4cmt   = ' '*(len(cmt_sgn)+1) # +1 for space
         pass;                  #log('rWrks,do_uncmt, save_cols, at_min_bd, col_min_bd={}', (rWrks,do_uncmt,save_bd_col,at_min_bd,col_min_bd))
+
         for rWrk in rWrks:
             line    = ed_.get_text_line(rWrk)
             if skip_blank and not line.strip():
@@ -262,40 +263,46 @@ class Command:
                 elif save_bd_col and (' '==line[0] or
                                       ' '==line[pos_body+len(cmt_sgn)]):
                     # Before or after cmt_sgn must be blank
-                    line = line.replace(cmt_sgn, blnks4cmt, 1)
+                    if line[pos_body:].startswith(cmt_sgn+' '):
+                        line = line.replace(cmt_sgn+' ', blnks4cmt, 1)
+                    else:
+                        line = line.replace(cmt_sgn, blnks4cmt, 1)
                     col_kept = True
                 else:
-                    line = line.replace(cmt_sgn, ''       , 1)
+                    if line[pos_body:].startswith(cmt_sgn+' '):
+                        line = line.replace(cmt_sgn+' ', '', 1)
+                    else:
+                        line = line.replace(cmt_sgn, '', 1)
             else:
                 # Comment!
                 if cmt_type=='bod' and line[pos_body:].startswith(cmt_sgn):
-                    # Body comment already sets - willnot double it
+                    # Body comment already set - willnot double it
                     if use_rep_lines:
                         lines += [line]
                     continue    #for rWrk
                 if False:pass
                 elif cmt_type=='1st' and save_bd_col and line.startswith(blnks4cmt) :
-                    line = line.replace(blnks4cmt, cmt_sgn, 1)
+                    line = line.replace(blnks4cmt, cmt_sgn+' ', 1)
                     col_kept = True
                #elif cmt_type=='1st' and save_bd_col #  !line.startswith(blnks4cmt) :
                 elif cmt_type=='1st':#  !save_bd_col
-                    line = cmt_sgn+line
+                    line = cmt_sgn+' '+line
                 elif cmt_type=='bod' and save_bd_col and line.startswith(blnks4cmt):
                     col_kept = True
                     pos_cmnt = col_min_bd if at_min_bd else pos_body
                     pass;          #LOG and log('pos_cmnt={}', (pos_cmnt))
                     if pos_cmnt>=len(cmt_sgn):
-                        line = line[:pos_cmnt-len(cmt_sgn)]+cmt_sgn+line[pos_cmnt:             ]
+                        line = line[:pos_cmnt-len(cmt_sgn)]+cmt_sgn+' '+line[pos_cmnt:             ]
                     else:
-                        line = line[:pos_cmnt             ]+cmt_sgn+line[pos_cmnt+len(cmt_sgn):]
+                        line = line[:pos_cmnt             ]+cmt_sgn+' '+line[pos_cmnt+len(cmt_sgn):]
                    #line = line[:pos_cmnt-len(cmt_sgn)]+cmt_sgn+line[pos_cmnt:]
                    #line = line[:pos_body-len(cmt_sgn)]+cmt_sgn+line[pos_body:]
                #elif cmt_type=='bod' and save_bd_col #  !line.startswith(blnks4cmt) :
                 elif cmt_type=='bod':#  !save_bd_col
                     pos_cmnt = col_min_bd if at_min_bd else pos_body
                     pass;      #LOG and log('pos_cmnt={}', (pos_cmnt))
-                    line = line[:pos_cmnt]             +cmt_sgn+line[pos_cmnt:]
-                   #line = line[:pos_body]             +cmt_sgn+line[pos_body:]
+                    line = line[:pos_cmnt]             +cmt_sgn+' '+line[pos_cmnt:]
+                   #line = line[:pos_body]             +cmt_sgn+' '+line[pos_body:]
 
             pass;              #LOG and log('new line={}', (line))
             if use_rep_lines:
@@ -317,7 +324,7 @@ class Command:
             apx._move_caret_down(cCrt, rCrt)
         # shift caret horizontally if it's on the same line
         if not move_down and empty_sel and not col_kept:
-            dx = len(cmt_sgn)
+            dx = len(cmt_sgn)+1
             if do_uncmt:
                 dx = -dx
             cCrt = max(0, cCrt+dx)
