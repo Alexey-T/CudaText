@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-- fix: auto-indentation in JS didn't work when pressing Enter on: "text {|text" (thanks @pintassilgo)
++ add: improved auto-indentation in C-like lexers, when pressing Enter in such situation: "text { text();|" (thanks @pintassilgo)
 
 1.216.6 (2024/08)
 
