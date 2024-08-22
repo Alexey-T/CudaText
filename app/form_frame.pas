@@ -276,6 +276,7 @@ type
     procedure EditorOnCommand(Sender: TObject; ACmd: integer; AInvoke: TATCommandInvoke; const AText: string; var AHandled: boolean);
     procedure EditorOnCommandAfter(Sender: TObject; ACommand: integer; const AText: string);
     procedure EditorOnDrawBookmarkIcon(Sender: TObject; C: TCanvas; ALineIndex, ABookmarkIndex: integer; const ARect: TRect; var AHandled: boolean);
+    function EditorOnGetToken(Sender: TObject; AX, AY: integer): TATTokenKind;
     procedure EditorOnPaint(Sender: TObject);
     procedure EditorOnEnter(Sender: TObject);
     procedure EditorOnDrawLine(Sender: TObject; C: TCanvas; ALineIndex, AX, AY: integer;
@@ -2277,6 +2278,7 @@ begin
   ed.OnScroll:=@EditorOnScroll;
   ed.OnHotspotEnter:=@EditorOnHotspotEnter;
   ed.OnHotspotExit:=@EditorOnHotspotExit;
+  ed.OnGetToken:= @EditorOnGetToken;
   ed.ScrollbarVert.OnOwnerDraw:= @EditorDrawScrollbarVert;
 end;
 
@@ -3619,6 +3621,11 @@ begin
       AppBookmarkSetup[BmKind].ImageIndex);
     AHandled:= true;
   end;
+end;
+
+function TEditorFrame.EditorOnGetToken(Sender: TObject; AX, AY: integer): TATTokenKind;
+begin
+  Result:= EditorGetTokenKind(Sender as TATSynEdit, AX, AY);
 end;
 
 
