@@ -332,7 +332,7 @@ class Command:
        #def work
 
     def cmt_toggle_stream(self):
-        ''' '''
+        '''Toggle stream comment'''
         if ed.get_sel_mode() != app.SEL_NORMAL:
             return app.msg_status(f(_('{} works only with normal selection'), _('Commenting')))
         lex     = ed.get_prop(app.PROP_LEXER_CARET)
@@ -375,17 +375,17 @@ class Command:
 
             if False:pass
             elif not do_uncmt and bOnlyLn:
-                # Comment!
-                ed.insert(0, rTx2+1, end_sgn+'\n')    #! true insert sequence
-                ed.insert(0, rTx1,   bgn_sgn+'\n')    #! true insert sequence
+                # Comment whole lines
+                ed.insert(0, rTx2+1, end_sgn+'\n')
+                ed.insert(0, rTx1,   bgn_sgn+'\n')
                 (cNSel1, rNSel1
                 ,cNSel2, rNSel2)    = 0, rTx1, len(end_sgn), rTx2+2
 
             elif not do_uncmt:
-                # Comment!
+                # Comment some block
                 if bEntireLn1:
                     s = ed.get_text_line(rTx1)
-                    ed.set_text_line(rTx1, bgn_sgn+s+end_sgn)
+                    ed.set_text_line(rTx1, bgn_sgn+' '+s+' '+end_sgn)
                     (cNSel1, rNSel1
                     ,cNSel2, rNSel2) = (0, rTx1, 0, rTx2)
 
@@ -396,39 +396,41 @@ class Command:
                     ,cNSel2, rNSel2) = (0, rTx1, 0, rTx2+2)
 
                 else:
-                    ed.insert(cTx2, rTx2, end_sgn)        #! true insert sequence
-                    ed.insert(cTx1, rTx1, bgn_sgn)        #! true insert sequence
+                    ed.insert(cTx2, rTx2, ' '+end_sgn)
+                    ed.insert(cTx1, rTx1, bgn_sgn+' ')
                     if False:pass
                     elif rTx1==rTx2:
                         # sel into one row
                         (cNSel1, rNSel1
-                        ,cNSel2, rNSel2)    = cTx1, rTx1, cTx2+len(bgn_sgn)+len(end_sgn), rTx2
+                        ,cNSel2, rNSel2)    = cTx1, rTx1, cTx2+len(bgn_sgn)+len(end_sgn)+2, rTx2
                     elif rTx1!=rTx2:
                         # sel ends on diff rows
                         (cNSel1, rNSel1
-                        ,cNSel2, rNSel2)    = cTx1, rTx1, cTx2             +len(end_sgn), rTx2
+                        ,cNSel2, rNSel2)    = cTx1, rTx1, cTx2             +len(end_sgn)+1, rTx2
 
             elif do_uncmt and bOnlyLn:
-                # UnComment!
-                ed.delete(0, rTx2, 0, rTx2+1)    #! true delete sequence
-                ed.delete(0, rTx1, 0, rTx1+1)    #! true delete sequence
+                # UnComment
+                ed.delete(0, rTx2, 0, rTx2+1)
+                ed.delete(0, rTx1, 0, rTx1+1)
                 (cNSel1, rNSel1
                 ,cNSel2, rNSel2)    = 0, rTx1, len(ed.get_text_line(rTx2-2)), rTx2-2
 
             elif do_uncmt:
-                # UnComment!
+                # UnComment
                 if selTx.endswith(end_sgn):
-                    ed.delete(cTx2-len(end_sgn), rTx2, cTx2, rTx2)    #! true delete sequence
-                    ed.delete(cTx1, rTx1, cTx1+len(bgn_sgn), rTx1)    #! true delete sequence
+                    trail_space = ed.get_text_line(rTx2)[cTx2-len(end_sgn)-1]==' '
+                    lead_space = ed.get_text_line(rTx1)[cTx1+len(bgn_sgn)]==' '
+                    ed.delete(cTx2-len(end_sgn)-(1 if trail_space else 0), rTx2, cTx2, rTx2)
+                    ed.delete(cTx1, rTx1, cTx1+len(bgn_sgn)+(1 if lead_space else 0), rTx1)
                     if False:pass
                     elif rTx1==rTx2:
                         # sel into one row
                         (cNSel1, rNSel1
-                        ,cNSel2, rNSel2)    = cTx1, rTx1, cTx2-len(bgn_sgn)-len(end_sgn), rTx2
+                        ,cNSel2, rNSel2)    = cTx1, rTx1, cTx2-len(bgn_sgn)-len(end_sgn)-(1 if lead_space else 0)-(1 if trail_space else 0), rTx2
                     elif rTx1!=rTx2:
                         # sel ends on diff rows
                         (cNSel1, rNSel1
-                        ,cNSel2, rNSel2)    = cTx1, rTx1, cTx2             -len(end_sgn), rTx2
+                        ,cNSel2, rNSel2)    = cTx1, rTx1, cTx2             -len(end_sgn)-(1 if trail_space else 0), rTx2
 
                 elif bEntireLn1:
                     s = ed.get_text_line(rTx1)
