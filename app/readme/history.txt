@@ -4,6 +4,7 @@
   * changed
 
 + add: improved auto-indentation in C-like lexers, when pressing Enter in such situation: "text { text();|" (thanks @pintassilgo)
++ add: Comments plugin: add surrounding spaces for line-comments and stream-comments, like in other editors (thanks @LouieTian0209)
 
 1.216.6 (2024/08)
 
