@@ -9681,6 +9681,7 @@ begin
   Form.Ed.OptShowCurLine:= true;
   Form.Ed.OptCaretManyAllowed:= false;
   Form.Ed.OptMarginRight:= 2000;
+  Form.Ed.OptShowURLs:= false;
   Form.Ed.ModeReadOnly:= true;
 
   InitPopupBottom(Form.Popup, Form.Ed);
