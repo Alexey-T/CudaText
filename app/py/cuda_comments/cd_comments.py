@@ -3,7 +3,7 @@ Authors:
     Andrey Kvichansky (kvichans on github.com)
     Alexey Torgashin (CudaText)
 Version:
-    '1.0.0 2022-04-21'
+    '1.0.2 2024-08-24'
 '''
 
 import  os
@@ -16,7 +16,7 @@ from    .cd_plug_lib    import *
 # I18N
 _       = get_translation(__file__)
 
-pass;                           LOG     = (-1==-1)  # Do or dont logging.
+pass;                           LOG     = (-1==-1)  # Do or don't write log
 
 class Command:
     def __init__(self):
