@@ -193,3 +193,15 @@ section=commands
 caption=&Project Manager\Context menu\Copy path relative to project
 method=contextmenu_copy_relative_path
 menu=0
+
+[item118]
+section=commands
+caption=&Project Manager\Context menu\Find in folder...
+method=contextmenu_find_in_directory
+menu=0
+
+[item119]
+section=commands
+caption=&Project Manager\Context menu\Focus in file manager
+method=contextmenu_focus_in_fileman
+menu=0

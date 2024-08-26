@@ -1470,6 +1470,14 @@ class Command:
         self.init_panel()
         self.action_copy_relative_path()
 
+    def contextmenu_find_in_directory(self):
+        self.init_panel()
+        self.action_find_in_directory()
+
+    def contextmenu_focus_in_fileman(self):
+        self.init_panel()
+        self.action_focus_in_fileman()
+
     def enum_all(self, callback):
         """
         Enum for all items.
