@@ -3,6 +3,8 @@
   - fixed
   * changed
 
++ add: Project Manager: add commands "Focus in file manager" and "Find in folder" to Command Palette (thanks @SamC)
+
 1.217.0 (2024/08)
 
 + add: improved auto-indentation in C-like lexers, when pressing Enter in such situation: "text { text();|" (thanks @pintassilgo)
