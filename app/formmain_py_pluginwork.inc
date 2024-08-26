@@ -172,6 +172,18 @@ begin
 
     ini.ReadSections(sections);
 
+    if sections.IndexOf('info')=-1 then
+    begin
+      MsgLogConsole(Format('NOTE: Plugin "%s" has no section [info] in install.inf', [s_module]));
+      exit;
+    end;
+
+    if sections.Count<=1 then
+    begin
+      MsgLogConsole(Format('NOTE: Plugin "%s" has no data sections in install.inf', [s_module]));
+      exit;
+    end;
+
     for ini_section in sections do
     begin
       if SBeginsWith(ini_section, 'item') then
