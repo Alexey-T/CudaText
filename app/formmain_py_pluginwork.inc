@@ -164,7 +164,11 @@ begin
   try
     //ignore plugin for unsupported OS
     s_os:= ini.ReadString('info', 'os', '');
-    if not CheckValue_OS(s_os) then exit;
+    if not CheckValue_OS(s_os) then
+    begin
+      MsgLogConsole(Format('NOTE: Plugin "%s" is not supported on this OS', [s_module]));
+      exit;
+    end;
 
     ini.ReadSections(sections);
 
