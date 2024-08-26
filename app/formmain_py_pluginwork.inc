@@ -178,11 +178,14 @@ begin
       exit;
     end;
 
+    {
+    //commented, to allow cuda_lint_xxx, cuda_fmt_xxx and other specials in future
     if sections.Count<=1 then
     begin
       MsgLogConsole(Format('NOTE: Plugin "%s" has no data sections in install.inf', [s_module]));
       exit;
     end;
+    }
 
     for ini_section in sections do
     begin
