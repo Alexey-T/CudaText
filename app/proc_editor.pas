@@ -1032,6 +1032,7 @@ end;
 
 
 function Editor_NextCharAllowed_AutoCloseBracket(Ed: TATSynEdit; ch: widechar): boolean;
+(*
 var
   S: UnicodeString;
 begin
@@ -1043,7 +1044,10 @@ begin
   S:= UnicodeStringReplace(S, '{', '', [rfReplaceAll]);
   Result:= Pos(ch, S)>0;
 end;
-
+*)
+begin
+  Result:= Pos(ch, ':;.,=>')>0;
+end;
 
 function EditorAutoSkipClosingBracket(Ed: TATSynEdit; CharClosing: char): boolean;
 var
