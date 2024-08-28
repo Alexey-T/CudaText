@@ -1754,8 +1754,8 @@ Option supports auto-pairing of brackets and some other chars (quotes, tilde etc
 
 * If selection is present, and opening bracket is typed, CudaText encloses the selection into 2 paired chars, like "(selection)".
 * If there is no selection, and char is typed (not only bracket-char, but any char from the option), CudaText inserts 2 paired chars like "()", moving the caret inside that pair. Incorrect contexts for the pairing are:
-** Context "\|" - char is typed after backslash-char.
-** Context "|w" - char is typed just before a word-char.
+** Context "\|" - caret is after backslash.
+** Context "|w" - char after caret is not one of :;.,=>.
 ** Context "w|" - quote-char (single quote, double quote, backtick) is typed after a word-char.
 * If there is no selection, and closing bracket is typed, CudaText may ignore this char or not, it depends on context: 
 ** Context "f(|)" - app ignores closing bracket and only moves caret righter.
