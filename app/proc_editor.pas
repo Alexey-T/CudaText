@@ -1046,7 +1046,7 @@ begin
 end;
 *)
 begin
-  Result:= Pos(ch, ':;.,=>')>0;
+  Result:= Pos(ch, ':;.,=>')>0; //like VSCode, suggested in issue #5668
 end;
 
 function EditorAutoSkipClosingBracket(Ed: TATSynEdit; CharClosing: char): boolean;
