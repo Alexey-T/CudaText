@@ -1538,9 +1538,7 @@ begin
   UiOps.Emmet_WordWrap:= cfg.GetValue('emmet_word_wrap', UiOps.Emmet_WordWrap);
 
   UiOps.HotkeyFindFirst:= cfg.GetValue('find_hotkey_find_first', UiOps.HotkeyFindFirst);
-  UiOps.HotkeyFindNext:= cfg.GetValue('find_hotkey_find_next', UiOps.HotkeyFindNext);
   UiOps.HotkeyFindPrev:= cfg.GetValue('find_hotkey_find_prev', UiOps.HotkeyFindPrev);
-  UiOps.HotkeyReplaceAndFindNext:= cfg.GetValue('find_hotkey_replace', UiOps.HotkeyReplaceAndFindNext);
   UiOps.HotkeyReplaceNoFindNext:= cfg.GetValue('find_hotkey_replace_no_next', UiOps.HotkeyReplaceNoFindNext);
   UiOps.HotkeyReplaceAll:= cfg.GetValue('find_hotkey_replace_all', UiOps.HotkeyReplaceAll);
   UiOps.HotkeyReplaceGlobal:= cfg.GetValue('find_hotkey_replace_global', UiOps.HotkeyReplaceGlobal);
