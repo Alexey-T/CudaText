@@ -842,6 +842,49 @@ begin
   fmFind.edFind.DoAddLineToHistory(FFinder.StrFind, UiOps.MaxHistoryEdits);
 end;
 
+
+procedure TfmMain.DoFindNextAndReplace;
+var
+  Frame: TEditorFrame;
+  Op: TAppFinderOperation;
+  ok, bChanged, bFocusFindDlg: boolean;
+begin
+  Frame:= CurrentFrame;
+  if Frame=nil then exit;
+  InitFormFind;
+  bFocusFindDlg:= Assigned(fmFind) and fmFind.Visible and fmFind.Enabled and (fmFind.edFind.Focused or fmFind.edRep.Focused);
+
+  ////always update Finder string when "Find next" called. issue #2182
+  if not fmFind.edFind.IsEmpty then
+    FFinder.StrFind:= fmFind.edFind.Text
+  else
+  if FFinder.StrFind='' then
+  begin
+    DoDialogFind(false, true);
+    Exit
+  end;
+
+  if Frame.FrameKind<>TAppFrameKind.Editor then
+    exit;
+
+  FFinder.Editor:= Frame.Editor;
+  FFinder.OptFromCaret:= true;
+  FFinder.OptBack:= false;
+  FFinder.OptDisableOnProgress:= false;
+
+  {if FFinder.Editor.Carets.IsSelection then
+    ok:= FFinder.DoAction_ReplaceSelected(true)
+  else}
+    ok:= FFinder.DoAction_FindOrReplace(true, false, bChanged, true);
+  FinderUpdateEditor(true);
+  FinderShowResult(ok, true, FFinder);
+  UpdateAppForSearch(false, false, true, true, bFocusFindDlg); //hide search progressbar
+
+  //add string to history, issue #3326
+  fmFind.edFind.DoAddLineToHistory(FFinder.StrFind, UiOps.MaxHistoryEdits);
+end;
+
+
 procedure TfmMain.DoFindMarkingInit(AMode: TAppFinderMarking);
 var
   Ed: TATSynEdit;

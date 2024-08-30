@@ -420,6 +420,9 @@ begin
     cmd_FindPrev:
       DoFindNext(false);
 
+    cmd_FindNextAndReplace:
+      DoFindNextAndReplace;
+
     cmd_FindAllAndSelect:
       DoFindMarkAll(TAppFinderMarking.Selections);
     cmd_FindAllAndMarkers:

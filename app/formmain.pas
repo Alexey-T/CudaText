@@ -807,6 +807,7 @@ type
     procedure DoCommands_OnMsg(Sender: TObject; const ARes: string);
     procedure DoFindFirst;
     procedure DoFindNext(ANext: boolean);
+    procedure DoFindNextAndReplace;
     procedure DoFindMarkAll(AMode: TAppFinderMarking);
     procedure DoFindMarkingInit(AMode: TAppFinderMarking);
     procedure DoFindActionFromString(const AStr: string);

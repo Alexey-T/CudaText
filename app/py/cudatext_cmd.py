@@ -358,6 +358,7 @@ cmd_FindAllAndSelect = 2596
 cmd_FindAllAndMarkers = 2597
 cmd_FindAllAndBookmarks = 2598
 cmd_FindMarkAll      = cmd_FindAllAndMarkers
+cmd_FindNextAndReplace  = 2599
 
 cmd_SelectExpandToWord = 2600
 cmd_OpenContainingFolder = 2601

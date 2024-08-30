@@ -162,6 +162,7 @@ const
   cmd_FindAllAndSelect = 2596;
   cmd_FindAllAndMarkers = 2597;
   cmd_FindAllAndBookmarks = 2598;
+  cmd_FindNextAndReplace  = 2599;
 
   cmd_SelectExpandToWord = 2600; //like Ctrl+D in Sublime
   cmd_OpenContainingFolder = 2601;
@@ -548,6 +549,7 @@ begin
   M.Add(cmd_FindFirst, 'find first', [scAlt+VK_RETURN], []);
   M.Add(cmd_FindNext, 'find next', [VK_F3], []);
   M.Add(cmd_FindPrev, 'find previous', [scShift+VK_F3], []);
+  M.Add(cmd_FindNextAndReplace, 'find next and replace', [], []);
   M.Add(cmd_FindAllAndSelect, 'find all, and select', [], []);
   M.Add(cmd_FindAllAndMarkers, 'find all, and place markers', [], []);
   M.Add(cmd_FindAllAndBookmarks, 'find all, and place bookmarks', [], []);
