@@ -1380,6 +1380,9 @@ procedure TfmFind.FormShow(Sender: TObject);
 begin
   Localize;
 
+  UiOps.HotkeyFindNext:= ShortcutToTextRaw(AppKeymapMain.GetShortcutFromCommand(cmd_FindNext));
+  UiOps.HotkeyReplaceAndFindNext:= ShortcutToTextRaw(AppKeymapMain.GetShortcutFromCommand(cmd_FindNextAndReplace));
+
   edFind.OptCaretBlinkEnabled:= EditorOps.OpCaretBlinkEn;
   edRep.OptCaretBlinkEnabled:= EditorOps.OpCaretBlinkEn;
   edFind.OptCaretBlinkTime:= EditorOps.OpCaretBlinkTime;

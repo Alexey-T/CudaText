@@ -2248,9 +2248,9 @@ begin
     Emmet_WordWrap:= false;
 
     HotkeyFindFirst:= 'Alt+Enter';
-    HotkeyFindNext:= 'F3';
+    HotkeyFindNext:= '';
     HotkeyFindPrev:= 'Shift+Enter';
-    HotkeyReplaceAndFindNext:= 'Ctrl+Alt+Z';
+    HotkeyReplaceAndFindNext:= '';
     HotkeyReplaceNoFindNext:= 'Ctrl+Alt+Shift+Z';
     HotkeyReplaceAll:= 'Ctrl+Alt+A';
     HotkeyReplaceGlobal:= '';
