@@ -1071,8 +1071,10 @@ class Command:
 
                         # delete orphan items
                         bads = [fn for fn in self.project["nodes"] if not os.path.exists(fn)]
+                        '''
                         for fn in bads:
                             self.project["nodes"].remove(fn)
+                        '''
 
                     #print('Loaded project:', self.project)
                     self.project_file_path = Path(path)
