@@ -851,6 +851,8 @@ var
 begin
   Frame:= CurrentFrame;
   if Frame=nil then exit;
+  if Frame.FrameKind<>TAppFrameKind.Editor then exit;
+
   InitFormFind;
   bFocusFindDlg:= Assigned(fmFind) and fmFind.Visible and fmFind.Enabled and (fmFind.edFind.Focused or fmFind.edRep.Focused);
 
@@ -864,19 +866,13 @@ begin
     Exit
   end;
 
-  if Frame.FrameKind<>TAppFrameKind.Editor then
-    exit;
-
   FFinder.Editor:= Frame.Editor;
   FFinder.OptFromCaret:= true;
   FFinder.OptBack:= false;
   FFinder.OptDisableOnProgress:= false;
 
-  {if FFinder.Editor.Carets.IsSelection then
-    ok:= FFinder.DoAction_ReplaceSelected(true)
-  else}
-    ok:= FFinder.DoAction_FindOrReplace(true, false, bChanged, true);
-  FinderUpdateEditor(true);
+  ok:= FFinder.DoAction_FindOrReplace(true, false, bChanged, true);
+  FinderUpdateEditor(bChanged);
   FinderShowResult(ok, true, FFinder);
   UpdateAppForSearch(false, false, true, true, bFocusFindDlg); //hide search progressbar
 
