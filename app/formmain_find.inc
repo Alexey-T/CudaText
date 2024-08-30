@@ -848,15 +848,12 @@ end;
 procedure TfmMain.DoFindNextAndReplace;
 var
   Frame: TEditorFrame;
-  Op: TAppFinderOperation;
-  ok, bChanged, bFocusFindDlg: boolean;
 begin
   Frame:= CurrentFrame;
   if Frame=nil then exit;
   if Frame.FrameKind<>TAppFrameKind.Editor then exit;
 
   InitFormFind;
-  bFocusFindDlg:= Assigned(fmFind) and fmFind.Visible and fmFind.Enabled and (fmFind.edFind.Focused or fmFind.edRep.Focused);
 
   ////always update Finder string when "Find next" called. issue #2182
   if not fmFind.edFind.IsEmpty then
@@ -875,6 +872,7 @@ begin
 
   //add string to history, issue #3326
   fmFind.edFind.DoAddLineToHistory(FFinder.StrFind, UiOps.MaxHistoryEdits);
+  fmFind.edRep.DoAddLineToHistory(FFinder.StrReplace, UiOps.MaxHistoryEdits);
 end;
 
 
