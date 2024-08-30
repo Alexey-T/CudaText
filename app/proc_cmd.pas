@@ -1013,7 +1013,9 @@ begin
     cmdFirstPluginCommand..cmdLastPluginCommand,
     cmdFirstPluginSubCommand..cmdLastPluginSubCommand,
     cmdFirstFileCommand..cmdLastFileCommand,
-    cmdFirstRecentCommand..cmdLastRecentCommand,
+    cmdFirstRecentCommand..cmdLastRecentCommand:
+      Result:= false;
+
     cmd_MacroStart,
     cmd_DialogCommands,
     cmd_DialogThemeUi,
@@ -1028,6 +1030,8 @@ begin
     cmd_DialogLexerStyleMap,
     cmd_DialogLexerMenu,
     cmd_DialogSaveTabs,
+    cmd_DialogUnprinted,
+
     cmd_FileNew,
     cmd_FileNewMenu,
     cmd_FileOpen,
@@ -1046,6 +1050,7 @@ begin
     cmd_FileCloseAndDelete,
     cmd_FileExportHtml,
     cmd_FileReopenRecent,
+
     cmd_ToggleFocusSplitEditors,
     cmd_FocusEditor,
     cmd_ToggleBottomPanel,
@@ -1094,7 +1099,6 @@ begin
     cmd_MenuLexers,
 
     cmd_LinkAtCaret_Open,
-    cmd_LinkAtCaret_Copy,
 
     cmd_BracketHighlightOn,
     cmd_BracketHighlightOff,
@@ -1112,8 +1116,8 @@ begin
     cmd_HelpForum,
     cmd_HelpWiki,
     cmd_HelpIssues:
-
       Result:= false;
+
     else
       Result:= true;
   end;
