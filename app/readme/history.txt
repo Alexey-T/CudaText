@@ -5,10 +5,12 @@
 
 1.217.2 (2024/08)
 
++ add: if ContextMenu key is pressed, menu is shown now at 1st caret pos (before: at screen corner)
 + add: Project Manager: added Command Palette items "Focus in file manager" and "Find in folder", before they existed only in context menu (thanks @SamC)
 + add: Project Manager: when project's root nodes (files/dirs) are temporary deleted, still show nodes with X mark (thanks @SamC)
 + add: Project Manager: option "Sorting order" has new value "by creation date"
 + add: added Command Palette item "find next and replace" (thanks @sl23)
+* change: menuitem 'Open URL' now contains URL itself, truncated if too long
 * change: deleted options "find_hotkey_find_next", "find_hotkey_replace", now usual Command Palette hotkeys are used here
 - fix: crash with option values "ui_tab_button_layout":"" and "ui_tab_multiline":true (thanks @ildarkhasanshin)
 - fix: command "copy url at 1st caret" cannot be recorded to macros
