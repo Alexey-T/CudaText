@@ -905,7 +905,8 @@
   "ui_tab_flat": false,
 
   //UI tabs: Layout of buttons near tabs, at left/right sides.
-  //String of few chars, each char is button. Separator for sides is comma.
+  //String of few chars, each char represents a button. Separator for sides is comma,
+  //only single separator is allowed.
   //Allowed chars (buttons):
   //  "<", ">" - scroll arrows
   //  "v" - arrow of dropdown menu
