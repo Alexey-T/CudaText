@@ -234,6 +234,7 @@ type
     MaxLineLenForEditingKeepingLexer: integer;
     MaxSizeForSession: integer;
     MaxLinesForMicromapPaint: integer;
+    MaxLenOfMenuitemToOpenURL: integer;
 
     InfoAboutOptionsEditor: boolean;
     AllowRunPkExec: boolean;
@@ -2164,6 +2165,7 @@ begin
     MaxLineLenForEditingKeepingLexer:= 2000;
     MaxSizeForSession:= 50*1000*1000;
     MaxLinesForMicromapPaint:= 300*1024;
+    MaxLenOfMenuitemToOpenURL:= 40;
 
     InfoAboutOptionsEditor:= true;
     AllowRunPkExec:= true;
