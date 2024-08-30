@@ -1099,6 +1099,7 @@ begin
     cmd_MenuLexers,
 
     cmd_LinkAtCaret_Open,
+    cmd_LinkAtPopup_Open,
 
     cmd_BracketHighlightOn,
     cmd_BracketHighlightOff,
