@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.217.1 (2024/08)
+1.217.2 (2024/08)
 
 + add: Project Manager: added Command Palette items "Focus in file manager" and "Find in folder", before they existed only in context menu (thanks @SamC)
 + add: Project Manager: when project's root nodes (files/dirs) are temporary deleted, still show nodes with X mark (thanks @SamC)
