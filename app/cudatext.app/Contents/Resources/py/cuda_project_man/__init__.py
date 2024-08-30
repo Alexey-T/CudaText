@@ -473,30 +473,21 @@ class Command:
 
     @staticmethod
     def node_ordering_direntry(path):
-        # node_ordering() for os.DirEntry and pathlib.Path
-        isfile = path.is_file()
+        ''' node_ordering() for os.DirEntry and pathlib.Path '''
         global sort_order
+        isfile = path.is_file()
         if sort_order=='ext':
-            if isfile:
-                key = _file_ext(path.name).upper()
-            else:
-                key = ''
+            key = _file_ext(path.name).upper() if isfile else ''
         elif sort_order=='name':
             key = path.name.upper()
         elif sort_order=='size':
-            if isfile:
-                key = -path.stat().st_size
-            else:
-                key = ''
+            key = -path.stat().st_size if isfile else ''
         elif sort_order=='size-':
-            if isfile:
-                key = path.stat().st_size
-            else:
-                key = ''
+            key = path.stat().st_size if isfile else ''
         elif sort_order=='mtime':
-            key = -path.stat().st_mtime
+            key = -path.stat().st_mtime if isfile else ''
         elif sort_order=='mtime-':
-            key = path.stat().st_mtime
+            key = path.stat().st_mtime if isfile else ''
         else:
             raise ValueError('Unknown sort_order: '+sort_order)
 
