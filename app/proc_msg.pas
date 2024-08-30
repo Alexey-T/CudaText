@@ -116,6 +116,7 @@ const
   msgAllFiles: string = 'All files';
   msgNoLexer: string = '(none)';
   msgIgnoredCommandIfNotFocused: string = 'Ignoring the command, editor isn''t focused';
+  msgOpenLink: string = 'Open %s';
 
   msgPanelMenu_Init = 'Menu';
   msgPanelTree_Init = 'Code tree';

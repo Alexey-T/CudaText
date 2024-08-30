@@ -8183,7 +8183,7 @@ end;
 procedure TfmMain.PopupTextPopup(Sender: TObject);
 var
   Ed: TATSynEdit;
-  SLink: UnicodeString;
+  SLink, SCaption: string;
 begin
   UpdateMenuItemHotkey(mnuTextUndo, cCommand_Undo);
   UpdateMenuItemHotkey(mnuTextRedo, cCommand_Redo);
@@ -8220,11 +8220,13 @@ begin
     mnuTextOpenUrl.Visible:= SLink<>'';
     if mnuTextOpenUrl.Visible then
     begin
-      //use i18n trick, maybe not ok for some locales! cut caption from 1st space.
-      mnuTextOpenUrl.Caption:= Copy(mnuTextOpenUrl.Caption, 1, Pos(' ', mnuTextOpenUrl.Caption))+SLink;
-      if Length(mnuTextOpenUrl.Caption)>UiOps.MaxLenOfMenuitemToOpenURL then
-        mnuTextOpenUrl.Caption:= Copy(mnuTextOpenUrl.Caption, 1, UiOps.MaxLenOfMenuitemToOpenURL)+'...';
-    end;
+      SCaption:= Format(msgOpenLink, [SLink]);
+      if Length(SCaption)>UiOps.MaxLenOfMenuitemToOpenURL then
+        SCaption:= Copy(SCaption, 1, UiOps.MaxLenOfMenuitemToOpenURL)+'...';
+      mnuTextOpenUrl.Caption:= SCaption;
+    end
+    else
+      mnuTextOpenUrl.Caption:= 'Open URL';
     if Assigned(mnuTextSepUrl) then
       mnuTextSepUrl.Visible:= mnuTextOpenUrl.Visible;
   end;

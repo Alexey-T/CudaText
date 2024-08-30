@@ -465,8 +465,8 @@ begin
     DoLocMenuitem(mnuTextDelete, ATEditorOptions.TextMenuitemDelete);
     DoLocMenuitem(mnuTextSel, ATEditorOptions.TextMenuitemSelectAll);
     DoLocMenuitem(ini, mnuTextGotoDef, 'ct', 'godef');
-    DoLocMenuitem(ini, mnuTextOpenUrl, 'ct', 'url');
 
+    DoLocString(msgOpenLink, ini, 'ct', 'url');
     DoLocString(ATEditorOptions.TextMenuitemFoldAll, ini, 'ct', 'fld_a');
     DoLocString(ATEditorOptions.TextMenuitemUnfoldAll, ini, 'ct', 'fld_un');
     DoLocString(ATEditorOptions.TextMenuitemFoldLevel, ini, 'ct', 'fld_lv');
