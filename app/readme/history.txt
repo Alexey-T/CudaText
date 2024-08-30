@@ -7,6 +7,7 @@
 
 + add: Project Manager: added Command Palette items "Focus in file manager" and "Find in folder", before they existed only in context menu (thanks @SamC)
 + add: added Command Palette item "find next and replace" (thanks @sl23)
+- fix: command "copy url at 1st caret" cannot be recorded to macros
 
 1.217.0 (2024/08)
 
