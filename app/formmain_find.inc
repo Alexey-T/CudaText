@@ -805,6 +805,8 @@ begin
 
   Frame:= CurrentFrame;
   if Frame=nil then exit;
+  if Frame.FrameKind=TAppFrameKind.ImageViewer then exit;
+
   InitFormFind;
   bFocusFindDlg:= Assigned(fmFind) and fmFind.Visible and fmFind.Enabled and (fmFind.edFind.Focused or fmFind.edRep.Focused);
 
