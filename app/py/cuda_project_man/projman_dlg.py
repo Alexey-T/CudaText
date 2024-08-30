@@ -60,7 +60,9 @@ def dialog_config(op):
         'size',
         'size-',
         'mtime',
-        'mtime-'
+        'mtime-',
+        'ctime',
+        'ctime-',
         ]
     items_sort_str = [
         _('by name'),
@@ -68,7 +70,9 @@ def dialog_config(op):
         _('by size'),
         _('by size, descending'),
         _('by date'),
-        _('by date, descending')
+        _('by date, descending'),
+        _('by creation date'),
+        _('by creation date, descending'),
         ]
     s = op.get('sort_order', 'ext')
     items_sort_val = items_sort_id.index(s if s in items_sort_id else 'ext')
