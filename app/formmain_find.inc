@@ -860,23 +860,18 @@ begin
 
   ////always update Finder string when "Find next" called. issue #2182
   if not fmFind.edFind.IsEmpty then
-    FFinder.StrFind:= fmFind.edFind.Text
+  begin
+    FFinder.StrFind:= fmFind.edFind.Text;
+    FFinder.StrReplace:= fmFind.edRep.Text;
+  end
   else
   if FFinder.StrFind='' then
   begin
-    DoDialogFind(false, true);
+    DoDialogFind(true, true);
     Exit
   end;
 
-  FFinder.Editor:= Frame.Editor;
-  FFinder.OptFromCaret:= true;
-  FFinder.OptBack:= false;
-  FFinder.OptDisableOnProgress:= false;
-
-  ok:= FFinder.DoAction_FindOrReplace(true, false, bChanged, true);
-  FinderUpdateEditor(bChanged);
-  FinderShowResult(ok, true, FFinder);
-  UpdateAppForSearch(false, false, true, true, bFocusFindDlg); //hide search progressbar
+  FindDialogDone(Frame, TAppFinderOperation.Replace, false, false);
 
   //add string to history, issue #3326
   fmFind.edFind.DoAddLineToHistory(FFinder.StrFind, UiOps.MaxHistoryEdits);
