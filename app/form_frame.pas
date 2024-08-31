@@ -173,6 +173,7 @@ type
     FNotifEnabled: boolean;
     FNotifDeletedEnabled: boolean;
     FOnChangeCaption: TNotifyEvent;
+    FOnChange: TNotifyEvent;
     FOnChangeSlow: TNotifyEvent;
     FOnProgress: TATFinderProgress;
     FOnUpdateStatusbar: TAppFrameStatusbarEvent;
@@ -534,6 +535,7 @@ type
     property OnMsgStatus: TAppStringEvent read FOnMsgStatus write FOnMsgStatus;
     property OnFocusEditor: TNotifyEvent read FOnFocusEditor write FOnFocusEditor;
     property OnChangeCaption: TNotifyEvent read FOnChangeCaption write FOnChangeCaption;
+    property OnChange: TNotifyEvent read FOnChange write FOnChange;
     property OnChangeSlow: TNotifyEvent read FOnChangeSlow write FOnChangeSlow;
     property OnUpdateStatusbar: TAppFrameStatusbarEvent read FOnUpdateStatusbar write FOnUpdateStatusbar;
     property OnUpdateState: TNotifyEvent read FOnUpdateState write FOnUpdateState;
@@ -1752,6 +1754,9 @@ begin
   EdIndex:= EditorObjToIndex(Ed);
   if EdIndex>=0 then
     FTextChange[EdIndex]:= true;
+
+  if Assigned(FOnChange) then
+    FOnChange(Ed);
 end;
 
 procedure TEditorFrame.EditorOnChangeDetailed(Sender: TObject;
