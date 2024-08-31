@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.217.2 (2024/08)
+1.217.5 (2024/09)
 
 + add: if ContextMenu key is pressed, menu is shown now at the caret pos (before it was at the editor corner)
 + add: Project Manager: added Command Palette items "Focus in file manager" and "Find in folder", before they existed only in context menu (thanks @SamC)
@@ -15,7 +15,7 @@
 * change: deleted options "find_hotkey_find_next", "find_hotkey_replace", now usual Command Palette hotkeys are used here
 - fix: crash with option values "ui_tab_button_layout":"" and "ui_tab_multiline":true (thanks @ildarkhasanshin)
 - fix: command "copy url at 1st caret" cannot be recorded to macros
-- fix: bug in binary-viewer search: find-previous gives matches 1 char rigther than needed
+- fix: binary-viewer search: find-previous starts the search 1 char rigther than needed
 
 1.217.0 (2024/08)
 
