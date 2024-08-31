@@ -4947,7 +4947,7 @@ begin
     if bForward then
       NStartPos:= FViewer.FoundStart+FViewer.FoundLength
     else
-      NStartPos:= FViewer.FoundStart;
+      NStartPos:= FViewer.FoundStart-FViewer.CharSize;
   end;
 
   Ops:= [];
