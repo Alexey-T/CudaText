@@ -13,6 +13,7 @@
 + add: update toolbar undo/redo buttons enabled-state much faster
 * change: menuitem 'Open URL' now contains URL itself, truncated by ~40 chars (needs updated translation file, if it's used)
 * change: deleted options "find_hotkey_find_next", "find_hotkey_replace", now usual Command Palette hotkeys are used here
+* change: don't disable toolbar buttons for undo/redo
 - fix: crash with option values "ui_tab_button_layout":"" and "ui_tab_multiline":true (thanks @ildarkhasanshin)
 - fix: command "copy url at 1st caret" cannot be recorded to macros
 - fix: binary-viewer search: find-previous starts the search 1 char rigther than needed
