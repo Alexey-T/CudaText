@@ -792,7 +792,6 @@ procedure TfmMain.DoFindNext(ANext: boolean);
 var
   Frame: TEditorFrame;
   Op: TAppFinderOperation;
-  ok, bChanged, bFocusFindDlg: boolean;
 begin
   {
   1) when user _holds_ Shift+F3 in Find dialog, command queue can be filled too much
@@ -808,7 +807,6 @@ begin
   if Frame.FrameKind=TAppFrameKind.ImageViewer then exit;
 
   InitFormFind;
-  bFocusFindDlg:= Assigned(fmFind) and fmFind.Visible and fmFind.Enabled and (fmFind.edFind.Focused or fmFind.edRep.Focused);
 
   ////always update Finder string when "Find next" called. issue #2182
   if not fmFind.edFind.IsEmpty then
@@ -820,25 +818,12 @@ begin
     Exit
   end;
 
-  if Frame.FrameKind=TAppFrameKind.BinaryViewer then
-  begin
-    if ANext then
-      Op:= TAppFinderOperation.FindNext
-    else
-      Op:= TAppFinderOperation.FindPrev;
-    FindDialogDone(Frame, Op, false, false);
-    exit;
-  end;
-
-  FFinder.Editor:= Frame.Editor;
-  FFinder.OptFromCaret:= true;
-  FFinder.OptBack:= not ANext;
-  FFinder.OptDisableOnProgress:= false;
-
-  ok:= FFinder.DoAction_FindOrReplace(false, false, bChanged, true);
-  FinderUpdateEditor(false);
-  FinderShowResult(ok, false, FFinder);
-  UpdateAppForSearch(false, false, true, true, bFocusFindDlg); //hide search progressbar
+  //works for both editor and binary-viewer
+  if ANext then
+    Op:= TAppFinderOperation.FindNext
+  else
+    Op:= TAppFinderOperation.FindPrev;
+  FindDialogDone(Frame, Op, false, false);
 
   //add string to history, issue #3326
   fmFind.edFind.DoAddLineToHistory(FFinder.StrFind, UiOps.MaxHistoryEdits);
