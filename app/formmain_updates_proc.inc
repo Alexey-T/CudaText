@@ -80,13 +80,15 @@ end;
 procedure TfmMain.UpdateToolbarButton(AToolbar: TATFlatToolbar;
   ACmd: integer; AChecked, AEnabled: boolean);
 var
+  SCmd: string;
   Btn: TATButton;
   i: integer;
 begin
+  SCmd:= IntToStr(ACmd);
   for i:= 0 to AToolbar.ButtonCount-1 do
   begin
     Btn:= AToolbar.Buttons[i];
-    if Btn.DataString=IntToStr(ACmd) then
+    if Btn.DataString=SCmd then
     begin
       Btn.Checked:= AChecked;
       Btn.Enabled:= AEnabled;
