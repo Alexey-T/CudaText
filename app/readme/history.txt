@@ -5,11 +5,11 @@
 
 1.217.5 (2024/09)
 
++ add: added Command Palette item "find next and replace"; so now it's possible to assign eg F4 to 'replace' and use it when Find-dlg is focused & when editor is focused (thanks @sl23)
 + add: if ContextMenu key is pressed, menu is shown now at the caret pos (before it was at the editor corner)
 + add: Project Manager: added Command Palette items "Focus in file manager" and "Find in folder", before they existed only in context menu (thanks @SamC)
 + add: Project Manager: when project's root nodes (files/dirs) are temporary deleted, still show nodes with X mark (thanks @SamC)
 + add: Project Manager: option "Sorting order" has new value "by creation date"
-+ add: added Command Palette item "find next and replace" (thanks @sl23)
 * change: menuitem 'Open URL' now contains URL itself, truncated by ~40 chars (needs updated translation file, if it's used)
 * change: deleted options "find_hotkey_find_next", "find_hotkey_replace", now usual Command Palette hotkeys are used here
 * change: don't disable toolbar buttons for undo/redo
