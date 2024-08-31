@@ -325,21 +325,6 @@ begin
   Result:= D.TabObject as TEditorFrame;
 end;
 
-procedure TfmMain.FrameOnChange(Sender: TObject);
-{
-users complained about slow updating of toolbar btns 'undo'/'redo' so we do fast
-update of these 2 btns here. others are not much needed to update fast.
-}
-var
-  Ed: TATSynEdit;
-begin
-  //Ed:= Sender as TATSynEdit;
-
-  ////disabled updating of undo/redo: user complained they are disabled when not needed
-  //UpdateToolbarButton(ToolbarMain, cCommand_Undo, false, not Ed.Strings.UndoEmpty);
-  //UpdateToolbarButton(ToolbarMain, cCommand_Redo, false, not Ed.Strings.RedoEmpty);
-end;
-
 procedure TfmMain.FrameOnChangeSlow(Sender: TObject);
 var
   Ed: TATSynEdit;

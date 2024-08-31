@@ -494,7 +494,6 @@ type
     procedure FrameOnEditorScroll(Sender: TObject);
     procedure FrameOnEditorPaint(Sender: TObject);
     procedure FrameOnInitAdapter(Sender: TObject);
-    procedure FrameOnChange(Sender: TObject);
     procedure FrameOnChangeSlow(Sender: TObject);
     procedure FrameParseDone(Sender: TObject);
     procedure EditorOutput_OnClickDbl(Sender: TObject; var AHandled: boolean);
