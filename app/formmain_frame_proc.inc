@@ -333,10 +333,11 @@ update of these 2 btns here. others are not much needed to update fast.
 var
   Ed: TATSynEdit;
 begin
-  Ed:= Sender as TATSynEdit;
+  //Ed:= Sender as TATSynEdit;
 
-  UpdateToolbarButton(ToolbarMain, cCommand_Undo, false, not Ed.Strings.UndoEmpty);
-  UpdateToolbarButton(ToolbarMain, cCommand_Redo, false, not Ed.Strings.RedoEmpty);
+  ////disabled updating of undo/redo: user complained they are disabled when not needed
+  //UpdateToolbarButton(ToolbarMain, cCommand_Undo, false, not Ed.Strings.UndoEmpty);
+  //UpdateToolbarButton(ToolbarMain, cCommand_Redo, false, not Ed.Strings.RedoEmpty);
 end;
 
 procedure TfmMain.FrameOnChangeSlow(Sender: TObject);
