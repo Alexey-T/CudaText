@@ -808,7 +808,7 @@ begin
 
   InitFormFind;
 
-  ////always update Finder string when "Find next" called. issue #2182
+  //always update Finder string when "Find next" called. issue #2182
   if not fmFind.edFind.IsEmpty then
     FFinder.StrFind:= fmFind.edFind.Text
   else
@@ -840,7 +840,7 @@ begin
 
   InitFormFind;
 
-  ////always update Finder string when "Find next" called. issue #2182
+  //always update Finder string when "Find next" called
   if not fmFind.edFind.IsEmpty then
   begin
     FFinder.StrFind:= fmFind.edFind.Text;
@@ -855,7 +855,7 @@ begin
 
   FindDialogDone(Frame, TAppFinderOperation.Replace, false, false);
 
-  //add string to history, issue #3326
+  //add strings to history
   fmFind.edFind.DoAddLineToHistory(FFinder.StrFind, UiOps.MaxHistoryEdits);
   fmFind.edRep.DoAddLineToHistory(FFinder.StrReplace, UiOps.MaxHistoryEdits);
 end;
