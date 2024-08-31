@@ -10,7 +10,6 @@
 + add: Project Manager: when project's root nodes (files/dirs) are temporary deleted, still show nodes with X mark (thanks @SamC)
 + add: Project Manager: option "Sorting order" has new value "by creation date"
 + add: added Command Palette item "find next and replace" (thanks @sl23)
-+ add: update toolbar undo/redo buttons enabled-state much faster
 * change: menuitem 'Open URL' now contains URL itself, truncated by ~40 chars (needs updated translation file, if it's used)
 * change: deleted options "find_hotkey_find_next", "find_hotkey_replace", now usual Command Palette hotkeys are used here
 * change: don't disable toolbar buttons for undo/redo
