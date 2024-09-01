@@ -2805,7 +2805,11 @@ There is hidden option in user.json:
 
  "log_timing": true
 
-It shows the additional label in the editor corner, with red font. Label shows the time of the last rendered frame in milliseconds. Label also shows the counter of rendered frames, so developers can check if editor does redundant repaints.
+It shows the additional label in the editor corner, with red font. Label shows the time of the last rendered frame in milliseconds. Label also shows the counter of rendered frames, so developers can check if editor does redundant repaints. Label also shows 3 moving graphs:
+
+* red color: total time of rendering
+* blue color: time spent on TextOut/ExtTextOut Lazarus API
+* green color: time spent on minimap rendering
 
 For text editing commands (e.g. typing of text), counter may increase by 3 on each command. Why? 3rd repaint is from "bracket_highlight":true (occurs in IdleTimer after a small delay), 2nd repaint is from lexer parser - parser makes the repaint when full document is parsed or the current screen is parsed. 1st repaint is the main immediate repaint.
 
