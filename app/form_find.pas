@@ -982,14 +982,6 @@ begin
   IsDoubleBuffered:= UiOps.DoubleBuffered;
   AppScalePanelControls(Self);
 
-  bFindFirst.Hint:= UiOps.HotkeyFindFirst;
-  bFindNext.Hint:= UiOps.HotkeyFindNext;
-  bFindPrev.Hint:= UiOps.HotkeyFindPrev;
-  bRep.Hint:= UiOps.HotkeyReplaceAndFindNext;
-  bRepAll.Hint:= UiOps.HotkeyReplaceAll;
-  bRepGlobal.Hint:= UiOps.HotkeyReplaceGlobal;
-  bMore.Hint:= _MakeHint('', UiOps.HotkeyFindMenu);
-
   for kind in TATFinderTokensAllowed do
   begin
     bTokens.Items.Add(cTokensDesc[kind]);
@@ -1379,9 +1371,6 @@ end;
 procedure TfmFind.FormShow(Sender: TObject);
 begin
   Localize;
-
-  UiOps.HotkeyFindNext:= ShortcutToTextRaw(AppKeymapMain.GetShortcutFromCommand(cmd_FindNext));
-  UiOps.HotkeyReplaceAndFindNext:= ShortcutToTextRaw(AppKeymapMain.GetShortcutFromCommand(cmd_FindNextAndReplace));
 
   edFind.OptCaretBlinkEnabled:= EditorOps.OpCaretBlinkEn;
   edRep.OptCaretBlinkEnabled:= EditorOps.OpCaretBlinkEn;
@@ -1844,6 +1833,9 @@ begin
     end;
   end;
 
+  UiOps.HotkeyFindNext:= ShortcutToTextRaw(AppKeymapMain.GetShortcutFromCommand(cmd_FindNext));
+  UiOps.HotkeyReplaceAndFindNext:= ShortcutToTextRaw(AppKeymapMain.GetShortcutFromCommand(cmd_FindNextAndReplace));
+
   bFindFirst.Hint:= _MakeHint(msgFindHint_FindFirst, UiOps.HotkeyFindFirst);
   bFindNext.Hint:= _MakeHint(msgFindHint_FindNext, UiOps.HotkeyFindNext);
   bFindPrev.Hint:= _MakeHint(msgFindHint_FindPrev, UiOps.HotkeyFindPrev);
@@ -1851,6 +1843,7 @@ begin
   bRep.Hint:= _MakeHint(msgFindHint_Rep, UiOps.HotkeyReplaceAndFindNext);
   bRepAll.Hint:= _MakeHint(msgFindHint_RepAll, UiOps.HotkeyReplaceAll);
   bRepGlobal.Hint:= _MakeHint(msgFindHint_RepGlobal, UiOps.HotkeyReplaceGlobal);
+  bMore.Hint:= _MakeHint('', UiOps.HotkeyFindMenu);
 
   chkRegex.Hint:= _MakeHint(msgFindHint_Regex, UiOps.HotkeyToggleRegex);
   chkRegexSubst.Hint:= _MakeHint(msgFindHint_RegexSubst, '');

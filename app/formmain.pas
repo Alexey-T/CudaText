@@ -5407,6 +5407,8 @@ begin
   begin
     UpdateMenuHotkeys;
     UpdateMenuPlugins_Shortcuts(true);
+    if Assigned(fmFind) then
+      fmFind.Localize;
   end;
 end;
 
