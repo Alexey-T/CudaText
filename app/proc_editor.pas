@@ -2403,7 +2403,7 @@ begin
   end;
 
   //stage-1: highlight all matches
-  AFinder.OptDisableOnProgress:= true; //fix flickering on Linux-Qt5, issue #5679
+  AFinder.OptDisableOnProgress:= true; //fix flickering on scrolling (Win64 and Qt5), issue #5679
   AMatchesCount:= AFinder.DoAction_HighlightAllEditorMatches(
     ColorBorder,
     StyleBorder,
