@@ -16,7 +16,7 @@
 - fix: crash with option values "ui_tab_button_layout":"" and "ui_tab_multiline":true (thanks @ildarkhasanshin)
 - fix: command "copy url at 1st caret" cannot be recorded to macros
 - fix: binary-viewer search: find-previous starts the search 1 char rigther than needed
-- fix: Find-dialog makes big flickering with 'Hi' option on Qt5 version (thanks @Hexaae)
+- fix: Find-dialog makes flickering on scrolling with 'Hi' option, in Win & Qt5 versions (thanks @Hexaae)
 
 1.217.0 (2024/08)
 
