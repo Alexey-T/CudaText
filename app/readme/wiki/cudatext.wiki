@@ -372,6 +372,7 @@ The following lexers (counting only important ones) exist for CudaText. They are
 * Falcon
 * Fish
 * FIX Message (Financial Information eXchange)
+* foobar2000 title formatting (it's for Mp3tag too)
 * Forth
 * Fortran
 * FoxPro
