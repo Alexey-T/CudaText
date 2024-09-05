@@ -1,0 +1,11 @@
+object Form1: TForm1
+  Left = 341
+  Height = 240
+  Top = 127
+  Width = 462
+  Caption = 'Form1'
+  Position = poScreenCenter
+  LCLVersion = '3.99.0.0'
+  OnCreate = FormCreate
+  OnPaint = FormPaint
+end
