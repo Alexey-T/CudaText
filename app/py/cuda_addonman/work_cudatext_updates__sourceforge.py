@@ -52,7 +52,7 @@ def versions_ordered(s1, s2):
 
 def check_cudatext():
 
-    fn = os.path.join(get_temp_dir(), 'cudatext_download.html')
+    fn = os.path.join(get_temp_dir(), 'download.html')
     url = DOWNLOAD_PAGE
     app.msg_status(_('Downloading: ')+url, True)
     get_url(url, fn, True)

@@ -65,7 +65,7 @@ def is_file_html(fn):
 
 def get_plugin_zip(url):
     if not url: return
-    fn = os.path.join(get_temp_dir(), 'cudatext_addon.zip')
+    fn = os.path.join(get_temp_dir(), 'addon.zip')
     get_url(url, fn, True)
     
     if is_file_html(fn):
