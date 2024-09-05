@@ -26,6 +26,7 @@ def get_branch(url):
 
     with open(fn, 'r') as f:
         data = json.load(f)
+        os.remove(fn)
         if not isinstance(data, list):
             msg_box(_('Got empty list of Git branches for that repo'), MB_OK+MB_ICONERROR)
             return
