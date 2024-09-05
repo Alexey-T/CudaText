@@ -25,7 +25,7 @@ uses
   LazUTF8;
 
 const
-  BaseServerId = 'tuniqueinstance_';
+  BaseServerId = 'cudatext_unique_';
 
 procedure InitializeUniqueServer(const ServerId: String);
 begin
