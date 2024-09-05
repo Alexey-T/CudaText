@@ -2,11 +2,11 @@ import os
 import re
 import json
 import time
-import tempfile
 import requests
 from urllib.parse import unquote
 import cudatext as app
 from . import opt
+from .work_tempdir import get_temp_dir
 
 from cudax_lib import get_translation
 _   = get_translation(__file__)  # i18n
@@ -65,7 +65,7 @@ def is_file_html(fn):
 
 def get_plugin_zip(url):
     if not url: return
-    fn = os.path.join(tempfile.gettempdir(), 'cudatext_addon.zip')
+    fn = os.path.join(get_temp_dir(), 'cudatext_addon.zip')
     get_url(url, fn, True)
     
     if is_file_html(fn):
@@ -87,7 +87,7 @@ def get_channel(url):
     cap = url.split('/')[-1]
 
     #separate temp fn for each channel
-    temp_dir = os.path.join(tempfile.gettempdir(), 'cudatext_addon_man')
+    temp_dir = os.path.join(get_temp_dir(), 'addon_man')
     if not os.path.isdir(temp_dir):
         os.mkdir(temp_dir)
     temp_fn = os.path.join(temp_dir, cap)

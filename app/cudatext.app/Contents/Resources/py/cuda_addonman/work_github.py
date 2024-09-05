@@ -1,12 +1,12 @@
 import os
 import json
-import tempfile
 import subprocess
 from datetime import datetime
 from cudatext import *
 import cudatext_cmd
 from .work_remote import get_url
 from .work_install_helper import after_install
+from .work_tempdir import get_temp_dir
 
 from cudax_lib import get_translation
 _   = get_translation(__file__)  # i18n
@@ -17,7 +17,7 @@ def get_datetime_short():
 
 def get_branch(url):
 
-    fn = os.path.join(tempfile.gettempdir(), 'cudatext_git_branches.json')
+    fn = os.path.join(get_temp_dir(), 'git_branches.json')
     url_branches = url.replace('http://', 'https://').replace('//github.com/', '//api.github.com/repos/') + '/branches'
     get_url(url_branches, fn, True)
     if not os.path.isfile(fn):
@@ -103,8 +103,9 @@ def do_install_from_github():
 
     module_from_url = os.path.basename(url)
 
-    fn = os.path.join(tempfile.gettempdir(), 'cudatext_addon.zip')
-    fn_inf = os.path.join(tempfile.gettempdir(), 'cudatext_addon.inf')
+    tmp = get_temp_dir()
+    fn = os.path.join(tmp, 'addon.zip')
+    fn_inf = os.path.join(tmp, 'addon.inf')
     dir_py = app_path(APP_DIR_PY)
     dir_plugin = ''
     msg_status(_('Downloading...'))
