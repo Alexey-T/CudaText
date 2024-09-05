@@ -2,9 +2,9 @@ import json
 import os
 import collections
 import zipfile
-import tempfile
 import configparser
 from cudatext import *
+from .work_tempdir import get_temp_dir
 
 from cudax_lib import get_translation
 _   = get_translation(__file__)  # i18n
@@ -28,7 +28,7 @@ def _root_item(s):
 
 def get_props_of_zip_filename(zip_fn):
 
-    temp_dir = tempfile.gettempdir()
+    temp_dir = get_temp_dir()
     z = zipfile.ZipFile(zip_fn, 'r')
 
     files = z.namelist()

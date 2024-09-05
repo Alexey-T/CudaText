@@ -1,8 +1,8 @@
 import os
 import re
-import tempfile
 import cudatext as app
 from .work_remote import *
+from .work_tempdir import get_temp_dir
 
 from cudax_lib import get_translation, safe_open_url
 _   = get_translation(__file__)  # i18n
@@ -52,7 +52,7 @@ def versions_ordered(s1, s2):
 
 def check_cudatext():
 
-    fn = os.path.join(tempfile.gettempdir(), 'cudatext_download.html')
+    fn = os.path.join(get_temp_dir(), 'cudatext_download.html')
     url = DOWNLOAD_PAGE
     app.msg_status(_('Downloading: ')+url, True)
     get_url(url, fn, True)
