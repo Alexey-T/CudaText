@@ -10,6 +10,7 @@
 + add: Project Manager: added Command Palette items "Focus in file manager" and "Find in folder", before they existed only in context menu (thanks @SamC)
 + add: Project Manager: when project's root nodes (files/dirs) are temporary deleted, still show nodes with X mark (thanks @SamC)
 + add: Project Manager: option "Sorting order" has new value "by creation date"
++ add: Addons Manager now puts all its temp files to a single subfolder of temp-folder
 * change: menuitem 'Open URL' now contains URL itself, truncated by ~40 chars (needs updated translation file, if it's used)
 * change: deleted options "find_hotkey_find_next", "find_hotkey_replace", now usual Command Palette hotkeys are used here
 * change: don't disable toolbar buttons for undo/redo
