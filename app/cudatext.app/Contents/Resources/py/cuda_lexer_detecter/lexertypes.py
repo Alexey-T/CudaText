@@ -206,6 +206,7 @@ TYPES = {
     "gemini": ['Gemini'],
     "gemspec": ['Ruby'],
     "geom": ['GLSL'],
+    "gleam": ['Gleam'],
     "glsl": ['GLSL'],
     "gmi": ['Gemini'],
     "gms": ['GAMS'],
