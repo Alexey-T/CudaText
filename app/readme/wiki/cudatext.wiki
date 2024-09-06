@@ -384,6 +384,7 @@ The following lexers (counting only important ones) exist for CudaText. They are
 * Gemini (web pages)
 * Gherkin (Cucumber; Behat)
 * GHS.com MULTI IDE (3 lexers)
+* Gleam
 * GLSL
 * GNU linker
 * Gnuplot
