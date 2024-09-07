@@ -318,7 +318,7 @@ The following lexers (counting only important ones) exist for CudaText. They are
 * AutoHotkey
 * AutoIt
 * Automake
-* Automation Basic<br />(B&R Automation Studio)
+* Automation Basic (B&R Automation Studio)
 * AviSynth
 * AWK
 * Ballerina
