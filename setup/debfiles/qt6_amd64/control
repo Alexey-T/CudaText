@@ -5,7 +5,7 @@ Priority: optional
 Architecture: amd64
 Maintainer: Alexey Torgashin <support@uvviewsoft.com>
 Homepage: https://cudatext.github.io/
-Depends: qt6-base-dev, libqt6pas6, libqt6pas6-dev, python3 (>= 3.8)
+Depends: qt6-base-dev, libqt6pas6, python3 (>= 3.8)
 Installed-Size: 15000
 Description: Text/code editor
  Text/code editor with lite UI. Syntax highlighting for 300+ languages.
