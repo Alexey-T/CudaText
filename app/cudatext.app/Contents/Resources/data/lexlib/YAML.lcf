@@ -1,4 +1,4 @@
-object SyntAnal25: TLibSyntAnalyzer
+object SyntAnal21: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Comment'
@@ -203,7 +203,7 @@ object SyntAnal25: TLibSyntAnalyzer
       DisplayName = 'String '#39
       StyleName = 'String'
       TokenType = 4
-      Expression = '(?s)(?<=[\s\(\[\{,;])'#39'('#39#39'|.)*?('#39'|\Z)'
+      Expression = '(?s)(?<=:\x20)'#39'('#39#39'|[^'#39'])*('#39'|\Z)'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -354,8 +354,8 @@ object SyntAnal25: TLibSyntAnalyzer
     '...'
     'Null, null, no, .NaN, .inf'
     '0x10_af + 0b1_01 + 12.2e+3'
-    '- !single_quote '#39'Tst '#39#39' tst '#39#39' tst'#39
-    '- !!dbl_quote "Tst \" tst\'
+    '- !single_quote: '#39'Tst '#39#39' tst '#39#39' tst'#39
+    '- !!dbl_quote: "Tst \" tst\'
     'end"'
     'y: y # first '#39'y'#39' must not be hilited, it'#39's a key'
     '&anchor'
@@ -391,7 +391,7 @@ object SyntAnal25: TLibSyntAnalyzer
   Extentions = 'yml yaml sublime-syntax'
   LexerName = 'YAML'
   Notes.Strings = (
-    'Alexey (CudaText)')
+    'Alexey Torgashin (CudaText)')
   LineComment = '#'
   Charset = DEFAULT_CHARSET
 end
