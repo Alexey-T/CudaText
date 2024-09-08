@@ -381,6 +381,7 @@ TYPES = {
     "psrc": ['PowerShell'],
     "pssc": ['PowerShell'],
     "pug": ['Pug'],
+    "purs": ['PureScript'],
     "pwn": ['Pawn'],
     "pxd": ['Cython'],
     "pxi": ['Cython'],
