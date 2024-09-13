@@ -2618,7 +2618,8 @@ The GTK2 and Qt5 binaries can also be installed via the AUR if you are on an Arc
 
 For Linux Qt5 version, library libQt5Pas is required, release 1.2.15 or newer.
 Get it from [https://github.com/davidbannon/libqt5pas/releases releases on this page].
-Page contains 2 packages: libqt5pas and libqt5pas-dev, you only need first of them.
+
+Page contains 2 packages: libqt5pas and libqt5pas-dev, you only need first of them (2nd one is required if you want to compile the app).
 
 In the GutHub page, press the link like "Show all 22 asserts" and there you will see files:
 
@@ -2635,7 +2636,8 @@ Some package managers have Qt5Pas package. On Ubuntu: "libqt5pas-dev", on Manjar
 
 For Linux Qt6 version, library libQt6Pas is required, release 6.2.2 or newer.
 Get it from [https://github.com/davidbannon/libqt6pas/releases releases on this page].
-Page contains 2 packages: libqt6pas6 and libqt6pas6-dev, you only need first of them.
+
+Page contains 2 packages: libqt6pas6 and libqt6pas6-dev, you only need first of them (2nd one is required if you want to compile the app).
 
 ==Linux: App cannot run with GLIBC error==
 
