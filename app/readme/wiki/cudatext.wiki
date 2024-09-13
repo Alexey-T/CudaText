@@ -378,7 +378,7 @@ The following lexers (counting only important ones) exist for CudaText. They are
 * FoxPro
 * FreeBASIC
 * Futhark
-* G-code
+* G-code (this is "lite" lexer)
 * GAMS
 * GDScript
 * Gemini (web pages)
@@ -550,10 +550,11 @@ The following lexers (counting only important ones) exist for CudaText. They are
 * Specman
 * SPICE (PSpice, HSPICE)
 * SPIR
-* SQL
+* SQL (normal and "lite" lexers available)
 * Squirrel
 * SRT Subtitles
 * Standard ML
+* STAR (Self-defining Text Archive and Retrieval) (this is "lite" lexer)
 * Stata
 * Strace
 * Structured Text (IEC 61131-3)
@@ -585,7 +586,7 @@ The following lexers (counting only important ones) exist for CudaText. They are
 * VRML
 * Vue
 * WGSL
-* WikidPad
+* WikidPad (normal and "lite" lexers available)
 * WinBuilder script
 * Windows Resource Script
 * Wolfram
