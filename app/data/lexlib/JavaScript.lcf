@@ -81,24 +81,6 @@ object SyntAnal9: TLibSyntAnalyzer
       Font.Style = [fsItalic]
     end
     item
-      DisplayName = 'Current block'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clMaroon
-      Font.Height = -13
-      Font.Name = 'Courier New'
-      Font.Style = [fsBold]
-      BgColor = 13369046
-      FormatType = ftBackGround
-      BorderTypeLeft = blSolid
-      BorderColorLeft = clGray
-      BorderTypeTop = blSolid
-      BorderColorTop = clGray
-      BorderTypeRight = blSolid
-      BorderColorRight = clGray
-      BorderTypeBottom = blSolid
-      BorderColorBottom = clGray
-    end
-    item
       DisplayName = 'PHP tag'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clRed
@@ -145,6 +127,16 @@ object SyntAnal9: TLibSyntAnalyzer
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
+    end
+    item
+      DisplayName = 'Sublexer BG'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+      BgColor = clMoneyGreen
+      FormatType = ftBackGround
     end>
   TokenRules = <
     item
@@ -204,14 +196,6 @@ object SyntAnal9: TLibSyntAnalyzer
       StyleName = 'String'
       TokenType = 4
       Expression = '("|'#39') (\\\\|\\\1|\\\z|.)*? (\1|\Z)'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
-      DisplayName = 'String ticks'
-      StyleName = 'String ticks'
-      TokenType = 4
-      Expression = '(?s)`(\\`|\$\{ (\$\{.*?\}|.)*?\}|.)*?(`|\Z)'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -311,10 +295,10 @@ object SyntAnal9: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'PHP tag'
+      DisplayName = 'PHP tag, tick'
       StyleName = 'PHP tag'
       TokenType = 6
-      Expression = '<\?php | <\? | \?>'
+      Expression = '<\?php|<\?|\?>|`'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -966,6 +950,27 @@ object SyntAnal9: TLibSyntAnalyzer
       StartExpression = '/\*{2,}(?!/)'
       EndExpression = '\*/'
       SyntAnalyzer = SyntAnal10
+    end
+    item
+      DisplayName = 'Template HTML'
+      StyleName = 'Sublexer BG'
+      StartExpression = '(?-i)\bhtml`'
+      EndExpression = '`'
+      SyntAnalyzer = SyntAnal8
+    end
+    item
+      DisplayName = 'Template JSON'
+      StyleName = 'Sublexer BG'
+      StartExpression = '(?-i)\bjson`'
+      EndExpression = '`'
+      SyntAnalyzer = SyntAnal11
+    end
+    item
+      DisplayName = 'Template CSS'
+      StyleName = 'Sublexer BG'
+      StartExpression = '(?-i)\bcss`'
+      EndExpression = '`'
+      SyntAnalyzer = SyntAnal6
     end>
   SampleText.Strings = (
     '#!/bin/bash                         '
