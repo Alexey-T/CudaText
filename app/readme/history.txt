@@ -3,6 +3,8 @@
   - fixed
   * changed
 
+- fix: with "copy_line_if_no_sel":true, Ctrl+C on empty line did not copy that empty line (thanks @mix-7)
+
 1.217.5 (2024/09)
 
 + add: added Command Palette item "find next and replace"; so now it's possible to assign eg F4 to 'replace' and use it when Find-dlg is focused & when editor is focused (thanks @sl23)
