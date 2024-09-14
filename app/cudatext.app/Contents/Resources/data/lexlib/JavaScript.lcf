@@ -245,6 +245,13 @@ object SyntAnal9: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
+      DisplayName = 'Tick template tag'
+      StyleName = 'PHP tag'
+      Expression = '`|[a-z]\w*`'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
       DisplayName = 'Id upcase const'
       StyleName = 'Id upcase const'
       TokenType = 2
@@ -295,10 +302,10 @@ object SyntAnal9: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'PHP tag, tick'
+      DisplayName = 'PHP tag'
       StyleName = 'PHP tag'
       TokenType = 6
-      Expression = '<\?php|<\?|\?>|`'
+      Expression = '<\?php|<\?|\?>'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -985,7 +992,7 @@ object SyntAnal9: TLibSyntAnalyzer
     'var test = NaN + Object + $ + offset;'
     'var s_regex = /^<\/?\w.*?>/gi;'
     '    s_not_regex = 1 / 2 + (0xFF+10) / 3 + false-true;'
-    '    s_ticks = `some str`;'
+    '    s_template = css` br { background: #a00; }`;'
     '    s_mulline = " \'
     '      <div class='#39'"+some+"'#39'> \'
     '      <td width='#39'200'#39'> \'
