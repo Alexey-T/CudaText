@@ -120,7 +120,13 @@ class Command:
         file_open(tempname, options='/silent')
         lexer_proc(LEXER_REREAD_LIB, '')
 
-        ed_self.set_prop(PROP_LEXER_FILE, lex)
+        if lexer_proc(LEXER_GET_PROP, lex) is not None:
+            ed_self.set_prop(PROP_LEXER_FILE, lex)
+        elif lexer_proc(LEXER_GET_PROP, lex+' ^') is not None:
+            ed_self.set_prop(PROP_LEXER_FILE, lex+' ^')
+        else:
+            print('NOTE: Cannot activate just installed lexer "%s"' % lex)
+
 
         def get_lexer_version(section):
             urls = [url for url in opt.ch_def if url.endswith('/lexers.json')]
