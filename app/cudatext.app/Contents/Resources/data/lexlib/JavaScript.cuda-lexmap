@@ -26,6 +26,5 @@ PHP tag=TagInclude
 Id func name=Label
 HTML tag name=TagId
 Id upcase const=Id4
-String ticks=String3
 Id modifier=Id3
 Sublexer BG=IncludeBG2

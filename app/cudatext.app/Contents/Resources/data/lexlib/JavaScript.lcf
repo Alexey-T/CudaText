@@ -113,14 +113,6 @@ object SyntAnal9: TLibSyntAnalyzer
       Font.Style = []
     end
     item
-      DisplayName = 'String ticks'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = 7513169
-      Font.Height = -13
-      Font.Name = 'Courier New'
-      Font.Style = []
-    end
-    item
       DisplayName = 'Id modifier'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clOlive
@@ -135,7 +127,7 @@ object SyntAnal9: TLibSyntAnalyzer
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
-      BgColor = clMoneyGreen
+      BgColor = clSkyBlue
       FormatType = ftBackGround
     end>
   TokenRules = <
