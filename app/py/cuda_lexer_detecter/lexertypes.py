@@ -367,7 +367,7 @@ TYPES = {
     "pq": ['Power Query M'],
     "pqm": ['Power Query M'],
     "prawn": ['Ruby'],
-    "prg": ['Visual dBase', 'Harbour', 'FoxPro', 'G-code'],
+    "prg": ['Visual dBase', 'Harbour', 'FoxPro'],
     "pro": ['IDL language'],
     "properties": ['Properties'],
     "proto": ['Protocol Buffers'],
