@@ -57,6 +57,13 @@ begin
   G.Invalidate;
 end;
 
+{$if defined(LCLQt5) or defined(LCLQt6)}
+function bbggrr_to_rrggbb(c: UInt32): UInt32;
+begin
+  Result:= c and $FF shl 16 or c and $FF00 or c shr 16 and $FF;
+end;
+{$endif} 
+
 procedure TfmMain.DoApplyTheme;
 var
   id: TAppPanelId;
@@ -91,12 +98,18 @@ begin
   CodeTreeFilterInput.Update;
 
   ToolbarMain.Color:= GetAppColor(TAppThemeColor.TabBg);
-  Self.Color:= ToolbarMain.Color;
 
   {$if defined(LCLQt5) or defined(LCLQt6)}
-  //fix MainMenu bg-color for dark themes
-  if IsColorDark(Self.Color) then
-    Self.Color:= clMedGray;
+  TQtWidget(MainMenu.Handle).StyleSheet:= Format(
+    'QMenuBar{background:#%.6X}QMenuBar::item:pressed{background:#%.6X}QMenuBar::item{background:transparent;color:#%.6X}',
+    [
+      bbggrr_to_rrggbb(GetAppColor(TAppThemeColor.MenuBg, TAppThemeColor.TabBg)),
+      bbggrr_to_rrggbb(GetAppColor(TAppThemeColor.MenuSelBg, TAppThemeColor.TabOver)),
+      bbggrr_to_rrggbb(GetAppColor(TAppThemeColor.MenuFont, TAppThemeColor.TabFont))
+    ]
+  );
+  {$else}
+  Self.Color:= ToolbarMain.Color;
   {$endif}
 
   PanelCodeTreeTop.Color:= ToolbarMain.Color;
