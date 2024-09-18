@@ -57,13 +57,6 @@ begin
   G.Invalidate;
 end;
 
-{$if defined(LCLQt5) or defined(LCLQt6)}
-function bbggrr_to_rrggbb(c: UInt32): UInt32;
-begin
-  Result:= c and $FF shl 16 or c and $FF00 or c shr 16 and $FF;
-end;
-{$endif} 
-
 procedure TfmMain.DoApplyTheme;
 var
   id: TAppPanelId;
@@ -100,14 +93,14 @@ begin
   ToolbarMain.Color:= GetAppColor(TAppThemeColor.TabBg);
 
   {$if defined(LCLQt5) or defined(LCLQt6)}
-  TQtWidget(MainMenu.Handle).StyleSheet:= Format(
-    'QMenuBar{background:#%.6X}QMenuBar::item:pressed{background:#%.6X}QMenuBar::item{background:transparent;color:#%.6X}',
-    [
-      bbggrr_to_rrggbb(GetAppColor(TAppThemeColor.MenuBg, TAppThemeColor.TabBg)),
-      bbggrr_to_rrggbb(GetAppColor(TAppThemeColor.MenuSelBg, TAppThemeColor.TabOver)),
-      bbggrr_to_rrggbb(GetAppColor(TAppThemeColor.MenuFont, TAppThemeColor.TabFont))
-    ]
-  );
+  TQtWidget(MainMenu.Handle).StyleSheet:=
+    'QMenuBar{background:'
+    +TATHtmlColorParserA.ColorToHtmlString(GetAppColor(TAppThemeColor.MenuBg, TAppThemeColor.TabBg))
+    +'}QMenuBar::item:pressed{background:'
+    +TATHtmlColorParserA.ColorToHtmlString(GetAppColor(TAppThemeColor.MenuSelBg, TAppThemeColor.TabOver))
+    +'}QMenuBar::item{background:transparent;color:'
+    +TATHtmlColorParserA.ColorToHtmlString(GetAppColor(TAppThemeColor.MenuFont, TAppThemeColor.TabFont))
+    +'}';
   {$else}
   Self.Color:= ToolbarMain.Color;
   {$endif}
