@@ -91,19 +91,7 @@ begin
   CodeTreeFilterInput.Update;
 
   ToolbarMain.Color:= GetAppColor(TAppThemeColor.TabBg);
-
-  {$if defined(LCLQt5) or defined(LCLQt6)}
-  TQtWidget(MainMenu.Handle).StyleSheet:=
-    'QMenuBar{background:'
-    +TATHtmlColorParserA.ColorToHtmlString(GetAppColor(TAppThemeColor.MenuBg, TAppThemeColor.TabBg))
-    +'}QMenuBar::item:pressed{background:'
-    +TATHtmlColorParserA.ColorToHtmlString(GetAppColor(TAppThemeColor.MenuSelBg, TAppThemeColor.TabOver))
-    +'}QMenuBar::item{background:transparent;color:'
-    +TATHtmlColorParserA.ColorToHtmlString(GetAppColor(TAppThemeColor.MenuFont, TAppThemeColor.TabFont))
-    +'}';
-  {$else}
   Self.Color:= ToolbarMain.Color;
-  {$endif}
 
   PanelCodeTreeTop.Color:= ToolbarMain.Color;
   ToolbarSideTop.Color:= GetAppColor(TAppThemeColor.SideBg);
@@ -213,6 +201,16 @@ var
   i: integer;
 {$endif}
 begin
+  {$if defined(LCLQt5) or defined(LCLQt6)}
+  TQtWidget(MainMenu.Handle).StyleSheet:=
+    'QMenuBar{background:'
+    +TATHtmlColorParserA.ColorToHtmlString(GetAppColor(TAppThemeColor.MenuBg, TAppThemeColor.TabBg))
+    +'}QMenuBar::item:pressed{background:'
+    +TATHtmlColorParserA.ColorToHtmlString(GetAppColor(TAppThemeColor.MenuSelBg, TAppThemeColor.TabOver))
+    +'}QMenuBar::item{background:transparent;color:'
+    +TATHtmlColorParserA.ColorToHtmlString(GetAppColor(TAppThemeColor.MenuFont, TAppThemeColor.TabFont))
+    +'}';
+  {$endif}
   {$ifdef windows}
   if (UiOps.ThemedMainMenuFontName<>'default') or
     (UiOps.ThemedMainMenuFontSize<>9) then
