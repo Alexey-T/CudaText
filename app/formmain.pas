@@ -37,8 +37,6 @@ uses
   TreeFilterEdit,
   {$ifdef LCLGTK2}
   fix_gtk_clipboard,
-  {$elseif defined(LCLQt5) or defined(LCLQt6)}
-  qtwidgets,
   {$endif}
   fix_focus_window,
   at__jsonconf, at__fpjson, proc_json_ex,
@@ -1288,6 +1286,9 @@ uses
   TreeHelpers_Proc,
   {$ifdef LCLQT5}
   qt5,
+  {$endif}
+  {$if defined(LCLQt5) or defined(LCLQt6)}
+  qtwidgets,
   {$endif}
   ATSynEdit_ClipRecents,
   ATStringProc_HtmlColor;
