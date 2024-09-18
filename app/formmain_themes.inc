@@ -91,12 +91,18 @@ begin
   CodeTreeFilterInput.Update;
 
   ToolbarMain.Color:= GetAppColor(TAppThemeColor.TabBg);
-  Self.Color:= ToolbarMain.Color;
 
   {$if defined(LCLQt5) or defined(LCLQt6)}
-  //fix MainMenu bg-color for dark themes
-  if IsColorDark(Self.Color) then
-    Self.Color:= clMedGray;
+  TQtWidget(MainMenu.Handle).StyleSheet:=
+    'QMenuBar{background:'
+    +TATHtmlColorParserA.ColorToHtmlString(GetAppColor(TAppThemeColor.MenuBg, TAppThemeColor.TabBg))
+    +'}QMenuBar::item:pressed{background:'
+    +TATHtmlColorParserA.ColorToHtmlString(GetAppColor(TAppThemeColor.MenuSelBg, TAppThemeColor.TabOver))
+    +'}QMenuBar::item{background:transparent;color:'
+    +TATHtmlColorParserA.ColorToHtmlString(GetAppColor(TAppThemeColor.MenuFont, TAppThemeColor.TabFont))
+    +'}';
+  {$else}
+  Self.Color:= ToolbarMain.Color;
   {$endif}
 
   PanelCodeTreeTop.Color:= ToolbarMain.Color;
