@@ -345,12 +345,12 @@
   //When text is typed, delete selection first.
   "ovr_sel": true,
 
-  //On Paste: when "Insert/Overwrite" mode (Ins hotkey) is "overwrite",
-  //pasted text overwrites editor text. Ie, respect "Overwrite" on paste.
+  //When "Insert/Overwrite" mode (toggled by Ins key) is "overwrite", pasted text
+  //(Ctrl+V) overwrites editor text. Ie, respect "Overwrite" on paste.
   "ovr_on_paste": false,
 
-  //On Paste: when clipboard text ends with a line-break, and no selection is present,
-  //paste block at the line start, ignoring caret column.
+  //When clipboard text ends with a line-break, and no selection is present,
+  //Paste command (Ctrl+V) puts block at the line start, ignoring caret column.
   "paste_multiline_at_line_start": false,
 
   //Configures auto-copying of selected text to clipboard, after selection changes.
