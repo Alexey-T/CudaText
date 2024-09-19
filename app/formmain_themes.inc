@@ -91,7 +91,7 @@ begin
   CodeTreeFilterInput.Update;
 
   ToolbarMain.Color:= GetAppColor(TAppThemeColor.TabBg);
-  Self.Color:= ToolbarMain.Color;
+  Self.Color:= ToolbarMain.Color; //Self.Color is visible - on side-toolbar BG / on main splitter - when you call Options Editor
 
   PanelCodeTreeTop.Color:= ToolbarMain.Color;
   ToolbarSideTop.Color:= GetAppColor(TAppThemeColor.SideBg);
