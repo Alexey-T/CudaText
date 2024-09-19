@@ -878,10 +878,10 @@
   "ui_scale_font__mac": 100,
 
   //[UI/Tabs]
-  //UI tabs: global visibility flag for UI-tabs.
+  //UI tabs: Global visibility flag for UI-tabs. When 'false', UI-tabs are hidden.
   "ui_tab_show": true,
 
-  //UI tabs: use "Tab switcher" dialog on Ctrl+Tab, Ctrl+Shift+Tab. This dialog
+  //UI tabs: Use "Tab switcher" dialog on Ctrl+Tab, Ctrl+Shift+Tab. This dialog
   //sorts tabs by recently used order. If option is off: switch tabs without dialog,
   //and ignoring recently used order.
   "ui_tab_switcher_dialog": false,
@@ -933,10 +933,10 @@
   //  3: right
   "ui_tab_position": 0,
 
-  //UI tabs: indent between left tab edge and text beginning.
+  //UI tabs: Indent between left tab edge and text beginning.
   "ui_tab_padding": 6,
 
-  //UI tabs: indent between right tab edge and text ending.
+  //UI tabs: Indent between right tab edge and text ending.
   "ui_tab_padding2": 6,
 
   //UI tabs: When to show "x" buttons on tabs.
