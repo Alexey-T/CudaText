@@ -1129,9 +1129,9 @@ type
     procedure UpdateGlobalProgressbar(AValue: integer; AVisible: boolean; AMaxValue: integer=100);
     procedure UpdateLexerProgressbar(AValue: integer; AVisible: boolean; AMaxValue: integer=100);
     procedure UpdateGroupsMode(AMode: TATGroupsMode);
-    procedure UpdateMenuTheming(AMenu: TPopupMenu);
-    procedure UpdateMenuTheming_MainMenu;
-    procedure UpdateMenuTheming_WhiteLine;
+    procedure UpdateMenuTheming_PopupMenu_Win32(AMenu: TPopupMenu);
+    procedure UpdateMenuTheming_MainMenu_Win32;
+    procedure UpdateMenuTheming_WhiteLine_Win32;
     procedure UpdateMenuRecents(sub: TMenuItem);
     procedure UpdateMenuSidebarButton(AWhenAutoShow: boolean);
     procedure UpdateSidebarButtonOverlay;
@@ -2923,7 +2923,7 @@ begin
   end;
 end;
 
-procedure TfmMain.UpdateMenuTheming_WhiteLine;
+procedure TfmMain.UpdateMenuTheming_WhiteLine_Win32;
 {$ifdef windows}
 //fix white line under the menubar, with MenuStyler on
 var
@@ -2939,7 +2939,7 @@ end;
 
 procedure TfmMain.FormCreate(Sender: TObject);
 begin
-  UpdateMenuTheming_WhiteLine;
+  UpdateMenuTheming_WhiteLine_Win32;
 
   //default "ui_scale":0 must be converted to Screen's DPI
   ATEditorScalePercents:= Max(100, 100*Screen.PixelsPerInch div 96);
@@ -6855,8 +6855,8 @@ begin
     DoControlUnlock(Self);
   end;
 
-  UpdateMenuTheming_MainMenu;
-  UpdateMenuTheming_WhiteLine;
+  UpdateMenuTheming_MainMenu_Win32;
+  UpdateMenuTheming_WhiteLine_Win32;
 end;
 
 function TfmMain.GetShowTabsMain: boolean;
@@ -9492,7 +9492,7 @@ begin
 end;
 
 
-procedure TfmMain.UpdateMenuTheming(AMenu: TPopupMenu);
+procedure TfmMain.UpdateMenuTheming_PopupMenu_Win32(AMenu: TPopupMenu);
 begin
   {$ifdef windows}
   if UiOps.ThemedMainMenu then
@@ -9500,7 +9500,7 @@ begin
   {$endif}
 end;
 
-procedure TfmMain.UpdateMenuTheming_MainMenu;
+procedure TfmMain.UpdateMenuTheming_MainMenu_Win32;
 begin
   {$ifdef windows}
   if UiOps.ThemedMainMenu then

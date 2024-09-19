@@ -49,7 +49,7 @@ begin
   //when sidebar is on the right, menu fly-outs overlap each other
   Pnt:= PanelAll.ClientToScreen(Point(0, 0));
 
-  UpdateMenuTheming(PopupSidebarClone);
+  UpdateMenuTheming_PopupMenu_Win32(PopupSidebarClone);
   PopupSidebarClone.Popup(Pnt.X, Pnt.Y);
 end;
 
