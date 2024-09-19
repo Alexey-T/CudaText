@@ -558,7 +558,7 @@ object fmMain: TfmMain
       object mnuThemesSub: TMenuItem
         Caption = 'Themes'
         object mnuOpThemeUi: TMenuItem
-          Caption = 'Settings - theme - u&i'
+          Caption = 'Settings - theme - U&I'
         end
         object mnuOpThemeSyntax: TMenuItem
           Caption = 'Settings - theme - &syntax'
