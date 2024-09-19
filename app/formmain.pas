@@ -2916,6 +2916,7 @@ var
   i: integer;
 begin
   AppBookmarkImagelist.AddImages(ImageListBm);
+  //setup 8 numbered bookmarks
   for i:= 2 to 9 do
   begin
     AppBookmarkSetup[i].Color:= clDefault;
