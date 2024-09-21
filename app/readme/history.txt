@@ -9,6 +9,7 @@
 + add: lexer JS: use sublexer highlighting of: HTML templates html`...`, JSON templates json`...`, CSS templates css`...`; other/unknown templates are not highlighted at all
 * change: default of "undo_max_carets" lowered from 20k to 4k, to avoid memory overflow because of unoptimal Undo-format (it will be improved later)
 - fix: with "copy_line_if_no_sel":true, Ctrl+C on empty line did not copy that empty line (thanks @mix-7)
+- fix: bug with column selection when text is auto-scrolled to the right (thanks @Hexaae)
 
 1.217.5 (2024/09)
 
