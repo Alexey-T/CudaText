@@ -7,7 +7,7 @@
 
 + add: Qt5/Qt6 version: colorize menubar with themed color (patch by @xBZZZZ)
 + add: lexer JS: use sublexer highlighting of: HTML templates html`...`, JSON templates json`...`, CSS templates css`...`; other/unknown templates are not highlighted at all
-* change: default of "undo_max_carets" lowered from 20k to 4k, to avoid memory overflow because of unoptimal Undo-format (it will be improved later)
+* change: default of "undo_max_carets" lowered from 20k to 4k, to avoid memory overflow because of unoptimal Undo-format (format may be improved later)
 - fix: with "copy_line_if_no_sel":true, Ctrl+C on empty line did not copy that empty line (thanks @mix-7)
 - fix: bug with column selection when text is auto-scrolled to the right; also fixes the non-working ed.get_sel_rect API (thanks @Hexaae)
 
