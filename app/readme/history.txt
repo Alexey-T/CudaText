@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.217.6 (2024/09)
+1.217.7 (2024/09)
 
 + add: Qt5/Qt6 version: colorize menubar with themed color (patch by @xBZZZZ)
 + add: lexer JS: use sublexer highlighting of: HTML templates html`...`, JSON templates json`...`, CSS templates css`...`; other/unknown templates are not highlighted at all
