@@ -380,6 +380,11 @@ begin
         UpdateMenuChecks;
       end;
 
+    cmd_ShowPanelBottomAndFocus:
+      begin
+        DoShowBottomAndFocus;
+      end;
+
     cmd_ShowSidePanelAsIs:
       begin
         AppPanels[TAppPanelId.Side].Visible:= true;

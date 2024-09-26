@@ -1057,6 +1057,7 @@ type
     procedure DoShowConsole(AndFocus: boolean);
     procedure DoShowOutput(AndFocus: boolean);
     procedure DoShowValidate(AndFocus: boolean);
+    procedure DoShowBottomAndFocus;
     function FrameOfPopup: TEditorFrame;
     procedure FrameOnEditorCommand(Sender: TObject; ACommand: integer; AInvoke: TATCommandInvoke;
       const AText: string; var AHandled: boolean);
@@ -6709,6 +6710,15 @@ end;
 procedure TfmMain.DoShowValidate(AndFocus: boolean);
 begin
   AppPanels[TAppPanelId.Btm].UpdatePanels(msgPanelValidate_Init, AndFocus, true);
+end;
+
+procedure TfmMain.DoShowBottomAndFocus;
+begin
+  AppPanels[TAppPanelId.Btm].UpdatePanels(
+    AppPanels[TAppPanelId.Btm].LastActivePanel,
+    true,
+    true
+    );
 end;
 
 procedure TfmMain.SetShowFullScreen(AValue: boolean);

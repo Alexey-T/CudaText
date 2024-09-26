@@ -257,6 +257,7 @@ const
   cmd_FoldingEnable          = 2684;
   cmd_FoldingDisable         = 2685;
   cmd_DeleteNewColorAttrs    = 2686;
+  cmd_ShowPanelBottomAndFocus = 2687;
 
   cmd_MenuEnc           = 2691;
   cmd_MenuEnds          = 2692;
@@ -509,6 +510,7 @@ begin
   M.Add(cmd_ShowPanelConsole,          'ui: show bottom panel / console', [], []);
   M.Add(cmd_ShowPanelOutput,           'ui: show bottom panel / output', [], []);
   M.Add(cmd_ShowPanelValidate,         'ui: show bottom panel / validate', [], []);
+  M.Add(cmd_ShowPanelBottomAndFocus, 'ui: show+focus bottom panel', [], []);
   M.Add(cmd_ShowPanelConsole_AndFocus, 'ui: show+focus bottom panel / console', [scCtrl+VK_LCL_TILDE], []);
   M.Add(cmd_ShowPanelOutput_AndFocus,  'ui: show+focus bottom panel / output', [], []);
   M.Add(cmd_ShowPanelValidate_AndFocus, 'ui: show+focus bottom panel / validate', [], []);
@@ -982,6 +984,7 @@ begin
     cmd_ShowPanelConsole_AndFocus,
     cmd_ShowPanelOutput_AndFocus,
     cmd_ShowPanelValidate_AndFocus,
+    cmd_ShowPanelBottomAndFocus,
     cmd_FocusEditor,
     cmd_FocusNotificationPanel,
     cmd_TreeFilterFocus,

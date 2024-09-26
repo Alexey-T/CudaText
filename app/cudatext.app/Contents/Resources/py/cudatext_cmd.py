@@ -453,6 +453,7 @@ cmd_LineEndDefault_Caret = 2683
 cmd_FoldingEnable          = 2684
 cmd_FoldingDisable         = 2685
 cmd_DeleteNewColorAttrs    = 2686
+cmd_ShowPanelBottomAndFocus = 2687
 
 cmd_MenuEnc           = 2691
 cmd_MenuEnds          = 2692
