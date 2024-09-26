@@ -1,3 +1,5 @@
+2024.09.26
++ sort: none
 
 2019.10.27
 + feature of Kate editor: on opening a file from Git/SVN repo, project is created and target file is focused in that project; added option for this
@@ -12,7 +14,7 @@
 
 2018.01
 + support project variables {ProjMainFileNameOnly}, {ProjMainFileNameNoExt}
-- fix: avoid deprecated toolbar API 
+- fix: avoid deprecated toolbar API
 
 2017.11.24
 + added console messages on opening/saving project
