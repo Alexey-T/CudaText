@@ -2970,7 +2970,7 @@ begin
   begin
     PanelRoot:= Self.PanelAll;
     Toolbar:= ToolbarSideLow;
-    //DefaultPanel:= msgPanelConsole_Init;
+    //DefaultPanel:= msgPanelConsole_Init; //don't assign: it will make harder to initially show Console
     OnBeforeToggle:= @DoBottom_OnBeforeToggle;
     OnAfterToggle:= @DoBottom_OnAfterToggle;
     OnCommand:= @DoSidebar_OnPythonCall;
