@@ -81,7 +81,7 @@ class Command:
                 for (n, item) in enumerate(cmd_list):
                     f.write('[item%d]\n'%(n+2)) #start at [item2]
                     f.write('section=commands\n')
-                    f.write('caption='+item[0]+'\n')
+                    f.write('caption='+s_caption+'\\'+item[0]+'\n')
                     f.write('method='+item[1]+'\n')
                     if item[2]:
                         f.write('menu=0\n')
