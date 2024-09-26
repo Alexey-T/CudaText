@@ -52,6 +52,7 @@ type
     FAlign: TAlign;
     FToolbarUpdateCount: integer;
     FToolbarUpdateTime: QWord;
+    FCurrentControl: TCustomControl;
     FOnContextPopup: TAppPanelOnContextPopup;
     function GetFloating: boolean;
     function GetPanelSize: integer;
@@ -100,6 +101,7 @@ type
     function UpdatePanels(const ACaption: string; AndFocus: boolean; ACheckExists: boolean): boolean;
     procedure UpdateToolbarControls;
     procedure InitFormFloat;
+    procedure FocusCurrentControl;
     property ToolbarUpdateCount: integer read FToolbarUpdateCount;
     property ToolbarUpdateTime: QWord read FToolbarUpdateTime;
     property OnContextPopup: TAppPanelOnContextPopup read FOnContextPopup write FOnContextPopup;
@@ -488,6 +490,7 @@ begin
   Visible:= true;
   UpdateButtons;
   UpdateTitle;
+  FCurrentControl:= nil;
 
   for i:= 0 to Panels.Count-1 do
   begin
@@ -507,6 +510,7 @@ begin
         if Assigned(Ctl) then
         begin
           Ctl.Show;
+          FCurrentControl:= Ctl;
           if AndFocus then
             if PanelGrouper.Visible then
               if Ctl.Visible and Ctl.CanFocus then
@@ -537,6 +541,14 @@ begin
     FormFloat.FormStyle:= fsStayOnTop; //issue #3383
     FormFloat.OnClose:= OnCloseFloatForm;
   end;
+end;
+
+procedure TAppPanelHost.FocusCurrentControl;
+begin
+  if Visible then
+    if Assigned(FCurrentControl) then
+      if FCurrentControl.Visible and FCurrentControl.CanFocus then
+        FCurrentControl.SetFocus;
 end;
 
 procedure TAppPanelHost.HandleButtonClick(Sender: TObject);

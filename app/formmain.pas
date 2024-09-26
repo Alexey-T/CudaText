@@ -2970,6 +2970,7 @@ begin
   begin
     PanelRoot:= Self.PanelAll;
     Toolbar:= ToolbarSideLow;
+    //DefaultPanel:= msgPanelConsole_Init;
     OnBeforeToggle:= @DoBottom_OnBeforeToggle;
     OnAfterToggle:= @DoBottom_OnAfterToggle;
     OnCommand:= @DoSidebar_OnPythonCall;
@@ -6713,12 +6714,16 @@ begin
 end;
 
 procedure TfmMain.DoShowBottomAndFocus;
+var
+  Pnl: TAppPanelHost;
 begin
-  AppPanels[TAppPanelId.Btm].UpdatePanels(
-    AppPanels[TAppPanelId.Btm].LastActivePanel,
-    true,
-    true
-    );
+  Pnl:= AppPanels[TAppPanelId.Btm];
+  if not Pnl.Visible then
+  begin
+    DoToggleBottomPanel;
+    UpdateMenuChecks;
+  end;
+  Pnl.FocusCurrentControl;
 end;
 
 procedure TfmMain.SetShowFullScreen(AValue: boolean);
