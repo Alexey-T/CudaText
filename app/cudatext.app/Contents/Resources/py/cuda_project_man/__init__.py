@@ -492,6 +492,8 @@ class Command:
             key = -path.stat().st_ctime if isfile else ''
         elif sort_order=='ctime-':
             key = path.stat().st_ctime if isfile else ''
+        elif sort_order=='':
+            key = ''
         else:
             raise ValueError('Unknown sort_order: '+sort_order)
 

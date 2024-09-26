@@ -55,6 +55,7 @@ def dialog_config(op):
         theme_index_tb = -1
 
     items_sort_id = [
+        '',
         'name',
         'ext',
         'size',
@@ -65,6 +66,7 @@ def dialog_config(op):
         'ctime-',
         ]
     items_sort_str = [
+        _('none'),
         _('by name'),
         _('by extension'),
         _('by size'),
