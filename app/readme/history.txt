@@ -3,6 +3,9 @@
   - fixed
   * changed
 
++ add: command palette item "ui: show+focus bottom panel" to focus currently visible panel (thanks @bogen85)
++ add: Project Manager: option "Sorting order" has new value "none" (thanks @ildarkhasanshin)
+
 1.217.7 (2024/09)
 
 + add: Qt5/Qt6 version: colorize menubar with themed color (patch by @xBZZZZ)
