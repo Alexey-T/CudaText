@@ -6627,38 +6627,38 @@ begin
 end;
 
 procedure TfmMain.DoToggleSidePanel;
+var
+  Pnl: TAppPanelHost;
 begin
-  with AppPanels[TAppPanelId.Side] do
+  Pnl:= AppPanels[TAppPanelId.Side];
+  Pnl.Visible:= not Pnl.Visible;
+  if Pnl.Visible then
   begin
-    Visible:= not Visible;
-    if Visible then
-    begin
-      if LastActivePanel='' then
-        UpdatePanels(msgPanelTree_Init, false, true);
-    end
-    else
-    begin
-      if ActiveControl=nil then
-        DoFocusEditor(CurrentEditor);
-    end;
+    if Pnl.LastActivePanel='' then
+      Pnl.UpdatePanels(msgPanelTree_Init, false, true);
+  end
+  else
+  begin
+    if ActiveControl=nil then
+      DoFocusEditor(CurrentEditor);
   end;
 end;
 
 procedure TfmMain.DoToggleBottomPanel;
+var
+  Pnl: TAppPanelHost;
 begin
-  with AppPanels[TAppPanelId.Btm] do
+  Pnl:= AppPanels[TAppPanelId.Btm];
+  Pnl.Visible:= not Pnl.Visible;
+  if Pnl.Visible then
   begin
-    Visible:= not Visible;
-    if Visible then
-    begin
-      if LastActivePanel='' then
-        UpdatePanels(msgPanelConsole_Init, false, true);
-    end
-    else
-    begin
-      if ActiveControl=nil then
-        DoFocusEditor(CurrentEditor);
-    end;
+    if Pnl.LastActivePanel='' then
+      Pnl.UpdatePanels(msgPanelConsole_Init, false, true);
+  end
+  else
+  begin
+    if ActiveControl=nil then
+      DoFocusEditor(CurrentEditor);
   end;
 end;
 
