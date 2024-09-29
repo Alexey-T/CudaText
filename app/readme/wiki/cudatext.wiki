@@ -208,7 +208,13 @@ Multi-carets are several carets at once. All carets work together for many editi
 <span id="Clicks" style="font-size: 1.17em; font-weight: 700;">Clicks</span>
 * Double left-click - Select clicked word; this behavior can be customized as described in '''[[#How to select extra symbols by double-click|§ How to select extra symbols by double-click]]''' using the <code>nonword_chars</code> option.
 * Triple left-click - Select entire line (block is limited by newline characters).
-* Middle-click - Configurable by option <code>mouse_middle_click</code>, choices are:<br /><ol start="0" style="list-style-type: none; margin-left: 1.6em;"><li>'''(0)''' Nothing.</li><li>'''(1)''' Start "browser scrolling" mode: circle mark appears and mouse moving around this mark auto-scrolls text in 4 directions; speed of scrolling depends on distance of cursor from circle mark (any click to turn off).</li><li>'''(2)''' Paste from clipboard. This mimics Linux apps behaviour.</li><li>'''(3)''' Call "Go to definition" command.</li></ol>
+* Middle-click - Configurable by option <code>mouse_middle_click</code>, choices are:<br />
+<ol start="0" style="list-style-type: none; margin-left: 1.6em;">
+<li>'''(0)''' Nothing.</li>
+<li>'''(1)''' Start "browser scrolling" mode: circle mark appears and mouse moving around this mark auto-scrolls text in 4 directions; speed of scrolling depends on distance of cursor from circle mark (any click to turn off).</li>
+<li>'''(2)''' Paste from clipboard. This mimics Linux apps behaviour.</li>
+<li>'''(3)''' Call "Go to definition" command.</li>
+</ol>
 * Click on Back/Forward mouse buttons - These clicks do nothing by default, but they produce keyboard actions <samp>BrowserBack</samp>/<samp>BrowserForward</samp> (extended keys on Windows keyboards), and so they can be assigned in the hotkeys setup dialog ({{Keystroke|F9}} in the Command Palette). For example, {{Keystroke|Ctrl}}+Back produces {{Keystroke|Ctrl}}+<samp>BrowserBack</samp> keyboard action.
 
 <span id="Miscellaneous" style="font-size: 1.17em; font-weight: 700;">Miscellaneous</span>
