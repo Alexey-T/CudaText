@@ -1294,6 +1294,7 @@ class Command:
             items.remove('')
         if str(self.project_file_path) in items:
             items.remove(str(self.project_file_path))
+        items = [item for item in items if os.path.isfile(item)]
         if not items:
             return
 
