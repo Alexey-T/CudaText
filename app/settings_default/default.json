@@ -838,10 +838,15 @@
   //search' will search for a next match 'on timer tick'.
   "find_hi_max_lines": 4000,
 
-  //Find dialog option "Highlight all matches": maximal line length (lines
-  //of bigger length will be not highlighted).
+  //Find dialog option "Highlight all matches": maximal line length processed;
+  //matches in longer lines will be not highlighted.
   //Note: RegEx search is not affected.
   "find_hi_max_line_len": 800000,
+
+  //Find dialog option "Highlight all matches": maximal count of visible columns,
+  //for which "Highlight all matches" processes the entire document. For longer
+  //lines - app behaves like described in the option "find_hi_max_lines".
+  "find_hi_max_columns": 400,
 
   //When document has count of lines bigger than option value, "Highlight all matches"
   //works not immediately on typing in Find dialog, but by timer.
