@@ -327,6 +327,7 @@ begin
 
     SetLength(currFramesEditState, nFrameCount);
     nPrevFrameCount:= Length(FPrevFramesEditState);
+
     if nFrameCount<>nPrevFrameCount then
     begin
       bSessionUpdated:= true; //number of opened documents has changed
@@ -338,6 +339,10 @@ begin
         cfg.DeleteValue(path);
       end;
     end;
+
+    //delete outdated info about single untitled tab, issue #5712
+    if (sRootPath='') and (nFrameCount=1) and Frames[0].IsEmpty then
+      cfg.DeleteValue(sRootPath+'/000');
 
     nSavedTabIndex:= 0;
     for iFrame:= 0 to nFrameCount-1 do
