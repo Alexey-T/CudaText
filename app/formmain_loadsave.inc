@@ -268,6 +268,10 @@ begin
   nCountUntitled:= 0;
   nFrameCount:= FrameCount;
 
+  //delete outdated info about single untitled tab, issue #5712
+  if (nFrameCount=1) and Frames[0].IsEmpty then
+    nFrameCount:= 0;
+
   cfg:= TJSONConfigEx.Create(nil);
   cfg_bookmarks:= TJSONConfigEx.Create(nil);
   try
@@ -327,10 +331,6 @@ begin
 
     SetLength(currFramesEditState, nFrameCount);
     nPrevFrameCount:= Length(FPrevFramesEditState);
-
-    //delete outdated info about single untitled tab, issue #5712
-    if (sRootPath='') and (nFrameCount=1) and Frames[0].IsEmpty then
-      nFrameCount:= 0;
 
     if nFrameCount<>nPrevFrameCount then
     begin
