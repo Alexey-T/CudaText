@@ -350,6 +350,7 @@ The following lexers (counting only important ones) exist for CudaText. They are
 * CodeVisionAVR
 * CoffeeScript
 * ColdFusion
+* Common Lisp
 * Coq
 * CRF files
 * Crystal
