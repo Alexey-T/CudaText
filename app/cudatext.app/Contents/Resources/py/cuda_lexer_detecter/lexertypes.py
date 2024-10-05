@@ -292,7 +292,6 @@ TYPES = {
     "lisp": ['Common Lisp'],
     "livecodescript": ['LiveCode'],
     "lpr": ['Pascal'],
-    "lsp": ['Lisp'],
     "lst": ['Grub4Dos'],
     "lxl": ['Delphi resources'],
     "m": ['Power Query M', 'MATLAB', 'Objective-C'],
