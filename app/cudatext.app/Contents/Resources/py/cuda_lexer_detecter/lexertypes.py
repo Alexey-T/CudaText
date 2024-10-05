@@ -289,7 +289,7 @@ TYPES = {
     "lfm": ['Delphi resources'],
     "libsonnet": ['Jsonnet'],
     "liquid": ['HTML Liquid'],
-    "lisp": ['Lisp'],
+    "lisp": ['Common Lisp'],
     "livecodescript": ['LiveCode'],
     "lpr": ['Pascal'],
     "lsp": ['Lisp'],
