@@ -3693,25 +3693,25 @@ begin
 
         PROP_SCROLL_VERT:
           begin
-            MsgDeprecatedAPI('PROP_SCROLL_VERT');
+            //MsgDeprecatedAPI('PROP_SCROLL_VERT');
             Result:= PyLong_FromLong(Ed.ScrollVert.NPos);
           end;
 
         PROP_SCROLL_HORZ:
           begin
-            MsgDeprecatedAPI('PROP_SCROLL_HORZ');
+            //MsgDeprecatedAPI('PROP_SCROLL_HORZ');
             Result:= PyLong_FromLong(Ed.ScrollHorz.NPos);
           end;
 
         PROP_SCROLL_VERT_SMOOTH:
           begin
-            MsgDeprecatedAPI('PROP_SCROLL_VERT_SMOOTH');
+            //MsgDeprecatedAPI('PROP_SCROLL_VERT_SMOOTH');
             Result:= PyLong_FromLong(Ed.ScrollVert.SmoothPos);
           end;
 
         PROP_SCROLL_HORZ_SMOOTH:
           begin
-            MsgDeprecatedAPI('PROP_SCROLL_HORZ_SMOOTH');
+            //MsgDeprecatedAPI('PROP_SCROLL_HORZ_SMOOTH');
             Result:= PyLong_FromLong(Ed.ScrollHorz.SmoothPos);
           end;
 
@@ -4574,7 +4574,7 @@ begin
 
         PROP_SCROLL_VERT:
           begin
-            MsgDeprecatedAPI('PROP_SCROLL_VERT');
+            //MsgDeprecatedAPI('PROP_SCROLL_VERT');
             ScrollInfo:= Ed.ScrollVert;
             ScrollInfo.NPos:= ValueInt;
             Ed.ScrollVert:= ScrollInfo;
@@ -4583,7 +4583,7 @@ begin
 
         PROP_SCROLL_HORZ:
           begin
-            MsgDeprecatedAPI('PROP_SCROLL_HORZ');
+            //MsgDeprecatedAPI('PROP_SCROLL_HORZ');
             ScrollInfo:= Ed.ScrollHorz;
             ScrollInfo.NPos:= ValueInt;
             Ed.ScrollHorz:= ScrollInfo;
@@ -4592,7 +4592,7 @@ begin
 
         PROP_SCROLL_VERT_SMOOTH:
           begin
-            MsgDeprecatedAPI('PROP_SCROLL_VERT_SMOOTH');
+            //MsgDeprecatedAPI('PROP_SCROLL_VERT_SMOOTH');
             ScrollInfo:= Ed.ScrollVert;
             Ed.UpdateScrollInfoFromSmoothPos(ScrollInfo, ValueInt);
             Ed.ScrollVert:= ScrollInfo;
@@ -4601,7 +4601,7 @@ begin
 
         PROP_SCROLL_HORZ_SMOOTH:
           begin
-            MsgDeprecatedAPI('PROP_SCROLL_HORZ_SMOOTH');
+            //MsgDeprecatedAPI('PROP_SCROLL_HORZ_SMOOTH');
             ScrollInfo:= Ed.ScrollHorz;
             Ed.UpdateScrollInfoFromSmoothPos(ScrollInfo, ValueInt);
             Ed.ScrollHorz:= ScrollInfo;
