@@ -2641,10 +2641,12 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 * PROP_LINE_STATE: 2-tuple: state of the line with given index. 2-tuple (line_index, LINESTATE_nnn).
 * PROP_LINE_STATES_UPDATED: currently supports writing only empty string value, writing it means clearing of "updated" flags for all lines.
 
-* PROP_SCROLL_VERT: int: approximate vertical scroll position. Index in WrapInfo list, you can read this list via get_wrapinfo().
-* PROP_SCROLL_HORZ: int: approximate horizontal scroll position.
-* PROP_SCROLL_VERT_SMOOTH: int: smooth vertical scroll position. In pixels.
-* PROP_SCROLL_HORZ_SMOOTH: int: smooth horizontal scroll position. In pixels.
+* (deprecated) PROP_SCROLL_VERT: int: approximate vertical scroll position. Index in WrapInfo list, you can read this list via get_wrapinfo().
+* (deprecated) PROP_SCROLL_HORZ: int: approximate horizontal scroll position.
+* (deprecated) PROP_SCROLL_VERT_SMOOTH: int: smooth vertical scroll position. In pixels.
+* (deprecated) PROP_SCROLL_HORZ_SMOOTH: int: smooth horizontal scroll position. In pixels.
+* PROP_SCROLL_VERT_INFO: int: dict with info about vertical scroll. Only these dict keys are supported here: "pos", "smooth_pos", "pixels". Other keys are ignored.
+* PROP_SCROLL_HORZ_INFO: int: dict with info about horizontal scroll. Only these dict keys are supported here: "pos", "smooth_pos", "pixels". Other keys are ignored.
 * PROP_SCROLLSTYLE_HORZ: int: style of horizontal scrollbar, one of SCROLLSTYLE_ constants.
 * PROP_SCROLLSTYLE_VERT: int: style of vertical scrollbar, one of SCROLLSTYLE_ constants.
 
@@ -5070,5 +5072,7 @@ It provides:
 * deprecate PROP_SCROLL_HORZ
 * deprecate PROP_SCROLL_VERT_SMOOTH
 * deprecate PROP_SCROLL_HORZ_SMOOTH
+* add: Editor.set_prop supports PROP_SCROLL_VERT_INFO
+* add: Editor.set_prop supports PROP_SCROLL_HORZ_INFO
 
 [[Category:CudaText]]
