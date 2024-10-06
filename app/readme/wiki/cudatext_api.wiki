@@ -5067,7 +5067,7 @@ It provides:
 * add: dlg_proc: treeview event handler on_fold/on_unfold can return False to disable folding/unfolding
 * add: Editor.get_prop/set_prop: COLOR_ID_BookmarkIcon
 
-1.0.461 (app 1.217.8)
+1.0.461 (app 1.218.0)
 * deprecate PROP_SCROLL_VERT
 * deprecate PROP_SCROLL_HORZ
 * deprecate PROP_SCROLL_VERT_SMOOTH
