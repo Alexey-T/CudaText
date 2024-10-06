@@ -2645,7 +2645,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 * (deprecated) PROP_SCROLL_HORZ: int: approximate horizontal scroll position.
 * (deprecated) PROP_SCROLL_VERT_SMOOTH: int: smooth vertical scroll position. In pixels.
 * (deprecated) PROP_SCROLL_HORZ_SMOOTH: int: smooth horizontal scroll position. In pixels.
-* PROP_SCROLL_VERT_INFO: int: dict with info about vertical scroll. Only these dict keys are supported here: "pos", "smooth_pos", "pixels". Other keys are ignored. Keys "pos" and "smooth_pos" are mutually exclusive.
+* PROP_SCROLL_VERT_INFO: int: dict with info about vertical scroll. Comparing to Editor.get_prop (getter) supported dict keys, only these dict keys are supported here: a) "pos", b) "pixels", c) "pos" and "pixels", d) "smooth_pos".
 * PROP_SCROLL_HORZ_INFO: int: dict with info about horizontal scroll.
 * PROP_SCROLLSTYLE_HORZ: int: style of horizontal scrollbar, one of SCROLLSTYLE_ constants.
 * PROP_SCROLLSTYLE_VERT: int: style of vertical scrollbar, one of SCROLLSTYLE_ constants.
