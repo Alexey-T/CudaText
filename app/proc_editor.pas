@@ -181,6 +181,7 @@ function EditorLexerIsCLike(Ed: TATSynEdit): boolean;
 procedure EditorCSyntaxDoTabIndent(Ed: TATSynEdit);
 
 function EditorGetCharCount(Ed: TATSynEdit; AMaxChars, AMaxTime: Int64): Int64;
+procedure EditorStringToScrollInfo(Ed: TATSynEdit; const AText: string; AIsVert: boolean);
 
 implementation
 
@@ -3534,6 +3535,49 @@ begin
 
   iLine:= St.Count-1;
   Inc(Result, St.LinesLen[iLine]);
+end;
+
+
+procedure EditorStringToScrollInfo(Ed: TATSynEdit; const AText: string; AIsVert: boolean);
+var
+  ScrollInfo: TATEditorScrollInfo;
+  SmoothPos: Int64;
+  bSmoothPos: boolean;
+  Sep: TATStringSeparator;
+  SItem, SKey, SValue: string;
+begin
+  if AIsVert then
+    ScrollInfo:= Ed.ScrollVert
+  else
+    ScrollInfo:= Ed.ScrollHorz;
+  SmoothPos:= -1;
+
+  //text is '{key1:value1;key2:value2}' from to_str()
+  Sep.Init(SDeleteCurlyBrackets(AText), #1);
+  repeat
+    if not Sep.GetItemStr(SItem) then Break;
+    SSplitByChar(SItem, ':', SKey, SValue);
+    case SKey of
+      'pos':
+        ScrollInfo.NPos:= StrToInt64Def(SValue, ScrollInfo.NPos);
+      'smooth_pos':
+        begin
+          ScrollInfo.SmoothPos:= StrToInt64Def(SValue, ScrollInfo.SmoothPos);
+          SmoothPos:= ScrollInfo.SmoothPos;
+        end;
+      'pixels':
+        ScrollInfo.NPixelOffset:= StrToInt64Def(SValue, ScrollInfo.NPixelOffset);
+    end;
+  until false;
+
+  bSmoothPos:= SmoothPos<>-1;
+  if bSmoothPos then
+    Ed.UpdateScrollInfoFromSmoothPos(ScrollInfo, SmoothPos);
+  if AIsVert then
+    Ed.ScrollVert:= ScrollInfo
+  else
+    Ed.ScrollHorz:= ScrollInfo;
+  Ed.UpdateScrollbars(not bSmoothPos);
 end;
 
 end.

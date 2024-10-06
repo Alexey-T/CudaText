@@ -752,7 +752,6 @@ begin
   end;
 end;
 
-
 function AppStringToAlignment(const S: string): TAlignment;
 begin
   case S of
