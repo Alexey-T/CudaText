@@ -2431,10 +2431,10 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 ** Note: If you set PROP_LINE_TOP immediately after file_open(), it may not work, you need to call app_idle(True) first.
 * PROP_LINE_BOTTOM: int: index of line visible at the bottom of editor (considers word wrap).
 
-* PROP_SCROLL_VERT: int: approximate vertical scroll position. Index in WrapInfo list, you can read this list via get_wrapinfo().
-* PROP_SCROLL_HORZ: int: approximate horizontal scroll position.
-* PROP_SCROLL_VERT_SMOOTH: int: smooth vertical scroll position. In pixels.
-* PROP_SCROLL_HORZ_SMOOTH: int: smooth horizontal scroll position. In pixels.
+* (deprecated) PROP_SCROLL_VERT: int: approximate vertical scroll position. Index in WrapInfo list, you can read this list via get_wrapinfo().
+* (deprecated) PROP_SCROLL_HORZ: int: approximate horizontal scroll position.
+* (deprecated) PROP_SCROLL_VERT_SMOOTH: int: smooth vertical scroll position. In pixels.
+* (deprecated) PROP_SCROLL_HORZ_SMOOTH: int: smooth horizontal scroll position. In pixels.
 * PROP_SCROLL_VERT_INFO: int: dict with all available info about vertical scroll.
 * PROP_SCROLL_HORZ_INFO: int: dict with all available info about horizontal scroll.
 * PROP_SCROLLSTYLE_HORZ: int: style of horizontal scrollbar, one of SCROLLSTYLE_ constants.
@@ -5064,5 +5064,11 @@ It provides:
 * add: app_proc: PROC_GET_CODETREE_CURRENT_NODE
 * add: dlg_proc: treeview event handler on_fold/on_unfold can return False to disable folding/unfolding
 * add: Editor.get_prop/set_prop: COLOR_ID_BookmarkIcon
+
+1.0.461 (app 1.217.8)
+* deprecate PROP_SCROLL_VERT
+* deprecate PROP_SCROLL_HORZ
+* deprecate PROP_SCROLL_VERT_SMOOTH
+* deprecate PROP_SCROLL_HORZ_SMOOTH
 
 [[Category:CudaText]]
