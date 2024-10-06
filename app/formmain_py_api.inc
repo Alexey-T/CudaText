@@ -3692,16 +3692,28 @@ begin
           Result:= PyLong_FromLong(Ed.LineBottom);
 
         PROP_SCROLL_VERT:
-          Result:= PyLong_FromLong(Ed.ScrollVert.NPos);
+          begin
+            MsgDeprecatedAPI('PROP_SCROLL_VERT');
+            Result:= PyLong_FromLong(Ed.ScrollVert.NPos);
+          end;
 
         PROP_SCROLL_HORZ:
-          Result:= PyLong_FromLong(Ed.ScrollHorz.NPos);
+          begin
+            MsgDeprecatedAPI('PROP_SCROLL_HORZ');
+            Result:= PyLong_FromLong(Ed.ScrollHorz.NPos);
+          end;
 
         PROP_SCROLL_VERT_SMOOTH:
-          Result:= PyLong_FromLong(Ed.ScrollVert.SmoothPos);
+          begin
+            MsgDeprecatedAPI('PROP_SCROLL_VERT_SMOOTH');
+            Result:= PyLong_FromLong(Ed.ScrollVert.SmoothPos);
+          end;
 
         PROP_SCROLL_HORZ_SMOOTH:
-          Result:= PyLong_FromLong(Ed.ScrollHorz.SmoothPos);
+          begin
+            MsgDeprecatedAPI('PROP_SCROLL_HORZ_SMOOTH');
+            Result:= PyLong_FromLong(Ed.ScrollHorz.SmoothPos);
+          end;
 
         PROP_SCROLL_VERT_INFO:
           Result:= PyHelper_GetScrollInfo(Ed.ScrollVert);
