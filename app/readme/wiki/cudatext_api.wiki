@@ -5072,7 +5072,7 @@ It provides:
 * deprecate PROP_SCROLL_HORZ
 * deprecate PROP_SCROLL_VERT_SMOOTH
 * deprecate PROP_SCROLL_HORZ_SMOOTH
-* add: Editor.set_prop supports PROP_SCROLL_VERT_INFO
-* add: Editor.set_prop supports PROP_SCROLL_HORZ_INFO
+* add: Editor.set_prop supports PROP_SCROLL_VERT_INFO (Editor.get_prop supports it already)
+* add: Editor.set_prop supports PROP_SCROLL_HORZ_INFO (Editor.get_prop supports it already)
 
 [[Category:CudaText]]
