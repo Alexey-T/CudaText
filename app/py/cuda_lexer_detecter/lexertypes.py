@@ -292,7 +292,6 @@ TYPES = {
     "lisp": ['Common Lisp'],
     "livecodescript": ['LiveCode'],
     "lpr": ['Pascal'],
-    "lsp": ['Common Lisp'],
     "m": ['Power Query M', 'MATLAB', 'Objective-C'],
     "m2": ['Modula-2'],
     "m3": ['Modula-3'],
