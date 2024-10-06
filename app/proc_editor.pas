@@ -3541,8 +3541,7 @@ end;
 procedure EditorStringToScrollInfo(Ed: TATSynEdit; const AText: string; AIsVert: boolean);
 var
   ScrollInfo: TATEditorScrollInfo;
-  SmoothPos: Int64;
-  bSmoothPos: boolean;
+  bSmoothPos: boolean = false;
   Sep: TATStringSeparator;
   SItem, SKey, SValue: string;
 begin
@@ -3550,7 +3549,6 @@ begin
     ScrollInfo:= Ed.ScrollVert
   else
     ScrollInfo:= Ed.ScrollHorz;
-  SmoothPos:= -1;
 
   //text is '{key1:value1;key2:value2}' from to_str()
   Sep.Init(SDeleteCurlyBrackets(AText), #1);
@@ -3563,16 +3561,15 @@ begin
       'smooth_pos':
         begin
           ScrollInfo.SmoothPos:= StrToInt64Def(SValue, ScrollInfo.SmoothPos);
-          SmoothPos:= ScrollInfo.SmoothPos;
+          bSmoothPos:= true;
         end;
       'pixels':
         ScrollInfo.NPixelOffset:= StrToInt64Def(SValue, ScrollInfo.NPixelOffset);
     end;
   until false;
 
-  bSmoothPos:= SmoothPos<>-1;
   if bSmoothPos then
-    Ed.UpdateScrollInfoFromSmoothPos(ScrollInfo, SmoothPos);
+    Ed.UpdateScrollInfoFromSmoothPos(ScrollInfo, ScrollInfo.SmoothPos);
   if AIsVert then
     Ed.ScrollVert:= ScrollInfo
   else
