@@ -606,6 +606,7 @@ The following lexers (counting only important ones) exist for CudaText. They are
 * ZenScript (MineTweaker)
 * Zephir
 * Zig
+* Ziggy
 
 === Lexers modification and creation ===
 [[File:cudatext-lexer-editor-dlg.png|thumb|right|480px|alt=SynWrite "Lexer properties" dialog|Screenshot of SynWrite's "Lexer properties" dialog]]
