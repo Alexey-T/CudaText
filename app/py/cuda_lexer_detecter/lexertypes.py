@@ -525,6 +525,10 @@ TYPES = {
     "y": ['Yacc'],
     "zep": ['Zephir'],
     "zig": ['Zig'],
+    "ziggy": ['Ziggy'],
+    "ziggy-schema": ['Ziggy'],
+    "zgy": ['Ziggy'],
+    "zgy-schema": ['Ziggy'],
     "zs": ['ZenScript (MineTweaker)'],
     "🔥": ['Mojo'],
 }
