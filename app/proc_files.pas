@@ -248,7 +248,7 @@ begin
             //ignore bad bytes at the end, https://github.com/Alexey-T/CudaText/issues/2959
             if not (bReadAllFile and (i>=BytesRead-cBadBytesAtEndAllowed)) then
             begin
-              MsgLogConsole(Format('Detected binary char 0x%s in file "%s"', [IntToHex(CharCode, 2), ExtractFileName(fn)]));
+              MsgLogConsole(Format(msgStatusFoundBinaryChar, [IntToHex(CharCode, 2), ExtractFileName(fn)]));
               Result:= False;
               Break
             end;

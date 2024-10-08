@@ -309,6 +309,7 @@ const
   msgStatusChangedLinesCount: string = 'Changed %d lines';
   msgStatusFontSizeChanged: string = 'Font size changed to %d%%';
   msgStatusLexerDisabledBySize: string = 'Option "ui_max_size_lexer":%d disables lexer "%s" in this file (%d Mb)';
+  msgStatusFoundBinaryChar: string = 'Detected binary char 0x%s in file "%s"';
 
   msgConfirmHotkeyBusy: string = 'Hotkey is already occupied by command:'#10'%s'#10#10'Overwrite it?';
   msgConfirmHotkeyList: string = 'hotkeys (%d): %s';
