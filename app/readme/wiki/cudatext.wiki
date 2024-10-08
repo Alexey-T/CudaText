@@ -2685,15 +2685,14 @@ For example, open some file from write-protected folder on Linux. CudaText detec
 
 Some languages consider special symbols as word-chars. For example, in PHP, "$" symbol is part of a variable name, so double-click should select "$" together with other word-chars. Follow these steps to add extra symbols (e.g. "$") to word-chars.
 
-* Open new file-tab, activate your lexer (click the lexer-cell in the statusbar)
-* Call menu item "Plugins / Options Editor"
-* In the Options Editor dialog:
-** Select item of option "nonword_chars", read the description about this option in the bottom
-** Your lexer name must be pre-selected in the combobox on the dialog bottom
-** Check the checkmark "For: lexer", so that your option will go to the lexer-specific config
+* Open new file-tab, activate your lexer (click the lexer cell in the statusbar).
+* Call menu item "Plugins / Options Editor Lite".
+* In the "Options Editor Lite" dialog:
+** Focus listbox item of the option "nonword_chars", read description about this option in the bottom.
+** Click the combobox field near "Scope", and choose dropdown item "Lexer: LexerName". It is needed for option to go to the lexer-specific config.
 ** Enter new value of the option "nonword_chars" now. Copy/paste the value from the "Default" field, and remove some special symbols from that value.
-** Press Enter-key in the input field. Value must appear in the list of options in the "Lexer" column.
-* Close Options Editor, restart the program
+** Press Enter-key in the input field, to apply the option (lexer-specific option).
+* Close "Options Editor Lite" by "OK" button.
 
 What does this procedure do? It creates (or modifies) file "[CudaText]/settings/lexer LexerName.json" to be like this:
 
