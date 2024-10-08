@@ -187,6 +187,7 @@ var
   BufSize, BytesRead, i: DWORD;
   //Table: TFreqTable;
   //TableSize: Integer;
+  CharCode: byte;
   Str: TFileStream;
   IsLE: boolean;
   bReadAllFile: boolean;
@@ -241,11 +242,13 @@ begin
         Result:= True;
         for i:= 0 to BytesRead - 1 do
         begin
+          CharCode:= Ord(Buffer[i]);
           //If control chars present, then non-text
-          if IsAsciiControlChar(Ord(Buffer[i])) then
+          if IsAsciiControlChar(CharCode) then
             //ignore bad bytes at the end, https://github.com/Alexey-T/CudaText/issues/2959
             if not (bReadAllFile and (i>=BytesRead-cBadBytesAtEndAllowed)) then
             begin
+              MsgLogConsole(Format('Detected binary char 0x%s in file "%s"', [IntToHex(CharCode, 2), ExtractFileName(fn)]));
               Result:= False;
               Break
             end;
