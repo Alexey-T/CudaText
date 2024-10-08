@@ -2694,7 +2694,7 @@ Some languages consider special symbols as word-chars. For example, in PHP, "$" 
 ** Press Enter-key in the input field, to apply the option (lexer-specific option).
 * Close "Options Editor Lite" by "OK" button.
 
-What does this procedure do? It creates (or modifies) file "[CudaText]/settings/lexer LexerName.json" to be like this:
+What does this procedure do? It creates/modifies file "settings/lexer LexerName.json" to be like this:
 
 <syntaxhighlight lang="JSON">
 {
