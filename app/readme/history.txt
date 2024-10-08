@@ -8,7 +8,7 @@
 + add: new command palette item "ui: show+focus bottom panel" to focus currently visible panel (thanks @bogen85)
 + add: it's possible to change the internal value "max line length for non-delayed word highlighting" (hardcoded value 400), via new option "find_hi_max_columns" (thanks @sl23)
 + add: Project Manager: option "Sorting order" has new value "none" (thanks @ildarkhasanshin)
-+ add: non-text file detector now shows Console warning like this: "Detected binary char 0x10 in file nnnnn.txt"
++ add: non-text file detector now shows Console message like "Detected binary char 0x10 in file nnn" (thanks @JBerry910)
 - fix: Linux: error installing the .deb file on Linux Mint 22 / Ubuntu 24.04 (fix by @oleglnk)
 
 1.217.7 (2024/09)
