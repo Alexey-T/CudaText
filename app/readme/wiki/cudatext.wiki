@@ -2690,7 +2690,7 @@ Some languages consider special symbols as word-chars. For example, in PHP, "$" 
 * In the "Options Editor Lite" dialog:
 ** Focus listbox item of the option "nonword_chars", read description about this option in the bottom.
 ** Click the combobox field near "Scope", and choose dropdown item "Lexer: LexerName". It is needed for option to go to the lexer-specific config.
-** Enter new value of the option "nonword_chars" now. Copy/paste the value from the "Default" field, and remove some special symbols from that value.
+** Edit the value of the option "nonword_chars".
 ** Press Enter-key in the input field, to apply the option (lexer-specific option).
 * Close "Options Editor Lite" by "OK" button.
 
