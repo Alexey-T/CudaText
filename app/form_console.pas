@@ -124,18 +124,25 @@ implementation
 function IsConsoleErrorLine(const S: string): boolean;
 // checks for Python exception string like:
 // ZeroDivisionError: division by zero
+const
+  cMaxLen = 150;
 var
-  N, i: integer;
+  N, i: SizeInt;
 begin
   Result:= false;
-  N:= Pos('Error: ', S);
-  if N<=1 then
+  if S='' then exit;
+  if Length(S)>=cMaxLen then exit;
+  if S[1]='.' then exit;
+
+  N:= Pos('Error: ', S, 2);
+  if N=0 then
   begin
-    N:= Pos(': SyntaxWarning: ', S);
-    if N>1 then exit(true);
+    N:= Pos(': SyntaxWarning: ', S, 2);
+    if N>0 then
+      Result:= true;
     exit;
   end;
-  if S[1]='.' then exit;
+
   for i:= 1 to N-1 do
     if not (S[i] in ['.', 'a'..'z', 'A'..'Z', '_']) then
       exit;
