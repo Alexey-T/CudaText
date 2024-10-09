@@ -97,7 +97,7 @@ object SyntAnal4: TLibSyntAnalyzer
       DisplayName = 'String'
       StyleName = 'String'
       TokenType = 4
-      Expression = '"(\\"|\\\\|\\\n|.)*?("|$)'
+      Expression = '"(\\.|.)*?("|$)'
       ColumnFrom = 0
       ColumnTo = 0
     end
