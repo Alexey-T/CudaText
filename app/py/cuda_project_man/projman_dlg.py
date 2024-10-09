@@ -106,31 +106,31 @@ def dialog_config(op):
         +[c1.join(['type=check', 'pos=6,340,400,0', 'cap='+_('Suggest to close tabs not belonging to project'),
             'val='+bool_to_str(op.get('close_ext', True)) ])]
 
-        +[c1.join(['type=label', 'pos=6,390,130,0', 'cap='+_('File type icons:')])]
-        +[c1.join(['type=combo_ro', 'pos=160,385,400,0',
+        +[c1.join(['type=label', 'pos=6,400,130,0', 'cap='+_('File type icons:')])]
+        +[c1.join(['type=combo_ro', 'pos=160,395,400,0',
             'items='+'\t'.join(themes),
             'val='+str(theme_index)
             ])]
 
-        +[c1.join(['type=label', 'pos=6,420,130,0', 'cap='+_('Toolbar icons:')])]
-        +[c1.join(['type=combo_ro', 'pos=160,415,400,0',
+        +[c1.join(['type=label', 'pos=6,430,130,0', 'cap='+_('Toolbar icons:')])]
+        +[c1.join(['type=combo_ro', 'pos=160,425,400,0',
             'items='+'\t'.join(themes_tb),
             'val='+str(theme_index_tb)
             ])]
 
-        +[c1.join(['type=label', 'pos=6,470,130,0', 'cap='+_('Sorting order (*):')])]
-        +[c1.join(['type=combo_ro', 'pos=160,465,400,0',
+        +[c1.join(['type=label', 'pos=6,480,130,0', 'cap='+_('Sorting order (*):')])]
+        +[c1.join(['type=combo_ro', 'pos=160,475,400,0',
             'items='+'\t'.join(items_sort_str),
             'val='+str(items_sort_val)
             ])]
 
-        +[c1.join(['type=label', 'pos=6,446,600,0', 'cap='+_('For more icons, get add-ons of kind "filetypeicons", "projtoolbaricons"')])]
-        +[c1.join(['type=label', 'pos=6,505,600,0', 'cap='+_('(*) - requires CudaText restart')])]
-        +[c1.join(['type=button', 'pos=300,500,400,0', 'cap='+_('&OK'), 'ex0=1'])]
-        +[c1.join(['type=button', 'pos=406,500,502,0', 'cap='+_('Cancel')])]
+        +[c1.join(['type=label', 'pos=6,456,600,0', 'cap='+_('For more icons, get add-ons of kind "filetypeicons", "projtoolbaricons"')])]
+        +[c1.join(['type=label', 'pos=6,515,600,0', 'cap='+_('(*) - requires CudaText restart')])]
+        +[c1.join(['type=button', 'pos=300,510,400,0', 'cap='+_('&OK'), 'ex0=1'])]
+        +[c1.join(['type=button', 'pos=406,510,502,0', 'cap='+_('Cancel')])]
     )
 
-    res = dlg_custom(_('Project Manager options'), 508, 534, text, get_dict=True)
+    res = dlg_custom(_('Project Manager options'), 508, 546, text, get_dict=True)
     if res is None:
         return
 
