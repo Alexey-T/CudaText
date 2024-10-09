@@ -1939,6 +1939,8 @@ class Command:
             fn = ed_self.get_filename('*')
             self.action_project_for_git(fn)
 
+        self.on_tab_change(ed_self)
+
     def action_project_for_git(self, filename):
 
         dir = os.path.dirname(filename)
@@ -2248,7 +2250,3 @@ class Command:
         if self.options.get('always_sync', False):
             if self.tree:
                 self.sync_to_ed()
-
-    def on_open(self, ed_self):
-
-        self.on_tab_change(ed_self)
