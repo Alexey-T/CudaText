@@ -125,13 +125,14 @@ function IsConsoleErrorLine(const S: string): boolean;
 // checks for Python exception string like:
 // ZeroDivisionError: division by zero
 const
+  cMinLen = 10;
   cMaxLen = 150;
 var
   N, i: SizeInt;
 begin
   Result:= false;
-  if S='' then exit;
-  if Length(S)>=cMaxLen then exit;
+  if Length(S)<cMinLen then exit;
+  if Length(S)>cMaxLen then exit;
   if S[1]='.' then exit;
 
   N:= Pos('Error: ', S, 2);
