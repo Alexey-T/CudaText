@@ -2,7 +2,7 @@
 Authors:
     Andrey Kvichansky    (kvichans on github.com)
 Version:
-    '1.0.3 2018-02-01'
+    '1.0.3.1 2024-10-09'
 Content
     log                 Logger with timing
     get_translation     i18n
@@ -197,16 +197,16 @@ def get_translation(plug_file):
         2. These string are extracted from code to
             lang/messages.pot
            with run
-            python.exe <python-root>\Tools\i18n\pygettext.py -p lang <plugin>.py
+            python.exe <python-root>/Tools/i18n/pygettext.py -p lang <plugin>.py
         3. Poedit (or same program) create
-            <module>\lang\ru_RU\LC_MESSAGES\<module>.po
+            <module>/lang/ru_RU/LC_MESSAGES/<module>.po
            from (cmd "Update from POT")
             lang/messages.pot
            It allows to translate all "strings"
            It creates (cmd "Save")
-            <module>\lang\ru_RU\LC_MESSAGES\<module>.mo
+            <module>/lang/ru_RU/LC_MESSAGES/<module>.mo
         4. <module>.mo can be placed also in dir
-            CudaText\data\langpy\ru_RU\LC_MESSAGES\<module>.mo
+            CudaText/data/langpy/ru_RU/LC_MESSAGES/<module>.mo
            The dir is used first.
         5. get_translation uses the file to realize
             _('')
@@ -341,7 +341,7 @@ def fit_top_by_env(what_tp, base_tp='label'):
    #def fit_top_by_env
 
 def dlg_wrapper(title, w, h, cnts, in_vals={}, focus_cid=None):
-    """ Wrapper for dlg_custom. 
+    r""" Wrapper for dlg_custom. 
         Params
             title, w, h     Title, Width, Height 
             cnts            List of static control properties
@@ -545,7 +545,7 @@ def get_hotkeys_desc(cmd_id, ext_id=None, keys_js=None, def_ans=''):
     """ Read one or two hotkeys for command 
             cmd_id [+ext_id]
         from 
-            settings\keys.json
+            settings/keys.json
         Return 
             def_ans                     If no  hotkeys for the command
             'Ctrl+Q'            
