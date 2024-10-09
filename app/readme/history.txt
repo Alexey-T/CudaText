@@ -12,6 +12,7 @@
 + add: Project Manager: add option "Always sync project-tree to current editor file" (thanks @DeivAstra)
 * change: Project Manager: remove toolbar button "Remove node", it's needed not often
 - fix: Linux: error installing the .deb file on Linux Mint 22 / Ubuntu 24.04 (fix by @oleglnk)
+- fix: in 'column selection mode', commands "caret to line begin/end + select" did not work (thanks @ThaiDat)
 
 1.217.7 (2024/09)
 
