@@ -1374,7 +1374,7 @@ class Command:
 
         from .projman_dlg import dialog_config
         if dialog_config(self.options):
-            print(_('ProjectManager: saving options'))
+            print(_('Project Manager: saving options'))
             self.save_options()
 
             if self.h_dlg:
@@ -1794,7 +1794,7 @@ class Command:
         fn = os.path.join(self.icon_dir, fn)
         n = imagelist_proc(self.tree_imglist, IMAGELIST_ADD, value=fn)
         if n is None:
-            print(_('ProjectManager: incorrect filetype icon:'), fn)
+            print(_('Project Manager: incorrect filetype icon:'), fn)
             n = self.ICON_ALL
         self.icon_indexes[key] = n
         return n
@@ -1954,7 +1954,7 @@ class Command:
                 self.new_project(True, False)
                 self.add_node(dir)
                 self.jump_to_filename(filename)
-                print('Project Manager: opened project for version-controlled folder "%s"' % dir)
+                print(_('Project Manager: opened project for version-controlled folder: ')+dir)
                 return
 
             d = os.path.dirname(dir)
