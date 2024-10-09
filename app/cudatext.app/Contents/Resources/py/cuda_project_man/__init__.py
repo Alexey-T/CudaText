@@ -1387,7 +1387,7 @@ class Command:
     def save_events(self):
             ev = []
 
-            if self.options['on_start']:
+            if self.options.get('on_start', False):
                 ev.append('on_start')
 
             v = self.options.get('check_git', None)
