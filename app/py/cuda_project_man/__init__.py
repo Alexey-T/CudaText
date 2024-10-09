@@ -1953,6 +1953,7 @@ class Command:
                 self.new_project(True, False)
                 self.add_node(dir)
                 self.jump_to_filename(filename)
+                print('Project Manager: opened project for version-controlled folder "%s"' % dir)
                 return
 
             d = os.path.dirname(dir)
