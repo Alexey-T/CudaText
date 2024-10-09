@@ -81,17 +81,17 @@ def dialog_config(op):
 
     c1 = chr(1)
     text = '\n'.join([]
-        +[c1.join(['type=label', 'pos=6,4,110,0', 'cap='+_('Ignore &files:')])]
+        +[c1.join(['type=label', 'pos=6,6,110,0', 'cap='+_('Ignore &files:')])]
         +[c1.join(['type=edit', 'pos=116,4,500,0', 'val='+op.get('no_files', '')])]
 
-        +[c1.join(['type=label', 'pos=6,34,110,0', 'cap='+_('Ignore fold&ers:')])]
-        +[c1.join(['type=edit', 'pos=116,34,500,0', 'val='+op.get('no_dirs', '.git;.svn')])]
+        +[c1.join(['type=label', 'pos=6,40,110,0', 'cap='+_('Ignore fold&ers:')])]
+        +[c1.join(['type=edit', 'pos=116,38,500,0', 'val='+op.get('no_dirs', '.git;.svn')])]
 
-        +[c1.join(['type=check', 'pos=6,62,500,84', 'cap='+_('Ignore all &hidden files/folders'),
+        +[c1.join(['type=check', 'pos=6,68,500,84', 'cap='+_('Ignore all &hidden files/folders'),
           'val='+bool_to_str(op.get('no_hidden', True))])]
 
-        +[c1.join(['type=label', 'pos=6,88,500,0', 'cap='+_('&Recent projects:')])]
-        +[c1.join(['type=memo', 'pos=6,104,500,180',
+        +[c1.join(['type=label', 'pos=6,92,500,0', 'cap='+_('&Recent projects:')])]
+        +[c1.join(['type=memo', 'pos=6,112,500,196',
             'val='+'\t'.join(op.get('recent_projects', [])) ])]
         +[c1.join(['type=check', 'pos=6,210,400,0', 'cap='+_('&Show toolbar'),
             'val='+bool_to_str(op.get('toolbar', True)) ])]
