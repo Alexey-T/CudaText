@@ -1397,6 +1397,7 @@ class Command:
             if v:
                 ev.append('on_open')
 
+            # save events to plugins.ini [events], they will work additionally to install.inf events
             if ev:
                 ini_write('plugins.ini', 'events', 'cuda_project_man', ','.join(ev))
             else:
