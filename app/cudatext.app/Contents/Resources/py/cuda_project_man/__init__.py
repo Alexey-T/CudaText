@@ -274,6 +274,7 @@ class Command:
         "d_click": False,
         "goto_open": False,
         "sort_order": "ext",
+        "always_sync": False,
     }
 
     tree = None
@@ -2241,3 +2242,13 @@ class Command:
     def is_path_in_root(self, path):
 
         return str(path) in self.project['nodes']
+
+    def on_tab_change(self, ed_self):
+
+        if self.options.get('always_sync', False):
+            if self.tree:
+                self.sync_to_ed()
+
+    def on_open(self, ed_self):
+
+        self.on_tab_change(ed_self)

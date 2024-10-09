@@ -35,10 +35,11 @@ def dialog_config(op):
     RES_D_CLICK = 10
     RES_CHECK_GIT = 11
     RES_CLOSE_EXT = 12
-    RES_ICONS = 14
-    RES_ICONS_TB = 16
-    RES_SORT_ORDER = 18
-    RES_OK = 21
+    RES_SYNC = 13
+    RES_ICONS = 15
+    RES_ICONS_TB = 17
+    RES_SORT_ORDER = 19
+    RES_OK = 22
 
     themes = get_themes_filetype()
     try:
@@ -105,6 +106,8 @@ def dialog_config(op):
             'val='+bool_to_str(op.get('check_git', True)) ])]
         +[c1.join(['type=check', 'pos=6,340,400,0', 'cap='+_('Suggest to close tabs not belonging to project'),
             'val='+bool_to_str(op.get('close_ext', True)) ])]
+        +[c1.join(['type=check', 'pos=6,366,400,0', 'cap='+_('Always sync project-tree to current editor file'),
+            'val='+bool_to_str(op.get('always_sync', False)) ])]
 
         +[c1.join(['type=label', 'pos=6,400,130,0', 'cap='+_('File type icons:')])]
         +[c1.join(['type=combo_ro', 'pos=160,395,400,0',
@@ -151,6 +154,7 @@ def dialog_config(op):
     op['d_click'] = str_to_bool(res[RES_D_CLICK])
     op['check_git'] = str_to_bool(res[RES_CHECK_GIT])
     op['close_ext'] = str_to_bool(res[RES_CLOSE_EXT])
+    op['always_sync'] = str_to_bool(res[RES_SYNC])
 
     index = int(res[RES_ICONS])
     if index>=0:
