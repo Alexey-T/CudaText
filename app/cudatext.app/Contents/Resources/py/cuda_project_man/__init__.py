@@ -1934,11 +1934,12 @@ class Command:
 
     def on_open(self, ed_self):
 
-        self.init_panel(False)
+        if self.options.get('check_git', False):
+            self.init_panel(False)
 
-        if not self.project_file_path:
-            fn = ed_self.get_filename('*')
-            self.action_project_for_git(fn)
+            if not self.project_file_path:
+                fn = ed_self.get_filename('*')
+                self.action_project_for_git(fn)
 
         self.on_tab_change(ed_self)
 
