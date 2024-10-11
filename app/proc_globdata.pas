@@ -2976,7 +2976,6 @@ begin
 
   try
     try
-      cfg.Formatted:= true;
       cfg.Filename:= AFileName;
     except
       exit;

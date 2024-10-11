@@ -271,7 +271,6 @@ begin
   cfg_bookmarks:= TAppJsonConfigEx.Create(nil);
   try
     try
-      cfg.Formatted:= true;
       cfg.Filename:= sSessionFileName;
       if sRootPath<>'' then
         cfg.DeletePath(sRootPath); //otherwise sections '000' will not be removed
@@ -284,7 +283,6 @@ begin
     end;
 
     try
-      cfg_bookmarks.Formatted:= true;
       cfg_bookmarks.Filename:= AppFile_HistoryFiles;
     except
       on E: Exception do
