@@ -106,7 +106,7 @@ def dialog_config(op):
             'val='+bool_to_str(op.get('check_git', True)) ])]
         +[c1.join(['type=check', 'pos=6,340,400,0', 'cap='+_('Suggest to close tabs not belonging to project'),
             'val='+bool_to_str(op.get('close_ext', True)) ])]
-        +[c1.join(['type=check', 'pos=6,366,400,0', 'cap='+_('Always sync project-tree to current editor file'),
+        +[c1.join(['type=check', 'pos=6,366,400,0', 'cap='+_('Always sync project-tree with current editor file'),
             'val='+bool_to_str(op.get('always_sync', False)) ])]
 
         +[c1.join(['type=label', 'pos=6,400,130,0', 'cap='+_('File type icons:')])]
@@ -133,7 +133,7 @@ def dialog_config(op):
         +[c1.join(['type=button', 'pos=406,510,502,0', 'cap='+_('Cancel')])]
     )
 
-    res = dlg_custom(_('Project Manager options'), 508, 546, text, get_dict=True)
+    res = dlg_custom(_('Project Manager options'), 508, 544, text, get_dict=True)
     if res is None:
         return
 
