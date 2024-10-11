@@ -12,6 +12,7 @@
 + add: Project Manager: add option "Always sync project-tree with current editor file" (thanks @DeivAstra)
 + add: Project Manager: add toolbar button "Sync project-tree with current editor file" (thanks @DeivAstra)
 * change: Project Manager: remove toolbar button "Remove node", it's needed not often
+* change: return toolbar button 'New file' back (thanks @Drugwash)
 - fix: in 'column selection mode' without selection, commands "caret to line begin/end/left/right/up/down + select" did not work (thanks @ThaiDat)
 - fix: Linux: error installing the .deb file on Linux Mint 22 / Ubuntu 24.04 (fix by @oleglnk)
 
