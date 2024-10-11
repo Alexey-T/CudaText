@@ -44,7 +44,6 @@ uses
   ATStatusBar,
   ATScrollBar,
   ATTabs,
-  at__jsonconf,
   proc_cmd,
   proc_msg,
   proc_str,
@@ -1240,10 +1239,10 @@ const
     9;
     {$endif}
 
-
 implementation
 
 uses
+  appjsonconfig,
   ATCanvasPrimitives,
   ATSynEdit_LineParts,
   ATSynEdit_Adapter_EControl,
@@ -2484,7 +2483,7 @@ class procedure TKeymapHelper.ItemSaveToConfig(K: TATKeymapItem; const path, ALe
   ALexerSpecific: boolean);
 var
   SFilename: string;
-  c: TJSONConfig;
+  c: TAppJsonConfig;
   sl: TStringList;
   i: integer;
 begin
@@ -2493,11 +2492,10 @@ begin
   else
     SFilename:= AppFile_Hotkeys;
 
-  c:= TJSONConfig.Create(nil);
+  c:= TAppJsonConfig.Create(nil);
   sl:= TStringList.Create;
   try
     try
-      c.Formatted:= true;
       c.Filename:= SFilename;
     except
       exit;
@@ -2531,17 +2529,16 @@ class procedure TKeymapHelper.ItemDeleteInConfig(K: TATKeymapItem; const path, A
   ALexerSpecific: boolean);
 var
   SFilename: string;
-  c: TJSONConfig;
+  c: TAppJsonConfig;
 begin
   if ALexerSpecific then
     SFilename:= AppFile_HotkeysForLexer(ALexerName)
   else
     SFilename:= AppFile_Hotkeys;
 
-  c:= TJSONConfig.Create(nil);
+  c:= TAppJsonConfig.Create(nil);
   try
     try
-      c.Formatted:= true;
       c.Filename:= SFilename;
     except
       exit;
@@ -2562,7 +2559,7 @@ const
   cKeyComboSeparator = '|';
 var
   SFilename: string;
-  c: TJSONConfig;
+  c: TAppJsonConfig;
   sl: TStringList;
   path, s_item: string;
   Sep: TATStringSeparator;
@@ -2574,11 +2571,10 @@ begin
   else
     SFilename:= AppFile_Hotkeys;
 
-  c:= TJSONConfig.Create(nil);
+  c:= TAppJsonConfig.Create(nil);
   sl:= TStringList.Create();
   try
     try
-      c.Formatted:= true;
       c.Filename:= SFilename;
     except
       exit;
@@ -2954,7 +2950,7 @@ end;
 
 class procedure TKeymapHelper.LoadConfig(AKeymap: TATKeymap; const AFileName: string; AForLexer: boolean);
 var
-  cfg: TJSONConfig;
+  cfg: TAppJsonConfig;
   slist, skeys: TStringList;
   //
   procedure DoReadConfigToKeys(const path: string; var keys: TATKeyArray);
@@ -2974,7 +2970,7 @@ var
   StrId: string;
   ncmd, nitem, i: integer;
 begin
-  cfg:= TJSONConfig.Create(nil);
+  cfg:= TAppJsonConfig.Create(nil);
   slist:= TStringList.Create;
   skeys:= TStringList.Create;
 
@@ -3662,7 +3658,7 @@ end;
 
 procedure AppLoadLexers;
 var
-  cfg: TJsonConfig;
+  cfg: TAppJsonConfig;
   SErrorLines: string;
   SErrorItem: string;
   Sep: TATStringSeparator;
@@ -3674,7 +3670,7 @@ var
 begin
   //must read UiOps.LexerThemes here, AppLoadLexers runs in a thread
   //before loading all options, and we need this option already
-  cfg:= TJsonConfig.Create(nil);
+  cfg:= TAppJsonConfig.Create(nil);
   try
     try
       cfg.Filename:= AppFile_OptionsUser;
@@ -3887,11 +3883,11 @@ end;
 
 function IsSetToOneInstance: boolean;
 var
-  c: TJSONConfig;
+  c: TAppJsonConfig;
 begin
   //default must be True, issue #3337
   Result := True;
-  c := TJSONConfig.Create(nil);
+  c := TAppJsonConfig.Create(nil);
   try
     try
       c.Filename := AppFile_OptionsUser;

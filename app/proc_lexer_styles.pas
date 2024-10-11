@@ -11,14 +11,14 @@ interface
 
 uses
   SysUtils, Classes, Graphics,
-  at__jsonconf,
+  appjsonconfig,
   ec_SyntAnal,
   ec_syntax_format;
 
-procedure Lexer_SaveStyleToFile_JsonTheme(st: TecSyntaxFormat; cfg: TJSONConfig; skey: string);
+procedure Lexer_SaveStyleToFile_JsonTheme(st: TecSyntaxFormat; cfg: TAppJsonConfig; skey: string);
 procedure Lexer_SaveStylesToFile_JsonLexerOps(an: TecSyntAnalyzer; const Filename: string);
 
-function Lexer_LoadStyleFromFile_JsonTheme(st: TecSyntaxFormat; cfg: TJSONConfig; skey: string): boolean;
+function Lexer_LoadStyleFromFile_JsonTheme(st: TecSyntaxFormat; cfg: TAppJsonConfig; skey: string): boolean;
 procedure Lexer_LoadStylesFromFile_JsonLexerOps(an: TecSyntAnalyzer; const Filename: string; NoStyles: boolean);
 
 function Lexer_FontStylesToString(const f: TFontStyles): string;
@@ -93,7 +93,7 @@ begin
 end;
 *)
 
-procedure Lexer_SaveStyleToFile_JsonTheme(st: TecSyntaxFormat; cfg: TJSONConfig;
+procedure Lexer_SaveStyleToFile_JsonTheme(st: TecSyntaxFormat; cfg: TAppJsonConfig;
   skey: string);
 begin
   if not SEndsWith(skey, '/') then skey:= skey+'/';
@@ -114,13 +114,13 @@ end;
 
 procedure Lexer_SaveStylesToFile_JsonLexerOps(an: TecSyntAnalyzer; const Filename: string);
 var
-  conf: TJSONConfig;
+  conf: TAppJsonConfig;
   an_orig: TecSyntAnalyzer;
   st, st_orig: TecSyntaxFormat;
   fn_lexer, path, val_orig: string;
   int_orig, i: integer;
 begin
-  conf:= TJSONConfig.Create(nil);
+  conf:= TAppJsonConfig.Create(nil);
   an_orig:= TecSyntAnalyzer.Create(nil);
   try
     try
@@ -128,7 +128,6 @@ begin
       if FileExists(fn_lexer) then
         an_orig.LoadFromFile(fn_lexer);
 
-      conf.Formatted:= true;
       conf.FileName:= Filename;
 
       conf.SetDeleteValue('/files', an.Extentions, an_orig.Extentions);
@@ -221,12 +220,12 @@ end;
 procedure Lexer_LoadStylesFromFile_JsonLexerOps(an: TecSyntAnalyzer; const Filename: string;
   NoStyles: boolean);
 var
-  conf: TJSONConfig;
+  conf: TAppJsonConfig;
   st: TecSyntaxFormat;
   path, s: string;
   i: integer;
 begin
-  conf:= TJSONConfig.Create(nil);
+  conf:= TAppJsonConfig.Create(nil);
   try
     try
       conf.FileName:= Filename;
@@ -281,7 +280,7 @@ end;
 
 
 
-function Lexer_LoadStyleFromFile_JsonTheme(st: TecSyntaxFormat; cfg: TJSONConfig; skey: string): boolean;
+function Lexer_LoadStyleFromFile_JsonTheme(st: TecSyntaxFormat; cfg: TAppJsonConfig; skey: string): boolean;
 var
   Sep: TATStringSeparator;
   N, Len: integer;

@@ -9,12 +9,11 @@ Copyright (c) Alexey Torgashin
 
 procedure TfmMain.DoOps_SaveOptionBool(const APath: string; AValue: boolean);
 var
-  cfg: TJSONConfig;
+  cfg: TAppJSONConfig;
 begin
-  cfg:= TJSONConfig.Create(nil);
+  cfg:= TAppJSONConfig.Create(nil);
   try
     try
-      cfg.Formatted:= true; //needs last at__jsonconf.pp
       cfg.Filename:= AppFile_OptionsUser;
     except
       exit;
@@ -28,12 +27,11 @@ end;
 
 procedure TfmMain.DoOps_SaveOptionString(const APath, AValue: string);
 var
-  cfg: TJSONConfig;
+  cfg: TAppJsonConfig;
 begin
-  cfg:= TJSONConfig.Create(nil);
+  cfg:= TAppJsonConfig.Create(nil);
   try
     try
-      cfg.Formatted:= true; //needs last at__jsonconf.pp
       cfg.Filename:= AppFile_OptionsUser;
     except
       exit;
@@ -48,12 +46,11 @@ end;
 
 procedure TfmMain.DoOps_SaveThemes;
 var
-  cfg: TJSONConfig;
+  cfg: TAppJsonConfig;
 begin
-  cfg:= TJSONConfig.Create(nil);
+  cfg:= TAppJsonConfig.Create(nil);
   try
     try
-      cfg.Formatted:= true;
       cfg.FileName:= AppFile_OptionsUser;
     except
       exit
@@ -67,12 +64,11 @@ end;
 
 procedure TfmMain.DoOps_ClearConfigHistory(AMode: TAppConfigHistoryElements);
 var
-  cfg: TJSONConfig;
+  cfg: TAppJsonConfig;
 begin
-  cfg:= TJSONConfig.Create(nil);
+  cfg:= TAppJsonConfig.Create(nil);
   try
     try
-      cfg.Formatted:= true; //needs last at__jsonconf.pp
       cfg.Filename:= AppFile_History;
     except
       exit;
@@ -113,16 +109,15 @@ end;
 procedure TfmMain.DoOps_SaveHistory(const AFileName: string;
   ASaveModifiedTabs, ASaveSession: boolean);
 var
-  cfg: TJSONConfig;
+  cfg: TAppJsonConfig;
   bMax: boolean;
   fnBase: string;
 begin
   AppDiskCheckFreeSpace(AFileName);
 
-  cfg:= TJSONConfig.Create(nil);
+  cfg:= TAppJsonConfig.Create(nil);
   try
     try
-      cfg.Formatted:= true; //needs last at__jsonconf.pp
       cfg.Filename:= AFileName;
     except
       exit;
@@ -234,7 +229,7 @@ function TfmMain.DoOps_SaveSession(const ASessionId: string;
 const
   keysToIgnore: array of UTF8String = ('text', 'undo', 'redo');
 var
-  cfg, cfg_bookmarks: TJSONConfigEx;
+  cfg, cfg_bookmarks: TAppJsonConfigEx;
   Frame: TEditorFrame;
   Gr: TATGroups;
   Pages: TATPages;
@@ -272,8 +267,8 @@ begin
   if (nFrameCount=1) and Frames[0].IsEmpty then
     nFrameCount:= 0;
 
-  cfg:= TJSONConfigEx.Create(nil);
-  cfg_bookmarks:= TJSONConfigEx.Create(nil);
+  cfg:= TAppJsonConfigEx.Create(nil);
+  cfg_bookmarks:= TAppJsonConfigEx.Create(nil);
   try
     try
       cfg.Formatted:= true;
@@ -536,7 +531,7 @@ end;
 
 function TfmMain.DoOps_LoadSession(const ASessionId: string; AllowShowPanels: boolean): boolean;
 var
-  cfg: TJSONConfig;
+  cfg: TAppJsonConfig;
   Frame: TEditorFrame;
   Ed: TATSynEdit;
   Pages: TATPages;
@@ -598,7 +593,7 @@ begin
 
   AppFileCheckForNullBytes(sSessionFileName);
 
-  cfg:= TJSONConfig.Create(nil);
+  cfg:= TAppJsonConfig.Create(nil);
   ListSessionKeys:= TStringList.Create;
   try
     try
@@ -899,7 +894,7 @@ begin
   end;
 end;
 
-procedure TfmMain.DoOps_LoadHistory_GroupView(cfg: TJsonConfig; const AJsonPath: string);
+procedure TfmMain.DoOps_LoadHistory_GroupView(cfg: TAppJsonConfig; const AJsonPath: string);
 var
   Sep: TATStringSeparator;
   i: integer;
@@ -918,7 +913,7 @@ begin
   end;
 end;
 
-procedure TfmMain.DoOps_SaveHistory_GroupView(cfg: TJsonConfig; const AJsonPath: string);
+procedure TfmMain.DoOps_SaveHistory_GroupView(cfg: TAppJsonConfig; const AJsonPath: string);
 var
   SizePanel: TPoint;
   SizePage: TATGroupsPoints;
@@ -938,7 +933,7 @@ begin
 end;
 
 
-procedure DoOps_LoadFormRect(Cfg: TJSONConfig; const APath: string; var R: TRect);
+procedure DoOps_LoadFormRect(Cfg: TAppJsonConfig; const APath: string; var R: TRect);
 var
   S: string;
 begin
@@ -955,7 +950,7 @@ procedure TfmMain.DoOps_LoadHistory;
 //this should be called in OnCreate, to fix window flickering if window
 //was maximized (Win32).
 var
-  cfg: TJSONConfig;
+  cfg: TAppJsonConfig;
   bFlag: boolean;
   NTick: QWord;
   N: integer;
@@ -965,7 +960,7 @@ begin
 
   AppFileCheckForNullBytes(AppFile_History);
 
-  cfg:= TJSONConfig.Create(nil);
+  cfg:= TAppJsonConfig.Create(nil);
   try
     try
       cfg.Filename:= AppFile_History;
@@ -1154,7 +1149,7 @@ begin
   end;
 end;
 
-procedure TfmMain.DoOps_LoadOptions_Global(cfg: TJSONConfig);
+procedure TfmMain.DoOps_LoadOptions_Global(cfg: TAppJsonConfig);
 const
   cMaxScale = 500;
 var
@@ -1266,7 +1261,7 @@ begin
   end;
 end;
 
-procedure TfmMain.DoOps_LoadOptions_Editor(cfg: TJSONConfig; var Op: TEditorOps);
+procedure TfmMain.DoOps_LoadOptions_Editor(cfg: TAppJsonConfig; var Op: TEditorOps);
 const
   cMinFontSize = 7;
 begin
@@ -1481,7 +1476,7 @@ begin
 end;
 
 
-procedure TfmMain.DoOps_LoadOptions_Ui(cfg: TJSONConfig);
+procedure TfmMain.DoOps_LoadOptions_Ui(cfg: TAppJsonConfig);
 var
   S: string;
   element: TAppHistoryElement;
@@ -1742,12 +1737,12 @@ end;
 
 procedure TfmMain.DoOps_LoadOptions(const AFileName: string; var Ops: TEditorOps; AllowGlobalOps: boolean);
 var
-  cfg: TJsonConfig;
+  cfg: TAppJsonConfig;
   NTick, NTick2: QWord;
 begin
   NTick:= GetTickCount64;
 
-  cfg:= TJsonConfig.Create(nil);
+  cfg:= TAppJsonConfig.Create(nil);
   try
     try
       cfg.Filename:= AFileName;
@@ -1918,7 +1913,7 @@ procedure TfmMain.DoOps_DialogFont(
   const AConfigStrName, AConfigStrSize: string);
 var
   dlg: TFontDialog;
-  cfg: TJsonConfig;
+  cfg: TAppJsonConfig;
   fn: string;
   bSizeValid: boolean;
 begin
@@ -1942,10 +1937,9 @@ begin
     FreeAndNil(dlg);
   end;
 
-  cfg:= TJSONConfig.Create(nil);
+  cfg:= TAppJsonConfig.Create(nil);
   try
     try
-      cfg.Formatted:= true;
       cfg.Filename:= fn;
       cfg.SetValue(AConfigStrName, OpName);
       if bSizeValid then

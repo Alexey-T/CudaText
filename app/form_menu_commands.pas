@@ -31,7 +31,7 @@ uses
   proc_str,
   proc_keysdialog,
   proc_editor,
-  at__jsonconf,
+  appjsonconfig,
   math;
 
 type
@@ -384,12 +384,11 @@ end;
 
 procedure TfmCommands.DoResetKey(K: TATKeymapItem);
 var
-  c: TJSONConfig;
+  c: TAppJsonConfig;
 begin
-  c:= TJSONConfig.Create(nil);
+  c:= TAppJsonConfig.Create(nil);
   try
     try
-      c.Formatted:= true;
       c.Filename:= AppFile_Hotkeys;
       c.DeletePath(IntToStr(K.Command));
     except

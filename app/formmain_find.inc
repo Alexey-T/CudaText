@@ -485,7 +485,7 @@ end;
 
 procedure TfmMain.InitFormFind;
 var
-  cfg: TJsonConfig;
+  cfg: TAppJsonConfig;
 begin
   if not Assigned(fmFind) then
   begin
@@ -520,7 +520,7 @@ begin
       //else: it's already fsStayOnTop
     end;
 
-    cfg:= TJSONConfig.Create(nil);
+    cfg:= TAppJsonConfig.Create(nil);
     try
       try
         cfg.Filename:= AppFile_History;

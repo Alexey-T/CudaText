@@ -14,7 +14,7 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ButtonPanel,
   ExtCtrls, FileUtil, LazFileUtils, IniFiles, Math,
-  at__jsonConf,
+  appjsonconfig,
   proc_msg,
   proc_customdialog,
   proc_globdata;
@@ -239,9 +239,9 @@ end;
 
 function TfmChooseTheme.GetEnableLexerThemes: boolean;
 var
-  c: TJSONConfig;
+  c: TAppJsonConfig;
 begin
-  c:= TJSONConfig.Create(nil);
+  c:= TAppJsonConfig.Create(nil);
   try
     c.FileName:= AppFile_OptionsUser;
     Result:= c.GetValue('/ui_lexer_themes', true);
@@ -252,9 +252,9 @@ end;
 
 function TfmChooseTheme.GetEnableSync: boolean;
 var
-  c: TJSONConfig;
+  c: TAppJsonConfig;
 begin
-  c:= TJSONConfig.Create(nil);
+  c:= TAppJsonConfig.Create(nil);
   try
     c.FileName:= AppFile_History;
     Result:= c.GetValue('/sync_choose_themes', true);
@@ -265,11 +265,10 @@ end;
 
 procedure TfmChooseTheme.SetEnableLexerThemes(AValue: boolean);
 var
-  c: TJSONConfig;
+  c: TAppJsonConfig;
 begin
-  c:= TJSONConfig.Create(nil);
+  c:= TAppJsonConfig.Create(nil);
   try
-    c.Formatted:= true;
     c.FileName:= AppFile_OptionsUser;
     c.SetDeleteValue('/ui_lexer_themes', AValue, true);
   finally
@@ -279,11 +278,10 @@ end;
 
 procedure TfmChooseTheme.SetEnableSync(AValue: boolean);
 var
-  c: TJSONConfig;
+  c: TAppJsonConfig;
 begin
-  c:= TJSONConfig.Create(nil);
+  c:= TAppJsonConfig.Create(nil);
   try
-    c.Formatted:= true;
     c.FileName:= AppFile_History;
     c.SetDeleteValue('/sync_choose_themes', AValue, false);
   finally

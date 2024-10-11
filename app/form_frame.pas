@@ -16,6 +16,7 @@ uses
   Classes, SysUtils, Graphics, Forms, Controls, Dialogs,
   ExtCtrls, Menus, ComCtrls,
   LCLIntf, LCLProc, LCLType, LazUTF8, LazFileUtils, FileUtil,
+  appjsonconfig,
   ATSynEdit,
   ATSynEdit_Adapters,
   ATSynEdit_Adapter_EControl,
@@ -52,8 +53,7 @@ uses
   proc_customdialog_dummy,
   ec_SyntAnal,
   ec_proc_lexer,
-  ec_lexerlist,
-  at__jsonconf;
+  ec_lexerlist;
 
 type
   TAppFramePyEvent = function(AEd: TATSynEdit; AEvent: TAppPyEvent;
@@ -371,7 +371,7 @@ type
 
     procedure DoSaveUndo(Ed: TATSynEdit; const AFileName: string);
     procedure DoLoadUndo(Ed: TATSynEdit);
-    procedure DoSaveHistory_Caret(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString);
+    procedure DoSaveHistory_Caret(Ed: TATSynEdit; c: TAppJsonConfig; const path: UnicodeString);
     procedure RestoreSavedLexer(Ed: TATSynEdit);
 
   protected
@@ -510,11 +510,11 @@ type
     procedure DoLexerFromFilename(Ed: TATSynEdit; const AFileName: string);
     //history
     procedure DoSaveHistory(Ed: TATSynEdit);
-    procedure DoSaveHistoryEx(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString; AForSession: boolean);
+    procedure DoSaveHistoryEx(Ed: TATSynEdit; c: TAppJsonConfig; const path: UnicodeString; AForSession: boolean);
     procedure DoLoadHistory(Ed: TATSynEdit; AllowLoadEncoding, AllowLoadHistory, AllowLoadBookmarks: boolean);
-    procedure DoLoadHistoryEx(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString; AllowEnc: boolean);
-    procedure DoLoadBookmarks(Ed: TATSynEdit; c: TJsonConfig);
-    procedure DoSaveBookmarks(Ed: TATSynEdit; c: TJsonConfig);
+    procedure DoLoadHistoryEx(Ed: TATSynEdit; c: TAppJsonConfig; const path: UnicodeString; AllowEnc: boolean);
+    procedure DoLoadBookmarks(Ed: TATSynEdit; c: TAppJsonConfig);
+    procedure DoSaveBookmarks(Ed: TATSynEdit; c: TAppJsonConfig);
     //misc
     function DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent; const AParams: TAppVariantArray): TAppPyEventResult;
     procedure DoPyEventState(Ed: TATSynEdit; AState: integer);
@@ -3826,7 +3826,7 @@ end;
 
 procedure TEditorFrame.DoSaveHistory(Ed: TATSynEdit);
 var
-  cfg: TJSONConfig;
+  cfg: TAppJsonConfig;
   SFileName: string;
   SKeyForFile: string;
   items: TStringlist;
@@ -3839,10 +3839,9 @@ begin
   if SFileName='' then exit;
   SKeyForFile:= SMaskFilenameSlashes(SFileName);
 
-  cfg:= TJsonConfig.Create(nil);
+  cfg:= TAppJsonConfig.Create(nil);
   try
     try
-      cfg.Formatted:= true;
       cfg.Filename:= AppFile_HistoryFiles;
     except
       on E: Exception do
@@ -3881,7 +3880,7 @@ begin
   end;
 end;
 
-procedure TEditorFrame.DoSaveHistory_Caret(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString);
+procedure TEditorFrame.DoSaveHistory_Caret(Ed: TATSynEdit; c: TAppJsonConfig; const path: UnicodeString);
 var
   Caret: TATCaretItem;
   EndX, EndY: integer;
@@ -3908,7 +3907,7 @@ begin
    end;
 end;
 
-procedure TEditorFrame.DoLoadBookmarks(Ed: TATSynEdit; c: TJsonConfig);
+procedure TEditorFrame.DoLoadBookmarks(Ed: TATSynEdit; c: TAppJsonConfig);
 var
   SKey, SValue: UnicodeString;
 begin
@@ -3922,7 +3921,7 @@ begin
   end;
 end;
 
-procedure TEditorFrame.DoSaveBookmarks(Ed: TATSynEdit; c: TJsonConfig);
+procedure TEditorFrame.DoSaveBookmarks(Ed: TATSynEdit; c: TAppJsonConfig);
 var
   SKey, SData: string;
 begin
@@ -3940,7 +3939,7 @@ begin
   end;
 end;
 
-procedure TEditorFrame.DoSaveHistoryEx(Ed: TATSynEdit; c: TJsonConfig; const path: UnicodeString;
+procedure TEditorFrame.DoSaveHistoryEx(Ed: TATSynEdit; c: TAppJsonConfig; const path: UnicodeString;
   AForSession: boolean);
 begin
   //save 'split' value only when we have single file splitted,
@@ -4084,7 +4083,7 @@ end;
 
 procedure TEditorFrame.DoLoadHistory(Ed: TATSynEdit; AllowLoadEncoding, AllowLoadHistory, AllowLoadBookmarks: boolean);
 var
-  cfg: TJSONConfig;
+  cfg: TAppJsonConfig;
   SFileName: string;
   path: string;
 begin
@@ -4098,10 +4097,9 @@ begin
 
   AppFileCheckForNullBytes(AppFile_HistoryFiles);
 
-  cfg:= TJsonConfig.Create(nil);
+  cfg:= TAppJsonConfig.Create(nil);
   try
     try
-      cfg.Formatted:= true;
       cfg.Filename:= AppFile_HistoryFiles;
     except
       on E: Exception do
@@ -4122,7 +4120,7 @@ begin
 end;
 
 
-procedure TEditorFrame.DoLoadHistoryEx(Ed: TATSynEdit; c: TJsonConfig;
+procedure TEditorFrame.DoLoadHistoryEx(Ed: TATSynEdit; c: TAppJsonConfig;
   const path: UnicodeString; AllowEnc: boolean);
 var
   str, str0, sFileName, sCaretString: string;

@@ -13,10 +13,11 @@ interface
 
 uses
   SysUtils, Classes,
-  at__jsonConf, at__fpjson;
+  appjsonconfig,
+  at__fpjson;
 
 type
-  TJSONConfigEx = class(TJSONConfig)
+  TAppJsonConfigEx = class(TAppJsonConfig)
   public
     procedure SetModified(AValue: Boolean);
     function GetJsonObj: TJSONObject;
@@ -37,12 +38,12 @@ begin
   Result := false;
 end;
 
-procedure TJSONConfigEx.SetModified(AValue: Boolean);
+procedure TAppJsonConfigEx.SetModified(AValue: Boolean);
 begin
   FModified := AValue;
 end;
 
-function TJSONConfigEx.GetJsonObj: TJSONObject;
+function TAppJsonConfigEx.GetJsonObj: TJSONObject;
 begin
   Result := FJSON;
 end;

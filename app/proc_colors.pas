@@ -244,7 +244,7 @@ implementation
 
 uses
   ATButtons,
-  at__jsonconf;
+  appjsonconfig;
 
 procedure AppThemeFree(var D: TAppTheme);
 var
@@ -264,7 +264,7 @@ end;
 
 procedure AppThemeLoadFromFile(const AFileName: string; var D: TAppTheme; IsThemeUI: boolean);
 var
-  cfg: TJsonConfig;
+  cfg: TAppJsonConfig;
   //
   procedure ReadColorValue(var Val: TColor; const id: string);
   var
@@ -295,7 +295,7 @@ begin
     exit;
   end;
 
-  cfg:= TJsonConfig.Create(nil);
+  cfg:= TAppJsonConfig.Create(nil);
   try
     try
       cfg.Filename:= AFileName;
@@ -564,15 +564,14 @@ end;
 
 procedure AppThemeSaveToFile(const AFileName: string; const D: TAppTheme; IsThemeUI: boolean);
 var
-  cfg: TJSONConfig;
+  cfg: TAppJsonConfig;
   iColor: TAppThemeColor;
   iStyle: TAppThemeStyle;
   st: TecSyntaxFormat;
 begin
-  cfg:= TJSONConfig.Create(nil);
+  cfg:= TAppJsonConfig.Create(nil);
   try
     try
-      cfg.Formatted:= true;
       cfg.Filename:= AFileName;
       cfg.Clear; //avoid file deletion, to support symlinks for files
     except

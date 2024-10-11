@@ -39,7 +39,9 @@ uses
   fix_gtk_clipboard,
   {$endif}
   fix_focus_window,
-  at__jsonconf, at__fpjson, proc_json_ex,
+  appjsonconfig,
+  at__fpjson,
+  proc_json_ex,
   PythonEngine,
   ec_LexerList,
   ec_SyntAnal,
@@ -823,9 +825,9 @@ type
       ALangFile: TIniFile; ACommandListIndex: integer);
     procedure DoOps_LexersBackupSave;
     procedure DoOps_LexersBackupRestore;
-    procedure DoOps_LoadOptions_Editor(cfg: TJSONConfig; var Op: TEditorOps);
-    procedure DoOps_LoadOptions_Global(cfg: TJSONConfig);
-    procedure DoOps_LoadOptions_Ui(cfg: TJSONConfig);
+    procedure DoOps_LoadOptions_Editor(cfg: TAppJsonConfig; var Op: TEditorOps);
+    procedure DoOps_LoadOptions_Global(cfg: TAppJsonConfig);
+    procedure DoOps_LoadOptions_Ui(cfg: TAppJsonConfig);
     procedure ShowWelcomeInfo;
     procedure DoOps_OnCreate;
     function FindFrameOfFilename(const AFileName: string; AllowEmptyPath: boolean=false): TEditorFrame;
@@ -1014,12 +1016,12 @@ type
     procedure DoOps_LoadLexerLib(AOnCreate: boolean);
     procedure DoOps_SaveHistory(const AFileName: string; ASaveModifiedTabs, ASaveSession: boolean);
     procedure DoOps_ClearConfigHistory(AMode: TAppConfigHistoryElements);
-    procedure DoOps_SaveHistory_GroupView(cfg: TJsonConfig; const AJsonPath: string);
+    procedure DoOps_SaveHistory_GroupView(cfg: TAppJsonConfig; const AJsonPath: string);
     procedure DoOps_SaveOptionBool(const APath: string; AValue: boolean);
     procedure DoOps_SaveOptionString(const APath, AValue: string);
     procedure DoOps_SaveThemes;
     procedure DoOps_LoadHistory;
-    procedure DoOps_LoadHistory_GroupView(cfg: TJsonConfig; const AJsonPath: string);
+    procedure DoOps_LoadHistory_GroupView(cfg: TAppJsonConfig; const AJsonPath: string);
     function DoOps_SaveSession(const ASessionId: string; ASaveModifiedFiles, ASaveUntitledTabs, AByTimer: boolean): boolean;
     function DoOps_LoadSession(const ASessionId: string; AllowShowPanels: boolean): boolean;
     procedure DoOps_SaveSessionsBackups(const ASessionFilename: string);

@@ -22,7 +22,7 @@ uses
   LclIntf, LclType, LazFileUtils, StrUtils,
   Clipbrd,
   BGRABitmap,
-  at__jsonConf,
+  appjsonconfig,
   ATSynEdit,
   ATSynEdit_Globals,
   ATSynEdit_Adapter_EControl,
@@ -877,10 +877,10 @@ end;
 
 procedure FormHistoryLoad(F: TForm; const AConfigPath: string; AWithPos: boolean);
 var
-  c: TJSONConfig;
+  c: TAppJsonConfig;
   S: string;
 begin
-  c:= TJSONConfig.Create(nil);
+  c:= TAppJsonConfig.Create(nil);
   try
     try
       c.Filename:= AppFile_History;
@@ -898,9 +898,9 @@ end;
 
 procedure FormHistorySave(F: TForm; const AConfigPath: string; AWithPos: boolean);
 var
-  c: TJSONConfig;
+  c: TAppJsonConfig;
 begin
-  c:= TJSONConfig.Create(nil);
+  c:= TAppJsonConfig.Create(nil);
   try
     try
       c.Filename:= AppFile_History;
@@ -1452,14 +1452,14 @@ end;
 function AppValidateJson(const AText: string): boolean;
 var
   fn: string;
-  cfg: TJSONConfig;
+  cfg: TAppJsonConfig;
 begin
   fn:= GetTempDir(false)+'cudatext_validation.json';
   if FileExists(fn) then
     DeleteFile(fn);
   DoWriteStringToFile(fn, AText);
 
-  cfg:= TJSONConfig.Create(nil);
+  cfg:= TAppJsonConfig.Create(nil);
   try
     try
       cfg.Filename:= fn;
