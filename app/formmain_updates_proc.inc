@@ -1430,11 +1430,8 @@ begin
   ToolbarMain.Images:= TImageList.Create(Self);
   ToolbarMain.Images.AllocBy:= 20;
 
-  {
-  //don't add 'New', ui-tabs '+' replaces it
   ToolbarMain.AddButton(0, @DoToolbarClick, nil, 'f_new', 'New file', IntToStr(cmd_FileNew), false);
-  ToolbarMain.AddDropdown(-1, nil, @DoFileNewMenu_ToolbarClick);
-  }
+  //ToolbarMain.AddDropdown(-1, nil, @DoFileNewMenu_ToolbarClick);
   ToolbarMain.AddButton(1, @DoToolbarClick, nil, 'f_open', 'Open file', IntToStr(cmd_FileOpen), false);
   ToolbarMain.AddDropdown(-1, PopupRecents);
   ToolbarMain.AddButton(2, @DoToolbarClick, nil, 'f_save', 'Save file', IntToStr(cmd_FileSave), false);
