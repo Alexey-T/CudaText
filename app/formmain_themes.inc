@@ -126,7 +126,7 @@ begin
   ATFlatTheme.ColorBorderPassive:= GetAppColor(TAppThemeColor.ButtonBorderPassive);
   ATFlatTheme.ColorArrows:= GetAppColor(TAppThemeColor.TabArrow);
   ATFlatTheme.ColorArrowsOver:= GetAppColor(TAppThemeColor.TabArrowOver);
-  ATFlatTheme.ColorSeparators:= GetAppColor(TAppThemeColor.TabBorderActive);
+  ATFlatTheme.ColorSeparators:= GetAppColor(TAppThemeColor.ButtonBorderPassive);
   ATFlatTheme.ColorBorderOver:= GetAppColor(TAppThemeColor.ButtonBorderOver);
   ATFlatTheme.ColorBorderFocused:= GetAppColor(TAppThemeColor.ButtonBorderFocused);
   ATFlatTheme.ColorFontListbox:= GetAppColor(TAppThemeColor.ListFont);
