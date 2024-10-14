@@ -149,6 +149,7 @@ begin
 
       cfg.SetValue('show_sidepanel', AppPanels[TAppPanelId.Side].Visible);
       cfg.SetValue('show_bottom', AppPanels[TAppPanelId.Btm].Visible);
+      cfg.SetValue('on_top', ShowOnTop);
 
       cfg.SetValue('float_side', AppPanels[TAppPanelId.Side].Floating);
       cfg.SetValue('float_bottom', AppPanels[TAppPanelId.Btm].Floating);
@@ -1018,6 +1019,8 @@ begin
       2: bFlag:= false;
     end;
     AppPanels[TAppPanelId.Btm].Visible:= bFlag;
+
+    ShowOnTop:= cfg.GetValue('on_top', false);
 
     N:= cfg.GetValue('size_side', 200);
     AppPanels[TAppPanelId.Side].PanelSize:= N; //Min(N, ClientWidth * UiOps.MaxPanelSizeInPercents div 100);
