@@ -6289,7 +6289,7 @@ procedure TfmMain.SetShowOnTop(AValue: boolean);
 begin
   UiOps.ShowFormsOnTop:= AValue;
   UpdateFormOnTop(Self);
-  //UpdateStatusbar;
+  //UpdateStatusbar; //2024.10: why it was here? not needed, seems.
 end;
 
 procedure TfmMain.SetSidebarPanel(const ACaption: string);
