@@ -6289,7 +6289,7 @@ procedure TfmMain.SetShowOnTop(AValue: boolean);
 begin
   UiOps.ShowFormsOnTop:= AValue;
   UpdateFormOnTop(Self);
-  UpdateStatusbar;
+  //UpdateStatusbar;
 end;
 
 procedure TfmMain.SetSidebarPanel(const ACaption: string);
