@@ -5,10 +5,11 @@
 
 1.218.0 (2024/10)
 
++ add: state "View / Toggle always on top" is saved/loaded to/from history
 + add: new command palette item "ui: show+focus bottom panel" to focus currently visible panel (thanks @bogen85)
 + add: it's possible to change the internal value "max line length for non-delayed word highlighting" (hardcoded value 400), via new option "find_hi_max_columns" (thanks @sl23)
-+ add: Project Manager: option "Sorting order" has new value "none" (thanks @ildarkhasanshin)
 + add: non-text file detector now shows Console message like "Detected binary char 0x10 in file nnn" (thanks @JBerry910)
++ add: Project Manager: option "Sorting order" has new value "none" (thanks @ildarkhasanshin)
 + add: Project Manager: add option "Always sync project-tree with current editor file" (thanks @DeivAstra)
 + add: Project Manager: add toolbar button "Sync project-tree with current editor file" (thanks @DeivAstra)
 * change: Project Manager: remove toolbar button "Remove node", it's needed not often
