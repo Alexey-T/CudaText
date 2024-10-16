@@ -3,6 +3,8 @@
   - fixed
   * changed
 
++ add: logic of enabling/disabling of inserting ')' on typing it over ')' char - is now more like in VSCode (thanks @pintassilgo for idea)
+
 1.218.0 (2024/10)
 
 + add: state "View / Toggle always on top" is saved/loaded to/from history
