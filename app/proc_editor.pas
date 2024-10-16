@@ -1077,6 +1077,7 @@ begin
       Str:= St.Lines[Caret.PosY];
       if (Caret.PosX<Length(Str)) then
        if Str[Caret.PosX+1]=CharClosing then
+        if Ed.OptAutoPair_DisableCharDoubling then
         //if (Caret.PosX>0) and (Str[Caret.PosX]=CharOpening) then //only if previous is ([{ ? no, always, like Sublime Text
         begin
           Caret.Change(Caret.PosX+1, Caret.PosY, -1, -1);
@@ -1242,6 +1243,8 @@ begin
 
   //cancel vertical selection
   Ed.DoSelect_ClearColumnBlock;
+
+  Ed.OptAutoPair_DisableCharDoubling:= true;
 
   St.BeginUndoGroup;
   for NCaret:= Ed.Carets.Count-1 downto 0 do
