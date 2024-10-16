@@ -829,7 +829,10 @@ begin
       if Ed=nil then exit;
       FDocumentIsSmall:= EditorSizeIsSmall(Ed);
       if FDocumentIsSmall then
-        TimerHiAllTick(Self)
+      begin
+        edFind.Update(true, true); //forced repaint the input field
+        TimerHiAllTick(Self);
+      end
       else
       begin
         FTimerHiAll.Enabled:= false;
