@@ -5075,4 +5075,6 @@ It provides:
 * add: Editor.set_prop supports PROP_SCROLL_VERT_INFO (Editor.get_prop supports it already)
 * add: Editor.set_prop supports PROP_SCROLL_HORZ_INFO (Editor.get_prop supports it already)
 
+* change: tree_proc: TREE_ITEM_ENUM* return empty list when no items (before they returned None)
+
 [[Category:CudaText]]
