@@ -1589,11 +1589,11 @@ Perform action on treeview UI-control.
 
 Possible values of "id_action":
 
-* TREE_ITEM_ENUM: Enumerates subitems of given item. Params: "id_item". Returns list of 2-tuples, or None.
+* TREE_ITEM_ENUM: Enumerates subitems of given item. Params: "id_item". Returns list of 2-tuples.
 ** tuple item 0: int: handle of item.
 ** tuple item 1: string: caption of item.
 
-* TREE_ITEM_ENUM_EX: Enumerates subitems of given item. Params: "id_item". Returns list of dict, or None. Dict keys are:
+* TREE_ITEM_ENUM_EX: Enumerates subitems of given item. Params: "id_item". Returns list of dict. Dict keys are:
 ** "id": int: handle of item.
 ** "text": str: caption of item
 ** "data": str: data string of item.

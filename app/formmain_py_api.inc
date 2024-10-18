@@ -7556,7 +7556,8 @@ begin
               Node1:= TreeNode.GetFirstChild
             else
               Node1:= TreeContainer.Tree.Items.GetFirstNode;
-            if Node1=nil then exit(ReturnNone);
+            if Node1=nil then
+              exit(PyList_New(0));
 
             ItemList:= TFPList.Create;
             try
@@ -7585,7 +7586,8 @@ begin
               Node1:= TreeNode.GetFirstChild
             else
               Node1:= TreeContainer.Tree.Items.GetFirstNode;
-            if Node1=nil then exit(ReturnNone);
+            if Node1=nil then
+              exit(PyList_New(0));
 
             ItemList:= TFPList.Create;
             try
