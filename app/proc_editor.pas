@@ -1632,7 +1632,7 @@ begin
 
       for IndexX:= IndexXBegin to IndexXEnd do
       begin
-        ch:= StringItem^.CharAt(IndexX+1);
+        ch:= StringItem^.CharAt_Fast(IndexX+1);
         if (ch=CharFrom) and (EditorGetTokenKind(Ed, IndexX, IndexY)=TATTokenKind.Other) then
           Inc(Level)
         else
@@ -1663,14 +1663,14 @@ begin
       StringItem:= St.GetItemPtr(IndexY);
 
       if IndexY=FromY then
-        IndexXEnd:= FromX-1
+        IndexXEnd:= Min(FromX-1, NLineLen-1)
       else
         IndexXEnd:= NLineLen-1;
       IndexXBegin:= 0;
 
       for IndexX:= IndexXEnd downto IndexXBegin do
       begin
-        ch:= StringItem^.CharAt(IndexX+1);
+        ch:= StringItem^.CharAt_Fast(IndexX+1);
         if (ch=CharFrom) and (EditorGetTokenKind(Ed, IndexX, IndexY)=TATTokenKind.Other) then
           Inc(Level)
         else
