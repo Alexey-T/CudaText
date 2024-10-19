@@ -1602,10 +1602,10 @@ procedure EditorBracket_FindPair(
   out FoundX, FoundY: integer);
 var
   St: TATStrings;
-  S: atString;
-  IndexX, IndexY, IndexXBegin, IndexXEnd: integer;
+  StringItem: PATStringItem;
+  IndexX, IndexY, IndexXBegin, IndexXEnd, NLineLen: SizeInt;
   Level: integer;
-  ch: atChar;
+  ch: WideChar;
 begin
   FoundX:= -1;
   FoundY:= -1;
@@ -1616,19 +1616,23 @@ begin
   begin
     for IndexY:= FromY to Min(Int64(St.Count-1), Int64(FromY)+MaxDistance) do
     begin
-      if St.LinesLen[IndexY]>EditorOps.OpMaxLineLenForBracketFinder then
+      NLineLen:= St.LinesLen[IndexY];
+      if NLineLen=0 then
+        Continue;
+      if NLineLen>EditorOps.OpMaxLineLenForBracketFinder then
         Continue;
 
-      S:= St.Lines[IndexY];
-      if S='' then Continue;
+      StringItem:= St.GetItemPtr(IndexY);
+
       if IndexY=FromY then
         IndexXBegin:= FromX+1
       else
         IndexXBegin:= 0;
-      IndexXEnd:= Length(S)-1;
+      IndexXEnd:= NLineLen-1;
+
       for IndexX:= IndexXBegin to IndexXEnd do
       begin
-        ch:= S[IndexX+1];
+        ch:= StringItem^.CharAt_Fast(IndexX+1);
         if (ch=CharFrom) and (EditorGetTokenKind(Ed, IndexX, IndexY)=TATTokenKind.Other) then
           Inc(Level)
         else
@@ -1650,19 +1654,23 @@ begin
   begin
     for IndexY:= FromY downto Max(0, Int64(FromY)-MaxDistance) do
     begin
-      if St.LinesLen[IndexY]>EditorOps.OpMaxLineLenForBracketFinder then
+      NLineLen:= St.LinesLen[IndexY];
+      if NLineLen=0 then
+        Continue;
+      if NLineLen>EditorOps.OpMaxLineLenForBracketFinder then
         Continue;
 
-      S:= St.Lines[IndexY];
-      if S='' then Continue;
+      StringItem:= St.GetItemPtr(IndexY);
+
       if IndexY=FromY then
         IndexXEnd:= FromX-1
       else
-        IndexXEnd:= Length(S)-1;
+        IndexXEnd:= NLineLen-1;
       IndexXBegin:= 0;
+
       for IndexX:= IndexXEnd downto IndexXBegin do
       begin
-        ch:= S[IndexX+1];
+        ch:= StringItem^.CharAt_Fast(IndexX+1);
         if (ch=CharFrom) and (EditorGetTokenKind(Ed, IndexX, IndexY)=TATTokenKind.Other) then
           Inc(Level)
         else
