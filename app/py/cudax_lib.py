@@ -12,7 +12,7 @@ Authors:
     Andrey Kvichansky    (kvichans on github)
     Alexey Torgashin (CudaText)
 Version:
-    '0.6.14 2024-06-17'
+    '0.6.15 2024-10-19'
 Wiki: github.com/kvichans/cudax_lib/wiki
 ToDo: (see end of file)
 """
@@ -57,11 +57,7 @@ OPT2PROP            = dict(
     ,tab_size                   = app.PROP_TAB_SIZE
     ,tab_spaces                 = app.PROP_TAB_SPACES
     ,tab_smart                  = app.PROP_TAB_SMART
-    ,unprinted_ends             = app.PROP_UNPRINTED_ENDS
-    ,unprinted_end_details      = app.PROP_UNPRINTED_END_DETAILS
     ,unprinted_show             = app.PROP_UNPRINTED_SHOW
-    ,unprinted_spaces           = app.PROP_UNPRINTED_SPACES
-    ,unprinted_spaces_trailing  = app.PROP_UNPRINTED_SPACES_TRAILING
     ,wrap_mode                  = app.PROP_WRAP
     ,dim_unfocused              = app.PROP_DIM_UNFOCUSED
     ,zebra                      = app.PROP_ZEBRA
