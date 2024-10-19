@@ -1710,7 +1710,8 @@ procedure EditorBracket_FindBoth(Ed: TATSynEdit;
   out Kind: TEditorBracketKind);
 var
   St: TATStrings;
-  S: atString;
+  StringItem: PATStringItem;
+  NLineLen: SizeInt;
 begin
   FoundX:= -1;
   FoundY:= -1;
@@ -1721,15 +1722,18 @@ begin
 
   if PosX<0 then exit;
   if not St.IsIndexValid(PosY) then exit;
-  if St.LinesLen[PosY]>EditorOps.OpMaxLineLenForBracketFinder then exit;
 
-  S:= St.Lines[PosY];
-  if (PosX=Length(S)) and (PosX>0) then
+  NLineLen:= St.LinesLen[PosY];
+  if NLineLen>EditorOps.OpMaxLineLenForBracketFinder then exit;
+
+  if (PosX=NLineLen) and (PosX>0) then
     Dec(PosX);
 
-  if PosX<Length(S) then
+  StringItem:= St.GetItemPtr(PosY);
+
+  if PosX<NLineLen then
   begin
-    CharFrom:= S[PosX+1];
+    CharFrom:= StringItem^.CharAt(PosX+1);
     if Pos(CharFrom, AllowedSymbols)>0 then
       if EditorGetTokenKind(Ed, PosX, PosY)=TATTokenKind.Other then
         EditorBracket_GetCharKind(CharFrom, Kind, CharTo);
@@ -1738,10 +1742,10 @@ begin
   if Kind=TEditorBracketKind.None then
   begin
     //test char before caret
-    if (PosX>0) and (PosX<Length(S)) then
+    if (PosX>0) and (PosX<NLineLen) then
     begin
       Dec(PosX);
-      CharFrom:= S[PosX+1];
+      CharFrom:= StringItem^.CharAt(PosX+1);
       if Pos(CharFrom, AllowedSymbols)>0 then
       begin
         if EditorGetTokenKind(Ed, PosX, PosY)=TATTokenKind.Other then
@@ -1762,8 +1766,8 @@ begin
       if FoundY<0 then exit;
       PosX:= FoundX;
       PosY:= FoundY;
-      S:= St.Lines[PosY];
-      CharFrom:= S[PosX+1];
+      StringItem:= St.GetItemPtr(PosY);
+      CharFrom:= StringItem^.CharAt(PosX+1);
       EditorBracket_GetCharKind(CharFrom, Kind, CharTo);
     end;
 
