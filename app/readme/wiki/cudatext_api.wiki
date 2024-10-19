@@ -2469,8 +2469,8 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_UNPRINTED_SPACES: bool: unprinted chars: show spaces/tabs.
 * PROP_UNPRINTED_SPACES_TRAILING: bool: unprinted chars: show spaces/tabs only at end of lines.
 * PROP_UNPRINTED_ENDS: bool: unprinted chars: show line ends.
-* PROP_UNPRINTED_END_ONLY_WRAP: bool: unprinted chars: show line end marks only for wrapped lines.
 * PROP_UNPRINTED_END_DETAILS: bool: unprinted chars: show line end details.
+* PROP_UNPRINTED_WRAPS: bool: unprinted chars: show wrapped-lines marks.
 * PROP_TAG: str: some string attached to editor. Value must be "key:defvalue" or simply "defvalue". Saved value for "key" is returned, or "defvalue" returned if value for key was not set. Empty key means key "_".
 * PROP_CARET_VIEW: 3-tuple: shape of caret, normal mode. Tuple contents is (int_width, int_height, bool_empty_inside). Width/height<0 means value in percents.
 * PROP_CARET_VIEW_OVR: 3-tuple: shape of caret, overwrite mode.
@@ -2677,8 +2677,8 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 * PROP_UNPRINTED_SPACES: bool: unprinted chars: show spaces/tabs.
 * PROP_UNPRINTED_SPACES_TRAILING: bool: unprinted chars: show spaces/tabs only at end of lines.
 * PROP_UNPRINTED_ENDS: bool: unprinted chars: show line ends.
-* PROP_UNPRINTED_END_ONLY_WRAP: bool: unprinted chars: show line end marks only for wrapped lines.
 * PROP_UNPRINTED_END_DETAILS: bool: unprinted chars: show line end details.
+* PROP_UNPRINTED_WRAPS: bool: unprinted chars: show wrapped-lines marks.
 * PROP_TAG: str: some string attached to editor. Param text must be pair "key:value" or simply "value", this sets value for specified key (internally it is dictionary). Empty key means key "_".
 * PROP_CARET_VIEW: 3-tuple: shape of caret, normal mode. Tuple contents is (int_width, int_height, bool_empty_inside). Width/height<0 means value in percents.
 * PROP_CARET_VIEW_OVR: 3-tuple: shape of caret, overwrite mode.
@@ -2795,12 +2795,8 @@ Many get_prop/set_prop ids correspond to CudaText options. List of corresponding
 * PROP_RULER - "ruler_show"
 * PROP_TAB_SIZE - "tab_size"
 * PROP_TAB_SPACES - "tab_spaces"
-* PROP_UNPRINTED_ENDS - "unprinted_ends"
-* PROP_UNPRINTED_END_DETAILS - "unprinted_end_details"
-* PROP_UNPRINTED_SHOW - "unprinted_show"
-* PROP_UNPRINTED_SPACES - "unprinted_spaces"
-* PROP_UNPRINTED_SPACES_TRAILING - "unprinted_spaces_trailing"
 * PROP_WRAP - "wrap_mode"
+* PROP_UNPRINTED_SHOW - "unprinted_show"
 
 ===Editor.bookmark===
 
@@ -5075,6 +5071,9 @@ It provides:
 * add: Editor.set_prop supports PROP_SCROLL_VERT_INFO (Editor.get_prop supports it already)
 * add: Editor.set_prop supports PROP_SCROLL_HORZ_INFO (Editor.get_prop supports it already)
 
+1.0.462 (app 1.218.1)
+* add: Editor.get_prop/set_prop: PROP_UNPRINTED_WRAPS
+* change: delete PROP_UNPRINTED_END_ONLY_WRAP (replaced with PROP_UNPRINTED_WRAPS with different logic)
 * change: tree_proc: TREE_ITEM_ENUM* return empty list when no items (before they returned None)
 
 [[Category:CudaText]]
