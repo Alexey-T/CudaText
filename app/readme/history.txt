@@ -3,6 +3,9 @@
   - fixed
   * changed
 
+1.218.1 (2024/10)
+
+* change: removed sub-option "E" from "unprinted_content"; added sub-option "w" for wrapped-lines marks, it allows more customization, e.g. it allows to show/hide wrapped-marks indenendent from ends-marks
 + add: logic of disabling of inserting ')' on typing it over ')' - is now more like in VSCode; ie if caret leaves the original line, inserting is reenabled (thanks @pintassilgo for idea)
 
 1.218.0 (2024/10)
