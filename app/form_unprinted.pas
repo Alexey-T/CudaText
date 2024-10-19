@@ -26,7 +26,7 @@ type
     btnOk: TButton;
     btnCancel: TButton;
     btnSaveConfig: TButton;
-    chkEndOnlyWraps: TCheckBox;
+    chkWraps: TCheckBox;
     chkVisible: TCheckBox;
     chkShowWhitespace: TCheckBox;
     chkOnlyInSel: TCheckBox;
@@ -46,7 +46,7 @@ type
     procedure chkEndDetailsChange(Sender: TObject);
     procedure chkEndDotChange(Sender: TObject);
     procedure chkEndPilcrowChange(Sender: TObject);
-    procedure chkEndOnlyWrapsChange(Sender: TObject);
+    procedure chkWrapsChange(Sender: TObject);
     procedure chkForceShowTabsChange(Sender: TObject);
     procedure chkOnlyInSelChange(Sender: TObject);
     procedure chkOnlyLeadAndTrailChange(Sender: TObject);
@@ -99,12 +99,15 @@ begin
   EdPreview.OptRulerVisible:= false;
   EdPreview.OptMinimapVisible:= false;
   EdPreview.OptMicromapVisible:= false;
+  EdPreview.OptWrapMode:= TATEditorWrapMode.ModeOn;
+  EdPreview.OptScrollStyleVert:= TATEditorScrollbarStyle.Hide;
   EdPreview.Show;
 
   with EdPreview.Strings do
   begin
     LineAdd('    begin    end    ');
     LineAdd(#9#9'begin'#9#9'end'#9#9);
+    LineAdd(#9#9#9'wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww');
     LineAdd('  '#9#9'  ');
   end;
 
@@ -180,7 +183,7 @@ begin
   UpdateState;
 end;
 
-procedure TfmUnprinted.chkEndOnlyWrapsChange(Sender: TObject);
+procedure TfmUnprinted.chkWrapsChange(Sender: TObject);
 begin
   UpdateState;
 end;
@@ -201,7 +204,7 @@ begin
   Ed.OptUnprintedVisible:= chkVisible.Checked;
   Ed.OptUnprintedSpaces:= chkShowWhitespace.Checked;
   Ed.OptUnprintedEnds:= chkShowEndMarks.Checked;
-  Ed.OptUnprintedEndsOnlyWraps:= chkEndOnlyWraps.Checked;
+  Ed.OptUnprintedWraps:= chkWraps.Checked;
   Ed.OptUnprintedEndsDetails:= chkEndDetails.Checked;
   Ed.OptUnprintedSpacesTrailing:= chkOnlyTrail.Checked;
   Ed.OptUnprintedSpacesBothEnds:= chkOnlyLeadAndTrail.Checked;
@@ -256,7 +259,7 @@ begin
     with chkOnlyTrail do Caption:= ini.ReadString(section, 'only_tr', Caption);
     with chkForceShowTabs do Caption:= ini.ReadString(section, 'sh_tabs', Caption);
     with chkShowEndMarks do Caption:= ini.ReadString(section, 'sh_end', Caption);
-    with chkEndOnlyWraps do Caption:= ini.ReadString(section, 'end_wrp', Caption);
+    with chkWraps do Caption:= ini.ReadString(section, 'wrp', Caption);
     with chkEndDetails do Caption:= ini.ReadString(section, 'end_det', Caption);
     with chkEndDot do Caption:= ini.ReadString(section, 'end_dot', Caption);
     with chkEndArrow do Caption:= ini.ReadString(section, 'end_arr', Caption);
@@ -271,7 +274,7 @@ begin
   Result:= '';
   if chkShowWhitespace.Checked then Result+= 's';
   if chkShowEndMarks.Checked then Result+= 'e';
-  if chkEndOnlyWraps.Checked then Result+= 'E';
+  if chkWraps.Checked then Result+= 'w';
   if chkEndDetails.Checked then Result+= 'd';
   if chkOnlyTrail.Checked then Result+= 't';
   if chkOnlyLeadAndTrail.Checked then Result+= 'l';

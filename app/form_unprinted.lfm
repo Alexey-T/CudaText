@@ -1,14 +1,14 @@
 object fmUnprinted: TfmUnprinted
   Left = 810
-  Height = 451
+  Height = 482
   Top = 185
   Width = 470
   BorderStyle = bsDialog
   Caption = 'Unprinted characters'
-  ClientHeight = 451
+  ClientHeight = 482
   ClientWidth = 470
   Position = poScreenCenter
-  LCLVersion = '3.99.0.0'
+  LCLVersion = '4.99.0.0'
   OnCreate = FormCreate
   OnShow = FormShow
   object chkShowWhitespace: TCheckBox
@@ -87,10 +87,10 @@ object fmUnprinted: TfmUnprinted
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = btnCancel
-    Left = 8
-    Height = 88
-    Top = 318
-    Width = 456
+    Left = 6
+    Height = 104
+    Top = 333
+    Width = 458
     Anchors = [akLeft, akRight, akBottom]
     BorderSpacing.Around = 6
     BevelOuter = bvNone
@@ -104,7 +104,7 @@ object fmUnprinted: TfmUnprinted
     AnchorSideRight.Control = btnCancel
     Left = 262
     Height = 33
-    Top = 412
+    Top = 443
     Width = 98
     Anchors = [akTop, akRight]
     AutoSize = True
@@ -121,7 +121,7 @@ object fmUnprinted: TfmUnprinted
     AnchorSideBottom.Side = asrBottom
     Left = 366
     Height = 33
-    Top = 412
+    Top = 443
     Width = 98
     Anchors = [akRight, akBottom]
     AutoSize = True
@@ -184,7 +184,7 @@ object fmUnprinted: TfmUnprinted
     AnchorSideBottom.Side = asrBottom
     Left = 6
     Height = 33
-    Top = 412
+    Top = 443
     Width = 108
     AutoSize = True
     BorderSpacing.Left = 6
@@ -192,14 +192,14 @@ object fmUnprinted: TfmUnprinted
     TabOrder = 14
     OnClick = btnSaveConfigClick
   end
-  object chkEndOnlyWraps: TCheckBox
+  object chkWraps: TCheckBox
     AnchorSideTop.Side = asrBottom
-    Left = 40
+    Left = 8
     Height = 23
-    Top = 281
-    Width = 168
-    Caption = 'Only in wrapped lines'
+    Top = 296
+    Width = 281
+    Caption = 'Show wrapped-lines marks (soft wrap)'
     TabOrder = 12
-    OnChange = chkEndOnlyWrapsChange
+    OnChange = chkWrapsChange
   end
 end

@@ -9874,8 +9874,8 @@ begin
       TATEditorUnptintedEolSymbol.Pilcrow:
         Form.chkEndPilcrow.Checked:= true;
     end;
-    Form.chkEndOnlyWraps.Checked:= Ed.OptUnprintedEndsOnlyWraps;
     Form.chkEndDetails.Checked:= Ed.OptUnprintedEndsDetails;
+    Form.chkWraps.Checked:= Ed.OptUnprintedWraps;
 
     if Form.ShowModal=mrOk then
     begin

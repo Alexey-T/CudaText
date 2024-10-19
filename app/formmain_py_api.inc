@@ -3616,8 +3616,8 @@ begin
         PROP_UNPRINTED_ENDS:
           Result:= PyBool_FromLong(Ord(Ed.OptUnprintedEnds));
 
-        PROP_UNPRINTED_END_ONLY_WRAP:
-          Result:= PyBool_FromLong(Ord(Ed.OptUnprintedEndsOnlyWraps));
+        PROP_UNPRINTED_WRAPS:
+          Result:= PyBool_FromLong(Ord(Ed.OptUnprintedWraps));
 
         PROP_UNPRINTED_END_DETAILS:
           Result:= PyBool_FromLong(Ord(Ed.OptUnprintedEndsDetails));
@@ -4464,10 +4464,10 @@ begin
             Include(Ed.ModifiedOptions, TATEditorModifiedOption.UnprintedEnds);
           end;
 
-        PROP_UNPRINTED_END_ONLY_WRAP:
+        PROP_UNPRINTED_WRAPS:
           begin
-            Ed.OptUnprintedEndsOnlyWraps:= ValueBool;
-            Include(Ed.ModifiedOptions, TATEditorModifiedOption.UnprintedEndsOnlyWraps);
+            Ed.OptUnprintedWraps:= ValueBool;
+            Include(Ed.ModifiedOptions, TATEditorModifiedOption.UnprintedWraps);
           end;
 
         PROP_UNPRINTED_END_DETAILS:
