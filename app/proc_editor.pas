@@ -1632,7 +1632,7 @@ begin
 
       for IndexX:= IndexXBegin to IndexXEnd do
       begin
-        ch:= StringItem^.CharAt_Fast(IndexX+1);
+        ch:= StringItem^.CharAt(IndexX+1);
         if (ch=CharFrom) and (EditorGetTokenKind(Ed, IndexX, IndexY)=TATTokenKind.Other) then
           Inc(Level)
         else
@@ -1670,7 +1670,7 @@ begin
 
       for IndexX:= IndexXEnd downto IndexXBegin do
       begin
-        ch:= StringItem^.CharAt_Fast(IndexX+1);
+        ch:= StringItem^.CharAt(IndexX+1);
         if (ch=CharFrom) and (EditorGetTokenKind(Ed, IndexX, IndexY)=TATTokenKind.Other) then
           Inc(Level)
         else
