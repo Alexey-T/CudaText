@@ -107,7 +107,7 @@ begin
   begin
     LineAdd('    begin    end    ');
     LineAdd(#9#9'begin'#9#9'end'#9#9);
-    LineAdd(#9#9#9'wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww');
+    LineAdd(#9#9#9'wwwwwwwwwwwwwwwwwwww wwwwwwwwwwwwww wwwwwwwwwwwwww wwwwwwwwwwwww wwwwwwwwwwwww wwwwwwwwwwwww wwwwwwwwwwwwww wwwwwwwwwwww');
     LineAdd('  '#9#9'  ');
   end;
 
