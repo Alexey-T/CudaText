@@ -28,7 +28,6 @@ type
     end;
   end;
 
-function STrimEols(const S: unicodestring): unicodestring;
 function SWrapLongString(const S: string; MaxLen: integer; SepChar: char): string;
 function STextWholeWordSelection(const S: UnicodeString; OffsetBegin, OffsetEnd: integer;
   const ANonWordChars: UnicodeString): boolean;
@@ -539,19 +538,6 @@ begin
   Result:= true;
 end;
 
-
-function STrimEols(const S: unicodestring): unicodestring;
-var
-  Ofs, Len: sizeint;
-begin
-  Len := Length(S);
-  while (Len>0) and (S[Len]=#10) do
-    Dec(Len);
-  Ofs := 1;
-  while (Ofs<=Len) and (S[Ofs]=#10) do
-    Inc(Ofs);
-  result := Copy(S, Ofs, 1 + Len - Ofs);
-end;
 
 const
   cRegexSpecialChars = '-+*=\()[]{}<>.,:?#$^|';

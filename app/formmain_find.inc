@@ -586,7 +586,7 @@ begin
     if UiOps.FindSuggestSel and (StrSel<>'') then
     begin
       if not FFinder.OptInSelection then
-        StrSuggested:= STrimEols(StrSel);
+        StrSuggested:= STrimNewlineChars(StrSel);
     end
     else
     if UiOps.FindSuggestWord and (StrWord<>'') then
