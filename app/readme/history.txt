@@ -7,6 +7,7 @@
 
 * change: removed sub-option "E" from "unprinted_content" and added sub-option "w", it allows better customization, ie it allows to show/hide wrapped-marks indenendent from ends-marks; dialog "Options / Unprinted chars" is adjusted too
 + add: logic of disabling of inserting ')' on typing it over ')' - is now more like in VSCode; ie if caret leaves the original line, inserting is reenabled (thanks @pintassilgo for idea)
++ add: on pasting in single-line inputs, trim leading+trailing newline chars of clipboard text (thanks @pintassilgo)
 
 1.218.0 (2024/10)
 
