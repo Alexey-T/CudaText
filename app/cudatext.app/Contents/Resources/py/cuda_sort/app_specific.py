@@ -12,16 +12,7 @@ def ed_get_text_all():
     return l
 
 def ed_insert_to_lines(lines, line1, line2):
-    cnt = ed.get_line_count()
-    fix_last_empty = line2 == cnt-1 and ed.get_text_line(cnt-1) != ''
-
     if ed.replace_lines(line1, line2, lines):
-        if fix_last_empty:
-            cnt = ed.get_line_count()
-            if cnt >= 2:
-                if ed.get_text_line(cnt-1) == '':
-                    ed.delete(ed.get_line_len(cnt-2), cnt-2, 0, cnt-1)
-
         cnt = ed.get_line_count()
         need_pos = (0, line1+len(lines))
         last_pos = (ed.get_line_len(cnt-1), cnt-1)
