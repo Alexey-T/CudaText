@@ -1,4 +1,4 @@
-def str_to_numeric_tuple(s):
+def str_to_numeric_key(s):
     nlen = len(s)
     i = 0
     r = []

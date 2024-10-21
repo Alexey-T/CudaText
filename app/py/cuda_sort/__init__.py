@@ -205,7 +205,7 @@ def do_sort(
 
         #numeric must be after offsets
         if is_numeric:
-            return str_to_numeric_tuple(s)
+            return str_to_numeric_key(s)
 
         return s
 
