@@ -1,8 +1,7 @@
-import os
 from cudatext import *
 
 def ed_set_text_all(lines):
-    ed.set_text_all('\n'.join(lines)+'\n')
+    ed.replace_lines(0, ed.get_line_count()-1, lines)
 
 def ed_get_text_all():
     l = [ed.get_text_line(i) for i in range(ed.get_line_count())]
