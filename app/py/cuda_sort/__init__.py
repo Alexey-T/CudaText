@@ -342,11 +342,6 @@ class Command:
             op_offset2
             )
 
-    def config(self):
-        ini_write(CONFIG_FN, CONFIG_SECTION, 'allow_all', '0')
-        ini_write(CONFIG_FN, CONFIG_SECTION, op_ini_case, '0')
-        file_open(CONFIG_FN)
-
     def shuffle(self):
         do_line_op('shuffle')
     def reverse(self):
