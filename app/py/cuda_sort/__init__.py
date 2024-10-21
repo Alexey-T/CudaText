@@ -282,7 +282,7 @@ def do_dialog():
       c1.join(['type=button', 'pos=224,210,318,0', 'cap='+_('Cancel')]),
       ])
 
-    res = dlg_custom(_('Sort'), SIZE_W, SIZE_H, text)
+    res = dlg_custom(_('Custom sort'), SIZE_W, SIZE_H, text)
     if res is None: return
     btn, text = res
     if btn not in [RES_SORT, RES_SAVE]: return

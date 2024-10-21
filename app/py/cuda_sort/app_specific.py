@@ -12,7 +12,7 @@ def ed_get_text_all():
 
 def ed_insert_to_lines(lines, line1, line2):
     if ed.replace_lines(line1, line2, lines):
-        ed.set_caret(0, line1+len(lines), 0, line1)
+        ed.set_caret(0, line1+len(list(lines)), 0, line1)
 
 def ed_set_tab_title(s):
     ed.set_prop(PROP_TAB_TITLE, s)
