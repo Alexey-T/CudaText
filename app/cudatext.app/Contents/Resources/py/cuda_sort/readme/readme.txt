@@ -14,12 +14,15 @@ Gives also other commands:
 - Remove adjacent blank lines
 - Ini file: sort sections + keys
 - Ini file: sort sections without keys
-- Sort e-mail list by domain - sorts entire file as list of e-mails, first sorts by domain after "@", then by name before "@"
+- Sort e-mail list by domain - sorts entire file as list of e-mails, first sorts by domain
+  after "@", then by name before "@"
 
-To allow handle all text without selection, set the option: call plugin config by "Options / Settings-plugins / Sort / Config", and change/add option in .ini file:
-[op]
-allow_all=1
+To allow handle all text without selection, set the option: call plugin config by
+"Options / Settings-plugins / Sort / Config", and change/add option in plugins.ini file:
+
+[sort]
+allow_sort_all_when_none_selected=1
 
 
-Author: Alexey (CudaText)
+Author: Alexey Torgashin (CudaText)
 License: MIT
