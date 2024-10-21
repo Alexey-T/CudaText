@@ -9,8 +9,8 @@ from .sort_sep import *
 
 _   = get_translation(__file__)  # I18N
 
-fn_ini = os.path.join(app_path(APP_DIR_SETTINGS), 'plugins.ini')
-op_section = 'sort'
+CONFIG_FN = os.path.join(app_path(APP_DIR_SETTINGS), 'plugins.ini')
+CONFIG_SECTION = 'sort'
 
 def get_offsets():
     if ed.get_sel_mode()==SEL_COLUMN:
@@ -74,12 +74,12 @@ def get_input():
 
     max_cnt = 5000
     try:
-        s = ini_read(fn_ini, op_section, 'max_lines', '')
+        s = ini_read(CONFIG_FN, CONFIG_SECTION, 'max_lines', '')
         max_cnt = max(int(s), max_cnt)
     except:
         pass
 
-    op_sort_all = ini_read(fn_ini, op_section, 'allow_all', '0')=='1'
+    op_sort_all = ini_read(CONFIG_FN, CONFIG_SECTION, 'allow_all', '0')=='1'
     
     if ed.get_line_count()>max_cnt:
         msg_box(_('Document has too many lines. Plugin Sort will not work. Current value of option [sort] max_lines in "settings/plugins.ini" is %d.\n\nInstead of Sort plugin, use CudaText built-in commands: "(without undo) sort...".') %max_cnt,
@@ -242,24 +242,28 @@ def do_sort(
 
 
 def do_dialog():
-    size_x = 330
-    size_y = 240
-    id_rev = 0
-    id_nocase = 1
-    id_del_dup = 2
-    id_del_sp = 3
-    id_numeric = 4
-    id_offset1 = 7
-    id_offset2 = 9
-    id_ok = 10
+    SIZE_W = 334
+    SIZE_H = 240
+    RES_REVERSE = 0
+    RES_NOCASE = 1
+    RES_DEL_DUP = 2
+    RES_DEL_SPACE = 3
+    RES_NUMERIC = 4
+    RES_OFFSET1 = 7
+    RES_OFFSET2 = 9
+    RES_SORT = 10
+    RES_SAVE = 11
 
-    op_rev = ini_read(fn_ini, op_section, 'reverse', '0')
-    op_nocase = ini_read(fn_ini, op_section, 'ignore_case', '0')
-    op_del_dup = ini_read(fn_ini, op_section, 'del_dups', '1')
-    op_del_sp = ini_read(fn_ini, op_section, 'del_blanks', '1')
-    op_numeric = ini_read(fn_ini, op_section, 'numeric', '0')
+    op_rev = ini_read(CONFIG_FN, CONFIG_SECTION, 'reverse', '0')
+    op_nocase = ini_read(CONFIG_FN, CONFIG_SECTION, 'ignore_case', '0')
+    op_del_dup = ini_read(CONFIG_FN, CONFIG_SECTION, 'del_dups', '1')
+    op_del_sp = ini_read(CONFIG_FN, CONFIG_SECTION, 'del_blanks', '1')
+    op_numeric = ini_read(CONFIG_FN, CONFIG_SECTION, 'numeric', '0')
 
     op_offset1, op_offset2 = get_offsets()
+    if op_offset1==-1 and op_offset2==-1:
+        op_offset1 = int(ini_read(CONFIG_FN, CONFIG_SECTION, 'offset1', '-1'))
+        op_offset2 = int(ini_read(CONFIG_FN, CONFIG_SECTION, 'offset2', '-1'))
 
     c1 = chr(1)
     text = '\n'.join([
@@ -273,35 +277,40 @@ def do_dialog():
       c1.join(['type=spinedit', 'pos=30,170,110,0', 'ex0=-1', 'ex1=5000', 'ex2=1', 'val='+str(op_offset1)]),
       c1.join(['type=label', 'pos=120,152,230,0', 'cap='+_('&To:')]),
       c1.join(['type=spinedit', 'pos=120,170,200,0', 'ex0=-1', 'ex1=5000', 'ex2=1', 'val='+str(op_offset2)]),
-      c1.join(['type=button', 'pos=60,210,160,0', 'cap='+_('OK'), 'ex0=1']),
-      c1.join(['type=button', 'pos=164,210,264,0', 'cap='+_('Cancel')]),
+      c1.join(['type=button', 'pos=16,210,110,0', 'cap='+_('Sort'), 'ex0=1']),
+      c1.join(['type=button', 'pos=120,210,214,0', 'cap='+_('Save')]),
+      c1.join(['type=button', 'pos=224,210,318,0', 'cap='+_('Cancel')]),
       ])
 
-    res = dlg_custom(_('Sort'), size_x, size_y, text)
+    res = dlg_custom(_('Sort'), SIZE_W, SIZE_H, text)
     if res is None: return
     btn, text = res
-    if btn != id_ok: return
+    if btn not in [RES_SORT, RES_SAVE]: return
     text = text.splitlines()
 
-    ini_write(fn_ini, op_section, 'reverse', text[id_rev])
-    ini_write(fn_ini, op_section, 'ignore_case', text[id_nocase])
-    ini_write(fn_ini, op_section, 'del_dups', text[id_del_dup])
-    ini_write(fn_ini, op_section, 'del_blanks', text[id_del_sp])
-    ini_write(fn_ini, op_section, 'numeric', text[id_numeric])
+    ini_write(CONFIG_FN, CONFIG_SECTION, 'reverse', text[RES_REVERSE])
+    ini_write(CONFIG_FN, CONFIG_SECTION, 'ignore_case', text[RES_NOCASE])
+    ini_write(CONFIG_FN, CONFIG_SECTION, 'del_dups', text[RES_DEL_DUP])
+    ini_write(CONFIG_FN, CONFIG_SECTION, 'del_blanks', text[RES_DEL_SPACE])
+    ini_write(CONFIG_FN, CONFIG_SECTION, 'numeric', text[RES_NUMERIC])
+    ini_write(CONFIG_FN, CONFIG_SECTION, 'offset1', text[RES_OFFSET1])
+    ini_write(CONFIG_FN, CONFIG_SECTION, 'offset2', text[RES_OFFSET2])
 
-    is_rev = text[id_rev]=='1'
-    is_nocase = text[id_nocase]=='1'
-    is_del_dup = text[id_del_dup]=='1'
-    is_del_sp = text[id_del_sp]=='1'
-    is_numeric = text[id_numeric]=='1'
-    offset1 = int(text[id_offset1])
-    offset2 = int(text[id_offset2])
+    is_rev = text[RES_REVERSE]=='1'
+    is_nocase = text[RES_NOCASE]=='1'
+    is_del_dup = text[RES_DEL_DUP]=='1'
+    is_del_sp = text[RES_DEL_SPACE]=='1'
+    is_numeric = text[RES_NUMERIC]=='1'
+    offset1 = int(text[RES_OFFSET1])
+    offset2 = int(text[RES_OFFSET2])
+    msg_status(_('Custom sort options saved'))
 
     if (offset1>=0) and (offset2>=0) and (offset1>=offset2):
         msg_show_error(_('Incorrect offsets: {}..{}').format(offset1, offset2))
         return
 
-    return (is_rev, is_nocase, is_del_dup, is_del_sp, is_numeric, offset1, offset2)
+    if btn == RES_SORT:
+        return (is_rev, is_nocase, is_del_dup, is_del_sp, is_numeric, offset1, offset2)
 
 
 class Command:
@@ -320,10 +329,28 @@ class Command:
         if res is None: return
         do_sort(*res)
 
+    def sort_custom(self):
+        op_rev = ini_read(CONFIG_FN, CONFIG_SECTION, 'reverse', '0') == '1'
+        op_nocase = ini_read(CONFIG_FN, CONFIG_SECTION, 'ignore_case', '0') == '1'
+        op_del_dup = ini_read(CONFIG_FN, CONFIG_SECTION, 'del_dups', '1') == '1'
+        op_del_sp = ini_read(CONFIG_FN, CONFIG_SECTION, 'del_blanks', '1') == '1'
+        op_numeric = ini_read(CONFIG_FN, CONFIG_SECTION, 'numeric', '0') == '1'
+        op_offset1 = int(ini_read(CONFIG_FN, CONFIG_SECTION, 'offset1', '-1'))
+        op_offset2 = int(ini_read(CONFIG_FN, CONFIG_SECTION, 'offset2', '-1'))
+        do_sort(
+            op_rev,
+            op_nocase,
+            op_del_dup,
+            op_del_sp,
+            op_numeric,
+            op_offset1,
+            op_offset2
+            )
+
     def config(self):
-        ini_write(fn_ini, op_section, 'allow_all', '0')
-        ini_write(fn_ini, op_section, op_ini_case, '0')
-        file_open(fn_ini)
+        ini_write(CONFIG_FN, CONFIG_SECTION, 'allow_all', '0')
+        ini_write(CONFIG_FN, CONFIG_SECTION, op_ini_case, '0')
+        file_open(CONFIG_FN)
 
     def shuffle(self):
         do_line_op('shuffle')

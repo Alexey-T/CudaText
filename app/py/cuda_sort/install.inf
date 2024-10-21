@@ -32,8 +32,13 @@ method=_
 
 [item20]
 section=commands
-caption=Sort\Sort dialog...
+caption=Sort\Custom sort...
 method=sort_dlg
+
+[item21]
+section=commands
+caption=Sort\Run custom sort
+method=sort_custom
 
 [item30]
 section=commands
