@@ -13,8 +13,6 @@ _   = get_translation(__file__)  # I18N
 CONFIG_FN = os.path.join(app_path(APP_DIR_SETTINGS), 'plugins.ini')
 CONFIG_SECTION = 'sort'
 
-DEF_MAX_LINES = 10000
-
 def get_offsets():
     if ed.get_sel_mode()==SEL_COLUMN:
         r = ed.get_sel_rect()
@@ -59,15 +57,17 @@ def get_input():
 
     if ed.get_prop(PROP_RO): return
 
+    op_sort_all = ini_read(CONFIG_FN, CONFIG_SECTION, 'allow_sort_all_when_none_selected', '0')=='1'
+
+    '''    
     s = ini_read(CONFIG_FN, CONFIG_SECTION, 'max_lines', str(DEF_MAX_LINES))
     max_cnt = int(s)
 
-    op_sort_all = ini_read(CONFIG_FN, CONFIG_SECTION, 'allow_all', '0')=='1'
-    
     if ed.get_line_count()>max_cnt:
         msg_box(_('Document has too many lines. Plugin Sort will not work. Current value of option [sort] max_lines in "settings/plugins.ini" is %d.\n\nInstead of Sort plugin, use CudaText built-in commands: "(without undo) sort...".') %max_cnt,
         MB_OK+MB_ICONERROR)
         return
+    '''
 
     is_all = False
     nlines = ed.get_line_count()
@@ -224,7 +224,7 @@ def do_sort(
 
 def do_dialog():
     SIZE_W = 456
-    SIZE_H = 290
+    SIZE_H = 215
     RES_REVERSE = 0
     RES_NOCASE = 1
     RES_DEL_DUP = 2
@@ -232,10 +232,8 @@ def do_dialog():
     RES_NUMERIC = 4
     RES_OFFSET1 = 7
     RES_OFFSET2 = 9
-    RES_ALLOW_ALL = 11
-    RES_MAX_LINES = 12
-    RES_SORT = 14
-    RES_SAVE = 15
+    RES_SORT = 10
+    RES_SAVE = 11
 
     op_rev = ini_read(CONFIG_FN, CONFIG_SECTION, 'reverse', '0')
     op_nocase = ini_read(CONFIG_FN, CONFIG_SECTION, 'ignore_case', '0')
@@ -247,9 +245,6 @@ def do_dialog():
     if op_offset1==-1 and op_offset2==-1:
         op_offset1 = int(ini_read(CONFIG_FN, CONFIG_SECTION, 'offset1', '-1'))
         op_offset2 = int(ini_read(CONFIG_FN, CONFIG_SECTION, 'offset2', '-1'))
-
-    op_allow_all = ini_read(CONFIG_FN, CONFIG_SECTION, 'allow_all', '0')
-    op_max_lines = ini_read(CONFIG_FN, CONFIG_SECTION, 'max_lines', str(DEF_MAX_LINES))
 
     c1 = chr(1)
     text = '\n'.join([
@@ -263,12 +258,6 @@ def do_dialog():
       c1.join(['type=spinedit', 'pos=30,170,110,0', 'ex0=-1', 'ex1=5000', 'ex2=1', 'val='+str(op_offset1)]),
       c1.join(['type=label', 'pos=120,152,230,0', 'cap='+_('&To:')]),
       c1.join(['type=spinedit', 'pos=120,170,200,0', 'ex0=-1', 'ex1=5000', 'ex2=1', 'val='+str(op_offset2)]),
-
-      c1.join(['type=label', 'pos=6,207,400,0', 'cap='+_('General options for all commands:')]),
-      c1.join(['type=check', 'pos=6,225,400,0', 'cap='+_('Allow to sort all, if nothing selected'), 'val='+op_allow_all]),
-      c1.join(['type=spinedit', 'pos=6,247,120,0', 'ex0=1', 'ex1=4294967296', 'ex2=1000', 'val='+op_max_lines]),
-      c1.join(['type=label', 'pos=126,250,400,0', 'cap='+_('Max supported lines count')]),
-
       c1.join(['type=button', 'pos=350,6,450,0', 'cap='+_('Sort'), 'ex0=1']),
       c1.join(['type=button', 'pos=350,36,450,0', 'cap='+_('Save only')]),
       c1.join(['type=button', 'pos=350,66,450,0', 'cap='+_('Cancel')]),
@@ -287,9 +276,6 @@ def do_dialog():
     ini_write(CONFIG_FN, CONFIG_SECTION, 'numeric', text[RES_NUMERIC])
     ini_write(CONFIG_FN, CONFIG_SECTION, 'offset1', text[RES_OFFSET1])
     ini_write(CONFIG_FN, CONFIG_SECTION, 'offset2', text[RES_OFFSET2])
-
-    ini_write(CONFIG_FN, CONFIG_SECTION, 'allow_all', text[RES_ALLOW_ALL])
-    ini_write(CONFIG_FN, CONFIG_SECTION, 'max_lines', text[RES_MAX_LINES])
 
     is_rev = text[RES_REVERSE]=='1'
     is_nocase = text[RES_NOCASE]=='1'
@@ -377,3 +363,21 @@ class Command:
 
     def sort_sep_values(self):
         do_sort_sep_values()
+
+    def config(self):
+
+        op_sort_all = ini_read(CONFIG_FN, CONFIG_SECTION, 'allow_sort_all_when_none_selected', '0')
+        op_ini_case_sens = ini_read(CONFIG_FN, CONFIG_SECTION, 'ini_files_case_sensitive', '0')
+
+        ini_write(CONFIG_FN, CONFIG_SECTION, 'allow_sort_all_when_none_selected', op_sort_all)
+        ini_write(CONFIG_FN, CONFIG_SECTION, 'ini_files_case_sensitive', op_ini_case_sens)
+
+        file_open(CONFIG_FN)
+
+        lines = [ed.get_text_line(i) for i in range(ed.get_line_count())]
+        try:
+            index = lines.index('['+CONFIG_SECTION+']')
+            ed.set_caret(0, index)
+        except:
+            pass
+        

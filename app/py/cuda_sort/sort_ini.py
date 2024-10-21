@@ -1,19 +1,18 @@
-﻿import os
+﻿# original author: Michal Niklas
+# adapted to CudaText: Alexey Torgashin
+
+import os
 from cudatext import *
 from cudax_lib import get_translation
 
 _   = get_translation(__file__)  # I18N
 
-# author: Michal Niklas
-# adapted to CudaText: Alexey T.
-
-fn_ini = os.path.join(app_path(APP_DIR_SETTINGS), 'plugins.ini')
-op_section = 'sort'
-op_ini_case = 'ini_files_case_sensitive'
+CONFIG_FN = os.path.join(app_path(APP_DIR_SETTINGS), 'plugins.ini')
+CONFIG_SECTION = 'sort'
 
 def ini_sort_content(lines, and_keys):
 
-    case_sens = ini_read(fn_ini, op_section, op_ini_case, '0')=='1'
+    case_sens = ini_read(CONFIG_FN, CONFIG_SECTION, 'ini_files_case_sensitive', '0')=='1'
     if case_sens:
         sortkey = lambda s: s
     else:

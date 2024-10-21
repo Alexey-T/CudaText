@@ -145,3 +145,9 @@ method=sort_emails
 section=commands
 caption=Sort\Sort char-separated values in lines
 method=sort_sep_values
+
+[item150]
+section=commands
+caption=Sort\Config
+method=config
+menu=o
