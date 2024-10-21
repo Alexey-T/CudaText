@@ -8,7 +8,11 @@ def ed_set_text_all(lines):
     ed.set_text_all('\n'.join(lines)+'\n')
 
 def ed_get_text_all():
-    return ed.get_text_all().split('\n')
+    l = [ed.get_text_line(i) for i in range(ed.get_line_count())]
+    # exclude last empty line
+    if l and not l[-1].strip():
+        l = l[:-1]
+    return l
 
 def ed_insert_to_lines(lines, line1, line2):
     if ed.replace_lines(line1, line2, lines):

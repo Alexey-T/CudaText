@@ -74,12 +74,8 @@ def get_input():
 
     if ed.get_prop(PROP_RO): return
 
-    max_cnt = DEF_MAX_LINES
-    try:
-        s = ini_read(CONFIG_FN, CONFIG_SECTION, 'max_lines', '')
-        max_cnt = max(int(s), max_cnt)
-    except:
-        pass
+    s = ini_read(CONFIG_FN, CONFIG_SECTION, 'max_lines', str(DEF_MAX_LINES))
+    max_cnt = int(s)
 
     op_sort_all = ini_read(CONFIG_FN, CONFIG_SECTION, 'allow_all', '0')=='1'
     
