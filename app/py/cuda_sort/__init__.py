@@ -287,7 +287,7 @@ def do_dialog():
       c1.join(['type=label', 'pos=126,250,300,0', 'cap='+_('Max supported lines count')]),
 
       c1.join(['type=button', 'pos=16,290,110,0', 'cap='+_('Sort'), 'ex0=1']),
-      c1.join(['type=button', 'pos=120,290,214,0', 'cap='+_('Save')]),
+      c1.join(['type=button', 'pos=120,290,214,0', 'cap='+_('Save only')]),
       c1.join(['type=button', 'pos=224,290,318,0', 'cap='+_('Cancel')]),
       ])
 
