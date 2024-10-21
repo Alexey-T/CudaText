@@ -57,7 +57,7 @@ def get_input():
 
     if ed.get_prop(PROP_RO): return
 
-    op_sort_all = ini_read(CONFIG_FN, CONFIG_SECTION, 'allow_sort_all_when_none_selected', '0')=='1'
+    op_sort_all = ini_read(CONFIG_FN, CONFIG_SECTION, 'allow_sort_all_when_none_selected', '1')=='1'
 
     '''    
     s = ini_read(CONFIG_FN, CONFIG_SECTION, 'max_lines', str(DEF_MAX_LINES))
@@ -379,7 +379,7 @@ class Command:
 
     def config(self):
 
-        op_sort_all = ini_read(CONFIG_FN, CONFIG_SECTION, 'allow_sort_all_when_none_selected', '0')
+        op_sort_all = ini_read(CONFIG_FN, CONFIG_SECTION, 'allow_sort_all_when_none_selected', '1')
         op_ini_case_sens = ini_read(CONFIG_FN, CONFIG_SECTION, 'ini_files_case_sensitive', '0')
 
         ini_write(CONFIG_FN, CONFIG_SECTION, 'allow_sort_all_when_none_selected', op_sort_all)
