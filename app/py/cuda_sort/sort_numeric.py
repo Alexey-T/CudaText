@@ -21,11 +21,13 @@ def str_to_numeric_tuple(s):
     return r
 
 if __name__=='__main__':
-    s='11d222d333d'
+    s='11d22d33.'
     print(str_to_numeric_tuple(s))
     s='abc'
     print(str_to_numeric_tuple(s))
     s='abc22'
     print(str_to_numeric_tuple(s))
     s='33'
+    print(str_to_numeric_tuple(s))
+    s=''
     print(str_to_numeric_tuple(s))
