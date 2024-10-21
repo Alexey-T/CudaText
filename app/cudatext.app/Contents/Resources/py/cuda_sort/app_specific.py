@@ -1,9 +1,6 @@
 import os
 from cudatext import *
 
-def get_ini_fn():
-    return os.path.join(app_path(APP_DIR_SETTINGS), 'cuda_sort.ini')
-
 def ed_set_text_all(lines):
     ed.set_text_all('\n'.join(lines)+'\n')
 
@@ -29,4 +26,3 @@ def msg_show_error(s):
 
 def ed_get_sel_lines():
     return ed.get_sel_lines()
-    
