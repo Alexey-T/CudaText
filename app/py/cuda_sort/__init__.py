@@ -86,9 +86,6 @@ def get_input():
     if is_all:
         lines = ed_get_text_all()
     else:
-        #add last empty line
-        if ed.get_text_line(nlines-1) != '':
-            ed.set_text_line(-1, '')
         lines = [ed.get_text_line(i) for i in range(line1, line2+1)]
 
     return lines, is_all, line1, line2
