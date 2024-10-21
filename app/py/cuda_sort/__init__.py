@@ -240,8 +240,8 @@ def do_sort(
 
 
 def do_dialog():
-    SIZE_W = 334
-    SIZE_H = 323
+    SIZE_W = 456
+    SIZE_H = 290
     RES_REVERSE = 0
     RES_NOCASE = 1
     RES_DEL_DUP = 2
@@ -274,21 +274,21 @@ def do_dialog():
       c1.join(['type=check', 'pos=6,30,300,0', 'cap='+_('&Ignore case'), 'val='+op_nocase]),
       c1.join(['type=check', 'pos=6,54,300,0', 'cap='+_('Delete d&uplicate lines'), 'val='+op_del_dup]),
       c1.join(['type=check', 'pos=6,78,300,0', 'cap='+_('Delete &blank lines'), 'val='+op_del_sp]),
-      c1.join(['type=check', 'pos=6,102,300,0', 'cap='+_('Numeric (treat line as [text1, number, text2])'), 'val='+op_numeric]),
-      c1.join(['type=label', 'pos=6,130,300,0', 'cap='+_('Sort only by substring, offsets 0-based:')]),
+      c1.join(['type=check', 'pos=6,102,400,0', 'cap='+_('Numeric (treat line as [text1, number, text2])'), 'val='+op_numeric]),
+      c1.join(['type=label', 'pos=6,130,400,0', 'cap='+_('Sort only by substring, offsets 0-based:')]),
       c1.join(['type=label', 'pos=30,152,130,0', 'cap='+_('&From:')]),
       c1.join(['type=spinedit', 'pos=30,170,110,0', 'ex0=-1', 'ex1=5000', 'ex2=1', 'val='+str(op_offset1)]),
       c1.join(['type=label', 'pos=120,152,230,0', 'cap='+_('&To:')]),
       c1.join(['type=spinedit', 'pos=120,170,200,0', 'ex0=-1', 'ex1=5000', 'ex2=1', 'val='+str(op_offset2)]),
 
-      c1.join(['type=label', 'pos=6,207,300,0', 'cap='+_('General options for all commands:')]),
-      c1.join(['type=check', 'pos=6,225,300,0', 'cap='+_('Allow to sort all, if nothing selected'), 'val='+op_allow_all]),
+      c1.join(['type=label', 'pos=6,207,400,0', 'cap='+_('General options for all commands:')]),
+      c1.join(['type=check', 'pos=6,225,400,0', 'cap='+_('Allow to sort all, if nothing selected'), 'val='+op_allow_all]),
       c1.join(['type=spinedit', 'pos=6,247,120,0', 'ex0=1', 'ex1=4294967296', 'ex2=1000', 'val='+op_max_lines]),
-      c1.join(['type=label', 'pos=126,250,300,0', 'cap='+_('Max supported lines count')]),
+      c1.join(['type=label', 'pos=126,250,400,0', 'cap='+_('Max supported lines count')]),
 
-      c1.join(['type=button', 'pos=16,290,110,0', 'cap='+_('Sort'), 'ex0=1']),
-      c1.join(['type=button', 'pos=120,290,214,0', 'cap='+_('Save only')]),
-      c1.join(['type=button', 'pos=224,290,318,0', 'cap='+_('Cancel')]),
+      c1.join(['type=button', 'pos=350,6,450,0', 'cap='+_('Sort'), 'ex0=1']),
+      c1.join(['type=button', 'pos=350,36,450,0', 'cap='+_('Save only')]),
+      c1.join(['type=button', 'pos=350,66,450,0', 'cap='+_('Cancel')]),
       ])
 
     res = dlg_custom(_('Custom sort'), SIZE_W, SIZE_H, text)
