@@ -122,11 +122,13 @@ method=_
 section=commands
 caption=Sort\Ini file: sort sections and keys
 method=ini_sort_all
+lexers=Ini files ^
 
 [item92]
 section=commands
 caption=Sort\Ini file: sort sections, but not keys
 method=ini_sort_not_keys
+lexers=Ini files ^
 
 
 [item95]
