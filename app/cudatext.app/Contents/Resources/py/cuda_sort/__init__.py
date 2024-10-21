@@ -12,6 +12,8 @@ _   = get_translation(__file__)  # I18N
 CONFIG_FN = os.path.join(app_path(APP_DIR_SETTINGS), 'plugins.ini')
 CONFIG_SECTION = 'sort'
 
+DEF_MAX_LINES = 10000
+
 def get_offsets():
     if ed.get_sel_mode()==SEL_COLUMN:
         r = ed.get_sel_rect()
@@ -72,7 +74,7 @@ def get_input():
 
     if ed.get_prop(PROP_RO): return
 
-    max_cnt = 5000
+    max_cnt = DEF_MAX_LINES
     try:
         s = ini_read(CONFIG_FN, CONFIG_SECTION, 'max_lines', '')
         max_cnt = max(int(s), max_cnt)
@@ -268,7 +270,7 @@ def do_dialog():
         op_offset2 = int(ini_read(CONFIG_FN, CONFIG_SECTION, 'offset2', '-1'))
 
     op_allow_all = ini_read(CONFIG_FN, CONFIG_SECTION, 'allow_all', '0')
-    op_max_lines = ini_read(CONFIG_FN, CONFIG_SECTION, 'max_lines', '5000')
+    op_max_lines = ini_read(CONFIG_FN, CONFIG_SECTION, 'max_lines', str(DEF_MAX_LINES))
 
     c1 = chr(1)
     text = '\n'.join([
