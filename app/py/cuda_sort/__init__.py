@@ -365,7 +365,8 @@ class Command:
 
     def do_sort_ini(self, and_keys):
         case_sens = ini_read(CONFIG_FN, CONFIG_SECTION, 'ini_files_case_sensitive', '0')=='1'
-        ini_sort(and_keys, case_sens)
+        if ini_sort(and_keys, case_sens):
+            msg_status(_('Sorted ini lines'))
 
     def ini_sort_all(self):
         self.do_sort_ini(True)
