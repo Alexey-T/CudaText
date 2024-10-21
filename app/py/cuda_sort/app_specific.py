@@ -23,7 +23,12 @@ def ed_insert_to_lines(lines, line1, line2):
                     ed.delete(ed.get_line_len(cnt-2), cnt-2, 0, cnt-1)
 
         cnt = ed.get_line_count()
-        ed.set_caret(ed.get_line_len(cnt-1), cnt-1, 0, line1)
+        need_pos = (0, line1+len(lines))
+        last_pos = (ed.get_line_len(cnt-1), cnt-1)
+        if (need_pos[1], need_pos[0]) > (last_pos[1], last_pos[0]):
+            need_pos = last_pos
+        
+        ed.set_caret(need_pos[0], need_pos[1], 0, line1)
 
 def ed_set_tab_title(s):
     ed.set_prop(PROP_TAB_TITLE, s)
