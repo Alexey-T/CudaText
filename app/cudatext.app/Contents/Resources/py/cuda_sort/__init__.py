@@ -297,11 +297,13 @@ def do_dialog():
 class Command:
     def sort_asc(self):
         do_sort(False, False)
+
     def sort_desc(self):
         do_sort(True, False)
 
     def sort_asc_nocase(self):
         do_sort(False, True)
+
     def sort_desc_nocase(self):
         do_sort(True, True)
 
@@ -330,33 +332,46 @@ class Command:
 
     def shuffle(self):
         do_line_op('shuffle')
+
     def reverse(self):
         do_line_op('reverse')
 
     def del_dup(self):
         do_line_op('delete_dups')
+
     def del_dup_keep_blanks(self):
         do_line_op('delete_dups', True)
+
     def del_dup_orig(self):
         do_line_op('delete_dups_origins')
+
     def del_dup_adj(self):
         do_line_op('delete_dups_adjacent')
+
     def del_blank(self):
         do_line_op('delete_blanks')
+
     def del_blank_adj(self):
         do_line_op('delete_blanks_adjacent')
 
     def get_dups(self):
         do_extract_op('dups')
+
     def get_dups_nocase(self):
         do_extract_op('dups_nocase')
+
     def get_uniq(self):
         do_extract_op('unique')
 
+    def do_sort_ini(self, and_keys):
+        case_sens = ini_read(CONFIG_FN, CONFIG_SECTION, 'ini_files_case_sensitive', '0')=='1'
+        ini_sort(and_keys, case_sens)
+
     def ini_sort_all(self):
-        ini_sort(True)
+        self.do_sort_ini(True)
+
     def ini_sort_not_keys(self):
-        ini_sort(False)
+        self.do_sort_ini(False)
 
     def sort_emails(self):
         do_sort_emails()
@@ -380,4 +395,3 @@ class Command:
             ed.set_caret(0, index)
         except:
             pass
-        
