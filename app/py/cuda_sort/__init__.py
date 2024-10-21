@@ -6,6 +6,7 @@ from .app_specific import *
 from .sort_ini import *
 from .sort_emails import *
 from .sort_sep import *
+from .sort_numeric import *
 
 _   = get_translation(__file__)  # I18N
 
@@ -20,22 +21,6 @@ def get_offsets():
         return r[0], r[2]
     else:
         return -1, -1
-
-
-def get_num_and_text(s):
-    n = 0
-    while n<len(s) and not s[n].isdigit():
-        n += 1
-    s_before = s[:n]
-    n0 = n
-    while n<len(s) and s[n].isdigit():
-        n += 1
-    try:
-        num = int(s[n0:n])
-    except:
-        num = 0
-    s_after = s[n:]
-    return (s_before, num, s_after)
 
 
 def get_shuffle(lines):
@@ -220,9 +205,7 @@ def do_sort(
 
         #numeric must be after offsets
         if is_numeric:
-            k = get_num_and_text(s)
-            #print('numeric key:', k)
-            return k
+            return str_to_numeric_tuple(s)
 
         return s
 
