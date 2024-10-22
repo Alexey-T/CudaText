@@ -59,14 +59,6 @@ def do_dialog(CONFIG_FN, CONFIG_SECTION):
     if btn not in [RES_SORT, RES_SAVE]: return
     text = text.splitlines()
 
-    ini_write(CONFIG_FN, CONFIG_SECTION, 'reverse', text[RES_REVERSE])
-    ini_write(CONFIG_FN, CONFIG_SECTION, 'ignore_case', text[RES_NOCASE])
-    ini_write(CONFIG_FN, CONFIG_SECTION, 'del_dups', text[RES_DEL_DUP])
-    ini_write(CONFIG_FN, CONFIG_SECTION, 'del_blanks', text[RES_DEL_SPACE])
-    ini_write(CONFIG_FN, CONFIG_SECTION, 'numeric', text[RES_NUMERIC])
-    ini_write(CONFIG_FN, CONFIG_SECTION, 'offset1', text[RES_OFFSET1])
-    ini_write(CONFIG_FN, CONFIG_SECTION, 'offset2', text[RES_OFFSET2])
-
     is_rev = text[RES_REVERSE]=='1'
     is_nocase = text[RES_NOCASE]=='1'
     is_del_dup = text[RES_DEL_DUP]=='1'
@@ -74,11 +66,21 @@ def do_dialog(CONFIG_FN, CONFIG_SECTION):
     is_numeric = text[RES_NUMERIC]=='1'
     offset1 = int(text[RES_OFFSET1])
     offset2 = int(text[RES_OFFSET2])
-    msg_status(_('Custom sort options saved'))
 
-    if (offset1>=0) and (offset2>=0) and (offset1>=offset2):
+    offsets_ok = ((offset1<0) and (offset2<0)) or (offset1<offset2)
+
+    ini_write(CONFIG_FN, CONFIG_SECTION, 'reverse', text[RES_REVERSE])
+    ini_write(CONFIG_FN, CONFIG_SECTION, 'ignore_case', text[RES_NOCASE])
+    ini_write(CONFIG_FN, CONFIG_SECTION, 'del_dups', text[RES_DEL_DUP])
+    ini_write(CONFIG_FN, CONFIG_SECTION, 'del_blanks', text[RES_DEL_SPACE])
+    ini_write(CONFIG_FN, CONFIG_SECTION, 'numeric', text[RES_NUMERIC])
+    if offsets_ok:
+        ini_write(CONFIG_FN, CONFIG_SECTION, 'offset1', text[RES_OFFSET1])
+        ini_write(CONFIG_FN, CONFIG_SECTION, 'offset2', text[RES_OFFSET2])
+    else:
         msg_box(_('Incorrect offsets: {}..{}').format(offset1, offset2), MB_OK+MB_ICONERROR)
-        return
 
-    if btn == RES_SORT:
+    if btn == RES_SAVE:
+        msg_status(_('Custom sort options saved'))
+    elif btn == RES_SORT:
         return (is_rev, is_nocase, is_del_dup, is_del_sp, is_numeric, offset1, offset2)
