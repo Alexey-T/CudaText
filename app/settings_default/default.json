@@ -1126,6 +1126,7 @@
   //New empty documents: Encoding name.
   //Possible names are listed in the Wiki:
   // https://wiki.freepascal.org/CudaText#Encodings
+  //Also you can run "cudatext -el" to show possible names.
   "newdoc_encoding": "utf8",
 
   //New empty documents: Line endings sequence.
