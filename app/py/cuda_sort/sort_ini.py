@@ -43,6 +43,6 @@ def ini_sort(and_keys, case_sens):
     if not lines: return
     lines = ini_sort_content(lines, and_keys, case_sens)
     if not lines: return
-    ed.set_text_all('\n'.join(lines))
     ed.set_caret(0, 0)
+    ed.replace_lines(0, ed.get_line_count()-1, lines)
     return True

@@ -10,7 +10,8 @@
 + add: on pasting in single-line inputs, trim leading+trailing newline chars of clipboard text (thanks @pintassilgo)
 + add: plugin Sort: dialog offers 3 buttons: Sort, Save only, Cancel; added command "Run custom sort" to sort by saved dialog options (thanks @pintassilgo)
 + add: plugin Sort: 'Numeric' sorting supports any count of numbers mixed with text
-- fix: plugin Sort: redundant trailing empty lines appeared after Sort action (thanks @pintassilgo)
++ add: plugin Sort: ini-file sorting now allows Undo
+- fix: plugin Sort: trailing empty lines appeared after Sort action (thanks @pintassilgo)
 
 1.218.0 (2024/10)
 
