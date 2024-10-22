@@ -1124,7 +1124,8 @@
   "newdoc_lexer": "",
 
   //New empty documents: Encoding name.
-  //Possible names are listed in Wiki (utf8, utf8_bom, cp1250 etc).
+  //Possible names are listed in the Wiki:
+  // https://wiki.freepascal.org/CudaText#Encodings
   "newdoc_encoding": "utf8",
 
   //New empty documents: Line endings sequence.
