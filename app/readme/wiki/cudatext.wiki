@@ -2332,10 +2332,10 @@ CudaText has the following optimizations for big files and huge lines:
 
 * For any files, when too many multi-carets are placed, program disables/clears the Undo-information for editing. See the option "undo_max_carets":5000.
 
-==How to open files in a new tab instead of a new window==
+==How to open files in a new window instead of a new tab==
 
-Option "ui_one_instance" controls it, so change it to 'true' (without quotes, in "user.json").
-This option is here for several years already, but people are asking this question again and again (forum, GitHub, Linux forums).
+Option "ui_one_instance" controls it, so change it to 'false' (without quotes, in "user.json").
+This option is here for several years already, but people are asking this question again and again (forum, GitHub, Linux sites).
 Seems the term "instance" is not known very good, people cannot find this option easily.
 
 ==How to compile CudaText==
