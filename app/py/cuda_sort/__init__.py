@@ -14,6 +14,7 @@ _   = get_translation(__file__)  # I18N
 CONFIG_FN = os.path.join(app_path(APP_DIR_SETTINGS), 'plugins.ini')
 CONFIG_SECTION = 'sort'
 
+DEF_MAX_LINES = 100000
 
 def get_shuffle(lines):
     l1 = list(lines)
@@ -53,15 +54,14 @@ def get_input():
 
     op_sort_all = ini_read(CONFIG_FN, CONFIG_SECTION, 'allow_sort_all_when_none_selected', '1')=='1'
 
-    '''    
-    s = ini_read(CONFIG_FN, CONFIG_SECTION, 'max_lines', str(DEF_MAX_LINES))
-    max_cnt = int(s)
-
+    max_cnt = int(ini_read(CONFIG_FN, CONFIG_SECTION, 'max_lines', str(DEF_MAX_LINES)))
     if ed.get_line_count()>max_cnt:
-        msg_box(_('Document has too many lines. Plugin Sort will not work. Current value of option [sort] max_lines in "settings/plugins.ini" is %d.\n\nInstead of Sort plugin, use CudaText built-in commands: "(without undo) sort...".') %max_cnt,
-        MB_OK+MB_ICONERROR)
+        msg_box(
+            _('Document has too many lines. Plugin Sort will not work. Current value of option [sort] max_lines in "settings/plugins.ini" is %d.')%max_cnt+
+            '\n\n'+
+            _('Instead of Sort plugin, you can always use CudaText built-in commands:\n"(without undo) sort ...".'),
+        MB_OK+MB_ICONWARNING)
         return
-    '''
 
     is_all = False
     nlines = ed.get_line_count()
@@ -303,9 +303,11 @@ class Command:
 
         op_sort_all = ini_read(CONFIG_FN, CONFIG_SECTION, 'allow_sort_all_when_none_selected', '1')
         op_ini_case_sens = ini_read(CONFIG_FN, CONFIG_SECTION, 'ini_files_case_sensitive', '0')
+        op_max_lines = ini_read(CONFIG_FN, CONFIG_SECTION, 'max_lines', str(DEF_MAX_LINES))
 
         ini_write(CONFIG_FN, CONFIG_SECTION, 'allow_sort_all_when_none_selected', op_sort_all)
         ini_write(CONFIG_FN, CONFIG_SECTION, 'ini_files_case_sensitive', op_ini_case_sens)
+        ini_write(CONFIG_FN, CONFIG_SECTION, 'max_lines', op_max_lines)
 
         file_open(CONFIG_FN)
 

@@ -11,7 +11,6 @@
 + add: plugin Sort: dialog offers 3 buttons: Sort, Save only, Cancel; added command "Run custom sort" to sort by saved dialog options (thanks @pintassilgo)
 + add: plugin Sort: 'Numeric' sorting supports any count of numbers mixed with text
 + add: plugin Sort: ini-file sorting now allows Undo
-* change: plugin Sort: internal option "max count of lines" removed; but be careful not to call sorting on huge file with low free memory
 - fix: plugin Sort: trailing empty lines appeared after Sort action (thanks @pintassilgo)
 
 1.218.0 (2024/10)
