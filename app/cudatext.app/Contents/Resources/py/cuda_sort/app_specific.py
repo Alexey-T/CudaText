@@ -26,8 +26,5 @@ def ed_set_tab_title(s):
 def ed_convert_tabs_to_spaces(s):
     return ed.convert(CONVERT_LINE_TABS_TO_SPACES, 0, 0, s)
    
-def msg_show_error(s):
-    msg_box(s, MB_OK+MB_ICONERROR)
-
 def ed_get_sel_lines():
     return ed.get_sel_lines()

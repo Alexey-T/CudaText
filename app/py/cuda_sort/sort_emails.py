@@ -23,5 +23,6 @@ def do_sort_emails():
         return
 
     lines = sorted(lines, key=_key)
-    ed.set_text_all('\n'.join(lines)+'\n')
+
+    ed.replace_lines(0, ed.get_line_count()-1, lines)
     msg_status(_('Sorted text as email list'))
