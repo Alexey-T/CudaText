@@ -2230,7 +2230,10 @@ Text can have any line-breaks (LF, CRLF, CR, mixed).
 
 Notes:
 * Function cannot work with read-only editor (see Editor.get_prop, Editor.set_prop and PROP_RO).
-* Function looses Undo information. To support Undo, use another API to set text, e.g. Editor.replace().
+* Function looses Undo information. To support Undo, use another API, replace() or replace_lines():
+
+ lines = text.splitlines()
+ ed.replace_lines(0, ed.get_line_count()-1, lines)
 
 ===Editor.get_line_len===
 
