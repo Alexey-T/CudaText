@@ -67,7 +67,7 @@ def do_dialog(CONFIG_FN, CONFIG_SECTION):
     offset1 = int(text[RES_OFFSET1])
     offset2 = int(text[RES_OFFSET2])
 
-    offsets_ok = ((offset1<0) and (offset2<0)) or (offset1<offset2)
+    offsets_ok = offset1<0 or offset2<0 or (offset1>=0 and offset2>=0 and offset1<offset2)
 
     ini_write(CONFIG_FN, CONFIG_SECTION, 'reverse', text[RES_REVERSE])
     ini_write(CONFIG_FN, CONFIG_SECTION, 'ignore_case', text[RES_NOCASE])
