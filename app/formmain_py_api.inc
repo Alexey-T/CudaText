@@ -1065,7 +1065,8 @@ begin
       //don't fire on_caret when no carets left,
       //plugin must add caret ASAP, and it will fire on_caret
       if Ed.Carets.Count>0 then
-        Ed.DoEventCarets;
+        if (NOptions and CARET_OPTION_NO_EVENT)=0 then
+          Ed.DoEventCarets;
     end
   else
     Result:= ReturnNone;

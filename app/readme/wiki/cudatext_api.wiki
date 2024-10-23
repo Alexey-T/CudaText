@@ -2209,6 +2209,7 @@ Controls carets. Possible values of "id":
 Param "options" must be 0 or sum of the following flags:
 
 * CARET_OPTION_NO_SCROLL: Don't scroll to new caret position. For id=CARET_SET_ONE.
+* CARET_OPTION_NO_EVENT: Don't fire event "caret position changed" (on_caret and internally in app code).
 
 ==Text read/write==
 
@@ -5077,6 +5078,7 @@ It provides:
 * add: Editor.set_prop supports PROP_SCROLL_HORZ_INFO (Editor.get_prop supports it already)
 
 1.0.462 (app 1.218.1)
+* add: Editor.set_caret: added CARET_OPTION_NO_EVENT
 * add: Editor.get_prop/set_prop: PROP_UNPRINTED_WRAPS
 * change: delete PROP_UNPRINTED_END_ONLY_WRAP (replaced with PROP_UNPRINTED_WRAPS with different logic)
 * change: tree_proc: TREE_ITEM_ENUM* return empty list when no items (before they returned None)
