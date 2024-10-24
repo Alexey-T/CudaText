@@ -23,3 +23,6 @@ Asm BG=IncludeBG1
 Label=Label
 Operator XX=Id4
 Incorrect=IdBad
+
+[op]
+fold_exclude_line=1

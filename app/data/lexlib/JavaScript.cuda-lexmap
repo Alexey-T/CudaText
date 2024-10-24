@@ -28,3 +28,6 @@ HTML tag name=TagId
 Id upcase const=Id4
 Id modifier=Id3
 Sublexer BG=IncludeBG2
+
+[op]
+fold_exclude_line=1
