@@ -20,6 +20,3 @@ Id types=Id2
 Preprocessor=Comment2
 Asm BG=IncludeBG1
 Incorrect=IdBad
-
-[op]
-fold_exclude_line=1
