@@ -12,6 +12,7 @@
 + add: plugin Sort: 'Numeric' sorting supports any count of numbers mixed with text
 + add: plugin Sort: ini-file sorting now allows Undo
 - fix: plugin Sort: trailing empty lines appeared after Sort action (thanks @pintassilgo)
+- fix: typing 'f1(f2(f3(' did not give nested brackets 'f1(f2(f3()))' (thanks @lucvtzel)
 
 1.218.0 (2024/10)
 
