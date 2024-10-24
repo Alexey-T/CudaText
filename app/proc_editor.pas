@@ -1048,7 +1048,8 @@ end;
 *)
 begin
   //like VSCode, suggested in issue #5668
-  Result:= Pos(ch, ':;.,=>' + ' '#9)>0;
+  //chars )]} must be here to support typing of 'f(f2(|))', ie fix issue #5746
+  Result:= Pos(ch, ':;.,=>)]}' + ' '#9)>0;
 end;
 
 function EditorAutoSkipClosingBracket(Ed: TATSynEdit; CharClosing: char): boolean;
