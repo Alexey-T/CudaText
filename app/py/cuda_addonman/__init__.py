@@ -324,7 +324,7 @@ class Command:
 
         #download
         fn = get_plugin_zip(url)
-        if not os.path.isfile(fn):
+        if fn is None or not os.path.isfile(fn):
             msg_status(_('Cannot download file'))
             return
 
