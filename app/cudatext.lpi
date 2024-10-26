@@ -13,7 +13,7 @@
       <ResourceType Value="res"/>
       <UseXPManifest Value="True"/>
       <XPManifest>
-        <DpiAware Value="True/PM_V2"/>
+        <DpiAware Value="True"/>
         <TextName Value="UVviewsoft.CudaText"/>
         <TextDesc Value="CudaText"/>
       </XPManifest>
