@@ -685,17 +685,17 @@ begin
           High(TATGroupsNums)+1:
             begin
               Gr:= GroupsFloating1;
-              ShowFloatingForm1:= true;
+              FStartupShowFloating1:= true;
             end;
           High(TATGroupsNums)+2:
             begin
               Gr:= GroupsFloating2;
-              ShowFloatingForm2:= true;
+              FStartupShowFloating2:= true;
             end
           else
             begin
               Gr:= GroupsFloating3;
-              ShowFloatingForm3:= true;
+              FStartupShowFloating3:= true;
             end;
         end;
         nGroupIndex:= 0;

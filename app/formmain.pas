@@ -553,6 +553,7 @@ type
     procedure TimerAppIdleTimer(Sender: TObject);
     procedure TimerCmdTimer(Sender: TObject);
     procedure TimerMouseStopTimer(Sender: TObject);
+    procedure TimerShowFloatingTimer(Sender: TObject);
     procedure TimerTooltipTimer(Sender: TObject);
     procedure TimerStatusWorkTimer(Sender: TObject);
     procedure TimerStatusClearTimer(Sender: TObject);
@@ -755,6 +756,9 @@ type
     FPrevJsonObj: TJSONData;
     FPrevFramesEditState: array of TFrameEditState;
     FPrevFindDlgVisible: boolean;
+    FStartupShowFloating1: boolean;
+    FStartupShowFloating2: boolean;
+    FStartupShowFloating3: boolean;
 
     function CodeTreeFilter_OnFilterNode(ItemNode: TTreeNode; out Done: Boolean): Boolean;
     function ConfirmAllFramesAreSaved(AWithCancel: boolean): boolean;
@@ -1208,6 +1212,7 @@ type
     procedure DoOnDeleteLexer(Sender: TObject; const ALexerName: string);
     procedure _QtCheckLibValidity;
     procedure _QtDelayTimeOut; cdecl;
+    procedure InitTimerShowFloating;
   public
     { public declarations }
     CodeTree: TAppTreeContainer;
@@ -1220,6 +1225,7 @@ type
     ButtonCancel: TATButton;
     TimerConsoleCmp: TTimer;
     TimerFinderWrapped: TTimer;
+    TimerShowFloating: TTimer;
     function FrameCount: integer;
     property Frames[N: integer]: TEditorFrame read GetFrame;
     function CurrentGroups: TATGroups;
@@ -3995,6 +4001,11 @@ begin
   AppFormShowCompleted:= true;
   if Assigned(fmConsole) then
     fmConsole.FlushConsole;
+
+  if FStartupShowFloating1 or
+     FStartupShowFloating2 or
+     FStartupShowFloating3 then
+    InitTimerShowFloating;
 end;
 
 procedure TfmMain.FormWindowStateChange(Sender: TObject);
@@ -10128,6 +10139,24 @@ begin
 
   if AUpdateGlobalMenuitems then
     UpdateMenuChecks_Global;
+end;
+
+
+procedure TfmMain.InitTimerShowFloating;
+begin
+  if Assigned(TimerShowFloating) then exit;
+  TimerShowFloating:= TTimer.Create(Self);
+  TimerShowFloating.Interval:= 200;
+  TimerShowFloating.OnTimer:= @TimerShowFloatingTimer;
+  TimerShowFloating.Enabled:= true;
+end;
+
+procedure TfmMain.TimerShowFloatingTimer(Sender: TObject);
+begin
+  TimerShowFloating.Enabled:= false;
+  if FStartupShowFloating1 then ShowFloatingForm1:= true;
+  if FStartupShowFloating2 then ShowFloatingForm2:= true;
+  if FStartupShowFloating3 then ShowFloatingForm3:= true;
 end;
 
 
