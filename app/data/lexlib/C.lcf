@@ -244,6 +244,10 @@ object SyntAnal4: TLibSyntAnalyzer
       ConditionList = <
         item
           TagList.Strings = (
+            '__attribute'
+            '__attribute__'
+            '__declspec'
+            '_Static_assert'
             'alignas'
             'alignof'
             'asm'
@@ -264,6 +268,7 @@ object SyntAnal4: TLibSyntAnalyzer
             'operator'
             'return'
             'sizeof'
+            'static_assert'
             'struct'
             'switch'
             'throw'
@@ -287,14 +292,11 @@ object SyntAnal4: TLibSyntAnalyzer
         item
           TagList.Strings = (
             '__asm'
-            '__attribute'
-            '__attribute__'
             '__automated'
             '__cdecl'
             '__classid'
             '__closure'
             '__clrcall'
-            '__declspec'
             '__dispid'
             '__except'
             '__export'
@@ -323,7 +325,6 @@ object SyntAnal4: TLibSyntAnalyzer
             '_import'
             '_Noreturn'
             '_pascal'
-            '_Static_assert'
             '_stdcall'
             '_Thread_local'
             'cdecl'
@@ -342,7 +343,6 @@ object SyntAnal4: TLibSyntAnalyzer
             'register'
             'restrict'
             'static'
-            'static_assert'
             'this'
             'thread_local'
             'typeid'

@@ -361,6 +361,9 @@ object SyntAnal5: TLibSyntAnalyzer
         item
           TagList.Strings = (
             '__asm'
+            '__attribute'
+            '__attribute__'
+            '__declspec'
             '_asm'
             '_Alignas'
             '_Alignof'
@@ -383,6 +386,7 @@ object SyntAnal5: TLibSyntAnalyzer
             'compl'
             'concept'
             'continue'
+            'decltype'
             'default'
             'delete'
             'do'
@@ -404,6 +408,7 @@ object SyntAnal5: TLibSyntAnalyzer
             'requires'
             'return'
             'sizeof'
+            'static_assert'
             'struct'
             'switch'
             'synchronized'
@@ -433,11 +438,8 @@ object SyntAnal5: TLibSyntAnalyzer
       ConditionList = <
         item
           TagList.Strings = (
-            '__attribute'
-            '__attribute__'
             '__cdecl'
             '__clrcall'
-            '__declspec'
             '__fastcall'
             '__regcall'
             '__restrict'
@@ -453,7 +455,6 @@ object SyntAnal5: TLibSyntAnalyzer
             'consteval'
             'constexpr'
             'constinit'
-            'decltype'
             'dynamic_cast'
             'explicit'
             'export'
@@ -471,7 +472,6 @@ object SyntAnal5: TLibSyntAnalyzer
             'reinterpret_cast'
             'restrict'
             'static'
-            'static_assert'
             'static_cast'
             'this'
             'thread_local'
