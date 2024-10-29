@@ -148,7 +148,7 @@ begin
     exit;
   end;
 
-  if FloatGroups then
+  if FloatingForms then
   begin
     Dec(AIndex, NCount);
     NCount:= GroupsFloating1.GetTabTotalCount;
@@ -185,7 +185,7 @@ end;
 function TfmMain.FrameCount: integer;
 begin
   Result:= Groups.GetTabTotalCount;
-  if FloatGroups then
+  if FloatingForms then
   begin
     Inc(Result, GroupsFloating1.GetTabTotalCount);
     Inc(Result, GroupsFloating2.GetTabTotalCount);
@@ -205,7 +205,7 @@ function TfmMain.CurrentGroups: TATGroups;
 begin
   Result:= Groups;
 
-  if FloatGroups then
+  if FloatingForms then
   begin
     if _FormAct(FFormFloating1) then
       Result:= GroupsFloating1

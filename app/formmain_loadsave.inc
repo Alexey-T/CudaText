@@ -140,7 +140,7 @@ begin
       if AppPanels[TAppPanelId.Btm].Floating then
         cfg.SetValue('/pos/bottom', FormPosGetAsString(AppPanels[TAppPanelId.Btm].FormFloat, false));
 
-      if FloatGroups then
+      if FloatingForms then
       begin
         cfg.SetValue('/pos/g1', FormPosGetAsString(FFormFloating1, false));
         cfg.SetValue('/pos/g2', FormPosGetAsString(FFormFloating2, false));

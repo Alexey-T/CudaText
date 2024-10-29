@@ -642,7 +642,7 @@ begin
   fmFind.IsReplace:= AReplaceMode;
   fmFind.UpdateState(false); //param False! to disable jumping to first match on Ctrl+F with find-bar visible
   fmFind.Show;
-  fmFind.UpdateFormHeight; //update 'Replace' buttons visibility, when dlg is in the floating-grp-form
+  fmFind.UpdateFormHeight; //update 'Replace' buttons visibility, when dlg is in the floating form
 
   if AUpdateFocus then
   begin

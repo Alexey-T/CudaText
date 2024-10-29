@@ -572,7 +572,7 @@ begin
   Self.Font.Color:= GetAppColor(TAppThemeColor.TabFont);
 
   Groups.SetTabFont(Self.Font);
-  if FloatGroups then
+  if FloatingForms then
   begin
     GroupsFloating1.SetTabFont(Self.Font);
     GroupsFloating2.SetTabFont(Self.Font);

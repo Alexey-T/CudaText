@@ -833,15 +833,15 @@ type
     function FindFrameOfFilename(const AFileName: string; AllowEmptyPath: boolean=false): TEditorFrame;
     function FindFrameOfPreviewTab: TEditorFrame;
     procedure FixMainLayout;
-    procedure FormFloatGroups1_OnEmpty(Sender: TObject);
-    procedure FormFloatGroups2_OnEmpty(Sender: TObject);
-    procedure FormFloatGroups3_OnEmpty(Sender: TObject);
-    procedure FormFloatGroups1_OnClose(Sender: TObject; var CloseAction: TCloseAction);
-    procedure FormFloatGroups2_OnClose(Sender: TObject; var CloseAction: TCloseAction);
-    procedure FormFloatGroups3_OnClose(Sender: TObject; var CloseAction: TCloseAction);
-    procedure FormFloatGroups_OnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure FormFloatGroups_OnUTF8KeyPress(Sender: TObject; var UTF8Key: TUTF8Char);
-    procedure FormFloatGroups_OnDropFiles(Sender: TObject; const FileNames: array of String);
+    procedure FormFloating1_OnEmpty(Sender: TObject);
+    procedure FormFloating2_OnEmpty(Sender: TObject);
+    procedure FormFloating3_OnEmpty(Sender: TObject);
+    procedure FormFloating1_OnClose(Sender: TObject; var CloseAction: TCloseAction);
+    procedure FormFloating2_OnClose(Sender: TObject; var CloseAction: TCloseAction);
+    procedure FormFloating3_OnClose(Sender: TObject; var CloseAction: TCloseAction);
+    procedure FormFloating_OnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure FormFloating_OnUTF8KeyPress(Sender: TObject; var UTF8Key: TUTF8Char);
+    procedure FormFloating_OnDropFiles(Sender: TObject; const FileNames: array of String);
     procedure CharmapOnInsert(const AStr: string);
     procedure Localize;
     procedure LocalizeTabTitles;
@@ -950,10 +950,10 @@ type
     procedure DoSplitter_SetInfo(const Id: integer; NPos: integer);
     procedure DoToolbarClick(Sender: TObject);
     procedure FrameLexerChange(Sender: TATSynEdit);
-    function GetFloatGroups: boolean;
-    function GetShowFloatGroup1: boolean;
-    function GetShowFloatGroup2: boolean;
-    function GetShowFloatGroup3: boolean;
+    function GetFloatingForms: boolean;
+    function GetShowFloatingForm1: boolean;
+    function GetShowFloatingForm2: boolean;
+    function GetShowFloatingForm3: boolean;
     function GetShowOnTop: boolean;
     function GetShowSidebarOnRight: boolean;
     procedure InitStatusProgress;
@@ -968,9 +968,9 @@ type
     procedure InitPopupTab;
     procedure InitPopupTabSize;
     procedure InitBottomEditor(var Form: TAppFormWithEditor);
-    procedure InitFloatGroup(var F: TForm; var G: TATGroups; AIndexOfGroup: integer;
+    procedure InitFloatingForm(var F: TForm; var G: TATGroups; AIndexOfGroup: integer;
       const ARect: TRect; AOnClose: TCloseEvent; AOnGroupEmpty: TNotifyEvent);
-    procedure InitFloatGroups;
+    procedure InitFloatingForms;
     procedure InitSaveDlg;
     procedure InitSidebar;
     procedure InitToolbar;
@@ -995,9 +995,9 @@ type
     procedure MsgStatusErrorInRegex;
     procedure MsgStatusFileOpened(const AFileName1, AFileName2: string);
     procedure SearcherDirectoryEnter(FileIterator: TFileIterator);
-    procedure SetShowFloatGroup1(AValue: boolean);
-    procedure SetShowFloatGroup2(AValue: boolean);
-    procedure SetShowFloatGroup3(AValue: boolean);
+    procedure SetShowFloatingForm1(AValue: boolean);
+    procedure SetShowFloatingForm2(AValue: boolean);
+    procedure SetShowFloatingForm3(AValue: boolean);
     procedure SetShowMenu(AValue: boolean);
     procedure SetShowOnTop(AValue: boolean);
     procedure SetShowSidebarOnRight(AValue: boolean);
@@ -1226,10 +1226,10 @@ type
     function CurrentFrame: TEditorFrame;
     function CurrentFrameEx(AGroups: TATGroups): TEditorFrame;
     function CurrentEditor: TATSynEdit;
-    property FloatGroups: boolean read GetFloatGroups;
-    property ShowFloatGroup1: boolean read GetShowFloatGroup1 write SetShowFloatGroup1;
-    property ShowFloatGroup2: boolean read GetShowFloatGroup2 write SetShowFloatGroup2;
-    property ShowFloatGroup3: boolean read GetShowFloatGroup3 write SetShowFloatGroup3;
+    property FloatingForms: boolean read GetFloatingForms;
+    property ShowFloatingForm1: boolean read GetShowFloatingForm1 write SetShowFloatingForm1;
+    property ShowFloatingForm2: boolean read GetShowFloatingForm2 write SetShowFloatingForm2;
+    property ShowFloatingForm3: boolean read GetShowFloatingForm3 write SetShowFloatingForm3;
     property ShowMenu: boolean read FMenuVisible write SetShowMenu;
     property ShowOnTop: boolean read GetShowOnTop write SetShowOnTop;
     property ShowFullscreen: boolean read FShowFullScreen write SetShowFullScreen;
@@ -1504,21 +1504,21 @@ begin
     6:
       begin
         if AShowFloatingGroup then
-          fmMain.ShowFloatGroup1:= true;
+          fmMain.ShowFloatingForm1:= true;
         if Assigned(fmMain.GroupsFloating1) then
           Result:= fmMain.GroupsFloating1.Pages[0];
       end;
     7:
       begin
         if AShowFloatingGroup then
-          fmMain.ShowFloatGroup2:= true;
+          fmMain.ShowFloatingForm2:= true;
         if Assigned(fmMain.GroupsFloating2) then
           Result:= fmMain.GroupsFloating2.Pages[0];
       end;
     8:
       begin
         if AShowFloatingGroup then
-          fmMain.ShowFloatGroup3:= true;
+          fmMain.ShowFloatingForm3:= true;
         if Assigned(fmMain.GroupsFloating3) then
           Result:= fmMain.GroupsFloating3.Pages[0];
       end;
@@ -3478,7 +3478,7 @@ begin
   AppDroppingFiles:= false;
 end;
 
-procedure TfmMain.FormFloatGroups_OnDropFiles(Sender: TObject;
+procedure TfmMain.FormFloating_OnDropFiles(Sender: TObject;
   const FileNames: array of String);
 var
   SName: string;
@@ -3520,7 +3520,7 @@ begin
   end;
 end;
 
-procedure TfmMain.FormFloatGroups_OnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+procedure TfmMain.FormFloating_OnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
   if Assigned(FormAutoCompletion) and FormAutoCompletion.Visible then
   begin
@@ -3529,7 +3529,7 @@ begin
   end;
 end;
 
-procedure TfmMain.FormFloatGroups_OnUTF8KeyPress(Sender: TObject; var UTF8Key: TUTF8Char);
+procedure TfmMain.FormFloating_OnUTF8KeyPress(Sender: TObject; var UTF8Key: TUTF8Char);
 begin
   if Assigned(FormAutoCompletion) and FormAutoCompletion.Visible then
   begin
@@ -4543,7 +4543,7 @@ begin
   DoApplyFont_Output;
 
   DoApplyUiOpsToGroups(Groups);
-  if FloatGroups then
+  if FloatingForms then
   begin
     DoApplyUiOpsToGroups(GroupsFloating1);
     DoApplyUiOpsToGroups(GroupsFloating2);
@@ -5707,7 +5707,7 @@ begin
   GroupsCtx:= Groups;
   GroupsCtxIndex:= GroupsCtx.FindPages(GroupsCtx.PopupPages);
 
-  if FloatGroups then
+  if FloatingForms then
   begin
     CurForm:= Screen.ActiveForm;
     if CurForm=FFormFloating1 then
@@ -8741,50 +8741,50 @@ begin
 end;
 
 
-procedure TfmMain.SetShowFloatGroup1(AValue: boolean);
+procedure TfmMain.SetShowFloatingForm1(AValue: boolean);
 begin
-  if GetShowFloatGroup1<>AValue then
+  if GetShowFloatingForm1<>AValue then
   begin
-    InitFloatGroups;
+    InitFloatingForms;
     FFormFloating1.Visible:= AValue;
   end;
 end;
 
-procedure TfmMain.SetShowFloatGroup2(AValue: boolean);
+procedure TfmMain.SetShowFloatingForm2(AValue: boolean);
 begin
-  if GetShowFloatGroup2<>AValue then
+  if GetShowFloatingForm2<>AValue then
   begin
-    InitFloatGroups;
+    InitFloatingForms;
     FFormFloating2.Visible:= AValue;
   end;
 end;
 
-procedure TfmMain.SetShowFloatGroup3(AValue: boolean);
+procedure TfmMain.SetShowFloatingForm3(AValue: boolean);
 begin
-  if GetShowFloatGroup3<>AValue then
+  if GetShowFloatingForm3<>AValue then
   begin
-    InitFloatGroups;
+    InitFloatingForms;
     FFormFloating3.Visible:= AValue;
   end;
 end;
 
 
-procedure TfmMain.FormFloatGroups1_OnEmpty(Sender: TObject);
+procedure TfmMain.FormFloating1_OnEmpty(Sender: TObject);
 begin
-  ShowFloatGroup1:= false;
+  ShowFloatingForm1:= false;
 end;
 
-procedure TfmMain.FormFloatGroups2_OnEmpty(Sender: TObject);
+procedure TfmMain.FormFloating2_OnEmpty(Sender: TObject);
 begin
-  ShowFloatGroup2:= false;
+  ShowFloatingForm2:= false;
 end;
 
-procedure TfmMain.FormFloatGroups3_OnEmpty(Sender: TObject);
+procedure TfmMain.FormFloating3_OnEmpty(Sender: TObject);
 begin
-  ShowFloatGroup3:= false;
+  ShowFloatingForm3:= false;
 end;
 
-procedure TfmMain.FormFloatGroups1_OnClose(Sender: TObject; var CloseAction: TCloseAction);
+procedure TfmMain.FormFloating1_OnClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
   GroupsFloating1.MoveTabsFromGroupToAnother(
     GroupsFloating1.Pages1,
@@ -8792,7 +8792,7 @@ begin
     );
 end;
 
-procedure TfmMain.FormFloatGroups2_OnClose(Sender: TObject; var CloseAction: TCloseAction);
+procedure TfmMain.FormFloating2_OnClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
   GroupsFloating2.MoveTabsFromGroupToAnother(
     GroupsFloating2.Pages1,
@@ -8800,7 +8800,7 @@ begin
     );
 end;
 
-procedure TfmMain.FormFloatGroups3_OnClose(Sender: TObject; var CloseAction: TCloseAction);
+procedure TfmMain.FormFloating3_OnClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
   GroupsFloating3.MoveTabsFromGroupToAnother(
     GroupsFloating3.Pages1,
@@ -8808,28 +8808,28 @@ begin
     );
 end;
 
-function TfmMain.GetFloatGroups: boolean;
+function TfmMain.GetFloatingForms: boolean;
 begin
   Result:= Assigned(FFormFloating1);
 end;
 
-function TfmMain.GetShowFloatGroup1: boolean;
+function TfmMain.GetShowFloatingForm1: boolean;
 begin
   Result:= Assigned(FFormFloating1) and FFormFloating1.Visible;
 end;
 
-function TfmMain.GetShowFloatGroup2: boolean;
+function TfmMain.GetShowFloatingForm2: boolean;
 begin
   Result:= Assigned(FFormFloating2) and FFormFloating2.Visible;
 end;
 
-function TfmMain.GetShowFloatGroup3: boolean;
+function TfmMain.GetShowFloatingForm3: boolean;
 begin
   Result:= Assigned(FFormFloating3) and FFormFloating3.Visible;
 end;
 
 
-procedure TfmMain.InitFloatGroup(var F: TForm; var G: TATGroups; AIndexOfGroup: integer;
+procedure TfmMain.InitFloatingForm(var F: TForm; var G: TATGroups; AIndexOfGroup: integer;
   const ARect: TRect; AOnClose: TCloseEvent; AOnGroupEmpty: TNotifyEvent);
 begin
   if not Assigned(F) then
@@ -8841,13 +8841,13 @@ begin
     F.BorderIcons:= [biSystemMenu, biMaximize, biMinimize];
     F.OnClose:= AOnClose;
     F.OnActivate:= @FormActivate;
-    F.OnKeyDown:= @FormFloatGroups_OnKeyDown;
-    F.OnUTF8KeyPress:= @FormFloatGroups_OnUTF8KeyPress;
-    F.Caption:= Format('[f%d]', [AIndexOfGroup]) + (' - ' + msgTitle);
+    F.OnKeyDown:= @FormFloating_OnKeyDown;
+    F.OnUTF8KeyPress:= @FormFloating_OnUTF8KeyPress;
+    F.Caption:= ' - ' + msgTitle + Format(' [f%d]', [AIndexOfGroup]);
     F.KeyPreview:= true;
 
     F.AllowDropFiles:= true;
-    F.OnDropFiles:= @FormFloatGroups_OnDropFiles;
+    F.OnDropFiles:= @FormFloating_OnDropFiles;
     F.ShowInTaskBar:= UiOps.FloatGroupsShowInTaskbar;
 
     G:= TATGroups.Create(Self);
@@ -8873,19 +8873,19 @@ begin
   end;
 end;
 
-procedure TfmMain.InitFloatGroups;
+procedure TfmMain.InitFloatingForms;
 begin
-  InitFloatGroup(FFormFloating1, GroupsFloating1, 1, FBoundsFloating1,
-    @FormFloatGroups1_OnClose,
-    @FormFloatGroups1_OnEmpty);
+  InitFloatingForm(FFormFloating1, GroupsFloating1, 1, FBoundsFloating1,
+    @FormFloating1_OnClose,
+    @FormFloating1_OnEmpty);
 
-  InitFloatGroup(FFormFloating2, GroupsFloating2, 2, FBoundsFloating2,
-    @FormFloatGroups2_OnClose,
-    @FormFloatGroups2_OnEmpty);
+  InitFloatingForm(FFormFloating2, GroupsFloating2, 2, FBoundsFloating2,
+    @FormFloating2_OnClose,
+    @FormFloating2_OnEmpty);
 
-  InitFloatGroup(FFormFloating3, GroupsFloating3, 3, FBoundsFloating3,
-    @FormFloatGroups3_OnClose,
-    @FormFloatGroups3_OnEmpty);
+  InitFloatingForm(FFormFloating3, GroupsFloating3, 3, FBoundsFloating3,
+    @FormFloating3_OnClose,
+    @FormFloating3_OnEmpty);
 end;
 
 function TfmMain.DoOnTabGetTick(Sender: TObject; ATabObject: TObject): Int64;
@@ -9752,7 +9752,7 @@ begin
     for iGroup:= 0 to cAppMaxGroup do
     begin
       Ed:= TGroupsHelper.GetEditorActiveInGroup(iGroup);
-      if Ed=nil then Continue; //not Break: support 3 floating grps
+      if Ed=nil then Continue; //not Break: support 3 floating groups
       if not Ed.Visible then Continue;
       PntLocal:= Ed.ScreenToClient(PntScreen);
       if PtInRect(Ed.ClientRect, PntLocal) then

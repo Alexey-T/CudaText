@@ -163,7 +163,7 @@ begin
   AppApiFlatTheme.ColorFontListboxSel:= GetAppColor(TAppThemeColor.TreeSelFont);
 
   DoApplyThemeToGroups(Groups);
-  if FloatGroups then
+  if FloatingForms then
   begin
     DoApplyThemeToGroups(GroupsFloating1);
     DoApplyThemeToGroups(GroupsFloating2);

@@ -1,5 +1,5 @@
 object fmMain: TfmMain
-  Left = 44
+  Left = 54
   Height = 434
   Top = 87
   Width = 1236
@@ -12,7 +12,7 @@ object fmMain: TfmMain
   DefaultMonitor = dmDesktop
   KeyPreview = True
   Menu = MainMenu
-  LCLVersion = '3.99.0.0'
+  LCLVersion = '4.99.0.0'
   Visible = True
   OnActivate = FormActivate
   OnChangeBounds = FormChangeBounds
