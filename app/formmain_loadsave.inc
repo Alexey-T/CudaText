@@ -142,9 +142,9 @@ begin
 
       if FloatGroups then
       begin
-        cfg.SetValue('/pos/g1', FormPosGetAsString(FFormFloatGroups1, false));
-        cfg.SetValue('/pos/g2', FormPosGetAsString(FFormFloatGroups2, false));
-        cfg.SetValue('/pos/g3', FormPosGetAsString(FFormFloatGroups3, false));
+        cfg.SetValue('/pos/g1', FormPosGetAsString(FFormFloating1, false));
+        cfg.SetValue('/pos/g2', FormPosGetAsString(FFormFloating2, false));
+        cfg.SetValue('/pos/g3', FormPosGetAsString(FFormFloating3, false));
       end;
 
       cfg.SetValue('show_sidepanel', AppPanels[TAppPanelId.Side].Visible);

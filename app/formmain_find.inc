@@ -1678,9 +1678,9 @@ begin
   if (F=nil) or (F=Self) then
     fmFind.Parent:= Self.PanelMain
   else
-  if (F=FFormFloatGroups1) or
-    (F=FFormFloatGroups2) or
-    (F=FFormFloatGroups3) then
+  if (F=FFormFloating1) or
+    (F=FFormFloating2) or
+    (F=FFormFloating3) then
     fmFind.Parent:= F;
 end;
 

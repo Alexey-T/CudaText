@@ -67,9 +67,9 @@ begin
 
   Application.Title:= F.TabCaption + (' - ' + msgTitle);
 
-  UpdateCaption_FloatingGroup(0, FFormFloatGroups1, GroupsF1);
-  UpdateCaption_FloatingGroup(1, FFormFloatGroups2, GroupsF2);
-  UpdateCaption_FloatingGroup(2, FFormFloatGroups3, GroupsF3);
+  UpdateCaption_FloatingGroup(0, FFormFloating1, GroupsF1);
+  UpdateCaption_FloatingGroup(1, FFormFloating2, GroupsF2);
+  UpdateCaption_FloatingGroup(2, FFormFloating3, GroupsF3);
 end;
 
 

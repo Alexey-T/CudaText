@@ -630,9 +630,9 @@ type
     PopupToolbarComment: TPopupMenu;
     PopupSidebarClone: TPopupMenu;
     PaintTest: TPaintBox;
-    FFormFloatGroups1: TForm;
-    FFormFloatGroups2: TForm;
-    FFormFloatGroups3: TForm;
+    FFormFloating1: TForm;
+    FFormFloating2: TForm;
+    FFormFloating3: TForm;
     FBoundsMain: TRect;
     FBoundsFloatGroups1: TRect;
     FBoundsFloatGroups2: TRect;
@@ -3492,17 +3492,17 @@ begin
   Application.BringToFront;
 
   CurForm:= Sender as TForm;
-  if CurForm=FFormFloatGroups1 then
+  if CurForm=FFormFloating1 then
   begin
     Gr:= GroupsF1;
   end
   else
-  if CurForm=FFormFloatGroups2 then
+  if CurForm=FFormFloating2 then
   begin
     Gr:= GroupsF2;
   end
   else
-  if CurForm=FFormFloatGroups3 then
+  if CurForm=FFormFloating3 then
   begin
     Gr:= GroupsF3;
   end
@@ -5710,19 +5710,19 @@ begin
   if FloatGroups then
   begin
     CurForm:= Screen.ActiveForm;
-    if CurForm=FFormFloatGroups1 then
+    if CurForm=FFormFloating1 then
     begin
       GroupsCtx:= GroupsF1;
       GroupsCtxIndex:= 6;
     end
     else
-    if CurForm=FFormFloatGroups2 then
+    if CurForm=FFormFloating2 then
     begin
       GroupsCtx:= GroupsF2;
       GroupsCtxIndex:= 7;
     end
     else
-    if CurForm=FFormFloatGroups3 then
+    if CurForm=FFormFloating3 then
     begin
       GroupsCtx:= GroupsF3;
       GroupsCtxIndex:= 8;
@@ -8746,7 +8746,7 @@ begin
   if GetShowFloatGroup1<>AValue then
   begin
     InitFloatGroups;
-    FFormFloatGroups1.Visible:= AValue;
+    FFormFloating1.Visible:= AValue;
   end;
 end;
 
@@ -8755,7 +8755,7 @@ begin
   if GetShowFloatGroup2<>AValue then
   begin
     InitFloatGroups;
-    FFormFloatGroups2.Visible:= AValue;
+    FFormFloating2.Visible:= AValue;
   end;
 end;
 
@@ -8764,7 +8764,7 @@ begin
   if GetShowFloatGroup3<>AValue then
   begin
     InitFloatGroups;
-    FFormFloatGroups3.Visible:= AValue;
+    FFormFloating3.Visible:= AValue;
   end;
 end;
 
@@ -8810,22 +8810,22 @@ end;
 
 function TfmMain.GetFloatGroups: boolean;
 begin
-  Result:= Assigned(FFormFloatGroups1);
+  Result:= Assigned(FFormFloating1);
 end;
 
 function TfmMain.GetShowFloatGroup1: boolean;
 begin
-  Result:= Assigned(FFormFloatGroups1) and FFormFloatGroups1.Visible;
+  Result:= Assigned(FFormFloating1) and FFormFloating1.Visible;
 end;
 
 function TfmMain.GetShowFloatGroup2: boolean;
 begin
-  Result:= Assigned(FFormFloatGroups2) and FFormFloatGroups2.Visible;
+  Result:= Assigned(FFormFloating2) and FFormFloating2.Visible;
 end;
 
 function TfmMain.GetShowFloatGroup3: boolean;
 begin
-  Result:= Assigned(FFormFloatGroups3) and FFormFloatGroups3.Visible;
+  Result:= Assigned(FFormFloating3) and FFormFloating3.Visible;
 end;
 
 
@@ -8875,15 +8875,15 @@ end;
 
 procedure TfmMain.InitFloatGroups;
 begin
-  InitFloatGroup(FFormFloatGroups1, GroupsF1, 1, FBoundsFloatGroups1,
+  InitFloatGroup(FFormFloating1, GroupsF1, 1, FBoundsFloatGroups1,
     @FormFloatGroups1_OnClose,
     @FormFloatGroups1_OnEmpty);
 
-  InitFloatGroup(FFormFloatGroups2, GroupsF2, 2, FBoundsFloatGroups2,
+  InitFloatGroup(FFormFloating2, GroupsF2, 2, FBoundsFloatGroups2,
     @FormFloatGroups2_OnClose,
     @FormFloatGroups2_OnEmpty);
 
-  InitFloatGroup(FFormFloatGroups3, GroupsF3, 3, FBoundsFloatGroups3,
+  InitFloatGroup(FFormFloating3, GroupsF3, 3, FBoundsFloatGroups3,
     @FormFloatGroups3_OnClose,
     @FormFloatGroups3_OnEmpty);
 end;
@@ -9948,17 +9948,17 @@ begin
   case AIndex of
     0:
       begin
-        Form:= FFormFloatGroups1;
+        Form:= FFormFloating1;
         Grp:= GroupsF1;
       end;
     1:
       begin
-        Form:= FFormFloatGroups2;
+        Form:= FFormFloating2;
         Grp:= GroupsF2;
       end;
     2:
       begin
-        Form:= FFormFloatGroups3;
+        Form:= FFormFloating3;
         Grp:= GroupsF3;
       end;
     else
@@ -10014,9 +10014,9 @@ var
   NNewGroupIndex, NLocalGroupIndex, NGlobalGroupIndex, NTabIndex: integer;
   bWrapped: boolean;
 begin
-  FormsArray[0]:= FFormFloatGroups1;
-  FormsArray[1]:= FFormFloatGroups2;
-  FormsArray[2]:= FFormFloatGroups3;
+  FormsArray[0]:= FFormFloating1;
+  FormsArray[1]:= FFormFloating2;
+  FormsArray[2]:= FFormFloating3;
 
   Frame:= CurrentFrame;
   if Frame=nil then exit;

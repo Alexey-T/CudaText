@@ -207,13 +207,13 @@ begin
 
   if FloatGroups then
   begin
-    if _FormAct(FFormFloatGroups1) then
+    if _FormAct(FFormFloating1) then
       Result:= GroupsF1
     else
-    if _FormAct(FFormFloatGroups2) then
+    if _FormAct(FFormFloating2) then
       Result:= GroupsF2
     else
-    if _FormAct(FFormFloatGroups3) then
+    if _FormAct(FFormFloating3) then
       Result:= GroupsF3
   end;
 end;
