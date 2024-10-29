@@ -7,6 +7,21 @@ Copyright (c) Alexey Torgashin
 *)
 {$ifdef nn}begin end;{$endif}
 
+procedure TfmMain.UpdateCaption_FloatingGroup(AFloatingIndex: integer; AForm: TForm; AGroups: TATGroups);
+var
+  F: TEditorFrame;
+  SName: string;
+begin
+  if AForm=nil then exit;
+  F:= CurrentFrameEx(AGroups);
+  if F=nil then
+    SName:= ''
+  else
+    SName:= F.TabCaption;
+
+  AForm.Caption:= SName + (' - ' + msgTitle) + Format(' [f%d]', [AFloatingIndex+1]);
+end;
+
 procedure TfmMain.UpdateCaption;
 begin
   // before, we only set FNeedUpdateCaption to True, so TimerAppIdle
@@ -22,7 +37,7 @@ var
   SName, SSession, SSessionRootPath,
   Name1, Name2: string;
 begin
-  F:= CurrentFrameInMainWindow;
+  F:= CurrentFrameEx(Groups);
   if F=nil then exit;
 
   if UiOps.ShowTitlePath then
@@ -74,6 +89,10 @@ begin
   Caption:= SName + SSession + (' - ' + msgTitle);
 
   Application.Title:= F.TabCaption + (' - ' + msgTitle);
+
+  UpdateCaption_FloatingGroup(0, FFormFloatGroups1, GroupsF1);
+  UpdateCaption_FloatingGroup(1, FFormFloatGroups2, GroupsF2);
+  UpdateCaption_FloatingGroup(2, FFormFloatGroups3, GroupsF3);
 end;
 
 

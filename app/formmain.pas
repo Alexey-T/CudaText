@@ -1172,6 +1172,8 @@ type
     procedure UpdateTreeImagelistActivity;
     procedure UpdateCaption;
     procedure UpdateCaption_RealWork;
+    procedure UpdateCaption_FloatingGroup(AFloatingIndex: integer; AForm: TForm;
+      AGroups: TATGroups);
     procedure UpdateEnabledAll(b: boolean);
     procedure UpdateInputForm(Form: TForm; AndHeight: boolean= true);
     procedure UpdateFrameEx(F: TEditorFrame; AUpdatedText: boolean);
@@ -1223,7 +1225,7 @@ type
     property Frames[N: integer]: TEditorFrame read GetFrame;
     function CurrentGroups: TATGroups;
     function CurrentFrame: TEditorFrame;
-    function CurrentFrameInMainWindow: TEditorFrame;
+    function CurrentFrameEx(AGroups: TATGroups): TEditorFrame;
     function CurrentEditor: TATSynEdit;
     property FloatGroups: boolean read GetFloatGroups;
     property ShowFloatGroup1: boolean read GetShowFloatGroup1 write SetShowFloatGroup1;

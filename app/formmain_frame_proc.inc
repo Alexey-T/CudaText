@@ -219,24 +219,16 @@ begin
 end;
 
 function TfmMain.CurrentFrame: TEditorFrame;
-var
-  Pages: TATPages;
-  D: TATTabData;
 begin
-  Pages:= CurrentGroups.PagesCurrent;
-  D:= Pages.Tabs.GetTabData(Pages.Tabs.TabIndex);
-  if Assigned(D) and Assigned(D.TabObject) then
-    Result:= D.TabObject as TEditorFrame
-  else
-    Result:= nil;
+  Result:= CurrentFrameEx(CurrentGroups);
 end;
 
-function TfmMain.CurrentFrameInMainWindow: TEditorFrame;
+function TfmMain.CurrentFrameEx(AGroups: TATGroups): TEditorFrame;
 var
   Pages: TATPages;
   D: TATTabData;
 begin
-  Pages:= Groups.PagesCurrent;
+  Pages:= AGroups.PagesCurrent;
   D:= Pages.Tabs.GetTabData(Pages.Tabs.TabIndex);
   if Assigned(D) and Assigned(D.TabObject) then
     Result:= D.TabObject as TEditorFrame
