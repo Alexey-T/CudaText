@@ -634,9 +634,9 @@ type
     FFormFloating2: TForm;
     FFormFloating3: TForm;
     FBoundsMain: TRect;
-    FBoundsFloatGroups1: TRect;
-    FBoundsFloatGroups2: TRect;
-    FBoundsFloatGroups3: TRect;
+    FBoundsFloating1: TRect;
+    FBoundsFloating2: TRect;
+    FBoundsFloating3: TRect;
     FConsoleMustShow: boolean;
     FColorDialog: TColorDialog;
     Status: TATStatus;
@@ -3020,9 +3020,9 @@ begin
   FBoundsMain:= Rect(100, 100, 900, 700);;
   AppPanels[TAppPanelId.Side].FormFloatBounds:= Rect(650, 50, 900, 700);
   AppPanels[TAppPanelId.Btm].FormFloatBounds:= Rect(50, 480, 900, 700);
-  FBoundsFloatGroups1:= Rect(300, 100, 800, 700);
-  FBoundsFloatGroups2:= Rect(320, 120, 820, 720);
-  FBoundsFloatGroups3:= Rect(340, 140, 840, 740);
+  FBoundsFloating1:= Rect(300, 100, 800, 700);
+  FBoundsFloating2:= Rect(320, 120, 820, 720);
+  FBoundsFloating3:= Rect(340, 140, 840, 740);
 
   InitAppleMenu;
   InitToolbar;
@@ -8875,15 +8875,15 @@ end;
 
 procedure TfmMain.InitFloatGroups;
 begin
-  InitFloatGroup(FFormFloating1, GroupsFloating1, 1, FBoundsFloatGroups1,
+  InitFloatGroup(FFormFloating1, GroupsFloating1, 1, FBoundsFloating1,
     @FormFloatGroups1_OnClose,
     @FormFloatGroups1_OnEmpty);
 
-  InitFloatGroup(FFormFloating2, GroupsFloating2, 2, FBoundsFloatGroups2,
+  InitFloatGroup(FFormFloating2, GroupsFloating2, 2, FBoundsFloating2,
     @FormFloatGroups2_OnClose,
     @FormFloatGroups2_OnEmpty);
 
-  InitFloatGroup(FFormFloating3, GroupsFloating3, 3, FBoundsFloatGroups3,
+  InitFloatGroup(FFormFloating3, GroupsFloating3, 3, FBoundsFloating3,
     @FormFloatGroups3_OnClose,
     @FormFloatGroups3_OnEmpty);
 end;

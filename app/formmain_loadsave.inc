@@ -970,9 +970,9 @@ begin
     DoOps_LoadFormRect(cfg, '/pos/main', FBoundsMain);
     DoOps_LoadFormRect(cfg, '/pos/side', AppPanels[TAppPanelId.Side].FormFloatBounds);
     DoOps_LoadFormRect(cfg, '/pos/bottom', AppPanels[TAppPanelId.Btm].FormFloatBounds);
-    DoOps_LoadFormRect(cfg, '/pos/g1', FBoundsFloatGroups1);
-    DoOps_LoadFormRect(cfg, '/pos/g2', FBoundsFloatGroups2);
-    DoOps_LoadFormRect(cfg, '/pos/g3', FBoundsFloatGroups3);
+    DoOps_LoadFormRect(cfg, '/pos/g1', FBoundsFloating1);
+    DoOps_LoadFormRect(cfg, '/pos/g2', FBoundsFloating2);
+    DoOps_LoadFormRect(cfg, '/pos/g3', FBoundsFloating3);
 
     //note: BoundsRect change works very long (150-200ms) on Linux gtk2
     BoundsRect:= FBoundsMain;
