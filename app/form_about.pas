@@ -83,7 +83,82 @@ begin
   Clipboard.AsText:= 'CudaText '+labelVersion.Caption+', '+labelPlatform.Caption;
 end;
 
+const
+  CreditsArray: array of string = (
+    '#Lazarus IDE',
+    'http://www.lazarus-ide.org',
+    '',
+    '#Application, ATSynEdit, ATFlatControls',
+    'Alexey Torgashin',
+    'https://github.com/Alexey-T',
+    '',
+    '#EControl syntax parser',
+    'Delphi version by Michael Zakharov',
+    'http://www.econtrol.ru',
+    'Lazarus port and rework by Alexey Torgashin',
+    'https://github.com/Alexey-T',
+    '',
+    '#Python plugins, QA',
+    'Andrey Kvichanskiy',
+    'https://github.com/kvichans',
+    'Oleh Lutsak',
+    'https://github.com/OlehL',
+    'Shovel',
+    'https://github.com/halfbrained',
+    'Ildar R. Khasanshin',
+    'https://github.com/ildarkhasanshin',
+    'Yuriy Balyuk',
+    'https://github.com/veksha',
+    '',
+    '#Optimizations of Python wrapper, plugins',
+    'Artem Gavrilov',
+    'https://github.com/Artem3213212',
+    '',
+    '#Patches, Windows shell extension, plugins',
+    'Andreas Heim',
+    'https://github.com/dinkumoil',
+    '',
+    '————————————————————————',
+    '',
+    '#Python for Delphi',
+    'Dietmar Budelsky, Morgan Martinet, Kiriakos Vlahos',
+    'https://github.com/pyscripter/python4delphi',
+    'Adaptation for Lazarus by Alexey Torgashin',
+    '',
+    '#BGRABitmap',
+    'https://bgrabitmap.github.io',
+    '',
+    '#Emmet for Pascal',
+    'Rickard Johansson',
+    'https://rj-texted.se',
+    '',
+    '————————————————————————',
+    '',
+    '#Main icon',
+    'FTurtle',
+    '',
+    '#Theme for LibreOffice',
+    'https://github.com/libodesign/icons',
+    'License: Creative Commons BY-SA 3.0',
+    'http://creativecommons.org/licenses/by-sa/3.0/',
+    '',
+    '#Octicons',
+    'https://octicons.github.com/',
+    'License: MIT License',
+    '',
+    '#Visual Studio Code icons',
+    'https://github.com/vscode-icons/vscode-icons',
+    'License: MIT License',
+    '',
+    '#Hourglass/floppy icons',
+    'https://www.iconfinder.com/snipicons',
+    'License: Creative Commons BY-NC 3.0 Unported',
+    'http://creativecommons.org/licenses/by-nc/3.0/',
+    '');
+
 procedure TfmAbout.FormCreate(Sender: TObject);
+var
+  S: string;
 begin
   Localize;
 
@@ -112,75 +187,8 @@ begin
   Credits.LinkFont.Style:= [fsUnderline];
 
   Credits.Lines.Clear;
-  Credits.Lines.Add('#Lazarus IDE');
-  Credits.Lines.Add('http://www.lazarus-ide.org');
-  Credits.Lines.Add('');
-  Credits.Lines.Add('#Application, ATSynEdit, ATFlatControls');
-  Credits.Lines.Add('Alexey Torgashin');
-  Credits.Lines.Add('https://github.com/Alexey-T');
-  Credits.Lines.Add('');
-  Credits.Lines.Add('#EControl syntax parser');
-  Credits.Lines.Add('Delphi version by Michael Zakharov');
-  Credits.Lines.Add('http://www.econtrol.ru');
-  Credits.Lines.Add('Lazarus port and rework by Alexey Torgashin');
-  Credits.Lines.Add('https://github.com/Alexey-T');
-  Credits.Lines.Add('');
-  Credits.Lines.Add('#Python plugins, QA');
-  Credits.Lines.Add('Andrey Kvichanskiy');
-  Credits.Lines.Add('https://github.com/kvichans');
-  Credits.Lines.Add('Oleh Lutsak');
-  Credits.Lines.Add('https://github.com/OlehL');
-  Credits.Lines.Add('Shovel');
-  Credits.Lines.Add('https://github.com/halfbrained');
-  Credits.Lines.Add('Ildar R. Khasanshin');
-  Credits.Lines.Add('https://github.com/ildarkhasanshin');
-  Credits.Lines.Add('Yuriy Balyuk');
-  Credits.Lines.Add('https://github.com/veksha');
-  Credits.Lines.Add('');
-  Credits.Lines.Add('#Optimizations of Python wrapper, plugins');
-  Credits.Lines.Add('Artem Gavrilov');
-  Credits.Lines.Add('https://github.com/Artem3213212');
-  Credits.Lines.Add('');
-  Credits.Lines.Add('#Patches, Windows shell extension, plugins');
-  Credits.Lines.Add('Andreas Heim');
-  Credits.Lines.Add('https://github.com/dinkumoil');
-  Credits.Lines.Add('');
-  Credits.Lines.Add('————————————————————————');
-  Credits.Lines.Add('');
-  Credits.Lines.Add('#Python for Delphi');
-  Credits.Lines.Add('Dietmar Budelsky, Morgan Martinet, Kiriakos Vlahos');
-  Credits.Lines.Add('https://github.com/pyscripter/python4delphi');
-  Credits.Lines.Add('Adaptation for Lazarus by Alexey Torgashin');
-  Credits.Lines.Add('');
-  Credits.Lines.Add('#BGRABitmap');
-  Credits.Lines.Add('https://bgrabitmap.github.io');
-  Credits.Lines.Add('');
-  Credits.Lines.Add('#Emmet for Pascal');
-  Credits.Lines.Add('Rickard Johansson');
-  Credits.Lines.Add('https://rj-texted.se');
-  Credits.Lines.Add('');
-  Credits.Lines.Add('————————————————————————');
-  Credits.Lines.Add('');
-  Credits.Lines.Add('#Main icon');
-  Credits.Lines.Add('FTurtle');
-  Credits.Lines.Add('');
-  Credits.Lines.Add('#Theme for LibreOffice');
-  Credits.Lines.Add('https://github.com/libodesign/icons');
-  Credits.Lines.Add('License: Creative Commons BY-SA 3.0');
-  Credits.Lines.Add('http://creativecommons.org/licenses/by-sa/3.0/');
-  Credits.Lines.Add('');
-  Credits.Lines.Add('#Octicons');
-  Credits.Lines.Add('https://octicons.github.com/');
-  Credits.Lines.Add('License: MIT License');
-  Credits.Lines.Add('');
-  Credits.Lines.Add('#Visual Studio Code icons');
-  Credits.Lines.Add('https://github.com/vscode-icons/vscode-icons');
-  Credits.Lines.Add('License: MIT License');
-  Credits.Lines.Add('');
-  Credits.Lines.Add('#Hourglass/floppy icons');
-  Credits.Lines.Add('https://www.iconfinder.com/snipicons');
-  Credits.Lines.Add('License: Creative Commons BY-NC 3.0 Unported');
-  Credits.Lines.Add('http://creativecommons.org/licenses/by-nc/3.0/');
+  for S in CreditsArray do
+    Credits.Lines.Add(S);
 
   //big title
   labelName.Font.Style:= [fsBold];
