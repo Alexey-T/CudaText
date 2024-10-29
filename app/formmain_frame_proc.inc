@@ -220,18 +220,28 @@ end;
 
 function TfmMain.CurrentFrame: TEditorFrame;
 var
-  Gr: TATGroups;
   Pages: TATPages;
   D: TATTabData;
 begin
-  Result:= nil;
-  Gr:= CurrentGroups;
-  Pages:= Gr.PagesCurrent;
-
+  Pages:= CurrentGroups.PagesCurrent;
   D:= Pages.Tabs.GetTabData(Pages.Tabs.TabIndex);
-  if D=nil then Exit;
-  if D.TabObject=nil then Exit;
-  Result:= D.TabObject as TEditorFrame;
+  if Assigned(D) and Assigned(D.TabObject) then
+    Result:= D.TabObject as TEditorFrame
+  else
+    Result:= nil;
+end;
+
+function TfmMain.CurrentFrameInMainWindow: TEditorFrame;
+var
+  Pages: TATPages;
+  D: TATTabData;
+begin
+  Pages:= Groups.PagesCurrent;
+  D:= Pages.Tabs.GetTabData(Pages.Tabs.TabIndex);
+  if Assigned(D) and Assigned(D.TabObject) then
+    Result:= D.TabObject as TEditorFrame
+  else
+    Result:= nil;
 end;
 
 function TfmMain.CurrentEditor: TATSynEdit;

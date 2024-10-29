@@ -1223,6 +1223,7 @@ type
     property Frames[N: integer]: TEditorFrame read GetFrame;
     function CurrentGroups: TATGroups;
     function CurrentFrame: TEditorFrame;
+    function CurrentFrameInMainWindow: TEditorFrame;
     function CurrentEditor: TATSynEdit;
     property FloatGroups: boolean read GetFloatGroups;
     property ShowFloatGroup1: boolean read GetShowFloatGroup1 write SetShowFloatGroup1;
