@@ -21,9 +21,16 @@ var
   F: TEditorFrame;
   SName, SSession, SSessionRootPath,
   Name1, Name2: string;
+  Pages: TATPages;
+  D: TATTabData;
 begin
-  F:= CurrentFrame;
-  if F=nil then exit;
+  //CurrentFrame considers flating tabs too, but we want only frame in the main window
+  Pages:= Groups.PagesCurrent;
+  D:= Pages.Tabs.GetTabData(Pages.Tabs.TabIndex);
+  if Assigned(D) and Assigned(D.TabObject) then
+    F:= D.TabObject as TEditorFrame
+  else
+    exit;
 
   if UiOps.ShowTitlePath then
   begin
