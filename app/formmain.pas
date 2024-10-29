@@ -1172,8 +1172,7 @@ type
     procedure UpdateTreeImagelistActivity;
     procedure UpdateCaption;
     procedure UpdateCaption_RealWork;
-    procedure UpdateCaption_FloatingGroup(AFloatingIndex: integer; AForm: TForm;
-      AGroups: TATGroups);
+    procedure UpdateCaption_FloatingGroup(AFloatingIndex: integer; AForm: TForm; AGroups: TATGroups);
     procedure UpdateEnabledAll(b: boolean);
     procedure UpdateInputForm(Form: TForm; AndHeight: boolean= true);
     procedure UpdateFrameEx(F: TEditorFrame; AUpdatedText: boolean);

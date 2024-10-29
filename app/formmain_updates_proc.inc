@@ -13,6 +13,8 @@ var
   SName: string;
 begin
   if AForm=nil then exit;
+  if AGroups=nil then exit;
+
   F:= CurrentFrameEx(AGroups);
   if F=nil then
     SName:= ''
