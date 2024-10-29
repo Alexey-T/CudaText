@@ -19,7 +19,7 @@ begin
   if F=nil then
     SName:= ''
   else
-    SName:= msgModified[F.Modified]+F.TabCaption;
+    SName:= F.TabCaptionConsideringPair;
 
   AForm.Caption:= SName + (' - ' + msgTitle) + Format(' [f%d]', [AFloatingIndex+1]);
 end;
@@ -33,6 +33,7 @@ begin
   UpdateCaption_RealWork;
 end;
 
+
 procedure TfmMain.UpdateCaption_RealWork;
 var
   F: TEditorFrame;
@@ -41,33 +42,6 @@ var
 begin
   F:= CurrentFrameEx(Groups);
   if F=nil then exit;
-
-  if UiOps.ShowTitlePath then
-  begin
-    if F.EditorsLinked then
-    begin
-      if F.FileName<>'' then
-        SName:= AppCollapseHomeDirInFilename(F.FileName)
-      else
-        SName:= F.TabCaption;
-      SName:= msgModified[F.Modified]+SName;
-    end
-    else
-    begin
-      Name1:= AppCollapseHomeDirInFilename(F.GetFileName(F.Ed1));
-      Name2:= AppCollapseHomeDirInFilename(F.GetFileName(F.Ed2));
-      if Name1='' then Name1:= msgUntitledTab;
-      if Name2='' then Name2:= msgUntitledTab;
-      Name1:= msgModified[F.Ed1.Modified]+Name1;
-      Name2:= msgModified[F.Ed2.Modified]+Name2;
-      SName:= Name1+' | '+Name2;
-    end;
-  end
-  else
-  begin
-    SName:= F.TabCaption;
-    SName:= msgModified[F.Modified]+SName;
-  end;
 
   SSplitByChar(AppSessionName, '|', SSession, SSessionRootPath);
   SSession:= ChangeFileExt(ExtractFileName(SSession), '');
@@ -80,6 +54,7 @@ begin
   else
     SSession:= '';
 
+  SName:= F.TabCaptionConsideringPair;
   if SName='' then //CudaText #3280
   begin
     if F.FileName<>'' then

@@ -405,6 +405,7 @@ type
     property TabCaptionAddon: string read FTabCaptionAddon write SetTabCaptionAddon;
     property TabCaptionUntitled: string read FTabCaptionUntitled write FTabCaptionUntitled;
     property TabCaptionReason: TAppTabCaptionReason read FTabCaptionReason write FTabCaptionReason;
+    function TabCaptionConsideringPair: string;
     property TabImageIndex: integer read FTabImageIndex write SetTabImageIndex;
     property TabId: integer read FTabId;
     property TabIsPreview: boolean read GetIsPreview write SetIsPreview;
@@ -5250,5 +5251,36 @@ begin
     FWasVisible:= false;
 end;
 
+
+function TEditorFrame.TabCaptionConsideringPair: string;
+var
+  Name1, Name2: string;
+begin
+  if UiOps.ShowTitlePath then
+  begin
+    if EditorsLinked then
+    begin
+      if FileName<>'' then
+        Result:= AppCollapseHomeDirInFilename(FileName)
+      else
+        Result:= TabCaption;
+      Result:= msgModified[Modified]+Result;
+    end
+    else
+    begin
+      Name1:= AppCollapseHomeDirInFilename(GetFileName(Ed1));
+      Name2:= AppCollapseHomeDirInFilename(GetFileName(Ed2));
+      if Name1='' then Name1:= msgUntitledTab;
+      if Name2='' then Name2:= msgUntitledTab;
+      Name1:= msgModified[Ed1.Modified]+Name1;
+      Name2:= msgModified[Ed2.Modified]+Name2;
+      Result:= Name1+' | '+Name2;
+    end;
+  end
+  else
+  begin
+    Result:= msgModified[Modified]+TabCaption;
+  end;
+end;
 
 end.
