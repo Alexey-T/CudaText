@@ -405,7 +405,7 @@ type
     property TabCaptionAddon: string read FTabCaptionAddon write SetTabCaptionAddon;
     property TabCaptionUntitled: string read FTabCaptionUntitled write FTabCaptionUntitled;
     property TabCaptionReason: TAppTabCaptionReason read FTabCaptionReason write FTabCaptionReason;
-    function TabCaptionConsideringPair: string;
+    function TabCaptionConsideringPairAndFullpath: string;
     property TabImageIndex: integer read FTabImageIndex write SetTabImageIndex;
     property TabId: integer read FTabId;
     property TabIsPreview: boolean read GetIsPreview write SetIsPreview;
@@ -5252,7 +5252,7 @@ begin
 end;
 
 
-function TEditorFrame.TabCaptionConsideringPair: string;
+function TEditorFrame.TabCaptionConsideringPairAndFullpath: string;
 var
   Name1, Name2: string;
 begin

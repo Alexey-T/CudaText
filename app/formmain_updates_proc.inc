@@ -19,7 +19,7 @@ begin
   if F=nil then
     SName:= ''
   else
-    SName:= F.TabCaptionConsideringPair;
+    SName:= F.TabCaptionConsideringPairAndFullpath;
 
   AForm.Caption:= SName + (' - ' + msgTitle) + Format(' [f%d]', [AFloatingIndex+1]);
 end;
@@ -54,7 +54,7 @@ begin
   else
     SSession:= '';
 
-  SName:= F.TabCaptionConsideringPair;
+  SName:= F.TabCaptionConsideringPairAndFullpath;
   if SName='' then //CudaText #3280
   begin
     if F.FileName<>'' then
