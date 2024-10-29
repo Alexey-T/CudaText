@@ -384,7 +384,7 @@ begin
 
       if bModified then
         cfg.SetValue(path+'/tab_title', Frame.TabCaption);
-      cfg.SetValue(path+'/group', nLocalGroup+1); //support old sessions with 1-based index
+      cfg.SetValue(path+'/group', nGlobalGroup+1); //support old sessions with 1-based index
       cfg.SetDeleteValue(path+'/pinned', Frame.TabPinned, false);
       cfg.SetDeleteValue(path+'/goto', Frame.GotoInput, '');
 
@@ -533,6 +533,7 @@ var
   cfg: TAppJsonConfig;
   Frame: TEditorFrame;
   Ed: TATSynEdit;
+  Gr: TATGroups;
   Pages: TATPages;
   ListSessionKeys: TStringList;
   sSessionFileName, sTabFilename, sTabFilename2, sRootPath,
@@ -674,9 +675,32 @@ begin
            bModified:= false;
       end;
 
-      if (nGroupIndex<0) or (nGroupIndex>High(TATGroupsNums)) then
+      Gr:= Groups;
+      if (nGroupIndex<0) then
         nGroupIndex:= 0;
-      Pages:= Groups.Pages[nGroupIndex];
+      if (nGroupIndex>High(TATGroupsNums)) then
+      begin
+        InitFloatingForms;
+        case nGroupIndex of
+          6:
+            begin
+              Gr:= GroupsFloating1;
+              ShowFloatingForm1:= true;
+            end;
+          7:
+            begin
+              Gr:= GroupsFloating2;
+              ShowFloatingForm2:= true;
+            end
+          else
+            begin
+              Gr:= GroupsFloating3;
+              ShowFloatingForm3:= true;
+            end;
+        end;
+        nGroupIndex:= 0;
+      end;
+      Pages:= Gr.Pages[nGroupIndex];
 
       if SBeginsWith(sTabKind, 'bin') then
       begin
@@ -782,9 +806,18 @@ begin
     end;
 
     //restore tab-index in all groups
-    for iGroup:= Low(TATGroupsNums) to High(TATGroupsNums) do
+    for iGroup:= 0 to High(TATGroupsNums)+3 do
     begin
-      CurTabs:= Groups.Pages[iGroup].Tabs;
+      if iGroup<=High(TATGroupsNums) then
+        CurTabs:= Groups.Pages[iGroup].Tabs
+      else
+      begin
+        case iGroup of
+          6: CurTabs:= GroupsFloating1.Pages1.Tabs;
+          7: CurTabs:= GroupsFloating2.Pages1.Tabs;
+          else CurTabs:= GroupsFloating3.Pages1.Tabs;
+        end;
+      end;
       nTabInGroup:= cfg.GetValue(sRootPath+'/tab_index/g'+IntToStr(iGroup), -1);
       nTabInGroup:= Max(0, Min(nTabInGroup, CurTabs.TabCount-1));
       //don't check that index is different, force set index; this fixes e.g. bug #3892
