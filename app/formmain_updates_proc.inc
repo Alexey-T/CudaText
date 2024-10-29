@@ -19,7 +19,7 @@ begin
   if F=nil then
     SName:= ''
   else
-    SName:= F.TabCaption;
+    SName:= msgModified[F.Modified]+F.TabCaption;
 
   AForm.Caption:= SName + (' - ' + msgTitle) + Format(' [f%d]', [AFloatingIndex+1]);
 end;
