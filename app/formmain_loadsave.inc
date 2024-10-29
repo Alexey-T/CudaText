@@ -682,12 +682,12 @@ begin
       begin
         InitFloatingForms;
         case nGroupIndex of
-          6:
+          High(TATGroupsNums)+1:
             begin
               Gr:= GroupsFloating1;
               ShowFloatingForm1:= true;
             end;
-          7:
+          High(TATGroupsNums)+2:
             begin
               Gr:= GroupsFloating2;
               ShowFloatingForm2:= true;
@@ -813,9 +813,9 @@ begin
       else
       begin
         case iGroup of
-          6:
+          High(TATGroupsNums)+1:
             Gr:= GroupsFloating1;
-          7:
+          High(TATGroupsNums)+2:
             Gr:= GroupsFloating2;
           else
             Gr:= GroupsFloating3;
