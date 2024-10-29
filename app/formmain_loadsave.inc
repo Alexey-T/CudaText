@@ -813,10 +813,15 @@ begin
       else
       begin
         case iGroup of
-          6: CurTabs:= GroupsFloating1.Pages1.Tabs;
-          7: CurTabs:= GroupsFloating2.Pages1.Tabs;
-          else CurTabs:= GroupsFloating3.Pages1.Tabs;
+          6:
+            Gr:= GroupsFloating1;
+          7:
+            Gr:= GroupsFloating2;
+          else
+            Gr:= GroupsFloating3;
         end;
+        if Gr=nil then Continue;
+        CurTabs:= Gr.Pages1.Tabs;
       end;
       nTabInGroup:= cfg.GetValue(sRootPath+'/tab_index/g'+IntToStr(iGroup), -1);
       nTabInGroup:= Max(0, Min(nTabInGroup, CurTabs.TabCount-1));
