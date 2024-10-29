@@ -165,9 +165,9 @@ begin
   DoApplyThemeToGroups(Groups);
   if FloatGroups then
   begin
-    DoApplyThemeToGroups(GroupsF1);
-    DoApplyThemeToGroups(GroupsF2);
-    DoApplyThemeToGroups(GroupsF3);
+    DoApplyThemeToGroups(GroupsFloating1);
+    DoApplyThemeToGroups(GroupsFloating2);
+    DoApplyThemeToGroups(GroupsFloating3);
   end;
 
   ApplyThemeToTreeview(CodeTree.Tree, true, true);

@@ -643,9 +643,9 @@ type
     Groups: TATGroups;
     GroupsCtx: TATGroups;
     GroupsCtxIndex: integer;
-    GroupsF1: TATGroups;
-    GroupsF2: TATGroups;
-    GroupsF3: TATGroups;
+    GroupsFloating1: TATGroups;
+    GroupsFloating2: TATGroups;
+    GroupsFloating3: TATGroups;
     FFormTooltip: TForm;
     FTooltipPanel: TAppPanelEx;
 
@@ -1505,22 +1505,22 @@ begin
       begin
         if AShowFloatingGroup then
           fmMain.ShowFloatGroup1:= true;
-        if Assigned(fmMain.GroupsF1) then
-          Result:= fmMain.GroupsF1.Pages[0];
+        if Assigned(fmMain.GroupsFloating1) then
+          Result:= fmMain.GroupsFloating1.Pages[0];
       end;
     7:
       begin
         if AShowFloatingGroup then
           fmMain.ShowFloatGroup2:= true;
-        if Assigned(fmMain.GroupsF2) then
-          Result:= fmMain.GroupsF2.Pages[0];
+        if Assigned(fmMain.GroupsFloating2) then
+          Result:= fmMain.GroupsFloating2.Pages[0];
       end;
     8:
       begin
         if AShowFloatingGroup then
           fmMain.ShowFloatGroup3:= true;
-        if Assigned(fmMain.GroupsF3) then
-          Result:= fmMain.GroupsF3.Pages[0];
+        if Assigned(fmMain.GroupsFloating3) then
+          Result:= fmMain.GroupsFloating3.Pages[0];
       end;
   end;
 end;
@@ -3130,7 +3130,7 @@ begin
 
   AppClosingTabs:= true;
 
-  List:= [Groups, GroupsF1, GroupsF2, GroupsF3];
+  List:= [Groups, GroupsFloating1, GroupsFloating2, GroupsFloating3];
   for i:= High(List) downto 0 do
     if Assigned(List[i]) then
       if not List[i].CloseTabs(tabCloseAll, false, AClosePinned) then
@@ -3494,17 +3494,17 @@ begin
   CurForm:= Sender as TForm;
   if CurForm=FFormFloating1 then
   begin
-    Gr:= GroupsF1;
+    Gr:= GroupsFloating1;
   end
   else
   if CurForm=FFormFloating2 then
   begin
-    Gr:= GroupsF2;
+    Gr:= GroupsFloating2;
   end
   else
   if CurForm=FFormFloating3 then
   begin
-    Gr:= GroupsF3;
+    Gr:= GroupsFloating3;
   end
   else
   raise Exception.Create('Unknown floating group form');
@@ -4545,9 +4545,9 @@ begin
   DoApplyUiOpsToGroups(Groups);
   if FloatGroups then
   begin
-    DoApplyUiOpsToGroups(GroupsF1);
-    DoApplyUiOpsToGroups(GroupsF2);
-    DoApplyUiOpsToGroups(GroupsF3);
+    DoApplyUiOpsToGroups(GroupsFloating1);
+    DoApplyUiOpsToGroups(GroupsFloating2);
+    DoApplyUiOpsToGroups(GroupsFloating3);
   end;
 
   ShowStatus:= UiOps.ShowStatusbar;
@@ -5712,19 +5712,19 @@ begin
     CurForm:= Screen.ActiveForm;
     if CurForm=FFormFloating1 then
     begin
-      GroupsCtx:= GroupsF1;
+      GroupsCtx:= GroupsFloating1;
       GroupsCtxIndex:= 6;
     end
     else
     if CurForm=FFormFloating2 then
     begin
-      GroupsCtx:= GroupsF2;
+      GroupsCtx:= GroupsFloating2;
       GroupsCtxIndex:= 7;
     end
     else
     if CurForm=FFormFloating3 then
     begin
-      GroupsCtx:= GroupsF3;
+      GroupsCtx:= GroupsFloating3;
       GroupsCtxIndex:= 8;
     end;
   end;
@@ -8786,24 +8786,24 @@ end;
 
 procedure TfmMain.FormFloatGroups1_OnClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
-  GroupsF1.MoveTabsFromGroupToAnother(
-    GroupsF1.Pages1,
+  GroupsFloating1.MoveTabsFromGroupToAnother(
+    GroupsFloating1.Pages1,
     Groups.Pages1
     );
 end;
 
 procedure TfmMain.FormFloatGroups2_OnClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
-  GroupsF2.MoveTabsFromGroupToAnother(
-    GroupsF2.Pages1,
+  GroupsFloating2.MoveTabsFromGroupToAnother(
+    GroupsFloating2.Pages1,
     Groups.Pages1
     );
 end;
 
 procedure TfmMain.FormFloatGroups3_OnClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
-  GroupsF3.MoveTabsFromGroupToAnother(
-    GroupsF3.Pages1,
+  GroupsFloating3.MoveTabsFromGroupToAnother(
+    GroupsFloating3.Pages1,
     Groups.Pages1
     );
 end;
@@ -8875,15 +8875,15 @@ end;
 
 procedure TfmMain.InitFloatGroups;
 begin
-  InitFloatGroup(FFormFloating1, GroupsF1, 1, FBoundsFloatGroups1,
+  InitFloatGroup(FFormFloating1, GroupsFloating1, 1, FBoundsFloatGroups1,
     @FormFloatGroups1_OnClose,
     @FormFloatGroups1_OnEmpty);
 
-  InitFloatGroup(FFormFloating2, GroupsF2, 2, FBoundsFloatGroups2,
+  InitFloatGroup(FFormFloating2, GroupsFloating2, 2, FBoundsFloatGroups2,
     @FormFloatGroups2_OnClose,
     @FormFloatGroups2_OnEmpty);
 
-  InitFloatGroup(FFormFloating3, GroupsF3, 3, FBoundsFloatGroups3,
+  InitFloatGroup(FFormFloating3, GroupsFloating3, 3, FBoundsFloatGroups3,
     @FormFloatGroups3_OnClose,
     @FormFloatGroups3_OnEmpty);
 end;
@@ -9949,17 +9949,17 @@ begin
     0:
       begin
         Form:= FFormFloating1;
-        Grp:= GroupsF1;
+        Grp:= GroupsFloating1;
       end;
     1:
       begin
         Form:= FFormFloating2;
-        Grp:= GroupsF2;
+        Grp:= GroupsFloating2;
       end;
     2:
       begin
         Form:= FFormFloating3;
-        Grp:= GroupsF3;
+        Grp:= GroupsFloating3;
       end;
     else
       exit;

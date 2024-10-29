@@ -538,19 +538,19 @@ begin
       begin
         //Form:= FFormFloating1;
         ShowFloatGroup1:= true;
-        PagesTo:= GroupsF1.Pages1;
+        PagesTo:= GroupsFloating1.Pages1;
       end;
     High(TATGroupsNums)+2:
       begin
         //Form:= FFormFloating2;
         ShowFloatGroup2:= true;
-        PagesTo:= GroupsF2.Pages1;
+        PagesTo:= GroupsFloating2.Pages1;
       end;
     High(TATGroupsNums)+3:
       begin
         //Form:= FFormFloating3;
         ShowFloatGroup3:= true;
-        PagesTo:= GroupsF3.Pages1;
+        PagesTo:= GroupsFloating3.Pages1;
       end;
     else
       exit;

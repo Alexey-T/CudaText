@@ -138,7 +138,7 @@ var
 begin
   Result:= nil;
 
-  //frame can be inside Groups, GroupsF1..GroupsF3
+  //frame can be inside Groups, GroupsFloating1..GroupsFloating3
   NCount:= Groups.GetTabTotalCount;
   if AIndex<NCount then
   begin
@@ -151,30 +151,30 @@ begin
   if FloatGroups then
   begin
     Dec(AIndex, NCount);
-    NCount:= GroupsF1.GetTabTotalCount;
+    NCount:= GroupsFloating1.GetTabTotalCount;
     if AIndex<NCount then
     begin
-      D:= GroupsF1.GetTabDataOfTotalIndex(AIndex);
+      D:= GroupsFloating1.GetTabDataOfTotalIndex(AIndex);
       if Assigned(D) then
         Result:= D.TabObject as TEditorFrame;
       exit;
     end;
 
     Dec(AIndex, NCount);
-    NCount:= GroupsF2.GetTabTotalCount;
+    NCount:= GroupsFloating2.GetTabTotalCount;
     if AIndex<NCount then
     begin
-      D:= GroupsF2.GetTabDataOfTotalIndex(AIndex);
+      D:= GroupsFloating2.GetTabDataOfTotalIndex(AIndex);
       if Assigned(D) then
         Result:= D.TabObject as TEditorFrame;
       exit;
     end;
 
     Dec(AIndex, NCount);
-    NCount:= GroupsF3.GetTabTotalCount;
+    NCount:= GroupsFloating3.GetTabTotalCount;
     if AIndex<NCount then
     begin
-      D:= GroupsF3.GetTabDataOfTotalIndex(AIndex);
+      D:= GroupsFloating3.GetTabDataOfTotalIndex(AIndex);
       if Assigned(D) then
         Result:= D.TabObject as TEditorFrame;
       exit;
@@ -187,9 +187,9 @@ begin
   Result:= Groups.GetTabTotalCount;
   if FloatGroups then
   begin
-    Inc(Result, GroupsF1.GetTabTotalCount);
-    Inc(Result, GroupsF2.GetTabTotalCount);
-    Inc(Result, GroupsF3.GetTabTotalCount);
+    Inc(Result, GroupsFloating1.GetTabTotalCount);
+    Inc(Result, GroupsFloating2.GetTabTotalCount);
+    Inc(Result, GroupsFloating3.GetTabTotalCount);
   end;
 end;
 
@@ -208,13 +208,13 @@ begin
   if FloatGroups then
   begin
     if _FormAct(FFormFloating1) then
-      Result:= GroupsF1
+      Result:= GroupsFloating1
     else
     if _FormAct(FFormFloating2) then
-      Result:= GroupsF2
+      Result:= GroupsFloating2
     else
     if _FormAct(FFormFloating3) then
-      Result:= GroupsF3
+      Result:= GroupsFloating3
   end;
 end;
 

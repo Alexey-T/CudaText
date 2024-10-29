@@ -67,9 +67,9 @@ begin
 
   Application.Title:= F.TabCaption + (' - ' + msgTitle);
 
-  UpdateCaption_FloatingGroup(0, FFormFloating1, GroupsF1);
-  UpdateCaption_FloatingGroup(1, FFormFloating2, GroupsF2);
-  UpdateCaption_FloatingGroup(2, FFormFloating3, GroupsF3);
+  UpdateCaption_FloatingGroup(0, FFormFloating1, GroupsFloating1);
+  UpdateCaption_FloatingGroup(1, FFormFloating2, GroupsFloating2);
+  UpdateCaption_FloatingGroup(2, FFormFloating3, GroupsFloating3);
 end;
 
 
@@ -574,9 +574,9 @@ begin
   Groups.SetTabFont(Self.Font);
   if FloatGroups then
   begin
-    GroupsF1.SetTabFont(Self.Font);
-    GroupsF2.SetTabFont(Self.Font);
-    GroupsF3.SetTabFont(Self.Font);
+    GroupsFloating1.SetTabFont(Self.Font);
+    GroupsFloating2.SetTabFont(Self.Font);
+    GroupsFloating3.SetTabFont(Self.Font);
   end;
 
   //dont set font for PanelLeft/PanelBottom, id effects
