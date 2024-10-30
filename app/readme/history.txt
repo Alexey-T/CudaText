@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.218.2 (2024/10)
+1.219.0 (2024/11)
 
 * change: removed sub-option "E" from option "unprinted_content" and added sub-option "w", it allows better customization, ie it allows to show/hide wrapped-marks independently from line-ends-marks
 + add: app should reduce fold-block by 1 line, if ending line has more 'lexer tokens' on it; this feature existed before but only if option was written to *.cuda-lexmap file; now this feature works better, for all lexers, and w/o any options (thanks @pintassilgo for idea)
@@ -15,6 +15,7 @@
 + add: plugin Sort: 'Numeric' sorting supports any count of numbers mixed with text
 + add: plugin Sort: ini-file sorting now allows Undo
 - fix: plugin Sort: trailing empty lines appeared after Sort action (thanks @pintassilgo)
+- fix: minor UI bugs related to Shift+Alt+click column selection (thanks @pintassilgo)
 - fix: typing 'f1(f2(f3(' did not give nested brackets 'f1(f2(f3()))' (thanks @lucvtzel)
 
 1.218.0 (2024/10)
