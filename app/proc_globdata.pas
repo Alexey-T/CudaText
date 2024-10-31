@@ -868,6 +868,7 @@ function AppExpandFileNameWithDir(const AFileName, ADir: string): string;
 function AppConfigKeyForBookmarks(Ed: TATSynEdit): string;
 procedure AppDiskCheckFreeSpace(const fn: string);
 function AppKeyIsAllowedAsCustomHotkey(Key: Word; Shift: TShiftState): boolean;
+procedure AppKeymapLexersClear;
 
 var
   AppManager: TecLexerList = nil;
@@ -3845,6 +3846,17 @@ begin
     exit(false);
 end;
 
+procedure AppKeymapLexersClear;
+var
+  i: integer;
+begin
+  for i:= AppKeymapLexers.Count-1 downto 0 do
+  begin
+    AppKeymapLexers.Data[i].Free;
+    AppKeymapLexers.Delete(i);
+  end;
+end;
+
 function IsColorDark(C: TColor): boolean;
 const
   cMargin = $60;
@@ -4190,6 +4202,7 @@ finalization
   FreeAndNil(AppConfig_PGroups);
   FreeAndNil(AppConfig_DetectLine);
   FreeAndNil(AppConfig_Detect);
+  AppKeymapLexersClear;
   FreeAndNil(AppKeymapLexers);
   FreeAndNil(AppKeymapMain);
   FreeAndNil(AppBookmarkImagelist);
