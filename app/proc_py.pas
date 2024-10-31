@@ -16,7 +16,11 @@ uses
   StrUtils,
   PythonEngine,
   proc_globdata,
-  proc_appvariant;
+  proc_appvariant,
+  fgl;
+
+type
+  TAppPythonEventTimes = specialize TFPGMap<string, QWord>;
 
 type
   { TAppPython }
@@ -32,7 +36,7 @@ type
     FLastCommandMethod: string;
     FLastCommandParam: string;
     EventTime: QWord;
-    EventTimes: TStringList;
+    EventTimes: TAppPythonEventTimes;
     LoadedLocals: TStringList;
     LoadedModules: TStringList;
     ModuleMain: PPyObject;
@@ -102,13 +106,20 @@ begin
   inherited Create;
   LoadedLocals:= TStringList.Create;
   LoadedModules:= TStringList.Create;
-  EventTimes:= TStringList.Create;
+  EventTimes:= TAppPythonEventTimes.Create;
+  EventTimes.Sorted:= true;
 end;
 
 destructor TAppPython.Destroy;
+var
+  i: integer;
 begin
   if Assigned(EventTimes) then
+  begin
+    for i:= EventTimes.Count-1 downto 0 do
+      EventTimes.Delete(i);
     FreeAndNil(EventTimes);
+  end;
   FreeAndNil(LoadedModules);
   FreeAndNil(LoadedLocals);
   inherited Destroy;
@@ -166,17 +177,17 @@ const
   cKnownPrefix = 'cuda_';
 var
   i: integer;
-  tick: PtrInt;
+  tick: QWord;
   SModule: string;
 begin
   Result:= AppFormatTimeInMilliseconds((EventTime+5) div 10 * 10);
   Result+= ' (';
   for i:= 0 to EventTimes.Count-1 do
   begin
-    tick:= PtrInt(EventTimes.Objects[i]);
+    tick:= EventTimes.Data[i];
     if i>0 then
       Result+= ', ';
-    SModule:= EventTimes[i];
+    SModule:= EventTimes.Keys[i];
     if StartsStr(cKnownPrefix, SModule) then
       Delete(SModule, 1, Length(cKnownPrefix));
     Result+=
@@ -422,11 +433,10 @@ begin
     if tick>0 then
     begin
       Inc(EventTime, tick);
-      i:= EventTimes.IndexOf(AModule);
-      if i>=0 then
-        EventTimes.Objects[i]:= TObject(PtrInt(EventTimes.Objects[i])+PtrInt(tick))
+      if EventTimes.Find(AModule, i) then
+        EventTimes.Data[i]:= EventTimes.Data[i]+tick
       else
-        EventTimes.AddObject(AModule, TObject(PtrInt(tick)));
+        EventTimes[AModule]:= tick;
     end;
   end;
 end;
