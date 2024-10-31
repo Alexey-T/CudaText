@@ -62,11 +62,11 @@ begin
     TKeymapHelperMain.DeleteCategoryWithHotkeyBackup(AppKeymapMain, BackupMain, TAppCommandCategory.Plugin);
 
     //save hotkey-backup of lexers keymaps
-    for i:= 0 to AppKeymapLexers.Count-1 do
+    for i:= 0 to AppKeymaps.Count-1 do
     begin
       BackupTemp:= TAppHotkeyBackup.Create;
       BackupLexers.Add(BackupTemp);
-      TKeymapHelperMain.DeleteCategoryWithHotkeyBackup(AppKeymapLexers.Data[i], BackupTemp, TAppCommandCategory.Plugin);
+      TKeymapHelperMain.DeleteCategoryWithHotkeyBackup(AppKeymaps.Data[i], BackupTemp, TAppCommandCategory.Plugin);
     end;
   end;
 
@@ -108,10 +108,10 @@ begin
       TKeymapHelperMain.AddPluginsWithHotkeyBackup(AppKeymapMain, BackupMain, false);
 
       //restore hotkey-backup of lexers keymaps
-      for i:= 0 to AppKeymapLexers.Count-1 do
+      for i:= 0 to AppKeymaps.Count-1 do
       begin
         BackupTemp:= TAppHotkeyBackup(BackupLexers[i]);
-        TKeymapHelperMain.AddPluginsWithHotkeyBackup(AppKeymapLexers.Data[i], BackupTemp, false);
+        TKeymapHelperMain.AddPluginsWithHotkeyBackup(AppKeymaps.Data[i], BackupTemp, false);
       end;
     end;
 

@@ -868,7 +868,7 @@ function AppExpandFileNameWithDir(const AFileName, ADir: string): string;
 function AppConfigKeyForBookmarks(Ed: TATSynEdit): string;
 procedure AppDiskCheckFreeSpace(const fn: string);
 function AppKeyIsAllowedAsCustomHotkey(Key: Word; Shift: TShiftState): boolean;
-procedure AppKeymapLexersClear;
+procedure AppKeymapsClear;
 
 var
   AppManager: TecLexerList = nil;
@@ -880,9 +880,9 @@ var
   AppKeymapInitial: TATKeymap = nil; //inited only by API calls
 
 type
-  TAppKeymapLexers = specialize TFPGMap<string, TATKeymap>;
+  TAppKeymaps = specialize TFPGMap<string, TATKeymap>;
 var
-  AppKeymapLexers: TAppKeymapLexers;
+  AppKeymaps: TAppKeymaps;
 
 type
   TAppStringEvent = procedure(Sender: TObject; const AStr: string) of object;
@@ -2890,9 +2890,9 @@ var
 begin
   ClearKey(AppKeymapMain, AItemIndex, AKeyIndex);
 
-  for iMap:= 0 to AppKeymapLexers.Count-1 do
+  for iMap:= 0 to AppKeymaps.Count-1 do
     ClearKey(
-      AppKeymapLexers.Data[iMap],
+      AppKeymaps.Data[iMap],
       AItemIndex, AKeyIndex);
 end;
 
@@ -3034,12 +3034,12 @@ begin
   if not AppApiOnStartActivated then
     exit(AppKeymapMain);
 
-  if AppKeymapLexers.Find(ALexer, N) then
-    exit(AppKeymapLexers.Data[N]);
+  if AppKeymaps.Find(ALexer, N) then
+    exit(AppKeymaps.Data[N]);
 
   Keymap:= TATKeymap.Create;
   Keymap.Assign(AppKeymapMain);
-  AppKeymapLexers[ALexer]:= Keymap;
+  AppKeymaps[ALexer]:= Keymap;
 
   LoadConfig(Keymap,
     AppFile_HotkeysForLexer(ALexer), true);
@@ -3846,14 +3846,14 @@ begin
     exit(false);
 end;
 
-procedure AppKeymapLexersClear;
+procedure AppKeymapsClear;
 var
   i: integer;
 begin
-  for i:= AppKeymapLexers.Count-1 downto 0 do
+  for i:= AppKeymaps.Count-1 downto 0 do
   begin
-    AppKeymapLexers.Data[i].Free;
-    AppKeymapLexers.Delete(i);
+    AppKeymaps.Data[i].Free;
+    AppKeymaps.Delete(i);
   end;
 end;
 
@@ -4111,8 +4111,8 @@ initialization
   InitKeymapFull(AppKeymapMain);
   Keymap_AddCudatextItems(AppKeymapMain);
 
-  AppKeymapLexers:= TAppKeymapLexers.Create;
-  AppKeymapLexers.Sorted:= true;
+  AppKeymaps:= TAppKeymaps.Create;
+  AppKeymaps.Sorted:= true;
 
   FillChar(AppCodetreeState, SizeOf(AppCodetreeState), 0);
   AppCodetreeState.SelLine:= -1;
@@ -4202,8 +4202,8 @@ finalization
   FreeAndNil(AppConfig_PGroups);
   FreeAndNil(AppConfig_DetectLine);
   FreeAndNil(AppConfig_Detect);
-  AppKeymapLexersClear;
-  FreeAndNil(AppKeymapLexers);
+  AppKeymapsClear;
+  FreeAndNil(AppKeymaps);
   FreeAndNil(AppKeymapMain);
   FreeAndNil(AppBookmarkImagelist);
 

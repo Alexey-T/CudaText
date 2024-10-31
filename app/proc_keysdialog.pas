@@ -79,9 +79,9 @@ begin
         end;
 
         //apply to all lexer keymaps
-        for i:= 0 to AppKeymapLexers.Count-1 do
+        for i:= 0 to AppKeymaps.Count-1 do
         begin
-          Map:= AppKeymapLexers.Data[i];
+          Map:= AppKeymaps.Data[i];
           if Map.IsIndexValid(CmdIndex) then
             if not Map[CmdIndex].LexerSpecific then
             begin

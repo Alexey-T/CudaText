@@ -1845,9 +1845,9 @@ var
 begin
   UpdateDynamicEx(AppKeymapMain, ACategory);
 
-  for i:= 0 to AppKeymapLexers.Count-1 do
+  for i:= 0 to AppKeymaps.Count-1 do
   begin
-    Map:= AppKeymapLexers.Data[i];
+    Map:= AppKeymaps.Data[i];
     UpdateDynamicEx(Map, ACategory);
   end;
 end;
@@ -1874,9 +1874,9 @@ var
 begin
   Result:= Debug_PluginCommands(AppKeymapMain, AText);
 
-  for i:= 0 to AppKeymapLexers.Count-1 do
+  for i:= 0 to AppKeymaps.Count-1 do
   begin
-    Map:= AppKeymapLexers.Data[i];
+    Map:= AppKeymaps.Data[i];
     Result+= Debug_PluginCommands(Map, AText);
   end;
 end;
