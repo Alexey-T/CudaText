@@ -4568,16 +4568,15 @@ begin
   PanelSide.Visible:= UiOps.SidebarShow;
   ShowSideBarOnRight:= UiOps.SidebarOnRight;
 
-  for PanelId in TAppPanelId do
-    if PanelId<>TAppPanelId.None then
-      with AppPanels[PanelId] do
-      begin
-        PanelTitle.Height:= Groups.GetTabSingleRowHeight-1;
-        if UiOps.TabPosition=1 then
-          PanelTitle.Align:= alBottom
-        else
-          PanelTitle.Align:= alTop;
-      end;
+  for PanelId:= Succ(TAppPanelId.None) to High(TAppPanelId) do
+    with AppPanels[PanelId] do
+    begin
+      PanelTitle.Height:= Groups.GetTabSingleRowHeight-1;
+      if UiOps.TabPosition=1 then
+        PanelTitle.Align:= alBottom
+      else
+        PanelTitle.Align:= alTop;
+    end;
 
   case UiOps.TreeFilterLayout of
     0:
