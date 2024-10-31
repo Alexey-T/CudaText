@@ -118,15 +118,9 @@ begin
 end;
 
 destructor TAppPython.Destroy;
-var
-  i: integer;
 begin
   if Assigned(EventTimes) then
-  begin
-    for i:= EventTimes.Count-1 downto 0 do
-      EventTimes.Delete(i);
     FreeAndNil(EventTimes);
-  end;
   FreeAndNil(LoadedModules);
   FreeAndNil(LoadedLocals);
   inherited Destroy;
