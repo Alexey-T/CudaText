@@ -14,17 +14,26 @@ interface
 uses
   SysUtils,
   Classes,
-  ATSynEdit_Keymap;
+  ATSynEdit_Keymap,
+  fgl;
+
+type
+  TAppHotkeyPair = record
+    Keys1, Keys2: TATKeyArray;
+  end;
+
+  TAppHotkeyBackupMap = specialize TFPGMap<string, TAppHotkeyPair>;
 
 type
   { TAppHotkeyBackup }
 
   TAppHotkeyBackup = class
   private
-    L: TStringList;
+    D: TAppHotkeyBackupMap;
   public
     constructor Create;
     destructor Destroy; override;
+    procedure Clear;
     procedure Add(AMapItem: TATKeymapItem; const AStr: string);
     procedure Get(AMapItem: TATKeymapItem; const AStr: string);
     function DebugText: string;
@@ -32,32 +41,33 @@ type
 
 implementation
 
-type
-  TMyKeyPair = class
-    Keys1, Keys2: TATKeyArray;
-  end;
-
 { TAppHotkeyBackup }
 
 constructor TAppHotkeyBackup.Create;
 begin
   inherited;
-  L:= TStringList.Create;
-  L.OwnsObjects:= true;
-  L.Duplicates:= dupIgnore;
-  L.UseLocale:= false;
-  L.Sorted:= true;
+  D:= TAppHotkeyBackupMap.Create;
+  D.Sorted:= true;
 end;
 
 destructor TAppHotkeyBackup.Destroy;
 begin
-  FreeAndNil(L);
+  Clear;
+  FreeAndNil(D);
   inherited;
+end;
+
+procedure TAppHotkeyBackup.Clear;
+var
+  i: integer;
+begin
+  for i:= D.Count-1 downto 0 do
+    D.Delete(i);
 end;
 
 procedure TAppHotkeyBackup.Add(AMapItem: TATKeymapItem; const AStr: string);
 var
-  Pair: TMyKeyPair;
+  Pair: TAppHotkeyPair;
 begin
   if AStr='' then
   begin
@@ -67,22 +77,21 @@ begin
   if (AMapItem.Keys1.Length>0) or
     (AMapItem.Keys2.Length>0) then
   begin
-    Pair:= TMyKeyPair.Create;
+    Pair:= Default(TAppHotkeyPair);
     Pair.Keys1:= AMapItem.Keys1;
     Pair.Keys2:= AMapItem.Keys2;
-    L.AddObject(AStr, Pair);
+    D[AStr]:= Pair;
   end;
 end;
 
 procedure TAppHotkeyBackup.Get(AMapItem: TATKeymapItem; const AStr: string);
 var
   N: integer;
-  Pair: TMyKeyPair;
+  Pair: TAppHotkeyPair;
 begin
-  N:= L.IndexOf(AStr);
-  if N>=0 then
+  if D.Find(AStr, N) then
   begin
-    Pair:= TMyKeyPair(L.Objects[N]);
+    Pair:= D.Data[N];
     AMapItem.Keys1:= Pair.Keys1;
     AMapItem.Keys2:= Pair.Keys2;
   end;
@@ -90,14 +99,14 @@ end;
 
 function TAppHotkeyBackup.DebugText: string;
 var
-  Pair: TMyKeyPair;
+  Pair: TAppHotkeyPair;
   i: integer;
 begin
   Result:= '';
-  for i:= 0 to L.Count-1 do
+  for i:= 0 to D.Count-1 do
   begin
-    Pair:= TMyKeyPair(L.Objects[i]);
-    Result+= Format('%s - (%s, %s)'#10, [L[i], Pair.Keys1.ToString, Pair.Keys2.ToString]);
+    Pair:= D.Data[i];
+    Result+= Format('%s - (%s, %s)'#10, [D.Keys[i], Pair.Keys1.ToString, Pair.Keys2.ToString]);
   end;
 end;
 
