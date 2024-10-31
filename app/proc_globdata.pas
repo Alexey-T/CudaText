@@ -815,7 +815,6 @@ procedure AppApplyFallbackEncoding(const s: string);
 procedure AppApplyAutoCopyToClipboard(const s: string);
 
 function AppOption_GetFromMap(D: TAppStringIntegerMap; const AKey: string; ADefault: integer): integer;
-procedure AppOption_SaveToMap(D: TAppStringIntegerMap; const AKey: string; AValue: integer);
 
 type
   { TKeymapHelper }
@@ -4076,11 +4075,6 @@ begin
     Result:= D.Data[N]
   else
     Result:= ADefault;
-end;
-
-procedure AppOption_SaveToMap(D: TAppStringIntegerMap; const AKey: string; AValue: integer);
-begin
-  D[AKey]:= AValue;
 end;
 
 
