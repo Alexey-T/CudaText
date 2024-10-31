@@ -866,7 +866,7 @@ var
 begin
   P:= Parent;
   if Assigned(P) then
-    Result:= (Parent as TATPages).Owner as TATGroups
+    Result:= (P as TATPages).Owner as TATGroups
   else
     Result:= nil;
 end;
