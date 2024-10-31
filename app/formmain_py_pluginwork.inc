@@ -66,7 +66,7 @@ begin
     begin
       BackupTemp:= TAppHotkeyBackup.Create;
       BackupLexers.Add(BackupTemp);
-      TKeymapHelperMain.DeleteCategoryWithHotkeyBackup(AppKeymapLexers.Objects[i] as TATKeymap, BackupTemp, TAppCommandCategory.Plugin);
+      TKeymapHelperMain.DeleteCategoryWithHotkeyBackup(AppKeymapLexers.Data[i], BackupTemp, TAppCommandCategory.Plugin);
     end;
   end;
 
@@ -111,7 +111,7 @@ begin
       for i:= 0 to AppKeymapLexers.Count-1 do
       begin
         BackupTemp:= TAppHotkeyBackup(BackupLexers[i]);
-        TKeymapHelperMain.AddPluginsWithHotkeyBackup(AppKeymapLexers.Objects[i] as TATKeymap, BackupTemp, false);
+        TKeymapHelperMain.AddPluginsWithHotkeyBackup(AppKeymapLexers.Data[i], BackupTemp, false);
       end;
     end;
 

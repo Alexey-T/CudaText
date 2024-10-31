@@ -1847,7 +1847,7 @@ begin
 
   for i:= 0 to AppKeymapLexers.Count-1 do
   begin
-    Map:= TATKeymap(AppKeymapLexers.Objects[i]);
+    Map:= AppKeymapLexers.Data[i];
     UpdateDynamicEx(Map, ACategory);
   end;
 end;
@@ -1876,7 +1876,7 @@ begin
 
   for i:= 0 to AppKeymapLexers.Count-1 do
   begin
-    Map:= TATKeymap(AppKeymapLexers.Objects[i]);
+    Map:= AppKeymapLexers.Data[i];
     Result+= Debug_PluginCommands(Map, AText);
   end;
 end;

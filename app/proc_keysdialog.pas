@@ -81,7 +81,7 @@ begin
         //apply to all lexer keymaps
         for i:= 0 to AppKeymapLexers.Count-1 do
         begin
-          Map:= TATKeymap(AppKeymapLexers.Objects[i]);
+          Map:= AppKeymapLexers.Data[i];
           if Map.IsIndexValid(CmdIndex) then
             if not Map[CmdIndex].LexerSpecific then
             begin

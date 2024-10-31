@@ -877,7 +877,11 @@ var
 
   AppKeymapMain: TATKeymap = nil;
   AppKeymapInitial: TATKeymap = nil; //inited only by API calls
-  AppKeymapLexers: TStringList = nil;
+
+type
+  TAppKeymapLexers = specialize TFPGMap<string, TATKeymap>;
+var
+  AppKeymapLexers: TAppKeymapLexers;
 
 type
   TAppStringEvent = procedure(Sender: TObject; const AStr: string) of object;
@@ -2887,7 +2891,7 @@ begin
 
   for iMap:= 0 to AppKeymapLexers.Count-1 do
     ClearKey(
-      TATKeymap(AppKeymapLexers.Objects[iMap]),
+      AppKeymapLexers.Data[iMap],
       AItemIndex, AKeyIndex);
 end;
 
@@ -3029,13 +3033,12 @@ begin
   if not AppApiOnStartActivated then
     exit(AppKeymapMain);
 
-  N:= AppKeymapLexers.IndexOf(ALexer);
-  if N>=0 then
-    exit(TATKeymap(AppKeymapLexers.Objects[N]));
+  if AppKeymapLexers.Find(ALexer, N) then
+    exit(AppKeymapLexers.Data[N]);
 
   Keymap:= TATKeymap.Create;
   Keymap.Assign(AppKeymapMain);
-  AppKeymapLexers.AddObject(ALexer, Keymap);
+  AppKeymapLexers[ALexer]:= Keymap;
 
   LoadConfig(Keymap,
     AppFile_HotkeysForLexer(ALexer), true);
@@ -4096,10 +4099,8 @@ initialization
   InitKeymapFull(AppKeymapMain);
   Keymap_AddCudatextItems(AppKeymapMain);
 
-  AppKeymapLexers:= TStringList.Create;
-  AppKeymapLexers.UseLocale:= false; //speedup Find()
+  AppKeymapLexers:= TAppKeymapLexers.Create;
   AppKeymapLexers.Sorted:= true;
-  AppKeymapLexers.OwnsObjects:= true;
 
   FillChar(AppCodetreeState, SizeOf(AppCodetreeState), 0);
   AppCodetreeState.SelLine:= -1;
