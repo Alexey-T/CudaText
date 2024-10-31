@@ -494,7 +494,6 @@ type
     procedure FrameOnEditorShow(Sender: TObject);
     procedure FrameOnEditorChangeCaretPos(Sender: TObject);
     procedure FrameOnEditorScroll(Sender: TObject);
-    procedure FrameOnEditorPaint(Sender: TObject);
     procedure FrameOnInitAdapter(Sender: TObject);
     procedure FrameOnChangeSlow(Sender: TObject);
     procedure FrameParseDone(Sender: TObject);
@@ -763,6 +762,7 @@ type
     function CodeTreeFilter_OnFilterNode(ItemNode: TTreeNode; out Done: Boolean): Boolean;
     function ConfirmAllFramesAreSaved(AWithCancel: boolean): boolean;
     procedure DoApplyCenteringOption(Ed: TATSynEdit);
+    procedure DoApplyCenteringOptionToFrames;
     procedure FindAndStop(ABack: boolean);
     procedure FindAndReplaceAll(var NCounter: integer);
     procedure FindAndReplaceOneMatch(AndStop: boolean);
@@ -4133,14 +4133,6 @@ begin
 end;
 
 
-procedure TfmMain.FrameOnEditorPaint(Sender: TObject);
-//why we set Ed.OptTextCenteringCharWidth via OnPaint event?
-//before it was as usual, but buggy - sometimes option was reset to 0 (without stable repro)
-begin
-  DoApplyCenteringOption(TATSynEdit(Sender));
-end;
-
-
 procedure TfmMain.DoApplyCenteringOption(Ed: TATSynEdit);
 var
   Frame: TEditorFrame;
@@ -4170,6 +4162,20 @@ begin
   else
   begin
     Ed.OptTextCenteringCharWidth:= 0;
+  end;
+end;
+
+procedure TfmMain.DoApplyCenteringOptionToFrames;
+var
+  Frame: TEditorFrame;
+  i: integer;
+begin
+  for i:= 0 to FrameCount-1 do
+  begin
+    Frame:= Frames[i];
+    DoApplyCenteringOption(Frame.Ed1);
+    if Frame.Splitted then
+      DoApplyCenteringOption(Frame.Ed2);
   end;
 end;
 
@@ -4652,6 +4658,7 @@ end;
 
 procedure TfmMain.DoGroupsChangeMode(Sender: TObject);
 begin
+  DoApplyCenteringOptionToFrames;
   DoPyEvent_AppState(APPSTATE_GROUPS);
 end;
 
@@ -6752,6 +6759,7 @@ begin
   FShowFullScreen:= AValue;
   FShowFullScreen_DisFree:= false;
   SetFullScreen_Ex(AValue, false);
+  DoApplyCenteringOptionToFrames;
   DoPyEvent_AppState(APPSTATE_WINDOW);
 end;
 
@@ -6761,6 +6769,7 @@ begin
   FShowFullScreen:= AValue;
   FShowFullScreen_DisFree:= AValue;
   SetFullScreen_Ex(AValue, true);
+  DoApplyCenteringOptionToFrames;
   DoPyEvent_AppState(APPSTATE_WINDOW);
 end;
 

@@ -18,7 +18,7 @@ begin
   F.OnEditorCommand:= @FrameOnEditorCommand;
   F.OnEditorChangeCaretPos:= @FrameOnEditorChangeCaretPos;
   F.OnEditorScroll:= @FrameOnEditorScroll;
-  F.OnEditorPaint:= @FrameOnEditorPaint;
+  //F.OnEditorPaint:= @FrameOnEditorPaint;
   F.OnEditorShow:= @FrameOnEditorShow;
   F.OnSaveFile:= @FrameOnSaveFile;
   F.OnAddRecent:= @FrameAddRecent;
