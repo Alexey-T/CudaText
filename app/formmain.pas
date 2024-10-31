@@ -822,7 +822,7 @@ type
     procedure DoFolderOpen(const ADirName: string; ANewProject: boolean; AInvoke: TATCommandInvoke);
     procedure DoFolderAdd(AInvoke: TATCommandInvoke);
     procedure DoGetSaveDialog(var ASaveDlg: TSaveDialog);
-    procedure DoGroupsChangeMode(Sender: TObject);
+    procedure DoOnChangeGroupMode(Sender: TObject);
     procedure DoOnLexerParseProgress(Sender: TObject; AProgress: integer);
     //procedure DoOnLexerParseProgress(Sender: TObject; ALineIndex, ALineCount: integer);
     procedure DoOnLexerParseProgress_Sync();
@@ -2897,12 +2897,13 @@ end;
 
 procedure TfmMain.InitGroups;
 begin
+  if Assigned(Groups) then exit;
   Groups:= TATGroups.Create(Self);
   Groups.Parent:= PanelEditors;
   Groups.Align:= alClient;
   Groups.Mode:= gmOne;
   Groups.Images:= ImageListTabs;
-  Groups.OnChangeMode:=@DoGroupsChangeMode;
+  Groups.OnChangeMode:= @DoOnChangeGroupMode;
   Groups.OnTabFocus:= @DoOnTabFocus;
   Groups.OnTabAdd:= @DoOnTabAdd;
   Groups.OnTabClose:= @DoOnTabClose;
@@ -4656,7 +4657,7 @@ begin
   DoPyCommand('cuda_project_man', 'new_project_open_dir', [], AInvoke);
 end;
 
-procedure TfmMain.DoGroupsChangeMode(Sender: TObject);
+procedure TfmMain.DoOnChangeGroupMode(Sender: TObject);
 begin
   DoApplyCenteringOptionToFrames;
   DoPyEvent_AppState(APPSTATE_GROUPS);
