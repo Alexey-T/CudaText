@@ -754,7 +754,7 @@ type
     FCmdlineFileCount: integer;
     FPrevJsonObj: TJSONData;
     FPrevFramesEditState: array of TFrameEditState;
-    FPrevFindDlgVisible: boolean;
+    //FPrevFindDlgVisible: boolean;
     FStartupShowFloating1: boolean;
     FStartupShowFloating2: boolean;
     FStartupShowFloating3: boolean;
