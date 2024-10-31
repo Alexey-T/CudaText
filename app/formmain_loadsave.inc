@@ -1867,12 +1867,16 @@ begin
   if F=nil then exit;
 
   CurLexer:= F.LexerName[Ed];
+  if CurLexer='' then
+    CurLexer:= '-';
+
   SNewLoadedConfig:= 'lexer:'+CurLexer;
   if FLastLoadedConfig=SNewLoadedConfig then //fix issue #4225
   begin
     ApplyOps(FLastLoadedEditorOps);
     exit;
   end;
+
   FLastLoadedConfig:= SNewLoadedConfig;
   FLastLoadedEditorOps:= EditorOps;
 

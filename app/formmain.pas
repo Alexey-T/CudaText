@@ -4149,6 +4149,8 @@ begin
   if CurGrp.Mode in [gmOne, gm2h, gm3h, gm4h, gm6h] then
   begin
     SLexer:= Frame.LexerName[Ed];
+    if SLexer='' then
+      SLexer:= '-';
     if ShowDistractionFree then
     begin
       Ed.OptTextCenteringCharWidth:=
