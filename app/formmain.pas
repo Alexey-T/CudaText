@@ -762,6 +762,7 @@ type
 
     function CodeTreeFilter_OnFilterNode(ItemNode: TTreeNode; out Done: Boolean): Boolean;
     function ConfirmAllFramesAreSaved(AWithCancel: boolean): boolean;
+    procedure DoApplyCenteringOption(Ed: TATSynEdit);
     procedure FindAndStop(ABack: boolean);
     procedure FindAndReplaceAll(var NCounter: integer);
     procedure FindAndReplaceOneMatch(AndStop: boolean);
@@ -4135,13 +4136,17 @@ end;
 procedure TfmMain.FrameOnEditorPaint(Sender: TObject);
 //why we set Ed.OptTextCenteringCharWidth via OnPaint event?
 //before it was as usual, but buggy - sometimes option was reset to 0 (without stable repro)
+begin
+  DoApplyCenteringOption(TATSynEdit(Sender));
+end;
+
+
+procedure TfmMain.DoApplyCenteringOption(Ed: TATSynEdit);
 var
-  Ed: TATSynEdit;
   Frame: TEditorFrame;
   CurGrp: TATGroups;
   SLexer: string;
 begin
-  Ed:= TATSynEdit(Sender);
   Frame:= TGroupsHelper.GetEditorFrame(Ed);
   if Frame=nil then exit;
   CurGrp:= Frame.GetTabGroups;
