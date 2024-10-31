@@ -761,7 +761,7 @@ type
 
     function CodeTreeFilter_OnFilterNode(ItemNode: TTreeNode; out Done: Boolean): Boolean;
     function ConfirmAllFramesAreSaved(AWithCancel: boolean): boolean;
-    procedure DoApplyCenteringOption(Ed: TATSynEdit);
+    procedure DoApplyCenteringOption(Frame: TEditorFrame; Ed: TATSynEdit);
     procedure DoApplyCenteringOptionToFrames;
     procedure FindAndStop(ABack: boolean);
     procedure FindAndReplaceAll(var NCounter: integer);
@@ -4134,13 +4134,11 @@ begin
 end;
 
 
-procedure TfmMain.DoApplyCenteringOption(Ed: TATSynEdit);
+procedure TfmMain.DoApplyCenteringOption(Frame: TEditorFrame; Ed: TATSynEdit);
 var
-  Frame: TEditorFrame;
   CurGrp: TATGroups;
   SLexer: string;
 begin
-  Frame:= TGroupsHelper.GetEditorFrame(Ed);
   if Frame=nil then exit;
   CurGrp:= Frame.GetTabGroups;
 
@@ -4174,9 +4172,8 @@ begin
   for i:= 0 to FrameCount-1 do
   begin
     Frame:= Frames[i];
-    DoApplyCenteringOption(Frame.Ed1);
-    if Frame.Splitted then
-      DoApplyCenteringOption(Frame.Ed2);
+    DoApplyCenteringOption(Frame, Frame.Ed1);
+    DoApplyCenteringOption(Frame, Frame.Ed2);
   end;
 end;
 
