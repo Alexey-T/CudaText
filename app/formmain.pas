@@ -8419,6 +8419,7 @@ begin
 
   //load lexer-specific config
   DoOps_LoadOptionsLexerSpecific(Frame, Ed);
+  DoApplyCenteringOption(Frame, Ed);
 
   //API event on_lexer
   //better avoid it for empty editor

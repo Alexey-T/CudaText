@@ -1874,7 +1874,6 @@ begin
   if FLastLoadedConfig=SNewLoadedConfig then //fix issue #4225
   begin
     ApplyOps(FLastLoadedEditorOps);
-    DoApplyCenteringOption(F, Ed);
     exit;
   end;
 
@@ -1905,8 +1904,6 @@ begin
 
     ApplyOps(FLastLoadedEditorOps);
   end;
-
-  DoApplyCenteringOption(F, Ed);
 end;
 
 
