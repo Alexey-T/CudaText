@@ -4478,9 +4478,8 @@ end;
 
 procedure TfmMain.DoApplyUiOps;
 var
-  id: TAppPanelId;
+  PanelId: TAppPanelId;
   Pages: TATPages;
-  //Ed: TATSynEdit;
   F: TEditorFrame;
   i: integer;
 begin
@@ -4569,9 +4568,9 @@ begin
   PanelSide.Visible:= UiOps.SidebarShow;
   ShowSideBarOnRight:= UiOps.SidebarOnRight;
 
-  for id in TAppPanelId do
-    if id<>TAppPanelId.None then
-      with AppPanels[id] do
+  for PanelId in TAppPanelId do
+    if PanelId<>TAppPanelId.None then
+      with AppPanels[PanelId] do
       begin
         PanelTitle.Height:= Groups.GetTabSingleRowHeight-1;
         if UiOps.TabPosition=1 then
