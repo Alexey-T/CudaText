@@ -208,13 +208,16 @@ end;
 
 
 procedure TfmAbout.FormShow(Sender: TObject);
+{
 var
   fnIcon: string;
   bitmap: TPortableNetworkGraphic;
+}
 begin
   DoForm_ScaleAuto(Self, true);
   UpdateFormOnTop(Self);
 
+  {
   fnIcon:= AppDir_DataToolbarIcons+DirectorySeparator+'default_24x24'+DirectorySeparator+'e_copy.png';
   if FileExists(fnIcon) then
   begin
@@ -226,6 +229,7 @@ begin
       bitmap.Free;
     end;
   end;
+  }
 
   btnCopyToClp.Hint:= msgCopySub;
   btnCopyToClp.ShowHint:= true;
