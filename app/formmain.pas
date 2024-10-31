@@ -8419,6 +8419,7 @@ begin
 
   //load lexer-specific config
   DoOps_LoadOptionsLexerSpecific(Frame, Ed);
+
   DoApplyCenteringOption(Frame, Frame.Ed1);
   DoApplyCenteringOption(Frame, Frame.Ed2);
 
