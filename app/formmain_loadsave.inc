@@ -1898,8 +1898,8 @@ begin
       DoOps_LoadOptions(FilenameUser, FLastLoadedEditorOps, false);
 
       //store 'centering...' options in special way
-      AppOption_SaveToStringlist(EditorOps_CenteringWidth, CurLexer, FLastLoadedEditorOps.OpCenteringWidth);
-      AppOption_SaveToStringlist(EditorOps_CenteringDistFree, CurLexer, FLastLoadedEditorOps.OpCenteringForDistractionFree);
+      AppOption_SaveToMap(EditorOps_CenteringWidth, CurLexer, FLastLoadedEditorOps.OpCenteringWidth);
+      AppOption_SaveToMap(EditorOps_CenteringDistFree, CurLexer, FLastLoadedEditorOps.OpCenteringForDistractionFree);
     end;
 
     ApplyOps(FLastLoadedEditorOps);

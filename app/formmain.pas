@@ -4150,12 +4150,12 @@ begin
     if ShowDistractionFree then
     begin
       Ed.OptTextCenteringCharWidth:=
-        AppOption_LoadFromStringlist(EditorOps_CenteringDistFree, SLexer, EditorOps.OpCenteringForDistractionFree);
+        AppOption_GetFromMap(EditorOps_CenteringDistFree, SLexer, EditorOps.OpCenteringForDistractionFree);
     end
     else
     begin
       Ed.OptTextCenteringCharWidth:=
-        AppOption_LoadFromStringlist(EditorOps_CenteringWidth, SLexer, EditorOps.OpCenteringWidth);
+        AppOption_GetFromMap(EditorOps_CenteringWidth, SLexer, EditorOps.OpCenteringWidth);
     end;
   end
   else

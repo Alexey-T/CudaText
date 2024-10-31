@@ -23,6 +23,7 @@ uses
   StrUtils,
   Math,
   syncobjs,
+  fgl,
   gqueue,
   InterfaceBase,
   LclProc, LclType, LazFileUtils,
@@ -739,9 +740,12 @@ type
 var
   EditorOps: TEditorOps;
 
+type
+  TAppStringIntegerMap = specialize TFPGMap<string, integer>;
+
 var
-  EditorOps_CenteringWidth: TStringList;
-  EditorOps_CenteringDistFree: TStringList;
+  EditorOps_CenteringWidth: TAppStringIntegerMap;
+  EditorOps_CenteringDistFree: TAppStringIntegerMap;
 
 var
   AppUserName: string = '';
@@ -810,8 +814,8 @@ procedure AppApplyUnprintedSymbolsScale(const s: string);
 procedure AppApplyFallbackEncoding(const s: string);
 procedure AppApplyAutoCopyToClipboard(const s: string);
 
-function AppOption_LoadFromStringlist(L: TStringList; const AKey: string; ADefault: integer): integer;
-procedure AppOption_SaveToStringlist(L: TStringList; const AKey: string; AValue: integer);
+function AppOption_GetFromMap(D: TAppStringIntegerMap; const AKey: string; ADefault: integer): integer;
+procedure AppOption_SaveToMap(D: TAppStringIntegerMap; const AKey: string; AValue: integer);
 
 type
   { TKeymapHelper }
@@ -4049,25 +4053,19 @@ begin
     ATEditorOptions.AutoCopyMaxTextSize:= N;
 end;
 
-
-function AppOption_LoadFromStringlist(L: TStringList; const AKey: string; ADefault: integer): integer;
+function AppOption_GetFromMap(D: TAppStringIntegerMap; const AKey: string; ADefault: integer): integer;
 var
-  NIndex: integer;
+  N: integer;
 begin
-  if L.Find(AKey, NIndex) then
-    Result:= integer(PtrInt(L.Objects[NIndex]))
+  if D.Find(AKey, N) then
+    Result:= D.Data[N]
   else
     Result:= ADefault;
 end;
 
-procedure AppOption_SaveToStringlist(L: TStringList; const AKey: string; AValue: integer);
-var
-  NIndex: integer;
+procedure AppOption_SaveToMap(D: TAppStringIntegerMap; const AKey: string; AValue: integer);
 begin
-  if L.Find(AKey, NIndex) then
-    L.Objects[NIndex]:= TObject(PtrInt(AValue))
-  else
-    L.AddObject(AKey, TObject(PtrInt(AValue)));
+  D[AKey]:= AValue;
 end;
 
 
@@ -4164,13 +4162,11 @@ initialization
     {$endif}
     );
 
-  EditorOps_CenteringWidth:= TStringList.Create;
+  EditorOps_CenteringWidth:= TAppStringIntegerMap.Create;
   EditorOps_CenteringWidth.Sorted:= true;
-  EditorOps_CenteringWidth.UseLocale:= false;
 
-  EditorOps_CenteringDistFree:= TStringList.Create;
+  EditorOps_CenteringDistFree:= TAppStringIntegerMap.Create;
   EditorOps_CenteringDistFree.Sorted:= true;
-  EditorOps_CenteringDistFree.UseLocale:= false;
 
 
 finalization
