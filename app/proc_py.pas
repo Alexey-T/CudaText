@@ -104,8 +104,15 @@ implementation
 constructor TAppPython.Create;
 begin
   inherited Create;
+
   LoadedLocals:= TStringList.Create;
+  LoadedLocals.Sorted:= true;
+  LoadedLocals.UseLocale:= false;
+
   LoadedModules:= TStringList.Create;
+  LoadedModules.Sorted:= true;
+  LoadedModules.UseLocale:= false;
+
   EventTimes:= TAppPythonEventTimes.Create;
   EventTimes.Sorted:= true;
 end;
@@ -163,8 +170,10 @@ begin
 end;
 
 function TAppPython.IsLoadedLocal(const S: string): boolean; inline;
+var
+  N: integer;
 begin
-  Result:= LoadedLocals.IndexOf(S)>=0;
+  Result:= LoadedLocals.Find(S, N);
 end;
 
 procedure TAppPython.DisableTiming;
@@ -536,8 +545,7 @@ function TAppPython.ImportModuleCached(const AModule: string): PPyObject;
 var
   N: integer;
 begin
-  N:= LoadedModules.IndexOf(AModule);
-  if N>=0 then
+  if LoadedModules.Find(AModule, N) then
     Result:= PPyObject(LoadedModules.Objects[N])
   else
   begin
