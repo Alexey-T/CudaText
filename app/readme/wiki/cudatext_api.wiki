@@ -5077,10 +5077,10 @@ It provides:
 * add: Editor.set_prop supports PROP_SCROLL_VERT_INFO (Editor.get_prop supports it already)
 * add: Editor.set_prop supports PROP_SCROLL_HORZ_INFO (Editor.get_prop supports it already)
 
-1.0.462 (app 1.218.2)
+1.0.462 (app 1.219.0)
 * add: Editor.set_caret: added CARET_OPTION_NO_EVENT
 * add: Editor.get_prop/set_prop: PROP_UNPRINTED_WRAPS
-* change: delete PROP_UNPRINTED_END_ONLY_WRAP (replaced with PROP_UNPRINTED_WRAPS with different logic)
+* delete PROP_UNPRINTED_END_ONLY_WRAP (replaced with PROP_UNPRINTED_WRAPS with different logic)
 * change: tree_proc: TREE_ITEM_ENUM* return empty list when no items (before they returned None)
 
 [[Category:CudaText]]
