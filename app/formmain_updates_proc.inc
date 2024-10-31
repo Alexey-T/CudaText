@@ -720,9 +720,9 @@ begin
     DoOps_LoadOptionsLexerSpecific(F, F.Ed1);
     if not F.EditorsLinked then
       DoOps_LoadOptionsLexerSpecific(F, F.Ed2);
+    DoApplyCenteringOption(F, F.Ed1);
+    DoApplyCenteringOption(F, F.Ed2);
   end;
-
-  DoApplyCenteringOptionToFrames;
 
   if Assigned(fmFind) then
   begin
