@@ -87,7 +87,6 @@ STD_THEMES = (
   'sub',
   'syn',
   'white',
-  'zeus',
 )
 STD_TRANSLATIONS = (
   'ru_RU',
