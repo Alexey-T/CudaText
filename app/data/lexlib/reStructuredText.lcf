@@ -502,7 +502,7 @@ object SyntAnal16: TLibSyntAnalyzer
   LexerName = 'reStructuredText'
   SkipSpaces = False
   Notes.Strings = (
-    'Alexey (CudaText)'
+    'Alexey Torgashin (CudaText)'
     'Test: https://github.com/jkbrzt/httpie/blob/master/README.rst'
     'Tests: https://github.com/andgineer/TRegExpr/tree/master/docs')
   Charset = DEFAULT_CHARSET

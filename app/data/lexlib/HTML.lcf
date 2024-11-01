@@ -928,6 +928,6 @@ object SyntAnal8: TLibSyntAnalyzer
   LexerName = 'HTML'
   Notes.Strings = (
     'Created by 480499497 from forum.wincmd.ru (named HTML_dev)'
-    'Fully reworked by Alexey (CudaText)')
+    'Fully reworked by Alexey Torgashin (CudaText)')
   Charset = DEFAULT_CHARSET
 end

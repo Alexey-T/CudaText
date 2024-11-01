@@ -196,7 +196,7 @@ object SyntAnal7: TLibSyntAnalyzer
     'URL')
   LexerName = 'HTML style'
   Notes.Strings = (
-    'Alexey (CudaText)')
+    'Alexey Torgashin (CudaText)')
   Internal = True
   RestartFromLineStart = True
   Charset = DEFAULT_CHARSET

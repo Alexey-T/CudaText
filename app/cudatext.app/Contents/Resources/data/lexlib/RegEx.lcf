@@ -258,7 +258,7 @@ object SyntAnal20: TLibSyntAnalyzer
     '{}')
   LexerName = 'RegEx'
   Notes.Strings = (
-    'Alexey (CudaText)'
+    'Alexey Torgashin (CudaText)'
     'RegEx flavor supported by Free Pascal TRegExpr'
     'Parser states used:'
     '- 1: set by range start "["'

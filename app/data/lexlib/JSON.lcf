@@ -268,7 +268,7 @@ object SyntAnal11: TLibSyntAnalyzer
     ' jsonl jsonld ldj ldjson schema topojson webapp sublime-build avsc'
   LexerName = 'JSON'
   Notes.Strings = (
-    'Alexey (CudaText)'
+    'Alexey Torgashin (CudaText)'
     'Tests: http://json.org/example.html')
   RestartFromLineStart = True
   LineComment = '//'
