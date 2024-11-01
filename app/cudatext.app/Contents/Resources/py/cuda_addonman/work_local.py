@@ -151,6 +151,7 @@ def get_installed_addons(ignore={}):
     exclude_lexers = ignore.get('lexers', [])
     exclude_lexers_lite = ignore.get('lexers_lite', [])
     exclude_themes = ignore.get('themes', [])
+    exclude_toolbaricons = ignore.get('toolbaricons', [])
     exclude_translations = ignore.get('lang', [])
     exclude_snippets = ignore.get('snippets', [])
     exclude_snippetsx = ignore.get('snippetsx', [])
@@ -237,6 +238,19 @@ def get_installed_addons(ignore={}):
             'files': [
                 os.path.join(d, i+'.cuda-theme-syntax'),
                 os.path.join(d, i+'.cuda-theme-ui'),
+                ],
+            } for i in l]
+
+    d = os.path.join(DIR_DATA, 'toolbaricons')
+    if os.path.isdir(d):
+        l = os.listdir(d)
+        l = [i for i in l if not i in exclude_toolbaricons]
+        l = sorted(l)
+        res += [{
+            'kind': 'toolbaricons',
+            'name': i,
+            'files': [
+                os.path.join(d, i)+'/',
                 ],
             } for i in l]
 

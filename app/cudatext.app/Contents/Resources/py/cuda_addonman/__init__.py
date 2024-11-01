@@ -88,6 +88,10 @@ STD_THEMES = (
   'syn',
   'white',
 )
+STD_TOOLBARICONS = (
+  'default_24x24',
+  'light_24x24',
+)
 STD_TRANSLATIONS = (
   'ru_RU',
   'translation template',
@@ -380,6 +384,7 @@ class Command:
             'lexers': STD_LEXERS,
             'lexers_lite': STD_LEXERS_LITE,
             'themes': STD_THEMES,
+            'toolbaricons': STD_TOOLBARICONS,
             'lang': STD_TRANSLATIONS,
             'snippets': STD_SNIPPETS,
             }
