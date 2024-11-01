@@ -1463,6 +1463,7 @@ const
 procedure TfmMain.DoOps_LoadSidebarIcons;
 const
   cCallerAPI = 'DoOps_LoadSidebarIcons';
+  cDefaultTheme = 'common_20x20';
 var
   Str: string;
   NTick: QWord;
@@ -1470,11 +1471,12 @@ var
 begin
   NTick:= GetTickCount64;
 
-  if not SParseIconFilenameWithWidthHeight(UiOps.SidebarTheme, W, H) then exit;
-
-  ImageListSide.Width:= W;
-  ImageListSide.Height:= H;
-  ImageListSide.Clear;
+  if not SParseIconFilenameWithWidthHeight(UiOps.SidebarTheme, W, H) then
+  begin
+    MsgLogConsole('ERROR: Sidebar theme name doesn''t contain sizes: '+UiOps.SidebarTheme);
+    UiOps.SidebarTheme:= cDefaultTheme;
+    if not SParseIconFilenameWithWidthHeight(UiOps.SidebarTheme, W, H) then exit;
+  end;
 
   Str:= AppDir_DataSidebarIcons+DirectorySeparator+UiOps.SidebarTheme;
   if not DirectoryExists(Str) then
@@ -1482,8 +1484,16 @@ begin
     MsgLogConsole(Format(msgCannotFindData, [Str]));
     MsgStdout(Format(msgCannotFindData, [Str]));
     ToolbarSideMid.UpdateControls;
-    exit;
+
+    UiOps.SidebarTheme:= cDefaultTheme;
+    Str:= AppDir_DataSidebarIcons+DirectorySeparator+UiOps.SidebarTheme;
+    if not SParseIconFilenameWithWidthHeight(UiOps.SidebarTheme, W, H) then exit;
+    if not DirectoryExists(Str) then exit;
   end;
+
+  ImageListSide.Width:= W;
+  ImageListSide.Height:= H;
+  ImageListSide.Clear;
 
   Str+= DirectorySeparator;
 
@@ -1503,12 +1513,31 @@ end;
 
 
 procedure TfmMain.DoOps_LoadCodetreeIcons;
+const
+  cDefaultTheme = 'default_16x16';
 var
   SPath, SItem: string;
   Sep: TATStringSeparator;
   W, H: integer;
 begin
-  if not SParseIconFilenameWithWidthHeight(UiOps.TreeTheme, W, H) then exit;
+  if not SParseIconFilenameWithWidthHeight(UiOps.TreeTheme, W, H) then
+  begin
+    MsgLogConsole('ERROR: Code-tree theme name doesn''t contain sizes: '+UiOps.TreeTheme);
+    UiOps.TreeTheme:= cDefaultTheme;
+    if not SParseIconFilenameWithWidthHeight(UiOps.TreeTheme, W, H) then exit;
+  end;
+
+  SPath:= AppDir_DataCodetreeIcons+DirectorySeparator+UiOps.TreeTheme;
+  if not DirectoryExists(SPath) then
+  begin
+    MsgLogConsole(Format(msgCannotFindData, [SPath]));
+    MsgStdout(Format(msgCannotFindData, [SPath]));
+
+    UiOps.TreeTheme:= cDefaultTheme;
+    SPath:= AppDir_DataCodetreeIcons+DirectorySeparator+UiOps.TreeTheme;
+    if not SParseIconFilenameWithWidthHeight(UiOps.TreeTheme, W, H) then exit;
+    if not DirectoryExists(SPath) then exit;
+  end;
 
   if not Assigned(ImageListTree) then
     raise Exception.Create('ImageListTree nil');
@@ -1516,13 +1545,6 @@ begin
   ImageListTree.Height:= H;
   ImageListTree.Clear;
 
-  SPath:= AppDir_DataCodetreeIcons+DirectorySeparator+UiOps.TreeTheme;
-  if not DirectoryExists(SPath) then
-  begin
-    MsgLogConsole(Format(msgCannotFindData, [SPath]));
-    MsgStdout(Format(msgCannotFindData, [SPath]));
-    exit;
-  end;
   SPath+= DirectorySeparator;
 
   Sep.Init(UiOps.TreeIconFilenames);
@@ -1533,6 +1555,7 @@ end;
 procedure TfmMain.DoOps_LoadToolbarIcons;
 const
   cCallerAPI = 'DoOps_LoadToolbarIcons';
+  cDefaultTheme = 'default_24x24';
 var
   Str: string;
   Img: TImageList;
@@ -1541,14 +1564,23 @@ var
 begin
   NTick:= GetTickCount64;
 
-  if not SParseIconFilenameWithWidthHeight(UiOps.ToolBarTheme, W, H) then exit;
+  if not SParseIconFilenameWithWidthHeight(UiOps.ToolBarTheme, W, H) then
+  begin
+    MsgLogConsole('ERROR: Toolbar theme name doesn''t contain sizes: '+UiOps.ToolBarTheme);
+    UiOps.ToolBarTheme:= cDefaultTheme;
+    if not SParseIconFilenameWithWidthHeight(UiOps.ToolBarTheme, W, H) then exit;
+  end;
 
   Str:= AppDir_DataToolbarIcons+DirectorySeparator+UiOps.ToolBarTheme;
   if not DirectoryExists(Str) then
   begin
     MsgLogConsole(Format(msgCannotFindData, [Str]));
     MsgStdout(Format(msgCannotFindData, [Str]));
-    Exit;
+
+    UiOps.ToolBarTheme:= cDefaultTheme;
+    Str:= AppDir_DataToolbarIcons+DirectorySeparator+UiOps.ToolBarTheme;
+    if not SParseIconFilenameWithWidthHeight(UiOps.ToolBarTheme, W, H) then exit;
+    if not DirectoryExists(Str) then exit;
   end;
 
   Img:= ToolbarMain.Images;
@@ -1557,6 +1589,7 @@ begin
   Img.Clear;
 
   Str+= DirectorySeparator;
+
   UpdateImagelistWithIconFromFile(Img, Str+'f_new.png', cCallerAPI);
   UpdateImagelistWithIconFromFile(Img, Str+'f_open.png', cCallerAPI);
   UpdateImagelistWithIconFromFile(Img, Str+'f_save.png', cCallerAPI);
