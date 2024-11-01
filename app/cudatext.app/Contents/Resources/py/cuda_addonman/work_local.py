@@ -153,6 +153,7 @@ def get_installed_addons(ignore={}):
     exclude_themes = ignore.get('themes', [])
     exclude_toolbaricons = ignore.get('toolbaricons', [])
     exclude_sidebaricons = ignore.get('sidebaricons', [])
+    exclude_codetreeicons = ignore.get('codetreeicons', [])
     exclude_translations = ignore.get('lang', [])
     exclude_snippets = ignore.get('snippets', [])
     exclude_snippetsx = ignore.get('snippetsx', [])
@@ -262,6 +263,19 @@ def get_installed_addons(ignore={}):
         l = sorted(l)
         res += [{
             'kind': 'sidebartheme',
+            'name': i,
+            'files': [
+                os.path.join(d, i)+'/',
+                ],
+            } for i in l]
+
+    d = os.path.join(DIR_DATA, 'codetreeicons')
+    if os.path.isdir(d):
+        l = os.listdir(d)
+        l = [i for i in l if not i in exclude_codetreeicons]
+        l = sorted(l)
+        res += [{
+            'kind': 'codetreeicons',
             'name': i,
             'files': [
                 os.path.join(d, i)+'/',

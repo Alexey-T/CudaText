@@ -96,6 +96,9 @@ STD_SIDEBARICONS = (
   'common_20x20',
   'octicons_20x20',
 )
+STD_CODETREEICONS = (
+  'default_16x16',
+)
 STD_TRANSLATIONS = (
   'ru_RU',
   'translation template',
@@ -390,6 +393,7 @@ class Command:
             'themes': STD_THEMES,
             'toolbaricons': STD_TOOLBARICONS,
             'sidebaricons': STD_SIDEBARICONS,
+            'codetreeicons': STD_CODETREEICONS,
             'lang': STD_TRANSLATIONS,
             'snippets': STD_SNIPPETS,
             }
