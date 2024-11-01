@@ -92,6 +92,10 @@ STD_TOOLBARICONS = (
   'default_24x24',
   'light_24x24',
 )
+STD_SIDEBARICONS = (
+  'common_20x20',
+  'octicons_20x20',
+)
 STD_TRANSLATIONS = (
   'ru_RU',
   'translation template',
@@ -385,6 +389,7 @@ class Command:
             'lexers_lite': STD_LEXERS_LITE,
             'themes': STD_THEMES,
             'toolbaricons': STD_TOOLBARICONS,
+            'sidebaricons': STD_SIDEBARICONS,
             'lang': STD_TRANSLATIONS,
             'snippets': STD_SNIPPETS,
             }

@@ -152,6 +152,7 @@ def get_installed_addons(ignore={}):
     exclude_lexers_lite = ignore.get('lexers_lite', [])
     exclude_themes = ignore.get('themes', [])
     exclude_toolbaricons = ignore.get('toolbaricons', [])
+    exclude_sidebaricons = ignore.get('sidebaricons', [])
     exclude_translations = ignore.get('lang', [])
     exclude_snippets = ignore.get('snippets', [])
     exclude_snippetsx = ignore.get('snippetsx', [])
@@ -248,6 +249,19 @@ def get_installed_addons(ignore={}):
         l = sorted(l)
         res += [{
             'kind': 'toolbartheme',
+            'name': i,
+            'files': [
+                os.path.join(d, i)+'/',
+                ],
+            } for i in l]
+
+    d = os.path.join(DIR_DATA, 'sideicons')
+    if os.path.isdir(d):
+        l = os.listdir(d)
+        l = [i for i in l if not i in exclude_sidebaricons]
+        l = sorted(l)
+        res += [{
+            'kind': 'sidebartheme',
             'name': i,
             'files': [
                 os.path.join(d, i)+'/',
