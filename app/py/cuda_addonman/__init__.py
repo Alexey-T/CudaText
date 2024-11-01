@@ -62,7 +62,6 @@ STD_LEXERS = (
   'JavaScript',
   'JSDoc',
   'JSON',
-  'Lua',
   'Markdown',
   'Python',
   'RegEx',
