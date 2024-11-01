@@ -247,7 +247,7 @@ def get_installed_addons(ignore={}):
         l = [i for i in l if not i in exclude_toolbaricons]
         l = sorted(l)
         res += [{
-            'kind': 'toolbaricons',
+            'kind': 'toolbartheme',
             'name': i,
             'files': [
                 os.path.join(d, i)+'/',
