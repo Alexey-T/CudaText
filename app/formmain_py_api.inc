@@ -3415,6 +3415,9 @@ begin
         PROP_GUTTER_EMPTY_WIDTH:
           Result:= PyLong_FromLong(Ed.OptGutterWidthEmpty);
 
+        PROP_GUTTER_BM_WIDTH:
+          Result:= PyLong_FromLong(Ed.OptGutterWidthBookmarks);
+
         PROP_GUTTER_STATES_WIDTH:
           Result:= PyLong_FromLong(Ed.OptGutterWidthLineStates);
 
@@ -4328,6 +4331,9 @@ begin
 
         PROP_GUTTER_EMPTY_WIDTH:
           Ed.OptGutterWidthEmpty:= ValueInt;
+
+        PROP_GUTTER_BM_WIDTH:
+          Ed.OptGutterWidthBookmarks:= ValueInt;
 
         PROP_GUTTER_STATES_WIDTH:
           Ed.OptGutterWidthLineStates:= ValueInt;
