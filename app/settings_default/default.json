@@ -456,7 +456,6 @@
 
   //Gutter: Width (in pixels) of "line states" column.
   //Note: this option is global, not per-lexer.
-  //Note: this option is applied after app restart.
   "gutter_line_states_size": 3,
 
   //Gutter: Show decorations for pair brackets.
