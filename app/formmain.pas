@@ -9738,7 +9738,7 @@ begin
   Form.Ed.Gutter[Form.Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagFolding)].Visible:= false;
   Form.Ed.Gutter[Form.Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagLineStates)].Visible:= false;
   Form.Ed.Gutter[Form.Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagBookmarks)].Visible:= false;
-  Form.Ed.Gutter[Form.Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagEmpty)].Size:= 3;
+  Form.Ed.OptGutterWidthEmpty:= 3;
   Form.Ed.OptUnprintedVisible:= false;
   Form.Ed.OptShowMouseSelFrame:= false;
   Form.Ed.OptShowCurLine:= true;

@@ -3366,7 +3366,7 @@ begin
 
         PROP_GUTTER_EMPTY_WIDTH:
           begin
-            Num1:= Ed.Gutter[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagEmpty)].Size;
+            Num1:= Ed.OptGutterWidthEmpty;
             Result:= PyLong_FromLong(Num1);
           end;
 
@@ -4217,10 +4217,7 @@ begin
           Ed.Gutter[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagEmpty)].Visible:= ValueBool;
 
         PROP_GUTTER_EMPTY_WIDTH:
-          begin
-            Ed.Gutter[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagEmpty)].Size:= ValueInt;
-            Ed.Gutter.Update;
-          end;
+          Ed.OptGutterWidthEmpty:= ValueInt;
 
         PROP_WRAP:
           begin

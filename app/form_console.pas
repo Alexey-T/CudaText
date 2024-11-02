@@ -400,7 +400,7 @@ begin
   EdMemo.Gutter[EdMemo.Gutter.FindIndexByTag(ATEditorOptions.GutterTagFolding)].Visible:= false;
   EdMemo.Gutter[EdMemo.Gutter.FindIndexByTag(ATEditorOptions.GutterTagLineStates)].Visible:= false;
   EdMemo.Gutter[EdMemo.Gutter.FindIndexByTag(ATEditorOptions.GutterTagBookmarks)].Visible:= false;
-  EdMemo.Gutter[EdMemo.Gutter.FindIndexByTag(ATEditorOptions.GutterTagEmpty)].Size:= 3;
+  EdMemo.OptGutterWidthEmpty:= 3;
   EdMemo.OptRulerVisible:= false;
   EdMemo.OptUnprintedVisible:= false;
   EdMemo.OptMarginRight:= 2000;
