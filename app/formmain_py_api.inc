@@ -3418,6 +3418,9 @@ begin
         PROP_GUTTER_STATES_WIDTH:
           Result:= PyLong_FromLong(Ed.OptGutterWidthLineStates);
 
+        PROP_GUTTER_FOLD_WIDTH:
+          Result:= PyLong_FromLong(Ed.OptGutterWidthFolding);
+
         PROP_ZEBRA:
           begin
             if Ed.OptZebraActive then
@@ -4328,6 +4331,9 @@ begin
 
         PROP_GUTTER_STATES_WIDTH:
           Ed.OptGutterWidthLineStates:= ValueInt;
+
+        PROP_GUTTER_FOLD_WIDTH:
+          Ed.OptGutterWidthFolding:= ValueInt;
 
         PROP_ZEBRA:
           begin

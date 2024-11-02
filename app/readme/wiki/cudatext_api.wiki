@@ -2414,6 +2414,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_GUTTER_STATES_WIDTH: int: width of gutter column "line states".
 * PROP_GUTTER_NUM: bool: show gutter column "line numbers".
 * PROP_GUTTER_FOLD: bool: show gutter column "folding".
+* PROP_GUTTER_FOLD_WIDTH: int: width of gutter column "folding".
 * PROP_GUTTER_BM: bool: show gutter column "bookmarks".
 * PROP_GUTTER_EMPTY: bool: show gutter column "empty padding".
 * PROP_GUTTER_EMPTY_WIDTH: int: width of gutter column "empty padding".
@@ -2628,6 +2629,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 * PROP_GUTTER_STATES_WIDTH: int: width of gutter column "line states".
 * PROP_GUTTER_NUM: bool: show gutter column "line numbers".
 * PROP_GUTTER_FOLD: bool: show gutter column "folding".
+* PROP_GUTTER_FOLD_WIDTH: int: width of gutter column "folding".
 * PROP_GUTTER_BM: bool: show gutter column "bookmarks".
 * PROP_GUTTER_EMPTY: bool: show gutter column "empty padding".
 * PROP_GUTTER_EMPTY_WIDTH: int: width of gutter column "empty padding".
@@ -5083,6 +5085,7 @@ It provides:
 * add: Editor.set_caret: added CARET_OPTION_NO_EVENT
 * add: Editor.get_prop/set_prop: PROP_UNPRINTED_WRAPS
 * add: Editor.get_prop/set_prop: PROP_GUTTER_STATES_WIDTH
+* add: Editor.get_prop/set_prop: PROP_GUTTER_FOLD_WIDTH
 * delete PROP_UNPRINTED_END_ONLY_WRAP (replaced with PROP_UNPRINTED_WRAPS with different logic)
 * change: tree_proc: TREE_ITEM_ENUM* return empty list when no items (before they returned None)
 
