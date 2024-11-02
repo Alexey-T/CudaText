@@ -278,6 +278,7 @@ begin
       Ed.Gutter[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagNumbers)].Visible:= Op.OpNumbersShow;
     //if not Ed.IsModifiedGutterLineStatesVisible then
       Ed.Gutter[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagLineStates)].Visible:= Op.OpGutterLineStates;
+    Ed.OptGutterWidthLineStates:= Op.OpGutterLineStatesSize;
     Ed.OptGutterPlusSize:= Op.OpGutterIconSize;
     Ed.OptGutterShowBracketDecor:= Op.OpGutterBrackets;
     Ed.Gutter.Update;

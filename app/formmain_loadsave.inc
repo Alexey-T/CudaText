@@ -1233,7 +1233,6 @@ begin
   ATEditorOptions.CharScaleFullWidth:= cfg.GetValue('unicode_full_width', ATEditorOptions.CharScaleFullWidth);
   ATEditorOptions.BookmarksAutoDelete:= cfg.GetValue('auto_delete_bookmarks', ATEditorOptions.BookmarksAutoDelete);
   ATEditorOptions.DebugTiming:= cfg.GetValue('log_timing', ATEditorOptions.DebugTiming);
-  ATEditorOptions.GutterSizeLineStates:= cfg.GetValue('gutter_line_states_size', ATEditorOptions.GutterSizeLineStates);
 
   ATEditorOptions.MouseDragDropFocusesTargetEditor:= cfg.GetValue('mouse_drag_drop_focus_target', ATEditorOptions.MouseDragDropFocusesTargetEditor);
   ATEditorOptions.MaxTabPositionToExpand:= 1024; //cfg.GetValue('tab_max_pos_expanded', ATEditorOptions.MaxTabPositionToExpand);
@@ -1386,6 +1385,7 @@ begin
   Op.OpGutterFoldIcons:= cfg.GetValue('gutter_fold_icons', Op.OpGutterFoldIcons);
   Op.OpGutterBookmarks:= cfg.GetValue('gutter_bookmarks', Op.OpGutterBookmarks);
   Op.OpGutterLineStates:= cfg.GetValue('gutter_line_states', Op.OpGutterLineStates);
+  Op.OpGutterLineStatesSize:= cfg.GetValue('gutter_line_states_size', Op.OpGutterLineStatesSize);
   Op.OpGutterIconSize:= cfg.GetValue('gutter_icon_size', Op.OpGutterIconSize);
   Op.OpGutterBrackets:= cfg.GetValue('gutter_brackets', Op.OpGutterBrackets);
 
