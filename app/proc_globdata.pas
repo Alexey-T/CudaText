@@ -589,6 +589,7 @@ type
     OpGutterBookmarks: boolean;
     OpGutterLineStates: boolean;
     OpGutterIconSize: integer;
+    OpGutterBracketDecor: boolean;
 
     OpNumbersShow: boolean;
     OpNumbersStyle: integer;
@@ -1804,6 +1805,7 @@ begin
     OpGutterLineStates:= true;
     OpGutterFoldIcons:= 0;
     OpGutterIconSize:= 4;
+    OpGutterBracketDecor:= true;
 
     OpNumbersShow:= true;
     OpNumbersStyle:= Ord(TATEditorNumbersStyle.All);

@@ -451,6 +451,9 @@
   //Gutter: Show gutter's bookmarks column.
   "gutter_bookmarks": true,
 
+  //Gutter: Show decorations for pair brackets.
+  "gutter_brackets": true,
+
   //Gutter: Show gutter's "line states" column.
   "gutter_line_states": true,
 

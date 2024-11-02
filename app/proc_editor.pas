@@ -279,6 +279,7 @@ begin
     //if not Ed.IsModifiedGutterLineStatesVisible then
       Ed.Gutter[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagLineStates)].Visible:= Op.OpGutterLineStates;
     Ed.OptGutterPlusSize:= Op.OpGutterIconSize;
+    Ed.OptGutterShowBracketDecor:= Op.OpGutterBracketDecor;
     Ed.Gutter.Update;
 
     if (Op.OpNumbersStyle>=0) and (Op.OpNumbersStyle<=Ord(High(TATEditorNumbersStyle))) then
@@ -1794,7 +1795,7 @@ procedure EditorBracket_Action(Ed: TATSynEdit;
   MaxDistance: integer);
 var
   Caret: TATCaretItem;
-  CharFrom, CharTo: atChar;
+  CharFrom, CharTo: WideChar;
   Kind: TEditorBracketKind;
   LinePart: TATLinePart;
   Decor: TATGutterDecorData;
@@ -1847,36 +1848,39 @@ begin
           @LinePart
           );
 
-        Decor:= Default(TATGutterDecorData);
-        StyleSymbol:= GetAppStyle(TAppThemeStyle.Symbol);
-        Decor.DeleteOnDelLine:= true;
-        Decor.ImageIndex:= -1;
-        Decor.Tag:= UiOps.FindPairBracket_TagValue;
-        Decor.TextBold:= fsBold in StyleSymbol.Font.Style;
-        Decor.TextItalic:= fsItalic in StyleSymbol.Font.Style;
-        Decor.TextColor:= StyleSymbol.Font.Color;
-
-        if PosY<>FoundY then
+        if Ed.OptGutterShowBracketDecor then
         begin
-          Decor.LineNum:= PosY;
-          Decor.TextBuffer:= nil; //not important
-          Decor.TextAll:= CharFrom;
-          Ed.GutterDecor.Add(Decor);
+          Decor:= Default(TATGutterDecorData);
+          StyleSymbol:= GetAppStyle(TAppThemeStyle.Symbol);
+          Decor.DeleteOnDelLine:= true;
+          Decor.ImageIndex:= -1;
+          Decor.Tag:= UiOps.FindPairBracket_TagValue;
+          Decor.TextBold:= fsBold in StyleSymbol.Font.Style;
+          Decor.TextItalic:= fsItalic in StyleSymbol.Font.Style;
+          Decor.TextColor:= StyleSymbol.Font.Color;
 
-          Decor.LineNum:= FoundY;
-          Decor.TextBuffer:= nil; //important
-          Decor.TextAll:= CharTo;
-          Ed.GutterDecor.Add(Decor);
-        end
-        else
-        begin
-          Decor.LineNum:= PosY;
-          Decor.TextBuffer:= nil;
-          if Kind=TEditorBracketKind.Opening then
-            Decor.TextAll:= CharFrom+CharTo
+          if PosY<>FoundY then
+          begin
+            Decor.LineNum:= PosY;
+            Decor.TextBuffer:= nil; //not important
+            Decor.TextAll:= CharFrom;
+            Ed.GutterDecor.Add(Decor);
+
+            Decor.LineNum:= FoundY;
+            Decor.TextBuffer:= nil; //important
+            Decor.TextAll:= CharTo;
+            Ed.GutterDecor.Add(Decor);
+          end
           else
-            Decor.TextAll:= CharTo+CharFrom;
-          Ed.GutterDecor.Add(Decor);
+          begin
+            Decor.LineNum:= PosY;
+            Decor.TextBuffer:= nil;
+            if Kind=TEditorBracketKind.Opening then
+              Decor.TextAll:= UTF8Encode(CharFrom+CharTo)
+            else
+              Decor.TextAll:= UTF8Encode(CharTo+CharFrom);
+            Ed.GutterDecor.Add(Decor);
+          end;
         end;
 
         Ed.Update;

@@ -1386,6 +1386,7 @@ begin
   Op.OpGutterBookmarks:= cfg.GetValue('gutter_bookmarks', Op.OpGutterBookmarks);
   Op.OpGutterLineStates:= cfg.GetValue('gutter_line_states', Op.OpGutterLineStates);
   Op.OpGutterIconSize:= cfg.GetValue('gutter_icon_size', Op.OpGutterIconSize);
+  Op.OpGutterBracketDecor:= cfg.GetValue('gutter_brackets', Op.OpGutterBracketDecor);
 
   Op.OpNumbersShow:= cfg.GetValue('numbers_show', Op.OpNumbersShow);
   //Op.OpNumbersFontSize:= cfg.GetValue('numbers_font_size', Op.OpNumbersFontSize);
