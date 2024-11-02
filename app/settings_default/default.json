@@ -451,10 +451,7 @@
   //Gutter: Show gutter's bookmarks column.
   "gutter_bookmarks": true,
 
-  //Gutter: Show gutter's "line states" column.
-  "gutter_line_states": true,
-
-  //Gutter: Width (in pixels) of "line states" column.
+  //Gutter: Width (in pixels) of "line states" column. If 0, column is hidden.
   "gutter_line_states_size": 3,
 
   //Gutter: Show decorations for pair brackets.
