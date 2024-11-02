@@ -3364,12 +3364,6 @@ begin
             Result:= PyBool_FromLong(Ord(bValue));
           end;
 
-        PROP_GUTTER_EMPTY_WIDTH:
-          begin
-            Num1:= Ed.OptGutterWidthEmpty;
-            Result:= PyLong_FromLong(Num1);
-          end;
-
         PROP_WRAP:
           Result:= PyLong_FromLong(Ord(Ed.OptWrapMode));
 
@@ -3417,6 +3411,12 @@ begin
 
         PROP_LINE_STATES_UPDATED:
           Result:= PyHelper_GetLineUpdatedList(Ed);
+
+        PROP_GUTTER_EMPTY_WIDTH:
+          Result:= PyLong_FromLong(Ed.OptGutterWidthEmpty);
+
+        PROP_GUTTER_STATES_WIDTH:
+          Result:= PyLong_FromLong(Ed.OptGutterWidthLineStates);
 
         PROP_ZEBRA:
           begin
@@ -4216,9 +4216,6 @@ begin
         PROP_GUTTER_EMPTY:
           Ed.Gutter[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagEmpty)].Visible:= ValueBool;
 
-        PROP_GUTTER_EMPTY_WIDTH:
-          Ed.OptGutterWidthEmpty:= ValueInt;
-
         PROP_WRAP:
           begin
             Ed.OptWrapMode:= TATEditorWrapMode(ValueInt);
@@ -4325,6 +4322,12 @@ begin
             if Str='' then
               Ed.Strings.ClearLineStatesUpdated;
           end;
+
+        PROP_GUTTER_EMPTY_WIDTH:
+          Ed.OptGutterWidthEmpty:= ValueInt;
+
+        PROP_GUTTER_STATES_WIDTH:
+          Ed.OptGutterWidthLineStates:= ValueInt;
 
         PROP_ZEBRA:
           begin
