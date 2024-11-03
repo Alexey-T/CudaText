@@ -274,7 +274,8 @@ begin
       Ed.Gutter[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagBookmarks)].Visible:= Op.OpGutterWidthBookmarks>0;
     Ed.OptGutterWidthBookmarks:= Op.OpGutterWidthBookmarks;
     if not (TATEditorModifiedOption.GutterFolding in Ed.ModifiedOptions) then
-      Ed.Gutter[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagFolding)].Visible:= Op.OpGutterFold;
+      Ed.Gutter[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagFolding)].Visible:= Op.OpGutterWidthFolding>0;
+    Ed.OptGutterWidthFolding:= Op.OpGutterWidthFolding;
     if not (TATEditorModifiedOption.GutterNumbers in Ed.ModifiedOptions) then
       Ed.Gutter[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagNumbers)].Visible:= Op.OpNumbersShow;
     //if not Ed.IsModifiedGutterLineStatesVisible then

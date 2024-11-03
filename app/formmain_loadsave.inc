@@ -1380,9 +1380,9 @@ begin
   Op.OpLinksRegex:= cfg.GetValue('links_regex', Op.OpLinksRegex);
 
   Op.OpGutterShow:= cfg.GetValue('gutter_show', Op.OpGutterShow);
-  Op.OpGutterFold:= cfg.GetValue('gutter_fold', Op.OpGutterFold);
   Op.OpGutterFoldAlways:= cfg.GetValue('gutter_fold_always', Op.OpGutterFoldAlways);
   Op.OpGutterFoldIcons:= cfg.GetValue('gutter_fold_icons', Op.OpGutterFoldIcons);
+  Op.OpGutterWidthFolding:= cfg.GetValue('gutter_width_folding', Op.OpGutterWidthFolding);
   Op.OpGutterWidthBookmarks:= cfg.GetValue('gutter_width_bookmarks', Op.OpGutterWidthBookmarks);
   Op.OpGutterWidthLineStates:= cfg.GetValue('gutter_width_states', Op.OpGutterWidthLineStates);
   Op.OpGutterIconSize:= cfg.GetValue('gutter_icon_size', Op.OpGutterIconSize);

@@ -434,9 +434,6 @@
   //Gutter: If false, all gutter columns hide (bookmarks, folding, numbers, line states).
   "gutter_show": true,
 
-  //Gutter: Show gutter's folding column.
-  "gutter_fold": true,
-
   //Gutter: If false, folding lines auto-hide on mouse-leave.
   "gutter_fold_always": true,
 
@@ -447,6 +444,9 @@
 
   //Gutter: Size of plus/minus/triangle folding icons.
   "gutter_icon_size": 4,
+
+  //Gutter: Width (in pixels) of "folding" column. If 0, column is hidden.
+  "gutter_width_folding": 14,
 
   //Gutter: Width (in pixels) of "bookmarks" column. If 0, column is hidden.
   "gutter_width_bookmarks": 16,

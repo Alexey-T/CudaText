@@ -583,9 +583,9 @@ type
 
     //view
     OpGutterShow: boolean;
-    OpGutterFold: boolean;
     OpGutterFoldAlways: boolean;
     OpGutterFoldIcons: integer;
+    OpGutterWidthFolding: integer;
     OpGutterWidthBookmarks: integer;
     OpGutterWidthLineStates: integer;
     OpGutterIconSize: integer;
@@ -1799,8 +1799,8 @@ begin
     OpLinksRegex:= TATSynEdit.cUrlRegexInitial;
 
     OpGutterShow:= true;
-    OpGutterFold:= true;
     OpGutterFoldAlways:= true;
+    OpGutterWidthFolding:= 14;
     OpGutterWidthBookmarks:= 16;
     OpGutterWidthLineStates:= 3;
     OpGutterFoldIcons:= 0;
