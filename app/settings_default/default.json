@@ -448,8 +448,8 @@
   //Gutter: Size of plus/minus/triangle folding icons.
   "gutter_icon_size": 4,
 
-  //Gutter: Show gutter's bookmarks column.
-  "gutter_bookmarks": true,
+  //Gutter: Width (in pixels) of "bookmarks" column. If 0, column is hidden.
+  "gutter_width_bookmarks": 16,
 
   //Gutter: Width (in pixels) of "line states" column. If 0, column is hidden.
   "gutter_width_states": 3,

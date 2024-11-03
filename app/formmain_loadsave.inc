@@ -1383,7 +1383,7 @@ begin
   Op.OpGutterFold:= cfg.GetValue('gutter_fold', Op.OpGutterFold);
   Op.OpGutterFoldAlways:= cfg.GetValue('gutter_fold_always', Op.OpGutterFoldAlways);
   Op.OpGutterFoldIcons:= cfg.GetValue('gutter_fold_icons', Op.OpGutterFoldIcons);
-  Op.OpGutterBookmarks:= cfg.GetValue('gutter_bookmarks', Op.OpGutterBookmarks);
+  Op.OpGutterWidthBookmarks:= cfg.GetValue('gutter_width_bookmarks', Op.OpGutterWidthBookmarks);
   Op.OpGutterWidthLineStates:= cfg.GetValue('gutter_width_states', Op.OpGutterWidthLineStates);
   Op.OpGutterIconSize:= cfg.GetValue('gutter_icon_size', Op.OpGutterIconSize);
   Op.OpGutterBrackets:= cfg.GetValue('gutter_brackets', Op.OpGutterBrackets);

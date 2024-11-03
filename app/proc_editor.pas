@@ -270,8 +270,9 @@ begin
     Ed.OptGutterVisible:= Op.OpGutterShow;
     Ed.OptGutterShowFoldAlways:= Op.OpGutterFoldAlways;
     Ed.OptGutterIcons:= TATEditorGutterIcons(Op.OpGutterFoldIcons);
-    if not (TATEditorModifiedOption.GutterBookmarks  in Ed.ModifiedOptions) then
-      Ed.Gutter[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagBookmarks)].Visible:= Op.OpGutterBookmarks;
+    if not (TATEditorModifiedOption.GutterBookmarks in Ed.ModifiedOptions) then
+      Ed.Gutter[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagBookmarks)].Visible:= Op.OpGutterWidthBookmarks>0;
+    Ed.OptGutterWidthBookmarks:= Op.OpGutterWidthBookmarks;
     if not (TATEditorModifiedOption.GutterFolding in Ed.ModifiedOptions) then
       Ed.Gutter[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagFolding)].Visible:= Op.OpGutterFold;
     if not (TATEditorModifiedOption.GutterNumbers in Ed.ModifiedOptions) then
