@@ -7,14 +7,14 @@
 
 * change: removed sub-option "E" from option "unprinted_content" and added sub-option "w", it allows better customization, ie it allows to show/hide wrapped-marks independently from line-ends-marks
 * change: removed lexer Lua to addons
-* change: removed option "gutter_line_states" (replaced with "gutter_line_states_size", see below)
+* change: removed option "gutter_line_states" (replaced with "gutter_width_states", see below)
 + add: app should reduce fold-block by 1 line, if ending line has more 'lexer tokens' on it; this feature existed before but only if option was written to *.cuda-lexmap file; now this feature works better, for all lexers, and w/o any options (thanks @pintassilgo for idea)
 + add: logic of disabling of inserting ')' on typing it over ')' - is now more like in VSCode; ie if caret leaves the original line, inserting is reenabled (thanks @pintassilgo for idea)
 + add: on pasting in single-line inputs, trim leading+trailing newline chars of clipboard text (thanks @pintassilgo)
 + add: show filename also in the title of floating-windows f1/f2/f3; don't show title of floating tab for the main window (thanks @pintassilgo)
 + add: for floating-windows f1/f2/f3, save/restore tabs to/from sessions properly (thanks @pintassilgo)
 + add: can disable brackets decoration on gutter via new option "gutter_brackets" (thanks @FanNengHu)
-+ add: can set width of gutter's "line states" column via new option "gutter_line_states_size" (thanks @FanNengHu)
++ add: can set width of gutter's "line states" column via new option "gutter_width_states" (thanks @FanNengHu)
 + add: plugin Addons Manager: can remove toolbar-icons, sidebar-icons, code-tree-icons
 + add: plugin Sort: dialog offers 3 buttons: Sort, Save only, Cancel; added command "Run custom sort" to sort by saved dialog options (thanks @pintassilgo)
 + add: plugin Sort: 'Numeric' sorting supports any count of numbers mixed with text

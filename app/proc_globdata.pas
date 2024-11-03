@@ -587,7 +587,7 @@ type
     OpGutterFoldAlways: boolean;
     OpGutterFoldIcons: integer;
     OpGutterBookmarks: boolean;
-    OpGutterLineStatesSize: integer;
+    OpGutterWidthLineStates: integer;
     OpGutterIconSize: integer;
     OpGutterBrackets: boolean;
 
@@ -1802,7 +1802,7 @@ begin
     OpGutterFold:= true;
     OpGutterFoldAlways:= true;
     OpGutterBookmarks:= true;
-    OpGutterLineStatesSize:= 3;
+    OpGutterWidthLineStates:= 3;
     OpGutterFoldIcons:= 0;
     OpGutterIconSize:= 4;
     OpGutterBrackets:= true;

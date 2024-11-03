@@ -452,7 +452,7 @@
   "gutter_bookmarks": true,
 
   //Gutter: Width (in pixels) of "line states" column. If 0, column is hidden.
-  "gutter_line_states_size": 3,
+  "gutter_width_states": 3,
 
   //Gutter: Show decorations for pair brackets.
   "gutter_brackets": true,
