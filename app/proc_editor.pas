@@ -272,14 +272,14 @@ begin
     Ed.OptGutterIcons:= TATEditorGutterIcons(Op.OpGutterFoldIcons);
     if not (TATEditorModifiedOption.GutterBookmarks in Ed.ModifiedOptions) then
       Ed.Gutter[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagBookmarks)].Visible:= Op.OpGutterWidthBookmarks>0;
-    Ed.OptGutterWidthBookmarks:= Op.OpGutterWidthBookmarks;
     if not (TATEditorModifiedOption.GutterFolding in Ed.ModifiedOptions) then
       Ed.Gutter[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagFolding)].Visible:= Op.OpGutterWidthFolding>0;
-    Ed.OptGutterWidthFolding:= Op.OpGutterWidthFolding;
     if not (TATEditorModifiedOption.GutterNumbers in Ed.ModifiedOptions) then
       Ed.Gutter[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagNumbers)].Visible:= Op.OpNumbersShow;
-    //if not Ed.IsModifiedGutterLineStatesVisible then
+    //if not (TATEditorModifiedOption.GutterLineStates in Ed.ModifiedOptions) then
       Ed.Gutter[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagLineStates)].Visible:= Op.OpGutterWidthLineStates>0;
+    Ed.OptGutterWidthBookmarks:= Op.OpGutterWidthBookmarks;
+    Ed.OptGutterWidthFolding:= Op.OpGutterWidthFolding;
     Ed.OptGutterWidthLineStates:= Op.OpGutterWidthLineStates;
     Ed.OptGutterPlusSize:= Op.OpGutterIconSize;
     Ed.OptGutterShowBracketDecor:= Op.OpGutterBrackets;
