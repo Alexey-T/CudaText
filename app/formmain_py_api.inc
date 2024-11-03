@@ -4199,7 +4199,10 @@ begin
           Ed.OptGutterVisible:= ValueBool;
 
         PROP_GUTTER_STATES:
-          Ed.Gutter[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagLineStates)].Visible:= ValueBool;
+          begin
+            Ed.Gutter[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagLineStates)].Visible:= ValueBool;
+            Include(Ed.ModifiedOptions, TATEditorModifiedOption.GutterLineStates);
+          end;
 
         PROP_GUTTER_NUM:
           begin
