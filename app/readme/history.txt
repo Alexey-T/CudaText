@@ -21,6 +21,7 @@
 + add: can set width of gutter's "folding" column via new option "gutter_width_folding"
 + add: can set width of gutter's "empty indent" column via new option "gutter_width_empty"
 + add: add flag 'L' for option "ui_history_disabled"
++ add: Windows IME: respect app option "spacing_y":6 (thanks @rasberryrabbit); and caret is now blinking
 + add: plugin Addons Manager: can remove toolbar-icons, sidebar-icons, code-tree-icons
 + add: plugin Sort: dialog offers 3 buttons: Sort, Save only, Cancel; added command "Run custom sort" to sort by saved dialog options (thanks @pintassilgo)
 + add: plugin Sort: 'Numeric' sorting supports any count of numbers mixed with text
@@ -28,7 +29,6 @@
 - fix: plugin Sort: trailing empty lines appeared after Sort action (thanks @pintassilgo)
 - fix: minor UI bugs related to Shift+Alt+click column selection (thanks @pintassilgo)
 - fix: typing 'f1(f2(f3(' did not give nested brackets 'f1(f2(f3()))' (thanks @lucvtzel)
-- fix: Windows: minor IME bugs fixed (thanks @rasberryrabbit)
 
 1.218.0 (2024/10)
 
