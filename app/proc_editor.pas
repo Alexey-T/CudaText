@@ -278,9 +278,12 @@ begin
       Ed.Gutter[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagNumbers)].Visible:= Op.OpNumbersShow;
     if not (TATEditorModifiedOption.GutterLineStates in Ed.ModifiedOptions) then
       Ed.Gutter[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagLineStates)].Visible:= Op.OpGutterWidthLineStates>0;
+    //if not (TATEditorModifiedOption.GutterLineStates in Ed.ModifiedOptions) then
+      Ed.Gutter[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagEmpty)].Visible:= Op.OpGutterWidthEmpty>0;
     Ed.OptGutterWidthBookmarks:= Op.OpGutterWidthBookmarks;
     Ed.OptGutterWidthFolding:= Op.OpGutterWidthFolding;
     Ed.OptGutterWidthLineStates:= Op.OpGutterWidthLineStates;
+    Ed.OptGutterWidthEmpty:= Op.OpGutterWidthEmpty;
     Ed.OptGutterPlusSize:= Op.OpGutterIconSize;
     Ed.OptGutterShowBracketDecor:= Op.OpGutterBrackets;
     Ed.Gutter.Update;
