@@ -19,6 +19,7 @@
 + add: can set width of gutter's "line states" column via new option "gutter_width_states" (thanks @FanNengHu)
 + add: can set width of gutter's "bookmarks" column via new option "gutter_width_bookmarks"
 + add: can set width of gutter's "folding" column via new option "gutter_width_folding"
++ add: add flag 'L' for option "ui_history_disabled"
 + add: plugin Addons Manager: can remove toolbar-icons, sidebar-icons, code-tree-icons
 + add: plugin Sort: dialog offers 3 buttons: Sort, Save only, Cancel; added command "Run custom sort" to sort by saved dialog options (thanks @pintassilgo)
 + add: plugin Sort: 'Numeric' sorting supports any count of numbers mixed with text
