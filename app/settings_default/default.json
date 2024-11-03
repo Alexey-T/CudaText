@@ -1041,10 +1041,11 @@
   //  if 'n' in value: "Line numbers" column visible state
   //  if 'S' in value: Font scale in %
   //  if 'f' in value: List of folded ranges
+  //  if 'k' in value: Markers
   //  if 'C' in value: Custom color of UI-tab header
   //  if 'F' in value: Code-tree filter: string and history
   //  if 'i' in value: Splitted state of UI-tab (horiz/vert, % of size)
-  //  if 'I' in value: Column of vertical 'margin' line
+  //  if 'I' in value: Column of vertical "margin" line
   //  if 'U' in value: Undo/Redo data
   "ui_history_disabled": "",
 
