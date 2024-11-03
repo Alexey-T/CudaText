@@ -599,6 +599,7 @@ const
   cHistory_TabSize     = '/tab_size';
   cHistory_TabSpace    = '/tab_spaces';
   cHistory_LineNums    = '/nums';
+  cHistory_LineStates  = '/states';
   cHistory_FontScale   = '/scale';
   cHistory_Unpri        = '/unprinted_show';
   cHistory_Unpri_Spaces = '/unprinted_spaces';
@@ -4008,6 +4009,9 @@ begin
   if UiOps.HistoryItems[TAppHistoryElement.LineNumbers] then
     c.SetDeleteValue(path+cHistory_LineNums, Ord(Ed.Gutter[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagNumbers)].Visible), 1);
 
+  if UiOps.HistoryItems[TAppHistoryElement.LineStates] then
+    c.SetDeleteValue(path+cHistory_LineStates, Ord(Ed.Gutter[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagLineStates)].Visible), 1);
+
   if UiOps.HistoryItems[TAppHistoryElement.Scale] then
     c.SetDeleteValue(path+cHistory_FontScale, Ed.OptScaleFont, 0);
 
@@ -4291,6 +4295,13 @@ begin
   begin
     Ed.Gutter[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagNumbers)].Visible:= NFlag=1;
     Include(Ed.ModifiedOptions, TATEditorModifiedOption.GutterNumbers);
+  end;
+
+  NFlag:= c.GetValue(path+cHistory_LineStates, -1);
+  if NFlag>=0 then
+  begin
+    Ed.Gutter[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagLineStates)].Visible:= NFlag=1;
+    Include(Ed.ModifiedOptions, TATEditorModifiedOption.GutterLineStates);
   end;
 
   NFlag:= c.GetValue(path+cHistory_FoldingShow, -1);

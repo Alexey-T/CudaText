@@ -130,13 +130,14 @@ type
     CodeTreeFilter,
     TabSplit,
     Margin,
-    UndoRedo
+    UndoRedo,
+    LineStates
     );
 
 const
   cAppHistoryElementChar: array[TAppHistoryElement] of char =
     ('t', 'c', 'h', 's', 'T', 'e', 'b', 'l', 'w', 'M', 'm', 'r', 'u', 'n',
-     'S', 'f', 'k', 'C', 'F', 'i', 'I', 'U');
+     'S', 'f', 'k', 'C', 'F', 'i', 'I', 'U', 'L');
 
 const
   cAppSessionDefaultBase = 'history session';
