@@ -30,6 +30,7 @@
 - fix: plugin Sort: trailing empty lines appeared after Sort action (thanks @pintassilgo)
 - fix: minor UI bugs related to Shift+Alt+click column selection (thanks @pintassilgo)
 - fix: typing 'f1(f2(f3(' did not give nested brackets 'f1(f2(f3()))' (thanks @lucvtzel)
+- fix: regression in 1.215 causing wrong dialog sizes in plugins (thanks @actforjason)
 
 1.218.0 (2024/10)
 
