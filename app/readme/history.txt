@@ -31,6 +31,7 @@
 - fix: minor UI bugs related to Shift+Alt+click column selection (thanks @pintassilgo)
 - fix: typing 'f1(f2(f3(' did not give nested brackets 'f1(f2(f3()))' (thanks @lucvtzel)
 - fix: regression in 1.214, causing wrong dialog sizes in plugins (thanks @actforjason)
+- fix: regression in 1.217.5, Breadcrumbs popup for the _last_ cell appeared at x=0 (thanks @actforjason)
 
 1.218.0 (2024/10)
 
