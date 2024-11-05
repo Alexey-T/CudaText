@@ -2456,9 +2456,9 @@ begin
   SetDictKey_NotEmpty(Result, 'on_form_state', F.FEventOnFormState);
 end;
 
-{$ifdef new_dlg_set_pos}
+(*
 //
-// this variant gives bug: https://github.com/halfbrained/cuda_breadcrumbs/issues/64
+// this version gives bug: https://github.com/halfbrained/cuda_breadcrumbs/issues/64
 //
 procedure DoForm_SetPropsFromStringDict(F: TFormDummy; const AText: string);
 //text is '{key1:value1;key2:value2}' from to_str()
@@ -2494,7 +2494,8 @@ begin
       F.BoundsRect:= RectBounds;
     end;
 end;
-{$else}
+*)
+
 procedure DoForm_SetPropsFromStringDict(F: TFormDummy; const AText: string);
 //text is '{key1:value1;key2:value2}' from to_str()
 var
@@ -2511,7 +2512,6 @@ begin
     DoForm_SetPropFromPair(F, SKey, SValue);
   until false;
 end;
-{$endif}
 
 function DoControl_GetPropsAsStringDict(C: TControl): PPyObject;
 var
