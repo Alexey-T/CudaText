@@ -2456,45 +2456,6 @@ begin
   SetDictKey_NotEmpty(Result, 'on_form_state', F.FEventOnFormState);
 end;
 
-(*
-//
-// this version gives bug: https://github.com/halfbrained/cuda_breadcrumbs/issues/64
-//
-procedure DoForm_SetPropsFromStringDict(F: TFormDummy; const AText: string);
-//text is '{key1:value1;key2:value2}' from to_str()
-var
-  Sep: TATStringSeparator;
-  STextStripped, SItem, SKey, SValue: string;
-  bHasPos: boolean;
-  RectBounds: TRect;
-begin
-  STextStripped:= SDeleteCurlyBrackets(AText);
-  bHasPos:= false;
-  RectBounds:= F.BoundsRect;
-
-  Sep.Init(STextStripped, #1);
-  repeat
-    if not Sep.GetItemStr(SItem) then Break;
-    SSplitByChar(SItem, ':', SKey, SValue);
-    SValue:= StringReplace(SValue, #2, ',', [rfReplaceAll]);
-    case SKey of
-      'x': begin bHasPos:= true; RectBounds.Left:= StrToIntDef(SValue, RectBounds.Left); end;
-      'y': begin bHasPos:= true; RectBounds.Top:= StrToIntDef(SValue, RectBounds.Top); end;
-      'w': begin bHasPos:= true; RectBounds.Width:= StrToIntDef(SValue, RectBounds.Width); end;
-      'h': begin bHasPos:= true; RectBounds.Height:= StrToIntDef(SValue, RectBounds.Height); end;
-      else
-        DoForm_SetPropFromPair(F, SKey, SValue);
-    end;
-  until false;
-
-  if bHasPos then
-    if F.BoundsRect<>RectBounds then
-    begin
-      F.Position:= poDesigned;
-      F.BoundsRect:= RectBounds;
-    end;
-end;
-*)
 
 procedure DoForm_SetPropsFromStringDict(F: TFormDummy; const AText: string);
 //text is '{key1:value1;key2:value2}' from to_str()
