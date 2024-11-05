@@ -182,7 +182,8 @@ end;
 procedure TAppTreeView.DoSelectionChanged;
 begin
   inherited;
-  UpdateBars;
+  if Assigned(Selected) then
+    UpdateBars;
 end;
 
 procedure TAppTreeView.Resize;
