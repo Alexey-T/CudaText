@@ -617,7 +617,8 @@
 
   //Position of vertical line called "margin".
   //It is used in "word-wrap by margin" mode, and by some plugins.
-  //To hide this line, set some big value (e.g. 2000).
+  //To hide this line, set some big value, e.g. 2000.
+  //Value<0 means indent from the right window edge.
   "margin": 2000,
 
   //Additional vertical lines.

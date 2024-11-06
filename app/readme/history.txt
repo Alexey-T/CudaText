@@ -3,6 +3,8 @@
   - fixed
   * changed
 
++ add: option "margin" now allows value<0 which means indent from the right window edge
+
 1.219.0 (2024/11)
 
 * change: removed sub-option "E" from option "unprinted_content" and added sub-option "w", it allows better customization, ie it allows to show/hide wrapped-marks independently from line-ends-marks
