@@ -63,10 +63,11 @@ const
 
   DMENU_LIST          = 0;
   DMENU_LIST_ALT      = 1;
-  DMENU_NO_FUZZY      = 16;
-  DMENU_NO_FULLFILTER = 32;
-  DMENU_CENTERED      = 64;
-  DMENU_EDITORFONT    = 128;
+  //following DMENU_ must be powers of 2
+  DMENU_NO_FUZZY      = 1 shl 4;
+  DMENU_NO_FULLFILTER = 1 shl 5;
+  DMENU_CENTERED      = 1 shl 6;
+  DMENU_EDITORFONT    = 1 shl 7;
 
   MENU_CLEAR         = 0;
   MENU_ENUM          = 1;
