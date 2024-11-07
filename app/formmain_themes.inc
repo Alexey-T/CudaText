@@ -340,7 +340,7 @@ end;
 
 procedure TfmMain.DoDialogTheme(AThemeUI: boolean);
 var
-  Str, StrName, StrExt, StrPrompt: string;
+  StrName, StrExt, StrPrompt: string;
 begin
   with TIniFile.Create(AppFile_Language) do
   try
@@ -367,13 +367,14 @@ begin
   begin
     DoApplyTheme;
 
-    if Msgbox(msgConfirmSaveColorsToFile, MB_OKCANCEL or MB_ICONQUESTION)=ID_OK then
+    if InputQuery(msgConfirmSaveColorsToFile, StrPrompt, StrName) then
     begin
-      Str:= Trim(InputBox(msgTitle, StrPrompt, StrName));
-      if Str='' then exit;
-      Str:= AppDir_DataThemes+DirectorySeparator+Str+StrExt;
-
-      AppThemeSaveToFile(Str, AppTheme, AThemeUI);
+      StrName:= Trim(StrName);
+      if StrName<>'' then
+      begin
+        StrName:= AppDir_DataThemes+DirectorySeparator+StrName+StrExt;
+        AppThemeSaveToFile(StrName, AppTheme, AThemeUI);
+      end;
     end;
 
     if AThemeUI then
