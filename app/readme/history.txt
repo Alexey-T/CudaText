@@ -4,6 +4,8 @@
   * changed
 
 + add: option "margin" now allows value<0 which means indent from the right window edge
+- fix: Windows: shifted window height after returning from full-screen mode (thanks @iconv)
+- fix: "go to bookmark" dialog bug if bookmarked line has 1 leading tab-char (thanks @ildarkhasanshin)
 
 1.219.0 (2024/11)
 
