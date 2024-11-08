@@ -5546,15 +5546,15 @@ procedure TfmMain.DoDialogGotoBookmark;
 var
   ListItems: TStringList;
   //
-  function ShrinkLineIndentation(const S: string; ATabSize: integer): string;
+  function ShrinkLineIndentationAndReplaceTabs(const S: string; ATabSize: integer): string;
   var
     N: integer;
     SBegin, SEnd: string;
   begin
     N:= SGetIndentChars(S);
-    if N<=0 then exit(S);
     SBegin:= Copy(S, 1, N);
     SEnd:= Copy(S, N+1, MaxInt);
+    SEnd:= StringReplace(SEnd, #9, '  ', [rfReplaceAll]);
     SBegin:= StringReplace(SBegin, #9, StringOfChar(' ', ATabSize), [rfReplaceAll]);
     if ATabSize>=4 then
       N:= 4
@@ -5576,6 +5576,7 @@ var
   procedure AddItemsOfFrame(Frame: TEditorFrame);
   var
     Ed: TATSynEdit;
+    St: TATStrings;
     SCaption: string;
     Prop: TAppBookmarkProp;
     Mark: PATBookmarkItem;
@@ -5584,16 +5585,17 @@ var
     cMaxLen = 150;
   begin
     Ed:= Frame.Editor;
+    St:= Ed.Strings;
     for i:= 0 to Ed.Strings.Bookmarks.Count-1 do
     begin
-      Mark:= Ed.Strings.Bookmarks[i];
+      Mark:= St.Bookmarks[i];
       if not Mark^.Data.ShowInBookmarkList then Continue;
 
       NLine:= Mark^.Data.LineNum;
-      if not Ed.Strings.IsIndexValid(NLine) then Continue;
+      if not St.IsIndexValid(NLine) then Continue;
 
-      SCaption:= Copy(Ed.Strings.Lines[NLine], 1, cMaxLen);
-      SCaption:= ShrinkLineIndentation(SCaption, Ed.OptTabSize);
+      SCaption:= UTF8Encode(St.LineSub(NLine, 1, Min(St.LinesLen[NLine], cMaxLen)));
+      SCaption:= ShrinkLineIndentationAndReplaceTabs(SCaption, Ed.OptTabSize);
 
       Prop:= TAppBookmarkProp.Create;
       Prop.Frame:= Frame;
