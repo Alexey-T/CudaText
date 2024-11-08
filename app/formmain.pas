@@ -5552,7 +5552,7 @@ var
     SBegin, SEnd: string;
   begin
     N:= SGetIndentChars(S);
-    if N<2 then exit(S);
+    if N<=0 then exit(S);
     SBegin:= Copy(S, 1, N);
     SEnd:= Copy(S, N+1, MaxInt);
     SBegin:= StringReplace(SBegin, #9, StringOfChar(' ', ATabSize), [rfReplaceAll]);
