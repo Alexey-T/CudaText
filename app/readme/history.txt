@@ -3,7 +3,10 @@
   - fixed
   * changed
 
+1.219.1 (2024/11)
+
 + add: option "margin" now allows value<0 which means indent from the right window edge
++ add: function "Title case" makes upper-case after '_' (thanks @mdv)
 - fix: Windows: shifted window height after returning from full-screen mode (thanks @iconv)
 - fix: "go to bookmark" dialog bug if bookmarked line has 1 leading tab-char (thanks @ildarkhasanshin)
 
