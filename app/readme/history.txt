@@ -6,10 +6,10 @@
 1.219.1 (2024/11)
 
 + add: option "margin" now allows value<0 which means indent from the right window edge
-+ add: function "Title case" makes upper-case after '_' (thanks @mdv)
++ add: function "Title case" makes upper case after '_' char, like it was in SynWrite (thanks @mdv)
 - fix: Windows: shifted window height after returning from full-screen mode (thanks @iconv)
 - fix: "go to bookmark" dialog bug if bookmarked line has 1 leading tab-char (thanks @ildarkhasanshin)
-- fix: option "fallback_encoding" was not applied (always applied cp1252) for 100Mb SQL file with Russian text (thanks @mdv)
+- fix: option "fallback_encoding":"cp1251" was not applied (always applied cp1252) for 100Mb file with Russian text (thanks @mdv)
 
 1.219.0 (2024/11)
 
