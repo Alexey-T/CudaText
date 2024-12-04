@@ -1,8 +1,8 @@
 In the Lazarus IDE dialog 'Configure "Build Lazarus"'
 better define these words:
 
-LCLRealFormBounds     -> fixes form size after returning from full-screen mode, on Windows
 WITH_GTK2_IM          -> supports IME for Gtk2 version
 DisableAsianCodePages -> reduces size of binary
 DisableLCLTIFF        -> reduces size of binary
 DisableLCLPNM
+
