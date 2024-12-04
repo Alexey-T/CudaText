@@ -2200,8 +2200,8 @@ begin
   if ATEditorScalePercents<>100 then
     if ASimpleResize then
     begin
-      F.Width:= ATEditorScale(F.Width);
-      F.Height:= ATEditorScale(F.Height);
+      F.ClientWidth:= ATEditorScale(F.ClientWidth);
+      F.ClientHeight:= ATEditorScale(F.ClientHeight);
       for i:= 0 to F.ControlCount-1 do
         with F.Controls[i] do
         begin
@@ -2430,8 +2430,8 @@ begin
       'tag', PChar(F.TagString),
       PChar(string('x')), F.Left,
       PChar(string('y')), F.Top,
-      PChar(string('w')), F.Width,
-      PChar(string('h')), F.Height,
+      PChar(string('w')), F.ClientWidth,
+      PChar(string('h')), F.ClientHeight,
       'clicked', F.IdClicked,
       'focused', F.IdFocused,
       'vis', PyBool_FromLong(Ord(F.Visible)),
