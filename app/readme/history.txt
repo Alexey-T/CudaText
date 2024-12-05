@@ -4,7 +4,8 @@
   * changed
 
 
-* fix: command "Edit / Paste from history" must show multiline texts with EOL replaced to space (thanks @ildarkhasanshin)
+- fix: Comments-plugin: command "toggle line comment" in CSS (it has only /*..*/ comments) must add surrounding spaces (thanks @ildarkhasanshin)
+- fix: command "Edit / Paste from history" must show multiline texts with EOL replaced to space (thanks @ildarkhasanshin)
 
 1.219.1 (2024/11)
 
