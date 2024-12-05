@@ -117,16 +117,16 @@ class Command:
                     if cmt_act=='add':
                         continue
                     if commented1:
-                        line_new = line[len(rng1): -len(rng2)]
+                        line_new = line[len(rng1): -len(rng2)].lstrip().rstrip()
                     elif commented2:
-                        line_new = indent + line_x[len(rng1): -len(rng2)]
+                        line_new = indent + line_x[len(rng1): -len(rng2)].lstrip().rstrip()
                 else:
                     if cmt_act=='del':
                         continue
                     if cmt_type=='1st':
-                        line_new = rng1+line+rng2
+                        line_new = rng1+' '+line+' '+rng2
                     elif cmt_type=='bod':
-                        line_new = indent+rng1+line_x+rng2
+                        line_new = indent+rng1+' '+line_x+' '+rng2
                     else:
                         continue
                 ed_.set_text_line(index, line_new)
