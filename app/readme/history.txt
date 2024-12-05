@@ -3,6 +3,9 @@
   - fixed
   * changed
 
+
+* fix: command "Edit / Paste from history" must show multiline texts with EOL replaced to space (thanks @ildarkhasanshin)
+
 1.219.1 (2024/11)
 
 + add: option "margin" now allows value<0 which means indent from the right window edge
