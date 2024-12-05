@@ -117,9 +117,9 @@ class Command:
                     if cmt_act=='add':
                         continue
                     if commented1:
-                        line_new = line[len(rng1): -len(rng2)].lstrip().rstrip()
+                        line_new = line[len(rng1): -len(rng2)].strip()
                     elif commented2:
-                        line_new = indent + line_x[len(rng1): -len(rng2)].lstrip().rstrip()
+                        line_new = indent + line_x[len(rng1): -len(rng2)].strip()
                 else:
                     if cmt_act=='del':
                         continue
