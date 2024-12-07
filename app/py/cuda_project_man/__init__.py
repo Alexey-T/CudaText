@@ -972,17 +972,26 @@ class Command:
             tree_proc(self.tree, TREE_ITEM_SELECT, items_root[0][0])
 
             nodes = map(Path, self.project["nodes"])
-            nodes = sorted(nodes, key=Command.node_ordering_direntry)
+            if sort_order == '':
+                nodes = sorted(nodes)
+            else:
+                nodes = sorted(nodes, key=Command.node_ordering_direntry)
         else:
             fn = str(self.get_location_by_index(parent)) # str() is required for old Python 3.5 for os.scandir()
             if not fn: return
             #print('Reading dir:', fn)
             try:
                 if hasattr(os, "scandir") and callable(os.scandir):
-                    nodes = sorted(os.scandir(fn), key=Command.node_ordering_direntry)
+                    if sort_order == '':
+                        nodes = os.scandir(fn)
+                    else:
+                        nodes = sorted(os.scandir(fn), key=Command.node_ordering_direntry)
                 else:
                     # support for old Python 3.4
-                    nodes = sorted(Path(fn).iterdir(), key=Command.node_ordering)
+                    if sort_order == '':
+                        nodes = Path(fn).iterdir()
+                    else:
+                        nodes = sorted(Path(fn).iterdir(), key=Command.node_ordering)
             except:
                 tree_proc(self.tree, TREE_ITEM_SET_ICON, parent, image_index=self.ICON_BAD)
                 raise # good to see the error
