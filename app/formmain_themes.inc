@@ -202,7 +202,8 @@ var
 {$endif}
 begin
   {$if defined(LCLQt5) or defined(LCLQt6)}
-  TQtWidget(MainMenu.Handle).StyleSheet:=
+  if UiOps.ShowMenubar then
+    TQtWidget(MainMenu.Handle).StyleSheet:=
     'QMenuBar{background:'
     +TATHtmlColorParserA.ColorToHtmlString(GetAppColor(TAppThemeColor.MenuBg, TAppThemeColor.TabBg))
     +'}QMenuBar::item:pressed{background:'
