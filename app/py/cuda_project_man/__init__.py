@@ -972,9 +972,7 @@ class Command:
             tree_proc(self.tree, TREE_ITEM_SELECT, items_root[0][0])
 
             nodes = map(Path, self.project["nodes"])
-            if sort_order == '':
-                nodes = sorted(nodes)
-            else:
+            if sort_order != '':
                 nodes = sorted(nodes, key=Command.node_ordering_direntry)
         else:
             fn = str(self.get_location_by_index(parent)) # str() is required for old Python 3.5 for os.scandir()
@@ -983,7 +981,16 @@ class Command:
             try:
                 if hasattr(os, "scandir") and callable(os.scandir):
                     if sort_order == '':
-                        nodes = os.scandir(fn)
+                        dirs_files = []
+                        with os.scandir(fn) as it:
+                            for entry in it:
+                                if entry.is_dir():
+                                    dirs_files.append(entry)
+                        with os.scandir(fn) as it:
+                            for entry in it:
+                                if entry.is_file():
+                                    dirs_files.append(entry)
+                        nodes = dirs_files
                     else:
                         nodes = sorted(os.scandir(fn), key=Command.node_ordering_direntry)
                 else:
