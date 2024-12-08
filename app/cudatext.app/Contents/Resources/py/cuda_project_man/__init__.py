@@ -981,16 +981,15 @@ class Command:
             try:
                 if hasattr(os, "scandir") and callable(os.scandir):
                     if sort_order == '':
-                        dirs_files = []
+                        dirs_ = []
+                        files_ = []
                         with os.scandir(fn) as it:
                             for entry in it:
                                 if entry.is_dir():
-                                    dirs_files.append(entry)
-                        with os.scandir(fn) as it:
-                            for entry in it:
-                                if entry.is_file():
-                                    dirs_files.append(entry)
-                        nodes = dirs_files
+                                    dirs_.append(entry)
+                                elif entry.is_file():
+                                    files_.append(entry)
+                        nodes = dirs_ + files_
                     else:
                         nodes = sorted(os.scandir(fn), key=Command.node_ordering_direntry)
                 else:
