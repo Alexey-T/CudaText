@@ -202,7 +202,7 @@ var
 {$endif}
 begin
   {$if defined(LCLQt5) or defined(LCLQt6)}
-  if UiOps.ShowMenubar then
+  if ShowMenu and MainMenu.HandleAllocated then
     TQtWidget(MainMenu.Handle).StyleSheet:=
     'QMenuBar{background:'
     +TATHtmlColorParserA.ColorToHtmlString(GetAppColor(TAppThemeColor.MenuBg, TAppThemeColor.TabBg))
