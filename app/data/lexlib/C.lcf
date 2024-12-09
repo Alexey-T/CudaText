@@ -137,7 +137,7 @@ object SyntAnal4: TLibSyntAnalyzer
       StyleName = 'Number'
       TokenType = 5
       Expression = 
-        '0x\h[\h'#39']* (\. \h[\h'#39']*)? p[\+\-]? \h[\h'#39']* |'#13#10'0x\h[\h'#39']* \. \h[' +
+        '0x[\h'#39']* (\.[\h'#39']*)? p[\+\-]? \h[\h'#39']* |'#13#10'0x\h[\h'#39']* \. \h[' +
         '\h'#39']*'
       ColumnFrom = 0
       ColumnTo = 0
