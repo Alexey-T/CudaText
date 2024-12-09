@@ -6,6 +6,7 @@
 1.219.2 (2024/12)
 
 - fix: column selection (Alt+mouse_drag) starting from empty line is not honoring starting column position, if "caret_after_end":false (thanks @pintassilgo)
+- fix: Project Manager plugin: 'none' sorting option worked little wrong (thanks @ildarkhasanshin)
 - fix: Comments-plugin: command "toggle line comment" in CSS (it has only /*..*/ comments) must add surrounding spaces (thanks @ildarkhasanshin)
 - fix: command "Edit / Paste from history" must show multiline texts with EOL replaced to space (thanks @ildarkhasanshin)
 
