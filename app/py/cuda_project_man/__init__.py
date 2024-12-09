@@ -982,9 +982,8 @@ class Command:
                 if hasattr(os, "scandir") and callable(os.scandir):
                     if sort_order == '':
                         scandir_ = list(os.scandir(fn))
-                        for i in scandir_:
-                            dirs_ = [i for i in scandir_ if i.is_dir()]
-                            files_ = [i for i in scandir_ if not i.is_dir()]
+                        dirs_ = [i for i in scandir_ if i.is_dir()]
+                        files_ = [i for i in scandir_ if not i.is_dir()]
                         nodes = dirs_ + files_
                     else:
                         nodes = sorted(os.scandir(fn), key=Command.node_ordering_direntry)
