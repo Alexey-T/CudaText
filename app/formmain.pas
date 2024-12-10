@@ -740,6 +740,8 @@ type
     FLastSaveSessionTick: QWord;
     FLastLoadedConfig: string;
     FLastLoadedEditorOps: TEditorOps;
+    FLastPyMenuFilter: UnicodeString;
+    FLastPyMenuHashOfLines: integer;
     FDisableTreeClearing: boolean;
     FLexerProgressIndex: integer;
     FOption_WindowPos: string;
@@ -7568,6 +7570,7 @@ var
   Sep: TATStringSeparator;
   SItem: string;
   DeskRect: TRect;
+  NHashOfLines: integer;
 begin
   Form:= TfmMenuApi.Create(nil);
   try
@@ -7596,8 +7599,21 @@ begin
     if AProps.H>0 then
       Form.Height:= Min(AProps.H, DeskRect.Height);
 
+    NHashOfLines:= SSimpleHash(AProps.ItemsText);
+    if NHashOfLines=FLastPyMenuHashOfLines then
+    begin
+      Form.edit.Text:= FLastPyMenuFilter;
+      Form.edit.DoCommand(cCommand_GotoLineAbsEnd, TATCommandInvoke.AppInternal);
+    end;
+
     Form.ShowModal;
     Result:= Form.ResultCode;
+
+    if Result>=0 then
+    begin
+      FLastPyMenuHashOfLines:= NHashOfLines;
+      FLastPyMenuFilter:= Form.edit.Text;
+    end;
   finally
     Form.Free;
   end;

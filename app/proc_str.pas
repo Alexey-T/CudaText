@@ -63,6 +63,7 @@ function SParseIconFilenameWithWidthHeight(const AStr: string;
 function SEscapeRegexSpecialChars(const S: Unicodestring): Unicodestring;
 function SEscapeRegexSpecialChars(const S: string): string;
 
+function SSimpleHash(const S: string): integer;
 
 implementation
 
@@ -570,6 +571,28 @@ begin
   end;
 end;
 
+{$push}
+{$RANGECHECKS OFF}
+{$OVERFLOWCHECKS OFF}
+function SSimpleHash(const S: string): integer;
+var
+  R: integer;
+//
+  procedure _Add(const Value: integer); inline;
+  begin
+    R:= (R shl 5) or (R shr 27);
+    R:= R+Value;
+  end;
+//
+var
+  i: integer;
+begin
+  R:= 0;
+  for i:= 1 to Length(S) do
+    _Add(Ord(S[i]));
+  Result:= R;
+end;
+{$pop}
 
 end.
 
