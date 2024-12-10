@@ -108,7 +108,8 @@ begin
 
   DoFilter;
 
-  List.ItemIndex:= InitItemIndex; //check of index not needed
+  if (InitItemIndex>=0) and (InitItemIndex<List.ItemCount) then
+    List.ItemIndex:= InitItemIndex;
 
   ButtonCancel.Width:= ButtonCancel.Height;
 end;
