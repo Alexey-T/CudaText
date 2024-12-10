@@ -108,8 +108,18 @@ begin
 
   DoFilter;
 
-  if (InitItemIndex>=0) and (InitItemIndex<List.ItemCount) then
-    List.ItemIndex:= InitItemIndex;
+  if (edit.Text='') then
+  begin
+    if (InitItemIndex>=0) and (InitItemIndex<List.ItemCount) then
+      List.ItemIndex:= InitItemIndex;
+  end
+  else
+  begin
+    //some initial filter text present
+    N:= listFiltered.IndexOf(Pointer(PtrInt(InitItemIndex)));
+    if (N>=0) and (N<List.ItemCount) then
+      List.ItemIndex:= N;
+  end;
 
   ButtonCancel.Width:= ButtonCancel.Height;
 end;
