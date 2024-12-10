@@ -109,17 +109,9 @@ begin
   DoFilter;
 
   if (edit.Text='') then
-  begin
-    if List.IsIndexValid(InitItemIndex) then
-      List.ItemIndex:= InitItemIndex;
-  end
+    List.ItemIndex:= InitItemIndex //IsIndexValid is checked in setter
   else
-  begin
-    //some initial filter text present
-    N:= listFiltered.IndexOf(Pointer(PtrInt(InitItemIndex)));
-    if List.IsIndexValid(N) then
-      List.ItemIndex:= N;
-  end;
+    List.ItemIndex:= listFiltered.IndexOf(Pointer(PtrInt(InitItemIndex))); //IsIndexValid is checked in setter
 
   ButtonCancel.Width:= ButtonCancel.Height;
 end;

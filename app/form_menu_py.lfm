@@ -10,12 +10,12 @@ object fmMenuApi: TfmMenuApi
   ClientWidth = 500
   DefaultMonitor = dmMainForm
   KeyPreview = True
+  ShowInTaskBar = stNever
+  LCLVersion = '4.99.0.0'
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnKeyDown = FormKeyDown
   OnShow = FormShow
-  ShowInTaskBar = stNever
-  LCLVersion = '2.3.0.0'
   object edit: TATEdit
     Left = 6
     Height = 26
