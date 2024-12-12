@@ -67,7 +67,7 @@ Function Build-Project {
         }
     }
     Get-ChildItem -Filter '*.lpi' -Recurse -File –Path 'app' | ForEach-Object {
-        & $VAR.Cmd --no-write-project --recursive --build-mode=release $_ | Out-Host
+        & $VAR.Cmd --no-write-project --recursive $_ | Out-Host
     }
 }
 

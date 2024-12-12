@@ -16,7 +16,7 @@ function priv_lazbuild
         case ${ID:?} in
             debian | ubuntu)
                 sudo apt-get update
-                sudo apt-get install -y lazarus{-ide-qt5,} build-essential
+                sudo apt-get install -y lazarus
                 ;;
         esac
     fi
@@ -43,7 +43,7 @@ function priv_lazbuild
             lazbuild --add-package-link {} +
     fi
     find 'app' -type 'f' -name '*.lpi' -exec \
-        lazbuild --no-write-project --recursive --no-write-project --widgetset=qt {} + 1>&2
+        lazbuild --no-write-project --recursive --no-write-project {} + 1>&2
 )
 
 function priv_main
