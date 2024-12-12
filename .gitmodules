@@ -1,0 +1,27 @@
+[submodule "use/Python-for-Lazarus"]
+	path = use/Python-for-Lazarus
+	url = https://github.com/Alexey-T/Python-for-Lazarus.git
+[submodule "use/ATFlatControls"]
+	path = use/ATFlatControls
+	url = https://github.com/Alexey-T/ATFlatControls.git
+[submodule "use/EncConv"]
+	path = use/EncConv
+	url = https://github.com/Alexey-T/EncConv.git
+[submodule "use/ATSynEdit"]
+	path = use/ATSynEdit
+	url = https://github.com/Alexey-T/ATSynEdit.git
+[submodule "use/EControl"]
+	path = use/EControl
+	url = https://github.com/Alexey-T/EControl.git
+[submodule "use/ATSynEdit_Ex"]
+	path = use/ATSynEdit_Ex
+	url = https://github.com/Alexey-T/ATSynEdit_Ex.git
+[submodule "use/ATSynEdit_Cmp"]
+	path = use/ATSynEdit_Cmp
+	url = https://github.com/Alexey-T/ATSynEdit_Cmp.git
+[submodule "use/ATBinHex-Lazarus"]
+	path = use/ATBinHex-Lazarus
+	url = https://github.com/Alexey-T/ATBinHex-Lazarus.git
+[submodule "use/Emmet-Pascal"]
+	path = use/Emmet-Pascal
+	url = https://github.com/Alexey-T/Emmet-Pascal.git

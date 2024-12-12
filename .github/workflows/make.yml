@@ -1,0 +1,40 @@
+---
+name: Make
+
+on:
+  push:
+    branches:
+      - "**"
+  pull_request:
+    branches:
+      - master
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 120
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+          - windows-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        submodules: true
+
+    - name: Build on Linux
+      if: runner.os == 'Linux'
+      shell: bash
+      run: bash -x make.sh build
+
+    - name: Build on Windows
+      if: runner.os == 'Windows'
+      shell: powershell
+      run: pwsh -File make.ps1 build
