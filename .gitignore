@@ -22,6 +22,7 @@
 link*.res
 python*.zip
 
+use/*/
 dlls/
 lib/
 backup/

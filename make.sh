@@ -16,7 +16,7 @@ function priv_lazbuild
         case ${ID:?} in
             debian | ubuntu)
                 sudo apt-get update
-                sudo apt-get install -y lazarus lcl-qt5
+                sudo apt-get install -y lazarus{-ide-qt5,}
                 ;;
         esac
     fi
