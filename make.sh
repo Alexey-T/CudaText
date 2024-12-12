@@ -16,7 +16,7 @@ function priv_lazbuild
         case ${ID:?} in
             debian | ubuntu)
                 sudo apt-get update
-                sudo apt-get install -y lazarus{-ide-qt5,} libqt5pas-dev
+                sudo apt-get install -y lazarus{-ide-qt5,} libqt5pas1
                 ;;
         esac
     fi
