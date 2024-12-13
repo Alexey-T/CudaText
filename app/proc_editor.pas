@@ -440,26 +440,6 @@ begin
     Ed.OptStapleStyle:= TATLineStyle(Op.OpStaplesStyle);
     Ed.OptStapleIndentConsidersEnd:= Op.OpStapleIndentConsidersEnd;
 
-    case Op.OpGapBitmapAlign of
-      -2:
-        begin
-          Ed.OptGapBitmapAlignment:= taRightJustify;
-          Ed.OptGapBitmapIndent:= 0;
-        end;
-      -1:
-        begin
-          Ed.OptGapBitmapAlignment:= taCenter;
-          Ed.OptGapBitmapIndent:= 0;
-        end;
-      0..50:
-        begin
-          Ed.OptGapBitmapAlignment:= taLeftJustify;
-          Ed.OptGapBitmapIndent:= Op.OpGapBitmapAlign;
-        end;
-      else
-        MsgLogConsole('ERROR: Wrong value of option "gap_bitmap_align": '+IntToStr(Op.OpGapBitmapAlign));
-    end;
-
     Sep.Init(Op.OpStaplesProps);
     Sep.GetItemInt(N, 0);
     Ed.OptStapleIndent:= N;
@@ -485,7 +465,27 @@ begin
     Ed.OptIndentSize:= Op.OpIndentSize;
     Ed.OptIndentKeepsAlign:= Op.OpUnIndentKeepsAlign;
     Ed.OptIndentMakesWholeLinesSelection:= Op.OpIndentMakesWholeLineSel;
-  end;
+
+    case Op.OpGapBitmapAlign of
+      -2:
+        begin
+          Ed.OptGapBitmapAlignment:= taRightJustify;
+          Ed.OptGapBitmapIndent:= 0;
+        end;
+      -1:
+        begin
+          Ed.OptGapBitmapAlignment:= taCenter;
+          Ed.OptGapBitmapIndent:= 0;
+        end;
+      0..50:
+        begin
+          Ed.OptGapBitmapAlignment:= taLeftJustify;
+          Ed.OptGapBitmapIndent:= Op.OpGapBitmapAlign;
+        end;
+      else
+        MsgLogConsole('ERROR: Wrong value of option "gap_bitmap_align": '+IntToStr(Op.OpGapBitmapAlign));
+    end;
+  end; //if not Ed.ModeOneLine
 
   //change Ctrl+click to 'goto definition' and Ctrl+Wheel to 'add caret'
   InitEditorMouseActions(MouseActions, Op.OpMouseGotoDefinition='c');
