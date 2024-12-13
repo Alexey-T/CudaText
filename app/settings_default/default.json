@@ -1602,11 +1602,12 @@
   "auto_fold_comments": 0,
 
   //[View/Web]
-  //Highlight+underline hyperlinks (URL and emails).
+  //Enable to highlight+underline hyperlinks (URL and emails).
+  //It requires proper RegEx in the option "links_regex".
   "links_hilite": true,
 
   //Regular expression, which finds hyperlinks.
-  //Current value finds http://, https://, ftp:// links and e-mails (with optional mailto: ).
+  //Default value finds http://, https://, ftp:// links and e-mails (with optional 'mailto:').
   "links_regex": "\\b(mailto:)?\\w[\\w\\-\\+\\.]*@\\w[\\w\\-\\.]*\\.\\w{2,}\\b|\\b(https?://|ftp://)\\w[\\w\\-\\.@]*(:\\d+)?(/([~\\w\\.\\-\\+/%@!%:&\\*=\\|,;\\$]|\\(.*?\\)|\\[.*?\\]|\\{.*?\\}|(['\"`](?![\\x20\\x09\\x0A\\x0D.,;:])))*)?(\\?[^\\s\"'<>]*[\\w/\\-\\+\\*=])?(\\#[\\w\\-\\./%:!]*)?",
 
   //[File]
