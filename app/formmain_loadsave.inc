@@ -1422,6 +1422,7 @@ begin
   Op.OpMarkerSize:= cfg.GetValue('marker_size', Op.OpMarkerSize);
   Op.OpStaplesStyle:= cfg.GetValue('staples_style', Op.OpStaplesStyle);
   Op.OpStaplesProps:= cfg.GetValue('staples_props', Op.OpStaplesProps);
+  Op.OpGapBitmapAlign:= cfg.GetValue('gap_bitmap_align', Op.OpGapBitmapAlign);
 
   Op.OpUnprintedShow:= cfg.GetValue('unprinted_show', Op.OpUnprintedShow);
   Op.OpUnprintedContent:= cfg.GetValue('unprinted_content', Op.OpUnprintedContent);

@@ -628,6 +628,7 @@ type
     OpStaplesStyle: integer;
     OpStaplesProps: string;
     OpStapleIndentConsidersEnd: boolean;
+    OpGapBitmapAlign: integer;
 
     //unprinted
     OpUnprintedShow: boolean;
@@ -1845,6 +1846,7 @@ begin
     OpStaplesStyle:= 1; //Ord(cLineStyleSolid)
     OpStaplesProps:= '0,40,0,0';
     OpStapleIndentConsidersEnd:= true;
+    OpGapBitmapAlign:= -1;
 
     OpUnprintedShow:= false;
     OpUnprintedContent:= 'se';

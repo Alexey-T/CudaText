@@ -151,6 +151,12 @@
   //Note: this option is global, not per-lexer.
   "unicode_full_width": 190,
 
+  //Horizontal alignment of inter-line gap bitmaps, which are inserted by "Insert Pics" plugin.
+  //  -2: Right aligned
+  //  -1: Centered
+  //  0...50: Left aligned, with specified indent (in average chars)
+  "gap_bitmap_align": -1,
+
   //[UI]
   //Double-buffering of UI controls. [has suffix]
   //  Use only if problems with rendering.
