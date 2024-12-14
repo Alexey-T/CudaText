@@ -12,8 +12,8 @@
 - fix: column selection (Alt+mouse_drag) starting from empty line is not honoring starting column position, if "caret_after_end":false (thanks @pintassilgo)
 - fix: Project Manager plugin: 'none' sorting option worked little wrong (thanks @ildarkhasanshin)
 - fix: Comments-plugin: command "toggle line comment" in CSS (it has only /*..*/ comments) must add surrounding spaces (thanks @ildarkhasanshin)
+- fix: on encoding->UTF8 reading error on Shift-JIS encoded file, editor became 'locked' (hourglass icon) forever (thanks @nhp65)
 - fix: regression in 1.217.7: in Qt5/Qt6 versions, option "ui_menu_show":false did not work
-- fix: on encoding->UTF8 reading error on Shift-JIS encoded file, editor became 'locked' (hourglass icon) forever
 
 1.219.1 (2024/11)
 
