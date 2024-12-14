@@ -177,6 +177,7 @@ type
     FOnChangeSlow: TNotifyEvent;
     FOnProgress: TATFinderProgress;
     FOnUpdateStatusbar: TAppFrameStatusbarEvent;
+    FOnUpdateToolbar: TNotifyEvent;
     FOnUpdateState: TNotifyEvent;
     FOnFocusEditor: TNotifyEvent;
     FOnEditorCommand: TATSynEditCommandEvent;
@@ -289,6 +290,7 @@ type
     procedure EditorOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure EditorOnPaste(Sender: TObject; var AHandled: boolean; AKeepCaret, ASelectThen: boolean);
     procedure EditorOnScroll(Sender: TObject);
+    procedure EditorOnEnabledUndoRedoChanged(Sender: TObject; AUndoEnabled, ARedoEnabled: boolean);
     function GetAdapter(Ed: TATSynEdit): TATAdapterEControl;
     function GetCachedTreeviewInited(Ed: TATSynEdit): boolean;
     function GetCachedTreeview(Ed: TATSynEdit): TTreeView;
@@ -539,6 +541,7 @@ type
     property OnChange: TNotifyEvent read FOnChange write FOnChange;
     property OnChangeSlow: TNotifyEvent read FOnChangeSlow write FOnChangeSlow;
     property OnUpdateStatusbar: TAppFrameStatusbarEvent read FOnUpdateStatusbar write FOnUpdateStatusbar;
+    property OnUpdateToolbar: TNotifyEvent read FOnUpdateToolbar write FOnUpdateToolbar;
     property OnUpdateState: TNotifyEvent read FOnUpdateState write FOnUpdateState;
     property OnEditorCommand: TATSynEditCommandEvent read FOnEditorCommand write FOnEditorCommand;
     property OnEditorChangeCaretPos: TNotifyEvent read FOnEditorChangeCaretPos write FOnEditorChangeCaretPos;
@@ -2286,6 +2289,7 @@ begin
   ed.OnHotspotEnter:=@EditorOnHotspotEnter;
   ed.OnHotspotExit:=@EditorOnHotspotExit;
   ed.OnGetToken:= @EditorOnGetToken;
+  ed.OnEnabledUndoRedoChanged:= @EditorOnEnabledUndoRedoChanged;
   ed.ScrollbarVert.OnOwnerDraw:= @EditorDrawScrollbarVert;
 end;
 
@@ -3803,6 +3807,13 @@ begin
   end
   else
     ACanDraw:= true;
+end;
+
+procedure TEditorFrame.EditorOnEnabledUndoRedoChanged(Sender: TObject;
+  AUndoEnabled, ARedoEnabled: boolean);
+begin
+  if Assigned(FOnUpdateToolbar) then
+    FOnUpdateToolbar(Self);
 end;
 
 procedure TEditorFrame.PaintMicromap(Ed: TATSynEdit; ACanvas: TCanvas; const ARect: TRect);

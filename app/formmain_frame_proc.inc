@@ -68,6 +68,19 @@ begin
   end;
 end;
 
+procedure TfmMain.FrameOnUpdateToolbar(Sender: TObject);
+var
+  Ed: TATSynEdit;
+  St: TATStrings;
+begin
+  Ed:= CurrentEditor;
+  if Ed=nil then exit;
+  St:= Ed.Strings;
+  UpdateToolbarButton(ToolbarMain, cCommand_Undo, false, not St.ReadOnly and not St.UndoEmpty);
+  UpdateToolbarButton(ToolbarMain, cCommand_Redo, false, not St.ReadOnly and not St.RedoEmpty);
+end;
+
+
 procedure TfmMain.FrameOnUpdateState(Sender: TObject);
 begin
   UpdateMenuChecks(false);
@@ -128,6 +141,8 @@ begin
 
     if not bTreeCached then
       UpdateTreeByTimer;
+
+    FrameOnUpdateToolbar(nil); //update state of Undo/Redo toolbar buttons
   end;
 end;
 

@@ -14,6 +14,7 @@ begin
   //F.OnChange:= @FrameOnChange; //not needed yet
   F.OnChangeSlow:= @FrameOnChangeSlow;
   F.OnUpdateStatusbar:= @FrameOnUpdateStatusbar;
+  F.OnUpdateToolbar:= @FrameOnUpdateToolbar;
   F.OnUpdateState:= @FrameOnUpdateState;
   F.OnEditorCommand:= @FrameOnEditorCommand;
   F.OnEditorChangeCaretPos:= @FrameOnEditorChangeCaretPos;

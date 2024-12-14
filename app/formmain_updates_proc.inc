@@ -146,8 +146,8 @@ begin
   UpdateToolbarButton(ToolbarMain, cCommand_ClipboardCut, false, bEditable);
   UpdateToolbarButton(ToolbarMain, cCommand_ClipboardPaste, false, bEditable);
   //disabled updating of undo/redo: user complained they are disabled when not needed
-  UpdateToolbarButton(ToolbarMain, cCommand_Undo, false, bEditable {and not Ed.Strings.UndoEmpty});
-  UpdateToolbarButton(ToolbarMain, cCommand_Redo, false, bEditable {and not Ed.Strings.RedoEmpty});
+  //UpdateToolbarButton(ToolbarMain, cCommand_Undo, false, bEditable {and not Ed.Strings.UndoEmpty});
+  //UpdateToolbarButton(ToolbarMain, cCommand_Redo, false, bEditable {and not Ed.Strings.RedoEmpty});
   UpdateToolbarButton(ToolbarMain, cCommand_TextIndent, false, bEditable);
   UpdateToolbarButton(ToolbarMain, cCommand_TextUnindent, false, bEditable);
 
