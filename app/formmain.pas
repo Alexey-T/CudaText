@@ -1168,8 +1168,9 @@ type
     procedure UpdateStatusbarHints;
     procedure UpdateStatusbar_ForFrame(AStatus: TATStatus; F: TEditorFrame);
     procedure UpdateStatusbar_RealWork;
-    procedure UpdateToolbarButtons(F: TEditorFrame);
     procedure UpdateToolbarButton(AToolbar: TATFlatToolbar; ACmd: integer; AChecked, AEnabled: boolean);
+    procedure UpdateToolbarButtons(F: TEditorFrame);
+    procedure UpdateToolbarButtons_UndoAndRedo(Sender: TObject);
     procedure UpdateSidebarButtonFind;
     procedure UpdateTabCaptionsFromFolders;
     procedure UpdateTabsActiveColor(F: TEditorFrame);
@@ -1202,7 +1203,6 @@ type
     procedure InitBookmarkSetup;
     procedure FrameOnChangeCaption(Sender: TObject);
     procedure FrameOnUpdateStatusbar(Sender: TObject; AReason: TAppStatusbarUpdateReason);
-    procedure UpdateToolbarButtons_UndoAndRedo(Sender: TObject);
     procedure FrameOnUpdateState(Sender: TObject);
     function CreateTab(APages: TATPages; const ACaption: string;
       AndActivate: boolean=true;
