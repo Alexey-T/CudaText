@@ -145,11 +145,11 @@ begin
   UpdateToolbarButton(ToolbarMain, cCommand_ClipboardCopy, false, bEditor or bBinViewer);
   UpdateToolbarButton(ToolbarMain, cCommand_ClipboardCut, false, bEditable);
   UpdateToolbarButton(ToolbarMain, cCommand_ClipboardPaste, false, bEditable);
-  //disabled updating of undo/redo: user complained they are disabled when not needed
-  //UpdateToolbarButton(ToolbarMain, cCommand_Undo, false, bEditable {and not Ed.Strings.UndoEmpty});
-  //UpdateToolbarButton(ToolbarMain, cCommand_Redo, false, bEditable {and not Ed.Strings.RedoEmpty});
   UpdateToolbarButton(ToolbarMain, cCommand_TextIndent, false, bEditable);
   UpdateToolbarButton(ToolbarMain, cCommand_TextUnindent, false, bEditable);
+
+  //buttons undo/redo are updated in method UpdateToolbarButtons_UndoAndRedo
+  //which is fired by TATSynEdit.OnEnabledUndoRedoChanged + focus_changed
 
   UpdateToolbarButton(ToolbarMain, cCommand_ToggleOverwrite, Ed.ModeOverwrite, bEditor);
   UpdateToolbarButton(ToolbarMain, cCommand_ToggleReadOnly, Ed.ModeReadOnly, bEditor);
