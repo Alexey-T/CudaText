@@ -4210,10 +4210,13 @@ begin
           if Ed.Strings.Encoding=TATFileEncoding.UTF8 then
             Include(LoadOptions, TATLoadStreamOption.AllowBadCharsOfLen1);
           UpdateLocked(Ed, true);
-          Ed.Strings.EncodingDetect:= false;
-          Ed.LoadFromFile(sFileName, LoadOptions);
-          Ed.Strings.EncodingDetect:= true;
-          UpdateLocked(Ed, false);
+          try
+            Ed.Strings.EncodingDetect:= false;
+            Ed.LoadFromFile(sFileName, LoadOptions);
+          finally
+            Ed.Strings.EncodingDetect:= true;
+            UpdateLocked(Ed, false);
+          end;
         end;
     end;
   end;
