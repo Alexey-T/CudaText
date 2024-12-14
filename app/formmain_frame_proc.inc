@@ -68,7 +68,7 @@ begin
   end;
 end;
 
-procedure TfmMain.FrameOnUpdateToolbar(Sender: TObject);
+procedure TfmMain.UpdateToolbarButtons_UndoAndRedo(Sender: TObject);
 var
   Ed: TATSynEdit;
   St: TATStrings;
@@ -142,7 +142,7 @@ begin
     if not bTreeCached then
       UpdateTreeByTimer;
 
-    FrameOnUpdateToolbar(nil); //update state of Undo/Redo toolbar buttons
+    UpdateToolbarButtons_UndoAndRedo(nil);
   end;
 end;
 

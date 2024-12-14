@@ -1202,7 +1202,7 @@ type
     procedure InitBookmarkSetup;
     procedure FrameOnChangeCaption(Sender: TObject);
     procedure FrameOnUpdateStatusbar(Sender: TObject; AReason: TAppStatusbarUpdateReason);
-    procedure FrameOnUpdateToolbar(Sender: TObject);
+    procedure UpdateToolbarButtons_UndoAndRedo(Sender: TObject);
     procedure FrameOnUpdateState(Sender: TObject);
     function CreateTab(APages: TATPages; const ACaption: string;
       AndActivate: boolean=true;
