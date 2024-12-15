@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.219.5 (2024/12)
+1.220.0 (2024/12)
 
 + add: toolbar Undo/Redo buttons now change their enabled-state again (thanks @Hexaae)
 + add: can specify horizontal alignment of inter-line bitmaps for 'Insert Pics' plugin, via new option "gap_bitmap_align" (thanks @FranciscoBomfim)
