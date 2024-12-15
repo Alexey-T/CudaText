@@ -314,7 +314,7 @@ begin
     S:= '     '+S;
     if mi.ShortCut<>0 then
       S+= '  '+ShortCutToText(mi.ShortCut);
-    if mi.Count>0 then;
+    if mi.Count>0 then
       S+= ' >';
   end;
 
