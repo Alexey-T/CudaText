@@ -3038,14 +3038,14 @@ begin
   InitProgressForm(Ed, AFileName, FileSize(AFileName));
 
   try
+    UpdateLocked(Ed, true);
+    LoadOptions:= [];
+    if AKeepScroll then
+    begin
+      St.EncodingDetect:= false;
+      Include(LoadOptions, TATLoadStreamOption.KeepScroll);
+    end;
     try
-      LoadOptions:= [];
-      if AKeepScroll then
-      begin
-        St.EncodingDetect:= false;
-        Include(LoadOptions, TATLoadStreamOption.KeepScroll);
-      end;
-      UpdateLocked(Ed, true);
       Ed.LoadFromFile(AFileName, LoadOptions);
       SetFileName(Ed, AFileName);
       UpdateCaptionFromFilename;
