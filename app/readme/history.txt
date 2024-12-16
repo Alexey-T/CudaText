@@ -14,6 +14,8 @@
 - fix: Project Manager plugin: 'none' sorting option worked little wrong (thanks @ildarkhasanshin)
 - fix: after saving Shift-JIS encoded file with 'wrong' bytes, on encoding->UTF8 reading error on Shift-JIS encoded file, editor became 'locked' (hourglass icon) forever (thanks @nhp65)
 - fix: regression in 1.217.7: in Qt5/Qt6 versions, option "ui_menu_show":false did not work
+- fix: encoder/decoder of Shift-JIS coding had bug for 'half-width chars' (fixed by @rasberryrabbit)
+- fix: Python folding was incorrect if block's trailing line had line-comment (thanks @adoeller)
 
 1.219.1 (2024/11)
 
