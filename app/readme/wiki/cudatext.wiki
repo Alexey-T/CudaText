@@ -2332,6 +2332,16 @@ CudaText has the following optimizations for big files and huge lines:
 
 * For any files, when too many multi-carets are placed, program disables/clears the Undo-information for editing. See the option "undo_max_carets":5000.
 
+==CJK text is rendered bad on huge lines==
+
+[[File:cudatext-cjk-len1024.png]]
+
+On lines longer than 1024 chars, CJK text is rendered not nicely - full-width chars are rendered as half-width chars, so they overlap. This is internal limitation of CudaText - for lines longer than 1024 chars, app forces all cells to 100% width (like for "0" char). There is no option for this.
+
+This can be changed in the source code. Find this line in "atsynedit/atsynedit/atstringproc.pas":
+
+ cMaxFixedArray = 1024;
+
 ==How to open files in a new window instead of a new tab==
 
 Option "ui_one_instance" controls it, so change it to 'false' (without quotes, in "user.json").
