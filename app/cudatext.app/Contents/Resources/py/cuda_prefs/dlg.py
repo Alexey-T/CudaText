@@ -1436,6 +1436,7 @@ class DialogMK2:
                             'sp_a':6,
                             'color': col_ed_bg,
                             'font_color': col_ed_font,
+                            'ex0': True, # read-only
                             }
                         )
 
