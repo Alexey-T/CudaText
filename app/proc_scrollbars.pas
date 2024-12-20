@@ -12,6 +12,9 @@ unit proc_scrollbars;
 interface
 
 uses
+  {$ifdef windows}
+  Windows, Messages,
+  {$endif}
   Classes, SysUtils, Controls, Graphics, StdCtrls, ComCtrls, Forms,
   LMessages, LCLType,
   ATScrollBar,
@@ -36,6 +39,9 @@ type
     procedure DoContextPopup(MousePos: TPoint; var Handled: Boolean); override;
     procedure DoEnter; override;
     procedure DoExit; override;
+    {$ifdef windows}
+    procedure WMEraseBkgnd(var Message: TWMEraseBkgnd); message WM_ERASEBKGND;
+    {$endif}
   public
     Container: TAppTreeContainer;
     procedure KeyDown(var Key: Word; Shift: TShiftState); override;
@@ -254,6 +260,26 @@ begin
   UpdateBars;
 end;
 
+{$ifdef windows}
+procedure TAppTreeView.WMEraseBkgnd(var Message: TWMEraseBkgnd);
+var
+  R: TRect;
+begin
+  //to avoid flickering with white on app startup
+  if (Message.DC<>0) then
+  begin
+    Brush.Color:= Color;
+    R.Left:= 0;
+    R.Top:= 0;
+    R.Width:= Width;
+    R.Height:= Height;
+    Windows.FillRect(Message.DC, R, Brush.Reference.Handle);
+  end;
+
+  //to remove flickering on resize and mouse-over
+  Message.Result:= 1;
+end;
+{$endif}
 
 end.
 
