@@ -710,6 +710,7 @@ type
     FHandledOnShowPartly: boolean;
     FHandledOnShowFully: boolean;
     FHandledOnStart2: boolean;
+    FHandledOnFocus: boolean;
     FHandledMakeCaretVisible: boolean;
     FCodetreeBuffer: TTreeView;
     FWebPanel: TPanel;
@@ -3838,7 +3839,15 @@ procedure TfmMain.FormShow(Sender: TObject);
   begin
     Frame:= CurrentFrame;
     if Assigned(Frame) then
+    begin
       Frame.SetFocus;
+
+      {$ifdef windows}
+      //fix missing on_focus on start, needed for Configure_Toolbar, #5784
+      if not FHandledOnFocus then
+        DoPyEvent(Frame.Editor, TAppPyEvent.OnFocus, []);
+      {$endif}
+    end;
   end;
   //
   procedure _Init_ShowStartupTimes;

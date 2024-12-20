@@ -122,6 +122,9 @@ begin
     end;
   end;
 
+  if AEvent=TAppPyEvent.OnFocus then
+    FHandledOnFocus:= true;
+
   KeyForFilter:= '';
   case AEvent of
     TAppPyEvent.OnKey:
