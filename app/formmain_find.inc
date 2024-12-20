@@ -640,9 +640,12 @@ begin
   UpdateFindDialogChecks;
   UpdateFindDialogParent;
   fmFind.IsReplace:= AReplaceMode;
-  fmFind.UpdateState(false); //param False! to disable jumping to first match on Ctrl+F with find-bar visible
+
+  //fmFind.UpdateState(false); //param False! to disable jumping to first match on Ctrl+F with find-bar visible
+  //(commented 2014.12 coz UpdateState(false) is called in fmFind.FormShow)
   fmFind.Show;
-  fmFind.UpdateFormHeight; //update 'Replace' buttons visibility, when dlg is in the floating form
+  //fmFind.UpdateFormHeight; //update 'Replace' buttons visibility, when dlg is in the floating form
+  //(commented 2014.12 coz UpdateFormHeight is called in fmFind.FormShow)
 
   if AUpdateFocus then
   begin
