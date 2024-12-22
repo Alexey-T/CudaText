@@ -3,9 +3,10 @@
   - fixed
   * changed
 
+1.220.1 (2024/12)
 
 + add: make memory usage (by Undo-storage) much lower for multi-carets editing, with lot of carets; e.g. 18K carets with option "undo_max_carets":20000 previously gave 'out of memory' error after typing few chars (thanks @njwgh)
-- fix: Windows: with dark theme, avoid flicking with white on app startup (report by @d0vgan, code hint by @d7_2_laz)
+- fix: Windows: with dark theme, avoid flickering with white areas on startup (report by @d0vgan, code hint by @d7_2_laz)
 
 1.220.0 (2024/12)
 
