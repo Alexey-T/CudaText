@@ -3,6 +3,9 @@
   - fixed
   * changed
 
+
++ add: make memory usage (by Undo-storage) much lower for multi-carets editing, with lot of carets; e.g. 18K carets with option "undo_max_carets":20000 previously gave 'out of memory' error after typing few chars (thanks @njwgh)
+
 1.220.0 (2024/12)
 
 + add: toolbar Undo/Redo buttons now change their enabled-state again (thanks @Hexaae)
