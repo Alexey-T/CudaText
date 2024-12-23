@@ -6,7 +6,6 @@
 1.220.1 (2024/12)
 
 + add: make memory usage (by Undo-storage) much lower for multi-carets editing, with lot of carets; e.g. 18K carets with option "undo_max_carets":20000 previously gave 'out of memory' error after typing few chars (thanks @njwgh)
-- fix: Windows: with dark theme, avoid flickering with white areas on startup (report by @d0vgan, code hint by @d7_2_laz)
 
 1.220.0 (2024/12)
 
@@ -21,6 +20,7 @@
 - fix: regression in 1.217.7: in Qt5/Qt6 versions, option "ui_menu_show":false did not work
 - fix: encoder/decoder of Shift-JIS coding had bug for 'half-width chars' (fixed by @rasberryrabbit)
 - fix: Python folding was incorrect if block's trailing line had line-comment (thanks @adoeller)
+- fix: Windows: with dark theme, avoid flickering with white areas on startup (report by @d0vgan, code hint by @d7_2_laz)
 
 1.219.1 (2024/11)
 
