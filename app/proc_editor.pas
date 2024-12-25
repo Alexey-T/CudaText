@@ -1233,7 +1233,7 @@ var
   Caret: TATCaretItem;
   St: TATStrings;
   X1, Y1, X2, Y2: integer;
-  NCaret, NLineChanged: integer;
+  iCaret, NLineChanged, NLastCaret: integer;
   bSel, bBackwardSel: boolean;
   bQuoteChar: boolean;
   CharEnd: atChar;
@@ -1260,9 +1260,9 @@ begin
   //make additional loop, to detect that ALL carets need pairing.
   //if at least one caret doesn't need, stop.
   //it's needed to make pair for all or nothing. issue #3219.
-  for NCaret:= Ed.Carets.Count-1 downto 0 do
+  for iCaret:= Ed.Carets.Count-1 downto 0 do
   begin
-    Caret:= Ed.Carets[NCaret];
+    Caret:= Ed.Carets[iCaret];
     if not St.IsIndexValid(Caret.PosY) then Continue;
     if Caret.EndY<0 then
       if not EditorAutoCloseBracket_NeedPair(Ed, Caret, bQuoteChar) then
@@ -1275,13 +1275,15 @@ begin
   Ed.OptAutoPair_DisableCharDoubling:= true;
 
   St.BeginUndoGroup;
-  for NCaret:= Ed.Carets.Count-1 downto 0 do
+  NLastCaret:= Ed.Carets.Count-1;
+  for iCaret:= NLastCaret downto 0 do
   begin
-    Caret:= Ed.Carets[NCaret];
+    Caret:= Ed.Carets[iCaret];
     if not St.IsIndexValid(Caret.PosY) then Continue;
     Caret.GetRange(X1, Y1, X2, Y2, bSel);
     bBackwardSel:= not Caret.IsForwardSelection;
     NLineChanged:= Min(NLineChanged, Y1);
+    St.EnabledCaretsInUndo:= iCaret=NLastCaret;
 
     if not bSel then
       if not EditorAutoCloseBracket_NeedPair(Ed, Caret, bQuoteChar) then Continue;
@@ -1289,7 +1291,7 @@ begin
     if not bSel then
     begin
       St.TextInsert(X1, Y1, CharBegin+CharEnd, false, Shift, PosAfter);
-      Ed.UpdateCaretsAndMarkersOnEditing(NCaret+1,
+      Ed.UpdateCaretsAndMarkersOnEditing(iCaret+1,
         Point(X1, Y1),
         Point(X1, Y1),
         Shift,
@@ -1302,14 +1304,14 @@ begin
     else
     begin
       St.TextInsert(X2, Y2, CharEnd, false, Shift, PosAfter);
-      Ed.UpdateCaretsAndMarkersOnEditing(NCaret+1,
+      Ed.UpdateCaretsAndMarkersOnEditing(iCaret+1,
         Point(X2, Y2),
         Point(X2, Y2),
         Shift,
         PosAfter);
 
       St.TextInsert(X1, Y1, CharBegin, false, Shift, PosAfter);
-      Ed.UpdateCaretsAndMarkersOnEditing(NCaret+1,
+      Ed.UpdateCaretsAndMarkersOnEditing(iCaret+1,
         Point(X1, Y1),
         Point(X1, Y1),
         Shift,
@@ -1326,6 +1328,8 @@ begin
 
     Result:= true;
   end;
+
+  St.EnabledCaretsInUndo:= true;
   St.EndUndoGroup;
 
   if Result then
