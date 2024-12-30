@@ -2355,6 +2355,8 @@ begin
 
   St.GutterDecor1:= Ed1.GutterDecor;
   St.GutterDecor2:= Ed2.GutterDecor;
+  St.OnGetCaretsArray2:= @Ed2.GetCaretsArray;
+  St.OnSetCaretsArray2:= @Ed2.SetCaretsArray;
 
   Ed2.Visible:= false;
   Splitter.Visible:= false;
@@ -3523,12 +3525,16 @@ begin
   if FEditorsLinked then
   begin
     Ed1.Strings.GutterDecor2:= Ed2.GutterDecor;
+    Ed1.Strings.OnGetCaretsArray2:= @Ed2.GetCaretsArray;
+    Ed1.Strings.OnSetCaretsArray2:= @Ed2.SetCaretsArray;
   end
   else
   begin
     Ed1.Strings.GutterDecor2:= nil;
     Ed2.Strings.GutterDecor1:= Ed2.GutterDecor;
     Ed2.Strings.GutterDecor2:= nil;
+    Ed1.Strings.OnGetCaretsArray2:= nil;
+    Ed1.Strings.OnSetCaretsArray2:= nil;
   end;
 
   if FEditorsLinked and Splitted then
