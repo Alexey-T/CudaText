@@ -1153,7 +1153,6 @@ type
     procedure UpdateMenuItemHotkey(mi: TMenuItem; ACmd: integer; AllowSetShortcut: boolean=true);
     procedure UpdateMenuItem_SetShortcutFromProps(mi: TMenuItem);
     procedure UpdateMenuItem_SetShortcutsRecursively(AMenuItem: TMenuItem; AMaxMenuLevel: integer);
-    procedure UpdateMenuLexersTo(AMenu: TMenuItem);
     procedure UpdateMenuRecent(Ed: TATSynEdit);
     procedure UpdateMenuHotkeys;
     procedure UpdateMenuPlugins;
@@ -6046,85 +6045,6 @@ begin
     DoOps_LexersBackupRestore;
 end;
 
-
-procedure TfmMain.UpdateMenuLexersTo(AMenu: TMenuItem);
-var
-  sl: TStringList;
-  an: TecSyntAnalyzer;
-  an_lite: TATLiteLexer;
-  mi, mi0: TMenuItem;
-  ch, ch0: char;
-  i: integer;
-begin
-  if AMenu=nil then exit;
-  AMenu.Clear;
-
-  ch0:= '?';
-  mi0:= nil;
-
-  mi:= TMenuItem.Create(self);
-  mi.Caption:= msgNoLexer;
-  mi.OnClick:= @MenuLexerClick;
-  AMenu.Add(mi);
-
-  sl:= TStringList.Create;
-  try
-    //make stringlist of all lexers
-    for i:= 0 to AppManager.LexerCount-1 do
-    begin
-      an:= AppManager.Lexers[i];
-      if an.Deleted then Continue;
-      if not an.Internal then
-        sl.AddObject(an.LexerName, an);
-    end;
-
-    for i:= 0 to AppManagerLite.LexerCount-1 do
-    begin
-      an_lite:= AppManagerLite.Lexers[i];
-      sl.AddObject(an_lite.LexerName+msgLiteLexerSuffix, an_lite);
-    end;
-    sl.Sort;
-
-    //put stringlist to menu
-    if not UiOps.LexerMenuGrouped then
-    begin
-      for i:= 0 to sl.Count-1 do
-      begin
-        if sl[i]='' then Continue;
-        mi:= TMenuItem.Create(self);
-        mi.Caption:= sl[i];
-        mi.Tag:= PtrInt(sl.Objects[i]);
-        mi.OnClick:= @MenuLexerClick;
-        AMenu.Add(mi);
-      end;
-    end
-    else
-    //grouped view
-    for i:= 0 to sl.Count-1 do
-    begin
-      if sl[i]='' then Continue;
-      ch:= UpCase(sl[i][1]);
-      if ch<>ch0 then
-      begin
-        ch0:= ch;
-        mi0:= TMenuItem.Create(self);
-        mi0.Caption:= ch;
-        AMenu.Add(mi0);
-      end;
-
-      mi:= TMenuItem.Create(self);
-      mi.Caption:= sl[i];
-      mi.Tag:= PtrInt(sl.Objects[i]);
-      mi.OnClick:= @MenuLexerClick;
-      if Assigned(mi0) then
-        mi0.Add(mi)
-      else
-        AMenu.Add(mi);
-    end;
-  finally
-    FreeAndNil(sl);
-  end;
-end;
 
 procedure TfmMain.MsgStatus(AText: string; AFinderMessage: boolean=false);
   //

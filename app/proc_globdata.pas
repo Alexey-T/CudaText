@@ -249,7 +249,6 @@ type
     LogConsoleDetailedStartupTime: boolean;
 
     LexerThemes: boolean;
-    LexerMenuGrouped: boolean;
     LexerPostponeUntilShown: boolean;
     LexerParsingMinTimeForEvent: integer;
 
@@ -1997,7 +1996,6 @@ begin
     PyCommandSleepInterval:= CommandTimerInterval+40;
 
     LexerThemes:= true;
-    LexerMenuGrouped:= true;
     LexerPostponeUntilShown:= true;
     LexerParsingMinTimeForEvent:= 600;
 

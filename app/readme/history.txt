@@ -7,6 +7,7 @@
 
 + add: support proper undo-ing of caret position in the paired editor (menu item "View / Split tab")
 + add: make memory usage (by Undo-storage) much lower for multi-carets editing, with lot of carets; e.g. 18K carets with option "undo_max_carets":20000 previously gave 'out of memory' error after typing few chars (thanks @njwgh)
+- fix: delete option "ui_lexers_grouped" which had no effect anyway
 
 1.220.0 (2024/12)
 
