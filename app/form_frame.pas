@@ -2357,6 +2357,8 @@ begin
   St.GutterDecor2:= Ed2.GutterDecor;
   St.OnGetCaretsArray2:= @Ed2.GetCaretsArray;
   St.OnSetCaretsArray2:= @Ed2.SetCaretsArray;
+  St.OnGetMarkersArray2:= @Ed2.GetMarkersArray;
+  St.OnSetMarkersArray2:= @Ed2.SetMarkersArray;
 
   Ed2.Visible:= false;
   Splitter.Visible:= false;
@@ -3527,6 +3529,8 @@ begin
     Ed1.Strings.GutterDecor2:= Ed2.GutterDecor;
     Ed1.Strings.OnGetCaretsArray2:= @Ed2.GetCaretsArray;
     Ed1.Strings.OnSetCaretsArray2:= @Ed2.SetCaretsArray;
+    Ed1.Strings.OnGetMarkersArray2:= @Ed2.GetMarkersArray;
+    Ed1.Strings.OnSetMarkersArray2:= @Ed2.SetMarkersArray;
   end
   else
   begin
@@ -3535,6 +3539,8 @@ begin
     Ed2.Strings.GutterDecor2:= nil;
     Ed1.Strings.OnGetCaretsArray2:= nil;
     Ed1.Strings.OnSetCaretsArray2:= nil;
+    Ed1.Strings.OnGetMarkersArray2:= nil;
+    Ed1.Strings.OnSetMarkersArray2:= nil;
   end;
 
   if FEditorsLinked and Splitted then
