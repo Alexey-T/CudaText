@@ -9,6 +9,7 @@
 + add: support undo-ing of 'markers' (placed e.g. by Snippets plugin) in the paired editor
 + add: make memory usage (by Undo-storage) much lower for multi-carets editing, with lot of carets; e.g. 18K carets with option "undo_max_carets":20000 previously gave 'out of memory' error after typing few chars (thanks @njwgh)
 - fix: delete option "ui_lexers_grouped" which had no effect anyway
+- fix: lexer YAML: fix for negative numbers
 
 1.220.0 (2024/12)
 
