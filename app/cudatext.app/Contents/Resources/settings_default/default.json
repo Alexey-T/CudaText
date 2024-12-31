@@ -245,10 +245,6 @@
   //Otherwise, command works only for modified documents, or if the file was deleted outside.
   "ui_save_always": true,
 
-  //[Lexers]
-  //Group lexers menu by first char of name.
-  "ui_lexers_grouped": true,
-
   //[Text/Look]
   //Keep original font colors of text in selected block.
   "keep_sel_font_color": false,
