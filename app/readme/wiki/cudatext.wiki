@@ -520,6 +520,7 @@ The following lexers (counting only important ones) exist for CudaText. They are
 * Protocol Buffers
 * Pug
 * Puppet
+* PureBasic
 * PureScript
 * PyMOL
 * Pyret

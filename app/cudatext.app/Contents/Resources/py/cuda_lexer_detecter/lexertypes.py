@@ -337,6 +337,8 @@ TYPES = {
     "org": ['Org-mode'],
     "pas": ['Pascal'],
     "patch": ['Diff'],
+    "pb": ['PureBasic'],
+    "pbi": ['PureBasic'],
     "pbs": ['Great Cow Basic'],
     "pcf": ['Pkl'],
     "pch": ['Objective-C'],
