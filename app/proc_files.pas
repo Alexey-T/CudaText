@@ -29,7 +29,7 @@ function AppIsFileReadonly(const fn: string): boolean;
 procedure AppFileAttrPrepare(const fn: string; out attr: Longint);
 procedure AppFileAttrRestore(const fn: string; attr: Longint);
 
-function AppExpandFilename(const fn: string): string;
+function AppExpandFilename(fn: string): string;
 procedure AppBrowseToFilenameInShell(const fn: string);
 function AppFileExtentionCreatable(const fn: string): boolean;
 procedure AppFileCheckForNullBytes(const fn: string);
@@ -57,7 +57,7 @@ uses
   Windows,
   StrUtils,
   {$endif}
-  SysUtils,
+  SysUtils, StrUtils,
   LCLIntf, LCLType,
   FileUtil, LazFileUtils,
   ATStrings,
@@ -348,12 +348,20 @@ begin
   {$endif}
 end;
 
-function AppExpandFilename(const fn: string): string;
+function AppExpandFilename(fn: string): string;
+const
+  cFilePrefix = 'file://';
 begin
-  if fn='' then exit(fn);
+  if fn='' then
+    exit(fn);
 
-  //handle cmd-line options here
-  if fn[1]='-' then exit(fn);
+  //don't modify param if it is command-line option beginning with '-'
+  if fn[1]='-' then
+    exit(fn);
+
+  //must delete leading 'file://' passed by Firefox after file download
+  if StartsStr(cFilePrefix, fn) then
+    Delete(fn, 1, Length(cFilePrefix));
 
   Result:=
     ResolveWindowsLinkTarget(
