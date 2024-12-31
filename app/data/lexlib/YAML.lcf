@@ -169,7 +169,7 @@ object SyntAnal21: TLibSyntAnalyzer
       DisplayName = 'Number float'
       StyleName = 'Number'
       TokenType = 5
-      Expression = '(?<=\s)\d[\d_]*\.[\d_]+ (e[\+\-]?[\d_]+\b)?\b'
+      Expression = '(?<=\s)\-?\d[\d_]*\.[\d_]+ (e[\+\-]?[\d_]+\b)?\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -179,7 +179,7 @@ object SyntAnal21: TLibSyntAnalyzer
       TokenType = 5
       Expression = 
         '(?<=\s)0b[01_]+\b |'#13#10'(?<=\s)0o[0-7_]+\b |'#13#10'(?<=\s)0x[0-9a-f_]+\b' +
-        ' |'#13#10'(?<=\s)\d[\d_]*\b'#13#10
+        ' |'#13#10'(?<=\s)\-?\d[\d_]*\b'#13#10
       ColumnFrom = 0
       ColumnTo = 0
     end
