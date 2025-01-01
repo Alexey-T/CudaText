@@ -3486,13 +3486,14 @@ Text is chr(1) separated items:
 
 Text is "\n"-separated undo (or redo) items. Each undo item is tab-separated elements:
 
-1. Editing action, enum 0..5:
+1. Editing action, enum 0..6:
 * 0: line changed
 * 1: end-of-line mark changed
 * 2: line inserted
 * 3: line deleted
 * 4: cleared document "modified" flag
 * 5: mouse clicked
+* 6: line appended
 
 2. Index of changed line (not for mouse clicks), 0-based.
 
