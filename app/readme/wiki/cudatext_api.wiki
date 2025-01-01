@@ -3484,7 +3484,7 @@ Text is chr(1) separated items:
 
 ==Format of serialized Undo==
 
-Text is "\n"-separated undo/redo items. Each line is tab-separated elements:
+Text is "\n"-separated undo (or redo) items. Each undo item is tab-separated elements:
 
 1. Editing action, enum 0..5:
 * 0: line changed
