@@ -3509,7 +3509,9 @@ Text is "\n"-separated undo (or redo) items. Each undo item is tab-separated ele
 * 3: saved
 
 5. Several chr(1)-separated items:
+
 5.1. Caret position(s). Carets are ";"-separated and x/y coords (32-bit) are ","-separated. "x_begin,y_begin;x_end,y_end;" for 1 caret.
+
 5.2. Marker position(s). 64-bit numbers ","-separated, where each marker is encoded as 7 numbers:
 * position x,
 * position y,
@@ -3520,13 +3522,19 @@ Text is "\n"-separated undo (or redo) items. Each undo item is tab-separated ele
 * marker show mode, enum 0..2; 0: show in text only; 1: show in micromap only; 2: show in text and micromap.
 
 5.3. Global action counter, 32-bit integer. Several undo-items can have the same global action counter.
+
 5.4. OS tick counter, 64-bit integer, in milliseconds (shows how much time is passed betweem items).
+
 5.5. Command code, 32-bit integer which possible values are contained in Python module cudatext_cmd. Value=0 means "command code is not set".
+
 5.6. Caret position(s) for the paired editor (which is visible when menu item "View / Split tab" is called in CudaText).
+
 5.7. Marker position(s) for the paired editor.
 
 6. Soft-mark flag, number 0/1 (boolean). Logic of soft/hard marks is described in the wiki page [[ATSynEdit]].
+
 7. Hard-mark flag, number 0/1.
+
 8. Line text, in UTF-8. This text can have tab-chars, tab-char is not separator in this last item.
 
 =API of 3rd-party plugins=
