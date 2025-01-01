@@ -73,6 +73,10 @@ var
   Ed: TATSynEdit;
   St: TATStrings;
 begin
+  //during drag-drop, avoid changing button's Enabled to false - it will call
+  //TControl.CaptureChanged which calls DragStop, which causes crash in TDragPerformer.DragMove
+  if DragManager.IsDragging then exit;
+
   Ed:= CurrentEditor;
   if Ed=nil then exit;
   St:= Ed.Strings;
