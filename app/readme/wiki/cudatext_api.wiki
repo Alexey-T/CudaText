@@ -3486,40 +3486,48 @@ Text is chr(1) separated items:
 
 Text is "\n"-separated undo/redo items. Each line is tab-separated elements:
 
-* editing action, number 0..5:
-** 0: line changed
-** 1: end-of-line mark changed
-** 2: line inserted
-** 3: line deleted
-** 4: cleared document "modified" flag
-** 5: mouse clicked
-* index of changed line (not for mouse clicks), 0-based.
-* end-of-line kind, number 0..3:
-** 0: none
-** 1: CR LF
-** 2: LF
-** 3: CR
-* line state, number 0..3:
-** 0: none
-** 1: changed
-** 2: added
-** 3: saved
-* caret position(s); carets are ";"-separated and x/y coords (32-bit) are ","-separated; for example "x0,y0;x1,y1;" for 2 carets;
-** plus chr(1) and marker position(s), 64-bit numbers ","-separated, where each marker is encoded as 7 numbers:
-*** position x,
-*** position y,
-*** selection-end x,
-*** selection-end y,
-*** tab-stop index,
-*** some value attached to marker,
-*** marker show mode, enum 0..2; 0: show in text only; 1: show in micromap only; 2: show in text and micromap.
-** plus chr(1) and global undo counter, 32-bit integer;
-** plus chr(1) and OS tick counter, 64-bit integer, in milliseconds (shows how much time is passed betweem items).
-* soft mark flag, number 0/1 (boolean). Logic of soft/hard marks is described in wiki page [[ATSynEdit]].
-* hard mark flag, number 0/1.
-* line text, in UTF8. This text can have tab-chars, tab-char is not separator.
+1. Editing action, enum 0..5:
+* 0: line changed
+* 1: end-of-line mark changed
+* 2: line inserted
+* 3: line deleted
+* 4: cleared document "modified" flag
+* 5: mouse clicked
 
-Note that field "line state" was inserted in API 1.0.328, new format of data became incompatible with old format.
+2. Index of changed line (not for mouse clicks), 0-based.
+
+3. End-of-line kind, enum 0..3:
+* 0: none
+* 1: CR LF
+* 2: LF
+* 3: CR
+
+4. Line state, enum 0..3:
+* 0: none
+* 1: changed
+* 2: added
+* 3: saved
+
+5. Several chr(1)-separated items:
+5.1. Caret position(s). Carets are ";"-separated and x/y coords (32-bit) are ","-separated. "x_begin,y_begin;x_end,y_end;" for 1 caret.
+5.2. Marker position(s). 64-bit numbers ","-separated, where each marker is encoded as 7 numbers:
+* position x,
+* position y,
+* selection-end x,
+* selection-end y,
+* tab-stop index,
+* some value attached to marker,
+* marker show mode, enum 0..2; 0: show in text only; 1: show in micromap only; 2: show in text and micromap.
+
+5.3. Global action counter, 32-bit integer. Several undo-items can have the same global action counter.
+5.4. OS tick counter, 64-bit integer, in milliseconds (shows how much time is passed betweem items).
+5.5. Command code, 32-bit integer which possible values are contained in Python module cudatext_cmd. Value=0 means "command code is not set".
+5.6. Caret position(s) for the paired editor (which is visible when menu item "View / Split tab" is called in CudaText).
+5.7. Marker position(s) for the paired editor.
+
+6. Soft-mark flag, number 0/1 (boolean). Logic of soft/hard marks is described in the wiki page [[ATSynEdit]].
+7. Hard-mark flag, number 0/1.
+8. Line text, in UTF-8. This text can have tab-chars, tab-char is not separator in this last item.
 
 =API of 3rd-party plugins=
 ==API of Options Editor==
