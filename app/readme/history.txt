@@ -3,12 +3,13 @@
   - fixed
   * changed
 
-1.220.1 (2025/01)
+1.220.2 (2025/01)
 
 + add: support undo-ing of caret position in the paired editor (menu item "View / Split tab")
 + add: support undo-ing of 'markers' (placed e.g. by Snippets plugin) in the paired editor
 + add: make memory usage (by Undo-storage) much lower for multi-carets editing, with lot of carets; e.g. 18K carets with option "undo_max_carets":20000 previously gave 'out of memory' error after typing few chars (thanks @njwgh)
 - fix: must delete leading 'file://' in command-line filename, it's needed for Firefox calling CudaText after file downloading on Linux
+- fix: after pasting multiple lines at document end, undo + redo + undo produces unexpected result (thanks @pintassilgo)
 
 1.220.0 (2024/12)
 
