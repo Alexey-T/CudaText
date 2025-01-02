@@ -74,7 +74,8 @@ var
   St: TATStrings;
 begin
   //during drag-drop, avoid changing button's Enabled to false - it will call
-  //TControl.CaptureChanged which calls DragStop, which causes crash in TDragPerformer.DragMove
+  //TControl.CaptureChanged which calls TDragPerformer.DragStop,
+  //which causes crash in TDragPerformer.DragMove
   if DragManager.IsDragging then exit;
 
   Ed:= CurrentEditor;
