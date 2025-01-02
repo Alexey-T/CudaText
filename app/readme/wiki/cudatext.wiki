@@ -2548,7 +2548,7 @@ Try this:
 Do it in the user.json config, of course.
 Then restart the editor.
 
-On macOS, changing the option "renreder_tweaks__mac" is usually not needed - default value works good. But in Qt5 version, CudaText cannot detect Desktop Environment settings, so default value is wrong sometimes.
+On macOS, changing the option "renderer_tweaks__mac" is usually not needed - default value works good. But in Qt5 version, CudaText cannot detect Desktop Environment settings, so default value is wrong sometimes.
 
 ==Linux: How to reinstall missed files==
 
