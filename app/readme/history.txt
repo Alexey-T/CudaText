@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.220.2 (2025/01)
+1.220.5 (2025/01)
 
 + add: support undo-ing of caret position in the paired editor (menu item "View / Split tab")
 + add: support undo-ing of 'markers' (placed e.g. by Snippets plugin) in the paired editor
