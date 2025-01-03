@@ -782,9 +782,8 @@
   //  2: show, in "replace" mode
   "find_show_on_start": 0,
 
-  //Find dialog: show Find dialog as separate window (not docked to the main window).
+  //Find dialog: show Find dialog as separate window (instead of docked to the main window).
   //Option is applied after app restart.
-  //Option is disabled in GTK2 versions due to the bug in Lazarus.
   "find_separate_form": false,
 
   //Find dialog: suggest selection (of first caret) as initial search text.
