@@ -49,16 +49,23 @@ begin
 end;
 
 procedure TfmMain.FrameOnUpdateStatusbar(Sender: TObject; AReason: TAppStatusbarUpdateReason);
+var
+  N: integer;
 begin
   case AReason of
     TAppStatusbarUpdateReason.Caret, //Caret: add with care! it may make editor repaint slower on mouse selection; issue #4917
     TAppStatusbarUpdateReason.ViewerScroll,
     TAppStatusbarUpdateReason.InsOvr,
-    TAppStatusbarUpdateReason.Zoom,
     TAppStatusbarUpdateReason.PictureResize:
       begin
         //some events only need the fast update of the statusbar
         UpdateStatusbar_RealWork;
+      end;
+    TAppStatusbarUpdateReason.Zoom:
+      begin
+        N:= CurrentEditor.OptScaleFont;
+        if N=0 then N:= 100;
+        DoStatusbarTextByTag(Status, StatusbarTag_Zoom, IntToStr(N)+'%');
       end;
     else
       begin
