@@ -1674,10 +1674,14 @@ begin
   UiOps.FindIndentHorz:= cfg.GetValue('find_indent_horz', UiOps.FindIndentHorz);
   UiOps.FindMultilineHeight:= Max(100, cfg.GetValue('find_multiline_height', UiOps.FindMultilineHeight));
 
+  {
   {$ifndef LCLGTK2}
-  //disabled on GTK2 until we solve issue #3990
-  UiOps.FindSeparateForm:= cfg.GetValue('find_separate_form', UiOps.FindSeparateForm);
+  2022.03: floating dialog is disabled on GTK2 until we solve issue #3990:
+  app silently quits on pressing Yes in _floating_ dialog 'Replace' on doing 'Replace all'.
+  2025.01: seems no silent quit anymore, solved in Lazarus.
   {$endif}
+  }
+  UiOps.FindSeparateForm:= cfg.GetValue('find_separate_form', UiOps.FindSeparateForm);
 
   UiOps.FindHiAll_MaxLines:= cfg.GetValue('find_hi_max_lines', UiOps.FindHiAll_MaxLines);
   UiOps.FindHiAll_MaxLineLen:= cfg.GetValue('find_hi_max_line_len', UiOps.FindHiAll_MaxLineLen);
