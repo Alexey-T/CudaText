@@ -231,7 +231,7 @@ begin
   end;
   }
 
-  btnCopyToClp.Hint:= msgCopySub;
+  btnCopyToClp.Hint:= StringReplace(msgCopySub, '&', '', [rfReplaceAll]);
   btnCopyToClp.ShowHint:= true;
 end;
 
