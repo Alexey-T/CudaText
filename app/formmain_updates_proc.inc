@@ -253,17 +253,6 @@ begin
 
     DoStatusbarTextByTag(AStatus, StatusbarTag_InsOvr, '');
 
-    {
-    case FrameKind of
-      TAppFrameKind.BinaryViewer:
-        S:= msgStatusbarWrapStates[Ord(F.Viewer.TextWrap)]
-      else
-        S:= '';
-    end;
-    DoStatusbarTextByTag(AStatus, StatusbarTag_WrapMode, S, 'Courier New');
-    //set some common font to make pseudo-graphic in 'wrap' cell always visible
-    }
-
     exit;
   end;
   //end for FrameKind<>Editor
@@ -320,14 +309,9 @@ begin
   DoStatusbarTextByTag(AStatus, StatusbarTag_SelMode, S);
 
   //------
-  //DoStatusbarTextByTag(AStatus, StatusbarTag_WrapMode, msgStatusbarWrapStates[Ord(Ed.OptWrapMode)]);
-
   N:= Ed.OptScaleFont;
   if N=0 then N:= 100;
   DoStatusbarTextByTag(AStatus, StatusbarTag_Zoom, IntToStr(N)+'%');
-
-  //to update '[Read only]' in the message
-  //DoStatusbarTextByTag(AStatus, StatusbarTag_Msg, FLastStatusbarMessage);
 end;
 
 procedure TfmMain.InitStatusProgress;
