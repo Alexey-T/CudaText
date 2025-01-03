@@ -291,8 +291,6 @@ type
     procedure EditorOnPaste(Sender: TObject; var AHandled: boolean; AKeepCaret, ASelectThen: boolean);
     procedure EditorOnScroll(Sender: TObject);
     procedure EditorOnEnabledUndoRedoChanged(Sender: TObject; AUndoEnabled, ARedoEnabled: boolean);
-    procedure EditorOnMouseWheel(Sender: TObject; Shift: TShiftState;
-      WheelDelta: Integer; MousePos: TPoint; var Handled: Boolean);
     function GetAdapter(Ed: TATSynEdit): TATAdapterEControl;
     function GetCachedTreeviewInited(Ed: TATSynEdit): boolean;
     function GetCachedTreeview(Ed: TATSynEdit): TTreeView;
@@ -832,21 +830,6 @@ begin
         AppVariant(ConvertShiftStateToString(Shift))
         ]);
   end;
-end;
-
-procedure TEditorFrame.EditorOnMouseWheel(Sender: TObject; Shift: TShiftState;
-         WheelDelta: Integer; MousePos: TPoint; var Handled: Boolean);
-var
-  Ed: TATSynEdit;
-  NValue: integer;
-begin
-  if ssCtrl in Shift then
-  begin
-    Ed:= Sender as TATSynEdit;
-    NValue:= Ed.OptScaleFont;
-    OnMsgStatus(Self, Format(msgStatusFontSizeChanged, [NValue]));
-  end;
-  Handled:= false;
 end;
 
 procedure TEditorFrame.EditorOnPaste(Sender: TObject; var AHandled: boolean;
@@ -1831,6 +1814,7 @@ end;
 procedure TEditorFrame.EditorOnChangeZoom(Sender: TObject);
 begin
   DoOnUpdateStatusbar(TAppStatusbarUpdateReason.Zoom);
+  OnMsgStatus(Self, Format(msgStatusFontSizeChanged, [Editor.OptScaleFont]));
   DoPyEventState(Sender as TATSynEdit, EDSTATE_ZOOM);
 end;
 
@@ -2068,22 +2052,6 @@ begin
         exit;
       end;
 
-    cCommand_ZoomIn,
-    cCommand_ZoomOut,
-    cCommand_ZoomReset:
-      begin
-        if ACommand=cCommand_ZoomReset then
-        begin
-          NValue:= ATEditorScaleFontPercents;
-          if NValue=0 then
-            NValue:= ATEditorScalePercents;
-        end
-        else
-          NValue:= Ed.OptScaleFont;
-        OnMsgStatus(Self, Format(msgStatusFontSizeChanged, [NValue]));
-        exit;
-      end;
-
     cCommand_TextInsert:
       begin
         if AText='' then exit;
@@ -2303,7 +2271,6 @@ begin
   ed.OnDrawMicromap:= @EditorDrawMicromap;
   ed.OnPaste:=@EditorOnPaste;
   ed.OnScroll:=@EditorOnScroll;
-  ed.OnMouseWheel:= @EditorOnMouseWheel;
   ed.OnHotspotEnter:=@EditorOnHotspotEnter;
   ed.OnHotspotExit:=@EditorOnHotspotExit;
   ed.OnGetToken:= @EditorOnGetToken;
