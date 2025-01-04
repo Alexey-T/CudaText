@@ -519,7 +519,7 @@ object SyntAnal15: TLibSyntAnalyzer
       StatesRemove = 7
       StatesAbsent = 3072
       TokenType = 4
-      Expression = '^(\x20{4,}|\x09{1,}) [^`<>\n\r].*$'
+      Expression = '(?<=^$\n)(^(\x20{4,}|\x09{1,})[^`<>\n\r].*$\n)+'
       ColumnFrom = 0
       ColumnTo = 0
     end
