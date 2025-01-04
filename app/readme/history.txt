@@ -3,6 +3,8 @@
   - fixed
   * changed
 
+- fix: Ctrl+mouse_wheel did not show statusbar message "Font size changed to N%" like Ctrl+NumPlus did (thanks @ags1234)
+
 1.220.5 (2025/01)
 
 + add: support undo-ing of caret position in the paired editor (menu item "View / Split tab")
