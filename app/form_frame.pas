@@ -1813,16 +1813,18 @@ end;
 
 procedure TEditorFrame.EditorOnChangeZoom(Sender: TObject);
 var
-  NValue: integer;
+  Ed: TATSynEdit;
+  N: integer;
 begin
+  Ed:= Sender as TATSynEdit;
   DoOnUpdateStatusbar(TAppStatusbarUpdateReason.Zoom);
 
-  NValue:= Editor.OptScaleFont;
-  if NValue=0 then
-    NValue:= 100;
-  OnMsgStatus(Self, Format(msgStatusFontSizeChanged, [NValue]));
+  N:= Ed.OptScaleFont;
+  if N=0 then
+    N:= 100;
+  OnMsgStatus(Self, Format(msgStatusFontSizeChanged, [N]));
 
-  DoPyEventState(Sender as TATSynEdit, EDSTATE_ZOOM);
+  DoPyEventState(Ed, EDSTATE_ZOOM);
 end;
 
 procedure TEditorFrame.UpdateModified(Ed: TATSynEdit; AWithEvent: boolean);
