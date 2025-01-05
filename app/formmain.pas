@@ -6067,6 +6067,7 @@ var
 begin
   SReplaceAll(AText, #10, ' ');
   SReplaceAll(AText, #13, ' ');
+  SReplaceAll(AText, '|', '│'); //LCL truncates hint by char '|'
 
   if DoPyEvent_Message(AText) then
   begin
