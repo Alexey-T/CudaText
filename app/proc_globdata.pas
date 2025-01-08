@@ -1358,11 +1358,8 @@ var
 {$endif}
 {$ifdef darwin}
 var
+  SDir, SMask, SFile: string;
   N: integer;
-  S, SMask: string;
-const
-  cMacDirNew = '/Library/Developer/CommandLineTools/Library/Frameworks/Python.framework';
-  cMacDirOld = '/Library/Frameworks/Python.framework';
 {$endif}
 {$ifdef unix}
 var
@@ -1391,18 +1388,20 @@ begin
   {$endif}
 
   {$ifdef darwin}
-  if DirectoryExists(cMacDirNew) then
-    SMask:= cMacDirNew+'/Versions/3.%d/lib/libpython3.%d.dylib'
-  else
-  if DirectoryExists(cMacDirOld) then
-    SMask:= cMacDirOld+'/Versions/3.%d/lib/libpython3.%d.dylib'
-  else
-    exit;
-  for N:= cMaxVersion downto cMinVersionMacOS do
-  begin
-    S:= Format(SMask, [N, N]);
-    if FileExists(S) then exit(S);
-  end;
+  for SDir in [
+    '/Library/Developer/CommandLineTools/Library/Frameworks/Python.framework', //used on macOS 15+
+    '/Library/Frameworks/Python.framework' //before macOS 15
+    ] do
+    if DirectoryExists(SDir) then
+    begin
+      SMask:= SDir+'/Versions/3.%d/lib/libpython3.%d.dylib';
+      for N:= cMaxVersion downto cMinVersionMacOS do
+      begin
+        SFile:= Format(SMask, [N, N]);
+        if FileExists(SFile) then
+          exit(SFile);
+      end;
+    end;
   exit;
   {$endif}
 
