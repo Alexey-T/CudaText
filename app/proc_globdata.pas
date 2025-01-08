@@ -1349,6 +1349,7 @@ function InitPyLibraryPath: string;
 const
   cMaxVersion = 13; //last supported is 3.13
   cMinVersionUnix = 5; //first supported on Unix is 3.5
+  cMinVersionMacOS = 9;
   cMinVersionWindows = 4; //first supported on Windows is 3.4 (for WinXP)
 {$ifdef windows}
 var
@@ -1387,9 +1388,15 @@ begin
   {$endif}
 
   {$ifdef darwin}
-  for N:= cMaxVersion downto cMinVersionUnix do
+  for N:= cMaxVersion downto cMinVersionMacOS do
   begin
     S:= Format('/Library/Frameworks/Python.framework/Versions/3.%d/lib/libpython3.%d.dylib',
+      [N, N]);
+    if FileExists(S) then exit(S);
+  end;
+  for N:= cMaxVersion downto cMinVersionMacOS do
+  begin
+    S:= Format('/Library/Developer/CommandLineTools/Library/Frameworks/Python.framework/Versions/3.%d/lib/libpython3.%d.dylib',
       [N, N]);
     if FileExists(S) then exit(S);
   end;
