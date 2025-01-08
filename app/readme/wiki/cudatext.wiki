@@ -1526,6 +1526,10 @@ On macOS you must install Python 3, from official site python.org. Versions 3.6.
 
    "pylib__mac": "/Library/Frameworks/Python.framework/Versions/3.5/lib/libpython3.5.dylib",
 
+macOS 15 and newer: some users report that the above path was changed to:
+
+   "pylib__mac": "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/libpython3.9.dylib",
+
 If you use Homebrew to install Python on MacOS, CudaText cannot detect it,
 so you need to write to the "user.json" option "pylib__mac" by hands. Example:
 
