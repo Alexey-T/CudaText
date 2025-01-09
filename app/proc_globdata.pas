@@ -1389,7 +1389,7 @@ begin
 
   {$ifdef darwin}
   for SDir in [
-    '/Library/Developer/CommandLineTools/Library/Frameworks/Python.framework', //used on macOS 15+
+    '/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework', //used on macOS 15+
     '/Library/Frameworks/Python.framework' //before macOS 15
     ] do
     if DirectoryExists(SDir) then
