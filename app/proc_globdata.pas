@@ -1699,7 +1699,10 @@ begin
         RunCommand('chmod', ['-R', '+w', OpDirLocal], S);
       end
       else
+      begin
         Writeln('CudaText cannot find pre-copy folder: '+OpDirPrecopy);
+        MsgLogConsole('ERROR: Cannot find pre-copy folder: '+OpDirPrecopy);
+      end;
     end;
   {$endif}
   {$ifdef darwin}
@@ -1718,7 +1721,10 @@ begin
         ], S);
     end
     else
+    begin
       WriteLn('CudaText cannot find pre-copy folder: ', OpDirPrecopy);
+      MsgLogConsole('ERROR: Cannot find pre-copy folder: '+OpDirPrecopy);
+    end;
   end;
   {$endif}
 
