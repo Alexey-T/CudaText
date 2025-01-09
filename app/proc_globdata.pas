@@ -1699,7 +1699,10 @@ begin
   {$endif}
   {$ifdef darwin}
   if IsDistroUpdateNeeded then
+  begin
     if DirectoryExists(OpDirPrecopy) then
+    begin
+      Writeln('CudaText runs pre-copying: rsync -urt "'+OpDirPrecopy+'/" "'+OpDirLocal+'"');
       //see rsync help. need options:
       // -u (update)
       // -r (recursive)
@@ -1708,6 +1711,10 @@ begin
         OpDirPrecopy+'/',
         OpDirLocal
         ], S);
+    end
+    else
+      WriteLn('CudaText cannot find pre-copy folder: ', OpDirPrecopy);
+  end;
   {$endif}
 
   AppDir_Py:= OpDirLocal+DirectorySeparator+'py';
