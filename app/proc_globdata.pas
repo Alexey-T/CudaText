@@ -1685,8 +1685,10 @@ begin
   {$ifdef linux}
   if OpDirLocal<>OpDirExe then
     if IsDistroUpdateNeeded then
+    begin
       if DirectoryExists(OpDirPrecopy) then
       begin
+        Writeln('CudaText runs pre-copying: cp -R -u -t "'+OpDirLocal+'" /usr/share/cudatext/py /usr/share/cudatext/data /usr/share/cudatext/settings_default');
         RunCommand('cp', ['-R', '-u', '-t',
           OpDirLocal,
           '/usr/share/cudatext/py',
@@ -1695,7 +1697,10 @@ begin
           ], S);
         //set permissions +w for dir+subdirs
         RunCommand('chmod', ['-R', '+w', OpDirLocal], S);
-      end;
+      end
+      else
+        Writeln('CudaText cannot find pre-copy folder: '+OpDirPrecopy);
+    end;
   {$endif}
   {$ifdef darwin}
   if IsDistroUpdateNeeded then
