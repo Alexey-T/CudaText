@@ -6,7 +6,7 @@
 1.220.6 (2025/01)
 
 + add: remove disabling of option "find_separate_form" on GTK2 version, seems it don't give problem anymore (fixed in Lazarus?)
-+ add: macOS: support newer Python installation path /Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework
++ add: macOS: detect also Python installation path /Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework (thanks @Dieken)
 - fix: avoid statusbar's hint truncation after char '|' which always is done by Lazarus (thanks @rssguy2)
 - fix: Ctrl+mouse_wheel did not show statusbar message "Font size changed to N%" like Ctrl+NumPlus did (thanks @ags1234)
 - fix: lexer Markdown: better rule for 'code blocks'
