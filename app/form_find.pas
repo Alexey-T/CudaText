@@ -1034,6 +1034,7 @@ procedure TfmFind.UpdateInputFieldsProps;
     Ed.Font.Quality:= EditorOps.OpFontQuality;
     Ed.OptBorderFocusedActive:= EditorOps.OpActiveBorderInControls;
     Ed.OptBorderWidthFocused:= ATEditorScale(EditorOps.OpActiveBorderWidth);
+    Ed.OptMouse2ClickOpensURL:= false;
     EditorApplyTheme(Ed);
 
     Ed.Colors.TextFont:= GetAppColor(TAppThemeColor.OtherTextFont, TAppThemeColor.EdTextFont);
