@@ -11,6 +11,7 @@
 - fix: Ctrl+mouse_wheel did not show statusbar message "Font size changed to N%" like Ctrl+NumPlus did (thanks @ags1234)
 - fix: lexer Markdown: better rule for 'code blocks'
 - fix: lexer YAML: must proper highlight 'keys' containing '-' char
+- fix: in single-line input fieds, double-click on an URL did nothing, but must select a word (thanks @pintassilgo)
 
 1.220.5 (2025/01)
 
