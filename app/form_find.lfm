@@ -12,7 +12,7 @@ object fmFind: TfmFind
   KeyPreview = True
   ShowHint = True
   ShowInTaskBar = stNever
-  LCLVersion = '3.99.0.0'
+  LCLVersion = '4.99.0.0'
   Scaled = False
   OnClose = FormClose
   OnCreate = FormCreate

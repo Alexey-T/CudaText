@@ -393,6 +393,7 @@ begin
   EdMemo.OptBorderWidthFocused:= ATEditorScale(EditorOps.OpActiveBorderWidth);
   EdMemo.OptBorderWidth:= 0;
   EdMemo.OptShowURLs:= false;
+  EdMemo.OptMouse2ClickOpensURL:= false;
   EdMemo.OptCaretVirtual:= false;
   EdMemo.OptCaretManyAllowed:= false;
   EdMemo.OptGutterVisible:= true;
