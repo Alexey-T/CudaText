@@ -1164,7 +1164,10 @@ def image_proc(id_image, id_action, value=''):
     return ct.image_proc(id_image, id_action, to_str(value))
 
 def tree_proc(id_tree, id_action, id_item=0, index=0, text='', image_index=-1, data=''):
-    text = to_str(text).replace(chr(0), '?')
+    if chr(0) in text:
+        print('ERROR: tree_proc gets null-char!', repr(text))
+        return
+    text = to_str(text)
     return ct.tree_proc(id_tree, id_action, id_item, index, text, image_index, data)
 
 def _menu_proc_callback_proxy(info=''):
