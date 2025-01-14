@@ -1701,6 +1701,7 @@ begin
       else
       begin
         Writeln('CudaText cannot find pre-copy folder: '+OpDirPrecopy);
+        MsgLogConsole('ERROR: Cannot find pre-copy folder: '+OpDirPrecopy);
       end;
     end;
   {$endif}
@@ -1722,6 +1723,7 @@ begin
     else
     begin
       WriteLn('CudaText cannot find pre-copy folder: ', OpDirPrecopy);
+      MsgLogConsole('ERROR: Cannot find pre-copy folder: '+OpDirPrecopy);
     end;
   end;
   {$endif}
@@ -4121,12 +4123,13 @@ end;
 
 initialization
 
+  AppConsoleQueue:= TAppConsoleQueue.Create;
+
   InitDirs;
   InitEditorOps(EditorOps);
   InitUiOps(UiOps);
   InitBasicCommandLineOptions;
 
-  AppConsoleQueue:= TAppConsoleQueue.Create;
   AppCommandsDelayed:= TAppCommandsDelayed.Create;
   AppCommandList:= TFPList.Create;
   AppCommand2List:= TFPList.Create;
