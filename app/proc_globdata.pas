@@ -1701,7 +1701,6 @@ begin
       else
       begin
         Writeln('CudaText cannot find pre-copy folder: '+OpDirPrecopy);
-        MsgLogConsole('ERROR: Cannot find pre-copy folder: '+OpDirPrecopy);
       end;
     end;
   {$endif}
@@ -1723,7 +1722,6 @@ begin
     else
     begin
       WriteLn('CudaText cannot find pre-copy folder: ', OpDirPrecopy);
-      MsgLogConsole('ERROR: Cannot find pre-copy folder: '+OpDirPrecopy);
     end;
   end;
   {$endif}
@@ -3094,6 +3092,8 @@ var
   Sep: TATStringSeparator;
   S: UnicodeString;
 begin
+  if AppConsoleQueue=nil then
+    exit;
   if Pos(#10, AText)=0 then
     AppConsoleQueue.Push(AText)
   else
