@@ -3,8 +3,8 @@
   - fixed
   * changed
 
-- fix: lexer Markdown: lexer wrongly supported C-style comments /*...*/ which leads to problem
-- fix: lexer Markdown: fragment "U*nix systems" was wrongly treated as italic
+- fix: lexer Markdown: lexer wrongly supported C-style comments /*...*/ (thanks @jdp1024)
+- fix: lexer Markdown: fragment "Un*x systems" was wrongly treated as italic
 - fix: lexer Markdown: fixed rule for 'code blocks'
 
 1.220.6 (2025/01)
