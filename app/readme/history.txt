@@ -3,6 +3,10 @@
   - fixed
   * changed
 
+- fix: lexer Markdown: lexer wrongly supported C-style comments /*...*/ which leads to problem
+- fix: lexer Markdown: fragment "U*nix systems" was wrongly treated as italic
+- fix: lexer Markdown: fixed rule for 'code blocks'
+
 1.220.6 (2025/01)
 
 + add: remove disabling of option "find_separate_form" on GTK2 version, seems it don't give problem anymore (fixed in Lazarus?)
