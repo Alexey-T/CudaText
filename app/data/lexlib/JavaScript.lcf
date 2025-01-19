@@ -410,9 +410,9 @@ object SyntAnal9: TLibSyntAnalyzer
       ConditionList = <
         item
           TagList.Strings = (
+            '$export'
             '__dirname'
             '__filename'
-            '$export'
             'AggregateError'
             'Array'
             'ArrayBuffer'
@@ -813,7 +813,7 @@ object SyntAnal9: TLibSyntAnalyzer
       HighlightPos = cpBound
       CancelNextRules = True
       DrawStaple = True
-      CollapseFmt = 'func %s-11~s[)]'
+      CollapseFmt = 'func %s-1~s[)]'
       TreeItemImage = 5
       IgnoreAsParent = False
     end
