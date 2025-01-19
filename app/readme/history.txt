@@ -3,10 +3,12 @@
   - fixed
   * changed
 
+1.220.7 (2025/01)
+
+- fix: lexer JavaScript: wrong mark for folded function (thanks @pintassilgo)
 - fix: lexer Markdown: lexer wrongly supported C-style comments /*...*/ (thanks @jdp1024)
 - fix: lexer Markdown: fragment "Un*x systems" was wrongly treated as italic
 - fix: lexer Markdown: fixed rule for 'code blocks'
-- fix: bug in JavaScript lexer: wrong mark for folded function (thanks @pintassilgo)
 
 1.220.6 (2025/01)
 
