@@ -335,6 +335,7 @@ TYPES = {
     "obs": ['Objeck'],
     "odin": ['Odin'],
     "org": ['Org-mode'],
+    "p4": ['P4'],
     "pas": ['Pascal'],
     "patch": ['Diff'],
     "pb": ['PureBasic'],
