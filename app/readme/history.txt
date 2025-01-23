@@ -3,8 +3,7 @@
   - fixed
   * changed
 
-1.220.7 (2025/01)
-
+- fix: embedded app icon was distorted somehow
 - fix: lexer JavaScript: wrong mark for folded function (thanks @pintassilgo)
 - fix: lexer Markdown: lexer wrongly supported C-style comments /*...*/ (thanks @jdp1024)
 - fix: lexer Markdown: fragment "Un*x systems" was wrongly treated as italic
