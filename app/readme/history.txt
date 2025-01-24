@@ -6,7 +6,7 @@
 1.220.7 (2025/01)
 
 + add: app saves recent filenames with {AppDir} macro which means up-folder of 'settings' folder
-+ add: Project Manager: saves recent filenames with {AppDir} macro too
++ add: Project Manager: saves recent filenames and in-project filenames with {AppDir} macro too (thanks @DeivAstra)
 - fix: embedded app icon was distorted somehow
 - fix: lexer JavaScript: wrong mark for folded function (thanks @pintassilgo)
 - fix: lexer Markdown: lexer wrongly supported C-style comments /*...*/ (thanks @jdp1024)
