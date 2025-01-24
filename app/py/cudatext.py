@@ -1164,7 +1164,7 @@ def image_proc(id_image, id_action, value=''):
     return ct.image_proc(id_image, id_action, to_str(value))
 
 def tree_proc(id_tree, id_action, id_item=0, index=0, text='', image_index=-1, data=''):
-    if chr(0) in text:
+    if isinstance(text, str) and (chr(0) in text):
         print('ERROR: tree_proc gets null-char!', repr(text))
         return
     text = to_str(text)
