@@ -752,9 +752,10 @@ var
 
 var
   AppUserName: string = '';
-  AppDir_Home: string = '';
+  AppDir_Home: string = ''; //OS home dir
   AppDir_Settings: string = '';
   AppDir_SettingsDefault: string = '';
+  AppDir_SettingsParent: string = ''; //dir which contains AppDir_Settings
   AppDir_Py: string = '';
   AppDir_Data: string = '';
   AppDir_Lexers: string = '';
@@ -864,6 +865,8 @@ function DoReadOneStringFromFile(const AFilename: string): string;
 function DoReadContentFromFile(const AFilename: string): string;
 procedure DoWriteStringToFile(const AFilename, AText: string);
 
+function AppCollapseAppDirInFilename(const fn: string): string;
+function AppExpandAppDirInFilename(const fn: string): string;
 function AppCollapseHomeDirInFilename(const fn: string): string;
 function AppExpandHomeDirInFilename(const fn: string): string;
 function AppExpandFileNameWithDir(const AFileName, ADir: string): string;
@@ -1459,6 +1462,20 @@ begin
   Result:= '';
 end;
 
+function AppCollapseAppDirInFilename(const fn: string): string;
+begin
+  Result:= fn;
+  if SBeginsWith(Result+DirectorySeparator, AppDir_SettingsParent+DirectorySeparator) then
+    Result:= '{AppDir}'+Copy(Result, Length(AppDir_SettingsParent)+1, MaxInt);
+end;
+
+function AppExpandAppDirInFilename(const fn: string): string;
+begin
+  Result:= fn;
+  if SBeginsWith(Result, '{AppDir}') then
+   Result:= AppDir_SettingsParent+Copy(Result, Length('{AppDir}')+1, MaxInt);
+end;
+
 function AppCollapseHomeDirInFilename(const fn: string): string;
 {$ifndef windows}
 var
@@ -1681,6 +1698,8 @@ begin
     end;
 
   AppDir_SettingsDefault:= OpDirLocal+DirectorySeparator+'settings_default';
+
+  AppDir_SettingsParent:= ExtractFileDir(AppDir_Settings);
 
   {$ifdef linux}
   if OpDirLocal<>OpDirExe then

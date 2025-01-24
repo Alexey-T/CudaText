@@ -111,7 +111,8 @@ procedure TfmMain.DoOps_SaveHistory(const AFileName: string;
 var
   cfg: TAppJsonConfig;
   bMax: boolean;
-  fnBase: string;
+  fnBase, SRecent: string;
+  ListTemp: TStringList;
 begin
   AppDiskCheckFreeSpace(AFileName);
 
@@ -167,7 +168,14 @@ begin
     end;
 
     ////recents
-    cfg.SetValue('/recent_files', AppListRecents);
+    ListTemp:= TStringList.Create;
+    try
+      for SRecent in AppListRecents do
+        ListTemp.Add(AppCollapseAppDirInFilename(SRecent));
+      cfg.SetValue('/recent_files', ListTemp);
+    finally
+      FreeAndNil(ListTemp);
+    end;
 
     ////find dialog
     if Assigned(fmFind) then
@@ -999,8 +1007,9 @@ var
   cfg: TAppJsonConfig;
   bFlag: boolean;
   NTick: QWord;
-  N: integer;
   sFilename, sRootPath: string;
+  ListTemp: TStringList;
+  N: integer;
 begin
   NTick:= GetTickCount64;
 
@@ -1032,7 +1041,15 @@ begin
       cfg.GetValue('/list_console', fmConsole.EdInput.Items, '');
 
     ////recents
-    cfg.GetValue('/recent_files', AppListRecents, '');
+    ListTemp:= TStringList.Create;
+    try
+      cfg.GetValue('/recent_files', ListTemp, '');
+      AppListRecents.Clear;
+      for sFilename in ListTemp do
+        AppListRecents.Add(AppExpandAppDirInFilename(sFilename));
+    finally
+      FreeAndNil(ListTemp);
+    end;
     UpdateMenuRecent(nil);
 
     ////finder
