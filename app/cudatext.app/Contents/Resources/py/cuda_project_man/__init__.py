@@ -112,15 +112,20 @@ def project_variables():
 NodeInfo = collections.namedtuple("NodeInfo", "caption image")
 
 _homedir = os.path.expanduser('~')
+_appdir = os.path.dirname(app_path(APP_DIR_SETTINGS))
 
 def collapse_macros(proj_dir, fn):
-    if (fn+os.sep).startswith(proj_dir+os.sep):
+    if proj_dir and (fn+os.sep).startswith(proj_dir+os.sep):
         fn = fn.replace(proj_dir, '{ProjDir}', 1)
+    if (fn+os.sep).startswith(_appdir+os.sep):
+        fn = fn.replace(_appdir, '{AppDir}', 1)
     fn = fn.replace(os.sep, '/') if IS_WIN else fn
     return fn
 
 def expand_macros(proj_dir, s):
-    s = s.replace('{ProjDir}', proj_dir, 1)
+    if proj_dir:
+        s = s.replace('{ProjDir}', proj_dir, 1)
+    s = s.replace('{AppDir}', _appdir, 1)
     return os.path.normpath(s)
 
 def collapse_filename(fn):
@@ -290,6 +295,8 @@ class Command:
         if self.options_filename.exists():
             with self.options_filename.open(encoding='utf8') as fin:
                 self.options = json.load(fin)
+                if "recent_projects" in self.options:
+                    self.options["recent_projects"] = [expand_macros('', fn) for fn in self.options["recent_projects"]]
 
         self.new_project(False, False) # don't forget session in on_start
 
@@ -1301,8 +1308,10 @@ class Command:
         return Path(p.get('data', ''))
 
     def save_options(self):
+        d = copy.deepcopy(self.options)
+        d["recent_projects"] = [collapse_macros('', fn) for fn in d["recent_projects"]]
         with self.options_filename.open(mode="w", encoding='utf8') as fout:
-            json.dump(self.options, fout, indent=2)
+            json.dump(d, fout, indent=2)
 
     def menu_recents(self):
         items = list(self.options["recent_projects"])
