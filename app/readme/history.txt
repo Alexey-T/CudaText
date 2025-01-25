@@ -7,6 +7,7 @@
 
 + add: app saves recent filenames with {AppDir} macro which means up-folder of 'settings' folder
 + add: Project Manager: saves recent filenames and in-project filenames with {AppDir} macro too (thanks @DeivAstra)
+* change: Windows: on saving file to write-protected folder with elevation, do not show 'wait icon' (thanks @tophf)
 - fix: embedded app icon was distorted somehow
 - fix: with focused editor, if user clicks a Find-dlg action button, focus is lost from editor (thanks @pintassilgo)
 - fix: lexer JavaScript: wrong mark for folded function (thanks @pintassilgo)
