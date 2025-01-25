@@ -135,6 +135,7 @@ begin
     //end;
     Ed.Update; //'line states' maybe changed by saving
     AppFileAttrRestore(AFileName, OldAttr);
+    exit; //must break the while-loop
   except
     on E: Exception do
     begin
