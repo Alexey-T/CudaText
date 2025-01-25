@@ -367,9 +367,18 @@ begin
 end;
 
 procedure TfmFind.bRepClick(Sender: TObject);
+var
+  Ed: TATSynEdit;
+  bEditorFocused: boolean;
 begin
+  OnGetMainEditor(Ed);
+  bEditorFocused:= Assigned(Ed) and Ed.Focused;
+
   if IsReplace then
     DoResult(TAppFinderOperation.Replace);
+
+  if bEditorFocused then
+    EditorFocus(Ed);
 end;
 
 procedure TfmFind.bRepStopClick(Sender: TObject);
@@ -664,9 +673,18 @@ begin
 end;
 
 procedure TfmFind.bRepAllClick(Sender: TObject);
+var
+  Ed: TATSynEdit;
+  bEditorFocused: boolean;
 begin
+  OnGetMainEditor(Ed);
+  bEditorFocused:= Assigned(Ed) and Ed.Focused;
+
   if IsReplace then
     DoResult(TAppFinderOperation.ReplaceAll);
+
+  if bEditorFocused then
+    EditorFocus(Ed);
 end;
 
 procedure TfmFind.bCountClick(Sender: TObject);

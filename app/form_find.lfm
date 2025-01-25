@@ -1,5 +1,5 @@
 object fmFind: TfmFind
-  Left = 21
+  Left = 54
   Height = 148
   Top = 420
   Width = 963
@@ -221,6 +221,7 @@ object fmFind: TfmFind
       OptMicromapScalePerColumn = 300
       OptMarginRight = 1000
       OptUnprintedVisible = False
+      OptMouse2ClickOpensURL = False
       OptMouseDragDrop = False
       OptMouseMiddleClickAction = None
       OptMouseWheelZooms = False
@@ -267,6 +268,7 @@ object fmFind: TfmFind
       OptMicromapScalePerColumn = 300
       OptMarginRight = 1000
       OptUnprintedVisible = False
+      OptMouse2ClickOpensURL = False
       OptMouseDragDrop = False
       OptMouseMiddleClickAction = None
       OptMouseWheelZooms = False
