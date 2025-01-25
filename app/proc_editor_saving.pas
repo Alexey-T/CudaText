@@ -107,7 +107,7 @@ begin
   while true do
   try
     AppFileAttrPrepare(AFileName, OldAttr);
-    Ed.BeginUpdate;
+    //Ed.BeginUpdate; //it forces wait-icon, it irritates some users, issue #5849
     try
       try
         SaveSimple(Ed, AFileName);
@@ -131,7 +131,8 @@ begin
           raise;
       end;
     finally
-      Ed.EndUpdate;
+      //Ed.EndUpdate;
+      Ed.Invalidate;
     end;
     AppFileAttrRestore(AFileName, OldAttr);
     exit;
