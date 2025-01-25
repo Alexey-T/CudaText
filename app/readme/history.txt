@@ -5,15 +5,15 @@
 
 1.220.7 (2025/01)
 
-+ add: app saves recent filenames with {AppDir} macro which means up-folder of 'settings' folder
-+ add: Project Manager: saves recent filenames and in-project filenames with {AppDir} macro too (thanks @DeivAstra)
-* change: Windows: on saving file to write-protected folder with elevation, do not show 'wait icon' (thanks @tophf)
-- fix: embedded app icon was distorted somehow
++ add: better support portable installations: app saves recent filenames with {AppDir} macro (which means up-folder of 'settings' folder)
++ add: better support portable installations: Project Manager saves filenames with {AppDir} macro (thanks @DeivAstra)
+* change: on saving file to Windows write-protected folder with elevation, do not show 'wait icon' (thanks @tophf)
 - fix: with focused editor, if user clicks a Find-dlg action button, focus is lost from editor (thanks @pintassilgo)
 - fix: lexer JavaScript: wrong mark for folded function (thanks @pintassilgo)
 - fix: lexer Markdown: lexer wrongly supported C-style comments /*...*/ (thanks @jdp1024)
 - fix: lexer Markdown: fragment "Un*x systems" was wrongly treated as italic
 - fix: lexer Markdown: fixed rule for 'code blocks'
+- fix: embedded app icon was distorted somehow
 
 1.220.6 (2025/01)
 
@@ -262,7 +262,7 @@
 1.211.4 (2024/03)
 
 + add: scrollbar (application-themed scrollbar) width can be adjusted with new option "scrollbar_size" (thanks @stewcam)
-+ add/change: when find-dialog "Hi" option is on, and document is 'big' (option "find_hi_max_lines" has effect, or horizontal scrollbar is wider than 400 chars), show Hi_All marks only for the visible screen area and update marks on scrolling; it should not slow down editor significantly (thanks @pintassilgo) 
++ add/change: when find-dialog "Hi" option is on, and document is 'big' (option "find_hi_max_lines" has effect, or horizontal scrollbar is wider than 400 chars), show Hi_All marks only for the visible screen area and update marks on scrolling; it should not slow down editor significantly (thanks @pintassilgo)
 + add: find-dialog "Hi" option: finding in the visible screen area is now much faster for huge lines (handles only visible portion of the line)
 - fix: many seconds freezing when 'select all' + 'delete' runs in ~600K lines file (thanks @hycmos)
 
@@ -288,7 +288,7 @@
 + add: allow plugin HTML_Tooltips to show preview for WEBP pictures too
 - fix: CSS autocompletion: better add ';' if both {} brackets are on the current line; don't add ';' at all if we completed the property name (thanks @d-mal)
 - fix: snippets for 'void' HTML tags had bad endings (thanks @d-mal)
-- fix: Qt5 version: char '|' cannot be entered in Code-tree filter field / FindInFiles plugin (thanks @mix-7) 
+- fix: Qt5 version: char '|' cannot be entered in Code-tree filter field / FindInFiles plugin (thanks @mix-7)
 - fix: Windows: fix for installation/uninstallation problems of the shell extension on new versions of Windows 11 (by @dinkumoil)
 - fix: plugin commands were not recorded to macros, if called from Plugins menu
 - fix: plugin HTML_Tooltips shows preview of BMP pictures buggy
@@ -475,7 +475,7 @@ built-in tree-helpers:
 * change: *BSD versions: do not call 'pkexec', instead only show a message-box, like IntelliJ (thanks @alex0x08 from linux.org.ru)
 - fix: new bookmarks were not auto-saved when ui-tab was not closed before exit (thanks @itsmyname)
 - fix: Qt5 version: Find dialog: click on a button looses dialog focus (thanks @pintassilgo)
-- fix: regression in 1.172: option "key_left_right_swap_sel_and_select" didn't work 
+- fix: regression in 1.172: option "key_left_right_swap_sel_and_select" didn't work
 
 1.198.0 (2023/09)
 
@@ -574,7 +574,7 @@ drag&drop:
 + add: new option "ui_statusbar_hint_lines" allows to set the statusbar hint height; also statusbar last cell now reacts to click (thanks @pintassilgo)
 + add: lexer Bash: added 'dynamic highlight' rules for blocks: if/fi, case/esac, do/done
 - fix: Windows: missed repaint on auto-deleting pair bracket (thanks @veksha)
-- fix: sometimes auto-completion was hiding on user typing (thanks @veksha)  
+- fix: sometimes auto-completion was hiding on user typing (thanks @veksha)
 
 1.193.0 (2023/05)
 
@@ -655,8 +655,8 @@ core changes for huge documents:
 + add: auto-completion listbox must handle clipboard command hotkeys (thanks @veksha)
 + add: Project Manager icons recolored from black to gray, to support dark ui-themes (thanks @veksha)
 + add: lexer C/C++: better code-tree (thanks @Forum0888 from linux.org.ru)
-+ add: word wrap: don't split chars '([' from word-chars (thanks @GenuZ) 
-+ add: better support plugin "Console Auto-Completion" so it is activated only on pressing Ctrl+Space (Alt+Space on macOS); and Console completion listbox stays visible on typing more text 
++ add: word wrap: don't split chars '([' from word-chars (thanks @GenuZ)
++ add: better support plugin "Console Auto-Completion" so it is activated only on pressing Ctrl+Space (Alt+Space on macOS); and Console completion listbox stays visible on typing more text
 
 - fix: after lexer installation, passive ui-tabs loose syntax highlighting (thanks @MichIs from linux.org.ru)
 - fix: regression: option "auto_fold_comments" was broken
@@ -723,7 +723,7 @@ core changes for huge documents:
 + add: option "centering_width": reworked code, coz we had hard to reproduce bug when option was reset (thanks @Stefan)
 + add: option "centering_width" works also in grouping modes "2 horz", "3 horz", "4 horz", "6 horz"
 + add: option "centering_width" in floating groups: ignores grouping mode in main window
-+ add: show console error when option "newdoc_lexer" has wrong lexer name 
++ add: show console error when option "newdoc_lexer" has wrong lexer name
 + add: Windows+click does the same as simple click, like VSCode (thanks @rssguy2)
 + add: lexer XML: support multi-line quoted strings
 - fix: option "mouse_column_selection":false blocked auto-scrolling on selection (thanks @Stefan)
@@ -731,7 +731,7 @@ core changes for huge documents:
 - fix: in splitted view (of one tab), full-screen mode was not hiding stuff for 2nd editor
 - fix: messagebox buttons Yes / No lost accelerator: &Yes / &No (thanks @rssguy2)
 - fix: crash in find/replace with RegEx (thanks @cser)
-- fix: Ins-key did not update the statusbar 'Ins/Ovr' cell (thanks @qwerky) 
+- fix: Ins-key did not update the statusbar 'Ins/Ovr' cell (thanks @qwerky)
 
 1.184.0 (2023/02)
 
@@ -950,7 +950,7 @@ core changes for huge documents:
 * change: change default of "ui_reopen_session_cmdline" to true (thanks @Flashwalker)
 * change: remove '-' from "nonword_chars" in "settings_default/lexer Bash script.json"
 - fix: after Shift+Right, Shift+Left, simple Right makes the buggy selection (thanks @veksha)
- 
+
 1.171.0 (2022/09)
 
 + add: when editing too long lines (2000+ chars), editor turns lexer off for a few seconds. That is to prevent caret rendering glitches on such lines. Option is added for this: "max_line_len_for_editing_keeping_lexer".
@@ -989,14 +989,14 @@ core changes for huge documents:
 1.169.0 (2022/08)
 
 + add: handle the situation 'file was deleted outside' more detailed: show additional non-modal confirmation to close the tab (thanks @lookoutside, @JairoMartinezA)
-+ add: tree-helper for reStructuredText: calculate header levels more properly (thanks @lookoutside) 
++ add: tree-helper for reStructuredText: calculate header levels more properly (thanks @lookoutside)
 + add: in Python, final 'comments' must be excluded from final fold range (thanks @veksha)
 * change: changed the background-color of 'notification panels' inside the editor
 * change: macOS: adapt default hotkeys for macOS, for commands: "go to text begin/end", "caret to line begin/end", "go to word previous/next" (thanks @veksha)
 - fix: file with UTF-32 BE signature was detected as 'maybe not text'
 - fix: regression in 1.165.x: opening of file without final line-break was adding final line-break anyway
 - fix: couple of glithes on macOS (thanks @veksha)
-- fix: Emmet must not auto-complete 'ok:' for example (thanks @eltonfabricio10) 
+- fix: Emmet must not auto-complete 'ok:' for example (thanks @eltonfabricio10)
 - fix: "Go to bookmark" did not focus target group (thanks @MiroslavMatas)
 - fix: in maximized window, clicking on the vert-scrollbar right-most pixel did not work (thanks @veksha)
 - fix: with "scrollbar_themed":false, caret can move half below the bottom border (thanks @veksha)
@@ -1014,7 +1014,7 @@ core changes for huge documents:
 
 + add: command-line parameter '-verbose' for debugging
 - fix: couple of issues with saving read/only files (thanks @veksha)
-- fix: Linux Qt5: with "caret_after_end":true, on going up/down over short lines, caret moves lefter 
+- fix: Linux Qt5: with "caret_after_end":true, on going up/down over short lines, caret moves lefter
 - fix: Linux: file 'ast.py' in the current folder was breaking many plugins (thanks @veksha)
 - fix: lexer Bash: wrong highlight in '~/.local' (thanks @eltonfabricio10)
 
@@ -1081,7 +1081,7 @@ core changes for huge documents:
 * change: Windows Python upgraded to 3.8
 - fix: couple of bugs in plugin API (thanks @veksha)
 - fix: regression in 1.165.2: Shift+F3 in Find dialog (thanks @hiiamboris)
-- fix: Windows: issue with Alt+Tab and "ui_taskbar_mode":false (thanks @veksha) 
+- fix: Windows: issue with Alt+Tab and "ui_taskbar_mode":false (thanks @veksha)
 - fix: after "fold all", all folded ranges must have [+] icon, even those affected by "fold_icon_min_range" option (thanks @tmsg)
 - fix: lexer PHP: don't highlight 'class name' after '->'
 
@@ -1135,7 +1135,7 @@ core changes for huge documents:
 + add: new command "skip next occurrence of selected text"
 + add: Windows (10 and 11): auto-set window title color to dark (thanks @ags1234)
 - fix: file with XML/Python encoding signature could not be re-read in different cpXXXX encoding (thanks @ertank)
-- fix: hotkeys were not inited completely for .txt files in a project's session (thanks @MiroslavMatas) 
+- fix: hotkeys were not inited completely for .txt files in a project's session (thanks @MiroslavMatas)
 
 1.162.5 (2022/04)
 
@@ -1259,7 +1259,7 @@ core changes for huge documents:
 * change: lexer 'Ini files' removed to Addon Manager; instead added _lite_ lexer 'Ini files ^' (thanks @sl23)
 + add: Project Manager: 'Go to file' menu has history of last chosen items, in the list beginning (thanks @andersaamodt)
 - fix: editing in sub-lexer range (e.g. in HTML/PHP) breaks highlighting in that range (thanks @TomBraider42)
-- fix: bug with option "autocomplete_html_autoclose":true with caret on line end (thanks @TomBraider42) 
+- fix: bug with option "autocomplete_html_autoclose":true with caret on line end (thanks @TomBraider42)
 - fix: lexer JS: fixes for 'regex literals' rule
 
 1.155.3 (2022/01)
@@ -1272,7 +1272,7 @@ core changes for huge documents:
 - fix: wrong opening of several files at once, by Enter from Windows Explorer, with "ui_one_instance":true (thanks @jroblesr)
 - fix: if a tool from plugin External Tools is called while recording a macro, macro becomes incorrect (thanks @cser)
 - fix: dialogs 'Open file'/'Save file as' on Windows have bad looking 'filter' field
-- fix: plugin Colored Indent didn't get on_state call (thanks @JairoMartinezA) 
+- fix: plugin Colored Indent didn't get on_state call (thanks @JairoMartinezA)
 - fix: lexer CSS: wrong highlight of 'rgb(func(some), ...)'
 
 1.155.0 (2022/01)
@@ -1381,7 +1381,7 @@ core changes for huge documents:
 * change: option "renderer_tweaks" has the OS suffix
 * change: option "renderer_offsets" is deleted and now it is the sub-option of "renderer_tweaks"
 * change: binary hex viewer: replacement for control-chars is changed from '?' to '.' (thanks @dinkumoil)
-* change: removed old method of bookmarks saving/loading to/from history. Changelog of 1.141 told: duplicate bookmarks history to another key inside "history files.json"; later only this new key will be used and old bookmarks-history in session files will be ignored. 
+* change: removed old method of bookmarks saving/loading to/from history. Changelog of 1.141 told: duplicate bookmarks history to another key inside "history files.json"; later only this new key will be used and old bookmarks-history in session files will be ignored.
 + add: option "ui_session_save_interval":30, which allows to disable auto-saving of session to disk every 30 seconds (thanks @66nuts)
 + add: published version for Linux ARM Qt5 (thanks to fpcupdeluxe author)
 
@@ -1448,7 +1448,7 @@ core changes for huge documents:
 + add: option "ui_cmdpalette_hide_simple" (thanks @hiiamboris)
 + add: option "micromap_line_states" (thanks @JairoMartinezA)
 + add: command "expand selection to line, up"; before we had only "expand selection to line" which moves down (thanks @hiiamboris)
-+ add: UI tabs drag-drop now works also when dropping on "+" pseudo-tab or on the right empty area (thanks @GHNewbiee) 
++ add: UI tabs drag-drop now works also when dropping on "+" pseudo-tab or on the right empty area (thanks @GHNewbiee)
 + add: macOS version now detects Python 3.10 (thanks @sigzero)
 + add: lexer HTML: show block staples (thanks @eltonfabricio10)
 + add: lexer CSS: highlight std CSS functions
@@ -1471,7 +1471,7 @@ core changes for huge documents:
 + add: command "add next occurrence of selected word" now wraps at the document end, like in Sublime (thanks @loziniak)
 + add: new command "skip (don't select) next occurrence of selected word" (thanks @loziniak)
 * change: option "auto_fold_comments": now several comments separated with a blank line, make several fold-ranges (thanks @GHNewbiee)
-* change: micromap min-mark-height changed from 2px to 4px (thanks @JairoMartinezA) 
+* change: micromap min-mark-height changed from 2px to 4px (thanks @JairoMartinezA)
 * change: 'ellipsis' Unicode char now has the full-width
 + add: lexer JS: "auto_fold_comments" works also for JS 'template strings' (thanks @GHNewbiee)
 - fix: splitted view: caret in view-2 hides if it's in folded range in view-1 (thanks @GHNewbiee)
