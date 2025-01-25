@@ -367,18 +367,9 @@ begin
 end;
 
 procedure TfmFind.bRepClick(Sender: TObject);
-var
-  Ed: TATSynEdit;
-  bEditorFocused: boolean;
 begin
-  OnGetMainEditor(Ed);
-  bEditorFocused:= Assigned(Ed) and Ed.Focused;
-
   if IsReplace then
     DoResult(TAppFinderOperation.Replace);
-
-  if bEditorFocused then
-    EditorFocus(Ed);
 end;
 
 procedure TfmFind.bRepStopClick(Sender: TObject);
@@ -673,18 +664,9 @@ begin
 end;
 
 procedure TfmFind.bRepAllClick(Sender: TObject);
-var
-  Ed: TATSynEdit;
-  bEditorFocused: boolean;
 begin
-  OnGetMainEditor(Ed);
-  bEditorFocused:= Assigned(Ed) and Ed.Focused;
-
   if IsReplace then
     DoResult(TAppFinderOperation.ReplaceAll);
-
-  if bEditorFocused then
-    EditorFocus(Ed);
 end;
 
 procedure TfmFind.bCountClick(Sender: TObject);
@@ -1437,10 +1419,14 @@ end;
 
 procedure TfmFind.DoResult(Op: TAppFinderOperation; AUpdateEnabledAll: boolean=true);
 var
-  bUpdateState: boolean;
+  Ed: TATSynEdit;
+  bEditorFocused, bUpdateState: boolean;
 begin
   if edFind.IsEmpty then
     if Op<>TAppFinderOperation.CloseDlg then exit;
+
+  OnGetMainEditor(Ed);
+  bEditorFocused:= Assigned(Ed) and Ed.Focused;
 
   bUpdateState:= Op in [
     TAppFinderOperation.FindFirst,
@@ -1456,6 +1442,9 @@ begin
 
   if Assigned(FOnResult) then
     FOnResult(Self, Op, AUpdateEnabledAll, FDocumentIsSmall);
+
+  if bEditorFocused then
+    EditorFocus(Ed);
 
   if Op<>TAppFinderOperation.CloseDlg then
   begin
