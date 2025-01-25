@@ -133,7 +133,7 @@ begin
     //finally
     //  Ed.EndUpdate;
     //end;
-    Ed.Invalidate; //'line states' maybe changed by saving
+    Ed.Update; //'line states' maybe changed by saving
     AppFileAttrRestore(AFileName, OldAttr);
   except
     on E: Exception do
