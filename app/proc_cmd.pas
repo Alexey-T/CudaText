@@ -969,6 +969,11 @@ end;
 function IsCommandHandledFromFindDialog(Cmd: integer): boolean;
 begin
   case Cmd of
+    cmd_FileSave,
+    cmd_FileSaveAll,
+    cmd_FileSaveAs,
+    cmd_FileRename,
+
     cmd_FindCurWordNext,
     cmd_FindCurWordPrev,
     cmd_FindCurSelNext,
