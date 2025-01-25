@@ -2359,8 +2359,8 @@ Seems the term "instance" is not known very good, people cannot find this option
 First, install FPC and Lazarus:
 
 * [https://github.com/newpascal/fpcupdeluxe/releases download FpcUpDeluxe]. On Windows, you must unlock .exe file in the Windows Explorer dialog. 
-* in FpcUpDeluxe, choose FPC 3.0.4 or 3.2.0, install it first.
-* in FpcUpDeluxe, choose Lazarus 2.0 or "trunk", install it next.
+* in FpcUpDeluxe, choose FPC last release, install it first.
+* in FpcUpDeluxe, choose Lazarus (last release or Git 'main'), install it next.
 
 '''Classic way to compile'''
 
