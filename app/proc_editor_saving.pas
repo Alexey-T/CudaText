@@ -104,7 +104,7 @@ var
   OldAttr: Longint;
 begin
   Result:= true;
-  while true do //loop forever, until 1st succecssfull saving which calls Break
+  while true do //loop attempts forever, until correct saving which calls Break
   try
     AppFileAttrPrepare(AFileName, OldAttr);
     //Ed.BeginUpdate; //it forces wait-icon, it irritates some users, issue #5849
