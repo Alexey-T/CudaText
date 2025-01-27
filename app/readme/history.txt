@@ -6,7 +6,8 @@
 1.220.7 (2025/01)
 
 + add: better support portable installations: CudaText and its Project Manager save recent filenames with {AppDir} macro (which means up-folder of 'settings' folder) (thanks @DeivAstra)
-+ add: if parser-thread gets an exception, editor shows this exception by red text in the top/left corner
++ add: make memory usage much smaller with 10K carets, for actions "trim trailing/leading spaces", and for file saving with "saving_trim_spaces":true
++ add: if parser thread gets an exception, editor shows this exception by red text in the top/left corner
 * change: on saving file to Windows write-protected folder with elevation, do not show 'wait icon' (thanks @tophf)
 - fix: with focused editor, if user clicks a Find-dlg action button, focus is lost from editor (thanks @pintassilgo)
 - fix: lexer JavaScript: wrong mark for folded function (thanks @pintassilgo)
