@@ -3300,6 +3300,10 @@ begin
     TabExtModified[EdIndex]:= false;
     TabExtDeleted[EdIndex]:= false;
 
+    //if frame was 'Welcome' or 'RegEx matches', change it to normal
+    if TabCaptionReason=TAppTabCaptionReason.UnsavedSpecial then
+      TabCaptionReason:= TAppTabCaptionReason.FromFilename;
+
     //add to recents new filename
     if bNameChanged then
       if Assigned(FOnAddRecent) then
