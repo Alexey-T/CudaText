@@ -475,7 +475,8 @@ The following lexers (counting only important ones) exist for CudaText. They are
 * Modula-3
 * Mojo
 * Monkey
-* MSVS Solution
+* MoonBit
+* MS Visual Studio Solution
 * MusicBrainz Picard Tagger Script
 * MySQL
 * Nelua
