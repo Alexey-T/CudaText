@@ -300,6 +300,7 @@ TYPES = {
     "ma": ['Maya'],
     "mac": ['ANSYS APDL'],
     "mak": ['Makefile'],
+    "mbt": ['MoonBit'],
     "mdl": ['SPICE'],
     "mediawiki": ['MediaWiki'],
     "mel": ['Maya'],
