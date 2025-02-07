@@ -9607,7 +9607,7 @@ begin
       if Frame.FileName='' then
       begin
         S:= Frame.TabCaption;
-        if SBeginsWith(S, msgUntitledEnglish) then
+        if IsUntitledEnglishTabCaption(S) then
         begin
           Delete(S, 1, Length(msgUntitledEnglish));
           NTabIndex:= StrToIntDef(S, 0);

@@ -429,6 +429,7 @@ const
 function msgTranslatedPanelCaption(const ACaption: string): string;
 function msgFinderRegexMatchesNumbered: string;
 function msgTranslatedUntitledTab(const ACaption: string): string;
+function IsUntitledEnglishTabCaption(const ACaption: string): boolean;
 
 implementation
 
@@ -467,15 +468,27 @@ end;
 
 function msgTranslatedUntitledTab(const ACaption: string): string;
 var
-  StrIndex: string;
+  NIndex: string;
 begin
-  if SBeginsWith(ACaption, msgUntitledEnglish) then
+  if IsUntitledEnglishTabCaption(ACaption) then
   begin
-    StrIndex:= Copy(ACaption, Length(msgUntitledEnglish)+1, MaxInt);
-    Result:= msgUntitledTab+StrIndex;
+    NIndex:= Copy(ACaption, Length(msgUntitledEnglish)+1, MaxInt);
+    Result:= msgUntitledTab+NIndex;
   end
   else
     Result:= ACaption;
+end;
+
+function IsUntitledEnglishTabCaption(const ACaption: string): boolean;
+var
+  i: integer;
+begin
+  Result:= SBeginsWith(ACaption, msgUntitledEnglish) and
+    (Length(ACaption)>Length(msgUntitledEnglish));
+  if Result then
+    for i:= Length(msgUntitledEnglish)+1 to Length(ACaption) do
+      if not IsCharDigit(ACaption[i]) then
+        exit(false);
 end;
 
 
