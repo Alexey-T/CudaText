@@ -588,8 +588,7 @@ begin
   begin
     Frame:= Frames[i];
     if Frame.FileName='' then
-      if IsUntitledEnglishTabCaption(Frame.TabCaption) then
-        Frame.TabCaption:= msgTranslatedUntitledTab(Frame.TabCaption);
+      Frame.TabCaption:= msgTranslatedUntitledTab(Frame.TabCaption);
   end;
 end;
 
