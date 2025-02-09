@@ -4229,6 +4229,10 @@ initialization
   EditorOps_CenteringDistFree:= TAppStringIntegerMap.Create;
   EditorOps_CenteringDistFree.Sorted:= true;
 
+  {$ifdef unix}
+  //allow backslash-char in filenames for OpenDialog/SaveDialog
+  AllowDirectorySeparators:= ['/'];
+  {$endif}
 
 finalization
 
