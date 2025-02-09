@@ -3,6 +3,8 @@
   - fixed
   * changed
 
++ add: support char '\' in filenames under *nix-like OS (thanks @DeivAstra)
+
 1.221.0 (2025/01)
 
 + add: better support portable installations: CudaText and its Project Manager save recent filenames with {AppDir} macro (which means up-folder of 'settings' folder) (thanks @DeivAstra)
