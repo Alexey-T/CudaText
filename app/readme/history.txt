@@ -3,7 +3,8 @@
   - fixed
   * changed
 
-+ add: support char '\' in filenames under *nix-like OS (thanks @DeivAstra)
++ add: support char '\' in filenames under non-Windows OS (thanks @DeivAstra)
++ add: minor: allow longer captions of code-tree nodes, also captions of code-tree nodes can have whitespace - whitespace is now 'compressed', also LF-chars are replaced with spaces
 
 1.221.0 (2025/01)
 
