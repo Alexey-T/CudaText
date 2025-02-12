@@ -3,10 +3,12 @@
   - fixed
   * changed
 
-+ add: support char '\' in filenames under non-Windows OS (thanks @DeivAstra)
-+ add: enable timer-auto-scrolling also when cursor is over gutter-bookmarks-column (thanks @runningwaterpro)
+1.221.1 (2025/01)
+
++ add: enable timer-auto-scrolling also when cursor is over gutter-bookmarks-column; it is needed for auto-scrolling when sidebar is not on the left (thanks @runningwaterpro)
 + add: minor change: allow longer captions of code-tree nodes, now up to ~100 chars (thanks @FranciscoBomfim)
 + add: minor change: if caption of code-tree node has a whitespace, this whitespace is better 'trimmed' to make 1 space as word separator
++ add: support char '\' in filenames under non-Windows OS (thanks @DeivAstra)
 - fix: after saving of tab "RegEx matches", make tab title usual, ie showing the filename (thanks @adoeller)
 
 1.221.0 (2025/01)
