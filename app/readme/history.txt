@@ -3,9 +3,9 @@
   - fixed
   * changed
 
-1.221.1 (2025/01)
+1.221.1 (2025/02)
 
-+ add: enable timer-auto-scrolling also when cursor is over gutter-bookmarks-column; it is needed for auto-scrolling when sidebar is not on the left (thanks @runningwaterpro)
++ add: enable timer-auto-scrolling also when cursor is over gutter-bookmarks-column; it is needed to perform auto-scrolling to the left when sidebar is not on the left, and window is maximized (thanks @runningwaterpro)
 + add: minor change: allow longer captions of code-tree nodes, now up to ~100 chars (thanks @FranciscoBomfim)
 + add: minor change: if caption of code-tree node has a whitespace, this whitespace is better 'trimmed' to make 1 space as word separator
 + add: support char '\' in filenames under non-Windows OS (thanks @DeivAstra)
