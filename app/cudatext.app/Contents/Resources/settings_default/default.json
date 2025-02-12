@@ -1603,7 +1603,7 @@
 
   //Regular expression, which finds hyperlinks.
   //Default value finds http://, https://, ftp:// links and e-mails (with optional 'mailto:').
-  "links_regex": "\\b(mailto:)?\\w[\\w\\-\\+\\.]*@\\w[\\w\\-\\.]*\\.\\w{2,}\\b|\\b(https?://|ftp://)\\w[\\w\\-\\.@]*(:\\d+)?(/([~\\w\\.\\-\\+/%@!%:&\\*=\\|,;\\$]|\\(.*?\\)|\\[.*?\\]|\\{.*?\\})*)?(\\?[^\\s\"'<>]*[\\w/\\-\\+\\*=])?(\\#[\\w\\-\\./%:!]*)?",
+  "links_regex": "\\b(mailto:)?\\w[\\w\\-\\+\\.]*@\\w[\\w\\-\\.]*\\.\\w{2,}\\b|\\b(https?://|ftp://)\\w[\\w\\-\\.@]*(:\\d+)?(/([~\\w\\.\\-\\+/%@!%:&\\*=\\|,;\\$\\[\\]]|\\(.*?\\)|\\{.*?\\})*)?(\\?[^\\s\"'<>]*[\\w/\\-\\+\\*=])?(\\#[\\w\\-\\./%:!]*)?",
 
   //[File]
   //Maximal file size, allowed to open, in Mb.
