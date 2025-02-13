@@ -445,6 +445,7 @@
   "gutter_fold_icons": 0,
 
   //Gutter: Size of plus/minus/triangle folding icons.
+  //Note: if you set big value and icon does not fit, adjust the option "gutter_width_folding".
   "gutter_icon_size": 4,
 
   //Gutter: Width (in pixels) of "folding" column. If 0, column is hidden.
