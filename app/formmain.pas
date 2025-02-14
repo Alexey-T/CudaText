@@ -7298,6 +7298,7 @@ begin
   CompletionOps.ShortcutForAutocomplete:= Ed.Keymap.GetShortcutFromCommand(cmd_AutoComplete);
   CompletionOps.ClosingTimerInverval:= UiOps.AutocompleteClosingDelay;
   CompletionOps.ReplaceOnRight:= UiOps.AutocompleteReplaceOnRight;
+  CompletionOps.SymbolCharsAllowedBeforeCaret:= UiOps.AutocompleteSymbolCharsAllowedBeforeCaret;
 
   //auto-completion for file:///, before plugins
   if UiOps.AutocompleteFileURI and

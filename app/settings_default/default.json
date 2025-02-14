@@ -1585,6 +1585,11 @@
   //If false, auto-completion will not replace nearest word-chars on the right of the caret.
   "autocomplete_replace_on_right": true,
 
+  //Non-word chars before caret, which are allowed for auto-completion to show.
+  //Option should have at least these chars: .:> because of C++ operators :: and -> .
+  //Quote-chars are not required, but good to have for Codeium plugin.
+  "autocomplete_symbol_chars_allowed": ".:>'\"",
+
   //Auto-pair some chars on typing.
   //Value must have some of supported chars without spaces:
   //  ( [ { < ' " ` ~ * #

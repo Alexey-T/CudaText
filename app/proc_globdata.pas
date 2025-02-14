@@ -289,6 +289,7 @@ type
     AutocompleteInStrings: boolean;
     AutocompleteClosingDelay: integer;
     AutocompleteReplaceOnRight: boolean;
+    AutocompleteSymbolCharsAllowedBeforeCaret: string;
 
     HtmlBackgroundColorPair: array[boolean] of TColor;
     CharMapFontIncreasing: integer;
@@ -2080,6 +2081,7 @@ begin
     AutocompleteInStrings:= true;
     AutocompleteClosingDelay:= 300;
     AutocompleteReplaceOnRight:= true;
+    AutocompleteSymbolCharsAllowedBeforeCaret:= '.:>''"';
 
     HtmlBackgroundColorPair[false]:= $F0F0F0;
     HtmlBackgroundColorPair[true]:= $101010;

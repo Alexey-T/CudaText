@@ -1661,6 +1661,7 @@ begin
   UiOps.AutocompleteFileURI:= cfg.GetValue('autocomplete_file_uri', UiOps.AutocompleteFileURI);
   UiOps.AutocompleteClosingDelay:= cfg.GetValue('autocomplete_closing_delay', UiOps.AutocompleteClosingDelay);
   UiOps.AutocompleteReplaceOnRight:= cfg.GetValue('autocomplete_replace_on_right', UiOps.AutocompleteReplaceOnRight);
+  UiOps.AutocompleteSymbolCharsAllowedBeforeCaret:= cfg.GetValue('autocomplete_symbol_chars_allowed', UiOps.AutocompleteSymbolCharsAllowedBeforeCaret);
 
   UiOps.FindShowOnStart:= cfg.GetValue('find_show_on_start', UiOps.FindShowOnStart);
   UiOps.FindSuggestSel:= cfg.GetValue('find_suggest_sel', UiOps.FindSuggestSel);
