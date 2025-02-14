@@ -2609,6 +2609,10 @@ var
   Str: string;
   NChars1, NChars2, NSelIndex, NAltOrder: integer;
 begin
+  CompletionOps.ClosingTimerInverval:= UiOps.AutocompleteClosingDelay;
+  CompletionOps.ReplaceOnRight:= UiOps.AutocompleteReplaceOnRight;
+  CompletionOps.SymbolCharsAllowedBeforeCaret:= UiOps.AutocompleteSymbolCharsAllowedBeforeCaret;
+
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'Lsiiii:complete', @H, @Ptr, @NChars1, @NChars2, @NSelIndex, @NAltOrder)) then
     begin
@@ -2644,6 +2648,10 @@ var
   StrText, StrId: string;
   NChars, NSelIndex: integer;
 begin
+  CompletionOps.ClosingTimerInverval:= UiOps.AutocompleteClosingDelay;
+  CompletionOps.ReplaceOnRight:= UiOps.AutocompleteReplaceOnRight;
+  CompletionOps.SymbolCharsAllowedBeforeCaret:= UiOps.AutocompleteSymbolCharsAllowedBeforeCaret;
+
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'Lssii:complete_alt', @H, @PtrText, @PtrId, @NChars, @NSelIndex)) then
     begin
