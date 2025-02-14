@@ -10,6 +10,7 @@
 + add: minor change: if caption of code-tree node has a whitespace, this whitespace is better 'trimmed' to make 1 space as word separator
 + add: support char '\' in filenames under non-Windows OS (thanks @DeivAstra)
 - fix: after saving of tab "RegEx matches", make tab title usual, ie showing the filename (thanks @adoeller)
+- fix: plugin Codeium: autocompletion did not work in some cases in string-constants (thanks @ildarkhasanshin)
 
 1.221.0 (2025/01)
 
