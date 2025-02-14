@@ -1517,7 +1517,9 @@
   "duplicate_move_down": true,
 
   //[Text/Completion]
-  //Enable auto-completion from *.acp files (static lists of words).
+  //Enable auto-completion from data/autocomplete/*.acp files (static lists of words).
+  //These *.acp files exist only for small amount of lexers.
+  //This feature is outdated, better use "LSP Client" plugin.
   "autocomplete_acp": true,
 
   //Enable special HTML auto-completion, see wiki.
