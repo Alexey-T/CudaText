@@ -2615,9 +2615,7 @@ begin
       Ed:= PyHelper_EditorFromHandle(H);
       Str:= string(Ptr);
 
-      CompletionOps.ClosingTimerInverval:= UiOps.AutocompleteClosingDelay;
-      CompletionOps.ReplaceOnRight:= UiOps.AutocompleteReplaceOnRight;
-      CompletionOps.SymbolsAllowedBeforeCaret:= Ed.OptAutocompleteSymbolsAllowedBeforeCaret;
+      fmMain.DoApplyAutocompletionOps(Ed);
 
       fmMain.FPyCompletionProps.Clear;
       fmMain.FPyCompletionProps.Editor:= Ed;
@@ -2655,9 +2653,7 @@ begin
       StrText:= string(PtrText);
       StrId:= string(PtrId);
 
-      CompletionOps.ClosingTimerInverval:= UiOps.AutocompleteClosingDelay;
-      CompletionOps.ReplaceOnRight:= UiOps.AutocompleteReplaceOnRight;
-      CompletionOps.SymbolsAllowedBeforeCaret:= Ed.OptAutocompleteSymbolsAllowedBeforeCaret;
+      fmMain.DoApplyAutocompletionOps(Ed);
 
       fmMain.FPyCompletionProps.Clear;
       fmMain.FPyCompletionProps.Editor:= Ed;

@@ -916,6 +916,7 @@ type
     procedure DoShowFuncHint(Ed: TATSynEdit);
     procedure DoApplyGutterVisible(AValue: boolean);
     procedure DoApplyFrameOps(F: TEditorFrame; const Op: TEditorOps; AForceApply: boolean);
+    procedure DoApplyAutocompletionOps(Ed: TATSynEdit);
     procedure DoApplyFont_Text;
     procedure DoApplyFont_Ui;
     procedure DoApplyFont_UiStatusbar;
@@ -7288,17 +7289,7 @@ begin
     exit;
   end;
 
-  CompletionOps.AppendOpeningBracket:= Ed.OptAutocompleteAddOpeningBracket;
-  CompletionOps.UpDownAtEdge:= TATCompletionUpDownAtEdge(Ed.OptAutocompleteUpDownAtEdge);
-  CompletionOps.CommitChars:= Ed.OptAutocompleteCommitChars; //before DoPyEvent
-  CompletionOps.CommitOnEnter:= Ed.OptAutocompleteCommitOnEnter;
-  CompletionOps.CloseChars:= Ed.OptAutocompleteCloseChars; //before DoPyEvent
-  CompletionOps.CommitIfSingleItem:= Ed.OptAutocompleteCommitIfSingleItem; //before DoPyEvent
-  CompletionOps.CommandForShitchTab:= cmd_SwitchTab_HotkeyNext;
-  CompletionOps.ShortcutForAutocomplete:= Ed.Keymap.GetShortcutFromCommand(cmd_AutoComplete);
-  CompletionOps.ClosingTimerInverval:= UiOps.AutocompleteClosingDelay;
-  CompletionOps.ReplaceOnRight:= UiOps.AutocompleteReplaceOnRight;
-  CompletionOps.SymbolsAllowedBeforeCaret:= Ed.OptAutocompleteSymbolsAllowedBeforeCaret;
+  DoApplyAutocompletionOps(Ed); //before DoPyEvent
 
   //auto-completion for file:///, before plugins
   if UiOps.AutocompleteFileURI and

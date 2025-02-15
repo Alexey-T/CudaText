@@ -751,6 +751,21 @@ begin
   UpdateStatusbar;
 end;
 
+procedure TfmMain.DoApplyAutocompletionOps(Ed: TATSynEdit);
+begin
+  CompletionOps.AppendOpeningBracket:= Ed.OptAutocompleteAddOpeningBracket;
+  CompletionOps.UpDownAtEdge:= TATCompletionUpDownAtEdge(Ed.OptAutocompleteUpDownAtEdge);
+  CompletionOps.CommitChars:= Ed.OptAutocompleteCommitChars;
+  CompletionOps.CommitOnEnter:= Ed.OptAutocompleteCommitOnEnter;
+  CompletionOps.CloseChars:= Ed.OptAutocompleteCloseChars;
+  CompletionOps.CommitIfSingleItem:= Ed.OptAutocompleteCommitIfSingleItem;
+  CompletionOps.CommandForShitchTab:= cmd_SwitchTab_HotkeyNext;
+  CompletionOps.ShortcutForAutocomplete:= Ed.Keymap.GetShortcutFromCommand(cmd_AutoComplete);
+  CompletionOps.ClosingTimerInverval:= UiOps.AutocompleteClosingDelay;
+  CompletionOps.ReplaceOnRight:= UiOps.AutocompleteReplaceOnRight;
+  CompletionOps.SymbolsAllowedBeforeCaret:= Ed.OptAutocompleteSymbolsAllowedBeforeCaret;
+end;
+
 procedure TfmMain.UpdateMenuItemHint(mi: TMenuItem; const AHint: string);
 begin
   if not Assigned(mi) then exit;
