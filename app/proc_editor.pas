@@ -264,6 +264,7 @@ begin
   Ed.OptAutocompleteAddOpeningBracket:= Op.OpAutocompleteAddOpeningBracket;
   Ed.OptAutocompleteUpDownAtEdge:= Op.OpAutocompleteUpDownAtEdge;
   Ed.OptAutocompleteCommitIfSingleItem:= Op.OpAutocompleteCommitIfSingleItem;
+  Ed.OptAutocompleteSymbolsAllowedBeforeCaret:= Op.OpAutocompleteSymbolsAllowedBeforeCaret;
 
   if not Ed.ModeOneLine then
   begin

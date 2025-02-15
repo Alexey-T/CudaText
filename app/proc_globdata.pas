@@ -289,7 +289,6 @@ type
     AutocompleteInStrings: boolean;
     AutocompleteClosingDelay: integer;
     AutocompleteReplaceOnRight: boolean;
-    AutocompleteSymbolCharsAllowedBeforeCaret: string;
 
     HtmlBackgroundColorPair: array[boolean] of TColor;
     CharMapFontIncreasing: integer;
@@ -576,6 +575,7 @@ type
     OpAutocompleteAddOpeningBracket: boolean;
     OpAutocompleteUpDownAtEdge: integer;
     OpAutocompleteCommitIfSingleItem: boolean;
+    OpAutocompleteSymbolsAllowedBeforeCaret: string;
 
     OpUnderlineColorFiles: string;
     OpUnderlineColorSize: integer;
@@ -1841,6 +1841,7 @@ begin
     OpAutocompleteAddOpeningBracket:= true;
     OpAutocompleteUpDownAtEdge:= 1; //cudWrap
     OpAutocompleteCommitIfSingleItem:= false;
+    OpAutocompleteSymbolsAllowedBeforeCaret:= '.:>''"';
 
     OpUnderlineColorFiles:= '*';
     OpUnderlineColorSize:= 3;
@@ -2081,7 +2082,6 @@ begin
     AutocompleteInStrings:= true;
     AutocompleteClosingDelay:= 300;
     AutocompleteReplaceOnRight:= true;
-    AutocompleteSymbolCharsAllowedBeforeCaret:= '.:>''"';
 
     HtmlBackgroundColorPair[false]:= $F0F0F0;
     HtmlBackgroundColorPair[true]:= $101010;

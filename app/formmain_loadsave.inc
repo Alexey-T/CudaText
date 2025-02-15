@@ -1389,6 +1389,7 @@ begin
   Op.OpAutocompleteAddOpeningBracket:= cfg.GetValue('autocomplete_add_opening_bracket', Op.OpAutocompleteAddOpeningBracket);
   Op.OpAutocompleteUpDownAtEdge:= cfg.GetValue('autocomplete_up_down_at_edge', Op.OpAutocompleteUpDownAtEdge);
   Op.OpAutocompleteCommitIfSingleItem:= cfg.GetValue('autocomplete_commit_single_item', Op.OpAutocompleteCommitIfSingleItem);
+  Op.OpAutocompleteSymbolsAllowedBeforeCaret:= cfg.GetValue('autocomplete_symbol_chars_allowed', Op.OpAutocompleteSymbolsAllowedBeforeCaret);
 
   Op.OpUnderlineColorFiles:= cfg.GetValue('underline_color_files', Op.OpUnderlineColorFiles);
   Op.OpUnderlineColorSize:= cfg.GetValue('underline_color_size', Op.OpUnderlineColorSize);
@@ -1661,7 +1662,6 @@ begin
   UiOps.AutocompleteFileURI:= cfg.GetValue('autocomplete_file_uri', UiOps.AutocompleteFileURI);
   UiOps.AutocompleteClosingDelay:= cfg.GetValue('autocomplete_closing_delay', UiOps.AutocompleteClosingDelay);
   UiOps.AutocompleteReplaceOnRight:= cfg.GetValue('autocomplete_replace_on_right', UiOps.AutocompleteReplaceOnRight);
-  UiOps.AutocompleteSymbolCharsAllowedBeforeCaret:= cfg.GetValue('autocomplete_symbol_chars_allowed', UiOps.AutocompleteSymbolCharsAllowedBeforeCaret);
 
   UiOps.FindShowOnStart:= cfg.GetValue('find_show_on_start', UiOps.FindShowOnStart);
   UiOps.FindSuggestSel:= cfg.GetValue('find_suggest_sel', UiOps.FindSuggestSel);

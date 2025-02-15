@@ -2609,15 +2609,15 @@ var
   Str: string;
   NChars1, NChars2, NSelIndex, NAltOrder: integer;
 begin
-  CompletionOps.ClosingTimerInverval:= UiOps.AutocompleteClosingDelay;
-  CompletionOps.ReplaceOnRight:= UiOps.AutocompleteReplaceOnRight;
-  CompletionOps.SymbolCharsAllowedBeforeCaret:= UiOps.AutocompleteSymbolCharsAllowedBeforeCaret;
-
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'Lsiiii:complete', @H, @Ptr, @NChars1, @NChars2, @NSelIndex, @NAltOrder)) then
     begin
       Ed:= PyHelper_EditorFromHandle(H);
       Str:= string(Ptr);
+
+      CompletionOps.ClosingTimerInverval:= UiOps.AutocompleteClosingDelay;
+      CompletionOps.ReplaceOnRight:= UiOps.AutocompleteReplaceOnRight;
+      CompletionOps.SymbolsAllowedBeforeCaret:= Ed.OptAutocompleteSymbolsAllowedBeforeCaret;
 
       fmMain.FPyCompletionProps.Clear;
       fmMain.FPyCompletionProps.Editor:= Ed;
@@ -2648,16 +2648,16 @@ var
   StrText, StrId: string;
   NChars, NSelIndex: integer;
 begin
-  CompletionOps.ClosingTimerInverval:= UiOps.AutocompleteClosingDelay;
-  CompletionOps.ReplaceOnRight:= UiOps.AutocompleteReplaceOnRight;
-  CompletionOps.SymbolCharsAllowedBeforeCaret:= UiOps.AutocompleteSymbolCharsAllowedBeforeCaret;
-
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'Lssii:complete_alt', @H, @PtrText, @PtrId, @NChars, @NSelIndex)) then
     begin
       Ed:= PyHelper_EditorFromHandle(H);
       StrText:= string(PtrText);
       StrId:= string(PtrId);
+
+      CompletionOps.ClosingTimerInverval:= UiOps.AutocompleteClosingDelay;
+      CompletionOps.ReplaceOnRight:= UiOps.AutocompleteReplaceOnRight;
+      CompletionOps.SymbolsAllowedBeforeCaret:= Ed.OptAutocompleteSymbolsAllowedBeforeCaret;
 
       fmMain.FPyCompletionProps.Clear;
       fmMain.FPyCompletionProps.Editor:= Ed;
