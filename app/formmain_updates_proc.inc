@@ -751,7 +751,7 @@ begin
   UpdateStatusbar;
 end;
 
-procedure TfmMain.DoApplyAutocompletionOps(Ed: TATSynEdit);
+procedure TfmMain.DoApplyCompletionOps(Ed: TATSynEdit);
 begin
   CompletionOps.AppendOpeningBracket:= Ed.OptAutocompleteAddOpeningBracket;
   CompletionOps.UpDownAtEdge:= TATCompletionUpDownAtEdge(Ed.OptAutocompleteUpDownAtEdge);

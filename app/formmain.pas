@@ -916,7 +916,7 @@ type
     procedure DoShowFuncHint(Ed: TATSynEdit);
     procedure DoApplyGutterVisible(AValue: boolean);
     procedure DoApplyFrameOps(F: TEditorFrame; const Op: TEditorOps; AForceApply: boolean);
-    procedure DoApplyAutocompletionOps(Ed: TATSynEdit);
+    procedure DoApplyCompletionOps(Ed: TATSynEdit);
     procedure DoApplyFont_Text;
     procedure DoApplyFont_Ui;
     procedure DoApplyFont_UiStatusbar;
@@ -7289,7 +7289,7 @@ begin
     exit;
   end;
 
-  DoApplyAutocompletionOps(Ed); //before DoPyEvent
+  DoApplyCompletionOps(Ed); //before DoPyEvent
 
   //auto-completion for file:///, before plugins
   if UiOps.AutocompleteFileURI and

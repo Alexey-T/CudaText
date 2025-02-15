@@ -2606,6 +2606,7 @@ var
   H: Int64;
   Ptr: PChar;
   Ed: TATSynEdit;
+  Caret: TATCaretItem;
   Str: string;
   NChars1, NChars2, NSelIndex, NAltOrder: integer;
 begin
@@ -2615,15 +2616,17 @@ begin
       Ed:= PyHelper_EditorFromHandle(H);
       Str:= string(Ptr);
 
-      fmMain.DoApplyAutocompletionOps(Ed);
+      if Ed.Carets.Count=0 then exit(ReturnNone);
+      Caret:= Ed.Carets[0];
+
+      fmMain.DoApplyCompletionOps(Ed);
 
       fmMain.FPyCompletionProps.Clear;
       fmMain.FPyCompletionProps.Editor:= Ed;
       fmMain.FPyCompletionProps.Text:= Str;
       fmMain.FPyCompletionProps.CharsLeft:= NChars1;
       fmMain.FPyCompletionProps.CharsRight:= NChars2;
-      with Ed.Carets[0] do
-        fmMain.FPyCompletionProps.CaretPos:= Point(PosX, PosY);
+      fmMain.FPyCompletionProps.CaretPos:= Point(Caret.PosX, Caret.PosY);
 
       DoApplyCompletionListboxStyle(Bool(NAltOrder));
       EditorShowCompletionListbox(Ed,
@@ -2643,6 +2646,7 @@ var
   H: Int64;
   PtrText, PtrId: PChar;
   Ed: TATSynEdit;
+  Caret: TATCaretItem;
   StrText, StrId: string;
   NChars, NSelIndex: integer;
 begin
@@ -2653,15 +2657,17 @@ begin
       StrText:= string(PtrText);
       StrId:= string(PtrId);
 
-      fmMain.DoApplyAutocompletionOps(Ed);
+      if Ed.Carets.Count=0 then exit(ReturnNone);
+      Caret:= Ed.Carets[0];
+
+      fmMain.DoApplyCompletionOps(Ed);
 
       fmMain.FPyCompletionProps.Clear;
       fmMain.FPyCompletionProps.Editor:= Ed;
       fmMain.FPyCompletionProps.Text:= StrText;
       fmMain.FPyCompletionProps.CharsLeft:= NChars;
       fmMain.FPyCompletionProps.CharsRight:= 0;
-      with Ed.Carets[0] do
-        fmMain.FPyCompletionProps.CaretPos:= Point(PosX, PosY);
+      fmMain.FPyCompletionProps.CaretPos:= Point(Caret.PosX, Caret.PosY);
 
       DoApplyCompletionListboxStyle(false);
       EditorShowCompletionListbox(Ed,
