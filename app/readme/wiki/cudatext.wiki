@@ -1879,9 +1879,12 @@ Commands in the Command Palette are:
 * (without undo) delete all blank lines
 * (without undo) delete adjacent blank lines
 * (without undo) delete all duplicate lines
+* (without undo) delete all duplicate lines, keep blanks
 * (without undo) delete adjacent duplicate lines
 * (without undo) reverse lines
 * (without undo) shuffle lines
+
+These built-in commands handle only the selection if it exists (only first selection).
 
 =Markers=
 
