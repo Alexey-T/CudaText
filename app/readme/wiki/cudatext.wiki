@@ -1866,11 +1866,11 @@ Commands in menu "Plugins / Sort":
 
 The advantage of "Sort" plugin is that is has additional commands (for duplicate lines, for ini files, for e-mails).
 
-Plugin has config file, you can edit it via menu item "Options / Settings-plugins / Sort". In section [sort] you can change option "allow_all" to 0 or 1 to disable/enable sorting of entire document, if nothing is selected. If selection exists (single selection), plugin handles selected lines.
+Plugin has config file, you can edit it via menu item "Options / Settings-plugins / Sort". In the section [sort] you can change option "allow_sort_all_when_none_selected" to 0 or 1 to disable/enable sorting of entire document, if nothing is selected. If selection exists (single selection), plugin handles only selected lines.
 
-Method 2: Pascal-based sorting commands, which are named like "(without undo) Sort...". They clear current Undo (ie user cannot undo sorting operation), but they are optimized for speed and memory. Commands don't read document contents into additional buffers, they sort document in-place (changing pointers only). So they work with all files which CudaText can load.
+Method 2: Pascal-based sorting commands, which are named in the Command Palette like "(without undo) sort...". They clear current Undo (ie user cannot undo sorting operation), but they are optimized for speed and memory. Commands don't read document contents into additional buffers, they sort lines in-place (changing pointers only). So these commands work with any files which CudaText can load.
 
-Commands in Command Palette:
+Commands in the Command Palette are:
 
 * (without undo) sort ascending
 * (without undo) sort ascending, ignore case
