@@ -2114,6 +2114,30 @@ begin
         if UiOps.AllowCSyntaxSpecialIndents and Ed.OptAutoIndent and EditorLexerIsCLike(Ed) then
           EditorCSyntaxDoTabIndent(Ed);
       end;
+
+    cCommand_Sort_Asc:
+      FOnMsgStatus(Self, 'Sort ascending');
+    cCommand_Sort_AscNoCase:
+      FOnMsgStatus(Self, 'Sort ascending, ignore case');
+    cCommand_Sort_Desc:
+      FOnMsgStatus(Self, 'Sort descending');
+    cCommand_Sort_DescNoCase:
+      FOnMsgStatus(Self, 'Sort descending, ignore case');
+
+    cCommand_DeleteAllBlanks:
+      FOnMsgStatus(Self, 'Delete all blanks');
+    cCommand_DeleteAdjacentBlanks:
+      FOnMsgStatus(Self, 'Delete adjacent blanks');
+    cCommand_DeleteAllDups:
+      FOnMsgStatus(Self, 'Delete all duplicates');
+    cCommand_DeleteAllDupsKeepBlanks:
+      FOnMsgStatus(Self, 'Delete duplicates, keep blanks');
+    cCommand_DeleteAdjacentDups:
+      FOnMsgStatus(Self, 'Delete adjacent duplicates');
+    cCommand_ReverseLines:
+      FOnMsgStatus(Self, 'Reverse lines');
+    cCommand_ShuffleLines:
+      FOnMsgStatus(Self, 'Shuffle lines');
   end; //case ACommand of
 
   if Ed.LastCommandChangedLines>0 then
