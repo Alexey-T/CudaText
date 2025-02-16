@@ -1,4 +1,4 @@
-object SyntAnal16: TLibSyntAnalyzer
+object SyntAnal15: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Number'
@@ -188,6 +188,14 @@ object SyntAnal16: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
+      DisplayName = 'Id func name'
+      StyleName = 'Id func name'
+      TokenType = 13
+      Expression = '(?r-i)(?<=\bclass\x20+)\w+|'#13#10'(?r-i)(?<=\bdef\x20+)\w+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
       DisplayName = '^Id const'
       StyleName = 'Id const'
       TokenType = 2
@@ -200,14 +208,6 @@ object SyntAnal16: TLibSyntAnalyzer
       StyleName = 'Id'
       TokenType = 15
       Expression = '(?r)(?<!:\x20*)[a-z_]\w*(?=\x20*=)'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
-      DisplayName = 'Id func name'
-      StyleName = 'Id func name'
-      TokenType = 13
-      Expression = '(?r-i)(?<=\bclass\x20+)\w+ |'#13#10'(?r-i)(?<=\bdef\x20+)\w+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -766,7 +766,7 @@ object SyntAnal16: TLibSyntAnalyzer
     'func_str = f"function is defined as {func}"'
     'some_builtins = [None, False, list, bool, sorted, isinstance]'
     ''
-    'def func(num): #cmt'
+    'def func(num): #comment'
     '    for n in range(len(sys.argv)):'
     '        print("Arg %s" % s)'
     '        if n>2:'
@@ -781,7 +781,7 @@ object SyntAnal16: TLibSyntAnalyzer
     ''
     'class MyName(object):      '
     '    @Decor.name('#39'test'#39')'
-    '    def func1(num):'
+    '    def fnc(num):'
     '        pass'
     '   '
     'MyName().func1(num)')
