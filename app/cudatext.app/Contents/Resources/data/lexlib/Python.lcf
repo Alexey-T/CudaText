@@ -197,6 +197,7 @@ object SyntAnal15: TLibSyntAnalyzer
     end
     item
       DisplayName = '^Id const'
+      Enabled = False
       StyleName = 'Id const'
       TokenType = 2
       Expression = '(?-i)[A-Z_][A-Z0-9_]+\b'
