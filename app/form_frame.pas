@@ -2116,28 +2116,28 @@ begin
       end;
 
     cCommand_Sort_Asc:
-      FOnMsgStatus(Self, 'Sort ascending');
+      FOnMsgStatus(Self, msgCommand_SortAsc);
     cCommand_Sort_AscNoCase:
-      FOnMsgStatus(Self, 'Sort ascending, ignore case');
+      FOnMsgStatus(Self, msgCommand_SortAscNoCase);
     cCommand_Sort_Desc:
-      FOnMsgStatus(Self, 'Sort descending');
+      FOnMsgStatus(Self, msgCommand_SortDesc);
     cCommand_Sort_DescNoCase:
-      FOnMsgStatus(Self, 'Sort descending, ignore case');
+      FOnMsgStatus(Self, msgCommand_SortDescNoCase);
 
     cCommand_DeleteAllBlanks:
-      FOnMsgStatus(Self, 'Delete all blanks');
+      FOnMsgStatus(Self, msgCommand_DeleteAllBlanks);
     cCommand_DeleteAdjacentBlanks:
-      FOnMsgStatus(Self, 'Delete adjacent blanks');
+      FOnMsgStatus(Self, msgCommand_DeleteAdjacentBlanks);
     cCommand_DeleteAllDups:
-      FOnMsgStatus(Self, 'Delete all duplicates');
+      FOnMsgStatus(Self, msgCommand_DeleteAllDups);
     cCommand_DeleteAllDupsKeepBlanks:
-      FOnMsgStatus(Self, 'Delete duplicates, keep blanks');
+      FOnMsgStatus(Self, msgCommand_DeleteAllDupsKeepBlanks);
     cCommand_DeleteAdjacentDups:
-      FOnMsgStatus(Self, 'Delete adjacent duplicates');
+      FOnMsgStatus(Self, msgCommand_DeleteAdjacentDups);
     cCommand_ReverseLines:
-      FOnMsgStatus(Self, 'Reverse lines');
+      FOnMsgStatus(Self, msgCommand_ReverseLines);
     cCommand_ShuffleLines:
-      FOnMsgStatus(Self, 'Shuffle lines');
+      FOnMsgStatus(Self, msgCommand_ShuffleLines);
   end; //case ACommand of
 
   if Ed.LastCommandChangedLines>0 then

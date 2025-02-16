@@ -426,6 +426,19 @@ const
   msgFindHint_Immediate: string = 'Immediate search (find as you type)';
   msgFindHint_PresCase: string = 'Preserve case on replacement';
 
+  msgCommand_SortAsc: string = 'Sort ascending';
+  msgCommand_SortAscNoCase: string = 'Sort ascending, ignore case';
+  msgCommand_SortDesc: string = 'Sort descending';
+  msgCommand_SortDescNoCase: string = 'Sort descending, ignore case';
+  msgCommand_DeleteAllBlanks: string = 'Delete all blank lines';
+  msgCommand_DeleteAdjacentBlanks: string = 'Delete adjacent blank lines';
+  msgCommand_DeleteAllDups: string = 'Delete all duplicate lines';
+  msgCommand_DeleteAllDupsKeepBlanks: string = 'Delete all duplicate lines, keep blanks';
+  msgCommand_DeleteAdjacentDups: string = 'Delete adjacent duplicate lines';
+  msgCommand_ReverseLines: string = 'Reverse lines';
+  msgCommand_ShuffleLines: string = 'Shuffle lines';
+
+
 function msgTranslatedPanelCaption(const ACaption: string): string;
 function msgFinderRegexMatchesNumbered: string;
 function msgTranslatedUntitledTab(const ACaption: string): string;
