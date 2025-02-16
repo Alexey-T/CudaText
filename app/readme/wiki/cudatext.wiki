@@ -1840,9 +1840,9 @@ Plugin CudaExt provides such related commands:
 =Sorting and finding duplicate lines=
 CudaText has two sorting methods.
 
-Method 1: Python plugin "Sort", which supports Undo for its commands. It works not fast and takes lot of memory on sorting. It cannot sort huge files, because it reads all file contents from Pascal buffer to Python buffers.
+'''Method 1: Plugin "Sort"'''. It supports Undo for its commands. It works not fast and takes lot of memory on sorting. It cannot sort some huge files, because it reads document contents from Pascal memory buffer to Python memory buffers.
 
-Commands in menu "Plugins / Sort":
+Commands in the menu "Plugins / Sort" and in the Command Palette:
 
 * Sort ascending
 * Sort descending
@@ -1868,7 +1868,7 @@ The advantage of "Sort" plugin is that is has additional commands (for duplicate
 
 Plugin has config file, you can edit it via menu item "Options / Settings-plugins / Sort". In the section [sort] you can change option "allow_sort_all_when_none_selected" to 0 or 1 to disable/enable sorting of entire document, if nothing is selected. If selection exists (single selection), plugin handles only selected lines.
 
-Method 2: Pascal-based sorting commands, which are named in the Command Palette like "(without undo) sort...". They clear current Undo (ie user cannot undo sorting operation), but they are optimized for speed and memory. Commands don't read document contents into additional buffers, they sort lines in-place (changing pointers only). So these commands work with any files which CudaText can load.
+'''Method 2: Pascal-based sorting commands''', which are named in the Command Palette like "(without undo) sort...". They clear current Undo (ie user cannot undo sorting operation), but they are optimized for speed and memory. Commands don't read document contents into additional buffers, they sort lines in-place (changing pointers only). So these commands work with any files which CudaText can load.
 
 Commands in the Command Palette are:
 
@@ -1884,7 +1884,7 @@ Commands in the Command Palette are:
 * (without undo) reverse lines
 * (without undo) shuffle lines
 
-These built-in commands handle only the selection if it exists (only first selection).
+These built-in commands handle only the range of selected lines, if selection exists (only first selection is handled).
 
 =Markers=
 
