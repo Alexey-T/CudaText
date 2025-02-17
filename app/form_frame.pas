@@ -2115,29 +2115,19 @@ begin
           EditorCSyntaxDoTabIndent(Ed);
       end;
 
-    cCommand_Sort_Asc:
-      FOnMsgStatus(Self, msgCommand_SortAsc);
-    cCommand_Sort_AscNoCase:
-      FOnMsgStatus(Self, msgCommand_SortAscNoCase);
-    cCommand_Sort_Desc:
-      FOnMsgStatus(Self, msgCommand_SortDesc);
-    cCommand_Sort_DescNoCase:
-      FOnMsgStatus(Self, msgCommand_SortDescNoCase);
-
-    cCommand_DeleteAllBlanks:
-      FOnMsgStatus(Self, msgCommand_DeleteAllBlanks);
-    cCommand_DeleteAdjacentBlanks:
-      FOnMsgStatus(Self, msgCommand_DeleteAdjacentBlanks);
-    cCommand_DeleteAllDups:
-      FOnMsgStatus(Self, msgCommand_DeleteAllDups);
-    cCommand_DeleteAllDupsKeepBlanks:
-      FOnMsgStatus(Self, msgCommand_DeleteAllDupsKeepBlanks);
-    cCommand_DeleteAdjacentDups:
-      FOnMsgStatus(Self, msgCommand_DeleteAdjacentDups);
-    cCommand_ReverseLines:
-      FOnMsgStatus(Self, msgCommand_ReverseLines);
+    cCommand_Sort_Asc,
+    cCommand_Sort_AscNoCase,
+    cCommand_Sort_Desc,
+    cCommand_Sort_DescNoCase,
+    cCommand_DeleteAllBlanks,
+    cCommand_DeleteAdjacentBlanks,
+    cCommand_DeleteAllDups,
+    cCommand_DeleteAllDupsKeepBlanks,
+    cCommand_DeleteAdjacentDups,
+    cCommand_ReverseLines,
     cCommand_ShuffleLines:
-      FOnMsgStatus(Self, msgCommand_ShuffleLines);
+      FOnMsgStatus(Self, EditorGetKeymapNameOfCommand(Ed, ACommand));
+
   end; //case ACommand of
 
   if Ed.LastCommandChangedLines>0 then

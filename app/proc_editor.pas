@@ -182,6 +182,7 @@ procedure EditorCSyntaxDoTabIndent(Ed: TATSynEdit);
 
 function EditorGetCharCount(Ed: TATSynEdit; AMaxChars, AMaxTime: Int64): Int64;
 procedure EditorStringToScrollInfo(Ed: TATSynEdit; const AText: string; AIsVert: boolean);
+function EditorGetKeymapNameOfCommand(Ed: TATSynEdit; ACmd: integer): string;
 
 implementation
 
@@ -3627,5 +3628,16 @@ begin
     Ed.ScrollHorz:= ScrollInfo;
   Ed.UpdateScrollbars(not bSmoothPos);
 end;
+
+function EditorGetKeymapNameOfCommand(Ed: TATSynEdit; ACmd: integer): string;
+var
+  i: integer;
+begin
+  Result:= '';
+  i:= Ed.Keymap.IndexOf(ACmd);
+  if i>=0 then
+    Result:= Ed.Keymap.Items[i].Name;
+end;
+
 
 end.
