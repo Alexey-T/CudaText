@@ -12,6 +12,7 @@
 + add: support char '\' in filenames under non-Windows OS (thanks @DeivAstra)
 * change: lexer Python: disabled highlight of uppercase CONSTS
 - fix: after saving of tab "RegEx matches", make tab title usual, ie showing the filename (thanks @adoeller)
+- fix: with selection at document end, one line was lost during Undo (thanks @pintassilgo)
 
 1.221.0 (2025/01)
 
