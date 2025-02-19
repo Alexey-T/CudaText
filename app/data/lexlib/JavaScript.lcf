@@ -220,6 +220,7 @@ object SyntAnal9: TLibSyntAnalyzer
     end
     item
       DisplayName = 'Id func name'
+      Enabled = False
       StyleName = 'Id func name'
       TokenType = 2
       Expression = 
@@ -248,15 +249,6 @@ object SyntAnal9: TLibSyntAnalyzer
       DisplayName = 'Tick template tag'
       StyleName = 'PHP tag'
       Expression = '(?-i)(html|css|json)`'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
-      DisplayName = 'Id upcase const'
-      Enabled = False
-      StyleName = 'Id upcase const'
-      TokenType = 2
-      Expression = '(?-i)[A-Z_\$][A-Z0-9_\$]*[A-Z][A-Z0-9_\$]* (?=[^\w\(])'
       ColumnFrom = 0
       ColumnTo = 0
     end
