@@ -967,6 +967,7 @@ type
     function GetShowOnTop: boolean;
     function GetShowSidebarOnRight: boolean;
     procedure InitStatusProgress;
+    procedure InitPluginsMenuIfNotInited;
     procedure InitButtonCancel;
     procedure InitAppleMenu;
     procedure InitImageListCodetree;
@@ -2557,14 +2558,8 @@ begin
     UpdateStatusbar_RealWork;
   end;
 
-  if FNeedUpdateMenuPlugins then
-  begin
-    FNeedUpdateMenuPlugins:= false;
-    UpdateMenuPlugins; //takes ~30 msec, so it is now in TimerAppIdle
-    UpdateMenuPlugins_Shortcuts(true);
-    UpdateMenuHotkeys; //takes ~3 msec
-    DoPyEvent(nil, TAppPyEvent.OnInitPluginsMenu, []);
-  end;
+  //that is also called from mnuPlugins.OnClick
+  InitPluginsMenuIfNotInited;
 
   if Assigned(Frame) and not (Frame.IsTreeBusy or Frame.IsParsingBusy) then
     if AppCodetreeState.NeedsSelJump then
@@ -9800,17 +9795,21 @@ begin
     mnuEditCopyAppend.Enabled:= bSel;
 end;
 
-procedure TfmMain.mnuPluginsClick(Sender: TObject);
+procedure TfmMain.InitPluginsMenuIfNotInited;
 begin
-  //code is copied from TimerAppIdleTimer()
   if FNeedUpdateMenuPlugins then
   begin
     FNeedUpdateMenuPlugins:= false;
-    UpdateMenuPlugins; //takes ~30 msec, so it is now in TimerAppIdle
+    UpdateMenuPlugins; //takes ~30 msec, rather slow
     UpdateMenuPlugins_Shortcuts(true);
     UpdateMenuHotkeys; //takes ~3 msec
     DoPyEvent(nil, TAppPyEvent.OnInitPluginsMenu, []);
   end;
+end;
+
+procedure TfmMain.mnuPluginsClick(Sender: TObject);
+begin
+  InitPluginsMenuIfNotInited;
 end;
 
 
