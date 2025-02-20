@@ -12,7 +12,7 @@ _TYPE_BODY = typing.Union[bytes, typing.IO[typing.Any], typing.Iterable[bytes], 
 class ProxyConfig(typing.NamedTuple):
     ssl_context: ssl.SSLContext | None
     use_forwarding_for_https: bool
-    assert_hostname: None | str | Literal[False]
+    assert_hostname: None | str | typing.Literal[False]
     assert_fingerprint: str | None
 
 
@@ -28,7 +28,7 @@ class _ResponseOptions(typing.NamedTuple):
 
 if typing.TYPE_CHECKING:
     import ssl
-    from typing import Literal, Protocol
+    from typing import Protocol
 
     from .response import BaseHTTPResponse
 
@@ -62,8 +62,7 @@ if typing.TYPE_CHECKING:
             socket_options: _TYPE_SOCKET_OPTIONS | None = ...,
             proxy: Url | None = None,
             proxy_config: ProxyConfig | None = None,
-        ) -> None:
-            ...
+        ) -> None: ...
 
         def set_tunnel(
             self,
@@ -71,11 +70,9 @@ if typing.TYPE_CHECKING:
             port: int | None = None,
             headers: typing.Mapping[str, str] | None = None,
             scheme: str = "http",
-        ) -> None:
-            ...
+        ) -> None: ...
 
-        def connect(self) -> None:
-            ...
+        def connect(self) -> None: ...
 
         def request(
             self,
@@ -91,14 +88,11 @@ if typing.TYPE_CHECKING:
             preload_content: bool = True,
             decode_content: bool = True,
             enforce_content_length: bool = True,
-        ) -> None:
-            ...
+        ) -> None: ...
 
-        def getresponse(self) -> BaseHTTPResponse:
-            ...
+        def getresponse(self) -> BaseHTTPResponse: ...
 
-        def close(self) -> None:
-            ...
+        def close(self) -> None: ...
 
         @property
         def is_closed(self) -> bool:
@@ -124,7 +118,7 @@ if typing.TYPE_CHECKING:
 
         # Certificate verification methods
         cert_reqs: int | str | None
-        assert_hostname: None | str | Literal[False]
+        assert_hostname: None | str | typing.Literal[False]
         assert_fingerprint: str | None
         ssl_context: ssl.SSLContext | None
 
@@ -155,7 +149,7 @@ if typing.TYPE_CHECKING:
             proxy: Url | None = None,
             proxy_config: ProxyConfig | None = None,
             cert_reqs: int | str | None = None,
-            assert_hostname: None | str | Literal[False] = None,
+            assert_hostname: None | str | typing.Literal[False] = None,
             assert_fingerprint: str | None = None,
             server_hostname: str | None = None,
             ssl_context: ssl.SSLContext | None = None,
@@ -168,5 +162,4 @@ if typing.TYPE_CHECKING:
             cert_file: str | None = None,
             key_file: str | None = None,
             key_password: str | None = None,
-        ) -> None:
-            ...
+        ) -> None: ...

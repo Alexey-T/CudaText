@@ -8,12 +8,11 @@ import typing
 from ..exceptions import ProxySchemeUnsupported
 
 if typing.TYPE_CHECKING:
-    from typing import Literal
+    from typing_extensions import Self
 
     from .ssl_ import _TYPE_PEER_CERT_RET, _TYPE_PEER_CERT_RET_DICT
 
 
-_SelfT = typing.TypeVar("_SelfT", bound="SSLTransport")
 _WriteBuffer = typing.Union[bytearray, memoryview]
 _ReturnValue = typing.TypeVar("_ReturnValue")
 
@@ -70,7 +69,7 @@ class SSLTransport:
         # Perform initial handshake.
         self._ssl_io_loop(self.sslobj.do_handshake)
 
-    def __enter__(self: _SelfT) -> _SelfT:
+    def __enter__(self) -> Self:
         return self
 
     def __exit__(self, *_: typing.Any) -> None:
@@ -174,13 +173,11 @@ class SSLTransport:
 
     @typing.overload
     def getpeercert(
-        self, binary_form: Literal[False] = ...
-    ) -> _TYPE_PEER_CERT_RET_DICT | None:
-        ...
+        self, binary_form: typing.Literal[False] = ...
+    ) -> _TYPE_PEER_CERT_RET_DICT | None: ...
 
     @typing.overload
-    def getpeercert(self, binary_form: Literal[True]) -> bytes | None:
-        ...
+    def getpeercert(self, binary_form: typing.Literal[True]) -> bytes | None: ...
 
     def getpeercert(self, binary_form: bool = False) -> _TYPE_PEER_CERT_RET:
         return self.sslobj.getpeercert(binary_form)  # type: ignore[return-value]
@@ -193,9 +190,6 @@ class SSLTransport:
 
     def selected_alpn_protocol(self) -> str | None:
         return self.sslobj.selected_alpn_protocol()
-
-    def selected_npn_protocol(self) -> str | None:
-        return self.sslobj.selected_npn_protocol()
 
     def shared_ciphers(self) -> list[tuple[str, str, int]] | None:
         return self.sslobj.shared_ciphers()
@@ -223,13 +217,11 @@ class SSLTransport:
 
     # func is sslobj.do_handshake or sslobj.unwrap
     @typing.overload
-    def _ssl_io_loop(self, func: typing.Callable[[], None]) -> None:
-        ...
+    def _ssl_io_loop(self, func: typing.Callable[[], None]) -> None: ...
 
     # func is sslobj.write, arg1 is data
     @typing.overload
-    def _ssl_io_loop(self, func: typing.Callable[[bytes], int], arg1: bytes) -> int:
-        ...
+    def _ssl_io_loop(self, func: typing.Callable[[bytes], int], arg1: bytes) -> int: ...
 
     # func is sslobj.read, arg1 is len, arg2 is buffer
     @typing.overload
@@ -238,8 +230,7 @@ class SSLTransport:
         func: typing.Callable[[int, bytearray | None], bytes],
         arg1: int,
         arg2: bytearray | None,
-    ) -> bytes:
-        ...
+    ) -> bytes: ...
 
     def _ssl_io_loop(
         self,

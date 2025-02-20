@@ -5,6 +5,7 @@ import io
 import json as _json
 import logging
 import re
+import socket
 import sys
 import typing
 import warnings
@@ -26,20 +27,21 @@ except ImportError:
     brotli = None
 
 try:
-    import zstandard as zstd  # type: ignore[import-not-found]
-
+    import zstandard as zstd
+except (AttributeError, ImportError, ValueError):  # Defensive:
+    HAS_ZSTD = False
+else:
     # The package 'zstandard' added the 'eof' property starting
     # in v0.18.0 which we require to ensure a complete and
     # valid zstd stream was fed into the ZstdDecoder.
     # See: https://github.com/urllib3/urllib3/pull/2624
-    _zstd_version = _zstd_version = tuple(
+    _zstd_version = tuple(
         map(int, re.search(r"^([0-9]+)\.([0-9]+)", zstd.__version__).groups())  # type: ignore[union-attr]
     )
     if _zstd_version < (0, 18):  # Defensive:
-        zstd = None
-
-except (AttributeError, ImportError, ValueError):  # Defensive:
-    zstd = None
+        HAS_ZSTD = False
+    else:
+        HAS_ZSTD = True
 
 from . import util
 from ._base_connection import _TYPE_BODY
@@ -61,8 +63,6 @@ from .util.response import is_fp_closed, is_response_to_head
 from .util.retry import Retry
 
 if typing.TYPE_CHECKING:
-    from typing import Literal
-
     from .connectionpool import HTTPConnectionPool
 
 log = logging.getLogger(__name__)
@@ -163,7 +163,7 @@ if brotli is not None:
             return b""
 
 
-if zstd is not None:
+if HAS_ZSTD:
 
     class ZstdDecoder(ContentDecoder):
         def __init__(self) -> None:
@@ -183,7 +183,7 @@ if zstd is not None:
             ret = self._obj.flush()  # note: this is a no-op
             if not self._obj.eof:
                 raise DecodeError("Zstandard data is incomplete")
-            return ret  # type: ignore[no-any-return]
+            return ret
 
 
 class MultiDecoder(ContentDecoder):
@@ -219,7 +219,7 @@ def _get_decoder(mode: str) -> ContentDecoder:
     if brotli is not None and mode == "br":
         return BrotliDecoder()
 
-    if zstd is not None and mode == "zstd":
+    if HAS_ZSTD and mode == "zstd":
         return ZstdDecoder()
 
     return DeflateDecoder()
@@ -302,7 +302,7 @@ class BaseHTTPResponse(io.IOBase):
     CONTENT_DECODERS = ["gzip", "x-gzip", "deflate"]
     if brotli is not None:
         CONTENT_DECODERS += ["br"]
-    if zstd is not None:
+    if HAS_ZSTD:
         CONTENT_DECODERS += ["zstd"]
     REDIRECT_STATUSES = [301, 302, 303, 307, 308]
 
@@ -310,7 +310,7 @@ class BaseHTTPResponse(io.IOBase):
     if brotli is not None:
         DECODER_ERROR_CLASSES += (brotli.error,)
 
-    if zstd is not None:
+    if HAS_ZSTD:
         DECODER_ERROR_CLASSES += (zstd.ZstdError,)
 
     def __init__(
@@ -319,6 +319,7 @@ class BaseHTTPResponse(io.IOBase):
         headers: typing.Mapping[str, str] | typing.Mapping[bytes, bytes] | None = None,
         status: int,
         version: int,
+        version_string: str,
         reason: str | None,
         decode_content: bool,
         request_url: str | None,
@@ -330,6 +331,7 @@ class BaseHTTPResponse(io.IOBase):
             self.headers = HTTPHeaderDict(headers)  # type: ignore[arg-type]
         self.status = status
         self.version = version
+        self.version_string = version_string
         self.reason = reason
         self.decode_content = decode_content
         self._has_decoded_content = False
@@ -346,7 +348,7 @@ class BaseHTTPResponse(io.IOBase):
         self._decoder: ContentDecoder | None = None
         self.length_remaining: int | None
 
-    def get_redirect_location(self) -> str | None | Literal[False]:
+    def get_redirect_location(self) -> str | None | typing.Literal[False]:
         """
         Should we redirect and where to?
 
@@ -364,13 +366,21 @@ class BaseHTTPResponse(io.IOBase):
 
     def json(self) -> typing.Any:
         """
-        Parses the body of the HTTP response as JSON.
+        Deserializes the body of the HTTP response as a Python object.
 
-        To use a custom JSON decoder pass the result of :attr:`HTTPResponse.data` to the decoder.
+        The body of the HTTP response must be encoded using UTF-8, as per
+        `RFC 8529 Section 8.1 <https://www.rfc-editor.org/rfc/rfc8259#section-8.1>`_.
 
-        This method can raise either `UnicodeDecodeError` or `json.JSONDecodeError`.
+        To use a custom JSON decoder pass the result of :attr:`HTTPResponse.data` to
+        your custom decoder instead.
 
-        Read more :ref:`here <json>`.
+        If the body of the HTTP response is not decodable to UTF-8, a
+        `UnicodeDecodeError` will be raised. If the body of the HTTP response is not a
+        valid JSON document, a `json.JSONDecodeError` will be raised.
+
+        Read more :ref:`here <json_content>`.
+
+        :returns: The body of the HTTP response as a Python object.
         """
         data = self.data.decode("utf-8")
         return _json.loads(data)
@@ -429,6 +439,9 @@ class BaseHTTPResponse(io.IOBase):
         raise NotImplementedError()
 
     def drain_conn(self) -> None:
+        raise NotImplementedError()
+
+    def shutdown(self) -> None:
         raise NotImplementedError()
 
     def close(self) -> None:
@@ -567,6 +580,7 @@ class HTTPResponse(BaseHTTPResponse):
         headers: typing.Mapping[str, str] | typing.Mapping[bytes, bytes] | None = None,
         status: int = 0,
         version: int = 0,
+        version_string: str = "HTTP/?",
         reason: str | None = None,
         preload_content: bool = True,
         decode_content: bool = True,
@@ -579,11 +593,13 @@ class HTTPResponse(BaseHTTPResponse):
         request_method: str | None = None,
         request_url: str | None = None,
         auto_close: bool = True,
+        sock_shutdown: typing.Callable[[int], None] | None = None,
     ) -> None:
         super().__init__(
             headers=headers,
             status=status,
             version=version,
+            version_string=version_string,
             reason=reason,
             decode_content=decode_content,
             request_url=request_url,
@@ -607,6 +623,7 @@ class HTTPResponse(BaseHTTPResponse):
 
         if hasattr(body, "read"):
             self._fp = body  # type: ignore[assignment]
+        self._sock_shutdown = sock_shutdown
 
         # Are we using the chunked-style of transfer encoding?
         self.chunk_left: int | None = None
@@ -722,7 +739,7 @@ class HTTPResponse(BaseHTTPResponse):
         return length
 
     @contextmanager
-    def _error_catcher(self) -> typing.Generator[None, None, None]:
+    def _error_catcher(self) -> typing.Generator[None]:
         """
         Catch low-level python exceptions, instead re-raising urllib3
         variants, so that low-level exceptions are not leaked in the
@@ -801,7 +818,7 @@ class HTTPResponse(BaseHTTPResponse):
         happen.
 
         The known cases:
-          * 3.8 <= CPython < 3.9.7 because of a bug
+          * CPython < 3.9.7 because of a bug
             https://github.com/urllib3/urllib3/issues/2513#issuecomment-1152559900.
           * urllib3 injected with pyOpenSSL-backed SSL-support.
           * CPython < 3.10 only when `amt` does not fit 32-bit int.
@@ -926,7 +943,10 @@ class HTTPResponse(BaseHTTPResponse):
         if decode_content is None:
             decode_content = self.decode_content
 
-        if amt is not None:
+        if amt and amt < 0:
+            # Negative numbers and `None` should be treated the same.
+            amt = None
+        elif amt is not None:
             cache_content = False
 
             if len(self._decoded_buffer) >= amt:
@@ -986,6 +1006,9 @@ class HTTPResponse(BaseHTTPResponse):
         """
         if decode_content is None:
             decode_content = self.decode_content
+        if amt and amt < 0:
+            # Negative numbers and `None` should be treated the same.
+            amt = None
         # try and respond without going to the network
         if self._has_decoded_content:
             if not decode_content:
@@ -1020,7 +1043,7 @@ class HTTPResponse(BaseHTTPResponse):
 
     def stream(
         self, amt: int | None = 2**16, decode_content: bool | None = None
-    ) -> typing.Generator[bytes, None, None]:
+    ) -> typing.Generator[bytes]:
         """
         A generator wrapper for the read() method. A call will block until
         ``amt`` bytes have been read from the connection or until the
@@ -1049,7 +1072,14 @@ class HTTPResponse(BaseHTTPResponse):
     def readable(self) -> bool:
         return True
 
+    def shutdown(self) -> None:
+        if not self._sock_shutdown:
+            raise ValueError("Cannot shutdown socket as self._sock_shutdown is not set")
+        self._sock_shutdown(socket.SHUT_RD)
+
     def close(self) -> None:
+        self._sock_shutdown = None
+
         if not self.closed and self._fp:
             self._fp.close()
 
@@ -1142,7 +1172,7 @@ class HTTPResponse(BaseHTTPResponse):
 
     def read_chunked(
         self, amt: int | None = None, decode_content: bool | None = None
-    ) -> typing.Generator[bytes, None, None]:
+    ) -> typing.Generator[bytes]:
         """
         Similar to :meth:`HTTPResponse.read`, but with an additional
         parameter: ``decode_content``.
@@ -1179,6 +1209,11 @@ class HTTPResponse(BaseHTTPResponse):
             # then return immediately.
             if self._fp.fp is None:  # type: ignore[union-attr]
                 return None
+
+            if amt and amt < 0:
+                # Negative numbers and `None` should be treated the same,
+                # but httplib handles only `None` correctly.
+                amt = None
 
             while True:
                 self._update_chunk_length()
