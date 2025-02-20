@@ -21,8 +21,6 @@ from ..exceptions import (
 from .util import reraise
 
 if typing.TYPE_CHECKING:
-    from typing_extensions import Self
-
     from ..connectionpool import ConnectionPool
     from ..response import BaseHTTPResponse
 
@@ -189,9 +187,7 @@ class Retry:
     RETRY_AFTER_STATUS_CODES = frozenset([413, 429, 503])
 
     #: Default headers to be used for ``remove_headers_on_redirect``
-    DEFAULT_REMOVE_HEADERS_ON_REDIRECT = frozenset(
-        ["Cookie", "Authorization", "Proxy-Authorization"]
-    )
+    DEFAULT_REMOVE_HEADERS_ON_REDIRECT = frozenset(["Cookie", "Authorization"])
 
     #: Default maximum backoff time.
     DEFAULT_BACKOFF_MAX = 120
@@ -244,7 +240,7 @@ class Retry:
         )
         self.backoff_jitter = backoff_jitter
 
-    def new(self, **kw: typing.Any) -> Self:
+    def new(self, **kw: typing.Any) -> Retry:
         params = dict(
             total=self.total,
             connect=self.connect,
@@ -433,7 +429,7 @@ class Retry:
         error: Exception | None = None,
         _pool: ConnectionPool | None = None,
         _stacktrace: TracebackType | None = None,
-    ) -> Self:
+    ) -> Retry:
         """Return a new Retry object with incremented retry counters.
 
         :param response: A response object, or None, if the server did not

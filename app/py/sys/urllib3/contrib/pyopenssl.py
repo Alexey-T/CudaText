@@ -366,11 +366,9 @@ class WrappedSocket:
             )
             total_sent += sent
 
-    def shutdown(self, how: int) -> None:
-        try:
-            self.connection.shutdown()
-        except OpenSSL.SSL.Error as e:
-            raise ssl.SSLError(f"shutdown error: {e!r}") from e
+    def shutdown(self) -> None:
+        # FIXME rethrow compatible exceptions should we ever use this
+        self.connection.shutdown()
 
     def close(self) -> None:
         self._closed = True
@@ -401,10 +399,6 @@ class WrappedSocket:
 
     def version(self) -> str:
         return self.connection.get_protocol_version_name()  # type: ignore[no-any-return]
-
-    def selected_alpn_protocol(self) -> str | None:
-        alpn_proto = self.connection.get_alpn_proto_negotiated()
-        return alpn_proto.decode() if alpn_proto else None
 
 
 WrappedSocket.makefile = socket_cls.makefile  # type: ignore[attr-defined]

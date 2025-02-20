@@ -12,7 +12,7 @@ from .response import BaseHTTPResponse
 __all__ = ["RequestMethods"]
 
 _TYPE_ENCODE_URL_FIELDS = typing.Union[
-    typing.Sequence[tuple[str, typing.Union[str, bytes]]],
+    typing.Sequence[typing.Tuple[str, typing.Union[str, bytes]]],
     typing.Mapping[str, typing.Union[str, bytes]],
 ]
 
@@ -97,7 +97,8 @@ class RequestMethods:
             an iterable of :class:`str`/:class:`bytes`, or a file-like object.
 
         :param fields:
-            Data to encode and send in the URL or request body, depending on ``method``.
+            Data to encode and send in the request body.  Values are processed
+            by :func:`urllib.parse.urlencode`.
 
         :param headers:
             Dictionary of custom headers to send, such as User-Agent,
@@ -163,7 +164,7 @@ class RequestMethods:
             The URL to perform the request on.
 
         :param fields:
-            Data to encode and send in the URL.
+            Data to encode and send in the request body.
 
         :param headers:
             Dictionary of custom headers to send, such as User-Agent,
