@@ -29,10 +29,6 @@
       "regex": "\\b(true|false)\\b",
       "style": "Id2"
     },
-    "num": {
-      "regex": "\\d+\\b",
-      "style": "Number"
-    },
     "val": {
       "regex": "\\w+",
       "style": "Id"
