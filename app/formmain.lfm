@@ -510,6 +510,7 @@ object fmMain: TfmMain
     end
     object mnuPlugins: TMenuItem
       Caption = '&Plugins'
+      OnClick = mnuPluginsClick
     end
     object mnuOp: TMenuItem
       Caption = '&Options'

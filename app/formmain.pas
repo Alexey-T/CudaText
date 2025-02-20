@@ -500,6 +500,7 @@ type
     procedure EditorOutput_OnClickDbl(Sender: TObject; var AHandled: boolean);
     procedure EditorOutput_OnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure mnuEditClick(Sender: TObject);
+    procedure mnuPluginsClick(Sender: TObject);
     procedure mnuTabColorClick(Sender: TObject);
     procedure mnuTabPinnedClick(Sender: TObject);
     procedure mnuTabCopyDirClick(Sender: TObject);
@@ -9797,6 +9798,19 @@ begin
 
   if Assigned(mnuEditCopyAppend) then
     mnuEditCopyAppend.Enabled:= bSel;
+end;
+
+procedure TfmMain.mnuPluginsClick(Sender: TObject);
+begin
+  //code is copied from TimerAppIdleTimer()
+  if FNeedUpdateMenuPlugins then
+  begin
+    FNeedUpdateMenuPlugins:= false;
+    UpdateMenuPlugins; //takes ~30 msec, so it is now in TimerAppIdle
+    UpdateMenuPlugins_Shortcuts(true);
+    UpdateMenuHotkeys; //takes ~3 msec
+    DoPyEvent(nil, TAppPyEvent.OnInitPluginsMenu, []);
+  end;
 end;
 
 
