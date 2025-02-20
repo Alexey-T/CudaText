@@ -25,22 +25,22 @@
 # 02110-1301  USA
 ######################### END LICENSE BLOCK #########################
 
-from .chardistribution import EUCKRDistributionAnalysis
+from .chardistribution import JOHABDistributionAnalysis
 from .codingstatemachine import CodingStateMachine
 from .mbcharsetprober import MultiByteCharSetProber
-from .mbcssm import EUCKR_SM_MODEL
+from .mbcssm import JOHAB_SM_MODEL
 
 
-class EUCKRProber(MultiByteCharSetProber):
+class JOHABProber(MultiByteCharSetProber):
     def __init__(self) -> None:
         super().__init__()
-        self.coding_sm = CodingStateMachine(EUCKR_SM_MODEL)
-        self.distribution_analyzer = EUCKRDistributionAnalysis()
+        self.coding_sm = CodingStateMachine(JOHAB_SM_MODEL)
+        self.distribution_analyzer = JOHABDistributionAnalysis()
         self.reset()
 
     @property
     def charset_name(self) -> str:
-        return "EUC-KR"
+        return "Johab"
 
     @property
     def language(self) -> str:
