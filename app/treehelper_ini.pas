@@ -34,7 +34,7 @@ var
   PrevHeaderIndex: integer = -1;
   St: TATStrings;
   S: UnicodeString;
-  iLine, NFirst, NSymbol, NLen: integer;
+  iLine, NFirst, NSymbol, NLen, NBlockLine: integer;
 begin
   Data.Clear;
   St:= Ed.Strings;
@@ -63,7 +63,13 @@ begin
       Data.Add(DataItem);
 
       if PrevHeaderIndex>=0 then
-        Data._GetItemPtr(PrevHeaderIndex)^.Y2:= iLine-1;
+      begin
+        NBlockLine:= iLine-1;
+        while (NBlockLine>0) and (St.LinesLen[NBlockLine]=0) do
+          Dec(NBlockLine);
+        Data._GetItemPtr(PrevHeaderIndex)^.Y2:= NBlockLine;
+      end;
+
       PrevHeaderIndex:= Data.Count-1;
     end
     else
@@ -84,7 +90,12 @@ begin
   end;
 
   if PrevHeaderIndex>=0 then
-    Data._GetItemPtr(PrevHeaderIndex)^.Y2:= St.Count-1;
+  begin
+    NBlockLine:= St.Count-1;
+    while (NBlockLine>0) and (St.LinesLen[NBlockLine]=0) do
+      Dec(NBlockLine);
+    Data._GetItemPtr(PrevHeaderIndex)^.Y2:= NBlockLine;
+  end;
 end;
 
 end.
