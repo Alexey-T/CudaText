@@ -1,6 +1,6 @@
 #!/bin/sh
 ./unix_common.sh freebsd gtk2 amd64 bin/freebsd-x64-gtk2 ~/cudatext_build
-#./unix_common.sh freebsd gtk2 i386 bin/freebsd-x32-gtk2 ~/cudatext_build
+./unix_common.sh freebsd gtk2 i386 bin/freebsd-x32-gtk2 ~/cudatext_build
 
 ./unix_common.sh netbsd gtk2 amd64 bin/netbsd-x64-gtk2 ~/cudatext_build
 ./unix_common.sh netbsd gtk2 i386 bin/netbsd-x32-gtk2 ~/cudatext_build
