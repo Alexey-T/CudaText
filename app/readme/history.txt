@@ -15,6 +15,7 @@
 - fix: lexer JS: fixed several bugs which prevented OK highlight of Vivaldi's 3Mb minified JS file
 * change: lexer JS: disabled UPPERCASE_ID highlight; disabled function/class names highlight
 * change: lexer Python: disabled UPPERCASE_ID highlight
+* change: lexer Ini files ^: removed highlight of numbers
 
 1.221.0 (2025/01)
 
