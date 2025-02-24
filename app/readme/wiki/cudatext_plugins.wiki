@@ -2580,6 +2580,8 @@ main :: proc(){
 }
 </syntaxhighlight>
 
+Folder "C:\Odin\base" must be also included to CudaText project, in order for LSP to work correctly. To do this, call context menu over Project Manager panel and call menu item "Root nodes / Add folder".
+
 What must work now in the example file:
 
 * Auto-completion
