@@ -2552,19 +2552,19 @@ Steps for Windows OS.
 ==LSP server Odin==
 Steps for Windows OS.
 
-* Unzip Odin compiler zip-file into e.g. C:\Odin. Add this folder to system PATH.
-* Unzip Odin LSP server zip-file into the same folder, so "ols.exe" is in the same folder as compiler "odin.exe". Check that "ols.exe" can run from Windows console window.
+* Unzip Odin compiler zip-file into e.g. "C:\Odin". Add this folder to system PATH. Set environment variable ODIN_ROOT to this path.
+* Unzip Odin LSP server zip-file into the same folder, so "ols.exe" is in the same folder as compiler "odin.exe".
 * Install requirements which are needed for Odin.
-* Set environment variable ODIN_ROOT to the path of Odin folder.
 * Create "lsp_odin.json" in CudaText's "settings" folder:
 <syntaxhighlight lang="json">
 {
   "lexers": {
     "Odin": "odin"
   },
-  "cmd_windows": [ "ols.exe" ]
+  "cmd_windows": [ "C:/Odin/ols.exe" ]
 }
 </syntaxhighlight>
+* Why full path in the "cmd_windows" key: to avoid LSP server error 'cannot find builtin folder'.
 
 Now you must create a CudaText project containing your Odin codes. It is mandatory, otherwise you will see CudaText console log line "LSP: Odin - process exited" and nothing will work. Let's create project: "c:\Work\Odin_test\tst.cuda-proj", and source code is "c:\Work\Odin_test\tst.odin" which must be added to the mentioned project. Example file "tst.odin":
 
