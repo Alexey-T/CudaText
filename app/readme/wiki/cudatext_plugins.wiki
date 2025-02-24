@@ -2564,9 +2564,9 @@ Steps for Windows OS.
   "cmd_windows": [ "C:/Odin/ols.exe" ]
 }
 </syntaxhighlight>
-* Why full path in the "cmd_windows" key: to avoid LSP server error 'cannot find builtin folder'.
+* Why full path in the "cmd_windows" line: to avoid LSP server log line 'cannot find builtin folder'. It is issue of the server.
 
-Now you must create a CudaText project containing your Odin codes. It is mandatory, otherwise you will see CudaText console log line "LSP: Odin - process exited" and nothing will work. Let's create project: "c:\Work\Odin_test\tst.cuda-proj", and source code is "c:\Work\Odin_test\tst.odin" which must be added to the mentioned project. Example file "tst.odin":
+Now you must create a CudaText project containing your Odin codes. It is mandatory, otherwise you will see CudaText console log line "LSP: Odin - process exited" and nothing will work. Create project, e.g. "c:\Work\tst.cuda-proj", and source code is "c:\Work\tst.odin" which must be added to the mentioned project. Example file "tst.odin":
 
 <syntaxhighlight lang="odin">
 package tst;
@@ -2580,10 +2580,12 @@ main :: proc(){
 }
 </syntaxhighlight>
 
-What must work now:
+What must work now in the example file:
 
 * Auto-completion
-* Go to definition (editor context menu item)
-* Show function-hint (Ctrl+Shift+Space)
+* Go to definition (editor's context-menu item)
+* Show function-hint (Ctrl+Shift+Space inside function brackets, to show function signature)
+
+Mouse-hover dialog is not working yet for some reason (it's enabled in server by default).
 
 [[Category:CudaText]]
