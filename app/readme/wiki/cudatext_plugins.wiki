@@ -2549,4 +2549,37 @@ Steps for Windows OS.
 * Do not forget to run: "vale sync".
 * Vale server did not support filenames with spaces on Windows OS. To fix it, update Vale to 0.3.7 or newer.
 
+==LSP server Odin==
+Steps for Windows OS.
+
+* Unzip Odin compiler zip-file into e.g. C:\Odin. Add this folder to system PATH.
+* Unzip Odin LSP server zip-file into the same folder, so "ols.exe" is in the same folder as compiler "odin.exe". Check that "ols.exe" can run from Windows console window.
+* Install requirements which are needed for Odin.
+* Set environment variable ODIN_ROOT to the path of Odin folder.
+* Create "lsp_odin.json" in CudaText's "settings" folder:
+<syntaxhighlight lang="json">
+{
+  "lexers": {
+    "Odin": "odin"
+  },
+  "cmd_windows": [ "ols.exe" ]
+}
+</syntaxhighlight>
+
+Now you must create a CudaText project containing your Odin codes. It is mandatory, otherwise you will see CudaText console log line "LSP: Odin - process exited" and nothing will work. Let's create project: "c:\Work\Odin_test\tst.cuda-proj", and source code is "c:\Work\Odin_test\tst.odin" which must be added to the mentioned project. Example file "tst.odin":
+
+<syntaxhighlight lang="odin">
+package tst;
+
+import "core:fmt";
+
+main :: proc(){
+	value: u128;
+	using fmt;
+	print()
+}
+</syntaxhighlight>
+
+Now auto-completion in "tst.odin" must work at least here: "print(|)".
+
 [[Category:CudaText]]
