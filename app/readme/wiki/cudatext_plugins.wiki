@@ -2549,7 +2549,7 @@ Steps for Windows OS.
 * Do not forget to run: "vale sync".
 * Vale server did not support filenames with spaces on Windows OS. To fix it, update Vale to 0.3.7 or newer.
 
-==LSP server Odin==
+==LSP server for Odin==
 Steps for Windows OS.
 
 * Unzip Odin compiler zip-file into e.g. "C:\Odin". Add this folder to system PATH. Set environment variable ODIN_ROOT to this path.
