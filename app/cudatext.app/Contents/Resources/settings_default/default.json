@@ -1365,8 +1365,8 @@
   //    A: auto-sized (width adjusts to text)
   "ui_statusbar_panels": "caret,C,180|enc,C,125|ends,A,|lexer,C,140|tabsize,A,|selmode,A,|msg,L,",
 
-  //Statusbar messages: statusbar message is shown for the specified time (in seconds).
-  //After that, it becomes grayed in the statusbar.
+  //Statusbar message is shown for the specified time, in seconds.
+  //After that, message becomes grayed.
   "ui_statusbar_time": 5,
 
   //Max count of lines in the tooltip of last statusbar cell.
