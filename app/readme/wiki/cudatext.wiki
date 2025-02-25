@@ -936,9 +936,9 @@ Note for C-like lexers. Pressing Enter when caret is inside {} brackets (just af
 
 =Groups of tabs=
 
-"Groups" are sets of ui-tabs, where each ui-tab has attached editor control. By default only the first group is shown. Totally 6 "fixed" groups (located in the main app window) + 3 "floating" groups can be shown. Menu item "=" (rightmost item in the top menu) allows to choose grouping mode:
+"Groups" are sets of ui-tabs, where each ui-tab has attached editor control. By default only the first group is shown. Totally 6 "fixed" groups (located in the main app window) + 3 "floating" groups can be shown. Menu item "Split" allows to choose grouping mode:
 
-* one group
+* One group
 * 2 groups: vertically or horizontally
 * 3 groups: vertically, horizontally or 1+2
 * 4 groups: vertically, horizontally or grid
@@ -1960,7 +1960,7 @@ Control of UI tabs is named ATTabs, and has many features:
 
 [[File:cudatext-tabs-flat.png]]
 
-* Tabs can be dragged by mouse: inside original group or to another groups (use "=" top menu item). And can be moved to specified group index using tab context menu items "Move tab to group n".
+* Tabs can be dragged by mouse: inside original group or to another groups (to show another groups use "Split" top menu item). And can be moved to specified group index using tab context menu items "Move tab to group n".
 * Program can be used without tabs at all. Options "ui_tab_show" and "ui_tab_disabled".
 
 * Tabs can be colored, by calling tab's context menu, and "Set tab color..." menu item. Internally, it calls plugin cuda_palette to choose the color, then color is applied. Plugin dialog has several modes (even simplest mode named "60 colors" is enough). By default, only thin line at the edge of tabs is colored, but you can colorize the entire tab using CudaText option "ui_tab_fullcolor". Coloring is saved to session (tab color is usual property of editor).
@@ -2213,7 +2213,7 @@ homepage=https://github.com/nnnn/pppp
 * "listbox, ..., auto-complete..." - Colors of auto-completion listbox. To see the auto-completion listbox, activate e.g. Pascal lexer, write the incomplete word "Wr" and press Ctrl+Space to call auto-completion. Listbox has 3 columns, 3rd column is shown not for all items.
 
 * "splitters, main" - Color is shown on (vertical) splitter near sidebar and above (horizontal) splitter near bottom panel.
-* "splitters, groups" - Color is shown on splitters between groups (vertical and horizontal). To see these splitters, activate e.g. 2 or 3 groups using "=" top menu item.
+* "splitters, groups" - Color is shown on splitters between groups (vertical and horizontal). To see these splitters, activate e.g. 2 or 3 groups using "Split" top menu item.
 
 ==Meaning of syntax-theme elements==
 
