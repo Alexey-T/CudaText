@@ -261,6 +261,11 @@ type
   { TfmMain }
   TfmMain = class(TForm)
     AppProps: TApplicationProperties;
+    mnuSplit: TMenuItem;
+    mnuSplitH: TMenuItem;
+    mnuSplitV: TMenuItem;
+    mnuSplitNo: TMenuItem;
+    mnuSplitSep: TMenuItem;
     mnuThemesSub: TMenuItem;
     mnuFileRename: TMenuItem;
     mnuFile: TMenuItem;
@@ -365,9 +370,6 @@ type
     mnuBmPrev: TMenuItem;
     mnuBmNext: TMenuItem;
     mnuView: TMenuItem;
-    mnuViewSplitNo: TMenuItem;
-    mnuViewSplitV: TMenuItem;
-    mnuViewSplitH: TMenuItem;
     mnuViewHint2: TMenuItem;
     mnuViewHint1: TMenuItem;
     mnuViewSidebar: TMenuItem;
@@ -385,7 +387,6 @@ type
     mnuViewFold: TMenuItem;
     mnuViewWrap: TMenuItem;
     mnuViewMinimap: TMenuItem;
-    mnuViewSplitSub: TMenuItem;
     mnuViewBottom: TMenuItem;
     mnuViewSep1: TMenuItem;
     mnuViewSep2: TMenuItem;
@@ -421,7 +422,6 @@ type
     mnuHelpWiki: TMenuItem;
     mnuHelpForum: TMenuItem;
     mnuHelpAbout: TMenuItem;
-    mnuGroups: TMenuItem;
     mnuGr1: TMenuItem;
     mnuGr1p2V: TMenuItem;
     mnuGr1p2H: TMenuItem;
@@ -665,9 +665,6 @@ type
     mnuViewUnpriSpacesTail_Alt,
     mnuViewUnpriEnds_Alt,
     mnuViewUnpriEndsDet_Alt,
-    mnuViewSplitNo_Alt,
-    mnuViewSplitV_Alt,
-    mnuViewSplitH_Alt,
     mnuViewToolbar_Alt,
     mnuViewStatus_Alt,
     mnuViewFullscr_Alt,
@@ -678,6 +675,9 @@ type
     mnuViewFloatSide_Alt,
     mnuViewFloatBottom_Alt,
     mnuViewOnTop_Alt,
+    mnuSplitNo_Alt,
+    mnuSplitV_Alt,
+    mnuSplitH_Alt,
     mnuGr1_Alt,
     mnuGr2H_Alt,
     mnuGr2V_Alt,
@@ -3065,7 +3065,7 @@ begin
   UpdateMenuItemHint(mnuView, 'top-view');
   UpdateMenuItemHint(mnuOp, 'top-op');
   UpdateMenuItemHint(mnuHelp, 'top-help');
-  UpdateMenuItemHint(mnuGroups, 'top-groups');
+  UpdateMenuItemHint(mnuSplit, 'top-groups');
   UpdateMenuItemHint(mnuPlugins, 'plugins');
   UpdateMenuItemHint(mnuFileOpenSub, '_recents');
   UpdateMenuItemHint(mnuFileEnds, '_ends');
@@ -3906,7 +3906,7 @@ procedure TfmMain.FormShow(Sender: TObject);
       (MainMenu.Items[0]=mnuFile) and
       (MainMenu.Items[1]=mnuEdit) and
       (MainMenu.Items[2]=mnuSel) and
-      (MainMenu.Items[MainMenu.Items.Count-1]=mnuGroups) then
+      (MainMenu.Items[MainMenu.Items.Count-2]=mnuSplit) then
       exit;
 
     UpdateMenuItem_SetShortcutsRecursively(MainMenu.Items, 2);

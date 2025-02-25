@@ -449,21 +449,6 @@ object fmMain: TfmMain
       object mnuViewMicromap: TMenuItem
         Caption = 'Toggle micr&omap'
       end
-      object mnuViewSplitSub: TMenuItem
-        Caption = '&Split tab'
-        object mnuViewSplitNo: TMenuItem
-          Caption = 'Do not split'
-          RadioItem = True
-        end
-        object mnuViewSplitV: TMenuItem
-          Caption = 'Vertically'
-          RadioItem = True
-        end
-        object mnuViewSplitH: TMenuItem
-          Caption = 'Horizontally'
-          RadioItem = True
-        end
-      end
       object mnuLexers: TMenuItem
         Caption = 'Le&xers...'
       end
@@ -578,35 +563,26 @@ object fmMain: TfmMain
         Caption = 'Select translation...'
       end
     end
-    object mnuHelp: TMenuItem
-      Caption = '&Help'
-      object mnuHelpCmd: TMenuItem
-        Caption = '&Command palette...'
+    object mnuSplit: TMenuItem
+      Caption = 'Sp&lit'
+      object mnuSplitNo: TMenuItem
+        Caption = 'Don''t split tab'
+        GroupIndex = 1
+        RadioItem = True
       end
-      object mnuHelpSep1: TMenuItem
+      object mnuSplitV: TMenuItem
+        Caption = 'Split tab vertically'
+        GroupIndex = 1
+        RadioItem = True
+      end
+      object mnuSplitH: TMenuItem
+        Caption = 'Split tab horizontally'
+        GroupIndex = 1
+        RadioItem = True
+      end
+      object mnuSplitSep: TMenuItem
         Caption = '-'
       end
-      object mnuHelpForum: TMenuItem
-        Caption = '&Forum'
-      end
-      object mnuHelpWiki: TMenuItem
-        Caption = '&Wiki'
-      end
-      object mnuHelpIssues: TMenuItem
-        Caption = '&Report an issue'
-      end
-      object mnuHelpCheckUpd: TMenuItem
-        Caption = 'Check for &updates...'
-      end
-      object mnuHelpSep2: TMenuItem
-        Caption = '-'
-      end
-      object mnuHelpAbout: TMenuItem
-        Caption = '&About...'
-      end
-    end
-    object mnuGroups: TMenuItem
-      Caption = '&='
       object mnuGr1: TMenuItem
         Caption = 'O&ne group'
         RadioItem = True
@@ -658,6 +634,33 @@ object fmMain: TfmMain
       object mnuGr6: TMenuItem
         Caption = '&6 grid'
         RadioItem = True
+      end
+    end
+    object mnuHelp: TMenuItem
+      Caption = '&Help'
+      object mnuHelpCmd: TMenuItem
+        Caption = '&Command palette...'
+      end
+      object mnuHelpSep1: TMenuItem
+        Caption = '-'
+      end
+      object mnuHelpForum: TMenuItem
+        Caption = '&Forum'
+      end
+      object mnuHelpWiki: TMenuItem
+        Caption = '&Wiki'
+      end
+      object mnuHelpIssues: TMenuItem
+        Caption = '&Report an issue'
+      end
+      object mnuHelpCheckUpd: TMenuItem
+        Caption = 'Check for &updates...'
+      end
+      object mnuHelpSep2: TMenuItem
+        Caption = '-'
+      end
+      object mnuHelpAbout: TMenuItem
+        Caption = '&About...'
       end
     end
   end

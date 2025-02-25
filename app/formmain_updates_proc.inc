@@ -897,9 +897,9 @@ begin
     cCommand_ToggleUnprintedEnds : DoSave(mi, mnuViewUnpriEnds_Alt);
     cCommand_ToggleUnprintedEndDetails : DoSave(mi, mnuViewUnpriEndsDet_Alt);
 
-    cmd_SplitTabNo: DoSave(mi, mnuViewSplitNo_Alt);
-    cmd_SplitTabVert: DoSave(mi, mnuViewSplitV_Alt);
-    cmd_SplitTabHorz: DoSave(mi, mnuViewSplitH_Alt);
+    cmd_SplitTabNo: DoSave(mi, mnuSplitNo_Alt);
+    cmd_SplitTabVert: DoSave(mi, mnuSplitV_Alt);
+    cmd_SplitTabHorz: DoSave(mi, mnuSplitH_Alt);
 
     cmd_ToggleToolbar : DoSave(mi, mnuViewToolbar_Alt);
     cmd_ToggleStatusbar : DoSave(mi, mnuViewStatus_Alt);
@@ -1033,9 +1033,9 @@ begin
   UpdateMenuItemHotkey(mnuGr6H, cmd_Groups6horz);
   UpdateMenuItemHotkey(mnuGr6, cmd_Groups6grid);
 
-  UpdateMenuItemHotkey(mnuViewSplitNo, cmd_SplitTabNo);
-  UpdateMenuItemHotkey(mnuViewSplitV, cmd_SplitTabVert);
-  UpdateMenuItemHotkey(mnuViewSplitH, cmd_SplitTabHorz);
+  UpdateMenuItemHotkey(mnuSplitNo, cmd_SplitTabNo);
+  UpdateMenuItemHotkey(mnuSplitV, cmd_SplitTabVert);
+  UpdateMenuItemHotkey(mnuSplitH, cmd_SplitTabHorz);
 
   UpdateMenuItemHotkey(mnuViewWrap, cCommand_ToggleWordWrap);
   UpdateMenuItemHotkey(mnuViewNums, cCommand_ToggleLineNums);
@@ -1157,8 +1157,12 @@ begin
     mnuViewMinimap.Enabled:= bEditor;
   if Assigned(mnuViewMicromap) then
     mnuViewMicromap.Enabled:= bEditor;
-  if Assigned(mnuViewSplitSub) then
-    mnuViewSplitSub.Enabled:= bEditor;
+  if Assigned(mnuSplitNo) then
+    mnuSplitNo.Enabled:= bEditor;
+  if Assigned(mnuSplitV) then
+    mnuSplitV.Enabled:= bEditor;
+  if Assigned(mnuSplitH) then
+    mnuSplitH.Enabled:= bEditor;
   if Assigned(mnuLexers) then
     mnuLexers.Enabled:= bEditor;
 end;
@@ -1194,9 +1198,9 @@ end;
 procedure TfmMain.UpdateMenuChecks_FrameSplit(F: TEditorFrame);
 begin
   if F=nil then exit;
-  UpdateMenuItemChecked(mnuViewSplitNo, mnuViewSplitNo_Alt, not F.Splitted);
-  UpdateMenuItemChecked(mnuViewSplitV, mnuViewSplitV_Alt, F.Splitted and not F.SplitHorz);
-  UpdateMenuItemChecked(mnuViewSplitH, mnuViewSplitH_Alt, F.Splitted and F.SplitHorz);
+  UpdateMenuItemChecked(mnuSplitNo, mnuSplitNo_Alt, not F.Splitted);
+  UpdateMenuItemChecked(mnuSplitV, mnuSplitV_Alt, F.Splitted and not F.SplitHorz);
+  UpdateMenuItemChecked(mnuSplitH, mnuSplitH_Alt, F.Splitted and F.SplitHorz);
 end;
 
 procedure TfmMain.UpdateTreeByTimer;

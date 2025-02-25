@@ -261,11 +261,6 @@ begin
     DoLocMenuitem(ini, mnuGr6V, 'm_v', 'g6v');
     DoLocMenuitem(ini, mnuGr6, 'm_v', 'g6');
 
-    DoLocMenuitem(ini, mnuViewSplitSub, 'm_v', 's_');
-    DoLocMenuitem(ini, mnuViewSplitNo, 'm_v', 'sp_n');
-    DoLocMenuitem(ini, mnuViewSplitV, 'm_v', 'sp_v');
-    DoLocMenuitem(ini, mnuViewSplitH, 'm_v', 'sp_h');
-
     DoLocMenuitem(ini, mnuViewHint1, 'm_v', 'st_l');
     DoLocMenuitem(ini, mnuViewHint2, 'm_v', 'st_g');
 
@@ -319,6 +314,10 @@ begin
     DoMenuitemEllipsis(mnuOpThemeSyntax);
     DoMenuitemEllipsis(mnuOpThemes);
     DoMenuitemEllipsis(mnuOpLangs);
+
+    DoLocMenuitem(ini, mnuSplitNo, 'm_sp', 'sp_n');
+    DoLocMenuitem(ini, mnuSplitV, 'm_sp', 'sp_v');
+    DoLocMenuitem(ini, mnuSplitH, 'm_sp', 'sp_h');
 
     DoLocMenuitem(ini, mnuHelp, 'm_h', '_');
     DoLocMenuitem(ini, mnuHelpCmd, 'm_h', 'co');
