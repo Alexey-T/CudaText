@@ -315,9 +315,10 @@ begin
     DoMenuitemEllipsis(mnuOpThemes);
     DoMenuitemEllipsis(mnuOpLangs);
 
-    DoLocMenuitem(ini, mnuSplitNo, 'm_sp', 'sp_n');
-    DoLocMenuitem(ini, mnuSplitV, 'm_sp', 'sp_v');
-    DoLocMenuitem(ini, mnuSplitH, 'm_sp', 'sp_h');
+    DoLocMenuitem(ini, mnuSplit, 'm_v', 'sp_');
+    DoLocMenuitem(ini, mnuSplitNo, 'm_v', 'sp_n');
+    DoLocMenuitem(ini, mnuSplitV, 'm_v', 'sp_v');
+    DoLocMenuitem(ini, mnuSplitH, 'm_v', 'sp_h');
 
     DoLocMenuitem(ini, mnuHelp, 'm_h', '_');
     DoLocMenuitem(ini, mnuHelpCmd, 'm_h', 'co');

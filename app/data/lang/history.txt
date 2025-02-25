@@ -1,5 +1,10 @@
 See http://wiki.freepascal.org/CudaText#How_to_make_translation
 
+2025.02.25
+* delete [m_v] s_ g_
++ [m_v] sp_
+* change [m_v] sp_n sp_v sp_h
+
 2024.10.19
 * delete [d_unpri] end_wrp
 + [d_unpri] wrp
