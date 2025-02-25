@@ -14,6 +14,7 @@
 - fix: after saving of tab "RegEx matches", make tab title usual, ie showing the filename (thanks @adoeller)
 - fix: with selection at document end, if we do Delete, then one line was lost during Undo (thanks @pintassilgo)
 - fix: lexer JS: fixed several bugs which prevented OK highlight of Vivaldi's 3Mb minified JS file
+* change: top menu item '=' renamed to 'Split' and 3 menu items from 'View / Split tab' moved to this new 'Split'
 * change: lexer JS: disabled UPPERCASE_ID highlight; disabled function/class names highlight
 * change: lexer Python: disabled UPPERCASE_ID highlight
 * change: lexer Ini files ^: removed highlight of numbers
