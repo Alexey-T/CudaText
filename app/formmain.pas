@@ -9801,7 +9801,7 @@ begin
   begin
     FNeedUpdateMenuPlugins:= false;
     UpdateMenuPlugins; //takes ~30 msec, rather slow
-    UpdateMenuPlugins_Shortcuts_Work(true);
+    UpdateMenuPlugins_Shortcuts_Work(true); //xxxxx_Work(): update hotkeys _now_, without timer
     UpdateMenuHotkeys; //takes ~3 msec
     DoPyEvent(nil, TAppPyEvent.OnInitPluginsMenu, []);
   end;
