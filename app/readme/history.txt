@@ -3,6 +3,8 @@
   - fixed
   * changed
 
+- fix: Project Manager: code was auto-hiding toolbar's first button instead of the last one 'Sync' button (thanks @ildarkhasanshin)
+
 1.221.5 (2025/02)
 
 + add: auto-completion: it is possible to configure symbols-chars allowed before caret, via new option "autocomplete_symbol_chars_allowed"
