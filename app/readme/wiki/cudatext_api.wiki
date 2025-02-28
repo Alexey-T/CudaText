@@ -1001,10 +1001,15 @@ Properties "ex0"..."ex9" are specific to each control kind. They have different 
 
 * "button":
 ** "ex0": bool: default for Enter key
-* "edit", "memo":
+* "edit":
 ** "ex0": bool: read-only
 ** "ex1": bool: font is monospaced
 ** "ex2": bool: show border
+* "memo":
+** "ex0": bool: read-only
+** "ex1": bool: font is monospaced
+** "ex2": bool: show border
+** "ex3": bool: word wrap
 * "spinedit":
 ** "ex0": int: min value
 ** "ex1": int: max value
@@ -5108,5 +5113,8 @@ It provides:
 * add: Editor.get_prop/set_prop: PROP_GUTTER_BM_WIDTH
 * delete PROP_UNPRINTED_END_ONLY_WRAP (replaced with PROP_UNPRINTED_WRAPS with different logic)
 * change: tree_proc: TREE_ITEM_ENUM* return empty list when no items (before they returned None)
+
+1.0.463 (1.221.6)
+* add: dlg_proc: "memo" control has new property "ex3" - word wrap state
 
 [[Category:CudaText]]

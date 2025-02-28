@@ -1305,6 +1305,11 @@ begin
         begin
           TCustomEdit(C).BorderStyle:= cControlBorderStyles[AppStrToBool(S)];
         end;
+      3: //Word wrap
+        begin
+          if C is TMemo then
+            TMemo(C).WordWrap:= AppStrToBool(S);
+        end;
     end;
     exit;
   end;
