@@ -5981,6 +5981,18 @@ begin
             Result:= PyLong_FromLong(Ord(i));
           end;
 
+        APP_PROC_SET_FILE_RECENTS:
+          begin
+            AppListRecents.Clear;
+            Sep.Init(Str, #10);
+            while Sep.GetItemStr(Str1) do
+              SAddStringToHistory(
+                AppCollapseHomeDirInFilename(Str1),
+                AppListRecents,
+                UiOps.MaxHistoryMenu);
+            Result:= ReturnNone;
+          end;
+
         APP_PROC_CONFIG_NEWDOC_EOL_GET:
           begin
             Result:= PyLong_FromLong(Ord(UiOps.NewdocEnds));
