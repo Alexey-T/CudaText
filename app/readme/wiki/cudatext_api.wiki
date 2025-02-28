@@ -5115,6 +5115,6 @@ It provides:
 * change: tree_proc: TREE_ITEM_ENUM* return empty list when no items (before they returned None)
 
 1.0.463 (1.221.6)
-* add: dlg_proc: "memo" control has new property "ex3" - word wrap state
+* add: dlg_custom, dlg_proc: "memo" control has new property "ex3" - word wrap state
 
 [[Category:CudaText]]
