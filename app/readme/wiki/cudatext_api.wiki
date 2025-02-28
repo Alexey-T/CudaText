@@ -238,6 +238,7 @@ Parameter "text" is usually string, but can be of other types (bool, int, float,
 
 * PROC_SET_FOLDER: Sets path of folder which will be used as initial folder in program's Open/Save-as dialogs.
 * PROC_SET_PROJECT: Informs the program that some "project" (in the Project Manager) has been opened or closed. Program will fire "on_state" event with APPSTATE_PROJECT.
+* PROC_SET_FILE_RECENTS: Fills "recent filenames" list. Param "text" must be string, "\n"-separated filenames. First filename will be in the bottom of recents, last one will be in the top.
 
 * PROC_WINDOW_TOPMOST_GET: Returns bool flag: main window has "always on top" style.
 * PROC_WINDOW_TOPMOST_SET: Sets bool flag: main window has "always on top" style.
@@ -5116,5 +5117,6 @@ It provides:
 
 1.0.463 (1.221.6)
 * add: dlg_custom, dlg_proc: "memo" control has new property "ex3" - word wrap state
+* add: app_proc: PROC_SET_FILE_RECENTS
 
 [[Category:CudaText]]
