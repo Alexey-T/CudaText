@@ -348,7 +348,7 @@ class Command:
         _toolbar_add_btn(self.h_bar, hint=_('Project sessions'), icon=icon_cfg, command='cuda_project_man.menu_cfg')
         _toolbar_add_btn(self.h_bar, hint=_('Sync project-tree with current editor file'), icon=icon_sync, command='cuda_project_man.sync_to_ed' )
 
-        self.h_btn_sync = toolbar_proc(self.h_bar, TOOLBAR_GET_BUTTON_HANDLE, index=0)
+        self.h_btn_sync = toolbar_proc(self.h_bar, TOOLBAR_GET_BUTTON_HANDLE, index=8) # keep button index valid!
         button_proc(self.h_btn_sync, BTN_SET_VISIBLE, not self.options.get('always_sync', False))
 
         toolbar_proc(self.h_bar, TOOLBAR_SET_WRAP, index=True)
