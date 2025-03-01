@@ -1,5 +1,8 @@
 See http://wiki.freepascal.org/CudaText#How_to_make_translation
 
+2025.03.01
+* change: removed 'toggle ' in items in [m_v]
+
 2025.02.25
 * delete [m_v] s_ g_
 + [m_v] sp_

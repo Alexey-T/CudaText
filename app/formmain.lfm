@@ -432,22 +432,22 @@ object fmMain: TfmMain
         Enabled = False
       end
       object mnuViewWrap: TMenuItem
-        Caption = 'Toggle &word-wrap'
+        Caption = '&Word wrap'
       end
       object mnuViewNums: TMenuItem
-        Caption = 'Toggle line &numbers'
+        Caption = 'Line &numbers'
       end
       object mnuViewFold: TMenuItem
-        Caption = 'Toggle code &folding'
+        Caption = 'Code &folding'
       end
       object mnuViewRuler: TMenuItem
-        Caption = 'Toggle &ruler'
+        Caption = '&Ruler'
       end
       object mnuViewMinimap: TMenuItem
-        Caption = 'Toggle &minimap'
+        Caption = '&Minimap'
       end
       object mnuViewMicromap: TMenuItem
-        Caption = 'Toggle micr&omap'
+        Caption = 'Micr&omap'
       end
       object mnuLexers: TMenuItem
         Caption = 'Le&xers...'
@@ -460,37 +460,37 @@ object fmMain: TfmMain
         Enabled = False
       end
       object mnuViewToolbar: TMenuItem
-        Caption = 'Toggle &toolbar'
+        Caption = '&Toolbar'
       end
       object mnuViewStatus: TMenuItem
-        Caption = 'Toggle st&atusbar'
+        Caption = 'St&atusbar'
       end
       object mnuViewSidebar: TMenuItem
-        Caption = 'Toggle sidebar'
+        Caption = 'Sidebar'
       end
       object mnuViewSide: TMenuItem
-        Caption = 'Toggle s&ide panel'
+        Caption = 'S&ide panel'
       end
       object mnuViewBottom: TMenuItem
-        Caption = 'Toggle &bottom panel'
+        Caption = '&Bottom panel'
       end
       object mnuViewFloatSide: TMenuItem
-        Caption = 'Toggle floating side panel'
+        Caption = 'Floating side panel'
       end
       object mnuViewFloatBottom: TMenuItem
-        Caption = 'Toggle floating bottom panel'
+        Caption = 'Floating bottom panel'
       end
       object mnuViewSep2: TMenuItem
         Caption = '-'
       end
       object mnuViewFullscr: TMenuItem
-        Caption = 'Toggle full-scr&een'
+        Caption = 'Full-scr&een'
       end
       object mnuViewDistFree: TMenuItem
-        Caption = 'Toggle distraction-free'
+        Caption = 'Distraction-free'
       end
       object mnuViewOnTop: TMenuItem
-        Caption = 'Toggle always on top'
+        Caption = 'Always on top'
       end
     end
     object mnuPlugins: TMenuItem
