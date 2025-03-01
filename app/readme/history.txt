@@ -3,7 +3,8 @@
   - fixed
   * changed
 
-- fix: Project Manager: code was auto-hiding toolbar's first button instead of the last one 'Sync' button (thanks @ildarkhasanshin)
++ add: API to set recent-filenames list
+- fix: Project Manager: code was auto-hiding toolbar's first button instead of the last 'Sync' button (thanks @ildarkhasanshin)
 
 1.221.5 (2025/02)
 

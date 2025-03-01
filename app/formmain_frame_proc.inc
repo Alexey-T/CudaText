@@ -96,6 +96,7 @@ end;
 procedure TfmMain.FrameOnUpdateState(Sender: TObject);
 begin
   UpdateMenuChecks(false);
+  UpdateStatusbar;
 end;
 
 procedure TfmMain.DoCodetree_StopUpdate;
