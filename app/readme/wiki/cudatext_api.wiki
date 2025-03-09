@@ -1895,7 +1895,8 @@ Some actions get dict for menu items. Note that some keys are optional, they are
 * (optional) "en", bool: menu item is enabled
 * (optional) "vis", bool: menu item is visible
 * (optional) "checked", bool: menu item is checked
-* (optional) "radio", bool: menu item has rounded checkmark
+* (optional) "radio", bool: menu item has 'radio' kind, ie it has circle checkmark
+* (optional) "group", int: menu item has non-zero 'group index'
 
 ====menu_proc - Actions====
 
