@@ -419,7 +419,10 @@ begin
   AppPanels[TAppPanelId.Side].PanelGrouper.Enabled:= b;
 
   if Assigned(fmFind) then
+  begin
     fmFind.Enabled:= b;
+    fmFind.UpdateState(false);
+  end;
 end;
 
 procedure TfmMain.UpdateAppForSearch(AStart, AEdLock, AFindMode, AUpdateEnableAll, AFocusFindDlg: boolean);
