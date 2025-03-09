@@ -1708,6 +1708,8 @@ begin
   chkRegexSubst.Enabled:= bEnabled and IsReplace and not FForViewer and chkRegex.Checked;
   chkPreserveCase.Enabled:= bEnabled and IsReplace and not FForViewer and not chkRegex.Checked;
   bTokens.Enabled:= bEnabled and not FForViewer;
+  chkHiAll.Enabled:= bEnabled;
+  chkImmediate.Enabled:= bEnabled;
 
   bFindFirst.Visible:= UiOps.FindShow_FindFirst;
   bFindNext.Visible:= UiOps.FindShow_FindNext;
