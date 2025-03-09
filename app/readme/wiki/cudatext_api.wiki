@@ -5117,7 +5117,7 @@ It provides:
 * delete PROP_UNPRINTED_END_ONLY_WRAP (replaced with PROP_UNPRINTED_WRAPS with different logic)
 * change: tree_proc: TREE_ITEM_ENUM* return empty list when no items (before they returned None)
 
-1.0.463 (1.221.6)
+1.0.463 (1.222.0)
 * add: dlg_custom, dlg_proc: "memo" control has new property "ex3" - word wrap state
 * add: app_proc: PROC_SET_FILE_RECENTS
 * add: menu_proc: MENU_SET_GROUPINDEX
