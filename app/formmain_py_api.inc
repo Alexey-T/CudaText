@@ -6651,6 +6651,15 @@ begin
             Result:= ReturnNone;
           end;
 
+        MENU_SET_GROUPINDEX:
+          begin
+            PopupItem:= PyHelper_MenuItemFromId(StrMenu);
+            if Assigned(PopupItem) then
+              PopupItem.GroupIndex:= StrToIntDef(StrCmd, 0);
+            fmMain.FNeedAppState_MenuChange:= true;
+            Result:= ReturnNone;
+          end;
+
         MENU_SET_HOTKEY:
           begin
             PopupItem:= PyHelper_MenuItemFromId(StrMenu);
