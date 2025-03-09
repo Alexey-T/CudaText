@@ -6655,7 +6655,7 @@ begin
           begin
             PopupItem:= PyHelper_MenuItemFromId(StrMenu);
             if Assigned(PopupItem) then
-              PopupItem.GroupIndex:= StrToIntDef(StrCmd, 0);
+              PopupItem.GroupIndex:= NIndex;
             fmMain.FNeedAppState_MenuChange:= true;
             Result:= ReturnNone;
           end;

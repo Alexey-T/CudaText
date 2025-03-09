@@ -1925,6 +1925,7 @@ Possible values of "id_action":
 * MENU_SET_RADIOITEM: Changes radio kind of menu item. When item has radio kind, its checkmark is round (in checked state). Param "command" must be bool value.
 * MENU_SET_IMAGELIST: Changes imagelist object of menu, which contains menu item. Param "command" must be imagelist handle.
 * MENU_SET_IMAGEINDEX: Changes icon index of menu item (index in imagelist). Param "index" must be icon index.
+* MENU_SET_GROUPINDEX: Changes group index of menu item. Has meaning only for "radio kind" menu items. Checkmarks will be independent for menu items with different group indexes. Param "index" must be group index, default is 0.
 
 * MENU_SET_AUTO_HOTKEY: Sets the hotkey of menu item according to this item's command code (which must be already set). It skips some special commands: "Clipboard copy", "Clipboard paste", "Clipboard cut", "Select all", "Undo", "Redo" (because for example Ctrl+C hotkey in the top menu overrides the Ctrl+C pressing in the Console / Code-Tree filter / docked plugin dialogs). And it skips some special hotkeys: Esc, Shift+Tab.
 * MENU_SET_AUTO_HOTKEY_DEEP: Performs the action MENU_SET_AUTO_HOTKEY for all menu items nested in the given submenu. The deepness of the recusion (0-based) must be given in the param "command" as str(int_value).
@@ -5118,5 +5119,6 @@ It provides:
 1.0.463 (1.221.6)
 * add: dlg_custom, dlg_proc: "memo" control has new property "ex3" - word wrap state
 * add: app_proc: PROC_SET_FILE_RECENTS
+* add: menu_proc: MENU_SET_GROUPINDEX
 
 [[Category:CudaText]]
