@@ -8470,6 +8470,9 @@ begin
 
     if not mi.Visible then
       PyDict_SetItemString(Result, 'vis', Py_False);
+
+    if mi.GroupIndex<>0 then
+      PyDict_SetItemString(Result, 'group', PyLong_FromLong(mi.GroupIndex));
   end;
 end;
 
