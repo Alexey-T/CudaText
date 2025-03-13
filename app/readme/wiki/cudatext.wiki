@@ -2395,17 +2395,13 @@ There is [https://github.com/Alexey-T/CudaText_up Linux script CudaText_up] - it
 
 You may get this error:
 
- (path)/atsynedit_adapter_gtk2ime.pas(131,5) Error: (5000) Identifier not found "IM_Context_Set_Cursor_Pos"
+ atsynedit_adapter_gtk2ime.pas(131,5) Error: (5000) Identifier not found "IM_Context_Set_Cursor_Pos"
 
-To fix this error, edit the file atsynedit/atsynedit_package.lpk and remove this block there:
-<syntaxhighlight lang="xml">
-      <Other>
-        <CustomOptions Value="-dGTK2_IME_CODE"/>
-        <OtherDefines Count="1">
-          <Define0 Value="GTK2_IME_CODE"/>
-        </OtherDefines>
-      </Other>
-</syntaxhighlight>
+To avoid this error, open IDE dialog "Tools / Configure 'Build Lazarus'", and there enable the define:
+
+ WITH_GTK2_IM
+
+then recompile the IDE.
 
 '''CudaText_up on Windows'''
 
