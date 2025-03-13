@@ -17,13 +17,15 @@ def is_correct_id(name):
             return False
     return True
 
-def get_module_dir():
+def get_module_dir_name():
+    names_init = ['my_plugin_', 'My plugin']
     dir = app_path(APP_DIR_PY)
     for i in range(2000):
-        name = 'test'+str(i+1)
+        name = names_init[0]+str(i+1)
+        title = names_init[1]+' '+str(i+1)
         if not os.path.isdir(os.path.join(dir, 'cuda_'+name)):
-            return name
-    return 'test'
+            return name, title
+    return names_init[0], names_init[1]
 
 
 def dlg_make_plugin():
@@ -44,9 +46,8 @@ def dlg_make_plugin():
     id_ok = 9
     c1 = chr(1)
 
-    s_caption = 'Test plugin'
-    s_module = get_module_dir()
-    s_plugin_items = 'Test command>run'
+    s_module, s_caption = get_module_dir_name()
+    s_plugin_items = 'My command>run'
     s_events_checks = ''
 
     while True:

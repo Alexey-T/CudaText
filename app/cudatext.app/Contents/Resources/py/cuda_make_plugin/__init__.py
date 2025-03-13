@@ -7,7 +7,9 @@ from .events import *
 _   = get_translation(__file__)  # I18N
 
 fn_sample_begin = os.path.join(os.path.dirname(__file__), 'sample_begin.py')
+fn_sample_begin_config = os.path.join(os.path.dirname(__file__), 'sample_begin_config.py')
 fn_sample_body = os.path.join(os.path.dirname(__file__), 'sample_body.py')
+fn_sample_body_config = os.path.join(os.path.dirname(__file__), 'sample_body_config.py')
 dir_py = app_path(APP_DIR_PY)
 
 
@@ -38,15 +40,21 @@ class Command:
         # create __init__.py
         fn_py = os.path.join(dir_plugin, '__init__.py')
         with open(fn_py, 'w', encoding='utf8') as f:
-            text = open(fn_sample_begin, encoding='utf8').read()
-            text = text.format(module=s_module)
+            if with_config:
+                text = open(fn_sample_begin_config, encoding='utf8').read()
+                text = text.format(module=s_module)
+            else:
+                text = open(fn_sample_begin, encoding='utf8').read()
             f.write(text)
 
             #commands
             for (i, item) in enumerate(cmd_list):
                 f.write('    def %s(self):\n'%(item[1]))
                 if i==0:
-                    f.write(open(fn_sample_body, encoding='utf8').read())
+                    if with_config:
+                        f.write(open(fn_sample_body_config, encoding='utf8').read())
+                    else:
+                        f.write(open(fn_sample_body, encoding='utf8').read())
                 else:
                     f.write('        pass\n')
 
