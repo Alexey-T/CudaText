@@ -1113,8 +1113,8 @@ begin
 
       if not IsDefaultSessionActive then
       begin
-        AppSessionName:= AppExpandFileNameWithDir(AppSessionName, AppDir_Settings);
         SSplitByChar(AppSessionName, '|', sFilename, sRootPath);
+        sFilename:= AppExpandFileNameWithDir(sFilename, AppDir_Settings);
         if not FileExists(sFilename) then
           AppSessionName:= '';
       end;
