@@ -3,6 +3,9 @@
   - fixed
   * changed
 
++ add: Make_Plugin plugin: strip all config code if "Add config menu item" option was not used (patch by @ildarkhasanshin)
+- fix: Windows: after activating project-session + app restarting, session is shown in the app title wrongly
+
 1.222.0 (2025/03)
 
 * change: removed word "Toggle" from menu items in the View menu
