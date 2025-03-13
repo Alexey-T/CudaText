@@ -2403,6 +2403,8 @@ To avoid this error, open IDE dialog "Tools / Configure 'Build Lazarus'", and th
 
 then recompile the IDE. To enable the define, press the "Edit Defines" button in the dialog, small memo-dialog will open. Write there "WITH_GTK2_IM", press OK, word will appear in the "Configure 'Build Lazarus'" dialog. Place the checkmark near this word.
 
+[[File:atsynedit_ide_defines.png|Enable these IDE defines]]
+
 '''CudaText_up on Windows'''
 
 Few tricks are required to build CudaText via CudaText_up. Retrieve https://github.com/Alexey-T/CudaText_up using "git clone". Use Git Bash to run the cudaup.sh:
