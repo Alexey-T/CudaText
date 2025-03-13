@@ -2401,7 +2401,7 @@ To avoid this error, open IDE dialog "Tools / Configure 'Build Lazarus'", and th
 
  WITH_GTK2_IM
 
-then recompile the IDE.
+then recompile the IDE. To enable the define, press the "Edit Defines" button in the dialog, small memo-dialog will open. Write there "WITH_GTK2_IM", press OK, word will appear in the "Configure 'Build Lazarus'" dialog. Place the checkmark near this word.
 
 '''CudaText_up on Windows'''
 
