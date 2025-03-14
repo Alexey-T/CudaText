@@ -14,6 +14,7 @@
 + add: plugin API allows to set recent-filenames list
 - fix: Project Manager: code was auto-hiding toolbar's first button instead of the last 'Sync' button (thanks @ildarkhasanshin)
 - fix: find-bar gets locked if Enter is pressed on 'big' file with 'Im' option (thanks @pintassilgo)
+- fix: statusbar 'RO' state was not updated on pressing hotkey for Read-Only (thanks @BetoValle)
 
 1.221.5 (2025/02)
 
