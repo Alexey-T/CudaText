@@ -19,9 +19,6 @@ class Command:
         if res is None: return
         (s_caption, s_module, cmd_list, event_list, with_config) = res
 
-        if len(cmd_list)>1:
-            cmd_list = [(s[0], s[1], s[2]) for s in cmd_list]
-
         #-------------
         # create dir
         dir_plugin = os.path.join(dir_py, s_module)
