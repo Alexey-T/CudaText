@@ -19,10 +19,6 @@ class Command:
         if res is None: return
         (s_caption, s_module, cmd_list, event_list, with_config) = res
 
-        if len(cmd_list)>1:
-            prefix = s_caption+'\\'
-            cmd_list = [(prefix+s[0], s[1], s[2]) for s in cmd_list]
-
         #-------------
         # create dir
         dir_plugin = os.path.join(dir_py, s_module)
@@ -56,7 +52,7 @@ class Command:
                     else:
                         f.write(open(fn_sample_body, encoding='utf8').read())
                 else:
-                    f.write('        pass\n')
+                    f.write('        pass\n\n')
 
             #events
             for item in event_list:
@@ -65,7 +61,7 @@ class Command:
                 if par_add:
                     par+=', '+par_add
                 f.write('    def %s(%s):\n'%(item, par))
-                f.write('        pass\n')
+                f.write('        pass\n\n')
 
         #------------
         # create install.inf

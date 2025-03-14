@@ -18,11 +18,11 @@ def is_correct_id(name):
     return True
 
 def get_module_dir_name():
-    names_init = ['my_plugin_', 'My plugin']
+    names_init = ['my_plugin_', 'My plugin ']
     dir = app_path(APP_DIR_PY)
     for i in range(2000):
         name = names_init[0]+str(i+1)
-        title = names_init[1]+' '+str(i+1)
+        title = names_init[1]+str(i+1)
         if not os.path.isdir(os.path.join(dir, 'cuda_'+name)):
             return name, title
     return names_init[0], names_init[1]
