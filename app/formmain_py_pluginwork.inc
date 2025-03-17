@@ -2,8 +2,6 @@
 
 function IsPluginBad(const ADirName: string; out AShowWarning: boolean): boolean;
 begin
-  AShowWarning:= false;
-
   case ADirName of
     'cuda_tree', //replaced with built-in tree-helper engine
     'cuda_tree_markdown', //rewritten in Pascal
@@ -13,13 +11,12 @@ begin
     'cuda_tree_textile', //rewritten in Pascal
     'cuda_auto_copy', //replaced with built-in code
     'cuda_brackets_hilite': //replaced with built-in code
-    begin
       Result:= true;
-      AShowWarning:= true;
-    end
     else
       Result:= false;
   end;
+
+  AShowWarning:= Result;
 
   if not Result then
     if SBeginsWith(ADirName, 'cuda_lint_') or //sub-plugins of CudaLinter
