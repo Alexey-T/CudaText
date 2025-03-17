@@ -5,8 +5,9 @@
 
 1.222.1 (2025/03)
 
-+ add: Make_Plugin plugin: strip config code if "Add config menu item" option was not checked; better numerate plugin's folder/name (patch by @ildarkhasanshin)
++ add: 'Make Plugin' plugin: strip config code if "Add config menu item" option was not checked; better numerate plugin's folder/name (patch by @ildarkhasanshin)
 - fix: Windows: after activating project-session + app restarting, session is shown in the app title wrongly
+- fix: wrong Undo/Redo after pasting a line at the end of single-line document (thanks @pintassilgo)
 
 1.222.0 (2025/03)
 
