@@ -2004,6 +2004,7 @@ begin
   try
     dlg.Font.Name:= OpName;
     dlg.Font.Size:= OpSize;
+    dlg.Options:= dlg.Options-[fdEffects];
     if not dlg.Execute then exit;
     OpName:= dlg.Font.Name;
     bSizeValid:= dlg.Font.Size>=7; //workaround for issue #3900: Win10 returns font size=0
