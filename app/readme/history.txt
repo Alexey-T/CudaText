@@ -9,7 +9,7 @@
 + add: Addons Manager: on updating addons, show progress like "(1/5) Updating: ..." (idea by @LouieTian0209)
 - fix: Windows: after activating project-session + app restarting, session is shown in the app title wrongly
 - fix: wrong Undo/Redo after pasting multi-line block at the end of single-line document (thanks @pintassilgo)
-- fix: for e.g. JavaScript IIFE blocks, hide nested fold-block to improve fold-bar usability (thanks @pintassilgo)
+- fix: for JavaScript IIFE blocks, hide outer fold-block to improve fold-bar usability (thanks @pintassilgo)
 
 1.222.0 (2025/03)
 
