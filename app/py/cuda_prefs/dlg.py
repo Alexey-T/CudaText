@@ -840,6 +840,7 @@ class DialogMK2:
         edt.set_prop(PROP_LAST_LINE_ON_TOP, False)
         edt.set_prop(PROP_HILITE_CUR_LINE, False)
         edt.set_prop(PROP_WRAP, WRAP_ON_WINDOW)
+        edt.set_prop(PROP_UNPRINTED_SHOW, False)
 
         # scopes combo
         scopes = [ui_column(COL_VAL_USER)]
