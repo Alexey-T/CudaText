@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.222.1 (2025/03)
+1.222.3 (2025/03)
 
 + add: default value of "indent_auto_rule" in JS lexer-specific config (thanks @pintassilgo)
 + add: for JavaScript IIFE blocks, hide outer fold-block to improve fold-bar usability (thanks @pintassilgo)
