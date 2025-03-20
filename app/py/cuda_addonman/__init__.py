@@ -612,9 +612,12 @@ class Command:
         print(_('Updating addons:'))
         fail_count = 0
 
-        for a in addons:
+        for (a_index, a) in enumerate(addons):
             print('  [%s] %s' % (a['kind'], a['name']))
-            msg_status(_('Updating: [{}] {}').format(a['kind'], a['name']), True)
+            msg_status(
+                '({}/{}) '.format(a_index+1, len(addons))+
+                _('Updating: [{}] {}').format(a['kind'], a['name']),
+                True)
 
             dir_to_remove = ''
             m = a.get('module', '')
@@ -622,7 +625,10 @@ class Command:
                 # special update for Git repos
                 m_dir = os.path.join(DIR_PY, m)
                 if os.path.isdir(os.path.join(m_dir, '.git')):
-                    msg_status(_('Running "git pull" in "%s"')%m_dir, True)
+                    msg_status(
+                        '({}/{}) '.format(a_index+1, len(addons))+
+                        _('Running "git pull" in "%s"')%m_dir,
+                        True)
                     try:
                         subprocess.call(['git', 'stash', 'save'], cwd=m_dir)
                         subprocess.call(['git', 'pull'], cwd=m_dir)
