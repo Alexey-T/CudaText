@@ -5,8 +5,9 @@
 
 1.222.1 (2025/03)
 
-+ add: 'Make Plugin' plugin: strip config code if "Add config menu item" option was not checked; better numerate plugin's folder/name (patch by @ildarkhasanshin)
++ add: better default of "indent_auto_rule" in JS lexer-config (thanks @pintassilgo)
 + add: Addons Manager: on updating addons, show progress like "(1/5) Updating: ..." (idea by @LouieTian0209)
++ add: 'Make Plugin' plugin: strip config code if "Add config menu item" option was not checked; better numerate plugin's folder/name (patch by @ildarkhasanshin)
 - fix: Windows: after activating project-session + app restarting, session is shown in the app title wrongly
 - fix: wrong Undo/Redo after pasting multi-line block at the end of single-line document (thanks @pintassilgo)
 - fix: for JavaScript IIFE blocks, hide outer fold-block to improve fold-bar usability (thanks @pintassilgo)
