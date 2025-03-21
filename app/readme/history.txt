@@ -5,7 +5,7 @@
 
 1.222.3 (2025/03)
 
-+ add: default value of "indent_auto_rule" in JS lexer-specific config (thanks @pintassilgo)
++ add: added default value of "indent_auto_rule" in JS lexer-specific config (thanks @pintassilgo)
 + add: for JavaScript IIFE blocks, hide outer fold-block to improve fold-bar usability (thanks @pintassilgo)
 + add: Addons Manager: on updating addons, show progress like "(1/5) Updating: ..." (idea by @LouieTian0209)
 + add: 'Make Plugin' plugin: strip config code if "Add config menu item" option was not checked; better numerate plugin's folder/name (patch by @ildarkhasanshin)
