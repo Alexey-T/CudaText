@@ -12,6 +12,7 @@
 - fix: wrong Undo/Redo after pasting multi-line block at the end of single-line document --> code of core's TextInsert method was hardly reworked (thanks @pintassilgo)
 - fix: find-next did not update Code-Tree selection to new position (thanks @mix-7)
 - fix: Windows: after activating project-session + app restarting, session was shown in the window title wrongly
+- fix: replace dialog: bug with multi-line selection, leading to cannot replace the selection (thanks @d-mal)
 
 1.222.0 (2025/03)
 
