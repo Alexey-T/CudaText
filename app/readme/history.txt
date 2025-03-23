@@ -9,6 +9,7 @@
 + add: for JavaScript IIFE blocks, hide outer fold-block to improve fold-bar usability (thanks @pintassilgo)
 + add: Addons Manager: on updating addons, show progress like "(1/5) Updating: ..." (idea by @LouieTian0209)
 + add: 'Make Plugin' plugin: strip config code if "Add config menu item" option was not checked; better numerate plugin's folder/name (patch by @ildarkhasanshin)
++ add: session auto-saving by "ui_session_save_interval":30 now also saves backup-files, if "ui_backup_sessions" is set (thanks @longforrich)
 - fix: wrong Undo/Redo after pasting multi-line block at the end of single-line document --> code of core's TextInsert method was hardly reworked (thanks @pintassilgo)
 - fix: find-next did not update Code-Tree selection to new position (thanks @mix-7)
 - fix: Windows: after activating project-session + app restarting, session was shown in the window title wrongly
