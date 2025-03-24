@@ -584,6 +584,7 @@ The following lexers (counting only important ones) exist for CudaText. They are
 * Tree
 * Twig
 * TypeScript
+* Typst
 * Umka
 * V
 * Vala
