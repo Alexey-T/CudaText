@@ -259,19 +259,24 @@ begin
 end;
 
 procedure TfmLexerLib.UpdateList;
+const
+  cPadding = 4; //pixels to add to ScrollWidth
 var
   sl: TStringList;
   an: TecSyntAnalyzer;
   an_sub: TecSubAnalyzerRule;
-  links, suffix: string;
-  PrevIndex, i, j: integer;
+  links, suffix, SListItem: string;
+  NPrevIndex, NScrollWidth, i, j: integer;
 begin
-  PrevIndex:= List.ItemIndex;
-  List.Items.BeginUpdate;
-  List.Items.Clear;
+  NPrevIndex:= List.ItemIndex;
+  NScrollWidth:= 100;
 
   sl:= TStringList.Create;
   try
+    List.Items.BeginUpdate;
+    List.Items.Clear;
+    List.Canvas.Font.Assign(Self.Font);
+
     for i:= 0 to AppManager.LexerCount-1 do
     begin
       an:= AppManager.Lexers[i];
@@ -306,15 +311,20 @@ begin
       if an.Internal then
         suffix:= '    '+cHiddenSuffix;
 
-      List.Items.AddObject(sl[i] + links + suffix, an);
+      SListItem:= sl[i] + links + suffix;
+      List.Items.AddObject(SListItem, an);
+
+      NScrollWidth:= Max(NScrollWidth, List.Canvas.TextWidth(SListItem));
     end;
+
+    List.ScrollWidth:= NScrollWidth+cPadding;
   finally
+    List.Items.EndUpdate;
     FreeAndNil(sl);
   end;
 
-  List.Items.EndUpdate;
-  if (PrevIndex>=0) and (PrevIndex<List.Count) then
-    List.ItemIndex:= PrevIndex;
+  if (NPrevIndex>=0) and (NPrevIndex<List.Count) then
+    List.ItemIndex:= NPrevIndex;
 end;
 
 end.
