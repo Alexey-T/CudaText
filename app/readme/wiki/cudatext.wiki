@@ -714,8 +714,8 @@ If you see lexer config in SynWrite, you will find that we need styles "Comment"
  styles_str=Text,Tag val
 
 == Fenced code-blocks ==
-[[File:cudatext-fenced-blocks.png|thumb|right|Fenced code blocks]]
-[[File:cudatext-dynamic-hi.png|thumb|right|HTML/XML/Lua dynamic highlighting]]
+[[File:cudatext-fenced-blocks.png|Fenced code blocks]]
+
 This is the feature of Markdown syntax: fenced code blocks. Blocks begin with:
 * start of line
 * optional spaces
@@ -737,7 +737,17 @@ The beginning and ending sequences are tokenized as single token.
 CudaText has the file which lists the supported lexer aliases: data/lexlib/aliases.ini. The file was compiled from [https://github.com/highlightjs/highlight.js/blob/main/SUPPORTED_LANGUAGES.md this document].
 Lexer alias will be resolved to the actual lexer name, only if that lexer is installed, otherwise you won't see an error, but block will not be syntax-highlighted.
 
-Note about SQL blocks. CudaText has lexer preinstalled, it's lite lexer "SQL ^", and it cannot be used here, because lite lexer cannot be called from normal lexer. But you can install (from "Plugins / Addons Manager") normal lexers: SQL; T-SQL (T-SQL has it's own alias "tsql"). Just install one of them, and it will be used for SQL blocks.
+'''Note about SQL blocks.''' CudaText has lexer preinstalled, it's lite lexer "SQL ^", and it cannot be used here, because lite lexer cannot be called from normal lexer. But you can install (from "Plugins / Addons Manager") normal lexers: SQL; T-SQL (T-SQL has it's own alias "tsql"). Just install one of them, and it will be used for SQL blocks.
+
+'''Note about Typst lexer.''' This lexer also supports fenced code blocks but it has its own independent rules of sub-lexers. It means Typst lexer does not rely on CudaText special code to search for sub-lexers. It has own rules. For example, for sub-lexer 'Bash script', Typst has such RegEx to search for block beginning:
+
+ `{3,}(shell-script|sh|bash|zsh)\b
+
+and such RegEx to search for block ending:
+
+ `{3,}(?!\w)
+
+These two RegEx'es are independant of CudaText special code for Markdown fenced blocks.
 
 '''Limitations:'''
 * Markdown standard tells that the beginning backticks must match the ending backticks, it must be the same amount of backticks. (And the same is valid for tildes.) This is currently not supported in CudaText.
@@ -745,6 +755,8 @@ Note about SQL blocks. CudaText has lexer preinstalled, it's lite lexer "SQL ^",
 * The similar feature of the reStructuredText, as [https://pandemic-overview.readthedocs.io/en/latest/myGuides/reStructuredText-Source-Code.html documented here], is not supported. 
 
 == Dynamic highlight ==
+[[File:cudatext-dynamic-hi.png|Dynamic highlighting for HTML/XML/Lua]]
+
 Dynamic highlight is controlled by option "dynamic_highlight" (this is new option since CudaText 1.193.3, before it was 2 options "lexer_dynamic_hilite"/"lexer_dynamic_hilite_max_lines"). Option allows the caret-dependant highlighting only in documents which have not more than N (option value) lines. This limitation is useful because dynamic highlight makes lexer parsing slower.
 
 Feature enables to highlight some 'tokens' dynamically (with default greenish background color), when caret changes position. It works only when lexer is configured to use this feature. These lexers in the CudaText distro use it:
