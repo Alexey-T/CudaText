@@ -11,14 +11,14 @@ object fmColorSetup: TfmColorSetup
   Constraints.MinWidth = 200
   Position = poMainFormCenter
   ShowInTaskBar = stNever
-  LCLVersion = '3.99.0.0'
+  LCLVersion = '4.99.0.0'
   OnClose = FormClose
   OnCreate = FormCreate
   OnShow = FormShow
   object ButtonPanel1: TButtonPanel
     Left = 6
-    Height = 33
-    Top = 490
+    Height = 26
+    Top = 497
     Width = 546
     OKButton.Name = 'OKButton'
     OKButton.DefaultCaption = True
@@ -44,12 +44,12 @@ object fmColorSetup: TfmColorSetup
     ClientHeight = 242
     ClientWidth = 520
     TabOrder = 1
-    object List: TColorListBox
+    object ListColors: TColorListBox
       AnchorSideRight.Control = bChange
       Left = 6
       Height = 230
       Top = 6
-      Width = 388
+      Width = 396
       ColorRectWidth = 32
       ColorRectOffset = 1
       NoneColorColor = clNone
@@ -58,19 +58,19 @@ object fmColorSetup: TfmColorSetup
       Anchors = [akTop, akLeft, akRight, akBottom]
       BorderSpacing.Around = 6
       ItemHeight = 0
-      OnDblClick = ListDblClick
-      OnKeyDown = ListKeyDown
-      OnSelectionChange = ListSelectionChange
+      OnDblClick = ListColorsDblClick
+      OnKeyDown = ListColorsKeyDown
+      OnSelectionChange = ListColorsSelectionChange
       TabOrder = 0
     end
     object bChange: TButton
       AnchorSideLeft.Side = asrBottom
       AnchorSideRight.Control = PanelUi
       AnchorSideRight.Side = asrBottom
-      Left = 400
-      Height = 33
+      Left = 408
+      Height = 25
       Top = 120
-      Width = 114
+      Width = 106
       Anchors = [akTop, akRight]
       AutoSize = True
       BorderSpacing.Around = 6
@@ -84,10 +84,10 @@ object fmColorSetup: TfmColorSetup
       AnchorSideTop.Side = asrBottom
       AnchorSideRight.Control = bChange
       AnchorSideRight.Side = asrBottom
-      Left = 400
-      Height = 33
-      Top = 159
-      Width = 114
+      Left = 408
+      Height = 25
+      Top = 151
+      Width = 106
       Anchors = [akTop, akLeft, akRight]
       AutoSize = True
       Caption = 'Set "&none color"'
@@ -109,7 +109,7 @@ object fmColorSetup: TfmColorSetup
       Left = 6
       Height = 182
       Top = 6
-      Width = 414
+      Width = 422
       Align = alLeft
       Anchors = [akTop, akLeft, akRight, akBottom]
       BorderSpacing.Around = 6
@@ -117,7 +117,6 @@ object fmColorSetup: TfmColorSetup
       ScrollWidth = 416
       Style = lbOwnerDrawFixed
       TabOrder = 0
-      TopIndex = -1
       OnDblClick = ListStylesDblClick
       OnDrawItem = ListStylesDrawItem
     end
@@ -125,10 +124,10 @@ object fmColorSetup: TfmColorSetup
       AnchorSideLeft.Side = asrBottom
       AnchorSideRight.Control = PanelSyntax
       AnchorSideRight.Side = asrBottom
-      Left = 426
-      Height = 33
+      Left = 434
+      Height = 25
       Top = 136
-      Width = 106
+      Width = 98
       Anchors = [akTop, akRight]
       AutoSize = True
       BorderSpacing.Around = 6

@@ -36,7 +36,7 @@ type
     bStyle: TButton;
     ButtonPanel1: TButtonPanel;
     ColorDialog1: TColorDialog;
-    List: TColorListBox;
+    ListColors: TColorListBox;
     ListStyles: TListBox;
     PanelSyntax: TPanel;
     PanelUi: TPanel;
@@ -47,9 +47,9 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure HelpButtonClick(Sender: TObject);
-    procedure ListDblClick(Sender: TObject);
-    procedure ListKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure ListSelectionChange(Sender: TObject; User: boolean);
+    procedure ListColorsDblClick(Sender: TObject);
+    procedure ListColorsKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure ListColorsSelectionChange(Sender: TObject; User: boolean);
     procedure ListStylesDblClick(Sender: TObject);
     procedure ListStylesDrawItem(Control: TWinControl; AIndex: Integer; ARect: TRect; State: TOwnerDrawState);
     procedure OKButtonClick(Sender: TObject);
@@ -103,13 +103,17 @@ var
   st: TecSyntaxFormat;
   iColor: TAppThemeColor;
   iStyle: TAppThemeStyle;
-  NPrevIndex: integer;
+  NPrevIndex, NPrevTop: integer;
 begin
-  NPrevIndex:= List.ItemIndex;
-  List.Items.Clear;
+  NPrevIndex:= ListColors.ItemIndex;
+  NPrevTop:= ListColors.TopIndex;
+
+  ListColors.Items.BeginUpdate;
+  ListStyles.Items.BeginUpdate;
+  ListColors.Items.Clear;
 
   for iColor:= Low(iColor) to High(iColor) do
-    List.Items.AddObject(Data.Colors[iColor].desc, TObject(PtrInt(Data.Colors[iColor].color)));
+    ListColors.Items.AddObject(Data.Colors[iColor].desc, TObject(PtrInt(Data.Colors[iColor].color)));
 
   if ListStyles.Count=0 then
     for iStyle:= Low(iStyle) to apstLastStyle do
@@ -118,9 +122,16 @@ begin
       ListStyles.Items.AddObject(st.DisplayName, st);
     end;
 
-  if NPrevIndex<List.Items.Count then
-    List.ItemIndex:= NPrevIndex;
-  List.Invalidate;
+  ListColors.ScrollWidth:= 100;
+  ListStyles.ScrollWidth:= 100;
+
+  if NPrevIndex<ListColors.Items.Count then
+    ListColors.ItemIndex:= NPrevIndex;
+  if NPrevTop<ListColors.Items.Count then
+    ListColors.TopIndex:= NPrevTop;
+
+  ListColors.Items.EndUpdate;
+  ListStyles.Items.EndUpdate;
 end;
 
 procedure TfmColorSetup.UpdateChanged;
@@ -131,10 +142,10 @@ end;
 
 procedure TfmColorSetup.bChangeClick(Sender: TObject);
 begin
-  ColorDialog1.Color:= PtrInt(List.Items.Objects[List.ItemIndex]);
+  ColorDialog1.Color:= PtrInt(ListColors.Items.Objects[ListColors.ItemIndex]);
   if ColorDialog1.Execute then
   begin
-    Data.Colors[TAppThemeColor(List.ItemIndex)].color:= ColorDialog1.Color;
+    Data.Colors[TAppThemeColor(ListColors.ItemIndex)].color:= ColorDialog1.Color;
     UpdateList;
 
     FChanged:= true;
@@ -144,7 +155,7 @@ end;
 
 procedure TfmColorSetup.bNoneClick(Sender: TObject);
 begin
-  Data.Colors[TAppThemeColor(List.ItemIndex)].color:= clNone;
+  Data.Colors[TAppThemeColor(ListColors.ItemIndex)].color:= clNone;
   UpdateList;
 
   FChanged:= true;
@@ -224,7 +235,7 @@ begin
 
   Width:= ATEditorScale(Width);
   Height:= ATEditorScale(Height);
-  List.Width:= ATEditorScale(List.Width);
+  ListColors.Width:= ATEditorScale(ListColors.Width);
   ListStyles.Width:= ATEditorScale(ListStyles.Width);
   UpdateFormOnTop(Self);
 
@@ -232,13 +243,13 @@ begin
   PanelSyntax.Align:= alClient;
 
   UpdateList;
-  List.ItemIndex:= 0;
+  ListColors.ItemIndex:= 0;
   ListStyles.ItemIndex:= 0;
 
   FColorBg:= Data.Colors[TAppThemeColor.EdTextBg].color;
 
   if PanelUi.Visible then
-    ActiveControl:= List
+    ActiveControl:= ListColors
   else
   if PanelSyntax.Visible then
     ActiveControl:= ListStyles;
@@ -252,12 +263,12 @@ begin
     OnApply(Data, ThemeUI);
 end;
 
-procedure TfmColorSetup.ListDblClick(Sender: TObject);
+procedure TfmColorSetup.ListColorsDblClick(Sender: TObject);
 begin
   bChange.Click;
 end;
 
-procedure TfmColorSetup.ListKeyDown(Sender: TObject; var Key: Word;
+procedure TfmColorSetup.ListColorsKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   if (key=Ord(' ')) and (Shift=[]) then
@@ -268,12 +279,12 @@ begin
   end;
 end;
 
-procedure TfmColorSetup.ListSelectionChange(Sender: TObject; User: boolean);
+procedure TfmColorSetup.ListColorsSelectionChange(Sender: TObject; User: boolean);
 var
   NSel: integer;
 begin
   //disable "None color" button to some elements
-  NSel:= List.ItemIndex;
+  NSel:= ListColors.ItemIndex;
   bNone.Enabled:= (NSel>=0) and (TAppThemeColor(NSel) in cAppThemeColorsWhichAllowNone);
 end;
 
