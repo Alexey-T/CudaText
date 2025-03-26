@@ -3,6 +3,10 @@
   - fixed
   * changed
 
+1.222.4 (2025/03)
+
+* change: on opening *.cuda-session file from command-line, don't treat file as session anymore - that caused confusion for many users who wanted just to inspect the file contents
+
 1.222.3 (2025/03)
 
 + add: added default value of "indent_auto_rule" in JS lexer-specific config (thanks @pintassilgo)

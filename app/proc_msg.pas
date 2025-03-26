@@ -17,7 +17,7 @@ uses
   ATSynEdit;
 
 const
-  cAppExeVersion = '1.222.3.1';
+  cAppExeVersion = '1.222.4.0';
   cAppApiVersion = 463;
 
 const
@@ -370,8 +370,8 @@ const
       ''+EOL+
       'Filenames can be with "@line" or "@line@column" suffix to place caret.'+EOL+
       'Folder can be passed, will be opened in Project Manager plugin.'+EOL+
-      'Projects (*.cuda-proj) can be passed, will be opened in Project Manager.'+EOL+
-      'Sessions (*.cuda-session) can be passed, even without Session Manager plugin.'+EOL;
+      'Projects (*.cuda-proj) can be passed, will be opened in Project Manager.'+EOL;
+      //'Sessions (*.cuda-session) can be passed, even without Session Manager plugin.'+EOL;
 
   msgFirstStartInfo =
       '            ____          _      _____         _   '+EOL+

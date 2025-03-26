@@ -4897,13 +4897,16 @@ begin
       exit
     end;
 
+    {
     //session files
+    //2025.03: don't open as session anymore
     if ExtractFileExt(AFileName)='.cuda-session' then
     begin
       DoOps_LoadSession(AFileName, true);
       Result:= CurrentFrame;
       exit
     end;
+    }
 
     //py event
     if bEnableEventPre then
