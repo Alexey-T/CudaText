@@ -207,7 +207,7 @@ Returns some file-system path. Possible values of "id":
 * APP_DIR_DATA: Folder "data".
 * APP_DIR_PY: Folder "py" (with Python codes).
 * APP_DIR_INSTALLED_ADDON: Folder of last installed add-on. For plugins it is subfolder in "py", for data-files it is subfolder in "data", for lexers it is folder "data/lexlib". This path is internally updated when add-on was installed: via file_open() API; via "Open file" dialog when you open .zip file; via command-line with .zip file.
-* APP_FILE_SESSION: Filename of current session. Default filename is "history session.json" without path. Missing path means that session file is in the folder "settings".
+* APP_FILE_SESSION: Filename of current session. Default filename is "default.cuda-session" without path. Missing path means that session file is in the folder "settings".
 * APP_FILE_RECENT_LIST: List of recently used filenames. Each list item is string, and it may contain "~" for home folder.
 
 ===app_proc===
@@ -445,7 +445,7 @@ Session is a set of opened files + untitled tabs, with some properties of editor
 
 * PROC_LOAD_SESSION: Loads session from file with given name (closes all tabs first). Returns bool: tabs were closed without pressing Cancel, session was loaded.
 
-* PROC_SET_SESSION: Tells to app filename of session. Session with this filename will be saved on exit, loaded on start, shown in app title in {} brackets. Don't set here empty string. Default filename is "history session.json" without path. Missing path means that folder "settings" will be used.
+* PROC_SET_SESSION: Tells to app filename of session. Session with this filename will be saved on exit, loaded on start, shown in app title in {} brackets. Don't set here empty string. Default filename is "default.cuda-session" without path. Missing path means that folder "settings" will be used.
 
 (Feature of API version 1.0.418.) Session-related actions support specifying the JSON path, into which session will be saved/loaded. If you want to use this feature, add the JSON path to the session filename, after pipe-char "|", e.g. "/some/path/sessionname.cuda-session|/my/key". Here "/my/key" specifies the JSON path of 2 levels ("key" inside "my").
 
