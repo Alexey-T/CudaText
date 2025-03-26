@@ -140,8 +140,8 @@ const
      'S', 'f', 'k', 'C', 'F', 'i', 'I', 'U', 'L');
 
 const
-  cAppSessionDefaultBase = 'history session';
-  cAppSessionDefault = cAppSessionDefaultBase+'.json';
+  cAppSessionDefault = 'default.cuda-session';
+  cAppSessionDefaultOld = 'history session.json'; //deprecated 2025.03 - delete this after 2025.06
 
 const
   cAppMaxGroup = Pred(6+3); //6 normal groups + 3 floating groups
@@ -2373,7 +2373,11 @@ begin
   if SameFileName(AFilename, AppFile_HistoryFiles) then
     exit(true);
 
-  if SameFileName(AFilename, AppDir_Settings+DirectorySeparator+'history session.json') then
+  //deprecated session filename, delete this block after 2025.06
+  if SameFileName(AFilename, AppDir_Settings+DirectorySeparator+cAppSessionDefaultOld) then
+    exit(true);
+
+  if SameFileName(AFilename, AppDir_Settings+DirectorySeparator+cAppSessionDefault) then
     exit(true);
 
   Result:= false;
@@ -3811,7 +3815,7 @@ begin
   SSplitByChar(S, '|', sFilename, sJsonPath);
   Result:=
     (sJsonPath='') and
-    (ChangeFileExt(ExtractFileName(sFilename), '')=cAppSessionDefaultBase);
+    (ExtractFileName(sFilename)=cAppSessionDefault);
 end;
 
 function IsDefaultSessionActive: boolean;

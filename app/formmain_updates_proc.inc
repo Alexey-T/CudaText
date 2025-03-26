@@ -44,12 +44,17 @@ begin
   if F=nil then exit;
 
   SSplitByChar(AppSessionName, '|', SSession, SSessionRootPath);
-  SSession:= ChangeFileExt(ExtractFileName(SSession), '');
-  if (SSession<>'') and (SSession<>'history session') then
+  SSession:= ExtractFileName(SSession);
+  if (SSession<>'') and
+    (SSession<>cAppSessionDefaultOld) and
+    (SSession<>cAppSessionDefault) then
   begin
     if SBeginsWith(SSessionRootPath, '/sessions/') then
       Delete(SSessionRootPath, 1, Length('/sessions/'));
-    SSession:= ' {'+SSession+IfThen(SSessionRootPath<>'', ': '+SSessionRootPath)+'}'
+    SSession:= ' {'+
+      ChangeFileExt(SSession, '')+
+      IfThen(SSessionRootPath<>'', ': '+SSessionRootPath)+
+      '}';
   end
   else
     SSession:= '';

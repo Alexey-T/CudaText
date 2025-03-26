@@ -228,7 +228,7 @@ end;
 
 
 procedure TfmMain.DoOps_SaveSessionsBackups(const ASessionFilename: string);
-//keep backups of last N unnamed sessions as 'history session.N.cuda-session'
+//keep backups of last N unnamed sessions as 'filename.N.cuda-session'
 begin
   AppMakeBackupFiles(ASessionFilename, '.cuda-session', UiOps.BackupLastSessions);
 end;
