@@ -677,9 +677,11 @@ begin
     cmd_TreeUpdate:
       UpdateTree(true, false{ignore visible});
     cmd_TreeSelectBlockForCurNode:
-      DoCodetree_GotoBlockForCurrentNode(true);
+      DoCodetree_GotoBlockForCurrentNode(true, false);
     cmd_TreeGotoBlockForCurNode:
-      DoCodetree_GotoBlockForCurrentNode(false);
+      DoCodetree_GotoBlockForCurrentNode(false, false);
+    cmd_TreeGotoBlockForCurNode_End:
+      DoCodetree_GotoBlockForCurrentNode(false, true);
     cmd_TreeFilterClear:
       CodeTreeFilter_ResetOnClick(nil);
     cmd_TreeFilterFocus:

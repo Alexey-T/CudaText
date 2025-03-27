@@ -883,7 +883,7 @@ type
     procedure DoCodetree_OnDblClick(Sender: TObject);
     procedure DoCodetree_OnMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
     procedure DoCodetree_OnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure DoCodetree_GotoBlockForCurrentNode(AndSelect: boolean);
+    procedure DoCodetree_GotoBlockForCurrentNode(AndSelect, AToEnd: boolean);
     procedure DoCodetree_ApplyTreeHelperResults(Tree: TTreeView; Data: PPyObject);
     function DoCodetree_ApplyTreeHelperInPascal(Ed, EdPair: TATSynEdit; ATree: TTreeView; const ALexer: string): boolean;
     procedure DoCodetree_OnAdvDrawItem(Sender: TCustomTreeView;
@@ -7744,11 +7744,11 @@ begin
 end;
 
 
-procedure TfmMain.DoCodetree_GotoBlockForCurrentNode(AndSelect: boolean);
+procedure TfmMain.DoCodetree_GotoBlockForCurrentNode(AndSelect, AToEnd: boolean);
 var
   Ed: TATSynEdit;
   Node: TTreeNode;
-  P1, P2: TPoint;
+  P1, P2, PntGoto1, PntGoto2: TPoint;
 begin
   Node:= CodeTree.Tree.Selected;
   if Node=nil then exit;
@@ -7756,11 +7756,27 @@ begin
   DoCodetree_GetSyntaxRange(Node, P1, P2);
   if (P1.Y<0) or (P2.Y<0) then exit;
 
-  if not AndSelect then
-    P2:= Point(-1, -1);
+  if AndSelect then
+  begin
+    PntGoto1:= P1;
+    PntGoto2:= P2;
+  end
+  else
+  if AToEnd then
+  begin
+    PntGoto1:= P2;
+    PntGoto2:= Point(-1, -1);
+  end
+  else
+  begin
+    PntGoto1:= P1;
+    PntGoto2:= Point(-1, -1);
+  end;
 
   Ed:= CurrentEditor;
-  Ed.DoGotoPos(P1, P2,
+  Ed.DoGotoPos(
+    PntGoto1,
+    PntGoto2,
     UiOps.FindIndentHorz,
     UiOps.FindIndentVert,
     true,

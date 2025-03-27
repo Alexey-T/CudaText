@@ -503,6 +503,7 @@ cmd_TreeGotoBlockForCurNode    = 2822
 cmd_TreeFilterClear            = 2823
 cmd_TreeFilterFocus            = 2824
 cmd_TreeFocus                  = 2825
+cmd_TreeGotoBlockForCurNode_End= 2826
 
 cmd_BracketHighlightOn         = 2840
 cmd_BracketHighlightOff        = 2841

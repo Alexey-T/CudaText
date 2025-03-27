@@ -304,6 +304,7 @@ const
   cmd_TreeFilterClear            = 2823;
   cmd_TreeFilterFocus            = 2824;
   cmd_TreeFocus                  = 2825;
+  cmd_TreeGotoBlockForCurNode_End= 2826;
 
   cmd_BracketHighlightOn         = 2840;
   cmd_BracketHighlightOff        = 2841;
@@ -799,6 +800,7 @@ begin
   M.Add(cmd_TreeGotoPrevBrother, 'code tree: select previous brother node', [], []);
   M.Add(cmd_TreeUpdate, 'code tree: update tree panel', [], []);
   M.Add(cmd_TreeGotoBlockForCurNode, 'code tree: go to block for current node', [], []);
+  M.Add(cmd_TreeGotoBlockForCurNode_End, 'code tree: go to block for current node, to end of block', [], []);
   M.Add(cmd_TreeSelectBlockForCurNode, 'code tree: go to block for current node, and select', [], []);
   M.Add(cmd_TreeFilterClear, 'code tree: clear filter', [], []);
   M.Add(cmd_TreeFilterFocus, 'code tree: focus filter', [], []);
