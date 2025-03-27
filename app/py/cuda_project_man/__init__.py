@@ -36,6 +36,7 @@ PROJECT_DIALOG_FILTER = _("CudaText projects") + "|*" + PROJECT_EXTENSION
 PROJECT_UNSAVED_NAME = _("(Unsaved project)")
 PROJECT_TEMP_FILENAME = os.path.join(app_path(APP_DIR_SETTINGS), 'temporary'+PROJECT_EXTENSION)
 NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD = range(4)
+DEF_SES = 'default.cuda-session'
 global_project_info = {}
 sort_order = 'ext'
 
@@ -1269,7 +1270,7 @@ class Command:
 
         id = menu_proc(self.h_menu_cfg, MENU_ADD, command='cuda_project_man.session_forget_ex', caption=_('Forget session, close all tabs'))
         sess = app_path(APP_FILE_SESSION)
-        if os.path.basename(sess)=='default.cuda-session':
+        if os.path.basename(sess)==DEF_SES:
             menu_proc(id, MENU_SET_ENABLED, command=False)
 
         #menu_proc(self.h_menu_cfg, MENU_ADD, caption='-')
@@ -2078,7 +2079,7 @@ class Command:
 
             # 3. and forget current session if name is the same
             if name == self.session_cur_name():
-                app_proc(PROC_SET_SESSION, 'default.cuda-session')
+                app_proc(PROC_SET_SESSION, DEF_SES)
 
     def session_delete_all(self):
 
@@ -2157,7 +2158,7 @@ class Command:
             if msg_box(_('Save current state to the session "%s"?')%sess, MB_OKCANCEL+MB_ICONQUESTION)==ID_OK:
                 app_proc(PROC_SAVE_SESSION, sess)
 
-        app_proc(PROC_SET_SESSION, 'default.cuda-session')
+        app_proc(PROC_SET_SESSION, DEF_SES)
 
         fn += '|/sessions/'+name
         app_proc(PROC_LOAD_SESSION, fn)
@@ -2243,7 +2244,7 @@ class Command:
 
     def session_forget(self):
 
-        app_proc(PROC_SET_SESSION, 'default.cuda-session')
+        app_proc(PROC_SET_SESSION, DEF_SES)
 
     def session_forget_ex(self):
 
@@ -2269,7 +2270,7 @@ class Command:
             sess = cur_fn+'|/sessions/'+cur_sess
             app_proc(PROC_SAVE_SESSION, sess)
             if and_forget:
-                app_proc(PROC_SET_SESSION, 'default.cuda-session')
+                app_proc(PROC_SET_SESSION, DEF_SES)
 
     def is_path_in_root(self, path):
 
