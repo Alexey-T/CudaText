@@ -2054,16 +2054,16 @@ function TfmFind.IsRegexInputOk: boolean;
 begin
   Result:= true;
   if not edFind.IsEmpty and chkRegex.Checked then
-  try
     try
-      FRegexObj.Expression:= edFind.Text;
-      FRegexObj.Compile;
+      try
+        FRegexObj.Expression:= edFind.Text;
+        FRegexObj.Compile;
+      finally
+        FRegexObj.Expression:= '';
+      end;
     except
       Result:= false;
     end;
-  finally
-    FRegexObj.Expression:= '';
-  end;
 end;
 
 procedure TfmFind.TimerIdleTimer(Sender: TObject);
