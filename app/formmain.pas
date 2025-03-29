@@ -1166,8 +1166,8 @@ type
     procedure UpdateMenuChecks_Frame(F: TEditorFrame);
     procedure UpdateMenuChecks_FrameSplit(F: TEditorFrame);
     procedure UpdateMenuChecks_Global;
-    procedure UpdateFrameLineEnds(Frame: TEditorFrame; AValue: TATLineEnds);
-    procedure UpdateEditorCaretLineEnds(Frame: TEditorFrame; Ed: TATSynEdit; AValue: TATLineEnds);
+    procedure UpdateFrameLineEnds(Frame: TEditorFrame; Ed: TATSynEdit; ALineEnds: TATLineEnds);
+    procedure UpdateEditorCaretLineEnds(Frame: TEditorFrame; Ed: TATSynEdit; ALineEnds: TATLineEnds);
     procedure UpdateStatusbarPanelsFromString(const AText: string);
     procedure UpdateStatusbarHints;
     procedure UpdateStatusbar_ForFrame(AStatus: TATStatus; F: TEditorFrame);
@@ -4420,20 +4420,22 @@ begin
   OpenURL('http://synwrite.sourceforge.net/forums/viewforum.php?f=20');
 end;
 
-procedure TfmMain.UpdateFrameLineEnds(Frame: TEditorFrame; AValue: TATLineEnds);
+procedure TfmMain.UpdateFrameLineEnds(Frame: TEditorFrame; Ed: TATSynEdit;
+  ALineEnds: TATLineEnds);
 begin
   if Assigned(Frame) then
   begin
-    Frame.LineEnds[Frame.Editor]:= AValue;
-    Frame.UpdateModified(Frame.Editor);
+    Frame.LineEnds[Ed]:= ALineEnds;
+    Frame.UpdateModified(Ed);
   end;
   UpdateStatusbar;
   MsgStatus(msgStatusEndsChanged);
 end;
 
-procedure TfmMain.UpdateEditorCaretLineEnds(Frame: TEditorFrame; Ed: TATSynEdit; AValue: TATLineEnds);
+procedure TfmMain.UpdateEditorCaretLineEnds(Frame: TEditorFrame; Ed: TATSynEdit;
+  ALineEnds: TATLineEnds);
 begin
-  EditorChangeLineEndsForSelection(Ed, AValue);
+  EditorChangeLineEndsForSelection(Ed, ALineEnds);
   if Assigned(Frame) then
   begin
     Frame.UpdateModified(Ed);

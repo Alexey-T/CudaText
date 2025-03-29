@@ -1035,19 +1035,19 @@ begin
 
     cmd_LineEndWin:
       begin
-        UpdateFrameLineEnds(Frame, TATLineEnds.Windows);
+        UpdateFrameLineEnds(Frame, Ed, TATLineEnds.Windows);
         AHandled:= true;
         exit
       end;
     cmd_LineEndUnix:
       begin
-        UpdateFrameLineEnds(Frame, TATLineEnds.Unix);
+        UpdateFrameLineEnds(Frame, Ed, TATLineEnds.Unix);
         AHandled:= true;
         exit
       end;
     cmd_LineEndMac:
       begin
-        UpdateFrameLineEnds(Frame, TATLineEnds.Mac);
+        UpdateFrameLineEnds(Frame, Ed, TATLineEnds.Mac);
         AHandled:= true;
         exit
       end;

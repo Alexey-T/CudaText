@@ -4454,7 +4454,7 @@ begin
             if LineEnd<>TATLineEnds.None then
             begin
               if Assigned(F) then
-                fmMain.UpdateFrameLineEnds(F, LineEnd)
+                fmMain.UpdateFrameLineEnds(F, Ed, LineEnd)
               else
               begin
                 Ed.Strings.Endings:= LineEnd;
