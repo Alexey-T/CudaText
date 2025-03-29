@@ -279,7 +279,6 @@ type
     procedure UpdateCaption(const AText: string);
     procedure UpdateHiAll(AEnableFindNext: boolean);
     procedure UpdateInputReddishIndicator(AFound: boolean);
-    procedure ClearHiAll(Ed: TATSynEdit);
     procedure ApplyTheme;
     property OnResult: TAppFinderOperationEvent read FOnResult write FOnResult;
     property OnChangeOptions: TNotifyEvent read FOnChangeOptions write FOnChangeOptions;
@@ -948,14 +947,9 @@ var
 begin
   CloseAction:= caHide;
   OnGetMainEditor(Ed);
-  ClearHiAll(Ed);
+  EditorClearHiAllMarkers(Ed);
 end;
 
-procedure TfmFind.ClearHiAll(Ed: TATSynEdit);
-begin
-  if Assigned(Ed) then
-    EditorClearHiAllMarkers(Ed);
-end;
 
 procedure TfmFind.FormCreate(Sender: TObject);
 var
@@ -1901,13 +1895,13 @@ begin
 
   if edFind.IsEmpty then
   begin
-    ClearHiAll(Ed);
+    EditorClearHiAllMarkers(Ed);
     exit;
   end;
 
   if not chkHiAll.Enabled then
   begin
-    ClearHiAll(Ed);
+    EditorClearHiAllMarkers(Ed);
     exit;
   end;
 
@@ -1970,7 +1964,7 @@ begin
     end;
   end;
 
-  ClearHiAll(Ed);
+  EditorClearHiAllMarkers(Ed);
   if IsHiAll then
   begin
     Finder:= TATEditorFinder.Create;

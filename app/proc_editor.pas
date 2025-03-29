@@ -3222,6 +3222,7 @@ end;
 
 procedure EditorClearHiAllMarkers(Ed: TATSynEdit);
 begin
+  if not Assigned(Ed) then exit;
   if Ed.Attribs.Count>0 then
     if Ed.Attribs.DeleteWithTag(UiOps.FindHiAll_TagValue) then
       Ed.Update;
