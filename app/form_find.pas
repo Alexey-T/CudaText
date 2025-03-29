@@ -104,7 +104,7 @@ type
     AUpdateEnabledAll, ADocumentIsSmall: boolean) of object;
   TAppFinderGetEditor = procedure(out AEditor: TATSynEdit) of object;
   TAppFinderKeyDownEvent = function(AKey: word; AShiftState: TShiftState): boolean of object;
-  TAppFinderShowResultEvent = procedure(AFound: boolean) of object;
+  TAppFinderShowResultInStatusbar = procedure(AFound: boolean) of object;
 
 function AppFinderOperationFromString(const Str: string): TAppFinderOperation;
 
@@ -232,7 +232,7 @@ type
     FOnResetSearchString: TNotifyEvent;
     FOnGetToken: TATFinderGetToken;
     FOnHandleKeyDown: TAppFinderKeyDownEvent;
-    FOnShowResultInStatusbar: TAppFinderShowResultEvent;
+    FOnShowResultInStatusbar: TAppFinderShowResultInStatusbar;
     FCaptionFind: string;
     FCaptionReplace: string;
     FLexerRegexThemed: boolean;
@@ -288,7 +288,7 @@ type
     property OnResetSearchString: TNotifyEvent read FOnResetSearchString write FOnResetSearchString;
     property OnGetToken: TATFinderGetToken read FOnGetToken write FOnGetToken;
     property OnHandleKeyDown: TAppFinderKeyDownEvent read FOnHandleKeyDown write FOnHandleKeyDown;
-    property OnShowResultInStatusbar: TAppFinderShowResultEvent read FOnShowResultInStatusbar write FOnShowResultInStatusbar;
+    property OnShowResultInStatusbar: TAppFinderShowResultInStatusbar read FOnShowResultInStatusbar write FOnShowResultInStatusbar;
     property IsReplace: boolean read FReplace write SetReplace;
     property IsMultiLine: boolean read FMultiLine write SetMultiLine;
     property IsNarrow: boolean read FNarrow write SetNarrow;
