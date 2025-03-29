@@ -2067,6 +2067,8 @@ begin
 end;
 
 procedure TfmFind.TimerIdleTimer(Sender: TObject);
+//we update history by timer, because with 'Im' option on,
+//we should not update on typing each char.
 begin
   TimerIdle.Enabled:= false;
 
