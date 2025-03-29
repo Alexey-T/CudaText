@@ -1029,13 +1029,14 @@ begin
     Details+= FinderOptionsToHint(AFinder, AIsReplace);
     MsgStatus(msgStatusFoundNextMatch+Details, true);
 
-    Assert(Assigned(AFinder.Editor), 'AFinder.Editor is nil in FinderShowResult()');
-    AFinder.Editor.EndUpdate;
-
-    if not AFinder.OptDisableOnProgress then
-      Application.ProcessMessages;
-
     if AScrollToMatch then
+    begin
+      Assert(Assigned(AFinder.Editor), 'AFinder.Editor is nil in FinderShowResult()');
+      AFinder.Editor.EndUpdate;
+
+      if not AFinder.OptDisableOnProgress then
+        Application.ProcessMessages;
+
       //not DoGotoPos, we may need to show marker, not caret
       AFinder.Editor.DoShowPos(
         AFinder.MatchEdPos,
@@ -1044,6 +1045,7 @@ begin
         true,
         true,
         true);
+    end;
   end
   else
   if AFinder.IsRegexBad then
