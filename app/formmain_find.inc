@@ -1067,21 +1067,6 @@ begin
     FinderShowResult(false, false, AFinder);
 end;
 
-procedure TfmMain.FindDialogOnShowMatchesCount(AMatchCount, ATime: integer);
-var
-  S: string;
-begin
-  if AMatchCount>0 then
-    S:= Format(msgStatusFoundFragments, [AMatchCount])
-  else
-    S:= msgCannotFindMatch;
-  S+= Format(' (%dms)', [ATime]);
-  MsgStatus(S, true);
-
-  if Assigned(fmFind) and fmFind.Visible then
-    fmFind.UpdateInputReddishIndicator(AMatchCount>0);
-end;
-
 procedure TfmMain.FinderOnConfirmReplace_API(Sender: TObject; APos1,
   APos2: TPoint; AForMany: boolean; var AConfirm, AContinue: boolean;
   var AReplacement: UnicodeString);
