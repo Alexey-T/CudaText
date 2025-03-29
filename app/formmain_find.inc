@@ -965,16 +965,13 @@ var
   Ed: TATSynEdit;
   MatchPos: TPoint;
   ItemPtr: PATMarkerItem;
-  NTagValue: Int64;
-  iItem: integer;
+  NAttrCount, iItem: integer;
 begin
   AIndex:= -1;
   ACount:= 0;
 
   Ed:= AFinder.Editor;
   if Ed=nil then exit;
-
-  NTagValue:= UiOps.FindHiAll_TagValue;
 
   //take minimum if MatchEdPos / MatchEdEnd
   if IsPosSorted(
@@ -989,10 +986,11 @@ begin
     MatchPos:= AFinder.MatchEdEnd;
   if MatchPos.Y<0 then exit;
 
-  for iItem:= 0 to Ed.Attribs.Count-1 do
+  NAttrCount:= Ed.Attribs.Count;
+  for iItem:= 0 to NAttrCount-1 do
   begin
     ItemPtr:= Ed.Attribs.ItemPtr(iItem);
-    if ItemPtr^.Tag<>NTagValue then Continue;
+    if ItemPtr^.Tag<>UiOps.FindHiAll_TagValue then Continue;
     Inc(ACount);
     if AIndex<0 then
       if ItemPtr^.PosY=MatchPos.Y then
