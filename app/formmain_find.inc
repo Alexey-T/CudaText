@@ -497,7 +497,7 @@ begin
     fmFind.OnGetMainEditor:= @FindDialogOnGetMainEditor;
     fmFind.OnResetSearchString:= @FindDialogOnResetSearchString;
     fmFind.OnGetToken:= @FinderOnGetToken;
-    fmFind.OnShowMatchesCount:= @FindDialogOnShowMatchesCount;
+    //fmFind.OnShowMatchesCount:= @FindDialogOnShowMatchesCount;
     fmFind.OnHandleKeyDown:= @FindDialogOnHandleKeyDown;
 
     fmFind.Color:= GetAppColor(TAppThemeColor.TabBg);

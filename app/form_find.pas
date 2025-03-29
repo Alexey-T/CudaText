@@ -103,7 +103,6 @@ type
   TAppFinderOperationEvent = procedure(Sender: TObject; Op: TAppFinderOperation;
     AUpdateEnabledAll, ADocumentIsSmall: boolean) of object;
   TAppFinderGetEditor = procedure(out AEditor: TATSynEdit) of object;
-  TAppFinderShowMatchesCount = procedure(AMatchCount, ATime: integer) of object;
   TAppFinderKeyDownEvent = function(AKey: word; AShiftState: TShiftState): boolean of object;
 
 function AppFinderOperationFromString(const Str: string): TAppFinderOperation;
@@ -231,7 +230,6 @@ type
     FOnGetMainEditor: TAppFinderGetEditor;
     FOnResetSearchString: TNotifyEvent;
     FOnGetToken: TATFinderGetToken;
-    FOnShowMatchesCount: TAppFinderShowMatchesCount;
     FOnHandleKeyDown: TAppFinderKeyDownEvent;
     FCaptionFind: string;
     FCaptionReplace: string;
@@ -287,7 +285,6 @@ type
     property OnGetMainEditor: TAppFinderGetEditor read FOnGetMainEditor write FOnGetMainEditor;
     property OnResetSearchString: TNotifyEvent read FOnResetSearchString write FOnResetSearchString;
     property OnGetToken: TATFinderGetToken read FOnGetToken write FOnGetToken;
-    property OnShowMatchesCount: TAppFinderShowMatchesCount read FOnShowMatchesCount write FOnShowMatchesCount;
     property OnHandleKeyDown: TAppFinderKeyDownEvent read FOnHandleKeyDown write FOnHandleKeyDown;
     property IsReplace: boolean read FReplace write SetReplace;
     property IsMultiLine: boolean read FMultiLine write SetMultiLine;
