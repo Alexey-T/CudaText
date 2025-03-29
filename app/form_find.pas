@@ -244,6 +244,7 @@ type
     procedure ControlAutosizeOptionsByWidth;
     procedure CopyFieldFindToReplace;
     procedure DoFocusEditor;
+    procedure DoHiAll;
     procedure DoResult(Op: TAppFinderOperation; AUpdateEnabledAll: boolean=true);
     function GetHiAll: boolean;
     function GetImmediate: boolean;
@@ -831,7 +832,7 @@ begin
       if FDocumentIsSmall then
       begin
         edFind.Update(true, true); //forced repaint the input field
-        TimerHiAllTick(Self);
+        DoHiAll;
       end
       else
       begin
@@ -1090,7 +1091,7 @@ begin
     else
       DoFocusEditor;
     if FTimerHiAll.Enabled then
-      TimerHiAllTick(nil); //disarm timer, requested at #5353
+      DoHiAll; //disarm timer, requested at #5353
     key:= 0;
     exit;
   end;
@@ -1106,7 +1107,7 @@ begin
   begin
     DoResult(TAppFinderOperation.FindNext);
     if FTimerHiAll.Enabled then
-      TimerHiAllTick(nil); //disarm timer, requested at #5353
+      DoHiAll; //disarm timer, requested at #5353
     key:= 0;
     exit
   end;
@@ -1119,7 +1120,7 @@ begin
     else
       DoResult(TAppFinderOperation.FindNext);
     if FTimerHiAll.Enabled then
-      TimerHiAllTick(nil); //disarm timer, requested at #5353
+      DoHiAll; //disarm timer, requested at #5353
     key:= 0;
     exit
   end;
@@ -1128,7 +1129,7 @@ begin
   begin
     DoResult(TAppFinderOperation.FindPrev);
     if FTimerHiAll.Enabled then
-      TimerHiAllTick(nil); //disarm timer, requested at #5353
+      DoHiAll; //disarm timer, requested at #5353
     key:= 0;
     exit
   end;
@@ -1916,11 +1917,17 @@ begin
     FTimerHiAll.Enabled:= true;
   end
   else
-    TimerHiAllTick(nil);
+    DoHiAll;
 end;
 
 
 procedure TfmFind.TimerHiAllTick(Sender: TObject);
+begin
+  FTimerHiAll.Enabled:= false;
+  DoHiAll;
+end;
+
+procedure TfmFind.DoHiAll;
 var
   Ed: TATSynEdit;
   Caret: TATCaretItem;
@@ -1928,7 +1935,7 @@ var
   Pnt: TPoint;
   NMatches: integer;
 begin
-  FTimerHiAll.Enabled:= false;
+  FTimerHiAll.Enabled:= false; //code assumes DoHiAll disables timer
 
   OnGetMainEditor(Ed);
   if Ed=nil then exit;
