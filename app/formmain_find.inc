@@ -216,7 +216,10 @@ begin
   ok:= FFinder.DoAction_FindOrReplace(
     false, false, bChanged, true);
   FinderUpdateEditor(false);
-  FinderShowResult(ok, false, FFinder);
+
+  //if 'Hi' option is on, don't show results; they will be shown by TimerHiAllTick
+  if not (Assigned(fmFind) and fmFind.chkHiAll.Checked) then
+    FinderShowResult(ok, false, FFinder);
 end;
 
 procedure TfmMain.FindAndReplaceOneMatch(AndStop: boolean);
@@ -497,8 +500,8 @@ begin
     fmFind.OnGetMainEditor:= @FindDialogOnGetMainEditor;
     fmFind.OnResetSearchString:= @FindDialogOnResetSearchString;
     fmFind.OnGetToken:= @FinderOnGetToken;
-    //fmFind.OnShowMatchesCount:= @FindDialogOnShowMatchesCount;
     fmFind.OnHandleKeyDown:= @FindDialogOnHandleKeyDown;
+    fmFind.OnShowResult:= @FindDialogOnShowResult;
 
     fmFind.Color:= GetAppColor(TAppThemeColor.TabBg);
     fmFind.UpdateCaretPosVar;
@@ -1660,6 +1663,12 @@ begin
     Ed.DoCommand(NCmd, TATCommandInvoke.Hotkey);
     Result:= true;
   end;
+end;
+
+procedure TfmMain.FindDialogOnShowResult;
+begin
+  FFinder.Editor:= CurrentEditor;
+  FinderShowResult(true, false, FFinder);
 end;
 
 procedure TfmMain.FindDialogOnChangeVisible(Sender: TObject);

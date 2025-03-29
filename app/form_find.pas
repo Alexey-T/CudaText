@@ -104,6 +104,7 @@ type
     AUpdateEnabledAll, ADocumentIsSmall: boolean) of object;
   TAppFinderGetEditor = procedure(out AEditor: TATSynEdit) of object;
   TAppFinderKeyDownEvent = function(AKey: word; AShiftState: TShiftState): boolean of object;
+  TAppFinderShowResultEvent = procedure of object;
 
 function AppFinderOperationFromString(const Str: string): TAppFinderOperation;
 
@@ -231,6 +232,7 @@ type
     FOnResetSearchString: TNotifyEvent;
     FOnGetToken: TATFinderGetToken;
     FOnHandleKeyDown: TAppFinderKeyDownEvent;
+    FOnShowResult: TAppFinderShowResultEvent;
     FCaptionFind: string;
     FCaptionReplace: string;
     FLexerRegexThemed: boolean;
@@ -286,6 +288,7 @@ type
     property OnResetSearchString: TNotifyEvent read FOnResetSearchString write FOnResetSearchString;
     property OnGetToken: TATFinderGetToken read FOnGetToken write FOnGetToken;
     property OnHandleKeyDown: TAppFinderKeyDownEvent read FOnHandleKeyDown write FOnHandleKeyDown;
+    property OnShowResult: TAppFinderShowResultEvent read FOnShowResult write FOnShowResult;
     property IsReplace: boolean read FReplace write SetReplace;
     property IsMultiLine: boolean read FMultiLine write SetMultiLine;
     property IsNarrow: boolean read FNarrow write SetNarrow;
@@ -1985,6 +1988,8 @@ begin
       EditorHighlightAllMatches(Finder, FHiAllEnableFindNext, NMatches, FInitialCaretPos);
       NTick:= GetTickCount64-NTick;
 
+      if Assigned(FOnShowResult) then
+        FOnShowResult;
       {
       //removed, to avoid reddish indicator, when 'Hi' cannot find anything,
       //but Im' could find the match before 'Hi'
