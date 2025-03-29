@@ -1990,13 +1990,6 @@ begin
 
       if Assigned(FOnShowResult) then
         FOnShowResult;
-      {
-      //removed, to avoid reddish indicator, when 'Hi' cannot find anything,
-      //but Im' could find the match before 'Hi'
-      if NMatches=0 then //fixing #4775
-        if Assigned(FOnShowMatchesCount) then
-          FOnShowMatchesCount(NMatches, NTick);
-          }
     finally
       FreeAndNil(Finder);
     end;
