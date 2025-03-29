@@ -1022,6 +1022,7 @@ procedure TfmMain.FinderShowResult(AFound, AIsReplace: boolean;
   AFinder: TATEditorFinder; AScrollToMatch: boolean=true);
 var
   Details: string;
+  Ed: TATSynEdit;
 begin
   if AFound then
   begin
@@ -1031,14 +1032,15 @@ begin
 
     if AScrollToMatch then
     begin
-      Assert(Assigned(AFinder.Editor), 'AFinder.Editor is nil in FinderShowResult()');
-      AFinder.Editor.EndUpdate;
+      Ed:= AFinder.Editor;
+      Assert(Assigned(Ed), 'AFinder.Editor=nil in FinderShowResult()');
+      Ed.EndUpdate;
 
       if not AFinder.OptDisableOnProgress then
         Application.ProcessMessages;
 
       //not DoGotoPos, we may need to show marker, not caret
-      AFinder.Editor.DoShowPos(
+      Ed.DoShowPos(
         AFinder.MatchEdPos,
         AFinder.IndentHorz,
         AFinder.IndentVert,
@@ -1658,7 +1660,6 @@ end;
 
 procedure TfmMain.FindDialogOnShowResultInStatusbar(AFound: boolean);
 begin
-  FFinder.Editor:= CurrentEditor;
   FinderShowResult(AFound, false, FFinder, false{AScrollToMatch});
 end;
 
