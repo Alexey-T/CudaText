@@ -1927,7 +1927,7 @@ var
   Finder: TATEditorFinder;
   Pnt: TPoint;
   NMatches: integer;
-  NTick: QWord;
+  //NTick: QWord;
 begin
   FTimerHiAll.Enabled:= false;
 
@@ -1984,11 +1984,11 @@ begin
       Finder.MaxLineLen:= UiOps.FindHiAll_MaxLineLen;
       Finder.OnGetToken:= FOnGetToken;
 
-      NTick:= GetTickCount64;
+      //NTick:= GetTickCount64;
       EditorHighlightAllMatches(Finder, FHiAllEnableFindNext, NMatches, FInitialCaretPos);
-      NTick:= GetTickCount64-NTick;
+      //NTick:= GetTickCount64-NTick;
 
-      if NMatches>0 then
+      if NMatches>0 then //if no matches, 'Cannot find' status msg was already shown
         if Assigned(FOnShowResult) then
           FOnShowResult(true);
     finally
