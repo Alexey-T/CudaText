@@ -3321,7 +3321,7 @@ var
   Ptr: PChar;
   Str: string;
   Ed: TATSynEdit;
-  F: TEditorFrame;
+  Frame: TEditorFrame;
   Pnt: TPoint;
   Adapter: TATAdapterEControl;
   An: TecSyntAnalyzer;
@@ -3336,7 +3336,7 @@ begin
       if Ed=nil then
         exit(ReturnNone);
       Str:= string(Ptr);
-      F:= TGroupsHelper.GetEditorFrame(Ed);
+      Frame:= TGroupsHelper.GetEditorFrame(Ed);
 
       //Application.MainForm.Caption:= 'get_prop '+IntToStr(id)+', filename: '+Ed.FileName;
 
@@ -3464,9 +3464,9 @@ begin
         PROP_LEXER_FILE:
           begin
             //if editor in frame, use frame's prop
-            if Assigned(F) then
+            if Assigned(Frame) then
             begin
-              Str:= F.LexerName[Ed];
+              Str:= Frame.LexerName[Ed];
               Result:= PyUnicodeFromString(Str);
             end
             else
@@ -3508,56 +3508,56 @@ begin
 
         PROP_TAB_COLOR:
           begin
-            if Assigned(F) then
-              Result:= PyLong_FromLong(F.TabColor)
+            if Assigned(Frame) then
+              Result:= PyLong_FromLong(Frame.TabColor)
             else
               Result:= ReturnNone;
           end;
 
         PROP_TAB_COLOR_FONT:
           begin
-            if Assigned(F) then
-              Result:= PyLong_FromLong(F.TabFontColor)
+            if Assigned(Frame) then
+              Result:= PyLong_FromLong(Frame.TabFontColor)
             else
               Result:= ReturnNone;
           end;
 
         PROP_TAB_TITLE:
           begin
-            if Assigned(F) then
-              Result:= PyUnicodeFromString(TrimLeftSet(F.TabCaption, ['*']))
+            if Assigned(Frame) then
+              Result:= PyUnicodeFromString(TrimLeftSet(Frame.TabCaption, ['*']))
             else
               Result:= ReturnNone;
           end;
 
         PROP_TAB_TITLE_REASON:
           begin
-            if Assigned(F) then
-              Result:= PyUnicodeFromString(cAppTabCaptionReasonStr[F.TabCaptionReason])
+            if Assigned(Frame) then
+              Result:= PyUnicodeFromString(cAppTabCaptionReasonStr[Frame.TabCaptionReason])
             else
               Result:= ReturnNone;
           end;
 
         PROP_TAB_PINNED:
           begin
-            if Assigned(F) then
-              Result:= PyBool_FromLong(Ord(F.TabPinned))
+            if Assigned(Frame) then
+              Result:= PyBool_FromLong(Ord(Frame.TabPinned))
             else
               Result:= ReturnNone;
           end;
 
         PROP_TAB_ID:
           begin
-            if Assigned(F) then
-              Result:= PyLong_FromLong(F.TabId)
+            if Assigned(Frame) then
+              Result:= PyLong_FromLong(Frame.TabId)
             else
               Result:= ReturnNone;
           end;
 
         PROP_TAB_UI_SHOW:
           begin
-            if Assigned(F) then
-              Result:= PyBool_FromLong(Ord(F.TabVisible))
+            if Assigned(Frame) then
+              Result:= PyBool_FromLong(Ord(Frame.TabVisible))
             else
               Result:= ReturnNone;
           end;
@@ -3570,16 +3570,16 @@ begin
 
         PROP_IN_SESSION:
           begin
-            if Assigned(F) then
-              Result:= PyBool_FromLong(Ord(F.InSession))
+            if Assigned(Frame) then
+              Result:= PyBool_FromLong(Ord(Frame.InSession))
             else
               Result:= ReturnFalse;
           end;
 
         PROP_IN_HISTORY:
           begin
-            if Assigned(F) then
-              Result:= PyBool_FromLong(Ord(F.InHistory))
+            if Assigned(Frame) then
+              Result:= PyBool_FromLong(Ord(Frame.InHistory))
             else
               Result:= ReturnFalse;
           end;
@@ -3611,8 +3611,8 @@ begin
 
         PROP_KIND:
           begin
-            if not Assigned(F) then exit(ReturnNone);
-            Str:= cAppFrameKindStr[F.FrameKind];
+            if not Assigned(Frame) then exit(ReturnNone);
+            Str:= cAppFrameKindStr[Frame.FrameKind];
             Result:= PyUnicodeFromString(Str);
           end;
 
@@ -3641,24 +3641,24 @@ begin
 
         PROP_TAB_ICON:
           begin
-            if Assigned(F) then
-              Result:= PyLong_FromLongLong(F.TabImageIndex)
+            if Assigned(Frame) then
+              Result:= PyLong_FromLongLong(Frame.TabImageIndex)
             else
               Result:= ReturnNone;
           end;
 
         PROP_TAB_COLLECT_MARKERS:
           begin
-            if Assigned(F) then
-              Result:= PyBool_FromLong(Ord(F.TabKeyCollectMarkers))
+            if Assigned(Frame) then
+              Result:= PyBool_FromLong(Ord(Frame.TabKeyCollectMarkers))
             else
               Result:= ReturnNone;
           end;
 
         PROP_MACRO_REC:
           begin
-            if Assigned(F) then
-              Result:= PyBool_FromLong(Ord(F.MacroRecord))
+            if Assigned(Frame) then
+              Result:= PyBool_FromLong(Ord(Frame.MacroRecord))
             else
               Result:= ReturnNone;
           end;
@@ -3761,16 +3761,16 @@ begin
 
         PROP_CODETREE:
           begin
-            if Assigned(F) then
-              Result:= PyBool_FromLong(Ord(F.EnabledCodeTree[Ed]))
+            if Assigned(Frame) then
+              Result:= PyBool_FromLong(Ord(Frame.EnabledCodeTree[Ed]))
             else
               Result:= ReturnFalse;
           end;
 
         PROP_EDITORS_LINKED:
           begin
-            if Assigned(F) then
-              Result:= PyBool_FromLong(Ord(F.EditorsLinked))
+            if Assigned(Frame) then
+              Result:= PyBool_FromLong(Ord(Frame.EditorsLinked))
             else
               Result:= ReturnFalse;
           end;
@@ -3791,12 +3791,12 @@ begin
 
         PROP_PICTURE:
           begin
-            if (F=nil) or (F.FrameKind<>TAppFrameKind.ImageViewer) then
+            if (Frame=nil) or (Frame.FrameKind<>TAppFrameKind.ImageViewer) then
               Result:= ReturnNone
             else
             begin
-              Pnt:= F.PictureSizes;
-              Result:= Py_BuildValue('(sii)', PChar(F.FileName), Pnt.X, Pnt.Y);
+              Pnt:= Frame.PictureSizes;
+              Result:= Py_BuildValue('(sii)', PChar(Frame.FileName), Pnt.X, Pnt.Y);
             end;
           end;
 
@@ -3845,16 +3845,16 @@ begin
 
         PROP_SAVE_HISTORY:
           begin
-            if Assigned(F) then
-              Result:= PyBool_FromLong(Ord(F.SaveHistory))
+            if Assigned(Frame) then
+              Result:= PyBool_FromLong(Ord(Frame.SaveHistory))
             else
               Result:= ReturnFalse;
           end;
 
         PROP_PREVIEW:
           begin
-            if Assigned(F) then
-              Result:= PyBool_FromLong(Ord(F.TabIsPreview))
+            if Assigned(Frame) then
+              Result:= PyBool_FromLong(Ord(Frame.TabIsPreview))
             else
               Result:= ReturnFalse;
           end;
@@ -3873,16 +3873,16 @@ begin
 
         PROP_SPLIT:
           begin
-            if Assigned(F) then
+            if Assigned(Frame) then
             begin
-              if not F.Splitted then
+              if not Frame.Splitted then
                 Str:= '-'
               else
-              if F.SplitHorz then
+              if Frame.SplitHorz then
                 Str:= 'h'
               else
                 Str:= 'v';
-              Result:= Py_BuildValue('(si)', PChar(Str), Round(F.SplitPos*1000));
+              Result:= Py_BuildValue('(si)', PChar(Str), Round(Frame.SplitPos*1000));
             end
             else
               Result:= ReturnNone;
@@ -3919,15 +3919,15 @@ begin
 
         PROP_HANDLE_PRIMARY:
           begin
-            if Assigned(F) then
-              Result:= PyHelper_ObjectHandle(F.Ed1)
+            if Assigned(Frame) then
+              Result:= PyHelper_ObjectHandle(Frame.Ed1)
             else
               Result:= ReturnNone;
           end;
         PROP_HANDLE_SECONDARY:
           begin
-            if Assigned(F) then
-              Result:= PyHelper_ObjectHandle(F.Ed2)
+            if Assigned(Frame) then
+              Result:= PyHelper_ObjectHandle(Frame.Ed2)
             else
               Result:= ReturnNone;
           end;
@@ -4096,8 +4096,8 @@ begin
 
         PROP_V_MODE:
           begin
-            if Assigned(F) and (F.FrameKind=TAppFrameKind.BinaryViewer) then
-              Num1:= Ord(F.Viewer.Mode)
+            if Assigned(Frame) and (Frame.FrameKind=TAppFrameKind.BinaryViewer) then
+              Num1:= Ord(Frame.Viewer.Mode)
             else
               Num1:= VMODE_NONE;
             Result:= PyLong_FromLong(Num1);
@@ -4105,63 +4105,63 @@ begin
 
         PROP_V_POS:
           begin
-            if not Assigned(F) then exit(ReturnNone);
-            if F.FrameKind=TAppFrameKind.BinaryViewer then
-              Result:= PyLong_FromLongLong(F.Viewer.PosOffset)
+            if not Assigned(Frame) then exit(ReturnNone);
+            if Frame.FrameKind=TAppFrameKind.BinaryViewer then
+              Result:= PyLong_FromLongLong(Frame.Viewer.PosOffset)
             else
               Result:= ReturnNone;
           end;
 
         PROP_V_SEL_START:
           begin
-            if not Assigned(F) then exit(ReturnNone);
-            if F.FrameKind=TAppFrameKind.BinaryViewer then
-              Result:= PyLong_FromLongLong(F.Viewer.SelStart)
+            if not Assigned(Frame) then exit(ReturnNone);
+            if Frame.FrameKind=TAppFrameKind.BinaryViewer then
+              Result:= PyLong_FromLongLong(Frame.Viewer.SelStart)
             else
               Result:= ReturnNone;
           end;
 
         PROP_V_SEL_LEN:
           begin
-            if not Assigned(F) then exit(ReturnNone);
-            if F.FrameKind=TAppFrameKind.BinaryViewer then
-              Result:= PyLong_FromLongLong(F.Viewer.SelLength)
+            if not Assigned(Frame) then exit(ReturnNone);
+            if Frame.FrameKind=TAppFrameKind.BinaryViewer then
+              Result:= PyLong_FromLongLong(Frame.Viewer.SelLength)
             else
               Result:= ReturnNone;
           end;
 
         PROP_V_WIDTH:
           begin
-            if not Assigned(F) then exit(ReturnNone);
-            if F.FrameKind=TAppFrameKind.BinaryViewer then
-              Result:= PyLong_FromLong(F.Viewer.TextWidth)
+            if not Assigned(Frame) then exit(ReturnNone);
+            if Frame.FrameKind=TAppFrameKind.BinaryViewer then
+              Result:= PyLong_FromLong(Frame.Viewer.TextWidth)
             else
               Result:= ReturnNone;
           end;
 
         PROP_V_WIDTH_HEX:
           begin
-            if not Assigned(F) then exit(ReturnNone);
-            if F.FrameKind=TAppFrameKind.BinaryViewer then
-              Result:= PyLong_FromLong(F.Viewer.TextWidthHex)
+            if not Assigned(Frame) then exit(ReturnNone);
+            if Frame.FrameKind=TAppFrameKind.BinaryViewer then
+              Result:= PyLong_FromLong(Frame.Viewer.TextWidthHex)
             else
               Result:= ReturnNone;
           end;
 
         PROP_V_WIDTH_UHEX:
           begin
-            if not Assigned(F) then exit(ReturnNone);
-            if F.FrameKind=TAppFrameKind.BinaryViewer then
-              Result:= PyLong_FromLong(F.Viewer.TextWidthUHex)
+            if not Assigned(Frame) then exit(ReturnNone);
+            if Frame.FrameKind=TAppFrameKind.BinaryViewer then
+              Result:= PyLong_FromLong(Frame.Viewer.TextWidthUHex)
             else
               Result:= ReturnNone;
           end;
 
         PROP_V_ENC:
           begin
-            if not Assigned(F) then exit(ReturnNone);
-            if F.FrameKind=TAppFrameKind.BinaryViewer then
-              Result:= PyUnicodeFromString(cEncConvNames[F.Viewer.TextEncoding])
+            if not Assigned(Frame) then exit(ReturnNone);
+            if Frame.FrameKind=TAppFrameKind.BinaryViewer then
+              Result:= PyUnicodeFromString(cEncConvNames[Frame.Viewer.TextEncoding])
             else
               Result:= ReturnNone;
           end
@@ -4181,7 +4181,7 @@ var
   Ptr: PChar;
   Str, Str1, Str2: string;
   Ed: TATSynEdit;
-  F: TEditorFrame;
+  Frame: TEditorFrame;
   An, AnOut: TecSyntAnalyzer;
   ValueBool: boolean;
   ValueInt: Int64;
@@ -4198,7 +4198,7 @@ begin
       Ed:= PyHelper_EditorFromHandle(H);
       if Ed=nil then
         exit(ReturnNone);
-      F:= TGroupsHelper.GetEditorFrame(Ed);
+      Frame:= TGroupsHelper.GetEditorFrame(Ed);
       Str:= string(Ptr);
 
       ValueBool:= AppStrToBool(Str);
@@ -4250,15 +4250,15 @@ begin
         PROP_TAB_SPACES:
           begin
             Ed.OptTabSpaces:= ValueBool;
-            if Assigned(F) then
-              F.TabSpacesChanged:= true;
+            if Assigned(Frame) then
+              Frame.TabSpacesChanged:= true;
           end;
 
         PROP_TAB_SIZE:
           begin
             Ed.OptTabSize:= ValueInt;
-            if Assigned(F) then
-              F.TabSizeChanged:= true;
+            if Assigned(Frame) then
+              Frame.TabSizeChanged:= true;
           end;
 
         PROP_TAB_SMART:
@@ -4278,8 +4278,8 @@ begin
         PROP_MODIFIED:
           begin
             Ed.Modified:= ValueBool;
-            if Assigned(F) then
-              F.UpdateModified(Ed);
+            if Assigned(Frame) then
+              Frame.UpdateModified(Ed);
           end;
 
         PROP_RULER:
@@ -4291,9 +4291,9 @@ begin
         PROP_LEXER_FILE:
           begin
             //for editors inside TEditorFrame
-            if Assigned(F) then
+            if Assigned(Frame) then
             begin
-              F.LexerName[Ed]:= Str;
+              Frame.LexerName[Ed]:= Str;
               fmMain.UpdateStatusbar;
             end
             else
@@ -4372,61 +4372,61 @@ begin
 
         PROP_TAB_COLOR:
           begin
-            if Assigned(F) then
-              F.TabColor:= ValueInt;
+            if Assigned(Frame) then
+              Frame.TabColor:= ValueInt;
           end;
 
         PROP_TAB_COLOR_FONT:
           begin
-            if Assigned(F) then
-              F.TabFontColor:= ValueInt;
+            if Assigned(Frame) then
+              Frame.TabFontColor:= ValueInt;
           end;
 
         PROP_TAB_TITLE:
           begin
-            if Assigned(F) then
+            if Assigned(Frame) then
             begin
               if Str<>'' then
               begin
-                F.TabCaptionReason:= TAppTabCaptionReason.FromPlugin;
-                F.TabCaption:= Str;
+                Frame.TabCaptionReason:= TAppTabCaptionReason.FromPlugin;
+                Frame.TabCaption:= Str;
               end
               else
               begin
-                if F.TabCaptionReason=TAppTabCaptionReason.FromPlugin then
+                if Frame.TabCaptionReason=TAppTabCaptionReason.FromPlugin then
                 begin
-                  if F.FileName<>'' then
-                    F.TabCaptionReason:= TAppTabCaptionReason.FromFilename
+                  if Frame.FileName<>'' then
+                    Frame.TabCaptionReason:= TAppTabCaptionReason.FromFilename
                   else
-                    F.TabCaptionReason:= TAppTabCaptionReason.Unsaved;
+                    Frame.TabCaptionReason:= TAppTabCaptionReason.Unsaved;
                 end;
-                F.UpdateCaptionFromFilename;
+                Frame.UpdateCaptionFromFilename;
               end;
             end;
           end;
 
         PROP_TAB_TITLE_REASON:
           begin
-            if Assigned(F) then
+            if Assigned(Frame) then
               if ConvertStringToTabCaptionReason(Str, CaptionReason) then
-                F.TabCaptionReason:= CaptionReason;
+                Frame.TabCaptionReason:= CaptionReason;
           end;
 
         PROP_TAB_PINNED:
           begin
-            if Assigned(F) then
-              F.TabPinned:= ValueBool;
+            if Assigned(Frame) then
+              Frame.TabPinned:= ValueBool;
           end;
 
         PROP_TAB_UI_SHOW:
           begin
-            if Assigned(F) then
-              F.TabVisible:= ValueBool;
+            if Assigned(Frame) then
+              Frame.TabVisible:= ValueBool;
           end;
 
         PROP_ENC:
           begin
-            if Assigned(F) then
+            if Assigned(Frame) then
               fmMain.SetFrameEncoding(Ed, AppEncodingShortnameToFullname(Str), false)
             else
               Ed.EncodingName:= AppEncodingShortnameToFullname(Str);
@@ -4434,7 +4434,7 @@ begin
 
         PROP_ENC_RELOAD:
           begin
-            if Assigned(F) then
+            if Assigned(Frame) then
               fmMain.SetFrameEncoding(Ed, AppEncodingShortnameToFullname(Str), true);
           end;
 
@@ -4453,8 +4453,8 @@ begin
 
             if LineEnd<>TATLineEnds.None then
             begin
-              if Assigned(F) then
-                fmMain.UpdateFrameLineEnds(F, Ed, LineEnd)
+              if Assigned(Frame) then
+                fmMain.UpdateFrameLineEnds(Frame, Ed, LineEnd)
               else
               begin
                 Ed.Strings.Endings:= LineEnd;
@@ -4504,22 +4504,22 @@ begin
 
         PROP_TAB_ICON:
           begin
-            if Assigned(F) then
-              F.TabImageIndex:= ValueInt;
+            if Assigned(Frame) then
+              Frame.TabImageIndex:= ValueInt;
           end;
 
         PROP_TAB_COLLECT_MARKERS:
           begin
-            if Assigned(F) then
-              F.TabKeyCollectMarkers:= ValueBool;
+            if Assigned(Frame) then
+              Frame.TabKeyCollectMarkers:= ValueBool;
           end;
 
         PROP_INDEX_GROUP:
           begin
-            if Assigned(F) then
+            if Assigned(Frame) then
             begin
               NIndexNew:= ValueInt;
-              GetFrameLocation(F, TempGroup, TempPages, NLocalGroup, NGlobalGroup, NTab);
+              GetFrameLocation(Frame, TempGroup, TempPages, NLocalGroup, NGlobalGroup, NTab);
               if (NTab>=0) and (NGlobalGroup<>NIndexNew) then
               begin
                 TempPagesTo:= TGroupsHelper.GetPagesOfGroupIndex(NIndexNew, true{AShowFloatingGroup});
@@ -4531,10 +4531,10 @@ begin
 
         PROP_INDEX_TAB:
           begin
-            if Assigned(F) then
+            if Assigned(Frame) then
             begin
               NIndexNew:= ValueInt;
-              GetFrameLocation(F, TempGroup, TempPages, NLocalGroup, NGlobalGroup, NTab);
+              GetFrameLocation(Frame, TempGroup, TempPages, NLocalGroup, NGlobalGroup, NTab);
               if NTab>=0 then
               begin
                 TempPages.Tabs.MoveTab(NTab, NIndexNew, true);
@@ -4663,14 +4663,14 @@ begin
 
         PROP_CODETREE:
           begin
-            if Assigned(F) then
-              F.EnabledCodeTree[Ed]:= ValueBool;
+            if Assigned(Frame) then
+              Frame.EnabledCodeTree[Ed]:= ValueBool;
           end;
 
         PROP_EDITORS_LINKED:
           begin
-            if Assigned(F) then
-              F.EditorsLinked:= ValueBool;
+            if Assigned(Frame) then
+              Frame.EditorsLinked:= ValueBool;
           end;
 
         PROP_ONE_LINE:
@@ -4701,14 +4701,14 @@ begin
 
         PROP_SAVE_HISTORY:
           begin
-            if Assigned(F) then
-              F.SaveHistory:= ValueBool;
+            if Assigned(Frame) then
+              Frame.SaveHistory:= ValueBool;
           end;
 
         PROP_PREVIEW:
           begin
-            if Assigned(F) then
-              F.TabIsPreview:= ValueBool;
+            if Assigned(Frame) then
+              Frame.TabIsPreview:= ValueBool;
           end;
 
         PROP_UNDO_GROUPED:
@@ -4725,12 +4725,12 @@ begin
 
         PROP_SPLIT:
           begin
-            if Assigned(F) then
+            if Assigned(Frame) then
             begin
               SSplitByChar(Str, ',', Str1, Str2);
-              F.Splitted:= Str1<>'-';
-              F.SplitHorz:= Str1='h';
-              F.SplitPos:= StrToIntDef(Str2, 500)/1000;
+              Frame.Splitted:= Str1<>'-';
+              Frame.SplitHorz:= Str1='h';
+              Frame.SplitPos:= StrToIntDef(Str2, 500)/1000;
             end;
           end;
 
@@ -4886,28 +4886,28 @@ begin
 
         PROP_V_MODE:
           begin
-            if not Assigned(F) then exit(ReturnNone);
+            if not Assigned(Frame) then exit(ReturnNone);
             if ValueInt=VMODE_NONE then
             begin
-              if F.FrameKind=TAppFrameKind.BinaryViewer then
+              if Frame.FrameKind=TAppFrameKind.BinaryViewer then
               begin
-                Str:= F.FileName;
-                F.DoFileClose;
-                F.DoFileOpen(Str, '', false, false, true, true, true, TAppOpenMode.Editor);
+                Str:= Frame.FileName;
+                Frame.DoFileClose;
+                Frame.DoFileOpen(Str, '', false, false, true, true, true, TAppOpenMode.Editor);
               end;
             end
             else
             if (ValueInt>=0) and (ValueInt<=Ord(High(TATBinHexMode))) then
             begin
-              if F.FrameKind=TAppFrameKind.BinaryViewer then
-                F.Viewer.Mode:= TATBinHexMode(ValueInt)
+              if Frame.FrameKind=TAppFrameKind.BinaryViewer then
+                Frame.Viewer.Mode:= TATBinHexMode(ValueInt)
               else
               begin
-                if F.EditorsLinked and (F.FileName<>'') then
+                if Frame.EditorsLinked and (Frame.FileName<>'') then
                 begin
-                  Str:= F.FileName;
-                  F.DoFileClose;
-                  F.DoFileOpen_AsBinary(Str, TATBinHexMode(ValueInt));
+                  Str:= Frame.FileName;
+                  Frame.DoFileClose;
+                  Frame.DoFileOpen_AsBinary(Str, TATBinHexMode(ValueInt));
                 end;
               end;
             end;
@@ -4915,68 +4915,68 @@ begin
 
         PROP_V_POS:
           begin
-            if not Assigned(F) then exit(ReturnNone);
-            if F.FrameKind=TAppFrameKind.BinaryViewer then
-              F.Viewer.PosOffset:= ValueInt;
+            if not Assigned(Frame) then exit(ReturnNone);
+            if Frame.FrameKind=TAppFrameKind.BinaryViewer then
+              Frame.Viewer.PosOffset:= ValueInt;
           end;
 
         PROP_V_SEL_START:
           begin
-            if not Assigned(F) then exit(ReturnNone);
-            if F.FrameKind=TAppFrameKind.BinaryViewer then
-              F.Viewer.SetSelection(
+            if not Assigned(Frame) then exit(ReturnNone);
+            if Frame.FrameKind=TAppFrameKind.BinaryViewer then
+              Frame.Viewer.SetSelection(
                 ValueInt,
-                F.Viewer.SelLength,
+                Frame.Viewer.SelLength,
                 false);
           end;
 
         PROP_V_SEL_LEN:
           begin
-            if not Assigned(F) then exit(ReturnNone);
-            if F.FrameKind=TAppFrameKind.BinaryViewer then
-              F.Viewer.SetSelection(
-                F.Viewer.SelStart,
+            if not Assigned(Frame) then exit(ReturnNone);
+            if Frame.FrameKind=TAppFrameKind.BinaryViewer then
+              Frame.Viewer.SetSelection(
+                Frame.Viewer.SelStart,
                 ValueInt,
                 false);
           end;
 
         PROP_V_WIDTH:
           begin
-            if not Assigned(F) then exit(ReturnNone);
-            if F.FrameKind=TAppFrameKind.BinaryViewer then
+            if not Assigned(Frame) then exit(ReturnNone);
+            if Frame.FrameKind=TAppFrameKind.BinaryViewer then
             begin
-              F.Viewer.TextWidth:= ValueInt;
-              F.Viewer.Invalidate;
+              Frame.Viewer.TextWidth:= ValueInt;
+              Frame.Viewer.Invalidate;
             end;
           end;
 
         PROP_V_WIDTH_HEX:
           begin
-            if not Assigned(F) then exit(ReturnNone);
-            if F.FrameKind=TAppFrameKind.BinaryViewer then
+            if not Assigned(Frame) then exit(ReturnNone);
+            if Frame.FrameKind=TAppFrameKind.BinaryViewer then
             begin
-              F.Viewer.TextWidthHex:= ValueInt;
-              F.Viewer.Invalidate;
+              Frame.Viewer.TextWidthHex:= ValueInt;
+              Frame.Viewer.Invalidate;
             end;
           end;
 
         PROP_V_WIDTH_UHEX:
           begin
-            if not Assigned(F) then exit(ReturnNone);
-            if F.FrameKind=TAppFrameKind.BinaryViewer then
+            if not Assigned(Frame) then exit(ReturnNone);
+            if Frame.FrameKind=TAppFrameKind.BinaryViewer then
             begin
-              F.Viewer.TextWidthUHex:= ValueInt;
-              F.Viewer.Invalidate;
+              Frame.Viewer.TextWidthUHex:= ValueInt;
+              Frame.Viewer.Invalidate;
             end;
           end;
 
         PROP_V_ENC:
           begin
-            if not Assigned(F) then exit(ReturnNone);
-            if F.FrameKind=TAppFrameKind.BinaryViewer then
+            if not Assigned(Frame) then exit(ReturnNone);
+            if Frame.FrameKind=TAppFrameKind.BinaryViewer then
             begin
-              F.Viewer.TextEncoding:= EncConvFindEncoding(Str);
-              F.Viewer.Invalidate;
+              Frame.Viewer.TextEncoding:= EncConvFindEncoding(Str);
+              Frame.Viewer.Invalidate;
               fmMain.UpdateStatusbar;
             end;
           end;
