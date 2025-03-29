@@ -217,9 +217,10 @@ begin
     false, false, bChanged, true);
   FinderUpdateEditor(false);
 
-  //if 'Hi' option is on, don't show results; they will be shown by TimerHiAllTick
-  if (not ok) or not (Assigned(fmFind) and fmFind.chkHiAll.Checked) then
-    FinderShowResult(ok, false, FFinder);
+  //even if 'Hi' option is on, show results here.
+  //TimerHiAllTick will show results again,
+  //but we still need to show results here for the F3 pressing in editor (TimerHiAllTick is not called).
+  FinderShowResult(ok, false, FFinder);
 end;
 
 procedure TfmMain.FindAndReplaceOneMatch(AndStop: boolean);
