@@ -218,7 +218,7 @@ begin
   FinderUpdateEditor(false);
 
   //if 'Hi' option is on, don't show results; they will be shown by TimerHiAllTick
-  if not (Assigned(fmFind) and fmFind.chkHiAll.Checked) then
+  if (not ok) or not (Assigned(fmFind) and fmFind.chkHiAll.Checked) then
     FinderShowResult(ok, false, FFinder);
 end;
 
@@ -1665,10 +1665,10 @@ begin
   end;
 end;
 
-procedure TfmMain.FindDialogOnShowResult;
+procedure TfmMain.FindDialogOnShowResult(AFound: boolean);
 begin
   FFinder.Editor:= CurrentEditor;
-  FinderShowResult(true, false, FFinder);
+  FinderShowResult(AFound, false, FFinder);
 end;
 
 procedure TfmMain.FindDialogOnChangeVisible(Sender: TObject);

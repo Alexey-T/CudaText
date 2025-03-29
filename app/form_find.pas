@@ -104,7 +104,7 @@ type
     AUpdateEnabledAll, ADocumentIsSmall: boolean) of object;
   TAppFinderGetEditor = procedure(out AEditor: TATSynEdit) of object;
   TAppFinderKeyDownEvent = function(AKey: word; AShiftState: TShiftState): boolean of object;
-  TAppFinderShowResultEvent = procedure of object;
+  TAppFinderShowResultEvent = procedure(AFound: boolean) of object;
 
 function AppFinderOperationFromString(const Str: string): TAppFinderOperation;
 
@@ -1988,8 +1988,9 @@ begin
       EditorHighlightAllMatches(Finder, FHiAllEnableFindNext, NMatches, FInitialCaretPos);
       NTick:= GetTickCount64-NTick;
 
-      if Assigned(FOnShowResult) then
-        FOnShowResult;
+      if NMatches>0 then
+        if Assigned(FOnShowResult) then
+          FOnShowResult(true);
     finally
       FreeAndNil(Finder);
     end;
