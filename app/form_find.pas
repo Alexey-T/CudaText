@@ -279,7 +279,7 @@ type
     procedure UpdateCaption(const AText: string);
     procedure UpdateHiAll(AEnableFindNext: boolean);
     procedure UpdateInputReddishIndicator(AFound: boolean);
-    procedure ClearHiAll;
+    procedure ClearHiAll(Ed: TATSynEdit);
     procedure ApplyTheme;
     property OnResult: TAppFinderOperationEvent read FOnResult write FOnResult;
     property OnChangeOptions: TNotifyEvent read FOnChangeOptions write FOnChangeOptions;
@@ -943,16 +943,16 @@ begin
 end;
 
 procedure TfmFind.FormClose(Sender: TObject; var CloseAction: TCloseAction);
-begin
-  CloseAction:= caHide;
-  ClearHiAll;
-end;
-
-procedure TfmFind.ClearHiAll;
 var
   Ed: TATSynEdit;
 begin
+  CloseAction:= caHide;
   OnGetMainEditor(Ed);
+  ClearHiAll(Ed);
+end;
+
+procedure TfmFind.ClearHiAll(Ed: TATSynEdit);
+begin
   if Assigned(Ed) then
     EditorClearHiAllMarkers(Ed);
 end;
@@ -1891,6 +1891,7 @@ var
   Ed: TATSynEdit;
 begin
   FTimerHiAll.Enabled:= false;
+  OnGetMainEditor(Ed);
 
   if FForViewer then
   begin
@@ -1900,17 +1901,17 @@ begin
 
   if edFind.IsEmpty then
   begin
-    ClearHiAll;
+    ClearHiAll(Ed);
     exit;
   end;
+
   if not chkHiAll.Enabled then
   begin
-    ClearHiAll;
+    ClearHiAll(Ed);
     exit;
   end;
 
   FHiAllEnableFindNext:= AEnableFindNext;
-  OnGetMainEditor(Ed);
   if Assigned(Ed) and (Ed.Strings.Count>UiOps.FindHiAll_TimerLines) then
   begin
     FTimerHiAll.Interval:= UiOps.FindHiAll_TimerInterval;
@@ -1969,7 +1970,7 @@ begin
     end;
   end;
 
-  ClearHiAll;
+  ClearHiAll(Ed);
   if IsHiAll then
   begin
     Finder:= TATEditorFinder.Create;

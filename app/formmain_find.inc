@@ -333,7 +333,7 @@ begin
     if IsFocusedFind then
       Frame.SetFocus;
     fmFind.Hide;
-    fmFind.ClearHiAll;
+    fmFind.ClearHiAll(Frame.Editor);
     UpdateAppForSearch(false, false, bFindMode, AEnableUpdateAll, bFocusFindDlg);
     Exit;
   end;
