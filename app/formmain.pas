@@ -1078,7 +1078,8 @@ type
     procedure DoDialogFind(AReplaceMode, AUpdateFocus: boolean);
     procedure DoDialogFind_Hide;
     procedure DoDialogFind_Toggle(AReplaceMode, AAndFocus: boolean);
-    procedure FinderShowResult(AFound, AIsReplace: boolean; AFinder: TATEditorFinder);
+    procedure FinderShowResult(AFound, AIsReplace: boolean;
+      AFinder: TATEditorFinder; AScrollToMatch: boolean=true);
     procedure FinderShowResultSimple(AFound: boolean; AFinder: TATEditorFinder);
     procedure DoMoveTabToGroup(AGroupIndex: Integer; AFromCommandPalette: boolean=false);
     function DoFileOpen(AFileName, AFileName2: string; APages: TATPages=nil; const AOptions: string=''): TEditorFrame;
@@ -1273,7 +1274,7 @@ type
     procedure FindDialogOnChangeOptions(Sender: TObject);
     procedure FindDialogOnChangeVisible(Sender: TObject);
     function FindDialogOnHandleKeyDown(AKey: word; AShiftState: TShiftState): boolean;
-    procedure FindDialogOnShowResult(AFound: boolean);
+    procedure FindDialogOnShowResultInStatusbar(AFound: boolean);
     procedure FindDialog_ApplyOptionsString(const AText: string);
     function FindDialog_GetOptionsPyDict: PPyObject;
     procedure FinderOnGetToken(Sender: TObject; AX, AY: integer; out AKind: TATTokenKind);

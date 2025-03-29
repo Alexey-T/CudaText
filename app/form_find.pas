@@ -232,7 +232,7 @@ type
     FOnResetSearchString: TNotifyEvent;
     FOnGetToken: TATFinderGetToken;
     FOnHandleKeyDown: TAppFinderKeyDownEvent;
-    FOnShowResult: TAppFinderShowResultEvent;
+    FOnShowResultInStatusbar: TAppFinderShowResultEvent;
     FCaptionFind: string;
     FCaptionReplace: string;
     FLexerRegexThemed: boolean;
@@ -288,7 +288,7 @@ type
     property OnResetSearchString: TNotifyEvent read FOnResetSearchString write FOnResetSearchString;
     property OnGetToken: TATFinderGetToken read FOnGetToken write FOnGetToken;
     property OnHandleKeyDown: TAppFinderKeyDownEvent read FOnHandleKeyDown write FOnHandleKeyDown;
-    property OnShowResult: TAppFinderShowResultEvent read FOnShowResult write FOnShowResult;
+    property OnShowResultInStatusbar: TAppFinderShowResultEvent read FOnShowResultInStatusbar write FOnShowResultInStatusbar;
     property IsReplace: boolean read FReplace write SetReplace;
     property IsMultiLine: boolean read FMultiLine write SetMultiLine;
     property IsNarrow: boolean read FNarrow write SetNarrow;
@@ -1989,8 +1989,8 @@ begin
       //NTick:= GetTickCount64-NTick;
 
       if NMatches>0 then //if no matches, 'Cannot find' status msg was already shown
-        if Assigned(FOnShowResult) then
-          FOnShowResult(true);
+        if Assigned(FOnShowResultInStatusbar) then
+          FOnShowResultInStatusbar(true);
     finally
       FreeAndNil(Finder);
     end;

@@ -502,7 +502,7 @@ begin
     fmFind.OnResetSearchString:= @FindDialogOnResetSearchString;
     fmFind.OnGetToken:= @FinderOnGetToken;
     fmFind.OnHandleKeyDown:= @FindDialogOnHandleKeyDown;
-    fmFind.OnShowResult:= @FindDialogOnShowResult;
+    fmFind.OnShowResultInStatusbar:= @FindDialogOnShowResultInStatusbar;
 
     fmFind.Color:= GetAppColor(TAppThemeColor.TabBg);
     fmFind.UpdateCaretPosVar;
@@ -1018,7 +1018,8 @@ begin
     Result:= Format(' [?/%d]', [NCount]);
 end;
 
-procedure TfmMain.FinderShowResult(AFound, AIsReplace: boolean; AFinder: TATEditorFinder);
+procedure TfmMain.FinderShowResult(AFound, AIsReplace: boolean;
+  AFinder: TATEditorFinder; AScrollToMatch: boolean=true);
 var
   Details: string;
 begin
@@ -1028,19 +1029,21 @@ begin
     Details+= FinderOptionsToHint(AFinder, AIsReplace);
     MsgStatus(msgStatusFoundNextMatch+Details, true);
 
+    Assert(Assigned(AFinder.Editor), 'AFinder.Editor is nil in FinderShowResult()');
     AFinder.Editor.EndUpdate;
 
     if not AFinder.OptDisableOnProgress then
       Application.ProcessMessages;
 
-    //not DoGotoPos, we may need to show marker, not caret
-    AFinder.Editor.DoShowPos(
-      AFinder.MatchEdPos,
-      AFinder.IndentHorz,
-      AFinder.IndentVert,
-      true,
-      true,
-      true);
+    if AScrollToMatch then
+      //not DoGotoPos, we may need to show marker, not caret
+      AFinder.Editor.DoShowPos(
+        AFinder.MatchEdPos,
+        AFinder.IndentHorz,
+        AFinder.IndentVert,
+        true,
+        true,
+        true);
   end
   else
   if AFinder.IsRegexBad then
@@ -1651,10 +1654,10 @@ begin
   end;
 end;
 
-procedure TfmMain.FindDialogOnShowResult(AFound: boolean);
+procedure TfmMain.FindDialogOnShowResultInStatusbar(AFound: boolean);
 begin
   FFinder.Editor:= CurrentEditor;
-  FinderShowResult(AFound, false, FFinder);
+  FinderShowResult(AFound, false, FFinder, false{AScrollToMatch});
 end;
 
 procedure TfmMain.FindDialogOnChangeVisible(Sender: TObject);
