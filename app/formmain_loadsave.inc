@@ -1111,6 +1111,9 @@ begin
       while SBeginsWith(AppSessionName, '..'+DirectorySeparator) do
         Delete(AppSessionName, 1, 3);
 
+      if AppSessionName='' then
+        AppSessionName:= cAppSessionDefault;
+
       SSplitByChar(AppSessionName, '|', sFilename, sRootPath);
       sFilename:= AppExpandFileNameWithDir(sFilename, AppDir_Settings);
       if (sRootPath='') and not FileExists(sFilename) then
@@ -1123,13 +1126,14 @@ begin
           else
           begin
             MsgLogConsole('ERROR: Session file not found, cannot restore from backup: '+sBackupFilename);
-            AppSessionName:= '';
+            AppSessionName:= cAppSessionDefault;
           end;
         end
         else
         begin
-          MsgLogConsole('ERROR: Session file not found, and there is no backup: '+sFilename);
-          AppSessionName:= '';
+          if AppSessionName<>cAppSessionDefault then
+            MsgLogConsole('ERROR: Session file not found, and there is no backup: '+sFilename);
+          AppSessionName:= cAppSessionDefault;
         end;
       end;
 
