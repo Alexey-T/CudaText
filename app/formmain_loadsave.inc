@@ -1130,9 +1130,9 @@ begin
           end;
         end
         else
+        if AppSessionName<>cAppSessionDefault then
         begin
-          if AppSessionName<>cAppSessionDefault then
-            MsgLogConsole('ERROR: Session file not found, and there is no backup: '+sFilename);
+          MsgLogConsole('ERROR: Session file not found, and there is no backup: '+sFilename);
           AppSessionName:= cAppSessionDefault;
         end;
       end;
