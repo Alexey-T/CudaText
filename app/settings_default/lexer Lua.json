@@ -1,6 +1,0 @@
-{
-  "tab_spaces": true,
-  "tab_size": 2,
-  "indent_size": 0,
-  "indent_auto_rule": "(.*\\b(do|then)\\s*$)|(^\\s*function(\\s*\\w+)?\\s*\\([^\\)]*\\)\\s*$)"  
-}

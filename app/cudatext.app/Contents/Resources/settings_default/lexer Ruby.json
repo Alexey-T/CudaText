@@ -1,6 +1,0 @@
-{
-  "tab_spaces": true,
-  "tab_size": 2,
-  "indent_size": 0,
-  "indent_auto_rule": "(^\\s*(begin|else|private|protected|public)$)|(^\\s*(if|elsif|for|while|rescue|class|def)\\b.*$)|(^.+\\btimes\\s*do\\s*$)"
-}
