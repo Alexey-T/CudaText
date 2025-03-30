@@ -60,8 +60,6 @@ type
     { public declarations }
   end;
 
-var
-  fmLexerStyle: TfmLexerStyle;
 
 implementation
 

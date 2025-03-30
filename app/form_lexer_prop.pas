@@ -108,8 +108,6 @@ type
     property IsChangedComments: boolean read FChangedComments write SetChangedComments;
   end;
 
-var
-  fmLexerProp: TfmLexerProp;
 
 function DoShowDialogLexerProp(
   An: TecSyntAnalyzer;

@@ -57,8 +57,6 @@ type
     ItemsVal: TStringlist;
   end;
 
-var
-  fmLexerStyleMap: TfmLexerStyleMap;
 
 function DoApplyLexerStylesMap(an: TecSyntAnalyzer; out anNotCorrect: TecSyntAnalyzer): boolean;
 function DoDialogLexerStylesMap(an: TecSyntAnalyzer): boolean;
