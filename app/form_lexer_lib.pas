@@ -54,7 +54,7 @@ type
   end;
 
 
-function DoShowDialogLexerLib(
+function DoDialogLexerLibraryEx(
   const ADirAcp: string;
   const AFontName: string;
   AFontSize: integer;
@@ -69,7 +69,7 @@ const
   cLexerLinks: string = 'links:';
 
 
-function DoShowDialogLexerLib(const ADirAcp: string; const AFontName: string;
+function DoDialogLexerLibraryEx(const ADirAcp: string; const AFontName: string;
   AFontSize: integer; AOnDeleteLexer: TAppStringEvent): boolean;
 var
   F: TfmLexerLib;

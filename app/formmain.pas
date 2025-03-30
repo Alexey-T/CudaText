@@ -4376,7 +4376,7 @@ end;
 
 procedure TfmMain.DoDialogLexerLib;
 begin
-  if DoShowDialogLexerLib(
+  if DoDialogLexerLibraryEx(
     AppDir_DataAutocomplete,
     EditorOps.OpFontName,
     EditorOps.OpFontSize,
