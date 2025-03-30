@@ -70,29 +70,6 @@ const
   cHiddenSuffix: string = '(hidden)';
   cLexerLinks: string = 'links:';
 
-procedure TfmLexerLib.Localize;
-const
-  section = 'd_lex_lib';
-var
-  ini: TIniFile;
-  fn: string;
-begin
-  fn:= AppFile_Language;
-  if not FileExists(fn) then exit;
-  ini:= TIniFile.Create(fn);
-  try
-    Caption:= ini.ReadString(section, '_', Caption);
-    with PanelBtn.CloseButton do Caption:= msgButtonClose;
-    with btnConfig do Caption:= ini.ReadString(section, 'cfg', Caption);
-    with btnDelete do Caption:= ini.ReadString(section, 'del', Caption);
-    //with F.btnShowHide do Caption:= ini.ReadString(section, 'hid', Caption);
-    cHiddenSuffix:= ini.ReadString(section, 'hidmk', cHiddenSuffix);
-    cLexerLinks:= ini.ReadString(section, 'lns', cLexerLinks);
-  finally
-    FreeAndNil(ini);
-  end;
-end;
-
 
 function DoShowDialogLexerLib(const ADirAcp: string; const AFontName: string;
   AFontSize: integer; AOnDeleteLexer: TAppStringEvent): boolean;
@@ -125,7 +102,62 @@ begin
     end;
 end;
 
+
+procedure SEscapeSpecialChars(var S: string);
+var
+  i: byte;
+begin
+  SReplaceAll(S, ' ', '_');
+
+  for i in [ord('#'), ord('*'), ord('|'), ord('/')] do
+    SReplaceAll(S, Chr(i), '%'+IntToHex(i, 2));
+end;
+
+
+procedure DeletePackagesIniSection(ALexerName: string);
+var
+  fn: string;
+  Ini: TIniFile;
+begin
+  SEscapeSpecialChars(ALexerName);
+
+  fn:= AppDir_Settings+DirectorySeparator+'packages.ini';
+  if FileExists(fn) then
+  begin
+    Ini:= TIniFile.Create(fn);
+    try
+      Ini.EraseSection('lexer.'+ALexerName+'.zip');
+    finally
+      FreeAndNil(Ini);
+    end;
+  end;
+end;
+
 { TfmLexerLib }
+
+procedure TfmLexerLib.Localize;
+const
+  section = 'd_lex_lib';
+var
+  ini: TIniFile;
+  fn: string;
+begin
+  fn:= AppFile_Language;
+  if not FileExists(fn) then exit;
+  ini:= TIniFile.Create(fn);
+  try
+    Caption:= ini.ReadString(section, '_', Caption);
+    with PanelBtn.CloseButton do Caption:= msgButtonClose;
+    with btnConfig do Caption:= ini.ReadString(section, 'cfg', Caption);
+    with btnDelete do Caption:= ini.ReadString(section, 'del', Caption);
+    //with F.btnShowHide do Caption:= ini.ReadString(section, 'hid', Caption);
+    cHiddenSuffix:= ini.ReadString(section, 'hidmk', cHiddenSuffix);
+    cLexerLinks:= ini.ReadString(section, 'lns', cLexerLinks);
+  finally
+    FreeAndNil(ini);
+  end;
+end;
+
 
 procedure TfmLexerLib.FormShow(Sender: TObject);
 begin
@@ -190,37 +222,6 @@ begin
     Close;
     Key:= 0;
     exit
-  end;
-end;
-
-
-procedure SEscapeSpecialChars(var S: string);
-var
-  i: byte;
-begin
-  SReplaceAll(S, ' ', '_');
-
-  for i in [ord('#'), ord('*'), ord('|'), ord('/')] do
-    SReplaceAll(S, Chr(i), '%'+IntToHex(i, 2));
-end;
-
-
-procedure DeletePackagesIniSection(ALexerName: string);
-var
-  fn: string;
-  Ini: TIniFile;
-begin
-  SEscapeSpecialChars(ALexerName);
-
-  fn:= AppDir_Settings+DirectorySeparator+'packages.ini';
-  if FileExists(fn) then
-  begin
-    Ini:= TIniFile.Create(fn);
-    try
-      Ini.EraseSection('lexer.'+ALexerName+'.zip');
-    finally
-      FreeAndNil(Ini);
-    end;
   end;
 end;
 
