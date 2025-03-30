@@ -3,10 +3,10 @@
   - fixed
   * changed
 
-1.222.6 (2025/04)
+1.222.6 (2025/03)
 
 * change: Find dialog: 'Mark all' now does not scroll to found match (view at old caret pos is more logical)
-- fix: removed some lexer-specific configs (Lua, Pascal, PHP, Ruby, TypeScript, VBScript) from "settings_default", they are now in lexers distribution zip-files
+- fix: removed some lexer-specific configs (Lua, Pascal, PHP, Ruby, TypeScript, VBScript) from "settings_default", they are now in lexers distribution zip-files, CudaText (even 1.200) will auto-install them to "settings_default"
 - fix: regression: Find dialog with 'Hi' option: 'Find next' cannot show '[1/5]' statusbar indicator (thanks @Hexaae)
 
 1.222.5 (2025/03)
