@@ -43,7 +43,6 @@ type
   private
     { private declarations }
     FOnDeleteLexer: TAppStringEvent;
-    procedure DeletePackagesIniSection(ALexerName: string);
     procedure Localize;
     procedure UpdateList;
   public
@@ -206,7 +205,7 @@ begin
 end;
 
 
-procedure TfmlexerLib.DeletePackagesIniSection(ALexerName: string);
+procedure DeletePackagesIniSection(ALexerName: string);
 var
   fn: string;
   Ini: TIniFile;
