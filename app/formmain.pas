@@ -2787,10 +2787,24 @@ end;
 
 
 function TfmMain.IsAllowedToOpenFileNow: boolean;
+var
+  Form: TForm;
+  i: integer;
 begin
   Result:= true;
   if IsDialogCustomShown then exit(false);
-  if Assigned(fmCommands) and fmCommands.Visible then fmCommands.Close;
+
+  //close Command Palette
+  for i:= 0 to Screen.FormCount-1 do
+  begin
+    Form:= Screen.Forms[i];
+    if Form is TfmCommands then
+    begin
+      if Form.Visible then
+        Form.Close;
+      Break;
+    end;
+  end;
 end;
 
 
@@ -5405,48 +5419,49 @@ end;
 function TfmMain.DoDialogCommands_Custom(Ed: TATSynEdit; const AProps: TDlgCommandsProps): integer;
 var
   bKeysChanged: boolean;
+  Form: TfmCommands;
 begin
   Result:= 0;
-  fmCommands:= TfmCommands.Create(Self);
+  Form:= TfmCommands.Create(Self);
   try
-    UpdateInputForm(fmCommands);
-    fmCommands.OptShowUsual:= AProps.ShowUsual;
-    fmCommands.OptShowPlugins:= AProps.ShowPlugins;
-    fmCommands.OptShowLexers:= AProps.ShowLexers;
-    fmCommands.OptShowFiles:= AProps.ShowFiles;
-    fmCommands.OptShowRecents:= AProps.ShowRecents;
-    fmCommands.OptAllowConfig:= AProps.AllowConfig;
-    fmCommands.OptAllowConfigForLexer:= AProps.AllowConfigForLexer;
-    fmCommands.OptFocusedCommand:= AProps.FocusedCommand;
-    fmCommands.OnMsg:= @DoCommands_OnMsg;
-    fmCommands.CurrentLexerName:= AProps.LexerName;
-    fmCommands.Keymap:= Ed.Keymap;
-    fmCommands.ListCaption:= AProps.Caption;
+    UpdateInputForm(Form);
+    Form.OptShowUsual:= AProps.ShowUsual;
+    Form.OptShowPlugins:= AProps.ShowPlugins;
+    Form.OptShowLexers:= AProps.ShowLexers;
+    Form.OptShowFiles:= AProps.ShowFiles;
+    Form.OptShowRecents:= AProps.ShowRecents;
+    Form.OptAllowConfig:= AProps.AllowConfig;
+    Form.OptAllowConfigForLexer:= AProps.AllowConfigForLexer;
+    Form.OptFocusedCommand:= AProps.FocusedCommand;
+    Form.OnMsg:= @DoCommands_OnMsg;
+    Form.CurrentLexerName:= AProps.LexerName;
+    Form.Keymap:= Ed.Keymap;
+    Form.ListCaption:= AProps.Caption;
 
     if UiOps.CmdPaletteFilterText_Forced<>'' then
     begin
-      fmCommands.CurrentFilterText:= UiOps.CmdPaletteFilterText_Forced;
+      Form.CurrentFilterText:= UiOps.CmdPaletteFilterText_Forced;
       UiOps.CmdPaletteFilterText_Forced:= '';
     end
     else
     if UiOps.CmdPaletteFilterKeep then
-      fmCommands.CurrentFilterText:= UiOps.CmdPaletteFilterText;
+      Form.CurrentFilterText:= UiOps.CmdPaletteFilterText;
 
     if AProps.ShowCentered then
-      fmCommands.Position:= poScreenCenter;
+      Form.Position:= poScreenCenter;
 
     if AProps.W>0 then
-      fmCommands.Width:= AProps.W;
+      Form.Width:= AProps.W;
     if AProps.H>0 then
-      fmCommands.Height:= AProps.H;
+      Form.Height:= AProps.H;
 
-    fmCommands.ShowModal;
+    Form.ShowModal;
 
-    UiOps.CmdPaletteFilterText:= fmCommands.CurrentFilterText;
-    Result:= fmCommands.ResultCommand;
-    bKeysChanged:= fmCommands.ResultHotkeysChanged;
+    UiOps.CmdPaletteFilterText:= Form.CurrentFilterText;
+    Result:= Form.ResultCommand;
+    bKeysChanged:= Form.ResultHotkeysChanged;
   finally
-    FreeAndNil(fmCommands);
+    FreeAndNil(Form);
   end;
 
   if bKeysChanged then

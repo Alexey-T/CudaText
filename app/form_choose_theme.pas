@@ -59,8 +59,6 @@ type
     property EnableSync: boolean read GetEnableSync write SetEnableSync;
   end;
 
-var
-  fmChooseTheme: TfmChooseTheme;
 
 implementation
 

@@ -69,8 +69,6 @@ type
     Keys1, Keys2: TATKeyArray;
   end;
 
-var
-  fmKeys: TfmKeys;
 
 implementation
 

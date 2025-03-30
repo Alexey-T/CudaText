@@ -63,8 +63,6 @@ type
     property OnListSelect: TAppListSelectEvent read FOnListSelect write FOnListSelect;
   end;
 
-var
-  fmMenuList: TfmMenuList;
 
 implementation
 

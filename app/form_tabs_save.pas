@@ -45,8 +45,6 @@ type
     { public declarations }
   end;
 
-var
-  fmSaveTabs: TfmSaveTabs;
 
 implementation
 

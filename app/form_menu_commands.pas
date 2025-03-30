@@ -94,8 +94,6 @@ type
     property ListCaption: string read GetListCaption write SetListCaption;
   end;
 
-var
-  fmCommands: TfmCommands;
 
 implementation
 

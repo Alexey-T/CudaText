@@ -68,8 +68,6 @@ type
     procedure ApplyToEditor(Ed: TATSynEdit);
   end;
 
-var
-  fmUnprinted: TfmUnprinted;
 
 implementation
 
