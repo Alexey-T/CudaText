@@ -4365,7 +4365,7 @@ end;
 
 procedure TfmMain.DoDialogLexerProp(an: TecSyntAnalyzer);
 begin
-  if DoShowDialogLexerProp(an,
+  if DoDialogLexerPropEx(an,
     EditorOps.OpFontName,
     EditorOps.OpFontSize) then
   begin

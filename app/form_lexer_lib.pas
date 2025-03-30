@@ -65,8 +65,8 @@ implementation
 {$R *.lfm}
 
 const
-  cHiddenSuffix: string = '(hidden)';
-  cLexerLinks: string = 'links:';
+  msgLexerHiddenSuffix: string = '(hidden)';
+  msgLexerLinks: string = 'links:';
 
 
 function DoDialogLexerLibraryEx(const ADirAcp: string; const AFontName: string;
@@ -149,8 +149,8 @@ begin
     with btnConfig do Caption:= ini.ReadString(section, 'cfg', Caption);
     with btnDelete do Caption:= ini.ReadString(section, 'del', Caption);
     //with F.btnShowHide do Caption:= ini.ReadString(section, 'hid', Caption);
-    cHiddenSuffix:= ini.ReadString(section, 'hidmk', cHiddenSuffix);
-    cLexerLinks:= ini.ReadString(section, 'lns', cLexerLinks);
+    msgLexerHiddenSuffix:= ini.ReadString(section, 'hidmk', msgLexerHiddenSuffix);
+    msgLexerLinks:= ini.ReadString(section, 'lns', msgLexerLinks);
   finally
     FreeAndNil(ini);
   end;
@@ -177,7 +177,7 @@ begin
   if n<0 then exit;
   an:= List.Items.Objects[n] as TecSyntAnalyzer;
 
-  if DoShowDialogLexerProp(an, FontName, FontSize) then
+  if DoDialogLexerPropEx(an, FontName, FontSize) then
   begin
     //DoLexerExportFromLibToFile(an);
     UpdateList;
@@ -293,7 +293,7 @@ begin
         if not IsLexerLinkDup(an, j) then
         begin
           if links='' then
-            links:= cLexerLinks+' '
+            links:= msgLexerLinks+' '
           else
             links:= links+', ';
           an_sub:= an.SubAnalyzers[j];
@@ -308,7 +308,7 @@ begin
 
       suffix:= '';
       if an.Internal then
-        suffix:= '    '+cHiddenSuffix;
+        suffix:= '    '+msgLexerHiddenSuffix;
 
       SListItem:= sl[i] + links + suffix;
       List.Items.AddObject(SListItem, an);

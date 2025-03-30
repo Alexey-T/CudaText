@@ -109,7 +109,7 @@ type
   end;
 
 
-function DoShowDialogLexerProp(
+function DoDialogLexerPropEx(
   An: TecSyntAnalyzer;
   const AFontName: string;
   AFontSize: integer): boolean;
@@ -497,7 +497,7 @@ begin
 end;
 
 
-function DoShowDialogLexerProp(An: TecSyntAnalyzer; const AFontName: string;
+function DoDialogLexerPropEx(An: TecSyntAnalyzer; const AFontName: string;
   AFontSize: integer): boolean;
 var
   F: TfmLexerProp;
