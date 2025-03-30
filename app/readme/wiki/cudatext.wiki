@@ -648,6 +648,8 @@ In SynWrite, you've created .lcf file in folder SynWrite/Data/LexLib. If you con
 * In prev step, you configured .cuda-lexmap file, in folder CudaText/data/lexlib. Copy this file to zip installation of your lexer.
 * Zip must contain: install.inf, .lcf file(s), .cuda-lexmap file per each lexer.
 
+You can place file(s) "lexer LexerName.json" into zip archive, per each lexer in zip archive. These JSON files will be installed to the folder "settings_default" of CudaText. Ie, these are lexer-specific configs for lexers. Some lexers do this already: Lua, Pascal, PHP, Ruby, TypeScript.
+
 === Lite lexers ===
 Lite lexers are lexers is special format (internally it's JSON file), with very limited features. They don't support code-tree, folding, don't support multi-line comments, don't have rich highlighting (e.g. background highlight of string `12+$var` with additional highlight for 12 and $var inside). And they don't keep tokens information in memory (positions of found tokens in text). Lite lexers process only lines visible on screen, not all document lines. So, they work fast for any file size.
 
