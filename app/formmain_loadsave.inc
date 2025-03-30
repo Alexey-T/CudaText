@@ -1007,7 +1007,7 @@ var
   cfg: TAppJsonConfig;
   bFlag: boolean;
   NTick: QWord;
-  sFilename, sRootPath: string;
+  sFilename, sRootPath, sBackupFilename: string;
   ListTemp: TStringList;
   N: integer;
 begin
@@ -1111,12 +1111,26 @@ begin
       while SBeginsWith(AppSessionName, '..'+DirectorySeparator) do
         Delete(AppSessionName, 1, 3);
 
-      if not IsDefaultSessionActive then
+      SSplitByChar(AppSessionName, '|', sFilename, sRootPath);
+      sFilename:= AppExpandFileNameWithDir(sFilename, AppDir_Settings);
+      if not FileExists(sFilename) then
       begin
-        SSplitByChar(AppSessionName, '|', sFilename, sRootPath);
-        sFilename:= AppExpandFileNameWithDir(sFilename, AppDir_Settings);
-        if not FileExists(sFilename) then
+        sBackupFilename:= ChangeFileExt(sFilename, '.1.cuda-session');
+        if FileExists(sBackupFilename) then
+        begin
+          if FileUtil.CopyFile(sBackupFilename, sFilename) then
+            MsgLogConsole('NOTE: Session file not found, restored from backup: '+sBackupFilename)
+          else
+          begin
+            MsgLogConsole('ERROR: Session file not found, cannot restore from backup: '+sBackupFilename);
+            AppSessionName:= '';
+          end;
+        end
+        else
+        begin
+          MsgLogConsole('ERROR: Session file not found, and there is no backup: '+sFilename);
           AppSessionName:= '';
+        end;
       end;
 
       FLastSelectedCommand:= cfg.GetValue('last_cmd', FLastSelectedCommand);
