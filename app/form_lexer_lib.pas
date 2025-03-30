@@ -47,14 +47,12 @@ type
     procedure UpdateList;
   public
     { public declarations }
-    FFontName: string;
-    FFontSize: integer;
-    FDirAcp: string;
+    FontName: string;
+    FontSize: integer;
+    DirAcp: string;
     property OnDeleteLexer: TAppStringEvent read FOnDeleteLexer write FOnDeleteLexer;
   end;
 
-var
-  fmLexerLib: TfmLexerLib;
 
 function DoShowDialogLexerLib(
   const ADirAcp: string;
@@ -79,9 +77,9 @@ begin
   F:= TfmLexerLib.Create(nil);
   try
     F.OnDeleteLexer:= AOnDeleteLexer;
-    F.FFontName:= AFontName;
-    F.FFontSize:= AFontSize;
-    F.FDirAcp:= ADirAcp;
+    F.FontName:= AFontName;
+    F.FontSize:= AFontSize;
+    F.DirAcp:= ADirAcp;
     F.ShowModal;
     Result:= AppManager.Modified;
   finally
@@ -179,7 +177,7 @@ begin
   if n<0 then exit;
   an:= List.Items.Objects[n] as TecSyntAnalyzer;
 
-  if DoShowDialogLexerProp(an, FFontName, FFontSize) then
+  if DoShowDialogLexerProp(an, FontName, FontSize) then
   begin
     //DoLexerExportFromLibToFile(an);
     UpdateList;
