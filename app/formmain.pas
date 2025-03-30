@@ -2794,15 +2794,16 @@ begin
   Result:= true;
   if IsDialogCustomShown then exit(false);
 
-  //close Command Palette
-  for i:= 0 to Screen.FormCount-1 do
+  //close menu-like forms
+  for i:= Screen.FormCount-1 downto 0 do
   begin
     Form:= Screen.Forms[i];
-    if Form is TfmCommands then
+    if (Form is TfmCommands) or
+      (Form is TfmMenuList) or
+      (Form is TfmMenuApi) then
     begin
       if Form.Visible then
         Form.Close;
-      Break;
     end;
   end;
 end;
