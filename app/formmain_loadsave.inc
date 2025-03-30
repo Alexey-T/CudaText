@@ -1113,7 +1113,7 @@ begin
 
       SSplitByChar(AppSessionName, '|', sFilename, sRootPath);
       sFilename:= AppExpandFileNameWithDir(sFilename, AppDir_Settings);
-      if not FileExists(sFilename) then
+      if (sRootPath='') and not FileExists(sFilename) then
       begin
         sBackupFilename:= ChangeFileExt(sFilename, '.1.cuda-session');
         if FileExists(sBackupFilename) then
