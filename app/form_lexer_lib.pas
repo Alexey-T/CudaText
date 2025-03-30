@@ -248,6 +248,7 @@ begin
     DeleteFile(AppFile_Lexer(SLexerName));
     DeleteFile(AppFile_LexerMap(SLexerName));
     DeleteFile(AppFile_LexerAcp(SLexerName));
+    DeleteFile(AppFile_LexerSpecificConfig(SLexerName, true));
     DeletePackagesIniSection(SLexerName);
 
     AppManager.DeleteLexer(An);
