@@ -9,7 +9,7 @@
 * change: on opening *.cuda-session file from command-line, don't treat file as session anymore - that caused confusion for many users who wanted just to inspect the file contents
 + add: Commane Palette command "code tree: go to block for current node, to end of block" (thanks @mix-7)
 - fix: regression in 1.222.3: on pasting block (with final EOL) in document middle, file's final EOL was removed
-- fix: regression: finder does not show '[2/6]' indicator of found match (thanks @Hexaae)
+- fix: regression: find dialog with 'Hi' option: 'find next' does not show '[2/6]' indicator (thanks @Hexaae)
 
 1.222.3 (2025/03)
 
