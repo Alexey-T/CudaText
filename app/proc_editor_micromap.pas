@@ -112,10 +112,10 @@ var
     Inited: boolean;
     MarkPos: TMicromapMark;
   end;
-  XColor, XColorBkmk, XColorSelected, XColorOccur, XColorSpell: TBGRAPixel;
+  XColor, XColorBkmk, XColorSelected, XColorOccur, XColorOccurAtCaret, XColorSpell: TBGRAPixel;
   NColor: TColor;
   RectMark: TRect;
-  NLine1, NIndex, NIndex1, NIndex2, NColumnIndex, NMaxLineIndex, NColumnCount: integer;
+  NLine1, NIndex, NIndex1, NIndex2, NColumnIndex, NMaxLineIndex, NColumnCount, NCaretLine: integer;
   CaretX1, CaretY1, CaretX2, CaretY2: integer;
   bSel: boolean;
   bPaintBottomLine: boolean = false;
@@ -144,6 +144,11 @@ begin
   end;
   NRectHeight:= Max(1, NRectHeight);
 
+  if Ed.Carets.Count>0 then
+    NCaretLine:= Ed.Carets[0].PosY
+  else
+    NCaretLine:= -1;
+
   //NWidthSmall:= Ed.TextCharSize.XScaled div 2 div ATEditorCharXScale; //50% of char width
 
   ABitmap.SetSize(ARect.Width, ARect.Height);
@@ -162,6 +167,7 @@ begin
   XColorSelected.FromColor(Ed.Colors.TextSelBG);
   XColorBkmk.FromColor(Ed.Colors.StateAdded); //not sure what color to use
   XColorOccur.FromColor(GetAppColor(TAppThemeColor.EdMicromapOccur));
+  XColorOccurAtCaret.FromColor(Ed.Colors.StateChanged);
   XColorSpell.FromColor(GetAppColor(TAppThemeColor.EdMicromapSpell));
 
   //paint line states
@@ -267,7 +273,10 @@ begin
           PropArray[NLine1].Inited:= true;
           PropArray[NLine1].Column:= 1;
           PropArray[NLine1].MarkPos:= TMicromapMark.Column;
-          PropArray[NLine1].XColor:= XColorOccur;
+          if NLine1=NCaretLine then
+            PropArray[NLine1].XColor:= XColorOccurAtCaret
+          else
+            PropArray[NLine1].XColor:= XColorOccur;
         end;
     else
       begin
