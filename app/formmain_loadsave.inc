@@ -1122,17 +1122,17 @@ begin
         if FileExists(sBackupFilename) then
         begin
           if FileUtil.CopyFile(sBackupFilename, sFilename) then
-            MsgLogConsole('NOTE: Session file not found, restored from backup: '+sBackupFilename)
+            MsgLogConsole(Format('NOTE: Session file "%s" not found, restored from backup', [ExtractFileName(sFilename)]))
           else
           begin
-            MsgLogConsole('ERROR: Session file not found, cannot restore from backup: '+sBackupFilename);
+            MsgLogConsole(Format('ERROR: Session file "%s" not found, cannot copy from backup', [ExtractFileName(sFilename)]));
             AppSessionName:= cAppSessionDefault;
           end;
         end
         else
         if AppSessionName<>cAppSessionDefault then
         begin
-          MsgLogConsole('ERROR: Session file not found, and there is no backup: '+sFilename);
+          MsgLogConsole(Format('ERROR: Session file "%s" not found, and there is no backup', [ExtractFileName(sFilename)]));
           AppSessionName:= cAppSessionDefault;
         end;
       end;
