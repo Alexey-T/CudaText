@@ -285,7 +285,8 @@ begin
           NColumnIndex:= Ed.Micromap.ColumnFromTag(Marker.TagEx);
           if NColumnIndex>=0 then
           begin
-            //if ColorBG=none, it may be find-all-matches with custom border color, use border color
+            //if ColorBG=clNone, it may be find-all-matches with custom border color
+            //(default light green), so use border color
             if Marker.LinePart.ColorBG<>clNone then
               XColor.FromColor(Marker.LinePart.ColorBG)
             else
