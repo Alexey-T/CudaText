@@ -1458,14 +1458,15 @@ Micromap has several thin columns (from column 1 to column 3, but this can be ch
 
 Plugins can place marks on micromap, e.g. plugin "Highlight Occurrences" places marks for highlighted fragments, plugin "Spell Checker" places marks for misspelled words.
 
-Micromap can be rendered directly on the vertical scrollbar. To use that, you need 2 options:
+Micromap can be rendered directly on the vertical scrollbar (when scrollbar is application-painted). To use that, you need 2 options:
 
 * "scrollbar_themed": true
 * "micromap_on_scrollbar": true
 
-Micromap visible state is not restored from history for files, which have line count bigger than value of option "wrap_enabled_max_lines" (default 60K).
-
+Picture shows micromap on the scrollbar:
 [[File:cudatext-micromap-on-scrollbar.png]]
+
+Micromap visible state is not restored from history for files, which have line count bigger than value of option "wrap_enabled_max_lines" (default is 60K lines).
 
 In rather big documents (e.g. 2000+ lines), micromap renders the horizontal line near the bottom. What is this line? This line denotes the maximal position which you can click. Space below that line is 'reserved' for the micromap 'thumb'. 'Thumb' height is limited by 16 pixels, so last 16 pixels are reserved to render the 'thumb' nicely, when you scroll to the very bottom.
 
