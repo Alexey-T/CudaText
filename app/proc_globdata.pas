@@ -1884,7 +1884,7 @@ begin
     OpMicromapOnScrollbar:= false;
     OpMicromapLineStates:= true;
     OpMicromapSelections:= true;
-    OpMicromapBookmarks:= false;
+    OpMicromapBookmarks:= true;
 
     OpMarginFixed:= 2000; //big value effectively hides the margin
     OpMarginString:= '';

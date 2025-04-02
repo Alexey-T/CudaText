@@ -1450,8 +1450,8 @@ begin
 
   Op.OpMicromapShow:= cfg.GetValue('micromap_show', Op.OpMicromapShow);
   Op.OpMicromapOnScrollbar:= cfg.GetValue('micromap_on_scrollbar', Op.OpMicromapOnScrollbar);
-  Op.OpMicromapLineStates:= cfg.GetValue('micromap_line_states', Op.OpMicromapLineStates);
-  Op.OpMicromapBookmarks:= cfg.GetValue('micromap_bookmarks', Op.OpMicromapBookmarks);
+  //Op.OpMicromapLineStates:= cfg.GetValue('micromap_line_states', Op.OpMicromapLineStates);
+  //Op.OpMicromapBookmarks:= cfg.GetValue('micromap_bookmarks', Op.OpMicromapBookmarks);
 
   Op.OpMarginFixed:= cfg.GetValue('margin', Op.OpMarginFixed);
   Op.OpMarginString:= cfg.GetValue('margin_string', Op.OpMarginString);
