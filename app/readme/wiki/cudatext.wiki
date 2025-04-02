@@ -1450,7 +1450,8 @@ Micromap has several thin columns (from column 1 to column 3, but this can be ch
 * full-width single mark: 'thumb', ie current visible area of editor.
 * on column 1 (leftmost): [[#Line_states]] marks.
 * on column 2:
-** marks from plugins: Spell Checker, Highlight Occurrences, etc;
+** marks from plugin Spell Checker (default color: reddish);
+** marks from plugin Highlight Occurrences (default color: blue); mark with UI-theme color "line states, changed" means that it is "Highlight Occurrences" mark which corresponds to the current caret position (only for the first caret);
 ** marks for bookmarks, if option "micromap_bookmarks" is set; these marks use UI-theme color "editor, line states, added".
 * on column 3: marks for selections, useful for example when command "Find / Select all" makes many selections.
 
