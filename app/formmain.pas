@@ -3236,7 +3236,18 @@ begin
 
   //after UpdateMenuRecent
   //and after on_exit, so plugin can close its side-panels in on_exit, and panel will be hidden on next app start
-  DoOps_SaveHistory(AppFile_History, UiOps.SaveModifiedTabsOnClose, UiOps.ReopenSession);
+  DoOps_SaveHistory(
+    AppFile_History,
+    UiOps.SaveModifiedTabsOnClose,
+    UiOps.SessionSaveOnExit //before 2025.04 it was UiOps.ReopenSession
+    );
+
+  {$ifndef windows}
+  {
+  WriteLn('UiOps.ReopenSession: ', UiOps.ReopenSession);
+  WriteLn('UiOps.SessionSaveOnExit: ', UiOps.SessionSaveOnExit);
+  }
+  {$endif}
 
   {
   //seems doing DoCloseAllTabs in FormClose is bad idea:
