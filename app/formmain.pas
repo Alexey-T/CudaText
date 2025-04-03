@@ -1295,7 +1295,9 @@ var
   fmOutput: TAppFormWithEditor = nil;
   fmValidate: TAppFormWithEditor = nil;
 
+{$ifndef windows}
 procedure RegisterSignalHandler;
+{$endif}
 
 implementation
 
@@ -1353,6 +1355,7 @@ const
   cBottomPanelMenu_Clear = 102;
   cBottomPanelMenu_Wrap = 103;
 
+{$ifndef windows}
 procedure DoShutdown(Sig: Longint; Info: PSigInfo; Context: PSigContext); cdecl;
 begin
   Writeln('CudaText got signal: '+IntToStr(Sig));
@@ -1361,10 +1364,6 @@ begin
 end;
 
 procedure RegisterSignalHandler;
-{$ifdef windows}
-begin
-end;
-{$else}
 var
   New, Old: SigactionRec;
 begin
@@ -3239,7 +3238,7 @@ begin
   DoOps_SaveHistory(
     AppFile_History,
     UiOps.SaveModifiedTabsOnClose,
-    UiOps.SessionSaveOnExit //before 2025.04 it was UiOps.ReopenSession
+    UiOps.ReopenSession //2025.04: change it to UiOps.SessionSaveOnExit ?
     );
 
   {$ifndef windows}
