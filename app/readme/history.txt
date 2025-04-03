@@ -5,7 +5,7 @@
 
 1.223.0 (2025/04)
 
-+ add: Linux/Unix: register SIGTERM handler, so app now closes gracefully on running "killall -SIGTERM cudatext" (thanks @mix-7)
++ add: Linux/Unix: app now closes gracefully on running "killall -SIGINT cudatext" (thanks @mix-7)
 + add: on start, if app cannot find last used session filename, it tries to restore session from backup "<filename>.1.cuda-session"; app also writes error/note about this situation to Console (thanks @mix-7)
 + add: plugin 'Highlight Occurences' shows the micromap-mark for the caret's line with different color; re-used themed color "line states, changed" (idea by @pintassilgo)
 + add: show gutter icons better, when 2 icons exist for the same line (e.g. first from CudaLint, second from numbered bookmark)
