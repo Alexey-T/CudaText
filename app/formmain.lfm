@@ -685,8 +685,8 @@ object fmMain: TfmMain
     OnQueryEndSession = AppPropsQueryEndSession
     OnModalBegin = AppPropsModalBegin
     OnDropFiles = AppPropsDropFiles
-    Left = 520
-    Top = 424
+    Left = 432
+    Top = 272
   end
   object PopupRecents: TPopupMenu
     OnPopup = PopupRecentsPopup
