@@ -3177,6 +3177,8 @@ var
   bAddTabsToRecents: boolean;
   i: integer;
 begin
+  StopAllTimers;
+
   if Assigned(AppNotifThread) then
   begin
     AppNotifThread.Terminate;
@@ -3380,9 +3382,6 @@ begin
       or DoDialogSaveTabs
   else
     ACanClose:= true;
-
-  if ACanClose then
-    StopAllTimers;
 end;
 
 procedure TfmMain.StopAllTimers;
