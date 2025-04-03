@@ -1355,6 +1355,7 @@ const
 
 procedure DoShutdown(Sig: Longint; Info: PSigInfo; Context: PSigContext); cdecl;
 begin
+  Writeln('CudaText got termination signal');
   if Assigned(fmMain) then
     fmMain.Close;
   Application.Terminate;
@@ -1366,10 +1367,11 @@ begin
 end;
 {$else}
 var
-  New, Old: sigactionrec;
+  New, Old: SigactionRec;
 begin
   New.sa_handler:= @DoShutdown;
   FPSigaction(SIGTERM, @New, @Old);
+  FPSigaction(SIGINT, @New, @Old);
 end;
 {$endif}
 
