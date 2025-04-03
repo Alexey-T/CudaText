@@ -1365,8 +1365,10 @@ end;
 
 procedure RegisterSignalHandler;
 var
-  New, Old: SigactionRec;
+  New, Old: sigactionrec;
 begin
+  Old:= Default(sigactionrec);
+  New:= Default(sigactionrec);
   New.sa_handler:= @DoShutdown;
   FPSigaction(SIGTERM, @New, @Old);
   FPSigaction(SIGINT, @New, @Old);
