@@ -25,6 +25,8 @@ uses
   Windows,
   win32menustyler,
   win32titlestyler,
+  {$else}
+  BaseUnix,
   {$endif}
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs,
   StdCtrls, Buttons, ComCtrls, ExtCtrls, Menus,
@@ -1293,6 +1295,8 @@ var
   fmOutput: TAppFormWithEditor = nil;
   fmValidate: TAppFormWithEditor = nil;
 
+procedure RegisterSignalHandler;
+
 implementation
 
 uses
@@ -1348,6 +1352,26 @@ const
   cBottomPanelMenu_SelAll = 101;
   cBottomPanelMenu_Clear = 102;
   cBottomPanelMenu_Wrap = 103;
+
+procedure DoShutdown(Sig: Longint; Info: PSigInfo; Context: PSigContext); cdecl;
+begin
+  if Assigned(fmMain) then
+    fmMain.Close;
+  Application.Terminate;
+end;
+
+procedure RegisterSignalHandler;
+{$ifdef windows}
+begin
+end;
+{$else}
+var
+  New, Old: sigactionrec;
+begin
+  New.sa_handler:= @DoShutdown;
+  FPSigaction(SIGTERM, @New, @Old);
+end;
+{$endif}
 
 function GetAppColorOfStatusbarFont: TColor;
 begin

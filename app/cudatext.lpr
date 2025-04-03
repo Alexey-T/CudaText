@@ -23,6 +23,8 @@ begin
       if IsAnotherInstanceRunning then exit; //func has different implementations for Win and Unix
   {$IFDEF WINDOWS}
   Application.{%H-}MainFormOnTaskBar:= True; //for issue #2864, do it for any MonitorCount
+  {$ELSE}
+  RegisterSignalHandler;
   {$IFEND}
   Application.Title:='CudaText';
   RequireDerivedFormResource:= True;
