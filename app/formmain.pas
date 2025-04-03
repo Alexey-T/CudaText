@@ -1355,10 +1355,9 @@ const
 
 procedure DoShutdown(Sig: Longint; Info: PSigInfo; Context: PSigContext); cdecl;
 begin
-  Writeln('CudaText got termination signal');
+  Writeln('CudaText got signal: '+IntToStr(Sig));
   if Assigned(fmMain) then
     fmMain.Close;
-  Application.Terminate;
 end;
 
 procedure RegisterSignalHandler;
