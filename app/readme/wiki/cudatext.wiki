@@ -2694,7 +2694,9 @@ Some Linux distros may show such error:
 
  ./cudatext: /lib64/libc.so.6: version `GLIBC_2.34' not found (required by ./cudatext)
 
-This is reported for CudaText builds made by author on 2nd PC with newer GLIBC version. If app was compiled with newer GLIBC, OS with older GLIBC cannot run the app. What to do? Take the older release: you can find it on '''CudaText.SF.net''' page, near *BSD releases. So look at several last releases, find the folder with *BSD files - take Linux release from this folder.
+This is reported for CudaText builds made by author on 2nd PC with newer GLIBC version. If app was compiled with newer GLIBC, OS with older GLIBC cannot run the app.
+
+To 'fix' this, install FreePascal/Lazarus and compile CudaText from sources on your PC. Better use fpcUpDeluxe tool, which allows 2-clicks installation of FreePascal with Lazarus.
 
 ==FreeBSD: App cannot run==
 
