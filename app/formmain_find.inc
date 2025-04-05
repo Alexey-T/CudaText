@@ -974,6 +974,7 @@ begin
   AIndex:= -1;
   ACount:= 0;
 
+  if AFinder=nil then exit;
   Ed:= AFinder.Editor;
   if Ed=nil then exit;
 
@@ -1011,6 +1012,7 @@ var
   NIndex, NCount: integer;
 begin
   Result:= '';
+  if AFinder=nil then exit;
   FinderGetHiAllIndexes(AFinder, NIndex, NCount);
   if NIndex>=0 then
     Result:= Format(' [%d/%d]', [NIndex+1, NCount])
