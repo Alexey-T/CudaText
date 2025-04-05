@@ -2464,7 +2464,6 @@ begin
     );
 
   //stage-2: perform find-next from ACaretPos
-  ////if UiOps.FindHiAll_MoveCaret then
   try
     if AEnableFindNext and Ed.Strings.IsIndexValid(ACaretPos.Y) then
     begin
