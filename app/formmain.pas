@@ -9023,6 +9023,13 @@ begin
       for iItem:= 0 to NCount-1 do
       begin
         DataItem:= PyList_GetItem(Data, iItem);
+        if PyTuple_Size(DataItem)<4 then
+        begin
+          Tree.Items.Clear;
+          MsgLogConsole('ERROR: TreeHelper returned tuple of length<4');
+          exit;
+        end;
+
         DataPos:= PyTuple_GetItem(DataItem, 0);
         DataLevel:= PyTuple_GetItem(DataItem, 1);
         DataTitle:= PyTuple_GetItem(DataItem, 2);
@@ -9058,7 +9065,7 @@ begin
       end;
     end;
   finally
-   Tree.EndUpdate;
+    Tree.EndUpdate;
   end;
 end;
 
