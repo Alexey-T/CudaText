@@ -9025,7 +9025,7 @@ begin
         DataItem:= PyList_GetItem(Data, iItem);
         if PyTuple_Size(DataItem)<4 then
         begin
-          MsgLogConsole('ERROR: TreeHelper returned tuple of length<4');
+          MsgLogConsole('ERROR: TreeHelper returned DataItem of length<4');
           Continue;
         end;
 
@@ -9033,6 +9033,12 @@ begin
         DataLevel:= PyTuple_GetItem(DataItem, 1);
         DataTitle:= PyTuple_GetItem(DataItem, 2);
         DataIcon:= PyTuple_GetItem(DataItem, 3);
+
+        if PyTuple_Size(DataPos)<>4 then
+        begin
+          MsgLogConsole('ERROR: TreeHelper returned DataPos of length<>4');
+          Continue;
+        end;
 
         NX1:= PyLong_AsLong(PyTuple_GetItem(DataPos, 0));
         NY1:= PyLong_AsLong(PyTuple_GetItem(DataPos, 1));
