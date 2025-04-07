@@ -9023,9 +9023,9 @@ begin
       for iItem:= 0 to NCount-1 do
       begin
         DataItem:= PyList_GetItem(Data, iItem);
-        if PyTuple_Size(DataItem)<4 then
+        if PyTuple_Size(DataItem)<>4 then
         begin
-          MsgLogConsole('ERROR: TreeHelper returned DataItem of length<4');
+          MsgLogConsole('ERROR: TreeHelper returned data tuple of length<>4');
           Continue;
         end;
 
@@ -9036,7 +9036,7 @@ begin
 
         if PyTuple_Size(DataPos)<>4 then
         begin
-          MsgLogConsole('ERROR: TreeHelper returned DataPos of length<>4');
+          MsgLogConsole('ERROR: TreeHelper returned position tuple of length<>4');
           Continue;
         end;
 
