@@ -197,17 +197,17 @@ end;
 
 function EditorTextToPyObject(Ed: TATSynEdit): PPyObject;
 var
-  Count, i: integer;
-  Strs: TATStrings;
+  NCount, i: integer;
+  St: TATStrings;
 begin
-  Strs:= Ed.Strings;
-  Count:= Strs.Count;
+  St:= Ed.Strings;
+  NCount:= St.Count;
   with AppPython.Engine do
   begin
-    Result:= PyList_New(Count);
-    for i:= 0 to Count-1 do
+    Result:= PyList_New(NCount);
+    for i:= 0 to NCount-1 do
     begin
-      PyList_SetItem(Result, i, PyUnicodeFromString(Strs.Lines[i]));
+      PyList_SetItem(Result, i, PyUnicodeFromString(St.Lines[i]));
     end;
   end;
 end;
