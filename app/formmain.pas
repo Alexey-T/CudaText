@@ -886,7 +886,7 @@ type
     procedure DoCodetree_OnMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
     procedure DoCodetree_OnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure DoCodetree_GotoBlockForCurrentNode(AndSelect, AToEnd: boolean);
-    procedure DoCodetree_ApplyTreeHelperResults(Tree: TTreeView; Data: PPyObject);
+    procedure DoCodetree_ApplyTreeHelperResults(Tree: TTreeView; Data: PPyObject; const AHelperName: string);
     function DoCodetree_ApplyTreeHelperInPascal(Ed, EdPair: TATSynEdit; ATree: TTreeView; const ALexer: string): boolean;
     procedure DoCodetree_OnAdvDrawItem(Sender: TCustomTreeView;
       Node: TTreeNode; State: TCustomDrawState; Stage: TCustomDrawStage;
@@ -8998,7 +8998,8 @@ end;
   end;
 *)
 
-procedure TfmMain.DoCodetree_ApplyTreeHelperResults(Tree: TTreeView; Data: PPyObject);
+procedure TfmMain.DoCodetree_ApplyTreeHelperResults(Tree: TTreeView; Data: PPyObject;
+  const AHelperName: string);
 var
   DataItem, DataPos, DataLevel, DataTitle, DataIcon: PPyObject;
   NCount, NX1, NY1, NX2, NY2, NLevel, NLevelPrev, NIcon: integer;
@@ -9025,7 +9026,7 @@ begin
         DataItem:= PyList_GetItem(Data, iItem);
         if PyTuple_Size(DataItem)<>4 then
         begin
-          MsgLogConsole('ERROR: TreeHelper returned data tuple of length<>4');
+          MsgLogConsole(Format('ERROR: TreeHelper "%s" returned data tuple of length<>4', [AHelperName]));
           Continue;
         end;
 
@@ -9036,7 +9037,7 @@ begin
 
         if PyTuple_Size(DataPos)<>4 then
         begin
-          MsgLogConsole('ERROR: TreeHelper returned position tuple of length<>4');
+          MsgLogConsole(Format('ERROR: TreeHelper "%s" returned position tuple of length<>4', [AHelperName]));
           Continue;
         end;
 

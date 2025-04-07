@@ -261,7 +261,7 @@ begin
         try
           //refresh CodeTree only if TreeData is list
           if PyObject_TypeCheck(TreeData, PyList_Type) then
-            DoCodetree_ApplyTreeHelperResults(ATree, TreeData);
+            DoCodetree_ApplyTreeHelperResults(ATree, TreeData, Helper.ItemModule);
         finally
           Py_DECREF(TreeData);
         end;
