@@ -886,7 +886,7 @@ type
     procedure DoCodetree_OnMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
     procedure DoCodetree_OnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure DoCodetree_GotoBlockForCurrentNode(AndSelect, AToEnd: boolean);
-    procedure DoCodetree_ApplyTreeHelperResults(Tree: TTreeView; Data: PPyObject; const AHelperName: string);
+    procedure DoCodetree_ApplyTreeHelperResults(ATree: TTreeView; AData: PPyObject; const AHelperName: string);
     function DoCodetree_ApplyTreeHelperInPascal(Ed, EdPair: TATSynEdit; ATree: TTreeView; const ALexer: string): boolean;
     procedure DoCodetree_OnAdvDrawItem(Sender: TCustomTreeView;
       Node: TTreeNode; State: TCustomDrawState; Stage: TCustomDrawStage;
@@ -8998,7 +8998,7 @@ end;
   end;
 *)
 
-procedure TfmMain.DoCodetree_ApplyTreeHelperResults(Tree: TTreeView; Data: PPyObject;
+procedure TfmMain.DoCodetree_ApplyTreeHelperResults(ATree: TTreeView; AData: PPyObject;
   const AHelperName: string);
 var
   DataItem, DataPos, DataLevel, DataTitle, DataIcon: PPyObject;
@@ -9008,9 +9008,9 @@ var
   Range: TATRangeInCodeTree;
   iItem, iLevel: integer;
 begin
-  Tree.BeginUpdate;
+  ATree.BeginUpdate;
   try
-    Tree.Items.Clear;
+    ATree.Items.Clear;
 
     Node:= nil;
     NodeParent:= nil;
@@ -9018,12 +9018,12 @@ begin
 
     with AppPython.Engine do
     begin
-      NCount:= PyList_Size(Data);
+      NCount:= PyList_Size(AData);
       if NCount<=0 then exit;
 
       for iItem:= 0 to NCount-1 do
       begin
-        DataItem:= PyList_GetItem(Data, iItem);
+        DataItem:= PyList_GetItem(AData, iItem);
         if PyTuple_Size(DataItem)<>4 then
         begin
           MsgLogConsole(Format('ERROR: TreeHelper "%s" returned data tuple of length<>4', [AHelperName]));
@@ -9063,7 +9063,7 @@ begin
         Range.PosBegin:= Point(NX1, NY1);
         Range.PosEnd:= Point(NX2, NY2);
 
-        Node:= Tree.Items.AddChildObject(NodeParent, STitle, Range);
+        Node:= ATree.Items.AddChildObject(NodeParent, STitle, Range);
         Node.ImageIndex:= NIcon;
         Node.SelectedIndex:= NIcon;
 
@@ -9071,7 +9071,7 @@ begin
       end;
     end;
   finally
-    Tree.EndUpdate;
+    ATree.EndUpdate;
   end;
 end;
 
