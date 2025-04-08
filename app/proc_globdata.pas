@@ -2274,7 +2274,7 @@ begin
     ReopenSessionWithCmdLine:= true;
     SessionSaveInterval:= 30;
     SessionSaveOnExit:= true;
-    BackupLastSessions:= 2;
+    BackupLastSessions:= 4;
     SaveModifiedTabsOnClose:= true;
 
     ShowFormsOnTop:= false;

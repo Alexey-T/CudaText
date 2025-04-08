@@ -1407,7 +1407,7 @@
 
   //If value N>0, app creates N backups of session files: "filename.X.cuda-session".
   //You can open them by plugin Session Manager, or copy them to "default.cuda-session".
-  "ui_backup_sessions": 2,
+  "ui_backup_sessions": 4,
 
   //Maximal size of document body (in chars) which can be saved to session.
   //Note: this option is global, not per-lexer.
