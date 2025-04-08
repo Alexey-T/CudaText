@@ -2272,7 +2272,7 @@ begin
 
     ReopenSession:= true;
     ReopenSessionWithCmdLine:= true;
-    SessionSaveInterval:= 30;
+    SessionSaveInterval:= 40;
     SessionSaveOnExit:= true;
     BackupLastSessions:= 4;
     SaveModifiedTabsOnClose:= true;

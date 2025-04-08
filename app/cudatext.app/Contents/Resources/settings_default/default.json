@@ -1396,7 +1396,7 @@
   //Option value=0: don't save session by timer.
   //Note: this timer is active only in the "idle state" of the editor, when you pause
   //the text editing for 1-2 seconds.
-  "ui_session_save_interval": 30,
+  "ui_session_save_interval": 40,
 
   //Allow to close program without confirmation, with saving modified documents
   //to the session. In details: if a) "ui_auto_save_session":true,
