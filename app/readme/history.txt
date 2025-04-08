@@ -11,6 +11,7 @@
 + add: show gutter icons better, when 2 icons exist for the same line (e.g. first from CudaLint, second from numbered bookmark)
 + add: max supported line length for URL highlighter is changed from 1200 to 5000
 * change: Find dialog: 'Mark all' now does not scroll to found match (view at old caret pos is more logical)
+* change: "ui_backup_sessions" default changed from 2 to 4
 - fix: removed some lexer-specific configs (Lua, Pascal, PHP, Ruby, TypeScript, VBScript) from "settings_default", they are now in lexers distribution zip-files, CudaText (even 1.200) will auto-install them to "settings_default"
 - fix: regression: Find dialog with 'Hi' option: 'Find next' cannot show '[1/5]' statusbar indicator (thanks @Hexaae)
 
