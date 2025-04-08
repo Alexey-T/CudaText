@@ -249,15 +249,19 @@ var
   path, sTabKind, sConsole, sUndo: string;
   bModified, bUntitled: boolean;
   bSessionUpdated, bFileExisted: boolean;
-  iFrame, iGroup: integer;
   currFramesEditState: array of TFrameEditState;
-  fileWriteTimeBeforeSaving, fileWriteTimeAfterSaving: TDateTime;
+  fileWriteTimeBeforeSaving,
+  fileWriteTimeAfterSaving: TDateTime;
+  iFrame, iGroup: integer;
 begin
   Result:= false;
   if ASessionId='' then exit;
 
   SSplitByChar(ASessionId, '|', sSessionFileName, sRootPath);
+
   bFileExisted:= FileExists(sSessionFileName);
+  fileWriteTimeBeforeSaving:= Default(TDateTime);
+  fileWriteTimeAfterSaving:= Default(TDateTime);
 
   {
   // this code breaks the save-only-updated-session feature
