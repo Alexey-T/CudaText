@@ -248,7 +248,7 @@ var
   nFrameCount, nPrevFrameCount: integer;
   path, sTabKind, sConsole, sUndo: string;
   bModified, bUntitled: boolean;
-  bSessionUpdated: boolean;
+  bSessionUpdated, bFileExisted: boolean;
   iFrame, iGroup: integer;
   currFramesEditState: array of TFrameEditState;
   fileWriteTimeBeforeSaving, fileWriteTimeAfterSaving: TDateTime;
@@ -257,6 +257,7 @@ begin
   if ASessionId='' then exit;
 
   SSplitByChar(ASessionId, '|', sSessionFileName, sRootPath);
+  bFileExisted:= FileExists(sSessionFileName);
 
   {
   // this code breaks the save-only-updated-session feature
@@ -300,9 +301,6 @@ begin
         FreeAndNil(cfg_bookmarks);
       end;
     end;
-
-    if not FileExists(sSessionFileName) then
-      bSessionUpdated:= true; // the session file has been physically deleted
 
     if FPrevJsonObj=nil then
       FPrevJsonObj:= CloneJsonObj(cfg.GetJsonObj, keysToIgnore);
@@ -495,10 +493,12 @@ begin
         FPrevJsonObj:= CloneJsonObj(cfg.GetJsonObj, keysToIgnore);
         if not FileAge(sSessionFileName, fileWriteTimeBeforeSaving) then
           fileWriteTimeBeforeSaving:= Default(TDateTime);
-        cfg.SetModified(true);
       end
       else
         cfg.SetModified(false); // no need to save the session
+
+      if not bFileExisted then
+        cfg.SetModified(true);
 
       FreeAndNil(cfg_bookmarks);
       FreeAndNil(cfg); //saves json file when its property Modified is True
