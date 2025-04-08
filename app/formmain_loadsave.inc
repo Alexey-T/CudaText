@@ -518,7 +518,7 @@ begin
     end;
   end;
 
-  if UiOps.LogSessions and bSessionUpdated then
+  if UiOps.LogSessions and (bSessionUpdated or not bFileExisted) then
   begin
     if fileWriteTimeBeforeSaving<>fileWriteTimeAfterSaving then
       sConsole:= Format('Saved session: "%s", %d file(s)', [ExtractFileName(sSessionFileName), nCountFiles])
