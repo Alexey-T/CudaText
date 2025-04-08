@@ -259,23 +259,24 @@ begin
 
   SSplitByChar(ASessionId, '|', sSessionFileName, sRootPath);
 
+  bSessionUpdated:= false;
   bFileExisted:= FileExists(sSessionFileName);
   fileWriteTimeBeforeSaving:= Default(TDateTime);
   fileWriteTimeAfterSaving:= Default(TDateTime);
+  nCountFiles:= 0;
+  nCountUntitled:= 0;
+  nSavedTabIndex:= 0;
+  nFrameCount:= FrameCount;
+  nPrevFrameCount:= 0;
 
   {
-  // this code breaks the save-only-updated-session feature
+  //this code breaks the save-only-updated-session feature
   if sRootPath='' then
   begin
     AppDiskCheckFreeSpace(sSessionFileName);
     DeleteFile(sSessionFileName);
   end;
   }
-
-  bSessionUpdated:= false;
-  nCountFiles:= 0;
-  nCountUntitled:= 0;
-  nFrameCount:= FrameCount;
 
   //delete outdated info about single untitled tab, issue #5712
   if (nFrameCount=1) and Frames[0].IsEmpty then
@@ -518,7 +519,7 @@ begin
     if fileWriteTimeBeforeSaving=fileWriteTimeAfterSaving then
     begin
       FPrevJsonObj.Free;
-      FPrevJsonObj:= TJSONNull.Create; // the session has not been saved!!!
+      FPrevJsonObj:= TJSONNull.Create;
     end;
   end;
 
