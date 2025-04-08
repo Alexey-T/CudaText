@@ -2648,8 +2648,8 @@ begin
     if NTick-FLastSaveSessionTick>=Abs(UiOps.SessionSaveInterval)*1000 then
     begin
       FLastSaveSessionTick:= NTick;
-      DoOps_SaveSession(AppFile_Session, true{ASaveModifiedTabs}, true{ASaveUntitledTabs}, true{AByTimer});
       DoOps_SaveSessionsBackups(AppFile_Session); //users need session-backups be made by SessionSaveInterval<>0, issue #5906
+      DoOps_SaveSession(AppFile_Session, true{ASaveModifiedTabs}, true{ASaveUntitledTabs}, true{AByTimer});
       DoOps_SaveHistory(AppFile_History, false, false);
     end;
   end;
