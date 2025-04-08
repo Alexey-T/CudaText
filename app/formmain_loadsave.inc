@@ -495,6 +495,7 @@ begin
         FPrevJsonObj:= CloneJsonObj(cfg.GetJsonObj, keysToIgnore);
         if not FileAge(sSessionFileName, fileWriteTimeBeforeSaving) then
           fileWriteTimeBeforeSaving:= Default(TDateTime);
+        cfg.SetModified(true);
       end
       else
         cfg.SetModified(false); // no need to save the session
