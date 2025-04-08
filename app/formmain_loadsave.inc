@@ -242,11 +242,11 @@ var
   Frame: TEditorFrame;
   Gr: TATGroups;
   Pages: TATPages;
-  sSessionFileName, sTabFilename, sTabFilename2, sRootPath: string;
+  sSessionFileName, sTabFilename, sTabFilename2,
+  sRootPath, sJsonPath, sTabKind, sConsole, sUndo: string;
   nLocalGroup, nGlobalGroup, nTabInGroup: integer;
   nCountFiles, nCountUntitled, nSavedTabIndex: integer;
   nFrameCount, nPrevFrameCount: integer;
-  path, sTabKind, sConsole, sUndo: string;
   bModified, bUntitled: boolean;
   bSessionUpdated, bFileExisted: boolean;
   currFramesEditState: array of TFrameEditState;
@@ -344,8 +344,8 @@ begin
       //cleanup session keys, left from the previous saving
       for iFrame:= nFrameCount to nPrevFrameCount-1 do
       begin
-        path:= sRootPath+'/'+Format('%3.3d', [iFrame]);
-        cfg.DeleteValue(path);
+        sJsonPath:= sRootPath+'/'+Format('%3.3d', [iFrame]);
+        cfg.DeleteValue(sJsonPath);
       end;
     end;
 
@@ -374,7 +374,7 @@ begin
       else
         Inc(nCountFiles);
 
-      path:= sRootPath+'/'+Format('%3.3d', [nSavedTabIndex]);
+      sJsonPath:= sRootPath+'/'+Format('%3.3d', [nSavedTabIndex]);
       Inc(nSavedTabIndex);
 
       GetFrameLocation(Frame, Gr, Pages, nLocalGroup, nGlobalGroup, nTabInGroup);
@@ -388,16 +388,16 @@ begin
           bSessionUpdated:= true; // frame's FileName or unsaved text has been updated
       end;
 
-      cfg.SetValue(path+'/modified', bModified);
+      cfg.SetValue(sJsonPath+'/modified', bModified);
       if not bModified then
-        cfg.DeleteValue(path+'/text');
-      cfg.SetValue(path+'/file', AppCollapseHomeDirInFilename(sTabFilename));
+        cfg.DeleteValue(sJsonPath+'/text');
+      cfg.SetValue(sJsonPath+'/file', AppCollapseHomeDirInFilename(sTabFilename));
 
       if bModified then
-        cfg.SetValue(path+'/tab_title', Frame.TabCaption);
-      cfg.SetValue(path+'/group', nGlobalGroup+1); //support old sessions with 1-based index
-      cfg.SetDeleteValue(path+'/pinned', Frame.TabPinned, false);
-      cfg.SetDeleteValue(path+'/goto', Frame.GotoInput, '');
+        cfg.SetValue(sJsonPath+'/tab_title', Frame.TabCaption);
+      cfg.SetValue(sJsonPath+'/group', nGlobalGroup+1); //support old sessions with 1-based index
+      cfg.SetDeleteValue(sJsonPath+'/pinned', Frame.TabPinned, false);
+      cfg.SetDeleteValue(sJsonPath+'/goto', Frame.GotoInput, '');
 
       case Frame.FrameKind of
         TAppFrameKind.Editor:
@@ -407,14 +407,14 @@ begin
         TAppFrameKind.ImageViewer:
           sTabKind:= 'pic';
       end;
-      cfg.SetValue(path+'/kind', sTabKind);
+      cfg.SetValue(sJsonPath+'/kind', sTabKind);
 
       {
       //TODO: add together with restoring of 'v_pos'
       if Frame.IsBinary then
-        cfg.SetValue(path+'/v_pos', Frame.Viewer.PosOffset)
+        cfg.SetValue(sJsonPath+'/v_pos', Frame.Viewer.PosOffset)
       else
-        cfg.DeleteValue(path+'/v_pos');
+        cfg.DeleteValue(sJsonPath+'/v_pos');
         }
 
       if bModified and UiOps.HistoryItems[TAppHistoryElement.Text] then
@@ -422,23 +422,23 @@ begin
           (bUntitled and ASaveUntitledTabs) then
           if not Frame.Ed1.Strings.IsSizeBig(UiOps.MaxSizeForSession) then
         begin
-          cfg.SetValue(path+'/text', Frame.Ed1.Text);
+          cfg.SetValue(sJsonPath+'/text', Frame.Ed1.Text);
           if (not bUntitled) and FileExists(sTabFilename) then
-            cfg.SetValue(path+'/file_date', FormatFileDateAsNiceString(sTabFilename));
+            cfg.SetValue(sJsonPath+'/file_date', FormatFileDateAsNiceString(sTabFilename));
           Frame.VersionInSession:= Frame.Ed1.Strings.ModifiedVersion;
 
           if UiOps.HistoryItems[TAppHistoryElement.UndoRedo] then
           begin
             sUndo:= Frame.Ed1.UndoAsString;
             if Length(sUndo)<=UiOps.MaxUndoSizeForSessionFile then
-              cfg.SetValue(path+'/undo', sUndo);
+              cfg.SetValue(sJsonPath+'/undo', sUndo);
             sUndo:= Frame.Ed1.RedoAsString;
             if Length(sUndo)<=UiOps.MaxUndoSizeForSessionFile then
-              cfg.SetValue(path+'/redo', sUndo);
+              cfg.SetValue(sJsonPath+'/redo', sUndo);
           end;
         end;
 
-      Frame.DoSaveHistoryEx(Frame.Ed1, cfg, path, true{AForSession});
+      Frame.DoSaveHistoryEx(Frame.Ed1, cfg, sJsonPath, true{AForSession});
 
       if Assigned(cfg_bookmarks) then
         if Frame.Ed1.ModifiedBookmarks then
@@ -447,32 +447,32 @@ begin
       //save info about paired-tab to subkey "pair"
       if sTabFilename2<>'' then
       begin
-        path+= '/pair';
+        sJsonPath+= '/pair';
 
         bModified:= Frame.Ed2.Modified;
-        cfg.SetValue(path+'/modified', bModified);
+        cfg.SetValue(sJsonPath+'/modified', bModified);
         if not bModified then
-          cfg.DeleteValue(path+'/text');
-        cfg.SetValue(path+'/file', AppCollapseHomeDirInFilename(sTabFilename2));
+          cfg.DeleteValue(sJsonPath+'/text');
+        cfg.SetValue(sJsonPath+'/file', AppCollapseHomeDirInFilename(sTabFilename2));
 
         if bModified and UiOps.HistoryItems[TAppHistoryElement.Text] then
           if not Frame.Ed2.Strings.IsSizeBig(UiOps.MaxSizeForSession) then
         begin
-          cfg.SetValue(path+'/text', Frame.Ed2.Text);
+          cfg.SetValue(sJsonPath+'/text', Frame.Ed2.Text);
           if FileExists(sTabFilename2) then
-            cfg.SetValue(path+'/file_date', FormatFileDateAsNiceString(sTabFilename2));
+            cfg.SetValue(sJsonPath+'/file_date', FormatFileDateAsNiceString(sTabFilename2));
           if UiOps.HistoryItems[TAppHistoryElement.UndoRedo] then
           begin
             sUndo:= Frame.Ed2.UndoAsString;
             if Length(sUndo)<=UiOps.MaxUndoSizeForSessionFile then
-              cfg.SetValue(path+'/undo', sUndo);
+              cfg.SetValue(sJsonPath+'/undo', sUndo);
             sUndo:= Frame.Ed2.RedoAsString;
             if Length(sUndo)<=UiOps.MaxUndoSizeForSessionFile then
-              cfg.SetValue(path+'/redo', sUndo);
+              cfg.SetValue(sJsonPath+'/redo', sUndo);
           end;
         end;
 
-        Frame.DoSaveHistoryEx(Frame.Ed2, cfg, path, true{AForSession});
+        Frame.DoSaveHistoryEx(Frame.Ed2, cfg, sJsonPath, true{AForSession});
 
         if not Frame.EditorsLinked then
           if Assigned(cfg_bookmarks) then
