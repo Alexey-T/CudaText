@@ -552,7 +552,7 @@ var
   ListSessionKeys: TStringList;
   sSessionFileName, sTabFilename, sTabFilename2, sRootPath,
   sTabTitle, sTabKind, sOpenOptions,
-  item_path, item_path2: string;
+  sItemPath, sItemPath2: string;
   nCountFiles, nCountFilesModified, nCountFilesBefore: integer;
   bModified, bModified2: boolean;
   bAllowOnState: boolean;
@@ -642,13 +642,13 @@ begin
     for iList:= 0 to ListSessionKeys.Count-1 do
     begin
       //handle only sections like "000".."001"..etc, ignore sections like "panels", "gr"
-      item_path:= ListSessionKeys[iList];
-      if not IsHistorySectionForFilename(item_path) then Continue;
-      item_path:= sRootPath+'/'+item_path+'/';
-      item_path2:= item_path+'pair/';
+      sItemPath:= ListSessionKeys[iList];
+      if not IsHistorySectionForFilename(sItemPath) then Continue;
+      sItemPath:= sRootPath+'/'+sItemPath+'/';
+      sItemPath2:= sItemPath+'pair/';
 
-      sTabFilename:= AppExpandHomeDirInFilename(cfg.GetValue(item_path+'file', ''));
-      sTabFilename2:= AppExpandHomeDirInFilename(cfg.GetValue(item_path2+'file', ''));
+      sTabFilename:= AppExpandHomeDirInFilename(cfg.GetValue(sItemPath+'file', ''));
+      sTabFilename2:= AppExpandHomeDirInFilename(cfg.GetValue(sItemPath2+'file', ''));
 
       bExist:= (sTabFilename<>'') and FileExists(sTabFilename);
       bExist2:= (sTabFilename2<>'') and FileExists(sTabFilename2);
@@ -664,21 +664,21 @@ begin
         sTabFilename2:= '';
       end;
 
-      sText:= cfg.GetValue(item_path+'text', '');
-      sUndoString:= cfg.GetValue(item_path+'undo', '');
-      sRedoString:= cfg.GetValue(item_path+'redo', '');
-      sTabKind:= cfg.GetValue(item_path+'kind', '');
-      bModified:= cfg.GetValue(item_path+'modified', false);
+      sText:= cfg.GetValue(sItemPath+'text', '');
+      sUndoString:= cfg.GetValue(sItemPath+'undo', '');
+      sRedoString:= cfg.GetValue(sItemPath+'redo', '');
+      sTabKind:= cfg.GetValue(sItemPath+'kind', '');
+      bModified:= cfg.GetValue(sItemPath+'modified', false);
       if sText='' then //don't load this file from session
         bModified:= false;
 
       //support old sessions with 1-based group index
-      nGroupIndex:= cfg.GetValue(item_path+'group', 1)-1;
+      nGroupIndex:= cfg.GetValue(sItemPath+'group', 1)-1;
 
       //check, if text saved in session, but file was changed outside
       if bModified and bExist then
       begin
-        sDateSaved:= cfg.GetValue(item_path+'file_date', '');
+        sDateSaved:= cfg.GetValue(sItemPath+'file_date', '');
         sDateCurrent:= FormatFileDateAsNiceString(sTabFilename);
         if sDateSaved<>sDateCurrent then
           if MsgBox(
@@ -765,7 +765,7 @@ begin
         if sRedoString<>'' then
           Frame.Editor.RedoAsString:= sRedoString;
         Frame.Editor.Modified:= bModified;
-        sTabTitle:= cfg.GetValue(item_path+'tab_title', '');
+        sTabTitle:= cfg.GetValue(sItemPath+'tab_title', '');
         if sTabTitle<>'' then
           Frame.TabCaption:= sTabTitle;
         if sTabFilename<>'' then
@@ -785,14 +785,14 @@ begin
       if Assigned(Frame) then
       begin
         Frame.InSession:= true;
-        Frame.DoLoadHistoryEx(Frame.Ed1, cfg, item_path, true);
+        Frame.DoLoadHistoryEx(Frame.Ed1, cfg, sItemPath, true);
 
         if sTabFilename2<>'' then
         begin
-          sText:= cfg.GetValue(item_path2+'text', '');
-          sUndoString:= cfg.GetValue(item_path2+'undo', '');
-          sRedoString:= cfg.GetValue(item_path2+'redo', '');
-          bModified2:= cfg.GetValue(item_path2+'modified', false);
+          sText:= cfg.GetValue(sItemPath2+'text', '');
+          sUndoString:= cfg.GetValue(sItemPath2+'undo', '');
+          sRedoString:= cfg.GetValue(sItemPath2+'redo', '');
+          bModified2:= cfg.GetValue(sItemPath2+'modified', false);
           if sText='' then
             bModified2:= false;
 
@@ -812,11 +812,11 @@ begin
           if bExist2 then
             Inc(nCountFiles);
 
-          Frame.DoLoadHistoryEx(Frame.Ed2, cfg, item_path2, true);
+          Frame.DoLoadHistoryEx(Frame.Ed2, cfg, sItemPath2, true);
         end;
 
-        Frame.GotoInput:= cfg.GetValue(item_path+'goto', '');
-        Frame.TabPinned:= cfg.GetValue(item_path+'pinned', false);
+        Frame.GotoInput:= cfg.GetValue(sItemPath+'goto', '');
+        Frame.TabPinned:= cfg.GetValue(sItemPath+'pinned', false);
 
         //event on_open was blocked in DoFileOpen, call it here
         //(plugin "Tab Icons" needs it)
