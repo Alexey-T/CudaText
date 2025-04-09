@@ -1874,7 +1874,7 @@ Install one of the servers following the instructions:
 ** For Windows, you need to download "clangd-windows-x.x.x.zip" from https://github.com/clangd/clangd/releases . You need to add folder of "clangd.exe" to the OS PATH in Windows settings.
 * ccls: https://github.com/MaskRay/ccls/wiki/Build + https://github.com/MaskRay/ccls/wiki/Install
 
-To use the server in LSP Client, create a file "lsp_c.json" in the "settings" directory with such content:
+To use the server in LSP Client, create a file "lsp_c.json" in the "settings" directory:
 <syntaxhighlight lang="json">
 {
   "lexers": {
@@ -1891,8 +1891,6 @@ To use the server in LSP Client, create a file "lsp_c.json" in the "settings" di
 </syntaxhighlight>
 
 Replace "clangd*" with "ccls" if it was chosen.
-
-On Windows: you must add the "bin" directory of mingw64 to the PATH so clangd is in the PATH.
 
 ==LSP server for C#==
 
