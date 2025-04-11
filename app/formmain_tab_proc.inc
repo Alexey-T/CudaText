@@ -240,7 +240,7 @@ begin
   if Frame.Editor.Modified then
     case MsgBox(
          Format(msgConfirmSaveModifiedTab, [Frame.TabCaption]),
-         MB_YESNOCANCEL or MB_ICONQUESTION
+         MB_YESNOCANCEL or MB_ICONWARNING
          ) of
       ID_YES:
         begin
@@ -351,7 +351,7 @@ begin
       begin
         Btn:= MB_OKCANCEL;
         Msg:= Format(msgConfirmSaveModifiedTab, [NiceTabTitle(D)]);
-        if MsgBox(Msg, Btn or MB_ICONQUESTION)=ID_OK then
+        if MsgBox(Msg, Btn or MB_ICONWARNING)=ID_OK then
           bSavedOk:= Frame.DoFileSave(false, true);
       end;
   end
@@ -366,7 +366,7 @@ begin
     else
       Btn:= MB_YESNO;
     Msg:= Format(msgConfirmSaveModifiedTab, [NiceTabTitle(D)]);
-    Res:= MsgBox(Msg, Btn or MB_ICONQUESTION);
+    Res:= MsgBox(Msg, Btn or MB_ICONWARNING);
     if (Res=ID_OK) or (Res=ID_YES) then
       bSavedOk:= Frame.DoFileSave(false, true);
   end

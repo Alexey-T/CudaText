@@ -6438,9 +6438,9 @@ begin
     exit(true);
 
   if AWithCancel then
-    MsgFlags:= MB_YESNOCANCEL or MB_ICONQUESTION
+    MsgFlags:= MB_YESNOCANCEL or MB_ICONWARNING
   else
-    MsgFlags:= MB_YESNO or MB_ICONQUESTION;
+    MsgFlags:= MB_YESNO or MB_ICONWARNING;
 
   ListNoSave:= TFPList.Create;
   try
