@@ -1259,7 +1259,7 @@ begin
     if bHiAll then
     begin
       fmFind.chkHiAll.Checked:= false;
-      fmFind.UpdateHiAll(true);
+      fmFind.UpdateHiAll(false); //param False to fix issue #5933
     end;
   end;
 
