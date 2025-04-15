@@ -14,6 +14,8 @@
 * change: "ui_backup_sessions" default changed from 2 to 4
 - fix: removed some lexer-specific configs (Lua, Pascal, PHP, Ruby, TypeScript, VBScript) from "settings_default", they are now in lexers distribution zip-files, CudaText (even 1.200) will auto-install them to "settings_default"
 - fix: regression: Find dialog with 'Hi' option: 'Find next' cannot show '[1/5]' statusbar indicator (thanks @Hexaae)
+- fix: regression: wrong work of left/right with selection when "key_left_right_swap_sel":false
+- fix: few regressions in 1.222.3 in reworked TextInsert method (thanks @pintassilgo)
 
 1.222.5 (2025/03)
 
