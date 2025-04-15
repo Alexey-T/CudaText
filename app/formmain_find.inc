@@ -1273,13 +1273,6 @@ begin
       fmFind.UpdateInputFind(Str);
   end;
 
-  {
-  //make command "find next" working with new text, issue #2803
-  FFinder.StrFind:= Str;
-  //and clear regex option (issue #2812)
-  FFinder.OptRegex:= false;
-  }
-  //instead of above commented block, due to issue #5613, use this:
   if FFinder.OptRegex then
     FFinder.StrFind:= SEscapeRegexSpecialChars(Str)
   else
