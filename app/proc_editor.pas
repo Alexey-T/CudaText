@@ -747,7 +747,6 @@ begin
   Ed.Colors.Caret:= GetAppColor(TAppThemeColor.EdCaret);
   Ed.Colors.Markers:= GetAppColor(TAppThemeColor.EdMarkers);
   Ed.Colors.DragDropMarker:= Ed.Colors.Markers;
-  Ed.Colors.GitMarkerBG:= Ed.Colors.Markers;
   Ed.Colors.CurrentLineBG:= GetAppColor(TAppThemeColor.EdCurLineBg);
   Ed.Colors.IndentVertLines:= GetAppColor(TAppThemeColor.EdIndentVLine);
   Ed.Colors.UnprintedFont:= GetAppColor(TAppThemeColor.EdUnprintFont);
