@@ -1,4 +1,4 @@
-object SyntAnal9: TLibSyntAnalyzer
+object SyntAnal10: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Symbol'
@@ -947,28 +947,28 @@ object SyntAnal9: TLibSyntAnalyzer
       StatesRemove = 1
       StartExpression = '/\*{2,}(?!/)'
       EndExpression = '\*/'
-      SyntAnalyzer = SyntAnal10
+      SyntAnalyzer = SyntAnal11
     end
     item
       DisplayName = 'Template HTML'
       StyleName = 'Sublexer BG'
       StartExpression = '(?-i)\bhtml`'
-      EndExpression = '`'
-      SyntAnalyzer = SyntAnal8
+      EndExpression = '(?<![\{])`'
+      SyntAnalyzer = SyntAnal9
     end
     item
       DisplayName = 'Template JSON'
       StyleName = 'Sublexer BG'
       StartExpression = '(?-i)\bjson`'
-      EndExpression = '`'
-      SyntAnalyzer = SyntAnal11
+      EndExpression = '(?<![\{])`'
+      SyntAnalyzer = SyntAnal12
     end
     item
       DisplayName = 'Template CSS'
       StyleName = 'Sublexer BG'
       StartExpression = '(?-i)\bcss`'
-      EndExpression = '`'
-      SyntAnalyzer = SyntAnal6
+      EndExpression = '(?<![\{])`'
+      SyntAnalyzer = SyntAnal7
     end>
   SampleText.Strings = (
     '#!/bin/bash                         '
