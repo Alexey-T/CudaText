@@ -9,6 +9,7 @@
 - fix: few regressions in 1.222.3 in reworked TextInsert method (thanks @pintassilgo)
 - fix: range-check error in parser (thanks @pintassilgo, @JairoMartinezA)
 - fix: macOS: distorted icon in Dock (thanks @JairoMartinezA)
+- fix: tree-helper for WikidPad had small bug (thanks @mix-7)
 
 1.223.0 (2025/04)
 
