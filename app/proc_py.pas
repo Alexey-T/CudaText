@@ -99,6 +99,9 @@ var
 
 implementation
 
+uses
+  ATStringProc_TextBuffer;
+
 { TAppPython }
 
 constructor TAppPython.Create;
@@ -495,6 +498,7 @@ begin
   Result.Str:= '';
 
   if not FInited then exit;
+  if EditorParserExceptionMessage<>'' then exit; //avoid on_close API event if parser exception occured
   InitModuleMain;
 
   FRunning:= true;
