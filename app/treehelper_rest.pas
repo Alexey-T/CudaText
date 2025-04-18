@@ -57,21 +57,21 @@ class procedure TTreeHelperRest.GetHeaders(Ed: TATSynEdit; Data: TATTreeHelperRe
 var
   PrevHeadIndex: array[1..8] of integer = (-1, -1, -1, -1, -1, -1, -1, -1);
   //
-  procedure ClosePrevHeader(Level, iLine: integer);
+  procedure ClosePrevHeader(AHeadLevel, ALine: integer);
   var
     ItemPtr: PATTreeHelperRecord;
     iHead: integer;
   begin
-    for iHead:= Level to High(PrevHeadIndex) do
+    for iHead:= AHeadLevel to High(PrevHeadIndex) do
       if PrevHeadIndex[iHead]>=0 then
       begin
         ItemPtr:= Data._GetItemPtr(PrevHeadIndex[iHead]);
         if ItemPtr^.Y2<0 then
-          ItemPtr^.Y2:= iLine-2;
+          ItemPtr^.Y2:= ALine-2;
       end;
 
-    if (Level>=Low(PrevHeadIndex)) and (Level<=High(PrevHeadIndex)) then
-      PrevHeadIndex[Level]:= Data.Count-1;
+    if (AHeadLevel>=Low(PrevHeadIndex)) and (AHeadLevel<=High(PrevHeadIndex)) then
+      PrevHeadIndex[AHeadLevel]:= Data.Count-1;
   end;
   //
 var

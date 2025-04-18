@@ -56,24 +56,24 @@ var
   PrevHeadIndex: array[1..8] of integer = (-1, -1, -1, -1, -1, -1, -1, -1);
   St: TATStrings;
   //
-  procedure ClosePrevHeader(head, iLine: integer);
+  procedure ClosePrevHeader(AHeadLevel, ALine: integer);
   var
     ItemPtr: PATTreeHelperRecord;
     iHead: integer;
   begin
-    for iHead:= head to High(PrevHeadIndex) do
+    for iHead:= AHeadLevel to High(PrevHeadIndex) do
       if PrevHeadIndex[iHead]>=0 then
       begin
         ItemPtr:= Data._GetItemPtr(PrevHeadIndex[iHead]);
         if ItemPtr^.Y2<0 then
         begin
-          ItemPtr^.Y2:= iLine-1;
-          ItemPtr^.X2:= St.LinesLen[iLine-1];
+          ItemPtr^.Y2:= ALine-1;
+          ItemPtr^.X2:= St.LinesLen[ALine-1];
         end;
       end;
 
-    if (head>=Low(PrevHeadIndex)) and (head<=High(PrevHeadIndex)) then
-      PrevHeadIndex[head]:= Data.Count-1;
+    if (AHeadLevel>=Low(PrevHeadIndex)) and (AHeadLevel<=High(PrevHeadIndex)) then
+      PrevHeadIndex[AHeadLevel]:= Data.Count-1;
   end;
   //
 var
