@@ -9105,6 +9105,9 @@ begin
     Result:= TreeHelperInPascal(Ed, ALexer, Data);
     if Result and (Data.Count>0) then
     begin
+      //MsgLogConsole('Tree-helper data:');
+      //MsgLogConsole(Data.ToString);
+
       //Ed.Fold.BackupPersistentRanges; //if uncommented: fold-states +- are not kept during editing
       Ed.Fold.BackupFoldedStates;
       Ed.Fold.Clear;

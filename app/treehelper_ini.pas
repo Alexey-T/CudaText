@@ -33,6 +33,7 @@ var
   DataItem: TATTreeHelperRecord;
   PrevHeaderIndex: integer = -1;
   St: TATStrings;
+  RecPtr: PATTreeHelperRecord;
   S: UnicodeString;
   iLine, NFirst, NSymbol, NLen, NBlockLine: integer;
 begin
@@ -67,7 +68,9 @@ begin
         NBlockLine:= iLine-1;
         while (NBlockLine>0) and (St.LinesLen[NBlockLine]=0) do
           Dec(NBlockLine);
-        Data._GetItemPtr(PrevHeaderIndex)^.Y2:= NBlockLine;
+        RecPtr:= Data._GetItemPtr(PrevHeaderIndex);
+        RecPtr^.Y2:= NBlockLine;
+        RecPtr^.X2:= St.LinesLen[NBlockLine];
       end;
 
       PrevHeaderIndex:= Data.Count-1;
@@ -94,7 +97,9 @@ begin
     NBlockLine:= St.Count-1;
     while (NBlockLine>0) and (St.LinesLen[NBlockLine]=0) do
       Dec(NBlockLine);
-    Data._GetItemPtr(PrevHeaderIndex)^.Y2:= NBlockLine;
+    RecPtr:= Data._GetItemPtr(PrevHeaderIndex);
+    RecPtr^.Y2:= NBlockLine;
+    RecPtr^.X2:= St.LinesLen[NBlockLine];
   end;
 end;
 

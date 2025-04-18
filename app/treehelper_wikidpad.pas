@@ -42,7 +42,7 @@ end;
 
 class function TTreeHelperWikidpad.GetHeadLevel(const S: UnicodeString): integer;
 var
-  NLen, r, r2, i: integer;
+  NLen, r: integer;
 begin
   NLen:= Length(S);
   r:= 0;
@@ -54,6 +54,7 @@ end;
 class procedure TTreeHelperWikidpad.GetHeaders(Ed: TATSynEdit; Data: TATTreeHelperRecords);
 var
   PrevHeadIndex: array[1..8] of integer = (-1, -1, -1, -1, -1, -1, -1, -1);
+  St: TATStrings;
   //
   procedure ClosePrevHeader(head, iLine: integer);
   var
@@ -65,7 +66,10 @@ var
       begin
         ItemPtr:= Data._GetItemPtr(PrevHeadIndex[iHead]);
         if ItemPtr^.Y2<0 then
+        begin
           ItemPtr^.Y2:= iLine-1;
+          ItemPtr^.X2:= St.LinesLen[iLine-1];
+        end;
       end;
 
     if (head>=Low(PrevHeadIndex)) and (head<=High(PrevHeadIndex)) then
@@ -74,7 +78,6 @@ var
   //
 var
   DataItem: TATTreeHelperRecord;
-  St: TATStrings;
   HeadLevel: integer;
   SHead: UnicodeString;
   bPreformatted: boolean;

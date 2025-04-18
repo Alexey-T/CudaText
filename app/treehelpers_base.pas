@@ -13,6 +13,7 @@ unit TreeHelpers_Base;
 interface
 
 uses
+  SysUtils,
   ATSynEdit_fgl;
     
 type
@@ -25,6 +26,7 @@ type
     Icon: integer;
     Title: string;
     class operator =(const A, B: TATTreeHelperRecord): boolean;
+    function ToString: string;
   end;
 
 type
@@ -37,6 +39,7 @@ type
     procedure Deref(Item: Pointer); override;
   public
     property ItemPtr[N: integer]: PATTreeHelperRecord read GetItemPtr;
+    function ToString: string; reintroduce;
   end;
 
 implementation
@@ -46,6 +49,11 @@ implementation
 class operator TATTreeHelperRecord.=(const A, B: TATTreeHelperRecord): boolean;
 begin
   Result:= false;
+end;
+
+function TATTreeHelperRecord.ToString: string;
+begin
+  Result:= Format('level %d, (%d, %d)-(%d, %d), "%s"', [Level, X1, Y1, X2, Y2, Title]);
 end;
 
 { TATTreeHelperRecords }
@@ -58,6 +66,15 @@ end;
 procedure TATTreeHelperRecords.Deref(Item: Pointer);
 begin
   PATTreeHelperRecord(Item)^.Title:= '';
+end;
+
+function TATTreeHelperRecords.ToString: string;
+var
+  i: integer;
+begin
+  Result:= '';
+  for i:= 0 to Count-1 do
+    Result+= GetItemPtr(i)^.ToString+#10;
 end;
 
 end.
