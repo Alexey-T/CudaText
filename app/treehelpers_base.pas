@@ -14,6 +14,7 @@ interface
 
 uses
   SysUtils,
+  Classes,
   ATSynEdit_fgl;
     
 type
@@ -53,7 +54,7 @@ end;
 
 function TATTreeHelperRecord.ToString: string;
 begin
-  Result:= Format('level %d, (%d, %d)-(%d, %d), "%s"', [Level, X1, Y1, X2, Y2, Title]);
+  Result:= Format('level %d; (%d, %d)-(%d, %d); "%s"', [Level, X1, Y1, X2, Y2, Title]);
 end;
 
 { TATTreeHelperRecords }
@@ -70,11 +71,18 @@ end;
 
 function TATTreeHelperRecords.ToString: string;
 var
+  L: TStringList;
   i: integer;
 begin
-  Result:= '';
-  for i:= 0 to Count-1 do
-    Result+= GetItemPtr(i)^.ToString+#10;
+  L:= TStringList.Create;
+  try
+    L.TextLineBreakStyle:= tlbsLF;
+    for i:= 0 to Count-1 do
+      L.Add(GetItemPtr(i)^.ToString);
+    Result:= L.Text;
+  finally
+    FreeAndNil(L);
+  end;
 end;
 
 end.
