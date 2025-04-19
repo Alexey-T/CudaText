@@ -429,7 +429,7 @@ object SyntAnal13: TLibSyntAnalyzer
       StatesRemove = 7
       StatesAbsent = 3072
       TokenType = 3
-      Expression = '^[\x20\x09]*(>[\x20=])+'
+      Expression = '^[\x20\x09]*(>+[\x20=])+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -962,32 +962,32 @@ object SyntAnal13: TLibSyntAnalyzer
       StatesAbsent = 3
       StartExpression = '(?s)<script\b.*?>'
       EndExpression = '</script>'
-      SyntAnalyzer = SyntAnal9
+      SyntAnalyzer = SyntAnal10
     end
     item
       DisplayName = 'CSS'
       StatesAbsent = 3
       StartExpression = '(?s)<style\b.*?>'
       EndExpression = '</style>'
-      SyntAnalyzer = SyntAnal6
+      SyntAnalyzer = SyntAnal7
     end
     item
       DisplayName = 'YAML front matter'
       StartExpression = '\A---(\s*yaml)?$'
       EndExpression = '^(---|\.\.\.)$'
-      SyntAnalyzer = SyntAnal22
+      SyntAnalyzer = SyntAnal21
     end
     item
       DisplayName = 'JSON front matter'
       StartExpression = '\A---\s*json$'
       EndExpression = '^---$'
-      SyntAnalyzer = SyntAnal11
+      SyntAnalyzer = SyntAnal12
     end
     item
       DisplayName = 'Fenced block'
       StartExpression = '(?<=^\x20{0,3})(`{3,}|~{3,})\x20*\w.*$'
       EndExpression = '(?<=^\x20{0,3})(`{3,}|~{3,})\x20*$'
-      SyntAnalyzer = SyntAnal8
+      SyntAnalyzer = SyntAnal9
     end>
   SampleText.Strings = (
     '---'
