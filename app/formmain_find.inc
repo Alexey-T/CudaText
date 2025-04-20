@@ -287,6 +287,7 @@ var
   Category: TAppFinderOperationCategory;
   Frame: TEditorFrame;
   ok, bDoLock, bFindMode, bHiliteAll, bFocusFindDlg: boolean;
+  OperationsFocusEditor: set of TAppFinderOperation;
   NCounter: integer;
 begin
   InitFormFind;
@@ -463,17 +464,6 @@ begin
 
   UpdateAppForSearch(false, false, bFindMode, AEnableUpdateAll, bFocusFindDlg);
 
-  {$ifdef LCLgtk2}
-  //Linux gtk2: UpdateAppForSearch don't put focus anywhere (Laz bug?) after "confirmation" form;
-  //make workaround
-  if Res in [TAppFinderOperation.ReplaceAll, TAppFinderOperation.ReplaceGlobal] then
-  begin
-    Frame:= CurrentFrame;
-    if Assigned(Frame) then
-      Frame.SetFocus;
-  end;
-  {$endif}
-
   //close dialog after 'Select all'/'Mark all', issue #4503
   if Res in [TAppFinderOperation.FindSelectAll, TAppFinderOperation.FindMarkAll] then
     if NCounter>0 then
@@ -487,7 +477,17 @@ begin
       end;
     end;
 
-  if Res in [TAppFinderOperation.ExtractAll] then
+  OperationsFocusEditor:= [
+    {$ifdef LCLgtk2}
+    //Linux gtk2: UpdateAppForSearch don't put focus anywhere (Laz bug?) after "confirmation" form;
+    //make workaround
+    TAppFinderOperation.ReplaceAll,
+    TAppFinderOperation.ReplaceGlobal,
+    {$endif}
+    TAppFinderOperation.ExtractAll
+    ];
+
+  if Res in OperationsFocusEditor then
   begin
     Frame:= CurrentFrame;
     if Assigned(Frame) then
