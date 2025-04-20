@@ -3,11 +3,12 @@
   - fixed
   * changed
 
-1.223.2 (2025/04)
+1.223.3 (2025/04)
 
 + add: new UI-theme color: "current line BG, other wrapped parts" - it's used when "show_cur_line":true & "show_cur_line_minimal":false, and caret is on a long wrapped line; if this color is 'None' (this is default), program will work like before using "current line BG" color (idea by @drit)
 + add: new option "padding_top" (idea by @ags1234)
 * change: renamed option "spacing_y" to "padding_bottom"
+- fix: Windows: IME behaviour when mouse click happens (thanks @VenusGirl, fix by @rasberryrabbit)
 
 1.223.1 (2025/04)
 
@@ -16,7 +17,6 @@
 - fix: range-check error in parser (thanks @pintassilgo, @JairoMartinezA)
 - fix: macOS: distorted icon in Dock (thanks @JairoMartinezA)
 - fix: tree-helper for WikidPad had small bug (thanks @mix-7)
-- fix: Windows: IME behaviour when mouse click happens (thanks @VenusGirl, fix by @rasberryrabbit)
 
 1.223.0 (2025/04)
 
