@@ -2181,6 +2181,7 @@ Don't configure custom lexer styles in the "Options / Lexers / Lexer properties"
 
 The following UI theme items allow "none" values, it means that JSON theme-file stores the empty string for them, and plugin API returns COLOR_NONE value for them.
 
+* EdCurLineBg2: when "none", it falls back to EdCurLineBg
 * EdBlockStapleActive: when "none", it falls back to EdBlockStaple
 * OtherTextFont: when "none", it falls back to EdTextFont
 * OtherTextBg: when "none", it falls back to EdTextBg
