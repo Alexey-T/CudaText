@@ -2181,22 +2181,22 @@ Don't configure custom lexer styles in the "Options / Lexers / Lexer properties"
 
 The following UI theme items allow "none" values, it means that JSON theme-file stores the empty string for them, and plugin API returns COLOR_NONE value for them.
 
-* EdCurLineBg2: when "none", it falls back to EdCurLineBg
-* EdBlockStapleActive: when "none", it falls back to EdBlockStaple
-* OtherTextFont: when "none", it falls back to EdTextFont
-* OtherTextBg: when "none", it falls back to EdTextBg
-* TabFontActive: when "none", it falls back to TabFont
-* TabCloseBg: when "none", tab 'x' background is not painted
-* StatusFont: when "none", it falls back to ButtonFont 
-* StatusBg: when "none", it falls back to TabBg
+* EdCurLineBg2 / 'editor, current line BG': when "none", it falls back to EdCurLineBg
+* EdBlockStapleActive / 'editor, block staples, for caret': when "none", it falls back to EdBlockStaple
+* OtherTextFont / 'single-line inputs, font': when "none", it falls back to EdTextFont
+* OtherTextBg / 'single-line inputs, BG': when "none", it falls back to EdTextBg
+* TabFontActive / 'tabs, font, active tab': when "none", it falls back to TabFont
+* TabCloseBg / 'tabs, close button BG': when "none", X-icon background is not painted
+* StatusFont / 'statusbar, font': when "none", it falls back to ButtonFont 
+* StatusBg / 'statusbar, BG': when "none", it falls back to TabBg
 
 And the following items, which colorize the main menu - they are used only on Windows:
 
-* MenuFont: when "none", it falls back to TabFont
-* MenuFontHotkey: when "none", it falls back to MenuFont, then to TabFontMod
-* MenuFontDisabled: when "none", it falls back to TabBorderPassive
-* MenuBg: when "none", it falls back to TabBg
-* MenuSelBg: when "none", it falls back to TabOver
+* MenuFont / 'top menu, font': when "none", it falls back to TabFont
+* MenuFontHotkey / 'top menu, font, hotkey': when "none", it falls back to MenuFont, then to TabFontMod
+* MenuFontDisabled / 'top menu, font, disabled state': when "none", it falls back to TabBorderPassive
+* MenuBg / 'top menu, BG': when "none", it falls back to TabBg
+* MenuSelBg / 'top menu, BG, selected': when "none", it falls back to TabOver
 
 ==How to create theme package==
 
