@@ -486,6 +486,13 @@ begin
         Frame.SetFocus;
       end;
     end;
+
+  if Res in [TAppFinderOperation.ExtractAll] then
+  begin
+    Frame:= CurrentFrame;
+    if Assigned(Frame) then
+      Frame.SetFocus;
+  end;
 end;
 
 procedure TfmMain.InitFormFind;
