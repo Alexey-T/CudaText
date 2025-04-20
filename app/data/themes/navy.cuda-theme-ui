@@ -10,6 +10,7 @@
   "EdCaret": "#000000",
   "EdMarkers": "#6044A0",
   "EdCurLineBg": "#F0F0E0",
+  "EdCurLineBg2": "",
   "EdIndentVLine": "#A0A0A4",
   "EdUnprintFont": "#006080",
   "EdUnprintBg": "#E0E0E0",
