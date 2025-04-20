@@ -385,7 +385,8 @@ end;
 
 procedure TfmFind.bExtractClick(Sender: TObject);
 begin
-  DoResult(TAppFinderOperation.ExtractAll);
+  if chkRegex.Checked then
+    DoResult(TAppFinderOperation.ExtractAll);
 end;
 
 procedure TfmFind.bFindPrevClick(Sender: TObject);
@@ -625,7 +626,7 @@ begin
   FMenuitemCount.Enabled:= not FForViewer;
   FMenuitemCount.Caption:= SCaptionCount;
   FMenuitemCount.Shortcut:= TextToShortCutRaw(UiOps.HotkeyCountAll);
-  FMenuitemExtract.Enabled:= not FForViewer;
+  FMenuitemExtract.Enabled:= not FForViewer and chkRegex.Checked;
   FMenuitemExtract.Caption:= SCaptionExtract;
   FMenuitemExtract.Shortcut:= TextToShortCutRaw(UiOps.HotkeyExtractAll);
   FMenuitemSelectAll.Enabled:= not FForViewer;

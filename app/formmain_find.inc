@@ -137,6 +137,7 @@ var
 begin
   Matches:= TStringList.Create;
   try
+    FFinder.OptRegex:= true;
     FFinder.DoAction_ExtractAll(false, Matches, false, FFinder.OptCase, dupAccept);
     if Matches.Count>0 then
     begin
