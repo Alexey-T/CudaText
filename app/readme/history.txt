@@ -10,6 +10,7 @@
 - fix: range-check error in parser (thanks @pintassilgo, @JairoMartinezA)
 - fix: macOS: distorted icon in Dock (thanks @JairoMartinezA)
 - fix: tree-helper for WikidPad had small bug (thanks @mix-7)
+- fix: Windows: IME behaviour when mouse click happens (thanks @VenusGirl, fix by @rasberryrabbit)
 
 1.223.0 (2025/04)
 
