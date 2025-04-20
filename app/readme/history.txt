@@ -5,8 +5,8 @@
 
 1.223.2 (2025/04)
 
++ add: added property "padding_top" (thanks @ags1234)
 * change: renamed property "spacing_y" to "padding_bottom"
-+ add: added property "padding_top"
 
 1.223.1 (2025/04)
 
