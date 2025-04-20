@@ -239,7 +239,8 @@ begin
   Ed.OptFlickerReducingPause:= Op.OpFlickerReducingPause;
 
   Ed.OptScrollbarsNew:= Op.OpScrollbarsNew;
-  Ed.OptSpacingY:= Op.OpSpacingY;
+  Ed.OptPaddingTop:= Op.OpPaddingTop;
+  Ed.OptPaddingBottom:= Op.OpPaddingBottom;
 
   if AApplyTabSize then
   begin

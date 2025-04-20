@@ -549,7 +549,8 @@ type
     OpFlickerReducingPause: integer;
 
     OpScrollbarsNew: boolean;
-    OpSpacingY: integer;
+    OpPaddingTop: integer;
+    OpPaddingBottom: integer;
     OpTabSize: integer;
     OpTabSpaces: boolean;
     OpTabSmart: boolean;
@@ -1814,7 +1815,8 @@ begin
     OpFlickerReducingPause:= 0;
 
     OpScrollbarsNew:= true;
-    OpSpacingY:= 1;
+    OpPaddingTop:= 0;
+    OpPaddingBottom:= 1;
 
     OpTabSize:= 4;
     OpTabSpaces:= false;
