@@ -195,9 +195,6 @@ type
     LightBG3,
     LightBG4,
     LightBG5,
-    Pale1,
-    Pale2,
-    Pale3,
     //styles below must not be saved to file, see apstLastStyle
     TextBold,
     TextItalic,
@@ -551,9 +548,11 @@ begin
   SetStyle(TAppThemeStyle.LightBG4, 'LightBG4', clBlack, $F08080, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
   SetStyle(TAppThemeStyle.LightBG5, 'LightBG5', clBlack, $C0C0B0, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
 
+  {
   SetStyle(TAppThemeStyle.Pale1, 'Pale1', $A0E0E0, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
   SetStyle(TAppThemeStyle.Pale2, 'Pale2', $E0E0A0, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
   SetStyle(TAppThemeStyle.Pale3, 'Pale3', $E0E0E0, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
+  }
 
   SetStyle(TAppThemeStyle.TextBold, 'TextBold', clBlack, clNone, clNone, [fsBold], blNone, blNone, blNone, blNone, ftFontAttr);
   SetStyle(TAppThemeStyle.TextItalic, 'TextItalic', clBlack, clNone, clNone, [fsItalic], blNone, blNone, blNone, blNone, ftFontAttr);

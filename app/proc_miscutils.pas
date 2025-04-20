@@ -739,7 +739,7 @@ begin
   St:= GetAppStyle(TAppThemeStyle.Id1);
   V.TextColorHex2:= St.Font.Color;
 
-  St:= GetAppStyle(TAppThemeStyle.Pale1);
+  St:= GetAppStyle(TAppThemeStyle.Comment);
   V.TextColorLines:= St.Font.Color;
 end;
 
