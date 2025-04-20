@@ -334,29 +334,5 @@
     "CBack" : "#3F123F",
     "CBorder" : "",
     "Border" : "0,0,0,0"
-  },
-  "Lex_Pale1" : {
-    "Type" : 1,
-    "Styles" : "",
-    "CFont" : "#A0A0A4",
-    "CBack" : "#800000",
-    "CBorder" : "",
-    "Border" : "0,0,0,0"
-  },
-  "Lex_Pale2" : {
-    "Type" : 1,
-    "Styles" : "",
-    "CFont" : "#808080",
-    "CBack" : "#1D2021",
-    "CBorder" : "",
-    "Border" : "0,0,0,0"
-  },
-  "Lex_Pale3" : {
-    "Type" : 1,
-    "Styles" : "",
-    "CFont" : "#AE6A6A",
-    "CBack" : "#1D2021",
-    "CBorder" : "",
-    "Border" : "0,0,0,0"
   }
 }
