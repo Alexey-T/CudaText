@@ -34,6 +34,7 @@ type
     EdCaret,
     EdMarkers,
     EdCurLineBg,
+    EdCurLineBg2,
     EdIndentVLine,
     EdUnprintFont,
     EdUnprintBg,
@@ -361,6 +362,7 @@ begin
   SetColor(TAppThemeColor.EdCaret, clBlack, 'EdCaret', 'editor, caret');
   SetColor(TAppThemeColor.EdMarkers, $6060d0, 'EdMarkers', 'editor, markers');
   SetColor(TAppThemeColor.EdCurLineBg, $e0e0d0, 'EdCurLineBg', 'editor, current line BG');
+  SetColor(TAppThemeColor.EdCurLineBg2, clNone, 'EdCurLineBg2', 'editor, current line BG, other wrapped parts');
   SetColor(TAppThemeColor.EdIndentVLine, clMedGray, 'EdIndentVLine', 'editor, wrapped line indent vert-lines');
   SetColor(TAppThemeColor.EdUnprintFont, $a0a0b8, 'EdUnprintFont', 'editor, unprinted chars, font');
   SetColor(TAppThemeColor.EdUnprintBg, $e0e0e0, 'EdUnprintBg', 'editor, unprinted chars, BG');

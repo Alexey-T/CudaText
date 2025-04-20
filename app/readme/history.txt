@@ -5,8 +5,9 @@
 
 1.223.2 (2025/04)
 
-+ add: added property "padding_top" (thanks @ags1234)
-* change: renamed property "spacing_y" to "padding_bottom"
++ add: new UI-theme color: "editor, current line BG, other wrapped parts" - it's used when "show_cur_line":true & "show_cur_line_minimal":false, and caret is on a long wrapped line (idea by @drit)
++ add: new option "padding_top" (idea by @ags1234)
+* change: renamed option "spacing_y" to "padding_bottom"
 
 1.223.1 (2025/04)
 
