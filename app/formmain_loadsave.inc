@@ -512,7 +512,7 @@ begin
     end;
   end;
 
-  if bSessionUpdated then
+  if FileExists(sSessionFileName) then
   begin
     if not FileAge(sSessionFileName, fileWriteTimeAfterSaving) then
       fileWriteTimeAfterSaving:= Default(TDateTime);
