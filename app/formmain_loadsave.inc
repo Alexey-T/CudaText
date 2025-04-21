@@ -216,8 +216,8 @@ begin
 
   if ASaveSession and
     ((FOption_AllowSessionSave=TAppAllowSomething.Enable) or not IsDefaultSessionActive)
-    //// see http://synwrite.sourceforge.net/forums/viewtopic.php?f=20&t=2576
-    //// @tmsg wants to save session always, even with -ns cmdline opt
+    ////see http://synwrite.sourceforge.net/forums/viewtopic.php?f=20&t=2576
+    ////@tmsg wants to save session always, even with -ns cmdline opt
   then
   begin
     fnBase:= AppFile_Session;
@@ -385,7 +385,7 @@ begin
       if not bSessionUpdated then
       begin
         if currFramesEditState[iFrame]<>FPrevFramesEditState[iFrame] then
-          bSessionUpdated:= true; // frame's FileName or unsaved text has been updated
+          bSessionUpdated:= true; //frame's FileName or unsaved text has been updated
       end;
 
       cfg.SetValue(sJsonPath+'/modified', bModified);
@@ -489,7 +489,7 @@ begin
       if not bSessionUpdated then
       begin
         if not IsJsonObjEqual(cfg.GetJsonObj, FPrevJsonObj, keysToIgnore) then
-          bSessionUpdated:= true; // the JSON config has been updated
+          bSessionUpdated:= true; //the JSON config has been updated
       end;
 
       if bSessionUpdated then
@@ -500,7 +500,7 @@ begin
           fileWriteTimeBeforeSaving:= Default(TDateTime);
       end
       else
-        cfg.SetModified(false); // no need to save the session
+        cfg.SetModified(false); //no need to save the session
 
       if not bFileExisted then
         cfg.SetModified(true);
@@ -2058,7 +2058,7 @@ begin
 end;
 
 procedure TfmMain.DoOps_LoadOptionsAndApplyAll;
-// called by command "settings: reload/apply config"
+//called by command "settings: reload/apply config"
 var
   bDisFree: boolean;
 begin
