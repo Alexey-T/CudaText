@@ -508,7 +508,7 @@ begin
       FreeAndNil(cfg_bookmarks);
       FreeAndNil(cfg); //saves json file when its property Modified is True
     except
-      //for incorrect session folder
+      //supress exception if bad or non-writable session folder is used
     end;
   end;
 
