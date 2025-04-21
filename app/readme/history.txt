@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.223.3 (2025/04)
+1.223.5 (2025/04)
 
 + add: new UI-theme color "current line BG, other wrapped parts", it's described in the Wiki (idea by @drit)
 + add: new option "line_space_top" (idea by @ags1234)
