@@ -1392,8 +1392,8 @@ begin
   Op.OpActiveBorderWidth:= Op.OpActiveBorderRaw mod 100;
 
   Op.OpScrollbarsNew:= cfg.GetValue('scrollbar_themed', Op.OpScrollbarsNew);
-  Op.OpPaddingTop:= cfg.GetValue('padding_top'+cOptionSystemSuffix, Op.OpPaddingTop);
-  Op.OpPaddingBottom:= cfg.GetValue('padding_bottom'+cOptionSystemSuffix, Op.OpPaddingBottom);
+  Op.OpPaddingTop:= cfg.GetValue('line_space_top'+cOptionSystemSuffix, Op.OpPaddingTop);
+  Op.OpPaddingBottom:= cfg.GetValue('line_space_bottom'+cOptionSystemSuffix, Op.OpPaddingBottom);
 
   Op.OpTabSize:= cfg.GetValue('tab_size', Op.OpTabSize);
   Op.OpTabSpaces:= cfg.GetValue('tab_spaces', Op.OpTabSpaces);

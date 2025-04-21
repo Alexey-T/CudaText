@@ -384,13 +384,13 @@
   //[Text/Look]
   //Additional vertical padding/spacing per each line, in pixels. [has suffix]
   //Can be negative too.
-  "padding_top": 0,
-  "padding_top__linux": 0,
-  "padding_top__mac": 0,
+  "line_space_top": 0,
+  "line_space_top__linux": 0,
+  "line_space_top__mac": 0,
 
-  "padding_bottom": 1,
-  "padding_bottom__linux": 1,
-  "padding_bottom__mac": 1,
+  "line_space_bottom": 1,
+  "line_space_bottom__linux": 1,
+  "line_space_bottom__mac": 1,
 
   //[Text/Tabulations]
   //Tab-char width.
