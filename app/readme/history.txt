@@ -10,6 +10,7 @@
 * change: renamed option "spacing_y" to "line_space_bottom"
 * change: deleted UI-theme colors Pale1, Pale2, Pale3 (seems were not used)
 + add: after "Extract RegEx matches", focus the editor (thanks @pintassilgo)
++ add: update CSS auto-completions data to latest
 - fix: Windows: IME behaviour when mouse click happens (thanks @VenusGirl, fix by @rasberryrabbit)
 - fix: wrong Console msg "Failed to save session" (thanks @mix-7)
 
