@@ -13,7 +13,6 @@
 #############
 
 common_values = {
-        "animation-direction": ["alternate", "alternate-reverse", "normal", "reverse"],
         "absolute-size": [
             "xx-small",
             "x-small",
@@ -39,10 +38,15 @@ common_values = {
         "axis": ["block", "inline", "vertical", "horizontal"],
         "baseline-position": ["firstbaseline", "lastbaseline", "baseline"],
         "basic-shape": [
+            "<basic-shape-rect>",
             ["circle()", "circle($1)"],
             ["ellipse()", "ellipse($1)"],
-            ["inset()", "inset($1)"],
             ["polygon()", "polygon($1)"],
+        ],
+        "basic-shape-rect": [
+            ["inset()", "inset($1)"],
+            ["rect()", "rect($1)"],
+            ["xywh()", "xywh($1)"],
         ],
         "blend-mode": [
             "normal",
@@ -113,6 +117,8 @@ common_values = {
         "color": [
             "currentColor",
             "transparent",
+            ["color()", "color($1)"],
+            ["color-mix()", "color-mix($1, $2)"],
             ["rgb()", "rgb(${1:0}, ${2:0}, ${3:0}${4: / ${5:1.0}})"],
             ["rgba()", "rgba(${1:0}, ${2:0}, ${3:0}, ${4:1.0})"],
             ["hsl()", "hsl(${1:0}, ${2:100%}, ${3:50%}${4: / ${5:1.0}})"],
@@ -273,6 +279,12 @@ common_values = {
             "yellow",
             "yellowgreen",
         ],
+        "color-interpolation-method": [
+            "<rectangular-color-space>",
+            "<polar-color-space>",
+            "<hue-interpolation-method>",
+            "in",
+        ],
         "container-type": ["normal", "size", "inline-size"],
         "content-distribution": ["space-between", "space-around", "space-evenly", "stretch"],
         "content-position": ["center", "start", "end", "flex-start", "flex-end"],
@@ -285,8 +297,8 @@ common_values = {
             "additive",
             "fixed",
         ],
-        "ending-shape": ["circle", "ellipse"],
         "fill-rule": ["nonzero", "evenodd"],
+        "filter-value": ["none", "<url>", "<filter-function>"],
         "filter-function": [
             ["blur()", "blur($1)"],
             ["brightness()", "brightness($1)"],
@@ -298,6 +310,12 @@ common_values = {
             ["opacity()", "opacity($1)"],
             ["saturate()", "saturate($1)"],
             ["sepia()", "sepia($1)"],
+        ],
+        "font-palette": [
+            "normal",
+            "light",
+            "dark",
+            ["palette-mix()", "palette-mix($1)"],
         ],
         "font-variant-alternates": [
             "normal",
@@ -321,6 +339,13 @@ common_values = {
         "grid": [
             ["repeat()", "repeat(${1:2}, ${2:1fr})"],
             ["minmax()", "minmax(${1:100px}, ${2:1fr})"],
+        ],
+        "hue-interpolation-method": [
+            "shorter hue",
+            "longer hue",
+            "increasing hue",
+            "decreasing hue",
+            "hue"
         ],
         "image": [
             "<url>",
@@ -434,7 +459,39 @@ common_values = {
             "katakana-iroha",
         ],
         "overflow-position": ["unsafe", "safe"],
+        "polar-color-space": ["hsl", "hwb", "lch", "oklch"],
         "position": ["<side-or-corner>", "center"],
+        "radial-gradient-syntax": [
+            "<radial-shape>",
+            "<size>",
+            "at",
+            "<position>",
+            "<color>",
+        ],
+        "radial-shape": [
+            "circle",
+            "ellipse"
+        ],
+        "ray-size": [
+            "closest-side",
+            "closest-corner",
+            "farthest-side",
+            "farthest-corner",
+            "sides",
+        ],
+        "rectangular-color-space": [
+            "srgb",
+            "srgb-linear",
+            "display-p3",
+            "a98-rgb",
+            "prophoto-rgb",
+            "rec2020",
+            "lab",
+            "oklab",
+            "xyz",
+            "xyz-d50",
+            "xyz-d65"
+        ],
         "relative-size": ["larger", "smaller"],
         "relative-weight": ["bolder", "lighter"],
         "repeat-style": [
@@ -455,9 +512,55 @@ common_values = {
             "flex-start",
             "flex-end",
         ],
+        "single-animation-composition": [
+            "replace",
+            "add",
+            "accumulate"
+        ],
+        "single-animation-direction": [
+            "normal",
+            "reverse",
+            "alternate",
+            "alternate-reverse"
+        ],
+        "single-animation-fill-mode": [
+            "none",
+            "forwards",
+            "backwards",
+            "both"
+        ],
+        "single-animation-iteration-count": [
+            "infinite",
+            "<calc>"
+        ],
+        "single-animation-play-state": [
+            "running",
+            "paused"
+        ],
+        "single-animation-timeline": [
+            "auto",
+            "none",
+            ["scroll()", "scroll($1)"],
+            ["view()", "view($1)"]
+        ],
+        "shape-box": ["<visual-box>", "margin-box"],
         "shape-radius": ["closest-side", "farthest-side"],
         "side-or-corner": ["left", "right", "top", "bottom"],
-        "text-wrap": ["wrap", "nowrap", "balance", "stable", "pretty"],
+        "symbols-type": ["cyclic", "numeric", "alphabetic", "symbolic", "fixed"],
+        "text-box-edge": ["auto", "<text-edge>"],
+        "text-box-trim": ["none", "trim-start", "trim-end", "trim-both"],
+        "text-edge": [
+            "cap",
+            "ex",
+            "ideographic",
+            "ideographic-ink",
+            "text",
+            "alphabetic",
+            "ideographic",
+            "ideographic-ink",
+        ],
+        "text-wrap-mode": ["wrap", "nowrap"],
+        "text-wrap-style": ["balance", "stable", "pretty"],
         "timing-function": [
             "linear",
             "ease",
@@ -511,19 +614,13 @@ common_values = {
             "%",
         ],
         "url": [["url()", "url($1)"]],
+        "visual-box": ["content-box", "padding-box", "border-box"],
         "white-space-collapse": [
             "collapse",
-            "discard",
             "preserve",
             "preserve-breaks",
             "preserve-spaces",
             "break-spaces"
-        ],
-        "white-space-trim": [
-            "none",
-            "discard-before",
-            "discard-after",
-            "discard-inner"
         ],
     }
 
@@ -560,6 +657,16 @@ props = {
             "<overflow-position>",
             "<content-position>",
         ],
+        "alignment-baseline": [
+            "baseline",
+            "alphabetic",
+            "ideographic",
+            "middle",
+            "central",
+            "mathematical",
+            "text-before-edge",
+            "text-after-edge",
+        ],
         "all": [],
         "alt": [],
         "animation": [
@@ -574,42 +681,19 @@ props = {
             "running",
             "paused",
         ],
+        "animation-composition": ["<single-animation-composition>"],
         "animation-delay": ["<calc>"],
-        "animation-direction": ["<animation-direction>"],
+        "animation-direction": ["<single-animation-direction>"],
         "animation-duration": ["<calc>"],
-        "animation-fill-mode": ["none", "forwards", "backwards", "both"],
-        "animation-iteration-count": [
-            "<calc>",
-            "infinite",
-        ],
-        "animation-name": [
-            "none",
-        ],
-        "animation-play-state": ["running", "paused"],
+        "animation-fill-mode": ["<single-animation-fill-mode>"],
+        "animation-iteration-count": ["<single-animation-iteration-count>"],
+        "animation-name": ["none"],
+        "animation-play-state": ["<single-animation-play-state>"],
         "animation-timing-function": ["<calc>", "<timing>"],
-        "animation-timeline": [
-            "auto",
-            "none",
-            ["scroll()", "scroll($1)"]
-        ],
+        "animation-timeline": ["<single-animation-timeline>"],
         "appearance": ["auto", "menulist-button", "none", "textfield"],
         "aspect-ratio": ["auto"],
-        "azimuth": [
-            "<calc>",
-            "behind",
-            "center",
-            "center-left",
-            "center-right",
-            "far-left",
-            "far-right",
-            "left",
-            "left-side",
-            "leftwards",
-            "right",
-            "right-side",
-            "rightwards",
-        ],
-        "backdrop-filter": ["none", "<url>", "<filter-function>"],
+        "backdrop-filter": ["<filter-value>"],
         "backface-visibility": ["visible", "hidden"],
         "background": [
             "<calc>",
@@ -624,16 +708,14 @@ props = {
         "background-attachment": ["fixed", "local", "scroll"],
         "background-blend-mode": ["<blend-mode>"],
         "background-clip": [
-            "border-box",
-            "content-box",
-            "padding-box",
+            "<visual-box>",
+            "border-area",
+            "text",
         ],
         "background-color": ["<color>"],
         "background-image": ["<url>", "none"],
         "background-origin": [
-            "border-box",
-            "content-box",
-            "padding-box",
+            "<visual-box>",
         ],
         "background-position": ["<calc>", "<position>"],
         "background-position-x": [
@@ -659,6 +741,7 @@ props = {
             "cover",
             "contain",
         ],
+        "baseline-shift": ["<calc>", "sub", "super", "baseline"],
         "behavior": [],
         "bleed": ["auto"],
         "block-size": ["<calc>", "auto"],
@@ -789,7 +872,7 @@ props = {
         "columns": ["<calc>", "auto"],
         "container": ["<container-type>"],
         "container-name": ["none"],
-        "container-type": ["<container-type>"],
+        "container-type": ["<container-type>", "scroll-state"],
         "contain": ["content", "layout", "none", "paint", "inline-size", "size", "strict", "style"],
         "contain-intrinsic-size": ["none", "auto"],
         "contain-intrinsic-block-size": ["none", "auto"],
@@ -854,6 +937,9 @@ props = {
             "zoom-in",
             "zoom-out",
         ],
+        "cx": ["<calc>"],
+        "cy": ["<calc>"],
+        "d": ["none", ["path()", "path($1)"]],
         "direction": ["ltr", "rtl"],
         "display": [
             "none",
@@ -885,27 +971,27 @@ props = {
             "ruby-text-container",
             "run-in",
         ],
+        "dominant-baseline": [
+            "auto",
+            "text-bottom",
+            "alphabetic",
+            "ideographic",
+            "middle",
+            "central",
+            "mathematical",
+            "hanging",
+            "text-top"
+        ],
         "empty-cells": ["show", "hide"],
         "enable-background": ["accumulate", "new"],
         "fallback": [],
-        "fill": ["<color>"],
+        "field-sizing": ["content", "fixed"],
+        "fill": ["<color>", "none", "context-fill", "context-stroke"],
         "fill-opacity": [
             "<calc>",
         ],
         "fill-rule": ["nonzero", "evenodd"],
-        "filter": [
-            "<url>",
-            ["blur()", "blur(${1:5px})"],
-            ["brightness()", "brightness(${1:1.0})"],
-            ["contrast()", "contrast(${1:100%})"],
-            ["drop-shadow()", "drop-shadow(${1:1px} ${2:1px})"],
-            ["grayscale()", "grayscale(${1:50%})"],
-            ["hue-rotate()", "hue-rotate(${1:90deg})"],
-            ["invert()", "invert(${1:50%})"],
-            ["opacity()", "opacity(${1:100%})"],
-            ["saturate()", "saturate(${1:50%})"],
-            ["sepia()", "sepia(${1:50%})"],
-        ],
+        "filter": ["<filter-value>"],
         "flex": [
             "<calc>",
             "none",
@@ -964,6 +1050,7 @@ props = {
         "font-kerning": ["auto", "normal", "none"],
         "font-language-override": ["normal", "<string>"],
         "font-optical-sizing": ["auto", "none"],
+        "font-palette":["<font-palette>"],
         "font-size": [
             "<calc>",
             "<absolute-size>",
@@ -1044,7 +1131,7 @@ props = {
         "font-variant-position": ["normal", "sub", "super"],
         "font-variation-settings": ["normal"],
         "font-weight": ["<absolute-weight>", "<relative-weight>"],
-        "forced-color-adjust": ["auto", "none"],
+        "forced-color-adjust": ["auto", "none", "preserve-parent-color"],
         "gap": [
             "<calc>",
         ],
@@ -1146,17 +1233,16 @@ props = {
         "hyphenate-character": ["auto"],
         "hyphenate-limit-chars": ["auto"],
         "image-orientation": ["flip", "from-image"],
-        "image-rendering": ["auto", "optimizeSpeed", "optimizeQuality", "pixelated"],
+        "image-rendering": ["auto", "crisp-edges", "pixelated", "smooth"],
         "image-resolution": ["from-image"],
         "ime-mode": ["auto", "normal", "active", "inactive", "disabled"],
         "inherits": ["false", "true"],
-        "initial-letter": ["normal"],
+        "initial-letter": ["<calc>", "normal"],
         "initial-letter-align": ["alphabetic", "auto", "hanging", "ideographic"],
         "initial-value": [
             "<calc>",
         ],
         "inline-size": ["<calc>", "auto"],
-        "input-security": ["auto", "none"],
         "inset": [],
         "inset-block": [],
         "inset-block-end": [],
@@ -1165,6 +1251,7 @@ props = {
         "inset-inline-end": [],
         "inset-inline-start": [],
         "isolation": ["auto", "isolation"],
+        "interpolate-size": ["numeric-only", "allow-keywords"],
         "justify-content": [
             "left",
             "normal",
@@ -1330,7 +1417,7 @@ props = {
         ],
         "offset-inline-end": ["<calc>", "auto"],
         "offset-inline-start": ["<calc>", "auto"],
-        "offset-path": ["<calc>", "none"],
+        "offset-path": ["<calc>", "none", ["ray()", "ray($1)"]],
         "offset-position": ["<calc>", "auto", "normal"],
         "offset-rotate": ["<calc>", "auto", "reverse"],
         "opacity": [
@@ -1418,6 +1505,7 @@ props = {
         "prefix": [],
         "print-color-adjust": ["economy", "exact"],
         "quotes": ["none", "<string>"],
+        "r": ["<calc>"],
         "range": ["auto", "infinite"],
         "resize": ["none", "both", "horizontal", "vertical"],
         "right": ["<calc>", "auto"],
@@ -1447,6 +1535,8 @@ props = {
             "under",
         ],
         "ruby-span": [["attr()", "attr($1)"], "<calc>", "none"],
+        "rx": ["<calc>"],
+        "ry": ["<calc>"],
         "scale": ["<calc>", "none"],
         "scroll-behavior": ["auto", "smooth"],
         "scroll-margin": ["<calc>"],
@@ -1505,10 +1595,7 @@ props = {
         "shape-margin": ["<calc>"],
         "shape-outside": [
             "none",
-            "margin-box",
-            "content-box",
-            "border-box",
-            "padding-box",
+            "<shape-box>",
             "<basic-shape>",
             "<url>",
         ],
@@ -1537,10 +1624,10 @@ props = {
         "stop-color": ["<color>"],
         "stop-opacity": ["<calc>"],
         "stroke": ["<calc>", "<color>"],
-        "stroke-dasharray": ["none"],
-        "stroke-dashoffset": [],
+        "stroke-dasharray": ["none", "<calc>"],
+        "stroke-dashoffset": ["<calc>"],
         "stroke-linecap": ["butt", "round", "square"],
-        "stroke-linejoin": ["round", "miter", "bevel"],
+        "stroke-linejoin": ["miter", "miter-clip", "round", "bevel", "arcs"],
         "stroke-miterlimit": ["<calc>"],
         "stroke-opacity": ["<calc>"],
         "stroke-width": ["<calc>"],
@@ -1553,6 +1640,9 @@ props = {
         "text-align": ["left", "right", "center", "justify", "justify-all"],
         "text-align-last": ["start", "end", "left", "right", "center", "justify"],
         "text-anchor": ["start", "middle", "end"],
+        "text-box": ["<text-box-trim", "<text-box-edge>", "normal"],
+        "text-box-edge": ["<text-box-edge>"],
+        "text-box-trim": ["<text-box-trim"],
         "text-combine-upright": ["all", "digits", "none"],
         "text-decoration": ["none", "underline", "overline", "line-through", "blink"],
         "text-decoration-color": ["<color>"],
@@ -1577,7 +1667,7 @@ props = {
         "text-emphasis-color": [
             "<color>",
         ],
-        "text-emphasis-position": ["left", "over", "right", "under"],
+        "text-emphasis-position": ["auto", "over left", "under left", "over right", "under right"],
         "text-emphasis-style": ["<string>", "<text-emphasis-style>"],
         "text-indent": ["<calc>", "hanging", "each-line"],
         "text-justify": [
@@ -1612,7 +1702,9 @@ props = {
         ],
         "text-underline-offset": ["<calc>", "auto"],
         "text-underline-position": ["auto", "under", "left", "right"],
-        "text-wrap": ["<text-wrap>"],
+        "text-wrap": ["<text-wrap-mode>", "<text-wrap-style>"],
+        "text-wrap-mode": ["<text-wrap-mode>"],
+        "text-wrap-style": ["<text-wrap-style>"],
         "top": ["<calc>", "auto"],
         "touch-action": [
             "auto",
@@ -1671,6 +1763,10 @@ props = {
             "all",
             "none",
         ],
+        "transition-behavior": [
+            "normal",
+            "allow-discrete",
+        ],
         "transition-delay": [
             "<calc>",
         ],
@@ -1692,8 +1788,15 @@ props = {
             "plaintext",
         ],
         "unicode-range": [],
-        "user-select": ["all", "auto", "text", "none", "contain"],
+        "user-select": ["all", "auto", "text", "none"],
         "user-zoom": ["fixed", "zoom"],
+        "vector-effect": [
+            "none",
+            "non-scaling-stroke",
+            "non-scaling-size",
+            "non-rotation",
+            "fixed-position"
+        ],
         "vertical-align": [
             "<calc>",
             "baseline",
@@ -1705,21 +1808,19 @@ props = {
             "top",
             "bottom",
         ],
+        "view-transition-name": ["none"],
+        "view-transition-class": ["none"],
         "viewport-fit": ["auto", "contain", "cover"],
         "visibility": ["visible", "hidden", "collapse"],
         "white-space": [
-            "break-spaces",
             "normal",
             "pre",
-            "nowrap",
             "pre-wrap",
             "pre-line",
-            "<text-wrap>",
+            "<text-wrap-mode>",
             "<white-space-collapse>",
-            "<white-space-trim>",
         ],
         "white-space-collapse": ["<white-space-collapse>"],
-        "white-space-trim": ["<white-space-trim>"],
         "widows": [
             "<calc>",
         ],
@@ -1729,7 +1830,13 @@ props = {
             "contents",
             "scroll-position",
         ],
-        "word-break": ["normal", "break-all", "break-word", "keep-all"],
+        "word-break": [
+            "normal",
+            "break-all",
+            "break-word",
+            "keep-all",
+            "auto-phrase",
+        ],
         "word-spacing": [
             "<calc>",
             "normal",
@@ -1742,6 +1849,8 @@ props = {
             "sideways-rl",
             "sideways-lr",
         ],
+        "x": ["<calc>"],
+        "y": ["<calc>"],
         "z-index": [
             "<calc>",
             "auto",
@@ -1770,6 +1879,20 @@ for k in props.copy(): # copy() is required
             props[kk] = val
 
 
+def resolve_data_brackets(val):
+    r = []
+    more = common_values.get(val[1:-1], [])
+    for m in more:
+        if type(m) is str:
+            if m.startswith('<') and m.endswith('>'):
+                r += resolve_data_brackets(m)
+            else:
+                r.append(m)
+        elif type(m) is list:
+            r.append(m[0])
+    return r
+    
+
 def get_data(name):
     #get list of properties
     if not name:
@@ -1781,12 +1904,7 @@ def get_data(name):
     for val in values:
         if type(val) is str:
             if val.startswith('<') and val.endswith('>'):
-                more = common_values.get(val[1:-1], [])
-                for m in more:
-                    if type(m) is str:
-                        r.append(m)
-                    elif type(m) is list:
-                        r.append(m[0])
+                r += resolve_data_brackets(val)
             else:
                 r.append(val)
         elif type(val) is list:
