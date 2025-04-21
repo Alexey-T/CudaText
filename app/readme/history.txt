@@ -5,7 +5,7 @@
 
 1.223.3 (2025/04)
 
-+ add: new UI-theme color: "current line BG, other wrapped parts" - it's used when "show_cur_line":true & "show_cur_line_minimal":false, and caret is on a long wrapped line; if this color is 'None' (this is default), program will work like before using "current line BG" color (idea by @drit)
++ add: new UI-theme color "current line BG, other wrapped parts", it's described in the Wiki (idea by @drit)
 + add: new option "line_space_top" (idea by @ags1234)
 * change: renamed option "spacing_y" to "line_space_bottom"
 * change: deleted UI-theme colors Pale1, Pale2, Pale3 (seems were not used)
