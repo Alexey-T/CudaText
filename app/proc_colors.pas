@@ -195,8 +195,7 @@ type
     LightBG3,
     LightBG4,
     LightBG5,
-    //styles below must not be saved to file
-    SeparatorForAutoInitedMembers,
+    //styles below must not be saved to file, see apstLastStyle
     TextBold,
     TextItalic,
     TextBoldItalic,
@@ -205,6 +204,10 @@ type
     TextCrossItalic,
     TextCrossBoldItalic
     );
+
+const
+  //saving theme to file considers it, to skip last items 'bold'/'italic'/etc
+  apstLastStyle = Pred(TAppThemeStyle.TextBold);
 
 type
   TAppThemeColorRec = record
@@ -309,7 +312,7 @@ begin
     end
     else
     begin
-      for iStyle:= Low(iStyle) to Pred(TAppThemeStyle.SeparatorForAutoInitedMembers) do
+      for iStyle:= Low(iStyle) to apstLastStyle do
       begin
         st:= D.Styles[iStyle];
         if not Lexer_LoadStyleFromFile_JsonTheme(st, cfg, 'Lex_'+st.DisplayName) then
@@ -587,7 +590,7 @@ begin
     end
     else
     begin
-      for iStyle:= Low(iStyle) to Pred(TAppThemeStyle.SeparatorForAutoInitedMembers) do
+      for iStyle:= Low(iStyle) to apstLastStyle do
       begin
         st:= d.Styles[iStyle];
         Lexer_SaveStyleToFile_JsonTheme(st, cfg, 'Lex_'+st.DisplayName);
@@ -630,7 +633,7 @@ var
   iStyle: TAppThemeStyle;
 begin
   ColorOfId:= Styles[TAppThemeStyle.Id].Font.Color;
-  for iStyle:= Succ(TAppThemeStyle.SeparatorForAutoInitedMembers) to High(TAppThemeStyle) do
+  for iStyle:= Succ(apstLastStyle) to High(iStyle) do
     Styles[iStyle].Font.Color:= ColorOfId;
 end;
 
