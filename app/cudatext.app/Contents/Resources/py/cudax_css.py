@@ -1870,13 +1870,16 @@ for_all = [
     ]
 
 
+'''
 # pre-process keys which have " | " separators
+# in 2025.04, this is not needed anymore, no such keys with " | "
 for k in props.copy(): # copy() is required
     if ' | ' in k:
         val = props[k]
         del props[k]
         for kk in k.split(' | '):
             props[kk] = val
+'''
 
 
 def resolve_data(r, val):
