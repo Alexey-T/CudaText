@@ -1883,15 +1883,19 @@ def resolve_data_brackets(val):
     r = []
     more = common_values.get(val[1:-1], [])
     for m in more:
-        if type(m) is str:
-            if m.startswith('<') and m.endswith('>'):
-                r += resolve_data_brackets(m)
-            else:
-                r.append(m)
-        elif type(m) is list:
-            r.append(m[0])
+        resolve_data(r, m)
     return r
-    
+
+
+def resolve_data(r, val):
+    if type(val) is str:
+        if val.startswith('<') and val.endswith('>'):
+            r += resolve_data_brackets(val)
+        else:
+            r.append(val)
+    elif type(val) is list:
+        r.append(val[0])
+
 
 def get_data(name):
     #get list of properties
@@ -1902,12 +1906,6 @@ def get_data(name):
     r = []
     values = props.get(name, [])
     for val in values:
-        if type(val) is str:
-            if val.startswith('<') and val.endswith('>'):
-                r += resolve_data_brackets(val)
-            else:
-                r.append(val)
-        elif type(val) is list:
-            r.append(val[0])
+        resolve_data(r, val)
     r += for_all
     return r
