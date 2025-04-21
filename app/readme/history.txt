@@ -9,6 +9,7 @@
 + add: new option "line_space_top" (idea by @ags1234)
 * change: renamed option "spacing_y" to "line_space_bottom"
 * change: deleted UI-theme colors Pale1, Pale2, Pale3 (seems were not used)
++ add: after "Extract RegEx matches", focus the editor (thanks @pintassilgo)
 - fix: Windows: IME behaviour when mouse click happens (thanks @VenusGirl, fix by @rasberryrabbit)
 
 1.223.1 (2025/04)
