@@ -1879,6 +1879,20 @@ for k in props.copy(): # copy() is required
             props[kk] = val
 
 
+def resolve_data_brackets(val):
+    r = []
+    more = common_values.get(val[1:-1], [])
+    for m in more:
+        if type(m) is str:
+            if m.startswith('<') and m.endswith('>'):
+                r += resolve_data_brackets(m)
+            else:
+                r.append(m)
+        elif type(m) is list:
+            r.append(m[0])
+    return r
+    
+
 def get_data(name):
     #get list of properties
     if not name:
@@ -1890,12 +1904,7 @@ def get_data(name):
     for val in values:
         if type(val) is str:
             if val.startswith('<') and val.endswith('>'):
-                more = common_values.get(val[1:-1], [])
-                for m in more:
-                    if type(m) is str:
-                        r.append(m)
-                    elif type(m) is list:
-                        r.append(m[0])
+                r += resolve_data_brackets(val)
             else:
                 r.append(val)
         elif type(val) is list:
