@@ -1905,7 +1905,7 @@ def get_data(name):
     values = props.get(name, [])
     if type(values) is not list:
         print('ERROR: cudax_css.py unsupported values: '+str(values))
-        return
+        return []
     for val in values:
         resolve_data(r, val)
     r += for_all
