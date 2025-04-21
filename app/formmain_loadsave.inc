@@ -526,9 +526,11 @@ begin
   if UiOps.LogSessions and (bSessionUpdated or not bFileExisted) then
   begin
     if fileWriteTimeBeforeSaving<>fileWriteTimeAfterSaving then
-      sConsole:= Format('Saved session: "%s", %d file(s)', [ExtractFileName(sSessionFileName), nCountFiles])
+      sConsole:= Format('Saved session: "%s", %d file(s)', [ExtractFileName(sSessionFileName), nCountFiles]);
+    {
     else
       sConsole:= Format('Failed to save session: "%s", %d file(s)', [ExtractFileName(sSessionFileName), nCountFiles]);
+    }
     if nCountUntitled>0 then
       sConsole+= Format(' + %d untitled', [nCountUntitled]);
     if AByTimer then
