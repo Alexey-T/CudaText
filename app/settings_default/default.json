@@ -246,6 +246,16 @@
   "ui_save_always": true,
 
   //[Text/Look]
+  //Additional vertical spacing per each line, in pixels. [has suffix]
+  //Can be negative too.
+  "line_space_top": 0,
+  "line_space_top__linux": 0,
+  "line_space_top__mac": 0,
+
+  "line_space_bottom": 1,
+  "line_space_bottom__linux": 1,
+  "line_space_bottom__mac": 1,
+
   //Keep original font colors of text in selected block.
   "keep_sel_font_color": false,
 
@@ -380,17 +390,6 @@
   //To specify underscore "_" here, place it as first char.
   //Option should be used in lexer-specific config.
   "nonword_chars": "-+*=/\\()[]{}<>\"'.,:;~?!@#$%^&|`…",
-
-  //[Text/Look]
-  //Additional vertical spacing per each line, in pixels. [has suffix]
-  //Can be negative too.
-  "line_space_top": 0,
-  "line_space_top__linux": 0,
-  "line_space_top__mac": 0,
-
-  "line_space_bottom": 1,
-  "line_space_bottom__linux": 1,
-  "line_space_bottom__mac": 1,
 
   //[Text/Tabulations]
   //Tab-char width.
