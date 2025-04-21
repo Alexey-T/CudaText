@@ -2784,7 +2784,7 @@ begin
   FViewer.TextNonPrintable:= UiOps.ViewerNonPrintable;
   FViewer.TextWrap:= Ed1.OptWrapMode<>TATEditorWrapMode.ModeOff;
   //don't sync spacing yet! value>0 shows the ATBinHex bug during mouse selection: mouse coord in spacing makes selection flicker
-  //FViewer.TextLineSpacing:= EditorOps.OpPaddingBottom;
+  //FViewer.TextLineSpacing:= EditorOps.OpSpacingBottom;
   FViewer.Mode:= AMode;
 
   if Assigned(FViewerStream) then
