@@ -382,7 +382,7 @@
   "nonword_chars": "-+*=/\\()[]{}<>\"'.,:;~?!@#$%^&|`…",
 
   //[Text/Look]
-  //Additional vertical padding/spacing per each line, in pixels. [has suffix]
+  //Additional vertical spacing per each line, in pixels. [has suffix]
   //Can be negative too.
   "line_space_top": 0,
   "line_space_top__linux": 0,
