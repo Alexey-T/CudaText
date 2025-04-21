@@ -363,6 +363,7 @@ object SyntAnal6: TLibSyntAnalyzer
             'alternate-reverse'
             'always'
             'animation'
+            'animation-composition'
             'animation-delay'
             'animation-direction'
             'animation-duration'
