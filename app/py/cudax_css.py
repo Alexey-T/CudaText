@@ -1891,6 +1891,8 @@ def resolve_data(r, val):
             r.append(val)
     elif type(val) is list:
         r.append(val[0])
+    else:
+        print('ERROR: cudax_css.py value of unsupported type: '+str(val))
 
 
 def get_data(name):
