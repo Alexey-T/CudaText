@@ -116,7 +116,7 @@ begin
     ListColors.Items.AddObject(Data.Colors[iColor].desc, TObject(PtrInt(Data.Colors[iColor].color)));
 
   if ListStyles.Count=0 then
-    for iStyle:= Low(iStyle) to apstLastStyle do
+    for iStyle:= Low(iStyle) to AppThemeLastStyle do
     begin
       st:= Data.Styles[iStyle];
       ListStyles.Items.AddObject(st.DisplayName, st);

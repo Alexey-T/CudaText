@@ -195,7 +195,7 @@ type
     LightBG3,
     LightBG4,
     LightBG5,
-    //styles below must not be saved to file, see apstLastStyle
+    //styles below must not be saved to file, see AppThemeLastStyle
     TextBold,
     TextItalic,
     TextBoldItalic,
@@ -207,7 +207,7 @@ type
 
 const
   //saving theme to file considers it, to skip last items 'bold'/'italic'/etc
-  apstLastStyle = Pred(TAppThemeStyle.TextBold);
+  AppThemeLastStyle = Pred(TAppThemeStyle.TextBold);
 
 type
   TAppThemeColorRec = record
@@ -312,7 +312,7 @@ begin
     end
     else
     begin
-      for iStyle:= Low(iStyle) to apstLastStyle do
+      for iStyle:= Low(iStyle) to AppThemeLastStyle do
       begin
         st:= D.Styles[iStyle];
         if not Lexer_LoadStyleFromFile_JsonTheme(st, cfg, 'Lex_'+st.DisplayName) then
@@ -590,7 +590,7 @@ begin
     end
     else
     begin
-      for iStyle:= Low(iStyle) to apstLastStyle do
+      for iStyle:= Low(iStyle) to AppThemeLastStyle do
       begin
         st:= d.Styles[iStyle];
         Lexer_SaveStyleToFile_JsonTheme(st, cfg, 'Lex_'+st.DisplayName);
@@ -633,7 +633,7 @@ var
   iStyle: TAppThemeStyle;
 begin
   ColorOfId:= Styles[TAppThemeStyle.Id].Font.Color;
-  for iStyle:= Succ(apstLastStyle) to High(iStyle) do
+  for iStyle:= Succ(AppThemeLastStyle) to High(iStyle) do
     Styles[iStyle].Font.Color:= ColorOfId;
 end;
 
