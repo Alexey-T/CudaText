@@ -190,6 +190,7 @@ type
     Multiline: boolean;
     NoFuzzy: boolean;
     NoFullFilter: boolean;
+    NoKeepFilter: boolean;
     ShowCentered: boolean;
     UseEditorFont: boolean;
     Collapse: TATCollapseStringMode;
@@ -7584,21 +7585,25 @@ begin
     if AProps.H>0 then
       Form.Height:= Min(AProps.H, DeskRect.Height);
 
-    NHashOfLines:= SSimpleHash(AProps.ItemsText);
-    if NHashOfLines=FLastPyMenuHashOfLines then
+    if not AProps.NoKeepFilter then
     begin
-      Form.edit.Text:= FLastPyMenuFilter;
-      Form.edit.DoCommand(cCommand_GotoLineAbsEnd, TATCommandInvoke.AppInternal);
+      NHashOfLines:= SSimpleHash(AProps.ItemsText);
+      if NHashOfLines=FLastPyMenuHashOfLines then
+      begin
+        Form.edit.Text:= FLastPyMenuFilter;
+        Form.edit.DoCommand(cCommand_GotoLineAbsEnd, TATCommandInvoke.AppInternal);
+      end;
     end;
 
     Form.ShowModal;
     Result:= Form.ResultCode;
 
     if Result>=0 then
-    begin
-      FLastPyMenuHashOfLines:= NHashOfLines;
-      FLastPyMenuFilter:= Form.edit.Text;
-    end;
+      if not AProps.NoKeepFilter then
+      begin
+        FLastPyMenuHashOfLines:= NHashOfLines;
+        FLastPyMenuFilter:= Form.edit.Text;
+      end;
   finally
     Form.Free;
   end;
@@ -9355,6 +9360,7 @@ begin
     DlgProps.InitialIndex:= List.IndexOf(Frame.LexerName[Frame.Editor]);
     DlgProps.Caption:= SCaption;
     DlgProps.NoFuzzy:= not UiOps.ListboxFuzzySearch;
+    DlgProps.NoKeepFilter:= true;
 
     NIndex:= DoDialogMenuApi(DlgProps);
     if NIndex<0 then exit;
