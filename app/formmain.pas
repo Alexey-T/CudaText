@@ -207,6 +207,7 @@ type
     AllowConfig,
     AllowConfigForLexer,
     ShowCentered: boolean;
+    IsCommandPalette: boolean;
     FocusedCommand: integer;
     W, H: integer;
   end;
@@ -5366,6 +5367,7 @@ begin
   Props.AllowConfig:= true;
   Props.AllowConfigForLexer:= true;
   Props.ShowCentered:= false;
+  Props.IsCommandPalette:= true;
   Props.FocusedCommand:= FLastSelectedCommand;
 
   NCmd:= DoDialogCommands_Custom(Ed, Props);
@@ -5475,14 +5477,17 @@ begin
     Form.Keymap:= Ed.Keymap;
     Form.ListCaption:= AProps.Caption;
 
-    if UiOps.CmdPaletteFilterText_Forced<>'' then
+    if AProps.IsCommandPalette then
     begin
-      Form.CurrentFilterText:= UiOps.CmdPaletteFilterText_Forced;
-      UiOps.CmdPaletteFilterText_Forced:= '';
-    end
-    else
-    if UiOps.CmdPaletteFilterKeep then
-      Form.CurrentFilterText:= UiOps.CmdPaletteFilterText;
+      if UiOps.CmdPaletteFilterText_Forced<>'' then
+      begin
+        Form.CurrentFilterText:= UiOps.CmdPaletteFilterText_Forced;
+        UiOps.CmdPaletteFilterText_Forced:= '';
+      end
+      else
+      if UiOps.CmdPaletteFilterKeep then
+        Form.CurrentFilterText:= UiOps.CmdPaletteFilterText;
+    end;
 
     if AProps.ShowCentered then
       Form.Position:= poScreenCenter;
@@ -5494,7 +5499,9 @@ begin
 
     Form.ShowModal;
 
-    UiOps.CmdPaletteFilterText:= Form.CurrentFilterText;
+    if AProps.IsCommandPalette then
+      UiOps.CmdPaletteFilterText:= Form.CurrentFilterText;
+
     Result:= Form.ResultCommand;
     bKeysChanged:= Form.ResultHotkeysChanged;
   finally
