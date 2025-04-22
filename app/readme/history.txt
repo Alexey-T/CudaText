@@ -13,6 +13,7 @@
 + add: update CSS auto-completions data to latest
 - fix: Windows: IME behaviour when mouse click happens (thanks @VenusGirl, fix by @rasberryrabbit)
 - fix: wrong Console msg "Failed to save session" (thanks @mix-7)
+- fix: lexers menu-dialog must not keep its filter (thanks @JairoMartinezA)
 
 1.223.1 (2025/04)
 
