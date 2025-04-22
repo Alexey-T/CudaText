@@ -7556,7 +7556,7 @@ var
   Sep: TATStringSeparator;
   SItem: string;
   DeskRect: TRect;
-  NHashOfLines: integer;
+  NHashOfLines: integer = 0;
 begin
   Form:= TfmMenuApi.Create(nil);
   try
