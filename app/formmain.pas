@@ -1797,6 +1797,7 @@ var
   An: TecSyntAnalyzer;
   KeysBackup: TAppHotkeyBackup;
   sl: TStringList;
+  STemp: string;
   i: integer;
 begin
   KeysBackup:= TAppHotkeyBackup.Create;
@@ -1851,9 +1852,12 @@ begin
       begin
         Frame:= TEditorFrame(AppFrameList1[i]);
         if Frame.FileName<>'' then
-          AKeymap.Add(
-            cmdFirstFileCommand+i,
-            'opened file: '+FormatFilenameForMenu(Frame.FileName),
+          STemp:= FormatFilenameForMenu(Frame.FileName)
+        else
+          STemp:= Frame.TabCaption;
+        AKeymap.Add(
+          cmdFirstFileCommand+i,
+          'opened file: '+STemp,
             [], []);
       end;
 
