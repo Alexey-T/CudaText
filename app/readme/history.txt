@@ -11,6 +11,7 @@
 * change: deleted UI-theme colors Pale1, Pale2, Pale3 (seems were not used)
 + add: after "Extract RegEx matches", focus the editor (thanks @pintassilgo)
 + add: update CSS auto-completions data to latest
++ add: Command Palette 'opened files' now contain untitled tabs too (idea by @pintassilgo)
 - fix: Windows: IME behaviour when mouse click happens (thanks @VenusGirl, fix by @rasberryrabbit)
 - fix: wrong Console msg "Failed to save session" (thanks @mix-7)
 - fix: lexers menu-dialog must not keep its filter (thanks @JairoMartinezA)
