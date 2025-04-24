@@ -408,6 +408,10 @@ begin
         DoCodetree_Clear;
 
     FNeedUpdateStatuses:= true;
+
+    if (FFinder.Editor=Frame.Ed1) or
+       (FFinder.Editor=Frame.Ed2) then
+      FFinder.Editor:= nil;
   end;
 end;
 

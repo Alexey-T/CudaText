@@ -365,7 +365,6 @@ begin
   if Ed.AdapterForHilite is TATLiteLexer then
     UpdateTree(true);
 
-  (*
   //call Find dialog's updating of 'Hi' results
   if Assigned(fmFind) and fmFind.Visible then
     if fmFind.chkHiAll.Enabled and fmFind.chkHiAll.Checked then
@@ -373,7 +372,6 @@ begin
       FFinder.Editor:= Ed; //important to fix Access Violation; if ui-tab was closed we must update FFinder.Editor
       fmFind.UpdateHiAll(false);
     end;
-    *)
 end;
 
 
