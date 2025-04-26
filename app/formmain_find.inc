@@ -13,6 +13,8 @@ var
   NLen: integer;
 begin
   Ed:= FFinder.Editor;
+  Assert(Assigned(Ed), 'FinderOnFound: Finder.Editor is nil');
+
   case FFindMarkingMode of
     TAppFinderMarking.None:
       begin
@@ -57,7 +59,7 @@ begin
 
     TAppFinderMarking.Bookmarks:
       begin
-        ed.BookmarkSetForLine(APos1.Y, 1, '', TATBookmarkAutoDelete.ByOption, true, 0);
+        Ed.BookmarkSetForLine(APos1.Y, 1, '', TATBookmarkAutoDelete.ByOption, true, 0);
       end;
   end;
 end;
@@ -169,6 +171,7 @@ begin
 
   if NCounter>0 then
   begin
+    Assert(Assigned(FFinder.Editor), 'FindAndSelectAll: Finder.Editor is nil');
     FFinder.Editor.DoCommand(cCommand_ScrollToCaretTop, TATCommandInvoke.AppInternal);
     //FFinder.Editor.DoGotoCaret(cEdgeTop); //also works, but it's more complicated, less wanted
   end;
@@ -243,6 +246,7 @@ var
   NTick: QWord;
   NTime: integer;
 begin
+  Assert(Assigned(FFinder.Editor), 'FindAndReplaceAll: Finder.Editor is nil');
   NTick:= GetTickCount64;
   NCounter:= FinderReplaceAll(FFinder.Editor, false);
   NTime:= (GetTickCount64-NTick) div 1000;
@@ -412,6 +416,7 @@ begin
 
   if bDoLock then
   begin
+    Assert(Assigned(FFinder.Editor), 'FindDialogDone: Finder.Editor is nil');
     //add undo group, so Undo won't take too much actions
     FFinder.Editor.Strings.BeginUndoGroup;
     FFinder.Editor.Strings.EndUndoGroup;
@@ -881,8 +886,7 @@ var
   Ed: TATSynEdit;
 begin
   Ed:= FFinder.Editor;
-  if Ed=nil then
-    raise Exception.Create('DoFindMarkingInit: Finder.Editor=nil');
+  Assert(Assigned(Ed), 'DoFindMarkingInit: Finder.Editor is nil');
 
   FFindMarkingMode:= AMode;
   FFindMarkingCaret1st:= true;
@@ -984,7 +988,7 @@ begin
 
   if AFinder=nil then exit;
   Ed:= AFinder.Editor;
-  if Ed=nil then exit;
+  Assert(Assigned(Ed), 'FinderGetHiAllIndexes: Finder.Editor is nil');
 
   //take minimum if MatchEdPos / MatchEdEnd
   if IsPosSorted(
@@ -1043,7 +1047,7 @@ begin
     if AScrollToMatch then
     begin
       Ed:= AFinder.Editor;
-      Assert(Assigned(Ed), 'AFinder.Editor=nil in FinderShowResult()');
+      Assert(Assigned(Ed), 'FinderShowResult: Finder.Editor is nil');
       Ed.EndUpdate;
 
       if not AFinder.OptDisableOnProgress then
@@ -1102,6 +1106,8 @@ begin
 
   ThisFinder:= Sender as TATEditorFinder;
   Ed:= ThisFinder.Editor;
+  Assert(Assigned(Ed), 'FinderOnConfirmReplace_API: Finder.Editor is nil');
+
   Callback:= ThisFinder.CallbackString;
   if Callback='' then exit;
 
@@ -1220,6 +1226,8 @@ var
   Ed: TATSynEdit;
 begin
   Ed:= FFinder.Editor;
+  Assert(Assigned(Ed), 'FinderUpdateEditor: Finder.Editor is nil');
+
   if AUpdateText then
     Ed.DoEventChange(FFinder.MatchEdPos.Y);
 
