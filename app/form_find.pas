@@ -1980,7 +1980,13 @@ begin
     Options.OptTokens:= TATFinderTokensAllowed(bTokens.ItemIndex);
     Options.OnGetToken:= FOnGetToken;
 
-    EditorHighlightAllMatches(Ed, Options, FHiAllEnableFindNext, NMatches, FInitialCaretPos);
+    EditorHighlightAllMatches(
+      Ed,
+      Options,
+      FHiAllEnableFindNext,
+      NMatches,
+      FInitialCaretPos
+      );
 
     if NMatches>0 then //if no matches, 'Cannot find' msg was already shown
       if Assigned(FOnShowCountInStatusbar) then
