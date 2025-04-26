@@ -2381,6 +2381,13 @@ end;
 
 procedure EditorHighlightAllMatches(Ed: TATSynEdit; AOrigFinder: TATEditorFinder;
   AEnableFindNext: boolean; out AMatchesCount: integer; ACaretPos: TPoint);
+{
+we use AOrigFinder only to read its options / search text.
+but we never call AOrigFinder's methods to search, and we never access
+AOrigFinder.Editor. why? AOrigFinder.Editor may be dangling pointer, due to
+unfixed CudaText bug.
+so we make CurFinder to search.
+}
 var
   St: TATStrings;
   CurFinder: TATEditorFinder;
