@@ -105,6 +105,7 @@ type
   TAppFinderGetEditor = procedure(out AEditor: TATSynEdit) of object;
   TAppFinderKeyDownEvent = function(AKey: word; AShiftState: TShiftState): boolean of object;
   TAppFinderShowResultInStatusbar = procedure(AFound: boolean) of object;
+  TAppFinderShowCountInStatusbar = procedure(ACount: integer) of object;
 
 function AppFinderOperationFromString(const Str: string): TAppFinderOperation;
 
@@ -233,6 +234,7 @@ type
     FOnGetToken: TATFinderGetToken;
     FOnHandleKeyDown: TAppFinderKeyDownEvent;
     FOnShowResultInStatusbar: TAppFinderShowResultInStatusbar;
+    FOnShowCountInStatusbar: TAppFinderShowCountInStatusbar;
     FCaptionFind: string;
     FCaptionReplace: string;
     FLexerRegexThemed: boolean;
@@ -289,6 +291,7 @@ type
     property OnGetToken: TATFinderGetToken read FOnGetToken write FOnGetToken;
     property OnHandleKeyDown: TAppFinderKeyDownEvent read FOnHandleKeyDown write FOnHandleKeyDown;
     property OnShowResultInStatusbar: TAppFinderShowResultInStatusbar read FOnShowResultInStatusbar write FOnShowResultInStatusbar;
+    property OnShowCountInStatusbar: TAppFinderShowCountInStatusbar read FOnShowCountInStatusbar write FOnShowCountInStatusbar;
     property IsReplace: boolean read FReplace write SetReplace;
     property IsMultiLine: boolean read FMultiLine write SetMultiLine;
     property IsNarrow: boolean read FNarrow write SetNarrow;
@@ -1980,8 +1983,8 @@ begin
     EditorHighlightAllMatches(Ed, Options, FHiAllEnableFindNext, NMatches, FInitialCaretPos);
 
     if NMatches>0 then //if no matches, 'Cannot find' msg was already shown
-      if Assigned(FOnShowResultInStatusbar) then
-        FOnShowResultInStatusbar(true);
+      if Assigned(FOnShowCountInStatusbar) then
+        FOnShowCountInStatusbar(NMatches);
   end;
 end;
 

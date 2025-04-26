@@ -1278,6 +1278,7 @@ type
     procedure FindDialogOnChangeVisible(Sender: TObject);
     function FindDialogOnHandleKeyDown(AKey: word; AShiftState: TShiftState): boolean;
     procedure FindDialogOnShowResultInStatusbar(AFound: boolean);
+    procedure FindDialogOnShowCountInStatusbar(ACount: integer);
     procedure FindDialog_ApplyOptionsString(const AText: string);
     function FindDialog_GetOptionsPyDict: PPyObject;
     procedure FinderOnGetToken(Sender: TObject; AX, AY: integer; out AKind: TATTokenKind);

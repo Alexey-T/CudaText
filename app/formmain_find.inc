@@ -516,6 +516,7 @@ begin
     fmFind.OnGetToken:= @FinderOnGetToken;
     fmFind.OnHandleKeyDown:= @FindDialogOnHandleKeyDown;
     fmFind.OnShowResultInStatusbar:= @FindDialogOnShowResultInStatusbar;
+    fmFind.OnShowCountInStatusbar:= @FindDialogOnShowCountInStatusbar;
 
     fmFind.Color:= GetAppColor(TAppThemeColor.TabBg);
     fmFind.UpdateCaretPosVar;
@@ -1673,6 +1674,11 @@ end;
 procedure TfmMain.FindDialogOnShowResultInStatusbar(AFound: boolean);
 begin
   FinderShowResult(AFound, false, FFinder, false{AScrollToMatch});
+end;
+
+procedure TfmMain.FindDialogOnShowCountInStatusbar(ACount: integer);
+begin
+  MsgStatus(Format(msgStatusFoundFragments, [ACount]));
 end;
 
 procedure TfmMain.FindDialogOnChangeVisible(Sender: TObject);
