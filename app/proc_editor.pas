@@ -2503,19 +2503,19 @@ begin
         Ed.DoGotoPos(
           CurFinder.MatchEdPos,
           CurFinder.MatchEdEnd,
-          CurFinder.IndentHorz,
+          UiOps.FindIndentHorz,
           100{big value to center vertically},
           true{APlaceCaret},
           TATEditorActionIfFolded.Unfold{ADoUnfold}
           );
     end;
   finally
+    FreeAndNil(CurFinder);
     if bSaveCarets then
     begin
       Ed.Carets.Assign(SavedCarets);
       FreeAndNil(SavedCarets);
     end;
-    FreeAndNil(CurFinder);
   end;
 end;
 
