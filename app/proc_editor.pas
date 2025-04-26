@@ -2411,6 +2411,7 @@ begin
   St:= Ed.Strings;
   NLineCount:= St.Count;
   if NLineCount=0 then exit;
+
   bTooBigDocument:=
     (NLineCount>UiOps.FindHiAll_MaxLines) or
     (Ed.ScrollHorz.NMax>UiOps.FindHiAll_MaxVisibleColumns);
@@ -2430,24 +2431,8 @@ begin
     SavedCarets.Assign(Ed.Carets);
   end;
 
-  CurFinder:= TATEditorFinder.Create;
-  CurFinder.Editor:= Ed;
-  CurFinder.StrFind:= AOptions.StrFind;
-  CurFinder.OptFromCaret:= false;
-  CurFinder.OptInSelection:= AOptions.OptInSelection;
-  CurFinder.OptCase:= AOptions.OptCase;
-  CurFinder.OptRegex:= AOptions.OptRegex;
-  CurFinder.OptWords:= AOptions.OptWords;
-  CurFinder.OptTokens:= AOptions.OptTokens;
-  CurFinder.OptWrapped:= false;
-  CurFinder.OptWrappedConfirm:= false;
-  CurFinder.OptDisableOnProgress:= true;
-  CurFinder.OnGetToken:= AOptions.OnGetToken;
-  CurFinder.MaxLineLen:= UiOps.FindHiAll_MaxLineLen;
-
   if bTooBigDocument then
   begin
-    CurFinder.OptInSelection:= true;
     NLineTop:= Max(0, Ed.LineTop+cVertDelta);
     NLineBottom:= Min(NLineCount-1, Ed.LineBottom-cVertDelta);
     if Ed.OptWrapMode<>TATEditorWrapMode.ModeOff then
@@ -2476,16 +2461,31 @@ begin
     end;
   end;
 
-  //stage-1: highlight all matches
-  AMatchesCount:= CurFinder.DoAction_HighlightAllEditorMatches(
-    ColorBorder,
-    StyleBorder,
-    UiOps.FindHiAll_TagValue,
-    MaxInt
-    );
-
-  //stage-2: perform find-next from ACaretPos
+  CurFinder:= TATEditorFinder.Create;
   try
+    CurFinder.Editor:= Ed;
+    CurFinder.StrFind:= AOptions.StrFind;
+    CurFinder.OptFromCaret:= false;
+    CurFinder.OptInSelection:= AOptions.OptInSelection or bTooBigDocument;
+    CurFinder.OptCase:= AOptions.OptCase;
+    CurFinder.OptRegex:= AOptions.OptRegex;
+    CurFinder.OptWords:= AOptions.OptWords;
+    CurFinder.OptTokens:= AOptions.OptTokens;
+    CurFinder.OptWrapped:= false;
+    CurFinder.OptWrappedConfirm:= false;
+    CurFinder.OptDisableOnProgress:= true;
+    CurFinder.OnGetToken:= AOptions.OnGetToken;
+    CurFinder.MaxLineLen:= UiOps.FindHiAll_MaxLineLen;
+
+    //stage-1: highlight all matches
+    AMatchesCount:= CurFinder.DoAction_HighlightAllEditorMatches(
+      ColorBorder,
+      StyleBorder,
+      UiOps.FindHiAll_TagValue,
+      MaxInt
+      );
+
+    //stage-2: perform find-next from ACaretPos
     if AEnableFindNext and Ed.Strings.IsIndexValid(ACaretPos.Y) then
     begin
       //we found and highlighted all matches,
