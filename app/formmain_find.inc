@@ -1678,7 +1678,7 @@ end;
 
 procedure TfmMain.FindDialogOnShowCountInStatusbar(ACount: integer);
 begin
-  MsgStatus(Format(msgStatusFoundFragments, [ACount]));
+  MsgStatus(Format(msgStatusFoundFragments, [ACount]), true);
 end;
 
 procedure TfmMain.FindDialogOnChangeVisible(Sender: TObject);
