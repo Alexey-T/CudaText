@@ -2392,7 +2392,7 @@ procedure EditorHighlightAllMatches(Ed: TATSynEdit; const AOptions: TEditorHiAll
   AEnableFindNext: boolean; out AMatchesCount: integer; ACaretPos: TPoint);
 var
   St: TATStrings;
-  CurFinder: TATEditorFinder;
+  CurFinder: TATEditorFinder = nil;
   ColorBorder: TColor;
   StyleBorder: TATLineStyle;
   SavedCarets: TATCarets = nil;
@@ -2404,8 +2404,8 @@ var
   NColumnLeft, NColumnRight,
   iLine, NLineLen: integer;
 const
-  cVertDelta = 0; //if >0: it's debug
-  cHorzDelta = 5;
+  cVertDelta = 0; //for big documents: don't hilite top N lines + bottom N lines
+  cHorzDelta = 5; //for big documents: hilite additionally M columns lefter + M columns righter
 begin
   Assert(Assigned(Ed), 'EditorHighlightAllMatches: Ed is nil');
   AMatchesCount:= 0;
