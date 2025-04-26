@@ -2408,6 +2408,7 @@ const
   cHorzDelta = 5;
 begin
   Assert(Assigned(Ed), 'EditorHighlightAllMatches: Ed is nil');
+  AMatchesCount:= 0;
   St:= Ed.Strings;
   NLineCount:= St.Count;
   if NLineCount=0 then exit;
