@@ -1927,7 +1927,7 @@ procedure TfmFind.DoHiAll;
 var
   Ed: TATSynEdit;
   Caret: TATCaretItem;
-  Finder: TATEditorFinder;
+  Options: TEditorHiAllOptions;
   Pnt: TPoint;
   NMatches: integer;
 begin
@@ -1968,32 +1968,20 @@ begin
   EditorClearHiAllMarkers(Ed);
   if IsHiAll then
   begin
-    Finder:= TATEditorFinder.Create;
-    try
-      Finder.Editor:= Ed;
-      Finder.StrFind:= edFind.Text;
-      Finder.OptConfirmReplace:= false;
-      Finder.OptFromCaret:= false;
-      Finder.OptInSelection:= chkInSel.Checked;
-      Finder.OptPutBackwardSelection:= false;
-      Finder.OptBack:= false;
-      Finder.OptCase:= chkCase.Checked;
-      Finder.OptWords:= chkWords.Checked;
-      Finder.OptRegex:= chkRegex.Checked;
-      Finder.OptTokens:= TATFinderTokensAllowed(bTokens.ItemIndex);
-      Finder.OptWrapped:= chkWrap.Checked;
-      Finder.OptPreserveCase:= chkPreserveCase.Checked;
-      Finder.MaxLineLen:= UiOps.FindHiAll_MaxLineLen;
-      Finder.OnGetToken:= FOnGetToken;
+    Options:= Default(TEditorHiAllOptions);
+    Options.StrFind:= edFind.Text;
+    Options.OptInSelection:= chkInSel.Checked;
+    Options.OptCase:= chkCase.Checked;
+    Options.OptWords:= chkWords.Checked;
+    Options.OptRegex:= chkRegex.Checked;
+    Options.OptTokens:= TATFinderTokensAllowed(bTokens.ItemIndex);
+    Options.OnGetToken:= FOnGetToken;
 
-      EditorHighlightAllMatches(Ed, Finder, FHiAllEnableFindNext, NMatches, FInitialCaretPos);
+    EditorHighlightAllMatches(Ed, Options, FHiAllEnableFindNext, NMatches, FInitialCaretPos);
 
-      if NMatches>0 then //if no matches, 'Cannot find' msg was already shown
-        if Assigned(FOnShowResultInStatusbar) then
-          FOnShowResultInStatusbar(true);
-    finally
-      FreeAndNil(Finder);
-    end;
+    if NMatches>0 then //if no matches, 'Cannot find' msg was already shown
+      if Assigned(FOnShowResultInStatusbar) then
+        FOnShowResultInStatusbar(true);
   end;
 end;
 

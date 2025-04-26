@@ -124,6 +124,15 @@ procedure EditorBracket_FindOpeningBracketBackward(Ed: TATSynEdit;
 
 type
   TEditorFinderCallback = procedure(AFound: boolean; AFinder: TATEditorFinder) of object;
+  TEditorHiAllOptions = record
+    StrFind: UnicodeString;
+    OptInSelection: boolean;
+    OptCase: boolean;
+    OptRegex: boolean;
+    OptWords: boolean;
+    OptTokens: TATFinderTokensAllowed;
+    OnGetToken: TATFinderGetToken;
+  end;
 
 function EditorGetTokenKind(Ed: TATSynEdit; AX, AY: integer;
   ADocCommentIsAlsoComment: boolean=true): TATTokenKind;
@@ -133,7 +142,7 @@ function EditorExpandSelectionToWord(Ed: TATSynEdit;
 function EditorFindCurrentWordOrSel(Ed: TATSynEdit;
   ANext, AWordOrSel, AOptCase, AOptWrapped: boolean;
   out Str: UnicodeString): boolean;
-procedure EditorHighlightAllMatches(Ed: TATSynEdit; AOrigFinder: TATEditorFinder;
+procedure EditorHighlightAllMatches(Ed: TATSynEdit; const AOptions: TEditorHiAllOptions;
   AEnableFindNext: boolean; out AMatchesCount: integer; ACaretPos: TPoint);
 
 function EditorAutoCompletionAfterTypingChar(Ed: TATSynEdit;
@@ -2379,15 +2388,8 @@ begin
 end;
 
 
-procedure EditorHighlightAllMatches(Ed: TATSynEdit; AOrigFinder: TATEditorFinder;
+procedure EditorHighlightAllMatches(Ed: TATSynEdit; const AOptions: TEditorHiAllOptions;
   AEnableFindNext: boolean; out AMatchesCount: integer; ACaretPos: TPoint);
-{
-we use AOrigFinder only to read its options / search text.
-but we never call AOrigFinder's methods to search, and we never access
-AOrigFinder.Editor. why? AOrigFinder.Editor may be dangling pointer, due to
-unfixed CudaText bug.
-so we make CurFinder to search.
-}
 var
   St: TATStrings;
   CurFinder: TATEditorFinder;
@@ -2421,7 +2423,7 @@ begin
 
   //CudaText issue #3950.
   //we save selections before running HighlightAll, later we restore them.
-  bSaveCarets:= (AOrigFinder.OptInSelection and Ed.Carets.IsSelection) or bTooBigDocument;
+  bSaveCarets:= (AOptions.OptInSelection and Ed.Carets.IsSelection) or bTooBigDocument;
   if bSaveCarets then
   begin
     SavedCarets:= TATCarets.Create;
@@ -2430,16 +2432,18 @@ begin
 
   CurFinder:= TATEditorFinder.Create;
   CurFinder.Editor:= Ed;
-  CurFinder.StrFind:= AOrigFinder.StrFind;
+  CurFinder.StrFind:= AOptions.StrFind;
   CurFinder.OptFromCaret:= false;
-  CurFinder.OptInSelection:= AOrigFinder.OptInSelection;
-  CurFinder.OptCase:= AOrigFinder.OptCase;
-  CurFinder.OptRegex:= AOrigFinder.OptRegex;
-  CurFinder.OptWords:= AOrigFinder.OptWords;
-  CurFinder.OptTokens:= AOrigFinder.OptTokens;
+  CurFinder.OptInSelection:= AOptions.OptInSelection;
+  CurFinder.OptCase:= AOptions.OptCase;
+  CurFinder.OptRegex:= AOptions.OptRegex;
+  CurFinder.OptWords:= AOptions.OptWords;
+  CurFinder.OptTokens:= AOptions.OptTokens;
   CurFinder.OptWrapped:= false;
   CurFinder.OptWrappedConfirm:= false;
   CurFinder.OptDisableOnProgress:= true;
+  CurFinder.OnGetToken:= AOptions.OnGetToken;
+  CurFinder.MaxLineLen:= UiOps.FindHiAll_MaxLineLen;
 
   if bTooBigDocument then
   begin

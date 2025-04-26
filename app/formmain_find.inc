@@ -988,7 +988,8 @@ begin
 
   if AFinder=nil then exit;
   Ed:= AFinder.Editor;
-  Assert(Assigned(Ed), 'FinderGetHiAllIndexes: Finder.Editor is nil');
+  //Assert(Assigned(Ed), 'FinderGetHiAllIndexes: Finder.Editor is nil');
+  if Ed=nil then exit;
 
   //take minimum if MatchEdPos / MatchEdEnd
   if IsPosSorted(

@@ -4161,37 +4161,38 @@ end;
 
 procedure TfmMain.FrameOnEditorScroll(Sender: TObject);
 var
-  Ed, SavedEd: TATSynEdit;
-  SavedStr: UnicodeString;
+  Ed: TATSynEdit;
+  Options: TEditorHiAllOptions;
   NMatchCount: integer;
 begin
   DoTooltipHide;
 
   Ed:= Sender as TATSynEdit;
+  Assert(Assigned(Ed), 'FrameOnEditorScroll: Ed is nil');
+
   if Assigned(fmFind) and fmFind.IsHiAll and
     (
     (Ed.Strings.Count>UiOps.FindHiAll_MaxLines) or
     (Ed.ScrollHorz.NMax>UiOps.FindHiAll_MaxVisibleColumns)
     ) then
   begin
-    SavedEd:= FFinder.Editor;
-    SavedStr:= FFinder.StrFind;
-
-    FFinder.Editor:= Ed;
-    FFinder.StrFind:= fmFind.edFind.Text;
-    FFinder.OptDisableOnProgress:= false;
+    Options:= Default(TEditorHiAllOptions);
+    Options.StrFind:= fmFind.edFind.Text;
+    Options.OptCase:= FFinder.OptCase;
+    Options.OptRegex:= FFinder.OptRegex;
+    Options.OptWords:= FFinder.OptWords;
+    Options.OptInSelection:= FFinder.OptInSelection;
+    Options.OptTokens:= FFinder.OptTokens;
+    Options.OnGetToken:= FFinder.OnGetToken;
 
     Ed.Attribs.DeleteWithTag(UiOps.FindHiAll_TagValue);
     EditorHighlightAllMatches(
       Ed,
-      FFinder,
+      Options,
       false,
       NMatchCount,
       Point(0, 0)
       );
-
-    FFinder.Editor:= SavedEd;
-    FFinder.StrFind:= SavedStr;
   end;
 end;
 
