@@ -133,7 +133,7 @@ function EditorExpandSelectionToWord(Ed: TATSynEdit;
 function EditorFindCurrentWordOrSel(Ed: TATSynEdit;
   ANext, AWordOrSel, AOptCase, AOptWrapped: boolean;
   out Str: UnicodeString): boolean;
-procedure EditorHighlightAllMatches(AFinder: TATEditorFinder;
+procedure EditorHighlightAllMatches(Ed: TATSynEdit; AOrigFinder: TATEditorFinder;
   AEnableFindNext: boolean; out AMatchesCount: integer; ACaretPos: TPoint);
 
 function EditorAutoCompletionAfterTypingChar(Ed: TATSynEdit;
@@ -2379,18 +2379,16 @@ begin
 end;
 
 
-procedure EditorHighlightAllMatches(AFinder: TATEditorFinder;
+procedure EditorHighlightAllMatches(Ed: TATSynEdit; AOrigFinder: TATEditorFinder;
   AEnableFindNext: boolean; out AMatchesCount: integer; ACaretPos: TPoint);
 var
-  Ed: TATSynEdit;
   St: TATStrings;
+  CurFinder: TATEditorFinder;
   ColorBorder: TColor;
   StyleBorder: TATLineStyle;
   SavedCarets: TATCarets = nil;
   bChanged: boolean;
   bSaveCarets: boolean;
-  bSavedWrappedConfirm: boolean;
-  bSavedInSelection: boolean;
   bTooBigDocument: boolean;
   NLineCount,
   NLineTop, NLineBottom,
@@ -2400,15 +2398,13 @@ const
   cVertDelta = 0; //if >0: it's debug
   cHorzDelta = 5;
 begin
-  Ed:= AFinder.Editor;
-  if Ed=nil then exit;
+  Assert(Assigned(Ed), 'EditorHighlightAllMatches: Ed is nil');
   St:= Ed.Strings;
   NLineCount:= St.Count;
   if NLineCount=0 then exit;
   bTooBigDocument:=
     (NLineCount>UiOps.FindHiAll_MaxLines) or
     (Ed.ScrollHorz.NMax>UiOps.FindHiAll_MaxVisibleColumns);
-  bSavedInSelection:= AFinder.OptInSelection;
 
   ColorBorder:= GetAppStyle(AppHiAll_ThemeStyleId).BgColor;
   if EditorOps.OpActiveBorderWidth>1 then
@@ -2418,16 +2414,29 @@ begin
 
   //CudaText issue #3950.
   //we save selections before running HighlightAll, later we restore them.
-  bSaveCarets:= (AFinder.OptInSelection and Ed.Carets.IsSelection) or bTooBigDocument;
+  bSaveCarets:= (AOrigFinder.OptInSelection and Ed.Carets.IsSelection) or bTooBigDocument;
   if bSaveCarets then
   begin
     SavedCarets:= TATCarets.Create;
     SavedCarets.Assign(Ed.Carets);
   end;
 
+  CurFinder:= TATEditorFinder.Create;
+  CurFinder.Editor:= Ed;
+  CurFinder.StrFind:= AOrigFinder.StrFind;
+  CurFinder.OptFromCaret:= false;
+  CurFinder.OptInSelection:= AOrigFinder.OptInSelection;
+  CurFinder.OptCase:= AOrigFinder.OptCase;
+  CurFinder.OptRegex:= AOrigFinder.OptRegex;
+  CurFinder.OptWords:= AOrigFinder.OptWords;
+  CurFinder.OptTokens:= AOrigFinder.OptTokens;
+  CurFinder.OptWrapped:= false;
+  CurFinder.OptWrappedConfirm:= false;
+  CurFinder.OptDisableOnProgress:= true;
+
   if bTooBigDocument then
   begin
-    AFinder.OptInSelection:= true;
+    CurFinder.OptInSelection:= true;
     NLineTop:= Max(0, Ed.LineTop+cVertDelta);
     NLineBottom:= Min(NLineCount-1, Ed.LineBottom-cVertDelta);
     if Ed.OptWrapMode<>TATEditorWrapMode.ModeOff then
@@ -2457,7 +2466,7 @@ begin
   end;
 
   //stage-1: highlight all matches
-  AMatchesCount:= AFinder.DoAction_HighlightAllEditorMatches(
+  AMatchesCount:= CurFinder.DoAction_HighlightAllEditorMatches(
     ColorBorder,
     StyleBorder,
     UiOps.FindHiAll_TagValue,
@@ -2470,27 +2479,23 @@ begin
     begin
       //we found and highlighted all matches,
       //now we need to do 'find next from caret' like Sublime does
-      bSavedWrappedConfirm:= AFinder.OptWrappedConfirm;
-      AFinder.OptWrappedConfirm:= false;
-      AFinder.OptFromCaret:= true;
+      CurFinder.OptFromCaret:= true;
       Ed.DoCaretSingle(ACaretPos.X, ACaretPos.Y);
 
-      if AFinder.DoAction_FindOrReplace(
+      if CurFinder.DoAction_FindOrReplace(
         false{AReplace},
         false,
         bChanged,
         false{AUpdateCaret}
         ) then
         Ed.DoGotoPos(
-          AFinder.MatchEdPos,
-          AFinder.MatchEdEnd,
-          AFinder.IndentHorz,
+          CurFinder.MatchEdPos,
+          CurFinder.MatchEdEnd,
+          CurFinder.IndentHorz,
           100{big value to center vertically},
           true{APlaceCaret},
           TATEditorActionIfFolded.Unfold{ADoUnfold}
           );
-
-      AFinder.OptWrappedConfirm:= bSavedWrappedConfirm;
     end;
   finally
     if bSaveCarets then
@@ -2498,7 +2503,7 @@ begin
       Ed.Carets.Assign(SavedCarets);
       FreeAndNil(SavedCarets);
     end;
-    AFinder.OptInSelection:= bSavedInSelection;
+    FreeAndNil(CurFinder);
   end;
 end;
 

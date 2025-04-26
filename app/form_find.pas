@@ -1986,7 +1986,7 @@ begin
       Finder.MaxLineLen:= UiOps.FindHiAll_MaxLineLen;
       Finder.OnGetToken:= FOnGetToken;
 
-      EditorHighlightAllMatches(Finder, FHiAllEnableFindNext, NMatches, FInitialCaretPos);
+      EditorHighlightAllMatches(Ed, Finder, FHiAllEnableFindNext, NMatches, FInitialCaretPos);
 
       if NMatches>0 then //if no matches, 'Cannot find' msg was already shown
         if Assigned(FOnShowResultInStatusbar) then

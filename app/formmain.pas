@@ -4183,6 +4183,7 @@ begin
 
     Ed.Attribs.DeleteWithTag(UiOps.FindHiAll_TagValue);
     EditorHighlightAllMatches(
+      Ed,
       FFinder,
       false,
       NMatchCount,
