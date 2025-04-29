@@ -120,7 +120,7 @@ object SyntAnal4: TLibSyntAnalyzer
       DisplayName = 'Id keyword'
       StyleName = 'Id keyword'
       TokenType = 7
-      Expression = '\b(catch|else|for|if|switch|while)\b'
+      Expression = '(?-i)\b(catch|else|for|if|switch|while)\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
