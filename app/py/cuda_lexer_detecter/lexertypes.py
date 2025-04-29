@@ -256,6 +256,8 @@ TYPES = {
     "inp": ['Abaqus Keywords'],
     "ion": ['Amazon Ion'],
     "irbrc": ['Ruby'],
+    "ispc": ['Intel ISPC'],
+    "isph": ['Intel ISPC'],
     "iss": ['Inno Setup'],
     "iuml": ['PlantUML'],
     "j": ['Jasmine JVM Assembler'],
