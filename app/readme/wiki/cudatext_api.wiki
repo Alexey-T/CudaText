@@ -5169,6 +5169,6 @@ It provides:
 * add: menu_proc: MENU_SET_GROUPINDEX
 
 1.0.464 (app 1.223.6)
-* add: published constants HOWREP_* for finder_proc().
+* add: finder_proc: published constants HOWREP_nnnn
 
 [[Category:CudaText]]
