@@ -2164,6 +2164,50 @@ Possible values of "id_action":
 
 Note: Toolbars contain several "button_ex" objects, which are anchored one to another (horizontally or vertically). You can also construct such toolbar by hands. API toolbar_proc() don't allow to specify kind of buttons, it sets kind from button properties.
 
+===finder_proc===
+
+ finder_proc(id_finder, id_action, value="", setcaret=True)
+
+Perform action on text search engine.
+
+Param "id_finder" is int handle of search engine.
+
+Possible values of "id_action":
+
+* FINDER_CREATE: Creates new engine, returns its int handle. This is the only action, for which param "id_finder" is ignored, it should be 0.
+* FINDER_FREE: Destroys engine, by its handle.
+* FINDER_CLEAR: Clears all properties of engine.
+* FINDER_SET_FINDTEXT: Sets engine's "text to search for" property, it must be in "value" param.
+* FINDER_GET_FINDTEXT: Returns engine's "text to search for" property.
+* FINDER_SET_REPTEXT: Sets engine's "text to replace with" property, it must be in "value" param.
+* FINDER_GET_REPTEXT: Returns engine's "text to replace with" property.
+* FINDER_SET_ED: Attaches engine to an Editor object. Param "value" must be int handle of Editor object. Virtual handle like 0 (referring to currently focused editor) is allowed, it will be resolved to actual editor handle here.
+* FINDER_GET_ED: Returns int handle of Editor object, attached to engine.
+* FINDER_SET_OPT: Sets search options for engine. Param "value" must be string, described here: [[#Finder_options_as_string]].
+* FINDER_GET_OPT: Returns search options for engine, as string.
+* FINDER_SET_MAXLEN: Sets "maximal line length" for engine. Lines of longer lenght will be skipped by engine. Param "value" must be int length.
+* FINDER_GET_MAXLEN: Returns "maximal line length" for engine, as int.
+* FINDER_SET_CARETS: Sets "virtual carets as string" for engine. If it is not empty, it overrides editor's caret(s)/selection(s). Param "value" must be string-encoded caret(s) position(s). Carets are separated by ";" char. Each caret must be 2 or 4 numbers ","-separated: "x,y" or, if caret has the selection: "x,y,x_end,y_end".
+* FINDER_GET_CARETS: Returns "virtual carets as string" for engine.
+* FINDER_SET_INDENTS: Sets indents of caret to editor edge, which is considered when placing caret to found fragment and scrolling the editor there. It's like options "find_indent_horz" and "find_indent_vert". Param "value" must be 2-tuple of int: (horizontal_indent, vertical_indent).
+* FINDER_GET_INDENTS: Returns indents of caret to editor edge, as 2-tuple of int.
+* FINDER_SET_TAG: Attaches "tag" value to engine, which is ignored by CudaText, it's only for user code. Param "value" must be string value.
+* FINDER_GET_TAG: Returns "tag" value for engine.
+* FINDER_SET_ON_REPLACE: Sets on_replace callback. Param "value" must be string-encoded callback in format: "module_name.func_name".
+** Function must be defined in the module "module_name", in class "Command", and have such signature: func_name(self, ed_self, x_begin, y_begin, x_end, y_end, replacement_text).
+** Possible return values in callback:
+*** integer HOWREP_CANCEL: Don't replace, cancel the operation
+*** integer HOWREP_SKIP: Don't replace, continue to next occurrences.
+*** integer HOWREP_REPLACE: Replace, continue to next occurrences.
+*** string: Replace occurrence to specified string value, continue to next occurrences.
+* FINDER_GET_ON_REPLACE: Returns on_replace callback, as string.
+* FINDER_FIND: Performs "find one fragment" action. If found, param "setcaret" allows to place caret to found fragment. If found, returns 4-tuple of int: (x_begin, y_begin, x_end, y_end). If not found because of incorrect RegEx, returns False. If not found and all Ok, returns None.
+* FINDER_FIND_REP: Performs "find and replace one fragment" action. If found, param "setcaret" allows to place caret to found fragment. If found, returns 6-tuple of int: (x_begin, y_begin, x_end, y_end, x_after, y_after), where (x_after, y_after) is text position after the occurrence, both -1 if occurrence was not replaced. If not found because of incorrect RegEx, returns False. If not found and all Ok, returns None.
+* FINDER_FIND_ALL: Performs "find all fragments" action. If found, returns list of 4-tuples of int (x_begin, y_begin, x_end, y_end). If not found because of incorrect RegEx, returns False. If not found and all Ok, returns None.
+* FINDER_COUNT: Performs "count all fragments" action. If found, returns int count of found fragments. If not found because of incorrect RegEx, returns False. If not found and all Ok, returns None.
+* FINDER_REP_ALL: Performs "replace all" action. Return value: like for FINDER_COUNT.
+* FINDER_REP_ALL_EX: Performs "replace all, extended results" action. It finds always from caret, and always forward. If found, returns list of 6-tuples of int: (x_begin, y_begin, x_end, y_end, x_after, y_after), where (x_after, y_after) is text position after the occurrence, both -1 if occurrence was not replaced. If not found because of incorrect RegEx, returns False. If not found and all Ok, returns empty list.
+
 ===more===
 
 =Editor class=
