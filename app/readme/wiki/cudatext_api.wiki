@@ -2193,14 +2193,16 @@ Possible values of "id_action":
 * FINDER_GET_INDENTS: Returns indents of caret to editor edge, as 2-tuple of int.
 * FINDER_SET_TAG: Attaches "tag" value to engine, which is ignored by CudaText, it's only for user code. Param "value" must be string value.
 * FINDER_GET_TAG: Returns "tag" value for engine.
-* FINDER_SET_ON_REPLACE: Sets on_replace callback. Param "value" must be string-encoded callback in format: "module_name.func_name".
-** Function must be defined in the module "module_name", in class "Command", and have such signature: func_name(self, ed_self, x_begin, y_begin, x_end, y_end, replacement_text).
-** Possible return values in callback:
-*** integer HOWREP_CANCEL: Don't replace, cancel the operation
+
+* FINDER_SET_ON_REPLACE: Sets on_replace callback. Callback will be used only if search options has the "Confirm on replace" flag. Param "value" must be string-encoded callback in format: "cuda_module_name.func_name".
+** Function must be defined in the module "cuda_module_name", in class "Command", and have such signature: func_name(self, ed_self, x, y, x_end, y_end, repl_text).
+** Function must return one of the following:
+*** integer HOWREP_CANCEL: Don't replace, cancel the operation.
 *** integer HOWREP_SKIP: Don't replace, continue to next occurrences.
-*** integer HOWREP_REPLACE: Replace, continue to next occurrences.
-*** string: Replace occurrence to specified string value, continue to next occurrences.
+*** integer HOWREP_REPLACE: Replace to default value (param "repl_text"), continue to next occurrences.
+*** string: Replace to returned string, continue to next occurrences.
 * FINDER_GET_ON_REPLACE: Returns on_replace callback, as string.
+
 * FINDER_FIND: Performs "find one fragment" action. If found, param "setcaret" allows to place caret to found fragment. If found, returns 4-tuple of int: (x_begin, y_begin, x_end, y_end). If not found because of incorrect RegEx, returns False. If not found and all Ok, returns None.
 * FINDER_FIND_REP: Performs "find and replace one fragment" action. If found, param "setcaret" allows to place caret to found fragment. If found, returns 6-tuple of int: (x_begin, y_begin, x_end, y_end, x_after, y_after), where (x_after, y_after) is text position after the occurrence, both -1 if occurrence was not replaced. If not found because of incorrect RegEx, returns False. If not found and all Ok, returns None.
 * FINDER_FIND_ALL: Performs "find all fragments" action. If found, returns list of 4-tuples of int (x_begin, y_begin, x_end, y_end). If not found because of incorrect RegEx, returns False. If not found and all Ok, returns None.
