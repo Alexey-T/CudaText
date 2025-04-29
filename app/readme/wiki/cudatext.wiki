@@ -429,6 +429,7 @@ The following lexers (counting only important ones) exist for CudaText. They are
 * Ini files
 * Inno Setup
 * Intel HEX
+* Intel ISPC (Implicit SPMD Program Compiler)
 * Jade
 * Janet
 * Jasmine JVM Assembler
