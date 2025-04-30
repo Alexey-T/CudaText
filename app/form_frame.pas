@@ -2412,6 +2412,8 @@ begin
 end;
 
 destructor TEditorFrame.Destroy;
+var
+  i: integer;
 begin
   CloseFormAutoCompletion;
 
@@ -2450,6 +2452,13 @@ begin
 
   FreeAndNil(MacroStrings);
   FreeAndNil(FCodetreeFilterHistory);
+
+  for i:= 0 to 1 do
+    if Assigned(FCachedTreeview[i]) then
+    begin
+      FCachedTreeview[i].Items.Clear;
+      FreeAndNil(FCachedTreeview[i]);
+    end;
 
   inherited;
 end;
