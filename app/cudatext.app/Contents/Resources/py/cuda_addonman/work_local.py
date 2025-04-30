@@ -172,6 +172,7 @@ def get_installed_addons(ignore={}):
 
     d = os.path.join(DIR_DATA, 'lexlib')
     d_acp = os.path.join(DIR_DATA, 'autocomplete')
+    d_set_def = app_path(APP_DIR_SETTINGS_DEF)
     if os.path.isdir(d):
         l = os.listdir(d)
         l = ['.'.join(i.split('.')[:-1]) for i in l if i.endswith('.lcf')]
@@ -184,6 +185,7 @@ def get_installed_addons(ignore={}):
                 os.path.join(d, i+'.lcf'),
                 os.path.join(d, i+'.cuda-lexmap'),
                 os.path.join(d_acp, i+'.acp'),
+                os.path.join(d_set_def, 'lexer '+i+'.json'),
                 ],
             } for i in l]
 
