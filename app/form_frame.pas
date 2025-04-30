@@ -2453,7 +2453,7 @@ begin
   FreeAndNil(MacroStrings);
   FreeAndNil(FCodetreeFilterHistory);
 
-  for i:= 0 to 1 do
+  for i:= Low(FCachedTreeview) to High(FCachedTreeview) do
     if Assigned(FCachedTreeview[i]) then
     begin
       FCachedTreeview[i].Items.Clear;
