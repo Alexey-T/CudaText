@@ -659,8 +659,11 @@ begin
   try
     Dst.Items.Assign(Src.Items);
 
+    {
+    //causes exception 'Control "" has no parent window" when called from TfmMain.DoOnTabFocus
     if Assigned(Src.Selected) then
       Dst.Selected:= Dst.Items[Src.Selected.AbsoluteIndex];
+      }
 
     for i:= 0 to Src.Items.Count-1 do
     begin
