@@ -1304,8 +1304,10 @@ begin
         //MsgLogConsole('Tree filling: '+AppFormatTimeInMilliseconds(Tick));
       end;
 
+    {
     if FCodetreeBuffer.Items.Count>0 then
       DoTreeviewCopy(FCodetreeBuffer, Frame.CachedTreeview[Ed]);
+      }
 
     //Lazarus doesn't sort new items
     if CodeTree.Tree.SortType<>stNone then
