@@ -2511,7 +2511,8 @@ begin
   if FCachedTreeview[N]=nil then
   begin
     FCachedTreeview[N]:= TTreeView.Create(Self);
-    FCachedTreeview[N].OnDeletion:=@TreeOnDeletion;
+    FCachedTreeview[N].Name:= 'CachedTree'+IntToStr(N+1);
+    FCachedTreeview[N].OnDeletion:= @TreeOnDeletion;
   end;
   Result:= FCachedTreeview[N];
 end;
