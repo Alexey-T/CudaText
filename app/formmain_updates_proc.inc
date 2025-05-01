@@ -1305,6 +1305,7 @@ begin
       end;
 
     {
+    //2025.05: not needed anymore, we copy tree to CachedTreeview in TfmMain.DoOnTabFocus
     if FCodetreeBuffer.Items.Count>0 then
       DoTreeviewCopy(FCodetreeBuffer, Frame.CachedTreeview[Ed]);
       }
