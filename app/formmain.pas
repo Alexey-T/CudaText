@@ -716,7 +716,6 @@ type
     FHandledOnStart2: boolean;
     FHandledOnFocus: boolean;
     FHandledMakeCaretVisible: boolean;
-    FCodetreeBuffer: TTreeView;
     FWebPanel: TPanel;
     FWebPanelLink: string;
     FMenuVisible: boolean;

@@ -1292,34 +1292,24 @@ begin
     UpdateTreeImagelistActivity;
     DoPyEvent_AppState(APPSTATE_CODETREE_BEFORE_FILL);
 
-    if not Assigned(FCodetreeBuffer) then
-    begin
-      FCodetreeBuffer:= TTreeView.Create(Self);
-      FCodetreeBuffer.Visible:= false;
-      FCodetreeBuffer.Name:= 'CodetreeBuffer';
-      FCodetreeBuffer.OnDeletion:= @DoCodetree_OnDeletion;
-    end;
-
-    if not RunTreeHelper(Frame, FCodetreeBuffer, true, true) then
+    if not RunTreeHelper(Frame, CodeTree.Tree, true, true) then
       if Assigned(Ada) then
       begin
         //Tick:= GetTickCount64;
-        Ada.TreeFill(FCodetreeBuffer, UiOps.TreeFillMaxTime);
+        Ada.TreeFill(CodeTree.Tree, UiOps.TreeFillMaxTime);
         //Tick:= GetTickCount64-Tick;
         //MsgLogConsole('Tree filling: '+AppFormatTimeInMilliseconds(Tick));
       end;
 
     {
     //2025.05: not needed anymore, we copy tree to CachedTreeview in TfmMain.DoOnTabFocus
-    if FCodetreeBuffer.Items.Count>0 then
-      DoTreeviewCopy(FCodetreeBuffer, Frame.CachedTreeview[Ed]);
+    if CodeTree.Tree.Items.Count>0 then
+      DoTreeviewCopy(CodeTree.Tree, Frame.CachedTreeview[Ed]);
       }
 
     //Lazarus doesn't sort new items
     if CodeTree.Tree.SortType<>stNone then
-      FCodetreeBuffer.AlphaSort;
-
-    DoTreeviewCopy(FCodetreeBuffer, CodeTree.Tree);
+      CodeTree.Tree.AlphaSort;
 
     if UiOps.TreeUnfold then
       CodeTree.Tree.FullExpand;
