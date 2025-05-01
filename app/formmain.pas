@@ -892,6 +892,7 @@ type
     procedure DoCodetree_OnAdvDrawItem(Sender: TCustomTreeView;
       Node: TTreeNode; State: TCustomDrawState; Stage: TCustomDrawStage;
       var PaintImages, DefaultDraw: Boolean);
+    procedure DoCodetree_OnDeletion(Sender: TObject; Node: TTreeNode);
     procedure DoSidebar_OnContextPopup(const ACaption: string);
     procedure DoSidebar_OnCloseFloatForm(Sender: TObject; var CloseAction: TCloseAction);
     procedure DoSidebar_OnBeforeToggle(Sender: TObject);
@@ -2815,6 +2816,15 @@ begin
   //fix to hide parts on Tree's hints on editor canvas (Win32, moving mouse from
   //long hint to shorter)
   DoInvalidateEditors;
+end;
+
+procedure TfmMain.DoCodetree_OnDeletion(Sender: TObject; Node: TTreeNode);
+begin
+  if Assigned(Node.Data) then
+  begin
+    TObject(Node.Data).Free;
+    Node.Data:= nil;
+  end;
 end;
 
 

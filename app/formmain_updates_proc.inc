@@ -1293,7 +1293,12 @@ begin
     DoPyEvent_AppState(APPSTATE_CODETREE_BEFORE_FILL);
 
     if not Assigned(FCodetreeBuffer) then
+    begin
       FCodetreeBuffer:= TTreeView.Create(Self);
+      FCodetreeBuffer.Visible:= false;
+      FCodetreeBuffer.Name:= 'CodetreeBuffer';
+      FCodetreeBuffer.OnDeletion:= @DoCodetree_OnDeletion;
+    end;
 
     if not RunTreeHelper(Frame, FCodetreeBuffer, true, true) then
       if Assigned(Ada) then
