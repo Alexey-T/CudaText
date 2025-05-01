@@ -3,6 +3,9 @@
   - fixed
   * changed
 
++ add: on switching ui-tab, remember/restore folded state of code-tree nodes (thanks @mix-7)
+- fix: "New from template" did not support Unicode text in files (thanks @MiroslavMatas)
+
 1.223.5 (2025/04)
 
 + add: new UI-theme color "current line BG, other wrapped parts", it's described in the Wiki (idea by @drit)
@@ -15,7 +18,6 @@
 - fix: Windows: IME behaviour when mouse click happens (thanks @VenusGirl, fix by @rasberryrabbit)
 - fix: wrong Console msg "Failed to save session" (thanks @mix-7)
 - fix: lexers menu-dialog must not keep its filter (thanks @JairoMartinezA)
-- fix: "New from template" did not support Unicode text in files (thanks @MiroslavMatas)
 
 1.223.1 (2025/04)
 
