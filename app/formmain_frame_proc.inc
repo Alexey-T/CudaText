@@ -112,7 +112,7 @@ procedure TfmMain.FrameOnEditorFocus(Sender: TObject);
 var
   F: TEditorFrame;
   Ed: TATSynEdit;
-  Tree: TTreeView;
+  CachedTreeview: TTreeView;
   bTreeCached: boolean;
 begin
   Ed:= Sender as TATSynEdit;
@@ -134,13 +134,13 @@ begin
     bTreeCached:= false;
     if F.CachedTreeViewInited[Ed] then
     begin
-      Tree:= F.CachedTreeView[Ed];
-      if (Tree.Items.Count>0) then
+      CachedTreeview:= F.CachedTreeView[Ed];
+      if CachedTreeview.Items.Count>0 then
       begin
         bTreeCached:= true;
 
         DoPyEvent_AppState(APPSTATE_CODETREE_BEFORE_FILL);
-        DoTreeviewCopy(Tree, CodeTree.Tree);
+        DoTreeviewCopy(CachedTreeview, CodeTree.Tree);
         CodeTree.Tree.SortType:= F.CodetreeSortType;
         if CodeTree.Tree.SortType<>stNone then
           CodeTree.Tree.AlphaSort;
