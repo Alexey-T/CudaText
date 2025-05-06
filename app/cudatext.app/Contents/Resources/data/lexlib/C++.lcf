@@ -1,4 +1,4 @@
-object SyntAnal5: TLibSyntAnalyzer
+object SyntAnal6: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Symbol'
@@ -236,9 +236,7 @@ object SyntAnal5: TLibSyntAnalyzer
       DisplayName = 'Num hex float'
       StyleName = 'Number'
       TokenType = 5
-      Expression = 
-        '0x[\h'#39']* (\.[\h'#39']*)? p[\+\-]? \h[\h'#39']* |'#13#10'0x\h[\h'#39']* \. \h[' +
-        '\h'#39']*'
+      Expression = '0x[\h'#39']* (\.[\h'#39']*)? p[\+\-]? \h[\h'#39']* |'#13#10'0x\h[\h'#39']* \. \h[\h'#39']*'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -269,17 +267,7 @@ object SyntAnal5: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Directive'
-      StyleName = 'Preprocessor'
-      TokenType = 6
-      Expression = 
-        '\#\x20*(define|undef|include|if|ifdef|ifndef|else|elif|endif|lin' +
-        'e|error|pragma)\b'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
-      DisplayName = 'Comment 1'
+      DisplayName = 'Comment block'
       StyleName = 'Comment'
       TokenType = 1
       Expression = '(?s)/\*.*?(\*/|\Z)'
@@ -287,10 +275,20 @@ object SyntAnal5: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Comment 2'
+      DisplayName = 'Comment line'
       StyleName = 'Comment'
       TokenType = 1
       Expression = '//.*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Directive'
+      StyleName = 'Preprocessor'
+      TokenType = 6
+      Expression = 
+        '(?-i)\#\x20*(define|undef|include|if|ifdef|ifndef|else|elif|endi' +
+        'f|line|error|pragma)\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -364,9 +362,9 @@ object SyntAnal5: TLibSyntAnalyzer
             '__attribute'
             '__attribute__'
             '__declspec'
-            '_asm'
             '_Alignas'
             '_Alignof'
+            '_asm'
             '_Pragma'
             '_Static_assert'
             'alignas'

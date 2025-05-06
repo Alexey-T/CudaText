@@ -1,4 +1,4 @@
-object SyntAnal4: TLibSyntAnalyzer
+object SyntAnal5: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Symbol'
@@ -110,6 +110,22 @@ object SyntAnal4: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
+      DisplayName = 'Comment block'
+      StyleName = 'Comment'
+      TokenType = 1
+      Expression = '(?s)/\*.*?(\*/|\Z)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Comment line'
+      StyleName = 'Comment'
+      TokenType = 1
+      Expression = '//.*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
       DisplayName = 'Bad number suffix'
       StyleName = 'Incorrect'
       Expression = '(?<=[\d'#39'])[a-z_]\w*'
@@ -136,9 +152,7 @@ object SyntAnal4: TLibSyntAnalyzer
       DisplayName = 'Num hex float'
       StyleName = 'Number'
       TokenType = 5
-      Expression = 
-        '0x[\h'#39']* (\.[\h'#39']*)? p[\+\-]? \h[\h'#39']* |'#13#10'0x\h[\h'#39']* \. \h[' +
-        '\h'#39']*'
+      Expression = '0x[\h'#39']* (\.[\h'#39']*)? p[\+\-]? \h[\h'#39']* |'#13#10'0x\h[\h'#39']* \. \h[\h'#39']*'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -173,24 +187,8 @@ object SyntAnal4: TLibSyntAnalyzer
       StyleName = 'Preprocessor'
       TokenType = 6
       Expression = 
-        '\#\x20*(define|undef|include|if|ifdef|ifndef|else|elif|endif|lin' +
-        'e|error|pragma)\b'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
-      DisplayName = 'Comment 1'
-      StyleName = 'Comment'
-      TokenType = 1
-      Expression = '(?s)/\*.*?(\*/|\Z)'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
-      DisplayName = 'Comment 2'
-      StyleName = 'Comment'
-      TokenType = 1
-      Expression = '//.*'
+        '(?-i)\#\x20*(define|undef|include|if|ifdef|ifndef|else|elif|endi' +
+        'f|line|error|pragma)\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -247,9 +245,9 @@ object SyntAnal4: TLibSyntAnalyzer
             '__attribute'
             '__attribute__'
             '__declspec'
-            '_Static_assert'
             '_Alignas'
             '_Alignof'
+            '_Static_assert'
             'alignas'
             'alignof'
             'asm'
