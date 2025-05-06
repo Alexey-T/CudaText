@@ -332,6 +332,7 @@ The following lexers (counting only important ones) exist for CudaText. They are
 * BibTeX
 * Bicep
 * Bitsquid SJSON
+* Blueprint
 * Bohemia SQF
 * Boo
 * Brainfuck
