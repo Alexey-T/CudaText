@@ -110,6 +110,7 @@ TYPES = {
     "bib": ['BibTeX'],
     "bicep": ['Bicep'],
     "blade.php": ['HTML Laravel Blade'],
+    "blp": ['Blueprint'],
     "boo": ['Boo'],
     "boot": ['Clojure'],
     "bro": ['Oberon'],
