@@ -101,8 +101,8 @@ def get_channel(url):
     if not os.path.isfile(temp_fn): return
 
     if os.path.getsize(temp_fn)<2:
-        print(_('  failed to download:'), cap)
-        return
+        print(_('  got empty file:'), cap)
+        return {}
 
     text = open(temp_fn, encoding='utf8').read()
 
@@ -126,7 +126,7 @@ def get_remote_addons_list(channels):
     print(_('Read channels:'))
     for ch in channels:
         items = get_channel(ch)
-        if items:
+        if items is not None:
             res += items
         else:
             return
