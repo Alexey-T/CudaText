@@ -42,6 +42,8 @@ def get_url(url, fn, del_first=False):
                         #f.flush() commented by recommendation
 
             if os.path.isfile(fn_temp):
+                if os.path.getsize(fn_temp)==0:
+                    raise Exception('Server returned zero-sized file')
                 if os.path.isfile(fn):
                     os.remove(fn)
                 os.rename(fn_temp, fn)
@@ -99,10 +101,6 @@ def get_channel(url):
     else:
         print(_('  cached:'), cap)
     if not os.path.isfile(temp_fn): return
-
-    if os.path.getsize(temp_fn)<2:
-        print(_('  got empty file:'), cap)
-        return {}
 
     text = open(temp_fn, encoding='utf8').read()
 
