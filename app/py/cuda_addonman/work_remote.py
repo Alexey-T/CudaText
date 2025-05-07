@@ -100,8 +100,12 @@ def get_channel(url):
         print(_('  cached:'), cap)
     if not os.path.isfile(temp_fn): return
 
+    if os.path.getsize(temp_fn)<2:
+        print(_('  failed to download:'), cap)
+        return
+
     text = open(temp_fn, encoding='utf8').read()
-    
+
     try:
         d = json.loads(text)
     except Exception as e:
