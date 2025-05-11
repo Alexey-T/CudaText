@@ -35,7 +35,7 @@ var
   ItemPtr: PATTreeHelperRecord;
   PrevHeaderIndex: integer = -1;
   S: UnicodeString;
-  iLine, NFirst, NSymbol, NLen, NBlockLine: integer;
+  iLine, NFirst, NSymbol, NLen, NLen2, NBlockLine: integer;
 begin
   Data.Clear;
   St:= Ed.Strings;
@@ -52,7 +52,11 @@ begin
     if NFirst>NLen then Continue;
     if S[NFirst] in [';', '#', '='] then Continue;
 
-    if (NLen>=3) and (S[1]='[') and (S[NLen]=']') then
+    NLen2:= NLen;
+    while (NLen2>1) and (S[NLen2]=' ') do
+      Dec(NLen2);
+
+    if (NLen>=3) and (S[1]='[') and (S[NLen2]=']') then
     begin
       DataItem.X1:= 0;
       DataItem.Y1:= iLine;
