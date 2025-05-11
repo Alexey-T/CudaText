@@ -14,11 +14,11 @@
       "style": "Comment"
     },
     "section": {
-      "regex": "^\\[.+?\\]",
+      "regex": "^\\[.+?\\]\\x20*",
       "style": "Label"
     },
     "key": {
-      "regex": "^.+?(?=\\=)",
+      "regex": "^.+?(?==)",
       "style": "Id1"
     },
     "eq": {
