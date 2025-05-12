@@ -10199,6 +10199,7 @@ begin
   begin
     Frame.SetFileName(Ed, NewFileName);
     Frame.UpdateCaptionFromFilename;
+    Frame.DoLexerFromFilename(Ed, NewFileName);
   end;
 end;
 
