@@ -27,8 +27,8 @@ _base_KeyEnd      = 105 | _CmdFlag_MovesCaret
 _base_KeyPageUp   = 106 | _CmdFlag_MovesCaret
 _base_KeyPageDown = 107 | _CmdFlag_MovesCaret
 
-cCommand_KeyUp           = _base_KeyUp | _CmdFlag_SelReset
-cCommand_KeyDown         = _base_KeyDown | _CmdFlag_SelReset
+cCommand_KeyUp           = _base_KeyUp #handles sel
+cCommand_KeyDown         = _base_KeyDown #handles sel
 cCommand_KeyLeft         = _base_KeyLeft #handles sel
 cCommand_KeyRight        = _base_KeyRight #handles sel
 cCommand_KeyHome         = _base_KeyHome | _CmdFlag_SelReset
