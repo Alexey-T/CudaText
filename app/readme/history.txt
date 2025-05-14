@@ -5,8 +5,8 @@
 
 1.223.7 (2025/05)
 
-* change: little changed behaviour of arrow up/down with multi-line selection, to be like in VSCode (idea by @ildarkhasanshin)
-- fix: 'Rename file' must apply lexer for new filename (thanks @pintassilgo)
+* change: changed behaviour of arrow up/down with selection, to be like in VSCode (idea by @ildarkhasanshin)
++ add: "File / Rename" sets lexer for new filename (thanks @pintassilgo)
 
 1.223.6 (2025/05)
 
