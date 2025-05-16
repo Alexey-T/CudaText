@@ -3336,6 +3336,7 @@ begin
   DesktopR:= Screen.DesktopRect;
   F.Left:= Max(F.Left, DesktopR.Left);
   F.Left:= Min(F.Left, DesktopR.Right-W);
+  F.Top:= Max(F.Top, DesktopR.Top);
   F.Top:= Min(F.Top, DesktopR.Bottom-cReservePixels);
 end;
 
@@ -3352,6 +3353,7 @@ begin
   DesktopR:= Screen.DesktopRect;
   F.Left:= Max(F.Left, DesktopR.Left);
   F.Left:= Min(F.Left, DesktopR.Right-W);
+  F.Top:= Max(F.Top, DesktopR.Top);
   F.Top:= Min(F.Top, DesktopR.Bottom-cReservePixels);
 
   F.Right:= F.Left+W;
