@@ -1063,16 +1063,14 @@ begin
   W:= Min(W, ADesktopRect.Width);
   H:= Min(H, ADesktopRect.Height);
 
-  if AOnlySize then
+  if not AOnlySize then
   begin
-    X:= R.Left;
-    Y:= R.Top;
+    R.Left:= X;
+    R.Top:= Y;
   end;
 
-  R.Left:= X;
-  R.Top:= Y;
-  R.Right:= X+W;
-  R.Bottom:= Y+H;
+  R.Right:= R.Left+W;
+  R.Bottom:= R.Top+H;
 end;
 
 
