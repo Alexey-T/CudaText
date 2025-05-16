@@ -3329,31 +3329,33 @@ procedure FixFormPositionToDesktop(F: TForm);
 const
   cReservePixels = 100;
 var
-  R: TRect;
+  DesktopR: TRect;
+  W: integer;
 begin
-  R:= Screen.DesktopRect;
-  F.Left:= Max(F.Left, R.Left);
-  F.Left:= Min(F.Left, R.Right-F.Width);
-  F.Top:= Min(F.Top, R.Bottom-cReservePixels);
+  W:= F.Width;
+  DesktopR:= Screen.DesktopRect;
+  F.Left:= Max(F.Left, DesktopR.Left);
+  F.Left:= Min(F.Left, DesktopR.Right-W);
+  F.Top:= Min(F.Top, DesktopR.Bottom-cReservePixels);
 end;
 
 procedure FixRectPositionToDesktop(var F: TRect);
 const
   cReservePixels = 200;
 var
-  R: TRect;
-  w, h: integer;
+  DesktopR: TRect;
+  W, H: integer;
 begin
-  w:= F.Width;
-  h:= F.Height;
+  W:= F.Width;
+  H:= F.Height;
 
-  R:= Screen.DesktopRect;
-  F.Left:= Max(F.Left, R.Left);
-  F.Left:= Min(F.Left, R.Right-F.Width);
-  F.Top:= Min(F.Top, R.Bottom-cReservePixels);
+  DesktopR:= Screen.DesktopRect;
+  F.Left:= Max(F.Left, DesktopR.Left);
+  F.Left:= Min(F.Left, DesktopR.Right-W);
+  F.Top:= Min(F.Top, DesktopR.Bottom-cReservePixels);
 
-  F.Right:= F.Left+w;
-  F.Bottom:= F.Top+h;
+  F.Right:= F.Left+W;
+  F.Bottom:= F.Top+H;
 end;
 
 procedure EditorClear(Ed: TATSynEdit);
