@@ -2698,6 +2698,26 @@ Get it from [https://github.com/davidbannon/libqt6pas/releases releases on this 
 
 Page contains 2 packages: libqt6pas6 and libqt6pas6-dev, you only need first of them (2nd one is required if you want to compile the app).
 
+==Linux: Fedora packages==
+To install CudaText on Fedora Linux, make sure you have the DNF core plugins installed on your system.
+Then, run this command:
+
+ dnf copr enable -y zliced13/YACR
+
+Afterwards, you can finally install CudaText with this command:
+
+ dnf install -y cudatext
+
+In this command, replace package name "cudatext" with one of available names:
+
+* cudatext-gtk2
+* cudatext-gtk2-aarch64
+* cudatext-qt5
+* cudatext-qt5-aarch64
+* cudatext-qt6
+* cudatext (copy of cudatext-qt6)
+* cudatext-aarch64 (copy of cudatext-qt5-aarch64)
+
 ==Linux: App cannot run with GLIBC error==
 
 Some Linux distros may show such error:
