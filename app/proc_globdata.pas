@@ -810,8 +810,8 @@ procedure AppUpdateWatcherFrames(AMaxWorkTime: integer = 500);
 procedure AppStopListTimers;
 function AppFormatTimeInMilliseconds(const N: QWord): string;
 
-procedure FixFormPositionToDesktop(F: TForm);
-procedure FixRectPositionToDesktop(var F: TRect);
+procedure FixFormPositionToDesktop(F: TForm; const DesktopR: TRect);
+procedure FixRectPositionToDesktop(var F: TRect; const DesktopR: TRect);
 function IsColorDark(C: TColor): boolean;
 
 procedure AppApplyRendererTweaks(const s: string);
@@ -3325,32 +3325,28 @@ begin
 end;
 
 
-procedure FixFormPositionToDesktop(F: TForm);
+procedure FixFormPositionToDesktop(F: TForm; const DesktopR: TRect);
 const
   cReservePixels = 100;
 var
-  DesktopR: TRect;
   W: integer;
 begin
   W:= F.Width;
-  DesktopR:= Screen.DesktopRect;
   F.Left:= Max(F.Left, DesktopR.Left);
   F.Left:= Min(F.Left, DesktopR.Right-W);
   F.Top:= Max(F.Top, DesktopR.Top);
   F.Top:= Min(F.Top, DesktopR.Bottom-cReservePixels);
 end;
 
-procedure FixRectPositionToDesktop(var F: TRect);
+procedure FixRectPositionToDesktop(var F: TRect; const DesktopR: TRect);
 const
   cReservePixels = 200;
 var
-  DesktopR: TRect;
   W, H: integer;
 begin
   W:= F.Width;
   H:= F.Height;
 
-  DesktopR:= Screen.DesktopRect;
   F.Left:= Max(F.Left, DesktopR.Left);
   F.Left:= Min(F.Left, DesktopR.Right-W);
   F.Top:= Max(F.Top, DesktopR.Top);

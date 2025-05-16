@@ -382,7 +382,7 @@ begin
   DoShowAnsi;
 
   chkHexTitle.Checked:= true; //'hex titles' is better as On
-  FormHistoryLoad(Self, '/pos/charmap', true);
+  FormHistoryLoad(Self, '/pos/charmap', true, Screen.DesktopRect);
   FormPutToVisibleArea(Self);
 end;
 

@@ -1395,7 +1395,7 @@ begin
 
   UpdateFormHeight;
   UpdateInputFieldsProps;
-  FixFormPositionToDesktop(Self);
+  FixFormPositionToDesktop(Self, Screen.DesktopRect);
   OnResize(Self);
 
   if Assigned(FOnChangeVisible) then

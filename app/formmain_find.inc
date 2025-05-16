@@ -546,7 +546,7 @@ begin
         cfg.GetValue('/list_find', fmFind.edFind.Items, '');
         cfg.GetValue('/list_replace', fmFind.edRep.Items, '');
         if fmFind.IsNarrow then
-          FormPosSetFromString(fmFind, cfg.GetValue('/pos/find', ''), false);
+          FormPosSetFromString(fmFind, cfg.GetValue('/pos/find', ''), false, Screen.DesktopRect);
         fmFind.IsMultiLine:= cfg.GetValue('/finder/mline', false);
         fmFind.IsHiAll:= cfg.GetValue('/finder/hi', false);
         fmFind.IsImmediate:= cfg.GetValue('/finder/im', false);

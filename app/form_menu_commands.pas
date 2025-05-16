@@ -152,7 +152,7 @@ begin
   PanelInfo.Font.Color:= FColorFont;
 
   UpdateFormOnTop(Self);
-  FixFormPositionToDesktop(Self);
+  FixFormPositionToDesktop(Self, Screen.DesktopRect);
 
   edit.Text:= CurrentFilterText;
   if not edit.IsEmpty then

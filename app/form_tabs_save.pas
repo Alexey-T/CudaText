@@ -89,7 +89,7 @@ end;
 
 procedure TfmSaveTabs.DoLoadSize;
 begin
-  FormHistoryLoad(Self, '/pos/savetabs', false);
+  FormHistoryLoad(Self, '/pos/savetabs', false, Screen.DesktopRect);
 end;
 
 procedure TfmSaveTabs.DoSaveSize;

@@ -93,7 +93,7 @@ begin
   EditorCaretShapeFromString(edit.CaretShapeOverwrite, EditorOps.OpCaretViewOverwrite);
 
   UpdateFormOnTop(Self);
-  FixFormPositionToDesktop(Self);
+  FixFormPositionToDesktop(Self, Screen.DesktopRect);
 
   if FMultiline then
     N:= 185

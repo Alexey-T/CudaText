@@ -993,15 +993,15 @@ begin
 end;
 
 
-procedure DoOps_LoadFormRect(Cfg: TAppJsonConfig; const APath: string; var R: TRect);
+procedure DoOps_LoadFormRect(Cfg: TAppJsonConfig; const APath: string; var R: TRect; const ADesktopRect: TRect);
 var
   S: string;
 begin
   S:= Cfg.GetValue(APath, '');
   if S<>'' then
   begin
-    RectSetFromString(R, S, false);
-    FixRectPositionToDesktop(R);
+    RectSetFromString(R, S, false, ADesktopRect);
+    FixRectPositionToDesktop(R, ADesktopRect);
   end;
 end;
 
@@ -1011,6 +1011,7 @@ procedure TfmMain.DoOps_LoadHistory;
 //was maximized (Win32).
 var
   cfg: TAppJsonConfig;
+  DesktopRect: TRect;
   bFlag: boolean;
   NTick: QWord;
   sFilename, sRootPath, sBackupFilename: string;
@@ -1018,6 +1019,7 @@ var
   N: integer;
 begin
   NTick:= GetTickCount64;
+  DesktopRect:= Screen.DesktopRect;
 
   AppFileCheckForNullBytes(AppFile_History);
 
@@ -1029,12 +1031,12 @@ begin
       exit;
     end;
 
-    DoOps_LoadFormRect(cfg, '/pos/main', FBoundsMain);
-    DoOps_LoadFormRect(cfg, '/pos/side', AppPanels[TAppPanelId.Side].FormFloatBounds);
-    DoOps_LoadFormRect(cfg, '/pos/bottom', AppPanels[TAppPanelId.Btm].FormFloatBounds);
-    DoOps_LoadFormRect(cfg, '/pos/g1', FBoundsFloating1);
-    DoOps_LoadFormRect(cfg, '/pos/g2', FBoundsFloating2);
-    DoOps_LoadFormRect(cfg, '/pos/g3', FBoundsFloating3);
+    DoOps_LoadFormRect(cfg, '/pos/main', FBoundsMain, DesktopRect);
+    DoOps_LoadFormRect(cfg, '/pos/side', AppPanels[TAppPanelId.Side].FormFloatBounds, DesktopRect);
+    DoOps_LoadFormRect(cfg, '/pos/bottom', AppPanels[TAppPanelId.Btm].FormFloatBounds, DesktopRect);
+    DoOps_LoadFormRect(cfg, '/pos/g1', FBoundsFloating1, DesktopRect);
+    DoOps_LoadFormRect(cfg, '/pos/g2', FBoundsFloating2, DesktopRect);
+    DoOps_LoadFormRect(cfg, '/pos/g3', FBoundsFloating3, DesktopRect);
 
     //note: BoundsRect change works very long (150-200ms) on Linux gtk2
     BoundsRect:= FBoundsMain;

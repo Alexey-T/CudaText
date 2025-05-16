@@ -44,8 +44,8 @@ uses
   proc_colors;
 
 function FormPosGetAsString(Form: TForm; AOnlySize: boolean): string;
-procedure FormPosSetFromString(Form: TForm; const S: string; AOnlySize: boolean);
-procedure RectSetFromString(var R: TRect; const S: string; AOnlySize: boolean);
+procedure FormPosSetFromString(Form: TForm; const S: string; AOnlySize: boolean; const ADesktopRect: TRect);
+procedure RectSetFromString(var R: TRect; const S: string; AOnlySize: boolean; const ADesktopRect: TRect);
 
 procedure AppListbox_CopyOneLine(L: TATListbox);
 procedure AppListbox_CopyAllLines(L: TATListbox);
@@ -56,7 +56,7 @@ procedure FormUnlock(Ctl: TForm);
 //procedure ControlAutosizeOnlyByWidth(C: TWinControl);
 
 procedure FormHistorySave(F: TForm; const AConfigPath: string; AWithPos: boolean);
-procedure FormHistoryLoad(F: TForm; const AConfigPath: string; AWithPos: boolean);
+procedure FormHistoryLoad(F: TForm; const AConfigPath: string; AWithPos: boolean; const ADesktopRect: TRect);
 
 procedure FormPutToVisibleArea(F: TForm);
 
@@ -878,7 +878,7 @@ begin
   end;
 end;
 
-procedure FormHistoryLoad(F: TForm; const AConfigPath: string; AWithPos: boolean);
+procedure FormHistoryLoad(F: TForm; const AConfigPath: string; AWithPos: boolean; const ADesktopRect: TRect);
 var
   c: TAppJsonConfig;
   S: string;
@@ -893,7 +893,7 @@ begin
 
     S:= c.GetValue(AConfigPath, '');
     if S<>'' then
-      FormPosSetFromString(F, S, not AWithPos);
+      FormPosSetFromString(F, S, not AWithPos, ADesktopRect);
   finally
     c.Free;
   end;
@@ -1045,11 +1045,10 @@ begin
   Result:= Format('%d,%d,%d,%d', [X, Y, W, H]);
 end;
 
-procedure RectSetFromString(var R: TRect; const S: string; AOnlySize: boolean);
+procedure RectSetFromString(var R: TRect; const S: string; AOnlySize: boolean; const ADesktopRect: TRect);
 var
   Sep: TATStringSeparator;
   X, Y, W, H: integer;
-  BigRect: TRect;
 begin
   if S='' then exit;
   Sep.Init(S);
@@ -1059,11 +1058,10 @@ begin
   Sep.GetItemInt(H, R.Height);
 
   //prevert LCL exceptions when numbers are too big, CudaText issue #3626
-  BigRect:= Screen.DesktopRect;
-  X:= Min(X, BigRect.Right-50);
-  Y:= Min(Y, BigRect.Bottom-50);
-  W:= Min(W, BigRect.Width);
-  H:= Min(H, BigRect.Height);
+  X:= Min(X, ADesktopRect.Right-50);
+  Y:= Min(Y, ADesktopRect.Bottom-50);
+  W:= Min(W, ADesktopRect.Width);
+  H:= Min(H, ADesktopRect.Height);
 
   if AOnlySize then
   begin
@@ -1078,12 +1076,12 @@ begin
 end;
 
 
-procedure FormPosSetFromString(Form: TForm; const S: string; AOnlySize: boolean);
+procedure FormPosSetFromString(Form: TForm; const S: string; AOnlySize: boolean; const ADesktopRect: TRect);
 var
   R: TRect;
 begin
   R:= Form.BoundsRect;
-  RectSetFromString(R, S, AOnlySize);
+  RectSetFromString(R, S, AOnlySize, ADesktopRect);
   if Form.BoundsRect<>R then
     Form.BoundsRect:= R;
 end;

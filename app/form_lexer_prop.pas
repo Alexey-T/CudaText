@@ -252,7 +252,7 @@ begin
 
   LabelInfoThemes.Visible:= UiOps.LexerThemes;
 
-  FormHistoryLoad(Self, '/pos/lexerprop', false);
+  FormHistoryLoad(Self, '/pos/lexerprop', false, Screen.DesktopRect);
 end;
 
 procedure TfmLexerProp.SaveChangedLexer;

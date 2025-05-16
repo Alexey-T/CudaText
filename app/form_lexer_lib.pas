@@ -195,7 +195,7 @@ begin
   Localize;
   DoForm_ScaleAuto(Self, false);
 
-  FormHistoryLoad(Self, '/pos/lexerlib', false);
+  FormHistoryLoad(Self, '/pos/lexerlib', false, Screen.DesktopRect);
 end;
 
 procedure TfmLexerLib.FormKeyDown(Sender: TObject; var Key: Word;
