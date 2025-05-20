@@ -310,7 +310,8 @@ class Command:
                 return
 
             for item in req_items:
-                self.do_install_single(item, True, False)
+                if not self.do_install_single(item, True, False):
+                    return
 
         self.do_install_single(info,
             not opt.install_confirm,
@@ -318,6 +319,10 @@ class Command:
 
 
     def do_install_single(self, info, is_silent, suggest_readme):
+        '''
+        Returns True if downloaded and installed.
+        Returns None if cannot download nor install.
+        '''
 
         name = info['name']
         url = info['url']
@@ -326,7 +331,7 @@ class Command:
 
         #download
         fn = get_plugin_zip(url)
-        if fn is None or not os.path.isfile(fn):
+        if fn is None or fn==False or not os.path.isfile(fn):
             msg_status(_('Cannot download file'))
             return
 
@@ -361,6 +366,8 @@ class Command:
                     res = dlg_menu(DMENU_LIST, [s[0] for s in names], caption=_('Readme'))
                     if res is None: return
                     file_open(names[res][1])
+
+        return True
 
 
     def do_install_lexer(self):

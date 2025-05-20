@@ -70,9 +70,16 @@ def is_file_html(fn):
 
 
 def get_plugin_zip(url):
+    '''
+    Returns .zip filename if downloaded ok.
+    Returns False if cannot download and Abort pressed.
+    Returns None if cannot download and Ignore pressed.
+    '''
     if not url: return
     fn = os.path.join(get_temp_dir(), 'addon.zip')
-    get_url(url, fn, True)
+    res = get_url(url, fn, True)
+    if not res:
+        return res
 
     if is_file_html(fn):
         os.remove(fn)
