@@ -12,7 +12,11 @@ from cudax_lib import get_translation
 _   = get_translation(__file__)  # i18n
 
 def get_url(url, fn, del_first=False):
-
+    '''
+    Returns True if downloaded OK.
+    Returns False if cannot download and Abort pressed.
+    Returns None if cannot download and Ignore pressed.
+    '''
     if opt.sf_mirror:
         if url.startswith('https://sourceforge.net/projects/'):
             url += '/download?use_mirror='+opt.sf_mirror
@@ -69,10 +73,10 @@ def get_plugin_zip(url):
     if not url: return
     fn = os.path.join(get_temp_dir(), 'addon.zip')
     get_url(url, fn, True)
-    
+
     if is_file_html(fn):
         os.remove(fn)
-    
+
     if os.path.isfile(fn):
         return fn
 
@@ -104,7 +108,7 @@ def get_channel(url):
         print(_('  getting:'), cap)
         res = get_url(url, temp_fn, True)
         if not res: # False or None
-            return res            
+            return res
     else:
         print(_('  cached:'), cap)
 
