@@ -38,7 +38,7 @@ def get_url(url, fn, del_first=False):
 
     while True:
         try:
-            r = requests.get(url, proxies=proxies, verify=opt.verify_https, stream=True)
+            r = requests.get(url, proxies=proxies, verify=opt.verify_https, stream=True, timeout=opt.download_timeout)
             with open(fn_temp, 'wb') as f:
                 for chunk in r.iter_content(chunk_size=1024):
                     if chunk: # filter out keep-alive new chunks
