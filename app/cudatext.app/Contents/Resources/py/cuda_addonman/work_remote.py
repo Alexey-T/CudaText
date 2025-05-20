@@ -47,7 +47,7 @@ def get_url(url, fn, del_first=False):
                 if os.path.isfile(fn):
                     os.remove(fn)
                 os.rename(fn_temp, fn)
-            return
+            return True
 
         except Exception as e:
             res = app.msg_box(_('Cannot download:\n{}\n{}\n\nRetry?').format(url, str(e)),
@@ -86,6 +86,11 @@ def file_aged(fn):
 
 
 def get_channel(url):
+    '''
+    Returns list, if channel downloaded OK.
+    Returns False, if cannot download and Abort pressed.
+    Returns None, if cannot download and Ignore pressed.
+    '''
     cap = url.split('/')[-1]
 
     #separate temp fn for each channel
@@ -97,10 +102,14 @@ def get_channel(url):
     #download if not cached or cache is aged
     if file_aged(temp_fn):
         print(_('  getting:'), cap)
-        get_url(url, temp_fn, True)
+        res = get_url(url, temp_fn, True)
+        if not res: # False or None
+            return res            
     else:
         print(_('  cached:'), cap)
-    if not os.path.isfile(temp_fn): return
+
+    if not os.path.isfile(temp_fn):
+        return
 
     text = open(temp_fn, encoding='utf8').read()
 
@@ -124,8 +133,12 @@ def get_remote_addons_list(channels):
     print(_('Read channels:'))
     for ch in channels:
         items = get_channel(ch)
-        if items is not None:
+        if isinstance(items, list):
             res += items
+        elif items is None:
+            # 'Ignore' pressed
+            continue
         else:
+            # 'Abort' pressed
             return
     return res
