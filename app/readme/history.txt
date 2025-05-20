@@ -7,6 +7,7 @@
 
 * change: changed behaviour of arrow up/down with selection, to be like in VSCode (idea by @ildarkhasanshin)
 + add: "File / Rename" sets lexer for new filename (thanks @pintassilgo)
+- fix: app was closed on 2nd monitor; 2nd monitor was unplugged -> app starts and window position is out of 1st monitor (thanks @micheldiemer)
 
 1.223.6 (2025/05)
 
