@@ -47,8 +47,6 @@ STD_LEXERS = (
   'Assembly',
   'Bash script',
   'Batch files',
-  'C',
-  'C++',
   'CSS',
   'HTML',
   'HTML style',
