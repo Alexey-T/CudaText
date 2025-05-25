@@ -770,7 +770,7 @@ var
   AppDir_DataCodetreeIcons: string = '';
   AppDir_DataToolbarIcons: string = '';
   AppDir_LastInstalledAddon: string = '';
-  AppFile_OptionsDefault: string = '';
+  AppFile_OptionsDefaultEnglish: string = '';
   AppFile_OptionsUserInit: string = '';
   AppFile_OptionsUser: string = '';
   AppFile_History: string = '';
@@ -779,6 +779,7 @@ var
   AppFile_PluginsIni: string = '';
   AppFile_LogConsole: string = '';
 
+function AppFile_OptionsDefault: string; // data/langdefault/default.ru_RU.json
 function AppFile_Session: string;
 function AppFile_Language: string;
 function AppFile_UndoRedo(const fn: string; IsRedo: boolean): string;
@@ -1764,7 +1765,7 @@ begin
   AppDir_DataSidebarIcons:= AppDir_Data+DirectorySeparator+'sideicons';
   AppDir_DataCodetreeIcons:= AppDir_Data+DirectorySeparator+'codetreeicons';
   AppDir_DataToolbarIcons:= AppDir_Data+DirectorySeparator+'toolbaricons';
-  AppFile_OptionsDefault:= AppDir_SettingsDefault+DirectorySeparator+'default.json';
+  AppFile_OptionsDefaultEnglish:= AppDir_SettingsDefault+DirectorySeparator+'default.json';
   AppFile_OptionsUserInit:= AppDir_SettingsDefault+DirectorySeparator+'userinit.json';
   AppFile_OptionsUser:= AppDir_Settings+DirectorySeparator+'user.json';
   AppFile_History:= AppDir_Settings+DirectorySeparator+'history.json';
@@ -3823,6 +3824,19 @@ end;
 function IsDefaultSessionActive: boolean;
 begin
   Result:= IsDefaultSession(AppSessionName);
+end;
+
+function AppFile_OptionsDefault: string;
+var
+  fn: string;
+begin
+  Result:= AppFile_OptionsDefaultEnglish;
+  if UiOps.LangName<>'' then
+  begin
+    fn:= AppDir_Data+DirectorySeparator+'langdefault'+DirectorySeparator+'default.'+UiOps.LangName+'.json';
+    if FileExists(fn) then
+      Result:= fn;
+  end;
 end;
 
 function AppFile_Session: string;

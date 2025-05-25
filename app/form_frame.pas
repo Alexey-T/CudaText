@@ -2909,6 +2909,7 @@ begin
 
   if UiOps.InfoAboutOptionsEditor then
     if (CompareFilenames(AFileName, AppFile_OptionsUser)=0) or
+      (CompareFilenames(AFileName, AppFile_OptionsDefaultEnglish)=0) or
       (CompareFilenames(AFileName, AppFile_OptionsDefault)=0) then
       InitPanelInfo(PanelInfo, GetMsgSuggestOptionsEditor, @PanelInfoClick, true);
 

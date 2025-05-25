@@ -7076,6 +7076,7 @@ begin
   Result:= Assigned(FindFrameOfFilename(AName));
 end;
 
+
 procedure TfmMain.DoOps_OpenFile_Default;
 var
   F: TEditorFrame;
