@@ -2,7 +2,7 @@
 Authors:
     Andrey Kvichansky    (kvichans on github.com)
 Version:
-    '2.3.16 2022-11-04'
+    '2.3.17 2025-05-25'
 ToDo: (see end of file)
 '''
 
@@ -937,6 +937,14 @@ class Command:
     def _dlg_opt(self):
         defs_json   = apx.get_opt('dlg_cuda_options.defs_json', 'default.json')
         defs_json   = defs_json     if os.sep in defs_json else     apx.get_def_setting_dir()+os.sep+defs_json
+
+        # support translated default.json
+        lng = app.app_proc(app.PROC_GET_LANG, '')
+        if lng:
+            fn = os.path.join(app.app_path(app.APP_DIR_DATA), 'langdefault', 'default.'+lng+'.json')
+            if os.path.isfile(fn):
+                defs_json = fn
+
         opted = OptEdD(path_keys_info=defs_json, subset='df.')
         opted.show(_('Options Editor Lite'))
        #def _dlg_opt
