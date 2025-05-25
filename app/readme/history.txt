@@ -3,10 +3,11 @@
   - fixed
   * changed
 
-1.223.7 (2025/05)
+1.224.0 (2025/05)
 
 * change: lexers C, C++ removed to Addons Manager; reason: they are for professionals, who can easily install them
 * change: changed behaviour of arrow up/down with selection, to be like in VSCode (idea by @ildarkhasanshin)
++ add: support translations for default.json config: if translation id is ru_RU, translated file must be located at data/langdefault/default.ru_RU.json (idea by Rain Ding who prepared the zh_CN translation, published in Addons Manager)
 + add: "File / Rename" sets lexer for new filename (thanks @pintassilgo)
 - fix: app was closed on 2nd monitor; 2nd monitor was unplugged -> app starts and window position is out of 1st monitor (thanks @micheldiemer)
 - fix: Addon Manager: better handle Abort when downloading required OptionsEditor for the FIF4, don't go to FIF4 download (thanks @bahusoid)
