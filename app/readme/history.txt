@@ -14,6 +14,10 @@
 - fix: Addon Manager: better handle Abort when downloading required OptionsEditor for the FIF4, don't go to FIF4 download (thanks @bahusoid)
 - fix: Linux gtk2: app icon was distorted
 
+changes in Addons Manager list:
+* removed build-systems for the Runner plugin, to this GitHub repo: https://github.com/CudaText-addons/Runner_build_systems
+* if some human language had several translation packages (e.g.: de_AT for main GUI, preinstalled plugins, kvichans plugins, misc plugins), they were combined to the single zip package (so now de_AT has only one translation package instead of 4).
+
 1.223.6 (2025/05)
 
 + add: on switching ui-tab, remember/restore folded state of code-tree nodes (thanks @mix-7)
