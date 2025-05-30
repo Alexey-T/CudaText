@@ -1,5 +1,8 @@
 See http://wiki.freepascal.org/CudaText#How_to_make_translation
 
+2025.05.31
+* delete [sta] wr0 wr1 wr2 wr3
+
 2025.04.26
 * change [si] FoundFragments
 

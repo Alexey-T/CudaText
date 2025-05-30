@@ -241,8 +241,8 @@ const
   msgStatusbarTextCarets: string = 'carets';
 
   {
+  //this is not used anymore, statusbar panel 'wrap' shows graphics now
   msgStatusbarWrapStates: array[0..Ord(High(TATEditorWrapMode))] of string =
-    //('no wrap', 'wrap', 'margin');
     ('→', '↵', '↵│');
     }
 
