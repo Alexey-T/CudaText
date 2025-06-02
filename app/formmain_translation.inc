@@ -386,6 +386,9 @@ begin
     msgStatusbarTextTab:= ini.ReadString('sta', 'tsz', msgStatusbarTextTab);
     msgStatusbarTextSpaces:= ini.ReadString('sta', 'tsp', msgStatusbarTextSpaces);
 
+    msgStatusbarCellInsOvr[false]:= ini.ReadString('sta', 'ins0', msgStatusbarCellInsOvr[false]);
+    msgStatusbarCellInsOvr[true]:= ini.ReadString('sta', 'ins1', msgStatusbarCellInsOvr[true]);
+
     msgStatusbarTextLine:= ini.ReadString('sta', '_ln', msgStatusbarTextLine);
     msgStatusbarTextCol:= ini.ReadString('sta', '_col', msgStatusbarTextCol);
     msgStatusbarTextSel:= ini.ReadString('sta', '_sel', msgStatusbarTextSel);
