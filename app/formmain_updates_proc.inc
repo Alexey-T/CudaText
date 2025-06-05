@@ -37,8 +37,7 @@ end;
 procedure TfmMain.UpdateCaption_RealWork;
 var
   F: TEditorFrame;
-  SName, SSession, SSessionRootPath,
-  Name1, Name2: string;
+  SName, SSession, SSessionRootPath: string;
 begin
   F:= CurrentFrameEx(Groups);
   if F=nil then exit;
@@ -46,7 +45,6 @@ begin
   SSplitByChar(AppSessionName, '|', SSession, SSessionRootPath);
   SSession:= ExtractFileName(SSession);
   if (SSession<>'') and
-    (SSession<>cAppSessionDefaultOld) and
     (SSession<>cAppSessionDefault) then
   begin
     if SBeginsWith(SSessionRootPath, '/sessions/') then
@@ -60,7 +58,7 @@ begin
     SSession:= '';
 
   SName:= F.TabCaptionConsideringPairAndFullpath;
-  if SName='' then //CudaText #3280
+  if SName='' then //CudaText issue #3280
   begin
     if F.FileName<>'' then
       SName:= ExtractFileName(F.FileName)

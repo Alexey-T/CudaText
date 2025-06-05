@@ -141,7 +141,6 @@ const
 
 const
   cAppSessionDefault = 'default.cuda-session';
-  cAppSessionDefaultOld = 'history session.json'; //deprecated 2025.03 - delete this after 2025.06
 
 const
   cAppMaxGroup = Pred(6+3); //6 normal groups + 3 floating groups
@@ -2374,10 +2373,6 @@ begin
     exit(true);
 
   if SameFileName(AFilename, AppFile_HistoryFiles) then
-    exit(true);
-
-  //deprecated session filename, delete this block after 2025.06
-  if SameFileName(AFilename, AppDir_Settings+DirectorySeparator+cAppSessionDefaultOld) then
     exit(true);
 
   if SameFileName(AFilename, AppDir_Settings+DirectorySeparator+cAppSessionDefault) then
