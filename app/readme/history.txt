@@ -3,6 +3,9 @@
   - fixed
   * changed
 
++ add: viewer in Text mode: respect UTF-8 3-bytes signature
++ add: viewer in Text mode: avoid word-wrapping just after indentation
+
 1.224.0 (2025/05)
 
 * change: lexers C, C++ removed to Addons Manager; reason: they are for professionals, who can easily install them
