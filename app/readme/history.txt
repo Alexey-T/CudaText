@@ -3,8 +3,8 @@
   - fixed
   * changed
 
-+ add: viewer in Text mode: respect UTF-8 3-bytes signature
-+ add: viewer in Text mode: avoid word-wrapping just after indentation
+- fix: viewer: respect UTF-8 file signature
+- fix: viewer: in Text/Unicode modes, avoid word wrapping just after indentation
 
 1.224.0 (2025/05)
 
