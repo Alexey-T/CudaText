@@ -4,6 +4,7 @@
   * changed
 
 + add: viewer: detect UTF-8 encoding (by signature + by content reusing option "ui_non_text_buffer")
+- fix: viewer: in Text mode with UTF-8 encoding, avoid broken chars '?' on word-wrapped edges (thanks @Rain Ding)
 - fix: viewer: in Text/Unicode modes, avoid word wrapping just after indentation
 
 1.224.0 (2025/05)
@@ -11,7 +12,7 @@
 * change: lexers C, C++ removed to Addons Manager; reason: they are for professionals, who can easily install them
 * change: translation ru_RU removed to Addons Manager
 * change: changed behaviour of arrow up/down with selection, to be like in VSCode (idea by @ildarkhasanshin)
-+ add: support translation of default.json config: if translation id is 'xx_YY', translated file must be located at "data/langdefault/default.xx_YY.json" (idea by Rain Ding who prepared the zh_CN translation, published in Addons Manager)
++ add: support translation of default.json config: if translation id is 'xx_YY', translated file must be located at "data/langdefault/default.xx_YY.json" (idea by @Rain Ding who prepared the zh_CN translation, published in Addons Manager)
 + add: "File / Rename" sets lexer for new filename (thanks @pintassilgo)
 - fix: app was closed on 2nd monitor; 2nd monitor was unplugged -> app starts and window position is out of 1st monitor (thanks @micheldiemer)
 - fix: Addon Manager: better handle Abort when downloading required OptionsEditor for the FIF4, don't go to FIF4 download (thanks @bahusoid)
@@ -176,7 +177,7 @@ changes in Addons Manager list:
 + add: can set width of gutter's "empty indent" column via new option "gutter_width_empty"
 + add: add flag 'L' for option "ui_history_disabled"
 + add: Windows IME: respect app option "spacing_y" (thanks @rasberryrabbit)
-+ add: Windows IME: IME-window caret now blinks (testing by Rain Ding)
++ add: Windows IME: IME-window caret now blinks (testing by @Rain Ding)
 + add: plugin Addons Manager: can remove toolbar-icons, sidebar-icons, code-tree-icons
 + add: plugin Sort: dialog offers 3 buttons: Sort, Save only, Cancel; added command "Run custom sort" to sort by saved dialog options (thanks @pintassilgo)
 + add: plugin Sort: 'Numeric' sorting supports any count of numbers mixed with text
