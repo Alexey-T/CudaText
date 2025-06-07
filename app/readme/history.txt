@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-+ add: viewer: detect UTF-8 encoding (by UTF8 signagure + by content reusing option "ui_non_text_buffer")
++ add: viewer: detect UTF-8 encoding (by signature + by content reusing option "ui_non_text_buffer")
 - fix: viewer: in Text/Unicode modes, avoid word wrapping just after indentation
 
 1.224.0 (2025/05)
