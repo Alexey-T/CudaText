@@ -570,6 +570,7 @@ uses
   IniFiles,
   StrUtils,
   Clipbrd,
+  EncConv,
   ATSynEdit_Globals,
   ATSynEdit_Keymap_Init,
   ATSynEdit_Carets,
@@ -2813,6 +2814,8 @@ begin
   ApplyThemeToViewer(FViewer);
   FViewer.Show;
   FViewer.OpenStream(FViewerStream);
+  if DetectStreamUtf8NoBom(FViewerStream, UiOps.NonTextFilesBufferKb)=TATBufferUTF8State.Yes then
+    FViewer.TextEncoding:= eidUTF8;
   FViewer.PosBegin;
 
   if Visible and FViewer.Visible and FViewer.CanFocus then
