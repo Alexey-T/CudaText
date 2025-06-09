@@ -818,7 +818,6 @@ procedure AppApplyRendererTweaks(const s: string);
 procedure AppApplyScrollbarStyles(const s: string);
 procedure AppApplyUnprintedSymbolsScale(const s: string);
 procedure AppApplyFallbackEncoding(const s: string);
-procedure AppApplyAutoCopyToClipboard(const s: string);
 
 function AppOption_GetFromMap(D: TAppStringIntegerMap; const AKey: string; ADefault: integer): integer;
 
@@ -4124,17 +4123,6 @@ begin
           ATEditorOptions.FallbackEncoding:= eidCP1252;
       end;
   end;
-end;
-
-procedure AppApplyAutoCopyToClipboard(const s: string);
-var
-  N: integer;
-begin
-  ATEditorOptions.AutoCopyToClipboard:= Pos('c', s)>0;
-  ATEditorOptions.AutoCopyToPrimarySel:= Pos('p', s)>0;
-  N:= SExtractNumberFromStringAfterChar(s, 'm', 0);
-  if N>=1000 then
-    ATEditorOptions.AutoCopyMaxTextSize:= N;
 end;
 
 function AppOption_GetFromMap(D: TAppStringIntegerMap; const AKey: string; ADefault: integer): integer;

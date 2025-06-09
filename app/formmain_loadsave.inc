@@ -1311,7 +1311,11 @@ begin
 
   s:= cfg.GetValue('auto_copy_clp', '?');
   if s<>'?' then
-    AppApplyAutoCopyToClipboard(s);
+  begin
+    ATEditorOptions.AutoCopyToClipboard:= Pos('c', s)>0;
+    ATEditorOptions.AutoCopyToPrimarySel:= Pos('p', s)>0;
+  end;
+  ATEditorOptions.AutoCopyMaxTextSize:= cfg.GetValue('auto_copy_max_size', ATEditorOptions.AutoCopyMaxTextSize);
 
   EControlOptions.AutoFoldComments:= cfg.GetValue('auto_fold_comments',
     EControlOptions.AutoFoldComments);
