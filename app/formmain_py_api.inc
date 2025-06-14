@@ -2684,7 +2684,9 @@ begin
 end;
 
 
-function PyHelper_IniReadWrite(Self, Args: PPyObject; AWrite: boolean; const AFuncName: string): PPyObject; cdecl;
+function PyHelper_IniReadWrite(Self, Args: PPyObject; AWrite: boolean): PPyObject; cdecl;
+const
+  cFuncName: array[boolean] of string = ('ini_read', 'ini_write');
 var
   P1, P2, P3, P4: PChar;
   StrFN, StrSess, StrKey, StrVal: string;
@@ -2693,7 +2695,7 @@ var
 begin
   with AppPython.Engine do
   begin
-    if Bool(PyArg_ParseTuple(Args, PChar('ssss:'+AFuncName), @P1, @P2, @P3, @P4)) then
+    if Bool(PyArg_ParseTuple(Args, PChar('ssss:'+cFuncName[AWrite]), @P1, @P2, @P3, @P4)) then
     begin
       StrFN:= string(P1);
       StrSess:= string(P2);
@@ -2730,12 +2732,12 @@ end;
 
 function api_ini_read(Self, Args: PPyObject): PPyObject; cdecl;
 begin
-  Result:= PyHelper_IniReadWrite(Self, Args, false, 'ini_read');
+  Result:= PyHelper_IniReadWrite(Self, Args, false);
 end;
 
 function api_ini_write(Self, Args: PPyObject): PPyObject; cdecl;
 begin
-  Result:= PyHelper_IniReadWrite(Self, Args, true, 'ini_write');
+  Result:= PyHelper_IniReadWrite(Self, Args, true);
 end;
 
 function api_ini_proc(Self, Args: PPyObject): PPyObject; cdecl;
