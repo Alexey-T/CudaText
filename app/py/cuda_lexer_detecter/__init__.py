@@ -142,9 +142,8 @@ class Command:
                         return i_['v']
 
         fn_pkg = os.path.join(app_path(APP_DIR_SETTINGS), 'packages.ini')
-        version = get_lexer_version(url_filename)
+        version = get_lexer_version(url_filename) or '' # avoid None value
         ini_write(fn_pkg, url_filename, 'd', 'data/lexlib')
         ini_write(fn_pkg, url_filename, 'f', ';'.join(get_zip_filenames(tempname)))
-        if version:
-            ini_write(fn_pkg, url_filename, 'v', version)
+        ini_write(fn_pkg, url_filename, 'v', version)
         print(_('Installed lexer "%s", version "%s"')%(lex, version))
