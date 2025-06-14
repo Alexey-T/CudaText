@@ -145,5 +145,6 @@ class Command:
         version = get_lexer_version(url_filename)
         ini_write(fn_pkg, url_filename, 'd', 'data/lexlib')
         ini_write(fn_pkg, url_filename, 'f', ';'.join(get_zip_filenames(tempname)))
-        ini_write(fn_pkg, url_filename, 'v', version)
+        if version:
+            ini_write(fn_pkg, url_filename, 'v', version)
         print(_('Installed lexer "%s", version "%s"')%(lex, version))
