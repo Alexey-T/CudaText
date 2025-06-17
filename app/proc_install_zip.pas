@@ -305,12 +305,12 @@ begin
   end;
 end;
 
-procedure DoInstallPlugin(
+function DoInstallPlugin(
   const AFilenameInf: string;
   out AReport: string;
   out ADirTarget: string;
   out ANeedRestart: boolean;
-  const AllowHotkeys: boolean);
+  const AllowHotkeys: boolean): boolean;
 var
   ini: TIniFile;
   sections: TStringList;
@@ -320,6 +320,7 @@ var
   Sep: TATStringSeparator;
   Keymap: TATKeymap;
 begin
+  Result:= false;
   AReport:= '';
   ADirTarget:= '';
 
@@ -332,7 +333,20 @@ begin
     ini.ReadSections(sections);
 
     ADirTarget:= AppDir_Py+DirectorySeparator+s_module;
-    AppCopyDir(ExtractFileDir(AFilenameInf), ADirTarget);
+
+    if not DirectoryExists(ADirTarget) then
+      CreateDir(ADirTarget);
+    if not DirectoryExists(ADirTarget) then
+    begin
+      MsgLogConsole('ERROR: Cannot create folder on plugin installing: '+ADirTarget);
+      exit;
+    end;
+
+    if not AppCopyDir(ExtractFileDir(AFilenameInf), ADirTarget) then
+    begin
+      MsgLogConsole('ERROR: Cannot copy folder on plugin installing: '+ADirTarget);
+      exit;
+    end;
 
     for ini_section in sections do
     begin
@@ -405,6 +419,8 @@ begin
     FreeAndNil(sections);
     FreeAndNil(ini);
   end;
+
+  Result:= true;
 end;
 
 procedure DoInstallLexer(
@@ -755,6 +771,8 @@ begin
   end;
 
   AStrReport:= '';
+  AIsInstalled:= true;
+
   case AAddonType of
     TAppAddonType.Lexer:
       begin
@@ -769,7 +787,7 @@ begin
     TAppAddonType.Plugin:
       begin
         AStrMessage:= msgStatusInstalledNeedRestart;
-        DoInstallPlugin(fn_inf, AStrReport, ADirTarget, ANeedRestart, bAllowHotkeys)
+        AIsInstalled:= DoInstallPlugin(fn_inf, AStrReport, ADirTarget, ANeedRestart, bAllowHotkeys)
       end;
     TAppAddonType.Data:
       begin
@@ -785,8 +803,6 @@ begin
   //cleanup
   DeleteDirectory(dir_temp, false);
  end;
-
-  AIsInstalled:= true;
 end;
 
 

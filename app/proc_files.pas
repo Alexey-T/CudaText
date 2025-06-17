@@ -18,7 +18,7 @@ uses
 function AppCreateFile(const fn: string): boolean;
 function AppCreateFileJSON(const fn: string): boolean;
 
-procedure AppCopyDir(const DirSrc, DirTarget: string);
+function AppCopyDir(const DirSrc, DirTarget: string): boolean;
 
 function AppIsFileContentText(const fn: string;
   BufSizeKb: integer;
@@ -328,9 +328,9 @@ begin
   {$endif}
 end;
 
-procedure AppCopyDir(const DirSrc, DirTarget: string);
+function AppCopyDir(const DirSrc, DirTarget: string): boolean;
 begin
-  CopyDirTree(DirSrc, DirTarget, [
+  Result:= CopyDirTree(DirSrc, DirTarget, [
     cffOverwriteFile,
     cffCreateDestDirectory,
     cffPreserveTime
