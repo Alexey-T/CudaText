@@ -156,10 +156,10 @@ begin
 end;
 
 
-procedure DoInstallData(
+function DoInstallData(
   const AFilenameInf: string;
   out AReport: string;
-  out ADirTarget: string);
+  out ADirTarget: string): boolean;
 var
   ini: TIniFile;
   SSubDir, SDirFrom: string;
@@ -179,15 +179,16 @@ begin
   ADirTarget:= AppDir_Data;
   if SSubDir<>'' then
     ADirTarget+= DirectorySeparator+SSubDir;
-  AppCopyDir(SDirFrom, ADirTarget);
+  Result:= AppCopyDir(SDirFrom, ADirTarget);
 
-  AReport:= msgStatusPackageData+' '+ADirTarget;
+  if Result then
+    AReport:= msgStatusPackageData+' '+ADirTarget;
 end;
 
-procedure DoInstallPackage(
+function DoInstallPackage(
   const AFilenameInf: string;
   out AReport: string;
-  out ADirTarget: string);
+  out ADirTarget: string): boolean;
 var
   SDirFrom, S: string;
   List: TStringList;
@@ -222,14 +223,15 @@ begin
     FreeAndNil(List);
   end;
 
-  AppCopyDir(SDirFrom, ADirTarget);
+  Result:= AppCopyDir(SDirFrom, ADirTarget);
 
-  AReport+= msgStatusPackagePackage+' '+ADirTarget;
+  if Result then
+    AReport+= msgStatusPackagePackage+' '+ADirTarget;
 end;
 
-procedure DoInstallLexerLite(
+function DoInstallLexerLite(
   const AFilenameInf: string;
-  out AReport: string);
+  out AReport: string): boolean;
 var
   ini: TIniFile;
   sections: TStringList;
@@ -237,6 +239,7 @@ var
   DirFrom, DirSettings: string;
   fn_lexer, fn_json: string;
 begin
+  Result:= false;
   AReport:= '';
   DirFrom:= ExtractFileDir(AFilenameInf);
   DirSettings:= AppDir_SettingsDefault;
@@ -260,7 +263,7 @@ begin
 
       if FileExists(fn_lexer) then
       begin
-        CopyFile(fn_lexer, AppDir_LexersLite+DirectorySeparator+ExtractFileName(fn_lexer));
+        Result:= CopyFile(fn_lexer, AppDir_LexersLite+DirectorySeparator+ExtractFileName(fn_lexer));
         AReport:= AReport+msgStatusPackageLexer+' '+SLexer+#10;
       end;
 
@@ -423,9 +426,9 @@ begin
   Result:= true;
 end;
 
-procedure DoInstallLexer(
+function DoInstallLexer(
   const AFilenameInf, ADirAcp: string;
-  out AReport: string);
+  out AReport: string): boolean;
 var
   i_sub: integer;
   ini_section,
@@ -435,6 +438,7 @@ var
   sections: TStringList;
   DirLexers, DirSettings: string;
 begin
+  Result:= false;
   AReport:= '';
   DirLexers:= AppDir_Lexers;
   DirSettings:= AppDir_SettingsDefault;
@@ -465,7 +469,7 @@ begin
 
       if FileExists(fn_lexer) then
       begin
-        CopyFile(fn_lexer, DirLexers+DirectorySeparator+ExtractFileName(fn_lexer));
+        Result:= CopyFile(fn_lexer, DirLexers+DirectorySeparator+ExtractFileName(fn_lexer));
         AReport:= AReport+msgStatusPackageLexer+' '+s_lexer+#10;
       end;
 
@@ -776,12 +780,12 @@ begin
   case AAddonType of
     TAppAddonType.Lexer:
       begin
-        DoInstallLexer(fn_inf, ADirAcp, AStrReport);
+        AIsInstalled:= DoInstallLexer(fn_inf, ADirAcp, AStrReport);
         ADirTarget:= AppDir_Lexers;
       end;
     TAppAddonType.LexerLite:
       begin
-        DoInstallLexerLite(fn_inf, AStrReport);
+        AIsInstalled:= DoInstallLexerLite(fn_inf, AStrReport);
         ADirTarget:= AppDir_LexersLite;
       end;
     TAppAddonType.Plugin:
@@ -791,11 +795,11 @@ begin
       end;
     TAppAddonType.Data:
       begin
-        DoInstallData(fn_inf, AStrReport, ADirTarget)
+        AIsInstalled:= DoInstallData(fn_inf, AStrReport, ADirTarget)
       end;
     TAppAddonType.Package:
       begin
-        DoInstallPackage(fn_inf, AStrReport, ADirTarget);
+        AIsInstalled:= DoInstallPackage(fn_inf, AStrReport, ADirTarget);
       end;
   end;
 
