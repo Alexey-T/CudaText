@@ -264,6 +264,7 @@ begin
       if FileExists(fn_lexer) then
       begin
         Result:= CopyFile(fn_lexer, AppDir_LexersLite+DirectorySeparator+ExtractFileName(fn_lexer));
+        if not Result then exit;
         AReport:= AReport+msgStatusPackageLexer+' '+SLexer+#10;
       end;
 
@@ -470,6 +471,7 @@ begin
       if FileExists(fn_lexer) then
       begin
         Result:= CopyFile(fn_lexer, DirLexers+DirectorySeparator+ExtractFileName(fn_lexer));
+        if not Result then exit;
         AReport:= AReport+msgStatusPackageLexer+' '+s_lexer+#10;
       end;
 
