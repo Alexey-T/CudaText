@@ -266,6 +266,11 @@ begin
         Result:= CopyFile(fn_lexer, AppDir_LexersLite+DirectorySeparator+ExtractFileName(fn_lexer));
         if not Result then exit;
         AReport:= AReport+msgStatusPackageLexer+' '+SLexer+#10;
+      end
+      else
+      begin
+        MsgBox(msgCannotFindLexerFile+' '+fn_lexer, mb_ok or mb_iconerror);
+        exit
       end;
 
       if FileExists(fn_json) then
@@ -462,17 +467,16 @@ begin
       fn_json:= ExtractFileDir(AFilenameInf)+DirectorySeparator+'lexer '+s_lexer+'.json';
       fn_acp:= ExtractFileDir(AFilenameInf)+DirectorySeparator+s_lexer+'.acp';
 
-      if not FileExists(fn_lexer) then
-      begin
-        MsgBox(msgCannotFindLexerFile+' '+fn_lexer, mb_ok or mb_iconerror);
-        exit
-      end;
-
       if FileExists(fn_lexer) then
       begin
         Result:= CopyFile(fn_lexer, DirLexers+DirectorySeparator+ExtractFileName(fn_lexer));
         if not Result then exit;
         AReport:= AReport+msgStatusPackageLexer+' '+s_lexer+#10;
+      end
+      else
+      begin
+        MsgBox(msgCannotFindLexerFile+' '+fn_lexer, mb_ok or mb_iconerror);
+        exit
       end;
 
       if FileExists(fn_lexmap) then
