@@ -70,6 +70,7 @@ begin
     TAppStatusbarUpdateReason.FileReload:
       begin
         UpdateToolbarButtons(Sender as TEditorFrame);
+        ToolbarMain.Invalidate;
         FNeedUpdateStatuses:= true;
       end
     else
