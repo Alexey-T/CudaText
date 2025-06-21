@@ -67,6 +67,11 @@ begin
         if N=0 then N:= 100;
         DoStatusbarTextByTag(Status, StatusbarTag_Zoom, IntToStr(N)+'%');
       end;
+    TAppStatusbarUpdateReason.FileReload:
+      begin
+        UpdateToolbarButtons(Sender as TEditorFrame);
+        FNeedUpdateStatuses:= true;
+      end
     else
       begin
         //request the call UpdateTabCaptionsFromFolders + update of the statusbar + update menu checkmarks
