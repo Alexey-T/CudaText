@@ -89,8 +89,13 @@ begin
     Btn:= AToolbar.Buttons[i];
     if Btn.DataString=SCmd then
     begin
-      Btn.Checked:= AChecked;
-      Btn.Enabled:= AEnabled;
+      if (Btn.Checked<>AChecked) or
+         (Btn.Enabled<>AEnabled) then
+      begin
+        Btn.Checked:= AChecked;
+        Btn.Enabled:= AEnabled;
+        Btn.Invalidate;
+      end;
       exit
     end;
   end;
