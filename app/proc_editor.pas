@@ -376,7 +376,11 @@ begin
   if AApplyUnprintedAndWrap then
     if not (TATEditorModifiedOption.WordWrap in Ed.ModifiedOptions) then
       if (Op.OpWrapMode>=0) and (Op.OpWrapMode<=Ord(High(TATEditorWrapMode))) then
-        Ed.OptWrapMode:= TATEditorWrapMode(Op.OpWrapMode);
+        if Ed.OptWrapMode<>TATEditorWrapMode(Op.OpWrapMode) then
+        begin
+          Ed.OptWrapMode:= TATEditorWrapMode(Op.OpWrapMode);
+          Ed.DoEventState;
+        end;
 
   Ed.OptWrapIndented:= Op.OpWrapIndented;
   Ed.OptWrapEnabledForMaxLines:= Op.OpWrapEnabledMaxLines;
