@@ -102,7 +102,6 @@ procedure TfmMain.FrameOnUpdateState(Sender: TObject);
 begin
   UpdateMenuChecks(false);
   UpdateStatusbar;
-  UpdateToolbarButton(ToolbarMain, cCommand_ToggleWordWrap, CurrentEditor.OptWrapMode<>TATEditorWrapMode.ModeOff, true);
 end;
 
 procedure TfmMain.DoCodetree_StopUpdate;

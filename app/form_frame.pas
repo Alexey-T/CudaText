@@ -4275,7 +4275,6 @@ begin
   begin
     NFlag:= c.GetValue(path+cHistory_Wrap, -1);
     if (NFlag>=0) and (NFlag<=Ord(High(TATEditorWrapMode))) then
-      if Ed.OptWrapMode<>TATEditorWrapMode(NFlag) then
       begin
         Ed.OptWrapMode:= TATEditorWrapMode(NFlag);
         Include(Ed.ModifiedOptions, TATEditorModifiedOption.WordWrap);
