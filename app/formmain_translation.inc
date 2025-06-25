@@ -396,6 +396,8 @@ begin
     msgStatusbarTextLinesSel:= ini.ReadString('sta', '_lsel', msgStatusbarTextLinesSel);
     msgStatusbarTextCarets:= ini.ReadString('sta', '_cr', msgStatusbarTextCarets);
 
+    msgStatusbarFoundInVisibleArea:= ini.ReadString('sta', 'vis', msgStatusbarFoundInVisibleArea);
+
     msgStatusbarHintCaret:= ini.ReadString('sta', 'crt', msgStatusbarHintCaret);
     msgStatusbarHintEnc:= ini.ReadString('sta', 'enc', msgStatusbarHintEnc);
     msgStatusbarHintLexer:= ini.ReadString('sta', 'lex', msgStatusbarHintLexer);

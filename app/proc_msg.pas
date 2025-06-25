@@ -240,6 +240,8 @@ const
   msgStatusbarTextLinesSel: string = 'lines sel';
   msgStatusbarTextCarets: string = 'carets';
 
+  msgStatusbarFoundInVisibleArea: string = 'in visible area';
+
   {
   //this is not used anymore, statusbar panel 'wrap' shows graphics now
   msgStatusbarWrapStates: array[0..Ord(High(TATEditorWrapMode))] of string =

@@ -143,7 +143,10 @@ function EditorFindCurrentWordOrSel(Ed: TATSynEdit;
   ANext, AWordOrSel, AOptCase, AOptWrapped: boolean;
   out Str: UnicodeString): boolean;
 procedure EditorHighlightAllMatches(Ed: TATSynEdit; const AOptions: TEditorHiAllOptions;
-  AEnableFindNext: boolean; out AMatchesCount: integer; ACaretPos: TPoint);
+  AEnableFindNext: boolean;
+  out AMatchesCount: integer;
+  out AInVisiblePart: boolean;
+  ACaretPos: TPoint);
 
 function EditorAutoCompletionAfterTypingChar(Ed: TATSynEdit;
   const AText: string; var ACharsTyped: integer): boolean;
@@ -2393,7 +2396,10 @@ end;
 
 
 procedure EditorHighlightAllMatches(Ed: TATSynEdit; const AOptions: TEditorHiAllOptions;
-  AEnableFindNext: boolean; out AMatchesCount: integer; ACaretPos: TPoint);
+  AEnableFindNext: boolean;
+  out AMatchesCount: integer;
+  out AInVisiblePart: boolean;
+  ACaretPos: TPoint);
 var
   St: TATStrings;
   CurFinder: TATEditorFinder = nil;
@@ -2420,6 +2426,7 @@ begin
   bTooBigDocument:=
     (NLineCount>UiOps.FindHiAll_MaxLines) or
     (Ed.ScrollHorz.NMax>UiOps.FindHiAll_MaxVisibleColumns);
+  AInVisiblePart:= bTooBigDocument;
 
   ColorBorder:= GetAppStyle(AppHiAll_ThemeStyleId).BgColor;
   if EditorOps.OpActiveBorderWidth>1 then
