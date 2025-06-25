@@ -1277,7 +1277,7 @@ type
     procedure FindDialogOnChangeVisible(Sender: TObject);
     function FindDialogOnHandleKeyDown(AKey: word; AShiftState: TShiftState): boolean;
     procedure FindDialogOnShowResultInStatusbar(AFound: boolean);
-    procedure FindDialogOnShowCountInStatusbar(ACount: integer; AInVisiblePart: boolean);
+    procedure FindDialogOnShowCountInStatusbar(ACount: integer; AInVisibleArea: boolean);
     procedure FindDialog_ApplyOptionsString(const AText: string);
     function FindDialog_GetOptionsPyDict: PPyObject;
     procedure FinderOnGetToken(Sender: TObject; AX, AY: integer; out AKind: TATTokenKind);
@@ -4164,7 +4164,7 @@ var
   Ed: TATSynEdit;
   Options: TEditorHiAllOptions;
   NMatchCount: integer;
-  bInVisiblePart: boolean;
+  bInVisibleArea: boolean;
 begin
   DoTooltipHide;
 
@@ -4192,7 +4192,7 @@ begin
       Options,
       false,
       NMatchCount,
-      bInVisiblePart,
+      bInVisibleArea,
       Point(0, 0)
       );
   end;

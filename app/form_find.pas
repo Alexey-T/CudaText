@@ -105,7 +105,7 @@ type
   TAppFinderGetEditor = procedure(out AEditor: TATSynEdit) of object;
   TAppFinderKeyDownEvent = function(AKey: word; AShiftState: TShiftState): boolean of object;
   TAppFinderShowResultInStatusbar = procedure(AFound: boolean) of object;
-  TAppFinderShowCountInStatusbar = procedure(ACount: integer; AInVisiblePart: boolean) of object;
+  TAppFinderShowCountInStatusbar = procedure(ACount: integer; AInVisibleArea: boolean) of object;
 
 function AppFinderOperationFromString(const Str: string): TAppFinderOperation;
 
@@ -1933,7 +1933,7 @@ var
   Options: TEditorHiAllOptions;
   Pnt: TPoint;
   NMatches: integer;
-  bInVisiblePart: boolean;
+  bInVisibleArea: boolean;
 begin
   FTimerHiAll.Enabled:= false; //code assumes DoHiAll disables timer
 
@@ -1986,13 +1986,13 @@ begin
       Options,
       FHiAllEnableFindNext,
       NMatches,
-      bInVisiblePart,
+      bInVisibleArea,
       FInitialCaretPos
       );
 
     if NMatches>0 then //if no matches, 'Cannot find' msg was already shown
       if Assigned(FOnShowCountInStatusbar) then
-        FOnShowCountInStatusbar(NMatches, bInVisiblePart);
+        FOnShowCountInStatusbar(NMatches, bInVisibleArea);
   end;
 end;
 

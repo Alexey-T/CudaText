@@ -1678,12 +1678,12 @@ begin
   FinderShowResult(AFound, false, FFinder, false{AScrollToMatch});
 end;
 
-procedure TfmMain.FindDialogOnShowCountInStatusbar(ACount: integer; AInVisiblePart: boolean);
+procedure TfmMain.FindDialogOnShowCountInStatusbar(ACount: integer; AInVisibleArea: boolean);
 var
   S: string;
 begin
   S:= Format(msgStatusFoundFragments, [ACount]);
-  if AInVisiblePart then
+  if AInVisibleArea then
     S+= ', '+msgStatusbarFoundInVisibleArea;
   MsgStatus(S, true);
 end;
