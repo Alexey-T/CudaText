@@ -1,5 +1,8 @@
 See http://wiki.freepascal.org/CudaText#How_to_make_translation
 
+2025.06.25
++ [sta] vis
+
 2025.06.02
 + [sta] ins1
 * delete [sta] wr0 wr1 wr2 wr3
