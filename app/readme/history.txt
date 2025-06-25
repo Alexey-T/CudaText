@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.224.1 (2024/06)
+1.224.2 (2024/06)
 
 * change: removed flag 'm' from option "auto_copy_clp" into separate new option: "auto_copy_max_size"
 + add: when Find-dlg finds matches only in the visible area (because of option "find_hi_max_columns"), show additional statusbar text: ", in visible area" (thanks @ArthurZ)
