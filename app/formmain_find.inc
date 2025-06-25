@@ -1684,7 +1684,7 @@ var
 begin
   S:= Format(msgStatusFoundFragments, [ACount]);
   if AInVisibleArea then
-    S+= msgStatusbarFoundInVisibleArea;
+    S+= ' '+msgStatusbarFoundInVisibleArea;
   MsgStatus(S, true);
 end;
 

@@ -240,7 +240,7 @@ const
   msgStatusbarTextLinesSel: string = 'lines sel';
   msgStatusbarTextCarets: string = 'carets';
 
-  msgStatusbarFoundInVisibleArea: string = ' (in visible area)';
+  msgStatusbarFoundInVisibleArea: string = '(in the visible area)';
 
   {
   //this is not used anymore, statusbar panel 'wrap' shows graphics now
