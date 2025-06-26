@@ -772,7 +772,7 @@ type
     procedure FindDialogDone_FindAndStop(ABack: boolean);
     procedure FindDialogDone_ReplaceOne(AndStop: boolean);
     procedure FindDialogDone_ReplaceAll(var ACounter: integer);
-    procedure FindDialogDone_ReplaceInAllFrames(FramePrev: TEditorFrame; var ACounter: integer);
+    procedure FindDialogDone_ReplaceInAllFrames(AFramePrevious: TEditorFrame; var ACounter: integer);
     procedure FindDialogDone_CountAll(var ACounter: integer);
     procedure FindDialogDone_SelectAll(var ACounter: integer);
     procedure FindDialogDone_MarkAll(var ACounter: integer);

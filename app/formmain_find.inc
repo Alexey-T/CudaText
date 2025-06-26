@@ -254,7 +254,7 @@ begin
   FinderShowReplaceReport(ACounter, NTime);
 end;
 
-procedure TfmMain.FindDialogDone_ReplaceInAllFrames(FramePrev: TEditorFrame; var ACounter: integer);
+procedure TfmMain.FindDialogDone_ReplaceInAllFrames(AFramePrevious: TEditorFrame; var ACounter: integer);
 var
   NTick: QWord;
   FrameNew: TEditorFrame;
@@ -280,7 +280,7 @@ begin
 
   NTime:= (GetTickCount64-NTick) div 1000;
   if bChangeFrame then
-    SetFrame(FramePrev);
+    SetFrame(AFramePrevious);
   UpdateStatusbar;
   FinderShowReplaceReport(ACounter, NTime);
 end;
