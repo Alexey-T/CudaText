@@ -912,31 +912,33 @@ end;
 procedure TfmMain.DoFindMarkAll(AMode: TAppFinderMarking);
 var
   Ed: TATSynEdit;
-  cnt: integer;
-  bFocusFindDlg, bTextFromEditor: boolean;
+  SSearchText: UnicodeString;
+  bTextFromEditor, bFocusFindDlg: boolean;
+  NCount: integer;
 begin
   Ed:= CurrentEditor;
   if Ed=nil then exit;
 
+  SSearchText:= '';
   bTextFromEditor:= false;
-  FFinder.StrFind:= '';
 
   if Assigned(fmFind) and fmFind.Visible then
-    FFinder.StrFind:= fmFind.edFind.Text;
+    SSearchText:= fmFind.edFind.Text;
 
-  if FFinder.StrFind='' then
+  if SSearchText='' then
   begin
-    FFinder.StrFind:= EditorPreselectSearchString(Ed);
-    bTextFromEditor:= FFinder.StrFind<>'';
+    SSearchText:= EditorPreselectSearchString(Ed);
+    bTextFromEditor:= SSearchText<>'';
   end;
 
-  if FFinder.StrFind='' then
+  if SSearchText='' then
   begin
     FinderShowResult(false, false, FFinder);
     Exit
   end;
 
   FFinder.Editor:= Ed;
+  FFinder.StrFind:= SSearchText;
   FFinder.OptBack:= false;
   if bTextFromEditor then
     FFinder.OptRegex:= false;
@@ -946,12 +948,12 @@ begin
   bFocusFindDlg:= Assigned(fmFind) and fmFind.Visible and fmFind.Enabled and (fmFind.edFind.Focused or fmFind.edRep.Focused);
 
   DoFindMarkingInit(AMode);
-  cnt:= FFinder.DoAction_CountAll(true);
+  NCount:= FFinder.DoAction_CountAll(true);
   DoFindMarkingInit(TAppFinderMarking.None);
 
   FinderUpdateEditor(false);
   MsgStatus(
-    Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind), cnt])+FinderOptionsToHint(FFinder, false),
+    Format(msgStatusFindCount, [UTF8Encode(SSearchText), NCount])+FinderOptionsToHint(FFinder, false),
     true);
 
   UpdateAppForSearch(false, false, true, true, bFocusFindDlg); //hide search progressbar
