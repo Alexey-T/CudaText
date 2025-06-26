@@ -131,7 +131,7 @@ begin
   FindDialogDone(Sender, Res, AEnableUpdateAll, ADocumentIsSmall);
 end;
 
-procedure TfmMain.FindAndExtractRegexMatches;
+procedure TfmMain.FindDialogDone_ExtractRegexMatches;
 var
   Matches: TStringList;
   Frame: TEditorFrame;
@@ -162,7 +162,7 @@ begin
   end;
 end;
 
-procedure TfmMain.FindAndSelectAll(var ACounter: integer);
+procedure TfmMain.FindDialogDone_SelectAll(var ACounter: integer);
 begin
   DoFindMarkingInit(TAppFinderMarking.Selections);
   ACounter:= FFinder.DoAction_CountAll(true);
@@ -185,7 +185,7 @@ begin
       true);
 end;
 
-procedure TfmMain.FindAndMarkAll(var ACounter: integer);
+procedure TfmMain.FindDialogDone_MarkAll(var ACounter: integer);
 begin
   DoFindMarkingInit(TAppFinderMarking.Markers);
   ACounter:= FFinder.DoAction_CountAll(true);
@@ -200,7 +200,7 @@ begin
       true);
 end;
 
-procedure TfmMain.FindAndCountAll(var ACounter: integer);
+procedure TfmMain.FindDialogDone_CountAll(var ACounter: integer);
 begin
   DoFindMarkingInit(TAppFinderMarking.None);
   ACounter:= FFinder.DoAction_CountAll(false);
@@ -212,7 +212,7 @@ begin
       true);
 end;
 
-procedure TfmMain.FindAndStop(ABack: boolean);
+procedure TfmMain.FindDialogDone_FindAndStop(ABack: boolean);
 var
   ok, bChanged: boolean;
 begin
@@ -227,7 +227,7 @@ begin
   FinderShowResult(ok, false, FFinder);
 end;
 
-procedure TfmMain.FindAndReplaceOneMatch(AndStop: boolean);
+procedure TfmMain.FindDialogDone_ReplaceOne(AndStop: boolean);
 var
   ok, bChanged: boolean;
 begin
@@ -241,7 +241,7 @@ begin
   FinderShowResult(ok, true, FFinder);
 end;
 
-procedure TfmMain.FindAndReplaceAll(var ACounter: integer);
+procedure TfmMain.FindDialogDone_ReplaceAll(var ACounter: integer);
 var
   NTick: QWord;
   NTime: integer;
@@ -254,7 +254,7 @@ begin
   FinderShowReplaceReport(ACounter, NTime);
 end;
 
-procedure TfmMain.FindAndReplaceInAllFrames(FramePrev: TEditorFrame; var ACounter: integer);
+procedure TfmMain.FindDialogDone_ReplaceInAllFrames(FramePrev: TEditorFrame; var ACounter: integer);
 var
   NTick: QWord;
   FrameNew: TEditorFrame;
@@ -427,43 +427,43 @@ begin
     TAppFinderOperation.FindNext,
     TAppFinderOperation.FindPrev:
     begin
-      FindAndStop(Res=TAppFinderOperation.FindPrev);
+      FindDialogDone_FindAndStop(Res=TAppFinderOperation.FindPrev);
     end;
 
     TAppFinderOperation.Replace,
     TAppFinderOperation.ReplaceStop:
     begin
-      FindAndReplaceOneMatch(Res=TAppFinderOperation.ReplaceStop);
+      FindDialogDone_ReplaceOne(Res=TAppFinderOperation.ReplaceStop);
     end;
 
     TAppFinderOperation.ReplaceAll:
     begin
-      FindAndReplaceAll(NCounter);
+      FindDialogDone_ReplaceAll(NCounter);
     end;
 
     TAppFinderOperation.ReplaceGlobal:
     begin
-      FindAndReplaceInAllFrames(Frame, NCounter);
+      FindDialogDone_ReplaceInAllFrames(Frame, NCounter);
     end;
 
     TAppFinderOperation.CountAll:
     begin
-      FindAndCountAll(NCounter);
+      FindDialogDone_CountAll(NCounter);
     end;
 
     TAppFinderOperation.ExtractAll:
     begin
-      FindAndExtractRegexMatches;
+      FindDialogDone_ExtractRegexMatches;
     end;
 
     TAppFinderOperation.FindSelectAll:
     begin
-      FindAndSelectAll(NCounter);
+      FindDialogDone_SelectAll(NCounter);
     end;
 
     TAppFinderOperation.FindMarkAll:
     begin
-      FindAndMarkAll(NCounter);
+      FindDialogDone_MarkAll(NCounter);
     end;
   end; //case Res of
 
