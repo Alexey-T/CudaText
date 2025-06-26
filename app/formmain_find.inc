@@ -913,17 +913,22 @@ procedure TfmMain.DoFindMarkAll(AMode: TAppFinderMarking);
 var
   Ed: TATSynEdit;
   cnt: integer;
-  bFocusFindDlg: boolean;
+  bFocusFindDlg, bTextFromEditor: boolean;
 begin
   Ed:= CurrentEditor;
   if Ed=nil then exit;
 
+  bTextFromEditor:= false;
   FFinder.StrFind:= '';
+
   if Assigned(fmFind) and fmFind.Visible then
     FFinder.StrFind:= fmFind.edFind.Text;
 
   if FFinder.StrFind='' then
+  begin
     FFinder.StrFind:= EditorPreselectSearchString(Ed);
+    bTextFromEditor:= FFinder.StrFind<>'';
+  end;
 
   if FFinder.StrFind='' then
   begin
@@ -933,6 +938,8 @@ begin
 
   FFinder.Editor:= Ed;
   FFinder.OptBack:= false;
+  if bTextFromEditor then
+    FFinder.OptRegex:= false;
   FFinder.OptFromCaret:= false;
   FFinder.OptDisableOnProgress:= false;
 
