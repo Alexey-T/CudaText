@@ -770,12 +770,12 @@ type
     procedure DoApplyCenteringOption(Frame: TEditorFrame; Ed: TATSynEdit);
     procedure DoApplyCenteringOptionToFrames;
     procedure FindAndStop(ABack: boolean);
-    procedure FindAndReplaceAll(var NCounter: integer);
+    procedure FindAndReplaceAll(var ACounter: integer);
     procedure FindAndReplaceOneMatch(AndStop: boolean);
-    procedure FindAndCountAll(var NCounter: integer);
-    procedure FindAndSelectAll(var NCounter: integer);
-    procedure FindAndMarkAll(var NCounter: integer);
-    procedure FindAndReplaceInAllFrames(FramePrev: TEditorFrame; var NCounter: integer);
+    procedure FindAndCountAll(var ACounter: integer);
+    procedure FindAndSelectAll(var ACounter: integer);
+    procedure FindAndMarkAll(var ACounter: integer);
+    procedure FindAndReplaceInAllFrames(FramePrev: TEditorFrame; var ACounter: integer);
     procedure FindAndExtractRegexMatches;
     procedure DoFocusUsualGroup(AIndex: integer);
     procedure DoFocusFloatingGroup(AIndex: integer);

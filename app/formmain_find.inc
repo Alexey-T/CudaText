@@ -162,53 +162,53 @@ begin
   end;
 end;
 
-procedure TfmMain.FindAndSelectAll(var NCounter: integer);
+procedure TfmMain.FindAndSelectAll(var ACounter: integer);
 begin
   DoFindMarkingInit(TAppFinderMarking.Selections);
-  NCounter:= FFinder.DoAction_CountAll(true);
+  ACounter:= FFinder.DoAction_CountAll(true);
   DoFindMarkingInit(TAppFinderMarking.None);
   FinderUpdateEditor(false);
 
-  if NCounter>0 then
+  if ACounter>0 then
   begin
     Assert(Assigned(FFinder.Editor), 'FindAndSelectAll: Finder.Editor is nil');
     FFinder.Editor.DoCommand(cCommand_ScrollToCaretTop, TATCommandInvoke.AppInternal);
     //FFinder.Editor.DoGotoCaret(cEdgeTop); //also works, but it's more complicated, less wanted
   end;
 
-  if (NCounter=0) and FFinder.IsRegexBad then
+  if (ACounter=0) and FFinder.IsRegexBad then
     MsgStatusErrorInRegex
   else
     MsgStatus(
-      Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind), NCounter]) +
+      Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind), ACounter]) +
       FinderOptionsToHint(FFinder, false),
       true);
 end;
 
-procedure TfmMain.FindAndMarkAll(var NCounter: integer);
+procedure TfmMain.FindAndMarkAll(var ACounter: integer);
 begin
   DoFindMarkingInit(TAppFinderMarking.Markers);
-  NCounter:= FFinder.DoAction_CountAll(true);
+  ACounter:= FFinder.DoAction_CountAll(true);
   DoFindMarkingInit(TAppFinderMarking.None);
   FinderUpdateEditor(false);
-  if (NCounter=0) and FFinder.IsRegexBad then
+  if (ACounter=0) and FFinder.IsRegexBad then
     MsgStatusErrorInRegex
   else
     MsgStatus(
-      Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind), NCounter]) +
+      Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind), ACounter]) +
       FinderOptionsToHint(FFinder, false),
       true);
 end;
 
-procedure TfmMain.FindAndCountAll(var NCounter: integer);
+procedure TfmMain.FindAndCountAll(var ACounter: integer);
 begin
   DoFindMarkingInit(TAppFinderMarking.None);
-  NCounter:= FFinder.DoAction_CountAll(false);
-  if (NCounter=0) and FFinder.IsRegexBad then
+  ACounter:= FFinder.DoAction_CountAll(false);
+  if (ACounter=0) and FFinder.IsRegexBad then
     MsgStatusErrorInRegex
   else
     MsgStatus(
-      Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind), NCounter])+FinderOptionsToHint(FFinder, false),
+      Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind), ACounter])+FinderOptionsToHint(FFinder, false),
       true);
 end;
 
@@ -241,27 +241,27 @@ begin
   FinderShowResult(ok, true, FFinder);
 end;
 
-procedure TfmMain.FindAndReplaceAll(var NCounter: integer);
+procedure TfmMain.FindAndReplaceAll(var ACounter: integer);
 var
   NTick: QWord;
   NTime: integer;
 begin
   Assert(Assigned(FFinder.Editor), 'FindAndReplaceAll: Finder.Editor is nil');
   NTick:= GetTickCount64;
-  NCounter:= FinderReplaceAll(FFinder.Editor, false);
+  ACounter:= FinderReplaceAll(FFinder.Editor, false);
   NTime:= (GetTickCount64-NTick) div 1000;
   UpdateStatusbar;
-  FinderShowReplaceReport(NCounter, NTime);
+  FinderShowReplaceReport(ACounter, NTime);
 end;
 
-procedure TfmMain.FindAndReplaceInAllFrames(FramePrev: TEditorFrame; var NCounter: integer);
+procedure TfmMain.FindAndReplaceInAllFrames(FramePrev: TEditorFrame; var ACounter: integer);
 var
   NTick: QWord;
   FrameNew: TEditorFrame;
   NTime, IndexFrame: integer;
   bChangeFrame: boolean;
 begin
-  NCounter:= 0;
+  ACounter:= 0;
   NTick:= GetTickCount64;
   bChangeFrame:= FFinder.OptConfirmReplace;
 
@@ -273,16 +273,16 @@ begin
     if bChangeFrame then
       SetFrame(FrameNew);
 
-    NCounter+= FinderReplaceAll(FrameNew.Ed1, true);
+    ACounter+= FinderReplaceAll(FrameNew.Ed1, true);
     if not FrameNew.EditorsLinked then
-      NCounter+= FinderReplaceAll(FrameNew.Ed2, true);
+      ACounter+= FinderReplaceAll(FrameNew.Ed2, true);
   end;
 
   NTime:= (GetTickCount64-NTick) div 1000;
   if bChangeFrame then
     SetFrame(FramePrev);
   UpdateStatusbar;
-  FinderShowReplaceReport(NCounter, NTime);
+  FinderShowReplaceReport(ACounter, NTime);
 end;
 
 procedure TfmMain.FindDialogDone(Sender: TObject; Res: TAppFinderOperation;
