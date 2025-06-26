@@ -918,9 +918,11 @@ begin
   Ed:= CurrentEditor;
   if Ed=nil then exit;
 
+  FFinder.StrFind:= '';
   if Assigned(fmFind) and fmFind.Visible then
-    FFinder.StrFind:= fmFind.edFind.Text
-  else
+    FFinder.StrFind:= fmFind.edFind.Text;
+
+  if FFinder.StrFind='' then
     FFinder.StrFind:= EditorPreselectSearchString(Ed);
 
   if FFinder.StrFind='' then
