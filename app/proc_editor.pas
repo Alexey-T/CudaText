@@ -195,6 +195,7 @@ procedure EditorCSyntaxDoTabIndent(Ed: TATSynEdit);
 function EditorGetCharCount(Ed: TATSynEdit; AMaxChars, AMaxTime: Int64): Int64;
 procedure EditorStringToScrollInfo(Ed: TATSynEdit; const AText: string; AIsVert: boolean);
 function EditorGetKeymapNameOfCommand(Ed: TATSynEdit; ACmd: integer): string;
+function EditorPreselectSearchString(Ed: TATSynEdit): UnicodeString;
 
 implementation
 
@@ -3666,6 +3667,15 @@ begin
   i:= Ed.Keymap.IndexOf(ACmd);
   if i>=0 then
     Result:= Ed.Keymap.Items[i].Name;
+end;
+
+
+function EditorPreselectSearchString(Ed: TATSynEdit): UnicodeString;
+begin
+  Ed.DoCaretSingleAsIs;
+  if not Ed.Carets.IsSelection then
+    Ed.DoCommand(cCommand_SelectWords, TATCommandInvoke.AppInternal);
+  Result:= Ed.TextSelected;
 end;
 
 
