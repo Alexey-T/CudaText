@@ -426,45 +426,29 @@ begin
     TAppFinderOperation.FindFirst,
     TAppFinderOperation.FindNext,
     TAppFinderOperation.FindPrev:
-    begin
       FindDialogDone_FindAndStop(Res=TAppFinderOperation.FindPrev);
-    end;
 
     TAppFinderOperation.Replace,
     TAppFinderOperation.ReplaceStop:
-    begin
       FindDialogDone_ReplaceOne(Res=TAppFinderOperation.ReplaceStop);
-    end;
 
     TAppFinderOperation.ReplaceAll:
-    begin
       FindDialogDone_ReplaceAll(NCounter);
-    end;
 
     TAppFinderOperation.ReplaceGlobal:
-    begin
       FindDialogDone_ReplaceInAllFrames(Frame, NCounter);
-    end;
 
     TAppFinderOperation.CountAll:
-    begin
       FindDialogDone_CountAll(NCounter);
-    end;
 
     TAppFinderOperation.ExtractAll:
-    begin
       FindDialogDone_ExtractRegexMatches;
-    end;
 
     TAppFinderOperation.FindSelectAll:
-    begin
       FindDialogDone_SelectAll(NCounter);
-    end;
 
     TAppFinderOperation.FindMarkAll:
-    begin
       FindDialogDone_MarkAll(NCounter);
-    end;
   end; //case Res of
 
   UpdateAppForSearch(false, false, bFindMode, AEnableUpdateAll, bFocusFindDlg);
