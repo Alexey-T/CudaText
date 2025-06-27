@@ -263,7 +263,7 @@ var
 begin
   ACounter:= 0;
   NTick:= GetTickCount64;
-  bChangeFrame:= FFinder.OptConfirmReplace;
+  bChangeFrame:= FFinder.OptConfirmReplace and (FrameCount>1);
 
   for IndexFrame:= 0 to FrameCount-1 do
   begin
