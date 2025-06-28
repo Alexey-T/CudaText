@@ -12,6 +12,7 @@
 + add: viewer: in Text/Unicode modes, make word-wrapping position for CJK text much better (thanks @Rain Ding)
 - fix: viewer: in Text mode with UTF-8 encoding, avoid broken chars '?' on word-wrapped edges (thanks @Rain Ding)
 - fix: 'lexer detector' plugin bug when installing 'C++' lexer (wrong escaping of '+')
+- fix: set correct width of 'Greek polytonic' chars (thanks @Doryforos)
 
 1.224.0 (2025/05)
 
