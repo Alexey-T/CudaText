@@ -2,6 +2,7 @@ See http://wiki.freepascal.org/CudaText#How_to_make_translation
 
 2025.06.25
 + [sta] vis
+- fix: removed duplicates of keys in [m_v]: sp_ sp_n sp_v sp_h
 
 2025.06.02
 + [sta] ins1
