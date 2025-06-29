@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.224.2 (2024/06)
+1.224.5 (2024/07)
 
 * change: removed flag 'm' from option "auto_copy_clp" into separate new option: "auto_copy_max_size"
 + add: improved commands "find all, and ....." - they now search for current selection / word under caret, if find-bar is hidden or empty; this is to act more like Sublime's command "Quick Find All"
@@ -11,7 +11,7 @@
 + add: viewer: detect UTF-8 encoding (by signature + by content reusing option "ui_non_text_buffer")
 + add: viewer: in Text/Unicode modes, make word-wrapping position for CJK text much better (thanks @Rain Ding)
 - fix: viewer: in Text mode with UTF-8 encoding, avoid broken chars '?' on word-wrapped edges (thanks @Rain Ding)
-- fix: 'lexer detector' plugin bug when installing 'C++' lexer (wrong escaping of '+')
+- fix: 'lexer detector' plugin bug when installing 'C++' lexer, wrong escaping of '+'
 - fix: sometimes, File/Reopen could reset the word-wrap state to Off (thanks @Hexaae)
 - fix: set correct width of 'Greek polytonic' chars (thanks @Doryforos)
 
