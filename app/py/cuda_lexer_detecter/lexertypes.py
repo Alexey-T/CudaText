@@ -105,6 +105,7 @@ TYPES = {
     "babel": ['JavaScript Babel'],
     "bal": ['Ballerina'],
     "bas": ['FreeBASIC', 'Great Cow Basic'],
+    "bazelrc": ['Bazelrc'],
     "bb": ['Clojure'],
     "bi": ['FreeBASIC'],
     "bib": ['BibTeX'],
