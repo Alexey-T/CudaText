@@ -128,6 +128,7 @@ TYPES = {
     "cfml": ['ColdFusion'],
     "cgi": ['Perl'],
     "cir": ['SPICE'],
+    "cj": ['Cangjie'],
     "cjsx": ['CoffeeScript'],
     "cl": ['OpenCL'],
     "cla": ['Clavier', 'Clarion'],
