@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.224.5 (2024/07)
+1.225.0 (2024/07)
 
 * change: removed flag 'm' from option "auto_copy_clp" into separate new option: "auto_copy_max_size"
 + add: improved commands "find all, and ....." - they now search for current selection / word under caret, if find-bar is hidden or empty; this is to act more like Sublime's command "Quick Find All"
