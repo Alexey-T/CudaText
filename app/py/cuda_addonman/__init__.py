@@ -44,7 +44,6 @@ STD_MODULES = (
   'cuda_lexer_detecter',
   )
 STD_LEXERS = (
-  'Assembly',
   'Bash script',
   'Batch files',
   'CSS',
