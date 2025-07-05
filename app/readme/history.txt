@@ -6,6 +6,7 @@
 1.225.0 (2024/07)
 
 * change: removed flag 'm' from option "auto_copy_clp" into separate new option: "auto_copy_max_size"
+* change: deprecated session file name "history session.json" is not considered as known name, so if you see it in the window title, just rename session file to "default.cuda-session" and change the reference in the "history.json"
 + add: improved commands "find all, and ....." - they now search for current selection / word under caret, if find-bar is hidden or empty; this is to act more like Sublime's command "Quick Find All"
 + add: when Find-dlg finds matches only in the visible area (because of option "find_hi_max_columns"), show additional statusbar text "(in the visible area)" (thanks @ArthurZ)
 + add: viewer: detect UTF-8 encoding (by signature + by content reusing option "ui_non_text_buffer")
