@@ -3,6 +3,8 @@
   - fixed
   * changed
 
+- fix: don't 'undo' insertion/adding of too huge line, because 'redo' will loose this line; ie respect option "max_line_len_for_undo" more (thanks @badrelmers)
+
 1.225.0 (2024/07)
 
 * change: removed flag 'm' from option "auto_copy_clp" into separate new option: "auto_copy_max_size"
