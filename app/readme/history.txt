@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-- fix: don't 'undo' insertion/adding of too huge line, because 'redo' will loose this line; ie respect option "max_line_len_for_undo" more (thanks @badrelmers)
+- fix: don't 'undo' inserting/adding of too huge line (huge by option "max_line_len_for_undo"), because 'redo' will loose this line; for example: now 'undo' after pasting of several lines, stops when it reaches huge line (thanks @badrelmers)
 
 1.225.0 (2024/07)
 
