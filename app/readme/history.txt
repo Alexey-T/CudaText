@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-* change: default of the option "max_line_len_for_undo" changed from 100K to the very maximal value (maximal signed 32-bit integer)
+* change: default of the option "max_line_len_for_undo" increased from 100K to 10M
 - fix: don't 'undo' inserting/adding of too huge line (huge by option "max_line_len_for_undo"), because 'redo' will loose this line; for example: now 'undo' after pasting of several lines, stops when it reaches huge line (thanks @badrelmers)
 
 1.225.0 (2024/07)
