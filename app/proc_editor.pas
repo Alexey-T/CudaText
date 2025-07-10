@@ -2105,11 +2105,13 @@ end;
 
 procedure EditorCopyLinesWithCarets(Ed: TATSynEdit);
 var
+  St: TATStrings;
   Caret: TATCaretItem;
   iCaret, NLine, NLinePrev: integer;
   List: TStringList;
 begin
   NLinePrev:= -1;
+  St:= Ed.Strings;
   List:= TStringList.Create;
   try
     for iCaret:= 0 to Ed.Carets.Count-1 do
@@ -2118,8 +2120,8 @@ begin
       NLine:= Caret.PosY;
       if NLine=NLinePrev then Continue; //don't take the same line twice
       NLinePrev:= NLine;
-      if Ed.Strings.IsIndexValid(NLine) then
-        List.Add(UTF8Encode(Ed.Strings.Lines[NLine]));
+      if St.IsIndexValid(NLine) then
+        List.Add(UTF8Encode(St.Lines[NLine]));
     end;
     SClipboardCopy(List.Text);
   finally
