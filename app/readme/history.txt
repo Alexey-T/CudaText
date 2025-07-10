@@ -6,7 +6,8 @@
 1.225.1 (2025/07)
 
 * change: lexer Assembly removed to Addons Manager
-* change: renamed command "copy current line" to "copy line(s) with caret(s)" and now this command supports multi-carets
+* change: renamed command "bookmarks: toggle on current line" to "bookmarks: toggle on line(s) with caret(s)" and now it supports multi-carets
+* change: renamed command "copy current line" to "copy line(s) with caret(s)" and now it supports multi-carets
 * change: default of the option "max_line_len_for_undo" increased from 100K to 10M
 - fix: don't 'undo' inserting/adding of too huge line (huge by option "max_line_len_for_undo"), because 'redo' will loose this line; for example: now 'undo' after pasting of several lines, stops when it reaches huge line (thanks @badrelmers)
 

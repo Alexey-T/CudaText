@@ -888,8 +888,7 @@ begin
 
     cmd_BookmarkToggle:
       begin
-        if ed.Carets.Count>0 then
-          ed.BookmarkToggleForLine(ed.Carets[0].PosY, 1, '', TATBookmarkAutoDelete.ByOption, true, 0);
+        ed.BookmarkToggleForCarets(1, true, 0);
         UpdateFrameEx(Frame, false);
         AHandled:= true;
         exit

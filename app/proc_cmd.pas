@@ -628,7 +628,7 @@ begin
   M.Add(cmd_MoveTabToGroupFloating2, 'groups: move tab to group floating-2', [], []);
   M.Add(cmd_MoveTabToGroupFloating3, 'groups: move tab to group floating-3', [], []);
 
-  M.Add(cmd_BookmarkToggle, 'bookmarks: toggle on current line', [], []);
+  M.Add(cmd_BookmarkToggle, 'bookmarks: toggle on line(s) with caret(s)', [], []);
   M.Add(cmd_BookmarkGotoNext, 'bookmarks: go to next', [], []);
   M.Add(cmd_BookmarkGotoPrev, 'bookmarks: go to previous', [], []);
   M.Add(cmd_BookmarkInvertAll, 'bookmarks: inverse all lines', [], []);
