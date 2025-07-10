@@ -578,7 +578,7 @@ begin
       DoMoveTabToGroup(8, true);
 
     cmd_CopyLine:
-      EditorCopyLine(Ed);
+      EditorCopyLinesWithCarets(Ed);
 
     cmd_CopyAsHTML:
       EditorCopyAsHTML(Ed);

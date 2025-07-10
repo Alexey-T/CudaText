@@ -567,7 +567,7 @@ begin
   M.Add(cmd_SelectExpandToWord_Skip, 'selection: skip to next occurrence of selected word', [], []);
   M.Add(cmd_SelectExpandToText_Skip, 'selection: skip to next occurrence of selected text', [], []);
 
-  M.Add(cmd_CopyLine, 'clipboard: copy current line', [], []);
+  M.Add(cmd_CopyLine, 'clipboard: copy line(s) with caret(s)', [], []);
   M.Add(cmd_CopyAsHTML, 'clipboard: copy as HTML', [], []);
   M.Add(cmd_CopyFilenameFull, 'clipboard: copy full filepath', [], []);
   M.Add(cmd_CopyFilenameDir, 'clipboard: copy filepath only', [], []);

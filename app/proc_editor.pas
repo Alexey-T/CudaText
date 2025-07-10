@@ -68,7 +68,7 @@ function EditorAutoSkipClosingBracket(Ed: TATSynEdit; CharClosing: char): boolea
 function EditorAutoDeleteClosingBracket(Ed: TATSynEdit): boolean;
 function EditorAutoPairChar(Ed: TATSynEdit; CharBegin: atChar): boolean;
 procedure EditorCopySelToPrimarySelection(Ed: TATSynEdit; AMaxLineCount: integer);
-procedure EditorCopyLine(Ed: TATSynEdit);
+procedure EditorCopyLinesWithCarets(Ed: TATSynEdit);
 procedure EditorCopyAsHTML(Ed: TATSynEdit);
 
 procedure EditorSetLine(Ed: TATSynEdit; AIndex: integer; AStr: UnicodeString);
@@ -2103,14 +2103,27 @@ begin
 end;
 
 
-procedure EditorCopyLine(Ed: TATSynEdit);
+procedure EditorCopyLinesWithCarets(Ed: TATSynEdit);
 var
-  N: integer;
+  Caret: TATCaretItem;
+  iCaret, NLine, NLinePrev: integer;
+  List: TStringList;
 begin
-  N:= Ed.Carets[0].PosY;
-  if Ed.Strings.IsIndexValid(N) then
-  begin
-    SClipboardCopy(UTF8Encode(Ed.Strings.Lines[N]));
+  NLinePrev:= -1;
+  List:= TStringList.Create;
+  try
+    for iCaret:= 0 to Ed.Carets.Count-1 do
+    begin
+      Caret:= Ed.Carets[iCaret];
+      NLine:= Caret.PosY;
+      if NLine=NLinePrev then Continue; //don't take the same line twice
+      NLinePrev:= NLine;
+      if Ed.Strings.IsIndexValid(NLine) then
+        List.Add(UTF8Encode(Ed.Strings.Lines[NLine]));
+    end;
+    SClipboardCopy(List.Text);
+  finally
+    FreeAndNil(List);
   end;
 end;
 
