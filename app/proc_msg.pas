@@ -297,7 +297,6 @@ const
   msgStatusReadingOps: string = 'Reading options';
   msgStatusSavedFile: string = 'Saved:';
   msgStatusPictureNxN: string = 'Image %dx%d';
-  msgStatusHexViewer: string = 'Hex';
   msgStatusCancelled: string = 'Cancelled';
   msgStatusBadLineNum: string = 'Incorrect number entered';
   msgStatusEndsChanged: string = 'Line ends changed';
