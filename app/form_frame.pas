@@ -149,6 +149,7 @@ type
     Adapter1: TATAdapterEControl;
     Adapter2: TATAdapterEControl;
     PanelInfo: TPanel;
+    PanelUndoStopped: TPanel;
     PanelNoHilite: TPanel;
     NotifReloadControls: array[0..1] of TAppFrameNotificationControls;
     NotifDeletedControls: array[0..1] of TAppFrameNotificationControls;
@@ -291,6 +292,7 @@ type
     procedure EditorOnPaste(Sender: TObject; var AHandled: boolean; AKeepCaret, ASelectThen: boolean);
     procedure EditorOnScroll(Sender: TObject);
     procedure EditorOnEnabledUndoRedoChanged(Sender: TObject; AUndoEnabled, ARedoEnabled: boolean);
+    procedure EditorOnUndoTooLongLine(Sender: TObject; ALineIndex: integer);
     function GetAdapter(Ed: TATSynEdit): TATAdapterEControl;
     function GetCachedTreeviewInited(Ed: TATSynEdit): boolean;
     function GetCachedTreeview(Ed: TATSynEdit): TTreeView;
@@ -330,6 +332,7 @@ type
       const ACaptionYes, ACaptionYesAlways, ACaptionStop, ALabel: string);
     procedure PaintMicromap(Ed: TATSynEdit; ACanvas: TCanvas; const ARect: TRect);
     procedure PanelInfoClick(Sender: TObject);
+    procedure PanelUndoStoppedClick(Sender: TObject);
     procedure PanelNoHiliteClick(Sender: TObject);
     procedure SetBracketHilite(AValue: boolean);
     procedure SetEnabledCodeTree(Ed: TATSynEdit; AValue: boolean);
@@ -2299,6 +2302,7 @@ begin
   ed.OnHotspotExit:=@EditorOnHotspotExit;
   ed.OnGetToken:= @EditorOnGetToken;
   ed.OnEnabledUndoRedoChanged:= @EditorOnEnabledUndoRedoChanged;
+  ed.OnUndoTooLongLine:= @EditorOnUndoTooLongLine;
   ed.ScrollbarVert.OnOwnerDraw:= @EditorDrawScrollbarVert;
 end;
 
@@ -3854,6 +3858,19 @@ begin
     FOnUpdateToolbar(Self);
 end;
 
+procedure TEditorFrame.EditorOnUndoTooLongLine(Sender: TObject; ALineIndex: integer);
+begin
+  InitPanelInfo(
+    PanelUndoStopped,
+    Format('Undo was stopped at line %d, see option "max_line_len_for_undo": %d',
+           [ALineIndex+1, ATEditorOptions.MaxLineLenForUndo]),
+    @PanelUndoStoppedClick,
+    false
+    );
+  if Assigned(PanelUndoStopped) then
+    PanelUndoStopped.Show;
+end;
+
 procedure TEditorFrame.PaintMicromap(Ed: TATSynEdit; ACanvas: TCanvas; const ARect: TRect);
 begin
   if Ed.Strings.Count>UiOps.MaxLinesForMicromapPaint then exit;
@@ -5266,6 +5283,12 @@ begin
   if Assigned(PanelInfo) then
     PanelInfo.Hide;
   AppPython.RunCommand('cuda_prefs', 'dlg_cuda_options', []);
+end;
+
+procedure TEditorFrame.PanelUndoStoppedClick(Sender: TObject);
+begin
+  if Assigned(PanelUndoStopped) then
+    PanelUndoStopped.Hide;
 end;
 
 procedure TEditorFrame.PanelNoHiliteClick(Sender: TObject);
