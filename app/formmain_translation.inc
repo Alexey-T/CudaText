@@ -538,6 +538,7 @@ begin
     DoLocString(msgStatusHotkeyBusy              , ini, 'si', 'HotkeyBusy');
     DoLocString(msgStatusFontSizeChanged         , ini, 'si', 'FontSizeChanged');
     DoLocString(msgStatusLexerDisabledBySize     , ini, 'si', 'LexerDisabledBySize');
+    DoLocString(msgStatusUndoStopped             , ini, 'si', 'UndoStopped');
 
     DoLocString(msgConfirmSyntaxThemeSameName    , ini, 'sc', 'ThemeSyntaxSame');
     DoLocString(msgConfirmInstallIt              , ini, 'sc', 'InstallIt');

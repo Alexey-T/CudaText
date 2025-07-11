@@ -3862,8 +3862,7 @@ procedure TEditorFrame.EditorOnUndoTooLongLine(Sender: TObject; ALineIndex: inte
 begin
   InitPanelInfo(
     PanelUndoStopped,
-    Format('Undo was stopped at line %d, see option "max_line_len_for_undo": %d',
-           [ALineIndex+1, ATEditorOptions.MaxLineLenForUndo]),
+    Format(msgStatusUndoStopped, [ALineIndex+1, ATEditorOptions.MaxLineLenForUndo]),
     @PanelUndoStoppedClick,
     false
     );
