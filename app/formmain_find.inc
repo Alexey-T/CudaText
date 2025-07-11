@@ -180,7 +180,7 @@ begin
     MsgStatusErrorInRegex
   else
     MsgStatus(
-      Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind), ACounter]) +
+      Format(msgStatusFoundFragments, [ACounter]) +
       FinderOptionsToHint(FFinder, false),
       true);
 end;
@@ -195,7 +195,7 @@ begin
     MsgStatusErrorInRegex
   else
     MsgStatus(
-      Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind), ACounter]) +
+      Format(msgStatusFoundFragments, [ACounter]) +
       FinderOptionsToHint(FFinder, false),
       true);
 end;
@@ -208,7 +208,8 @@ begin
     MsgStatusErrorInRegex
   else
     MsgStatus(
-      Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind), ACounter])+FinderOptionsToHint(FFinder, false),
+      Format(msgStatusFoundFragments, [ACounter])+
+      FinderOptionsToHint(FFinder, false),
       true);
 end;
 
@@ -937,7 +938,8 @@ begin
 
   FinderUpdateEditor(false);
   MsgStatus(
-    Format(msgStatusFindCount, [UTF8Encode(SSearchText), NCount])+FinderOptionsToHint(FFinder, false),
+    Format(msgStatusFoundFragments, [NCount])+
+    FinderOptionsToHint(FFinder, false),
     true);
 
   UpdateAppForSearch(false, false, true, true, bFocusFindDlg); //hide search progressbar

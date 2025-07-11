@@ -522,7 +522,6 @@ begin
     DoLocString(msgStatusFoundFragments          , ini, 'si', 'FoundFragments');
     DoLocString(msgStatusTryingAutocomplete      , ini, 'si', 'TryingAutocomplete');
     DoLocString(msgStatusReplaceCount            , ini, 'si', 'ReplaceCount');
-    DoLocString(msgStatusFindCount               , ini, 'si', 'FindCount');
     DoLocString(msgStatusReadingOps              , ini, 'si', 'ReadingOps');
     DoLocString(msgStatusSavedFile               , ini, 'si', 'SavedFile');
     DoLocString(msgStatusPictureNxN              , ini, 'si', 'PictureNxN');

@@ -2,6 +2,7 @@ See http://wiki.freepascal.org/CudaText#How_to_make_translation
 
 2025.07.12
 + [si] UndoStopped
+* delete [si] FindCount (reused FoundFragments instead)
 
 2025.06.25
 + [sta] vis

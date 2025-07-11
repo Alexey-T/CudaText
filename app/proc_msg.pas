@@ -292,7 +292,6 @@ const
   msgStatusFoundNextMatch: string = 'Found next match';
   msgStatusTryingAutocomplete: string = 'Trying auto-complete for:';
   msgStatusReplaceCount: string = 'Replaces made: %d';
-  msgStatusFindCount: string = 'Count of "%s": %d';
   msgStatusFoundFragments: string = 'Found %d fragment(s)';
   msgStatusReadingOps: string = 'Reading options';
   msgStatusSavedFile: string = 'Saved:';
