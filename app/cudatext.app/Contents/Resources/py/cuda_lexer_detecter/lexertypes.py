@@ -344,6 +344,7 @@ TYPES = {
     "ob2": ['Oberon'],
     "obs": ['Objeck'],
     "odin": ['Odin'],
+    "one": ['languageONE'],
     "org": ['Org-mode'],
     "p4": ['P4'],
     "pas": ['Pascal'],
