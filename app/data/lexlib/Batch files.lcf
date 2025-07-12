@@ -507,6 +507,6 @@ object SyntAnal3: TLibSyntAnalyzer
   Notes.Strings = (
     'Alexey Torgashin (CudaText)')
   RestartFromLineStart = True
-  LineComment = '::'
+  LineComment = 'rem '
   Charset = DEFAULT_CHARSET
 end
