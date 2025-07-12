@@ -2719,7 +2719,7 @@ In this command, replace package name "cudatext" with one of available names:
 * cudatext-aarch64 (copy of cudatext-qt5-aarch64)
 
 The spec files for all of these packages can be found here:
-https://github.com/FlawlessCasual17/YACR/tree/master/cudatext
+https://github.com/FlawlessCasual17/YACR/tree/master/packages/cudatext
 
 ==Linux: App cannot run with GLIBC error==
 
