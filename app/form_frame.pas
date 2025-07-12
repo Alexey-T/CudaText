@@ -3859,10 +3859,17 @@ begin
 end;
 
 procedure TEditorFrame.EditorOnUndoTooLongLine(Sender: TObject; ALineIndex: integer);
+var
+  SLineIndex: string;
 begin
+  if ALineIndex>=0 then
+    SLineIndex:= IntToStr(ALineIndex+1)
+  else
+    SLineIndex:= '?';
+
   InitPanelInfo(
     PanelUndoStopped,
-    Format(msgStatusUndoStopped, [ALineIndex+1, ATEditorOptions.MaxLineLenForUndo]),
+    Format(msgStatusUndoStopped, [SLineIndex, ATEditorOptions.MaxLineLenForUndo]),
     @PanelUndoStoppedClick,
     false
     );
