@@ -450,6 +450,7 @@ The following lexers (counting only important ones) exist for CudaText. They are
 * Koka
 * Kontakt Script Processor (KSP)
 * Kotlin
+* languageONE
 * LaTeX
 * LESS
 * Lisp
