@@ -6,7 +6,8 @@
 1.225.1 (2025/07)
 
 incompatible changes which affect your saved history:
-* change: bookmarks are now saved into "bookmarks.json" instead of "history files.json"; old saved bookmarks are not auto-migrated, so please copy/paste old data to bookmarks.json, to the root JSON key instead of "/bookmarks"
+* change: rename "history files.json" to "files[SUFFIX].json" when "[SUFFIX]" is OS-dependant (empty on Windows)
+* change: bookmarks are now saved into "bookmarks[SUFFIX].json" instead of "history files.json"; old saved bookmarks are not auto-migrated, so you may want to copy/paste old data to "bookmarks[SUFFIX].json, to the root JSON key instead of "/bookmarks"
 
 * change: lexer Assembly removed to Addons Manager
 * change: renamed command "bookmarks: toggle on current line" to "bookmarks: toggle on line(s) with caret(s)" and now it supports multi-carets

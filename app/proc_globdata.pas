@@ -1768,8 +1768,8 @@ begin
   AppFile_OptionsUserInit:= AppDir_SettingsDefault+DirectorySeparator+'userinit.json';
   AppFile_OptionsUser:= AppDir_Settings+DirectorySeparator+'user.json';
   AppFile_History:= AppDir_Settings+DirectorySeparator+'history.json';
-  AppFile_HistoryFiles:= AppDir_Settings+DirectorySeparator+'history files.json';
-  AppFile_Bookmarks:= AppDir_Settings+DirectorySeparator+'bookmarks.json';
+  AppFile_HistoryFiles:= AppDir_Settings+DirectorySeparator+'files'+cOptionSystemSuffix+'.json';
+  AppFile_Bookmarks:= AppDir_Settings+DirectorySeparator+'bookmarks'+cOptionSystemSuffix+'.json';
   AppFile_Hotkeys:= AppDir_Settings+DirectorySeparator+'keys.json';
   AppFile_PluginsIni:= AppDir_Settings+DirectorySeparator+'plugins.ini';
   AppFile_LogConsole:= AppDir_Settings+DirectorySeparator+'console.log';
