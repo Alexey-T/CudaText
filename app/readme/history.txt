@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.225.1 (2025/07)
+1.226.0 (2025/07)
 
 several incompatible changes which affect your saved history:
 * change: rename "history files.json" to "files[SUFFIX].json" when "[SUFFIX]" is OS-dependant (empty on Windows)
