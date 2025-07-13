@@ -5,16 +5,18 @@
 
 1.226.0 (2025/07)
 
-several incompatible changes which affect your saved history:
-* change: rename "history files.json" to "files[SUFFIX].json" when "[SUFFIX]" is OS-dependant (empty on Windows)
+major incompatible changes which affect your saved history:
+* change: renamed "history files.json" to "files[SUFFIX].json" when "[SUFFIX]" is OS-dependant (empty on Windows)
 * change: bookmarks are now saved into "bookmarks[SUFFIX].json" instead of "history files.json"; old saved bookmarks are not auto-migrated, so you may want to copy/paste old data to "bookmarks[SUFFIX].json, to the root JSON key instead of "/bookmarks"
-* change: in "history.json", change JSON keys "session" and "recent_files" to "session[SUFFIX]" and "recent_files[SUFFIX]"
-* change: in "bookmarks.json" app now doesn't save kind_of_bookmark_value if it's 1 (usual bookmark)
+* change: in "bookmarks[SUFFIX].json" app now doesn't save kind_of_bookmark_value if it's 1 (for usual bookmark)
+* change: in "history.json", changed JSON keys "session" and "recent_files" to "session[SUFFIX]" and "recent_files[SUFFIX]"
 
+other changes:
 * change: lexer Assembly removed to Addons Manager
 * change: renamed command "bookmarks: toggle on current line" to "bookmarks: toggle on line(s) with caret(s)" and now it supports multi-carets
 * change: renamed command "copy current line" to "copy line(s) with caret(s)" and now it supports multi-carets
 * change: default of the option "max_line_len_for_undo" increased from 100K to 10M
+
 + add: don't 'undo' inserting of too huge line (by option "max_line_len_for_undo"), because 'redo' will loose this line; for example: now 'undo' after pasting of several lines, stops when it reaches a huge line; also added the alert panel on the top ("Undo was stopped at line N") about this situation (thanks @badrelmers)
 - fix: lexer Batch line-comment must be 'rem ', not '::' (thanks @badrelmers)
 
