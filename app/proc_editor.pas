@@ -3050,6 +3050,7 @@ var
   List: TStringList;
   BmList: TATBookmarks;
   Bm: PATBookmarkItem;
+  SListItem: string;
   i: integer;
 begin
   BmList:= Ed.Strings.Bookmarks;
@@ -3061,7 +3062,10 @@ begin
       Bm:= BmList[i];
       //save usual bookmarks and numbered bookmarks (kind=1..10)
       if Bm^.Data.Kind>10 then Continue;
-      List.Add(IntToStr(Bm^.Data.LineNum)+','+IntToStr(Bm^.Data.Kind));
+      SListItem:= IntToStr(Bm^.Data.LineNum);
+      if Bm^.Data.Kind>1 then
+        SListItem+= ','+IntToStr(Bm^.Data.Kind);
+      List.Add(SListItem);
     end;
     Result:= List.DelimitedText;
   finally
@@ -3084,7 +3088,7 @@ begin
   begin
     Sep2.Init(StrItem, ',');
     if not Sep2.GetItemInt(nLine, -1) then Continue;
-    if not Sep2.GetItemInt(nKind, 0, 0, 10) then Continue;
+    if not Sep2.GetItemInt(nKind, 0, 0, 10) then nKind:= 1;
     if Ed.Strings.IsIndexValid(nLine) then
     begin
       Bm.LineNum:= nLine;

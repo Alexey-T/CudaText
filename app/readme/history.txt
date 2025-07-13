@@ -9,6 +9,7 @@ several incompatible changes which affect your saved history:
 * change: rename "history files.json" to "files[SUFFIX].json" when "[SUFFIX]" is OS-dependant (empty on Windows)
 * change: bookmarks are now saved into "bookmarks[SUFFIX].json" instead of "history files.json"; old saved bookmarks are not auto-migrated, so you may want to copy/paste old data to "bookmarks[SUFFIX].json, to the root JSON key instead of "/bookmarks"
 * change: in "history.json", change JSON keys "session" and "recent_files" to "session[SUFFIX]" and "recent_files[SUFFIX]"
+* change: in "bookmarks.json" app now doesn't save kind_of_bookmark_value if it's 1 (usual bookmark)
 
 * change: lexer Assembly removed to Addons Manager
 * change: renamed command "bookmarks: toggle on current line" to "bookmarks: toggle on line(s) with caret(s)" and now it supports multi-carets
