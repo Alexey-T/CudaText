@@ -76,7 +76,7 @@ begin
 
     if TAppConfigHistoryElement.RecentFiles in AMode then
     begin
-      cfg.DeleteValue('/recent_files');
+      cfg.DeleteValue('/recent_files'+cOptionSystemSuffix);
       //
       AppListRecents.Clear;
       UpdateMenuRecent(nil);
@@ -172,7 +172,7 @@ begin
     try
       for SRecent in AppListRecents do
         ListTemp.Add(AppCollapseAppDirInFilename(SRecent));
-      cfg.SetValue('/recent_files', ListTemp);
+      cfg.SetValue('/recent_files'+cOptionSystemSuffix, ListTemp);
     finally
       FreeAndNil(ListTemp);
     end;
@@ -206,7 +206,7 @@ begin
 
     ////state
     cfg.SetValue('lang', UiOps.LangName);
-    cfg.SetValue('session', AppSessionName_ForHistoryFile);
+    cfg.SetValue('session'+cOptionSystemSuffix, AppSessionName_ForHistoryFile);
     cfg.SetValue('last_cmd', FLastSelectedCommand);
 
     DoOps_SaveHistory_GroupView(cfg, '');
@@ -1051,7 +1051,7 @@ begin
     ////recents
     ListTemp:= TStringList.Create;
     try
-      cfg.GetValue('/recent_files', ListTemp, '');
+      cfg.GetValue('/recent_files'+cOptionSystemSuffix, ListTemp, '');
       AppListRecents.Clear;
       for sFilename in ListTemp do
         AppListRecents.Add(AppExpandAppDirInFilename(sFilename));
@@ -1113,7 +1113,7 @@ begin
 
     if FOption_AllowSessionLoad=TAppAllowSomething.Enable then
     begin
-      AppSessionName:= cfg.GetValue('session', AppSessionName);
+      AppSessionName:= cfg.GetValue('session'+cOptionSystemSuffix, AppSessionName);
 
       //workaround for bad saved values like '../../../', with and without filename
       while SBeginsWith(AppSessionName, '..'+DirectorySeparator) do

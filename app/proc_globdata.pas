@@ -140,7 +140,7 @@ const
      'S', 'f', 'k', 'C', 'F', 'i', 'I', 'U', 'L');
 
 const
-  cAppSessionDefault = 'default.cuda-session';
+  cAppSessionDefault = 'default'+cOptionSystemSuffix+'.cuda-session';
 
 const
   cAppMaxGroup = Pred(6+3); //6 normal groups + 3 floating groups
