@@ -298,11 +298,11 @@ begin
     end;
 
     try
-      cfg_bookmarks.Filename:= AppFile_HistoryFiles;
+      cfg_bookmarks.Filename:= AppFile_Bookmarks;
     except
       on E: Exception do
       begin
-        MsgBadConfig(AppFile_HistoryFiles, E.Message);
+        MsgBadConfig(AppFile_Bookmarks, E.Message);
         FreeAndNil(cfg_bookmarks);
       end;
     end;

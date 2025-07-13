@@ -774,6 +774,7 @@ var
   AppFile_OptionsUser: string = '';
   AppFile_History: string = '';
   AppFile_HistoryFiles: string = '';
+  AppFile_Bookmarks: string = '';
   AppFile_Hotkeys: string = '';
   AppFile_PluginsIni: string = '';
   AppFile_LogConsole: string = '';
@@ -1768,6 +1769,7 @@ begin
   AppFile_OptionsUser:= AppDir_Settings+DirectorySeparator+'user.json';
   AppFile_History:= AppDir_Settings+DirectorySeparator+'history.json';
   AppFile_HistoryFiles:= AppDir_Settings+DirectorySeparator+'history files.json';
+  AppFile_Bookmarks:= AppDir_Settings+DirectorySeparator+'bookmarks.json';
   AppFile_Hotkeys:= AppDir_Settings+DirectorySeparator+'keys.json';
   AppFile_PluginsIni:= AppDir_Settings+DirectorySeparator+'plugins.ini';
   AppFile_LogConsole:= AppDir_Settings+DirectorySeparator+'console.log';
@@ -3850,7 +3852,7 @@ end;
 function AppConfigKeyForBookmarks(Ed: TATSynEdit): string;
 begin
   if Ed.FileName<>'' then
-    Result:= '/bookmarks/'+SMaskFilenameSlashes(AppCollapseHomeDirInFilename(Ed.FileName))
+    Result:= '/'+SMaskFilenameSlashes(AppCollapseHomeDirInFilename(Ed.FileName))
   else
     Result:= '';
 end;

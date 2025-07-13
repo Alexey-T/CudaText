@@ -3930,6 +3930,7 @@ begin
       cfg.DeletePath(SKeyForFile);
       cfg.EnumSubKeys('/', items);
 
+      //TODO: remove this block after 2025.12
       //key 'bookmarks' is saved together with usual items, skip it
       i:= items.IndexOf('bookmarks');
       if i>=0 then
@@ -3945,12 +3946,28 @@ begin
     end;
 
     DoSaveHistoryEx(Ed, cfg, SKeyForFile, false);
-
-    //bookmarks are always saved to 'history files.json'
-    if UiOps.HistoryItems[TAppHistoryElement.Bookmarks] then
-      DoSaveBookmarks(Ed, cfg);
   finally
     cfg.Free;
+  end;
+
+  if UiOps.HistoryItems[TAppHistoryElement.Bookmarks] then
+  begin
+    cfg:= TAppJsonConfig.Create(nil);
+    try
+      try
+        cfg.Filename:= AppFile_Bookmarks;
+      except
+        on E: Exception do
+        begin
+          MsgBadConfig(AppFile_Bookmarks, E.Message);
+          exit
+        end;
+      end;
+
+      DoSaveBookmarks(Ed, cfg);
+    finally
+      cfg.Free;
+    end;
   end;
 end;
 
@@ -3983,7 +4000,7 @@ end;
 
 procedure TEditorFrame.DoLoadBookmarks(Ed: TATSynEdit; c: TAppJsonConfig);
 var
-  SKey, SValue: UnicodeString;
+  SKey, SValue: string;
 begin
   if Ed.FileName<>'' then
   begin
@@ -4174,25 +4191,44 @@ begin
 
   AppFileCheckForNullBytes(AppFile_HistoryFiles);
 
-  cfg:= TAppJsonConfig.Create(nil);
-  try
+  if AllowLoadHistory then
+  begin
+    cfg:= TAppJsonConfig.Create(nil);
     try
-      cfg.Filename:= AppFile_HistoryFiles;
-    except
-      on E: Exception do
-      begin
-        MsgBadConfig(AppFile_HistoryFiles, E.Message);
-        exit
+      try
+        cfg.Filename:= AppFile_HistoryFiles;
+      except
+        on E: Exception do
+        begin
+          MsgBadConfig(AppFile_HistoryFiles, E.Message);
+          exit
+        end;
       end;
-    end;
 
-    if AllowLoadHistory then
       DoLoadHistoryEx(Ed, cfg, path, AllowLoadEncoding);
+    finally
+      cfg.Free;
+    end;
+  end;
 
-    if AllowLoadBookmarks then
+  if AllowLoadBookmarks then
+  begin
+    cfg:= TAppJsonConfig.Create(nil);
+    try
+      try
+        cfg.Filename:= AppFile_Bookmarks;
+      except
+        on E: Exception do
+        begin
+          MsgBadConfig(AppFile_Bookmarks, E.Message);
+          exit
+        end;
+      end;
+
       DoLoadBookmarks(Ed, cfg);
-  finally
-    cfg.Free;
+    finally
+      cfg.Free;
+    end;
   end;
 end;
 
