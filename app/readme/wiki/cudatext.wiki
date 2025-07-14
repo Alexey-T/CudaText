@@ -338,6 +338,7 @@ The following lexers (counting only important ones) exist for CudaText. They are
 * C
 * C#
 * C++
+* C3
 * Caffe Prototxt
 * Cangjie
 * Carbon
