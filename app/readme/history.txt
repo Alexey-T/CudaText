@@ -6,7 +6,7 @@
 1.226.0 (2025/07)
 
 major incompatible changes which affect your saved history:
-* change: renamed "history files.json" to "files[SUFFIX].json" when "[SUFFIX]" is OS-dependant (empty on Windows)
+* change: renamed "history files.json" to "files[SUFFIX].json" where "[SUFFIX]" is OS-dependant (empty on Windows)
 * change: bookmarks are now saved into "bookmarks[SUFFIX].json" instead of "history files.json"; old saved bookmarks are not auto-migrated, so you may want to copy/paste old data to "bookmarks[SUFFIX].json, to the root JSON key instead of "/bookmarks"
 * change: in "bookmarks[SUFFIX].json" app now doesn't save kind_of_bookmark_value if it's 1 (for usual bookmark)
 * change: in "history.json", changed JSON keys "session" and "recent_files" to "session[SUFFIX]" and "recent_files[SUFFIX]"
