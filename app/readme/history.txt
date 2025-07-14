@@ -18,6 +18,7 @@ other changes:
 * change: default of the option "max_line_len_for_undo" increased from 100K to 10M
 
 + add: don't 'undo' inserting of too huge line (by option "max_line_len_for_undo"), because 'redo' will loose this line; for example: now 'undo' after pasting of several lines, stops when it reaches a huge line; also added the alert panel on the top ("Undo was stopped at line N") about this situation (thanks @badrelmers)
++ add: Project Manager: context menu item "Backup" renamed to "Duplicate" and now it works for folders too (thanks @LouieTian0209)
 - fix: lexer Batch line-comment must be 'rem ', not '::' (thanks @badrelmers)
 
 1.225.0 (2025/07)

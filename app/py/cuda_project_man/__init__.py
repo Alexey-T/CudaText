@@ -240,6 +240,8 @@ class Command:
         (_("Copy path"), "dir", [NODE_DIR], "cuda_project_man.action_copy_path", ""),
         (_("Copy relative path") , "dir", [NODE_DIR], "cuda_project_man.action_copy_relative_path", ""),
         (_("-"), "dir", [NODE_DIR], "", ""),
+        (_("Duplicate..."), "dir", [NODE_DIR], "cuda_project_man.action_duplicate", ""),
+        (_("-"), "dir", [NODE_DIR], "", ""),
         (_("Focus in file manager"), "dir", [NODE_DIR], "cuda_project_man.action_focus_in_fileman", ""),
         (_("-"), "dir", [NODE_DIR], "", ""),
         (_("Properties..."), "dir", [NODE_DIR], "cuda_project_man.action_get_properties", ""),
@@ -256,7 +258,7 @@ class Command:
         (_("Rename..."), "file", [NODE_FILE], "cuda_project_man.action_rename", "F2"),
         (_("Delete"), "file", [NODE_FILE], "cuda_project_man.action_delete_file", "Del"),
         (_("-"), "file", [NODE_FILE], "", ""),
-        (_("Backup..."), "file", [NODE_FILE], "cuda_project_man.action_backup", ""),
+        (_("Duplicate..."), "file", [NODE_FILE], "cuda_project_man.action_duplicate", ""),
         (_("-"), "file", [NODE_FILE], "", ""),
         (_("Set as main file"), "file", [NODE_FILE], "cuda_project_man.action_set_as_main_file", ""),
         (_("-"), "file", [NODE_FILE], "", ""),
@@ -668,7 +670,7 @@ class Command:
         self.jump_to_filename(str(new_location))
         msg_status(_("Renamed to: ") + str(collapse_filename(str(new_location.name))))
 
-    def action_backup(self):
+    def action_duplicate(self):
         location = Path(self.get_location_by_index(self.selected))
         e = _file_editor(str(location))
 
@@ -676,8 +678,8 @@ class Command:
         from datetime import datetime
         fn_1 = location.name if not fn_parts[0] else fn_parts[0]
         fn_2 = '' if not fn_parts[0] else ('.' + '.'.join(fn_parts[i+1] for i in range(len(fn_parts) - 1)))
-        backup_name = fn_1 + '_' + datetime.now().strftime("%y%m%d_%H%M%S") + fn_2
-        result = dlg_input(_("Backup to:"), str(backup_name))
+        backup_name = fn_1 + '_' + datetime.now().strftime("%y%m%d_%H%M%S") + fn_2 if not os.path.isdir(str(location)) else location.name+' copy'
+        result = dlg_input(_("Duplicate to:"), str(backup_name))
         if not result:
             return
 
@@ -689,7 +691,10 @@ class Command:
             e.save(str(new_location), True)
         else:
             import shutil
-            shutil.copy2(location, new_location)
+            if os.path.isdir(location):
+                shutil.copytree(location, new_location, symlinks=False)
+            else:
+                shutil.copy2(location, new_location)
 
         if self.is_path_in_root(location):
             self.add_node(str(new_location))
