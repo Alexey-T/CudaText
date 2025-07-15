@@ -36,7 +36,8 @@ PROJECT_DIALOG_FILTER = _("CudaText projects") + "|*" + PROJECT_EXTENSION
 PROJECT_UNSAVED_NAME = _("(Unsaved project)")
 PROJECT_TEMP_FILENAME = os.path.join(app_path(APP_DIR_SETTINGS), 'temporary'+PROJECT_EXTENSION)
 NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD = range(4)
-DEF_SES = 'default.cuda-session'
+OS_SUFFIX = app_proc(PROC_GET_OS_SUFFIX, '')
+DEF_SES = 'default'+OS_SUFFIX+'.cuda-session'
 global_project_info = {}
 sort_order = 'ext'
 
@@ -592,7 +593,7 @@ class Command:
         sfn = str(fn)
         if not os.path.isfile(sfn):
             return
-        suffix = app_proc(PROC_GET_OS_SUFFIX, '')
+        suffix = OS_SUFFIX
         if suffix=='':
             #Windows
             #os.startfile(sfn) crashes with LSP plugin
@@ -613,7 +614,7 @@ class Command:
         sfn = str(fn)
         #if not os.path.isfile(sfn):
             #return
-        suffix = app_proc(PROC_GET_OS_SUFFIX, '')
+        suffix = OS_SUFFIX
 
         if suffix=='':
             #Windows
