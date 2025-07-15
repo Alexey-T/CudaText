@@ -3,6 +3,8 @@
   - fixed
   * changed
 
+* change: command "place bookmarks on carets" now don't initially clear bookmarks (thanks @MiroslavMatas)
+
 1.226.0 (2025/07)
 
 major incompatible changes which affect your saved history:
