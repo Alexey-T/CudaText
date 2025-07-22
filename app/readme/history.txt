@@ -4,6 +4,7 @@
   * changed
 
 * change: command "place bookmarks on carets" now don't initially clear bookmarks (thanks @MiroslavMatas)
+- fix: command "insert empty line below" did not force line-ending mark if called on last line (thanks @Doryforos)
 
 1.226.0 (2025/07)
 
