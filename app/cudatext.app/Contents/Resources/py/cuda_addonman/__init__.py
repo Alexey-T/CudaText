@@ -90,7 +90,6 @@ STD_CODETREEICONS = (
   'default_16x16',
 )
 STD_TRANSLATIONS = (
-  'ru_RU',
   'translation template',
 )
 STD_SNIPPETS = (
