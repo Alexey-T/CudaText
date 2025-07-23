@@ -1032,7 +1032,7 @@
   //If big value: all items of "Paste from history" may not fit to screen.
   "ui_max_history_clipboard": 15,
 
-  //History: Which elements to save to history/session files.
+  //History: Which elements to save to history/session/bookmarks files.
   //Option affects only saving the history, and is ignored on reading it.
   //Value is string, each char _disables_ storing of one element.
   //  if 't' in value: Text of document (it's saved for modified documents)
