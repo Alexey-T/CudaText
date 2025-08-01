@@ -83,6 +83,10 @@ var
   Btn: TATButton;
   i: integer;
 begin
+  //during drag&drop, avoid changing button's Enabled property,
+  //it can crash in DragManager
+  if DragManager.IsDragging then exit;
+
   SCmd:= IntToStr(ACmd);
   for i:= 0 to AToolbar.ButtonCount-1 do
   begin
