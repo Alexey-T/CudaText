@@ -120,6 +120,10 @@ var
   bEditor, bEditable, bBinViewer: boolean;
   bShowNonPrinted: boolean;
 begin
+  //during drag&drop, avoid changing button's Enabled property,
+  //it can crash in DragManager
+  if DragManager.IsDragging then exit;
+
   if F=nil then exit;
   Ed:= F.Editor;
 
