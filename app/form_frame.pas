@@ -1895,7 +1895,7 @@ begin
           if not Ed.OptAutoPairForMultiCarets then
             exit;
 
-        if Length(AText)=1 then
+        if (Length(AText)=1) and (not Ed.ModeReadOnly) then
         begin
           ch:= AText[1];
 
