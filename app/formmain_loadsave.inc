@@ -943,7 +943,7 @@ begin
     //python 'on_caret' is disabled during session loading, so fire it here
     Ed:= Frame.Ed1;
     if not Ed.IsEmpty and not EditorCaretIsOnStart(Ed) then
-      Ed.DoEventCarets;
+      Ed.DoEventCarets(false);
   end;
 
   SetLength(FPrevFramesEditState, FrameCount);
