@@ -928,6 +928,15 @@ begin
       end;
     end;
 
+    //when passive tab shows for the 1st time, force work of brackets highlighter
+    for iEd:= 0 to 1 do
+    begin
+      Ed:= EditorIndexToObj(iEd);
+      if Ed.Visible then
+        if not Ed.IsEmpty and not EditorCaretIsOnStart(Ed) then
+          Ed.DoEventCarets(false);
+    end;
+
     //fix #4559
     EditorForceUpdateIfWrapped(Ed1);
     if Splitted then
