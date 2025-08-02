@@ -1891,11 +1891,13 @@ begin
   case ACmd of
     cCommand_TextInsert:
       begin
+        if Ed.ModeReadOnly then exit;
+
         if NCarets>1 then
           if not Ed.OptAutoPairForMultiCarets then
             exit;
 
-        if (Length(AText)=1) and (not Ed.ModeReadOnly) then
+        if Length(AText)=1 then
         begin
           ch:= AText[1];
 
