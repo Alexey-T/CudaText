@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.226.0.3 (2025/08)
+1.226.1.0 (2025/08)
 
 * change: command "place bookmarks on carets" now don't initially clear bookmarks (thanks @MiroslavMatas)
 - fix: command "insert empty line below" did not force line-ending mark if called on last line (thanks @Doryforos)
