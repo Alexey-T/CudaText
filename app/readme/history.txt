@@ -3,9 +3,12 @@
   - fixed
   * changed
 
+1.226.0.3 (2025/08)
+
 * change: command "place bookmarks on carets" now don't initially clear bookmarks (thanks @MiroslavMatas)
 - fix: command "insert empty line below" did not force line-ending mark if called on last line (thanks @Doryforos)
 - fix: missed mouse cursor updating on mouse-button releasing on drag&drop (thanks @Doryforos)
+- fix: Access Violation during drag-drop of text to another ui-tab (thanks @Doryforos)
 
 1.226.0 (2025/07)
 
