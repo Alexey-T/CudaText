@@ -358,6 +358,7 @@ begin
   with chkRegex do
     Checked:= not Checked;
   UpdateState(true);
+  UpdateRegexHighlight;
   DoOnChange;
 end;
 
