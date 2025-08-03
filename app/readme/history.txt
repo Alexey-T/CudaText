@@ -9,6 +9,7 @@
 - fix: command "insert empty line below" did not force line-ending mark if called on last line (thanks @Doryforos)
 - fix: missed mouse cursor updating on mouse-button releasing on drag&drop (thanks @Doryforos)
 - fix: Access Violation during drag-drop of text to another ui-tab (thanks @Doryforos)
+- fix: regression: pair brackets are not highlighted upon startup, until caret moves (thanks @Doryforos)
 
 1.226.0 (2025/07)
 
