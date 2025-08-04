@@ -2134,7 +2134,7 @@ var
   List: TStringList;
   SText: string;
   Caret: TATCaretItem;
-  SaveCarets: TATCarets;
+  SavedCarets: TATPointPairArray;
   PosBegin, PosEnd: TPoint;
   X1, Y1, X2, Y2: integer;
   bSel: boolean;
@@ -2162,8 +2162,7 @@ begin
   Clipboard.AsText:= SText;
 
   //hide caret
-  SaveCarets:= TATCarets.Create;
-  SaveCarets.Assign(Ed.Carets);
+  SavedCarets:= Ed.Carets.AsArray;
 
   Ed.DoCaretSingle(-1, -1);
   Ed.DoEventCarets;
@@ -2189,10 +2188,9 @@ begin
     FreeAndNil(List);
   end;
 
-  Ed.Carets.Assign(SaveCarets);
+  Ed.Carets.AsArray:= SavedCarets;
   Ed.DoEventCarets;
   Ed.Update;
-  FreeAndNil(SaveCarets);
 
   Clipboard.SetAsHtml(SText);
 end;
@@ -2421,7 +2419,7 @@ var
   CurFinder: TATEditorFinder = nil;
   ColorBorder: TColor;
   StyleBorder: TATLineStyle;
-  SavedCarets: TATCarets = nil;
+  SavedCarets: TATPointPairArray;
   bChanged: boolean;
   bSaveCarets: boolean;
   bTooBigDocument: boolean;
@@ -2454,10 +2452,7 @@ begin
   //we save selections before running HighlightAll, later we restore them.
   bSaveCarets:= (AOptions.OptInSelection and Ed.Carets.IsSelection) or bTooBigDocument;
   if bSaveCarets then
-  begin
-    SavedCarets:= TATCarets.Create;
-    SavedCarets.Assign(Ed.Carets);
-  end;
+    SavedCarets:= Ed.Carets.AsArray;
 
   if bTooBigDocument then
   begin
@@ -2539,10 +2534,7 @@ begin
   finally
     FreeAndNil(CurFinder);
     if bSaveCarets then
-    begin
-      Ed.Carets.Assign(SavedCarets);
-      FreeAndNil(SavedCarets);
-    end;
+      Ed.Carets.AsArray:= SavedCarets;
   end;
 end;
 
