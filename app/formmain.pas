@@ -7482,7 +7482,7 @@ var
   List: TStringList;
   Frame: TEditorFrame;
   SFileName, STitle: string;
-  SaveCarets: TATCarets;
+  SavedCarets: TATPointPairArray;
 begin
   if Ed.IsEmpty then exit;
 
@@ -7510,8 +7510,7 @@ begin
   end;
 
   //hide caret, so HTML won't contain dynamic lexer highlights
-  SaveCarets:= TATCarets.Create;
-  SaveCarets.Assign(Ed.Carets);
+  SavedCarets:= Ed.Carets.AsArray;
 
   Ed.DoCaretSingle(-1, -1);
   Ed.DoEventCarets;
@@ -7538,11 +7537,9 @@ begin
   end;
 
   //restore carets
-  Ed.Carets.Assign(SaveCarets);
-  FreeAndNil(SaveCarets);
+  Ed.Carets.AsArray:= SavedCarets;
   Ed.DoEventCarets;
   Ed.Update;
-  //UpdateFrameEx(F, true);
 
   if not FileExists(SFileName) then
     MsgBox(msgCannotSaveFile+#10+SFileName, MB_OK or MB_ICONERROR)
