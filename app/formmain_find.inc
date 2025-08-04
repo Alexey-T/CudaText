@@ -69,11 +69,11 @@ function TfmMain.FinderReplaceAll(Ed: TATSynEdit; AResetCaret: boolean): integer
 var
   NTop, NLeft: integer;
   NCaretX, NCaretY: integer;
-  PrevCaretsArray: TATPointPairArray;
+  SavedCarets: TATPointPairArray;
 begin
   Result:= 0;
   if Ed.ModeReadOnly then exit;
-  PrevCaretsArray:= Ed.Carets.AsArray;
+  SavedCarets:= Ed.Carets.AsArray;
 
   NTop:= Ed.LineTop;
   NLeft:= Ed.ColumnLeft;
@@ -115,7 +115,7 @@ begin
   if Result>0 then
     Ed.DoCaretSingle(NCaretX, NCaretY)
   else
-    Ed.Carets.AsArray:= PrevCaretsArray;
+    Ed.Carets.AsArray:= SavedCarets;
 
   Ed.DoCaretsFixIncorrectPos(true);
   Ed.LineTop:= NTop;
