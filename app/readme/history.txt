@@ -6,6 +6,7 @@
 1.226.1 (2025/08)
 
 * change: command "place bookmarks on carets" now don't initially clear bookmarks (thanks @MiroslavMatas)
++ add: mass-replace of regex '^' to e.g. '\n' now gives nicer line-states of affected lines (idea by @Doryforos)
 - fix: command "insert empty line below" did not force line-ending mark if called on last line (thanks @Doryforos)
 - fix: missed mouse cursor updating on mouse-button releasing on drag&drop (thanks @Doryforos)
 - fix: Access Violation during drag&drop of text to another ui-tab (thanks @Doryforos)
