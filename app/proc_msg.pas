@@ -291,7 +291,7 @@ const
   msgStatusBadRegex: string = 'Incorrect regex passed:';
   msgStatusFoundNextMatch: string = 'Found next match';
   msgStatusTryingAutocomplete: string = 'Trying auto-complete for:';
-  msgStatusReplaceCount: string = 'Replaces made: %d';
+  msgStatusReplaceCount: string = 'Replaced: %d';
   msgStatusFoundFragments: string = 'Found %d fragment(s)';
   msgStatusReadingOps: string = 'Reading options';
   msgStatusSavedFile: string = 'Saved:';
