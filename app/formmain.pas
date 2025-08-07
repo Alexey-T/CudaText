@@ -476,6 +476,7 @@ type
     procedure AppPropsDropFiles(Sender: TObject;
       const FileNames: array of string);
     procedure AppPropsEndSession(Sender: TObject);
+    procedure AppPropsException(Sender: TObject; E: Exception);
     procedure AppPropsModalBegin(Sender: TObject);
     procedure AppPropsQueryEndSession(var Cancel: Boolean);
     procedure ButtonCancelClick(Sender: TObject);
@@ -3385,6 +3386,11 @@ end;
 procedure TfmMain.AppPropsEndSession(Sender: TObject);
 begin
   //
+end;
+
+procedure TfmMain.AppPropsException(Sender: TObject; E: Exception);
+begin
+  AppLogException(E);
 end;
 
 procedure TfmMain.AppPropsModalBegin(Sender: TObject);

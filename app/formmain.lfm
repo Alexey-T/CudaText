@@ -681,6 +681,7 @@ object fmMain: TfmMain
     ShowButtonGlyphs = sbgNever
     OnActivate = AppPropsActivate
     OnDeactivate = AppPropsDeactivate
+    OnException = AppPropsException
     OnEndSession = AppPropsEndSession
     OnQueryEndSession = AppPropsQueryEndSession
     OnModalBegin = AppPropsModalBegin
