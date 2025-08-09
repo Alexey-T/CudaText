@@ -2692,12 +2692,17 @@ end;
 
 procedure TfmMain.DoCodetree_UpdateVersion(Ed: TATSynEdit);
 begin
-  Inc(AppCodetreeState.Version);
   AppCodetreeState.Editor:= Ed;
   if Assigned(Ed) then
-    AppCodetreeState.Lexer:= EditorLexerNameAtPos(Ed, Point(-1, -1))
+  begin
+    AppCodetreeState.Lexer:= EditorLexerNameAtPos(Ed, Point(-1, -1));
+    AppCodetreeState.Version:= Ed.Strings.ModifiedVersion;
+  end
   else
+  begin
     AppCodetreeState.Lexer:= '';
+    AppCodetreeState.Version:= 0;
+  end;
 end;
 
 procedure TfmMain.DoCodetree_OnClick(Sender: TObject);
