@@ -2695,13 +2695,13 @@ begin
   AppCodetreeState.Editor:= Ed;
   if Assigned(Ed) then
   begin
+    AppCodetreeState.EditorVersion:= Ed.Strings.ModifiedVersion;
     AppCodetreeState.Lexer:= EditorLexerNameAtPos(Ed, Point(-1, -1));
-    AppCodetreeState.Version:= Ed.Strings.ModifiedVersion;
   end
   else
   begin
+    AppCodetreeState.EditorVersion:= 0;
     AppCodetreeState.Lexer:= '';
-    AppCodetreeState.Version:= 0;
   end;
 end;
 

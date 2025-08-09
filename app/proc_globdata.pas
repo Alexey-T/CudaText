@@ -92,8 +92,8 @@ var
 
   AppCodetreeState: record
     Editor: TATSynEdit;
+    EditorVersion: Int64;
     Lexer: string;
-    Version: Int64;
     SelLine: integer;
     DblClicking: boolean;
     NeedsSelJump: boolean;

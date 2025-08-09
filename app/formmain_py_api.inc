@@ -4004,7 +4004,7 @@ begin
 
         PROP_CODETREE_MODIFIED_VERSION:
           begin
-            Result:= PyLong_FromLongLong(AppCodetreeState.Version);
+            Result:= PyLong_FromLongLong(AppCodetreeState.EditorVersion);
           end;
 
         PROP_CODETREE_SUBLEXER:
