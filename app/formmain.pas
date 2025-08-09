@@ -7466,15 +7466,23 @@ end;
 procedure TfmMain.mnuTreeSortedClick(Sender: TObject);
 var
   Frame: TEditorFrame;
+  i: integer;
 begin
   if CodeTree.Tree.SortType=stNone then
     CodeTree.Tree.SortType:= stText
   else
     CodeTree.Tree.SortType:= stNone;
 
-  Frame:= TGroupsHelper.GetEditorFrame(AppCodetreeState.Editor);
-  if Assigned(Frame) then
-    Frame.CodetreeSortType:= CodeTree.Tree.SortType;
+  for i:= 0 to FrameCount-1 do
+  begin
+    Frame:= Frames[i];
+    if (Frame.Ed1=AppCodetreeState.Editor) or
+       (Frame.Ed2=AppCodetreeState.Editor) then
+    begin
+      Frame.CodetreeSortType:= CodeTree.Tree.SortType;
+      Break;
+    end;
+  end;
 end;
 
 procedure TfmMain.mnuTreeUnfoldAllClick(Sender: TObject);
