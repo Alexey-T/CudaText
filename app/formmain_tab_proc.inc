@@ -425,6 +425,10 @@ begin
     if (FFinder.Editor=Frame.Ed1) or
        (FFinder.Editor=Frame.Ed2) then
       FFinder.Editor:= nil;
+
+    if (AppCodetreeState.Editor=Frame.Ed1) or
+       (AppCodetreeState.Editor=Frame.Ed2) then
+      AppCodetreeState.Editor:= nil;
   end;
 end;
 
