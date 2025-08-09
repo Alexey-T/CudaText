@@ -1176,8 +1176,8 @@ Lexer parser uses EControl regex engine. You use this regex syntax only in the "
 
 CudaText search/replace uses [https://regex.sorokin.engineer/en/latest/regular_expressions.html TRegExpr engine] (by Sorokin, later improved by Alexey Torgashin).
 
-* To refer to regex groups in the regular expression itself, in the "Find what" field, use syntax \1 ... \9 (and \0 for entire match).
-* To perform replacements with groups, in the "Replace with" field, use syntax $1 ... $9 (and $0 for entire match).
+* To refer to regex groups in the regular expression itself, in the "Find what" field, use syntax \1 ... \9 and \0 for entire match.
+* To perform replacements with groups, in the "Replace with" field, use syntax $1 ... $9 and $0 for entire match. To use group 1 with following "00", use this: ${1}00.
 
 ==Change case on replaces==
 
