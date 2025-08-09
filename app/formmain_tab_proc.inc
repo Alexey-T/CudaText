@@ -129,6 +129,7 @@ var
   D: TATTabData;
   F: TEditorFrame;
   CachedTreeview: TTreeView;
+  iFrame: integer;
 begin
   Tabs:= Sender as TATTabs;
   D:= Tabs.GetTabData(Tabs.TabIndex);
@@ -140,12 +141,17 @@ begin
   //old frame looses focus, update its CachedTreeview, to remember folded nodes
   if Assigned(AppCodetreeState.Editor) and Assigned(CodeTree) then
   begin
-    F:= TGroupsHelper.GetEditorFrame(AppCodetreeState.Editor);
-    if Assigned(F) then
+    for iFrame:= 0 to FrameCount-1 do
     begin
-      CachedTreeview:= F.CachedTreeView[AppCodetreeState.Editor];
-      if Assigned(CachedTreeview) then
-        DoTreeviewCopy(CodeTree.Tree, CachedTreeview);
+      F:= Frames[iFrame];
+      if (F.Ed1=AppCodetreeState.Editor) or
+         (F.Ed2=AppCodetreeState.Editor) then
+      begin
+        CachedTreeview:= F.CachedTreeView[AppCodetreeState.Editor];
+        if Assigned(CachedTreeview) then
+          DoTreeviewCopy(CodeTree.Tree, CachedTreeview);
+        Break;
+      end;
     end;
   end;
 
