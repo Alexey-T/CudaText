@@ -4004,10 +4004,7 @@ begin
 
         PROP_CODETREE_MODIFIED_VERSION:
           begin
-            if Assigned(AppCodetreeState.Editor) then
-              Result:= PyLong_FromLong(AppCodetreeState.Editor.Strings.ModifiedVersion)
-            else
-              Result:= PyLong_FromLong(0);
+            Result:= PyLong_FromLongLong(AppCodetreeState.Version);
           end;
 
         PROP_CODETREE_SUBLEXER:
