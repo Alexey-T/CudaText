@@ -428,7 +428,10 @@ begin
 
     if (AppCodetreeState.Editor=Frame.Ed1) or
        (AppCodetreeState.Editor=Frame.Ed2) then
+    begin
       AppCodetreeState.Editor:= nil;
+      AppCodetreeState.Lexer:= '';
+    end;
   end;
 end;
 
