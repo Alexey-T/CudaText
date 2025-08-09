@@ -91,7 +91,7 @@ var
   AppOpeningFile: boolean = false;
 
   AppCodetreeState: record
-    Editor: TATSynEdit;
+    Editor: TATSynEdit; //app never deref-s this pointer (never accesses its properties), to avoid crash after ui-tab was closed
     EditorVersion: Int64;
     Lexer: string;
     SelLine: integer;
