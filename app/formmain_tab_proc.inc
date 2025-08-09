@@ -141,6 +141,8 @@ begin
   //old frame looses focus, update its CachedTreeview, to remember folded nodes
   if Assigned(AppCodetreeState.Editor) and Assigned(CodeTree) then
   begin
+    //we never deref AppCodetreeState.Editor, to avoid using dangling pointer;
+    //so here we compare AppCodetreeState.Editor with Ed1/Ed2 of all frames
     for iFrame:= 0 to FrameCount-1 do
     begin
       F:= Frames[iFrame];

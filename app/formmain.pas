@@ -7478,6 +7478,8 @@ begin
   else
     CodeTree.Tree.SortType:= stNone;
 
+  //we never deref AppCodetreeState.Editor, to avoid using dangling pointer;
+  //so here we compare AppCodetreeState.Editor with Ed1/Ed2 of all frames
   for i:= 0 to FrameCount-1 do
   begin
     Frame:= Frames[i];
