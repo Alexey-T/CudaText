@@ -7,9 +7,11 @@
 
 * change: command "place bookmarks on carets" now don't initially clear bookmarks (idea by @MiroslavMatas)
 + add: mass-replace of regex '^' to e.g. '\n' now gives nicer line-states of affected lines (idea by @Doryforos)
++ add: if app crashes, it creates crash-log "cudatext.error"; on Windows: near "cudatext.exe", on Unix: in the home directory
 - fix: command "insert empty line below" did not force line-ending mark if called on last line (thanks @Doryforos)
 - fix: missed mouse cursor updating on mouse-button releasing on drag&drop (thanks @Doryforos)
 - fix: Access Violation during drag&drop of text to another ui-tab (thanks @Doryforos)
+- fix: Access Violation after closing ui-tab and working with code-tree (thanks @Doryforos)
 - fix: regression: pair brackets are not highlighted upon startup, until caret moves (thanks @Doryforos)
 - fix: Shift+Alt+Down (or +Up) with soft-wrapped lines gave parasitic bad selection (thanks @Doryforos)
 - fix: in read-only editor with selection, pressing '(' - shifted the selection
