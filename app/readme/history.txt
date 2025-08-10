@@ -7,7 +7,7 @@
 
 * change: command "place bookmarks on carets" now don't initially clear bookmarks (idea by @MiroslavMatas)
 + add: mass-replace of regex '^' to e.g. '\n' now gives nicer line-states of affected lines (idea by @Doryforos)
-+ add: if app crashes, it creates crash-log "cudatext.error"; on Windows: near "cudatext.exe", on Unix: in the home directory
++ add: if app crashes, it creates crash-log "cudatext.error"; on Windows: near "cudatext.exe", on Linux/Unix: in the home directory; crash-log has detailed info only if debug-build of app is used, you can get debug-build at the "Issues" Github page or at the forum
 - fix: command "insert empty line below" did not force line-ending mark if called on last line (thanks @Doryforos)
 - fix: missed mouse cursor updating on mouse-button releasing on drag&drop (thanks @Doryforos)
 - fix: Access Violation during drag&drop of text to another ui-tab (thanks @Doryforos)
