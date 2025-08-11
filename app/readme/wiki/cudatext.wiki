@@ -357,6 +357,7 @@ The following lexers (counting only important ones) exist for CudaText. They are
 * Crystal
 * CSS
 * CUDA C++
+* CVBasic
 * Cython
 * D
 * Dalvik bytecode (Smali)
