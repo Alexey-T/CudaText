@@ -1778,8 +1778,11 @@ begin
   NLineLen:= St.LinesLen[PosY];
   if NLineLen>EditorOps.OpMaxLineLenForBracketFinder then exit;
 
+  {
+  //why? can't remember. causes bug #6021.
   if (PosX=NLineLen) and (PosX>0) then
     Dec(PosX);
+    }
 
   StringItem:= St.GetItemPtr(PosY);
 
