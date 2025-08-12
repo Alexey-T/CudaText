@@ -1778,12 +1778,6 @@ begin
   NLineLen:= St.LinesLen[PosY];
   if NLineLen>EditorOps.OpMaxLineLenForBracketFinder then exit;
 
-  {
-  //why? can't remember. causes bug #6021.
-  if (PosX=NLineLen) and (PosX>0) then
-    Dec(PosX);
-    }
-
   StringItem:= St.GetItemPtr(PosY);
 
   if PosX<NLineLen then
@@ -1797,7 +1791,7 @@ begin
   if Kind=TEditorBracketKind.None then
   begin
     //test char before caret
-    if (PosX>0) and (PosX<NLineLen) then
+    if (PosX>0) and (PosX<=NLineLen) then
     begin
       Dec(PosX);
       CharFrom:= StringItem^.CharAt(PosX+1);
