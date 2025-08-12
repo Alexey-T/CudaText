@@ -397,7 +397,7 @@ type
     destructor Destroy; override;
     function Editor: TATSynEdit;
     function EditorBrother: TATSynEdit;
-    function Modified(ACheckOnSessionClosing: boolean=false): boolean;
+    function Modified{(ACheckOnSessionClosing: boolean=false)}: boolean;
     property Adapter[Ed: TATSynEdit]: TATAdapterEControl read GetAdapter;
     procedure EditorOnKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure DoShow;
@@ -5305,7 +5305,7 @@ begin
   end;
 end;
 
-function TEditorFrame.Modified(ACheckOnSessionClosing: boolean=false): boolean;
+function TEditorFrame.Modified{(ACheckOnSessionClosing: boolean=false)}: boolean;
 begin
   if FEditorsLinked then
     Result:= EditorIsModifiedEx(Ed1)
