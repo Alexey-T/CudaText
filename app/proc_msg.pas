@@ -94,7 +94,7 @@ const
   msgBadLexerName = 'ERROR: Wrong lexer name in "newdoc_lexer": "%s"';
 
   msgTitle = 'CudaText'; //no i18n
-  msgModified: array[boolean] of string = ('', '*'); //no i18n
+  msgModifiedString: array[boolean] of string = ('', '*'); //no i18n
   msgLiteLexerSuffix = ' ^'; //no i18n
   msgStatusbarCellColumnMarks: array[boolean] of string = ('-', '||');
   msgStatusbarCellInsOvr: array[boolean] of string = ('Ins', 'Ovr');
