@@ -1080,19 +1080,6 @@ end;
 
 
 function Editor_NextCharAllowed_AutoCloseBracket(Ed: TATSynEdit; ch: widechar): boolean;
-(*
-var
-  S: UnicodeString;
-begin
-  S:= Ed.OptNonWordChars+' '#9;
-  S:= UnicodeStringReplace(S, '"', '', [rfReplaceAll]);
-  S:= UnicodeStringReplace(S, '''', '', [rfReplaceAll]);
-  S:= UnicodeStringReplace(S, '(', '', [rfReplaceAll]);
-  S:= UnicodeStringReplace(S, '[', '', [rfReplaceAll]);
-  S:= UnicodeStringReplace(S, '{', '', [rfReplaceAll]);
-  Result:= Pos(ch, S)>0;
-end;
-*)
 begin
   //like VSCode, suggested in issue #5668
   //chars )]} must be here to support typing of 'f(f2(|))', ie fix issue #5746
