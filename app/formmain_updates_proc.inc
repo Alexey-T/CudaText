@@ -68,7 +68,7 @@ begin
 
   Caption:= SName + SSession + (' - ' + msgTitle);
 
-  Application.Title:= IfThen(F.Modified, '*', '') + F.TabCaption + (' - ' + msgTitle);
+  Application.Title:= msgModified[F.Modified] + F.TabCaption + (' - ' + msgTitle);
 
   UpdateCaption_FloatingGroup(0, FFormFloating1, GroupsFloating1);
   UpdateCaption_FloatingGroup(1, FFormFloating2, GroupsFloating2);
