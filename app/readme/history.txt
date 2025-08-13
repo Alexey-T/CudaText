@@ -7,6 +7,7 @@
 
 + add: show numbers in the statusbar "caret"-cell using digits grouping, e.g. "2,000" instead of "2000", separator is auto-detected from OS (idea by @Doryforos)
 + add: show '*' char in the OS task-switcher, if current tab is modified (thanks @Doryforos)
+- fix: memory leak on using Markdown_Image plugin (thanks @king.midas)
 
 1.226.1 (2025/08)
 
