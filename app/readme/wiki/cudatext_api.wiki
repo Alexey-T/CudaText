@@ -341,7 +341,7 @@ Actions work with props of Find/Replace dialog, and props of low-level search en
 ** "c": CudaText format telling about "is it column (vertical) block".
 ** "x": CudaText format telling about last copying to Clipboard (PROC_GET_CLIP_EX will show these details).
 
-* PROC_CLIP_SAVE_PIC: If Clipboard has a picture format, saves it to given filename (recommended the .png extension). Returns bool: clipboard has a picture, file is saved.
+* PROC_CLIP_SAVE_PIC: If Clipboard has a picture format, saves it to given image filename. Supported file extensions which determine the image format: "png", "jpg", "jpeg". Returns bool: clipboard has a picture, file is saved.
 
 ====app_proc - Plugin calls====
 
