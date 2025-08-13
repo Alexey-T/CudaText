@@ -8394,8 +8394,12 @@ begin
         APP_IMAGE_LOAD:
           begin
             Gr:= DoPictureLoadFromFile(StrValue);
-            Image.Picture.Assign(Gr);
-            Result:= PyBool_FromLong(Ord(Assigned(Gr)));
+            try
+              Image.Picture.Assign(Gr);
+              Result:= PyBool_FromLong(Ord(Assigned(Gr)));
+            finally
+              FreeAndNil(Gr);
+            end;
           end;
 
         APP_IMAGE_PAINT:
