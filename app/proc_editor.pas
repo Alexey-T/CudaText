@@ -601,6 +601,12 @@ begin
 end;
 
 function EditorFormatStatus(ed: TATSynEdit; const MacroText: string): string;
+  //
+  function IntToStrX(Value: Extended): string; inline;
+  begin
+    Result:= FormatFloat('#,###', Value);
+  end;
+  //
 var
   St: TATStrings;
   Caret: TATCaretItem;
@@ -630,14 +636,14 @@ begin
     nColumns:= Abs(Caret.PosX-Caret.EndX);
 
   result:= MacroText;
-  result:= StringReplace(result, '{x}', IntToStr(Caret.PosX+1), []);
-  result:= StringReplace(result, '{y}', IntToStr(Caret.PosY+1), []);
-  result:= StringReplace(result, '{y2}', IntToStr(ed.Carets[ed.Carets.Count-1].PosY+1), []);
-  result:= StringReplace(result, '{yb}', IntToStr(yBegin+1), []);
-  result:= StringReplace(result, '{ye}', IntToStr(yEnd+1), []);
-  result:= StringReplace(result, '{count}', IntToStr(St.Count), []);
-  result:= StringReplace(result, '{carets}', IntToStr(ed.Carets.Count), []);
-  result:= StringReplace(result, '{cols}', IntToStr(nColumns), []);
+  result:= StringReplace(result, '{x}', IntToStrX(Caret.PosX+1), []);
+  result:= StringReplace(result, '{y}', IntToStrX(Caret.PosY+1), []);
+  result:= StringReplace(result, '{y2}', IntToStrX(ed.Carets[ed.Carets.Count-1].PosY+1), []);
+  result:= StringReplace(result, '{yb}', IntToStrX(yBegin+1), []);
+  result:= StringReplace(result, '{ye}', IntToStrX(yEnd+1), []);
+  result:= StringReplace(result, '{count}', IntToStrX(St.Count), []);
+  result:= StringReplace(result, '{carets}', IntToStrX(ed.Carets.Count), []);
+  result:= StringReplace(result, '{cols}', IntToStrX(nColumns), []);
 
   result:= StringReplace(result, '{_ln}', msgStatusbarTextLine, []);
   result:= StringReplace(result, '{_col}', msgStatusbarTextCol, []);
@@ -646,29 +652,29 @@ begin
   result:= StringReplace(result, '{_carets}', msgStatusbarTextCarets, []);
 
   if Pos('{sel}', result)>0 then
-    result:= StringReplace(result, '{sel}', IntToStr(EditorGetSelLinesCount(ed)), []);
+    result:= StringReplace(result, '{sel}', IntToStrX(EditorGetSelLinesCount(ed)), []);
 
   if Pos('{selchars}', result)>0 then
-    result:= StringReplace(result, '{selchars}', IntToStr(EditorGetSelCharsCount(ed)), []);
+    result:= StringReplace(result, '{selchars}', IntToStrX(EditorGetSelCharsCount(ed)), []);
 
   if Pos('{xx}', result)>0 then
     if St.IsIndexValid(Caret.PosY) then
     begin
       //optimized for huge lines
       nColumns:= St.CharPosToColumnPos(Caret.PosY, Caret.PosX, ed.TabHelper)+1;
-      result:= StringReplace(result, '{xx}', IntToStr(nColumns), []);
+      result:= StringReplace(result, '{xx}', IntToStrX(nColumns), []);
     end;
 
   if Pos('{offset_', result)>0 then
   begin
     EditorCalcOffsetsForStatusbar(ed, nOffsetMax, nOffsetCaret);
     if nOffsetMax>=0 then
-      s:= IntToStr(nOffsetMax)
+      s:= IntToStrX(nOffsetMax)
     else
       s:= '?';
     result:= StringReplace(result, '{offset_max}', s, []);
     if nOffsetCaret>=0 then
-      s:= IntToStr(nOffsetCaret)
+      s:= IntToStrX(nOffsetCaret)
     else
       s:= '?';
     result:= StringReplace(result, '{offset_caret}', s, []);
@@ -704,7 +710,7 @@ begin
         nCodepoint:= 0;
 
       if nCodepoint>0 then
-        s:= IntToStr(nCodepoint)
+        s:= IntToStrX(nCodepoint)
       else
         s:= '';
       result:= StringReplace(result, '{char_dec}', s, []);

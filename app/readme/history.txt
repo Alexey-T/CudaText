@@ -3,6 +3,8 @@
   - fixed
   * changed
 
++ add: show numbers in the statusbar "caret"-cell using digits grouping, e.g. "2,000" instead of "2000", separator is auto-detected from OS (idea by @Doryforos)
+
 1.226.1 (2025/08)
 
 * change: command "place bookmarks on carets" now don't initially clear bookmarks (idea by @MiroslavMatas)
