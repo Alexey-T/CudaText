@@ -2588,6 +2588,8 @@ begin
   Strs:= Ed.Strings;
   Strs.SetNewCommandMark;
 
+  //ATSynEdit cannot ok render #10 and #13 if occured in a line,
+  //even when they are marked by uw_hexshow in CharSizer
   for i:= 1 to Length(AStr) do
     if (AStr[i]=#10) or (AStr[i]=#13) then
       AStr[i]:= cCharToReplaceEol;
