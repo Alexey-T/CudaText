@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.226.2 (2025/08)
+1.226.4 (2025/08)
 
 * change: command "toggle word-wrap mode (off/on)" logic is changed and command is renamed in Cmd Palette: now if value "by margin" was activated, "off/on" toggles between "off" and "by margin" (idea by @Doryforos)
 * change: removed sub-option "e" in the option "renderer_tweaks", because Ellipsis-char should be always of width 100%, like in Sublime/VSCode/Notepad++/Kate
