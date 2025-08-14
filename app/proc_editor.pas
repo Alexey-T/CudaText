@@ -98,9 +98,6 @@ type
     SelectInside
     );
 
-type
-  TEditorGetTokenKind = function(Ed: TATSynEdit; AX, AY: integer): TATTokenKind of object;
-
 function EditorBracket_GetPairForOpeningBracketOrQuote(ch: char): char;
 function EditorBracket_GetPairForClosingBracketOrQuote(ch: char): char;
 
