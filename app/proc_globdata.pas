@@ -4063,7 +4063,8 @@ var
   bValue: boolean;
 begin
   {
-  //before 2025.08, width of the ellipsis-char was configurable. it's redundant option.
+  //before 2025.08, width of the ellipsis-char was configurable.
+  //it's redundant: Notepad++/Sublime/VSCode/Kate don't have the option.
   if Pos('e', s)>0 then
     FixedSizes[cCharEllipsis]:= uw_normal
   else
