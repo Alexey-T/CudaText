@@ -5,7 +5,7 @@
 
 1.226.2 (2025/08)
 
-* change: command "toggle word-wrap mode (off/on)" logic is changed and command is renamed in Cmd Palette: now if value "wrap by window or margin" was activated, "off/on" command uses "wrap by window or margin" on toggling (idea by @Doryforos)
+* change: command "toggle word-wrap mode (off/on)" logic is changed and command is renamed in Cmd Palette: now if value "by margin" was activated, "off/on" toggles between "off" and "by margin" (idea by @Doryforos)
 + add: show numbers in the statusbar "caret"-cell using digits grouping, e.g. "2,000" instead of "2000", separator is auto-detected from OS (idea by @Doryforos)
 + add: show '*' char in the OS task-switcher, if current tab is modified (thanks @Doryforos)
 - fix: memory leak on using Markdown_Image plugin (thanks @king.midas)
