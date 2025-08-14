@@ -71,7 +71,7 @@ procedure EditorCopySelToPrimarySelection(Ed: TATSynEdit; AMaxLineCount: integer
 procedure EditorCopyLinesWithCarets(Ed: TATSynEdit);
 procedure EditorCopyAsHTML(Ed: TATSynEdit);
 
-procedure EditorSetLine(Ed: TATSynEdit; AIndex: integer; AStr: UnicodeString);
+procedure EditorSetLine(Ed: TATSynEdit; AIndex: integer; const AStr: UnicodeString);
 procedure EditorSetAllText(Ed: TATSynEdit; const AStr: string);
 procedure EditorDeleteRange(Ed: TATSynEdit; X1, Y1, X2, Y2: integer);
 function EditorInsert(Ed: TATSynEdit; AX, AY: integer; const AStr: UnicodeString; out APosAfter: TPoint): boolean;
@@ -2578,21 +2578,25 @@ begin
   Ed.Invalidate;
 end;
 
-procedure EditorSetLine(Ed: TATSynEdit; AIndex: integer; AStr: UnicodeString);
+procedure EditorSetLine(Ed: TATSynEdit; AIndex: integer; const AStr: UnicodeString);
+{
 const
   cCharToReplaceEol = ' ';
+}
 var
   Strs: TATStrings;
-  NLastIndex, i: SizeInt;
+  NLastIndex: SizeInt;
 begin
   Strs:= Ed.Strings;
   Strs.SetNewCommandMark;
 
-  //ATSynEdit cannot ok render #10 and #13 if occured in a line,
-  //even when they are marked by uw_hexshow in CharSizer
+  {
+  //ATSynEdit can render #10 and #13 if occured in a line,
+  //when they are marked by uw_hexshow in FixedSizes array
   for i:= 1 to Length(AStr) do
     if (AStr[i]=#10) or (AStr[i]=#13) then
       AStr[i]:= cCharToReplaceEol;
+  }
 
   if (AIndex=-1) or (AIndex=-2) then
   begin
