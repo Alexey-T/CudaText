@@ -2579,17 +2579,19 @@ begin
 end;
 
 procedure EditorSetLine(Ed: TATSynEdit; AIndex: integer; AStr: UnicodeString);
+const
+  cCharToReplaceEol = ' ';
 var
   Strs: TATStrings;
-  NLastIndex, i: integer;
+  NLastIndex, i: SizeInt;
 begin
   Strs:= Ed.Strings;
   Strs.SetNewCommandMark;
 
-  //replace \n \r to "_"
+  //replace #10 and #13
   for i:= 1 to Length(AStr) do
     if (AStr[i]=#10) or (AStr[i]=#13) then
-      AStr[i]:= '_';
+      AStr[i]:= cCharToReplaceEol;
 
   if (AIndex=-1) or (AIndex=-2) then
   begin
