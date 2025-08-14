@@ -270,18 +270,18 @@ end;
 function TfmUnprinted.GetConfigValue: string;
 begin
   Result:= '';
-  if chkShowWhitespace.Checked then Result+= 's';
-  if chkShowEndMarks.Checked then Result+= 'e';
-  if chkWraps.Checked then Result+= 'w';
-  if chkEndDetails.Checked then Result+= 'd';
-  if chkOnlyTrail.Checked then Result+= 't';
+  if chkShowWhitespace.Checked   then Result+= 's';
+  if chkShowEndMarks.Checked     then Result+= 'e';
+  if chkWraps.Checked            then Result+= 'w';
+  if chkEndDetails.Checked       then Result+= 'd';
+  if chkOnlyTrail.Checked        then Result+= 't';
   if chkOnlyLeadAndTrail.Checked then Result+= 'l';
-  if chkOnlyInSel.Checked then Result+= 'x';
-  if chkAlsoInSel.Checked then Result+= 'X';
-  if chkForceShowTabs.Checked then Result+= 'T';
+  if chkOnlyInSel.Checked        then Result+= 'x';
+  if chkAlsoInSel.Checked        then Result+= 'X';
+  if chkForceShowTabs.Checked    then Result+= 'T';
 
-  if chkEndDot.Checked then Result+= '.';
-  if chkEndPilcrow.Checked then Result+= 'p';
+  if chkEndDot.Checked           then Result+= '.';
+  if chkEndPilcrow.Checked       then Result+= 'p';
 end;
 
 end.
