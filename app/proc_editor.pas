@@ -2588,7 +2588,6 @@ begin
   Strs:= Ed.Strings;
   Strs.SetNewCommandMark;
 
-  //replace #10 and #13
   for i:= 1 to Length(AStr) do
     if (AStr[i]=#10) or (AStr[i]=#13) then
       AStr[i]:= cCharToReplaceEol;
