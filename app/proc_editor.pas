@@ -71,10 +71,10 @@ procedure EditorCopySelToPrimarySelection(Ed: TATSynEdit; AMaxLineCount: integer
 procedure EditorCopyLinesWithCarets(Ed: TATSynEdit);
 procedure EditorCopyAsHTML(Ed: TATSynEdit);
 
-procedure EditorSetLine(Ed: TATSynEdit; AIndex: integer; const AStr: UnicodeString);
-procedure EditorSetAllText(Ed: TATSynEdit; const AStr: string);
-procedure EditorDeleteRange(Ed: TATSynEdit; X1, Y1, X2, Y2: integer);
-function EditorInsert(Ed: TATSynEdit; AX, AY: integer; const AStr: UnicodeString; out APosAfter: TPoint): boolean;
+procedure EditorSetLineFromAPI(Ed: TATSynEdit; AIndex: integer; const AStr: UnicodeString);
+procedure EditorSetAllTextFromAPI(Ed: TATSynEdit; const AStr: string);
+procedure EditorDeleteRangeFromAPI(Ed: TATSynEdit; X1, Y1, X2, Y2: integer);
+function EditorInsertFromAPI(Ed: TATSynEdit; AX, AY: integer; const AStr: UnicodeString; out APosAfter: TPoint): boolean;
 procedure EditorHighlightBadRegexBrackets(Ed: TATSynEdit; AOnlyClear: boolean);
 
 procedure EditorConvertTabsToSpaces(Ed: TATSynEdit);
@@ -2578,7 +2578,7 @@ begin
   Ed.Invalidate;
 end;
 
-procedure EditorSetLine(Ed: TATSynEdit; AIndex: integer; const AStr: UnicodeString);
+procedure EditorSetLineFromAPI(Ed: TATSynEdit; AIndex: integer; const AStr: UnicodeString);
 {
 const
   cCharToReplaceEol = ' ';
@@ -2626,7 +2626,7 @@ begin
   Ed.Update(true);
 end;
 
-procedure EditorSetAllText(Ed: TATSynEdit; const AStr: string);
+procedure EditorSetAllTextFromAPI(Ed: TATSynEdit; const AStr: string);
 var
   Strs: TATStrings;
 begin
@@ -2649,7 +2649,7 @@ begin
   Ed.Update(true); //with True, to fix CudaText #4174
 end;
 
-procedure EditorDeleteRange(Ed: TATSynEdit; X1, Y1, X2, Y2: integer);
+procedure EditorDeleteRangeFromAPI(Ed: TATSynEdit; X1, Y1, X2, Y2: integer);
 var
   Strs: TATStrings;
   Shift, PosAfter: TPoint;
@@ -2669,7 +2669,7 @@ begin
   Ed.Update(true);
 end;
 
-function EditorInsert(Ed: TATSynEdit; AX, AY: integer; const AStr: UnicodeString; out APosAfter: TPoint): boolean;
+function EditorInsertFromAPI(Ed: TATSynEdit; AX, AY: integer; const AStr: UnicodeString; out APosAfter: TPoint): boolean;
 var
   Strs: TATStrings;
   Shift: TPoint;

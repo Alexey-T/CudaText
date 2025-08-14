@@ -1738,7 +1738,7 @@ begin
     begin
       Ed:= PyHelper_EditorFromHandle(H);
       if not Ed.ModeReadOnly then
-        EditorSetAllText(Ed, string(PtrText));
+        EditorSetAllTextFromAPI(Ed, string(PtrText));
       Result:= ReturnNone;
     end
     else
@@ -1759,7 +1759,7 @@ begin
       Ed:= PyHelper_EditorFromHandle(H);
       Str:= UTF8Decode(string(Ptr));
       if not Ed.ModeReadOnly then
-        EditorSetLine(Ed, NIndex, Str);
+        EditorSetLineFromAPI(Ed, NIndex, Str);
       Result:= ReturnNone;
     end
   else
@@ -1778,7 +1778,7 @@ begin
     begin
       Ed:= PyHelper_EditorFromHandle(H);
       if not Ed.ModeReadOnly then
-        EditorDeleteRange(Ed, X1, Y1, X2, Y2);
+        EditorDeleteRangeFromAPI(Ed, X1, Y1, X2, Y2);
       Result:= ReturnNone;
     end
   else
@@ -1801,7 +1801,7 @@ begin
       if Ed.ModeReadOnly then
         exit(ReturnNone);
       Str:= UTF8Decode(string(Ptr));
-      if EditorInsert(Ed, X1, Y1, Str, PosAfter) then
+      if EditorInsertFromAPI(Ed, X1, Y1, Str, PosAfter) then
         Result:= Py_BuildValue('(ii)', PosAfter.X, PosAfter.Y)
       else
         Result:= ReturnNone;
