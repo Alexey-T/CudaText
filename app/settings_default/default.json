@@ -129,7 +129,6 @@
   //                   On macOS, 'offsets' decrease (2x) rendering speed.
   //                   On GTK2 and Qt5, 'offsets' decrease rendering speed.
   //  if 'c' in value: On painting caret, additionally render the text over inverted caret's cell.
-  //  if 'e' in value: Ellipsis-char U+2026 has width 100%, otherwise the width from "unicode_full_width".
   //  if 's' in value: Show Unicode-spaces as usual spaces.
   //                   If 's' not in value, show Unicode-spaces in hex form.
   //                   Unicode-spaces are: U+1680, U+2007, U+200B, U+202F, U+205F, U+2060, U+3000.

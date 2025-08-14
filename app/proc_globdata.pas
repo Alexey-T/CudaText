@@ -4057,15 +4057,18 @@ end;
 
 procedure AppApplyRendererTweaks(const s: string);
 const
-  cCharEllipsis = $2026;
+  //cCharEllipsis = $2026;
   cHexShow: array[boolean] of byte = (uw_space, uw_hexshow);
 var
   bValue: boolean;
 begin
+  {
+  //before 2025.08, width of the ellipsis-char was configurable. it's redundant option.
   if Pos('e', s)>0 then
     FixedSizes[cCharEllipsis]:= uw_normal
   else
     FixedSizes[cCharEllipsis]:= uw_fullwidth;
+    }
 
   ATEditorOptions.RenderSpaceBgAtLineEOL:=         Pos('n', s)=0;
   ATEditorOptions.PreciseCalculationOfCharWidth:=  Pos('w', s)=0;
