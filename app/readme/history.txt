@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-- fix: could not find all 3 Greek chars "Σσς" from search-text "ς" case-insensitive (thanks @Doryforos)
+- fix: could not find all 3 Greek chars "Σσς" with search-text "ς" in RegEx & case-insensitive mode (thanks @Doryforos)
 
 1.226.4 (2025/08)
 
