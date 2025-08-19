@@ -3,6 +3,8 @@
   - fixed
   * changed
 
+- fix: could not find all 3 Greek chars "Σσς" from search-text "ς" case-insensitive (thanks @Doryforos)
+
 1.226.4 (2025/08)
 
 * change: command "toggle word-wrap mode (off/on)" logic is changed and command is renamed in Cmd Palette: now if value "by margin" was activated, "off/on" toggles between "off" and "by margin" (idea by @Doryforos)
