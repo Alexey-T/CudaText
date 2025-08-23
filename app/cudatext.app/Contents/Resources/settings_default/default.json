@@ -390,7 +390,7 @@
   //String of non-word characters, which define word boundaries.
   //To specify underscore "_" here, place it as first char.
   //Option should be used in lexer-specific config.
-  "nonword_chars": "-+*=/\\()[]{}<>\"'.,:;~?!@#$%^&|`…«»",
+  "nonword_chars": "-+*=/\\()[]{}<>\"'.,:;~?!@#$%^&|`…«»‘’“”",
 
   //[Text/Tabulations]
   //Tab-char width.
