@@ -3,6 +3,7 @@
   - fixed
   * changed
 
++ add: case-conversion commands: additionally correct Greek text: a) remove diacritics from uppercase letters, b) fix lowercase sigma-char at word ends (idea by @Doryforos)
 - fix: could not find all 3 Greek chars "Σσς" with search-text "ς" in RegEx & case-insensitive mode (thanks @Doryforos)
 
 1.226.4 (2025/08)
