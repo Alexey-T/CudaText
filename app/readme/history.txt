@@ -3,6 +3,9 @@
   - fixed
   * changed
 
+1.227.0 (2025/09)
+
++ add: big optimization of mass-replace, when options RegEx/WholeWords/InSelection/ConfirmReplaces/SyntaxElements are all Off; affects case: mass-replace of "\r\n" with EOL in huge one-liner of length 20M, time: 15 mins -> 10 secs (thanks @Hexaae)
 + add: case-conversion commands: additionally correct Greek text: a) remove diacritics from uppercase letters, b) fix lowercase sigma-char at word ends (idea by @Doryforos)
 - fix: could not find all 3 Greek chars "Σσς" with search-text "ς" in RegEx & case-insensitive mode (thanks @Doryforos)
 
