@@ -5,7 +5,7 @@
 
 1.227.0 (2025/09)
 
-+ add: big optimization of "Replace all", when find/replace options RegEx/WholeWords/InSelection/SyntaxElements/ConfirmReplaces/PreserveCase are all Off; example: replace of "\r\n" with ASCII code 10 in huge one-liner of length 20M with 900K occurrences, time: 15 mins -> 10 secs (thanks @Hexaae)
++ add: big optimization of "Replace all", when find/replace options RegEx/WholeWords/InSelection/SyntaxElements/ConfirmReplaces/PreserveCase are all Off; example: replace of "\r\n" with linebreak char in huge line of length 20M with 900K occurrences, time: 15 mins -> 7 secs (thanks @Hexaae)
 + add: case-conversion commands: additionally correct Greek text: a) remove diacritics from uppercase letters, b) fix lowercase sigma-char at word ends (idea by @Doryforos)
 - fix: could not find all 3 Greek chars "Σσς" with search-text "ς" in RegEx & case-insensitive mode (thanks @Doryforos)
 
