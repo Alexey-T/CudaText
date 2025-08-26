@@ -388,7 +388,7 @@ object SyntAnal13: TLibSyntAnalyzer
       StatesAdd = 4
       StatesAbsent = 3076
       TokenType = 15
-      Expression = '~+(?![>\}~])'
+      Expression = '~+(?![\s>\}~])'
       ColumnFrom = 0
       ColumnTo = 0
     end
