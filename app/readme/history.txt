@@ -3,6 +3,8 @@
   - fixed
   * changed
 
+- fix: for Windows version bug when Georgian chars are invisible with "font_ligatures":true, workaround was made: app disables ligatures for a line if line has any Georgian char (thanks @Doryforos)
+
 1.226.7 (2025/08)
 
 + add: big optimization of "Replace all", when find/replace options RegEx/WholeWords/InSelection/SyntaxElements/ConfirmReplaces/PreserveCase are all Off; example: replace of "\r\n" with linebreak char in huge line of length 20M with 900K occurrences, time: 15 mins -> 7 secs (thanks @Hexaae)
