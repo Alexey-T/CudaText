@@ -1313,6 +1313,17 @@ Search engine has the feature, which is rarely implemented in text editors. When
 
 Second click on the "Search" sidebar button toggles dialog between Find and Replace modes.
 
+The "Replace all" action has one important feature: when find/replace options
+
+* RegEx
+* WholeWords
+* InSelection
+* SyntaxElements
+* ConfirmReplaces
+* PreserveCase
+
+are all Off - app uses big optimization, making it a lot faster on huge lines. For example, replace of "\r\n" with linebreak char in huge line of length 20M with 900K occurrence: time without optimization in older CudaText versions: 15 mins --> now with optimization: 7 seconds.
+
 ="Go to line" and other "Go to" dialogs=
 
 '''Dialog "Go to line"''' (item in the "Search" menu) allows to enter text in formats:
