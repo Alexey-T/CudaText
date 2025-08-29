@@ -1315,12 +1315,12 @@ Second click on the "Search" sidebar button toggles dialog between Find and Repl
 
 The "Replace all" action has one important feature: when find/replace options
 
-* RegEx
-* WholeWords
-* InSelection
-* SyntaxElements
-* ConfirmReplaces
-* PreserveCase
+* regex
+* whole words only
+* in selection only
+* allowed syntax elements
+* confirm replaces
+* preserve case on replacement
 
 are all Off - app uses big optimization, making it a lot faster on huge lines. For example, replace of "\r\n" with linebreak char in huge line of length 20M with 900K occurrences: time without optimization in older CudaText versions: 15 mins --> now with optimization: 7 seconds.
 
