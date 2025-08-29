@@ -1322,7 +1322,7 @@ The "Replace all" action has one important feature: when find/replace options
 * ConfirmReplaces
 * PreserveCase
 
-are all Off - app uses big optimization, making it a lot faster on huge lines. For example, replace of "\r\n" with linebreak char in huge line of length 20M with 900K occurrence: time without optimization in older CudaText versions: 15 mins --> now with optimization: 7 seconds.
+are all Off - app uses big optimization, making it a lot faster on huge lines. For example, replace of "\r\n" with linebreak char in huge line of length 20M with 900K occurrences: time without optimization in older CudaText versions: 15 mins --> now with optimization: 7 seconds.
 
 ="Go to line" and other "Go to" dialogs=
 
