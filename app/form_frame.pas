@@ -1941,11 +1941,19 @@ begin
 
     cCommand_KeyDelete:
       begin
-        //after Del is hit, caret may be located near the bracket (TimerCaret handler calls pair-brackets highlight)
+        //after Del is hit, caret may be located near the bracket (TimerCaret runs bracket-highlight)
         TimerCaret.Enabled:= false;
         TimerCaret.Interval:= UiOps.PyCaretSlow;
         TimerCaret.Enabled:= true;
-        AHandled:= false;
+      end;
+
+    cCommand_TextDeleteWordNext:
+      begin
+        CancelAutocompleteAutoshow;
+        //after Del is hit, caret may be located near the bracket
+        TimerCaret.Enabled:= false;
+        TimerCaret.Interval:= UiOps.PyCaretSlow;
+        TimerCaret.Enabled:= true;
       end;
 
     cCommand_Undo,
@@ -1969,7 +1977,6 @@ begin
     cCommand_KeyPageUp_Sel,
     cCommand_KeyPageDown,
     cCommand_KeyPageDown_Sel,
-    cCommand_TextDeleteWordNext,
     cCommand_TextDeleteWordPrev:
       begin
         CancelAutocompleteAutoshow;
