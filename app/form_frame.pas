@@ -1939,6 +1939,15 @@ begin
         end;
       end;
 
+    cCommand_KeyDelete:
+      begin
+        TimerCaret.Enabled:= false;
+        TimerCaret.Interval:= UiOps.PyCaretSlow;
+        TimerCaret.Enabled:= true;
+
+        AHandled:= false;
+      end;
+
     cCommand_Undo,
     cCommand_KeyTab,
     cCommand_KeyEnter,
