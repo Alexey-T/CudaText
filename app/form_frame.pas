@@ -1941,10 +1941,10 @@ begin
 
     cCommand_KeyDelete:
       begin
+        //after Del is hit, caret may be located near the bracket (TimerCaret handler calls pair-brackets highlight)
         TimerCaret.Enabled:= false;
         TimerCaret.Interval:= UiOps.PyCaretSlow;
         TimerCaret.Enabled:= true;
-
         AHandled:= false;
       end;
 
