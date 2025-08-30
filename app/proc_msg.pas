@@ -287,6 +287,7 @@ const
   msgStatusAddonInstalled: string = 'Package installed';
   msgStatusAddonsInstalled: string = 'Installed several packages (up to %d)';
   msgStatusOpened: string = 'Opened:';
+  msgStatusClosed: string = 'Closed:';
   msgStatusReopened: string = 'Reopened:';
   msgStatusBadRegex: string = 'Incorrect regex passed:';
   msgStatusFoundNextMatch: string = 'Found next match';

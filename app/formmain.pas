@@ -1008,6 +1008,7 @@ type
     procedure MsgStatus(AText: string; AFinderMessage: boolean=false);
     procedure MsgStatusErrorInRegex;
     procedure MsgStatusFileOpened(const AFileName1, AFileName2: string);
+    procedure MsgStatusFileClosed(const AFileName1, AFileName2: string);
     procedure SearcherDirectoryEnter(FileIterator: TFileIterator);
     procedure SetShowFloatingForm1(AValue: boolean);
     procedure SetShowFloatingForm2(AValue: boolean);
@@ -4808,6 +4809,16 @@ var
 begin
   S:= msgStatusOpened+' "'+ExtractFileName(AFileName1)+'"';
   if AFileName2<>'' then
+    S+= ', "'+ExtractFileName(AFileName2)+'"';
+  MsgStatus(S);
+end;
+
+procedure TfmMain.MsgStatusFileClosed(const AFileName1, AFileName2: string);
+var
+  S: string;
+begin
+  S:= msgStatusClosed+' "'+ExtractFileName(AFileName1)+'"';
+  if (AFileName2<>'') and (AFileName1<>AFileName2) then
     S+= ', "'+ExtractFileName(AFileName2)+'"';
   MsgStatus(S);
 end;

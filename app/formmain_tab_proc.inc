@@ -428,6 +428,9 @@ begin
       if bNeedTreeUpd then
         DoCodetree_Clear;
 
+    if Frame.Ed1.FileName<>'' then
+      MsgStatusFileClosed(Frame.Ed1.FileName, Frame.Ed2.FileName);
+
     FNeedUpdateStatuses:= true;
 
     if (FFinder.Editor=Frame.Ed1) or
