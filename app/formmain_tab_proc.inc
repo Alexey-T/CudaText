@@ -208,8 +208,11 @@ begin
   if not F.EditorsLinked then
     DoOps_LoadOptionsLexerSpecific(F, F.Ed2);
 
+  {
+  //commented 2025.08, better to not hide prev status-msg "Closed: filename"
   MsgStatus(''); //makes no sense to keep old message on tab switching
   UpdateStatusbar;
+  }
 
   if AAllowEventOnTabChange then
     DoPyEvent(F.Editor, TAppPyEvent.OnTabChange, []);
