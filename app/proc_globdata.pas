@@ -236,6 +236,7 @@ type
     MaxLinesForMicromapPaint: integer;
     MaxLenOfMenuitemToOpenURL: integer;
 
+    ClearStatusbarMsgOnTabSwitching: boolean;
     InfoAboutOptionsEditor: boolean;
     AllowRunPkExec: boolean;
     AllowCheckConfigsForNullBytes: boolean;
@@ -2230,6 +2231,7 @@ begin
     MaxLinesForMicromapPaint:= 300*1024;
     MaxLenOfMenuitemToOpenURL:= 40;
 
+    ClearStatusbarMsgOnTabSwitching:= false;
     InfoAboutOptionsEditor:= true;
     AllowRunPkExec:= true;
     AllowCheckConfigsForNullBytes:= true;
