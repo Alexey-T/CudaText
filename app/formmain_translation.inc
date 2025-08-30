@@ -516,6 +516,7 @@ begin
     DoLocString(msgStatusAddonInstalled          , ini, 'si', 'AddonInstalled');
     DoLocString(msgStatusAddonsInstalled         , ini, 'si', 'AddonsInstalled');
     DoLocString(msgStatusOpened                  , ini, 'si', 'Opened');
+    DoLocString(msgStatusClosed                  , ini, 'si', 'Closed');
     DoLocString(msgStatusReopened                , ini, 'si', 'Reopened');
     DoLocString(msgStatusBadRegex                , ini, 'si', 'BadRegex');
     DoLocString(msgStatusFoundNextMatch          , ini, 'si', 'FoundNextMatch');
