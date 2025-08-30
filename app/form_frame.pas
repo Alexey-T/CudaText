@@ -1947,6 +1947,8 @@ begin
         TimerCaret.Enabled:= true;
       end;
 
+    cCommand_Undo,
+    cCommand_Redo,
     cCommand_TextDeleteWordNext:
       begin
         CancelAutocompleteAutoshow;
@@ -1956,7 +1958,6 @@ begin
         TimerCaret.Enabled:= true;
       end;
 
-    cCommand_Undo,
     cCommand_KeyTab,
     cCommand_KeyEnter,
     cCommand_TextDeleteLine,
