@@ -3,7 +3,10 @@
   - fixed
   * changed
 
+1.227.0 (2025/09)
+
 * change/add: unprinted chars: paint 3 different arrows for 3 different line endings: LF CRLF CR (idea by @Rain Ding)
++ add: show statusbar message on closing a file (thanks @jczanfona)
 - fix: for Windows 10 bug when Georgian chars are invisible with "font_ligatures":true, workaround was made: app disables ligatures for a line if line has any Georgian char (thanks @Doryforos)
 - fix: pair brackets are not immediately highlighted after DEL is hit near them (thanks @Doryforos)
 
