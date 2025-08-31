@@ -157,6 +157,7 @@ TYPES = {
     "cson": ['CoffeeScript'],
     "csx": ['C#'],
     "cu": ['CUDA C++'],
+    "cue": ['CUE', 'CUE sheet'],
     "cuh": ['CUDA C++'],
     "d": ['D'],
     "dart": ['Dart'],
