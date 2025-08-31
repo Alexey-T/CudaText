@@ -358,6 +358,7 @@ The following lexers (counting only important ones) exist for CudaText. They are
 * CSS
 * CUDA C++
 * CUE lang
+* CUE sheet
 * CVBasic
 * Cython
 * D
