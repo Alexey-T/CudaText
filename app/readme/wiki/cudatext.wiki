@@ -632,7 +632,7 @@ You can modify/create lexers. But not in CudaText. Install [https://cudatext.git
 For full-featured lexer editing, you must use SynWrite as described in the topic above. CudaText itself allows to edit only lexer styles, ie colors/ borders/ font-style (bold/italic/strikeout) of lexer styles. How to do that:
 * Activate some lexer for the current document.
 * Call CudaText menu "Options / Lexers / Lexer properties", dialog "Lexer properties" will open.
-* In the "Lexer properties" dialog, activate "Styles" tab, it has UI to customize styles in the active lexer. This UI is enabled only when lexer themes are Off, ie option "ui_lexer_themes":false.
+* In the "Lexer properties" dialog, activate "Styles" tab, it has UI to customize styles in the active lexer. This UI is enabled only when lexer themes are Off, ie option <code>"ui_lexer_themes":false</code>.
 
 By default that option is On so UI is disabled. If you enable the UI, you can customize all lexer styles. Configuration will be saved to the files "settings/*.cuda-lexops". These files are auto-loaded by CudaText on start.
 
@@ -1479,8 +1479,8 @@ Plugins can place marks on micromap, e.g. plugin "Highlight Occurrences" places 
 
 Micromap can be rendered directly on the vertical scrollbar (when scrollbar is application-painted). To use that, you need 2 options:
 
-* "scrollbar_themed": true
-* "micromap_on_scrollbar": true
+* <code>"scrollbar_themed": true</code>
+* <code>"micromap_on_scrollbar": true</code>
 
 Picture shows micromap on the scrollbar:
 [[File:cudatext-micromap-on-scrollbar.png]]
@@ -2087,7 +2087,7 @@ In the menu "Plugins / Addons Manager / Install" you will find several categorie
 
 =Themed top menu=
 
-Top menu (together with some context menus and menu from the "hamburger" icon) can be themed. Only on Windows. This needs the option "ui_menu_themed":true (it's 'true' by default). When option is on, menu font/background/selection/checkmarks become colored from other CudaText UI theme colors. Also, option "ui_menu_themed_font_size" allows to change the font size.
+Top menu (together with some context menus and menu from the "hamburger" icon) can be themed. Only on Windows. This needs the option <code>"ui_menu_themed":true</code> (it's 'true' by default). When option is on, menu font/background/selection/checkmarks become colored from other CudaText UI theme colors. Also, option "ui_menu_themed_font_size" allows to change the font size.
 
 You can also set colors of menu elements directly; dialog "Options / Themes / Settings - theme - ui" provides theme items for this. For example, to set the font-color of the top menu, change the color of element "top menu, font" in the dialog.
 
@@ -2241,15 +2241,15 @@ homepage=https://github.com/nnnn/pppp
 
 * "editor, disabled state, font/BG" - Editor is shown as disabled when Replace dialog runs 'Replace all' action, with option "Confirm on replace" (when the confirmation message is shown, editor is disabled). Too see the "..., font" color applied, deactivate the editor lexer.
 
-* "editor, current line BG, other wrapped parts" - Color is used for long wrapped lines, when options "show_cur_line":true & "show_cur_line_minimal":false. Color is used for background of non-current wrapped line parts, belonging to the caret's line. By default color is 'none', so program falls back to "current line BG" for other wrapped parts.
+* "editor, current line BG, other wrapped parts" - Color is used for long wrapped lines, when options <code>"show_cur_line":true</code> and <code>"show_cur_line_minimal":false</code>. Color is used for background of non-current wrapped line parts, belonging to the caret's line. By default color is 'none', so program falls back to "current line BG" for other wrapped parts.
 
-* "editor, horizontal folding line" - This line is painted below the folded block, when option "fold_style" is 4, and you fold (collapse) some folding-range (with some lexer active).
+* "editor, horizontal folding line" - This line is painted below the folded block, when option <code>"fold_style":4</code>, and you fold (collapse) some folding-range (with some lexer active).
 
 * "editor, marked range BG" - Color is shown for marked range. To set marked range e.g. from line 5 to 10, enter in the Console: <syntaxhighlight lang="python">ed.set_prop(PROP_MARKED_RANGE, '5,10')</syntaxhighlight>.
 
 * "editor, markers" - Color of "markers" feature. To see markers, call Command Palette's command "drop marker at caret".
 
-* "editor, minimap, tooltip border" - Border rectangle, painted over a) tooltip which is shown for mouse-over-folded-block with option "fold_tooltip_show":true, b) tooltip which is shown for mouse-over-minimap with option "minimap_tooltip_show":true.
+* "editor, minimap, tooltip border" - Border rectangle, painted over a) tooltip which is shown for mouse-over-folded-block with option <code>"fold_tooltip_show":true</code>, b) tooltip which is shown for mouse-over-minimap with option <code>"minimap_tooltip_show":true</code>.
 
 * "editor, wrapped line indent vert-lines" - Vertical line is painted on the left side of the wrapped part, if you have long wrapped line, and this line begins with e.g. 10 spaces.
 
@@ -2377,17 +2377,17 @@ What is "file_detect_by_xml_signature"? It is detection by signature, in the fir
 
 CudaText has the following optimizations for big files and huge lines:
 
-* CudaText refuses to load files >500Mb. See the option "ui_max_size_open":500 (in Mbytes). Program allows to open such files in built-in viewer (without editing).
+* CudaText refuses to load files >500Mb. See the option <code>"ui_max_size_open":500</code> (in Mbytes). Program allows to open such files in built-in viewer (without editing).
 
-* Word-wrap mode is automatically turned off, when total lines count in document is huge. See the option "wrap_enabled_max_lines":60000. When word-wrap mode is off, editor's work is much faster.
+* Word-wrap mode is automatically turned off, when total lines count in document is huge. See the option <code>"wrap_enabled_max_lines":60000</code>. When word-wrap mode is off, editor's work is much faster.
 
-* Program refuses to activate "normal" lexer for big files >2Mb. See the option "ui_max_size_lexer":2 (in Mbytes). Note that "lite" lexers with suffix "^" are still enabled for big files.
+* Program refuses to activate "normal" lexer for big files >2Mb. See the option <code>"ui_max_size_lexer":2</code> (in Mbytes). Note that "lite" lexers with suffix "^" are still enabled for big files.
 
-* If file is loaded in "normal" lexer, but count of lines is big, program disables finding of fold-ranges. Syntax coloring works, but folding doesn't work. See the option "lexer_folding_max_lines":10000.
+* If file is loaded in "normal" lexer, but count of lines is big, program disables finding of fold-ranges. Syntax coloring works, but folding doesn't work. See the option <code>"lexer_folding_max_lines"</code>.
 
-* If file is loaded in "normal" lexer, dynamic highlightings are disabled in big files. See the option "lexer_dynamic_hilite_max_lines":2000.
+* If file is loaded in "normal" lexer, dynamic highlightings are disabled in big files. See the option <code>"dynamic_highlight"</code>.
 
-* For any files, when too many multi-carets are placed, program disables/clears the Undo-information for editing. See the option "undo_max_carets":5000.
+* For any files, when too many multi-carets are placed, program disables/clears the Undo-information for editing. See the option <code>"undo_max_carets"</code>.
 
 ==CJK text is rendered bad on huge lines==
 
@@ -2917,9 +2917,9 @@ It shows the additional label in the editor corner, with red font. Label shows t
 * blue color: time spent on TextOut/ExtTextOut Lazarus API
 * green color: time spent on minimap rendering
 
-For text editing commands (e.g. typing of text), counter may increase by 3 on each command. Why? 3rd repaint is from "bracket_highlight":true (occurs in IdleTimer after a small delay), 2nd repaint is from lexer parser - parser makes the repaint when full document is parsed or the current screen is parsed. 1st repaint is the main immediate repaint.
+For text editing commands (e.g. typing of text), counter may increase by 3 on each command. Why? 3rd repaint is from <code>"bracket_highlight":true</code> (occurs in IdleTimer after a small delay), 2nd repaint is from lexer parser - parser makes the repaint when full document is parsed or the current screen is parsed. 1st repaint is the main immediate repaint.
 
-For caret moving commands, counter may increase by 2 on each command. 2nd repaint is from "bracket_highlight":true. 2nd repaint may occur also from the auto-showing of the horizontal scrollbar.
+For caret moving commands, counter may increase by 2 on each command. 2nd repaint is from <code>"bracket_highlight":true</code>. 2nd repaint may occur also from the auto-showing of the horizontal scrollbar.
 
 =Troubleshooting the Windows shell extension for CudaText=
 
