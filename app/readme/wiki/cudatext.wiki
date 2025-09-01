@@ -2243,11 +2243,13 @@ homepage=https://github.com/nnnn/pppp
 
 * "editor, current line BG, other wrapped parts" - Color is used for long wrapped lines, when options "show_cur_line":true & "show_cur_line_minimal":false. Color is used for background of non-current wrapped line parts, belonging to the caret's line. By default color is 'none', so program falls back to "current line BG" for other wrapped parts.
 
+* "editor, horizontal folding line" - This line is painted below the folded block, when option "fold_style" is 4, and you fold (collapse) some folding-range (with some lexer active).
+
 * "editor, marked range BG" - Color is shown for marked range. To set marked range e.g. from line 5 to 10, enter in the Console: <syntaxhighlight lang="python">ed.set_prop(PROP_MARKED_RANGE, '5,10')</syntaxhighlight>.
 
 * "editor, markers" - Color of "markers" feature. To see markers, call Command Palette's command "drop marker at caret".
 
-* "editor, horizontal folding line" - This line is painted below the folded block, when option "fold_style" is 4, and you fold (collapse) some folding-range (with some lexer active).
+* "editor, minimap, tooltip border" - Border rectangle, painted over a) tooltip which is shown for mouse-over-folded-block with option "fold_tooltip_show":true, b) tooltip which is shown for mouse-over-minimap with option "minimap_tooltip_show":true.
 
 * "editor, wrapped line indent vert-lines" - Vertical line is painted on the left side of the wrapped part, if you have long wrapped line, and this line begins with e.g. 10 spaces.
 
