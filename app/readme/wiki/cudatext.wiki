@@ -2249,6 +2249,8 @@ homepage=https://github.com/nnnn/pppp
 
 * "editor, horizontal folding line" - This line is painted below the folded block, when option "fold_style" is 4, and you fold (collapse) some folding-range (with some lexer active).
 
+* "editor, wrapped line indent vert-lines" - Vertical line is painted on the left side of the wrapped part, if you have long wrapped line, and this line begins with e.g. 10 spaces.
+
 * "statusbar alt" - Color is used on alternative statusbar. Too see this statusbar, enter in the Console input field: <syntaxhighlight lang="python">msg_status_alt('d'*100, 8)</syntaxhighlight>.
 
 * "search progressbar" - To see it, call Replace dialog, with RegEx option on, with Confirmation option on (2 options in the Replace dialog), and do the mass replacement of RegEx "." with "www".
@@ -2266,24 +2268,24 @@ homepage=https://github.com/nnnn/pppp
 ==Meaning of syntax-theme elements==
 
 * Id: Normal id (identifier) or text.
-* Id1: Special id, used e.g. for class names (when it is mixed-case id) or const names (when it is upper-case id).
-* Id2: Special id, used e.g. for syntax constants (true, false, null...) and standard functions (sin, abs, max...).
-* Id3: Special id, used e.g. for measurement units (mm, Kb, px...) and preprocessor directives.
-* Id4: Special id, rarely used, e.g. Python uses it for function names after "def".
-* IdKeyword: Special id, used for syntax keywords.
-* IdVar: Variables, e.g. $name in PHP and Bash.
+* Id1: Used for various id kinds, e.g. when id has mixed-casing like "SomeClassName".
+* Id2: Used for standard type names like "int"/"bool"/"float" and sometimes for constants like "true"/"false"/"null".
+* Id3: Used for CSS measurement units like "px" and class/function modifiers like "public"/"private".
+* Id4: Used not often, for some special kinds of identifiers.
+* IdKeyword: Used for syntax keywords like "for"/"if"/"class".
+* IdVar: Variables, e.g. "$name" in PHP and Bash.
 * IdBad: Incorrect/misslepped id.
 * String: String literals.
 * String2: String literals, used e.g. for RegEx constants.
 * String3: String literals, one more kind, rarely used.
-* Symbol: Non-word symbols, ie brackets/punctuation/etc.
+* Symbol: Non-word symbols, ie brackets/punctuation/operators.
 * Symbol2: Non-word symbols, used when syntax needs another style for e.g. assignment/math operators.
 * SymbolBad: Incorrect non-word symbols.
 * Comment: Comments.
 * Comment2: Comments, used when syntax needs another style of comments, e.g. shebang in Bash.
 * CommentDoc: Documentation comments, ie comments which are parsed by special tools.
-* Number: Numbers (decimal, hex, octal, floating...).
-* Label: GoTo operator labels, or another special id.
+* Number: Numbers: decimal, hex, octal, binary, floating point.
+* Label: Used e.g. in Python for function/class names after "def"/"class". Used for "GoTo labels" if a language supports such a thing.
 * Color: Color constants, like #RRGGBB in HTML/CSS.
 * IncludeBG#, SectionBG#: Styles which have background color set, and foreground color unset (none). Used to highlight function blocks, sub-lexer blocks, parts of a file, etc.
 * BracketBG: Style with background+foreground colors. Used to highlight paired brackets, begin/end keywords, repeat/until keywords (when "dynamic highlighting" option is on) etc.
@@ -2293,14 +2295,9 @@ homepage=https://github.com/nnnn/pppp
 * TagId: HTML tags: tag names.
 * TagIdBad: HTML tags: incorrect tag names.
 * TagProp: HTML tags: properties/attributes of tags, before "=" char.
-* TagPropBad: HTML tags: incorrect props/attrs of tags.
+* TagPropBad: HTML tags: incorrect props/attributes of tags.
 * TagInclude: Tags used for inclusion of sub-lexer blocks. Used e.g. in PHP, <? ?>.
-* LightBG#: Styles with bright background color, and normal foreground. Used e.g. in Diff to highlight deleted (LightBG1) / changed (LightBG2) / added (LightBG3) text blocks.
-* Pale#: Styles with pale (barely visible) foreground color. Rarely used.
-* TextBold: Style with bold font.
-* TextItalic: Style with italic font.
-* TextBoldItalic: Style with bold+italic font.
-* TextCross: Style with crossed/strikeout font.
+* LightBG#: Styles with bright background color, and normal foreground. Used e.g. in Diff to highlight deleted (LightBG1) / changed (LightBG2) / added (LightBG3) text blocks. Also used by Git_Status plugin to mark "Git changed" lines on the editor gutter.
 
 =Tech topics=
 
