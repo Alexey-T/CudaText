@@ -1148,8 +1148,6 @@ type
     procedure UpdateGlobalProgressbar(AValue: integer; AVisible: boolean; AMaxValue: integer=100);
     procedure UpdateLexerProgressbar(AValue: integer; AVisible: boolean; AMaxValue: integer=100);
     procedure UpdateGroupsMode(AMode: TATGroupsMode);
-    procedure UpdateMenuTheming_PopupMenu_Win32(AMenu: TPopupMenu);
-    procedure UpdateMenuTheming_MainMenu_Win32;
     procedure UpdateMenuTheming_WhiteLine_Win32;
     procedure UpdateMenuRecents(sub: TMenuItem);
     procedure UpdateMenuSidebarButton(AWhenAutoShow: boolean);
@@ -6921,7 +6919,7 @@ begin
     DoControlUnlock(Self);
   end;
 
-  UpdateMenuTheming_MainMenu_Win32;
+  UpdateMenuTheming_MainMenu_Win32(Self);
   UpdateMenuTheming_WhiteLine_Win32;
 end;
 
@@ -9613,22 +9611,6 @@ begin
   end;
 end;
 
-
-procedure TfmMain.UpdateMenuTheming_PopupMenu_Win32(AMenu: TPopupMenu);
-begin
-  {$ifdef windows}
-  if UiOps.ThemedMainMenu then
-    MenuStyler.ApplyToMenu(AMenu);
-  {$endif}
-end;
-
-procedure TfmMain.UpdateMenuTheming_MainMenu_Win32;
-begin
-  {$ifdef windows}
-  if UiOps.ThemedMainMenu then
-    MenuStyler.ApplyToForm(Self);
-  {$endif}
-end;
 
 procedure TfmMain.UpdateGroupsMode(AMode: TATGroupsMode);
 begin

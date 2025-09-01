@@ -17,6 +17,7 @@ interface
 uses
   {$ifdef windows}
   Windows,
+  Win32MenuStyler,
   {$endif}
   Classes, SysUtils, Forms, Controls, Menus, ExtCtrls,
   Dialogs, Graphics,
@@ -822,6 +823,9 @@ procedure AppApplyUnprintedSymbolsScale(const s: string);
 procedure AppApplyFallbackEncoding(const s: string);
 
 function AppOption_GetFromMap(D: TAppStringIntegerMap; const AKey: string; ADefault: integer): integer;
+
+procedure UpdateMenuTheming_PopupMenu_Win32(AMenu: TPopupMenu);
+procedure UpdateMenuTheming_MainMenu_Win32(AForm: TForm);
 
 type
   { TKeymapHelper }
@@ -4150,6 +4154,22 @@ begin
     Result:= IntToStr(N div 1000)+'s'+IntToStr(N mod 1000)+'ms'
   else
     Result:= IntToStr(N)+'ms';
+end;
+
+procedure UpdateMenuTheming_PopupMenu_Win32(AMenu: TPopupMenu);
+begin
+  {$ifdef windows}
+  if UiOps.ThemedMainMenu then
+    MenuStyler.ApplyToMenu(AMenu);
+  {$endif}
+end;
+
+procedure UpdateMenuTheming_MainMenu_Win32(AForm: TForm);
+begin
+  {$ifdef windows}
+  if UiOps.ThemedMainMenu then
+    MenuStyler.ApplyToForm(AForm);
+  {$endif}
 end;
 
 

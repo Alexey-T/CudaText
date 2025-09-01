@@ -238,7 +238,7 @@ begin
   MenuStylerTheme.ColorFontShortcut:= GetAppColor(TAppThemeColor.MenuFontHotkey, TAppThemeColor.MenuFont, TAppThemeColor.TabFontMod);
 
   MenuStylerTheme.CharSubmenu:= '>'; //old Win don't have triangle char in default font
-  UpdateMenuTheming_MainMenu_Win32;
+  UpdateMenuTheming_MainMenu_Win32(Self);
   {$endif}
 end;
 

@@ -499,7 +499,7 @@ begin
       DoOps_AddPluginMenuItem(SCaption, mnuOpPlugins, LangFile, iCommand);
   end;
 
-  UpdateMenuTheming_MainMenu_Win32;
+  UpdateMenuTheming_MainMenu_Win32(Self);
 
   //tick:= GetTickCount64-tick;
   //MsgLogConsole('UpdateMenuPlugins: '+AppFormatTimeInMilliseconds(tick))
