@@ -297,6 +297,7 @@ TYPES = {
     "lcf": ['Delphi resources'],
     "ld": ['GHS Linker', 'GNU linker'],
     "ldxl": ['DOORS DXL'],
+    "lean": ['Lean'],
     "less": ['LESS'],
     "less.erb": ['LESS'],
     "lfm": ['Delphi resources'],
