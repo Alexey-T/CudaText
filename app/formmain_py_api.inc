@@ -423,6 +423,7 @@ const
   cPrefixToolmenu = 'toolmenu:';
 var
   Obj: TObject;
+  TempPopup: TPopupMenu;
   N: PtrInt;
 begin
   Result:= nil;
@@ -461,7 +462,12 @@ begin
   begin
     for N:= 0 to fmMain.ToolbarMain.ButtonCount-1 do
       if fmMain.ToolbarMain.Buttons[N].DataString=Str then
-        exit(fmMain.ToolbarMain.Buttons[N].PopupMenu.Items);
+      begin
+        TempPopup:= fmMain.ToolbarMain.Buttons[N].PopupDropdown;
+        if Assigned(TempPopup) then
+          Result:= TempPopup.Items;
+        exit;
+      end;
   end;
 end;
 
