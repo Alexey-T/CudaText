@@ -284,6 +284,7 @@ function STextListsFuzzyInput(const AText, AFind: string;
   AEnableFuzzy: boolean): boolean;
 begin
   Result:= false;
+  AWordResults:= Default(TAppSearchWordsResults);
   AFuzzyResults:= nil;
 
   if STextListsAllWords(AText, AFind, AWordResults) then
