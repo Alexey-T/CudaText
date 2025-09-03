@@ -3279,9 +3279,15 @@ begin
 end;
 
 procedure TfmMain.FormActivate(Sender: TObject);
+var
+  F: TEditorFrame;
 begin
   AppActiveForm:= Sender;
   UpdateTree(true);
+
+  F:= CurrentFrame;
+  if Assigned(F) then
+    UpdateTabsActiveColor(F);
 end;
 
 procedure TfmMain.FormChangeBounds(Sender: TObject);

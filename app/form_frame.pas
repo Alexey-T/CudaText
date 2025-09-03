@@ -652,7 +652,7 @@ procedure GetFrameLocation(Frame: TEditorFrame;
 begin
   //Parent=nil occurs when I close single ui-tab with Ctrl+W,
   //then Tabs List plugin reacts to on_tab_move and calls ed.get_prop()
-  if Frame.Parent=nil then
+  if (Frame=nil) or (Frame.Parent=nil) then
   begin
     AGroups:= nil;
     APages:= nil;
