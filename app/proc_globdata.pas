@@ -1357,7 +1357,7 @@ end;
 
 function InitPyLibraryPath: string;
 const
-  cMaxVersion = 13; //last supported is 3.13
+  cMaxVersion = 14; //last supported is 3.14
   cMinVersionUnix = 5; //first supported on Unix is 3.5
   cMinVersionMacOS = 9;
   cMinVersionWindows = 4; //first supported on Windows is 3.4 (for WinXP)
