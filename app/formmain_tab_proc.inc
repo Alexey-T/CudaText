@@ -241,13 +241,12 @@ begin
   for i:= 0 to cAppMaxGroup do
   begin
     Pages:= TGroupsHelper.GetPagesOfGroupIndex(i);
-    if Pages=nil then Continue;
-    with Pages do
+    if Assigned(Pages) then
     begin
       bGroupActive:= i=NGlobalGroupIndex;
-      Tabs.ColorTabActive:= IfThen(bGroupActive, NColorTabActive, NColorTabOther);
-      Tabs.ColorActiveMark:= IfThen(bGroupActive, NColorMarkActive, NColorMarkOther);
-      Tabs.Invalidate;
+      Pages.Tabs.ColorTabActive:= IfThen(bGroupActive, NColorTabActive, NColorTabOther);
+      Pages.Tabs.ColorActiveMark:= IfThen(bGroupActive, NColorMarkActive, NColorMarkOther);
+      Pages.Tabs.Invalidate;
     end;
   end;
 end;
