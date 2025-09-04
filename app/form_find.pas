@@ -400,6 +400,8 @@ procedure TfmFind.bExtractClick(Sender: TObject);
 begin
   if chkRegex.Checked then
     DoResult(TAppFinderOperation.ExtractAll);
+  if Assigned(FOnPyEvent) then
+    FOnPyEvent('cmd', 'Extract');
 end;
 
 procedure TfmFind.bFindPrevClick(Sender: TObject);
@@ -411,6 +413,8 @@ end;
 procedure TfmFind.bMarkAllClick(Sender: TObject);
 begin
   DoResult(TAppFinderOperation.FindMarkAll);
+  if Assigned(FOnPyEvent) then
+    FOnPyEvent('cmd', 'MarkAll');
 end;
 
 procedure TfmFind.InitPopupMore;
@@ -690,6 +694,8 @@ end;
 procedure TfmFind.bCountClick(Sender: TObject);
 begin
   DoResult(TAppFinderOperation.CountAll);
+  if Assigned(FOnPyEvent) then
+    FOnPyEvent('cmd', 'Count');
 end;
 
 procedure TfmFind.bCancelClick(Sender: TObject);
@@ -708,6 +714,8 @@ end;
 procedure TfmFind.bSelectAllClick(Sender: TObject);
 begin
   DoResult(TAppFinderOperation.FindSelectAll);
+  if Assigned(FOnPyEvent) then
+    FOnPyEvent('cmd', 'SelectAll');
 end;
 
 procedure TfmFind.bTokensClick(Sender: TObject);
