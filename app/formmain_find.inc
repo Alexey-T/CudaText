@@ -1322,7 +1322,7 @@ var
   oFindHist, oRepHist,
   bCase, bWord, bRegex, bRegexSubst, bCfm,
   bInSel, bWrap, bMulLine, bHiAll, bImmediate, bPresCase, oTokens,
-  oDlgMode, oDlgDocked, oDlgFocus: PPyObject;
+  oDlgIsRep, oDlgFocus: PPyObject;
 begin
   with AppPython.Engine do
   begin
@@ -1345,8 +1345,7 @@ begin
     bImmediate:= ReturnNone;
     bPresCase:= ReturnNone;
     oTokens:= ReturnNone;
-    oDlgMode:= ReturnNone;
-    oDlgDocked:= ReturnNone;
+    oDlgIsRep:= ReturnNone;
     oDlgFocus:= ReturnNone;
 
     if Assigned(fmFind) then
@@ -1367,14 +1366,13 @@ begin
       bImmediate:= PyBool_FromLong(Ord(fmFind.IsImmediate));
       bPresCase:= PyBool_FromLong(Ord(fmFind.chkPreserveCase.Checked));
       oTokens:= PyLong_FromLong(Ord(fmFind.bTokens.ItemIndex));
-      oDlgMode:= PyUnicodeFromString(IfThen(fmFind.IsReplace, 'rep', 'find'));
-      oDlgDocked:= PyBool_FromLong(Ord(Assigned(fmFind.Parent)));
+      oDlgIsRep:= PyBool_FromLong(Ord(fmFind.IsReplace));
       if fmFind.edFind.Focused or fmFind.edRep.Focused then
         if Assigned(Screen.ActiveControl) then
           oDlgFocus:= PyUnicodeFromString(Screen.ActiveControl.Name);
     end;
 
-    Result:= Py_BuildValue('{sOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsO}',
+    Result:= Py_BuildValue('{sOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsO}',
       'find', PyUnicodeFromString(FFinder.StrFind),
       'rep', PyUnicodeFromString(FFinder.StrReplace),
 
@@ -1409,8 +1407,7 @@ begin
       'op_im_d', bImmediate,
       'op_prescase_d', bPresCase,
 
-      'mode', oDlgMode,
-      'docked', oDlgDocked,
+      'is_replace', oDlgIsRep,
       'focus', oDlgFocus
       );
   end;
@@ -1615,6 +1612,24 @@ begin
           begin
             fmFind.chkPreserveCase.Checked:= AppStrToBool(SValue);
             fmFind.DoOnChange;
+          end;
+        end;
+
+      'is_replace':
+        begin
+          if Assigned(fmFind) then
+            fmFind.IsReplace:= AppStrToBool(SValue);
+        end;
+
+      'focus':
+        begin
+          if Assigned(fmFind) then
+          begin
+            if (SValue=fmFind.edFind.Name) and fmFind.edFind.CanFocus then
+              fmFind.edFind.SetFocus
+            else
+            if (SValue=fmFind.edRep.Name) and fmFind.edRep.CanFocus then
+              fmFind.edRep.SetFocus;
           end;
         end;
     end;
