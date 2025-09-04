@@ -1623,7 +1623,7 @@ begin
 
       'focus':
         begin
-          if Assigned(fmFind) then
+          if Assigned(fmFind) and fmFind.Visible and fmFind.Enabled then
           begin
             if (SValue=fmFind.edFind.Name) and fmFind.edFind.CanFocus then
               fmFind.edFind.SetFocus
