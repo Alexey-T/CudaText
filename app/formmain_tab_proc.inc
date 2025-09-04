@@ -223,11 +223,11 @@ end;
 
 procedure TfmMain.UpdateTabsActiveColor(F: TEditorFrame);
 var
-  Gr: TATGroups;
-  Pages: TATPages;
+  TempGroups: TATGroups;
+  TempPages: TATPages;
   NColorTabActive, NColorTabOther: TColor;
   NColorMarkActive, NColorMarkOther: TColor;
-  NLocalGroupIndex, NGlobalGroupIndex, NTab, i: integer;
+  NLocalGroupIndex, NGlobalGroupIndex, NTabIndex, i: integer;
   bGroupActive: boolean;
 begin
   NColorTabActive:= GetAppColor(TAppThemeColor.TabActive);
@@ -236,17 +236,17 @@ begin
   NColorMarkActive:= GetAppColor(TAppThemeColor.TabActiveMark);
   NColorMarkOther:= ColorBlendHalf(NColorMarkActive, NColorTabOther);
 
-  GetFrameLocation(F, Gr, Pages, NLocalGroupIndex, NGlobalGroupIndex, NTab);
+  GetFrameLocation(F, TempGroups, TempPages, NLocalGroupIndex, NGlobalGroupIndex, NTabIndex);
 
   for i:= 0 to cAppMaxGroup do
   begin
-    Pages:= TGroupsHelper.GetPagesOfGroupIndex(i);
-    if Assigned(Pages) then
+    TempPages:= TGroupsHelper.GetPagesOfGroupIndex(i);
+    if Assigned(TempPages) then
     begin
       bGroupActive:= i=NGlobalGroupIndex;
-      Pages.Tabs.ColorTabActive:= IfThen(bGroupActive, NColorTabActive, NColorTabOther);
-      Pages.Tabs.ColorActiveMark:= IfThen(bGroupActive, NColorMarkActive, NColorMarkOther);
-      Pages.Tabs.Invalidate;
+      TempPages.Tabs.ColorTabActive:= IfThen(bGroupActive, NColorTabActive, NColorTabOther);
+      TempPages.Tabs.ColorActiveMark:= IfThen(bGroupActive, NColorMarkActive, NColorMarkOther);
+      TempPages.Tabs.Invalidate;
     end;
   end;
 end;
