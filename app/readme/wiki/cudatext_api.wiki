@@ -78,10 +78,10 @@ Event handlers (Command.on_nnnnn methods) return-value is ignored is many cases,
 * on_state(self, ed_self, state): Called after some app state is changed. Param "state" is one of APPSTATE_nnnn constants. Param "ed_self" is None.
 * on_state_ed(self, ed_self, state): Called after some editor state is changed. Param "state" is one of EDSTATE_nnnn constants.
 * on_state_findbar(self, ed_self, state, value): Called after some Find-dialog state is changed. Param "ed_self" is None. Param "state" is str, possible values are:
-** "focus"; param "value" is name of focused control.
-** "click"; param "value" is name of clicked button (button action was already performed).
-** "cmd"; param "value" is name of additional command from "..." submenu.
-** "is_replace"; param "value" is "0" (off) or "1" (on).
+** "focus"; param "value" is "edFind" or "edRep".
+** "opt"; param "value" is name of changed option.
+** "cmd"; param "value" is name of just performed command.
+** "is_rep"; param "value" is "0" (Replace-mode is off) or "1" (on).
 
 Constants in "on_state":
 
