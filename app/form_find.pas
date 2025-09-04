@@ -268,6 +268,8 @@ type
     procedure UpdateButtonBold;
     procedure UpdateRegexHighlight;
     function CurrentCaption: string;
+    procedure DoPyEventClick(AControl: TWinControl);
+    procedure DoPyEventFocus(AControl: TWinControl);
   public
     { public declarations }
     property ForViewer: boolean read FForViewer write FForViewer;
@@ -363,6 +365,7 @@ begin
   UpdateState(true);
   UpdateRegexHighlight;
   DoOnChange;
+  DoPyEventClick(chkRegex);
 end;
 
 procedure TfmFind.chkRegexSubstClick(Sender: TObject);
@@ -371,12 +374,14 @@ begin
     Checked:= not Checked;
   UpdateState(false);
   DoOnChange;
+  DoPyEventClick(chkRegexSubst);
 end;
 
 procedure TfmFind.bRepClick(Sender: TObject);
 begin
   if IsReplace then
     DoResult(TAppFinderOperation.Replace);
+  DoPyEventClick(bRep);
 end;
 
 procedure TfmFind.bRepStopClick(Sender: TObject);
@@ -388,6 +393,7 @@ end;
 procedure TfmFind.bFindNextClick(Sender: TObject);
 begin
   DoResult(TAppFinderOperation.FindNext);
+  DoPyEventClick(bFindNext);
 end;
 
 procedure TfmFind.bExtractClick(Sender: TObject);
@@ -399,6 +405,7 @@ end;
 procedure TfmFind.bFindPrevClick(Sender: TObject);
 begin
   DoResult(TAppFinderOperation.FindPrev);
+  DoPyEventClick(bFindPrev);
 end;
 
 procedure TfmFind.bMarkAllClick(Sender: TObject);
@@ -660,6 +667,7 @@ procedure TfmFind.MenuitemTokensClick(Sender: TObject);
 begin
   bTokens.ItemIndex:= (Sender as TMenuItem).Tag;
   bTokens.Invalidate;
+  DoPyEventClick(bTokens);
 end;
 
 procedure TfmFind.bMoreClick(Sender: TObject);
@@ -669,12 +677,14 @@ begin
   InitPopupMore;
   P:= bMore.ClientToScreen(Point(0, 0));
   FPopupMore.Popup(P.X, P.Y);
+  DoPyEventClick(bMore);
 end;
 
 procedure TfmFind.bRepAllClick(Sender: TObject);
 begin
   if IsReplace then
     DoResult(TAppFinderOperation.ReplaceAll);
+  DoPyEventClick(bRepAll);
 end;
 
 procedure TfmFind.bCountClick(Sender: TObject);
@@ -692,6 +702,7 @@ begin
   if IsReplace then
     if MsgBox(msgConfirmReplaceGlobal, MB_OKCANCEL or MB_ICONWARNING)=ID_OK then
       DoResult(TAppFinderOperation.ReplaceGlobal);
+  DoPyEventClick(bRepGlobal);
 end;
 
 procedure TfmFind.bSelectAllClick(Sender: TObject);
@@ -703,6 +714,7 @@ procedure TfmFind.bTokensClick(Sender: TObject);
 begin
   UpdateState(true);
   DoOnChange;
+  DoPyEventClick(bTokens);
 end;
 
 procedure TfmFind.chkCaseClick(Sender: TObject);
@@ -711,6 +723,7 @@ begin
     Checked:= not Checked;
   UpdateState(true);
   DoOnChange;
+  DoPyEventClick(chkCase);
 end;
 
 procedure TfmFind.chkConfirmClick(Sender: TObject);
@@ -719,6 +732,7 @@ begin
     Checked:= not Checked;
   UpdateState(false);
   DoOnChange;
+  DoPyEventClick(chkConfirm);
 end;
 
 procedure TfmFind.chkHiAllClick(Sender: TObject);
@@ -727,6 +741,7 @@ begin
     Checked:= not Checked;
   UpdateState(true);
   DoOnChange;
+  DoPyEventClick(chkHiAll);
 end;
 
 procedure TfmFind.chkImmediateClick(Sender: TObject);
@@ -736,6 +751,7 @@ begin
   if chkImmediate.Checked then
     edFind.OnChange(nil);
   DoOnChange;
+  DoPyEventClick(chkImmediate);
 end;
 
 procedure TfmFind.chkInSelClick(Sender: TObject);
@@ -744,12 +760,14 @@ begin
     Checked:= not Checked;
   UpdateState(true);
   DoOnChange;
+  DoPyEventClick(chkInSel);
 end;
 
 procedure TfmFind.chkMulLineClick(Sender: TObject);
 begin
   IsMultiLine:= not IsMultiLine;
   DoOnChange;
+  DoPyEventClick(chkMulLine);
 end;
 
 procedure TfmFind.chkPreserveCaseClick(Sender: TObject);
@@ -758,6 +776,7 @@ begin
     Checked:= not Checked;
   UpdateState(false);
   DoOnChange;
+  DoPyEventClick(chkPreserveCase);
 end;
 
 procedure TfmFind.chkRepChange(Sender: TObject);
@@ -768,6 +787,7 @@ end;
 procedure TfmFind.bFindFirstClick(Sender: TObject);
 begin
   DoResult(TAppFinderOperation.FindFirst);
+  DoPyEventClick(bFindFirst);
 end;
 
 procedure TfmFind.chkRepClick(Sender: TObject);
@@ -781,6 +801,7 @@ begin
     Checked:= not Checked;
   UpdateState(true);
   DoOnChange;
+  DoPyEventClick(chkWords);
 end;
 
 procedure TfmFind.chkWrapClick(Sender: TObject);
@@ -789,6 +810,7 @@ begin
     Checked:= not Checked;
   UpdateState(false);
   DoOnChange;
+  DoPyEventClick(chkWrap);
 end;
 
 function EditorSizeIsSmall(Ed: TATSynEdit): boolean;
@@ -903,6 +925,7 @@ end;
 
 procedure TfmFind.edFindEnter(Sender: TObject);
 begin
+  DoPyEventFocus(edFind);
   if edFind.Focused then exit; //must have for Qt5 build
   edFind.DoSelect_All;
   UpdateButtonBold;
@@ -939,6 +962,7 @@ end;
 
 procedure TfmFind.edRepEnter(Sender: TObject);
 begin
+  DoPyEventFocus(edRep);
   if edRep.Focused then exit; //must have for Qt5
   edRep.DoSelect_All;
   UpdateButtonBold;
@@ -1607,6 +1631,9 @@ begin
 
   Caption:= CurrentCaption;
   UpdateState(false);
+
+  if Assigned(FOnPyEvent) then
+    FOnPyEvent('is_replace', AppBoolToStr(IsReplace));
 end;
 
 procedure TfmFind.TimerShowTick(Sender: TObject);
@@ -2083,5 +2110,17 @@ begin
     edRep.DoAddLineToHistory(edRep.Text, UiOps.MaxHistoryEdits);
 end;
 
+
+procedure TfmFind.DoPyEventClick(AControl: TWinControl);
+begin
+  if Assigned(FOnPyEvent) then
+    FOnPyEvent('click', AControl.Name);
+end;
+
+procedure TfmFind.DoPyEventFocus(AControl: TWinControl);
+begin
+  if Assigned(FOnPyEvent) then
+    FOnPyEvent('focus', AControl.Name);
+end;
 
 end.

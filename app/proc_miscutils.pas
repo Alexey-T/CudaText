@@ -106,6 +106,7 @@ function FormatFilenameForMenu(const fn: string): string;
 
 function AppNicePluginCaption(const S: string): string;
 function AppStrToBool(const S: string): boolean; inline;
+function AppBoolToStr(V: boolean): string;
 function AppStringToAlignment(const S: string): TAlignment;
 function AppAlignmentToString(const V: TAlignment): string;
 function AppGetLeveledPath(const AFileName: string; ALevel: integer): string;
@@ -600,6 +601,12 @@ begin
   Result:= S='1';
 end;
 
+function AppBoolToStr(V: boolean): string;
+const
+  Items: array[boolean] of string = ('0', '1');
+begin
+  Result:= Items[V];
+end;
 
 procedure DoTreeviewFoldLevel(ATree: TTreeView; ALevel: integer);
 var
