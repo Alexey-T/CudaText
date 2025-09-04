@@ -1026,6 +1026,7 @@ type
     OnAppDeactivate,
     OnDeleteFile,
     OnSidebarPopup,
+    OnStateFindbar,
     OnCLI,
     OnExit
     );
@@ -1089,6 +1090,7 @@ const
     'on_app_deactivate',
     'on_delete_file',
     'on_sidebar_popup',
+    'on_state_findbar',
     'on_cli',
     'on_exit'
     );

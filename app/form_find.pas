@@ -106,6 +106,7 @@ type
   TAppFinderKeyDownEvent = function(AKey: word; AShiftState: TShiftState): boolean of object;
   TAppFinderShowResultInStatusbar = procedure(AFound: boolean) of object;
   TAppFinderShowCountInStatusbar = procedure(ACount: integer; AInVisibleArea: boolean) of object;
+  TAppFinderPyEvent = procedure(const AState, AValue: string) of object;
 
 function AppFinderOperationFromString(const Str: string): TAppFinderOperation;
 
@@ -235,6 +236,7 @@ type
     FOnHandleKeyDown: TAppFinderKeyDownEvent;
     FOnShowResultInStatusbar: TAppFinderShowResultInStatusbar;
     FOnShowCountInStatusbar: TAppFinderShowCountInStatusbar;
+    FOnPyEvent: TAppFinderPyEvent;
     FCaptionFind: string;
     FCaptionReplace: string;
     FLexerRegexThemed: boolean;
@@ -292,6 +294,7 @@ type
     property OnHandleKeyDown: TAppFinderKeyDownEvent read FOnHandleKeyDown write FOnHandleKeyDown;
     property OnShowResultInStatusbar: TAppFinderShowResultInStatusbar read FOnShowResultInStatusbar write FOnShowResultInStatusbar;
     property OnShowCountInStatusbar: TAppFinderShowCountInStatusbar read FOnShowCountInStatusbar write FOnShowCountInStatusbar;
+    property OnPyEvent: TAppFinderPyEvent read FOnPyEvent write FOnPyEvent;
     property IsReplace: boolean read FReplace write SetReplace;
     property IsMultiLine: boolean read FMultiLine write SetMultiLine;
     property IsNarrow: boolean read FNarrow write SetNarrow;

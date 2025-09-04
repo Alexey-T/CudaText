@@ -508,6 +508,7 @@ begin
     fmFind.OnHandleKeyDown:= @FindDialogOnHandleKeyDown;
     fmFind.OnShowResultInStatusbar:= @FindDialogOnShowResultInStatusbar;
     fmFind.OnShowCountInStatusbar:= @FindDialogOnShowCountInStatusbar;
+    fmFind.OnPyEvent:= @DoPyEvent_StateFindbar;
 
     fmFind.Color:= GetAppColor(TAppThemeColor.TabBg);
     fmFind.UpdateCaretPosVar;
