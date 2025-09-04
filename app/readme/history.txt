@@ -7,10 +7,12 @@
 
 * change/add: unprinted chars: paint 3 different arrows for 3 different line endings: LF CRLF CR (idea by @Rain Ding)
 * change: removed theme 'white', because it mostly repeats the theme 'syn'
++ add: support detection of Python 3.14
 + add: show statusbar message on closing a file (thanks @jczanfona)
 - fix: for Windows 10 bug when Georgian chars are invisible with "font_ligatures":true, workaround was made: app disables ligatures for a line if line has any Georgian char (thanks @Doryforos)
 - fix: pair brackets are not immediately highlighted after DEL is hit near them (thanks @Doryforos)
 - fix: regression: toolbar API crashes (thanks @Wwyxa)
+- fix: click on floating group form / on main form, did not update active ui-tab color in both forms (thanks @MiroslavMatas)
 
 1.226.7 (2025/08)
 
