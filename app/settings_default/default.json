@@ -1001,10 +1001,10 @@
   "ui_tab_preview_font_style": "iu",
 
   //[UI/Listbox]
-  //Listboxes: Width of listboxes (e.g. Command Palette and plugins).
+  //Listboxes: Width of menu-like dialogs (e.g. Command Palette and plugins).
   "ui_listbox_size_x": 450,
 
-  //Listboxes: Height of listboxes (e.g. Command Palette and plugins).
+  //Listboxes: Height of menu-like dialogs (e.g. Command Palette and plugins).
   "ui_listbox_size_y": 300,
 
   //Listboxes: Width of auto-completion listbox, in pixels.
