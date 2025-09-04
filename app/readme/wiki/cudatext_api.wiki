@@ -75,8 +75,12 @@ Event handlers (Command.on_nnnnn methods) return-value is ignored is many cases,
 
 ==Events - State changes==
 
-* on_state(self, ed_self, state): Called after some app state is changed. Param "state" is one of APPSTATE_nnnn constants. ed_self is None.
+* on_state(self, ed_self, state): Called after some app state is changed. Param "state" is one of APPSTATE_nnnn constants. Param "ed_self" is None.
 * on_state_ed(self, ed_self, state): Called after some editor state is changed. Param "state" is one of EDSTATE_nnnn constants.
+* on_state_findbar(self, ed_self, state, value): Called after some Find-dialog state is changed. Param "ed_self" is None. Param "state" is str, possible values are:
+** "focus"; param "value" is name of focused control.
+** "click"; param "value" is name of clicked button (button action was already performed).
+** "is_replace"; param "value" is "0" (off) or "1" (on).
 
 Constants in "on_state":
 
@@ -296,6 +300,8 @@ Actions work with props of Find/Replace dialog, and props of low-level search en
 ** "op_prescase_d": option "preserve case on replacement" of dialog, None if dialog not inited
 ** "op_hi_d": option "highlight all matches" of dialog, None if dialog not inited
 ** "op_im_d": option "immediate search" of dialog, None if dialog not inited
+** "focus": name of Find-dialog focused control, None if dialog not inited
+** "is_replace": bool which is True when dialog is in Replace mode; None if dialog not inited
 
 * PROC_SET_FINDER_PROP: Sets properties of Find/Replace dialog and search engine. Param "text" must be dict, with all or some keys listed in PROC_GET_FINDER_PROP. Values types: str (for text fields), bool (for flags), int (for choices).
 
@@ -5171,5 +5177,9 @@ It provides:
 1.0.464 (app 1.223.6)
 * add: finder_proc documentation was missed in the Wiki by mistake, now it's published
 * add: finder_proc: published constants HOWREP_nnnn
+
+1.0.465 (app 1.227.1)
+* add: event on_state_findbar
+* add: app_proc: PROC_GET_FINDER_PROP/PROC_SET_FINDER_PROP support new keys "focus", "is_replace"
 
 [[Category:CudaText]]
