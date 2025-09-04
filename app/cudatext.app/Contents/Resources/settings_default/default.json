@@ -1001,19 +1001,20 @@
   "ui_tab_preview_font_style": "iu",
 
   //[UI/Listbox]
-  //Listboxes: Commands/API listbox width.
+  //Listboxes: Width of listboxes (e.g. Command Palette and plugins).
   "ui_listbox_size_x": 450,
 
-  //Listboxes: Commands/API listbox height.
+  //Listboxes: Height of listboxes (e.g. Command Palette and plugins).
   "ui_listbox_size_y": 300,
 
-  //Listboxes: Auto-completion listbox width, in pixels.
+  //Listboxes: Width of auto-completion listbox, in pixels.
   "ui_listbox_complete_size_x": 550,
 
-  //Listboxes: Auto-completion listbox height, in items.
+  //Listboxes: Height of auto-completion listbox, in items.
   "ui_listbox_complete_size_items": 12,
 
-  //Listboxes: Enable fuzzy search in menu dialogs (see Wiki).
+  //Listboxes: Enable fuzzy search in menu-like dialogs (e.g. Command Palette and plugins).
+  //Wiki describes what is "fuzzy search".
   "ui_listbox_fuzzy": true,
 
   //[UI/History]
