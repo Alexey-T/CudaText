@@ -1321,7 +1321,8 @@ var
   oFind, oRep,
   oFindHist, oRepHist,
   bCase, bWord, bRegex, bRegexSubst, bCfm,
-  bInSel, bWrap, bMulLine, bHiAll, bImmediate, bPresCase, oTokens: PPyObject;
+  bInSel, bWrap, bMulLine, bHiAll, bImmediate, bPresCase, oTokens,
+  oDlgMode, oDlgDocked, oDlgFocus: PPyObject;
 begin
   with AppPython.Engine do
   begin
@@ -1344,6 +1345,9 @@ begin
     bImmediate:= ReturnNone;
     bPresCase:= ReturnNone;
     oTokens:= ReturnNone;
+    oDlgMode:= ReturnNone;
+    oDlgDocked:= ReturnNone;
+    oDlgFocus:= ReturnNone;
 
     if Assigned(fmFind) then
     begin
@@ -1363,9 +1367,14 @@ begin
       bImmediate:= PyBool_FromLong(Ord(fmFind.IsImmediate));
       bPresCase:= PyBool_FromLong(Ord(fmFind.chkPreserveCase.Checked));
       oTokens:= PyLong_FromLong(Ord(fmFind.bTokens.ItemIndex));
+      oDlgMode:= PyUnicodeFromString(IfThen(fmFind.IsReplace, 'rep', 'find'));
+      oDlgDocked:= PyBool_FromLong(Ord(Assigned(fmFind.Parent)));
+      if fmFind.edFind.Focused or fmFind.edRep.Focused then
+        if Assigned(Screen.ActiveControl) then
+          oDlgFocus:= PyUnicodeFromString(Screen.ActiveControl.Name);
     end;
 
-    Result:= Py_BuildValue('{sOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsO}',
+    Result:= Py_BuildValue('{sOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsO}',
       'find', PyUnicodeFromString(FFinder.StrFind),
       'rep', PyUnicodeFromString(FFinder.StrReplace),
 
@@ -1398,7 +1407,11 @@ begin
       'op_tokens_d', oTokens,
       'op_hi_d', bHiAll,
       'op_im_d', bImmediate,
-      'op_prescase_d', bPresCase
+      'op_prescase_d', bPresCase,
+
+      'mode', oDlgMode,
+      'docked', oDlgDocked,
+      'focus', oDlgFocus
       );
   end;
 end;
