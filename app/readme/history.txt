@@ -12,7 +12,7 @@
 - fix: for Windows 10 bug when Georgian chars are invisible with "font_ligatures":true, workaround was made: app disables ligatures for a line if line has any Georgian char (thanks @Doryforos)
 - fix: pair brackets are not immediately highlighted after DEL is hit near them (thanks @Doryforos)
 - fix: regression: toolbar API crashes (thanks @Wwyxa)
-- fix: click on floating group form / on main form, did not update active ui-tab color in both forms (thanks @MiroslavMatas)
+- fix: click on floating-group form / click on main form: app did not update active ui-tab-title color (thanks @MiroslavMatas)
 
 1.226.7 (2025/08)
 
