@@ -378,8 +378,10 @@ end;
 procedure TfmFind.bRepClick(Sender: TObject);
 begin
   if IsReplace then
+  begin
     DoResult(TAppFinderOperation.Replace);
-  FOnPyEvent('cmd', 'Rep');
+    FOnPyEvent('cmd', 'Rep');
+  end;
 end;
 
 procedure TfmFind.bRepStopClick(Sender: TObject);
@@ -397,8 +399,10 @@ end;
 procedure TfmFind.bExtractClick(Sender: TObject);
 begin
   if chkRegex.Checked then
+  begin
     DoResult(TAppFinderOperation.ExtractAll);
-  FOnPyEvent('cmd', 'Extract');
+    FOnPyEvent('cmd', 'Extract');
+  end;
 end;
 
 procedure TfmFind.bFindPrevClick(Sender: TObject);
@@ -682,8 +686,10 @@ end;
 procedure TfmFind.bRepAllClick(Sender: TObject);
 begin
   if IsReplace then
+  begin
     DoResult(TAppFinderOperation.ReplaceAll);
-  FOnPyEvent('cmd', 'RepAll');
+    FOnPyEvent('cmd', 'RepAll');
+  end;
 end;
 
 procedure TfmFind.bCountClick(Sender: TObject);
@@ -699,10 +705,12 @@ end;
 
 procedure TfmFind.bRepGlobalClick(Sender: TObject);
 begin
-  if IsReplace then
+  if IsReplace and (not edFind.IsEmpty) then
     if MsgBox(msgConfirmReplaceGlobal, MB_OKCANCEL or MB_ICONWARNING)=ID_OK then
+    begin
       DoResult(TAppFinderOperation.ReplaceGlobal);
-  FOnPyEvent('cmd', 'RepGlobal');
+      FOnPyEvent('cmd', 'RepGlobal');
+    end;
 end;
 
 procedure TfmFind.bSelectAllClick(Sender: TObject);
