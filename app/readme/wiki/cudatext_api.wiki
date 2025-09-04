@@ -83,7 +83,7 @@ Constants in "on_state":
 * APPSTATE_LANG: Changed UI translation.
 * APPSTATE_THEME_UI: Changed UI-theme.
 * APPSTATE_THEME_SYNTAX: Changed syntax-theme.
-* APPSTATE_GROUPS: Changed UI-tab grouping mode (see top menu item "=").
+* APPSTATE_GROUPS: Changed UI-tab grouping mode (e.g. via top menu item "Split").
 * APPSTATE_CONFIG_REREAD: App config file is re-read and applied.
 * APPSTATE_SESSION_LOAD_BEGIN: Session loading begins.
 * APPSTATE_SESSION_LOAD: Session loading completes (after APPSTATE_SESSION_LOAD_BEGIN).
