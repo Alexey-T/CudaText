@@ -311,6 +311,8 @@ Actions work with props of Find/Replace dialog, and props of low-level search en
 
 * PROC_SET_FINDER_PROP: Sets properties of Find/Replace dialog and search engine. Param "text" must be dict, with all or some keys listed in PROC_GET_FINDER_PROP. Values types: str (for text fields), bool (for flags), int (for choices).
 
+* PROC_GET_FINDER_BUTTONS: Gets dict containing handles of all Find-dialog buttons. These handles are compatible with button_proc(). Dict keys are self-explaining.
+
 ====app_proc - System====
 
 * PROC_ENUM_FONTS: Returns list of font names, currently installed in OS. There are no font names common in all OS'es.
@@ -5187,5 +5189,6 @@ It provides:
 1.0.465 (app 1.227.1)
 * add: event on_state_findbar
 * add: app_proc: PROC_GET_FINDER_PROP/PROC_SET_FINDER_PROP support new keys "focus", "is_replace"
+* add: app_proc: PROC_GET_FINDER_BUTTONS
 
 [[Category:CudaText]]
