@@ -5551,7 +5551,7 @@ begin
 
         APP_PROC_GET_MAIN_STATUSBAR:
           begin
-            Result:= PyHelper_ObjectHandle(fmMain.Status);
+            Result:= PyHelper_ObjectHandle(fmMain.StatusbarMain);
           end;
 
         //-------------------

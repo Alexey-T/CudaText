@@ -111,10 +111,10 @@ begin
           FormFloat.Invalidate;
       end;
 
-  Status.Color:= GetAppColor(TAppThemeColor.StatusBg, TAppThemeColor.TabBg);
+  StatusbarMain.Color:= GetAppColor(TAppThemeColor.StatusBg, TAppThemeColor.TabBg);
 
-  Status.ColorBorderTop:= GetAppColor(TAppThemeColor.ButtonBorderPassive);
-  Status.ColorBorderR:= GetAppColor(TAppThemeColor.ButtonBorderPassive);
+  StatusbarMain.ColorBorderTop:= GetAppColor(TAppThemeColor.ButtonBorderPassive);
+  StatusbarMain.ColorBorderR:= GetAppColor(TAppThemeColor.ButtonBorderPassive);
 
   ATFlatTheme.ColorFont:= GetAppColor(TAppThemeColor.ButtonFont);
   ATFlatTheme.ColorFontDisabled:= GetAppColor(TAppThemeColor.ButtonFontDisabled);

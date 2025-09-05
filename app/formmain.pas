@@ -643,7 +643,7 @@ type
     FBoundsFloating3: TRect;
     FConsoleMustShow: boolean;
     FColorDialog: TColorDialog;
-    Status: TATStatus;
+    StatusbarMain: TATStatus;
     Groups: TATGroups;
     GroupsCtx: TATGroups;
     GroupsCtxIndex: integer;
@@ -2349,7 +2349,7 @@ var
   NHeight, NArrowWidth: integer;
 begin
   ACanDraw:= true;
-  Data:= Status.GetPanelData(AIndex);
+  Data:= StatusbarMain.GetPanelData(AIndex);
   if Data=nil then exit;
 
   case Data.Tag of
@@ -2374,7 +2374,7 @@ begin
         end;
 
         NFontColor:= GetAppColorOfStatusbarFont;
-        NHeight:= Status.Height;
+        NHeight:= StatusbarMain.Height;
         NArrowWidth:= NHeight*2 div 3;
         case WrapMode of
           TATEditorWrapMode.ModeOff:
@@ -2416,7 +2416,7 @@ begin
   if Frame=nil then exit;
   FrameKind:= Frame.FrameKind;
 
-  Data:= Status.GetPanelData(AIndex);
+  Data:= StatusbarMain.GetPanelData(AIndex);
   if Data=nil then exit;
 
   if FrameKind=TAppFrameKind.ImageViewer then
@@ -2661,7 +2661,7 @@ end;
 
 procedure TfmMain.TimerStatusClearTimer(Sender: TObject);
 begin
-  DoStatusbarColorByTag(Status, StatusbarTag_Msg, GetAppColorOfStatusbarDimmed);
+  DoStatusbarColorByTag(StatusbarMain, StatusbarTag_Msg, GetAppColorOfStatusbarDimmed);
   TimerStatusClear.Enabled:= false;
 end;
 
@@ -2936,15 +2936,15 @@ end;
 
 procedure TfmMain.InitStatusbar;
 begin
-  Status:= TATStatus.Create(Self);
-  Status.Parent:= Self;
-  Status.Align:= alBottom;
-  Status.Top:= Height;
-  Status.ScaleFromFont:= true; //statusbar is autosized via its font size
-  Status.OnPanelClick:= @StatusPanelClick;
-  Status.OnPanelDrawBefore:= @StatusPanelDraw;
-  Status.ShowHint:= true;
-  Status.Theme:= @AppThemeStatusbar;
+  StatusbarMain:= TATStatus.Create(Self);
+  StatusbarMain.Parent:= Self;
+  StatusbarMain.Align:= alBottom;
+  StatusbarMain.Top:= Height;
+  StatusbarMain.ScaleFromFont:= true; //statusbar is autosized via its font size
+  StatusbarMain.OnPanelClick:= @StatusPanelClick;
+  StatusbarMain.OnPanelDrawBefore:= @StatusPanelDraw;
+  StatusbarMain.ShowHint:= true;
+  StatusbarMain.Theme:= @AppThemeStatusbar;
 end;
 
 procedure TfmMain.InitGroups;
@@ -3046,7 +3046,7 @@ begin
 
   {
   LexerProgress:= TATGauge.Create(Self);
-  LexerProgress.Parent:= Status;
+  LexerProgress.Parent:= StatusbarMain;
   }
 
   EControlOptions.OnLexerParseProgress:= @DoOnLexerParseProgress;
@@ -4178,7 +4178,7 @@ begin
      (GetTickCount64-FLastStatusbarMessageTick>UiOps.FindStatusbarDelayToReplaceIndexToQuestion) then
   begin
     FLastStatusbarMessageIsFoundIndexes:= false;
-    _StatusbarReplaceFoundIndexWithQuestionMark(Status);
+    _StatusbarReplaceFoundIndexWithQuestionMark(StatusbarMain);
   end;
 end;
 
@@ -4352,7 +4352,7 @@ end;
 
 function TfmMain.GetShowStatus: boolean;
 begin
-  Result:= Status.Visible;
+  Result:= StatusbarMain.Visible;
 end;
 
 function TfmMain.GetShowToolbar: boolean;
@@ -4618,7 +4618,7 @@ begin
       end;
     end;
 
-  Status.DoubleBuffered:= UiOps.DoubleBuffered;
+  StatusbarMain.DoubleBuffered:= UiOps.DoubleBuffered;
   //LexerProgress.DoubleBuffered:= UiOps.DoubleBuffered;
   if Assigned(fmConsole) then
     fmConsole.IsDoubleBuffered:= UiOps.DoubleBuffered;
@@ -6172,7 +6172,7 @@ begin
     if AText='' then
     begin
       FLastStatusbarMessage:= '';
-      DoStatusbarTextByTag(Status, StatusbarTag_Msg, '');
+      DoStatusbarTextByTag(StatusbarMain, StatusbarTag_Msg, '');
       exit;
     end;
 
@@ -6184,9 +6184,9 @@ begin
       AppStatusbarMessages.Delete(0);
     FLastStatusbarMessage:= AText;
 
-    DoStatusbarTextByTag(Status, StatusbarTag_Msg, AText);
-    DoStatusbarColorByTag(Status, StatusbarTag_Msg, GetAppColorOfStatusbarFont);
-    DoStatusbarHintByTag(Status, StatusbarTag_Msg, StringsTrailingText(AppStatusbarMessages, UiOps.MaxStatusbarMessages));
+    DoStatusbarTextByTag(StatusbarMain, StatusbarTag_Msg, AText);
+    DoStatusbarColorByTag(StatusbarMain, StatusbarTag_Msg, GetAppColorOfStatusbarFont);
+    DoStatusbarHintByTag(StatusbarMain, StatusbarTag_Msg, StringsTrailingText(AppStatusbarMessages, UiOps.MaxStatusbarMessages));
 
     TimerStatusClear.Enabled:= false;
     TimerStatusClear.Enabled:= true;
@@ -6259,7 +6259,7 @@ begin
       end;
     TAppTooltipPos.WindowBottom:
       begin
-        P:= Status.ClientToScreen(Point(0, 0));
+        P:= StatusbarMain.ClientToScreen(Point(0, 0));
       end;
     TAppTooltipPos.EditorCaret,
     TAppTooltipPos.CustomTextPos:
@@ -6376,7 +6376,7 @@ end;
 
 procedure TfmMain.SetShowStatus(AValue: boolean);
 begin
-  Status.Visible:= AValue;
+  StatusbarMain.Visible:= AValue;
 end;
 
 procedure TfmMain.SetShowToolbar(AValue: boolean);
@@ -9692,7 +9692,7 @@ begin
     DoPyCallbackFromAPI(BarData.Callback,
       [
       AppVariant(0), //id_dlg
-      AppVariant(PtrInt(fmMain.Status)), //id_ctl
+      AppVariant(PtrInt(fmMain.StatusbarMain)), //id_ctl
       AppVariant(ATag), //data
       AppVariant(0) //info
       ],
@@ -10009,7 +10009,7 @@ begin
   for i:= 0 to Groups.PagesVisibleCount-1 do
     Groups.Pages[i].Tabs.Invalidate;
 
-  Status.Invalidate;
+  StatusbarMain.Invalidate;
 
   if ATFlatTheme.EnableColorBgOver then
   begin

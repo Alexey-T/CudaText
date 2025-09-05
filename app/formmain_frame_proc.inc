@@ -65,7 +65,7 @@ begin
       begin
         N:= CurrentEditor.OptScaleFont;
         if N=0 then N:= 100;
-        DoStatusbarTextByTag(Status, StatusbarTag_Zoom, IntToStr(N)+'%');
+        DoStatusbarTextByTag(StatusbarMain, StatusbarTag_Zoom, IntToStr(N)+'%');
       end;
     TAppStatusbarUpdateReason.FileReload:
       begin

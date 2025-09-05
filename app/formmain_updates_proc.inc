@@ -191,20 +191,20 @@ begin
   F:= CurrentFrame;
   if F=nil then exit;
 
-  UpdateStatusbar_ForFrame(Status, F);
+  UpdateStatusbar_ForFrame(StatusbarMain, F);
 end;
 
 procedure TfmMain.UpdateStatusbarHints;
 begin
-  DoStatusbarHintByTag(Status, StatusbarTag_Caret, msgStatusbarHintCaret);
-  DoStatusbarHintByTag(Status, StatusbarTag_Enc, msgStatusbarHintEnc);
-  DoStatusbarHintByTag(Status, StatusbarTag_LineEnds, msgStatusbarHintEnds);
-  DoStatusbarHintByTag(Status, StatusbarTag_Lexer, msgStatusbarHintLexer);
-  DoStatusbarHintByTag(Status, StatusbarTag_SelMode, msgStatusbarHintSelMode);
-  DoStatusbarHintByTag(Status, StatusbarTag_TabSize, msgStatusbarHintTabSize);
-  DoStatusbarHintByTag(Status, StatusbarTag_InsOvr, msgStatusbarHintInsOvr);
-  DoStatusbarHintByTag(Status, StatusbarTag_WrapMode, msgStatusbarHintWrap);
-  DoStatusbarHintByTag(Status, StatusbarTag_Zoom, msgStatusbarHintZoom);
+  DoStatusbarHintByTag(StatusbarMain, StatusbarTag_Caret, msgStatusbarHintCaret);
+  DoStatusbarHintByTag(StatusbarMain, StatusbarTag_Enc, msgStatusbarHintEnc);
+  DoStatusbarHintByTag(StatusbarMain, StatusbarTag_LineEnds, msgStatusbarHintEnds);
+  DoStatusbarHintByTag(StatusbarMain, StatusbarTag_Lexer, msgStatusbarHintLexer);
+  DoStatusbarHintByTag(StatusbarMain, StatusbarTag_SelMode, msgStatusbarHintSelMode);
+  DoStatusbarHintByTag(StatusbarMain, StatusbarTag_TabSize, msgStatusbarHintTabSize);
+  DoStatusbarHintByTag(StatusbarMain, StatusbarTag_InsOvr, msgStatusbarHintInsOvr);
+  DoStatusbarHintByTag(StatusbarMain, StatusbarTag_WrapMode, msgStatusbarHintWrap);
+  DoStatusbarHintByTag(StatusbarMain, StatusbarTag_Zoom, msgStatusbarHintZoom);
 end;
 
 procedure TfmMain.UpdateStatusbar_ForFrame(AStatus: TATStatus; F: TEditorFrame);
@@ -338,12 +338,12 @@ begin
     with StatusProgress do
     begin
       Visible:= false;
-      Parent:= Status;
-      AnchorSideRight.Control:= Status;
+      Parent:= StatusbarMain;
+      AnchorSideRight.Control:= StatusbarMain;
       AnchorSideRight.Side:= asrBottom;
-      AnchorSideBottom.Control:= Status;
+      AnchorSideBottom.Control:= StatusbarMain;
       AnchorSideBottom.Side:= asrBottom;
-      AnchorSideTop.Control:= Status;
+      AnchorSideTop.Control:= StatusbarMain;
       AnchorSideTop.Side:= asrTop;
       Anchors:= [akRight, akTop, akBottom];
       BorderSpacing.Around:= 2;
@@ -367,7 +367,7 @@ begin
     with ButtonCancel do
     begin
       Visible:= false;
-      Parent:= Status;
+      Parent:= StatusbarMain;
       OnClick:= @ButtonCancelClick;
       AnchorSideRight.Control:= StatusProgress;
       AnchorSideBottom.Control:= StatusProgress;
@@ -614,8 +614,8 @@ end;
 procedure TfmMain.DoApplyFont_UiStatusbar;
 begin
   UpdateThemeStatusbar;
-  Status.HeightInitial:= Max(UiOps.StatusHeightMin, ATEditorScale(AppThemeStatusbar.FontSize * UiOps.StatusHeightPercents div 100));
-  Status.Height:= Status.HeightInitial;
+  StatusbarMain.HeightInitial:= Max(UiOps.StatusHeightMin, ATEditorScale(AppThemeStatusbar.FontSize * UiOps.StatusHeightPercents div 100));
+  StatusbarMain.Height:= StatusbarMain.HeightInitial;
 end;
 
 
@@ -1377,8 +1377,8 @@ begin
   //complex deletion of panels, touch only CudaText std panels
   for NTag:= StatusbarTag_Caret{minimal tag} to StatusbarTag_Msg{maximal tag} do
   begin
-    NIndex:= Status.FindPanel(NTag);
-    Status.DeletePanel(NIndex);
+    NIndex:= StatusbarMain.FindPanel(NTag);
+    StatusbarMain.DeletePanel(NIndex);
   end;
 
   SepAll.Init(AText, '|');
@@ -1387,7 +1387,7 @@ begin
 
     SepItem.Init(SPanel);
     NTag:= 0;
-    NIndex:= Status.PanelCount;
+    NIndex:= StatusbarMain.PanelCount;
     bStretch:= false;
     bHotTrack:= false;
 
@@ -1416,7 +1416,7 @@ begin
     SepItem.GetItemStr(SItem);
     NSize:= Max(16, StrToIntDef(SItem, 200));
 
-    Status.AddPanel(-1, NSize, Al, '', -1, NTag, bAutoSize, bStretch, clNone, bHotTrack);
+    StatusbarMain.AddPanel(-1, NSize, Al, '', -1, NTag, bAutoSize, bStretch, clNone, bHotTrack);
   until false;
 end;
 
