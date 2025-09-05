@@ -498,48 +498,48 @@ end;
 
 procedure TfmMain.mnuTabCloseAllAllClick(Sender: TObject);
 begin
-  //GroupsCtx.CloseTabs(tabCloseAll, false); //old way in CudaText 1.178
+  //GroupsOfPopup.CloseTabs(tabCloseAll, false); //old way in CudaText 1.178
   DoCloseAllTabs(false);
 end;
 
 procedure TfmMain.mnuTabCloseAllSameClick(Sender: TObject);
 begin
   AppClosingTabs:= true;
-  GroupsCtx.CloseTabs(tabCloseAllThisPage, true, false);
+  GroupsOfPopup.CloseTabs(tabCloseAllThisPage, true, false);
   AppClosingTabs:= false;
 end;
 
 procedure TfmMain.mnuTabCloseLeftClick(Sender: TObject);
 begin
   AppClosingTabs:= true;
-  GroupsCtx.CloseTabs(tabCloseLefterThisPage, true, false);
+  GroupsOfPopup.CloseTabs(tabCloseLefterThisPage, true, false);
   AppClosingTabs:= false;
 end;
 
 procedure TfmMain.mnuTabCloseOtherAllClick(Sender: TObject);
 begin
   AppClosingTabs:= true;
-  GroupsCtx.CloseTabs(tabCloseOthersAllPages, true, false);
+  GroupsOfPopup.CloseTabs(tabCloseOthersAllPages, true, false);
   AppClosingTabs:= false;
 end;
 
 procedure TfmMain.mnuTabCloseOtherSameClick(Sender: TObject);
 begin
   AppClosingTabs:= true;
-  GroupsCtx.CloseTabs(tabCloseOthersThisPage, true, false);
+  GroupsOfPopup.CloseTabs(tabCloseOthersThisPage, true, false);
   AppClosingTabs:= false;
 end;
 
 procedure TfmMain.mnuTabCloseRightClick(Sender: TObject);
 begin
   AppClosingTabs:= true;
-  GroupsCtx.CloseTabs(tabCloseRighterThisPage, true, false);
+  GroupsOfPopup.CloseTabs(tabCloseRighterThisPage, true, false);
   AppClosingTabs:= false;
 end;
 
 procedure TfmMain.mnuTabCloseThisClick(Sender: TObject);
 begin
-  GroupsCtx.PopupPages.Tabs.DeleteTab(GroupsCtx.PopupTabIndex, true, true);
+  GroupsOfPopup.PopupPages.Tabs.DeleteTab(GroupsOfPopup.PopupTabIndex, true, true);
 end;
 
 procedure TfmMain.DoMoveTabToGroup(AGroupIndex: Integer;
@@ -549,10 +549,10 @@ var
   NTabIndex: integer;
   //Form: TForm;
 begin
-  if Assigned(GroupsCtx) and not AFromCommandPalette then
+  if Assigned(GroupsOfPopup) and not AFromCommandPalette then
   begin
-    Pages:= GroupsCtx.PopupPages;
-    NTabIndex:= GroupsCtx.PopupTabIndex;
+    Pages:= GroupsOfPopup.PopupPages;
+    NTabIndex:= GroupsOfPopup.PopupTabIndex;
   end
   else
   begin
@@ -595,12 +595,12 @@ begin
       exit;
   end;
 
-  if GroupsCtx=nil then
+  if GroupsOfPopup=nil then
     UpdateGroupsOfContextMenu;
-  if GroupsCtx=nil then
+  if GroupsOfPopup=nil then
     raise Exception.Create('GroupsCtx=nil');
 
-  GroupsCtx.MoveTab(Pages, NTabIndex, PagesTo, -1, true);
+  GroupsOfPopup.MoveTab(Pages, NTabIndex, PagesTo, -1, true);
 end;
 
 procedure TfmMain.mnuTabMove1Click(Sender: TObject);

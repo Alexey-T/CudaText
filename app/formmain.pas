@@ -645,8 +645,8 @@ type
     FColorDialog: TColorDialog;
     StatusbarMain: TATStatus;
     Groups: TATGroups;
-    GroupsCtx: TATGroups;
-    GroupsCtxIndex: integer;
+    GroupsOfPopup: TATGroups;
+    GroupsOfPopupIndex: integer;
     GroupsFloating1: TATGroups;
     GroupsFloating2: TATGroups;
     GroupsFloating3: TATGroups;
@@ -5836,28 +5836,28 @@ procedure TfmMain.UpdateGroupsOfContextMenu;
 var
   CurForm: TForm;
 begin
-  GroupsCtx:= Groups;
-  GroupsCtxIndex:= GroupsCtx.FindPages(GroupsCtx.PopupPages);
+  GroupsOfPopup:= Groups;
+  GroupsOfPopupIndex:= GroupsOfPopup.FindPages(GroupsOfPopup.PopupPages);
 
   if FloatingForms then
   begin
     CurForm:= Screen.ActiveForm;
     if CurForm=FFormFloating1 then
     begin
-      GroupsCtx:= GroupsFloating1;
-      GroupsCtxIndex:= 6;
+      GroupsOfPopup:= GroupsFloating1;
+      GroupsOfPopupIndex:= 6;
     end
     else
     if CurForm=FFormFloating2 then
     begin
-      GroupsCtx:= GroupsFloating2;
-      GroupsCtxIndex:= 7;
+      GroupsOfPopup:= GroupsFloating2;
+      GroupsOfPopupIndex:= 7;
     end
     else
     if CurForm=FFormFloating3 then
     begin
-      GroupsCtx:= GroupsFloating3;
-      GroupsCtxIndex:= 8;
+      GroupsOfPopup:= GroupsFloating3;
+      GroupsOfPopupIndex:= 8;
     end;
   end;
 end;
@@ -5870,7 +5870,7 @@ begin
   UpdateGroupsOfContextMenu;
 
   Frame:= FrameOfPopup;
-  NCur:= GroupsCtxIndex;
+  NCur:= GroupsOfPopupIndex;
   NVis:= Groups.PagesVisibleCount; //visible groups
 
   UpdateMenuEnabled(mnuTabMove1, ((NVis>=2) and (NCur<>0)) or (NCur>5));
