@@ -106,7 +106,7 @@ type
   TAppFinderKeyDownEvent = function(AKey: word; AShiftState: TShiftState): boolean of object;
   TAppFinderShowResultInStatusbar = procedure(AFound: boolean) of object;
   TAppFinderShowCountInStatusbar = procedure(ACount: integer; AInVisibleArea: boolean) of object;
-  TAppFinderPyEvent = procedure(const AState, AValue: string) of object;
+  TAppFinderPyEvent = function(const AState, AValue: string): boolean of object;
 
 function AppFinderOperationFromString(const Str: string): TAppFinderOperation;
 
@@ -379,6 +379,7 @@ procedure TfmFind.bRepClick(Sender: TObject);
 begin
   if IsReplace then
   begin
+    if not FOnPyEvent('cmd_pre', 'Rep') then exit;
     DoResult(TAppFinderOperation.Replace);
     FOnPyEvent('cmd', 'Rep');
   end;
@@ -392,6 +393,7 @@ end;
 
 procedure TfmFind.bFindNextClick(Sender: TObject);
 begin
+  if not FOnPyEvent('cmd_pre', 'FindNext') then exit;
   DoResult(TAppFinderOperation.FindNext);
   FOnPyEvent('cmd', 'FindNext');
 end;
@@ -400,6 +402,7 @@ procedure TfmFind.bExtractClick(Sender: TObject);
 begin
   if chkRegex.Checked then
   begin
+    if not FOnPyEvent('cmd_pre', 'Extract') then exit;
     DoResult(TAppFinderOperation.ExtractAll);
     FOnPyEvent('cmd', 'Extract');
   end;
@@ -407,12 +410,14 @@ end;
 
 procedure TfmFind.bFindPrevClick(Sender: TObject);
 begin
+  if not FOnPyEvent('cmd_pre', 'FindPrev') then exit;
   DoResult(TAppFinderOperation.FindPrev);
   FOnPyEvent('cmd', 'FindPrev');
 end;
 
 procedure TfmFind.bMarkAllClick(Sender: TObject);
 begin
+  if not FOnPyEvent('cmd_pre', 'MarkAll') then exit;
   DoResult(TAppFinderOperation.FindMarkAll);
   FOnPyEvent('cmd', 'MarkAll');
 end;
@@ -687,6 +692,7 @@ procedure TfmFind.bRepAllClick(Sender: TObject);
 begin
   if IsReplace then
   begin
+    if not FOnPyEvent('cmd_pre', 'RepAll') then exit;
     DoResult(TAppFinderOperation.ReplaceAll);
     FOnPyEvent('cmd', 'RepAll');
   end;
@@ -694,6 +700,7 @@ end;
 
 procedure TfmFind.bCountClick(Sender: TObject);
 begin
+  if not FOnPyEvent('cmd_pre', 'Count') then exit;
   DoResult(TAppFinderOperation.CountAll);
   FOnPyEvent('cmd', 'Count');
 end;
@@ -708,6 +715,7 @@ begin
   if IsReplace and (not edFind.IsEmpty) then
     if MsgBox(msgConfirmReplaceGlobal, MB_OKCANCEL or MB_ICONWARNING)=ID_OK then
     begin
+      if not FOnPyEvent('cmd_pre', 'RepGlobal') then exit;
       DoResult(TAppFinderOperation.ReplaceGlobal);
       FOnPyEvent('cmd', 'RepGlobal');
     end;
@@ -715,6 +723,7 @@ end;
 
 procedure TfmFind.bSelectAllClick(Sender: TObject);
 begin
+  if not FOnPyEvent('cmd_pre', 'SelectAll') then exit;
   DoResult(TAppFinderOperation.FindSelectAll);
   FOnPyEvent('cmd', 'SelectAll');
 end;
@@ -795,6 +804,7 @@ end;
 
 procedure TfmFind.bFindFirstClick(Sender: TObject);
 begin
+  if not FOnPyEvent('cmd_pre', 'FindFirst') then exit;
   DoResult(TAppFinderOperation.FindFirst);
   FOnPyEvent('cmd', 'FindFirst');
 end;

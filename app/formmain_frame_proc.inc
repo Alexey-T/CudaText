@@ -263,7 +263,7 @@ var
 begin
   Pages:= AGroups.PagesCurrent;
   D:= Pages.Tabs.GetTabData(Pages.Tabs.TabIndex);
-  if Assigned(D) and Assigned(D.TabObject) then
+  if Assigned(D) and Assigned(D.TabObject) and (D.TabObject is TEditorFrame) then
     Result:= D.TabObject as TEditorFrame
   else
     Result:= nil;

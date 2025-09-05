@@ -1261,7 +1261,7 @@ type
     function DoPyEvent_Message(const AText: string): boolean;
     procedure DoPyEvent_AppState(AState: integer);
     procedure DoPyEvent_EdState(Ed: TATSynEdit; AState: integer);
-    procedure DoPyEvent_StateFindbar(const AState, AValue: string);
+    function DoPyEvent_StateFindbar(const AState, AValue: string): boolean;
     procedure DoPyEvent_AppActivate(AEvent: TAppPyEvent);
     procedure DoPyEvent_Open(Ed: TATSynEdit);
     procedure DoPyEvent_OpenNone(Ed: TATSynEdit);
@@ -3307,9 +3307,12 @@ begin
   DoPyEvent(Ed, TAppPyEvent.OnStateEd, [AppVariant(AState)]);
 end;
 
-procedure TfmMain.DoPyEvent_StateFindbar(const AState, AValue: string);
+function TfmMain.DoPyEvent_StateFindbar(const AState, AValue: string): boolean;
+var
+  R: TAppPyEventResult;
 begin
-  DoPyEvent(nil, TAppPyEvent.OnStateFindbar, [AppVariant(AState), AppVariant(AValue)]);
+  R:= DoPyEvent(nil, TAppPyEvent.OnStateFindbar, [AppVariant(AState), AppVariant(AValue)]);
+  Result:= R.Val<>TAppPyEventValue.False;
 end;
 
 procedure TfmMain.DoPyEvent_AppActivate(AEvent: TAppPyEvent);
