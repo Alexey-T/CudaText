@@ -824,7 +824,7 @@ begin
   if not bChanged then Exit;
 
   for i:= 0 to PagesCount-1 do
-    PagesArray[i].Invalidate;
+    PagesArray[i].Tabs.Invalidate;
 
   //do MakeVisible for tabs, because appending folder suffixes make titles wider
   //(and current righter tab may shift away).
