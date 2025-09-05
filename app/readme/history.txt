@@ -8,6 +8,7 @@
 + add: plugin API to catch events of the findbar (thanks @pintassilgo)
 + add: detect also Python 3.14 on Windows/macOS
 - fix: click on floating-group form / click on main form: app did not update active ui-tab-title color (thanks @MiroslavMatas)
+- fix: macOS: 'modified' ui-tab mark did not hide after file save (thanks @JairoMartinezA)
 
 1.227.0 (2025/09)
 
