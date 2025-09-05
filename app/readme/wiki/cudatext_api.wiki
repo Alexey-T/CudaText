@@ -271,7 +271,7 @@ Parameter "text" is usually string, but can be of other types (bool, int, float,
 ** WND_FULLSCREEN: Full-screen mode
 ** WND_FULLSCREEN2: Full-screen + Distraction-free mode
 
-====app_proc - Search properties====
+====app_proc - Find/Replace dialog ====
 
 Actions work with props of Find/Replace dialog, and props of low-level search engine. When user runs some search command in the dialog, dialog applies its props to the search engine. So most of the time, props of dialog and search engine are sync'ed. But they aren't sync'ed if user just typed new text in the dialog. They also aren't sync'ed if user runs some search command via Command Palette or hotkey (e.g. "find current word, previous").
 
