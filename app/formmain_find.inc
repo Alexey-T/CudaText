@@ -1398,9 +1398,10 @@ begin
       bPresCase:= PyBool_FromLong(Ord(fmFind.chkPreserveCase.Checked));
       oTokens:= PyLong_FromLong(Ord(fmFind.bTokens.ItemIndex));
       oDlgIsRep:= PyBool_FromLong(Ord(fmFind.IsReplace));
-      if fmFind.edFind.Focused or fmFind.edRep.Focused then
-        if Assigned(Screen.ActiveControl) then
-          oDlgFocus:= PyUnicodeFromString(Screen.ActiveControl.Name);
+      if fmFind.edFind.Focused then
+        oDlgFocus:= PyUnicodeFromString('edFind')
+      else if fmFind.edRep.Focused then
+        oDlgFocus:= PyUnicodeFromString('edRep');
     end;
 
     Result:= Py_BuildValue('{sOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsO}',
