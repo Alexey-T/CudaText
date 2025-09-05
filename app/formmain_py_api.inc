@@ -5464,6 +5464,11 @@ begin
             Result:= ReturnNone;
           end;
 
+        APP_PROC_GET_FINDER_BUTTONS:
+          begin
+            Result:= fmMain.FindDialog_GetButtonsPyDict;
+          end;
+
         APP_PROC_GET_GUI_HEIGHT:
           begin
             i:= DoControl_GetAutoHeight(Str);

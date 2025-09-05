@@ -1317,6 +1317,36 @@ begin
 end;
 
 
+function TfmMain.FindDialog_GetButtonsPyDict: PPyObject;
+begin
+  with AppPython.Engine do
+  begin
+    if not Assigned(fmFind) then
+      exit(ReturnNone);
+    Result:= Py_BuildValue('{sOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsO}',
+      'FindFirst', PyHelper_ObjectHandle(fmFind.bFindFirst),
+      'FindNext', PyHelper_ObjectHandle(fmFind.bFindNext),
+      'FindPrev', PyHelper_ObjectHandle(fmFind.bFindPrev),
+      'Rep', PyHelper_ObjectHandle(fmFind.bRep),
+      'RepAll', PyHelper_ObjectHandle(fmFind.bRepAll),
+      'RepGlobal', PyHelper_ObjectHandle(fmFind.bRepGlobal),
+      'More', PyHelper_ObjectHandle(fmFind.bMore),
+      'Tokens', PyHelper_ObjectHandle(fmFind.bTokens),
+      'Case', PyHelper_ObjectHandle(fmFind.chkCase),
+      'Words', PyHelper_ObjectHandle(fmFind.chkWords),
+      'RegEx', PyHelper_ObjectHandle(fmFind.chkRegex),
+      'RegExSubst', PyHelper_ObjectHandle(fmFind.chkRegexSubst),
+      'InSel', PyHelper_ObjectHandle(fmFind.chkInSel),
+      'Wrap', PyHelper_ObjectHandle(fmFind.chkWrap),
+      'MulLine', PyHelper_ObjectHandle(fmFind.chkMulLine),
+      'Confirm', PyHelper_ObjectHandle(fmFind.chkConfirm),
+      'Hi', PyHelper_ObjectHandle(fmFind.chkHiAll),
+      'Im', PyHelper_ObjectHandle(fmFind.chkImmediate),
+      'PreserveCase', PyHelper_ObjectHandle(fmFind.chkPreserveCase)
+      );
+  end;
+end;
+
 function TfmMain.FindDialog_GetOptionsPyDict: PPyObject;
 var
   oFind, oRep,
