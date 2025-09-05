@@ -39,7 +39,7 @@ var
   F: TEditorFrame;
   SName, SSession, SSessionRootPath: string;
 begin
-  F:= CurrentFrameEx(Groups);
+  F:= CurrentFrameEx(GroupsMain);
   if F=nil then exit;
 
   SSplitByChar(AppSessionName, '|', SSession, SSessionRootPath);
@@ -428,7 +428,7 @@ end;
 
 procedure TfmMain.UpdateEnabledAll(b: boolean);
 begin
-  Groups.Enabled:= b;
+  GroupsMain.Enabled:= b;
 
   //fixes issue #5125
   AppPanels[TAppPanelId.Btm].PanelGrouper.Enabled:= b;
@@ -574,7 +574,7 @@ begin
   Self.Font.Size:= ATEditorScaleFont(UiOps.VarFontSize);
   Self.Font.Color:= GetAppColor(TAppThemeColor.TabFont);
 
-  Groups.SetTabFont(Self.Font);
+  GroupsMain.SetTabFont(Self.Font);
   if FloatingForms then
   begin
     GroupsFloating1.SetTabFont(Self.Font);
@@ -749,8 +749,8 @@ end;
 procedure TfmMain.DoApplyFrameOps(F: TEditorFrame; const Op: TEditorOps; AForceApply: boolean);
 begin
   if F=nil then exit;
-  EditorApplyOps(F.Ed1, Op, AForceApply, not F.TabSizeChanged, Groups.Mode=gmOne);
-  EditorApplyOps(F.Ed2, Op, AForceApply, not F.TabSizeChanged, Groups.Mode=gmOne);
+  EditorApplyOps(F.Ed1, Op, AForceApply, not F.TabSizeChanged, GroupsMain.Mode=gmOne);
+  EditorApplyOps(F.Ed2, Op, AForceApply, not F.TabSizeChanged, GroupsMain.Mode=gmOne);
 
   F.Adapter[F.Ed1].DynamicHiliteEnabled:= Op.OpLexerDynamicHiliteMaxLines>0;
   F.Adapter[F.Ed1].DynamicHiliteMaxLines:= Op.OpLexerDynamicHiliteMaxLines;
@@ -1199,19 +1199,19 @@ begin
   UpdateMenuItemChecked(mnuViewFloatBottom, mnuViewFloatBottom_Alt, AppPanels[TAppPanelId.Btm].Floating);
   UpdateMenuItemChecked(mnuViewOnTop, mnuViewOnTop_Alt, ShowOnTop);
 
-  UpdateMenuItemChecked(mnuGr1, mnuGr1_Alt, Groups.Mode= gmOne);
-  UpdateMenuItemChecked(mnuGr2V, mnuGr2V_Alt, Groups.Mode= gm2v);
-  UpdateMenuItemChecked(mnuGr2H, mnuGr2H_Alt, Groups.Mode= gm2h);
-  UpdateMenuItemChecked(mnuGr3V, mnuGr3V_Alt, Groups.Mode= gm3v);
-  UpdateMenuItemChecked(mnuGr3H, mnuGr3H_Alt, Groups.Mode= gm3h);
-  UpdateMenuItemChecked(mnuGr1p2V, mnuGr1p2V_Alt, Groups.Mode= gm1plus2v);
-  UpdateMenuItemChecked(mnuGr1p2H, mnuGr1p2H_Alt, Groups.Mode= gm1plus2h);
-  UpdateMenuItemChecked(mnuGr4V, mnuGr4V_Alt, Groups.Mode= gm4v);
-  UpdateMenuItemChecked(mnuGr4H, mnuGr4H_Alt, Groups.Mode= gm4h);
-  UpdateMenuItemChecked(mnuGr4G, mnuGr4G_Alt, Groups.Mode= gm4Grid);
-  UpdateMenuItemChecked(mnuGr6V, mnuGr6V_Alt, Groups.Mode= gm6v);
-  UpdateMenuItemChecked(mnuGr6H, mnuGr6H_Alt, Groups.Mode= gm6h);
-  UpdateMenuItemChecked(mnuGr6, mnuGr6_Alt, Groups.Mode= gm6Grid);
+  UpdateMenuItemChecked(mnuGr1, mnuGr1_Alt, GroupsMain.Mode= gmOne);
+  UpdateMenuItemChecked(mnuGr2V, mnuGr2V_Alt, GroupsMain.Mode= gm2v);
+  UpdateMenuItemChecked(mnuGr2H, mnuGr2H_Alt, GroupsMain.Mode= gm2h);
+  UpdateMenuItemChecked(mnuGr3V, mnuGr3V_Alt, GroupsMain.Mode= gm3v);
+  UpdateMenuItemChecked(mnuGr3H, mnuGr3H_Alt, GroupsMain.Mode= gm3h);
+  UpdateMenuItemChecked(mnuGr1p2V, mnuGr1p2V_Alt, GroupsMain.Mode= gm1plus2v);
+  UpdateMenuItemChecked(mnuGr1p2H, mnuGr1p2H_Alt, GroupsMain.Mode= gm1plus2h);
+  UpdateMenuItemChecked(mnuGr4V, mnuGr4V_Alt, GroupsMain.Mode= gm4v);
+  UpdateMenuItemChecked(mnuGr4H, mnuGr4H_Alt, GroupsMain.Mode= gm4h);
+  UpdateMenuItemChecked(mnuGr4G, mnuGr4G_Alt, GroupsMain.Mode= gm4Grid);
+  UpdateMenuItemChecked(mnuGr6V, mnuGr6V_Alt, GroupsMain.Mode= gm6v);
+  UpdateMenuItemChecked(mnuGr6H, mnuGr6H_Alt, GroupsMain.Mode= gm6h);
+  UpdateMenuItemChecked(mnuGr6, mnuGr6_Alt, GroupsMain.Mode= gm6Grid);
 end;
 
 procedure TfmMain.UpdateMenuChecks_FrameSplit(F: TEditorFrame);
@@ -1435,11 +1435,11 @@ begin
     F.Splitter.Invalidate;
   end;
 
-  Groups.Splitter1.Invalidate;
-  Groups.Splitter2.Invalidate;
-  Groups.Splitter3.Invalidate;
-  Groups.Splitter4.Invalidate;
-  Groups.Splitter5.Invalidate;
+  GroupsMain.Splitter1.Invalidate;
+  GroupsMain.Splitter2.Invalidate;
+  GroupsMain.Splitter3.Invalidate;
+  GroupsMain.Splitter4.Invalidate;
+  GroupsMain.Splitter5.Invalidate;
 end;
 
 

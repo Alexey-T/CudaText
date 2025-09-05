@@ -172,10 +172,10 @@ begin
   Result:= nil;
 
   //frame can be inside Groups, GroupsFloating1..GroupsFloating3
-  NCount:= Groups.GetTabTotalCount;
+  NCount:= GroupsMain.GetTabTotalCount;
   if AIndex<NCount then
   begin
-    D:= Groups.GetTabDataOfTotalIndex(AIndex);
+    D:= GroupsMain.GetTabDataOfTotalIndex(AIndex);
     if Assigned(D) then
       Result:= D.TabObject as TEditorFrame;
     exit;
@@ -217,7 +217,7 @@ end;
 
 function TfmMain.FrameCount: integer;
 begin
-  Result:= Groups.GetTabTotalCount;
+  Result:= GroupsMain.GetTabTotalCount;
   if FloatingForms then
   begin
     Inc(Result, GroupsFloating1.GetTabTotalCount);
@@ -236,7 +236,7 @@ function TfmMain.CurrentGroups: TATGroups;
   end;
   //
 begin
-  Result:= Groups;
+  Result:= GroupsMain;
 
   if FloatingForms then
   begin

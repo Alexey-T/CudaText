@@ -318,7 +318,7 @@ begin
       if Pages=nil then Continue;
       cfg.SetValue(sRootPath+'/tab_index/g'+IntToStr(iGroup), Pages.Tabs.TabIndex);
     end;
-    cfg.SetValue(sRootPath+'/tab_index/g_active', Groups.FindPages(Groups.PagesCurrent));
+    cfg.SetValue(sRootPath+'/tab_index/g_active', GroupsMain.FindPages(GroupsMain.PagesCurrent));
 
     cfg.SetValue(sRootPath+'/panels/side_show', AppPanels[TAppPanelId.Side].Visible);
     cfg.SetValue(sRootPath+'/panels/side_panel', AppPanels[TAppPanelId.Side].LastActivePanel);
@@ -689,7 +689,7 @@ begin
            bModified:= false;
       end;
 
-      Gr:= Groups;
+      Gr:= GroupsMain;
       if (nGroupIndex<0) then
         nGroupIndex:= 0;
       if (nGroupIndex>High(TATGroupsNums)) then
@@ -832,7 +832,7 @@ begin
     for iGroup:= 0 to High(TATGroupsNums)+3 do
     begin
       if iGroup<=High(TATGroupsNums) then
-        CurTabs:= Groups.Pages[iGroup].Tabs
+        CurTabs:= GroupsMain.Pages[iGroup].Tabs
       else
       begin
         case iGroup of
@@ -857,11 +857,11 @@ begin
     nGroupIndex:= cfg.GetValue(sRootPath+'/tab_index/g_active', Low(TATGroupsNums));
     if (nGroupIndex>=Low(TATGroupsNums)) and (nGroupIndex<=High(TATGroupsNums)) then
     begin
-      Pages:= Groups.Pages[nGroupIndex];
+      Pages:= GroupsMain.Pages[nGroupIndex];
       if Pages.Tabs.TabCount>0 then
-        if Groups.PagesCurrent<>Pages then
+        if GroupsMain.PagesCurrent<>Pages then
         begin
-          Groups.PagesCurrent:= Pages;
+          GroupsMain.PagesCurrent:= Pages;
           Pages.Tabs.TabIndex:= Pages.Tabs.TabIndex;
         end;
     end;
@@ -980,9 +980,9 @@ var
   S: string;
   i: integer;
 begin
-  cfg.SetValue(AJsonPath+'/groups', Ord(Groups.Mode));
+  cfg.SetValue(AJsonPath+'/groups', Ord(GroupsMain.Mode));
 
-  Groups.GetSizes(SizePanel, SizePage);
+  GroupsMain.GetSizes(SizePanel, SizePage);
 
   S:= '';
   for i in TATGroupsNums do
@@ -1211,8 +1211,8 @@ procedure TfmMain.DoApplyInitialGroupSizes;
 //groups sizes must be restored in OnShow, OnCreate is too early
 begin
   UpdateGroupsMode(FOption_GroupMode);
-  Groups.SetSizes(FOption_GroupPanelSize, FOption_GroupSizes);
-  Groups.SaveSplitPos; //apply current sizes to internal Groups vars
+  GroupsMain.SetSizes(FOption_GroupPanelSize, FOption_GroupSizes);
+  GroupsMain.SaveSplitPos; //apply current sizes to internal Groups vars
 end;
 
 

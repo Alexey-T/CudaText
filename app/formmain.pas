@@ -644,7 +644,7 @@ type
     FConsoleMustShow: boolean;
     FColorDialog: TColorDialog;
     StatusbarMain: TATStatus;
-    Groups: TATGroups;
+    GroupsMain: TATGroups;
     GroupsOfPopup: TATGroups;
     GroupsOfPopupIndex: integer;
     GroupsFloating1: TATGroups;
@@ -1539,7 +1539,7 @@ begin
   Result:= nil;
   case AIndex of
     0..5:
-      Result:= fmMain.Groups.Pages[AIndex];
+      Result:= fmMain.GroupsMain.Pages[AIndex];
     6:
       begin
         if AShowFloatingGroup then
@@ -2949,21 +2949,21 @@ end;
 
 procedure TfmMain.InitGroups;
 begin
-  if Assigned(Groups) then exit;
-  Groups:= TATGroups.Create(Self);
-  Groups.Parent:= PanelEditors;
-  Groups.Align:= alClient;
-  Groups.Mode:= gmOne;
-  Groups.Images:= ImageListTabs;
-  Groups.OnChangeMode:= @DoOnChangeGroupMode;
-  Groups.OnTabFocus:= @DoOnTabFocus;
-  Groups.OnTabAdd:= @DoOnTabAdd;
-  Groups.OnTabClose:= @DoOnTabClose;
-  Groups.OnTabMove:= @DoOnTabMove;
-  Groups.OnTabPopup:= @DoOnTabPopup;
+  if Assigned(GroupsMain) then exit;
+  GroupsMain:= TATGroups.Create(Self);
+  GroupsMain.Parent:= PanelEditors;
+  GroupsMain.Align:= alClient;
+  GroupsMain.Mode:= gmOne;
+  GroupsMain.Images:= ImageListTabs;
+  GroupsMain.OnChangeMode:= @DoOnChangeGroupMode;
+  GroupsMain.OnTabFocus:= @DoOnTabFocus;
+  GroupsMain.OnTabAdd:= @DoOnTabAdd;
+  GroupsMain.OnTabClose:= @DoOnTabClose;
+  GroupsMain.OnTabMove:= @DoOnTabMove;
+  GroupsMain.OnTabPopup:= @DoOnTabPopup;
   //Groups.OnTabOver:= @DoOnTabOver;
-  Groups.OnTabGetTick:= @DoOnTabGetTick;
-  Groups.OnTabDblClick:= @DoOnTabDblClick;
+  GroupsMain.OnTabGetTick:= @DoOnTabGetTick;
+  GroupsMain.OnTabDblClick:= @DoOnTabDblClick;
 end;
 
 procedure TfmMain.InitFinder;
@@ -3190,7 +3190,7 @@ begin
 
   AppClosingTabs:= true;
 
-  List:= [Groups, GroupsFloating1, GroupsFloating2, GroupsFloating3];
+  List:= [GroupsMain, GroupsFloating1, GroupsFloating2, GroupsFloating3];
   for i:= High(List) downto 0 do
     if Assigned(List[i]) then
       if not List[i].CloseTabs(tabCloseAll, false, AClosePinned) then
@@ -3535,7 +3535,7 @@ begin
   Application.BringToFront;
 
   //set group according to mouse cursor
-  Pages:= TGroupsHelper.FindPagesUnderCursorPos(Mouse.CursorPos, Groups);
+  Pages:= TGroupsHelper.FindPagesUnderCursorPos(Mouse.CursorPos, GroupsMain);
 
   SOpenOptionsActive:= GetFileOpenOptionsString(1); //options without '/passive'
   SOpenOptionsAll:= GetFileOpenOptionsString(Length(FileNames)); //options with '/passive' if count>1
@@ -3831,11 +3831,11 @@ procedure TfmMain.FormShow(Sender: TObject);
         with AppPanels[id] do
           Splitter.ResizeStyle:= ResizeStyle;
 
-    Groups.Splitter1.ResizeStyle:= ResizeStyle;
-    Groups.Splitter2.ResizeStyle:= ResizeStyle;
-    Groups.Splitter3.ResizeStyle:= ResizeStyle;
-    Groups.Splitter4.ResizeStyle:= ResizeStyle;
-    Groups.Splitter5.ResizeStyle:= ResizeStyle;
+    GroupsMain.Splitter1.ResizeStyle:= ResizeStyle;
+    GroupsMain.Splitter2.ResizeStyle:= ResizeStyle;
+    GroupsMain.Splitter3.ResizeStyle:= ResizeStyle;
+    GroupsMain.Splitter4.ResizeStyle:= ResizeStyle;
+    GroupsMain.Splitter5.ResizeStyle:= ResizeStyle;
   end;
   //
   procedure _Init_DisableSomeMenuItems;
@@ -4589,11 +4589,11 @@ var
 begin
   AppScaleSplitter(AppPanels[TAppPanelId.Side].Splitter);
   AppScaleSplitter(AppPanels[TAppPanelId.Btm].Splitter);
-  AppScaleSplitter(Groups.Splitter1);
-  AppScaleSplitter(Groups.Splitter2);
-  AppScaleSplitter(Groups.Splitter3);
-  AppScaleSplitter(Groups.Splitter4);
-  AppScaleSplitter(Groups.Splitter5);
+  AppScaleSplitter(GroupsMain.Splitter1);
+  AppScaleSplitter(GroupsMain.Splitter2);
+  AppScaleSplitter(GroupsMain.Splitter3);
+  AppScaleSplitter(GroupsMain.Splitter4);
+  AppScaleSplitter(GroupsMain.Splitter5);
 
   //apply DoubleBuffered
   //no need for ToolbarMain and buttons
@@ -4658,7 +4658,7 @@ begin
 
   DoApplyFont_Output;
 
-  DoApplyUiOpsToGroups(Groups);
+  DoApplyUiOpsToGroups(GroupsMain);
   if FloatingForms then
   begin
     DoApplyUiOpsToGroups(GroupsFloating1);
@@ -4675,7 +4675,7 @@ begin
   for PanelId:= Succ(TAppPanelId.None) to High(TAppPanelId) do
     with AppPanels[PanelId] do
     begin
-      PanelTitle.Height:= Groups.GetTabSingleRowHeight-1;
+      PanelTitle.Height:= GroupsMain.GetTabSingleRowHeight-1;
       if UiOps.TabPosition=1 then
         PanelTitle.Align:= alBottom
       else
@@ -4942,7 +4942,7 @@ begin
     D:= CreateTab(APages, '', bAndActivate, AllowNear);
     if not Assigned(D) then
     begin
-      D:= Groups.Pages1.Tabs.GetTabData(0);
+      D:= GroupsMain.Pages1.Tabs.GetTabData(0);
       DoClearSingleFirstTab;
     end;
     Result:= D.TabObject as TEditorFrame;
@@ -5103,7 +5103,7 @@ begin
     Result:= FindFrameOfPreviewTab;
     if Result=nil then
     begin
-      APages:= Groups.Pages1; //open preview tab in 1st group
+      APages:= GroupsMain.Pages1; //open preview tab in 1st group
       if UiOps.TabsDisabled then
         D:= APages.Tabs.GetTabData(0)
       else
@@ -5209,7 +5209,7 @@ begin
   D:= CreateTab(APages, ExtractFileName(AFileName), false{AndActivate}, AllowNear);
   if not Assigned(D) then
   begin
-    D:= Groups.Pages1.Tabs.GetTabData(0);
+    D:= GroupsMain.Pages1.Tabs.GetTabData(0);
     DoClearSingleFirstTab;
   end;
   F:= D.TabObject as TEditorFrame;
@@ -5836,7 +5836,7 @@ procedure TfmMain.UpdateGroupsOfContextMenu;
 var
   CurForm: TForm;
 begin
-  GroupsOfPopup:= Groups;
+  GroupsOfPopup:= GroupsMain;
   GroupsOfPopupIndex:= GroupsOfPopup.FindPages(GroupsOfPopup.PopupPages);
 
   if FloatingForms then
@@ -5871,7 +5871,7 @@ begin
 
   Frame:= FrameOfPopup;
   NCur:= GroupsOfPopupIndex;
-  NVis:= Groups.PagesVisibleCount; //visible groups
+  NVis:= GroupsMain.PagesVisibleCount; //visible groups
 
   UpdateMenuEnabled(mnuTabMove1, ((NVis>=2) and (NCur<>0)) or (NCur>5));
   UpdateMenuEnabled(mnuTabMove2, {(NVis>=2) and} (NCur<>1));
@@ -6533,7 +6533,7 @@ begin
   begin
     F:= Frames[0];
     F.SetFocus;
-    Groups.PagesCurrent:= Groups.Pages1;
+    GroupsMain.PagesCurrent:= GroupsMain.Pages1;
   end;
 
   DoCloseAllTabs(AClosePinned);
@@ -6570,7 +6570,7 @@ begin
   if MsgBox(
        msgConfirmCloseAndDeleteFile+#10+AppCollapseHomeDirInFilename(fn),
        MB_OKCANCEL or MB_ICONWARNING)=ID_OK then
-    if Groups.CloseTabs(tabCloseCurrent, false, true) then
+    if GroupsMain.CloseTabs(tabCloseCurrent, false, true) then
     begin
       DeleteFileUTF8(fn);
 
@@ -6937,12 +6937,12 @@ end;
 
 function TfmMain.GetShowTabsMain: boolean;
 begin
-  Result:= Groups.Pages1.Tabs.Visible;
+  Result:= GroupsMain.Pages1.Tabs.Visible;
 end;
 
 procedure TfmMain.SetShowTabsMain(AValue: boolean);
 begin
-  Groups.SetTabOption(tabOptionShowTabs, Ord(AValue));
+  GroupsMain.SetTabOption(tabOptionShowTabs, Ord(AValue));
 end;
 
 procedure TfmMain.DoFileNewFrom(const fn: string);
@@ -8426,11 +8426,11 @@ begin
   case Id of
     SPLITTER_SIDE: GetSp(AppPanels[TAppPanelId.Side].Splitter);
     SPLITTER_BOTTOM: GetSp(AppPanels[TAppPanelId.Btm].Splitter);
-    SPLITTER_G1: GetSp(Groups.Splitter1);
-    SPLITTER_G2: GetSp(Groups.Splitter2);
-    SPLITTER_G3: GetSp(Groups.Splitter3);
-    SPLITTER_G4: GetSp(Groups.Splitter4);
-    SPLITTER_G5: GetSp(Groups.Splitter5);
+    SPLITTER_G1: GetSp(GroupsMain.Splitter1);
+    SPLITTER_G2: GetSp(GroupsMain.Splitter2);
+    SPLITTER_G3: GetSp(GroupsMain.Splitter3);
+    SPLITTER_G4: GetSp(GroupsMain.Splitter4);
+    SPLITTER_G5: GetSp(GroupsMain.Splitter5);
   end;
 end;
 
@@ -8449,11 +8449,11 @@ begin
   case Id of
     SPLITTER_SIDE: SetSp(AppPanels[TAppPanelId.Side].Splitter);
     SPLITTER_BOTTOM: SetSp(AppPanels[TAppPanelId.Btm].Splitter);
-    SPLITTER_G1: SetSp(Groups.Splitter1);
-    SPLITTER_G2: SetSp(Groups.Splitter2);
-    SPLITTER_G3: SetSp(Groups.Splitter3);
-    SPLITTER_G4: SetSp(Groups.Splitter4);
-    SPLITTER_G5: SetSp(Groups.Splitter5);
+    SPLITTER_G1: SetSp(GroupsMain.Splitter1);
+    SPLITTER_G2: SetSp(GroupsMain.Splitter2);
+    SPLITTER_G3: SetSp(GroupsMain.Splitter3);
+    SPLITTER_G4: SetSp(GroupsMain.Splitter4);
+    SPLITTER_G5: SetSp(GroupsMain.Splitter5);
   end;
 end;
 
@@ -8883,7 +8883,7 @@ procedure TfmMain.FormFloating1_OnClose(Sender: TObject; var CloseAction: TClose
 begin
   GroupsFloating1.MoveTabsFromGroupToAnother(
     GroupsFloating1.Pages1,
-    Groups.Pages1
+    GroupsMain.Pages1
     );
 end;
 
@@ -8891,7 +8891,7 @@ procedure TfmMain.FormFloating2_OnClose(Sender: TObject; var CloseAction: TClose
 begin
   GroupsFloating2.MoveTabsFromGroupToAnother(
     GroupsFloating2.Pages1,
-    Groups.Pages1
+    GroupsMain.Pages1
     );
 end;
 
@@ -8899,7 +8899,7 @@ procedure TfmMain.FormFloating3_OnClose(Sender: TObject; var CloseAction: TClose
 begin
   GroupsFloating3.MoveTabsFromGroupToAnother(
     GroupsFloating3.Pages1,
-    Groups.Pages1
+    GroupsMain.Pages1
     );
 end;
 
@@ -9626,13 +9626,13 @@ end;
 
 procedure TfmMain.UpdateGroupsMode(AMode: TATGroupsMode);
 begin
-  if AMode=Groups.Mode then exit;
+  if AMode=GroupsMain.Mode then exit;
 
   //during group-mode change, we get redundant OnTabFocus call which
   //clears the tree; FDisableTreeClearing fixes it
   FDisableTreeClearing:= true;
   try
-    Groups.Mode:= AMode;
+    GroupsMain.Mode:= AMode;
     UpdateMenuChecks_Global;
   finally
     FDisableTreeClearing:= false;
@@ -10006,8 +10006,8 @@ procedure TfmMain.InvalidateMouseoverDependantControls;
 var
   i: integer;
 begin
-  for i:= 0 to Groups.PagesVisibleCount-1 do
-    Groups.Pages[i].Tabs.Invalidate;
+  for i:= 0 to GroupsMain.PagesVisibleCount-1 do
+    GroupsMain.Pages[i].Tabs.Invalidate;
 
   StatusbarMain.Invalidate;
 
@@ -10047,7 +10047,7 @@ procedure TfmMain.DoFocusUsualGroup(AIndex: integer);
 begin
   case AIndex of
     0..High(TATGroupsNums):
-      Groups.PagesSetIndex(AIndex);
+      GroupsMain.PagesSetIndex(AIndex);
     else
       exit;
   end;
@@ -10139,7 +10139,7 @@ begin
     0..High(TATGroupsNums):
       begin
         //usual group is focused
-        NNewGroupIndex:= Groups.PagesNextIndex(NLocalGroupIndex, ANext, false, bWrapped);
+        NNewGroupIndex:= GroupsMain.PagesNextIndex(NLocalGroupIndex, ANext, false, bWrapped);
         if bWrapped then
         begin
           if ANext then
@@ -10174,7 +10174,7 @@ begin
         begin
           if not TryFocusLastFloating(NLocalGroupIndex-1) then
           begin
-            NLocalGroupIndex:= Groups.PagesNextIndex(High(TATGroupsNums)+1, ANext, false, bWrapped);
+            NLocalGroupIndex:= GroupsMain.PagesNextIndex(High(TATGroupsNums)+1, ANext, false, bWrapped);
             DoFocusUsualGroup(NLocalGroupIndex);
           end;
         end;

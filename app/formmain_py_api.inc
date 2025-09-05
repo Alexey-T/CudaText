@@ -819,7 +819,7 @@ begin
       begin
         Pages:= TGroupsHelper.GetPagesOfGroupIndex(Num);
         if Pages=nil then
-          Pages:= fmMain.Groups.Pages[0];
+          Pages:= fmMain.GroupsMain.Pages[0];
       end;
 
       Ok:= fmMain.DoFileOpen(StrFile, StrFile2, Pages, StrArgs)<>nil;
@@ -5402,7 +5402,7 @@ begin
 
         APP_PROC_GET_GROUPING:
           begin
-            Result:= PyLong_FromLong(Ord(fmMain.Groups.Mode));
+            Result:= PyLong_FromLong(Ord(fmMain.GroupsMain.Mode));
           end;
         APP_PROC_SET_GROUPING:
           begin

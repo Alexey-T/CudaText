@@ -34,7 +34,7 @@ begin
   F.OnGetSaveDialog:= @DoGetSaveDialog;
   F.Splitter.OnPaint:= @SplitterOnPaintDummy;
 
-  F.Groups:= Groups;
+  F.Groups:= GroupsMain;
   F.OnInitAdapter(F.Adapter[F.Ed1]);
 
   F.Ed1.PopupText:= PopupText;
@@ -51,10 +51,10 @@ var
   NToIndex: integer;
   bAllowNear: boolean;
 begin
-  if (Groups.Pages1.Tabs.TabCount>0) and UiOps.TabsDisabled then
+  if (GroupsMain.Pages1.Tabs.TabCount>0) and UiOps.TabsDisabled then
     exit(nil);
 
-  F:= TEditorFrame.Create(Self, Groups.Mode=gmOne);
+  F:= TEditorFrame.Create(Self, GroupsMain.Mode=gmOne);
   F.Name:= '';
   F.Visible:= false;
   F.TabCaption:= ACaption;
@@ -256,7 +256,7 @@ var
   D: TATTabData;
   Frame: TEditorFrame;
 begin
-  D:= Groups.Pages1.Tabs.GetTabData(0);
+  D:= GroupsMain.Pages1.Tabs.GetTabData(0);
   if not Assigned(D) then
     raise Exception.Create('Cannot get first tab');
 
@@ -561,17 +561,17 @@ begin
   end;
 
   //force 2 groups if only one
-  if (AGroupIndex=1) and (Groups.Mode=gmOne) then
+  if (AGroupIndex=1) and (GroupsMain.Mode=gmOne) then
   begin
     UpdateGroupsMode(gm2v);
-    Groups.Update; //maybe no need
+    GroupsMain.Update; //maybe no need
   end;
 
   case AGroupIndex of
     0..High(TATGroupsNums):
       begin
         //Form:= nil;
-        PagesTo:= Groups.Pages[AGroupIndex];
+        PagesTo:= GroupsMain.Pages[AGroupIndex];
       end;
     High(TATGroupsNums)+1:
       begin
@@ -650,12 +650,12 @@ end;
 
 procedure TfmMain.mnuTabMoveNextClick(Sender: TObject);
 begin
-  Groups.MovePopupTabToNext(true);
+  GroupsMain.MovePopupTabToNext(true);
 end;
 
 procedure TfmMain.mnuTabMovePrevClick(Sender: TObject);
 begin
-  Groups.MovePopupTabToNext(false);
+  GroupsMain.MovePopupTabToNext(false);
 end;
 
 procedure TfmMain.mnuTabRenameClick(Sender: TObject);
@@ -832,9 +832,9 @@ begin
   // https://github.com/Alexey-T/CudaText/issues/4653#issuecomment-1344280566
   Application.ProcessMessages;
 
-  for i:= 0 to High(Groups.Pages) do
+  for i:= 0 to High(GroupsMain.Pages) do
   begin
-    TempPages:= Groups.Pages[i];
+    TempPages:= GroupsMain.Pages[i];
     if TempPages.Tabs.TabCount>0 then
       TempPages.Tabs.MakeVisible(TempPages.Tabs.TabIndex);
   end;

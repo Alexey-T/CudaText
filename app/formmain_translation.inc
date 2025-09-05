@@ -381,7 +381,7 @@ begin
     msgTooltipArrowLeft:= ini.ReadString('ui', 'ti_al', msgTooltipArrowLeft);
     msgTooltipArrowRight:= ini.ReadString('ui', 'ti_ar', msgTooltipArrowRight);
     msgTooltipArrowMenu:= ini.ReadString('ui', 'ti_am', msgTooltipArrowMenu);
-    DoApplyTranslationToGroups(Groups);
+    DoApplyTranslationToGroups(GroupsMain);
 
     msgStatusbarTextTab:= ini.ReadString('sta', 'tsz', msgStatusbarTextTab);
     msgStatusbarTextSpaces:= ini.ReadString('sta', 'tsp', msgStatusbarTextSpaces);

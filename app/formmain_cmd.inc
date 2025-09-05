@@ -552,7 +552,7 @@ begin
     cmd_MoveTabToGroupNext,
     cmd_MoveTabToGroupPrev:
       begin
-        Groups.MoveCurrentTabToNext(CmdCode=cmd_MoveTabToGroupNext);
+        GroupsMain.MoveCurrentTabToNext(CmdCode=cmd_MoveTabToGroupNext);
         UpdateCaption_RealWork;
         UpdateTabsActiveColor(CurrentFrame);
       end;
@@ -786,7 +786,7 @@ var
   Str: string;
 begin
   AHandled:= true;
-  if not Groups.Enabled then
+  if not GroupsMain.Enabled then
   begin
     AHandled:= false; //if True: scrolling to 1st caret after 'select all' in Find dlg won't work
     Exit;

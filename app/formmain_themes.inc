@@ -162,7 +162,7 @@ begin
   AppApiFlatTheme.ColorFontListbox:= GetAppColor(TAppThemeColor.TreeFont);
   AppApiFlatTheme.ColorFontListboxSel:= GetAppColor(TAppThemeColor.TreeSelFont);
 
-  DoApplyThemeToGroups(Groups);
+  DoApplyThemeToGroups(GroupsMain);
   if FloatingForms then
   begin
     DoApplyThemeToGroups(GroupsFloating1);
@@ -180,7 +180,7 @@ begin
   //apply AppTheme to all frames
   DoApplyLexerStylesMapsToFrames(true);
 
-  Groups.SplitterColor:= GetAppColor(TAppThemeColor.SplitGroups);
+  GroupsMain.SplitterColor:= GetAppColor(TAppThemeColor.SplitGroups);
 
   CompletionOps.ColorFontPrefix:= GetAppColor(TAppThemeColor.ListCompletePrefix);
   CompletionOps.ColorFontParams:= GetAppColor(TAppThemeColor.ListCompleteParams);
