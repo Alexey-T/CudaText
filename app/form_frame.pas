@@ -1850,8 +1850,6 @@ begin
 
   if AWithEvent then
     DoPyEventState(Ed, EDSTATE_MODIFIED);
-
-  //DoOnUpdateStatusbar('modified'); //seems not needed, 2023.02.23
 end;
 
 procedure TEditorFrame.UpdatePinned(Ed: TATSynEdit; AWithEvent: boolean);
