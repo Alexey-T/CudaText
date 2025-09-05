@@ -76,5 +76,6 @@ EVENTS_ADD_PARAMS = {
   'on_snippet': 'snippet_id, snippet_text',
   'on_state': 'state',
   'on_state_ed': 'state',
+  'on_state_findbar': 'state, value',
   'on_sidebar_popup': 'caption',
   }
