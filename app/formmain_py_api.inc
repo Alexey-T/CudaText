@@ -9248,13 +9248,9 @@ begin
 end;
 
 
-{$ifdef ApiTimerFP}
-type
-  TAppApiTimer = TFPTimer;
-{$else}
 type
   TAppApiTimer = TTimer;
-{$endif}
+  //TAppApiTimer = TFPTimer;
 
 function api_timer_proc(Self, Args: PPyObject): PPyObject; cdecl;
 const

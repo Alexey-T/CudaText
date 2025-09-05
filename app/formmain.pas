@@ -16,7 +16,6 @@ unit FormMain;
 {$ENDIF}
 
 {.$define debug_on_lexer}
-{.$define ApiTimerFP}
 
 interface
 
@@ -1305,9 +1304,6 @@ procedure RegisterSignalHandler;
 implementation
 
 uses
-  {$ifdef ApiTimerFP}
-  fptimer,
-  {$endif}
   Emmet,
   EmmetHelper,
   TreeHelpers_Base,
