@@ -43,7 +43,7 @@ begin
     Pages.Tabs.MakeVisible(NTab);
   end;
 
-  Pages.Invalidate;
+  Pages.Tabs.Invalidate;
 
   UpdateCaption;
 end;
