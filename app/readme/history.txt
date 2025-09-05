@@ -3,10 +3,11 @@
   - fixed
   * changed
 
-1.227.0 (2025/09)
+1.227.1 (2025/09)
 
 * change/add: unprinted chars: paint 3 different arrows for 3 different line endings: LF CRLF CR (idea by @Rain Ding)
 * change: removed theme 'white', because it mostly repeats the theme 'syn'
++ add: plugin API to catch events in the findbar
 + add: Windows: detect also Python 3.14
 + add: show statusbar message on closing a file (thanks @jczanfona)
 - fix: for Windows 10 bug when Georgian chars are invisible with "font_ligatures":true, workaround was made: app disables ligatures for a line if line has any Georgian char (thanks @Doryforos)
