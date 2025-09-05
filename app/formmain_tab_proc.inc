@@ -755,6 +755,7 @@ var
 var
   SName: string;
   Frame: TEditorFrame;
+  TempPages: TATPages;
   L: TFPList;
   Prop, Prop2: TAppFrameX;
   bFoundPair, bChanged: boolean;
@@ -830,8 +831,12 @@ begin
   //(and current righter tab may shift away).
   // https://github.com/Alexey-T/CudaText/issues/4653#issuecomment-1344280566
   Application.ProcessMessages;
+
   for i:= 0 to High(Groups.Pages) do
-    if Groups.Pages[i].Tabs.TabCount>0 then
-      Groups.Pages[i].Tabs.MakeVisible(Groups.Pages[i].Tabs.TabIndex);
+  begin
+    TempPages:= Groups.Pages[i];
+    if TempPages.Tabs.TabCount>0 then
+      TempPages.Tabs.MakeVisible(TempPages.Tabs.TabIndex);
+  end;
 end;
 
