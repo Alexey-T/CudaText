@@ -311,7 +311,7 @@ Actions work with props of Find/Replace dialog, and props of low-level search en
 
 * PROC_SET_FINDER_PROP: Sets properties of Find/Replace dialog and search engine. Param "text" must be dict, with all or some keys listed in PROC_GET_FINDER_PROP. Values types: str (for text fields), bool (for flags), int (for choices).
 
-* PROC_GET_FINDER_BUTTONS: Gets dict containing handles of all Find-dialog buttons. These handles are compatible with button_proc(). Dict keys are self-explaining.
+* PROC_GET_FINDER_BUTTONS: Gets dict containing handles of all Find-dialog buttons. These handles are compatible with button_proc(). Dict keys are self-explaining. Gets None if Find-dialog is not yet inited.
 
 ====app_proc - System====
 
