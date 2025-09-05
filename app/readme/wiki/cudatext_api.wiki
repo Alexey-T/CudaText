@@ -82,6 +82,8 @@ Event handlers (Command.on_nnnnn methods) return-value is ignored is many cases,
 ** "opt"; param "value" is name of changed option.
 ** "cmd"; param "value" is name of just performed command.
 ** "is_rep"; param "value" is "0" (Replace-mode is off) or "1" (on).
+** "show"
+** "hide"
 
 Constants in "on_state":
 

@@ -1058,6 +1058,7 @@ procedure TfmFind.FormHide(Sender: TObject);
 begin
   if Assigned(FOnChangeVisible) then
     FOnChangeVisible(Self);
+  FOnPyEvent('hide', '');
 end;
 
 
@@ -1440,6 +1441,8 @@ begin
 
   FTimerShow.Enabled:= true;
   UpdateState(false);
+
+  FOnPyEvent('show', '');
 end;
 
 procedure TfmFind.UpdateCaretPosVar;
