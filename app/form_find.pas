@@ -2017,9 +2017,10 @@ begin
       {
       why always 'find next'? this is more like in other editors.
       from issue #5466:
-      is Cuda the only editor with "find first"? Others I tested now don't have (Kate, Sublime, VSCode, Notepad++).
-      Interesting. It's an useful command. With find first + always 'b', Cuda users have more control
-      over find than users of other editors.
+      is Cuda the only editor with "find first"?
+      Others I tested now don't have (Kate, Sublime, VSCode, Notepad++).
+      Interesting. It's an useful command. With find first + always 'b',
+      Cuda users have more control over find than users of other editors.
       }
     end;
   end;
