@@ -9,6 +9,7 @@
 + add: detect also Python 3.14 on Windows/macOS
 - fix: click on floating-group form / click on main form: app did not update active ui-tab-title color (thanks @MiroslavMatas)
 - fix: macOS: 'modified' ui-tab mark did not hide after file save (thanks @JairoMartinezA)
+- fix: "duplicate line" on last line without EOL was adding redundant EOL (thanks @Doryforos)
 
 1.227.0 (2025/09)
 
