@@ -1148,14 +1148,14 @@ begin
 
   if Str=UiOps.HotkeyFindFirst then
   begin
-    DoResult(TAppFinderOperation.FindFirst);
+    bFindFirstClick(nil);
     key:= 0;
     exit
   end;
 
   if (Str=UiOps.HotkeyFindNext) and (Str<>'Enter') then
   begin
-    DoResult(TAppFinderOperation.FindNext);
+    bFindNextClick(nil);
     if FTimerHiAll.Enabled then
       DoHiAll; //disarm timer, requested at #5353
     key:= 0;
@@ -1166,9 +1166,9 @@ begin
   begin
     //Enter: action depends on focus
     if IsReplace and edRep.Focused then
-      DoResult(TAppFinderOperation.Replace)
+      bRepClick(nil)
     else
-      DoResult(TAppFinderOperation.FindNext);
+      bFindNextClick(nil);
     if FTimerHiAll.Enabled then
       DoHiAll; //disarm timer, requested at #5353
     key:= 0;
@@ -1177,7 +1177,7 @@ begin
 
   if Str=UiOps.HotkeyFindPrev then
   begin
-    DoResult(TAppFinderOperation.FindPrev);
+    bFindPrevClick(nil);
     if FTimerHiAll.Enabled then
       DoHiAll; //disarm timer, requested at #5353
     key:= 0;
@@ -1187,7 +1187,7 @@ begin
   if (Str=UiOps.HotkeyReplaceAndFindNext) and IsReplace then
   begin
     if IsReplace then
-      DoResult(TAppFinderOperation.Replace);
+      bRepClick(nil);
     key:= 0;
     exit
   end;
@@ -1195,7 +1195,7 @@ begin
   if (Str=UiOps.HotkeyReplaceNoFindNext) and IsReplace then
   begin
     if IsReplace then
-      DoResult(TAppFinderOperation.ReplaceStop);
+      bRepStopClick(nil);
     key:= 0;
     exit
   end;
