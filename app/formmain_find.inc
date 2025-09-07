@@ -1657,11 +1657,13 @@ begin
         begin
           if Assigned(fmFind) and fmFind.Visible and fmFind.Enabled then
           begin
-            if (SValue=fmFind.edFind.Name) and fmFind.edFind.CanFocus then
-              fmFind.edFind.SetFocus
+            if fmFind.Parent=nil then
+              fmFind.SetFocus;
+            if (SValue='edFind') and fmFind.edFind.CanFocus then
+              fmFind.ActiveControl:= fmFind.edFind
             else
-            if (SValue=fmFind.edRep.Name) and fmFind.edRep.CanFocus then
-              fmFind.edRep.SetFocus;
+            if (SValue='edRep') and fmFind.IsReplace and fmFind.edRep.CanFocus then
+              fmFind.ActiveControl:= fmFind.edRep;
           end;
         end;
     end;
