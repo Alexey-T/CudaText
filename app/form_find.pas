@@ -388,7 +388,11 @@ end;
 procedure TfmFind.bRepStopClick(Sender: TObject);
 begin
   if IsReplace then
+  begin
+    if not FOnPyEvent('cmd_pre', 'RepStop') then exit;
     DoResult(TAppFinderOperation.ReplaceStop);
+    FOnPyEvent('cmd', 'RepStop');
+  end;
 end;
 
 procedure TfmFind.bFindNextClick(Sender: TObject);
