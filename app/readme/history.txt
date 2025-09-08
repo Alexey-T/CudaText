@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.227.1 (2025/09)
+1.227.2 (2025/09)
 
 + add: plugin API to catch events of the findbar (thanks @pintassilgo)
 + add: detect also Python 3.14 on Windows/macOS
