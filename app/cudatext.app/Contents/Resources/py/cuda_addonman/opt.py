@@ -11,6 +11,6 @@ proxy = ''
 cache_minutes = 10
 suggest_readme = True
 install_confirm = True
-download_timeout = 6 # in seconds
+download_timeout = 9 # in seconds
 verify_https = True
 sf_mirror = '' # SF.net mirror id, like 'voxel'
