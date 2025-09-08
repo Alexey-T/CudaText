@@ -5185,7 +5185,7 @@ It provides:
 * add: finder_proc documentation was missed in the Wiki by mistake, now it's published
 * add: finder_proc: published constants HOWREP_nnnn
 
-1.0.465 (app 1.227.1)
+1.0.465 (app 1.227.2)
 * add: event on_state_findbar
 * add: app_proc: PROC_GET_FINDER_PROP/PROC_SET_FINDER_PROP support new keys "focus", "is_replace"
 * add: app_proc: PROC_GET_FINDER_BUTTONS
