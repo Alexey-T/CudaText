@@ -5,6 +5,7 @@
 
 1.227.2 (2025/09)
 
++ add: "duplicate line" now supports column (vertical) block (thanks @Doryforos)
 + add: plugin API to catch events of the findbar (thanks @pintassilgo, @ildarkhasanshin)
 + add: detect also Python 3.14 on Windows/macOS
 - fix: click on floating-group form / click on main form: app did not update active ui-tab-title color (thanks @MiroslavMatas)
