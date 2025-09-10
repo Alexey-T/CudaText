@@ -310,7 +310,7 @@ Actions work with props of Find/Replace dialog, and props of low-level search en
 ** "focus": name of Find-dialog focused control, None if dialog not inited
 ** "is_replace": bool which is True when dialog is in Replace mode; None if dialog not inited
 
-* PROC_SET_FINDER_PROP: Sets properties of Find/Replace dialog and search engine. Param "text" must be dict, with all or some keys listed in PROC_GET_FINDER_PROP. Values types: str (for text fields), bool (for flags), int (for choices).
+* PROC_SET_FINDER_PROP: Sets properties of Find/Replace dialog and search engine. Param "text" must be dict, with all or some keys listed in PROC_GET_FINDER_PROP. Values types can be: str (for text fields), list of str, bool (for flags), int (for choices).
 
 ====app_proc - System====
 
