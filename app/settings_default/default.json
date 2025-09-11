@@ -1306,6 +1306,7 @@
   "key_up_down_allow_edge": true,
 
   //Keys Up/Down: try to jump to opposite selection edge.
+  //Value true: like in Sublime Text 4, value false: like in Notepad++.
   "key_up_down_swap_sel": true,
 
   //Keys Left/Right-arrows: with "caret_after_end":false, option allows carets
