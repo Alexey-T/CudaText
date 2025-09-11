@@ -900,6 +900,7 @@
   "ui_theme_auto_mode": false,
 
   //Name of light theme for "ui_theme_auto_mode":true.
+  //Empty string means the default light theme.
   //User must have both UI & syntax theme of the same name.
   "ui_theme_light": "syn",
 
