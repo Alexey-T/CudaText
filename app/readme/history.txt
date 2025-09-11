@@ -5,12 +5,12 @@
 
 1.227.3 (2025/09)
 
-+ add: command "duplicate line" supports column (vertical) block: if column block is present, command duplicates it to the right without selection moving (thanks @Doryforos)
++ add: command "duplicate line(s)" renamed to "duplicate line(s) or column block", it now supports column (vertical) block: command duplicates it to the right, without selection moving (idea by @Doryforos)
 + add: plugin API to catch events of the findbar (thanks @pintassilgo, @ildarkhasanshin)
 + add: detect also Python 3.14 on Windows/macOS
 - fix: click on floating-group form / click on main form: app did not update active ui-tab-title color (thanks @MiroslavMatas)
 - fix: macOS: 'modified' ui-tab mark did not hide after file save (thanks @JairoMartinezA)
-- fix: command "duplicate line" on last line without EOL was adding redundant EOL (thanks @Doryforos)
+- fix: command "duplicate line(s)" on last line without EOL was adding redundant EOL (thanks @Doryforos)
 
 1.227.0 (2025/09)
 
