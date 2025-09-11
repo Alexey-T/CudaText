@@ -585,18 +585,15 @@ begin
 
     cmd_CopyFilenameFull:
       begin
-        if Assigned(Frame) then
-          SClipboardCopy(Frame.GetFileName(Ed));
+        SClipboardCopy(Ed.FileName);
       end;
     cmd_CopyFilenameDir:
       begin
-        if Assigned(Frame) then
-          SClipboardCopy(ExtractFileDir(Frame.GetFileName(Ed)));
+        SClipboardCopy(ExtractFileDir(Ed.FileName));
       end;
     cmd_CopyFilenameName:
       begin
-        if Assigned(Frame) then
-          SClipboardCopy(ExtractFileName(Frame.GetFileName(Ed)));
+        SClipboardCopy(ExtractFileName(Ed.FileName));
       end;
 
     cmd_AutoComplete:
