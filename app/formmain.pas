@@ -912,7 +912,6 @@ type
     procedure DoAutoComplete_Callback(Ed: TATSynEdit; AActivate: boolean);
     procedure DoAutoComplete(Ed: TATSynEdit);
     procedure DoPyCommand_CommandLineParam(const AModuleAndMethod: string);
-    procedure DoPyCommand_Cudaxlib(Ed: TATSynEdit; const AMethod: string; AInvoke: TATCommandInvoke);
     procedure DoDialogCharMap;
     procedure DoGotoFromInput(Frame: TEditorFrame; const AInput: string);
     procedure DoGotoDefinition(Ed: TATSynEdit);
@@ -6758,17 +6757,6 @@ procedure TfmMain.DoToggleUiTabs;
 begin
   ShowTabsMain:= not ShowTabsMain;
   DoOps_SaveOptionBool('/ui_tab_show', ShowTabsMain);
-end;
-
-procedure TfmMain.DoPyCommand_Cudaxlib(Ed: TATSynEdit; const AMethod: string;
-  AInvoke: TATCommandInvoke);
-begin
-  Ed.Strings.BeginUndoGroup;
-  try
-    DoPyCommand('cudax_lib', AMethod, [], AInvoke);
-  finally
-    Ed.Strings.EndUndoGroup;
-  end;
 end;
 
 

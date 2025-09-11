@@ -243,7 +243,6 @@ const
   cmd_SetTabColor       = 2671;
   cmd_ResetTabColor     = 2672;
   cmd_ToggleTabPinned   = 2675;
-  cmd_DuplicateLineEx   = 2676;
 
   cmd_LineEndWin        = 2677;
   cmd_LineEndUnix       = 2678;
@@ -637,8 +636,6 @@ begin
   M.Add(cmd_BookmarkDeleteMarkedLines, 'bookmarks: delete bookmarked lines', [], []);
   M.Add(cmd_BookmarkPlaceCarets, 'bookmarks: place carets on bookmarks', [], []);
   M.Add(cmd_BookmarkPlaceBookmarksOnCarets, 'bookmarks: place bookmarks on carets', [], []);
-
-  M.Add(cmd_DuplicateLineEx, 'duplicate line (advanced)', [], []);
 
   M.Add(cmd_SetTabColor, 'ui: set tab color...', [], []);
   M.Add(cmd_ResetTabColor, 'ui: reset tab color', [], []);

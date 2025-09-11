@@ -68,9 +68,6 @@ OPT2PROP            = dict(
 # Localization
 CONFIG_MSG_DONT_SET_FILE= 'Cannot set editor properties'
 NEED_NEWER_API          = 'Needs newer app version'
-DUPLICATION             = 'Duplication'
-ONLY_NORM_SEL_MODE      = '{} works only with normal selection'
-ONLY_SINGLE_CRT         = "{} doesn't work with multi-carets"
 
 pass;                           # Logging
 pass;                           import inspect  # stack
@@ -82,44 +79,6 @@ pass;                           log_gap = ''    # use only into log()
 APP_DEF_LEX_OPTS    = {}
 APP_DEFAULT_OPTS    = {}
 LAST_FILE_OPTS      = {}
-class Command:
-    #################################################
-    ## Duplicate
-    def duplicate(self):
-        if ed.get_prop(app.PROP_RO): return
-
-        if ed.get_sel_mode() != app.SEL_NORMAL:
-            return app.msg_status(ONLY_NORM_SEL_MODE.format(DUPLICATION))
-
-        crts    = ed.get_carets()
-        if len(crts)>1:
-            return app.msg_status(ONLY_SINGLE_CRT.format(DUPLICATION))
-
-        (cCrt, rCrt, cEnd, rEnd)    = crts[0]
-        bEmpSel = -1==rEnd
-        bUseFLn = get_opt('duplicate_full_line_if_no_sel', True)
-        bSkip   = get_opt('duplicate_move_down', True)
-        if bEmpSel:
-            if not bUseFLn:
-                return
-            # Dup whole row
-            row_txt    = ed.get_text_line(rCrt)
-            ed.insert(0, rCrt, row_txt+'\n')
-
-            # Move crt to next row
-            if bSkip and (rCrt+1)<ed.get_line_count():
-                _move_caret_down(cCrt, rCrt)
-            return
-
-        (rFr, cFr), (rTo, cTo)  = minmax((rCrt, cCrt), (rEnd, cEnd))
-        pass;                  #LOG and log('(cFr , rFr , cTo , rTo) ={}',(cFr , rFr , cTo , rTo))
-        sel_txt = ed.get_text_substr(cFr, rFr, cTo, rTo)
-        pass;                  #LOG and log('sel_txt={}',repr(sel_txt))
-        ed.insert(cFr, rFr, sel_txt)
-        ed.set_caret(cCrt, rCrt, cEnd, rEnd)
-       #def duplicate
-
-    #class Command
 
 #################################################
 ## Common APP utils
@@ -442,20 +401,6 @@ def remove_empty_nodes(tree, keys):
             del prn[key]
    #def remove_empty_nodes
 
-def _move_caret_down(cCrtSmb, rCrt, ed_=ed, id_crt=app.CARET_SET_ONE):
-    ''' Caret will be moved to next line with save start column (if next line exists)
-        Params
-            cCrtSmb     Start pos as symbol number
-            rCrt        Start line
-            ed_         Editor
-            id_crt      CARET_SET_ONE or CARET_SET_INDEX+N for caret with index N
-    '''
-    pass;                      #LOG and log('cCrtSmb, rCrt, id_crt==app.CARET_SET_ONE={}',(cCrtSmb, rCrt, id_crt==app.CARET_SET_ONE))
-    if (rCrt+1)>=ed_.get_line_count():    return
-    colCrt  = ed.convert(app.CONVERT_CHAR_TO_COL, cCrtSmb, rCrt  )[0]
-    cCrtSmb1= ed.convert(app.CONVERT_COL_TO_CHAR, colCrt,  rCrt+1)[0]
-    ed_.set_caret(cCrtSmb1, rCrt+1, id=id_crt)
-   #def _move_caret_down
 
 def _json_loads(s, **kw):
     ''' Adapt s for json.loads

@@ -1535,12 +1535,6 @@
   //Commenting: If selected >1 lines, insert comment at maximal common indent.
   "comment_equal_column": false,
 
-  //Command "Duplicate line (advanced)": If no selection, duplicate entire line.
-  "duplicate_full_line_if_no_sel": true,
-
-  //Command "Duplicate line (advanced)": If no selection, move caret to next line.
-  "duplicate_move_down": true,
-
   //[Text/Completion]
   //Enable auto-completion from data/autocomplete/*.acp files (static lists of words).
   //These *.acp files exist only for small amount of lexers.

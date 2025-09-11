@@ -599,11 +599,6 @@ begin
           SClipboardCopy(ExtractFileName(Frame.GetFileName(Ed)));
       end;
 
-    cmd_DuplicateLineEx:
-      begin
-        DoPyCommand_Cudaxlib(Ed, 'duplicate', CmdInvoke);
-      end;
-
     cmd_AutoComplete:
       begin
         AppAutocompleteInvoke:= TAppAutocompleteInvoke.HotkeyOrCommand;
