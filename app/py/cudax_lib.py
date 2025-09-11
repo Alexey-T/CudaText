@@ -12,7 +12,7 @@ Authors:
     Andrey Kvichansky    (kvichans on github)
     Alexey Torgashin (CudaText)
 Version:
-    '0.6.15 2024-10-19'
+    '0.6.16 2025-09-11'
 Wiki: github.com/kvichans/cudax_lib/wiki
 ToDo: (see end of file)
 """
