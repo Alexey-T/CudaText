@@ -1578,6 +1578,7 @@ begin
   Op.OpKeyUpDownKeepColumn:= cfg.GetValue('key_up_down_keeps_column', Op.OpKeyUpDownKeepColumn);
   Op.OpKeyUpDownNavigateWrapped:= cfg.GetValue('key_up_down_nav_wrapped', Op.OpKeyUpDownNavigateWrapped);
   Op.OpKeyUpDownAllowToEdge:= cfg.GetValue('key_up_down_allow_edge', Op.OpKeyUpDownAllowToEdge);
+  Op.OpKeyUpDownSwapSel:= cfg.GetValue('key_up_down_swap_sel', Op.OpKeyUpDownSwapSel);
   Op.OpKeyLeftRightGoToNextLineWithCarets:= cfg.GetValue('key_left_right_wrap_with_carets', Op.OpKeyLeftRightGoToNextLineWithCarets);
   Op.OpKeyLeftRightSwapSel:= cfg.GetValue('key_left_right_swap_sel', Op.OpKeyLeftRightSwapSel);
   Op.OpKeyLeftRightSwapSelAndSelect:= cfg.GetValue('key_left_right_swap_sel_and_select', Op.OpKeyLeftRightSwapSelAndSelect);

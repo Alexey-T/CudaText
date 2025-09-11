@@ -535,6 +535,7 @@ begin
   Ed.OptKeyUpDownKeepColumn:= Op.OpKeyUpDownKeepColumn;
   Ed.OptKeyUpDownNavigateWrapped:= Op.OpKeyUpDownNavigateWrapped;
   Ed.OptKeyUpDownAllowToEdge:= Op.OpKeyUpDownAllowToEdge;
+  Ed.OptKeyUpDownSwapSel:= Op.OpKeyUpDownSwapSel;
   Ed.OptKeyLeftRightGoToNextLineWithCarets:= Op.OpKeyLeftRightGoToNextLineWithCarets;
   Ed.OptKeyLeftRightSwapSel:= Op.OpKeyLeftRightSwapSel;
   Ed.OptKeyLeftRightSwapSelAndSelect:= Op.OpKeyLeftRightSwapSelAndSelect;

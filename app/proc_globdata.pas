@@ -738,6 +738,7 @@ type
     OpKeyUpDownKeepColumn: boolean;
     OpKeyUpDownNavigateWrapped: boolean;
     OpKeyUpDownAllowToEdge: boolean;
+    OpKeyUpDownSwapSel: boolean;
     OpKeyLeftRightGoToNextLineWithCarets: boolean;
     OpKeyLeftRightSwapSel: boolean;
     OpKeyLeftRightSwapSelAndSelect: boolean;
@@ -2004,6 +2005,7 @@ begin
     OpKeyUpDownKeepColumn:= true;
     OpKeyUpDownNavigateWrapped:= true;
     OpKeyUpDownAllowToEdge:= true;
+    OpKeyUpDownSwapSel:= true;
     OpKeyLeftRightGoToNextLineWithCarets:= true;
     OpKeyLeftRightSwapSel:= true;
     OpKeyLeftRightSwapSelAndSelect:= false;

@@ -5,6 +5,7 @@
 
 1.228.0 (2025/09)
 
++ add: option "key_up_down_swal_sel"
 + add: auto-switching of light/dark theme depending on OS color theme: added 3 options for this feature: "ui_theme_auto_mode" / "ui_theme_light" / "ui_theme_dark"; note: dark mode auto-detection during app running works on Windows but not on all other platforms (idea by @gabeweb)
 + add: command "duplicate line(s)" renamed to "duplicate line(s) or column block", it now supports column (vertical) block: command duplicates it to the right, without selection moving (idea by @Doryforos)
 + add: plugin API to catch events of the findbar (thanks @pintassilgo, @ildarkhasanshin)
