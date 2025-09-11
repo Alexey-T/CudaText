@@ -897,6 +897,7 @@
 
   //Allows auto-switching of light/dark theme depending on OS dark mode.
   //Names of light/dark themes must be set via "ui_theme_light" and "ui_theme_dark".
+  //Option is applied after app restart.
   "ui_theme_auto_mode": false,
 
   //Name of light theme for "ui_theme_auto_mode":true.
@@ -1137,7 +1138,8 @@
   "ui_tree_filter_layout": 1,
 
   //Show nodes of sublexer(s) in code-tree.
-  //Used for example for JavaScript inside PHP. Requires program restart.
+  //Used for example for JavaScript inside PHP.
+  //Option is applied after app restart.
   "ui_tree_sublexers": false,
 
   //Maximal time, in milliseconds, of the code-tree filling procedure.
@@ -1690,7 +1692,7 @@
   "ui_toolbar_theme": "default_24x24",
 
   //Show main menu bar.
-  //Note: option takes effect only after app restart.
+  //Option is applied after app restart.
   "ui_menu_show": true,
 
   //Top menu bar is themed (Windows only, not possible in other OS).
