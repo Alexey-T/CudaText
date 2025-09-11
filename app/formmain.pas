@@ -655,8 +655,6 @@ type
 
     mnuApple: TMenuItem;
     mnuApple_About: TMenuItem;
-    //mnuApple_Quit: TMenuItem;
-
     mnuViewWrap_Alt,
     mnuViewNums_Alt,
     mnuViewFold_Alt,
@@ -700,6 +698,8 @@ type
     FFindConfirmAll: TModalResult;
     FFindMarkingMode: TAppFinderMarking;
     FFindMarkingCaret1st: boolean;
+    FDarkNow: boolean;
+    FDarkPrev: boolean;
     FShowFullScreen: boolean;
     FShowFullScreen_DisFree: boolean;
     FOrigBounds: TRect;
@@ -2657,6 +2657,19 @@ begin
       DoOps_SaveHistory(AppFile_History, false, false);
     end;
   end;
+
+  if UiOps.ThemeAutoMode then
+  begin
+    FDarkNow:= IsSystemThemeDark;
+    if FDarkNow<>FDarkPrev then
+    begin
+      FDarkPrev:= FDarkNow;
+      if FDarkNow then
+        UpdateThemes(UiOps.ThemeUi_Dark, UiOps.ThemeUi_Dark)
+      else
+        UpdateThemes(UiOps.ThemeUi_Light, UiOps.ThemeUi_Light);
+    end;
+  end;
 end;
 
 procedure TfmMain.TimerStatusClearTimer(Sender: TObject);
@@ -3006,6 +3019,9 @@ end;
 procedure TfmMain.FormCreate(Sender: TObject);
 begin
   UpdateMenuTheming_WhiteLine_Win32;
+
+  FDarkNow:= IsSystemThemeDark;
+  FDarkPrev:= FDarkNow;
 
   //default "ui_scale":0 must be converted to Screen's DPI
   ATEditorScalePercents:= Max(100, 100*Screen.PixelsPerInch div 96);

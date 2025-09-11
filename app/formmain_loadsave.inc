@@ -1102,10 +1102,18 @@ begin
     AppPanels[TAppPanelId.Side].Floating:= cfg.GetValue('float_side', false);
     AppPanels[TAppPanelId.Btm].Floating:= cfg.GetValue('float_bottom', false);
 
-    UpdateThemes(
-      IfThen(UiOps.ThemeUi_Loaded, UiOps.ThemeUi, '?'),
-      IfThen(UiOps.ThemeSyntax_Loaded, UiOps.ThemeSyntax, '?')
-      );
+    if UiOps.ThemeAutoMode then
+    begin
+      if FDarkNow then
+        UpdateThemes(UiOps.ThemeUi_Dark, UiOps.ThemeUi_Dark)
+      else
+        UpdateThemes(UiOps.ThemeUi_Light, UiOps.ThemeUi_Light);
+    end
+    else
+      UpdateThemes(
+        IfThen(UiOps.ThemeUi_Loaded, UiOps.ThemeUi, '?'),
+        IfThen(UiOps.ThemeSyntax_Loaded, UiOps.ThemeSyntax, '?')
+        );
 
     UiOps.LangName:= cfg.GetValue('lang', '');
     if UiOps.LangName<>'' then
@@ -1825,6 +1833,10 @@ begin
   UiOps.ViewerNonPrintable:= cfg.GetValue('viewer_unprinted', UiOps.ViewerNonPrintable);
 
   UiOps.AltTooltipTime:= cfg.GetValue('ui_alt_hint_time', UiOps.AltTooltipTime);
+
+  UiOps.ThemeAutoMode:= cfg.GetValue('ui_theme_auto_mode', UiOps.ThemeAutoMode);
+  UiOps.ThemeUi_Light:= cfg.GetValue('ui_theme_light', UiOps.ThemeUi_Light);
+  UiOps.ThemeUi_Dark:= cfg.GetValue('ui_theme_dark', UiOps.ThemeUi_Dark);
 
   S:= cfg.GetValue('ui_theme', '?');
   UiOps.ThemeUi_Loaded:= S<>'?';

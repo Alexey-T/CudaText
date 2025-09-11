@@ -263,6 +263,9 @@ type
     ThemedMainMenu: boolean;
     ThemedMainMenuFontName: string;
     ThemedMainMenuFontSize: integer;
+    ThemeUi_Light: string;
+    ThemeUi_Dark: string;
+    ThemeAutoMode: boolean;
 
     SidebarShow: boolean;
     SidebarOnRight: boolean;
@@ -816,6 +819,7 @@ function AppFormatTimeInMilliseconds(const N: QWord): string;
 procedure FixFormPositionToDesktop(F: TForm; const DesktopR: TRect);
 procedure FixRectPositionToDesktop(var F: TRect; const DesktopR: TRect);
 function IsColorDark(C: TColor): boolean;
+function IsSystemThemeDark: boolean;
 
 procedure AppApplyRendererTweaks(const s: string);
 procedure AppApplyScrollbarStyles(const s: string);
@@ -2070,6 +2074,9 @@ begin
     ThemeSyntax:= '';
     ThemeUi_Loaded:= false;
     ThemeSyntax_Loaded:= false;
+    ThemeUi_Light:= 'syn';
+    ThemeUi_Dark:= 'sub';
+    ThemeAutoMode:= false;
 
     ThemedMainMenu:= true;
     ThemedMainMenuFontName:= 'default';
@@ -3943,6 +3950,11 @@ var
 begin
   RedGreenBlue(C, r, g, b);
   Result:= (r<=cMargin) and (g<=cMargin) and (b<=cMargin);
+end;
+
+function IsSystemThemeDark: boolean;
+begin
+  Result:= IsColorDark(ColorToRGB(clWindow));
 end;
 
 procedure AppStopListTimers;

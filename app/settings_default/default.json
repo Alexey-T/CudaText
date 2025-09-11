@@ -895,6 +895,18 @@
   "ui_scale_font__linux": 100,
   "ui_scale_font__mac": 100,
 
+  //Allows auto-switching of light/dark theme depending on OS dark mode.
+  //Names of light/dark themes must be set via "ui_theme_light" and "ui_theme_dark".
+  "ui_theme_auto_mode": false,
+
+  //Name of light theme for "ui_theme_auto_mode":true.
+  //User must have both UI & syntax theme of the same name.
+  "ui_theme_light": "syn",
+
+  //Name of dark theme for "ui_theme_auto_mode":true.
+  //User must have both UI & syntax theme of the same name.
+  "ui_theme_dark": "sub",
+
   //[UI/Tabs]
   //UI tabs: Global visibility flag for UI-tabs. When 'false', UI-tabs are hidden.
   "ui_tab_show": true,
