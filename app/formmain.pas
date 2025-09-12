@@ -236,7 +236,7 @@ operator =(constref a, b: TFrameEditState): boolean;
 
 const
   cMenuTabsizeMin = 1;
-  cMenuTabsizeMax = 10;
+  cMenuTabsizeMax = 8;
 
 type
   TAppAllowSomething = (
