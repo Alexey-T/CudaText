@@ -57,6 +57,22 @@ begin
   G.Invalidate;
 end;
 
+procedure TfmMain.DoApplyTheme_UiAndSyntax;
+begin
+  if UiOps.ThemeAutoMode then
+  begin
+    if FDarkNow then
+      UpdateThemes(UiOps.ThemeUi_Dark, UiOps.ThemeUi_Dark)
+    else
+      UpdateThemes(UiOps.ThemeUi_Light, UiOps.ThemeUi_Light);
+  end
+  else
+    UpdateThemes(
+      IfThen(UiOps.ThemeUi_Loaded, UiOps.ThemeUi, '?'),
+      IfThen(UiOps.ThemeSyntax_Loaded, UiOps.ThemeSyntax, '?')
+      );
+end;
+
 procedure TfmMain.DoApplyTheme;
 var
   id: TAppPanelId;

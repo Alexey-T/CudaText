@@ -897,7 +897,6 @@
 
   //Allows auto-switching of light/dark theme depending on OS dark mode.
   //Names of light/dark themes must be set via "ui_theme_light" and "ui_theme_dark".
-  //Option is applied after app restart.
   "ui_theme_auto_mode": false,
 
   //Name of light theme for "ui_theme_auto_mode":true.

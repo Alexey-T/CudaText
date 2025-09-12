@@ -1102,18 +1102,7 @@ begin
     AppPanels[TAppPanelId.Side].Floating:= cfg.GetValue('float_side', false);
     AppPanels[TAppPanelId.Btm].Floating:= cfg.GetValue('float_bottom', false);
 
-    if UiOps.ThemeAutoMode then
-    begin
-      if FDarkNow then
-        UpdateThemes(UiOps.ThemeUi_Dark, UiOps.ThemeUi_Dark)
-      else
-        UpdateThemes(UiOps.ThemeUi_Light, UiOps.ThemeUi_Light);
-    end
-    else
-      UpdateThemes(
-        IfThen(UiOps.ThemeUi_Loaded, UiOps.ThemeUi, '?'),
-        IfThen(UiOps.ThemeSyntax_Loaded, UiOps.ThemeSyntax, '?')
-        );
+    //DoApplyTheme_UiAndSyntax; //is it needed in DoOps_LoadHistory??? 2025.09
 
     UiOps.LangName:= cfg.GetValue('lang', '');
     if UiOps.LangName<>'' then

@@ -925,6 +925,7 @@ type
     procedure DoApplyFont_Output;
     procedure DoApplyAllOps;
     procedure DoApplyTheme;
+    procedure DoApplyTheme_UiAndSyntax;
     procedure DoApplyTheme_ThemedMainMenu;
     procedure DoApplyThemeToGroups(G: TATGroups);
     procedure DoOnConsoleNumberChange(Sender: TObject);
@@ -4743,6 +4744,7 @@ begin
   ToolbarSideMid.UpdateControls;
 
   DoApplyTheme;
+  DoApplyTheme_UiAndSyntax;
 end;
 
 procedure TfmMain.DoFolderOpen(const ADirName: string; ANewProject: boolean;
