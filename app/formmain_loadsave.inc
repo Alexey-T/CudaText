@@ -1102,8 +1102,6 @@ begin
     AppPanels[TAppPanelId.Side].Floating:= cfg.GetValue('float_side', false);
     AppPanels[TAppPanelId.Btm].Floating:= cfg.GetValue('float_bottom', false);
 
-    //DoApplyTheme_UiAndSyntax; //is it needed in DoOps_LoadHistory??? 2025.09
-
     UiOps.LangName:= cfg.GetValue('lang', '');
     if UiOps.LangName<>'' then
       Localize;
