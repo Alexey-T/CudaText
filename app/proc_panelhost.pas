@@ -13,9 +13,6 @@ unit proc_panelhost;
 interface
 
 uses
-  {$ifdef windows}
-  Windows, Messages,
-  {$endif}
   SysUtils, Classes, Controls,
   ExtCtrls, Buttons, Forms,
   ATButtons,
@@ -47,17 +44,6 @@ type
   TAppPanelOnContextPopup = procedure(const ACaption: string) of object;
 
 type
-
-  { TPanelMy }
-
-  TPanelMy = class(TPanel)
-  protected
-    {$ifdef windows}
-    procedure WMEraseBkgnd(var Message: TWMEraseBkgnd); message WM_ERASEBKGND;
-    {$endif}
-  end;
-
-type
   { TAppPanelHost }
 
   TAppPanelHost = class
@@ -81,7 +67,7 @@ type
   public
     PanelGrouper: TCustomControl;
     PanelRoot: TCustomControl;
-    PanelTitle: TPanelMy;
+    PanelTitle: TATPanelNoFlicker;
     Panels: TFPList;
     Toolbar: TATFlatToolbar;
     Splitter: TSplitter;
@@ -129,33 +115,6 @@ implementation
 const
   msgTitle = 'CudaText';
 
-{ TPanelMy }
-
-{$ifdef windows}
-procedure TPanelMy.WMEraseBkgnd(var Message: TWMEraseBkgnd);
-var
-  R: TRect;
-begin
-  //to avoid flickering with white on app startup
-  if Message.DC<>0 then
-  begin
-    if ParentColor and Assigned(Parent) then
-      Brush.Color:= Parent.Brush.Color
-    else
-      Brush.Color:= Color;
-    R.Left:= 0;
-    R.Top:= 0;
-    R.Width:= Width;
-    R.Height:= Height;
-    Windows.FillRect(Message.DC, R, Brush.Reference.Handle);
-  end;
-
-  //to remove flickering on resize and mouse-over
-  Message.Result:= 1;
-end;
-{$endif}
-
-
 { TAppPanelItem }
 
 { TAppPanelHost }
@@ -193,7 +152,7 @@ begin
   PanelGrouper.Align:= Align;
   PanelGrouper.Parent:= PanelRoot;
 
-  PanelTitle:= TPanelMy.Create(FOwner);
+  PanelTitle:= TATPanelNoFlicker.Create(FOwner);
   PanelTitle.Align:= alTop;
   PanelTitle.Height:= 20;
   PanelTitle.BevelInner:= bvNone;
