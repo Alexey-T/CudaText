@@ -9,6 +9,7 @@
 + add: can customize recently changed behaviour of Up/Down-arrows on selection via new option "key_up_down_swap_sel" (thanks @Doryforos)
 + add: auto-switching of light/dark theme depending on OS color theme: added 3 options for this feature: "ui_theme_auto_mode" / "ui_theme_light" / "ui_theme_dark"; note: dark mode auto-detection during app running works on Windows but not on all other platforms (idea by @gabeweb)
 + add: command "duplicate line(s)" renamed to "duplicate line(s) or column block", it now supports column (vertical) block: command duplicates it to the right, without selection moving (idea by @Doryforos)
++ add: commands "move selected lines up/down" support multi-carets now (thanks @jczanfona)
 + add: plugin API to catch events of the findbar (thanks @pintassilgo, @ildarkhasanshin)
 + add: detect also Python 3.14 on Windows/macOS
 - fix: click on floating-group form / click on main form: app did not update active ui-tab-title color (thanks @MiroslavMatas)
