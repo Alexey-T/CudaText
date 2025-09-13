@@ -15,6 +15,7 @@
 - fix: click on floating-group form / click on main form: app did not update active ui-tab-title color (thanks @MiroslavMatas)
 - fix: macOS: 'modified' ui-tab mark did not hide after file save (thanks @JairoMartinezA)
 - fix: command "duplicate line(s)" on last line without EOL was adding redundant EOL (thanks @Doryforos)
+- fix: cannot undo "move selected lines down" if performed on last line; for this fix we had to add small limitation: app now cannot run "move down" over the last line, and it cannot run "move down" on 2-lines document
 
 1.227.0 (2025/09)
 
