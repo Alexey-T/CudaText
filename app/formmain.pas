@@ -2668,10 +2668,7 @@ begin
     if FDarkNow<>FDarkPrev then
     begin
       FDarkPrev:= FDarkNow;
-      if FDarkNow then
-        UpdateThemes(UiOps.ThemeUi_Dark, UiOps.ThemeUi_Dark)
-      else
-        UpdateThemes(UiOps.ThemeUi_Light, UiOps.ThemeUi_Light);
+      DoApplyTheme_UiAndSyntax;
     end;
   end;
   {$endif}
@@ -3025,10 +3022,6 @@ end;
 procedure TfmMain.FormCreate(Sender: TObject);
 begin
   UpdateMenuTheming_WhiteLine_Win32;
-
-  FDarkNow:= {$ifdef windows} IsWin32DarkModeViaRegistry; {$else} IsColorDark(ColorToRGB(clWindow)); {$endif}
-  FDarkPrev:= FDarkNow;
-  FDarkCheckTick:= GetTickCount64;
 
   //default "ui_scale":0 must be converted to Screen's DPI
   ATEditorScalePercents:= Max(100, 100*Screen.PixelsPerInch div 96);
@@ -4019,6 +4012,19 @@ procedure TfmMain.FormShow(Sender: TObject);
     //MsgLogConsole('Init top menu shortcuts: '+AppFormatTimeInMilliseconds(tick));
   end;
   //
+  procedure _Init_DarkModeVars;
+  begin
+    if UiOps.ThemeAutoMode then
+      FDarkNow:=
+        {$ifdef windows}
+        IsWin32DarkModeViaRegistry;
+        {$else}
+        IsColorDark(ColorToRGB(clWindow));
+        {$endif}
+    FDarkPrev:= FDarkNow;
+    FDarkCheckTick:= GetTickCount64;
+  end;
+  //
 var
   Frame: TEditorFrame;
 begin
@@ -4055,6 +4061,7 @@ begin
   _Init_WindowMaximized; //after StartupSession to fix #4219
 
   //after on_start, because ConfigToolbar is slow with visible toolbar
+  _Init_DarkModeVars;
   DoApplyUiOps;
   DoApplyInitialSidebarPanel;
 
