@@ -19,19 +19,18 @@ _       = get_translation(__file__)
 pass;                           LOG     = (-1==-1)  # Do or don't write log
 
 
-def _move_caret_down(cCrtSmb, rCrt, ed_=ed, id_crt=app.CARET_SET_ONE):
+def _move_caret_down(x, y, ed_=ed):
     ''' Caret will be moved to next line with save start column (if next line exists)
         Params
-            cCrtSmb     Start pos as symbol number
-            rCrt        Start line
-            ed_         Editor
-            id_crt      CARET_SET_ONE or CARET_SET_INDEX+N for caret with index N
+            x     Start column
+            y     Start line
+            ed_   Editor object
     '''
-    pass;                      #LOG and log('cCrtSmb, rCrt, id_crt==app.CARET_SET_ONE={}',(cCrtSmb, rCrt, id_crt==app.CARET_SET_ONE))
-    if (rCrt+1)>=ed_.get_line_count():    return
-    colCrt  = ed.convert(app.CONVERT_CHAR_TO_COL, cCrtSmb, rCrt  )[0]
-    cCrtSmb1= ed.convert(app.CONVERT_COL_TO_CHAR, colCrt,  rCrt+1)[0]
-    ed_.set_caret(cCrtSmb1, rCrt+1, id=id_crt)
+    pass;                      #LOG and log('x, y, id_crt==app.CARET_SET_ONE={}',(x, y, id_crt==app.CARET_SET_ONE))
+    if (y+1)>=ed_.get_line_count():    return
+    x_ = ed_.convert(app.CONVERT_CHAR_TO_COL, x , y  )[0]
+    x_ = ed_.convert(app.CONVERT_COL_TO_CHAR, x_, y+1)[0]
+    ed_.set_caret(x_, y+1, id=app.CARET_SET_ONE)
    #def _move_caret_down
 
 
