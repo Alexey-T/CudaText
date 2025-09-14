@@ -18,6 +18,8 @@ uses
   {$ifdef windows}
   Windows,
   Win32MenuStyler,
+  Win32Proc,
+  Registry,
   {$endif}
   Classes, SysUtils, Forms, Controls, Menus, ExtCtrls,
   Dialogs, Graphics,
@@ -1278,6 +1280,14 @@ uses
   proc_files,
   proc_colors,
   proc_lexer_styles;
+
+{$ifdef windows}
+//for detection of Win10 dark mode
+var
+  _Registry: TRegistry;
+  _RegistryDarkKeyOk: boolean;
+{$endif}
+
 
 function MsgBox(const AText: string; AFlags: Longint): integer;
 //Application.MessageBox is not used, to translate button captions
@@ -3956,7 +3966,14 @@ end;
 
 function IsSystemThemeDark: boolean;
 begin
+  {$ifdef windows}
+  if Assigned(_Registry) and _RegistryDarkKeyOk then
+    Result:= _Registry.ReadInteger('AppsUseLightTheme') = 0
+  else
+    Result:= false;
+  {$else}
   Result:= IsColorDark(ColorToRGB(clWindow));
+  {$endif}
 end;
 
 procedure AppStopListTimers;
@@ -4283,7 +4300,25 @@ initialization
   AllowDirectorySeparators:= ['/'];
   {$endif}
 
+  {$ifdef windows}
+  if WindowsVersion>=wv10 then
+  begin
+    _Registry:= TRegistry.Create(KEY_READ);
+    _Registry.RootKey:= HKEY_CURRENT_USER;
+    _RegistryDarkKeyOk:= _Registry.OpenKey('\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize', False);
+  end;
+  {$endif}
+
 finalization
+
+  {$ifdef windows}
+  if Assigned(_Registry) then
+  begin
+    if _RegistryDarkKeyOk then
+      _Registry.CloseKey;
+    FreeAndNil(_Registry);
+  end;
+  {$endif}
 
   FreeAndNil(EditorOps_CenteringDistFree);
   FreeAndNil(EditorOps_CenteringWidth);
