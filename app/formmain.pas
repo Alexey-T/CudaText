@@ -700,6 +700,7 @@ type
     FFindMarkingCaret1st: boolean;
     FDarkNow: boolean;
     FDarkPrev: boolean;
+    FDarkCheckTick: QWORD;
     FShowFullScreen: boolean;
     FShowFullScreen_DisFree: boolean;
     FOrigBounds: TRect;
@@ -1373,6 +1374,7 @@ begin
   FPSigaction(SIGINT, @RecNew, @RecOld);
 end;
 {$endif}
+
 
 function GetAppColorOfStatusbarFont: TColor;
 begin
@@ -2658,9 +2660,11 @@ begin
     end;
   end;
 
-  if UiOps.ThemeAutoMode then
+  {$ifdef windows}
+  if UiOps.ThemeAutoMode and (GetTickCount64-FDarkCheckTick>3000{don't poll registry often}) then
   begin
-    FDarkNow:= IsSystemThemeDark;
+    FDarkCheckTick:= GetTickCount64;
+    FDarkNow:= IsWin32DarkModeViaRegistry;
     if FDarkNow<>FDarkPrev then
     begin
       FDarkPrev:= FDarkNow;
@@ -2670,6 +2674,7 @@ begin
         UpdateThemes(UiOps.ThemeUi_Light, UiOps.ThemeUi_Light);
     end;
   end;
+  {$endif}
 end;
 
 procedure TfmMain.TimerStatusClearTimer(Sender: TObject);
@@ -3016,12 +3021,14 @@ begin
   {$endif}
 end;
 
+
 procedure TfmMain.FormCreate(Sender: TObject);
 begin
   UpdateMenuTheming_WhiteLine_Win32;
 
-  FDarkNow:= IsSystemThemeDark;
+  FDarkNow:= {$ifdef windows} IsWin32DarkModeViaRegistry; {$else} IsColorDark(ColorToRGB(clWindow)); {$endif}
   FDarkPrev:= FDarkNow;
+  FDarkCheckTick:= GetTickCount64;
 
   //default "ui_scale":0 must be converted to Screen's DPI
   ATEditorScalePercents:= Max(100, 100*Screen.PixelsPerInch div 96);

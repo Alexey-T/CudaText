@@ -15,7 +15,7 @@ interface
 
 uses
   {$ifdef windows}
-  Windows, Messages,
+  Windows, Messages, Registry, Win32Proc,
   {$endif}
   Classes, SysUtils, Controls, StdCtrls, ComCtrls, Graphics, Types,
   ImgList, Dialogs, Forms, Menus, ExtCtrls, Math,
@@ -177,6 +177,10 @@ type
     procedure Save(Ed: TATSynEdit; ATree: TTreeView);
     procedure Restore(Ed: TATSynEdit; ATree: TTreeView);
   end;
+
+{$ifdef windows}
+function IsWin32DarkModeViaRegistry: Boolean;
+{$endif}
 
 
 implementation
@@ -1608,6 +1612,31 @@ begin
     (Abs(P1.X-P2.X)>=Delta) or
     (Abs(P1.Y-P2.Y)>=Delta);
 end;
+
+
+{$ifdef windows}
+function IsWin32DarkModeViaRegistry: Boolean;
+var
+  Reg: TRegistry;
+begin
+  if WindowsVersion<wv10 then exit(False);
+
+  Reg := TRegistry.Create(KEY_READ);
+  try
+    Reg.RootKey := HKEY_CURRENT_USER;
+    if Reg.OpenKey('\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize', False) then
+    begin
+      Result := (Reg.ReadInteger('AppsUseLightTheme') = 0);
+      Reg.CloseKey;
+    end
+    else
+      Result := False;
+  finally
+    Reg.Free;
+  end;
+end;
+{$endif}
+
 
 finalization
 
