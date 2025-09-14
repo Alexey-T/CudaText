@@ -3,7 +3,7 @@ Authors:
     Andrey Kvichansky (kvichans on github.com)
     Alexey Torgashin (CudaText)
 Version:
-    '1.0.2 2024-08-24'
+    '1.0.3 2025-09-14'
 '''
 
 import  os
@@ -17,6 +17,23 @@ from    .cd_plug_lib    import *
 _       = get_translation(__file__)
 
 pass;                           LOG     = (-1==-1)  # Do or don't write log
+
+
+def _move_caret_down(cCrtSmb, rCrt, ed_=ed, id_crt=app.CARET_SET_ONE):
+    ''' Caret will be moved to next line with save start column (if next line exists)
+        Params
+            cCrtSmb     Start pos as symbol number
+            rCrt        Start line
+            ed_         Editor
+            id_crt      CARET_SET_ONE or CARET_SET_INDEX+N for caret with index N
+    '''
+    pass;                      #LOG and log('cCrtSmb, rCrt, id_crt==app.CARET_SET_ONE={}',(cCrtSmb, rCrt, id_crt==app.CARET_SET_ONE))
+    if (rCrt+1)>=ed_.get_line_count():    return
+    colCrt  = ed.convert(app.CONVERT_CHAR_TO_COL, cCrtSmb, rCrt  )[0]
+    cCrtSmb1= ed.convert(app.CONVERT_COL_TO_CHAR, colCrt,  rCrt+1)[0]
+    ed_.set_caret(cCrtSmb1, rCrt+1, id=id_crt)
+   #def _move_caret_down
+
 
 class Command:
     def __init__(self):
@@ -138,7 +155,7 @@ class Command:
                 x, y, x1, y1 = carets[0]
                 if y1<0:
                     if apx.get_opt('comment_move_down', True):
-                        apx._move_caret_down(x, y)
+                        _move_caret_down(x, y)
         else:
             app.msg_status(_('No commenting action was done'))
 
@@ -321,7 +338,7 @@ class Command:
         (cCrt, rCrt, cEnd, rEnd) = crts[0]
         move_down = apx.get_opt('comment_move_down', True) and (rCrt+1 < ed_.get_line_count())
         if empty_sel and move_down:
-            apx._move_caret_down(cCrt, rCrt)
+            _move_caret_down(cCrt, rCrt)
         # shift caret horizontally if it's on the same line
         if not move_down and empty_sel and not col_kept:
             dx = len(cmt_sgn)+1
@@ -458,10 +475,10 @@ class Command:
 
         move_down = apx.get_opt('comment_move_down', True)
         if len(crts)==1 and empty_sel and move_down:
-            apx._move_caret_down(cCrt, rCrt)
+            _move_caret_down(cCrt, rCrt)
             if bOnlyLn and not do_uncmt:
-                crt=ed.get_carets()[0]; apx._move_caret_down(crt[0], crt[1])
-                crt=ed.get_carets()[0]; apx._move_caret_down(crt[0], crt[1])
+                crt=ed.get_carets()[0]; _move_caret_down(crt[0], crt[1])
+                crt=ed.get_carets()[0]; _move_caret_down(crt[0], crt[1])
         #def cmt_toggle_stream
 
     def _get_cmt_pair(self, lex):
