@@ -16,6 +16,7 @@
 - fix: macOS: 'modified' ui-tab mark did not hide after file save (thanks @JairoMartinezA)
 - fix: command "duplicate line(s)" on last line without EOL was adding redundant EOL (thanks @Doryforos)
 - fix: wrong Undo of "move selected lines down" if performed on last line
+- fix: crash in code of option "saving_trim_final_empty" (thanks @eltonfabricio10)
 
 1.227.0 (2025/09)
 
