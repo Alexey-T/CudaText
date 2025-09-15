@@ -1672,6 +1672,7 @@ begin
   if PopupTabSize=nil then
   begin
     PopupTabSize:= TPopupMenu.Create(Self);
+    PopupTabSize.OnPopup:= @PopupTabSizeOnPopup;
 
     mi:= TMenuItem.Create(Self);
     mi.Caption:= '-';

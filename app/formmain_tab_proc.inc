@@ -846,3 +846,8 @@ begin
   UpdateMenuTheming_PopupMenu_Win32(Sender);
 end;
 
+procedure TfmMain.PopupTabSizeOnPopup(Sender: TObject);
+begin
+  UpdateMenuTheming_PopupMenu_Win32(PopupTabSize);
+end;
+

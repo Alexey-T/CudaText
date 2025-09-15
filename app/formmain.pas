@@ -792,6 +792,7 @@ type
     procedure PopupBottomCopyClick(Sender: TObject);
     procedure PopupBottomSelectAllClick(Sender: TObject);
     procedure PopupBottomWrapClick(Sender: TObject);
+    procedure PopupTabSizeOnPopup(Sender: TObject);
     procedure WebPanelClick(Sender: TObject);
     procedure WebPanelMouseLeave(Sender: TObject);
     procedure FrameConfirmLink(Sender: TObject; const ALink: string);
@@ -9820,7 +9821,6 @@ begin
   Ed:= (Sender as TMenuItem).Owner as TATSynEdit;
   Ed.DoCommand(cCommand_ToggleWordWrap, TATCommandInvoke.MenuContext);
 end;
-
 
 procedure TfmMain.InitBottomEditor(var Form: TAppFormWithEditor);
 begin
