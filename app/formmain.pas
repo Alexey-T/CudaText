@@ -865,6 +865,7 @@ type
     procedure DoMenuClear(const AMenuId: string);
     function DoMenu_GetPyProps(mi: TMenuItem): PPyObject;
     function DoMenu_PyEnum(const AMenuId: string): PPyObject;
+    procedure DoOnTabMenuPopup(Sender: TPopupMenu);
     procedure DoOnTabFocus(Sender: TObject);
     procedure DoOnTabFocusFinalization(F: TEditorFrame;
       AAllowEventOnTabChange: boolean);
@@ -2979,6 +2980,7 @@ begin
   //Groups.OnTabOver:= @DoOnTabOver;
   GroupsMain.OnTabGetTick:= @DoOnTabGetTick;
   GroupsMain.OnTabDblClick:= @DoOnTabDblClick;
+  GroupsMain.OnTabMenuPopup:= @DoOnTabMenuPopup;
 end;
 
 procedure TfmMain.InitFinder;
@@ -8990,6 +8992,7 @@ begin
     //G.OnTabOver:= @DoOnTabOver;
     G.OnTabGetTick:= @DoOnTabGetTick;
     G.OnTabDblClick:= @DoOnTabDblClick;
+    G.OnTabMenuPopup:= @DoOnTabMenuPopup;
     G.OnEmpty:= AOnGroupEmpty;
 
     DoApplyThemeToGroups(G);
