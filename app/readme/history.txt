@@ -15,8 +15,8 @@
 - fix: click on floating-group form / click on main form: app did not update active ui-tab-title color (thanks @MiroslavMatas)
 - fix: macOS: 'modified' ui-tab mark did not hide after file save (thanks @JairoMartinezA)
 - fix: command "duplicate line(s)" on last line without EOL was adding redundant EOL (thanks @Doryforos)
+- fix: regression in 1.222.5: crash in code of option "saving_trim_final_empty":true (thanks @eltonfabricio10)
 - fix: wrong Undo of "move selected lines down" if performed on last line
-- fix: crash in code of option "saving_trim_final_empty" (thanks @eltonfabricio10)
 
 1.227.0 (2025/09)
 
