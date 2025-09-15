@@ -697,6 +697,7 @@ end;
 
 procedure TfmMain.PopupRecentsPopup(Sender: TObject);
 begin
+  UpdateMenuTheming_PopupMenu_Win32(PopupRecents);
   UpdateMenuRecents(PopupRecents.Items);
 end;
 

@@ -512,6 +512,8 @@ var
   msgConsoleToggleWrap: string;
   msgConsoleNavigate: string;
 begin
+  UpdateMenuTheming_PopupMenu_Win32(EdMemo.PopupTextDefault);
+
   if mnuTextClear=nil then
   begin
     mnuTextClear:= TMenuItem.Create(Self);

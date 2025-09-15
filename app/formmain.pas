@@ -5898,6 +5898,7 @@ var
   Frame: TEditorFrame;
   NVis, NCur: Integer;
 begin
+  UpdateMenuTheming_PopupMenu_Win32(PopupTab);
   UpdateGroupsOfContextMenu;
 
   Frame:= FrameOfPopup;
@@ -7868,6 +7869,7 @@ procedure TfmMain.DoCodetree_OnContextPopup(Sender: TObject; MousePos: TPoint;
   var Handled: Boolean);
 begin
   InitPopupTree;
+  UpdateMenuTheming_PopupMenu_Win32(PopupTree);
   PopupTree.Popup;
   Handled:= true;
 end;
@@ -7961,6 +7963,8 @@ begin
   end;
 
   Popup:= Sender as TPopupMenu;
+  UpdateMenuTheming_PopupMenu_Win32(Popup);
+
   for i:= 0 to Popup.Items.Count-1 do
   begin
     mi:= Popup.Items[i];
@@ -7982,6 +7986,8 @@ end;
 
 procedure TfmMain.PopupToolbarCaseOnPopup(Sender: TObject);
 begin
+  UpdateMenuTheming_PopupMenu_Win32(PopupToolbarCase);
+
   if mnuToolbarCaseLow=nil then
   begin
     mnuToolbarCaseLow:= TMenuItem.Create(Self);
@@ -8026,6 +8032,7 @@ var
   msgCommentStreamToggle: string;
 begin
   if not AppPython.Inited then exit;
+  UpdateMenuTheming_PopupMenu_Win32(PopupToolbarComment);
 
   if mnuToolbarCommentLineAdd=nil then
   begin
@@ -8319,6 +8326,8 @@ var
   Ed: TATSynEdit;
   SLink, SCaption: string;
 begin
+  UpdateMenuTheming_PopupMenu_Win32(PopupText);
+
   UpdateMenuItemHotkey(mnuTextUndo, cCommand_Undo);
   UpdateMenuItemHotkey(mnuTextRedo, cCommand_Redo);
   UpdateMenuItemHotkey(mnuTextCut, cCommand_ClipboardCut);

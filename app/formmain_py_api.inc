@@ -6685,6 +6685,7 @@ begin
             if not Assigned(PopupItem) then
               exit(ReturnNone);
             Popup:= PopupItem.Owner as TPopupMenu;
+            UpdateMenuTheming_PopupMenu_Win32(Popup);
             if StrCmd='' then
               Popup.PopUp //at cursor position
             else
