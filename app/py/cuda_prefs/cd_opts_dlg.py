@@ -2,7 +2,7 @@
 Authors:
     Andrey Kvichansky    (kvichans on github.com)
 Version:
-    '2.3.17 2025-05-25'
+    '2.3.18 2025-09-17'
 ToDo: (see end of file)
 '''
 
@@ -22,7 +22,7 @@ d   = dict
 odict = collections.OrderedDict
 OptFetchResult = collections.namedtuple('OptFetchResult', 'opts filter sort')
 
-pass;                           LOG     = (-1== 1) or apx.get_opt('_opts_dlg_log',False)    # Do or dont logging.
+pass;                           LOG     = (-1== 1) # Allow logging
 pass;                           from pprint import pformat
 pass;                           pf=lambda d:pformat(d,width=150)
 pass;                           pf80=lambda d:pformat(d,width=80)
@@ -935,8 +935,7 @@ class Command:
         self._dlg_opt()
 
     def _dlg_opt(self):
-        defs_json   = apx.get_opt('dlg_cuda_options.defs_json', 'default.json')
-        defs_json   = defs_json     if os.sep in defs_json else     apx.get_def_setting_dir()+os.sep+defs_json
+        defs_json = app.app_path(app.APP_DIR_SETTINGS_DEF)+os.sep+'default.json'
 
         # support translated default.json
         lng = app.app_proc(app.PROC_GET_LANG, '')
