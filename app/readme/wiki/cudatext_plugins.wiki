@@ -726,13 +726,29 @@ CudaFormatter is plugin which uses 2nd-level plugins, "formatters", to change th
 
 CudaFormatter is located in the "plugins" category of Addons Manager install list. 2nd-level "formatters" are located in the "formatter" category of Addons Manager install list.
 
-For example, how to format code in XML?
-
-* Use "Plugins / Addon Manager / Install" to install the CudaFormatter, and formatter(s) for XML. Restart CudaText.
-* Open XML file (normal or "lite" lexer XML must activate).
-* Use "Plugins / CudaFormatter / Formatter (menu)". This will show the menu of actions from appropriate formatter(s) for the XML (normal or "lite") lexer.
-
 Formatters may change the entire file text or only selected text. If selection is made, formatter changes only the selection, otherwise the entire text. And special formatters called "minifiers" puts the resulting text to a separate ui-tab.
+
+===How to format XML document===
+
+For example, how to re-format XML document?
+
+* Use "Plugins / Addon Manager / Install" to install:
+** "plugin: CudaFormatter"
+** and "formatter: XML_Pretty_Print"
+* Restart CudaText.
+* Open an XML document (normal or "lite" lexer XML must activate). It can be a file or untitled document.
+* Call menu item "Plugins / CudaFormatter / Formatter (menu)". This will show the menu of actions from appropriate formatter(s) for the XML (normal or "lite") lexer. Usually, only single XML formatter is installed, so "Formatter (menu)" won't show any menu, it will instantly re-format the document.
+
+===How to format JSON document===
+
+For example, how to re-format JSON document?
+
+* Use "Plugins / Addon Manager / Install" to install:
+** "plugin: CudaFormatter"
+** and "formatter: JavaScript_JSON"
+* Restart CudaText.
+* Open an JSON document (normal or "lite" lexer JSON must activate). It can be a file or untitled document.
+* Call menu item "Plugins / CudaFormatter / Formatter (menu)". This will show the menu of actions from appropriate formatter(s) for the JSON (normal or "lite") lexer. Usually, 2 formatters are installed: 1) JS Beautify (JSON), 2) JSON Stringify; "Formatter (menu)" will show menu with 2 items. Choose first item "JS Beautify (JSON)".
 
 ===CudaFormatter commands===
 
