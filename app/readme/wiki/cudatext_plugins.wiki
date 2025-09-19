@@ -752,6 +752,8 @@ For example, how to re-format JSON document?
 
 ===CudaFormatter commands===
 
+[[File:cudatext-fmt-menuitems.png]]
+
 ;Formatter (menu): Runs formatter for current editor file. If several suitable formatters are found, menu-like dialog will suggest to choose one of them. If only single formatter is found, it will be run without confirmation.
 
 ;Formatter per-lexer A...D: Runs formatter for current editor file, which has per-lexer label (A, B, C, D). Labels are configurable by another command. For example, for the label "B" you can have one formatter for C++, another formatter for HTML, and the 3rd one for CSS. All 3 formatters will be callable by the same command "Formatter per-lexer B".
@@ -763,6 +765,8 @@ For example, how to re-format JSON document?
 ;Configure on_save: Chooses which formatters are active on file saving. The first formatter, which is suitable for current lexer, and which has the flag "on_save" attached (via plugin configuration), will be used.
 
 ;Configure per-lexer labels: Allows to assign per-lexer labels (A, B, C, D) to formatters. Labels allow to use commands "Formatter per-lexer A"..."Formatter per-lexer D", also via hotkeys.
+
+;Configurte cross-lexer labels: Allows to assign cross-lexer labels (1, 2, 3, 4) to formatters. Labels allow to use commands "Formatter cross-lexer 1" etc.
 
 ;Configure formatter: For those formatters which have configuration file, command will suggest to open global config file (in the folder "settings" of CudaText).
 
