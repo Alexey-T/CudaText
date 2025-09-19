@@ -247,6 +247,7 @@ type
     procedure bRepStopClick(Sender: TObject);
     procedure ControlAutosizeOptionsByWidth;
     procedure CopyFieldFindToReplace;
+    procedure DoDropdownPopop(Sender: TPopupMenu);
     procedure DoFocusEditor;
     procedure DoHiAll;
     procedure DoResult(Op: TAppFinderOperation; AUpdateEnabledAll: boolean=true);
@@ -962,6 +963,11 @@ begin
   edRep.Update(true);
 end;
 
+procedure TfmFind.DoDropdownPopop(Sender: TPopupMenu);
+begin
+  UpdateMenuTheming_PopupMenu_Win32(Sender);
+end;
+
 procedure TfmFind.edFindKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
@@ -1029,6 +1035,9 @@ begin
 
   edFind.OptPasteAtEndMakesFinalEmptyLine:= false;
   edRep.OptPasteAtEndMakesFinalEmptyLine:= false;
+
+  edFind.OnDropdownPopup:= @DoDropdownPopop;
+  edRep.OnDropdownPopup:= @DoDropdownPopop;
 
   FRegexObj:= TRegExpr.Create;
 
