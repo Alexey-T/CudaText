@@ -1039,6 +1039,7 @@ begin
 
   edFind.OnDropdownPopup:= @DoDropdownPopop;
   edRep.OnDropdownPopup:= @DoDropdownPopop;
+  bTokens.OnDropdownPopup:= @DoDropdownPopop;
 
   FRegexObj:= TRegExpr.Create;
 
