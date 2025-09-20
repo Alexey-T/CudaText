@@ -4287,6 +4287,8 @@ initialization
   AllowDirectorySeparators:= ['/'];
   {$endif}
 
+  GlobalApplyPopupTheme:= @UpdateMenuTheming_PopupMenu_Win32;
+
 finalization
 
   FreeAndNil(EditorOps_CenteringDistFree);
