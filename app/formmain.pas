@@ -866,7 +866,6 @@ type
     procedure DoMenuClear(const AMenuId: string);
     function DoMenu_GetPyProps(mi: TMenuItem): PPyObject;
     function DoMenu_PyEnum(const AMenuId: string): PPyObject;
-    procedure DoOnTabMenuPopup(Sender: TPopupMenu);
     procedure DoOnTabFocus(Sender: TObject);
     procedure DoOnTabFocusFinalization(F: TEditorFrame;
       AAllowEventOnTabChange: boolean);
@@ -2981,7 +2980,6 @@ begin
   //Groups.OnTabOver:= @DoOnTabOver;
   GroupsMain.OnTabGetTick:= @DoOnTabGetTick;
   GroupsMain.OnTabDblClick:= @DoOnTabDblClick;
-  GroupsMain.OnTabMenuPopup:= @DoOnTabMenuPopup;
 end;
 
 procedure TfmMain.InitFinder;
@@ -7989,8 +7987,6 @@ end;
 
 procedure TfmMain.PopupToolbarCaseOnPopup(Sender: TObject);
 begin
-  UpdateMenuTheming_PopupMenu_Win32(PopupToolbarCase);
-
   if mnuToolbarCaseLow=nil then
   begin
     mnuToolbarCaseLow:= TMenuItem.Create(Self);
@@ -8035,7 +8031,6 @@ var
   msgCommentStreamToggle: string;
 begin
   if not AppPython.Inited then exit;
-  UpdateMenuTheming_PopupMenu_Win32(PopupToolbarComment);
 
   if mnuToolbarCommentLineAdd=nil then
   begin
@@ -8329,8 +8324,6 @@ var
   Ed: TATSynEdit;
   SLink, SCaption: string;
 begin
-  UpdateMenuTheming_PopupMenu_Win32(PopupText);
-
   UpdateMenuItemHotkey(mnuTextUndo, cCommand_Undo);
   UpdateMenuItemHotkey(mnuTextRedo, cCommand_Redo);
   UpdateMenuItemHotkey(mnuTextCut, cCommand_ClipboardCut);
@@ -8993,7 +8986,6 @@ begin
     //G.OnTabOver:= @DoOnTabOver;
     G.OnTabGetTick:= @DoOnTabGetTick;
     G.OnTabDblClick:= @DoOnTabDblClick;
-    G.OnTabMenuPopup:= @DoOnTabMenuPopup;
     G.OnEmpty:= AOnGroupEmpty;
 
     DoApplyThemeToGroups(G);
