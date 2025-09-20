@@ -690,6 +690,7 @@ var
 begin
   InitPopupMore;
   P:= bMore.ClientToScreen(Point(0, 0));
+  UpdateMenuTheming_PopupMenu_Win32(FPopupMore);
   FPopupMore.Popup(P.X, P.Y);
 end;
 
