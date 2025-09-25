@@ -81,7 +81,7 @@ begin
     else
     begin
       F.LabelText.Caption:= msgFileMaybeNotText;
-      F.LabelDetails.Caption:= Format('(%s: 0x%s)', [msgDetectedBinaryChar, IntToHex(ABinaryChar, 2)]);
+      F.LabelDetails.Caption:= msgDetectedBinaryChar+' 0x'+IntToHex(ABinaryChar, 2);
     end;
 
     F.LabelFN.Caption:= ExtractFileName(AFilename);

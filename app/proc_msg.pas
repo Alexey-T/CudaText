@@ -104,7 +104,7 @@ const
 
   msgFileMaybeNotText: string = 'File is maybe not text:';
   msgFileTooBig: string = 'File is too big to edit:';
-  msgDetectedBinaryChar: string = 'detected binary char';
+  msgDetectedBinaryChar: string = 'Detected binary char:';
 
   msgTooltipCloseTab: string = 'Close tab';
   msgTooltipAddTab: string = 'Add tab';
