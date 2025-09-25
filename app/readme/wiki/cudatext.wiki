@@ -2936,6 +2936,42 @@ Then set the option in user.json:
 
    "newdoc_lexer": "Cfg",
 
+==How to open big files in text viewer, without confirmation dialog==
+
+Q: I want to open too big files (e.g. size bigger than 10Mb) using internal text viewer, without asking each time about it.
+
+A: Here is primitive plugin. Adjust the size limit in the Python code.
+
+File <code>py/cuda_big_to_viewer/install.inf</code>
+
+ [info]
+ title=Big Files to Viewer
+ desc=(Fill the description)
+ type=cudatext-plugin
+ subdir=cuda_big_to_viewer
+ homepage=(Fill the GitHub repo URL)
+  
+ [item1]
+ section=events
+ events=on_open_pre
+
+File <code>py/cuda_big_to_viewer/__init__.py</code>
+<syntaxhighlight lang="python">
+import os
+from cudatext import *
+
+BIG_SIZE_IN_MB = 10
+
+class Command:
+
+    def on_open_pre(self, ed_self, filename):
+        nsize = os.path.getsize(filename)
+        if nsize>=BIG_SIZE_IN_MB*1024*1024:
+            file_open(filename, options='/view-text')
+            print('Forced viewer for file: '+filename)
+            return False
+</syntaxhighlight>
+
 =Troubleshooting the Windows shell extension for CudaText=
 
 There may be rare cases where CudaText's menu item shows up in Windows Explorer context menu but the entry's icon is missing and an error message states that the provided file name was not found.
