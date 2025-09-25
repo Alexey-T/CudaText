@@ -78,7 +78,7 @@ begin
   try
     F.LabelText.Caption:= S;
     F.LabelFN.Caption:= ExtractFileName(AFilename);
-    F.btnEdit.Enabled:= {$ifdef CPU32} not ATooBig {$else} NFileSize<MaxInt {$endif};
+    F.btnEdit.Enabled:= {$ifdef CPU32} not ATooBig {$else} NFileSize<MaxLongint {$endif};
 
     case F.ShowModal of
       mrOk: Result:= TAppConfirmBinary.Editor;
