@@ -450,6 +450,8 @@ begin
       begin
         sJsonPath+= '/pair';
 
+        if Frame.Ed2.Strings.LoadingFromStream then Continue;
+
         bModified:= Frame.Ed2.Modified;
         cfg.SetValue(sJsonPath+'/modified', bModified);
         if not bModified then
