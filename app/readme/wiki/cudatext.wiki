@@ -2928,14 +2928,8 @@ Q:  I'm looking for a way for newly created files to be auto-saved with a predef
 A: This can be solved with an fake lexer. Create file "Cfg.lcf" in the folder "data/lexlib" with such contents:
 
  object SyntAnal21: TLibSyntAnalyzer
-   CodeTemplates = <>
-   SubAnalyzers = <>
    Extentions = 'cfg'
    LexerName = 'Cfg'
-   Notes.Strings = (
-     '-')
-   LineComment = ';'
-   Charset = DEFAULT_CHARSET
  end
 
 Then set the option in user.json:
