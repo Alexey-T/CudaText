@@ -2921,6 +2921,27 @@ For text editing commands (e.g. typing of text), counter may increase by 3 on ea
 
 For caret moving commands, counter may increase by 2 on each command. 2nd repaint is from <code>"bracket_highlight":true</code>. 2nd repaint may occur also from the auto-showing of the horizontal scrollbar.
 
+==How to force file saving to append extension .cfg to filename==
+
+Q:  I'm looking for a way for newly created files to be auto-saved with a predefined extension. In my case, it is ".cfg". When I open a new blank tab and then "Save As", I want my file to be saved with a specific extension type, if I write it out in the textbox. As an example, I could write out "Test-File-001.json" and the file would be named like this. If I DON'T specify an extension type I want the file extension to automatically be ".cfg". In this second use-case, I would simply write out "Test-File-001" (without an extension type) and CudaText would save my file as "Test-File-001.cfg".
+
+A: This can be solved with an fake lexer. Create file "Cfg.lcf" in the folder "data/lexlib" with such contents:
+
+ object SyntAnal21: TLibSyntAnalyzer
+   CodeTemplates = <>
+   SubAnalyzers = <>
+   Extentions = 'cfg'
+   LexerName = 'Cfg'
+   Notes.Strings = (
+     '-')
+   LineComment = ';'
+   Charset = DEFAULT_CHARSET
+ end
+
+Then set the option in user.json:
+
+   "newdoc_lexer": "Cfg",
+
 =Troubleshooting the Windows shell extension for CudaText=
 
 There may be rare cases where CudaText's menu item shows up in Windows Explorer context menu but the entry's icon is missing and an error message states that the provided file name was not found.
