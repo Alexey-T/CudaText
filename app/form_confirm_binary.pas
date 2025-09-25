@@ -81,7 +81,7 @@ begin
     else
     begin
       F.LabelText.Caption:= msgFileMaybeNotText;
-      F.LabelDetails.Caption:= Format('(binary char: 0x%s)', [IntToHex(ABinaryChar, 2)]);
+      F.LabelDetails.Caption:= Format('(%s: 0x%s)', [msgDetectedBinaryChar, IntToHex(ABinaryChar, 2)]);
     end;
 
     F.LabelFN.Caption:= ExtractFileName(AFilename);
@@ -162,6 +162,7 @@ begin
     with btnCancel do Caption:= msgButtonCancel;
     msgFileMaybeNotText:= ini.ReadString(section, 'ntxt', msgFileMaybeNotText);
     msgFileTooBig:= ini.ReadString(section, 'big', msgFileTooBig);
+    msgDetectedBinaryChar:= ini.ReadString(section, 'bch', msgDetectedBinaryChar);
   finally
     FreeAndNil(ini);
   end;
