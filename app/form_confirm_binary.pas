@@ -63,6 +63,13 @@ implementation
 
 {$R *.lfm}
 
+const
+  _RES_EDITOR = mrOk;
+  _RES_VIEWER_TEXT = 200;
+  _RES_VIEWER_BIN = 201;
+  _RES_VIEWER_HEX = 202;
+  _RES_VIEWER_UNI = 203;
+
 function DoDialogConfirmBinaryFile(const AFilename: string;
   ATooBig: boolean; ABinaryChar: byte): TAppConfirmBinary;
 var
@@ -88,12 +95,18 @@ begin
     F.btnEdit.Enabled:= {$ifdef CPU32} not ATooBig {$else} NFileSize<MaxLongint {$endif};
 
     case F.ShowModal of
-      mrOk: Result:= TAppConfirmBinary.Editor;
-      200: Result:= TAppConfirmBinary.ViewerText;
-      201: Result:= TAppConfirmBinary.ViewerBinary;
-      202: Result:= TAppConfirmBinary.ViewerHex;
-      203: Result:= TAppConfirmBinary.ViewerUnicode;
-      else Result:= TAppConfirmBinary.Cancel;
+      _RES_EDITOR:
+        Result:= TAppConfirmBinary.Editor;
+      _RES_VIEWER_TEXT:
+        Result:= TAppConfirmBinary.ViewerText;
+      _RES_VIEWER_BIN:
+        Result:= TAppConfirmBinary.ViewerBinary;
+      _RES_VIEWER_HEX:
+        Result:= TAppConfirmBinary.ViewerHex;
+      _RES_VIEWER_UNI:
+        Result:= TAppConfirmBinary.ViewerUnicode;
+      else
+        Result:= TAppConfirmBinary.Cancel;
     end;
   finally
     F.Free;
@@ -109,27 +122,27 @@ end;
 
 procedure TfmConfirmBinary.btnEditClick(Sender: TObject);
 begin
-  ModalResult:= mrOk;
+  ModalResult:= _RES_EDITOR;
 end;
 
 procedure TfmConfirmBinary.btnViewTextClick(Sender: TObject);
 begin
-  ModalResult:= 200;
+  ModalResult:= _RES_VIEWER_TEXT;
 end;
 
 procedure TfmConfirmBinary.btnViewBinaryClick(Sender: TObject);
 begin
-  ModalResult:= 201;
+  ModalResult:= _RES_VIEWER_BIN;
 end;
 
 procedure TfmConfirmBinary.btnViewHexClick(Sender: TObject);
 begin
-  ModalResult:= 202;
+  ModalResult:= _RES_VIEWER_HEX;
 end;
 
 procedure TfmConfirmBinary.btnViewUnicodeClick(Sender: TObject);
 begin
-  ModalResult:= 203;
+  ModalResult:= _RES_VIEWER_UNI;
 end;
 
 procedure TfmConfirmBinary.FormCreate(Sender: TObject);
