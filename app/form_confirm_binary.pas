@@ -65,17 +65,20 @@ function DoDialogConfirmBinaryFile(const AFilename: string; ATooBig: boolean): T
 var
   F: TfmConfirmBinary;
   S: string;
+  NFileSize: Int64;
 begin
+  NFileSize:= FileSize(AFilename);
+
+  if ATooBig then
+    S:= msgFileTooBig + Format(' (%d Mb, "ui_max_size_open": %d)', [NFileSize div (1024*1024), UiOps.MaxFileSizeToOpen])
+  else
+    S:= msgFileMaybeNotText;
+
   F:= TfmConfirmBinary.Create(nil);
   try
-    if ATooBig then
-      S:= msgFileTooBig + Format(' (%d Mb, "ui_max_size_open": %d)', [FileSize(AFilename) div (1024*1024), UiOps.MaxFileSizeToOpen])
-    else
-      S:= msgFileMaybeNotText;
-
     F.LabelText.Caption:= S;
     F.LabelFN.Caption:= ExtractFileName(AFilename);
-    F.btnEdit.Enabled:= not ATooBig;
+    F.btnEdit.Enabled:= {$ifdef CPU32} not ATooBig {$else} NFileSize<MaxInt {$endif};
 
     case F.ShowModal of
       mrOk: Result:= TAppConfirmBinary.Editor;

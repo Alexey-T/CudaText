@@ -9,7 +9,7 @@ object fmConfirmBinary: TfmConfirmBinary
   ClientWidth = 452
   Position = poScreenCenter
   ShowInTaskBar = stNever
-  LCLVersion = '3.99.0.0'
+  LCLVersion = '4.99.0.0'
   OnCreate = FormCreate
   OnShow = FormShow
   object LabelText: TLabel
@@ -18,9 +18,9 @@ object fmConfirmBinary: TfmConfirmBinary
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 17
+    Height = 15
     Top = 10
-    Width = 94
+    Width = 73
     BorderSpacing.Left = 6
     BorderSpacing.Top = 10
     BorderSpacing.Right = 6
@@ -32,8 +32,8 @@ object fmConfirmBinary: TfmConfirmBinary
     AnchorSideTop.Control = LabelFN
     AnchorSideTop.Side = asrBottom
     Left = 106
-    Height = 33
-    Top = 56
+    Height = 25
+    Top = 52
     Width = 240
     AutoSize = True
     BorderSpacing.Top = 10
@@ -49,8 +49,8 @@ object fmConfirmBinary: TfmConfirmBinary
     AnchorSideRight.Control = btnEdit
     AnchorSideRight.Side = asrBottom
     Left = 106
-    Height = 33
-    Top = 134
+    Height = 25
+    Top = 114
     Width = 240
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
@@ -66,8 +66,8 @@ object fmConfirmBinary: TfmConfirmBinary
     AnchorSideRight.Control = btnEdit
     AnchorSideRight.Side = asrBottom
     Left = 106
-    Height = 33
-    Top = 251
+    Height = 25
+    Top = 207
     Width = 240
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
@@ -82,9 +82,9 @@ object fmConfirmBinary: TfmConfirmBinary
     AnchorSideTop.Control = LabelText
     AnchorSideTop.Side = asrBottom
     Left = 6
-    Height = 17
-    Top = 29
-    Width = 56
+    Height = 15
+    Top = 27
+    Width = 43
     BorderSpacing.Top = 2
     Caption = 'LabelFN'
   end
@@ -95,8 +95,8 @@ object fmConfirmBinary: TfmConfirmBinary
     AnchorSideRight.Control = btnEdit
     AnchorSideRight.Side = asrBottom
     Left = 106
-    Height = 33
-    Top = 173
+    Height = 25
+    Top = 145
     Width = 240
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
@@ -112,8 +112,8 @@ object fmConfirmBinary: TfmConfirmBinary
     AnchorSideRight.Control = btnEdit
     AnchorSideRight.Side = asrBottom
     Left = 106
-    Height = 33
-    Top = 95
+    Height = 25
+    Top = 83
     Width = 240
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
@@ -129,8 +129,8 @@ object fmConfirmBinary: TfmConfirmBinary
     AnchorSideRight.Control = btnEdit
     AnchorSideRight.Side = asrBottom
     Left = 106
-    Height = 33
-    Top = 212
+    Height = 25
+    Top = 176
     Width = 240
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True

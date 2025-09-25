@@ -3,6 +3,8 @@
   - fixed
   * changed
 
++ add: dialog "File is too big to edit": on 64-bit CPU, app allows the button "Edit anyway"
+
 1.228.0 (2025/09)
 
 * change: removed command "duplicate line (advanced)", it was moved to CudaExt plugin; corresponding options "duplicate_xxxx" were removed from default.json, they are now named "cuda_ext_duplicate_xxxx", documented in CudaExt file readme/options.txt
