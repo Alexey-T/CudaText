@@ -3,7 +3,10 @@
   - fixed
   * changed
 
-+ add: dialog "File is too big to edit": on 64-bit CPU, app allows the button "Edit anyway" for file size < 2Gb
+1.228.1 (2025/09)
+
++ add: dialog "File is too big to edit": on 64-bit CPU, app allows the button "Edit anyway" if size is less than 2Gb
++ add: Windows: almost all popup-menus are themed now
 
 1.228.0 (2025/09)
 
