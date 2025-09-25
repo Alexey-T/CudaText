@@ -22,7 +22,8 @@ function AppCopyDir(const DirSrc, DirTarget: string): boolean;
 
 function AppIsFileContentText(const fn: string;
   BufSizeKb: integer;
-  BufSizeWords: integer): boolean;
+  BufSizeWords: integer;
+  out BinaryCharCode: byte): boolean;
 
 function AppIsFileReadonly(const fn: string): boolean;
 
@@ -177,7 +178,8 @@ end;
 
 function AppIsFileContentText(const fn: string;
   BufSizeKb: integer;
-  BufSizeWords: integer): boolean;
+  BufSizeWords: integer;
+  out BinaryCharCode: byte): boolean;
   //DetectOEM: boolean; out IsOEM: boolean;
 const
   cBadBytesAtEndAllowed = 2;
@@ -192,6 +194,7 @@ var
   bReadAllFile: boolean;
 begin
   Result:= False;
+  BinaryCharCode:= 0;
   //IsOEM:= False;
   Str:= nil;
   Buffer:= nil;
@@ -247,6 +250,7 @@ begin
             //ignore bad bytes at the end, https://github.com/Alexey-T/CudaText/issues/2959
             if not (bReadAllFile and (i>=BytesRead-cBadBytesAtEndAllowed)) then
             begin
+              BinaryCharCode:= CharCode;
               MsgLogConsole(Format(msgStatusDetectedBinaryChar, [IntToHex(CharCode, 2), ExtractFileName(fn)]));
               Result:= False;
               Break

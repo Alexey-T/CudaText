@@ -29,6 +29,7 @@ type
     btnViewHex: TButton;
     btnViewText: TButton;
     btnViewUnicode: TButton;
+    LabelDetails: TLabel;
     LabelText: TLabel;
     LabelFN: TLabel;
     procedure btnCancelClick(Sender: TObject);
@@ -55,28 +56,34 @@ type
     ViewerUHex
     );
 
-function DoDialogConfirmBinaryFile(const AFilename: string; ATooBig: boolean): TAppConfirmBinary;
+function DoDialogConfirmBinaryFile(const AFilename: string;
+  ATooBig: boolean; ABinaryChar: byte): TAppConfirmBinary;
 
 implementation
 
 {$R *.lfm}
 
-function DoDialogConfirmBinaryFile(const AFilename: string; ATooBig: boolean): TAppConfirmBinary;
+function DoDialogConfirmBinaryFile(const AFilename: string;
+  ATooBig: boolean; ABinaryChar: byte): TAppConfirmBinary;
 var
   F: TfmConfirmBinary;
-  S: string;
   NFileSize: Int64;
 begin
   NFileSize:= FileSize(AFilename);
 
-  if ATooBig then
-    S:= msgFileTooBig + Format(' (%d Mb, "ui_max_size_open": %d)', [NFileSize div (1024*1024), UiOps.MaxFileSizeToOpen])
-  else
-    S:= msgFileMaybeNotText;
-
   F:= TfmConfirmBinary.Create(nil);
   try
-    F.LabelText.Caption:= S;
+    if ATooBig then
+    begin
+      F.LabelText.Caption:= msgFileTooBig;
+      F.LabelDetails.Caption:= Format('(%d Mb, "ui_max_size_open": %d)', [NFileSize div (1024*1024), UiOps.MaxFileSizeToOpen]);
+    end
+    else
+    begin
+      F.LabelText.Caption:= msgFileMaybeNotText;
+      F.LabelDetails.Caption:= Format('(binary char: 0x%s)', [IntToHex(ABinaryChar, 2)]);
+    end;
+
     F.LabelFN.Caption:= ExtractFileName(AFilename);
     F.btnEdit.Enabled:= {$ifdef CPU32} not ATooBig {$else} NFileSize<MaxLongint {$endif};
 

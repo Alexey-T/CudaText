@@ -1,11 +1,11 @@
 object fmConfirmBinary: TfmConfirmBinary
   Left = 409
-  Height = 272
+  Height = 305
   Top = 258
   Width = 452
   BorderStyle = bsDialog
   Caption = 'CudaText'
-  ClientHeight = 272
+  ClientHeight = 305
   ClientWidth = 452
   Position = poScreenCenter
   ShowInTaskBar = stNever
@@ -29,11 +29,11 @@ object fmConfirmBinary: TfmConfirmBinary
   object btnEdit: TButton
     AnchorSideLeft.Control = Owner
     AnchorSideLeft.Side = asrCenter
-    AnchorSideTop.Control = LabelFN
+    AnchorSideTop.Control = LabelDetails
     AnchorSideTop.Side = asrBottom
     Left = 106
     Height = 25
-    Top = 52
+    Top = 69
     Width = 240
     AutoSize = True
     BorderSpacing.Top = 10
@@ -50,7 +50,7 @@ object fmConfirmBinary: TfmConfirmBinary
     AnchorSideRight.Side = asrBottom
     Left = 106
     Height = 25
-    Top = 114
+    Top = 131
     Width = 240
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
@@ -67,7 +67,7 @@ object fmConfirmBinary: TfmConfirmBinary
     AnchorSideRight.Side = asrBottom
     Left = 106
     Height = 25
-    Top = 207
+    Top = 224
     Width = 240
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
@@ -96,7 +96,7 @@ object fmConfirmBinary: TfmConfirmBinary
     AnchorSideRight.Side = asrBottom
     Left = 106
     Height = 25
-    Top = 145
+    Top = 162
     Width = 240
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
@@ -113,7 +113,7 @@ object fmConfirmBinary: TfmConfirmBinary
     AnchorSideRight.Side = asrBottom
     Left = 106
     Height = 25
-    Top = 83
+    Top = 100
     Width = 240
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
@@ -130,7 +130,7 @@ object fmConfirmBinary: TfmConfirmBinary
     AnchorSideRight.Side = asrBottom
     Left = 106
     Height = 25
-    Top = 176
+    Top = 193
     Width = 240
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
@@ -138,5 +138,16 @@ object fmConfirmBinary: TfmConfirmBinary
     Caption = 'Viewer - unicode mode'
     TabOrder = 4
     OnClick = btnViewUnicodeClick
+  end
+  object LabelDetails: TLabel
+    AnchorSideLeft.Control = LabelText
+    AnchorSideTop.Control = LabelFN
+    AnchorSideTop.Side = asrBottom
+    Left = 6
+    Height = 15
+    Top = 44
+    Width = 63
+    BorderSpacing.Top = 2
+    Caption = 'LabelDetails'
   end
 end

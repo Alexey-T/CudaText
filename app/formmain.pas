@@ -4883,6 +4883,7 @@ var
   AllowNear: TAppNewTabNearCurrent;
   OpenMode, NonTextMode: TAppOpenMode;
   CurGroups: TATGroups;
+  NBinaryChar: byte;
   //tick: QWord;
   //msg: string;
 begin
@@ -5052,7 +5053,8 @@ begin
       if not AppIsFileContentText(
                AFileName,
                UiOps.NonTextFilesBufferKb,
-               ATEditorOptions.DetectUTF16BufferWords
+               ATEditorOptions.DetectUTF16BufferWords,
+               NBinaryChar
                ) then
       begin
         if NonTextMode=TAppOpenMode.None then
@@ -5062,7 +5064,7 @@ begin
         else
         case UiOps.NonTextFiles of
           0:
-            case DoDialogConfirmBinaryFile(AFileName, bFileTooBig) of
+            case DoDialogConfirmBinaryFile(AFileName, bFileTooBig, NBinaryChar) of
               TAppConfirmBinary.ViewerText:
                 OpenMode:= TAppOpenMode.ViewText;
               TAppConfirmBinary.ViewerBinary:
@@ -5090,7 +5092,7 @@ begin
     //too big size?
     if (OpenMode=TAppOpenMode.Editor) and bFileTooBig then
     begin
-      case DoDialogConfirmBinaryFile(AFileName, bFileTooBig) of
+      case DoDialogConfirmBinaryFile(AFileName, bFileTooBig, 0) of
         TAppConfirmBinary.ViewerText:
           OpenMode:= TAppOpenMode.ViewText;
         TAppConfirmBinary.ViewerBinary:
