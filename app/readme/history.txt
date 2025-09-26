@@ -9,6 +9,7 @@
 + add: dialog "File is maybe non-text": also show detected binary char-code
 + add: handle OS event "app is closing" also during loading of huge file
 + add: Windows: almost all popup-menus are themed now
+- fix: fixed minor undo/redo issue, which is visible with "undo_mouse_clicks":true (thanks @badrelmers)
 
 1.228.0 (2025/09)
 
