@@ -176,7 +176,7 @@ begin
   if AIndex<NCount then
   begin
     D:= GroupsMain.GetTabDataOfTotalIndex(AIndex);
-    if Assigned(D) then
+    if Assigned(D) and (D.TabObject is TEditorFrame) then
       Result:= D.TabObject as TEditorFrame;
     exit;
   end;
@@ -188,7 +188,7 @@ begin
     if AIndex<NCount then
     begin
       D:= GroupsFloating1.GetTabDataOfTotalIndex(AIndex);
-      if Assigned(D) then
+      if Assigned(D) and (D.TabObject is TEditorFrame) then
         Result:= D.TabObject as TEditorFrame;
       exit;
     end;
@@ -198,7 +198,7 @@ begin
     if AIndex<NCount then
     begin
       D:= GroupsFloating2.GetTabDataOfTotalIndex(AIndex);
-      if Assigned(D) then
+      if Assigned(D) and (D.TabObject is TEditorFrame) then
         Result:= D.TabObject as TEditorFrame;
       exit;
     end;
@@ -208,7 +208,7 @@ begin
     if AIndex<NCount then
     begin
       D:= GroupsFloating3.GetTabDataOfTotalIndex(AIndex);
-      if Assigned(D) then
+      if Assigned(D) and (D.TabObject is TEditorFrame) then
         Result:= D.TabObject as TEditorFrame;
       exit;
     end;
