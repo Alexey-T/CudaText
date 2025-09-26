@@ -274,7 +274,7 @@ ST3:
 * menu "View / Layout / Columns: 2 (or Rows: 2)"
 * drag the tab into another group
 
-CudaText: menu "View / Split tab / Toggle split".
+CudaText: menu "Split / Split tab vertically".
 
 ==How to detect syntax by first line of file?==
 
