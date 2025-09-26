@@ -3595,7 +3595,7 @@ Text is "\n"-separated undo (or redo) items. Each undo item is tab-separated ele
 
 5.5. Command code, 32-bit integer which possible values are contained in Python module cudatext_cmd. Value=0 means "command code is not set".
 
-5.6. Caret position(s) for the paired editor (which is visible when menu item "View / Split tab" is called in CudaText).
+5.6. Caret position(s) for the paired editor (which is visible when menu item "Split / Split tab ......" is called in CudaText).
 
 5.7. Marker position(s) for the paired editor.
 
