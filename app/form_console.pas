@@ -409,6 +409,7 @@ begin
   EdMemo.OptMouseRightClickMovesCaret:= true;
   EdMemo.OptMouseWheelZooms:= false;
   EdMemo.OptShowMouseSelFrame:= false;
+  EdMemo.OptShowFontLigatures:= false;
 
   //support dlg_proc API, it needs PropsObject
   DoControl_InitPropsObject(EdInput, Self, 'editor_edit');
