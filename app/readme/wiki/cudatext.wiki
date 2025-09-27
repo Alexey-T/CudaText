@@ -2972,6 +2972,23 @@ class Command:
             return False
 </syntaxhighlight>
 
+==Windows: substitute another font for missing font characters==
+
+In many fonts, many Unicode characters are missing. This gives problem on Windows 10/11: these characters will be omitted in the rendered result, because CudaText uses GDI rendering system.
+
+But solution for Windows 10/11 exists. User can specify "fallback" fonts. Run "regedit.exe", navigate to the registry folder:
+
+ HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\FontLink\SystemLink
+
+and modify the key there. For example, if you miss CJK chars, and you use font "Consolas", create registry key "Consolas", and set fallback for it:
+
+ msyh.ttc,Microsoft YaHei UI
+
+This way, when font "Consolas" renders missing words, it fallbacks to "Microsoft Yahei" font.
+
+Full info about this registry feature:
+https://learn.microsoft.com/en-us/globalization/fonts-layout/fonts
+
 =Troubleshooting the Windows shell extension for CudaText=
 
 There may be rare cases where CudaText's menu item shows up in Windows Explorer context menu but the entry's icon is missing and an error message states that the provided file name was not found.
