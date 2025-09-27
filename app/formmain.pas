@@ -6499,7 +6499,7 @@ begin
     F.DoFileReload(Ed);
 
   UpdateStatusbar;
-  MsgStatus(msgStatusReopened+' '+ExtractFileName(fn));
+  MsgStatus(msgStatusReopened+' "'+ExtractFileName(fn)+'"');
 end;
 
 function TfmMain.ConfirmAllFramesAreSaved(AWithCancel: boolean): boolean;
