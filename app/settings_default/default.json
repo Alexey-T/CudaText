@@ -1266,6 +1266,7 @@
 
   //Delay (in msec) before app fires the "mouse entered a hotspot area" event, which is
   //used in e.g. LSP_Client / HTML-CSS-Markdown_Tooltips plugins.
+  //Note: this option is global, not per-lexer.
   "mouse_hotspot_delay": 500,
 
   //[Keys]
