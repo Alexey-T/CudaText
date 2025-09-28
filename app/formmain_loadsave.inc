@@ -1283,6 +1283,7 @@ begin
   ATEditorMaxClipboardRecents:= cfg.GetValue('ui_max_history_clipboard', ATEditorMaxClipboardRecents);
   ATEditorOptions.MinimapColoringTime:= cfg.GetValue('minimap_coloring_time', ATEditorOptions.MinimapColoringTime);
   ATEditorOptions.SpeedScrollAutoVert:= cfg.GetValue('mouse_scroll_speed_vert', ATEditorOptions.SpeedScrollAutoVert);
+  ATEditorOptions.TimerIntervalHotspotEnter:= cfg.GetValue('mouse_hotspot_delay', ATEditorOptions.TimerIntervalHotspotEnter);
   ATEditorOptions.FoldedUnderlineSize:= TATEditorFoldedUnderlineSize(cfg.GetValue('fold_underline_size', Ord(TATEditorFoldedUnderlineSize.BeginToWindowEnd)));
 
   ATEditorOptions.UnprintedTabCharLength:= cfg.GetValue('unprinted_tab_len', ATEditorOptions.UnprintedTabCharLength);

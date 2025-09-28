@@ -1264,6 +1264,10 @@
   //  2: activate by double click
   "mouse_click_links": 2,
 
+  //Delay (in msec) before app fires the "mouse entered a hotspot area" event, which is
+  //used in e.g. LSP_Client / HTML-CSS-Markdown_Tooltips plugins.
+  "mouse_hotspot_delay": 500,
+
   //[Keys]
   //Key BackSpace: do Unindent command, if caret is inside indented area.
   "key_bksp_unindent": true,
