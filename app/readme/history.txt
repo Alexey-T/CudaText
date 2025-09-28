@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-+ add: for mouse-hover-detecting plugins such as HTML-CSS-Markdown_Tooltips, app now makes the delay (500ms) before "mouse hotspot entered" event fires (thanks @katwalk)
++ add: for mouse-hover-detecting plugins such as HTML-CSS-Markdown_Tooltips / LSP Client, app now forces the delay (500ms) before "mouse hotspot entered" event fires (thanks @katwalk)
 
 1.228.1 (2025/09)
 
