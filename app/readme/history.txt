@@ -3,6 +3,8 @@
   - fixed
   * changed
 
++ add: for mouse-hover-detecting plugins such as HTML-CSS-Markdown_Tooltips, app now makes the delay (500ms) before "mouse hotspot entered" event fires (thanks @katwalk)
+
 1.228.1 (2025/09)
 
 + add: dialog "File is too big to edit": 64-bit app version allows the button "Edit anyway" if size is less than 2Gb
