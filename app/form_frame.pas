@@ -2990,8 +2990,7 @@ begin
   DoDeactivateViewerMode;
 
   bFilename2Valid:= (AFileName2<>'') and not SameFileName(AFileName, AFileName2);
-  if bFilename2Valid then
-    EditorsLinked:= false; //set it before opening 1st file
+  EditorsLinked:= not bFilename2Valid; //set it before opening 1st file
 
   DoFileOpen_Ex(Ed1, AFileName,
     AAllowLoadHistory,
