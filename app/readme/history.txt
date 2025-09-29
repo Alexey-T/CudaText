@@ -7,7 +7,7 @@
 
 + add: for mouse-hover detecting plugins such as LSP_Client / HTML-CSS-Markdown_Tooltips, app now forces the delay before "mouse hotspot entered" event fires (thanks @katwalk)
 + add: added option "mouse_hotspot_delay"
-+ add: code-tree after updating keeps 'unfolded' state of tree nodes (thanks @mix-7)
++ add: code-tree on updating keeps 'unfolded' state of nodes; note: feature is 'stupid' and restores folding wrong if several nodes have same captions (thanks @mix-7)
 
 1.228.1 (2025/09)
 
