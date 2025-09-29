@@ -9175,7 +9175,7 @@ begin
     TreeSavedFold:= Default(TAppCodetreeSavedFold);
     TreeSavedFold.Save(Ed, ATree);
     ATree.BeginUpdate;
-    ATree.Items.Clear;
+    //ATree.Items.Clear; //don't clear tree, we need it's ListOfFoldedNodes to keep folding
   end;
 
   try
