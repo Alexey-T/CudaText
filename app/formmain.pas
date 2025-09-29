@@ -9166,7 +9166,8 @@ var
   Node, NodeParent: TTreeNode;
   TreeSavedFold: TAppCodetreeSavedFold;
   Range: TATRangeInCodeTree;
-  iItem, iLevel: integer;
+  ListOfExpandedNodes: TStringList = nil;
+  iItem, iLevel, NItemFound: integer;
   NStartTick: QWord;
 begin
   Data:= TATTreeHelperRecords.Create;
@@ -9175,17 +9176,25 @@ begin
     TreeSavedFold:= Default(TAppCodetreeSavedFold);
     TreeSavedFold.Save(Ed, ATree);
     ATree.BeginUpdate;
-    //ATree.Items.Clear; //don't clear tree, we need it's ListOfFoldedNodes to keep folding
   end;
 
   try
-    Node:= nil;
-    NodeParent:= nil;
-    NLevelPrev:= 1;
-
     Result:= TreeHelperInPascal(Ed, ALexer, Data);
     if Result and (Data.Count>0) then
     begin
+      ListOfExpandedNodes:= TStringList.Create;
+      ListOfExpandedNodes.UseLocale:= false; //sort list faster
+      ListOfExpandedNodes.Sorted:= true;
+
+      for iItem:= 0 to ATree.Items.Count-1 do
+      begin
+        Node:= ATree.Items[iItem];
+        if Node.HasChildren and Node.Expanded then
+          ListOfExpandedNodes.Add(Node.Text);
+      end;
+
+      ATree.Items.Clear;
+
       //MsgLogConsole('Tree-helper data:');
       //MsgLogConsole(Data.ToString);
 
@@ -9200,6 +9209,9 @@ begin
         EdPair.Fold.Clear;
       end;
 
+      Node:= nil;
+      NodeParent:= nil;
+      NLevelPrev:= 1;
       NStartTick:= GetTickCount64;
 
       for iItem:= 0 to Data.Count-1 do
@@ -9259,6 +9271,15 @@ begin
         end;
       end; //for iItem:= 0 to Data.Count-1 do
 
+      //restore 'expanded' states of tree nodes
+      for iItem:= 0 to ATree.Items.Count-1 do
+      begin
+        Node:= ATree.Items[iItem];
+        if Node.HasChildren and not Node.Expanded then
+          if ListOfExpandedNodes.Find(Node.Text, NItemFound) then
+            Node.Expand(false);
+      end;
+
       //Ed.Fold.RestorePersistentRanges; //if uncommented: fold-states +- are not kept during editing
       Ed.Fold.ClearLineIndexer(Ed.Strings.Count);
       Ed.Fold.UpdateLineIndexer;
@@ -9276,6 +9297,8 @@ begin
       end;
     end;
   finally
+    if Assigned(ListOfExpandedNodes) then
+      FreeAndNil(ListOfExpandedNodes);
     FreeAndNil(Data);
     if Assigned(ATree) then
     begin
