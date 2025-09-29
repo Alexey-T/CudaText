@@ -1308,7 +1308,11 @@ begin
       if Assigned(Ada) then
       begin
         //Tick:= GetTickCount64;
-        Ada.TreeFill(CodeTree.Tree, UiOps.TreeFillMaxTime, UiOps.TreeKeepNodesFolding);
+        Ada.TreeFill(
+          CodeTree.Tree,
+          UiOps.TreeFillMaxTime,
+          UiOps.TreeKeepNodesFolding
+          );
         //Tick:= GetTickCount64-Tick;
         //MsgLogConsole('Tree filling: '+AppFormatTimeInMilliseconds(Tick));
       end;
