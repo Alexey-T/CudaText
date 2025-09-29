@@ -8963,7 +8963,11 @@ begin
             begin
               fmMain.InitImageListCodetree;
               if not fmMain.RunTreeHelper(Frame, TreeContainer.Tree, true, true) then
-                TATAdapterEControl(Ed.AdapterForHilite).TreeFill(TreeContainer.Tree, UiOps.TreeFillMaxTimeForAPI);
+                TATAdapterEControl(Ed.AdapterForHilite).TreeFill(
+                  TreeContainer.Tree,
+                  UiOps.TreeFillMaxTimeForAPI,
+                  UiOps.TreeKeepNodesFolding
+                  );
               Result:= ReturnTrue;
             end
             else

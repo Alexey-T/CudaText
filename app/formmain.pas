@@ -9182,15 +9182,18 @@ begin
     Result:= TreeHelperInPascal(Ed, ALexer, Data);
     if Result and (Data.Count>0) then
     begin
-      ListOfExpandedNodes:= TStringList.Create;
-      ListOfExpandedNodes.UseLocale:= false; //sort list faster
-      ListOfExpandedNodes.Sorted:= true;
-
-      for iItem:= 0 to ATree.Items.Count-1 do
+      if UiOps.TreeKeepNodesFolding then
       begin
-        Node:= ATree.Items[iItem];
-        if Node.HasChildren and Node.Expanded then
-          ListOfExpandedNodes.Add(Node.Text);
+        ListOfExpandedNodes:= TStringList.Create;
+        ListOfExpandedNodes.UseLocale:= false; //sort list faster
+        ListOfExpandedNodes.Sorted:= true;
+
+        for iItem:= 0 to ATree.Items.Count-1 do
+        begin
+          Node:= ATree.Items[iItem];
+          if Node.HasChildren and Node.Expanded then
+            ListOfExpandedNodes.Add(Node.Text);
+        end;
       end;
 
       ATree.Items.Clear;
@@ -9272,13 +9275,14 @@ begin
       end; //for iItem:= 0 to Data.Count-1 do
 
       //restore 'expanded' states of tree nodes
-      for iItem:= 0 to ATree.Items.Count-1 do
-      begin
-        Node:= ATree.Items[iItem];
-        if Node.HasChildren and not Node.Expanded then
-          if ListOfExpandedNodes.Find(Node.Text, NItemFound) then
-            Node.Expand(false);
-      end;
+      if UiOps.TreeKeepNodesFolding then
+        for iItem:= 0 to ATree.Items.Count-1 do
+        begin
+          Node:= ATree.Items[iItem];
+          if Node.HasChildren and not Node.Expanded then
+            if ListOfExpandedNodes.Find(Node.Text, NItemFound) then
+              Node.Expand(false);
+        end;
 
       //Ed.Fold.RestorePersistentRanges; //if uncommented: fold-states +- are not kept during editing
       Ed.Fold.ClearLineIndexer(Ed.Strings.Count);

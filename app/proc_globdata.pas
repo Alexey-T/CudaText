@@ -419,6 +419,7 @@ type
     TreeFillMaxTime: integer;
     TreeFillMaxTimeForAPI: integer;
     TreeUnfold: boolean;
+    TreeKeepNodesFolding: boolean;
 
     NewdocLexer: string;
     NewdocEnc: string;
@@ -2237,6 +2238,7 @@ begin
     TreeFillMaxTime:= 150;
     TreeFillMaxTimeForAPI:= 6*1000;
     TreeUnfold:= false;
+    TreeKeepNodesFolding:= true;
 
     PyLibrary:= '';
     PyCaretSlow:= 100;
