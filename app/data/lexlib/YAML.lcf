@@ -277,6 +277,7 @@ object SyntAnal21: TLibSyntAnalyzer
       EndOfTextClose = True
       NameFmt = '%s0'
       HighlightPos = cpAny
+      DrawStaple = True
       GroupIndex = 20
       CollapseFmt = '%sz0'
       IgnoreAsParent = False
