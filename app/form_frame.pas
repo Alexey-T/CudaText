@@ -4274,7 +4274,11 @@ begin
 
   //file not listed in history file? exit
   sCaretString:= c.GetValue(path+cHistory_Caret, '');
-  if sCaretString='' then exit;
+  if sCaretString='' then
+  begin
+    LexerName[Ed]:= ''; //to apply centering-option, fixes issue #6073
+    exit;
+  end;
 
   {
   //markers
