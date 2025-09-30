@@ -9158,6 +9158,9 @@ end;
 
 function TfmMain.DoCodetree_ApplyTreeHelperInPascal(Ed, EdPair: TATSynEdit;
   ATree: TTreeView; const ALexer: string): boolean;
+{
+EdPair / ATree can be Nil. Always check them.
+}
 var
   Data: TATTreeHelperRecords;
   DataItem: PATTreeHelperRecord;
