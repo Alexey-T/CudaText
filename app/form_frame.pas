@@ -4276,7 +4276,7 @@ begin
   sCaretString:= c.GetValue(path+cHistory_Caret, '');
   if sCaretString='' then
   begin
-    LexerName[Ed]:= ''; //to apply centering-option, fixes issue #6073
+    Ed.OptTextCenteringCharWidth:= EditorOps.OpCenteringWidth; //fixes issue #6073
     exit;
   end;
 
