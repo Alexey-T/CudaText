@@ -31,10 +31,12 @@ uses
   TreeHelper_WikidPad;
 
 //--------------------------------------------------------------
-//calling function with Ed=nil and Data=nil allows to check:
-//is lexer supported by Pascal tree-helpers
 function TreeHelperInPascal(Ed: TATSynEdit; const ALexer: string;
   Data: TATTreeHelperRecords): boolean;
+{
+call with Ed=nil and Data=nil allows to check:
+is lexer supported by Pascal tree-helpers
+}
 begin
   Result:= false;
   if Assigned(Data) then
