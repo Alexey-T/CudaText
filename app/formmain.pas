@@ -4153,6 +4153,7 @@ begin
       if not AppPython.Inited then
         SText+= #10+msgCannotInitPython1+#10+msgCannotInitPython2+#10+msgCannotInitPython2b;
       Ed.Strings.LoadFromString(SText);
+      Ed.UpdateWrapInfo(true);
       Ed.Modified:= false;
       Frame.InSession:= false;
       Frame.InHistory:= false;
