@@ -9161,12 +9161,12 @@ function TfmMain.DoCodetree_ApplyTreeHelperInPascal(Ed, EdPair: TATSynEdit;
 var
   Data: TATTreeHelperRecords;
   DataItem: PATTreeHelperRecord;
-  NX1, NY1, NX2, NY2, NLevel, NLevelPrev, NIcon: integer;
-  STitle: string;
-  Node, NodeParent: TTreeNode;
+  ListOfExpandedNodes: TStringList = nil;
   TreeSavedFold: TAppCodetreeSavedFold;
   Range: TATRangeInCodeTree;
-  ListOfExpandedNodes: TStringList = nil;
+  Node, NodeParent: TTreeNode;
+  NX1, NY1, NX2, NY2, NLevel, NLevelPrev, NIcon: integer;
+  STitle: string;
   iItem, iLevel, NItemFound: integer;
   NStartTick: QWord;
 begin
@@ -9275,7 +9275,7 @@ begin
       end; //for iItem:= 0 to Data.Count-1 do
 
       //restore 'expanded' states of tree nodes
-      if UiOps.TreeKeepNodesFolding then
+      if Assigned(ListOfExpandedNodes) then
         for iItem:= 0 to ATree.Items.Count-1 do
         begin
           Node:= ATree.Items[iItem];
