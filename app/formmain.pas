@@ -4263,9 +4263,11 @@ procedure TfmMain.DoApplyCenteringOption(Frame: TEditorFrame; Ed: TATSynEdit);
 var
   CurGrp: TATGroups;
   SLexer: string;
+  NValue: integer;
 begin
   if Frame=nil then exit;
   CurGrp:= Frame.GetTabGroups;
+  NValue:= 0;
 
   if CurGrp.Mode in [gmOne, gm2h, gm3h, gm4h, gm6h] then
   begin
@@ -4274,19 +4276,15 @@ begin
       SLexer:= '-';
     if ShowDistractionFree then
     begin
-      Ed.OptTextCenteringCharWidth:=
-        AppOption_GetFromMap(EditorOps_CenteringDistFree, SLexer, EditorOps.OpCenteringForDistractionFree);
+      NValue:= AppOption_GetFromMap(EditorOps_CenteringDistFree, SLexer, EditorOps.OpCenteringForDistractionFree);
     end
     else
     begin
-      Ed.OptTextCenteringCharWidth:=
-        AppOption_GetFromMap(EditorOps_CenteringWidth, SLexer, EditorOps.OpCenteringWidth);
+      NValue:= AppOption_GetFromMap(EditorOps_CenteringWidth, SLexer, EditorOps.OpCenteringWidth);
     end;
-  end
-  else
-  begin
-    Ed.OptTextCenteringCharWidth:= 0;
   end;
+
+  Ed.OptTextCenteringCharWidth:= NValue;
 end;
 
 procedure TfmMain.DoApplyCenteringOptionToFrames;
