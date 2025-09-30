@@ -8,6 +8,7 @@
 + add: code-tree on updating keeps 'unfolded' state of nodes; note: feature is stupid and restores folding wrong if several nodes have same captions (idea by @mix-7)
 + add: for mouse-hover detecting plugins such as LSP_Client / HTML-CSS-Markdown_Tooltips, app now forces the delay before "mouse hotspot entered" event fires (idea by @katwalk)
 + add: new option "mouse_hotspot_delay"
+- fix: sometimes option "centering_width" was not applied (thanks @Rain Ding)
 
 1.228.1 (2025/09)
 
