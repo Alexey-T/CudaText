@@ -1914,13 +1914,22 @@ Replace "clangd*" with "ccls" if it was chosen.
 
 ==LSP server for C#==
 
-First, install C# lexer from "Addons Manager".
+First, install the C# lexer from "Plugins / Addons Manager / Install".
 
-1. Get OmniSharp server from GitHub https://github.com/OmniSharp/omnisharp-roslyn/releases . For Windows 64-bit it is the package "omnisharp-win-x64.zip" or "omnisharp-win-x64-net6.0.zip". Unzip this package to the folder "C:\OmniSharp", for example. It's not required to add that folder to system PATH.
+1. '''Download OmniSharp from the releases page:''' https://github.com/OmniSharp/omnisharp-roslyn/releases . For Windows 64-bit you may see two packages:
 
-2. You need to install MSBuild. As of May 2022, OmniSharp does not include MSBuild. Download link can be found at the bottom of this page: https://visualstudio.microsoft.com/downloads/?q=build+tools - see "Build Tools for Visual Studio 2022". In the installation check the following option: ".NET desktop build tools". If you won't install MSBuild, OmniSharp server will fail, see more info here: https://github.com/OmniSharp/omnisharp-vscode/issues/5120 .
+* "omnisharp-win-x64-net6.0.zip" '''(recommended)''' — '''modern .NET 6 build''' (recommended for SDK-style projects such as .NET Core / .NET 5 / .NET 6+). Use this for projects that build with <code>dotnet build</code>. Install .NET 6 SDK and ensure <code>dotnet</code> is on PATH (or set <code>DOTNET_ROOT</code> and <code>OMNISHARP_sdk_path</code> to the NET 6 SDK folder if you cannot change your PATH). Then use "omnisharp-win-x64-net6.0.zip". OmniSharp will use the MSBuild dll included in the .NET SDK. [https://github.com/OmniSharp/omnisharp-roslyn/issues/2339 GitHub].
 
-3. Create LSP config file: (CudaText)/settings/lsp_cs.json:
+* "omnisharp-win-x64.zip" — '''legacy .NET Framework/Mono build''' (for older non-SDK csproj formats or Unity projects). Full Framework projects require MSBuild/Mono to be available on the system. Install '''Visual Studio Build Tools''' (choose “.NET desktop build tools” in the installer) or a full Visual Studio on Windows, or install '''Mono''' on Linux/macOS. Then use the legacy OmniSharp build "omnisharp-win-x64.zip". [https://github.com/OmniSharp/omnisharp-vscode/issues/5120 GitHub].
+
+'''Note for Windows 7 users:''' it is recommended to use "omnisharp-win-x64-net6.0.zip" too, but if you must use "omnisharp-win-x64.zip" then newer Visual Studio 2022 Build Tools may not support Windows 7. If you must remain on Windows 7, older OmniSharp release included a bundled <code>msbuild</code> ("omnisharp-win-x64.zip" v1.38.2) it works fine and does not need to have Visual Studio installed (you only need the Reference Assemblies of your targeted framework).
+
+2. '''Install & configure:'''
+
+* Unzip OmniSharp to a folder (for example "C:\OmniSharp"). No need to add OmniSharp to system PATH.
+
+* Create LSP config file: (CudaText)/settings/lsp_cs.json:
+
 <syntaxhighlight lang="json">
 {
   "lexers": {
@@ -1931,9 +1940,11 @@ First, install C# lexer from "Addons Manager".
   ]
 }
 </syntaxhighlight>
+
 Note that backslashes must be doubled (because of JSON format).
 
-4. To test that server works: create a file "test.cs" (with C# lexer active). Call auto-completion after "date.A".
+3. '''Test'''. To test that server works: create a file "test.cs" (with C# lexer active). Call auto-completion after "date.A".
+
 <syntaxhighlight lang="csharp">
 using System;
 
