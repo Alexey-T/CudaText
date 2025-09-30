@@ -9162,7 +9162,7 @@ var
   Data: TATTreeHelperRecords;
   DataItem: PATTreeHelperRecord;
   ListOfExpandedNodes: TStringList = nil;
-  TreeSavedFold: TAppCodetreeSavedFold;
+  //TreeSavedFold: TAppCodetreeSavedFold;
   Range: TATRangeInCodeTree;
   Node, NodeParent: TTreeNode;
   NX1, NY1, NX2, NY2, NLevel, NLevelPrev, NIcon: integer;
@@ -9173,8 +9173,8 @@ begin
   Data:= TATTreeHelperRecords.Create;
   if Assigned(ATree) then
   begin
-    TreeSavedFold:= Default(TAppCodetreeSavedFold);
-    TreeSavedFold.Save(Ed, ATree);
+    //TreeSavedFold:= Default(TAppCodetreeSavedFold);
+    //TreeSavedFold.Save(Ed, ATree);
     ATree.BeginUpdate;
   end;
 
@@ -9306,7 +9306,7 @@ begin
     FreeAndNil(Data);
     if Assigned(ATree) then
     begin
-      TreeSavedFold.Restore(Ed, ATree);
+      //TreeSavedFold.Restore(Ed, ATree);
       ATree.EndUpdate;
     end;
   end;

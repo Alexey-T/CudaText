@@ -167,6 +167,7 @@ procedure StringsDeduplicate(L: TStringList; CaseSens: boolean);
 function StringsTrailingText(L: TStringList; AItemCount: integer): string;
 function ConvertCssColorToTColor(const S: string): TColor;
 
+(*
 type
   { TAppCodetreeSavedFold }
 
@@ -177,6 +178,7 @@ type
     procedure Save(Ed: TATSynEdit; ATree: TTreeView);
     procedure Restore(Ed: TATSynEdit; ATree: TTreeView);
   end;
+*)
 
 {$ifdef windows}
 function IsWin32DarkModeViaRegistry: Boolean;
@@ -1563,6 +1565,7 @@ end;
 
 { TAppCodetreeSavedFold }
 
+(*
 procedure TAppCodetreeSavedFold.Save(Ed: TATSynEdit; ATree: TTreeView);
 var
   Node: TTreeNode;
@@ -1594,7 +1597,7 @@ begin
           Node.Expand(false);
     end;
 end;
-
+*)
 
 function AppCountCommandlineFilenames(const Ar: array of string): integer;
 var
