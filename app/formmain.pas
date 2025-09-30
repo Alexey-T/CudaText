@@ -9182,7 +9182,7 @@ begin
     Result:= TreeHelperInPascal(Ed, ALexer, Data);
     if Result and (Data.Count>0) then
     begin
-      if UiOps.TreeKeepNodesFolding then
+      if Assigned(ATree) and UiOps.TreeKeepNodesFolding then
       begin
         ListOfExpandedNodes:= TStringList.Create;
         ListOfExpandedNodes.UseLocale:= false; //sort list faster
@@ -9196,7 +9196,8 @@ begin
         end;
       end;
 
-      ATree.Items.Clear;
+      if Assigned(ATree) then
+        ATree.Items.Clear;
 
       //MsgLogConsole('Tree-helper data:');
       //MsgLogConsole(Data.ToString);
@@ -9262,7 +9263,7 @@ begin
             EdPair.Fold.Add(NX1+1, NY1, NX2+1, NY2, false, STitle, cTagPersistentFoldRange);
         end;
 
-        if GetTickCount64-NStartTick>UiOps.TreeFillMaxTime then
+        if Assigned(ATree) and (GetTickCount64-NStartTick>UiOps.TreeFillMaxTime) then
         begin
           STitle:= Format(OptCodeTreeMaxTimeMessage, [
               UiOps.TreeFillMaxTime,
@@ -9274,8 +9275,7 @@ begin
         end;
       end; //for iItem:= 0 to Data.Count-1 do
 
-      //restore 'expanded' states of tree nodes
-      if Assigned(ListOfExpandedNodes) then
+      if Assigned(ATree) and Assigned(ListOfExpandedNodes) then
         for iItem:= 0 to ATree.Items.Count-1 do
         begin
           Node:= ATree.Items[iItem];
