@@ -1958,6 +1958,8 @@ public class DateExample
 }
 </syntaxhighlight>
 
+Important note. A CudaText project is necessary to enable LSP features. You must open your C# folder (containing the .sln or .csproj files) as a CudaText project for the LSP to function correctly.
+
 ==LSP server for CSS/SCSS/LESS==
 
 The CSS (and SCSS, LESS) server is not easy to install, so here is the instruction, from the author of LSP Client:
