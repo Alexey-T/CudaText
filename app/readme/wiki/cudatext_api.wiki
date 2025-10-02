@@ -3751,11 +3751,11 @@ def project_variables():
 ==How plugin can fill code-tree==
 
 * Handle events on_open, on_focus, on_change_slow (better don't use on_change, it slows down the app)
-* Get handle of code-tree: h_tree = app_proc(PROC_GET_CODETREE, "")
-* Fill tree via tree_proc(h_tree, ...)
-** Disable standard tree filling via ed.set_prop(PROP_CODETREE, False)
-** Clear tree via tree_proc(h_tree, TREE_ITEM_DELETE, id_item=0)
-** On adding tree items, set range for them via tree_proc(h_tree, TREE_ITEM_SET_RANGE...)
+* Get handle of code-tree: <code>h_tree = app_proc(PROC_GET_CODETREE, "")</code>
+* Fill tree via <code>tree_proc(h_tree, ...)</code>
+** Disable standard tree filling via <code>ed.set_prop(PROP_CODETREE, False)</code>
+** Clear tree via <code>tree_proc(h_tree, TREE_ITEM_DELETE, id_item=0)</code>
+** On adding tree items, set range for them via <code>tree_proc(h_tree, TREE_ITEM_SET_RANGE...)</code>
 
 ==How plugin can show tooltips on mouse-over==
 
