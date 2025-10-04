@@ -22,6 +22,11 @@ var
 var
   AppEmmet: TEmmet = nil;
 
+procedure MsgLogConsoleOnDuplicateTreeNode(ANode: TTreeNode);
+begin
+  MsgLogConsole('NOTE: Duplicate code-tree caption, cannot restore its folding: '+ANode.Text);
+end;
+
 function ConvertStringToTabCaptionReason(const S: string; out Value: TAppTabCaptionReason): boolean;
 var
   r: TAppTabCaptionReason;

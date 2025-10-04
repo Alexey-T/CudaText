@@ -811,7 +811,6 @@ function MsgBox(const AText: string; AFlags: Longint): integer;
 procedure MsgBadConfig(const fn, msg: string);
 procedure MsgStdout(const Str: string; AllowMsgBox: boolean = false);
 procedure MsgLogConsole(const AText: string);
-procedure MsgLogConsoleOnDuplicateTreeNode(const S: string);
 procedure MsgLogToFilename(const AText, AFilename: string; AWithTime: boolean);
 procedure MsgDeprecatedAPI(const s: string);
 procedure MsgFileFromSessionNotFound(const fn: string);
@@ -3151,12 +3150,6 @@ begin
       AppConsoleQueue.Push(S);
   end;
 end;
-
-procedure MsgLogConsoleOnDuplicateTreeNode(const S: string);
-begin
-  MsgLogConsole('NOTE: Duplicate code-tree caption, cannot restore its folding: '+S);
-end;
-
 
 procedure MsgLogToFilename(const AText, AFilename: string; AWithTime: boolean);
 var
