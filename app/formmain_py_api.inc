@@ -22,7 +22,7 @@ var
 var
   AppEmmet: TEmmet = nil;
 
-procedure MsgLogOnDuplicateNode(const S: string);
+procedure MsgLogOnDuplicateTreeNode(const S: string);
 begin
   MsgLogConsole('NOTE: Duplicate code-tree caption, cannot restore its folding: '+S);
 end;
@@ -8977,7 +8977,7 @@ begin
                   TreeContainer.Tree,
                   UiOps.TreeFillMaxTimeForAPI,
                   UiOps.TreeKeepNodesFolding,
-                  @MsgLogOnDuplicateNode
+                  @MsgLogOnDuplicateTreeNode
                   );
               Result:= ReturnTrue;
             end

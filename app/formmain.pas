@@ -9199,7 +9199,7 @@ begin
             ListOfExpandedNodes.Add(Node.Text);
           except
             on EStringListError do
-              MsgLogConsole('NOTE: Duplicate code-tree caption, cannot restore its folding: '+Node.Text)
+              MsgLogOnDuplicateTreeNode(Node.Text)
             else
               raise;
           end;
