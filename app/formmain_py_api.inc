@@ -23,8 +23,20 @@ var
   AppEmmet: TEmmet = nil;
 
 procedure MsgLogConsoleOnDuplicateTreeNode(ANode: TTreeNode);
+var
+  Obj: TObject;
+  NLine: integer;
+  S: string;
 begin
-  MsgLogConsole('NOTE: Duplicate code-tree caption, cannot restore its folding: '+ANode.Text);
+  S:= 'NOTE: Duplicate code-tree caption, cannot restore its folding: ';
+  Obj:= TObject(ANode.Data);
+  if Obj is TATRangeInCodeTree then
+  begin
+    NLine:= (Obj as TATRangeInCodeTree).PosBegin.Y;
+    S+= '(line '+IntToStr(NLine+1)+') ';
+  end;
+  S+= ANode.Text;
+  MsgLogConsole(S);
 end;
 
 function ConvertStringToTabCaptionReason(const S: string; out Value: TAppTabCaptionReason): boolean;
