@@ -1311,7 +1311,8 @@ begin
         Ada.TreeFill(
           CodeTree.Tree,
           UiOps.TreeFillMaxTime,
-          UiOps.TreeKeepNodesFolding
+          UiOps.TreeKeepNodesFolding,
+          @MsgLogConsole
           );
         //Tick:= GetTickCount64-Tick;
         //MsgLogConsole('Tree filling: '+AppFormatTimeInMilliseconds(Tick));

@@ -9189,12 +9189,20 @@ begin
         ListOfExpandedNodes:= TStringList.Create;
         ListOfExpandedNodes.UseLocale:= false; //sort list faster
         ListOfExpandedNodes.Sorted:= true;
+        ListOfExpandedNodes.Duplicates:= dupError;
 
         for iItem:= 0 to ATree.Items.Count-1 do
         begin
           Node:= ATree.Items[iItem];
           if Node.HasChildren and Node.Expanded then
+          try
             ListOfExpandedNodes.Add(Node.Text);
+          except
+            on EStringListError do
+              MsgLogConsole('NOTE: Duplicate code-tree caption, cannot restore its folding: '+Node.Text)
+            else
+              raise;
+          end;
         end;
       end;
 

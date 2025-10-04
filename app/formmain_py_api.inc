@@ -8971,7 +8971,8 @@ begin
                 TATAdapterEControl(Ed.AdapterForHilite).TreeFill(
                   TreeContainer.Tree,
                   UiOps.TreeFillMaxTimeForAPI,
-                  UiOps.TreeKeepNodesFolding
+                  UiOps.TreeKeepNodesFolding,
+                  @MsgLogConsole
                   );
               Result:= ReturnTrue;
             end
