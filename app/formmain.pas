@@ -9199,7 +9199,7 @@ begin
             ListOfExpandedNodes.Add(Node.Text);
           except
             on EStringListError do
-              MsgLogOnDuplicateTreeNode(Node.Text)
+              MsgLogConsoleOnDuplicateTreeNode(Node.Text)
             else
               raise;
           end;

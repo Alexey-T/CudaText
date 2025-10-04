@@ -22,11 +22,6 @@ var
 var
   AppEmmet: TEmmet = nil;
 
-procedure MsgLogOnDuplicateTreeNode(const S: string);
-begin
-  MsgLogConsole('NOTE: Duplicate code-tree caption, cannot restore its folding: '+S);
-end;
-
 function ConvertStringToTabCaptionReason(const S: string; out Value: TAppTabCaptionReason): boolean;
 var
   r: TAppTabCaptionReason;
@@ -8977,7 +8972,7 @@ begin
                   TreeContainer.Tree,
                   UiOps.TreeFillMaxTimeForAPI,
                   UiOps.TreeKeepNodesFolding,
-                  @MsgLogOnDuplicateTreeNode
+                  @MsgLogConsoleOnDuplicateTreeNode
                   );
               Result:= ReturnTrue;
             end
