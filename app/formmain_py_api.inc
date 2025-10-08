@@ -7163,7 +7163,6 @@ var
   StrValue: string;
   Btn: TATButton;
   Mnu: TMenu;
-  MnuPopup: TPopupMenu;
 begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'Lis:button_proc', @IdBtn, @IdAction, @PtrValue)) then
@@ -7286,9 +7285,9 @@ begin
 
         BTN_GET_MENU:
           begin
-            MnuPopup:= Btn.PopupDropdown;
-            if Assigned(MnuPopup) then
-              Result:= PyHelper_ObjectHandle(MnuPopup.Items)
+            Mnu:= Btn.PopupDropdown;
+            if Assigned(Mnu) then
+              Result:= PyHelper_ObjectHandle(Mnu.Items)
             else
               Result:= ReturnNone;
           end;
