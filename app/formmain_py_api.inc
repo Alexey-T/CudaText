@@ -7296,7 +7296,7 @@ begin
           begin
             Mnu:= PyHelper_MenuFromId(StrValue);
             if Assigned(Mnu) and Assigned(Mnu.Owner) then
-              Btn.PopupMenu:= Mnu.Owner as TPopupMenu;
+              Btn.PopupDropdown:= Mnu.Owner as TPopupMenu;
             Result:= ReturnNone;
           end;
 
