@@ -420,22 +420,7 @@ begin
   end;
 end;
 
-function PyHelper_MenuFromId(const Str: string): TMenu;
-var
-  Obj: TObject;
-  N: PtrInt;
-begin
-  Result:= nil;
-  N:= StrToInt64Def(Str, 0);
-  if N<>0 then
-  begin
-    Obj:= TObject(N);
-    if Obj is TMenu then
-      exit(TMenu(Obj));
-  end;
-end;
-
-function PyHelper_MenuItemFromId(Str: string): TMenuItem;
+function PyHelper_MenuItemFromId(const Str: string): TMenuItem;
 const
   cPrefixToolmenu = 'toolmenu:';
 var
