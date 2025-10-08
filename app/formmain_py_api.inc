@@ -7163,6 +7163,7 @@ var
   StrValue: string;
   Btn: TATButton;
   Mnu: TMenu;
+  MnuItem: TMenuItem;
 begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'Lis:button_proc', @IdBtn, @IdAction, @PtrValue)) then
@@ -7294,9 +7295,14 @@ begin
 
         BTN_SET_MENU:
           begin
-            Mnu:= PyHelper_MenuFromId(StrValue);
-            if Assigned(Mnu) and Assigned(Mnu.Owner) then
-              Btn.PopupDropdown:= Mnu.Owner as TPopupMenu;
+            MnuItem:= PyHelper_MenuItemFromId(StrValue);
+            if Assigned(MnuItem) then
+            begin
+              if MnuItem.Owner is TPopupMenu then
+                Btn.PopupDropdown:= MnuItem.Owner as TPopupMenu
+              else
+                MsgLogConsole('ERROR: button_proc(..., BTN_SET_MENU, ...) gets bad menuitem owner, of type '+MnuItem.Owner.ClassName);
+            end;
             Result:= ReturnNone;
           end;
 
