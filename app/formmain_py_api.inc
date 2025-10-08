@@ -420,7 +420,7 @@ begin
   end;
 end;
 
-function PyHelper_MenuItemFromId(const Str: string): TMenuItem;
+function PyHelper_MenuItemFromId(const Str: string; const ApiFunctionName: string = 'menu_proc'): TMenuItem;
 const
   cPrefixToolmenu = 'toolmenu:';
 var
@@ -438,7 +438,7 @@ begin
       exit(TMenuItem(Obj))
     else
     begin
-      MsgLogConsole('ERROR: menu_proc() gets bad handle, of type '+Obj.ClassName);
+      MsgLogConsole(Format('ERROR: %s() gets bad handle, of type %s', [ApiFunctionName, Obj.ClassName]));
       exit;
     end;
   end;
@@ -7147,7 +7147,7 @@ var
   PtrValue: PChar;
   StrValue: string;
   Btn: TATButton;
-  Mnu: TMenu;
+  MnuPopup: TPopupMenu;
   MnuItem: TMenuItem;
 begin
   with AppPython.Engine do
@@ -7271,16 +7271,16 @@ begin
 
         BTN_GET_MENU:
           begin
-            Mnu:= Btn.PopupDropdown;
-            if Assigned(Mnu) then
-              Result:= PyHelper_ObjectHandle(Mnu.Items)
+            MnuPopup:= Btn.PopupDropdown;
+            if Assigned(MnuPopup) then
+              Result:= PyHelper_ObjectHandle(MnuPopup.Items)
             else
               Result:= ReturnNone;
           end;
 
         BTN_SET_MENU:
           begin
-            MnuItem:= PyHelper_MenuItemFromId(StrValue);
+            MnuItem:= PyHelper_MenuItemFromId(StrValue, 'button_proc');
             if Assigned(MnuItem) then
             begin
               if MnuItem.Owner is TPopupMenu then
