@@ -23,63 +23,63 @@ Event handlers (Command.on_nnnnn methods) return-value is ignored is many cases,
 
 ==Events - General==
 
-* on_open(self, ed_self): Called after file is opened from disk.
-* on_open_pre(self, ed_self, filename): Called before file opening. Method can return False to disable opening, other value is ignored.
-* on_open_none(self, ed_self): Called after file is opened, and none lexer was detected/set for it.
-* on_close_pre(self, ed_self): Called before closing tab, before checking if tab modified or not. Method can return False to disable closing.
-* on_close(self, ed_self): Called before closing tab, after modified file was saved, and editor is still active.
-* on_save(self, ed_self): Called after saving file.
-* on_save_pre(self, ed_self): Called before saving file. Method can return False to disable saving, other value is ignored.
-* on_save_naming(self, ed_self): Called before saving untitled tab, to get suggested filename without path and extension. Method must return valid filename string or None.
-* on_delete_file(self, ed_self, filename): Called on running command "File / Close and delete file". Param "ed_self" is None.
-* on_start(self, ed_self): Called once on program start. Called early, before applying config files. Param "ed_self" is None.
-* on_start2(self, ed_self): Called once on program start. Called later than on_start, after configs are applied, just before the main form shows. Param "ed_self" is None.
-* on_init_plugins_menu(self, ed_self): Called after filling the "Plugins" menu. On startup, it is called after on_start/on_start2, and after app goes into 'idle' state for the first time. App inits the "Plugins" menu in the 'idle' state. Event is also called when app has to update the "Plugins" menu again, e.g. after installing plugin from zip-file. Param "ed_self" is None.
-* on_exit(self, ed_self): Called on exiting application. This event is lazy, ie it's called only for already loaded plugins. Param "ed_self" is None.
-* on_app_activate(self, ed_self): Called when application window gets focus. Param "ed_self" is None.
-* on_app_deactivate(self, ed_self): Called when application window looses focus. Param "ed_self" is None.
-* on_cli(self, param1, param2...): Called when application gets command-line parameter "-p=cuda_pluginname#param1#param2...". Count of params is plugin-defined, e.g. Differ plugin needs 2 params. This event is not sent to all plugins, but only to the single specified plugin.
+* <code>on_open(self, ed_self)</code>: Called after file is opened from disk.
+* <code>on_open_pre(self, ed_self, filename)</code>: Called before file opening. Method can return False to disable opening, other value is ignored.
+* <code>on_open_none(self, ed_self)</code>: Called after file is opened, and none lexer was detected/set for it.
+* <code>on_close_pre(self, ed_self)</code>: Called before closing tab, before checking if tab modified or not. Method can return False to disable closing.
+* <code>on_close(self, ed_self)</code>: Called before closing tab, after modified file was saved, and editor is still active.
+* <code>on_save(self, ed_self)</code>: Called after saving file.
+* <code>on_save_pre(self, ed_self)</code>: Called before saving file. Method can return False to disable saving, other value is ignored.
+* <code>on_save_naming(self, ed_self)</code>: Called before saving untitled tab, to get suggested filename without path and extension. Method must return valid filename string or None.
+* <code>on_delete_file(self, ed_self, filename)</code>: Called on running command "File / Close and delete file". Param "ed_self" is None.
+* <code>on_start(self, ed_self)</code>: Called once on program start. Called early, before applying config files. Param "ed_self" is None.
+* <code>on_start2(self, ed_self)</code>: Called once on program start. Called later than on_start, after configs are applied, just before the main form shows. Param "ed_self" is None.
+* <code>on_init_plugins_menu(self, ed_self)</code>: Called after filling the "Plugins" menu. On startup, it is called after on_start/on_start2, and after app goes into 'idle' state for the first time. App inits the "Plugins" menu in the 'idle' state. Event is also called when app has to update the "Plugins" menu again, e.g. after installing plugin from zip-file. Param "ed_self" is None.
+* <code>on_exit(self, ed_self)</code>: Called on exiting application. This event is lazy, ie it's called only for already loaded plugins. Param "ed_self" is None.
+* <code>on_app_activate(self, ed_self)</code>: Called when application window gets focus. Param "ed_self" is None.
+* <code>on_app_deactivate(self, ed_self)</code>: Called when application window looses focus. Param "ed_self" is None.
+* <code>on_cli(self, param1, param2...)</code>: Called when application gets command-line parameter "-p=cuda_pluginname#param1#param2...". Count of params is plugin-defined, e.g. Differ plugin needs 2 params. This event is not sent to all plugins, but only to the single specified plugin.
 
 ==Events - Tabs==
 
-* on_tab_change(self, ed_self): Called after active UI-tab is changed.
-* on_tab_menu(self, ed_self): Called just before showing popup menu for UI-tab title. Method can return False to disable the standard popup menu, other return value is ignored.
-* on_tab_move(self, ed_self): Called after closing a UI-tab (another UI-tab is already activated), or moving a UI-tab (by drag-n-drop, or UI command).
+* <code>on_tab_change(self, ed_self)</code>: Called after active UI-tab is changed.
+* <code>on_tab_menu(self, ed_self)</code>: Called just before showing popup menu for UI-tab title. Method can return False to disable the standard popup menu, other return value is ignored.
+* <code>on_tab_move(self, ed_self)</code>: Called after closing a UI-tab (another UI-tab is already activated), or moving a UI-tab (by drag-n-drop, or UI command).
 
 ==Events - Editor==
 
-* on_change(self, ed_self): Called after editor text is changed.
-* on_change_slow(self, ed_self): Called after editor text is changed, and small pause is passed (CudaText option "py_change_slow"), and application "idle" event happens (no keyboard/mouse input for 1-2sec).
-* on_caret(self, ed_self): Called after caret position/selection is changed.
-* on_caret_slow(self, ed_self): Called after caret position/selection is changed, and small pause is passed. Pause is CudaText option "py_caret_slow".
-* on_insert(self, ed_self, text): Called before inserting a text. Method can return False to disable insertion, other return value is ignored.
-* on_key(self, ed_self, key, state): Called when user presses a key in editor. Param "key" is int key code; values are listed in the module cudatext_keys. Param "state" is string of chars: "a" if Alt pressed, "c" if Ctrl pressed, "s" if Shift pressed, "m" if Meta (Windows-key) pressed. Method can return False to disable key processing, other return value is ignored.
-* on_key_up(self, ed_self, key, state): Called when user depresses a key in editor. Params meaning is the same as in "on_key". Currently called only for Ctrl/Shift/Alt keys (to not slow down).
-* on_focus(self, ed_self): Called after any editor gets focus.
-* on_lexer(self, ed_self): Called after editor's lexer is changed.
-* on_lexer_parsed(self, ed_self): Called after lexer has finished its parsing. To not slow down usual work, event is called only if parsing time was >=600 msec.
-* on_paste(self, ed_self, keep_caret, select_then): Called before some Clipboard Paste command runs. Parameters are options of various paste commands. Method can return False to disable default operation.
-* on_scroll(self, ed_self): Called on scrolling in editor.
-* on_mouse_stop(self, ed_self, x, y): Called when mouse cursor stops (for a short delay) over editor. Params "x", "y" are mouse editor-related coords.
-* on_hotspot(self, ed_self, entered, hotspot_index): Called when mouse cursor moves in/out of hotspot. See ed.hotspots() API.
-* on_snippet(self, ed_self, snippet_id, snippet_text): Called when user chooses snippet to insert, in ed.complete_alt() call.
+* <code>on_change(self, ed_self)</code>: Called after editor text is changed.
+* <code>on_change_slow(self, ed_self)</code>: Called after editor text is changed, and small pause is passed (CudaText option "py_change_slow"), and application "idle" event happens (no keyboard/mouse input for 1-2sec).
+* <code>on_caret(self, ed_self)</code>: Called after caret position/selection is changed.
+* <code>on_caret_slow(self, ed_self)</code>: Called after caret position/selection is changed, and small pause is passed. Pause is CudaText option "py_caret_slow".
+* <code>on_insert(self, ed_self, text)</code>: Called before inserting a text. Method can return False to disable insertion, other return value is ignored.
+* <code>on_key(self, ed_self, key, state)</code>: Called when user presses a key in editor. Param "key" is int key code; values are listed in the module cudatext_keys. Param "state" is string of chars: "a" if Alt pressed, "c" if Ctrl pressed, "s" if Shift pressed, "m" if Meta (Windows-key) pressed. Method can return False to disable key processing, other return value is ignored.
+* <code>on_key_up(self, ed_self, key, state)</code>: Called when user depresses a key in editor. Params meaning is the same as in "on_key". Currently called only for Ctrl/Shift/Alt keys (to not slow down).
+* <code>on_focus(self, ed_self)</code>: Called after any editor gets focus.
+* <code>on_lexer(self, ed_self)</code>: Called after editor's lexer is changed.
+* <code>on_lexer_parsed(self, ed_self)</code>: Called after lexer has finished its parsing. To not slow down usual work, event is called only if parsing time was >=600 msec.
+* <code>on_paste(self, ed_self, keep_caret, select_then)</code>: Called before some Clipboard Paste command runs. Parameters are options of various paste commands. Method can return False to disable default operation.
+* <code>on_scroll(self, ed_self)</code>: Called on scrolling in editor.
+* <code>on_mouse_stop(self, ed_self, x, y)</code>: Called when mouse cursor stops (for a short delay) over editor. Params "x", "y" are mouse editor-related coords.
+* <code>on_hotspot(self, ed_self, entered, hotspot_index)</code>: Called when mouse cursor moves in/out of hotspot. See ed.hotspots() API.
+* <code>on_snippet(self, ed_self, snippet_id, snippet_text)</code>: Called when user chooses snippet to insert, in ed.complete_alt() call.
 
 ==Events - Editor clicks==
 
-* on_click(self, ed_self, state): Called after mouse click on text area. Param "state": same meaning as in on_key.
-* on_click_dbl(self, ed_self, state): Called after mouse double-click on text area. Param "state": same meaning as in on_key. Method can return False to disable default processing.
-* on_click_right(self, ed_self, state): Called after mouse right-click. Param "state": same meaning as in on_key. Method can return False to disable default processing.
-* on_click_gutter(self, ed_self, state, nline, nband): Called on mouse click on gutter area. Param "state": same as in on_key. Param "nline": index of editor line. Param "nband": index of gutter band. Method can return False to disable default processing.
-* on_click_gap(self, ed_self, state, nline, ntag, size_x, size_y, pos_x, pos_y): Called after mouse click on inter-line gap: see Editor.gap(). Param "state": same meaning as in on_key. Other params: properties of clicked gap.
-* on_click_link(self, ed_self, state, link): Called after link/URL in the editor is activated by click or double-click (event is not called on URL opening from Command Palette or from editor context menu). Param "state": same meaning as in on_key. Param "link": link string. Method can return False to disable default program action.
+* <code>on_click(self, ed_self, state)</code>: Called after mouse click on text area. Param "state": same meaning as in on_key.
+* <code>on_click_dbl(self, ed_self, state)</code>: Called after mouse double-click on text area. Param "state": same meaning as in on_key. Method can return False to disable default processing.
+* <code>on_click_right(self, ed_self, state)</code>: Called after mouse right-click. Param "state": same meaning as in on_key. Method can return False to disable default processing.
+* <code>on_click_gutter(self, ed_self, state, nline, nband)</code>: Called on mouse click on gutter area. Param "state": same as in on_key. Param "nline": index of editor line. Param "nband": index of gutter band. Method can return False to disable default processing.
+* <code>on_click_gap(self, ed_self, state, nline, ntag, size_x, size_y, pos_x, pos_y)</code>: Called after mouse click on inter-line gap: see Editor.gap(). Param "state": same meaning as in on_key. Other params: properties of clicked gap.
+* <code>on_click_link(self, ed_self, state, link)</code>: Called after link/URL in the editor is activated by click or double-click (event is not called on URL opening from Command Palette or from editor context menu). Param "state": same meaning as in on_key. Param "link": link string. Method can return False to disable default program action.
 
 ==Events - State changes==
 
-* on_state(self, ed_self, state): Called after some app state is changed. Param "state" is one of APPSTATE_nnnn constants. Param "ed_self" is None.
+* <code>on_state(self, ed_self, state)</code>: Called after some app state is changed. Param "state" is one of APPSTATE_nnnn constants. Param "ed_self" is None.
 
-* on_state_ed(self, ed_self, state): Called after some editor state is changed. Param "state" is one of EDSTATE_nnnn constants.
+* <code>on_state_ed(self, ed_self, state)</code>: Called after some editor state is changed. Param "state" is one of EDSTATE_nnnn constants.
 
-* on_state_findbar(self, ed_self, state, value): Called after some Find-dialog state is changed. Param "ed_self" is None. Param "state" is str, possible values are:
+* <code>on_state_findbar(self, ed_self, state, value)</code>: Called after some Find-dialog state is changed. Param "ed_self" is None. Param "state" is str, possible values are:
 ** "focus" - called after focus was changed; param "value" is "edFind" or "edRep".
 ** "opt" - called after dialog option was changed; param "value" is name of option.
 ** "cmd" - called after command was executed; param "value" is name of command.
@@ -100,7 +100,7 @@ Constants in "on_state":
 * APPSTATE_SESSION_LOAD_FAIL: Session loading fails (after APPSTATE_SESSION_LOAD_BEGIN).
 * APPSTATE_PROJECT: Current project in the Project Manager is changed.
 
-* APPSTATE_API_SUBCOMMANDS: API call app_proc(PROC_SET_SUBCOMMANDS, ...).
+* APPSTATE_API_SUBCOMMANDS: API call <code>app_proc(PROC_SET_SUBCOMMANDS, ...)</code>.
 * APPSTATE_API_MENU_ADD: API menu_proc() added some menu item.
 * APPSTATE_API_MENU_REMOVE: API menu_proc() removed some menu item.
 * APPSTATE_API_MENU_CHANGE: API menu_proc() changed some menu item.
@@ -111,9 +111,9 @@ Constants in "on_state":
 * APPSTATE_CODETREE_AFTER_FILL: Code-Tree: after filling the content.
 * APPSTATE_CODETREE_SET_SELECTION: Code-Tree: caret position changed, then app sync'ed tree selection.
 * APPSTATE_CODETREE_DBL_CLICK: Code-Tree: user made double-click in tree, then app sync'ed caret position with tree selection.
-* APPSTATE_CODETREE_FOLDED_UNFOLDED: Code-Tree: some tree node was just folded or unfolded. You can get this node's handle via app_proc(PROC_GET_CODETREE_CURRENT_NODE, "").
+* APPSTATE_CODETREE_FOLDED_UNFOLDED: Code-Tree: some tree node was just folded or unfolded. You can get this node's handle via <code>app_proc(PROC_GET_CODETREE_CURRENT_NODE, "")</code>.
 
-* APPSTATE_WINDOW: Changed state of the main window: minimized/normal/maximized/fullscreen. Read current state via app_proc(PROC_GET_WINDOW_STATE, "").
+* APPSTATE_WINDOW: Changed state of the main window: minimized/normal/maximized/fullscreen. Read current state via <code>app_proc(PROC_GET_WINDOW_STATE, "")</code>.
 
 Constants in "on_state_ed":
 
@@ -127,22 +127,22 @@ Constants in "on_state_ed":
 
 ==Events - Smart commands==
 
-* on_complete(self, ed_self): Called by "auto-completion menu" command (default hotkey: Ctrl+Space). Method should read editor text, find all needed data, and call Editor.complete() API to show the actual auto-completion listbox to user. True return value means that plugin handled the event, don't call other plugins.
-* on_func_hint(self, ed_self): Called by "show function-hint" command (default hotkey: Ctrl+Shift+Space). Method should return function-hint string (comma-separated parameters, brackets are optional). Non-empty string result means that plugin handled the event, don't call other plugins. Empty string or None mean that no hint was found.
-* on_goto_def(self, ed_self): Called by "go to definition" command (e.g. by mouse shortcut or by menu item in the editor context menu). Method must return True if it handled the command, otherwise None.
-* on_goto_enter(self, ed_self, text): Called after user entered text in the Go To dialog. Method can return False to disable default processing.
+* <code>on_complete(self, ed_self)</code>: Called by "auto-completion menu" command (default hotkey: Ctrl+Space). Method should read editor text, find all needed data, and call Editor.complete() API to show the actual auto-completion listbox to user. True return value means that plugin handled the event, don't call other plugins.
+* <code>on_func_hint(self, ed_self)</code>: Called by "show function-hint" command (default hotkey: Ctrl+Shift+Space). Method should return function-hint string (comma-separated parameters, brackets are optional). Non-empty string result means that plugin handled the event, don't call other plugins. Empty string or None mean that no hint was found.
+* <code>on_goto_def(self, ed_self)</code>: Called by "go to definition" command (e.g. by mouse shortcut or by menu item in the editor context menu). Method must return True if it handled the command, otherwise None.
+* <code>on_goto_enter(self, ed_self, text)</code>: Called after user entered text in the Go To dialog. Method can return False to disable default processing.
 
 ==Events - Panels==
 
-* on_message(self, ed_self, id, text): Called on showing a text in the statusbar. Param "id" means statusbar column index, currently only value 0 is used ("text message" statusbar cell). Method can return False to disable usual showing of message. Param "ed_self" is None here.
-* on_console_nav(self, ed_self, text): Called on double-clicking a line, or calling context menu item "Navigate", in the Console's multi-line memo field. Param "text" is Console memo line with caret. Param "ed_self" is None here.
-* on_console_complete(self, ed_self): Called when user presses hotkey of "auto-complete" in the Console input. Param "ed_self" is None here. True return value means that plugin handled the event, don't call other plugins.
-* on_output_nav(self, ed_self, text, tag): Called on double-clicking a line, or pressing Enter, in the Output/Validate panels. Param "text" is clicked line, param "tag" is int value associated with the line. Event is called only if app cannot parse output line by itself using given RegEx, or if RegEx is not set. Param "ed_self" is None here.
-* on_sidebar_popup(self, ed_self, caption): Called on right-click on sidebar (with bottom-bar) buttons. Param "caption" is caption of clicked button (this is non-translatable string, always in English). Param "ed_self" is None here.
+* <code>on_message(self, ed_self, id, text)</code>: Called on showing a text in the statusbar. Param "id" means statusbar column index, currently only value 0 is used ("text message" statusbar cell). Method can return False to disable usual showing of message. Param "ed_self" is None here.
+* <code>on_console_nav(self, ed_self, text)</code>: Called on double-clicking a line, or calling context menu item "Navigate", in the Console's multi-line memo field. Param "text" is Console memo line with caret. Param "ed_self" is None here.
+* <code>on_console_complete(self, ed_self)</code>: Called when user presses hotkey of "auto-complete" in the Console input. Param "ed_self" is None here. True return value means that plugin handled the event, don't call other plugins.
+* <code>on_output_nav(self, ed_self, text, tag)</code>: Called on double-clicking a line, or pressing Enter, in the Output/Validate panels. Param "text" is clicked line, param "tag" is int value associated with the line. Event is called only if app cannot parse output line by itself using given RegEx, or if RegEx is not set. Param "ed_self" is None here.
+* <code>on_sidebar_popup(self, ed_self, caption)</code>: Called on right-click on sidebar (with bottom-bar) buttons. Param "caption" is caption of clicked button (this is non-translatable string, always in English). Param "ed_self" is None here.
 
 ==Events - Macros==
 
-* on_macro(self, ed_self, text): Called when command "start/stop macro recording" stops the recording. Param "text" is string: "\n"-separated text of macro items, which were run during the macro recording.
+* <code>on_macro(self, ed_self, text)</code>: Called when command "start/stop macro recording" stops the recording. Param "text" is string: "\n"-separated text of macro items, which were run during the macro recording.
 ** if item is str(number) then it's simple command.
 ** if item is "number,string" then it's command with string parameter (usually it's command cCommand_TextInsert).
 ** if item is "py:string_module,string_method,string_param" then it's call of Python plugin (usually string_param is empty).
