@@ -2143,7 +2143,7 @@ Possible values of "id_action":
 * BTN_GET_IMAGEINDEX: Returns icon index (in attached imagelist).
 * BTN_SET_IMAGEINDEX: Sets icon index. Param "value" must be int index (0-based), or -1 for none. To show icon, you must also set appropriate kind of button.
 * BTN_GET_MENU: Returns int handle of "dropdown" menu assigned to the button, or None if no such menu was assigned.  "Dropdown" menu is not the right-click menu, but menu shown by left click on the arrow icon. Handle can be passed to menu_proc().
-* BTN_SET_MENU: Sets int handle of dropdown menu assigned to the button. It can be handle created by menu_proc(0, MENU_CREATE).
+* BTN_SET_MENU: Sets int handle of dropdown menu assigned to the button. It can be handle created by <code>menu_proc(0, MENU_CREATE)</code>.
 * BTN_GET_KIND: Returns kind of button. Int value, one of BTNKIND_nnn constants.
 * BTN_SET_KIND: Sets kind of button.
 * BTN_GET_BOLD: Returns bold-style of button, bool.
