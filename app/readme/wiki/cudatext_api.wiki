@@ -242,7 +242,7 @@ Parameter "text" is usually string, but can be of other types (bool, int, float,
 
 ====app_proc - Misc properties====
 
-* PROC_GET_LANG: Returns string id of active app translation. E.g. "ru_RU" if translation file is "ru_RU.ini", or "translation template" if such file is used. Returns empty string if built-in English translation is used.
+* PROC_GET_LANG: Returns string id of active app translation, e.g. "ru_RU" if translation file is "ru_RU.ini". Returns empty string if built-in English translation is used.
 * PROC_GET_GROUPING: Returns grouping mode in program, one of GROUPS_nnnn int constants.
 * PROC_SET_GROUPING: Sets grouping mode in program, one of GROUPS_nnnn int constants.
 * PROC_PROGRESSBAR: Changes state of the progress-bar (hidden by default), which is located on the status-bar right corner. Int value<0: progressbar hides, value in 0..100: progressbar shows with the given value.
