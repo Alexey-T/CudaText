@@ -212,8 +212,8 @@ Example of version check:
 Returns some file-system path. Possible values of "id":
 
 * APP_DIR_EXE: Folder of program executable.
-* APP_DIR_SETTINGS: Folder "settings" (which usually contains user.json file).
-* APP_DIR_SETTINGS_DEF: Folder "settings_default" (which usually contains default.json file).
+* APP_DIR_SETTINGS: Folder "settings" (which usually contains "user.json" config).
+* APP_DIR_SETTINGS_DEF: Folder "settings_default" (which usually contains "default.json" config-template).
 * APP_DIR_DATA: Folder "data".
 * APP_DIR_PY: Folder "py" (with Python codes).
 * APP_DIR_INSTALLED_ADDON: Folder of last installed add-on. For plugins it is subfolder in "py", for data-files it is subfolder in "data", for lexers it is folder "data/lexlib". This path is internally updated when add-on was installed: via file_open() API; via "Open file" dialog when you open .zip file; via command-line with .zip file.
@@ -261,7 +261,7 @@ Parameter "text" is usually string, but can be of other types (bool, int, float,
 * PROC_CONFIG_NEWDOC_ENC_SET: Sets str: encoding of newly created documents.
 * PROC_CONFIG_SCALE_GET: Returns UI scales, as 2-tuple (int_scale_UI, int_scale_font). Both values are in percents, defaults are 100.
 * PROC_CONFIG_SCALE_SET: Sets UI scales, value must be 2-tuple (int_scale_UI, int_scale_font).
-* PROC_CONFIG_HISTORY_SAVE: Saves app's history file ("history.json").
+* PROC_CONFIG_HISTORY_SAVE: Saves app's history file (on Windows it's named "history.json").
 
 * PROC_PARSE_COMMAND_LINE: Parses/handles the text as the program command line. Separator of params is space, double-quoted params are supported. Here you may pass, for example, several filenames, including project and session filenames (.cuda-proj and .cuda-session extensions).
 
@@ -322,7 +322,7 @@ Actions work with props of Find/Replace dialog, and props of low-level search en
 * PROC_SEND_MESSAGE: For Windows. Sends message to a window by its handle. Param "text" must be 4-tuple of int (window_handle, msg_code, param1, param2).
 * PROC_GET_UNIQUE_TAG: Gets integer value, which is unique for the current CudaText process (it starts with 100, increasing with each call). Use this value for Editor.markers() and Editor.attr() tag values.
 
-* PROC_GET_OS_SUFFIX: Returns string of OS suffix, which is used in some CudaText option names. Possible values are listed in the default.json file.
+* PROC_GET_OS_SUFFIX: Returns string of OS suffix, which is used in some CudaText option names. Possible values are listed in the "default.json" file.
 * PROC_GET_COMPILER_INFO: Returns information about OS/CPU/WidgetSet CudaText was compiled for, as dict. Dict keys are: "os", "cpu", "widgetset", "fpc".
 
 ====app_proc - Clipboard====
@@ -873,7 +873,7 @@ Returns str of hotkey (e.g. "F1", "Ctrl+Alt+B") or None if cancelled.
 
  dlg_hotkeys(command, lexer="")
 
-Shows dialog to configure hotkeys of internal command or plugin. Returns bool: OK pressed and hotkeys saved (to keys.json).
+Shows dialog to configure hotkeys of internal command or plugin. Returns bool: OK was pressed and hotkeys were saved.
 
 Param "command" can be:
 
@@ -3607,7 +3607,7 @@ Text is "\n"-separated undo (or redo) items. Each undo item is tab-separated ele
 
 =API of 3rd-party plugins=
 ==API of Options Editor==
-Options Editor plugin (preinstalled in CudaText) has API which allows to call its dialog with custom options. Example shows dialog with 4 custom options, with custom title. Options which user changed in dialog will be saved to user.json or lexer-specific config.
+Options Editor plugin (preinstalled in CudaText) has API which allows to call its dialog with custom options. Example shows dialog with 4 custom options, with custom title. Options which user changed in dialog will be saved to "user.json" or lexer-specific config.
 
 <syntaxhighlight lang="Python">
 import os
