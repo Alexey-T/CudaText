@@ -3,6 +3,9 @@
   - fixed
   * changed
 
++ add: Windows 10+: support huge filenames longer than 260 chars (thanks @roberdaniel)
++ add: show note in Console about situation "cannot restore code-tree nodes folding for duplicate captions" (thanks @mix-7)
+
 1.228.3 (2025/09)
 
 + add: code-tree on updating keeps 'unfolded' state of nodes; note: feature is stupid and restores folding wrong if several nodes have same captions (idea by @mix-7)
