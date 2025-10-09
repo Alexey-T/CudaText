@@ -61,8 +61,8 @@ Event handlers (Command.on_nnnnn methods) return-value is ignored is many cases,
 * <code>on_paste(self, ed_self, keep_caret, select_then)</code>: Called before some Clipboard Paste command runs. Parameters are options of various paste commands. Method can return False to disable default operation.
 * <code>on_scroll(self, ed_self)</code>: Called on scrolling in editor.
 * <code>on_mouse_stop(self, ed_self, x, y)</code>: Called when mouse cursor stops (for a short delay) over editor. Params "x", "y" are mouse editor-related coords.
-* <code>on_hotspot(self, ed_self, entered, hotspot_index)</code>: Called when mouse cursor moves in/out of hotspot. See ed.hotspots() API.
-* <code>on_snippet(self, ed_self, snippet_id, snippet_text)</code>: Called when user chooses snippet to insert, in ed.complete_alt() call.
+* <code>on_hotspot(self, ed_self, entered, hotspot_index)</code>: Called when mouse cursor moves in/out of hotspot. See <code>Editor.hotspots()</code> API.
+* <code>on_snippet(self, ed_self, snippet_id, snippet_text)</code>: Called when user chooses snippet to insert, in <code>Editor.complete_alt()</code> call.
 
 ==Events - Editor clicks==
 
@@ -70,7 +70,7 @@ Event handlers (Command.on_nnnnn methods) return-value is ignored is many cases,
 * <code>on_click_dbl(self, ed_self, state)</code>: Called after mouse double-click on text area. Param "state": same meaning as in on_key. Method can return False to disable default processing.
 * <code>on_click_right(self, ed_self, state)</code>: Called after mouse right-click. Param "state": same meaning as in on_key. Method can return False to disable default processing.
 * <code>on_click_gutter(self, ed_self, state, nline, nband)</code>: Called on mouse click on gutter area. Param "state": same as in on_key. Param "nline": index of editor line. Param "nband": index of gutter band. Method can return False to disable default processing.
-* <code>on_click_gap(self, ed_self, state, nline, ntag, size_x, size_y, pos_x, pos_y)</code>: Called after mouse click on inter-line gap: see Editor.gap(). Param "state": same meaning as in on_key. Other params: properties of clicked gap.
+* <code>on_click_gap(self, ed_self, state, nline, ntag, size_x, size_y, pos_x, pos_y)</code>: Called after mouse click on inter-line gap: see <code>Editor.gap()</code>. Param "state": same meaning as in on_key. Other params: properties of clicked gap.
 * <code>on_click_link(self, ed_self, state, link)</code>: Called after link/URL in the editor is activated by click or double-click (event is not called on URL opening from Command Palette or from editor context menu). Param "state": same meaning as in on_key. Param "link": link string. Method can return False to disable default program action.
 
 ==Events - State changes==
@@ -230,15 +230,15 @@ Parameter "text" is usually string, but can be of other types (bool, int, float,
 
 ====app_proc - Getting handles====
 
-* PROC_GET_TAB_IMAGELIST: Returns int handle of imagelist, containing icons of all UI-tabs. Use imagelist_proc() to work with it. Use PROP_TAB_ICON property to get/set file-tab icon index (index in this imagelist).
-* PROC_GET_CODETREE: Returns int handle of built-in code-tree UI control. Use tree_proc() to work with it.
+* PROC_GET_TAB_IMAGELIST: Returns int handle of imagelist, containing icons of all UI-tabs. Use <code>imagelist_proc()</code> to work with it. Use PROP_TAB_ICON property to get/set file-tab icon index (index in this imagelist).
+* PROC_GET_CODETREE: Returns int handle of built-in code-tree UI control. Use <code>tree_proc()</code> to work with it.
 * PROC_GET_CODETREE_CURRENT_NODE: Returns int handle of code-tree's node, for on_state event "node was just folded/unfolded".
-* PROC_GET_CONSOLE_FORM: Returns int handle of built-in Console form. Use dlg_proc() to work with it.
-* PROC_GET_OUTPUT_FORM: Returns int handle of built-in Output form (contains the Output read-only editor). Use dlg_proc() to work with it.
-* PROC_GET_VALIDATE_FORM: Returns int handle of built-in Validate form (contains the Validate read-only editor). Use dlg_proc() to work with it.
-* PROC_GET_MAIN_TOOLBAR: Returns int handle of main app toolbar. Use toolbar_proc() to work with it.
-* PROC_GET_MAIN_STATUSBAR: Returns int handle of main app statusbar. Use statusbar_proc() to work with it.
-* PROC_GET_FINDER_BUTTONS: Gets dict containing handles of all Find-dialog buttons. These handles are compatible with button_proc(). Dict keys are self-explaining. Gets None if Find-dialog is not yet inited.
+* PROC_GET_CONSOLE_FORM: Returns int handle of built-in Console form. Use <code>dlg_proc()</code> to work with it.
+* PROC_GET_OUTPUT_FORM: Returns int handle of built-in Output form (contains the Output read-only editor). Use <code>dlg_proc()</code> to work with it.
+* PROC_GET_VALIDATE_FORM: Returns int handle of built-in Validate form (contains the Validate read-only editor). Use <code>dlg_proc()</code> to work with it.
+* PROC_GET_MAIN_TOOLBAR: Returns int handle of main app toolbar. Use <code>toolbar_proc()</code> to work with it.
+* PROC_GET_MAIN_STATUSBAR: Returns int handle of main app statusbar. Use <code>statusbar_proc()</code> to work with it.
+* PROC_GET_FINDER_BUTTONS: Gets dict containing handles of all Find-dialog buttons. These handles are compatible with <code>button_proc()</code>. Dict keys are self-explaining. Gets None if Find-dialog is not yet inited.
 
 ====app_proc - Misc properties====
 
