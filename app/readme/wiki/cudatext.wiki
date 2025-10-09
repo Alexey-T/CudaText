@@ -428,6 +428,7 @@ The following lexers (counting only important ones) exist for CudaText. They are
 ** HTML Ruby-ERB
 ** HTML Smarty
 * [https://httpd.apache.org/docs/2.4/configuring.html httpd.conf (Apache HTTP Server)]
+* Huawei VRP
 * IDL files
 * IDL language
 * Informix 4GL
