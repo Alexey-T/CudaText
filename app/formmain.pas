@@ -269,8 +269,8 @@ type
     mnuSplitNo: TMenuItem;
     mnuSplitSep: TMenuItem;
     mnuThemesSub: TMenuItem;
-    mnuFileRename: TMenuItem;
     mnuFile: TMenuItem;
+    mnuFileRename: TMenuItem;
     mnuFileReopen: TMenuItem;
     mnuFileSaveAll: TMenuItem;
     mnuFileCloseAll: TMenuItem;
@@ -372,6 +372,7 @@ type
     mnuBmPrev: TMenuItem;
     mnuBmNext: TMenuItem;
     mnuView: TMenuItem;
+    mnuViewCmdPal: TMenuItem;
     mnuViewHint2: TMenuItem;
     mnuViewHint1: TMenuItem;
     mnuViewSidebar: TMenuItem;
@@ -390,6 +391,7 @@ type
     mnuViewWrap: TMenuItem;
     mnuViewMinimap: TMenuItem;
     mnuViewBottom: TMenuItem;
+    mnuViewSep0: TMenuItem;
     mnuViewSep1: TMenuItem;
     mnuViewSep2: TMenuItem;
     mnuLexers: TMenuItem;
@@ -416,10 +418,8 @@ type
     mnuFontUi: TMenuItem;
     mnuFontSub: TMenuItem;
     mnuHelp: TMenuItem;
-    mnuHelpCmd: TMenuItem;
     mnuHelpCheckUpd: TMenuItem;
     mnuHelpIssues: TMenuItem;
-    mnuHelpSep1: TMenuItem;
     mnuHelpSep2: TMenuItem;
     mnuHelpWiki: TMenuItem;
     mnuHelpForum: TMenuItem;

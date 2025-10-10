@@ -1057,6 +1057,7 @@ begin
   UpdateMenuItemHotkey(mnuSplitV, cmd_SplitTabVert);
   UpdateMenuItemHotkey(mnuSplitH, cmd_SplitTabHorz);
 
+  UpdateMenuItemHotkey(mnuViewCmdPal, cmd_DialogCommands);
   UpdateMenuItemHotkey(mnuViewWrap, cCommand_ToggleWordWrap);
   UpdateMenuItemHotkey(mnuViewNums, cCommand_ToggleLineNums);
   UpdateMenuItemHotkey(mnuViewFold, cCommand_ToggleFolding);
@@ -1094,7 +1095,6 @@ begin
   UpdateMenuItemHotkey(mnuOpThemes, cmd_ChooseThemeUI);
   UpdateMenuItemHotkey(mnuOpLangs, cmd_ChooseTranslation);
 
-  UpdateMenuItemHotkey(mnuHelpCmd, cmd_DialogCommands);
   UpdateMenuItemHotkey(mnuHelpForum, cmd_HelpForum);
   UpdateMenuItemHotkey(mnuHelpWiki, cmd_HelpWiki);
   UpdateMenuItemHotkey(mnuHelpIssues, cmd_HelpIssues);

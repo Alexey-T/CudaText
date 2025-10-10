@@ -427,6 +427,12 @@ object fmMain: TfmMain
     end
     object mnuView: TMenuItem
       Caption = '&View'
+      object mnuViewCmdPal: TMenuItem
+        Caption = 'Command palette...'
+      end
+      object mnuViewSep0: TMenuItem
+        Caption = '-'
+      end
       object mnuViewHint1: TMenuItem
         Caption = '--- Current tab properties ---'
         Enabled = False
@@ -638,12 +644,6 @@ object fmMain: TfmMain
     end
     object mnuHelp: TMenuItem
       Caption = '&Help'
-      object mnuHelpCmd: TMenuItem
-        Caption = '&Command palette...'
-      end
-      object mnuHelpSep1: TMenuItem
-        Caption = '-'
-      end
       object mnuHelpForum: TMenuItem
         Caption = '&Forum'
       end

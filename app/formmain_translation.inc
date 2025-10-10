@@ -321,7 +321,7 @@ begin
     DoLocMenuitem(ini, mnuSplitH, 'm_v', 'sp_h');
 
     DoLocMenuitem(ini, mnuHelp, 'm_h', '_');
-    DoLocMenuitem(ini, mnuHelpCmd, 'm_h', 'co');
+    DoLocMenuitem(ini, mnuViewCmdPal, 'm_h', 'co');
     DoLocMenuitem(ini, mnuHelpForum, 'm_h', 'fo');
     DoLocMenuitem(ini, mnuHelpWiki, 'm_h', 'wi');
     DoLocMenuitem(ini, mnuHelpIssues, 'm_h', 'iss');
