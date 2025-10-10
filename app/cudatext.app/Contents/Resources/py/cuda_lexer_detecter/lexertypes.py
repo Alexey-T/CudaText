@@ -524,6 +524,7 @@ TYPES = {
     "vhdl": ['VHDL'],
     "vim": ['VimL'],
     "vm": ['Java Velocity'],
+    "vrp": ['Huawei VRP'],
     "vs": ['GLSL'],
     "vsh": ['GLSL'],
     "vshader": ['GLSL'],
