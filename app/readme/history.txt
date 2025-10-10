@@ -3,6 +3,9 @@
   - fixed
   * changed
 
+1.228.5 (2025/10)
+
+* change: top menu location of item "Command palette" changed from "Help" submenu to "View" submenu, like in VSCode
 + add: Windows 10+: support huge filenames longer than 260 chars (thanks @roberdaniel)
 + add: show note in Console about situation "cannot restore code-tree nodes folding for duplicate captions" (thanks @mix-7)
 
