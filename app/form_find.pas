@@ -348,10 +348,12 @@ end;
 function _MakeHint(const AText, AHotkey: string): string;
 begin
   Result:= AText;
-  if Result<>'' then
-    Result+= ' ';
   if AHotkey<>'' then
+  begin
+    if Result<>'' then
+      Result+= ' ';
     Result+= '['+AHotkey+']';
+  end;
 end;
 
 { TfmFind }
@@ -1852,6 +1854,7 @@ const
 var
   fn: string;
   ini: TIniFile;
+  NShortCut: TShortCut;
 begin
   fn:= AppFile_Language;
   if FileExists(fn) then
@@ -1900,8 +1903,17 @@ begin
     end;
   end;
 
-  UiOps.HotkeyFindNext:= ShortcutToTextRaw(AppKeymapMain.GetShortcutFromCommand(cmd_FindNext));
-  UiOps.HotkeyReplaceAndFindNext:= ShortcutToTextRaw(AppKeymapMain.GetShortcutFromCommand(cmd_FindNextAndReplace));
+  NShortCut:= AppKeymapMain.GetShortcutFromCommand(cmd_FindNext);
+  if NShortCut<>scNone then
+    UiOps.HotkeyFindNext:= ShortcutToTextRaw(NShortCut)
+  else
+    UiOps.HotkeyFindNext:= '';
+
+  NShortCut:= AppKeymapMain.GetShortcutFromCommand(cmd_FindNextAndReplace);
+  if NShortCut<>scNone then
+    UiOps.HotkeyReplaceAndFindNext:= ShortcutToTextRaw(NShortCut)
+  else
+    UiOps.HotkeyReplaceAndFindNext:= '';
 
   bFindFirst.Hint:= _MakeHint(msgFindHint_FindFirst, UiOps.HotkeyFindFirst);
   bFindNext.Hint:= _MakeHint(msgFindHint_FindNext, UiOps.HotkeyFindNext);
