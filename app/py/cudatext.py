@@ -1129,7 +1129,7 @@ def dlg_custom(title, size_x, size_y, text, focused=-1, get_dict=False):
     if not get_dict:
         return res
     else:
-        return _dlg_custom_dict(res, count=len(text.splitlines()) )
+        return _dlg_custom_dict(res, count=len(text.split('\n')) )
 
 def file_open(name, group=-1, options=''):
     if isinstance(name, (list, tuple)):
