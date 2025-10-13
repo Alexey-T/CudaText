@@ -4932,7 +4932,7 @@ begin
   UpdateNotificationPanel(EdIndex, NotifReloadControls[EdIndex], msgConfirmReloadYes, msgConfirmReloadYesAlways, msgConfirmReloadNoMore, msgConfirmFileChangedOutside+' '+SFileName);
   UpdateNotificationPanel(EdIndex, NotifDeletedControls[EdIndex], msgTooltipCloseTab, '-', msgConfirmReloadNoMore, msgConfirmFileDeletedOutside+' '+SFileName);
 
-  NotifReloadControls[EdIndex].Panel.Visible:= TabExtModified[EdIndex] and not TabExtDeleted[EdIndex];
+  NotifReloadControls[EdIndex].Panel.Visible:= (TabExtModified[EdIndex] or bDeletedChanged) and not TabExtDeleted[EdIndex];
   NotifDeletedControls[EdIndex].Panel.Visible:= TabExtDeleted[EdIndex];
 end;
 
