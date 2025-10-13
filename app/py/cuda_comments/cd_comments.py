@@ -3,7 +3,7 @@ Authors:
     Andrey Kvichansky (kvichans on github.com)
     Alexey Torgashin (CudaText)
 Version:
-    '1.0.4 2025-10-13'
+    '1.1.0 2025-10-13'
 '''
 
 import  os
@@ -170,10 +170,14 @@ class Command:
         lex = ed_.get_prop(app.PROP_LEXER_CARET)
         if not lex:
             return app.msg_status(_('Commenting requires an active lexer'))
+        lex_bat = lex.startswith('Batch ')
+
         prop = app.lexer_proc(app.LEXER_GET_PROP, lex)
         if not prop:
             return
+
         cmt_sgn   = prop['c_line'].rstrip() # remove trailing space, we will force space anyway
+        cmt_sgn_initial = cmt_sgn
         cmt_range = prop['c_str']
         pass; #log('cmt_type, lex, cmt_sgn={}', (cmt_type, lex, cmt_sgn))
 
@@ -238,12 +242,29 @@ class Command:
         else:
             row1st = rWrks[0]
 
+        def detect_line(s):
+            sgn = cmt_sgn_initial
+            ss = s.lstrip().lower()
+            cmt = ss.startswith(sgn.lower())
+            # for Batch lexer, detect additional comments: "::text" and "@Rem text"
+            if not cmt and lex_bat:
+                if ss.startswith('::'):
+                    sgn = '::'
+                    cmt = True
+                elif ss.startswith('@rem '):
+                    sgn = '@rem'
+                    cmt = True
+            return (sgn, cmt)
+
+
         # do we need to 'comment' or 'uncomment'?
-        do_uncmt    = ed_.get_text_line(row1st).lstrip().lower().startswith(cmt_sgn.lower()) \
-                        if cmt_act=='bgn' else \
-                      True \
-                        if cmt_act=='del' else \
-                      False
+        sgn_, cmt_ = detect_line(ed_.get_text_line(row1st))
+        do_uncmt = cmt_ \
+                     if cmt_act=='bgn' else \
+                   True \
+                     if cmt_act=='del' else \
+                   False
+
         # work
         col_min_bd  = 1000 # infinity
         col_kept    = False # plugin applied the "Try to keep text position"
@@ -255,7 +276,6 @@ class Command:
                 col_min_bd  = min(pos_body, col_min_bd)
                 if 0==col_min_bd:
                     break # for rWrk
-        blnks4cmt   = ' '*(len(cmt_sgn)+1) # +1 for space
         pass;                  #log('rWrks,do_uncmt, save_cols, at_min_bd, col_min_bd={}', (rWrks,do_uncmt,save_bd_col,at_min_bd,col_min_bd))
 
         for rWrk in rWrks:
@@ -263,13 +283,15 @@ class Command:
             if skip_blank and not line.strip():
                 lines += [line]
                 continue
+            cmt_sgn, line_commented = detect_line(line)
+            blnks4cmt = ' '*(len(cmt_sgn)+1) # +1 for space
+
             pos_body= line.index(line.lstrip())
             pos_body= len(line) if 0==len(line.lstrip()) else pos_body
             pass;              #LOG and log('rWrk,pos_body,line={}', (rWrk,pos_body,line))
             if do_uncmt:
                 # Uncomment!
-                if not line[pos_body:].lower().startswith(cmt_sgn.lower()):
-                    # Already no comment
+                if not line_commented:
                     if use_rep_lines:
                         lines += [line]
                     continue    #for rWrk
@@ -289,7 +311,7 @@ class Command:
                     # print('uncmt1')
             else:
                 # Comment!
-                if cmt_type=='bod' and line[pos_body:].lower().startswith(cmt_sgn.lower()):
+                if cmt_type=='bod' and line_commented:
                     # Body comment already set - willnot double it
                     if use_rep_lines:
                         lines += [line]
