@@ -3,18 +3,14 @@ Authors:
     Andrey Kvichansky (kvichans on github.com)
     Alexey Torgashin (CudaText)
 Version:
-    '1.0.3 2025-09-14'
+    '1.1.0 2025-10-13'
 '''
 
-import  os
 import  cudatext            as app
 from    cudatext        import ed
-import  cudatext_cmd        as cmds
 import  cudax_lib           as apx
-from    .cd_plug_lib    import *
 
-# I18N
-_       = get_translation(__file__)
+_       = apx.get_translation(__file__)
 
 pass;                           LOG     = (-1==-1)  # Do or don't write log
 
@@ -70,27 +66,41 @@ class Command:
         skip_s      = _('(Line commands) Skip blank lines')
         by1st_s     = _('"Toggle line comment" detects action by first non-blank line')
 
-        aid,vals,chds   = dlg_wrapper(_('Configure commenting commands'), 610, 160,
-             [dict(cid='save',tp='ch'   ,t=5    ,l=5    ,w=600      ,cap=save_s ,hint=save_h) #
-             ,dict(cid='vert',tp='ch'   ,t=5+25 ,l=5    ,w=600      ,cap=vert_s ,hint=vert_h) #
-             ,dict(cid='down',tp='ch'   ,t=5+50 ,l=5    ,w=600      ,cap=down_s             ) #
-             ,dict(cid='skip',tp='ch'   ,t=5+75 ,l=5    ,w=600      ,cap=skip_s             ) #
-             ,dict(cid='by1st',tp='ch'  ,t=5+100,l=5    ,w=600      ,cap=by1st_s            ) #
-             ,dict(cid='!'   ,tp='bt'   ,t=130  ,l=610-165-5,w=80   ,cap=_('OK'), ex0='1'   ) # default
-             ,dict(cid='-'   ,tp='bt'   ,t=130  ,l=610 -80-5,w=80   ,cap=_('Cancel')        )
-             ], dict(save=save_bd_col
-                    ,vert=at_min_bd
-                    ,down=move_down
-                    ,skip=skip_blank
-                    ,by1st=by_1st
-             ), focus_cid='save')
-        if aid is None or aid=='-': return
-        if vals['save'] != save_bd_col: apx.set_opt('comment_save_column'       , vals['save'])
-        if vals['vert'] != at_min_bd:   apx.set_opt('comment_equal_column'      , vals['vert'])
-        if vals['down'] != move_down:   apx.set_opt('comment_move_down'         , vals['down'])
-        if vals['skip'] != skip_blank:  apx.set_opt('comment_skip_blank'        , vals['skip'])
-        if vals['by1st'] != by_1st:     apx.set_opt('comment_toggle_by_nonempty', vals['by1st'])
+        c1 = chr(1)
+        res = app.dlg_custom(_('Configure commenting commands'), 610, 160,
+             '\n'.join([
+                  c1.join(['type=check', 'pos=5,5,600,0',  'cap='+save_s, 'hint='+save_h, 'val='+('1' if save_bd_col else '0')]),
+                  c1.join(['type=check', 'pos=5,30,600,0', 'cap='+vert_s, 'hint='+vert_h, 'val='+('1' if at_min_bd else '0')]),
+                  c1.join(['type=check', 'pos=5,55,600,0', 'cap='+down_s, 'val='+('1' if move_down else '0')]),
+                  c1.join(['type=check', 'pos=5,80,600,0', 'cap='+skip_s, 'val='+('1' if skip_blank else '0')]),
+                  c1.join(['type=check', 'pos=5,105,600,0', 'cap='+by1st_s, 'val='+('1' if by_1st else '0')]),
+                  c1.join(['type=button', 'pos=420,130,510,150', 'cap='+_('OK'), 'ex0=1']),
+                  c1.join(['type=button', 'pos=515,130,605,150', 'cap='+_('Cancel')]),
+                  ]),
+             get_dict=True
+             )
+
+        if res is None:
+            return
+        if res['clicked'] != 5:
+            return
+        val = res[0]=='1'
+        if val != save_bd_col:
+            apx.set_opt('comment_save_column', val)
+        val = res[1]=='1'
+        if val != at_min_bd:
+            apx.set_opt('comment_equal_column', val)
+        val = res[2]=='1'
+        if val != move_down:
+            apx.set_opt('comment_move_down', val)
+        val = res[3]=='1'
+        if val != skip_blank:
+            apx.set_opt('comment_skip_blank', val)
+        val = res[4]=='1'
+        if val != by_1st:
+            apx.set_opt('comment_toggle_by_nonempty', val)
        #def dlg_config
+
 
     def cmt_toggle_line_1st(self):
         return self.work('bgn', '1st')
@@ -170,10 +180,14 @@ class Command:
         lex = ed_.get_prop(app.PROP_LEXER_CARET)
         if not lex:
             return app.msg_status(_('Commenting requires an active lexer'))
+        lex_bat = lex.startswith('Batch ')
+
         prop = app.lexer_proc(app.LEXER_GET_PROP, lex)
         if not prop:
             return
+
         cmt_sgn   = prop['c_line'].rstrip() # remove trailing space, we will force space anyway
+        cmt_sgn_initial = cmt_sgn
         cmt_range = prop['c_str']
         pass; #log('cmt_type, lex, cmt_sgn={}', (cmt_type, lex, cmt_sgn))
 
@@ -238,12 +252,29 @@ class Command:
         else:
             row1st = rWrks[0]
 
+        def detect_line(s):
+            sgn = cmt_sgn_initial
+            ss = s.lstrip().lower()
+            cmt = ss.startswith(sgn.lower())
+            # for Batch lexer, detect additional comments: "::text" and "@Rem text"
+            if not cmt and lex_bat:
+                if ss.startswith('::'):
+                    sgn = '::'
+                    cmt = True
+                elif ss.startswith('@rem '):
+                    sgn = '@rem'
+                    cmt = True
+            return (sgn, cmt)
+
+
         # do we need to 'comment' or 'uncomment'?
-        do_uncmt    = ed_.get_text_line(row1st).lstrip().startswith(cmt_sgn) \
-                        if cmt_act=='bgn' else \
-                      True \
-                        if cmt_act=='del' else \
-                      False
+        sgn_, cmt_ = detect_line(ed_.get_text_line(row1st))
+        do_uncmt = cmt_ \
+                     if cmt_act=='bgn' else \
+                   True \
+                     if cmt_act=='del' else \
+                   False
+
         # work
         col_min_bd  = 1000 # infinity
         col_kept    = False # plugin applied the "Try to keep text position"
@@ -255,7 +286,6 @@ class Command:
                 col_min_bd  = min(pos_body, col_min_bd)
                 if 0==col_min_bd:
                     break # for rWrk
-        blnks4cmt   = ' '*(len(cmt_sgn)+1) # +1 for space
         pass;                  #log('rWrks,do_uncmt, save_cols, at_min_bd, col_min_bd={}', (rWrks,do_uncmt,save_bd_col,at_min_bd,col_min_bd))
 
         for rWrk in rWrks:
@@ -263,13 +293,15 @@ class Command:
             if skip_blank and not line.strip():
                 lines += [line]
                 continue
+            cmt_sgn, line_commented = detect_line(line)
+            blnks4cmt = ' '*(len(cmt_sgn)+1) # +1 for space
+
             pos_body= line.index(line.lstrip())
             pos_body= len(line) if 0==len(line.lstrip()) else pos_body
             pass;              #LOG and log('rWrk,pos_body,line={}', (rWrk,pos_body,line))
             if do_uncmt:
                 # Uncomment!
-                if not line[pos_body:].startswith(cmt_sgn):
-                    # Already no comment
+                if not line_commented:
                     if use_rep_lines:
                         lines += [line]
                     continue    #for rWrk
@@ -279,19 +311,17 @@ class Command:
                 elif save_bd_col and (' '==line[0] or
                                       ' '==line[pos_body+len(cmt_sgn)]):
                     # Before or after cmt_sgn must be blank
-                    if line[pos_body:].startswith(cmt_sgn+' '):
-                        line = line.replace(cmt_sgn+' ', blnks4cmt, 1)
-                    else:
-                        line = line.replace(cmt_sgn, blnks4cmt, 1)
+                    dx = 1 if line[pos_body+len(cmt_sgn):].startswith(' ') else 0
+                    line = line[:pos_body] + blnks4cmt + line[pos_body+len(cmt_sgn)+dx:]
                     col_kept = True
+                    # print('uncmt2')
                 else:
-                    if line[pos_body:].startswith(cmt_sgn+' '):
-                        line = line.replace(cmt_sgn+' ', '', 1)
-                    else:
-                        line = line.replace(cmt_sgn, '', 1)
+                    dx = 1 if line[pos_body:].lower().startswith(cmt_sgn.lower()+' ') else 0
+                    line = line[pos_body+len(cmt_sgn)+dx:]
+                    # print('uncmt1')
             else:
                 # Comment!
-                if cmt_type=='bod' and line[pos_body:].startswith(cmt_sgn):
+                if cmt_type=='bod' and line_commented:
                     # Body comment already set - willnot double it
                     if use_rep_lines:
                         lines += [line]
@@ -300,17 +330,22 @@ class Command:
                 elif cmt_type=='1st' and save_bd_col and line.startswith(blnks4cmt) :
                     line = line.replace(blnks4cmt, cmt_sgn+' ', 1)
                     col_kept = True
+                    #print('cmt1')
                #elif cmt_type=='1st' and save_bd_col #  !line.startswith(blnks4cmt) :
                 elif cmt_type=='1st':#  !save_bd_col
                     line = cmt_sgn+' '+line
+                    #print('cmt2')
                 elif cmt_type=='bod' and save_bd_col and line.startswith(blnks4cmt):
                     col_kept = True
                     pos_cmnt = col_min_bd if at_min_bd else pos_body
                     pass;          #LOG and log('pos_cmnt={}', (pos_cmnt))
                     if pos_cmnt>=len(cmt_sgn):
-                        line = line[:pos_cmnt-len(cmt_sgn)]+cmt_sgn+' '+line[pos_cmnt:             ]
+                        dx = 1 if (pos_cmnt>0 and line[pos_cmnt-1:].startswith(' ')) else 0
+                        line = line[:pos_cmnt-len(cmt_sgn)-dx]+cmt_sgn+' '+line[pos_cmnt:             ]
+                        #print('cmt3a', 'dx:', dx)
                     else:
                         line = line[:pos_cmnt             ]+cmt_sgn+' '+line[pos_cmnt+len(cmt_sgn):]
+                        #print('cmt3b')
                    #line = line[:pos_cmnt-len(cmt_sgn)]+cmt_sgn+line[pos_cmnt:]
                    #line = line[:pos_body-len(cmt_sgn)]+cmt_sgn+line[pos_body:]
                #elif cmt_type=='bod' and save_bd_col #  !line.startswith(blnks4cmt) :
@@ -319,6 +354,7 @@ class Command:
                     pass;      #LOG and log('pos_cmnt={}', (pos_cmnt))
                     line = line[:pos_cmnt]             +cmt_sgn+' '+line[pos_cmnt:]
                    #line = line[:pos_body]             +cmt_sgn+' '+line[pos_body:]
+                    #print('cmt4')
 
             pass;              #LOG and log('new line={}', (line))
             if use_rep_lines:

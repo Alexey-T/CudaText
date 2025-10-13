@@ -9,10 +9,8 @@ Version:
 import  cudatext            as app
 from    cudatext        import ed
 import  cudax_lib           as apx
-from    .cd_plug_lib    import *
 
-# I18N
-_       = get_translation(__file__)
+_       = apx.get_translation(__file__)
 
 pass;                           LOG     = (-1==-1)  # Do or don't write log
 
@@ -68,27 +66,41 @@ class Command:
         skip_s      = _('(Line commands) Skip blank lines')
         by1st_s     = _('"Toggle line comment" detects action by first non-blank line')
 
-        aid,vals,chds   = dlg_wrapper(_('Configure commenting commands'), 610, 160,
-             [dict(cid='save',tp='ch'   ,t=5    ,l=5    ,w=600      ,cap=save_s ,hint=save_h) #
-             ,dict(cid='vert',tp='ch'   ,t=5+25 ,l=5    ,w=600      ,cap=vert_s ,hint=vert_h) #
-             ,dict(cid='down',tp='ch'   ,t=5+50 ,l=5    ,w=600      ,cap=down_s             ) #
-             ,dict(cid='skip',tp='ch'   ,t=5+75 ,l=5    ,w=600      ,cap=skip_s             ) #
-             ,dict(cid='by1st',tp='ch'  ,t=5+100,l=5    ,w=600      ,cap=by1st_s            ) #
-             ,dict(cid='!'   ,tp='bt'   ,t=130  ,l=610-165-5,w=80   ,cap=_('OK'), ex0='1'   ) # default
-             ,dict(cid='-'   ,tp='bt'   ,t=130  ,l=610 -80-5,w=80   ,cap=_('Cancel')        )
-             ], dict(save=save_bd_col
-                    ,vert=at_min_bd
-                    ,down=move_down
-                    ,skip=skip_blank
-                    ,by1st=by_1st
-             ), focus_cid='save')
-        if aid is None or aid=='-': return
-        if vals['save'] != save_bd_col: apx.set_opt('comment_save_column'       , vals['save'])
-        if vals['vert'] != at_min_bd:   apx.set_opt('comment_equal_column'      , vals['vert'])
-        if vals['down'] != move_down:   apx.set_opt('comment_move_down'         , vals['down'])
-        if vals['skip'] != skip_blank:  apx.set_opt('comment_skip_blank'        , vals['skip'])
-        if vals['by1st'] != by_1st:     apx.set_opt('comment_toggle_by_nonempty', vals['by1st'])
+        c1 = chr(1)
+        res = app.dlg_custom(_('Configure commenting commands'), 610, 160,
+             '\n'.join([
+                  c1.join(['type=check', 'pos=5,5,600,0',  'cap='+save_s, 'hint='+save_h, 'val='+('1' if save_bd_col else '0')]),
+                  c1.join(['type=check', 'pos=5,30,600,0', 'cap='+vert_s, 'hint='+vert_h, 'val='+('1' if at_min_bd else '0')]),
+                  c1.join(['type=check', 'pos=5,55,600,0', 'cap='+down_s, 'val='+('1' if move_down else '0')]),
+                  c1.join(['type=check', 'pos=5,80,600,0', 'cap='+skip_s, 'val='+('1' if skip_blank else '0')]),
+                  c1.join(['type=check', 'pos=5,105,600,0', 'cap='+by1st_s, 'val='+('1' if by_1st else '0')]),
+                  c1.join(['type=button', 'pos=420,130,510,150', 'cap='+_('OK'), 'ex0=1']),
+                  c1.join(['type=button', 'pos=515,130,605,150', 'cap='+_('Cancel')]),
+                  ]),
+             get_dict=True
+             )
+
+        if res is None:
+            return
+        if res['clicked'] != 5:
+            return
+        val = res[0]=='1'
+        if val != save_bd_col:
+            apx.set_opt('comment_save_column', val)
+        val = res[1]=='1'
+        if val != at_min_bd:
+            apx.set_opt('comment_equal_column', val)
+        val = res[2]=='1'
+        if val != move_down:
+            apx.set_opt('comment_move_down', val)
+        val = res[3]=='1'
+        if val != skip_blank:
+            apx.set_opt('comment_skip_blank', val)
+        val = res[4]=='1'
+        if val != by_1st:
+            apx.set_opt('comment_toggle_by_nonempty', val)
        #def dlg_config
+
 
     def cmt_toggle_line_1st(self):
         return self.work('bgn', '1st')
