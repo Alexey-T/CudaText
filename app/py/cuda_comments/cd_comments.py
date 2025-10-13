@@ -6,10 +6,8 @@ Version:
     '1.1.0 2025-10-13'
 '''
 
-import  os
 import  cudatext            as app
 from    cudatext        import ed
-import  cudatext_cmd        as cmds
 import  cudax_lib           as apx
 from    .cd_plug_lib    import *
 
