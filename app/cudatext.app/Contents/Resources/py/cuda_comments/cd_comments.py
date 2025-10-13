@@ -314,11 +314,11 @@ class Command:
                     dx = 1 if line[pos_body+len(cmt_sgn):].startswith(' ') else 0
                     line = line[:pos_body] + blnks4cmt + line[pos_body+len(cmt_sgn)+dx:]
                     col_kept = True
-                    # print('uncmt2')
+                    #print('uncmt2')
                 else:
                     dx = 1 if line[pos_body:].lower().startswith(cmt_sgn.lower()+' ') else 0
-                    line = line[pos_body+len(cmt_sgn)+dx:]
-                    # print('uncmt1')
+                    line = line[:pos_body] + line[pos_body+len(cmt_sgn)+dx:]
+                    #print('uncmt1')
             else:
                 # Comment!
                 if cmt_type=='bod' and line_commented:
