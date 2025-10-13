@@ -3,7 +3,7 @@ Authors:
     Andrey Kvichansky (kvichans on github.com)
     Alexey Torgashin (CudaText)
 Version:
-    '1.0.3 2025-09-14'
+    '1.0.4 2025-10-13'
 '''
 
 import  os
@@ -239,7 +239,7 @@ class Command:
             row1st = rWrks[0]
 
         # do we need to 'comment' or 'uncomment'?
-        do_uncmt    = ed_.get_text_line(row1st).lstrip().startswith(cmt_sgn) \
+        do_uncmt    = ed_.get_text_line(row1st).lstrip().lower().startswith(cmt_sgn.lower()) \
                         if cmt_act=='bgn' else \
                       True \
                         if cmt_act=='del' else \
@@ -268,7 +268,7 @@ class Command:
             pass;              #LOG and log('rWrk,pos_body,line={}', (rWrk,pos_body,line))
             if do_uncmt:
                 # Uncomment!
-                if not line[pos_body:].startswith(cmt_sgn):
+                if not line[pos_body:].lower().startswith(cmt_sgn.lower()):
                     # Already no comment
                     if use_rep_lines:
                         lines += [line]
@@ -279,19 +279,17 @@ class Command:
                 elif save_bd_col and (' '==line[0] or
                                       ' '==line[pos_body+len(cmt_sgn)]):
                     # Before or after cmt_sgn must be blank
-                    if line[pos_body:].startswith(cmt_sgn+' '):
-                        line = line.replace(cmt_sgn+' ', blnks4cmt, 1)
-                    else:
-                        line = line.replace(cmt_sgn, blnks4cmt, 1)
+                    dx = 1 if line[pos_body+len(cmt_sgn):].startswith(' ') else 0
+                    line = line[:pos_body] + blnks4cmt + line[pos_body+len(cmt_sgn)+dx:]
                     col_kept = True
+                    # print('uncmt2')
                 else:
-                    if line[pos_body:].startswith(cmt_sgn+' '):
-                        line = line.replace(cmt_sgn+' ', '', 1)
-                    else:
-                        line = line.replace(cmt_sgn, '', 1)
+                    dx = 1 if line[pos_body:].lower().startswith(cmt_sgn.lower()+' ') else 0
+                    line = line[pos_body+len(cmt_sgn)+dx:]
+                    # print('uncmt1')
             else:
                 # Comment!
-                if cmt_type=='bod' and line[pos_body:].startswith(cmt_sgn):
+                if cmt_type=='bod' and line[pos_body:].lower().startswith(cmt_sgn.lower()):
                     # Body comment already set - willnot double it
                     if use_rep_lines:
                         lines += [line]
@@ -300,17 +298,22 @@ class Command:
                 elif cmt_type=='1st' and save_bd_col and line.startswith(blnks4cmt) :
                     line = line.replace(blnks4cmt, cmt_sgn+' ', 1)
                     col_kept = True
+                    #print('cmt1')
                #elif cmt_type=='1st' and save_bd_col #  !line.startswith(blnks4cmt) :
                 elif cmt_type=='1st':#  !save_bd_col
                     line = cmt_sgn+' '+line
+                    #print('cmt2')
                 elif cmt_type=='bod' and save_bd_col and line.startswith(blnks4cmt):
                     col_kept = True
                     pos_cmnt = col_min_bd if at_min_bd else pos_body
                     pass;          #LOG and log('pos_cmnt={}', (pos_cmnt))
                     if pos_cmnt>=len(cmt_sgn):
-                        line = line[:pos_cmnt-len(cmt_sgn)]+cmt_sgn+' '+line[pos_cmnt:             ]
+                        dx = 1 if (pos_cmnt>0 and line[pos_cmnt-1:].startswith(' ')) else 0
+                        line = line[:pos_cmnt-len(cmt_sgn)-dx]+cmt_sgn+' '+line[pos_cmnt:             ]
+                        #print('cmt3a', 'dx:', dx)
                     else:
                         line = line[:pos_cmnt             ]+cmt_sgn+' '+line[pos_cmnt+len(cmt_sgn):]
+                        #print('cmt3b')
                    #line = line[:pos_cmnt-len(cmt_sgn)]+cmt_sgn+line[pos_cmnt:]
                    #line = line[:pos_body-len(cmt_sgn)]+cmt_sgn+line[pos_body:]
                #elif cmt_type=='bod' and save_bd_col #  !line.startswith(blnks4cmt) :
@@ -319,6 +322,7 @@ class Command:
                     pass;      #LOG and log('pos_cmnt={}', (pos_cmnt))
                     line = line[:pos_cmnt]             +cmt_sgn+' '+line[pos_cmnt:]
                    #line = line[:pos_body]             +cmt_sgn+' '+line[pos_body:]
+                    #print('cmt4')
 
             pass;              #LOG and log('new line={}', (line))
             if use_rep_lines:
