@@ -183,7 +183,9 @@ begin
           if Ed.Modified then
             DoFileSave(Frame, Ed);
           AppOpenDocument(Ed.FileName);
-        end;
+        end
+        else
+          MsgStatus(msgCannotHandleUntitledTab);
       end;
 
     cmd_ToggleFocusSplitEditors:
