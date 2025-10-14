@@ -178,7 +178,12 @@ begin
 
     cmd_OpenFileInDefaultApp:
       begin
-        AppOpenDocument(Ed.FileName);
+        if Ed.FileName<>'' then
+        begin
+          if Ed.Modified then
+            Ed.DoCommand(cmd_FileSave, TATCommandInvoke.AppInternal);
+          AppOpenDocument(Ed.FileName);
+        end;
       end;
 
     cmd_ToggleFocusSplitEditors:
