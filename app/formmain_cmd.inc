@@ -178,10 +178,10 @@ begin
 
     cmd_OpenFileInDefaultApp:
       begin
-        if Ed.FileName<>'' then
+        if Assigned(Frame) and (Ed.FileName<>'') then
         begin
           if Ed.Modified then
-            Ed.DoCommand(cmd_FileSave, TATCommandInvoke.AppInternal);
+            DoFileSave(Frame, Ed);
           AppOpenDocument(Ed.FileName);
         end;
       end;
