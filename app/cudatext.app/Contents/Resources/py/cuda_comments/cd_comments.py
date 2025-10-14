@@ -3,7 +3,7 @@ Authors:
     Andrey Kvichansky (kvichans on github.com)
     Alexey Torgashin (CudaText)
 Version:
-    '1.1.0 2025-10-13'
+    '1.1.1 2025-10-14'
 '''
 
 import  cudatext            as app
@@ -196,7 +196,7 @@ class Command:
                 self.line_cmt_by_range_cmt(ed_, cmt_range[0], cmt_range[1], cmt_act, cmt_type)
                 return
 
-            return app.msg_status(f(_('Lexer "{}" doesn\'t support "line comments"'), lex))
+            return app.msg_status(_('Lexer "{}" doesn\'t support "line comments"').format(lex))
 
         # Analyze
         empty_sel   = False
@@ -386,13 +386,13 @@ class Command:
     def cmt_toggle_stream(self):
         '''Toggle stream comment'''
         if ed.get_sel_mode() != app.SEL_NORMAL:
-            return app.msg_status(f(_('{} works only with normal selection'), _('Commenting')))
+            return app.msg_status(_('Commenting works only with normal selection'))
         lex     = ed.get_prop(app.PROP_LEXER_CARET)
         if not lex:
             return app.msg_status(_('Commenting requires an active lexer'))
         ((bgn_sgn, end_sgn), bOnlyLn) = self._get_cmt_pair(lex)
         if not bgn_sgn:
-            return app.msg_status(f(_('No stream comment for lexer "{}"'), lex))
+            return app.msg_status(_('No stream comment for lexer "{}"').format(lex))
         crts    = ed.get_carets()
         pass;                  #LOG and log('lex, get_carets()={}', (lex, crts))
         pass;                  #LOG and log('(bgn_sgn,end_sgn),bOnlyLn,bUseFLn={}', ((bgn_sgn,end_sgn),bOnlyLn,bUseFLn))
