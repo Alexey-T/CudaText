@@ -4,9 +4,9 @@ You can add/remove code comments, via "Comments" plugin. Plugin is preinstalled 
 
 * '''Line comments''': from some position to the nearest end-of-line. E.g. in C lexer: "//text here", in Python lexer: "# text here".
 * '''Comments for range''' ('''Stream comments'''): from some text position to some bigger text position, often in the different line. E.g. in C lexer: "/* text here */".
-* '''Comments for full lines''': from newline to another newline, ie comment for several whole lines. Rarely used, e.g. used in PowerShell.
+* '''Comments for full lines''': from newline to another newline, ie comment for several whole lines. Rarely used.
 
-For example, Python lexer supports only line comment, and don't support stream comments. PowerShell lexer supports comments for full lines, while don't support comments for any range.
+For example, Python lexer supports only line comment, and don't support stream comments.
 
 Comment chars are editable in SynWrite editor, in dialog "Lexer properties" (after you install the same lexer to SynWrite). In dialog tab "Commenting" you'll see input fields.
 
