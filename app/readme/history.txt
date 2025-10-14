@@ -5,11 +5,12 @@
 
 1.229.0 (2025/10)
 
-* change: top menu location of item "Command palette" changed from "Help" submenu to "View" submenu, like in VSCode
 + add: Windows 10+: support huge filenames longer than 260 chars (idea by @roberdaniel)
 + add: show note in Console about situation "cannot restore code-tree nodes folding for duplicate captions" (idea by @mix-7)
 + add: Comments-plugin: in Batch lexer, can uncomment 'Rem'/'REM' (in any casing), '@rem', '::' (idea by @badrelmers)
 + add: file-change-notifier in external programs now suggests to reload, if file was externally deleted and then restored back (thanks @badrelmers)
+* change: top menu location of item "Command palette" changed from "Help" submenu to "View" submenu, like in VSCode
+* change: command "open file in default application" now saves modified file first (idea by @MarianD)
 
 1.228.3 (2025/09)
 
