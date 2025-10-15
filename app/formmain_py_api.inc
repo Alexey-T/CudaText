@@ -22,7 +22,7 @@ var
 var
   AppEmmet: TEmmet = nil;
 
-procedure MsgLogConsoleOnDuplicateTreeNode(ANode: TTreeNode);
+procedure MsgLogConsoleOnDuplicateTreeNode(ANode: TTreeNode; const AFileName: string);
 var
   Obj: TObject;
   NLine: integer;
@@ -33,9 +33,9 @@ begin
   if Obj is TATRangeInCodeTree then
   begin
     NLine:= (Obj as TATRangeInCodeTree).PosBegin.Y;
-    S+= '(line '+IntToStr(NLine+1)+') ';
+    S+= Format('file "%s", line %d, ', [ExtractFileName(AFileName), NLine+1]);
   end;
-  S+= ANode.Text;
+  S+= Format('node "%s"', [ANode.Text]);
   MsgLogConsole(S);
 end;
 
@@ -8979,6 +8979,7 @@ begin
                   TreeContainer.Tree,
                   UiOps.TreeFillMaxTimeForAPI,
                   UiOps.TreeKeepNodesFolding,
+                  Ed.FileName,
                   @MsgLogConsoleOnDuplicateTreeNode
                   );
               Result:= ReturnTrue;

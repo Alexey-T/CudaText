@@ -1312,6 +1312,7 @@ begin
           CodeTree.Tree,
           UiOps.TreeFillMaxTime,
           UiOps.TreeKeepNodesFolding,
+          Ed.FileName,
           @MsgLogConsoleOnDuplicateTreeNode
           );
         //Tick:= GetTickCount64-Tick;
