@@ -6495,7 +6495,9 @@ begin
     Ed.Modified:= false;
   end
   else
+  begin
     F.DoFileReload(Ed);
+  end;
 
   UpdateStatusbar;
   MsgStatus(msgStatusReopened+' "'+ExtractFileName(fn)+'"');

@@ -3542,6 +3542,8 @@ begin
 
   DoOnUpdateStatusbar(TAppStatusbarUpdateReason.FileReload);
 
+  DoPyEvent(Ed, TAppPyEvent.OnOpenReopen, []);
+
   //fire 'on_change_slow' and disable its timer
   TimerChangeTimer(nil);
 end;

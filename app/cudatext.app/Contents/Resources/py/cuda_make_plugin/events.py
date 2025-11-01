@@ -35,6 +35,7 @@ EVENTS = [
     'on_open',
     'on_open_none',
     'on_open_pre',
+    'on_open_reopen',
     'on_output_nav',
     'on_paste',
     'on_save',
