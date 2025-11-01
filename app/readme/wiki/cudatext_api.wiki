@@ -26,7 +26,7 @@ Event handlers (Command.on_nnnnn methods) return-value is ignored is many cases,
 * <code>on_open(self, ed_self)</code>: Called after file is opened from disk.
 * <code>on_open_pre(self, ed_self, filename)</code>: Called before file opening. Method can return False to disable opening, other value is ignored.
 * <code>on_open_none(self, ed_self)</code>: Called after file is opened, and none lexer was detected/set for it.
-* <code>on_open_reopen(self, ed_self)</code>: Called after file is re-opened (with any reason: manual reopening of file, automatic reopening from file-change-notification etc).
+* <code>on_open_reopen(self, ed_self)</code>: Called after file is re-opened (with any reason: manual reopening via menuitem "File / Reopen", reopening from file-change-notification-panel button, automatic reopening from file-change-nofitication).
 * <code>on_close_pre(self, ed_self)</code>: Called before closing tab, before checking if tab modified or not. Method can return False to disable closing.
 * <code>on_close(self, ed_self)</code>: Called before closing tab, after modified file was saved, and editor is still active.
 * <code>on_save(self, ed_self)</code>: Called after saving file.
