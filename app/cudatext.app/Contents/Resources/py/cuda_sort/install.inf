@@ -12,13 +12,13 @@ method=sort_asc_nocase
 
 [item2]
 section=commands
-caption=Sort\Sort descending, ignore case
-method=sort_desc_nocase
+caption=Sort\Sort ascending, case sensitive
+method=sort_asc
 
 [item3]
 section=commands
-caption=Sort\Sort ascending, case sensitive
-method=sort_asc
+caption=Sort\Sort descending, ignore case
+method=sort_desc_nocase
 
 [item4]
 section=commands
