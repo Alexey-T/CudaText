@@ -7,23 +7,24 @@ homepage=https://github.com/CudaText-addons/cuda_sort
 
 [item1]
 section=commands
-caption=Sort\Sort, asc.
-method=sort_asc
+caption=Sort\Sort ascending, ignore case
+method=sort_asc_nocase
 
 [item2]
 section=commands
-caption=Sort\Sort, desc.
-method=sort_desc
+caption=Sort\Sort descending, ignore case
+method=sort_desc_nocase
 
 [item3]
 section=commands
-caption=Sort\Sort, asc., ignore case
-method=sort_asc_nocase
+caption=Sort\Sort ascending, case sensitive
+method=sort_asc
 
 [item4]
 section=commands
-caption=Sort\Sort, desc., ignore case
-method=sort_desc_nocase
+caption=Sort\Sort descending, case sensitive
+method=sort_desc
+
 
 [item19]
 section=commands
