@@ -5169,9 +5169,20 @@ var
 begin
   if not Visible then exit;
   for i:= 0 to 1 do
+  begin
     if Assigned(NotifReloadControls[i].Panel) then
       if NotifReloadControls[i].Panel.Visible then
+      begin
         NotifReloadControls[i].ButtonYes.SetFocus;
+        exit;
+      end;
+    if Assigned(NotifDeletedControls[i].Panel) then
+      if NotifDeletedControls[i].Panel.Visible then
+      begin
+        NotifDeletedControls[i].ButtonYes.SetFocus;
+        exit;
+      end;
+  end;
 end;
 
 procedure TEditorFrame.DoHideNotificationPanel(const AControls: TAppFrameNotificationControls);
