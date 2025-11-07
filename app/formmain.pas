@@ -2897,7 +2897,7 @@ begin
   DoControl_InitPropsObject(CodeTree, PanelCodeTreeAll, 'treeview');
   CodeTree.Parent:= PanelCodeTreeAll;
   CodeTree.Align:= alClient;
-  CodeTree.ScrollbarsModern:= true;
+  CodeTree.ScrollbarsNew:= EditorOps.OpScrollbarsNew;
   CodeTree.Tree.OnClick:= @DoCodetree_OnClick;
   CodeTree.Tree.OnDblClick:= @DoCodetree_OnDblClick;
   CodeTree.Tree.OnMouseMove:= @DoCodetree_OnMouseMove;
@@ -4667,6 +4667,7 @@ begin
 
   TimerTreeFill.Interval:= UiOps.TreeTimeFill;
   CodeTree.Tree.ToolTips:= UiOps.TreeShowTooltips;
+  CodeTree.ScrollbarsNew:= EditorOps.OpScrollbarsNew;
   CodeTree.Invalidate;
 
   EditorApplyOpsCommon(CodeTreeFilterInput);

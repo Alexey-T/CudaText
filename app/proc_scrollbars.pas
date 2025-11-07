@@ -28,7 +28,7 @@ type
 
   TAppTreeView = class(TTreeView)
   private
-    procedure UpdateBars; inline;
+    procedure UpdateBars;
   protected
     procedure DoSelectionChanged; override;
     procedure Resize; override;
@@ -55,20 +55,20 @@ type
   private
     FScrollbarVert: TATScrollbar;
     FScrollbarHorz: TATScrollbar;
-    FScrollbarsModern: boolean;
+    FScrollbarsNew: boolean;
     procedure ScrollHorzChange(Sender: TObject);
     procedure ScrollVertChange(Sender: TObject);
-    procedure SetScrollbarsModern(AValue: boolean);
+    procedure SetScrollbarsNew(AValue: boolean);
     procedure TreeOnDeletion(Sender: TObject; Node: TTreeNode);
     procedure UpdateScrollbars;
   public
     Tree: TAppTreeView;
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
-    property ScrollbarsModern: boolean read FScrollbarsModern write SetScrollbarsModern;
-    procedure SetFocus; override;
+    property ScrollbarsNew: boolean read FScrollbarsNew write SetScrollbarsNew;
     property ScrollbarVert: TATScrollbar read FScrollbarVert;
     property ScrollbarHorz: TATScrollbar read FScrollbarHorz;
+    procedure SetFocus; override;
     procedure Invalidate; override;
   end;
 
@@ -99,7 +99,7 @@ begin
   FScrollbarHorz.IndentCorner:= 100;
   FScrollbarHorz.OnChange:= @ScrollHorzChange;
 
-  SetScrollbarsModern(false);
+  SetScrollbarsNew(false);
   UpdateScrollbars;
 end;
 
@@ -137,12 +137,12 @@ begin
   Tree.ScrolledLeft:= FScrollbarHorz.Position;
 end;
 
-procedure TAppTreeContainer.SetScrollbarsModern(AValue: boolean);
+procedure TAppTreeContainer.SetScrollbarsNew(AValue: boolean);
 begin
-  FScrollbarsModern:= AValue;
-  FScrollbarVert.Visible:= FScrollbarsModern;
-  FScrollbarHorz.Visible:= FScrollbarsModern;
-  if FScrollbarsModern then
+  FScrollbarsNew:= AValue;
+  FScrollbarVert.Visible:= FScrollbarsNew;
+  FScrollbarHorz.Visible:= FScrollbarsNew;
+  if FScrollbarsNew then
     Tree.ScrollBars:= ssNone
   else
     Tree.ScrollBars:= ssAutoBoth;
@@ -158,23 +158,40 @@ begin
 end;
 
 procedure TAppTreeContainer.UpdateScrollbars;
+var
+  Info: TScrollInfo;
 begin
   if Tree=nil then exit;
-  if FScrollbarVert=nil then exit;
-  if FScrollbarHorz=nil then exit;
 
-  FScrollbarVert.Min:= 0;
-  FScrollbarVert.PageSize:= Tree.Height;
-  FScrollbarVert.Max:= Tree.GetMaxScrollTop+FScrollbarVert.PageSize;
-  FScrollbarVert.Position:= Tree.ScrolledTop;
+  if Assigned(FScrollbarVert) and ScrollbarsNew then
+  begin
+    FScrollbarVert.Min:= 0;
+    FScrollbarVert.PageSize:= Tree.Height;
+    FScrollbarVert.Max:= Tree.GetMaxScrollTop+FScrollbarVert.PageSize;
+    FScrollbarVert.Position:= Tree.ScrolledTop;
+    FScrollbarVert.Update;
+  end;
 
-  FScrollbarHorz.Min:= 0;
-  FScrollbarHorz.PageSize:= Max(1, Tree.ClientWidth);
-  FScrollbarHorz.Max:= Max(1, Tree.GetMaxScrollLeft+FScrollbarHorz.PageSize);
-  FScrollbarHorz.Position:= Max(0, Tree.ScrolledLeft);
+  if Assigned(FScrollbarHorz) and ScrollbarsNew then
+  begin
+    FScrollbarHorz.Min:= 0;
+    FScrollbarHorz.PageSize:= Max(1, Tree.ClientWidth);
+    FScrollbarHorz.Max:= Max(1, Tree.GetMaxScrollLeft+FScrollbarHorz.PageSize);
+    FScrollbarHorz.Position:= Max(0, Tree.ScrolledLeft);
+    FScrollbarHorz.Update;
+  end;
 
-  FScrollbarVert.Update;
-  FScrollbarHorz.Update;
+  if not ScrollbarsNew and Tree.HandleAllocated then
+  begin
+    Info:= Default(TScrollInfo);
+    Info.cbSize:= SizeOf(Info);
+    Info.nMin:= 0;
+    Info.nMax:= Tree.GetMaxScrollTop+Tree.Height;
+    Info.nPage:= Tree.Height;
+    Info.nPos:= Tree.ScrolledTop;
+    Info.fMask:= SIF_ALL;
+    SetScrollInfo(Tree.Handle, SB_Vert, @Info, true);
+  end;
 end;
 
 { TAppTreeView }

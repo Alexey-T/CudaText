@@ -8000,7 +8000,7 @@ begin
 
         TREE_THEME:
           begin
-            TreeContainer.ScrollbarsModern:= true;
+            TreeContainer.ScrollbarsNew:= EditorOps.OpScrollbarsNew;
             ApplyThemeToTreeview(TreeContainer.Tree, true, false);
             Result:= ReturnNone;
           end;

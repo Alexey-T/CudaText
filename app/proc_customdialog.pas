@@ -1016,6 +1016,7 @@ begin
   begin
     Ctl:= TATListbox.Create(AForm);
     TATListbox(Ctl).Theme:= @AppApiFlatTheme;
+    TATListbox(Ctl).ThemedScrollbar:= EditorOps.OpScrollbarsNew;
     TATListbox(Ctl).DoubleBuffered:= UiOps.DoubleBuffered;
     TATListbox(Ctl).VirtualMode:= false;
     TATListbox(Ctl).CanGetFocus:= true;
