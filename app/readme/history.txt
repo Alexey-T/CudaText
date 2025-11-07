@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.229.1 (2025/11)
+1.229.2 (2025/11)
 
 + add: new API to allow plugin 'File Type Profile' to apply changes on 'file is reloaded' event (thanks @dinkumoil)
 - fix: sorting commands "(without undo) sort ...." may give different sort order on each run, if lines have unicode chars (thanks @pintassilgo)
