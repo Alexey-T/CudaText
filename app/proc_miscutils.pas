@@ -92,7 +92,7 @@ procedure DoTreeviewJump(ATree: TTreeView; AMode: TAppTreeGoto);
 procedure DoTreeviewFoldLevel(ATree: TTreeView; ALevel: integer);
 procedure DoTreeviewCopy(Src, Dst: TTreeView);
 
-procedure ApplyThemeToTreeview(C: TTreeview; AThemed, AChangeShowRoot: boolean);
+procedure ApplyThemeToTreeview(C: TTreeview; AThemedColors, AChangeShowRoot: boolean);
 procedure ApplyThemeToToolbar(C: TATFlatToolbar);
 procedure ApplyThemeToImageBox(AImageBox: TATImageBox);
 
@@ -498,11 +498,11 @@ begin
 end;
 
 
-procedure ApplyThemeToTreeview(C: TTreeview; AThemed, AChangeShowRoot: boolean);
+procedure ApplyThemeToTreeview(C: TTreeview; AThemedColors, AChangeShowRoot: boolean);
 var
   Op: TTreeViewOptions;
 begin
-  if AThemed then
+  if AThemedColors then
   begin
     C.Font.Name:= UiOps.VarFontName;
     C.Font.Size:= ATEditorScaleFont(UiOps.VarFontSize);
@@ -550,7 +550,7 @@ begin
 
   C.Options:= Op;
 
-  if AThemed then
+  if UiOps.ScrollbarsNew then
     C.ScrollBars:= ssNone
   else
     C.ScrollBars:= ssVertical;

@@ -20,7 +20,7 @@ begin
         EditorApplyTheme(TATSynEdit(C));
 
     if C is TAppTreeContainer then
-      if TAppTreeContainer(C).ScrollbarsNew then
+      if TAppTreeContainer(C).ThemedColors then
         ApplyThemeToTreeview(TAppTreeContainer(C).Tree, true, false);
 
     if C is TATFlatToolbar then

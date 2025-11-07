@@ -53,6 +53,7 @@ type
 
   TAppTreeContainer = class(TCustomControl)
   private
+    FThemedColors: boolean;
     FScrollbarVert: TATScrollbar;
     FScrollbarHorz: TATScrollbar;
     FScrollbarsNew: boolean;
@@ -65,6 +66,7 @@ type
     Tree: TAppTreeView;
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
+    property ThemedColors: boolean read FThemedColors write FThemedColors;
     property ScrollbarsNew: boolean read FScrollbarsNew write SetScrollbarsNew;
     property ScrollbarVert: TATScrollbar read FScrollbarVert;
     property ScrollbarHorz: TATScrollbar read FScrollbarHorz;
@@ -99,7 +101,8 @@ begin
   FScrollbarHorz.IndentCorner:= 100;
   FScrollbarHorz.OnChange:= @ScrollHorzChange;
 
-  SetScrollbarsNew(false);
+  ThemedColors:= false;
+  ScrollbarsNew:= false;
   UpdateScrollbars;
 end;
 
