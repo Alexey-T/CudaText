@@ -1440,8 +1440,8 @@ begin
   edFind.OptPasteWithEolAtLineStart:= EditorOps.OpPasteWithEolAtLineStart;
   edRep.OptPasteWithEolAtLineStart:= EditorOps.OpPasteWithEolAtLineStart;
 
-  edFind.OptScrollbarsNew:= EditorOps.OpScrollbarsNew;
-  edRep.OptScrollbarsNew:= EditorOps.OpScrollbarsNew;
+  edFind.OptScrollbarsNew:= UiOps.ScrollbarsNew;
+  edRep.OptScrollbarsNew:= UiOps.ScrollbarsNew;
 
   EditorCaretShapeFromString(edFind.CaretShapeNormal, EditorOps.OpCaretViewNormal);
   EditorCaretShapeFromString(edFind.CaretShapeOverwrite, EditorOps.OpCaretViewOverwrite);

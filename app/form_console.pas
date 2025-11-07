@@ -385,7 +385,7 @@ begin
   IsDoubleBuffered:= UiOps.DoubleBuffered;
 
   EdMemo.OptWrapMode:= TATEditorWrapMode.ModeOn;
-  EdMemo.OptScrollbarsNew:= EditorOps.OpScrollbarsNew;
+  EdMemo.OptScrollbarsNew:= UiOps.ScrollbarsNew;
   EdMemo.OptUndoLimit:= 0;
 
   EdMemo.OptTabSize:= 4;

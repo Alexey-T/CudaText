@@ -402,6 +402,7 @@ type
     ConfirmLinksClicks: boolean;
     ConfirmSaveEmptyUntitledTab: boolean;
     SplittersUsePoorStyle: boolean;
+    ScrollbarsNew: boolean;
 
     ExportHtmlNumbers: boolean;
     ExportHtmlFontName: string;
@@ -555,7 +556,6 @@ type
     OpFontLigatures: boolean;
     OpFlickerReducingPause: integer;
 
-    OpScrollbarsNew: boolean;
     OpSpacingTop: integer;
     OpSpacingBottom: integer;
     OpTabSize: integer;
@@ -1832,7 +1832,6 @@ begin
     OpFontLigatures:= true;
     OpFlickerReducingPause:= 0;
 
-    OpScrollbarsNew:= true;
     OpSpacingTop:= 0;
     OpSpacingBottom:= 1;
 
@@ -2224,6 +2223,7 @@ begin
     ConfirmLinksClicks:= true;
     ConfirmSaveEmptyUntitledTab:= false;
     SplittersUsePoorStyle:= true;
+    ScrollbarsNew:= true;
 
     ExportHtmlNumbers:= false;
     ExportHtmlFontSize:= 12;
