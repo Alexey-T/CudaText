@@ -8,6 +8,7 @@
 + add: new API to allow plugin 'File Type Profile' to apply changes on 'file is reloaded' event (thanks @dinkumoil)
 - fix: sorting commands "(without undo) sort ...." may give different sort order on each run, if lines have unicode chars (thanks @pintassilgo)
 - fix: sorting commands "(without undo) sort ...." gave different sort order on Windows/Linux (thanks @pintassilgo)
++ add: option "scrollbar_themed" now has effect also for sidebar: Code-Tree, Project Manager, Snippet Panel etc (idea by @badrelmers)
 * change: internal sorting commands renamed/reordered in the Cmd Palette (thanks @pintassilgo)
 
 1.229.0 (2025/10)
