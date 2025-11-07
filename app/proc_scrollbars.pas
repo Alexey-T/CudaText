@@ -55,17 +55,17 @@ type
   private
     FScrollbarVert: TATScrollbar;
     FScrollbarHorz: TATScrollbar;
-    FThemed: boolean;
+    FScrollbarsModern: boolean;
     procedure ScrollHorzChange(Sender: TObject);
     procedure ScrollVertChange(Sender: TObject);
-    procedure SetThemed(AValue: boolean);
+    procedure SetScrollbarsModern(AValue: boolean);
     procedure TreeOnDeletion(Sender: TObject; Node: TTreeNode);
     procedure UpdateScrollbars;
   public
     Tree: TAppTreeView;
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
-    property Themed: boolean read FThemed write SetThemed;
+    property ScrollbarsModern: boolean read FScrollbarsModern write SetScrollbarsModern;
     procedure SetFocus; override;
     property ScrollbarVert: TATScrollbar read FScrollbarVert;
     property ScrollbarHorz: TATScrollbar read FScrollbarHorz;
@@ -99,7 +99,7 @@ begin
   FScrollbarHorz.IndentCorner:= 100;
   FScrollbarHorz.OnChange:= @ScrollHorzChange;
 
-  SetThemed(false);
+  SetScrollbarsModern(false);
   UpdateScrollbars;
 end;
 
@@ -137,12 +137,12 @@ begin
   Tree.ScrolledLeft:= FScrollbarHorz.Position;
 end;
 
-procedure TAppTreeContainer.SetThemed(AValue: boolean);
+procedure TAppTreeContainer.SetScrollbarsModern(AValue: boolean);
 begin
-  FThemed:= AValue;
-  FScrollbarVert.Visible:= FThemed;
-  FScrollbarHorz.Visible:= FThemed;
-  if FThemed then
+  FScrollbarsModern:= AValue;
+  FScrollbarVert.Visible:= FScrollbarsModern;
+  FScrollbarHorz.Visible:= FScrollbarsModern;
+  if FScrollbarsModern then
     Tree.ScrollBars:= ssNone
   else
     Tree.ScrollBars:= ssAutoBoth;

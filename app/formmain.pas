@@ -2897,7 +2897,7 @@ begin
   DoControl_InitPropsObject(CodeTree, PanelCodeTreeAll, 'treeview');
   CodeTree.Parent:= PanelCodeTreeAll;
   CodeTree.Align:= alClient;
-  CodeTree.Themed:= true;
+  CodeTree.ScrollbarsModern:= true;
   CodeTree.Tree.OnClick:= @DoCodetree_OnClick;
   CodeTree.Tree.OnDblClick:= @DoCodetree_OnDblClick;
   CodeTree.Tree.OnMouseMove:= @DoCodetree_OnMouseMove;
