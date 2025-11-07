@@ -25,6 +25,22 @@ section=commands
 caption=Sort\Sort descending, case sensitive
 method=sort_desc
 
+[item10]
+section=commands
+caption=Sort\Fast native-code commands, but without Undo\(without Undo) Sort ascending, ignore case
+method=native_sort_asc_nocase
+[item11]
+section=commands
+caption=Sort\Fast native-code commands, but without Undo\(without Undo) Sort ascending, case sensitive
+method=native_sort_asc_casesens
+[item12]
+section=commands
+caption=Sort\Fast native-code commands, but without Undo\(without Undo) Sort descending, ignore case
+method=native_sort_desc_nocase
+[item13]
+section=commands
+caption=Sort\Fast native-code commands, but without Undo\(without Undo) Sort descending, case sensitive
+method=native_sort_desc_casesens
 
 [item19]
 section=commands
@@ -152,24 +168,3 @@ section=commands
 caption=Sort\Config
 method=config
 menu=o
-
-[item300]
-section=commands
-caption=Sort\-
-method=_
-[item301]
-section=commands
-caption=Sort\Fast native-code commands, but without Undo\(without Undo) Sort ascending, ignore case
-method=native_sort_asc_nocase
-[item302]
-section=commands
-caption=Sort\Fast native-code commands, but without Undo\(without Undo) Sort ascending, case sensitive
-method=native_sort_asc_casesens
-[item303]
-section=commands
-caption=Sort\Fast native-code commands, but without Undo\(without Undo) Sort descending, ignore case
-method=native_sort_desc_nocase
-[item304]
-section=commands
-caption=Sort\Fast native-code commands, but without Undo\(without Undo) Sort descending, case sensitive
-method=native_sort_desc_casesens
