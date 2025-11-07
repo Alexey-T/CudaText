@@ -8,6 +8,7 @@ from .sort_emails import *
 from .sort_sep import *
 from .sort_numeric import *
 from .sort_dlg import *
+import cudatext_cmd as cmds
 
 _   = get_translation(__file__)  # I18N
 
@@ -317,3 +318,15 @@ class Command:
             ed.set_caret(0, index)
         except:
             pass
+
+    def native_sort_asc_nocase(self):
+        ed.cmd(cmds.cCommand_Sort_AscNoCase)
+
+    def native_sort_asc_casesens(self):
+        ed.cmd(cmds.cCommand_Sort_Asc)
+
+    def native_sort_desc_nocase(self):
+        ed.cmd(cmds.cCommand_Sort_DescNoCase)
+
+    def native_sort_desc_casesens(self):
+        ed.cmd(cmds.cCommand_Sort_Desc)
