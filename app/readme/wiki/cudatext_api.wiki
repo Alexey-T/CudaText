@@ -5191,7 +5191,7 @@ It provides:
 * add: app_proc: PROC_GET_FINDER_PROP/PROC_SET_FINDER_PROP support new keys "focus", "is_replace"
 * add: app_proc: PROC_GET_FINDER_BUTTONS
 
-1.0.466 (app 1.229.1)
+1.0.466 (app 1.229.5)
 * add: event on_open_reopen
 
 [[Category:CudaText]]
