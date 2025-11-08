@@ -506,6 +506,7 @@
 
   //Use custom-painted scrollbars in the editor / Code-Tree / Project Manager / etc,
   //instead of OS-painted scrollbars.
+  //Changing requires app restart.
   "scrollbar_themed": true,
 
   //Width of (application-themed) scrollbars, before applying UI scaling.
