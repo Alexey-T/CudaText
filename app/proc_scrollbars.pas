@@ -15,6 +15,7 @@ uses
   {$ifdef windows}
   Windows, Messages,
   {$endif}
+  LCLIntf, //SetScrollInfo
   Classes, SysUtils, Controls, Graphics, StdCtrls, ComCtrls, Forms,
   LMessages, LCLType,
   ATScrollBar,
@@ -193,7 +194,7 @@ begin
     Info.nPage:= Tree.Height;
     Info.nPos:= Tree.ScrolledTop;
     Info.fMask:= SIF_ALL;
-    SetScrollInfo(Tree.Handle, SB_Vert, @Info, true);
+    LCLIntf.SetScrollInfo(Tree.Handle, SB_VERT, Info, true);
   end;
 end;
 
