@@ -1753,12 +1753,33 @@ Create the file "[CudaText]/settings/lsp_py.json" with text like this:
     "Python": "python"
   },
   "cmd_windows": ["pylsp.exe"],
-  "cmd_macos": ["pylsp"],
-  "cmd_unix": ["pylsp"]
+  "cmd_unix": ["pylsp"],
+  "cmd_macos": ["pylsp"]
 }
 </syntaxhighlight>
 
 Open some Python script, and call some commands of LSP Client. It will run the server, and it should work.
+
+Recent version of LSP Client supports fuzzy search in the auto-completion list. For Python server, fuzzy search needs additional option in the lsp_py.json:
+
+<syntaxhighlight lang="json">
+{
+  "lexers": {
+    "Python": "python"
+  },
+  "cmd_windows": ["pylsp.exe"],
+  "cmd_unix": ["pylsp"],
+  "cmd_macos": ["pylsp"],
+
+  "settings": {
+    "pylsp": {
+      "plugins": {
+        "jedi_completion": { "fuzzy": true },
+      }
+    }
+  }
+}
+</syntaxhighlight>
 
 ==LSP server for Python, pyright==
 
