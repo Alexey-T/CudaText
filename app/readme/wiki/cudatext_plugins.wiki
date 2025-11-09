@@ -1781,6 +1781,13 @@ Recent version of LSP Client supports fuzzy search in the auto-completion list. 
 }
 </syntaxhighlight>
 
+Fuzzy search can be tested on this sample script, it must show auto-completion item "write" for "f.wi":
+
+<syntaxhighlight lang="python">
+f = open("a.txt", "w")
+f.wi
+</syntaxhighlight>
+
 ==LSP server for Python, pyright==
 
 1. Install the server:
