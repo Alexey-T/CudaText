@@ -955,6 +955,7 @@ Possible properties:
 * "texthint": text, shown with italic+pale font when value of control is empty. For "edit", "memo", "editor", "editor_edit", "editor_combo". Cannot be multi-line.
 * "color": background color
 * "autosize": control is auto-sized (by width and/or height, it's control-specific)
+* "cursor": control's mouse cursor shape, one of CURSOR_xxxx constants
 * "font_name": font name
 * "font_size": font size
 * "font_color": font color
