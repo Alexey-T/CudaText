@@ -162,49 +162,83 @@ class Command:
         count = hh[-1]-hh[0]+1
         format_len = 1 if count<10 else 2 if count<100 else 3 if count<1000 else 4
 
+        # Group editors by their group index
+        groups = {}
         for h in handles:
             edit = Editor(h)
             title = edit.get_prop(PROP_TAB_TITLE)
             if filter_text and not (filter_text.lower() in title.lower()):
                 continue
-            self.listed_editors.append(edit)
+            
+            group_idx = edit.get_prop(PROP_INDEX_GROUP)
+            if group_idx not in groups:
+                groups[group_idx] = []
+            groups[group_idx].append(edit)
 
-            image_index = h-handles[0]
+        # Sort groups by index
+        sorted_groups = sorted(groups.items())
+        show_group_headers = len(sorted_groups) > 1
 
-            prefix = ''
-            show_g = self.show_index_group
-            show_t = self.show_index_tab
-
-            if show_g or show_t:
-                n_group = edit.get_prop(PROP_INDEX_GROUP)+1
-                if n_group<=6:
-                    s_group = str(n_group)
+        # Add items to list
+        for group_idx, group_editors in sorted_groups:
+            # Add group header if there are multiple groups
+            if show_group_headers:
+                if group_idx < 6:
+                    group_name = f"Group {group_idx + 1}"
                 else:
-                    s_group = 'f'+str(n_group-6)
-                n_tab = edit.get_prop(PROP_INDEX_TAB)+1
-                s_tab = str(n_tab)
-                if self.show_index_aligned:
-                    if len(s_tab)<format_len:
-                        s_tab = ' '*(format_len-len(s_tab))+s_tab
+                    group_name = f"Floating {group_idx - 5}"
+                
+                # Add group header (non-selectable)
+                listbox_proc(self.h_list, LISTBOX_ADD_PROP, index=-1,
+                    text=f"─── {group_name} ───", 
+                    tag={'is_header': True, 'group': group_idx})
+                # Add a placeholder editor for the header (won't be used)
+                self.listed_editors.append(None)
+            
+            # Sort editors by tab index within group
+            group_editors.sort(key=lambda e: e.get_prop(PROP_INDEX_TAB))
+            
+            # Add tabs for this group
+            for edit in group_editors:
+                self.listed_editors.append(edit)
+                
+                title = edit.get_prop(PROP_TAB_TITLE)
+                image_index = edit.h - handles[0]
 
-                if show_g and show_t:
-                    prefix = '%s:%s. '%(s_group, s_tab)
-                elif show_g:
-                    prefix = '%s: '%s_group
-                elif show_t:
-                    prefix = '%s. '%s_tab
+                prefix = ''
+                show_g = self.show_index_group
+                show_t = self.show_index_tab
 
-            name = prefix + title.lstrip('*').replace('|', '/') # ' | ' happens in file pair
-            if self.show_column_folder:
-                name += '|' + os.path.dirname(edit.get_filename())
-            if self.show_column_lexer:
-                name += '|' + edit.get_prop(PROP_LEXER_FILE)
+                if show_g or show_t:
+                    n_group = edit.get_prop(PROP_INDEX_GROUP)+1
+                    if n_group<=6:
+                        s_group = str(n_group)
+                    else:
+                        s_group = 'f'+str(n_group-6)
+                    n_tab = edit.get_prop(PROP_INDEX_TAB)+1
+                    s_tab = str(n_tab)
+                    if self.show_index_aligned:
+                        if len(s_tab)<format_len:
+                            s_tab = ' '*(format_len-len(s_tab))+s_tab
 
-            mod = edit.get_prop(PROP_MODIFIED)
-            cnt = listbox_proc(self.h_list, LISTBOX_ADD_PROP, index=-1,
-                text=name, tag={'modified': mod} )
-            if edit.get_prop(PROP_TAG)=='tag':
-                listbox_proc(self.h_list, LISTBOX_SET_SEL, index=cnt-1)
+                    if show_g and show_t:
+                        prefix = '%s:%s. '%(s_group, s_tab)
+                    elif show_g:
+                        prefix = '%s: '%s_group
+                    elif show_t:
+                        prefix = '%s. '%s_tab
+
+                name = prefix + title.lstrip('*').replace('|', '/') # ' | ' happens in file pair
+                if self.show_column_folder:
+                    name += '|' + os.path.dirname(edit.get_filename())
+                if self.show_column_lexer:
+                    name += '|' + edit.get_prop(PROP_LEXER_FILE)
+
+                mod = edit.get_prop(PROP_MODIFIED)
+                cnt = listbox_proc(self.h_list, LISTBOX_ADD_PROP, index=-1,
+                    text=name, tag={'modified': mod} )
+                if edit.get_prop(PROP_TAG)=='tag':
+                    listbox_proc(self.h_list, LISTBOX_SET_SEL, index=cnt-1)
 
         ed.set_prop(PROP_TAG, '')
 
@@ -218,7 +252,12 @@ class Command:
     def ed_of_sel(self):
         sel = listbox_proc(self.h_list, LISTBOX_GET_SEL)
         if 0 <= sel < len(self.listed_editors):
-            return self.listed_editors[sel]
+            editor = self.listed_editors[sel]
+            # Skip group headers (None entries)
+            if editor is None:
+                return None
+            return editor
+        return None
 
     def menu_close_sel(self):
         e = self.ed_of_sel()
@@ -286,6 +325,10 @@ class Command:
         if not (0 <= item_index < len(self.listed_editors)):
             self._reset_drag_state()
             return
+        # Skip if clicking on a group header
+        if self.listed_editors[item_index] is None:
+            self._reset_drag_state()
+            return
         listbox_proc(self.h_list, LISTBOX_SET_SEL, index=item_index)
         self.drag_start_index = item_index
         self.drag_start_y = y
@@ -317,8 +360,12 @@ class Command:
         if self.drag_start_index>=len(self.listed_editors):
             self._reset_drag_state()
             return
-        target_index, insert_after = self._target_from_y(y)
+        target_index = self._target_from_y(y)
         if target_index<0 or target_index>=len(self.listed_editors):
+            self._reset_drag_state()
+            return
+        # Skip if target is a group header
+        if self.listed_editors[target_index] is None:
             self._reset_drag_state()
             return
         
@@ -332,7 +379,7 @@ class Command:
         saved_busy = self.busy_update
         self.busy_update = True
         
-        self._reorder_tab(source_editor, target_editor, insert_after)
+        self._reorder_tab(source_editor, target_editor)
         
         # Re-enable updates
         self.busy_update = saved_busy
@@ -369,21 +416,16 @@ class Command:
         top_index = listbox_proc(self.h_list, LISTBOX_GET_TOP)
         count = listbox_proc(self.h_list, LISTBOX_GET_COUNT)
         if item_h<=0 or count<=0:
-            return -1, False
+            return -1
         rel_index = y // item_h
-        offset_y = y % item_h
         index = top_index + rel_index
-        insert_after = offset_y >= (item_h//2)
         if index<0:
             index = 0
-            insert_after = False
         if index>=count:
             index = count-1
-            insert_after = True
-        return index, insert_after
+        return index
 
-    def _reorder_tab(self, source_editor, target_editor, insert_after):
-
+    def _reorder_tab(self, source_editor, target_editor):
         if source_editor is None or target_editor is None:
             return
             
@@ -399,23 +441,17 @@ class Command:
             source_editor.set_prop(PROP_INDEX_GROUP, target_group)
             # Set to position 0 first (it will be at the start of target group)
             source_editor.set_prop(PROP_INDEX_TAB, 0)
-            # Now move to the desired position in the target group
-            new_position = target_tab_idx
-            if insert_after:
-                new_position += 1
-            source_editor.set_prop(PROP_INDEX_TAB, new_position)
+            # Now move to the target tab's position
+            source_editor.set_prop(PROP_INDEX_TAB, target_tab_idx)
             return
             
-        # Same group - calculate the new position
+        # Same group - just take the target's position
         new_position = target_tab_idx
-        if insert_after:
-            new_position += 1
-            
-        
         if source_tab_idx == new_position:
+            # Source and target are same position, nothing to do
             return
         
-        # Just set the source tab to the new position
+        # Just set the source tab to the target position
         # CudaText will automatically shift other tabs
         source_editor.set_prop(PROP_INDEX_TAB, new_position)
 
