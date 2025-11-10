@@ -43,6 +43,9 @@ class Command:
     is_dragging = False         
     # Pixels the mouse must move before a click is considered a drag
     drag_threshold = 5
+    
+    # Control index for the listbox (needed for setting cursor)
+    n_list = None
 
     def __init__(self):
         self.load_ops()
@@ -106,6 +109,7 @@ class Command:
         })
 
         n = dlg_proc(self.h_dlg, DLG_CTL_ADD, prop='listbox_ex')
+        self.n_list = n
 
         self.h_list = dlg_proc(self.h_dlg, DLG_CTL_HANDLE, index=n)
         listbox_proc(self.h_list, LISTBOX_SET_SHOW_X, index=2)
@@ -133,6 +137,7 @@ class Command:
             'font_name': self.font_name,
             'font_size': self.font_size,
             'tab_stop': True,
+            'cursor': CURSOR_DEFAULT,
             #'font_color': self.get_color_font(),
             #'color': self.get_color_back(),
             } )
@@ -370,12 +375,65 @@ class Command:
         # Store the unique handle (memory address) that won't change
         self.drag_source_handle_self = self.listed_editors[item_index].get_prop(PROP_HANDLE_SELF)
         self.is_dragging = False # Not officially dragging until threshold is passed
+        
+        # Assign on_mouse_move handler to track dragging (we use it inside on_mouse_down for CPU efficiency)
+        if self.n_list is not None:
+            dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, index=self.n_list, prop={
+                'on_mouse_move': 'cuda_tabs_list.list_mouse_move',
+            })
+
+    def list_mouse_move(self, id_dlg, id_ctl, data='', info=''):
+        """
+        Event handler for mouse move in the listbox during potential drag.
+        Updates cursor based on whether drag is active and target is valid.
+        """
+        if self.h_list is None or self.n_list is None:
+            return
+        if not isinstance(data, dict):
+            return
+            
+        # If we haven't started a drag yet, nothing to do
+        if self.drag_start_index < 0:
+            return
+            
+        y = data.get('y', -1)
+        if y < 0:
+            return
+        
+        # Check if we've moved beyond the drag threshold
+        if not self.is_dragging and abs(y - self.drag_start_y) > self.drag_threshold:
+            self.is_dragging = True
+        
+        # Update cursor based on drag state
+        if self.is_dragging:
+            # Determine if current mouse position is over a valid drop target
+            target_index = self._target_from_y(y)
+            
+            # Check if it's a valid drop target (not a header, valid index)
+            if (0 <= target_index < len(self.listed_editors) and 
+                self.listed_editors[target_index] is not None):
+                # Valid drop target - show drag cursor
+                dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, index=self.n_list, prop={
+                    'cursor': CURSOR_DRAG,
+                })
+            else:
+                # Invalid drop target (header or out of bounds) - show no-drop cursor
+                dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, index=self.n_list, prop={
+                    'cursor': CURSOR_NO_DROP,
+                })
 
     def list_mouse_up(self, id_dlg, id_ctl, data='', info=''):
         """
         Event handler for mouse button up in the listbox.
         Completes the drag-and-drop operation.
         """
+        # Remove on_mouse_move handler to keep CPU usage low
+        if self.n_list is not None:
+            dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, index=self.n_list, prop={
+                'on_mouse_move': '',
+                'cursor': CURSOR_DEFAULT,  # Reset cursor to default
+            })
+        
         if self.h_list is None:
             self._reset_drag_state()
             return
