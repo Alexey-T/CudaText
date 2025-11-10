@@ -823,7 +823,6 @@ var
   SCallback: string;
 begin
   Props:= TAppControlProps((Sender as TControl).Tag);
-  IdControl:= FindControlIndexByOurObject(Sender);
 
   case AEventKind of
     TAppCtlMouseEvent.Enter:
@@ -841,7 +840,10 @@ begin
   end;
 
   if SCallback<>'' then
+  begin
+    IdControl:= FindControlIndexByOurObject(Sender);
     DoEvent(IdControl, SCallback, AData);
+  end;
 end;
 
 procedure TFormDummy.DoOnListboxDrawItem(Sender: TObject; ACanvas: TCanvas;
