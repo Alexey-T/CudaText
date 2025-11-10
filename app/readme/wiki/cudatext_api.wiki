@@ -5194,4 +5194,7 @@ It provides:
 1.0.466 (app 1.229.5)
 * add: event on_open_reopen
 
+1.0.467 (app 1.229.6)
+* add: dlg_proc: all controls new property "cursor"
+
 [[Category:CudaText]]

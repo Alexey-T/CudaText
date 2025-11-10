@@ -1771,6 +1771,12 @@ begin
     exit;
   end;
 
+  if AName='cursor' then
+  begin
+    C.Cursor:= StrToIntDef(AValue, 0{=crDefault});
+    exit;
+  end;
+
   if AName='props' then
   begin
     MsgLogConsole('NOTE: Deleted API is used: dlg_proc "props" for "'+Props.FTypeString+'"');
