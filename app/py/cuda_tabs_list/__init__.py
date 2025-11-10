@@ -8,6 +8,9 @@ _   = get_translation(__file__)  # I18N
 fn_config = os.path.join(app_path(APP_DIR_SETTINGS), 'cuda_tabs_list.ini')
 fn_icon = 'tabs.png'
 
+CAPTION_GROUP = _('Group')
+CAPTION_FLOATING = _('Floating')
+
 def bool_to_str(v): return '1' if v else '0'
 def str_to_bool(s): return s=='1'
 
@@ -204,10 +207,10 @@ class Command:
             # Add group header if there are multiple groups
             if show_group_headers:
                 if group_idx < 6:
-                    group_name = f"Group {group_idx + 1}"
+                    group_name = f"{CAPTION_GROUP} {group_idx + 1}"
                 else:
                     # Floating groups start at index 6
-                    group_name = f"Floating {group_idx - 5}"
+                    group_name = f"{CAPTION_FLOATING} {group_idx - 5}"
                 
                 # Add group header (non-selectable)
                 listbox_proc(self.h_list, LISTBOX_ADD_PROP, index=-1,
