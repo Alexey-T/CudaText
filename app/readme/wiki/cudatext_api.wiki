@@ -1264,6 +1264,7 @@ General events for all controls:
 * "on_click_dbl": Called after mouse double-click on control. Param "data" is tuple (x, y) with control-related coordinates.
 * "on_mouse_down": Called when mouse button pressed. Param "data" is dict: { "btn": int_button_code, "state": str_keyboard_state, "x": int, "y": int }. Button code: 0: left; 1: right; 2: middle. Keyboard state: value like in global event "on_key".
 * "on_mouse_up": Called when mouse button depressed (released). Param "data": like in "on_mouse_down".
+* "on_mouse_move": Called when mouse moves over the control. Param "data": like in "on_mouse_down", but "btn" key is always 0.
 * "on_mouse_enter": Called when mouse cursor enters control area.
 * "on_mouse_exit": Called when mouse cursor leaves control area.
 * "on_focus_enter": Called when control gets focus. Not supported for controls (they don't have OS window handle): label, button, button_ex, panel, linklabel, colorpanel, bevel, image, progressbar_ex, paintbox, statusbar.
@@ -5197,5 +5198,6 @@ It provides:
 
 1.0.467 (app 1.229.6)
 * add: dlg_proc: all controls new property "cursor"
+* add: dlg_proc: all controls new property "on_mouse_move"
 
 [[Category:CudaText]]
