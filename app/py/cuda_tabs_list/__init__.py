@@ -29,6 +29,11 @@ class Command:
     column_lexer = 80
     show_column_folder = False
     show_column_lexer = False
+    drag_start_index = -1
+    drag_start_y = 0
+    drag_source_handle_self = None
+    is_dragging = False
+    drag_threshold = 5
 
     def __init__(self):
         self.load_ops()
@@ -112,6 +117,8 @@ class Command:
             'on_menu': 'cuda_tabs_list.list_on_menu',
             'on_click': 'cuda_tabs_list.list_on_click',
             'on_click_x': 'cuda_tabs_list.list_on_click_x',
+            'on_mouse_down': 'cuda_tabs_list.list_mouse_down',
+            'on_mouse_up': 'cuda_tabs_list.list_mouse_up',
             'font_name': self.font_name,
             'font_size': self.font_size,
             'tab_stop': True,
@@ -256,9 +263,169 @@ class Command:
         self.menu_close_sel()
 
     def list_on_click(self, id_dlg, id_ctl, data='', info=''):
+        if self.is_dragging:
+            return
         e = self.ed_of_sel()
         if e:
             e.focus()
+
+    def list_mouse_down(self, id_dlg, id_ctl, data='', info=''):
+        if self.h_list is None: return
+        if self.busy_update: return
+        if not isinstance(data, dict):
+            return
+        button = data.get('btn', -1)
+        if button!=0:
+            self._reset_drag_state()
+            return
+        y = data.get('y', -1)
+        if y<0:
+            self._reset_drag_state()
+            return
+        item_index = self._index_from_y(y)
+        if not (0 <= item_index < len(self.listed_editors)):
+            self._reset_drag_state()
+            return
+        listbox_proc(self.h_list, LISTBOX_SET_SEL, index=item_index)
+        self.drag_start_index = item_index
+        self.drag_start_y = y
+        # Store the unique handle (memory address) that won't change
+        self.drag_source_handle_self = self.listed_editors[item_index].get_prop(PROP_HANDLE_SELF)
+        self.is_dragging = False
+
+    def list_mouse_up(self, id_dlg, id_ctl, data='', info=''):
+        if self.h_list is None:
+            self._reset_drag_state()
+            return
+        if not isinstance(data, dict):
+            self._reset_drag_state()
+            return
+        button = data.get('btn', -1)
+        if button!=0 or self.drag_start_index<0:
+            self._reset_drag_state()
+            return
+        y = data.get('y', -1)
+        if y<0:
+            self._reset_drag_state()
+            return
+        if abs(y-self.drag_start_y) <= self.drag_threshold:
+            if self.drag_source_handle_self:
+                Editor(self.drag_source_handle_self).focus()
+            self._reset_drag_state()
+            return
+        self.is_dragging = True
+        if self.drag_start_index>=len(self.listed_editors):
+            self._reset_drag_state()
+            return
+        target_index, insert_after = self._target_from_y(y)
+        if target_index<0 or target_index>=len(self.listed_editors):
+            self._reset_drag_state()
+            return
+        
+        if target_index==self.drag_start_index:
+            self._reset_drag_state()
+            return
+        source_editor = Editor(self.drag_source_handle_self)
+        target_editor = self.listed_editors[target_index]
+        
+        # Temporarily disable updates to prevent cascade
+        saved_busy = self.busy_update
+        self.busy_update = True
+        
+        self._reorder_tab(source_editor, target_editor, insert_after)
+        
+        # Re-enable updates
+        self.busy_update = saved_busy
+        
+        # Update the list to reflect new order
+        self.update()
+        
+        # Focus the moved tab
+        if source_editor:
+            source_editor.focus()
+        
+        self._reset_drag_state()
+
+    def _reset_drag_state(self):
+        self.drag_start_index = -1
+        self.drag_source_handle_self = None
+        self.is_dragging = False
+        self.drag_start_y = 0
+
+    def _index_from_y(self, y):
+        item_h = listbox_proc(self.h_list, LISTBOX_GET_ITEM_H)
+        top_index = listbox_proc(self.h_list, LISTBOX_GET_TOP)
+        if item_h<=0:
+            return -1
+        rel_index = y // item_h
+        index = top_index + rel_index
+        count = listbox_proc(self.h_list, LISTBOX_GET_COUNT)
+        if index<0 or index>=count:
+            return -1
+        return index
+
+    def _target_from_y(self, y):
+        item_h = listbox_proc(self.h_list, LISTBOX_GET_ITEM_H)
+        top_index = listbox_proc(self.h_list, LISTBOX_GET_TOP)
+        count = listbox_proc(self.h_list, LISTBOX_GET_COUNT)
+        if item_h<=0 or count<=0:
+            return -1, False
+        rel_index = y // item_h
+        offset_y = y % item_h
+        index = top_index + rel_index
+        insert_after = offset_y >= (item_h//2)
+        if index<0:
+            index = 0
+            insert_after = False
+        if index>=count:
+            index = count-1
+            insert_after = True
+        return index, insert_after
+
+    def _reorder_tab(self, source_editor, target_editor, insert_after):
+
+        if source_editor is None or target_editor is None:
+            return
+            
+        source_group = source_editor.get_prop(PROP_INDEX_GROUP)
+        source_tab_idx = source_editor.get_prop(PROP_INDEX_TAB)
+        
+        target_group = target_editor.get_prop(PROP_INDEX_GROUP)
+        target_tab_idx = target_editor.get_prop(PROP_INDEX_TAB)
+                
+        # Check if moving between different groups
+        if source_group != target_group:
+            # First, move to target group at position 0
+            source_editor.set_prop(PROP_INDEX_GROUP, target_group)
+            # Set to position 0 first (it will be at the start of target group)
+            source_editor.set_prop(PROP_INDEX_TAB, 0)
+            # Now move to the desired position in the target group
+            new_position = target_tab_idx
+            if insert_after:
+                new_position += 1
+            source_editor.set_prop(PROP_INDEX_TAB, new_position)
+            return
+            
+        # Same group - calculate the new position
+        new_position = target_tab_idx
+        if insert_after:
+            new_position += 1
+            
+        
+        if source_tab_idx == new_position:
+            return
+        
+        # Just set the source tab to the new position
+        # CudaText will automatically shift other tabs
+        source_editor.set_prop(PROP_INDEX_TAB, new_position)
+
+    def _focus_handle(self, handle):
+        if handle is None:
+            return
+        try:
+            Editor(handle).focus()
+        except Exception:
+            pass
 
     def config(self):
         self.save_ops()
