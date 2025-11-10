@@ -101,6 +101,8 @@ class Command:
             'texthint': _('Filter'),
             'tab_stop': True,
             'on_change': 'cuda_tabs_list.filter_change',
+            'font_name': self.font_name,
+            'font_size': self.font_size,
         })
 
         n = dlg_proc(self.h_dlg, DLG_CTL_ADD, prop='listbox_ex')
