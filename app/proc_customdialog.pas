@@ -776,6 +776,7 @@ begin
     TAppTreeContainer(Ctl).Tree.OnMouseLeave:= @AForm.DoOnControlMouseLeave;
     TAppTreeContainer(Ctl).Tree.OnMouseDown:= @AForm.DoOnControlMouseDown;
     TAppTreeContainer(Ctl).Tree.OnMouseUp:= @AForm.DoOnControlMouseUp;
+    TAppTreeContainer(Ctl).Tree.OnMouseMove:= @AForm.DoOnControlMouseMove;
   end
   else
   begin
@@ -789,6 +790,7 @@ begin
     TControlHack(Ctl).OnMouseLeave:= @AForm.DoOnControlMouseLeave;
     TControlHack(Ctl).OnMouseDown:= @AForm.DoOnControlMouseDown;
     TControlHack(Ctl).OnMouseUp:= @AForm.DoOnControlMouseUp;
+    TControlHack(Ctl).OnMouseMove:= @AForm.DoOnControlMouseMove;
 
     if Ctl is TWinControl then
     begin
@@ -1918,6 +1920,12 @@ begin
     exit;
   end;
 
+  if AName='on_mouse_move' then
+  begin
+    Props.FEventOnMouseMove:= AValue;
+    exit;
+  end;
+
   if AName='on_draw_item' then
   begin
     Props.FEventOnListboxDrawItem:= AValue;
@@ -2578,6 +2586,7 @@ begin
     SetDictKey_NotEmpty(Result, 'on_mouse_exit', Props.FEventOnMouseExit);
     SetDictKey_NotEmpty(Result, 'on_mouse_down', Props.FEventOnMouseDown);
     SetDictKey_NotEmpty(Result, 'on_mouse_up', Props.FEventOnMouseUp);
+    SetDictKey_NotEmpty(Result, 'on_mouse_move', Props.FEventOnMouseMove);
     SetDictKey_NotEmpty(Result, 'on_editor_caret', Props.FEventOnEditorCaret);
     SetDictKey_NotEmpty(Result, 'on_editor_scroll', Props.FEventOnEditorScroll);
     SetDictKey_NotEmpty(Result, 'on_editor_key_down', Props.FEventOnEditorKeyDown);
