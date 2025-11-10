@@ -1733,7 +1733,7 @@ Possible values of "id_action":
 
 * LISTBOX_GET_COUNT: Returns number if items.
 * LISTBOX_ADD: Adds item with given text and tag. Returns new count of items. Param "index": index of new item, or -1 to append. Param "text": text of item. Param "tag": int tag.
-* LISTBOX_ADD_PROP: Adds item with given text and other properties. Returns new count of items. Param "index": index of new item, or -1 to append. Param "text": text of item. Param "tag": dict with keys "tag", "modified", "datatext".
+* LISTBOX_ADD_PROP: Adds item with given text and other properties. Returns new count of items. Param "index": index of new item, or -1 to append. Param "text": text of item. Param "tag" must be dict, where dict keys known to API are: "tag", "modified", "datatext".
 * LISTBOX_DELETE: Deletes item with given index.
 * LISTBOX_DELETE_ALL: Deletes all items.
 * LISTBOX_GET_ITEM: Returns text/tag of item with given index. Returns 2-tuple (text, tag) or None if index incorrect.
