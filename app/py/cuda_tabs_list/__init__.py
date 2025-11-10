@@ -29,10 +29,19 @@ class Command:
     column_lexer = 80
     show_column_folder = False
     show_column_lexer = False
-    drag_start_index = -1
-    drag_start_y = 0
-    drag_source_handle_self = None
-    is_dragging = False
+
+    # --- variables for Drag-and-Drop ---
+    
+    # Index of the listbox item where dragging started
+    drag_start_index = -1       
+    # Starting Y-coordinate of the mouse
+    drag_start_y = 0            
+    # Handle to the editor being dragged. We store the handle
+    # (a unique ID) because the Editor() object itself might change.
+    drag_source_handle_self = None 
+    # Flag to track if a drag operation is in progress
+    is_dragging = False         
+    # Pixels the mouse must move before a click is considered a drag
     drag_threshold = 5
 
     def __init__(self):
@@ -149,10 +158,13 @@ class Command:
         listbox_proc(self.h_list, LISTBOX_DELETE_ALL)
 
     def update(self):
+        """
+        rebuild the listbox content to reflect the current state of open files
+        """
         if self.h_list is None: return
         self.busy_update = True
         self.clear_list()
-        self.listed_editors = []
+        self.listed_editors = [] # This list will now contain Editor objects OR None (for headers)
 
         ed.set_prop(PROP_TAG, 'tag')
         handles = ed_handles()
@@ -175,8 +187,9 @@ class Command:
                 groups[group_idx] = []
             groups[group_idx].append(edit)
 
-        # Sort groups by index
+        # Sort groups by index (e.g., Group 0, Group 1, ...)
         sorted_groups = sorted(groups.items())
+        # Only show headers if there's more than one group
         show_group_headers = len(sorted_groups) > 1
 
         # Add items to list
@@ -186,24 +199,26 @@ class Command:
                 if group_idx < 6:
                     group_name = f"Group {group_idx + 1}"
                 else:
+                    # Floating groups start at index 6
                     group_name = f"Floating {group_idx - 5}"
                 
                 # Add group header (non-selectable)
                 listbox_proc(self.h_list, LISTBOX_ADD_PROP, index=-1,
                     text=f"─── {group_name} ───", 
                     tag={'is_header': True, 'group': group_idx})
-                # Add a placeholder editor for the header (won't be used)
+                # Add a placeholder 'None' to our internal list to keep indices aligned
                 self.listed_editors.append(None)
             
-            # Sort editors by tab index within group
+            # Sort editors by tab index within this group
             group_editors.sort(key=lambda e: e.get_prop(PROP_INDEX_TAB))
             
             # Add tabs for this group
             for edit in group_editors:
+                # Add the real editor object to our list
                 self.listed_editors.append(edit)
                 
                 title = edit.get_prop(PROP_TAB_TITLE)
-                image_index = edit.h - handles[0]
+                # image_index = edit.h - handles[0] # this was not used # TODO: add tab icon like in tabs bar
 
                 prefix = ''
                 show_g = self.show_index_group
@@ -237,6 +252,8 @@ class Command:
                 mod = edit.get_prop(PROP_MODIFIED)
                 cnt = listbox_proc(self.h_list, LISTBOX_ADD_PROP, index=-1,
                     text=name, tag={'modified': mod} )
+                
+                # Reselect the active tab
                 if edit.get_prop(PROP_TAG)=='tag':
                     listbox_proc(self.h_list, LISTBOX_SET_SEL, index=cnt-1)
 
@@ -250,10 +267,14 @@ class Command:
             self.update()
 
     def ed_of_sel(self):
+        """
+        Gets the Editor object for the current listbox selection.
+        Returns None if the selection is a group header.
+        """
         sel = listbox_proc(self.h_list, LISTBOX_GET_SEL)
         if 0 <= sel < len(self.listed_editors):
             editor = self.listed_editors[sel]
-            # Skip group headers (None entries)
+            # Skip group headers (which are 'None' entries)
             if editor is None:
                 return None
             return editor
@@ -309,18 +330,26 @@ class Command:
             e.focus()
 
     def list_mouse_down(self, id_dlg, id_ctl, data='', info=''):
+        """
+        Event handler for mouse button down in the listbox.
+        Captures the start of a potential drag operation.
+        """
         if self.h_list is None: return
         if self.busy_update: return
         if not isinstance(data, dict):
             return
+            
+        # Only start drag on left-click
         button = data.get('btn', -1)
-        if button!=0:
+        if button != 0:
             self._reset_drag_state()
             return
+            
         y = data.get('y', -1)
-        if y<0:
+        if y < 0:
             self._reset_drag_state()
             return
+            
         item_index = self._index_from_y(y)
         if not (0 <= item_index < len(self.listed_editors)):
             self._reset_drag_state()
@@ -329,56 +358,80 @@ class Command:
         if self.listed_editors[item_index] is None:
             self._reset_drag_state()
             return
+            
+        # Select the item on mouse down to prepare for drag
         listbox_proc(self.h_list, LISTBOX_SET_SEL, index=item_index)
+        
+        # Store drag state
         self.drag_start_index = item_index
         self.drag_start_y = y
         # Store the unique handle (memory address) that won't change
         self.drag_source_handle_self = self.listed_editors[item_index].get_prop(PROP_HANDLE_SELF)
-        self.is_dragging = False
+        self.is_dragging = False # Not officially dragging until threshold is passed
 
     def list_mouse_up(self, id_dlg, id_ctl, data='', info=''):
+        """
+        Event handler for mouse button up in the listbox.
+        Completes the drag-and-drop operation.
+        """
         if self.h_list is None:
             self._reset_drag_state()
             return
         if not isinstance(data, dict):
             self._reset_drag_state()
             return
+            
         button = data.get('btn', -1)
-        if button!=0 or self.drag_start_index<0:
+        # Check if we were in a valid drag-start state and button is left-click
+        if button != 0 or self.drag_start_index < 0:
             self._reset_drag_state()
             return
+
         y = data.get('y', -1)
-        if y<0:
+        if y < 0:
             self._reset_drag_state()
             return
-        if abs(y-self.drag_start_y) <= self.drag_threshold:
+            
+        # --- Click vs. Drag Check ---
+        # If mouse moved less than threshold, treat as a simple click
+        if abs(y - self.drag_start_y) <= self.drag_threshold:
+            # Check if it was a click (not a failed drag)
             if self.drag_source_handle_self:
-                Editor(self.drag_source_handle_self).focus()
+                # Manually trigger focus since list_on_click might be blocked
+                self._focus_handle(self.drag_source_handle_self)
             self._reset_drag_state()
             return
-        self.is_dragging = True
-        if self.drag_start_index>=len(self.listed_editors):
+        
+        # --- It's a Drag Operation ---
+        self.is_dragging = True # Flag to prevent list_on_click
+        
+        if self.drag_start_index >= len(self.listed_editors):
             self._reset_drag_state()
             return
+            
+        # Find the target item under the mouse
         target_index = self._target_from_y(y)
-        if target_index<0 or target_index>=len(self.listed_editors):
+        if target_index < 0 or target_index >= len(self.listed_editors):
             self._reset_drag_state()
             return
         # Skip if target is a group header
         if self.listed_editors[target_index] is None:
             self._reset_drag_state()
             return
-        
-        if target_index==self.drag_start_index:
+            
+        if target_index == self.drag_start_index:
             self._reset_drag_state()
             return
+            
+        # Get the actual editor objects
         source_editor = Editor(self.drag_source_handle_self)
         target_editor = self.listed_editors[target_index]
         
-        # Temporarily disable updates to prevent cascade
+        # Temporarily disable updates to prevent cascade (flicker/re-entry)
         saved_busy = self.busy_update
         self.busy_update = True
         
+        # Perform the reorder
         self._reorder_tab(source_editor, target_editor)
         
         # Re-enable updates
@@ -387,45 +440,61 @@ class Command:
         # Update the list to reflect new order
         self.update()
         
-        # Focus the moved tab
+        # Re-focus the tab that was just moved
         if source_editor:
             source_editor.focus()
         
         self._reset_drag_state()
 
     def _reset_drag_state(self):
+        """
+        Resets all drag-related state variables.
+        """
         self.drag_start_index = -1
         self.drag_source_handle_self = None
         self.is_dragging = False
         self.drag_start_y = 0
 
     def _index_from_y(self, y):
+        """
+        Helper function to get a listbox item index from a Y-coordinate.
+        """
         item_h = listbox_proc(self.h_list, LISTBOX_GET_ITEM_H)
         top_index = listbox_proc(self.h_list, LISTBOX_GET_TOP)
-        if item_h<=0:
+        if item_h <= 0:
             return -1
         rel_index = y // item_h
         index = top_index + rel_index
         count = listbox_proc(self.h_list, LISTBOX_GET_COUNT)
-        if index<0 or index>=count:
+        if index < 0 or index >= count:
             return -1
         return index
 
     def _target_from_y(self, y):
+        """
+        Helper function to get a listbox item index from a Y-coordinate,
+        limiting the value to valid list bounds (for dropping at top/bottom).
+        """
         item_h = listbox_proc(self.h_list, LISTBOX_GET_ITEM_H)
         top_index = listbox_proc(self.h_list, LISTBOX_GET_TOP)
         count = listbox_proc(self.h_list, LISTBOX_GET_COUNT)
-        if item_h<=0 or count<=0:
+        if item_h <= 0 or count <= 0:
             return -1
         rel_index = y // item_h
         index = top_index + rel_index
-        if index<0:
+        
+        # limit index to be within the list
+        if index < 0:
             index = 0
-        if index>=count:
-            index = count-1
+        if index >= count:
+            index = count - 1
         return index
 
     def _reorder_tab(self, source_editor, target_editor):
+        """
+        Moves the source_editor to the position of the target_editor,
+        handling both in-group and cross-group moves.
+        """
         if source_editor is None or target_editor is None:
             return
             
@@ -437,11 +506,10 @@ class Command:
                 
         # Check if moving between different groups
         if source_group != target_group:
-            # First, move to target group at position 0
+            # 1. Set the editor to the new group.
             source_editor.set_prop(PROP_INDEX_GROUP, target_group)
-            # Set to position 0 first (it will be at the start of target group)
-            source_editor.set_prop(PROP_INDEX_TAB, 0)
-            # Now move to the target tab's position
+            # 2. Set the tab index to the target's index. CudaText
+            #    will handle shifting other tabs.
             source_editor.set_prop(PROP_INDEX_TAB, target_tab_idx)
             return
             
@@ -451,11 +519,14 @@ class Command:
             # Source and target are same position, nothing to do
             return
         
-        # Just set the source tab to the target position
-        # CudaText will automatically shift other tabs
+        # Just set the source tab to the target position.
+        # CudaText will automatically shift other tabs.
         source_editor.set_prop(PROP_INDEX_TAB, new_position)
 
     def _focus_handle(self, handle):
+        """
+        Safely focuses an editor given its handle.
+        """
         if handle is None:
             return
         try:
