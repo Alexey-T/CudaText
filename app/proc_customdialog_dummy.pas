@@ -40,7 +40,8 @@ type
     Enter,
     Exit,
     Down,
-    Up
+    Up,
+    Move
     );
 
 var
@@ -74,6 +75,7 @@ type
     FEventOnMouseExit: string;
     FEventOnMouseDown: string;
     FEventOnMouseUp: string;
+    FEventOnMouseMove: string;
     FEventOnEditorCaret: string;
     FEventOnEditorScroll: string;
     FEventOnEditorKeyDown: string;
@@ -165,6 +167,7 @@ type
     procedure DoOnControlMouseLeave(Sender: TObject);
     procedure DoOnControlMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure DoOnControlMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+    procedure DoOnControlMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
     procedure DoOnImagePaintBackground(ASender: TObject; ACanvas: TCanvas; ARect: TRect);
     procedure DoOnEditorChange(Sender: TObject);
     procedure DoOnEditorChangeCaretPos(Sender: TObject);
@@ -466,6 +469,14 @@ procedure TFormDummy.DoOnControlMouseUp(Sender: TObject; Button: TMouseButton;
 begin
   _HandleMouseEvent(Sender, TAppCtlMouseEvent.Up,
     AppVariant_MouseData(Button, Shift, X, Y)
+    );
+end;
+
+procedure TFormDummy.DoOnControlMouseMove(Sender: TObject;
+  Shift: TShiftState; X, Y: Integer);
+begin
+  _HandleMouseEvent(Sender, TAppCtlMouseEvent.Move,
+    AppVariant_MouseData(mbLeft, Shift, X, Y)
     );
 end;
 
@@ -812,7 +823,6 @@ var
   SCallback: string;
 begin
   Props:= TAppControlProps((Sender as TControl).Tag);
-  IdControl:= FindControlIndexByOurObject(Sender);
 
   case AEventKind of
     TAppCtlMouseEvent.Enter:
@@ -823,12 +833,17 @@ begin
       SCallback:= Props.FEventOnMouseDown;
     TAppCtlMouseEvent.Up:
       SCallback:= Props.FEventOnMouseUp;
+    TAppCtlMouseEvent.Move:
+      SCallback:= Props.FEventOnMouseMove;
     else
       SCallback:= '';
   end;
 
   if SCallback<>'' then
+  begin
+    IdControl:= FindControlIndexByOurObject(Sender);
     DoEvent(IdControl, SCallback, AData);
+  end;
 end;
 
 procedure TFormDummy.DoOnListboxDrawItem(Sender: TObject; ACanvas: TCanvas;

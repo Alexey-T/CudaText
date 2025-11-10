@@ -955,6 +955,7 @@ Possible properties:
 * "texthint": text, shown with italic+pale font when value of control is empty. For "edit", "memo", "editor", "editor_edit", "editor_combo". Cannot be multi-line.
 * "color": background color
 * "autosize": control is auto-sized (by width and/or height, it's control-specific)
+* "cursor": control's mouse cursor shape, one of CURSOR_xxxx constants
 * "font_name": font name
 * "font_size": font size
 * "font_color": font color
@@ -1263,6 +1264,7 @@ General events for all controls:
 * "on_click_dbl": Called after mouse double-click on control. Param "data" is tuple (x, y) with control-related coordinates.
 * "on_mouse_down": Called when mouse button pressed. Param "data" is dict: { "btn": int_button_code, "state": str_keyboard_state, "x": int, "y": int }. Button code: 0: left; 1: right; 2: middle. Keyboard state: value like in global event "on_key".
 * "on_mouse_up": Called when mouse button depressed (released). Param "data": like in "on_mouse_down".
+* "on_mouse_move": Called when mouse moves over the control. Param "data": like in "on_mouse_down", but "btn" key is always 0. Typical usage of this event is to change the "cursor" property on drag-and-drop. Plugin should keep CPU usage low when user just moves mouse around, so "on_mouse_move" handler should be assigned in "on_mouse_down" and should be removed in "on_mouse_up".
 * "on_mouse_enter": Called when mouse cursor enters control area.
 * "on_mouse_exit": Called when mouse cursor leaves control area.
 * "on_focus_enter": Called when control gets focus. Not supported for controls (they don't have OS window handle): label, button, button_ex, panel, linklabel, colorpanel, bevel, image, progressbar_ex, paintbox, statusbar.
@@ -1731,7 +1733,7 @@ Possible values of "id_action":
 
 * LISTBOX_GET_COUNT: Returns number if items.
 * LISTBOX_ADD: Adds item with given text and tag. Returns new count of items. Param "index": index of new item, or -1 to append. Param "text": text of item. Param "tag": int tag.
-* LISTBOX_ADD_PROP: Adds item with given text and other properties. Returns new count of items. Param "index": index of new item, or -1 to append. Param "text": text of item. Param "tag": dict with keys "tag", "modified", "datatext".
+* LISTBOX_ADD_PROP: Adds item with given text and other properties. Returns new count of items. Param "index": index of new item, or -1 to append. Param "text": text of item. Param "tag" must be dict, where dict keys known to API are: "tag", "modified", "datatext".
 * LISTBOX_DELETE: Deletes item with given index.
 * LISTBOX_DELETE_ALL: Deletes all items.
 * LISTBOX_GET_ITEM: Returns text/tag of item with given index. Returns 2-tuple (text, tag) or None if index incorrect.
@@ -5193,5 +5195,9 @@ It provides:
 
 1.0.466 (app 1.229.5)
 * add: event on_open_reopen
+
+1.0.467 (app 1.229.6)
+* add: dlg_proc: all controls new property "cursor"
+* add: dlg_proc: all controls new property "on_mouse_move"
 
 [[Category:CudaText]]
