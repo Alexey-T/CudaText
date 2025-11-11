@@ -49,6 +49,13 @@ class Command:
 
     # Control index for the listbox (needed for setting cursor)
     n_list = None
+    
+    # --- Auto-scroll settings ---
+    auto_scroll_zone = 30  # Pixels from top/bottom to trigger auto-scroll
+    auto_scroll_speed = 1  # Number of items to scroll per timer tick (configurable)
+    scroll_timer_interval = 100  # Milliseconds between scroll attempts
+    scroll_timer_tag = None  # Timer tag for canceling
+    last_mouse_y = -1  # Track last mouse Y position for scrolling
 
     def __init__(self):
         self.load_ops()
@@ -59,6 +66,7 @@ class Command:
         self.show_index_aligned = str_to_bool(ini_read(fn_config, 'op', 'show_index_aligned', '0'))
         self.font_name = ini_read(fn_config, 'op', 'font_name', self.font_name)
         self.font_size = int(ini_read(fn_config, 'op', 'font_size', str(self.font_size)))
+        self.auto_scroll_speed = int(ini_read(fn_config, 'op', 'auto_scroll_speed', str(self.auto_scroll_speed)))
         self.column_name = int(ini_read(fn_config, 'columns', 'width_name', str(self.column_name)))
         self.column_folder = int(ini_read(fn_config, 'columns', 'width_folder', str(self.column_folder)))
         self.column_lexer = int(ini_read(fn_config, 'columns', 'width_lexer', str(self.column_lexer)))
@@ -71,6 +79,7 @@ class Command:
         ini_write(fn_config, 'op', 'show_index_aligned', bool_to_str(self.show_index_aligned))
         ini_write(fn_config, 'op', 'font_name', self.font_name)
         ini_write(fn_config, 'op', 'font_size', str(self.font_size))
+        ini_write(fn_config, 'op', 'auto_scroll_speed', str(self.auto_scroll_speed))
 
         if ini_read(fn_config, 'columns', 'width_name', '')=='':
             ini_write(fn_config, 'columns', '; width_ values: >0 - in pixels, <0 - in percents, =0 - auto-stretched', '')
@@ -375,6 +384,7 @@ class Command:
         # Store drag state
         self.drag_start_index = item_index
         self.drag_start_y = y
+        self.last_mouse_y = y
         # Store the unique handle (memory address) that won't change
         self.drag_source_handle_self = self.listed_editors[item_index].get_prop(PROP_HANDLE_SELF)
         self.is_dragging = False # Not officially dragging until threshold is passed
@@ -389,6 +399,7 @@ class Command:
         """
         Event handler for mouse move in the listbox during potential drag.
         Updates cursor based on whether drag is active and target is valid.
+        Also triggers auto-scrolling when near edges.
         """
         if self.h_list is None or self.n_list is None:
             return
@@ -403,9 +414,14 @@ class Command:
         if y < 0:
             return
 
+        # Store last mouse Y position for auto-scroll
+        self.last_mouse_y = y
+        
         # Check if we've moved beyond the drag threshold
         if not self.is_dragging and abs(y - self.drag_start_y) > self.drag_threshold:
             self.is_dragging = True
+            # Start auto-scroll timer when drag begins
+            self._start_auto_scroll_timer()
 
         # Update cursor based on drag state
         if self.is_dragging:
@@ -430,6 +446,9 @@ class Command:
         Event handler for mouse button up in the listbox.
         Completes the drag-and-drop operation.
         """
+        # Stop auto-scroll timer
+        self._stop_auto_scroll_timer()
+        
         # Remove on_mouse_move handler to keep CPU usage low
         if self.n_list is not None:
             dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, index=self.n_list, prop={
@@ -517,6 +536,76 @@ class Command:
         self.drag_source_handle_self = None
         self.is_dragging = False
         self.drag_start_y = 0
+        self.last_mouse_y = -1
+
+    def _start_auto_scroll_timer(self):
+        """
+        Starts a timer for auto-scrolling during drag operations.
+        """
+        if self.scroll_timer_tag is None:
+            self.scroll_timer_tag = timer_proc(
+                TIMER_START_ONE,
+                self._auto_scroll_callback,
+                self.scroll_timer_interval,
+                tag='auto_scroll'
+            )
+
+    def _stop_auto_scroll_timer(self):
+        """
+        Stops the auto-scroll timer.
+        """
+        if self.scroll_timer_tag is not None:
+            timer_proc(TIMER_STOP, self._auto_scroll_callback, 0, tag='auto_scroll')
+            self.scroll_timer_tag = None
+
+    def _auto_scroll_callback(self, tag='', info=''):
+        """
+        Timer callback that performs auto-scrolling when mouse is near edges.
+        """
+        if not self.is_dragging or self.h_list is None:
+            self._stop_auto_scroll_timer()
+            return
+        
+        # Get listbox height
+        props = dlg_proc(self.h_dlg, DLG_CTL_PROP_GET, index=self.n_list)
+        if not props:
+            return
+        list_height = props.get('h', 0)
+        if list_height <= 0:
+            return
+        
+        y = self.last_mouse_y
+        
+        # Check if mouse is in the top scroll zone
+        if y < self.auto_scroll_zone:
+            # Scroll up
+            top_index = listbox_proc(self.h_list, LISTBOX_GET_TOP)
+            if top_index > 0:
+                new_top = max(0, top_index - self.auto_scroll_speed)
+                listbox_proc(self.h_list, LISTBOX_SET_TOP, index=new_top)
+        
+        # Check if mouse is in the bottom scroll zone
+        elif y > list_height - self.auto_scroll_zone:
+            # Scroll down
+            top_index = listbox_proc(self.h_list, LISTBOX_GET_TOP)
+            count = listbox_proc(self.h_list, LISTBOX_GET_COUNT)
+            item_h = listbox_proc(self.h_list, LISTBOX_GET_ITEM_H)
+            
+            if item_h > 0:
+                visible_items = list_height // item_h
+                max_top = max(0, count - visible_items)
+                if top_index < max_top:
+                    new_top = min(max_top, top_index + self.auto_scroll_speed)
+                    listbox_proc(self.h_list, LISTBOX_SET_TOP, index=new_top)
+        
+        # Restart timer for continuous scrolling
+        if self.is_dragging:
+            self.scroll_timer_tag = timer_proc(
+                TIMER_START_ONE,
+                self._auto_scroll_callback,
+                self.scroll_timer_interval,
+                tag='auto_scroll'
+            )
 
     def _index_from_y(self, y):
         """
