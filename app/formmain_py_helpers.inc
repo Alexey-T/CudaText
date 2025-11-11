@@ -78,7 +78,8 @@ const
   cTheseEventsNeedGroupingUndo = [TAppPyEvent.OnComplete, TAppPyEvent.OnSnippet];
   cTheseEventsDontRequireFrame = [TAppPyEvent.OnSnippet, TAppPyEvent.OnStart, TAppPyEvent.OnStart2, TAppPyEvent.OnExit, TAppPyEvent.OnDeleteFile, TAppPyEvent.OnSidebarPopup, TAppPyEvent.OnInitPluginsMenu];
   cTheseEventsAlwaysLazy = [TAppPyEvent.OnExit];
-  cTheseEventsIgnoreCurrentLexer = [{TAppPyEvent.OnLexer,} TAppPyEvent.OnStart, TAppPyEvent.OnStart2, TAppPyEvent.OnExit, TAppPyEvent.OnDeleteFile, TAppPyEvent.OnSidebarPopup, TAppPyEvent.OnInitPluginsMenu];
+  cTheseEventsIgnoreCurrentLexer = [TAppPyEvent.OnStart, TAppPyEvent.OnStart2, TAppPyEvent.OnExit, TAppPyEvent.OnDeleteFile, TAppPyEvent.OnSidebarPopup, TAppPyEvent.OnInitPluginsMenu];
+    //^^ OnLexer should not be here, to support "on_lexer" with "lexers=Markdown" in install.inf
 var
   SCurLexer, KeyForFilter: string;
   bNeedGroup: boolean;
