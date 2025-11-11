@@ -6,9 +6,9 @@
 1.229.6 (2025/11)
 
 + add: Tabs List plugin: added drag-and-drop of tabs, added showing of groups-headers when tabs exist in non-first groups (patch by @badrelmers)
-+ add: API "cursor"/"on_mouse_move", which allows Tabs_List plugin to implement drag-and-drop
++ add: API "cursor"/"on_mouse_move", which allows Tabs_List plugin to change mouse cursor during drag-and-drop
 - fix: undo/redo system had minor bug (wrong caret pos) when redo-ing at the very document end (thanks @pintassilgo)
-- fix: small bug in API event "on_lexer" which caused plugin Markdown_Image to init even when it's not used
+- fix: bug in API event "on_lexer" which caused plugin Markdown_Image to init even when it's not used
 
 1.229.5 (2025/11)
 
