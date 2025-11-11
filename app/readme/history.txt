@@ -8,6 +8,7 @@
 + add: Tabs List plugin: added drag-and-drop of tabs, added showing of groups-headers when tabs exist in non-first groups (patch by @badrelmers)
 + add: API "cursor"/"on_mouse_move", which allows Tabs_List plugin to implement drag-and-drop
 - fix: undo/redo system had minor bug (wrong caret pos) when redo-ing at the very document end (thanks @pintassilgo)
+- fix: API event "on_lexer" was ignoring the "lexer=Markdown" in install.inf, fired with any lexer
 
 1.229.5 (2025/11)
 
