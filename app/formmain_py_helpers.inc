@@ -78,7 +78,7 @@ const
   cTheseEventsNeedGroupingUndo = [TAppPyEvent.OnComplete, TAppPyEvent.OnSnippet];
   cTheseEventsDontRequireFrame = [TAppPyEvent.OnSnippet, TAppPyEvent.OnStart, TAppPyEvent.OnStart2, TAppPyEvent.OnExit, TAppPyEvent.OnDeleteFile, TAppPyEvent.OnSidebarPopup, TAppPyEvent.OnInitPluginsMenu];
   cTheseEventsAlwaysLazy = [TAppPyEvent.OnExit];
-  cTheseEventsIgnoreCurrentLexer = [TAppPyEvent.OnLexer, TAppPyEvent.OnStart, TAppPyEvent.OnStart2, TAppPyEvent.OnExit, TAppPyEvent.OnDeleteFile, TAppPyEvent.OnSidebarPopup, TAppPyEvent.OnInitPluginsMenu];
+  cTheseEventsIgnoreCurrentLexer = [{TAppPyEvent.OnLexer,} TAppPyEvent.OnStart, TAppPyEvent.OnStart2, TAppPyEvent.OnExit, TAppPyEvent.OnDeleteFile, TAppPyEvent.OnSidebarPopup, TAppPyEvent.OnInitPluginsMenu];
 var
   SCurLexer, KeyForFilter: string;
   bNeedGroup: boolean;
