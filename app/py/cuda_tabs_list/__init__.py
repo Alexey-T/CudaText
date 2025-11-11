@@ -34,19 +34,19 @@ class Command:
     show_column_lexer = False
 
     # --- variables for Drag-and-Drop ---
-    
+
     # Index of the listbox item where dragging started
-    drag_start_index = -1       
+    drag_start_index = -1
     # Starting Y-coordinate of the mouse
-    drag_start_y = 0            
+    drag_start_y = 0
     # Handle to the editor being dragged. We store the handle
     # (a unique ID) because the Editor() object itself might change.
-    drag_source_handle_self = None 
+    drag_source_handle_self = None
     # Flag to track if a drag operation is in progress
-    is_dragging = False         
+    is_dragging = False
     # Pixels the mouse must move before a click is considered a drag
     drag_threshold = 5
-    
+
     # Control index for the listbox (needed for setting cursor)
     n_list = None
 
@@ -191,7 +191,7 @@ class Command:
             title = edit.get_prop(PROP_TAB_TITLE)
             if filter_text and not (filter_text.lower() in title.lower()):
                 continue
-            
+
             group_idx = edit.get_prop(PROP_INDEX_GROUP)
             if group_idx not in groups:
                 groups[group_idx] = []
@@ -211,22 +211,22 @@ class Command:
                 else:
                     # Floating groups start at index 6
                     group_name = f"{CAPTION_FLOATING} {group_idx - 5}"
-                
+
                 # Add group header (non-selectable)
                 listbox_proc(self.h_list, LISTBOX_ADD_PROP, index=-1,
-                    text=f"─── {group_name} ───", 
+                    text=f"─── {group_name} ───",
                     tag={'is_header': True, 'group': group_idx})
                 # Add a placeholder 'None' to our internal list to keep indices aligned
                 self.listed_editors.append(None)
-            
+
             # Sort editors by tab index within this group
             group_editors.sort(key=lambda e: e.get_prop(PROP_INDEX_TAB))
-            
+
             # Add tabs for this group
             for edit in group_editors:
                 # Add the real editor object to our list
                 self.listed_editors.append(edit)
-                
+
                 title = edit.get_prop(PROP_TAB_TITLE)
                 # image_index = edit.h - handles[0] # this was not used # TODO: add tab icon like in tabs bar
 
@@ -262,7 +262,7 @@ class Command:
                 mod = edit.get_prop(PROP_MODIFIED)
                 cnt = listbox_proc(self.h_list, LISTBOX_ADD_PROP, index=-1,
                     text=name, tag={'modified': mod} )
-                
+
                 # Reselect the active tab
                 if edit.get_prop(PROP_TAG)=='tag':
                     listbox_proc(self.h_list, LISTBOX_SET_SEL, index=cnt-1)
@@ -348,18 +348,18 @@ class Command:
         if self.busy_update: return
         if not isinstance(data, dict):
             return
-            
+
         # Only start drag on left-click
         button = data.get('btn', -1)
         if button != 0:
             self._reset_drag_state()
             return
-            
+
         y = data.get('y', -1)
         if y < 0:
             self._reset_drag_state()
             return
-            
+
         item_index = self._index_from_y(y)
         if not (0 <= item_index < len(self.listed_editors)):
             self._reset_drag_state()
@@ -368,17 +368,17 @@ class Command:
         if self.listed_editors[item_index] is None:
             self._reset_drag_state()
             return
-            
+
         # Select the item on mouse down to prepare for drag
         listbox_proc(self.h_list, LISTBOX_SET_SEL, index=item_index)
-        
+
         # Store drag state
         self.drag_start_index = item_index
         self.drag_start_y = y
         # Store the unique handle (memory address) that won't change
         self.drag_source_handle_self = self.listed_editors[item_index].get_prop(PROP_HANDLE_SELF)
         self.is_dragging = False # Not officially dragging until threshold is passed
-        
+
         # Assign on_mouse_move handler to track dragging (we use it inside on_mouse_down for CPU efficiency)
         if self.n_list is not None:
             dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, index=self.n_list, prop={
@@ -394,26 +394,26 @@ class Command:
             return
         if not isinstance(data, dict):
             return
-            
+
         # If we haven't started a drag yet, nothing to do
         if self.drag_start_index < 0:
             return
-            
+
         y = data.get('y', -1)
         if y < 0:
             return
-        
+
         # Check if we've moved beyond the drag threshold
         if not self.is_dragging and abs(y - self.drag_start_y) > self.drag_threshold:
             self.is_dragging = True
-        
+
         # Update cursor based on drag state
         if self.is_dragging:
             # Determine if current mouse position is over a valid drop target
             target_index = self._target_from_y(y)
-            
+
             # Check if it's a valid drop target (not a header, valid index)
-            if (0 <= target_index < len(self.listed_editors) and 
+            if (0 <= target_index < len(self.listed_editors) and
                 self.listed_editors[target_index] is not None):
                 # Valid drop target - show drag cursor
                 dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, index=self.n_list, prop={
@@ -436,14 +436,14 @@ class Command:
                 'on_mouse_move': '',
                 'cursor': CURSOR_DEFAULT,  # Reset cursor to default
             })
-        
+
         if self.h_list is None:
             self._reset_drag_state()
             return
         if not isinstance(data, dict):
             self._reset_drag_state()
             return
-            
+
         button = data.get('btn', -1)
         # Check if we were in a valid drag-start state and button is left-click
         if button != 0 or self.drag_start_index < 0:
@@ -454,7 +454,7 @@ class Command:
         if y < 0:
             self._reset_drag_state()
             return
-            
+
         # --- Click vs. Drag Check ---
         # If mouse moved less than threshold, treat as a simple click
         if abs(y - self.drag_start_y) <= self.drag_threshold:
@@ -464,14 +464,14 @@ class Command:
                 self._focus_handle(self.drag_source_handle_self)
             self._reset_drag_state()
             return
-        
+
         # --- It's a Drag Operation ---
         self.is_dragging = True # Flag to prevent list_on_click
-        
+
         if self.drag_start_index >= len(self.listed_editors):
             self._reset_drag_state()
             return
-            
+
         # Find the target item under the mouse
         target_index = self._target_from_y(y)
         if target_index < 0 or target_index >= len(self.listed_editors):
@@ -481,32 +481,32 @@ class Command:
         if self.listed_editors[target_index] is None:
             self._reset_drag_state()
             return
-            
+
         if target_index == self.drag_start_index:
             self._reset_drag_state()
             return
-            
+
         # Get the actual editor objects
         source_editor = Editor(self.drag_source_handle_self)
         target_editor = self.listed_editors[target_index]
-        
+
         # Temporarily disable updates to prevent cascade (flicker/re-entry)
         saved_busy = self.busy_update
         self.busy_update = True
-        
+
         # Perform the reorder
         self._reorder_tab(source_editor, target_editor)
-        
+
         # Re-enable updates
         self.busy_update = saved_busy
-        
+
         # Update the list to reflect new order
         self.update()
-        
+
         # Re-focus the tab that was just moved
         if source_editor:
             source_editor.focus()
-        
+
         self._reset_drag_state()
 
     def _reset_drag_state(self):
@@ -545,7 +545,7 @@ class Command:
             return -1
         rel_index = y // item_h
         index = top_index + rel_index
-        
+
         # limit index to be within the list
         if index < 0:
             index = 0
@@ -560,13 +560,13 @@ class Command:
         """
         if source_editor is None or target_editor is None:
             return
-            
+
         source_group = source_editor.get_prop(PROP_INDEX_GROUP)
         source_tab_idx = source_editor.get_prop(PROP_INDEX_TAB)
-        
+
         target_group = target_editor.get_prop(PROP_INDEX_GROUP)
         target_tab_idx = target_editor.get_prop(PROP_INDEX_TAB)
-                
+
         # Check if moving between different groups
         if source_group != target_group:
             # 1. Set the editor to the new group.
@@ -575,13 +575,13 @@ class Command:
             #    will handle shifting other tabs.
             source_editor.set_prop(PROP_INDEX_TAB, target_tab_idx)
             return
-            
+
         # Same group - just take the target's position
         new_position = target_tab_idx
         if source_tab_idx == new_position:
             # Source and target are same position, nothing to do
             return
-        
+
         # Just set the source tab to the target position.
         # CudaText will automatically shift other tabs.
         source_editor.set_prop(PROP_INDEX_TAB, new_position)
