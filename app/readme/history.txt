@@ -5,8 +5,15 @@
 
 1.229.6 (2025/11)
 
-+ add: Tabs List plugin: added drag-and-drop of tabs, added showing of groups-headers when tabs exist in non-first groups (patch by @badrelmers)
-+ add: API "cursor"/"on_mouse_move", which allows Tabs_List plugin to change mouse cursor during drag-and-drop
++ add: Tabs List plugin, patches by @badrelmers:
+	+ add: Tabs List plugin: add drag-and-drop functionality to reorder tabs directly within the list
+	+ add: Tabs List plugin: the list now displays headers for each tab group, making it easier to see tab organization
+	+ add: Tabs List plugin: tabs can be moved between different editor groups (e.g., from "Group 1" to a "Floating" group)
+	+ add: Tabs List plugin: add auto-scrolling when dragging a tab near the top or bottom of the list
+	+ add: Tabs List plugin: add new option in "cuda_tabs_list.ini": "auto_scroll_speed"
+	* change: Tabs List plugin: The filter input box now respects the `font_name` and `font_size` settings from the config
+
++ add: new API "cursor"/"on_mouse_move", which allows Tabs_List plugin to change mouse cursor during drag-and-drop
 - fix: undo/redo system had minor bug (wrong caret pos) when redo-ing at the very document end (thanks @pintassilgo)
 - fix: bug in API event "on_lexer" which caused plugin Markdown_Image to init even when it's not used
 
