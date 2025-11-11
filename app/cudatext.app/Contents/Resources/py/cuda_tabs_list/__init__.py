@@ -416,14 +416,14 @@ class Command:
             if (0 <= target_index < len(self.listed_editors) and
                 self.listed_editors[target_index] is not None):
                 # Valid drop target - show drag cursor
-                dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, index=self.n_list, prop={
-                    'cursor': CURSOR_DRAG,
-                })
+                cur_cursor = CURSOR_DRAG
             else:
                 # Invalid drop target (header or out of bounds) - show no-drop cursor
-                dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, index=self.n_list, prop={
-                    'cursor': CURSOR_NO_DROP,
-                })
+                cur_cursor = CURSOR_NO_DROP
+
+            dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, index=self.n_list, prop={
+                'cursor': cur_cursor
+            })
 
     def list_mouse_up(self, id_dlg, id_ctl, data='', info=''):
         """
