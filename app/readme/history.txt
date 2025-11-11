@@ -3,6 +3,9 @@
   - fixed
   * changed
 
+1.229.6 (2025/11)
+
++ add: Tabs List plugin: added drag-and-drop of tabs, added showing of groups-headers when tabs exist in non-first groups (patch by @badrelmers)
 - fix: undo/redo system had minor bug (wrong caret pos) when redo-ing at the very document end (thanks @pintassilgo)
 
 1.229.5 (2025/11)
