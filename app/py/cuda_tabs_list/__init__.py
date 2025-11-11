@@ -8,11 +8,13 @@ _   = get_translation(__file__)  # I18N
 fn_config = os.path.join(app_path(APP_DIR_SETTINGS), 'cuda_tabs_list.ini')
 fn_icon = 'tabs.png'
 
+def bool_to_str(v): return '1' if v else '0'
+def str_to_bool(s): return s=='1'
+
 CAPTION_GROUP = _('Group')
 CAPTION_FLOATING = _('Floating')
 
-def bool_to_str(v): return '1' if v else '0'
-def str_to_bool(s): return s=='1'
+AUTO_SCROLL_CALLBACK = "module=cuda_tabs_list;cmd=auto_scroll_callback;" # string callback works faster than callable
 
 THEME = app_proc(PROC_THEME_UI_DICT_GET, '')
 
@@ -545,7 +547,7 @@ class Command:
         if self.scroll_timer_tag is None:
             self.scroll_timer_tag = timer_proc(
                 TIMER_START_ONE,
-                self._auto_scroll_callback,
+                AUTO_SCROLL_CALLBACK,
                 self.scroll_timer_interval,
                 tag='auto_scroll'
             )
@@ -555,10 +557,10 @@ class Command:
         Stops the auto-scroll timer.
         """
         if self.scroll_timer_tag is not None:
-            timer_proc(TIMER_STOP, self._auto_scroll_callback, 0, tag='auto_scroll')
+            timer_proc(TIMER_STOP, AUTO_SCROLL_CALLBACK, 0, tag='auto_scroll')
             self.scroll_timer_tag = None
 
-    def _auto_scroll_callback(self, tag='', info=''):
+    def auto_scroll_callback(self, tag='', info=''):
         """
         Timer callback that performs auto-scrolling when mouse is near edges.
         """
@@ -602,7 +604,7 @@ class Command:
         if self.is_dragging:
             self.scroll_timer_tag = timer_proc(
                 TIMER_START_ONE,
-                self._auto_scroll_callback,
+                AUTO_SCROLL_CALLBACK,
                 self.scroll_timer_interval,
                 tag='auto_scroll'
             )
