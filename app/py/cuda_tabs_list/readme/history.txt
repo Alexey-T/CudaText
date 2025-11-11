@@ -1,4 +1,4 @@
-2025.11.11
+2025.11.11 (by @badrelmers)
 + Add drag-and-drop functionality to reorder tabs directly within the list.
 + Tabs can be moved between different editor groups (e.g., from "Group 1" to a "Floating" group).
 + The list now displays headers for each tab group, making it easier to see tab organization.
