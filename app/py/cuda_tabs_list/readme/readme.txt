@@ -51,5 +51,7 @@ These settings control the optional columns in the list.
 		○ Toggles the visibility of the "Lexer" column, which shows the file's type.
 		○ Set to 1 to show this column, or 0 to hide it.
 
-Author: Alexey Torgashin (CudaText)
+Authors:
+- Alexey Torgashin (CudaText)
+- Badr Elmers, https://github.com/badrelmers
 License: MIT
