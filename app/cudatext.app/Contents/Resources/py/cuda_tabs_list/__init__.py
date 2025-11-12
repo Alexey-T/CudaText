@@ -14,6 +14,7 @@ def str_to_bool(s): return s=='1'
 CAPTION_GROUP = _('Group')
 CAPTION_FLOATING = _('Floating')
 CH_DIS = chr(1)
+CH_GRP = '───'
 
 AUTO_SCROLL_CALLBACK = "module=cuda_tabs_list;cmd=auto_scroll_callback;" # string callback works faster than callable
 
@@ -227,7 +228,7 @@ class Command:
 
                 # Add group header (non-selectable)
                 listbox_proc(self.h_list, LISTBOX_ADD_PROP, index=-1,
-                    text=f"─── {group_name} ───"+CH_DIS,
+                    text=CH_GRP+' '+group_name+' '+CH_GRP+CH_DIS,
                     tag={'is_header': True, 'group': group_idx})
                 # Add a placeholder 'None' to our internal list to keep indices aligned
                 self.listed_editors.append(None)
