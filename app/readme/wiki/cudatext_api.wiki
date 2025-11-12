@@ -1764,7 +1764,7 @@ Possible values of "id_action":
 * LISTBOX_SET_HEADER_IMAGELIST: Sets int handle of header's image-list.
 * LISTBOX_GET_HEADER_IMAGEINDEXES: Returns header's image-list indexes, as list of int.
 * LISTBOX_SET_HEADER_IMAGEINDEXES: Sets header's image-list indexes. Param "text": list of int. For example, [-1, 4, 6] means "show image=4 for column 1, and image=6 for column 2".
-* LISTBOX_SET_CHAR_DISABLED: Sets char for 'disabled' items. When a listbox item ends with 'disabled char', item will be painted with 'button disabled' color, and X mark won't be painted for this item. By default 'disabled char' is chr(0) so feature is not used.
+* LISTBOX_SET_DISABLING_CHAR: Sets char of 'disabled' items. When a listbox item ends with 'disabling char', item will be painted with 'disabled button' color, and X mark won't be painted for this item. By default 'disabling char' is chr(0) so feature is not used.
 
 Listbox can have columns. It works only if listbox is not owner-drawn, and column sizes were set via LISTBOX_SET_COLUMNS. You must add separator-chars inside items to split items into columns.
 
@@ -5200,6 +5200,6 @@ It provides:
 1.0.467 (app 1.230.0)
 * add: dlg_proc: all controls new property "cursor"
 * add: dlg_proc: all controls new property "on_mouse_move"
-* add: listbox_proc: LISTBOX_SET_CHAR_DISABLED
+* add: listbox_proc: LISTBOX_SET_DISABLING_CHAR
 
 [[Category:CudaText]]

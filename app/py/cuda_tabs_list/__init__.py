@@ -129,7 +129,7 @@ class Command:
         listbox_proc(self.h_list, LISTBOX_SET_SHOW_X, index=2)
         listbox_proc(self.h_list, LISTBOX_SET_HOTTRACK, index=1)
         listbox_proc(self.h_list, LISTBOX_SET_COLUMN_SEP, text='|')
-        listbox_proc(self.h_list, LISTBOX_SET_CHAR_DISABLED, text='\1')
+        listbox_proc(self.h_list, LISTBOX_SET_DISABLING_CHAR, text='\1')
 
         sizes = [self.column_name]
         if self.show_column_folder:
