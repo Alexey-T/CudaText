@@ -7130,6 +7130,13 @@ begin
             Result:= ReturnNone;
           end;
 
+        LISTBOX_SET_CHAR_DISABLED:
+          begin
+            if StrText<>'' then
+              Listbox.CharDisabled:= StrText[1];
+            Result:= ReturnNone;
+          end
+
         else
           Result:= ReturnNone;
       end;

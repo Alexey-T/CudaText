@@ -129,6 +129,7 @@ class Command:
         listbox_proc(self.h_list, LISTBOX_SET_SHOW_X, index=2)
         listbox_proc(self.h_list, LISTBOX_SET_HOTTRACK, index=1)
         listbox_proc(self.h_list, LISTBOX_SET_COLUMN_SEP, text='|')
+        listbox_proc(self.h_list, LISTBOX_SET_CHAR_DISABLED, text='\1')
 
         sizes = [self.column_name]
         if self.show_column_folder:
@@ -225,7 +226,7 @@ class Command:
 
                 # Add group header (non-selectable)
                 listbox_proc(self.h_list, LISTBOX_ADD_PROP, index=-1,
-                    text=f"─── {group_name} ───",
+                    text=f"─── {group_name} ───\1",
                     tag={'is_header': True, 'group': group_idx})
                 # Add a placeholder 'None' to our internal list to keep indices aligned
                 self.listed_editors.append(None)
