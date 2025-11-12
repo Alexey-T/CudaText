@@ -14,8 +14,8 @@
   + add: Tabs List plugin: the filter input box now respects the "font_name" and "font_size" settings from the config
 
 + add: new API "cursor"/"on_mouse_move", which allows Tabs_List plugin to change mouse cursor during drag-and-drop
-- fix: undo/redo system had minor bug (wrong caret pos) when redo-ing at the very document end (thanks @pintassilgo)
-- fix: bug in API event "on_lexer" which caused plugin Markdown_Image to init even when it's not used
+- fix: undo/redo system had few minor bugs, e.g. wrong caret pos when redoing at the document end (thanks @pintassilgo)
+- fix: bug in API event "on_lexer" which caused plugin Markdown_Image to init too early
 
 1.229.5 (2025/11)
 
