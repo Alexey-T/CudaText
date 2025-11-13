@@ -13,11 +13,9 @@ if typing.TYPE_CHECKING:
     from typing_extensions import Self
 
     class HasGettableStringKeys(Protocol):
-        def keys(self) -> typing.Iterator[str]:
-            ...
+        def keys(self) -> typing.Iterator[str]: ...
 
-        def __getitem__(self, key: str) -> str:
-            ...
+        def __getitem__(self, key: str) -> str: ...
 
 
 __all__ = ["RecentlyUsedContainer", "HTTPHeaderDict"]
@@ -33,7 +31,7 @@ _DT = typing.TypeVar("_DT")
 ValidHTTPHeaderSource = typing.Union[
     "HTTPHeaderDict",
     typing.Mapping[str, str],
-    typing.Iterable[typing.Tuple[str, str]],
+    typing.Iterable[tuple[str, str]],
     "HasGettableStringKeys",
 ]
 
@@ -55,7 +53,7 @@ def ensure_can_construct_http_header_dict(
         # Similarly to Mapping, full runtime checking of the contents of an Iterable is
         # expensive, so for the purposes of typechecking, we assume that any Iterable
         # is the right shape.
-        return typing.cast(typing.Iterable[typing.Tuple[str, str]], potential)
+        return typing.cast(typing.Iterable[tuple[str, str]], potential)
     elif hasattr(potential, "keys") and hasattr(potential, "__getitem__"):
         return typing.cast("HasGettableStringKeys", potential)
     else:
@@ -155,7 +153,7 @@ class RecentlyUsedContainer(typing.Generic[_KT, _VT], typing.MutableMapping[_KT,
             return set(self._container.keys())
 
 
-class HTTPHeaderDictItemView(typing.Set[typing.Tuple[str, str]]):
+class HTTPHeaderDictItemView(set[tuple[str, str]]):
     """
     HTTPHeaderDict is unusual for a Mapping[str, str] in that it has two modes of
     address.
@@ -352,7 +350,7 @@ class HTTPHeaderDict(typing.MutableMapping[str, str]):
             for key, val in other.items():
                 self.add(key, val)
         elif isinstance(other, typing.Iterable):
-            other = typing.cast(typing.Iterable[typing.Tuple[str, str]], other)
+            other = typing.cast(typing.Iterable[tuple[str, str]], other)
             for key, value in other:
                 self.add(key, value)
         elif hasattr(other, "keys") and hasattr(other, "__getitem__"):
@@ -368,12 +366,10 @@ class HTTPHeaderDict(typing.MutableMapping[str, str]):
             self.add(key, value)
 
     @typing.overload
-    def getlist(self, key: str) -> list[str]:
-        ...
+    def getlist(self, key: str) -> list[str]: ...
 
     @typing.overload
-    def getlist(self, key: str, default: _DT) -> list[str] | _DT:
-        ...
+    def getlist(self, key: str, default: _DT) -> list[str] | _DT: ...
 
     def getlist(
         self, key: str, default: _Sentinel | _DT = _Sentinel.not_passed

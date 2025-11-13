@@ -1,0 +1,450 @@
+See http://wiki.freepascal.org/CudaText#How_to_make_translation
+
+2025.09.26
++ [d_cfm_op] bch
+
+2025.08.30
++ [si] Closed
+
+2025.07.12
++ [si] UndoStopped
+* delete [si] FindCount (reused FoundFragments instead)
+
+2025.06.25
++ [sta] vis
+- fix: removed duplicates of keys in [m_v]: sp_ sp_n sp_v sp_h
+
+2025.06.02
++ [sta] ins1
+* delete [sta] wr0 wr1 wr2 wr3
+
+2025.04.26
+* change [si] FoundFragments
+
+2025.03.01
+* change: removed 'toggle ' in items in [m_v]
+
+2025.02.25
+* delete [m_v] s_ g_
++ [m_v] sp_
+* change [m_v] sp_n sp_v sp_h
+
+2024.10.19
+* delete [d_unpri] end_wrp
++ [d_unpri] wrp
+
+2024.08.30
+* change [ct] url
+
+2024.08.16
++ [sc] ReloadAlways
+
+2024.08.16
+* [sc] ReloadNoMore
+
+2024.06.14
++ [d_unpri] end_wrp
+
+2024.05.03
++ [m_o] thm_
+
+2024.04.16
++ [m_f] ren
++ [d_about] ren_to
++ [d_f] h_im
+
+2024.04.07
+* delete [si] NoLineCmtDefined
+
+2024.01.10
+* delete [ui] clr_f
+
+2023.07.23
++ [sc] WrappedFwd, WrappedBack
+
+2023.05.21
+* change [d_about] cmd_tip
+* change [sc] SaveModifiedTab
+
+2023.04.22
++ [d_unpri]
++ [m_o] unpr
+* delete [m_v] u_, u_sh, u_sp, u_spt, u_e, u_ed
+
+2023.03.31
+* delete [m_f] e_eu, e_as, e_mi
+
+2023.02.22
++ [d_f] h_pres
++ [ui] fnd_pres
+* changed lines: [m_o] thm, tr_
+* delete [m_f] html
+
+2023.02.18
+* delete: [si] Readonly
+* added text: [sta] sel
++ [ui] fnd_brd
+
+2022.12.04
++ [se] SetWrap
+
+2022.08.18
++ [sc] FileDeletedOutside
+
+2022.04.11
++ [si] FontSizeChanged, LexerDisabledBySize
+
+2022.03.08
++ [m_e] pst_in, pst_hs
+
+2021.11.23
++ [d_f] h_subs
+
+2021.11.10
++ [si] CmdPalette
+
+2021.10.04
+* delete [si] MacroRec
+
+2021.03.30
++ [ct] pin
++ [sc] ClosePinned
+
+2021.02.24
++ [si] CallOptEditor
+
+2021.02.15
+* delete [m_o] ke
+* delete [si] HelpOnKeysConfig, HelpOnShowCommands
++ [d_about] cmd_tip, _clr
+* delete [d_tab_color]
+
+2021.02.04
++ [m_v] sp_n, sp_v, sp_h
+* delete [m_v] s_s, s_h
+
+2021.01.26
++ [m_v] st_l st_g
+
+2021.01.07
++ [d_f] h_r2
+
+2021.01.05
+* delete [d_f] f_f, f_n, f_p, f_tx, r_tx
++ [d_f] h_f1, h_fn, h_fp, h_xf, h_xr, h_r, h_r_a, h_r_g, h_hi
+
+2020.10.10
++ [ui] html_file html_dir
+
+2020.07.03
+* delete [sc] InstallHotkeys
++ [sc] HotkeyList OkWithoutKeys
+
+2020.06.23
++ [ui] lnk_a lnk_e
+
+2020.06.15
++ [sc] InstallHotkeys
++ [d_keys] set, ex
+* delete [d_keys] add
+
+2020.05.26
++ [d_save_tabs] tg
+
+2020.05.12
+* delete [tb] sr_*
+
+2020.02.12
++ [ui] dl_op dl_sav dl_fld
+
+2020.01.10
++ [sta] view def
+
+2019.12.03
++ [d_f] r_gl
++ [sc] ReplaceGlobal
+
+2019.11.05
++ [ui] html_tag, html_atr, html_val
+
+2019.10.31
++ [ui] t_snip
+
+2019.09.22
++ [sc] ReloadYes ReloadNoMore
+* delete [sc] ReloadItHotkeys
+
+2019.09.17
++ [m_o] thm
++ [d_theme] syn ty_ui ty_sy ele
++ [d_charmap] hex
+* delete [m_o] the_u, the_s
+
+2019.07.04
++ [ui] lex_dlg
+
+2019.06.12
++ [d_f] h_tok, tk_*
+
+2019.06.09
+* delete [m_o] mr
+
+2019.05.23
+* delete [m_o] co_ cou_ cos_
++ [m_o] the_u the_s
+
+2019.04.23
++ [tb]
+* delete [ui] tb_*
+
+2019.04.09
+* change [m_se] ex_wo
++ [si] PluginHotkeyBusy, SyntaxThemesOff
+
+2019.03.10
++ [ct] ussp
+* delete [ct] tsz, tsz_sp
+
+2019.03.02
++ [ct] cnv_t, cnv_s
+
+2019.01.06
++ [d_f] get
++ [si] FoundFragments
+
+2018.12.22
++ [se] SaveWithEnc
+
+2018.12.17
++ [si] GotoInfoExt
+* delete [si] GotoLine
++ [ui] ti_*
+
+2018.12.15
+* delete [m_h] mo, lx
+
+2018.11.23
++ [m_v] t_sl
+
+2018.11.17
++ [sta] _ln _col _sel _lsel _cr 
+
+2018.11.13
++ add [sta]
+* delete [ui] tsz, wr0, wr1, wr2
+* delete [m_f] z_w, z_u, z_m
+* delete [m_o] fi
++ [si] AddonsInstalled
+
+2018.10.15
+* delete section [d_lex_restore]
+
+2018.08.24
+* delete [si] ErrorInConfigFile, IncorrectFilename
+
+2018.08.14
++ [ui] clr_f
++ [m_v] g6v, g6h
+
+2018.07.29
++ [d_f] go_
+* delete [d_f] go_tx, go_b
+
+2018.07.24
++ [ui] tsz (for statusbar)
++ [ui] wr0, wr1, wr2 (for statusbar)
+
+2018.05.30
++ [se] AutocompeteCarets
+
+2018.05.22
+* change [m_h] co
+
+2018.05.20
++ [m_v] t_fl_s, t_fl_b
++ [ct] mov_f1, mov_f2, mov_f3
+
+2018.04.18
++ [d_cfm_op] text, uni
+
+2018.04.10
++ [m_o] usd
++ [d_lex_lib] lns
+
+2018.03.23
++ [ui] t_menu
+* delete [ui] t_goto
+
+2018.01.12
+[m_se] ex_wo
+
+2017.12.10
++ [d_cfm_op]
+* delete [se] OpenTooBig
+* delete [sc] OpenNotText
+
+2017.10.31
++ [m_v] t_ao
+
+2017.09.28
++ [m_o] pl
+
+2017.09.07
++ [ct] tr_sr
+
+2017.08.26
++ [d_lex_lib] hid, hidmk
+
+2017.08.15
++ [si] HotkeyBusy
+
+2017.08.02
++ [m_v] u_spt
+
+2017.07.23
++ [m_v] t_mo
+
+2017.07.01
++ [ct] wr
+
+2017.06.01
++ [m_h] chk
++ [m_f] op_dir
+
+2017.05.20
++ [m_v] t_dis
+
+2017.05.04
+* [d_f] f_tx, r_tx
++ [m_sr] b_ca2
+
+2017.03.25
++ [ui] t_proj, t_tabs
++ [m_f] newm
+
+2017.03.22
++ [ui] t_find, t_goto
+* del [ui] t_addon
+
+2017.02.14
++ [se] AddonApi
+
+2017.01.31
++ [ui] fnd_*
++ [d_f] h_sel
+
+2017.01.26
++ [d_lex_prop] info_theme
+
+2017.01.23
++ [si] PackageLexer, PackageAutocompl, PackageMissLexmap
+
+2017.01.03
+- [si] Installed
++ [si] AddonInstalled
+
+2016.12.28
++ [m_sr] b_cp, b_de
+
+2016.12.18
++ [sc] HotkeyBusy
+* del [si] CommandsHaveSameHotkeys, CorrectOneOfTheseHotkeys
+
+2016.12.06
+* del [d_tab_color] res
+
+2016.10.31
+* del [ui] t_sr
+
+2016.09.26
++ [d_lex_prop] tab_cmt
++ [d_lex_prop] cmt_line, cmt_str, cmt_full
++ [d_lex_prop] styles_cmt, styles_str
+* del [d_lex_prop] gen_cmt_ln
+
+2016.09.13
+* del [m_e] com_*
+
+2016.09.10
+* del [si] Sorted
+* del [m_e] sr_ sr_a sr_d
+
+2016.09.03
++ [m_o] cou cos cou_ cos_
+* del [m_o] co
++ [sc] ThemeSyntaxSame
+
+2016.07.28
++ [ui] ed_w
+
+2016.07.25
+* del [d_f] _
++ [d_f] _f _r
+
+2016.07.23
++ [d_f] _
+
+2016.07.14
++ [se] HandleZip
+* del [sc] ReloadInSessIfChanged
++ [sc] ReloadItHotkeysSess
+
+2016.07.11
++ [sc] ReloadInSessIfChanged
+
+2016.07.06
++ [si] FileLineCol
+
+2016.07.03
++ [d_keys] lex
+
+2016.07.01
++ [d_save_tabs] no_ses
++ [d_f] h_mul
+
+2016.06.26
+* change [se] FindInstallInfInZip
+
+2016.06.12
++ [d_f] sel
+
+2016.04.11
++ [m_sr] b_ca
+
+2016.04.06
++ [se] OpenTooBig
+
+2016.03.26
+* change [m_v] s_s, s_h
+
+2016.03.23
+* del [se] FindLexlib
+* del [sc] SaveModifiedLexerLib
+* del [d_lex_lib] add
+
+2016.03.19
++ [m_h] iss
++ [m_o] l_map
++ [d_lex_map]
++ [d_lex_prop] _style
++ [d_theme] sty
+
+2016.03.14
++ [se] FindBookmarks
+* del [si] PluginsJustPreinstalled
+
+2016.03.09
++ [si] PackageCommand PackageEvents InstalledNeedRestart
++ [d_lex_prop] bty_*
+
+2016.03.07
++ [d_f] items h_*
++ [ui] items b_*
+
+2016.03.06
++ [se]
++ [sc]
++ [si]
++ [ui] new items
+* [d_theme] all changed
+* del dup "ok"/"cancel"/"close"/"apply"
