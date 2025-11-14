@@ -5,7 +5,6 @@ import io
 import json as _json
 import logging
 import re
-import socket
 import sys
 import typing
 import warnings
@@ -25,6 +24,23 @@ try:
         import brotli  # type: ignore[import-not-found]
 except ImportError:
     brotli = None
+
+try:
+    import zstandard as zstd
+except (AttributeError, ImportError, ValueError):  # Defensive:
+    HAS_ZSTD = False
+else:
+    # The package 'zstandard' added the 'eof' property starting
+    # in v0.18.0 which we require to ensure a complete and
+    # valid zstd stream was fed into the ZstdDecoder.
+    # See: https://github.com/urllib3/urllib3/pull/2624
+    _zstd_version = tuple(
+        map(int, re.search(r"^([0-9]+)\.([0-9]+)", zstd.__version__).groups())  # type: ignore[union-attr]
+    )
+    if _zstd_version < (0, 18):  # Defensive:
+        HAS_ZSTD = False
+    else:
+        HAS_ZSTD = True
 
 from . import util
 from ._base_connection import _TYPE_BODY
@@ -146,15 +162,11 @@ if brotli is not None:
             return b""
 
 
-try:
-    # Python 3.14+
-    from compression import zstd  # type: ignore[import-not-found] # noqa: F401
-
-    HAS_ZSTD = True
+if HAS_ZSTD:
 
     class ZstdDecoder(ContentDecoder):
         def __init__(self) -> None:
-            self._obj = zstd.ZstdDecompressor()
+            self._obj = zstd.ZstdDecompressor().decompressobj()
 
         def decompress(self, data: bytes) -> bytes:
             if not data:
@@ -162,53 +174,15 @@ try:
             data_parts = [self._obj.decompress(data)]
             while self._obj.eof and self._obj.unused_data:
                 unused_data = self._obj.unused_data
-                self._obj = zstd.ZstdDecompressor()
+                self._obj = zstd.ZstdDecompressor().decompressobj()
                 data_parts.append(self._obj.decompress(unused_data))
             return b"".join(data_parts)
 
         def flush(self) -> bytes:
+            ret = self._obj.flush()  # note: this is a no-op
             if not self._obj.eof:
                 raise DecodeError("Zstandard data is incomplete")
-            return b""
-
-except ImportError:
-    try:
-        # Python 3.13 and earlier require the 'zstandard' module.
-        import zstandard as zstd
-
-        # The package 'zstandard' added the 'eof' property starting
-        # in v0.18.0 which we require to ensure a complete and
-        # valid zstd stream was fed into the ZstdDecoder.
-        # See: https://github.com/urllib3/urllib3/pull/2624
-        _zstd_version = tuple(
-            map(int, re.search(r"^([0-9]+)\.([0-9]+)", zstd.__version__).groups())  # type: ignore[union-attr]
-        )
-        if _zstd_version < (0, 18):  # Defensive:
-            raise ImportError("zstandard module doesn't have eof")
-    except (AttributeError, ImportError, ValueError):  # Defensive:
-        HAS_ZSTD = False
-    else:
-        HAS_ZSTD = True
-
-        class ZstdDecoder(ContentDecoder):  # type: ignore[no-redef]
-            def __init__(self) -> None:
-                self._obj = zstd.ZstdDecompressor().decompressobj()
-
-            def decompress(self, data: bytes) -> bytes:
-                if not data:
-                    return b""
-                data_parts = [self._obj.decompress(data)]
-                while self._obj.eof and self._obj.unused_data:
-                    unused_data = self._obj.unused_data
-                    self._obj = zstd.ZstdDecompressor().decompressobj()
-                    data_parts.append(self._obj.decompress(unused_data))
-                return b"".join(data_parts)
-
-            def flush(self) -> bytes:
-                ret = self._obj.flush()  # note: this is a no-op
-                if not self._obj.eof:
-                    raise DecodeError("Zstandard data is incomplete")
-                return ret  # type: ignore[no-any-return]
+            return ret
 
 
 class MultiDecoder(ContentDecoder):
@@ -466,9 +440,6 @@ class BaseHTTPResponse(io.IOBase):
     def drain_conn(self) -> None:
         raise NotImplementedError()
 
-    def shutdown(self) -> None:
-        raise NotImplementedError()
-
     def close(self) -> None:
         raise NotImplementedError()
 
@@ -543,7 +514,7 @@ class BaseHTTPResponse(io.IOBase):
     def getheaders(self) -> HTTPHeaderDict:
         warnings.warn(
             "HTTPResponse.getheaders() is deprecated and will be removed "
-            "in urllib3 v2.6.0. Instead access HTTPResponse.headers directly.",
+            "in urllib3 v2.1.0. Instead access HTTPResponse.headers directly.",
             category=DeprecationWarning,
             stacklevel=2,
         )
@@ -552,7 +523,7 @@ class BaseHTTPResponse(io.IOBase):
     def getheader(self, name: str, default: str | None = None) -> str | None:
         warnings.warn(
             "HTTPResponse.getheader() is deprecated and will be removed "
-            "in urllib3 v2.6.0. Instead use HTTPResponse.headers.get(name, default).",
+            "in urllib3 v2.1.0. Instead use HTTPResponse.headers.get(name, default).",
             category=DeprecationWarning,
             stacklevel=2,
         )
@@ -618,7 +589,6 @@ class HTTPResponse(BaseHTTPResponse):
         request_method: str | None = None,
         request_url: str | None = None,
         auto_close: bool = True,
-        sock_shutdown: typing.Callable[[int], None] | None = None,
     ) -> None:
         super().__init__(
             headers=headers,
@@ -648,7 +618,6 @@ class HTTPResponse(BaseHTTPResponse):
 
         if hasattr(body, "read"):
             self._fp = body  # type: ignore[assignment]
-        self._sock_shutdown = sock_shutdown
 
         # Are we using the chunked-style of transfer encoding?
         self.chunk_left: int | None = None
@@ -764,7 +733,7 @@ class HTTPResponse(BaseHTTPResponse):
         return length
 
     @contextmanager
-    def _error_catcher(self) -> typing.Generator[None]:
+    def _error_catcher(self) -> typing.Generator[None, None, None]:
         """
         Catch low-level python exceptions, instead re-raising urllib3
         variants, so that low-level exceptions are not leaked in the
@@ -843,7 +812,7 @@ class HTTPResponse(BaseHTTPResponse):
         happen.
 
         The known cases:
-          * CPython < 3.9.7 because of a bug
+          * 3.8 <= CPython < 3.9.7 because of a bug
             https://github.com/urllib3/urllib3/issues/2513#issuecomment-1152559900.
           * urllib3 injected with pyOpenSSL-backed SSL-support.
           * CPython < 3.10 only when `amt` does not fit 32-bit int.
@@ -1068,7 +1037,7 @@ class HTTPResponse(BaseHTTPResponse):
 
     def stream(
         self, amt: int | None = 2**16, decode_content: bool | None = None
-    ) -> typing.Generator[bytes]:
+    ) -> typing.Generator[bytes, None, None]:
         """
         A generator wrapper for the read() method. A call will block until
         ``amt`` bytes have been read from the connection or until the
@@ -1097,18 +1066,7 @@ class HTTPResponse(BaseHTTPResponse):
     def readable(self) -> bool:
         return True
 
-    def shutdown(self) -> None:
-        if not self._sock_shutdown:
-            raise ValueError("Cannot shutdown socket as self._sock_shutdown is not set")
-        if self._connection is None:
-            raise RuntimeError(
-                "Cannot shutdown as connection has already been released to the pool"
-            )
-        self._sock_shutdown(socket.SHUT_RD)
-
     def close(self) -> None:
-        self._sock_shutdown = None
-
         if not self.closed and self._fp:
             self._fp.close()
 
@@ -1201,7 +1159,7 @@ class HTTPResponse(BaseHTTPResponse):
 
     def read_chunked(
         self, amt: int | None = None, decode_content: bool | None = None
-    ) -> typing.Generator[bytes]:
+    ) -> typing.Generator[bytes, None, None]:
         """
         Similar to :meth:`HTTPResponse.read`, but with an additional
         parameter: ``decode_content``.
