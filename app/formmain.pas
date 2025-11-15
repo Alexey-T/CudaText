@@ -3044,6 +3044,7 @@ begin
     OnCloseFloatForm:= @DoSidebar_OnCloseFloatForm;
     OnGetTranslatedTitle:= @DoSidebar_GetFormTitle;
     Init(Self, alLeft);
+    ShowTitleForSide:= UiOps.ShowSidePanelTitle;
     Splitter.OnPaint:= @SplitterOnPaintDummy;
   end;
 
@@ -3058,6 +3059,7 @@ begin
     OnCloseFloatForm:= @DoBottom_OnCloseFloatForm;
     OnGetTranslatedTitle:= @DoSidebar_GetFormTitle;
     Init(Self, alBottom);
+    ShowTitleForSide:= UiOps.ShowSidePanelTitle;
     Splitter.OnPaint:= @SplitterOnPaintDummy;
   end;
 
