@@ -1698,14 +1698,18 @@ var
   H: Int64;
   N1, N2: Integer;
   Ed: TATSynEdit;
-  Caret: TATCaretItem;
 begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'L:get_sel_lines', @H)) then
     begin
       Ed:= PyHelper_EditorFromHandle(H);
-      Caret:= Ed.Carets[0];
-      Caret.GetSelLines(N1, N2, false);
+      if Ed.Carets.Count=0 then
+      begin
+        N1:= -1;
+        N2:= -1;
+      end
+      else
+        Ed.Carets[0].GetSelLines(N1, N2, false);
       Result:= Py_BuildValue('(ii)', N1, N2);
     end
   else
