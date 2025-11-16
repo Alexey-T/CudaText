@@ -3009,7 +3009,10 @@ begin
 
         LOG_GET_LINEINDEX:
           begin
-            Result:= PyLong_FromLong(Form.Ed.Carets[0].PosY);
+            if Form.Ed.Carets.Count>0 then
+              Result:= PyLong_FromLong(Form.Ed.Carets[0].PosY)
+            else
+              Result:= PyLong_FromLong(-1);
           end;
 
         LOG_SET_LINEINDEX:
@@ -3512,6 +3515,8 @@ begin
 
         PROP_LEXER_CARET:
           begin
+            if Ed.Carets.Count=0 then
+              exit(ReturnNone);
             with Ed.Carets[0] do
             begin
               Pnt.X:= PosX;
@@ -10657,9 +10662,17 @@ begin
 
         FINDER_REP_ALL_EX:
           begin
-            Caret:= Finder.Editor.Carets[0];
-            OldX:= Caret.PosX;
-            OldY:= Caret.PosY;
+            if Finder.Editor.Carets.Count>0 then
+            begin
+              Caret:= Finder.Editor.Carets[0];
+              OldX:= Caret.PosX;
+              OldY:= Caret.PosY;
+            end
+            else
+            begin
+              OldX:= 0;
+              OldY:= 0;
+            end;
             OldFromCaret:= Finder.OptFromCaret;
             OldBack:= Finder.OptBack;
             Finder.OptFromCaret:= true;
