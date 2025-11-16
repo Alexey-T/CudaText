@@ -941,24 +941,25 @@ Parameter "text" in "dlg_custom" is "\n"-separated items, one item per control.
 Each item is chr(1)-separated properties in the form "name=value".
 Possible properties:
 
-* "type": type of control; must be specified first
-* "cap": caption
+* "type": type of control, can be specified only on creating the control, not later.
+* "cap": caption.
 * "act": active state, bool. For many controls (edit, check, radio, combo_ro, checkbutton, listbox'es, listview's, tabs), it means that control's value change fires events (for dlg_proc) or closes form (for dlg_custom).
-* "x", "y": position, left/top
-* "w", "h": size, width/height
+* "x", "y": position, left and top.
+* "w": width.
+* "h": height.
 * "w_min", "w_max": Constraints for width, min/max value.
 * "h_min", "h_max": Constraints for height, min/max value.
 * "pos": position, str in the form "left,top,right,bottom". Some one-line controls ignore bottom and do auto size. If specified "x/y/w/h" together with "pos", then last mentioned prop has effect.
-* "en": enabled state, bool
-* "vis": visible state, bool
-* "hint": hint string for mouse-over. Can be multiline, "\r"-separated.
+* "en": enabled state, bool.
+* "vis": visible state, bool.
+* "hint": hint string for mouse-over. Can be multi-line, with "\r"-separated lines.
 * "texthint": text, shown with italic+pale font when value of control is empty. For "edit", "memo", "editor", "editor_edit", "editor_combo". Cannot be multi-line.
-* "color": background color
-* "autosize": control is auto-sized (by width and/or height, it's control-specific)
-* "cursor": control's mouse cursor shape, one of CURSOR_xxxx constants
-* "font_name": font name
-* "font_size": font size
-* "font_color": font color
+* "color": background color (int RGB value).
+* "autosize": control is auto-sized (by width and/or height, it's control-specific).
+* "cursor": control's mouse cursor shape, one of CURSOR_xxxx constants. Typical usage is custom implementation of drag-and-drop; in this case plugin should set "on_mouse_move" handler for the GUI control, and set CURSOR_DRAG on correct mouse-drop position, set CURSOR_NO_DROP on incorrect mouse-drop position, and later restore cursor by setting CURSOR_DEFAULT.
+* "font_name": font name.
+* "font_size": font size.
+* "font_color": font color (int RGB value).
 * "font_style": font styles. String, each char can be: "b": bold, "i": italic, "u": underline, "s": strikeout.
 * "name": optional name of control. It may be not unique for all controls.
 * "ex0"..."ex9": advanced control-specific props. Described below.
