@@ -384,6 +384,9 @@ class Command:
         self.ICON_ZIP = self.icon_get('_zip')
         self.ICON_BIN = self.icon_get('_bin')
         self.ICON_IMG = self.icon_get('_img')
+        self.ICON_TEXT = self.icon_get('_text')
+        self.ICON_AUDIO = self.icon_get('_audio')
+        self.ICON_VIDEO = self.icon_get('_video')
 
 
     def init_panel(self, and_activate=True):
@@ -1038,6 +1041,12 @@ class Command:
                 imageindex = self.ICON_ZIP
             elif is_simple_listed(path.name, MASKS_BINARY):
                 imageindex = self.ICON_BIN
+            elif is_simple_listed(path.name, MASKS_TEXT):
+                imageindex = self.ICON_TEXT
+            elif is_simple_listed(path.name, MASKS_AUDIO):
+                imageindex = self.ICON_AUDIO
+            elif is_simple_listed(path.name, MASKS_VIDEO):
+                imageindex = self.ICON_VIDEO
             else:
                 lexname = lexer_proc(LEXER_DETECT, path.name)
                 if lexname:
@@ -1750,6 +1759,11 @@ class Command:
         if not os.path.isfile(str(path)):
             tree_proc(self.tree, TREE_ITEM_SET_ICON, self.selected, image_index=self.ICON_BAD)
             return
+
+        open_def_ext = tuple(MASKS_ZIP.split(' ') + MASKS_BINARY.split(' ') + MASKS_AUDIO.split(' ') + MASKS_VIDEO.split(' '))
+        if info.caption.endswith(open_def_ext):
+            self.action_open_def()
+            return False #block opening
 
         _file_open(str(path), options=options)
 
