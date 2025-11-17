@@ -1758,7 +1758,7 @@ class Command:
         open_def_ext = tuple(MASKS_ZIP.split(' ') + MASKS_BINARY.split(' ') + MASKS_AUDIO.split(' ') + MASKS_VIDEO.split(' '))
         if info.caption.endswith(open_def_ext):
             self.action_open_def()
-            return False #block opening
+            return
 
         _file_open(str(path), options=options)
 
