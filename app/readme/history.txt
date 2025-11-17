@@ -5,7 +5,7 @@
 
 1.230.1 (2025/11)
 
-+ add: Project Manager: add icons for popular audio-, video-, text-formats; dbl-click now opens some popular binary-files in 'default application' (patch by @ildarkhasanshin)
++ add: Project Manager: add icons for popular audio-, video-, text-formats; file opening (via click / dbl-click / Enter / Space) now opens some popular binary-files in 'default application' (patch by @ildarkhasanshin)
 
 1.230.0 (2025/11)
 
