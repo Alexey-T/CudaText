@@ -3207,7 +3207,7 @@ Loads the file with given filename into editor. If loaded: repaints the editor, 
 
 Param "options" (str) may have the following substrings:
 
-* "/ignore_frame": For editor inside UI-tab, don't search for corresponding UI-tab and so don't update UI-tab's properties (filename, modified etc).
+* "/no_tab": Don't search for corresponding UI-tab and so don't update UI-tab's properties (filename, modified etc). Makes sense if plugin creates independent editor object from dlg_proc().
 
 Possible return codes:
 

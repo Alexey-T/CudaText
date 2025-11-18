@@ -928,7 +928,7 @@ begin
         NResultCode:= TAppEditorLoadResult.SizeTooBig
       else
         try
-          bFindFrame:= Pos('/ignore_frame', StrOptions)=0;
+          bFindFrame:= Pos('/no_tab', StrOptions)=0;
           if bFindFrame then
             Frame:= TGroupsHelper.GetEditorFrame(Ed)
           else
