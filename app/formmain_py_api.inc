@@ -908,7 +908,7 @@ var
   StrFilename: string;
   NResultCode: TAppEditorLoadResult;
 const
-  cMaxFileSize = 1024*1024*1024; // 1 GB
+  cMaxFileSize = MaxLongint-1;
 begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'Ls:load', @H, @PtrFilename)) then

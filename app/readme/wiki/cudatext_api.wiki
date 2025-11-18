@@ -3209,9 +3209,9 @@ Possible return codes:
 
 * None: Some unexpected API fail.
 * 0: File was loaded successfully.
-* 1: Given filename was not found.
+* 1: Filename was not found.
 * 2: Read-error occured.
-* 3: Size is too big. Current size limiation is about 1 GB, option "ui_max_size_open" is not used here.
+* 3: Size is too big. Current size limiation is 2 GB, option "ui_max_size_open" is not used here.
 
 ===Editor.cmd===
 
