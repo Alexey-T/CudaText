@@ -252,9 +252,6 @@ type
       AAllowLexerDetect, AAllowErrorMsgBox,
       AKeepScroll, AAllowLoadUndo: boolean; AOpenMode: TAppOpenMode);
     procedure DoImageboxImageResize(Sender: TObject);
-    procedure DoOnChangeCaption;
-    procedure DoOnUpdateState;
-    procedure DoOnUpdateStatusbar(AReason: TAppStatusbarUpdateReason);
     procedure EditorContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
     procedure EditorClickEndSelect(Sender: TObject; APrevPnt, ANewPnt: TPoint);
     procedure EditorClickMoveCaret(Sender: TObject; APrevPnt, ANewPnt: TPoint);
@@ -381,6 +378,7 @@ type
 
   protected
     procedure DoOnResize; override;
+
   public
     { public declarations }
     Ed1: TATSynEdit;
@@ -530,6 +528,9 @@ type
     procedure DoFocusNotificationPanel;
     procedure DoHideNotificationPanels;
     procedure DoHideNotificationPanel(const AControls: TAppFrameNotificationControls);
+    procedure DoOnUpdateStatusbar(AReason: TAppStatusbarUpdateReason);
+    procedure DoOnChangeCaption;
+    procedure DoOnUpdateState;
     //macro
     procedure DoMacroStartOrStop;
     property MacroRecord: boolean read FMacroRecord;

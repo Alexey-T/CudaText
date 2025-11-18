@@ -936,6 +936,7 @@ begin
             Frame.SetFileName(Ed, '');
             Ed.Modified:= false;
             Frame.UpdateModified(Ed, false);
+            Frame.LexerName[Ed]:= '';
           end;
 
           Ed.LoadFromFile(StrFilename, []);
@@ -950,6 +951,7 @@ begin
               Frame.FileName2:= StrFilename;
             Frame.UpdateCaptionFromFilename;
             Frame.NotifEnabled:= true;
+            Frame.DoOnUpdateStatusbar(TAppStatusbarUpdateReason.FileOpen);
           end;
         except
           NResultCode:= TAppEditorLoadResult.ReadError;
