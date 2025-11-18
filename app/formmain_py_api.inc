@@ -932,6 +932,7 @@ begin
           Frame:= TGroupsHelper.GetEditorFrame(Ed);
           if Assigned(Frame) then
           begin
+            NEditorIndex:= Frame.EditorObjToIndex(Ed);
             Frame.NotifEnabled:= false;
             Frame.SetFileName(Ed, '');
             Ed.Modified:= false;
@@ -944,7 +945,6 @@ begin
 
           if Assigned(Frame) then
           begin
-            NEditorIndex:= Frame.EditorObjToIndex(Ed);
             if NEditorIndex=0 then
               Frame.FileName:= StrFilename
             else
