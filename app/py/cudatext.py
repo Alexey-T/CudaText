@@ -1418,8 +1418,8 @@ class Editor:
     def save(self, filename='', as_copy=False):
         return ct.ed_save(self.h, filename, as_copy)
 
-    def load(self, filename):
-        return ct.ed_load(self.h, filename)
+    def load(self, filename, options=''):
+        return ct.ed_load(self.h, filename, options)
 
     def cmd(self, code, text=''):
         return ct.ed_cmd(self.h, code, esc_z(text))

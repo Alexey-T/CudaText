@@ -904,20 +904,22 @@ var
   H: Int64;
   Ed: TATSynEdit;
   Frame: TEditorFrame;
-  PtrFilename: PChar;
-  StrFilename: string;
+  PtrFilename, PtrOptions: PChar;
+  StrFilename, StrOptions: string;
   NResultCode: TAppEditorLoadResult;
+  bFindFrame: boolean;
 const
   cMaxFileSize = MaxLongint-1;
 begin
   with AppPython.Engine do
-    if Bool(PyArg_ParseTuple(Args, 'Ls:load', @H, @PtrFilename)) then
+    if Bool(PyArg_ParseTuple(Args, 'Lss:load', @H, @PtrFilename, @PtrOptions)) then
     begin
       Ed:= PyHelper_EditorFromHandle(H);
       if Ed=nil then
         exit(ReturnNone);
 
       StrFilename:= string(PtrFilename);
+      StrOptions:= string(PtrOptions);
 
       if not FileExists(StrFilename) then
         NResultCode:= TAppEditorLoadResult.FileNotFound
@@ -926,7 +928,12 @@ begin
         NResultCode:= TAppEditorLoadResult.SizeTooBig
       else
         try
-          Frame:= TGroupsHelper.GetEditorFrame(Ed);
+          bFindFrame:= Pos('/ignore_frame', StrOptions)=0;
+          if bFindFrame then
+            Frame:= TGroupsHelper.GetEditorFrame(Ed)
+          else
+            Frame:= nil;
+
           if Assigned(Frame) then
           begin
             Frame.NotifEnabled:= false;
