@@ -3201,9 +3201,13 @@ Notes:
 
 ===Editor.load===
 
- load(filename)
+ load(filename, options="")
 
-Loads the file with given filename into editor (and repaints the editor, and does not activate the lexer).
+Loads the file with given filename into editor. If loaded: repaints the editor, and does not activate the lexer.
+
+Param "options" (str) may have the following substrings:
+
+* "/ignore_frame": For editor inside UI-tab, don't search for corresponding UI-tab and so don't update UI-tab's properties (filename, modified etc).
 
 Possible return codes:
 
