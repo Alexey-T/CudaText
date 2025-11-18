@@ -907,6 +907,7 @@ var
   PtrFilename: PChar;
   StrFilename: string;
   NResultCode: TAppEditorLoadResult;
+  NEditorIndex: integer;
 const
   cMaxFileSize = MaxLongint-1;
 begin
@@ -933,6 +934,8 @@ begin
           begin
             Frame.NotifEnabled:= false;
             Frame.SetFileName(Ed, '');
+            Ed.Modified:= false;
+            Frame.UpdateModified(Ed, false);
           end;
 
           Ed.LoadFromFile(StrFilename, []);
@@ -940,7 +943,11 @@ begin
 
           if Assigned(Frame) then
           begin
-            Frame.SetFileName(Ed, StrFilename);
+            NEditorIndex:= Frame.EditorObjToIndex(Ed);
+            if NEditorIndex=0 then
+              Frame.FileName:= StrFilename
+            else
+              Frame.FileName2:= StrFilename;
             Frame.UpdateCaptionFromFilename;
             Frame.NotifEnabled:= true;
           end;

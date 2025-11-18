@@ -434,8 +434,8 @@ type
     property NotifDeletedEnabled: boolean read FNotifDeletedEnabled write FNotifDeletedEnabled;
     procedure NotifyAboutChange(Ed: TATSynEdit);
 
-    property FileName: string read FFileName;
-    property FileName2: string read FFileName2;
+    property FileName: string read FFileName write SetFileName;
+    property FileName2: string read FFileName2 write SetFileName2;
     property LexerChooseFunc: TecLexerChooseFunc read FLexerChooseFunc write FLexerChooseFunc;
     function GetFileName(Ed: TATSynEdit): string;
     procedure SetFileName(Ed: TATSynEdit; const AFileName: string);
