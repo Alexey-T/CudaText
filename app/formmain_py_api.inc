@@ -891,6 +891,68 @@ begin
 end;
 
 
+type
+  TAppEditorLoadResult = (
+    Ok,
+    FileNotFound,
+    ReadError,
+    SizeTooBig
+    );
+
+function api_ed_load(Self, Args: PPyObject): PPyObject; cdecl;
+var
+  H: Int64;
+  Ed: TATSynEdit;
+  Frame: TEditorFrame;
+  PtrFilename: PChar;
+  StrFilename: string;
+  NResultCode: TAppEditorLoadResult;
+const
+  cMaxFileSize = 1024*1024*1024; // 1 GB
+begin
+  with AppPython.Engine do
+    if Bool(PyArg_ParseTuple(Args, 'Ls:load', @H, @PtrFilename)) then
+    begin
+      Ed:= PyHelper_EditorFromHandle(H);
+      if Ed=nil then
+        exit(ReturnNone);
+
+      StrFilename:= string(PtrFilename);
+
+      if not FileExists(StrFilename) then
+        NResultCode:= TAppEditorLoadResult.FileNotFound
+      else
+      if FileSize(StrFilename)>cMaxFileSize then
+        NResultCode:= TAppEditorLoadResult.SizeTooBig
+      else
+        try
+          Frame:= TGroupsHelper.GetEditorFrame(Ed);
+          if Assigned(Frame) then
+          begin
+            Frame.NotifEnabled:= false;
+            Frame.SetFileName(Ed, '');
+          end;
+
+          Ed.LoadFromFile(StrFilename, []);
+          NResultCode:= TAppEditorLoadResult.Ok;
+
+          if Assigned(Frame) then
+          begin
+            Frame.SetFileName(Ed, StrFilename);
+            Frame.UpdateCaptionFromFilename;
+            Frame.NotifEnabled:= true;
+          end;
+        except
+          NResultCode:= TAppEditorLoadResult.ReadError;
+        end;
+
+      Result:= PyLong_FromLong(Ord(NResultCode));
+    end
+    else
+      Result:= ReturnNone;
+end;
+
+
 function api_ed_get_text_sel(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
@@ -10794,6 +10856,7 @@ begin
     AddMethod('ed_get_wrapinfo', @api_ed_get_wrapinfo, '');
 
     AddMethod('ed_save', @api_ed_save, '');
+    AddMethod('ed_load', @api_ed_load, '');
     AddMethod('ed_cmd', @api_ed_cmd, '');
     AddMethod('ed_lock', @api_ed_lock, '');
     AddMethod('ed_unlock', @api_ed_unlock, '');
