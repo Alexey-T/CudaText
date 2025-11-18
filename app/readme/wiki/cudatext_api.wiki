@@ -3201,13 +3201,9 @@ Notes:
 
 ===Editor.load===
 
- load(filename, options="")
+ load(filename)
 
-Loads the file with given filename into editor. If loaded: repaints the editor, and does not activate the lexer.
-
-Param "options" (str) may have the following substrings:
-
-* "/no_tab": Don't search for corresponding UI-tab and so don't update UI-tab's properties (filename, modified etc). Makes sense if plugin creates independent editor object from dlg_proc().
+Loads the file with given filename into editor. If loaded: repaints the editor, does not activate the lexer.
 
 Possible return codes:
 
