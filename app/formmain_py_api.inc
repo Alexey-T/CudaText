@@ -6885,35 +6885,6 @@ begin
             Result:= ReturnNone;
           end;
 
-        LISTBOX_GET_ITEM:
-          begin
-            if IndexOk then
-            begin
-              Obj:= Listbox.Items.Objects[NIndex];
-              if Assigned(Obj) then
-                Result:= Py_BuildValue('(sL)',
-                  PChar(Listbox.Items[NIndex]),
-                  PtrInt((Obj as TATListboxItemProp).Tag) )
-              else
-                Result:= ReturnNone;
-            end
-            else
-              Result:= ReturnNone;
-          end;
-
-        LISTBOX_SET_ITEM:
-          begin
-            if IndexOk then
-            begin
-              Listbox.Items[NIndex]:= StrText;
-              Obj:= Listbox.Items.Objects[NIndex];
-              if Assigned(Obj) then
-                (Obj as TATListboxItemProp).Tag:= NTag;
-              Listbox.Invalidate;
-            end;
-            Result:= ReturnNone;
-          end;
-
         LISTBOX_GET_SEL:
           begin
             Result:= PyLong_FromLong(Listbox.ItemIndex);
