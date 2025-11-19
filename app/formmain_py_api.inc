@@ -2207,18 +2207,6 @@ begin
             Result:= ReturnNone;
           end;
 
-        BOOKMARK_GET_LIST:
-          begin
-            NCount:= Strs.Bookmarks.Count;
-            Result:= PyList_New(NCount);
-            if not Assigned(Result) then
-              raise EPythonError.Create(msgPythonListError);
-            for i:= 0 to NCount-1 do
-              PyList_SetItem(Result, i,
-                PyLong_FromLong(Strs.Bookmarks[i]^.Data.LineNum)
-                );
-          end;
-
         BOOKMARK_GET_ALL:
           begin
             Result:= PyHelper_BookmarkGetAll(Strs.Bookmarks);
