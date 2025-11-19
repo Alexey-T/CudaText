@@ -2895,7 +2895,7 @@ Controls bookmarks. Possible values of "id":
 ** "hint": str
 ** "auto_delx": enum, 0: don't auto-delete; 1: auto-delete; 2: auto-delete if global option is set
 ** "show_in_list": bool
-* BOOKMARK_GET_LIST: Returns list of line indexes, which have bookmarks. Param "nline" ignored.
+
 * BOOKMARK_GET_PROP: Returns properties of bookmark at line index, given by param "nline". Returns dict, like for BOOKMARK_GET_ALL, or None.
 
 * BOOKMARK_SET: Sets bookmark.
@@ -5218,5 +5218,6 @@ It provides:
 * add: Editor.load
 * delete Editor.markers's MARKERS_GET action (use MARKERS_GET_DICT instead)
 * delete Editor.attr's MARKERS_GET action (use MARKERS_GET_DICT instead)
+* delete Editor.bookmark's BOOKMARK_GET_LIST action (use BOOKMARK_GET_ALL instead)
 
 [[Category:CudaText]]
