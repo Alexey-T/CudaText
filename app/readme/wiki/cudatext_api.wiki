@@ -5219,7 +5219,7 @@ It provides:
 
 1.0.468 (app 1.230.1)
 * add: Editor.load
-* deprecated: Editor.markers MARKERS_GET action
-* deprecated: Editor.attr MARKERS_GET action
+* deprecate Editor.markers's MARKERS_GET action (use MARKERS_GET_DICT instead)
+* deprecate Editor.attr's MARKERS_GET action (use MARKERS_GET_DICT instead)
 
 [[Category:CudaText]]
