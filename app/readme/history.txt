@@ -6,7 +6,7 @@
 1.230.1 (2025/11)
 
 + add: Project Manager: add icons for popular audio-, video-formats; file opening (any way: click, dbl-click, Enter, Space) opens some popular binary-files in 'default application' (patch by @ildarkhasanshin)
-- fix: before, plugin Spell_Checker command "Remove marks" did not free the memory of marks-list when _lot_ of marks were found; now marks-list is freed (thanks @badrelmers)
+- fix: before, plugin Spell_Checker command "Remove marks" did not free the memory of marks-list when _lot_ of marks were found; now memory is freed (thanks @badrelmers)
 
 1.230.0 (2025/11)
 
