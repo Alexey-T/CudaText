@@ -1199,26 +1199,6 @@ begin
       Ed:= PyHelper_EditorFromHandle(H);
 
       case Id of
-        MARKERS_GET:
-          begin
-            NLenX:= Ed.Markers.Count;
-            Result:= PyList_New(NLenX);
-            if not Assigned(Result) then
-              raise EPythonError.Create(msgPythonListError);
-            for i:= 0 to NLenX-1 do
-            begin
-              Mark:= Ed.Markers[i];
-              PyList_SetItem(Result, i,
-                Py_BuildValue('(iiiiL)',
-                  Mark.PosX,
-                  Mark.PosY,
-                  Mark.SelX,
-                  Mark.SelY,
-                  Mark.Tag
-                  ));
-            end;
-          end;
-
         MARKERS_GET_DICT:
           begin
             NLenX:= Ed.Markers.Count;
@@ -1371,37 +1351,6 @@ begin
       StrFontStrike:= string(PtrFontStrike);
 
       case Id of
-        MARKERS_GET:
-          begin
-            NLen:= Ed.Attribs.Count;
-            Result:= PyList_New(NLen);
-            if not Assigned(Result) then
-              raise EPythonError.Create(msgPythonListError);
-            for i:= 0 to NLen-1 do
-            begin
-              Mark:= Ed.Attribs[i];
-              PyList_SetItem(Result, i,
-                Py_BuildValue('(LiiiiiiiiiiiiiLi)',
-                  Mark.Tag,
-                  Mark.PosX,
-                  Mark.PosY,
-                  Mark.SelX,
-                  Mark.LinePart.ColorFont,
-                  Mark.LinePart.ColorBG,
-                  Mark.LinePart.ColorBorder,
-                  Ord((Mark.LinePart.FontStyles and afsFontBold)<>0),
-                  Ord((Mark.LinePart.FontStyles and afsFontItalic)<>0),
-                  Ord((Mark.LinePart.FontStyles and afsFontCrossed)<>0),
-                  Ord(Mark.LinePart.BorderLeft),
-                  Ord(Mark.LinePart.BorderRight),
-                  Ord(Mark.LinePart.BorderDown),
-                  Ord(Mark.LinePart.BorderUp),
-                  Mark.TagEx,
-                  Ord(Mark.MicromapMode)
-                  ));
-            end;
-          end;
-
         MARKERS_GET_DICT:
           begin
             NLen:= Ed.Attribs.Count;
