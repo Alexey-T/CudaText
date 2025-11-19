@@ -1737,8 +1737,6 @@ Possible values of "id_action":
 * LISTBOX_ADD_PROP: Adds item with given text and other properties. Returns new count of items. Param "index": index of new item, or -1 to append. Param "text": text of item. Param "tag" must be dict, where dict keys known to API are: "tag", "modified", "datatext".
 * LISTBOX_DELETE: Deletes item with given index.
 * LISTBOX_DELETE_ALL: Deletes all items.
-* LISTBOX_GET_ITEM: Returns text/tag of item with given index. Returns 2-tuple (text, tag) or None if index incorrect.
-* LISTBOX_SET_ITEM: Sets text/tag of item with given index. Params used: "index", "text", "tag".
 * LISTBOX_GET_ITEM_PROP: Returns properties of item with given index, as dict or None. Dict keys are: "text", "tag", "modified", "datatext".
 * LISTBOX_SET_ITEM_PROP: Sets properties of item with given index. Param "index": int value. Param "text": new text of item. Param "tag": dict with keys "tag", "modified", "datatext".
 * LISTBOX_GET_ITEM_H: Returns height of items in pixels.
@@ -5219,5 +5217,7 @@ It provides:
 * delete Editor.markers's MARKERS_GET action (use MARKERS_GET_DICT instead)
 * delete Editor.attr's MARKERS_GET action (use MARKERS_GET_DICT instead)
 * delete Editor.bookmark's BOOKMARK_GET_LIST action (use BOOKMARK_GET_ALL instead)
+* delete listbox_proc's LISTBOX_GET_ITEM (use LISTBOX_GET_ITEM_PROP instead)
+* delete listbox_proc's LISTBOX_SET_ITEM (use LISTBOX_SET_ITEM_PROP instead)
 
 [[Category:CudaText]]
