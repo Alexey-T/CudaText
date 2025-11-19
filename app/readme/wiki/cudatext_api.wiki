@@ -3073,9 +3073,7 @@ Notes:
 
  markers(id, x=0, y=0, tag=0, len_x=0, len_y=0, line_len=0)
 
-Controls markers (used e.g. in Snippets plugin). Possible values of "id":
-
-* (deprecated) MARKERS_GET: Returns list of markers. Each list item is [x, y, len_x, len_y, tag]. Returns None if no markers.
+Controls "markers" ("markers" are described in the Wiki, used e.g. in the Snippets plugin). Possible values of "id":
 
 * MARKERS_GET_DICT: Returns list of markers. Each list item is dict with the following keys:
 ** "x", "y": Position of markers.
@@ -3135,7 +3133,6 @@ Controls additional color attributes. Possible values of "id":
 ** "font_*": Can be one value or list/tuple of values. Length of list/tuple is not limited.
 ** other parameters: The same as for MARKERS_ADD.
 
-* (deprecated) MARKERS_GET: Returns list of fragments, or None. Each item is list of int, corresponding to Editor.attr() params (bool values will be 0 or 1).
 * MARKERS_GET_DICT: Returns list of fragments. Each item is dict, with keys named like parameters of Editor.attr.
 
 * MARKERS_DELETE_ALL: Deletes all fragments.
@@ -5219,7 +5216,7 @@ It provides:
 
 1.0.468 (app 1.230.1)
 * add: Editor.load
-* deprecate Editor.markers's MARKERS_GET action (use MARKERS_GET_DICT instead)
-* deprecate Editor.attr's MARKERS_GET action (use MARKERS_GET_DICT instead)
+* delete Editor.markers's MARKERS_GET action (use MARKERS_GET_DICT instead)
+* delete Editor.attr's MARKERS_GET action (use MARKERS_GET_DICT instead)
 
 [[Category:CudaText]]
