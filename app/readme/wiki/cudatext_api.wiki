@@ -2938,8 +2938,6 @@ Controls decorations on gutter. It is used to show some visual marks, which look
 ** If param "line" <0: returns list of all decorations, as list of dict.
 ** If param "line" >=0: return list of decorations for the given line index, as list of dict.
 
-* DECOR_GET: Returns decoration for given line, as dict. Params used: "line".
-
 * DECOR_SET: Sets decoration for given line. Returns bool: line index correct, item added. Params used:
 ** "line": int, line index.
 ** "tag": int, some value attached to item.
@@ -5217,6 +5215,7 @@ It provides:
 * delete Editor.attr's MARKERS_GET action (use MARKERS_GET_DICT instead)
 * delete Editor.bookmark's BOOKMARK_GET_LIST action (use BOOKMARK_GET_ALL instead)
 * delete Editor.bookmark's BOOKMARK_GET_PROP / BOOKMARK2_GET_PROP (use BOOKMARK_GET_ALL instead)
+* delete Editor.decor's DECOR_GET (use DECOR_GET_ALL instead)
 * delete listbox_proc's LISTBOX_GET_ITEM (use LISTBOX_GET_ITEM_PROP instead)
 * delete listbox_proc's LISTBOX_SET_ITEM (use LISTBOX_SET_ITEM_PROP instead)
 
