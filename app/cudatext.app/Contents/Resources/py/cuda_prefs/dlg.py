@@ -1349,9 +1349,9 @@ class DialogMK2:
         #dlg_proc(self.h, DLG_CTL_PROP_SET, name='panel_filter', prop={'vis': show})
 
         if show == False:  # if hiding filter - reset tree selection to 'All'
-            for item_id,name in tree_proc(self._h_tree, TREE_ITEM_ENUM):
-                if name == TREE_ITEM_ALL:
-                    tree_proc(self._h_tree, TREE_ITEM_SELECT, id_item=item_id)
+            for item in tree_proc(self._h_tree, TREE_ITEM_ENUM_EX):
+                if item['text'] == TREE_ITEM_ALL:
+                    tree_proc(self._h_tree, TREE_ITEM_SELECT, id_item=item['id'])
 
     def toggle_mod_indicator(self, tag='', info='', show=True, by_timer=False):
         if by_timer:
