@@ -359,7 +359,7 @@ Actions work with props of Find/Replace dialog, and props of low-level search en
 
 ====app_proc - Plugin calls====
 
-* PROC_SET_EVENTS: Subscribes plugin to events. First it removes all subscribed events for specified module name (even those from install.inf file) and then adds specified events (if event list is not empty). Param "text" must be 4 values ";"-separated: "module_name;event_list;lexer_list;filter".
+* PROC_SET_EVENTS: Subscribes plugin to events. First it removes all subscribed events for specified module name (events from "install.inf" file are removed too, but events from "settings/plugins.ini" are kept) and then adds specified events. Param "text" must be 4 values ";"-separated: "module_name;event_list;lexer_list;filter".
 ** module_name is plugin's main module name, usually starting with "cuda_".
 ** event_list is comma-separated event names, e.g. "on_open,on_save", or empty string.
 ** lexer_list is comma-separated lexer names, e.g. "C,C++", or empty  string.
