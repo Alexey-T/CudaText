@@ -3041,7 +3041,7 @@ Possible values of "id":
 ** "ki": index of token kind (0-based), in the list returned by lexer_proc()
 ** "ks": kind of syntax element: "c" - comment, "s" - string, "a" - any other
 
-* TOKEN_LIST_SUB: Like TOKEN_LIST, but returns tokens only for given lines range, from "index1" to "index2" inclusive. Index in "index2" can be too big, this makes list until end of file.
+* TOKEN_LIST_SUB: Like TOKEN_LIST, but returns tokens only for given lines range, from "index1" to "index2" inclusive. Index in "index2" can be too big, this makes list until the end of document.
 
 ===Editor.get_wrapinfo===
 
