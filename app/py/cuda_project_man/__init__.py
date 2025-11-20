@@ -981,8 +981,8 @@ class Command:
             )
 
             #select 1st node
-            items_root = tree_proc(self.tree, TREE_ITEM_ENUM, 0)
-            tree_proc(self.tree, TREE_ITEM_SELECT, items_root[0][0])
+            items_root = tree_proc(self.tree, TREE_ITEM_ENUM_EX, 0)
+            tree_proc(self.tree, TREE_ITEM_SELECT, items_root[0]['id'])
 
             nodes = map(Path, self.project["nodes"])
             if sort_order != '':
@@ -1346,14 +1346,15 @@ class Command:
 
     def do_unfold_first(self):
         """unfold 1st item under root"""
-        items = tree_proc(self.tree, TREE_ITEM_ENUM, 0)
+        items = tree_proc(self.tree, TREE_ITEM_ENUM_EX, 0)
         if not items:
             return
-        items = tree_proc(self.tree, TREE_ITEM_ENUM, items[0][0])
+        h_first = items[0]['id']
+        items = tree_proc(self.tree, TREE_ITEM_ENUM_EX, h_first)
         if not items:
             return
-        tree_proc(self.tree, TREE_ITEM_UNFOLD, items[0][0])
-        tree_proc(self.tree, TREE_ITEM_SELECT, items[0][0])
+        tree_proc(self.tree, TREE_ITEM_UNFOLD, h_first)
+        tree_proc(self.tree, TREE_ITEM_SELECT, h_first)
 
         path = self.get_location_by_index(self.selected)
         app_proc(PROC_SET_FOLDER, path)
@@ -1523,9 +1524,9 @@ class Command:
         Enum for all items.
         Until callback gets false.
         """
-        items = tree_proc(self.tree, TREE_ITEM_ENUM, 0)
+        items = tree_proc(self.tree, TREE_ITEM_ENUM_EX, 0)
         if items:
-            return self.enum_subitems(items[0][0], callback)
+            return self.enum_subitems(items[0]['id'], callback)
 
     def enum_subitems(self, item, callback):
         """
@@ -1545,9 +1546,9 @@ class Command:
 
 
     def enum_all_getfolds(self, unfolds):
-        items = tree_proc(self.tree, TREE_ITEM_ENUM, 0)
+        items = tree_proc(self.tree, TREE_ITEM_ENUM_EX, 0)
         if items:
-            return self.enum_subitems_getfolds(items[0][0], unfolds)
+            return self.enum_subitems_getfolds(items[0]['id'], unfolds)
 
     def enum_subitems_getfolds(self, item, unfolds):
         items = tree_proc(self.tree, TREE_ITEM_ENUM_EX, item)
@@ -1566,9 +1567,9 @@ class Command:
     def enum_all_setfolds(self, unfolds):
         if not unfolds:
             return
-        items = tree_proc(self.tree, TREE_ITEM_ENUM, 0)
+        items = tree_proc(self.tree, TREE_ITEM_ENUM_EX, 0)
         if items:
-            return self.enum_subitems_setfolds(items[0][0], unfolds)
+            return self.enum_subitems_setfolds(items[0]['id'], unfolds)
 
     def enum_subitems_setfolds(self, item, unfolds):
         items = tree_proc(self.tree, TREE_ITEM_ENUM_EX, item)
@@ -1590,9 +1591,9 @@ class Command:
         Enum for all items.
         Find 'filename', and focus its node.
         """
-        items = tree_proc(self.tree, TREE_ITEM_ENUM, 0)
+        items = tree_proc(self.tree, TREE_ITEM_ENUM_EX, 0)
         if items:
-            return self.enum_subitems_fn(items[0][0], filename, and_open)
+            return self.enum_subitems_fn(items[0]['id'], filename, and_open)
 
     def enum_subitems_fn(self, item_src, filename, and_open):
         """
@@ -1632,9 +1633,9 @@ class Command:
         Enum for all items.
         Find 'filename', and select/show its node.
         """
-        items = tree_proc(self.tree, TREE_ITEM_ENUM, 0)
+        items = tree_proc(self.tree, TREE_ITEM_ENUM_EX, 0)
         if items:
-            return self.enum_subitems_sel(items[0][0], filename)
+            return self.enum_subitems_sel(items[0]['id'], filename)
 
     def enum_subitems_sel(self, item_src, filename):
         """
@@ -1726,10 +1727,10 @@ class Command:
 
         if info.image != self.ICON_DIR:
             return
-        items = tree_proc(self.tree, TREE_ITEM_ENUM, data)
+        items = tree_proc(self.tree, TREE_ITEM_ENUM_EX, data)
         if items:
-            for handle, _ in items:
-                tree_proc(self.tree, TREE_ITEM_DELETE, handle)
+            for item in items:
+                tree_proc(self.tree, TREE_ITEM_DELETE, item['id'])
 
         self.action_refresh_int(data) # call _int version, to avoid recursion
 
