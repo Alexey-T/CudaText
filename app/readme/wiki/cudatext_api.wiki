@@ -2008,7 +2008,7 @@ Param "id_action" can be:
 
 * STATUSBAR_GET_COUNT: Returns int number of cells.
 * STATUSBAR_DELETE_ALL: Deletes all cells.
-* STATUSBAR_DELETE_CELL: Deletes one cell (by "index" or "tag").
+* STATUSBAR_DELETE_CELL: Deletes one cell, by param "index" or by param "tag".
 
 * STATUSBAR_ADD_CELL: Adds one cell. Param "index": -1: cell will be appended; >=0: cell will be inserted at given index. Param "tag" has special meaning: it is tag value of a new cell. Returns index of new cell, or None if cannot add (e.g. "tag" is busy).
 * STATUSBAR_FIND_CELL: Returns index if cell from tag, or None. Param "value": int tag. Params "index", "tag" ignored.
