@@ -7585,36 +7585,6 @@ begin
       Obj:= nil;
 
       case IdAction of
-        TREE_ITEM_ENUM:
-          begin
-            if Assigned(TreeNode) then
-              Node1:= TreeNode.GetFirstChild
-            else
-              Node1:= TreeContainer.Tree.Items.GetFirstNode;
-            if Node1=nil then
-              exit(PyList_New(0));
-
-            ItemList:= TFPList.Create;
-            try
-              repeat
-                ItemList.Add(Node1);
-                Node1:= TreeNode.GetNextChild(Node1);
-              until Node1=nil;
-
-              Result:= PyList_New(ItemList.Count);
-              if not Assigned(Result) then
-                raise EPythonError.Create(msgPythonListError);
-
-              for i:= 0 to ItemList.Count-1 do
-                PyList_SetItem(Result, i,
-                  Py_BuildValue('(Ls)',
-                    Int64(PtrInt(ItemList[i])),
-                    PChar(TTreeNode(ItemList[i]).Text) ));
-            finally
-              FreeAndNil(ItemList);
-            end;
-          end;
-
         TREE_ITEM_ENUM_EX:
           begin
             if Assigned(TreeNode) then

@@ -464,7 +464,6 @@ PROC_CONFIG_SCALE_SET      = 176
 PROC_CONFIG_HISTORY_SAVE   = 177
 
 TREE_ITEM_ENUM_EX          = 0
-TREE_ITEM_ENUM             = 1
 TREE_ITEM_ADD              = 2
 TREE_ITEM_DELETE           = 3
 TREE_ITEM_SET_TEXT         = 4

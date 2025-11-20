@@ -437,7 +437,6 @@ const
   EMMET_GET_POS  = 2;
 
   TREE_ITEM_ENUM_EX          = 0;
-  TREE_ITEM_ENUM             = 1;
   TREE_ITEM_ADD              = 2;
   TREE_ITEM_DELETE           = 3;
   TREE_ITEM_SET_TEXT         = 4;
