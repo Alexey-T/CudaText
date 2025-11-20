@@ -2896,8 +2896,6 @@ Controls bookmarks. Possible values of "id":
 ** "auto_delx": enum, 0: don't auto-delete; 1: auto-delete; 2: auto-delete if global option is set
 ** "show_in_list": bool
 
-* BOOKMARK_GET_PROP: Returns properties of bookmark at line index, given by param "nline". Returns dict, like for BOOKMARK_GET_ALL, or None.
-
 * BOOKMARK_SET: Sets bookmark.
 ** Param "nline": int: line index of bookmark.
 ** Param "nkind": int: kind of bookmark: 1 means usual bookmark with usual color and icon. Other kind values mean custom bookmark, which must be setup via BOOKMARK_SETUP.
@@ -2920,7 +2918,6 @@ Controls bookmarks. Possible values of "id":
 Additional internal list Bookmarks2 exists, which holds list of background bookmarks. They have lower paint priority than usual bookmarks, so background bookmark is painted only if usual bookmark not exists. Actions BOOKMARK2_* are used for Bookmarks2 list, actions have the same meaning. Background bookmarks don't have gutter icon and mouse-over tooltip. They share the single setup with usual bookmarks.
 
 * BOOKMARK2_GET_ALL
-* BOOKMARK2_GET_PROP
 * BOOKMARK2_SET
 * BOOKMARK2_CLEAR
 * BOOKMARK2_CLEAR_ALL
@@ -5219,6 +5216,7 @@ It provides:
 * delete Editor.markers's MARKERS_GET action (use MARKERS_GET_DICT instead)
 * delete Editor.attr's MARKERS_GET action (use MARKERS_GET_DICT instead)
 * delete Editor.bookmark's BOOKMARK_GET_LIST action (use BOOKMARK_GET_ALL instead)
+* delete Editor.bookmark's BOOKMARK_GET_PROP / BOOKMARK2_GET_PROP (use BOOKMARK_GET_ALL instead)
 * delete listbox_proc's LISTBOX_GET_ITEM (use LISTBOX_GET_ITEM_PROP instead)
 * delete listbox_proc's LISTBOX_SET_ITEM (use LISTBOX_SET_ITEM_PROP instead)
 
