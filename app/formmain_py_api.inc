@@ -2135,29 +2135,6 @@ begin
         AutoDel:= TATBookmarkAutoDelete.ByOption;
 
       case NId of
-        BOOKMARK_GET_PROP:
-          begin
-            i:= Strs.Bookmarks.Find(NLine);
-            if i>=0 then
-            begin
-              BmItem:= Strs.Bookmarks[i];
-              Result:= PyHelper_BookmarkGetItem(BmItem);
-            end
-            else
-              Result:= ReturnNone;
-          end;
-        BOOKMARK2_GET_PROP:
-          begin
-            i:= Strs.Bookmarks2.Find(NLine);
-            if i>=0 then
-            begin
-              BmItem:= Strs.Bookmarks2[i];
-              Result:= PyHelper_BookmarkGetItem(BmItem);
-            end
-            else
-              Result:= ReturnNone;
-          end;
-
         BOOKMARK_SET:
           begin
             ed.BookmarkSetForLine(NLine, NKind, StrText,
