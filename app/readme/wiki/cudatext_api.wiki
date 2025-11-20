@@ -505,13 +505,15 @@ Actions:
 
 ====app_proc - Bottom-bar panels====
 
-* PROC_BOTTOMPANEL_ADD_DIALOG: Adds tab. Same as for PROC_SIDEPANEL_ADD_DIALOG.
-* PROC_BOTTOMPANEL_REMOVE: Removes tab. Same as for PROC_SIDEPANEL_REMOVE.
-* PROC_BOTTOMPANEL_ACTIVATE: Activates tab. Same as for PROC_SIDEPANEL_ACTIVATE.
-* PROC_BOTTOMPANEL_ENUM_ELL: Enumerates tabs. Same as for PROC_SIDEPANEL_ENUM_ALL.
-* PROC_BOTTOMPANEL_GET_CONTROL: Returns int handle of control. Same as for PROC_SIDEPANEL_GET_CONTROL.
-* PROC_BOTTOMPANEL_GET: Returns caption of last activated tab. Same as for PROC_SIDEPANEL_GET.
-* PROC_BOTTOMPANEL_SET_PROP: Sets sidebar's button properties. Same as for PROC_SIDEPANEL_SET_PROP. 
+Actions similar to PROC_SIDEPANEL_nnnn, but are for the bottom panel:
+
+* PROC_BOTTOMPANEL_ADD_DIALOG: Adds tab.
+* PROC_BOTTOMPANEL_REMOVE: Removes tab.
+* PROC_BOTTOMPANEL_ACTIVATE: Activates tab.
+* PROC_BOTTOMPANEL_ENUM_ELL: Enumerates tabs.
+* PROC_BOTTOMPANEL_GET_CONTROL: Returns int handle of control.
+* PROC_BOTTOMPANEL_GET: Returns caption of last activated tab.
+* PROC_BOTTOMPANEL_SET_PROP: Sets sidebar's button properties.
 
 ====app_proc - Splitters====
 
