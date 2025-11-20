@@ -968,7 +968,6 @@ DBORDER_TOOL     = 4
 DBORDER_TOOLSIZE = 5
 
 DECOR_GET_ALL          = 0
-DECOR_GET              = 1
 DECOR_SET              = 2
 DECOR_DELETE_BY_LINE   = 5
 DECOR_DELETE_BY_TAG    = 6

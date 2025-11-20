@@ -2285,15 +2285,6 @@ begin
             end;
           end;
 
-        DECOR_GET:
-          begin
-            i:= Ed.GutterDecor.Find(NLine);
-            if i>=0 then
-              Result:= PyHelper_DecorGetItem(Ed.GutterDecor.ItemPtr(i))
-            else
-              Result:= ReturnNone;
-          end;
-
         DECOR_SET:
           begin
             if not Ed.Strings.IsIndexValid(NLine) then
