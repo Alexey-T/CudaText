@@ -6099,7 +6099,7 @@ begin
       FreeAndNil(List);
     end;
 
-    Result:= Py_BuildValue('{sOsOsssOsOsOsOsOsOsO}',
+    Result:= Py_BuildValue('{sOsOsssOsOsOsOsOsOsOsO}',
       'typ',
       ObjTypes,
       'en',
@@ -6119,7 +6119,9 @@ begin
       'kinds',
       ObjTokenKinds,
       'sub',
-      ObjSublex
+      ObjSublex,
+      'indent_folding',
+      PyBool_FromLong(Ord(An.IndentBasedFolding))
       );
   end;
 end;
