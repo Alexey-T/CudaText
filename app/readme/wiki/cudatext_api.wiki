@@ -1602,7 +1602,7 @@ Possible values of "id":
 * LEXER_ADD_VIRTUAL: Adds virtual lexer, which doesn't have a file and doesn't highlight text, it's only an item in lexers list. The purpose of virtual lexers is to avoid creating lexer files, but allow plugins to be activated by some lexer name / some file types. Param "value" must be tuple of string: (lexer_name_without_suffix, file_types, line_comment, range_comment_begin, range_comment_end). Item "file_types" here must have the same notation as for "lite" lexers, e.g. "*.pas;*.pp". Virtual lexers are added to the "lite" lexers list, and show the same suffix " ^" in the lexer menu. To activate such a lexer, call <code>Editor.set_prop(PROP_LEXER_FILE, lexer_name+" ^")</code>. Action returns bool: lexer_name didn't exist, lexer was added.
 
 Note:
-* You can detect that a lexer has indentation-based folding by analyzing the LEXER_GET_PROP results. Dict key 'kinds' has list of strings. If any of these string starts with '^', it is indentation-based folding.
+* You can detect that a lexer has indentation-based folding by analyzing the LEXER_GET_PROP results. Dict key 'kinds' has list of strings. If any of these strings starts with '^', it is indentation-based folding.
 
 <syntaxhighlight lang="python">
   res = lexer_proc(LEXER_GET_PROP, 'Python')
