@@ -1586,6 +1586,7 @@ Possible values of "id":
 ** "c_line": str: line comment (until end-of-line).
 ** "c_str": 2-tuple or None: stream comment (for any range).
 ** "c_lined": 2-tuple or None: comment for full lines.
+** "indent_folding": bool: lexer has indentation-based folding (like e.g. Python).
 
 * LEXER_GET_STYLES: For lexer name (param "value"), returns lexer styles properties, as dict. This works even if CudaText lexer themes are disabled (option "ui_lexer_themes": false). Not supported for "lite" lexers. Dict keys:
 ** "type": Kind of style. Enum. 0: reserved value, 1: colors and font styles, 2: colors only, 3: background color only.
@@ -5215,5 +5216,8 @@ It provides:
 * delete listbox_proc's LISTBOX_GET_ITEM (use LISTBOX_GET_ITEM_PROP instead)
 * delete listbox_proc's LISTBOX_SET_ITEM (use LISTBOX_SET_ITEM_PROP instead)
 * delete tree_proc's TREE_ITEM_ENUM (use TREE_ITEM_ENUM_EX instead)
+
+1.0.469 (app 1.230.2)
+* add: lexer_proc: LEXER_GET_PROP returns new key "indent_folding"
 
 [[Category:CudaText]]
