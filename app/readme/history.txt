@@ -5,7 +5,7 @@
 
 1.230.2 (2025/11)
 
-* change: option "show_cur_line":true allows to highlight current-line even with selection
+* change: option "show_cur_line":true allows to highlight current-line even with selection (thanks @Crunchbits)
 - fix: option "font_quality" did not work
 
 1.230.1 (2025/11)
