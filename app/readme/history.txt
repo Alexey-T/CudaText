@@ -3,15 +3,12 @@
   - fixed
   * changed
 
-1.230.2 (2025/11)
-
-* change: option "show_cur_line":true allows to highlight current-line even with selection
-- fix: option "font_quality" did not work
-
 1.230.1 (2025/11)
 
+* change: option "show_cur_line":true highlights current-line even with selection
 * change: several old/redundant APIs were removed, but all plugins (in Addons Manager) were updated for this change; if you get plugins' errors with 1.230.1, just update all your plugins via "Plugins / Addons Manager / Update"
 + add: Project Manager: add icons for popular audio-, video-formats; file opening (any way: click, dbl-click, Enter, Space) opens some popular binary-files in 'default application' (patch by @ildarkhasanshin)
+- fix: option "font_quality" did not work
 - fix: before, plugin Spell_Checker command "Remove marks" did not free the memory of marks-list when _lot_ of marks were found; now memory is freed (thanks @badrelmers)
 
 1.230.0 (2025/11)
