@@ -3,6 +3,10 @@
   - fixed
   * changed
 
+1.230.2 (2025/11)
+
++ add: can highlight current-line background even with selection, via new option "show_cur_line_without_sel":false (thanks @Crunchbits)
+
 1.230.1 (2025/11)
 
 * change: several old/redundant APIs were removed, but all plugins (in Addons Manager) were updated for this change; if you get plugins' errors with 1.230.1, just update all your plugins via "Plugins / Addons Manager / Update"
