@@ -5,8 +5,8 @@
 
 1.230.2 (2025/11)
 
-* change: allow to highlight current-line background even with selection
-- fix: option "font_quality" was not applied, which was visible on Linux-Qt5/Qt6
+* change: option "show_cur_line":true allows to highlight current-line even with selection
+- fix: option "font_quality" did not work
 
 1.230.1 (2025/11)
 
