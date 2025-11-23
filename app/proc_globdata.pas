@@ -1950,7 +1950,7 @@ begin
     OpShowCurLine:= false;
     OpShowCurLineMinimal:= true;
     OpShowCurLineOnlyFocused:= false;
-    OpShowCurLineIfWithoutSel:= true;
+    OpShowCurLineIfWithoutSel:= false;
     OpShowCurCol:= false;
     OpShowLastLineOnTop:= false;
     OpShowFullBackgroundSel:= false;

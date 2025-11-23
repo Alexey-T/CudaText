@@ -1506,7 +1506,7 @@ begin
   Op.OpShowCurLine:= cfg.GetValue('show_cur_line', Op.OpShowCurLine);
   Op.OpShowCurLineMinimal:= cfg.GetValue('show_cur_line_minimal', Op.OpShowCurLineMinimal);
   Op.OpShowCurLineOnlyFocused:= cfg.GetValue('show_cur_line_only_focused', Op.OpShowCurLineOnlyFocused);
-  Op.OpShowCurLineIfWithoutSel:= cfg.GetValue('show_cur_line_without_sel', Op.OpShowCurLineIfWithoutSel);
+  //Op.OpShowCurLineIfWithoutSel:= cfg.GetValue('show_cur_line_without_sel', Op.OpShowCurLineIfWithoutSel);
   Op.OpShowCurCol:= cfg.GetValue('show_cur_column', Op.OpShowCurCol);
   Op.OpShowLastLineOnTop:= cfg.GetValue('show_last_line_on_top', Op.OpShowLastLineOnTop);
   Op.OpShowFullBackgroundSel:= cfg.GetValue('show_full_sel_bg', Op.OpShowFullBackgroundSel);
