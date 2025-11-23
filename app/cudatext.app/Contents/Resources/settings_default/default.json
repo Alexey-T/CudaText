@@ -267,6 +267,9 @@
   //Highlight background of lines with carets: only for focused editor.
   "show_cur_line_only_focused": false,
 
+  //Highlight background of lines with carets: only when caret has no selection.
+  "show_cur_line_without_sel": true,
+
   //Show dotted vertical lines on the intented parts of long wrapped lines.
   "show_indent_lines": true,
 

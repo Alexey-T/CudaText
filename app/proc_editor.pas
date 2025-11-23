@@ -421,6 +421,7 @@ begin
     Ed.OptShowCurLine:= Op.OpShowCurLine;
     Ed.OptShowCurLineMinimal:= Op.OpShowCurLineMinimal;
     Ed.OptShowCurLineOnlyFocused:= Op.OpShowCurLineOnlyFocused;
+    Ed.OptShowCurLineIfWithoutSel:= Op.OpShowCurLineIfWithoutSel;
     Ed.OptShowCurColumn:= Op.OpShowCurCol;
 
     if not (TATEditorModifiedOption.LastLineOnTop in Ed.ModifiedOptions) then

@@ -678,6 +678,7 @@ type
     OpShowCurLine: boolean;
     OpShowCurLineMinimal: boolean;
     OpShowCurLineOnlyFocused: boolean;
+    OpShowCurLineIfWithoutSel: boolean;
     OpShowCurCol: boolean;
     OpShowLastLineOnTop: boolean;
     OpShowFullBackgroundSel: boolean;
@@ -1949,6 +1950,7 @@ begin
     OpShowCurLine:= false;
     OpShowCurLineMinimal:= true;
     OpShowCurLineOnlyFocused:= false;
+    OpShowCurLineIfWithoutSel:= true;
     OpShowCurCol:= false;
     OpShowLastLineOnTop:= false;
     OpShowFullBackgroundSel:= false;
