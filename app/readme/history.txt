@@ -6,6 +6,7 @@
 1.230.2 (2025/11)
 
 + add: can highlight current-line background even with selection, via new option "show_cur_line_without_sel":false (thanks @Crunchbits)
+- fix: option "font_quality" was not applied, which was visible on Linux-Qt5/Qt6
 
 1.230.1 (2025/11)
 
