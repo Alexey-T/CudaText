@@ -57,7 +57,7 @@ const
     {$ifdef haiku}     false {$endif}
     ;
 
-  cSystemDontWantToRunPkExec =
+  cCannotSaveToWriteProtectedDirButDontWantPkExec =
     {$ifdef windows}   false {$endif}
     {$ifdef linux}     false {$endif}
     {$ifdef darwin}    false {$endif}

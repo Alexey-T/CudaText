@@ -74,7 +74,7 @@ begin
         raise EWriteError.Create(msgCannotSaveFile+#10+AppCollapseHomeDirInFilename(fn));
     end
     else
-    if cSystemDontWantToRunPkExec then
+    if cCannotSaveToWriteProtectedDirButDontWantPkExec then
       MsgBox(msgCannotSaveAndDontWantToRunPkExec+#10#10+
              Format('cp -T "%s" "%s"', [fnTemp, fn]), MB_OK or MB_ICONWARNING)
     else
