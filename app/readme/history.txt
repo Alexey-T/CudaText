@@ -7,6 +7,7 @@
 
 * change: option "show_cur_line":true allows to highlight current-line even with selection (thanks @Crunchbits)
 - fix: option "font_quality" did not work
+- fix: dotted-vertical-lines for indented+wrapped line parts were invisible in some cases: on bookmarks and syntax-colored 'fenced blocks' in Markdown
 
 1.230.1 (2025/11)
 
