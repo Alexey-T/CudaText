@@ -7,7 +7,6 @@
 
 * change: option "show_cur_line":true allows to highlight current-line even with selection (thanks @Crunchbits)
 - fix: option "font_quality" did not work
-- fix: 'indentation-guide vertical dotted lines' were hidden in some cases: a) in bookmarks, b) in blocks which have syntax-highlighted background, e.g. 'fenced blocks' in Markdown lexer
 
 1.230.1 (2025/11)
 
