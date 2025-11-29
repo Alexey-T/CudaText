@@ -3030,7 +3030,7 @@ Possible values of "id":
 ** "s": syntax string
 ** "a": any other kind
 
-* TOKEN_LIST: Returns all tokens, as list of dict. Params "index1", "index2" are ignored. Returns None if no lexer active. Dict keys are:
+* TOKEN_LIST_SUB: Returns list of "tokens" properties, as list of dicts, for given line-indexes - from "index1" to "index2" inclusive. Index in "index2" can be too big, e.g. 0x7fffFFFF (maximal 32-bit), it will return items until the end of document. Dict keys are:
 ** "x1": start column (0-based)
 ** "y1": start line (0-based)
 ** "x2": end column
@@ -3039,8 +3039,6 @@ Possible values of "id":
 ** "style": lexer style of token (lexer dependent)
 ** "ki": index of token kind (0-based), in the list returned by lexer_proc()
 ** "ks": kind of syntax element: "c" - comment, "s" - string, "a" - any other
-
-* TOKEN_LIST_SUB: Like TOKEN_LIST, but returns tokens only for given lines range, from "index1" to "index2" inclusive. Index in "index2" can be too big, this makes list until the end of document.
 
 ===Editor.get_wrapinfo===
 
@@ -5223,5 +5221,8 @@ It provides:
 * delete listbox_proc's LISTBOX_GET_ITEM (use LISTBOX_GET_ITEM_PROP instead)
 * delete listbox_proc's LISTBOX_SET_ITEM (use LISTBOX_SET_ITEM_PROP instead)
 * delete tree_proc's TREE_ITEM_ENUM (use TREE_ITEM_ENUM_EX instead)
+
+1.0.469 (app 1.230.2)
+* delete Editor.get_token's TOKEN_LIST action (use TOKEN_LIST_SUB instead)
 
 [[Category:CudaText]]
