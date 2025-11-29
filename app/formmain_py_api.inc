@@ -8129,9 +8129,6 @@ begin
     if Bool(PyArg_ParseTuple(Args, 'Liii:get_token', @H, @Id, @NIndex1, @NIndex2)) then
     begin
       Ed:= PyHelper_EditorFromHandle(H);
-      if not (Ed.AdapterForHilite is TATAdapterEControl) then
-        exit(ReturnNone);
-      Adapter:= Ed.AdapterForHilite as TATAdapterEControl;
 
       case Id of
         TOKEN_GET_KIND:
@@ -8142,6 +8139,9 @@ begin
 
         TOKEN_LIST_SUB:
           begin
+            if not (Ed.AdapterForHilite is TATAdapterEControl) then
+              exit(PyList_New(0));
+            Adapter:= Ed.AdapterForHilite as TATAdapterEControl;
             Result:= PyHelper_GetTokenList(Adapter, NIndex1, NIndex2)
           end;
 
