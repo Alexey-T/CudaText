@@ -3021,16 +3021,16 @@ Returns list of ranges which belong to nested lexers (sublexers of current lexer
 
  get_token(id, index1=0, index2=0)
 
-Returns info about lexer "tokens". "Token" is minimal text fragment for lexer, e.g. one identifier, one operator, one whole comment, one whole string. Each token has its color from lexer properties or color theme. Function returns None if no lexer is active in editor.
+Returns info about lexer "tokens". "Token" is minimal text fragment for lexer, e.g. one identifier, one operator, one whole comment, one whole string. Each token has its color from lexer properties or color theme.
 
 Possible values of "id":
 
 * TOKEN_GET_KIND: For text position given by "index1" (column) and "index2" (line), returns kind of lexer token:
 ** "c": syntax comment
 ** "s": syntax string
-** "a": any other kind
+** "a": any other kind; it is also returned if no lexer is active
 
-* TOKEN_LIST_SUB: Returns list of "tokens" properties, as list of dicts, for given line-indexes - from "index1" to "index2" inclusive. Index in "index2" can be too big, e.g. 0x7fffFFFF (maximal 32-bit), it will return items until the end of document. Dict keys are:
+* TOKEN_LIST_SUB: Returns list of "tokens" properties, for given line indexes, from "index1" to "index2" inclusive. Index in "index2" can be too big, e.g. 0x7fffFFFF (maximal 32-bit), it will return items until the end of document. Returns list of dicts, dict keys are:
 ** "x1": start column (0-based)
 ** "y1": start line (0-based)
 ** "x2": end column
@@ -5224,5 +5224,6 @@ It provides:
 
 1.0.469 (app 1.230.2)
 * delete Editor.get_token's TOKEN_LIST action (use TOKEN_LIST_SUB instead)
+* change: Editor.get_token: TOKEN_LIST_SUB always return the list, never None
 
 [[Category:CudaText]]
