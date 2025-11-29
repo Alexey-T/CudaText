@@ -8140,11 +8140,6 @@ begin
             Result:= PyUnicodeFromString(cPyTokenKind[TokenKind]);
           end;
 
-        TOKEN_LIST:
-          begin
-            Result:= PyHelper_GetTokenList(Adapter, 0, MaxInt)
-          end;
-
         TOKEN_LIST_SUB:
           begin
             Result:= PyHelper_GetTokenList(Adapter, NIndex1, NIndex2)

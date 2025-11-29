@@ -549,7 +549,6 @@ const
   CONVERT_CARET_TO_PIXELS     = 8;
 
   TOKEN_GET_KIND = 1;
-  TOKEN_LIST     = 2;
   TOKEN_LIST_SUB = 3;
 
   CANVAS_SET_FONT      = 1;
