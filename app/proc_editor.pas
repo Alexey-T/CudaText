@@ -2651,18 +2651,18 @@ end;
 procedure EditorDeleteRangeFromAPI(Ed: TATSynEdit; X1, Y1, X2, Y2: integer);
 var
   Strs: TATStrings;
-  Shift, PosAfter: TPoint;
+  Shift: TPoint;
 begin
   Strs:= Ed.Strings;
   Strs.SetNewCommandMark;
 
-  Strs.TextDeleteRange(X1, Y1, X2, Y2, Shift, PosAfter);
+  Strs.TextDeleteRange(X1, Y1, X2, Y2, Shift);
   Ed.UpdateMarkersOnDeleting(X1, Y1, X2, Y2);
   Ed.UpdateCaretsAndMarkersOnEditing(0,
     Point(X1, Y1),
     Point(X2, Y2),
     Shift,
-    PosAfter);
+    Point(X1, Y1));
 
   Ed.DoEventChange(Y1);
   Ed.Update(true);
