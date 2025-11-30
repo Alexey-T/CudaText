@@ -5,7 +5,7 @@
 
 1.230.3 (2025/12)
 
-- fix: regression in 1.172 (2022/09): Ctrl+BkSpace adjusted multi-carets (on the same line) bad
+- fix: regression in 1.172 (2022/09): Ctrl+BkSpace wrongly adjusted multi-carets on the same line
 - fix: Windows: IME minor fix (by @martok)
 
 1.230.2 (2025/11)
