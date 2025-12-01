@@ -1575,6 +1575,12 @@ begin
             Result:= ReturnNone;
           end;
 
+        MARKERS_SET_SORTED:
+          begin
+            Ed.Attribs.Sorted:= Bool(NTag);
+            Result:= ReturnNone;
+          end;
+
         MARKERS_SET_DUPS:
           begin
             Ed.Attribs.Duplicates:= Bool(NTag);
