@@ -5224,7 +5224,7 @@ It provides:
 * delete listbox_proc's LISTBOX_SET_ITEM (use LISTBOX_SET_ITEM_PROP instead)
 * delete tree_proc's TREE_ITEM_ENUM (use TREE_ITEM_ENUM_EX instead)
 
-1.0.469 (app 1.230.2)
+1.0.469 (app 1.230.3)
 * delete Editor.get_token's TOKEN_LIST action (use TOKEN_LIST_SUB instead)
 * change: Editor.get_token: TOKEN_LIST_SUB always return the list, never None
 * add: Editor.attr: MARKERS_SET_SORTED
