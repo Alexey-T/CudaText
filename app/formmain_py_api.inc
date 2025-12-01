@@ -1230,7 +1230,7 @@ begin
 
         MARKERS_ADD:
           begin
-            if (NLenX<0) or (NLenY<0) or (NLineLen<0) then
+            if (NLenX<0) or (NLenY<0) then
               exit(ReturnNone);
             Ed.Markers.Add(
               Point(X, Y),
