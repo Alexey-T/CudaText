@@ -3146,7 +3146,6 @@ Controls additional color attributes. Possible values of "id":
 Notes:
 
 * Fragment list is sorted by (x, y) pair.
-* Action MARKERS_ADD_MANY has optimization: it turns internal sorted-property off, at the end it turns it back to on. So fragments in this action must be already sorted.
 * Duplicate fragments, ie with the same (x, y) pair, are allowed. Last added fragments go to the later indexes, and all fragments are painted in their order in the fragment list, so last added fragments are painted over previous ones.
 * Param "color_bg" can be COLOR_NONE: it uses usual back-color.
 * Params "color_font", "color_border" can be COLOR_NONE: it uses usual text-color.

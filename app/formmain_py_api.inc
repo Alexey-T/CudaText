@@ -1469,8 +1469,6 @@ begin
             NFontItalic_1st:= StrToIntDef(StrFontItalic, 0);
             NFontStrike_1st:= StrToIntDef(StrFontStrike, 0);
 
-            Ed.Attribs.Sorted:= false; //speedup mass adding
-
             repeat
               if not SepX.GetItemInt(X, -1) then Break;
               if not SepY.GetItemInt(Y, -1) then Break;
@@ -1517,7 +1515,6 @@ begin
                 );
             until false;
 
-            Ed.Attribs.Sorted:= true;
             Ed.Update;
             Result:= PyLong_FromLong(Ed.Attribs.Count);
           end;
