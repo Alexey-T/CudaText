@@ -3143,14 +3143,15 @@ Controls additional color attributes. Possible values of "id":
 * MARKERS_GET_DUPS: Gets "duplicates for the same x/y are allowed" flag, bool value.
 * MARKERS_SET_DUPS: Sets "duplicates for the same x/y are allowed" flag (it will be used on next item adding). Param "tag": 0 or 1.
 
-* MARKERS_SET_SORTED: Sets "sorted" property. Editor.attr list must be sorted. When property is off, adding-actions work faster (they add to the very end without additional checks). So if plugin needs to add lot of fragments, turn "sorted" property off, add many (sorted) fragments, and turn "sorted" back on. Param "tag": 0 or 1.
+* MARKERS_SET_SORTED: Sets "sorted" property. Editor.attr list must be sorted to render correctly. When property is off, adding-actions work faster (they add to the very end without additional checks). So if plugin needs to add lot of fragments, turn "sorted" property off, add many (sorted) fragments, and turn "sorted" back on. Param "tag": 0 or 1.
 
 Notes:
 
-* Fragment list is sorted by (x, y) pair.
+* Fragment list is sorted by (y, x) pair.
 * Duplicate fragments, ie with the same (x, y) pair, are allowed. Last added fragments go to the later indexes, and all fragments are painted in their order in the fragment list, so last added fragments are painted over previous ones.
 * Param "color_bg" can be COLOR_NONE: it uses usual back-color.
 * Params "color_font", "color_border" can be COLOR_NONE: it uses usual text-color.
+* If fragments from other plugins already exist (e.g. from Color_Text, Highlight_Occurrences, Spell_Checker), you cannot just add items after them in unsorted mode, you must clear all existing fragments first, optionally: backup/restore other fragments.
 
 ===Editor.hotspots===
 
