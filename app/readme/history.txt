@@ -5,7 +5,6 @@
 
 1.230.4 (2025/12)
 
-+ add: API to speedup plugins which add _lot_ of colored-attributes (e.g. Sync_Editing with 8MB file can speedup by ~30 times)
 - fix: regression in 1.172.0 (2022/10): Ctrl+BkSpace wrongly adjusted multi-carets on the same line
 - fix: Windows: IME minor fix (by @martok)
 
