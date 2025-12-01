@@ -3143,7 +3143,7 @@ Controls additional color attributes. Possible values of "id":
 * MARKERS_GET_DUPS: Gets "duplicates for the same x/y are allowed" flag, bool value.
 * MARKERS_SET_DUPS: Sets "duplicates for the same x/y are allowed" flag (it will be used on next item adding). Param "tag": 0 or 1.
 
-* MARKERS_SET_SORTED: Sets "sorted" property. By default, Editor.attr list is sorted. When property is off, adding-actions work faster. So if plugin needs to add lot of fragments, turn "sorted" property off, add many (sorted) fragments, and turn "sorted" back on. Param "tag": 0 or 1.
+* MARKERS_SET_SORTED: Sets "sorted" property. Editor.attr list must be sorted. When property is off, adding-actions work faster (they add to the very end without additional checks). So if plugin needs to add lot of fragments, turn "sorted" property off, add many (sorted) fragments, and turn "sorted" back on. Param "tag": 0 or 1.
 
 Notes:
 
