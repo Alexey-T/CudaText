@@ -5226,7 +5226,7 @@ It provides:
 
 1.0.469 (app 1.230.3)
 * delete Editor.get_token's TOKEN_LIST action (use TOKEN_LIST_SUB instead)
-* change: Editor.get_token: TOKEN_LIST_SUB always return the list, never None
+* change: Editor.get_token: TOKEN_LIST_SUB always returns the list, never None
 * add: Editor.attr: MARKERS_SET_SORTED
 
 [[Category:CudaText]]
