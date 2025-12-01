@@ -3143,6 +3143,8 @@ Controls additional color attributes. Possible values of "id":
 * MARKERS_GET_DUPS: Gets "duplicates for the same x/y are allowed" flag, bool value.
 * MARKERS_SET_DUPS: Sets "duplicates for the same x/y are allowed" flag (it will be used on next item adding). Param "tag": 0 or 1.
 
+* MARKERS_SET_SORTED: Sets "sorted" property. By default, Editor.attr list is sorted. When property is off, adding-actions work faster. So if plugin needs to add lot of fragments, turn "sorted" property off, add many (sorted) fragments, and turn "sorted" back on. Param "tag": 0 or 1.
+
 Notes:
 
 * Fragment list is sorted by (x, y) pair.
@@ -5225,5 +5227,6 @@ It provides:
 1.0.469 (app 1.230.2)
 * delete Editor.get_token's TOKEN_LIST action (use TOKEN_LIST_SUB instead)
 * change: Editor.get_token: TOKEN_LIST_SUB always return the list, never None
+* add: Editor.attr: MARKERS_SET_SORTED
 
 [[Category:CudaText]]
