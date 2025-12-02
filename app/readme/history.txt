@@ -8,6 +8,7 @@
 + add: added API event which allows plugins to react to code-tree-filter-input changes
 - fix: regression in 1.172.0 (2022/10): Ctrl+BkSpace wrongly adjusted multi-carets on the same line
 - fix: Windows: IME minor fix (by @martok)
+- fix: bug in code-tree built from tree-helpers (thanks @dimon40001)
 
 1.230.2 (2025/11)
 
