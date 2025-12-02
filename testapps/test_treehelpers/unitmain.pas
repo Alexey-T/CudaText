@@ -73,8 +73,7 @@ begin
     Tree.Items.Clear;
 
     Result:= TreeHelperInPascal(Ed, ALexer, Data);
-    if Result and (Data.Count>0) then
-    begin
+    if Result then
       for iItem:= 0 to Data.Count-1 do
       begin
         DataItem:= Data.ItemPtr[iItem];
@@ -97,11 +96,10 @@ begin
         Node:= Tree.Items.AddChildObject(NodeParent, STitle, Info);
         Node.ImageIndex:= NIcon;
         Node.SelectedIndex:= NIcon;
-        Parents.SetNode(NLevel, Node);
 
+        Parents.SetNode(NLevel, Node);
         Ed.Fold.Add(NX1+1, NY1, NX2+1, NY2, false, STitle);
       end;
-    end;
   finally
     Tree.EndUpdate;
   end;
