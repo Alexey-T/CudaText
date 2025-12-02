@@ -57,12 +57,14 @@ var
   NLevel, NLevelPrev, NIcon: integer;
   STitle: string;
   Node, NodeParent: TTreeNode;
-  iItem, iLevel: integer;
+  Parents: TATTreeHelperParents;
+  iItem: integer;
   Info: TMyTreeInfo;
 begin
   Tree.BeginUpdate;
   try
     Tree.Items.Clear;
+    Parents.Clear(0);
 
     Node:= nil;
     NodeParent:= nil;
@@ -89,12 +91,7 @@ begin
         if (Node=nil) or (NLevel<=1) then
           NodeParent:= nil
         else
-        begin
-          NodeParent:= Node;
-          for iLevel:= NLevel to NLevelPrev do
-            if Assigned(NodeParent) then
-              NodeParent:= NodeParent.Parent;
-        end;
+          NodeParent:= Parents.FindParent(NLevel);
 
         Info:= TMyTreeInfo.Create;
         Info.X1:= NX1;
@@ -106,9 +103,10 @@ begin
         Node.ImageIndex:= NIcon;
         Node.SelectedIndex:= NIcon;
 
+        Parents.SetNode(NLevel, Node);
         Ed.Fold.Add(NX1+1, NY1, NX2+1, NY2, false, STitle);
 
-        NLevelPrev:= Min(NLevel, NLevelPrev+1);
+        NLevelPrev:= NLevel;
       end;
     end;
   finally

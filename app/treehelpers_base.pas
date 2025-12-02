@@ -13,8 +13,9 @@ unit TreeHelpers_Base;
 interface
 
 uses
-  SysUtils,
+  SysUtils, Math,
   Classes,
+  ComCtrls,
   ATSynEdit_fgl;
     
 type
@@ -43,7 +44,46 @@ type
     function ToString: string; reintroduce;
   end;
 
+type
+  { TATTreeHelperParents }
+
+  TATTreeHelperParents = record
+    LevelNodes: array[1..15] of TTreeNode;
+    procedure Clear(AFromIndex: integer);
+    function FindParent(ALevel: integer): TTreeNode;
+    procedure SetNode(ALevel: integer; ANode: TTreeNode);
+  end;
+
 implementation
+
+{ TATTreeHelperParents }
+
+procedure TATTreeHelperParents.Clear(AFromIndex: integer);
+var
+  i: integer;
+begin
+  for i:= Max(1, AFromIndex) to High(LevelNodes) do
+    LevelNodes[i]:= nil;
+end;
+
+function TATTreeHelperParents.FindParent(ALevel: integer): TTreeNode;
+var
+  i: integer;
+begin
+  for i:= ALevel-1 downto Low(LevelNodes) do
+    if Assigned(LevelNodes[i]) then
+      exit(LevelNodes[i]);
+  Result:= nil;
+end;
+
+procedure TATTreeHelperParents.SetNode(ALevel: integer; ANode: TTreeNode);
+begin
+  if (ALevel>=Low(LevelNodes)) and (ALevel<=High(LevelNodes)) then
+  begin
+    LevelNodes[ALevel]:= ANode;
+    Clear(ALevel+1);
+  end;
+end;
 
 { TATTreeHelperRecord }
 
