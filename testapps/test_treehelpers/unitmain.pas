@@ -52,26 +52,25 @@ type
 function ApplyTreeHelperInPascal(Ed: TATSynEdit;
   const ALexer: string; Tree: TTreeView; Data: TATTreeHelperRecords): boolean;
 var
+  Parents: TATTreeHelperParents;
   DataItem: PATTreeHelperRecord;
   NX1, NY1, NX2, NY2: integer;
-  NLevel, NLevelPrev, NIcon: integer;
+  NLevel, NIcon: integer;
   STitle: string;
   Node, NodeParent: TTreeNode;
-  Parents: TATTreeHelperParents;
   iItem: integer;
   Info: TMyTreeInfo;
 begin
+  Parents.Clear(0);
+  Node:= nil;
+  NodeParent:= nil;
+
+  Ed.Fold.Clear;
+  Ed.Fold.ClearLineIndexer(Ed.Strings.Count);
+
   Tree.BeginUpdate;
   try
     Tree.Items.Clear;
-    Parents.Clear(0);
-
-    Node:= nil;
-    NodeParent:= nil;
-    NLevelPrev:= 1;
-
-    Ed.Fold.Clear;
-    Ed.Fold.ClearLineIndexer(Ed.Strings.Count);
 
     Result:= TreeHelperInPascal(Ed, ALexer, Data);
     if Result and (Data.Count>0) then
@@ -88,25 +87,19 @@ begin
         STitle:= DataItem^.Title;
         NIcon:= DataItem^.Icon;
 
-        if (Node=nil) or (NLevel<=1) then
-          NodeParent:= nil
-        else
-          NodeParent:= Parents.FindParent(NLevel);
-
         Info:= TMyTreeInfo.Create;
         Info.X1:= NX1;
         Info.X2:= NX2;
         Info.Y1:= NY1;
         Info.Y2:= NY2;
 
+        NodeParent:= Parents.FindParent(NLevel);
         Node:= Tree.Items.AddChildObject(NodeParent, STitle, Info);
         Node.ImageIndex:= NIcon;
         Node.SelectedIndex:= NIcon;
-
         Parents.SetNode(NLevel, Node);
-        Ed.Fold.Add(NX1+1, NY1, NX2+1, NY2, false, STitle);
 
-        NLevelPrev:= NLevel;
+        Ed.Fold.Add(NX1+1, NY1, NX2+1, NY2, false, STitle);
       end;
     end;
   finally
