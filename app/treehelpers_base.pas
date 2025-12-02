@@ -50,7 +50,6 @@ type
   TATTreeHelperParents = record
   private
     Nodes: array[1..12] of TTreeNode;
-    procedure ClearFrom(AFromLevel: integer);
   public
     procedure Clear;
     function FindParent(ALevel: integer): TTreeNode;
@@ -66,14 +65,6 @@ begin
   FillChar(Nodes, SizeOf(Nodes), 0);
 end;
 
-procedure TATTreeHelperParents.ClearFrom(AFromLevel: integer);
-var
-  i: integer;
-begin
-  for i:= Max(Low(Nodes), AFromLevel) to High(Nodes) do
-    Nodes[i]:= nil;
-end;
-
 function TATTreeHelperParents.FindParent(ALevel: integer): TTreeNode;
 var
   i: integer;
@@ -85,11 +76,14 @@ begin
 end;
 
 procedure TATTreeHelperParents.SetNode(ALevel: integer; ANode: TTreeNode);
+var
+  i: integer;
 begin
   if (ALevel>=Low(Nodes)) and (ALevel<=High(Nodes)) then
   begin
     Nodes[ALevel]:= ANode;
-    ClearFrom(ALevel+1);
+    for i:= ALevel+1 to High(Nodes) do
+      Nodes[i]:= nil;
   end;
 end;
 
