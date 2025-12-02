@@ -5230,9 +5230,9 @@ It provides:
 
 1.0.469 (app 1.230.4)
 * add: event on_codetree_filter
-* delete Editor.get_token's TOKEN_LIST action (use TOKEN_LIST_SUB instead)
-* change: Editor.get_token: TOKEN_LIST_SUB always returns the list, never None
-* add: Editor.attr: MARKERS_SET_SORTED
 * add: app_proc: PROC_GET_CODETREE_FILTER
+* add: Editor.attr: MARKERS_SET_SORTED
+* change: Editor.get_token: TOKEN_LIST_SUB always returns the list, never None
+* delete Editor.get_token's TOKEN_LIST action (use TOKEN_LIST_SUB instead)
 
 [[Category:CudaText]]

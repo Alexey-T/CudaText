@@ -14,7 +14,6 @@ EVENTS = [
     'on_click_right',
     'on_close',
     'on_close_pre',
-    'on_codetree_filter',
     'on_complete',
     'on_console_nav',
     'on_delete_file',

@@ -4801,7 +4801,7 @@ begin
   if Assigned(F) then
     F.CodetreeFilter:= S;
 
-  Res:= DoPyEvent(CurrentEditor, TAppPyEvent.OnCodetreeFilter, []);
+  Res:= DoPyEvent(nil, TAppPyEvent.OnState, [AppVariant(APPSTATE_CODETREE_FILTER_CHANGE)]);
   if Res.Val=TAppPyEventValue.False then
     exit;
 
