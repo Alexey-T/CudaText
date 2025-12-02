@@ -6,9 +6,8 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ComCtrls, ExtCtrls,
-  StdCtrls,
+  StdCtrls, Math,
   ATSynEdit,
-  ATSynEdit_Carets,
   TreeHelpers_Base,
   TreeHelpers_Proc;
 
@@ -109,7 +108,7 @@ begin
 
         Ed.Fold.Add(NX1+1, NY1, NX2+1, NY2, false, STitle);
 
-        NLevelPrev:= NLevel;
+        NLevelPrev:= Min(NLevel, NLevelPrev+1);
       end;
     end;
   finally

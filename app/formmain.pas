@@ -9157,7 +9157,7 @@ begin
         Node.ImageIndex:= NIcon;
         Node.SelectedIndex:= NIcon;
 
-        NLevelPrev:= NLevel;
+        NLevelPrev:= Min(NLevel, NLevelPrev+1);
       end;
     end;
   finally
@@ -9270,7 +9270,7 @@ begin
           Node.ImageIndex:= NIcon;
           Node.SelectedIndex:= NIcon;
 
-          NLevelPrev:= NLevel;
+          NLevelPrev:= Min(NLevel, NLevelPrev+1);
         end;
 
         if NY2>NY1 then
