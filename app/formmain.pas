@@ -9091,20 +9091,19 @@ end;
 procedure TfmMain.DoCodetree_ApplyTreeHelperResults(ATree: TTreeView; AData: PPyObject;
   const AHelperName: string);
 var
+  NodeParents: TATTreeHelperParents;
   DataItem, DataPos, DataLevel, DataTitle, DataIcon: PPyObject;
-  NCount, NX1, NY1, NX2, NY2, NLevel, NLevelPrev, NIcon: integer;
+  NCount, NX1, NY1, NX2, NY2, NLevel, NIcon: integer;
   STitle: string;
   Node, NodeParent: TTreeNode;
   Range: TATRangeInCodeTree;
-  iItem, iLevel: integer;
+  iItem: integer;
 begin
+  NodeParents.Clear;
+
   ATree.BeginUpdate;
   try
     ATree.Items.Clear;
-
-    Node:= nil;
-    NodeParent:= nil;
-    NLevelPrev:= 1;
 
     with AppPython.Engine do
     begin
@@ -9139,25 +9138,15 @@ begin
         STitle:= PyUnicodeAsUTF8String(DataTitle);
         NIcon:= PyLong_AsLong(DataIcon);
 
-        if (Node=nil) or (NLevel<=1) then
-          NodeParent:= nil
-        else
-        begin
-          NodeParent:= Node;
-          for iLevel:= NLevel to NLevelPrev do
-            if Assigned(NodeParent) then
-              NodeParent:= NodeParent.Parent;
-        end;
-
         Range:= TATRangeInCodeTree.Create;
         Range.PosBegin:= Point(NX1, NY1);
         Range.PosEnd:= Point(NX2, NY2);
 
+        NodeParent:= NodeParents.FindParent(NLevel);
         Node:= ATree.Items.AddChildObject(NodeParent, STitle, Range);
         Node.ImageIndex:= NIcon;
         Node.SelectedIndex:= NIcon;
-
-        NLevelPrev:= Min(NLevel, NLevelPrev+1);
+        NodeParents.SetNode(NLevel, Node);
       end;
     end;
   finally

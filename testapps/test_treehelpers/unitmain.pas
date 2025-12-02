@@ -93,8 +93,8 @@ begin
         Node:= Tree.Items.AddChildObject(NodeParent, STitle, NodeInfo);
         Node.ImageIndex:= NIcon;
         Node.SelectedIndex:= NIcon;
-
         NodeParents.SetNode(NLevel, Node);
+
         Ed.Fold.Add(NX1+1, NY1, NX2+1, NY2, false, STitle);
       end;
   finally
