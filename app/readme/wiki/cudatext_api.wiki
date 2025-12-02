@@ -89,8 +89,6 @@ Event handlers (Command.on_nnnnn methods) return-value is ignored is many cases,
 ** "show" - called after dialog shows.
 ** "hide" - called after dialog hides.
 
-* <code>on_codetree_filter(self, ed_self)</code>: Called after text in the code-tree-filter-input was changed. You can get Editor object of the filter-input: <code>Editor(app_proc(PROC_GET_CODETREEE_FILTER, ""))</code>. Return value False blocks default filter handling, other return value is ignored.
-
 Constants in "on_state":
 
 * APPSTATE_LANG: Changed UI translation.
@@ -115,6 +113,7 @@ Constants in "on_state":
 * APPSTATE_CODETREE_SET_SELECTION: Code-Tree: caret position changed, then app sync'ed tree selection.
 * APPSTATE_CODETREE_DBL_CLICK: Code-Tree: user made double-click in tree, then app sync'ed caret position with tree selection.
 * APPSTATE_CODETREE_FOLDED_UNFOLDED: Code-Tree: some tree node was just folded or unfolded. You can get this node's handle via <code>app_proc(PROC_GET_CODETREE_CURRENT_NODE, "")</code>.
+* APPSTATE_CODETREE_FILTER_CHANGE: Code-Tree filter-input text is changed. Handler can return False to block the default filtering, other return value is ignored.
 
 * APPSTATE_WINDOW: Changed state of the main window: minimized/normal/maximized/fullscreen. Read current state via <code>app_proc(PROC_GET_WINDOW_STATE, "")</code>.
 
@@ -5229,8 +5228,8 @@ It provides:
 * delete tree_proc's TREE_ITEM_ENUM (use TREE_ITEM_ENUM_EX instead)
 
 1.0.469 (app 1.230.4)
-* add: event on_codetree_filter
 * add: app_proc: PROC_GET_CODETREE_FILTER
+* add: on_state: APPSTATE_CODETREE_FILTER_CHANGE
 * add: Editor.attr: MARKERS_SET_SORTED
 * change: Editor.get_token: TOKEN_LIST_SUB always returns the list, never None
 * delete Editor.get_token's TOKEN_LIST action (use TOKEN_LIST_SUB instead)
