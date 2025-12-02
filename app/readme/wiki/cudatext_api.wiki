@@ -233,6 +233,7 @@ Parameter "text" is usually string, but can be of other types (bool, int, float,
 
 * PROC_GET_TAB_IMAGELIST: Returns int handle of imagelist, containing icons of all UI-tabs. Use <code>imagelist_proc()</code> to work with it. Use PROP_TAB_ICON property to get/set file-tab icon index (index in this imagelist).
 * PROC_GET_CODETREE: Returns int handle of built-in code-tree UI control. Use <code>tree_proc()</code> to work with it.
+* PROC_GET_CODETREE_FILTER: Returns int handle of built-in code-tree-filter editor control. Get the Editor object from this handle using <code>Editor()</code>.
 * PROC_GET_CODETREE_CURRENT_NODE: Returns int handle of code-tree's node, for on_state event "node was just folded/unfolded".
 * PROC_GET_CONSOLE_FORM: Returns int handle of built-in Console form. Use <code>dlg_proc()</code> to work with it.
 * PROC_GET_OUTPUT_FORM: Returns int handle of built-in Output form (contains the Output read-only editor). Use <code>dlg_proc()</code> to work with it.
@@ -5229,5 +5230,6 @@ It provides:
 * delete Editor.get_token's TOKEN_LIST action (use TOKEN_LIST_SUB instead)
 * change: Editor.get_token: TOKEN_LIST_SUB always returns the list, never None
 * add: Editor.attr: MARKERS_SET_SORTED
+* add: app_proc: PROC_GET_CODETREE_FILTER
 
 [[Category:CudaText]]
