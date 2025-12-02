@@ -70,7 +70,7 @@ function TATTreeHelperParents.FindParent(ALevel: integer): TTreeNode;
 var
   i: integer;
 begin
-  for i:= ALevel-1 downto Low(Nodes) do
+  for i:= Min(High(Nodes), ALevel-1) downto Low(Nodes) do
     if Assigned(Nodes[i]) then
       exit(Nodes[i]);
   Result:= nil;
