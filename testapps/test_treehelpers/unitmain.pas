@@ -60,9 +60,7 @@ var
   NLevel, NIcon, iItem: integer;
   STitle: string;
 begin
-  NodeParents.Clear(0);
-  Node:= nil;
-  NodeParent:= nil;
+  NodeParents.Clear;
 
   Ed.Fold.Clear;
   Ed.Fold.ClearLineIndexer(Ed.Strings.Count);
