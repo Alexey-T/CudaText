@@ -5,6 +5,7 @@
 
 1.230.4 (2025/12)
 
++ add: added API event which allows plugins to react to code-tree-filter-input changes
 - fix: regression in 1.172.0 (2022/10): Ctrl+BkSpace wrongly adjusted multi-carets on the same line
 - fix: Windows: IME minor fix (by @martok)
 
