@@ -5527,6 +5527,10 @@ begin
           begin
             Result:= PyHelper_ObjectHandle(fmMain.CodeTree_CurrentNode);
           end;
+        APP_PROC_GET_CODETREE_FILTER:
+          begin
+            Result:= PyHelper_ObjectHandle(fmMain.CodeTreeFilterInput);
+          end;
 
         APP_PROC_WINDOW_TOPMOST_GET:
           begin
