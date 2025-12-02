@@ -9175,13 +9175,16 @@ var
   DataItem: PATTreeHelperRecord;
   ListOfExpandedNodes: TStringList = nil;
   //TreeSavedFold: TAppCodetreeSavedFold;
+  NodeParents: TATTreeHelperParents;
   Range: TATRangeInCodeTree;
   Node, NodeParent: TTreeNode;
-  NX1, NY1, NX2, NY2, NLevel, NLevelPrev, NIcon: integer;
+  NX1, NY1, NX2, NY2, NLevel, NIcon: integer;
   STitle: string;
-  iItem, iLevel, NItemFound: integer;
+  iItem, NItemFound: integer;
   NStartTick: QWord;
 begin
+  NodeParents.Clear;
+
   Data:= TATTreeHelperRecords.Create;
   if Assigned(ATree) then
   begin
@@ -9233,9 +9236,6 @@ begin
         EdPair.Fold.Clear;
       end;
 
-      Node:= nil;
-      NodeParent:= nil;
-      NLevelPrev:= 1;
       NStartTick:= GetTickCount64;
 
       for iItem:= 0 to Data.Count-1 do
@@ -9252,25 +9252,15 @@ begin
 
         if Assigned(ATree) then
         begin
-          if (Node=nil) or (NLevel<=1) then
-            NodeParent:= nil
-          else
-          begin
-            NodeParent:= Node;
-            for iLevel:= NLevel to NLevelPrev do
-              if Assigned(NodeParent) then
-                NodeParent:= NodeParent.Parent;
-          end;
-
           Range:= TATRangeInCodeTree.Create;
           Range.PosBegin:= Point(NX1, NY1);
           Range.PosEnd:= Point(NX2, NY2);
 
+          NodeParent:= NodeParents.FindParent(NLevel);
           Node:= ATree.Items.AddChildObject(NodeParent, STitle, Range);
           Node.ImageIndex:= NIcon;
           Node.SelectedIndex:= NIcon;
-
-          NLevelPrev:= Min(NLevel, NLevelPrev+1);
+          NodeParents.SetNode(NLevel, Node);
         end;
 
         if NY2>NY1 then
