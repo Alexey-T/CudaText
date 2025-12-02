@@ -1037,6 +1037,7 @@ type
     OnDeleteFile,
     OnSidebarPopup,
     OnStateFindbar,
+    OnCodetreeFilter,
     OnCLI,
     OnExit
     );
@@ -1102,6 +1103,7 @@ const
     'on_delete_file',
     'on_sidebar_popup',
     'on_state_findbar',
+    'on_codetree_filter',
     'on_cli',
     'on_exit'
     );

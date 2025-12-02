@@ -4793,12 +4793,17 @@ procedure TfmMain.CodeTreeFilter_OnChange(Sender: TObject);
 var
   F: TEditorFrame;
   S: string;
+  Res: TAppPyEventResult;
 begin
   S:= UTF8Encode(CodeTreeFilterInput.Text);
 
   F:= CurrentFrame;
   if Assigned(F) then
     F.CodetreeFilter:= S;
+
+  Res:= DoPyEvent(CurrentEditor, TAppPyEvent.OnCodetreeFilter, []);
+  if Res.Val=TAppPyEventValue.False then
+    exit;
 
   if S='' then
   begin
