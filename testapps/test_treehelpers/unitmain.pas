@@ -52,16 +52,15 @@ type
 function ApplyTreeHelperInPascal(Ed: TATSynEdit;
   const ALexer: string; Tree: TTreeView; Data: TATTreeHelperRecords): boolean;
 var
-  Parents: TATTreeHelperParents;
+  NodeParents: TATTreeHelperParents;
   DataItem: PATTreeHelperRecord;
-  NX1, NY1, NX2, NY2: integer;
-  NLevel, NIcon: integer;
-  STitle: string;
   Node, NodeParent: TTreeNode;
-  iItem: integer;
-  Info: TMyTreeInfo;
+  NodeInfo: TMyTreeInfo;
+  NX1, NY1, NX2, NY2: integer;
+  NLevel, NIcon, iItem: integer;
+  STitle: string;
 begin
-  Parents.Clear(0);
+  NodeParents.Clear(0);
   Node:= nil;
   NodeParent:= nil;
 
@@ -86,18 +85,18 @@ begin
         STitle:= DataItem^.Title;
         NIcon:= DataItem^.Icon;
 
-        Info:= TMyTreeInfo.Create;
-        Info.X1:= NX1;
-        Info.X2:= NX2;
-        Info.Y1:= NY1;
-        Info.Y2:= NY2;
+        NodeInfo:= TMyTreeInfo.Create;
+        NodeInfo.X1:= NX1;
+        NodeInfo.X2:= NX2;
+        NodeInfo.Y1:= NY1;
+        NodeInfo.Y2:= NY2;
 
-        NodeParent:= Parents.FindParent(NLevel);
-        Node:= Tree.Items.AddChildObject(NodeParent, STitle, Info);
+        NodeParent:= NodeParents.FindParent(NLevel);
+        Node:= Tree.Items.AddChildObject(NodeParent, STitle, NodeInfo);
         Node.ImageIndex:= NIcon;
         Node.SelectedIndex:= NIcon;
 
-        Parents.SetNode(NLevel, Node);
+        NodeParents.SetNode(NLevel, Node);
         Ed.Fold.Add(NX1+1, NY1, NX2+1, NY2, false, STitle);
       end;
   finally
