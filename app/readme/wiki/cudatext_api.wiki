@@ -89,7 +89,7 @@ Event handlers (Command.on_nnnnn methods) return-value is ignored is many cases,
 ** "show" - called after dialog shows.
 ** "hide" - called after dialog hides.
 
-* <code>on_codetree_filter(self, ed_self)</code>: Called after text in the code-tree-filter-input was changed. You can get Editor object of the filter-input: <code>Editor(app_proc(PROC_GET_CODETREEE_FILTER, ''))</code>. Return value False blocks default filter handling, other return value is ignored.
+* <code>on_codetree_filter(self, ed_self)</code>: Called after text in the code-tree-filter-input was changed. You can get Editor object of the filter-input: <code>Editor(app_proc(PROC_GET_CODETREEE_FILTER, ""))</code>. Return value False blocks default filter handling, other return value is ignored.
 
 Constants in "on_state":
 
