@@ -2217,7 +2217,7 @@ end;
 function PyHelper_DecorGetItem(Item: PATGutterDecorItem): PPyObject;
 begin
   with AppPython.Engine do
-    Result:= Py_BuildValue('{sisLsssOsOsisisO}',
+    Result:= Py_BuildValue('{sisisssOsOsisisO}',
       'line',
       Item^.Data.LineNum,
       'tag',
@@ -2244,13 +2244,13 @@ var
   Ed: TATSynEdit;
   NId, NLine, NImageIndex, NColor: integer;
   NFontBold, NFontItalic, NAutoDelete: integer;
-  NTag: Int64;
+  NTag: integer;
   Data: TATGutterDecorData;
   ItemPtr: PATGutterDecorItem;
   NCount, i: integer;
 begin
   with AppPython.Engine do
-    if Bool(PyArg_ParseTuple(Args, 'LiiLsiiiii:decor',
+    if Bool(PyArg_ParseTuple(Args, 'Liiisiiiii:decor',
             @H, @NId, @NLine, @NTag, @PtrText, @NColor, @NFontBold, @NFontItalic,
             @NImageIndex, @NAutoDelete)) then
     begin
