@@ -8985,7 +8985,7 @@ var
   Ed: TATSynEdit;
   IdAction, NTag, NWidth, NColor: integer;
   Column: TATMicromapColumn;
-  NCount, i: integer;
+  NColumnCount, iColumn: integer;
   Ok: boolean;
 begin
   with AppPython.Engine do
@@ -8996,14 +8996,14 @@ begin
       case IdAction of
         MICROMAP_GET:
           begin
-            NCount:= Length(Ed.Micromap.Columns);
-            Result:= PyList_New(NCount);
+            NColumnCount:= Length(Ed.Micromap.Columns);
+            Result:= PyList_New(NColumnCount);
             if not Assigned(Result) then
               raise EPythonError.Create(msgPythonListError);
-            for i:= 0 to NCount-1 do
+            for iColumn:= 0 to NColumnCount-1 do
             begin
-              Column:= Ed.Micromap.Columns[i];
-              PyList_SetItem(Result, i,
+              Column:= Ed.Micromap.Columns[iColumn];
+              PyList_SetItem(Result, iColumn,
                 Py_BuildValue('{sisisisi}',
                   'size_perc',
                   Column.NWidthUnits,
