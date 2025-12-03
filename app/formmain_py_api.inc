@@ -2073,7 +2073,7 @@ end;
 function PyHelper_BookmarkGetItem(BmItem: PATBookmarkItem): PPyObject;
 begin
   with AppPython.Engine do
-    Result:= Py_BuildValue('{sisLsisssisO}',
+    Result:= Py_BuildValue('{sisisisssisO}',
       'line',
       BmItem^.Data.LineNum,
       'tag',

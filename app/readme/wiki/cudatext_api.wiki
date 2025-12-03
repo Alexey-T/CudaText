@@ -2908,7 +2908,7 @@ Controls bookmarks. Possible values of "id":
 ** Param "text": str: tooltip, shown when mouse moves over bookmark gutter icon.
 ** Param "auto_del": bool: auto delete bookmark on deleting its text line.
 ** Param "show": bool: show bookmark in "Go to bookmark" dialog.
-** Param "tag": int: some value attached to bookmark.
+** Param "tag": int 32-bit: some value attached to bookmark.
 
 * BOOKMARK_CLEAR: Removes bookmark from line, specified by "nline" param.
 * BOOKMARK_CLEAR_ALL: Removes all bookmarks ("nline" ignored).
