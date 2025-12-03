@@ -9003,7 +9003,7 @@ begin
             for i:= 0 to NCount-1 do
               with Ed.Micromap.Columns[i] do
                 PyList_SetItem(Result, i,
-                  Py_BuildValue('{sisisLsi}',
+                  Py_BuildValue('{sisisisi}',
                     'size_perc',
                     NWidthUnits,
                     'size_px',
