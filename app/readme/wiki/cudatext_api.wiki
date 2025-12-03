@@ -3083,7 +3083,7 @@ Controls "markers" ("markers" are described in the Wiki, used e.g. in the Snippe
 
 * MARKERS_ADD: Adds marker. Also returns number of markers. Params:
 ** "x", "y": Position of marker (like caret position).
-** "tag": Some int value attached to marker. Value>0 is needed if you want to place multi-carets when command "goto last marker (and delete)" runs. All markers with the same tag>0 will get multi-carets (after markers will be deleted).
+** "tag": Some int 32-bit value attached to marker. Value>0 is needed if you want to place multi-carets when command "goto last marker (and delete)" runs. All markers with the same tag>0 will get multi-carets (after markers will be deleted).
 ** "len_x", "len_y": Selection length. It's applied when marker is "collected" by command "goto last marker".
 *** if len_y==0: len_x is length of selection (single line),
 *** if len_y>0: len_y is y-delta of selection-end, and len_x is absolute x-pos of selection-end.
@@ -3111,8 +3111,8 @@ Controls "markers" ("markers" are described in the Wiki, used e.g. in the Snippe
 Controls additional color attributes. Possible values of "id":
 
 * MARKERS_ADD: Adds fragment with specified properties. Also returns number of fragments. Parameters:
-** "tag": Some int value attached to fragment (different plugins should add fragments with different tags).
-** "x", "y": Position of fragment start (text position like caret).
+** "tag": Some int 32-bit value attached to fragment (different plugins should add fragments with different tags).
+** "x", "y": Text position of fragment start.
 ** "len": Length of fragment in chars.
 *** If len<0, and "show_on_map" is set, it will be multi-line micromap fragment with specified height=-len.
 ** "color_*": Color values (RGB) for font, background, borders.
@@ -5233,7 +5233,7 @@ It provides:
 * add: Editor.attr: MARKERS_SET_SORTED
 * change: Editor.get_token: TOKEN_LIST_SUB always returns the list, never None
 * change: Editor.folding: type of "item_tag" changed from 64-bit int to 8-bit int
-* change: Editor.bookmark: type of "tag" changed from 64-bit int to 32-bit int
+* change: Editor.attr/Editor.markers/Editor.bookmark: type of "tag" changed from 64-bit int to 32-bit int
 * delete Editor.get_token's TOKEN_LIST action (use TOKEN_LIST_SUB instead)
 
 [[Category:CudaText]]
