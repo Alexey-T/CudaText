@@ -8434,11 +8434,11 @@ begin
         end;
 
         PyList_SetItem(Result, i,
-          Py_BuildValue('{sisLsis(ii)si}',
+          Py_BuildValue('{sisisis(ii)si}',
             'line',
             Item.LineIndex,
             'tag',
-            Int64(Item.Tag),
+            Item.Tag,
             'size',
             Item.Size,
             'bitmap',
