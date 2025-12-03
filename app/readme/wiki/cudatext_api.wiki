@@ -2981,7 +2981,7 @@ Performs action on folding ranges. Possible values of "id":
 ** "staple": bool, indicates that range has 'block staple'.
 ** "folded": bool, indicates that range is folded.
 ** "hint": str, tooltip text, which is rendered when range is folded.
-** "tag": int 8-bit, some int value attached to range. It is 255 for ranges created by CudaText command "fold selected lines".
+** "tag": int, some value attached to range. It is 255 for ranges created by CudaText command "fold selected lines".
 
 * FOLDING_FOLD: Folds range with given index (index in unfiltered list returned by FOLDING_ENUM). Params used: "index".
 * FOLDING_FOLD_ALL: Folds all ranges.
@@ -2998,7 +2998,7 @@ Performs action on folding ranges. Possible values of "id":
 ** "item_y2": line index of range ending.
 ** "item_staple" (optional): bool, indicates that range has 'block staple'.
 ** "item_hint" (optional): str, hint which is shown when range is folded.
-** "item_tag" (optional): int 64-bit, tag value. For example, it is -1 for ranges created by CudaText command "fold selected lines".
+** "item_tag" (optional): int 8-bit, some value attached to range. It is 255 for ranges created by CudaText command "fold selected lines".
 ** "index": if it's valid range index (0-based), range inserts at this index, otherwise range appends.
 
 * FOLDING_DELETE: Deletes folding range with given index (index in unfiltered list returned by FOLDING_ENUM). Params used: "index".
