@@ -5233,6 +5233,7 @@ It provides:
 * add: Editor.attr: MARKERS_SET_SORTED
 * change: Editor.get_token: TOKEN_LIST_SUB always returns the list, never None
 * change: Editor.folding: type of "item_tag" changed from 64-bit int to 8-bit int
+* change: Editor.bookmark: type of "tag" changed from 64-bit int to 32-bit int
 * delete Editor.get_token's TOKEN_LIST action (use TOKEN_LIST_SUB instead)
 
 [[Category:CudaText]]
