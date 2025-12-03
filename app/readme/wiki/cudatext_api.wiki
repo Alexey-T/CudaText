@@ -3316,7 +3316,7 @@ Possible values of "id":
 
 * GAP_GET_ALL: Returns list of gaps, as list of dict. Dict keys are:
 ** "line": int: Line index; or -1 for gap before the first line.
-** "tag": int: Tag.
+** "tag": int: Some value attached to gap.
 ** "size": int: Height in pixels.
 ** "color": int: Color.
 ** "bitmap": 2-tuple of int: Size of bitmap, or (0, 0) if no bitmap.
@@ -3331,7 +3331,7 @@ Possible values of "id":
 *** 0: gap is empty, filled with specified color;
 *** handle of bitmap (created via GAP_MAKE_BITMAP): place bitmap in the gap;
 *** handle of dialog (created via dlg_proc()): place dialog in the gap.
-** "tag": int: Some value, to separate gaps from several plugins.
+** "tag": int 32-bit: Some value attached to gap, to separate gaps from different plugins.
 ** "size": int: If >0, it is gap height in pixels. If 0, gap height is calculated from bitmap handle.
 ** "color": int: If not COLOR_NONE, then it's gap background color.
 
@@ -5233,7 +5233,7 @@ It provides:
 * add: Editor.attr: MARKERS_SET_SORTED
 * change: Editor.get_token: TOKEN_LIST_SUB always returns the list, never None
 * change: Editor.folding: type of "item_tag" changed from 64-bit int to 8-bit int
-* change: Editor.attr/.markers/.bookmark/.decor/.hotspots: "tag" changed from 64-bit int to 32-bit int
+* change: Editor.attr/.markers/.bookmark/.decor/.hotspots/.gap: "tag" changed from 64-bit int to 32-bit int
 * delete Editor.get_token's TOKEN_LIST action (use TOKEN_LIST_SUB instead)
 
 [[Category:CudaText]]
