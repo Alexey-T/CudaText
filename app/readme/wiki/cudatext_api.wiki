@@ -3445,15 +3445,25 @@ Controls editor's micromap. Possible values of "id":
 * MICROMAP_GET: Get list of micromap columns, as list of dict. Dict keys are:
 ** "size_perc": Width of column in 'units'. See description in MICROMAP_ADD.
 ** "size_px": Width of column in pixels.
-** "tag": Int (signed 64 bit) tag of column. CudaText has 3 default columns, with tags 0 (line states), 1 (marks of plugins), 2 (selections).
+** "tag": Int tag of column.
 ** "color": RGB color of column background. Can be COLOR_NONE.
 
 * MICROMAP_ADD: Add micromap column. Returns bool: tag was not used, column was added.
-** "param1": Int (signed 64 bit) tag of column.
-** "param2": Width of column in 'units'. Where 100 'units' correspond to 'normal' column width. Note: column width will be 1) auto-sized to the current editor font if "micromap_on_scrollbar":false, 2) auto-sized to scrollbar width if "micromap_on_scrollbar":true.
+** "param1": Int 32-bit tag of column.
+** "param2": Width of column in 'units'. Where 100 'units' correspond to 'normal' column width.
 ** "param3": RGB color of column background, or COLOR_NONE for default themed color.
 
 * MICROMAP_DELETE: Delete micromap column by its tag. Param "param1": tag. Returns bool: column was found and deleted.
+
+Notes:
+
+* CudaText has 3 default micromap columns:
+** tag=0: line states.
+** tag=1: marks of plugins.
+** tag=2: selections.
+* On column adding, column width will be:
+** Auto-sized to the current editor font, if "micromap_on_scrollbar":false.
+** Auto-sized to scrollbar width, if "micromap_on_scrollbar":true.
 
 =HTML formatting=
 Several APIs support rendering of HTML-formatted strings. Small subset of HTML tags is supported:
@@ -5233,7 +5243,7 @@ It provides:
 * add: Editor.attr: MARKERS_SET_SORTED
 * change: Editor.get_token: TOKEN_LIST_SUB always returns the list, never None
 * change: Editor.folding: type of "item_tag" changed from 64-bit int to 8-bit int
-* change: Editor.attr/.markers/.bookmark/.decor/.hotspots/.gap: "tag" changed from 64-bit int to 32-bit int
+* change: Editor.attr/.markers/.bookmark/.decor/.hotspots/.gap/.micromap: "tag" changed from 64-bit int to 32-bit int
 * delete Editor.get_token's TOKEN_LIST action (use TOKEN_LIST_SUB instead)
 
 [[Category:CudaText]]
