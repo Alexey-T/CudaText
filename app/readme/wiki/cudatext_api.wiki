@@ -3165,8 +3165,8 @@ Possible values of "id":
 
 * HOTSPOT_ADD: Adds hotspot. Returns bool: params correct, hotspot added. Params:
 ** "pos": 4-tuple of int, text coords: (x_start, y_start, x_end, y_end)
-** "tag": optional int value
-** "tag_str": optional str value
+** "tag": int 32-bit value attached to range
+** "tag_str": str value attached to range
 
 * HOTSPOT_GET_LIST: Returns list of hotspots. Each item is dict with keys:
 ** "pos": 4-tuple of int
@@ -5233,7 +5233,7 @@ It provides:
 * add: Editor.attr: MARKERS_SET_SORTED
 * change: Editor.get_token: TOKEN_LIST_SUB always returns the list, never None
 * change: Editor.folding: type of "item_tag" changed from 64-bit int to 8-bit int
-* change: Editor.attr/Editor.markers/Editor.bookmark/Editor.decor: "tag" changed from 64-bit int to 32-bit int
+* change: Editor.attr/.markers/.bookmark/.decor/.hotspots: "tag" changed from 64-bit int to 32-bit int
 * delete Editor.get_token's TOKEN_LIST action (use TOKEN_LIST_SUB instead)
 
 [[Category:CudaText]]
