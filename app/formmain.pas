@@ -68,6 +68,7 @@ uses
   ATSynEdit_DimRanges,
   ATSynEdit_Gaps,
   ATSynEdit_Hotspots,
+  ATSynEdit_Micromap,
   ATSynEdit_Gutter_Decor,
   ATSynEdit_LineParts,
   ATSynEdit_Adapter_EControl,

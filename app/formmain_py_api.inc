@@ -8982,14 +8982,14 @@ end;
 function api_ed_micromap(Self, Args: PPyObject): PPyObject; cdecl;
 var
   HEditor: Int64;
-  IdAction: integer;
-  Num1, Num2, Num3: Int64;
   Ed: TATSynEdit;
-  Ok: boolean;
+  IdAction, NTag, NWidth, NColor: integer;
+  Column: TATMicromapColumn;
   NCount, i: integer;
+  Ok: boolean;
 begin
   with AppPython.Engine do
-    if Bool(PyArg_ParseTuple(Args, 'LiLLL:micromap', @HEditor, @IdAction, @Num1, @Num2, @Num3)) then
+    if Bool(PyArg_ParseTuple(Args, 'Liiii:micromap', @HEditor, @IdAction, @NTag, @NWidth, @NColor)) then
     begin
       Ed:= PyHelper_EditorFromHandle(HEditor);
 
@@ -9001,23 +9001,25 @@ begin
             if not Assigned(Result) then
               raise EPythonError.Create(msgPythonListError);
             for i:= 0 to NCount-1 do
-              with Ed.Micromap.Columns[i] do
-                PyList_SetItem(Result, i,
-                  Py_BuildValue('{sisisisi}',
-                    'size_perc',
-                    NWidthUnits,
-                    'size_px',
-                    NRight-NLeft,
-                    'tag',
-                    NTag,
-                    'color',
-                    NColor
-                    ));
+            begin
+              Column:= Ed.Micromap.Columns[i];
+              PyList_SetItem(Result, i,
+                Py_BuildValue('{sisisisi}',
+                  'size_perc',
+                  Column.NWidthUnits,
+                  'size_px',
+                  Column.NRight-Column.NLeft,
+                  'tag',
+                  Column.NTag,
+                  'color',
+                  Column.NColor
+                  ));
+            end;
           end;
 
         MICROMAP_ADD:
           begin
-            Ok:= Ed.Micromap.ColumnAdd(Num1, Num2, Num3);
+            Ok:= Ed.Micromap.ColumnAdd(NTag, NWidth, NColor);
             if Ok then
               Ed.Update;
             Result:= PyBool_FromLong(Ord(Ok));
@@ -9025,7 +9027,7 @@ begin
 
         MICROMAP_DELETE:
           begin
-            Ok:= Ed.Micromap.ColumnDelete(Num1);
+            Ok:= Ed.Micromap.ColumnDelete(NTag);
             if Ok then
               Ed.Update;
             Result:= PyBool_FromLong(Ord(Ok));
