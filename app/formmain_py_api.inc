@@ -1607,8 +1607,7 @@ function api_ed_hotspots(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
   Ed: TATSynEdit;
-  Id: integer;
-  NTag: integer;
+  Id, NTag: integer;
   PtrTag, PtrPos: PChar;
   StrTag, StrPos: string;
   NLen, i: integer;
@@ -8454,8 +8453,8 @@ end;
 
 function api_ed_gap(Self, Args: PPyObject): PPyObject; cdecl;
 var
-  H, Num1, Num2, NTag: Int64;
-  Id, NColor, NSize: integer;
+  H, Num1, Num2: Int64;
+  Id, NColor, NSize, NTag: integer;
   Ed, EdBrother: TATSynEdit;
   Frame: TEditorFrame;
   Bmp: TBitmap;
@@ -8464,7 +8463,7 @@ var
   ScrollInfo: TATEditorScrollInfo;
 begin
   with AppPython.Engine do
-    if Bool(PyArg_ParseTuple(Args, 'LiLLLii:gap', @H, @Id, @Num1, @Num2, @NTag, @NSize, @NColor)) then
+    if Bool(PyArg_ParseTuple(Args, 'LiLLiii:gap', @H, @Id, @Num1, @Num2, @NTag, @NSize, @NColor)) then
     begin
       Ed:= PyHelper_EditorFromHandle(H);
 
