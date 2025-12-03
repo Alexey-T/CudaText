@@ -6489,7 +6489,7 @@ begin
         begin
           Range:= PATFoldRange(ListRanges[i]);
           PyList_SetItem(Result, i,
-            Py_BuildValue('{sisisisisOsOsOsL}',
+            Py_BuildValue('{sisisisisOsOsOsi}',
               string('x'),
               Range^.X-1,
               string('y'),
@@ -6505,7 +6505,7 @@ begin
               'hint',
               PyUnicodeFromString(Range^.Hint),
               'tag',
-              Range^.Tag
+              Longint(Range^.Tag)
               ));
         end;
       end;
