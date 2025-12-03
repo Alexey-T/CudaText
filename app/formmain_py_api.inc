@@ -9052,13 +9052,13 @@ var
   H: Int64;
   Ed: TATSynEdit;
   Id, NItem, NX, NY, NX2, NY2, NStaple: integer;
-  NTag: Int64;
+  NTag: integer;
   PtrText: PChar;
   StrText: string;
   Ok: boolean;
 begin
   with AppPython.Engine do
-    if Bool(PyArg_ParseTuple(Args, 'LiiiiiiisL:folding',
+    if Bool(PyArg_ParseTuple(Args, 'Liiiiiiisi:folding',
             @H, @Id, @NItem, @NX, @NY, @NX2, @NY2, @NStaple, @PtrText, @NTag)) then
     begin
       Ed:= PyHelper_EditorFromHandle(H);
