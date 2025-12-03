@@ -1608,7 +1608,7 @@ var
   H: Int64;
   Ed: TATSynEdit;
   Id: integer;
-  NTag: Int64;
+  NTag: integer;
   PtrTag, PtrPos: PChar;
   StrTag, StrPos: string;
   NLen, i: integer;
@@ -1616,7 +1616,7 @@ var
   Sep: TATStringSeparator;
 begin
   with AppPython.Engine do
-    if Bool(PyArg_ParseTuple(Args, 'LiLss:hotspots', @H, @Id, @NTag, @PtrTag, @PtrPos)) then
+    if Bool(PyArg_ParseTuple(Args, 'Liiss:hotspots', @H, @Id, @NTag, @PtrTag, @PtrPos)) then
     begin
       Ed:= PyHelper_EditorFromHandle(H);
       StrTag:= string(PtrTag);
@@ -1669,7 +1669,7 @@ begin
               begin
                 FItem:= Ed.Hotspots[i];
                 PyList_SetItem(Result, i,
-                  Py_BuildValue('{s(iiii)sLss}',
+                  Py_BuildValue('{s(iiii)siss}',
                     'pos',
                     FItem.PosX,
                     FItem.PosY,
