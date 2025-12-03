@@ -2115,15 +2115,12 @@ var
   StrText: string;
   Ed: TATSynEdit;
   Strs: TATStrings;
-  NId, NLine, NKind, NColor, NCount,
-  NAutoDelete, NShowInList: integer;
-  NTag: Int64;
-  BmItem: PATBookmarkItem;
+  NId, NLine, NKind, NColor, NAutoDelete, NShowInList: integer;
+  NTag: integer;
   AutoDel: TATBookmarkAutoDelete;
-  i: integer;
 begin
   with AppPython.Engine do
-    if Bool(PyArg_ParseTuple(Args, 'LiiiisiiL:bookmark',
+    if Bool(PyArg_ParseTuple(Args, 'Liiiisiii:bookmark',
             @H, @NId, @NLine, @NKind, @NColor, @PtrText,
             @NAutoDelete, @NShowInList, @NTag)) then
     begin
