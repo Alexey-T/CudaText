@@ -2114,7 +2114,6 @@ var
   PtrText: PChar;
   StrText: string;
   Ed: TATSynEdit;
-  Strs: TATStrings;
   NId, NLine, NKind, NColor, NAutoDelete, NShowInList: integer;
   NTag: integer;
   AutoDel: TATBookmarkAutoDelete;
@@ -2125,7 +2124,6 @@ begin
             @NAutoDelete, @NShowInList, @NTag)) then
     begin
       Ed:= PyHelper_EditorFromHandle(H);
-      Strs:= Ed.Strings;
       StrText:= string(PtrText);
 
       //check range of NKind
@@ -2142,7 +2140,7 @@ begin
       case NId of
         BOOKMARK_SET:
           begin
-            ed.BookmarkSetForLine(NLine, NKind, StrText,
+            Ed.BookmarkSetForLine(NLine, NKind, StrText,
                 AutoDel,
                 Bool(NShowInList),
                 NTag
@@ -2151,7 +2149,7 @@ begin
           end;
         BOOKMARK2_SET:
           begin
-            ed.BookmarkSetForLine_2(NLine, NKind, StrText,
+            Ed.BookmarkSetForLine_2(NLine, NKind, StrText,
                 AutoDel,
                 Bool(NShowInList),
                 NTag
@@ -2161,23 +2159,23 @@ begin
 
         BOOKMARK_CLEAR:
           begin
-            ed.BookmarkDeleteForLine(NLine);
+            Ed.BookmarkDeleteForLine(NLine);
             Result:= ReturnNone;
           end;
         BOOKMARK2_CLEAR:
           begin
-            ed.BookmarkDeleteForLine_2(NLine);
+            Ed.BookmarkDeleteForLine_2(NLine);
             Result:= ReturnNone;
           end;
 
         BOOKMARK_CLEAR_ALL:
           begin
-            ed.BookmarkDeleteAll;
+            Ed.BookmarkDeleteAll;
             Result:= ReturnNone;
           end;
         BOOKMARK2_CLEAR_ALL:
           begin
-            ed.BookmarkDeleteAll_2;
+            Ed.BookmarkDeleteAll_2;
             Result:= ReturnNone;
           end;
 
@@ -2191,20 +2189,20 @@ begin
 
         BOOKMARK_GET_ALL:
           begin
-            Result:= PyHelper_BookmarkGetAll(Strs.Bookmarks);
+            Result:= PyHelper_BookmarkGetAll(Ed.Strings.Bookmarks);
           end;
         BOOKMARK2_GET_ALL:
           begin
-            Result:= PyHelper_BookmarkGetAll(Strs.Bookmarks2);
+            Result:= PyHelper_BookmarkGetAll(Ed.Strings.Bookmarks2);
           end;
 
         BOOKMARK_DELETE_BY_TAG:
           begin
-            Result:= PyBool_FromLong(Ord(ed.BookmarkDeleteByTag(NTag)));
+            Result:= PyBool_FromLong(Ord(Ed.BookmarkDeleteByTag(NTag)));
           end;
         BOOKMARK2_DELETE_BY_TAG:
           begin
-            Result:= PyBool_FromLong(Ord(ed.BookmarkDeleteByTag_2(NTag)));
+            Result:= PyBool_FromLong(Ord(Ed.BookmarkDeleteByTag_2(NTag)));
           end;
 
         else
