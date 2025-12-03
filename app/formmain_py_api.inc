@@ -2210,8 +2210,6 @@ begin
         else
           Result:= ReturnNone;
       end;
-
-      Ed.Update;
     end
   else
     Result:= ReturnNone;
