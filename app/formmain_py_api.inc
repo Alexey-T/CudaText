@@ -1209,7 +1209,7 @@ begin
             begin
               Mark:= Ed.Markers[i];
               PyList_SetItem(Result, i,
-                Py_BuildValue('{sisisisisLsisi}',
+                Py_BuildValue('{sisisisisisisi}',
                   PChar(string('x')),
                   Mark.PosX,
                   PChar(string('y')),
@@ -1363,7 +1363,7 @@ begin
             begin
               Mark:= Ed.Attribs[i];
               PyList_SetItem(Result, i,
-                Py_BuildValue('{sLsisisisisisisOsOsOsisisisisLsi}',
+                Py_BuildValue('{sisisisisisisisOsOsOsisisisisisi}',
                   'tag',
                   Mark.Tag,
                   PChar(string('x')),
@@ -8002,7 +8002,7 @@ begin
               begin
                 ItemPtr:= Ed.DimRanges.ItemPtr(i);
                 PyList_SetItem(Result, i,
-                  Py_BuildValue('(iiL)',
+                  Py_BuildValue('(iii)',
                     ItemPtr^.PosY,
                     ItemPtr^.PosY+ItemPtr^.SelY-1,
                     ItemPtr^.TagEx
