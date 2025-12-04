@@ -1749,7 +1749,10 @@ class Command:
         if not path:
             return
 
-        if info.image in [self.ICON_BAD, self.ICON_DIR, self.ICON_PROJ]:
+        if info.image == self.ICON_DIR:
+            tree_proc(self.tree, TREE_ITEM_UNFOLD if tree_proc(self.tree, TREE_ITEM_GET_PROPS, self.selected)['folded'] else TREE_ITEM_FOLD, self.selected)
+            return
+        elif info.image in [self.ICON_BAD, self.ICON_PROJ]:
             return
 
         if not os.path.isfile(str(path)):
@@ -1854,10 +1857,11 @@ class Command:
         return node_type
 
     def form_key_down(self, id_dlg, id_ctl, data):
-        if id_ctl in [VK_SPACE, VK_ENTER, VK_F4]:
+        reg_key = ('a' in data) or ('c' in data) or ('s' in data) or ('m' in data)
+        if id_ctl in [VK_SPACE, VK_ENTER, VK_F4] and not reg_key:
             self.do_open_current_file(self.get_open_options())
             return False #block key
-        elif id_ctl == VK_DELETE:
+        elif id_ctl == VK_DELETE and not reg_key:
             node_type = self.get_node_type()
             if node_type == NODE_FILE:
                 self.action_delete_file()
@@ -1867,10 +1871,10 @@ class Command:
         elif (id_ctl == VK_F5) or (data == S_CTRL_API and (id_ctl in (ord('r'), ord('R')))):
             self.action_refresh()
             return False #block key
-        elif id_ctl == VK_F2:
+        elif id_ctl == VK_F2 and not reg_key:
             self.action_rename()
             return False #block key
-        elif id_ctl == VK_F7:
+        elif id_ctl == VK_F7 and not reg_key:
             self.action_new_directory()
             return False #block key
         elif (data == S_CTRL_API and (id_ctl in (ord('n'), ord('N')))):

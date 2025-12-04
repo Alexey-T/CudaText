@@ -1,5 +1,8 @@
+2025.12.04
++ add Enter/Space-key for fold/unfold directories
+
 2024.09.26
-+ sort: none
++ add sorting order "none"
 
 2019.10.27
 + feature of Kate editor: on opening a file from Git/SVN repo, project is created and target file is focused in that project; added option for this
@@ -105,4 +108,4 @@
 + filter in Open/Save dialog
 
 2016.07.14
-init version
+initial version
