@@ -1749,7 +1749,10 @@ class Command:
         if not path:
             return
 
-        if info.image in [self.ICON_BAD, self.ICON_DIR, self.ICON_PROJ]:
+        if info.image == self.ICON_DIR:
+            tree_proc(self.tree, TREE_ITEM_UNFOLD if tree_proc(self.tree, TREE_ITEM_GET_PROPS, self.selected)['folded'] else TREE_ITEM_FOLD, self.selected)
+            return
+        elif info.image in [self.ICON_BAD, self.ICON_PROJ]:
             return
 
         if not os.path.isfile(str(path)):
