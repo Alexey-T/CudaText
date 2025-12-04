@@ -9,7 +9,7 @@
 - fix: regression in 1.172.0 (2022/10): Ctrl+BkSpace wrongly adjusted multi-carets on the same line
 - fix: Windows: IME minor fix (by @martok)
 - fix: bug in code-tree built from tree-helpers (thanks @dimon40001)
-- fix: Qt5/Qt6 versions: supressed copying of 'extended data' to clipboard to repair broken clipboard-copying; but negative effect exists: command "paste and indent" will not work ok now (thanks @SamuraiNinjaGuy)
+- fix: Qt5/Qt6 versions: important fix of copying-to-clipboard, under Wayland (thanks @SamuraiNinjaGuy)
 
 1.230.2 (2025/11)
 
