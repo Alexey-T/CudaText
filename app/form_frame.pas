@@ -1890,7 +1890,8 @@ procedure TEditorFrame.EditorOnCommand(Sender: TObject; ACmd: integer;
 var
   Ed: TATSynEdit;
   NCarets: integer;
-  ch: char;
+  STextW: UnicodeString;
+  ch: WideChar;
 begin
   Ed:= Sender as TATSynEdit;
   NCarets:= Ed.Carets.Count;
@@ -1905,9 +1906,12 @@ begin
           if not Ed.OptAutoPairForMultiCarets then
             exit;
 
-        if Length(AText)=1 then
+        if Length(AText)>4 then exit;
+
+        STextW:= UTF8Decode(AText);
+        if Length(STextW)=1 then
         begin
-          ch:= AText[1];
+          ch:= STextW[1];
 
           //auto-close bracket
           if Pos(ch, Ed.OptAutoPairChars)>0 then

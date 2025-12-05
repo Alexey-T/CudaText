@@ -98,8 +98,8 @@ type
     SelectInside
     );
 
-function EditorBracket_GetPairForOpeningBracketOrQuote(ch: char): char;
-function EditorBracket_GetPairForClosingBracketOrQuote(ch: char): char;
+function EditorBracket_GetPairForOpeningBracketOrQuote(ch: WideChar): WideChar;
+function EditorBracket_GetPairForClosingBracketOrQuote(ch: WideChar): WideChar;
 
 function EditorBracket_ClearHilite(Ed: TATSynEdit): boolean;
 procedure EditorBracket_FindBoth(Ed: TATSynEdit;
@@ -1259,12 +1259,7 @@ begin
   CharEnd:= EditorBracket_GetPairForOpeningBracketOrQuote(CharBegin);
   if CharEnd=#0 then exit;
 
-  case CharBegin of
-    '"', '''', '`':
-      bQuoteChar:= true;
-    else
-      bQuoteChar:= false;
-  end;
+  bQuoteChar:= Pos(CharBegin, '"''`“‘')>0;
 
   St:= Ed.Strings;
   NLineChanged:= St.Count-1;
@@ -1536,7 +1531,7 @@ begin
   Props.EmptyInside:= S='1';
 end;
 
-function EditorBracket_GetPairForOpeningBracketOrQuote(ch: char): char;
+function EditorBracket_GetPairForOpeningBracketOrQuote(ch: WideChar): WideChar;
 begin
   case ch of
     '(': Result:= ')';
@@ -1549,11 +1544,13 @@ begin
     '~': Result:= '~';
     '*': Result:= '*';
     '#': Result:= '#';
+    #$201c: Result:= #$201d;
+    #$2018: Result:= #$2019;
     else Result:= #0;
   end;
 end;
 
-function EditorBracket_GetPairForClosingBracketOrQuote(ch: char): char;
+function EditorBracket_GetPairForClosingBracketOrQuote(ch: WideChar): WideChar;
 begin
   case ch of
     ')': Result:= '(';
@@ -1562,6 +1559,8 @@ begin
     '"': Result:= '"';
     '''': Result:= '''';
     '`': Result:= '`';
+    #$201d: Result:= #$201c;
+    #$2019: Result:= #$2018;
     else Result:= #0;
   end;
 end;
