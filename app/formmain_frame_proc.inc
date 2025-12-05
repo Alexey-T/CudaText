@@ -322,7 +322,7 @@ begin
   end;
 end;
 
-procedure TfmMain.FrameParseDone(Sender: TObject);
+procedure TfmMain.FrameParseDone(Sender: TObject; ATime: integer);
 var
   Ada: TATAdapterEControl;
   Ed: TATSynEdit;
@@ -342,7 +342,7 @@ begin
     end;
 
   //do on_lexer_parsed only if parsing was long
-  if Ada.LexerParsingElapsed>=UiOps.LexerParsingMinTimeForEvent then
+  if ATime>=UiOps.LexerParsingMinTimeForEvent then
     DoPyEvent(Ed, TAppPyEvent.OnLexerParsed, []);
 end;
 
