@@ -5247,6 +5247,6 @@ It provides:
 * delete Editor.get_token's TOKEN_LIST action (use TOKEN_LIST_SUB instead)
 
 1.0.470 (app 1.230.5)
-* add: event on_caret_slow supports filtering now: "sel", "selx"
+* add: event on_caret_slow supports filtering in install.inf: "keys=sel" for single selection or "keys=sel,selx" for any count of selections
 
 [[Category:CudaText]]
