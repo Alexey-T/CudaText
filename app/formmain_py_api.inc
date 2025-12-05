@@ -7957,6 +7957,7 @@ var
   Ed: TATSynEdit;
   Id, NIndex1, NIndex2, NValue, NLen, i: integer;
   ItemPtr: PATMarkerItem;
+  DimPtr: PATDimRange;
 begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'Liiii:dim', @H, @Id, @NIndex1, @NIndex2, @NValue)) then
@@ -7999,12 +8000,12 @@ begin
                 raise EPythonError.Create(msgPythonListError);
               for i:= 0 to NLen-1 do
               begin
-                ItemPtr:= Ed.DimRanges.ItemPtr(i);
+                DimPtr:= Ed.DimRanges.ItemPtr(i);
                 PyList_SetItem(Result, i,
                   Py_BuildValue('(iii)',
-                    ItemPtr^.PosY,
-                    ItemPtr^.PosY+ItemPtr^.SelY-1,
-                    ItemPtr^.TagEx
+                    DimPtr^.LineFrom,
+                    DimPtr^.LineTo,
+                    DimPtr^.DimValue
                     ));
               end;
             end;
