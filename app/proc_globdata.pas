@@ -138,7 +138,7 @@ type
     );
 
 const
-  cAppHistoryElementChar: array[TAppHistoryElement] of char =
+  cAppHistoryElementChar: array[TAppHistoryElement] of WideChar =
     ('t', 'c', 'h', 's', 'T', 'e', 'b', 'l', 'w', 'M', 'm', 'r', 'u', 'n',
      'S', 'f', 'k', 'C', 'F', 'i', 'I', 'U', 'L');
 
