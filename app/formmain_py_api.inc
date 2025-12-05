@@ -1190,8 +1190,8 @@ var
   H: Int64;
   Id: Integer;
   Ed: TATSynEdit;
-  Mark: TATMarkerItem;
-  X, Y, NTag, NLenX, NLenY, NLineLen, i: integer;
+  Mark: PATMarkerItem;
+  X, Y, NTag, NLenX, NLenY, NLineLen, NMarkCount, i: integer;
 begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'Liiiiiii:markers', @H, @Id, @X, @Y, @NTag, @NLenX, @NLenY, @NLineLen)) then
@@ -1201,29 +1201,29 @@ begin
       case Id of
         MARKERS_GET_DICT:
           begin
-            NLenX:= Ed.Markers.Count;
-            Result:= PyList_New(NLenX);
+            NMarkCount:= Ed.Markers.Count;
+            Result:= PyList_New(NMarkCount);
             if not Assigned(Result) then
               raise EPythonError.Create(msgPythonListError);
-            for i:= 0 to NLenX-1 do
+            for i:= 0 to NMarkCount-1 do
             begin
-              Mark:= Ed.Markers[i];
+              Mark:= Ed.Markers.ItemPtr(i);
               PyList_SetItem(Result, i,
                 Py_BuildValue('{sisisisisisisi}',
                   PChar(string('x')),
-                  Mark.PosX,
+                  Mark^.PosX,
                   PChar(string('y')),
-                  Mark.PosY,
+                  Mark^.PosY,
                   'len_x',
-                  Mark.SelX,
+                  Mark^.SelX,
                   'len_y',
-                  Mark.SelY,
+                  Mark^.SelY,
                   'tag',
-                  Longint(Mark.Tag),
+                  Longint(Mark^.Tag),
                   'line_len',
-                  Longint(Mark.LineLen),
+                  Longint(Mark^.LineLen),
                   'micromap',
-                  Ord(Mark.MicromapMode)
+                  Ord(Mark^.MicromapMode)
                   ));
             end;
           end;
