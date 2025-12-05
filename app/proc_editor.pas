@@ -267,7 +267,7 @@ begin
   Ed.OptPasteWithEolAtLineStart:= Op.OpPasteWithEolAtLineStart;
 
   Ed.OptAutoPairForMultiCarets:= Op.OpAutoCloseBracketsMultiCarets;
-  Ed.OptAutoPairChars:= Op.OpAutoCloseBrackets;
+  Ed.OptAutoPairChars:= UTF8Decode(Op.OpAutoCloseBrackets);
   Ed.OptAutocompleteAutoshowCharCount:= Op.OpAutocompleteAutoshowCharCount;
   Ed.OptAutocompleteTriggerChars:= Op.OpAutocompleteTriggerChars;
   Ed.OptAutocompleteCommitChars:= Op.OpAutocompleteCommitChars;
@@ -1104,7 +1104,7 @@ begin
 
   CharOpening:= EditorBracket_GetPairForClosingBracketOrQuote(CharClosing);
   if CharOpening=#0 then exit;
-  if Pos(CharOpening, UTF8Decode(Ed.OptAutoPairChars))=0 then exit;
+  if Pos(CharOpening, Ed.OptAutoPairChars)=0 then exit;
 
   for iCaret:= Ed.Carets.Count-1 downto 0 do
   begin
