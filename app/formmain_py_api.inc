@@ -1219,9 +1219,9 @@ begin
                   'len_y',
                   Mark.SelY,
                   'tag',
-                  Mark.Tag,
+                  Longint(Mark.Tag),
                   'line_len',
-                  Mark.LineLen,
+                  Longint(Mark.LineLen),
                   'micromap',
                   Ord(Mark.MicromapMode)
                   ));
