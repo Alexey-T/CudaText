@@ -143,6 +143,14 @@ begin
         //key is filename, it is 1st parameter
         KeyForFilter:= Copy(ExtractFileExt(AParams[0].Str), 2);
       end;
+    TAppPyEvent.OnCaretSlow:
+      begin
+        if Assigned(AEd) and AEd.Carets.IsSelection then
+          if AEd.Carets.Count=1 then
+            KeyForFilter:= 'sel'
+          else
+            KeyForFilter:= 'selx';
+      end;
   end;
 
   //see all items with priority=MaxPriority..0
