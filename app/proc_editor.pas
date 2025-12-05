@@ -37,8 +37,8 @@ procedure EditorApplyOps(Ed: TATSynEdit; const Op: TEditorOps;
   AApplyUnprintedAndWrap, AApplyTabSize, AApplyCentering: boolean);
 procedure EditorApplyOpsCommon(Ed: TATSynEdit);
 
-function EditorGetLinkAtScreenCoord(Ed: TATSynEdit; P: TPoint): atString;
-function EditorGetLinkAtCaret(Ed: TATSynEdit): atString;
+function EditorGetLinkAtScreenCoord(Ed: TATSynEdit; P: TPoint): UnicodeString;
+function EditorGetLinkAtCaret(Ed: TATSynEdit): UnicodeString;
 function EditorLexerNameAtPos(Ed: TATSynEdit; APos: TPoint): string;
 
 type
@@ -66,7 +66,7 @@ function EditorGetColorById(Ed: TATSynEdit; const Id: string): TColor;
 function EditorIsAutocompleteCssPosition(Ed: TATSynEdit; AX, AY: integer): boolean;
 function EditorAutoSkipClosingBracket(Ed: TATSynEdit; CharClosing: WideChar): boolean;
 function EditorAutoDeleteClosingBracket(Ed: TATSynEdit): boolean;
-function EditorAutoPairChar(Ed: TATSynEdit; CharBegin: atChar): boolean;
+function EditorAutoPairChar(Ed: TATSynEdit; CharBegin: WideChar): boolean;
 procedure EditorCopySelToPrimarySelection(Ed: TATSynEdit; AMaxLineCount: integer);
 procedure EditorCopyLinesWithCarets(Ed: TATSynEdit);
 procedure EditorCopyAsHTML(Ed: TATSynEdit);
@@ -107,7 +107,7 @@ procedure EditorBracket_FindBoth(Ed: TATSynEdit;
   const AllowedSymbols: string;
   MaxDistance: integer;
   out FoundX, FoundY: integer;
-  out CharFrom, CharTo: atChar;
+  out CharFrom, CharTo: WideChar;
   out Kind: TEditorBracketKind);
 procedure EditorBracket_Action(Ed: TATSynEdit;
   Action: TEditorBracketAction;
@@ -1022,7 +1022,7 @@ begin
 end;
 
 
-function EditorGetLinkAtScreenCoord(Ed: TATSynEdit; P: TPoint): atString;
+function EditorGetLinkAtScreenCoord(Ed: TATSynEdit; P: TPoint): UnicodeString;
 var
   PntCoord: TATPoint;
   Details: TATEditorPosDetails;
@@ -1036,7 +1036,7 @@ begin
     Result:= 'https://'+Result;
 end;
 
-function EditorGetLinkAtCaret(Ed: TATSynEdit): atString;
+function EditorGetLinkAtCaret(Ed: TATSynEdit): UnicodeString;
 begin
   Result:= '';
   if Ed.Carets.Count=0 then exit;
@@ -1056,7 +1056,7 @@ function EditorIsAutocompleteCssPosition(Ed: TATSynEdit; AX, AY: integer): boole
   end;
   //
 var
-  str: atString;
+  str: UnicodeString;
   ch: Widechar;
   i: integer;
 begin
@@ -1217,7 +1217,7 @@ end;
 function EditorAutoCloseBracket_NeedPair(Ed: TATSynEdit; Caret: TATCaretItem; AQuoteChar: boolean): boolean;
 var
   NPos: integer;
-  Str: atString;
+  Str: UnicodeString;
 begin
   Result:= true;
   NPos:= Caret.PosX;
@@ -1240,7 +1240,7 @@ begin
       exit(false);
 end;
 
-function EditorAutoPairChar(Ed: TATSynEdit; CharBegin: atChar): boolean;
+function EditorAutoPairChar(Ed: TATSynEdit; CharBegin: WideChar): boolean;
 var
   Caret: TATCaretItem;
   St: TATStrings;
@@ -1248,7 +1248,7 @@ var
   iCaret, NLineChanged, NLastCaret: integer;
   bSel, bBackwardSel: boolean;
   bQuoteChar: boolean;
-  CharEnd: atChar;
+  CharEnd: WideChar;
   Shift, PosAfter: TPoint;
 begin
   Result:= false;
@@ -1565,7 +1565,7 @@ begin
   end;
 end;
 
-procedure EditorBracket_GetCharKind(ch: atChar; out Kind: TEditorBracketKind; out PairChar: atChar);
+procedure EditorBracket_GetCharKind(ch: WideChar; out Kind: TEditorBracketKind; out PairChar: WideChar);
 begin
   case ch of
     '(': begin Kind:= TEditorBracketKind.Opening; PairChar:= ')'; end;
@@ -1588,9 +1588,9 @@ procedure EditorBracket_FindOpeningBracketBackward(Ed: TATSynEdit;
 var
   Level: integer;
   Kind: TEditorBracketKind;
-  ch, ch2: atChar;
+  ch, ch2: WideChar;
   iLine, iChar, nChar: integer;
-  S: atString;
+  S: UnicodeString;
 begin
   FoundX:= -1;
   FoundY:= -1;
@@ -1638,7 +1638,7 @@ end;
 
 procedure EditorBracket_FindPair(
   Ed: TATSynEdit;
-  CharFrom, CharTo: atChar;
+  CharFrom, CharTo: WideChar;
   SearchForward: boolean;
   MaxDistance: integer;
   FromX, FromY: integer;
@@ -1749,7 +1749,7 @@ procedure EditorBracket_FindBoth(Ed: TATSynEdit;
   const AllowedSymbols: string;
   MaxDistance: integer;
   out FoundX, FoundY: integer;
-  out CharFrom, CharTo: atChar;
+  out CharFrom, CharTo: WideChar;
   out Kind: TEditorBracketKind);
 var
   St: TATStrings;
@@ -3340,7 +3340,7 @@ end;
 procedure EditorConvertTabsToSpaces(Ed: TATSynEdit);
 var
   St: TATStrings;
-  S1, S2: atString;
+  S1, S2: UnicodeString;
   bChanged: boolean;
   i: integer;
 begin
@@ -3375,7 +3375,7 @@ end;
 procedure EditorConvertIndentation(Ed: TATSynEdit; ASpacesToTabs: boolean);
 var
   St: TATStrings;
-  SLine, SBegin, SBeginNew, SEnd: atString;
+  SLine, SBegin, SBeginNew, SEnd: UnicodeString;
   bChanged: boolean;
   NIndent, i: integer;
 begin
