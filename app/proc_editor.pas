@@ -1546,6 +1546,7 @@ begin
     '#': Result:= '#';
     #$201c: Result:= #$201d;
     #$2018: Result:= #$2019;
+    #$ab: Result:= #$bb;
     else Result:= #0;
   end;
 end;
@@ -1561,6 +1562,7 @@ begin
     '`': Result:= '`';
     #$201d: Result:= #$201c;
     #$2019: Result:= #$2018;
+    #$bb: Result:= #$ab;
     else Result:= #0;
   end;
 end;
