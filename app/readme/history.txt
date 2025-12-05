@@ -9,6 +9,7 @@
 - fix: Windows: IME minor fix (by @martok)
 - fix: bug in code-tree built from tree-helpers (thanks @dimon40001)
 - fix: non-Windows versions: important fix of copying-to-clipboard (thanks @SamuraiNinjaGuy)
+- fix: API on_lexer_parsed fired too often (thanks @badrelmers)
 
 1.230.2 (2025/11)
 
