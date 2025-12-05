@@ -3,8 +3,8 @@
   - fixed
   * changed
 
-1.230.4 (2025/12)
-
+1.230.5 (2025/12)
++ add: option "auto_close_brackets" supports additional pairs “” and ‘’ (idea by @dajare)
 - fix: regression in 1.172.0 (2022/10): Ctrl+BkSpace wrongly adjusted multi-carets on the same line
 - fix: Windows: IME minor fix (by @martok)
 - fix: bug in code-tree built from tree-helpers (thanks @dimon40001)

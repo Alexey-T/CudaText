@@ -1906,13 +1906,19 @@ begin
           if not Ed.OptAutoPairForMultiCarets then
             exit;
 
-        if Length(AText)>4 then exit;
-
-        STextW:= UTF8Decode(AText);
-        if Length(STextW)=1 then
+        ch:= #0;
+        if Length(AText)=1 then
+          ch:= AText[1]
+        else
+        if Length(AText)<=4 then
         begin
-          ch:= STextW[1];
+          STextW:= UTF8Decode(AText);
+          if Length(STextW)=1 then
+            ch:= STextW[1]
+        end;
 
+        if ch<>#0 then
+        begin
           //auto-close bracket
           if Pos(ch, Ed.OptAutoPairChars)>0 then
             if EditorAutoPairChar(Ed, ch) then

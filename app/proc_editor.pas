@@ -64,7 +64,7 @@ procedure EditorSetColorById(Ed: TATSynEdit; const Id: string; AColor: TColor);
 function EditorGetColorById(Ed: TATSynEdit; const Id: string): TColor;
 
 function EditorIsAutocompleteCssPosition(Ed: TATSynEdit; AX, AY: integer): boolean;
-function EditorAutoSkipClosingBracket(Ed: TATSynEdit; CharClosing: char): boolean;
+function EditorAutoSkipClosingBracket(Ed: TATSynEdit; CharClosing: WideChar): boolean;
 function EditorAutoDeleteClosingBracket(Ed: TATSynEdit): boolean;
 function EditorAutoPairChar(Ed: TATSynEdit; CharBegin: atChar): boolean;
 procedure EditorCopySelToPrimarySelection(Ed: TATSynEdit; AMaxLineCount: integer);
@@ -1091,10 +1091,10 @@ begin
   Result:= Pos(ch, ':;.,=>)]}' + ' '#9)>0;
 end;
 
-function EditorAutoSkipClosingBracket(Ed: TATSynEdit; CharClosing: char): boolean;
+function EditorAutoSkipClosingBracket(Ed: TATSynEdit; CharClosing: WideChar): boolean;
 var
   Caret: TATCaretItem;
-  CharOpening: char;
+  CharOpening: WideChar;
   St: TATStrings;
   Str: UnicodeString;
   iCaret: integer;
@@ -1104,7 +1104,7 @@ begin
 
   CharOpening:= EditorBracket_GetPairForClosingBracketOrQuote(CharClosing);
   if CharOpening=#0 then exit;
-  if Pos(CharOpening, Ed.OptAutoPairChars)=0 then exit;
+  if Pos(CharOpening, UTF8Decode(Ed.OptAutoPairChars))=0 then exit;
 
   for iCaret:= Ed.Carets.Count-1 downto 0 do
   begin
