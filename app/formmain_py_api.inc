@@ -7955,9 +7955,8 @@ function api_ed_dim(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
   Ed: TATSynEdit;
-  Id, NIndex1, NIndex2, NValue, NLen, i: integer;
-  ItemPtr: PATMarkerItem;
   DimPtr: PATDimRange;
+  Id, NIndex1, NIndex2, NValue, NLen, i: integer;
 begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'Liiii:dim', @H, @Id, @NIndex1, @NIndex2, @NValue)) then
