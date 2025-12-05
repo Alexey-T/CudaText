@@ -1046,7 +1046,8 @@ type
     procedure DoOps_LoadOptionsLexerSpecific(F: TEditorFrame; Ed: TATSynEdit);
     procedure DoOps_OpenFile_LexerSpecific;
     procedure DoOps_LoadPlugins(AKeepHotkeys: boolean);
-    procedure DoOps_DialogFont(var OpName: string; var OpSize: integer; const AConfigStrName, AConfigStrSize: string);
+    procedure DoOps_DialogFont(var OpName: UnicodeString; var OpSize: integer;
+      const AConfigStrName, AConfigStrSize: UnicodeString);
     procedure DoOps_DialogFont_Text;
     procedure DoOps_DialogFont_Ui;
     procedure DoOps_DialogFont_Output;

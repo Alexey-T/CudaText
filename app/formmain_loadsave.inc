@@ -2021,8 +2021,8 @@ end;
 
 
 procedure TfmMain.DoOps_DialogFont(
-  var OpName: string; var OpSize: integer;
-  const AConfigStrName, AConfigStrSize: string);
+  var OpName: UnicodeString; var OpSize: integer;
+  const AConfigStrName, AConfigStrSize: UnicodeString);
 var
   dlg: TFontDialog;
   cfg: TAppJsonConfig;

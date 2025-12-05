@@ -214,11 +214,11 @@ type
 
 type
   TUiOps = record
-    VarFontName: string;
+    VarFontName: UnicodeString;
     VarFontSize: integer;
-    OutputFontName: string;
+    OutputFontName: UnicodeString;
     OutputFontSize: integer;
-    StatusbarFontName: string;
+    StatusbarFontName: UnicodeString;
     StatusbarFontSize: integer;
     DoubleBuffered: boolean;
 
@@ -229,7 +229,7 @@ type
     //Sleep() delay used when plugin calls Editor.cmd() (for the same list of commands).
     PyCommandSleepInterval: integer;
 
-    PyLibrary: string;
+    PyLibrary: UnicodeString;
     PyCaretSlow: integer;
     PyChangeSlow: integer;
     PyOutputCopyToStdout: boolean;
@@ -255,26 +255,26 @@ type
     LexerPostponeUntilShown: boolean;
     LexerParsingMinTimeForEvent: integer;
 
-    ToolBarTheme: string;
-    LangName: string;
+    ToolBarTheme: UnicodeString;
+    LangName: UnicodeString;
 
-    ThemeUi: string;
-    ThemeSyntax: string;
+    ThemeUi: UnicodeString;
+    ThemeSyntax: UnicodeString;
     ThemeUi_Loaded: boolean;
     ThemeSyntax_Loaded: boolean;
     ThemedMainMenu: boolean;
-    ThemedMainMenuFontName: string;
+    ThemedMainMenuFontName: UnicodeString;
     ThemedMainMenuFontSize: integer;
-    ThemeUi_Light: string;
-    ThemeUi_Dark: string;
+    ThemeUi_Light: UnicodeString;
+    ThemeUi_Dark: UnicodeString;
     ThemeAutoMode: boolean;
 
     SidebarShow: boolean;
     SidebarOnRight: boolean;
-    SidebarTheme: string;
+    SidebarTheme: UnicodeString;
     SidepanelOnStart: integer;
     BottomOnStart: integer;
-    PictureTypes: string;
+    PictureTypes: UnicodeString;
     DefaultTabSplitIsHorz: boolean;
     MaxFileSizeToOpen: integer;
     MaxFileSizeForLexer: integer;
@@ -286,9 +286,9 @@ type
     AutocompleteAcpFiles: boolean;
     AutocompleteHtml: boolean;
     AutocompleteHtml_AutoClose: boolean;
-    AutocompleteHtml_Lexers: string;
+    AutocompleteHtml_Lexers: UnicodeString;
     AutocompleteCss: boolean;
-    AutocompleteCss_Lexers: string;
+    AutocompleteCss_Lexers: UnicodeString;
     AutocompleteFileURI: boolean;
     AutocompleteInComments: boolean;
     AutocompleteInCommentsHTML: boolean;
@@ -336,8 +336,8 @@ type
     TabNumbers: boolean;
     TabNewNearCurrent: boolean;
     TabRecentOnClose: boolean;
-    TabButtonLayout: string;
-    TabPreviewFontStyle: string;
+    TabButtonLayout: UnicodeString;
+    TabPreviewFontStyle: UnicodeString;
     TabSwitcherDialog: boolean;
 
     MaxHistoryEdits: integer;
@@ -345,10 +345,10 @@ type
     MaxHistoryFiles: integer;
 
     CmdPaletteFilterKeep: boolean;
-    CmdPaletteFilterText: string;
-    CmdPaletteFilterText_Forced: string;
+    CmdPaletteFilterText: UnicodeString;
+    CmdPaletteFilterText_Forced: UnicodeString;
 
-    HistoryDisabledStr: string;
+    HistoryDisabledStr: UnicodeString;
     HistoryItems: array[TAppHistoryElement] of boolean;
 
     FindShowOnStart: integer;
@@ -359,7 +359,7 @@ type
     FindUseReddishIndicator: boolean;
     FindStatusbarDelayToReplaceIndexToQuestion: integer;
 
-    FindHiddenButtons: string;
+    FindHiddenButtons: UnicodeString;
     FindShow_FindFirst: boolean;
     FindShow_FindNext: boolean;
     FindShow_FindPrev: boolean;
@@ -388,7 +388,7 @@ type
     FindHiAll_MaxLineLen: integer;
     FindHiAll_MaxVisibleColumns: integer;
     FindWrapAtEdge_Delay: integer;
-    FindWrapAtEdge_ThemeItem: string;
+    FindWrapAtEdge_ThemeItem: UnicodeString;
     FindEnableCtrlEnterInSinleLineMode: boolean;
 
     AllowProgramUpdates: boolean;
@@ -397,19 +397,19 @@ type
     EscapeCloseFinder: boolean;
     ConsoleWordWrap: boolean;
     InputHeight: integer;
-    InitialDir: string;
-    OpenDir: string;
+    InitialDir: UnicodeString;
+    OpenDir: UnicodeString;
     ConfirmLinksClicks: boolean;
     ConfirmSaveEmptyUntitledTab: boolean;
     SplittersUsePoorStyle: boolean;
     ScrollbarsNew: boolean;
 
     ExportHtmlNumbers: boolean;
-    ExportHtmlFontName: string;
+    ExportHtmlFontName: UnicodeString;
     ExportHtmlFontSize: integer;
 
     TreeFontScale: integer;
-    TreeTheme: string;
+    TreeTheme: UnicodeString;
     TreeAutoSync: boolean;
     TreeTimeFill: integer;
     //TreeTimeCaret: integer;
@@ -422,19 +422,19 @@ type
     TreeUnfold: boolean;
     TreeKeepNodesFolding: boolean;
 
-    NewdocLexer: string;
-    NewdocEnc: string;
+    NewdocLexer: UnicodeString;
+    NewdocEnc: UnicodeString;
     NewdocEnds: integer;
 
     ViewerBinaryWidth: integer;
     ViewerNonPrintable: boolean;
 
-    StatusNoSel: string;
-    StatusSmallSel: string;
-    StatusStreamSel: string;
-    StatusColSel: string;
-    StatusCarets: string;
-    StatusPanels: string;
+    StatusNoSel: UnicodeString;
+    StatusSmallSel: UnicodeString;
+    StatusStreamSel: UnicodeString;
+    StatusColSel: UnicodeString;
+    StatusCarets: UnicodeString;
+    StatusPanels: UnicodeString;
     StatusTime: integer;
     StatusHeightPercents: integer;
     StatusHeightMin: integer;
@@ -463,7 +463,7 @@ type
 
     ShowFormsOnTop: boolean;
     ShowMenuDialogsWithBorder: boolean;
-    UndoPersistent: string;
+    UndoPersistent: UnicodeString;
     AllowSaveOfUnmodifiedFile: boolean;
 
     PluginDialogsShowInTaskbar: boolean;
@@ -483,7 +483,7 @@ type
     ReloadUnsavedConfirm: boolean;
     ReloadFollowTail: boolean;
     CheckLowDiskSpace: Int64; //minimal disk free space in bytes; can be 0 to disable the check
-    FullScreen: string;
+    FullScreen: UnicodeString;
 
     Emmet_AddSlashToEmptyTags: boolean;
     Emmet_CommentTags: boolean;
@@ -515,7 +515,7 @@ type
     HotkeyToggleImmediate,
     HotkeyTogglePresCase,
     HotkeyFindMenu
-      : string;
+      : UnicodeString;
 
     const TreeIconFilenames = 'dir,st1,st2,st3,box,fx,ar1,ar2,';
 
@@ -524,7 +524,7 @@ type
 
     const FindHiAll_TagValue = 99; //attrib-tag for Highlight_all_matches option ('Hi')
     const FindOccur_TagValue = 98; //attrib-tag for 'expand selection to next word' command
-                                   //tags must be <120, coz GET_UNIQUE_TAG starts with 120
+                                   //tags must be <120, coz PROC_GET_UNIQUE_TAG starts with 120
     const FindPairBracket_TagValue = 1;
     const PluginHiOccur_TagValue = 101;
     const PluginSpellChecker_TagValue = 105;
@@ -540,10 +540,10 @@ const
 
 type
   TEditorOps = record
-    OpFontName: string;
-    OpFontName_i: string;
-    OpFontName_b: string;
-    OpFontName_bi: string;
+    OpFontName: UnicodeString;
+    OpFontName_i: UnicodeString;
+    OpFontName_b: UnicodeString;
+    OpFontName_bi: UnicodeString;
     OpFontSize: integer;
     OpFontSize_i: integer;
     OpFontSize_b: integer;
@@ -577,19 +577,19 @@ type
     OpAutoCloseBracketsMultiCarets: boolean;
     OpAutoCloseBrackets: UnicodeString;
     OpAutocompleteAutoshowCharCount: integer;
-    OpAutocompleteTriggerChars: string;
-    OpAutocompleteCommitChars: string;
+    OpAutocompleteTriggerChars: UnicodeString;
+    OpAutocompleteCommitChars: UnicodeString;
     OpAutocompleteCommitOnEnter: boolean;
-    OpAutocompleteCloseChars: string;
+    OpAutocompleteCloseChars: UnicodeString;
     OpAutocompleteAddOpeningBracket: boolean;
     OpAutocompleteUpDownAtEdge: integer;
     OpAutocompleteCommitIfSingleItem: boolean;
-    OpAutocompleteSymbolsAllowedBeforeCaret: string;
+    OpAutocompleteSymbolsAllowedBeforeCaret: UnicodeString;
 
-    OpUnderlineColorFiles: string;
+    OpUnderlineColorFiles: UnicodeString;
     OpUnderlineColorSize: integer;
     OpLinks: boolean;
-    OpLinksRegex: string;
+    OpLinksRegex: UnicodeString;
 
     //view
     OpGutterShow: boolean;
@@ -631,17 +631,17 @@ type
     OpMicromapBookmarks: boolean;
 
     OpMarginFixed: integer;
-    OpMarginString: string;
+    OpMarginString: UnicodeString;
 
     OpMarkerSize: integer;
     OpStaplesStyle: integer;
-    OpStaplesProps: string;
+    OpStaplesProps: UnicodeString;
     OpStapleIndentConsidersEnd: boolean;
     OpGapBitmapAlign: integer;
 
     //unprinted
     OpUnprintedShow: boolean;
-    OpUnprintedContent: string;
+    OpUnprintedContent: UnicodeString;
 
     //wrap
     OpWrapMode: integer;
@@ -661,9 +661,9 @@ type
     //caret
     OpCaretBlinkTime: integer;
     OpCaretBlinkEn: boolean;
-    OpCaretViewNormal: string;
-    OpCaretViewOverwrite: string;
-    OpCaretViewReadonly: string;
+    OpCaretViewNormal: UnicodeString;
+    OpCaretViewOverwrite: UnicodeString;
+    OpCaretViewReadonly: UnicodeString;
     OpCaretVirtual: boolean;
     OpCaretMulti: boolean;
     OpCaretAfterPasteColumn: integer;
@@ -712,12 +712,12 @@ type
     OpIndentAuto: boolean;
     OpIndentAutoKind: integer;
     OpIndentSize: integer;
-    OpIndentAutoRule: string;
+    OpIndentAutoRule: UnicodeString;
     OpUnIndentKeepsAlign: boolean;
     OpIndentMakesWholeLineSel: boolean;
 
     //mouse
-    OpMouseGotoDefinition: string;
+    OpMouseGotoDefinition: UnicodeString;
     OpMouse2ClickDragSelectsWords: boolean;
     OpMouseDragDrop: boolean;
     OpMouseMiddleClickAction: integer;
@@ -749,7 +749,7 @@ type
     OpKeyLeftRightSwapSelAndSelect: boolean;
 
     OpBracketHilite: boolean;
-    OpBracketSymbols: string;
+    OpBracketSymbols: UnicodeString;
     OpBracketDistance: integer;
   end;
 var
@@ -2035,15 +2035,15 @@ begin
 end;
 
 {$ifdef windows}
-procedure Win32GetUserFont(var AFontName: string; var AFontSize: Integer);
+procedure Win32GetUserFont(var AFontName: UnicodeString; var AFontSize: Integer);
 // https://github.com/Alexey-T/CudaText/issues/3039
 var
   lf: LOGFONT;
 begin
-  ZeroMemory(@lf, SizeOf(lf));
+  lf:= Default(LOGFONT);
   if SystemParametersInfo(SPI_GETICONTITLELOGFONT, SizeOf(lf), @lf, 0) then
   begin
-    AFontName := PChar(Addr(lf.lfFaceName[0]));
+    AFontName := string(PAnsiChar(Addr(lf.lfFaceName[0])));
     AFontSize := MulDiv(-lf.lfHeight, 72, GetDeviceCaps(GetDC(0), LOGPIXELSY));
   end;
 end;
