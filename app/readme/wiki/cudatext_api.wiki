@@ -5246,4 +5246,7 @@ It provides:
 * change: Editor.attr/.markers/.bookmark/.decor/.hotspots/.gap/.micromap: "tag" changed from 64-bit int to 32-bit int
 * delete Editor.get_token's TOKEN_LIST action (use TOKEN_LIST_SUB instead)
 
+1.0.470 (app 1.230.5)
+* add: event on_caret_slow supports filtering now: "sel", "selx"
+
 [[Category:CudaText]]

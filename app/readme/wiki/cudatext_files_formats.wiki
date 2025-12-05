@@ -115,9 +115,11 @@ Section names: "item" followed by any string (e.g. "item1"). Fields in sections:
 Only for "section=events":
 
 * "events": comma-separated list of events to handle in plugin, e.g. "events=on_change,on_caret".
+
 * "keys": supported only for several events:
 ** for "on_key": comma-separated list of int key codes to handle in event, e.g. "keys=9" means that event is only called for key code 9 (Tab char).
 ** for "on_open" / "on_open_pre": comma-separated list of lower-case file extensions, without leading dot, to handle in event.
+** for "on_caret_slow": comma-separated list of selection modes: "sel" for single caret selection, "selx" for 2+ carets selections. If plugin needs to react only to single selection, specify "keys=sel". If plugin needs to react to any count of selection(s), specify "keys=sel,selx".
 
 ====Install.inf sidebar buttons====
 
