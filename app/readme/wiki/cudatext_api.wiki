@@ -363,7 +363,7 @@ Actions work with props of Find/Replace dialog, and props of low-level search en
 
 * PROC_SET_EVENTS: Subscribes plugin to events. First it removes all subscribed events for specified module name (events from "install.inf" file are removed too, but events from "settings/plugins.ini" are kept) and then adds specified events. Param "text" must be 4 values ";"-separated: "module_name;event_list;lexer_list;filter".
 ** module_name: plugin's main module name (usually it is starting with "cuda_").
-** event_list: comma-separated event names, e.g. "on_open,on_save". Lazy-event char "~" and high-priority char "+" are supported here as well.
+** event_list: comma-separated event names, e.g. "on_open,on_save". Lazy-event char "~" and high-priority char "+" are supported here. Unknown event names are silently ignored.
 ** lexer_list: comma-separated lexer names, e.g. "C,C++".
 ** filter: additional parameter, used by some events, if that filter is not empty:
 *** filter for "on_key": comma-separated list of int key codes to handle in event, e.g. "9,32" means that event is only called for pressed Tab and Space.
