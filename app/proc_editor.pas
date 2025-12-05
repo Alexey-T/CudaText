@@ -267,7 +267,7 @@ begin
   Ed.OptPasteWithEolAtLineStart:= Op.OpPasteWithEolAtLineStart;
 
   Ed.OptAutoPairForMultiCarets:= Op.OpAutoCloseBracketsMultiCarets;
-  Ed.OptAutoPairChars:= UTF8Decode(Op.OpAutoCloseBrackets);
+  Ed.OptAutoPairChars:= Op.OpAutoCloseBrackets;
   Ed.OptAutocompleteAutoshowCharCount:= Op.OpAutocompleteAutoshowCharCount;
   Ed.OptAutocompleteTriggerChars:= Op.OpAutocompleteTriggerChars;
   Ed.OptAutocompleteCommitChars:= Op.OpAutocompleteCommitChars;

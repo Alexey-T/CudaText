@@ -575,7 +575,7 @@ type
     OpPasteWithEolAtLineStart: boolean;
 
     OpAutoCloseBracketsMultiCarets: boolean;
-    OpAutoCloseBrackets: string;
+    OpAutoCloseBrackets: UnicodeString;
     OpAutocompleteAutoshowCharCount: integer;
     OpAutocompleteTriggerChars: string;
     OpAutocompleteCommitChars: string;
