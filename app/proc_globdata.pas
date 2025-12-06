@@ -212,6 +212,9 @@ type
     FromDialog
     );
 
+var
+  PyFilterOnCaretSlow: string;
+
 type
   TUiOps = record
     VarFontName: UnicodeString;
@@ -233,7 +236,6 @@ type
     PyCaretSlow: integer;
     PyChangeSlow: integer;
     PyOutputCopyToStdout: boolean;
-    PyFilterOnCaretSlow: string;
 
     MaxLineLenForEditingKeepingLexer: integer;
     MaxSizeForSession: integer;

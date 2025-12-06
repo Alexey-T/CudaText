@@ -999,15 +999,15 @@ begin
   if bWithSel then
   begin
     if Ed.Carets.Count=1 then
-      UiOps.PyFilterOnCaretSlow:= 'sel'
+      PyFilterOnCaretSlow:= 'sel'
     else
-      UiOps.PyFilterOnCaretSlow:= 'selx';
+      PyFilterOnCaretSlow:= 'selx';
   end
   else
   if FCaretSlow_WithSel then
-    UiOps.PyFilterOnCaretSlow:= 'selreset'
+    PyFilterOnCaretSlow:= 'selreset'
   else
-    UiOps.PyFilterOnCaretSlow:= '';
+    PyFilterOnCaretSlow:= '';
   FCaretSlow_WithSel:= bWithSel;
 
   DoPyEvent(Ed, TAppPyEvent.OnCaretSlow, []);

@@ -145,7 +145,7 @@ begin
       end;
     TAppPyEvent.OnCaretSlow:
       begin
-        KeyForFilter:= UiOps.PyFilterOnCaretSlow;
+        KeyForFilter:= PyFilterOnCaretSlow;
       end;
   end;
 
