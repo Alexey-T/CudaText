@@ -237,6 +237,7 @@ type
     FProgressButtonCancel: TATButton;
     FProgressCancelled: boolean;
     FBusyOnChangeDetailed: boolean;
+    FCaretSlow_WithSel: boolean;
 
     procedure ApplyThemeToInfoPanel(APanel: TPanel);
     procedure BinaryOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -987,12 +988,17 @@ end;
 procedure TEditorFrame.TimerCaretTimer(Sender: TObject);
 var
   Ed: TATSynEdit;
+  bWithSel: boolean;
 begin
   TimerCaret.Enabled:= false;
+  Ed:= Editor;
 
   DoOnUpdateStatusbar(TAppStatusbarUpdateReason.Caret);
 
-  Ed:= Editor;
+  bWithSel:= Ed.Carets.IsSelection;
+  UiOps.PyFlagSelReset:= FCaretSlow_WithSel and not bWithSel;
+  FCaretSlow_WithSel:= bWithSel;
+
   DoPyEvent(Ed, TAppPyEvent.OnCaretSlow, []);
 
   if FBracketHilite then

@@ -233,6 +233,7 @@ type
     PyCaretSlow: integer;
     PyChangeSlow: integer;
     PyOutputCopyToStdout: boolean;
+    PyFlagSelReset: boolean; //not an option, it is flag used by 'on_caret_slow'
 
     MaxLineLenForEditingKeepingLexer: integer;
     MaxSizeForSession: integer;
