@@ -145,16 +145,7 @@ begin
       end;
     TAppPyEvent.OnCaretSlow:
       begin
-        if UiOps.PyFlagSelReset then
-          KeyForFilter:= 'selreset'
-        else
-        if Assigned(AEd) and AEd.Carets.IsSelection then
-        begin
-          if AEd.Carets.Count=1 then
-            KeyForFilter:= 'sel'
-          else
-            KeyForFilter:= 'selx';
-        end;
+        KeyForFilter:= UiOps.PyFilterOnCaretSlow;
       end;
   end;
 

@@ -996,7 +996,18 @@ begin
   DoOnUpdateStatusbar(TAppStatusbarUpdateReason.Caret);
 
   bWithSel:= Ed.Carets.IsSelection;
-  UiOps.PyFlagSelReset:= FCaretSlow_WithSel and not bWithSel;
+  if bWithSel then
+  begin
+    if Ed.Carets.Count=1 then
+      UiOps.PyFilterOnCaretSlow:= 'sel'
+    else
+      UiOps.PyFilterOnCaretSlow:= 'selx';
+  end
+  else
+  if FCaretSlow_WithSel then
+    UiOps.PyFilterOnCaretSlow:= 'selreset'
+  else
+    UiOps.PyFilterOnCaretSlow:= '';
   FCaretSlow_WithSel:= bWithSel;
 
   DoPyEvent(Ed, TAppPyEvent.OnCaretSlow, []);
