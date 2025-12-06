@@ -1173,6 +1173,10 @@ type
     class procedure CommandUpdateSubcommands(const AText: string);
 
     class function EventIsUsed(AEvent: TAppPyEvent): boolean;
+    class function EventSingleToEventData(S: string;
+      var AEvents: TAppPyEvents;
+      var AEventsPrior: TAppPyEventsPrior;
+      var AEventsLazy: TAppPyEventsLazy): boolean;
     class procedure EventStringToEventData(const AEventStr: string;
       out AEvents: TAppPyEvents;
       out AEventsPrior: TAppPyEventsPrior;
@@ -3607,18 +3611,58 @@ begin
   end;
 end;
 
+
+class function TPluginHelper.EventSingleToEventData(S: string;
+  var AEvents: TAppPyEvents;
+  var AEventsPrior: TAppPyEventsPrior;
+  var AEventsLazy: TAppPyEventsLazy): boolean;
+const
+  MaxPriority = 4;
+var
+  event: TAppPyEvent;
+  nPrior: byte;
+  bLazy: boolean;
+begin
+  Result:= false;
+
+  nPrior:= 0;
+  if S='' then exit;
+  while S[Length(S)]='+' do
+  begin
+    Inc(nPrior);
+    SetLength(S, Length(S)-1);
+  end;
+
+  if nPrior>MaxPriority then
+    nPrior:= MaxPriority;
+
+  bLazy:= false;
+  if S='' then exit;
+  if S[Length(S)]='~' then
+  begin
+    bLazy:= true;
+    SetLength(S, Length(S)-1);
+  end;
+
+  for event in TAppPyEvent do
+    if S=cAppPyEvent[event] then
+    begin
+      Include(AEvents, event);
+      AEventsPrior[event]:= nPrior;
+      AEventsLazy[event]:= bLazy;
+      Result:= true;
+      Break
+    end;
+end;
+
+
 class procedure TPluginHelper.EventStringToEventData(const AEventStr: string;
   out AEvents: TAppPyEvents;
   out AEventsPrior: TAppPyEventsPrior;
   out AEventsLazy: TAppPyEventsLazy);
-const
-  MaxPriority = 4;
 var
   Sep: TATStringSeparator;
   S: string;
-  event: TAppPyEvent;
-  nPrior: byte;
-  bLazy: boolean;
 begin
   AEvents:= [];
   FillChar(AEventsPrior{%H-}, SizeOf(AEventsPrior), 0);
@@ -3626,33 +3670,7 @@ begin
 
   Sep.Init(AEventStr);
   while Sep.GetItemStr(S) do
-  begin
-    nPrior:= 0;
-    while S[Length(S)]='+' do
-    begin
-      Inc(nPrior);
-      SetLength(S, Length(S)-1);
-    end;
-
-    if nPrior>MaxPriority then
-      nPrior:= MaxPriority;
-
-    bLazy:= false;
-    if S[Length(S)]='~' then
-    begin
-      bLazy:= true;
-      SetLength(S, Length(S)-1);
-    end;
-
-    for event in TAppPyEvent do
-      if S=cAppPyEvent[event] then
-      begin
-        Include(AEvents, event);
-        AEventsPrior[event]:= nPrior;
-        AEventsLazy[event]:= bLazy;
-        Break
-      end;
-  end;
+    EventSingleToEventData(S, AEvents, AEventsPrior, AEventsLazy);
 end;
 
 
