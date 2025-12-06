@@ -119,7 +119,7 @@ Only for "section=events":
 * "keys": supported only for several events:
 ** for "on_key": comma-separated list of int key codes to handle in event, e.g. "keys=9" means that event is only called for key code 9 (Tab char).
 ** for "on_open" / "on_open_pre": comma-separated list of lower-case file extensions, without leading dot, to handle in event.
-** for "on_caret_slow": comma-separated list of selection modes: "sel" for single caret selection, "selx" for 2+ carets selections. If plugin needs to react only to single selection, specify "keys=sel". If plugin needs to react to any count of selection(s), specify "keys=sel,selx".
+** for "on_caret_slow": comma-separated list of strings: "sel" for single caret selection; "selx" for 2+ carets selections; "selreset" for when selection was just reset.
 
 ====Install.inf sidebar buttons====
 
