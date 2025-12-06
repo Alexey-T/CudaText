@@ -5247,6 +5247,6 @@ It provides:
 * delete Editor.get_token's TOKEN_LIST action (use TOKEN_LIST_SUB instead)
 
 1.0.470 (app 1.230.5)
-* add: event on_caret_slow supports filtering by "keys=" in install.inf: filters "sel", "selx", "selreset"
+* add: on_caret_slow supports comma-separated filters in "keys=" in install.inf: "sel" for single caret selection, "selx" for 2+ carets selections, "selreset" for reset of selection(s)
 
 [[Category:CudaText]]
