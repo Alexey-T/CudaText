@@ -1175,7 +1175,7 @@ type
     class procedure CommandUpdateSubcommands(const AText: string);
 
     class function EventIsUsed(AEvent: TAppPyEvent): boolean;
-    class function EventBareStringToId(const S: string; out AEvent: TAppPyEvent): boolean;
+    class function EventBareStringToId(const S: string): TAppPyEvent;
     class function EventComplexStringToElements(S: string;
       out AEvent: TAppPyEvent;
       out APrior: byte;
@@ -3643,23 +3643,19 @@ begin
     SetLength(S, Length(S)-1);
   end;
 
-  Result:= EventBareStringToId(S, AEvent);
+  AEvent:= EventBareStringToId(S);
+  Result:= AEvent<>TAppPyEvent.None;
 end;
 
 
-class function TPluginHelper.EventBareStringToId(const S: string; out AEvent: TAppPyEvent): boolean;
+class function TPluginHelper.EventBareStringToId(const S: string): TAppPyEvent;
 var
   event: TAppPyEvent;
 begin
   for event:= Low(TAppPyEvent) to High(TAppPyEvent) do
     if S=cAppPyEvent[event] then
-    begin
-      AEvent:= event;
-      Result:= true;
-      exit;
-    end;
-  AEvent:= TAppPyEvent.None;
-  Result:= false;
+      exit(event);
+  Result:= TAppPyEvent.None;
 end;
 
 
