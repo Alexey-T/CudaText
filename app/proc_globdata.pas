@@ -3604,14 +3604,14 @@ end;
 
 class function TPluginHelper.EventIsUsed(AEvent: TAppPyEvent): boolean;
 var
-  Ev: TAppEventInfo;
+  EvInfo: TAppEventInfo;
   i: integer;
 begin
   Result:= false;
   for i:= 0 to AppEventList.Count-1 do
   begin
-    Ev:= TAppEventInfo(AppEventList[i]);
-    if AEvent in Ev.ItemEvents then
+    EvInfo:= TAppEventInfo(AppEventList[i]);
+    if AEvent in EvInfo.ItemEvents then
       exit(true);
   end;
 end;
@@ -3689,16 +3689,16 @@ end;
 
 class procedure TPluginHelper.EventUnsubscribe(const AModuleName: string; AEvent: TAppPyEvent);
 var
-  Ev: TAppEventInfo;
+  EvInfo: TAppEventInfo;
   i: integer;
 begin
   for i:= AppEventList.Count-1 downto 0 do
   begin
-    Ev:= TAppEventInfo(AppEventList[i]);
-    if (Ev.ItemModule=AModuleName) and (AEvent in Ev.ItemEvents) then
+    EvInfo:= TAppEventInfo(AppEventList[i]);
+    if (EvInfo.ItemModule=AModuleName) and (AEvent in EvInfo.ItemEvents) then
     begin
-      Exclude(Ev.ItemEvents, AEvent);
-      if Ev.ItemEvents=[] then
+      Exclude(EvInfo.ItemEvents, AEvent);
+      if EvInfo.ItemEvents=[] then
         AppEventList.Delete(i);
     end;
   end;
@@ -3707,27 +3707,27 @@ end;
 
 class procedure TPluginHelper.EventsUpdate(const AModuleName, AEventStr, ALexerStr, AKeyStr: string);
 var
-  EventItem: TAppEventInfo;
+  EvInfo: TAppEventInfo;
   i: integer;
 begin
   //find index of plugin (get first empty index if not listed)
-  EventItem:= nil;
+  EvInfo:= nil;
   for i:= 0 to AppEventList.Count-1 do
     with TAppEventInfo(AppEventList[i]) do
       if (ItemModule=AModuleName) then
       begin
-        EventItem:= TAppEventInfo(AppEventList[i]);
+        EvInfo:= TAppEventInfo(AppEventList[i]);
         Break
       end;
 
-  if EventItem=nil then
+  if EvInfo=nil then
   begin
-    EventItem:= TAppEventInfo.Create;
-    AppEventList.Add(EventItem);
+    EvInfo:= TAppEventInfo.Create;
+    AppEventList.Add(EvInfo);
   end;
 
   //update item
-  with EventItem do
+  with EvInfo do
   begin
     if ItemModule='' then
       ItemModule:= AModuleName;
@@ -3750,20 +3750,20 @@ end;
 
 class procedure TPluginHelper.EventsMaxPrioritiesUpdate;
 var
-  ev: TAppPyEvent;
-  Plugin: TAppEventInfo;
+  Event: TAppPyEvent;
+  EvInfo: TAppEventInfo;
   Value, i: integer;
 begin
-  for ev in TAppPyEvent do
+  for Event in TAppPyEvent do
   begin
     Value:= -1;
     for i:= 0 to AppEventList.Count-1 do
     begin
-      Plugin:= TAppEventInfo(AppEventList[i]);
-      if ev in Plugin.ItemEvents then
-        Value:= Max(Value, Plugin.ItemEventsPrior[ev]);
+      EvInfo:= TAppEventInfo(AppEventList[i]);
+      if Event in EvInfo.ItemEvents then
+        Value:= Max(Value, EvInfo.ItemEventsPrior[Event]);
     end;
-    AppEventsMaxPriorities[ev]:= Value;
+    AppEventsMaxPriorities[Event]:= Value;
   end;
 end;
 
