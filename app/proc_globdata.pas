@@ -1183,7 +1183,7 @@ type
       out ALazy: boolean): boolean;
 
     class procedure EventStringToEventData(
-      const AEventStr: string;
+      const AEventList: string;
       out AEvents: TAppPyEvents;
       out AEventsPrior: TAppPyEventsPrior;
       out AEventsLazy: TAppPyEventsLazy);
@@ -3682,28 +3682,28 @@ end;
 
 
 class procedure TPluginHelper.EventStringToEventData(
-  const AEventStr: string;
+  const AEventList: string;
   out AEvents: TAppPyEvents;
   out AEventsPrior: TAppPyEventsPrior;
   out AEventsLazy: TAppPyEventsLazy);
 var
   Sep: TATStringSeparator;
-  event: TAppPyEvent;
-  nPrior: byte;
-  bLazy: boolean;
+  EvId: TAppPyEvent;
+  EvPrior: byte;
+  EvLazy: boolean;
   SItem: string;
 begin
   AEvents:= [];
   FillChar(AEventsPrior{%H-}, SizeOf(AEventsPrior), 0);
   FillChar(AEventsLazy{%H-}, SizeOf(AEventsLazy), 0);
 
-  Sep.Init(AEventStr);
+  Sep.Init(AEventList);
   while Sep.GetItemStr(SItem) do
-    if EventComplexStringToElements(SItem, event, nPrior, bLazy) then
+    if EventComplexStringToElements(SItem, EvId, EvPrior, EvLazy) then
     begin
-      Include(AEvents, event);
-      AEventsPrior[event]:= nPrior;
-      AEventsLazy[event]:= bLazy;
+      Include(AEvents, EvId);
+      AEventsPrior[EvId]:= EvPrior;
+      AEventsLazy[EvId]:= EvLazy;
     end;
 end;
 
