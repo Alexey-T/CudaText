@@ -377,9 +377,10 @@ Actions:
 
 * PROC_EVENTS_UNSUB: Unsubscribes from event(s). Param "text" must be 2 values ";"-separated: "module_name;event_list".
 ** If event_list is one character "*" - unsubscribes from all events for specified module.
-** Action unsubscribes ignoring the "source" of subscribing: app_proc(), install.inf file, plugins.ini file.
+** Action unsubscribes ignoring the "source" of subscribing: app_proc(), "install.inf" file, "plugins.ini" file.
 
-* (deprecated) PROC_SET_EVENTS: Subscribes to events. First it removes all subscribed events for specified module name (events from "install.inf" file are removed too, but events from "settings/plugins.ini" are kept) and then adds specified events. Param "text" must be 4 values ";"-separated: "module_name;event_list;lexer_list;filter_list".
+* (deprecated) PROC_SET_EVENTS: Subscribes to event(s). First it unsubscribes from all events for specified module_name and then adds specified events. Param "text" must be 4 values ";"-separated: "module_name;event_list;lexer_list;filter_list".
+** Initial unsubscribing: events from "install.inf" file are removed, but events from "plugins.ini" are kept.
 
 * PROC_GET_LAST_PLUGIN: Returns info about last plugin which run from program. It is str "module_name,method_name", values are empty if no plugins run yet.
 
