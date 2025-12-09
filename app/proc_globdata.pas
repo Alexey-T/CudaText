@@ -1201,9 +1201,10 @@ type
       AEventPrior: byte;
       AEventLazy: boolean);
 
-    class procedure EventsUpdate(const AModuleName, AEventStr, ALexerStr, AKeyStr: string);
+    class procedure EventsSetDeprecated(const AModuleName, AEventStr, ALexerStr, AKeyStr: string);
     class procedure EventsMaxPrioritiesUpdate;
 
+    class procedure ApiSetDeprecated(const AText: string);
     class procedure ApiSub(const AText: string);
     class procedure ApiUnsub(const AText: string);
 
@@ -3771,7 +3772,7 @@ begin
 end;
 
 
-class procedure TPluginHelper.EventsUpdate(const AModuleName, AEventStr, ALexerStr, AKeyStr: string);
+class procedure TPluginHelper.EventsSetDeprecated(const AModuleName, AEventStr, ALexerStr, AKeyStr: string);
 var
   EvInfo: TAppEventInfo;
   i: integer;
@@ -3831,6 +3832,20 @@ begin
     end;
     AppEventsMaxPriorities[Event]:= Value;
   end;
+end;
+
+
+class procedure TPluginHelper.ApiSetDeprecated(const AText: string);
+var
+  Sep: TATStringSeparator;
+  StrModule, StrEvents, StrLexers, StrKeys: string;
+begin
+  Sep.Init(AText, ';');
+  Sep.GetItemStr(StrModule);
+  Sep.GetItemStr(StrEvents);
+  Sep.GetItemStr(StrLexers);
+  Sep.GetItemStr(StrKeys);
+  EventsSetDeprecated(StrModule, StrEvents, StrLexers, StrKeys);
 end;
 
 

@@ -5362,17 +5362,6 @@ begin
             Result:= ReturnNone;
           end;
 
-        APP_PROC_SET_EVENTS:
-          begin
-            Sep.Init(Str, ';');
-            Sep.GetItemStr(StrId); //module
-            Sep.GetItemStr(StrCmd); //events
-            Sep.GetItemStr(StrCaption); //lexers
-            Sep.GetItemStr(StrIndex); //keys
-            TPluginHelper.EventsUpdate(StrId, StrCmd, StrCaption, StrIndex);
-            Result:= ReturnNone;
-          end;
-
         APP_PROC_SET_SUBCOMMANDS:
           begin
             TPluginHelper.CommandUpdateSubcommands(Str);
@@ -5439,6 +5428,12 @@ begin
         APP_PROC_PARSE_COMMAND_LINE:
           begin
             fmMain.DoLoadCommandLine_FromString(Str);
+            Result:= ReturnNone;
+          end;
+
+        APP_PROC_SET_EVENTS:
+          begin
+            TPluginHelper.ApiSetDeprecated(Str);
             Result:= ReturnNone;
           end;
 
