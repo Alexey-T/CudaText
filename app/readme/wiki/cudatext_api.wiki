@@ -17,7 +17,7 @@ Plugin can subscribe to events in several ways:
 
 * Static subscribing via config file "settings/plugins.ini". This is used when plugin doesn't need some events initially, but after changing some options, it needs more events. File "plugins.ini" section [events] can contain lines like "cuda_modulename=event1,event2,...". File "plugins.ini" is read on plugins initialization, so after writing there, CudaText should be restarted.
 
-* Run-time subscribing/unsubscribing via API. See description of action PROC_SET_EVENTS in app_proc().
+* Run-time subscribing/unsubscribing via API. See description of actions PROC_EVENTS_nnnn in app_proc().
 
 Event handlers (Command.on_nnnnn methods) return-value is ignored is many cases, but sometimes return value True or False has special meaning. Usually the False return value blocks propagation of event to other plugins, so don't return False if not necessary.
 
@@ -375,7 +375,9 @@ Actions:
 
 * PROC_EVENTS_SUB: Subscribes to event(s). First unsubscribes only from specified events, for all combinations of lexers/filters for these events. Param "text" must be 4 values ";"-separated: "module_name;event_list;lexer_list;filter_list".
 
-* PROC_EVENTS_UNSUB: Unsubscribes from event(s). Param "text" must be 2 values ";"-separated: "module_name;event_list". If event_list is one symbol "*" - unsubscribes from all events for specified module.
+* PROC_EVENTS_UNSUB: Unsubscribes from event(s). Param "text" must be 2 values ";"-separated: "module_name;event_list".
+** If event_list is one character "*" - unsubscribes from all events for specified module.
+** Action unsubscribes ignoring the "source" of subscribing: app_proc(), install.inf file, plugins.ini file.
 
 * (deprecated) PROC_SET_EVENTS: Subscribes to events. First it removes all subscribed events for specified module name (events from "install.inf" file are removed too, but events from "settings/plugins.ini" are kept) and then adds specified events. Param "text" must be 4 values ";"-separated: "module_name;event_list;lexer_list;filter_list".
 
