@@ -988,6 +988,7 @@ type
 
 type
   TAppPyEvent = (
+    None,
     OnKey,
     OnKeyUp,
     OnHotspot,
@@ -1053,6 +1054,7 @@ var
 
 const
   cAppPyEvent: array[TAppPyEvent] of string = (
+    '',
     'on_key',
     'on_key_up',
     'on_hotspot',
@@ -3621,7 +3623,7 @@ const
   MaxPriority = 4;
 begin
   Result:= false;
-  AEvent:= TAppPyEvent.OnExit;
+  AEvent:= TAppPyEvent.None;
   APrior:= 0;
   ALazy:= false;
   if S='' then exit;
@@ -3656,7 +3658,7 @@ begin
       Result:= true;
       exit;
     end;
-  AEvent:= TAppPyEvent.OnExit;
+  AEvent:= TAppPyEvent.None;
   Result:= false;
 end;
 
