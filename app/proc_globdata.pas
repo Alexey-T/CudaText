@@ -1175,10 +1175,6 @@ type
     class function EventIsUsed(AEvent: TAppPyEvent): boolean;
     class function EventSingleToElements(S: string;
       out AEvent: TAppPyEvent; out APrior: byte; out ALazy: boolean): boolean;
-    class function EventSingleToEventData(S: string;
-      var AEvents: TAppPyEvents;
-      var AEventsPrior: TAppPyEventsPrior;
-      var AEventsLazy: TAppPyEventsLazy): boolean;
     class procedure EventStringToEventData(const AEventStr: string;
       out AEvents: TAppPyEvents;
       out AEventsPrior: TAppPyEventsPrior;
@@ -3614,25 +3610,6 @@ begin
 end;
 
 
-class function TPluginHelper.EventSingleToEventData(S: string;
-  var AEvents: TAppPyEvents;
-  var AEventsPrior: TAppPyEventsPrior;
-  var AEventsLazy: TAppPyEventsLazy): boolean;
-var
-  event: TAppPyEvent;
-  nPrior: byte;
-  bLazy: boolean;
-begin
-  Result:= EventSingleToElements(S, event, nPrior, bLazy);
-  if Result then
-  begin
-    Include(AEvents, event);
-    AEventsPrior[event]:= nPrior;
-    AEventsLazy[event]:= bLazy;
-  end;
-end;
-
-
 class function TPluginHelper.EventSingleToElements(S: string;
   out AEvent: TAppPyEvent; out APrior: byte; out ALazy: boolean): boolean;
 const
@@ -3678,15 +3655,23 @@ class procedure TPluginHelper.EventStringToEventData(const AEventStr: string;
   out AEventsLazy: TAppPyEventsLazy);
 var
   Sep: TATStringSeparator;
-  S: string;
+  event: TAppPyEvent;
+  nPrior: byte;
+  bLazy: boolean;
+  SItem: string;
 begin
   AEvents:= [];
   FillChar(AEventsPrior{%H-}, SizeOf(AEventsPrior), 0);
   FillChar(AEventsLazy{%H-}, SizeOf(AEventsLazy), 0);
 
   Sep.Init(AEventStr);
-  while Sep.GetItemStr(S) do
-    EventSingleToEventData(S, AEvents, AEventsPrior, AEventsLazy);
+  while Sep.GetItemStr(SItem) do
+    if EventSingleToElements(SItem, event, nPrior, bLazy) then
+    begin
+      Include(AEvents, event);
+      AEventsPrior[event]:= nPrior;
+      AEventsLazy[event]:= bLazy;
+    end;
 end;
 
 
