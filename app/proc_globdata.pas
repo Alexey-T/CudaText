@@ -1173,13 +1173,15 @@ type
     class procedure CommandUpdateSubcommands(const AText: string);
 
     class function EventIsUsed(AEvent: TAppPyEvent): boolean;
-    class function EventSingleToElements(S: string;
-      out AEvent: TAppPyEvent; out APrior: byte; out ALazy: boolean): boolean;
+    class function EventBareStringToId(const S: string; out AEvent: TAppPyEvent): boolean;
+    class function EventComplexStringToElements(S: string;
+      out AEvent: TAppPyEvent;
+      out APrior: byte;
+      out ALazy: boolean): boolean;
     class procedure EventStringToEventData(const AEventStr: string;
       out AEvents: TAppPyEvents;
       out AEventsPrior: TAppPyEventsPrior;
       out AEventsLazy: TAppPyEventsLazy);
-    class function EventBareStringToId(const S: string; out AEvent: TAppPyEvent): boolean;
     class procedure EventsUpdate(const AModuleName, AEventStr, ALexerStr, AKeyStr: string);
     class procedure EventsMaxPrioritiesUpdate;
 
@@ -3611,15 +3613,18 @@ begin
 end;
 
 
-class function TPluginHelper.EventSingleToElements(S: string;
-  out AEvent: TAppPyEvent; out APrior: byte; out ALazy: boolean): boolean;
+class function TPluginHelper.EventComplexStringToElements(S: string;
+  out AEvent: TAppPyEvent;
+  out APrior: byte;
+  out ALazy: boolean): boolean;
 const
   MaxPriority = 4;
 begin
   Result:= false;
-  AEvent:= Low(TAppPyEvent);
+  AEvent:= TAppPyEvent.OnExit;
   APrior:= 0;
   ALazy:= false;
+  if S='' then exit;
 
   while (S<>'') and (S[Length(S)]='+') do
   begin
@@ -3673,7 +3678,7 @@ begin
 
   Sep.Init(AEventStr);
   while Sep.GetItemStr(SItem) do
-    if EventSingleToElements(SItem, event, nPrior, bLazy) then
+    if EventComplexStringToElements(SItem, event, nPrior, bLazy) then
     begin
       Include(AEvents, event);
       AEventsPrior[event]:= nPrior;
