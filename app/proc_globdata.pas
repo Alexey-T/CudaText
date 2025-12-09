@@ -1204,6 +1204,9 @@ type
     class procedure EventsUpdate(const AModuleName, AEventStr, ALexerStr, AKeyStr: string);
     class procedure EventsMaxPrioritiesUpdate;
 
+    class procedure ApiSub(const AText: string);
+    class procedure ApiUnsub(const AText: string);
+
     class function CommandCode_To_HotkeyStringId(ACmd: integer): string;
     class function HotkeyStringId_To_CommandCode(const AId: string): integer;
 
@@ -3828,6 +3831,62 @@ begin
     end;
     AppEventsMaxPriorities[Event]:= Value;
   end;
+end;
+
+
+class procedure TPluginHelper.ApiSub(const AText: string);
+var
+  Sep: TATStringSeparator;
+  StrModule, StrEvents, StrLexers, StrKeys, S: string;
+  EvId: TAppPyEvent;
+  EvPrior: byte;
+  EvLazy: boolean;
+begin
+  Sep.Init(AText, ';');
+  Sep.GetItemStr(StrModule);
+  Sep.GetItemStr(StrEvents);
+  Sep.GetItemStr(StrLexers);
+  Sep.GetItemStr(StrKeys);
+  if StrModule='' then exit;
+  if StrEvents='' then exit;
+
+  Sep.Init(StrEvents, ',');
+  while Sep.GetItemStr(S) do
+  begin
+    if EventComplexStringToElements(S, EvId, EvPrior, EvLazy) then
+      EventSubscribe(StrModule, StrLexers, StrKeys, EvId, EvPrior, EvLazy);
+  end;
+
+  EventsMaxPrioritiesUpdate;
+end;
+
+
+class procedure TPluginHelper.ApiUnsub(const AText: string);
+var
+  Sep: TATStringSeparator;
+  StrModule, StrEvents, S: string;
+  EvId: TAppPyEvent;
+begin
+  Sep.Init(AText, ';');
+  Sep.GetItemStr(StrModule);
+  Sep.GetItemStr(StrEvents);
+  if StrModule='' then exit;
+  if StrEvents='' then exit;
+
+  if StrEvents='*' then
+    EventUnsubscribeAll(StrModule)
+  else
+  begin
+    Sep.Init(StrEvents, ',');
+    while Sep.GetItemStr(S) do
+    begin
+      EvId:= EventBareStringToId(S);
+      if EvId<>TAppPyEvent.None then
+        EventUnsubscribe(StrModule, EvId);
+    end;
+  end;
+
+  EventsMaxPrioritiesUpdate;
 end;
 
 

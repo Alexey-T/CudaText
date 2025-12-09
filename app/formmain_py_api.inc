@@ -5442,6 +5442,18 @@ begin
             Result:= ReturnNone;
           end;
 
+        APP_PROC_EVENTS_SUB:
+          begin
+            TPluginHelper.ApiSub(Str);
+            Result:= ReturnNone;
+          end;
+
+        APP_PROC_EVENTS_UNSUB:
+          begin
+            TPluginHelper.ApiUnsub(Str);
+            Result:= ReturnNone;
+          end;
+
         APP_PROC_GET_FINDER_PROP:
           begin
             Result:= fmMain.FindDialog_GetOptionsPyDict;
