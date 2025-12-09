@@ -386,21 +386,21 @@ Actions work with props of Find/Replace dialog, and props of low-level search en
 ** "param_value" is parameter for Python method. It can be any primitive type: int, string, bool, None, or even some expression.
 
 * PROC_GET_COMMANDS: Returns list of all commands, as list of dict. Dict keys are:
-** "type": str: Possible values:
-*** "cmd": usual built-in command
-*** "lexer": command to activate lexer
-*** "plugin": plugin command
-*** "openedfile": command to switch active tab
-*** "recentfile": command to reopen recent file
+** "type": str: Kind of command. Possible values:
+*** "cmd": Usual built-in command.
+*** "lexer": Dynamically-added command to activate a lexer.
+*** "plugin": Dynamically-added command to call a plugin.
+*** "openedfile": Dynamically-added command to switch active ui-tab.
+*** "recentfile": Dynamically-added command to reopen a recently-used file.
 ** "cmd": int: Command code, to use in ed.cmd() call.
 ** "name": str: Pretty name, which is visible in the Commands dialog.
-** "key1": str: Hotkey-1.
-** "key2": str: Hotkey-2.
-** "key1_init": str: Hotkey-1 from built-in config.
-** "key2_init": str: Hotkey-2 from built-in config.
+** "key1": str: Primary keyboard hotkey.
+** "key2": str: Secondary keyboard hotkey.
+** "key1_init": str: Primary keyboard hotkey from built-in config.
+** "key2_init": str: Secondary keyboard hotkey from built-in config.
 ** (for plugins) "p_caption": str: Menu-item caption from install.inf.
-** (for plugins) "p_module": str: Python module.
-** (for plugins) "p_method": str: Python method in Command class.
+** (for plugins) "p_module": str: Python module name.
+** (for plugins) "p_method": str: Python method in the "Command" class.
 ** (for plugins) "p_method_params": str: Optional params for Python method.
 ** (for plugins) "p_lexers": str: Comma-separated lexers list.
 ** (for plugins) "p_from_api": bool: Shows that command was generated from API by some plugin.
