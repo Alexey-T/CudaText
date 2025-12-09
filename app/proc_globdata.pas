@@ -1173,6 +1173,8 @@ type
     class procedure CommandUpdateSubcommands(const AText: string);
 
     class function EventIsUsed(AEvent: TAppPyEvent): boolean;
+    class function EventSingleToElements(S: string;
+      out AEvent: TAppPyEvent; out APrior: byte; out ALazy: boolean): boolean;
     class function EventSingleToEventData(S: string;
       var AEvents: TAppPyEvents;
       var AEventsPrior: TAppPyEventsPrior;
@@ -3616,40 +3618,54 @@ class function TPluginHelper.EventSingleToEventData(S: string;
   var AEvents: TAppPyEvents;
   var AEventsPrior: TAppPyEventsPrior;
   var AEventsLazy: TAppPyEventsLazy): boolean;
-const
-  MaxPriority = 4;
 var
   event: TAppPyEvent;
   nPrior: byte;
   bLazy: boolean;
 begin
-  Result:= false;
+  Result:= EventSingleToElements(S, event, nPrior, bLazy);
+  if Result then
+  begin
+    Include(AEvents, event);
+    AEventsPrior[event]:= nPrior;
+    AEventsLazy[event]:= bLazy;
+  end;
+end;
 
-  nPrior:= 0;
+
+class function TPluginHelper.EventSingleToElements(S: string;
+  out AEvent: TAppPyEvent; out APrior: byte; out ALazy: boolean): boolean;
+const
+  MaxPriority = 4;
+var
+  event: TAppPyEvent;
+begin
+  Result:= false;
+  AEvent:= Low(TAppPyEvent);
+  APrior:= 0;
+  ALazy:= false;
+
   if S='' then exit;
   while S[Length(S)]='+' do
   begin
-    Inc(nPrior);
+    Inc(APrior);
     SetLength(S, Length(S)-1);
   end;
 
-  if nPrior>MaxPriority then
-    nPrior:= MaxPriority;
+  if APrior>MaxPriority then
+    APrior:= MaxPriority;
 
-  bLazy:= false;
   if S='' then exit;
   if S[Length(S)]='~' then
   begin
-    bLazy:= true;
+    ALazy:= true;
     SetLength(S, Length(S)-1);
   end;
 
   for event in TAppPyEvent do
     if S=cAppPyEvent[event] then
     begin
-      Include(AEvents, event);
-      AEventsPrior[event]:= nPrior;
-      AEventsLazy[event]:= bLazy;
+      AEvent:= event;
       Result:= true;
       Break
     end;
