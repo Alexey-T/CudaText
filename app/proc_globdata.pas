@@ -1179,6 +1179,7 @@ type
       out AEvents: TAppPyEvents;
       out AEventsPrior: TAppPyEventsPrior;
       out AEventsLazy: TAppPyEventsLazy);
+    class function EventBareStringToId(const S: string; out AEvent: TAppPyEvent): boolean;
     class procedure EventsUpdate(const AModuleName, AEventStr, ALexerStr, AKeyStr: string);
     class procedure EventsMaxPrioritiesUpdate;
 
@@ -3614,16 +3615,13 @@ class function TPluginHelper.EventSingleToElements(S: string;
   out AEvent: TAppPyEvent; out APrior: byte; out ALazy: boolean): boolean;
 const
   MaxPriority = 4;
-var
-  event: TAppPyEvent;
 begin
   Result:= false;
   AEvent:= Low(TAppPyEvent);
   APrior:= 0;
   ALazy:= false;
 
-  if S='' then exit;
-  while S[Length(S)]='+' do
+  while (S<>'') and (S[Length(S)]='+') do
   begin
     Inc(APrior);
     SetLength(S, Length(S)-1);
@@ -3632,20 +3630,29 @@ begin
   if APrior>MaxPriority then
     APrior:= MaxPriority;
 
-  if S='' then exit;
-  if S[Length(S)]='~' then
+  if (S<>'') and (S[Length(S)]='~') then
   begin
     ALazy:= true;
     SetLength(S, Length(S)-1);
   end;
 
-  for event in TAppPyEvent do
+  Result:= EventBareStringToId(S, AEvent);
+end;
+
+
+class function TPluginHelper.EventBareStringToId(const S: string; out AEvent: TAppPyEvent): boolean;
+var
+  event: TAppPyEvent;
+begin
+  for event:= Low(TAppPyEvent) to High(TAppPyEvent) do
     if S=cAppPyEvent[event] then
     begin
       AEvent:= event;
       Result:= true;
-      Break
+      exit;
     end;
+  AEvent:= TAppPyEvent.OnExit;
+  Result:= false;
 end;
 
 
