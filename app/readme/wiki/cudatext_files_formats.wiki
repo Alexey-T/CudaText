@@ -121,6 +121,8 @@ Only for "section=events":
 ** for "on_open" / "on_open_pre": comma-separated list of lower-case file extensions, without leading dot, to handle in event.
 ** for "on_caret_slow": comma-separated list of strings: "sel" for single caret selection; "selx" for 2+ carets selections; "selreset" for when selection was just reset.
 
+When configuring event subscriptions in the "install.inf" file, any event that uses the "keys=" setting (which corresponds to filter_list in PROC_EVENTS_SUB API) must be strictly separated into its own "itemX" section from all events that do not use a "keys=" setting. You must define a separate section for events with a non-empty "keys=" value and another separate section for events without a "keys=" setting.
+
 ====Install.inf sidebar buttons====
 
 CudaText can show plugin's sidebar buttons even without running the plugin in "on_start" event.
