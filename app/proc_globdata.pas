@@ -1184,6 +1184,7 @@ type
       out AEvents: TAppPyEvents;
       out AEventsPrior: TAppPyEventsPrior;
       out AEventsLazy: TAppPyEventsLazy);
+    class procedure EventUnsubscribe(const AModuleName: string; AEvent: TAppPyEvent);
     class procedure EventsUpdate(const AModuleName, AEventStr, ALexerStr, AKeyStr: string);
     class procedure EventsMaxPrioritiesUpdate;
 
@@ -3600,16 +3601,17 @@ begin
   end;
 end;
 
+
 class function TPluginHelper.EventIsUsed(AEvent: TAppPyEvent): boolean;
 var
-  NPlugin: integer;
-  Plugin: TAppEventInfo;
+  Ev: TAppEventInfo;
+  i: integer;
 begin
   Result:= false;
-  for NPlugin:= 0 to AppEventList.Count-1 do
+  for i:= 0 to AppEventList.Count-1 do
   begin
-    Plugin:= TAppEventInfo(AppEventList[NPlugin]);
-    if AEvent in Plugin.ItemEvents then
+    Ev:= TAppEventInfo(AppEventList[i]);
+    if AEvent in Ev.ItemEvents then
       exit(true);
   end;
 end;
@@ -3682,6 +3684,24 @@ begin
       AEventsPrior[event]:= nPrior;
       AEventsLazy[event]:= bLazy;
     end;
+end;
+
+
+class procedure TPluginHelper.EventUnsubscribe(const AModuleName: string; AEvent: TAppPyEvent);
+var
+  Ev: TAppEventInfo;
+  i: integer;
+begin
+  for i:= AppEventList.Count-1 downto 0 do
+  begin
+    Ev:= TAppEventInfo(AppEventList[i]);
+    if (Ev.ItemModule=AModuleName) and (AEvent in Ev.ItemEvents) then
+    begin
+      Exclude(Ev.ItemEvents, AEvent);
+      if Ev.ItemEvents=[] then
+        AppEventList.Delete(i);
+    end;
+  end;
 end;
 
 
