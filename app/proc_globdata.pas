@@ -1176,11 +1176,14 @@ type
 
     class function EventIsUsed(AEvent: TAppPyEvent): boolean;
     class function EventBareStringToId(const S: string): TAppPyEvent;
+
     class function EventComplexStringToElements(S: string;
       out AEvent: TAppPyEvent;
       out APrior: byte;
       out ALazy: boolean): boolean;
-    class procedure EventStringToEventData(const AEventStr: string;
+
+    class procedure EventStringToEventData(
+      const AEventStr: string;
       out AEvents: TAppPyEvents;
       out AEventsPrior: TAppPyEventsPrior;
       out AEventsLazy: TAppPyEventsLazy);
@@ -1188,6 +1191,10 @@ type
     class procedure EventUnsubscribe(
       const AModuleName: string;
       AEvent: TAppPyEvent);
+
+    class procedure EventUnsubscribeAll(
+      const AModuleName: string);
+
     class procedure EventSubscribe(
       const AModuleName, ALexers, AKeys: string;
       AEvent: TAppPyEvent;
@@ -3670,7 +3677,8 @@ begin
 end;
 
 
-class procedure TPluginHelper.EventStringToEventData(const AEventStr: string;
+class procedure TPluginHelper.EventStringToEventData(
+  const AEventStr: string;
   out AEvents: TAppPyEvents;
   out AEventsPrior: TAppPyEventsPrior;
   out AEventsLazy: TAppPyEventsLazy);
@@ -3710,6 +3718,20 @@ begin
       if EvInfo.ItemEvents=[] then
         AppEventList.Delete(i);
     end;
+  end;
+end;
+
+
+class procedure TPluginHelper.EventUnsubscribeAll(const AModuleName: string);
+var
+  EvInfo: TAppEventInfo;
+  i: integer;
+begin
+  for i:= AppEventList.Count-1 downto 0 do
+  begin
+    EvInfo:= TAppEventInfo(AppEventList[i]);
+    if (EvInfo.ItemModule=AModuleName) then
+      AppEventList.Delete(i);
   end;
 end;
 
