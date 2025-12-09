@@ -3862,8 +3862,17 @@ begin
   Sep.GetItemStr(StrEvents);
   Sep.GetItemStr(StrLexers);
   Sep.GetItemStr(StrKeys);
-  if StrModule='' then exit;
-  if StrEvents='' then exit;
+
+  if StrModule='' then
+  begin
+    MsgLogConsole('ERROR: Empty module_name in action PROC_EVENTS_SUB');
+    exit;
+  end;
+  if StrEvents='' then
+  begin
+    MsgLogConsole('ERROR: Empty event_list in action PROC_EVENTS_SUB');
+    exit;
+  end;
 
   Sep.Init(StrEvents, ',');
   while Sep.GetItemStr(S) do
@@ -3885,8 +3894,17 @@ begin
   Sep.Init(AText, ';');
   Sep.GetItemStr(StrModule);
   Sep.GetItemStr(StrEvents);
-  if StrModule='' then exit;
-  if StrEvents='' then exit;
+
+  if StrModule='' then
+  begin
+    MsgLogConsole('ERROR: Empty module_name in action PROC_EVENTS_UNSUB');
+    exit;
+  end;
+  if StrEvents='' then
+  begin
+    MsgLogConsole('ERROR: Empty event_list in action PROC_EVENTS_UNSUB');
+    exit;
+  end;
 
   if StrEvents='*' then
     EventUnsubAll(StrModule)
