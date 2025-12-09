@@ -361,13 +361,23 @@ Actions work with props of Find/Replace dialog, and props of low-level search en
 
 ====app_proc - Plugin calls====
 
-* PROC_SET_EVENTS: Subscribes plugin to events. First it removes all subscribed events for specified module name (events from "install.inf" file are removed too, but events from "settings/plugins.ini" are kept) and then adds specified events. Param "text" must be 4 values ";"-separated: "module_name;event_list;lexer_list;filter".
-** module_name: plugin's main module name (usually it is starting with "cuda_").
-** event_list: comma-separated event names, e.g. "on_open,on_save". Lazy-event char "~" and high-priority char "+" are supported here. Unknown event names are silently ignored.
-** lexer_list: comma-separated lexer names, e.g. "C,C++".
-** filter: additional parameter, used by some events, if that filter is not empty:
-*** filter for "on_key": comma-separated list of int key codes to handle in event, e.g. "9,32" means that event is only called for pressed Tab and Space.
-*** filter for "on_open", "on_open_pre": comma-separated list of lower-case file extensions, without leading dot, to handle in event.
+In the following events-related actions, such values in the "text" param are supported:
+
+* module_name: plugin's main module name (usually starting with "cuda_").
+* event_list: comma-separated event names, e.g. "on_open,on_save". Lazy-event char "~" and high-priority char "+" are supported here for actions PROC_EVENTS_SUB/PROC_SET_EVENTS. Unknown event names are silently ignored.
+* lexer_list: optional comma-separated lexer names, e.g. "C,C++".
+* filter_list: optional comma-separated items, used only by several events:
+** filter for "on_key": comma-separated list of int keyboard-codes to handle in event, e.g. "9,32" means that event is fired for Tab-char (code 9) and Space-char (code 32).
+** filter for "on_open", "on_open_pre": comma-separated list of lower-case file extensions, without leading dot, to handle in event.
+** filter for "on_caret_slow": comma-separated items: "sel" for single caret selection, "selx" for 2+ carets selections, "selreset" for reset of selection(s).
+
+Actions:
+
+* PROC_EVENTS_SUB: Subscribes to event(s). First unsubscribes only from specified events, for all combinations of lexers/filters for these events. Param "text" must be 4 values ";"-separated: "module_name;event_list;lexer_list;filter_list".
+
+* PROC_EVENTS_UNSUB: Unsubscribes from event(s). Param "text" must be 2 values ";"-separated: "module_name;event_list". If event_list is one symbol "*" - unsubscribes from all events for specified module.
+
+* (deprecated) PROC_SET_EVENTS: Subscribes to events. First it removes all subscribed events for specified module name (events from "install.inf" file are removed too, but events from "settings/plugins.ini" are kept) and then adds specified events. Param "text" must be 4 values ";"-separated: "module_name;event_list;lexer_list;filter_list".
 
 * PROC_GET_LAST_PLUGIN: Returns info about last plugin which run from program. It is str "module_name,method_name", values are empty if no plugins run yet.
 
@@ -5248,5 +5258,10 @@ It provides:
 
 1.0.470 (app 1.230.5)
 * add: on_caret_slow supports comma-separated filters in "keys=" in install.inf: "sel" for single caret selection, "selx" for 2+ carets selections, "selreset" for reset of selection(s)
+
+1.0.471 (app 1.230.6)
+* add: app_proc: PROC_EVENTS_SUB
+* add: app_proc: PROC_EVENTS_UNSUB
+* deprecate PROC_SET_EVENTS
 
 [[Category:CudaText]]
