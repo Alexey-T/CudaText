@@ -1050,6 +1050,14 @@ type
   TAppPyEventsLazy = array[TAppPyEvent] of boolean;
 
 var
+  AppPyEventsWhichSupportFilters: TAppPyEvents = [
+    TAppPyEvent.OnKey,
+    TAppPyEvent.OnOpen,
+    TAppPyEvent.OnOpenBefore,
+    TAPpPyEvent.OnCaretSlow
+    ];
+
+var
   AppEventsMaxPriorities: array[TAppPyEvent] of integer;
 
 const
@@ -3878,7 +3886,13 @@ begin
   while Sep.GetItemStr(S) do
   begin
     if EventComplexStringToElements(S, EvId, EvPrior, EvLazy) then
+    begin
+      if StrKeys<>'' then
+        if not (EvId in AppPyEventsWhichSupportFilters) then
+          MsgLogConsole(Format('ERROR: filter_list + unrelated event "%s" in action PROC_EVENTS_SUB', [cAppPyEvent[EvId]]));
+
       EventSub(StrModule, StrLexers, StrKeys, EvId, EvPrior, EvLazy);
+    end;
   end;
 
   EventsMaxPrioritiesUpdate;
