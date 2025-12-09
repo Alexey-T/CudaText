@@ -1184,7 +1184,16 @@ type
       out AEvents: TAppPyEvents;
       out AEventsPrior: TAppPyEventsPrior;
       out AEventsLazy: TAppPyEventsLazy);
-    class procedure EventUnsubscribe(const AModuleName: string; AEvent: TAppPyEvent);
+
+    class procedure EventUnsubscribe(
+      const AModuleName: string;
+      AEvent: TAppPyEvent);
+    class procedure EventSubscribe(
+      const AModuleName, ALexers, AKeys: string;
+      AEvent: TAppPyEvent;
+      AEventPrior: byte;
+      AEventLazy: boolean);
+
     class procedure EventsUpdate(const AModuleName, AEventStr, ALexerStr, AKeyStr: string);
     class procedure EventsMaxPrioritiesUpdate;
 
@@ -3702,6 +3711,38 @@ begin
         AppEventList.Delete(i);
     end;
   end;
+end;
+
+
+class procedure TPluginHelper.EventSubscribe(
+  const AModuleName, ALexers, AKeys: string;
+  AEvent: TAppPyEvent;
+  AEventPrior: byte;
+  AEventLazy: boolean);
+var
+  EvInfo: TAppEventInfo;
+  i: integer;
+begin
+  EventUnsubscribe(AModuleName, AEvent);
+
+  for i:= 0 to AppEventList.Count-1 do
+  begin
+    EvInfo:= TAppEventInfo(AppEventList[i]);
+    if (EvInfo.ItemModule=AModuleName) and (EvInfo.ItemLexers=ALexers) and (EvInfo.ItemKeys=AKeys) then
+    begin
+      Include(EvInfo.ItemEvents, AEvent);
+      exit;
+    end;
+  end;
+
+  EvInfo:= TAppEventInfo.Create;
+  EvInfo.ItemModule:= AModuleName;
+  EvInfo.ItemLexers:= ALexers;
+  EvInfo.ItemKeys:= AKeys;
+  EvInfo.ItemEvents:= [AEvent];
+  EvInfo.ItemEventsPrior[AEvent]:= AEventPrior;
+  EvInfo.ItemEventsLazy[AEvent]:= AEventLazy;
+  AppEventList.Add(EvInfo);
 end;
 
 
