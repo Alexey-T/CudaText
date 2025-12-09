@@ -1188,14 +1188,14 @@ type
       out AEventsPrior: TAppPyEventsPrior;
       out AEventsLazy: TAppPyEventsLazy);
 
-    class procedure EventUnsubscribe(
+    class procedure EventUnsub(
       const AModuleName: string;
       AEvent: TAppPyEvent);
 
-    class procedure EventUnsubscribeAll(
+    class procedure EventUnsubAll(
       const AModuleName: string);
 
-    class procedure EventSubscribe(
+    class procedure EventSub(
       const AModuleName, ALexers, AKeys: string;
       AEvent: TAppPyEvent;
       AEventPrior: byte;
@@ -3708,7 +3708,7 @@ begin
 end;
 
 
-class procedure TPluginHelper.EventUnsubscribe(const AModuleName: string; AEvent: TAppPyEvent);
+class procedure TPluginHelper.EventUnsub(const AModuleName: string; AEvent: TAppPyEvent);
 var
   EvInfo: TAppEventInfo;
   i: integer;
@@ -3726,7 +3726,7 @@ begin
 end;
 
 
-class procedure TPluginHelper.EventUnsubscribeAll(const AModuleName: string);
+class procedure TPluginHelper.EventUnsubAll(const AModuleName: string);
 var
   EvInfo: TAppEventInfo;
   i: integer;
@@ -3740,7 +3740,7 @@ begin
 end;
 
 
-class procedure TPluginHelper.EventSubscribe(
+class procedure TPluginHelper.EventSub(
   const AModuleName, ALexers, AKeys: string;
   AEvent: TAppPyEvent;
   AEventPrior: byte;
@@ -3749,7 +3749,7 @@ var
   EvInfo: TAppEventInfo;
   i: integer;
 begin
-  EventUnsubscribe(AModuleName, AEvent);
+  EventUnsub(AModuleName, AEvent);
 
   for i:= 0 to AppEventList.Count-1 do
   begin
@@ -3869,7 +3869,7 @@ begin
   while Sep.GetItemStr(S) do
   begin
     if EventComplexStringToElements(S, EvId, EvPrior, EvLazy) then
-      EventSubscribe(StrModule, StrLexers, StrKeys, EvId, EvPrior, EvLazy);
+      EventSub(StrModule, StrLexers, StrKeys, EvId, EvPrior, EvLazy);
   end;
 
   EventsMaxPrioritiesUpdate;
@@ -3889,7 +3889,7 @@ begin
   if StrEvents='' then exit;
 
   if StrEvents='*' then
-    EventUnsubscribeAll(StrModule)
+    EventUnsubAll(StrModule)
   else
   begin
     Sep.Init(StrEvents, ',');
@@ -3897,7 +3897,7 @@ begin
     begin
       EvId:= EventBareStringToId(S);
       if EvId<>TAppPyEvent.None then
-        EventUnsubscribe(StrModule, EvId);
+        EventUnsub(StrModule, EvId);
     end;
   end;
 
