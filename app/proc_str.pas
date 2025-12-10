@@ -249,7 +249,7 @@ function SSurroundByCommas(const S: string): string;
 begin
   SetLength(Result, Length(S)+2);
   Result[1]:= ',';
-  Result[Length(S)]:= ',';
+  Result[Length(Result)]:= ',';
   if S<>'' then
     Move(S[1], Result[2], Length(S));
 end;
