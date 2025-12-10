@@ -3321,16 +3321,19 @@ begin
     Result:= PyDict_New();
     PyDict_SetItemString(Result, 'module', PyUnicodeFromString(EvInfo.ItemModule));
 
+    ObjList:= PyList_New(0);
     if StartsStr('regex:', EvInfo.ItemLexers) then
-      PyDict_SetItemString(Result, 'lex', PyUnicodeFromString(EvInfo.ItemLexers))
+    begin
+      S:= EvInfo.ItemLexers;
+      PyList_Append(ObjList, PyUnicodeFromString(S));
+    end
     else
     begin
-      ObjList:= PyList_New(0);
       Sep.Init(EvInfo.ItemLexers);
       while Sep.GetItemStr(S) do
         PyList_Append(ObjList, PyUnicodeFromString(S));
-      PyDict_SetItemString(Result, 'lex', ObjList);
     end;
+    PyDict_SetItemString(Result, 'lex', ObjList);
 
     ObjList:= PyList_New(0);
     Sep.Init(EvInfo.ItemKeys);
