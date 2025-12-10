@@ -246,12 +246,15 @@ begin
 end;
 
 function SSurroundByCommas(const S: string): string;
+var
+  NLen: SizeInt;
 begin
-  SetLength(Result, Length(S)+2);
+  NLen:= Length(S);
+  SetLength(Result, NLen+2);
   Result[1]:= ',';
   Result[Length(Result)]:= ',';
-  if S<>'' then
-    Move(S[1], Result[2], Length(S));
+  if NLen>0 then
+    Move(S[1], Result[2], NLen);
 end;
 
 function IsLexerListed(const AItem, AItemList: string): boolean;
