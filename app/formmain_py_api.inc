@@ -3309,6 +3309,78 @@ begin
   end;
 end;
 
+function PyHelper_GetEvents: PPyObject;
+(*
+  Returns list of dicts:
+  [
+    {'lex': '', 'keys': '', 'ev': [{'id': 'on_key', 'lazy': False, 'pr': 0}, ...],
+    ...
+  ]
+*)
+var
+  EvInfo: TAppEventInfo;
+  ObjDictItem, ObjEvents: PPyObject;
+  SListLex, SListKeys: TStringList;
+  Sep: TATStringSeparator;
+  NCountItems, NCountEvents, iItem, iEvent: integer;
+  EvId: TAppPyEvent;
+  S: string;
+begin
+  SListLex:= TStringList.Create;
+  SListKeys:= TStringList.Create;
+
+  with AppPython.Engine do
+  begin
+    NCountItems:= AppEventList.Count;
+    Result:= PyList_New(NCountItems);
+    for iItem:= 0 to NCountItems-1 do
+    begin
+      ObjDictItem:= PyDict_New();
+      EvInfo:= TAppEventInfo(AppEventList[iItem]);
+
+      SListLex.Clear;
+      SListKeys.Clear;
+      Sep.Init(EvInfo.ItemLexers);
+      while Sep.GetItemStr(S) do
+        SListLex.Add(S);
+      Sep.Init(EvInfo.ItemKeys);
+      while Sep.GetItemStr(S) do
+        SListKeys.Add(S);
+
+      PyDict_SetItemString(ObjDictItem, 'module', PyUnicodeFromString(EvInfo.ItemModule));
+      PyDict_SetItemString(ObjDictItem, 'lex', StringsToPyList(SListLex));
+      PyDict_SetItemString(ObjDictItem, 'keys', StringsToPyList(SListKeys));
+
+      NCountEvents:= 0;
+      for EvId:= Low(TAppPyEvent) to High(TAppPyEvent) do
+        if EvId in EvInfo.ItemEvents then
+          Inc(NCountEvents);
+
+      ObjEvents:= PyList_New(NCountEvents);
+      PyDict_SetItemString(ObjDictItem, 'ev', ObjEvents);
+
+      iEvent:= 0;
+      for EvId:= Low(TAppPyEvent) to High(TAppPyEvent) do
+        if EvId in EvInfo.ItemEvents then
+        begin
+          PyList_SetItem(ObjEvents, iEvent,
+            Py_BuildValue('{sssOsi}',
+              'id', PChar(cAppPyEvent[EvId]),
+              'lazy', PyBool_FromLong(Ord(EvInfo.ItemEventsLazy[EvId])),
+              'pr', Longint(EvInfo.ItemEventsPrior[EvId])
+              ));
+          Inc(iEvent);
+        end;
+
+      PyList_SetItem(Result, iItem, ObjDictItem);
+    end;
+  end;
+
+  FreeAndNil(SListKeys);
+  FreeAndNil(SListLex);
+end;
+
+
 function api_ed_get_prop(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
@@ -5447,6 +5519,11 @@ begin
           begin
             TPluginHelper.ApiUnsub(Str);
             Result:= ReturnNone;
+          end;
+
+        APP_PROC_EVENTS_ENUM:
+          begin
+            Result:= PyHelper_GetEvents;
           end;
 
         APP_PROC_GET_FINDER_PROP:
