@@ -244,11 +244,20 @@ begin
   AWordResults.MatchesCount:= 0;
 end;
 
+function SSurroundByCommas(const S: string): string;
+begin
+  SetLength(Result, Length(S)+2);
+  Result[1]:= ',';
+  Result[Length(S)]:= ',';
+  if S<>'' then
+    Move(S[1], Result[2], Length(S));
+end;
+
 function IsLexerListed(const AItem, AItemList: string): boolean;
 const
   cRegexPrefix = 'regex:';
 var
-  S, SList: string;
+  S: string;
 begin
   if AItemList='' then exit(true);
   if AItem='' then exit(false);
@@ -260,17 +269,7 @@ begin
   end
   else
   begin
-    SetLength(S, Length(AItem)+2);
-    S[1]:= ',';
-    S[Length(S)]:= ',';
-    Move(AItem[1], S[2], Length(AItem));
-
-    SetLength(SList, Length(AItemList)+2);
-    SList[1]:= ',';
-    SList[Length(SList)]:= ',';
-    Move(AItemList[1], SList[2], Length(AItemList));
-
-    Result:= Pos(S, SList)>0;
+    Result:= Pos(SSurroundByCommas(AItem), SSurroundByCommas(AItemList))>0;
   end;
 end;
 
@@ -283,7 +282,7 @@ begin
   Ext:= LowerCase(ExtractFileExt(AFilename));
   if Ext='' then exit(false);
   if Ext[1]='.' then Delete(Ext, 1, 1);
-  Result:= Pos(','+Ext+',', ','+AExtList+',' )>0;
+  Result:= Pos(SSurroundByCommas(Ext), SSurroundByCommas(AExtList))>0;
 end;
 
 function STextListsFuzzyInput(const AText, AFind: string;
