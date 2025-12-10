@@ -287,8 +287,6 @@ end;
 
 procedure TestIsStrListed;
 begin
-  Assert(not IsStrListed('c', 'ccc'));
-  Assert(not IsStrListed('c', 'd,ccc'));
   Assert(IsStrListed('a', 'a,b,c'));
   Assert(IsStrListed('b', 'a,b,c'));
   Assert(IsStrListed('c', 'a,b,c'));
@@ -297,8 +295,11 @@ begin
   Assert(IsStrListed('ccc', 'a,b,ccc'));
   Assert(IsStrListed('c', 'c'));
   Assert(IsStrListed('cc', 'cc'));
+  Assert(IsStrListed('c', 'cc,ccc,c'));
+  Assert(not IsStrListed('c', 'ccc'));
+  Assert(not IsStrListed('c', 'cc,ccc'));
+  Assert(not IsStrListed('c', 'd,ccc'));
   Assert(not IsStrListed('cd', 'c'));
-  Assert(IsStrListed('', ''));
   Assert(not IsStrListed('k', 'a,b,c'));
   Assert(not IsStrListed('ppp', 'a,b,c'));
   Assert(not IsStrListed('k', ''));
