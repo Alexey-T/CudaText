@@ -249,9 +249,10 @@ begin
   AWordResults.MatchesCount:= 0;
 end;
 
+
 function IsStrListed(const AItem, AList: string; ASepChar: char=','): boolean;
 var
-  LenItem, LenList, NSep, i, j: SizeInt;
+  LenItem, LenList, i, j: SizeInt;
 begin
   LenItem:= Length(AItem);
   LenList:= Length(AList);
@@ -260,10 +261,9 @@ begin
   if LenItem=0 then
     exit(false);
 
-  NSep:= 0;
+  j:= 0;
   repeat
     i:= 0;
-    j:= NSep;
     repeat
       Inc(i);
       if i>LenItem then
@@ -279,8 +279,8 @@ begin
       if AItem[i]<>AList[j] then
         Break;
     until false;
-    NSep:= Pos(ASepChar, AList, j);
-  until NSep=0;
+    j:= Pos(ASepChar, AList, j);
+  until j=0;
 
   Result:= false;
 end;
