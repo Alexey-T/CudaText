@@ -40,7 +40,7 @@ function STextListsFuzzyInput(const AText, AFind: string;
 function SRegexReplaceSubstring(const AStr, AStrFind, AStrReplace: string; AUseSubstitute: boolean): string;
 function SRegexMatchesString(const ASubject, ARegex: string; ACaseSensitive: boolean): boolean;
 
-function IsStrListed(const AItem, AList: string): boolean;
+function IsStrListed(const AItem, AList: string; ASepChar: char=','): boolean;
 function IsLexerListed(const AItem, AItemList: string): boolean;
 function IsFilenameListedInExtensionList(const AFilename, AExtList: string): boolean;
 
@@ -249,9 +249,7 @@ begin
   AWordResults.MatchesCount:= 0;
 end;
 
-function IsStrListed(const AItem, AList: string): boolean;
-const
-  SepChar = ',';
+function IsStrListed(const AItem, AList: string; ASepChar: char=','): boolean;
 var
   LenItem, LenList, NSep, i, j: SizeInt;
 begin
@@ -276,7 +274,7 @@ begin
       if AItem[i]<>AList[j] then
         Break;
     until false;
-    NSep:= Pos(SepChar, AList, NSep+1);
+    NSep:= Pos(ASepChar, AList, NSep+1);
   until NSep=0;
 
   Result:= false;
