@@ -3309,6 +3309,75 @@ begin
   end;
 end;
 
+function PyHelper_GetEventItem(EvInfo: TAppEventInfo): PPyObject;
+var
+  ObjEvents: PPyObject;
+  SList: TStringList;
+  Sep: TATStringSeparator;
+  EvId: TAppPyEvent;
+  NCountEvents, iEvent: integer;
+  S: string;
+begin
+  SList:= nil;
+
+  with AppPython.Engine do
+  begin
+    Result:= PyDict_New();
+    PyDict_SetItemString(Result, 'module', PyUnicodeFromString(EvInfo.ItemModule));
+
+    if EvInfo.ItemLexers<>'' then
+    begin
+      if SList=nil then
+        SList:= TStringList.Create;
+      SList.Clear;
+      Sep.Init(EvInfo.ItemLexers);
+      while Sep.GetItemStr(S) do
+        SList.Add(S);
+      PyDict_SetItemString(Result, 'lex', StringsToPyList(SList));
+    end
+    else
+      PyDict_SetItemString(Result, 'lex', PyList_New(0));
+
+    if EvInfo.ItemKeys<>'' then
+    begin
+      if SList=nil then
+        SList:= TStringList.Create;
+      SList.Clear;
+      Sep.Init(EvInfo.ItemKeys);
+      while Sep.GetItemStr(S) do
+        SList.Add(S);
+      PyDict_SetItemString(Result, 'keys', StringsToPyList(SList));
+    end
+    else
+      PyDict_SetItemString(Result, 'keys', PyList_New(0));
+
+    NCountEvents:= 0;
+    for EvId:= Low(TAppPyEvent) to High(TAppPyEvent) do
+      if EvId in EvInfo.ItemEvents then
+        Inc(NCountEvents);
+
+    ObjEvents:= PyList_New(NCountEvents);
+    PyDict_SetItemString(Result, 'ev', ObjEvents);
+
+    iEvent:= 0;
+    for EvId:= Low(TAppPyEvent) to High(TAppPyEvent) do
+      if EvId in EvInfo.ItemEvents then
+      begin
+        PyList_SetItem(ObjEvents, iEvent,
+          Py_BuildValue('{sssOsi}',
+            'id', PChar(cAppPyEvent[EvId]),
+            'lazy', PyBool_FromLong(Ord(EvInfo.ItemEventsLazy[EvId])),
+            'pr', Longint(EvInfo.ItemEventsPrior[EvId])
+            ));
+        Inc(iEvent);
+      end;
+  end;
+
+  if Assigned(SList) then
+    FreeAndNil(SList);
+end;
+
+
 function PyHelper_GetEvents(const AModuleNeeded: string): PPyObject;
 (*
   Returns list of dicts:
@@ -3325,16 +3394,8 @@ function PyHelper_GetEvents(const AModuleNeeded: string): PPyObject;
 //
 var
   EvInfo: TAppEventInfo;
-  ObjDictItem, ObjEvents: PPyObject;
-  SListLex, SListKeys: TStringList;
-  Sep: TATStringSeparator;
-  NCountItems, NCountEvents, iItemTotal, iItemCurrent, iEvent: integer;
-  EvId: TAppPyEvent;
-  S: string;
+  NCountItems, iItemTotal, iItemCurrent: integer;
 begin
-  SListLex:= TStringList.Create;
-  SListKeys:= TStringList.Create;
-
   NCountItems:= 0;
   for iItemTotal:= 0 to AppEventList.Count-1 do
   begin
@@ -3352,49 +3413,10 @@ begin
       EvInfo:= TAppEventInfo(AppEventList[iItemTotal]);
       if not IsModuleOk(EvInfo.ItemModule) then Continue;
 
-      ObjDictItem:= PyDict_New();
-
-      SListLex.Clear;
-      SListKeys.Clear;
-      Sep.Init(EvInfo.ItemLexers);
-      while Sep.GetItemStr(S) do
-        SListLex.Add(S);
-      Sep.Init(EvInfo.ItemKeys);
-      while Sep.GetItemStr(S) do
-        SListKeys.Add(S);
-
-      PyDict_SetItemString(ObjDictItem, 'module', PyUnicodeFromString(EvInfo.ItemModule));
-      PyDict_SetItemString(ObjDictItem, 'lex', StringsToPyList(SListLex));
-      PyDict_SetItemString(ObjDictItem, 'keys', StringsToPyList(SListKeys));
-
-      NCountEvents:= 0;
-      for EvId:= Low(TAppPyEvent) to High(TAppPyEvent) do
-        if EvId in EvInfo.ItemEvents then
-          Inc(NCountEvents);
-
-      ObjEvents:= PyList_New(NCountEvents);
-      PyDict_SetItemString(ObjDictItem, 'ev', ObjEvents);
-
-      iEvent:= 0;
-      for EvId:= Low(TAppPyEvent) to High(TAppPyEvent) do
-        if EvId in EvInfo.ItemEvents then
-        begin
-          PyList_SetItem(ObjEvents, iEvent,
-            Py_BuildValue('{sssOsi}',
-              'id', PChar(cAppPyEvent[EvId]),
-              'lazy', PyBool_FromLong(Ord(EvInfo.ItemEventsLazy[EvId])),
-              'pr', Longint(EvInfo.ItemEventsPrior[EvId])
-              ));
-          Inc(iEvent);
-        end;
-
-      PyList_SetItem(Result, iItemCurrent, ObjDictItem);
+      PyList_SetItem(Result, iItemCurrent, PyHelper_GetEventItem(EvInfo));
       Inc(iItemCurrent);
     end;
   end;
-
-  FreeAndNil(SListKeys);
-  FreeAndNil(SListLex);
 end;
 
 
