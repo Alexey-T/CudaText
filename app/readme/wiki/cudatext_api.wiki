@@ -378,7 +378,7 @@ Actions work with props of Find/Replace dialog, and props of low-level search en
 * (deprecated) PROC_SET_EVENTS: Subscribes to event(s). First it unsubscribes from all events for specified module_name and then adds specified events. Param "text" must be 4 values ";"-separated: "module_name;event_list;lexer_list;filter_list".
 ** Initial unsubscribing: events from "install.inf" file are removed, but events from "plugins.ini" are kept.
 
-* PROC_EVENTS_ENUM: Returns internal memory structure which stores plugin events. Returns list of dicts, each dict corresponds to one section "itemX" in the "install.inf" file (if events are registered in the "install.inf"). Dict keys are:
+* PROC_EVENTS_ENUM: Returns internal memory structure of plugin events, for the specified module name in param "text", or for all modules of param "text" is empty. Returns list of dicts, each dict corresponds to one section "itemX" in the "install.inf" file (if events are registered in the "install.inf"). Dict keys are:
 ** "module": str: Python module name.
 ** "lex": list of str: List of allowed lexers.
 ** "keys": list of str: List of allowed filters/keys.
