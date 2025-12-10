@@ -287,6 +287,8 @@ end;
 
 procedure TestIsStrListed;
 begin
+  {$push}
+  {$Assertions on}
   Assert(IsStrListed('a', 'a,b,c'));
   Assert(IsStrListed('b', 'a,b,c'));
   Assert(IsStrListed('c', 'a,b,c'));
@@ -303,6 +305,7 @@ begin
   Assert(not IsStrListed('k', 'a,b,c'));
   Assert(not IsStrListed('ppp', 'a,b,c'));
   Assert(not IsStrListed('k', ''));
+  {$pop}
 end;
 
 function IsLexerListed(const AItem, AItemList: string): boolean;
@@ -639,7 +642,6 @@ end;
 
 
 initialization
-  {$Assertions on}
   //TestIsStrListed;
 
 end.
