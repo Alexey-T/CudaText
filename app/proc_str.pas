@@ -254,7 +254,6 @@ const
   SepChar = ',';
 var
   LenItem, LenList, NSep, i, j: SizeInt;
-  ok: boolean;
 begin
   LenItem:= Length(AItem);
   LenList:= Length(AList);
@@ -265,7 +264,6 @@ begin
 
   NSep:= 0;
   repeat
-    ok:= true;
     i:= 0;
     j:= NSep;
     repeat
@@ -276,13 +274,8 @@ begin
       if j>LenList then
         exit(false);
       if AItem[i]<>AList[j] then
-      begin
-        ok:= false;
         Break;
-      end;
     until false;
-    if ok then
-      exit(true);
     NSep:= Pos(SepChar, AList, NSep+1);
   until NSep=0;
 
