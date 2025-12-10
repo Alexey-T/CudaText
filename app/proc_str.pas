@@ -266,9 +266,13 @@ begin
   NSep:= 0;
   repeat
     ok:= true;
-    for i:= 1 to LenItem do
-    begin
-      j:= NSep+i;
+    i:= 0;
+    j:= NSep;
+    repeat
+      Inc(i);
+      if i>LenItem then
+        exit(true);
+      Inc(j);
       if j>LenList then
         exit(false);
       if AItem[i]<>AList[j] then
@@ -276,7 +280,7 @@ begin
         ok:= false;
         Break;
       end;
-    end;
+    until false;
     if ok then
       exit(true);
     NSep:= Pos(SepChar, AList, NSep+1);
