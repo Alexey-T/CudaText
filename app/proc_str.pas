@@ -588,5 +588,16 @@ begin
 end;
 {$pop}
 
+
+{
+var
+  s: string;
+initialization
+  s:= SSurroundByCommas('');
+  s:= SSurroundByCommas('a');
+  s:= SSurroundByCommas('eee');
+  s:= '';
+}
+
 end.
 
