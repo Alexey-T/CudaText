@@ -267,17 +267,41 @@ begin
     repeat
       Inc(i);
       if i>LenItem then
-        exit(true);
+      begin
+        if (j>=LenList) or (AList[j+1]=ASepChar) then
+          exit(true)
+        else
+          Break;
+      end;
       Inc(j);
       if j>LenList then
         exit(false);
       if AItem[i]<>AList[j] then
         Break;
     until false;
-    NSep:= Pos(ASepChar, AList, NSep+1);
+    NSep:= Pos(ASepChar, AList, j);
   until NSep=0;
 
   Result:= false;
+end;
+
+procedure TestIsStrListed;
+begin
+  Assert(not IsStrListed('c', 'ccc'));
+  Assert(not IsStrListed('c', 'd,ccc'));
+  Assert(IsStrListed('a', 'a,b,c'));
+  Assert(IsStrListed('b', 'a,b,c'));
+  Assert(IsStrListed('c', 'a,b,c'));
+  Assert(IsStrListed('aaa', 'aaa,b,c'));
+  Assert(IsStrListed('bbb', 'a,bbb,c'));
+  Assert(IsStrListed('ccc', 'a,b,ccc'));
+  Assert(IsStrListed('c', 'c'));
+  Assert(IsStrListed('cc', 'cc'));
+  Assert(not IsStrListed('cd', 'c'));
+  Assert(IsStrListed('', ''));
+  Assert(not IsStrListed('k', 'a,b,c'));
+  Assert(not IsStrListed('ppp', 'a,b,c'));
+  Assert(not IsStrListed('k', ''));
 end;
 
 function IsLexerListed(const AItem, AItemList: string): boolean;
@@ -613,23 +637,9 @@ end;
 {$pop}
 
 
-(*
-{$Assertions on}
 initialization
-
-  Assert(IsStrListed('a', 'a,b,c'));
-  Assert(IsStrListed('b', 'a,b,c'));
-  Assert(IsStrListed('c', 'a,b,c'));
-  Assert(IsStrListed('aaa', 'aaa,b,c'));
-  Assert(IsStrListed('bbb', 'a,bbb,c'));
-  Assert(IsStrListed('ccc', 'a,b,ccc'));
-  Assert(IsStrListed('c', 'c'));
-  Assert(not IsStrListed('cd', 'c'));
-  Assert(IsStrListed('', ''));
-  Assert(not IsStrListed('k', 'a,b,c'));
-  Assert(not IsStrListed('ppp', 'a,b,c'));
-  Assert(not IsStrListed('k', ''));
-*)
+  {$Assertions on}
+  //TestIsStrListed;
 
 end.
 
