@@ -65,6 +65,10 @@ function SEscapeRegexSpecialChars(const S: string): string;
 
 function SSimpleHash(const S: string): integer;
 
+const
+  //if presents in install.inf [itemX] lexers=, we have the RegEx
+  AppLexerPrefixRegex = 'regex:';
+
 implementation
 
 uses
@@ -258,17 +262,15 @@ begin
 end;
 
 function IsLexerListed(const AItem, AItemList: string): boolean;
-const
-  cRegexPrefix = 'regex:';
 var
   S: string;
 begin
   if AItemList='' then exit(true);
   if AItem='' then exit(false);
 
-  if SBeginsWith(AItemList, cRegexPrefix) then
+  if SBeginsWith(AItemList, AppLexerPrefixRegex) then
   begin
-    S:= Copy(AItemList, Length(cRegexPrefix)+1, MaxInt);
+    S:= Copy(AItemList, Length(AppLexerPrefixRegex)+1, MaxInt);
     Result:= SRegexMatchesString(AItem, S, true);
   end
   else

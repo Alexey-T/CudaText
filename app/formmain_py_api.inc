@@ -3322,7 +3322,7 @@ begin
     PyDict_SetItemString(Result, 'module', PyUnicodeFromString(EvInfo.ItemModule));
 
     ObjList:= PyList_New(0);
-    if StartsStr('regex:', EvInfo.ItemLexers) then
+    if StartsStr(AppLexerPrefixRegex, EvInfo.ItemLexers) then
     begin
       S:= EvInfo.ItemLexers;
       PyList_Append(ObjList, PyUnicodeFromString(S));
