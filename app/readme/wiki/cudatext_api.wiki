@@ -378,6 +378,15 @@ Actions work with props of Find/Replace dialog, and props of low-level search en
 * (deprecated) PROC_SET_EVENTS: Subscribes to event(s). First it unsubscribes from all events for specified module_name and then adds specified events. Param "text" must be 4 values ";"-separated: "module_name;event_list;lexer_list;filter_list".
 ** Initial unsubscribing: events from "install.inf" file are removed, but events from "plugins.ini" are kept.
 
+* PROC_EVENTS_ENUM: Returns internal memory structure which stores plugin events. Returns list of dicts, each dict corresponds to one section "itemX" in the "install.inf" file (if events are registered in the "install.inf"). Dict keys are:
+** "module": str: Python module name.
+** "lex": list of str: List of allowed lexers.
+** "keys": list of str: List of allowed filters/keys.
+** "ev": list of dicts: Dict keys are:
+*** "id": str: Event name, e.g. "on_open".
+*** "lazy": bool: Event lazy flag.
+*** "pr": int: Event priority. 0 is normal, 1 to 4 are high.
+
 * PROC_GET_LAST_PLUGIN: Returns info about last plugin which run from program. It is str "module_name,method_name", values are empty if no plugins run yet.
 
 * PROC_SET_SUBCOMMANDS: Adds command items (items which can be called from Command Palette). These items will run specified module name and method name, but with different parameters to that method. For example, plugin External Tools uses this API to add command items for configured tools. Param "text" must be ";"-separated: "module_name;method_name;param_list".
@@ -5259,8 +5268,9 @@ It provides:
 * add: on_caret_slow supports comma-separated filters in "keys=" in install.inf: "sel" for single caret selection, "selx" for 2+ carets selections, "selreset" for reset of selection(s)
 
 1.0.471 (app 1.230.6)
+* deprecate PROC_SET_EVENTS
 * add: app_proc: PROC_EVENTS_SUB
 * add: app_proc: PROC_EVENTS_UNSUB
-* deprecate PROC_SET_EVENTS
+* add: app_proc: PROC_EVENTS_ENUM
 
 [[Category:CudaText]]
