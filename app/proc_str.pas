@@ -20,6 +20,9 @@ uses
   ATSynEdit_RegExpr,
   ec_RegExpr;
 
+const
+  AppLexerPrefixRegex = 'regex:';
+
 type
   TAppSearchWordsResults = record
     MatchesCount: integer;
@@ -40,7 +43,7 @@ function STextListsFuzzyInput(const AText, AFind: string;
 function SRegexReplaceSubstring(const AStr, AStrFind, AStrReplace: string; AUseSubstitute: boolean): string;
 function SRegexMatchesString(const ASubject, ARegex: string; ACaseSensitive: boolean): boolean;
 
-function IsStrListed(const AItem, AList: string; ASepChar: char=','): boolean;
+function SSurroundByCommas(const S: string): string;
 function IsLexerListed(const AItem, AItemList: string): boolean;
 function IsFilenameListedInExtensionList(const AFilename, AExtList: string): boolean;
 
@@ -64,10 +67,6 @@ function SEscapeRegexSpecialChars(const S: Unicodestring): Unicodestring;
 function SEscapeRegexSpecialChars(const S: string): string;
 
 function SSimpleHash(const S: string): integer;
-
-const
-  //if presents in install.inf [itemX] lexers=, we have the RegEx
-  AppLexerPrefixRegex = 'regex:';
 
 implementation
 
@@ -249,63 +248,16 @@ begin
   AWordResults.MatchesCount:= 0;
 end;
 
-
-function IsStrListed(const AItem, AList: string; ASepChar: char=','): boolean;
+function SSurroundByCommas(const S: string): string;
 var
-  LenItem, LenList, i, j: SizeInt;
+  NLen: SizeInt;
 begin
-  LenItem:= Length(AItem);
-  LenList:= Length(AList);
-  if LenList=0 then
-    exit(LenItem=0);
-  if LenItem=0 then
-    exit(false);
-
-  j:= 0;
-  repeat
-    i:= 0;
-    repeat
-      Inc(i);
-      if i>LenItem then
-      begin
-        if (j>=LenList) or (AList[j+1]=ASepChar) then
-          exit(true)
-        else
-          Break;
-      end;
-      Inc(j);
-      if j>LenList then
-        exit(false);
-      if AItem[i]<>AList[j] then
-        Break;
-    until false;
-    j:= Pos(ASepChar, AList, j);
-  until j=0;
-
-  Result:= false;
-end;
-
-procedure TestIsStrListed;
-begin
-  {$push}
-  {$Assertions on}
-  Assert(IsStrListed('a', 'a,b,c'));
-  Assert(IsStrListed('b', 'a,b,c'));
-  Assert(IsStrListed('c', 'a,b,c'));
-  Assert(IsStrListed('aaa', 'aaa,b,c'));
-  Assert(IsStrListed('bbb', 'a,bbb,c'));
-  Assert(IsStrListed('ccc', 'a,b,ccc'));
-  Assert(IsStrListed('c', 'c'));
-  Assert(IsStrListed('cc', 'cc'));
-  Assert(IsStrListed('c', 'cc,ccc,c'));
-  Assert(not IsStrListed('c', 'ccc'));
-  Assert(not IsStrListed('c', 'cc,ccc'));
-  Assert(not IsStrListed('c', 'd,ccc'));
-  Assert(not IsStrListed('cd', 'c'));
-  Assert(not IsStrListed('k', 'a,b,c'));
-  Assert(not IsStrListed('ppp', 'a,b,c'));
-  Assert(not IsStrListed('k', ''));
-  {$pop}
+  NLen:= Length(S);
+  SetLength(Result, NLen+2);
+  Result[1]:= ',';
+  Result[Length(Result)]:= ',';
+  if NLen>0 then
+    Move(S[1], Result[2], NLen);
 end;
 
 function IsLexerListed(const AItem, AItemList: string): boolean;
@@ -322,7 +274,7 @@ begin
   end
   else
   begin
-    Result:= IsStrListed(AItem, AItemList);
+    Result:= Pos(SSurroundByCommas(AItem), SSurroundByCommas(AItemList))>0;
   end;
 end;
 
@@ -335,7 +287,7 @@ begin
   Ext:= LowerCase(ExtractFileExt(AFilename));
   if Ext='' then exit(false);
   if Ext[1]='.' then Delete(Ext, 1, 1);
-  Result:= IsStrListed(Ext, AExtList);
+  Result:= Pos(SSurroundByCommas(Ext), SSurroundByCommas(AExtList))>0;
 end;
 
 function STextListsFuzzyInput(const AText, AFind: string;
@@ -641,8 +593,15 @@ end;
 {$pop}
 
 
+{
+var
+  s: string;
 initialization
-  //TestIsStrListed;
+  s:= SSurroundByCommas('');
+  s:= SSurroundByCommas('a');
+  s:= SSurroundByCommas('eee');
+  s:= '';
+}
 
 end.
 

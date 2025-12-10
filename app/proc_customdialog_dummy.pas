@@ -960,7 +960,7 @@ function IsEventItemListed(const SItem, SList: string): boolean;
 begin
   if SList='' then exit(false);
   if SList='*' then exit(true);
-  Result:= IsStrListed(SItem, SList);
+  Result:= Pos(SSurroundByCommas(SItem), SSurroundByCommas(SList))>0;
 end;
 
 
