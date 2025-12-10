@@ -3309,7 +3309,7 @@ begin
   end;
 end;
 
-function PyHelper_GetEvents: PPyObject;
+function PyHelper_GetEvents(const AModuleNeeded: string): PPyObject;
 (*
   Returns list of dicts:
   [
@@ -3317,26 +3317,42 @@ function PyHelper_GetEvents: PPyObject;
     ...
   ]
 *)
+//
+  function IsModuleOk(const S: string): boolean;
+  begin
+    Result:= (AModuleNeeded='') or (S=AModuleNeeded);
+  end;
+//
 var
   EvInfo: TAppEventInfo;
   ObjDictItem, ObjEvents: PPyObject;
   SListLex, SListKeys: TStringList;
   Sep: TATStringSeparator;
-  NCountItems, NCountEvents, iItem, iEvent: integer;
+  NCountItems, NCountEvents, iItemTotal, iItemCurrent, iEvent: integer;
   EvId: TAppPyEvent;
   S: string;
 begin
   SListLex:= TStringList.Create;
   SListKeys:= TStringList.Create;
 
+  NCountItems:= 0;
+  for iItemTotal:= 0 to AppEventList.Count-1 do
+  begin
+    EvInfo:= TAppEventInfo(AppEventList[iItemTotal]);
+    if not IsModuleOk(EvInfo.ItemModule) then Continue;
+    Inc(NCountItems);
+  end;
+
   with AppPython.Engine do
   begin
-    NCountItems:= AppEventList.Count;
     Result:= PyList_New(NCountItems);
-    for iItem:= 0 to NCountItems-1 do
+    iItemCurrent:= 0;
+    for iItemTotal:= 0 to AppEventList.Count-1 do
     begin
+      EvInfo:= TAppEventInfo(AppEventList[iItemTotal]);
+      if not IsModuleOk(EvInfo.ItemModule) then Continue;
+
       ObjDictItem:= PyDict_New();
-      EvInfo:= TAppEventInfo(AppEventList[iItem]);
 
       SListLex.Clear;
       SListKeys.Clear;
@@ -3372,7 +3388,8 @@ begin
           Inc(iEvent);
         end;
 
-      PyList_SetItem(Result, iItem, ObjDictItem);
+      PyList_SetItem(Result, iItemCurrent, ObjDictItem);
+      Inc(iItemCurrent);
     end;
   end;
 
@@ -5523,7 +5540,7 @@ begin
 
         APP_PROC_EVENTS_ENUM:
           begin
-            Result:= PyHelper_GetEvents;
+            Result:= PyHelper_GetEvents(Str);
           end;
 
         APP_PROC_GET_FINDER_PROP:
