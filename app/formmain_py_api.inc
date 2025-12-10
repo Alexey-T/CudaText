@@ -3311,70 +3311,40 @@ end;
 
 function PyHelper_GetEventItem(EvInfo: TAppEventInfo): PPyObject;
 var
-  ObjEvents: PPyObject;
-  SList: TStringList;
+  ObjEvents, ObjList: PPyObject;
   Sep: TATStringSeparator;
   EvId: TAppPyEvent;
-  NCountEvents, iEvent: integer;
   S: string;
 begin
-  SList:= nil;
-
   with AppPython.Engine do
   begin
     Result:= PyDict_New();
     PyDict_SetItemString(Result, 'module', PyUnicodeFromString(EvInfo.ItemModule));
 
-    if EvInfo.ItemLexers<>'' then
-    begin
-      if SList=nil then
-        SList:= TStringList.Create;
-      SList.Clear;
-      Sep.Init(EvInfo.ItemLexers);
-      while Sep.GetItemStr(S) do
-        SList.Add(S);
-      PyDict_SetItemString(Result, 'lex', StringsToPyList(SList));
-    end
-    else
-      PyDict_SetItemString(Result, 'lex', PyList_New(0));
+    ObjList:= PyList_New(0);
+    Sep.Init(EvInfo.ItemLexers);
+    while Sep.GetItemStr(S) do
+      PyList_Append(ObjList, PyUnicodeFromString(S));
+    PyDict_SetItemString(Result, 'lex', ObjList);
 
-    if EvInfo.ItemKeys<>'' then
-    begin
-      if SList=nil then
-        SList:= TStringList.Create;
-      SList.Clear;
-      Sep.Init(EvInfo.ItemKeys);
-      while Sep.GetItemStr(S) do
-        SList.Add(S);
-      PyDict_SetItemString(Result, 'keys', StringsToPyList(SList));
-    end
-    else
-      PyDict_SetItemString(Result, 'keys', PyList_New(0));
+    ObjList:= PyList_New(0);
+    Sep.Init(EvInfo.ItemKeys);
+    while Sep.GetItemStr(S) do
+      PyList_Append(ObjList, PyUnicodeFromString(S));
+    PyDict_SetItemString(Result, 'keys', ObjList);
 
-    NCountEvents:= 0;
-    for EvId:= Low(TAppPyEvent) to High(TAppPyEvent) do
-      if EvId in EvInfo.ItemEvents then
-        Inc(NCountEvents);
-
-    ObjEvents:= PyList_New(NCountEvents);
+    ObjEvents:= PyList_New(0);
     PyDict_SetItemString(Result, 'ev', ObjEvents);
 
-    iEvent:= 0;
     for EvId:= Low(TAppPyEvent) to High(TAppPyEvent) do
       if EvId in EvInfo.ItemEvents then
-      begin
-        PyList_SetItem(ObjEvents, iEvent,
+        PyList_Append(ObjEvents,
           Py_BuildValue('{sssOsi}',
             'id', PChar(cAppPyEvent[EvId]),
             'lazy', PyBool_FromLong(Ord(EvInfo.ItemEventsLazy[EvId])),
             'pr', Longint(EvInfo.ItemEventsPrior[EvId])
             ));
-        Inc(iEvent);
-      end;
   end;
-
-  if Assigned(SList) then
-    FreeAndNil(SList);
 end;
 
 
