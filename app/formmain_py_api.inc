@@ -3313,7 +3313,7 @@ function PyHelper_GetEvents: PPyObject;
 (*
   Returns list of dicts:
   [
-    {'lex': '', 'keys': '', 'ev': [{'id': 'on_key', 'lazy': False, 'pr': 0}, ...],
+    {'module': 'cuda_nn', 'lex': ['C'], 'keys': ['9', '32'], 'ev': [{'id': 'on_key', 'lazy': False, 'pr': 0}, ...],
     ...
   ]
 *)
