@@ -248,21 +248,29 @@ function IsLexerListed(const AItem, AItemList: string): boolean;
 const
   cRegexPrefix = 'regex:';
 var
-  SRegex: string;
+  Sep: TATStringSeparator;
+  S: string;
 begin
   if AItemList='' then exit(true);
   if AItem='' then exit(false);
 
   if SBeginsWith(AItemList, cRegexPrefix) then
   begin
-    SRegex:= Copy(AItemList, Length(cRegexPrefix)+1, MaxInt);
-    Result:= SRegexMatchesString(AItem, SRegex, true);
+    S:= Copy(AItemList, Length(cRegexPrefix)+1, MaxInt);
+    Result:= SRegexMatchesString(AItem, S, true);
   end
   else
   begin
+    Sep.Init(AItemList, ',');
+    while Sep.GetItemStr(S) do
+      if S=AItem then
+        exit(true);
+    Result:= false;
+    {
     Result:= Pos(
       ','+LowerCase(AItem)+',',
       ','+LowerCase(AItemList)+',' )>0;
+    }
   end;
 end;
 
