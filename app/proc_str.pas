@@ -40,7 +40,7 @@ function STextListsFuzzyInput(const AText, AFind: string;
 function SRegexReplaceSubstring(const AStr, AStrFind, AStrReplace: string; AUseSubstitute: boolean): string;
 function SRegexMatchesString(const ASubject, ARegex: string; ACaseSensitive: boolean): boolean;
 
-function SSurroundByCommas(const S: string): string;
+function IsStrListed(const AItem, AList: string): boolean;
 function IsLexerListed(const AItem, AItemList: string): boolean;
 function IsFilenameListedInExtensionList(const AFilename, AExtList: string): boolean;
 
@@ -249,16 +249,40 @@ begin
   AWordResults.MatchesCount:= 0;
 end;
 
-function SSurroundByCommas(const S: string): string;
+function IsStrListed(const AItem, AList: string): boolean;
+const
+  SepChar = ',';
 var
-  NLen: SizeInt;
+  LenItem, LenList, NSep, i, j: SizeInt;
+  ok: boolean;
 begin
-  NLen:= Length(S);
-  SetLength(Result, NLen+2);
-  Result[1]:= ',';
-  Result[Length(Result)]:= ',';
-  if NLen>0 then
-    Move(S[1], Result[2], NLen);
+  LenItem:= Length(AItem);
+  LenList:= Length(AList);
+  if LenList=0 then
+    exit(LenItem=0);
+  if LenItem=0 then
+    exit(false);
+
+  NSep:= 0;
+  repeat
+    ok:= true;
+    for i:= 1 to LenItem do
+    begin
+      j:= NSep+i;
+      if j>LenList then
+        exit(false);
+      if AItem[i]<>AList[j] then
+      begin
+        ok:= false;
+        Break;
+      end;
+    end;
+    if ok then
+      exit(true);
+    NSep:= Pos(SepChar, AList, NSep+1);
+  until NSep=0;
+
+  Result:= false;
 end;
 
 function IsLexerListed(const AItem, AItemList: string): boolean;
@@ -275,7 +299,7 @@ begin
   end
   else
   begin
-    Result:= Pos(SSurroundByCommas(AItem), SSurroundByCommas(AItemList))>0;
+    Result:= IsStrListed(AItem, AItemList);
   end;
 end;
 
@@ -288,7 +312,7 @@ begin
   Ext:= LowerCase(ExtractFileExt(AFilename));
   if Ext='' then exit(false);
   if Ext[1]='.' then Delete(Ext, 1, 1);
-  Result:= Pos(SSurroundByCommas(Ext), SSurroundByCommas(AExtList))>0;
+  Result:= IsStrListed(Ext, AExtList);
 end;
 
 function STextListsFuzzyInput(const AText, AFind: string;
@@ -594,15 +618,23 @@ end;
 {$pop}
 
 
-{
-var
-  s: string;
+(*
+{$Assertions on}
 initialization
-  s:= SSurroundByCommas('');
-  s:= SSurroundByCommas('a');
-  s:= SSurroundByCommas('eee');
-  s:= '';
-}
+
+  Assert(IsStrListed('a', 'a,b,c'));
+  Assert(IsStrListed('b', 'a,b,c'));
+  Assert(IsStrListed('c', 'a,b,c'));
+  Assert(IsStrListed('aaa', 'aaa,b,c'));
+  Assert(IsStrListed('bbb', 'a,bbb,c'));
+  Assert(IsStrListed('ccc', 'a,b,ccc'));
+  Assert(IsStrListed('c', 'c'));
+  Assert(not IsStrListed('cd', 'c'));
+  Assert(IsStrListed('', ''));
+  Assert(not IsStrListed('k', 'a,b,c'));
+  Assert(not IsStrListed('ppp', 'a,b,c'));
+  Assert(not IsStrListed('k', ''));
+*)
 
 end.
 
