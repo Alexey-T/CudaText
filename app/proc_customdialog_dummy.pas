@@ -21,6 +21,7 @@ uses
   ListViewFilterEdit,
   proc_globdata,
   proc_py,
+  proc_str,
   proc_miscutils,
   proc_appvariant,
   proc_scrollbars,
@@ -959,7 +960,7 @@ function IsEventItemListed(const SItem, SList: string): boolean;
 begin
   if SList='' then exit(false);
   if SList='*' then exit(true);
-  Result:= Pos(','+SItem+',', ','+SList+',')>0;
+  Result:= Pos(SSurroundByCommas(SItem), SSurroundByCommas(SList))>0;
 end;
 
 

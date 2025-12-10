@@ -40,6 +40,7 @@ function STextListsFuzzyInput(const AText, AFind: string;
 function SRegexReplaceSubstring(const AStr, AStrFind, AStrReplace: string; AUseSubstitute: boolean): string;
 function SRegexMatchesString(const ASubject, ARegex: string; ACaseSensitive: boolean): boolean;
 
+function SSurroundByCommas(const S: string): string;
 function IsLexerListed(const AItem, AItemList: string): boolean;
 function IsFilenameListedInExtensionList(const AFilename, AExtList: string): boolean;
 
