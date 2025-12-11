@@ -246,7 +246,7 @@ object SyntAnal9: TLibSyntAnalyzer
       StyleName = 'Tag prop'
       BlockName = 'Tag begin'
       TokenType = 2
-      Expression = 
+      Expression =
         '\b(allowfullscreen|allowpaymentrequest|async|autofocus|autoplay|' +
         'checked|controls|default|defer|disabled|formnovalidate|hidden|is' +
         'map|itemscope|loop|multiple|muted|nomodule|novalidate|open|plays' +
@@ -349,11 +349,13 @@ object SyntAnal9: TLibSyntAnalyzer
             'colgroup'
             'command'
             'comment'
+            'data'
             'datalist'
             'dd'
             'del'
             'details'
             'dfn'
+            'dialog'
             'dir'
             'div'
             'dl'
@@ -385,12 +387,14 @@ object SyntAnal9: TLibSyntAnalyzer
             'img'
             'input'
             'ins'
+            'isindex'
             'kbd'
             'keygen'
             'label'
             'legend'
             'li'
             'link'
+            'listing'
             'main'
             'map'
             'mark'
@@ -418,14 +422,17 @@ object SyntAnal9: TLibSyntAnalyzer
             'pre'
             'progress'
             'q'
+            'rb'
             'rp'
             'rt'
+            'rtc'
             'ruby'
             's'
             'samp'
             'script'
             'section'
             'select'
+            'slot'
             'small'
             'source'
             'spacer'
@@ -454,7 +461,8 @@ object SyntAnal9: TLibSyntAnalyzer
             'ul'
             'var'
             'video'
-            'wbr')
+            'wbr'
+            'xmp')
           TokenTypes = 4
           IgnoreCase = True
         end
@@ -859,7 +867,7 @@ object SyntAnal9: TLibSyntAnalyzer
     item
       DisplayName = 'JavaScript'
       StyleName = 'Sublexer BG'
-      StartExpression = 
+      StartExpression =
         '(?s)<script\s[^>]* (j|java|ecma|paper)script (<\?.+?\?>|[^>\?])*' +
         '?> (<!\-\-)?'
       EndExpression = '(//)?(\-\->)?</script\s*>'
@@ -900,7 +908,7 @@ object SyntAnal9: TLibSyntAnalyzer
     '  <script type="text/javascript">'
     '    var n=10; '
     '  </script>'
-    
+
       '  <script type="text/javascript" src="<?=SITE_TEMPLATE_PATH?>/js' +
       '/jquery.js">'
     '    var n=10;'
@@ -930,7 +938,7 @@ object SyntAnal9: TLibSyntAnalyzer
     'Open Tag'
     'Close Tag'
     'Include Tag')
-  Extentions = 
+  Extentions =
     'html htm htt hta htx htc htd shtml phtml xhtml asp aspx ascx asm' +
     'x jsp hhc dtd'
   LexerName = 'HTML'
