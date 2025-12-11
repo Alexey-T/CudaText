@@ -1036,8 +1036,6 @@ class Command:
                 imageindex = self.ICON_ZIP
             elif is_simple_listed(path.name, MASKS_BINARY):
                 imageindex = self.ICON_BIN
-            elif is_simple_listed(path.name, MASKS_TEXT):
-                imageindex = self.ICON_TEXT
             elif is_simple_listed(path.name, MASKS_AUDIO):
                 imageindex = self.ICON_AUDIO
             elif is_simple_listed(path.name, MASKS_VIDEO):
@@ -1046,6 +1044,8 @@ class Command:
                 lexname = lexer_proc(LEXER_DETECT, path.name)
                 if lexname:
                     imageindex = self.icon_get(lexname)
+                elif is_simple_listed(path.name, MASKS_TEXT):
+                    imageindex = self.ICON_TEXT
                 else:
                     imageindex = self.ICON_ALL
 
