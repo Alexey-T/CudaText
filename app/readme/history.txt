@@ -3,7 +3,13 @@
   - fixed
   * changed
 
+1.230.6 (2025/12)
+
+- fix: lexer HMTL: improved list of 'known' tags (by @ildarkhasanshin)
+- fix: regression: Project Manager cannot show CMake-icon in the project-tree when CMake lexer is installed
+
 1.230.5 (2025/12)
+
 + add: option "auto_close_brackets" supports additional pairs “” and ‘’ and «» (idea by @dajare)
 - fix: regression in 1.172.0 (2022/10): Ctrl+BkSpace wrongly adjusted multi-carets on the same line
 - fix: Windows: IME minor fix (by @martok)
