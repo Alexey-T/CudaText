@@ -7,6 +7,7 @@
 
 - fix: lexer HMTL: improved list of 'known' tags (by @ildarkhasanshin)
 - fix: regression: Project Manager cannot show CMake-icon in the project-tree when CMake lexer is installed
+- fix: Linux Qt6: reverted "Qt5/Qt6 version better handles IME" because it gave regression
 
 1.230.5 (2025/12)
 
