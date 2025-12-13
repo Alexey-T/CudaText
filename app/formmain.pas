@@ -6942,6 +6942,8 @@ begin
 end;
 
 procedure TfmMain.SetFullScreen_Win32(AValue: boolean);
+var
+  NOffset: integer;
 begin
   if AValue then
   begin
@@ -6951,7 +6953,13 @@ begin
 
     FOrigWndState:= WindowState;
     FOrigBounds:= BoundsRect;
-    Dec(FOrigBounds.Bottom, 20 * Monitor.PixelsPerInch div 96); //workaround for issue #5607: could not restore ok FOrigBounds; value 20 is for Win10
+
+    //workaround for issue #5607: could not restore ok FOrigBounds
+    NOffset:= 20; //ok for Win10
+    if Assigned(Monitor) then
+      NOffset:= NOffset*Monitor.PixelsPerInch div 96;
+    Dec(FOrigBounds.Bottom, NOffset);
+
     BorderStyle:= bsNone;
     BoundsRect:= Monitor.BoundsRect;
   end
