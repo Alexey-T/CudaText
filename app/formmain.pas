@@ -6951,7 +6951,7 @@ begin
 
     FOrigWndState:= WindowState;
     FOrigBounds:= BoundsRect;
-    Dec(FOrigBounds.Bottom, 20); //workaround for win32: could not restore ok FOrigBounds
+    Dec(FOrigBounds.Bottom, 20); //workaround for issue #5607: could not restore ok FOrigBounds; value 20 is for Win10
     BorderStyle:= bsNone;
     BoundsRect:= Monitor.BoundsRect;
   end
