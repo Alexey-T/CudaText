@@ -9,6 +9,7 @@
 - fix: Qt5/Qt6: reverted 1.230.0 change "Qt5/Qt6 version better handles IME" because it gave regression (thanks @mix-7)
 - fix: Windows: window height was increasing by ~20 pixels on toggling full-screen mode (thanks @iconv)
 - fix: regression: Project Manager cannot show CMake-icon in the project-tree when CMake lexer is installed
+- fix: on deleting multi-selections, editor scrolled to 1st caret: that was wrong (thanks @badrelmers)
 
 1.230.5 (2025/12)
 
