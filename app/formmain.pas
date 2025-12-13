@@ -6943,7 +6943,7 @@ end;
 
 procedure TfmMain.SetFullScreen_Win32(AValue: boolean);
 var
-  NOffset: integer;
+  NOffset1, NOffset2: integer;
 begin
   if AValue then
   begin
@@ -6955,10 +6955,9 @@ begin
     FOrigBounds:= BoundsRect;
 
     //workaround for issue #5607: could not restore ok FOrigBounds
-    NOffset:= Windows.GetSystemMetrics(SM_CYCAPTION)-3;
-    if Assigned(Monitor) then
-      NOffset:= NOffset*Monitor.PixelsPerInch div 96;
-    Dec(FOrigBounds.Bottom, NOffset);
+    NOffset1:= Windows.GetSystemMetrics(SM_CYCAPTION);
+    NOffset2:= Windows.GetSystemMetrics(SM_CYDLGFRAME);
+    Dec(FOrigBounds.Bottom, NOffset1-NOffset2);
 
     BorderStyle:= bsNone;
     BoundsRect:= Monitor.BoundsRect;
