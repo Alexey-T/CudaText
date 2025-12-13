@@ -6955,7 +6955,7 @@ begin
     FOrigBounds:= BoundsRect;
 
     //workaround for issue #5607: could not restore ok FOrigBounds
-    NOffset:= 20; //ok for Win10
+    NOffset:= Windows.GetSystemMetrics(SM_CYCAPTION)-3;
     if Assigned(Monitor) then
       NOffset:= NOffset*Monitor.PixelsPerInch div 96;
     Dec(FOrigBounds.Bottom, NOffset);
