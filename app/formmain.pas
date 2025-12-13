@@ -6951,6 +6951,7 @@ begin
 
     FOrigWndState:= WindowState;
     FOrigBounds:= BoundsRect;
+    Dec(FOrigBounds.Bottom, 20); //workaround for win32: could not restore ok FOrigBounds
     BorderStyle:= bsNone;
     BoundsRect:= Monitor.BoundsRect;
   end
