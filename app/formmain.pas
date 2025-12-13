@@ -6951,7 +6951,7 @@ begin
 
     FOrigWndState:= WindowState;
     FOrigBounds:= BoundsRect;
-    Dec(FOrigBounds.Bottom, 20 * Screen.PixelsPerInch div 96); //workaround for issue #5607: could not restore ok FOrigBounds; value 20 is for Win10
+    Dec(FOrigBounds.Bottom, 20 * Monitor.PixelsPerInch div 96); //workaround for issue #5607: could not restore ok FOrigBounds; value 20 is for Win10
     BorderStyle:= bsNone;
     BoundsRect:= Monitor.BoundsRect;
   end
