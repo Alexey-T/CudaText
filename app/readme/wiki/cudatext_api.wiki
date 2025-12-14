@@ -2299,7 +2299,7 @@ Controls carets. Possible values of "id":
 * CARET_SET_ONE: Removes multi-carets and sets single caret to the given position (posx, posy, endx, endy). To place caret without selection, set both "endx", "endy" to -1.
 * CARET_ADD: Adds caret (multi-carets feature) with given position (posx, posy, endx, endy). Returns number of carets after that.
 * CARET_DELETE_ALL: Deletes all carets. Parameters "posx", "posy", "endx", "endy" are ignored here. Note: you must add caret(s) later, to enable text editing to user.
-* CARET_SORT: Sorts internal carets list. This is usually never needed, except when plugin uses param "options" with CARET_OPTION_NO_SORT.
+* CARET_SORT: Sorts internal carets list (avoids overlapping selections, avoids duplicate carets). This is usually not needed, except when plugin uses param "options" with CARET_OPTION_NO_SORT. Even with option CARET_OPTION_NO_SORT it is not needed if plugin adds already sorted carets, without overlapping selections.
 
 * CARET_SET_INDEX + N, where N is 0...1e6: Places single caret, with index N, to the given position (posx, posy, endx, endy).
 * CARET_DELETE_INDEX + N, where N is 0...1e6: Deletes single caret, with index N. Parameters "posx", "posy", "endx", "endy" are ignored here.
