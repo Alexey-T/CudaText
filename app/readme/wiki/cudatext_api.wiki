@@ -1783,10 +1783,10 @@ Possible values of "id_action":
 * LISTBOX_SET_SHOW_X: Sets state of X marks. Param "index": int value.
 * LISTBOX_GET_HOTTRACK: Returns HotTrack state (bool). HotTrack means that listbox highlights item under mouse cursor.
 * LISTBOX_SET_HOTTRACK: Sets HotTrack state. Param "index": 0 or 1 (off/on).
-* LISTBOX_GET_SCROLLSTYLE_HORZ: Returns style of horizontal scrollbar. One of SCROLLSTYLE_ constants.
-* LISTBOX_SET_SCROLLSTYLE_HORZ: Sets style of horizontal scrollbar. Param "index": int value, one of SCROLLSTYLE_ constants.
-* LISTBOX_GET_SCROLLSTYLE_VERT: Returns style of vertical scrollbar. One of SCROLLSTYLE_ constants.
-* LISTBOX_SET_SCROLLSTYLE_VERT: Sets style of vertical scrollbar. Param "index": int value, one of SCROLLSTYLE_ constants.
+* LISTBOX_GET_SCROLLSTYLE_HORZ: Returns horizontal scrollbar's show-style. One of SCROLLSTYLE_nnn constants.
+* LISTBOX_SET_SCROLLSTYLE_HORZ: Sets horizontal scrollbar's show-style. Param "index": one of SCROLLSTYLE_nnn constants.
+* LISTBOX_GET_SCROLLSTYLE_VERT: Returns vertical scrollbar's show-style. One of SCROLLSTYLE_nnn constants.
+* LISTBOX_SET_SCROLLSTYLE_VERT: Sets vertical scrollbar's show-style. Param "index": one of SCROLLSTYLE_nnn constants.
 * LISTBOX_GET_SCROLLPOS_HORZ: Returns horizontal scroll position.
 * LISTBOX_SET_SCROLLPOS_HORZ: Sets horizontal scroll position. Param "index": int value.
 * LISTBOX_GET_HEADER: Returns header string.
@@ -2554,8 +2554,8 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * (deprecated) PROP_SCROLL_HORZ_SMOOTH: int: smooth horizontal scroll position. In pixels.
 * PROP_SCROLL_VERT_INFO: int: dict with all available info about vertical scroll.
 * PROP_SCROLL_HORZ_INFO: int: dict with all available info about horizontal scroll.
-* PROP_SCROLLSTYLE_HORZ: int: style of horizontal scrollbar, one of SCROLLSTYLE_ constants.
-* PROP_SCROLLSTYLE_VERT: int: style of vertical scrollbar, one of SCROLLSTYLE_ constants.
+* PROP_SCROLLSTYLE_HORZ: int: horizontal scrollbar's show-style, one of SCROLLSTYLE_nnn constants.
+* PROP_SCROLLSTYLE_VERT: int: vertical scrollbar's show-style, one of SCROLLSTYLE_nnn constants.
 
 * PROP_CORNER_TEXT: str: short text (multi-line is allowed, separator chr(10)) in the right-bottom corner (rendered above editor text).
 * PROP_CORNER_COLOR_FONT: int: font-color for PROP_CORNER_TEXT; can be COLOR_NONE.
@@ -2767,8 +2767,8 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 * (deprecated) PROP_SCROLL_HORZ_SMOOTH: int: smooth horizontal scroll position. In pixels.
 * PROP_SCROLL_VERT_INFO: int: dict with info about vertical scroll. Comparing to Editor.get_prop (getter) supported dict keys, only these dict keys are supported here: a) "pos", b) "pixels", c) "pos" and "pixels", d) "smooth_pos".
 * PROP_SCROLL_HORZ_INFO: int: dict with info about horizontal scroll.
-* PROP_SCROLLSTYLE_HORZ: int: style of horizontal scrollbar, one of SCROLLSTYLE_ constants.
-* PROP_SCROLLSTYLE_VERT: int: style of vertical scrollbar, one of SCROLLSTYLE_ constants.
+* PROP_SCROLLSTYLE_HORZ: int: horizontal scrollbar's show-style, one of SCROLLSTYLE_nnn constants.
+* PROP_SCROLLSTYLE_VERT: int: vertical scrollbar's show-style, one of SCROLLSTYLE_nnn constants.
 
 * PROP_CORNER_TEXT: str: short text (multi-line is allowed, separator chr(10)) in the right-bottom corner (rendered above editor text).
 * PROP_CORNER_COLOR_FONT: int: font-color for PROP_CORNER_TEXT; can be COLOR_NONE.
@@ -4616,7 +4616,8 @@ It provides:
 * add: listbox_proc: LISTBOX_SET_SCROLLSTYLE_VERT
 
 1.0.313 (app 1.89.2)
-* add: Editor.get_prop/set_prop: PROP_SCROLLSTYLE_HORZ, PROP_SCROLLSTYLE_VERT
+* add: Editor.get_prop/set_prop: PROP_SCROLLSTYLE_HORZ
+* add: Editor.get_prop/set_prop: PROP_SCROLLSTYLE_VERT
 * add: Editor.attr: MARKERS_GET_DICT
 
 1.0.314 (app 1.89.4)
