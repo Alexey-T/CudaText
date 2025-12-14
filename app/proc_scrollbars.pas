@@ -235,7 +235,6 @@ begin
     Info.nPage:= Tree.Height;
     Info.nPos:= Tree.ScrolledTop;
     Info.fMask:= SIF_ALL;
-    LCLIntf.SetScrollInfo(Tree.Handle, SB_VERT, Info, true);
 
     case ScrollStyleVert of
       TAppTreeScrollStyle.Hide:
@@ -245,6 +244,8 @@ begin
       else
         bShow:= Info.nMax>Longint(Info.nPage);
     end;
+
+    LCLIntf.SetScrollInfo(Tree.Handle, SB_VERT, Info, bShow);
     LCLIntf.ShowScrollBar(Tree.Handle, SB_VERT, bShow);
 
     Info:= Default(TScrollInfo);
@@ -254,7 +255,6 @@ begin
     Info.nPage:= Tree.Width;
     Info.nPos:= Tree.ScrolledLeft;
     Info.fMask:= SIF_ALL;
-    LCLIntf.SetScrollInfo(Tree.Handle, SB_HORZ, Info, true);
 
     case ScrollStyleHorz of
       TAppTreeScrollStyle.Hide:
@@ -264,6 +264,8 @@ begin
       else
         bShow:= Info.nMax>Longint(Info.nPage);
     end;
+
+    LCLIntf.SetScrollInfo(Tree.Handle, SB_HORZ, Info, bShow);
     LCLIntf.ShowScrollBar(Tree.Handle, SB_HORZ, bShow);
   end;
 end;
