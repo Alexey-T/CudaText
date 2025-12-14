@@ -5270,7 +5270,7 @@ It provides:
 1.0.470 (app 1.230.5)
 * add: on_caret_slow supports comma-separated filters in "keys=" in install.inf: "sel" for single caret selection, "selx" for 2+ carets selections, "selreset" for reset of selection(s)
 
-1.0.471 (app 1.230.6)
+1.0.471 (app 1.230.7)
 * deprecate PROC_SET_EVENTS
 * add: app_proc: PROC_EVENTS_SUB
 * add: app_proc: PROC_EVENTS_UNSUB
