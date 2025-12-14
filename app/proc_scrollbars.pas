@@ -221,9 +221,9 @@ begin
           FScrollbarHorz.Visible:= FScrollbarHorz.Max>FScrollbarHorz.PageSize;
       end;
     end;
-  end;
-
-  if not ScrollbarsNew and Tree.HandleAllocated then
+  end
+  else
+  if Tree.HandleAllocated then
   begin
     Info:= Default(TScrollInfo);
     Info.cbSize:= SizeOf(Info);
