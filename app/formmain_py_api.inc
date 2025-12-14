@@ -1069,6 +1069,14 @@ begin
       Ed:= PyHelper_EditorFromHandle(H);
 
       case Id of
+        CARET_ADD:
+          begin
+            Ed.Carets.Add(X1, Y1, X2, Y2);
+            if (NOptions and CARET_OPTION_NO_SORT)=0 then
+              Ed.Carets.Sort;
+            Result:= PyLong_FromLong(Ed.Carets.Count);
+          end;
+
         CARET_DELETE_ALL:
           begin
             Ed.Carets.Clear;
@@ -1106,13 +1114,6 @@ begin
             Result:= ReturnNone;
           end;
 
-        CARET_ADD:
-          begin
-            Ed.Carets.Add(X1, Y1, X2, Y2);
-            Ed.Carets.Sort;
-            Result:= PyLong_FromLong(Ed.Carets.Count);
-          end;
-
         CARET_SET_INDEX..CARET_DELETE_INDEX-1:
           begin
             NCaret:= Id-CARET_SET_INDEX;
@@ -1123,7 +1124,8 @@ begin
                 PosY:= Y1;
                 EndX:= X2;
                 EndY:= Y2;
-                Ed.Carets.Sort;
+                if (NOptions and CARET_OPTION_NO_SORT)=0 then
+                  Ed.Carets.Sort;
               end;
             Result:= ReturnNone;
           end;
@@ -1134,8 +1136,15 @@ begin
             if Ed.Carets.IsIndexValid(NCaret) then
             begin
               Ed.Carets.Delete(NCaret);
-              Ed.Carets.Sort;
+              if (NOptions and CARET_OPTION_NO_SORT)=0 then
+                Ed.Carets.Sort;
             end;
+            Result:= ReturnNone;
+          end;
+
+        CARET_SORT:
+          begin
+            Ed.Carets.Sort;
             Result:= ReturnNone;
           end
 
