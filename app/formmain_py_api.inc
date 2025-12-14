@@ -6898,7 +6898,6 @@ var
   PtrText, PtrTag: PChar;
   StrText, StrTag: string;
   Listbox: TATListbox;
-  IndexOk: boolean;
   Obj: TObject;
 begin
   with AppPython.Engine do
@@ -6918,7 +6917,6 @@ begin
       StrText:= string(PtrText);
       StrTag:= string(PtrTag);
       NTag:= StrToInt64Def(StrTag, 0);
-      IndexOk:= Listbox.IsIndexValid(NIndex);
 
       case IdAction of
         LISTBOX_GET_COUNT:
@@ -6929,17 +6927,22 @@ begin
         LISTBOX_ADD:
           begin
             if NIndex=-1 then
-              Listbox.Items.AddObject(StrText, TATListboxItemProp.Create(NTag, false, ''))
+            begin
+              Listbox.Items.AddObject(StrText, TATListboxItemProp.Create(NTag, false, ''));
+              Listbox.Invalidate;
+            end
             else
-            if IndexOk then
+            if Listbox.IsIndexValid(NIndex) then
+            begin
               Listbox.Items.InsertObject(NIndex, StrText, TATListboxItemProp.Create(NTag, false, ''));
-            Listbox.Invalidate;
+              Listbox.Invalidate;
+            end;
             Result:= PyLong_FromLong(Listbox.Items.Count);
           end;
 
         LISTBOX_DELETE:
           begin
-            if IndexOk then
+            if Listbox.IsIndexValid(NIndex) then
             begin
               Obj:= Listbox.Items.Objects[NIndex];
               if Assigned(Obj) then
@@ -6974,16 +6977,14 @@ begin
 
         LISTBOX_SET_SEL:
           begin
-            if IndexOk then
-            begin
+            if Listbox.IsIndexValid(NIndex) then
               Listbox.ItemIndex:= NIndex;
-            end;
             Result:= ReturnNone;
           end;
 
         LISTBOX_GET_ITEM_PROP:
           begin
-            if IndexOk then
+            if Listbox.IsIndexValid(NIndex) then
             begin
               Obj:= Listbox.Items.Objects[NIndex];
               if Assigned(Obj) then
@@ -7006,7 +7007,7 @@ begin
 
         LISTBOX_SET_ITEM_PROP:
           begin
-            if IndexOk then
+            if Listbox.IsIndexValid(NIndex) then
             begin
               Listbox.Items[NIndex]:= StrText;
               Obj:= Listbox.Items.Objects[NIndex];
@@ -7018,14 +7019,13 @@ begin
 
         LISTBOX_ADD_PROP:
           begin
-            if (NIndex=-1) or IndexOk then
+            if (NIndex=-1) or Listbox.IsIndexValid(NIndex) then
             begin
               Obj:= TATListboxItemProp.Create(0, false, '');
               PyHelper_ListboxItem_SetFromString(Obj as TATListboxItemProp, StrTag);
               if NIndex=-1 then
                 Listbox.Items.AddObject(StrText, Obj)
               else
-              if IndexOk then
                 Listbox.Items.InsertObject(NIndex, StrText, Obj);
               Listbox.Invalidate;
             end;
@@ -7039,7 +7039,7 @@ begin
 
         LISTBOX_SET_TOP:
           begin
-            if IndexOk then
+            if Listbox.IsIndexValid(NIndex) and (Listbox.ItemTop<>NIndex) then
             begin
               Listbox.ItemTop:= NIndex;
               Listbox.Invalidate;
@@ -7054,8 +7054,11 @@ begin
 
         LISTBOX_SET_ITEM_H:
           begin
-            Listbox.ItemHeight:= NIndex;
-            Listbox.Invalidate;
+            if Listbox.ItemHeight<>NIndex then
+            begin
+              Listbox.ItemHeight:= NIndex;
+              Listbox.Invalidate;
+            end;
             Result:= ReturnNone;
           end;
 
@@ -7066,8 +7069,11 @@ begin
 
         LISTBOX_SET_HOTTRACK:
           begin
-            Listbox.HotTrack:= (NIndex=1);
-            Listbox.Invalidate;
+            if Listbox.HotTrack<>(NIndex=1) then
+            begin
+              Listbox.HotTrack:= (NIndex=1);
+              Listbox.Invalidate;
+            end;
             Result:= ReturnNone;
           end;
 
@@ -7078,8 +7084,11 @@ begin
 
         LISTBOX_SET_DRAWN:
           begin
-            Listbox.OwnerDrawn:= (NIndex=1);
-            Listbox.Invalidate;
+            if Listbox.OwnerDrawn<>(NIndex=1) then
+            begin
+              Listbox.OwnerDrawn:= (NIndex=1);
+              Listbox.Invalidate;
+            end;
             Result:= ReturnNone;
           end;
 
@@ -7090,7 +7099,7 @@ begin
 
         LISTBOX_SET_COLUMN_SEP:
           begin
-            if StrText<>'' then
+            if (StrText<>'') and (Listbox.ColumnSeparator<>StrText[1]) then
             begin
               Listbox.ColumnSeparator:= StrText[1];
               Listbox.Invalidate;
@@ -7121,8 +7130,11 @@ begin
 
         LISTBOX_SET_SHOW_X:
           begin
-            Listbox.ShowXMark:= TATListboxShowX(NIndex);
-            Listbox.Invalidate;
+            if Listbox.ShowXMark<>TATListboxShowX(NIndex) then
+            begin
+              Listbox.ShowXMark:= TATListboxShowX(NIndex);
+              Listbox.Invalidate;
+            end;
             Result:= ReturnNone;
           end;
 
@@ -7174,8 +7186,11 @@ begin
 
         LISTBOX_SET_HEADER:
           begin
-            Listbox.HeaderText:= StrText;
-            Listbox.Invalidate;
+            if Listbox.HeaderText<>StrText then
+            begin
+              Listbox.HeaderText:= StrText;
+              Listbox.Invalidate;
+            end;
             Result:= ReturnNone;
           end;
 
