@@ -7138,15 +7138,21 @@ begin
 
         LISTBOX_SET_SCROLLSTYLE_HORZ:
           begin
-            Listbox.ScrollStyleHorz:= TATListboxScrollStyle(NIndex);
-            Listbox.Invalidate;
+            if Listbox.ScrollStyleHorz<>TATListboxScrollStyle(NIndex) then
+            begin
+              Listbox.ScrollStyleHorz:= TATListboxScrollStyle(NIndex);
+              Listbox.Invalidate;
+            end;
             Result:= ReturnNone;
           end;
 
         LISTBOX_SET_SCROLLSTYLE_VERT:
           begin
-            Listbox.ScrollStyleVert:= TATListboxScrollStyle(NIndex);
-            Listbox.Invalidate;
+            if Listbox.ScrollStyleVert<>TATListboxScrollStyle(NIndex) then
+            begin
+              Listbox.ScrollStyleVert:= TATListboxScrollStyle(NIndex);
+              Listbox.Invalidate;
+            end;
             Result:= ReturnNone;
           end;
 
