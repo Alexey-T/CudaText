@@ -74,6 +74,7 @@ type
   public
     Tree: TAppTreeView;
     ScrollStyleVert: TAppTreeScrollStyle;
+    ScrollStyleHorz: TAppTreeScrollStyle;
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     property ThemedColors: boolean read FThemedColors write FThemedColors;
@@ -112,6 +113,8 @@ begin
   FScrollbarHorz.OnChange:= @ScrollHorzChange;
 
   ScrollStyleVert:= TAppTreeScrollStyle.Auto;
+  ScrollStyleHorz:= TAppTreeScrollStyle.Auto;
+
   ThemedColors:= false;
   ScrollbarsNew:= false;
   UpdateScrollbars;
@@ -193,7 +196,7 @@ begin
         TAppTreeScrollStyle.Show:
           FScrollbarVert.Show;
         else
-          FScrollbarVert.Visible:= Tree.GetMaxScrollTop>0;
+          FScrollbarVert.Visible:= FScrollbarVert.Max>FScrollbarVert.PageSize;
       end;
     end;
 
@@ -208,6 +211,15 @@ begin
       else
         FScrollbarHorz.IndentCorner:= 0;
       FScrollbarHorz.Update;
+
+      case ScrollStyleHorz of
+        TAppTreeScrollStyle.Hide:
+          FScrollbarHorz.Hide;
+        TAppTreeScrollStyle.Show:
+          FScrollbarHorz.Show;
+        else
+          FScrollbarHorz.Visible:= FScrollbarHorz.Max>FScrollbarHorz.PageSize;
+      end;
     end;
   end;
 
