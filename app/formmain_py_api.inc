@@ -7128,12 +7128,12 @@ begin
 
         LISTBOX_GET_SCROLLSTYLE_HORZ:
           begin
-            Result:= PyBool_FromLong(Ord(Listbox.ScrollStyleHorz));
+            Result:= PyLong_FromLong(Ord(Listbox.ScrollStyleHorz));
           end;
 
         LISTBOX_GET_SCROLLSTYLE_VERT:
           begin
-            Result:= PyBool_FromLong(Ord(Listbox.ScrollStyleVert));
+            Result:= PyLong_FromLong(Ord(Listbox.ScrollStyleVert));
           end;
 
         LISTBOX_SET_SCROLLSTYLE_HORZ:
