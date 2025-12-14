@@ -2311,7 +2311,7 @@ Param "options" must be 0 or sum of the following flags:
 * CARET_OPTION_NO_SORT: Don't sort carets, after adding/setting/deleting multi-carets. It will improve the speed if plugin calls e.g. CARET_ADD for e.g. 10K carets.
 
 Notes:
-* After new carets appear, editor is not repainted automatically, plugin needs to call EDACTION_UPDATE for that.
+* After new carets appear, editor is not repainted automatically, plugin needs to call Editor.action(EDACTION_UPDATE, ...) for that.
 
 ==Text read/write==
 
