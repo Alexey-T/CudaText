@@ -872,7 +872,7 @@ type
       AAllowEventOnTabChange: boolean);
     procedure DoOnTabAdd(Sender: TObject);
     procedure DoOnTabClose(Sender: TObject; ATabIndex: Integer; var ACanClose, ACanContinue: boolean);
-    procedure DoOnTabMove(Sender: TObject; NFrom, NTo: Integer);
+    procedure DoOnTabMove(Sender: TObject; AIndexFrom, AIndexTo: Integer);
     procedure DoOnTabPopup(Sender: TObject; APages: TATPages; ATabIndex: integer);
     procedure DoOnTabDblClick(Sender: TObject; AIndex: integer);
     function DoOnTabGetTick(Sender: TObject; ATabObject: TObject): Int64;

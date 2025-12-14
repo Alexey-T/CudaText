@@ -706,10 +706,14 @@ begin
 end;
 *)
 
-procedure TfmMain.DoOnTabMove(Sender: TObject; NFrom, NTo: Integer);
+procedure TfmMain.DoOnTabMove(Sender: TObject; AIndexFrom, AIndexTo: Integer);
 begin
+  //tab added: don't fire event
+  if AIndexFrom=-1 then
+    exit;
+
   //tab closed: set flag
-  if NTo=-1 then
+  if AIndexTo=-1 then
     PyEditorMaybeDeleted:= true;
 
   DoPyEvent(CurrentEditor, TAppPyEvent.OnTabMove, []);
