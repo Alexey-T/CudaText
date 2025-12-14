@@ -8,6 +8,7 @@ Copyright (c) Alexey Torgashin
 unit proc_scrollbars;
 
 {$mode objfpc}{$H+}
+{$ScopedEnums on}
 
 interface
 
@@ -49,6 +50,13 @@ type
   end;
 
 type
+  TAppTreeScrollStyle = (
+    Hide,
+    Show,
+    Auto
+    );
+
+type
 
   { TAppTreeContainer }
 
@@ -65,6 +73,7 @@ type
     procedure UpdateScrollbars;
   public
     Tree: TAppTreeView;
+    ScrollStyleVert: TAppTreeScrollStyle;
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     property ThemedColors: boolean read FThemedColors write FThemedColors;
@@ -102,6 +111,7 @@ begin
   FScrollbarHorz.IndentCorner:= 100;
   FScrollbarHorz.OnChange:= @ScrollHorzChange;
 
+  ScrollStyleVert:= TAppTreeScrollStyle.Auto;
   ThemedColors:= false;
   ScrollbarsNew:= false;
   UpdateScrollbars;
@@ -167,22 +177,38 @@ var
 begin
   if Tree=nil then exit;
 
-  if Assigned(FScrollbarVert) and ScrollbarsNew then
+  if ScrollbarsNew then
   begin
-    FScrollbarVert.Min:= 0;
-    FScrollbarVert.PageSize:= Tree.Height;
-    FScrollbarVert.Max:= Tree.GetMaxScrollTop+FScrollbarVert.PageSize;
-    FScrollbarVert.Position:= Tree.ScrolledTop;
-    FScrollbarVert.Update;
-  end;
+    if Assigned(FScrollbarVert) then
+    begin
+      FScrollbarVert.Min:= 0;
+      FScrollbarVert.PageSize:= Tree.Height;
+      FScrollbarVert.Max:= Tree.GetMaxScrollTop+FScrollbarVert.PageSize;
+      FScrollbarVert.Position:= Tree.ScrolledTop;
+      FScrollbarVert.Update;
 
-  if Assigned(FScrollbarHorz) and ScrollbarsNew then
-  begin
-    FScrollbarHorz.Min:= 0;
-    FScrollbarHorz.PageSize:= Max(1, Tree.ClientWidth);
-    FScrollbarHorz.Max:= Max(1, Tree.GetMaxScrollLeft+FScrollbarHorz.PageSize);
-    FScrollbarHorz.Position:= Max(0, Tree.ScrolledLeft);
-    FScrollbarHorz.Update;
+      case ScrollStyleVert of
+        TAppTreeScrollStyle.Hide:
+          FScrollbarVert.Hide;
+        TAppTreeScrollStyle.Show:
+          FScrollbarVert.Show;
+        else
+          FScrollbarVert.Visible:= Tree.GetMaxScrollTop>0;
+      end;
+    end;
+
+    if Assigned(FScrollbarHorz) then
+    begin
+      FScrollbarHorz.Min:= 0;
+      FScrollbarHorz.PageSize:= Max(1, Tree.ClientWidth);
+      FScrollbarHorz.Max:= Max(1, Tree.GetMaxScrollLeft+FScrollbarHorz.PageSize);
+      FScrollbarHorz.Position:= Max(0, Tree.ScrolledLeft);
+      if Assigned(FScrollbarVert) and FScrollbarVert.Visible then
+        FScrollbarHorz.IndentCorner:= 100
+      else
+        FScrollbarHorz.IndentCorner:= 0;
+      FScrollbarHorz.Update;
+    end;
   end;
 
   if not ScrollbarsNew and Tree.HandleAllocated then
