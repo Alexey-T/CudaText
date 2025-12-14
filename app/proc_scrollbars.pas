@@ -70,7 +70,6 @@ type
     procedure ScrollVertChange(Sender: TObject);
     procedure SetScrollbarsNew(AValue: boolean);
     procedure TreeOnDeletion(Sender: TObject; Node: TTreeNode);
-    procedure UpdateScrollbars;
   public
     Tree: TAppTreeView;
     ScrollStyleVert: TAppTreeScrollStyle;
@@ -83,6 +82,7 @@ type
     property ScrollbarHorz: TATScrollbar read FScrollbarHorz;
     procedure SetFocus; override;
     procedure Invalidate; override;
+    procedure UpdateScrollbars;
   end;
 
 implementation

@@ -7692,8 +7692,9 @@ var
   Sep: TATStringSeparator;
   Obj: TObject;
   ObjData: TATRangeInCodeTree;
-  bStandardCodeTree: boolean;
   NPosX, NPosY, NCount: integer;
+  bStandardCodeTree: boolean;
+  ScrollStyle: TAppTreeScrollStyle;
   i: integer;
 begin
   with AppPython.Engine do
@@ -8073,6 +8074,46 @@ begin
             TreeContainer.ThemedColors:= true;
             TreeContainer.ScrollbarsNew:= UiOps.ScrollbarsNew;
             ApplyThemeToTreeview(TreeContainer.Tree, true, false);
+            Result:= ReturnNone;
+          end;
+
+        TREE_GET_SCROLLSTYLE_HORZ:
+          begin
+            Result:= PyLong_FromLong(Ord(TreeContainer.ScrollStyleHorz));
+          end;
+
+        TREE_GET_SCROLLSTYLE_VERT:
+          begin
+            Result:= PyLong_FromLong(Ord(TreeContainer.ScrollStyleVert));
+          end;
+
+        TREE_SET_SCROLLSTYLE_HORZ:
+          begin
+            i:= StrToIntDef(StrText, -1);
+            if (i>=0) and (i<=Ord(High(TAppTreeScrollStyle))) then
+            begin
+              ScrollStyle:= TAppTreeScrollStyle(i);
+              if TreeContainer.ScrollStyleHorz<>ScrollStyle then
+              begin
+                TreeContainer.ScrollStyleHorz:= ScrollStyle;
+                TreeContainer.UpdateScrollbars;
+              end;
+            end;
+            Result:= ReturnNone;
+          end;
+
+        TREE_SET_SCROLLSTYLE_VERT:
+          begin
+            i:= StrToIntDef(StrText, -1);
+            if (i>=0) and (i<=Ord(High(TAppTreeScrollStyle))) then
+            begin
+              ScrollStyle:= TAppTreeScrollStyle(i);
+              if TreeContainer.ScrollStyleVert<>ScrollStyle then
+              begin
+                TreeContainer.ScrollStyleVert:= ScrollStyle;
+                TreeContainer.UpdateScrollbars;
+              end;
+            end;
             Result:= ReturnNone;
           end;
 
