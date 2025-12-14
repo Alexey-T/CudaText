@@ -177,6 +177,7 @@ end;
 procedure TAppTreeContainer.UpdateScrollbars;
 var
   Info: TScrollInfo;
+  bShow: boolean;
 begin
   if Tree=nil then exit;
 
@@ -192,12 +193,13 @@ begin
 
       case ScrollStyleVert of
         TAppTreeScrollStyle.Hide:
-          FScrollbarVert.Hide;
+          bShow:= false;
         TAppTreeScrollStyle.Show:
-          FScrollbarVert.Show;
+          bShow:= true;
         else
-          FScrollbarVert.Visible:= FScrollbarVert.Max>FScrollbarVert.PageSize;
+          bShow:= FScrollbarVert.Max>FScrollbarVert.PageSize;
       end;
+      FScrollbarVert.Visible:= bShow;
     end;
 
     if Assigned(FScrollbarHorz) then
@@ -214,12 +216,13 @@ begin
 
       case ScrollStyleHorz of
         TAppTreeScrollStyle.Hide:
-          FScrollbarHorz.Hide;
+          bShow:= false;
         TAppTreeScrollStyle.Show:
-          FScrollbarHorz.Show;
+          bShow:= true;
         else
-          FScrollbarHorz.Visible:= FScrollbarHorz.Max>FScrollbarHorz.PageSize;
+          bShow:= FScrollbarHorz.Max>FScrollbarHorz.PageSize;
       end;
+      FScrollbarHorz.Visible:= bShow;
     end;
   end
   else
@@ -233,6 +236,16 @@ begin
     Info.nPos:= Tree.ScrolledTop;
     Info.fMask:= SIF_ALL;
     LCLIntf.SetScrollInfo(Tree.Handle, SB_VERT, Info, true);
+
+    case ScrollStyleHorz of
+      TAppTreeScrollStyle.Hide:
+        bShow:= false;
+      TAppTreeScrollStyle.Show:
+        bShow:= true;
+      else
+        bShow:= Info.nMax>Longint(Info.nPage);
+    end;
+    LCLIntf.ShowScrollBar(Tree.Handle, SB_VERT, bShow);
   end;
 end;
 
