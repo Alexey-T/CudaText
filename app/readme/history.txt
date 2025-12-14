@@ -5,6 +5,7 @@
 
 1.230.7 (2025/12)
 
++ add: Code-Tree / Project tree / plugins' treeviews: auto-hide vertical scrollbar, like in Sublime Text (idea by @katwalk)
 + add: lexer HMTL: improved list of 'known' tags (by @ildarkhasanshin)
 - fix: Qt5/Qt6: reverted 1.230.0 change "Qt5/Qt6 version better handles IME" because it gave regression (thanks @mix-7)
 - fix: Windows: window height was increasing by ~20 pixels on toggling full-screen mode (thanks @iconv)
