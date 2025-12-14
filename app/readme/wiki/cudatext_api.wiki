@@ -2308,7 +2308,10 @@ Param "options" must be 0 or sum of the following flags:
 
 * CARET_OPTION_NO_SCROLL: Don't scroll to new caret position. For id=CARET_SET_ONE.
 * CARET_OPTION_NO_EVENT: Don't fire event "caret position changed" (on_caret and internally in app code).
-* CARET_OPTION_NO_SORT: Don't sort carets, after adding/setting/deleting multi-carets.
+* CARET_OPTION_NO_SORT: Don't sort carets, after adding/setting/deleting multi-carets. It will improve the speed if plugin calls e.g. CARET_ADD for e.g. 10K carets.
+
+Notes:
+* After new carets appear, editor is not repainted automatically, plugin needs to call EDACTION_UPDATE for that.
 
 ==Text read/write==
 
