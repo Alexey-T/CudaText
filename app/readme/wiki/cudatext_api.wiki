@@ -2299,6 +2299,8 @@ Controls carets. Possible values of "id":
 * CARET_SET_ONE: Removes multi-carets and sets single caret to the given position (posx, posy, endx, endy). To place caret without selection, set both "endx", "endy" to -1.
 * CARET_ADD: Adds caret (multi-carets feature) with given position (posx, posy, endx, endy). Returns number of carets after that.
 * CARET_DELETE_ALL: Deletes all carets. Parameters "posx", "posy", "endx", "endy" are ignored here. Note: you must add caret(s) later, to enable text editing to user.
+* CARET_SORT: Sorts internal carets list. This is usually never needed, except when plugin uses param "options" with CARET_OPTION_NO_SORT.
+
 * CARET_SET_INDEX + N, where N is 0...1e6: Places single caret, with index N, to the given position (posx, posy, endx, endy).
 * CARET_DELETE_INDEX + N, where N is 0...1e6: Deletes single caret, with index N. Parameters "posx", "posy", "endx", "endy" are ignored here.
 
@@ -2306,6 +2308,7 @@ Param "options" must be 0 or sum of the following flags:
 
 * CARET_OPTION_NO_SCROLL: Don't scroll to new caret position. For id=CARET_SET_ONE.
 * CARET_OPTION_NO_EVENT: Don't fire event "caret position changed" (on_caret and internally in app code).
+* CARET_OPTION_NO_SORT: Don't sort carets, after adding/setting/deleting multi-carets.
 
 ==Text read/write==
 
@@ -5272,5 +5275,7 @@ It provides:
 * add: app_proc: PROC_EVENTS_SUB
 * add: app_proc: PROC_EVENTS_UNSUB
 * add: app_proc: PROC_EVENTS_ENUM
+* add: Editor.set_caret: CARET_OPTION_NO_SORT
+* add: Editor.set_caret: CARET_SORT
 
 [[Category:CudaText]]
