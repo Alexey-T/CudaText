@@ -6899,7 +6899,6 @@ var
   StrText, StrTag: string;
   Listbox: TATListbox;
   Obj: TObject;
-  ScrollStyle: TATListboxScrollStyle;
 begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'Liiss:listbox_proc', @IdList, @IdAction, @NIndex, @PtrText, @PtrTag)) then
@@ -7151,28 +7150,20 @@ begin
 
         LISTBOX_SET_SCROLLSTYLE_HORZ:
           begin
-            if (NIndex>=0) and (NIndex<=Ord(High(TATListboxScrollStyle))) then
+            if Listbox.ScrollStyleHorz<>TATListboxScrollStyle(NIndex) then
             begin
-              ScrollStyle:= TATListboxScrollStyle(NIndex);
-              if Listbox.ScrollStyleHorz<>ScrollStyle then
-              begin
-                Listbox.ScrollStyleHorz:= ScrollStyle;
-                Listbox.Invalidate;
-              end;
+              Listbox.ScrollStyleHorz:= TATListboxScrollStyle(NIndex);
+              Listbox.Invalidate;
             end;
             Result:= ReturnNone;
           end;
 
         LISTBOX_SET_SCROLLSTYLE_VERT:
           begin
-            if (NIndex>=0) and (NIndex<=Ord(High(TATListboxScrollStyle))) then
+            if Listbox.ScrollStyleVert<>TATListboxScrollStyle(NIndex) then
             begin
-              ScrollStyle:= TATListboxScrollStyle(NIndex);
-              if Listbox.ScrollStyleVert<>ScrollStyle then
-              begin
-                Listbox.ScrollStyleVert:= ScrollStyle;
-                Listbox.Invalidate;
-              end;
+              Listbox.ScrollStyleVert:= TATListboxScrollStyle(NIndex);
+              Listbox.Invalidate;
             end;
             Result:= ReturnNone;
           end;
