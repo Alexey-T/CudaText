@@ -7099,7 +7099,7 @@ begin
 
         LISTBOX_SET_COLUMN_SEP:
           begin
-            if (StrText<>'') and (Listbox.ColumnSeparator<>StrText[1]) then
+            if StrText<>'' then
             begin
               Listbox.ColumnSeparator:= StrText[1];
               Listbox.Invalidate;
