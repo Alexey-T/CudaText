@@ -102,7 +102,7 @@ procedure ApplyThemeToImageBox(AImageBox: TATImageBox);
 
 function ConvertTwoPointsToDiffPoint(APrevPnt, ANewPnt: TPoint): TPoint;
 function ConvertShiftStateToString(const Shift: TShiftState): string;
-function KeyboardStateToShiftState: TShiftState; //like VCL
+function ConvertKeyboardStateToShiftState: TShiftState; //like VCL
 function UpdateImagelistWithIconFromFile(AList: TCustomImagelist;
   const AFilename, ACallerAPI: string; AllowScaling: boolean=false): integer;
 function FormatFileDateAsNiceString(const AFilename: string): string;
@@ -261,7 +261,7 @@ begin
   end;
 end;
 
-function KeyboardStateToShiftState: TShiftState;
+function ConvertKeyboardStateToShiftState: TShiftState;
 begin
   Result:= [];
   if GetKeyState(VK_SHIFT) < 0 then Include(Result, ssShift);

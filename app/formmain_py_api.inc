@@ -5811,7 +5811,7 @@ begin
 
         APP_PROC_GET_KEYSTATE:
           begin
-            Str:= ConvertShiftStateToString(KeyboardStateToShiftState);
+            Str:= ConvertShiftStateToString(ConvertKeyboardStateToShiftState);
             Result:= PyUnicodeFromString(Str);
           end;
 

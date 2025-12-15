@@ -1226,7 +1226,7 @@ begin
 
   Data.Items[0].KeyName:= 'state';
   Data.Items[0].Typ:= TAppVariantItemTypeId.Str;
-  Data.Items[0].Str:= ConvertShiftStateToString(KeyboardStateToShiftState);
+  Data.Items[0].Str:= ConvertShiftStateToString(ConvertKeyboardStateToShiftState);
 
   Data.Items[1].KeyName:= 'line';
   Data.Items[1].Typ:= TAppVariantItemTypeId.Int;
@@ -1260,7 +1260,7 @@ begin
 
   Data.Items[0].KeyName:= 'state';
   Data.Items[0].Typ:= TAppVariantItemTypeId.Str;
-  Data.Items[0].Str:= ConvertShiftStateToString(KeyboardStateToShiftState);
+  Data.Items[0].Str:= ConvertShiftStateToString(ConvertKeyboardStateToShiftState);
 
   Data.Items[1].KeyName:= 'line';
   Data.Items[1].Typ:= TAppVariantItemTypeId.Int;
@@ -1289,7 +1289,7 @@ begin
   DoEvent(IdControl, Callback, Data);
     (*
     Format('{ "state": "%s", "line": %d, "tag": %d, "gap_w": %d, "gap_h": %d, "x": %d, "y": %d }', [
-        ConvertShiftStateToString(KeyboardStateToShiftState),
+        ConvertShiftStateToString(ConvertKeyboardStateToShiftState),
         AGapItem.LineIndex,
         AGapItem.Tag,
         AGapItem.Bitmap.Width,

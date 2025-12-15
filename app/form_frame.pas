@@ -770,7 +770,7 @@ var
 begin
   Ed:= Sender as TATSynEdit;
 
-  StateString:= ConvertShiftStateToString(KeyboardStateToShiftState);
+  StateString:= ConvertShiftStateToString(ConvertKeyboardStateToShiftState);
 
   CancelAutocompleteAutoshow;
   CloseFormAutoCompletion;
@@ -2198,7 +2198,7 @@ var
   StateString: string;
   Res: TAppPyEventResult;
 begin
-  StateString:= ConvertShiftStateToString(KeyboardStateToShiftState);
+  StateString:= ConvertShiftStateToString(ConvertKeyboardStateToShiftState);
   Res:= DoPyEvent(Sender as TATSynEdit, TAppPyEvent.OnClickDbl, [AppVariant(StateString)]);
   AHandled:= Res.Val=TAppPyEventValue.False;
 end;
@@ -2209,7 +2209,7 @@ var
   Res: TAppPyEventResult;
   bHandled: boolean;
 begin
-  StateString:= ConvertShiftStateToString(KeyboardStateToShiftState);
+  StateString:= ConvertShiftStateToString(ConvertKeyboardStateToShiftState);
   Res:= DoPyEvent(Sender as TATSynEdit, TAppPyEvent.OnClickLink,
     [
     AppVariant(StateString),
@@ -2267,7 +2267,7 @@ begin
 
   DoPyEvent(Ed, TAppPyEvent.OnClickGap,
     [
-    AppVariant(ConvertShiftStateToString(KeyboardStateToShiftState)),
+    AppVariant(ConvertShiftStateToString(ConvertKeyboardStateToShiftState)),
     AppVariant(AGapItem.LineIndex),
     AppVariant(AGapItem.Tag),
     AppVariant(W),
@@ -3693,7 +3693,7 @@ begin
 
   if DoPyEvent(Ed, TAppPyEvent.OnClickGutter,
     [
-    AppVariant(ConvertShiftStateToString(KeyboardStateToShiftState)),
+    AppVariant(ConvertShiftStateToString(ConvertKeyboardStateToShiftState)),
     AppVariant(ALine),
     AppVariant(ABand)
     ]).Val = TAppPyEventValue.False then
@@ -3863,7 +3863,7 @@ var
   Res: TAppPyEventResult;
 begin
   Ed:= Sender as TATSynEdit;
-  StateString:= ConvertShiftStateToString(KeyboardStateToShiftState);
+  StateString:= ConvertShiftStateToString(ConvertKeyboardStateToShiftState);
   Res:= DoPyEvent(Ed, TAppPyEvent.OnClickRight, [AppVariant(StateString)]);
   Handled:= Res.Val=TAppPyEventValue.False;
 end;
