@@ -825,8 +825,6 @@ procedure AppUpdateWatcherFrames(AMaxWorkTime: integer = 500);
 procedure AppStopListTimers;
 function AppFormatTimeInMilliseconds(const N: QWord): string;
 
-function IsColorDark(C: TColor): boolean;
-
 procedure AppApplyRendererTweaks(const s: string);
 procedure AppApplyScrollbarStyles(const s: string);
 procedure AppApplyUnprintedSymbolsScale(const s: string);
@@ -4132,22 +4130,6 @@ begin
   end;
 end;
 
-function IsColorDark(C: TColor): boolean;
-const
-  cMargin = $60;
-var
-  r, g, b: byte;
-begin
-  RedGreenBlue(C, r, g, b);
-  Result:= (r<=cMargin) and (g<=cMargin) and (b<=cMargin);
-end;
-
-{
-function IsSystemThemeDark: boolean;
-begin
-  Result:= IsColorDark(ColorToRGB(clWindow));
-end;
-}
 
 procedure AppStopListTimers;
 var

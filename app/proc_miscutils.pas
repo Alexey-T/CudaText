@@ -187,6 +187,8 @@ type
 function IsWin32DarkModeViaRegistry: Boolean;
 {$endif}
 
+function IsColorDark(C: TColor): boolean;
+
 
 implementation
 
@@ -1668,6 +1670,17 @@ begin
 
   F.Right:= F.Left+W;
   F.Bottom:= F.Top+H;
+end;
+
+
+function IsColorDark(C: TColor): boolean;
+const
+  cMargin = $60;
+var
+  r, g, b: byte;
+begin
+  RedGreenBlue(C, r, g, b);
+  Result:= (r<=cMargin) and (g<=cMargin) and (b<=cMargin);
 end;
 
 
