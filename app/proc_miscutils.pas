@@ -92,9 +92,9 @@ type
     PrevBro
     );
 
-procedure DoTreeviewJump(ATree: TTreeView; AMode: TAppTreeGoto);
-procedure DoTreeviewFoldLevel(ATree: TTreeView; ALevel: integer);
-procedure DoTreeviewCopy(Src, Dst: TTreeView);
+procedure AppTreeviewJump(ATree: TTreeView; AMode: TAppTreeGoto);
+procedure AppTreeviewFoldLevel(ATree: TTreeView; ALevel: integer);
+procedure AppTreeviewCopy(Src, Dst: TTreeView);
 
 procedure ApplyThemeToTreeview(C: TTreeview; AThemedColors, AChangeShowRoot: boolean);
 procedure ApplyThemeToToolbar(C: TATFlatToolbar);
@@ -217,7 +217,7 @@ begin
     List.Add(An.Formats[i].DisplayName);
 end;
 
-procedure DoTreeviewJump(ATree: TTreeView; AMode: TAppTreeGoto);
+procedure AppTreeviewJump(ATree: TTreeView; AMode: TAppTreeGoto);
 var
   tn, tn2: TTreeNode;
 begin
@@ -619,7 +619,7 @@ begin
   Result:= Items[V];
 end;
 
-procedure DoTreeviewFoldLevel(ATree: TTreeView; ALevel: integer);
+procedure AppTreeviewFoldLevel(ATree: TTreeView; ALevel: integer);
 var
   Node: TTreeNode;
   i: integer;
@@ -667,7 +667,7 @@ begin
 end;
 
 
-procedure DoTreeviewCopy(Src, Dst: TTreeView);
+procedure AppTreeviewCopy(Src, Dst: TTreeView);
 var
   SrcItem, DstItem: TTreeNode;
   R, R2: TATRangeInCodeTree;

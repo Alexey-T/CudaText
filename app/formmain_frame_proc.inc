@@ -145,7 +145,7 @@ begin
         bTreeCached:= true;
 
         DoPyEvent_AppState(APPSTATE_CODETREE_BEFORE_FILL);
-        DoTreeviewCopy(CachedTreeview, CodeTree.Tree);
+        AppTreeviewCopy(CachedTreeview, CodeTree.Tree);
         CodeTree.Tree.SortType:= F.CodetreeSortType;
         if CodeTree.Tree.SortType<>stNone then
           CodeTree.Tree.AlphaSort;

@@ -151,7 +151,7 @@ begin
       begin
         CachedTreeview:= F.CachedTreeView[AppCodetreeState.Editor];
         if Assigned(CachedTreeview) then
-          DoTreeviewCopy(CodeTree.Tree, CachedTreeview);
+          AppTreeviewCopy(CodeTree.Tree, CachedTreeview);
         Break;
       end;
     end;

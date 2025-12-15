@@ -1322,7 +1322,7 @@ begin
     {
     //2025.05: not needed anymore, we copy tree to CachedTreeview in TfmMain.DoOnTabFocus
     if CodeTree.Tree.Items.Count>0 then
-      DoTreeviewCopy(CodeTree.Tree, Frame.CachedTreeview[Ed]);
+      AppTreeviewCopy(CodeTree.Tree, Frame.CachedTreeview[Ed]);
       }
 
     //Lazarus doesn't sort new items

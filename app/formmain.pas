@@ -7491,42 +7491,42 @@ end;
 
 procedure TfmMain.mnuTreeFold2Click(Sender: TObject);
 begin
-  DoTreeviewFoldLevel(CodeTree.Tree, 2);
+  AppTreeviewFoldLevel(CodeTree.Tree, 2);
 end;
 
 procedure TfmMain.mnuTreeFold3Click(Sender: TObject);
 begin
-  DoTreeviewFoldLevel(CodeTree.Tree, 3);
+  AppTreeviewFoldLevel(CodeTree.Tree, 3);
 end;
 
 procedure TfmMain.mnuTreeFold4Click(Sender: TObject);
 begin
-  DoTreeviewFoldLevel(CodeTree.Tree, 4);
+  AppTreeviewFoldLevel(CodeTree.Tree, 4);
 end;
 
 procedure TfmMain.mnuTreeFold5Click(Sender: TObject);
 begin
-  DoTreeviewFoldLevel(CodeTree.Tree, 5);
+  AppTreeviewFoldLevel(CodeTree.Tree, 5);
 end;
 
 procedure TfmMain.mnuTreeFold6Click(Sender: TObject);
 begin
-  DoTreeviewFoldLevel(CodeTree.Tree, 6);
+  AppTreeviewFoldLevel(CodeTree.Tree, 6);
 end;
 
 procedure TfmMain.mnuTreeFold7Click(Sender: TObject);
 begin
-  DoTreeviewFoldLevel(CodeTree.Tree, 7);
+  AppTreeviewFoldLevel(CodeTree.Tree, 7);
 end;
 
 procedure TfmMain.mnuTreeFold8Click(Sender: TObject);
 begin
-  DoTreeviewFoldLevel(CodeTree.Tree, 8);
+  AppTreeviewFoldLevel(CodeTree.Tree, 8);
 end;
 
 procedure TfmMain.mnuTreeFold9Click(Sender: TObject);
 begin
-  DoTreeviewFoldLevel(CodeTree.Tree, 9);
+  AppTreeviewFoldLevel(CodeTree.Tree, 9);
 end;
 
 procedure TfmMain.mnuTreeFoldAllClick(Sender: TObject);

@@ -7926,7 +7926,7 @@ begin
 
         TREE_ITEM_FOLD_LEVEL:
           begin
-            DoTreeviewFoldLevel(TreeContainer.Tree, NIndex);
+            AppTreeviewFoldLevel(TreeContainer.Tree, NIndex);
             Result:= ReturnNone;
           end;
 
