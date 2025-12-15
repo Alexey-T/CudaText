@@ -394,7 +394,7 @@ begin
     F.UpdateFrame(AUpdatedText);
 end;
 
-procedure TfmMain.UpdateInputForm(Form: TForm; AndHeight: boolean=true);
+procedure TfmMain.UpdateFormPos(Form: TForm; AndHeight: boolean=true);
 var
   Ed: TATSynEdit;
   P: TPoint;

@@ -1191,7 +1191,7 @@ type
     procedure UpdateCaption_RealWork;
     procedure UpdateCaption_FloatingGroup(AFloatingIndex: integer; AForm: TForm; AGroups: TATGroups);
     procedure UpdateEnabledAll(b: boolean);
-    procedure UpdateInputForm(Form: TForm; AndHeight: boolean=true);
+    procedure UpdateFormPos(Form: TForm; AndHeight: boolean=true);
     procedure UpdateFrameEx(F: TEditorFrame; AUpdatedText: boolean);
     procedure UpdateCurrentFrame(AUpdatedText: boolean= false);
     procedure UpdateAppForSearch(AStart, AEdLock, AFindMode, AUpdateEnableAll, AFocusFindDlg: boolean);
@@ -5576,7 +5576,7 @@ begin
     if AProps.H>0 then
       Form.Height:= AProps.H;
 
-    UpdateInputForm(Form);
+    UpdateFormPos(Form);
 
     Form.ShowModal;
 
@@ -5610,7 +5610,7 @@ begin
 
   fmGoto.IsDoubleBuffered:= UiOps.DoubleBuffered;
   fmGoto.Width:= ATEditorScale(UiOps.ListboxSizeX);
-  UpdateInputForm(fmGoto, false);
+  UpdateFormPos(fmGoto, false);
 
   fmGoto.edInput.Text:= Frame.GotoInput;
   fmGoto.edInput.DoSelect_All;
@@ -5635,7 +5635,7 @@ begin
   if AItems.Count=0 then exit;
   Form:= TfmMenuList.Create(Self);
   try
-    UpdateInputForm(Form);
+    UpdateFormPos(Form);
     Form.Caption:= ACaption;
     Form.Items:= AItems;
     Form.CloseOnCtrlRelease:= ACloseOnCtrlRelease;
@@ -5816,7 +5816,7 @@ begin
       for i:= 0 to ListItems.Count-1 do
         Form.listItems.Add(ListItems[i]);
 
-      UpdateInputForm(Form);
+      UpdateFormPos(Form);
 
       Form.ListCaption:= MenuCaption;
       Form.Multiline:= false;
@@ -7670,7 +7670,7 @@ begin
     if AProps.H>0 then
       Form.Height:= Min(AProps.H, DeskRect.Height);
 
-    UpdateInputForm(Form);
+    UpdateFormPos(Form);
 
     if not AProps.NoKeepFilter then
     begin
