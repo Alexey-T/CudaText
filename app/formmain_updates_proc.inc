@@ -419,10 +419,10 @@ begin
     Form.Top:= P.Y;
   end;
 
-  FixFormPositionToDesktop(Form);
-
   if AndHeight then
     Form.Height:= ATEditorScale(UiOps.ListboxSizeY);
+
+  FixFormPositionToDesktop(Form);
 end;
 
 
