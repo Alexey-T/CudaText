@@ -2308,7 +2308,7 @@ Controls carets. Possible values of "id":
 
 * CARET_SORT: Sorts internal carets list (avoids overlapping selections, avoids duplicate carets). All parameters except "id" and "options" are ignored here, you can call the action like <code>set_caret(0, 0, id=CARET_SORT)</code>.
 ** Action is usually not needed, because editor calls it internally on each caret/selection change. Except when plugin does caret adding/setting with param "options" with CARET_OPTION_NO_SORT.
-** Even with option CARET_OPTION_NO_SORT, action is not needed if plugin adds already sorted carets, without overlapping selections. Example of overlapping selections, 4-tuples (pos_x, pos_y, end_x, end_y): (0, 1, 0, 10) and (0, 20, 0, 5).
+** Even with option CARET_OPTION_NO_SORT, action is not needed if plugin calls CARET_DELETE_ALL and then adds already sorted carets, without overlapping selections. Example of overlapping selections, 4-tuples (pos_x, pos_y, end_x, end_y): (0, 1, 0, 10) and (0, 20, 0, 5).
 
 * CARET_SET_INDEX + N, where N is 0...1e6: Places single caret, with index N, to the given position (posx, posy, endx, endy).
 * CARET_DELETE_INDEX + N, where N is 0...1e6: Deletes single caret, with index N. Parameters "posx", "posy", "endx", "endy" are ignored here.
