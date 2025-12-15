@@ -10146,7 +10146,7 @@ begin
   if Grp=nil then exit;
   if Grp.GetTabTotalCount<=0 then exit;
 
-  DoFormFocus(Form, true);
+  FormDoFocus(Form, true);
 end;
 
 
