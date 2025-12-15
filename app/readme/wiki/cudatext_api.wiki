@@ -2583,6 +2583,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_LEXER_FILE: str: name of lexer for entire document (empty str if none is active).
 * PROP_LEXER_POS: str: name of lexer at specified position. Param "value" must be 2-tuple (column, line) with 0-based indexes.
 * PROP_LEXER_CARET: str: name of lexer at the position of 1st caret.
+* PROP_LEXER_BUSY: bool: it is True when non-lite lexer is used, and currently lexer parsing is running, which is not yet finished.
 * PROP_INDEX_GROUP: int: index of group with editor's tab, 0-based. Value 0..5: 6 fixed groups, value 6..8: 3 floating groups. 
 * PROP_INDEX_TAB: int: index of editor's tab in group, 0-based.
 * PROP_UNPRINTED_SHOW: bool: unprinted chars: global enable-flag.
@@ -5294,5 +5295,6 @@ It provides:
 * add: tree_proc: TREE_SET_SCROLLSTYLE_HORZ
 * add: tree_proc: TREE_GET_SCROLLSTYLE_VERT
 * add: tree_proc: TREE_SET_SCROLLSTYLE_VERT
+* add: Editor.get_prop: PROP_LEXER_BUSY
 
 [[Category:CudaText]]
