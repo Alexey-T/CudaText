@@ -5,6 +5,7 @@
 
 1.231.0 (2025/12)
 
++ add: big optimization of multi-carets single-line editing, e.g. typing of chars with 20K carets is now _lot_ faster (thanks @badrelmers)
 + add: new API to better subscribe/unsubscribe to/from events, it improves work with Sync_Editing plugin (thanks @badrelmers)
 + add: new API to control treeview scrollbars' show-style: hide / show / auto-hide
 + add: Cmd Palette / Snippet Panel / Tabs List / plugins' listboxes: auto-hide vertical scrollbar; Code-Tree / Project Manager / plugins' treeviews: auto-hide both scrollbars (idea by @katwalk)
