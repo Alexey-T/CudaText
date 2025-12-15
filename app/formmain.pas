@@ -4024,7 +4024,7 @@ procedure TfmMain.FormShow(Sender: TObject);
         {$ifdef windows}
         IsWin32DarkModeViaRegistry;
         {$else}
-        IsColorDark(ColorToRGB(clWindow));
+        AppIsColorDark(ColorToRGB(clWindow));
         {$endif}
     FDarkPrev:= FDarkNow;
     FDarkCheckTick:= GetTickCount64;
@@ -6955,10 +6955,12 @@ begin
     FOrigWndState:= WindowState;
     FOrigBounds:= BoundsRect;
 
+    {$ifdef windows}
     //workaround for issue #5607: could not restore ok FOrigBounds
     NOffset1:= Windows.GetSystemMetrics(SM_CYCAPTION);
     NOffset2:= Windows.GetSystemMetrics(SM_CYDLGFRAME);
     Dec(FOrigBounds.Bottom, NOffset1-NOffset2);
+    {$endif}
 
     BorderStyle:= bsNone;
     BoundsRect:= Monitor.BoundsRect;
