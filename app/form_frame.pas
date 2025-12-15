@@ -4212,7 +4212,7 @@ begin
       FileSetAttr(dir, faHidden{%H-});
       {$endif}
     end;
-    DoWriteStringToFile(fn, s);
+    AppWriteStringToFile(fn, s);
   end
   else
   begin
@@ -4540,11 +4540,11 @@ begin
   begin
     STemp:= AppFile_UndoRedo(SFileName, false);
     if FileExists(STemp) then
-      Ed.UndoAsString:= DoReadContentFromFile(STemp);
+      Ed.UndoAsString:= AppReadContentFromFile(STemp);
 
     STemp:= AppFile_UndoRedo(SFileName, true);
     if FileExists(STemp) then
-      Ed.RedoAsString:= DoReadContentFromFile(STemp);
+      Ed.RedoAsString:= AppReadContentFromFile(STemp);
   end;
 end;
 

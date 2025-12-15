@@ -37,6 +37,10 @@ procedure AppFileCheckForNullBytes(const fn: string);
 procedure AppMakeBackupFiles(const AFilename, AExtension: string; ACount: integer);
 procedure AppFindFilesByMask(List: TStringList; AMask: string);
 procedure AppOpenDocument(const fn: string);
+function AppReadContentFromFile(const AFilename: string): string;
+procedure AppWriteStringToFile(const AFilename, AText: string);
+function AppValidateJson(const AText: string): boolean;
+
 
 type
   { TAppFileProps }
@@ -61,6 +65,7 @@ uses
   LCLIntf, LCLType,
   FileUtil, LazFileUtils,
   ATStrings,
+  appjsonconfig,
   proc_globdata,
   proc_msg,
   win32linkfiles;
@@ -595,6 +600,68 @@ begin
   OpenDocument(fn);
   SetCurrentDirUTF8(OldDir);
 end;
+
+
+function AppReadContentFromFile(const AFilename: string): string;
+var
+  L: TStringList;
+begin
+  Result:= '';
+  if not FileExists(AFilename) then exit;
+
+  L:= TStringList.Create;
+  try
+    L.LoadFromFile(AFilename);
+    L.TextLineBreakStyle:= tlbsLF;
+    if L.Count>0 then
+      Result:= L.Text;
+  finally
+    FreeAndNil(L);
+  end;
+end;
+
+procedure AppWriteStringToFile(const AFilename, AText: string);
+var
+  f: TextFile;
+begin
+  Assign(f, AFilename);
+  Rewrite(f);
+  if IOResult=0 then
+  begin
+    Write(f, AText);
+    CloseFile(f);
+  end;
+end;
+
+
+function AppValidateJson(const AText: string): boolean;
+var
+  fn: string;
+  cfg: TAppJsonConfig;
+begin
+  fn:= GetTempDir(false)+'cudatext_validation.json';
+  if FileExists(fn) then
+    DeleteFile(fn);
+  AppWriteStringToFile(fn, AText);
+
+  cfg:= TAppJsonConfig.Create(nil);
+  try
+    try
+      cfg.Filename:= fn;
+      Result:= true;
+    except
+      on E: Exception do
+      begin
+        MsgBox('Incorrect JSON:'#10+E.Message, MB_OK+MB_ICONERROR);
+        Result:= false;
+      end;
+    end;
+  finally
+    FreeAndNil(cfg);
+    DeleteFile(fn);
+  end;
+end;
+
 
 end.
 

@@ -876,9 +876,6 @@ type
     class procedure UpdateKeymapInEditor(Ed: TATSynEdit);
   end;
 
-function DoReadContentFromFile(const AFilename: string): string;
-procedure DoWriteStringToFile(const AFilename, AText: string);
-
 function AppCollapseAppDirInFilename(const fn: string): string;
 function AppExpandAppDirInFilename(const fn: string): string;
 function AppCollapseHomeDirInFilename(const fn: string): string;
@@ -2499,37 +2496,6 @@ begin
   begin
     if not Eof(f) then
       Readln(f, Result);
-    CloseFile(f);
-  end;
-end;
-
-function DoReadContentFromFile(const AFilename: string): string;
-var
-  L: TStringList;
-begin
-  Result:= '';
-  if not FileExists(AFilename) then exit;
-
-  L:= TStringList.Create;
-  try
-    L.LoadFromFile(AFilename);
-    L.TextLineBreakStyle:= tlbsLF;
-    if L.Count>0 then
-      Result:= L.Text;
-  finally
-    FreeAndNil(L);
-  end;
-end;
-
-procedure DoWriteStringToFile(const AFilename, AText: string);
-var
-  f: TextFile;
-begin
-  Assign(f, AFilename);
-  Rewrite(f);
-  if IOResult=0 then
-  begin
-    Write(f, AText);
     CloseFile(f);
   end;
 end;
