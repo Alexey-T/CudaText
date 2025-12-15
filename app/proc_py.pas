@@ -15,6 +15,7 @@ uses
   SysUtils, Classes,
   StrUtils,
   PythonEngine,
+  proc_str,
   proc_globdata,
   proc_appvariant,
   fgl;
@@ -186,7 +187,7 @@ var
   tick: QWord;
   SModule: string;
 begin
-  Result:= AppFormatTimeInMilliseconds((EventTime+5) div 10 * 10);
+  Result:= ConvertMillisecondsToNiceString((EventTime+5) div 10 * 10);
   Result+= ' (';
   for i:= 0 to EventTimes.Count-1 do
   begin
@@ -198,7 +199,7 @@ begin
       Delete(SModule, 1, Length(cKnownPrefix));
     Result+=
       SModule+' '+
-      AppFormatTimeInMilliseconds(tick);
+      ConvertMillisecondsToNiceString(tick);
   end;
   Result+= ')';
 end;

@@ -502,7 +502,7 @@ begin
   UpdateMenuTheming_MainMenu_Win32(Self);
 
   //tick:= GetTickCount64-tick;
-  //MsgLogConsole('UpdateMenuPlugins: '+AppFormatTimeInMilliseconds(tick))
+  //MsgLogConsole('UpdateMenuPlugins: '+ConvertMillisecondsToNiceString(tick))
 end;
 
 procedure TfmMain.UpdateMenuPlugins_Shortcuts(AForceUpdate: boolean = false);

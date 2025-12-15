@@ -67,6 +67,7 @@ function SEscapeRegexSpecialChars(const S: Unicodestring): Unicodestring;
 function SEscapeRegexSpecialChars(const S: string): string;
 
 function SSimpleHash(const S: string): integer;
+function ConvertMillisecondsToNiceString(const N: QWord): string;
 
 implementation
 
@@ -591,6 +592,15 @@ begin
   Result:= R;
 end;
 {$pop}
+
+
+function ConvertMillisecondsToNiceString(const N: QWord): string;
+begin
+  if N>=1000 then
+    Result:= IntToStr(N div 1000)+'s'+IntToStr(N mod 1000)+'ms'
+  else
+    Result:= IntToStr(N)+'ms';
+end;
 
 
 {

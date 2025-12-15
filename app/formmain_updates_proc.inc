@@ -1316,7 +1316,7 @@ begin
           @MsgLogConsoleOnDuplicateTreeNode
           );
         //Tick:= GetTickCount64-Tick;
-        //MsgLogConsole('Tree filling: '+AppFormatTimeInMilliseconds(Tick));
+        //MsgLogConsole('Tree filling: '+ConvertMillisecondsToNiceString(Tick));
       end;
 
     {

@@ -3955,7 +3955,7 @@ procedure TfmMain.FormShow(Sender: TObject);
     NTick:= GetTickCount64;
     MsgLogConsole(Format(
       'Startup: %s, plugins: %s', [
-      AppFormatTimeInMilliseconds((NTick-AppTickInitial) div 10 * 10),
+      ConvertMillisecondsToNiceString((NTick-AppTickInitial) div 10 * 10),
       AppPython.GetTimingReport
       ]));
 
@@ -3965,7 +3965,7 @@ procedure TfmMain.FormShow(Sender: TObject);
         AppPanels[cPaneSide].ToolbarUpdateCount +
         AppPanels[cPaneOut].ToolbarUpdateCount
         )+' times, '+
-      AppFormatTimeInMilliseconds(
+      ConvertMillisecondsToNiceString(
         AppPanels[cPaneSide].ToolbarUpdateTime +
         AppPanels[cPaneOut].ToolbarUpdateTime
         ));
@@ -4014,7 +4014,7 @@ procedure TfmMain.FormShow(Sender: TObject);
     UpdateMenuItem_SetShortcutsRecursively(MainMenu.Items, 2);
 
     //tick:= GetTickCount64-tick;
-    //MsgLogConsole('Init top menu shortcuts: '+AppFormatTimeInMilliseconds(tick));
+    //MsgLogConsole('Init top menu shortcuts: '+ConvertMillisecondsToNiceString(tick));
   end;
   //
   procedure _Init_DarkModeVars;
