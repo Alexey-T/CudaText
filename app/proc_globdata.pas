@@ -876,7 +876,6 @@ type
     class procedure UpdateKeymapInEditor(Ed: TATSynEdit);
   end;
 
-function DoReadOneStringFromFile(const AFilename: string): string;
 function DoReadContentFromFile(const AFilename: string): string;
 procedure DoWriteStringToFile(const AFilename, AText: string);
 

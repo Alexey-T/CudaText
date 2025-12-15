@@ -1004,7 +1004,7 @@ begin
   if S<>'' then
   begin
     RectSetFromString(R, S, false, ADesktopRect);
-    FixRectPositionToDesktop(R, ADesktopRect);
+    RectFixToDesktop(R, ADesktopRect);
   end;
 end;
 

@@ -1451,7 +1451,7 @@ begin
   UpdateFormHeight;
   UpdateInputFieldsProps;
   if (Parent=nil) and (Align=alNone) then
-    FixFormPositionToDesktop(Self);
+    FormFixPosToDesktop(Self);
   OnResize(Self);
 
   if Assigned(FOnChangeVisible) then
