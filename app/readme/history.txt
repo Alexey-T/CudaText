@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.230.7 (2025/12)
+1.231.0 (2025/12)
 
 + add: new API to better subscribe/unsubscribe to/from events, it improves work with Sync_Editing plugin (thanks @badrelmers)
 + add: new API to control treeview scrollbars' show-style: hide / show / auto-hide
@@ -15,6 +15,7 @@
 - fix: on deleting multi-selections, editor scrolled to 1st caret: that was wrong (thanks @badrelmers)
 - fix: on drag-and-drop, ui-tab's 'dirty' mark was not set (thanks @badrelmers)
 - fix: event on_tab_move fired also on adding a new tab, so Tabs_List reacted 2 times to adding a new tab
+- fix: if main window is not-maximized and near the bottom edge, Command Palette window was partially out of screen bottom
 
 1.230.5 (2025/12)
 
