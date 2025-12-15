@@ -3392,7 +3392,7 @@ var
   DesktopR: TRect;
   W, H: integer;
 begin
-  if Assigned(F.Parent) then exit;
+  if Assigned(F.Parent) and (F.Align<>alNone) then exit;
   DesktopR:= Screen.WorkAreaRect;
   W:= F.Width;
   H:= F.Height;
