@@ -5546,7 +5546,6 @@ begin
   Result:= 0;
   Form:= TfmCommands.Create(Self);
   try
-    UpdateInputForm(Form);
     Form.OptShowUsual:= AProps.ShowUsual;
     Form.OptShowPlugins:= AProps.ShowPlugins;
     Form.OptShowLexers:= AProps.ShowLexers;
@@ -5576,6 +5575,8 @@ begin
       Form.Width:= AProps.W;
     if AProps.H>0 then
       Form.Height:= AProps.H;
+
+    UpdateInputForm(Form);
 
     Form.ShowModal;
 
@@ -7651,7 +7652,6 @@ begin
       Form.listItems.Add(SItem);
     until false;
 
-    UpdateInputForm(Form);
     if AProps.ShowCentered then
       Form.Position:= poScreenCenter;
 
@@ -7669,6 +7669,8 @@ begin
       Form.Width:= Min(AProps.W, DeskRect.Width);
     if AProps.H>0 then
       Form.Height:= Min(AProps.H, DeskRect.Height);
+
+    UpdateInputForm(Form);
 
     if not AProps.NoKeepFilter then
     begin
