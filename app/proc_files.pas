@@ -507,7 +507,7 @@ begin
   FindAllFiles(List, Dir, AMask, false{SubDirs});
 end;
 
-function RemoveWindowsStreamSuffix(const fn: string): string;
+function AppRemoveWindowsStreamSuffix(const fn: string): string;
 {$ifdef windows}
 var
   PosSlash, PosColon: integer;
@@ -545,7 +545,7 @@ var
   ModifiedTime: TFileTime;
   SystemTime: TSystemTime;
 begin
-  fname:= RemoveWindowsStreamSuffix(FileName);
+  fname:= AppRemoveWindowsStreamSuffix(FileName);
   Inited:= true;
   Exists:= FileExists(fname);
   Size:= 0;
