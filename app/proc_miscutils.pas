@@ -62,11 +62,13 @@ procedure FormHistorySave(F: TForm; const AConfigPath: string; AWithPos: boolean
 procedure FormHistoryLoad(F: TForm; const AConfigPath: string; AWithPos: boolean; const ADesktopRect: TRect);
 
 procedure FormPutToVisibleArea(F: TForm);
+procedure FormDoFocus(F: TForm; AllowShow: boolean);
 
 function Canvas_TextMultilineExtent(C: TCanvas; const AText: string): TPoint;
 function Canvas_NumberToFontStyles(Num: integer): TFontStyles;
 procedure Canvas_PaintPolygonFromSting(C: TCanvas; const AText: string);
 procedure Canvas_PaintImageInRect(C: TCanvas; APic: TGraphic; const ARect: TRect);
+
 function DoPictureLoadFromFile(const AFilename: string): TGraphic;
 function DoClipboardSavePictureToFile(const fn: string): boolean;
 function DoClipboardFormatsAsString: string;
@@ -120,11 +122,10 @@ procedure ApplyThemeToViewer(V: TATBinHex);
 function ExtractFileName_Fixed(const FileName: string): string;
 function ExtractFileDir_Fixed(const FileName: string): string;
 
-procedure DoPaintCheckers(C: TCanvas;
+procedure Canvas_PaintCheckers(C: TCanvas;
   ASizeX, ASizeY: integer;
   ACellSize: integer;
   AColor1, AColor2: TColor);
-procedure FormDoFocus(F: TForm; AllowShow: boolean);
 
 procedure Menu_Copy(ASrc, ADest: TMenu);
 function Menu_GetIndexToInsert(AMenu: TMenuItem; ACaption: string): integer;
@@ -790,7 +791,7 @@ begin
   end;
 end;
 
-procedure DoPaintCheckers(C: TCanvas;
+procedure Canvas_PaintCheckers(C: TCanvas;
   ASizeX, ASizeY: integer;
   ACellSize: integer;
   AColor1, AColor2: TColor);
