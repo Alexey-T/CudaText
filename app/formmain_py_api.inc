@@ -5391,12 +5391,12 @@ begin
 
         APP_PROC_CLIP_ENUM:
           begin
-            Result:= PyUnicodeFromString(DoClipboardFormatsAsString);
+            Result:= PyUnicodeFromString(AppClipboardFormatsAsString);
           end;
 
         APP_PROC_CLIP_SAVE_PIC:
           begin
-            ok:= DoClipboardSavePictureToFile(Str);
+            ok:= AppClipboardSavePictureToFile(Str);
             Result:= PyBool_FromLong(Ord(ok));
           end;
 
@@ -8517,7 +8517,7 @@ begin
 
         APP_IMAGE_LOAD:
           begin
-            Gr:= DoPictureLoadFromFile(StrValue);
+            Gr:= AppLoadPictureFromFile(StrValue);
             try
               Image.Picture.Assign(Gr);
               Result:= PyBool_FromLong(Ord(Assigned(Gr)));

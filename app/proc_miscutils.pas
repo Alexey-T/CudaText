@@ -69,9 +69,9 @@ function Canvas_NumberToFontStyles(Num: integer): TFontStyles;
 procedure Canvas_PaintPolygonFromSting(C: TCanvas; const AText: string);
 procedure Canvas_PaintImageInRect(C: TCanvas; APic: TGraphic; const ARect: TRect);
 
-function DoPictureLoadFromFile(const AFilename: string): TGraphic;
-function DoClipboardSavePictureToFile(const fn: string): boolean;
-function DoClipboardFormatsAsString: string;
+function AppLoadPictureFromFile(const AFilename: string): TGraphic;
+function AppClipboardSavePictureToFile(const fn: string): boolean;
+function AppClipboardFormatsAsString: string;
 
 procedure AppScalePanelControls(APanel: TWinControl);
 procedure AppScaleSplitter(C: TSplitter);
@@ -389,7 +389,7 @@ begin
 end;
 
 
-function DoPictureLoadFromFile(const AFilename: string): TGraphic;
+function AppLoadPictureFromFile(const AFilename: string): TGraphic;
 var
   ext: string;
   ImageEx: TBGRABitmap;
@@ -439,7 +439,7 @@ begin
 end;
 
 
-function DoClipboardSavePictureToFile(const fn: string): boolean;
+function AppClipboardSavePictureToFile(const fn: string): boolean;
 begin
   if Clipboard.HasPictureFormat then
   begin
@@ -571,7 +571,7 @@ begin
   C.Invalidate;
 end;
 
-function DoClipboardFormatsAsString: string;
+function AppClipboardFormatsAsString: string;
 begin
   Result:= '';
   if Clipboard.HasFormat(CF_Text) then
