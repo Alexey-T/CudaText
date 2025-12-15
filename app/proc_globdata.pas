@@ -3401,18 +3401,14 @@ begin
 end;
 
 procedure FixRectPositionToDesktop(var F: TRect; const DesktopR: TRect);
-const
-  cReservePixels = 200;
 var
   W, H: integer;
 begin
   W:= F.Width;
   H:= F.Height;
 
-  F.Left:= Max(F.Left, DesktopR.Left);
-  F.Left:= Min(F.Left, DesktopR.Right-W);
-  F.Top:= Max(F.Top, DesktopR.Top);
-  F.Top:= Min(F.Top, DesktopR.Bottom-cReservePixels);
+  F.Left:= Max(DesktopR.Left, Min(F.Left, DesktopR.Right-W));
+  F.Top:= Max(DesktopR.Top, Min(F.Top, DesktopR.Bottom-H));
 
   F.Right:= F.Left+W;
   F.Bottom:= F.Top+H;
