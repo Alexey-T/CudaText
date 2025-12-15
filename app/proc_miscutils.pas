@@ -277,17 +277,20 @@ begin
 end;
 
 function ConvertShiftStateToString(const Shift: TShiftState): string;
+var
+  Buf: string[10];
 begin
-  Result:= '';
-  if ssShift in Shift then Result+= 's';
-  if ssCtrl in Shift then Result+= 'c';
-  if ssAlt in Shift then Result+= 'a';
-  if ssMeta in Shift then Result+= 'm';
-  if ssLeft in Shift then Result+= 'L';
-  if ssRight in Shift then Result+= 'R';
-  if ssMiddle in Shift then Result+= 'M';
-  if ssExtra1 in Shift then Result+= '4';
-  if ssExtra2 in Shift then Result+= '5';
+  Buf:= '';
+  if ssShift in Shift then Buf+= 's';
+  if ssCtrl in Shift then Buf+= 'c';
+  if ssAlt in Shift then Buf+= 'a';
+  if ssMeta in Shift then Buf+= 'm';
+  if ssLeft in Shift then Buf+= 'L';
+  if ssRight in Shift then Buf+= 'R';
+  if ssMiddle in Shift then Buf+= 'M';
+  if ssExtra1 in Shift then Buf+= '4';
+  if ssExtra2 in Shift then Buf+= '5';
+  Result:= Buf;
 end;
 
 
