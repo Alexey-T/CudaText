@@ -563,19 +563,23 @@ begin
 end;
 
 function AppClipboardFormatsAsString: string;
+var
+  Buf: string[6];
 begin
-  Result:= '';
+  Buf:= '';
   if Clipboard.HasFormat(CF_Text) then
-    Result+= 't';
+    Buf+= 't';
   if Clipboard.HasFormat(CF_HTML) then
-    Result+= 'h';
+    Buf+= 'h';
   if Clipboard.HasPictureFormat then
-    Result+= 'p';
+    Buf+= 'p';
 
   if Clipboard.HasFormat(ATEditorOptions.ClipboardColumnFormat) then
-    Result+= 'c';
+    Buf+= 'c';
   if Clipboard.HasFormat(ATEditorOptions.ClipboardExFormat) then
-    Result+= 'x';
+    Buf+= 'x';
+
+  Result:= Buf;
 end;
 
 procedure AppScalePanelControls(APanel: TWinControl);
