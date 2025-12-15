@@ -425,7 +425,7 @@ begin
         begin
           cfg.SetValue(sJsonPath+'/text', Frame.Ed1.Text);
           if (not bUntitled) and FileExists(sTabFilename) then
-            cfg.SetValue(sJsonPath+'/file_date', FormatFileDateAsNiceString(sTabFilename));
+            cfg.SetValue(sJsonPath+'/file_date', ConvertFileDateToNiceString(sTabFilename));
           Frame.VersionInSession:= Frame.Ed1.Strings.ModifiedVersion;
 
           if UiOps.HistoryItems[TAppHistoryElement.UndoRedo] then
@@ -463,7 +463,7 @@ begin
         begin
           cfg.SetValue(sJsonPath+'/text', Frame.Ed2.Text);
           if FileExists(sTabFilename2) then
-            cfg.SetValue(sJsonPath+'/file_date', FormatFileDateAsNiceString(sTabFilename2));
+            cfg.SetValue(sJsonPath+'/file_date', ConvertFileDateToNiceString(sTabFilename2));
           if UiOps.HistoryItems[TAppHistoryElement.UndoRedo] then
           begin
             sUndo:= Frame.Ed2.UndoAsString;
@@ -682,7 +682,7 @@ begin
       if bModified and bExist then
       begin
         sDateSaved:= cfg.GetValue(sItemPath+'file_date', '');
-        sDateCurrent:= FormatFileDateAsNiceString(sTabFilename);
+        sDateCurrent:= ConvertFileDateToNiceString(sTabFilename);
         if sDateSaved<>sDateCurrent then
           if MsgBox(
             msgConfirmFileChangedOutside+#10+sTabFilename+#10#10+

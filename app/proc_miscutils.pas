@@ -105,8 +105,9 @@ function ConvertShiftStateToString(const Shift: TShiftState): string;
 function ConvertKeyboardStateToShiftState: TShiftState; //like VCL
 function UpdateImagelistWithIconFromFile(AList: TCustomImagelist;
   const AFilename, ACallerAPI: string; AllowScaling: boolean=false): integer;
-function FormatFileDateAsNiceString(const AFilename: string): string;
-function FormatFilenameForMenu(const fn: string): string;
+
+function ConvertFileDateToNiceString(const AFilename: string): string;
+function ConvertFilenameToMenuCaption(const fn: string): string;
 
 function AppNicePluginCaption(const S: string): string;
 function AppStrToBool(const S: string): boolean; inline;
@@ -478,7 +479,7 @@ begin
   Result:= FormatDateTime('yyyy-mm-dd_hh-nn-ss', ComposeDateTime(ADate, DTime));
 end;
 
-function FormatFileDateAsNiceString(const AFilename: string): string;
+function ConvertFileDateToNiceString(const AFilename: string): string;
 var
   NValue: Longint;
   D: TDateTime;
@@ -1007,7 +1008,7 @@ begin
   end;
 end;
 
-function FormatFilenameForMenu(const fn: string): string;
+function ConvertFilenameToMenuCaption(const fn: string): string;
 begin
   Result:= ExtractFileName(fn)+' ('+ExtractFileDir(fn)+')';
 end;

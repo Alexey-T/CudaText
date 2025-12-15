@@ -1855,7 +1855,7 @@ begin
       begin
         Frame:= TEditorFrame(AppFrameList1[i]);
         if Frame.FileName<>'' then
-          STemp:= FormatFilenameForMenu(Frame.FileName)
+          STemp:= ConvertFilenameToMenuCaption(Frame.FileName)
         else
           STemp:= Frame.TabCaption;
         AKeymap.Add(
@@ -1870,7 +1870,7 @@ begin
         begin
           AKeymap.Add(
             cmdFirstRecentCommand+i,
-            'recent file: '+FormatFilenameForMenu(AppListRecents[i]),
+            'recent file: '+ConvertFilenameToMenuCaption(AppListRecents[i]),
             [], []);
         end;
       end;
