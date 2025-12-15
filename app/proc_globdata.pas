@@ -825,8 +825,6 @@ procedure AppUpdateWatcherFrames(AMaxWorkTime: integer = 500);
 procedure AppStopListTimers;
 function AppFormatTimeInMilliseconds(const N: QWord): string;
 
-procedure FixFormPositionToDesktop(F: TForm);
-procedure FixRectPositionToDesktop(var F: TRect; const DesktopR: TRect);
 function IsColorDark(C: TColor): boolean;
 
 procedure AppApplyRendererTweaks(const s: string);
@@ -3386,32 +3384,6 @@ begin
     LexerName:= LexerLite.LexerName+msgLiteLexerSuffix;
 end;
 
-
-procedure FixFormPositionToDesktop(F: TForm);
-var
-  DesktopR: TRect;
-  W, H: integer;
-begin
-  DesktopR:= Screen.WorkAreaRect;
-  W:= F.Width;
-  H:= F.Height;
-  F.Left:= Max(DesktopR.Left, Min(F.Left, DesktopR.Right-W));
-  F.Top:= Max(DesktopR.Top, Min(F.Top, DesktopR.Bottom-H));
-end;
-
-procedure FixRectPositionToDesktop(var F: TRect; const DesktopR: TRect);
-var
-  W, H: integer;
-begin
-  W:= F.Width;
-  H:= F.Height;
-
-  F.Left:= Max(DesktopR.Left, Min(F.Left, DesktopR.Right-W));
-  F.Top:= Max(DesktopR.Top, Min(F.Top, DesktopR.Bottom-H));
-
-  F.Right:= F.Left+W;
-  F.Bottom:= F.Top+H;
-end;
 
 { TAppManagerThread }
 

@@ -47,6 +47,9 @@ function FormPosGetAsString(Form: TForm; AOnlySize: boolean): string;
 procedure FormPosSetFromString(Form: TForm; const S: string; AOnlySize: boolean; const ADesktopRect: TRect);
 procedure RectSetFromString(var R: TRect; const S: string; AOnlySize: boolean; const ADesktopRect: TRect);
 
+procedure FixFormPositionToDesktop(F: TForm);
+procedure FixRectPositionToDesktop(var F: TRect; const DesktopR: TRect);
+
 procedure AppListbox_CopyOneLine(L: TATListbox);
 procedure AppListbox_CopyAllLines(L: TATListbox);
 procedure AppListbox_Clear(L: TATListbox);
@@ -1639,6 +1642,33 @@ begin
   end;
 end;
 {$endif}
+
+
+procedure FixFormPositionToDesktop(F: TForm);
+var
+  DesktopR: TRect;
+  W, H: integer;
+begin
+  DesktopR:= Screen.WorkAreaRect;
+  W:= F.Width;
+  H:= F.Height;
+  F.Left:= Max(DesktopR.Left, Min(F.Left, DesktopR.Right-W));
+  F.Top:= Max(DesktopR.Top, Min(F.Top, DesktopR.Bottom-H));
+end;
+
+procedure FixRectPositionToDesktop(var F: TRect; const DesktopR: TRect);
+var
+  W, H: integer;
+begin
+  W:= F.Width;
+  H:= F.Height;
+
+  F.Left:= Max(DesktopR.Left, Min(F.Left, DesktopR.Right-W));
+  F.Top:= Max(DesktopR.Top, Min(F.Top, DesktopR.Bottom-H));
+
+  F.Right:= F.Left+W;
+  F.Bottom:= F.Top+H;
+end;
 
 
 finalization
