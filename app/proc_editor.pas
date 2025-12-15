@@ -930,6 +930,8 @@ procedure EditorClear(Ed: TATSynEdit);
 begin
   Ed.Strings.Clear;
   Ed.Strings.ActionAddFakeLineIfNeeded;
+  Ed.MarkerClearAll;
+  Ed.AttribClearAll;
   Ed.DoCaretSingle(0, 0);
   Ed.Update(true);
   Ed.Modified:= false;
