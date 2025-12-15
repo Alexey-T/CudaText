@@ -1249,16 +1249,20 @@ end;
 
 
 function ConvertMultiSelectStyleToString(St: TMultiSelectStyle): string;
+var
+  Buf: string[5];
 begin
-  Result:= '';
+  Buf:= '';
   if msControlSelect in St then
-    Result+= 'c';
+    Buf+= 'c';
   if msShiftSelect in St then
-    Result+= 's';
+    Buf+= 's';
   if msVisibleOnly in St then
-    Result+= 'v';
+    Buf+= 'v';
   if msSiblingOnly in St then
-    Result+= 'i';
+    Buf+= 'i';
+
+  Result:= Buf;
 end;
 
 function ConvertStringToMultiSelectStyle(const S: string): TMultiSelectStyle;
