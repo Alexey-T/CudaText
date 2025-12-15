@@ -965,30 +965,37 @@ end;
 
 
 function ConvertFinderOptionsToString(F: TATEditorFinder): string;
+var
+  Buf: string[15];
 begin
-  Result:= '';
+  Buf:= '';
   if F.OptBack then
-    Result+= 'b';
+    Buf+= 'b';
   if F.OptCase then
-    Result+= 'c';
+    Buf+= 'c';
   if F.OptRegex then
-    Result+= 'r';
+    Buf+= 'r';
   if F.OptWords then
-    Result+= 'w';
+    Buf+= 'w';
   if F.OptFromCaret then
-    Result+= 'f';
+    Buf+= 'f';
   if F.OptInSelection then
-    Result+= 's';
+    Buf+= 's';
   if F.OptConfirmReplace then
-    Result+= 'o';
+    Buf+= 'o';
   if F.OptWrapped then
-    Result+= 'a';
+    Buf+= 'a';
   if F.OptWrappedConfirm then
-    Result+= 'A';
+    Buf+= 'A';
   if F.OptPreserveCase then
-    Result+= 'P';
+    Buf+= 'P';
   if F.OptTokens<>TATFinderTokensAllowed.All then
-    Result+= 'T'+IntToStr(Ord(F.OptTokens));
+  begin
+    Buf+= 'T';
+    Buf+= IntToStr(Ord(F.OptTokens));
+  end;
+
+  Result:= Buf;
 end;
 
 procedure ConvertFinderOptionsFromString(F: TATEditorFinder; const S: string);
