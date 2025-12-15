@@ -4144,6 +4144,15 @@ begin
         PROP_RULER_TEXT:
           Result:= PyUnicodeFromString(Ed.OptRulerText);
 
+        PROP_LEXER_BUSY:
+          begin
+            bValue:=
+              Assigned(Ed.AdapterForHilite) and
+              (Ed.AdapterForHilite is TATAdapterEControl) and
+              TATAdapterEControl(Ed.AdapterForHilite).IsParsingBusy;
+            Result:= PyBool_FromLong(Ord(bValue));
+          end;
+
         PROP_CORNER_TEXT:
           Result:= PyUnicodeFromString(Ed.OptCornerText);
 
