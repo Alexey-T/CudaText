@@ -309,8 +309,8 @@ begin
         exit(ReturnNone);
       end;
       AppEmmet:= TEmmet.Create(filenameSnips, filenameLorem);
-      InitHtmlTags;
-      AppEmmet.AddHTMLTagListForValidation(HtmlTags);
+      AppInitHtmlTags;
+      AppEmmet.AddHTMLTagListForValidation(AppHtmlTags);
     end;
 
     case Id of
@@ -7118,7 +7118,7 @@ begin
 
         LISTBOX_SET_COLUMNS:
           begin
-            Listbox.ColumnSizes:= StringToIntArray(StrText);
+            Listbox.ColumnSizes:= ConvertStringToIntArray(StrText);
             Listbox.Invalidate;
             Result:= ReturnNone;
           end;
@@ -7214,12 +7214,12 @@ begin
         LISTBOX_GET_HEADER_IMAGEINDEXES:
           begin
             Result:= PyUnicodeFromString(
-              IntArrayToString(Listbox.HeaderImageIndexes));
+              ConvertIntArrayToString(Listbox.HeaderImageIndexes));
           end;
 
         LISTBOX_SET_HEADER_IMAGEINDEXES:
           begin
-            Listbox.HeaderImageIndexes:= StringToIntArray(StrText);
+            Listbox.HeaderImageIndexes:= ConvertStringToIntArray(StrText);
             Result:= ReturnNone;
           end;
 
@@ -8043,7 +8043,7 @@ begin
         TREE_GET_MULSELECT:
           begin
             if TreeContainer.Tree.MultiSelect then
-              StrText:= MultiSelectStyleToString(TreeContainer.Tree.MultiSelectStyle)
+              StrText:= ConvertMultiSelectStyleToString(TreeContainer.Tree.MultiSelectStyle)
             else
               StrText:= '-';
             Result:= PyUnicodeFromString(StrText);
@@ -8056,7 +8056,7 @@ begin
             else
             begin
               TreeContainer.Tree.MultiSelect:= true;
-              TreeContainer.Tree.MultiSelectStyle:= StringToMultiSelectStyle(StrText);
+              TreeContainer.Tree.MultiSelectStyle:= ConvertStringToMultiSelectStyle(StrText);
             end;
             Result:= ReturnFalse;
           end;
@@ -8838,7 +8838,7 @@ begin
     Finder.Editor:= Ed;
     Finder.StrFind:= ATextFrom;
     Finder.StrReplace:= ATextTo;
-    FinderOptionsFromString(Finder, AOptions);
+    ConvertFinderOptionsFromString(Finder, AOptions);
     Finder.OnGetToken:= @fmMain.FinderOnGetToken;
 
     with AppPython.Engine do
@@ -8882,7 +8882,7 @@ begin
     Finder.Editor:= Ed;
     Finder.StrFind:= ATextFrom;
     Finder.StrReplace:= ATextTo;
-    FinderOptionsFromString(Finder, AOptions);
+    ConvertFinderOptionsFromString(Finder, AOptions);
     Finder.OnGetToken:= @fmMain.FinderOnGetToken;
 
     with AppPython.Engine do
@@ -8916,7 +8916,7 @@ begin
   try
     Finder.Editor:= Ed;
     Finder.StrFind:= UTF8Decode(AText);
-    FinderOptionsFromString(Finder, AOptions);
+    ConvertFinderOptionsFromString(Finder, AOptions);
     Finder.OnGetToken:= @fmMain.FinderOnGetToken;
     Finder.MaxLineLen:= AMaxLineLen;
 
@@ -10574,13 +10574,13 @@ begin
 
         FINDER_SET_OPT:
           begin
-            FinderOptionsFromString(Finder, StrValue);
+            ConvertFinderOptionsFromString(Finder, StrValue);
             Result:= ReturnNone;
           end;
 
         FINDER_GET_OPT:
           begin
-            Result:= PyUnicodeFromString(FinderOptionsToString(Finder));
+            Result:= PyUnicodeFromString(ConvertFinderOptionsToString(Finder));
           end;
 
         FINDER_SET_MAXLEN:

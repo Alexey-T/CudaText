@@ -202,7 +202,7 @@ begin
   CompletionOps.ColorFontParams:= GetAppColor(TAppThemeColor.ListCompleteParams);
 
   {$ifdef windows}
-  ApplyFormDarkTitle(Self, IsColorDark(GetAppColor(TAppThemeColor.TabBg)), false);
+  ApplyFormDarkTitle(Self, AppIsColorDark(GetAppColor(TAppThemeColor.TabBg)), false);
   {$endif}
 
   DoApplyTheme_ThemedMainMenu;

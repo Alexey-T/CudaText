@@ -411,7 +411,7 @@ begin
         cAppFinderOperationString[Res]+#1+
         UTF8Encode(FFinder.StrFind)+#1+
         UTF8Encode(FFinder.StrReplace)+#1+
-        FinderOptionsToString(FFinder)
+        ConvertFinderOptionsToString(FFinder)
         );
 
   bDoLock:=
@@ -1689,15 +1689,15 @@ begin
   FFinder.StrFind:= UTF8Decode(SFind);
   FFinder.StrReplace:= UTF8Decode(SRep);
 
-  SOptOld:= FinderOptionsToString(FFinder);
-  FinderOptionsFromString(FFinder, SOpt);
+  SOptOld:= ConvertFinderOptionsToString(FFinder);
+  ConvertFinderOptionsFromString(FFinder, SOpt);
   FindDialogDone(
     nil, //skip dialog
     AppFinderOperationFromString(SAction),
     false, //'false' to solve issue #3303
     false
     );
-  FinderOptionsFromString(FFinder, SOptOld);
+  ConvertFinderOptionsFromString(FFinder, SOptOld);
 end;
 
 procedure TfmMain.FindDialogOnChangeOptions(Sender: TObject);

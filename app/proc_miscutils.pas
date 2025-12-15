@@ -131,15 +131,14 @@ procedure Menu_Copy(ASrc, ADest: TMenu);
 function Menu_GetIndexToInsert(AMenu: TMenuItem; ACaption: string): integer;
 procedure MenuShowAtEditorCorner(AMenu: TPopupMenu; Ed: TATSynEdit);
 
-function StringToIntArray(const AText: string): TATIntArray;
-function IntArrayToString(const A: TATIntArray): string;
-function IsStringArrayWithSubstring(const Ar: array of string; const AText: string): boolean;
+function ConvertFinderOptionsToString(F: TATEditorFinder): string;
+procedure ConvertFinderOptionsFromString(F: TATEditorFinder; const S: string);
 
-function FinderOptionsToString(F: TATEditorFinder): string;
-procedure FinderOptionsFromString(F: TATEditorFinder; const S: string);
+function ConvertStringToIntArray(const AText: string): TATIntArray;
+function ConvertIntArrayToString(const A: TATIntArray): string;
 
-function MultiSelectStyleToString(St: TMultiSelectStyle): string;
-function StringToMultiSelectStyle(const S: string): TMultiSelectStyle;
+function ConvertMultiSelectStyleToString(St: TMultiSelectStyle): string;
+function ConvertStringToMultiSelectStyle(const S: string): TMultiSelectStyle;
 
 type
   { TAppPanelEx }
@@ -163,31 +162,19 @@ type
   end;
 
 var
-  HtmlTags: TStringList = nil;
+  AppHtmlTags: TStringList = nil;
 
-procedure InitHtmlTags;
+procedure AppInitHtmlTags;
+
 procedure StringsDeduplicate(L: TStringList; CaseSens: boolean);
 function StringsTrailingText(L: TStringList; AItemCount: integer): string;
 function ConvertCssColorToTColor(const S: string): TColor;
-
-(*
-type
-  { TAppCodetreeSavedFold }
-
-  TAppCodetreeSavedFold = record
-  private
-    Cap, Cap2: string;
-  public
-    procedure Save(Ed: TATSynEdit; ATree: TTreeView);
-    procedure Restore(Ed: TATSynEdit; ATree: TTreeView);
-  end;
-*)
 
 {$ifdef windows}
 function IsWin32DarkModeViaRegistry: Boolean;
 {$endif}
 
-function IsColorDark(C: TColor): boolean;
+function AppIsColorDark(C: TColor): boolean;
 
 
 implementation
@@ -944,7 +931,7 @@ begin
   AMenu.Popup(P.X, P.Y);
 end;
 
-function StringToIntArray(const AText: string): TATIntArray;
+function ConvertStringToIntArray(const AText: string): TATIntArray;
 var
   Sep: TATStringSeparator;
   N: integer;
@@ -958,7 +945,7 @@ begin
   until false;
 end;
 
-function IntArrayToString(const A: TATIntArray): string;
+function ConvertIntArrayToString(const A: TATIntArray): string;
 var
   i: integer;
 begin
@@ -969,7 +956,7 @@ begin
 end;
 
 
-function FinderOptionsToString(F: TATEditorFinder): string;
+function ConvertFinderOptionsToString(F: TATEditorFinder): string;
 begin
   Result:= '';
   if F.OptBack then
@@ -996,7 +983,7 @@ begin
     Result+= 'T'+IntToStr(Ord(F.OptTokens));
 end;
 
-procedure FinderOptionsFromString(F: TATEditorFinder; const S: string);
+procedure ConvertFinderOptionsFromString(F: TATEditorFinder; const S: string);
 var
   N: integer;
 begin
@@ -1245,17 +1232,8 @@ begin
   L.Invalidate;
 end;
 
-function IsStringArrayWithSubstring(const Ar: array of string; const AText: string): boolean;
-var
-  i: integer;
-begin
-  Result:= false;
-  for i:= 0 to High(Ar) do
-    if Pos(AText, Ar[i])>0 then
-      exit(true);
-end;
 
-function MultiSelectStyleToString(St: TMultiSelectStyle): string;
+function ConvertMultiSelectStyleToString(St: TMultiSelectStyle): string;
 begin
   Result:= '';
   if msControlSelect in St then
@@ -1268,7 +1246,7 @@ begin
     Result+= 'i';
 end;
 
-function StringToMultiSelectStyle(const S: string): TMultiSelectStyle;
+function ConvertStringToMultiSelectStyle(const S: string): TMultiSelectStyle;
 begin
   Result:= [];
   if Pos('c', S)>0 then Include(Result, msControlSelect);
@@ -1277,115 +1255,115 @@ begin
   if Pos('i', S)>0 then Include(Result, msSiblingOnly);
 end;
 
-procedure InitHtmlTags;
+procedure AppInitHtmlTags;
 begin
-  if Assigned(HtmlTags) then exit;
-  HtmlTags:= TStringList.Create;
-  HtmlTags.UseLocale:= false;
-  HtmlTags.Sorted:= true;
-  HtmlTags.Add('a');
-  HtmlTags.Add('abbr');
-  HtmlTags.Add('acronym');
-  HtmlTags.Add('address');
-  HtmlTags.Add('applet');
-  HtmlTags.Add('article');
-  HtmlTags.Add('aside');
-  HtmlTags.Add('audio');
-  HtmlTags.Add('b');
-  HtmlTags.Add('basefont');
-  HtmlTags.Add('bdi');
-  HtmlTags.Add('bdo');
-  HtmlTags.Add('big');
-  HtmlTags.Add('blockquote');
-  HtmlTags.Add('body');
-  HtmlTags.Add('button');
-  HtmlTags.Add('canvas');
-  HtmlTags.Add('caption');
-  HtmlTags.Add('center');
-  HtmlTags.Add('cite');
-  HtmlTags.Add('code');
-  HtmlTags.Add('colgroup');
-  HtmlTags.Add('data');
-  HtmlTags.Add('datalist');
-  HtmlTags.Add('dd');
-  HtmlTags.Add('del');
-  HtmlTags.Add('details');
-  HtmlTags.Add('dfn');
-  HtmlTags.Add('dialog');
-  HtmlTags.Add('dir');
-  HtmlTags.Add('div');
-  HtmlTags.Add('dl');
-  HtmlTags.Add('dt');
-  HtmlTags.Add('em');
-  HtmlTags.Add('fieldset');
-  HtmlTags.Add('figcaption');
-  HtmlTags.Add('figure');
-  HtmlTags.Add('font');
-  HtmlTags.Add('footer');
-  HtmlTags.Add('form');
-  HtmlTags.Add('frame');
-  HtmlTags.Add('frameset');
-  HtmlTags.Add('h1 to h6');
-  HtmlTags.Add('head');
-  HtmlTags.Add('header');
-  HtmlTags.Add('html');
-  HtmlTags.Add('i');
-  HtmlTags.Add('iframe');
-  HtmlTags.Add('ins');
-  HtmlTags.Add('kbd');
-  HtmlTags.Add('label');
-  HtmlTags.Add('legend');
-  HtmlTags.Add('li');
-  HtmlTags.Add('main');
-  HtmlTags.Add('map');
-  HtmlTags.Add('mark');
-  HtmlTags.Add('meter');
-  HtmlTags.Add('nav');
-  HtmlTags.Add('noframes');
-  HtmlTags.Add('noscript');
-  HtmlTags.Add('object');
-  HtmlTags.Add('ol');
-  HtmlTags.Add('optgroup');
-  HtmlTags.Add('option');
-  HtmlTags.Add('output');
-  HtmlTags.Add('p');
-  HtmlTags.Add('picture');
-  HtmlTags.Add('pre');
-  HtmlTags.Add('progress');
-  HtmlTags.Add('q');
-  HtmlTags.Add('rp');
-  HtmlTags.Add('rt');
-  HtmlTags.Add('ruby');
-  HtmlTags.Add('s');
-  HtmlTags.Add('samp');
-  HtmlTags.Add('script');
-  HtmlTags.Add('section');
-  HtmlTags.Add('select');
-  HtmlTags.Add('small');
-  HtmlTags.Add('span');
-  HtmlTags.Add('strike');
-  HtmlTags.Add('strong');
-  HtmlTags.Add('style');
-  HtmlTags.Add('sub');
-  HtmlTags.Add('summary');
-  HtmlTags.Add('sup');
-  HtmlTags.Add('svg');
-  HtmlTags.Add('table');
-  HtmlTags.Add('tbody');
-  HtmlTags.Add('td');
-  HtmlTags.Add('template');
-  HtmlTags.Add('textarea');
-  HtmlTags.Add('tfoot');
-  HtmlTags.Add('th');
-  HtmlTags.Add('thead');
-  HtmlTags.Add('time');
-  HtmlTags.Add('title');
-  HtmlTags.Add('tr');
-  HtmlTags.Add('tt');
-  HtmlTags.Add('u');
-  HtmlTags.Add('ul');
-  HtmlTags.Add('var');
-  HtmlTags.Add('video');
+  if Assigned(AppHtmlTags) then exit;
+  AppHtmlTags:= TStringList.Create;
+  AppHtmlTags.UseLocale:= false;
+  AppHtmlTags.Sorted:= true;
+  AppHtmlTags.Add('a');
+  AppHtmlTags.Add('abbr');
+  AppHtmlTags.Add('acronym');
+  AppHtmlTags.Add('address');
+  AppHtmlTags.Add('applet');
+  AppHtmlTags.Add('article');
+  AppHtmlTags.Add('aside');
+  AppHtmlTags.Add('audio');
+  AppHtmlTags.Add('b');
+  AppHtmlTags.Add('basefont');
+  AppHtmlTags.Add('bdi');
+  AppHtmlTags.Add('bdo');
+  AppHtmlTags.Add('big');
+  AppHtmlTags.Add('blockquote');
+  AppHtmlTags.Add('body');
+  AppHtmlTags.Add('button');
+  AppHtmlTags.Add('canvas');
+  AppHtmlTags.Add('caption');
+  AppHtmlTags.Add('center');
+  AppHtmlTags.Add('cite');
+  AppHtmlTags.Add('code');
+  AppHtmlTags.Add('colgroup');
+  AppHtmlTags.Add('data');
+  AppHtmlTags.Add('datalist');
+  AppHtmlTags.Add('dd');
+  AppHtmlTags.Add('del');
+  AppHtmlTags.Add('details');
+  AppHtmlTags.Add('dfn');
+  AppHtmlTags.Add('dialog');
+  AppHtmlTags.Add('dir');
+  AppHtmlTags.Add('div');
+  AppHtmlTags.Add('dl');
+  AppHtmlTags.Add('dt');
+  AppHtmlTags.Add('em');
+  AppHtmlTags.Add('fieldset');
+  AppHtmlTags.Add('figcaption');
+  AppHtmlTags.Add('figure');
+  AppHtmlTags.Add('font');
+  AppHtmlTags.Add('footer');
+  AppHtmlTags.Add('form');
+  AppHtmlTags.Add('frame');
+  AppHtmlTags.Add('frameset');
+  AppHtmlTags.Add('h1 to h6');
+  AppHtmlTags.Add('head');
+  AppHtmlTags.Add('header');
+  AppHtmlTags.Add('html');
+  AppHtmlTags.Add('i');
+  AppHtmlTags.Add('iframe');
+  AppHtmlTags.Add('ins');
+  AppHtmlTags.Add('kbd');
+  AppHtmlTags.Add('label');
+  AppHtmlTags.Add('legend');
+  AppHtmlTags.Add('li');
+  AppHtmlTags.Add('main');
+  AppHtmlTags.Add('map');
+  AppHtmlTags.Add('mark');
+  AppHtmlTags.Add('meter');
+  AppHtmlTags.Add('nav');
+  AppHtmlTags.Add('noframes');
+  AppHtmlTags.Add('noscript');
+  AppHtmlTags.Add('object');
+  AppHtmlTags.Add('ol');
+  AppHtmlTags.Add('optgroup');
+  AppHtmlTags.Add('option');
+  AppHtmlTags.Add('output');
+  AppHtmlTags.Add('p');
+  AppHtmlTags.Add('picture');
+  AppHtmlTags.Add('pre');
+  AppHtmlTags.Add('progress');
+  AppHtmlTags.Add('q');
+  AppHtmlTags.Add('rp');
+  AppHtmlTags.Add('rt');
+  AppHtmlTags.Add('ruby');
+  AppHtmlTags.Add('s');
+  AppHtmlTags.Add('samp');
+  AppHtmlTags.Add('script');
+  AppHtmlTags.Add('section');
+  AppHtmlTags.Add('select');
+  AppHtmlTags.Add('small');
+  AppHtmlTags.Add('span');
+  AppHtmlTags.Add('strike');
+  AppHtmlTags.Add('strong');
+  AppHtmlTags.Add('style');
+  AppHtmlTags.Add('sub');
+  AppHtmlTags.Add('summary');
+  AppHtmlTags.Add('sup');
+  AppHtmlTags.Add('svg');
+  AppHtmlTags.Add('table');
+  AppHtmlTags.Add('tbody');
+  AppHtmlTags.Add('td');
+  AppHtmlTags.Add('template');
+  AppHtmlTags.Add('textarea');
+  AppHtmlTags.Add('tfoot');
+  AppHtmlTags.Add('th');
+  AppHtmlTags.Add('thead');
+  AppHtmlTags.Add('time');
+  AppHtmlTags.Add('title');
+  AppHtmlTags.Add('tr');
+  AppHtmlTags.Add('tt');
+  AppHtmlTags.Add('u');
+  AppHtmlTags.Add('ul');
+  AppHtmlTags.Add('var');
+  AppHtmlTags.Add('video');
 end;
 
 
@@ -1645,7 +1623,7 @@ begin
 end;
 
 
-function IsColorDark(C: TColor): boolean;
+function AppIsColorDark(C: TColor): boolean;
 const
   cMargin = $60;
 var
@@ -1658,8 +1636,8 @@ end;
 
 finalization
 
-  if Assigned(HtmlTags) then
-    FreeAndNil(HtmlTags);
+  if Assigned(AppHtmlTags) then
+    FreeAndNil(AppHtmlTags);
 
 end.
 

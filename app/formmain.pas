@@ -6926,7 +6926,7 @@ begin
   SetFullScreen_Win32(AValue);
 
   if not AValue then
-    ApplyFormDarkTitle(Self, IsColorDark(GetAppColor(TAppThemeColor.TabBg)), true);
+    ApplyFormDarkTitle(Self, AppIsColorDark(GetAppColor(TAppThemeColor.TabBg)), true);
   {$else}
   SetFullScreen_Universal(AValue);
   {$endif}
