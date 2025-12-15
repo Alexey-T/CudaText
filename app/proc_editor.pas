@@ -936,6 +936,7 @@ begin
   Ed.Gaps.Clear;
   Ed.Hotspots.Clear;
   Ed.DimRanges.Clear;
+  Ed.FileName:= '';
 
   Ed.DoCaretSingle(0, 0);
   Ed.Update(true);
