@@ -3413,15 +3413,6 @@ begin
   F.Bottom:= F.Top+H;
 end;
 
-procedure EditorClear(Ed: TATSynEdit);
-begin
-  Ed.Strings.Clear;
-  Ed.Strings.ActionAddFakeLineIfNeeded;
-  Ed.DoCaretSingle(0, 0);
-  Ed.Update(true);
-  Ed.Modified:= false;
-end;
-
 { TAppManagerThread }
 
 procedure TAppManagerThread.Execute;
