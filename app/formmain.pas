@@ -7536,6 +7536,11 @@ begin
   CodeTree.Tree.FullCollapse;
 end;
 
+procedure TfmMain.mnuTreeUnfoldAllClick(Sender: TObject);
+begin
+  CodeTree.Tree.FullExpand;
+end;
+
 procedure TfmMain.mnuTreeSortedClick(Sender: TObject);
 var
   Frame: TEditorFrame;
@@ -7558,11 +7563,6 @@ begin
       Break;
     end;
   end;
-end;
-
-procedure TfmMain.mnuTreeUnfoldAllClick(Sender: TObject);
-begin
-  CodeTree.Tree.FullExpand;
 end;
 
 procedure TfmMain.DoFileExportHtml(Ed: TATSynEdit);
