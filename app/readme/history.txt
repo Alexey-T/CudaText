@@ -17,6 +17,7 @@
 - fix: on drag-and-drop, ui-tab's 'dirty' mark was not set (thanks @badrelmers)
 - fix: event on_tab_move fired also on adding a new tab, so Tabs_List reacted 2 times to adding a new tab
 - fix: if main window is not-maximized and near the bottom edge, Command Palette window was partially out of screen bottom
+- fix: regression happened which broke fixing (on 2024/01) of issue "ed.set_text_line is of time complexity O(n)"
 
 1.230.5 (2025/12)
 
