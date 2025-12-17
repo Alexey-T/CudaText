@@ -162,6 +162,7 @@ TYPES = {
     "d": ['D'],
     "dart": ['Dart'],
     "dfm": ['Delphi resources'],
+    "dfy": ['Dafny'],
     "dhall": ['Dhall'],
     "di": ['D'],
     "dif": ['Diff'],
