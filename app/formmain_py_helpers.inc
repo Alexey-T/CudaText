@@ -240,7 +240,13 @@ begin
   if CurLexer='' then exit;
 
   //don't run helper on huge files
-  if Ed.Strings.Count > EControlOptions.MaxLinesWhenParserEnablesFolding then exit;
+  if Ed.Strings.Count > EControlOptions.MaxLinesWhenParserEnablesFolding then
+  begin
+    if Assigned(ATree) then
+      ATree.Items.Add(nil, Format('"lexer_folding_max_lines":%d -> count overflow',
+        [EControlOptions.MaxLinesWhenParserEnablesFolding]));
+    exit;
+  end;
 
   //Pascal helpers
   if AllowPascalHelpers then
