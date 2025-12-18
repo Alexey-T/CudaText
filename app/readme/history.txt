@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-- fix: command "clipboard: paste from history" wrongly truncates too long lines, so gtk2-version shows empty menu items (by @ildarkhasanshin)
+- fix: command "clipboard: paste from history" wrongly truncates too long lines, so gtk2-version shows empty menu items (thanks @ildarkhasanshin)
 
 1.231.0 (2025/12)
 
