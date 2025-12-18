@@ -1151,6 +1151,10 @@
   //Fully unfold code-tree after filling.
   "ui_tree_unfold": false,
 
+  //Sort code-tree nodes.
+  //Option is for lexer-specific configs, not for user.json config.
+  "codetree_sorted": false,
+
   //[Text/NewDocument]
   //New empty documents: Lexer name.
   "newdoc_lexer": "",

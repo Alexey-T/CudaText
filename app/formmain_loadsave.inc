@@ -1404,6 +1404,7 @@ begin
   Op.OpTabSmart:= cfg.GetValue('tab_smart', Op.OpTabSmart);
 
   Op.OpMaxLineLenForBracketFinder:= cfg.GetValue('max_line_len_brackets', Op.OpMaxLineLenForBracketFinder);
+  Op.OpCodetreeSorted:= cfg.GetValue('codetree_sorted', Op.OpCodetreeSorted);
 
   Op.OpOverwriteSel:= cfg.GetValue('ovr_sel', Op.OpOverwriteSel);
   Op.OpOverwriteOnPaste:= cfg.GetValue('ovr_on_paste', Op.OpOverwriteOnPaste);

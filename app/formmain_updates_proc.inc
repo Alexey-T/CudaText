@@ -764,6 +764,9 @@ begin
   F.BracketSymbols:= Op.OpBracketSymbols;
   F.BracketDistance:= Op.OpBracketDistance;
 
+  if Op.OpCodetreeSorted and (F.CodetreeSortType=stNone) then
+    F.CodetreeSortType:= stText;
+
   F.Ed1.Update;
   if F.Splitted then
     F.Ed2.Update;

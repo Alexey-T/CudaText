@@ -567,6 +567,7 @@ type
     OpTabSmart: boolean;
 
     OpMaxLineLenForBracketFinder: integer;
+    OpCodetreeSorted: boolean;
 
     OpActiveBorderRaw: integer;
     OpActiveBorderInControls: boolean;
@@ -1872,6 +1873,7 @@ begin
     OpTabSmart:= false;
 
     OpMaxLineLenForBracketFinder:= 10000;
+    OpCodetreeSorted:= false;
 
     OpActiveBorderRaw:= 1;
     OpActiveBorderInControls:= true;
