@@ -3,6 +3,9 @@
   - fixed
   * changed
 
+1.231.1 (2025/12)
+
++ add: option "codetree_sorted" (named not like other options "ui_tree_xxxx", because it is for lexer-specific config)
 - fix: command "clipboard: paste from history" wrongly truncates long non-ASCII lines, so gtk2-version shows empty menu items (thanks @ildarkhasanshin)
 
 1.231.0 (2025/12)
