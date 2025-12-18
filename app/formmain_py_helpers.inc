@@ -243,8 +243,11 @@ begin
   if Ed.Strings.Count > EControlOptions.MaxLinesWhenParserEnablesFolding then
   begin
     if Assigned(ATree) then
+    begin
+      ATree.Items.Clear;
       ATree.Items.Add(nil, Format('"lexer_folding_max_lines":%d -> count overflow',
         [EControlOptions.MaxLinesWhenParserEnablesFolding]));
+    end;
     exit;
   end;
 
