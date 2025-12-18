@@ -1305,6 +1305,15 @@ begin
   begin
     InitImageListCodetree;
     UpdateTreeImagelistActivity;
+
+    if Ed.Strings.Count>EControlOptions.MaxLinesWhenParserEnablesFolding then
+    begin
+      CodeTree.Tree.Items.Clear;
+      CodeTree.Tree.Items.Add(nil, Format('"lexer_folding_max_lines":%d',
+        [EControlOptions.MaxLinesWhenParserEnablesFolding]));
+      exit;
+    end;
+
     DoPyEvent_AppState(APPSTATE_CODETREE_BEFORE_FILL);
 
     if not RunTreeHelper(Frame, CodeTree.Tree, true, true) then
