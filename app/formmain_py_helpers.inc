@@ -245,7 +245,7 @@ begin
     if Assigned(ATree) then
     begin
       ATree.Items.Clear;
-      ATree.Items.Add(nil, Format('"lexer_folding_max_lines":%d -> count overflow',
+      ATree.Items.Add(nil, Format('"lexer_folding_max_lines":%d',
         [EControlOptions.MaxLinesWhenParserEnablesFolding]));
     end;
     exit;
