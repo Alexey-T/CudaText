@@ -3,6 +3,10 @@
   - fixed
   * changed
 
+1.231.2 (2025/12)
+
++ add: allow making menu-items for cuda_lint_xxxx / cuda_fmt_xxxx plugins, ie linters/formatters are allowed now to have [itemX] sections in their install.inf (thanks @Hanatarou)
+
 1.231.1 (2025/12)
 
 + add: when option "lexer_folding_max_lines" overflows by editor's line count, show line about it in the code-tree
