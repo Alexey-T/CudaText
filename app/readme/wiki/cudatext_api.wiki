@@ -5297,4 +5297,7 @@ It provides:
 * add: tree_proc: TREE_SET_SCROLLSTYLE_VERT
 * add: Editor.get_prop: PROP_LEXER_BUSY
 
+1.0.472 (app 1.231.2)
+* add: before, plugin module names cuda_lint_xxx / cuda_fmt_xxx were skipped as command plugins, now they are allowed
+
 [[Category:CudaText]]
