@@ -4689,7 +4689,9 @@ begin
   EditorApplyOpsCommon(fmOutput.Ed);
   EditorApplyOpsCommon(fmValidate.Ed);
   fmOutput.Ed.OptCaretVirtual:= false;
+  fmOutput.Ed.OptWrapMode:= TATEditorWrapMode(Ord(UiOps.ConsoleWordWrap));
   fmValidate.Ed.OptCaretVirtual:= false;
+  fmValidate.Ed.OptWrapMode:= TATEditorWrapMode(Ord(UiOps.ConsoleWordWrap));
 
   DoApplyFont_Output;
 
