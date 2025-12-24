@@ -1466,7 +1466,17 @@ begin
        end;
 
      WM_SETTINGCHANGE:
-       AppWindowsSettingChanged:= true;
+       begin
+         AppWindowsSettingChanged:= true;
+         //MsgLogConsole('WM_SETTINGCHANGE');
+       end;
+
+     {
+     WM_SYSCOLORCHANGE:
+       begin
+         MsgLogConsole('WM_SYSCOLORCHANGE');
+       end;
+       }
   end;
 
   if Assigned(PrevWndProc) then
