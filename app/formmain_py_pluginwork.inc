@@ -17,15 +17,6 @@ begin
   end;
 
   AShowWarning:= Result;
-
-  {
-  //2025.12: don't disable cuda_lint_ because it's good to have [itemX] sections in linters, to give menu items
-  if not Result then
-    if SBeginsWith(ADirName, 'cuda_lint_') or //sub-plugins of CudaLinter
-      SBeginsWith(ADirName, 'cuda_fmt_') //sub-plugins of CudaFormatter
-      then
-        Result:= true;
-  }
 end;
 
 
