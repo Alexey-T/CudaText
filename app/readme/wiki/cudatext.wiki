@@ -679,6 +679,30 @@ How to change styles in lite lexers? For example, "Log files ^" uses styles "Id"
 * find and edit styles names
 * all possible styles are listed in the CudaText dialog "Options / Themes / Settings - theme - syntax..."
 
+Here is short description of JSON-files fields, on the example file "data/lexliblite/Ini files.cuda-litelexer":
+
+<code>
+{
+  "about": "INI lexer by Alexey Torgashin",
+  "files": "*.ini;*.dsk;*.dti;*.dof;*.inf;*.lng;*.srv;*.reg;*.sas;*.cfg;*.desktop",
+  "cmt_line": ";",
+  "case_sens": true,
+  "consider_spaces": true,
+  "rules": {
+    "cmt": {
+      "regex": "^\\s*[;\\#].*",
+      "style": "Comment"
+    },
+</code>
+
+* "files": One or several file masks, separated by ";".
+* "cmd_line": Single-line comment chars. Used by "Comments" plugin when you call commands of this plugin.
+* "case_sens": Boolean flag for case-sensitivity for RegEx-rules listed below in that file.
+* "consider_spaces": Boolean flag which enables to skip spaces on file parsing. Otherwise, RegEx-rules must catch all those spaces/tabs.
+* "rules": Dictionary with parser rules, which must have one or more dictionaries with any names but fixed contents:
+** "regex": RegEx (ie regular expression) of the rule.
+** "style": Style name, to color that rule rusults. Possible values are listed in the CudaText dialog "Options / Themes / Settings - theme - syntax..."
+
 === Differences in lexer support in CudaText/SynWrite ===
 * SynWrite supports "lexer grammar", while CudaText does not support "grammar" anymore.
 * SynWrite lexers need constructs like \x0D\x0A or \z (to catch any line-break: LF, CRLF, CR), while CudaText lexers are OK with simple \n (because internal buffer always has LF separator).
