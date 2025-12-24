@@ -693,8 +693,16 @@ Here is short description of file fields, on the example file "data/lexliblite/I
       "regex": "^\\s*[;\\#].*",
       "style": "Comment"
     },
+    ...
+    "val": {
+      "regex": "\\w+",
+      "style": "Id"
+    }
+  }
+}
 </syntaxhighlight>
 
+* "about": Info about file's author.
 * "files": One or several file masks, separated by ";".
 * "cmd_line": Single-line comment chars. Used by "Comments" plugin when you call commands of this plugin.
 * "case_sens": Boolean flag for case-sensitivity for RegEx-rules listed below in that file.
