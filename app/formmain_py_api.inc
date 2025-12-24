@@ -28,6 +28,11 @@ var
   NLine: integer;
   S: string;
 begin
+  //skip notes about HTML lexer, which has stupid node names like '<div ...>'
+  S:= ANode.Text;
+  if (Length(S)>=3) and (S[1]='<') and (S[Length(S)]='>') and IsCharWordA(S[2]) then
+    exit;
+
   S:= 'NOTE: Duplicate code-tree caption, cannot restore its folding: ';
   Obj:= TObject(ANode.Data);
   if Obj is TATRangeInCodeTree then
