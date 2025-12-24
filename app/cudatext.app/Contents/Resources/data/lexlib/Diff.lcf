@@ -1,0 +1,159 @@
+object SyntAnal7: TLibSyntAnalyzer
+  Formats = <
+    item
+      DisplayName = 'File names'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+      BgColor = clSkyBlue
+    end
+    item
+      DisplayName = 'Chunk start'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+      BgColor = 12615935
+    end
+    item
+      DisplayName = 'Context'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Added line'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+      BgColor = 8454016
+    end
+    item
+      DisplayName = 'Deleted line'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+      BgColor = 8421631
+    end
+    item
+      DisplayName = 'Index line'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+      BgColor = clYellow
+    end>
+  TokenRules = <
+    item
+      DisplayName = 'File name'
+      StyleName = 'File names'
+      Expression = '^(---|\+\+\+).*$'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Chunk start'
+      StyleName = 'Chunk start'
+      TokenType = 1
+      Expression = '^@@.*@@'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Added line'
+      StyleName = 'Added line'
+      TokenType = 2
+      Expression = '^+.*$'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Deleted line'
+      StyleName = 'Deleted line'
+      TokenType = 2
+      Expression = '^-.*$'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Index line'
+      StyleName = 'Index line'
+      TokenType = 5
+      Expression = '^(diff|index)\b.*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Context line'
+      StyleName = 'Context'
+      TokenType = 3
+      Expression = '^\x20.*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end>
+  BlockRules = <
+    item
+      DisplayName = 'Index-line'
+      ConditionList = <
+        item
+          TokenTypes = 32
+        end>
+      EndOfTextClose = True
+      HighlightPos = cpAny
+      SelfClose = True
+      IgnoreAsParent = False
+    end>
+  CodeTemplates = <>
+  SubAnalyzers = <>
+  SampleText.Strings = (
+    'diff --git text'
+    'index text'
+    
+      '================================================================' +
+      '==='
+    'Index: ide/filename'
+    'some text'
+    '--- a/python/Makefile.am'#9'2010-05-26 22:09:50 +0000'
+    '+++ b/python/Makefile.am'#9'2010-09-10 20:26:24 +0000'
+    '@@ -41,9 +41,9 @@'
+    ' libvirtmod_la_CFLAGS = $(WARN_PYTHON_CFLAGS)'
+    ' '
+    
+      ' libvirtmod_la_LDFLAGS = -module -avoid-version -shared -L$(top_' +
+      'builddir)/src/.libs \'
+    '-'#9'$(CYGWIN_EXTRA_LDFLAGS)'
+    '+'#9'$(CYGWIN_EXTRA_LDFLAGS) $(MINGW_EXTRA_LDFLAGS) -L/python/libs'
+    ' libvirtmod_la_LIBADD = $(mylibs) \'
+    '-'#9'$(CYGWIN_EXTRA_LIBADD) $(CYGWIN_EXTRA_PYTHON_LIBADD)'
+    
+      '+'#9'$(CYGWIN_EXTRA_LIBADD) $(CYGWIN_EXTRA_PYTHON_LIBADD) -lpython2' +
+      '6'
+    ' '
+    ' GENERATE = generator.py')
+  TokenTypeNames.Strings = (
+    'filename'
+    'chunk'
+    'line'
+    'context'
+    'default'
+    'index'
+    'unknown')
+  Extentions = 'diff dif patch'
+  LexerName = 'Diff'
+  SkipSpaces = False
+  Notes.Strings = (
+    'Original author: WhiteWind'
+    'Improved by Alexey Torgashin (CudaText)')
+  RestartFromLineStart = True
+  Charset = DEFAULT_CHARSET
+end

@@ -1,0 +1,13 @@
+[comments]
+str1=
+str2=
+styles_cmt=
+styles_str=
+
+[map]
+File names=Label
+Chunk start=LightBG5
+Context=Id
+Added line=LightBG3
+Deleted line=LightBG1
+Index line=LightBG2
