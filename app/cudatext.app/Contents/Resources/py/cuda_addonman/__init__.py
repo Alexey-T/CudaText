@@ -47,6 +47,7 @@ STD_LEXERS = (
   'Bash script',
   'Batch files',
   'CSS',
+  'Diff',
   'HTML',
   'HTML style',
   'JavaScript',
