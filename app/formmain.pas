@@ -1464,6 +1464,9 @@ begin
          end;
          exit;
        end;
+
+     WM_SETTINGCHANGE:
+       AppWindowsSettingChanged:= true;
   end;
 
   if Assigned(PrevWndProc) then
@@ -2664,8 +2667,11 @@ begin
   end;
 
   {$ifdef windows}
-  if UiOps.ThemeAutoMode and (GetTickCount64-FDarkCheckTick>3000{don't poll registry often}) then
+  if UiOps.ThemeAutoMode and
+    AppWindowsSettingChanged and
+    (GetTickCount64-FDarkCheckTick>3000{don't poll registry often}) then
   begin
+    AppWindowsSettingChanged:= false;
     FDarkCheckTick:= GetTickCount64;
     FDarkNow:= IsWin32DarkModeViaRegistry;
     if FDarkNow<>FDarkPrev then

@@ -92,6 +92,7 @@ var
   AppDroppingFiles: boolean = false;
   AppClosingTabs: boolean = false;
   AppOpeningFile: boolean = false;
+  AppWindowsSettingChanged: boolean = false; //Win32: it's set by WM_SETTINGCHANGE message
 
   AppCodetreeState: record
     Editor: TATSynEdit; //app never deref-s this pointer (never accesses its properties), to avoid crash after ui-tab was closed
