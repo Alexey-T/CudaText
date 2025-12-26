@@ -709,7 +709,7 @@ Here is short description of file fields, on the example file "data/lexliblite/I
 * "consider_spaces": Boolean flag which enables to parse spaces/tabs between words by RegEx-rules. Otherwise, parser will skip spaces/tabs silently.
 * "rules": Dictionary with parser rules, which must have one or more dictionaries with any names but fixed contents:
 ** "regex": RegEx (ie regular expression) of the rule.
-** "style": Style name, to color that rule rusults. Possible values are listed in the CudaText dialog "Options / Themes / Settings - theme - syntax..."
+** "style": Style name, to color that rule results. Possible values are listed in the CudaText dialog "Options / Themes / Settings - theme - syntax..."
 
 === Differences in lexer support in CudaText/SynWrite ===
 * SynWrite supports "lexer grammar", while CudaText does not support "grammar" anymore.
