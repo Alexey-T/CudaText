@@ -1,4 +1,4 @@
-object SyntAnal21: TLibSyntAnalyzer
+object SyntAnal19: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Comment'
@@ -151,7 +151,7 @@ object SyntAnal21: TLibSyntAnalyzer
       DisplayName = 'Id key'
       StyleName = 'Id key'
       TokenType = 6
-      Expression = '(?<=^[\x20\x09]*) \w[^\x20\x09:]*? (?=:)'
+      Expression = '(?<=^[\x20\x09]*) [\w\.][^\x20\x09:]*? (?=:)'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -195,7 +195,7 @@ object SyntAnal21: TLibSyntAnalyzer
       DisplayName = 'String "'
       StyleName = 'String'
       TokenType = 4
-      Expression = '(?s)(?<=[\s\[\(\{,;])"(\\.|.)*?("|\Z)'
+      Expression = '(?s)(?<=[\s\[\(\{,;=])"(\\.|.)*?("|\Z)'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -230,9 +230,9 @@ object SyntAnal21: TLibSyntAnalyzer
     end
     item
       DisplayName = '1st -'
-      StyleName = 'Id key'
-      TokenType = 8
-      Expression = '(?<=^[\x20\x09]*)\-\x20[a-z_][\w\-]*'
+      StyleName = 'Symbol'
+      TokenType = 3
+      Expression = '(?<=^[\x20\x09]*)\-(?=\x20)'
       ColumnFrom = 0
       ColumnTo = 0
     end
