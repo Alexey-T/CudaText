@@ -239,7 +239,7 @@ object SyntAnal19: TLibSyntAnalyzer
     item
       DisplayName = 'Env var'
       StyleName = 'Env var'
-      Expression = '%[a-z_]\w*%'
+      Expression = '%[a-z_]\w*%|'#13#10'\$[a-z_]\w*|'#13#10'\$\([a-z_]\w*\)'
       ColumnFrom = 0
       ColumnTo = 0
     end
