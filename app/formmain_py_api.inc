@@ -9149,6 +9149,18 @@ begin
               Result:= PyBool_FromLong(Ord(Ok));
           end;
 
+        EDACTION_UPDATE_BEGIN:
+          begin
+            Ed.BeginUpdate;
+            Result:= ReturnNone;
+          end;
+
+        EDACTION_UPDATE_END:
+          begin
+            Ed.EndUpdate;
+            Result:= ReturnNone;
+          end;
+
         else
           Result:= ReturnNone;
       end;
