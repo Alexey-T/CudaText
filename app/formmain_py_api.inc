@@ -9140,15 +9140,6 @@ begin
             Result:= ReturnNone;
           end;
 
-        EDACTION_EXPORT_HTML:
-          begin
-            Ok:= PyHelper_ExportHtml(Ed, StrText1, bToMemory, StrMemory);
-            if bToMemory then
-              Result:= PyUnicodeFromString(StrMemory)
-            else
-              Result:= PyBool_FromLong(Ord(Ok));
-          end;
-
         EDACTION_UPDATE_BEGIN:
           begin
             Ed.BeginUpdate;
@@ -9159,6 +9150,15 @@ begin
           begin
             Ed.EndUpdate;
             Result:= ReturnNone;
+          end;
+
+        EDACTION_EXPORT_HTML:
+          begin
+            Ok:= PyHelper_ExportHtml(Ed, StrText1, bToMemory, StrMemory);
+            if bToMemory then
+              Result:= PyUnicodeFromString(StrMemory)
+            else
+              Result:= PyBool_FromLong(Ord(Ok));
           end;
 
         else
