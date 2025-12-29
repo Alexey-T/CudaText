@@ -3,6 +3,7 @@ object EditorFrame: TEditorFrame
   Height = 346
   Top = 0
   Width = 594
+  LCLVersion = '4.99.0.0'
   TabOrder = 0
   DesignLeft = 59
   DesignTop = 27

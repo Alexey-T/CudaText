@@ -240,6 +240,7 @@ type
     FCaretSlow_WithSel: boolean;
 
     procedure ApplyThemeToInfoPanel(APanel: TPanel);
+    procedure BinaryOnEnter(Sender: TObject);
     procedure BinaryOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure BinaryOnScroll(Sender: TObject);
     procedure BinaryOnProgress(const ACurrentPos, AMaximalPos: Int64;
@@ -2834,6 +2835,7 @@ begin
     FViewer.Hide; //reduce flicker with initial size
     FViewer.OnKeyDown:= @BinaryOnKeyDown;
     FViewer.OnScroll:= @BinaryOnScroll;
+    FViewer.OnEnter:= @BinaryOnEnter;
     FViewer.OnOptionsChange:= @BinaryOnScroll;
     FViewer.OnSelectionChange:= @BinaryOnSelectionChange;
     FViewer.OnSearchProgress:= @BinaryOnProgress;
@@ -5094,6 +5096,11 @@ end;
 procedure TEditorFrame.BinaryOnScroll(Sender: TObject);
 begin
   DoOnUpdateStatusbar(TAppStatusbarUpdateReason.ViewerScroll);
+end;
+
+procedure TEditorFrame.BinaryOnEnter(Sender: TObject);
+begin
+  OnFocusEditor(Ed1);
 end;
 
 procedure TEditorFrame.BinaryOnProgress(const ACurrentPos,
