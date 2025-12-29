@@ -153,6 +153,7 @@ begin
   for NPriority:= MaxPriority downto 0 do
     for NPlugin:= 0 to AppEventList.Count-1 do
       begin
+        if NPlugin>=AppEventList.Count then Break; //prev iteration maybe cleared AppEventList, so check index again
         Plugin:= TAppEventInfo(AppEventList[NPlugin]);
         if not (AEvent in Plugin.ItemEvents) then Continue;
         if (NPriority<>Plugin.ItemEventsPrior[AEvent]) then Continue;
