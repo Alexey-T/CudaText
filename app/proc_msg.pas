@@ -12,9 +12,8 @@ unit proc_msg;
 interface
 
 uses
-  Classes, SysUtils,
-  ATBinHex,
-  ATSynEdit;
+  SysUtils,
+  ATBinHex;
 
 const
   cAppExeVersion = '1.231.2.1';
