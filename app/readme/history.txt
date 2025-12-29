@@ -3,6 +3,10 @@
   - fixed
   * changed
 
+1.231.3 (2025/12)
+
+- fix: if picture-file is opened in the 2nd group, click on picture don't fully focus the ui-tab, so "File / Close and delete file" handles not the picture's ui-tab
+
 1.231.2 (2025/12)
 
 + add: lexer Diff is pre-installed now

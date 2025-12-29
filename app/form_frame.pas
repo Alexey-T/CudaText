@@ -253,6 +253,7 @@ type
       AAllowLexerDetect, AAllowErrorMsgBox,
       AKeepScroll, AAllowLoadUndo: boolean; AOpenMode: TAppOpenMode);
     procedure DoImageboxImageResize(Sender: TObject);
+    procedure DoImageboxOnEnter(Sender: TObject);
     procedure EditorContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
     procedure EditorClickEndSelect(Sender: TObject; APrevPnt, ANewPnt: TPoint);
     procedure EditorClickMoveCaret(Sender: TObject; APrevPnt, ANewPnt: TPoint);
@@ -2903,6 +2904,7 @@ begin
     FImageBox.OptFitToWindow:= true;
     FImageBox.OnKeyDown:= @BinaryOnKeyDown;
     FImageBox.OnImageResize:= @DoImageboxImageResize;
+    FImageBox.OnEnter:= @DoImageboxOnEnter;
   end;
 
   try
@@ -2921,6 +2923,11 @@ end;
 procedure TEditorFrame.DoImageboxImageResize(Sender: TObject);
 begin
   DoOnUpdateStatusbar(TAppStatusbarUpdateReason.PictureResize);
+end;
+
+procedure TEditorFrame.DoImageboxOnEnter(Sender: TObject);
+begin
+  OnFocusEditor(Ed1);
 end;
 
 
