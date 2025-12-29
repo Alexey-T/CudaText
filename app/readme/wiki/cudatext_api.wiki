@@ -3270,6 +3270,8 @@ Notes:
 
 ===Editor.lock, Editor.unlock===
 
+(deprecated, use EDACTION_UPDATE_BEGIN/_END instead)
+
  lock()
  unlock()
 
@@ -3418,6 +3420,8 @@ Performs some action in editor. Possible values of "id":
 ** "param1": Can be empty or "0" or "1". If "1", WrapInfo internal structure will be updated. WrapInfo update is needed after text changes, if program did not detect that changes automatically (in this case simple repaint will be incorrect).
 
 * EDACTION_UNDOGROUP_BEGIN, EDACTION_UNDOGROUP_END: Begins/ends an undo-group. Text editions, which are enclosed in undo-group, are handled by Undo/Redo command in a single step. Other text editions are handled in a single or multiple steps, it depends on CudaText option.
+
+* EDACTION_UPDATE_BEGIN, EDACTION_UPDATE_END: Increases/decreases the 'locked' counter. When counter is > 0, editor paints only ('hourglass' or another) icon and no text is visible. When counter becomes <= 0, editor paints in normal mode. It is safe to call _END action more than needed, counter will remain 0.
 
 * EDACTION_FIND_ONE: Perform text search, get match as 4-tuple of int (start_x, start_y, end_x, end_y) or None if not found. This uses finder independent from CudaText Find/Replace dialog, you must configure this finder via options string.
 ** "param1": Search string.
@@ -5299,5 +5303,10 @@ It provides:
 
 1.0.472 (app 1.231.2)
 * add: before, plugin module names cuda_lint_xxx / cuda_fmt_xxx were skipped as command plugins, now they are allowed
+
+1.0.473 (app 1.231.3)
+* deprecate Editor.lock, Editor.unlock
+* add: Editor.action: EDACTION_UPDATE_BEGIN
+* add: Editor.action: EDACTION_UPDATE_END
 
 [[Category:CudaText]]
