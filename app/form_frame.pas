@@ -240,12 +240,12 @@ type
     FCaretSlow_WithSel: boolean;
 
     procedure ApplyThemeToInfoPanel(APanel: TPanel);
-    procedure BinaryOnEnter(Sender: TObject);
-    procedure BinaryOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure BinaryOnScroll(Sender: TObject);
-    procedure BinaryOnProgress(const ACurrentPos, AMaximalPos: Int64;
+    procedure ViewerOnEnter(Sender: TObject);
+    procedure ViewerOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure ViewerOnScroll(Sender: TObject);
+    procedure ViewerOnProgress(const ACurrentPos, AMaximalPos: Int64;
       var AContinueSearching: Boolean);
-    procedure BinaryOnSelectionChange(Sender: TObject);
+    procedure ViewerOnSelectionChange(Sender: TObject);
     procedure CancelAutocompleteAutoshow;
     procedure DoDeactivatePictureMode;
     procedure DoDeactivateViewerMode;
@@ -2833,12 +2833,12 @@ begin
   begin
     FViewer:= TATBinHex.Create(FFormDummy);
     FViewer.Hide; //reduce flicker with initial size
-    FViewer.OnKeyDown:= @BinaryOnKeyDown;
-    FViewer.OnScroll:= @BinaryOnScroll;
-    FViewer.OnEnter:= @BinaryOnEnter;
-    FViewer.OnOptionsChange:= @BinaryOnScroll;
-    FViewer.OnSelectionChange:= @BinaryOnSelectionChange;
-    FViewer.OnSearchProgress:= @BinaryOnProgress;
+    FViewer.OnKeyDown:= @ViewerOnKeyDown;
+    FViewer.OnScroll:= @ViewerOnScroll;
+    FViewer.OnEnter:= @ViewerOnEnter;
+    FViewer.OnOptionsChange:= @ViewerOnScroll;
+    FViewer.OnSelectionChange:= @ViewerOnSelectionChange;
+    FViewer.OnSearchProgress:= @ViewerOnProgress;
     FViewer.Parent:= FFormDummy;
     FViewer.Align:= alClient;
     FViewer.BorderStyle:= bsNone;
@@ -2904,7 +2904,7 @@ begin
     FImageBox.Align:= alClient;
     FImageBox.BorderStyle:= bsNone;
     FImageBox.OptFitToWindow:= true;
-    FImageBox.OnKeyDown:= @BinaryOnKeyDown;
+    FImageBox.OnKeyDown:= @ViewerOnKeyDown;
     FImageBox.OnImageResize:= @DoImageboxImageResize;
     FImageBox.OnEnter:= @DoImageboxOnEnter;
   end;
@@ -5078,7 +5078,7 @@ end;
 type
   TATSynEdit_Hack = class(TATSynEdit);
 
-procedure TEditorFrame.BinaryOnKeyDown(Sender: TObject; var Key: Word;
+procedure TEditorFrame.ViewerOnKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   if (Shift=[]) then
@@ -5093,24 +5093,24 @@ begin
   TATSynEdit_Hack(Editor).KeyDown(Key, Shift);
 end;
 
-procedure TEditorFrame.BinaryOnScroll(Sender: TObject);
+procedure TEditorFrame.ViewerOnScroll(Sender: TObject);
 begin
   DoOnUpdateStatusbar(TAppStatusbarUpdateReason.ViewerScroll);
 end;
 
-procedure TEditorFrame.BinaryOnEnter(Sender: TObject);
+procedure TEditorFrame.ViewerOnEnter(Sender: TObject);
 begin
   OnFocusEditor(Ed1);
 end;
 
-procedure TEditorFrame.BinaryOnProgress(const ACurrentPos,
+procedure TEditorFrame.ViewerOnProgress(const ACurrentPos,
   AMaximalPos: Int64; var AContinueSearching: Boolean);
 begin
   if Assigned(FOnProgress) then
     FOnProgress(nil, ACurrentPos, AMaximalPos, AContinueSearching);
 end;
 
-procedure TEditorFrame.BinaryOnSelectionChange(Sender: TObject);
+procedure TEditorFrame.ViewerOnSelectionChange(Sender: TObject);
 begin
   FViewerSelectionChanged:= true;
 end;
