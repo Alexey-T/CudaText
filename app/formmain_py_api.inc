@@ -9140,13 +9140,13 @@ begin
             Result:= ReturnNone;
           end;
 
-        EDACTION_UPDATE_BEGIN:
+        EDACTION_LOCK:
           begin
             Ed.BeginUpdate;
             Result:= ReturnNone;
           end;
 
-        EDACTION_UPDATE_END:
+        EDACTION_UNLOCK:
           begin
             Ed.EndUpdate;
             Result:= ReturnNone;
