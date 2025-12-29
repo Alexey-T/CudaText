@@ -137,7 +137,7 @@ begin
     TimerTreeFill.Enabled:= false;
 
     bTreeCached:= false;
-    if F.CachedTreeViewInited[Ed] then
+    if Ed.Visible and F.CachedTreeViewInited[Ed] then
     begin
       CachedTreeview:= F.CachedTreeView[Ed];
       if CachedTreeview.Items.Count>0 then
