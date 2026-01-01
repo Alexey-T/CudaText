@@ -437,7 +437,6 @@ The following lexers (counting only important ones) exist for CudaText. They are
 * Inno Setup
 * Intel HEX
 * Intel ISPC (Implicit SPMD Program Compiler)
-* Jade
 * Janet
 * Jasmine JVM Assembler
 * Java
@@ -529,7 +528,7 @@ The following lexers (counting only important ones) exist for CudaText. They are
 * Prolog
 * Properties
 * Protocol Buffers
-* Pug
+* Pug (previosly named "Jade")
 * Puppet
 * PureBasic
 * PureScript
