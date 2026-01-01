@@ -1655,6 +1655,8 @@ begin
 
   //restore relative splitter ratio (e.g. 50%)
   SplitPos:= SplitPos;
+
+  DoPyEvent(Ed1, TAppPyEvent.OnState, [AppVariant(APPSTATE_TAB_SPLIT_V_H)]);
 end;
 
 procedure TEditorFrame.SetSplitPos(AValue: double);
@@ -1718,6 +1720,8 @@ begin
     Ed1.Strings.OnChangeEx2:= nil;
 
   Ed2.Update(true);
+
+  DoPyEvent(Ed1, TAppPyEvent.OnState, [AppVariant(APPSTATE_TAB_SPLIT)]);
 end;
 
 procedure TEditorFrame.EditorOnChange(Sender: TObject);
