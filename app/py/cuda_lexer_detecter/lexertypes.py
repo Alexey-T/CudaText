@@ -274,7 +274,7 @@ TYPES = {
     "iuml": ['PlantUML'],
     "j": ['Jasmine JVM Assembler'],
     "j2": ['Jinja2'],
-    "jade": ['Jade'],
+    "jade": ['Pug'],
     "jam": ['Perforce Jam'],
     "janet": ['Janet'],
     "jav": ['Java'],
