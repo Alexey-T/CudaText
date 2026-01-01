@@ -5543,12 +5543,6 @@ begin
             Result:= ReturnNone;
           end;
 
-        APP_PROC_SET_EVENTS:
-          begin
-            TPluginHelper.ApiSetDeprecated(Str);
-            Result:= ReturnNone;
-          end;
-
         APP_PROC_EVENTS_SUB:
           begin
             TPluginHelper.ApiSub(Str);

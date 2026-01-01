@@ -1202,10 +1202,8 @@ type
       AEventPrior: byte;
       AEventLazy: boolean);
 
-    class procedure EventsSetDeprecated(const AModuleName, AEventStr, ALexerStr, AKeyStr: string);
     class procedure EventsMaxPrioritiesUpdate;
 
-    class procedure ApiSetDeprecated(const AText: string);
     class procedure ApiSub(const AText: string);
     class procedure ApiUnsub(const AText: string);
 
@@ -3703,40 +3701,6 @@ begin
 end;
 
 
-class procedure TPluginHelper.EventsSetDeprecated(const AModuleName, AEventStr, ALexerStr, AKeyStr: string);
-var
-  EvInfo: TAppEventInfo;
-  i: integer;
-begin
-  //find index of plugin (get first empty index if not listed)
-  EvInfo:= nil;
-  for i:= 0 to AppEventList.Count-1 do
-    with TAppEventInfo(AppEventList[i]) do
-      if (ItemModule=AModuleName) then
-      begin
-        EvInfo:= TAppEventInfo(AppEventList[i]);
-        Break
-      end;
-
-  if EvInfo=nil then
-  begin
-    EvInfo:= TAppEventInfo.Create;
-    AppEventList.Add(EvInfo);
-  end;
-
-  //update item
-  with EvInfo do
-  begin
-    if ItemModule='' then
-      ItemModule:= AModuleName;
-    EventStringToEventData(AEventStr, ItemEvents, ItemEventsPrior, ItemEventsLazy);
-    ItemLexers:= ALexerStr;
-    ItemKeys:= AKeyStr;
-  end;
-
-  EventsMaxPrioritiesUpdate;
-end;
-
 class procedure TPluginHelper.CommandsClearButKeepApiItems;
 var
   i: integer;
@@ -3763,20 +3727,6 @@ begin
     end;
     AppEventsMaxPriorities[Event]:= Value;
   end;
-end;
-
-
-class procedure TPluginHelper.ApiSetDeprecated(const AText: string);
-var
-  Sep: TATStringSeparator;
-  StrModule, StrEvents, StrLexers, StrKeys: string;
-begin
-  Sep.Init(AText, ';');
-  Sep.GetItemStr(StrModule);
-  Sep.GetItemStr(StrEvents);
-  Sep.GetItemStr(StrLexers);
-  Sep.GetItemStr(StrKeys);
-  EventsSetDeprecated(StrModule, StrEvents, StrLexers, StrKeys);
 end;
 
 
