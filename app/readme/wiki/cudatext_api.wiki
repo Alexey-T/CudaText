@@ -101,6 +101,9 @@ Constants in "on_state":
 * APPSTATE_SESSION_LOAD_FAIL: Session loading fails (after APPSTATE_SESSION_LOAD_BEGIN).
 * APPSTATE_PROJECT: Current project in the Project Manager is changed.
 
+* APPSTATE_TAB_SPLIT: Splitting of ui-tab (to primary/secondary editors): splitting toggled.
+* APPSTATE_TAB_SPLIT_V_H: Splitting of ui-tab: changed vertical/horizontal layout.
+
 * APPSTATE_API_SUBCOMMANDS: API call <code>app_proc(PROC_SET_SUBCOMMANDS, ...)</code>.
 * APPSTATE_API_MENU_ADD: API menu_proc() added some menu item.
 * APPSTATE_API_MENU_REMOVE: API menu_proc() removed some menu item.
@@ -5308,5 +5311,7 @@ It provides:
 * deprecate Editor.lock, Editor.unlock
 * add: Editor.action: EDACTION_LOCK
 * add: Editor.action: EDACTION_UNLOCK
+* add: on_state: APPSTATE_TAB_SPLIT
+* add: on_state: APPSTATE_TAB_SPLIT_V_H
 
 [[Category:CudaText]]
