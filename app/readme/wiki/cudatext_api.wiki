@@ -378,9 +378,6 @@ Actions work with props of Find/Replace dialog, and props of low-level search en
 ** If event_list is one character "*" - unsubscribes from all events for specified module.
 ** Action unsubscribes ignoring the "source" of subscribing: app_proc(), "install.inf" file, "plugins.ini" file.
 
-* (deprecated) PROC_SET_EVENTS: Subscribes to event(s). First it unsubscribes from all events for specified module_name and then adds specified events. Param "text" must be 4 values ";"-separated: "module_name;event_list;lexer_list;filter_list".
-** Initial unsubscribing: events from "install.inf" file are removed, but events from "plugins.ini" are kept.
-
 * PROC_EVENTS_ENUM: Returns internal memory structure of plugin events, for the specified module name in param "text", or for all modules if param "text" is empty. Returns list of dicts, each dict corresponds to one section "itemX" in the "install.inf" file (if events are registered in the "install.inf"). Dict keys are:
 ** "module": str: Python module name.
 ** "lex": list of str: List of allowed lexers.
@@ -5308,6 +5305,7 @@ It provides:
 * add: before, plugin module names cuda_lint_xxx / cuda_fmt_xxx were skipped as command plugins, now they are allowed
 
 1.0.473 (app 1.231.3)
+* delete app_proc's PROC_SET_EVENTS (use PROC_EVENTS_SUB/PROC_EVENTS_UNSUB instead)
 * deprecate Editor.lock, Editor.unlock
 * add: Editor.action: EDACTION_LOCK
 * add: Editor.action: EDACTION_UNLOCK
