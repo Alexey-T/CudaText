@@ -292,14 +292,11 @@ begin
 end;
 
 procedure TfmMain.FrameOnSaveFile(Sender: TObject; const fn: string);
-//var
-//  Ed: TATSynEdit;
 begin
-  //Ed:= Sender as TATSynEdit;
   MsgStatus(
-    msgStatusSavedFile+' '+
-    ExtractFileName_Fixed(fn)+
-    ' ('+AppCollapseHomeDirInFilename(ExtractFileDir_Fixed(fn))+')'
+    msgStatusSavedFile+
+    ' "'+ExtractFileName_Fixed(fn)+'" ('+
+    AppCollapseHomeDirInFilename(ExtractFileDir_Fixed(fn))+')'
     );
 
   //if it's user.json, reread app config (using timer!)
