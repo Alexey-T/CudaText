@@ -339,6 +339,27 @@ begin
   try
     s_module:= ini.ReadString('info', 'subdir', '');
     if s_module='' then exit;
+
+    if SBeginsWith(s_module, 'cuda_fmt_') then
+    begin
+      if not DirectoryExists(AppDir_Py+DirectorySeparator+'cuda_fmt') then
+      begin
+        MsgBox(Format('This module "%s" is a formatter subplugin, but CudaFormatter was not installed', [s_module]), MB_OK or MB_ICONERROR);
+        exit;
+      end;
+      AReport+= 'formatter for CudaFormatter'#10;
+    end;
+
+    if SBeginsWith(s_module, 'cuda_lint_') then
+    begin
+      if not DirectoryExists(AppDir_Py+DirectorySeparator+'cuda_lint') then
+      begin
+        MsgBox(Format('This module "%s" is a linter subplugin, but CudaLint was not installed', [s_module]), MB_OK or MB_ICONERROR);
+        exit;
+      end;
+      AReport+= 'linter for CudaLint'#10;
+    end;
+
     ini.ReadSections(sections);
 
     ADirTarget:= AppDir_Py+DirectorySeparator+s_module;
