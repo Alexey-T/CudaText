@@ -3,8 +3,9 @@
   - fixed
   * changed
 
-1.231.3 (2025/12)
+1.231.3 (2026/01)
 
++ add: API: for editors created in dlg_proc, with lexers Markdown/reStructuredText, show folding; it was not shown before because it is supported only by tree-helpers (idea by @badrelmers)
 - fix: if ui-tab with picture or viewer is opened in the non-first group, click on picture/viewer doesn't fully focus the ui-tab
 
 1.231.2 (2025/12)
