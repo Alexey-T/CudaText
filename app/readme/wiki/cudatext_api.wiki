@@ -5304,7 +5304,7 @@ It provides:
 1.0.472 (app 1.231.2)
 * add: before, plugin module names cuda_lint_xxx / cuda_fmt_xxx were skipped as command plugins, now they are allowed
 
-1.0.473 (app 1.231.3)
+1.0.473 (app 1.231.5)
 * delete app_proc's PROC_SET_EVENTS (use PROC_EVENTS_SUB/PROC_EVENTS_UNSUB instead)
 * deprecate Editor.lock, Editor.unlock
 * add: Editor.action: EDACTION_LOCK
