@@ -342,21 +342,23 @@ begin
 
     if SBeginsWith(s_module, 'cuda_fmt_') then
     begin
+      s_caption:= ini.ReadString('info', 'title', '?');
       if not DirectoryExists(AppDir_Py+DirectorySeparator+'cuda_fmt') then
       begin
-        MsgBox('This add-on is a formatter sub-plugin, but CudaFormatter was not installed', MB_OK or MB_ICONERROR);
+        MsgBox(Format('Add-on "%s" requires CudaFormatter (in folder "py/cuda_fmt"), which is not installed', [s_caption]), MB_OK or MB_ICONERROR);
         exit;
       end;
     end;
 
     if SBeginsWith(s_module, 'cuda_lint_') then
     begin
+      s_caption:= ini.ReadString('info', 'title', '?');
       if not DirectoryExists(AppDir_Py+DirectorySeparator+'cuda_lint') then
       begin
-        MsgBox('This add-on is a linter sub-plugin, but CudaLint was not installed', MB_OK or MB_ICONERROR);
+        MsgBox(Format('Add-on "%s" requires CudaLint (in folder "py/cuda_lint"), which is not installed', [s_caption]), MB_OK or MB_ICONERROR);
         exit;
       end;
-      AReport+= msgStatusPackageLinter+' '+ini.ReadString('info', 'title', '?')+#10;
+      AReport+= msgStatusPackageLinter+' '+s_caption+#10;
     end;
 
     ini.ReadSections(sections);
