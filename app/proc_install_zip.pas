@@ -344,7 +344,7 @@ begin
     begin
       if not DirectoryExists(AppDir_Py+DirectorySeparator+'cuda_fmt') then
       begin
-        MsgBox(Format('This module "%s" is a formatter subplugin, but CudaFormatter was not installed', [s_module]), MB_OK or MB_ICONERROR);
+        MsgBox('This add-on is a formatter sub-plugin, but CudaFormatter was not installed', MB_OK or MB_ICONERROR);
         exit;
       end;
     end;
@@ -353,7 +353,7 @@ begin
     begin
       if not DirectoryExists(AppDir_Py+DirectorySeparator+'cuda_lint') then
       begin
-        MsgBox(Format('This module "%s" is a linter subplugin, but CudaLint was not installed', [s_module]), MB_OK or MB_ICONERROR);
+        MsgBox('This add-on is a linter sub-plugin, but CudaLint was not installed', MB_OK or MB_ICONERROR);
         exit;
       end;
       AReport+= msgStatusPackageLinter+' '+ini.ReadString('info', 'title', '?')+#10;
