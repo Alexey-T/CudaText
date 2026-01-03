@@ -347,7 +347,7 @@ begin
         MsgBox(Format('This module "%s" is a formatter subplugin, but CudaFormatter was not installed', [s_module]), MB_OK or MB_ICONERROR);
         exit;
       end;
-      AReport+= 'formatter for CudaFormatter'#10;
+      //AReport+= 'formatter for CudaFormatter'#10; //not needed, such line will be added on finding section [fmtX]
     end;
 
     if SBeginsWith(s_module, 'cuda_lint_') then
