@@ -9189,7 +9189,8 @@ end;
 function TfmMain.DoCodetree_ApplyTreeHelperInPascal(Ed, EdPair: TATSynEdit;
   ATree: TTreeView; const ALexer: string): boolean;
 {
-EdPair, ATree: can be Nil.
+EdPair: can be Nil.
+ATree: can be Nil. Used when we only fill Fold object without filling the code-tree.
 So code must always check them.
 }
 var
