@@ -5,6 +5,7 @@
 
 1.231.5 (2026/01)
 
++ add: GTK2 version: rendering is now about 2 times faster, because of the code part from @AlexanderBagel (parts were licensed under MPL 2.0 / LGPL so we can use them)
 + add: API: for editors created in dlg_proc, with lexers Markdown/reStructuredText, show folding; it was not shown before because it is supported only by tree-helpers (idea by @badrelmers)
 + add: installing ZIPs from command-line: require cuda_fmt for formatters, require cuda_lint for linters (idea by @Hanatarou)
 - fix: if editor has inter-line gaps (e.g. from Insert_Pics plugin) and some gaps are folded, caret screen position (after folded gap) is wrong
