@@ -868,7 +868,8 @@ class Command:
 
         h_editor = dlg_proc(h, DLG_CTL_HANDLE, name='ed_main')
         ed0 = Editor(h_editor)
-        ed0.set_text_all(
+        if False:
+            ed0.set_text_all(
 r"""#include <stdio.h>
 
 int main(int argc, char *argv[])
@@ -879,10 +880,24 @@ int main(int argc, char *argv[])
 
 /* clickable links: www.test.com , https://yahoo.com */
 """)
+        else:
+            ed0.set_text_all(
+'''
+# a1
+## aa1
+## aa2
+### bb1
+
+# a2
+## aa3
+# a3
+end
+'''
+            )
         #ed0.set_caret(0, 3, 0, 2)
         #ed0.set_prop(PROP_CARET_SHAPE, 2)
         ed0.set_prop(PROP_MINIMAP, True)
-        ed0.set_prop(PROP_LEXER_FILE, 'C++')
+        ed0.set_prop(PROP_LEXER_FILE, 'Markdown')
         self.do_editor_gap(ed0, 2)
 
         #-----------------------------------------

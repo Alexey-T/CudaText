@@ -65,6 +65,9 @@ procedure DoForm_CloseDockedForms(F: TForm);
 //var
 //  CustomDialog_Listbox_OnDrawItem: TATListboxDrawItemEvent = nil;
 
+var
+  DlgProc_Adapter_OnParseDone: procedure(Sender: TObject; ATime: integer) of object;
+
 implementation
 
 var
@@ -841,6 +844,7 @@ begin
     Adapter.DynamicHiliteEnabled:= false;
     Adapter.DynamicHiliteMaxLines:= 0;
     Adapter.AddEditor(TATSynEdit(Ctl));
+    Adapter.OnParseDone:= DlgProc_Adapter_OnParseDone;
 
     exit;
   end;
@@ -2439,7 +2443,6 @@ begin
       end;
   end;
 end;
-
 
 function DoForm_GetPropsAsStringDict(F: TFormDummy): PPyObject;
 begin

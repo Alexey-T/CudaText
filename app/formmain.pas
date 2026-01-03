@@ -788,6 +788,7 @@ type
     procedure InvalidateMouseoverDependantControls;
     function IsTooManyTabsOpened: boolean;
     function GetUntitledNumberedCaption: string;
+    procedure DlgProc_MainForm_OnParseDone(Sender: TObject; ATime: integer);
     procedure PopupBottomOnPopup(Sender: TObject);
     procedure PopupBottomClearClick(Sender: TObject);
     procedure PopupBottomCopyClick(Sender: TObject);
@@ -3045,6 +3046,7 @@ begin
   //default "ui_scale":0 must be converted to Screen's DPI
   ATEditorScalePercents:= Max(100, 100*Screen.PixelsPerInch div 96);
   ATSynEdit_Finder.MsgBox_InFinder:= @MsgBox;
+  DlgProc_Adapter_OnParseDone:= @DlgProc_MainForm_OnParseDone;
 
   OnEnter:= @FormEnter;
   TimerCmd.Interval:= UiOps.CommandTimerInterval;
@@ -10346,6 +10348,16 @@ begin
   if FStartupShowFloating1 then ShowFloatingForm1:= true;
   if FStartupShowFloating2 then ShowFloatingForm2:= true;
   if FStartupShowFloating3 then ShowFloatingForm3:= true;
+end;
+
+
+procedure TfmMain.DlgProc_MainForm_OnParseDone(Sender: TObject; ATime: integer);
+// Handler fills the folding of the editor
+var
+  Ada: TATAdapterEControl;
+begin
+  Ada:= Sender as TATAdapterEControl;
+  FrameOnEditorShow(Ada.Editor);
 end;
 
 
