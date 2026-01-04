@@ -103,7 +103,7 @@ begin
   end;
 
   {$ifdef windows}
-  SCopyParams:= WideFormat('/C echo F | xcopy "%s" "%s" /r /h /y', [fnTemp, fn]);
+  SCopyParams:= UnicodeFormat('/C echo F | xcopy "%s" "%s" /r /h /y', [fnTemp, fn]);
   if not RunElevated('cmd.exe', SCopyParams, true, 6000) then
   begin
     MsgBox_ErrorAndSavedTempFile;
