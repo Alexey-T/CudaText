@@ -1956,33 +1956,12 @@ To use the server in LSP Client, create a file "lsp_c.json" in the "settings" di
 Replace "clangd*" with "ccls" if it was chosen.
 
 You can test auto-completion on this sample file main.cpp:
+
 <syntaxhighlight lang="cpp">
-#include <iostream>
-#include <vector>
 #include <string>
-
-class Person {
-public:
-    std::string name;
-    int age;
-
-    Person(const std::string& n, int a) : name(n), age(a) {}
-
-    void introduce() const {
-        std::cout << "Hello, I'm " << name << " and I'm " << age << " years old." << std::endl;
-    }
-};
-
-int main() {
-    std::vector<Person> people;
-    people.emplace_back("Alice", 30);
-    people.emplace_back("Bob", 25);
-
-    for (const auto& p : people) {
-        p.  // <-- Type here and trigger completion: should suggest 'introduce', 'name', 'age', etc.
-    }
-
-    return 0;
+int main(){
+    std::string aaa="aaa";
+    aaa.    // <--- call auto-completion here after "."
 }
 </syntaxhighlight>
 
