@@ -39,6 +39,7 @@ begin
   dir:= ExtractFileDir(fn);
   if not DirectoryExists(dir) then
   begin
+    MsgLogConsole('NOTE: Saving, file''s folder does not exist, recreated: '+dir);
     ForceDirectory(dir);
     if not DirectoryExists(dir) then
     begin
