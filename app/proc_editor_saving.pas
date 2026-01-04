@@ -66,6 +66,15 @@ end;
 procedure SaveViaTempCopy(Ed: TATSynEdit; const fn: string);
 var
   fnTemp: string;
+  //
+  procedure MsgBox_ErrorAndSavedTempFile;
+  begin
+    MsgBox(msgCannotSaveFile+#10+AppCollapseHomeDirInFilename(fn)+#10#10+
+           msgStatusSavedTempFile+#10+AppCollapseHomeDirInFilename(fnTemp),
+           MB_OK or MB_ICONERROR);
+  end;
+  //
+var
   bDocEmpty: boolean;
   {$ifdef windows}
   SCopyParams: UnicodeString;
@@ -75,10 +84,9 @@ var
 begin
   if not DirectoryExists(ExtractFileDir(fn)) then
   begin
-    MsgBox(
-      msgCannotSaveFile+#10+fn+#10#10+
-      msgCannotFindFolder+#10+ExtractFileDir(fn),
-      MB_OK or MB_ICONERROR);
+    MsgBox(msgCannotSaveFile+#10+AppCollapseHomeDirInFilename(fn)+#10#10+
+           msgCannotFindFolder+#10+ExtractFileDir(fn),
+           MB_OK or MB_ICONERROR);
     exit;
   end;
 
@@ -88,15 +96,17 @@ begin
   Ed.FileName:= fn; //Ed.FileName was changed to fnTemp
 
   if IsBadResultFile(fnTemp, bDocEmpty) then
-    raise EFileNotFoundException.Create(msgCannotSaveFile+#10+AppCollapseHomeDirInFilename(fnTemp));
+  begin
+    MsgBox(msgCannotSaveFile+#10+AppCollapseHomeDirInFilename(fnTemp),
+           MB_OK or MB_ICONERROR);
+    exit;
+  end;
 
   {$ifdef windows}
   SCopyParams:= WideFormat('/C echo F | xcopy "%s" "%s" /r /h /y', [fnTemp, fn]);
   if not RunElevated('cmd.exe', SCopyParams, true, 6000) then
   begin
-    MsgBox(msgCannotSaveFile+#10+fn+#10#10+
-           msgStatusSavedTempFile+#10+fnTemp,
-           MB_OK or MB_ICONERROR);
+    MsgBox_ErrorAndSavedTempFile;
     exit;
   end;
   {$else}
@@ -105,39 +115,35 @@ begin
     if FileIsWritable(fn) then
     begin
       if not CopyFile(fnTemp, fn) then
-        raise EWriteError.Create(msgCannotSaveFile+#10+AppCollapseHomeDirInFilename(fn));
+      begin
+        MsgBox_ErrorAndSavedTempFile;
+        exit;
+      end;
     end
     else
     if cCannotSaveToWriteProtectedDirButDontWantPkExec then
       MsgBox(msgCannotSaveAndDontWantToRunPkExec+#10#10+
              Format('cp -T "%s" "%s"', [fnTemp, fn]), MB_OK or MB_ICONWARNING)
     else
+    if not RunCommand('pkexec', ['/bin/cp', '-T', fnTemp, fn], SOutput, [poWaitOnExit]) then
     begin
-      if not RunCommand('pkexec', ['/bin/cp', '-T', fnTemp, fn], SOutput, [poWaitOnExit]) then
-      begin
-        MsgBox(msgCannotSaveFile+#10+AppCollapseHomeDirInFilename(fn)+#10#10+
-               msgStatusSavedTempFile+#10+AppCollapseHomeDirInFilename(fnTemp),
-               MB_OK or MB_ICONERROR);
-        exit;
-        {
-        raise EFileNotFoundException.Create(
-               msgCannotFindPkExec+#10+
-               msgStatusSavedTempFile+#10+AppCollapseHomeDirInFilename(fnTemp));
-               }
-      end;
+      MsgBox_ErrorAndSavedTempFile;
+      exit;
     end;
   end
   else
+  if not CopyFile(fnTemp, fn) then
   begin
-    if not CopyFile(fnTemp, fn) then
-      raise EWriteError.Create(msgCannotSaveFile+#10+AppCollapseHomeDirInFilename(fn));
+    MsgBox_ErrorAndSavedTempFile;
+    exit;
   end;
   {$endif}
 
   if IsBadResultFile(fn, bDocEmpty) then
-    raise EFileNotFoundException.Create(
-          msgCannotSaveFile+#10+AppCollapseHomeDirInFilename(fn)+#10+
-          msgStatusSavedTempFile+#10+AppCollapseHomeDirInFilename(fnTemp));
+  begin
+    MsgBox_ErrorAndSavedTempFile;
+    exit;
+  end;
 
   DeleteFile(fnTemp);
 end;
