@@ -37,6 +37,24 @@ And while CudaText lexer name is "C#", LSP language name is "csharp".
 
 LSP Client also has the settings file, use menu item to open it: "Options / Settings-plugins / LSP Client".
 
+==How to see debug logs==
+You can enable LSP server debug logs, by adding key <code>"log_stderr": true</code> to the "settings/lsp_xxxx.json" server config. For example, for C++ lexer it will look like this:
+
+<syntaxhighlight lang="json">
+{
+  "lexers": {
+    "C++": "cpp",
+    "C": "c"
+  },
+  ...
+  "log_stderr": true,
+}
+</syntaxhighlight>
+
+You need to show the CudaText's sidebar, then click the "LSP" sidebar icon (near the bottom) to show the LSP-panel with several buttons: Messages / Logs / stderr / Diagnostics. One of these buttons is "stderr".
+
+[[File:cudatext-lsp-stderr.png]]
+
 =LSP server for Python=
 Project homepage is https://github.com/python-lsp/python-lsp-server .
 Note that this is fork of old, unmaintained, project "PyLS".
