@@ -34,6 +34,15 @@ uses
 
 procedure SaveSimple(Ed: TATSynEdit; const fn: string);
 begin
+  if not DirectoryExists(ExtractFileDir(fn)) then
+  begin
+    MsgBox(
+      msgCannotSaveFile+#10+fn+#10#10+
+      msgCannotFindFolder+#10+ExtractFileDir(fn),
+      MB_OK or MB_ICONERROR);
+    exit;
+  end;
+
   Ed.SaveToFile(fn);
 end;
 
@@ -53,6 +62,15 @@ var
   SOutput: string;
   {$endif}
 begin
+  if not DirectoryExists(ExtractFileDir(fn)) then
+  begin
+    MsgBox(
+      msgCannotSaveFile+#10+fn+#10#10+
+      msgCannotFindFolder+#10+ExtractFileDir(fn),
+      MB_OK or MB_ICONERROR);
+    exit;
+  end;
+
   bDocEmpty:= Ed.IsEmpty;
   fnTemp:= GetTempFileName('', 'cudatext_');
   SaveSimple(Ed, fnTemp);
@@ -120,17 +138,11 @@ begin
           end;
         on E: EFOpenError do
           begin
-            if DirectoryExists(ExtractFileDir(AFileName)) then
-              SaveViaTempCopy(Ed, AFileName)
-            else
-              MsgBox(msgCannotSaveFile+#10+AFileName+#10#10+msgCannotFindFolder+#10+ExtractFileDir(AFileName), MB_OK or MB_ICONERROR);
+            SaveViaTempCopy(Ed, AFileName);
           end;
         on E: EWriteError do //on Linux, saving to smb folder fails, issue #3435
           begin
-            if DirectoryExists(ExtractFileDir(AFileName)) then
-              SaveViaTempCopy(Ed, AFileName)
-            else
-              MsgBox(msgCannotSaveFile+#10+AFileName+#10#10+msgCannotFindFolder+#10+ExtractFileDir(AFileName), MB_OK or MB_ICONERROR);
+            SaveViaTempCopy(Ed, AFileName);
           end;
         else
           raise;
