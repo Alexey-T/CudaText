@@ -120,11 +120,17 @@ begin
           end;
         on E: EFOpenError do
           begin
-            SaveViaTempCopy(Ed, AFileName);
+            if DirectoryExists(ExtractFileDir(AFileName)) then
+              SaveViaTempCopy(Ed, AFileName)
+            else
+              MsgBox(msgCannotSaveFile+#10+AFileName+#10#10+msgCannotFindFolder+#10+ExtractFileDir(AFileName), MB_OK or MB_ICONERROR);
           end;
         on E: EWriteError do //on Linux, saving to smb folder fails, issue #3435
           begin
-            SaveViaTempCopy(Ed, AFileName);
+            if DirectoryExists(ExtractFileDir(AFileName)) then
+              SaveViaTempCopy(Ed, AFileName)
+            else
+              MsgBox(msgCannotSaveFile+#10+AFileName+#10#10+msgCannotFindFolder+#10+ExtractFileDir(AFileName), MB_OK or MB_ICONERROR);
           end;
         else
           raise;

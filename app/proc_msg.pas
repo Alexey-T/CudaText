@@ -201,6 +201,7 @@ const
 
   msgCannotOpenFile: string = 'Cannot open file:';
   msgCannotFindFile: string = 'Cannot find file:';
+  msgCannotFindFolder: string = 'Cannot find folder:';
   msgCannotOpenNoReadPermissions: string = 'No read-permissions.';
   msgCannotHandleSplittedTab: string = 'Cannot handle the splitted UI-tab';
   msgCannotHandleUntitledTab: string = 'Cannot handle the untitled document';
