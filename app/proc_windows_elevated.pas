@@ -11,14 +11,14 @@ unit proc_windows_elevated;
 
 interface
 
-function RunElevated(const AProgram, AParameters: UnicodeString; AHideWindow: boolean): boolean;
+function RunElevated(const AProgram, AParameters: UnicodeString; AHideWindow: boolean; ATimeout: DWORD): boolean;
 
 implementation
 
 uses
   Windows, ShellAPI, SysUtils, Classes, Forms;
 
-function RunElevated(const AProgram, AParameters: UnicodeString; AHideWindow: boolean): boolean;
+function RunElevated(const AProgram, AParameters: UnicodeString; AHideWindow: boolean; ATimeout: DWORD): boolean;
 var
   sei: TShellExecuteInfoW;
 begin
@@ -37,7 +37,7 @@ begin
   Result := ShellExecuteExW(@sei);
   if Result then
   begin
-    WaitForSingleObject(sei.hProcess, 6*1000{INFINITE});
+    WaitForSingleObject(sei.hProcess, ATimeout);
     CloseHandle(sei.hProcess);
   end;
   {

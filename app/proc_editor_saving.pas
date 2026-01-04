@@ -92,8 +92,13 @@ begin
 
   {$ifdef windows}
   SCopyParams:= WideFormat('/C echo F | xcopy "%s" "%s" /r /h /y', [fnTemp, fn]);
-  if not RunElevated('cmd.exe', SCopyParams, true) then
-    raise EWriteError.Create(msgCannotSaveFile+#10+AppCollapseHomeDirInFilename(fn));
+  if not RunElevated('cmd.exe', SCopyParams, true, 6000) then
+  begin
+    MsgBox(msgCannotSaveFile+#10+fn+#10#10+
+           msgStatusSavedTempFile+#10+fnTemp,
+           MB_OK or MB_ICONERROR);
+    exit;
+  end;
   {$else}
   if cSystemHasPkExec and UiOps.AllowRunPkExec then
   begin
@@ -113,6 +118,7 @@ begin
         MsgBox(msgCannotSaveFile+#10+AppCollapseHomeDirInFilename(fn)+#10#10+
                msgStatusSavedTempFile+#10+AppCollapseHomeDirInFilename(fnTemp),
                MB_OK or MB_ICONERROR);
+        exit;
         {
         raise EFileNotFoundException.Create(
                msgCannotFindPkExec+#10+
@@ -132,6 +138,7 @@ begin
     raise EFileNotFoundException.Create(
           msgCannotSaveFile+#10+AppCollapseHomeDirInFilename(fn)+#10+
           msgStatusSavedTempFile+#10+AppCollapseHomeDirInFilename(fnTemp));
+
   DeleteFile(fnTemp);
 end;
 
