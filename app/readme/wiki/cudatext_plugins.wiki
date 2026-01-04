@@ -1918,9 +1918,12 @@ Test the auto-completion on this "test.ts" file (with TypeScript lexer):
 ==LSP server for C/C++==
 
 Install one of the servers following the instructions:
-* clangd: https://clangd.llvm.org/installation.html
+
+A) clangd: https://clangd.llvm.org/installation.html
 ** For Windows, you need to download "clangd-windows-x.x.x.zip" from https://github.com/clangd/clangd/releases . You need to add folder of "clangd.exe" to the OS PATH in Windows settings.
-* ccls: https://github.com/MaskRay/ccls/wiki/Build + https://github.com/MaskRay/ccls/wiki/Install
+** For Windows, you must download the Visual Studio Build Tools (free) from: https://visualstudio.microsoft.com/downloads/ (scroll to "Tools for Visual Studio" → "Build Tools for Visual Studio").
+
+B) ccls: https://github.com/MaskRay/ccls/wiki/Build + https://github.com/MaskRay/ccls/wiki/Install
 
 To use the server in LSP Client, create a file "lsp_c.json" in the "settings" directory:
 <syntaxhighlight lang="json">
@@ -1939,6 +1942,37 @@ To use the server in LSP Client, create a file "lsp_c.json" in the "settings" di
 </syntaxhighlight>
 
 Replace "clangd*" with "ccls" if it was chosen.
+
+You can test auto-completion on this sample file main.cpp:
+<syntaxhighlight lang="cpp">
+#include <iostream>
+#include <vector>
+#include <string>
+
+class Person {
+public:
+    std::string name;
+    int age;
+
+    Person(const std::string& n, int a) : name(n), age(a) {}
+
+    void introduce() const {
+        std::cout << "Hello, I'm " << name << " and I'm " << age << " years old." << std::endl;
+    }
+};
+
+int main() {
+    std::vector<Person> people;
+    people.emplace_back("Alice", 30);
+    people.emplace_back("Bob", 25);
+
+    for (const auto& p : people) {
+        p.  // <-- Type here and trigger completion: should suggest 'introduce', 'name', 'age', etc.
+    }
+
+    return 0;
+}
+</syntaxhighlight>
 
 ==LSP server for C#==
 
