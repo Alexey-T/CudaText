@@ -37,7 +37,7 @@ begin
   Result := ShellExecuteExW(@sei);
   if Result then
   begin
-    WaitForSingleObject(sei.hProcess, INFINITE);
+    WaitForSingleObject(sei.hProcess, 6*1000{INFINITE});
     CloseHandle(sei.hProcess);
   end;
   {
