@@ -3,6 +3,8 @@
   - fixed
   * changed
 
+- fix: Windows: app freezes when source directory changed its name, but user saves the file (thanks @ags1234)
+
 1.231.5 (2026/01)
 
 + add: GTK2 version: rendering is now about 2 times faster, because of the code part from @AlexanderBagel (parts were licensed under MPL 2.0 / LGPL so we can use them)
