@@ -33,14 +33,21 @@ uses
   proc_globdata;
 
 procedure SaveSimple(Ed: TATSynEdit; const fn: string);
+var
+  dir: string;
 begin
-  if not DirectoryExists(ExtractFileDir(fn)) then
+  dir:= ExtractFileDir(fn);
+  if not DirectoryExists(dir) then
   begin
-    MsgBox(
-      msgCannotSaveFile+#10+fn+#10#10+
-      msgCannotFindFolder+#10+ExtractFileDir(fn),
-      MB_OK or MB_ICONERROR);
-    exit;
+    ForceDirectory(dir);
+    if not DirectoryExists(dir) then
+    begin
+      MsgBox(
+        msgCannotSaveFile+#10+fn+#10#10+
+        msgCannotFindFolder+#10+dir,
+        MB_OK or MB_ICONERROR);
+      exit;
+    end;
   end;
 
   Ed.SaveToFile(fn);
@@ -80,8 +87,8 @@ begin
     raise EFileNotFoundException.Create(msgCannotSaveFile+#10+AppCollapseHomeDirInFilename(fnTemp));
 
   {$ifdef windows}
-  SCopyParams:= WideFormat('"%s" "%s" /r /h /y', [fnTemp, fn]);
-  if not RunElevated('xcopy.exe', SCopyParams, true) then
+  SCopyParams:= WideFormat('/C echo F | xcopy "%s" "%s" /r /h /y', [fnTemp, fn]);
+  if not RunElevated('cmd.exe', SCopyParams, true) then
     raise EWriteError.Create(msgCannotSaveFile+#10+AppCollapseHomeDirInFilename(fn));
   {$else}
   if cSystemHasPkExec and UiOps.AllowRunPkExec then
