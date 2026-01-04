@@ -1,4 +1,4 @@
-== Comments ==
+= Comments =
 
 You can add/remove code comments, via "Comments" plugin. Plugin is preinstalled in CudaText. It gives about 6 commands in menu "Plugins / Comments". Plugin supports only adding/removing of comments, not syntax highlighting for them (highlighting is lexer's work).
 
@@ -17,7 +17,7 @@ Where comment chars are stored:
 * Line comments: in lexer file data/lexlib/*.lcf.
 * Range comments: in additional file data/lexlib/*.cuda-lexmap.
 
-===Commenting options===
+==Commenting options==
 
 Plugin "Comments" has several options, and it gives the dialog to change them: menu item "Options / Settings-plugins / Comments / Config".
 
@@ -107,7 +107,7 @@ With option on, block will be changed to:
      code4();
  ]
 
-== Macros ==
+= Macros =
 
 Macro is a sequence of CudaText actions, which can be saved to a file and invoked later by some command.
 To use macros, you must install plugin "Macros" from Addon Manager. It adds "Macros" menu to CudaText main menu bar. This menu gives items:
@@ -147,7 +147,7 @@ To playback macro:
 *** While text changes
 *** Until caret on last line
 
-===Macro example===
+==Macro example==
 For example, we have text line with HTML tags like this ("|" shows the caret):
 
  ....<tag>....|...........</tag>....
@@ -164,7 +164,7 @@ So, during macro recording, run these commands:
 * "markers: select to last marker"
 * "markers: remove all"
 
-== Project Manager ==
+= Project Manager =
 
 This plugin is preinstalled in CudaText. It shows panel "Project" in the sidebar (to show this panel, call plugin by any command, or call "File / Open folder..." menu item which opens any folder as a "project"). On the project panel, on its tree-view, you can add several "root nodes", each node must be existing file or folder. For folder nodes, plugin auto shows all nested folders. You cannot add nodes on other levels, sub-nodes are auto populated from root folder nodes.
 
@@ -195,7 +195,7 @@ Any project can have '''main file''', you can choose it in the context menu: "Se
 
 Sometimes you may want '''to forget the "temporary" project''' which CudaText may create from Windows Explorer context menu. To do this, just call "Project file / New project" from the right-click menu over the project panel. This does not delete the file "settings/temporary.cuda-proj", but that file will be overwritten soon.
 
-=== Project Manager options dialog ===
+== Project Manager options dialog ==
 
 ;"Ignore files": ";"-separated shell wildcards, which are [https://docs.python.org/3/library/fnmatch.html documented here]. If file name (without path) matches any of these wildcards, it will not be listed in the treeview.
 ;"Ignore folders": ";"-separated shell wildcards. If folder name matches any of these wildcards, it will not be listed in the treeview.
@@ -211,7 +211,7 @@ And options for icons:
 ;"File type icons": Set of file/folder icons for treeview. You can install additional themes from Addons Manager, see category "filetypeicons" there. Example of such theme: "VSCode Material 24x24". This option shows  themes, which are present in the folder "data/filetypeicons".
 ;"Toolbar icons": Set of icons for Project Manager toolbar buttons. You can install additional themes from Addon Manager, see the category "projtoolbaricons" there. This option shows themes, which are present in the folder "data/projtoolbaricons".
 
-=== Preview tab ===
+== Project Manager's preview tab ==
 
 To see the "preview tab", call "File / Open folder" and choose a folder with some files. Folder will be opened in the side panel "Project". Make single click on a file in this project, it will open in the "preview tab". Single "preview tab" is shared by all clicked (in the project) files. It has italic font style of the caption (font style is customizable). When you begin to edit file in the "preview tab", tab becomes "normal" and looses its special status.
 
@@ -223,7 +223,7 @@ If you need to open clicked files in different tab-groups, you can do it - by un
 
 "Preview tab" can be dragged to another tab-group, it should work there too.
 
-=== Switch between projects ===
+== Switch between projects ==
 
 1) To switch to different project, Plugin Manager gives the context menu: "Project File / Recent projects / name.cuda-proj".
 
@@ -249,7 +249,7 @@ If you need to open clicked files in different tab-groups, you can do it - by un
 * In the plugin "Configure Toolbar", add the toolbar button which will switch the project and/or session. The properties of this button are tricky. In the "Command" property of the button, you must enter "exec=path_of_project_file path_of_session file". You cannot type this directly to the dialog field, but you should press the "Enter command line..." button in the dialog and enter the command line contents (full path of .cuda-proj file and/or full path of .cuda-session file). "Configure Toolbar" will store your command line with the "exec=" prefix.
 * CudaText will use the new command-line which you entered after "exec=".
 
-=== Sessions embedded to project ===
+== Sessions embedded to project ==
 
 CudaText supports sessions which are not separate JSON files (*.cuda-session or *.json) but are embedded into project file (*.cuda-proj). Session is still having the same JSON format, but it's nested 2 levels into the project JSON file. Such embedded sessions are visible only to the Project Manager. When an embedded session is active, CudaText window title shows this in curly brackets: "{project_name:session_name}".
 
@@ -275,7 +275,7 @@ You will see this confirmation when doing:
 
 You can disable that option (or press "Cancel" in the confirmation), to save even "not belonging" opened files to embedded session.
 
-== How to bind a hotkey to change lexer ==
+= How to bind a hotkey to change lexer =
 
 You can bind a hotkey to the command "menu: lexers". Find this command in the Command Palette dialog, press F9 - hotkey dialog will appear.
 
@@ -304,7 +304,7 @@ All done. Restart CudaText. You must have new menu item:
 
 In the Command Palette, find this new command, press F9 to set hotkey for it.
 
-== How to bind a hotkey to insert a snippet ==
+= How to bind a hotkey to insert a snippet =
 You can create plugin to insert any text fragment by any hotkey.
 First, create the plugin which gives the command to insert your fragment.
 Next, find this plugin in the Command Palette, press F9 and assign a hotkey there.
@@ -362,7 +362,7 @@ All done. Restart CudaText. You must have new menu items:
 
 In the Command Palette, find these new commands, press F9 to set hotkey for them.
 
-== Snippets ==
+= Snippets =
 
 To use snippets you need:
 
@@ -384,7 +384,7 @@ Plugin supports two snippets folder, but formats of data are the same, VSCode JS
 * CudaText snippets. These are packages with prefix "snippets_ct" in the Addons Manager. They are installed into folder CudaText/data/snippets_ct.
 * VSCode snippets. These are VSCode packages located in the VSCode repositories. Read the separate topic about them below. They are installed to folder CudaText/data/snippets_vs.
 
-=== Snippets from VSCode ===
+== Snippets from VSCode ==
 Since recent versions, Snippets plugin supports snippets from VSCode editor. It gives menu items in "Plugins / Snippets":
 
 * "Install VSCode snippets..." - this suggests to install packages with snippets (packages usually contain more functionality, and CudaText plugin will install only snippets).
@@ -403,7 +403,7 @@ You can create group of snippets (in the "Manage snippets" dialog) for all lexer
 
 Currently most of VSCode/TextMate "macros" are supported in snippets body, but not all. Refer to readme file of the plugin.
 
-=== Snippets for HTML tags ===
+== Snippets for HTML tags ==
 
 CudaText has preinstalled 120+ snippets for HTML tags. (You still need to install Snippets plugin.) They are enabled with HTML lexer. Just type tag name without a bracket, press Tab, and snippet is inserted. E.g. "a"<Tab> will insert:
 
@@ -411,9 +411,9 @@ CudaText has preinstalled 120+ snippets for HTML tags. (You still need to instal
 
 These snippets have markers, so Tab key jumps to the next marker. Last marker is usually placed after the entire tag, ie after ">" bracket.
 
-===Format of snippet files===
+==Format of snippet files==
 
-====Snippets tab-stops====
+===Snippets tab-stops===
 
 Specify tab-stops in the snippet text like this:
 
@@ -429,7 +429,7 @@ After snippet insertion, tab-key goes to next marker(s) and deletes it.
 * Nested markers (with default text) are allowed, but only with one nesting level, e.g. ${2:text is {$3:here}}.
 * Marker with default text ${NN:...} can specify multi-line default text (character "}" is on another line of snippet).
 
-====Snippets macros====
+===Snippets macros===
 Special macros are handled by Snippets plugin in snippet text:
 
 * ${sel} - Text selected before snippet insertion (if snippet called with Tab key, it's empty string)
@@ -481,7 +481,7 @@ For inserting the current date and time:
 * $CURRENT_SECOND - The current second
 * $CURRENT_SECONDS_UNIX - The number of seconds since the Unix epoch
 
-== Snippet Panel ==
+= Snippet Panel =
 
 Plugin "Snippet Panel" is preinstalled in CudaText. It gives an alternative way to use short text fragments (only simple ones) in editor. It adds button to sidebar, and command "Plugins / Snippet Panel". When called, plugin shows panel in the sidebar, with a drop-down list of folders, which contain several "snippets". You can double-click snippets to insert them into text (multi-carets are supported).
 
@@ -508,7 +508,7 @@ Plugin looks for its folders in two places:
 
 Each snippet folder can contain one or more .txt files, in UTF-8 (no BOM) or UTF-16 (with BOM) encoding. Files have snippet per line, in the form "name=value" or simply "name" (if value missed, it equals to name). Each snippet can be simple short string, or string with ${sel} macro to replace selected text. This allows to quote currently selected text by calling snippets from "Quote selection" folder.
 
-== CudaLint ==
+= CudaLint =
 
 CudaLint plugin allows to check correctness of documents in many syntaxes.
 It was initially ported from SublimeLinter 2.x plugin for Sublime Text. 
@@ -524,7 +524,7 @@ Linters are installable like other plugins but they don't add commands, they onl
 "[CudaText]/py/cuda_lint_*", which are automatically used by CudaLint.
 After you install a linter, see readme in its folder, maybe how-to-use info is written there.
 
-=== Linters - usage ===
+== Linters - usage ==
 
 To run linting, use menu item "Plugins / CudaLint / Lint", or set hotkey to this command
 (in CudaText Command Palette, press F9). You will see statusbar message, which tells how many errors
@@ -541,7 +541,7 @@ Linting can also be run by events:
 Events aren't used by default (to not slowdown usual work). To use events, you must enable them in config.
 Call config by menu item in "Options / Settings-plugins".
 
-=== Linters - Node.js ===
+== Linters - Node.js ==
 
 Some linters require Node.js, so for those linters, you must install Node first.
 Those linters are sometimes shipped with Node modules preinstalled (in plugin folder)
@@ -551,7 +551,7 @@ See linter's readme file for details.
 * Windows: "node.exe" must be in PATH, command "node -v" must work in console.
 * Linux: "nodejs" package must be installed, command "nodejs -v" must work in terminal.
 
-=== Linters - authoring ===
+== Linters - authoring ==
 
 To support more lexers, it's a good idea to port linter from SublimeLinter. To port a linter, most you need is:
 
@@ -560,7 +560,7 @@ To support more lexers, it's a good idea to port linter from SublimeLinter. To p
 * Remove in linter usage of Sublime Text API to read settings (often used in linters). You can add usage of settings via CudaText API ini_read, or via json module.
 * If linter was using Node.js, take some code to run Node, from cuda_lint_csslint linter.
 
-=== Linters - per project ===
+== Linters - per project ==
 
 How to configure linters per project? In your project (Project Manager plugin), right-click root node of project treeview, call menu item "Project file / Project properties...". In this dialog, in the "Variablies" field, enter variable(s) like this:
 
@@ -570,7 +570,7 @@ Variable prefix "linter_" required, after goes lower-case lexer name (CSS). Valu
 
 In this example, CudaLint plugin allows, for mentioned lexer CSS, only linter "csslint", even if another CSS linter (e.g. "csstree") is installed and found first.
 
-=== Linters - method split_match ===
+== Linters - method split_match ==
 Linters have RegEx property in class, which must find named groups:
 
 * "line": Line index.
@@ -721,14 +721,14 @@ We override method to ignore errors reported in imported files.
         return match, line, col, error, warning, message, near
 </syntaxhighlight>
 
-== CudaFormatter ==
+= CudaFormatter =
 CudaFormatter is plugin which uses 2nd-level plugins, "formatters", to change the source code. Each "formatter" supports one or more lexers, and provides one or more actions. For example, the Addon Manager contains two formatters for XML: XML IndentX and XML Pretty Print.
 
 CudaFormatter is located in the "plugins" category of Addons Manager install list. 2nd-level "formatters" are located in the "formatter" category of Addons Manager install list.
 
 Formatters may change the entire file text or only selected text. If selection is made, formatter changes only the selection, otherwise the entire text. And special formatters called "minifiers" puts the resulting text to a separate ui-tab.
 
-===How to format XML document===
+==How to format XML document==
 
 For example, how to re-format XML document?
 
@@ -739,7 +739,7 @@ For example, how to re-format XML document?
 * Open an XML document (normal or "lite" lexer XML must activate). It can be a file or untitled document.
 * Call menu item "Plugins / CudaFormatter / Formatter (menu)". This will show the menu of actions from appropriate formatter(s) for the XML (normal or "lite") lexer. Usually, only single XML formatter is installed, so "Formatter (menu)" won't show any menu, it will instantly re-format the document.
 
-===How to format JSON document===
+==How to format JSON document==
 
 For example, how to re-format JSON document?
 
@@ -750,7 +750,7 @@ For example, how to re-format JSON document?
 * Open an JSON document (normal or "lite" lexer JSON must activate). It can be a file or untitled document.
 * Call menu item "Plugins / CudaFormatter / Formatter (menu)". This will show the menu of actions from appropriate formatter(s) for the JSON (normal or "lite") lexer. Usually, 2 formatters are installed: 1) JS Beautify (JSON), 2) JSON Stringify; "Formatter (menu)" will show menu with 2 items. Choose first item "JS Beautify (JSON)".
 
-===CudaFormatter commands===
+==CudaFormatter commands==
 
 [[File:cudatext-fmt-menuitems.png]]
 
@@ -772,7 +772,7 @@ For example, how to re-format JSON document?
 
 ;Configure formatter (local): For those formatters which have configuration file, command will suggest to open "local" config (in the folder of current editor file). If local config not exists, plugin will suggest to create it from the global config.
 
-===How to run formatter ESLint on saving===
+==How to run formatter ESLint on saving==
 * Install from Addons Manager: "CudaFormatter"
 * Install from Addons Manager: "formatter: JavaScript_JSON"
 
@@ -786,16 +786,16 @@ You have package "formatter.JavaScript_JSON" installed and this package gives th
 
 Now for all documents with JavaScript (and "JavaScript Babel") lexer, file saving will call ESLint formatter. Note: ESLint handles only named files, and files which have ESLint configuration created in the file's folder. Document "(CudaText)/py/cuda_fmt_js/readme/readme.txt" tells more details.
 
-===How formatter can know filename===
+==How formatter can know filename==
 Some formatters need to know the processing filename and/or lexer. For example, ESLint formatter must know full filename, to make the temporary file there. How can formatter know it?
 Module "cuda_fmt" has submodule "fmtconfig", which has variables "ed_filename" and "ed_lexer". Python code:
 
  from cuda_fmt import fmtconfig
  fn = fmtconfig.ed_filename
 
-== External Tools ==
+= External Tools =
 
-=== Introduction to External Tools ===
+== Introduction to External Tools ==
 
 Plugin "External Tools" (ExtTools) can be installed from Addon Manager. It allows to run external programs, catch their output, and then it can:
 
@@ -822,7 +822,7 @@ Notes:
 * The disadvantage of the plugin: it cannot show tool output lines immediately when they appear, it waits until tool is terminated. Use the [[#Runner]] plugin which supports that feature.
 * If you see that running of tools makes the Output panel visible, you need to fix the "Capture output" option of those tools, set it to "Ignore".
 
-=== Tool to compile by GCC ===
+== Tool to compile by GCC ==
 
 You can test how this tool works on any Linux, because GCC is preinstalled. Test the tool on C++ example, which is created from CudaText by menu "File / New from template / C++".
 
@@ -841,7 +841,7 @@ Optionally, configure "Pattern", so double click in the Output panel will put ca
 
 * Pattern: (?P<file>[^:]+):(?P<line>\d+):(?P<col>\d+): .+
 
-=== Tool to run C program ===
+== Tool to run C program ==
 
 Tool is for Linux, so "File name" don't have an extension. For Windows, change "File name" field to "{FileNameNoExt}.exe".
 
@@ -857,7 +857,7 @@ Tool will catch the program output in the Output panel, program text input will 
 * Encoding: utf_8
 * Pattern: (empty)
 
-=== Tool to run C program, on Windows, with input in terminal ===
+== Tool to run C program, on Windows, with input in terminal ==
 
 Tool is for Windows, it allows to run compiled C/C++ program in new console window. Text input will work in this console.
 
@@ -889,7 +889,7 @@ Tool props:
 * Encoding: utf_8
 * Pattern: (empty)
 
-=== Tool to run C program, on Linux, with input in terminal ===
+== Tool to run C program, on Linux, with input in terminal ==
 
 Tool is for Linux, it allows to run compiled C/C++ program in new terminal window. Text input will work in this terminal window.
 
@@ -924,7 +924,7 @@ Tool props:
 * Encoding: utf_8
 * Pattern: (empty)
 
-=== Tool to compile+run C program ===
+== Tool to compile+run C program ==
 
 In the External Tools dialog, press Join button, to join 2 tools created in above steps. Properties of joined tool:
 
@@ -932,7 +932,7 @@ In the External Tools dialog, press Join button, to join 2 tools created in abov
 * Series: C - compile; C - run
 * Lexers: C,C++
 
-=== Tool to run current Batch file ===
+== Tool to run current Batch file ==
 
 Tool properties:
 
@@ -945,7 +945,7 @@ Tool properties:
 * Capture output: Output panel
 * Encoding: the same as file's encoding: e.g. utf_8 or cp1251 (cp1251 is Russian ANSI codepage)
 
-=== Tool to compile by Free Pascal ===
+== Tool to compile by Free Pascal ==
 
 This tool is for Free Pascal 3.x on Linux x64.
 
@@ -964,11 +964,11 @@ Properties:
 
 Optionally, configure "Pattern", so double click in the Output panel will put caret to the source code. In the "Tool properties" dialog, press "Set" button near the "Pattern" and choose there ready preset for Free Pascal.
 
-=== Tool to call file-compare utility ===
+== Tool to call file-compare utility ==
 
 Tools, which call file-compare utility, to compare 2 files: active files in group-1 and group-2.
 
-==== WinMerge, KDiff, Kompare====
+=== WinMerge, KDiff, Kompare===
 
 * Name: Compare files in G1, G2
 * File name: (full name of executable file)
@@ -977,7 +977,7 @@ Tools, which call file-compare utility, to compare 2 files: active files in grou
 * Initial folder: (empty)
 * Capture output: Ignore
 
-==== Meld ====
+=== Meld ===
 
 * Name: Compare files in G1, G2
 * File name: (full name of executable file)
@@ -986,7 +986,7 @@ Tools, which call file-compare utility, to compare 2 files: active files in grou
 * Initial folder: (empty)
 * Capture output: Ignore
 
-==== diff ====
+=== diff ===
 
 * Name: Compare files in G1, G2
 * File name: diff
@@ -995,7 +995,7 @@ Tools, which call file-compare utility, to compare 2 files: active files in grou
 * Initial folder: (empty)
 * Capture output: Copy to new document
 
-=== Tool to run Python scripts ===
+== Tool to run Python scripts ==
 
 * Name: Python3
 * File name:
@@ -1011,7 +1011,7 @@ Tools, which call file-compare utility, to compare 2 files: active files in grou
 * Encoding: utf_8
 * Pattern: \s*File "(?P<file>.+)", line (?P<line>\d+)
 
-=== Tool to preview HTML file in Chrome ===
+== Tool to preview HTML file in Chrome ==
 
 * Name: Preview in Chrome
 * File name:
@@ -1023,7 +1023,7 @@ Tools, which call file-compare utility, to compare 2 files: active files in grou
 * Lexers: HTML
 * Capture output: Ignore
 
-=== Tool to open PHP documentation with given topic ===
+== Tool to open PHP documentation with given topic ==
 
 Tool to open PHP documentation, in .chm format, for the word under editor's caret. For Windows only. You need to install KeyHH from http://keyworks.helpmvp.com/ , it is stable tool mentioned on several sites. Program "keyhh.exe" will be in your system PATH.
 
@@ -1042,7 +1042,7 @@ Tool properties:
 * Save before: Nothing
 * Capture output: Ignore
 
-=== Tool to open AutoIt documentation with given topic ===
+== Tool to open AutoIt documentation with given topic ==
 
 Tool to open AutoIt documentation, in .chm format, for the word under editor's caret. For Windows only. You need to install KeyHH from http://keyworks.helpmvp.com/ , it is stable tool mentioned on several sites. Program "keyhh.exe" will be in your system PATH.
 
@@ -1059,7 +1059,7 @@ Tool properties:
 * Save before: Nothing
 * Capture output: Ignore
 
-=== Tool to open .chm documentation for all lexers ===
+== Tool to open .chm documentation for all lexers ==
 
 See above example about tool for PHP documentation. Create the similar tool
 
@@ -1070,7 +1070,7 @@ See above example about tool for PHP documentation. Create the similar tool
 
 This tool needs renamed .chm files: for lexer AutoIt it needs "AutoIt.chm" and so on. It needs .chm files in a single folder relative to CudaText folder.
 
-=== Tool for Google search ===
+== Tool for Google search ==
 
 This is URL (special kind of tool). In the External Tools dialog, press the "URL" button, then press "Add" to add a new URL.
 
@@ -1081,7 +1081,7 @@ This is URL (special kind of tool). In the External Tools dialog, press the "URL
 http://google.com/search?q={SelectedText|q}
 </syntaxhighlight>
 
-=== Tool to open folder of current file in Windows Explorer ===
+== Tool to open folder of current file in Windows Explorer ==
 
 Tool properties:
 
@@ -1091,7 +1091,7 @@ Tool properties:
 * Parameters: {FileDir}
 * Initial folder: {FileDir}
 
-=== Tool to go to current file in FreeCommander ===
+== Tool to go to current file in FreeCommander ==
 
 * Name: Go to file in FreeCommander
 * File name: path\to\FreeCommander.exe
@@ -1684,994 +1684,5 @@ Frequent question: how to make spell checking 'live', ie run it after each chang
 * Restart CudaText.
 
 Now checking should be 'live'. Note: it needs a pause after text editing (about 1 second), because it uses "on_change_slow" to avoid slowdown on editing.
-
-=LSP Client=
-
-Plugin "LSP Client" allows to use Microsoft LSP protocol in CudaText with servers for many languages. 
-It requires that CudaText uses Python 3.6 or newer (otherwise you will see the error messagebox).
-
-LSP Client gives several commands in the "Plugins / LSP Client", and all these commands work only if server supports them.
-Some of LSP commands are:
-
-* Auto-completion: integrated with CudaText command "Auto-completion menu" (in the Command Palette).
-* Go to definition: integrated with CudaText command "Go to definition" (in the Command Palette, and in the editor context menu).
-* Function signature help: integrated with CudaText command "Show function hint" (in the Command Palette).
-* Hover: shows the tooltip when you hover mouse above identifiers. You need the Ctrl key pressed while you hover.
-
-[[File:cudatext-lsp-hover_.png]]
-
-* Find references: finds all locations where an identifier (under first caret) is used and shows menu with locations.
-
-[[File:cudatext-lsp-refs.png]]
-
-* Code linting: checking the correctness of the source code, places underlines and/or bookmarks on "incorrect lines". This feature is also implemented in [[#CudaLint]] and usually it works better/faster there.
-* Document formatting: formatting of the source code by LSP server. This feature is also implemented in [[#CudaFormatter]] and usually it works better/faster there.
-
-All LSP servers should have a homepage with description of their functions, and installation information.
-
-In the server config "lsp_*.json", key "lexers", you need to specify the mapping between CudaText lexer names and LSP language names.
-For example, while CudaText lexer name is "Bash script", LSP language name is "bash".
-And while CudaText lexer name is "C#", LSP language name is "csharp".
-
-<syntaxhighlight lang="json">
-{
-  "lexers": {
-    "C#": "csharp"
-  },
-  ...
-}
-</syntaxhighlight>
-
-LSP Client also has the settings file, use menu item to open it: "Options / Settings-plugins / LSP Client".
-
-==LSP server for Python==
-Project homepage is https://github.com/python-lsp/python-lsp-server .
-Note that this is fork of old, unmaintained, project "PyLS".
-Server supports:
-
-* Auto-completion
-* Go to definition
-* Function signature help
-* Hover
-* Find references
-* Code linting
-* Document formatting
-
-Use "pip" to install the server:
-
- pip install python-lsp-server
- 
-This will expose the command "pylsp" on your PATH. Confirm that installation succeeded by running:
-
- pylsp --help
- 
-Create the file "[CudaText]/settings/lsp_py.json" with text like this:
-
-<syntaxhighlight lang="json">
-{
-  "lexers": {
-    "Python": "python"
-  },
-  "cmd_windows": ["pylsp.exe"],
-  "cmd_unix": ["pylsp"],
-  "cmd_macos": ["pylsp"]
-}
-</syntaxhighlight>
-
-Open some Python script, and call some commands of LSP Client. It will run the server, and it should work.
-
-Recent version of LSP Client supports fuzzy search in the auto-completion list. For Python server, fuzzy search needs additional option in the lsp_py.json:
-
-<syntaxhighlight lang="json">
-{
-  "lexers": {
-    "Python": "python"
-  },
-  "cmd_windows": ["pylsp.exe"],
-  "cmd_unix": ["pylsp"],
-  "cmd_macos": ["pylsp"],
-
-  "settings": {
-    "pylsp": {
-      "plugins": {
-        "jedi_completion": { "fuzzy": true },
-      }
-    }
-  }
-}
-</syntaxhighlight>
-
-Fuzzy search can be tested on this sample script, it must show auto-completion item "write" for "f.wi":
-
-<syntaxhighlight lang="python">
-f = open("a.txt", "w")
-f.wi
-</syntaxhighlight>
-
-==LSP server for Python, pyright==
-
-1. Install the server:
-
- pip install pyright
-
-* On Windows, add folder of "pyright-langserver.exe" to system PATH.
-* On Linux/Unix, get the full path of the program, we will use this path in the next step.
-
- which pyright-langserver
-
-It outputs on Ubuntu:
-
- /home/user/.local/bin/pyright-langserver
-
-* On macOS, install pyright via PIP, not via Homebrew. On macOS, see what output you have after you call this command: "nodeenv env". If you see certificate error, try to fix it with the following command:
-
- /Applications/Python\ 3.10/Install\ Certificates.command
-
-2. Create config (CudaText)/settings/lsp_pyright.json:
-
-<syntaxhighlight lang="json">
-{
-  "lexers": {
-    "Python": "python"
-  },
-  "cmd_windows": ["pyright-langserver.exe", "--stdio"],
-  "cmd_unix": ["/home/user/.local/bin/pyright-langserver", "--stdio"],
-  "cmd_macos": ["/Library/Frameworks/Python.framework/Versions/3.10/bin/pyright-langserver", "--stdio"],
-  "log_stderr": true
-}
-</syntaxhighlight>
-
-3. To disable type checking (which may be confusing), add key "settings" to the above config:
-
-<syntaxhighlight lang="json">
-  "settings": {
-    "python.analysis": {
-      "typeCheckingMode": "off"
-    }
-  }
-</syntaxhighlight>
-
-==LSP server for JavaScript/ReactJS==
-
-* Install lexer for ReactJS: "JavaScript Babel", from "Addons Manager".
-* Install TypeScript and the LSP server. In Terminal:
-
- npm install -g typescript typescript-language-server
-
-* Create CudaText LSP config: file "settings/lsp_js.json" with such content:
-<syntaxhighlight lang="json">
-{
-    "name": "JavaScript",
-    "lexers": {
-        "JavaScript": "javascript",
-        "JavaScript Babel": "javascriptreact"
-    },
-    "cmd_unix": [
-        "typescript-language-server",
-        "--stdio"
-    ],
-    "cmd_windows": [
-        "typescript-language-server.cmd",
-        "--stdio"
-    ]
-}
-</syntaxhighlight>
-This assumes that "typescript-language-server" is in the PATH (it is true on Ubuntu). For Windows, you need to find the folder of "typescript-language-server.cmd" and add it to PATH.
-
-==LSP server for TypeScript==
-
-* Install TypeScript lexer from "Addons Manager".
-* Install TypeScript and the LSP server. In Terminal:
-
- npm install -g typescript typescript-language-server
-
-* Create CudaText LSP config: file "settings/lsp_ts.json" with such content:
-<syntaxhighlight lang="json">
-{
-  "lexers": {
-    "TypeScript": "typescript"
-  },
-  "cmd_unix": [
-    "typescript-language-server", 
-    "--stdio",
-    "--log-level", "4"
-  ],
-  "cmd_windows": [
-    "typescript-language-server.cmd",
-    "--stdio",
-    "--log-level", "4"
-  ]
-}
-</syntaxhighlight>
-This assumes that "typescript-language-server" is in the PATH (it is true on Ubuntu). For Windows, you need to find the folder of "typescript-language-server.cmd" and add it to PATH.
-
-According to https://www.zeusedit.com/lsp/typescript.html, sometimes more complex config file may be needed.
-Here it is on Ubuntu:
-<syntaxhighlight lang="json">
-{
-  "lexers": {
-    "TypeScript": "typescript"
-  },
-  "cmd_unix": [
-    "typescript-language-server", 
-    "--stdio", 
-    "--log-level", "4",
-    "--tsserver-log-verbosity=verbose",
-    "--tsserver-path=/usr/local/lib/node_modules/typescript/lib/"
-  ],
-  "cmd_windows": [
-    "typescript-language-server.cmd",
-    "--stdio", 
-    "--log-level", "4",
-    "--tsserver-log-verbosity=verbose",
-    "--tsserver-path=\"%APPDATA%\\npm\\node_modules\\typescript\\lib\\\""
-  ]
-}
-</syntaxhighlight>
-
-How did I get the last path? It may be different on different Linux'es. It is from the "node_modules" dir which contains the '''globally installed''' Node.js modules. I found it by running "which typescript-language-server", it gave "/usr/local/bin/typescript-language-server". Then I checked symlink target for "/usr/local/bin/typescript-language-server" - it points to the sub-dir of needed "node_modules".
-
-Test the auto-completion on this "test.ts" file (with TypeScript lexer):
-
- document.body.g
-
-==LSP server for C/C++==
-
-Install one of the servers (case A or case B):
-
-Case A. clangd: https://clangd.llvm.org/installation.html
-
-For Windows, you need to download "clangd-windows-x.x.x.zip" from https://github.com/clangd/clangd/releases . You need to add folder of "clangd.exe" to the OS PATH in Windows settings.
-
-For Windows, you must download the Visual Studio Build Tools:
-
-* Download the Visual Studio Build Tools (free) from: https://visualstudio.microsoft.com/downloads/ (scroll to "Tools for Visual Studio" → "Build Tools for Visual Studio").
-* Run the installer.
-* Select the workload "Desktop development with C++".
-* In the optional components, ensure these are checked:
-** "C++ Clang tools for Windows" (optional but useful).
-** The latest MSVC toolset (e.g., MSVC v143 or similar).
-** Windows SDK (usually selected by default).
-
-Case B. ccls:
-* https://github.com/MaskRay/ccls/wiki/Build
-* https://github.com/MaskRay/ccls/wiki/Install
-
-To use the server in LSP Client, create a file "lsp_c.json" in the "settings" directory:
-<syntaxhighlight lang="json">
-{
-  "lexers": {
-    "C++": "cpp",
-    "C": "c"
-  },
-  "cmd_unix": [
-      "clangd-12",
-  ],
-  "cmd_windows": [
-      "clangd",
-  ],
-}
-</syntaxhighlight>
-
-Replace "clangd*" with "ccls" if it was chosen.
-
-You can test auto-completion on this sample file main.cpp:
-
-<syntaxhighlight lang="cpp">
-#include <string>
-int main(){
-    std::string aaa="aaa";
-    aaa.    // <--- call auto-completion here after "."
-}
-</syntaxhighlight>
-
-==LSP server for C#==
-
-First, install the C# lexer from "Plugins / Addons Manager / Install".
-
-1. '''Download OmniSharp from the releases page:''' https://github.com/OmniSharp/omnisharp-roslyn/releases . For Windows 64-bit you may see two packages:
-
-* "omnisharp-win-x64-net6.0.zip" '''(recommended)''' — '''modern .NET 6 build''' (recommended for SDK-style projects such as .NET Core / .NET 5 / .NET 6+). Use this for projects that build with <code>dotnet build</code>. Install .NET 6 SDK and ensure <code>dotnet</code> is on PATH (or set <code>DOTNET_ROOT</code> and <code>OMNISHARP_sdk_path</code> to the NET 6 SDK folder if you cannot change your PATH). Then use "omnisharp-win-x64-net6.0.zip". OmniSharp will use the MSBuild dll included in the .NET SDK. [https://github.com/OmniSharp/omnisharp-roslyn/issues/2339 GitHub].
-
-* "omnisharp-win-x64.zip" — '''legacy .NET Framework/Mono build''' (for older non-SDK csproj formats or Unity projects). Full Framework projects require MSBuild/Mono to be available on the system. Install '''Visual Studio Build Tools''' (choose “.NET desktop build tools” in the installer) or a full Visual Studio on Windows, or install '''Mono''' on Linux/macOS. Then use the legacy OmniSharp build "omnisharp-win-x64.zip". [https://github.com/OmniSharp/omnisharp-vscode/issues/5120 GitHub].
-
-'''Note for Windows 7 users:''' it is recommended to use "omnisharp-win-x64-net6.0.zip" too, but if you must use "omnisharp-win-x64.zip" then newer Visual Studio 2022 Build Tools may not support Windows 7. If you must remain on Windows 7, older OmniSharp release included a bundled <code>msbuild</code> ("omnisharp-win-x64.zip" v1.38.2) it works fine and does not need to have Visual Studio installed (you only need the Reference Assemblies of your targeted framework).
-
-2. '''Install & configure:'''
-
-* Unzip OmniSharp to a folder (for example "C:\OmniSharp"). No need to add OmniSharp to system PATH.
-
-* Create LSP config file: (CudaText)/settings/lsp_cs.json:
-
-<syntaxhighlight lang="json">
-{
-  "lexers": {
-    "C#": "csharp"
-  },
-  "cmd_windows": [
-    "C:\\OmniSharp\\OmniSharp.exe", "-lsp", "-z"
-  ]
-}
-</syntaxhighlight>
-
-Note that backslashes must be doubled (because of JSON format).
-
-3. '''Test'''. To test that server works: create a file "test.cs" (with C# lexer active). Call auto-completion after "date.A".
-
-<syntaxhighlight lang="csharp">
-using System;
-
-public class DateExample
-{
-	public static void Main()
-	{
-		DateTime  date;
-		date.A
-	}
-}
-</syntaxhighlight>
-
-Important note. A CudaText project is necessary to enable LSP features. You must open your C# folder (containing the .sln or .csproj files) as a CudaText project for the LSP to function correctly.
-
-==LSP server for CSS/SCSS/LESS==
-
-The CSS (and SCSS, LESS) server is not easy to install, so here is the instruction, from the author of LSP Client:
-
-* Download the repository of VSCode: https://github.com/microsoft/vscode
-* From the repository, get the folder "extensions/css-language-features/server" and enter in it.
-* Replace the file "tsconfig.json" with content:
-<syntaxhighlight lang="json">
-{
-    "compilerOptions": {
-	    "target": "es2018",
-	    "lib": [
-		    "es2018"
-	    ],
-	    "module": "commonjs",
-	    "strict": true,
-	    "alwaysStrict": true,
-	    "noImplicitAny": true,
-	    "noImplicitReturns": true,
-	    "noImplicitOverride": true,
-	    "noUnusedLocals": true,
-	    "noUnusedParameters": true,
-	    "forceConsistentCasingInFileNames": true,
-	    
-	    "outDir": "./out"
-    },
-  "files": [
-      "src/node/cssServerMain.ts"
-  ]
-}
-</syntaxhighlight>
-
-* Install dependencies and TypeScript. In Terminal:
-
- npm install
- npm install -g typescript
-
-* Compile it. In Terminal:
-
- npx tsc
-
-Server should be compiled.
-
-Create config file (CudaText)/settings/lsp_css.json:
-<syntaxhighlight lang="json">
-{
-    "name": "vsc-css",
-    "lexers": {
-    	"CSS": "css",
-    	"SCSS": "scss",
-    	"Sass": "sass",
-    	"LESS": "less",
-    },
-    "cmd_unix": [
-        "node",
-        "path_to_server/server/out/node/cssServerMain.js",
-        "--stdio"
-    ]
-}
-</syntaxhighlight>
-
-==LSP server for HTML==
-CudaText does not support built-in HTML auto-completion when caret is inside style="..." blocks.
-But LSP server supports it.
-Install server using Node.js:
-
- npm install --global vscode-html-ls-bin
-
-Make config file (CudaText)/settings/lsp_html.json:
-<syntaxhighlight lang="json">
-{
-    "lexers": {
-    	"HTML": "html",
-    },
-    "cmd_windows": ["html-ls.cmd", "--stdio"],
-    "cmd_unix": ["html-ls", "--stdio"]
-}
-</syntaxhighlight>
-
-Make sure the script "html-ls" ("html-ls.cmd" on Windows) is in the PATH.
-
-You may see wrong sorting of CSS properties in the auto-completion list, when auto-completion is called for CSS prop with dash char. To fix that, you need to remove dash char "-" from the "nonword_chars" option. Do it via lexer-specific config for HTML.
-
-==LSP server for Java==
-'''Part 1. Information for Windows.'''
-
-* Install lexer "Java" from Addons Manager.
-
-* Install [https://www.oracle.com/java/technologies/downloads/#jdk19-windows Java SE Development Kit 19] or later. If you have usual Java (JRE) then better remove it first. Then run in Console: 
-
- java -version
-
-It must show something like this:
-
- java version "19.0.1" 2022-10-18
- Java(TM) SE Runtime Environment (build 19.0.1+10-21)
- Java HotSpot(TM) 64-Bit Server VM (build 19.0.1+10-21, mixed mode, sharing)
-
-* Download package "jdt-language-server-1.9.0-2022*.tar.gz" from [https://download.eclipse.org/jdtls/milestones/?d Eclipse JDT Language Server milestone builds] and extract it to "C:\Java\jdt-language-server".
-
-* Create "C:\Java\jLSP.cmd" batch file with the following contents (edit if necessary):
-<syntaxhighlight lang="batch">
-@echo off
-echo.
-echo Usage: jLSP.cmd CacheDir
-echo where "CacheDir" is an absolute path to your data directory. eclipse.jdt.ls stores workspace specific information in it. This should be unique per workspace/project.
-echo.
-
-:: language server installation folder (adjust to suit)
-set Directory=C:/Java/jdt-language-server
-:: language server jar file (update based on version file of jar)
-set JarFile=%Directory%/plugins/org.eclipse.equinox.launcher_1.6.400.v20210924-0641.jar
-:: language server config folder location
-set Config=%Directory%/config_win
-
-set CacheDir=%~1
-echo Directory: %Directory%
-echo   JarFile: %JarFile%
-echo    Config: %Config%
-echo  CacheDir: %CacheDir%
-
-java -Dosgi.bundles.defaultStartLevel=4 -Declipse.product=org.eclipse.jdt.ls.core.product -Dlog.level=ALL -noverify -Xmx1G -jar %JarFile% -configuration %Config% --add-modules=ALL-SYSTEM --add-opens java.base/java.util=ALL-UNNAMED --add-opens java.base/java.lang=ALL-UNNAMED -data %CacheDir%
-</syntaxhighlight>
-
-* Create LSP config file: (CudaText)/settings/lsp_java.json:
-<syntaxhighlight lang="json">
-{
-  "lexers": {
-    "Java": "java"
-  },
-  "cmd_windows": ["C:\\Java\\jLSP.cmd", "./cache_for_proj1"]  
-}
-</syntaxhighlight>
-
-Use testing file "test.java". Place caret on last code line after "System.g" and call auto-completion.
-<syntaxhighlight lang="java">
-public class Example {
-	public static void main(String[] args) {
-		System.g
-	}
-}
-</syntaxhighlight>
-
-'''Part 2. Information for Linux.'''
-
-* Install lexer "Java" from Addons Manager.
-
-* Install "Java SE Development Kit" from [https://www.oracle.com/java/technologies/downloads/#jdk19-linux Oracle website] or from OS package manager. If you have usual Java (JRE) then better remove it first.
-
-On Ubuntu this command works (2022 year):
-
- sudo apt install openjdk-17-jre-headless 
-
-Then run in Console: 
-
- java -version
-
-It must show something like this:
-
- openjdk version "17.0.4" 2022-07-19
- OpenJDK Runtime Environment (build 17.0.4+8-Ubuntu-120.04)
- OpenJDK 64-Bit Server VM (build 17.0.4+8-Ubuntu-120.04, mixed mode, sharing)
-
-* Download package "jdt-language-server-1.9.0-2022*.tar.gz" from [https://download.eclipse.org/jdtls/milestones/?d Eclipse JDT Language Server milestone builds] and extract it to "~\jdt-language-server".
-
-* Create "~\jLSP.sh" shell script with the following contents, and make it executable:
-<syntaxhighlight lang="bash">
-#!/bin/bash
-echo
-echo Usage: jLSP.sh CacheDir
-echo where "CacheDir" is an absolute path to your data directory. eclipse.jdt.ls stores workspace specific information in it. This should be unique per workspace/project.
-echo
-
-# language server installation folder (adjust to suit)
-Directory=~/jdt-language-server
-# language server jar file (update based on version file of jar)
-JarFile=$Directory/plugins/org.eclipse.equinox.launcher_1.6.400.v20210924-0641.jar
-# language server config folder location
-Config=$Directory/config_linux
-
-CacheDir=$1
-echo Directory: $Directory
-echo   JarFile: $JarFile
-echo    Config: $Config
-echo  CacheDir: $CacheDir
-
-java -Dosgi.bundles.defaultStartLevel=4 -Declipse.product=org.eclipse.jdt.ls.core.product -Dlog.level=ALL -noverify -Xmx1G -jar $JarFile -configuration $Config --add-modules=ALL-SYSTEM --add-opens java.base/java.util=ALL-UNNAMED --add-opens java.base/java.lang=ALL-UNNAMED -data $CacheDir
-</syntaxhighlight>
-
-* Create LSP config file: (CudaText)/settings/lsp_java.json:
-<syntaxhighlight lang="json">
-{
-  "lexers": {
-    "Java": "java",
-  },
-  "cmd_unix": ["~/jLSP.sh", "./cache_for_proj1"],
-}
-</syntaxhighlight>
-
-Use testing file "test.java". Place caret on last code line after "System.g" and call auto-completion.
-<syntaxhighlight lang="java">
-public class Example {
-	public static void main(String[] args) {
-		System.g
-	}
-}
-</syntaxhighlight>
-
-==LSP server for Nim==
-
-Server from https://github.com/PMunch/nimlsp works good.
-
-Config file (CudaText)/settings/lsp_nim.json:
-
-<syntaxhighlight lang="json">
-{
-    "name": "nim-lsp",
-    "lexers": {
-        "Nim": "nim"
-    },
-    "cmd_unix": [
-      "~/.nimble/bin/nimlsp"
-    ]
-}
-</syntaxhighlight>
-
-==LSP server for Rust==
-
-RLS server ( https://github.com/rust-lang/rls ) has been deprecated and is no longer supported. It has been replaced with Rust-analyzer. Users are encouraged to uninstall RLS and follow the instructions in the Rust-analyzer manual to install it.
-User needs to download binary file for his system: https://github.com/rust-lang/rust-analyzer#quick-start
-
-Create config (CudaText)/settings/lsp_rust.json:
-
-<syntaxhighlight lang="json">
-{
-  "lexers": {
-    "Rust": "rust"
-  },
-  "cmd_windows": ["rust-analyzer-x86_64-pc-windows-msvc.exe"],
-  "cmd_unix": ["rust-analyzer-x86_64-unknown-linux-gnu"]
-}
-</syntaxhighlight>
-
-==LSP server for AutoHotkey==
-
-* Download the repository of AutoHotkey2: https://github.com/thqby/vscode-autohotkey2-lsp
-* Extract and enter the directory: "vscode-autohotkey2-lsp-main" 
-* Install dependencies and TypeScript. In Terminal:
-
- npm install
- npm install -g typescript
-
-* Enter the directory "server", and compile the server. In Terminal:
-
- npx tsc
-
-Server should be compiled now. To use the server in LSP Client, create the file "lsp_ahk.json" in the "settings" with such content:
-<syntaxhighlight lang="json">
-{
-    "name": "AutoHotkey2",
-    "lexers": {
-        "AutoHotkey": "ahk"
-    },
-    "cmd_unix": [
-        "node",
-        "path_to_server/server/out/server.js",
-        "--stdio"
-    ]
-}
-</syntaxhighlight>
-
-==LSP server for Red==
-
-1) On Linux x64.
-
-* Install Red. Download "red" binary, "chmod +x red", then copy it to PATH dir (/usr/bin on Ubuntu). Command "red" must work from Terminal. Red release 0.6.4 may give errors with the LSP server, so better install build from 30-Sep-2021.
-* Install server from https://github.com/bitbegin/redlangserver, put the repo e.g. to ~/redlangserver.
-* Create file "redlangserver.sh" and put it to some PATH dir. Content:
-
-<syntaxhighlight lang="bash">
-#!/bin/bash
-red ~/redlangserver/server.red
-</syntaxhighlight>
-
-* Create file (CudaText)/settings/lsp_red.json with content:
-
-<syntaxhighlight lang="json">
-{
-  "lexers": {
-    "Red": "red"
-  },
-  "cmd_unix": ["redlangserver.sh"],
-  "cmd_windows": ["c:\\red\\red.exe", "--cli", "c:\\red\\redlangserver\\server.red"]
-}
-</syntaxhighlight>
-
-Server should work now. It gives: mouse hover tooltips (Ctrl + mouse hovering over names), go to definition.
-
-2) On Windows 10 x64.
-
-* Install Red to "c:\Red". Tested the build from 02-Oct-2021.
-* Install server from https://github.com/bitbegin/redlangserver, put the repo to "c:\Red\redlangserver".
-* Run once the command "c:\red\red.exe --cli", it will print "Compiling Red console..." with the big pause.
-* Create file (CudaText)\settings\lsp_red.json with the same content as for Unix. Adjust path to Red folder, if needed.
-
-Server should work now. It gives: mouse hover tooltips (Ctrl + mouse hovering over names), go to definition (works not always, logic when it works is unclear).
-
-Note: don't create .bat or .cmd file with the "red.exe" calling, because it does not work in LSP Client for some reason. 
-
-==LSP server for PHP==
-
-1. Install PHP, Composer. PHP versions 7.4.3 and 8.1 are OK. 
-
-2. Install php-dom extension. php-dom extension is the only needed for this server to work, and it must be installed before you run "composer update".
-
-3. Clone Git repo https://github.com/zobo/php-language-server , and get the full path to the file "php-language-server.php", it will be needed in the next step. See readme "Installation" part, you must do some steps with Composer first, e.g. "composer update" inside php-language-server directory. 
-
-4. Create LSP config (CudaText)/settings/lsp_php.json:
-
-<syntaxhighlight lang="json">
-{
-    "name": "PHP",
-    "lexers": {
-        "PHP": "php"
-    },
-    "tcp_port": 12345,
-    "cmd_unix": [
-      "php",
-      "folder_of_server/bin/php-language-server.php",
-      "--tcp-server=127.0.0.1:12345"
-    ],
-    "cmd_windows": [
-      "php",
-      "D:\\programm\\php\\php-language-server\\bin\\php-language-server.php",
-      "--tcp-server=127.0.0.1:12345"
-    ]
-}
-</syntaxhighlight>
-
-Server should work now. It gives these features: https://github.com/zobo/php-language-server#features .
-
-Auto-completion works, it is not working if you open .php file that is outside of current CudaText project directory.
-In LSP Client config there is a parameter named "root_dir_source". For zobo's server to index .php files they must be inside this dir.
-In CudaText Project Manager you must save your project file to your php project location, otherwise the root_dir will be wrong.
-
-Note: on Windows, in rare cases hanging php.exe process can prevent LSP server from starting. If you see "ReadLoopError" in Console, try to kill all "php" processes and try again.
-
-==LSP server for Bash==
-
-* Install Node.js, see readme here: https://github.com/nodesource/distributions/blob/master/README.md
-* Install Bash server, see readme here: https://github.com/bash-lsp/bash-language-server
-* Install Shellcheck from https://www.shellcheck.net/ - "We strongly recommend that you install shellcheck to enable linting"
-* On Windows, maybe you need to add folder of "bash-language-server.cmd" to system PATH. 
-* Create file (CudaText)/settings/lsp_bash.json with content:
-
-<syntaxhighlight lang="json">
-{
-    "lexers": {
-        "Bash script": "bash"
-    },
-    "cmd_windows": ["bash-language-server.cmd", "start"],    
-    "cmd_unix": ["bash-language-server", "start"]
-}
-</syntaxhighlight>
-
-==LSP server for D==
-
-First, install D lexer from "Addons Manager".
-
-1. Install DLang into "C:\D", for example. For 64-bit compiler, add folder "C:\D\dmd2\windows\bin64" to system PATH. Check that "dmd" and "dub" commands run OK from Windows console.
-
-2. Install the LSP server, run from console:
-
- dub fetch dls
-
-This must show output like
-
- C:\D>dub fetch dls
- Fetching dls 0.26.2...
- Please note that you need to use `dub run <pkgname>` or add it to dependencies of your package to actually use/run it. dub does not do actual installation of packages outside of its own ecosystem.
-
-3. Compile the LSP server, run from console:
-
- dub run dls:bootstrap
-
-This must show output like
-
- C:\D>dub run dls:bootstrap
- Building package dls:bootstrap in C:\Users\user\AppData\Local\dub\packages\dls-0.26.2\dls\bootstrap\
- Running pre-generate commands for dls:i18n...
- Performing "debug" build using C:\D\dmd2\windows\bin64\dmd.exe for x86_64.
- dls:protocol 0.26.2: building configuration "library"...
- dls:i18n 0.26.2: building configuration "library"...
- dls:bootstrap 0.26.2: building configuration "application"...
- Linking...
- Running ../Users/user/AppData/Local/dub/packages/dls-0.26.2/dls/bootstrap/dls_bootstrap.exe
- C:\Users\user\AppData\Local\dub\packages\.bin\dls-latest\dls.exe
-
-Copy to clipboard the last printed filename with dls.exe.
-
-4. Create the CudaText LSP config: (CudaText)/settings/lsp_d.json. The dls.exe filename is from the previous step. Note: backslashes must be doubled (because of JSON format).
-<syntaxhighlight lang="json">
-{
-  "lexers": {
-    "D": "dlang"
-  },
-  "cmd_windows": [
-    "C:\\Users\\user\\AppData\\Local\\dub\\packages\\.bin\\dls-latest\\dls.exe", "--stdio"
-  ]
-}
-</syntaxhighlight>
-
-5. Create test file "test.d" (with lexer D). Test that auto-completion works after "b.":
-<syntaxhighlight lang="d">
-class A {int a; int a2;}
-class B: A {int a3;}
-
-void foo(B b)
-{
- 	b.
-}
-</syntaxhighlight>
-
-==LSP server for Go==
-
-Install lexer Go from "Addons Manager".
-
-1. Install Go. Make sure that Go binary is in the system PATH, and GOPATH variable is also set.
-
-2. Install the LSP server:
-
- go install golang.org/x/tools/gopls@latest
-
-In Ubuntu, this must create binary "gopls" in the folder "~/go/bin" (on Windows it may be "C:\Go\bin"), which is in the PATH. Check that "gopls" runs:
-
- gopls version
-
-It must give output like:
-
- golang.org/x/tools/gopls v0.9.5
-     golang.org/x/tools/gopls@v0.9.5 h1:F3TO5th6TUg40FHrpxZfMkMlVaaTmByeEvylgVHGH2A=
-
-3. Create CudaText LSP config (CudaText)/settings/lsp_go.json:
-<syntaxhighlight lang="json">
-{
-  "lexers": {
-    "Go": "go"
-  },
-  "cmd_unix": [
-    "gopls" 
-  ],
-  "cmd_windows": [
-    "gopls.exe"
-  ]
-}
-</syntaxhighlight>
-
-4. See the content of GOPATH env variable, and create file "test.go" (with lexer Go) in that folder. Check that auto-completion works after "fmt.F":
-<syntaxhighlight lang="go">
-package aa
-import ("fmt")
-
-func main() {
-  fmt.F
-}
-</syntaxhighlight>
-
-==LSP server for Lua==
-
-1. Install server for the command line from https://github.com/sumneko/lua-language-server . Find the full path of the file "lua-language-server" ("lua-language-server.exe" on Windows).
-
-2. Create LSP config (CudaText)/settings/lsp_lua.json:
-<syntaxhighlight lang="json">
-{
-  "lexers": {
-     "Lua": "lua"
-  },
-  "log_stderr": true,
-  "cmd_windows": ["D:\\Programs\\lua-lsp\\bin\\lua-language-server.exe"],
-  "cmd_unix": ["/path/to/lua-language-server"]
-}
-</syntaxhighlight>
-
-==LSP server for Scala==
-
-Install lexer "Scala" from Addons Manager.
-Information for Windows.
-
-1. Install Coursier: https://get-coursier.io/docs/cli-installation
-
-2. Install Metals. Make sure "metals.bat" is in the system PATH.
-
- cs install metals
-
-3. Create LSP config file (CudaText)/settings/lsp_scala.json:
-<syntaxhighlight lang="json">
-{
-  "lexers": {
-    "Scala": "scala"
-  },
-  "cmd_windows": ["metals.bat"]
-}
-</syntaxhighlight>
-
-Testing file for auto-completion:
-
- object Hello extends App {
-     println("Hello, world")
- }
-
-==LSP server for Fortran==
-
-Install lexer "Fortran" from Addons Manager.
-Steps show how to use server on Linux (Ubuntu 20.04) with Python 3 installed.
-
-1. Install the LSP server:
-
- pip install fortran-language-server
-
-Check that command runs OK:
-
- fortls -?
-
-And check its full path:
-
- which fortls
-
-Here it prints: "/home/user/.local/bin/fortls". We will need that full path in the next step, because short program name "fortls" gave errors for me.
-
-2. Create LSP config file: (CudaText)/settings/lsp_fortran.json:
-<syntaxhighlight lang="json">
-{
-  "lexers": {
-    "Fortran": "fortran"
-  },
-  "cmd_unix": [
-      "/home/user/.local/bin/fortls" 
-  ]
-}
-</syntaxhighlight>
-
-3. Make test file "test.for" (with Fortran lexer). Test auto-completion after "CALL myv".
-<syntaxhighlight lang="fortran">
-PROGRAM myprog
-USE test_free, ONLY: scaled_vector
-TYPE(scaled_vector) :: myvec
-CALL myv
-END PROGRAM
-</syntaxhighlight>
-
-==LSP server for Markdown==
-
-1. Get precompiled Marksman LSP server from GitHub: https://github.com/artempyanykh/marksman/releases
-
-2. On Windows, copy "marksman.exe" to some folder in PATH. On Linux, copy "marksman-linux" to this recommended folder in PATH: ~/.local/bin. Set executable permission for Linux binary.
-
- chmod +x marksman-linux
-
-3. Create config file (CudaText)/settings/lsp_md.json:
-<syntaxhighlight lang="json">
-{
-  "lexers": {
-    "Markdown": "markdown"
-  },
-  "cmd_windows": ["marksman.exe"],
-  "cmd_unix": ["marksman-linux"]
-}
-</syntaxhighlight>
-
-Now auto-completion / goto-definition / hover-tooltip must work on this "test.md" file:
-<syntaxhighlight lang="md">
-[reference][abcd]
-[reference][a123]
-
-Some text.
-
-[abcd]: url "title"
-[a123]: url "title2"
-</syntaxhighlight>
-
-==LSP server for V==
-
-* Install V lexer (from "Addons Manager / Plugins / Install")
-* Install V language
-* Install v-analyzer binary from https://github.com/v-analyzer/v-analyzer to a folder (that is included in PATH)
-* Create "lsp_v.json" in CudaText's "settings" folder with the following content:
-<syntaxhighlight lang="json">
-{
-  "lexers": {
-    "V": "v"
-  },
-  "cmd_windows": ["v-analyzer.exe"],
-  "cmd_unix": ["v-analyzer"],
-  "cmd_macos": ["v-analyzer"]
-}
-</syntaxhighlight>
-
-==LSP server Vale==
-Steps for Windows OS.
-
-* Install Vale server. Add path of "vale-ls.exe" to system PATH.
-* Create "lsp_vale.json" in CudaText's "settings" folder. Specify empty lexer name.
-<syntaxhighlight lang="json">
-{
-    "lexers": {
-        "": ""
-    },
-    
-    "cmd_windows": ["vale-ls.exe"],
-    "log_stderr": true,
-    "settings": {
-        "configPath": ""
-    }
-}
-</syntaxhighlight>
-
-* You need to put config file to %UserProfile% folder. For example: "C:\Users\john\.vale.ini".
-* Do not forget to run: "vale sync".
-* Vale server did not support filenames with spaces on Windows OS. To fix it, update Vale to 0.3.7 or newer.
-
-==LSP server for Odin==
-Steps for Windows OS.
-
-* Unzip Odin compiler zip-file into e.g. "C:\Odin". Add this folder to system PATH. Set environment variable ODIN_ROOT to this path.
-* Unzip Odin LSP server zip-file into the same folder, so "ols.exe" is in the same folder as compiler "odin.exe".
-* Install requirements which are needed for Odin.
-* Create "lsp_odin.json" in CudaText's "settings" folder:
-<syntaxhighlight lang="json">
-{
-  "lexers": {
-    "Odin": "odin"
-  },
-  "cmd_windows": [ "C:/Odin/ols.exe" ]
-}
-</syntaxhighlight>
-* Why full path in the "cmd_windows" line: to avoid LSP server log line 'cannot find builtin folder'. It is issue of the server.
-
-Now you must create a CudaText project containing your Odin codes. It is mandatory, otherwise you will see CudaText console log line "LSP: Odin - process exited" and nothing will work. Create project, e.g. "c:\Work\tst.cuda-proj", and source code is "c:\Work\tst.odin" which must be added to the mentioned project. Example file "tst.odin":
-
-<syntaxhighlight lang="odin">
-package tst;
-
-import "core:fmt";
-
-main :: proc(){
-	value: u128;
-	using fmt;
-	print()
-}
-</syntaxhighlight>
-
-Folder "C:\Odin\base" must be also included to CudaText project, in order for LSP to work correctly. To do this, call context menu over Project Manager panel and call menu item "Root nodes / Add folder".
-
-What must work now in the example file:
-
-* Auto-completion
-* Go to definition (editor's context-menu item)
-* Show function-hint (Ctrl+Shift+Space inside function brackets, to show function signature)
-
-Mouse-hover dialog is not working yet for some reason (it's enabled in server by default).
 
 [[Category:CudaText]]
