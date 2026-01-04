@@ -47,8 +47,8 @@ begin
     if not DirectoryExists(dir) then
     begin
       MsgBox(
-        msgCannotSaveFile+#10+fn+#10#10+
-        msgCannotFindFolder+#10+dir,
+        msgCannotSaveFile+#10+AppCollapseHomeDirInFilename(fn)+#10#10+
+        msgCannotFindFolder+#10+AppCollapseHomeDirInFilename(dir),
         MB_OK or MB_ICONERROR);
       exit;
     end;
@@ -81,11 +81,13 @@ var
   {$else}
   SOutput: string;
   {$endif}
+  dir: string;
 begin
-  if not DirectoryExists(ExtractFileDir(fn)) then
+  dir:= ExtractFileDir(fn);
+  if not DirectoryExists(dir) then
   begin
     MsgBox(msgCannotSaveFile+#10+AppCollapseHomeDirInFilename(fn)+#10#10+
-           msgCannotFindFolder+#10+ExtractFileDir(fn),
+           msgCannotFindFolder+#10+AppCollapseHomeDirInFilename(dir),
            MB_OK or MB_ICONERROR);
     exit;
   end;
