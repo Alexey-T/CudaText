@@ -109,7 +109,16 @@ begin
     else
     begin
       if not RunCommand('pkexec', ['/bin/cp', '-T', fnTemp, fn], SOutput, [poWaitOnExit]) then
-        raise EFileNotFoundException.Create(msgCannotFindPkExec+#10+msgStatusSavedTempFile+#10+AppCollapseHomeDirInFilename(fnTemp));
+      begin
+        MsgBox(msgCannotSaveFile+#10+AppCollapseHomeDirInFilename(fn)+#10#10+
+               msgStatusSavedTempFile+#10+AppCollapseHomeDirInFilename(fnTemp),
+               MB_OK or MB_ICONERROR);
+        {
+        raise EFileNotFoundException.Create(
+               msgCannotFindPkExec+#10+
+               msgStatusSavedTempFile+#10+AppCollapseHomeDirInFilename(fnTemp));
+               }
+      end;
     end;
   end
   else
