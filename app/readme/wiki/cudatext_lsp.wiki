@@ -250,26 +250,28 @@ Test the auto-completion on this "test.ts" file (with TypeScript lexer):
 
 Install one of the servers (case A or case B):
 
-Case A. clangd: https://clangd.llvm.org/installation.html
+===Case A. clangd===
+* https://clangd.llvm.org/installation.html
 
 For Windows, you need the "clangd.exe" and "clang.exe" binaries. You can get it in two ways:
 
-**1. Standalone (Lightweight)**
+====1. Standalone (Lightweight)====
 Download "clangd-windows-x.x.x.zip" from https://github.com/clangd/clangd/releases. Extract it and add the "bin" folder to your OS PATH.
 
-**2. Via Compiler Suites (Needed for full auto-completion and headers)**
+====2. Via Compiler Suites (Needed for full auto-completion and headers)====
 If you need clangd to correctly find your project headers and provide full auto-completion, it is better to get it via one of these tools:
 
-* **LLVM Toolchain:** Download the LLVM installer from the LLVM GitHub releases. During installation, select "Add LLVM to the system PATH".
-* **MinGW/MSYS2:** If you use MinGW, install the package "mingw-w64-x86_64-clang-tools-extra".
-* **Visual Studio Build Tools:** ** Download from: https://visualstudio.microsoft.com/downloads/ (scroll to "Tools for Visual Studio" → "Build Tools for Visual Studio").
+* '''LLVM Toolchain:''' Download the LLVM installer from the LLVM GitHub releases. During installation, select "Add LLVM to the system PATH".
+* '''MinGW/MSYS2:''' If you use MinGW, install the package "mingw-w64-x86_64-clang-tools-extra".
+* '''Visual Studio Build Tools:''' 
+** Download from: https://visualstudio.microsoft.com/downloads/ (scroll to "Tools for Visual Studio" → "Build Tools for Visual Studio").
 ** Run the installer and select the workload "Desktop development with C++".
 ** In the optional components, ensure these are checked:
 *** "C++ Clang tools for Windows"
 *** The latest MSVC toolset (e.g., MSVC v143 or similar).
 *** Windows SDK (usually selected by default).
 
-Case B. ccls:
+===Case B. ccls===
 * https://github.com/MaskRay/ccls/wiki/Build
 * https://github.com/MaskRay/ccls/wiki/Install
 
@@ -281,11 +283,11 @@ To use the server in LSP Client, create a file "lsp_c.json" in the "settings" di
     "C": "c"
   },
   "cmd_unix": [
-      "clangd",
+      "clangd"
   ],
   "cmd_windows": [
-      "clangd",
-  ],
+      "clangd"
+  ]
 }
 </syntaxhighlight>
 
