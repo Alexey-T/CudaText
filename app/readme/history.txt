@@ -5,14 +5,14 @@
 
 1.231.6 (2026/01)
 
-+ add: when on Linux we save file on NTFS disk and filename has bad char like ':', show error-message better (thanks @mix-7)
+- fix: when on Linux we try to save file on NTFS disk and filename has bad chars like ':', error-message was not nice (thanks @mix-7)
 - fix: Windows: app freezes when file's folder was externally renamed/deleted, and user saves the file (thanks @ags1234)
-- fix: regression in 1.231.0: when I select many (e.g. 100) lines and do 'clipboard cut', caret is out if visible area then
-- fix: width of Middle East chars was 200%, must be 100% (thanks @Cold)
+- fix: regression in 1.231.0: after selecting many e.g. 100 lines and doing 'clipboard cut', caret goes out if visible area
+- fix: width of Middle-Eastern chars was 200%, must be 100% (thanks @Cold)
 
 1.231.5 (2026/01)
 
-+ add: GTK2 version: rendering is now about 2 times faster, because of the code part from @AlexanderBagel (parts were licensed under MPL 2.0 / LGPL so we can use them)
++ add: GTK2 version: rendering is now about 2 times faster, thanks to the code parts from @AlexanderBagel (parts were licensed under MPL 2.0 / LGPL so we can use them)
 + add: API: for editors created in dlg_proc, with lexers Markdown/reStructuredText, show folding; it was not shown before because it is supported only by tree-helpers (idea by @badrelmers)
 + add: installing ZIPs from command-line: require cuda_fmt for formatters, require cuda_lint for linters (idea by @Hanatarou)
 - fix: if editor has inter-line gaps (e.g. from Insert_Pics plugin) and some gaps are folded, caret screen position (after folded gap) is wrong
