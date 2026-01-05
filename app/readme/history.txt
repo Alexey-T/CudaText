@@ -4,6 +4,7 @@
   * changed
 
 - fix: Windows: app freezes when file's folder was externally renamed/deleted, and user saves the file (thanks @ags1234)
+- fix: when on Linux we save file on NTFS disk and filename has bad char like ':', better show error msg (thanks @mix-7)
 
 1.231.5 (2026/01)
 
