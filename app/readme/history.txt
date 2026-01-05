@@ -10,8 +10,7 @@
 + add: installing ZIPs from command-line: require cuda_fmt for formatters, require cuda_lint for linters (idea by @Hanatarou)
 - fix: if editor has inter-line gaps (e.g. from Insert_Pics plugin) and some gaps are folded, caret screen position (after folded gap) is wrong
 - fix: if ui-tab with picture or viewer is opened in the non-first group, click on picture/viewer doesn't fully focus the ui-tab
-
-- fix: when on Linux we try to save file on NTFS disk and filename has bad chars like ':', error-message was not nice (thanks @mix-7)
+- fix: when on Linux we try to save file on NTFS disk and filename has bad chars like ':', error-message is not nice (thanks @mix-7)
 - fix: Windows: app freezes when file's folder was externally renamed/deleted, and user saves the file (thanks @ags1234)
 - fix: regression in 1.231.0: after selecting many e.g. 100 lines and doing 'clipboard cut', caret goes out if visible area
 - fix: width of Middle-Eastern chars was 200%, must be 100% (thanks @Cold)
@@ -2363,7 +2362,7 @@ core changes for huge documents:
 
 + add: CSS auto-completion:
     a) added lot of missed CSS props/values (by @d-mal)
-    b) added completion for CSS @-rules and pseudo-elements beginning with ":" and "::" (thanks @d-mal)
+    b) added completion for CSS at-rules and pseudo-elements beginning with ":" and "::" (thanks @d-mal)
     c) don't suggest CSS props/values outside of {} brackets
 + add: all auto-completions are disabled if caret is inside comments
 * change: before, "Save" command was ignored if called on unmodified file. It confused users, when file was modified by external program, and was not like in ST3. To change it, added option "ui_save_always" with changed default. (thanks @gh_origin, @tmsg)
