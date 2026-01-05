@@ -1570,7 +1570,7 @@
   //Enable special auto-completion for file:/// URI, which reads file system.
   "autocomplete_file_uri": true,
 
-  //Auto-show auto-completion after typing N word-chars (0: disabled)
+  //Auto-show auto-completion after typing N word-chars (0: disabled).
   //Option is (mostly) for lexer-specific configs.
   "autocomplete_autoshow_chars": 0,
 
