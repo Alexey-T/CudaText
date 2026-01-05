@@ -3,9 +3,11 @@
   - fixed
   * changed
 
+1.231.6 (2026/01)
+
 + add: when on Linux we save file on NTFS disk and filename has bad char like ':', show error-message better (thanks @mix-7)
 - fix: Windows: app freezes when file's folder was externally renamed/deleted, and user saves the file (thanks @ags1234)
-- fix: regression: cmd 'clipboard: cut' with single caret did not scroll to caret
+- fix: regression: when I select many (e.g. 100) lines and press Ctrl+X (cut), caret is out if visible area then
 
 1.231.5 (2026/01)
 
