@@ -55,6 +55,15 @@ You need to show the CudaText's sidebar, then click the "LSP" sidebar icon (near
 
 [[File:cudatext-lsp-stderr.png]]
 
+==Auto-completion hotkey doesn't work==
+
+Sometimes, users have a problem activating auto-completion by Ctrl+Space (default hotkey) on CJK systems.
+
+Grok knows the reason:
+https://grok.com/c/9f1eff0e-d944-4204-8fc7-5f0ef6f93495?rid=7b5ac152-762d-437d-9b68-2c70d8c3f3ae
+
+This problem is not related to LSP plugin, the topic is here just to find it easier.
+
 =LSP server for Python=
 Project homepage is https://github.com/python-lsp/python-lsp-server .
 Note that this is fork of old, unmaintained, project "PyLS".
