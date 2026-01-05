@@ -2337,44 +2337,6 @@ homepage=https://github.com/nnnn/pppp
 
 =Tech topics=
 
-==Auto-completion doesn't work on Chinese system==
-
-Some users have a problem activating auto-completion by Ctrl+Space (default hotkey) on CJK systems.
-
-Grok AI knows the reason: The reason Ctrl+Space doesn't trigger auto-completion in CudaText (when editing an HTML file) while Microsoft Pinyin IME is active is a classic and very annoying conflict that's existed in Windows for many years.
-When the Microsoft Pinyin IME (the default Chinese input method for Simplified Chinese) is active (i.e. the input mode shows Chinese/中), Windows steals the Ctrl+Space keystroke at a very low system level and uses it as the default hotkey to toggle between Chinese and English input modes (中 ↔ 英 / A).
-This happens before the keystroke ever reaches CudaText → CudaText never sees Ctrl+Space → auto-completion (which uses Ctrl+Space by default) doesn't open.
-
-'''Quick summary — why this happens especially often with Chinese users'''
-
-* Many editors/IDEs use Ctrl+Space for completion (VS Code, IntelliJ, Eclipse, CudaText, etc.)
-* Microsoft kept Ctrl+Space as default toggle for Chinese IME for historical compatibility.
-* Even if you disable or change the hotkey in Language Settings → Advanced keyboard settings, it often silently reverts or doesn't fully apply (very well-known Windows bug).
-
-'''How to solve it (most reliable methods in 2025–2026)'''
-
-Pick one (usually the first or second works best):
-
-1. '''Best quick fix''' — just switch IME to English mode before using completion
-
-While Microsoft Pinyin is active, press Shift (single press) or Ctrl+Shift
-→ IME switches to English (shows A/英)
-→ Ctrl+Space in CudaText starts working normally again.
-
-2. '''Disable "old version" compatibility mode''' (surprisingly fixes it for many people in recent Windows versions)
-
-Settings → Time & Language → Language & region → Chinese → Options → Microsoft Pinyin → General
-→ Turn OFF the option "Use previous version of Microsoft Pinyin".
-
-Many users report that this alone makes Ctrl+Space stop being stolen.
-
-3. '''Change or disable the toggle hotkey''' (the official way, but often unreliable)
-
-Settings → Time & Language → Typing → Advanced keyboard settings → Input language hot keys
-→ Change "Between input languages" or "Chinese (Simplified, China) - Microsoft Pinyin" toggle
-→ Set it to something else (e.g. Ctrl+Shift+Z or none)
-→ Log out and log back in (very important — changes usually don't apply immediately).
-
 ==Encoding detection==
 
 Encoding detection works by this pseudo-code:
@@ -3044,7 +3006,45 @@ class Command:
             return False
 </syntaxhighlight>
 
-==Windows: substitute another font for missing font characters==
+==Windows: Auto-completion doesn't work on Chinese system==
+
+Some users have a problem activating auto-completion by Ctrl+Space (default hotkey) on CJK systems.
+
+Grok AI knows the reason: The reason Ctrl+Space doesn't trigger auto-completion in CudaText (when editing an HTML file) while Microsoft Pinyin IME is active is a classic and very annoying conflict that's existed in Windows for many years.
+When the Microsoft Pinyin IME (the default Chinese input method for Simplified Chinese) is active (i.e. the input mode shows Chinese/中), Windows steals the Ctrl+Space keystroke at a very low system level and uses it as the default hotkey to toggle between Chinese and English input modes (中 ↔ 英 / A).
+This happens before the keystroke ever reaches CudaText → CudaText never sees Ctrl+Space → auto-completion (which uses Ctrl+Space by default) doesn't open.
+
+'''Quick summary — why this happens especially often with Chinese users'''
+
+* Many editors/IDEs use Ctrl+Space for completion (VS Code, IntelliJ, Eclipse, CudaText, etc.)
+* Microsoft kept Ctrl+Space as default toggle for Chinese IME for historical compatibility.
+* Even if you disable or change the hotkey in Language Settings → Advanced keyboard settings, it often silently reverts or doesn't fully apply (very well-known Windows bug).
+
+'''How to solve it (most reliable methods in 2025–2026)'''
+
+Pick one (usually the first or second works best):
+
+1. '''Best quick fix''' — just switch IME to English mode before using completion
+
+While Microsoft Pinyin is active, press Shift (single press) or Ctrl+Shift
+→ IME switches to English (shows A/英)
+→ Ctrl+Space in CudaText starts working normally again.
+
+2. '''Disable "old version" compatibility mode''' (surprisingly fixes it for many people in recent Windows versions)
+
+Settings → Time & Language → Language & region → Chinese → Options → Microsoft Pinyin → General
+→ Turn OFF the option "Use previous version of Microsoft Pinyin".
+
+Many users report that this alone makes Ctrl+Space stop being stolen.
+
+3. '''Change or disable the toggle hotkey''' (the official way, but often unreliable)
+
+Settings → Time & Language → Typing → Advanced keyboard settings → Input language hot keys
+→ Change "Between input languages" or "Chinese (Simplified, China) - Microsoft Pinyin" toggle
+→ Set it to something else (e.g. Ctrl+Shift+Z or none)
+→ Log out and log back in (very important — changes usually don't apply immediately).
+
+==Windows: Substitute another font for missing font characters==
 
 In many fonts, many Unicode characters are missing. This gives problem on Windows 10/11: these characters will be omitted in the rendered result, because CudaText uses GDI rendering system.
 
