@@ -913,38 +913,38 @@ Shows dialog with controls of many types. This is legacy API, it is recommended 
 
 ====dlg_custom - Types of controls====
 
-* "button": simple button
-* "label": simple read-only text
-* "check": checkbox, checked/unchecked/grayed
-* "radio": radio-button, only one of radio-buttons can be checked
-* "edit": single-line input
-* "edit_pwd": single-line input for password, text is masked
-* "combo": combobox, editable + drop-down, value is text
-* "combo_ro": combobox, drop-down only, value is index of drop-down
-* "listbox": list of items with one item selected
-* "checkbutton": looks like button, but don't close dialog, checked/unchecked
-* "memo": multi-line input
-* "checkgroup": group of check-boxes
-* "radiogroup": group of radio-buttons
-* "checklistbox": listbox with checkboxes
-* "spinedit": input for numbers, has min-value, max-value, increment
-* "listview": list with columns, with column headers, value is index
-* "checklistview": listview with checkboxes, value is check-flags
-* "linklabel": label which activates URL on click
-* "panel": rectangle with centered caption only (client area is entire rect)
-* "group": rectangle with OS-themed border and caption on border (client area is decreased by this border)
-* "colorpanel": panel, with N-pixels colored border, with colored background
-* "image": picture, which shows picture-file
-* "trackbar": horiz/vert bar with handler, has position
-* "progressbar": horiz/vert bar, only shows position
-* "progressbar_ex": like progressbar, with new styles
-* "filter_listbox": input, which filters content of another "listbox" control
-* "filter_listview": input, which filter content of another "listview" control
-* "bevel": control which shows only border (at one side, or all 4 sides), w/o value/caption
-* "tabs": TabControl: set of tabs, w/o pages attached to them
-* "pages": PageControl: set of tabs, with pages attached to them (only one of pages is visible)
+* "button": simple button.
+* "label": simple read-only text.
+* "check": checkbox, checked/unchecked/grayed.
+* "radio": radio-button, only one of radio-buttons can be checked.
+* "edit": single-line input.
+* "edit_pwd": single-line input for password, text is masked.
+* "combo": combobox, editable + drop-down, value is text.
+* "combo_ro": combobox, drop-down only, value is index of drop-down.
+* "listbox": list of items with one item selected.
+* "checkbutton": looks like button, but don't close dialog, checked/unchecked.
+* "memo": multi-line input.
+* "checkgroup": group of check-boxes.
+* "radiogroup": group of radio-buttons.
+* "checklistbox": listbox with checkboxes.
+* "spinedit": input for numbers, has min-value, max-value, increment.
+* "listview": list with columns, with column headers, value is index.
+* "checklistview": listview with checkboxes, value is check-flags.
+* "linklabel": label which activates URL on click.
+* "panel": rectangle with centered caption only (client area is entire rect).
+* "group": rectangle with OS-themed border and caption on border (client area is decreased by this border).
+* "colorpanel": panel, with N-pixels colored border, with colored background.
+* "image": picture, which shows picture-file.
+* "trackbar": horiz/vert bar with handler, has position.
+* "progressbar": horiz/vert bar, only shows position.
+* "progressbar_ex": like progressbar, with new styles.
+* "filter_listbox": input, which filters content of another "listbox" control.
+* "filter_listview": input, which filter content of another "listview" control.
+* "bevel": control which shows only border (at one side, or all 4 sides), w/o value/caption.
+* "tabs": TabControl: set of tabs, w/o pages attached to them.
+* "pages": PageControl: set of tabs, with pages attached to them (only one of pages is visible).
 * "splitter": divider bar (vertical or horizontal), which can be dragged by mouse, to change width/height of nearest control. It finds linked control, ie control with the same "parent" and "align", which position (coordinates) are nearest to the splitter. On mouse drag, splitter resizes this linked control. It's recommended to place another control with "align": ALIGN_CLIENT, so splitter will resize two controls at once. A panel may contain several splitters (mixed with other controls between them).
-* "scrollbox": like panel, but has two auto-shown scrollbars to scroll the area containing children controls (ie controls which parent is this scrollbox)
+* "scrollbox": like panel, but has two auto-shown scrollbars to scroll the area containing children controls (ie controls which parent is this scrollbox).
 
 Details:
 
@@ -992,25 +992,25 @@ Possible properties:
 
 Possible values of "items" in "dlg_custom":
 
-* For "combo", "combo_ro", "listbox", "checkgroup", "radiogroup", "checklistbox", "tabs": "\t"-separated lines
+* For "combo", "combo_ro", "listbox", "checkgroup", "radiogroup", "checklistbox", "tabs": "\t"-separated lines.
 * For "listview", "checklistview": "\t"-separated items.
-** first item is column headers: title1+"="+size1 + "\r" + title2+"="+size2 + "\r" +...
-** size1...sizeN can be with lead char to specify alignment of column: L (default), R, C
-** other items are data: cell1+"\r"+cell2+"\r"+... (count of cells may be less than count of columns)
-* For "image": full path of picture file (png/gif/jpg/bmp)
+** first item is column headers: <code>title1+"="+size1 + "\r" + title2+"="+size2 + "\r" +...</code>.
+** size1...sizeN can be with lead char to specify alignment of column: "L" for left (default), "R" for right, "C" for center.
+** other items are data: <code>cell1+"\r"+cell2+"\r"+...</code> (count of cells may be less than count of columns).
+* For "image": full path of picture file (PNG/GIF/JPG/BMP).
 
 Action DLG_CTL_PROP_GET also returns key "items" (in the same format) for these controls: "listbox", "checklistbox", "listview", "checklistview".
 
 ====dlg_custom - Property "columns"====
 
 * For "listview", "checklistview": "\t"-separated items, each item is "\r"-separated props of a column:
-** caption (must be without "\t", "\r", "\n")
-** width, as str
+** caption (must be without "\t", "\r", "\n").
+** width, as str.
 ** (optional) minimal width, as str. 0 means "not used". Not supported on Windows.
 ** (optional) maximal width, as str. 0 means "not used". Not supported on Windows.
-** (optional) alignment - one of "L", "R", "C"
-** (optional) autosize - "0", "1"
-** (optional) visible - "0", "1"
+** (optional) alignment - one of "L", "R", "C".
+** (optional) autosize - "0", "1".
+** (optional) visible - "0", "1".
 
 * For "radiogroup", it is number of vertical columns of radiobuttons.
 
@@ -1039,76 +1039,76 @@ Action DLG_CTL_PROP_SET, for "listview", allows both "items" (it sets columns) a
 Properties "ex0"..."ex9" are specific to each control kind. They have different simple types (str, bool, int...). Note: for dlg_custom, bool values must be specified as "0"/"1", not as strings "True"/"False".
 
 * "button":
-** "ex0": bool: default for Enter key
+** "ex0": bool: default for Enter key.
 * "edit":
-** "ex0": bool: read-only
-** "ex1": bool: font is monospaced
-** "ex2": bool: show border
+** "ex0": bool: read-only.
+** "ex1": bool: font is monospaced.
+** "ex2": bool: show border.
 * "memo":
-** "ex0": bool: read-only
-** "ex1": bool: font is monospaced
-** "ex2": bool: show border
-** "ex3": bool: word wrap
+** "ex0": bool: read-only.
+** "ex1": bool: font is monospaced.
+** "ex2": bool: show border.
+** "ex3": bool: word wrap.
 * "spinedit":
-** "ex0": int: min value
-** "ex1": int: max value
-** "ex2": int: increment
+** "ex0": int: min value.
+** "ex1": int: max value.
+** "ex2": int: increment.
 * "label":
-** "ex0": bool: right aligned
+** "ex0": bool: right aligned.
 * "linklabel":
 ** "ex0": str: URL. Should not have ",". Clicking on http:/mailto: URLs should work, result of clicking on other kinds depends on OS.
 * "listview":
-** "ex0": bool: show grid lines
+** "ex0": bool: show grid lines.
 * "radiogroup":
-** "ex0": int: 0: arrange items horizontally then vertically (default); 1: opposite
+** "ex0": int: 0: arrange items horizontally then vertically (default); 1: opposite.
 * "tabs", "pages":
-** "ex0": int: 0: tab position on top, 1: on bottom, 2: on left, 3: on right
+** "ex0": int: 0: tab position on top, 1: on bottom, 2: on left, 3: on right.
 * "colorpanel":
-** "ex0": int: border width (from 0)
-** "ex1": int: color of fill
-** "ex2": int: color of font
-** "ex3": int: color of border
+** "ex0": int: border width (from 0).
+** "ex1": int: color of fill.
+** "ex2": int: color of font.
+** "ex3": int: color of border.
 * "filter_listview":
-** "ex0": bool: filter works for all columns
+** "ex0": bool: filter works for all columns.
 * "image":
-** "ex0": bool: center picture
-** "ex1": bool: stretch picture
-** "ex2": bool: allow stretch in
-** "ex3": bool: allow stretch out
-** "ex4": bool: keep origin x, when big picture clipped
-** "ex5": bool: keep origin y, when big picture clipped
+** "ex0": bool: center picture.
+** "ex1": bool: stretch picture.
+** "ex2": bool: allow stretch in.
+** "ex3": bool: allow stretch out.
+** "ex4": bool: keep origin x, when big picture clipped.
+** "ex5": bool: keep origin y, when big picture clipped.
 * "trackbar":
-** "ex0": int: orientation (0: horz, 1: vert)
-** "ex1": int: min value
-** "ex2": int: max value
-** "ex3": int: line size
-** "ex4": int: page size
-** "ex5": bool: reversed
-** "ex6": int: tick marks position (0: bottom-right, 1: top-left, 2: both)
-** "ex7": int: tick style (0: none, 1: auto, 2: manual)
+** "ex0": int: orientation (0: horz, 1: vert).
+** "ex1": int: min value.
+** "ex2": int: max value.
+** "ex3": int: line size.
+** "ex4": int: page size.
+** "ex5": bool: reversed.
+** "ex6": int: tick marks position (0: bottom-right, 1: top-left, 2: both).
+** "ex7": int: tick style (0: none, 1: auto, 2: manual).
 * "progressbar":
-** "ex0": int: orientation (0: horz, 1: vert, 2: right-to-left, 3: top-down)
-** "ex1": int: min value
-** "ex2": int: max value
-** "ex3": bool: smooth bar
-** "ex4": int: step
-** "ex5": int: style (0: normal, 1: marquee)
-** "ex6": bool: show text (only for some OSes)
+** "ex0": int: orientation (0: horz, 1: vert, 2: right-to-left, 3: top-down).
+** "ex1": int: min value.
+** "ex2": int: max value.
+** "ex3": bool: smooth bar.
+** "ex4": int: step.
+** "ex5": int: style (0: normal, 1: marquee).
+** "ex6": bool: show text (only for some OSes).
 * "progressbar_ex":
-** "ex0": int: style (0: text only, 1: horz bar, 2: vert bar, 3: pie, 4: needle, 5: half-pie)
-** "ex1": int: min value
-** "ex2": int: max value
-** "ex3": bool: show text
-** "ex4": int: color of background
-** "ex5": int: color of foreground
-** "ex6": int: color of border
+** "ex0": int: style (0: text only, 1: horz bar, 2: vert bar, 3: pie, 4: needle, 5: half-pie).
+** "ex1": int: min value.
+** "ex2": int: max value.
+** "ex3": bool: show text.
+** "ex4": int: color of background.
+** "ex5": int: color of foreground.
+** "ex6": int: color of border.
 * "bevel":
-** "ex0": int: shape (0: sunken panel, 1: 4 separate lines - use it as border for group of controls, 2: top line, 3: bottom line, 4: left line, 5: right line, 6: no lines, empty space)
+** "ex0": int: shape (0: sunken panel, 1: 4 separate lines - use it as border for group of controls, 2: top line, 3: bottom line, 4: left line, 5: right line, 6: no lines, empty space).
 * "splitter":
-** "ex0": bool: paint border
-** "ex1": bool: on mouse drag, use instant repainting (else splitter paints after mouse released)
-** "ex2": bool: auto jump to edge, when size of linked control becomes < min size
-** "ex3": int: minimal size of linked control (controlled by splitter)
+** "ex0": bool: paint border.
+** "ex1": bool: on mouse drag, use instant repainting (else splitter paints after mouse released).
+** "ex2": bool: auto jump to edge, when size of linked control becomes < min size.
+** "ex3": int: minimal size of linked control (controlled by splitter).
 
 ====dlg_custom - Return value====
 
