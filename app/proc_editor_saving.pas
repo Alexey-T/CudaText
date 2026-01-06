@@ -34,7 +34,7 @@ uses
 
 procedure SaveSimple(Ed: TATSynEdit; const fn: string);
 var
-  dir: string;
+  dir, fn_name: string;
 begin
   dir:= ExtractFileDir(fn);
   if not DirectoryExists(dir) then
@@ -54,7 +54,19 @@ begin
     end;
   end;
 
-  Ed.SaveToFile(fn);
+  try
+    Ed.SaveToFile(fn);
+  except
+    //if user saves filename '/path/aa:bb:cc.txt' on Linux on exFAT disk, try to replace ':' chars
+    fn_name:= ExtractFileName(fn);
+    if Pos(':', fn_name)>0 then
+    begin
+      fn_name:= StringReplace(fn_name, ':', '_', [rfReplaceAll]);
+      Ed.SaveToFile(dir+DirectorySeparator+fn_name);
+    end
+    else
+      raise;
+  end;
 end;
 
 function IsBadResultFile(const fn: string; AllowEmpty: boolean): boolean;
