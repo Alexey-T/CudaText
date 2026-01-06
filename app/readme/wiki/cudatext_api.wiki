@@ -1125,7 +1125,7 @@ Dialog is closed by clicking any button or by changing of any control which has 
 * Property "type" must be first.
 * Property "act" must be set after "val".
 
-* Controls sizes differ on Win/Linux/OSX, picture shows controls (Linux/Win) auto-aligned, not in CudaText, only example app:
+* GUI controls sizes differ on Windows/Linux/macOS. Picture shows same GUI controls on Linux/Windows aligned vertically (not in CudaText, but in example program):
 
 [[File:controls_autosizes.png]]
 
