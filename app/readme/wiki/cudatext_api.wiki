@@ -17,7 +17,7 @@ Plugin can subscribe to events in several ways:
 
 * Static subscribing via config file "settings/plugins.ini". This is used when plugin doesn't need some events initially, but after changing some options, it needs more events. File "plugins.ini" section [events] can contain lines like "cuda_modulename=event1,event2,...". File "plugins.ini" is read on plugins initialization, so after writing there, CudaText should be restarted.
 
-* Run-time subscribing/unsubscribing via API. See description of actions PROC_EVENTS_nnnn in app_proc().
+* Run-time subscribing/unsubscribing via API. See actions PROC_EVENTS_nnnn in <code>app_proc()</code>.
 
 Event handlers (Command.on_nnnnn methods) return-value is ignored is many cases, but sometimes return value True or False has special meaning. Usually the False return value blocks propagation of event to other plugins, so don't return False if not necessary.
 
@@ -105,9 +105,9 @@ Constants in "on_state":
 * APPSTATE_TAB_SPLIT_V_H: Splitting of ui-tab: changed vertical/horizontal layout.
 
 * APPSTATE_API_SUBCOMMANDS: API call <code>app_proc(PROC_SET_SUBCOMMANDS, ...)</code>.
-* APPSTATE_API_MENU_ADD: API menu_proc() added some menu item.
-* APPSTATE_API_MENU_REMOVE: API menu_proc() removed some menu item.
-* APPSTATE_API_MENU_CHANGE: API menu_proc() changed some menu item.
+* APPSTATE_API_MENU_ADD: API <code>menu_proc()</code> added some menu item.
+* APPSTATE_API_MENU_REMOVE: API <code>menu_proc()</code> removed some menu item.
+* APPSTATE_API_MENU_CHANGE: API <code>menu_proc()</code> changed some menu item.
 
 * APPSTATE_CODETREE_BEFORE_CLEAR: Code-Tree: content is about to be cleared.
 * APPSTATE_CODETREE_CLEAR: Code-Tree: content was just cleared.
@@ -376,7 +376,7 @@ Actions work with props of Find/Replace dialog, and props of low-level search en
 
 * PROC_EVENTS_UNSUB: Unsubscribes from event(s). Param "text" must be 2 values ";"-separated: "module_name;event_list".
 ** If event_list is one character "*" - unsubscribes from all events for specified module.
-** Action unsubscribes ignoring the "source" of subscribing: app_proc(), "install.inf" file, "plugins.ini" file.
+** Action unsubscribes ignoring the "source" of subscribing: <code>app_proc()</code>, "install.inf" file, "plugins.ini" file.
 
 * PROC_EVENTS_ENUM: Returns internal memory structure of plugin events, for the specified module name in param "text", or for all modules if param "text" is empty. Returns list of dicts, each dict corresponds to one section "itemX" in the "install.inf" file (if events are registered in the "install.inf"). Dict keys are:
 ** "module": str: Python module name.
@@ -490,13 +490,13 @@ General notes:
 * Word "tab" here means: sidebar button with attached embedded dialog, which looks like a tab.
 * Caption of "tab" must not contain ",". Name of icon file - too. Tooltip string - too.
 * Actions find "tabs" by caption, caption is some latin text, which is not affected by CudaText translation. E.g. caption "Code tree" always refers to Code-Tree tab, with any active translation.
-* Name of icon file: path of PNG/BMP file. Icon size/dimensions should be equal to the size of current sidebar imagelist. Default is 20x20. You can detect size of this imagelist, by using PROC_SIDEBAR_GET_IMAGELIST and passing returned handle to imagelist_proc(). If filename is without path, CudaText subfolder "data/sideicons" is used.
+* Name of icon file: path of PNG/BMP file. Icon size/dimensions should be equal to the size of current sidebar imagelist. Default is 20x20. You can detect size of this imagelist, by using PROC_SIDEBAR_GET_IMAGELIST and passing returned handle to <code>imagelist_proc()</code>. If filename is without path, CudaText subfolder "data/sideicons" is used.
 
 Actions:
 
 * PROC_SIDEPANEL_ADD_DIALOG: Adds tab, with embedded dialog. Returns bool: all parameters are correct, tab was added. Param "text" must be 3-tuple:
 ** Item 0: Caption of tab.
-** Item 1: Int handle of dialog, from dlg_proc().
+** Item 1: Int handle of dialog, from <code>dlg_proc()</code>.
 ** Item 2: Name of icon file.
 
 * PROC_SIDEPANEL_REMOVE: Removes tab. Param "text" is caption of tab. (Note: actually it hides tab, dialog for this tab is still in memory). Returns bool: tab was found/removed.
@@ -509,7 +509,7 @@ Actions:
 ** "hint": str: Button's floating tooltip (affected by translation).
 ** "dlg": int: Handle of panel's dialog. Can be 0, if dialog is not yet created. For example, plugins "Tabs List" and "Snippet Panel" do not create the dialog until plugin is called.
 ** "img": int: Button's image-index in the imagelist.
-** "btn_h": int: Button's handle. Use this handle with button_proc().
+** "btn_h": int: Button's handle. Use this handle with <code>button_proc()</code>.
 ** "module": str: Python module name, or empty str.
 ** "method": str: Python method name, or empty str.
 
@@ -521,7 +521,7 @@ Actions:
 ** Item 1: Int index of button's icon in sidebar's imagelist, or -1 to keep old value.
 ** Item 2: Floating tooltip string (it's independent from caption), or empty str to keep old value.
 
-* PROC_SIDEPANEL_GET_IMAGELIST: Returns int handle of sidebar's imagelist. Use this handle with imagelist_proc().
+* PROC_SIDEPANEL_GET_IMAGELIST: Returns int handle of sidebar's imagelist. Use this handle with <code>imagelist_proc()</code>.
 
 ====app_proc - Bottom-bar panels====
 
@@ -948,13 +948,13 @@ Shows dialog with controls of many types. This is legacy API, it is recommended 
 
 Details:
 
-* Control "button_ex": to change advanced props, you must get handle via DLG_CTL_HANDLE, and pass it to button_proc().
-* Control "treeview" don't have "items"/"value": to work with it, you must get handle of control via DLG_CTL_HANDLE, and pass it to tree_proc().
-* Control "listbox_ex" don't have "items"/"value": to work with it, you must get handle of control via DLG_CTL_HANDLE, and pass it to listbox_proc().
-* Control "toolbar" don't have "items"/"value": to work with it, you must get handle via DLG_CTL_HANDLE, and pass it to toolbar_proc().
-* Control "statusbar" don't have "items"/"value": to work with it, you must get handle via DLG_CTL_HANDLE, and pass it to statusbar_proc().
-* Controls "editor"/"editor_edit"/"editor_combo" don't have "items"/"value": to work with it, you must get handle via DLG_CTL_HANDLE, and pass it to Editor() to make editor object.
-* Control "paintbox" is empty area, plugin can paint on it. Get canvas_id via DLG_CTL_HANDLE, and use it in canvas_proc().
+* Control "button_ex": to change advanced props, you must get handle via DLG_CTL_HANDLE, and pass it to <code>button_proc()</code>.
+* Control "treeview" don't have "items"/"value": to work with it, you must get handle of control via DLG_CTL_HANDLE, and pass it to <code>tree_proc()</code>.
+* Control "listbox_ex" don't have "items"/"value": to work with it, you must get handle of control via DLG_CTL_HANDLE, and pass it to <code>listbox_proc()</code>.
+* Control "toolbar" don't have "items"/"value": to work with it, you must get handle via DLG_CTL_HANDLE, and pass it to <code>toolbar_proc()</code>.
+* Control "statusbar" don't have "items"/"value": to work with it, you must get handle via DLG_CTL_HANDLE, and pass it to <code>statusbar_proc()</code>.
+* Controls "editor"/"editor_edit"/"editor_combo" don't have "items"/"value": to work with it, you must get handle via DLG_CTL_HANDLE, and pass it to <code>Editor()</code> to make editor object.
+* Control "paintbox" is empty area, plugin can paint on it. Get canvas_id via DLG_CTL_HANDLE, and use it in <code>canvas_proc()</code>.
 * Control property "name" is required for "filter_nnnnn" controls: must set name of listbox/listview, and name of its filter - to the same name with prefix "f_" (e.g. listbox name "mylist" with filter name "f_mylist").
 
 ====dlg_custom - Properties of controls====
@@ -1148,15 +1148,15 @@ Often the function works with some control. To pass some control here, use one o
 Possible types of UI controls are described in "dlg_custom" topic.
 Additional types, supported only by "dlg_proc":
 
-* "button_ex": button, application-themed, works via button_proc()
-* "editor": full-featured multi-line editor, accessible via Editor API
-* "editor_edit": one-line variant of "editor"
-* "editor_combo": one-line variant of "editor", with drop-down arrow
-* "listbox_ex": listbox, application-themed, works via listbox_proc()
-* "paintbox": control which must be painted by plugin via canvas_proc()
-* "statusbar": statusbar: panel with one horizontal row of cells, works via statusbar_proc()
-* "toolbar": toolbar: panel which holds buttons with icons, works via toolbar_proc()
-* "treeview": tree structure with nodes and nested nodes, works via tree_proc()
+* "button_ex": button, application-themed, works via <code>button_proc()</code>.
+* "editor": full-featured multi-line editor, accessible via Editor API.
+* "editor_edit": one-line variant of "editor".
+* "editor_combo": one-line variant of "editor", with drop-down arrow.
+* "listbox_ex": listbox, application-themed, works via <code>listbox_proc()</code>.
+* "paintbox": control which must be painted by plugin via <code>canvas_proc()</code>.
+* "statusbar": statusbar: panel with one horizontal row of cells, works via <code>statusbar_proc()</code>.
+* "toolbar": toolbar: panel which holds buttons with icons, works via <code>toolbar_proc()</code>.
+* "treeview": tree structure with nodes and nested nodes, works via <code>tree_proc()</code>.
 
 ====dlg_proc - Forms properties====
 
@@ -1356,7 +1356,7 @@ Param "id_dialog": int, form handle. Ignored only for DLG_CREATE action (pass 0 
 
 Possible values of "id_action":
 
-* DLG_CREATE: Creates new empty form, returns form "handle". You must pass this handle (int) to next calls of dlg_proc().
+* DLG_CREATE: Creates new empty form, returns form "handle". You must pass this handle (int) to next calls of <code>dlg_proc()</code>.
 * DLG_HIDE: Hides form.
 * DLG_FREE: Hides and deletes form.
 * DLG_SHOW_MODAL: Shows form in modal mode. Waits for form to hide, then returns.
@@ -1383,13 +1383,13 @@ Possible values of "id_action":
 * DLG_CTL_DELETE_ALL: Deletes all controls.
 * DLG_CTL_FIND: Returns index of control by name, or -1 if cannot find. Param "prop" is name.
 * DLG_CTL_HANDLE: Returns int "handle" of control on a form. Control must be specified by name or index. This handle is currently useful for types:
-** type "button_ex": pass handle to button_proc()
-** types "editor"/"editor_edit"/"editor_combo": pass handle to Editor() constructor
-** type "listbox_ex": pass handle to listbox_proc()
-** type "paintbox": pass handle to canvas_proc()
-** type "statusbar": pass handle to statusbar_proc()
-** type "treeview": pass handle to tree_proc()
-** type "toolbar": pass handle to toolbar_proc()
+** type "button_ex": pass handle to <code>button_proc()</code>.
+** types "editor"/"editor_edit"/"editor_combo": pass handle to <code>Editor()</code> constructor.
+** type "listbox_ex": pass handle to <code>listbox_proc()</code>.
+** type "paintbox": pass handle to <code>canvas_proc()</code>.
+** type "statusbar": pass handle to <code>statusbar_proc()</code>.
+** type "treeview": pass handle to <code>tree_proc()</code>.
+** type "toolbar": pass handle to <code>toolbar_proc()</code>.
 
 * DLG_CTL_TO_FRONT: Puts control to the foreground (in Z-order of controls).
 * DLG_CTL_TO_BACK: Puts control to the background (in Z-order of controls).
@@ -2010,7 +2010,7 @@ Param "id_action" possible values:
 
 * TOOLBAR_GET_COUNT: Returns number of buttons in toolbar.
 * TOOLBAR_GET_IMAGELIST: Returns int handle of imagelist object.
-* TOOLBAR_GET_BUTTON_HANDLE: Returns int handle of button to use in button_proc(), or None if index not correct. Param "index": button index.
+* TOOLBAR_GET_BUTTON_HANDLE: Returns int handle of button to use in <code>button_proc()</code>, or None if index not correct. Param "index": button index.
 * TOOLBAR_GET_BUTTON_HANDLES: Returns list of handles of all buttons.
 * TOOLBAR_GET_INDEX_HOVERED: Returns index of button under mouse cursor, or -1 if none.
 * TOOLBAR_DELETE_ALL: Deletes all buttons.
@@ -2177,7 +2177,7 @@ Possible values of "id_action":
 * BTN_SET_IMAGELIST: Sets handle of imagelist. Param "value" must be int handle.
 * BTN_GET_IMAGEINDEX: Returns icon index (in attached imagelist).
 * BTN_SET_IMAGEINDEX: Sets icon index. Param "value" must be int index (0-based), or -1 for none. To show icon, you must also set appropriate kind of button.
-* BTN_GET_MENU: Returns int handle of "dropdown" menu assigned to the button, or None if no such menu was assigned.  "Dropdown" menu is not the right-click menu, but menu shown by left click on the arrow icon. Handle can be passed to menu_proc().
+* BTN_GET_MENU: Returns int handle of "dropdown" menu assigned to the button, or None if no such menu was assigned.  "Dropdown" menu is not the right-click menu, but menu shown by left click on the arrow icon. Handle can be passed to <code>menu_proc()</code>.
 * BTN_SET_MENU: Sets int handle of dropdown menu assigned to the button. It can be handle created by <code>menu_proc(0, MENU_CREATE)</code>.
 * BTN_GET_KIND: Returns kind of button. Int value, one of BTNKIND_nnn constants.
 * BTN_SET_KIND: Sets kind of button.
@@ -2210,7 +2210,7 @@ Possible values of "id_action":
 * BTN_GET_COLOR_LINE2: Returns color of line-bottom.
 * BTN_SET_COLOR_LINE2: Sets color of line-bottom.
 
-Note: Toolbars contain several "button_ex" objects, which are anchored one to another (horizontally or vertically). You can also construct such toolbar by hands. API toolbar_proc() don't allow to specify kind of buttons, it sets kind from button properties.
+Note: Toolbars contain several "button_ex" objects, which are anchored one to another (horizontally or vertically). You can also construct such toolbar by hands. API <code>toolbar_proc()</code> don't allow to specify kind of buttons, it sets kind from button properties.
 
 ===finder_proc===
 
@@ -2269,7 +2269,7 @@ Editor class has methods to work with editor-controls.
 
 Notes:
 
-* Most of Editor APIs work for editor-controls in the UI-tabs and for editor-controls created by dlg_proc(). But not all the APIs, some of them require the editor-control in the UI-tab. For example, some get_prop()/set_prop() properties need the editor in UI-tab.
+* Most of Editor APIs work for editor-controls in the UI-tabs and for editor-controls created by <code>dlg_proc()</code>. But not all the APIs, some of them require the editor-control in the UI-tab. For example, some get_prop()/set_prop() properties need the editor in UI-tab.
 * While CudaText has the file viewer active (not the editor, only binary/hex viewer), the editor is hidden and empty, so Editor APIs don't work.
 
 ==Carets==
@@ -2678,9 +2678,9 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_SAVING_TRIM_FINAL_EMPTY_LINES: bool: on saving file, trim redundant empty lines at end of document.
 
 * PROP_HANDLE_SELF: int: handle of editor object, for which get_prop() is called. This handle is unique among all objects in program (it is memory address). Why not just use "ed.h"? Because: 1) For "ed" object its handle "ed.h" is zero - zero handle is virtual handle pointing to the focused editor. 2) For <code>ed_handles()</code> result, handles are also virtual, they are some small integer numbers, not memory addresses. Note: to get editor object from handle, use <code>Editor(handle_value)</code>.
-* PROP_HANDLE_PRIMARY: int: handle of editor object, which is primary editor in ui-tab (primary editor is always visible). It's None for editor objects created from dlg_proc().
-* PROP_HANDLE_SECONDARY: int: handle of editor object, which is secondary editor in ui-tab (secondary editor is visible only when ui-tab is splitted). It's None for editor objects created from dlg_proc().
-* PROP_HANDLE_PARENT: int: handle of parent of editor object, or 0 if no such parent. This is handle of dialog containing the editor, it can be passed to dlg_proc(). This handle is needed to dock custom dialogs into the editor, again via dlg_proc().
+* PROP_HANDLE_PRIMARY: int: handle of editor object, which is primary editor in ui-tab (primary editor is always visible). It's None for editor objects created from <code>dlg_proc()</code>.
+* PROP_HANDLE_SECONDARY: int: handle of editor object, which is secondary editor in ui-tab (secondary editor is visible only when ui-tab is splitted). It's None for editor objects created from <code>dlg_proc()</code>.
+* PROP_HANDLE_PARENT: int: handle of parent of editor object, or 0 if no such parent. This is handle of dialog containing the editor, it can be passed to <code>dlg_proc()</code>. This handle is needed to dock custom dialogs into the editor, again via <code>dlg_proc()</code>.
 * PROP_COORDS: 4-tuple of int: rectangle of entire editor area, relative to screen.
 * PROP_RECT_CLIENT: 4-tuple of int: rectangle of entire editor area, relative to editor.
 * PROP_RECT_TEXT: 4-tuple of int: rectangle of "main text" editor area (excluding gutter/minimap/micromap/ruler), relative to editor.
@@ -3062,19 +3062,19 @@ Returns info about lexer "tokens". "Token" is minimal text fragment for lexer, e
 Possible values of "id":
 
 * TOKEN_GET_KIND: For text position given by "index1" (column) and "index2" (line), returns kind of lexer token:
-** "c": syntax comment
-** "s": syntax string
-** "a": any other kind; it is also returned if no lexer is active
+** "c": syntax comment.
+** "s": syntax string.
+** "a": any other kind; it is also returned if no lexer is active.
 
 * TOKEN_LIST_SUB: Returns list of "tokens" properties, for given line indexes, from "index1" to "index2" inclusive. Index in "index2" can be too big, e.g. 0x7fffFFFF (maximal 32-bit), it will return items until the end of document. Returns list of dicts, dict keys are:
-** "x1": start column (0-based)
-** "y1": start line (0-based)
-** "x2": end column
-** "y2": end line
-** "str": text of token (can be multi-line with "\n")
-** "style": lexer style of token (lexer dependent)
-** "ki": index of token kind (0-based), in the list returned by lexer_proc()
-** "ks": kind of syntax element: "c" - comment, "s" - string, "a" - any other
+** "x1": start column (0-based).
+** "y1": start line (0-based).
+** "x2": end column.
+** "y2": end line.
+** "str": text of token (can be multi-line with "\n").
+** "style": lexer style of token (lexer dependent).
+** "ki": index of token kind (0-based), in the list returned by <code>lexer_proc()</code>.
+** "ks": kind of syntax element: "c" - comment, "s" - string, "a" - any other.
 
 ===Editor.get_wrapinfo===
 
@@ -3229,7 +3229,7 @@ Param "as_copy" (bool):
 * True: Saves the file but editor doesn't use new filename. Filename must be not empty, otherwise function will return False.
 
 Notes:
-* Function can be used for editor created in dlg_proc() only if param "as_copy" is True, otherwise it will return None.
+* Function can be used for editor created in <code>dlg_proc()</code> only if param "as_copy" is True, otherwise it will return None.
 * For "as_copy" = False, code performs more detailed write-error checks.
 
 ===Editor.load===
@@ -3359,14 +3359,14 @@ Possible values of "id":
 
 * GAP_MAKE_BITMAP: Action is needed only if you want to paint bitmap in gap, it's not needed for empty gaps. Makes new bitmap for future gap. Size of bitmap is (num1, num2). Returns 2-tuple (id_bitmap, id_canvas).
 ** "id_bitmap": bitmap handle, needed to later call GAP_ADD.
-** "id_canvas": canvas handle, needed to paint on bitmap, by canvas_proc().
+** "id_canvas": canvas handle, needed to paint on bitmap, by <code>canvas_proc()</code>.
 
 * GAP_ADD: Adds gap to editor. Returns bool: params correct, gap added. Params:
 ** "num1": int: Line index; can be -1 for gap before the first line.
 ** "num2": int: Can be:
 *** 0: gap is empty, filled with specified color;
 *** handle of bitmap (created via GAP_MAKE_BITMAP): place bitmap in the gap;
-*** handle of dialog (created via dlg_proc()): place dialog in the gap.
+*** handle of dialog (created via <code>dlg_proc()</code>): place dialog in the gap.
 ** "tag": int 32-bit: Some value attached to gap, to separate gaps from different plugins.
 ** "size": int: If >0, it is gap height in pixels. If 0, gap height is calculated from bitmap handle.
 ** "color": int: If not COLOR_NONE, then it's gap background color.
@@ -3455,7 +3455,7 @@ Performs some action in editor. Possible values of "id":
 ** "param1": Text position as 2-tuple (column, line).
 ** "param2": Indentation of text position from edges as 2-tuple (indent_horz, indent_vert). Values meaning is like for CudaText options "find_indent_horz", "find_indent_vert".
 
-* EDACTION_CODETREE_FILL: Fill some visual TreeView control (it can be standard code-tree control, or TreeView control in some form) with editor's code-tree information. Param "param1" must be TreeView handle (to use with tree_proc()). Returns True if lexer is set and information is read, otherwise False.
+* EDACTION_CODETREE_FILL: Fill some visual TreeView control (it can be standard code-tree control, or TreeView control in some form) with editor's code-tree information. Param "param1" must be TreeView handle (to use with <code>tree_proc()</code>). Returns True if lexer is set and information is read, otherwise False.
 
 * EDACTION_LEXER_SCAN: Run lexer parsing (if lexer is set) from line index, given by "param1". Waits until parsing finishes.
 
@@ -3816,29 +3816,29 @@ def project_variables():
 
 ==How plugin can fill code-tree==
 
-* Handle events on_open, on_focus, on_change_slow (better don't use on_change, it slows down the app)
-* Get handle of code-tree: <code>h_tree = app_proc(PROC_GET_CODETREE, "")</code>
-* Fill tree via <code>tree_proc(h_tree, ...)</code>
-** Disable standard tree filling via <code>ed.set_prop(PROP_CODETREE, False)</code>
-** Clear tree via <code>tree_proc(h_tree, TREE_ITEM_DELETE, id_item=0)</code>
-** On adding tree items, set range for them via <code>tree_proc(h_tree, TREE_ITEM_SET_RANGE...)</code>
+* Handle events on_open, on_focus, on_change_slow (better don't use on_change, it slows down the app).
+* Get handle of code-tree: <code>h_tree = app_proc(PROC_GET_CODETREE, "")</code>.
+* Fill tree via <code>tree_proc(h_tree, ...)</code>.
+** Disable standard tree filling via <code>ed.set_prop(PROP_CODETREE, False)</code>.
+** Clear tree via <code>tree_proc(h_tree, TREE_ITEM_DELETE, id_item=0)</code>.
+** On adding tree items, set range for them via <code>tree_proc(h_tree, TREE_ITEM_SET_RANGE...)</code>.
 
 ==How plugin can show tooltips on mouse-over==
 
-* Create dialog for tooltip, via dlg_proc()
+* Create dialog for tooltip, via <code>dlg_proc()</code>.
 
-* Handle events on_open, on_focus, on_change_slow (better don't use on_change, it will slow down the app)
-** Find text regions which need tooltip
-** Delete old hotspots via ed.hotspot(HOTSPOT_DELETE_BY_TAG...)
-** Add hotspots via ed.hotspots(HOTSPOT_ADD...)
+* Handle events on_open, on_focus, on_change_slow (better don't use on_change, it will slow down the app).
+** Find text regions which need tooltip.
+** Delete old hotspots via <code>ed.hotspot(HOTSPOT_DELETE_BY_TAG...)</code>.
+** Add hotspots via <code>ed.hotspots(HOTSPOT_ADD...)</code>.
 
-* Handle event on_hotspot
-** Find which text region is under cursor
-** Fill dialog via dlg_proc()
-** Set dialog prop "p" to the handle of editor, ed_self.h. Don't use ed.h, because it is virtual handle 0.
+* Handle event on_hotspot.
+** Find which text region is under cursor.
+** Fill dialog via <code>dlg_proc()</code>.
+** Set dialog prop "p" to the handle of editor, <code>ed_self.h</code>. Don't use <code>ed.h</code>, because it is virtual handle 0.
 ** Set dialog pos (props "x", "y") to editor-related pixel coords. It is complex. See example: plugin HTML Tooltips.
-** Show dialog via dlg_proc(..., DLG_SHOW_NONMODAL)
-* On exiting hotspot, hide dialog
+** Show dialog via <code>dlg_proc(..., DLG_SHOW_NONMODAL)</code>.
+* On exiting hotspot, hide dialog.
 
 ==How to make auto-completion plugin==
 
