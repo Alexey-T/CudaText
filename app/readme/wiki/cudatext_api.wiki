@@ -235,7 +235,7 @@ Parameter "text" is usually string, but can be of other types (bool, int, float,
 
 ====app_proc - Getting handles====
 
-* PROC_GET_TAB_IMAGELIST: Returns int handle of imagelist, containing icons of all UI-tabs. Use <code>imagelist_proc()</code> to work with it. Use PROP_TAB_ICON property to get/set file-tab icon index (index in this imagelist).
+* PROC_GET_TAB_IMAGELIST: Returns int handle of imagelist, containing icons of all UI-tabs. Use <code>imagelist_proc()</code> to work with it. Use PROP_TAB_ICON property to get/set ui-tab icon index - index in this imagelist.
 * PROC_GET_CODETREE: Returns int handle of built-in code-tree UI control. Use <code>tree_proc()</code> to work with it.
 * PROC_GET_CODETREE_FILTER: Returns int handle of built-in code-tree-filter editor control. Get the Editor object from this handle using <code>Editor()</code>.
 * PROC_GET_CODETREE_CURRENT_NODE: Returns int handle of code-tree's node, for on_state event "node was just folded/unfolded".
@@ -244,7 +244,7 @@ Parameter "text" is usually string, but can be of other types (bool, int, float,
 * PROC_GET_VALIDATE_FORM: Returns int handle of built-in Validate form (contains the Validate read-only editor). Use <code>dlg_proc()</code> to work with it.
 * PROC_GET_MAIN_TOOLBAR: Returns int handle of main app toolbar. Use <code>toolbar_proc()</code> to work with it.
 * PROC_GET_MAIN_STATUSBAR: Returns int handle of main app statusbar. Use <code>statusbar_proc()</code> to work with it.
-* PROC_GET_FINDER_BUTTONS: Gets dict containing handles of all Find-dialog buttons. These handles are compatible with <code>button_proc()</code>. Dict keys are self-explaining. Gets None if Find-dialog is not yet inited.
+* PROC_GET_FINDER_BUTTONS: Returns dict containing handles of all Find-dialog buttons. These handles are compatible with <code>button_proc()</code>. Dict keys are self-explaining. Returns None if Find-dialog is not yet inited.
 
 ====app_proc - Misc properties====
 
@@ -2576,7 +2576,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_BORDER_COLOR: int: if active, ie value not equals to COLOR_NONE, specifies color of border around the editor (like with macro-recording active).
 * PROP_BORDER_COLOR_WIDTH: int: border width for PROP_BORDER_COLOR.
 
-* PROP_WHEEL_ZOOMS: bool: enable zooming by Ctrl+[mouse wheel up/down].
+* PROP_WHEEL_ZOOMS: bool: enable zooming by Ctrl+mouse_wheel.
 * PROP_SCALE_FONT: int: scale of editor's font in percents, or 0 to use global app font scale.
 * PROP_COLOR: int: color property. Value must be one of COLOR_ID_nnn values. Returns None for incorrect id.
 * PROP_ENC: str: encoding name. Names are listed at [[CudaText#Encodings]].
@@ -2625,9 +2625,9 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 ** "s": App-special untitled tab, e.g. "RegEx search", "Welcome"
 ** "f": Title was calculated from filename
 ** "p": Title was set by plugin API
-* PROP_TAB_COLOR: int: color of ui-tab title background, integer RGB value (e.g. 0x00FF00 is green); COLOR_NONE if not set.
-* PROP_TAB_COLOR_FONT: int: color of ui-tab title font, integer RGB value (e.g. 0x00FF00 is green); COLOR_NONE if not set.
-* PROP_TAB_ICON: int: index of ui-tab icon, ie index in imagelist, which handle you can get via app_proc(PROC_GET_TAB_IMAGELIST).
+* PROP_TAB_COLOR: int: color of ui-tab title background, integer RGB value; COLOR_NONE if not set.
+* PROP_TAB_COLOR_FONT: int: color of ui-tab title font, integer RGB value; COLOR_NONE if not set.
+* PROP_TAB_ICON: int: index of ui-tab icon, ie index in imagelist, which handle you can get via <code>app_proc(PROC_GET_TAB_IMAGELIST)</code>.
 * PROP_TAB_PINNED: bool: ui-tab is "pinned" (shows additional confirmation on closing).
 * PROP_TAB_UI_SHOW: bool: ui-tab header is visible on the tabs-bar.
 * PROP_TAB_ID: int: ui-tab's unique identifier (single value for primary/secondary editors in tab); it is not changed when tab is moved to another position/group.
@@ -2637,7 +2637,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_INDENT_KIND: int: kind of auto-indented line, see description of app option "indent_kind".
 * PROP_FOLD_ALWAYS: bool: always show icons on "folding" gutter bar, otherwise show them only on mouse over.
 * PROP_FOLD_ICONS: int: icon set for "folding" gutter bar. Possible values: 0, 1.
-* PROP_FOLD_TOOLTIP_SHOW: bool: show floating tooltip when mouse hovers [...] mark for folded block.
+* PROP_FOLD_TOOLTIP_SHOW: bool: show floating tooltip when mouse hovers "..." mark for folded block.
 * PROP_LAST_LINE_ON_TOP: bool: allow to scroll control, so last line shows on top.
 * PROP_FOCUSED: bool: editor is focused. When changing: for editor in UI-tab it focuses also editor's tab. Cannot change True to False.
 * PROP_HILITE_CUR_COL: bool: highlight current column.
@@ -2677,7 +2677,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_SAVING_TRIM_SPACES: bool: on saving file, trim trailing whitespaces.
 * PROP_SAVING_TRIM_FINAL_EMPTY_LINES: bool: on saving file, trim redundant empty lines at end of document.
 
-* PROP_HANDLE_SELF: int: handle of editor object, for which get_prop() is called. This handle is unique among all objects in program (it is memory address). Why not just use "ed.h"? Because: 1) For "ed" object its handle "ed.h" is zero - zero handle is virtual handle pointing to the focused editor. 2) For "ed_handles()" result, handles are also virtual, they are some small integer numbers, not memory addresses. Note: to get editor object from handle, use "Editor(handle_value)".
+* PROP_HANDLE_SELF: int: handle of editor object, for which get_prop() is called. This handle is unique among all objects in program (it is memory address). Why not just use "ed.h"? Because: 1) For "ed" object its handle "ed.h" is zero - zero handle is virtual handle pointing to the focused editor. 2) For <code>ed_handles()</code> result, handles are also virtual, they are some small integer numbers, not memory addresses. Note: to get editor object from handle, use <code>Editor(handle_value)</code>.
 * PROP_HANDLE_PRIMARY: int: handle of editor object, which is primary editor in ui-tab (primary editor is always visible). It's None for editor objects created from dlg_proc().
 * PROP_HANDLE_SECONDARY: int: handle of editor object, which is secondary editor in ui-tab (secondary editor is visible only when ui-tab is splitted). It's None for editor objects created from dlg_proc().
 * PROP_HANDLE_PARENT: int: handle of parent of editor object, or 0 if no such parent. This is handle of dialog containing the editor, it can be passed to dlg_proc(). This handle is needed to dock custom dialogs into the editor, again via dlg_proc().
@@ -2790,7 +2790,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 * PROP_BORDER_COLOR: int: if active, ie value not equals to COLOR_NONE, specifies color of border around the editor (like with macro-recording active).
 * PROP_BORDER_COLOR_WIDTH: int: border width for PROP_BORDER_COLOR.
 
-* PROP_WHEEL_ZOOMS: bool: enable zooming by Ctrl+[mouse wheel up/down].
+* PROP_WHEEL_ZOOMS: bool: enable zooming by Ctrl+mouse_wheel.
 * PROP_SCALE_FONT: int: scale of editor's font in percents, or 0 to use global app font scale.
 * PROP_ENC: str: encoding name. Names listed at [[CudaText#Encodings]].
 * PROP_ENC_RELOAD: str: like PROP_ENC, but setting this property also reloads file in new encoding (if it's not modified). Supported only for editors embedded in ui-tabs.
@@ -2823,15 +2823,15 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 * PROP_TAB_SIZE: int: size of tab-char.
 * PROP_TAB_SMART: bool: smart-tabs option, known from many text editors.
 * PROP_TAB_COLLECT_MARKERS: bool: tab-key collects (jumps to and deletes) markers.
-* PROP_TAB_COLOR: int: color of ui-tab title background, integer RGB value (e.g. 0x00FF00 is green); COLOR_NONE if not set.
-* PROP_TAB_COLOR_FONT: int: color of ui-tab title font, integer RGB value (e.g. 0x00FF00 is green); COLOR_NONE if not set.
+* PROP_TAB_COLOR: int: color of ui-tab title background, integer RGB value; COLOR_NONE if not set.
+* PROP_TAB_COLOR_FONT: int: color of ui-tab title font, integer RGB value; COLOR_NONE if not set.
+* PROP_TAB_ICON: int: index of ui-tab icon, ie index in imagelist, which handle you can get via <code>app_proc(PROC_GET_TAB_IMAGELIST)</code>.
 * PROP_TAB_TITLE: str: custom title of ui-tab; setting to empty string removes the custom title.
 * PROP_TAB_TITLE_REASON: str (1 char): reason of current ui-tab title.
 ** "u": Usual untitled tab
 ** "s": App-special untitled tab, e.g. "RegEx search", "Welcome"
 ** "f": Title was calculated from filename
 ** "p": Title was set by plugin API
-* PROP_TAB_ICON: int: index of ui-tab icon, ie index in imagelist, which handle you can get via app_proc(PROC_GET_TAB_IMAGELIST).
 * PROP_TAB_PINNED: bool: ui-tab is "pinned" (shows additional confirmation on closing).
 * PROP_TAB_UI_SHOW: bool: ui-tab header is visible on the tabs-bar.
 * PROP_INDENT_SIZE: int: size of indent for Indent/Unindent commands. N>0: indent in spaces, N<0: indent in tabs, N=0: indent from PROP_TAB_SIZE/PROP_TAB_SPACES.
@@ -2840,7 +2840,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 * PROP_INDENT_KIND: int: kind of auto-indented line, see description of app option "indent_kind".
 * PROP_FOLD_ALWAYS: bool: always show icons on "folding" gutter bar, otherwise show them only on mouse over.
 * PROP_FOLD_ICONS: int: icon set for "folding" gutter bar. Possible values: 0, 1.
-* PROP_FOLD_TOOLTIP_SHOW: bool: show floating tooltip when mouse hovers [...] mark for folded block.
+* PROP_FOLD_TOOLTIP_SHOW: bool: show floating tooltip when mouse hovers "..." mark for folded block.
 * PROP_LAST_LINE_ON_TOP: bool: allow to scroll control, so last line shows on top.
 * PROP_FOCUSED: bool: editor is focused. When changing: for editor in UI-tab it focuses also editor's tab. Cannot change True to False.
 * PROP_HILITE_CUR_COL: bool: highlight current column.
