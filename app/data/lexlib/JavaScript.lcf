@@ -1,4 +1,4 @@
-object SyntAnal10: TLibSyntAnalyzer
+object SyntAnal9: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Symbol'
@@ -217,17 +217,6 @@ object SyntAnal10: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Id func name'
-      Enabled = False
-      StyleName = 'Id func name'
-      TokenType = 2
-      Expression = 
-        '(?r)(?<=\bfunction\*?\x20+)[\$\w\x{200C}\x{200D}]+ | (?<=\bclass' +
-        '\x20+)[\$\w\x{200C}\x{200D}]+'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
       DisplayName = 'HTML tag name'
       StyleName = 'HTML tag name'
       TokenType = 2
@@ -239,14 +228,7 @@ object SyntAnal10: TLibSyntAnalyzer
       DisplayName = 'Template string'
       StyleName = 'String'
       TokenType = 4
-      Expression = '(?s)'#96'(\\.|.)*?('#96'|\Z)'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
-      DisplayName = 'Tick template tag'
-      StyleName = 'PHP tag'
-      Expression = '(?-i)(html|css|json)`'
+      Expression = '(?s)`(\\.|.)*?(`|\Z)'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -947,54 +929,55 @@ object SyntAnal10: TLibSyntAnalyzer
       StatesRemove = 1
       StartExpression = '/\*{2,}(?!/)'
       EndExpression = '\*/'
-      SyntAnalyzer = SyntAnal11
+      SyntAnalyzer = SyntAnal10
     end
     item
       DisplayName = 'Template HTML'
+      Enabled = False
       StyleName = 'Sublexer BG'
       StartExpression = '(?-i)\bhtml`'
       EndExpression = '(?<![\{])`'
-      SyntAnalyzer = SyntAnal9
+      SyntAnalyzer = SyntAnal8
     end
     item
       DisplayName = 'Template JSON'
+      Enabled = False
       StyleName = 'Sublexer BG'
       StartExpression = '(?-i)\bjson`'
       EndExpression = '(?<![\{])`'
-      SyntAnalyzer = SyntAnal12
+      SyntAnalyzer = SyntAnal11
     end
     item
       DisplayName = 'Template CSS'
+      Enabled = False
       StyleName = 'Sublexer BG'
       StartExpression = '(?-i)\bcss`'
       EndExpression = '(?<![\{])`'
-      SyntAnalyzer = SyntAnal7
+      SyntAnalyzer = SyntAnal6
     end>
   SampleText.Strings = (
-    '#!/bin/bash                         '
     '//Comment'
+    '#!/bin/smth'
     '/** @param {string} some[].name - Name.'
     '*/'
-    'n = 12_34_5n+ 1.2+ 1.+ 1.2e+3+ 1.e-3+ '
+    'n = 12_34_5n+ 1.2+ 1.+ 1.2e+3+ 1.e-3+'
     '  +0xFF_AAn+ 0b11_00n+ 0o77_11n'
-    'AB + AB$_AB+ _AB + $$AB_AB$ + NOTconst + NOT_CONST() '
-    '   '
+    'AB + AB$_AB+ _AB + $$AB_AB$ + NOTconst + NOT_CONST()'
+    ''
     '<?php echo '#39'test'#39' ?>'
     'var test = NaN + Object + $ + offset;'
     'var s_regex = /^<\/?\w.*?>/gi;'
     '    s_not_regex = 1 / 2 + (0xFF+10) / 3 + false-true;'
-    '    s_template = css` br { background: #a00; }`;'
+    '    s_template = `test` + html`<br>` + css`br{ color: #a00; }`;'
     '    s_mulline = " \'
     '      <div class='#39'"+some+"'#39'> \'
     '      <td width='#39'200'#39'> \'
     '      "+some+'#39'"...'#39';'
-    '    '
+    '  '
     'class MyClass {'
-    '}'
-    ''
-    'function funcMenu() {'
-    '  addMenuItem('#39'Txt'#39', '#39'Ctrl+\'#39#39');'
-    '  addMenuItem('#39'Txt3'#39', '#39'Ctrl+Alt+;'#39');'
+    '  function funcMenu() {'
+    '    addMenuItem('#39'Txt'#39', '#39'Ctrl+\'#39#39');'
+    '  }'
     '}'
     ''
     'anon_func1: function(inc, offset) {'
