@@ -27,11 +27,24 @@ uses
   proc_windows_elevated,
   {$else}
   Process,
-  proc_editor,
   {$endif}
   proc_files,
   proc_msg,
   proc_globdata;
+
+const
+  BadWindowsChars = ':*?\|<>"';
+
+function SReplaceBadChars(const S: string): string;
+var
+  i: SizeInt;
+begin
+  Result:= S;
+  for i:= 1 to Length(Result) do
+    if Pos(Result[i], BadWindowsChars)>0 then
+      Result[i]:= '_';
+end;
+
 
 procedure SaveSimple(Ed: TATSynEdit; const fn: string);
 var
@@ -61,19 +74,11 @@ begin
     {$ifndef windows}
     //if user saves filename '/path/aa:bb:cc' on Linux on exFAT disk, try to replace ':' chars
     fn_name:= ExtractFileName(fn);
-    if PosSet(':*?\|<>"', fn_name)>0 then
+    if PosSet(BadWindowsChars, fn_name)>0 then
     begin
-      fn_name:= StringReplace(fn_name, ':', '_', [rfReplaceAll]);
-      fn_name:= StringReplace(fn_name, '*', '_', [rfReplaceAll]);
-      fn_name:= StringReplace(fn_name, '?', '_', [rfReplaceAll]);
-      fn_name:= StringReplace(fn_name, '\', '_', [rfReplaceAll]);
-      fn_name:= StringReplace(fn_name, '|', '_', [rfReplaceAll]);
-      fn_name:= StringReplace(fn_name, '<', '_', [rfReplaceAll]);
-      fn_name:= StringReplace(fn_name, '>', '_', [rfReplaceAll]);
-      fn_name:= StringReplace(fn_name, '"', '_', [rfReplaceAll]);
-
+      fn_name:= SReplaceBadChars(fn_name);
       Ed.SaveToFile(dir+DirectorySeparator+fn_name);
-      MsgLogConsole('NOTE: Bad char :*?\|<>" in filename; filename changed: "'+dir+DirectorySeparator+fn_name+'"');
+      MsgLogConsole('NOTE: Bad chars '+BadWindowsChars+' in filename; filename changed: "'+dir+DirectorySeparator+fn_name+'"');
     end
     else
       raise;
