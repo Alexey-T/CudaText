@@ -5,6 +5,7 @@
 
 + add: non-Windows: saving of filename '/path/a:b:c.txt' on exFAT disk: must replace ':' with '_' (thanks @mix-7)
 + add: lexer JS: template strings can be multiline (thanks @Hermholtz)
+* change: lexer JS: disabled sub-lexers for css`text`, html`text` because they cannot work together with 'template strings' rule
 
 1.231.5 (2026/01)
 
