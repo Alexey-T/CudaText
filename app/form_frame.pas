@@ -3387,6 +3387,8 @@ begin
   //handles save errors,
   //handles exception from encoding conversion (saves in UTF8 if exception)
   Result:= EditorSaveFileAs(Ed, SFileName);
+  if Result then
+    SFileName:= Ed.FileName; //filename maybe changed during save on exFAT disk
 
   if bNameChanged then
     DoLexerFromFilename(Ed, SFileName);
