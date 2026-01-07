@@ -64,6 +64,7 @@ begin
     begin
       fn_name:= StringReplace(fn_name, ':', '_', [rfReplaceAll]);
       Ed.SaveToFile(dir+DirectorySeparator+fn_name);
+      MsgLogConsole('NOTE: Bad char ":" in filename; filename changed: '+fn_name);
     end
     else
       raise;
