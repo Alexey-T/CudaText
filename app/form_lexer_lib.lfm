@@ -52,12 +52,12 @@ object fmLexerLib: TfmLexerLib
       Left = 6
       Height = 25
       Top = 6
-      Width = 79
+      Width = 88
       AutoSize = True
       BorderSpacing.Left = 6
       BorderSpacing.Top = 6
       BorderSpacing.Bottom = 6
-      Caption = 'Con&figure'
+      Caption = 'Con&figure...'
       TabOrder = 0
       OnClick = btnConfigClick
     end
@@ -65,7 +65,7 @@ object fmLexerLib: TfmLexerLib
       AnchorSideLeft.Control = btnConfig
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = btnConfig
-      Left = 91
+      Left = 100
       Height = 25
       Top = 6
       Width = 59

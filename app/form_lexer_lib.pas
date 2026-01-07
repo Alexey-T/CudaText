@@ -146,7 +146,7 @@ begin
   try
     Caption:= ini.ReadString(section, '_', Caption);
     with PanelBtn.CloseButton do Caption:= msgButtonClose;
-    with btnConfig do Caption:= ini.ReadString(section, 'cfg', Caption);
+    with btnConfig do Caption:= ini.ReadString(section, 'cfg', Caption)+'...';
     with btnDelete do Caption:= ini.ReadString(section, 'del', Caption);
     //with F.btnShowHide do Caption:= ini.ReadString(section, 'hid', Caption);
     msgLexerHiddenSuffix:= ini.ReadString(section, 'hidmk', msgLexerHiddenSuffix);
