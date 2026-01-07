@@ -236,10 +236,10 @@ object SyntAnal10: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Tick string'
+      DisplayName = 'Template string'
       StyleName = 'String'
       TokenType = 4
-      Expression = '`.*?`'
+      Expression = '(?s)'#96'(\\.|.)*?('#96'|\Z)'
       ColumnFrom = 0
       ColumnTo = 0
     end
