@@ -966,7 +966,6 @@ object SyntAnal9: TLibSyntAnalyzer
     end
     item
       DisplayName = 'Template HTML'
-      Enabled = False
       StyleName = 'Sublexer BG'
       StartExpression = '(?-i)\bhtml`'
       EndExpression = '(?<![\{])`'
@@ -974,7 +973,6 @@ object SyntAnal9: TLibSyntAnalyzer
     end
     item
       DisplayName = 'Template JSON'
-      Enabled = False
       StyleName = 'Sublexer BG'
       StartExpression = '(?-i)\bjson`'
       EndExpression = '(?<![\{])`'
@@ -982,7 +980,6 @@ object SyntAnal9: TLibSyntAnalyzer
     end
     item
       DisplayName = 'Template CSS'
-      Enabled = False
       StyleName = 'Sublexer BG'
       StartExpression = '(?-i)\bcss`'
       EndExpression = '(?<![\{])`'
