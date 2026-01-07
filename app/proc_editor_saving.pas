@@ -57,7 +57,8 @@ begin
   try
     Ed.SaveToFile(fn);
   except
-    //if user saves filename '/path/aa:bb:cc.txt' on Linux on exFAT disk, try to replace ':' chars
+    {$ifndef windows}
+    //if user saves filename '/path/aa:bb:cc' on Linux on exFAT disk, try to replace ':' chars
     fn_name:= ExtractFileName(fn);
     if Pos(':', fn_name)>0 then
     begin
@@ -66,6 +67,9 @@ begin
     end
     else
       raise;
+    {$else}
+    raise;
+    {$endif}
   end;
 end;
 
