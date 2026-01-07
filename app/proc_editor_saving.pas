@@ -20,7 +20,8 @@ function EditorSaveFileAs(Ed: TATSynEdit; const AFileName: string): boolean;
 implementation
 
 uses
-  SysUtils, Classes, Controls, LCLType,
+  SysUtils, StrUtils,
+  Classes, Controls, LCLType,
   FileUtil, LazFileUtils,
   {$ifdef windows}
   proc_windows_elevated,
@@ -60,13 +61,19 @@ begin
     {$ifndef windows}
     //if user saves filename '/path/aa:bb:cc' on Linux on exFAT disk, try to replace ':' chars
     fn_name:= ExtractFileName(fn);
-    if (Pos(':', fn_name)>0) or
-       (Pos('"', fn_name)>0) then
+    if PosSet(':*?\|<>"', fn_name)>0 then
     begin
       fn_name:= StringReplace(fn_name, ':', '_', [rfReplaceAll]);
+      fn_name:= StringReplace(fn_name, '*', '_', [rfReplaceAll]);
+      fn_name:= StringReplace(fn_name, '?', '_', [rfReplaceAll]);
+      fn_name:= StringReplace(fn_name, '\', '_', [rfReplaceAll]);
+      fn_name:= StringReplace(fn_name, '|', '_', [rfReplaceAll]);
+      fn_name:= StringReplace(fn_name, '<', '_', [rfReplaceAll]);
+      fn_name:= StringReplace(fn_name, '>', '_', [rfReplaceAll]);
       fn_name:= StringReplace(fn_name, '"', '_', [rfReplaceAll]);
+
       Ed.SaveToFile(dir+DirectorySeparator+fn_name);
-      MsgLogConsole('NOTE: Bad char '':'' or ''"'' in filename; filename changed: '+fn_name);
+      MsgLogConsole('NOTE: Bad char :*?\|<>" in filename; filename changed: "'+dir+DirectorySeparator+fn_name+'"');
     end
     else
       raise;
