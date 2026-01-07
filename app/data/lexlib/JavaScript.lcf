@@ -799,6 +799,32 @@ object SyntAnal9: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
+      DisplayName = 'class'
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '{')
+          TokenTypes = 256
+        end
+        item
+          CondType = tcSkip
+          TokenTypes = 6
+        end
+        item
+          TagList.Strings = (
+            'class')
+          TokenTypes = 4
+        end>
+      BlockEnd = '}'
+      NameFmt = 'class %s-1'
+      RefToCondEnd = True
+      HighlightPos = cpAny
+      CancelNextRules = True
+      DrawStaple = True
+      TreeItemImage = 0
+      IgnoreAsParent = False
+    end
+    item
       DisplayName = '{'
       ConditionList = <
         item
@@ -823,43 +849,6 @@ object SyntAnal9: TLibSyntAnalyzer
           TokenTypes = 256
         end>
       HighlightPos = cpBound
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = 'class anon'
-      ConditionList = <
-        item
-          TagList.Strings = (
-            'extends')
-          TokenTypes = 4
-        end
-        item
-          TagList.Strings = (
-            'class')
-          TokenTypes = 4
-        end>
-      NameFmt = '%s0 <anon>'
-      HighlightPos = cpAny
-      CancelNextRules = True
-      NoEndRule = True
-      TreeItemImage = 0
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = 'class'
-      ConditionList = <
-        item
-          TokenTypes = 4
-        end
-        item
-          TagList.Strings = (
-            'class')
-          TokenTypes = 4
-        end>
-      NameFmt = '%s0 %s-1'
-      HighlightPos = cpAny
-      NoEndRule = True
-      TreeItemImage = 0
       IgnoreAsParent = False
     end
     item
@@ -976,7 +965,7 @@ object SyntAnal9: TLibSyntAnalyzer
     '  '
     'class MyClass {'
     '  function funcMenu() {'
-    '    addMenuItem('#39'Txt'#39', '#39'Ctrl+\'#39#39');'
+    '    addMenuItem('#39'Ctrl+\'#39#39');'
     '  }'
     '}'
     ''
