@@ -118,6 +118,10 @@ Constants in "on_state":
 * APPSTATE_CODETREE_FOLDED_UNFOLDED: Code-Tree: some tree node was just folded or unfolded. You can get this node's handle via <code>app_proc(PROC_GET_CODETREE_CURRENT_NODE, "")</code>.
 * APPSTATE_CODETREE_FILTER_CHANGE: Code-Tree filter-input text is changed. You can get the Editor object of the filter via <code>Editor(app_proc(PROC_GET_CODETREE_FILTER, ""))</code>. Handler can return False to block the default filtering, other return value is ignored.
 
+* APPSTATE_CLEAR_HISTORY_RECENTS: Running of the command "settings: clear recent file history".
+* APPSTATE_CLEAR_HISTORY_FINDER: Running of the command "settings: clear find/replace dialog history".
+* APPSTATE_CLEAR_HISTORY_CONSOLE: Running of the command "settings: clear console input history".
+
 * APPSTATE_WINDOW: Changed state of the main window: minimized/normal/maximized/fullscreen. Read current state via <code>app_proc(PROC_GET_WINDOW_STATE, "")</code>.
 
 Constants in "on_state_ed":
@@ -5311,5 +5315,10 @@ It provides:
 * add: Editor.action: EDACTION_UNLOCK
 * add: on_state: APPSTATE_TAB_SPLIT
 * add: on_state: APPSTATE_TAB_SPLIT_V_H
+
+1.0.474 (app 1.231.6)
+* add: on_state: APPSTATE_CLEAR_HISTORY_RECENTS
+* add: on_state: APPSTATE_CLEAR_HISTORY_FINDER
+* add: on_state: APPSTATE_CLEAR_HISTORY_CONSOLE
 
 [[Category:CudaText]]
