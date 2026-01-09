@@ -10,7 +10,7 @@
 + add: lexer JS: code-tree shows funcs nested in a class
 + add: lexer JS: code-tree shows class methods and constructor (syntax without keyword 'function')
 + add: lexer JS: template strings can be multiline (thanks @Hermholtz)
-- fix: bug in EControl parser which preverted ok parsing of sub-lexers: html`text`, css`text` (thanks @Hermholtz)
+- fix: bug in EControl parser which preverted ok parsing of sub-lexers of JS lexer: html`text`, css`text` (thanks @Hermholtz)
 
 1.231.5 (2026/01)
 
