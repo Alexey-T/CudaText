@@ -5316,7 +5316,7 @@ It provides:
 * add: on_state: APPSTATE_TAB_SPLIT
 * add: on_state: APPSTATE_TAB_SPLIT_V_H
 
-1.0.474 (app 1.231.6)
+1.0.474 (app 1.231.7)
 * add: on_state: APPSTATE_CLEAR_HISTORY_RECENTS
 * add: on_state: APPSTATE_CLEAR_HISTORY_FINDER
 * add: on_state: APPSTATE_CLEAR_HISTORY_CONSOLE
