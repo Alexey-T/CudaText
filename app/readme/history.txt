@@ -3,8 +3,9 @@
   - fixed
   * changed
 
-1.231.6 (2026/01)
+1.231.7 (2026/01)
 
++ add: API to support command "clear find/replace history" in plugin Find-Replace_Separate_History
 + add: non-Windows: saving of filename with bad chars ':\*?|<>' on exFAT disk: replace bad chars with '_' (thanks @mix-7)
 + add: lexer JS: code-tree shows funcs nested in a class
 + add: lexer JS: code-tree shows class methods and constructor (syntax without keyword 'function')
