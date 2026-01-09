@@ -82,6 +82,8 @@ begin
       UpdateMenuRecent(nil);
       //
       DeleteFileUTF8(AppFile_HistoryFiles);
+
+      DoPyEvent_AppState(APPSTATE_CLEAR_HISTORY_RECENTS);
     end;
 
     if TAppConfigHistoryElement.Search in AMode then
@@ -93,6 +95,8 @@ begin
         fmFind.edFind.Items.Clear;
         fmFind.edRep.Items.Clear;
       end;
+
+      DoPyEvent_AppState(APPSTATE_CLEAR_HISTORY_FINDER);
     end;
 
     if TAppConfigHistoryElement.Console in AMode then
@@ -100,6 +104,8 @@ begin
       cfg.DeleteValue('/list_console');
       if Assigned(fmConsole) then
         fmConsole.EdInput.Items.Clear;
+
+      DoPyEvent_AppState(APPSTATE_CLEAR_HISTORY_CONSOLE);
     end;
   finally
     cfg.Free;
