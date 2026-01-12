@@ -1186,7 +1186,7 @@ Additional types, supported only by "dlg_proc":
 * "keypreview": bool: If on, then key press calls on_key_down before passing key to focused control. Should be True if form needs to handle on_key_down.
 * "p": int: Parent handle. Set this property to int handle of any windowed UI control or form, this control/form will be parent of form.
 * "focused" (only for reading): index of currently focused control.
-* "form_state" (only for reading): current form state, string: "norm" for normal, "min" for minimized, "max" for maximized, "fullscr" for full-screen.
+* "form_state": current form state, string: "norm" for normal, "min" for minimized, "max" for maximized, "fullscr" for full-screen.
 * "topmost": bool: Makes form stay on top of other forms in CudaText.
 * "taskbar": int enum: When form appears on OS taskbar.
 ** 0: Application default behaviour.
@@ -5320,5 +5320,8 @@ It provides:
 * add: on_state: APPSTATE_CLEAR_HISTORY_RECENTS
 * add: on_state: APPSTATE_CLEAR_HISTORY_FINDER
 * add: on_state: APPSTATE_CLEAR_HISTORY_CONSOLE
+
+1.0.475 (app 1.231.7)
+* add: dlg_proc: DLG_PROP_SET property "form_state" is now writable
 
 [[Category:CudaText]]
