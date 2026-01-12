@@ -2360,6 +2360,7 @@ end;
 procedure DoForm_SetPropFromPair(F: TFormDummy; const AName, AValue: string);
 var
   Num64: Int64;
+  WndState: TWindowState;
 begin
   case AName of
     'cap':
@@ -2440,6 +2441,15 @@ begin
         Num64:= StrToInt64Def(AValue, 0);
         if Num64<>0 then
           F.Parent:= TWinControl(PtrInt(Num64));
+      end;
+    'form_state':
+      begin
+        for WndState:= Low(TWindowState) to High(TWindowState) do
+          if AValue=cAppFormStateStr[WndState] then
+          begin
+            F.WindowState:= WndState;
+            Break;
+          end;
       end;
   end;
 end;
