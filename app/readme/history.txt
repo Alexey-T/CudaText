@@ -5,7 +5,7 @@
 
 1.231.8 (2026/01)
 
-+ add: lexer's file *.cuda-lexmap can contain "[op] fold_exclude_line=0", to _not_ exclude last line from folding-ranges; that addition was needed for lexer Rainmeter, which has rules which auto-exclude last last from folding-range (thanks @sl23)
++ add: lexer's file *.cuda-lexmap can contain "[op] fold_exclude_line=0", to _not_ exclude last line from folding-ranges; that option was needed for lexer Rainmeter (thanks @sl23)
 
 1.231.7 (2026/01)
 
