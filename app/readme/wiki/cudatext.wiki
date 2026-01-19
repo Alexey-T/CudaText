@@ -880,10 +880,12 @@ Lexer JSON has special behaviour of folding, for such situations (example file):
  }
  ]
 
-Try to fold first 2 blocks in this example. You see that last line of block is excluded from folding. To have this feature, lexer has special setting in its file data/lexlib/*.cuda-lexmap:
+Try to fold first 2 blocks in this example. You see that last line of block is excluded from folding.
+
+Auto-excluding of last line works automatically. But for rare cases, it is needed to disable it. For example, Rainmeter lexer: its folding rules fits the criteria of last line excluding, but it is bad for the user. So last line excluding must be disabled manually for Rainmeter lexer. Setting exists in the file "data/lexlib/*.cuda-lexmap":
 
  [op]
- fold_exclude_line=1
+ fold_exclude_line=0
 
 == Automatic folding of comments ==
 {| style="border-collapse: collapse; float: right;" 
