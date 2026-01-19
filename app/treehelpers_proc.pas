@@ -43,7 +43,8 @@ begin
     Data.Clear;
 
   case ALexer of
-    'Ini files ^':
+    'Ini files ^',
+    'Rainmeter':
       begin
         Result:= true;
         if Assigned(Ed) then
