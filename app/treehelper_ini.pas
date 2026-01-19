@@ -25,10 +25,12 @@ type
 
 implementation
 
-class procedure TTreeHelperIni.GetHeaders(Ed: TATSynEdit; Data: TATTreeHelperRecords);
 const
   cIconFolder = 0;
   cIconArrow = 7;
+  cCommentLikeChars: UnicodeString = ' -=;';
+
+class procedure TTreeHelperIni.GetHeaders(Ed: TATSynEdit; Data: TATTreeHelperRecords);
 var
   St: TATStrings;
   DataItem: TATTreeHelperRecord;
@@ -70,8 +72,13 @@ begin
       if PrevHeaderIndex>=0 then
       begin
         NBlockLine:= iLine-1;
-        while (NBlockLine>0) and (St.LinesLen[NBlockLine]=0) do
+
+        //decrelemt block ending: skip lines beginning with 'comment-like' chars;
+        //this is good to do for Rainmeter lexer which uses ini helper
+        while (NBlockLine>0) and
+          ((St.LinesLen[NBlockLine]=0) or (Pos(St.LineCharAt(NBlockLine, 1), cCommentLikeChars)>0)) do
           Dec(NBlockLine);
+
         ItemPtr:= Data._GetItemPtr(PrevHeaderIndex);
         ItemPtr^.Y2:= NBlockLine;
         ItemPtr^.X2:= St.LinesLen[NBlockLine];
