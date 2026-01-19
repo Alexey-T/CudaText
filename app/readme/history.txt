@@ -6,6 +6,7 @@
 1.231.8 (2026/01)
 
 + add: lexer's file *.cuda-lexmap can contain "[op] fold_exclude_line=0", to _not_ exclude last line from folding-ranges; that option was needed for lexer Rainmeter (thanks @sl23)
++ add: lexer Rainmeter (in addons-manager): code-tree is handled by built-in tree-helper now
 
 1.231.7 (2026/01)
 
