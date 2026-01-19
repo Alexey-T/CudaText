@@ -5321,7 +5321,7 @@ It provides:
 * add: on_state: APPSTATE_CLEAR_HISTORY_FINDER
 * add: on_state: APPSTATE_CLEAR_HISTORY_CONSOLE
 
-1.0.475 (app 1.231.7)
+1.0.475 (app 1.231.8)
 * add: dlg_proc: DLG_PROP_SET property "form_state" is now writable
 
 [[Category:CudaText]]
