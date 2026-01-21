@@ -2361,7 +2361,7 @@ begin
     ReloadFollowTail:= true;
     ReloadUnsavedConfirm:= true;
     CheckLowDiskSpace:= 1*1024*1024;
-    FullScreen:= 'tp';
+    FullScreen:= 't';
 
     Emmet_AddSlashToEmptyTags:= true;
     Emmet_CommentTags:= false;

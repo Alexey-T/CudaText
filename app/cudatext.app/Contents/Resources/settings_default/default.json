@@ -1664,7 +1664,7 @@
   //  if "b" in value: bottom panels (Console, Output etc)
   //  if "u" in value: file tabs
   //  if "g" in value: gutter (all columns: numbers, bookmarks etc)
-  "ui_fullscreen": "tp",
+  "ui_fullscreen": "t",
 
   //Highlight border of focused input box.
   //Affects Find/Replace dialog, Console panel, Code Tree filter input.
