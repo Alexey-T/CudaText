@@ -283,6 +283,9 @@ To install "lexer.*.zip" (or any add-on ZIP file) in CudaText: open this ZIP fil
 
 === List of lexers ===
 The following lexers (counting only important ones) exist for CudaText. They are available through the Addons Manager's '''<samp>Install…</samp>''' command.
+
+All these lexers, and preinstalled lexers, are published in the repository: https://github.com/CudaText-addons/CudaText-lexers . This link may be needed for people wanting to make 'Pull Requests' in Git.
+
 * [https://1c-dn.com/1c_enterprise/1c_programming_language/ 1C:Enterprise script]
 * [https://learning.sap-press.com/abap <abbr title="Advanced Business Application Programming">ABAP</abbr>]
 * [https://www.3ds.com/products-services/simulia/products/abaqus/ Abaqus Keywords]
