@@ -4309,6 +4309,8 @@ initialization
   AppConfig_DetectLine:= TAppKeyValues.Create;
   AppConfig_PGroups:= TAppKeyValues.Create;
 
+  AppConfig_Detect.Add('*.cuda-session', 'JSON');
+
   AppConfig_DetectLine.Add('<\?xml .+', 'XML');
   AppConfig_DetectLine.Add('\#!\/bin\/(ba)?sh', 'Bash script');
   AppConfig_DetectLine.Add('\#!\/usr\/bin\/env (ba)?sh', 'Bash script');
