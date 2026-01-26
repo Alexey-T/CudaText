@@ -48,7 +48,7 @@ end;
 
 procedure SaveSimple(Ed: TATSynEdit; const fn: string);
 var
-  dir, fn_name, fn_changed: string;
+  dir, fn_name, fn_changed, fn_old_bad: string;
 begin
   dir:= ExtractFileDir(fn);
   if not DirectoryExists(dir) then
@@ -75,11 +75,12 @@ begin
     fn_name:= ExtractFileName(fn);
     if PosSet(BadWindowsChars, fn_name)>0 then
     begin
+      fn_old_bad:= fn_name;
       fn_name:= SReplaceBadChars(fn_name);
       fn_changed:= dir+DirectorySeparator+fn_name;
       Ed.SaveToFile(fn_changed);
       Ed.FileName:= fn_changed;
-      MsgLogConsole('NOTE: Bad chars '+BadWindowsChars+' in filename; filename changed: "'+fn_changed+'"');
+      MsgLogConsole('NOTE: Bad chars '+BadWindowsChars+' in filename; filename changed to "'+fn_changed+'" from "'+fn_old_bad+'"');
     end
     else
       raise;
