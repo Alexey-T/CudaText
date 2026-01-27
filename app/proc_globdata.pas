@@ -1229,7 +1229,7 @@ function IsFileTooBigForLexer(const AFilename: string): boolean;
 function IsFilenameForLexerDetecter(const AFileName: string): boolean;
 function IsOsFullPath(const S: string): boolean;
 
-function Lexer_DetectByFilename(const AFilename: string;
+function Lexer_DetectByFilename(const AFileName: string;
   out ATooBigForLexer: boolean;
   AChooseFunc: TecLexerChooseFunc): string;
 function Lexer_DetectByFilenameOrContent(const AFilename: string;
@@ -3322,7 +3322,7 @@ end;
 
 
 
-function Lexer_DetectByFilename(const AFilename: string;
+function Lexer_DetectByFilename(const AFileName: string;
   out ATooBigForLexer: boolean;
   AChooseFunc: TecLexerChooseFunc): string;
 var
@@ -3330,18 +3330,18 @@ var
 begin
   Result:= '';
   ATooBigForLexer:= false;
-  if AFilename='' then exit;
+  if AFileName='' then exit;
 
-  ATooBigForLexer:= IsFileTooBigForLexer(AFilename);
+  ATooBigForLexer:= IsFileTooBigForLexer(AFileName);
   if ATooBigForLexer then
   begin
-    LexerLite:= AppManagerLite.FindLexerByFilename(AFilename);
+    LexerLite:= AppManagerLite.FindLexerByFilename(AFileName);
     if Assigned(LexerLite) then
       Result:= LexerLite.LexerName+msgLiteLexerSuffix;
   end
   else
   begin
-    Result:= Lexer_DetectByFilenameOrContent(AFilename, AChooseFunc);
+    Result:= Lexer_DetectByFilenameOrContent(AFileName, AChooseFunc);
   end;
 end;
 
