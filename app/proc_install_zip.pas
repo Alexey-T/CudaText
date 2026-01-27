@@ -658,7 +658,9 @@ begin
       if unzip.Entries.Count=0 then
         raise Exception.Create('Zip is empty');
     except
-      MsgBox(msgCannotHandleZip+#10+AFilenameZip, MB_OK+MB_ICONERROR);
+      MsgBox(
+        msgCannotHandleZip+#10+AFilenameZip,
+        MB_OK+MB_ICONERROR);
       exit;
     end;
 
@@ -678,8 +680,8 @@ begin
     if not FileExists(fn_inf) then
     begin
       MsgBox(
-        ExtractFileName(AFilenameZip)+#10+
-        msgCannotFindInstallInfInZip, mb_ok or mb_iconerror);
+        msgCannotFindInstallInfInZip+#10+AFilenameZip,
+        MB_OK or MB_ICONERROR);
       exit
     end;
 
@@ -710,8 +712,8 @@ begin
   begin
     if not ASilent then
       MsgBox(
-        ExtractFileName(AFilenameZip)+#10+
-        Format(msgCannotInstallOnOS, [s_title, s_os]), MB_OK or MB_ICONERROR);
+        Format(msgCannotInstallOnOS, [s_title, s_os])+#10+AFilenameZip,
+        MB_OK or MB_ICONERROR);
     exit
   end;
 
@@ -745,8 +747,8 @@ begin
     begin
       if not ASilent then
         MsgBox(
-          ExtractFileName(AFilenameZip)+#10+
-          Format(msgCannotInstallAddonApi, [s_title, s_api]), MB_OK or MB_ICONERROR);
+          Format(msgCannotInstallAddonApi, [s_title, s_api])+#10+AFilenameZip,
+          MB_OK or MB_ICONERROR);
       exit;
     end;
   end;
@@ -754,8 +756,8 @@ begin
   if (s_title='') or (s_type='') then
   begin
     MsgBox(
-      ExtractFileName(AFilenameZip)+#10+
-      msgStatusIncorrectInstallInfInZip, MB_OK or MB_ICONERROR);
+      msgStatusIncorrectInstallInfInZip+#10+AFilenameZip,
+      MB_OK or MB_ICONERROR);
     exit
   end;
 
@@ -763,8 +765,8 @@ begin
   if AAddonType=TAppAddonType.Unknown then
   begin
     MsgBox(
-      ExtractFileName(AFilenameZip)+#10+
-      msgStatusUnsupportedAddonType+' '+s_type, MB_OK or MB_ICONERROR);
+      msgStatusUnsupportedAddonType+' '+s_type+#10+AFilenameZip,
+      MB_OK or MB_ICONERROR);
     exit
   end;
 
