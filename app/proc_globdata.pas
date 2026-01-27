@@ -194,7 +194,7 @@ type
     procedure Add(const AKey, AValue: string);
     destructor Destroy; override;
     function GetValue(const AKey, ADefValue: string): string;
-    function GetValueByRegex(ALine: string; ACaseSens: boolean): string;
+    function GetValueByRegex(const ALine: string; ACaseSens: boolean): string;
   end;
 
 var
@@ -3404,7 +3404,7 @@ begin
   Result:= ADefValue;
 end;
 
-function TAppKeyValues.GetValueByRegex(ALine: string; ACaseSens: boolean): string;
+function TAppKeyValues.GetValueByRegex(const ALine: string; ACaseSens: boolean): string;
 var
   Item: TAppKeyValue;
   i: integer;
