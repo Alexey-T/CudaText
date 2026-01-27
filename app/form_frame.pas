@@ -5012,27 +5012,20 @@ end;
 procedure TEditorFrame.DoLexerFromFilename(Ed: TATSynEdit; const AFileName: string);
 var
   TempLexer: TecSyntAnalyzer;
-  TempLexerLite: TATLiteLexer;
   SName: string;
   bTooBigForLexer: boolean;
 begin
   if AFileName='' then exit;
-  Lexer_DetectByFilename(
+  SName:= Lexer_DetectByFilename(
     AFileName,
-    TempLexer,
-    TempLexerLite,
-    SName,
     bTooBigForLexer,
     FLexerChooseFunc
     );
 
-  if Assigned(TempLexer) then
-    Lexer[Ed]:= TempLexer
+  if SName<>'' then
+    LexerName[Ed]:= SName
   else
-  if Assigned(TempLexerLite) then
-    LexerLite[Ed]:= TempLexerLite;
-
-  if bTooBigForLexer and (TempLexer=nil) and (TempLexerLite=nil) then
+  if bTooBigForLexer then
   begin
     TempLexer:= AppManager.FindLexerByFilename(AFileName, nil);
     if Assigned(TempLexer) then

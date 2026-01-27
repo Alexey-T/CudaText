@@ -6410,11 +6410,8 @@ begin
             else
               AppLexersLastDetected:= TStringList.Create;
 
-            Lexer_DetectByFilename(
+            SName:= Lexer_DetectByFilename(
               StrValue,
-              Lexer,
-              LexerLite,
-              SName,
               ok,
               @fmMain.DoPyLexerDetection);
 

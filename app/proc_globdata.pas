@@ -1229,14 +1229,11 @@ function IsFileTooBigForLexer(const AFilename: string): boolean;
 function IsFilenameForLexerDetecter(const AFileName: string): boolean;
 function IsOsFullPath(const S: string): boolean;
 
-procedure Lexer_DetectByFilename(const AFilename: string;
-  out Lexer: TecSyntAnalyzer;
-  out LexerLite: TATLiteLexer;
-  out LexerName: string;
+function Lexer_DetectByFilename(const AFilename: string;
   out ATooBigForLexer: boolean;
-  AChooseFunc: TecLexerChooseFunc);
+  AChooseFunc: TecLexerChooseFunc): string;
 function Lexer_DetectByFilenameOrContent(const AFilename: string;
-  AChooseFunc: TecLexerChooseFunc): TecSyntAnalyzer;
+  AChooseFunc: TecLexerChooseFunc): string;
 procedure Lexer_EnumAll(L: TStringList; AlsoDisabled: boolean = false);
 function Lexer_IsNameCorrect(AName: string): boolean;
 
@@ -2502,20 +2499,23 @@ end;
 
 
 function Lexer_DetectByFilenameOrContent(const AFilename: string;
-  AChooseFunc: TecLexerChooseFunc): TecSyntAnalyzer;
+  AChooseFunc: TecLexerChooseFunc): string;
 const
   cSignUTF8: string = #$EF#$BB#$BF;
 var
+  Lexer: TecSyntAnalyzer;
+  LexerLite: TATLiteLexer;
   SNameOnly: string;
   ext, sLine, res: string;
   i: integer;
 begin
+  Result:= '';
   SNameOnly:= ExtractFileName(AFilename);
 
   //detect by filename
   res:= AppConfig_Detect.GetValue(SNameOnly, '');
   if res<>'' then
-    exit(AppManager.FindLexerByName(res));
+    exit(res);
 
   //detect by double extention
   if SFindCharCount(SNameOnly, '.')>1 then
@@ -2527,7 +2527,7 @@ begin
     begin
       res:= AppConfig_Detect.GetValue('*'+ext, '');
       if res<>'' then
-        exit(AppManager.FindLexerByName(res));
+        exit(res);
     end;
   end;
 
@@ -2537,7 +2537,7 @@ begin
   begin
     res:= AppConfig_Detect.GetValue('*'+ext, '');
     if res<>'' then
-      exit(AppManager.FindLexerByName(res));
+      exit(res);
   end;
 
   //detect by first line
@@ -2551,12 +2551,19 @@ begin
         System.Delete(sLine, 1, Length(cSignUTF8));
       res:= AppConfig_DetectLine.GetValueByRegex(sLine, true);
       if res<>'' then
-        exit(AppManager.FindLexerByName(res));
+        exit(res);
     end;
   end;
 
-  Result:= AppManager.FindLexerByFilename(AFilename, AChooseFunc);
+  Lexer:= AppManager.FindLexerByFilename(AFilename, AChooseFunc);
+  if Assigned(Lexer) then
+    exit(Lexer.LexerName);
+
+  LexerLite:= AppManagerLite.FindLexerByFilename(AFilename);
+  if Assigned(LexerLite) then
+    exit(LexerLite.LexerName+msgLiteLexerSuffix);
 end;
+
 
 class function TPluginHelper.CommandCode_To_HotkeyStringId(ACmd: integer): string;
 begin
@@ -3315,36 +3322,27 @@ end;
 
 
 
-procedure Lexer_DetectByFilename(const AFilename: string;
-  out Lexer: TecSyntAnalyzer;
-  out LexerLite: TATLiteLexer;
-  out LexerName: string;
+function Lexer_DetectByFilename(const AFilename: string;
   out ATooBigForLexer: boolean;
-  AChooseFunc: TecLexerChooseFunc);
+  AChooseFunc: TecLexerChooseFunc): string;
+var
+  LexerLite: TATLiteLexer;
 begin
-  LexerName:= '';
-  Lexer:= nil;
-  LexerLite:= nil;
+  Result:= '';
   ATooBigForLexer:= false;
   if AFilename='' then exit;
 
-  if IsFileTooBigForLexer(AFilename) then
+  ATooBigForLexer:= IsFileTooBigForLexer(AFilename);
+  if ATooBigForLexer then
   begin
     LexerLite:= AppManagerLite.FindLexerByFilename(AFilename);
-    ATooBigForLexer:= true;
+    if Assigned(LexerLite) then
+      Result:= LexerLite.LexerName+msgLiteLexerSuffix;
   end
   else
   begin
-    Lexer:= Lexer_DetectByFilenameOrContent(AFilename, AChooseFunc);
-    if Lexer=nil then
-      LexerLite:= AppManagerLite.FindLexerByFilename(AFilename);
+    Result:= Lexer_DetectByFilenameOrContent(AFilename, AChooseFunc);
   end;
-
-  if Assigned(Lexer) then
-    LexerName:= Lexer.LexerName
-  else
-  if Assigned(LexerLite) then
-    LexerName:= LexerLite.LexerName+msgLiteLexerSuffix;
 end;
 
 
