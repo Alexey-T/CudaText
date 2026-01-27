@@ -677,7 +677,9 @@ begin
 
     if not FileExists(fn_inf) then
     begin
-      MsgBox(msgCannotFindInstallInfInZip, mb_ok or mb_iconerror);
+      MsgBox(
+        ExtractFileName(AFilenameZip)+#10+
+        msgCannotFindInstallInfInZip, mb_ok or mb_iconerror);
       exit
     end;
 
@@ -707,7 +709,9 @@ begin
   if not CheckValue_OS(s_os) then
   begin
     if not ASilent then
-      MsgBox(Format(msgCannotInstallOnOS, [s_title, s_os]), MB_OK or MB_ICONERROR);
+      MsgBox(
+        ExtractFileName(AFilenameZip)+#10+
+        Format(msgCannotInstallOnOS, [s_title, s_os]), MB_OK or MB_ICONERROR);
     exit
   end;
 
@@ -740,21 +744,27 @@ begin
     if not ok then
     begin
       if not ASilent then
-        MsgBox(Format(msgCannotInstallAddonApi, [s_title, s_api]), MB_OK or MB_ICONERROR);
+        MsgBox(
+          ExtractFileName(AFilenameZip)+#10+
+          Format(msgCannotInstallAddonApi, [s_title, s_api]), MB_OK or MB_ICONERROR);
       exit;
     end;
   end;
 
   if (s_title='') or (s_type='') then
   begin
-    MsgBox(msgStatusIncorrectInstallInfInZip, MB_OK or MB_ICONERROR);
+    MsgBox(
+      ExtractFileName(AFilenameZip)+#10+
+      msgStatusIncorrectInstallInfInZip, MB_OK or MB_ICONERROR);
     exit
   end;
 
   AAddonType:= AppAddonKindFromString(s_type);
   if AAddonType=TAppAddonType.Unknown then
   begin
-    MsgBox(msgStatusUnsupportedAddonType+' '+s_type, MB_OK or MB_ICONERROR);
+    MsgBox(
+      ExtractFileName(AFilenameZip)+#10+
+      msgStatusUnsupportedAddonType+' '+s_type, MB_OK or MB_ICONERROR);
     exit
   end;
 
