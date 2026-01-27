@@ -724,14 +724,18 @@ begin
   if not CheckValue_ReqPlugin(s_req) then
   begin
     if not ASilent then
-      MsgBox(Format(msgCannotInstallReqPlugin, [s_title, s_req]), MB_OK or MB_ICONERROR);
+      MsgBox(
+        Format(msgCannotInstallReqPlugin, [s_title, s_req])+#10+AFilenameZip,
+        MB_OK or MB_ICONERROR);
     exit
   end;
 
   if not CheckValue_ReqLexer(s_req_lexer) then
   begin
     if not ASilent then
-      MsgBox(Format(msgCannotInstallReqLexer, [s_title, s_req_lexer]), MB_OK or MB_ICONERROR);
+      MsgBox(
+        Format(msgCannotInstallReqLexer, [s_title, s_req_lexer])+#10+AFilenameZip,
+        MB_OK or MB_ICONERROR);
     exit
   end;
   *)
