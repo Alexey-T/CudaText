@@ -1232,7 +1232,7 @@ function IsOsFullPath(const S: string): boolean;
 function Lexer_DetectByFilename(const AFileName: string;
   out ATooBigForLexer: boolean;
   AChooseFunc: TecLexerChooseFunc): string;
-function Lexer_DetectByFilenameOrContent(const AFilename: string;
+function Lexer_DetectByFilenameOrContent(const AFileName: string;
   AChooseFunc: TecLexerChooseFunc): string;
 procedure Lexer_EnumAll(L: TStringList; AlsoDisabled: boolean = false);
 function Lexer_IsNameCorrect(AName: string): boolean;
@@ -2498,7 +2498,7 @@ begin
 end;
 
 
-function Lexer_DetectByFilenameOrContent(const AFilename: string;
+function Lexer_DetectByFilenameOrContent(const AFileName: string;
   AChooseFunc: TecLexerChooseFunc): string;
 const
   cSignUTF8: string = #$EF#$BB#$BF;
@@ -2506,16 +2506,15 @@ var
   Lexer: TecSyntAnalyzer;
   LexerLite: TATLiteLexer;
   SNameOnly: string;
-  ext, sLine, res: string;
+  ext, sLine: string;
   i: integer;
 begin
   Result:= '';
-  SNameOnly:= ExtractFileName(AFilename);
+  SNameOnly:= ExtractFileName(AFileName);
 
   //detect by filename
-  res:= AppConfig_Detect.GetValue(SNameOnly, '');
-  if res<>'' then
-    exit(res);
+  Result:= AppConfig_Detect.GetValue(SNameOnly, '');
+  if Result<>'' then exit;
 
   //detect by double extention
   if SFindCharCount(SNameOnly, '.')>1 then
@@ -2525,9 +2524,8 @@ begin
     ext:= Copy(SNameOnly, i, MaxInt);
     if ext<>'' then
     begin
-      res:= AppConfig_Detect.GetValue('*'+ext, '');
-      if res<>'' then
-        exit(res);
+      Result:= AppConfig_Detect.GetValue('*'+ext, '');
+      if Result<>'' then exit;
     end;
   end;
 
@@ -2535,31 +2533,29 @@ begin
   ext:= ExtractFileExt(SNameOnly);
   if ext<>'' then
   begin
-    res:= AppConfig_Detect.GetValue('*'+ext, '');
-    if res<>'' then
-      exit(res);
+    Result:= AppConfig_Detect.GetValue('*'+ext, '');
+    if Result<>'' then exit;
   end;
 
   //detect by first line
   if AppConfig_DetectLine.Count>0 then
   begin
-    sLine:= DoReadOneStringFromFile(AFilename);
+    sLine:= DoReadOneStringFromFile(AFileName);
     if sLine<>'' then
     begin
       //skip UTF8 signature, needed for XMLs
       if SBeginsWith(sLine, cSignUTF8) then
         System.Delete(sLine, 1, Length(cSignUTF8));
-      res:= AppConfig_DetectLine.GetValueByRegex(sLine, true);
-      if res<>'' then
-        exit(res);
+      Result:= AppConfig_DetectLine.GetValueByRegex(sLine, true);
+      if Result<>'' then exit;
     end;
   end;
 
-  Lexer:= AppManager.FindLexerByFilename(AFilename, AChooseFunc);
+  Lexer:= AppManager.FindLexerByFilename(AFileName, AChooseFunc);
   if Assigned(Lexer) then
     exit(Lexer.LexerName);
 
-  LexerLite:= AppManagerLite.FindLexerByFilename(AFilename);
+  LexerLite:= AppManagerLite.FindLexerByFilename(AFileName);
   if Assigned(LexerLite) then
     exit(LexerLite.LexerName+msgLiteLexerSuffix);
 end;
