@@ -1,0 +1,34 @@
+{
+  "about": "Config-rc lexer by Alexey Torgashin",
+  "files": "*.rc;*.conf;config;.config",
+  "cmt_line": "#",
+  "cmt_block_1": "",
+  "cmt_block_2": "",
+  "case_sens": true,
+  "rules": {
+    "cmt": {
+      "regex": "[%\\#].*",
+      "style": "Comment"
+    },
+    "keyw": {
+      "regex": "\\b(t|f|T|F|true|false|True|False|TRUE|FALSE)\\b",
+      "style": "IdKeyword"
+    },
+    "id": {
+      "regex": "[a-zA-Z_][\\w\\-]*",
+      "style": "Id"
+    },
+    "num": {
+      "regex": "\\d+(\\.\\d+)?([eE][-\\+]?\\d+)?",
+      "style": "Number"
+    },
+    "str": {
+      "regex": "\"(\\\\.|.)*?\"",
+      "style": "String"
+    },
+    "sym": {
+      "regex": "[\\(\\)\\{\\}\\[\\]:;,=\\.\\+\\-\\*/]",
+      "style": "Symbol"
+    }
+  }
+}

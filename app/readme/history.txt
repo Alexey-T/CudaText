@@ -5,6 +5,7 @@
 
 1.232.0 (2026/02)
 
++ add: new lite lexer for *.rc / *.conf / .config files: Config-rc
 + add: option "detect" now supports lite lexers too
 
 1.231.8 (2026/01)
