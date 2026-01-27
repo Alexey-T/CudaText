@@ -644,7 +644,8 @@ begin
     CreateDir(dir_temp);
   if not DirectoryExists(dir_temp) then
   begin
-    MsgBox(msgCannotCreateDir+#10+dir_temp, MB_OK+MB_ICONERROR);
+    if not ASilent then
+      MsgBox(msgCannotCreateDir+#10+dir_temp, MB_OK+MB_ICONERROR);
     exit
   end;
 
@@ -658,9 +659,10 @@ begin
       if unzip.Entries.Count=0 then
         raise Exception.Create('Zip is empty');
     except
-      MsgBox(
-        msgCannotHandleZip+#10+AFilenameZip,
-        MB_OK+MB_ICONERROR);
+      if not ASilent then
+        MsgBox(
+          msgCannotHandleZip+#10+AFilenameZip,
+          MB_OK+MB_ICONERROR);
       exit;
     end;
 
@@ -679,9 +681,10 @@ begin
 
     if not FileExists(fn_inf) then
     begin
-      MsgBox(
-        msgCannotFindInstallInfInZip+#10+AFilenameZip,
-        MB_OK or MB_ICONERROR);
+      if not ASilent then
+        MsgBox(
+          msgCannotFindInstallInfInZip+#10+AFilenameZip,
+          MB_OK or MB_ICONERROR);
       exit
     end;
 
@@ -755,18 +758,20 @@ begin
 
   if (s_title='') or (s_type='') then
   begin
-    MsgBox(
-      msgStatusIncorrectInstallInfInZip+#10+AFilenameZip,
-      MB_OK or MB_ICONERROR);
+    if not ASilent then
+      MsgBox(
+        msgStatusIncorrectInstallInfInZip+#10+AFilenameZip,
+        MB_OK or MB_ICONERROR);
     exit
   end;
 
   AAddonType:= AppAddonKindFromString(s_type);
   if AAddonType=TAppAddonType.Unknown then
   begin
-    MsgBox(
-      msgStatusUnsupportedAddonType+' '+s_type+#10+AFilenameZip,
-      MB_OK or MB_ICONERROR);
+    if not ASilent then
+      MsgBox(
+        msgStatusUnsupportedAddonType+' '+s_type+#10+AFilenameZip,
+        MB_OK or MB_ICONERROR);
     exit
   end;
 
