@@ -266,7 +266,7 @@ const
   msgStatusPluginHotkeyBusy: string = 'Note: hotkey [%s] is busy, skipped it';
   msgStatusSyntaxThemesOff: string = 'Syntax themes are turned off by option "ui_lexer_themes": false. So the following dialog will have no effect. To customize styles, use "Lexer properties" dialog.';
   msgStatusIncorrectInstallInfInZip: string = 'Incorrect install.inf in zip';
-  msgStatusUnsupportedAddonType: string = 'Unsupported addon type:';
+  msgStatusUnsupportedAddonType: string = 'Unsupported add-on type:';
   msgStatusPackageContains: string = 'This package contains:';
   msgStatusPackageName: string = 'name:';
   msgStatusPackageType: string = 'type:';
