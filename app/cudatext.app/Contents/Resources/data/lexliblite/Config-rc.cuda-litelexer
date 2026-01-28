@@ -1,6 +1,6 @@
 {
   "about": "Config-rc lexer by Alexey Torgashin",
-  "files": "*.rc;*.conf;config;.config",
+  "files": "*.rc;*.conf;*.config;conf;config;.config",
   "cmt_line": "#",
   "cmt_block_1": "",
   "cmt_block_2": "",
