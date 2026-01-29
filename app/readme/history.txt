@@ -5,7 +5,7 @@
 
 1.232.0 (2026/02)
 
-* change: option "detect" matching reworked, now each key supports ';'-separated filemasks, and each filemask is more powerful, it supports e.g. "*foo" or "foo*"
++ add: option "detect" matching reworked, now each key supports ';'-separated filemasks, and filemasks are more powerful: support e.g. "*foo", "foo*", "foo*bar"
 + add: new lite lexer for config files: Config-RC
 + add: option "detect" now supports lite lexers too
 
