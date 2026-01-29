@@ -471,15 +471,12 @@ var
 begin
   Result:= '';
   fn:= ExtractFileName(AFileName);
-  if SFindCharCount(fn, '.')>1 then
+  i:= RPos('.', fn);
+  if i>1 then //>1, not first char
   begin
-    i:= RPos('.', fn);
+    i:= RPosEx('.', fn, i-1);
     if i>1 then //>1, not first char
-    begin
-      i:= RPosEx('.', fn, i-1);
-      if i>1 then //>1, not first char
-        Result:= Copy(fn, i, MaxInt);
-    end;
+      Result:= Copy(fn, i, MaxInt);
   end;
 end;
 
