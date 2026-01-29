@@ -2520,10 +2520,10 @@ begin
   if SFindCharCount(SNameOnly, '.')>1 then
   begin
     i:= RPos('.', SNameOnly);
-    if i>0 then
+    if i>1 then //>1, not first char
     begin
       i:= RPosEx('.', SNameOnly, i-1);
-      if i>0 then
+      if i>1 then //>1, not first char
       begin
         ext:= Copy(SNameOnly, i, MaxInt);
         if ext<>'' then
