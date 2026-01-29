@@ -2507,7 +2507,6 @@ var
   LexerLite: TATLiteLexer;
   SNameOnly: string;
   ext, sLine: string;
-  i: integer;
 begin
   Result:= '';
   SNameOnly:= ExtractFileName(AFileName);
@@ -2517,22 +2516,11 @@ begin
   if Result<>'' then exit;
 
   //detect by double extention
-  if SFindCharCount(SNameOnly, '.')>1 then
+  ext:= SExtractFileDoubleExt(SNameOnly);
+  if ext<>'' then
   begin
-    i:= RPos('.', SNameOnly);
-    if i>1 then //>1, not first char
-    begin
-      i:= RPosEx('.', SNameOnly, i-1);
-      if i>1 then //>1, not first char
-      begin
-        ext:= Copy(SNameOnly, i, MaxInt);
-        if ext<>'' then
-        begin
-          Result:= AppConfig_Detect.GetValue('*'+ext, '');
-          if Result<>'' then exit;
-        end;
-      end;
-    end;
+    Result:= AppConfig_Detect.GetValue('*'+ext, '');
+    if Result<>'' then exit;
   end;
 
   //detect by usual extention

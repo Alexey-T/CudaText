@@ -59,6 +59,7 @@ function SStringToPythonString(const Str: string; AndQuote: boolean=true): strin
 function SMaskFilenameSlashes(const fn: string): string;
 procedure SParseFilenameWithTwoNumbers(var fn: string; out NLine, NColumn: integer);
 function IsPythonExpression(const S: string): boolean;
+function SExtractFileDoubleExt(const fn: string): string;
 
 function SParseIconFilenameWithWidthHeight(const AStr: string;
   {out AName: string;} out AWidth, AHeight: integer): boolean;
@@ -461,6 +462,23 @@ begin
     SDeletePythonStrings(S),
     cTest,
     false);
+end;
+
+function SExtractFileDoubleExt(const fn: string): string;
+var
+  i: SizeInt;
+begin
+  Result:= '';
+  if SFindCharCount(fn, '.')>1 then
+  begin
+    i:= RPos('.', fn);
+    if i>1 then //>1, not first char
+    begin
+      i:= RPosEx('.', fn, i-1);
+      if i>1 then //>1, not first char
+        Result:= Copy(fn, i, MaxInt);
+    end;
+  end;
 end;
 
 function STextWholeWordSelection(const S: UnicodeString; OffsetBegin, OffsetEnd: integer;
