@@ -95,7 +95,7 @@ Note: You can copy the JSON comments from the default file into your user config
 }</syntaxhighlight>
 |}
 The key:value pairs in the <code>"detect"</code> object in <code>user.json</code> specify mappings from "filename" to "lexer name".
-* Each key name represents a filename mask. It must match the full filename without path, or an extension with leading <code>*.</code> like <code>*.ext</code>, or a double extension like <code>*.ext1.ext2</code>. More complex masks are not yet supported.
+* Each key name represents a single mask or several ';'-separated masks. Masks can be "foo", "*foo", "foo*", "*.foo", "*.foo.bar" etc.
 * Each key value must map to a lexer name. A value of <code>-</code> prevents all automatic lexer activation.
 
 Another method to specify these mappings is the "Lexer properties" dialog where you can add extension or name+extension assignments to a specific lexer, however it has limitations; notably, since it saves the custom mappings to the lexer file itself (located in <code>data/lexlib/<var>lexername</var>.lcf</code>), those settings will be erased upon re-installation of the lexer or (if it is among the preinstalled lexers) updating to a new version of CudaText.
