@@ -193,8 +193,7 @@ type
   public
     procedure Add(const AKey, AValue: string);
     destructor Destroy; override;
-    procedure GetItem(AIndex: integer; out AKey, AValue: string);
-    function GetValue(const AKey, ADefValue: string): string;
+    function GetValueByFileMasks(const AFileName: string): string;
     function GetValueByRegex(const ALine: string; ACaseSens: boolean): string;
   end;
 
@@ -2507,7 +2506,7 @@ const
 var
   Lexer: TecSyntAnalyzer;
   LexerLite: TATLiteLexer;
-  sNameOnly, sDetectKey, sDetectValue, sLine: string;
+  sNameOnly, sLine: string;
   i: integer;
 begin
   Result:= '';
@@ -2516,9 +2515,8 @@ begin
   //detect by option "detect"
   for i:= 0 to AppConfig_Detect.Count-1 do
   begin
-    AppConfig_Detect.GetItem(i, sDetectKey, sDetectValue);
-    if MatchesMaskList(sNameOnly, sDetectKey) then
-      exit(sDetectValue);
+    Result:= AppConfig_Detect.GetValueByFileMasks(sNameOnly);
+    if Result<>'' then exit;
   end;
 
   //detect by first line, option "detect_line"
@@ -3374,16 +3372,7 @@ begin
   inherited Destroy;
 end;
 
-procedure TAppKeyValues.GetItem(AIndex: integer; out AKey, AValue: string);
-var
-  FItem: TAppKeyValue;
-begin
-  FItem:= TAppKeyValue(Items[AIndex]);
-  AKey:= FItem.Key;
-  AValue:= FItem.Value;
-end;
-
-function TAppKeyValues.GetValue(const AKey, ADefValue: string): string;
+function TAppKeyValues.GetValueByFileMasks(const AFileName: string): string;
 var
   Item: TAppKeyValue;
   i: integer;
@@ -3391,10 +3380,10 @@ begin
   for i:= 0 to Count-1 do
   begin
     Item:= TAppKeyValue(Items[i]);
-    if Item.Key=AKey then
+    if MatchesMaskList(AFileName, Item.Key) then
       exit(Item.Value);
   end;
-  Result:= ADefValue;
+  Result:= '';
 end;
 
 function TAppKeyValues.GetValueByRegex(const ALine: string; ACaseSens: boolean): string;
