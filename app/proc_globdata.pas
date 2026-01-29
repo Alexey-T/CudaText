@@ -1237,8 +1237,6 @@ function Lexer_DetectByFilenameOrContent(const AFileName: string;
 procedure Lexer_EnumAll(L: TStringList; AlsoDisabled: boolean = false);
 function Lexer_IsNameCorrect(AName: string): boolean;
 
-procedure DoMenuitemEllipsis(c: TMenuItem);
-
 procedure AppOnLexerLoaded(Sender: TObject; ALexer: TecSyntAnalyzer);
 procedure AppLoadLexers;
 
@@ -3398,18 +3396,6 @@ begin
       exit(Item.Value);
   end;
   Result:= '';
-end;
-
-
-procedure DoMenuitemEllipsis(c: TMenuItem);
-var
-  s: string;
-begin
-  if c=nil then exit;
-  s:= c.Caption;
-  while (s<>'') and (s[Length(s)]='.') do
-    SetLength(s, Length(s)-1);
-  c.Caption:= s+'...';
 end;
 
 

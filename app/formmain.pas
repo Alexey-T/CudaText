@@ -1379,6 +1379,16 @@ begin
 end;
 {$endif}
 
+procedure DoMenuitemEllipsis(c: TMenuItem);
+var
+  s: string;
+begin
+  if c=nil then exit;
+  s:= c.Caption;
+  while (s<>'') and (s[Length(s)]='.') do
+    SetLength(s, Length(s)-1);
+  c.Caption:= s+'...';
+end;
 
 function GetAppColorOfStatusbarFont: TColor;
 begin
