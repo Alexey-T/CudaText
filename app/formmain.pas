@@ -1319,8 +1319,7 @@ uses
   {$if defined(LCLQt5) or defined(LCLQt6)}
   qtwidgets,
   {$endif}
-  ATSynEdit_ClipRecents,
-  ATStringProc_HtmlColor;
+  ATSynEdit_ClipRecents;
 
 {$R *.lfm}
 
@@ -1337,9 +1336,9 @@ type
     );
 
 const
-  cThreadSleepTime = 50;
-  cThreadSleepCount = 20;
-  //SleepTime*SleepCount ~= 1 sec
+  cNotifThreadSleepTime = 50;
+  cNotifThreadSleepCount = 20;
+  //SleepTime*SleepCount is about 1 sec
 
 const
   StatusbarTag_Caret = 10;
@@ -2037,11 +2036,11 @@ var
   i: integer;
 begin
   repeat
-    for i:= 1 to cThreadSleepCount*UiOps.NotificationTimeSeconds do
+    for i:= 1 to cNotifThreadSleepCount*UiOps.NotificationTimeSeconds do
     begin
       if Application.Terminated then exit;
       if Terminated then exit;
-      Sleep(cThreadSleepTime);
+      Sleep(cNotifThreadSleepTime);
     end;
 
     if not UiOps.NotificationEnabled then Continue;
@@ -3266,7 +3265,7 @@ begin
   if Assigned(AppNotifThread) then
   begin
     AppNotifThread.Terminate;
-    Sleep(cThreadSleepTime+10);
+    Sleep(cNotifThreadSleepTime+10);
   end;
 
   bAddTabsToRecents:= not UiOps.ReopenSession;
