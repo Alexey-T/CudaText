@@ -3391,13 +3391,13 @@ var
   Item: TAppKeyValue;
   i: integer;
 begin
-  Result:= '';
   for i:= 0 to Count-1 do
   begin
     Item:= TAppKeyValue(Items[i]);
     if SRegexMatchesString(ALine, Item.Key, ACaseSens) then
       exit(Item.Value);
   end;
+  Result:= '';
 end;
 
 
