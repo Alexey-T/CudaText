@@ -1347,7 +1347,7 @@ begin
   try
     cfg.EnumValues('/plugin_groups', List);
     for s in List do
-      AppConfig_PGroups.Add(s, cfg.GetValue('/plugin_groups/'+s, ''));
+      AppConfig_PluginGroups.Add(s, cfg.GetValue('/plugin_groups/'+s, ''));
 
     cfg.EnumValues('/detect', List);
     for s in List do

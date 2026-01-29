@@ -427,7 +427,7 @@ procedure TfmMain.UpdateMenuPlugins;
     //strip '&' for accelerators in caption
     SName:= StringReplace(SName, '&', '', []);
 
-    SRes:= AppConfig_PGroups.GetValueByRegex(SName, false);
+    SRes:= AppConfig_PluginGroups.GetValueByRegex(SName, false);
     if SRes<>'' then
       Result:= SRes+'\';
   end;

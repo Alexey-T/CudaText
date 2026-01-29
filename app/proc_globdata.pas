@@ -200,7 +200,7 @@ type
 var
   AppConfig_Detect: TAppKeyValues = nil;
   AppConfig_DetectLine: TAppKeyValues = nil;
-  AppConfig_PGroups: TAppKeyValues = nil;
+  AppConfig_PluginGroups: TAppKeyValues = nil;
 
 const
   AppExtensionThemeUi = '.cuda-theme-ui';
@@ -4269,7 +4269,7 @@ initialization
 
   AppConfig_Detect:= TAppKeyValues.Create;
   AppConfig_DetectLine:= TAppKeyValues.Create;
-  AppConfig_PGroups:= TAppKeyValues.Create;
+  AppConfig_PluginGroups:= TAppKeyValues.Create;
 
   AppConfig_Detect.Add('*.cuda-session', 'JSON');
 
@@ -4347,7 +4347,7 @@ finalization
   FreeAndNil(AppFrameList2);
   FreeAndNil(AppFrameList1);
 
-  FreeAndNil(AppConfig_PGroups);
+  FreeAndNil(AppConfig_PluginGroups);
   FreeAndNil(AppConfig_DetectLine);
   FreeAndNil(AppConfig_Detect);
   AppKeymapsClear;
