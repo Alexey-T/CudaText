@@ -7,11 +7,11 @@
   "case_sens": true,
   "rules": {
     "cmt": {
-      "regex": "[%\\#].*",
+      "regex": "(?<=^\\s*)[%\\#].*",
       "style": "Comment"
     },
     "keyw": {
-      "regex": "\\b(t|f|T|F|true|false|True|False|TRUE|FALSE)\\b",
+      "regex": "\\b(true|false|True|False|TRUE|FALSE)\\b",
       "style": "IdKeyword"
     },
     "id": {
@@ -27,7 +27,7 @@
       "style": "String"
     },
     "sym": {
-      "regex": "[\\(\\)\\{\\}\\[\\]:;,=\\.\\+\\-\\*/]",
+      "regex": "[=]",
       "style": "Symbol"
     }
   }
