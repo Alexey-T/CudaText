@@ -67,6 +67,7 @@ STD_LEXERS_LITE = (
   'Log files',
   'SQL',
   'XML',
+  'Config-RC',
 )
 STD_THEMES = (
   'amy',
