@@ -1,5 +1,5 @@
 {
-  "about": "Config-rc lexer by Alexey Torgashin",
+  "about": "Lexer by Alexey Torgashin",
   "files": ".*rc;conf;*.conf;config;*.config;cfg;*.cfg",
   "cmt_line": "#",
   "cmt_block_1": "",
