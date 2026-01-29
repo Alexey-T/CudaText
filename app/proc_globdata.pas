@@ -193,6 +193,7 @@ type
   public
     procedure Add(const AKey, AValue: string);
     destructor Destroy; override;
+    procedure GetItem(AIndex: integer; out AKey, AValue: string);
     function GetValue(const AKey, ADefValue: string): string;
     function GetValueByRegex(const ALine: string; ACaseSens: boolean): string;
   end;
@@ -1303,6 +1304,7 @@ const
 implementation
 
 uses
+  Masks,
   appjsonconfig,
   ATCanvasPrimitives,
   ATSynEdit_LineParts,
@@ -2505,33 +2507,21 @@ const
 var
   Lexer: TecSyntAnalyzer;
   LexerLite: TATLiteLexer;
-  SNameOnly: string;
-  ext, sLine: string;
+  sNameOnly, sDetectKey, sDetectValue, sLine: string;
+  i: integer;
 begin
   Result:= '';
-  SNameOnly:= ExtractFileName(AFileName);
+  sNameOnly:= ExtractFileName(AFileName);
 
-  //detect by filename
-  Result:= AppConfig_Detect.GetValue(SNameOnly, '');
-  if Result<>'' then exit;
-
-  //detect by double extention
-  ext:= SExtractFileDoubleExt(SNameOnly);
-  if ext<>'' then
+  //detect by option "detect"
+  for i:= 0 to AppConfig_Detect.Count-1 do
   begin
-    Result:= AppConfig_Detect.GetValue('*'+ext, '');
-    if Result<>'' then exit;
+    AppConfig_Detect.GetItem(i, sDetectKey, sDetectValue);
+    if MatchesMaskList(sNameOnly, sDetectKey) then
+      exit(sDetectValue);
   end;
 
-  //detect by usual extention
-  ext:= ExtractFileExt(SNameOnly);
-  if ext<>'' then
-  begin
-    Result:= AppConfig_Detect.GetValue('*'+ext, '');
-    if Result<>'' then exit;
-  end;
-
-  //detect by first line
+  //detect by first line, option "detect_line"
   if AppConfig_DetectLine.Count>0 then
   begin
     sLine:= DoReadOneStringFromFile(AFileName);
@@ -3382,6 +3372,15 @@ begin
     Item.Free;
   end;
   inherited Destroy;
+end;
+
+procedure TAppKeyValues.GetItem(AIndex: integer; out AKey, AValue: string);
+var
+  FItem: TAppKeyValue;
+begin
+  FItem:= TAppKeyValue(Items[AIndex]);
+  AKey:= FItem.Key;
+  AValue:= FItem.Value;
 end;
 
 function TAppKeyValues.GetValue(const AKey, ADefValue: string): string;
