@@ -237,7 +237,6 @@ type
     FProgressButtonCancel: TATButton;
     FProgressCancelled: boolean;
     FBusyOnChangeDetailed: boolean;
-    FCaretSlow_WithSel: boolean;
 
     procedure ApplyThemeToInfoPanel(APanel: TPanel);
     procedure ViewerOnEnter(Sender: TObject);
@@ -1001,16 +1000,16 @@ begin
   if bWithSel then
   begin
     if Ed.Carets.Count=1 then
-      PyFilterOnCaretSlow:= 'sel'
+      Ed.EventCaretSlow_Filter:= 'sel'
     else
-      PyFilterOnCaretSlow:= 'selx';
+      Ed.EventCaretSlow_Filter:= 'selx';
   end
   else
-  if FCaretSlow_WithSel then
-    PyFilterOnCaretSlow:= 'selreset'
+  if Ed.EventCaretSlow_WithSel then
+    Ed.EventCaretSlow_Filter:= 'selreset'
   else
-    PyFilterOnCaretSlow:= '';
-  FCaretSlow_WithSel:= bWithSel;
+    Ed.EventCaretSlow_Filter:= '';
+  Ed.EventCaretSlow_WithSel:= bWithSel;
 
   DoPyEvent(Ed, TAppPyEvent.OnCaretSlow, []);
 

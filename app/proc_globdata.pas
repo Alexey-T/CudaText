@@ -213,9 +213,6 @@ type
     FromDialog
     );
 
-var
-  PyFilterOnCaretSlow: string;
-
 type
   TUiOps = record
     VarFontName: UnicodeString;
