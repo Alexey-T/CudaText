@@ -2520,12 +2520,18 @@ begin
   if SFindCharCount(SNameOnly, '.')>1 then
   begin
     i:= RPos('.', SNameOnly);
-    i:= RPosEx('.', SNameOnly, i-1);
-    ext:= Copy(SNameOnly, i, MaxInt);
-    if ext<>'' then
+    if i>0 then
     begin
-      Result:= AppConfig_Detect.GetValue('*'+ext, '');
-      if Result<>'' then exit;
+      i:= RPosEx('.', SNameOnly, i-1);
+      if i>0 then
+      begin
+        ext:= Copy(SNameOnly, i, MaxInt);
+        if ext<>'' then
+        begin
+          Result:= AppConfig_Detect.GetValue('*'+ext, '');
+          if Result<>'' then exit;
+        end;
+      end;
     end;
   end;
 
