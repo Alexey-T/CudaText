@@ -80,8 +80,6 @@ const
   cTheseEventsAlwaysLazy = [TAppPyEvent.OnExit];
   cTheseEventsIgnoreCurrentLexer = [TAppPyEvent.OnStart, TAppPyEvent.OnStart2, TAppPyEvent.OnExit, TAppPyEvent.OnDeleteFile, TAppPyEvent.OnSidebarPopup, TAppPyEvent.OnInitPluginsMenu];
     //^^ OnLexer should not be here, to support "on_lexer" with "lexers=Markdown" in install.inf
-const
-  cEditorSelFilter: array[TATEditorCaretSlowFilter] of string = ('', 'sel', 'selx', 'selreset');
 var
   SCurLexer, KeyForFilter: string;
   bNeedGroup: boolean;
@@ -147,7 +145,7 @@ begin
       end;
     TAppPyEvent.OnCaretSlow:
       begin
-        KeyForFilter:= cEditorSelFilter[AEd.EventCaretSlow_Filter];
+        KeyForFilter:= AEd.EventCaretSlow_Filter;
       end;
   end;
 

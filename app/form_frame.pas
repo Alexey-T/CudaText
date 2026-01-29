@@ -1000,16 +1000,15 @@ begin
   if bWithSel then
   begin
     if Ed.Carets.Count=1 then
-      Ed.EventCaretSlow_Filter:= TATEditorCaretSlowFilter.SelOne
+      Ed.EventCaretSlow_Filter:= 'sel'
     else
-      Ed.EventCaretSlow_Filter:= TATEditorCaretSlowFilter.SelMany;
+      Ed.EventCaretSlow_Filter:= 'selx';
   end
   else
   if Ed.EventCaretSlow_WithSel then
-    Ed.EventCaretSlow_Filter:= TATEditorCaretSlowFilter.SelReset
+    Ed.EventCaretSlow_Filter:= 'selreset'
   else
-    Ed.EventCaretSlow_Filter:= TATEditorCaretSlowFilter.None;
-
+    Ed.EventCaretSlow_Filter:= '';
   Ed.EventCaretSlow_WithSel:= bWithSel;
 
   DoPyEvent(Ed, TAppPyEvent.OnCaretSlow, []);
