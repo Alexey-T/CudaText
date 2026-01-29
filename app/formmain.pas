@@ -988,7 +988,7 @@ type
     procedure InitFloatingForm(var F: TForm; var G: TATGroups; AIndexOfGroup: integer;
       const ARect: TRect; AOnClose: TCloseEvent; AOnGroupEmpty: TNotifyEvent);
     procedure InitFloatingForms;
-    procedure InitSaveDlg;
+    procedure InitSaveDialog(var dlg: TSaveDialog);
     procedure InitSidebar;
     procedure InitToolbar;
     procedure InitCodeTree;
@@ -5386,7 +5386,8 @@ begin
     dlg.Options:= [
       ofAllowMultiSelect,
       ofPathMustExist,
-      ofEnableSizing
+      ofEnableSizing,
+      ofHideReadOnly
       ];
     dlg.FileName:= '';
 
@@ -7031,7 +7032,7 @@ begin
   if Frame=nil then exit;
   CloseFormAutoCompletion;
 
-  InitSaveDlg;
+  InitSaveDialog(SaveDlg);
   DoFileDialog_PrepareDir(SaveDlg);
 
   bSaveAs:= false;
@@ -7057,7 +7058,7 @@ begin
   if Frame=nil then exit;
   CloseFormAutoCompletion;
 
-  InitSaveDlg;
+  InitSaveDialog(SaveDlg);
   DoFileDialog_PrepareDir(SaveDlg);
 
   if Frame.DoFileSave_Ex(Ed, true) then
@@ -7610,7 +7611,12 @@ begin
     Dlg.Title:= msgDialogTitleSaveAs;
     Dlg.Filename:= STitle+'.html';
     Dlg.InitialDir:= GetTempDir(false);
-    Dlg.Options:= [ofPathMustExist, ofEnableSizing, ofDontAddToRecent];
+    Dlg.Options:= [
+      ofPathMustExist,
+      ofEnableSizing,
+      ofDontAddToRecent,
+      ofHideReadOnly
+      ];
     Dlg.Filter:= 'HTML files|*.htm;*.html';
     if not Dlg.Execute then exit;
     SFileName:= Dlg.FileName;
@@ -9525,19 +9531,26 @@ begin
   end;
 end;
 
-procedure TfmMain.InitSaveDlg;
+procedure TfmMain.InitSaveDialog(var dlg: TSaveDialog);
 begin
-  if not Assigned(SaveDlg) then
+  if not Assigned(dlg) then
   begin
-    SaveDlg:= TSaveDialog.Create(Self);
-    SaveDlg.Title:= msgDialogTitleSaveAs;
-    SaveDlg.Options:= [ofOverwritePrompt,ofPathMustExist,ofEnableSizing,ofDontAddToRecent,ofViewDetail];
+    dlg:= TSaveDialog.Create(Self);
+    dlg.Title:= msgDialogTitleSaveAs;
+    dlg.Options:= [
+      ofOverwritePrompt,
+      ofPathMustExist,
+      ofEnableSizing,
+      ofDontAddToRecent,
+      ofViewDetail,
+      ofHideReadOnly
+      ];
   end;
 end;
 
 procedure TfmMain.DoGetSaveDialog(var ASaveDlg: TSaveDialog);
 begin
-  InitSaveDlg;
+  InitSaveDialog(SaveDlg);
   ASaveDlg:= SaveDlg;
 end;
 
