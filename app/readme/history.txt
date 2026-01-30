@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.232.0 (2026/02)
+1.232.0 (2026/01)
 
 + add: option "detect" matching reworked, now each key supports ';'-separated filemasks, and filemasks are more powerful: support e.g. "*foo", "foo*", "foo*bar"
 + add: option "detect" now supports lite lexers too
