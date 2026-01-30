@@ -1620,7 +1620,7 @@ var
   DesktopR: TRect;
   W, H: integer;
 begin
-  DesktopR:= Screen.WorkAreaRect;
+  DesktopR:= Screen.DesktopRect;
   W:= F.Width;
   H:= F.Height;
   F.Left:= Max(DesktopR.Left, Min(F.Left, DesktopR.Right-W));

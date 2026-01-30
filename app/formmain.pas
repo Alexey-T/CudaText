@@ -7701,7 +7701,7 @@ begin
     Form.CollapseMode:= AProps.Collapse;
     Form.UseEditorFont:= AProps.UseEditorFont;
 
-    DeskRect:= Screen.WorkAreaRect;
+    DeskRect:= Screen.DesktopRect;
 
     if AProps.W>0 then
       Form.Width:= Min(AProps.W, DeskRect.Width);
