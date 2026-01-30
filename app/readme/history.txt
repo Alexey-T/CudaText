@@ -9,6 +9,7 @@
 + add: option "detect" now supports lite lexers too
 + add: new lite lexer for config files: Config-RC
 + add: statusbar cell 'RO' is now reddish+bold
+- fix: menu-dialogs were shown on 1st monitor when need to show on 2nd one (thanks @charliewales)
 
 1.231.8 (2026/01)
 
