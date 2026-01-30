@@ -214,6 +214,8 @@ var
   Size: TPoint;
   N: integer;
   FrameKind: TAppFrameKind;
+  NFontColor: TColor;
+  bFontBold: boolean;
 begin
   if F=nil then exit;
   Ed:= F.Editor;
@@ -321,8 +323,17 @@ begin
   //------
   S:= msgStatusbarCellColumnMarks[Ed.OptMouseColumnSelectionWithoutKey];
   if Ed.ModeReadOnly then
+  begin
     S+= ' RO';
-  DoStatusbarTextByTag(AStatus, StatusbarTag_SelMode, S);
+    NFontColor:= GetAppColor(TAppThemeColor.TabMarks);
+    bFontBold:= true;
+  end
+  else
+  begin
+    NFontColor:= clNone;
+    bFontBold:= false;
+  end;
+  DoStatusbarTextByTag(AStatus, StatusbarTag_SelMode, S, NFontColor, bFontBold);
 
   //------
   N:= Ed.OptScaleFont;

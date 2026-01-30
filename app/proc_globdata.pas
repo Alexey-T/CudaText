@@ -1217,7 +1217,8 @@ function AppEncodingListAsString: string;
 
 procedure UpdateFormOnTop(F: TForm);
 
-procedure DoStatusbarTextByTag(AStatus: TATStatus; ATag: PtrInt; const AText: string);
+procedure DoStatusbarTextByTag(AStatus: TATStatus; ATag: PtrInt; const AText: string;
+  AColorFont: TColor=clNone; AFontBold: boolean=false);
 procedure DoStatusbarHintByTag(AStatus: TATStatus; ATag: PtrInt; const AText: string);
 procedure DoStatusbarColorByTag(AStatus: TATStatus; ATag: PtrInt; AColor: TColor);
 
@@ -3231,7 +3232,8 @@ begin
     F.FormStyle:= fsNormal;
 end;
 
-procedure DoStatusbarTextByTag(AStatus: TATStatus; ATag: PtrInt; const AText: string);
+procedure DoStatusbarTextByTag(AStatus: TATStatus; ATag: PtrInt; const AText: string;
+  AColorFont: TColor=clNone; AFontBold: boolean=false);
 var
   NIndex: integer;
   D: TATStatusData;
@@ -3243,7 +3245,8 @@ begin
     if Assigned(D) then
     begin
       D.Caption:= AText;
-      //D.FontName:= AFontName;
+      D.ColorFont:= AColorFont;
+      D.FontBold:= AFontBold;
       AStatus.Invalidate;
     end;
   end;
