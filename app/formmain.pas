@@ -1318,6 +1318,7 @@ uses
   {$endif}
   {$if defined(LCLQt5) or defined(LCLQt6)}
   qtwidgets,
+  ATStringProc_HtmlColor,
   {$endif}
   ATSynEdit_ClipRecents;
 
