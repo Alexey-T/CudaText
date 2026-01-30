@@ -324,7 +324,7 @@ begin
   S:= msgStatusbarCellColumnMarks[Ed.OptMouseColumnSelectionWithoutKey];
   if Ed.ModeReadOnly then
   begin
-    S+= ' RO';
+    S+= ' '+msgStatusbarCellRO;
     NFontColor:= GetAppColor(TAppThemeColor.TabMarks);
     bFontBold:= true;
   end

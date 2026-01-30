@@ -1,5 +1,8 @@
 See http://wiki.freepascal.org/CudaText#How_to_make_translation
 
+2026.01.30
++ [sta] ro
+
 2025.09.26
 + [d_cfm_op] bch
 

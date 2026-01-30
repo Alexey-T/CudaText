@@ -97,6 +97,7 @@ const
   msgLiteLexerSuffix = ' ^'; //no i18n
   msgStatusbarCellColumnMarks: array[boolean] of string = ('-', '||');
   msgStatusbarCellInsOvr: array[boolean] of string = ('Ins', 'Ovr');
+  msgStatusbarCellRO: string = 'RO';
 
   msgDialogTitleOpen: string = 'Open file';
   msgDialogTitleSaveAs: string = 'Save file as';
