@@ -3,9 +3,9 @@
   - fixed
   * changed
 
-- fix: regression: statusbar cell "wrap" missed '|' separator (thanks @qwerky)
-- fix: regression on Gtk2 version: option "underline_color_size":10 missed background coloring (thanks @ildarkhasanshin)
-- fix: commands "clipboard copy: filepath" did not work for picture/viewer files (thanks @ThaiDat)
+- fix: regression: statusbar cell "wrap" missed separator vert-line (thanks @qwerky)
+- fix: regression in Gtk2 version: option "underline_color_size":10 missed background coloring (thanks @ildarkhasanshin)
+- fix: regression: commands "clipboard copy: filepath" did not work for picture/viewer files (thanks @ThaiDat)
 
 1.232.0 (2026/01)
 
