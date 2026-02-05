@@ -1173,9 +1173,9 @@ procedure TEditorFrame.EditorOnDrawLine(Sender: TObject; C: TCanvas;
   constref AExtent: TATIntFixedArray);
 var
   Ed: TATSynEdit;
-  NLineWidth: integer;
+  RectLine: TRect;
+  NLineWidth, X1, X2, Y, NLen, NStartPos: integer;
   bColorizeBack, bColorizeInBrackets, bFoundBrackets: boolean;
-  X1, X2, Y, NLen, NStartPos: integer;
   NColor: TColor;
   i: integer;
 begin
@@ -1294,15 +1294,9 @@ begin
         C.Font.Color:= _ContrastColor(NColor);
         C.Font.Style:= [];
         C.Brush.Color:= NColor;
-        CanvasTextOutSimplest(C,
-          Rect(
-            X1,
-            AY,
-            X2,
-            Y
-            ),
-          Copy(AStr, NStartPos, NLen)
-          );
+        RectLine:= Rect(X1, AY, X2, Y);
+        C.FillRect(RectLine);
+        CanvasTextOutSimplest(C, RectLine, Copy(AStr, NStartPos, NLen));
       end
       else
       begin
