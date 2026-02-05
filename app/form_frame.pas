@@ -1295,7 +1295,10 @@ begin
         C.Font.Style:= [];
         C.Brush.Color:= NColor;
         RectLine:= Rect(X1, AY, X2, Y);
+        {$ifdef LCLGtk2}
+        //fix needed only when we use CairoTextOut (on gtk2)
         C.FillRect(RectLine);
+        {$endif}
         CanvasTextOutSimplest(C, RectLine, Copy(AStr, NStartPos, NLen));
       end
       else
