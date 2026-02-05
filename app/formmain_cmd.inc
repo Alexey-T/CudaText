@@ -39,6 +39,7 @@ var
   EdPages: TATPages;
   NIndex: integer;
   NColor: TColor;
+  S: string;
 begin
   Frame:= TGroupsHelper.GetEditorFrame(Ed);
   EdGroup:= nil;
@@ -592,15 +593,29 @@ begin
 
     cmd_CopyFilenameFull:
       begin
-        SClipboardCopy(Frame.FileName);
+        if Assigned(Frame) then
+          S:= Frame.FileName
+        else
+          S:= Ed.FileName;
+        SClipboardCopy(S);
       end;
+
     cmd_CopyFilenameDir:
       begin
-        SClipboardCopy(ExtractFileDir(Frame.FileName));
+        if Assigned(Frame) then
+          S:= Frame.FileName
+        else
+          S:= Ed.FileName;
+        SClipboardCopy(ExtractFileDir(S));
       end;
+
     cmd_CopyFilenameName:
       begin
-        SClipboardCopy(ExtractFileName(Frame.FileName));
+        if Assigned(Frame) then
+          S:= Frame.FileName
+        else
+          S:= Ed.FileName;
+        SClipboardCopy(ExtractFileName(S));
       end;
 
     cmd_AutoComplete:
