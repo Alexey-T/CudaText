@@ -3,6 +3,8 @@
   - fixed
   * changed
 
+- fix: statusbar cell "wrap" (if turned on via option) missed '|' separator (thanks @qwerky)
+
 1.232.0 (2026/01)
 
 + add: option "detect" matching reworked, now each key supports ';'-separated filemasks, and filemasks are more powerful: support e.g. "*foo", "foo*", "foo*bar"
