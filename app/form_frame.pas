@@ -1294,7 +1294,15 @@ begin
         C.Font.Color:= _ContrastColor(NColor);
         C.Font.Style:= [];
         C.Brush.Color:= NColor;
-        CanvasTextOutSimplest(C, X1, AY, Copy(AStr, NStartPos, NLen));
+        CanvasTextOutSimplest(C,
+          Rect(
+            X1,
+            AY,
+            X2,
+            Y
+            ),
+          Copy(AStr, NStartPos, NLen)
+          );
       end
       else
       begin
