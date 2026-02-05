@@ -3,7 +3,8 @@
   - fixed
   * changed
 
-- fix: statusbar cell "wrap" (if turned on via option) missed '|' separator (thanks @qwerky)
+- fix: regression: statusbar cell "wrap" missed '|' separator (thanks @qwerky)
+- fix: regression on Gtk2 version: option "underline_color_size":10 missed background coloring (thanks @ildarkhasanshin)
 
 1.232.0 (2026/01)
 
