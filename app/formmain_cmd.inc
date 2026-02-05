@@ -32,6 +32,23 @@ begin
   UpdateStatusbar;
 end;
 
+
+function _FrameFileName(Frame: TEditorFrame; Ed: TATSynEdit): string;
+begin
+  if Assigned(Frame) then
+  begin
+    case Frame.FrameKind of
+      TAppFrameKind.Editor:
+        Result:= Frame.Editor.FileName;
+      else
+        Result:= Frame.FileName;
+    end;
+  end
+  else
+    Result:= Ed.FileName;
+end;
+
+
 procedure TfmMain.HandleTimerCommand(Ed: TATSynEdit; CmdCode: integer; CmdInvoke: TATCommandInvoke);
 var
   Frame: TEditorFrame;
@@ -39,7 +56,6 @@ var
   EdPages: TATPages;
   NIndex: integer;
   NColor: TColor;
-  S: string;
 begin
   Frame:= TGroupsHelper.GetEditorFrame(Ed);
   EdGroup:= nil;
@@ -593,29 +609,17 @@ begin
 
     cmd_CopyFilenameFull:
       begin
-        if Assigned(Frame) then
-          S:= Frame.FileName
-        else
-          S:= Ed.FileName;
-        SClipboardCopy(S);
+        SClipboardCopy(_FrameFileName(Frame, Ed));
       end;
 
     cmd_CopyFilenameDir:
       begin
-        if Assigned(Frame) then
-          S:= Frame.FileName
-        else
-          S:= Ed.FileName;
-        SClipboardCopy(ExtractFileDir(S));
+        SClipboardCopy(ExtractFileDir(_FrameFileName(Frame, Ed)));
       end;
 
     cmd_CopyFilenameName:
       begin
-        if Assigned(Frame) then
-          S:= Frame.FileName
-        else
-          S:= Ed.FileName;
-        SClipboardCopy(ExtractFileName(S));
+        SClipboardCopy(ExtractFileName(_FrameFileName(Frame, Ed)));
       end;
 
     cmd_AutoComplete:
