@@ -592,15 +592,15 @@ begin
 
     cmd_CopyFilenameFull:
       begin
-        SClipboardCopy(Ed.FileName);
+        SClipboardCopy(Frame.FileName);
       end;
     cmd_CopyFilenameDir:
       begin
-        SClipboardCopy(ExtractFileDir(Ed.FileName));
+        SClipboardCopy(ExtractFileDir(Frame.FileName));
       end;
     cmd_CopyFilenameName:
       begin
-        SClipboardCopy(ExtractFileName(Ed.FileName));
+        SClipboardCopy(ExtractFileName(Frame.FileName));
       end;
 
     cmd_AutoComplete:
