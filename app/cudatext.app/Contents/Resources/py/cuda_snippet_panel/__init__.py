@@ -108,6 +108,7 @@ class Command:
 
         sel = ed.get_text_sel()
         text = text.replace('${sel}', sel)
+        text = text.replace('${eol}', '\n')
 
         ed.cmd(cmds.cCommand_TextInsert, text)
 
