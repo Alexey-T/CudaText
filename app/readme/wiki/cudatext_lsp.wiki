@@ -1,65 +1,48 @@
-=LSP Client plugin=
+The '''LSP Client''' plugin allows [[CudaText]] to use the Microsoft LSP protocol with servers for many programming languages. It requires that Python 3.6 or newer is present on the system, otherwise you will see an error message box.
 
-Plugin "LSP Client" allows to use Microsoft LSP protocol in CudaText with servers for many languages. 
-It requires that CudaText uses Python 3.6 or newer (otherwise you will see the error messagebox).
-
-LSP Client gives several commands in the "Plugins / LSP Client", and all these commands work only if server supports them.
-Some of LSP commands are:
-
+LSP Client adds several commands in a "Plugins / LSP Client" menu, though the functionality ultimately depends on if the LSP server supports them.
+Some of the commands are:
 * Auto-completion: integrated with CudaText command "Auto-completion menu" (in the Command Palette).
 * Go to definition: integrated with CudaText command "Go to definition" (in the Command Palette, and in the editor context menu).
 * Function signature help: integrated with CudaText command "Show function hint" (in the Command Palette).
+[[File:cudatext-lsp-hover_.png|border|right|520px]]
 * Hover: shows the tooltip when you hover mouse above identifiers. You need the Ctrl key pressed while you hover.
-
-[[File:cudatext-lsp-hover_.png]]
-
+[[File:cudatext-lsp-refs.png|border|right|520px]]
 * Find references: finds all locations where an identifier (under first caret) is used and shows menu with locations.
-
-[[File:cudatext-lsp-refs.png]]
-
-* Code linting: checking the correctness of the source code, places underlines and/or bookmarks on "incorrect lines". This feature is also implemented in [[#CudaLint]] and usually it works better/faster there.
-* Document formatting: formatting of the source code by LSP server. This feature is also implemented in [[#CudaFormatter]] and usually it works better/faster there.
+* Code linting: checking the correctness of the source code, places underlines and/or bookmarks on "incorrect lines". This feature is also implemented in [[#CudaLint|CudaLint]] and usually it works better/faster there.
+* Document formatting: formatting of the source code by LSP server. This feature is also implemented in [[#CudaFormatter|CudaFormatter]] and usually it works better/faster there.
 
 All LSP servers should have a homepage with description of their functions, and installation information.
 
-In the server config "lsp_*.json", key "lexers", you need to specify the mapping between CudaText lexer names and LSP language names.
-For example, while CudaText lexer name is "Bash script", LSP language name is "bash".
-And while CudaText lexer name is "C#", LSP language name is "csharp".
-
-<syntaxhighlight lang="json">
-{
+In the server config "lsp_*.json", key "lexers", you need to specify the mapping between CudaText lexer names and LSP language names. For example, while CudaText lexer name is "Bash script", LSP language name is "bash", likewise while CudaText lexer name is "C#", LSP language name is "csharp".
+<syntaxhighlight lang="json">{
   "lexers": {
     "C#": "csharp"
   },
-  ...
-}
-</syntaxhighlight>
+  …
+}</syntaxhighlight>
 
 LSP Client also has the settings file, use menu item to open it: "Options / Settings-plugins / LSP Client".
 
-==How to see debug logs==
+== Troubleshooting using debug logs ==
 You can enable LSP server debug logs, by adding key <code>"log_stderr": true</code> to the "settings/lsp_xxxx.json" server config. For example, for C++ lexer it will look like this:
-
-<syntaxhighlight lang="json">
-{
+<syntaxhighlight lang="json">{
   "lexers": {
     "C++": "cpp",
     "C": "c"
   },
-  ...
+  …
   "log_stderr": true,
-}
-</syntaxhighlight>
+}</syntaxhighlight>
 
+[[File:cudatext-lsp-stderr.png|thumb|right]]
 You need to show the CudaText's sidebar, then click the "LSP" sidebar icon (near the bottom) to show the LSP-panel with several buttons: Messages / Logs / stderr / Diagnostics. One of these buttons is "stderr".
 
-[[File:cudatext-lsp-stderr.png]]
-
-=LSP server for Python=
-Project homepage is https://github.com/python-lsp/python-lsp-server .
-Note that this is fork of old, unmaintained, project "PyLS".
-Server supports:
-
+== Supported programming languages ==
+=== Python ===
+==== python-lsp-server ====
+: '''''[https://github.com/python-lsp/python-lsp-server python-lsp-server project homepage]'''''
+Note that this is a fork of the older, unmaintained, project "PyLS". This server supports:
 * Auto-completion
 * Go to definition
 * Function signature help
@@ -68,33 +51,24 @@ Server supports:
 * Code linting
 * Document formatting
 
-Use "pip" to install the server:
-
- pip install python-lsp-server
+Use "pip" to install the server: <syntaxhighlight lang="shell">pip install python-lsp-server</syntaxhighlight>
  
-This will expose the command "pylsp" on your PATH. Confirm that installation succeeded by running:
+This will expose the command "pylsp" on your PATH. Confirm that installation succeeded by running: <syntaxhighlight lang="shell">pylsp --help</syntaxhighlight>
 
- pylsp --help
- 
 Create the file "[CudaText]/settings/lsp_py.json" with text like this:
-
-<syntaxhighlight lang="json">
-{
+<syntaxhighlight lang="json">{
   "lexers": {
     "Python": "python"
   },
   "cmd_windows": ["pylsp.exe"],
   "cmd_unix": ["pylsp"],
   "cmd_macos": ["pylsp"]
-}
-</syntaxhighlight>
+}</syntaxhighlight>
 
 Open some Python script, and call some commands of LSP Client. It will run the server, and it should work.
 
 Recent version of LSP Client supports fuzzy search in the auto-completion list. For Python server, fuzzy search needs additional option in the lsp_py.json:
-
-<syntaxhighlight lang="json">
-{
+<syntaxhighlight lang="json">{
   "lexers": {
     "Python": "python"
   },
@@ -109,8 +83,7 @@ Recent version of LSP Client supports fuzzy search in the auto-completion list. 
       }
     }
   }
-}
-</syntaxhighlight>
+}</syntaxhighlight>
 
 Fuzzy search can be tested on this sample script, it must show auto-completion item "write" for "f.wi":
 
@@ -119,16 +92,10 @@ f = open("a.txt", "w")
 f.wi
 </syntaxhighlight>
 
-=LSP server for Python, pyright=
-
-1. Install the server:
-
- pip install pyright
-
+==== pyright ====
+# Install the server: <syntaxhighlight lang="shell">pip install pyright</syntaxhighlight>
 * On Windows, add folder of "pyright-langserver.exe" to system PATH.
-* On Linux/Unix, get the full path of the program, we will use this path in the next step.
-
- which pyright-langserver
+* On Linux/Unix, get the full path of the program, we will use this path in the next step. <syntaxhighlight lang="shell">which pyright-langserver</syntaxhighlight>
 
 It outputs on Ubuntu:
 
@@ -162,8 +129,7 @@ It outputs on Ubuntu:
   }
 </syntaxhighlight>
 
-=LSP server for JavaScript/ReactJS=
-
+=== JavaScript/ReactJS ===
 * Install lexer for ReactJS: "JavaScript Babel", from "Addons Manager".
 * Install TypeScript and the LSP server. In Terminal:
 
@@ -189,8 +155,7 @@ It outputs on Ubuntu:
 </syntaxhighlight>
 This assumes that "typescript-language-server" is in the PATH (it is true on Ubuntu). For Windows, you need to find the folder of "typescript-language-server.cmd" and add it to PATH.
 
-=LSP server for TypeScript=
-
+=== TypeScript ===
 * Install TypeScript lexer from "Addons Manager".
 * Install TypeScript and the LSP server. In Terminal:
 
@@ -246,33 +211,26 @@ Test the auto-completion on this "test.ts" file (with TypeScript lexer):
 
  document.body.g
 
-=LSP server for C/C++=
+=== C/C++ ===
+Install one of the servers (clangd or ccls).
 
-Install one of the servers (case A or case B).
-
-Case A. clangd: https://clangd.llvm.org/installation.html
-
+==== clangd ====
+: '''''[https://clangd.llvm.org/installation.html clangd homepage]'''''
 For Windows, you need the "clangd.exe" and "clang.exe" binaries. You can get them in two ways:
+# '''Standalone (lightweight)'''
+#* Download "clangd-windows-x.x.x.zip" from https://github.com/clangd/clangd/releases. Extract it and add the "bin" folder to your OS PATH.
+# '''Via compiler suites''' (needed for full auto-completion and headers)
+#* If you need clangd to correctly find your project headers and provide full auto-completion, it is better to get it via one of these tools:
+#** '''LLVM Toolchain:''' Download the LLVM installer from the LLVM GitHub releases. During installation, select "Add LLVM to the system PATH".
+#** '''MinGW/MSYS2:''' If you use MinGW, install the package "mingw-w64-x86_64-clang-tools-extra".
+#** '''Visual Studio Build Tools:''' Download from: https://visualstudio.microsoft.com/downloads/ (scroll to "Tools for Visual Studio" → "Build Tools for Visual Studio").
+#*** Run the installer and select the workload "Desktop development with C++".
+#*** In the optional components, ensure these are checked:
+#**** "C++ Clang tools for Windows"
+#**** The latest MSVC toolset (e.g., MSVC v143 or similar).
+#**** Windows SDK (usually selected by default).
 
-1. '''Standalone (lightweight)'''
-
-Download "clangd-windows-x.x.x.zip" from https://github.com/clangd/clangd/releases. Extract it and add the "bin" folder to your OS PATH.
-
-2. '''Via compiler suites''' (needed for full auto-completion and headers)
-
-If you need clangd to correctly find your project headers and provide full auto-completion, it is better to get it via one of these tools:
-
-* '''LLVM Toolchain:''' Download the LLVM installer from the LLVM GitHub releases. During installation, select "Add LLVM to the system PATH".
-* '''MinGW/MSYS2:''' If you use MinGW, install the package "mingw-w64-x86_64-clang-tools-extra".
-* '''Visual Studio Build Tools:''' Download from: https://visualstudio.microsoft.com/downloads/ (scroll to "Tools for Visual Studio" → "Build Tools for Visual Studio").
-** Run the installer and select the workload "Desktop development with C++".
-** In the optional components, ensure these are checked:
-*** "C++ Clang tools for Windows"
-*** The latest MSVC toolset (e.g., MSVC v143 or similar).
-*** Windows SDK (usually selected by default).
-
-Case B. ccls:
-
+==== ccls ====
 * https://github.com/MaskRay/ccls/wiki/Build
 * https://github.com/MaskRay/ccls/wiki/Install
 
@@ -304,8 +262,7 @@ int main(){
 }
 </syntaxhighlight>
 
-=LSP server for C#=
-
+=== C# ===
 First, install the C# lexer from "Plugins / Addons Manager / Install".
 
 1. '''Download OmniSharp from the releases page:''' https://github.com/OmniSharp/omnisharp-roslyn/releases . For Windows 64-bit you may see two packages:
@@ -352,8 +309,7 @@ public class DateExample
 
 Important note. A CudaText project is necessary to enable LSP features. You must open your C# folder (containing the .sln or .csproj files) as a CudaText project for the LSP to function correctly.
 
-=LSP server for CSS/SCSS/LESS=
-
+=== CSS/SCSS/LESS ===
 The CSS (and SCSS, LESS) server is not easy to install, so here is the instruction, from the author of LSP Client:
 
 * Download the repository of VSCode: https://github.com/microsoft/vscode
@@ -413,7 +369,7 @@ Create config file (CudaText)/settings/lsp_css.json:
 }
 </syntaxhighlight>
 
-=LSP server for HTML=
+=== HTML ===
 CudaText does not support built-in HTML auto-completion when caret is inside style="..." blocks.
 But LSP server supports it.
 Install server using Node.js:
@@ -435,7 +391,7 @@ Make sure the script "html-ls" ("html-ls.cmd" on Windows) is in the PATH.
 
 You may see wrong sorting of CSS properties in the auto-completion list, when auto-completion is called for CSS prop with dash char. To fix that, you need to remove dash char "-" from the "nonword_chars" option. Do it via lexer-specific config for HTML.
 
-=LSP server for Java=
+=== Java ===
 '''Part 1. Information for Windows.'''
 
 * Install lexer "Java" from Addons Manager.
@@ -560,8 +516,7 @@ public class Example {
 }
 </syntaxhighlight>
 
-=LSP server for Nim=
-
+=== Nim ===
 Server from https://github.com/PMunch/nimlsp works good.
 
 Config file (CudaText)/settings/lsp_nim.json:
@@ -578,8 +533,7 @@ Config file (CudaText)/settings/lsp_nim.json:
 }
 </syntaxhighlight>
 
-=LSP server for Rust=
-
+=== Rust ===
 RLS server ( https://github.com/rust-lang/rls ) has been deprecated and is no longer supported. It has been replaced with Rust-analyzer. Users are encouraged to uninstall RLS and follow the instructions in the Rust-analyzer manual to install it.
 User needs to download binary file for his system: https://github.com/rust-lang/rust-analyzer#quick-start
 
@@ -595,8 +549,7 @@ Create config (CudaText)/settings/lsp_rust.json:
 }
 </syntaxhighlight>
 
-=LSP server for AutoHotkey=
-
+=== AutoHotkey ===
 * Download the repository of AutoHotkey2: https://github.com/thqby/vscode-autohotkey2-lsp
 * Extract and enter the directory: "vscode-autohotkey2-lsp-main" 
 * Install dependencies and TypeScript. In Terminal:
@@ -623,8 +576,7 @@ Server should be compiled now. To use the server in LSP Client, create the file 
 }
 </syntaxhighlight>
 
-=LSP server for Red=
-
+=== Red ===
 1) On Linux x64.
 
 * Install Red. Download "red" binary, "chmod +x red", then copy it to PATH dir (/usr/bin on Ubuntu). Command "red" must work from Terminal. Red release 0.6.4 may give errors with the LSP server, so better install build from 30-Sep-2021.
@@ -661,8 +613,7 @@ Server should work now. It gives: mouse hover tooltips (Ctrl + mouse hovering ov
 
 Note: don't create .bat or .cmd file with the "red.exe" calling, because it does not work in LSP Client for some reason. 
 
-=LSP server for PHP=
-
+=== PHP ===
 1. Install PHP, Composer. PHP versions 7.4.3 and 8.1 are OK. 
 
 2. Install php-dom extension. php-dom extension is the only needed for this server to work, and it must be installed before you run "composer update".
@@ -699,8 +650,7 @@ In CudaText Project Manager you must save your project file to your php project 
 
 Note: on Windows, in rare cases hanging php.exe process can prevent LSP server from starting. If you see "ReadLoopError" in Console, try to kill all "php" processes and try again.
 
-=LSP server for Bash=
-
+=== Bash shell ===
 * Install Node.js, see readme here: https://github.com/nodesource/distributions/blob/master/README.md
 * Install Bash server, see readme here: https://github.com/bash-lsp/bash-language-server
 * Install Shellcheck from https://www.shellcheck.net/ - "We strongly recommend that you install shellcheck to enable linting"
@@ -717,8 +667,7 @@ Note: on Windows, in rare cases hanging php.exe process can prevent LSP server f
 }
 </syntaxhighlight>
 
-=LSP server for D=
-
+=== D ===
 First, install D lexer from "Addons Manager".
 
 1. Install DLang into "C:\D", for example. For 64-bit compiler, add folder "C:\D\dmd2\windows\bin64" to system PATH. Check that "dmd" and "dub" commands run OK from Windows console.
@@ -775,8 +724,7 @@ void foo(B b)
 }
 </syntaxhighlight>
 
-=LSP server for Go=
-
+=== Go ===
 Install lexer Go from "Addons Manager".
 
 1. Install Go. Make sure that Go binary is in the system PATH, and GOPATH variable is also set.
@@ -819,8 +767,7 @@ func main() {
 }
 </syntaxhighlight>
 
-=LSP server for Lua=
-
+=== Lua ===
 1. Install server for the command line from https://github.com/sumneko/lua-language-server . Find the full path of the file "lua-language-server" ("lua-language-server.exe" on Windows).
 
 2. Create LSP config (CudaText)/settings/lsp_lua.json:
@@ -835,8 +782,7 @@ func main() {
 }
 </syntaxhighlight>
 
-=LSP server for Scala=
-
+=== Scala ===
 Install lexer "Scala" from Addons Manager.
 Information for Windows.
 
@@ -862,8 +808,7 @@ Testing file for auto-completion:
      println("Hello, world")
  }
 
-=LSP server for Fortran=
-
+=== Fortran ===
 Install lexer "Fortran" from Addons Manager.
 Steps show how to use server on Linux (Ubuntu 20.04) with Python 3 installed.
 
@@ -902,8 +847,7 @@ CALL myv
 END PROGRAM
 </syntaxhighlight>
 
-=LSP server for Markdown=
-
+=== Markdown ===
 1. Get precompiled Marksman LSP server from GitHub: https://github.com/artempyanykh/marksman/releases
 
 2. On Windows, copy "marksman.exe" to some folder in PATH. On Linux, copy "marksman-linux" to this recommended folder in PATH: ~/.local/bin. Set executable permission for Linux binary.
@@ -932,8 +876,7 @@ Some text.
 [a123]: url "title2"
 </syntaxhighlight>
 
-=LSP server for V=
-
+=== V ===
 * Install V lexer (from "Addons Manager / Plugins / Install")
 * Install V language
 * Install v-analyzer binary from https://github.com/v-analyzer/v-analyzer to a folder (that is included in PATH)
@@ -949,7 +892,7 @@ Some text.
 }
 </syntaxhighlight>
 
-=LSP server Vale=
+=== Vale ===
 Steps for Windows OS.
 
 * Install Vale server. Add path of "vale-ls.exe" to system PATH.
@@ -972,7 +915,7 @@ Steps for Windows OS.
 * Do not forget to run: "vale sync".
 * Vale server did not support filenames with spaces on Windows OS. To fix it, update Vale to 0.3.7 or newer.
 
-=LSP server for Odin=
+=== Odin ===
 Steps for Windows OS.
 
 * Unzip Odin compiler zip-file into e.g. "C:\Odin". Add this folder to system PATH. Set environment variable ODIN_ROOT to this path.
@@ -1012,5 +955,6 @@ What must work now in the example file:
 * Show function-hint (Ctrl+Shift+Space inside function brackets, to show function signature)
 
 Mouse-hover dialog is not working yet for some reason (it's enabled in server by default).
+
 
 [[Category:CudaText]]
