@@ -1106,10 +1106,9 @@ Plugin Runner was written as an alternative to External Tools.
 * Runner supports Sublime Text 3 build-systems.
 * Runner displays tool output immediately line-by-line as it appears (External Tools can only show the entire ready output).
 
-Many build-systems from Sublime Text 3 were packaged and put to add-on collection, search for add-on "Many Build Systems".
-Only few build-systems were packaged into own separate packages because they have big EXE/Binary files.
-Some ST3 plugins have build-systems paired with some Python code - they are not supported.
+Many build-systems (*.sublime-build files) from Sublime Text 3 are located in [https://github.com/CudaText-addons/Runner_build_systems Runner build-systems repository].
 
+Some ST3 plugins have build-systems paired with some Python code - they are not supported.
 See the [https://github.com/CudaText-addons/cuda_runner/blob/main/readme/readme.txt Runner documentation on GitHub].
 
 Here is the GIF animation which shows reaction of Runner to PHP script running:
@@ -1142,7 +1141,9 @@ it will run with a runtime error like this:
 This is the limitation of the Runner plugin. To run your Python script in this case, you should call "ExTerminal" plugin (or "Terminal Plus" plugin), and enter there: "python3 myscript.py". And make sure, that ExTerminal prompt appeared in the proper folder, with your script.
 
 ==Runner tool for C==
-Install the add-on "build-system: Many Build Systems from ST4".
+
+Copy file "C via GCC.sublime-build" from [https://github.com/CudaText-addons/Runner_build_systems Runner build-systems repository] to folder "data/buildsystems".
+
 It supports C lexer using GCC compiler.
 It works on Linux/macOS out-of-the-box, on Windows you need the command "gcc" to be in the system PATH.
 
@@ -1169,7 +1170,9 @@ Hello world
 </pre>
 
 ==Runner tool for C++==
-Install the add-on "build-system: C++ using G++".
+
+Copy file "C++_G++.sublime-build" from [https://github.com/CudaText-addons/Runner_build_systems Runner build-systems repository] to folder "data/buildsystems".
+
 It supports C++ lexer using GNU C++ compiler.
 It works on Linux/macOS out-of-the-box, on Windows you need the command "g++" to be in the system PATH.
 
@@ -1198,7 +1201,7 @@ Hello World!
 
 ==Runner tool for PHP==
 How to debug for example PHP file, with Runner.
-Create file "[CudaText]/data/buildsystems/php.sublime-build" with such text:
+Create file "data/buildsystems/php.sublime-build" with such text:
 <syntaxhighlight lang="json">
 {
   "file_patterns": ["*.php"],
@@ -1226,7 +1229,10 @@ for($i=0; $i<10; $i++) {
 </syntaxhighlight>
 
 ==Runner tool for Python==
-In Addons Mananger, install the add-on "buildsystem: Many Build Systems from ST4". It contains the Python build-system. It even contains 2 items in the build-system:
+
+Copy file "Python.sublime-build" from [https://github.com/CudaText-addons/Runner_build_systems Runner build-systems repository] to folder "data/buildsystems".
+
+It should contain 2 items in the build-system:
 * Build
 * Syntax Check
 
@@ -1242,8 +1248,10 @@ for i in range(5):
 </syntaxhighlight>
 
 ==Runner tool for Free Pascal==
-In Addons Manager, install the add-on "buildsystem: Free Pascal".
-It installs the file "[CudaText]/data/buildsystems/Free Pascal.sublime-build" with text like this:
+
+Copy file "Free Pascal.sublime-build" from [https://github.com/CudaText-addons/Runner_build_systems Runner build-systems repository] to folder "data/buildsystems".
+
+That file has content like this:
 <syntaxhighlight lang="json">
 {
   "file_patterns": ["*.pp", "*.pas"],
@@ -1306,7 +1314,7 @@ set COB_LIB_PATH=c:\gnucobol\lib
 cobc -x -std=mf %1
 </pre>
 
-Create build-system file "[CudaText]\data\buildsystems\cobol.sublime-build":
+Create build-system file "data\buildsystems\cobol.sublime-build":
 <syntaxhighlight lang="json">
 {
   "file_patterns": ["*.cob", "*.cbl", "*.cpy"],
