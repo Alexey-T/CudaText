@@ -1,4 +1,4 @@
-The '''LSP Client''' plugin allows [[CudaText]] to use the Microsoft LSP protocol with servers for many programming languages. It requires that Python 3.6 or newer is present on the system, otherwise you will see an error message box.
+The '''LSP Client''' plugin allows [[CudaText]] to use the Microsoft LSP protocol with servers for many programming languages. If you have not Windows OS, it is required that Python 3.6 or newer is present on the system, otherwise you will see an error message box.
 
 LSP Client adds several commands in a "Plugins / LSP Client" menu, though the functionality ultimately depends on if the LSP server supports them.
 Some of the commands are:
@@ -9,8 +9,8 @@ Some of the commands are:
 * Hover: shows the tooltip when you hover mouse above identifiers. You need the Ctrl key pressed while you hover.
 [[File:cudatext-lsp-refs.png|border|right|520px]]
 * Find references: finds all locations where an identifier (under first caret) is used and shows menu with locations.
-* Code linting: checking the correctness of the source code, places underlines and/or bookmarks on "incorrect lines". This feature is also implemented in [[#CudaLint|CudaLint]] and usually it works better/faster there.
-* Document formatting: formatting of the source code by LSP server. This feature is also implemented in [[#CudaFormatter|CudaFormatter]] and usually it works better/faster there.
+* Code linting: checking the correctness of the source code, places underlines and/or bookmarks on "incorrect lines". This feature is also implemented in [[CudaText_plugins#CudaLint|CudaLint]] and usually it works better/faster there.
+* Document formatting: formatting of the source code by LSP server. This feature is also implemented in [[CudaText_plugins#CudaFormatter|CudaFormatter]] and usually it works better/faster there.
 
 All LSP servers should have a homepage with description of their functions, and installation information.
 
