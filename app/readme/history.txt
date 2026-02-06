@@ -5,7 +5,7 @@
 
 1.232.1 (2026/02)
 
-+ add: Snippet Panel plugin: support new macro ${eol} which means newline-character (LF)
++ add: Snippet Panel plugin: support new macro ${eol} which means newline-character (idea by @sl23)
 - fix: regression: statusbar cell "wrap" missed separator vert-line (thanks @qwerky)
 - fix: regression in Gtk2 version: option "underline_color_size":10 missed background coloring (thanks @ildarkhasanshin)
 - fix: regression: commands "clipboard copy: filepath" did not work for picture/viewer files (thanks @ThaiDat)
