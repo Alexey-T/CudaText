@@ -3214,7 +3214,7 @@ end;
 
 function PyHelper_GetWrapInfo(Ed: TATSynEdit; AParam1, AParam2: integer): PPyObject;
 var
-  Data: TATWrapItem;
+  WrapItem: TATWrapItem;
   NIndex1, NIndex2: integer;
   NLen, i: integer;
 begin
@@ -3248,15 +3248,15 @@ begin
 
     for i:= 0 to NLen-1 do
     begin
-      Data:= Ed.WrapInfo[i+NIndex1];
+      WrapItem:= Ed.WrapInfo[i+NIndex1];
       PyList_SetItem(Result, i,
         Py_BuildValue('{sisisisisisO}',
-          'line', Data.NLineIndex,
-          'char', Data.NCharIndex,
-          'len', Data.NLength,
-          'indent', Data.NIndent,
-          'final', Ord(Data.NFinal),
-          'initial', PyBool_FromLong(Ord(Data.bInitial))
+          'line', WrapItem.NLineIndex,
+          'char', WrapItem.NCharIndex,
+          'len', WrapItem.NLength,
+          'indent', WrapItem.NIndent,
+          'final', Ord(WrapItem.NFinal),
+          'initial', PyBool_FromLong(Ord(WrapItem.bInitial))
           ));
     end;
   end
@@ -8578,7 +8578,7 @@ end;
 
 function PyHelper_GapGetDict(Ed: TATSynEdit): PPyObject; cdecl;
 var
-  Item: TATGapItem;
+  GapItem: TATGapItem;
   NLen, NSizeX, NSizeY, i: Integer;
 begin
   with AppPython.Engine do
@@ -8589,12 +8589,12 @@ begin
         raise EPythonError.Create(msgPythonListError);
       for i:= 0 to NLen-1 do
       begin
-        Item:= Ed.Gaps[i];
+        GapItem:= Ed.Gaps[i];
 
-        if Assigned(Item.Bitmap) then
+        if Assigned(GapItem.Bitmap) then
         begin
-          NSizeX:= Item.Bitmap.Width;
-          NSizeY:= Item.Bitmap.Height;
+          NSizeX:= GapItem.Bitmap.Width;
+          NSizeY:= GapItem.Bitmap.Height;
         end
         else
         begin
@@ -8605,16 +8605,16 @@ begin
         PyList_SetItem(Result, i,
           Py_BuildValue('{sisisis(ii)si}',
             'line',
-            Item.LineIndex,
+            GapItem.LineIndex,
             'tag',
-            Item.Tag,
+            GapItem.Tag,
             'size',
-            Item.Size,
+            GapItem.Size,
             'bitmap',
             NSizeX,
             NSizeY,
             'color',
-            Item.Color
+            GapItem.Color
             ));
       end;
     end;
