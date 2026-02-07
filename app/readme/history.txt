@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.232.1 (2026/02)
+1.232.0.4 (2026/02)
 
 + add: Snippet Panel plugin: support new macro ${eol} which means newline-character (idea by @sl23)
 - fix: regression: statusbar cell "wrap" missed separator vert-line (thanks @qwerky)
