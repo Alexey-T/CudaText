@@ -3,8 +3,9 @@
   - fixed
   * changed
 
-1.232.0.4 (2026/02)
+1.232.1.0 (2026/02)
 
++ add: session loading now allows non-existing filenames: such filenames still have the (empty and read-only) ui-tabs
 + add: Snippet Panel plugin: support new macro ${eol} which means newline-character (idea by @sl23)
 - fix: regression: statusbar cell "wrap" missed separator vert-line (thanks @qwerky)
 - fix: regression in Gtk2 version: option "underline_color_size":10 missed background coloring (thanks @ildarkhasanshin)
