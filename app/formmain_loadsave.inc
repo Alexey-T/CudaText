@@ -746,7 +746,7 @@ begin
         end;
       end
       else
-        sOpenOptions:= '';
+        sOpenOptions:= '/allowdeleted';
 
       Frame:= nil;
       //modified tabs must restore text, and set filename (if not empty)
@@ -785,7 +785,7 @@ begin
       end
       else
       //unmodified+named tabs must load file again
-      if bExist then
+      //if bExist then
       begin
         Inc(nCountFiles);
         Frame:= DoFileOpen(sTabFilename, sTabFilename2, Pages, sOpenOptions+SOptionPassive+SOptionNoHistory);
