@@ -4916,7 +4916,7 @@ var
   F: TEditorFrame;
   bSilent, bPreviewTab, bEnableHistory, bEnableLoadUndo, bEnableLoadBookmarks,
   bEnableEventPre, bEnableEventOpened, bEnableEventOpenedNone,
-  bAllowZip, bAllowPics, bAllowLexerDetect, bDetectedPics,
+  bAllowZip, bAllowPics, bAllowLexerDetect, bAllowDeleted, bDetectedPics,
   bAllowUpdateAddons, bAndActivate: boolean;
   bFileTooBig, bFileTooBig2: boolean;
   AllowNear: TAppNewTabNearCurrent;
@@ -4961,6 +4961,7 @@ begin
   bAllowZip:= not SubInString('/nozip', AOptions);
   bAllowPics:= not SubInString('/nopictures', AOptions);
   bAllowUpdateAddons:= not SubInString('/noupdateaddons', AOptions);
+  bAllowDeleted:= SubInString('/allowdeleted', AOptions);
 
   AllowNear:= TAppNewTabNearCurrent.ByOption;
   if SubInString('/donear', AOptions) then
@@ -5027,7 +5028,7 @@ begin
   if AFileName<>'' then
   begin
     AFileName:= AppExpandFileName(AFileName);
-    if not FileExists(AFileName) then
+    if not bAllowDeleted and not FileExists(AFileName) then
     begin
       MsgBox(msgCannotFindFile+#10+AppCollapseHomeDirInFilename(AFileName), MB_OK or MB_ICONERROR);
       Exit
@@ -5037,20 +5038,20 @@ begin
   if AFileName2<>'' then
   begin
     AFileName2:= AppExpandFileName(AFileName2);
-    if not FileExists(AFileName2) then
+    if not bAllowDeleted and not FileExists(AFileName2) then
     begin
       MsgBox(msgCannotFindFile+#10+AppCollapseHomeDirInFilename(AFileName2), MB_OK or MB_ICONERROR);
       Exit
     end;
   end;
 
-  if not FileIsReadable(AFileName) then
+  if not bAllowDeleted and not FileIsReadable(AFileName) then
   begin
     MsgBox(msgCannotOpenFile+#10+AFileName+#10#10+msgCannotOpenNoReadPermissions, MB_OK or MB_ICONERROR);
     exit;
   end;
 
-  if not FileIsReadable(AFileName2) then
+  if not bAllowDeleted and not FileIsReadable(AFileName2) then
   begin
     AFileName2:= '';
   end;
@@ -5089,7 +5090,7 @@ begin
     if not bDetectedPics then
     if not AppSessionIsLoading then
     if UiOps.NonTextFiles<>1 then
-      if not AppIsFileContentText(
+      if FileExists(AFileName) and not AppIsFileContentText(
                AFileName,
                UiOps.NonTextFilesBufferKb,
                ATEditorOptions.DetectUTF16BufferWords,
@@ -5213,6 +5214,7 @@ begin
       bAllowLexerDetect,
       true,
       bEnableLoadUndo,
+      bAllowDeleted,
       OpenMode);
     MsgStatusFileOpened(AFileName, AFileName2);
 
@@ -5238,6 +5240,7 @@ begin
         bAllowLexerDetect,
         true,
         bEnableLoadUndo,
+        bAllowDeleted,
         OpenMode);
       Result:= F;
       //tick:= (GetTickCount64-tick) div 1000;
@@ -5293,6 +5296,7 @@ begin
     bAllowLexerDetect,
     true,
     bEnableLoadUndo,
+    bAllowDeleted,
     OpenMode);
   Result:= F;
 

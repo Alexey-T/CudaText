@@ -506,7 +506,8 @@ type
     procedure DoFileClose;
     procedure DoFileOpen(const AFileName, AFileName2: string;
       AAllowLoadHistory, AAllowLoadBookmarks, AAllowLexerDetect,
-      AAllowErrorMsgBox, AAllowLoadUndo: boolean; AOpenMode: TAppOpenMode);
+      AAllowErrorMsgBox, AAllowLoadUndo, AAllowDeleted: boolean;
+      AOpenMode: TAppOpenMode);
     procedure DoFileOpen_AsBinary(const AFileName: string; AMode: TATBinHexMode);
     procedure DoFileOpen_AsPicture(const AFileName: string; AIsReload: boolean);
     function DoFileSave(ASaveAs, AAllEditors: boolean): boolean;
@@ -2966,7 +2967,7 @@ begin
 end;
 
 procedure TEditorFrame.DoFileOpen(const AFileName, AFileName2: string;
-  AAllowLoadHistory, AAllowLoadBookmarks, AAllowLexerDetect, AAllowErrorMsgBox, AAllowLoadUndo: boolean;
+  AAllowLoadHistory, AAllowLoadBookmarks, AAllowLexerDetect, AAllowErrorMsgBox, AAllowLoadUndo, AAllowDeleted: boolean;
   AOpenMode: TAppOpenMode);
 var
   bFilename2Valid: boolean;
@@ -2980,9 +2981,12 @@ begin
   if Assigned(FImageBox) then
     FImageBox.Hide;
 
-  if not FileExists(AFileName) then exit;
-  if (AFileName2<>'') then
-    if not FileExists(AFileName2) then exit;
+  if not AAllowDeleted then
+  begin
+    if not FileExists(AFileName) then exit;
+    if (AFileName2<>'') then
+      if not FileExists(AFileName2) then exit;
+  end;
 
   if UiOps.InfoAboutOptionsEditor then
     if (CompareFilenames(AFileName, AppFile_OptionsUser)=0) or

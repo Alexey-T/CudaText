@@ -4999,7 +4999,7 @@ begin
               begin
                 Str:= Frame.FileName;
                 Frame.DoFileClose;
-                Frame.DoFileOpen(Str, '', false, false, true, true, true, TAppOpenMode.Editor);
+                Frame.DoFileOpen(Str, '', false, false, true, true, true, false, TAppOpenMode.Editor);
               end;
             end
             else
