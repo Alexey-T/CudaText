@@ -789,6 +789,9 @@ begin
       begin
         Inc(nCountFiles);
         Frame:= DoFileOpen(sTabFilename, sTabFilename2, Pages, sOpenOptions+SOptionPassive+SOptionNoHistory);
+        //show red "externally deleted" mark
+        if Assigned(Frame) and not bExist then
+          Frame.NotifyAboutChange(Frame.Ed1);
       end;
 
       if Assigned(Frame) then
@@ -818,7 +821,7 @@ begin
             Frame.UpdateModified(Frame.Ed2);
           end
           else
-          if bExist2 then
+          //if bExist2 then
             Inc(nCountFiles);
 
           Frame.DoLoadHistoryEx(Frame.Ed2, cfg, sItemPath2, true);
