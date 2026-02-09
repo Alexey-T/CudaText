@@ -3193,7 +3193,8 @@ begin
     if Ed.IsLexerNone then
       DoLexerFromFilename(Ed, AFileName);
 
-  UpdateReadOnlyFromFile(Ed);
+  if FileExists(AFileName) then
+    UpdateReadOnlyFromFile(Ed);
   NotifEnabled:= true;
 end;
 
