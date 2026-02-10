@@ -794,11 +794,14 @@ begin
 
         Frame:= DoFileOpen(sTabFilename, sTabFilename2, Pages, sOpenOptions+SOptionPassive+SOptionNoHistory);
 
-        //show "externally deleted" top panel
-        if Assigned(Frame) and not bExist then
-          Frame.NotifyAboutChange(Frame.Ed1);
-        if Assigned(Frame) and (sTabFilename<>'') and not bExist2 then
-          Frame.NotifyAboutChange(Frame.Ed2);
+        //show "externally deleted" top panel if file not exists
+        if Assigned(Frame) then
+        begin
+          if (sTabFilename<>'') and not bExist then
+            Frame.NotifyAboutChange(Frame.Ed1);
+          if (sTabFilename2<>'') and not bExist2 then
+            Frame.NotifyAboutChange(Frame.Ed2);
+        end;
       end;
 
       if Assigned(Frame) then
