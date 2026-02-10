@@ -562,7 +562,7 @@ var
   sSessionFileName, sTabFilename, sTabFilename2, sRootPath,
   sTabTitle, sTabKind, sOpenOptions,
   sItemPath, sItemPath2: string;
-  nCountFiles, nCountFilesModified, nCountFilesBefore: integer;
+  nCountFiles, nCountFilesModified, nCountFilesBefore, nCountFilesDeleted: integer;
   bModified, bModified2: boolean;
   bAllowOnState: boolean;
   sText: UnicodeString;
@@ -613,6 +613,7 @@ begin
   nTick:= GetTickCount64;
   nCountFiles:= 0;
   nCountFilesModified:= 0;
+  nCountFilesDeleted:= 0;
 
   AppFileCheckForNullBytes(sSessionFileName);
 
@@ -788,8 +789,12 @@ begin
       //if bExist then
       begin
         Inc(nCountFiles);
+        if not bExist then
+          Inc(nCountFilesDeleted);
+
         Frame:= DoFileOpen(sTabFilename, sTabFilename2, Pages, sOpenOptions+SOptionPassive+SOptionNoHistory);
-        //show red "externally deleted" mark
+
+        //show "externally deleted" top panel
         if Assigned(Frame) and not bExist then
           Frame.NotifyAboutChange(Frame.Ed1);
       end;
@@ -821,8 +826,11 @@ begin
             Frame.UpdateModified(Frame.Ed2);
           end
           else
-          //if bExist2 then
+          begin
             Inc(nCountFiles);
+            if not bExist2 then
+              Inc(nCountFilesDeleted);
+          end;
 
           Frame.DoLoadHistoryEx(Frame.Ed2, cfg, sItemPath2, true);
         end;
@@ -923,6 +931,8 @@ begin
     sConsole:= Format('Loaded session: "%s", %dms, %d file(s)', [ExtractFileName(sSessionFileName), nTick, nCountFiles]);
     if nCountFilesModified>0 then
       sConsole+= Format(' + %d modified', [nCountFilesModified]);
+    if nCountFilesDeleted>0 then
+      sConsole+= Format('; %d deleted', [nCountFilesDeleted]);
     MsgLogConsole(sConsole);
   end;
 
