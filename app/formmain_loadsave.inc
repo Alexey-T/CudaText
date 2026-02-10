@@ -671,7 +671,6 @@ begin
       if (sTabFilename2<>'') and not bExist2 then
       begin
         MsgFileFromSessionNotFound(sTabFilename2);
-        //sTabFilename2:= '';
       end;
 
       sText:= cfg.GetValue(sItemPath+'text', '');
@@ -786,7 +785,6 @@ begin
       end
       else
       //unmodified+named tabs must load file again
-      //if bExist then
       begin
         Inc(nCountFiles);
         if not bExist then
