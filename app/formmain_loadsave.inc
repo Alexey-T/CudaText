@@ -932,7 +932,7 @@ begin
     if nCountFilesModified>0 then
       sConsole+= Format(' + %d modified', [nCountFilesModified]);
     if nCountFilesDeleted>0 then
-      sConsole+= Format('; %d deleted', [nCountFilesDeleted]);
+      sConsole+= Format(', %d deleted', [nCountFilesDeleted]);
     MsgLogConsole(sConsole);
   end;
 
