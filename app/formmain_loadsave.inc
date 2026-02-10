@@ -671,7 +671,7 @@ begin
       if (sTabFilename2<>'') and not bExist2 then
       begin
         MsgFileFromSessionNotFound(sTabFilename2);
-        sTabFilename2:= '';
+        //sTabFilename2:= '';
       end;
 
       sText:= cfg.GetValue(sItemPath+'text', '');
@@ -797,6 +797,8 @@ begin
         //show "externally deleted" top panel
         if Assigned(Frame) and not bExist then
           Frame.NotifyAboutChange(Frame.Ed1);
+        if Assigned(Frame) and (sTabFilename<>'') and not bExist2 then
+          Frame.NotifyAboutChange(Frame.Ed2);
       end;
 
       if Assigned(Frame) then
