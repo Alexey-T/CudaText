@@ -203,6 +203,16 @@ class PoolManager(RequestMethods):
         **connection_pool_kw: typing.Any,
     ) -> None:
         super().__init__(headers)
+        if "retries" in connection_pool_kw:
+            retries = connection_pool_kw["retries"]
+            if not isinstance(retries, Retry):
+                # Security Fix: CVE-2025-50181
+                # Ensure raise_on_redirect is set correctly for pool manager
+                raise_on_redirect = retries is not False
+                retries = Retry.from_int(retries, redirect=False)
+                retries.raise_on_redirect = raise_on_redirect
+                connection_pool_kw = connection_pool_kw.copy()
+                connection_pool_kw["retries"] = retries
         self.connection_pool_kw = connection_pool_kw
 
         self.pools: RecentlyUsedContainer[PoolKey, HTTPConnectionPool]
@@ -456,7 +466,7 @@ class PoolManager(RequestMethods):
             kw["body"] = None
             kw["headers"] = HTTPHeaderDict(kw["headers"])._prepare_for_method_change()
 
-        retries = kw.get("retries")
+        retries = kw.get("retries", response.retries)
         if not isinstance(retries, Retry):
             retries = Retry.from_int(retries, redirect=redirect)
 
