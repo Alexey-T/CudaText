@@ -1522,7 +1522,7 @@ For zip file (only first filename is checked for it), returns True only if zip f
 ** If it has "/nontext-view-unicode", then in the case of non-text file, file will open in internal viewer, unicode mode.
 ** If it has "/nontext-view-uhex", then in the case of non-text file, file will open in internal viewer, unicode+hex mode.
 ** If it has "/nontext-cancel", then in the case of non-text file, function will fail and return False.
-** If it has "/allowdeleted", then non-existing filename still shows the (empty and read-only) ui-tab.
+** If it has "/allowdeleted", then non-existing filename is allowed, it will show the (empty) ui-tab.
 
 Note: "ed" is always the current editor, after file_open() current editor changes, and "ed" is the new cur editor.
 
