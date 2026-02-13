@@ -29,7 +29,7 @@ cd ../../app
 cd $exedir
 tar -rf $tarfile cudatext
 
-if [[ "$os" == "linux" && ( "$widgets" == "qt5" || "$widgets" == "qt6" ) && "$cpu" == "amd64" ]]; then
+if [[ "$os" == "linux" && ( "$widgets" == "qt5" || "$widgets" == "qt6" ) ]]; then
 	cd $outdir/lib_${os}_${widgets}_${cpu}
 	tar -rf $tarfile *
 fi
