@@ -29,9 +29,15 @@ cd ../../app
 cd $exedir
 tar -rf $tarfile cudatext
 
+if [[ "$widgets" == "qt5" ]]; then
+	echo "Packing libQt5Pas"
+	cd $outdir/lib_linux_qt5_x64
+	tar -rf $tarfile *
+fi
+
 if [[ "$widgets" == "qt6" ]]; then
 	echo "Packing libQt6Pas"
-	cd $outdir/lib_qt6_x64
+	cd $outdir/lib_linux_qt6_x64
 	tar -rf $tarfile *
 fi
 
