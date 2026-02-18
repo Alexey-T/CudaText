@@ -680,7 +680,13 @@ var
   Ctl: TControl;
   i: integer;
 begin
-  inherited;
+  try
+    if Enabled and Visible and CanFocus then
+      inherited;
+  except
+    //hide exception on Qt6, it happens on 2026.02 with Lazarus 'trunk'
+    exit;
+  end;
 
   //find first "big" control and focus it
   for i:= 0 to ControlCount-1 do
