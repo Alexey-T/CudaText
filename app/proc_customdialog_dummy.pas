@@ -680,11 +680,12 @@ var
   Ctl: TControl;
   i: integer;
 begin
+  if not (Enabled and Visible and CanFocus) then exit;
+
   try
-    if Enabled and Visible and CanFocus then
-      inherited;
+    inherited;
   except
-    //hide exception on Qt6, it happens on 2026.02 with Lazarus 'trunk'
+    //hide exception on Qt6, 2026.02
     exit;
   end;
 
