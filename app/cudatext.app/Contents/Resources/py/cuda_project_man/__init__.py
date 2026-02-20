@@ -66,7 +66,7 @@ def _file_ext(fn):
 def _file_editor(fn):
     for h in ed_handles():
         e = Editor(h)
-        if e.get_filename()==fn:
+        if e.get_filename('*')==fn:
             return e
     return None
 
@@ -662,7 +662,7 @@ class Command:
         # fix filename of existing ui-tab
         for h in ed_handles():
             e = Editor(h)
-            if e.get_filename()==str(location):
+            if e.get_filename('*')==str(location):
                 e.save(str(new_location))
 
         self.action_refresh()
@@ -1709,7 +1709,7 @@ class Command:
             msg_status(_('Project not loaded'))
             return
 
-        fn = ed.get_filename()
+        fn = ed.get_filename('*')
         if fn:
             if self.jump_to_filename(fn): #gets False if found
                 msg_status(_('Cannot jump to file: ') + collapse_filename(fn))
@@ -1895,7 +1895,7 @@ class Command:
         if not self.tree:
             self.init_panel(False)
 
-        fn = ed.get_filename()
+        fn = ed.get_filename('*')
         self.add_node(fn)
 
     def add_current_dir(self):
@@ -1903,7 +1903,7 @@ class Command:
         if not self.tree:
             self.init_panel(False)
 
-        fn = ed.get_filename()
+        fn = ed.get_filename('*')
         if fn:
             d = os.path.dirname(fn)
             if not (IS_WIN and d.endswith(':\\')):
@@ -1916,7 +1916,7 @@ class Command:
 
         for h in ed_handles():
             e = Editor(h)
-            fn = e.get_filename()
+            fn = e.get_filename('*')
             self.add_node(fn)
 
 
