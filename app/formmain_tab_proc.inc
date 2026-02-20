@@ -682,7 +682,7 @@ var
 begin
   F:= FrameOfPopup;
   if F=nil then exit;
-  F.DoFileSave(false, false);
+  DoFileSave(F, F.Editor);
 end;
 
 procedure TfmMain.mnuTabsizeSpaceClick(Sender: TObject);
