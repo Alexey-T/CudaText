@@ -683,6 +683,7 @@ begin
   F:= FrameOfPopup;
   if F=nil then exit;
   DoFileSave(F, F.Editor);
+  //not F.DoFileSave, because TfmMain.DoFileSave considers the option "ui_save_always":false
 end;
 
 procedure TfmMain.mnuTabsizeSpaceClick(Sender: TObject);
