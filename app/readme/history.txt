@@ -3,6 +3,13 @@
   - fixed
   * changed
 
+1.232.2 (2026/02)
+
++ add: *.xz packages for Qt5/Qt6: include libQt*Pas*.so and *.sh files to start app portably
+- fix: Project Manager plugin: adding of picture file to the project was wrong (thanks @MiroslavMatas)
+- fix: ui-tab context menu "Save" action ignored "ui_save_always":false (thanks @archon66498)
+- fix: exception in TFormDummy.SetFocus, visible from Spell_Checker on Qt6 version
+
 1.232.1 (2026/02)
 
 + add: session loading now does not close ui-tabs of non-existing filenames, so user can 'restore' deleted files and they will show in the session
