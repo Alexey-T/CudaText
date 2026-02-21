@@ -404,9 +404,9 @@ begin
     AppFrameList1.Remove(Frame);
     AppFrameListDeleting.Add(Frame);
 
-    UpdateMenuRecent(Frame.Ed1);
+    UpdateMenuRecent(Frame, 0);
     if not Frame.EditorsLinked then
-      UpdateMenuRecent(Frame.Ed2);
+      UpdateMenuRecent(Frame, 1);
 
     Frame.Ed1.AdapterForHilite:= nil;
     Frame.Ed2.AdapterForHilite:= nil;

@@ -59,6 +59,8 @@ type
   TAppFramePyEvent = function(AEd: TATSynEdit; AEvent: TAppPyEvent;
     const AParams: TAppVariantArray): TAppPyEventResult of object;
   TAppFrameStringEvent = procedure(Sender: TObject; const S: string) of object;
+  TAppGetSaveDialog = procedure(var ASaveDlg: TSaveDialog) of object;
+  TAppFrameAddRecentEvent = procedure(AFrame: TObject; AEditorIndex: integer) of object;
 
 type
   TAppOpenMode = (
@@ -112,9 +114,6 @@ const
     'bin',
     'pic'
     );
-
-type
-  TAppGetSaveDialog = procedure(var ASaveDlg: TSaveDialog) of object;
 
 type
   TAppFrameNotificationControls = record
@@ -187,7 +186,7 @@ type
     FOnEditorPaint: TNotifyEvent;
     FOnEditorShow: TNotifyEvent;
     FOnSaveFile: TAppFrameStringEvent;
-    FOnAddRecent: TNotifyEvent;
+    FOnAddRecent: TAppFrameAddRecentEvent;
     FOnPyEvent: TAppFramePyEvent;
     FOnInitAdapter: TNotifyEvent;
     FOnLexerChange: TATEditorEvent;
@@ -556,7 +555,7 @@ type
     property OnEditorPaint: TNotifyEvent read FOnEditorPaint write FOnEditorPaint;
     property OnEditorShow: TNotifyEvent read FOnEditorShow write FOnEditorShow;
     property OnSaveFile: TAppFrameStringEvent read FOnSaveFile write FOnSaveFile;
-    property OnAddRecent: TNotifyEvent read FOnAddRecent write FOnAddRecent;
+    property OnAddRecent: TAppFrameAddRecentEvent read FOnAddRecent write FOnAddRecent;
     property OnPyEvent: TAppFramePyEvent read FOnPyEvent write FOnPyEvent;
     property OnInitAdapter: TNotifyEvent read FOnInitAdapter write FOnInitAdapter;
     property OnLexerChange: TATEditorEvent read FOnLexerChange write FOnLexerChange;
@@ -3366,7 +3365,7 @@ begin
 
     //add to recents previous filename
     if Assigned(FOnAddRecent) then
-      FOnAddRecent(Ed);
+      FOnAddRecent(Self, EdIndex);
 
     SFileName:= SaveDialog.FileName;
 
@@ -3415,7 +3414,7 @@ begin
     //add to recents new filename
     if bNameChanged then
       if Assigned(FOnAddRecent) then
-        FOnAddRecent(Ed);
+        FOnAddRecent(Self, EdIndex);
 
     UpdateCaptionFromFilename;
 

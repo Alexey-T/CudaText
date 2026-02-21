@@ -493,7 +493,7 @@ type
     procedure FormShow(Sender: TObject);
     procedure FormUTF8KeyPress(Sender: TObject; var UTF8Key: TUTF8Char);
     procedure FormWindowStateChange(Sender: TObject);
-    procedure FrameAddRecent(Sender: TObject);
+    procedure FrameAddRecent(AFrame: TObject; AEditorIndex: integer);
     procedure FrameOnMsgStatus(Sender: TObject; const AStr: string);
     procedure FrameOnEditorShow(Sender: TObject);
     procedure FrameOnEditorChangeCaretPos(Sender: TObject);
@@ -1164,7 +1164,7 @@ type
     procedure UpdateMenuItem_SetShortcutFromProps(mi: TMenuItem);
     procedure UpdateMenuItem_SetShortcutsRecursively(AMenuItem: TMenuItem; AMaxMenuLevel: integer);
     procedure UpdateMenuRecent_LimitMaxCount;
-    procedure UpdateMenuRecent(Ed: TATSynEdit);
+    procedure UpdateMenuRecent(AFrame: TEditorFrame; AEditorIndex: integer);
     procedure UpdateMenuHotkeys;
     procedure UpdateMenuPlugins;
     procedure UpdateMenuPlugins_Shortcuts(AForceUpdate: boolean=false);
@@ -3280,9 +3280,9 @@ begin
 
     if bAddTabsToRecents then
     begin
-      UpdateMenuRecent(F.Ed1);
+      UpdateMenuRecent(F, 0);
       if not F.EditorsLinked then
-        UpdateMenuRecent(F.Ed2);
+        UpdateMenuRecent(F, 1);
     end;
 
     //on_close are not fired automatically on app exit
@@ -4194,9 +4194,9 @@ begin
   end;
 end;
 
-procedure TfmMain.FrameAddRecent(Sender: TObject);
+procedure TfmMain.FrameAddRecent(AFrame: TObject; AEditorIndex: integer);
 begin
-  UpdateMenuRecent(Sender as TATSynEdit);
+  UpdateMenuRecent(AFrame as TEditorFrame, AEditorIndex);
 end;
 
 procedure _StatusbarReplaceFoundIndexWithQuestionMark(AStatusBar: TATStatus);

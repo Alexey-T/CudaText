@@ -683,25 +683,25 @@ begin
   SAddStringToHistory('', AppListRecents, UiOps.MaxHistoryMenu);
 end;
 
-procedure TfmMain.UpdateMenuRecent(Ed: TATSynEdit);
+procedure TfmMain.UpdateMenuRecent(AFrame: TEditorFrame; AEditorIndex: integer);
 var
-  Frame: TEditorFrame;
+  Ed: TATSynEdit;
   SFileName: string;
 begin
-  Assert(Assigned(Ed));
-  Frame:= TGroupsHelper.GetEditorFrame(Ed);
-  if Frame=nil then exit;
+  if (AEditorIndex<0) or (AEditorIndex>1) then
+    raise Exception.Create('UpdateMenuRecent: wrong AEditorIndex='+IntToStr(AEditorIndex));
+  Ed:= AFrame.EditorIndexToObj(AEditorIndex);
 
-  if Frame.FrameKind<>TAppFrameKind.Editor then
-    SFileName:= Frame.FileName
+  if AFrame.FrameKind<>TAppFrameKind.Editor then
+    SFileName:= AFrame.FileName
   else
     SFileName:= Ed.FileName;
   if SFileName='' then exit;
 
-  if Frame.FrameKind=TAppFrameKind.Editor then
-    Frame.DoSaveHistory(Ed);
+  if AFrame.FrameKind=TAppFrameKind.Editor then
+    AFrame.DoSaveHistory(Ed);
 
-  if (not Frame.InSession) or IsDefaultSessionActive then
+  if (not AFrame.InSession) or IsDefaultSessionActive then
     SAddStringToHistory(
       AppCollapseHomeDirInFilename(SFileName),
       AppListRecents,
