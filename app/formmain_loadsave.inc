@@ -79,7 +79,7 @@ begin
       cfg.DeleteValue('/recent_files'+cOptionSystemSuffix);
       //
       AppListRecents.Clear;
-      UpdateMenuRecent(nil);
+      UpdateMenuRecent_LimitMaxCount;
       //
       DeleteFileUTF8(AppFile_HistoryFiles);
 
@@ -1083,7 +1083,7 @@ begin
     finally
       FreeAndNil(ListTemp);
     end;
-    UpdateMenuRecent(nil);
+    UpdateMenuRecent_LimitMaxCount;
 
     ////finder
     FFinder.OptRegex:= cfg.GetValue('/finder/regex', false);

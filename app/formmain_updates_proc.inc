@@ -678,18 +678,17 @@ begin
   sub.Add(mi);
 end;
 
+procedure TfmMain.UpdateMenuRecent_LimitMaxCount;
+begin
+  SAddStringToHistory('', AppListRecents, UiOps.MaxHistoryMenu);
+end;
+
 procedure TfmMain.UpdateMenuRecent(Ed: TATSynEdit);
 var
   Frame: TEditorFrame;
   SFileName: string;
 begin
-  //Ed=nil means: don't add string item, but limit the max count in the list (param MaxItems)
-  if Ed=nil then
-  begin
-    SAddStringToHistory('', AppListRecents, UiOps.MaxHistoryMenu);
-    exit;
-  end;
-
+  Assert(Assigned(Ed));
   Frame:= TGroupsHelper.GetEditorFrame(Ed);
   if Frame=nil then exit;
 

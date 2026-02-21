@@ -1163,6 +1163,7 @@ type
     procedure UpdateMenuItemHotkey(mi: TMenuItem; ACmd: integer; AllowSetShortcut: boolean=true);
     procedure UpdateMenuItem_SetShortcutFromProps(mi: TMenuItem);
     procedure UpdateMenuItem_SetShortcutsRecursively(AMenuItem: TMenuItem; AMaxMenuLevel: integer);
+    procedure UpdateMenuRecent_LimitMaxCount;
     procedure UpdateMenuRecent(Ed: TATSynEdit);
     procedure UpdateMenuHotkeys;
     procedure UpdateMenuPlugins;
@@ -6703,7 +6704,7 @@ begin
   begin
     MsgBox(msgCannotFindFile+#10+AppCollapseHomeDirInFilename(fn), MB_OK or MB_ICONERROR);
     AppListRecents.Delete(n);
-    UpdateMenuRecent(nil);
+    UpdateMenuRecent_LimitMaxCount;
   end;
 end;
 
@@ -6715,7 +6716,7 @@ begin
   if n>=0 then
   begin
     AppListRecents.Delete(n);
-    UpdateMenuRecent(nil);
+    UpdateMenuRecent_LimitMaxCount;
   end;
 end;
 

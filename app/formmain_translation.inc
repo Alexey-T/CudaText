@@ -420,7 +420,7 @@ begin
 
     msgNoLexer:= ini.ReadString('ui', 'nlex', msgNoLexer);
     msgFileClearList:= ini.ReadString('ui', 'clr', msgFileClearList);
-    UpdateMenuRecent(nil);
+    UpdateMenuRecent_LimitMaxCount;
 
     DoLocString(msgFinderHintRegex,     ini, 'ui', 'fnd_re');
     DoLocString(msgFinderHintCase,      ini, 'ui', 'fnd_case');
