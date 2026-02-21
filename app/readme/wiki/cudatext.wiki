@@ -278,7 +278,6 @@ The following lexers (counting only important ones) exist for CudaText. They are
 
 All these lexers, and preinstalled lexers, are published in the repository: https://github.com/CudaText-addons/CudaText-lexers . This link may be needed for people wanting to make 'Pull Requests' in Git.
 
-{{Columns-start}}
 * [https://1c-dn.com/1c_enterprise/1c_programming_language/ 1C:Enterprise script]
 * [https://learning.sap-press.com/abap <abbr title="Advanced Business Application Programming">ABAP</abbr>]
 * [https://www.3ds.com/products-services/simulia/products/abaqus/ Abaqus Keywords]
@@ -449,7 +448,6 @@ All these lexers, and preinstalled lexers, are published in the repository: http
 * Koka
 * Kontakt Script Processor (KSP)
 * Kotlin
-{{Column}}
 * languageONE
 * LaTeX
 * Lean
@@ -619,7 +617,6 @@ All these lexers, and preinstalled lexers, are published in the repository: http
 * Zephir
 * Zig
 * Ziggy
-{{Columns-end}}
 
 === Lexers modification and creation ===
 [[File:cudatext-lexer-editor-dlg.png|thumb|right|480px|alt=SynWrite "Lexer properties" dialog|Screenshot of SynWrite's "Lexer properties" dialog]]
