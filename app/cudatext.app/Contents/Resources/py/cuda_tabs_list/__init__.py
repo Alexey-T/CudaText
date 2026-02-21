@@ -281,6 +281,14 @@ class Command:
                 if edit.get_prop(PROP_TAG)=='tag':
                     listbox_proc(self.h_list, LISTBOX_SET_SEL, index=cnt-1)
 
+        # No selection in list? select 1st item
+        nsel = listbox_proc(self.h_list, LISTBOX_GET_SEL)
+        cnt = listbox_proc(self.h_list, LISTBOX_GET_COUNT)
+        # print('sel %d, cnt %d'%(nsel, cnt))
+        if (cnt > 0) and not (0 <= nsel < cnt):
+            listbox_proc(self.h_list, LISTBOX_SET_SEL, index=0)
+            # print('Selected 1st item')
+
         ed.set_prop(PROP_TAG, '')
 
         self.busy_update = False
