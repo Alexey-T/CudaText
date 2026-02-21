@@ -2427,11 +2427,11 @@ CudaText has the following optimizations for big files and huge lines:
 
 [[File:cudatext-cjk-len1024.png]]
 
-On lines longer than 1024 chars, CJK text is rendered not nicely - full-width chars are rendered as half-width chars, so they overlap. This is internal limitation of CudaText - for lines longer than 1024 chars, app forces all cells to 100% width (like for "0" char). There is no option for this.
+On non-wrapped lines longer than 4K chars, CJK text is rendered not nicely - full-width chars are rendered as half-width chars, so they overlap. This is internal limitation of CudaText. There is no option for this.
 
-This can be changed in the source code. Find this line in "atsynedit/atsynedit/atstringproc.pas":
+This can be changed in the source code. Find this line in the file "atsynedit/atsynedit/atstringproc.pas":
 
- cMaxFixedArray = 1024;
+  ATEditorMaxFixedArray = 4*1024;
 
 ==How to open files in a new window instead of a new tab==
 
