@@ -693,7 +693,7 @@ begin
   Frame:= TGroupsHelper.GetEditorFrame(Ed);
   if Frame=nil then exit;
 
-  if Frame.EditorsLinked then
+  if Frame.FrameKind<>TAppFrameKind.Editor then
     SFileName:= Frame.FileName
   else
     SFileName:= Ed.FileName;
