@@ -11,6 +11,7 @@
 - fix: ui-tab context menu "Save" action ignored "ui_save_always":false (thanks @archon66498)
 - fix: after focusing the ui-tab with none-lexer, statusbar wasn't updated (thanks @archon66498)
 - fix: exception in TFormDummy.SetFocus, visible from Spell_Checker on Qt6 version
+- fix: closing of paired ui-tab: 2nd filename was not added to recents
 
 1.232.1 (2026/02)
 
