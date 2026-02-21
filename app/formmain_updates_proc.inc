@@ -680,7 +680,10 @@ end;
 
 procedure TfmMain.UpdateMenuRecent_LimitMaxCount;
 begin
-  SAddStringToHistory('', AppListRecents, UiOps.MaxHistoryMenu);
+  SAddStringToHistory(
+    '',
+    AppListRecents,
+    UiOps.MaxHistoryMenu);
 end;
 
 procedure TfmMain.UpdateMenuRecent(AFrame: TEditorFrame; AEditorIndex: integer);
