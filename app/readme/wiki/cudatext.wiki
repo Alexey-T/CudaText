@@ -546,7 +546,7 @@ All these lexers, and preinstalled lexers, are published in the repository: http
 * Rexx
 * Ring
 * Roc
-* [[wikipedia:Rocq|Rocq]]
+* [[wikipedia:Rocq|Rocq Prover]]
 * RON
 * RPG/IV
 * RTF (Rich Text)
