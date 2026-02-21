@@ -11,6 +11,7 @@
 - fix: Windows IME: Korean chars duplicated under buggy IME-software (fixed by @rasberryrabbit)
 - fix: ui-tab context menu "Save" action ignored "ui_save_always":false (thanks @archon66498)
 - fix: after focusing the ui-tab with none-lexer, statusbar wasn't updated (thanks @archon66498)
+- fix: Tabs List plugin: with non empty filter, selection in the list may disappear (thanks @ildarkhasanshin)
 - fix: exception in TFormDummy.SetFocus, visible from Spell_Checker on Qt6 version
 - fix: closing of paired ui-tab: 2nd filename was not added to recents
 
