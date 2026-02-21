@@ -443,6 +443,7 @@ All these lexers, and preinstalled lexers, are published in the repository: http
 * Jsonnet
 * Julia
 * Just
+* [https://kdl.dev/ KDL]
 * Kivy
 * KiXtart
 * Koka
