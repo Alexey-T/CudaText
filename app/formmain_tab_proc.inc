@@ -210,16 +210,13 @@ begin
 
   //better to not hide prev status-msg "Closed: filename"
   if UiOps.ClearStatusbarMsgOnTabSwitching then
-  begin
     MsgStatus(''); //makes no sense to keep old message on tab switching
-    UpdateStatusbar;
-  end;
+  UpdateStatusbar; //always update statusbar on tab switching
 
   if AAllowEventOnTabChange then
     DoPyEvent(F.Editor, TAppPyEvent.OnTabChange, []);
 
   UpdateFindDialogOnTabFocusing(F);
-  UpdateStatusbar;
 end;
 
 procedure TfmMain.UpdateTabsActiveColor(F: TEditorFrame);
