@@ -513,7 +513,7 @@ TYPES = {
     "um": ['Umka'],
     "uml": ['PlantUML'],
     "usf": ['HLSL'],
-    "v": ['Coq', 'V', 'Verilog HDL'],
+    "v": ['Rocq Prover', 'V', 'Verilog HDL'],
     "v3": ['Virgil'],
     "vala": ['Vala'],
     "vapi": ['Vala'],
