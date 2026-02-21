@@ -219,6 +219,7 @@ begin
     DoPyEvent(F.Editor, TAppPyEvent.OnTabChange, []);
 
   UpdateFindDialogOnTabFocusing(F);
+  UpdateStatusbar;
 end;
 
 procedure TfmMain.UpdateTabsActiveColor(F: TEditorFrame);

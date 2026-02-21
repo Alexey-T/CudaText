@@ -782,7 +782,7 @@ begin
   if F.Splitted then
     F.Ed2.Update;
 
-  UpdateStatusbar;
+  //UpdateStatusbar;
 end;
 
 procedure TfmMain.DoApplyCompletionOps(Ed: TATSynEdit);
