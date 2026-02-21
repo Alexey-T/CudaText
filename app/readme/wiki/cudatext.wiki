@@ -2427,9 +2427,9 @@ CudaText has the following optimizations for big files and huge lines:
 
 [[File:cudatext-cjk-len1024.png]]
 
-On non-wrapped lines longer than 4K chars, CJK text is rendered not nicely - full-width chars are rendered as half-width chars, so they overlap. This is internal limitation of CudaText. There is no option for this.
+On lines longer than 4K chars, CJK text is rendered not nicely - full-width chars are rendered as half-width chars, so they overlap. This is internal limitation of CudaText. There is no option for this. This is limitation for non-wrapped lines. When you turn word-wrap on, all wrapped parts will be rendered correctly.
 
-This can be changed in the source code. Find this line in the file "atsynedit/atsynedit/atstringproc.pas":
+Maximal length of this limit can be changed in the source code. Find this line in the file "atsynedit/atsynedit/atstringproc.pas":
 
   ATEditorMaxFixedArray = 4*1024;
 
