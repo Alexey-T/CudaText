@@ -19,7 +19,7 @@ uses
   Windows,
   Win32MenuStyler,
   Win32Proc,
-  Registry,
+  //Registry,
   {$endif}
   Classes, SysUtils, Forms, Controls, Menus, ExtCtrls,
   Dialogs, Graphics,

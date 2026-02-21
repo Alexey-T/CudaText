@@ -1277,12 +1277,12 @@ begin
       else
         NStartPos:= i;
 
-      if (NStartPos-2>=0) and (NStartPos-2<cMaxFixedArray) then
+      if (NStartPos-2>=0) and (NStartPos-2<ATEditorMaxFixedArray) then
         X1:= AX+AExtent.Data[NStartPos-2]
       else
         X1:= AX;
 
-      if NStartPos-2+NLen<cMaxFixedArray then
+      if NStartPos-2+NLen<ATEditorMaxFixedArray then
         X2:= AX+AExtent.Data[NStartPos-2+NLen]
       else
         X2:= 0;

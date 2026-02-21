@@ -6,6 +6,7 @@
 1.232.2 (2026/02)
 
 * change: Windows: *shell*.cmd and cudatext_shell*.dll files are removed from distributive, to avoid potential problems on Windows 11
++ add: maximal length of non-wrapped CJK line for correct CJK char widths, changed from 1K to 4K
 + add: *.xz packages for Qt5/Qt6: include libQt*Pas*.so and *.sh files to start app portably
 - fix: Project Manager plugin: adding of picture file to the project was wrong (thanks @MiroslavMatas)
 - fix: Windows IME: Korean chars duplicated under buggy IME-software (fixed by @rasberryrabbit)
