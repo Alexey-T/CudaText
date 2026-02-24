@@ -59,8 +59,8 @@ type
   TAppFramePyEvent = function(AEd: TATSynEdit; AEvent: TAppPyEvent;
     const AParams: TAppVariantArray): TAppPyEventResult of object;
   TAppFrameStringEvent = procedure(Sender: TObject; const S: string) of object;
-  TAppGetSaveDialog = procedure(var ASaveDlg: TSaveDialog) of object;
-  TAppFrameAddRecentEvent = procedure(AFrame: TObject; AEditorIndex: integer) of object;
+  TAppFrameGetSaveDialog = procedure(var ASaveDlg: TSaveDialog) of object;
+  TAppFrameAddRecentEvent = procedure(Sender: TObject; AEditorIndex: integer) of object;
 
 type
   TAppOpenMode = (
@@ -227,7 +227,7 @@ type
     FBracketSymbols: string;
     FBracketMaxDistance: integer;
     FMicromapBmp: TBGRABitmap;
-    FOnGetSaveDialog: TAppGetSaveDialog;
+    FOnGetSaveDialog: TAppFrameGetSaveDialog;
     FOnAppClickLink: TATSynEditClickLinkEvent;
     FProgressForm: TForm;
     FProgressGauge: TATGauge;
@@ -538,7 +538,7 @@ type
     property MacroRecord: boolean read FMacroRecord;
 
     //events
-    property OnGetSaveDialog: TAppGetSaveDialog read FOnGetSaveDialog write FOnGetSaveDialog;
+    property OnGetSaveDialog: TAppFrameGetSaveDialog read FOnGetSaveDialog write FOnGetSaveDialog;
     property OnProgress: TATFinderProgress read FOnProgress write FOnProgress;
     property OnCheckFilenameOpened: TAppStringFunction read FCheckFilenameOpened write FCheckFilenameOpened;
     property OnMsgStatus: TAppStringEvent read FOnMsgStatus write FOnMsgStatus;

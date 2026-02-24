@@ -473,8 +473,7 @@ type
     ToolbarSideTop: TATFlatToolbar;
     procedure AppPropsActivate(Sender: TObject);
     procedure AppPropsDeactivate(Sender: TObject);
-    procedure AppPropsDropFiles(Sender: TObject;
-      const FileNames: array of string);
+    procedure AppPropsDropFiles(Sender: TObject; const FileNames: array of string);
     procedure AppPropsEndSession(Sender: TObject);
     procedure AppPropsException(Sender: TObject; E: Exception);
     procedure AppPropsModalBegin(Sender: TObject);
@@ -493,7 +492,7 @@ type
     procedure FormShow(Sender: TObject);
     procedure FormUTF8KeyPress(Sender: TObject; var UTF8Key: TUTF8Char);
     procedure FormWindowStateChange(Sender: TObject);
-    procedure FrameAddRecent(AFrame: TObject; AEditorIndex: integer);
+    procedure FrameAddRecent(Sender: TObject; AEditorIndex: integer);
     procedure FrameOnMsgStatus(Sender: TObject; const AStr: string);
     procedure FrameOnEditorShow(Sender: TObject);
     procedure FrameOnEditorChangeCaretPos(Sender: TObject);
@@ -4194,9 +4193,9 @@ begin
   end;
 end;
 
-procedure TfmMain.FrameAddRecent(AFrame: TObject; AEditorIndex: integer);
+procedure TfmMain.FrameAddRecent(Sender: TObject; AEditorIndex: integer);
 begin
-  UpdateMenuRecent(AFrame as TEditorFrame, AEditorIndex);
+  UpdateMenuRecent(Sender as TEditorFrame, AEditorIndex);
 end;
 
 procedure _StatusbarReplaceFoundIndexWithQuestionMark(AStatusBar: TATStatus);
