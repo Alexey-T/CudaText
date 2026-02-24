@@ -112,9 +112,8 @@ class Command:
             'on_key_down': self.form_key_down,
         })
 
-        n = dlg_proc(self.h_dlg, DLG_CTL_ADD, prop='listbox_ex')
-        self.n_list = n
-        self.h_list = dlg_proc(self.h_dlg, DLG_CTL_HANDLE, index=n)
+        self.n_list = dlg_proc(self.h_dlg, DLG_CTL_ADD, prop='listbox_ex')
+        self.h_list = dlg_proc(self.h_dlg, DLG_CTL_HANDLE, index=self.n_list)
         listbox_proc(self.h_list, LISTBOX_SET_SHOW_X, index=2)
         listbox_proc(self.h_list, LISTBOX_SET_HOTTRACK, index=1)
         listbox_proc(self.h_list, LISTBOX_SET_COLUMN_SEP, text='|')
@@ -127,9 +126,9 @@ class Command:
             sizes.append(self.column_lexer)
         listbox_proc(self.h_list, LISTBOX_SET_COLUMNS, text=sizes)
 
-        n = dlg_proc(self.h_dlg, DLG_CTL_ADD, prop='editor_edit')
-        self.ed_filter = Editor(dlg_proc(self.h_dlg, DLG_CTL_HANDLE, index=n))
-        dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, index=n, prop={
+        self.n_flt = dlg_proc(self.h_dlg, DLG_CTL_ADD, prop='editor_edit')
+        self.ed_filter = Editor(dlg_proc(self.h_dlg, DLG_CTL_HANDLE, index=self.n_flt))
+        dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, index=self.n_flt, prop={
             'name': 'filter',
             'align': ALIGN_TOP,
             'texthint': _('Filter'),
