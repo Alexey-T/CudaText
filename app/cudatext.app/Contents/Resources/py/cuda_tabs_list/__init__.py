@@ -112,21 +112,8 @@ class Command:
             'on_key_down': self.form_key_down,
         })
 
-        n = dlg_proc(self.h_dlg, DLG_CTL_ADD, prop='editor_edit')
-        self.ed_filter = Editor(dlg_proc(self.h_dlg, DLG_CTL_HANDLE, index=n))
-        dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, index=n, prop={
-            'name': 'filter',
-            'align': ALIGN_TOP,
-            'texthint': _('Filter'),
-            'tab_stop': True,
-            'on_change': 'cuda_tabs_list.filter_change',
-            'font_name': self.font_name,
-            'font_size': self.font_size,
-        })
-
         n = dlg_proc(self.h_dlg, DLG_CTL_ADD, prop='listbox_ex')
         self.n_list = n
-
         self.h_list = dlg_proc(self.h_dlg, DLG_CTL_HANDLE, index=n)
         listbox_proc(self.h_list, LISTBOX_SET_SHOW_X, index=2)
         listbox_proc(self.h_list, LISTBOX_SET_HOTTRACK, index=1)
@@ -140,7 +127,19 @@ class Command:
             sizes.append(self.column_lexer)
         listbox_proc(self.h_list, LISTBOX_SET_COLUMNS, text=sizes)
 
+        n = dlg_proc(self.h_dlg, DLG_CTL_ADD, prop='editor_edit')
+        self.ed_filter = Editor(dlg_proc(self.h_dlg, DLG_CTL_HANDLE, index=n))
         dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'filter',
+            'align': ALIGN_TOP,
+            'texthint': _('Filter'),
+            'tab_stop': True,
+            'on_change': 'cuda_tabs_list.filter_change',
+            'font_name': self.font_name,
+            'font_size': self.font_size,
+        })
+
+        dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, index=self.n_list, prop={
             'name':'list',
             'a_t':('filter', ']'),
             'a_r':('',']'), #anchor to entire form: l,r,t,b
