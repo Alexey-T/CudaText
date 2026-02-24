@@ -430,6 +430,7 @@ begin
           if not Frame.Ed1.Strings.IsSizeBig(UiOps.MaxSizeForSession) then
         begin
           cfg.SetValue(sJsonPath+'/text', Frame.Ed1.Text);
+          cfg.SetValue(sJsonPath+'/ends', Ord(Frame.Ed1.Strings.Endings));
           if (not bUntitled) and FileExists(sTabFilename) then
             cfg.SetValue(sJsonPath+'/file_date', ConvertFileDateToNiceString(sTabFilename));
           Frame.VersionInSession:= Frame.Ed1.Strings.ModifiedVersion;
@@ -468,6 +469,7 @@ begin
           if not Frame.Ed2.Strings.IsSizeBig(UiOps.MaxSizeForSession) then
         begin
           cfg.SetValue(sJsonPath+'/text', Frame.Ed2.Text);
+          cfg.SetValue(sJsonPath+'/ends', Ord(Frame.Ed2.Strings.Endings));
           if FileExists(sTabFilename2) then
             cfg.SetValue(sJsonPath+'/file_date', ConvertFileDateToNiceString(sTabFilename2));
           if UiOps.HistoryItems[TAppHistoryElement.UndoRedo] then
@@ -551,6 +553,14 @@ begin
   Result:= StrToIntDef(s, -1)>=0;
 end;
 
+function ConvertIntegerToLineEndings(N: integer): TATLineEnds;
+begin
+  if (N>Ord(TATLineEnds.None)) and (N<=Ord(High(TATLineEnds))) then
+    Result:= TATLineEnds(N)
+  else
+    Result:= TATLineEnds.Unix;
+end;
+
 function TfmMain.DoOps_LoadSession(const ASessionId: string; AllowShowPanels: boolean): boolean;
 var
   cfg: TAppJsonConfig;
@@ -573,6 +583,7 @@ var
   nTick: QWord;
   nGroupIndex, nTabInGroup: integer;
   iList, iGroup, iFrame: integer;
+  nLineEnds: TATLineEnds;
 const
   SOptionPassive = '/passive /nonear';
   SOptionNoHistory = '/nohistory /nolexerdetect /noevent /noopenedevent /nononeevent';
@@ -674,6 +685,7 @@ begin
       end;
 
       sText:= cfg.GetValue(sItemPath+'text', '');
+      nLineEnds:= ConvertIntegerToLineEndings(cfg.GetValue(sItemPath+'ends', -1));
       sUndoString:= cfg.GetValue(sItemPath+'undo', '');
       sRedoString:= cfg.GetValue(sItemPath+'redo', '');
       sTabKind:= cfg.GetValue(sItemPath+'kind', '');
@@ -767,6 +779,7 @@ begin
         begin
           Frame.InitProgressForm(Frame.Editor, 'session "'+ExtractFileName(AppFile_Session)+'"', Length(sText));
           Frame.Editor.Text:= sText;
+          Frame.Editor.Strings.Endings:= nLineEnds;
           Frame.HideProgressForm(Frame.Editor);
         end;
         if sUndoString<>'' then
@@ -810,6 +823,7 @@ begin
         if sTabFilename2<>'' then
         begin
           sText:= cfg.GetValue(sItemPath2+'text', '');
+          nLineEnds:= ConvertIntegerToLineEndings(cfg.GetValue(sItemPath2+'ends', -1));
           sUndoString:= cfg.GetValue(sItemPath2+'undo', '');
           sRedoString:= cfg.GetValue(sItemPath2+'redo', '');
           bModified2:= cfg.GetValue(sItemPath2+'modified', false);
@@ -820,7 +834,10 @@ begin
           begin
             Inc(nCountFilesModified);
             if sText<>'' then
+            begin
               Frame.Ed2.Text:= sText;
+              Frame.Ed2.Strings.Endings:= nLineEnds;
+            end;
             if sUndoString<>'' then
               Frame.Ed2.UndoAsString:= sUndoString;
             if sRedoString<>'' then
