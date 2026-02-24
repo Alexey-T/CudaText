@@ -3,6 +3,8 @@
   - fixed
   * changed
 
+- fix: line-endings-kind was not saved to session for modified ui-tabs (thanks @archon66498)
+
 1.232.2 (2026/02)
 
 * change: Windows: shell extension files (*.cmd and cudatext_shell*.dll) removed from distributive, to avoid potential problems on Windows 11
