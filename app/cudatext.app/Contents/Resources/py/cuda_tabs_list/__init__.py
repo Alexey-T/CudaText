@@ -103,6 +103,11 @@ class Command:
         app_proc(PROC_SIDEPANEL_ACTIVATE, (self.title, and_focus))
         self.update()
 
+    def open_filter(self):
+
+        self.open()
+        self.ed_filter.focus()
+
     def init_form(self):
 
         self.h_dlg = dlg_proc(0, DLG_CREATE)

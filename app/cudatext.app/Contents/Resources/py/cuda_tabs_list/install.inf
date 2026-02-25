@@ -14,6 +14,11 @@ section=commands
 caption=Tabs List\Open
 method=open
 
+[item3]
+section=commands
+caption=Tabs List\Open, focus filter
+method=open_filter
+
 [item10]
 section=commands
 caption=Tabs List\Config
