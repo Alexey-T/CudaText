@@ -1363,16 +1363,15 @@ begin
   try
     Form:= GetParentForm(C);
     if Form=nil then exit;
+    if not (Form.Visible and Form.Enabled) then exit;
+
     if not Form.Focused then
       if Form.CanFocus then
         Form.SetFocus;
 
-    if Form.Visible and Form.Enabled then
-    begin
-      Form.ActiveControl:= C;
-      if C.CanFocus then
-        C.SetFocus;
-    end;
+    Form.ActiveControl:= C;
+    if C.CanFocus then
+      C.SetFocus;
   except
   end;
 end;
