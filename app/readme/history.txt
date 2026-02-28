@@ -7,6 +7,7 @@
 
 + add: click on 'empty gutter column' (usually 2 px wide, can be adjusted by "gutter_width_empty") now places caret (thanks @sl23)
 + add: Tabs List plugin: command "Open, focus filter"
+* change: tweaked logic of the command "toggle side panel / code tree", now it works like the sidebar's button (idea by @sl23)
 * change: Tabs List plugin: initially focus the listbox, not filter-input (thanks @ildarkhasanshin)
 - fix: line-endings-kind was not saved to session for modified ui-tabs, but it must be (thanks @archon66498)
 
