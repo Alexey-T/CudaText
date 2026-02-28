@@ -503,8 +503,12 @@ Preinstalled folders:
 
 Plugin looks for its folders in two places:
 
-* Folder "clips" in the plugin folder.
-* Folder CudaText/data/clips, which is absent by default, for custom user folders.
+* Folder "py/cuda_snippet_panel/clips", which is in the plugin folder. It has preinstalled snippets.
+* Folder "data/clips", which is absent by default, for custom user snippets.
+** User must create new sub-folder if it does not exist, "data/clips"
+** Each list lives in a sub-sub-folder, "data/clips/mysnipsname"
+** "mysnipsname" appears on the Snippet Panel drop-down menu
+** Actual snippet file is "data/clips/mysnipsname/List.txt"
 
 Each snippet folder can contain one or more .txt files, in UTF-8 (no BOM) or UTF-16 (with BOM) encoding. Files have snippet per line, in the form "name=value" or simply "name" (if value missed, it equals to name). Each snippet can be simple string, with optional macros:
 
