@@ -163,6 +163,11 @@ section=commands
 caption=Sort\Sort char-separated values in lines
 method=sort_sep_values
 
+[item109]
+section=commands
+caption=Sort\-
+method=_
+
 [item110]
 section=commands
 caption=Sort\Sort JSON

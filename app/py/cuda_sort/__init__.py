@@ -9,6 +9,7 @@ from .sort_sep import *
 from .sort_numeric import *
 from .sort_dlg import *
 import cudatext_cmd as cmds
+import json
 
 _   = get_translation(__file__)  # I18N
 
@@ -300,37 +301,40 @@ class Command:
     def sort_sep_values(self):
         do_sort_sep_values()
 
-    def sort_json(self):
-        import json
+    # remove the extra comma before } or ]
+    def json_remove_extra_comma(self, data):
+        import re
 
+        return re.sub(r',\s*([\]}])', r'\1', data)
+
+    def json_out(self, data, loads = False, res = ''):
         ed.set_text_all(
             json.dumps(
-                json.loads(ed.get_text_all()),
+                json.loads(data) if loads else data,
                 sort_keys=True,
                 indent=2
             )
         )
 
-        msg_status(_('Sorted JSON-data based on keys (File -> Reopen for Undo)'))
+        msg_status(_('Sorted JSON-data based on ' + ('keys' if loads else 'key "' + res + '"') + ' (File -> Reopen for Undo)'))
+
+    def sort_json(self):
+        self.json_out(
+            self.json_remove_extra_comma(ed.get_text_all()),
+            loads = True
+        )
 
     def sort_json_field(self):
-        import json
-
         res = dlg_input('Sort field:', '')
         if not res: return
 
-        data = json.loads(ed.get_text_all())
+        data = json.loads(self.json_remove_extra_comma(ed.get_text_all()))
         data.sort(key=lambda item: item[res])
 
-        ed.set_text_all(
-            json.dumps(
-                data,
-                sort_keys=True,
-                indent=2
-            )
+        self.json_out(
+            data,
+            res = res
         )
-
-        msg_status(_('Sorted JSON-data based on key "' + res + '" (File -> Reopen for Undo)'))
 
     def config(self):
 
