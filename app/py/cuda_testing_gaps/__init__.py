@@ -31,7 +31,7 @@ class Command:
         ed.gap(GAP_ADD, nline, id_bitmap, tag=ntag)
 
     def on_click_gap(self, ed_self, state, nline, ntag, size_x, size_y, pos_x, pos_y):
-        print('on_click_gap: line %d, tag %d'%(nline+1, ntag))
+        print('on_click_gap: line %d, tag %d, pos (%d, %d)'%(nline+1, ntag, pos_x, pos_y))
 
     def del_all(self):
         ed.gap(GAP_DELETE_ALL, 0, 0)
