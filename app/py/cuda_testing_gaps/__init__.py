@@ -14,6 +14,8 @@ class Command:
             return
         ntag = 100
         for j in range(nrepeat):
+            ntag += 1
+            self.do_gap(-1, ntag)
             for i in range(ed.get_line_count()//2):
                 ntag += 1
                 self.do_gap(i*2, ntag)
