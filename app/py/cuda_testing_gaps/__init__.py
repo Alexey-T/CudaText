@@ -7,14 +7,14 @@ class Command:
         if s is None:
             return
         try:
-            nlimit = int(s)
+            nrepeat = int(s)
         except:
             return
-        if nlimit<1:
+        if nrepeat<1:
             return
         ntag = 100
-        for i in range(ed.get_line_count()//2):
-            for j in range(nlimit):
+        for j in range(nrepeat):
+            for i in range(ed.get_line_count()//2):
                 ntag += 1
                 self.do_gap(i*2, ntag)
 
