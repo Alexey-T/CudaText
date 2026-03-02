@@ -163,7 +163,7 @@ section=commands
 caption=Sort\Sort char-separated values in lines
 method=sort_sep_values
 
-[item98]
+[item110]
 section=commands
 caption=Sort\-
 method=_
@@ -172,11 +172,13 @@ method=_
 section=commands
 caption=Sort\Sort JSON
 method=sort_json
+lexers=JSON
 
-[item100]
+[item111]
 section=commands
-caption=Sort\Sort JSON (by field)
+caption=Sort\Sort JSON by field...
 method=sort_json_field
+lexers=JSON
 
 [item150]
 section=commands

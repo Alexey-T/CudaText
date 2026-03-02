@@ -7,5 +7,14 @@ homepage=
 
 [item1]
 section=commands
-caption=Testing of gaps API
-method=run
+caption=Testing of gaps API\Add gaps...
+method=add_many
+
+[item2]
+section=commands
+caption=Testing of gaps API\Delete all gaps
+method=del_all
+
+[item50]
+section=events
+events=on_click_gap

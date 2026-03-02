@@ -423,7 +423,8 @@ begin
 
     cmd_ToggleSidePanelAndSyntaxTree:
       begin
-        if AppPanels[TAppPanelId.Side].Visible then
+        if AppPanels[TAppPanelId.Side].Visible and
+          (AppPanels[TAppPanelId.Side].LastActivePanel=msgPanelTree_Init) then
           AppPanels[TAppPanelId.Side].Visible:= false
         else
           AppPanels[TAppPanelId.Side].UpdatePanels(msgPanelTree_Init, false, true);

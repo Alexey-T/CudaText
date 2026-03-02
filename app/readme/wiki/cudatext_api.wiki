@@ -3273,17 +3273,6 @@ Notes:
 * You can get Editor objects of inactive ui-tabs using ed_handles().
 * It also focuses the dialog on which the editor is placed, so it can bring CudaText to front.
 
-===Editor.lock, Editor.unlock===
-
-(deprecated, use EDACTION_LOCK/EDACTION_UNLOCK instead)
-
- lock()
- unlock()
-
-Functions lock, then unlock editor. "Locked" editor is not painted and shows only hourglass (or another) icon.
-
-Call "lock" increases counter, "unlock" decreases this counter (it's safe to call "unlock" more times, counter will be 0). When counter is >0, editor is locked.
-
 ===Editor.convert===
 
  convert(id, x, y, text="")
@@ -3353,6 +3342,9 @@ If an item begins with "&lt;html&gt;", [[#HTML formatting]] is allowed in this i
  gap(id, num1, num2, tag=-1, size=0, color=COLOR_NONE)
 
 Performs action on inter-line gaps (they don't overlap text above/below).
+Several gaps per single line are supported.
+Gap before the first line is supported.
+
 Possible values of "id":
 
 * GAP_GET_ALL: Returns list of gaps, as list of dict. Dict keys are:
@@ -5327,5 +5319,10 @@ It provides:
 
 1.0.476 (app 1.232.1)
 * add: file_open: option "/allowdeleted"
+
+1.0.477 (app 1.232.4)
+* add: Editor.gap: allow several gaps for single line
+* delete Editor.lock (use EDACTION_LOCK instead)
+* delete Editor.unlock (use EDACTION_UNLOCK instead)
 
 [[Category:CudaText]]
