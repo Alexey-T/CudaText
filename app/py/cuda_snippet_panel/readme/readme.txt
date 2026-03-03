@@ -24,5 +24,5 @@ each snippet folder can contain one or more .txt files, in UTF-8 (no BOM) or UTF
 each snippet can be simple short string, or string with ${sel} macro to replace selected text. this allows to quote currently selected text by calling snippets from "Quote selection" folder.
 
 
-author: Alexey T. (CudaText)
+author: Alexey Torgashin (CudaText)
 license: MIT
