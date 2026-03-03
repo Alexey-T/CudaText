@@ -10,6 +10,11 @@ section=commands
 caption=Snippet Panel\Open
 method=open_dlg
 
+[item3]
+section=commands
+caption=Snippet Panel\Menu-dialog...
+method=menu
+
 [item50]
 section=commands
 caption=Snippet Panel\Config

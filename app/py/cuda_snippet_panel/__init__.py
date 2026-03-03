@@ -31,7 +31,7 @@ class Command:
 
         self.font_name = ini_read(fn_config, cfg_section, 'font_name', self.font_name)
         self.font_size = int(ini_read(fn_config, cfg_section, 'font_size', str(self.font_size)))
-        self.folder = ini_read(fn_config, cfg_section, 'folder', '')
+        self.folder_ = ini_read(fn_config, cfg_section, 'folder', '')
 
     def open_dlg(self):
 
@@ -75,23 +75,26 @@ class Command:
         listbox_proc(self.h_list, LISTBOX_THEME)
 
 
-
-    def update_combo(self):
+    def get_folders(self):
 
         self.folders = enum_dir(dir_clips1) + enum_dir(dir_clips2)
         self.folders_ = [os.path.basename(i) for i in self.folders]
 
+
+    def update_combo(self):
+
+        self.get_folders()
         button_proc(self.h_btn, BTN_SET_ITEMS, '\n'.join(self.folders_))
 
-        if self.folder in self.folders_:
-            index = self.folders_.index(self.folder)
+        if self.folder_ in self.folders_:
+            index = self.folders_.index(self.folder_)
         else:
             index = 0
 
         button_proc(self.h_btn, BTN_SET_ITEMINDEX, index)
 
 
-    def get_clips(self, fn):
+    def get_clips_from_file(self, fn):
 
         r = []
         lines = open_read(fn).splitlines()
@@ -101,20 +104,24 @@ class Command:
                 r.append(d)
         else:
             for s in lines:
-                r.append(parse_usual_snip(s))
+                d = parse_usual_snip(s)
+                r.append(d)
         return r
 
 
     def callback_list_dblclick(self, id_dlg, id_ctl, data='', info=''):
 
+        index = listbox_proc(self.h_list, LISTBOX_GET_SEL)
+        if 0 <= index < len(self.clips):
+            self.insert_clip(index)
+
+
+    def insert_clip(self, index):
+
         if ed.get_prop(PROP_RO):
             return
 
-        index = listbox_proc(self.h_list, LISTBOX_GET_SEL)
-        if index<0 or index>=len(self.clips):
-            return
         clip = self.clips[index]
-
         msg_status(_('Inserting: ')+clip['name'])
         text = clip['text']
 
@@ -125,15 +132,9 @@ class Command:
         ed.cmd(cmds.cCommand_TextInsert, text)
 
 
-    def callback_btn_change(self, id_dlg, id_ctl, data='', info=''):
+    def get_folder_clips(self, index):
 
         self.clips = []
-        listbox_proc(self.h_list, LISTBOX_DELETE_ALL)
-        listbox_proc(self.h_list, LISTBOX_SET_SEL, index=-1)
-
-        index = button_proc(self.h_btn, BTN_GET_ITEMINDEX)
-        if index<0: return
-
         self.folder = self.folders[index]
         self.folder_ = self.folders_[index]
         ini_write(fn_config, cfg_section, 'folder', self.folder_)
@@ -143,7 +144,20 @@ class Command:
         if not files: return
 
         for fn in files:
-            self.clips += self.get_clips(fn)
+            self.clips += self.get_clips_from_file(fn)
+
+
+    def callback_btn_change(self, id_dlg, id_ctl, data='', info=''):
+
+        listbox_proc(self.h_list, LISTBOX_DELETE_ALL)
+        listbox_proc(self.h_list, LISTBOX_SET_SEL, index=-1)
+
+        index = button_proc(self.h_btn, BTN_GET_ITEMINDEX)
+        if index<0: return
+
+        self.get_folder_clips(index)
+        if not self.clips:
+            return
 
         for i in self.clips:
             listbox_proc(self.h_list, LISTBOX_ADD, index=-1, text=i['name'])
@@ -163,3 +177,31 @@ class Command:
             ed.set_caret(0, index)
         except:
             pass
+
+
+    def menu(self):
+
+        self.get_folders()
+        if not self.folders_:
+            return msg_status(_('No folders with snippets'))
+
+        if self.folder_ in self.folders_:
+            focused = self.folders_.index(self.folder_)
+        else:
+            focused = 0
+
+        index = dlg_menu(DMENU_LIST, self.folders_, focused=focused, caption=_('Snippet Panel')+': '+_('folders'))
+        if index is None:
+            return msg_status(_('Menu cancelled'))
+        self.folder_ = self.folders_[index]
+
+        self.get_folder_clips(index)
+        if not self.clips:
+            return msg_status(_('No snippets in selected folder'))
+
+        clip_names = [i['name'] for i in self.clips]
+        index = dlg_menu(DMENU_LIST, clip_names, caption=('%s: "%s"'% (_('Snippet Panel'), self.folder_)))
+        if index is None:
+            return msg_status(_('Menu cancelled'))
+
+        self.insert_clip(index)
