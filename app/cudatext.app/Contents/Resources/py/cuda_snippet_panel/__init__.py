@@ -7,10 +7,11 @@ from .snips import *
 
 _   = get_translation(__file__)  # I18N
 
-fn_config = 'plugins.ini'
+fn_config = os.path.join(app_path(APP_DIR_SETTINGS), 'plugins.ini')
 fn_icon = 'snip.png' # without path, in CudaText folder
 dir_clips1 = os.path.join(os.path.dirname(__file__), 'clips')
 dir_clips2 = os.path.join(app_path(APP_DIR_DATA), 'clips')
+cfg_section = 'snippet_panel'
 
 def bool_to_str(v): return '1' if v else '0'
 def str_to_bool(s): return s=='1'
@@ -18,10 +19,19 @@ def str_to_bool(s): return s=='1'
 
 class Command:
 
+    font_name = 'default'
+    font_size = 9
+
     def __init__(self):
 
+        self.read_ops()
         self.init_dlg()
-        self.folder = ini_read(fn_config, 'snippet_panel', 'folder', '')
+
+    def read_ops(self):
+
+        self.font_name = ini_read(fn_config, cfg_section, 'font_name', self.font_name)
+        self.font_size = int(ini_read(fn_config, cfg_section, 'font_size', str(self.font_size)))
+        self.folder = ini_read(fn_config, cfg_section, 'folder', '')
 
     def open_dlg(self):
 
@@ -53,6 +63,8 @@ class Command:
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
             'name': 'list',
             'align': ALIGN_CLIENT,
+            'font_name': self.font_name,
+            'font_size': self.font_size,
             'on_click_dbl': self.callback_list_dblclick,
             })
         self.h_list = dlg_proc(h, DLG_CTL_HANDLE, index=n)
@@ -124,7 +136,7 @@ class Command:
 
         self.folder = self.folders[index]
         self.folder_ = self.folders_[index]
-        ini_write(fn_config, 'snippet_panel', 'folder', self.folder_)
+        ini_write(fn_config, cfg_section, 'folder', self.folder_)
 
         files = enum_dir(self.folder)
         files = [i for i in files if i.endswith('.txt') or i.endswith('.synw-snippet')]
@@ -138,3 +150,16 @@ class Command:
 
         listbox_proc(self.h_list, LISTBOX_SET_SEL, index=0)
         listbox_proc(self.h_list, LISTBOX_SET_TOP, index=0)
+
+
+    def config(self):
+        ini_write(fn_config, cfg_section, 'font_name', self.font_name)
+        ini_write(fn_config, cfg_section, 'font_size', str(self.font_size))
+        file_open(fn_config)
+
+        lines = [ed.get_text_line(i) for i in range(ed.get_line_count())]
+        try:
+            index = lines.index('['+cfg_section+']')
+            ed.set_caret(0, index)
+        except:
+            pass
