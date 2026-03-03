@@ -5321,7 +5321,7 @@ It provides:
 1.0.476 (app 1.232.1)
 * add: file_open: option "/allowdeleted"
 
-1.0.477 (app 1.232.4)
+1.0.477 (app 1.233.0)
 * add: Editor.gap: allow several gaps for single line
 * add: Editor.gap: add param "on_top"
 * delete Editor.lock (use EDACTION_LOCK instead)
