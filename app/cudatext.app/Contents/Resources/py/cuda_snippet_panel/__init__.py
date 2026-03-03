@@ -9,9 +9,9 @@ _   = get_translation(__file__)  # I18N
 
 fn_config = os.path.join(app_path(APP_DIR_SETTINGS), 'plugins.ini')
 fn_icon = 'snip.png' # without path, in CudaText folder
+cfg_section = 'snippet_panel'
 dir_clips1 = os.path.join(os.path.dirname(__file__), 'clips')
 dir_clips2 = os.path.join(app_path(APP_DIR_DATA), 'clips')
-cfg_section = 'snippet_panel'
 
 def bool_to_str(v): return '1' if v else '0'
 def str_to_bool(s): return s=='1'
@@ -200,7 +200,6 @@ class Command:
 
         index = dlg_menu(DMENU_LIST, self.folders_, focused=focused, caption=_('Snippet Panel')+': '+_('folders'))
         if index is None:
-            msg_status(_('Menu cancelled'))
             return
         self.folder_ = self.folders_[index]
 
@@ -219,7 +218,6 @@ class Command:
         while True:
             index = dlg_menu(DMENU_LIST, clip_names, focused=focused, caption=('%s: %s'% (_('Snippet Panel'), self.folder_)))
             if index is None:
-                msg_status(_('Menu cancelled'))
                 return
             focused = index
             self.insert_clip(index)
