@@ -7,10 +7,11 @@
 
 + add: API allows to add several inter-line gaps per line, this will help with future plugin(s) being developed (idea by @Hanatarou)
 + add: click on 'empty gutter column' (usually 2 px wide, can be adjusted by "gutter_width_empty") now places caret (thanks @sl23)
-+ add: Tabs List plugin: new command "Open, focus filter"
 + add: Tabs List plugin: new options "font_filter_name", "font_filter_size"
++ add: Tabs List plugin: new command "Open, focus filter"
++ add: Snippet Panel plugin: new options "font_name", "font_size"
++ add: Snippet Panel plugin: new command "Config"
 + add: Snippet Panel plugin: new command "Menu-dialog..."
-+ add: Snippet Panel plugin: new options "font_name", "font_size"; and new command/menuitem "Config"
 + add: Sort plugin: new commands "Sort JSON", "Sort JSON by field..." (by @ildarkhasanshin)
 * change: tweaked logic of the command "toggle side panel / code tree", now it works like the sidebar's button (idea by @sl23)
 * change: Tabs List plugin: initially focus the listbox, not filter-input (thanks @ildarkhasanshin)
