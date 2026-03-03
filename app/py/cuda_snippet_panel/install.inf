@@ -7,7 +7,7 @@ homepage=https://github.com/CudaText-addons/cuda_snippet_panel
 
 [item2]
 section=commands
-caption=Snippet Panel\Open panel
+caption=Snippet Panel\Open
 method=open_dlg
 
 [item50]
