@@ -31,6 +31,8 @@ class Command:
     show_index_aligned = False
     font_name = 'default'
     font_size = 9
+    font_filter_name = 'default'
+    font_filter_size = 9
     column_name = 170
     column_folder = 0
     column_lexer = 80
@@ -70,6 +72,8 @@ class Command:
         self.show_index_aligned = str_to_bool(ini_read(fn_config, 'op', 'show_index_aligned', '0'))
         self.font_name = ini_read(fn_config, 'op', 'font_name', self.font_name)
         self.font_size = int(ini_read(fn_config, 'op', 'font_size', str(self.font_size)))
+        self.font_filter_name = ini_read(fn_config, 'op', 'font_filter_name', self.font_filter_name)
+        self.font_filter_size = int(ini_read(fn_config, 'op', 'font_filter_size', str(self.font_filter_size)))
         self.auto_scroll_speed = int(ini_read(fn_config, 'op', 'auto_scroll_speed', str(self.auto_scroll_speed)))
         self.column_name = int(ini_read(fn_config, 'columns', 'width_name', str(self.column_name)))
         self.column_folder = int(ini_read(fn_config, 'columns', 'width_folder', str(self.column_folder)))
@@ -83,6 +87,8 @@ class Command:
         ini_write(fn_config, 'op', 'show_index_aligned', bool_to_str(self.show_index_aligned))
         ini_write(fn_config, 'op', 'font_name', self.font_name)
         ini_write(fn_config, 'op', 'font_size', str(self.font_size))
+        ini_write(fn_config, 'op', 'font_filter_name', self.font_filter_name)
+        ini_write(fn_config, 'op', 'font_filter_size', str(self.font_filter_size))
         ini_write(fn_config, 'op', 'auto_scroll_speed', str(self.auto_scroll_speed))
 
         if ini_read(fn_config, 'columns', 'width_name', '')=='':
@@ -139,8 +145,8 @@ class Command:
             'texthint': _('Filter'),
             'tab_stop': True,
             'on_change': 'cuda_tabs_list.filter_change',
-            'font_name': self.font_name,
-            'font_size': self.font_size,
+            'font_name': self.font_filter_name,
+            'font_size': self.font_filter_size,
         })
 
         dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, index=self.n_list, prop={
