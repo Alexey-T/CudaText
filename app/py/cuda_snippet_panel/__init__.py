@@ -21,6 +21,7 @@ class Command:
 
     font_name = 'default'
     font_size = 9
+    clip_focused = ''
 
     def __init__(self):
 
@@ -122,7 +123,8 @@ class Command:
             return
 
         clip = self.clips[index]
-        msg_status(_('Inserting: ')+clip['name'])
+        self.clip_focused = clip['name']
+        msg_status(_('Inserting: ')+self.clip_focused)
         text = clip['text']
 
         sel = ed.get_text_sel()
@@ -200,7 +202,12 @@ class Command:
             return msg_status(_('No snippets in selected folder'))
 
         clip_names = [i['name'] for i in self.clips]
-        index = dlg_menu(DMENU_LIST, clip_names, caption=('%s: "%s"'% (_('Snippet Panel'), self.folder_)))
+        if self.clip_focused in clip_names:
+            focused = clip_names.index(self.clip_focused)
+        else:
+            focused = 0
+
+        index = dlg_menu(DMENU_LIST, clip_names, focused=focused, caption=('%s: %s'% (_('Snippet Panel'), self.folder_)))
         if index is None:
             return msg_status(_('Menu cancelled'))
 
