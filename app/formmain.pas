@@ -7739,7 +7739,7 @@ end;
 
 procedure TfmMain.DoDialogMenuTranslations;
 const
-  cEnLang = 'en (built-in)';
+  cEnLang = 'en_US (built-in)';
 var
   STitle: string;
   ListFiles, ListNames: TStringList;
