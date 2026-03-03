@@ -210,14 +210,16 @@ class Command:
             return
 
         clip_names = [i['name'] for i in self.clips]
+
         if self.clip_focused in clip_names:
             focused = clip_names.index(self.clip_focused)
         else:
             focused = 0
 
-        index = dlg_menu(DMENU_LIST, clip_names, focused=focused, caption=('%s: %s'% (_('Snippet Panel'), self.folder_)))
-        if index is None:
-            msg_status(_('Menu cancelled'))
-            return
-
-        self.insert_clip(index)
+        while True:
+            index = dlg_menu(DMENU_LIST, clip_names, focused=focused, caption=('%s: %s'% (_('Snippet Panel'), self.folder_)))
+            if index is None:
+                msg_status(_('Menu cancelled'))
+                return
+            focused = index
+            self.insert_clip(index)
