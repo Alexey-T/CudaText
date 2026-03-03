@@ -13,7 +13,7 @@ method=open_dlg
 [item3]
 section=commands
 caption=Snippet Panel\Menu-dialog...
-method=menu
+method=menu_dlg
 
 [item50]
 section=commands

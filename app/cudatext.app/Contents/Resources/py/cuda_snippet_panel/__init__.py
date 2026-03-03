@@ -120,6 +120,7 @@ class Command:
     def insert_clip(self, index):
 
         if ed.get_prop(PROP_RO):
+            msg_status(_('Cannot insert to read-only editor'))
             return
 
         clip = self.clips[index]
@@ -181,11 +182,16 @@ class Command:
             pass
 
 
-    def menu(self):
+    def menu_dlg(self):
+
+        if ed.get_prop(PROP_RO):
+            msg_status(_('Cannot insert to read-only editor'))
+            return
 
         self.get_folders()
         if not self.folders_:
-            return msg_status(_('No folders with snippets'))
+            msg_status(_('No folders with snippets'))
+            return
 
         if self.folder_ in self.folders_:
             focused = self.folders_.index(self.folder_)
@@ -194,12 +200,14 @@ class Command:
 
         index = dlg_menu(DMENU_LIST, self.folders_, focused=focused, caption=_('Snippet Panel')+': '+_('folders'))
         if index is None:
-            return msg_status(_('Menu cancelled'))
+            msg_status(_('Menu cancelled'))
+            return
         self.folder_ = self.folders_[index]
 
         self.get_folder_clips(index)
         if not self.clips:
-            return msg_status(_('No snippets in selected folder'))
+            msg_status(_('No snippets in selected folder'))
+            return
 
         clip_names = [i['name'] for i in self.clips]
         if self.clip_focused in clip_names:
@@ -209,6 +217,7 @@ class Command:
 
         index = dlg_menu(DMENU_LIST, clip_names, focused=focused, caption=('%s: %s'% (_('Snippet Panel'), self.folder_)))
         if index is None:
-            return msg_status(_('Menu cancelled'))
+            msg_status(_('Menu cancelled'))
+            return
 
         self.insert_clip(index)
