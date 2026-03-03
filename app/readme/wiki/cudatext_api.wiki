@@ -3339,7 +3339,7 @@ If an item begins with "&lt;html&gt;", [[#HTML formatting]] is allowed in this i
 
 ===Editor.gap===
 
- gap(id, num1, num2, tag=-1, size=0, color=COLOR_NONE)
+ gap(id, num1, num2, tag=-1, size=0, color=COLOR_NONE, on_top=False)
 
 Performs action on inter-line gaps (they don't overlap text above/below).
 Several gaps per single line are supported.
@@ -3367,6 +3367,7 @@ Possible values of "id":
 ** "tag": int 32-bit: Some value attached to gap, to separate gaps from different plugins.
 ** "size": int: If >0, it is gap height in pixels. If 0, gap height is calculated from bitmap handle.
 ** "color": int: If not COLOR_NONE, then it's gap background color.
+** "on_top": bool: If True, gap will be inserted before all existing gaps for the same line index.
 
 * GAP_DELETE_ALL: Deletes all gaps.
 * GAP_DELETE: Deletes gaps for the given line indexes range, from value of "num1" to value of "num2" (inclusive).
@@ -5322,6 +5323,7 @@ It provides:
 
 1.0.477 (app 1.232.4)
 * add: Editor.gap: allow several gaps for single line
+* add: Editor.gap: add param "on_top"
 * delete Editor.lock (use EDACTION_LOCK instead)
 * delete Editor.unlock (use EDACTION_UNLOCK instead)
 
