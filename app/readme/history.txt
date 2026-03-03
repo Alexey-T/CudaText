@@ -11,7 +11,7 @@
 + add: Tabs List plugin: new command "Open, focus filter"
 + add: Snippet Panel plugin: new options "font_name", "font_size"
 + add: Snippet Panel plugin: new command "Config"
-+ add: Snippet Panel plugin: new command "Menu-dialog..."
++ add: Snippet Panel plugin: new command "Menu-dialog...", it duplicates the GUI for keyboard users
 + add: Sort plugin: new commands "Sort JSON", "Sort JSON by field..." (by @ildarkhasanshin)
 * change: tweaked logic of the command "toggle side panel / code tree", now it works like the sidebar's button (idea by @sl23)
 * change: Tabs List plugin: initially focus the listbox, not filter-input (thanks @ildarkhasanshin)
