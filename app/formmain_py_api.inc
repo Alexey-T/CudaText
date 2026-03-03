@@ -8593,7 +8593,7 @@ end;
 function api_ed_gap(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H, Num1, Num2: Int64;
-  Id, NColor, NSize, NTag: integer;
+  Id, NColor, NSize, NTag, NOnTop: integer;
   Ed, EdBrother: TATSynEdit;
   Frame: TEditorFrame;
   Bmp: TBitmap;
@@ -8601,8 +8601,9 @@ var
   GapObject: TObject;
   ScrollInfo: TATEditorScrollInfo;
 begin
+  NOnTop:= 0;
   with AppPython.Engine do
-    if Bool(PyArg_ParseTuple(Args, 'LiLLiii:gap', @H, @Id, @Num1, @Num2, @NTag, @NSize, @NColor)) then
+    if Bool(PyArg_ParseTuple(Args, 'LiLLiii|i:gap', @H, @Id, @Num1, @Num2, @NTag, @NSize, @NColor, @NOnTop)) then
     begin
       Ed:= PyHelper_EditorFromHandle(H);
 
@@ -8644,7 +8645,8 @@ begin
                   NSize:= Form.Height+2{borders};
               end;
 
-              if Ed.Gaps.Add(Num1, NSize, Bmp, Form, NTag, NColor) then
+              if Ed.Gaps.Add(Num1, NSize, Bmp, Form, NTag, NColor,
+                             true, Bool(NOnTop)) then
               begin
                 ////better to set OptLastLineOnTop always, to fix [v-scrollbar cannot reach end for many gaps at end]
                 //if Num1=Ed.Strings.Count-1 then

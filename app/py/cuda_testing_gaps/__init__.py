@@ -28,7 +28,7 @@ class Command:
         canvas_proc(id_canvas, CANVAS_SET_BRUSH, color=0xffffff, style=BRUSH_CLEAR)
         canvas_proc(id_canvas, CANVAS_TEXT, x=205, y=10, text='tag%d'%ntag)
         canvas_proc(id_canvas, CANVAS_SET_BRUSH, color=0xffffff, style=BRUSH_SOLID)
-        ed.gap(GAP_ADD, nline, id_bitmap, tag=ntag)
+        ed.gap(GAP_ADD, nline, id_bitmap, tag=ntag, on_top=True)
 
     def on_click_gap(self, ed_self, state, nline, ntag, size_x, size_y, pos_x, pos_y):
         print('on_click_gap: line %d, tag %d, pos (%d, %d)'%(nline+1, ntag, pos_x, pos_y))
