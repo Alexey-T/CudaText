@@ -1,97 +1,100 @@
 object fmUnprinted: TfmUnprinted
-  Left = 810
-  Height = 482
-  Top = 185
-  Width = 470
+  Left = 264
+  Height = 498
+  Top = 153
+  Width = 641
   BorderStyle = bsDialog
   Caption = 'Unprinted characters'
-  ClientHeight = 482
-  ClientWidth = 470
+  ClientHeight = 498
+  ClientWidth = 641
   Position = poScreenCenter
   LCLVersion = '4.99.0.0'
   OnCreate = FormCreate
   OnShow = FormShow
   object chkShowWhitespace: TCheckBox
     Left = 8
-    Height = 23
+    Height = 19
     Top = 48
-    Width = 140
+    Width = 109
     Caption = 'Show whitespace'
     TabOrder = 1
     OnChange = chkShowWhitespaceChange
   end
   object chkOnlyInSel: TCheckBox
     Left = 40
-    Height = 23
+    Height = 19
     Top = 72
-    Width = 250
+    Width = 198
     Caption = 'Show whitespace only in selection'
     TabOrder = 2
     OnChange = chkOnlyInSelChange
   end
   object chkAlsoInSel: TCheckBox
     Left = 40
-    Height = 23
+    Height = 19
     Top = 96
-    Width = 250
+    Width = 196
     Caption = 'Show whitespace also in selection'
     TabOrder = 3
     OnChange = chkAlsoInSelChange
   end
   object chkOnlyLeadAndTrail: TCheckBox
     Left = 40
-    Height = 23
+    Height = 19
     Top = 120
-    Width = 279
+    Width = 222
     Caption = 'Show only leading+trailing whitespace'
     TabOrder = 4
     OnChange = chkOnlyLeadAndTrailChange
   end
   object chkOnlyTrail: TCheckBox
     Left = 40
-    Height = 23
+    Height = 19
     Top = 144
-    Width = 222
+    Width = 175
     Caption = 'Show only trailing whitespace'
     TabOrder = 5
     OnChange = chkOnlyTrailChange
   end
   object chkForceShowTabs: TCheckBox
     Left = 40
-    Height = 23
+    Height = 19
     Top = 168
-    Width = 167
+    Width = 131
     Caption = 'Force show tab-chars'
     TabOrder = 6
     OnChange = chkForceShowTabsChange
   end
   object chkShowEndMarks: TCheckBox
     Left = 6
-    Height = 23
+    Height = 19
     Top = 208
-    Width = 187
+    Width = 150
     Caption = 'Show end-of-lines marks'
     TabOrder = 7
     OnChange = chkShowEndMarksChange
   end
   object chkEndDetails: TCheckBox
     Left = 40
-    Height = 23
+    Height = 19
     Top = 232
-    Width = 327
+    Width = 261
     Caption = 'Detailed end-of-line marks: "LF", "CRLF", "CR"'
     TabOrder = 8
     OnChange = chkEndDetailsChange
   end
   object PanelPreview: TPanel
-    AnchorSideRight.Control = Owner
-    AnchorSideRight.Side = asrBottom
-    AnchorSideBottom.Control = btnCancel
+    AnchorSideTop.Control = chkWraps
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = PanelBtns
+    AnchorSideBottom.Control = Owner
+    AnchorSideBottom.Side = asrBottom
     Left = 6
-    Height = 104
-    Top = 333
-    Width = 458
-    Anchors = [akLeft, akRight, akBottom]
+    Height = 161
+    Top = 331
+    Width = 414
+    Anchors = [akTop, akLeft, akRight, akBottom]
+    BorderSpacing.Top = 10
     BorderSpacing.Around = 6
     BevelOuter = bvNone
     Color = clBtnShadow
@@ -99,53 +102,20 @@ object fmUnprinted: TfmUnprinted
     ParentColor = False
     TabOrder = 13
   end
-  object btnOk: TButton
-    AnchorSideTop.Control = btnCancel
-    AnchorSideRight.Control = btnCancel
-    Left = 262
-    Height = 33
-    Top = 443
-    Width = 98
-    Anchors = [akTop, akRight]
-    AutoSize = True
-    Caption = 'OK'
-    Constraints.MinWidth = 98
-    Default = True
-    ModalResult = 1
-    TabOrder = 15
-  end
-  object btnCancel: TButton
-    AnchorSideRight.Control = Owner
-    AnchorSideRight.Side = asrBottom
-    AnchorSideBottom.Control = Owner
-    AnchorSideBottom.Side = asrBottom
-    Left = 366
-    Height = 33
-    Top = 443
-    Width = 98
-    Anchors = [akRight, akBottom]
-    AutoSize = True
-    BorderSpacing.Around = 6
-    Cancel = True
-    Caption = 'Cancel'
-    Constraints.MinWidth = 98
-    ModalResult = 2
-    TabOrder = 16
-  end
   object chkVisible: TCheckBox
     Left = 8
-    Height = 23
+    Height = 19
     Top = 8
-    Width = 301
+    Width = 238
     Caption = 'Show unprinted chars (global enable flag)'
     TabOrder = 0
     OnChange = chkVisibleChange
   end
   object chkEndDot: TRadioButton
     Left = 40
-    Height = 23
+    Height = 19
     Top = 256
-    Width = 51
+    Width = 37
     Caption = 'Dot'
     Checked = True
     TabOrder = 9
@@ -156,10 +126,10 @@ object fmUnprinted: TfmUnprinted
     AnchorSideLeft.Control = chkEndDot
     AnchorSideLeft.Side = asrBottom
     AnchorSideTop.Control = chkEndDot
-    Left = 101
-    Height = 23
+    Left = 87
+    Height = 19
     Top = 256
-    Width = 67
+    Width = 50
     BorderSpacing.Left = 10
     Caption = 'Arrow'
     TabOrder = 10
@@ -169,37 +139,87 @@ object fmUnprinted: TfmUnprinted
     AnchorSideLeft.Control = chkEndArrow
     AnchorSideLeft.Side = asrBottom
     AnchorSideTop.Control = chkEndDot
-    Left = 178
-    Height = 23
+    Left = 147
+    Height = 19
     Top = 256
-    Width = 75
+    Width = 57
     BorderSpacing.Left = 10
     Caption = 'Pilcrow'
     TabOrder = 11
     OnChange = chkEndPilcrowChange
   end
-  object btnSaveConfig: TButton
-    AnchorSideLeft.Control = Owner
-    AnchorSideTop.Control = btnCancel
-    AnchorSideBottom.Side = asrBottom
-    Left = 6
-    Height = 33
-    Top = 443
-    Width = 108
-    AutoSize = True
-    BorderSpacing.Left = 6
-    Caption = 'Save to config'
-    TabOrder = 14
-    OnClick = btnSaveConfigClick
-  end
   object chkWraps: TCheckBox
-    AnchorSideTop.Side = asrBottom
     Left = 8
-    Height = 23
+    Height = 19
     Top = 296
-    Width = 281
+    Width = 220
     Caption = 'Show wrapped-lines marks (soft wrap)'
     TabOrder = 12
     OnChange = chkWrapsChange
+  end
+  object PanelBtns: TPanel
+    Left = 426
+    Height = 498
+    Top = 0
+    Width = 215
+    Align = alRight
+    BevelOuter = bvNone
+    ClientHeight = 498
+    ClientWidth = 215
+    TabOrder = 14
+    object btnApplyToCur: TButton
+      Left = 6
+      Height = 25
+      Top = 6
+      Width = 203
+      Align = alTop
+      AutoSize = True
+      BorderSpacing.Around = 6
+      Caption = 'Apply to current tab'
+      Constraints.MinWidth = 98
+      Default = True
+      TabOrder = 0
+      OnClick = btnApplyToCurClick
+    end
+    object btnClose: TButton
+      AnchorSideBottom.Control = Owner
+      AnchorSideBottom.Side = asrBottom
+      Left = 6
+      Height = 25
+      Top = 99
+      Width = 203
+      Align = alTop
+      AutoSize = True
+      BorderSpacing.Around = 6
+      Cancel = True
+      Caption = 'Close'
+      Constraints.MinWidth = 98
+      TabOrder = 3
+      OnClick = btnCloseClick
+    end
+    object btnSaveConfig: TButton
+      AnchorSideBottom.Side = asrBottom
+      Left = 6
+      Height = 25
+      Top = 68
+      Width = 203
+      Align = alTop
+      AutoSize = True
+      BorderSpacing.Around = 6
+      Caption = 'Save to config'
+      TabOrder = 2
+      OnClick = btnSaveConfigClick
+    end
+    object btnApplyGlobally: TButton
+      Left = 6
+      Height = 25
+      Top = 37
+      Width = 203
+      Align = alTop
+      BorderSpacing.Around = 6
+      Caption = 'Apply globally'
+      TabOrder = 1
+      OnClick = btnApplyGloballyClick
+    end
   end
 end

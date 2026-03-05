@@ -23,9 +23,10 @@ type
   { TfmUnprinted }
 
   TfmUnprinted = class(TForm)
-    btnOk: TButton;
-    btnCancel: TButton;
+    btnApplyToCur: TButton;
+    btnClose: TButton;
     btnSaveConfig: TButton;
+    btnApplyGlobally: TButton;
     chkWraps: TCheckBox;
     chkVisible: TCheckBox;
     chkShowWhitespace: TCheckBox;
@@ -36,10 +37,14 @@ type
     chkForceShowTabs: TCheckBox;
     chkShowEndMarks: TCheckBox;
     chkEndDetails: TCheckBox;
+    PanelBtns: TPanel;
     PanelPreview: TPanel;
     chkEndDot: TRadioButton;
     chkEndArrow: TRadioButton;
     chkEndPilcrow: TRadioButton;
+    procedure btnApplyGloballyClick(Sender: TObject);
+    procedure btnApplyToCurClick(Sender: TObject);
+    procedure btnCloseClick(Sender: TObject);
     procedure btnSaveConfigClick(Sender: TObject);
     procedure chkAlsoInSelChange(Sender: TObject);
     procedure chkEndArrowChange(Sender: TObject);
@@ -65,6 +70,8 @@ type
     EdPreview: TATSynEdit;
     OnSaveOptionBool: TFormUnprintedSaveBool;
     OnSaveOptionString: TFormUnprintedSaveString;
+    OnApplyToCurrent: TNotifyEvent;
+    OnApplyGlobally: TNotifyEvent;
     procedure ApplyToEditor(Ed: TATSynEdit);
   end;
 
@@ -161,6 +168,23 @@ begin
     OnSaveOptionString('/unprinted_content', GetConfigValue);
 end;
 
+procedure TfmUnprinted.btnApplyToCurClick(Sender: TObject);
+begin
+  if Assigned(OnApplyToCurrent) then
+    OnApplyToCurrent(Self);
+end;
+
+procedure TfmUnprinted.btnApplyGloballyClick(Sender: TObject);
+begin
+  if Assigned(OnApplyGlobally) then
+    OnApplyGlobally(Self);
+end;
+
+procedure TfmUnprinted.btnCloseClick(Sender: TObject);
+begin
+  Close;
+end;
+
 procedure TfmUnprinted.chkEndArrowChange(Sender: TObject);
 begin
   UpdateState;
@@ -246,8 +270,8 @@ begin
   ini:= TIniFile.Create(fn);
   try
     Caption:= ini.ReadString(section, '_', Caption);
-    with btnOk do Caption:= msgButtonOk;
-    with btnCancel do Caption:= msgButtonCancel;
+    with btnApplyToCur do Caption:= msgButtonOk;
+    with btnClose do Caption:= msgButtonCancel;
     with btnSaveConfig do Caption:= ini.ReadString(section, 'save', Caption);
     with chkVisible do Caption:= ini.ReadString(section, 'vis', Caption);
     with chkShowWhitespace do Caption:= ini.ReadString(section, 'sh_sp', Caption);
