@@ -65,7 +65,7 @@ type
   private
     procedure Localize;
     procedure UpdateState;
-    function GetConfigValue: string;
+    function GetUnprintedContentString: string;
   public
     EdPreview: TATSynEdit;
     OnSaveOptionBool: TFormUnprintedSaveBool;
@@ -180,7 +180,7 @@ begin
     OnApplyToAll(Self);
 
   bUnprintedShow:= chkVisible.Checked;
-  SUnprintedContent:= GetConfigValue;
+  SUnprintedContent:= GetUnprintedContentString;
 
   if Assigned(OnSaveOptionBool) then
     OnSaveOptionBool('/unprinted_show', bUnprintedShow);
@@ -304,7 +304,7 @@ begin
   end;
 end;
 
-function TfmUnprinted.GetConfigValue: string;
+function TfmUnprinted.GetUnprintedContentString: string;
 begin
   Result:= '';
   if chkShowWhitespace.Checked   then Result+= 's';
