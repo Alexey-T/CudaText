@@ -758,7 +758,7 @@ type
 var
   EditorOps: TEditorOps;
   EditorCachedOps: TEditorOps;
-  EditorCachedOpsId: string;
+  EditorCachedOpsId: string; //'user' or 'lexer:LexerName' or '/tmp/tempname.json'
 
 type
   TAppStringIntegerMap = specialize TFPGMap<string, integer>;
