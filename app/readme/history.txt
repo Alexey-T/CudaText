@@ -5,7 +5,7 @@
 
 1.233.1 (2026/03)
 
-* change/add: dialog "Unprinted chars" reworked: added non-closing buttons "Apply to current tab", "Apply globally" (idea by @veksha)
+* change/add: dialog "Unprinted chars" reworked: added buttons "Apply to current tab", "Apply to all tabs", "Apply globally" (idea by @veksha)
 - fix: bug visible in Breadcrumbs plugin: if "font_size" is rather big, editing of the Breadcrumbs's filter-field shows empty field (thanks @veksha)
 
 1.233.0 (2026/03)
