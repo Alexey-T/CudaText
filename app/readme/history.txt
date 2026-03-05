@@ -3,6 +3,8 @@
   - fixed
   * changed
 
+- fix: bug visible in Breadcrumbs plugin: if "font_size" is rather big, editing of the single-line filter-field shows empty editor (thanks @veksha)
+
 1.233.0 (2026/03)
 
 + add: API allows to add several inter-line gaps per line, this will help with future plugin(s) being developed (idea by @Hanatarou)
