@@ -158,70 +158,87 @@ object fmUnprinted: TfmUnprinted
     TabOrder = 12
     OnChange = chkWrapsChange
   end
-  object PanelBtns: TPanel
-    Left = 393
-    Height = 187
+  object btnApplyToCur: TButton
+    AnchorSideLeft.Control = PanelRightTop
+    AnchorSideTop.Control = PanelRightTop
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 402
+    Height = 25
+    Top = 10
+    Width = 200
+    Anchors = [akTop, akLeft, akRight]
+    AutoSize = True
+    BorderSpacing.Right = 6
+    Caption = 'Apply to current tab'
+    TabOrder = 15
+    OnClick = btnApplyToCurClick
+  end
+  object PanelRightTop: TPanel
+    AnchorSideTop.Control = Owner
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 402
+    Height = 10
     Top = 0
-    Width = 215
-    Anchors = [akTop, akRight]
+    Width = 206
+    Anchors = [akTop, akLeft, akRight]
     BevelOuter = bvNone
-    ClientHeight = 187
-    ClientWidth = 215
     TabOrder = 14
-    object btnApplyToCur: TButton
-      Left = 6
-      Height = 25
-      Top = 6
-      Width = 203
-      Align = alTop
-      AutoSize = True
-      BorderSpacing.Around = 6
-      Caption = 'Apply to current tab'
-      Constraints.MinWidth = 98
-      Default = True
-      TabOrder = 0
-      OnClick = btnApplyToCurClick
-    end
-    object btnClose: TButton
-      AnchorSideBottom.Control = Owner
-      AnchorSideBottom.Side = asrBottom
-      Left = 6
-      Height = 25
-      Top = 99
-      Width = 203
-      Align = alTop
-      AutoSize = True
-      BorderSpacing.Around = 6
-      Cancel = True
-      Caption = 'Close'
-      Constraints.MinWidth = 98
-      TabOrder = 3
-      OnClick = btnCloseClick
-    end
-    object btnSaveConfig: TButton
-      AnchorSideBottom.Side = asrBottom
-      Left = 6
-      Height = 25
-      Top = 68
-      Width = 203
-      Align = alTop
-      AutoSize = True
-      BorderSpacing.Around = 6
-      Caption = 'Save to config'
-      TabOrder = 2
-      OnClick = btnSaveConfigClick
-    end
-    object btnApplyGlobally: TButton
-      Left = 6
-      Height = 25
-      Top = 37
-      Width = 203
-      Align = alTop
-      AutoSize = True
-      BorderSpacing.Around = 6
-      Caption = 'Apply globally'
-      TabOrder = 1
-      OnClick = btnApplyGloballyClick
-    end
+  end
+  object btnApplyToAll: TButton
+    AnchorSideLeft.Control = btnApplyToCur
+    AnchorSideTop.Control = btnApplyToCur
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = btnApplyToCur
+    AnchorSideRight.Side = asrBottom
+    Left = 402
+    Height = 25
+    Top = 41
+    Width = 200
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Top = 6
+    Caption = 'Apply to all tabs'
+    TabOrder = 16
+    OnClick = btnApplyToAllClick
+  end
+  object btnApplyGlobally: TButton
+    AnchorSideLeft.Control = btnApplyToCur
+    AnchorSideTop.Control = btnApplyToAll
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = btnApplyToCur
+    AnchorSideRight.Side = asrBottom
+    Left = 402
+    Height = 25
+    Top = 72
+    Width = 200
+    Anchors = [akTop, akLeft, akRight]
+    AutoSize = True
+    BorderSpacing.Top = 6
+    Caption = 'Apply globally'
+    TabOrder = 17
+    OnClick = btnApplyGloballyClick
+  end
+  object btnClose: TButton
+    AnchorSideLeft.Control = btnApplyToCur
+    AnchorSideTop.Control = btnApplyGlobally
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = btnApplyToCur
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = Owner
+    AnchorSideBottom.Side = asrBottom
+    Left = 402
+    Height = 25
+    Top = 103
+    Width = 200
+    Anchors = [akTop, akLeft, akRight]
+    AutoSize = True
+    BorderSpacing.Top = 6
+    Cancel = True
+    Caption = 'Close'
+    Constraints.MinWidth = 98
+    TabOrder = 18
+    OnClick = btnCloseClick
   end
 end

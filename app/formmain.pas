@@ -766,8 +766,8 @@ type
     FStartupShowFloating2: boolean;
     FStartupShowFloating3: boolean;
 
-    procedure CallbackUnprintedApplyGlobally(Sender: TObject);
     procedure CallbackUnprintedApplyToCurrent(Sender: TObject);
+    procedure CallbackUnprintedApplyToAll(Sender: TObject);
     function CodeTreeFilter_OnFilterNode(ItemNode: TTreeNode; out Done: Boolean): Boolean;
     function ConfirmAllFramesAreSaved(AWithCancel: boolean): boolean;
     procedure DoApplyCenteringOption(Frame: TEditorFrame; Ed: TATSynEdit);
@@ -10084,7 +10084,7 @@ begin
     (Sender as TfmUnprinted).ApplyToEditor(Ed);
 end;
 
-procedure TfmMain.CallbackUnprintedApplyGlobally(Sender: TObject);
+procedure TfmMain.CallbackUnprintedApplyToAll(Sender: TObject);
 var
   Frame: TEditorFrame;
   i: integer;
@@ -10111,7 +10111,7 @@ begin
     Form.OnSaveOptionBool:= @DoOps_SaveOptionBool;
     Form.OnSaveOptionString:= @DoOps_SaveOptionString;
     Form.OnApplyToCurrent:= @CallbackUnprintedApplyToCurrent;
-    Form.OnApplyGlobally:= @CallbackUnprintedApplyGlobally;
+    Form.OnApplyToAll:= @CallbackUnprintedApplyToAll;
 
     Form.chkVisible.Checked:= Ed.OptUnprintedVisible;
     Form.chkShowWhitespace.Checked:= Ed.OptUnprintedSpaces;

@@ -23,10 +23,10 @@ type
   { TfmUnprinted }
 
   TfmUnprinted = class(TForm)
-    btnApplyToCur: TButton;
-    btnClose: TButton;
-    btnSaveConfig: TButton;
     btnApplyGlobally: TButton;
+    btnApplyToCurrent: TButton;
+    btnApplyToAll: TButton;
+    btnClose: TButton;
     chkWraps: TCheckBox;
     chkVisible: TCheckBox;
     chkShowWhitespace: TCheckBox;
@@ -37,15 +37,15 @@ type
     chkForceShowTabs: TCheckBox;
     chkShowEndMarks: TCheckBox;
     chkEndDetails: TCheckBox;
-    PanelBtns: TPanel;
+    PanelRightTop: TPanel;
     PanelPreview: TPanel;
     chkEndDot: TRadioButton;
     chkEndArrow: TRadioButton;
     chkEndPilcrow: TRadioButton;
     procedure btnApplyGloballyClick(Sender: TObject);
+    procedure btnApplyToAllClick(Sender: TObject);
     procedure btnApplyToCurClick(Sender: TObject);
     procedure btnCloseClick(Sender: TObject);
-    procedure btnSaveConfigClick(Sender: TObject);
     procedure chkAlsoInSelChange(Sender: TObject);
     procedure chkEndArrowChange(Sender: TObject);
     procedure chkEndDetailsChange(Sender: TObject);
@@ -71,7 +71,7 @@ type
     OnSaveOptionBool: TFormUnprintedSaveBool;
     OnSaveOptionString: TFormUnprintedSaveString;
     OnApplyToCurrent: TNotifyEvent;
-    OnApplyGlobally: TNotifyEvent;
+    OnApplyToAll: TNotifyEvent;
     procedure ApplyToEditor(Ed: TATSynEdit);
   end;
 
@@ -159,25 +159,28 @@ begin
   UpdateState;
 end;
 
-procedure TfmUnprinted.btnSaveConfigClick(Sender: TObject);
-begin
-  if Assigned(OnSaveOptionBool) then
-    OnSaveOptionBool('/unprinted_show', chkVisible.Checked);
-
-  if Assigned(OnSaveOptionString) then
-    OnSaveOptionString('/unprinted_content', GetConfigValue);
-end;
-
 procedure TfmUnprinted.btnApplyToCurClick(Sender: TObject);
 begin
   if Assigned(OnApplyToCurrent) then
     OnApplyToCurrent(Self);
 end;
 
+procedure TfmUnprinted.btnApplyToAllClick(Sender: TObject);
+begin
+  if Assigned(OnApplyToAll) then
+    OnApplyToAll(Self);
+end;
+
 procedure TfmUnprinted.btnApplyGloballyClick(Sender: TObject);
 begin
-  if Assigned(OnApplyGlobally) then
-    OnApplyGlobally(Self);
+  if Assigned(OnApplyToAll) then
+    OnApplyToAll(Self);
+
+  if Assigned(OnSaveOptionBool) then
+    OnSaveOptionBool('/unprinted_show', chkVisible.Checked);
+
+  if Assigned(OnSaveOptionString) then
+    OnSaveOptionString('/unprinted_content', GetConfigValue);
 end;
 
 procedure TfmUnprinted.btnCloseClick(Sender: TObject);
@@ -270,10 +273,10 @@ begin
   ini:= TIniFile.Create(fn);
   try
     Caption:= ini.ReadString(section, '_', Caption);
-    with btnApplyToCur do Caption:= ini.ReadString(section, 'ap_cur', Caption);
+    with btnApplyToCurrent do Caption:= ini.ReadString(section, 'ap_cur', Caption);
+    with btnApplyToAll do Caption:= ini.ReadString(section, 'ap_all', Caption);
     with btnApplyGlobally do Caption:= ini.ReadString(section, 'ap_glo', Caption);
     with btnClose do Caption:= msgButtonClose;
-    with btnSaveConfig do Caption:= ini.ReadString(section, 'save', Caption);
     with chkVisible do Caption:= ini.ReadString(section, 'vis', Caption);
     with chkShowWhitespace do Caption:= ini.ReadString(section, 'sh_sp', Caption);
     with chkOnlyInSel do Caption:= ini.ReadString(section, 'only_sel', Caption);
