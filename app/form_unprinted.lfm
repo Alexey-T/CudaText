@@ -2,11 +2,11 @@ object fmUnprinted: TfmUnprinted
   Left = 264
   Height = 488
   Top = 153
-  Width = 568
+  Width = 608
   BorderStyle = bsDialog
   Caption = 'Unprinted characters'
   ClientHeight = 488
-  ClientWidth = 568
+  ClientWidth = 608
   Position = poScreenCenter
   LCLVersion = '4.99.0.0'
   OnCreate = FormCreate
@@ -93,7 +93,7 @@ object fmUnprinted: TfmUnprinted
     Left = 6
     Height = 151
     Top = 331
-    Width = 556
+    Width = 596
     Anchors = [akTop, akLeft, akRight, akBottom]
     BorderSpacing.Top = 10
     BorderSpacing.Around = 6
@@ -159,13 +159,13 @@ object fmUnprinted: TfmUnprinted
     OnChange = chkWrapsChange
   end
   object PanelBtns: TPanel
-    Left = 353
-    Height = 256
+    Left = 393
+    Height = 187
     Top = 0
     Width = 215
     Anchors = [akTop, akRight]
     BevelOuter = bvNone
-    ClientHeight = 256
+    ClientHeight = 187
     ClientWidth = 215
     TabOrder = 14
     object btnApplyToCur: TButton
