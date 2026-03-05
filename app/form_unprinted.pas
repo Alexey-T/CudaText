@@ -237,8 +237,6 @@ begin
 end;
 
 procedure TfmUnprinted.ApplyToEditor(Ed: TATSynEdit);
-var
-  ModOps: TATEditorModifiedOptions;
 begin
   Ed.OptUnprintedVisible:= chkVisible.Checked;
   Ed.OptUnprintedSpaces:= chkShowWhitespace.Checked;
@@ -259,14 +257,12 @@ begin
   else
     ATEditorOptions.UnprintedEndSymbol:= TATEditorUnptintedEolSymbol.Dot;
 
-  ModOps:= Ed.ModifiedOptions;
-  Exclude(ModOps, TATEditorModifiedOption.UnprintedVisible);
-  Exclude(ModOps, TATEditorModifiedOption.UnprintedSpaces);
-  Exclude(ModOps, TATEditorModifiedOption.UnprintedTrailingOnly);
-  Exclude(ModOps, TATEditorModifiedOption.UnprintedEnds);
-  Exclude(ModOps, TATEditorModifiedOption.UnprintedEndDetails);
-  Exclude(ModOps, TATEditorModifiedOption.UnprintedWraps);
-  Ed.ModifiedOptions:= ModOps;
+  Exclude(Ed.ModifiedOptions, TATEditorModifiedOption.UnprintedVisible);
+  Exclude(Ed.ModifiedOptions, TATEditorModifiedOption.UnprintedSpaces);
+  Exclude(Ed.ModifiedOptions, TATEditorModifiedOption.UnprintedTrailingOnly);
+  Exclude(Ed.ModifiedOptions, TATEditorModifiedOption.UnprintedEnds);
+  Exclude(Ed.ModifiedOptions, TATEditorModifiedOption.UnprintedEndDetails);
+  Exclude(Ed.ModifiedOptions, TATEditorModifiedOption.UnprintedWraps);
 
   Ed.Update;
 end;
