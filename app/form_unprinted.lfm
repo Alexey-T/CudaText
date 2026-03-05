@@ -198,6 +198,7 @@ object fmUnprinted: TfmUnprinted
     Top = 41
     Width = 200
     Anchors = [akTop, akLeft, akRight]
+    AutoSize = True
     BorderSpacing.Top = 6
     Caption = 'Apply to all tabs'
     TabOrder = 16
