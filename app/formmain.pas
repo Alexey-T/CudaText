@@ -743,7 +743,6 @@ type
     FLastTooltipLine: integer;
     FLastAppActivate: QWord;
     FLastSaveSessionTick: QWord;
-    FLastLoadedConfig: string;
     FLastPyMenuFilter: UnicodeString;
     FLastPyMenuHashOfLines: integer;
     FDisableTreeClearing: boolean;
@@ -3197,7 +3196,7 @@ begin
     FOption_AllowSessionSave,
     FOption_StartupCommand,
     FCmdlineFileCount);
-  FLastLoadedConfig:= 'user';
+  EditorLastLoadedOpsId:= 'user';
   DoOps_LoadOptions(AppFile_OptionsUser, EditorOps, true); //before LoadHistory
   DoFileOpen('', '', nil, '/noevent /noopenedevent /nononeevent'); //before LoadHistory
 

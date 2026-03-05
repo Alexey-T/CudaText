@@ -1269,7 +1269,7 @@ begin
 
   if FileExists(fn) then
   try
-    FLastLoadedConfig:= fn;
+    EditorLastLoadedOpsId:= fn;
     DoOps_LoadOptions(fn, EditorOps, true);
     DoApplyAllOps;
   finally
@@ -1962,7 +1962,7 @@ procedure TfmMain.DoOps_LoadOptionsLexerSpecific(F: TEditorFrame; Ed: TATSynEdit
 var
   FilenameDefault, FilenameUser, CurLexer: string;
   bExistsDefault, bExistsUser: boolean;
-  SNewLoadedConfig: string;
+  SNewLoadedOpsId: string;
 begin
   if F=nil then exit;
 
@@ -1970,15 +1970,15 @@ begin
   if CurLexer='' then
     CurLexer:= '-';
 
-  SNewLoadedConfig:= 'lexer:'+CurLexer;
-  if FLastLoadedConfig=SNewLoadedConfig then //fix issue #4225
+  SNewLoadedOpsId:= 'lexer:'+CurLexer;
+  if EditorLastLoadedOpsId=SNewLoadedOpsId then //fix issue #4225
   begin
-    ApplyOps(FLastLoadedEditorOps);
+    ApplyOps(EditorLastLoadedOps);
     exit;
   end;
 
-  FLastLoadedConfig:= SNewLoadedConfig;
-  FLastLoadedEditorOps:= EditorOps;
+  EditorLastLoadedOpsId:= SNewLoadedOpsId;
+  EditorLastLoadedOps:= EditorOps;
 
   FilenameDefault:= AppFile_LexerSpecificConfig(CurLexer, true);
   FilenameUser:= AppFile_LexerSpecificConfig(CurLexer, false);
@@ -1990,19 +1990,19 @@ begin
   begin
     if bExistsDefault then
     begin
-      DoOps_LoadOptions(FilenameDefault, FLastLoadedEditorOps, false);
+      DoOps_LoadOptions(FilenameDefault, EditorLastLoadedOps, false);
     end;
 
     if bExistsUser then
     begin
-      DoOps_LoadOptions(FilenameUser, FLastLoadedEditorOps, false);
+      DoOps_LoadOptions(FilenameUser, EditorLastLoadedOps, false);
 
       //store 'centering...' options in special way
-      EditorOps_CenteringWidth[CurLexer]:= FLastLoadedEditorOps.OpCenteringWidth;
-      EditorOps_CenteringDistFree[CurLexer]:= FLastLoadedEditorOps.OpCenteringForDistractionFree;
+      EditorOps_CenteringWidth[CurLexer]:= EditorLastLoadedOps.OpCenteringWidth;
+      EditorOps_CenteringDistFree[CurLexer]:= EditorLastLoadedOps.OpCenteringForDistractionFree;
     end;
 
-    ApplyOps(FLastLoadedEditorOps);
+    ApplyOps(EditorLastLoadedOps);
   end;
 end;
 
@@ -2114,7 +2114,7 @@ var
   bDisFree: boolean;
 begin
   bDisFree:= ShowDistractionFree;
-  FLastLoadedConfig:= 'user';
+  EditorLastLoadedOpsId:= 'user';
   DoOps_LoadOptions(AppFile_OptionsUser, EditorOps, true);
   DoApplyAllOps;
 
