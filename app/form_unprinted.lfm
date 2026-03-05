@@ -1,12 +1,12 @@
 object fmUnprinted: TfmUnprinted
   Left = 264
-  Height = 498
+  Height = 488
   Top = 153
-  Width = 641
+  Width = 568
   BorderStyle = bsDialog
   Caption = 'Unprinted characters'
-  ClientHeight = 498
-  ClientWidth = 641
+  ClientHeight = 488
+  ClientWidth = 568
   Position = poScreenCenter
   LCLVersion = '4.99.0.0'
   OnCreate = FormCreate
@@ -86,13 +86,14 @@ object fmUnprinted: TfmUnprinted
   object PanelPreview: TPanel
     AnchorSideTop.Control = chkWraps
     AnchorSideTop.Side = asrBottom
-    AnchorSideRight.Control = PanelBtns
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = Owner
     AnchorSideBottom.Side = asrBottom
     Left = 6
-    Height = 161
+    Height = 151
     Top = 331
-    Width = 414
+    Width = 556
     Anchors = [akTop, akLeft, akRight, akBottom]
     BorderSpacing.Top = 10
     BorderSpacing.Around = 6
@@ -158,13 +159,13 @@ object fmUnprinted: TfmUnprinted
     OnChange = chkWrapsChange
   end
   object PanelBtns: TPanel
-    Left = 426
-    Height = 498
+    Left = 353
+    Height = 256
     Top = 0
     Width = 215
-    Align = alRight
+    Anchors = [akTop, akRight]
     BevelOuter = bvNone
-    ClientHeight = 498
+    ClientHeight = 256
     ClientWidth = 215
     TabOrder = 14
     object btnApplyToCur: TButton
@@ -216,6 +217,7 @@ object fmUnprinted: TfmUnprinted
       Top = 37
       Width = 203
       Align = alTop
+      AutoSize = True
       BorderSpacing.Around = 6
       Caption = 'Apply globally'
       TabOrder = 1
