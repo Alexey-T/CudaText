@@ -270,8 +270,9 @@ begin
   ini:= TIniFile.Create(fn);
   try
     Caption:= ini.ReadString(section, '_', Caption);
-    with btnApplyToCur do Caption:= msgButtonOk;
-    with btnClose do Caption:= msgButtonCancel;
+    with btnApplyToCur do Caption:= ini.ReadString(section, 'ap_cur', Caption);
+    with btnApplyGlobally do Caption:= ini.ReadString(section, 'ap_glo', Caption);
+    with btnClose do Caption:= msgButtonClose;
     with btnSaveConfig do Caption:= ini.ReadString(section, 'save', Caption);
     with chkVisible do Caption:= ini.ReadString(section, 'vis', Caption);
     with chkShowWhitespace do Caption:= ini.ReadString(section, 'sh_sp', Caption);
