@@ -182,8 +182,8 @@ begin
   EditorOps.OpUnprintedShow:= bUnprintedShow;
   EditorOps.OpUnprintedContent:= SUnprintedContent;
 
-  EditorLastLoadedOps.OpUnprintedShow:= bUnprintedShow;
-  EditorLastLoadedOps.OpUnprintedContent:= SUnprintedContent;
+  EditorCachedOps.OpUnprintedShow:= bUnprintedShow;
+  EditorCachedOps.OpUnprintedContent:= SUnprintedContent;
 
   if Assigned(OnApplyToAll) then
     OnApplyToAll(Self);

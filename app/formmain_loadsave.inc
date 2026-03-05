@@ -1269,7 +1269,7 @@ begin
 
   if FileExists(fn) then
   try
-    EditorLastLoadedOpsId:= fn;
+    EditorCachedOpsId:= fn;
     DoOps_LoadOptions(fn, EditorOps, true);
     DoApplyAllOps;
   finally
@@ -1971,14 +1971,14 @@ begin
     CurLexer:= '-';
 
   SNewLoadedOpsId:= 'lexer:'+CurLexer;
-  if EditorLastLoadedOpsId=SNewLoadedOpsId then //fix issue #4225
+  if EditorCachedOpsId=SNewLoadedOpsId then //fix issue #4225
   begin
-    ApplyOps(EditorLastLoadedOps);
+    ApplyOps(EditorCachedOps);
     exit;
   end;
 
-  EditorLastLoadedOpsId:= SNewLoadedOpsId;
-  EditorLastLoadedOps:= EditorOps;
+  EditorCachedOpsId:= SNewLoadedOpsId;
+  EditorCachedOps:= EditorOps;
 
   FilenameDefault:= AppFile_LexerSpecificConfig(CurLexer, true);
   FilenameUser:= AppFile_LexerSpecificConfig(CurLexer, false);
@@ -1990,19 +1990,19 @@ begin
   begin
     if bExistsDefault then
     begin
-      DoOps_LoadOptions(FilenameDefault, EditorLastLoadedOps, false);
+      DoOps_LoadOptions(FilenameDefault, EditorCachedOps, false);
     end;
 
     if bExistsUser then
     begin
-      DoOps_LoadOptions(FilenameUser, EditorLastLoadedOps, false);
+      DoOps_LoadOptions(FilenameUser, EditorCachedOps, false);
 
       //store 'centering...' options in special way
-      EditorOps_CenteringWidth[CurLexer]:= EditorLastLoadedOps.OpCenteringWidth;
-      EditorOps_CenteringDistFree[CurLexer]:= EditorLastLoadedOps.OpCenteringForDistractionFree;
+      EditorOps_CenteringWidth[CurLexer]:= EditorCachedOps.OpCenteringWidth;
+      EditorOps_CenteringDistFree[CurLexer]:= EditorCachedOps.OpCenteringForDistractionFree;
     end;
 
-    ApplyOps(EditorLastLoadedOps);
+    ApplyOps(EditorCachedOps);
   end;
 end;
 
@@ -2114,7 +2114,7 @@ var
   bDisFree: boolean;
 begin
   bDisFree:= ShowDistractionFree;
-  EditorLastLoadedOpsId:= 'user';
+  EditorCachedOpsId:= 'user';
   DoOps_LoadOptions(AppFile_OptionsUser, EditorOps, true);
   DoApplyAllOps;
 

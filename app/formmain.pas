@@ -3196,7 +3196,7 @@ begin
     FOption_AllowSessionSave,
     FOption_StartupCommand,
     FCmdlineFileCount);
-  EditorLastLoadedOpsId:= 'user';
+  EditorCachedOpsId:= 'user';
   DoOps_LoadOptions(AppFile_OptionsUser, EditorOps, true); //before LoadHistory
   DoFileOpen('', '', nil, '/noevent /noopenedevent /nononeevent'); //before LoadHistory
 

@@ -757,8 +757,8 @@ type
 
 var
   EditorOps: TEditorOps;
-  EditorLastLoadedOps: TEditorOps;
-  EditorLastLoadedOpsId: string;
+  EditorCachedOps: TEditorOps;
+  EditorCachedOpsId: string;
 
 type
   TAppStringIntegerMap = specialize TFPGMap<string, integer>;
