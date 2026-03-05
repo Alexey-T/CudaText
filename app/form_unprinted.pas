@@ -176,20 +176,20 @@ var
   bUnprintedShow: boolean;
   SUnprintedContent: string;
 begin
-  if Assigned(OnApplyToAll) then
-    OnApplyToAll(Self);
-
   bUnprintedShow:= chkVisible.Checked;
   SUnprintedContent:= GetUnprintedContentString;
+
+  EditorOps.OpUnprintedShow:= bUnprintedShow;
+  EditorOps.OpUnprintedContent:= SUnprintedContent;
+
+  if Assigned(OnApplyToAll) then
+    OnApplyToAll(Self);
 
   if Assigned(OnSaveOptionBool) then
     OnSaveOptionBool('/unprinted_show', bUnprintedShow);
 
   if Assigned(OnSaveOptionString) then
     OnSaveOptionString('/unprinted_content', SUnprintedContent);
-
-  EditorOps.OpUnprintedShow:= bUnprintedShow;
-  EditorOps.OpUnprintedContent:= SUnprintedContent;
 end;
 
 procedure TfmUnprinted.btnCloseClick(Sender: TObject);
@@ -234,6 +234,8 @@ begin
 end;
 
 procedure TfmUnprinted.ApplyToEditor(Ed: TATSynEdit);
+var
+  ModOps: TATEditorModifiedOptions;
 begin
   Ed.OptUnprintedVisible:= chkVisible.Checked;
   Ed.OptUnprintedSpaces:= chkShowWhitespace.Checked;
@@ -253,6 +255,15 @@ begin
     ATEditorOptions.UnprintedEndSymbol:= TATEditorUnptintedEolSymbol.ArrowDown
   else
     ATEditorOptions.UnprintedEndSymbol:= TATEditorUnptintedEolSymbol.Dot;
+
+  ModOps:= Ed.ModifiedOptions;
+  Exclude(ModOps, TATEditorModifiedOption.UnprintedVisible);
+  Exclude(ModOps, TATEditorModifiedOption.UnprintedSpaces);
+  Exclude(ModOps, TATEditorModifiedOption.UnprintedTrailingOnly);
+  Exclude(ModOps, TATEditorModifiedOption.UnprintedEnds);
+  Exclude(ModOps, TATEditorModifiedOption.UnprintedEndDetails);
+  Exclude(ModOps, TATEditorModifiedOption.UnprintedWraps);
+  Ed.ModifiedOptions:= ModOps;
 
   Ed.Update;
 end;
