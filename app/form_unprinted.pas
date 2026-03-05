@@ -172,15 +172,24 @@ begin
 end;
 
 procedure TfmUnprinted.btnApplyGloballyClick(Sender: TObject);
+var
+  bUnprintedShow: boolean;
+  SUnprintedContent: string;
 begin
   if Assigned(OnApplyToAll) then
     OnApplyToAll(Self);
 
+  bUnprintedShow:= chkVisible.Checked;
+  SUnprintedContent:= GetConfigValue;
+
   if Assigned(OnSaveOptionBool) then
-    OnSaveOptionBool('/unprinted_show', chkVisible.Checked);
+    OnSaveOptionBool('/unprinted_show', bUnprintedShow);
 
   if Assigned(OnSaveOptionString) then
-    OnSaveOptionString('/unprinted_content', GetConfigValue);
+    OnSaveOptionString('/unprinted_content', SUnprintedContent);
+
+  EditorOps.OpUnprintedShow:= bUnprintedShow;
+  EditorOps.OpUnprintedContent:= SUnprintedContent;
 end;
 
 procedure TfmUnprinted.btnCloseClick(Sender: TObject);
