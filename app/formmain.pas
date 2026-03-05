@@ -10132,11 +10132,8 @@ begin
     Form.chkEndDetails.Checked:= Ed.OptUnprintedEndsDetails;
     Form.chkWraps.Checked:= Ed.OptUnprintedWraps;
 
-    if Form.ShowModal=mrOk then
-    begin
-      Form.ApplyToEditor(Ed);
-      UpdateToolbarButtons(CurrentFrame);
-    end;
+    Form.ShowModal;
+    UpdateToolbarButtons(CurrentFrame);
   finally
     FreeAndNil(Form);
   end;
