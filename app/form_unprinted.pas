@@ -182,6 +182,9 @@ begin
   EditorOps.OpUnprintedShow:= bUnprintedShow;
   EditorOps.OpUnprintedContent:= SUnprintedContent;
 
+  FLastLoadedEditorOps.OpUnprintedShow:= bUnprintedShow;
+  FLastLoadedEditorOps.OpUnprintedContent:= SUnprintedContent;
+
   if Assigned(OnApplyToAll) then
     OnApplyToAll(Self);
 

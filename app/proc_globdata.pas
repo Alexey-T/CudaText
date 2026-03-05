@@ -754,8 +754,10 @@ type
     OpBracketSymbols: UnicodeString;
     OpBracketDistance: integer;
   end;
+
 var
   EditorOps: TEditorOps;
+  FLastLoadedEditorOps: TEditorOps;
 
 type
   TAppStringIntegerMap = specialize TFPGMap<string, integer>;

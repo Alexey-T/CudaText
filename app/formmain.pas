@@ -744,7 +744,6 @@ type
     FLastAppActivate: QWord;
     FLastSaveSessionTick: QWord;
     FLastLoadedConfig: string;
-    FLastLoadedEditorOps: TEditorOps;
     FLastPyMenuFilter: UnicodeString;
     FLastPyMenuHashOfLines: integer;
     FDisableTreeClearing: boolean;
