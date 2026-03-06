@@ -97,12 +97,15 @@ begin
     if Frame.Visible then
     begin
       Frame.Ed1.Update;
-      Frame.Ed2.Update;
+      if Frame.Splitted then
+        Frame.Ed2.Update;
     end;
   end;
 
   EditorOps.OpUnprintedShow:= bShow;
   EditorCachedOps.OpUnprintedShow:= bShow;
+
+  DoOps_SaveOptionBool('/unprinted_show', bShow);
 end;
 
 
