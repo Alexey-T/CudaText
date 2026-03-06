@@ -499,6 +499,7 @@ type
     procedure FrameOnEditorScroll(Sender: TObject);
     procedure FrameOnInitAdapter(Sender: TObject);
     procedure FrameOnChangeSlow(Sender: TObject);
+    procedure FrameOnToggleUnprinted(Sender: TObject);
     procedure FrameParseDone(Sender: TObject; ATime: integer);
     procedure EditorOutput_OnClickDbl(Sender: TObject; var AHandled: boolean);
     procedure EditorOutput_OnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);

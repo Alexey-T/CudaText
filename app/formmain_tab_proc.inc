@@ -13,6 +13,7 @@ begin
   F.OnChangeCaption:= @FrameOnChangeCaption;
   //F.OnChange:= @FrameOnChange; //not needed yet
   F.OnChangeSlow:= @FrameOnChangeSlow;
+  F.OnToggleUnprinted:= @FrameOnToggleUnprinted;
   F.OnUpdateStatusbar:= @FrameOnUpdateStatusbar;
   F.OnUpdateToolbar:= @UpdateToolbarButtons_UndoAndRedo;
   F.OnUpdateState:= @FrameOnUpdateState;

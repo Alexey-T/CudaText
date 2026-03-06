@@ -80,6 +80,34 @@ begin
   end;
 end;
 
+procedure TfmMain.FrameOnToggleUnprinted(Sender: TObject);
+var
+  Frame: TEditorFrame;
+  Ed: TATSynEdit;
+  bShowUnprinted: boolean;
+  i: integer;
+begin
+  Frame:= Sender as TEditorFrame;
+  Ed:= Frame.Editor;
+  bShowUnprinted:= Ed.OptUnprintedVisible;
+
+  for i:= 0 to FrameCount-1 do
+  begin
+    Frame:= Frames[i];
+    Frame.Ed1.OptUnprintedVisible:= bShowUnprinted;
+    Frame.Ed2.OptUnprintedVisible:= bShowUnprinted;
+    if Frame.Visible then
+    begin
+      Frame.Ed1.Update;
+      Frame.Ed2.Update;
+    end;
+  end;
+
+  EditorOps.OpUnprintedShow:= bShowUnprinted;
+  EditorCachedOps.OpUnprintedShow:= bShowUnprinted;
+end;
+
+
 procedure TfmMain.UpdateToolbarButtons_UndoAndRedo(Sender: TObject);
 var
   Ed: TATSynEdit;

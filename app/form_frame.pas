@@ -175,6 +175,7 @@ type
     FOnChangeCaption: TNotifyEvent;
     FOnChange: TNotifyEvent;
     FOnChangeSlow: TNotifyEvent;
+    FOnToggleUnprinted: TNotifyEvent;
     FOnProgress: TATFinderProgress;
     FOnUpdateStatusbar: TAppFrameStatusbarEvent;
     FOnUpdateToolbar: TNotifyEvent;
@@ -546,6 +547,7 @@ type
     property OnChangeCaption: TNotifyEvent read FOnChangeCaption write FOnChangeCaption;
     property OnChange: TNotifyEvent read FOnChange write FOnChange;
     property OnChangeSlow: TNotifyEvent read FOnChangeSlow write FOnChangeSlow;
+    property OnToggleUnprinted: TNotifyEvent read FOnToggleUnprinted write FOnToggleUnprinted;
     property OnUpdateStatusbar: TAppFrameStatusbarEvent read FOnUpdateStatusbar write FOnUpdateStatusbar;
     property OnUpdateToolbar: TNotifyEvent read FOnUpdateToolbar write FOnUpdateToolbar;
     property OnUpdateState: TNotifyEvent read FOnUpdateState write FOnUpdateState;
@@ -2060,7 +2062,6 @@ var
   Ed: TATSynEdit;
   Caret: TATCaretItem;
   bTypedChar: boolean;
-  NValue: integer;
   charW: WideChar;
 begin
   Ed:= Sender as TATSynEdit;
@@ -2104,6 +2105,13 @@ begin
           Dec(FTextCharsTyped);
           CancelAutocompleteAutoshow;
         end;
+        exit;
+      end;
+
+    cCommand_ToggleUnprinted:
+      begin
+        if Assigned(OnToggleUnprinted) then
+          OnToggleUnprinted(Self);
         exit;
       end;
 
