@@ -10095,10 +10095,7 @@ end;
 procedure TfmMain.DoDialogUnprinted(Ed: TATSynEdit);
 var
   Form: TfmUnprinted;
-  Symbol: TATEditorUnptintedEolSymbol;
 begin
-  Symbol:= ATEditorOptions.UnprintedEndSymbol;
-
   Form:= TfmUnprinted.Create(nil);
   try
     EditorApplyTheme(Form.EdPreview);
@@ -10116,7 +10113,10 @@ begin
     Form.chkAlsoInSel.Checked:= Ed.OptUnprintedSpacesAlsoInSelection;
     Form.chkForceShowTabs.Checked:= Ed.OptUnprintedForceTabs;
     Form.chkShowEndMarks.Checked:= Ed.OptUnprintedEnds;
-    case Symbol of
+    Form.chkEndDetails.Checked:= Ed.OptUnprintedEndsDetails;
+    Form.chkWraps.Checked:= Ed.OptUnprintedWraps;
+
+    case ATEditorOptions.UnprintedEndSymbol of
       TATEditorUnptintedEolSymbol.Dot:
         Form.chkEndDot.Checked:= true;
       TATEditorUnptintedEolSymbol.ArrowDown:
@@ -10124,8 +10124,6 @@ begin
       TATEditorUnptintedEolSymbol.Pilcrow:
         Form.chkEndPilcrow.Checked:= true;
     end;
-    Form.chkEndDetails.Checked:= Ed.OptUnprintedEndsDetails;
-    Form.chkWraps.Checked:= Ed.OptUnprintedWraps;
 
     Form.ShowModal;
     UpdateToolbarButtons(CurrentFrame);
