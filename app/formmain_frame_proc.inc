@@ -83,19 +83,17 @@ end;
 procedure TfmMain.FrameOnToggleUnprinted(Sender: TObject);
 var
   Frame: TEditorFrame;
-  Ed: TATSynEdit;
-  bShowUnprinted: boolean;
+  bShow: boolean;
   i: integer;
 begin
   Frame:= Sender as TEditorFrame;
-  Ed:= Frame.Editor;
-  bShowUnprinted:= Ed.OptUnprintedVisible;
+  bShow:= Frame.Editor.OptUnprintedVisible;
 
   for i:= 0 to FrameCount-1 do
   begin
     Frame:= Frames[i];
-    Frame.Ed1.OptUnprintedVisible:= bShowUnprinted;
-    Frame.Ed2.OptUnprintedVisible:= bShowUnprinted;
+    Frame.Ed1.OptUnprintedVisible:= bShow;
+    Frame.Ed2.OptUnprintedVisible:= bShow;
     if Frame.Visible then
     begin
       Frame.Ed1.Update;
@@ -103,8 +101,8 @@ begin
     end;
   end;
 
-  EditorOps.OpUnprintedShow:= bShowUnprinted;
-  EditorCachedOps.OpUnprintedShow:= bShowUnprinted;
+  EditorOps.OpUnprintedShow:= bShow;
+  EditorCachedOps.OpUnprintedShow:= bShow;
 end;
 
 
