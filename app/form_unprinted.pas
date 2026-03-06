@@ -178,10 +178,8 @@ var
 begin
   bUnprintedShow:= chkVisible.Checked;
   SUnprintedContent:= GetUnprintedContentString;
-
   EditorOps.OpUnprintedShow:= bUnprintedShow;
   EditorOps.OpUnprintedContent:= SUnprintedContent;
-
   EditorCachedOps.OpUnprintedShow:= bUnprintedShow;
   EditorCachedOps.OpUnprintedContent:= SUnprintedContent;
 
@@ -238,16 +236,10 @@ end;
 
 procedure TfmUnprinted.ApplyToEditor(Ed: TATSynEdit);
 var
-  //bUnprintedShow: boolean;
   SUnprintedContent: string;
 begin
-  //bUnprintedShow:= chkVisible.Checked;
   SUnprintedContent:= GetUnprintedContentString;
-
-  //EditorOps.OpUnprintedShow:= bUnprintedShow;
   EditorOps.OpUnprintedContent:= SUnprintedContent;
-
-  //EditorCachedOps.OpUnprintedShow:= bUnprintedShow;
   EditorCachedOps.OpUnprintedContent:= SUnprintedContent;
 
   Ed.OptUnprintedVisible:= chkVisible.Checked;
