@@ -156,16 +156,12 @@ cCommand_ToggleOverwrite = 300
 cCommand_ToggleReadOnly = 301
 cCommand_ToggleWordWrap = 302
 cCommand_ToggleUnprinted = 303
-cCommand_ToggleUnprintedSpaces = 304
-cCommand_ToggleUnprintedEnds = 305
-cCommand_ToggleUnprintedEndDetails = 306
 cCommand_ToggleLineNums = 307
 cCommand_ToggleFolding = 308
 cCommand_ToggleRuler = 309
 cCommand_ToggleMinimap = 310
 cCommand_ToggleMicromap = 311
 cCommand_ToggleWordWrapAlt = 312
-cCommand_ToggleUnprintedSpacesTrailing = 320
 
 cCommand_Sort_Asc        = 330
 cCommand_Sort_AscNoCase  = 331

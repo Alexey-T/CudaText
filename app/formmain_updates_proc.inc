@@ -931,10 +931,6 @@ begin
     cCommand_ToggleMinimap : DoSave(mi, mnuViewMinimap_Alt);
     cCommand_ToggleMicromap : DoSave(mi, mnuViewMicromap_Alt);
     cCommand_ToggleUnprinted : DoSave(mi, mnuViewUnpriShow_Alt);
-    cCommand_ToggleUnprintedSpaces : DoSave(mi, mnuViewUnpriSpaces_Alt);
-    cCommand_ToggleUnprintedSpacesTrailing : DoSave(mi, mnuViewUnpriSpacesTail_Alt);
-    cCommand_ToggleUnprintedEnds : DoSave(mi, mnuViewUnpriEnds_Alt);
-    cCommand_ToggleUnprintedEndDetails : DoSave(mi, mnuViewUnpriEndsDet_Alt);
 
     cmd_SplitTabNo: DoSave(mi, mnuSplitNo_Alt);
     cmd_SplitTabVert: DoSave(mi, mnuSplitV_Alt);
