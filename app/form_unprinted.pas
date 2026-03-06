@@ -105,7 +105,7 @@ begin
   EdPreview.OptMinimapVisible:= false;
   EdPreview.OptMicromapVisible:= false;
   EdPreview.OptWrapMode:= TATEditorWrapMode.ModeOn;
-  EdPreview.OptScrollStyleVert:= TATEditorScrollbarStyle.Hide;
+  EdPreview.OptScrollStyleVert:= TATEditorScrollbarStyle.Auto;
   EdPreview.Show;
 
   with EdPreview.Strings do
