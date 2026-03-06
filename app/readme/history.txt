@@ -6,7 +6,7 @@
 1.233.1 (2026/03)
 
 * change/add: dialog "Unprinted chars" reworked: added buttons "Apply to current tab", "Apply to all tabs", "Apply globally" (idea by @veksha)
-* change: command 'toggle show unprinted chars' now affects all ui-tabs + in-memory global option, so it affects future opened ui-tabs (idea by @veksha)
+* change: command 'toggle show unprinted chars' now affects all ui-tabs + affects in-memory global option + saves to user.json (idea by @veksha)
 * change: deleted 4 of 5 'toggle unprinted chars xxxxx' commands from Command Palette
 - fix: bug visible in Breadcrumbs plugin: if "font_size" is rather big, editing of the Breadcrumbs's filter-field shows empty field (thanks @veksha)
 
