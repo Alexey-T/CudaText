@@ -7,5 +7,5 @@ homepage=https://github.com/Artem3213212/cuda_multi_installer
 
 [item2]
 section=commands
-caption=Multi Installer
+caption=Multi Installer...
 method=open_menu
