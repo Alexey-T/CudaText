@@ -1369,7 +1369,8 @@ begin
 
     //must set Form.ActiveControl even for not yet visible form
     if Form.Enabled then
-      Form.ActiveControl:= C;
+      if C.Enabled then
+        Form.ActiveControl:= C;
 
     if Form.Visible and Form.Enabled then
       if C.CanFocus then
