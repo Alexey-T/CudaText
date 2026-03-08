@@ -3,7 +3,7 @@ title=Multi Installer
 desc=Suggests to install add-ons for several popular languages
 type=cudatext-plugin
 subdir=cuda_multi_installer
-homepage=https://github.com/Artem3213212/cuda_multi_installer
+homepage=
 
 [item2]
 section=commands
