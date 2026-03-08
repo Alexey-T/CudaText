@@ -2193,22 +2193,18 @@ end;
 
 
 procedure DoForm_FocusControl(F: TForm; C: TControl);
-var
-  WndCtl: TWinControl;
 begin
   if F.Enabled
     //and F.Visible //don't check Visible, DLG_CTL_FOCUS is called for modal form before form is shown
     and C.Enabled
     and C.Visible then
-    try
+    begin
       C:= DoControl_Target(C);
       if C is TWinControl then
-      begin
-        WndCtl:= C as TWinControl;
-        F.ActiveControl:= WndCtl;
-        EditorFocus(WndCtl); //needed mostly for TATSynEdit control
+      try
+        F.ActiveControl:= C as TWinControl;
+      except
       end;
-    except
     end;
 end;
 
