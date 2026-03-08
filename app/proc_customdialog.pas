@@ -2193,28 +2193,23 @@ end;
 
 
 procedure DoForm_FocusControl(F: TForm; C: TControl);
+var
+  WndCtl: TWinControl;
 begin
   if F.Enabled
     //and F.Visible //don't check Visible, DLG_CTL_FOCUS is called for modal form before form is shown
     and C.Enabled
     and C.Visible then
     try
+      C:= DoControl_Target(C);
       if C is TWinControl then
-        EditorFocus(DoControl_Target(C) as TWinControl);
+      begin
+        WndCtl:= C as TWinControl;
+        F.ActiveControl:= WndCtl;
+        EditorFocus(WndCtl); //needed mostly for TATSynEdit control
+      end;
     except
     end;
-    {
-    else
-    if C is TWinControl then
-    begin
-      if TWinControl(C).CanFocus then
-      try
-        F.ActiveControl:= DoControl_Target(C) as TWinControl;
-      except
-        //suppress Pascal exception in Py API
-      end;
-    end;
-    }
 end;
 
 procedure DoForm_ScaleAuto(F: TForm; ASimpleResize: boolean=false);
