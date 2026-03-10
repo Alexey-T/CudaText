@@ -7,6 +7,5 @@ homepage=https://github.com/halfbrained/cuda_prefs
 
 [item10]
 section=commands
-caption=Options Editor Lite
+caption=Options Editor Lite...
 method=dlg_cuda_options
-;menu=0
