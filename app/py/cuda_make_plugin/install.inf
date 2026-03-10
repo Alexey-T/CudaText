@@ -6,6 +6,6 @@ subdir=cuda_make_plugin
 
 [item1]
 section=commands
-caption=Make Plugin
+caption=Make Plugin...
 method=run
 
