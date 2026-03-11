@@ -227,6 +227,9 @@ uses
   ec_syntax_format,
   math;
 
+const
+  EditorQuoteChars: UnicodeString = '"''`“‘';
+
 procedure EditorApplyOps(Ed: TATSynEdit; const Op: TEditorOps;
   AApplyUnprintedAndWrap, AApplyTabSize, AApplyCentering: boolean);
 var
@@ -1226,25 +1229,36 @@ function EditorAutoCloseBracket_NeedPair(Ed: TATSynEdit; Caret: TATCaretItem; AQ
 var
   NPos: integer;
   Str: UnicodeString;
+  CharPrev, CharNext: WideChar;
 begin
   Result:= true;
   NPos:= Caret.PosX;
   Str:= Ed.Strings.Lines[Caret.PosY];
+  CharPrev:= #0;
+  CharNext:= #0;
 
   if (NPos>=1) and (NPos<=Length(Str)) then
   begin
-    //bad context: caret after a backslash
-    if (Str[NPos]='\') then
+    CharPrev:= Str[NPos];
+    if NPos+1<=Length(Str) then
+      CharNext:= Str[NPos+1];
+
+    //bad context: caret after backslash
+    if CharPrev='\' then
+      exit(false);
+
+    //bad context: quote after quote (not after the _same_ quote)
+    if AQuoteChar and (Pos(CharPrev, EditorQuoteChars)>0) then
       exit(false);
 
     //bad context: quote-char is typed after a word-char. issue #3331
-    if AQuoteChar and IsCharWord(Str[NPos], Ed.OptNonWordChars) then
+    if AQuoteChar and IsCharWord(CharPrev, Ed.OptNonWordChars) then
       exit(false);
   end;
 
   //bad context: caret is before a not-allowed symbol char
-  if (NPos<Length(Str)) and
-    not Editor_NextCharAllowed_AutoCloseBracket(Ed, Str[NPos+1]) then
+  if (CharNext<>#0) and
+    not Editor_NextCharAllowed_AutoCloseBracket(Ed, CharNext) then
       exit(false);
 end;
 
@@ -1267,7 +1281,7 @@ begin
   CharEnd:= EditorBracket_GetPairForOpeningBracketOrQuote(CharBegin);
   if CharEnd=#0 then exit;
 
-  bQuoteChar:= Pos(CharBegin, '"''`“‘')>0;
+  bQuoteChar:= Pos(CharBegin, EditorQuoteChars)>0;
 
   St:= Ed.Strings;
   NLineChanged:= St.Count-1;
