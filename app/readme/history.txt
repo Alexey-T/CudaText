@@ -3,6 +3,8 @@
   - fixed
   * changed
 
++ add: improved logic of "auto_close_brackets" when quote-char is typed after the same quote-char (thanks @adoeller)
+
 1.233.1 (2026/03)
 
 * change/add: dialog "Unprinted chars" reworked: added buttons "Apply to current tab", "Apply to all tabs", "Apply globally" (idea by @veksha)
