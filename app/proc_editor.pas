@@ -1225,15 +1225,17 @@ begin
 end;
 
 
-function EditorAutoCloseBracket_NeedPair(Ed: TATSynEdit; Caret: TATCaretItem; AQuoteChar: boolean): boolean;
+function EditorAutoCloseBracket_NeedPair(Ed: TATSynEdit; Caret: TATCaretItem; CharTyped: WideChar): boolean;
 var
   NPos: integer;
   Str: UnicodeString;
   CharPrev, CharNext: WideChar;
+  bQuoteChar: boolean;
 begin
   Result:= true;
   NPos:= Caret.PosX;
   Str:= Ed.Strings.Lines[Caret.PosY];
+  bQuoteChar:= Pos(CharTyped, EditorQuoteChars)>0;
   CharPrev:= #0;
   CharNext:= #0;
 
@@ -1247,12 +1249,12 @@ begin
     if CharPrev='\' then
       exit(false);
 
-    //bad context: quote after quote (not after the _same_ quote)
-    if AQuoteChar and (Pos(CharPrev, EditorQuoteChars)>0) then
+    //bad context: quote after the same quote
+    if bQuoteChar and (CharPrev=CharTyped) then
       exit(false);
 
     //bad context: quote-char is typed after a word-char. issue #3331
-    if AQuoteChar and IsCharWord(CharPrev, Ed.OptNonWordChars) then
+    if bQuoteChar and IsCharWord(CharPrev, Ed.OptNonWordChars) then
       exit(false);
   end;
 
@@ -1269,7 +1271,6 @@ var
   X1, Y1, X2, Y2: integer;
   iCaret, NLineChanged, NLastCaret: integer;
   bSel, bBackwardSel: boolean;
-  bQuoteChar: boolean;
   CharEnd: WideChar;
   Shift, PosAfter: TPoint;
 begin
@@ -1280,8 +1281,6 @@ begin
 
   CharEnd:= EditorBracket_GetPairForOpeningBracketOrQuote(CharBegin);
   if CharEnd=#0 then exit;
-
-  bQuoteChar:= Pos(CharBegin, EditorQuoteChars)>0;
 
   St:= Ed.Strings;
   NLineChanged:= St.Count-1;
@@ -1294,7 +1293,7 @@ begin
     Caret:= Ed.Carets[iCaret];
     if not St.IsIndexValid(Caret.PosY) then Continue;
     if Caret.EndY<0 then
-      if not EditorAutoCloseBracket_NeedPair(Ed, Caret, bQuoteChar) then
+      if not EditorAutoCloseBracket_NeedPair(Ed, Caret, CharBegin) then
         exit;
   end;
 
@@ -1315,7 +1314,7 @@ begin
     St.EnabledCaretsInUndo:= iCaret=NLastCaret;
 
     if not bSel then
-      if not EditorAutoCloseBracket_NeedPair(Ed, Caret, bQuoteChar) then Continue;
+      if not EditorAutoCloseBracket_NeedPair(Ed, Caret, CharBegin) then Continue;
 
     if not bSel then
     begin
