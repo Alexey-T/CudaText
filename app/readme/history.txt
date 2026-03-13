@@ -4,6 +4,7 @@
   * changed
 
 + add: improved logic of "auto_close_brackets" when quote-char is typed after the same quote-char (thanks @adoeller)
+- fix: sometimes, click in different editor did not update statusbar (thanks @archon66498)
 
 1.233.1 (2026/03)
 
