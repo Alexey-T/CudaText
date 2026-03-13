@@ -1898,13 +1898,15 @@ end;
 
 procedure TEditorFrame.EditorOnEnter(Sender: TObject);
 var
-  IsEd2: boolean;
+  bEd2: boolean;
 begin
-  IsEd2:= Sender=Ed2;
-  //if IsEd2<>FActiveSecondaryEd then
+  bEd2:= Sender=Ed2;
+
+  ////should be called for any OnEnter, to fix #6235
+  //if bEd2<>FActiveSecondaryEd then
   begin
-    FActiveSecondaryEd:= IsEd2;
-    DoOnUpdateStatusbar(TAppStatusbarUpdateReason.FocusEnter); //should be called for any TATSynEdit.OnEnter
+    FActiveSecondaryEd:= bEd2;
+    DoOnUpdateStatusbar(TAppStatusbarUpdateReason.FocusEnter);
   end;
 
   if Assigned(FOnFocusEditor) then
