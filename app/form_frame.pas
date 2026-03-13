@@ -1901,10 +1901,10 @@ var
   IsEd2: boolean;
 begin
   IsEd2:= Sender=Ed2;
-  if IsEd2<>FActiveSecondaryEd then
+  //if IsEd2<>FActiveSecondaryEd then
   begin
     FActiveSecondaryEd:= IsEd2;
-    DoOnUpdateStatusbar(TAppStatusbarUpdateReason.FocusEnter);
+    DoOnUpdateStatusbar(TAppStatusbarUpdateReason.FocusEnter); //should be called for any TATSynEdit.OnEnter
   end;
 
   if Assigned(FOnFocusEditor) then
