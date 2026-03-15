@@ -3,8 +3,10 @@
   - fixed
   * changed
 
-+ add: improved logic of "auto_close_brackets" when quote-char is typed after the same quote-char (thanks @adoeller)
-- fix: sometimes, click in different editor did not update statusbar (thanks @archon66498)
+1.233.2 (2026/03)
+
++ add: better logic of "auto_close_brackets" when quote-char is typed after the same quote-char, now like in Sublime (thanks @adoeller)
+- fix: click in the different editor but exactly on the caret position, did not update the statusbar (thanks @archon66498)
 
 1.233.1 (2026/03)
 
@@ -12,7 +14,7 @@
 * change: command 'toggle show unprinted chars' now affects all ui-tabs + affects in-memory global option + saves to user.json (idea by @veksha)
 * change: deleted 4 of 5 'toggle unprinted chars xxxxx' commands from Command Palette
 - fix: bug visible in the Breadcrumbs plugin: if "font_size" is rather big, editing of the Breadcrumbs's filter-field shows empty field (thanks @veksha)
-- fix: crash visible in the Breadcrumb plugin, on popup showing
+- fix: regression: crash visible in the Breadcrumbs plugin, on popup-dialog showing
 - fix: Windows IME: another fix for Korean (report by @mono66985, fix by @rasberryrabbit)
 
 1.233.0 (2026/03)
