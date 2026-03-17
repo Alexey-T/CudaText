@@ -92,10 +92,10 @@ type
     function CaptionToPanelIndex(const ACaption: string): integer;
     function CaptionToButtonIndex(const ACaption: string): integer;
     function CaptionToControlHandle(const ACaption: string): PtrInt;
-    function Add(const ACaption: string; AImageIndex: integer; AHandle: PtrInt; AOnPanelShow: TNotifyEvent): boolean;
-    function AddEmpty(const ACaption: string; AImageIndex: integer; const APythonModule, APythonMethod: string): boolean;
-    function Delete(const ACaption: string): boolean;
-    function SetProp(const ACaption: string; AImageIndex: integer; const AHint: string): boolean;
+    function AddPanel(const ACaption: string; AImageIndex: integer; AHandle: PtrInt; AOnPanelShow: TNotifyEvent): boolean;
+    function AddPanelEmpty(const ACaption: string; AImageIndex: integer; const APythonModule, APythonMethod: string): boolean;
+    function DeletePanel(const ACaption: string): boolean;
+    function SetPanelProps(const ACaption: string; AImageIndex: integer; const AHint: string): boolean;
     procedure UpdateButtons;
     procedure UpdateSplitter;
     function UpdatePanels(const ACaption: string; AndFocus: boolean; ACheckExists: boolean): boolean;
@@ -342,7 +342,7 @@ begin
       Result:= PtrInt(ItemControl);
 end;
 
-function TAppPanelHost.Add(const ACaption: string; AImageIndex: integer;
+function TAppPanelHost.AddPanel(const ACaption: string; AImageIndex: integer;
   AHandle: PtrInt; AOnPanelShow: TNotifyEvent): boolean;
 var
   Panel: TAppPanelItem;
@@ -390,7 +390,7 @@ begin
   Result:= true;
 end;
 
-function TAppPanelHost.AddEmpty(const ACaption: string; AImageIndex: integer;
+function TAppPanelHost.AddPanelEmpty(const ACaption: string; AImageIndex: integer;
   const APythonModule, APythonMethod: string): boolean;
 var
   Panel: TAppPanelItem;
@@ -418,7 +418,7 @@ begin
   Result:= true;
 end;
 
-function TAppPanelHost.Delete(const ACaption: string): boolean;
+function TAppPanelHost.DeletePanel(const ACaption: string): boolean;
 var
   Num, i: integer;
 begin
@@ -441,7 +441,7 @@ begin
   end;
 end;
 
-function TAppPanelHost.SetProp(const ACaption: string; AImageIndex: integer;
+function TAppPanelHost.SetPanelProps(const ACaption: string; AImageIndex: integer;
   const AHint: string): boolean;
 var
   Num: integer;

@@ -5643,7 +5643,7 @@ begin
             Sep.GetItemStr(StrFilename); //icon filename
 
             fmMain.DisableAutoSizing; //fix horizontal twitch of main Groups
-            ok:= AppPanels[TAppPanelId.Side].Add(
+            ok:= AppPanels[TAppPanelId.Side].AddPanel(
               StrCaption,
               fmMain.DoSidebar_FilenameToImageIndex(StrCaption, StrFilename),
               StrToInt64Def(StrIndex, 0),
@@ -5661,14 +5661,14 @@ begin
             Sep.GetItemInt(i, -1); //imageindex
             Sep.GetItemStr(StrIndex); //hint
 
-            ok:= AppPanels[TAppPanelId.Side].SetProp(StrCaption, i, StrIndex);
+            ok:= AppPanels[TAppPanelId.Side].SetPanelProps(StrCaption, i, StrIndex);
             Result:= PyBool_FromLong(Ord(ok));
           end;
 
         APP_PROC_SIDEPANEL_REMOVE:
           begin
             StrCaption:= Str;
-            ok:= AppPanels[TAppPanelId.Side].Delete(StrCaption);
+            ok:= AppPanels[TAppPanelId.Side].DeletePanel(StrCaption);
             Result:= PyBool_FromLong(Ord(ok));
           end;
 
@@ -5722,7 +5722,7 @@ begin
             Sep.GetItemStr(StrFilename); //icon filename
 
             fmMain.DisableAutoSizing; //fix horizontal twitch of main Groups
-            ok:= AppPanels[TAppPanelId.Btm].Add(
+            ok:= AppPanels[TAppPanelId.Btm].AddPanel(
               StrCaption,
               fmMain.DoSidebar_FilenameToImageIndex(StrCaption, StrFilename),
               StrToInt64Def(StrIndex, 0),
@@ -5740,14 +5740,14 @@ begin
             Sep.GetItemInt(i, -1); //imageindex
             Sep.GetItemStr(StrIndex); //hint
 
-            ok:= AppPanels[TAppPanelId.Btm].SetProp(StrCaption, i, StrIndex);
+            ok:= AppPanels[TAppPanelId.Btm].SetPanelProps(StrCaption, i, StrIndex);
             Result:= PyBool_FromLong(Ord(ok));
           end;
 
         APP_PROC_BOTTOMPANEL_REMOVE:
           begin
             StrCaption:= Str;
-            ok:= AppPanels[TAppPanelId.Btm].Delete(StrCaption);
+            ok:= AppPanels[TAppPanelId.Btm].DeletePanel(StrCaption);
             Result:= PyBool_FromLong(Ord(ok));
           end;
 

@@ -219,7 +219,7 @@ begin
             Continue;
         end;
 
-        AppPanels[PanelId].AddEmpty(
+        AppPanels[PanelId].AddPanelEmpty(
           s_caption,
           DoSidebar_FilenameToImageIndex(s_caption, s_icon),
           s_module,
