@@ -5,7 +5,7 @@
 
 1.233.2 (2026/03)
 
-+ add: Project Manager: add context menu item "Delete removed nodes" (by @ildarkhasanshin)
++ add: Project Manager: add context menu item "Remove deleted nodes" (by @ildarkhasanshin)
 - fix: "auto_close_brackets": don't pair the quote-char, when it is typed after the same quote-char, now it's like in Sublime (thanks @adoeller)
 - fix: click in the different editor but exactly on the caret position, did not update the statusbar (thanks @archon66498)
 
