@@ -224,10 +224,10 @@ class Command:
         (_("Add folder..."), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_add_folder", ""),
         (_("Add file..."), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_add_file", ""),
         ("-", "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "", ""),
-        (_("Clear project"), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_clear_project", ""),
+        (_("Clear project..."), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_clear_project", ""),
         ("-", "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "", ""),
         (_("Remove node"), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_remove_node", ""),
-        (_("Remove deleted nodes"), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_remove_deleted_nodes", ""),
+        (_("Remove deleted nodes..."), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_remove_deleted_nodes", ""),
 
         (_("New file..."), "dir", [NODE_DIR], "cuda_project_man.action_new_file", S_CTRL_NAME + "+N"),
         (_("New folder..."), "dir", [NODE_DIR], "cuda_project_man.action_new_directory", "F7"),
@@ -246,7 +246,7 @@ class Command:
         (_("Find in folder..."), "dir", [NODE_DIR], "cuda_project_man.action_find_in_directory", ""),
         ("-", "dir", [NODE_DIR], "", ""),
         (_("Focus in file manager"), "dir", [NODE_DIR], "cuda_project_man.action_focus_in_fileman", ""),
-        (_("Properties..."), "dir", [NODE_DIR], "cuda_project_man.action_get_properties", ""),
+        (_("Properties..."), "dir", [NODE_DIR], "cuda_project_man.action_get_properties", "Alt+Enter"),
 
         (_("Open in default application"), "file", [NODE_FILE], "cuda_project_man.action_open_def", ""),
         ("-", "file", [NODE_FILE], "", ""),
@@ -263,7 +263,7 @@ class Command:
         ("-", "file", [NODE_FILE], "", ""),
         (_("Focus in file manager"), "file", [NODE_FILE], "cuda_project_man.action_focus_in_fileman", ""),
         (_("Set as main file"), "file", [NODE_FILE], "cuda_project_man.action_set_as_main_file", ""),
-        (_("Properties..."), "file", [NODE_FILE], "cuda_project_man.action_get_properties", ""),
+        (_("Properties..."), "file", [NODE_FILE], "cuda_project_man.action_get_properties", "Alt+Enter"),
 
         ("-"   , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "", ""),
         (_("Refresh"), "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_refresh", "F5"),
@@ -1201,6 +1201,9 @@ class Command:
 
     def action_clear_project(self):
 
+        if msg_box(_("Clear project?"), MB_OKCANCEL + MB_ICONWARNING) != ID_OK:
+            return
+
         self.session_forget()
         self.session_delete_all()
         self.project["nodes"].clear()
@@ -1918,6 +1921,9 @@ class Command:
             return False #block key
         elif (data == S_CTRL_API and (id_ctl in (ord('v'), ord('V')))):
             self.action_paste()
+            return False #block key
+        elif (data == 'a' and id_ctl == VK_ENTER):
+            self.action_get_properties()
             return False #block key
 
     def add_current_file(self):
