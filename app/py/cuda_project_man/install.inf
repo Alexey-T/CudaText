@@ -176,6 +176,12 @@ caption=&Project Manager\Context menu\Remove node
 method=contextmenu_remove_node
 menu=0
 
+[item109]
+section=commands
+caption=&Project Manager\Context menu\Remove deleted nodes
+method=contextmenu_remove_deleted_nodes
+menu=0
+
 [item107]
 section=commands
 caption=&Project Manager\Context menu\Clear project
