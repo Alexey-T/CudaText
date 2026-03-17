@@ -33,8 +33,8 @@ type
   public
     ItemCaption: string;
     ItemControl: TCustomControl;
-    ItemPythonModule: string;
-    ItemPythonMethod: string;
+    ItemPyModule: string;
+    ItemPyMethod: string;
     ItemOnShow: TNotifyEvent;
   end;
 
@@ -95,7 +95,7 @@ type
     function AddPanel(const ACaption: string; AImageIndex: integer;
       APanelControl: TCustomControl; AOnPanelShow: TNotifyEvent): boolean;
     function AddPanelEmpty(const ACaption: string; AImageIndex: integer;
-      const APythonModule, APythonMethod: string): boolean;
+      const APyModule, APyMethod: string): boolean;
     function DeletePanel(const ACaption: string): boolean;
     function SetPanelProps(const ACaption: string; AImageIndex: integer; const AHint: string): boolean;
     procedure UpdateButtons;
@@ -368,8 +368,8 @@ begin
   begin
     Panel.ItemCaption:= ACaption;
     Panel.ItemControl:= APanelControl;
-    Panel.ItemPythonModule:= '';
-    Panel.ItemPythonMethod:= '';
+    Panel.ItemPyModule:= '';
+    Panel.ItemPyMethod:= '';
 
     APanelControl.Parent:= PanelGrouper;
     APanelControl.Align:= alClient;
@@ -387,7 +387,7 @@ begin
 end;
 
 function TAppPanelHost.AddPanelEmpty(const ACaption: string; AImageIndex: integer;
-  const APythonModule, APythonMethod: string): boolean;
+  const APyModule, APyMethod: string): boolean;
 var
   Panel: TAppPanelItem;
 begin
@@ -396,8 +396,8 @@ begin
   Panel:= TAppPanelItem.Create;
   Panel.ItemCaption:= ACaption;
   Panel.ItemControl:= nil;
-  Panel.ItemPythonModule:= APythonModule;
-  Panel.ItemPythonMethod:= APythonMethod;
+  Panel.ItemPyModule:= APyModule;
+  Panel.ItemPyMethod:= APyMethod;
   Panels.Add(Panel);
 
   //save module/method to Btn.DataString
@@ -407,7 +407,7 @@ begin
     @HandleRightClick,
     ACaption,
     ACaption,
-    APythonModule+'.'+APythonMethod,
+    APyModule+'.'+APyMethod,
     false);
   UpdateToolbarControls;
 
@@ -517,8 +517,8 @@ begin
               end;
         end
         else
-        if (ItemPythonModule<>'') and (ItemPythonMethod<>'') then
-          OnCommand(ItemPythonModule+'.'+ItemPythonMethod);
+        if (ItemPyModule<>'') and (ItemPyMethod<>'') then
+          OnCommand(ItemPyModule+'.'+ItemPyMethod);
         Break;
       end;
     end;
