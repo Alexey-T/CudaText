@@ -799,6 +799,8 @@ class Command:
         dlg_proc(h, DLG_PROP_SET, prop={
             'w': w_,
             'h': h_,
+            'w_min': 300,
+            'h_min': 150,
             'cap': caption,
             'border': DBORDER_SIZE,
         })
