@@ -33,8 +33,8 @@ type
   public
     ItemCaption: string;
     ItemControl: TCustomControl;
-    ItemModule: string;
-    ItemMethod: string;
+    ItemPythonModule: string;
+    ItemPythonMethod: string;
     ItemOnShow: TNotifyEvent;
   end;
 
@@ -368,8 +368,8 @@ begin
   begin
     Panel.ItemCaption:= ACaption;
     Panel.ItemControl:= APanelControl;
-    Panel.ItemModule:= '';
-    Panel.ItemMethod:= '';
+    Panel.ItemPythonModule:= '';
+    Panel.ItemPythonMethod:= '';
 
     APanelControl.Parent:= PanelGrouper;
     APanelControl.Align:= alClient;
@@ -396,8 +396,8 @@ begin
   Panel:= TAppPanelItem.Create;
   Panel.ItemCaption:= ACaption;
   Panel.ItemControl:= nil;
-  Panel.ItemModule:= APythonModule;
-  Panel.ItemMethod:= APythonMethod;
+  Panel.ItemPythonModule:= APythonModule;
+  Panel.ItemPythonMethod:= APythonMethod;
   Panels.Add(Panel);
 
   //save module/method to Btn.DataString
@@ -517,8 +517,8 @@ begin
               end;
         end
         else
-        if (ItemModule<>'') and (ItemMethod<>'') then
-          OnCommand(ItemModule+'.'+ItemMethod);
+        if (ItemPythonModule<>'') and (ItemPythonMethod<>'') then
+          OnCommand(ItemPythonModule+'.'+ItemPythonMethod);
         Break;
       end;
     end;

@@ -5275,8 +5275,8 @@ begin
       if NPanelIndex>=0 then
       begin
         PanelItem:= TAppPanelItem(APanelHost.Panels[NPanelIndex]);
-        SModule:= PanelItem.ItemModule;
-        SMethod:= PanelItem.ItemMethod;
+        SModule:= PanelItem.ItemPythonModule;
+        SMethod:= PanelItem.ItemPythonMethod;
         NHandle:= Int64(PtrInt(PanelItem.ItemControl));
       end;
 
