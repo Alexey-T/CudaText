@@ -93,7 +93,7 @@ type
     function CaptionToButtonIndex(const ACaption: string): integer;
     function CaptionToControlHandle(const ACaption: string): PtrInt;
     function Add(const ACaption: string; AImageIndex: integer; AHandle: PtrInt; AOnPanelShow: TNotifyEvent): boolean;
-    function AddEmpty(const ACaption: string; AImageIndex: integer; const AModule, AMethod: string): boolean;
+    function AddEmpty(const ACaption: string; AImageIndex: integer; const APythonModule, APythonMethod: string): boolean;
     function Delete(const ACaption: string): boolean;
     function SetProp(const ACaption: string; AImageIndex: integer; const AHint: string): boolean;
     procedure UpdateButtons;
@@ -391,7 +391,7 @@ begin
 end;
 
 function TAppPanelHost.AddEmpty(const ACaption: string; AImageIndex: integer;
-  const AModule, AMethod: string): boolean;
+  const APythonModule, APythonMethod: string): boolean;
 var
   Panel: TAppPanelItem;
 begin
@@ -400,8 +400,8 @@ begin
   Panel:= TAppPanelItem.Create;
   Panel.ItemCaption:= ACaption;
   Panel.ItemControl:= nil;
-  Panel.ItemModule:= AModule;
-  Panel.ItemMethod:= AMethod;
+  Panel.ItemModule:= APythonModule;
+  Panel.ItemMethod:= APythonMethod;
   Panels.Add(Panel);
 
   //save module/method to Btn.DataString
@@ -411,7 +411,7 @@ begin
     @HandleRightClick,
     ACaption,
     ACaption,
-    AModule+'.'+AMethod,
+    APythonModule+'.'+APythonMethod,
     false);
   UpdateToolbarControls;
 
