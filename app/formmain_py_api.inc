@@ -5303,15 +5303,15 @@ end;
 function api_app_proc_AddPanelDialog(const AStr: string; APanelId: TAppPanelId): boolean;
 var
   Sep: TATStringSeparator;
-  StrCaption, StrIndex, StrFilename: string;
+  StrCaption, StrControl, StrIconFilename: string;
   PanelObj: TObject;
 begin
   Sep.Init(AStr);
-  Sep.GetItemStr(StrCaption); //caption
-  Sep.GetItemStr(StrIndex); //handle
-  Sep.GetItemStr(StrFilename); //icon filename
+  Sep.GetItemStr(StrCaption);
+  Sep.GetItemStr(StrControl);
+  Sep.GetItemStr(StrIconFilename);
 
-  PanelObj:= TObject(PtrInt(StrToInt64Def(StrIndex, 0)));
+  PanelObj:= TObject(PtrInt(StrToInt64Def(StrControl, 0)));
   if PanelObj<>nil then
     if not (PanelObj is TCustomControl) then
       exit(false);
@@ -5319,7 +5319,7 @@ begin
   fmMain.DisableAutoSizing; //fix horizontal twitch of main Groups
   Result:= AppPanels[APanelId].AddPanel(
     StrCaption,
-    fmMain.DoSidebar_FilenameToImageIndex(StrCaption, StrFilename),
+    fmMain.DoSidebar_FilenameToImageIndex(StrCaption, StrIconFilename),
     TCustomControl(PanelObj),
     nil
     );
