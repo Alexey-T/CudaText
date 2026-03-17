@@ -800,12 +800,17 @@ class Command:
             'w': w_,
             'h': h_,
             'cap': caption,
-            'border': DBORDER_DIALOG,
+            'border': DBORDER_SIZE,
         })
 
         n = dlg_proc(h, DLG_CTL_ADD, prop='button')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
             'name': 'btn_ok',
+            'a_l': None,
+            'a_t': None,
+            'a_r': ('', ']'),
+            'a_b': ('', ']'), 
+            'sp_a': 6,
             'x': w_-100,
             'y': h_-6-25,
             'w': 100-6,
@@ -818,6 +823,8 @@ class Command:
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
             'name': 'memo_log',
             'val': text,
+            'a_r': ('btn_ok', ']'),
+            'a_b': ('btn_ok', '['), 
             'x': 6,
             'y': 6,
             'w': w_-6*2,
