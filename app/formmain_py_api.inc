@@ -5300,12 +5300,38 @@ begin
   end;
 end;
 
+function api_app_proc_AddPanelDialog(const AStr: string; APanelId: TAppPanelId): boolean;
+var
+  Sep: TATStringSeparator;
+  StrCaption, StrIndex, StrFilename: string;
+  PanelObj: TObject;
+begin
+  Sep.Init(AStr);
+  Sep.GetItemStr(StrCaption); //caption
+  Sep.GetItemStr(StrIndex); //handle
+  Sep.GetItemStr(StrFilename); //icon filename
+
+  PanelObj:= TObject(PtrInt(StrToInt64Def(StrIndex, 0)));
+  if PanelObj<>nil then
+    if not (PanelObj is TCustomControl) then
+      exit(false);
+
+  fmMain.DisableAutoSizing; //fix horizontal twitch of main Groups
+  Result:= AppPanels[APanelId].AddPanel(
+    StrCaption,
+    fmMain.DoSidebar_FilenameToImageIndex(StrCaption, StrFilename),
+    TCustomControl(PanelObj),
+    nil
+    );
+  fmMain.EnableAutoSizing;
+end;
+
 function api_app_proc(Self, Args: PPyObject): PPyObject; cdecl;
 var
   Id, i: integer;
   Ptr: PChar;
   Str, Str1, Str2, Str3: string;
-  StrCaption, StrId, StrFilename, StrCmd, StrIndex: string;
+  StrCaption, StrFilename, StrCmd, StrIndex: string;
   SplitVert, SplitVisible, ok: boolean;
   SplitPos, SplitTotal: integer;
   ClipExData: TATEditorClipboardExData;
@@ -5316,7 +5342,6 @@ var
   Pnt: TPoint;
   Sep: TATStringSeparator;
   SList: TStringList;
-  PanelObj: TObject;
 begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'is:app_proc', @Id, @Ptr)) then
@@ -5638,25 +5663,7 @@ begin
         //-------------------
         APP_PROC_SIDEPANEL_ADD_DIALOG:
           begin
-            Sep.Init(Str);
-            Sep.GetItemStr(StrCaption); //caption
-            Sep.GetItemStr(StrIndex); //handle
-            Sep.GetItemStr(StrFilename); //icon filename
-
-            PanelObj:= TObject(PtrInt(StrToInt64Def(StrIndex, 0)));
-            if (PanelObj<>nil) then
-              if not (PanelObj is TCustomControl) then
-                exit(PyBool_FromLong(0));
-
-            fmMain.DisableAutoSizing; //fix horizontal twitch of main Groups
-            ok:= AppPanels[TAppPanelId.Side].AddPanel(
-              StrCaption,
-              fmMain.DoSidebar_FilenameToImageIndex(StrCaption, StrFilename),
-              TCustomControl(PanelObj),
-              nil
-              );
-            fmMain.EnableAutoSizing;
-
+            ok:= api_app_proc_AddPanelDialog(Str, TAppPanelId.Side);
             Result:= PyBool_FromLong(Ord(ok));
           end;
 
@@ -5722,25 +5729,7 @@ begin
 
         APP_PROC_BOTTOMPANEL_ADD_DIALOG:
           begin
-            Sep.Init(Str);
-            Sep.GetItemStr(StrCaption); //caption
-            Sep.GetItemStr(StrIndex); //handle
-            Sep.GetItemStr(StrFilename); //icon filename
-
-            PanelObj:= TObject(PtrInt(StrToInt64Def(StrIndex, 0)));
-            if (PanelObj<>nil) then
-              if not (PanelObj is TCustomControl) then
-                exit(PyBool_FromLong(0));
-
-            fmMain.DisableAutoSizing; //fix horizontal twitch of main Groups
-            ok:= AppPanels[TAppPanelId.Btm].AddPanel(
-              StrCaption,
-              fmMain.DoSidebar_FilenameToImageIndex(StrCaption, StrFilename),
-              TCustomControl(PanelObj),
-              nil
-              );
-            fmMain.EnableAutoSizing;
-
+            ok:= api_app_proc_AddPanelDialog(Str, TAppPanelId.Btm);
             Result:= PyBool_FromLong(Ord(ok));
           end;
 
