@@ -223,8 +223,11 @@ class Command:
 
         (_("Add folder..."), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_add_folder", ""),
         (_("Add file..."), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_add_file", ""),
+        ("-", "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "", ""),
         (_("Clear project"), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_clear_project", ""),
+        ("-", "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "", ""),
         (_("Remove node"), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_remove_node", ""),
+        (_("Remove deleted nodes"), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_remove_deleted_nodes", ""),
 
         (_("New file..."), "dir", [NODE_DIR], "cuda_project_man.action_new_file", S_CTRL_NAME + "+N"),
         (_("New folder..."), "dir", [NODE_DIR], "cuda_project_man.action_new_directory", "F7"),
@@ -1173,6 +1176,29 @@ class Command:
         if self.project_file_path:
             self.action_save_project_as(self.project_file_path)
 
+    def action_remove_deleted_nodes(self):
+
+        if msg_box(_("Remove deleted nodes?"), MB_OKCANCEL + MB_ICONWARNING) != ID_OK:
+            return
+
+        nodes_deleted = []
+        for node in self.project["nodes"]:
+            path_ = Path(node)
+            if not path_.exists():
+                self.project["nodes"].remove(str(path_))
+                nodes_deleted.append(str(path_))
+
+        if len(nodes_deleted) > 0:
+            msg = ', '.join(nodes_deleted)
+            self.action_refresh()
+
+            if self.project_file_path:
+                self.action_save_project_as(self.project_file_path)
+        else:
+            msg = '-'
+
+        msg_status(_("[Project] Remove deleted nodes: ") + msg)
+
     def action_clear_project(self):
 
         self.session_forget()
@@ -1498,6 +1524,10 @@ class Command:
     def contextmenu_remove_node(self):
         self.init_panel()
         self.action_remove_node()
+
+    def contextmenu_remove_deleted_nodes(self):
+        self.init_panel()
+        self.action_remove_deleted_nodes()
 
     def contextmenu_clear_proj(self):
         self.init_panel()

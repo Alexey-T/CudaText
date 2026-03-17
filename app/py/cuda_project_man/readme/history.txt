@@ -1,3 +1,6 @@
+2026.03.17
++ add command "Remove deleted nodes"
+
 2025.12.04
 + add Enter/Space-key for fold/unfold directories
 
