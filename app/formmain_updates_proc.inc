@@ -1672,11 +1672,11 @@ begin
   ToolbarSideMid.AddButton(cSidebarIconFind, @DoBottom_FindClick, nil, msgPanelSearch_Init, msgPanelSearch_Init, '', false);
   ToolbarSideMid.AddSep;
 
-  AppPanels[TAppPanelId.Side].AddPanel(msgPanelTree_Init, cSidebarIconTree, PtrInt(Pointer(PanelCodeTreeAll)), @DoSidebar_OnShowCodeTree);
+  AppPanels[TAppPanelId.Side].AddPanel(msgPanelTree_Init, cSidebarIconTree, PanelCodeTreeAll, @DoSidebar_OnShowCodeTree);
 
-  AppPanels[TAppPanelId.Btm].AddPanel(msgPanelConsole_Init, cSidebarIconConsole, PtrInt(Pointer(fmConsole)), nil);
-  AppPanels[TAppPanelId.Btm].AddPanel(msgPanelOutput_Init, cSidebarIconOutput, PtrInt(Pointer(fmOutput)), nil);
-  AppPanels[TAppPanelId.Btm].AddPanel(msgPanelValidate_Init, cSidebarIconValidate, PtrInt(Pointer(fmValidate)), nil);
+  AppPanels[TAppPanelId.Btm].AddPanel(msgPanelConsole_Init, cSidebarIconConsole, fmConsole, nil);
+  AppPanels[TAppPanelId.Btm].AddPanel(msgPanelOutput_Init, cSidebarIconOutput, fmOutput, nil);
+  AppPanels[TAppPanelId.Btm].AddPanel(msgPanelValidate_Init, cSidebarIconValidate, fmValidate, nil);
 end;
 
 

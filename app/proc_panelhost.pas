@@ -92,8 +92,10 @@ type
     function CaptionToPanelIndex(const ACaption: string): integer;
     function CaptionToButtonIndex(const ACaption: string): integer;
     function CaptionToControlHandle(const ACaption: string): PtrInt;
-    function AddPanel(const ACaption: string; AImageIndex: integer; AHandle: PtrInt; AOnPanelShow: TNotifyEvent): boolean;
-    function AddPanelEmpty(const ACaption: string; AImageIndex: integer; const APythonModule, APythonMethod: string): boolean;
+    function AddPanel(const ACaption: string; AImageIndex: integer;
+      APanelControl: TCustomControl; AOnPanelShow: TNotifyEvent): boolean;
+    function AddPanelEmpty(const ACaption: string; AImageIndex: integer;
+      const APythonModule, APythonMethod: string): boolean;
     function DeletePanel(const ACaption: string): boolean;
     function SetPanelProps(const ACaption: string; AImageIndex: integer; const AHint: string): boolean;
     procedure UpdateButtons;
@@ -343,13 +345,11 @@ begin
 end;
 
 function TAppPanelHost.AddPanel(const ACaption: string; AImageIndex: integer;
-  AHandle: PtrInt; AOnPanelShow: TNotifyEvent): boolean;
+  APanelControl: TCustomControl; AOnPanelShow: TNotifyEvent): boolean;
 var
   Panel: TAppPanelItem;
   Num: integer;
   bExist: boolean;
-  Obj: TObject;
-  Ctl: TCustomControl;
 begin
   Result:= false;
   Num:= CaptionToPanelIndex(ACaption);
@@ -364,21 +364,17 @@ begin
     Panels.Add(Panel);
   end;
 
-  if AHandle<>0 then
+  if Assigned(APanelControl) then
   begin
-    Obj:= TObject(AHandle);
-    if not (Obj is TCustomControl) then exit;
-    Ctl:= TCustomControl(Obj);
-
     Panel.ItemCaption:= ACaption;
-    Panel.ItemControl:= Ctl;
+    Panel.ItemControl:= APanelControl;
     Panel.ItemModule:= '';
     Panel.ItemMethod:= '';
 
-    Ctl.Parent:= PanelGrouper;
-    Ctl.Align:= alClient;
-    if Ctl is TCustomForm then
-      TCustomForm(Ctl).BorderStyle:= bsNone;
+    APanelControl.Parent:= PanelGrouper;
+    APanelControl.Align:= alClient;
+    if APanelControl is TCustomForm then
+      TCustomForm(APanelControl).BorderStyle:= bsNone;
   end;
 
   if not bExist then

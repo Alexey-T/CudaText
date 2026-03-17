@@ -5316,6 +5316,7 @@ var
   Pnt: TPoint;
   Sep: TATStringSeparator;
   SList: TStringList;
+  PanelObj: TObject;
 begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'is:app_proc', @Id, @Ptr)) then
@@ -5642,11 +5643,16 @@ begin
             Sep.GetItemStr(StrIndex); //handle
             Sep.GetItemStr(StrFilename); //icon filename
 
+            PanelObj:= TObject(PtrInt(StrToInt64Def(StrIndex, 0)));
+            if (PanelObj<>nil) then
+              if not (PanelObj is TCustomControl) then
+                exit(PyBool_FromLong(0));
+
             fmMain.DisableAutoSizing; //fix horizontal twitch of main Groups
             ok:= AppPanels[TAppPanelId.Side].AddPanel(
               StrCaption,
               fmMain.DoSidebar_FilenameToImageIndex(StrCaption, StrFilename),
-              StrToInt64Def(StrIndex, 0),
+              TCustomControl(PanelObj),
               nil
               );
             fmMain.EnableAutoSizing;
@@ -5721,11 +5727,16 @@ begin
             Sep.GetItemStr(StrIndex); //handle
             Sep.GetItemStr(StrFilename); //icon filename
 
+            PanelObj:= TObject(PtrInt(StrToInt64Def(StrIndex, 0)));
+            if (PanelObj<>nil) then
+              if not (PanelObj is TCustomControl) then
+                exit(PyBool_FromLong(0));
+
             fmMain.DisableAutoSizing; //fix horizontal twitch of main Groups
             ok:= AppPanels[TAppPanelId.Btm].AddPanel(
               StrCaption,
               fmMain.DoSidebar_FilenameToImageIndex(StrCaption, StrFilename),
-              StrToInt64Def(StrIndex, 0),
+              TCustomControl(PanelObj),
               nil
               );
             fmMain.EnableAutoSizing;
