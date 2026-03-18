@@ -1,0 +1,13 @@
+Package: cudatext
+Version: 1.233.2.0-1
+Section: editors
+Priority: optional
+Architecture: amd64
+Maintainer: Alexey Torgashin <support@uvviewsoft.com>
+Homepage: https://cudatext.github.io/
+Depends: libgtk-3-0 (>= 3.0.0) | libgtk-3-0t64 (>= 3.0.0), python3 (>= 3.6)
+Installed-Size: 22000
+Description: Text/code editor
+ Text/code editor with lite UI. Syntax highlighting for 300+ languages.
+ Config system in JSON files. Multi-carets and multi-selections.
+ Search and replace with RegEx. Extendable by Python plugins and themes.
