@@ -39,6 +39,11 @@ section=commands
 caption=&Project Manager\New project, &Open folder...
 method=new_project_open_dir
 
+[item11]
+section=commands
+caption=&Project Manager\Delete project (from list of Recent projects)
+method=action_del_project_from_recent_list
+
 [item15]
 section=commands
 caption=&Project Manager\&Go to file...

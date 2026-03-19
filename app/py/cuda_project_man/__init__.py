@@ -217,9 +217,13 @@ class Command:
     menuitems = (
         # item_caption, item_parent, item_types, item_action, item_hotkey
         (_("New project"), "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_new_project", ""),
+        ("-", "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "", ""),
         (_("Open project..."), "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_open_project", ""),
         (_("Recent projects"), "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "collect_recent_projects", ""),
+        ("-", "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "", ""),
         (_("Save project as..."), "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_save_project_as", ""),
+        ("-", "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "", ""),
+        (_("Delete project..."), "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_del_project_from_recent_list", ""),
 
         (_("Add folder..."), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_add_folder", ""),
         (_("Add file..."), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_add_file", ""),
@@ -811,7 +815,7 @@ class Command:
             'a_l': None,
             'a_t': None,
             'a_r': ('', ']'),
-            'a_b': ('', ']'), 
+            'a_b': ('', ']'),
             'sp_a': 6,
             'x': w_-100,
             'y': h_-6-25,
@@ -826,7 +830,7 @@ class Command:
             'name': 'memo_log',
             'val': text,
             'a_r': ('btn_ok', ']'),
-            'a_b': ('btn_ok', '['), 
+            'a_b': ('btn_ok', '['),
             'x': 6,
             'y': 6,
             'w': w_-6*2,
@@ -1206,7 +1210,7 @@ class Command:
         else:
             msg = '-'
 
-        msg_status(_("[Project] Remove deleted nodes: ") + msg)
+        msg_status(_("[Project Manager] Remove deleted nodes: ") + msg)
 
     def action_clear_project(self):
 
@@ -1413,6 +1417,34 @@ class Command:
         self.do_unfold_first()
 
         app_proc(PROC_SIDEPANEL_ACTIVATE, self.title)
+
+    def action_del_project_from_recent_list(self):
+
+        items = list(self.options["recent_projects"])
+        if not items:
+            msg_status(_("[Project Manager] list of Recent projects is empty"))
+            return
+
+        items_nice = [os.path.basename(fn)+'\t'+collapse_filename(str(os.path.dirname(fn))) for fn in items]
+        res = dlg_menu(DMENU_LIST, items_nice, caption=_('Delete project from list of Recent projects'))
+        if res is None:
+            return
+        selected = items[res]
+
+        del items[res]
+        self.options["recent_projects"] = items
+        self.save_options()
+        self.init_panel()
+
+        if str(self.project_file_path) == selected:
+            if os.path.isfile(PROJECT_TEMP_FILENAME):
+                self.action_open_project(PROJECT_TEMP_FILENAME)
+            else:
+                self.action_clear_project()
+            import cudatext_cmd as cmds
+            ed.cmd(cmds.cmd_FileCloseAll)
+
+        msg_status(_("[Project Manager] project deleted from list of Recent projects: ") + os.path.basename(selected))
 
     def open_dir(self, dirname, new_proj=False):
 
