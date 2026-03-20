@@ -293,7 +293,8 @@ const
   PROP_RULER_TEXT         = 164;
   PROP_UNPRINTED_WRAPS    = 165;
   PROP_LEXER_BUSY         = 166;
-  PROP_LINE_SPACE         = 167;
+  PROP_LINE_SPACE1        = 167;
+  PROP_LINE_SPACE2        = 168;
 
   PROP_CORNER_TEXT          = 170;
   PROP_CORNER_COLOR_FONT    = 171;
