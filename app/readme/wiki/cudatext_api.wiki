@@ -2555,6 +2555,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_LINE_TOP: int: index of line visible at the top of editor.
 ** Note: If you set PROP_LINE_TOP immediately after file_open(), it may not work, you need to call app_idle(True) first.
 * PROP_LINE_BOTTOM: int: index of line visible at the bottom of editor (considers word wrap).
+* PROP_LINE_SPACE: 2-tuple of int: line additional spacing, top and bottom (can be negative).
 
 * (deprecated) PROP_SCROLL_VERT: int: approximate vertical scroll position. Index in WrapInfo list, you can read this list via get_wrapinfo().
 * (deprecated) PROP_SCROLL_HORZ: int: approximate horizontal scroll position.
@@ -2769,6 +2770,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 * PROP_LINE_NUMBERS: int: style of line numbers. One of LINENUM_nnn values.
 * PROP_LINE_STATE: 2-tuple: state of the line with given index. 2-tuple (line_index, LINESTATE_nnn).
 * PROP_LINE_STATES_UPDATED: currently supports writing only empty string value, writing it means clearing of "updated" flags for all lines.
+* PROP_LINE_SPACE: 2-tuple of int: line additional spacing, top and bottom (can be negative).
 
 * (deprecated) PROP_SCROLL_VERT: int: approximate vertical scroll position. Index in WrapInfo list, you can read this list via get_wrapinfo().
 * (deprecated) PROP_SCROLL_HORZ: int: approximate horizontal scroll position.
@@ -5326,5 +5328,8 @@ It provides:
 * add: Editor.gap: add param "on_top"
 * delete Editor.lock (use EDACTION_LOCK instead)
 * delete Editor.unlock (use EDACTION_UNLOCK instead)
+
+1.0.478 (app 1.233.2)
+* add: Editor.get_prop/set_prop: PROP_LINE_SPACE
 
 [[Category:CudaText]]
