@@ -4127,6 +4127,9 @@ begin
             Result:= PyBool_FromLong(Ord(bValue));
           end;
 
+        PROP_LINE_SPACE:
+          Result:= Py_BuildValue('(ii)', Ed.OptSpacingTop, Ed.OptSpacingBottom);
+
         PROP_CORNER_TEXT:
           Result:= PyUnicodeFromString(Ed.OptCornerText);
 
@@ -4916,6 +4919,17 @@ begin
 
         PROP_RULER_TEXT:
           Ed.OptRulerText:= Str;
+
+        PROP_LINE_SPACE:
+          begin
+            SSplitByChar(Str, ',', Str1, Str2);
+            N1:= StrToIntDef(Str1, Ed.OptSpacingTop);
+            N2:= StrToIntDef(Str2, Ed.OptSpacingBottom);
+            N1:= Min(Max(N1, -5), 15);
+            N2:= Min(Max(N2, -5), 15);
+            Ed.OptSpacingTop:= N1;
+            Ed.OptSpacingBottom:= N2;
+          end;
 
         PROP_CORNER_TEXT:
           Ed.OptCornerText:= Str;
