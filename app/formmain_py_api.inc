@@ -4925,8 +4925,6 @@ begin
             SSplitByChar(Str, ',', Str1, Str2);
             N1:= StrToIntDef(Str1, Ed.OptSpacingTop);
             N2:= StrToIntDef(Str2, Ed.OptSpacingBottom);
-            N1:= Min(Max(N1, -5), 15);
-            N2:= Min(Max(N2, -5), 15);
             Ed.OptSpacingTop:= N1;
             Ed.OptSpacingBottom:= N2;
           end;
