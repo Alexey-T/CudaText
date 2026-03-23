@@ -220,6 +220,8 @@ class Command:
         (_("Open project..."), "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_open_project", ""),
         (_("Recent projects"), "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "collect_recent_projects", ""),
         (_("Save project as..."), "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_save_project_as", ""),
+        (_("-"), "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "", ""),
+        (_("Project properties..."), "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_project_properties", ""),
 
         (_("Add folder..."), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_add_folder", ""),
         (_("Add file..."), "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_add_file", ""),
@@ -267,8 +269,9 @@ class Command:
 
         ("-"   , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "", ""),
         (_("Refresh"), "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_refresh", "F5"),
-        ("-"   , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "", ""),
         (_("Go to file...")  , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_go_to_file", ""),
+        ("-"   , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "", ""),
+        (_("Project Manager options..."), "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD], "cuda_project_man.action_config", ""),
     )
 
     options = {
@@ -811,7 +814,7 @@ class Command:
             'a_l': None,
             'a_t': None,
             'a_r': ('', ']'),
-            'a_b': ('', ']'), 
+            'a_b': ('', ']'),
             'sp_a': 6,
             'x': w_-100,
             'y': h_-6-25,
@@ -826,7 +829,7 @@ class Command:
             'name': 'memo_log',
             'val': text,
             'a_r': ('btn_ok', ']'),
-            'a_b': ('btn_ok', '['), 
+            'a_b': ('btn_ok', '['),
             'x': 6,
             'y': 6,
             'w': w_-6*2,
