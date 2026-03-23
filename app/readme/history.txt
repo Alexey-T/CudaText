@@ -3,6 +3,9 @@
   - fixed
   * changed
 
+* change: changed order of commands "trim spaces: ...." in the Cmd Palette, and renamed them (idea by @pintassilgo)
+* change: made buttons 'X'/'v' wider in the Console / code-tree (idea by @sl23)
+
 1.233.2 (2026/03)
 
 + add: Project Manager: add context menu item "Remove deleted nodes" (by @ildarkhasanshin)
