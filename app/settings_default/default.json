@@ -146,10 +146,6 @@
   //Note: this option is global, not per-lexer.
   "unicode_proportional": true,
 
-  //If "unicode_proportional":false, sets width (in %) of full-width characters.
-  //Note: this option is global, not per-lexer.
-  "unicode_full_width": 200,
-
   //Horizontal alignment of inter-line gap bitmaps, which are inserted by "Insert Pics" plugin.
   //  -2: Right aligned
   //  -1: Centered

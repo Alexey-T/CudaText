@@ -1310,7 +1310,7 @@ begin
     Screen.HintFont.Size:= ATEditorScaleFont(UiOps.VarFontSize);
 
   ATEditorOptions.CharSizeProportional:= cfg.GetValue('unicode_proportional', ATEditorOptions.CharSizeProportional);
-  ATEditorOptions.CharScaleFullWidth:= cfg.GetValue('unicode_full_width', ATEditorOptions.CharScaleFullWidth);
+  //ATEditorOptions.CharScaleFullWidth:= cfg.GetValue('unicode_full_width', ATEditorOptions.CharScaleFullWidth);
   ATEditorOptions.BookmarksAutoDelete:= cfg.GetValue('auto_delete_bookmarks', ATEditorOptions.BookmarksAutoDelete);
   ATEditorOptions.DebugTiming:= cfg.GetValue('log_timing', ATEditorOptions.DebugTiming);
 

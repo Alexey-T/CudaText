@@ -7,7 +7,7 @@
 
 * change: changed order of commands "trim spaces: ...." in the Cmd Palette, and renamed them (idea by @pintassilgo)
 * change: made buttons 'X'/'v' wider in the Console / code-tree (idea by @sl23)
-* change: changed default of "unicode_full_width" from 190 to 200 to better align 'tables' with CJK text (idea by @zen010101)
+* change: deleted option "unicode_full_width"; its internal value changed from 190 to 200 to better align 'tables' with CJK text (idea by @zen010101)
 
 1.233.2 (2026/03)
 
