@@ -273,6 +273,7 @@ type
     procedure EditorOnClickGap(Sender: TObject; AGapItem: TATGapItem; APos: TPoint);
     procedure EditorOnClickGutter(Sender: TObject; ABand, ALine: integer; var AHandled: boolean);
     procedure EditorOnClickDouble(Sender: TObject; var AHandled: boolean);
+    procedure EditorOnClickBefore(Sender: TObject; AX, AY: integer; var AHandled: boolean);
     procedure EditorOnClickLink(Sender: TObject; const ALink: string);
     procedure EditorOnClickMicroMap(Sender: TObject; AX, AY: integer);
     procedure EditorOnCommand(Sender: TObject; ACmd: integer; AInvoke: TATCommandInvoke; const AText: string; var AHandled: boolean);
@@ -2222,6 +2223,16 @@ begin
   AHandled:= Res.Val=TAppPyEventValue.False;
 end;
 
+procedure TEditorFrame.EditorOnClickBefore(Sender: TObject; AX, AY: integer; var AHandled: boolean);
+var
+  StateString: string;
+  Res: TAppPyEventResult;
+begin
+  StateString:= ConvertShiftStateToString(ConvertKeyboardStateToShiftState);
+  Res:= DoPyEvent(Sender as TATSynEdit, TAppPyEvent.OnClickPre, [AppVariant(AX), AppVariant(AY), AppVariant(StateString)]);
+  AHandled:= Res.Val=TAppPyEventValue.False;
+end;
+
 procedure TEditorFrame.EditorOnClickLink(Sender: TObject; const ALink: string);
 var
   StateString: string;
@@ -2344,6 +2355,7 @@ begin
 
   ed.OnClick:= @EditorOnClick;
   ed.OnClickLink:=@EditorOnClickLink;
+  ed.OnClickBefore:= @EditorOnClickBefore;
   ed.OnClickDouble:= @EditorOnClickDouble;
   ed.OnClickMoveCaret:= @EditorClickMoveCaret;
   ed.OnClickEndSelect:= @EditorClickEndSelect;
