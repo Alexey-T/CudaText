@@ -5332,8 +5332,8 @@ It provides:
 * delete Editor.lock (use EDACTION_LOCK instead)
 * delete Editor.unlock (use EDACTION_UNLOCK instead)
 
-1.0.478 (app 1.233.3)
-* add: on_click_pre
+1.0.478 (app 1.233.4)
+* add: event on_click_pre
 * add: Editor.get_prop/set_prop: PROP_LINE_SPACE1
 * add: Editor.get_prop/set_prop: PROP_LINE_SPACE2
 
