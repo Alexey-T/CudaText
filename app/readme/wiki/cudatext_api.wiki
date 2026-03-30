@@ -69,6 +69,7 @@ Event handlers (Command.on_nnnnn methods) return-value is ignored is many cases,
 
 * <code>on_click(self, ed_self, state)</code>: Called after mouse click on text area. Param "state": same meaning as in on_key.
 * <code>on_click_dbl(self, ed_self, state)</code>: Called after mouse double-click on text area. Param "state": same meaning as in on_key. Method can return False to disable default processing.
+* <code>on_click_pre(self, ed_self, x, y, state)</code>: Called after mouse click on text area, just before removing multi-carets. Params "x", "y": text position of click. Param "state": same meaning as in on_key. Method can return False to disable removing multi-carets.
 * <code>on_click_right(self, ed_self, state)</code>: Called after mouse right-click. Param "state": same meaning as in on_key. Method can return False to disable default processing.
 * <code>on_click_gutter(self, ed_self, state, nline, nband)</code>: Called on mouse click on gutter area. Param "state": same as in on_key. Param "nline": index of editor line. Param "nband": index of gutter band. Method can return False to disable default processing.
 * <code>on_click_gap(self, ed_self, state, nline, ntag, size_x, size_y, pos_x, pos_y)</code>: Called after mouse click on inter-line gap: see <code>Editor.gap()</code>. Param "state": same meaning as in on_key. Other params: properties of clicked gap.
@@ -5331,7 +5332,8 @@ It provides:
 * delete Editor.lock (use EDACTION_LOCK instead)
 * delete Editor.unlock (use EDACTION_UNLOCK instead)
 
-1.0.478 (app 1.233.2)
+1.0.478 (app 1.233.3)
+* add: on_click_pre
 * add: Editor.get_prop/set_prop: PROP_LINE_SPACE1
 * add: Editor.get_prop/set_prop: PROP_LINE_SPACE2
 
