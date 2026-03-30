@@ -5,9 +5,11 @@
 
 1.233.3 (2026/03)
 
++ add: support future feature of LSP Client plugin: Linked Editing Ranges (LSP 3.16) with multi-carets (by @Hanatarou)
 * change: changed order of commands "trim spaces: ...." in the Cmd Palette, and renamed them (idea by @pintassilgo)
 * change: made buttons 'X'/'v' wider in the Console / code-tree (idea by @sl23)
 * change: deleted option "unicode_full_width"; its internal value changed from 190 to 200 to better align 'tables' with CJK text (idea by @zen010101)
+- fix: sometimes Redo may give incorrect selection (thanks @pintassilgo)
 
 1.233.2 (2026/03)
 
