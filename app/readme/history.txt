@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.233.3 (2026/03)
+1.233.4 (2026/03)
 
 + add: support future feature of LSP Client plugin: Linked Editing Ranges (LSP 3.16) with multi-carets (by @Hanatarou)
 * change: changed order of commands "trim spaces: ...." in the Cmd Palette, and renamed them (idea by @pintassilgo)
