@@ -39,11 +39,27 @@ def get_url(url, fn, del_first=False):
     while True:
         try:
             r = requests.get(url, proxies=proxies, verify=opt.verify_https, stream=True, timeout=opt.download_timeout)
+
+            size_all = int(r.headers.get('content-length', 0))
+            size_got = 0
+            percent = 0
+            app.app_proc(app.PROC_PROGRESSBAR, 0)
+            app.msg_status(_('Downloading')+': '+os.path.basename(url))
+            app.app_idle()
+
             with open(fn_temp, 'wb') as f:
-                for chunk in r.iter_content(chunk_size=1024):
+                for chunk in r.iter_content(chunk_size=4*1024):
                     if chunk: # filter out keep-alive new chunks
                         f.write(chunk)
-                        #f.flush() commented by recommendation
+                        size_got += len(chunk)
+                        perc = size_got * 100 // size_all // 4 * 4
+                        if perc != percent:
+                            percent = perc
+                            app.app_proc(app.PROC_PROGRESSBAR, percent)
+                            app.app_idle()
+
+            app.app_proc(app.PROC_PROGRESSBAR, -1)
+            app.app_idle()
 
             if os.path.isfile(fn_temp):
                 if os.path.getsize(fn_temp)==0:
