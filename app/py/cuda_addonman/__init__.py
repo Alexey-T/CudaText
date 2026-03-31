@@ -130,7 +130,7 @@ class Command:
 
     def do_show_links(self):
 
-        msg_status(_('Downloading list...'))
+        # msg_status(_('Downloading list...'))
         items = get_remote_addons_list(opt.ch_def+opt.ch_user)
         msg_status('')
         if not items:
@@ -153,7 +153,7 @@ class Command:
             msg_box(_('Cannot create dir: ')+dir_for_all, MB_OK+MB_ICONERROR)
             return
 
-        msg_status(_('Downloading list...'))
+        # msg_status(_('Downloading list...'))
         items = get_remote_addons_list(opt.ch_def+opt.ch_user)
         msg_status('')
         if not items:
@@ -229,7 +229,7 @@ class Command:
     def do_install_addon(self):
 
         caption = _('Install')
-        msg_status(_('Downloading list...'))
+        # msg_status(_('Downloading list...'))
         items = get_remote_addons_list(opt.ch_def+opt.ch_user)
         msg_status('')
         if not items:
@@ -474,7 +474,7 @@ class Command:
         dir_data = DIR_DATA
         dir_py = DIR_PY
 
-        msg_status(_('Downloading list...'))
+        # msg_status(_('Downloading list...'))
         addons = get_remote_addons_list(opt.ch_def+opt.ch_user)
         msg_status('')
         if not addons:
