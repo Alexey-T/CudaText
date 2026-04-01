@@ -1,4 +1,4 @@
-object SyntAnal20: TLibSyntAnalyzer
+object SyntAnal17: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Comment'
@@ -488,16 +488,16 @@ object SyntAnal20: TLibSyntAnalyzer
     item
       DisplayName = 'CSS style'
       StyleName = 'Sublexer BG'
-      StartExpression = '<style\s+type="text/css"\s*>\s*<!\[CDATA\['
-      EndExpression = '\]\]'
-      SyntAnalyzer = SyntAnal6
+      StartExpression = '<style\s+type="text/css"[^<>/]*?>'
+      EndExpression = '</style>'
+      SyntAnalyzer = SyntAnal7
     end
     item
       DisplayName = 'JS script'
       StyleName = 'Sublexer BG'
       StartExpression = '<script\s+[^>]*?javascript[^>]*?>\s*<!\[CDATA\['
       EndExpression = '\]\]'
-      SyntAnalyzer = SyntAnal9
+      SyntAnalyzer = SyntAnal10
     end>
   SampleText.Strings = (
     '<?xml version="1.0" encoding="utf8" ?>'
