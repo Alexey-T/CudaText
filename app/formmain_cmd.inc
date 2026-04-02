@@ -838,9 +838,12 @@ begin
   case ACommand of
     cCommand_ToggleWordWrap,
     cCommand_ToggleWordWrapAlt,
-    cCommand_ColSelectWithoutKey_On,
-    cCommand_ColSelectWithoutKey_Off,
-    cCommand_ColSelectWithoutKey_Toggle:
+    cCommand_MouseColSelectWithoutKey_On,
+    cCommand_MouseColSelectWithoutKey_Off,
+    cCommand_MouseColSelectWithoutKey_Toggle,
+    cCommand_KeyboardColSelectWithoutKey_On,
+    cCommand_KeyboardColSelectWithoutKey_Off,
+    cCommand_KeyboardColSelectWithoutKey_Toggle:
       begin
         UpdateStatusbar;
         AHandled:= false;

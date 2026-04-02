@@ -61,6 +61,10 @@ cCommand_ColSelectWithoutKey_Toggle = 132
 cCommand_RemoveFirstCaret = 135
 cCommand_RemoveLastCaret = 136
 
+cCommand_KeyboardColSelectWithoutKey_On = 137
+cCommand_KeyboardColSelectWithoutKey_Off = 138
+cCommand_KeyboardColSelectWithoutKey_Toggle = 139
+
 cCommand_TextInsert = 150
 cCommand_TextInsertTabChar = 151
 cCommand_KeyBackspace = 152

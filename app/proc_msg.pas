@@ -95,7 +95,8 @@ const
   msgTitle = 'CudaText'; //no i18n
   msgModifiedString: array[boolean] of string = ('', '*'); //no i18n
   msgLiteLexerSuffix = ' ^'; //no i18n
-  msgStatusbarCellColumnMarks: array[boolean] of string = ('-', '||');
+  msgStatusbarMouseColumnSel: string = 'MouseCol';
+  msgStatusbarKeyboardColumnSel: string = 'KeybrdCol';
   msgStatusbarCellInsOvr: array[boolean] of string = ('Ins', 'Ovr');
   msgStatusbarCellRO: string = 'RO';
 

@@ -321,7 +321,14 @@ begin
   DoStatusbarTextByTag(AStatus, StatusbarTag_InsOvr, S);
 
   //------
-  S:= msgStatusbarCellColumnMarks[Ed.OptMouseColumnSelectionWithoutKey];
+  if Ed.OptMouseColumnSelectionWithoutKey then
+    S:= msgStatusbarMouseColumnSel
+  else
+  if Ed.OptKeyColumnSelectionWithoutKey then
+    S:= msgStatusbarKeyboardColumnSel
+  else
+    S:= '-';
+
   if Ed.ModeReadOnly then
   begin
     S+= ' '+msgStatusbarCellRO;
