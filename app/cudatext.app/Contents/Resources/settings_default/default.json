@@ -1383,7 +1383,7 @@
   //               "-" for normal selection mode,
   //               "MouseCol" for mouse column selection without Alt-key,
   //               "KeybdCol" for keyboard column selection without Alt-key.
-  //             Additionally shows "RO" when document has read-only mode.
+  //    ro     : Shows "RO" when read-only mode is on, otherwise "-".
   //    wrap   : Word-wrap mode.
   //             Shows one of 3 icons: no wrap, wrap at window edge, wrap at fixed margin.
   //    zoom   : Text scale in %.

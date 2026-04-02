@@ -205,6 +205,7 @@ begin
   DoStatusbarHintByTag(StatusbarMain, StatusbarTag_InsOvr, msgStatusbarHintInsOvr);
   DoStatusbarHintByTag(StatusbarMain, StatusbarTag_WrapMode, msgStatusbarHintWrap);
   DoStatusbarHintByTag(StatusbarMain, StatusbarTag_Zoom, msgStatusbarHintZoom);
+  DoStatusbarHintByTag(StatusbarMain, StatusbarTag_ReadOnly, msgStatusbarHintReadOnly);
 end;
 
 procedure TfmMain.UpdateStatusbar_ForFrame(AStatus: TATStatus; F: TEditorFrame);
@@ -329,23 +330,27 @@ begin
   else
     S:= '-';
 
-  if Ed.ModeReadOnly then
-  begin
-    S+= ' '+msgStatusbarCellRO;
-    NFontColor:= GetAppColor(TAppThemeColor.TabMarks);
-    bFontBold:= true;
-  end
-  else
-  begin
-    NFontColor:= clNone;
-    bFontBold:= false;
-  end;
-  DoStatusbarTextByTag(AStatus, StatusbarTag_SelMode, S, NFontColor, bFontBold);
+  DoStatusbarTextByTag(AStatus, StatusbarTag_SelMode, S);
 
   //------
   N:= Ed.OptScaleFont;
   if N=0 then N:= 100;
   DoStatusbarTextByTag(AStatus, StatusbarTag_Zoom, IntToStr(N)+'%');
+
+  //------
+  if Ed.ModeReadOnly then
+  begin
+    S:= msgStatusbarCellReadOnly;
+    NFontColor:= GetAppColor(TAppThemeColor.TabMarks);
+    bFontBold:= true;
+  end
+  else
+  begin
+    S:= '-';
+    NFontColor:= clNone;
+    bFontBold:= false;
+  end;
+  DoStatusbarTextByTag(AStatus, StatusbarTag_ReadOnly, S, NFontColor, bFontBold);
 end;
 
 procedure TfmMain.InitStatusProgress;
@@ -1441,6 +1446,7 @@ begin
       'selmode': begin NTag:= StatusbarTag_SelMode; bHotTrack:= true; end;
       'wrap':    begin NTag:= StatusbarTag_WrapMode; bHotTrack:= true; end;
       'zoom':    begin NTag:= StatusbarTag_Zoom; bHotTrack:= false; end;
+      'ro':      begin NTag:= StatusbarTag_ReadOnly; bHotTrack:= false; end;
       else Continue;
     end;
 

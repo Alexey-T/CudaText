@@ -98,7 +98,7 @@ const
   msgStatusbarCellMouseColumnSel: string = 'MouseCol';
   msgStatusbarCellKeybdColumnSel: string = 'KeybdCol';
   msgStatusbarCellInsOvr: array[boolean] of string = ('Ins', 'Ovr');
-  msgStatusbarCellRO: string = 'RO';
+  msgStatusbarCellReadOnly: string = 'RO';
 
   msgDialogTitleOpen: string = 'Open file';
   msgDialogTitleSaveAs: string = 'Save file as';
@@ -254,11 +254,12 @@ const
   msgStatusbarHintEnc: string = 'File encoding';
   msgStatusbarHintLexer: string = 'Lexer (language)';
   msgStatusbarHintEnds: string = 'End-of-line chars';
-  msgStatusbarHintSelMode: string = 'Mouse/keyboard column selection without Alt-key; Read-only mode';
+  msgStatusbarHintSelMode: string = 'Mouse/keyboard column selection without Alt-key';
   msgStatusbarHintTabSize: string = 'Tabulation width, by space-chars';
   msgStatusbarHintInsOvr: string = 'Insert/Overwrite mode';
   msgStatusbarHintWrap: string = 'Word wrap (off, by window, by fixed margin)';
   msgStatusbarHintZoom: string = 'Zoom value';
+  msgStatusbarHintReadOnly: string = 'Read-only mode';
 
   msgStatusI18nEnglishAfterRestart: string = 'English translation will be applied after program restart';
   msgStatusI18nPluginsMenuAfterRestart: string = 'Translations of Plugins menu and plugin''s dialogs will be applied after program restart';
