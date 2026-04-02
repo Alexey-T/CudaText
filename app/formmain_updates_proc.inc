@@ -322,10 +322,10 @@ begin
 
   //------
   if Ed.OptMouseColumnSelectionWithoutKey then
-    S:= msgStatusbarMouseColumnSel
+    S:= msgStatusbarCellMouseColumnSel
   else
   if Ed.OptKeyColumnSelectionWithoutKey then
-    S:= msgStatusbarKeyboardColumnSel
+    S:= msgStatusbarCellKeybdColumnSel
   else
     S:= '-';
 

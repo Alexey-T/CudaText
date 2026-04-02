@@ -391,6 +391,8 @@ begin
     Sep.GetItemStr(msgStatusbarCellInsOvr[true]);
 
     msgStatusbarCellRO:= ini.ReadString('sta', 'ro', msgStatusbarCellRO);
+    msgStatusbarCellMouseColumnSel:= ini.ReadString('sta', 'clm_m', msgStatusbarCellMouseColumnSel);
+    msgStatusbarCellKeybdColumnSel:= ini.ReadString('sta', 'clm_k', msgStatusbarCellKeybdColumnSel);
 
     msgStatusbarTextLine:= ini.ReadString('sta', '_ln', msgStatusbarTextLine);
     msgStatusbarTextCol:= ini.ReadString('sta', '_col', msgStatusbarTextCol);

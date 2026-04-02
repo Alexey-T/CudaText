@@ -1,5 +1,8 @@
 See http://wiki.freepascal.org/CudaText#How_to_make_translation
 
+2026.04.02
++ [sta] clm_m clm_k
+
 2026.03.05
 + [d_unpri] ap_cur ap_all ap_glo
 * delete [d_unpri] save
