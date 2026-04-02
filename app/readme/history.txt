@@ -7,6 +7,7 @@
 
 + add: support future feature of LSP Client plugin: Linked Editing Ranges (LSP 3.16) with multi-carets (by @Hanatarou)
 + add: in v1.218.0, _keyboard_ column selection mode without Alt-key was removed; now it's re-added, via 3 new commands in the Cmd Palette: "keyboard column selection, without Alt-key: on / off / toggle" (thanks @qwerky who was the only user complained about removing of mode)
++ add: keyboard column selection mode: reuse options "key_home_to_nonspace"/"key_end_to_nonspace" (idea by @qwerky)
 + add: Addons Manager: show progressbar during file downloading
 * change: option "ui_statusbar_panels": removed cell "selmode" from default value
 * change: option "ui_statusbar_panels": added new cell "ro" instead of the showing "RO" in the "selmode" cell
