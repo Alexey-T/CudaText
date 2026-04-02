@@ -8,6 +8,7 @@
 + add: support future feature of LSP Client plugin: Linked Editing Ranges (LSP 3.16) with multi-carets (by @Hanatarou)
 + add: in old versions 2-3 years ago, _keyboard_ column selection mode without Alt-key was removed; now it's re-added, via 3 new commands in the Cmd Palette: "keyboard column selection, without Alt-key: on / off / toggle" (thanks @qwerky who was the only user complained about removing of mode)
 + add: Addons Manager: show progressbar during file downloading
+* change: removed cell "selmode" from default value of "ui_statusbar_panels"
 * change: changed order of commands "trim spaces: ...." in the Cmd Palette, and renamed them (idea by @pintassilgo)
 * change: made buttons 'X'/'v' wider in the Console / code-tree (idea by @sl23)
 * change: deleted option "unicode_full_width"; its internal value changed from 190 to 200 to better align 'tables' with CJK text (idea by @zen010101)
