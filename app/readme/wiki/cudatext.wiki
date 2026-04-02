@@ -1713,13 +1713,17 @@ Statusbar is fully configurable: you can change order/visibility of cells, width
 ** To change mode "Tabulation-key inserts spaces".
 ** 2 items for actions "Convert indentation to spaces", "Convert indentation to tabs" like in Sublime Text.
 * '''Text insert/overwrite mode''', toggled by Ins-key. Shows "Ins" or "Ovr".
-* '''Mouse selection mode''': "-" for normal mode, "||" for column mode (mouse dragging makes column selection even without Alt+ key).
 * '''Message''' from program or plugins (usually it's last auto-sized cell).
-* '''Word-wrapping mode'''. Cell is hidden by default. Shows one of possible 3 modes:
+* '''Word-wrapping mode'''. Cell is hidden by default. Shows one of 3 possible modes:
 ** No wrapping.
 ** Wrapping at window edge.
 ** Wrapping at fixed margin (set it by "margin" option).
-* '''Font zoom value''' in percents. Cell is hidden by default.
+* '''Zoom value'''. Font zooming in percents. Cell is hidden by default.
+* '''Read-only'''. Shows "RO" when editor has read-only mode, otherwise "-". Cell is hidden by default.
+* '''Selection mode''': Cell is hidden by default. Possible strings:
+** "-" for normal selection mode.
+** "MouseCol" for mouse column selection mode (mouse dragging makes column selection even without Alt-key).
+** "KeybdCol" for keyboard column selection mode (Shift+arrows make column selection even without Alt-key).
 
 The cell "carets info" shows value of one of options:
 
