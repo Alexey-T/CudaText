@@ -1379,9 +1379,11 @@
   //    lexer  : Lexer name.
   //    tabsize: Tab-char kind and size.
   //    ins    : Insert/Overwrite mode (toggled by Ins key).
-  //    selmode: Current selection mode.
-  //             Shows "-" for normal selection mode, "||" for column selection mode.
-  //             Additionally shows "RO" when document has read-only state.
+  //    selmode: Special selection mode. Possible strings:
+  //               "-" for normal selection mode,
+  //               "MouseCol" for mouse column selection without Alt-key,
+  //               "KeybdCol" for keyboard column selection without Alt-key.
+  //             Additionally shows "RO" when document has read-only mode.
   //    wrap   : Word-wrap mode.
   //             Shows one of 3 icons: no wrap, wrap at window edge, wrap at fixed margin.
   //    zoom   : Text scale in %.
@@ -1393,7 +1395,7 @@
   //    L: left
   //    R: right
   //    A: auto-sized (width adjusts to text)
-  "ui_statusbar_panels": "caret,C,180|enc,C,125|ends,A,|lexer,C,140|tabsize,A,|selmode,A,|msg,L,",
+  "ui_statusbar_panels": "caret,C,180|enc,C,125|ends,A,|lexer,C,140|tabsize,A,|msg,L,",
 
   //Statusbar message is shown for the specified time, in seconds.
   //After that, message becomes grayed.

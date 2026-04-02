@@ -2310,7 +2310,7 @@ begin
     StatusColSel:= '{sel}x{cols} {_sel}';
     StatusCarets:= '{carets} {_carets}, {sel} {_linesel}';
 
-    StatusPanels:= 'caret,C,180|enc,C,125|ends,A,|lexer,C,140|tabsize,A,|selmode,A,|msg,L,';
+    StatusPanels:= 'caret,C,180|enc,C,125|ends,A,|lexer,C,140|tabsize,A,|msg,L,';
     StatusTime:= 5;
     StatusHeightPercents:= 180;
     StatusHeightMin:= 20;
