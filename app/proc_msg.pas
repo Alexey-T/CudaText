@@ -254,7 +254,7 @@ const
   msgStatusbarHintEnc: string = 'File encoding';
   msgStatusbarHintLexer: string = 'Lexer (language)';
   msgStatusbarHintEnds: string = 'End-of-line chars';
-  msgStatusbarHintSelMode: string = 'Mouse selection mode (normal/column) and Read-Only state';
+  msgStatusbarHintSelMode: string = 'Mouse/keyboard column selection without Alt-key; Read-only mode';
   msgStatusbarHintTabSize: string = 'Tabulation width, by space-chars';
   msgStatusbarHintInsOvr: string = 'Insert/Overwrite mode';
   msgStatusbarHintWrap: string = 'Word wrap (off, by window, by fixed margin)';
