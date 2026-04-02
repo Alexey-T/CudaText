@@ -1,7 +1,7 @@
 See http://wiki.freepascal.org/CudaText#How_to_make_translation
 
 2026.04.02
-+ [sta] clm_m clm_k
++ [sta] clmd
 * change [sta] sel
 
 2026.03.05
