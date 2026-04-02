@@ -2517,8 +2517,8 @@ begin
       end;
     StatusbarTag_SelMode:
       begin
-        with Frame.Editor do
-          OptMouseColumnSelectionWithoutKey:= not OptMouseColumnSelectionWithoutKey;
+        //don't change property, call command, to support macro-recording
+        Frame.Editor.DoCommand(cCommand_MouseColSelectWithoutKey_Toggle, TATCommandInvoke.Hotkey);
         UpdateStatusbar_RealWork;
       end;
     StatusbarTag_WrapMode:
