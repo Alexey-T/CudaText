@@ -1722,8 +1722,8 @@ Statusbar is fully configurable: you can change order/visibility of cells, width
 * '''Read-only'''. Shows "RO" when editor has read-only mode, otherwise "-". Cell is hidden by default.
 * '''Selection mode''': Cell is hidden by default. Possible strings:
 ** "-" for normal selection mode.
-** "MouseCol" for mouse column selection mode (mouse dragging makes column selection even without Alt-key).
-** "KeybdCol" for keyboard column selection mode (Shift+arrows make column selection even without Alt-key).
+** "MouseCol" for mouse column selection mode (mouse dragging makes column selection even without Alt-key). This mode can be toggled using Command Palette commands: "mouse column selection ....."
+** "KeybdCol" for keyboard column selection mode (Shift+arrows make column selection even without Alt-key). This mode can be toggled using Command Palette commands: "keyboard column selection ....."
 
 The cell "carets info" shows value of one of options:
 
