@@ -5,6 +5,7 @@
 
 1.234.0 (2026/04)
 
++ add: new wiki topic "How to open all picture-files in hex mode"
 + add: support future feature of LSP Client plugin: Linked Editing Ranges (LSP 3.16) with multi-carets (by @Hanatarou)
 + add: in v1.218.0, _keyboard_ column selection mode without Alt-key was removed; now it's re-added, via 3 new commands in the Cmd Palette: "keyboard column selection, without Alt-key: on / off / toggle" (thanks @qwerky who was the only user complained about removing of mode)
 + add: keyboard column selection mode: reuse options "key_home_to_nonspace"/"key_end_to_nonspace" (thanks @qwerky)
