@@ -1019,8 +1019,8 @@ begin
   edFind.OptTabSize:= 4;
   edRep.OptTabSize:= 4;
 
-  edFind.OptMicromapScalePerColumn:= TATComboEdit.cInitMicromapScapePerColumn;
-  edRep.OptMicromapScalePerColumn:= TATComboEdit.cInitMicromapScapePerColumn;
+  edFind.OptMicromapScalePerColumn:= TATComboEdit.cInitComboboxScalePerColumn;
+  edRep.OptMicromapScalePerColumn:= TATComboEdit.cInitComboboxScalePerColumn;
 
   edFind.Keymap:= AppKeymapMain;
   edRep.Keymap:= AppKeymapMain;
