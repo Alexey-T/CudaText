@@ -1791,7 +1791,7 @@ In viewer mode, you can click statusbar fields:
 * Encoding field. You can change viewer encoding only in non-Unicode modes.
 * Mode field, to change view mode: Text, Binary, Hex, Unciode, Unicode/Hex.
 
-'''Q: How to open file in viewer?'''
+==How to open file in viewer==
 
 A1: If file is too big, CudaText suggests to use viewer automatically - see screenshot of the helper dialog above. If file is not too big, you can switch from the editor to viewer. You need the plugin CudaExt which gives the Command Palette command: '''"Cuda-Ext: File: Show in hex viewer"'''. After that, you can change viewer-mode via statusbar click: Text / Binary / Hex / etc. To switch back to the editor, use Command Palette command: '''"Cuda-Ext: File: Show in text editor"'''.
 
@@ -1802,6 +1802,77 @@ A3: Start CudaText from Terminal (console) like this:
  cudatext -z=text FileName
  cudatext -z=binary FileName
  cudatext -z=hex FileName
+
+==How to open big files in viewer, without confirmation dialog==
+
+Q: I want to open too big files (e.g. size bigger than 10Mb) using internal text viewer, without asking each time about it.
+
+A: Here is primitive plugin. Adjust the size limit in the Python code.
+
+File <code>py/cuda_big_to_viewer/install.inf</code>
+
+ [info]
+ title=Big Files to Viewer
+ desc=(Fill the description)
+ type=cudatext-plugin
+ subdir=cuda_big_to_viewer
+ homepage=(Fill the GitHub repo URL)
+  
+ [item1]
+ section=events
+ events=on_open_pre
+
+File <code>py/cuda_big_to_viewer/__init__.py</code>
+<syntaxhighlight lang="python">
+import os
+from cudatext import *
+
+BIG_SIZE_IN_MB = 10
+
+class Command:
+
+    def on_open_pre(self, ed_self, filename):
+        nsize = os.path.getsize(filename)
+        if nsize>=BIG_SIZE_IN_MB*1024*1024:
+            file_open(filename, options='/view-text')
+            print('Forced viewer for file: '+filename)
+            return False
+</syntaxhighlight>
+
+==How to open all picture-files in hex mode==
+
+Here is primitive plugin.
+
+File <code>py/cuda_open_images_as_hex/install.inf</code>
+
+ [info]
+ title=Open images in hex mode
+ desc=(Fill the description)
+ type=cudatext-plugin
+ subdir=cuda_open_images_as_hex
+ homepage=(Fill the GitHub repo URL)
+  
+ [item1]
+ section=events
+ events=on_open_pre
+
+File <code>py/cuda_open_images_as_hex/__init__.py</code>
+<syntaxhighlight lang="python">
+import os
+from cudatext import *
+
+IMG_TYPES = 'bmp,png,gif,jpg,jpeg,ico,tga,cur,psd,webp'.split(',')
+
+class Command:
+
+    def on_open_pre(self, ed_self, filename):
+        fn = os.path.basename(filename).lower()
+        for ext in IMG_TYPES:
+            if fn.endswith('.'+ext):
+                file_open(filename, options='/view-hex')
+                print('Forced hex for file: '+filename)
+                return False
+</syntaxhighlight>
 
 =Picture file viewer=
 CudaText has the emdedded picture file viewer. Picture mode is activated for files with several known extensions:
@@ -2973,77 +3044,6 @@ A: This can be solved with an fake lexer. Create file "Cfg.lcf" in the folder "d
 Then set the option in user.json:
 
    "newdoc_lexer": "Cfg",
-
-==How to open big files in text viewer, without confirmation dialog==
-
-Q: I want to open too big files (e.g. size bigger than 10Mb) using internal text viewer, without asking each time about it.
-
-A: Here is primitive plugin. Adjust the size limit in the Python code.
-
-File <code>py/cuda_big_to_viewer/install.inf</code>
-
- [info]
- title=Big Files to Viewer
- desc=(Fill the description)
- type=cudatext-plugin
- subdir=cuda_big_to_viewer
- homepage=(Fill the GitHub repo URL)
-  
- [item1]
- section=events
- events=on_open_pre
-
-File <code>py/cuda_big_to_viewer/__init__.py</code>
-<syntaxhighlight lang="python">
-import os
-from cudatext import *
-
-BIG_SIZE_IN_MB = 10
-
-class Command:
-
-    def on_open_pre(self, ed_self, filename):
-        nsize = os.path.getsize(filename)
-        if nsize>=BIG_SIZE_IN_MB*1024*1024:
-            file_open(filename, options='/view-text')
-            print('Forced viewer for file: '+filename)
-            return False
-</syntaxhighlight>
-
-==How to open all picture-files in hex mode==
-
-Here is primitive plugin.
-
-File <code>py/cuda_open_images_as_hex/install.inf</code>
-
- [info]
- title=Open images in hex mode
- desc=(Fill the description)
- type=cudatext-plugin
- subdir=cuda_open_images_as_hex
- homepage=(Fill the GitHub repo URL)
-  
- [item1]
- section=events
- events=on_open_pre
-
-File <code>py/cuda_open_images_as_hex/__init__.py</code>
-<syntaxhighlight lang="python">
-import os
-from cudatext import *
-
-IMG_TYPES = 'bmp,png,gif,jpg,jpeg,ico,tga,cur,psd,webp'.split(',')
-
-class Command:
-
-    def on_open_pre(self, ed_self, filename):
-        fn = os.path.basename(filename).lower()
-        for ext in IMG_TYPES:
-            if fn.endswith('.'+ext):
-                file_open(filename, options='/view-hex')
-                print('Forced hex for file: '+filename)
-                return False
-</syntaxhighlight>
 
 ==Windows: Auto-completion doesn't work on Chinese system==
 
