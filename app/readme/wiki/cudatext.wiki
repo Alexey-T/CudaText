@@ -3010,6 +3010,41 @@ class Command:
             return False
 </syntaxhighlight>
 
+==How to open all picture-files in hex mode==
+
+Here is primitive plugin.
+
+File <code>py/cuda_open_images_as_hex/install.inf</code>
+
+ [info]
+ title=Open images in hex mode
+ desc=(Fill the description)
+ type=cudatext-plugin
+ subdir=cuda_open_images_as_hex
+ homepage=(Fill the GitHub repo URL)
+  
+ [item1]
+ section=events
+ events=on_open_pre
+
+File <code>py/cuda_open_images_as_hex/__init__.py</code>
+<syntaxhighlight lang="python">
+import os
+from cudatext import *
+
+IMG_TYPES = 'bmp,png,gif,jpg,jpeg,ico,tga,cur,psd,webp'.split(',')
+
+class Command:
+
+    def on_open_pre(self, ed_self, filename):
+        fn = os.path.basename(filename).lower()
+        for ext in IMG_TYPES:
+            if fn.endswith('.'+ext):
+                file_open(filename, options='/view-hex')
+                print('Forced hex for file: '+filename)
+                return False
+</syntaxhighlight>
+
 ==Windows: Auto-completion doesn't work on Chinese system==
 
 Some users have a problem activating auto-completion by Ctrl+Space (default hotkey) on CJK systems.
