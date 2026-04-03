@@ -44,7 +44,7 @@ def get_url(url, fn, del_first=False):
             size_got = 0
             percent = 0
             app.app_proc(app.PROC_PROGRESSBAR, 0)
-            app.msg_status(_('Downloading')+': '+os.path.basename(url))
+            app.msg_status(_('Downloading')+': "'+os.path.basename(url)+'"')
             app.app_idle()
 
             with open(fn_temp, 'wb') as f:
