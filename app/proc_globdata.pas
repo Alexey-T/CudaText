@@ -1894,7 +1894,7 @@ begin
     OpAutocompleteCommitIfSingleItem:= false;
     OpAutocompleteSymbolsAllowedBeforeCaret:= '.:>''"';
 
-    OpUnderlineColorFiles:= '*';
+    OpUnderlineColorFiles:= 'htm,html,css,json,php,svg';
     OpUnderlineColorSize:= 3;
     OpLinks:= true;
     OpLinksRegex:= TATSynEdit.cUrlRegexInitial;

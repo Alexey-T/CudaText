@@ -1464,8 +1464,8 @@
 
   //[View/Web]
   //Underline HTML color codes (like #008080, #0a0) in these file extensions,
-  //comma-separated, without dot. "*" for all files, empty str to disable.
-  "underline_color_files": "*",
+  //comma-separated, without dot. "*" for all files, empty string to disable.
+  "underline_color_files": "htm,html,css,json,php,svg",
 
   //How to paint HTML color codes:
   //  value<10: paint the underline of specified width, in pixels
