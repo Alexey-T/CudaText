@@ -21,17 +21,14 @@ def get_url(url, fn, del_first=False):
         if url.startswith('https://sourceforge.net/projects/'):
             url += '/download?use_mirror='+opt.sf_mirror
 
+    fn_show = os.path.basename(url)
     fn_temp = fn+'.download'
     if os.path.isfile(fn_temp):
         os.remove(fn_temp)
     if del_first and os.path.isfile(fn):
         os.remove(fn)
 
-    if opt.proxy:
-        proxies = { 'http': opt.proxy, 'https': opt.proxy, }
-    else:
-        proxies = None
-    #print('proxy', proxies)
+    proxies = { 'http': opt.proxy, 'https': opt.proxy, } if opt.proxy else None
 
     if not opt.verify_https:
         requests.packages.urllib3.disable_warnings()
@@ -44,19 +41,21 @@ def get_url(url, fn, del_first=False):
             size_got = 0
             percent = 0
             app.app_proc(app.PROC_PROGRESSBAR, 0)
-            app.msg_status(_('Downloading')+': "'+os.path.basename(url)+'"')
-            app.app_idle()
+            if fn_show:
+                app.msg_status(_('Downloading')+': "'+fn_show+'"')
+                app.app_idle()
 
             with open(fn_temp, 'wb') as f:
                 for chunk in r.iter_content(chunk_size=4*1024):
                     if chunk: # filter out keep-alive new chunks
                         f.write(chunk)
                         size_got += len(chunk)
-                        perc = size_got * 100 // max(size_all, 1) // 4 * 4
-                        if perc != percent:
-                            percent = perc
-                            app.app_proc(app.PROC_PROGRESSBAR, percent)
-                            app.app_idle()
+                        if size_all > 0:
+                            perc = size_got * 100 // size_all // 4 * 4
+                            if perc != percent:
+                                percent = perc
+                                app.app_proc(app.PROC_PROGRESSBAR, percent)
+                                app.app_idle()
 
             app.app_proc(app.PROC_PROGRESSBAR, -1)
             app.app_idle()
