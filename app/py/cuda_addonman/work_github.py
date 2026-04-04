@@ -112,7 +112,7 @@ def do_install_from_github():
     fn_inf = os.path.join(tmp, 'addon.inf')
     dir_py = app_path(APP_DIR_PY)
     dir_plugin = ''
-    msg_status(_('Downloading...'))
+    # msg_status(_('Downloading...'))
 
     url_inf = url.replace('http://', 'https://').replace('https://github.com/', 'https://raw.githubusercontent.com/') + '/' + branch + '/install.inf'
     get_url(url_inf, fn_inf, True)

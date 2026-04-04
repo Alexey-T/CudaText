@@ -42,7 +42,7 @@ def get_url(url, fn, del_first=False):
             percent = 0
             app.app_proc(app.PROC_PROGRESSBAR, 0)
             if fn_show:
-                app.msg_status(_('Downloading')+': "'+fn_show+'"')
+                app.msg_status(_('Downloading: ')+(('"'+fn_show+'"') if fn_show else url))
                 app.app_idle()
 
             with open(fn_temp, 'wb') as f:
