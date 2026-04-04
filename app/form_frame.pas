@@ -374,7 +374,7 @@ type
     function GetIsPreview: boolean;
     procedure SetIsPreview(AValue: boolean);
 
-    procedure DoSaveUndo(Ed: TATSynEdit; const AFileName: string);
+    procedure DoSaveUndo(Ed: TATSynEdit);
     procedure DoLoadUndo(Ed: TATSynEdit);
     procedure DoSaveHistory_Caret(Ed: TATSynEdit; c: TAppJsonConfig; const path: UnicodeString);
     procedure RestoreSavedLexer(Ed: TATSynEdit);
@@ -3428,7 +3428,7 @@ begin
 
     UpdateCaptionFromFilename;
 
-    DoSaveUndo(Ed, SFileName);
+    DoSaveUndo(Ed);
     DoPyEvent(Ed, TAppPyEvent.OnSaveAfter, []);
     if Assigned(FOnSaveFile) then
       FOnSaveFile(Ed, SFileName);
@@ -4253,12 +4253,15 @@ begin
   end;
 end;
 
-procedure TEditorFrame.DoSaveUndo(Ed: TATSynEdit; const AFileName: string);
+procedure TEditorFrame.DoSaveUndo(Ed: TATSynEdit);
+var
+  SFileName: string;
 begin
-  if IsFilenameListedInExtensionList(AFileName, UiOps.UndoPersistent) then
+  SFileName:= Ed.FileName;
+  if IsFilenameListedInExtensionList(SFileName, UiOps.UndoPersistent) then
   begin
-    _WriteStringToFileInHiddenDir(AppFile_UndoRedo(AFileName, false), Ed.UndoAsString);
-    _WriteStringToFileInHiddenDir(AppFile_UndoRedo(AFileName, true), Ed.RedoAsString);
+    _WriteStringToFileInHiddenDir(AppFile_UndoRedo(SFileName, false), Ed.UndoAsString);
+    _WriteStringToFileInHiddenDir(AppFile_UndoRedo(SFileName, true), Ed.RedoAsString);
   end;
 end;
 
