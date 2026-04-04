@@ -15,6 +15,7 @@
 * change: changed order of commands "trim spaces: ...." in the Cmd Palette, and renamed them (idea by @pintassilgo)
 * change: made buttons 'X'/'v' wider in the Console / code-tree (idea by @sl23)
 * change: deleted option "unicode_full_width"; its internal value changed from 190 to 200 to better align 'tables' with CJK text (idea by @zen010101)
+* change: deleted menu item "Plugins / Addons Manager / Download all...", instead use the script "download_addons.py" from GitHub repo
 - fix: sometimes Redo may give incorrect selection (thanks @pintassilgo)
 - fix: lexer XML: corrected CSS rule, now it works with modern SVG files, which don't have CDATA construct for CSS blocks
 
