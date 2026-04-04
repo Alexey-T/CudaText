@@ -1193,11 +1193,7 @@ begin
 
   //avoid background hilite for lines with selection
   if bColorizeBack then
-  begin
-    if Sender=nil then
-      raise Exception.Create('Sender=nil in TEditorFrame.EditorOnDrawLine');
     if Ed.Carets.IsLineWithSelection(ALineIndex) then exit;
-  end;
 
   for i:= 1 to Length(AStr)-3 do
   begin
