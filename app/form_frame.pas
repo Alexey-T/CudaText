@@ -1177,7 +1177,7 @@ var
   Ed: TATSynEdit;
   RectLine: TRect;
   NStartPos, i: SizeInt;
-  NLen, NLineWidth, X1, X2, Y: integer;
+  NColorLen, NLineWidth, X1, X2, Y: integer;
   NColor: TColor;
   bColorizeBack, bColorizeInBrackets, bFoundBrackets: boolean;
 begin
@@ -1198,7 +1198,7 @@ begin
   for i:= 1 to Length(AStr)-3 do
   begin
     NColor:= clNone;
-    NLen:= 0;
+    NColorLen:= 0;
     bFoundBrackets:= false;
 
     case AStr[i] of
@@ -1223,8 +1223,8 @@ begin
           //find #rgb, #rrggbb
           if IsCharHexDigit(AStr[i+1]) then
           begin
-            NColor:= TATHtmlColorParserW.ParseTokenRGB(@AStr[i+1], NLen, clNone);
-            Inc(NLen);
+            NColor:= TATHtmlColorParserW.ParseTokenRGB(@AStr[i+1], NColorLen, clNone);
+            Inc(NColorLen);
           end;
         end;
       'r':
@@ -1237,7 +1237,7 @@ begin
             //don't allow word-char before
             if (i>1) and IsCharWord(AStr[i-1], ATEditorOptions.DefaultNonWordChars) then Continue;
 
-            NColor:= TATHtmlColorParserW.ParseFunctionRGB(AStr, i, NLen);
+            NColor:= TATHtmlColorParserW.ParseFunctionRGB(AStr, i, NColorLen);
             bFoundBrackets:= true;
           end;
         end;
@@ -1251,7 +1251,7 @@ begin
             //don't allow word-char before
             if (i>1) and IsCharWord(AStr[i-1], ATEditorOptions.DefaultNonWordChars) then Continue;
 
-            NColor:= TATHtmlColorParserW.ParseFunctionHSL(AStr, i, NLen);
+            NColor:= TATHtmlColorParserW.ParseFunctionHSL(AStr, i, NColorLen);
             bFoundBrackets:= true;
           end;
         end;
@@ -1263,7 +1263,7 @@ begin
       if bColorizeInBrackets and bFoundBrackets then
       begin
         NStartPos:= PosEx('(', AStr, i+2)+1;
-        NLen:= Max(1, NLen-1-(NStartPos-i))
+        NColorLen:= Max(1, NColorLen-1-(NStartPos-i))
       end
       else
         NStartPos:= i;
@@ -1273,8 +1273,8 @@ begin
       else
         X1:= AX;
 
-      if NStartPos-2+NLen<ATEditorMaxFixedArray then
-        X2:= AX+AExtent.Data[NStartPos-2+NLen]
+      if NStartPos-2+NColorLen<ATEditorMaxFixedArray then
+        X2:= AX+AExtent.Data[NStartPos-2+NColorLen]
       else
         X2:= 0;
 
@@ -1289,7 +1289,7 @@ begin
         {$ifdef LCLGtk2}
         C.FillRect(RectLine); //needed only when we use CairoTextOut (ie on gtk2)
         {$endif}
-        CanvasTextOutSimplest(C, RectLine.Left, RectLine.Top, Copy(AStr, NStartPos, NLen));
+        CanvasTextOutSimplest(C, RectLine.Left, RectLine.Top, Copy(AStr, NStartPos, NColorLen));
       end
       else
       begin
