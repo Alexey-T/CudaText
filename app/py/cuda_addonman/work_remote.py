@@ -52,7 +52,7 @@ def get_url(url, fn, del_first=False):
                     if chunk: # filter out keep-alive new chunks
                         f.write(chunk)
                         size_got += len(chunk)
-                        perc = size_got * 100 // size_all // 4 * 4
+                        perc = size_got * 100 // max(size_all, 1) // 4 * 4
                         if perc != percent:
                             percent = perc
                             app.app_proc(app.PROC_PROGRESSBAR, percent)
