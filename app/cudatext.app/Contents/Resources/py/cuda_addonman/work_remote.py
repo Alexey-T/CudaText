@@ -71,9 +71,11 @@ def get_url(url, fn, del_first=False):
         except Exception as e:
             res = app.msg_box(_('Cannot download:\n{}\n{}\n\nRetry?').format(url, str(e)),
                 app.MB_ABORTRETRYIGNORE + app.MB_ICONWARNING)
-            if res==app.ID_IGNORE: return
-            if res==app.ID_ABORT: return False
-            if res==app.ID_CANCEL: return False
+            app.app_proc(app.PROC_PROGRESSBAR, -1)
+            if res==app.ID_IGNORE:
+                return
+            if res in (app.ID_ABORT, app.ID_CANCEL):
+                return False
 
 
 def is_file_html(fn):
