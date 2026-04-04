@@ -8235,7 +8235,7 @@ procedure DoParseOutputLine(const AForm: TAppFormWithEditor;
   out ALine, ACol: integer;
   out AMsg: string);
 var
-  Parts: TRegexParts;
+  Parts: TAppRegexParts;
 begin
   AFilename:= AForm.DefFilename;
   ALine:= -1;

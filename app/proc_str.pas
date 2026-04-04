@@ -48,13 +48,15 @@ function IsLexerListed(const AItem, AItemList: string): boolean;
 function IsFilenameListedInExtensionList(const AFilename, AExtList: string): boolean;
 
 type
-  TRegexParts = array[0..8] of
+  TAppRegexParts = array[0..8] of
     record
       Pos, Len: integer;
       Str: string;
     end;
-function SRegexFindParts(const ARegex, AStr: string; out AParts: TRegexParts): boolean;
+
+function SRegexFindParts(const ARegex, AStr: string; out AParts: TAppRegexParts): boolean;
 function SStringToPythonString(const Str: string; AndQuote: boolean=true): string;
+function SStringHasBinaryChars(const S: string): boolean;
 
 function SMaskFilenameSlashes(const fn: string): string;
 procedure SParseFilenameWithTwoNumbers(var fn: string; out NLine, NColumn: integer);
@@ -68,7 +70,6 @@ function SEscapeRegexSpecialChars(const S: string): string;
 
 function SSimpleHash(const S: string): integer;
 function ConvertMillisecondsToNiceString(const N: QWord): string;
-function SStringHasBinaryChars(const S: string): boolean;
 
 implementation
 
@@ -157,7 +158,7 @@ begin
 end;
 
 
-function SRegexFindParts(const ARegex, AStr: string; out AParts: TRegexParts): boolean;
+function SRegexFindParts(const ARegex, AStr: string; out AParts: TAppRegexParts): boolean;
 var
   Obj: TRegExpr;
   NCount, i: integer;
