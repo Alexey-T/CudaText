@@ -282,7 +282,7 @@ type
     function EditorOnGetToken(Sender: TObject; AX, AY: integer): TATTokenKind;
     procedure EditorOnPaint(Sender: TObject);
     procedure EditorOnEnter(Sender: TObject);
-    procedure EditorOnDrawEditor(Sender: TObject; C: TCanvas; const ARect: TRect);
+    procedure EditorOnDrawEditorBefore(Sender: TObject; C: TCanvas; const ARect: TRect);
     procedure EditorOnDrawLine(Sender: TObject; C: TCanvas; ALineIndex, AX, AY: integer;
       const AStr: UnicodeString; const ACharSize: TATEditorCharSize; constref AExtent: TATIntFixedArray);
     procedure EditorOnDrawRuler(Sender: TObject; C: TCanvas; const ARect: TRect; var AHandled: boolean);
@@ -1171,7 +1171,7 @@ begin
   Result:= UiOps.HtmlBackgroundColorPair[bLight];
 end;
 
-procedure TEditorFrame.EditorOnDrawEditor(Sender: TObject; C: TCanvas; const ARect: TRect);
+procedure TEditorFrame.EditorOnDrawEditorBefore(Sender: TObject; C: TCanvas; const ARect: TRect);
 var
   Ed: TATSynEdit;
 begin
@@ -2383,7 +2383,7 @@ begin
   ed.OnClickGutter:= @EditorOnClickGutter;
   ed.OnCalcBookmarkColor:= @EditorOnCalcBookmarkColor;
   ed.OnDrawBookmarkIcon:= @EditorOnDrawBookmarkIcon;
-  ed.OnDrawEditor:= @EditorOnDrawEditor;
+  ed.OnDrawEditorBefore:= @EditorOnDrawEditorBefore;
   ed.OnDrawLine:= @EditorOnDrawLine;
   ed.OnDrawRuler:= @EditorOnDrawRuler;
   ed.OnKeyDown:= @EditorOnKeyDown;
