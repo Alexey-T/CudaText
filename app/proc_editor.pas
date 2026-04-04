@@ -283,6 +283,9 @@ begin
 
   if not Ed.ModeOneLine then
   begin
+    Ed.OptUnderlineHtmlColor:= Op.OpUnderlineColor;
+    Ed.OptUnderlineHtmlColorSize:= Op.OpUnderlineColorSize;
+
     Ed.OptGutterVisible:= Op.OpGutterShow;
     Ed.OptGutterShowFoldAlways:= Op.OpGutterFoldAlways;
     Ed.OptGutterIcons:= TATEditorGutterIcons(Op.OpGutterFoldIcons);

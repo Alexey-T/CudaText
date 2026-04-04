@@ -1459,7 +1459,7 @@ begin
   Op.OpAutocompleteCommitIfSingleItem:= cfg.GetValue('autocomplete_commit_single_item', Op.OpAutocompleteCommitIfSingleItem);
   Op.OpAutocompleteSymbolsAllowedBeforeCaret:= cfg.GetValue('autocomplete_symbol_chars_allowed', Op.OpAutocompleteSymbolsAllowedBeforeCaret);
 
-  Op.OpUnderlineColorFiles:= cfg.GetValue('underline_color_files', Op.OpUnderlineColorFiles);
+  Op.OpUnderlineColor:= cfg.GetValue('underline_color', Op.OpUnderlineColor);
   Op.OpUnderlineColorSize:= cfg.GetValue('underline_color_size', Op.OpUnderlineColorSize);
 
   Op.OpLinks:= cfg.GetValue('links_hilite', Op.OpLinks);

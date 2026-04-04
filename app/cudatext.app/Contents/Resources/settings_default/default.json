@@ -1463,9 +1463,9 @@
   "ui_lexer_themes": true,
 
   //[View/Web]
-  //Underline HTML color codes (like #008080, #0a0) in these file extensions,
-  //comma-separated, without dot. "*" for all files, empty string to disable.
-  "underline_color_files": "htm,html,css,json,php,svg",
+  //Underline HTML color codes, like #008080 / #0a0 / rgb(100, 0, 50).
+  //Option should be used in lexer-specific config.
+  "underline_color": false,
 
   //How to paint HTML color codes:
   //  value<10: paint the underline of specified width, in pixels

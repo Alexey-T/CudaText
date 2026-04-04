@@ -282,7 +282,6 @@ type
     function EditorOnGetToken(Sender: TObject; AX, AY: integer): TATTokenKind;
     procedure EditorOnPaint(Sender: TObject);
     procedure EditorOnEnter(Sender: TObject);
-    procedure EditorOnDrawEditorBefore(Sender: TObject; C: TCanvas; const ARect: TRect);
     procedure EditorOnDrawLine(Sender: TObject; C: TCanvas; ALineIndex, AX, AY: integer;
       const AStr: UnicodeString; const ACharSize: TATEditorCharSize; constref AExtent: TATIntFixedArray);
     procedure EditorOnDrawRuler(Sender: TObject; C: TCanvas; const ARect: TRect; var AHandled: boolean);
@@ -1171,14 +1170,6 @@ begin
   Result:= UiOps.HtmlBackgroundColorPair[bLight];
 end;
 
-procedure TEditorFrame.EditorOnDrawEditorBefore(Sender: TObject; C: TCanvas; const ARect: TRect);
-var
-  Ed: TATSynEdit;
-begin
-  Ed:= Sender as TATSynEdit;
-  Ed.EventDrawLine_Needed:= IsFilenameListedInExtensionList(Ed.FileName, EditorOps.OpUnderlineColorFiles);
-end;
-
 procedure TEditorFrame.EditorOnDrawLine(Sender: TObject; C: TCanvas;
   ALineIndex, AX, AY: integer; const AStr: UnicodeString; const ACharSize: TATEditorCharSize;
   constref AExtent: TATIntFixedArray);
@@ -1192,7 +1183,7 @@ var
 begin
   if AStr='' then Exit;
   Ed:= Sender as TATSynEdit;
-  if not Ed.EventDrawLine_Needed then Exit;
+  if not Ed.OptUnderlineHtmlColor then Exit;
   if Length(AStr)>ATEditorOptions.MaxLineLenToUnderlineHtmlColors then Exit;
 
   //skip lines in binary files, e.g. *.dll
@@ -1202,7 +1193,7 @@ begin
     if (NCharCode<32) and (NCharCode<>9) then Exit;
   end;
 
-  NLineWidth:= EditorOps.OpUnderlineColorSize;
+  NLineWidth:= Ed.OptUnderlineHtmlColorSize;
   bColorizeBack:= NLineWidth>=10;
   bColorizeInBrackets:= NLineWidth=11;
 
@@ -2383,7 +2374,6 @@ begin
   ed.OnClickGutter:= @EditorOnClickGutter;
   ed.OnCalcBookmarkColor:= @EditorOnCalcBookmarkColor;
   ed.OnDrawBookmarkIcon:= @EditorOnDrawBookmarkIcon;
-  ed.OnDrawEditorBefore:= @EditorOnDrawEditorBefore;
   ed.OnDrawLine:= @EditorOnDrawLine;
   ed.OnDrawRuler:= @EditorOnDrawRuler;
   ed.OnKeyDown:= @EditorOnKeyDown;
