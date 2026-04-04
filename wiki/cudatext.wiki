@@ -2161,7 +2161,7 @@ CudaText can colorize HTML color codes, which have these forms:
 * hsla(0, 100%, 50%, 0.5)
 
 Two options configure this feature:
-* "underline_color_files": Specifies which file extensions are supported by the feature.
+* "underline_color": Boolean option to activate the feature. It should be activated only in lexer-specific configs, not in the "user.json" (to avoid additional parsing of text lines in unrelated lexers).
 * "underline_color_size": Specifies the size of colored block in the editor area. It can be simple underline below the color code, or a background highlighting. Background highlighting can be in 2 variants: for entire text, for the fragment inside brackets.
 
 Screenshot shows all 3 variants in different CudaText windows:
