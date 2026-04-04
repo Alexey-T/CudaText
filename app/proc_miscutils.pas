@@ -1493,7 +1493,8 @@ end;
 
 function ConvertCssColorToTColor(const S: string): TColor;
 var
-  NLen, i: integer;
+  i: SizeInt;
+  NLen: integer;
 begin
   Result:= clNone;
   if Length(S)<4 then exit;

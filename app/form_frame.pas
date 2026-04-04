@@ -282,8 +282,9 @@ type
     function EditorOnGetToken(Sender: TObject; AX, AY: integer): TATTokenKind;
     procedure EditorOnPaint(Sender: TObject);
     procedure EditorOnEnter(Sender: TObject);
+    procedure EditorOnDrawEditor(Sender: TObject; C: TCanvas; const ARect: TRect);
     procedure EditorOnDrawLine(Sender: TObject; C: TCanvas; ALineIndex, AX, AY: integer;
-      const AStr: atString; const ACharSize: TATEditorCharSize; constref AExtent: TATIntFixedArray);
+      const AStr: UnicodeString; const ACharSize: TATEditorCharSize; constref AExtent: TATIntFixedArray);
     procedure EditorOnDrawRuler(Sender: TObject; C: TCanvas; const ARect: TRect; var AHandled: boolean);
     procedure EditorOnCalcBookmarkColor(Sender: TObject; ABookmarkKind: integer; var AColor: TColor);
     procedure EditorOnHotspotEnter(Sender: TObject; AHotspotIndex: integer);
@@ -1170,29 +1171,36 @@ begin
   Result:= UiOps.HtmlBackgroundColorPair[bLight];
 end;
 
+procedure TEditorFrame.EditorOnDrawEditor(Sender: TObject; C: TCanvas; const ARect: TRect);
+var
+  Ed: TATSynEdit;
+begin
+  Ed:= Sender as TATSynEdit;
+  Ed.EventDrawLine_Needed:= IsFilenameListedInExtensionList(Ed.FileName, EditorOps.OpUnderlineColorFiles);
+end;
 
 procedure TEditorFrame.EditorOnDrawLine(Sender: TObject; C: TCanvas;
-  ALineIndex, AX, AY: integer; const AStr: atString; const ACharSize: TATEditorCharSize;
+  ALineIndex, AX, AY: integer; const AStr: UnicodeString; const ACharSize: TATEditorCharSize;
   constref AExtent: TATIntFixedArray);
 var
   Ed: TATSynEdit;
   RectLine: TRect;
-  NLineWidth, X1, X2, Y, NLen, NStartPos: integer;
-  bColorizeBack, bColorizeInBrackets, bFoundBrackets: boolean;
+  NStartPos, i: SizeInt;
+  NLen, NLineWidth, X1, X2, Y, NCharCode: integer;
   NColor: TColor;
-  i: integer;
+  bColorizeBack, bColorizeInBrackets, bFoundBrackets: boolean;
 begin
   if AStr='' then Exit;
-
-  if not IsFilenameListedInExtensionList(FileName, EditorOps.OpUnderlineColorFiles)
-    then exit;
+  Ed:= Sender as TATSynEdit;
+  if not Ed.EventDrawLine_Needed then Exit;
+  if Length(AStr)>ATEditorOptions.MaxLineLenToUnderlineHtmlColors then Exit;
 
   //skip lines in binary files, e.g. *.dll
   for i:= 1 to Length(AStr) do
-    case Ord(AStr[i]) of
-      0..8:
-        exit;
-    end;
+  begin
+    NCharCode:= Ord(AStr[i]);
+    if (NCharCode<32) and (NCharCode<>9) then Exit;
+  end;
 
   NLineWidth:= EditorOps.OpUnderlineColorSize;
   bColorizeBack:= NLineWidth>=10;
@@ -1203,7 +1211,6 @@ begin
   begin
     if Sender=nil then
       raise Exception.Create('Sender=nil in TEditorFrame.EditorOnDrawLine');
-    Ed:= Sender as TATSynEdit;
     if Ed.Carets.IsLineWithSelection(ALineIndex) then exit;
   end;
 
@@ -2376,6 +2383,7 @@ begin
   ed.OnClickGutter:= @EditorOnClickGutter;
   ed.OnCalcBookmarkColor:= @EditorOnCalcBookmarkColor;
   ed.OnDrawBookmarkIcon:= @EditorOnDrawBookmarkIcon;
+  ed.OnDrawEditor:= @EditorOnDrawEditor;
   ed.OnDrawLine:= @EditorOnDrawLine;
   ed.OnDrawRuler:= @EditorOnDrawRuler;
   ed.OnKeyDown:= @EditorOnKeyDown;
