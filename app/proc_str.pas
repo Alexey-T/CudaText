@@ -68,6 +68,7 @@ function SEscapeRegexSpecialChars(const S: string): string;
 
 function SSimpleHash(const S: string): integer;
 function ConvertMillisecondsToNiceString(const N: QWord): string;
+function SStringHasBinaryChars(const S: string): boolean;
 
 implementation
 
@@ -640,6 +641,18 @@ begin
     Result:= IntToStr(N)+'ms';
 end;
 
+function SStringHasBinaryChars(const S: string): boolean;
+var
+  i: SizeInt;
+  N: integer;
+begin
+  for i:= 1 to Length(S) do
+  begin
+    N:= Ord(S[i]);
+    if (N<32) and (N<>9) then Exit(true);
+  end;
+  Result:= false;
+end;
 
 end.
 

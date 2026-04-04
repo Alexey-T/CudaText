@@ -1177,7 +1177,7 @@ var
   Ed: TATSynEdit;
   RectLine: TRect;
   NStartPos, i: SizeInt;
-  NLen, NLineWidth, X1, X2, Y, NCharCode: integer;
+  NLen, NLineWidth, X1, X2, Y: integer;
   NColor: TColor;
   bColorizeBack, bColorizeInBrackets, bFoundBrackets: boolean;
 begin
@@ -1185,13 +1185,7 @@ begin
   Ed:= Sender as TATSynEdit;
   if not Ed.OptUnderlineHtmlColor then Exit;
   if Length(AStr)>ATEditorOptions.MaxLineLenToUnderlineHtmlColors then Exit;
-
-  //skip lines in binary files, e.g. *.dll
-  for i:= 1 to Length(AStr) do
-  begin
-    NCharCode:= Ord(AStr[i]);
-    if (NCharCode<32) and (NCharCode<>9) then Exit;
-  end;
+  if SStringHasBinaryChars(AStr) then Exit;
 
   NLineWidth:= Ed.OptUnderlineHtmlColorSize;
   bColorizeBack:= NLineWidth>=10;
