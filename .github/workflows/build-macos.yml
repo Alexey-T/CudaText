@@ -1,0 +1,277 @@
+name: Build macOS CudaText
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build for ${{ matrix.arch }}
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: macos-15-intel
+            arch: Intel
+            fpc_cpu: x86_64
+            dmg_cpu: amd64
+            fpclazup_bin: fpclazup-x86_64-darwin
+            deployment_target: "10.13"
+          - runner: macos-15
+            arch: Apple-Silicon
+            fpc_cpu: aarch64
+            dmg_cpu: aarch64
+            fpclazup_bin: fpclazup-aarch64-darwin
+            deployment_target: "11.0"
+
+    env:
+      MACOSX_DEPLOYMENT_TARGET: ${{ matrix.deployment_target }}
+
+    steps:
+      # ── 1. Resolve latest CudaText release tag from upstream ──────────
+      - name: Get latest CudaText release tag
+        id: release_tag
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TAG=$(curl -fsSL \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            "https://api.github.com/repos/Alexey-T/CudaText/releases/latest" \
+            | python3 -c "import sys,json; print(json.load(sys.stdin)['tag_name'])")
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "Latest upstream release tag: $TAG"
+
+      # ── 2. Checkout the upstream repo at the latest release tag ───────
+      - name: Checkout upstream at latest release tag
+        uses: actions/checkout@v4
+        with:
+          repository: Alexey-T/CudaText
+          ref: ${{ steps.release_tag.outputs.tag }}
+          path: upstream_src
+          fetch-depth: 1
+
+      # ── 3. Extract CudaText version from source ──────────────────────
+      - name: Get CudaText version
+        id: version
+        run: |
+          VER=$(grep -oE "cAppExeVersion\s*=\s*'[^']+'" upstream_src/app/proc_msg.pas \
+                | grep -oE "[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+" \
+                || echo "unknown")
+          echo "cudatext_version=$VER" >> "$GITHUB_OUTPUT"
+          echo "CudaText version: $VER"
+
+      # ── 4. Resolve latest fpclazup release dynamically ────────────────
+      - name: Get latest fpclazup release tag
+        id: fpclazup_version
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TAG=$(curl -fsSL \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            "https://api.github.com/repos/LongDirtyAnimAlf/Reiniero-fpcup/releases/latest" \
+            | python3 -c "import sys,json; print(json.load(sys.stdin)['tag_name'])")
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "Resolved fpclazup version: $TAG"
+
+      # ── 5. Install FPC + Lazarus via fpclazup ─────────────────────────
+      - name: Install FPC and Lazarus
+        run: |
+          set -euo pipefail
+
+          FPCLAZUP_URL="https://github.com/LongDirtyAnimAlf/Reiniero-fpcup/releases/download/${{ steps.fpclazup_version.outputs.tag }}/${{ matrix.fpclazup_bin }}"
+          echo "Downloading fpclazup from: $FPCLAZUP_URL"
+
+          curl -fSL "$FPCLAZUP_URL" -o fpclazup
+          chmod +x fpclazup
+          xattr -cr fpclazup
+
+          mkdir -p "$HOME/fpc"
+
+          ./fpclazup \
+            --fpcURL="https://gitlab.com/freepascal.org/fpc/source.git" \
+            --fpcBranch=main \
+            --lazURL="https://gitlab.com/freepascal.org/lazarus/lazarus.git" \
+            --lazBranch=main \
+            --installdir="$HOME/fpc" \
+            --skip=lhelp,helpfpc,helplazarus,lazdatadesktop \
+            --noconfirm \
+            --verbose
+
+          echo "── Checking lazbuild ──"
+          "$HOME/fpc/lazarus/lazbuild" --version
+
+          echo "── Checking fpc ──"
+          FPC_BIN=$(find "$HOME/fpc/fpc/bin" -name "fpc" -type f | head -1)
+          echo "FPC binary: $FPC_BIN"
+          "$FPC_BIN" -iV
+
+      # ── 6. Add FPC and Lazarus to PATH ────────────────────────────────
+      - name: Configure PATH
+        run: |
+          echo "$HOME/fpc/lazarus" >> "$GITHUB_PATH"
+          FPC_BIN_DIR=$(dirname "$(find "$HOME/fpc/fpc/bin" -name "fpc" -type f | head -1)")
+          echo "$FPC_BIN_DIR" >> "$GITHUB_PATH"
+          echo "Added to PATH: $FPC_BIN_DIR"
+
+      # ── 7. Clone CudaText build environment ──────────────────────────
+      - name: Clone CudaText_up
+        run: git clone --depth 1 https://github.com/Alexey-T/CudaText_up
+
+      # ── 8. Download all CudaText dependencies ────────────────────────
+      - name: Download CudaText sources and dependencies
+        working-directory: CudaText_up
+        run: ./cudaup.sh -g
+
+      # ── 9. Replace upstream CudaText source with the release checkout ─
+      - name: Swap source with release checkout
+        run: |
+          rm -rf CudaText_up/src/CudaText
+          mv upstream_src CudaText_up/src/CudaText
+
+      # ── 10. Compile for macOS (Cocoa widgetset) ───────────────────────
+      - name: Compile CudaText
+        working-directory: CudaText_up
+        run: |
+          ./cudaup.sh -m \
+            -l "$HOME/fpc/lazarus" \
+            -o darwin \
+            -c ${{ matrix.fpc_cpu }} \
+            -w cocoa
+
+      # ── 11. Install compiled binary into the .app bundle ─────────────
+      - name: Install compiled binary into .app bundle
+        run: |
+          set -euo pipefail
+
+          COMPILED="CudaText_up/bin/darwin-${{ matrix.fpc_cpu }}-cocoa/cudatext"
+          APP_MACOS="CudaText_up/src/CudaText/app/cudatext.app/Contents/MacOS"
+          APP_BIN="$APP_MACOS/cudatext"
+
+          # Fallback search if the expected output path is absent
+          if [ ! -f "$COMPILED" ]; then
+            echo "Binary not at expected path, searching under CudaText_up/bin/ ..."
+            COMPILED=$(find CudaText_up/bin -name "cudatext" -type f 2>/dev/null | head -1 || true)
+          fi
+
+          if [ -z "$COMPILED" ] || [ ! -f "$COMPILED" ]; then
+            echo "::error::Compiled binary not found anywhere under CudaText_up/bin/"
+            find CudaText_up -name "cudatext" 2>/dev/null || true
+            exit 1
+          fi
+
+          COMPILED_SIZE=$(stat -f%z "$COMPILED")
+          echo "Compiled binary: $COMPILED ($COMPILED_SIZE bytes)"
+
+          if [ "$COMPILED_SIZE" -lt 1000000 ]; then
+            echo "::error::Compiled binary is suspiciously small ($COMPILED_SIZE bytes)"
+            exit 1
+          fi
+
+          mkdir -p "$APP_MACOS"
+
+          # Remove symlink (or any existing file) before copying so that cp
+          # places a real regular file at this path instead of following the link.
+          rm -f "$APP_BIN"
+          cp "$COMPILED" "$APP_BIN"
+          chmod +x "$APP_BIN"
+
+          INSTALLED_SIZE=$(stat -f%z "$APP_BIN")
+          echo "Installed binary: $APP_BIN ($INSTALLED_SIZE bytes)"
+          file "$APP_BIN"
+
+          # Sanity check: fail loudly if it is still a symlink
+          if [ -L "$APP_BIN" ]; then
+            echo "::error::$APP_BIN is still a symlink after copy — something went wrong"
+            exit 1
+          fi
+
+      # ── 12. Finalise .app bundle ──────────────────────────────────────
+      - name: Finalise CudaText.app bundle
+        run: |
+          SRC="CudaText_up/src/CudaText/app"
+          APP="$SRC/cudatext.app"
+          FINAL_APP="$SRC/CudaText.app"
+
+          mv "$APP" "$FINAL_APP"
+
+          echo "── Info.plist ──"
+          cat "$FINAL_APP/Contents/Info.plist" || echo "::warning::Info.plist not found!"
+
+          echo "── Resources contents ──"
+          ls "$FINAL_APP/Contents/Resources/" | head -20
+
+          echo "── MacOS binary ──"
+          ls -lh "$FINAL_APP/Contents/MacOS/"
+
+          echo "── Total size ──"
+          du -sh "$FINAL_APP"
+
+      # ── 13. Write arch-specific readme.txt ──────────────────────────────
+      # Each architecture gets a completely different readme.txt
+      - name: Write arch-specific readme.txt
+        run: |
+          set -euo pipefail
+          VER="${{ steps.version.outputs.cudatext_version }}"
+          README_DEST="/tmp/cudatext_readme.txt"
+
+          if [ "${{ matrix.dmg_cpu }}" = "aarch64" ]; then
+            # ── Apple Silicon readme ──────────────────────────────────────
+            printf 'CudaText %s\nhttps://cudatext.github.io\n\nINSTRUCTIONS:\n\n1. Drag CudaText.app to your Applications folder to install.\n2. Open the terminal and type the following command: xattr -cr /Applications/CudaText.app\n\nDocumentation: https://wiki.freepascal.org/CudaText\n' \
+              "$VER" > "$README_DEST"
+            echo "Written Apple Silicon readme.txt"
+          else
+            # ── Intel readme ─────────────────────────────────────────────
+            printf 'CudaText %s\nhttps://cudatext.github.io\n\nINSTRUCTIONS:\n\n- Drag CudaText.app to your Applications folder to install.\n\nDocumentation: https://wiki.freepascal.org/CudaText\n' \
+              "$VER" > "$README_DEST"
+            echo "Written Intel readme.txt"
+          fi
+
+          echo "── readme.txt contents ──"
+          cat "$README_DEST"
+
+      # ── 14. Create DMG disk image ───────────────────────────────────
+      # Volume name and filename match the official release convention:
+      #   volume  : cudatext-mac-cocoa
+      #   filename: cudatext-macos-cocoa-{cpu}-{version}.dmg
+      - name: Create DMG
+        run: |
+          SRC="CudaText_up/src/CudaText/app"
+          VER="${{ steps.version.outputs.cudatext_version }}"
+          DMG_NAME="cudatext-macos-cocoa-${{ matrix.dmg_cpu }}-${VER}.dmg"
+
+          DMG_STAGE=$(mktemp -d)
+          cp -R "$SRC/CudaText.app" "$DMG_STAGE/"
+
+          # Applications symlink for drag-to-install
+          ln -s /Applications "$DMG_STAGE/Applications"
+
+          # readme.txt — always present after step 13
+          if [ -f "/tmp/cudatext_readme.txt" ]; then
+            cp "/tmp/cudatext_readme.txt" "$DMG_STAGE/readme.txt"
+            echo "Added readme.txt to DMG"
+          else
+            echo "::warning::readme.txt missing from /tmp — DMG will be created without it"
+          fi
+
+          hdiutil create \
+            -volname "cudatext-mac-cocoa-${{ matrix.dmg_cpu }}-${VER}" \
+            -srcfolder "$DMG_STAGE" \
+            -ov \
+            -format UDZO \
+            "$DMG_NAME"
+
+          rm -rf "$DMG_STAGE"
+          echo "Created: $DMG_NAME"
+          ls -lh "$DMG_NAME"
+
+      # ── 15. Upload the DMG ──────────────────────────────────────────
+      - name: Upload macOS DMG
+        uses: actions/upload-artifact@v4
+        with:
+          name: cudatext-macos-cocoa-${{ matrix.dmg_cpu }}-${{ steps.version.outputs.cudatext_version }}
+          path: cudatext-macos-cocoa-${{ matrix.dmg_cpu }}-${{ steps.version.outputs.cudatext_version }}.dmg
+          retention-days: 30
+          if-no-files-found: error
