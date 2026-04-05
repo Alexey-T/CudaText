@@ -106,9 +106,6 @@ function ConvertKeyboardStateToShiftState: TShiftState; //like VCL
 function UpdateImagelistWithIconFromFile(AList: TCustomImagelist;
   const AFilename, ACallerAPI: string; AllowScaling: boolean=false): integer;
 
-function ConvertFileDateToNiceString(const AFilename: string): string;
-function ConvertFilenameToMenuCaption(const fn: string): string;
-
 function AppNicePluginCaption(const S: string): string;
 function AppStrToBool(const S: string): boolean; inline;
 function AppBoolToStr(V: boolean): string;
@@ -128,9 +125,12 @@ procedure Canvas_PaintCheckers(C: TCanvas;
   ACellSize: integer;
   AColor1, AColor2: TColor);
 
-procedure Menu_Copy(ASrc, ADest: TMenu);
-function Menu_GetIndexToInsert(AMenu: TMenuItem; ACaption: string): integer;
-procedure MenuShowAtEditorCorner(AMenu: TPopupMenu; Ed: TATSynEdit);
+procedure AppMenuCopy(ASrc, ADest: TMenu);
+function AppMenuGetIndexToInsert(AMenu: TMenuItem; ACaption: string): integer;
+procedure AppMenuShowAtEditorCorner(AMenu: TPopupMenu; Ed: TATSynEdit);
+
+function ConvertFileDateToNiceString(const AFilename: string): string;
+function ConvertFilenameToMenuCaption(const fn: string): string;
 
 function ConvertFinderOptionsToString(F: TATEditorFinder): string;
 procedure ConvertFinderOptionsFromString(F: TATEditorFinder; const S: string);
@@ -140,6 +140,7 @@ function ConvertIntArrayToString(const A: TATIntArray): string;
 
 function ConvertMultiSelectStyleToString(St: TMultiSelectStyle): string;
 function ConvertStringToMultiSelectStyle(const S: string): TMultiSelectStyle;
+function ConvertCssColorToTColor(const S: string): TColor;
 
 type
   { TAppPanelEx }
@@ -167,9 +168,8 @@ var
 
 procedure AppInitHtmlTags;
 
-procedure StringsDeduplicate(L: TStringList; CaseSens: boolean);
-function StringsTrailingText(L: TStringList; AItemCount: integer): string;
-function ConvertCssColorToTColor(const S: string): TColor;
+procedure AppStringsDeduplicate(L: TStringList; CaseSens: boolean);
+function AppStringsTrailingText(L: TStringList; AItemCount: integer): string;
 
 {$ifdef windows}
 function IsWin32DarkModeViaRegistry: Boolean;
@@ -845,12 +845,12 @@ begin
   end;
 end;
 
-procedure Menu_Copy(ASrc, ADest: TMenu);
+procedure AppMenuCopy(ASrc, ADest: TMenu);
 begin
   MenuItem_Copy(ASrc.Items, ADest.Items);
 end;
 
-function Menu_GetIndexToInsert(AMenu: TMenuItem; ACaption: string): integer;
+function AppMenuGetIndexToInsert(AMenu: TMenuItem; ACaption: string): integer;
 var
   i: integer;
 begin
@@ -932,7 +932,7 @@ begin
 end;
 
 
-procedure MenuShowAtEditorCorner(AMenu: TPopupMenu; Ed: TATSynEdit);
+procedure AppMenuShowAtEditorCorner(AMenu: TPopupMenu; Ed: TATSynEdit);
 var
   P: TPoint;
 begin
@@ -1443,7 +1443,7 @@ begin
 end;
 
 
-procedure StringsDeduplicate(L: TStringList; CaseSens: boolean);
+procedure AppStringsDeduplicate(L: TStringList; CaseSens: boolean);
 var
   i, j: integer;
   equal: boolean;
@@ -1479,7 +1479,7 @@ begin
   F.Top:= Max(R.Top, Min(R.Bottom-F.Height, F.Top));
 end;
 
-function StringsTrailingText(L: TStringList; AItemCount: integer): string;
+function AppStringsTrailingText(L: TStringList; AItemCount: integer): string;
 var
   i: integer;
 begin

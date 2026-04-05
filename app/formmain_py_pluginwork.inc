@@ -379,7 +379,7 @@ begin
 
       if bRoot then
       begin
-        NInsert:= Menu_GetIndexToInsert(ASubMenu, strItem);
+        NInsert:= AppMenuGetIndexToInsert(ASubMenu, strItem);
         if NInsert>=0 then
           ASubMenu.Insert(NInsert, mi)
         else

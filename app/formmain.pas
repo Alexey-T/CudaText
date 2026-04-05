@@ -6264,7 +6264,7 @@ begin
 
     DoStatusbarTextByTag(StatusbarMain, StatusbarTag_Msg, AText);
     DoStatusbarColorByTag(StatusbarMain, StatusbarTag_Msg, GetAppColorOfStatusbarFont);
-    DoStatusbarHintByTag(StatusbarMain, StatusbarTag_Msg, StringsTrailingText(AppStatusbarMessages, UiOps.MaxStatusbarMessages));
+    DoStatusbarHintByTag(StatusbarMain, StatusbarTag_Msg, AppStringsTrailingText(AppStatusbarMessages, UiOps.MaxStatusbarMessages));
 
     TimerStatusClear.Enabled:= false;
     TimerStatusClear.Enabled:= true;

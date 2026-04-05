@@ -43,7 +43,7 @@ begin
   //fill submenu "Recent files"
   MenuRecentsPopup(nil);
 
-  Menu_Copy(MainMenu, PopupSidebarClone);
+  AppMenuCopy(MainMenu, PopupSidebarClone);
 
   //better show menu from top-left corner, coz otherwise,
   //when sidebar is on the right, menu fly-outs overlap each other
