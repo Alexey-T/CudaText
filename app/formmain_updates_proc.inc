@@ -445,7 +445,7 @@ begin
   if AndHeight then
     Form.Height:= ATEditorScale(UiOps.ListboxSizeY);
 
-  FormFixPosToDesktop(Form);
+  AppFormFixPosToDesktop(Form);
 end;
 
 

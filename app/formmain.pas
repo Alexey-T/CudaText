@@ -4066,8 +4066,8 @@ begin
 
   if FHandledOnShowPartly then exit;
 
-  DoApplyInitialGroupSizes; //before FormLock to solve bad group-splitters pos, issue #3067
-  FormLock(Self);
+  DoApplyInitialGroupSizes; //before AppFormLock to solve bad group-splitters pos, issue #3067
+  AppFormLock(Self);
 
   DoApplyFont_Text;
   DoApplyFont_Ui;
@@ -4104,8 +4104,8 @@ begin
   if AppPanels[TAppPanelId.Btm].Visible then
     if AppPanels[TAppPanelId.Btm].LastActivePanel='' then
       DoShowConsole(false);
-  FormUnlock(Self);
-  DoLoadCommandLine; //after FormUnlock, to fix #4445
+  AppFormUnlock(Self);
+  DoLoadCommandLine; //after AppFormUnlock, to fix #4445
 
   //postpone parsing until frames are shown
   AppAllowFrameParsing:= true;
@@ -5702,7 +5702,7 @@ begin
   case Frame.FrameKind of
     TAppFrameKind.BinaryViewer:
     begin
-      if ViewerGotoFromString(Frame.Viewer, AInput) then
+      if AppViewerGotoFromString(Frame.Viewer, AInput) then
         MsgStatus('')
       else
         MsgStatus(msgStatusBadLineNum);
@@ -9954,7 +9954,7 @@ begin
   if not Application.Active then exit;
 
   PntScreen:= Mouse.CursorPos;
-  if IsPointsDiffByDelta(PntScreen, FLastMousePos, cPixelDelta) then
+  if AppPointsDiffByDelta(PntScreen, FLastMousePos, cPixelDelta) then
   begin
     FLastMousePos:= PntScreen;
     for iGroup:= 0 to cAppMaxGroup do
@@ -10213,7 +10213,7 @@ begin
   if Grp=nil then exit;
   if Grp.GetTabTotalCount<=0 then exit;
 
-  FormDoFocus(Form, true);
+  AppFormFocus(Form, true);
 end;
 
 

@@ -43,26 +43,26 @@ uses
   proc_py_const,
   proc_colors;
 
-function FormPosGetAsString(Form: TForm; AOnlySize: boolean): string;
-procedure FormPosSetFromString(Form: TForm; const S: string; AOnlySize: boolean; const ADesktopRect: TRect);
-procedure RectSetFromString(var R: TRect; const S: string; AOnlySize: boolean; const ADesktopRect: TRect);
+function AppFormPosGetAsString(Form: TForm; AOnlySize: boolean): string;
+procedure AppFormPosSetFromString(Form: TForm; const S: string; AOnlySize: boolean; const ADesktopRect: TRect);
+procedure AppRectSetFromString(var R: TRect; const S: string; AOnlySize: boolean; const ADesktopRect: TRect);
 
-procedure FormFixPosToDesktop(F: TForm);
-procedure RectFixToDesktop(var F: TRect; const DesktopR: TRect);
+procedure AppFormFixPosToDesktop(F: TForm);
+procedure AppRectFixToDesktop(var F: TRect; const DesktopR: TRect);
 
 procedure AppListbox_CopyOneLine(L: TATListbox);
 procedure AppListbox_CopyAllLines(L: TATListbox);
 procedure AppListbox_Clear(L: TATListbox);
 
-procedure FormLock(Ctl: TForm);
-procedure FormUnlock(Ctl: TForm);
+procedure AppFormLock(Ctl: TForm);
+procedure AppFormUnlock(Ctl: TForm);
 //procedure ControlAutosizeOnlyByWidth(C: TWinControl);
 
-procedure FormHistorySave(F: TForm; const AConfigPath: string; AWithPos: boolean);
-procedure FormHistoryLoad(F: TForm; const AConfigPath: string; AWithPos: boolean; const ADesktopRect: TRect);
+procedure AppFormHistorySave(F: TForm; const AConfigPath: string; AWithPos: boolean);
+procedure AppFormHistoryLoad(F: TForm; const AConfigPath: string; AWithPos: boolean; const ADesktopRect: TRect);
 
-procedure FormPutToVisibleArea(F: TForm);
-procedure FormDoFocus(F: TForm; AllowShow: boolean);
+procedure AppFormPutToVisibleArea(F: TForm);
+procedure AppFormFocus(F: TForm; AllowShow: boolean);
 
 function Canvas_TextMultilineExtent(C: TCanvas; const AText: string): TPoint;
 function Canvas_NumberToFontStyles(Num: integer): TFontStyles;
@@ -115,10 +115,10 @@ function AppBoolToStr(V: boolean): string;
 function AppStringToAlignment(const S: string): TAlignment;
 function AppAlignmentToString(const V: TAlignment): string;
 function AppGetLeveledPath(const AFileName: string; ALevel: integer): string;
-function IsPointsDiffByDelta(const P1, P2: TPoint; Delta: integer): boolean;
+function AppPointsDiffByDelta(const P1, P2: TPoint; Delta: integer): boolean;
 
-function ViewerGotoFromString(V: TATBinHex; const SInput: string): boolean;
-procedure ApplyThemeToViewer(V: TATBinHex);
+function AppViewerGotoFromString(V: TATBinHex; const SInput: string): boolean;
+procedure AppApplyThemeToViewer(V: TATBinHex);
 
 function ExtractFileName_Fixed(const FileName: string): string;
 function ExtractFileDir_Fixed(const FileName: string): string;
@@ -702,7 +702,7 @@ begin
 end;
 
 
-function ViewerGotoFromString(V: TATBinHex; const SInput: string): boolean;
+function AppViewerGotoFromString(V: TATBinHex; const SInput: string): boolean;
 var
   Num: Int64;
 begin
@@ -729,7 +729,7 @@ begin
   end;
 end;
 
-procedure ApplyThemeToViewer(V: TATBinHex);
+procedure AppApplyThemeToViewer(V: TATBinHex);
 var
   St: TecSyntaxFormat;
 begin
@@ -875,7 +875,7 @@ begin
 end;
 
 
-procedure FormDoFocus(F: TForm; AllowShow: boolean);
+procedure AppFormFocus(F: TForm; AllowShow: boolean);
 begin
   if Assigned(F) and F.Enabled then
   begin
@@ -892,7 +892,7 @@ begin
   end;
 end;
 
-procedure FormHistoryLoad(F: TForm; const AConfigPath: string; AWithPos: boolean; const ADesktopRect: TRect);
+procedure AppFormHistoryLoad(F: TForm; const AConfigPath: string; AWithPos: boolean; const ADesktopRect: TRect);
 var
   c: TAppJsonConfig;
   S: string;
@@ -907,13 +907,13 @@ begin
 
     S:= c.GetValue(AConfigPath, '');
     if S<>'' then
-      FormPosSetFromString(F, S, not AWithPos, ADesktopRect);
+      AppFormPosSetFromString(F, S, not AWithPos, ADesktopRect);
   finally
     c.Free;
   end;
 end;
 
-procedure FormHistorySave(F: TForm; const AConfigPath: string; AWithPos: boolean);
+procedure AppFormHistorySave(F: TForm; const AConfigPath: string; AWithPos: boolean);
 var
   c: TAppJsonConfig;
 begin
@@ -925,7 +925,7 @@ begin
       exit;
     end;
 
-    c.SetValue(AConfigPath, FormPosGetAsString(F, not AWithPos));
+    c.SetValue(AConfigPath, AppFormPosGetAsString(F, not AWithPos));
   finally
     c.Free;
   end;
@@ -1046,7 +1046,7 @@ begin
   Result:= StringReplace(Result, '&', '', [rfReplaceAll]);
 end;
 
-function FormPosGetAsString(Form: TForm; AOnlySize: boolean): string;
+function AppFormPosGetAsString(Form: TForm; AOnlySize: boolean): string;
 var
   X, Y, W, H: integer;
 begin
@@ -1066,7 +1066,7 @@ begin
   Result:= Format('%d,%d,%d,%d', [X, Y, W, H]);
 end;
 
-procedure RectSetFromString(var R: TRect; const S: string; AOnlySize: boolean; const ADesktopRect: TRect);
+procedure AppRectSetFromString(var R: TRect; const S: string; AOnlySize: boolean; const ADesktopRect: TRect);
 var
   Sep: TATStringSeparator;
   X, Y, W, H: integer;
@@ -1095,17 +1095,17 @@ begin
 end;
 
 
-procedure FormPosSetFromString(Form: TForm; const S: string; AOnlySize: boolean; const ADesktopRect: TRect);
+procedure AppFormPosSetFromString(Form: TForm; const S: string; AOnlySize: boolean; const ADesktopRect: TRect);
 var
   R: TRect;
 begin
   R:= Form.BoundsRect;
-  RectSetFromString(R, S, AOnlySize, ADesktopRect);
+  AppRectSetFromString(R, S, AOnlySize, ADesktopRect);
   if Form.BoundsRect<>R then
     Form.BoundsRect:= R;
 end;
 
-procedure FormLock(Ctl: TForm);
+procedure AppFormLock(Ctl: TForm);
 begin
   Ctl.DisableAutoSizing;
 
@@ -1114,7 +1114,7 @@ begin
   {$endif}
 end;
 
-procedure FormUnlock(Ctl: TForm);
+procedure AppFormUnlock(Ctl: TForm);
 begin
   Ctl.EnableAutoSizing;
 
@@ -1464,7 +1464,7 @@ begin
 end;
 
 
-procedure FormPutToVisibleArea(F: TForm);
+procedure AppFormPutToVisibleArea(F: TForm);
 var
   R: TRect;
 begin
@@ -1585,7 +1585,7 @@ begin
       Inc(Result);
 end;
 
-function IsPointsDiffByDelta(const P1, P2: TPoint; Delta: integer): boolean;
+function AppPointsDiffByDelta(const P1, P2: TPoint; Delta: integer): boolean;
 begin
   Result:=
     (Abs(P1.X-P2.X)>=Delta) or
@@ -1617,7 +1617,7 @@ end;
 {$endif}
 
 
-procedure FormFixPosToDesktop(F: TForm);
+procedure AppFormFixPosToDesktop(F: TForm);
 var
   DesktopR: TRect;
   W, H: integer;
@@ -1629,7 +1629,7 @@ begin
   F.Top:= Max(DesktopR.Top, Min(F.Top, DesktopR.Bottom-H));
 end;
 
-procedure RectFixToDesktop(var F: TRect; const DesktopR: TRect);
+procedure AppRectFixToDesktop(var F: TRect; const DesktopR: TRect);
 var
   W, H: integer;
 begin

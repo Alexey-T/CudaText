@@ -187,7 +187,7 @@ end;
 
 procedure TfmLexerLib.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
-  FormHistorySave(Self, '/pos/lexerlib', false);
+  AppFormHistorySave(Self, '/pos/lexerlib', false);
 end;
 
 procedure TfmLexerLib.FormCreate(Sender: TObject);
@@ -195,7 +195,7 @@ begin
   Localize;
   DoForm_ScaleAuto(Self, false);
 
-  FormHistoryLoad(Self, '/pos/lexerlib', false, Screen.DesktopRect);
+  AppFormHistoryLoad(Self, '/pos/lexerlib', false, Screen.DesktopRect);
 end;
 
 procedure TfmLexerLib.FormKeyDown(Sender: TObject; var Key: Word;

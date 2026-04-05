@@ -139,19 +139,19 @@ begin
         cfg.SetValue('/pos/main_mon', Monitor.MonitorNum);
 
       if not IsWindowMaximizedOrFullscreen then
-        cfg.SetValue('/pos/main', FormPosGetAsString(Self, false));
+        cfg.SetValue('/pos/main', AppFormPosGetAsString(Self, false));
 
       if AppPanels[TAppPanelId.Side].Floating then
-        cfg.SetValue('/pos/side', FormPosGetAsString(AppPanels[TAppPanelId.Side].FormFloat, false));
+        cfg.SetValue('/pos/side', AppFormPosGetAsString(AppPanels[TAppPanelId.Side].FormFloat, false));
 
       if AppPanels[TAppPanelId.Btm].Floating then
-        cfg.SetValue('/pos/bottom', FormPosGetAsString(AppPanels[TAppPanelId.Btm].FormFloat, false));
+        cfg.SetValue('/pos/bottom', AppFormPosGetAsString(AppPanels[TAppPanelId.Btm].FormFloat, false));
 
       if FloatingForms then
       begin
-        cfg.SetValue('/pos/g1', FormPosGetAsString(FFormFloating1, false));
-        cfg.SetValue('/pos/g2', FormPosGetAsString(FFormFloating2, false));
-        cfg.SetValue('/pos/g3', FormPosGetAsString(FFormFloating3, false));
+        cfg.SetValue('/pos/g1', AppFormPosGetAsString(FFormFloating1, false));
+        cfg.SetValue('/pos/g2', AppFormPosGetAsString(FFormFloating2, false));
+        cfg.SetValue('/pos/g3', AppFormPosGetAsString(FFormFloating3, false));
       end;
 
       cfg.SetValue('show_sidepanel', AppPanels[TAppPanelId.Side].Visible);
@@ -189,7 +189,7 @@ begin
       cfg.SetValue('/list_find', fmFind.edFind.Items);
       cfg.SetValue('/list_replace', fmFind.edRep.Items);
       if fmFind.IsNarrow then
-        cfg.SetValue('/pos/find', FormPosGetAsString(fmFind, false));
+        cfg.SetValue('/pos/find', AppFormPosGetAsString(fmFind, false));
       cfg.SetValue('/finder/mline', fmFind.IsMultiLine);
       cfg.SetValue('/finder/hi', fmFind.IsHiAll);
       cfg.SetValue('/finder/im', fmFind.IsImmediate);
@@ -1042,8 +1042,8 @@ begin
   S:= Cfg.GetValue(APath, '');
   if S<>'' then
   begin
-    RectSetFromString(R, S, false, ADesktopRect);
-    RectFixToDesktop(R, ADesktopRect);
+    AppRectSetFromString(R, S, false, ADesktopRect);
+    AppRectFixToDesktop(R, ADesktopRect);
   end;
 end;
 

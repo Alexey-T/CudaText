@@ -10226,7 +10226,7 @@ begin
             //don't do ShowModal for docked forms, this hangs the app
             if Form.Parent=nil then
             begin
-              FormPutToVisibleArea(Form);
+              AppFormPutToVisibleArea(Form);
               Form.DoEmulatedModalShow;
               Form.ShowInTaskBar:= Form.ShowInTaskbar_Pending; //after xxShow, for #4456
             end
@@ -10238,7 +10238,7 @@ begin
         DLG_SHOW_NONMODAL:
           begin
             CloseFormAutoCompletion;
-            FormPutToVisibleArea(Form);
+            AppFormPutToVisibleArea(Form);
             {$ifdef windows}
             //ifdef for windows is to fix issue #5397, patch by veksha
             Form.ShowInTaskBar:= Form.ShowInTaskbar_Pending;

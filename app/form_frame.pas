@@ -2634,7 +2634,7 @@ begin
 
   if Assigned(FViewer) then
   begin
-    ApplyThemeToViewer(FViewer);
+    AppApplyThemeToViewer(FViewer);
     FViewer.Invalidate;
   end;
 
@@ -2870,7 +2870,7 @@ begin
     end;
   end;
 
-  ApplyThemeToViewer(FViewer);
+  AppApplyThemeToViewer(FViewer);
   FViewer.Show;
   FViewer.OpenStream(FViewerStream);
   if DetectStreamUtf8NoBom(FViewerStream, UiOps.NonTextFilesBufferKb)=TATBufferUTF8State.Yes then

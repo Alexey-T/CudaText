@@ -382,8 +382,8 @@ begin
   DoShowAnsi;
 
   chkHexTitle.Checked:= true; //'hex titles' is better as On
-  FormHistoryLoad(Self, '/pos/charmap', true, Screen.DesktopRect);
-  FormPutToVisibleArea(Self);
+  AppFormHistoryLoad(Self, '/pos/charmap', true, Screen.DesktopRect);
+  AppFormPutToVisibleArea(Self);
 end;
 
 procedure TfmCharmaps.FormKeyDown(Sender: TObject; var Key: Word;
@@ -513,7 +513,7 @@ end;
 
 procedure TfmCharmaps.FormDestroy(Sender: TObject);
 begin
-  FormHistorySave(Self, '/pos/charmap', true);
+  AppFormHistorySave(Self, '/pos/charmap', true);
 end;
 
 procedure TfmCharmaps.btnAnsiClick(Sender: TObject);

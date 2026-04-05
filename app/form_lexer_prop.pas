@@ -252,7 +252,7 @@ begin
 
   LabelInfoThemes.Visible:= UiOps.LexerThemes;
 
-  FormHistoryLoad(Self, '/pos/lexerprop', false, Screen.DesktopRect);
+  AppFormHistoryLoad(Self, '/pos/lexerprop', false, Screen.DesktopRect);
 end;
 
 procedure TfmLexerProp.SaveChangedLexer;
@@ -305,7 +305,7 @@ end;
 
 procedure TfmLexerProp.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
-  FormHistorySave(Self, '/pos/lexerprop', false);
+  AppFormHistorySave(Self, '/pos/lexerprop', false);
 
   if ModalResult=mrOk then
   begin
