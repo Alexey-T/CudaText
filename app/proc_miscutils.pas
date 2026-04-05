@@ -176,6 +176,7 @@ function IsWin32DarkModeViaRegistry: Boolean;
 {$endif}
 
 function AppIsColorDark(C: TColor): boolean;
+function AppContrastColor(AColor: TColor): TColor;
 
 
 implementation
@@ -1652,6 +1653,29 @@ begin
   RedGreenBlue(C, r, g, b);
   Result:= (r<=cMargin) and (g<=cMargin) and (b<=cMargin);
 end;
+
+function AppContrastColor(AColor: TColor): TColor;
+var
+  red, green, blue: integer;
+  bLight: boolean;
+begin
+  red:= AColor and $FF;
+  green:= AColor shr 8 and $FF;
+  blue:= AColor shr 16 and $FF;
+  // Use different scaling with red, green, and blue to account
+  // for perceived intensity. Addresses issue #3624
+  // See https://www.w3.org/TR/AERT/#color-contrast
+  // Color brightness can determined by the following formula:
+  // ((Red value X 299) + (Green value X 587) + (Blue value X 114)) / 1000
+  // ((299+587+114) * 128) = 128000
+  // ((299+587+114) * $80) = $1f400
+  bLight:= red*299 + green*587 + blue*114 > $1f400;
+  if bLight then
+    Result:= $101010
+  else
+    Result:= $F0F0F0;
+end;
+
 
 
 finalization
