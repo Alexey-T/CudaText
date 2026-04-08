@@ -345,8 +345,9 @@ object SyntAnal13: TLibSyntAnalyzer
       StatesAbsent = 3072
       TokenType = 15
       Expression = 
-        '(?<=[\l_\x{2026}\?!\.,;:~\*\)>])__(?![\l\x{2026}\?!]) |'#13#10'(?<=[\l' +
-        '_\x{2026}\?!\.,;:~\)>/])\*\*'
+        '(?<=[\l_\x{2026}\?!\.,;:~\*\)>\x{3000}-\x{303F}\x{FF01}-\x{FF60}' +
+        '])__(?![\l\x{2026}\?!]) |'#13#10'(?<=[\l_\x{2026}\?!\.,;:~\)>/\x{3000}' +
+        '-\x{303F}\x{FF01}-\x{FF60}])\*\*'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -370,8 +371,9 @@ object SyntAnal13: TLibSyntAnalyzer
       StatesAbsent = 3072
       TokenType = 15
       Expression = 
-        '(?<=[\l_\x{2026}\?!\.,;:~\*\)>])_(?![\l\x{2026}\?!]) |'#13#10'(?<=[\l_' +
-        '\x{2026}\?!\.,;:~\)>/\*])\*'
+        '(?<=[\l_\x{2026}\?!\.,;:~\*\)>\x{3000}-\x{303F}\x{FF01}-\x{FF60}' +
+        '])_(?![\l\x{2026}\?!]) |'#13#10'(?<=[\l_\x{2026}\?!\.,;:~\)>/\*\x{3000' +
+        '}-\x{303F}\x{FF01}-\x{FF60}])\*'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -649,7 +651,9 @@ object SyntAnal13: TLibSyntAnalyzer
       StatesPresent = 7
       StatesAbsent = 3072
       TokenType = 1
-      Expression = '[\l\x20\.,:;\(\)\?!\x{2026}]+'
+      Expression = 
+        '[\l\x20\.,:;\(\)\?!\x{2026}\x{3000}-\x{303F}\x{FF01}-\x{FF60}\x{' +
+        '2018}-\x{201D}]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -659,7 +663,9 @@ object SyntAnal13: TLibSyntAnalyzer
       StatesPresent = 5
       StatesAbsent = 3072
       TokenType = 1
-      Expression = '[\l\x20\.,:;\(\)\?!\x{2026}]+'
+      Expression = 
+        '[\l\x20\.,:;\(\)\?!\x{2026}\x{3000}-\x{303F}\x{FF01}-\x{FF60}\x{' +
+        '2018}-\x{201D}]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -669,7 +675,9 @@ object SyntAnal13: TLibSyntAnalyzer
       StatesPresent = 6
       StatesAbsent = 3072
       TokenType = 1
-      Expression = '[\l\x20\.,:;\(\)\?!\x{2026}]+'
+      Expression = 
+        '[\l\x20\.,:;\(\)\?!\x{2026}\x{3000}-\x{303F}\x{FF01}-\x{FF60}\x{' +
+        '2018}-\x{201D}]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -679,7 +687,9 @@ object SyntAnal13: TLibSyntAnalyzer
       StatesPresent = 3
       StatesAbsent = 3072
       TokenType = 1
-      Expression = '[\l\x20\.,:;\(\)\?!\x{2026}]+'
+      Expression = 
+        '[\l\x20\.,:;\(\)\?!\x{2026}\x{3000}-\x{303F}\x{FF01}-\x{FF60}\x{' +
+        '2018}-\x{201D}]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -689,7 +699,9 @@ object SyntAnal13: TLibSyntAnalyzer
       StatesPresent = 1
       StatesAbsent = 3072
       TokenType = 1
-      Expression = '[\l\x20\.,:;\(\)\?!\x{2026}]+'
+      Expression = 
+        '[\l\x20\.,:;\(\)\?!\x{2026}\x{3000}-\x{303F}\x{FF01}-\x{FF60}\x{' +
+        '2018}-\x{201D}]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -699,7 +711,9 @@ object SyntAnal13: TLibSyntAnalyzer
       StatesPresent = 2
       StatesAbsent = 3072
       TokenType = 1
-      Expression = '[\l\x20\.,:;\(\)\?!\x{2026}]+'
+      Expression = 
+        '[\l\x20\.,:;\(\)\?!\x{2026}\x{3000}-\x{303F}\x{FF01}-\x{FF60}\x{' +
+        '2018}-\x{201D}]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -709,7 +723,9 @@ object SyntAnal13: TLibSyntAnalyzer
       StatesPresent = 4
       StatesAbsent = 3072
       TokenType = 1
-      Expression = '[\l\x20\.,:;\(\)\?!\x{2026}]+'
+      Expression = 
+        '[\l\x20\.,:;\(\)\?!\x{2026}\x{3000}-\x{303F}\x{FF01}-\x{FF60}\x{' +
+        '2018}-\x{201D}]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -718,7 +734,9 @@ object SyntAnal13: TLibSyntAnalyzer
       StyleName = 'Text'
       StatesAbsent = 3072
       TokenType = 1
-      Expression = '[\l\x20\.,:;\(\)\?!\x{2026}]+'
+      Expression = 
+        '[\l\x20\.,:;\(\)\?!\x{2026}\x{3000}-\x{303F}\x{FF01}-\x{FF60}\x{' +
+        '2018}-\x{201D}]+'
       ColumnFrom = 0
       ColumnTo = 0
     end>
