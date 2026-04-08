@@ -274,6 +274,7 @@ object SyntAnal13: TLibSyntAnalyzer
       StyleName = '``` edge'
       StatesAdd = 2048
       StatesRemove = 7
+      StatesAbsent = 2048
       TokenType = 18
       Expression = '(?<=^\x20{0,3})~{3,}\x20*\w.*$'
       ColumnFrom = 0
@@ -283,6 +284,7 @@ object SyntAnal13: TLibSyntAnalyzer
       DisplayName = '~end'
       StyleName = '``` edge'
       StatesRemove = 2048
+      StatesPresent = 2048
       TokenType = 19
       Expression = '(?<=^\x20{0,3})~{3,}\x20*$'
       ColumnFrom = 0
@@ -984,9 +986,15 @@ object SyntAnal13: TLibSyntAnalyzer
       SyntAnalyzer = SyntAnal12
     end
     item
-      DisplayName = 'Fenced block'
-      StartExpression = '(?<=^\x20{0,3})(`{3,}|~{3,})\x20*\w.*$'
-      EndExpression = '(?<=^\x20{0,3})(`{3,}|~{3,})\x20*$'
+      DisplayName = 'Fenced block, tick'
+      StartExpression = '(?<=^\x20{0,3})`{3,}\x20*\w.*$'
+      EndExpression = '(?<=^\x20{0,3})`{3,}\x20*$'
+      SyntAnalyzer = SyntAnal9
+    end
+    item
+      DisplayName = 'Fenced block, tilde'
+      StartExpression = '(?<=^\x20{0,3})~{3,}\x20*\w.*$'
+      EndExpression = '(?<=^\x20{0,3})~{3,}\x20*$'
       SyntAnalyzer = SyntAnal9
     end>
   SampleText.Strings = (
