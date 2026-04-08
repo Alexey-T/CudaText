@@ -388,7 +388,7 @@ object SyntAnal13: TLibSyntAnalyzer
       StatesAdd = 4
       StatesAbsent = 3076
       TokenType = 15
-      Expression = '~+(?![\s>\}~])'
+      Expression = '(?<!~)~~(?![>\}~])'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -399,7 +399,7 @@ object SyntAnal13: TLibSyntAnalyzer
       StatesPresent = 4
       StatesAbsent = 3072
       TokenType = 15
-      Expression = '~+(?![>\}~])'
+      Expression = '(?<!~)~~(?![>\}~])'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -975,7 +975,7 @@ object SyntAnal13: TLibSyntAnalyzer
       DisplayName = 'YAML front matter'
       StartExpression = '\A---(\s*yaml)?$'
       EndExpression = '^(---|\.\.\.)$'
-      SyntAnalyzer = SyntAnal21
+      SyntAnalyzer = SyntAnal18
     end
     item
       DisplayName = 'JSON front matter'
