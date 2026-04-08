@@ -274,6 +274,7 @@ object SyntAnal13: TLibSyntAnalyzer
       StyleName = '``` edge'
       StatesAdd = 2048
       StatesRemove = 7
+      StatesAbsent = 2048
       TokenType = 18
       Expression = '(?<=^\x20{0,3})~{3,}\x20*\w.*$'
       ColumnFrom = 0
@@ -283,6 +284,7 @@ object SyntAnal13: TLibSyntAnalyzer
       DisplayName = '~end'
       StyleName = '``` edge'
       StatesRemove = 2048
+      StatesPresent = 2048
       TokenType = 19
       Expression = '(?<=^\x20{0,3})~{3,}\x20*$'
       ColumnFrom = 0
@@ -388,7 +390,7 @@ object SyntAnal13: TLibSyntAnalyzer
       StatesAdd = 4
       StatesAbsent = 3076
       TokenType = 15
-      Expression = '~+(?![\s>\}~])'
+      Expression = '(?<!~)~~(?![>\}~])'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -399,7 +401,7 @@ object SyntAnal13: TLibSyntAnalyzer
       StatesPresent = 4
       StatesAbsent = 3072
       TokenType = 15
-      Expression = '~+(?![>\}~])'
+      Expression = '(?<!~)~~(?![>\}~])'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -456,7 +458,7 @@ object SyntAnal13: TLibSyntAnalyzer
       StyleName = 'HTML Code'
       StatesAbsent = 3072
       TokenType = 9
-      Expression = '(?s)<[/!]?[\[\w~].*?>'
+      Expression = '<[/!]?\w.*?> # (?s) removed to not take many lines'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -975,7 +977,7 @@ object SyntAnal13: TLibSyntAnalyzer
       DisplayName = 'YAML front matter'
       StartExpression = '\A---(\s*yaml)?$'
       EndExpression = '^(---|\.\.\.)$'
-      SyntAnalyzer = SyntAnal21
+      SyntAnalyzer = SyntAnal18
     end
     item
       DisplayName = 'JSON front matter'
@@ -984,9 +986,15 @@ object SyntAnal13: TLibSyntAnalyzer
       SyntAnalyzer = SyntAnal12
     end
     item
-      DisplayName = 'Fenced block'
-      StartExpression = '(?<=^\x20{0,3})(`{3,}|~{3,})\x20*\w.*$'
-      EndExpression = '(?<=^\x20{0,3})(`{3,}|~{3,})\x20*$'
+      DisplayName = 'Fenced block, tick'
+      StartExpression = '(?<=^\x20{0,3})`{3,}\x20*\w.*$'
+      EndExpression = '(?<=^\x20{0,3})`{3,}\x20*$'
+      SyntAnalyzer = SyntAnal9
+    end
+    item
+      DisplayName = 'Fenced block, tilde'
+      StartExpression = '(?<=^\x20{0,3})~{3,}\x20*\w.*$'
+      EndExpression = '(?<=^\x20{0,3})~{3,}\x20*$'
       SyntAnalyzer = SyntAnal9
     end>
   SampleText.Strings = (
