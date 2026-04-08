@@ -1113,8 +1113,8 @@ object SyntAnal13: TLibSyntAnalyzer
   Notes.Strings = (
     'By Alexey Torgashin (CudaText)'
     'Parser states used:'
-    '- 1: italic'
-    '- 2: bold'
+    '- 1: bold'
+    '- 2: italic'
     '- 4: crossed'
     '(some rules reset 7=1+2+4)'
     '- 1024: ```-fenced blocks'
