@@ -3,6 +3,8 @@
   - fixed
   * changed
 
+- fix: lexer Markdown: fixed rule for crossed text; improved bold/italic rules for CJK text; fixed rules for fenced blocks (by @zen010101)
+
 1.234.0 (2026/04)
 
 + add: new wiki topic "How to open all picture-files in hex mode"
