@@ -456,7 +456,7 @@ object SyntAnal13: TLibSyntAnalyzer
       StyleName = 'HTML Code'
       StatesAbsent = 3072
       TokenType = 9
-      Expression = '(?s)<[/!]?[\[\w~].*?>'
+      Expression = '<[/!]?\w.*?> # (?s) removed to not take many lines'
       ColumnFrom = 0
       ColumnTo = 0
     end
