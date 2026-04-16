@@ -4,6 +4,7 @@
   * changed
 
 - fix: lexer Markdown: fixed rule for crossed text; improved bold/italic rules for CJK text; fixed rules for fenced blocks (by @zen010101)
+- fix: avoid flickering of pair-brackets, when user types text inside brackets (thanks @iconv)
 
 1.234.0 (2026/04)
 
