@@ -1705,7 +1705,7 @@ var
   Caret: TATCaretItem;
   St: TATStrings;
   EdIndex: integer;
-  bChangedLexer, bChanged1, bChanged2: boolean;
+  bChangedLexer, bChanged1: boolean;
 begin
   if AppSessionIsLoading then exit; //fix issue #4436
 
@@ -1719,7 +1719,6 @@ begin
 
   bChangedLexer:= false;
   bChanged1:= false;
-  bChanged2:= false;
 
   //temporary turn off lexer, when editing too long line
   if Assigned(Ed.AdapterForHilite) and (Ed.Carets.Count>0) then
@@ -1743,10 +1742,14 @@ begin
   end;
 
   bChanged1:= Ed.Markers.DeleteWithTag(UiOps.FindOccur_TagValue);
+
+  {
+  //don't clear brackets attribs, to avoid flicketing on typing text inside pair brackets. fixes CudaText #6272
   if FBracketHilite then
     bChanged2:= EditorBracket_ClearHilite(Ed);
+    }
 
-  if bChangedLexer or bChanged1 or bChanged2 then
+  if bChangedLexer or bChanged1 then
     Ed.Update;
 
   //sync changes in 2 editors, when frame is splitted
