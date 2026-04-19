@@ -7809,7 +7809,7 @@ begin
   try
     List.Add('Linux/Unix (LF)');
     List.Add('Windows (CRLF)');
-    List.Add('MacOS 9 (CR)');
+    List.Add('Mac OS 9 (CR)');
 
     case Ed.Strings.Endings of
       TATLineEnds.Unix: NSelected:= 0;
