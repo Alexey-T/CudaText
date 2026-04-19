@@ -7807,9 +7807,9 @@ begin
 
   List:= TStringList.Create;
   try
-    List.Add(msgEndUnix);
-    List.Add(msgEndWin);
-    List.Add(msgEndMac);
+    List.Add('Linux/Unix (LF)');
+    List.Add('Windows (CRLF)');
+    List.Add('MacOS 9 (CR)');
 
     case Ed.Strings.Endings of
       TATLineEnds.Unix: NSelected:= 0;
