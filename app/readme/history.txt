@@ -8,7 +8,7 @@
 + add: menu "File / Line ends" shows more detailed items: "Linux/Unix (LF) / Windows (CRLF) / Mac OS 9 (CR)" (idea by @iconv)
 + add: lexer CSS shows usual {}-blocks in the code-tree (idea by @BetoValle)
 - fix: avoid flickering of pair-brackets, when user types text inside brackets (thanks @iconv)
-- fix: on editing in line, when line had many one-liner JS blocks, not _all_ blocks were auto-deleted -> it breaks HTML highlight
+- fix: parser bug: on editing in line, when line had many one-liner JS blocks, not _all_ blocks were auto-deleted from cache -> it breaks HTML highlight
 - fix: lexer Markdown: fixed rule for crossed text; improved bold/italic rules for CJK text; fixed rules for fenced blocks (by @zen010101)
 
 1.234.0 (2026/04)
