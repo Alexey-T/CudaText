@@ -178,7 +178,7 @@ object SyntAnal6: TLibSyntAnalyzer
       DisplayName = 'URL w/o quotes'
       StyleName = 'String'
       TokenType = 4
-      Expression = '(?-i)(?<=\burl\x20*\() [^\)\n\r]+'
+      Expression = '(?<=\burl\x20*\()[^\)\n\r]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -201,8 +201,8 @@ object SyntAnal6: TLibSyntAnalyzer
     item
       DisplayName = 'Prop user'
       StyleName = 'Prop user'
-      TokenType = 2
-      Expression = '\-\-\w[\w\-]*'
+      TokenType = 9
+      Expression = '\-\-[a-z][\w\-]*'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -256,7 +256,7 @@ object SyntAnal6: TLibSyntAnalyzer
       DisplayName = 'PHP tag'
       StyleName = 'PHP tag'
       TokenType = 8
-      Expression = '<\?php\b | <\? | \?>'
+      Expression = '<\?php\b|<\?|\?>'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -272,7 +272,7 @@ object SyntAnal6: TLibSyntAnalyzer
       DisplayName = '@Media'
       StyleName = 'Media'
       TokenType = 5
-      Expression = '@[\w\-]+'
+      Expression = '@[a-z][\w\-]*'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -288,7 +288,7 @@ object SyntAnal6: TLibSyntAnalyzer
       DisplayName = 'Value'
       StyleName = 'Value'
       BlockName = '{'
-      TokenType = 17
+      TokenType = 14
       Expression = '\w[\w\-]*'
       ColumnFrom = 0
       ColumnTo = 0
@@ -304,7 +304,7 @@ object SyntAnal6: TLibSyntAnalyzer
     item
       DisplayName = 'Name'
       StyleName = 'Style'
-      TokenType = 14
+      TokenType = 2
       Expression = '\-[\w\-]+|[a-z](\\.|[\w\-])*'
       ColumnFrom = 0
       ColumnTo = 0
@@ -312,7 +312,7 @@ object SyntAnal6: TLibSyntAnalyzer
     item
       DisplayName = '!important'
       StyleName = 'Value'
-      TokenType = 2
+      TokenType = 14
       Expression = '!important\b'
       ColumnFrom = 0
       ColumnTo = 0
@@ -321,14 +321,14 @@ object SyntAnal6: TLibSyntAnalyzer
       DisplayName = 'Symbol'
       StyleName = 'Symbol'
       TokenType = 3
-      Expression = '\]\]> | [;:,%\(\)\[\]@=/\*<>\-\+!\^\$\|~]'
+      Expression = '\]\]>|[;:,%\(\)\[\]@=/\*<>\-\+!\^\$\|~]'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
       DisplayName = 'Name after .'
       StyleName = 'Name.'
-      TokenType = 14
+      TokenType = 2
       Expression = '\.(\\.|[\w\-])*'
       ColumnFrom = 0
       ColumnTo = 0
@@ -336,7 +336,7 @@ object SyntAnal6: TLibSyntAnalyzer
     item
       DisplayName = 'Name after #'
       StyleName = 'Name#'
-      TokenType = 14
+      TokenType = 2
       Expression = '\#(\\.|[\w\-])*'
       ColumnFrom = 0
       ColumnTo = 0
@@ -2515,7 +2515,7 @@ object SyntAnal6: TLibSyntAnalyzer
       '@media screen and (-ms-high-contrast: active), (-ms-high-contras' +
       't: none) {'
     '    .input_size_m .input__control {'
-    '        border-left: 10px solid transparent'
+    '        border-left: 10px solid transparent !important'
     '   }'
     '}'
     ''
@@ -2547,10 +2547,9 @@ object SyntAnal6: TLibSyntAnalyzer
     'Media special'
     'Prop others'
     'Color func name'
-    'Id in tree'
+    'Value'
     'Media keyword'
-    'Suffix'
-    'Value')
+    'Suffix')
   Extentions = 'css'
   LexerName = 'CSS'
   Notes.Strings = (
