@@ -310,7 +310,7 @@ object SyntAnal6: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = '!important'
+      DisplayName = 'Value !important'
       StyleName = 'Value'
       TokenType = 14
       Expression = '!important\b'
@@ -2418,7 +2418,7 @@ object SyntAnal6: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
-      DisplayName = 'Colors hex'
+      DisplayName = 'Colors'
       ConditionList = <
         item
           TokenTypes = 64
@@ -2427,23 +2427,6 @@ object SyntAnal6: TLibSyntAnalyzer
       HighlightPos = cpAny
       NoEndRule = True
       TreeItemImage = 7
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = 'Colors func names'
-      ConditionList = <
-        item
-          TokenTypes = 8192
-        end>
-      BlockEnd = ')'
-      EndOfTextClose = True
-      NotCollapsed = True
-      NameFmt = '%s0~[)]'
-      GroupFmt = '\Colors'
-      RefToCondEnd = True
-      HighlightPos = cpAny
-      CancelNextRules = True
-      TreeItemImage = 6
       IgnoreAsParent = False
     end
     item
@@ -2458,6 +2441,7 @@ object SyntAnal6: TLibSyntAnalyzer
         item
           TagList.Strings = (
             'url')
+          IgnoreCase = True
         end>
       BlockEnd = 'Images end'
       NameFmt = '%s-1~s[)]1'
@@ -2473,18 +2457,6 @@ object SyntAnal6: TLibSyntAnalyzer
           TagList.Strings = (
             ')')
           TokenTypes = 32
-        end>
-      HighlightPos = cpAny
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = ')'
-      BlockType = btRangeEnd
-      ConditionList = <
-        item
-          TagList.Strings = (
-            ')')
-          TokenTypes = 8
         end>
       HighlightPos = cpAny
       IgnoreAsParent = False
@@ -2546,7 +2518,7 @@ object SyntAnal6: TLibSyntAnalyzer
     'Value unit'
     'Media special'
     'Prop others'
-    'Color func name'
+    '(none)'
     'Value'
     'Media keyword'
     'Suffix')
