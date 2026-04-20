@@ -2386,11 +2386,12 @@ object SyntAnal6: TLibSyntAnalyzer
       BlockEnd = '}'
       Highlight = True
       InvertColors = True
-      DisplayInTree = False
-      NameFmt = 'CSS'
+      NameFmt = '%sl1'
+      RefToCondEnd = True
       DynHighlight = dhRange
       HighlightPos = cpRange
       DynSelectMin = True
+      DrawStaple = True
       CollapseFmt = '{ ... }'
       TreeItemImage = 4
       IgnoreAsParent = False
