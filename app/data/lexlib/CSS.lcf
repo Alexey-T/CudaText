@@ -228,7 +228,7 @@ object SyntAnal6: TLibSyntAnalyzer
       StyleName = 'Style suffix'
       BlockName = '{'
       NotParent = True
-      TokenType = 2
+      TokenType = 16
       Expression = ':{1,2}[a-z\-][\w\-]*'
       ColumnFrom = 0
       ColumnTo = 0
@@ -264,7 +264,7 @@ object SyntAnal6: TLibSyntAnalyzer
       DisplayName = '@Property'
       StyleName = 'Media'
       TokenType = 11
-      Expression = '@property\b'
+      Expression = '(?-i)@property\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -288,15 +288,23 @@ object SyntAnal6: TLibSyntAnalyzer
       DisplayName = 'Value'
       StyleName = 'Value'
       BlockName = '{'
-      TokenType = 2
+      TokenType = 17
       Expression = '\w[\w\-]*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Media operator'
+      StyleName = 'Symbol'
+      TokenType = 15
+      Expression = '(?-i)\b(and|not|only)\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
       DisplayName = 'Name'
       StyleName = 'Style'
-      TokenType = 2
+      TokenType = 14
       Expression = '\-[\w\-]+ | \w(\\.|[\w\-])*'
       ColumnFrom = 0
       ColumnTo = 0
@@ -305,7 +313,7 @@ object SyntAnal6: TLibSyntAnalyzer
       DisplayName = '!important'
       StyleName = 'Value'
       TokenType = 2
-      Expression = '!(important)\b'
+      Expression = '(?-i)!(important)\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -320,7 +328,7 @@ object SyntAnal6: TLibSyntAnalyzer
     item
       DisplayName = 'Name after .'
       StyleName = 'Name.'
-      TokenType = 2
+      TokenType = 14
       Expression = '\.(\\.|[\w\-])*'
       ColumnFrom = 0
       ColumnTo = 0
@@ -328,7 +336,7 @@ object SyntAnal6: TLibSyntAnalyzer
     item
       DisplayName = 'Name after #'
       StyleName = 'Name#'
-      TokenType = 2
+      TokenType = 14
       Expression = '\#(\\.|[\w\-])*'
       ColumnFrom = 0
       ColumnTo = 0
@@ -2360,7 +2368,7 @@ object SyntAnal6: TLibSyntAnalyzer
         end
         item
           CondType = tcSkip
-          TokenTypes = 5788
+          TokenTypes = 38556
         end
         item
           TokenTypes = 32
@@ -2388,7 +2396,6 @@ object SyntAnal6: TLibSyntAnalyzer
       InvertColors = True
       NameFmt = '%sl1'
       RefToCondEnd = True
-      DynHighlight = dhRange
       HighlightPos = cpRange
       DynSelectMin = True
       DrawStaple = True
@@ -2536,10 +2543,14 @@ object SyntAnal6: TLibSyntAnalyzer
     'Number'
     'PHP tag'
     'Prop'
-    'ValueUnit'
+    'Value unit'
     'Media special'
     'Prop others'
-    'Color func name')
+    'Color func name'
+    'Id in tree'
+    'Media operator'
+    'Suffix'
+    'Value')
   Extentions = 'css'
   LexerName = 'CSS'
   Notes.Strings = (
