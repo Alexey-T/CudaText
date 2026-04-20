@@ -264,7 +264,7 @@ object SyntAnal6: TLibSyntAnalyzer
       DisplayName = '@Property'
       StyleName = 'Media'
       TokenType = 11
-      Expression = '(?-i)@property\b'
+      Expression = '@property\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -294,10 +294,10 @@ object SyntAnal6: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Media operator'
-      StyleName = 'Symbol'
+      DisplayName = 'Media keyword'
+      StyleName = 'Media'
       TokenType = 15
-      Expression = '(?-i)\b(and|not|only)\b'
+      Expression = '\b(and|not|only|print|screen|all|speech)\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -305,7 +305,7 @@ object SyntAnal6: TLibSyntAnalyzer
       DisplayName = 'Name'
       StyleName = 'Style'
       TokenType = 14
-      Expression = '\-[\w\-]+ | \w(\\.|[\w\-])*'
+      Expression = '\-[\w\-]+|[a-z](\\.|[\w\-])*'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -313,7 +313,7 @@ object SyntAnal6: TLibSyntAnalyzer
       DisplayName = '!important'
       StyleName = 'Value'
       TokenType = 2
-      Expression = '(?-i)!(important)\b'
+      Expression = '!important\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -2368,7 +2368,7 @@ object SyntAnal6: TLibSyntAnalyzer
         end
         item
           CondType = tcSkip
-          TokenTypes = 38556
+          TokenTypes = 54940
         end
         item
           TokenTypes = 32
@@ -2548,7 +2548,7 @@ object SyntAnal6: TLibSyntAnalyzer
     'Prop others'
     'Color func name'
     'Id in tree'
-    'Media operator'
+    'Media keyword'
     'Suffix'
     'Value')
   Extentions = 'css'
