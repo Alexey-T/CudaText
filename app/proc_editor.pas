@@ -2060,7 +2060,7 @@ begin
     Ed.OptMicromapVisible:= ANew.ShowMicromap;
   if (AOld.ShowRuler<>ANew.ShowRuler) and (TATEditorModifiedOption.RulerVisible in Ed.ModifiedOptions) then
     Ed.OptRulerVisible:= ANew.ShowRuler;
-  if AOld.ShowNumbers<>ANew.ShowNumbers then
+  if (AOld.ShowNumbers<>ANew.ShowNumbers) and (TATEditorModifiedOption.GutterNumbers in Ed.ModifiedOptions) then
     Ed.Gutter.Items[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagNumbers)].Visible:= ANew.ShowNumbers;
   if AOld.ShowFolding<>ANew.ShowFolding then
     Ed.Gutter.Items[Ed.Gutter.FindIndexByTag(ATEditorOptions.GutterTagFolding)].Visible:= ANew.ShowFolding;
