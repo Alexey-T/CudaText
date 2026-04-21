@@ -547,8 +547,10 @@ object SyntAnal8: TLibSyntAnalyzer
             'hr'
             'img'
             'input'
+            'li'
             'link'
             'meta'
+            'p'
             'source'
             'track'
             'wbr')
