@@ -534,16 +534,24 @@ object SyntAnal8: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
-      DisplayName = 'Simple tag block'
+      DisplayName = 'Void tag'
       ConditionList = <
         item
           TagList.Strings = (
+            'area'
+            'base'
             'br'
+            'col'
+            'embed'
+            'frame'
             'hr'
-            'image'
             'img'
+            'input'
             'link'
-            'p')
+            'meta'
+            'source'
+            'track'
+            'wbr')
           TokenTypes = 4
           IgnoreCase = True
         end
@@ -552,23 +560,23 @@ object SyntAnal8: TLibSyntAnalyzer
             '<')
           TokenTypes = 1024
         end>
-      BlockEnd = 'Simple tag block end'
-      NameFmt = '%s0'
+      BlockEnd = 'Void tag end'
+      NotCollapsed = True
+      NameFmt = '%s-1~[>]1'
+      RefToCondEnd = True
       HighlightPos = cpBound
       DynSelectMin = True
-      CollapseFmt = '%s0'
+      CancelNextRules = True
       IgnoreAsParent = False
     end
     item
-      DisplayName = 'Simple tag block end'
-      BlockName = 'Simple tag block'
-      StrictParent = True
+      DisplayName = 'Void tag end'
       BlockType = btRangeEnd
       ConditionList = <
         item
           TokenTypes = 2048
         end>
-      HighlightPos = cpBound
+      HighlightPos = cpAny
       IgnoreAsParent = False
     end
     item
@@ -576,14 +584,6 @@ object SyntAnal8: TLibSyntAnalyzer
       StyleName = 'Tag id hilite BG'
       ConditionList = <
         item
-          TagList.Strings = (
-            'br'
-            'hr'
-            'image'
-            'img'
-            'link'
-            'p')
-          CondType = tcNotEqual
           TokenTypes = 4
           IgnoreCase = True
         end
@@ -896,7 +896,6 @@ object SyntAnal8: TLibSyntAnalyzer
   SampleText.Strings = (
     '<!doctype test="123">'
     '<!-- comment -->'
-    '<meta1/>'
     '<meta2>text</meta3>'
     '<? php ?> or <% asp text  %> '
     ''
