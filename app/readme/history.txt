@@ -9,7 +9,7 @@
 + add: lexer CSS shows usual {}-blocks in the code-tree (idea by @BetoValle)
 + add: lexer HTML shows longer tag-names in the code-tree (thanks @BetoValle)
 - fix: avoid flickering of pair-brackets, when user types text inside brackets (thanks @iconv)
-- fix: parser bug: on editing in line, when line had many one-liner JS blocks, not _all_ blocks were auto-deleted from cache -> it breaks HTML highlight
+- fix: parser bug: in HTML, do mass deletion of JS blocks -> sometimes, HTML highlighting breaks
 - fix: lexer Markdown: fixed rule for crossed text; improved bold/italic rules for CJK text; fixed rules for fenced blocks (by @zen010101)
 
 1.234.0 (2026/04)
