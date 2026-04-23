@@ -8,6 +8,7 @@
 + add: menu "File / Line ends" shows more detailed items: "Linux/Unix (LF) / Windows (CRLF) / Mac OS 9 (CR)" (idea by @iconv)
 + add: lexer CSS shows usual {}-blocks in the code-tree (idea by @BetoValle)
 + add: lexer HTML shows longer tag-names in the code-tree (thanks @BetoValle)
++ add: lexer XML highlightes <style> blocks for SVG files
 - fix: avoid flickering of pair-brackets, when user types text inside brackets (thanks @iconv)
 - fix: parser bug: in HTML, do mass deletion of JS blocks -> sometimes, HTML highlighting breaks
 - fix: lexer Markdown: fixed rule for crossed text; improved bold/italic rules for CJK text; fixed rules for fenced blocks (by @zen010101)
