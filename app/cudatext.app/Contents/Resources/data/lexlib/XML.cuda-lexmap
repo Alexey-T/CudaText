@@ -7,6 +7,7 @@ styles_str=Text,Tag val
 [ref]
 0=CSS
 1=JavaScript
+2=CSS
 
 [map]
 Comment=Comment

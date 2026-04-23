@@ -490,7 +490,7 @@ object SyntAnal17: TLibSyntAnalyzer
       StyleName = 'Sublexer BG'
       StartExpression = '<style\s+type="text/css"[^<>/]*?>'
       EndExpression = '</style>'
-      SyntAnalyzer = SyntAnal7
+      SyntAnalyzer = SyntAnal6
     end
     item
       DisplayName = 'JS script'
@@ -498,6 +498,13 @@ object SyntAnal17: TLibSyntAnalyzer
       StartExpression = '<script\s+[^>]*?javascript[^>]*?>\s*<!\[CDATA\['
       EndExpression = '\]\]'
       SyntAnalyzer = SyntAnal10
+    end
+    item
+      DisplayName = 'CSS style 2'
+      StyleName = 'Sublexer BG'
+      StartExpression = '<style>'
+      EndExpression = '</style>'
+      SyntAnalyzer = SyntAnal6
     end>
   SampleText.Strings = (
     '<?xml version="1.0" encoding="utf8" ?>'
