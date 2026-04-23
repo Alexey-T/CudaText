@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.234.1 (2026/04)
+1.234.0.4 (2026/04)
 
 + add: menu "File / Line ends" shows more detailed items: "Linux/Unix (LF) / Windows (CRLF) / Mac OS 9 (CR)" (idea by @iconv)
 + add: lexer CSS shows usual {}-blocks in the code-tree (idea by @BetoValle)
