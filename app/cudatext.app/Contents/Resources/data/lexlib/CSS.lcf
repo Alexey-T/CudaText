@@ -304,6 +304,8 @@ object SyntAnal6: TLibSyntAnalyzer
     item
       DisplayName = 'Name'
       StyleName = 'Style'
+      BlockName = '@media {'
+      NotParent = True
       TokenType = 2
       Expression = '\-[\w\-]+|[a-z](\\.|[\w\-])*'
       ColumnFrom = 0
@@ -321,7 +323,7 @@ object SyntAnal6: TLibSyntAnalyzer
       DisplayName = 'Symbol'
       StyleName = 'Symbol'
       TokenType = 3
-      Expression = '\]\]>|[;:,%\(\)\[\]@=/\*<>\-\+!\^\$\|~]'
+      Expression = '\]\]>|[;,:%\(\)\[\]@=/\*<>\-\+!\^\$\|~]'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -2390,14 +2392,22 @@ object SyntAnal6: TLibSyntAnalyzer
           TagList.Strings = (
             '{')
           TokenTypes = 1
+        end
+        item
+          CondType = tcSkip
+          TokenTypes = 65536
+        end
+        item
+          TokenTypes = 4
         end>
       BlockEnd = '}'
       Highlight = True
       InvertColors = True
-      NameFmt = '%sl1'
+      NameFmt = '%s0~[{]1'
       RefToCondEnd = True
       HighlightPos = cpRange
       DynSelectMin = True
+      CancelNextRules = True
       DrawStaple = True
       CollapseFmt = '{ ... }'
       TreeItemImage = 4
