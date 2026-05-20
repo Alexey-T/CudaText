@@ -3,6 +3,7 @@
   - fixed
   * changed
 
+- fix: improve command "delete word previous" when 1 space exists before caret (thanks @Uenluom)
 - fix: lexer HTML: fix highlight of SVG blocks
 - fix: lexer HTML: rework several rules, before it did not handle complex webpage of Krita editor
 - fix: lexer YAML: fix rule for lines with leading '-'
