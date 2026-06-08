@@ -24,7 +24,7 @@ type
 
   TfmUnprinted = class(TForm)
     btnApplyGlobally: TButton;
-    btnApplyToCurrent: TButton;
+    btnApplyToCur: TButton;
     btnApplyToAll: TButton;
     btnClose: TButton;
     chkWraps: TCheckBox;
@@ -296,7 +296,7 @@ begin
   ini:= TIniFile.Create(fn);
   try
     Caption:= ini.ReadString(section, '_', Caption);
-    with btnApplyToCurrent do Caption:= ini.ReadString(section, 'ap_cur', Caption);
+    with btnApplyToCur do Caption:= ini.ReadString(section, 'ap_cur', Caption);
     with btnApplyToAll do Caption:= ini.ReadString(section, 'ap_all', Caption);
     with btnApplyGlobally do Caption:= ini.ReadString(section, 'ap_glo', Caption);
     with btnClose do Caption:= msgButtonClose;
