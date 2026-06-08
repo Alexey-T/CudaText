@@ -8,6 +8,11 @@ cpu=$3
 exedir=$4
 outdir=$5
 
+if [ ! -f "$exedir/cudatext" ]; then
+    echo "Error: file 'cudatext' not found in dir '$exedir'"
+    exit 1
+fi
+
 if [[ "$outdir" == "" ]]; then
     echo "Need script params"
     exit
