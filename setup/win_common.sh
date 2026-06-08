@@ -12,6 +12,11 @@ if [[ "$pydir" == "" ]]; then
   exit
 fi
 
+if [ ! -f "$exedir/cudatext.exe" ]; then
+    echo "Error: file 'cudatext.exe' not found in dir '$exedir'"
+    exit 1
+fi
+
 zipname2=cudatext-windows-$cpu-$cuda_ver.zip
 zipname=tmp_$zipname2
 mkdir -p $outdir
