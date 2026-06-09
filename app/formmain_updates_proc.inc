@@ -1447,7 +1447,11 @@ begin
       'wrap':    begin NTag:= StatusbarTag_WrapMode; bHotTrack:= true; end;
       'zoom':    begin NTag:= StatusbarTag_Zoom; bHotTrack:= false; end;
       'ro':      begin NTag:= StatusbarTag_ReadOnly; bHotTrack:= false; end;
-      else Continue;
+      else
+        begin
+          MsgLogConsole(Format('ERROR: "ui_statusbar_panels" has unknown cell "%s"', [SItem]));
+          Continue;
+        end;
     end;
 
     SepItem.GetItemStr(SItem);
