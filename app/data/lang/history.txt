@@ -1,5 +1,8 @@
 See http://wiki.freepascal.org/CudaText#How_to_make_translation
 
+2026.06.09
++ [sta] zm ro_h
+
 2026.04.02
 * change [sta] sel
 + [sta] clmd

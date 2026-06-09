@@ -412,6 +412,8 @@ begin
     msgStatusbarHintTabSize:= ini.ReadString('sta', 'tab', msgStatusbarHintTabSize);
     msgStatusbarHintInsOvr:= ini.ReadString('sta', 'ins', msgStatusbarHintInsOvr);
     msgStatusbarHintWrap:= ini.ReadString('sta', 'wrp', msgStatusbarHintWrap);
+    msgStatusbarHintZoom:= ini.ReadString('sta', 'zm', msgStatusbarHintZoom);
+    msgStatusbarHintReadOnly:= ini.ReadString('sta', 'ro_h', msgStatusbarHintReadOnly);
     UpdateStatusbarHints;
 
     Sep.Init(ini.ReadString('sta', 'view', 'Viewer,Text,Binary,Hex,Unicode,Unicode/Hex'));
