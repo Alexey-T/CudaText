@@ -5,6 +5,7 @@
 
 1.234.4 (2026/06)
 
+- fix: regression: "Unprinted chars" dialog lost translation
 - fix: improve command "delete word previous" when only 1 space is before caret, to be like VSCode/Sublime (thanks @Uenluom)
 - fix: lexer HTML: needed to rework several rules, because before it did not handle complex webpage of the Krita editor
 - fix: lexer HTML: fix highlight of SVG blocks
