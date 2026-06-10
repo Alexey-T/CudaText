@@ -153,10 +153,13 @@
   "gap_bitmap_align": -1,
 
   //[UI]
-  //Double-buffering of UI controls. [has suffix]
-  //  Use only if problems with rendering.
-  //  If app shows flickering, change to true.
-  //  If high-DPI monitor (e.g. Retina) shows blurred text, change to false.
+  //Double-buffering of GUI controls. [has suffix]
+  //Use it if you see problems with rendering:
+  //a) If app shows flickering, change to true.
+  //b) If high-DPI monitor (e.g. Retina) shows blurred text, change to false.
+  //Also it makes sence to turn this option off on Windows/Linux, to reduce memory
+  //usage by bitmap buffer (bitmap buffer takes about 10Mb per every ui-tab on big
+  //window size like 2500x2000).
   "ui_buffered": true,
   "ui_buffered__linux": true,
   "ui_buffered__mac": false,
