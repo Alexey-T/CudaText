@@ -1,5 +1,5 @@
-//Config default.json is for copying parts to user.json,
-//it's not read as actual config. Config user.json is read.
+//File "default.json" is for copying parts to "user.json",
+//it's not read as actual config. Config "user.json" is read.
 //
 //Some options have suffix for OS:
 //  Windows: empty
