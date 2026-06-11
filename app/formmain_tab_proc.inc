@@ -185,6 +185,16 @@ begin
 
   //focused another tab? update menu checkmarks
   UpdateMenuChecks(false);
+
+  for iFrame:= 0 to FrameCount-1 do
+  begin
+    F:= Frames[iFrame];
+    if not F.Visible then
+    begin
+      F.Ed1.DoDeallocateHeavyBitmap;
+      F.Ed2.DoDeallocateHeavyBitmap;
+    end;
+  end;
 end;
 
 procedure TfmMain.DoOnTabFocusFinalization(F: TEditorFrame; AAllowEventOnTabChange: boolean);

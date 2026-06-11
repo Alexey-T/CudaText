@@ -3,6 +3,8 @@
   - fixed
   * changed
 
++ add: program deallocates heavy screen buffers (can be as large as 10 MB per tab) of hidden ui-tabs on tab switching (thanks @hansnolte)
+
 1.234.4 (2026/06)
 
 - fix: regression: "Unprinted chars" dialog lost translation
