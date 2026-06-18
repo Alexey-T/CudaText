@@ -646,7 +646,7 @@ You can change visibility of lexer in SynWrite lexer editor (the checkbox will w
 === How to create distributive of new lexer ===
 In SynWrite, you've created .lcf file in folder SynWrite/Data/LexLib. If you configured "Commenting" options, also file .cuda-lexmap is created. Now you need to create .zip installation of lexer, for both editors: SynWrite, CudaText.
 * In lexer file, replace system colors to usual colors: replace "clWindowText" to "clBlack" (clWindowText may be light on CudaText on Linux); replace "clInfoText" and "clInfoBk" too.
-* In SynWrite, in Addon Manager, install plugin "ExLexer".
+* In SynWrite, in Addons Manager, install plugin "ExLexer".
 * In SynWrite, run menu item "Plugins / ExLexer", to create .zip for your lexer.
 * In CudaText, open this new zip file, this installs lexer to CudaText.
 * In CudaText, activate your lexer, dialog should show: "Lexer style mapping". Fill items in this dialog.
@@ -1436,7 +1436,7 @@ Session file contains data:
 ** Layout/sizes of editor groups
 ** Index of active editor group and active tab in each group
 
-Plugin "Session Manager" is present in Addon Manager, it gives commands to control sessions:
+Plugin "Session Manager" is present in Addons Manager, it gives commands to control sessions:
 open session file, save session, show list of recent sessions, etc.
 Session Manager also supports files from SynWrite, with .synw-session extension.
 
@@ -1546,7 +1546,7 @@ Notes:
 ==Python on Windows==
 On Windows, Python engine (2022/10: currently it is 3.8) is preinstalled. CudaText finds files "python3*.dll" in its folder, and uses file with the latest version number. No options exist to change this.
 
-You can use different Python version. From CudaText's Addon Manager, install appropriate package, e.g. "Windows_Python37_64bit", and restart the program.
+You can use different Python version. From CudaText's Addons Manager, install appropriate package, e.g. "Windows_Python37_64bit", and restart the program.
 
 Python engine requires Visual C++ Redistributable for Visual Studio 2015 (32-bit or 64-bit, same as CudaText). Download it from Microsoft site.
 
@@ -1696,7 +1696,7 @@ CudaText has toolbar on the top, which can be shown by menu item "View / Toggle 
 
 [[File:cudatext-toolbar.png]]
 
-To customize it, install plugin "Config Toolbar" from Addon Manager. Plugin gives command (menu "Plugins / Config Toolbar / Customize buttons") to customize toolbar contents: simple buttons, buttons with dropdown menus, separators,  icons for buttons.
+To customize it, install plugin "Config Toolbar" from Addons Manager. Plugin gives command (menu "Plugins / Config Toolbar / Customize buttons") to customize toolbar contents: simple buttons, buttons with dropdown menus, separators,  icons for buttons.
 
 Plugin also gives command "Hide standard buttons" which allows to hide default CudaText buttons from toolbar. This command shows input box for space-separated indexes of buttons. What are these indexes? Indexes are 0-based numbers of all toolbar items: first button (New File) is index 0, next item (dropdown near New File) is index 1, next item (Open File) is index 2, etc (all separators also have index). So for example, to hide 3rd + 10th items, enter "2 9" into that input box.
 
@@ -2587,7 +2587,7 @@ Next, call CudaText menu item "Plugins / Addons Manager / Install from GitHub". 
 
 After you entered the URL, Addons Manager shows messagebox:
 
- GitHub repository can be cloned (using "git clone") or can be downloaded as zip file.  If you clone, Addon Manager's Update dialog will update add-on using "git pull", which is recommended.
+ GitHub repository can be cloned (using "git clone") or can be downloaded as zip file.  If you clone, Addons Manager's Update dialog will update add-on using "git pull", which is recommended.
  Buttons: Cancel / Download as zip / Clone repo.
 
 Better to choose "Clone repo" here, this will allow to update plugin directly from GitHub. Choosing the "Download as zip" is ok, but you cannot update plugin from GitHub, you can update plugin only from the released versions from SF.net.
@@ -2622,7 +2622,7 @@ subdir=lang
 * make the zip file "translation.nn_NN.zip", it must contain files nn_NN.ini, install.inf
 * test this zip file: open it in CudaText via "File / Open", and check it's installed
 * publish this zip file, at CudaText forum or at GitHub issues https://github.com/Alexey-T/CudaText/issues
-* if package is OK, it will be at SourceForge downloads, and in Addon Manager
+* if package is OK, it will be at SourceForge downloads, and in Addons Manager
 
 ==How to make translation of Plugins menu==
 CudaText supports translation of Plugins menu items. For example, you have plugin with module cuda_nnn, which has "install.inf" with such menu items:
