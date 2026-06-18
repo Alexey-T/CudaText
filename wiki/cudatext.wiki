@@ -2621,7 +2621,7 @@ subdir=lang
 
 * make the zip file "translation.nn_NN.zip", it must contain files nn_NN.ini, install.inf
 * test this zip file: open it in CudaText via "File / Open", and check it's installed
-* publish this zip file, at CudaText forum or at GitHub issues https://github.com/Alexey-T/CudaText/issues
+* publish this zip file on CudaText forum or GitHub issues https://github.com/Alexey-T/CudaText/issues ; or you can make pull request to https://github.com/CudaText-addons/CudaText-translations
 * if package is OK, it will be at SourceForge downloads, and in Addons Manager
 
 ==How to make translation of Plugins menu==
