@@ -998,20 +998,23 @@ end;
 
 procedure TfmMain.DoOps_LoadHistory_GroupView(cfg: TAppJsonConfig; const AJsonPath: string);
 var
-  Sep: TATStringSeparator;
+  Sep, Sep2: TATStringSeparator;
+  SItem: string;
   i: integer;
 begin
   FOption_GroupMode:= TATGroupsMode(cfg.GetValue(AJsonPath+'/groups', Ord(gmOne)));
 
-  Sep.Init(cfg.GetValue(AJsonPath+'/gr/panel', ''));
-  Sep.GetItemInt(FOption_GroupPanelSize.x, 50);
-  Sep.GetItemInt(FOption_GroupPanelSize.y, 50);
+  Sep.Init(cfg.GetValue(AJsonPath+'/grp/panel', ''));
+  Sep.GetItemInt(FOption_GroupPanelSize.x, 50*100);
+  Sep.GetItemInt(FOption_GroupPanelSize.y, 50*100);
 
-  Sep.Init(cfg.GetValue(AJsonPath+'/gr/pages', ''));
+  Sep.Init(cfg.GetValue(AJsonPath+'/grp/pages', ''), ';');
   for i in TATGroupsNums do
   begin
-    Sep.GetItemInt(FOption_GroupSizes[i].x, 50);
-    Sep.GetItemInt(FOption_GroupSizes[i].y, 50);
+    Sep.GetItemStr(SItem);
+    Sep2.Init(SItem, ',');
+    Sep2.GetItemInt(FOption_GroupSizes[i].x, 50*100);
+    Sep2.GetItemInt(FOption_GroupSizes[i].y, 50*100);
   end;
 end;
 
@@ -1028,10 +1031,10 @@ begin
 
   S:= '';
   for i in TATGroupsNums do
-    S+= Format('%d,%d,', [SizePage[i].x, SizePage[i].y]);
+    S+= Format('%d,%d;', [SizePage[i].x, SizePage[i].y]);
 
-  cfg.SetValue(AJsonPath+'/gr/panel', Format('%d,%d', [SizePanel.x, SizePanel.y]));
-  cfg.SetValue(AJsonPath+'/gr/pages', S);
+  cfg.SetValue(AJsonPath+'/grp/panel', Format('%d,%d', [SizePanel.x, SizePanel.y]));
+  cfg.SetValue(AJsonPath+'/grp/pages', S);
 end;
 
 

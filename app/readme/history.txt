@@ -3,6 +3,7 @@
   - fixed
   * changed
 
+* change/fix: changed session-file key for position of groups, to avoid rounding of 'minimized' 2nd group width/height to zero after app restart (thanks @clfsoft)
 + add: program deallocates heavy screen buffers (can be as large as 10 MB per tab) of hidden ui-tabs on tab switching (thanks @hansnolte)
 
 1.234.4 (2026/06)
