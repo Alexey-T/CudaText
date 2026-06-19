@@ -33,6 +33,7 @@ uses
   ATListbox,
   ATPanelSimple,
   ATButtons,
+  ATGroups,
   ATGauge,
   ATFlatToolbar,
   ATBinHex,
@@ -177,6 +178,12 @@ function IsWin32DarkModeViaRegistry: Boolean;
 
 function AppIsColorDark(C: TColor): boolean;
 function AppContrastColor(AColor: TColor): TColor;
+
+type
+  TAppGroupsPoints = array[TATGroupsNums] of TPoint;
+
+procedure AppGroups_GetSizes(Gr: TATGroups; out APanelSize: TPoint; out APageSize: TAppGroupsPoints);
+procedure AppGroups_SetSizes(Gr: TATGroups; const APanelSize: TPoint; const APageSize: TAppGroupsPoints);
 
 
 implementation
@@ -1676,6 +1683,60 @@ begin
     Result:= $F0F0F0;
 end;
 
+
+const
+  AppGroupsSizeMultiplier = 10000;
+  //100 is too small, gives problem (rounding to 100) when saving 'minimized' 2nd group with window width>2500
+
+procedure AppGroups_GetSizes(Gr: TATGroups; out APanelSize: TPoint; out APageSize: TAppGroupsPoints);
+//
+  function _FixOdd(N: integer): integer; inline;
+  //this is to fix shifting of splitter pos, if position is saved to config / restored later
+  begin
+    if Odd(N) then
+      Result:= N+1
+    else
+      Result:= N;
+  end;
+//
+var
+  i: integer;
+begin
+  if (Gr.Width<2) or (Gr.Height<2) then
+  begin
+    APanelSize.x:= AppGroupsSizeMultiplier;
+    APanelSize.y:= AppGroupsSizeMultiplier;
+    for i in TATGroupsNums do
+    begin
+      APageSize[i].x:= AppGroupsSizeMultiplier;
+      APageSize[i].y:= AppGroupsSizeMultiplier;
+    end;
+    exit
+  end;
+
+  APanelSize.x:= _FixOdd(Gr.Panel1.Width * AppGroupsSizeMultiplier div Gr.Width);
+  APanelSize.y:= _FixOdd(Gr.Panel1.Height * AppGroupsSizeMultiplier div Gr.Height);
+  for i in TATGroupsNums do
+  begin
+    APageSize[i].x:= _FixOdd(Gr.Pages[i].Width * AppGroupsSizeMultiplier div Gr.Width);
+    APageSize[i].y:= _FixOdd(Gr.Pages[i].Height * AppGroupsSizeMultiplier div Gr.Height);
+  end;
+end;
+
+procedure AppGroups_SetSizes(Gr: TATGroups; const APanelSize: TPoint; const APageSize: TAppGroupsPoints);
+const
+  cMaxSize = 8000; //to avoid SigFPE on Linux sometimes, when setting Height~~100K
+var
+  i: integer;
+begin
+  Gr.Panel1.Width := Min(cMaxSize, APanelSize.x * Gr.Width div AppGroupsSizeMultiplier);
+  Gr.Panel1.Height:= Min(cMaxSize, APanelSize.y * Gr.Height div AppGroupsSizeMultiplier);
+  for i in TATGroupsNums do
+  begin
+    Gr.Pages[i].Width:= Min(cMaxSize, APageSize[i].x * Gr.Width div AppGroupsSizeMultiplier);
+    Gr.Pages[i].Height:= Min(cMaxSize, APageSize[i].y * Gr.Height div AppGroupsSizeMultiplier);
+  end;
+end;
 
 
 finalization

@@ -1021,13 +1021,13 @@ end;
 procedure TfmMain.DoOps_SaveHistory_GroupView(cfg: TAppJsonConfig; const AJsonPath: string);
 var
   SizePanel: TPoint;
-  SizePage: TATGroupsPoints;
+  SizePage: TAppGroupsPoints;
   S: string;
   i: integer;
 begin
   cfg.SetValue(AJsonPath+'/groups', Ord(GroupsMain.Mode));
 
-  GroupsMain.GetSizes(SizePanel, SizePage);
+  AppGroups_GetSizes(GroupsMain, SizePanel, SizePage);
 
   S:= '';
   for i in TATGroupsNums do
@@ -1251,7 +1251,7 @@ procedure TfmMain.DoApplyInitialGroupSizes;
 //groups sizes must be restored in OnShow, OnCreate is too early
 begin
   UpdateGroupsMode(FOption_GroupMode);
-  GroupsMain.SetSizes(FOption_GroupPanelSize, FOption_GroupSizes);
+  AppGroups_SetSizes(GroupsMain, FOption_GroupPanelSize, FOption_GroupSizes);
   GroupsMain.SaveSplitPos; //apply current sizes to internal Groups vars
 end;
 

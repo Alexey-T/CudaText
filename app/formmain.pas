@@ -749,7 +749,7 @@ type
     FOption_AllowSessionSave: TAppAllowSomething;
     FOption_StartupCommand: string;
     FOption_GroupMode: TATGroupsMode;
-    FOption_GroupSizes: TATGroupsPoints;
+    FOption_GroupSizes: TAppGroupsPoints;
     FOption_GroupPanelSize: TPoint;
     FOption_SidebarTab: string;
     FOption_BottomTab: string;
