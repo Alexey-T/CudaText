@@ -1449,7 +1449,7 @@ begin
       'ro':      begin NTag:= StatusbarTag_ReadOnly; bHotTrack:= false; end;
       else
         begin
-          MsgLogConsole(Format('ERROR: "ui_statusbar_panels" has unknown cell "%s"', [SItem]));
+          MsgLogConsole(Format('ERROR: Unknown cell in the option "ui_statusbar_panels": "%s"', [SItem]));
           Continue;
         end;
     end;
