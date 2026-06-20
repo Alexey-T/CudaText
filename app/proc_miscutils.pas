@@ -786,12 +786,10 @@ begin
 end;
 
 function AppAlignmentToString(const V: TAlignment): string;
+const
+  Ar: array[TAlignment] of string = ('L', 'R', 'C');
 begin
-  case V of
-    taLeftJustify: Result:= 'L';
-    taRightJustify: Result:= 'R';
-    else Result:= 'C';
-  end;
+  Result:= Ar[V];
 end;
 
 procedure Canvas_PaintCheckers(C: TCanvas;
