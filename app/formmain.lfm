@@ -678,6 +678,7 @@ object fmMain: TfmMain
     Top = 16
   end
   object AppProps: TApplicationProperties
+    HintPause = 1200
     ShowButtonGlyphs = sbgNever
     OnActivate = AppPropsActivate
     OnDeactivate = AppPropsDeactivate
