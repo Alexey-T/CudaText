@@ -42,7 +42,6 @@ uses
   fix_focus_window,
   appjsonconfig,
   at__fpjson,
-  proc_json_ex,
   PythonEngine,
   ec_LexerList,
   ec_SyntAnal,
@@ -754,7 +753,6 @@ type
     FOption_SidebarTab: string;
     FOption_BottomTab: string;
     FCmdlineFileCount: integer;
-    FPrevJsonObj: TJSONData;
     FPrevFramesEditState: array of TFrameEditState;
     //FPrevFindDlgVisible: boolean;
     FStartupShowFloating1: boolean;
@@ -3559,8 +3557,6 @@ begin
   CloseFormAutoCompletion;
 
   AppStopListTimers;
-
-  FreeAndNil(FPrevJsonObj);
 
   if Assigned(FFinder) then
     FreeAndNil(FFinder);

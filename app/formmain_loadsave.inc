@@ -241,10 +241,8 @@ end;
 
 function TfmMain.DoOps_SaveSession(const ASessionId: string;
   ASaveModifiedFiles, ASaveUntitledTabs, AByTimer: boolean): boolean;
-const
-  keysToIgnore: array of UTF8String = ('text', 'undo', 'redo');
 var
-  cfg, cfg_bookmarks: TAppJsonConfigEx;
+  cfg, cfg_bookmarks: TAppJsonConfig;
   Frame: TEditorFrame;
   Gr: TATGroups;
   Pages: TATPages;
@@ -288,8 +286,8 @@ begin
   if (nFrameCount=1) and Frames[0].IsEmpty then
     nFrameCount:= 0;
 
-  cfg:= TAppJsonConfigEx.Create(nil);
-  cfg_bookmarks:= TAppJsonConfigEx.Create(nil);
+  cfg:= TAppJsonConfig.Create(nil);
+  cfg_bookmarks:= TAppJsonConfig.Create(nil);
   try
     try
       cfg.Filename:= sSessionFileName;
@@ -312,9 +310,6 @@ begin
         FreeAndNil(cfg_bookmarks);
       end;
     end;
-
-    if FPrevJsonObj=nil then
-      FPrevJsonObj:= CloneJsonObj(cfg.GetJsonObj, keysToIgnore);
 
     DoOps_SaveHistory_GroupView(cfg, sRootPath);
 
@@ -497,24 +492,14 @@ begin
     Result:= true;
   finally
     try
-      if not bSessionUpdated then
-      begin
-        if not IsJsonObjEqual(cfg.GetJsonObj, FPrevJsonObj, keysToIgnore) then
-          bSessionUpdated:= true; //the JSON config has been updated
-      end;
+      if not bFileExisted then
+        bSessionUpdated:= true;
 
       if bSessionUpdated then
       begin
-        FPrevJsonObj.Free;
-        FPrevJsonObj:= CloneJsonObj(cfg.GetJsonObj, keysToIgnore);
         if not FileAge(sSessionFileName, fileWriteTimeBeforeSaving) then
           fileWriteTimeBeforeSaving:= Default(TDateTime);
-      end
-      else
-        cfg.SetModified(false); //no need to save the session
-
-      if not bFileExisted then
-        cfg.SetModified(true);
+      end;
 
       FreeAndNil(cfg_bookmarks);
       FreeAndNil(cfg); //saves json file when its property Modified is True
@@ -527,11 +512,6 @@ begin
   begin
     if not FileAge(sSessionFileName, fileWriteTimeAfterSaving) then
       fileWriteTimeAfterSaving:= Default(TDateTime);
-    if fileWriteTimeBeforeSaving=fileWriteTimeAfterSaving then
-    begin
-      FPrevJsonObj.Free;
-      FPrevJsonObj:= TJSONNull.Create;
-    end;
   end;
 
   if UiOps.LogSessions and (bSessionUpdated or not bFileExisted) then
