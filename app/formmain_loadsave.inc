@@ -499,6 +499,11 @@ begin
       begin
         if not FileAge(sSessionFileName, fileWriteTimeBeforeSaving) then
           fileWriteTimeBeforeSaving:= Default(TDateTime);
+      end
+      else
+      begin
+        //no Frames[i] texts were changed: set cfg.Modified=False to supress JSON saving
+        cfg.ClearModifiedFlag;
       end;
 
       FreeAndNil(cfg_bookmarks);
