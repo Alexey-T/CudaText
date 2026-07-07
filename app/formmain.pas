@@ -780,6 +780,7 @@ type
     function HandleRenameCheckAllowed(const AFileName: string): boolean;
     procedure HandleTimerCommand(Ed: TATSynEdit; CmdCode: integer; CmdInvoke: TATCommandInvoke);
     procedure InvalidateMouseoverDependantControls;
+    function IsAnyFrameTextModified: boolean;
     function IsTooManyTabsOpened: boolean;
     function GetUntitledNumberedCaption: string;
     procedure DlgProc_MainForm_OnParseDone(Sender: TObject; ATime: integer);
@@ -2677,8 +2678,11 @@ begin
     if NTick-FLastSaveSessionTick>=Abs(UiOps.SessionSaveInterval)*1000 then
     begin
       FLastSaveSessionTick:= NTick;
-      DoOps_SaveSessionsBackups(AppFile_Session); //users need session-backups be made by SessionSaveInterval<>0, issue #5906
-      DoOps_SaveSession(AppFile_Session, true{ASaveModifiedTabs}, true{ASaveUntitledTabs}, true{AByTimer});
+      if IsAnyFrameTextModified then
+      begin
+        DoOps_SaveSessionsBackups(AppFile_Session); //users need session-backups be made by SessionSaveInterval<>0, issue #5906
+        DoOps_SaveSession(AppFile_Session, true{ASaveModifiedTabs}, true{ASaveUntitledTabs}, true{AByTimer});
+      end;
       DoOps_SaveHistory(AppFile_History, false, false);
     end;
   end;

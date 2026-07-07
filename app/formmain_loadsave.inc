@@ -227,7 +227,8 @@ begin
   then
   begin
     fnBase:= AppFile_Session;
-    DoOps_SaveSessionsBackups(fnBase);
+    if IsAnyFrameTextModified then
+      DoOps_SaveSessionsBackups(fnBase);
     DoOps_SaveSession(fnBase, ASaveModifiedTabs, ASaveModifiedTabs, false);
   end;
 end;
@@ -238,6 +239,31 @@ procedure TfmMain.DoOps_SaveSessionsBackups(const ASessionFilename: string);
 begin
   AppMakeBackupFiles(ASessionFilename, '.cuda-session', UiOps.BackupLastSessions);
 end;
+
+
+function TfmMain.IsAnyFrameTextModified: boolean;
+var
+  nFrameCount, iFrame: integer;
+  TempFrameState: TFrameEditState;
+begin
+  //same code for nFrameCount as in DoOps_SaveSession
+  nFrameCount:= FrameCount;
+  if (nFrameCount=1) and Frames[0].IsEmpty then
+    nFrameCount:= 0;
+
+  if nFrameCount<>Length(FPrevFramesEditState) then
+    exit(true);
+
+  for iFrame:= 0 to nFrameCount-1 do
+  begin
+    TempFrameState.Assign(Frames[iFrame]);
+    if TempFrameState<>FPrevFramesEditState[iFrame] then
+      exit(true);
+  end;
+
+  Result:= false;
+end;
+
 
 function TfmMain.DoOps_SaveSession(const ASessionId: string;
   ASaveModifiedFiles, ASaveUntitledTabs, AByTimer: boolean): boolean;
