@@ -2684,7 +2684,7 @@ begin
         DoOps_SaveSessionsBackups(AppFile_Session); //users need session-backups be made by SessionSaveInterval<>0, issue #5906
         DoOps_SaveSession(AppFile_Session, true{ASaveModifiedTabs}, true{ASaveUntitledTabs}, true{AByTimer});
       end;
-      DoOps_SaveHistory(AppFile_History, false, false);
+      //DoOps_SaveHistory(AppFile_History, false, false); //why to save history by timer?
     end;
   end;
 
