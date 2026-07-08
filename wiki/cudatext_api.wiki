@@ -2560,10 +2560,6 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_LINE_SPACE1: int: line additional spacing, on top (can be negative).
 * PROP_LINE_SPACE2: int: line additional spacing, on bottom (can be negative).
 
-* (deprecated) PROP_SCROLL_VERT: int: approximate vertical scroll position. Index in WrapInfo list, you can read this list via get_wrapinfo().
-* (deprecated) PROP_SCROLL_HORZ: int: approximate horizontal scroll position.
-* (deprecated) PROP_SCROLL_VERT_SMOOTH: int: smooth vertical scroll position. In pixels.
-* (deprecated) PROP_SCROLL_HORZ_SMOOTH: int: smooth horizontal scroll position. In pixels.
 * PROP_SCROLL_VERT_INFO: int: dict with all available info about vertical scroll.
 * PROP_SCROLL_HORZ_INFO: int: dict with all available info about horizontal scroll.
 * PROP_SCROLLSTYLE_HORZ: int: horizontal scrollbar's show-style, one of SCROLLSTYLE_nnn constants.
@@ -2776,10 +2772,6 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 * PROP_LINE_SPACE1: int: line additional spacing, on top (can be negative).
 * PROP_LINE_SPACE2: int: line additional spacing, on bottom (can be negative).
 
-* (deprecated) PROP_SCROLL_VERT: int: approximate vertical scroll position. Index in WrapInfo list, you can read this list via get_wrapinfo().
-* (deprecated) PROP_SCROLL_HORZ: int: approximate horizontal scroll position.
-* (deprecated) PROP_SCROLL_VERT_SMOOTH: int: smooth vertical scroll position. In pixels.
-* (deprecated) PROP_SCROLL_HORZ_SMOOTH: int: smooth horizontal scroll position. In pixels.
 * PROP_SCROLL_VERT_INFO: int: dict with info about vertical scroll. Comparing to Editor.get_prop (getter) supported dict keys, only these dict keys are supported here: a) "pos", b) "pixels", c) "pos" and "pixels", d) "smooth_pos".
 * PROP_SCROLL_HORZ_INFO: int: dict with info about horizontal scroll.
 * PROP_SCROLLSTYLE_HORZ: int: horizontal scrollbar's show-style, one of SCROLLSTYLE_nnn constants.
@@ -5343,5 +5335,11 @@ It provides:
 * add: app_proc: PROC_GET_FINDER_HANDLES returns also handles of find/replace input fields
 * add: app_proc: PROC_GET_FINDER_HANDLES returns also handle of '...' popup-menu
 * add: on_state_findbar: added "state" value "dots_show_pre"
+
+1.0.480 (app 1.234.5)
+* delete PROP_SCROLL_HORZ (use PROP_SCROLL_xxxx_INFO instead)
+* delete PROP_SCROLL_VERT (use PROP_SCROLL_xxxx_INFO instead)
+* delete PROP_SCROLL_HORZ_SMOOTH (use PROP_SCROLL_xxxx_INFO instead)
+* delete PROP_SCROLL_VERT_SMOOTH (use PROP_SCROLL_xxxx_INFO instead)
 
 [[Category:CudaText]]
