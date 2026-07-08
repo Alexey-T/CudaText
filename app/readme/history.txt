@@ -7,6 +7,7 @@
 
 * change/add: simplified logic of session saving. Now app skips saving a session if no ui-tab has changed text. Not nice side effect: if user don't change any text but only moves GUI splitters, carets, scrollbars - session won't be saved. (thanks @badrelmers)
 * change/fix: changed session-file key for position of groups, to avoid rounding of 'minimized' 2nd group width/height to zero after app restart (thanks @clfsoft)
+* change: deleted some deprecated scrolling-related APIs, so you must update plugins from Addons-Manager
 + add: program deallocates heavy screen buffers (can be as large as 10 MB per tab) of hidden ui-tabs on tab switching (thanks @hansnolte)
 
 1.234.4 (2026/06)
