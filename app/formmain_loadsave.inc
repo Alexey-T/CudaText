@@ -240,16 +240,12 @@ begin
   AppMakeBackupFiles(ASessionFilename, '.cuda-session', UiOps.BackupLastSessions);
 end;
 
-
 function TfmMain.IsAnyFrameTextModified: boolean;
 var
   nFrameCount, iFrame: integer;
   TempFrameState: TFrameEditState;
 begin
-  //same code for nFrameCount as in DoOps_SaveSession
-  nFrameCount:= FrameCount;
-  if (nFrameCount=1) and Frames[0].IsEmpty then
-    nFrameCount:= 0;
+  nFrameCount:= FrameCount_ForSession;
 
   if nFrameCount<>Length(FPrevFramesEditState) then
     exit(true);
@@ -296,7 +292,7 @@ begin
   nCountFiles:= 0;
   nCountUntitled:= 0;
   nSavedTabIndex:= 0;
-  nFrameCount:= FrameCount;
+  nFrameCount:= FrameCount_ForSession;
   nPrevFrameCount:= 0;
 
   {
@@ -307,10 +303,6 @@ begin
     DeleteFile(sSessionFileName);
   end;
   }
-
-  //delete outdated info about single untitled tab, issue #5712
-  if (nFrameCount=1) and Frames[0].IsEmpty then
-    nFrameCount:= 0;
 
   cfg:= TAppJsonConfig.Create(nil);
   cfg_bookmarks:= TAppJsonConfig.Create(nil);
@@ -999,12 +991,9 @@ begin
       Ed.DoEventCarets();
   end;
 
-  SetLength(FPrevFramesEditState, FrameCount);
+  SetLength(FPrevFramesEditState, FrameCount_ForSession);
   for iFrame:= 0 to Length(FPrevFramesEditState)-1 do
-  begin
-    Frame:= Frames[iFrame];
-    FPrevFramesEditState[iFrame].Assign(Frame);
-  end;
+    FPrevFramesEditState[iFrame].Assign(Frames[iFrame]);
 end;
 
 procedure TfmMain.DoOps_LoadHistory_GroupView(cfg: TAppJsonConfig; const AJsonPath: string);

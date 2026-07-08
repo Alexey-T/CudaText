@@ -1237,6 +1237,7 @@ type
     TimerFinderWrapped: TTimer;
     TimerShowFloating: TTimer;
     function FrameCount: integer;
+    function FrameCount_ForSession: integer;
     property Frames[N: integer]: TEditorFrame read GetFrame;
     function CurrentGroups: TATGroups;
     function CurrentFrame: TEditorFrame;

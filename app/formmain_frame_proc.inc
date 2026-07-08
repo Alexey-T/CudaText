@@ -256,6 +256,14 @@ begin
   end;
 end;
 
+function TfmMain.FrameCount_ForSession: integer;
+begin
+  Result:= FrameCount;
+  //delete outdated info about single untitled tab, issue #5712
+  if (Result=1) and Frames[0].IsEmpty then
+    Result:= 0;
+end;
+
 function TfmMain.CurrentGroups: TATGroups;
   //
   function _FormAct(F: TForm): boolean; inline;
