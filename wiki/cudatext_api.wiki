@@ -5336,7 +5336,7 @@ It provides:
 * add: app_proc: PROC_GET_FINDER_HANDLES returns also handle of '...' popup-menu
 * add: on_state_findbar: added "state" value "dots_show_pre"
 
-1.0.480 (app 1.234.5)
+1.0.480 (app 1.234.6)
 * delete PROP_SCROLL_HORZ (use PROP_SCROLL_xxxx_INFO instead)
 * delete PROP_SCROLL_VERT (use PROP_SCROLL_xxxx_INFO instead)
 * delete PROP_SCROLL_HORZ_SMOOTH (use PROP_SCROLL_xxxx_INFO instead)
