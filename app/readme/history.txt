@@ -3,6 +3,9 @@
   - fixed
   * changed
 
+1.234.5 (2026/07)
+
+* change/add: changed algorythm of session saving. Now it skips saving a session if no ui-tab has changed text. Bad side effect: if user don't change any text but only moves GUI splitters, moves caret/selection, moves scrollbar -> session is not updated. (thanks @badrelmers)
 * change/fix: changed session-file key for position of groups, to avoid rounding of 'minimized' 2nd group width/height to zero after app restart (thanks @clfsoft)
 + add: program deallocates heavy screen buffers (can be as large as 10 MB per tab) of hidden ui-tabs on tab switching (thanks @hansnolte)
 
