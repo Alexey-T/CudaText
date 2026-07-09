@@ -1,0 +1,26 @@
+diff --git a/lcl/interfaces/qt6/qtobjects.pas b/lcl/interfaces/qt6/qtobjects.pas
+index dc3a911b3a..72ae7a37c5 100644
+--- a/lcl/interfaces/qt6/qtobjects.pas
++++ b/lcl/interfaces/qt6/qtobjects.pas
+@@ -4364,6 +4364,7 @@ var
+   s: Integer;
+   {$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
+   i: integer;
++  Str: String;
+   WStr: WideString;
+   AFormats: QStringListH;
+   {$ENDIF}
+@@ -4396,6 +4397,13 @@ begin
+       end;
+       QStringlist_destroy(AFormats);
+     end;
++    if (MimeType = 'text/plain') then // do not translate
++    begin
++      QMimeData_text(QtMimeData, @WStr);
++      Str := UTF16ToUTF8(WStr);
++      Stream.Write(PAnsiChar(Str)^, Length(Str));
++      Exit(True);
++    end;
+   end;
+   {$ENDIF}
+   Data := QByteArray_create();
