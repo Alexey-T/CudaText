@@ -139,7 +139,7 @@ Not portable CudaText:
 * macOS: package, which installs to the "Applications" system folder.
 * Haiku.
 
-For not portable usage, folder "settings" is created here:
+For not portable usage, folders "settings" / "py" / "data" are created here:
 * Linux, *BSD, Solaris: {{Code|~/.config/cudatext}}, or {{Code|${XDG_CONFIG_HOME}/cudatext}} if that environment variable is set
 * macOS: {{Code|~/Library/Application Support/CudaText}}
 * Haiku: {{Code|/boot/home/config/settings/cudatext}}
