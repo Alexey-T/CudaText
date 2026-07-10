@@ -2560,8 +2560,19 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_LINE_SPACE1: int: line additional spacing, on top (can be negative).
 * PROP_LINE_SPACE2: int: line additional spacing, on bottom (can be negative).
 
-* PROP_SCROLL_VERT_INFO: int: dict with all available info about vertical scroll.
-* PROP_SCROLL_HORZ_INFO: int: dict with all available info about horizontal scroll.
+* PROP_SCROLL_VERT_INFO: int: dict with all available info about vertical scroll. Dict has such keys:
+** "pos": Scroll position, in characters.
+** "pos_last": Maximal value of the scroll position, in characters, excluding "page size".
+** "max": Maximal value of the scroll position, in characters, including "page size". Position never reaches this value, it reaches the smaller value "pos_last".
+** "page": Page size, ie the size of the scrolling rectangle, in characters.
+** "pixels": Addition to the scroll position in "pos", in pixels. It is rather small, not reaching the signle cell size in pixels.
+** "char_size": Size of a single character cell, in pixels.
+** "smooth_pos": Scroll position, in pixels. It includes both the value of "pos" and the value of "pixels".
+** "smooth_pos_last": Maximal value of the scroll position, in pixels, excluding "page size".
+** "smooth_max": Maximal value of the scroll position, in pixels, including "page size".
+** "smooth_page": Page size, ie the size of the scrolling rectangle, in pixels.
+* PROP_SCROLL_HORZ_INFO: int: dict with all available info about horizontal scroll. Dict has same keys as for PROP_SCROLL_VERT_INFO.
+
 * PROP_SCROLLSTYLE_HORZ: int: horizontal scrollbar's show-style, one of SCROLLSTYLE_nnn constants.
 * PROP_SCROLLSTYLE_VERT: int: vertical scrollbar's show-style, one of SCROLLSTYLE_nnn constants.
 
