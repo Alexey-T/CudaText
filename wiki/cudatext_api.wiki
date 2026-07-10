@@ -2565,7 +2565,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 ** "pos_last": Maximal value of the scroll position, in characters, excluding "page size".
 ** "max": Maximal value of the scroll position, in characters, including "page size". Position never reaches this value, it reaches the smaller value "pos_last".
 ** "page": Page size, ie the size of the scrolling rectangle, in characters.
-** "pixels": Addition to the scroll position in "pos", in pixels. It is rather small, not reaching the signle cell size in pixels.
+** "pixels": Addition to the scroll position in "pos", but in pixels. It is rather small, not reaching the value of "char_size".
 ** "char_size": Size of a single character cell, in pixels.
 ** "smooth_pos": Scroll position, in pixels. It includes both the value of "pos" and the value of "pixels".
 ** "smooth_pos_last": Maximal value of the scroll position, in pixels, excluding "page size".
