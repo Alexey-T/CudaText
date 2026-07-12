@@ -43,6 +43,7 @@ Event handlers (Command.on_nnnnn methods) return-value is ignored is many cases,
 
 ==Events - Tabs==
 
+* <code>on_tab_add(self, ed_self)</code>: Called after new UI-tab was added. UI-tab is focused, but file contents is not yet loaded.
 * <code>on_tab_change(self, ed_self)</code>: Called after active UI-tab is changed.
 * <code>on_tab_menu(self, ed_self)</code>: Called just before showing popup menu for UI-tab title. Method can return False to disable the standard popup menu, other return value is ignored.
 * <code>on_tab_move(self, ed_self)</code>: Called after closing a UI-tab (another UI-tab is already activated), or moving a UI-tab (by drag-n-drop, or UI command).
@@ -5359,6 +5360,7 @@ It provides:
 * delete PROP_SCROLL_VERT_SMOOTH (use PROP_SCROLL_xxxx_INFO instead)
 
 1.0.481 (app 1.234.7)
+* add: on_tab_add
 * add: on_state_ed: EDSTATE_EXT_REMOVED
 * add: on_state_ed: EDSTATE_EXT_APPEARED
 * add: on_state_ed: EDSTATE_EXT_MODIFIED
