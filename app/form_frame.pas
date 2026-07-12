@@ -3571,6 +3571,7 @@ begin
     Ed2.DoCaretsFixIncorrectPos(false);
   end;
 
+  Ed.Modified:= false;
   if Ed.Strings.Count=0 then exit;
 
   //restore props
