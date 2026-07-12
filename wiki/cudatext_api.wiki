@@ -101,6 +101,8 @@ Constants in "on_state":
 * APPSTATE_SESSION_LOAD_BEGIN: Session loading begins.
 * APPSTATE_SESSION_LOAD: Session loading completes (after APPSTATE_SESSION_LOAD_BEGIN).
 * APPSTATE_SESSION_LOAD_FAIL: Session loading fails (after APPSTATE_SESSION_LOAD_BEGIN).
+* APPSTATE_SESSION_SAVE_BEFORE: Session is about to save.
+* APPSTATE_SESSION_SAVE_AFTER: Session is just saved.
 * APPSTATE_PROJECT: Current project in the Project Manager is changed.
 
 * APPSTATE_TAB_SPLIT: Splitting of ui-tab (to primary/secondary editors): splitting toggled.
@@ -5360,5 +5362,7 @@ It provides:
 * add: on_state_ed: EDSTATE_EXT_REMOVED
 * add: on_state_ed: EDSTATE_EXT_APPEARED
 * add: on_state_ed: EDSTATE_EXT_MODIFIED
+* add: on_state: APPSTATE_SESSION_SAVE_BEFORE
+* add: on_state: APPSTATE_SESSION_SAVE_AFTER
 
 [[Category:CudaText]]
