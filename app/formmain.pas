@@ -867,6 +867,7 @@ type
     procedure DoOnTabFocusFinalization(F: TEditorFrame;
       AAllowEventOnTabChange: boolean);
     procedure DoOnTabAdd(Sender: TObject);
+    procedure DoOnTabAdded(Sender: TObject; ATabIndex: integer);
     procedure DoOnTabClose(Sender: TObject; ATabIndex: Integer; var ACanClose, ACanContinue: boolean);
     procedure DoOnTabMove(Sender: TObject; AIndexFrom, AIndexTo: Integer);
     procedure DoOnTabPopup(Sender: TObject; APages: TATPages; ATabIndex: integer);
@@ -3004,6 +3005,7 @@ begin
   GroupsMain.OnChangeMode:= @DoOnChangeGroupMode;
   GroupsMain.OnTabFocus:= @DoOnTabFocus;
   GroupsMain.OnTabAdd:= @DoOnTabAdd;
+  GroupsMain.OnTabAdded:= @DoOnTabAdded;
   GroupsMain.OnTabClose:= @DoOnTabClose;
   GroupsMain.OnTabMove:= @DoOnTabMove;
   GroupsMain.OnTabPopup:= @DoOnTabPopup;
@@ -9043,6 +9045,7 @@ begin
 
     G.OnTabFocus:= @DoOnTabFocus;
     G.OnTabAdd:= @DoOnTabAdd;
+    G.OnTabAdded:= @DoOnTabAdded;
     G.OnTabClose:= @DoOnTabClose;
     G.OnTabMove:= @DoOnTabMove;
     G.OnTabPopup:= @DoOnTabPopup;

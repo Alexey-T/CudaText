@@ -50,6 +50,7 @@ EVENTS = [
     'on_state',
     'on_state_ed',
     'on_state_findbar',
+    'on_tab_add',
     'on_tab_change',
     'on_tab_menu',
     'on_tab_move',

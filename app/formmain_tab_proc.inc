@@ -111,6 +111,7 @@ procedure TfmMain.DoOnTabAdd(Sender: TObject);
 var
   Pages: TATPages;
   Data: TATTabData;
+  Frame: TEditorFrame;
 begin
   CloseFormAutoCompletion;
   DoTooltipHide;
@@ -121,7 +122,25 @@ begin
   Data:= CreateTab(Pages, '');
 
   if Assigned(Data) then
-    DoApplyNewdocLexer(Data.TabObject as TEditorFrame);
+  begin
+    Frame:= Data.TabObject as TEditorFrame;
+    DoApplyNewdocLexer(Frame);
+  end;
+end;
+
+procedure TfmMain.DoOnTabAdded(Sender: TObject; ATabIndex: integer);
+var
+  Data: TATTabData;
+  Frame: TEditorFrame;
+begin
+  Data:= (Sender as TATTabs).GetTabData(ATabIndex);
+
+  if Assigned(Data) then
+  begin
+    Frame:= Data.TabObject as TEditorFrame;
+    Assert(Assigned(Frame), 'Frame=nil in DoOnTabAdded');
+    DoPyEvent(Frame.Ed1, TAppPyEvent.OnTabAdd, []);
+  end;
 end;
 
 procedure TfmMain.DoOnTabFocus(Sender: TObject);
