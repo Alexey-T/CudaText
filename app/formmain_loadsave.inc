@@ -802,6 +802,7 @@ begin
         else
           Frame.TabCaptionReason:= TAppTabCaptionReason.Unsaved;
         Frame.UpdateModified(Frame.Editor);
+        Frame.NotifEnabled:= sTabFilename<>'';
       end
       else
       //unmodified+named tabs must load file again
