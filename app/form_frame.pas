@@ -4585,8 +4585,11 @@ begin
 end;
 
 function TEditorFrame.DoPyEvent_Macro(const AText: string): boolean;
+var
+  Res: TAppPyEventResult;
 begin
-  Result:= DoPyEvent(Editor, TAppPyEvent.OnMacro, [AppVariant(AText)]).Val <> TAppPyEventValue.False;
+  Res:= DoPyEvent(Editor, TAppPyEvent.OnMacro, [AppVariant(AText)]);
+  Result:= Res.Val <> TAppPyEventValue.False;
 end;
 
 
