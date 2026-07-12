@@ -357,6 +357,7 @@ type
     procedure SetSplitHorz(AValue: boolean);
     procedure SetSplitPos(AValue: double);
     procedure SetSplitted(AValue: boolean);
+    procedure SetNotifEnabled(AValue: boolean);
     procedure SetTabCaption(const AValue: string);
     procedure SetLineEnds(Ed: TATSynEdit; AValue: TATLineEnds);
     procedure SetUnprintedSpaces(AValue: boolean);
@@ -431,7 +432,7 @@ type
     procedure UpdateFrame(AUpdatedText: boolean);
     procedure FixLexerIfDeleted(Ed: TATSynEdit; const ALexerName: string);
 
-    property NotifEnabled: boolean read FNotifEnabled write FNotifEnabled;
+    property NotifEnabled: boolean read FNotifEnabled write SetNotifEnabled;
     property NotifDeletedEnabled: boolean read FNotifDeletedEnabled write FNotifDeletedEnabled;
     procedure NotifyAboutChange(Ed: TATSynEdit);
 
@@ -688,6 +689,13 @@ end;
 
 
 { TEditorFrame }
+
+procedure TEditorFrame.SetNotifEnabled(AValue: boolean);
+//method is for debugging
+begin
+  if FNotifEnabled=AValue then Exit;
+  FNotifEnabled:= AValue;
+end;
 
 procedure TEditorFrame.SetTabCaption(const AValue: string);
 var
