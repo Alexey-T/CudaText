@@ -234,7 +234,8 @@ For Windows, you need the "clangd.exe" and "clang.exe" binaries. You can get the
 * https://github.com/MaskRay/ccls/wiki/Build
 * https://github.com/MaskRay/ccls/wiki/Install
 
-To use the server in LSP Client, create a file "lsp_c.json" in the "settings" directory:
+==== Configuration ====
+To use the server in LSP Client, create a file "<code>lsp_c.json</code>" in the CudaText "settings" directory:
 <syntaxhighlight lang="json">
 {
   "lexers": {
@@ -250,15 +251,27 @@ To use the server in LSP Client, create a file "lsp_c.json" in the "settings" di
 }
 </syntaxhighlight>
 
-Replace "clangd" with "ccls" if it was chosen. Note that on some Linux systems, you might need to use a versioned command like "clangd-15".
+When done correctly, the file will show up in the popup of "Options" > "Settings - plugins" > "LSP Client" > "Edit server configs...".
 
-You can test auto-completion on this sample file main.cpp:
+Replace "clangd" with "ccls" depending on your choice. Note that on some Linux systems, you ''might'' need to use a versioned command like "clangd-15".
+
+You can test auto-completion on this sample file <code>main.cpp</code>:
 
 <syntaxhighlight lang="cpp">
 #include <string>
 int main(){
     std::string aaa="aaa";
     aaa.    // <--- call auto-completion here after "."
+}
+</syntaxhighlight>
+
+
+==== Project-specific configuration ====
+The menu "Plugins" > "LSP Client" > "Configure server for current project" opens <code>PROJECTNAME.cuda-proj-lsp</code>. For clangd, known settings can be found under https://clangd.llvm.org/config . Example:
+
+<syntaxhighlight lang="json">
+{
+    "CompilationDatabase": "/path/to/build_dir/"
 }
 </syntaxhighlight>
 
