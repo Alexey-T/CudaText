@@ -4898,7 +4898,7 @@ end;
 
 procedure TEditorFrame.NotifyAboutChange(Ed: TATSynEdit);
 var
-  EdIndex: integer;
+  EdIndex, NEventState: integer;
   SFileName: string;
   bNewDeleted, bDeletedChanged: boolean;
   bShowPanel: boolean = true;
@@ -4912,6 +4912,17 @@ begin
   bNewDeleted:= not FileExists(SFileName);
   bDeletedChanged:= TabExtDeleted[EdIndex]<>bNewDeleted;
   TabExtDeleted[EdIndex]:= bNewDeleted;
+
+  if bDeletedChanged then
+  begin
+    if bNewDeleted then
+      NEventState:= EDSTATE_EXT_REMOVED
+    else
+      NEventState:= EDSTATE_EXT_APPEARED;
+  end
+  else
+    NEventState:= EDSTATE_EXT_MODIFIED;
+  DoPyEventStateEd(Ed, NEventState);
 
   if not bDeletedChanged then
     TabExtModified[EdIndex]:= true;
