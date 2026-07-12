@@ -304,6 +304,8 @@ begin
   end;
   }
 
+  DoPyEvent_AppState(APPSTATE_SESSION_SAVE_BEFORE);
+
   cfg:= TAppJsonConfig.Create(nil);
   cfg_bookmarks:= TAppJsonConfig.Create(nil);
   try
@@ -530,6 +532,8 @@ begin
       //supress exception if bad or non-writable session folder is used
     end;
   end;
+
+  DoPyEvent_AppState(APPSTATE_SESSION_SAVE_AFTER);
 
   if FileExists(sSessionFileName) then
   begin
