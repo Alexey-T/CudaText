@@ -525,7 +525,7 @@ type
     procedure DoSaveBookmarks(Ed: TATSynEdit; c: TAppJsonConfig);
     //misc
     function DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent; const AParams: TAppVariantArray): TAppPyEventResult;
-    procedure DoPyEventState(Ed: TATSynEdit; AState: integer);
+    procedure DoPyEventStateEd(Ed: TATSynEdit; AState: integer);
     function DoPyEvent_Macro(const AText: string): boolean;
     procedure DoRemovePreviewStyle;
     procedure DoToggleFocusSplitEditors;
@@ -699,7 +699,7 @@ begin
   FTabCaption:= AValue; //don't check bUpdate here (for Win32)
 
   if bUpdate then
-    DoPyEventState(Ed1, EDSTATE_TAB_TITLE);
+    DoPyEventStateEd(Ed1, EDSTATE_TAB_TITLE);
 
   DoOnChangeCaption;
 end;
@@ -1518,7 +1518,7 @@ begin
   Ed.ModeReadOnly:= AValue;
   if (Ed=Ed1) and EditorsLinked then
     Ed2.ModeReadOnly:= AValue;
-  DoPyEventState(Ed, EDSTATE_READONLY);
+  DoPyEventStateEd(Ed, EDSTATE_READONLY);
 end;
 
 procedure TEditorFrame.UpdateEds(AUpdateWrapInfo: boolean = false);
@@ -1823,7 +1823,7 @@ begin
     EdOther.Update;
   EdOther.ModifiedBookmarks:= true;
 
-  DoPyEventState(Sender as TATSynEdit, EDSTATE_BOOKMARK);
+  DoPyEventStateEd(Sender as TATSynEdit, EDSTATE_BOOKMARK);
 end;
 
 procedure TEditorFrame.EditorOnChangeZoom(Sender: TObject);
@@ -1839,7 +1839,7 @@ begin
     N:= 100;
   OnMsgStatus(Self, Format(msgStatusFontSizeChanged, [N]));
 
-  DoPyEventState(Ed, EDSTATE_ZOOM);
+  DoPyEventStateEd(Ed, EDSTATE_ZOOM);
 end;
 
 procedure TEditorFrame.UpdateModified(Ed: TATSynEdit; AWithEvent: boolean);
@@ -1851,7 +1851,7 @@ begin
   UpdateCaptionFromFilename;
 
   if AWithEvent then
-    DoPyEventState(Ed, EDSTATE_MODIFIED);
+    DoPyEventStateEd(Ed, EDSTATE_MODIFIED);
 end;
 
 procedure TEditorFrame.UpdatePinned(Ed: TATSynEdit; AWithEvent: boolean);
@@ -1860,7 +1860,7 @@ begin
     DoRemovePreviewStyle;
 
   if AWithEvent then
-    DoPyEventState(Ed, EDSTATE_PINNED);
+    DoPyEventStateEd(Ed, EDSTATE_PINNED);
 end;
 
 procedure TEditorFrame.EditorOnPaint(Sender: TObject);
@@ -2092,14 +2092,14 @@ begin
 
     cCommand_ToggleReadOnly:
       begin
-        DoPyEventState(Ed, EDSTATE_READONLY);
+        DoPyEventStateEd(Ed, EDSTATE_READONLY);
         exit;
       end;
 
     cCommand_ToggleWordWrap,
     cCommand_ToggleWordWrapAlt:
       begin
-        DoPyEventState(Ed, EDSTATE_WRAP);
+        DoPyEventStateEd(Ed, EDSTATE_WRAP);
         //DoOnUpdateStatusbar('wrap'); //not needed, OnChangeState fires
         exit;
       end;
@@ -4415,7 +4415,7 @@ begin
       begin
         Ed.OptWrapMode:= TATEditorWrapMode(NFlag);
         Include(Ed.ModifiedOptions, TATEditorModifiedOption.WordWrap);
-        //DoPyEventState(Ed, EDSTATE_WRAP); //is not needed for session loading
+        //DoPyEventStateEd(Ed, EDSTATE_WRAP); //is not needed for session loading
       end;
 
     NFlag:= c.GetValue(path+cHistory_Micromap, -1);
@@ -4579,7 +4579,7 @@ begin
   end;
 end;
 
-procedure TEditorFrame.DoPyEventState(Ed: TATSynEdit; AState: integer);
+procedure TEditorFrame.DoPyEventStateEd(Ed: TATSynEdit; AState: integer);
 begin
   DoPyEvent(Ed, TAppPyEvent.OnStateEd, [AppVariant(AState)]);
 end;
