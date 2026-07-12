@@ -124,6 +124,7 @@ begin
   if Assigned(Data) then
   begin
     Frame:= Data.TabObject as TEditorFrame;
+    Assert(Assigned(Frame), 'Frame=nil in DoOnTabAdd');
     DoApplyNewdocLexer(Frame);
   end;
 end;
