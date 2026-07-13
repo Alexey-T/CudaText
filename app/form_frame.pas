@@ -165,6 +165,7 @@ type
     FTextCharsTyped: integer;
     FTextChange: array[0..1] of boolean;
     FTextChangeSlow: array[0..1] of boolean;
+    FTextChangeBegin: array[0..1] of QWord;
     FGotoInput: UnicodeString;
     FCodetreeFilter: string;
     FCodetreeFilterHistory: TStringList;
@@ -1779,12 +1780,25 @@ begin
   TimerChange.Interval:= UiOps.PyChangeSlow;
   TimerChange.Enabled:= true;
 
-  EdIndex:= EditorObjToIndex(Ed);
-  if EdIndex>=0 then
-    FTextChange[EdIndex]:= true;
-
   if Assigned(FOnChange) then
     FOnChange(Ed);
+
+  EdIndex:= EditorObjToIndex(Ed);
+  if EdIndex>=0 then
+  begin
+    FTextChange[EdIndex]:= true;
+
+    if FTextChangeBegin[EdIndex]=0 then
+      FTextChangeBegin[EdIndex]:= GetTickCount64
+    else
+    if GetTickCount64-FTextChangeBegin[EdIndex]>=UiOps.PyChangeSlowMaxSeconds*1000 then
+    begin
+      FTextChangeBegin[EdIndex]:= 0;
+      FTextChangeSlow[EdIndex]:= false;
+      TimerChange.Enabled:= false;
+      DoPyEvent(Ed, TAppPyEvent.OnChangeSlow, []);
+    end;
+  end;
 end;
 
 procedure TEditorFrame.EditorOnChangeDetailed(Sender: TObject;

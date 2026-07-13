@@ -233,6 +233,7 @@ type
     PyLibrary: UnicodeString;
     PyCaretSlow: integer;
     PyChangeSlow: integer;
+    PyChangeSlowMaxSeconds: integer;
     PyOutputCopyToStdout: boolean;
 
     MaxLineLenForEditingKeepingLexer: integer;
@@ -2277,6 +2278,7 @@ begin
     PyLibrary:= '';
     PyCaretSlow:= 100;
     PyChangeSlow:= 1500;
+    PyChangeSlowMaxSeconds:= 20;
     PyOutputCopyToStdout:= false;
 
     MaxLineLenForEditingKeepingLexer:= 2000;
