@@ -1211,7 +1211,7 @@ type
     procedure FrameOnChangeCaption(Sender: TObject);
     procedure FrameOnUpdateStatusbar(Sender: TObject; AReason: TAppStatusbarUpdateReason);
     procedure FrameOnUpdateState(Sender: TObject);
-    function CreateTab(APages: TATPages; const ACaption: string;
+    function CreateTab(APages: TATPages; const ATabCaption: string;
       AndActivate: boolean=true;
       AAllowNearCurrent: TAppNewTabNearCurrent=TAppNewTabNearCurrent.ByOption): TATTabData;
     procedure FrameOnEditorFocus(Sender: TObject);

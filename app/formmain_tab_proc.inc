@@ -44,7 +44,7 @@ begin
   F.NotifEnabled:= false;
 end;
 
-function TfmMain.CreateTab(APages: TATPages; const ACaption: string;
+function TfmMain.CreateTab(APages: TATPages; const ATabCaption: string;
   AndActivate: boolean; AAllowNearCurrent: TAppNewTabNearCurrent): TATTabData;
 var
   F: TEditorFrame;
@@ -58,9 +58,9 @@ begin
   F:= TEditorFrame.Create(Self, GroupsMain.Mode=gmOne);
   F.Name:= '';
   F.Visible:= false;
-  F.TabCaption:= ACaption;
+  F.TabCaption:= ATabCaption;
 
-  if ACaption='' then
+  if ATabCaption='' then
   begin
     F.TabCaptionUntitled:= GetUntitledNumberedCaption;
     F.TabCaption:= F.TabCaptionUntitled;
