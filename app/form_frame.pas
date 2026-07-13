@@ -298,10 +298,12 @@ type
     function GetCachedTreeviewInited(Ed: TATSynEdit): boolean;
     function GetCachedTreeview(Ed: TATSynEdit): TTreeView;
     function GetTextChangeSlow(EdIndex: integer): boolean;
+    function GetTextChangeBegin(EdIndex: integer): QWord;
     function GetWordWrap: TATEditorWrapMode;
     procedure HandleProgressButtonCancel(Sender: TObject);
     procedure HandleStringsProgress(Sender: TObject; var ACancel: boolean);
     procedure SetTextChangeSlow(EdIndex: integer; AValue: boolean);
+    procedure SetTextChangeBegin(EdIndex: integer; AValue: QWord);
     function GetEnabledCodeTree(Ed: TATSynEdit): boolean;
     function GetEnabledFolding: boolean;
     function GetFileWasBig(Ed: TATSynEdit): boolean;
@@ -464,6 +466,7 @@ type
     property InHistory: boolean read FInHistory write FInHistory;
     property TextCharsTyped: integer read FTextCharsTyped write FTextCharsTyped;
     property TextChangeSlow[EdIndex: integer]: boolean read GetTextChangeSlow write SetTextChangeSlow;
+    property TextChangeBegin[EdIndex: integer]: QWord read GetTextChangeBegin write SetTextChangeBegin;
     property EnabledCodeTree[Ed: TATSynEdit]: boolean read GetEnabledCodeTree write SetEnabledCodeTree;
     property CodetreeFilter: string read FCodetreeFilter write FCodetreeFilter;
     property CodetreeFilterHistory: TStringList read FCodetreeFilterHistory;
@@ -3781,6 +3784,11 @@ begin
   Result:= FTextChangeSlow[EdIndex];
 end;
 
+function TEditorFrame.GetTextChangeBegin(EdIndex: integer): QWord;
+begin
+  Result:= FTextChangeBegin[EdIndex];
+end;
+
 function TEditorFrame.GetWordWrap: TATEditorWrapMode;
 begin
   case FrameKind of
@@ -3801,6 +3809,11 @@ end;
 procedure TEditorFrame.SetTextChangeSlow(EdIndex: integer; AValue: boolean);
 begin
   FTextChangeSlow[EdIndex]:= AValue;
+end;
+
+procedure TEditorFrame.SetTextChangeBegin(EdIndex: integer; AValue: QWord);
+begin
+  FTextChangeBegin[EdIndex]:= AValue;
 end;
 
 function TEditorFrame.GetEnabledCodeTree(Ed: TATSynEdit): boolean;

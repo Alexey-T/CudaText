@@ -2558,6 +2558,7 @@ var
   STemp: string;
   Frame: TEditorFrame;
   NTick: QWord;
+  iEditorIndex: integer;
 begin
   //in Lazarus 2.1 trunk on Linux x64 gtk2/qt5, TimerAppIdle.Timer is called too early,
   //when Handle is not created
@@ -2630,16 +2631,13 @@ begin
   //fire on_change_idle
   if Assigned(Frame) then
   begin
-    if Frame.TextChangeSlow[0] then
-    begin
-      Frame.TextChangeSlow[0]:= false;
-      DoPyEvent(Frame.Ed1, TAppPyEvent.OnChangeSlow, []);
-    end;
-    if Frame.TextChangeSlow[1] then
-    begin
-      Frame.TextChangeSlow[1]:= false;
-      DoPyEvent(Frame.Ed2, TAppPyEvent.OnChangeSlow, []);
-    end;
+    for iEditorIndex:= 0 to 1 do
+      if Frame.TextChangeSlow[iEditorIndex] then
+      begin
+        Frame.TextChangeSlow[iEditorIndex]:= false;
+        Frame.TextChangeBegin[iEditorIndex]:= 0;
+        DoPyEvent(Frame.EditorIndexToObj(iEditorIndex), TAppPyEvent.OnChangeSlow, []);
+      end;
   end;
 
   if FNeedUpdateMenuShortcuts then
