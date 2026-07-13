@@ -2278,7 +2278,7 @@ begin
     PyLibrary:= '';
     PyCaretSlow:= 100;
     PyChangeSlow:= 1500;
-    PyChangeSlowMaxSeconds:= 20;
+    PyChangeSlowMaxSeconds:= 30;
     PyOutputCopyToStdout:= false;
 
     MaxLineLenForEditingKeepingLexer:= 2000;
