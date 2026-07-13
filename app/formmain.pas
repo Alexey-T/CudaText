@@ -2628,7 +2628,7 @@ begin
       UpdateTree(false);
     end;
 
-  //fire on_change_idle
+  //fire on_change_slow
   if Assigned(Frame) then
   begin
     for iEditorIndex:= 0 to 1 do
