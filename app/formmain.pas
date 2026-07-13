@@ -1211,7 +1211,7 @@ type
     procedure FrameOnChangeCaption(Sender: TObject);
     procedure FrameOnUpdateStatusbar(Sender: TObject; AReason: TAppStatusbarUpdateReason);
     procedure FrameOnUpdateState(Sender: TObject);
-    function CreateTab(APages: TATPages; const ATabCaption: string;
+    function CreateTab(APages: TATPages; const AFileName, ATabCaption: string;
       AndActivate: boolean=true;
       AAllowNearCurrent: TAppNewTabNearCurrent=TAppNewTabNearCurrent.ByOption): TATTabData;
     procedure FrameOnEditorFocus(Sender: TObject);
@@ -5013,7 +5013,7 @@ begin
 
   if AFileName='' then
   begin
-    D:= CreateTab(APages, '', bAndActivate, AllowNear);
+    D:= CreateTab(APages, AFileName, ExtractFileName(AFileName), bAndActivate, AllowNear);
     if not Assigned(D) then
     begin
       D:= GroupsMain.Pages1.Tabs.GetTabData(0);
@@ -5182,7 +5182,7 @@ begin
       if UiOps.TabsDisabled then
         D:= APages.Tabs.GetTabData(0)
       else
-        D:= CreateTab(APages, 'pre', true, TAppNewTabNearCurrent.Disabled);
+        D:= CreateTab(APages, AFileName, 'pre', true, TAppNewTabNearCurrent.Disabled);
       if not Assigned(D) then exit;
       UpdateTabPreviewStyle(D, true);
       Result:= D.TabObject as TEditorFrame;
@@ -5283,7 +5283,7 @@ begin
   end;
 
   //did not find frame to reuse, create new frame
-  D:= CreateTab(APages, ExtractFileName(AFileName), false{AndActivate}, AllowNear);
+  D:= CreateTab(APages, AFileName, ExtractFileName(AFileName), false{AndActivate}, AllowNear);
   if not Assigned(D) then
   begin
     D:= GroupsMain.Pages1.Tabs.GetTabData(0);

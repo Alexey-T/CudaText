@@ -44,7 +44,7 @@ begin
   F.NotifEnabled:= false;
 end;
 
-function TfmMain.CreateTab(APages: TATPages; const ATabCaption: string;
+function TfmMain.CreateTab(APages: TATPages; const AFileName, ATabCaption: string;
   AndActivate: boolean; AAllowNearCurrent: TAppNewTabNearCurrent): TATTabData;
 var
   F: TEditorFrame;
@@ -58,6 +58,7 @@ begin
   F:= TEditorFrame.Create(Self, GroupsMain.Mode=gmOne);
   F.Name:= '';
   F.Visible:= false;
+  F.FileName:= AFileName;
   F.TabCaption:= ATabCaption;
 
   if ATabCaption='' then
@@ -119,7 +120,7 @@ begin
   if IsTooManyTabsOpened then exit;
 
   Pages:= (Sender as TATTabs).Parent as TATPages;
-  Data:= CreateTab(Pages, '');
+  Data:= CreateTab(Pages, '', '');
 
   if Assigned(Data) then
   begin
