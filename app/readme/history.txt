@@ -3,6 +3,11 @@
   - fixed
   * changed
 
+1.234.7 (2026/07)
+
++ add: added few APIs for future plugin (session manager by @badrelmers)
+- fix: for _modified_ file loaded from session, 'external change notification' did not work (thanks @badrelmers)
+
 1.234.6 (2026/07)
 
 * change: deleted some deprecated scrolling-related APIs, so you must update plugins from Addons-Manager
