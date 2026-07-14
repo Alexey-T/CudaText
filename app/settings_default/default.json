@@ -1538,6 +1538,11 @@
   //For example, it's used in CudaLint plugin.
   "py_change_slow": 1500,
 
+  //Python API event "on_change_slow": the maximal interval for the firing of the event,
+  //in seconds. Ie even if user constantly writes text without pauses, "on_change_slow"
+  //will fire after this inverval.
+  "py_change_slow_limit": 30,
+
   //[Text/Commands]
   //Commenting: If no selection then move caret to next line.
   "comment_move_down": true,

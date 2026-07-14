@@ -1860,6 +1860,7 @@ begin
 
   UiOps.PyCaretSlow:= Max(20, cfg.GetValue('py_caret_slow', UiOps.PyCaretSlow));
   UiOps.PyChangeSlow:= Max(20, cfg.GetValue('py_change_slow', UiOps.PyChangeSlow));
+  UiOps.PyChangeSlowMaxSeconds:= Max(6, cfg.GetValue('py_change_slow_limit', UiOps.PyChangeSlowMaxSeconds));
 
   UiOps.LogPluginIniting:= cfg.GetValue('py_init_log', UiOps.LogPluginIniting);
   UiOps.LogSessions:= cfg.GetValue('log_sessions', UiOps.LogSessions);
