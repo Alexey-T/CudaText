@@ -25,16 +25,6 @@ begin
 end;
 
 procedure TfmMain.UpdateCaption;
-begin
-  // before, we only set FNeedUpdateCaption to True, so TimerAppIdle
-  // did the work. now, we update caption immediately.
-  //FNeedUpdateCaption:= true;
-
-  UpdateCaption_RealWork;
-end;
-
-
-procedure TfmMain.UpdateCaption_RealWork;
 var
   F: TEditorFrame;
   SName, SSession, SSessionRootPath: string;

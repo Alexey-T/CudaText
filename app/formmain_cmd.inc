@@ -578,7 +578,7 @@ begin
     cmd_MoveTabToGroupPrev:
       begin
         GroupsMain.MoveCurrentTabToNext(CmdCode=cmd_MoveTabToGroupNext);
-        UpdateCaption_RealWork;
+        UpdateCaption;
         UpdateTabsActiveColor(CurrentFrame);
       end;
 
