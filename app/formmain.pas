@@ -1534,22 +1534,6 @@ begin
     Result:= nil;
 end;
 
-(*
-function GetEditorFrame(Ed: TATSynEdit): TEditorFrame;
-//1st parent is TFormDummy, 2nd parent is TEditorFrame
-var
-  Ctl: TWinControl;
-begin
-  Result:= nil;
-  if Ed=nil then exit;
-  Ctl:= Ed.Parent;
-  if Ctl=nil then exit;
-  Ctl:= Ctl.Parent;
-  if Ctl is TEditorFrame then
-    Result:= TEditorFrame(Ctl);
-end;
-*)
-
 class function TGroupsHelper.GetEditorBrother(Ed: TATSynEdit): TATSynEdit;
 var
   F: TEditorFrame;
