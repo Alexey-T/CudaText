@@ -294,7 +294,7 @@ begin
   Result:= CurrentFrameEx(CurrentGroups);
 end;
 
-function TfmMain.CurrentFrameEx(AGroups: TATGroups): TEditorFrame;
+function CurrentFrameEx(AGroups: TATGroups): TEditorFrame;
 var
   Pages: TATPages;
   D: TATTabData;

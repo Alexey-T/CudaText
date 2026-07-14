@@ -7,6 +7,8 @@ Copyright (c) Alexey Torgashin
 *)
 {$ifdef nn}begin end;{$endif}
 
+function CurrentFrameEx(AGroups: TATGroups): TEditorFrame; forward;
+
 procedure TfmMain.UpdateCaption_FloatingGroup(AFloatingIndex: integer; AForm: TForm; AGroups: TATGroups);
 var
   F: TEditorFrame;

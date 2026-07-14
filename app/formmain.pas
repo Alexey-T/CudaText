@@ -1242,7 +1242,6 @@ type
     property Frames[N: integer]: TEditorFrame read GetFrame;
     function CurrentGroups: TATGroups;
     function CurrentFrame: TEditorFrame;
-    function CurrentFrameEx(AGroups: TATGroups): TEditorFrame;
     function CurrentEditor: TATSynEdit;
     property FloatingForms: boolean read GetFloatingForms;
     property ShowFloatingForm1: boolean read GetShowFloatingForm1 write SetShowFloatingForm1;
