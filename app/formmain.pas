@@ -3312,7 +3312,8 @@ begin
   DoOps_SaveHistory(
     AppFile_History,
     UiOps.SaveModifiedTabsOnClose,
-    UiOps.ReopenSession //2025.04: change it to UiOps.SessionSaveOnExit ?
+    UiOps.SessionSaveOnExit
+    //UiOps.ReopenSession //2025.04: change it to UiOps.SessionSaveOnExit ?
     );
 
   {$ifndef windows}
