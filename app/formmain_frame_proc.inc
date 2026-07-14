@@ -291,20 +291,7 @@ end;
 
 function TfmMain.CurrentFrame: TEditorFrame;
 begin
-  Result:= CurrentFrameEx(CurrentGroups);
-end;
-
-function CurrentFrameEx(AGroups: TATGroups): TEditorFrame;
-var
-  Pages: TATPages;
-  D: TATTabData;
-begin
-  Pages:= AGroups.PagesCurrent;
-  D:= Pages.Tabs.GetTabData(Pages.Tabs.TabIndex);
-  if Assigned(D) and Assigned(D.TabObject) and (D.TabObject is TEditorFrame) then
-    Result:= D.TabObject as TEditorFrame
-  else
-    Result:= nil;
+  Result:= TGroupsHelper.CurrentFrameEx(CurrentGroups);
 end;
 
 function TfmMain.CurrentEditor: TATSynEdit;

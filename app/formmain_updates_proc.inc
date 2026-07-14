@@ -7,8 +7,6 @@ Copyright (c) Alexey Torgashin
 *)
 {$ifdef nn}begin end;{$endif}
 
-function CurrentFrameEx(AGroups: TATGroups): TEditorFrame; forward;
-
 procedure TfmMain.UpdateCaption_FloatingGroup(AFloatingIndex: integer; AForm: TForm; AGroups: TATGroups);
 var
   F: TEditorFrame;
@@ -17,7 +15,7 @@ begin
   if AForm=nil then exit;
   if AGroups=nil then exit;
 
-  F:= CurrentFrameEx(AGroups);
+  F:= TGroupsHelper.CurrentFrameEx(AGroups);
   if F=nil then
     SName:= ''
   else
@@ -41,7 +39,7 @@ var
   F: TEditorFrame;
   SName, SSession, SSessionRootPath: string;
 begin
-  F:= CurrentFrameEx(GroupsMain);
+  F:= TGroupsHelper.CurrentFrameEx(GroupsMain);
   if F=nil then exit;
 
   SSplitByChar(AppSessionName, '|', SSession, SSessionRootPath);

@@ -1499,6 +1499,7 @@ type
 
   TGroupsHelper = class
   public
+    class function CurrentFrameEx(AGroups: TATGroups): TEditorFrame;
     class function GetEditorFrame(Ed: TATSynEdit): TEditorFrame;
     class function GetEditorBrother(Ed: TATSynEdit): TATSynEdit;
     class function GetEditorFirstSecond(Ed: TATSynEdit; AFirst: boolean): TATSynEdit;
@@ -1508,6 +1509,20 @@ type
     class function FindPagesUnderCursorPos(ACursorPos: TPoint; AGroups: TATGroups): TATPages;
     class procedure GetGroupAndTabIndexes(Ed: TATSynEdit; out AGroupIndex, ATabIndex: integer);
   end;
+
+
+class function TGroupsHelper.CurrentFrameEx(AGroups: TATGroups): TEditorFrame;
+var
+  Pages: TATPages;
+  D: TATTabData;
+begin
+  Pages:= AGroups.PagesCurrent;
+  D:= Pages.Tabs.GetTabData(Pages.Tabs.TabIndex);
+  if Assigned(D) and Assigned(D.TabObject) and (D.TabObject is TEditorFrame) then
+    Result:= D.TabObject as TEditorFrame
+  else
+    Result:= nil;
+end;
 
 class function TGroupsHelper.GetEditorFrame(Ed: TATSynEdit): TEditorFrame;
 var
