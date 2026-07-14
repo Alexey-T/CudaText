@@ -145,6 +145,7 @@ const
 
 const
   cAppSessionDefault = 'default'+cOptionSystemSuffix+'.cuda-session';
+  cAppSessionNone = '--.cuda-session';
 
 const
   cAppMaxGroup = Pred(6+3); //6 normal groups + 3 floating groups
@@ -810,6 +811,7 @@ function AppFile_IsIgnoredForSession(const AFilename: string): boolean;
 function AppSessionName_ForHistoryFile: string;
 function IsDefaultSession(const S: string): boolean;
 function IsDefaultSessionActive: boolean;
+function IsNoneSessionActive: boolean;
 
 function IsSetToOneInstance: boolean;
 function InitPyLibraryPath: string;
@@ -3908,6 +3910,11 @@ end;
 function IsDefaultSessionActive: boolean;
 begin
   Result:= IsDefaultSession(AppSessionName);
+end;
+
+function IsNoneSessionActive: boolean;
+begin
+  Result:= ExtractFileName(AppSessionName)=cAppSessionNone;
 end;
 
 function AppFile_OptionsDefault: string;

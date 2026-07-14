@@ -212,7 +212,8 @@ begin
 
     ////state
     cfg.SetValue('lang', UiOps.LangName);
-    cfg.SetValue('session'+cOptionSystemSuffix, AppSessionName_ForHistoryFile);
+    if not IsNoneSessionActive then
+      cfg.SetValue('session'+cOptionSystemSuffix, AppSessionName_ForHistoryFile);
     cfg.SetValue('last_cmd', FLastSelectedCommand);
 
     DoOps_SaveHistory_GroupView(cfg, '');
@@ -237,6 +238,7 @@ end;
 procedure TfmMain.DoOps_SaveSessionsBackups(const ASessionFilename: string);
 //keep backups of last N unnamed sessions as 'filename.N.cuda-session'
 begin
+  if IsNoneSessionActive then exit;
   AppMakeBackupFiles(ASessionFilename, '.cuda-session', UiOps.BackupLastSessions);
 end;
 
@@ -284,6 +286,8 @@ begin
   if ASessionId='' then exit;
 
   SSplitByChar(ASessionId, '|', sSessionFileName, sRootPath);
+
+  if ExtractFileName(sSessionFileName)=cAppSessionNone then exit;
 
   bSessionUpdated:= false;
   bFileExisted:= FileExists(sSessionFileName);
@@ -1192,7 +1196,9 @@ begin
 
       FLastSelectedCommand:= cfg.GetValue('last_cmd', FLastSelectedCommand);
       DoOps_LoadHistory_GroupView(cfg, '');
-    end;
+    end
+    else
+      AppSessionName:= cAppSessionNone;
 
     FOption_SidebarTab:= cfg.GetValue('tab_left', '');
     FOption_BottomTab:= cfg.GetValue('tab_bottom', '');
