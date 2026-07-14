@@ -291,7 +291,7 @@ end;
 
 function TfmMain.CurrentFrame: TEditorFrame;
 begin
-  Result:= TGroupsHelper.CurrentFrameEx(CurrentGroups);
+  Result:= TGroupsHelper.GetActiveFrameOfGroups(CurrentGroups);
 end;
 
 function TfmMain.CurrentEditor: TATSynEdit;

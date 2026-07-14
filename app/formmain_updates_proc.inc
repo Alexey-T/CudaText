@@ -15,7 +15,7 @@ begin
   if AForm=nil then exit;
   if AGroups=nil then exit;
 
-  F:= TGroupsHelper.CurrentFrameEx(AGroups);
+  F:= TGroupsHelper.GetActiveFrameOfGroups(AGroups);
   if F=nil then
     SName:= ''
   else
@@ -29,7 +29,7 @@ var
   F: TEditorFrame;
   SName, SSession, SSessionRootPath: string;
 begin
-  F:= TGroupsHelper.CurrentFrameEx(GroupsMain);
+  F:= TGroupsHelper.GetActiveFrameOfGroups(GroupsMain);
   if F=nil then exit;
 
   SSplitByChar(AppSessionName, '|', SSession, SSessionRootPath);

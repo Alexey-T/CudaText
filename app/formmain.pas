@@ -1498,7 +1498,7 @@ type
 
   TGroupsHelper = class
   public
-    class function CurrentFrameEx(AGroups: TATGroups): TEditorFrame;
+    class function GetActiveFrameOfGroups(AGroups: TATGroups): TEditorFrame;
     class function GetEditorFrame(Ed: TATSynEdit): TEditorFrame;
     class function GetEditorBrother(Ed: TATSynEdit): TATSynEdit;
     class function GetEditorFirstSecond(Ed: TATSynEdit; AFirst: boolean): TATSynEdit;
@@ -1510,7 +1510,7 @@ type
   end;
 
 
-class function TGroupsHelper.CurrentFrameEx(AGroups: TATGroups): TEditorFrame;
+class function TGroupsHelper.GetActiveFrameOfGroups(AGroups: TATGroups): TEditorFrame;
 var
   Pages: TATPages;
   D: TATTabData;
