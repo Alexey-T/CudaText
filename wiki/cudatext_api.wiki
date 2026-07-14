@@ -5359,7 +5359,7 @@ It provides:
 * delete PROP_SCROLL_HORZ_SMOOTH (use PROP_SCROLL_xxxx_INFO instead)
 * delete PROP_SCROLL_VERT_SMOOTH (use PROP_SCROLL_xxxx_INFO instead)
 
-1.0.481 (app 1.234.7)
+1.0.481 (app 1.235.0)
 * add: on_tab_add
 * add: on_state_ed: EDSTATE_EXT_REMOVED
 * add: on_state_ed: EDSTATE_EXT_APPEARED
