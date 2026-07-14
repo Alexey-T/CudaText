@@ -1394,8 +1394,11 @@ Also it is possible to call "Go to line" dialog by clicking the statusbar's "car
 
 "Session" is a set of opened documents, with properties of each document.
 CudaText sessions are stored in JSON files with ".cuda-session" extension.
-Default session file name is "history session.json" in the "settings" folder.
-CudaText shows name of current session in its window title like "filename.txt {session_name} - CudaText".
+Default session file name is "default(OS_SUFFIX).cuda-session" in the "settings" folder, where (OS_SUFFIX) is documented in the default config "settings_default/default.json".
+
+CudaText shows name of the current session in its window title like this:
+
+ filename.ext {session_name} - CudaText
 
 CudaText has options:
 
