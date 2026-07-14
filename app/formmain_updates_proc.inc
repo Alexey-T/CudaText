@@ -44,9 +44,7 @@ begin
 
   SSplitByChar(AppSessionName, '|', SSession, SSessionRootPath);
   SSession:= ExtractFileName(SSession);
-  if (SSession<>'')
-    //and (SSession<>cAppSessionDefault)
-  then
+  if SSession<>'' then
   begin
     if SBeginsWith(SSessionRootPath, '/sessions/') then
       Delete(SSessionRootPath, 1, Length('/sessions/'));
