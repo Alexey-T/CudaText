@@ -63,7 +63,7 @@ The CudaText configuration system uses JSON files: call menu item "Options | Set
 ; Default config : File {{Code|settings_default/default.json}}, can be opened via menu item "Options | Settings - default". CudaText doesn't use this file, it's only for user reference. CudaText only opens this file by the command, and this file is parsed by plugin "Options Editor Lite".
 ; Hotkeys (keyboard shortcuts) config : File {{Code|settings/keys.json}}. Special dialog allows to change all hotkeys in CudaText. You should not edit this file directly, without using the dialog. Dialog is called from "View | Command palette" by pressing {{Keystroke|F9}}. Dialog allows to set primary+secondary hotkeys for any command (except dynamically added commands which, for example, change current lexer).
 ; Plugin configs : Files {{Code|settings/cuda_*}}. Plugins store their settings in there, and files can be in any format (most commonly JSON or INI). Good quality plugins provide menu items in "Options | Settings - plugins" to open their config file, or to show configuration dialog.
-; History files : Files {{Code|settings/history*.json}}. Don't edit them. Mentioned here because sometimes users need to delete their history files (dialog positions, recent files list etc, recent search strings etc).
+; History file : File {{Code|settings/history.json}}. Mentioned here because sometimes users need to delete their history file (dialog positions, recent files list etc, recent search strings etc).
 {{Column|num=2}}
 ; User config : File {{Code|settings/user.json}}. Can be opened via menu item "Options | Settings - user".
 ; User lexer-specific configs : Files {{Code|settings/lexer <var>NNN</var>.json}}. It is layer which is read after user config, when user activates some lexer. E.g. if you open C file, config file {{Code|lexer C.json}} is read. You should not write {{Code|ui_}} options to lexer-specific configuration files (they may produce weird effects when changing lexers), and some other global options.<ul><li>For (None) lexer, config file is named {{Code|lexer -.json}}.</li><li>For lite lexers, configuration filenames are appended with a circumflex, e.g. {{Code|lexer XML ^.json}}</li></ul>
@@ -1407,7 +1407,7 @@ CudaText has options:
 * "ui_auto_save_session": On program closing, save current session without asking.
 
 If some session is opened, program stores document states, on program closing, to session file.
-If no session is opened, program stores document states to "history files.json" in the "settings" folder.
+If no session is opened, program stores document states to "files(OS_SUFFIX).json" in the "settings" folder.
 
 Session file contains data:
 
