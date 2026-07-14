@@ -145,7 +145,7 @@ const
 
 const
   cAppSessionDefault = 'default'+cOptionSystemSuffix+'.cuda-session';
-  cAppSessionNone = '--.cuda-session';
+  cAppSessionNone = '-.cuda-session';
 
 const
   cAppMaxGroup = Pred(6+3); //6 normal groups + 3 floating groups
