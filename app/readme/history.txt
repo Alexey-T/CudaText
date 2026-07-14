@@ -8,6 +8,7 @@
 + add: few APIs for future plugin (new session manager by @badrelmers)
 + add: option "py_change_slow_limit" (idea by @badrelmers)
 * change: window title shows {session_name} also when it is the default session (thanks @badrelmers)
+* change/add: when command-line switch -nsl / -ns is used, app activates new special session name "-", app never saves such session file, app doesn't store this session name to "history.json"
 - fix: for _modified_ file loaded from session, 'external change notification' did not work (thanks @badrelmers)
 
 1.234.6 (2026/07)
