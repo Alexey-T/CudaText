@@ -28,17 +28,21 @@ procedure TfmMain.UpdateCaption;
 var
   F: TEditorFrame;
   SName, SSession, SSessionRootPath: string;
-  bAllowSessionName, bAllowAppTitle: boolean;
+  bAllowSessionName,
+  bHideDefaultSession,
+  bAllowAppTitle: boolean;
 begin
   F:= TGroupsHelper.GetActiveFrameOfGroups(GroupsMain);
   if F=nil then exit;
 
   bAllowSessionName:= Pos('s', UiOps.ShowTitle)=0;
+  bHideDefaultSession:= Pos('d', UiOps.ShowTitle)>0;
   bAllowAppTitle:= Pos('n', UiOps.ShowTitle)=0;
 
   SSplitByChar(AppSessionName, '|', SSession, SSessionRootPath);
   SSession:= ExtractFileName(SSession);
-  if (SSession<>'') and bAllowSessionName then
+  if (SSession<>'') and bAllowSessionName and
+    not (bHideDefaultSession and IsDefaultSessionActive) then
   begin
     if SBeginsWith(SSessionRootPath, '/sessions/') then
       Delete(SSessionRootPath, 1, Length('/sessions/'));
