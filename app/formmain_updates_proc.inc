@@ -11,6 +11,8 @@ procedure TfmMain.UpdateCaption_FloatingGroup(AFloatingIndex: integer; AForm: TF
 var
   F: TEditorFrame;
   SName: string;
+  bAllowAppTitle,
+  bAllowFloatingIndicator: boolean;
 begin
   if AForm=nil then exit;
   if AGroups=nil then exit;
@@ -21,7 +23,12 @@ begin
   else
     SName:= F.TabCaptionConsideringPairAndFullpath;
 
-  AForm.Caption:= SName + (' - ' + msgTitle) + Format(' [f%d]', [AFloatingIndex+1]);
+  bAllowAppTitle:= Pos('n', UiOps.ShowTitle)=0;
+  bAllowFloatingIndicator:= Pos('f', UiOps.ShowTitle)=0;
+
+  AForm.Caption:= SName +
+    IfThen(bAllowAppTitle, ' - ' + msgTitle) +
+    IfThen(bAllowFloatingIndicator, Format(' [f%d]', [AFloatingIndex+1]));
 end;
 
 procedure TfmMain.UpdateCaption;

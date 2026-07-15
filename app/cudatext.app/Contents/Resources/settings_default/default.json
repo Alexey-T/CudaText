@@ -1416,6 +1416,7 @@
   //  if "p" in value: Show full file path instead of only filename
   //  if "s" in value: Hide {session_name} part always
   //  if "d" in value: Hide {default} part, ie only for default session
+  //  if "f" in value: Hide [f1] floating-group indicator
   //  if "n" in value: Hide " - CudaText"
   "ui_title": "",
 
