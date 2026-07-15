@@ -1414,8 +1414,8 @@
   //What details to show in the window title.
   //Value is string containing some option-chars.
   //  if "p" in value: Show full file path instead of only filename
-  //  if "s" in value: Don't show {session_name} part
-  //  if "n" in value: Don't show " - CudaText"
+  //  if "s" in value: Hide {session_name} part
+  //  if "n" in value: Hide " - CudaText"
   "ui_title": "",
 
   //Pause of hint, of command "show function-hint".
