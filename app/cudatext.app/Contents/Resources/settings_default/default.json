@@ -1411,8 +1411,12 @@
   "ui_statusbar_hint_lines": 35,
 
   //[UI]
-  //Show full file path in the window title.
-  "ui_title_path": false,
+  //What details to show in the window title.
+  //Value is string containing some option-chars.
+  //  if "p" in value: Show full file path instead of only filename
+  //  if "s" in value: Don't show {session_name} part
+  //  if "n" in value: Don't show " - CudaText"
+  "ui_title": "",
 
   //Pause of hint, of command "show function-hint".
   "ui_alt_hint_time": 9,

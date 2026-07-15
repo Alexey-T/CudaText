@@ -1650,7 +1650,7 @@ begin
   UiOps.StatusPanels:= cfg.GetValue('ui_statusbar_panels', UiOps.StatusPanels);
   UiOps.StatusTime:= Max(1, Min(60, cfg.GetValue('ui_statusbar_time', UiOps.StatusTime)));
 
-  UiOps.ShowTitlePath:= cfg.GetValue('ui_title_path', UiOps.ShowTitlePath);
+  UiOps.ShowTitle:= cfg.GetValue('ui_title', UiOps.ShowTitle);
 
   UiOps.ReopenSession:= cfg.GetValue('ui_reopen_session', UiOps.ReopenSession);
   UiOps.ReopenSessionWithCmdLine:= cfg.GetValue('ui_reopen_session_cmdline', UiOps.ReopenSessionWithCmdLine);

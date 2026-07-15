@@ -452,7 +452,7 @@ type
     ShowMenubar: boolean;
     ShowStatusbar: boolean;
     ShowToolbar: boolean;
-    ShowTitlePath: boolean;
+    ShowTitle: string;
     ShowSidebarMenuButton: integer;
     ShowSidePanelTitle: boolean;
 
@@ -2329,7 +2329,7 @@ begin
     ShowMenubar:= true;
     ShowStatusbar:= true;
     ShowToolbar:= false;
-    ShowTitlePath:= false;
+    ShowTitle:= '';
     ShowSidebarMenuButton:= 2;
     ShowSidePanelTitle:= true;
 

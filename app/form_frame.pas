@@ -5520,7 +5520,7 @@ function TEditorFrame.TabCaptionConsideringPairAndFullpath: string;
 var
   Name1, Name2: string;
 begin
-  if UiOps.ShowTitlePath then
+  if Pos('p', UiOps.ShowTitle)>0 then
   begin
     if EditorsLinked then
     begin

@@ -34,7 +34,7 @@ begin
 
   SSplitByChar(AppSessionName, '|', SSession, SSessionRootPath);
   SSession:= ExtractFileName(SSession);
-  if SSession<>'' then
+  if (SSession<>'') and (Pos('s', UiOps.ShowTitle)=0) then
   begin
     if SBeginsWith(SSessionRootPath, '/sessions/') then
       Delete(SSessionRootPath, 1, Length('/sessions/'));
@@ -55,7 +55,9 @@ begin
       SName:= msgUntitledTab;
   end;
 
-  Caption:= SName + SSession + (' - ' + msgTitle);
+  Caption:= SName + SSession;
+  if Pos('n', UiOps.ShowTitle)=0 then
+    Caption:= Caption + (' - ' + msgTitle);
 
   Application.Title:= msgModifiedString[F.Modified] + F.TabCaption + (' - ' + msgTitle);
 
