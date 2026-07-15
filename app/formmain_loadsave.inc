@@ -359,8 +359,13 @@ begin
       if not Floating then
         cfg.SetValue(sRootPath+'/panels/bottom_size', PanelSize);
 
-    SetLength(currFramesEditState, nFrameCount);
-    nPrevFrameCount:= Length(FPrevFramesEditState);
+    currFramesEditState:= nil;
+    nPrevFrameCount:= 0;
+    if AByTimer then
+    begin
+      SetLength(currFramesEditState, nFrameCount);
+      nPrevFrameCount:= Length(FPrevFramesEditState);
+    end;
 
     if nFrameCount<>nPrevFrameCount then
     begin
@@ -406,11 +411,13 @@ begin
       GetFrameLocation(Frame, Gr, Pages, nLocalGroup, nGlobalGroup, nTabInGroup);
       bModified:= Frame.Ed1.Modified or (bUntitled and not Frame.IsEmpty);
 
-      currFramesEditState[iFrame].Assign(Frame);
+      if AByTimer then
+        currFramesEditState[iFrame].Assign(Frame);
 
       if not bSessionUpdated then
       begin
-        if currFramesEditState[iFrame]<>FPrevFramesEditState[iFrame] then
+        if (not AByTimer) or
+           (currFramesEditState[iFrame]<>FPrevFramesEditState[iFrame]) then
           bSessionUpdated:= true; //frame's FileName or unsaved text has been updated
       end;
 
@@ -511,7 +518,8 @@ begin
       end;
     end;
 
-    FPrevFramesEditState:= Copy(currFramesEditState, 0, Length(currFramesEditState));
+    if AByTimer then
+      FPrevFramesEditState:= Copy(currFramesEditState, 0, Length(currFramesEditState));
 
     Result:= true;
   finally
