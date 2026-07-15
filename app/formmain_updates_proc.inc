@@ -28,13 +28,17 @@ procedure TfmMain.UpdateCaption;
 var
   F: TEditorFrame;
   SName, SSession, SSessionRootPath: string;
+  bAllowSessionName, bAllowAppTitle: boolean;
 begin
   F:= TGroupsHelper.GetActiveFrameOfGroups(GroupsMain);
   if F=nil then exit;
 
+  bAllowSessionName:= Pos('s', UiOps.ShowTitle)=0;
+  bAllowAppTitle:= Pos('n', UiOps.ShowTitle)=0;
+
   SSplitByChar(AppSessionName, '|', SSession, SSessionRootPath);
   SSession:= ExtractFileName(SSession);
-  if (SSession<>'') and (Pos('s', UiOps.ShowTitle)=0) then
+  if (SSession<>'') and bAllowSessionName then
   begin
     if SBeginsWith(SSessionRootPath, '/sessions/') then
       Delete(SSessionRootPath, 1, Length('/sessions/'));
@@ -55,9 +59,8 @@ begin
       SName:= msgUntitledTab;
   end;
 
-  Caption:= SName + SSession;
-  if Pos('n', UiOps.ShowTitle)=0 then
-    Caption:= Caption + (' - ' + msgTitle);
+  Caption:= SName + SSession +
+    IfThen(bAllowAppTitle, ' - ' + msgTitle);
 
   Application.Title:= msgModifiedString[F.Modified] + F.TabCaption + (' - ' + msgTitle);
 
