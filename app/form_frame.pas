@@ -462,7 +462,6 @@ type
     property TabSizeChanged: boolean read FTabSizeChanged write FTabSizeChanged;
     property TabSpacesChanged: boolean read FTabSpacesChanged write FTabSpacesChanged;
     property TabKeyCollectMarkers: boolean read GetTabKeyCollectMarkers write FTabKeyCollectMarkers;
-    property IsLoadedFromSession: boolean read FIsLoadedFromSession write FIsLoadedFromSession;
     property TextCharsTyped: integer read FTextCharsTyped write FTextCharsTyped;
     property TextChangeSlow[EdIndex: integer]: boolean read GetTextChangeSlow write SetTextChangeSlow;
     property TextChangeBegin[EdIndex: integer]: QWord read GetTextChangeBegin write SetTextChangeBegin;
@@ -472,13 +471,14 @@ type
     property CodetreeSortType: TSortType read FCodetreeSortType write FCodetreeSortType;
     property GotoInput: UnicodeString read FGotoInput write FGotoInput;
     function IsEmpty: boolean;
-    property IsWelcome: boolean read FIsWelcome write FIsWelcome;
-    procedure ApplyLexerStyleMap;
-    procedure LexerReparse;
-    procedure ApplyTheme;
     function IsEditorFocused: boolean;
+    property IsWelcome: boolean read FIsWelcome write FIsWelcome;
+    property IsLoadedFromSession: boolean read FIsLoadedFromSession write FIsLoadedFromSession;
+    procedure ApplyLexerStyleMap;
+    procedure ApplyTheme;
     function FrameKind: TAppFrameKind;
     procedure SetFocus; reintroduce;
+    procedure LexerReparse;
     function PictureSizes: TPoint;
     property PictureScale: integer read GetPictureScale write SetPictureScale;
     property Viewer: TATBinHex read FViewer;
