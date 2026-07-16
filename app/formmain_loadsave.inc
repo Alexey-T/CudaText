@@ -386,7 +386,7 @@ begin
       Frame:= Frames[iFrame];
       if Frame.IsEmpty then Continue;
       if Frame.Ed1.Strings.LoadingFromStream then Continue;
-      if Frame.TabCaption=msgWelcomeTabTitle then Continue; //avoid reopening of '(welcome)' filler text
+      if Frame.IsWelcome then Continue;
 
       sTabFilename:= Frame.GetFileName(Frame.Ed1);
       if Frame.EditorsLinked then

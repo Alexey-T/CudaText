@@ -166,6 +166,7 @@ type
     FTextChange: array[0..1] of boolean;
     FTextChangeSlow: array[0..1] of boolean;
     FTextChangeBegin: array[0..1] of QWord;
+    FIsWelcome: boolean;
     FGotoInput: UnicodeString;
     FCodetreeFilter: string;
     FCodetreeFilterHistory: TStringList;
@@ -473,6 +474,7 @@ type
     property CodetreeSortType: TSortType read FCodetreeSortType write FCodetreeSortType;
     property GotoInput: UnicodeString read FGotoInput write FGotoInput;
     function IsEmpty: boolean;
+    property IsWelcome: boolean read FIsWelcome write FIsWelcome;
     procedure ApplyLexerStyleMap;
     procedure LexerReparse;
     procedure ApplyTheme;

@@ -4177,6 +4177,7 @@ begin
     if Frame.IsEmpty then
     begin
       Ed:= Frame.Ed1;
+      Frame.IsWelcome:= true;
       Frame.TabCaption:= msgWelcomeTabTitle;
       Frame.TabCaptionReason:= TAppTabCaptionReason.UnsavedSpecial;
       SText:= msgFirstStartInfo;
