@@ -203,7 +203,6 @@ type
     FTabSpacesChanged: boolean;
     FTabKeyCollectMarkers: boolean;
     FIsLoadedFromSession: boolean;
-    FInHistory: boolean;
     FMacroRecord: boolean;
     FImageBox: TATImageBox;
     FViewer: TATBinHex;
@@ -464,7 +463,6 @@ type
     property TabSpacesChanged: boolean read FTabSpacesChanged write FTabSpacesChanged;
     property TabKeyCollectMarkers: boolean read GetTabKeyCollectMarkers write FTabKeyCollectMarkers;
     property IsLoadedFromSession: boolean read FIsLoadedFromSession write FIsLoadedFromSession;
-    property InHistory: boolean read FInHistory write FInHistory;
     property TextCharsTyped: integer read FTextCharsTyped write FTextCharsTyped;
     property TextChangeSlow[EdIndex: integer]: boolean read GetTextChangeSlow write SetTextChangeSlow;
     property TextChangeBegin[EdIndex: integer]: QWord read GetTextChangeBegin write SetTextChangeBegin;

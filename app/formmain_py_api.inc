@@ -3647,9 +3647,12 @@ begin
 
         PROP_IN_HISTORY:
           begin
+            //2026.07: InHistory was not used anywere, delete it, after updating plugin 'File Type Profile'
+            {
             if Assigned(Frame) then
               Result:= PyBool_FromLong(Ord(Frame.InHistory))
             else
+            }
               Result:= ReturnFalse;
           end;
 

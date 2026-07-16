@@ -4187,7 +4187,6 @@ begin
       Ed.UpdateWrapInfo(true);
       Ed.Modified:= false;
       Frame.IsLoadedFromSession:= false;
-      Frame.InHistory:= false;
     end;
   end;
 end;
