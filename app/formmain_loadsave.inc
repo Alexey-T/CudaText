@@ -791,7 +791,7 @@ begin
         end;
         if sText<>'' then
         begin
-          Frame.InitProgressForm(Frame.Editor, 'session "'+ExtractFileName(AppFile_Session)+'"', Length(sText));
+          Frame.InitProgressForm(Frame.Editor, 'session "'+ExtractFileName(sSessionFileName)+'"', Length(sText));
           Frame.Editor.Text:= sText;
           Frame.Editor.Strings.Endings:= nLineEnds;
           Frame.HideProgressForm(Frame.Editor);
