@@ -5412,6 +5412,7 @@ begin
           begin
             AppSessionName:= Str;
             fmMain.UpdateCaption;
+            fmMain.DoOps_SaveCurrentSessionName;
             Result:= ReturnNone;
           end;
 

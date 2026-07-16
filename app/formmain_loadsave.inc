@@ -2142,3 +2142,22 @@ begin
     SetShowDistractionFree_Forced;
 end;
 
+procedure TfmMain.DoOps_SaveCurrentSessionName;
+var
+  cfg: TAppJsonConfig;
+begin
+  cfg:= TAppJsonConfig.Create(nil);
+  try
+    try
+      cfg.Filename:= AppFile_History;
+      if not IsNoneSessionActive then
+        cfg.SetValue('session'+cOptionSystemSuffix, AppSessionName_ForHistoryFile);
+    except
+      on E: Exception do
+        MsgBadConfig(AppFile_History, E.Message);
+    end;
+  finally
+    FreeAndNil(cfg);
+  end;
+end;
+
