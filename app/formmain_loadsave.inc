@@ -280,7 +280,7 @@ var
   currFramesEditState: array of TFrameEditState;
   fileWriteTimeBeforeSaving,
   fileWriteTimeAfterSaving: TDateTime;
-  iFrame, iGroup, iFileIndex: integer;
+  iFrame, iGroup: integer;
 begin
   Result:= false;
   if ASessionId='' then exit;
@@ -372,10 +372,10 @@ begin
       ((nPrevFrameCount>0) and (nFrameCount<>nPrevFrameCount)) then
     begin
       bSessionUpdated:= true;
-      for iFileIndex:= 0 to MaxInt do
+      for iFrame:= 0 to MaxInt do
       begin
-        sJsonPath:= sRootPath+'/'+Format('%3.3d', [iFileIndex]);
-        if cfg.GetValue(sJsonPath+'/file', '??')='??' then Break; //one-char str '?' gives access violation, why?
+        sJsonPath:= sRootPath+'/'+Format('%3.3d', [iFrame]);
+        if cfg.GetValue(sJsonPath+'/file', '??')='??' then Break; //one-char str '?' gives access violation, FPC 3.2.3, why?
         cfg.DeleteValue(sJsonPath);
       end;
     end;
