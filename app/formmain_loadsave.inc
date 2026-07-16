@@ -807,14 +807,18 @@ begin
         if sRedoString<>'' then
           Frame.Editor.RedoAsString:= sRedoString;
         Frame.Editor.Modified:= bModified;
+        //UpdateModified call must be before Frame.TabCaption:=..., it overwrites TabCaption
+        Frame.UpdateModified(Frame.Editor);
+
         sTabTitle:= cfg.GetValue(sItemPath+'tab_title', '');
         if sTabTitle<>'' then
           Frame.TabCaption:= sTabTitle;
+
         if sTabFilename<>'' then
           Frame.TabCaptionReason:= TAppTabCaptionReason.FromFilename
         else
           Frame.TabCaptionReason:= TAppTabCaptionReason.Unsaved;
-        Frame.UpdateModified(Frame.Editor);
+
         Frame.NotifEnabled:= sTabFilename<>'';
       end
       else
