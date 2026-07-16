@@ -2146,12 +2146,13 @@ procedure TfmMain.DoOps_SaveCurrentSessionName;
 var
   cfg: TAppJsonConfig;
 begin
+  if IsNoneSessionActive then exit;
+
   cfg:= TAppJsonConfig.Create(nil);
   try
     try
       cfg.Filename:= AppFile_History;
-      if not IsNoneSessionActive then
-        cfg.SetValue('session'+cOptionSystemSuffix, AppSessionName_ForHistoryFile);
+      cfg.SetValue('session'+cOptionSystemSuffix, AppSessionName_ForHistoryFile);
     except
       on E: Exception do
         MsgBadConfig(AppFile_History, E.Message);
