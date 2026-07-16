@@ -369,7 +369,7 @@ begin
 
     //cleanup session keys from '000' to maximal number, left from the previous saving
     if (not AByTimer) or
-      ((nPrevFrameCount>0) and (nFrameCount<>nPrevFrameCount)) then
+      (nFrameCount<>nPrevFrameCount) then
     begin
       bSessionUpdated:= true;
       for iFrame:= 0 to MaxInt do
