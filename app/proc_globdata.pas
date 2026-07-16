@@ -2329,7 +2329,7 @@ begin
     ShowMenubar:= true;
     ShowStatusbar:= true;
     ShowToolbar:= false;
-    ShowTitle:= '';
+    ShowTitle:= 'd';
     ShowSidebarMenuButton:= 2;
     ShowSidePanelTitle:= true;
 

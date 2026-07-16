@@ -1418,7 +1418,7 @@
   //  if "d" in value: Hide {default} part, ie only for default session
   //  if "f" in value: Hide [f1] floating-group indicator
   //  if "n" in value: Hide " - CudaText"
-  "ui_title": "",
+  "ui_title": "d",
 
   //Pause of hint, of command "show function-hint".
   "ui_alt_hint_time": 9,
