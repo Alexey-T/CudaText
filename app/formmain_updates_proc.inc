@@ -721,7 +721,7 @@ begin
   if AFrame.FrameKind=TAppFrameKind.Editor then
     AFrame.DoSaveHistory(Ed);
 
-  if (not AFrame.InSession) or IsDefaultSessionActive then
+  if (not AFrame.IsLoadedFromSession) or IsDefaultSessionActive then
     SAddStringToHistory(
       AppCollapseHomeDirInFilename(SFileName),
       AppListRecents,

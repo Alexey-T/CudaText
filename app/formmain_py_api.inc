@@ -3640,7 +3640,7 @@ begin
         PROP_IN_SESSION:
           begin
             if Assigned(Frame) then
-              Result:= PyBool_FromLong(Ord(Frame.InSession))
+              Result:= PyBool_FromLong(Ord(Frame.IsLoadedFromSession))
             else
               Result:= ReturnFalse;
           end;

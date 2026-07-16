@@ -4186,7 +4186,7 @@ begin
       Ed.Strings.LoadFromString(SText);
       Ed.UpdateWrapInfo(true);
       Ed.Modified:= false;
-      Frame.InSession:= false;
+      Frame.IsLoadedFromSession:= false;
       Frame.InHistory:= false;
     end;
   end;

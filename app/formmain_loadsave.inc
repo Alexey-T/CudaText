@@ -838,7 +838,7 @@ begin
 
       if Assigned(Frame) then
       begin
-        Frame.InSession:= true;
+        Frame.IsLoadedFromSession:= true;
         Frame.DoLoadHistoryEx(Frame.Ed1, cfg, sItemPath, true);
 
         if sTabFilename2<>'' then

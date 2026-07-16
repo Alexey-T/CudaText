@@ -202,7 +202,7 @@ type
     FTabSizeChanged: boolean;
     FTabSpacesChanged: boolean;
     FTabKeyCollectMarkers: boolean;
-    FInSession: boolean;
+    FIsLoadedFromSession: boolean;
     FInHistory: boolean;
     FMacroRecord: boolean;
     FImageBox: TATImageBox;
@@ -463,7 +463,7 @@ type
     property TabSizeChanged: boolean read FTabSizeChanged write FTabSizeChanged;
     property TabSpacesChanged: boolean read FTabSpacesChanged write FTabSpacesChanged;
     property TabKeyCollectMarkers: boolean read GetTabKeyCollectMarkers write FTabKeyCollectMarkers;
-    property InSession: boolean read FInSession write FInSession;
+    property IsLoadedFromSession: boolean read FIsLoadedFromSession write FIsLoadedFromSession;
     property InHistory: boolean read FInHistory write FInHistory;
     property TextCharsTyped: integer read FTextCharsTyped write FTextCharsTyped;
     property TextChangeSlow[EdIndex: integer]: boolean read GetTextChangeSlow write SetTextChangeSlow;
@@ -2427,7 +2427,7 @@ begin
   Inc(FLastTabId);
   FTabId:= FLastTabId;
   FTabImageIndex:= -1;
-  FInSession:= false;
+  FIsLoadedFromSession:= false;
   FEnabledCodeTree[0]:= true;
   FEnabledCodeTree[1]:= true;
   FSaveHistory:= true;
