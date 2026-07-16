@@ -11,6 +11,7 @@
 + add: option "py_change_slow_limit" (idea by @badrelmers)
 - fix: for _modified_ file loaded from session, 'external change notification' did not work (thanks @badrelmers)
 - fix: regression: ui-tab titles were not restored from session (thanks @badrelmers)
+- fix: regression in 1.234.6: sessions saving had new bugs
 
 1.234.6 (2026/07)
 
