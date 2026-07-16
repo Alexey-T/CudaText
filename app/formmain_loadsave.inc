@@ -244,19 +244,23 @@ end;
 
 function TfmMain.IsAnyFrameTextModified: boolean;
 var
-  nFrameCount, iFrame: integer;
+  Frame: TEditorFrame;
   TempFrameState: TFrameEditState;
+  iFrame, iFramePrev: integer;
 begin
-  nFrameCount:= FrameCount_ForSession;
-
-  if nFrameCount<>Length(FPrevFramesEditState) then
+  if FrameCount_ForSession<>Length(FPrevFramesEditState) then
     exit(true);
 
-  for iFrame:= 0 to nFrameCount-1 do
+  iFramePrev:= 0;
+  for iFrame:= 0 to FrameCount-1 do
   begin
-    TempFrameState.Assign(Frames[iFrame]);
-    if TempFrameState<>FPrevFramesEditState[iFrame] then
+    Frame:= Frames[iFrame];
+    if Frame.IsEmpty then Continue;
+    if Frame.IsWelcome then Continue;
+    TempFrameState.Assign(Frame);
+    if TempFrameState<>FPrevFramesEditState[iFramePrev] then
       exit(true);
+    Inc(iFramePrev);
   end;
 
   Result:= false;
@@ -274,7 +278,7 @@ var
   sRootPath, sJsonPath, sTabKind, sConsole, sUndo: string;
   nLocalGroup, nGlobalGroup, nTabInGroup: integer;
   nCountFiles, nCountUntitled, iSavingTabIndex: integer;
-  nFrameCount, nPrevFrameCount: integer;
+  nNewFrameCount, nPrevFrameCount: integer;
   bModified, bUntitled: boolean;
   bSessionUpdated, bFileExisted: boolean;
   currFramesEditState: array of TFrameEditState;
@@ -296,7 +300,7 @@ begin
   nCountFiles:= 0;
   nCountUntitled:= 0;
   iSavingTabIndex:= 0;
-  nFrameCount:= FrameCount_ForSession;
+  nNewFrameCount:= FrameCount_ForSession;
   nPrevFrameCount:= 0;
 
   {
@@ -363,13 +367,13 @@ begin
     nPrevFrameCount:= 0;
     if AByTimer then
     begin
-      SetLength(currFramesEditState, nFrameCount);
+      SetLength(currFramesEditState, nNewFrameCount);
       nPrevFrameCount:= Length(FPrevFramesEditState);
     end;
 
     //cleanup session keys from '000' to maximal number, left from the previous saving
     if (not AByTimer) or
-      (nFrameCount<>nPrevFrameCount) then
+      (nNewFrameCount<>nPrevFrameCount) then
     begin
       bSessionUpdated:= true;
       for iFrame:= 0 to MaxInt do
@@ -381,12 +385,12 @@ begin
     end;
 
     iSavingTabIndex:= 0;
-    for iFrame:= 0 to nFrameCount-1 do
+    for iFrame:= 0 to FrameCount-1 do
     begin
       Frame:= Frames[iFrame];
       if Frame.IsEmpty then Continue;
-      if Frame.Ed1.Strings.LoadingFromStream then Continue;
       if Frame.IsWelcome then Continue;
+      if Frame.Ed1.Strings.LoadingFromStream then Continue;
 
       sTabFilename:= Frame.GetFileName(Frame.Ed1);
       if Frame.EditorsLinked then
@@ -407,18 +411,17 @@ begin
         Inc(nCountFiles);
 
       sJsonPath:= sRootPath+'/'+Format('%3.3d', [iSavingTabIndex]);
-      Inc(iSavingTabIndex);
 
       GetFrameLocation(Frame, Gr, Pages, nLocalGroup, nGlobalGroup, nTabInGroup);
       bModified:= Frame.Ed1.Modified or (bUntitled and not Frame.IsEmpty);
 
       if AByTimer then
-        currFramesEditState[iFrame].Assign(Frame);
+        currFramesEditState[iSavingTabIndex].Assign(Frame);
 
       if not bSessionUpdated then
       begin
         if (not AByTimer) or
-           (currFramesEditState[iFrame]<>FPrevFramesEditState[iFrame]) then
+           (currFramesEditState[iSavingTabIndex]<>FPrevFramesEditState[iSavingTabIndex]) then
           bSessionUpdated:= true; //frame's FileName or unsaved text has been updated
       end;
 
@@ -517,7 +520,9 @@ begin
             if Frame.Ed2.ModifiedBookmarks then
               Frame.DoSaveBookmarks(Frame.Ed2, cfg_bookmarks);
       end;
-    end;
+
+      Inc(iSavingTabIndex);
+    end; //for iFrame:= 0 to ...
 
     if AByTimer then
       FPrevFramesEditState:= Copy(currFramesEditState, 0, Length(currFramesEditState));
@@ -597,7 +602,7 @@ var
   CurTabs: TATTabs;
   nTick: QWord;
   nGroupIndex, nTabInGroup: integer;
-  iList, iGroup, iFrame: integer;
+  iList, iGroup, iFrame, iFrameNew: integer;
   nLineEnds: TATLineEnds;
 const
   SOptionPassive = '/passive /nonear';
@@ -1004,9 +1009,16 @@ begin
       Ed.DoEventCarets();
   end;
 
+  iFrameNew:= 0;
   SetLength(FPrevFramesEditState, FrameCount_ForSession);
   for iFrame:= 0 to Length(FPrevFramesEditState)-1 do
-    FPrevFramesEditState[iFrame].Assign(Frames[iFrame]);
+  begin
+    Frame:= Frames[iFrame];
+    if Frame.IsEmpty then Continue;
+    if Frame.IsWelcome then Continue;
+    FPrevFramesEditState[iFrameNew].Assign(Frame);
+    Inc(iFrameNew);
+  end;
 end;
 
 procedure TfmMain.DoOps_LoadHistory_GroupView(cfg: TAppJsonConfig; const AJsonPath: string);
