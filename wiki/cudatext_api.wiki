@@ -2636,7 +2636,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_LINKS_REGEX: str: regular expression for hyperlinks.
 * PROP_LINKS_CLICKS: int: how mouse clicks activate hyperlinks. 0: disabled, 1: single click, 2: double click.
 * PROP_IN_SESSION: bool: document was loaded from "session".
-* PROP_IN_HISTORY: bool: document history was loaded from history file (history embedded to "session" or main history file).
+* (deprecated) PROP_IN_HISTORY: bool: document history was loaded from history file (history embedded to "session" or main history file).
 * PROP_TAB_SPACES: bool: tab-key inserts spaces, not tab-char.
 * PROP_TAB_SIZE: int: size of tab-char.
 * PROP_TAB_SMART: bool: smart-tabs option, known from many text editors.
@@ -3897,19 +3897,19 @@ It provides:
 
 1.0.171
 * add: app_proc: PROC_SIDEPANEL_ADD takes additional value icon_filename
-* deprecated: app_log: LOG_PANEL_ADD
-* deprecated: app_log: LOG_PANEL_DELETE
-* deprecated: app_log: LOG_PANEL_FOCUS
+* deprecate: app_log: LOG_PANEL_ADD
+* deprecate: app_log: LOG_PANEL_DELETE
+* deprecate: app_log: LOG_PANEL_FOCUS
 
 1.0.172
 * add: menu_proc()
-* deprecated: app_proc actions: PROC_MENU_*
+* deprecate: app_proc actions: PROC_MENU_*
 * change: PROP_ENC now uses short names, see [[CudaText#Encodings]]
 
 1.0.173
 * add: dlg_commands()
 * add: toolbar_proc()
-* deprecated: app_proc actions: PROC_TOOLBAR_*
+* deprecate: app_proc actions: PROC_TOOLBAR_*
 
 1.0.174
 * add: dlg_custom: "name=" (not required)
@@ -3936,8 +3936,8 @@ It provides:
 * add: toolbar_proc: TOOLBAR_GET_CHECKED, TOOLBAR_SET_CHECKED
 * delete: event on_dlg
 * delete: dlg_proc/dlg_custom: prop "font" (use font_name, font_size, font_color)
-* delete: deprecated APIs LOG_PANEL_ADD LOG_PANEL_DELETE LOG_PANEL_FOCUS
-* delete: deprecated APIs PROC_TOOLBAR_*
+* delete deprecated: LOG_PANEL_ADD LOG_PANEL_DELETE LOG_PANEL_FOCUS
+* delete deprecated: PROC_TOOLBAR_*
 
 1.0.177
 * add: ed.replace
@@ -3958,7 +3958,7 @@ It provides:
 * add: dlg_proc/timer_proc/menu_proc: callbacks can be "callable", ie function names
 * add: dlg_proc/timer_proc: callbacks can be with "info=...;" at end
 * add: menu_proc: can use new-style callbacks like in dlg_proc
-* deprecated: menu_proc old-style callbacks "module,method[,param]"
+* deprecate: menu_proc old-style callbacks "module,method[,param]"
 
 1.0.180
 * add: app_proc: PROC_SHOW_SIDEBAR_GET, PROC_SHOW_SIDEBAR_SET
@@ -3975,11 +3975,11 @@ It provides:
 * add: dlg_proc: type "toolbar"
 * add: app_proc: PROC_PROGRESSBAR
 * add: app_proc: PROC_SPLITTER_GET, PROC_SPLITTER_SET
-* deprecated: app_proc: PROC_GET_SPLIT, PROC_SET_SPLIT
+* deprecate: app_proc: PROC_GET_SPLIT, PROC_SET_SPLIT
 * add: app_log: LOG_CONSOLE_GET_COMBO_LINES
 * add: app_log: LOG_CONSOLE_GET_MEMO_LINES
 * add: app_log: LOG_GET_LINES_LIST
-* deprecated: app_log: LOG_CONSOLE_GET, LOG_CONSOLE_GET_LOG, LOG_GET_LINES
+* deprecate: app_log: LOG_CONSOLE_GET, LOG_CONSOLE_GET_LOG, LOG_GET_LINES
 
 1.0.183
 * big changes in dlg_proc:
@@ -3991,8 +3991,8 @@ It provides:
 ** add: events for 'treeview' control: 'on_fold', 'on_unfold'
 
 1.0.184
-* deprecated: app_proc: PROC_SIDEPANEL_ADD, PROC_BOTTOMPANEL_ADD
-* deprecated: on_panel event
+* deprecate: app_proc: PROC_SIDEPANEL_ADD, PROC_BOTTOMPANEL_ADD
+* deprecate: on_panel event
 * add: app_proc: PROC_SIDEPANEL_ADD_DIALOG, PROC_BOTTOMPANEL_ADD_DIALOG
 * add: tree_proc: TREE_ITEM_FOLD_LEVEL
 * add: tree_proc: TREE_THEME
@@ -4001,25 +4001,25 @@ It provides:
 * add: toolbar_proc: used new callback form
 * add: menu_proc: MENU_SHOW with command="" to show at cursor
 * add: menu_proc: added param "hotkey" for MENU_ADD, "hotkey" returned from MENU_ENUM
-* deleted deprecated: PROC_GET_SPLIT, PROC_SET_SPLIT
-* deleted deprecated: LOG_GET_LINES
-* deleted deprecated: LOG_CONSOLE_GET, LOG_CONSOLE_GET_LOG
+* delete deprecated: PROC_GET_SPLIT, PROC_SET_SPLIT
+* delete deprecated: LOG_GET_LINES
+* delete deprecated: LOG_CONSOLE_GET, LOG_CONSOLE_GET_LOG
 
 1.0.185 (app 1.11.0)
 * add: menu_proc: for MENU_ADD added param "tag"
 * add: menu_proc: MENU_SHOW can use 2-tuple (x,y)
 * add: menu_proc: MENU_ENUM gives additional dict key "command"
-* deprecated: menu_proc command values: "recents", "enc", "langs", "lexers", "plugins", "themes-ui", "themes-syntax"
+* deprecate: menu_proc command values: "recents", "enc", "langs", "lexers", "plugins", "themes-ui", "themes-syntax"
 
 1.0.186 (app 1.12.0)
 * add: tree_proc: TREE_ICON_GET_SIZES, TREE_ICON_SET_SIZES
-* deleted deprecated: app_proc: PROC_MENU_* actions
-* deleted deprecated: app_proc: PROC_SIDEPANEL_ADD, PROC_BOTTOMPANEL_ADD
+* delete deprecated: app_proc: PROC_MENU_* actions
+* delete deprecated: app_proc: PROC_SIDEPANEL_ADD, PROC_BOTTOMPANEL_ADD
 
 1.0.187 (app 1.12.2)
 * add: lexer_proc: LEXER_GET_PROP
-* deprecated: lexer_proc: LEXER_GET_EXT, LEXER_GET_ENABLED, LEXER_GET_COMMENT, LEXER_GET_COMMENT_STREAM, LEXER_GET_COMMENT_LINED, LEXER_GET_LINKS, LEXER_GET_STYLES, LEXER_GET_STYLES_COMMENTS, LEXER_GET_STYLES_STRINGS
-* deleted: lexer_proc: actions didnt work, lexer files were not saved: LEXER_SET_*, LEXER_DELETE, LEXER_IMPORT
+* deprecate: lexer_proc: LEXER_GET_EXT, LEXER_GET_ENABLED, LEXER_GET_COMMENT, LEXER_GET_COMMENT_STREAM, LEXER_GET_COMMENT_LINED, LEXER_GET_LINKS, LEXER_GET_STYLES, LEXER_GET_STYLES_COMMENTS, LEXER_GET_STYLES_STRINGS
+* delete: lexer_proc: actions didnt work, lexer files were not saved: LEXER_SET_*, LEXER_DELETE, LEXER_IMPORT
 * add: dlg_proc: control "listview" on_select returns "data" param with 2-tuple
 
 1.0.188 (app 1.13.0)
@@ -4027,9 +4027,9 @@ It provides:
 * add: tree_proc: TREE_GET_IMAGELIST
 * add: toolbar_proc: TOOLBAR_GET_IMAGELIST
 * add: lexer_proc: LEXER_GET_LEXERS
-* deprecated: tree_proc: TREE_ICON_ADD, TREE_ICON_DELETE, TREE_ICON_GET_SIZES, TREE_ICON_SET_SIZES
-* deprecated: toolbar_proc: TOOLBAR_GET_ICON_SIZES, TOOLBAR_SET_ICON_SIZES, TOOLBAR_ADD_ICON
-* deprecated: lexer_proc: LEXER_GET_LIST
+* deprecate: tree_proc: TREE_ICON_ADD, TREE_ICON_DELETE, TREE_ICON_GET_SIZES, TREE_ICON_SET_SIZES
+* deprecate: toolbar_proc: TOOLBAR_GET_ICON_SIZES, TOOLBAR_SET_ICON_SIZES, TOOLBAR_ADD_ICON
+* deprecate: lexer_proc: LEXER_GET_LIST
 
 1.0.189 (app 1.13.1)
 * add: tree_proc: TREE_ITEM_SHOW
@@ -4051,8 +4051,8 @@ It provides:
 * add: listbox_proc: actions LISTBOX_GET_ITEM_H, LISTBOX_SET_ITEM_H
 * add: listbox_proc: actions LISTBOX_GET_DRAWN, LISTBOX_SET_DRAWN
 * add: event on_paste
-* deleted deprecated: event on_panel
-* deleted deprecated: menu_proc spec strings: "recents", "enc", "langs", "lexers", "plugins", "themes-ui", "themes-syntax"
+* delete deprecated: event on_panel
+* delete deprecated: menu_proc spec strings: "recents", "enc", "langs", "lexers", "plugins", "themes-ui", "themes-syntax"
 
 1.0.193 (app 1.15.0)
 * add: image_proc()
@@ -4070,7 +4070,7 @@ It provides:
 * add: menu_proc: MENU_SET_RADIOITEM
 * add: menu_proc: MENU_SET_HOTKEY
 * add: tree_proc: TREE_ITEM_GET_PROPS
-* deprecated: tree_proc: TREE_ITEM_GET_PROP, TREE_ITEM_GET_PARENT
+* deprecate: tree_proc: TREE_ITEM_GET_PROP, TREE_ITEM_GET_PARENT
 
 1.0.195 (app 1.15.5)
 * add: dlg_proc: control prop "border"
@@ -4094,10 +4094,10 @@ It provides:
 1.0.199 (app 1.19.2)
 * add: toolbar_proc: TOOLBAR_GET_VERTICAL, TOOLBAR_SET_VERTICAL
 * add: toolbar_proc: TOOLBAR_GET_WRAP, TOOLBAR_SET_WRAP
-* deleted deprecated: TOOLBAR_GET_ICON_SIZES, TOOLBAR_SET_ICON_SIZES, TOOLBAR_ADD_ICON
-* deleted deprecated: TREE_ITEM_GET_PROP, TREE_ITEM_GET_PARENT
-* deleted deprecated: TREE_ICON_ADD, TREE_ICON_DELETE, TREE_ICON_GET_SIZES, TREE_ICON_SET_SIZES
-* deleted deprecated: LEXER_GET_LIST, LEXER_GET_EXT, LEXER_GET_ENABLED, LEXER_GET_COMMENT, LEXER_GET_COMMENT_STREAM, LEXER_GET_COMMENT_LINED, LEXER_GET_LINKS, LEXER_GET_STYLES, LEXER_GET_STYLES_COMMENTS, LEXER_GET_STYLES_STRINGS
+* delete deprecated: TOOLBAR_GET_ICON_SIZES, TOOLBAR_SET_ICON_SIZES, TOOLBAR_ADD_ICON
+* delete deprecated: TREE_ITEM_GET_PROP, TREE_ITEM_GET_PARENT
+* delete deprecated: TREE_ICON_ADD, TREE_ICON_DELETE, TREE_ICON_GET_SIZES, TREE_ICON_SET_SIZES
+* delete deprecated: LEXER_GET_LIST, LEXER_GET_EXT, LEXER_GET_ENABLED, LEXER_GET_COMMENT, LEXER_GET_COMMENT_STREAM, LEXER_GET_COMMENT_LINED, LEXER_GET_LINKS, LEXER_GET_STYLES, LEXER_GET_STYLES_COMMENTS, LEXER_GET_STYLES_STRINGS
 
 1.0.200 (app 1.20.2)
 * add: event on_insert
@@ -4156,8 +4156,8 @@ It provides:
 * add: button_proc: BTN_GET_HINT, BTN_SET_HINT
 * add: button_proc: BTN_GET_DATA1, BTN_SET_DATA1, BTN_GET_DATA2, BTN_SET_DATA2
 * change: toolbar_proc: TOOLBAR_ENUM returns int value of "kind", before it was str
-* deprecated: TOOLBAR_GET_CHECKED, TOOLBAR_SET_CHECKED - now use TOOLBAR_GET_BUTTON_HANDLE + button_proc()
-* deprecated: PROC_GET_COMMAND, PROC_GET_COMMAND_INITIAL, PROC_GET_COMMAND_PLUGIN - now use PROC_GET_COMMANDS instead
+* deprecate: TOOLBAR_GET_CHECKED, TOOLBAR_SET_CHECKED - now use TOOLBAR_GET_BUTTON_HANDLE + button_proc()
+* deprecate: PROC_GET_COMMAND, PROC_GET_COMMAND_INITIAL, PROC_GET_COMMAND_PLUGIN - now use PROC_GET_COMMANDS instead
 
 1.0.213 (app 1.32.3)
 * add: button_proc: BTN_GET_MENU, BTN_SET_MENU
@@ -4165,9 +4165,9 @@ It provides:
 * add: button_proc: BTN_GET_FOCUSABLE, BTN_SET_FOCUSABLE
 * add: button_proc: BTN_GET_FLAT, BTN_SET_FLAT
 * add: toolbar_proc: TOOLBAR_ADD_ITEM, TOOLBAR_ADD_MENU
-* deprecated: toolbar_proc: TOOLBAR_ADD_BUTTON - now use TOOLBAR_ADD_ITEM/TOOLBAR_ADD_MENU + button_proc()
-* deprecated: toolbar_proc: TOOLBAR_SET_BUTTON - now use TOOLBAR_GET_BUTTON_HANDLE + button_proc()
-* deprecated: toolbar_proc: TOOLBAR_ENUM - now use TOOLBAR_GET_COUNT + TOOLBAR_GET_BUTTON_HANDLE + button_proc()
+* deprecate: toolbar_proc: TOOLBAR_ADD_BUTTON - now use TOOLBAR_ADD_ITEM/TOOLBAR_ADD_MENU + button_proc()
+* deprecate: toolbar_proc: TOOLBAR_SET_BUTTON - now use TOOLBAR_GET_BUTTON_HANDLE + button_proc()
+* deprecate: toolbar_proc: TOOLBAR_ENUM - now use TOOLBAR_GET_COUNT + TOOLBAR_GET_BUTTON_HANDLE + button_proc()
 
 1.0.214 (app 1.32.4)
 * add: button_proc supports callable param "value"
@@ -4221,8 +4221,8 @@ It provides:
 
 1.0.224 (app 1.39.5)
 * add: dlg_proc: control prop "ex"
-* deprecated: dlg_proc/dlg_custom prop "props" - now use "ex0"..."ex9"
-* deprecated: BOOKMARK_CLEAR_HINTS
+* deprecate: dlg_proc/dlg_custom prop "props" - now use "ex0"..."ex9"
+* deprecate: BOOKMARK_CLEAR_HINTS
 
 1.0.225 (app 1.40.0)
 * add: app_proc: PROC_SEND_MESSAGE
@@ -4231,7 +4231,7 @@ It provides:
 * add: app_proc: PROC_GET_CODETREE
 * add: Editor.get_prop/set_prop: PROP_CODETREE
 * add: tree_proc: TREE_ITEM_GET_RANGE, TREE_ITEM_SET_RANGE
-* deprecated: tree_proc: TREE_ITEM_GET_SYNTAX_RANGE
+* deprecate: tree_proc: TREE_ITEM_GET_SYNTAX_RANGE
 * change: changed Code-Tree button caption from "Tree" to "Code tree"
 
 1.0.227 (app 1.40.2)
@@ -4246,9 +4246,9 @@ It provides:
 1.0.230 (app 1.44.0)
 * add: dlg_proc: control "listview"/"checklistview" has event "on_click_header"
 * add: install.inf: allow os= values with bitness: win32, win64, linux32, linux64, freebsd32, freebsd64
-* deleted deprecated: PROC_GET_COMMAND
-* deleted deprecated: PROC_GET_COMMAND_INITIAL
-* deleted deprecated: PROC_GET_COMMAND_PLUGIN
+* delete deprecated: PROC_GET_COMMAND
+* delete deprecated: PROC_GET_COMMAND_INITIAL
+* delete deprecated: PROC_GET_COMMAND_PLUGIN
 
 1.0.231 (app 1.45.5)
 * add: dlg_proc: control "listview" has prop "columns"
@@ -4298,12 +4298,12 @@ It provides:
 
 1.0.240 (app 1.52.1)
 * add: ed.bookmark: BOOKMARK_SET can specify "delete bookmark on deleting line"
-* deleted deprecated: BOOKMARK_CLEAR_HINTS
-* deleted deprecated: TREE_ITEM_GET_SYNTAX_RANGE
+* delete deprecated: BOOKMARK_CLEAR_HINTS
+* delete deprecated: TREE_ITEM_GET_SYNTAX_RANGE
 
 1.0.242 (app 1.53.6)
 * add/change: dlg_proc: form property "border" is now enum, with DBORDER_nnn values
-* deprecated: dlg_proc: form property "resize"
+* deprecate: dlg_proc: form property "resize"
 * deleted deprecated: TOOLBAR_SET_BUTTON, TOOLBAR_ADD_BUTTON, TOOLBAR_ENUM, TOOLBAR_GET_CHECKED, TOOLBAR_SET_CHECKED
 
 1.0.243 (app 1.55.0)
@@ -4337,16 +4337,16 @@ It provides:
 1.0.248 (app 1.56.6)
 * add: app_proc: PROC_GET_FINDER_PROP
 * add: app_proc: PROC_SET_FINDER_PROP
-* deprecated: app_proc: PROC_GET_FIND_OPTIONS
-* deprecated: app_proc: PROC_SET_FIND_OPTIONS
-* deprecated: app_proc: PROC_GET_FIND_STRINGS
+* deprecate: app_proc: PROC_GET_FIND_OPTIONS
+* deprecate: app_proc: PROC_SET_FIND_OPTIONS
+* deprecate: app_proc: PROC_GET_FIND_STRINGS
 
 1.0.249 (app 1.57.5)
 * add: dlg_proc: control "pages" supports prop "val"
 * add: dlg_proc: control event "on_menu" can return False to disable default menu
 * add: Editor.get_token: TOKEN_LIST, TOKEN_LIST_SUB
 * add: Editor.get_token: index params are optional now
-* deprecated: Editor.get_token: TOKEN_AT_POS, TOKEN_INDEX (now use TOKEN_LIST, TOKEN_LIST_SUB)
+* deprecate: Editor.get_token: TOKEN_AT_POS, TOKEN_INDEX (now use TOKEN_LIST, TOKEN_LIST_SUB)
 
 1.0.250 (app 1.57.7)
 * add: event "on_open_none"
@@ -4363,8 +4363,8 @@ It provides:
 * add: Editor.bookmark: BOOKMARK_DELETE_BY_TAG
 * change: Editor.bookmark: BOOKMARK_SET sets flag "delete on deleting line" from new param "auto_del" now (before: from "ncolor=1")
 * change: on_change/on_change_slow now isn't called on file opening
-* deprecated: app_log: LOG_SET_PANEL (now use parameter "panel")
-* deprecated: Editor.bookmark: BOOKMARK_GET (now use BOOKMARK_GET_PROP)
+* deprecate: app_log: LOG_SET_PANEL (now use parameter "panel")
+* deprecate: Editor.bookmark: BOOKMARK_GET (now use BOOKMARK_GET_PROP)
 
 1.0.253 (app 1.59.0)
 * add: Editor.attr: added optional param "show_on_map"
@@ -4454,8 +4454,8 @@ It provides:
 * add: Editor.get_prop: PROP_HANDLE_SELF, PROP_HANDLE_PRIMARY, PROP_HANDLE_SECONDARY
 * add: Editor.get_prop: PROP_RECT_CLIENT, PROP_RECT_TEXT
 * change: deleted object "ed_bro"
-* deprecated: file_save(); use ed.save() instead
-* deprecated: Editor.get_split, Editor.set_split; use PROP_SPLIT instead
+* deprecate: file_save(); use ed.save() instead
+* deprecate: Editor.get_split, Editor.set_split; use PROP_SPLIT instead
 
 1.0.273 (app 1.74.1)
 * add: Editor.gap: added params "size", "color"
@@ -4492,13 +4492,13 @@ It provides:
 
 1.0.280 (app 1.77.6)
 * add: Editor.get_prop/set_prop: PROP_NEWLINE
-* deprecated: PROP_EOL
+* deprecate: PROP_EOL
 
 1.0.281 (app 1.78.5)
 * add: Editor.get_prop/set_prop: PROP_SCROLL_VERT_SMOOTH, PROP_SCROLL_HORZ_SMOOTH
 * add: Editor.get_prop: PROP_SCROLL_VERT_INFO, PROP_SCROLL_HORZ_INFO
 * add: Editor.get_wrapinfo: dict result has additional "initial" field
-* deprecated: PROP_COLUMN_LEFT; use PROP_SCROLL_HORZ instead
+* deprecate: PROP_COLUMN_LEFT (use PROP_SCROLL_HORZ instead)
 
 1.0.282 (app 1.78.6)
 * add: Editor.get_prop: PROP_LINE_STATES
@@ -4516,7 +4516,7 @@ It provides:
 
 1.0.285 (app 1.79.1)
 * add: Editor.gap: GAP_GET_ALL
-* deprecated: GAP_GET_LIST
+* deprecate: GAP_GET_LIST
 
 1.0.286 (app 1.79.2)
 * add: Editor.get_prop: PROP_HANDLE_PARENT
@@ -4536,8 +4536,8 @@ It provides:
 
 1.0.289 (app 1.81.2)
 * add: Editor.action()
-* deprecated: Editor.lexer_scan()
-* deprecated: Editor.export_html()
+* deprecate: Editor.lexer_scan()
+* deprecate: Editor.export_html()
 
 1.0.290 (app 1.81.3)
 * add: listbox_proc: LISTBOX_GET_COLUMN_SEP, LISTBOX_SET_COLUMN_SEP
@@ -4554,11 +4554,11 @@ It provides:
 * add: Editor.action: EDACTION_SHOW_POS
 
 1.0.293 (app 1.84.2)
-* removed deprecated: Editor.lexer_scan
-* removed deprecated: Editor.export_html
-* removed deprecated: PROP_COLUMN_LEFT
-* removed deprecated: GAP_GET_LIST
-* removed deprecated: PROP_EOL
+* delete deprecated: Editor.lexer_scan
+* delete deprecated: Editor.export_html
+* delete deprecated: PROP_COLUMN_LEFT
+* delete deprecated: GAP_GET_LIST
+* delete deprecated: PROP_EOL
 * add: install.inf support for data with empty "subdir"
 * add: install.inf support for "type=cudatext-package"
 
@@ -4594,8 +4594,8 @@ It provides:
 1.0.302 (app 1.86.3)
 * add: app_proc: PROC_THEME_UI_DICT_GET
 * add: app_proc: PROC_THEME_SYNTAX_DICT_GET
-* deprecated: PROC_THEME_UI_DATA_GET
-* deprecated: PROC_THEME_SYNTAX_DATA_GET
+* deprecate: PROC_THEME_UI_DATA_GET
+* deprecate: PROC_THEME_SYNTAX_DATA_GET
 
 1.0.303 (app 1.87.5)
 * add: listbox_proc: LISTBOX_GET_SHOW_X, LISTBOX_SET_SHOW_X
@@ -4851,8 +4851,8 @@ It provides:
 1.0.366 (app 1.124.1)
 * add: app_proc: PROC_SIDEPANEL_ENUM_ALL
 * add: app_proc: PROC_BOTTOMPANEL_ENUM_ALL
-* deprecated: app_proc: PROC_SIDEPANEL_ENUM
-* deprecated: app_proc: PROC_BOTTOMPANEL_ENUM
+* deprecate: app_proc: PROC_SIDEPANEL_ENUM
+* deprecate: app_proc: PROC_BOTTOMPANEL_ENUM
 
 1.0.367 (app 1.124.3)
 * add: Editor.get_prop/set_prop: PROP_FOCUSED
@@ -4876,7 +4876,7 @@ It provides:
 * add: button_proc: BTN_SET_COLOR_LINE2
 
 1.0.370 (app 1.128.1)
-* deleted deprecated API: dlg_proc/dlg_custom "props" - now use "ex0"..."ex9"
+* delete deprecated: "props" property in dlg_proc/dlg_custom (use "ex0"..."ex9" instead)
 
 1.0.371 (app 1.128.5)
 * add: Editor.get_prop/set_prop: PROP_MASKCHAR
@@ -4960,8 +4960,8 @@ It provides:
 * add: app_proc: PROC_GET_MAIN_TOOLBAR
 * add: app_proc: PROC_GET_MAIN_STATUSBAR
 * delete: redundant "API" constant which had the API version (seems no one used it)
-* deprecate: toolbar_proc() special string handle "top"
-* deprecate: statusbar_proc() special string handle "main"
+* deprecate: toolbar_proc() special string-handle "top"
+* deprecate: statusbar_proc() special string-handle "main"
 
 1.0.397 (app 1.135.2)
 * add: Editor.get_wrapinfo: add optional params to specify lines range
@@ -5027,7 +5027,8 @@ It provides:
 * add: app_proc: PROC_PARSE_COMMAND_LINE
 
 1.0.412 (app 1.146.1)
-* change: command "macros: start recording" is renamed to "start/stop recording", commands "stop recording" and "cancel recording" are deprecated
+* change: command "macros: start recording" is renamed to "start/stop recording"
+* deprecate: commands "stop recording" and "cancel recording"
 
 1.0.413 (app 1.148.1)
 * add: dlg_proc: new control "scrollbox"
@@ -5097,7 +5098,7 @@ It provides:
 
 1.0.430 (app 1.171.0)
 * delete deprecated: statusbar_proc special handle 'main'
-* delete depreacted: toolbar_proc special handle 'top'
+* delete deprecated: toolbar_proc special handle 'top'
 * add: statusbar_proc: STATUSBAR_MOVE_CELL
 * add: Editor.get_prop/set_prop: PROP_CARET_MULTI
 * add: Editor.set_prop: PROP_TAB_TITLE setting to empty str, resets the caption
@@ -5165,7 +5166,7 @@ It provides:
 1.0.448 (app 1.197.0)
 * add: Editor.folding: FOLDING_ENUM
 * add: Editor.folding: add optional params "item_x2", "item_tag"
-* deprecate FOLDING_GET_LIST and FOLDING_GET_LIST_FILTERED (use FOLDING_ENUM instead of them)
+* deprecate: FOLDING_GET_LIST and FOLDING_GET_LIST_FILTERED (use FOLDING_ENUM instead)
 * add: Editor.get_prop/set_prop: PROP_BORDER_COLOR
 * add: Editor.get_prop/set_prop: PROP_BORDER_COLOR_WIDTH
 * add: Editor.get_prop/set_prop: PROP_CORNER_TEXT
@@ -5185,11 +5186,11 @@ It provides:
 * add: menu items in "Plugins" menu support introspection by menu_proc() better: "hint" property is filled for them now
 
 1.0.450 (app 1.206.4)
-* delete deprecated actions FOLDING_GET_LIST and FOLDING_GET_LIST_FILTERED (use FOLDING_ENUM instead of them)
+* delete deprecated: FOLDING_GET_LIST and FOLDING_GET_LIST_FILTERED (use FOLDING_ENUM instead of them)
 * add: file_open: option "/noupdateaddons"
 
 1.0.451 (app 1.206.6)
-* delete deprecated key "auto_del" in results of BOOKMARK_GET_ALL
+* delete deprecated: key "auto_del" in results of BOOKMARK_GET_ALL
 * change: Editor.get_prop/set_prop: PROP_ACTIVATION_TIME is now available for editors created via dlg_proc; it is different now for primary/secondary editor in the same ui-tab 
 
 1.0.452 (app 1.209.0)
@@ -5207,11 +5208,11 @@ It provides:
 1.0.454 (app 1.211.3)
 * add: Editor.get_char_count
 * add: Editor.action: EDACTION_FIND_ALL supports multi-selections when searching with 's' option (before it handled only first selection)
-* delete deprecated CARET_OPTION_UNFOLD
+* delete deprecated: CARET_OPTION_UNFOLD
 
 1.0.455 (app 1.212.1)
 * change: Editor.micromap: changed scale of parameter "column width" from 'percents of char cell' (e.g. 50) to 'percents of normal column' (e.g. 100)
-* delete deprecated: delete param "tag" in app_log()
+* delete deprecated: param "tag" in app_log()
 
 1.0.456 (app 1.214.2)
 * deprecate: APP_FILE_RECENTS
@@ -5240,10 +5241,10 @@ It provides:
 * add: Editor.get_prop/set_prop: COLOR_ID_BookmarkIcon
 
 1.0.461 (app 1.218.0)
-* deprecate PROP_SCROLL_VERT
-* deprecate PROP_SCROLL_HORZ
-* deprecate PROP_SCROLL_VERT_SMOOTH
-* deprecate PROP_SCROLL_HORZ_SMOOTH
+* deprecate: PROP_SCROLL_VERT
+* deprecate: PROP_SCROLL_HORZ
+* deprecate: PROP_SCROLL_VERT_SMOOTH
+* deprecate: PROP_SCROLL_HORZ_SMOOTH
 * add: Editor.set_prop supports PROP_SCROLL_VERT_INFO (Editor.get_prop supports it already)
 * add: Editor.set_prop supports PROP_SCROLL_HORZ_INFO (Editor.get_prop supports it already)
 
@@ -5302,7 +5303,7 @@ It provides:
 * add: on_caret_slow supports comma-separated filters in "keys=" in install.inf: "sel" for single caret selection, "selx" for 2+ carets selections, "selreset" for reset of selection(s)
 
 1.0.471 (app 1.231.0)
-* deprecate PROC_SET_EVENTS
+* deprecate: PROC_SET_EVENTS
 * add: app_proc: PROC_EVENTS_SUB
 * add: app_proc: PROC_EVENTS_UNSUB
 * add: app_proc: PROC_EVENTS_ENUM
@@ -5319,7 +5320,7 @@ It provides:
 
 1.0.473 (app 1.231.5)
 * delete app_proc's PROC_SET_EVENTS (use PROC_EVENTS_SUB/PROC_EVENTS_UNSUB instead)
-* deprecate Editor.lock, Editor.unlock
+* deprecate: Editor.lock, Editor.unlock
 * add: Editor.action: EDACTION_LOCK
 * add: Editor.action: EDACTION_UNLOCK
 * add: on_state: APPSTATE_TAB_SPLIT
@@ -5366,5 +5367,6 @@ It provides:
 * add: on_state_ed: EDSTATE_EXT_MODIFIED
 * add: on_state: APPSTATE_SESSION_SAVE_BEFORE
 * add: on_state: APPSTATE_SESSION_SAVE_AFTER
+* deprecate: PROP_IN_HISTORY
 
 [[Category:CudaText]]
