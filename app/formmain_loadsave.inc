@@ -273,7 +273,7 @@ var
   sSessionFileName, sTabFilename, sTabFilename2,
   sRootPath, sJsonPath, sTabKind, sConsole, sUndo: string;
   nLocalGroup, nGlobalGroup, nTabInGroup: integer;
-  nCountFiles, nCountUntitled, nSavedTabIndex: integer;
+  nCountFiles, nCountUntitled, iSavingTabIndex: integer;
   nFrameCount, nPrevFrameCount: integer;
   bModified, bUntitled: boolean;
   bSessionUpdated, bFileExisted: boolean;
@@ -295,7 +295,7 @@ begin
   fileWriteTimeAfterSaving:= Default(TDateTime);
   nCountFiles:= 0;
   nCountUntitled:= 0;
-  nSavedTabIndex:= 0;
+  iSavingTabIndex:= 0;
   nFrameCount:= FrameCount_ForSession;
   nPrevFrameCount:= 0;
 
@@ -380,7 +380,7 @@ begin
       end;
     end;
 
-    nSavedTabIndex:= 0;
+    iSavingTabIndex:= 0;
     for iFrame:= 0 to nFrameCount-1 do
     begin
       Frame:= Frames[iFrame];
@@ -406,8 +406,8 @@ begin
       else
         Inc(nCountFiles);
 
-      sJsonPath:= sRootPath+'/'+Format('%3.3d', [nSavedTabIndex]);
-      Inc(nSavedTabIndex);
+      sJsonPath:= sRootPath+'/'+Format('%3.3d', [iSavingTabIndex]);
+      Inc(iSavingTabIndex);
 
       GetFrameLocation(Frame, Gr, Pages, nLocalGroup, nGlobalGroup, nTabInGroup);
       bModified:= Frame.Ed1.Modified or (bUntitled and not Frame.IsEmpty);
