@@ -280,7 +280,7 @@ var
   currFramesEditState: array of TFrameEditState;
   fileWriteTimeBeforeSaving,
   fileWriteTimeAfterSaving: TDateTime;
-  iFrame, iGroup: integer;
+  iFrame, iGroup, iFileIndex: integer;
 begin
   Result:= false;
   if ASessionId='' then exit;
@@ -367,14 +367,15 @@ begin
       nPrevFrameCount:= Length(FPrevFramesEditState);
     end;
 
-    if nFrameCount<>nPrevFrameCount then
+    //cleanup session keys from '000' to maximal number, left from the previous saving
+    if (not AByTimer) or
+      ((nPrevFrameCount>0) and (nFrameCount<>nPrevFrameCount)) then
     begin
-      bSessionUpdated:= true; //number of opened documents has changed
-
-      //cleanup session keys, left from the previous saving
-      for iFrame:= nFrameCount to nPrevFrameCount-1 do
+      bSessionUpdated:= true;
+      for iFileIndex:= 0 to MaxInt do
       begin
-        sJsonPath:= sRootPath+'/'+Format('%3.3d', [iFrame]);
+        sJsonPath:= sRootPath+'/'+Format('%3.3d', [iFileIndex]);
+        if cfg.GetValue(sJsonPath+'/file', '??')='??' then Break; //one-char str '?' gives access violation, why?
         cfg.DeleteValue(sJsonPath);
       end;
     end;
