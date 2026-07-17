@@ -2567,7 +2567,7 @@ object SyntAnal6: TLibSyntAnalyzer
       BlockEnd = '}'
       Highlight = True
       InvertColors = True
-      NameFmt = '%s1'
+      NameFmt = '%sk1'
       RefToCondEnd = True
       HighlightPos = cpRange
       DynSelectMin = True

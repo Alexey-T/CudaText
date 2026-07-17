@@ -3,6 +3,10 @@
   - fixed
   * changed
 
+1.235.1 (2026/07)
+
++ add: addition to EControl RangeFormat(): support '%SK1', which is now used in CSS lexer to better show code-tree-nodes
+
 1.235.0 (2026/07)
 
 * change/add: option "ui_title_path" removed; instead added option "ui_title" with more details
