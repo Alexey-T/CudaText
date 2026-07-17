@@ -816,7 +816,9 @@ begin
         if sTabFilename<>'' then
           Frame.TabCaptionReason:= TAppTabCaptionReason.FromFilename
         else
-          Frame.TabCaptionReason:= TAppTabCaptionReason.UnsavedSpecial; //2026.07, it was .Unsaved, changed to avoid updating TabCaption, restored from session, during Frame.UpdateModified
+          Frame.TabCaptionReason:= TAppTabCaptionReason.UnsavedSpecial;
+          //2026.07: it was Unsaved, changed to UnsavedSpecial
+          //to avoid updating TabCaption, restored from session, during Frame.UpdateModified
 
         Frame.NotifEnabled:= sTabFilename<>'';
       end
