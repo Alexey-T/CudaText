@@ -9830,48 +9830,51 @@ end;
 
 
 function TfmMain.GetUntitledNumberedCaption: string;
-const
-  AppUntitledCount: integer = 0;
 var
+  NumList: TfpList;
   Frame: TEditorFrame;
-  NCount, NTabIndex: integer;
+  NFrameCount, NTabIndex, NFirstFreeIndex, i: integer;
   S: string;
 begin
-  //reset the counter, when many tabs were opened, but were closed later
-  if UiOps.TabsResetUntitledCounter then
+  NFirstFreeIndex:= 1;
+  NFrameCount:= FrameCount;
+  if NFrameCount>0 then
   begin
-    NCount:= FrameCount;
-    if NCount=0 then
-      AppUntitledCount:= 0
-    else
-    if NCount=1 then
-    begin
-      NTabIndex:= -1;
-      Frame:= Frames[0];
-      if Frame.FileName='' then
+    NumList:= TfpList.Create;
+    try
+      for i:= 0 to NFrameCount-1 do
       begin
-        S:= Frame.TabCaption;
-        if IsUntitledEnglishTabCaption(S) then
+        Frame:= Frames[i];
+        if Frame.FileName='' then
         begin
-          Delete(S, 1, Length(msgUntitledEnglish));
-          NTabIndex:= StrToIntDef(S, 0);
-        end
-        else
-        if (UiOps.LangName<>'') and SBeginsWith(S, msgUntitledTab) then
-        begin
-          Delete(S, 1, Length(msgUntitledTab));
-          NTabIndex:= StrToIntDef(S, 0);
+          S:= Frame.TabCaption;
+          if IsUntitledEnglishTabCaption(S) then
+          begin
+            Delete(S, 1, Length(msgUntitledEnglish));
+            NTabIndex:= StrToIntDef(S, 0);
+          end
+          else
+          if (UiOps.LangName<>'') and SBeginsWith(S, msgUntitledTab) then
+          begin
+            Delete(S, 1, Length(msgUntitledTab));
+            NTabIndex:= StrToIntDef(S, 0);
+          end;
+          NumList.Add(Pointer(PtrInt(NTabIndex)));
         end;
       end;
-      if NTabIndex>0 then
-        AppUntitledCount:= NTabIndex
-      else
-        AppUntitledCount:= 0;
+
+      for i:= 1{>0} to MaxInt do
+        if NumList.IndexOf(Pointer(PtrInt(i)))<0 then
+        begin
+          NFirstFreeIndex:= i;
+          Break;
+        end;
+    finally
+      FreeAndNil(NumList);
     end;
   end;
 
-  Inc(AppUntitledCount);
-  Result:= msgUntitledTab+IntToStr(AppUntitledCount);
+  Result:= msgUntitledTab+IntToStr(NFirstFreeIndex);
 end;
 
 procedure TfmMain.PopupBottomClearClick(Sender: TObject);

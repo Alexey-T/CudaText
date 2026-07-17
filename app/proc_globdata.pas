@@ -313,7 +313,6 @@ type
 
     TabsShowFoldersSuffix: boolean;
     TabsShowFoldersMaxLevels: integer;
-    TabsResetUntitledCounter: boolean;
     TabsDisabled: boolean;
     TabVarWidth: boolean;
     TabMultiline: boolean;
@@ -2169,7 +2168,6 @@ begin
 
     TabsShowFoldersSuffix:= true;
     TabsShowFoldersMaxLevels:= 3;
-    TabsResetUntitledCounter:= true;
     TabsDisabled:= false;
     TabVarWidth:= false;
     TabMultiline:= false;
