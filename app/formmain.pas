@@ -9829,11 +9829,26 @@ begin
 end;
 
 
+function CalcIndexOfUntitledTabCaption(const S: string): integer;
+const
+  cDefault = 0;
+begin
+  Result:= cDefault;
+  if IsUntitledEnglishTabCaption(S) then
+  begin
+    Result:= StrToIntDef(Copy(S, Length(msgUntitledEnglish)+1), cDefault);
+  end
+  else
+  if (UiOps.LangName<>'') and SBeginsWith(S, msgUntitledTab) then
+  begin
+    Result:= StrToIntDef(Copy(S, Length(msgUntitledTab)+1), cDefault);
+  end;
+end;
+
 function TfmMain.GetUntitledNumberedCaption: string;
 var
   Frame: TEditorFrame;
   NFrameCount, NTabIndex, NFirstFreeIndex, i: integer;
-  S: string;
 begin
   NFirstFreeIndex:= 1;
   NFrameCount:= FrameCount;
@@ -9846,19 +9861,7 @@ begin
     begin
       Frame:= Frames[i];
       if Frame.FileName<>'' then Continue;
-      S:= Frame.TabCaption;
-      NTabIndex:= 0;
-      if IsUntitledEnglishTabCaption(S) then
-      begin
-        Delete(S, 1, Length(msgUntitledEnglish));
-        NTabIndex:= StrToIntDef(S, 0);
-      end
-      else
-      if (UiOps.LangName<>'') and SBeginsWith(S, msgUntitledTab) then
-      begin
-        Delete(S, 1, Length(msgUntitledTab));
-        NTabIndex:= StrToIntDef(S, 0);
-      end;
+      NTabIndex:= CalcIndexOfUntitledTabCaption(Frame.TabCaption);
       if NTabIndex>0 then
         AppUntitledNumbersList.Add(Pointer(PtrInt(NTabIndex)));
     end;
