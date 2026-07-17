@@ -709,8 +709,6 @@ begin
       sRedoString:= cfg.GetValue(sItemPath+'redo', '');
       sTabKind:= cfg.GetValue(sItemPath+'kind', '');
       bModified:= cfg.GetValue(sItemPath+'modified', false);
-      if sText='' then //don't load this file from session
-        bModified:= false;
 
       //support old sessions with 1-based group index
       nGroupIndex:= cfg.GetValue(sItemPath+'group', 1)-1;
