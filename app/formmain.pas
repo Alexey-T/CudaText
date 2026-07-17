@@ -9840,7 +9840,7 @@ begin
   if NFrameCount>0 then
   begin
     AppUntitledNumbersList.Clear;
-    AppUntitledNumbersList.Capacity:= 20;
+    AppUntitledNumbersList.Capacity:= 20; //20 is enough for usually few opened untitled tabs
 
     for i:= 0 to NFrameCount-1 do
     begin
