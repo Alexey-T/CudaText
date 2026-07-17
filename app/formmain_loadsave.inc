@@ -985,16 +985,10 @@ begin
   //it's needed in on_state
   AppSessionName:= ASessionId;
 
+  DoOps_SaveCurrentSessionName;
+
   if bAllowOnState then
-  begin
     DoPyEvent_AppState(APPSTATE_SESSION_LOAD);
-    {
-    if (nCountFilesBefore>0) or (nCountFiles+nCountFilesModified>0) then
-      DoPyEvent_AppState(APPSTATE_SESSION_LOAD)
-    else
-      DoPyEvent_AppState(APPSTATE_SESSION_LOAD_FAIL);
-    }
-  end;
 
   //avoid getting N tabs for untitled of which only N-1 are translated
   LocalizeTabTitles;
