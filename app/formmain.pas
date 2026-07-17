@@ -9831,7 +9831,6 @@ end;
 
 function TfmMain.GetUntitledNumberedCaption: string;
 var
-  NumList: TfpList;
   Frame: TEditorFrame;
   NFrameCount, NTabIndex, NFirstFreeIndex, i: integer;
   S: string;
@@ -9840,38 +9839,38 @@ begin
   NFrameCount:= FrameCount;
   if NFrameCount>0 then
   begin
-    NumList:= TfpList.Create;
-    try
-      for i:= 0 to NFrameCount-1 do
+    AppUntitledNumbersList.Clear;
+    AppUntitledNumbersList.Capacity:= 20;
+
+    for i:= 0 to NFrameCount-1 do
+    begin
+      Frame:= Frames[i];
+      if Frame.FileName<>'' then Continue;
+      S:= Frame.TabCaption;
+      NTabIndex:= 0;
+      if IsUntitledEnglishTabCaption(S) then
       begin
-        Frame:= Frames[i];
-        if Frame.FileName<>'' then Continue;
-        S:= Frame.TabCaption;
-        NTabIndex:= 0;
-        if IsUntitledEnglishTabCaption(S) then
-        begin
-          Delete(S, 1, Length(msgUntitledEnglish));
-          NTabIndex:= StrToIntDef(S, 0);
-        end
-        else
-        if (UiOps.LangName<>'') and SBeginsWith(S, msgUntitledTab) then
-        begin
-          Delete(S, 1, Length(msgUntitledTab));
-          NTabIndex:= StrToIntDef(S, 0);
-        end;
-        if NTabIndex>0 then
-          NumList.Add(Pointer(PtrInt(NTabIndex)));
+        Delete(S, 1, Length(msgUntitledEnglish));
+        NTabIndex:= StrToIntDef(S, 0);
+      end
+      else
+      if (UiOps.LangName<>'') and SBeginsWith(S, msgUntitledTab) then
+      begin
+        Delete(S, 1, Length(msgUntitledTab));
+        NTabIndex:= StrToIntDef(S, 0);
+      end;
+      if NTabIndex>0 then
+        AppUntitledNumbersList.Add(Pointer(PtrInt(NTabIndex)));
+    end;
+
+    for i:= 1{>0} to MaxInt do
+      if AppUntitledNumbersList.IndexOf(Pointer(PtrInt(i)))<0 then
+      begin
+        NFirstFreeIndex:= i;
+        Break;
       end;
 
-      for i:= 1{>0} to MaxInt do
-        if NumList.IndexOf(Pointer(PtrInt(i)))<0 then
-        begin
-          NFirstFreeIndex:= i;
-          Break;
-        end;
-    finally
-      FreeAndNil(NumList);
-    end;
+    AppUntitledNumbersList.Clear;
   end;
 
   Result:= msgUntitledTab+IntToStr(NFirstFreeIndex);

@@ -179,6 +179,9 @@ var
     //frames which need to be Free'd
     //we don't free frames instantly, because watcher thread can access them
 
+  AppUntitledNumbersList: TFPList;
+    //temp list in TfmMain.GetUntitledNumberedCaption
+
   AppEventLister: TEvent = nil; //event set to signaled, when main thread has done AppFrameList2 updating
   AppEventWatcher: TEvent = nil; //event set to signaled, when watcher thread is not busy
 
@@ -4295,6 +4298,7 @@ initialization
   AppFrameList1:= TFPList.Create;
   AppFrameList2:= TFPList.Create;
   AppFrameListDeleting:= TFPList.Create;
+  AppUntitledNumbersList:= TFPList.Create;
   AppEventLister:= TEvent.Create(nil, true, true, '');
   AppEventWatcher:= TEvent.Create(nil, true, true, '');
 
@@ -4357,6 +4361,7 @@ finalization
   FreeAndNil(AppListRecents);
   FreeAndNil(AppEventWatcher);
   FreeAndNil(AppEventLister);
+  FreeAndNil(AppUntitledNumbersList);
   FreeAndNil(AppFrameListDeleting);
   FreeAndNil(AppFrameList2);
   FreeAndNil(AppFrameList1);
