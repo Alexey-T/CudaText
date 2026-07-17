@@ -784,7 +784,7 @@ begin
       if bModified then
       begin
         Inc(nCountFilesModified);
-        if (not bReusedEmptyFrame) and (FrameCount>0) and Frames[0].IsEmpty then
+        if (not bReusedEmptyFrame) and (FrameCount=1 {or >0 ?}) and Frames[0].IsEmpty then
         begin
           bReusedEmptyFrame:= true;
           Frame:= Frames[0];
