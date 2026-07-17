@@ -593,7 +593,7 @@ var
   sItemPath, sItemPath2: string;
   nCountFiles, nCountFilesModified, nCountFilesBefore, nCountFilesDeleted: integer;
   bModified, bModified2: boolean;
-  bAllowOnState: boolean;
+  bAllowOnState, bReusedEmptyFrame: boolean;
   sText: UnicodeString;
   sUndoString, sRedoString: string;
   bExist, bExist2: boolean;
@@ -644,6 +644,7 @@ begin
   nCountFiles:= 0;
   nCountFilesModified:= 0;
   nCountFilesDeleted:= 0;
+  bReusedEmptyFrame:= false;
 
   AppFileCheckForNullBytes(sSessionFileName);
 
@@ -782,8 +783,11 @@ begin
       if bModified then
       begin
         Inc(nCountFilesModified);
-        if (FrameCount>0) and Frames[0].IsEmpty then
-          Frame:= Frames[0]
+        if (not bReusedEmptyFrame) and (FrameCount>0) and Frames[0].IsEmpty then
+        begin
+          bReusedEmptyFrame:= true;
+          Frame:= Frames[0];
+        end
         else
           Frame:= DoFileOpen('', '', Pages, SOptionPassive+SOptionNoHistory);
         if sTabFilename<>'' then
