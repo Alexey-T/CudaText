@@ -10413,7 +10413,6 @@ begin
   FrameOnEditorShow(Ada.Editor);
 end;
 
-
 //----------------------------
 {$I formmain_loadsave.inc}
 {$I formmain_updates_proc.inc}
