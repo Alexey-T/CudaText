@@ -9845,22 +9845,22 @@ begin
       for i:= 0 to NFrameCount-1 do
       begin
         Frame:= Frames[i];
-        if Frame.FileName='' then
+        if Frame.FileName<>'' then Continue;
+        S:= Frame.TabCaption;
+        NTabIndex:= 0;
+        if IsUntitledEnglishTabCaption(S) then
         begin
-          S:= Frame.TabCaption;
-          if IsUntitledEnglishTabCaption(S) then
-          begin
-            Delete(S, 1, Length(msgUntitledEnglish));
-            NTabIndex:= StrToIntDef(S, 0);
-          end
-          else
-          if (UiOps.LangName<>'') and SBeginsWith(S, msgUntitledTab) then
-          begin
-            Delete(S, 1, Length(msgUntitledTab));
-            NTabIndex:= StrToIntDef(S, 0);
-          end;
-          NumList.Add(Pointer(PtrInt(NTabIndex)));
+          Delete(S, 1, Length(msgUntitledEnglish));
+          NTabIndex:= StrToIntDef(S, 0);
+        end
+        else
+        if (UiOps.LangName<>'') and SBeginsWith(S, msgUntitledTab) then
+        begin
+          Delete(S, 1, Length(msgUntitledTab));
+          NTabIndex:= StrToIntDef(S, 0);
         end;
+        if NTabIndex>0 then
+          NumList.Add(Pointer(PtrInt(NTabIndex)));
       end;
 
       for i:= 1{>0} to MaxInt do
