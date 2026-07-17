@@ -1920,21 +1920,25 @@ begin
 end;
 
 procedure TfmMain.UpdateMenuSidebarButton(AWhenAutoShow: boolean);
+var
+  Btn: TATButton;
 begin
   if ToolbarSideTop.ButtonCount>0 then
-    with ToolbarSideTop.Buttons[0] do
-      if OnClick=@DoSidebar_MainMenuClick then
-        case UiOps.ShowSidebarMenuButton of
-          0: Visible:= false;
-          1: Visible:= true;
-          2: Visible:= AWhenAutoShow;
-        end;
+  begin
+    Btn:= ToolbarSideTop.Buttons[0];
+    if Btn.OnClick=@DoSidebar_MainMenuClick then
+      case UiOps.ShowSidebarMenuButton of
+        0: Btn.Visible:= false;
+        1: Btn.Visible:= true;
+        2: Btn.Visible:= AWhenAutoShow;
+      end;
+  end;
 end;
 
 procedure TfmMain.UpdateFramePrevStates;
 var
-  iFrame, iFrameNew: integer;
   Frame: TEditorFrame;
+  iFrame, iFrameNew: integer;
 begin
   iFrameNew:= 0;
   SetLength(FPrevFramesEditState, FrameCount_ForSession);
