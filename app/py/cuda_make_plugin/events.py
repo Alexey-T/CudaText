@@ -19,6 +19,7 @@ EVENTS = [
     'on_console_nav',
     'on_delete_file',
     'on_exit',
+    'on_exit_pre',
     'on_focus',
     'on_func_hint',
     'on_goto_def',

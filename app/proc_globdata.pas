@@ -1039,6 +1039,7 @@ type
     OnSidebarPopup,
     OnStateFindbar,
     OnCLI,
+    OnExitBefore,
     OnExit
     );
   TAppPyEvents = set of TAppPyEvent;
@@ -1115,6 +1116,7 @@ const
     'on_sidebar_popup',
     'on_state_findbar',
     'on_cli',
+    'on_exit_pre',
     'on_exit'
     );
 

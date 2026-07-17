@@ -3477,6 +3477,12 @@ var
   F: TEditorFrame;
   i: integer;
 begin
+  if DoPyEvent(nil, TAppPyEvent.OnExitBefore, []).Val = TAppPyEventValue.False then
+  begin
+    ACanClose:= false;
+    exit;
+  end;
+
   //call on_close_pre for all tabs, it's needed to save all
   //tabs by AutoSave plugin
   for i:= 0 to FrameCount-1 do
