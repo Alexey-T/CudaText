@@ -16,7 +16,7 @@ uses
   ATBinHex;
 
 const
-  cAppExeVersion = '1.235.0.4';
+  cAppExeVersion = '1.235.1.0';
   cAppApiVersion = 482;
 
 const

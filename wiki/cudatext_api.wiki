@@ -5370,7 +5370,7 @@ It provides:
 * add: on_state: APPSTATE_SESSION_SAVE_AFTER
 * deprecate: PROP_IN_HISTORY
 
-1.0.482 (app 1.235.0)
+1.0.482 (app 1.235.1)
 * add: on_exit_pre
 
 [[Category:CudaText]]
