@@ -3474,10 +3474,12 @@ end;
 
 procedure TfmMain.FormCloseQuery(Sender: TObject; var ACanClose: boolean);
 var
+  Res: TAppPyEventResult;
   F: TEditorFrame;
   i: integer;
 begin
-  if DoPyEvent(nil, TAppPyEvent.OnExitBefore, []).Val = TAppPyEventValue.False then
+  Res:= DoPyEvent(nil, TAppPyEvent.OnExitBefore, []);
+  if Res.Val=TAppPyEventValue.False then
   begin
     ACanClose:= false;
     exit;
