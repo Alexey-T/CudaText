@@ -430,8 +430,7 @@ begin
         cfg.DeleteValue(sJsonPath+'/text');
       cfg.SetValue(sJsonPath+'/file', AppCollapseHomeDirInFilename(sTabFilename));
 
-      if bModified then
-        cfg.SetValue(sJsonPath+'/tab_title', Frame.TabCaption);
+      cfg.SetValue(sJsonPath+'/tab_title', Frame.TabCaption);
       cfg.SetValue(sJsonPath+'/group', nGlobalGroup+1); //support old sessions with 1-based index
       cfg.SetDeleteValue(sJsonPath+'/pinned', Frame.TabPinned, false);
       cfg.SetDeleteValue(sJsonPath+'/goto', Frame.GotoInput, '');
