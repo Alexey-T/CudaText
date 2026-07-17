@@ -645,6 +645,7 @@ begin
   nCountFilesModified:= 0;
   nCountFilesDeleted:= 0;
   bReusedEmptyFrame:= false;
+  sOpenOptions:= '';
 
   AppFileCheckForNullBytes(sSessionFileName);
 
