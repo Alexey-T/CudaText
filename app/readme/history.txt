@@ -5,7 +5,7 @@
 
 1.235.1 (2026/07)
 
-+ add: addition to EControl RangeFormat(): support '%SK1', which is now used in CSS lexer to better show code-tree-nodes
++ add: CSS lexer: better show code-tree nodes, now they are fragments to nearest lefter '}'
 + add: better calc new untitled tab-caption like 'Untitled3' when e.g. opened tabs are 'Untitled2' and 'Untitled1' (thanks @badrelmers)
 
 1.235.0 (2026/07)
