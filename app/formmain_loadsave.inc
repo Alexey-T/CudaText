@@ -258,6 +258,7 @@ begin
     if Frame.IsEmpty then Continue;
     if Frame.IsWelcome then Continue;
     TempFrameState.Assign(Frame);
+    if iFramePrev>High(FPrevFramesEditState) then Break;
     if TempFrameState<>FPrevFramesEditState[iFramePrev] then
       exit(true);
     Inc(iFramePrev);
@@ -421,7 +422,9 @@ begin
       if not bSessionUpdated then
       begin
         if (not AByTimer) or
-           (currFramesEditState[iSavingTabIndex]<>FPrevFramesEditState[iSavingTabIndex]) then
+          ((iSavingTabIndex<=High(FPrevFramesEditState)) and
+           (iSavingTabIndex<=High(currFramesEditState)) and
+           (currFramesEditState[iSavingTabIndex]<>FPrevFramesEditState[iSavingTabIndex])) then
           bSessionUpdated:= true; //frame's FileName or unsaved text has been updated
       end;
 
