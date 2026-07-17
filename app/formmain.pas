@@ -1171,6 +1171,7 @@ type
     procedure UpdateMenuChecks_FrameSplit(F: TEditorFrame);
     procedure UpdateMenuChecks_Global;
     procedure UpdateFrameLineEnds(Frame: TEditorFrame; Ed: TATSynEdit; ALineEnds: TATLineEnds);
+    procedure UpdateFramePrevStates;
     procedure UpdateEditorCaretLineEnds(Frame: TEditorFrame; Ed: TATSynEdit; ALineEnds: TATLineEnds);
     procedure UpdateStatusbarPanelsFromString(const AText: string);
     procedure UpdateStatusbarHints;

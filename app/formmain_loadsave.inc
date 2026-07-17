@@ -601,7 +601,7 @@ var
   CurTabs: TATTabs;
   nTick: QWord;
   nGroupIndex, nTabInGroup: integer;
-  iList, iGroup, iFrame, iFrameNew: integer;
+  iList, iGroup, iFrame: integer;
   nLineEnds: TATLineEnds;
 const
   SOptionPassive = '/passive /nonear';
@@ -1008,6 +1008,14 @@ begin
       Ed.DoEventCarets();
   end;
 
+  UpdateFramePrevStates;
+end;
+
+procedure TfmMain.UpdateFramePrevStates;
+var
+  iFrame, iFrameNew: integer;
+  Frame: TEditorFrame;
+begin
   iFrameNew:= 0;
   SetLength(FPrevFramesEditState, FrameCount_ForSession);
   for iFrame:= 0 to Length(FPrevFramesEditState)-1 do
