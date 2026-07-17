@@ -1938,11 +1938,12 @@ var
 begin
   iFrameNew:= 0;
   SetLength(FPrevFramesEditState, FrameCount_ForSession);
-  for iFrame:= 0 to Length(FPrevFramesEditState)-1 do
+  for iFrame:= 0 to FrameCount-1 do
   begin
     Frame:= Frames[iFrame];
     if Frame.IsEmpty then Continue;
     if Frame.IsWelcome then Continue;
+    if iFrameNew>High(FPrevFramesEditState) then Break;
     FPrevFramesEditState[iFrameNew].Assign(Frame);
     Inc(iFrameNew);
   end;
