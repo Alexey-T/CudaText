@@ -2637,7 +2637,6 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_LINKS_REGEX: str: regular expression for hyperlinks.
 * PROP_LINKS_CLICKS: int: how mouse clicks activate hyperlinks. 0: disabled, 1: single click, 2: double click.
 * PROP_IN_SESSION: bool: document was loaded from "session".
-* (deprecated) PROP_IN_HISTORY: bool: document history was loaded from history file (history embedded to "session" or main history file).
 * PROP_TAB_SPACES: bool: tab-key inserts spaces, not tab-char.
 * PROP_TAB_SIZE: int: size of tab-char.
 * PROP_TAB_SMART: bool: smart-tabs option, known from many text editors.
@@ -5356,10 +5355,10 @@ It provides:
 * add: on_state_findbar: added "state" value "dots_show_pre"
 
 1.0.480 (app 1.234.6)
-* delete PROP_SCROLL_HORZ (use PROP_SCROLL_xxxx_INFO instead)
-* delete PROP_SCROLL_VERT (use PROP_SCROLL_xxxx_INFO instead)
-* delete PROP_SCROLL_HORZ_SMOOTH (use PROP_SCROLL_xxxx_INFO instead)
-* delete PROP_SCROLL_VERT_SMOOTH (use PROP_SCROLL_xxxx_INFO instead)
+* delete deprecated: PROP_SCROLL_HORZ (use PROP_SCROLL_xxxx_INFO instead)
+* delete deprecated: PROP_SCROLL_VERT (use PROP_SCROLL_xxxx_INFO instead)
+* delete deprecated: PROP_SCROLL_HORZ_SMOOTH (use PROP_SCROLL_xxxx_INFO instead)
+* delete deprecated: PROP_SCROLL_VERT_SMOOTH (use PROP_SCROLL_xxxx_INFO instead)
 
 1.0.481 (app 1.235.0)
 * add: on_tab_add
@@ -5372,5 +5371,6 @@ It provides:
 
 1.0.482 (app 1.235.1)
 * add: on_exit_pre
+* delete deprecated: PROP_IN_HISTORY (it always returned False in last years)
 
 [[Category:CudaText]]
