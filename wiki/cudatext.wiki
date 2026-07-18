@@ -3180,6 +3180,24 @@ Type the following command into your console window and hit Enter:
 
 You should see a confirmation message that indicates a successful registration of the DLL. Check the Explorer context menu to see if there is a CudaText menu item that has an icon. Right click for example a *.txt file and select "Open with CudaText" from the context menu.
 
+==Windows: Crash and hang backup==
+
+CudaText automatically creates a backup copy of the file you are currently editing if the program crashes or hangs on Windows. The backup contains every keystroke up to the moment of the crash — nothing is lost.
+
+'''Where backups are saved:'''
+
+* For files that have a name on disk: next to the original file, with a timestamp appended. Example: {{Code|myfile.txt.20260719_130455.CTbak}}.
+* For untitled tabs (File → New): inside the {{Code|crash_backup}} subfolder of CudaText's settings directory, named like {{Code|untitled3_tab_recovered_20260719_130455.CTbak}}. If the settings folder is not writable, the backup falls back to the system temp folder.
+
+'''When a backup is created:'''
+
+* On any unhandled exception (access violation, stack overflow, illegal instruction, divide by zero, etc.) on any thread — main thread, parser thread, or plugin thread.
+* When the main thread hangs for more than 7 seconds.
+
+'''Hang recovery:''' If CudaText recovers from a hang on its own (the main thread unblocks), the hang backup is automatically deleted because you didn't actually lose any data. Only crashes leave a permanent backup.
+
+'''Diagnostic log:''' A log of crash/hang events is written to {{Code|crash_backup\cudatext_crash_backup.log}} in the settings directory. Each line is timestamped. This is useful for diagnosing recurring crashes — open it after a crash to see the exception code and the backup file path.
+
 [[Category:CudaText| ]]
 [[Category:Applications written in Free Pascal]]
 [[Category:Applications created with Lazarus]]
