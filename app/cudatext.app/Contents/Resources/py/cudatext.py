@@ -209,7 +209,6 @@ PROP_COORDS                = 50
 PROP_ONE_LINE              = 51
 PROP_CODETREE              = 54
 PROP_EDITORS_LINKED        = 55
-PROP_IN_HISTORY            = 56
 PROP_KIND                  = 59
 PROP_V_MODE                = 60
 PROP_V_POS                 = 61
