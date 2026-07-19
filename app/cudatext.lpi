@@ -4,9 +4,6 @@
     <Version Value="13"/>
     <PathDelim Value="\"/>
     <General>
-      <Flags>
-        <CompatibilityMode Value="True"/>
-      </Flags>
       <SessionStorage Value="InProjectDir"/>
       <AutoCreateForms Value="False"/>
       <Title Value="CudaText"/>
@@ -29,9 +26,12 @@
       <MinorVersionNr Value="234"/>
       <StringTable CompanyName="Alexey Yu. Torgashin" FileDescription="CudaText" InternalName="CudaText" LegalCopyright="(c) 2015-2026 Alexey Yu. Torgashin" OriginalFilename="cudatext.exe" ProductName="CudaText"/>
     </VersionInfo>
-    <BuildModes Count="30">
-      <Item1 Name="default" Default="True"/>
-      <Item2 Name="default x64">
+    <MacroValues Count="1">
+      <Macro5 Name="LCLWidgetType" Value="gtk2"/>
+    </MacroValues>
+    <BuildModes>
+      <Item Name="default" Default="True"/>
+      <Item Name="default x64">
         <CompilerOptions>
           <Version Value="11"/>
           <PathDelim Value="\"/>
@@ -80,8 +80,8 @@
 -dDisableAsianCodePages"/>
           </Other>
         </CompilerOptions>
-      </Item2>
-      <Item3 Name="linux x64 gtk2">
+      </Item>
+      <Item Name="linux x64 gtk2">
         <CompilerOptions>
           <Version Value="11"/>
           <PathDelim Value="\"/>
@@ -126,8 +126,8 @@
 -dGTK2_IME_CODE"/>
           </Other>
         </CompilerOptions>
-      </Item3>
-      <Item4 Name="linux x64 gtk3">
+      </Item>
+      <Item Name="linux x64 gtk3">
         <MacroValues Count="1">
           <Macro3 Name="LCLWidgetType" Value="gtk3"/>
         </MacroValues>
@@ -168,8 +168,8 @@
             <CustomOptions Value="-dcomplete_at_scroll"/>
           </Other>
         </CompilerOptions>
-      </Item4>
-      <Item5 Name="linux x64 qt5">
+      </Item>
+      <Item Name="linux x64 qt5">
         <MacroValues Count="1">
           <Macro2 Name="LCLWidgetType" Value="qt5"/>
         </MacroValues>
@@ -216,8 +216,8 @@
 -dDisableAsianCodePages"/>
           </Other>
         </CompilerOptions>
-      </Item5>
-      <Item6 Name="linux x64 qt6">
+      </Item>
+      <Item Name="linux x64 qt6">
         <MacroValues Count="1">
           <Macro4 Name="LCLWidgetType" Value="qt6"/>
         </MacroValues>
@@ -264,8 +264,8 @@
 -dDisableAsianCodePages"/>
           </Other>
         </CompilerOptions>
-      </Item6>
-      <Item7 Name="linux arm gtk2">
+      </Item>
+      <Item Name="linux arm gtk2">
         <CompilerOptions>
           <Version Value="11"/>
           <PathDelim Value="\"/>
@@ -310,8 +310,8 @@
 -dGTK2_IME_CODE"/>
           </Other>
         </CompilerOptions>
-      </Item7>
-      <Item8 Name="linux arm qt5">
+      </Item>
+      <Item Name="linux arm qt5">
         <MacroValues Count="1">
           <Macro2 Name="LCLWidgetType" Value="qt5"/>
         </MacroValues>
@@ -358,8 +358,8 @@
 -dDisableAsianCodePages"/>
           </Other>
         </CompilerOptions>
-      </Item8>
-      <Item9 Name="linux aarch64 gtk2">
+      </Item>
+      <Item Name="linux aarch64 gtk2">
         <CompilerOptions>
           <Version Value="11"/>
           <PathDelim Value="\"/>
@@ -404,8 +404,8 @@
 -dGTK2_IME_CODE"/>
           </Other>
         </CompilerOptions>
-      </Item9>
-      <Item10 Name="linux aarch64 qt5">
+      </Item>
+      <Item Name="linux aarch64 qt5">
         <MacroValues Count="1">
           <Macro2 Name="LCLWidgetType" Value="qt5"/>
         </MacroValues>
@@ -452,8 +452,8 @@
 -dDisableAsianCodePages"/>
           </Other>
         </CompilerOptions>
-      </Item10>
-      <Item11 Name="linux riscv64 gtk2">
+      </Item>
+      <Item Name="linux riscv64 gtk2">
         <CompilerOptions>
           <Version Value="11"/>
           <PathDelim Value="\"/>
@@ -498,8 +498,8 @@
 -dGTK2_IME_CODE"/>
           </Other>
         </CompilerOptions>
-      </Item11>
-      <Item12 Name="linux riscv64 qt5">
+      </Item>
+      <Item Name="linux riscv64 qt5">
         <MacroValues Count="1">
           <Macro2 Name="LCLWidgetType" Value="qt5"/>
         </MacroValues>
@@ -547,8 +547,8 @@
 -dGTK2_IME_CODE"/>
           </Other>
         </CompilerOptions>
-      </Item12>
-      <Item13 Name="windows x64">
+      </Item>
+      <Item Name="windows x64">
         <CompilerOptions>
           <Version Value="11"/>
           <PathDelim Value="\"/>
@@ -592,8 +592,8 @@
 -dDisableAsianCodePages"/>
           </Other>
         </CompilerOptions>
-      </Item13>
-      <Item14 Name="windows x32">
+      </Item>
+      <Item Name="windows x32">
         <CompilerOptions>
           <Version Value="11"/>
           <PathDelim Value="\"/>
@@ -637,8 +637,8 @@
 -dDisableAsianCodePages"/>
           </Other>
         </CompilerOptions>
-      </Item14>
-      <Item15 Name="windows aarch64">
+      </Item>
+      <Item Name="windows aarch64">
         <CompilerOptions>
           <Version Value="11"/>
           <PathDelim Value="\"/>
@@ -679,8 +679,8 @@
 -dDisableAsianCodePages"/>
           </Other>
         </CompilerOptions>
-      </Item15>
-      <Item16 Name="macos x64">
+      </Item>
+      <Item Name="macos x64">
         <MacroValues Count="1">
           <Macro1 Name="LCLWidgetType" Value="cocoa"/>
         </MacroValues>
@@ -727,8 +727,8 @@
 -dDisableAsianCodePages"/>
           </Other>
         </CompilerOptions>
-      </Item16>
-      <Item17 Name="macos aarch64">
+      </Item>
+      <Item Name="macos aarch64">
         <MacroValues Count="1">
           <Macro1 Name="LCLWidgetType" Value="cocoa"/>
         </MacroValues>
@@ -772,8 +772,11 @@
 -dDisableAsianCodePages"/>
           </Other>
         </CompilerOptions>
-      </Item17>
-      <Item18 Name="freebsd x32">
+      </Item>
+      <Item Name="freebsd x32">
+        <MacroValues Count="1">
+          <Macro5 Name="LCLWidgetType" Value="gtk2"/>
+        </MacroValues>
         <CompilerOptions>
           <Version Value="11"/>
           <PathDelim Value="\"/>
@@ -817,8 +820,11 @@
 -dDisableAsianCodePages"/>
           </Other>
         </CompilerOptions>
-      </Item18>
-      <Item19 Name="freebsd x64">
+      </Item>
+      <Item Name="freebsd x64">
+        <MacroValues Count="1">
+          <Macro5 Name="LCLWidgetType" Value="gtk2"/>
+        </MacroValues>
         <CompilerOptions>
           <Version Value="11"/>
           <PathDelim Value="\"/>
@@ -862,8 +868,11 @@
 -dDisableAsianCodePages"/>
           </Other>
         </CompilerOptions>
-      </Item19>
-      <Item20 Name="openbsd x64">
+      </Item>
+      <Item Name="openbsd x64">
+        <MacroValues Count="1">
+          <Macro5 Name="LCLWidgetType" Value="gtk2"/>
+        </MacroValues>
         <CompilerOptions>
           <Version Value="11"/>
           <PathDelim Value="\"/>
@@ -907,8 +916,11 @@
 -dDisableAsianCodePages"/>
           </Other>
         </CompilerOptions>
-      </Item20>
-      <Item21 Name="openbsd x32">
+      </Item>
+      <Item Name="openbsd x32">
+        <MacroValues Count="1">
+          <Macro5 Name="LCLWidgetType" Value="gtk2"/>
+        </MacroValues>
         <CompilerOptions>
           <Version Value="11"/>
           <PathDelim Value="\"/>
@@ -952,8 +964,11 @@
 -dDisableAsianCodePages"/>
           </Other>
         </CompilerOptions>
-      </Item21>
-      <Item22 Name="netbsd x64">
+      </Item>
+      <Item Name="netbsd x64">
+        <MacroValues Count="1">
+          <Macro5 Name="LCLWidgetType" Value="gtk2"/>
+        </MacroValues>
         <CompilerOptions>
           <Version Value="11"/>
           <PathDelim Value="\"/>
@@ -997,8 +1012,11 @@
 -dDisableAsianCodePages"/>
           </Other>
         </CompilerOptions>
-      </Item22>
-      <Item23 Name="netbsd x32">
+      </Item>
+      <Item Name="netbsd x32">
+        <MacroValues Count="1">
+          <Macro5 Name="LCLWidgetType" Value="gtk2"/>
+        </MacroValues>
         <CompilerOptions>
           <Version Value="11"/>
           <PathDelim Value="\"/>
@@ -1042,8 +1060,11 @@
 -dDisableAsianCodePages"/>
           </Other>
         </CompilerOptions>
-      </Item23>
-      <Item24 Name="dragonfly x64">
+      </Item>
+      <Item Name="dragonfly x64">
+        <MacroValues Count="1">
+          <Macro5 Name="LCLWidgetType" Value="gtk2"/>
+        </MacroValues>
         <CompilerOptions>
           <Version Value="11"/>
           <PathDelim Value="\"/>
@@ -1087,8 +1108,11 @@
 -dDisableAsianCodePages"/>
           </Other>
         </CompilerOptions>
-      </Item24>
-      <Item25 Name="solaris x64">
+      </Item>
+      <Item Name="solaris x64">
+        <MacroValues Count="1">
+          <Macro5 Name="LCLWidgetType" Value="gtk2"/>
+        </MacroValues>
         <CompilerOptions>
           <Version Value="11"/>
           <PathDelim Value="\"/>
@@ -1132,8 +1156,8 @@
 -dDisableAsianCodePages"/>
           </Other>
         </CompilerOptions>
-      </Item25>
-      <Item26 Name="haiku x32 qt5">
+      </Item>
+      <Item Name="haiku x32 qt5">
         <MacroValues Count="1">
           <Macro2 Name="LCLWidgetType" Value="qt5"/>
         </MacroValues>
@@ -1174,8 +1198,8 @@
             <CustomOptions Value="-dcomplete_at_scroll"/>
           </Other>
         </CompilerOptions>
-      </Item26>
-      <Item27 Name="haiku x64 qt5">
+      </Item>
+      <Item Name="haiku x64 qt5">
         <MacroValues Count="1">
           <Macro2 Name="LCLWidgetType" Value="qt5"/>
         </MacroValues>
@@ -1216,8 +1240,8 @@
             <CustomOptions Value="-dcomplete_at_scroll"/>
           </Other>
         </CompilerOptions>
-      </Item27>
-      <Item28 Name="linux x64 debug">
+      </Item>
+      <Item Name="linux x64 debug">
         <CompilerOptions>
           <Version Value="11"/>
           <PathDelim Value="\"/>
@@ -1264,8 +1288,8 @@
 -dDisableLCLPNM"/>
           </Other>
         </CompilerOptions>
-      </Item28>
-      <Item29 Name="win x64 debug">
+      </Item>
+      <Item Name="win x64 debug">
         <CompilerOptions>
           <Version Value="11"/>
           <PathDelim Value="\"/>
@@ -1312,8 +1336,8 @@
 -dDisableLCLPNM"/>
           </Other>
         </CompilerOptions>
-      </Item29>
-      <Item30 Name="win x32 debug">
+      </Item>
+      <Item Name="win x32 debug">
         <CompilerOptions>
           <Version Value="11"/>
           <PathDelim Value="\"/>
@@ -1360,12 +1384,13 @@
 -dDisableLCLPNM"/>
           </Other>
         </CompilerOptions>
-      </Item30>
-      <SharedMatrixOptions Count="4">
+      </Item>
+      <SharedMatrixOptions Count="5">
         <Item1 ID="308953563203" Modes="macos x64,macos aarch64" Type="IDEMacro" MacroName="LCLWidgetType" Value="cocoa"/>
         <Item2 ID="619430612971" Modes="linux x64 qt5,haiku x32 qt5,haiku x64 qt5,linux aarch64 qt5,linux arm qt5,linux riscv64 qt5" Type="IDEMacro" MacroName="LCLWidgetType" Value="qt5"/>
         <Item3 ID="028184365614" Modes="linux x64 gtk3" Type="IDEMacro" MacroName="LCLWidgetType" Value="gtk3"/>
         <Item4 ID="128333415096" Modes="linux x64 qt6" Type="IDEMacro" MacroName="LCLWidgetType" Value="qt6"/>
+        <Item5 ID="352064942102" Modes="default,freebsd x32,freebsd x64,openbsd x64,openbsd x32,netbsd x64,netbsd x32,dragonfly x64,solaris x64" Type="IDEMacro" MacroName="LCLWidgetType" Value="gtk2"/>
       </SharedMatrixOptions>
     </BuildModes>
     <PublishOptions>
@@ -1374,379 +1399,379 @@
     <RunParams>
       <FormatVersion Value="2"/>
     </RunParams>
-    <RequiredPackages Count="12">
-      <Item1>
+    <RequiredPackages>
+      <Item>
         <PackageName Value="BGRABitmapPack"/>
-      </Item1>
-      <Item2>
+      </Item>
+      <Item>
         <PackageName Value="encconv_package"/>
-      </Item2>
-      <Item3>
+      </Item>
+      <Item>
         <PackageName Value="emmet_package"/>
-      </Item3>
-      <Item4>
+      </Item>
+      <Item>
         <PackageName Value="atsynedit_cmp_package"/>
-      </Item4>
-      <Item5>
+      </Item>
+      <Item>
         <PackageName Value="atsynedit_package"/>
-      </Item5>
-      <Item6>
+      </Item>
+      <Item>
         <PackageName Value="atbinhex_package"/>
-      </Item6>
-      <Item7>
+      </Item>
+      <Item>
         <PackageName Value="atflatcontrols_package"/>
-      </Item7>
-      <Item8>
+      </Item>
+      <Item>
         <PackageName Value="atsynedit_ex_package"/>
-      </Item8>
-      <Item9>
+      </Item>
+      <Item>
         <PackageName Value="python4lazarus_package"/>
-      </Item9>
-      <Item10>
+      </Item>
+      <Item>
         <PackageName Value="LazControls"/>
-      </Item10>
-      <Item11>
+      </Item>
+      <Item>
         <PackageName Value="econtrol_package"/>
-      </Item11>
-      <Item12>
+      </Item>
+      <Item>
         <PackageName Value="LCL"/>
-      </Item12>
+      </Item>
     </RequiredPackages>
-    <Units Count="65">
-      <Unit0>
+    <Units>
+      <Unit>
         <Filename Value="cudatext.lpr"/>
         <IsPartOfProject Value="True"/>
-      </Unit0>
-      <Unit1>
+      </Unit>
+      <Unit>
         <Filename Value="formmain.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmMain"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="FormMain"/>
-      </Unit1>
-      <Unit2>
+      </Unit>
+      <Unit>
         <Filename Value="form_console.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmConsole"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit2>
-      <Unit3>
+      </Unit>
+      <Unit>
         <Filename Value="proc_py.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit3>
-      <Unit4>
+      </Unit>
+      <Unit>
         <Filename Value="proc_str.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit4>
-      <Unit5>
+      </Unit>
+      <Unit>
         <Filename Value="proc_globdata.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit5>
-      <Unit6>
+      </Unit>
+      <Unit>
         <Filename Value="form_frame.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="EditorFrame"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
-      </Unit6>
-      <Unit7>
+      </Unit>
+      <Unit>
         <Filename Value="formmain_updates_proc.inc"/>
         <IsPartOfProject Value="True"/>
-      </Unit7>
-      <Unit8>
+      </Unit>
+      <Unit>
         <Filename Value="formmain_frame_proc.inc"/>
         <IsPartOfProject Value="True"/>
-      </Unit8>
-      <Unit9>
+      </Unit>
+      <Unit>
         <Filename Value="formmain_tab_proc.inc"/>
         <IsPartOfProject Value="True"/>
-      </Unit9>
-      <Unit10>
+      </Unit>
+      <Unit>
         <Filename Value="form_menu_commands.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmCommands"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit10>
-      <Unit11>
+      </Unit>
+      <Unit>
         <Filename Value="proc_colors.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit11>
-      <Unit12>
+      </Unit>
+      <Unit>
         <Filename Value="form_goto.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmGoto"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit12>
-      <Unit13>
+      </Unit>
+      <Unit>
         <Filename Value="formmain_cmd.inc"/>
         <IsPartOfProject Value="True"/>
-      </Unit13>
-      <Unit14>
+      </Unit>
+      <Unit>
         <Filename Value="proc_cmd.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit14>
-      <Unit15>
+      </Unit>
+      <Unit>
         <Filename Value="form_menu_list.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmMenuList"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit15>
-      <Unit16>
+      </Unit>
+      <Unit>
         <Filename Value="proc_files.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit16>
-      <Unit17>
+      </Unit>
+      <Unit>
         <Filename Value="form_find.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmFind"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit17>
-      <Unit18>
+      </Unit>
+      <Unit>
         <Filename Value="form_tabs_save.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmSaveTabs"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit18>
-      <Unit19>
+      </Unit>
+      <Unit>
         <Filename Value="form_confirm_rep.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmConfirmReplace"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit19>
-      <Unit20>
+      </Unit>
+      <Unit>
         <Filename Value="formmain_loadsave.inc"/>
         <IsPartOfProject Value="True"/>
-      </Unit20>
-      <Unit21>
+      </Unit>
+      <Unit>
         <Filename Value="formmain_find.inc"/>
         <IsPartOfProject Value="True"/>
-      </Unit21>
-      <Unit22>
+      </Unit>
+      <Unit>
         <Filename Value="proc_editor.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit22>
-      <Unit23>
+      </Unit>
+      <Unit>
         <Filename Value="form_lexer_prop.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmLexerProp"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit23>
-      <Unit24>
+      </Unit>
+      <Unit>
         <Filename Value="form_lexer_lib.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmLexerLib"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit24>
-      <Unit25>
+      </Unit>
+      <Unit>
         <Filename Value="proc_msg.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit25>
-      <Unit26>
+      </Unit>
+      <Unit>
         <Filename Value="proc_install_zip.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit26>
-      <Unit27>
+      </Unit>
+      <Unit>
         <Filename Value="form_color_setup.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmColorSetup"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit27>
-      <Unit28>
+      </Unit>
+      <Unit>
         <Filename Value="form_about.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmAbout"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit28>
-      <Unit29>
+      </Unit>
+      <Unit>
         <Filename Value="form_keys.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmKeys"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit29>
-      <Unit30>
+      </Unit>
+      <Unit>
         <Filename Value="proc_py_const.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit30>
-      <Unit31>
+      </Unit>
+      <Unit>
         <Filename Value="form_menu_py.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmMenuApi"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit31>
-      <Unit32>
+      </Unit>
+      <Unit>
         <Filename Value="form_char_map.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmCharmaps"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit32>
-      <Unit33>
+      </Unit>
+      <Unit>
         <Filename Value="proc_keysdialog.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit33>
-      <Unit34>
+      </Unit>
+      <Unit>
         <Filename Value="proc_customdialog.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit34>
-      <Unit35>
+      </Unit>
+      <Unit>
         <Filename Value="proc_miscutils.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit35>
-      <Unit36>
+      </Unit>
+      <Unit>
         <Filename Value="formmain_translation.inc"/>
         <IsPartOfProject Value="True"/>
-      </Unit36>
-      <Unit37>
+      </Unit>
+      <Unit>
         <Filename Value="form_lexer_style.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmLexerStyle"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit37>
-      <Unit38>
+      </Unit>
+      <Unit>
         <Filename Value="form_lexer_stylemap.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmLexerStyleMap"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit38>
-      <Unit39>
+      </Unit>
+      <Unit>
         <Filename Value="form_key_input.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmKeyInput"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit39>
-      <Unit40>
+      </Unit>
+      <Unit>
         <Filename Value="proc_scrollbars.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit40>
-      <Unit41>
+      </Unit>
+      <Unit>
         <Filename Value="formmain_themes.inc"/>
         <IsPartOfProject Value="True"/>
-      </Unit41>
-      <Unit42>
+      </Unit>
+      <Unit>
         <Filename Value="formmain_sidepanel.inc"/>
         <IsPartOfProject Value="True"/>
-      </Unit42>
-      <Unit43>
+      </Unit>
+      <Unit>
         <Filename Value="formmain_bottompanel.inc"/>
         <IsPartOfProject Value="True"/>
-      </Unit43>
-      <Unit44>
+      </Unit>
+      <Unit>
         <Filename Value="proc_customdialog_dummy.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit44>
-      <Unit45>
+      </Unit>
+      <Unit>
         <Filename Value="form_addon_report.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmAddonReport"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit45>
-      <Unit46>
+      </Unit>
+      <Unit>
         <Filename Value="formmain_commandline.inc"/>
         <IsPartOfProject Value="True"/>
-      </Unit46>
-      <Unit47>
+      </Unit>
+      <Unit>
         <Filename Value="formmain_py_toolbars.inc"/>
         <IsPartOfProject Value="True"/>
-      </Unit47>
-      <Unit48>
+      </Unit>
+      <Unit>
         <Filename Value="formmain_py_api.inc"/>
         <IsPartOfProject Value="True"/>
-      </Unit48>
-      <Unit49>
+      </Unit>
+      <Unit>
         <Filename Value="formmain_py_helpers.inc"/>
         <IsPartOfProject Value="True"/>
-      </Unit49>
-      <Unit50>
+      </Unit>
+      <Unit>
         <Filename Value="formmain_py_pluginwork.inc"/>
         <IsPartOfProject Value="True"/>
-      </Unit50>
-      <Unit51>
+      </Unit>
+      <Unit>
         <Filename Value="form_confirm_binary.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmConfirmBinary"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit51>
-      <Unit52>
+      </Unit>
+      <Unit>
         <Filename Value="formmain_py_statusbars.inc"/>
         <IsPartOfProject Value="True"/>
-      </Unit52>
-      <Unit53>
+      </Unit>
+      <Unit>
         <Filename Value="proc_lexer_styles.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit53>
-      <Unit54>
+      </Unit>
+      <Unit>
         <Filename Value="form_choose_theme.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmChooseTheme"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit54>
-      <Unit55>
+      </Unit>
+      <Unit>
         <Filename Value="proc_appvariant.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit55>
-      <Unit56>
+      </Unit>
+      <Unit>
         <Filename Value="proc_panelhost.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit56>
-      <Unit57>
+      </Unit>
+      <Unit>
         <Filename Value="treehelpers_proc.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="TreeHelpers_Proc"/>
-      </Unit57>
-      <Unit58>
+      </Unit>
+      <Unit>
         <Filename Value="proc_cssprovider.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit58>
-      <Unit59>
+      </Unit>
+      <Unit>
         <Filename Value="proc_editor_saving.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit59>
-      <Unit60>
+      </Unit>
+      <Unit>
         <Filename Value="proc_json_ex.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit60>
-      <Unit61>
+      </Unit>
+      <Unit>
         <Filename Value="form_unprinted.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmUnprinted"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit61>
-      <Unit62>
+      </Unit>
+      <Unit>
         <Filename Value="proc_str_c_syntax.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit62>
-      <Unit63>
+      </Unit>
+      <Unit>
         <Filename Value="proc_editor_micromap.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit63>
-      <Unit64>
+      </Unit>
+      <Unit>
         <Filename Value="form_rename_file.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmRenameFile"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit64>
+      </Unit>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -1798,58 +1823,58 @@
     </Other>
   </CompilerOptions>
   <Debugging>
-    <Exceptions Count="17">
-      <Item1>
+    <Exceptions>
+      <Item>
         <Name Value="EAbort"/>
-      </Item1>
-      <Item2>
+      </Item>
+      <Item>
         <Name Value="ECodetoolError"/>
-      </Item2>
-      <Item3>
+      </Item>
+      <Item>
         <Name Value="EFOpenError"/>
-      </Item3>
-      <Item4>
+      </Item>
+      <Item>
         <Name Value="EPyNameError"/>
-      </Item4>
-      <Item5>
+      </Item>
+      <Item>
         <Name Value="EPySyntaxError"/>
-      </Item5>
-      <Item6>
+      </Item>
+      <Item>
         <Name Value="EPyImportError"/>
-      </Item6>
-      <Item7>
+      </Item>
+      <Item>
         <Name Value="Exception"/>
-      </Item7>
-      <Item8>
+      </Item>
+      <Item>
         <Name Value="EScannerError"/>
-      </Item8>
-      <Item9>
+      </Item>
+      <Item>
         <Name Value="RunError(216)"/>
-      </Item9>
-      <Item10>
+      </Item>
+      <Item>
         <Name Value="EPyTypeError"/>
-      </Item10>
-      <Item11>
+      </Item>
+      <Item>
         <Name Value="EPyAttributeError"/>
-      </Item11>
-      <Item12>
+      </Item>
+      <Item>
         <Name Value="ERegExpr"/>
-      </Item12>
-      <Item13>
+      </Item>
+      <Item>
         <Name Value="EPyNotImplementedError"/>
-      </Item13>
-      <Item14>
+      </Item>
+      <Item>
         <Name Value="EPyAssertionError"/>
-      </Item14>
-      <Item15>
+      </Item>
+      <Item>
         <Name Value="EConvertError"/>
-      </Item15>
-      <Item16>
+      </Item>
+      <Item>
         <Name Value="EInvalidOperation"/>
-      </Item16>
-      <Item17>
+      </Item>
+      <Item>
         <Name Value="EBadUTF8Text"/>
-      </Item17>
+      </Item>
     </Exceptions>
   </Debugging>
 </CONFIG>
