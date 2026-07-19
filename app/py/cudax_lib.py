@@ -439,7 +439,7 @@ def _json_loads(s, **kw):
 
     try:
         ans = json.loads(s, **kw)
-    except:
+    except Exception:
         pass;                   #LOG and log('FAIL: s={}',s)
         pass;                   #LOG and log('sys.exc_info()={}',sys.exc_info())
         log_file    = kw.get('log_file', _get_log_file())
@@ -583,7 +583,7 @@ def log(msg='', *args, **kwargs):
         frCaller= inspect.stack()[1]    # 0-log, 1-need func
         try:
             cls = frCaller[0].f_locals['self'].__class__.__name__ + '.'
-        except:
+        except Exception:
             cls = ''
         fun,ln  = (cls + frCaller[3]).replace('.__init__','()'), frCaller[2]
         lctn    = '{}:{} '.format(fun, ln)
@@ -592,7 +592,7 @@ def log(msg='', *args, **kwargs):
         for fr in inspect.stack()[2:]:
             try:
                 cls = fr[0].f_locals['self'].__class__.__name__ + '.'
-            except:
+            except Exception:
                 cls = ''
             fun,ln  = (cls + fr[3]).replace('.__init__','()'), fr[2]
             st_inf += '    {}:{}'.format(fun, ln)

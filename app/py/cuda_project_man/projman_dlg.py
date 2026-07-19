@@ -45,14 +45,14 @@ def dialog_config(op):
     try:
         s = op.get('icon_theme', 'vscode_16x16')
         theme_index = themes.index(s)
-    except:
+    except Exception:
         theme_index = -1
 
     themes_tb = get_themes_toolbar()
     try:
         s = op.get('toolbar_theme', 'default_16x16')
         theme_index_tb = themes_tb.index(s)
-    except:
+    except Exception:
         theme_index_tb = -1
 
     items_sort_id = [

@@ -24,7 +24,7 @@ if OS == 'Linux':
         LSB_RELEASE = subprocess.check_output('cat /etc/lsb-release', shell=True).decode('utf-8')
         if ("Ubuntu" in LSB_RELEASE or "Debian" in LSB_RELEASE) and (UNIX_CPU == 'amd64'):
             LINUX_ENDING = '_([\d\.]+)-\d+_gtk2_'+UNIX_CPU+'\.deb'
-    except:
+    except Exception:
         pass
 
 FILE_RES = {

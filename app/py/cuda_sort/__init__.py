@@ -348,7 +348,7 @@ class Command:
         try:
             index = lines.index('['+CONFIG_SECTION+']')
             ed.set_caret(0, index)
-        except:
+        except Exception:
             pass
 
     def native_sort_asc_nocase(self):

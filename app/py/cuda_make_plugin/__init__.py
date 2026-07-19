@@ -28,7 +28,7 @@ class Command:
 
         try:
             os.mkdir(dir_plugin)
-        except:
+        except Exception:
             msg_box(_('Cannot create dir:\n') + dir_plugin, MB_OK+MB_ICONERROR)
             return
 

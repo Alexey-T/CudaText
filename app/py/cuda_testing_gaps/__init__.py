@@ -8,7 +8,7 @@ class Command:
             return
         try:
             nrepeat = int(s)
-        except:
+        except Exception:
             return
         if nrepeat<1:
             return

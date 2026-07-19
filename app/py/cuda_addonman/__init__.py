@@ -630,7 +630,7 @@ class Command:
                     try:
                         subprocess.call(['git', 'stash', 'save'], cwd=m_dir)
                         subprocess.call(['git', 'pull'], cwd=m_dir)
-                    except:
+                    except Exception:
                         msg_status(_('Error running Git'), True)
                         print(_('  Error running Git'))
                 else:
