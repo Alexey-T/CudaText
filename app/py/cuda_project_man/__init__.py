@@ -177,7 +177,7 @@ def is_hidden(s):
         return is_hidden_win32(s)
         #try:
         #    return bool(os.stat(s).st_file_attributes & stat.FILE_ATTRIBUTE_HIDDEN)
-        #except:
+        #except Exception:
         #    return True
 
     else:
@@ -1018,7 +1018,7 @@ class Command:
                         nodes = Path(fn).iterdir()
                     else:
                         nodes = sorted(Path(fn).iterdir(), key=Command.node_ordering)
-            except:
+            except Exception:
                 tree_proc(self.tree, TREE_ITEM_SET_ICON, parent, image_index=self.ICON_BAD)
                 raise # good to see the error
                 return

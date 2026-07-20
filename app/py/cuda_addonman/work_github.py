@@ -28,7 +28,7 @@ def get_branch(url):
         data = json.load(f)
         try:
             os.remove(fn)
-        except:
+        except Exception:
             pass
         if not isinstance(data, list):
             msg_box(_('Got empty list of Git branches for that repo'), MB_OK+MB_ICONERROR)
@@ -152,7 +152,7 @@ def do_install_from_github():
     if do_clone:
         try:
             subprocess.call(['git', 'clone', '--branch', branch, url], cwd=dir_py)
-        except:
+        except Exception:
             msg_box(_('Error running Git command'), MB_OK+MB_ICONERROR)
             return
 

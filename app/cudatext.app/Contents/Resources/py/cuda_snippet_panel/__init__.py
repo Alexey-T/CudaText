@@ -178,7 +178,7 @@ class Command:
         try:
             index = lines.index('['+cfg_section+']')
             ed.set_caret(0, index)
-        except:
+        except Exception:
             pass
 
 

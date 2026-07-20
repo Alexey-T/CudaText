@@ -1320,7 +1320,7 @@ class DialogMK2:
             cur_scol = self.val_eds.val_edit.get_text_all()
             try:
                 int_col = apx.html_color_to_int(cur_col)
-            except:
+            except Exception:
                 int_col = 0xffffff
 
             val = dlg_color(int_col)
@@ -1328,7 +1328,7 @@ class DialogMK2:
             if val is not None:
                 try:
                     val = apx.int_to_html_color(val)
-                except:
+                except Exception:
                     val = None
 
         elif prop_type == 'file':
@@ -1664,7 +1664,7 @@ class ValueEds:
                 else:
                     try:
                         apx.html_color_to_int(val)
-                    except:
+                    except Exception:
                         msg_status(_('Incorrect color token: ') + val)
                         return
             return val
@@ -1803,7 +1803,7 @@ class ValueEds:
     def update_ed_color(edt):
         try:
             int_col = apx.html_color_to_int(edt.get_text_all())
-        except:     # invalid color -> reset to theme color
+        except Exception:     # invalid color -> reset to theme color
             colors = app_proc(PROC_THEME_UI_DICT_GET, '')
             int_col = colors['EdGutterBg']['color']
         edt.set_prop(PROP_COLOR, (COLOR_ID_GutterBg, int_col))

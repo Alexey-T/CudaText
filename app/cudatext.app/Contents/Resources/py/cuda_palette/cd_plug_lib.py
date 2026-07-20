@@ -145,7 +145,7 @@ class Tr :
             frCaller= inspect.stack()[dpth] # 0-format_msg, 1-Tr.log|Tr.TrLiver, 2-log, 3-need func
             try:
                 cls = frCaller[0].f_locals['self'].__class__.__name__ + '.'
-            except:
+            except Exception:
                 cls = ''
             fun     = (cls + frCaller[3]).replace('.__init__','()')
             ln      = frCaller[2]
@@ -282,7 +282,7 @@ def is_running(process):
     # and http://richarddingwall.name/2009/06/18/windows-equivalents-of-ps-and-kill-commands/
     try: #Linux/Unix
         s = subprocess.Popen(["ps", "axw"],stdout=subprocess.PIPE)
-    except: #Windows
+    except Exception: #Windows
         s = subprocess.Popen(["tasklist", "/v"],stdout=subprocess.PIPE)
     for x in s.stdout:
         if re.search(process, str(x)):
@@ -760,7 +760,7 @@ def get_hist(key_or_path, default=None, module_name='_auto_detect', to_file=PLIN
     data    = None
     try:
         data    = json.loads(open(to_file).read())
-    except:
+    except Exception:
         pass;                   log('not load: {}',sys.exc_info())
         return default
     if module_name=='_auto_detect':

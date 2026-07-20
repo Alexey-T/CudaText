@@ -21,7 +21,7 @@ if (TEXT_OS == 'linux') and (TEXT_CPU == 'amd64'):
             if s in desc:
                 DEBIAN_UBUNTU = True
                 break
-    except:
+    except Exception:
         pass
 
 DOWNLOAD_PAGE = 'https://sourceforge.net/projects/cudatext/files/release/'
