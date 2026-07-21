@@ -3964,6 +3964,8 @@ procedure TfmMain.FormShow(Sender: TObject);
        UiOps.ReopenSession and
        (FOption_AllowSessionLoad=TAppAllowSomething.Enable) then
       DoOps_LoadSession(AppFile_Session, false);
+    if not UiOps.ReopenSession then
+      AppSessionName:= cAppSessionNone;
   end;
   //
   procedure _Init_FrameFocus;
