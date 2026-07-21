@@ -542,7 +542,7 @@ class Command:
             self.action_save_project_as(self.project_file_path)
 
         if forget_session:
-            self.session_forget()
+            self.session_forget_ex()
 
         self.project = dict(nodes=[])
         self.project_file_path = None
@@ -1087,7 +1087,7 @@ class Command:
 
     def action_new_project(self):
         self.session_save(True)
-        self.new_project()
+        self.new_project(True)
         self.action_refresh()
 
     def action_open_project(self, info=None):
@@ -1262,6 +1262,9 @@ class Command:
             self.enum_all_getfolds(unfolds)
             unfolds = list(map(lambda x: collapse_macros(proj_dir, x), unfolds))
             d['unfold'] = unfolds
+
+            self.session_save_as(False)
+            self.session_def(False)
 
             self.project_file_path = path
             with path.open("w", encoding='utf8') as fout:
@@ -2092,7 +2095,7 @@ class Command:
                     res = list(k.keys())
         return res
 
-    def session_def(self):
+    def session_def(self, is_request=True):
 
         names = self.session_get_names()
         if not names:
@@ -2105,10 +2108,14 @@ class Command:
         else:
             focused = 0
 
-        res = dlg_menu(DMENU_LIST, names, focused=focused, caption=_('Set default project session'))
-        if res is None:
-            return
-        curname = names[res] if res>0 else ''
+        if is_request:
+            res = dlg_menu(DMENU_LIST, names, focused=focused, caption=_('Set default project session'))
+            if res is None:
+                return
+            curname = names[res] if res>0 else ''
+        else:
+            curname = 'new'
+
         self.project['def_session'] = curname
 
         fn = self.project_file_path
@@ -2163,7 +2170,7 @@ class Command:
             with open(fn, 'w', encoding='utf8') as f:
                 json.dump(data, f, indent=2)
 
-    def session_save_as(self):
+    def session_save_as(self, is_request=True):
 
         fn = str(self.project_file_path)
         if not fn:
@@ -2173,25 +2180,27 @@ class Command:
             msg_status(_('Project is empty'))
             return
 
-        self.close_foreign_tabs(True)
+        if is_request:
+            self.close_foreign_tabs(True)
 
         names = self.session_get_names()
         s = 'new'
-        while True:
-            s = dlg_input(_('Save session with name:'), s)
-            if s is None:
-                return
-            s = s.strip()
-            if not s:
-                msg_status(_('Empty session name'))
-                continue
-            if not is_session_name(s):
-                msg_status(_('Not allowed char(s) in the session name'))
-                continue
-            if s in names:
-                msg_status(_('Session "%s" already exists')%s)
-                continue
-            break
+        if is_request:
+            while True:
+                s = dlg_input(_('Save session with name:'), s)
+                if s is None:
+                    return
+                s = s.strip()
+                if not s:
+                    msg_status(_('Empty session name'))
+                    continue
+                if not is_session_name(s):
+                    msg_status(_('Not allowed char(s) in the session name'))
+                    continue
+                if s in names:
+                    msg_status(_('Session "%s" already exists')%s)
+                    continue
+                break
 
         sess = fn+'|/sessions/'+s
         app_proc(PROC_SAVE_SESSION, sess)
