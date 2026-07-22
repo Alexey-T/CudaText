@@ -632,7 +632,7 @@ const
   cHistory_CodeTreeFilters = '/codetree_filters';
   cHistory_TabSplit    = '/split';
   cHistory_TabSplit_Mul = 1e5; //instead of float 0.6, save as int 0.6*1e5
-  cHistory_TabCaption  = '/cap';
+  cHistory_TabCaption  = '/tab_title';
   cHistory_Margin      = '/margin';
 
 var
