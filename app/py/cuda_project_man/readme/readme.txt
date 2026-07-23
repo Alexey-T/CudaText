@@ -220,12 +220,6 @@ Open via the menu: Project Manager > Config... or right-click > Options...
                           project as..." to persist the temporary
                           project to a real location.
 
-  Suggest to close tabs
-  not belonging to
-  project:               When opening a project, prompts to close tabs
-                          whose files are outside the project's root
-                          nodes.
-
   Always sync project-
   tree with current
   editor file:           Automatically highlights the current editor
