@@ -17,7 +17,7 @@ keys=cuda-proj
 
 [item3]
 section=events
-events=on_delete_file~,on_tab_change~,on_open~,on_exit,on_state~,on_start~
+events=on_delete_file~,on_tab_change~,on_open~,on_exit,on_state~,on_start
 
 [item4]
 section=commands

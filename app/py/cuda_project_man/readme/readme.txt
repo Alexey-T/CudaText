@@ -331,10 +331,11 @@ TECHNICAL NOTES
   feature is off, since on_open fires on every file open).
 
 - on_start auto-opens the most recent project on CudaText startup.
-  It is controlled by an internal flag (not a user-visible option):
-  the flag is set to True automatically when you save a project,
-  and reset to False after on_start runs. This prevents auto-opening
-  if you closed CudaText without an active project.
+  It reads history.json to check which session CudaText is restoring:
+  if it matches the most-recent project, the project metadata loads
+  (CudaText's session restore proceeds normally). If it doesn't match
+  (e.g. history.json was manually edited, or a different session is
+  active), the project detaches silently to protect its session data.
 
 - Sessions are stored inside the .cuda-proj file using CudaText's
   "project|/sessions/name" session pointer format.
