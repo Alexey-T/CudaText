@@ -288,7 +288,6 @@ class Command:
         "check_git": False,
         "icon_theme": "vscode_16x16",
         "toolbar_theme": "default_16x16",
-        "on_start": False,
     }
     # Default options used as the base when loading from disk: any key
     # missing from the loaded file is filled in from here, so settings
@@ -574,9 +573,6 @@ class Command:
         app_proc(PROC_SET_PROJECT, '')
 
         self.close_foreign_tabs(True)
-
-        if apply_on_start:
-            self.options['on_start'] = False
 
     def add_recent(self, path):
         recent = self.options["recent_projects"]
@@ -1162,7 +1158,6 @@ class Command:
 
         self.update_global_data()
         self.add_recent(path_str)
-        self.options['on_start'] = True
         self.save_events()
         self.save_options()
 
@@ -1260,7 +1255,6 @@ class Command:
                     self.project_file_path = Path(path)
                     self.add_recent(path)
                     self.action_refresh()
-                    self.options['on_start'] = True
                     self.save_events()
                     self.save_options()
 
@@ -1396,8 +1390,6 @@ class Command:
             with path.open("w", encoding='utf8') as fout:
                 json.dump(d, fout, indent=2)
 
-            # any saving of project file makes on_start On
-            self.options['on_start'] = True
             self.save_events()
 
             self.update_global_data()
@@ -1634,14 +1626,10 @@ class Command:
             return False
 
     def on_start(self, ed_self):
-        # on_start is always subscribed via install.inf. The on_start flag
-        # (set True when a project is saved, set False after running)
-        # controls whether we actually auto-open the most recent project.
-        if not self.options.get('on_start', False):
-            # Reset the flag in case it was left True from a previous run
-            # that crashed before reaching the reset in new_project.
-            return
-
+        # on_start is always subscribed via install.inf. Auto-open the most
+        # recent project, but only if CudaText is restoring that project's
+        # session (detected via history.json). If history.json points at a
+        # different session, detach silently to avoid overwriting it.
         and_activate = self.options.get("on_start_activate", False)
         self.init_panel(and_activate)
 
@@ -1680,11 +1668,6 @@ class Command:
                 # plain session like default.cuda-session). Don't auto-open
                 # the project — let the foreign/default session stand.
                 self._close_project_silent()
-
-        # Reset the on_start flag so we don't auto-open on every restart
-        # unless a project is saved again (which sets it back to True).
-        self.options['on_start'] = False
-        self.save_options()
 
     def contextmenu_add_dir(self):
         self.init_panel()
@@ -2256,7 +2239,6 @@ class Command:
                     json.dump(d, fout, indent=2)
 
                 self.add_recent(PROJECT_TEMP_FILENAME)
-                self.options['on_start'] = True
                 self.save_events()
                 self.save_options()
 
