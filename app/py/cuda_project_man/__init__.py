@@ -1090,7 +1090,7 @@ class Command:
         self.new_project(True)
         self.action_refresh()
 
-    def action_open_project(self, info=None):
+    def action_open_project(self, info=None, load_session=True):
         if self.project_file_path:
             self.action_save_project_as(self.project_file_path)
 
@@ -1106,8 +1106,14 @@ class Command:
                 # "save changes?" prompt appears). Mirrors action_new_project
                 # so the new project's session loads into a clean workspace
                 # instead of stacking on top of the previous session's tabs.
-                self.session_save(True)
-                self.session_forget_ex()
+                #
+                # Skipped when load_session=False (used by on_start when
+                # CudaText already loaded the project session from
+                # history.json -- closing those tabs would re-prompt for
+                # modified files, and re-loading the session is redundant).
+                if load_session:
+                    self.session_save(True)
+                    self.session_forget_ex()
 
                 print(_('Loading project: ') + collapse_filename(path))
                 with open(path, encoding='utf8') as fin:
@@ -1151,9 +1157,10 @@ class Command:
                     s += ', ' + _('%d deleted item(s)')%len(bads)
                 msg_status(s)
 
-                sess = self.project.get('def_session', '')
-                if sess not in ('', '-'):
-                    self.session_load(sess, False)
+                if load_session:
+                    sess = self.project.get('def_session', '')
+                    if sess not in ('', '-'):
+                        self.session_load(sess, False)
                 if 'unfold' in self.project:
                     unfolds = self.project['unfold']
                     for i in range(len(unfolds)):
@@ -1522,7 +1529,27 @@ class Command:
 
         items = self.options.get("recent_projects", [])
         if items:
-            self.action_open_project(items[0])
+            # If CudaText is already loading this project's session from
+            # history.json (key "session" = "project_path|/sessions/name"),
+            # skip the session save/close/load inside action_open_project.
+            # Otherwise we'd close the tabs CudaText just opened -- which
+            # prompts "save changes?" for any tabs restored as modified --
+            # and then re-load the same session a second time (visible in
+            # the log as two "Loaded session" lines for the same project).
+            load_session = True
+            history_path = os.path.join(app_path(APP_DIR_SETTINGS), 'history.json')
+            try:
+                with open(history_path, encoding='utf8') as f:
+                    hist = json.load(f)
+                sess_ptr = hist.get('session', '')
+                if sess_ptr and '|' in sess_ptr:
+                    proj_in_hist = sess_ptr.split('|', 1)[0]
+                    if os.path.normpath(proj_in_hist) == os.path.normpath(items[0]):
+                        load_session = False
+            except Exception:
+                pass
+
+            self.action_open_project(items[0], load_session=load_session)
 
     def contextmenu_add_dir(self):
         self.init_panel()
