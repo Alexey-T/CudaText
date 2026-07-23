@@ -1428,6 +1428,7 @@ Session file contains data:
 ** non-printable characters visible state
 ** gutter columns: "line numbers" visible state
 ** gutter columns: "line states" visible state
+** gutter columns: "folding" visible state + list of currently folded blocks
 ** scale factor
 ** list of folded ranges (if lexer supports folding)
 ** color of ui-tab (if not default)
