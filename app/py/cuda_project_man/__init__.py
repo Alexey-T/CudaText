@@ -2331,6 +2331,8 @@ class Command:
         self.session_forget()
 
         import cudatext_cmd as cmds
+        for h in ed_handles():
+            Editor(h).set_prop(PROP_MODIFIED, False)
         ed.cmd(cmds.cmd_FileCloseAll)
 
     def on_delete_file(self, ed_self, fn):
