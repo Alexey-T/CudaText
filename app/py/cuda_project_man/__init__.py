@@ -2237,14 +2237,24 @@ class Command:
         fn = str(self.project_file_path)
         if not fn:
             msg_status(_('Untitled project'))
+            return
 
-        if confirm_save:
-            sess = app_path(APP_FILE_SESSION)
-            sess = collapse_filename(sess)
-            if msg_box(_('Save current state to the session "%s"?')%sess, MB_OKCANCEL+MB_ICONQUESTION)==ID_OK:
-                app_proc(PROC_SAVE_SESSION, sess)
+        # Save current state into the project's CURRENT session slot before
+        # switching, so unsaved edits aren't lost. Previously this only saved
+        # the app-level session file, which is a different thing entirely.
+        cur_sess = self.session_cur_name()
+        if confirm_save and cur_sess:
+            if msg_box(
+                _('Save current state to the session "%s"?') % cur_sess,
+                MB_OKCANCEL + MB_ICONQUESTION
+            ) == ID_OK:
+                app_proc(PROC_SAVE_SESSION, fn + '|/sessions/' + cur_sess)
 
-        app_proc(PROC_SET_SESSION, DEF_SES)
+        # Close ALL tabs in ALL groups before loading the new session,
+        # mirroring action_new_project / action_open_project. Without this,
+        # PROC_LOAD_SESSION stacks the new session's tabs on top of the
+        # current ones, and any dirty tab triggers a "save changes?" prompt.
+        self.session_forget_ex()
 
         fn += '|/sessions/'+name
         app_proc(PROC_LOAD_SESSION, fn)
