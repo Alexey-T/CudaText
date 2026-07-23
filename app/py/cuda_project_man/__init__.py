@@ -34,6 +34,7 @@ if IS_WIN:
 PROJECT_EXTENSION = ".cuda-proj"
 PROJECT_DIALOG_FILTER = _("CudaText projects") + "|*" + PROJECT_EXTENSION
 PROJECT_UNSAVED_NAME = _("(No project)")
+PROJECT_TEMP_FILENAME = os.path.join(app_path(APP_DIR_SETTINGS), 'temporary'+PROJECT_EXTENSION)
 NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD = range(4)
 OS_SUFFIX = app_proc(PROC_GET_OS_SUFFIX, '')
 DEF_SES = 'default'+OS_SUFFIX+'.cuda-session'
@@ -1419,8 +1420,12 @@ class Command:
             menu_proc(id, MENU_SET_ENABLED, command=False)
 
         menu_proc(self.h_menu_cfg, MENU_ADD, caption='-')
-        id = menu_proc(self.h_menu_cfg, MENU_ADD, command='cuda_project_man.session_save_as', caption=_('Save session...'))
+        id = menu_proc(self.h_menu_cfg, MENU_ADD, command='cuda_project_man.session_save_as', caption=_('Save session as...'))
         if self.is_project_empty():
+            menu_proc(id, MENU_SET_ENABLED, command=False)
+
+        id = menu_proc(self.h_menu_cfg, MENU_ADD, command='cuda_project_man.session_save_inplace', caption=_('Save session'))
+        if self.is_project_empty() or not self.session_cur_name():
             menu_proc(id, MENU_SET_ENABLED, command=False)
 
         id = menu_proc(self.h_menu_cfg, MENU_ADD, command='cuda_project_man.session_delete', caption=_('Delete session...'))
@@ -2166,14 +2171,10 @@ class Command:
             fn2 = os.path.join(dir, '.svn')
             if os.path.isdir(fn) or os.path.isdir(fn2):
                 self.init_panel()
-                # Prompt for project file path (new_project now requires it).
-                # Pre-fill with the git folder name as a sensible default.
-                default_name = os.path.basename(dir) + PROJECT_EXTENSION
-                default_path = os.path.join(dir, default_name)
-                path = dlg_file(False, default_path, dir, PROJECT_DIALOG_FILTER)
-                if not path:
-                    return
-                self.action_new_project(path)
+                # Use a temporary project file (in the settings dir) so the
+                # user gets the repo tree immediately without a save dialog.
+                # They can later use "Save project as..." to persist it.
+                self.action_new_project(PROJECT_TEMP_FILENAME)
                 self.add_node(dir)
                 self.do_unfold_first()
                 self.jump_to_filename(filename)
@@ -2490,6 +2491,19 @@ class Command:
             self.action_refresh()
             if self.project_file_path:
                 self.action_save_project_as(self.project_file_path)
+
+    def session_save_inplace(self):
+        """Save current state into the current session slot (no prompt).
+        Menu entry point for 'Save session'."""
+        if not self.project_file_path:
+            msg_status(_('No project open'))
+            return
+        cur_sess = self.session_cur_name()
+        if not cur_sess:
+            msg_status(_('No active session'))
+            return
+        self.session_save(False)
+        msg_status(_('Session saved: ') + cur_sess)
 
     def session_save(self, and_forget):
 
