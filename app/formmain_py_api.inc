@@ -58,6 +58,15 @@ begin
   Result:= false;
 end;
 
+procedure AppSessionName_Set(const S: string);
+begin
+  if AppSessionName_<>S then
+  begin
+    AppSessionName_:= S;
+    fmMain.DoPyEvent(nil, TAppPyEvent.OnState, [AppVariant(APPSTATE_SESSION_SET)]);
+  end;
+end;
+
 function PyHelper_ObjectHandle(Obj: TObject): PPyObject; inline;
 begin
   Result:= AppPython.ObjectToPyInt(Obj);
@@ -5402,7 +5411,7 @@ begin
 
         APP_PROC_SET_SESSION:
           begin
-            AppSessionName:= Str;
+            AppSessionName_Set(Str);
             fmMain.UpdateCaption;
             fmMain.DoOps_SaveCurrentSessionName;
             Result:= ReturnNone;

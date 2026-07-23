@@ -46,7 +46,7 @@ begin
   bHideDefaultSession:= Pos('d', UiOps.ShowTitle)>0;
   bAllowAppTitle:= Pos('n', UiOps.ShowTitle)=0;
 
-  SSplitByChar(AppSessionName, '|', SSession, SSessionRootPath);
+  SSplitByChar(AppSessionName_, '|', SSession, SSessionRootPath);
   SSession:= ExtractFileName(SSession);
   if (SSession<>'') and bAllowSessionName and
     not (bHideDefaultSession and IsDefaultSessionActive) then

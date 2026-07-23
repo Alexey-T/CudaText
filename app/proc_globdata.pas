@@ -165,7 +165,7 @@ var
   AppBookmarkImagelist: TImageList;
   AppApiFlatTheme: TATFlatTheme;
   AppAlwaysNewInstance: boolean;
-  AppSessionName: string;
+  AppSessionName_: string;
   AppServerId: string = 'cudatext.0'; //used by TUniqueInstance (which is used only on Unix)
 
 var
@@ -2883,15 +2883,15 @@ var
 begin
   if not UiOps.ReopenSession then exit('');
 
-  SSplitByChar(AppSessionName, '|', sFilename, sJsonPath);
+  SSplitByChar(AppSessionName_, '|', sFilename, sJsonPath);
 
   sDir:= ExtractFileDir(sFilename);
-  if sDir='' then exit(AppSessionName);
+  if sDir='' then exit(AppSessionName_);
 
   if SameFileName(sDir, AppDir_Settings) then
     Result:= ExtractFileName(sFilename)+IfThen(sJsonPath<>'', '|'+sJsonPath)
   else
-    Result:= AppSessionName;
+    Result:= AppSessionName_;
 end;
 
 class function TKeymapHelper.GetHotkey(AKeymap: TATKeymap; const ACmdString: string): string;
@@ -3912,12 +3912,12 @@ end;
 
 function IsDefaultSessionActive: boolean;
 begin
-  Result:= IsDefaultSession(AppSessionName);
+  Result:= IsDefaultSession(AppSessionName_);
 end;
 
 function IsNoneSessionActive: boolean;
 begin
-  Result:= ExtractFileName(AppSessionName)=cAppSessionNone;
+  Result:= ExtractFileName(AppSessionName_)=cAppSessionNone;
 end;
 
 function AppFile_OptionsDefault: string;
@@ -3937,7 +3937,7 @@ function AppFile_Session: string;
 var
   sFilename, sJsonPath: string;
 begin
-  Result:= AppSessionName;
+  Result:= AppSessionName_;
   if Result='' then
     Result:= cAppSessionDefault;
 

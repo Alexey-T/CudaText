@@ -990,7 +990,7 @@ begin
 
   //don't wait until plugin sets session name in PROC_SET_SESSION,
   //it's needed in on_state
-  AppSessionName:= ASessionId;
+  AppSessionName_Set(ASessionId);
 
   DoOps_SaveCurrentSessionName;
 
@@ -1080,7 +1080,7 @@ var
   DesktopRect: TRect;
   bFlag: boolean;
   NTick: QWord;
-  sFilename, sRootPath, sBackupFilename: string;
+  sFilename, sRootPath, sBackupFilename, sNewSession: string;
   ListTemp: TStringList;
   N: integer;
 begin
@@ -1174,16 +1174,18 @@ begin
 
     if FOption_AllowSessionLoad=TAppAllowSomething.Enable then
     begin
-      AppSessionName:= cfg.GetValue('session'+cOptionSystemSuffix, AppSessionName);
+      sNewSession:= cfg.GetValue('session'+cOptionSystemSuffix, AppSessionName_);
 
       //workaround for bad saved values like '../../../', with and without filename
-      while SBeginsWith(AppSessionName, '..'+DirectorySeparator) do
-        Delete(AppSessionName, 1, 3);
+      while SBeginsWith(sNewSession, '..'+DirectorySeparator) do
+        Delete(sNewSession, 1, 3);
 
-      if AppSessionName='' then
-        AppSessionName:= cAppSessionDefault;
+      if sNewSession='' then
+        AppSessionName_Set(cAppSessionDefault)
+      else
+        AppSessionName_Set(sNewSession);
 
-      SSplitByChar(AppSessionName, '|', sFilename, sRootPath);
+      SSplitByChar(AppSessionName_, '|', sFilename, sRootPath);
       sFilename:= AppExpandFileNameWithDir(sFilename, AppDir_Settings);
       if (sRootPath='') and not FileExists(sFilename) then
       begin
@@ -1195,14 +1197,14 @@ begin
           else
           begin
             MsgLogConsole(Format('ERROR: Session file "%s" not found, cannot copy from backup', [ExtractFileName(sFilename)]));
-            AppSessionName:= cAppSessionDefault;
+            AppSessionName_Set(cAppSessionDefault);
           end;
         end
         else
-        if AppSessionName<>cAppSessionDefault then
+        if AppSessionName_<>cAppSessionDefault then
         begin
           MsgLogConsole(Format('ERROR: Session file "%s" not found, and there is no backup', [ExtractFileName(sFilename)]));
-          AppSessionName:= cAppSessionDefault;
+          AppSessionName_Set(cAppSessionDefault);
         end;
       end;
 
@@ -1210,7 +1212,7 @@ begin
       DoOps_LoadHistory_GroupView(cfg, '');
     end
     else
-      AppSessionName:= cAppSessionNone;
+      AppSessionName_Set(cAppSessionNone);
 
     FOption_SidebarTab:= cfg.GetValue('tab_left', '');
     FOption_BottomTab:= cfg.GetValue('tab_bottom', '');
