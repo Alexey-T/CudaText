@@ -1559,7 +1559,10 @@ class Command:
             return False #block opening
 
     def on_exit(self, ed_self):
-        if self.project_file_path:
+        # Don't save the temporary git auto-project on exit — saving it
+        # would persist its session and make it the default, which is not
+        # what we want for a throwaway project.
+        if self.project_file_path and str(self.project_file_path) != PROJECT_TEMP_FILENAME:
             self.action_save_project_as(self.project_file_path)
 
     def config(self):
@@ -1589,10 +1592,6 @@ class Command:
                 v = 'on_open' in s
             if v:
                 ev.append('on_open')
-
-            # Always subscribe to on_state to detect external session switches
-            if 'on_state' not in ev:
-                ev.append('on_state')
 
             # save events to plugins.ini [events], they will work additionally to install.inf events
             if ev:
@@ -1680,6 +1679,14 @@ class Command:
     def contextmenu_save_proj_as(self):
         self.init_panel()
         self.action_save_project_as()
+
+    def contextmenu_save_proj_inplace(self):
+        self.init_panel()
+        self.action_save_project()
+
+    def contextmenu_close_proj(self):
+        self.init_panel()
+        self.action_close_project()
 
     def contextmenu_refresh(self):
         self.init_panel()
