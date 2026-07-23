@@ -1098,11 +1098,17 @@ class Command:
         if path is None:
             path = dlg_file(True, "", "", PROJECT_DIALOG_FILTER)
         if path:
-            self.session_save(True)
-
             proj_dir = os.path.dirname(path)
 
             if Path(path).exists():
+                # Save the current session to its project file, then close
+                # ALL tabs in ALL groups (clearing PROP_MODIFIED first so no
+                # "save changes?" prompt appears). Mirrors action_new_project
+                # so the new project's session loads into a clean workspace
+                # instead of stacking on top of the previous session's tabs.
+                self.session_save(True)
+                self.session_forget_ex()
+
                 print(_('Loading project: ') + collapse_filename(path))
                 with open(path, encoding='utf8') as fin:
                     self.project = json.load(fin)
@@ -2331,6 +2337,11 @@ class Command:
         self.session_forget()
 
         import cudatext_cmd as cmds
+        # Clear the modified flag for ALL tabs in ALL groups, not just the
+        # currently focused one. The global `ed` only refers to the active
+        # editor in the active group, so tabs in other groups would otherwise
+        # still trigger a "save changes?" confirmation when cmd_FileCloseAll
+        # tries to close them.
         for h in ed_handles():
             Editor(h).set_prop(PROP_MODIFIED, False)
         ed.cmd(cmds.cmd_FileCloseAll)
