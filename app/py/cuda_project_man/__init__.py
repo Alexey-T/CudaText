@@ -1184,7 +1184,13 @@ class Command:
         default_sess_path = os.path.join(app_path(APP_DIR_SETTINGS), DEF_SES)
         app_proc(PROC_LOAD_SESSION, default_sess_path)
 
-        # Reset project state
+        self._close_project_silent()
+        msg_status(_("Project closed"))
+
+    def _close_project_silent(self):
+        """Reset project state without touching tabs or sessions. Used when
+        an external session switch is detected — the foreign session is now
+        active and we must detach from the project without disrupting it."""
         self.project = dict(nodes=[])
         self.project_file_path = None
         self.update_global_data()
@@ -1195,7 +1201,6 @@ class Command:
         app_proc(PROC_SET_PROJECT, '')
 
         self.action_refresh()
-        msg_status(_("Project closed"))
 
     def action_open_project(self, info=None, load_session=True):
         if self.project_file_path:
@@ -2165,8 +2170,9 @@ class Command:
 
     def action_project_for_git(self, filename):
         """Auto-create a temporary project when opening a file from a
-        Git/SVN repo. Unlike action_new_project, this does NOT close tabs —
-        the file that triggered on_open must stay open."""
+        Git/SVN repo. Creates a minimal project file (nodes/vars/mainfile)
+        with NO session operations — matches the original pre-refactor
+        behavior. Does not close tabs."""
 
         dir = os.path.dirname(filename)
         while True:
@@ -2174,44 +2180,39 @@ class Command:
             fn2 = os.path.join(dir, '.svn')
             if os.path.isdir(fn) or os.path.isdir(fn2):
                 self.init_panel()
-                # Reset to an empty project state (no tab closing here).
-                self.project = dict(nodes=[])
+
+                # Reset project state (no tab closing, no session operations)
+                self.project = dict(nodes=[], vars=[], mainfile='')
                 self.project_file_path = Path(PROJECT_TEMP_FILENAME)
                 self.update_global_data()
                 self.goto_history = []
-                self.cur_dir = ''
+                self.cur_dir = dir
 
-                app_proc(PROC_SET_FOLDER, '')
+                app_proc(PROC_SET_FOLDER, dir)
                 app_proc(PROC_SET_PROJECT, PROJECT_TEMP_FILENAME)
 
-                # Save the empty project file
+                # Add the repo root to nodes
+                self.project['nodes'].append(dir)
+                self.project['nodes'].sort(key=Command.node_ordering)
+                self.project['unfold'] = [dir]
+
+                # Write the project file directly — no session_save_as,
+                # no session_def, just the bare project dict.
                 d = copy.deepcopy(self.project)
+                proj_dir = os.path.dirname(PROJECT_TEMP_FILENAME)
+                d['nodes'] = [collapse_macros(proj_dir, n) for n in d['nodes']]
+                d['unfold'] = [collapse_macros(proj_dir, u) for u in d['unfold']]
                 with open(PROJECT_TEMP_FILENAME, 'w', encoding='utf8') as fout:
                     json.dump(d, fout, indent=2)
 
-                # Create session1 inside the project
-                sess1 = PROJECT_TEMP_FILENAME + '|/sessions/session1'
-                app_proc(PROC_SAVE_SESSION, sess1)
-                app_proc(PROC_SET_SESSION, sess1)
-
-                self.project['def_session'] = 'session1'
-                with open(PROJECT_TEMP_FILENAME, 'r', encoding='utf8') as f:
-                    data = json.load(f)
-                data['def_session'] = 'session1'
-                with open(PROJECT_TEMP_FILENAME, 'w', encoding='utf8') as f:
-                    json.dump(data, f, indent=2)
-
-                self.update_global_data()
                 self.add_recent(PROJECT_TEMP_FILENAME)
                 self.options['on_start'] = True
                 self.save_events()
                 self.save_options()
 
-                # Add the repo root and jump to the opened file
-                self.add_node(dir)
+                self.action_refresh()
                 self.do_unfold_first()
                 self.jump_to_filename(filename)
-                self.action_refresh()
                 print(_('Project Manager: opened project for version-controlled folder: ')+dir)
                 return
 
@@ -2558,3 +2559,13 @@ class Command:
         if self.options.get('always_sync', False):
             if self.tree:
                 self.sync_to_ed()
+
+        # Detect external session switching: if a project is open but the
+        # active session no longer belongs to it, the user switched sessions
+        # via another session manager. Close the project (reset state only —
+        # no tab closing, no DEF_SES load) so the project's session isn't
+        # overwritten by the foreign session. Matches VSCode behavior where
+        # a workspace's session can't be swapped out from under it.
+        if self.project_file_path:
+            if not self.session_cur_name():
+                self._close_project_silent()
