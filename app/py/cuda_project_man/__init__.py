@@ -811,7 +811,7 @@ class Command:
             'a_l': None,
             'a_t': None,
             'a_r': ('', ']'),
-            'a_b': ('', ']'), 
+            'a_b': ('', ']'),
             'sp_a': 6,
             'x': w_-100,
             'y': h_-6-25,
@@ -826,7 +826,7 @@ class Command:
             'name': 'memo_log',
             'val': text,
             'a_r': ('btn_ok', ']'),
-            'a_b': ('btn_ok', '['), 
+            'a_b': ('btn_ok', '['),
             'x': 6,
             'y': 6,
             'w': w_-6*2,
@@ -2114,7 +2114,7 @@ class Command:
                 return
             curname = names[res] if res>0 else ''
         else:
-            curname = 'new'
+            curname = 'default'
 
         self.project['def_session'] = curname
 
@@ -2184,7 +2184,10 @@ class Command:
             self.close_foreign_tabs(True)
 
         names = self.session_get_names()
-        s = 'new'
+        if len(names) > 0 and not is_request:
+            return
+
+        s = 'default'
         if is_request:
             while True:
                 s = dlg_input(_('Save session with name:'), s)
