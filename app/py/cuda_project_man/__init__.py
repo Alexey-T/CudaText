@@ -1590,6 +1590,10 @@ class Command:
             if v:
                 ev.append('on_open')
 
+            # Always subscribe to on_state to detect external session switches
+            if 'on_state' not in ev:
+                ev.append('on_state')
+
             # save events to plugins.ini [events], they will work additionally to install.inf events
             if ev:
                 ini_write('plugins.ini', 'events', 'cuda_project_man', ','.join(ev))
@@ -1623,27 +1627,39 @@ class Command:
 
         items = self.options.get("recent_projects", [])
         if items:
-            # If CudaText is already loading this project's session from
-            # history.json (key "session" = "project_path|/sessions/name"),
-            # skip the session save/close/load inside action_open_project.
-            # Otherwise we'd close the tabs CudaText just opened -- which
-            # prompts "save changes?" for any tabs restored as modified --
-            # and then re-load the same session a second time (visible in
-            # the log as two "Loaded session" lines for the same project).
-            load_session = True
+            # Read history.json to see which session CudaText is loading.
+            # The "session" key is "project_path|/sessions/name" for a
+            # project session, or a plain filename (e.g. default.cuda-session)
+            # for a non-project session.
             history_path = os.path.join(app_path(APP_DIR_SETTINGS), 'history.json')
+            sess_ptr = ''
             try:
                 with open(history_path, encoding='utf8') as f:
                     hist = json.load(f)
                 sess_ptr = hist.get('session', '')
-                if sess_ptr and '|' in sess_ptr:
-                    proj_in_hist = sess_ptr.split('|', 1)[0]
-                    if os.path.normpath(proj_in_hist) == os.path.normpath(items[0]):
-                        load_session = False
             except Exception:
                 pass
 
-            self.action_open_project(items[0], load_session=load_session)
+            if sess_ptr and '|' in sess_ptr:
+                proj_in_hist = sess_ptr.split('|', 1)[0]
+                if os.path.normpath(proj_in_hist) == os.path.normpath(items[0]):
+                    # CudaText is loading this project's session — let it
+                    # proceed, just load the project metadata (no session
+                    # save/close/load, which would prompt for modified tabs).
+                    self.action_open_project(items[0], load_session=False)
+                else:
+                    # CudaText is loading a session that belongs to a
+                    # DIFFERENT project. This happens if history.json was
+                    # changed manually after CudaText was closed. Close the
+                    # project silently (no tab closing, no DEF_SES load)
+                    # so the foreign session's tabs stay open and the
+                    # project's session isn't overwritten.
+                    self._close_project_silent()
+            else:
+                # No project session in history.json (either empty or a
+                # plain session like default.cuda-session). Don't auto-open
+                # the project — let the foreign/default session stand.
+                self._close_project_silent()
 
     def contextmenu_add_dir(self):
         self.init_panel()
@@ -2180,6 +2196,7 @@ class Command:
             fn2 = os.path.join(dir, '.svn')
             if os.path.isdir(fn) or os.path.isdir(fn2):
                 self.init_panel()
+                app_proc(PROC_SIDEPANEL_ACTIVATE, self.title)
 
                 # Reset project state (no tab closing, no session operations)
                 self.project = dict(nodes=[], vars=[], mainfile='')
@@ -2560,12 +2577,14 @@ class Command:
             if self.tree:
                 self.sync_to_ed()
 
-        # Detect external session switching: if a project is open but the
-        # active session no longer belongs to it, the user switched sessions
-        # via another session manager. Close the project (reset state only —
-        # no tab closing, no DEF_SES load) so the project's session isn't
-        # overwritten by the foreign session. Matches VSCode behavior where
-        # a workspace's session can't be swapped out from under it.
-        if self.project_file_path:
-            if not self.session_cur_name():
-                self._close_project_silent()
+    def on_state(self, ed_self, state):
+        """Detect external session switching via app state events. If a project
+        is open and a session is loaded that doesn't belong to it, close the
+        project silently (no tab closing, no DEF_SES load)."""
+        # APPSTATE_SESSION_LOAD fires after a session has been loaded. If a
+        # project is open but the active session no longer belongs to it,
+        # the user switched sessions externally — detach from the project.
+        if state == APPSTATE_SESSION_LOAD:
+            if self.project_file_path:
+                if not self.session_cur_name():
+                    self._close_project_silent()
