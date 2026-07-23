@@ -285,6 +285,9 @@ class Command:
         "goto_open": False,
         "sort_order": "ext",
         "always_sync": False,
+        "check_git": True,
+        "icon_theme": "vscode_16x16",
+        "toolbar_theme": "default_16x16",
     }
     # Default options used as the base when loading from disk: any key
     # missing from the loaded file is filled in from here, so settings
@@ -1485,8 +1488,12 @@ class Command:
         return Path(p.get('data', ''))
 
     def save_options(self):
-        d = copy.deepcopy(self.options)
-        d["recent_projects"] = [collapse_macros('', fn) for fn in d["recent_projects"]]
+        # Only save keys that exist in the current defaults dict. This
+        # automatically drops stale keys that were removed from the code,
+        # keeping the config file clean and in sync with the code.
+        defaults = type(self).options
+        d = {k: copy.deepcopy(v) for k, v in self.options.items() if k in defaults}
+        d["recent_projects"] = [collapse_macros('', fn) for fn in d.get("recent_projects", [])]
         with self.options_filename.open(mode="w", encoding='utf8') as fout:
             json.dump(d, fout, indent=2)
 
