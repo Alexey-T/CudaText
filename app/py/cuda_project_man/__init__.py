@@ -2273,7 +2273,9 @@ class Command:
                 return
             curname = names[res] if res>0 else ''
         else:
-            curname = 'new'
+            # Non-interactive: default to the current session name, or
+            # 'session1' if no session is active (matches New project behavior).
+            curname = self.session_cur_name() or 'session1'
 
         self.project['def_session'] = curname
 
@@ -2343,8 +2345,8 @@ class Command:
             self.close_foreign_tabs(True)
 
         names = self.session_get_names()
-        s = 'new'
         if is_request:
+            s = 'new'
             while True:
                 s = dlg_input(_('Save session with name:'), s)
                 if s is None:
@@ -2360,6 +2362,10 @@ class Command:
                     msg_status(_('Session "%s" already exists')%s)
                     continue
                 break
+        else:
+            # Non-interactive (called from action_save_project_as): save
+            # into the current session slot, or 'session1' if none is active.
+            s = self.session_cur_name() or 'session1'
 
         sess = fn+'|/sessions/'+s
         app_proc(PROC_SAVE_SESSION, sess)
