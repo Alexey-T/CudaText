@@ -294,13 +294,13 @@ With a default session:
     "sessions": {
       "session1": {
         "tabs": [...],
-        "carents": [...]
+        "carets": [...]
       }
     }
   }
 
-  (The session internals like "tabs" and "carents" are managed by
-  CudaText's session API — you don't need to edit them manually.)
+  The session internals ("tabs", "carets", etc.) are managed by
+  CudaText's session API.
 
 Paths inside "nodes" and "unfold" support the {ProjDir} macro: if a
 path starts with the project file's directory, it is stored relative

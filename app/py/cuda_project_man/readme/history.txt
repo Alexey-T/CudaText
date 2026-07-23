@@ -1,3 +1,42 @@
+2026.07.24 (@badrelmers)
++ command "New project" now prompts for save location and creates session "session1" inside the project
++ command "Save project" (in-place save, no dialog)
++ command "Close project" (closes tabs, loads default.cuda-session without overwriting it)
++ command "Save session" (in-place save to current session slot)
++ menu item "Project properties..." in Project menu
++ on_state event subscription for external session switch detection
++ on_start, on_state events declared in install.inf (no longer conditional via plugins.ini)
++ settings auto-merge: missing options are filled from defaults on load, stale options are dropped on save
++ options check_git, icon_theme, toolbar_theme added to defaults dict so they persist
++ history.json read on startup to detect session/project mismatch and avoid "save changes?" prompts
++ temporary git auto-project now activates the Project panel and uses a minimal project file (no session)
+* renamed "Remove root node" to "Stop tracking this Folder/File"
+* renamed "Remove deleted root nodes..." to "Clean up missing paths..."
+* renamed "Save session..." to "Save session as..."
+* session_load uses close_all_tabs (no DEF_SES switch within a project)
+* session_forget_ex uses close_all_tabs (clears modified flag and unpins tabs in all groups)
+* action_save_project_as preserves current session name instead of hardcoding "new"
+* action_project_for_git creates minimal project without session operations
+* on_exit skips saving the temporary git auto-project
+* check_git option disabled by default
+* options dialog: removed dead "Suggest to close tabs not belonging to project" option
+* rewritten documentation (readme.txt)
+- removed command "Clear project..." (redundant with New project + overwrite)
+- removed command "Forget session, close all tabs" (dangerous — overwrote default session)
+- removed temporary.cuda-proj auto-save on adding first node (New project now requires a real path)
+- fixed: closing tabs in only the active group (other groups kept modified tabs)
+- fixed: cmd_FileCloseAll skipped pinned tabs (previous project's pinned tabs leaked)
+- fixed: Open project stacked new session's tabs on top of old ones
+- fixed: New project overwrote default.cuda-session with empty state
+- fixed: external session switch overwrote project's session data
+- fixed: startup prompted "save changes?" when history.json session matched the project
+- fixed: settings not saved for check_git, icon_theme, toolbar_theme
+- fixed: new options missing from old config files until Options dialog was opened
+
+2026.07.21 (@ildarkhasanshin)
++ command "New project" now close all open tabs
++ when saving the project for the first time, create a new session and make it the default
+
 2026.03.17
 + add command "Remove deleted nodes"
 
