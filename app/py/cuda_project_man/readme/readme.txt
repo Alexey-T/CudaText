@@ -220,6 +220,10 @@ Open via the menu: Project Manager > Config... or right-click > Options...
                           project as..." to persist the temporary
                           project to a real location.
 
+                          Disabled by default. Enable it if you want
+                          the plugin to react to files opened from
+                          version-controlled folders.
+
   Always sync project-
   tree with current
   editor file:           Automatically highlights the current editor
@@ -295,6 +299,9 @@ With a default session:
     }
   }
 
+  (The session internals like "tabs" and "carents" are managed by
+  CudaText's session API — you don't need to edit them manually.)
+
 Paths inside "nodes" and "unfold" support the {ProjDir} macro: if a
 path starts with the project file's directory, it is stored relative
 to it using {ProjDir}. This makes projects portable (you can move the
@@ -318,9 +325,16 @@ TECHNICAL NOTES
 
 - The plugin subscribes to these events (declared in install.inf):
   on_open_pre (for .cuda-proj files), on_delete_file, on_tab_change,
-  on_open, on_exit, on_state, on_start. Some are conditional (on_open
-  only when check_git is enabled; on_start only when a project was
-  saved with "open on start" enabled).
+  on_exit, on_state, on_start. Most are always subscribed. on_open
+  is conditional — only subscribed when the "check_git" option is
+  enabled (managed via plugins.ini to avoid overhead when the
+  feature is off, since on_open fires on every file open).
+
+- on_start auto-opens the most recent project on CudaText startup.
+  It is controlled by an internal flag (not a user-visible option):
+  the flag is set to True automatically when you save a project,
+  and reset to False after on_start runs. This prevents auto-opening
+  if you closed CudaText without an active project.
 
 - Sessions are stored inside the .cuda-proj file using CudaText's
   "project|/sessions/name" session pointer format.
