@@ -286,6 +286,9 @@ class Command:
         "sort_order": "ext",
         "always_sync": False,
     }
+    # Default options used as the base when loading from disk: any key
+    # missing from the loaded file is filled in from here, so settings
+    # stay fresh after adding/removing options in code.
 
     tree = None
     h_dlg = None
@@ -297,11 +300,19 @@ class Command:
     def __init__(self):
         settings_dir = Path(app_path(APP_DIR_SETTINGS))
         self.options_filename = settings_dir / "cuda_project_man.json"
+        # Start from a fresh copy of the defaults, then merge the loaded
+        # file on top. This ensures newly added options appear even in old
+        # config files, while preserving the user's existing values.
+        self.options = copy.deepcopy(self.options)
         if self.options_filename.exists():
-            with self.options_filename.open(encoding='utf8') as fin:
-                self.options = json.load(fin)
+            try:
+                with self.options_filename.open(encoding='utf8') as fin:
+                    loaded = json.load(fin)
+                self.options.update(loaded)
                 if "recent_projects" in self.options:
                     self.options["recent_projects"] = [expand_macros('', fn) for fn in self.options["recent_projects"]]
+            except Exception:
+                pass
 
         self.new_project(False, False) # don't forget session in on_start
 
@@ -2456,9 +2467,6 @@ class Command:
         return False
 
     def close_foreign_tabs(self, confirm=True):
-
-        if not self.options.get('close_ext', True):
-            return
 
         # don't detect if project is empty
         items = self.project['nodes']
