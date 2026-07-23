@@ -2222,7 +2222,7 @@ class Command:
             return
         self.session_load(names[res])
 
-    def session_load(self, name='', confirm_save=True):
+    def session_load(self, name='', auto_save=True):
 
         if not name:
             return
@@ -2235,11 +2235,10 @@ class Command:
         if not fn:
             msg_status(_('Untitled project'))
 
-        if confirm_save:
+        if auto_save:
             sess = app_path(APP_FILE_SESSION)
             sess = collapse_filename(sess)
-            if msg_box(_('Save current state to the session "%s"?')%sess, MB_OKCANCEL+MB_ICONQUESTION)==ID_OK:
-                app_proc(PROC_SAVE_SESSION, sess)
+            app_proc(PROC_SAVE_SESSION, sess)
 
         app_proc(PROC_SET_SESSION, DEF_SES)
 
