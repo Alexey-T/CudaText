@@ -102,7 +102,7 @@ def dialog_config(op):
         +[c1.join(['type=check', 'pos=6,288,400,0', 'cap='+_('Open files by &double-click'),
             'val='+bool_to_str(op.get('d_click', False)) ])]
         +[c1.join(['type=check', 'pos=6,314,400,0', 'cap='+_('On opening file in Git/SVN repo, create temporary project from repo (*)'),
-            'val='+bool_to_str(op.get('check_git', True)) ])]
+            'val='+bool_to_str(op.get('check_git', False)) ])]
         +[c1.join(['type=check', 'pos=6,340,400,0', 'cap='+_('Always sync project-tree with current editor file'),
             'val='+bool_to_str(op.get('always_sync', False)) ])]
 

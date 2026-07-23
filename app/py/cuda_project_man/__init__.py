@@ -285,9 +285,10 @@ class Command:
         "goto_open": False,
         "sort_order": "ext",
         "always_sync": False,
-        "check_git": True,
+        "check_git": False,
         "icon_theme": "vscode_16x16",
         "toolbar_theme": "default_16x16",
+        "on_start": False,
     }
     # Default options used as the base when loading from disk: any key
     # missing from the loaded file is filled in from here, so settings
@@ -576,7 +577,6 @@ class Command:
 
         if apply_on_start:
             self.options['on_start'] = False
-            self.save_events()
 
     def add_recent(self, path):
         recent = self.options["recent_projects"]
@@ -1599,19 +1599,14 @@ class Command:
             self.save_events()
 
     def save_events(self):
+            # on_start and on_state are always subscribed via install.inf,
+            # so we only need to handle on_open conditionally (for check_git).
             ev = []
 
-            if self.options.get('on_start', False):
-                ev.append('on_start')
-
-            v = self.options.get('check_git', None)
-            if v is None:
-                s = ini_read('plugins.ini', 'events', 'cuda_project_man', '')
-                v = 'on_open' in s
-            if v:
+            if self.options.get('check_git', False):
                 ev.append('on_open')
 
-            # save events to plugins.ini [events], they will work additionally to install.inf events
+            # save events to plugins.ini [events], they work additionally to install.inf events
             if ev:
                 ini_write('plugins.ini', 'events', 'cuda_project_man', ','.join(ev))
             else:
@@ -1639,6 +1634,14 @@ class Command:
             return False
 
     def on_start(self, ed_self):
+        # on_start is always subscribed via install.inf. The on_start flag
+        # (set True when a project is saved, set False after running)
+        # controls whether we actually auto-open the most recent project.
+        if not self.options.get('on_start', False):
+            # Reset the flag in case it was left True from a previous run
+            # that crashed before reaching the reset in new_project.
+            return
+
         and_activate = self.options.get("on_start_activate", False)
         self.init_panel(and_activate)
 
@@ -1677,6 +1680,11 @@ class Command:
                 # plain session like default.cuda-session). Don't auto-open
                 # the project — let the foreign/default session stand.
                 self._close_project_silent()
+
+        # Reset the on_start flag so we don't auto-open on every restart
+        # unless a project is saved again (which sets it back to True).
+        self.options['on_start'] = False
+        self.save_options()
 
     def contextmenu_add_dir(self):
         self.init_panel()
