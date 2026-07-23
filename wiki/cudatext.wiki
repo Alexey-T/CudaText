@@ -1426,7 +1426,8 @@ Session file contains data:
 ** minimap and micromap visible state
 ** ruler visible state
 ** non-printable characters visible state
-** line numbers visible state
+** gutter columns: "line numbers" visible state
+** gutter columns: "line states" visible state
 ** scale factor
 ** list of folded ranges (if lexer supports folding)
 ** color of ui-tab (if not default)
