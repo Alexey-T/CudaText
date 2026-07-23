@@ -2352,8 +2352,20 @@ class Command:
         # editor in the active group, so tabs in other groups would otherwise
         # still trigger a "save changes?" confirmation when cmd_FileCloseAll
         # tries to close them.
+        #
+        # Also unpin any pinned tabs. CudaText's cmd_FileCloseAll respects
+        # pinned tabs by design (skips them), which would leave a previous
+        # project's pinned tabs leaking into the new project. This made
+        # action_new_project (which only calls session_forget_ex) behave
+        # differently from action_open_project (which also calls
+        # PROC_LOAD_SESSION, and PROC_LOAD_SESSION replaces the entire
+        # editor state regardless of pin status). Unpinning here makes
+        # both flows produce a truly clean slate.
         for h in ed_handles():
-            Editor(h).set_prop(PROP_MODIFIED, False)
+            e = Editor(h)
+            e.set_prop(PROP_MODIFIED, False)
+            if e.get_prop(PROP_TAB_PINNED):
+                e.set_prop(PROP_TAB_PINNED, False)
         ed.cmd(cmds.cmd_FileCloseAll)
 
     def on_delete_file(self, ed_self, fn):
