@@ -2164,6 +2164,9 @@ class Command:
         self.on_tab_change(ed_self)
 
     def action_project_for_git(self, filename):
+        """Auto-create a temporary project when opening a file from a
+        Git/SVN repo. Unlike action_new_project, this does NOT close tabs —
+        the file that triggered on_open must stay open."""
 
         dir = os.path.dirname(filename)
         while True:
@@ -2171,13 +2174,44 @@ class Command:
             fn2 = os.path.join(dir, '.svn')
             if os.path.isdir(fn) or os.path.isdir(fn2):
                 self.init_panel()
-                # Use a temporary project file (in the settings dir) so the
-                # user gets the repo tree immediately without a save dialog.
-                # They can later use "Save project as..." to persist it.
-                self.action_new_project(PROJECT_TEMP_FILENAME)
+                # Reset to an empty project state (no tab closing here).
+                self.project = dict(nodes=[])
+                self.project_file_path = Path(PROJECT_TEMP_FILENAME)
+                self.update_global_data()
+                self.goto_history = []
+                self.cur_dir = ''
+
+                app_proc(PROC_SET_FOLDER, '')
+                app_proc(PROC_SET_PROJECT, PROJECT_TEMP_FILENAME)
+
+                # Save the empty project file
+                d = copy.deepcopy(self.project)
+                with open(PROJECT_TEMP_FILENAME, 'w', encoding='utf8') as fout:
+                    json.dump(d, fout, indent=2)
+
+                # Create session1 inside the project
+                sess1 = PROJECT_TEMP_FILENAME + '|/sessions/session1'
+                app_proc(PROC_SAVE_SESSION, sess1)
+                app_proc(PROC_SET_SESSION, sess1)
+
+                self.project['def_session'] = 'session1'
+                with open(PROJECT_TEMP_FILENAME, 'r', encoding='utf8') as f:
+                    data = json.load(f)
+                data['def_session'] = 'session1'
+                with open(PROJECT_TEMP_FILENAME, 'w', encoding='utf8') as f:
+                    json.dump(data, f, indent=2)
+
+                self.update_global_data()
+                self.add_recent(PROJECT_TEMP_FILENAME)
+                self.options['on_start'] = True
+                self.save_events()
+                self.save_options()
+
+                # Add the repo root and jump to the opened file
                 self.add_node(dir)
                 self.do_unfold_first()
                 self.jump_to_filename(filename)
+                self.action_refresh()
                 print(_('Project Manager: opened project for version-controlled folder: ')+dir)
                 return
 
