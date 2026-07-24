@@ -72,6 +72,7 @@ type
     FEventOnFold: string;
     FEventOnUnfold: string;
     FEventOnListboxDrawItem: string;
+    FEventOnKeyPress: string;
     FEventOnMouseEnter: string;
     FEventOnMouseExit: string;
     FEventOnMouseDown: string;
@@ -97,6 +98,7 @@ type
     IsFormShownAlready: boolean;
     procedure DoOnFormWindowStateChange(Sender: TObject);
     procedure _HandleClickEvent(Sender: TObject; ADblClick: boolean);
+    procedure _HandleKeyPressEvent(Sender: TObject; var AUTF8Key: TUTF8Char);
     procedure _HandleMouseEvent(Sender: TObject;
       const AEventKind: TAppCtlMouseEvent; const AData: TAppVariant);
   protected
@@ -149,6 +151,7 @@ type
     procedure DoOnDblClick(Sender: TObject);
     procedure DoOnChange(Sender: TObject);
     procedure DoOnCheckGroupClicked(Sender: TObject; AIndex: integer);
+    procedure DoOnMemoUTF8KeyPress(Sender: TObject; var AUTF8Key: TUTF8Char);
     procedure DoOnListboxSelect(Sender: TObject; User: boolean);
     procedure DoOnListboxDrawItem(Sender: TObject; ACanvas: TCanvas; AIndex: integer; const ARect: TRect);
     procedure DoOnListboxClickHeader(Sender: TObject; AIndex: integer);
@@ -816,11 +819,34 @@ begin
   DoOnChange(Sender);
 end;
 
+procedure TFormDummy.DoOnMemoUTF8KeyPress(Sender: TObject; var AUTF8Key: TUTF8Char);
+begin
+  _HandleKeyPressEvent(Sender, AUTF8Key);
+end;
+
 procedure TFormDummy.DoOnListboxSelect(Sender: TObject; User: boolean);
 begin
   //here called on_change, not on_select
   //reason: for Listbox/CheckListbox, value is selected index, so sel change - on_change
   DoOnChange(Sender);
+end;
+
+procedure TFormDummy._HandleKeyPressEvent(Sender: TObject; var AUTF8Key: TUTF8Char);
+var
+  Props: TAppControlProps;
+  IdControl: integer;
+  SCallback, SText: string;
+begin
+  Props:= TAppControlProps((Sender as TControl).Tag);
+  SCallback:= Props.FEventOnKeyPress;
+
+  if SCallback<>'' then
+  begin
+    IdControl:= FindControlIndexByOurObject(Sender);
+    SText:= string(AUTF8Key);
+    if not DoEvent(IdControl, SCallback, AppVariant(SText)) then
+      AUTF8Key:= #0;
+  end;
 end;
 
 procedure TFormDummy._HandleMouseEvent(Sender: TObject;
