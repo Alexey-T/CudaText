@@ -824,6 +824,7 @@ begin
   begin
     Ctl:= TEdit.Create(AForm);
     TEdit(Ctl).OnChange:= @AForm.DoOnChange;
+    TEdit(Ctl).OnUTF8KeyPress:= @AForm.DoOnMemoUTF8KeyPress;
     exit;
   end;
 
@@ -868,6 +869,7 @@ begin
     Ctl:= TEdit.Create(AForm);
     TEdit(Ctl).EchoMode:= emPassword;
     TEdit(Ctl).OnChange:= @AForm.DoOnChange;
+    TEdit(Ctl).OnUTF8KeyPress:= @AForm.DoOnMemoUTF8KeyPress;
     exit;
   end;
 
@@ -875,6 +877,7 @@ begin
   begin
     Ctl:= TSpinEdit.Create(AForm);
     TSpinEdit(Ctl).OnChange:= @AForm.DoOnChange;
+    TSpinEdit(Ctl).OnUTF8KeyPress:= @AForm.DoOnMemoUTF8KeyPress;
     exit;
   end;
 
@@ -898,6 +901,7 @@ begin
   begin
     Ctl:= TComboBox.Create(AForm);
     TComboBox(Ctl).OnChange:= @AForm.DoOnChange;
+    TComboBox(Ctl).OnUTF8KeyPress:= @AForm.DoOnMemoUTF8KeyPress;
     TComboBox(Ctl).DropDownCount:= 20;
     exit;
   end;
