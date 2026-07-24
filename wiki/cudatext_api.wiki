@@ -1330,6 +1330,10 @@ Special events for control "treeview":
 * "on_fold", "on_unfold": Called before treeview node is folded/unfolded. Param "data" is int handle of treeview node. Handler can return False to disable the folding/unfolding.
 * "on_select": Called after selection is changed.
 
+Special events for control "memo":
+
+* "on_key_press": Called on typing a character. Param "data" is string with the character. Handler can return False to disable typing of that character.
+
 ====dlg_proc - Control events - for editor control====
 
 Special events for control "editor"/"editor_edit"/"editor_combo":
@@ -5379,5 +5383,6 @@ It provides:
 
 1.0.483 (app 1.235.1)
 * add: on_state: APPSTATE_SESSION_SET
+* add: dlg_proc: control "memo" supports new event "on_key_press"
 
 [[Category:CudaText]]
