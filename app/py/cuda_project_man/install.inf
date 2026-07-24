@@ -17,7 +17,7 @@ keys=cuda-proj
 
 [item3]
 section=events
-events=on_delete_file~,on_tab_change~,on_open~,on_exit
+events=on_delete_file~,on_tab_change~,on_open~,on_exit,on_state~,on_start
 
 [item4]
 section=commands
@@ -123,11 +123,6 @@ section=commands
 caption=&Project Manager\Set default session...
 method=session_def
 
-[item86]
-section=commands
-caption=&Project Manager\Forget session, close all tabs
-method=session_forget_ex
-
 [item91]
 section=commands
 caption=&Project Manager\Close tabs not belonging to project
@@ -164,6 +159,12 @@ caption=&Project Manager\Context menu\Save project as...
 method=contextmenu_save_proj_as
 menu=0
 
+[item104b]
+section=commands
+caption=&Project Manager\Context menu\Close project
+method=contextmenu_close_proj
+menu=0
+
 [item105]
 section=commands
 caption=&Project Manager\Context menu\Refresh
@@ -172,20 +173,20 @@ menu=0
 
 [item106]
 section=commands
-caption=&Project Manager\Context menu\Remove node
+caption=&Project Manager\Context menu\Stop tracking this Folder/File
 method=contextmenu_remove_node
 menu=0
 
 [item109]
 section=commands
-caption=&Project Manager\Context menu\Remove deleted nodes...
+caption=&Project Manager\Context menu\Clean up missing paths...
 method=contextmenu_remove_deleted_nodes
 menu=0
 
 [item107]
 section=commands
-caption=&Project Manager\Context menu\Clear project...
-method=contextmenu_clear_proj
+caption=&Project Manager\Context menu\Save project
+method=contextmenu_save_proj_inplace
 menu=0
 
 [item108]
