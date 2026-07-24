@@ -100,7 +100,8 @@ begin
       begin
         CloseFormAutoCompletion;
 
-        DoCloseAllTabs(false);
+        DoCloseAllTabs(true);
+        //AClosePinned=True here because plugins more often need to close _all_ tabs
 
         Frame:= CurrentFrame;
         if Assigned(Frame) then
