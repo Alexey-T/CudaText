@@ -44,20 +44,6 @@ begin
   MsgLogConsole(S);
 end;
 
-function ConvertStringToTabCaptionReason(const S: string; out Value: TAppTabCaptionReason): boolean;
-var
-  r: TAppTabCaptionReason;
-begin
-  for r:= Low(TAppTabCaptionReason) to High(TAppTabCaptionReason) do
-    if S=cAppTabCaptionReasonStr[r] then
-    begin
-      Value:= r;
-      exit(true);
-    end;
-  Value:= TAppTabCaptionReason.Unsaved;
-  Result:= false;
-end;
-
 procedure AppSessionName_Set(const S: string);
 begin
   if AppSessionName_<>S then
@@ -4243,12 +4229,12 @@ var
   An, AnOut: TecSyntAnalyzer;
   ValueBool: boolean;
   ValueInt: Int64;
-  ScrollInfo: TATEditorScrollInfo;
+  //ScrollInfo: TATEditorScrollInfo;
   TempGroup: TATGroups;
   TempPages, TempPagesTo: TATPages;
   NLocalGroup, NGlobalGroup, NTab, NIndexNew, N1, N2: integer;
   LineEnd: TATLineEnds;
-  CaptionReason: TAppTabCaptionReason;
+  NCaptionReason: TAppTabCaptionReason;
 begin
   with AppPython.Engine do
     if Bool(PyArg_ParseTuple(Args, 'Lis:set_prop', @H, @Id, @Ptr)) then
@@ -4466,8 +4452,8 @@ begin
         PROP_TAB_TITLE_REASON:
           begin
             if Assigned(Frame) then
-              if ConvertStringToTabCaptionReason(Str, CaptionReason) then
-                Frame.TabCaptionReason:= CaptionReason;
+              if ConvertStringToTabCaptionReason(Str, NCaptionReason) then
+                Frame.TabCaptionReason:= NCaptionReason;
           end;
 
         PROP_TAB_PINNED:

@@ -434,6 +434,7 @@ begin
       cfg.SetValue(sJsonPath+'/file', AppCollapseHomeDirInFilename(sTabFilename));
 
       cfg.SetValue(sJsonPath+'/tab_title', Frame.TabCaption);
+      cfg.SetValue(sJsonPath+'/tab_title_rsn', cAppTabCaptionReasonStr[Frame.TabCaptionReason]);
       cfg.SetValue(sJsonPath+'/group', nGlobalGroup+1); //support old sessions with 1-based index
       cfg.SetDeleteValue(sJsonPath+'/pinned', Frame.TabPinned, false);
       cfg.SetDeleteValue(sJsonPath+'/goto', Frame.GotoInput, '');
@@ -606,6 +607,7 @@ var
   nGroupIndex, nTabInGroup: integer;
   iList, iGroup, iFrame: integer;
   nLineEnds: TATLineEnds;
+  nCaptionReason: TAppTabCaptionReason;
 const
   SOptionPassive = '/passive /nonear';
   SOptionNoHistory = '/nohistory /nolexerdetect /noevent /noopenedevent /nononeevent';
@@ -801,7 +803,6 @@ begin
         begin
           Frame.SetFileName(Frame.Ed1, sTabFilename);
           Frame.TabCaption:= ExtractFileName(sTabFilename);
-          Frame.TabCaptionReason:= TAppTabCaptionReason.FromFilename;
         end;
         if sText<>'' then
         begin
@@ -822,12 +823,10 @@ begin
         if sTabTitle<>'' then
           Frame.TabCaption:= sTabTitle;
 
-        if sTabFilename<>'' then
-          Frame.TabCaptionReason:= TAppTabCaptionReason.FromFilename
-        else
-          Frame.TabCaptionReason:= TAppTabCaptionReason.UnsavedSpecial;
-          //2026.07: it was Unsaved, changed to UnsavedSpecial
-          //to avoid updating TabCaption, restored from session, during Frame.UpdateModified
+        if ConvertStringToTabCaptionReason(
+          cfg.GetValue(sItemPath+'tab_title_rsn', ''),
+          nCaptionReason) then
+          Frame.TabCaptionReason:= nCaptionReason;
 
         Frame.NotifEnabled:= sTabFilename<>'';
       end

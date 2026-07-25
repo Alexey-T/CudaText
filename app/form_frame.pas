@@ -79,13 +79,6 @@ type
     ImageViewer
     );
 
-  TAppTabCaptionReason = (
-    Unsaved,
-    UnsavedSpecial,
-    FromFilename,
-    FromPlugin
-    );
-
   TAppStatusbarUpdateReason = (
     Caret,
     Zoom,
@@ -99,14 +92,6 @@ type
     );
 
   TAppFrameStatusbarEvent = procedure(Sender: TObject; AReason: TAppStatusbarUpdateReason) of object;
-
-const
-  cAppTabCaptionReasonStr: array[TAppTabCaptionReason] of char = (
-    'u',
-    's',
-    'f',
-    'p'
-    );
 
 const
   cAppFrameKindStr: array[TAppFrameKind] of string = (
@@ -633,6 +618,7 @@ const
   cHistory_TabSplit    = '/split';
   cHistory_TabSplit_Mul = 1e5; //instead of float 0.6, save as int 0.6*1e5
   cHistory_TabCaption  = '/tab_title';
+  cHistory_TabCaptionReason = '/tab_title_rsn';
   cHistory_Margin      = '/margin';
 
 var
@@ -775,7 +761,6 @@ begin
   end;
 
   TabCaption:= SFinalCaption;
-  TabCaptionReason:= TAppTabCaptionReason.FromFilename;
   UpdateTabTooltip;
 end;
 
@@ -1389,6 +1374,8 @@ begin
   if SameFileName(FFileName, AValue) then Exit;
   FFileName:= AValue;
   FileProps[0].Init(FFileName);
+  if AValue<>'' then
+    TabCaptionReason:= TAppTabCaptionReason.FromFilename;
 end;
 
 procedure TEditorFrame.UpdateTabTooltip;
@@ -1426,6 +1413,8 @@ begin
   if SameFileName(FFileName2, AValue) then Exit;
   FFileName2:= AValue;
   FileProps[1].Init(FFileName2);
+  if AValue<>'' then
+    TabCaptionReason:= TAppTabCaptionReason.FromFilename;
 end;
 
 procedure TEditorFrame.SetFileWasBig(Ed: TATSynEdit; AValue: boolean);
@@ -3426,10 +3415,6 @@ begin
     TabExtModified[EdIndex]:= false;
     TabExtDeleted[EdIndex]:= false;
 
-    //if frame was 'Welcome' or 'RegEx matches', change it to normal
-    if TabCaptionReason=TAppTabCaptionReason.UnsavedSpecial then
-      TabCaptionReason:= TAppTabCaptionReason.FromFilename;
-
     //add to recents new filename
     if bNameChanged then
       if Assigned(FOnAddRecent) then
@@ -4154,10 +4139,8 @@ begin
       c.DeleteValue(path+cHistory_TabSplit);
   end;
 
-  if TabCaptionReason in [TAppTabCaptionReason.UnsavedSpecial, TAppTabCaptionReason.FromPlugin] then
-    c.SetValue(path+cHistory_TabCaption, TabCaption)
-  else
-    c.DeleteValue(path+cHistory_TabCaption);
+  c.SetValue(path+cHistory_TabCaption, TabCaption);
+  c.SetValue(path+cHistory_TabCaptionReason, cAppTabCaptionReasonStr[TabCaptionReason]);
 
   if UiOps.HistoryItems[TAppHistoryElement.Lexer] then
     c.SetDeleteValue(path+cHistory_Lexer, LexerName[Ed], '');
@@ -4354,6 +4337,7 @@ var
   nTop, i: integer;
   Sep: TATStringSeparator;
   NFlag: integer;
+  NCapReason: TAppTabCaptionReason;
 begin
   sFileName:= GetFileName(Ed);
 
@@ -4436,10 +4420,11 @@ begin
 
   str:= c.GetValue(path+cHistory_TabCaption, '');
   if str<>'' then
-  begin
     TabCaption:= str;
-    TabCaptionReason:= TAppTabCaptionReason.UnsavedSpecial;
-  end;
+
+  str:= c.GetValue(path+cHistory_TabCaptionReason, '');
+  if (str<>'') and ConvertStringToTabCaptionReason(str, NCapReason) then
+    TabCaptionReason:= NCapReason;
 
   if not (TATEditorModifiedOption.ReadOnlyIsDetected in Ed.ModifiedOptions) then
     ReadOnly[Ed]:= c.GetValue(path+cHistory_ReadOnly, ReadOnly[Ed]);

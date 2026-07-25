@@ -106,6 +106,13 @@ var
   AppLexersLastDetected: TStringList;
 
 type
+  TAppTabCaptionReason = (
+    Unsaved,
+    UnsavedSpecial,
+    FromFilename,
+    FromPlugin
+    );
+
   TAppNewTabNearCurrent = (
     Disabled,
     Enabled,
@@ -142,6 +149,14 @@ const
   cAppHistoryElementChar: array[TAppHistoryElement] of WideChar =
     ('t', 'c', 'h', 's', 'T', 'e', 'b', 'l', 'w', 'M', 'm', 'r', 'u', 'n',
      'S', 'f', 'k', 'C', 'F', 'i', 'I', 'U', 'L');
+
+const
+  cAppTabCaptionReasonStr: array[TAppTabCaptionReason] of char = (
+    'u',
+    's',
+    'f',
+    'p'
+    );
 
 const
   cAppSessionDefault = 'default'+cOptionSystemSuffix+'.cuda-session';
@@ -1250,6 +1265,8 @@ function Lexer_IsNameCorrect(AName: string): boolean;
 
 procedure AppOnLexerLoaded(Sender: TObject; ALexer: TecSyntAnalyzer);
 procedure AppLoadLexers;
+
+function ConvertStringToTabCaptionReason(const S: string; out Value: TAppTabCaptionReason): boolean;
 
 type
   { TAppManagerThread }
@@ -4245,6 +4262,20 @@ begin
   if UiOps.ThemedMainMenu then
     MenuStyler.ApplyToForm(AForm);
   {$endif}
+end;
+
+function ConvertStringToTabCaptionReason(const S: string; out Value: TAppTabCaptionReason): boolean;
+var
+  r: TAppTabCaptionReason;
+begin
+  for r:= Low(TAppTabCaptionReason) to High(TAppTabCaptionReason) do
+    if S=cAppTabCaptionReasonStr[r] then
+    begin
+      Value:= r;
+      exit(true);
+    end;
+  Value:= TAppTabCaptionReason.Unsaved;
+  Result:= false;
 end;
 
 
