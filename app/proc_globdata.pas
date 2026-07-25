@@ -151,14 +151,6 @@ const
      'S', 'f', 'k', 'C', 'F', 'i', 'I', 'U', 'L');
 
 const
-  cAppTabCaptionReasonStr: array[TAppTabCaptionReason] of char = (
-    'u',
-    's',
-    'f',
-    'p'
-    );
-
-const
   cAppSessionDefault = 'default'+cOptionSystemSuffix+'.cuda-session';
   cAppSessionNone = '-.cuda-session';
 
@@ -1267,6 +1259,7 @@ procedure AppOnLexerLoaded(Sender: TObject; ALexer: TecSyntAnalyzer);
 procedure AppLoadLexers;
 
 function ConvertStringToTabCaptionReason(const S: string; out Value: TAppTabCaptionReason): boolean;
+function ConvertTabCaptionReasonToString(Value: TAppTabCaptionReason): string;
 
 type
   { TAppManagerThread }
@@ -4264,6 +4257,14 @@ begin
   {$endif}
 end;
 
+const
+  cAppTabCaptionReasonStr: array[TAppTabCaptionReason] of char = (
+    'u',
+    's',
+    'f',
+    'p'
+    );
+
 function ConvertStringToTabCaptionReason(const S: string; out Value: TAppTabCaptionReason): boolean;
 var
   r: TAppTabCaptionReason;
@@ -4276,6 +4277,11 @@ begin
     end;
   Value:= TAppTabCaptionReason.Unsaved;
   Result:= false;
+end;
+
+function ConvertTabCaptionReasonToString(Value: TAppTabCaptionReason): string;
+begin
+  Result:= cAppTabCaptionReasonStr[Value];
 end;
 
 

@@ -3597,7 +3597,7 @@ begin
         PROP_TAB_TITLE_REASON:
           begin
             if Assigned(Frame) then
-              Result:= PyUnicodeFromString(cAppTabCaptionReasonStr[Frame.TabCaptionReason])
+              Result:= PyUnicodeFromString(ConvertTabCaptionReasonToString(Frame.TabCaptionReason))
             else
               Result:= ReturnNone;
           end;

@@ -4140,7 +4140,7 @@ begin
   end;
 
   c.SetValue(path+cHistory_TabCaption, TabCaption);
-  c.SetValue(path+cHistory_TabCaptionReason, cAppTabCaptionReasonStr[TabCaptionReason]);
+  c.SetValue(path+cHistory_TabCaptionReason, ConvertTabCaptionReasonToString(TabCaptionReason));
 
   if UiOps.HistoryItems[TAppHistoryElement.Lexer] then
     c.SetDeleteValue(path+cHistory_Lexer, LexerName[Ed], '');

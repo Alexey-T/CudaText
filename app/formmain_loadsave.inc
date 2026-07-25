@@ -434,7 +434,7 @@ begin
       cfg.SetValue(sJsonPath+'/file', AppCollapseHomeDirInFilename(sTabFilename));
 
       cfg.SetValue(sJsonPath+'/tab_title', Frame.TabCaption);
-      cfg.SetValue(sJsonPath+'/tab_title_rsn', cAppTabCaptionReasonStr[Frame.TabCaptionReason]);
+      cfg.SetValue(sJsonPath+'/tab_title_rsn', ConvertTabCaptionReasonToString(Frame.TabCaptionReason));
       cfg.SetValue(sJsonPath+'/group', nGlobalGroup+1); //support old sessions with 1-based index
       cfg.SetDeleteValue(sJsonPath+'/pinned', Frame.TabPinned, false);
       cfg.SetDeleteValue(sJsonPath+'/goto', Frame.GotoInput, '');
