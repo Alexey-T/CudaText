@@ -14,13 +14,13 @@ const
   cPyUniqueTag: Int64 = 120; //initial value returned by app_proc(PROC_GET_UNIQUE_TAG)
 
 var
-  PyEscapeFlag: boolean = false; //Esc key was pressed in application
-  PyEditorMaybeDeleted: boolean = false; //command plugin maybe deleted the editor, e.g. 'close file' command does it
-  PyCurrentProject: string = ''; //full path of active Project Manager project (*.cuda-proj)
-  PyCurrentProjectFolder: string = ''; //currently opened folder in Project Manager
+  PyEscapeFlag: boolean; //Esc key was pressed in application
+  PyEditorMaybeDeleted: boolean; //command plugin maybe deleted the editor, e.g. 'close file' command does it
+  PyCurrentProject: string; //full path of active Project Manager project (*.cuda-proj)
+  PyCurrentProjectFolder: string; //currently opened folder in Project Manager
 
 var
-  AppEmmet: TEmmet = nil;
+  AppEmmet: TEmmet;
 
 procedure MsgLogConsoleOnDuplicateTreeNode(ANode: TTreeNode; const AFileName: string);
 var

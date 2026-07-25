@@ -4118,7 +4118,7 @@ type
   end;
 
 var
-  AppUniqInstDummy: TAppUniqInstDummy = nil;
+  AppUniqInstDummy: TAppUniqInstDummy;
 
 function IsAnotherInstanceRunning: boolean;
 var
