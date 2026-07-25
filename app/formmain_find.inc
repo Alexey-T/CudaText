@@ -711,13 +711,7 @@ begin
 
     Frame:= CurrentFrame;
     if Assigned(Frame) then
-    begin
-      EditorClearHiAllMarkers(Frame.Ed1);
-      if Frame.Splitted then
-        EditorClearHiAllMarkers(Frame.Ed2);
-
       Frame.SetFocus;
-    end;
 
     fmFind.Hide;
     UpdateAppForSearch(false, false, true, true, false);

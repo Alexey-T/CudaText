@@ -267,6 +267,8 @@ type
     procedure UpdateButtonBold;
     procedure UpdateRegexHighlight;
     function CurrentCaption: string;
+  protected
+    procedure VisibleChanged; override;
   public
     { public declarations }
     FPopupMore: TPopupMenu;
@@ -1000,13 +1002,24 @@ begin
   UpdateButtonBold;
 end;
 
-procedure TfmFind.FormClose(Sender: TObject; var CloseAction: TCloseAction);
+procedure TfmFind.VisibleChanged;
+//VisibleChanged is the main way to detect form hiding by all ways:
+//  Close, Hide, Visible:=False
 var
   Ed: TATSynEdit;
 begin
+  inherited;
+  if not Visible and Assigned(OnGetMainEditor) then
+  begin
+    //form hides
+    OnGetMainEditor(Ed);
+    EditorClearHiAllMarkers(Ed);
+  end;
+end;
+
+procedure TfmFind.FormClose(Sender: TObject; var CloseAction: TCloseAction);
+begin
   CloseAction:= caHide;
-  OnGetMainEditor(Ed);
-  EditorClearHiAllMarkers(Ed);
 end;
 
 
