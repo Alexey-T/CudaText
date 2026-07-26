@@ -2864,7 +2864,6 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 ** "p": Title was set by plugin API.
 * PROP_TAB_PINNED: bool: ui-tab is "pinned" (shows additional confirmation on closing).
 * PROP_TAB_UI_SHOW: bool: ui-tab header is visible on the tabs-bar.
-* PROP_TAB_ID: int: integer value attached to ui-tab. See details in the get_prop() description.
 * PROP_INDENT_SIZE: int: size of indent for Indent/Unindent commands. N>0: indent in spaces, N<0: indent in tabs, N=0: indent from PROP_TAB_SIZE/PROP_TAB_SPACES.
 * PROP_INDENT_KEEP_ALIGN: bool: command Unindent keeps alignment of block edge, ie don't unindent if any line reached column 0.
 * PROP_INDENT_AUTO: bool: makes next line also indented on Enter command.
@@ -5386,7 +5385,6 @@ It provides:
 1.0.483 (app 1.235.2)
 * add: on_state: APPSTATE_SESSION_SET
 * add: dlg_proc: controls "memo"/"edit"/"edit_pwd"/"spinedit"/"combo" support new event "on_key_press"
-* add: Editor.get_prop: PROP_TAB_ID is now more unique, and it is persistent (saved/restored to/from session)
-* add: Editor.set_prop: PROP_TAB_ID is now writable
+* add: Editor.get_prop: PROP_TAB_ID is now more unique, and it is persistent (it is saved/restored to session)
 
 [[Category:CudaText]]

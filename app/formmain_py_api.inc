@@ -4465,12 +4465,6 @@ begin
               Frame.TabPinned:= ValueBool;
           end;
 
-        PROP_TAB_ID:
-          begin
-            if Assigned(Frame) then
-              Frame.UniqueCounter:= ValueInt;
-          end;
-
         PROP_TAB_UI_SHOW:
           begin
             if Assigned(Frame) then
