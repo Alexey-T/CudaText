@@ -1414,6 +1414,7 @@ Session file contains data:
 * List of named documents (file names), and unnamed documents
 * For each document:
 ** kind of the document: text editor / picture viewer / text viewer (and viewer mode: text/binary/hex/unicode)
+** 'document is modified' flag
 ** text of the document, if document is modified
 ** undo/redo data, if document is modified
 ** read-only state
@@ -1429,11 +1430,9 @@ Session file contains data:
 ** gutter columns: "line numbers" visible state
 ** gutter columns: "line states" visible state
 ** gutter columns: "folding" visible state + list of currently folded blocks
-** scale factor
-** list of folded ranges (if lexer supports folding)
+** scale factor, ie zoom
 ** color of ui-tab (if not default)
-** tab title (if not default)
-** modified state
+** title of ui-tab
 ** code-tree filter string and history of last filters
 ** splitting to 2 editors: on/off, vertical/horizontal, percents of size
 ** column of vertical "margin" line, if it's not default
