@@ -899,7 +899,15 @@ begin
     end;
 
   if edFind.IsEmpty then
+  begin
     UpdateInputReddishIndicator(true);
+    //user asked to remove Hi-All marks when input becomes empty
+    if Assigned(OnGetMainEditor) then
+    begin
+      OnGetMainEditor(Ed);
+      EditorClearHiAllMarkers(Ed);
+    end;
+  end;
 
   UpdateRegexHighlight;
 
