@@ -5,8 +5,6 @@ object EditorFrame: TEditorFrame
   Width = 594
   LCLVersion = '4.99.0.0'
   TabOrder = 0
-  DesignLeft = 59
-  DesignTop = 27
   object TimerChange: TTimer
     Enabled = False
     OnTimer = TimerChangeTimer

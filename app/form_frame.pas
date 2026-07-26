@@ -379,6 +379,7 @@ type
     Groups: TATGroups;
     MacroStrings: TStringList;
     VersionInSession: Int64;
+    UniqueCounter: Int64;
     FileProps: array[0..1] of TAppFileProps;
     InitialOptions: array[0..1] of TEditorTempOptions;
     IsCaretInViewBeforeToggle: boolean;
@@ -568,6 +569,7 @@ uses
   Math,
   IniFiles,
   StrUtils,
+  DateUtils,
   Clipbrd,
   EncConv,
   ATSynEdit_Globals,
@@ -585,6 +587,10 @@ uses
   form_lexer_stylemap;
 
 {$R *.lfm}
+
+var
+  GSessionRandom: Word;
+  GTabCounter: Word = 0;
 
 const
   cSplitHorzToAlign: array[boolean] of TAlign = (alRight, alBottom);
@@ -2485,6 +2491,10 @@ begin
 
   Ed1.IsIniting:= false;
   Ed2.IsIniting:= false;
+
+  Inc(GTabCounter);
+  //pack time, random, and counter into one Int64
+  UniqueCounter:= (DateTimeToUnix(Now) shl 32) or (Int64(GSessionRandom) shl 16) or GTabCounter;
 end;
 
 destructor TEditorFrame.Destroy;
@@ -5531,5 +5541,10 @@ begin
     Result:= msgModifiedString[Modified]+TabCaption;
   end;
 end;
+
+initialization
+
+  Randomize;
+  GSessionRandom:= Random($FFFF); //16-bit random session offset
 
 end.
