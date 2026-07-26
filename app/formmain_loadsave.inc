@@ -435,6 +435,7 @@ begin
 
       cfg.SetValue(sJsonPath+'/tab_title', Frame.TabCaption);
       cfg.SetValue(sJsonPath+'/tab_title_rsn', ConvertTabCaptionReasonToString(Frame.TabCaptionReason));
+      cfg.SetValue(sJsonPath+'/tab_u_id', Frame.UniqueCounter);
       cfg.SetValue(sJsonPath+'/group', nGlobalGroup+1); //support old sessions with 1-based index
       cfg.SetDeleteValue(sJsonPath+'/pinned', Frame.TabPinned, false);
       cfg.SetDeleteValue(sJsonPath+'/goto', Frame.GotoInput, '');
@@ -827,6 +828,8 @@ begin
           cfg.GetValue(sItemPath+'tab_title_rsn', ''),
           nCaptionReason) then
           Frame.TabCaptionReason:= nCaptionReason;
+
+        Frame.UniqueCounter:= cfg.GetValue(sItemPath+'tab_u_id', Frame.UniqueCounter);
 
         Frame.NotifEnabled:= sTabFilename<>'';
       end
