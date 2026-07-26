@@ -1415,7 +1415,6 @@ Session file contains data:
 * For each document:
 ** kind of the document: text editor / picture viewer / text viewer (and viewer mode: text/binary/hex/unicode)
 ** 'document is modified' flag
-** text of the document, if document is modified
 ** undo/redo data, if document is modified
 ** read-only state
 ** kind of line-endings: LF/CRLF/CR
@@ -1445,6 +1444,7 @@ Session file contains data:
 ** Layout/sizes of side panel and bottom panel
 ** Grouping mode and sizes of all groups
 ** Index of active group (if more than 1 group is shown) and active ui-tab in each group
+** If ui-tab is splitted for 2 independent files (e.g. via command "Options > Settings - default/user"): properties of the paired editor-control
 
 Plugin "Session Manager" is present in Addons Manager, it gives commands to control sessions:
 open session file, save session, show list of recent sessions, etc.
