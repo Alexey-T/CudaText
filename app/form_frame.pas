@@ -619,8 +619,6 @@ const
   cHistory_CodeTreeFilters = '/codetree_filters';
   cHistory_TabSplit    = '/split';
   cHistory_TabSplit_Mul = 1e5; //instead of float 0.6, save as int 0.6*1e5
-  cHistory_TabCaption  = '/tab_title';
-  cHistory_TabCaptionReason = '/tab_title_rsn';
   cHistory_Margin      = '/margin';
 
 var
@@ -4143,9 +4141,6 @@ begin
       c.DeleteValue(path+cHistory_TabSplit);
   end;
 
-  c.SetValue(path+cHistory_TabCaption, TabCaption);
-  c.SetValue(path+cHistory_TabCaptionReason, ConvertTabCaptionReasonToString(TabCaptionReason));
-
   if UiOps.HistoryItems[TAppHistoryElement.Lexer] then
     c.SetDeleteValue(path+cHistory_Lexer, LexerName[Ed], '');
 
@@ -4341,7 +4336,6 @@ var
   nTop, i: integer;
   Sep: TATStringSeparator;
   NFlag: integer;
-  NCapReason: TAppTabCaptionReason;
 begin
   sFileName:= GetFileName(Ed);
 
@@ -4421,14 +4415,6 @@ begin
   end;
 
   TabColor:= StringToColorDef(c.GetValue(path+cHistory_TabColor, ''), clNone);
-
-  str:= c.GetValue(path+cHistory_TabCaption, '');
-  if str<>'' then
-    TabCaption:= str;
-
-  str:= c.GetValue(path+cHistory_TabCaptionReason, '');
-  if (str<>'') and ConvertStringToTabCaptionReason(str, NCapReason) then
-    TabCaptionReason:= NCapReason;
 
   if not (TATEditorModifiedOption.ReadOnlyIsDetected in Ed.ModifiedOptions) then
     ReadOnly[Ed]:= c.GetValue(path+cHistory_ReadOnly, ReadOnly[Ed]);
