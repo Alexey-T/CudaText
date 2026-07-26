@@ -435,8 +435,8 @@ begin
 
       cfg.SetValue(sJsonPath+'/tab_title', Frame.TabCaption);
       cfg.SetValue(sJsonPath+'/tab_title_rsn', ConvertTabCaptionReasonToString(Frame.TabCaptionReason));
-      cfg.SetValue(sJsonPath+'/tab_u_id', Frame.UniqueCounter);
       cfg.SetValue(sJsonPath+'/group', nGlobalGroup+1); //support old sessions with 1-based index
+      cfg.SetValue(sJsonPath+'/u_id', Frame.UniqueCounter);
       cfg.SetDeleteValue(sJsonPath+'/pinned', Frame.TabPinned, false);
       cfg.SetDeleteValue(sJsonPath+'/goto', Frame.GotoInput, '');
 
@@ -829,8 +829,6 @@ begin
           nCaptionReason) then
           Frame.TabCaptionReason:= nCaptionReason;
 
-        Frame.UniqueCounter:= cfg.GetValue(sItemPath+'tab_u_id', Frame.UniqueCounter);
-
         Frame.NotifEnabled:= sTabFilename<>'';
       end
       else
@@ -894,6 +892,7 @@ begin
 
         Frame.GotoInput:= cfg.GetValue(sItemPath+'goto', '');
         Frame.TabPinned:= cfg.GetValue(sItemPath+'pinned', false);
+        Frame.UniqueCounter:= cfg.GetValue(sItemPath+'u_id', Frame.UniqueCounter);
 
         //event on_open was blocked in DoFileOpen, call it here
         //(plugin "Tab Icons" needs it)
