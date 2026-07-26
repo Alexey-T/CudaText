@@ -440,6 +440,14 @@ begin
       cfg.SetDeleteValue(sJsonPath+'/pinned', Frame.TabPinned, false);
       cfg.SetDeleteValue(sJsonPath+'/goto', Frame.GotoInput, '');
 
+      if UiOps.HistoryItems[TAppHistoryElement.TabColor] then
+      begin
+        if Frame.TabColor=clNone then
+          cfg.DeleteValue(sJsonPath+'/color')
+        else
+          cfg.SetValue(sJsonPath+'/color', ColorToString(Frame.TabColor));
+      end;
+
       case Frame.FrameKind of
         TAppFrameKind.Editor:
           sTabKind:= '';
@@ -892,6 +900,7 @@ begin
 
         Frame.GotoInput:= cfg.GetValue(sItemPath+'goto', '');
         Frame.TabPinned:= cfg.GetValue(sItemPath+'pinned', false);
+        Frame.TabColor:= StringToColorDef(cfg.GetValue(sItemPath+'color', ''), clNone);
         Frame.UniqueCounter:= cfg.GetValue(sItemPath+'u_id', Frame.UniqueCounter);
 
         //event on_open was blocked in DoFileOpen, call it here

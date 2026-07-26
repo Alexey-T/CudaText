@@ -606,7 +606,6 @@ const
   cHistory_Unpri_Detail = '/unprinted_end_details';
   cHistory_Unpri_Wraps  = '/unprinted_wraps';
   cHistory_Caret       = '/crt';
-  cHistory_TabColor    = '/color';
   cHistory_FoldingShow  = '/fold';
   cHistory_FoldedRanges = '/folded';
   cHistory_CodeTreeFilter = '/codetree_filter';
@@ -4188,14 +4187,6 @@ begin
     c.SetDeleteValue(path+cHistory_FoldedRanges, Ed.FoldingAsString, '');
   end;
 
-  if UiOps.HistoryItems[TAppHistoryElement.TabColor] then
-  begin
-    if TabColor=clNone then
-      c.DeleteValue(path+cHistory_TabColor)
-    else
-      c.SetValue(path+cHistory_TabColor, ColorToString(TabColor));
-  end;
-
   if UiOps.HistoryItems[TAppHistoryElement.Caret] then
     DoSaveHistory_Caret(Ed, c, path);
 
@@ -4402,8 +4393,6 @@ begin
         end;
     end;
   end;
-
-  TabColor:= StringToColorDef(c.GetValue(path+cHistory_TabColor, ''), clNone);
 
   if not (TATEditorModifiedOption.ReadOnlyIsDetected in Ed.ModifiedOptions) then
     ReadOnly[Ed]:= c.GetValue(path+cHistory_ReadOnly, ReadOnly[Ed]);
