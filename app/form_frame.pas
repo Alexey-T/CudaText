@@ -184,8 +184,6 @@ type
     FTabColor: TColor;
     FTabFontColor: TColor;
     FTabPinned: boolean;
-    FTabSizeChanged: boolean;
-    FTabSpacesChanged: boolean;
     FTabKeyCollectMarkers: boolean;
     FIsLoadedFromSession: boolean;
     FMacroRecord: boolean;
@@ -445,8 +443,6 @@ type
     property TabPinned: boolean read FTabPinned write SetTabPinned;
     property TabExtModified[EdIndex: integer]: boolean read GetTabExtModified write SetTabExtModified;
     property TabExtDeleted[EdIndex: integer]: boolean read GetTabExtDeleted write SetTabExtDeleted;
-    property TabSizeChanged: boolean read FTabSizeChanged write FTabSizeChanged;
-    property TabSpacesChanged: boolean read FTabSpacesChanged write FTabSpacesChanged;
     property TabKeyCollectMarkers: boolean read GetTabKeyCollectMarkers write FTabKeyCollectMarkers;
     property TextCharsTyped: integer read FTextCharsTyped write FTextCharsTyped;
     property TextChangeSlow[EdIndex: integer]: boolean read GetTextChangeSlow write SetTextChangeSlow;
@@ -2460,8 +2456,8 @@ begin
   Adapter1.AddEditor(Ed2);
 
   //load options
-  EditorApplyOps(Ed1, EditorOps, true, true, AApplyCentering);
-  EditorApplyOps(Ed2, EditorOps, true, true, AApplyCentering);
+  EditorApplyOps(Ed1, EditorOps, true, AApplyCentering);
+  EditorApplyOps(Ed2, EditorOps, true, AApplyCentering);
   EditorApplyTheme(Ed1);
   EditorApplyTheme(Ed2);
 
@@ -4172,7 +4168,7 @@ begin
   if UiOps.HistoryItems[TAppHistoryElement.TabSize] then
   begin
     c.SetValue(path+cHistory_TabSize, Ed.OptTabSize);
-    c.SetValue(path+cHistory_TabSpace, Ed.OptTabSpaces);
+    c.SetValue(path+cHistory_TabSpace, Ord(Ed.OptTabSpaces));
   end;
 
   if UiOps.HistoryItems[TAppHistoryElement.Unprinted] then
@@ -4451,8 +4447,19 @@ begin
     Include(Ed.ModifiedOptions, TATEditorModifiedOption.RulerVisible);
   end;
 
-  Ed.OptTabSize:= c.GetValue(path+cHistory_TabSize, Ed.OptTabSize);
-  Ed.OptTabSpaces:= c.GetValue(path+cHistory_TabSpace, Ed.OptTabSpaces);
+  NFlag:= c.GetValue(path+cHistory_TabSize, -1);
+  if NFlag>=0 then
+  begin
+    Ed.OptTabSize:= NFlag;
+    Include(Ed.ModifiedOptions, TATEditorModifiedOption.TabSize);
+  end;
+
+  NFlag:= c.GetValue(path+cHistory_TabSpace, -1);
+  if NFlag>=0 then
+  begin
+    Ed.OptTabSpaces:= NFlag=1;
+    Include(Ed.ModifiedOptions, TATEditorModifiedOption.TabSpaces);
+  end;
 
   NFlag:= c.GetValue(path+cHistory_Unpri, -1);
   if NFlag>=0 then

@@ -34,7 +34,7 @@ procedure EditorStringToBookmarks(Ed: TATSynEdit; const AValue: string);
 procedure EditorClear(Ed: TATSynEdit);
 function EditorGetCurrentChar(Ed: TATSynEdit): Widechar;
 procedure EditorApplyOps(Ed: TATSynEdit; const Op: TEditorOps;
-  AApplyUnprintedAndWrap, AApplyTabSize, AApplyCentering: boolean);
+  AApplyUnprintedAndWrap, AApplyCentering: boolean);
 procedure EditorApplyOpsCommon(Ed: TATSynEdit);
 
 function EditorGetLinkAtScreenCoord(Ed: TATSynEdit; P: TPoint): UnicodeString;
@@ -231,7 +231,7 @@ const
   EditorQuoteChars: UnicodeString = '"''`“‘';
 
 procedure EditorApplyOps(Ed: TATSynEdit; const Op: TEditorOps;
-  AApplyUnprintedAndWrap, AApplyTabSize, AApplyCentering: boolean);
+  AApplyUnprintedAndWrap, AApplyCentering: boolean);
 var
   Sep: TATStringSeparator;
   MouseActions: TATEditorMouseActions;
@@ -255,11 +255,10 @@ begin
   Ed.OptSpacingTop:= Op.OpSpacingTop;
   Ed.OptSpacingBottom:= Op.OpSpacingBottom;
 
-  if AApplyTabSize then
-  begin
+  if not (TATEditorModifiedOption.TabSize in Ed.ModifiedOptions) then
     Ed.OptTabSize:= Op.OpTabSize;
+  if not (TATEditorModifiedOption.TabSpaces in Ed.ModifiedOptions) then
     Ed.OptTabSpaces:= Op.OpTabSpaces;
-  end;
   Ed.OptTabSmart:= Op.OpTabSmart;
 
   Ed.OptBorderFocusedActive:= Op.OpActiveBorderInEditor;
@@ -2049,9 +2048,9 @@ procedure EditorRestoreTempOptions(Ed: TATSynEdit; const ANew, AOld: TEditorTemp
 begin
   if AOld.FontSize<>ANew.FontSize then
     Ed.Font.Size:= ANew.FontSize;
-  if AOld.TabSize<>ANew.TabSize then
+  if (AOld.TabSize<>ANew.TabSize) and (TATEditorModifiedOption.TabSize in Ed.ModifiedOptions) then
     Ed.OptTabSize:= ANew.TabSize;
-  if AOld.TabSpaces<>ANew.TabSpaces then
+  if (AOld.TabSpaces<>ANew.TabSpaces) and (TATEditorModifiedOption.TabSpaces in Ed.ModifiedOptions) then
     Ed.OptTabSpaces:= ANew.TabSpaces;
   if (AOld.WrapMode<>ANew.WrapMode) and (TATEditorModifiedOption.WordWrap in Ed.ModifiedOptions) then
     Ed.OptWrapMode:= ANew.WrapMode;

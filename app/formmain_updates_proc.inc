@@ -783,8 +783,8 @@ end;
 procedure TfmMain.DoApplyFrameOps(F: TEditorFrame; const Op: TEditorOps; AForceApply: boolean);
 begin
   if F=nil then exit;
-  EditorApplyOps(F.Ed1, Op, AForceApply, not F.TabSizeChanged, GroupsMain.Mode=gmOne);
-  EditorApplyOps(F.Ed2, Op, AForceApply, not F.TabSizeChanged, GroupsMain.Mode=gmOne);
+  EditorApplyOps(F.Ed1, Op, AForceApply, GroupsMain.Mode=gmOne);
+  EditorApplyOps(F.Ed2, Op, AForceApply, GroupsMain.Mode=gmOne);
 
   F.Adapter[F.Ed1].DynamicHiliteEnabled:= Op.OpLexerDynamicHiliteMaxLines>0;
   F.Adapter[F.Ed1].DynamicHiliteMaxLines:= Op.OpLexerDynamicHiliteMaxLines;
@@ -1145,16 +1145,26 @@ begin
 
   case AValue of
     -1:
-      Ed.OptTabSpaces:= true;
+      begin
+        Ed.OptTabSpaces:= true;
+        Include(Ed.ModifiedOptions, TATEditorModifiedOption.TabSpaces);
+      end;
     -2:
-      Ed.OptTabSpaces:= false;
+      begin
+        Ed.OptTabSpaces:= false;
+        Include(Ed.ModifiedOptions, TATEditorModifiedOption.TabSpaces);
+      end;
     -3:
-      Ed.OptTabSpaces:= not Ed.OptTabSpaces;
+      begin
+        Ed.OptTabSpaces:= not Ed.OptTabSpaces;
+        Include(Ed.ModifiedOptions, TATEditorModifiedOption.TabSpaces);
+      end;
     1..100:
-      Ed.OptTabSize:= AValue;
+      begin
+        Ed.OptTabSize:= AValue;
+        Include(Ed.ModifiedOptions, TATEditorModifiedOption.TabSize);
+      end;
   end;
-
-  F.TabSizeChanged:= true;
 
   UpdateFrameEx(F, false);
   UpdateStatusbar;

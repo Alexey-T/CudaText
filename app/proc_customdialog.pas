@@ -697,7 +697,7 @@ begin
 end;
 
 procedure DoControl_ApplyEditorProps(Ed: TATSynEdit; AForm: TFormDummy;
-  AApplyUnprintedAndWrap, AApplyTabSize, AApplyCentering: boolean);
+  AApplyUnprintedAndWrap, AApplyCentering: boolean);
 begin
   Ed.Keymap:= AppKeymapMain;
 
@@ -727,7 +727,7 @@ begin
   EditorApplyTheme(Ed);
 
   if not Ed.ModeOneLine then
-    EditorApplyOps(Ed, EditorOps, AApplyUnprintedAndWrap, AApplyTabSize, AApplyCentering)
+    EditorApplyOps(Ed, EditorOps, AApplyUnprintedAndWrap, AApplyCentering)
   else
   begin
     Ed.OptCaretBlinkTime:= EditorOps.OpCaretBlinkTime;
@@ -831,7 +831,7 @@ begin
   if S='editor' then
   begin
     Ctl:= TATSynEdit.Create(AForm);
-    DoControl_ApplyEditorProps(TATSynEdit(Ctl), AForm, true, true, false);
+    DoControl_ApplyEditorProps(TATSynEdit(Ctl), AForm, true, false);
 
     //URL clicking don't work in API-created editors
     TATSynEdit(Ctl).OptShowURLs:= false;
@@ -853,14 +853,14 @@ begin
   if S='editor_edit' then
   begin
     Ctl:= TATEdit.Create(AForm);
-    DoControl_ApplyEditorProps(TATSynEdit(Ctl), AForm, false, false, false);
+    DoControl_ApplyEditorProps(TATSynEdit(Ctl), AForm, false, false);
     exit;
   end;
 
   if S='editor_combo' then
   begin
     Ctl:= TATComboEdit.Create(AForm);
-    DoControl_ApplyEditorProps(TATSynEdit(Ctl), AForm, false, false, false);
+    DoControl_ApplyEditorProps(TATSynEdit(Ctl), AForm, false, false);
     exit;
   end;
 

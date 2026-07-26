@@ -1966,29 +1966,15 @@ procedure TfmMain.DoOps_LoadOptionsLexerSpecific(F: TEditorFrame; Ed: TATSynEdit
   procedure ApplyOps(const Ops: TEditorOps);
   var
     EdIndex: integer;
-    PrevTabSize: integer;
-    PrevTabSizeChanged: boolean;
-    PrevTabSpaces: boolean;
-    PrevTabSpacesChanged: boolean;
     TempOps: TEditorTempOptions;
   begin
     EdIndex:= F.EditorObjToIndex(Ed);
     if EdIndex<0 then exit;
 
-    PrevTabSize:= Ed.OptTabSize;
-    PrevTabSizeChanged:= F.TabSizeChanged;
-    PrevTabSpaces:= Ed.OptTabSpaces;
-    PrevTabSpacesChanged:= F.TabSpacesChanged;
-
     EditorSaveTempOptions(Ed, TempOps);
     TempOps.FontSize:= Ops.OpFontSize; //support overriding "font_size" in lexer-specific config
     DoApplyFrameOps(F, Ops, true);
     EditorRestoreTempOptions(Ed, TempOps, F.InitialOptions[EdIndex]);
-
-    if PrevTabSizeChanged then
-      Ed.OptTabSize:= PrevTabSize;
-    if PrevTabSpacesChanged then
-      Ed.OptTabSpaces:= PrevTabSpaces;
   end;
   //
 var

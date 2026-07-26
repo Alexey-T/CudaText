@@ -4302,16 +4302,14 @@ begin
         PROP_TAB_SPACES:
           begin
             Ed.OptTabSpaces:= ValueBool;
-            if Assigned(Frame) then
-              Frame.TabSpacesChanged:= true;
+            Include(Ed.ModifiedOptions, TATEditorModifiedOption.TabSpaces);
           end;
 
         PROP_TAB_SIZE:
           begin
             Ed.OptTabSize:= ValueInt;
-            if Assigned(Frame) then
-              Frame.TabSizeChanged:= true;
-          end;
+            Include(Ed.ModifiedOptions, TATEditorModifiedOption.TabSize);
+         end;
 
         PROP_TAB_SMART:
           begin
