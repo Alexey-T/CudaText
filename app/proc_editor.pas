@@ -341,7 +341,8 @@ begin
     Ed.OptMicromapSelections:= Op.OpMicromapSelections;
     Ed.OptMicromapBookmarks:= Op.OpMicromapBookmarks;
 
-    Ed.OptMarginRight:= Op.OpMarginFixed;
+    if not (TATEditorModifiedOption.Margin in Ed.ModifiedOptions) then
+      Ed.OptMarginRight:= Op.OpMarginFixed;
     Ed.OptMarginString:= Op.OpMarginString;
 
     Ed.OptShowURLs:= Op.OpLinks;

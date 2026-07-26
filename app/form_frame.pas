@@ -4512,7 +4512,10 @@ begin
 
   NFlag:= c.GetValue(path+cHistory_Margin, -1);
   if NFlag>=10 then
+  begin
     Ed.OptMarginRight:= NFlag;
+    Include(Ed.ModifiedOptions, TATEditorModifiedOption.Margin);
+  end;
 
   Ed.OptScaleFont:= c.GetValue(path+cHistory_FontScale, 0);
 
