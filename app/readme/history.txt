@@ -6,6 +6,7 @@
 1.235.2 (2026/07)
 
 + add: few APIs for future plugins (ideas by @badrelmers, @ildarkhasanshin)
+* change/add: when findbar input becomes empty, 'Hi' marks are removed (idea by @CortexReaver)
 - fix: when findbar is closed by sidebar click, 'Hi' marks were not removed (thanks @CortexReaver)
 
 1.235.1 (2026/07)
