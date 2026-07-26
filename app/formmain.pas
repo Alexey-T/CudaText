@@ -3763,6 +3763,7 @@ begin
       begin
         EditorClearHiAllMarkers(Ed);
         fmFind.Hide;
+        fmFind.HandleFormHiding;
       end
       else
         Ed.SetFocus;

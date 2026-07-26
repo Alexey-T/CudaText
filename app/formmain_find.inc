@@ -346,7 +346,7 @@ begin
     if IsFocusedFind then
       Frame.SetFocus;
     fmFind.Hide;
-    EditorClearHiAllMarkers(Frame.Editor);
+    fmFind.HandleFormHiding;
     UpdateAppForSearch(false, false, bFindMode, AEnableUpdateAll, bFocusFindDlg);
     Exit;
   end;
@@ -465,6 +465,8 @@ begin
     if NCounter>0 then
     begin
       fmFind.Hide;
+      fmFind.HandleFormHiding;
+
       Frame:= CurrentFrame;
       if Assigned(Frame) then
       begin
@@ -714,6 +716,8 @@ begin
       Frame.SetFocus;
 
     fmFind.Hide;
+    fmFind.HandleFormHiding;
+
     UpdateAppForSearch(false, false, true, true, false);
   end;
 end;
@@ -735,7 +739,10 @@ begin
       fmFind.IsReplace:= AReplaceMode;
     end
     else
+    begin
       fmFind.Hide;
+      fmFind.HandleFormHiding;
+    end;
   end
   else
   begin
