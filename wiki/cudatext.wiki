@@ -1438,6 +1438,7 @@ Session file contains data:
 ** splitting to 2 editors: on/off, vertical/horizontal, percents of size
 ** column of vertical "margin" line, if it's not default
 ** "pinned" state of the ui-tab
+** "unique" 64-bit integer id of the ui-tab, which is inited on ui-tab creation
 * For each modified document: date of modification, full document text
 * Last input of "Go to" dialog for each ui-tab
 * Layout:
