@@ -4138,6 +4138,14 @@ begin
         PROP_BORDER_COLOR_WIDTH:
           Result:= PyLong_FromLong(Ed.OptBorderWidthWithColor);
 
+        PROP_UNIQUE_COUNTER:
+          begin
+            if Assigned(Frame) then
+              Result:= PyLong_FromLongLong(Frame.UniqueCounter)
+            else
+              Result:= PyLong_FromLong(0);
+          end;
+
         PROP_V_MODE:
           begin
             if Assigned(Frame) and (Frame.FrameKind=TAppFrameKind.BinaryViewer) then
