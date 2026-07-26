@@ -4440,11 +4440,16 @@ begin
                 if Frame.TabCaptionReason=TAppTabCaptionReason.FromPlugin then
                 begin
                   if Frame.FileName<>'' then
-                    Frame.TabCaptionReason:= TAppTabCaptionReason.FromFilename
+                  begin
+                    Frame.TabCaptionReason:= TAppTabCaptionReason.FromFilename;
+                    Frame.UpdateCaptionFromFilename;
+                  end
                   else
+                  begin
+                    Frame.TabCaption:= fmMain.GetUntitledNumberedCaption;
                     Frame.TabCaptionReason:= TAppTabCaptionReason.Unsaved;
+                  end;
                 end;
-                Frame.UpdateCaptionFromFilename;
               end;
             end;
           end;
