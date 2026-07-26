@@ -143,7 +143,6 @@ type
     FTabCaptionUntitled: string;
     FTabCaptionReason: TAppTabCaptionReason;
     FTabImageIndex: integer;
-    FTabId: integer;
     FFileName: string;
     FFileName2: string;
     FFileWasBig: array[0..1] of boolean;
@@ -401,7 +400,6 @@ type
     property TabCaptionReason: TAppTabCaptionReason read FTabCaptionReason write FTabCaptionReason;
     function TabCaptionConsideringPairAndFullpath: string;
     property TabImageIndex: integer read FTabImageIndex write SetTabImageIndex;
-    property TabId: integer read FTabId;
     property TabIsPreview: boolean read GetIsPreview write SetIsPreview;
     property TabVisible: boolean read GetTabVisible write SetTabVisible;
     procedure UpdateCaptionFromFilename;
@@ -616,9 +614,6 @@ const
   cHistory_TabSplit    = '/split';
   cHistory_TabSplit_Mul = 1e5; //instead of float 0.6, save as int 0.6*1e5
   cHistory_Margin      = '/margin';
-
-var
-  FLastTabId: integer = 0;
 
 function GetMsgSuggestOptionsEditor: string;
 begin
@@ -2407,8 +2402,6 @@ begin
   FActiveSecondaryEd:= false;
   FTabColor:= clNone;
   FTabFontColor:= clNone;
-  Inc(FLastTabId);
-  FTabId:= FLastTabId;
   FTabImageIndex:= -1;
   FIsLoadedFromSession:= false;
   FEnabledCodeTree[0]:= true;

@@ -3613,9 +3613,9 @@ begin
         PROP_TAB_ID:
           begin
             if Assigned(Frame) then
-              Result:= PyLong_FromLong(Frame.TabId)
+              Result:= PyLong_FromLongLong(Frame.UniqueCounter)
             else
-              Result:= ReturnNone;
+              Result:= PyLong_FromLong(0);
           end;
 
         PROP_TAB_UI_SHOW:
@@ -4137,14 +4137,6 @@ begin
 
         PROP_BORDER_COLOR_WIDTH:
           Result:= PyLong_FromLong(Ed.OptBorderWidthWithColor);
-
-        PROP_TAB_UNIQUE_COUNTER:
-          begin
-            if Assigned(Frame) then
-              Result:= PyLong_FromLongLong(Frame.UniqueCounter)
-            else
-              Result:= PyLong_FromLong(0);
-          end;
 
         PROP_V_MODE:
           begin
