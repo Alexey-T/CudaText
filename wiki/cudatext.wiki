@@ -1418,6 +1418,7 @@ Session file contains data:
 ** text of the document, if document is modified
 ** undo/redo data, if document is modified
 ** read-only state
+** kind of line-endings: LF/CRLF/CR
 ** first caret position
 ** encoding
 ** word-wrap mode
@@ -1433,6 +1434,7 @@ Session file contains data:
 ** scale factor, ie zoom
 ** color of ui-tab (if not default)
 ** title of ui-tab
+** reason of ui-tab's title: unsaved / unsaved special / from filename / from plugin
 ** code-tree filter string and history of last filters
 ** splitting to 2 editors: on/off, vertical/horizontal, percents of size
 ** column of vertical "margin" line, if it's not default
