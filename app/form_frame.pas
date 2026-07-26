@@ -4511,7 +4511,7 @@ begin
   end;
 
   NFlag:= c.GetValue(path+cHistory_Margin, -1);
-  if NFlag>=10 then
+  if NFlag>=ATEditorOptions.MinMarginRt then
   begin
     Ed.OptMarginRight:= NFlag;
     Include(Ed.ModifiedOptions, TATEditorModifiedOption.Margin);
