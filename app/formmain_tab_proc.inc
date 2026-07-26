@@ -59,13 +59,11 @@ begin
   F.Name:= '';
   F.Visible:= false;
   F.FileName:= AFileName;
-  F.TabCaption:= ATabCaption;
 
-  if ATabCaption='' then
-  begin
-    F.TabCaptionUntitled:= GetUntitledNumberedCaption;
-    F.TabCaption:= F.TabCaptionUntitled;
-  end;
+  if ATabCaption<>'' then
+    F.TabCaption:= ATabCaption
+  else
+    F.TabCaption:= GetUntitledNumberedCaption;
 
   InitFrameEvents(F);
 

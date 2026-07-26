@@ -140,7 +140,6 @@ type
     NotifReloadAlways: array[0..1] of boolean;
     FTabCaption: string;
     FTabCaptionAddon: string;
-    FTabCaptionUntitled: string;
     FTabCaptionReason: TAppTabCaptionReason;
     FTabImageIndex: integer;
     FFileName: string;
@@ -396,7 +395,6 @@ type
     property WordWrap: TATEditorWrapMode read GetWordWrap;
     property TabCaption: string read FTabCaption write SetTabCaption;
     property TabCaptionAddon: string read FTabCaptionAddon write SetTabCaptionAddon;
-    property TabCaptionUntitled: string read FTabCaptionUntitled write FTabCaptionUntitled;
     property TabCaptionReason: TAppTabCaptionReason read FTabCaptionReason write FTabCaptionReason;
     function TabCaptionConsideringPairAndFullpath: string;
     property TabImageIndex: integer read FTabImageIndex write SetTabImageIndex;
@@ -713,8 +711,7 @@ procedure TEditorFrame.UpdateCaptionFromFilename;
 var
   Name1, Name2, SFinalCaption: string;
 begin
-  //avoid updating caption if API already had set it
-  if FTabCaptionReason in [TAppTabCaptionReason.UnsavedSpecial, TAppTabCaptionReason.FromPlugin] then
+  if FTabCaptionReason<>TAppTabCaptionReason.FromFilename then // in [TAppTabCaptionReason.UnsavedSpecial, TAppTabCaptionReason.FromPlugin] then
   begin
     DoOnChangeCaption; //remove 'modified' font color, repaint
     exit;
@@ -723,7 +720,7 @@ begin
   if EditorsLinked then
   begin
     if FFileName='' then
-      Name1:= FTabCaptionUntitled
+      Name1:= msgUntitledTab
     else
       Name1:= ExtractFileName_Fixed(FFileName);
     //Name1:= msgModifiedString[Ed1.Modified]+Name1;
@@ -733,7 +730,7 @@ begin
   else
   begin
     if (FFileName='') and (FFileName2='') then
-      SFinalCaption:= FTabCaptionUntitled
+      SFinalCaption:= msgUntitledTab
     else
     begin
       Name1:= ExtractFileName_Fixed(FFileName);
