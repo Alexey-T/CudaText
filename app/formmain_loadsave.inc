@@ -815,10 +815,16 @@ begin
                     SOptionPassive+SOptionNoHistory
                     );
         if sTabFilename<>'' then
-        begin
           Frame.SetFileName(Frame.Ed1, sTabFilename);
-          Frame.TabCaption:= ExtractFileName(sTabFilename);
+        if sTabFilename2<>'' then
+        begin
+          Frame.EditorsLinked:= false;
+          Frame.Splitted:= true;
+          Frame.SetFileName(Frame.Ed2, sTabFilename2);
         end;
+        if (sTabFilename<>'') or (sTabFilename2<>'') then
+          Frame.UpdateCaptionFromFilename;
+
         if sText<>'' then
         begin
           Frame.InitProgressForm(Frame.Editor, 'session "'+ExtractFileName(sSessionFileName)+'"', Length(sText));
