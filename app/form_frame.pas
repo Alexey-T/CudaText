@@ -711,6 +711,8 @@ procedure TEditorFrame.UpdateCaptionFromFilename;
 var
   Name1, Name2, SFinalCaption: string;
 begin
+  if FTabCaptionReason=TAppTabCaptionReason.FromPlugin then exit;
+
   if (FFileName2='') and
      (FTabCaptionReason<>TAppTabCaptionReason.FromFilename) then
   begin
