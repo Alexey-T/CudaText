@@ -711,7 +711,8 @@ procedure TEditorFrame.UpdateCaptionFromFilename;
 var
   Name1, Name2, SFinalCaption: string;
 begin
-  if FTabCaptionReason<>TAppTabCaptionReason.FromFilename then // in [TAppTabCaptionReason.UnsavedSpecial, TAppTabCaptionReason.FromPlugin] then
+  if (FFileName2='') and
+     (FTabCaptionReason<>TAppTabCaptionReason.FromFilename) then
   begin
     DoOnChangeCaption; //remove 'modified' font color, repaint
     exit;
