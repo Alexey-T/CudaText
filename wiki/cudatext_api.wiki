@@ -1508,8 +1508,7 @@ Opens editor tab with given filename. If filename already opened, activates its 
 
 First parameter can be 2-tuple / 2-list of string, to open 2 files in a single tab, in a splitted view. In this case, second filename won't be handled specially for zip file, picture file, binary file etc.
 
-The case of empty filename: opens empty untitled tab.
-The case of empty filename1 and non-empty filename2 is not supported: it also opens empty untitled tab, not splitted.
+If filename is empty (and filename2 is empty or not specified): function opens empty untitled tab.
 
 Returns bool. True, if first filename is empty. Otherwise, returns True if first filename exists, and second filename is empty or exists.
 For zip file (only first filename is checked for it), returns True only if zip file contains valid CudaText add-on, and it was installed.
