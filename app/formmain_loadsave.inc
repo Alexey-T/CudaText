@@ -837,17 +837,6 @@ begin
         if sRedoString<>'' then
           Frame.Editor.RedoAsString:= sRedoString;
         Frame.Editor.Modified:= bModified;
-        //UpdateModified call must be before Frame.TabCaption:=..., it overwrites TabCaption
-        Frame.UpdateModified(Frame.Editor);
-
-        sTabTitle:= cfg.GetValue(sItemPath+'tab_title', '');
-        if sTabTitle<>'' then
-          Frame.TabCaption:= sTabTitle;
-
-        if ConvertStringToTabCaptionReason(
-          cfg.GetValue(sItemPath+'tab_title_rsn', ''),
-          nCaptionReason) then
-          Frame.TabCaptionReason:= nCaptionReason;
 
         Frame.NotifEnabled:= sTabFilename<>'';
       end
@@ -874,6 +863,19 @@ begin
       begin
         Frame.IsLoadedFromSession:= true;
         Frame.DoLoadHistoryEx(Frame.Ed1, cfg, sItemPath, true);
+
+        //UpdateModified call must be before Frame.TabCaption:=..., it overwrites TabCaption
+        if Frame.Editor.Modified then
+          Frame.UpdateModified(Frame.Editor);
+
+        sTabTitle:= cfg.GetValue(sItemPath+'tab_title', '');
+        if sTabTitle<>'' then
+          Frame.TabCaption:= sTabTitle;
+
+        if ConvertStringToTabCaptionReason(
+          cfg.GetValue(sItemPath+'tab_title_rsn', ''),
+          nCaptionReason) then
+          Frame.TabCaptionReason:= nCaptionReason;
 
         if sTabFilename2<>'' then
         begin
