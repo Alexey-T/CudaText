@@ -872,9 +872,8 @@ begin
         if sTabTitle<>'' then
           Frame.TabCaption:= sTabTitle;
 
-        if ConvertStringToTabCaptionReason(
-          cfg.GetValue(sItemPath+'tab_title_rsn', ''),
-          nCaptionReason) then
+        sTabTitle:= cfg.GetValue(sItemPath+'tab_title_rsn', '');
+        if (sTabTitle<>'') and ConvertStringToTabCaptionReason(sTabTitle, nCaptionReason) then
           Frame.TabCaptionReason:= nCaptionReason;
 
         if sTabFilename2<>'' then
