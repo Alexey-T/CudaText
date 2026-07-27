@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.235.2 (2026/07)
+1.235.5 (2026/07)
 
 + add: few APIs for future plugins (ideas by @badrelmers, @ildarkhasanshin)
 * change/add: when findbar input becomes empty, 'Hi' marks are removed (idea by @CortexReaver)

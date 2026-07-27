@@ -5382,7 +5382,7 @@ It provides:
 * add: on_exit_pre
 * delete: PROP_IN_HISTORY (it always returned False in last years)
 
-1.0.483 (app 1.235.2)
+1.0.483 (app 1.235.5)
 * add: on_state: APPSTATE_SESSION_SET
 * add: dlg_proc: controls "memo"/"edit"/"edit_pwd"/"spinedit"/"combo" support new event "on_key_press"
 * add: Editor.get_prop: PROP_TAB_ID is now more unique, and it is persistent (it is saved/restored to session)
