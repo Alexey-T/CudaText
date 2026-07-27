@@ -785,6 +785,7 @@ begin
 
       if SBeginsWith(sTabKind, 'bin') then
       begin
+        //last char is digit, which is viewer mode
         case StrToIntDef(sTabKind[Length(sTabKind)], -1) of
           0: sOpenOptions:= '/view-text';
           1: sOpenOptions:= '/view-binary';
@@ -839,7 +840,7 @@ begin
         Frame.Editor.Modified:= bModified;
 
         Frame.NotifEnabled:= sTabFilename<>'';
-      end
+      end //if bModified
       else
       //unmodified+named tabs must load file again
       begin
@@ -857,7 +858,7 @@ begin
           if (sTabFilename2<>'') and not bExist2 then
             Frame.NotifyAboutChange(Frame.Ed2);
         end;
-      end;
+      end; //if not bModified
 
       if Assigned(Frame) then
       begin
@@ -922,7 +923,7 @@ begin
 
         if sTabFilename2<>'' then
           DoPyEvent_Open(Frame.Ed2);
-      end;
+      end; //if Assigned(Frame)
     end;
 
     //restore tab-index in all groups
