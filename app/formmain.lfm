@@ -1,7 +1,7 @@
 object fmMain: TfmMain
-  Left = 54
+  Left = 0
   Height = 434
-  Top = 87
+  Top = 0
   Width = 1236
   AllowDropFiles = True
   Caption = 'CudaText'

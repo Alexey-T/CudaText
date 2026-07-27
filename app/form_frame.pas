@@ -2977,7 +2977,8 @@ begin
 
   if not AAllowDeleted then
   begin
-    if not FileExists(AFileName) then exit;
+    if (AFileName<>'') then
+      if not FileExists(AFileName) then exit;
     if (AFileName2<>'') then
       if not FileExists(AFileName2) then exit;
   end;

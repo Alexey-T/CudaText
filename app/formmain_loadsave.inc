@@ -728,6 +728,7 @@ begin
       sRedoString:= cfg.GetValue(sItemPath+'redo', '');
       sTabKind:= cfg.GetValue(sItemPath+'kind', '');
       bModified:= cfg.GetValue(sItemPath+'modified', false);
+      bModified2:= cfg.GetValue(sItemPath2+'modified', false);
 
       //support old sessions with 1-based group index
       nGroupIndex:= cfg.GetValue(sItemPath+'group', 1)-1;
@@ -807,7 +808,12 @@ begin
           Frame:= Frames[0];
         end
         else
-          Frame:= DoFileOpen('', '', Pages, SOptionPassive+SOptionNoHistory);
+          Frame:= DoFileOpen(
+                    '',
+                    IfThen(bExist2 and not bModified2, sTabFilename2, ''),
+                    Pages,
+                    SOptionPassive+SOptionNoHistory
+                    );
         if sTabFilename<>'' then
         begin
           Frame.SetFileName(Frame.Ed1, sTabFilename);
@@ -869,7 +875,6 @@ begin
           nLineEnds:= ConvertIntegerToLineEndings(cfg.GetValue(sItemPath2+'ends', -1));
           sUndoString:= cfg.GetValue(sItemPath2+'undo', '');
           sRedoString:= cfg.GetValue(sItemPath2+'redo', '');
-          bModified2:= cfg.GetValue(sItemPath2+'modified', false);
           if sText='' then
             bModified2:= false;
 

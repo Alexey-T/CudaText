@@ -4936,6 +4936,7 @@ var
   bEnableEventPre, bEnableEventOpened, bEnableEventOpenedNone,
   bAllowZip, bAllowPics, bAllowLexerDetect, bAllowDeleted, bDetectedPics,
   bAllowUpdateAddons, bAndActivate: boolean;
+  bFileExists, bFileExists2: boolean;
   bFileTooBig, bFileTooBig2: boolean;
   AllowNear: TAppNewTabNearCurrent;
   OpenMode, NonTextMode: TAppOpenMode;
@@ -4951,6 +4952,8 @@ begin
   AppOpeningFile:= true;
 
  try
+  bFileExists:= (AFileName<>'') and FileExists(AFileName);
+  bFileExists2:= (AFileName2<>'') and FileExists(AFileName2);
   bFileTooBig:= IsFileTooBigForOpening(AFileName);
   bFileTooBig2:= IsFileTooBigForOpening(AFileName2);
 
@@ -5028,7 +5031,7 @@ begin
   if APages=nil then
     APages:= CurGroups.PagesCurrent;
 
-  if AFileName='' then
+  if (AFileName='') and (not bFileExists2) then
   begin
     D:= CreateTab(APages, AFileName, ExtractFileName(AFileName), bAndActivate, AllowNear);
     if not Assigned(D) then
@@ -5038,7 +5041,10 @@ begin
     end;
     Result:= D.TabObject as TEditorFrame;
     Result.SetFocus;
-    Exit
+    if AFileName2='' then
+      Exit
+    else
+      Random(1);
   end;
 
   //expand "./name"
@@ -5046,7 +5052,7 @@ begin
   if AFileName<>'' then
   begin
     AFileName:= AppExpandFileName(AFileName);
-    if not bAllowDeleted and not FileExists(AFileName) then
+    if not bAllowDeleted and not bFileExists then
     begin
       MsgBox(msgCannotFindFile+#10+AppCollapseHomeDirInFilename(AFileName), MB_OK or MB_ICONERROR);
       Exit
@@ -5056,20 +5062,20 @@ begin
   if AFileName2<>'' then
   begin
     AFileName2:= AppExpandFileName(AFileName2);
-    if not bAllowDeleted and not FileExists(AFileName2) then
+    if not bAllowDeleted and not bFileExists2 then
     begin
       MsgBox(msgCannotFindFile+#10+AppCollapseHomeDirInFilename(AFileName2), MB_OK or MB_ICONERROR);
       Exit
     end;
   end;
 
-  if not bAllowDeleted and not FileIsReadable(AFileName) then
+  if (AFileName<>'') and not bAllowDeleted and not FileIsReadable(AFileName) then
   begin
     MsgBox(msgCannotOpenFile+#10+AFileName+#10#10+msgCannotOpenNoReadPermissions, MB_OK or MB_ICONERROR);
     exit;
   end;
 
-  if not bAllowDeleted and not FileIsReadable(AFileName2) then
+  if (AFileName2<>'') and not bAllowDeleted and not FileIsReadable(AFileName2) then
   begin
     AFileName2:= '';
   end;
@@ -5108,7 +5114,7 @@ begin
     if not bDetectedPics then
     if not AppSessionIsLoading then
     if UiOps.NonTextFiles<>1 then
-      if FileExists(AFileName) and not AppIsFileContentText(
+      if bFileExists and not AppIsFileContentText(
                AFileName,
                UiOps.NonTextFilesBufferKb,
                ATEditorOptions.DetectUTF16BufferWords,
@@ -5168,7 +5174,10 @@ begin
   end; //not binary
 
   //file already opened? activate its frame
-  F:= FindFrameOfFilename(AFileName);
+  if AFileName<>'' then
+    F:= FindFrameOfFilename(AFileName)
+  else
+    F:= nil;
   if F=nil then
     if AFileName2<>'' then
       F:= FindFrameOfFilename(AFileName2);
