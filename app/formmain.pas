@@ -7611,6 +7611,9 @@ begin
        (Frame.Ed2=AppCodetreeState.Editor) then
     begin
       Frame.CodetreeSortType:= CodeTree.Tree.SortType;
+      //user unchecks 'Sorted' -> rebuild the codetree
+      if Frame.CodetreeSortType=stNone then
+        UpdateTree(true);
       Break;
     end;
   end;
