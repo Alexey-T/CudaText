@@ -67,22 +67,23 @@ Copyright (c) Alexey Torgashin
        didn't actually lose any data.
 
   Backup file:
-    Written via Ed.Strings.SaveToStream (the low-level method that
-    SaveToFile calls internally). This preserves the original file's
-    encoding (UTF-8 / UTF-16 LE/BE / UTF-32 LE/BE / ANSI), BOM
-    presence, and line endings (CRLF/LF/CR) EXACTLY as CudaText
-    would save them - byte-for-byte identical to a normal save.
+    Written via Ed.Strings.SaveToFile(BackupPath, True). This preserves
+    the original file's encoding (UTF-8 / UTF-16 LE/BE / UTF-32 LE/BE /
+    ANSI), BOM presence, and line endings (CRLF/LF/CR) EXACTLY as
+    CudaText would save them - byte-for-byte identical to a normal save.
 
-    We use SaveToStream instead of SaveToFile for two reasons:
-    1. SaveToFile fires the OnProgress event every ~65536 lines,
-       and TATSynEdit's progress handler uses TThread.Synchronize
-       to update the UI. This fails with "EThread: CheckSynchronize
-       called from non-main thread" when invoked from our watchdog
-       thread or a crashed worker thread. We temporarily nil
-       OnProgress to suppress this.
-    2. SaveToFile touches editor state (Modified, undo buffer) even
-       with AsCopy=True. SaveToStream is the lowest-level "just write
-       the bytes" method and touches nothing.
+    The AsCopy=True parameter means SaveToFile skips DoFinalizeSaving,
+    so it does NOT clear the undo buffer, does NOT set Modified to
+    False, does NOT change FileName - the editor's state is untouched.
+    This is the same code path CudaText's Python API uses for
+    "file_save(copy=True)".
+
+    We temporarily nil Ed.Strings.OnProgress around the call.
+    SaveToFile fires OnProgress every ~65536 lines, and TATSynEdit's
+    progress handler uses TThread.Synchronize to update the UI, which
+    fails with "EThread: CheckSynchronize called from non-main thread"
+    when invoked from our watchdog thread or a crashed worker thread.
+    Nilling OnProgress suppresses this.
 
     The editor's Modified flag, FileName, and ModifiedVersion are
     NOT touched, so CudaText's session-restore on next startup still
@@ -115,7 +116,7 @@ implementation
 
 uses
   Windows, SysUtils, Classes, Forms, ExtCtrls,
-  proc_globdata, form_frame, ATSynEdit, ATStrings, ATStringProc, EncConv;
+  proc_globdata, form_frame, ATSynEdit, ATStrings;
 
 type
   { Signature of a top-level exception filter callback. Must match
@@ -344,99 +345,47 @@ end;
   (UTF-8/UTF-16/UTF-32/ANSI), BOM presence, and line endings (CRLF/LF/CR)
   exactly as CudaText would save them.
 
-  We use Ed.Strings.SaveToStream directly (the low-level method that
-  SaveToFile calls internally) instead of Ed.Strings.SaveToFile for
-  two reasons:
+  We call Ed.Strings.SaveToFile(BackupPath, True). The AsCopy=True
+  parameter means: don't clear the undo buffer, don't set Modified to
+  False, don't change any editor state. This is the same code path
+  CudaText's Python API uses for "save a copy" (file_save with
+  copy=True).
 
-  1. SaveToFile internally fires the OnProgress event every
-     ~65536 lines. The progress handler registered by TATSynEdit
-     uses TThread.Synchronize to update the UI, which fails with
-     "EThread: CheckSynchronize called from non-main thread" when
-     invoked from our watchdog thread or a crashed worker thread.
-     We temporarily nil OnProgress to suppress this.
+  Two things we handle around the call:
 
-  2. SaveToFile (with AsCopy=False) clears the undo buffer and sets
-     Modified:=False via DoFinalizeSaving. Even with AsCopy=True it's
-     safer to use SaveToStream, which is the lowest-level "just write
-     the bytes" method and touches no editor state at all.
+  1. OnProgress: SaveToFile internally fires OnProgress every ~65536
+     lines. TATSynEdit's progress handler uses TThread.Synchronize to
+     update the UI, which fails with "EThread: CheckSynchronize called
+     from non-main thread" when invoked from our watchdog thread or a
+     crashed worker thread. We temporarily nil OnProgress to suppress
+     this.
 
-  SaveToStream uses a TStream interface - we pass a TFileStream wrapped
-  in a TMemoryStream buffer (matching what SaveToFile does internally)
-  for efficiency on large files.
+  2. EncConvErrorMode: SaveToFile itself sets this to eemException
+     around the save (so a character that can't be converted to the
+     target encoding raises an exception). We don't need to do this
+     ourselves - SaveToFile handles it internally.
 
   Returns True on success, False on failure. }
 function WriteBackupManual(Ed: TATSynEdit; const BackupPath: string): Boolean;
 var
-  FS: TFileStream;
-  MS: TMemoryStream;
   OldOnProgress: TATStringsProgressEvent;
-  OldEncConvErrorMode: TEncConvErrorMode;
-  WithSignature: Boolean;
 begin
   Result := False;
 
-  { Determine whether to write a BOM. This replicates the private
-    TATStrings.IsSavingWithSignature method, which we can't call
-    directly because it's in the private section. The logic is:
-      ANSI       -> no BOM
-      UTF-8      -> BOM if Ed.Strings.SaveSignUtf8 (a public property)
-      UTF-16/32  -> BOM if Ed.Strings.SaveSignWide (a public property) }
-  case Ed.Strings.Encoding of
-    TATFileEncoding.ANSI:
-      WithSignature := False;
-    TATFileEncoding.UTF8:
-      WithSignature := Ed.Strings.SaveSignUtf8;
-    TATFileEncoding.UTF16LE,
-    TATFileEncoding.UTF16BE,
-    TATFileEncoding.UTF32LE,
-    TATFileEncoding.UTF32BE:
-      WithSignature := Ed.Strings.SaveSignWide;
-  else
-    WithSignature := False;
-  end;
-
   try
-    FS := TFileStream.Create(BackupPath, fmCreate);
+    { Temporarily disable the progress callback so SaveToFile doesn't
+      fire OnProgress (which would call TThread.Synchronize via
+      TATSynEdit's handler and fail on non-main threads). }
+    OldOnProgress := Ed.Strings.OnProgress;
+    Ed.Strings.OnProgress := nil;
     try
-      MS := TMemoryStream.Create;
-      try
-        { Temporarily disable the progress callback so SaveToStream
-          doesn't fire OnProgress (which would call TThread.Synchronize
-          via TATSynEdit's handler and fail on non-main threads). }
-        OldOnProgress := Ed.Strings.OnProgress;
-        Ed.Strings.OnProgress := nil;
-        try
-          { EncConvErrorMode controls what happens when a character
-            can't be converted to the target encoding (e.g. a Unicode
-            char that doesn't exist in the ANSI codepage). Set to
-            eemException to match SaveToFile's behavior - if conversion
-            fails, we want to know about it (the file is left
-            half-written, but at least we tried). }
-          OldEncConvErrorMode := EncConvErrorMode;
-          EncConvErrorMode := eemException;
-          try
-            Ed.Strings.SaveToStream(MS,
-              Ed.Strings.Encoding,
-              WithSignature);
-          finally
-            EncConvErrorMode := OldEncConvErrorMode;
-          end;
-        finally
-          Ed.Strings.OnProgress := OldOnProgress;
-        end;
-
-        { Copy the memory stream to the file stream. }
-        MS.Seek(0, soFromBeginning);
-        FS.Size := 0;
-        FS.Seek(0, soFromBeginning);
-        FS.CopyFrom(MS, MS.Size);
-      finally
-        MS.Free;
-      end;
-      Result := True;
+      { AsCopy=True: don't clear undo, don't set Modified to False,
+        don't change FileName, don't bump ModifiedVersion. }
+      Ed.Strings.SaveToFile(BackupPath, True);
     finally
-      FS.Free;
+      Ed.Strings.OnProgress := OldOnProgress;
     end;
+    Result := True;
   except
     on E: Exception do
     begin
@@ -564,9 +513,9 @@ begin
 
   LogStep('[backup] path = ' + AnsiString(BackupPath));
 
-  { Write the backup using SaveToStream with OnProgress temporarily
-    disabled. This preserves encoding/BOM/line-endings exactly while
-    being thread-safe (no TThread.Synchronize calls). }
+  { Write the backup using Ed.Strings.SaveToFile(path, True) with
+    OnProgress temporarily disabled. AsCopy=True preserves all editor
+    state; nilling OnProgress makes it thread-safe. }
   if WriteBackupManual(Ed, BackupPath) then
   begin
     LogStep('[backup] complete');
