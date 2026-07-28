@@ -495,7 +495,7 @@ begin
           Frame.DoSaveBookmarks(Frame.Ed1, cfg_bookmarks);
 
       //save info about paired-tab to subkey "pair"
-      if sTabFilename2<>'' then
+      if not Frame.EditorsLinked then
       begin
         sJsonPath+= '/pair';
 
