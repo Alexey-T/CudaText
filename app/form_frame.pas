@@ -3150,6 +3150,7 @@ begin
     try
       Ed.LoadFromFile(AFileName, LoadOptions);
       SetFileName(Ed, AFileName);
+      TabCaptionReason:= TAppTabCaptionReason.FromFilename;
       UpdateCaptionFromFilename;
     finally
       UpdateLocked(Ed, false);
