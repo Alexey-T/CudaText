@@ -138,7 +138,7 @@ begin
 
     cmd_FileCloseAndDelete:
       begin
-        DoFileCloseAndDelete(Ed);
+        DoFileCloseAndDelete(Frame);
       end;
 
     cmd_FileNew:

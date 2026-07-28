@@ -941,7 +941,7 @@ type
     procedure DoFileExportHtml(Ed: TATSynEdit);
     function DoFileInstallZip(const AFileName: string; out DirTarget: string;
       ASilent, AAllowUpdateAddons: boolean): boolean;
-    procedure DoFileCloseAndDelete(Ed: TATSynEdit);
+    procedure DoFileCloseAndDelete(Frame: TEditorFrame);
     procedure DoFileNew;
     procedure DoFileNewMenu_ToolbarClick(Sender: TObject);
     procedure DoFileNewMenu(Sender: TObject; AInvoke: TATCommandInvoke);
@@ -6639,16 +6639,13 @@ begin
 end;
 
 
-procedure TfmMain.DoFileCloseAndDelete(Ed: TATSynEdit);
+procedure TfmMain.DoFileCloseAndDelete(Frame: TEditorFrame);
 var
-  Frame: TEditorFrame;
   TempPages: TATPages;
   fn, fnPic: string;
   NTabIndex: integer;
 begin
-  Frame:= TGroupsHelper.GetEditorFrame(Ed);
   if Frame=nil then exit;
-
   CloseFormAutoCompletion;
 
   if not Frame.EditorsLinked then
@@ -6657,7 +6654,7 @@ begin
     exit;
   end;
 
-  fn:= Frame.GetFileName(Ed);
+  fn:= Frame.FileName;
   if fn='' then
   begin
     MsgStatus(msgCannotHandleUntitledTab);
@@ -6668,8 +6665,8 @@ begin
        msgConfirmCloseAndDeleteFile+#10+AppCollapseHomeDirInFilename(fn),
        MB_OKCANCEL or MB_ICONWARNING)=ID_OK then
   begin
-    if Ed.Modified then
-      Ed.Modified:= false;
+    if Frame.Ed1.Modified then
+      Frame.Ed1.Modified:= false;
 
     TempPages:= Frame.GetTabPages;
     if not Assigned(TempPages) then exit;
