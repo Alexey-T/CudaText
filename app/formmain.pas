@@ -6642,7 +6642,10 @@ end;
 procedure TfmMain.DoFileCloseAndDelete(Ed: TATSynEdit);
 var
   Frame: TEditorFrame;
+  TempGrp: TATGroups;
+  TempPages: TATPages;
   fn, fnPic: string;
+  NLocalGroupIndex, NGlobalGroupIndex, NTabIndex: integer;
 begin
   Frame:= TGroupsHelper.GetEditorFrame(Ed);
   if Frame=nil then exit;
@@ -6665,10 +6668,12 @@ begin
   if Ed.Modified then
     Ed.Modified:= false;
 
+  GetFrameLocation(Frame, TempGrp, TempPages, NLocalGroupIndex, NGlobalGroupIndex, NTabIndex);
+
   if MsgBox(
        msgConfirmCloseAndDeleteFile+#10+AppCollapseHomeDirInFilename(fn),
        MB_OKCANCEL or MB_ICONWARNING)=ID_OK then
-    if GroupsMain.CloseTabs(tabCloseCurrent, false, true) then
+    if TempPages.Tabs.DeleteTab(NTabIndex, true, false) then
     begin
       DeleteFileUTF8(fn);
 
