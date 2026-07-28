@@ -281,7 +281,7 @@ var
   nCountFiles, nCountUntitled, iSavingTabIndex: integer;
   nNewFrameCount, nPrevFrameCount: integer;
   bModified, bUntitled: boolean;
-  bSessionUpdated, bFileExisted: boolean;
+  bSessionUpdated, bSessionFileExisted: boolean;
   currFramesEditState: array of TFrameEditState;
   fileWriteTimeBeforeSaving,
   fileWriteTimeAfterSaving: TDateTime;
@@ -295,7 +295,7 @@ begin
   if ExtractFileName(sSessionFileName)=cAppSessionNone then exit;
 
   bSessionUpdated:= false;
-  bFileExisted:= FileExists(sSessionFileName);
+  bSessionFileExisted:= FileExists(sSessionFileName);
   fileWriteTimeBeforeSaving:= Default(TDateTime);
   fileWriteTimeAfterSaving:= Default(TDateTime);
   nCountFiles:= 0;
@@ -542,7 +542,7 @@ begin
     Result:= true;
   finally
     try
-      if not bFileExisted then
+      if not bSessionFileExisted then
         bSessionUpdated:= true;
 
       if bSessionUpdated then
@@ -566,7 +566,7 @@ begin
       fileWriteTimeAfterSaving:= Default(TDateTime);
   end;
 
-  if UiOps.LogSessions and (bSessionUpdated or not bFileExisted) then
+  if UiOps.LogSessions and (bSessionUpdated or not bSessionFileExisted) then
   begin
     if fileWriteTimeBeforeSaving<>fileWriteTimeAfterSaving then
       sConsole:= Format('Saved session: "%s", %d file(s)', [ExtractFileName(sSessionFileName), nCountFiles])
@@ -609,7 +609,7 @@ var
   bAllowOnState, bReusedEmptyFrame: boolean;
   sText: UnicodeString;
   sUndoString, sRedoString: string;
-  bExist, bExist2: boolean;
+  bTabFileExists, bTabFileExists2: boolean;
   sDateSaved, sDateCurrent, sConsole: string;
   CurTabs: TATTabs;
   nTick: QWord;
@@ -709,15 +709,15 @@ begin
       sTabFilename:= AppExpandHomeDirInFilename(cfg.GetValue(sItemPath+'file', ''));
       sTabFilename2:= AppExpandHomeDirInFilename(cfg.GetValue(sItemPath2+'file', ''));
 
-      bExist:= (sTabFilename<>'') and FileExists(sTabFilename);
-      bExist2:= (sTabFilename2<>'') and FileExists(sTabFilename2);
+      bTabFileExists:= (sTabFilename<>'') and FileExists(sTabFilename);
+      bTabFileExists2:= (sTabFilename2<>'') and FileExists(sTabFilename2);
 
-      if (sTabFilename<>'') and not bExist then
+      if (sTabFilename<>'') and not bTabFileExists then
       begin
         MsgFileFromSessionNotFound(sTabFilename);
       end;
 
-      if (sTabFilename2<>'') and not bExist2 then
+      if (sTabFilename2<>'') and not bTabFileExists2 then
       begin
         MsgFileFromSessionNotFound(sTabFilename2);
       end;
@@ -734,7 +734,7 @@ begin
       nGroupIndex:= cfg.GetValue(sItemPath+'group', 1)-1;
 
       //check, if text saved in session, but file was changed outside
-      if bModified and bExist then
+      if bModified and bTabFileExists then
       begin
         sDateSaved:= cfg.GetValue(sItemPath+'file_date', '');
         sDateCurrent:= ConvertFileDateToNiceString(sTabFilename);
@@ -811,7 +811,7 @@ begin
         else
           Frame:= DoFileOpen(
                     '',
-                    IfThen(bExist2 and not bModified2, sTabFilename2, ''),
+                    IfThen(bTabFileExists2 and not bModified2, sTabFilename2, ''),
                     Pages,
                     SOptionPassive+SOptionNoHistory
                     );
@@ -845,7 +845,7 @@ begin
       //unmodified+named tabs must load file again
       begin
         Inc(nCountFiles);
-        if not bExist then
+        if not bTabFileExists then
           Inc(nCountFilesDeleted);
 
         Frame:= DoFileOpen(sTabFilename, sTabFilename2, Pages, sOpenOptions+SOptionPassive+SOptionNoHistory);
@@ -853,9 +853,9 @@ begin
         //show "externally deleted" top panel if file not exists
         if Assigned(Frame) then
         begin
-          if (sTabFilename<>'') and not bExist then
+          if (sTabFilename<>'') and not bTabFileExists then
             Frame.NotifyAboutChange(Frame.Ed1);
-          if (sTabFilename2<>'') and not bExist2 then
+          if (sTabFilename2<>'') and not bTabFileExists2 then
             Frame.NotifyAboutChange(Frame.Ed2);
         end;
       end; //if not bModified
@@ -904,7 +904,7 @@ begin
           else
           begin
             Inc(nCountFiles);
-            if not bExist2 then
+            if not bTabFileExists2 then
               Inc(nCountFilesDeleted);
           end;
 
