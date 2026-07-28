@@ -5,6 +5,7 @@
 
 1.236.0 (2026/08)
 
++ add: Windows: add crash/hang auto-backup of the current document (by @badrelmers). Read the new wiki topic "Windows: Crash and hang backup".
 + add: few APIs for future plugins (ideas by @badrelmers, @ildarkhasanshin)
 + add: code-tree context menu item "Sorted": unchecking now works too 
 * change/add: when findbar input becomes empty, 'Hi' marks are removed (idea by @CortexReaver)
