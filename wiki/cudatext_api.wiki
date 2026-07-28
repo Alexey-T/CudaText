@@ -2820,7 +2820,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"), tuple
 
 * PROP_WHEEL_ZOOMS: bool: enable zooming by Ctrl+mouse_wheel.
 * PROP_SCALE_FONT: int: scale of editor's font in percents, or 0 to use global app font scale.
-* PROP_ENC: str: encoding name. Names listed at [[CudaText#Encodings]].
+* PROP_ENC: str: encoding name. Supported names are listed in the main wiki-page: [[CudaText#Encodings]].
 * PROP_ENC_RELOAD: str: like PROP_ENC, but setting this property also reloads file in new encoding (if it's not modified). Supported only for editors embedded in ui-tabs.
 * PROP_LEXER_FILE: str: name of lexer for entire document.
 * PROP_INDEX_GROUP: int: index of group with editor's tab, 0-based. Value 0..5: 6 fixed groups, value 6..8: 3 floating groups.
