@@ -187,10 +187,13 @@ var
     //we don't free frames instantly, because watcher thread can access them
 
   AppUntitledNumbersList: TFPList;
-    //temp list in TfmMain.GetUntitledNumberedCaption
+    //temp list in TfmMain.GetUntitledNumberedCaption, to avoid often list creation/deletion
 
-  AppEventLister: TEvent; //event set to signaled, when main thread has done AppFrameList2 updating
-  AppEventWatcher: TEvent; //event set to signaled, when watcher thread is not busy
+  AppEventLister: TEvent;
+    //event set to signaled, when main thread has done AppFrameList2 updating
+
+  AppEventWatcher: TEvent;
+    //event set to signaled, when watcher thread is not busy
 
 type
   { TAppKeyValues }
