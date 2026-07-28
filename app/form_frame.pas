@@ -3408,9 +3408,9 @@ begin
     TabExtModified[EdIndex]:= false;
     TabExtDeleted[EdIndex]:= false;
 
-    //add to recents new filename
     if bNameChanged then
     begin
+      //add to recents new filename
       if Assigned(FOnAddRecent) then
         FOnAddRecent(Self, EdIndex);
       TabCaptionReason:= TAppTabCaptionReason.FromFilename;
