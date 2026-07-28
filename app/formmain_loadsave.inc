@@ -877,18 +877,22 @@ begin
         if (sTabTitle<>'') and ConvertStringToTabCaptionReason(sTabTitle, nCaptionReason) then
           Frame.TabCaptionReason:= nCaptionReason;
 
-        if sTabFilename2<>'' then
+        if (sTabFilename2<>'') or bModified2 then
         begin
+          Frame.EditorsLinked:= false;
           sText:= cfg.GetValue(sItemPath2+'text', '');
           nLineEnds:= ConvertIntegerToLineEndings(cfg.GetValue(sItemPath2+'ends', -1));
           sUndoString:= cfg.GetValue(sItemPath2+'undo', '');
           sRedoString:= cfg.GetValue(sItemPath2+'redo', '');
+          {
           if sText='' then
             bModified2:= false;
+            }
 
           if bModified2 then
           begin
-            Inc(nCountFilesModified);
+            if sTabFilename2<>'' then
+              Inc(nCountFilesModified);
             if sText<>'' then
             begin
               Frame.Ed2.Text:= sText;
