@@ -13,7 +13,8 @@ uses
   form_lexer_lib, form_color_setup, form_about, form_keys, form_char_map,
   form_lexer_style, form_lexer_stylemap, form_key_input, form_addon_report,
   form_confirm_binary, form_choose_theme, proc_globdata, fix_focus_window,
-  form_unprinted, proc_editor_micromap, proc_unique_counter;
+  form_unprinted, proc_editor_micromap, proc_unique_counter,
+  proc_crash_backup; //crash backup - hook installed after main form is created
 
 {$R *.res}
 
@@ -30,5 +31,6 @@ begin
   RequireDerivedFormResource:= True;
   Application.Initialize;
   Application.CreateForm(TfmMain, fmMain);
+  InstallCrashBackup; //install crash/hang backup hooks after main form is created
   Application.Run;
 end.

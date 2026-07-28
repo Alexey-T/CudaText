@@ -1884,6 +1884,9 @@ begin
     DoOnUpdateStatusbar(TAppStatusbarUpdateReason.FocusEnter);
   end;
 
+  //update crash-backup shadow reference (read by proc_crash_backup.pas)
+  AppCrashBackup_FocusedEditor:= Sender;
+
   if Assigned(FOnFocusEditor) then
     FOnFocusEditor(Sender);
 
