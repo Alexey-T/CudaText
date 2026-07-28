@@ -3180,7 +3180,7 @@ Type the following command into your console window and hit Enter:
 
 You should see a confirmation message that indicates a successful registration of the DLL. Check the Explorer context menu to see if there is a CudaText menu item that has an icon. Right click for example a *.txt file and select "Open with CudaText" from the context menu.
 
-==Windows: Crash and hang backup==
+=Windows: Crash and hang backup=
 
 CudaText automatically creates a backup copy of the file you are currently editing if the program crashes or hangs on Windows. The backup contains every keystroke up to the moment of the crash — nothing is lost.
 
