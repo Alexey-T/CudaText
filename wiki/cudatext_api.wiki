@@ -2527,12 +2527,11 @@ Line-break is counted as 1, even for CR LF endings.
 
  get_filename(options="")
 
-Returns filename (string) of the editor.
+Returns filename of the editor.
 
-* Returns empty string for untitled tab.
-* Returns string "?" if ui-tab contains not normal text editor, but picture viewer or binary viewer. You can detect the kind of ui-tab: Editor.get_prop(PROP_KIND).
-
-If param "options" contains char "*", the real file name is always returned, even in picture/binary viewer mode.
+* Returns empty string for untitled ui-tab.
+* Returns empty string for independent Editor object, not from ui-tab.
+* Returns string "?" if ui-tab contains not normal text editor, but picture viewer or binary viewer. You can detect the kind of ui-tab: Editor.get_prop(PROP_KIND). If param "options" contains char "*", the real file name is always returned, even in picture/binary viewer mode.
 
 ===Editor.get_prop===
 
@@ -5386,5 +5385,6 @@ It provides:
 * add: dlg_proc: controls "memo"/"edit"/"edit_pwd"/"spinedit"/"combo" support new event "on_key_press"
 * add: Editor.get_prop: PROP_TAB_ID is now more unique, and it is persistent (it is saved/restored to session)
 * add: file_open: function supports empty filename1 and non-empty filename2
+* change: file_open: for Editor not in ui-tab, returns now empty str (before it was None)
 
 [[Category:CudaText]]

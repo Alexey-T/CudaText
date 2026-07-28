@@ -1985,7 +1985,8 @@ begin
       StrOps:= string(PtrOps);
 
       if F=nil then
-        exit(ReturnNone);
+        Str:= ''
+      else
       if (F.FrameKind=TAppFrameKind.Editor) or (Pos('*', StrOps)>0) then
         Str:= F.GetFileName(Ed)
       else
