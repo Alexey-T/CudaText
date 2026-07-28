@@ -3410,8 +3410,11 @@ begin
 
     //add to recents new filename
     if bNameChanged then
+    begin
       if Assigned(FOnAddRecent) then
         FOnAddRecent(Self, EdIndex);
+      TabCaptionReason:= TAppTabCaptionReason.FromFilename;
+    end;
 
     UpdateCaptionFromFilename;
 
