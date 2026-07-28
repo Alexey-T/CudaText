@@ -273,8 +273,8 @@ function TfmMain.DoOps_SaveSession(const ASessionId: string;
 var
   cfg, cfg_bookmarks: TAppJsonConfig;
   Frame: TEditorFrame;
-  Gr: TATGroups;
-  Pages: TATPages;
+  TempGrp: TATGroups;
+  TempPages: TATPages;
   sSessionFileName, sTabFilename, sTabFilename2,
   sRootPath, sJsonPath, sTabKind, sConsole, sUndo: string;
   nLocalGroup, nGlobalGroup, nTabInGroup: integer;
@@ -344,9 +344,9 @@ begin
 
     for iGroup:= 0 to cAppMaxGroup do
     begin
-      Pages:= TGroupsHelper.GetPagesOfGroupIndex(iGroup);
-      if Pages=nil then Continue;
-      cfg.SetValue(sRootPath+'/tab_index/g'+IntToStr(iGroup), Pages.Tabs.TabIndex);
+      TempPages:= TGroupsHelper.GetPagesOfGroupIndex(iGroup);
+      if TempPages=nil then Continue;
+      cfg.SetValue(sRootPath+'/tab_index/g'+IntToStr(iGroup), TempPages.Tabs.TabIndex);
     end;
     cfg.SetValue(sRootPath+'/tab_index/g_active', GroupsMain.FindPages(GroupsMain.PagesCurrent));
 
@@ -413,7 +413,7 @@ begin
 
       sJsonPath:= sRootPath+'/'+Format('%3.3d', [iSavingTabIndex]);
 
-      GetFrameLocation(Frame, Gr, Pages, nLocalGroup, nGlobalGroup, nTabInGroup);
+      GetFrameLocation(Frame, TempGrp, TempPages, nLocalGroup, nGlobalGroup, nTabInGroup);
       bModified:= Frame.Ed1.Modified or (bUntitled and not Frame.IsEmpty);
 
       if AByTimer then
@@ -598,8 +598,9 @@ var
   cfg: TAppJsonConfig;
   Frame: TEditorFrame;
   Ed: TATSynEdit;
-  Gr: TATGroups;
-  Pages: TATPages;
+  TempGrp: TATGroups;
+  TempPages: TATPages;
+  TempTabs: TATTabs;
   ListSessionKeys: TStringList;
   sSessionFileName, sTabFilename, sTabFilename2, sRootPath,
   sTabTitle, sTabKind, sOpenOptions,
@@ -611,7 +612,6 @@ var
   sUndoString, sRedoString: string;
   bTabFileExists, bTabFileExists2: boolean;
   sDateSaved, sDateCurrent, sConsole: string;
-  CurTabs: TATTabs;
   nTick: QWord;
   nGroupIndex, nTabInGroup: integer;
   iList, iGroup, iFrame: integer;
@@ -747,7 +747,7 @@ begin
            bModified:= false;
       end;
 
-      Gr:= GroupsMain;
+      TempGrp:= GroupsMain;
       if (nGroupIndex<0) then
         nGroupIndex:= 0;
       if (nGroupIndex>High(TATGroupsNums)) then
@@ -756,7 +756,7 @@ begin
         case nGroupIndex of
           High(TATGroupsNums)+1:
             begin
-              Gr:= GroupsFloating1;
+              TempGrp:= GroupsFloating1;
               if AppFormShowCompleted then
                 ShowFloatingForm1:= true
               else
@@ -764,7 +764,7 @@ begin
             end;
           High(TATGroupsNums)+2:
             begin
-              Gr:= GroupsFloating2;
+              TempGrp:= GroupsFloating2;
               if AppFormShowCompleted then
                 ShowFloatingForm2:= true
               else
@@ -772,7 +772,7 @@ begin
             end
           else
             begin
-              Gr:= GroupsFloating3;
+              TempGrp:= GroupsFloating3;
               if AppFormShowCompleted then
                 ShowFloatingForm3:= true
               else
@@ -781,7 +781,7 @@ begin
         end;
         nGroupIndex:= 0;
       end;
-      Pages:= Gr.Pages[nGroupIndex];
+      TempPages:= TempGrp.Pages[nGroupIndex];
 
       if SBeginsWith(sTabKind, 'bin') then
       begin
@@ -812,7 +812,7 @@ begin
           Frame:= DoFileOpen(
                     '',
                     IfThen(bTabFileExists2 and not bModified2, sTabFilename2, ''),
-                    Pages,
+                    TempPages,
                     SOptionPassive+SOptionNoHistory
                     );
         if sTabFilename<>'' then
@@ -848,7 +848,7 @@ begin
         if not bTabFileExists then
           Inc(nCountFilesDeleted);
 
-        Frame:= DoFileOpen(sTabFilename, sTabFilename2, Pages, sOpenOptions+SOptionPassive+SOptionNoHistory);
+        Frame:= DoFileOpen(sTabFilename, sTabFilename2, TempPages, sOpenOptions+SOptionPassive+SOptionNoHistory);
 
         //show "externally deleted" top panel if file not exists
         if Assigned(Frame) then
@@ -930,37 +930,37 @@ begin
     for iGroup:= 0 to High(TATGroupsNums)+3 do
     begin
       if iGroup<=High(TATGroupsNums) then
-        CurTabs:= GroupsMain.Pages[iGroup].Tabs
+        TempTabs:= GroupsMain.Pages[iGroup].Tabs
       else
       begin
         case iGroup of
           High(TATGroupsNums)+1:
-            Gr:= GroupsFloating1;
+            TempGrp:= GroupsFloating1;
           High(TATGroupsNums)+2:
-            Gr:= GroupsFloating2;
+            TempGrp:= GroupsFloating2;
           else
-            Gr:= GroupsFloating3;
+            TempGrp:= GroupsFloating3;
         end;
-        if Gr=nil then Continue;
-        CurTabs:= Gr.Pages1.Tabs;
+        if TempGrp=nil then Continue;
+        TempTabs:= TempGrp.Pages1.Tabs;
       end;
       nTabInGroup:= cfg.GetValue(sRootPath+'/tab_index/g'+IntToStr(iGroup), -1);
-      nTabInGroup:= Max(0, Min(nTabInGroup, CurTabs.TabCount-1));
+      nTabInGroup:= Max(0, Min(nTabInGroup, TempTabs.TabCount-1));
       //don't check that index is different, force set index; this fixes e.g. bug #3892
-      if CurTabs.TabCount>0 then
-        CurTabs.TabIndex:= nTabInGroup;
+      if TempTabs.TabCount>0 then
+        TempTabs.TabIndex:= nTabInGroup;
     end;
 
     //restore group-index
     nGroupIndex:= cfg.GetValue(sRootPath+'/tab_index/g_active', Low(TATGroupsNums));
     if (nGroupIndex>=Low(TATGroupsNums)) and (nGroupIndex<=High(TATGroupsNums)) then
     begin
-      Pages:= GroupsMain.Pages[nGroupIndex];
-      if Pages.Tabs.TabCount>0 then
-        if GroupsMain.PagesCurrent<>Pages then
+      TempPages:= GroupsMain.Pages[nGroupIndex];
+      if TempPages.Tabs.TabCount>0 then
+        if GroupsMain.PagesCurrent<>TempPages then
         begin
-          GroupsMain.PagesCurrent:= Pages;
-          Pages.Tabs.TabIndex:= Pages.Tabs.TabIndex;
+          GroupsMain.PagesCurrent:= TempPages;
+          TempPages.Tabs.TabIndex:= TempPages.Tabs.TabIndex;
         end;
     end;
 
