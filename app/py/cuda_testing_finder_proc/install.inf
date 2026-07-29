@@ -7,5 +7,5 @@ homepage=(Fill the GitHub repo URL)
 
 [item2]
 section=commands
-caption=Testing finder_proc
+caption=Testing\Testing finder_proc
 method=run

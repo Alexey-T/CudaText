@@ -7,80 +7,80 @@ homepage=
 
 [item10]
 section=commands
-caption=Testing of dialog API\modal
+caption=Testing\Testing of dialog API\modal
 method=run_modal
 
 [item11]
 section=commands
-caption=Testing of dialog API\nonmodal
+caption=Testing\Testing of dialog API\nonmodal
 method=run_nonmodal
 
 [item20]
 section=commands
-caption=Testing of dialog API\test dlg_custom
+caption=Testing\Testing of dialog API\test dlg_custom
 method=run_dlgcustom
 
 [item22]
 section=commands
-caption=Testing of dialog API\test type=pages, tabs
+caption=Testing\Testing of dialog API\test type=pages, tabs
 method=test_pages
 
 [item23]
 section=commands
-caption=Testing of dialog API\test type=toolbar/statusbar
+caption=Testing\Testing of dialog API\test type=toolbar/statusbar
 method=test_toolbar
 
 [item25]
 section=commands
-caption=Testing of dialog API\test type=treeview
+caption=Testing\Testing of dialog API\test type=treeview
 method=test_treeview
 
 [item26]
 section=commands
-caption=Testing of dialog API\test type=listview
+caption=Testing\Testing of dialog API\test type=listview
 method=test_listview
 
 [item30]
 section=commands
-caption=Testing of dialog API\test type=button_ex
+caption=Testing\Testing of dialog API\test type=button_ex
 method=test_btn
 
 [item31]
 section=commands
-caption=Testing of dialog API\test type=splitter
+caption=Testing\Testing of dialog API\test type=splitter
 method=test_splitter
 
 [item32]
 section=commands
-caption=Testing of dialog API\test type=listbox_ex
+caption=Testing\Testing of dialog API\test type=listbox_ex
 method=test_listbox
 
 [item33]
 section=commands
-caption=Testing of dialog API\test type=editor
+caption=Testing\Testing of dialog API\test type=editor
 method=test_editor
 
 [item34]
 section=commands
-caption=Testing of dialog API\test type=combo
+caption=Testing\Testing of dialog API\test type=combo
 method=test_combo
 
 [item35]
 section=commands
-caption=Testing of dialog API\test type=scrollbox
+caption=Testing\Testing of dialog API\test type=scrollbox
 method=test_scrollbox
 
 [item36]
 section=commands
-caption=Testing of dialog API\test type=memo
+caption=Testing\Testing of dialog API\test type=memo
 method=test_memo
 
 [item50]
 section=commands
-caption=Testing of dialog API\test side-panel
+caption=Testing\Testing of dialog API\test side-panel
 method=test_sidepanel
 
 [item52]
 section=commands
-caption=Testing of dialog API\test label rendering
+caption=Testing\Testing of dialog API\test label rendering
 method=test_labels_render

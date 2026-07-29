@@ -7,12 +7,12 @@ homepage=
 
 [item1]
 section=commands
-caption=Testing of gaps API\Add gaps...
+caption=Testing\Testing of gaps API\Add gaps...
 method=add_many
 
 [item2]
 section=commands
-caption=Testing of gaps API\Delete all gaps
+caption=Testing\Testing of gaps API\Delete all gaps
 method=del_all
 
 [item50]
