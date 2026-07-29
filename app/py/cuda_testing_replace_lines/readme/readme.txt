@@ -20,7 +20,7 @@ When you invoke the command, the plugin:
        - calls ed.replace_lines(...)
        - verifies the resulting text, line count, return value,
          caret position, or undo state
-  3. Prints a detailed per-test report to the Output panel
+  3. Prints a detailed per-test report to the Console panel
      (Setup / Call / Expected / Got / Result).
   4. Shows a summarized dialog with pass/fail counts and the list
      of failed tests (if any).
@@ -32,10 +32,10 @@ Commands
 --------
 Two commands are registered, both in the Command Palette (F1 / Ctrl+Shift+P):
 
-  - "Testing of replace_lines API"
+  - "Testing of replace_lines API: Run all tests"
         Runs all 30 tests sequentially.
 
-  - "Testing of replace_lines API, run single..."
+  - "Testing of replace_lines API: Run single test..."
         Shows a menu of all tests. Pick one to run only that test
         (useful for debugging a single failure).
 
@@ -95,9 +95,10 @@ At the top of __init__.py you can change:
 
 Requirements
 ------------
-- CudaText 1.0.418+ (uses ed.replace_lines which was added then).
 - The plugin tries both cCommand_* and cmd_* naming styles for the
   Undo/Redo/FileClose command constants, so it works across
   CudaText versions that may use either naming.
 
 
+Author: Badr Elmers, https://github.com/badrelmers
+License: MIT
