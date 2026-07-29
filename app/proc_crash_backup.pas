@@ -586,7 +586,8 @@ begin
     if Assigned(EdBrother) and EdBrother.Modified then
     begin
       LogStep('[backup] backing up paired editor (EditorsLinked=False)');
-      BrotherPath := BackupOneEditor(EdBrother, MatchedFrame, Timestamp);
+      BrotherPath := BackupOneEditor(EdBrother, MatchedFrame, Timestamp + '_');
+      // add '_' to make bak filename different by one char, for untitled tab
       if (BrotherPath <> '') and (Result = '') then
         Result := BrotherPath;
     end;
