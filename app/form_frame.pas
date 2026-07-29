@@ -2467,6 +2467,7 @@ begin
   St.EncodingDetectDefaultUtf8:= true; //UiOps.DefaultEncUtf8;
 
   Ed1.EncodingName:= AppEncodingShortnameToFullname(UiOps.NewdocEnc);
+  Ed2.EncodingName:= Ed1.EncodingName;
 
   //must clear Modified, it was set on initing
   Ed1.Modified:= false;
