@@ -36,27 +36,15 @@ CLOSE_TEST_TAB_AFTER = False   # True: close the sandbox tab when done
 TEST_TAB_TITLE        = '[replace_lines tests]'
 
 
-# ---- command-constant helpers --------------------------------------------
-# CudaText's cudatext_cmd module uses two naming styles: cCommand_* and cmd_*.
-# We try both so the plugin works across CudaText versions.
-
-def _cmd(name):
-    """Look up a command constant by short name, trying both styles."""
-    for candidate in ('cCommand_' + name, 'cmd_' + name):
-        if hasattr(cmds, candidate):
-            return getattr(cmds, candidate)
-    raise AttributeError(
-        'cudatext_cmd has neither cCommand_%s nor cmd_%s' % (name, name)
-    )
-
+# ---- editor command wrappers --------------------------------------------
 def _do_undo():
-    ed.cmd(_cmd('Undo'))
+    ed.cmd(cmds.cCommand_Undo)
 
 def _do_redo():
-    ed.cmd(_cmd('Redo'))
+    ed.cmd(cmds.cCommand_Redo)
 
 def _do_file_close():
-    ed.cmd(_cmd('FileClose'))
+    ed.cmd(cmds.cmd_FileClose)
 
 
 # ---- editor state helpers -------------------------------------------------
