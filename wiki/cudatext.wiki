@@ -3186,8 +3186,8 @@ CudaText automatically creates a backup copy of the file you are currently editi
 
 '''Where backups are saved:'''
 
-* For files that have a name on disk: next to the original file, with a timestamp appended. Example: {{Code|myfile.txt.20260719_130455.CTbak}}.
-* For untitled tabs (File → New): inside the {{Code|crash_backup}} subfolder of CudaText's settings directory, named like {{Code|untitled3_tab_recovered_20260719_130455.CTbak}}. If the settings folder is not writable, the backup falls back to the system temp folder.
+* For files that have a name on disk: next to the original file, with a timestamp appended. Example: {{Code|myfile.txt.20260719_130455.bak}}.
+* For untitled tabs (File → New): inside the {{Code|crash_backup}} subfolder of CudaText's settings directory, named like {{Code|untitled3_tab_recovered_20260719_130455.bak}}. If the settings folder is not writable, the backup falls back to the system temp folder.
 
 '''When a backup is created:'''
 

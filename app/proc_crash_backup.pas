@@ -14,10 +14,10 @@ Copyright (c) Alexey Torgashin
   that nothing caught, OR when the main thread hangs for more than
   HANG_THRESHOLD_MS milliseconds, this unit writes a backup copy of
   the currently focused editor's text to
-  "<originalfile>.<timestamp>.CTbak" next to the original file (for
+  "<originalfile>.<timestamp>.bak" next to the original file (for
   named files), or to
-  <AppDir_Settings>\crash_backup\<tabname>_tab_recovered_<timestamp>.CTbak
-  (for untitled tabs, e.g. "untitled3_tab_recovered_20260719_022954.CTbak",
+  <AppDir_Settings>\crash_backup\<tabname>_tab_recovered_<timestamp>.bak
+  (for untitled tabs, e.g. "untitled3_tab_recovered_20260719_022954.bak",
   with %TEMP% as a fallback if the settings folder is not writable).
 
   Paired editors (split-view with two different files in one tab,
@@ -437,12 +437,12 @@ begin
       UntitledName := LowerCase(UntitledName) + '_tab';
 
     if CrashBackupDir <> '' then
-      BackupPath := CrashBackupDir + '\' + UntitledName + '_recovered_' + string(ATimestamp) + '.CTbak'
+      BackupPath := CrashBackupDir + '\' + UntitledName + '_recovered_' + string(ATimestamp) + '.bak'
     else
-      BackupPath := GetTempDir(False) + UntitledName + '_recovered_' + string(ATimestamp) + '.CTbak';
+      BackupPath := GetTempDir(False) + UntitledName + '_recovered_' + string(ATimestamp) + '.bak';
   end
   else
-    BackupPath := FileNameUTF8 + '.' + string(ATimestamp) + '.CTbak';
+    BackupPath := FileNameUTF8 + '.' + string(ATimestamp) + '.bak';
 
   LogStep('[backup] path = ' + AnsiString(BackupPath));
 
@@ -460,7 +460,7 @@ begin
     if (FileNameUTF8 = '') and (CrashBackupDir <> '') and
        (Pos(AnsiString(CrashBackupDir), AnsiString(BackupPath)) > 0) then
     begin
-      BackupPath := GetTempDir(False) + UntitledName + '_recovered_' + string(ATimestamp) + '.CTbak';
+      BackupPath := GetTempDir(False) + UntitledName + '_recovered_' + string(ATimestamp) + '.bak';
       LogStep('[backup] retrying in temp folder: ' + AnsiString(BackupPath));
       if WriteBackupManual(Ed, BackupPath) then
       begin
