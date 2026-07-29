@@ -1,0 +1,16 @@
+[info]
+title=Testing of replace_lines API
+desc=Regression tests for Editor.replace_lines() API.
+type=cudatext-plugin
+subdir=cuda_testing_replace_lines
+homepage=https://github.com/Alexey-T/CudaText/issues/6374
+
+[item1]
+section=commands
+caption=Testing of replace_lines API\Run All Tests
+method=run
+
+[item2]
+section=commands
+caption=Testing of replace_lines API\Run Single Test
+method=run_single

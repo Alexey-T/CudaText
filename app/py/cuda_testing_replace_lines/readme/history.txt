@@ -1,0 +1,29 @@
+2026.07.29
+  * Initial release.
+  * 30 tests covering issue #6374 and additional regression cases.
+
+2026.07.29a
+  * Fix: tests now run in strict numerical order (1..30). Previously
+    t16 ran before t05, t27/t28 before t17, etc., so the menu item
+    "test 5" actually ran test 16.
+  * Fix: Test 5 (embedded newline) expectation corrected. CudaText
+    stores "\n" inside a replace_lines item as a literal byte within
+    the single line; it only splits into two lines after a file
+    reload. Confirmed by Alexey as expected behavior.
+
+2026.07.29b
+  * Reorganize: tests renumbered into clean categorized sections.
+    Function declaration order in source now matches test ID order
+    matches run order matches menu order. No more "t29 after t21"
+    confusion.
+  * New category layout:
+      1-3   Original bug (issue #6374)
+      4-5   Empty-array handling
+      6     Documented behavior (embedded newline)
+      7-10  2x2 combination matrix
+      11-18 Boundary cases
+      19-22 Invalid input
+      23-25 Undo/Redo integrity
+      26    Caret tracking
+      27    Unicode
+      28-30 splitlines() integration
