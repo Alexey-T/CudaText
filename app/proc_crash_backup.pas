@@ -20,6 +20,12 @@ Copyright (c) Alexey Torgashin
   (for untitled tabs, e.g. "untitled3_tab_recovered_20260719_022954.CTbak",
   with %TEMP% as a fallback if the settings folder is not writable).
 
+  Paired editors (split-view with two different files in one tab,
+  i.e. Frame.EditorsLinked=False): if the focused editor's brother
+  is also modified, it is backed up too. When EditorsLinked=True,
+  both editors share the same Strings buffer, so one backup covers
+  both.
+
   The timestamp format is YYYYMMDD_HHMMSS, e.g. 20260323_130455.
 
   Focused editor detection:
@@ -395,18 +401,92 @@ begin
   end;
 end;
 
+{ Compute the backup path for an editor and write the backup.
+  Handles named files (backup next to original) and untitled tabs
+  (backup in CrashBackupDir with temp-folder fallback).
+  Returns the backup path on success, '' on failure. }
+function BackupOneEditor(Ed: TATSynEdit; Frame: TEditorFrame;
+  const Timestamp: AnsiString): string;
+var
+  FileNameUTF8: string;
+  BackupPath: string;
+  UntitledName: string;
+begin
+  Result := '';
+
+  FileNameUTF8 := Ed.FileName;
+
+  if FileNameUTF8 = '' then
+  begin
+    { Untitled tab: try to save inside <settings>/crash_backup/ first.
+      If that fails (e.g. settings folder not writable), fall back to
+      the system temp folder.
+
+      Use the tab's caption (e.g. "Untitled3") in the filename so the
+      user can tell which tab the backup came from. We read
+      Frame.TabCaption - for untitled tabs this contains the numbered
+      caption set at tab creation (GetUntitledNumberedCaption returns
+      e.g. "Untitled3"). If we can't get the caption, fall back to a
+      generic "untitled_tab" name. }
+    UntitledName := '';
+    if Assigned(Frame) then
+      UntitledName := SanitizeForFilename(Frame.TabCaption);
+    if UntitledName = '' then
+      UntitledName := 'untitled_tab'
+    else
+      UntitledName := LowerCase(UntitledName) + '_tab';
+
+    if CrashBackupDir <> '' then
+      BackupPath := CrashBackupDir + '\' + UntitledName + '_recovered_' + string(Timestamp) + '.CTbak'
+    else
+      BackupPath := GetTempDir(False) + UntitledName + '_recovered_' + string(Timestamp) + '.CTbak';
+  end
+  else
+    BackupPath := FileNameUTF8 + '.' + string(Timestamp) + '.CTbak';
+
+  LogStep('[backup] path = ' + AnsiString(BackupPath));
+
+  { Write the backup using Ed.Strings.SaveToFile(path, True) with
+    OnProgress temporarily disabled. AsCopy=True preserves all editor
+    state; nilling OnProgress makes it thread-safe. }
+  if WriteBackupManual(Ed, BackupPath) then
+  begin
+    LogStep('[backup] complete');
+    Result := BackupPath;
+  end
+  else
+  begin
+    { If this was an untitled-tab save to CrashBackupDir, retry in temp. }
+    if (FileNameUTF8 = '') and (CrashBackupDir <> '') and
+       (Pos(AnsiString(CrashBackupDir), AnsiString(BackupPath)) > 0) then
+    begin
+      BackupPath := GetTempDir(False) + UntitledName + '_recovered_' + string(Timestamp) + '.CTbak';
+      LogStep('[backup] retrying in temp folder: ' + AnsiString(BackupPath));
+      if WriteBackupManual(Ed, BackupPath) then
+      begin
+        LogStep('[backup] complete (temp folder)');
+        Result := BackupPath;
+      end
+      else
+        LogStep('[backup] FAILED in both locations');
+    end
+    else
+      LogStep('[backup] FAILED (WriteBackupManual returned False)');
+  end;
+end;
+
 function DoBackup: string;
 var
   Ed: TATSynEdit;
+  EdBrother: TATSynEdit;
   Frame: TEditorFrame;
   MatchedFrame: TEditorFrame;
   i: Integer;
-  FileNameUTF8: string;
-  BackupPath: string;
   ShadowEd: TATSynEdit;
   ShadowIsValid: Boolean;
   Timestamp: AnsiString;
-  UntitledName: string;
+  FirstPath: string;
+  BrotherPath: string;
 begin
   Result := '';
 
@@ -480,70 +560,35 @@ begin
     Exit;
   end;
 
-  FileNameUTF8 := Ed.FileName;
   Timestamp := FormatTimestamp;
 
-  if FileNameUTF8 = '' then
-  begin
-    { Untitled tab: try to save inside <settings>/crash_backup/ first.
-      If that fails (e.g. settings folder not writable), fall back to
-      the system temp folder.
+  { Back up the focused editor. }
+  FirstPath := BackupOneEditor(Ed, MatchedFrame, Timestamp);
+  if FirstPath <> '' then
+    Result := FirstPath;
 
-      Use the tab's caption (e.g. "Untitled3") in the filename so the
-      user can tell which tab the backup came from. We read
-      Frame.TabCaption - for untitled tabs this contains the numbered
-      caption set at tab creation (GetUntitledNumberedCaption returns
-      e.g. "Untitled3"). If we can't get the caption, fall back to a
-      generic "untitled_tab" name. }
-    UntitledName := '';
-    if Assigned(MatchedFrame) then
-      UntitledName := SanitizeForFilename(MatchedFrame.TabCaption);
-    if UntitledName = '' then
-      UntitledName := 'untitled_tab'
+  { Handle the paired editor (split-view with two different files).
+    When Frame.EditorsLinked=False, Ed1 and Ed2 have separate buffers
+    and may have different content/modified state. If the brother
+    editor is also modified, back it up too.
+
+    When Frame.EditorsLinked=True, both editors share the same
+    Strings buffer (Ed2.Strings = Ed1.Strings), so the backup we just
+    wrote already covers the brother - no separate backup needed. }
+  if Assigned(MatchedFrame) and not MatchedFrame.EditorsLinked then
+  begin
+    { GetEditorBrother: if Ed=Ed1 return Ed2, else return Ed1. }
+    if Ed = MatchedFrame.Ed1 then
+      EdBrother := MatchedFrame.Ed2
     else
-      UntitledName := LowerCase(UntitledName) + '_tab';
+      EdBrother := MatchedFrame.Ed1;
 
-    if CrashBackupDir <> '' then
-      BackupPath := CrashBackupDir + '\' + UntitledName + '_recovered_' + string(Timestamp) + '.CTbak'
-    else
-      BackupPath := GetTempDir(False) + UntitledName + '_recovered_' + string(Timestamp) + '.CTbak';
-  end
-  else
-    BackupPath := FileNameUTF8 + '.' + string(Timestamp) + '.CTbak';
-
-  LogStep('[backup] path = ' + AnsiString(BackupPath));
-
-  { Write the backup using Ed.Strings.SaveToFile(path, True) with
-    OnProgress temporarily disabled. AsCopy=True preserves all editor
-    state; nilling OnProgress makes it thread-safe. }
-  if WriteBackupManual(Ed, BackupPath) then
-  begin
-    LogStep('[backup] complete');
-    Result := BackupPath;
-  end
-  else
-  begin
-    { If this was an untitled-tab save to CrashBackupDir, retry in temp. }
-    if (FileNameUTF8 = '') and (CrashBackupDir <> '') and
-       (Pos(AnsiString(CrashBackupDir), AnsiString(BackupPath)) > 0) then
+    if Assigned(EdBrother) and EdBrother.Modified then
     begin
-      BackupPath := GetTempDir(False) + UntitledName + '_recovered_' + string(Timestamp) + '.CTbak';
-      LogStep('[backup] retrying in temp folder: ' + AnsiString(BackupPath));
-      if WriteBackupManual(Ed, BackupPath) then
-      begin
-        LogStep('[backup] complete (temp folder)');
-        Result := BackupPath;
-      end
-      else
-      begin
-        LogStep('[backup] FAILED in both locations');
-        Result := '';
-      end;
-    end
-    else
-    begin
-      LogStep('[backup] FAILED (WriteBackupManual returned False)');
-      Result := '';
+      LogStep('[backup] backing up paired editor (EditorsLinked=False)');
+      BrotherPath := BackupOneEditor(EdBrother, MatchedFrame, Timestamp);
+      if (BrotherPath <> '') and (Result = '') then
+        Result := BrotherPath;
     end;
   end;
 end;
