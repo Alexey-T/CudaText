@@ -9,6 +9,7 @@
 + add: few APIs for future plugins (ideas by @badrelmers, @ildarkhasanshin)
 + add: code-tree context menu item "Sorted": unchecking now works too 
 * change/add: when findbar input becomes empty, 'Hi' marks are removed (idea by @CortexReaver)
+* change: for one-line input fields, reset the property "copy whole line if no selection"; now it's like in Notepad++/browsers (idea by @CortexReaver)
 - fix: when findbar is closed by sidebar click, 'Hi' marks were not removed (thanks @CortexReaver)
 - fix: session's "margin" key was not applied ok on session-loading (thanks @badrelmers)
 - fix: command "close tab, delete file" worked wrong on _floating_ group (thanks @MiroslavMatas)
