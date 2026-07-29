@@ -840,6 +840,10 @@ begin
         Frame.Editor.Modified:= bModified;
 
         Frame.NotifEnabled:= sTabFilename<>'';
+
+        //file was maybe deleted: check it and show notif-panel; fixes issue #6377
+        if not bTabFileExists then
+          Frame.NotifyAboutChange(Frame.Ed1);
       end //if bModified
       else
       //unmodified+named tabs must load file again
