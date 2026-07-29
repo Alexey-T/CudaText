@@ -828,16 +828,16 @@ begin
 
         if sText<>'' then
         begin
-          Frame.InitProgressForm(Frame.Editor, 'session "'+ExtractFileName(sSessionFileName)+'"', Length(sText));
-          Frame.Editor.Text:= sText;
-          Frame.Editor.Strings.Endings:= nLineEnds;
-          Frame.HideProgressForm(Frame.Editor);
+          Frame.InitProgressForm(Frame.Ed1, 'session "'+ExtractFileName(sSessionFileName)+'"', Length(sText));
+          Frame.Ed1.Text:= sText;
+          Frame.Ed1.Strings.Endings:= nLineEnds;
+          Frame.HideProgressForm(Frame.Ed1);
         end;
         if sUndoString<>'' then
-          Frame.Editor.UndoAsString:= sUndoString;
+          Frame.Ed1.UndoAsString:= sUndoString;
         if sRedoString<>'' then
-          Frame.Editor.RedoAsString:= sRedoString;
-        Frame.Editor.Modified:= bModified;
+          Frame.Ed1.RedoAsString:= sRedoString;
+        Frame.Ed1.Modified:= bModified;
 
         Frame.NotifEnabled:= sTabFilename<>'';
 
@@ -870,8 +870,8 @@ begin
         Frame.DoLoadHistoryEx(Frame.Ed1, cfg, sItemPath, true);
 
         //UpdateModified call must be before Frame.TabCaption:=..., it overwrites TabCaption
-        if Frame.Editor.Modified then
-          Frame.UpdateModified(Frame.Editor);
+        if Frame.Ed1.Modified then
+          Frame.UpdateModified(Frame.Ed1);
 
         sTabTitle:= cfg.GetValue(sItemPath+'tab_title', '');
         if sTabTitle<>'' then
