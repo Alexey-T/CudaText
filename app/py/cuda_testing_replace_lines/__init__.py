@@ -19,7 +19,7 @@ The plugin opens a fresh untitled tab, runs 30 tests organized by category:
   27    Unicode
   28-30 splitlines() integration
 
-Each test prints a detailed record to the console (Output panel).
+Each test prints a detailed record to the Console panel.
 A summary dialog is shown at the end.
 
 Commands:
@@ -767,7 +767,7 @@ class Command:
             status = 'PASS' if r['passed'] else 'FAIL'
             msg_status('[replace_lines] test {}: {}'.format(r['id'], status))
 
-        # Always print detailed summary to console (Output panel)
+        # Always print detailed summary to console
         self._print_console(results)
 
         # Always show summary dialog
@@ -844,7 +844,7 @@ class Command:
         else:
             L.append('All tests passed!')
             L.append('')
-        L.append('Detailed summary printed to the Output panel.')
+        L.append('Detailed summary printed to the Console panel.')
         L.append('')
         L.append('Sandbox tab "{}" is left open for inspection.'.format(TEST_TAB_TITLE))
 
