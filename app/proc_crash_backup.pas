@@ -372,7 +372,7 @@ end;
      ourselves - SaveToFile handles it internally.
 
   Returns True on success, False on failure. }
-function WriteBackupManual(Ed: TATSynEdit; const BackupPath: string): Boolean;
+function WriteBackupManual(Ed: TATSynEdit; const ABackupPath: string): Boolean;
 var
   OldOnProgress: TATStringsProgressEvent;
 begin
@@ -387,7 +387,7 @@ begin
     try
       { AsCopy=True: don't clear undo, don't set Modified to False,
         don't change FileName, don't bump ModifiedVersion. }
-      Ed.Strings.SaveToFile(BackupPath, True);
+      Ed.Strings.SaveToFile(ABackupPath, True);
     finally
       Ed.Strings.OnProgress := OldOnProgress;
     end;
@@ -406,7 +406,7 @@ end;
   (backup in CrashBackupDir with temp-folder fallback).
   Returns the backup path on success, '' on failure. }
 function BackupOneEditor(Ed: TATSynEdit; Frame: TEditorFrame;
-  const Timestamp: AnsiString): string;
+  const ATimestamp: AnsiString): string;
 var
   FileNameUTF8: string;
   BackupPath: string;
@@ -437,12 +437,12 @@ begin
       UntitledName := LowerCase(UntitledName) + '_tab';
 
     if CrashBackupDir <> '' then
-      BackupPath := CrashBackupDir + '\' + UntitledName + '_recovered_' + string(Timestamp) + '.CTbak'
+      BackupPath := CrashBackupDir + '\' + UntitledName + '_recovered_' + string(ATimestamp) + '.CTbak'
     else
-      BackupPath := GetTempDir(False) + UntitledName + '_recovered_' + string(Timestamp) + '.CTbak';
+      BackupPath := GetTempDir(False) + UntitledName + '_recovered_' + string(ATimestamp) + '.CTbak';
   end
   else
-    BackupPath := FileNameUTF8 + '.' + string(Timestamp) + '.CTbak';
+    BackupPath := FileNameUTF8 + '.' + string(ATimestamp) + '.CTbak';
 
   LogStep('[backup] path = ' + AnsiString(BackupPath));
 
@@ -460,7 +460,7 @@ begin
     if (FileNameUTF8 = '') and (CrashBackupDir <> '') and
        (Pos(AnsiString(CrashBackupDir), AnsiString(BackupPath)) > 0) then
     begin
-      BackupPath := GetTempDir(False) + UntitledName + '_recovered_' + string(Timestamp) + '.CTbak';
+      BackupPath := GetTempDir(False) + UntitledName + '_recovered_' + string(ATimestamp) + '.CTbak';
       LogStep('[backup] retrying in temp folder: ' + AnsiString(BackupPath));
       if WriteBackupManual(Ed, BackupPath) then
       begin
@@ -593,17 +593,17 @@ begin
   end;
 end;
 
-procedure TryDoBackup(const HookName: AnsiString; IsHang: Boolean = False);
+procedure TryDoBackup(const AHookName: AnsiString; AIsHang: Boolean = False);
 var
   BackupPath: string;
 begin
   if InterlockedCompareExchange(CrashHandled, 1, 0) <> 0 then
   begin
-    LogStep('[' + HookName + '] already in progress, backing off');
+    LogStep('[' + AHookName + '] already in progress, backing off');
     Exit;
   end;
   try
-    LogStep('[' + HookName + '] backup starting');
+    LogStep('[' + AHookName + '] backup starting');
     BackupPath := '';
     try
       BackupPath := DoBackup;
@@ -611,7 +611,7 @@ begin
       on E: Exception do
         LogStep('  [EXCEPTION] ' + AnsiString(E.ClassName) + ': ' + AnsiString(E.Message));
     end;
-    if IsHang and (BackupPath <> '') then
+    if AIsHang and (BackupPath <> '') then
     begin
       EnterCriticalSection(HangPathLock);
       try
@@ -622,7 +622,7 @@ begin
     end;
   finally
     InterlockedExchange(CrashHandled, 0);
-    LogStep('[' + HookName + '] backup finished');
+    LogStep('[' + AHookName + '] backup finished');
   end;
 end;
 
