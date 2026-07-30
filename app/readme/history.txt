@@ -8,6 +8,7 @@
 + add: Windows: add crash/hang auto-backup of the current document (by @badrelmers). Read the new wiki topic "Windows: Crash and hang backup".
 + add: few APIs for future plugins (ideas by @badrelmers, @ildarkhasanshin)
 + add: code-tree context menu item "Sorted": unchecking now works too 
++ add: session now saves/restores also font-color of ui-tab
 * change/add: when findbar input becomes empty, 'Hi' marks are removed (idea by @CortexReaver)
 * change: for one-line input fields, uncheck the property "Ctrl+C copies whole line if no selection"; now it's like in Notepad++/browsers (idea by @CortexReaver)
 - fix: when findbar is closed by sidebar click, 'Hi' marks were not removed (thanks @CortexReaver)

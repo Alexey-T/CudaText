@@ -446,6 +446,11 @@ begin
           cfg.DeleteValue(sJsonPath+'/color')
         else
           cfg.SetValue(sJsonPath+'/color', ColorToString(Frame.TabColor));
+
+        if Frame.TabFontColor=clNone then
+          cfg.DeleteValue(sJsonPath+'/color_font')
+        else
+          cfg.SetValue(sJsonPath+'/color_font', ColorToString(Frame.TabFontColor));
       end;
 
       case Frame.FrameKind of
@@ -922,6 +927,7 @@ begin
         Frame.GotoInput:= cfg.GetValue(sItemPath+'goto', '');
         Frame.TabPinned:= cfg.GetValue(sItemPath+'pinned', false);
         Frame.TabColor:= StringToColorDef(cfg.GetValue(sItemPath+'color', ''), clNone);
+        Frame.TabFontColor:= StringToColorDef(cfg.GetValue(sItemPath+'color_font', ''), clNone);
         Frame.UniqueCounter:= cfg.GetValue(sItemPath+'u_id', Frame.UniqueCounter);
 
         //event on_open was blocked in DoFileOpen, call it here
