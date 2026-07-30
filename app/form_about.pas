@@ -109,6 +109,8 @@ const
     'https://github.com/ildarkhasanshin',
     'Yuriy Balyuk',
     'https://github.com/veksha',
+    'Badr Elmers',
+    'https://github.com/badrelmers',
     '',
     '#Optimizations of Python wrapper, plugins',
     'Artem Gavrilov',
