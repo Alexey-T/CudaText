@@ -113,8 +113,14 @@ begin
 end;
 
 procedure TfmMenuList.ListClick(Sender: TObject);
+var
+  Pnt: TPoint;
+  NIndex: integer;
 begin
-  ResultIndex:= List.ItemIndex;
+  Pnt:= List.ScreenToClient(Mouse.CursorPos);
+  NIndex:= List.GetItemIndexAt(Pnt);
+  if NIndex<0 then exit;
+  ResultIndex:= NIndex;
   Close;
 end;
 
