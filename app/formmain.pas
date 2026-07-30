@@ -7848,6 +7848,7 @@ begin
 
     NRes:= DoDialogMenuList(msgStatusbarHintEnds, List, NSelected);
     if NRes<0 then exit;
+    if NRes=NSelected then exit;
 
     case NRes of
       0: Ed.DoCommand(cmd_LineEndUnix, TATCommandInvoke.AppPalette);
