@@ -93,12 +93,5 @@ At the top of __init__.py you can change:
         Title of the sandbox tab.
 
 
-Requirements
-------------
-- The plugin tries both cCommand_* and cmd_* naming styles for the
-  Undo/Redo/FileClose command constants, so it works across
-  CudaText versions that may use either naming.
-
-
 Author: Badr Elmers, https://github.com/badrelmers
 License: MIT
