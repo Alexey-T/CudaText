@@ -1431,7 +1431,7 @@ Session file contains data:
 ** gutter columns: "line states" visible state
 ** gutter columns: "folding" visible state + list of currently folded blocks
 ** scale factor, ie zoom
-** color of ui-tab (if not default)
+** color of ui-tab, background and font
 ** title of ui-tab
 ** reason of ui-tab's title: unsaved / unsaved special / from filename / from plugin
 ** code-tree filter string and history of last filters
