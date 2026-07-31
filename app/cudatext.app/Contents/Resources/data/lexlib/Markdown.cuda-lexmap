@@ -14,6 +14,7 @@ auto_fold=0
 3=YAML
 4=JSON
 5=HTML
+6=HTML
 [map]
 Heading=Label
 Comment=Comment
