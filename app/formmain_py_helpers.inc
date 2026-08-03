@@ -248,7 +248,12 @@ begin
   if AllowPascalHelpers then
   begin
     Result:= DoCodetree_ApplyTreeHelperInPascal(Ed, Ed2, ATree, CurLexer);
-    if Result then exit;
+    if Result then
+    begin
+      if Assigned(Ed.AdapterForHilite) then
+        Ed.AdapterForHilite.HasTreeHelper:= true;
+      exit;
+    end;
   end;
 
   //Python helpers
@@ -268,7 +273,11 @@ begin
         try
           //refresh CodeTree only if TreeData is list
           if PyObject_TypeCheck(TreeData, PyList_Type) then
+          begin
             DoCodetree_ApplyTreeHelperResults(ATree, TreeData, Helper.ItemModule);
+            if Assigned(Ed.AdapterForHilite) then
+              Ed.AdapterForHilite.HasTreeHelper:= true;
+          end;
         finally
           Py_DECREF(TreeData);
         end;
