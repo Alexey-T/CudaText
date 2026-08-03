@@ -16,6 +16,7 @@
 - fix: command "close tab, delete file" worked wrong on _floating_ group (thanks @MiroslavMatas)
 - fix: regression in lexer Markdown for fenced-blocks (thanks @MiroslavMatas)
 - fix: encodings/bookmarks menu-dialogs should not close by click on empty space
+- fix: flickering of gutter-folding-column on editing, when lexer has tree-helper (thanks @mix-7)
 
 1.235.1 (2026/07)
 
