@@ -9,6 +9,7 @@
 + add: few APIs for future plugins (ideas by @badrelmers, @ildarkhasanshin)
 + add: code-tree context menu item "Sorted": unchecking now works too 
 + add: session now saves/restores also font-color of ui-tab
++ add: Unix-like OS: if app runs under root, show in the window title '(ROOT)'
 * change/add: when findbar input becomes empty, 'Hi' marks are removed (idea by @CortexReaver)
 * change: for one-line input fields (findbar, console, code-tree filter), uncheck the property "Ctrl+C copies whole line if no selection"; now it's like in Notepad++/browsers (idea by @CortexReaver)
 * change: findbar: working of 'Hi' option must not change caret (idea by @CortexReaver)
