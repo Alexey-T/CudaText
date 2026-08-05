@@ -4,7 +4,7 @@ cd ../app
 
 cpu=$1
 outdir=$2
-exedir=../app/bin/windows-$cpu
+exedir=bin/windows-$cpu
 pydir=$outdir/lib_win_$cpu
 
 if [[ "$pydir" == "" ]]; then
