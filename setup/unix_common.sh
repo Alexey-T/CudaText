@@ -5,8 +5,8 @@ cd ../app
 os=$1
 widgets=$2
 cpu=$3
-exedir=$4
-outdir=$5
+exedir=bin/$os-$cpu-$widgets
+outdir=$4
 
 if [ ! -f "$exedir/cudatext" ]; then
     echo "Error: file 'cudatext' not found in dir '$exedir'"

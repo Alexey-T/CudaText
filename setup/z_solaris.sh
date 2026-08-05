@@ -10,7 +10,7 @@ outdir_tmp=$outdir/tmp_solaris
 
 # make .tar.xz
 
-./unix_common.sh $os $widgets $cpu bin/solaris-x64-gtk2 $outdir
+./unix_common.sh $os $widgets $cpu $outdir
 
 
 # make .zip too
@@ -24,3 +24,7 @@ cd $outdir_tmp
 zip -r $file_zip ./*
 cd ..
 rm -rf $outdir_tmp
+
+# .tar.xz file is not needed, .zip is enough
+
+rm $file_xz
