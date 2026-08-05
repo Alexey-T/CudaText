@@ -12,7 +12,7 @@
 + add: Unix-like OS: if app runs under root, show in the window title '(ROOT)'
 * change/add: when findbar input becomes empty, 'Hi' marks are removed (idea by @CortexReaver)
 * change: for one-line input fields (findbar, console, code-tree filter), uncheck the property "Ctrl+C copies whole line if no selection"; now it's like in Notepad++/browsers (idea by @CortexReaver)
-* change: findbar: working of 'Hi' option must not change caret (idea by @CortexReaver)
+* change: findbar: working of 'Hi' option must not move caret/scroll_position (idea by @CortexReaver)
 - fix: when findbar is closed by sidebar click, 'Hi' marks were not removed (thanks @CortexReaver)
 - fix: session's "margin" key was not applied ok on session-loading (thanks @badrelmers)
 - fix: command "close tab, delete file" worked wrong on _floating_ group (thanks @MiroslavMatas)
