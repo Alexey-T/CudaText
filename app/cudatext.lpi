@@ -553,7 +553,7 @@
           <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
-            <Filename Value="bin\win64\cudatext.exe" ApplyConventions="False"/>
+            <Filename Value="bin\windows-amd64\cudatext.exe" ApplyConventions="False"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
@@ -598,7 +598,7 @@
           <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
-            <Filename Value="bin\win32\cudatext.exe" ApplyConventions="False"/>
+            <Filename Value="bin\windows-i386\cudatext.exe" ApplyConventions="False"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
@@ -643,7 +643,7 @@
           <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
-            <Filename Value="bin\win_arm64\cudatext.exe"/>
+            <Filename Value="bin\windows-aarch64\cudatext.exe"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
