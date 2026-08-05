@@ -2030,7 +2030,10 @@ begin
   OnGetMainEditor(Ed);
   if Ed=nil then exit;
 
-  if FALSE and FInputChanged then //2026.08: disabled to avoid caret jump during HiAll work
+
+  //2026.08: commented block to avoid caret jump during HiAll work, issue #6388
+  (*
+  if FInputChanged then
   begin
     FInputChanged:= false;
     if not edFind.IsEmpty then
@@ -2059,6 +2062,7 @@ begin
       }
     end;
   end;
+  *)
 
   EditorClearHiAllMarkers(Ed);
   if IsHiAll then
@@ -2076,7 +2080,7 @@ begin
       Ed,
       Options,
       //before 2026.08: param AEnableFindNext was FHiAllEnableFindNext
-      //now it's False to avoid caret jump during HiAll work
+      //now it's False to avoid caret jump during HiAll work, issue #6388
       false,
       NMatches,
       bInVisibleArea,
