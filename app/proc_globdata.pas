@@ -93,6 +93,7 @@ var
   AppClosingTabs: boolean;
   AppOpeningFile: boolean;
   AppWindowsSettingChanged: boolean; //Win32: it's set by WM_SETTINGCHANGE message
+  AppRunUnderRoot: string;
 
   AppCodetreeState: record
     Editor: TATSynEdit; //app never deref-s this pointer (never accesses its properties), to avoid crash after ui-tab was closed
@@ -1334,6 +1335,9 @@ const
 implementation
 
 uses
+  {$ifdef unix}
+  BaseUnix,
+  {$endif}
   Masks,
   appjsonconfig,
   ATCanvasPrimitives,
@@ -4392,6 +4396,8 @@ initialization
   {$ifdef unix}
   //allow backslash-char in filenames for OpenDialog/SaveDialog
   AllowDirectorySeparators:= ['/'];
+  if FpGetuid=0 then
+    AppRunUnderRoot:= ' (ROOT)';
   {$endif}
 
   GlobalApplyPopupTheme:= @UpdateMenuTheming_PopupMenu_Win32;

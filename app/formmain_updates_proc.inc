@@ -71,7 +71,7 @@ begin
   end;
 
   Caption:= SName + SSession +
-    IfThen(bAllowAppTitle, ' - ' + msgTitle);
+    IfThen(bAllowAppTitle, ' - ' + msgTitle + AppRunUnderRoot);
 
   Application.Title:= msgModifiedString[F.Modified] + F.TabCaption + (' - ' + msgTitle);
 
