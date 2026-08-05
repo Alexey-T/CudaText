@@ -462,104 +462,6 @@
           </Other>
         </CompilerOptions>
       </Item>
-      <Item Name="linux riscv64 gtk2">
-        <MacroValues Count="1">
-          <Macro1 Name="LCLWidgetType" Value="gtk2"/>
-        </MacroValues>
-        <CompilerOptions>
-          <Version Value="11"/>
-          <PathDelim Value="\"/>
-          <Target>
-            <Filename Value="bin\linux-riscv64-gtk2\cudatext"/>
-          </Target>
-          <SearchPaths>
-            <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="..\comp"/>
-            <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
-          </SearchPaths>
-          <Parsing>
-            <SyntaxOptions>
-              <IncludeAssertionCode Value="True"/>
-            </SyntaxOptions>
-          </Parsing>
-          <CodeGeneration>
-            <SmartLinkUnit Value="True"/>
-            <TargetCPU Value="riscv64"/>
-            <TargetOS Value="linux"/>
-            <Optimizations>
-              <OptimizationLevel Value="2"/>
-            </Optimizations>
-          </CodeGeneration>
-          <Linking>
-            <Debugging>
-              <DebugInfoType Value="dsDwarf2Set"/>
-              <UseExternalDbgSyms Value="True"/>
-            </Debugging>
-            <LinkSmart Value="True"/>
-            <Options>
-              <Win32>
-                <GraphicApplication Value="True"/>
-              </Win32>
-            </Options>
-          </Linking>
-          <Other>
-            <CustomOptions Value="-dcomplete_at_scroll
--dDisableLCLTIFF
--dDisableLCLPNM
--dDisableAsianCodePages
--dGTK2_IME_CODE"/>
-          </Other>
-        </CompilerOptions>
-      </Item>
-      <Item Name="linux riscv64 qt5">
-        <MacroValues Count="1">
-          <Macro3 Name="LCLWidgetType" Value="qt5"/>
-        </MacroValues>
-        <CompilerOptions>
-          <Version Value="11"/>
-          <PathDelim Value="\"/>
-          <Target>
-            <Filename Value="bin\linux-riscv64-qt5\cudatext"/>
-          </Target>
-          <SearchPaths>
-            <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="..\comp"/>
-            <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
-          </SearchPaths>
-          <Parsing>
-            <SyntaxOptions>
-              <IncludeAssertionCode Value="True"/>
-            </SyntaxOptions>
-          </Parsing>
-          <CodeGeneration>
-            <SmartLinkUnit Value="True"/>
-            <TargetCPU Value="riscv64"/>
-            <TargetOS Value="linux"/>
-            <Optimizations>
-              <OptimizationLevel Value="2"/>
-            </Optimizations>
-          </CodeGeneration>
-          <Linking>
-            <Debugging>
-              <DebugInfoType Value="dsDwarf2Set"/>
-              <UseExternalDbgSyms Value="True"/>
-            </Debugging>
-            <LinkSmart Value="True"/>
-            <Options>
-              <Win32>
-                <GraphicApplication Value="True"/>
-              </Win32>
-            </Options>
-          </Linking>
-          <Other>
-            <CustomOptions Value="-dcomplete_at_scroll
--dDisableLCLTIFF
--dDisableLCLPNM
--dDisableAsianCodePages
--dGTK2_IME_CODE"/>
-          </Other>
-        </CompilerOptions>
-      </Item>
       <Item Name="windows x64">
         <CompilerOptions>
           <Version Value="11"/>
@@ -1253,7 +1155,7 @@
           </Other>
         </CompilerOptions>
       </Item>
-      <Item Name="linux x64 debug">
+      <Item Name="linux x64 gtk2 debug">
         <MacroValues Count="1">
           <Macro1 Name="LCLWidgetType" Value="gtk2"/>
         </MacroValues>
@@ -1401,9 +1303,9 @@
         </CompilerOptions>
       </Item>
       <SharedMatrixOptions Count="5">
-        <Item1 ID="352064942102" Modes="default,freebsd x32,freebsd x64,openbsd x64,openbsd x32,netbsd x64,netbsd x32,dragonfly x64,solaris x64,linux x64 gtk2,linux arm gtk2,linux aarch64 gtk2,linux riscv64 gtk2,linux x64 debug" Type="IDEMacro" MacroName="LCLWidgetType" Value="gtk2"/>
+        <Item1 ID="352064942102" Modes="default,freebsd x32,freebsd x64,openbsd x64,openbsd x32,netbsd x64,netbsd x32,dragonfly x64,solaris x64,linux x64 gtk2,linux arm gtk2,linux aarch64 gtk2,linux x64 gtk2 debug" Type="IDEMacro" MacroName="LCLWidgetType" Value="gtk2"/>
         <Item2 ID="028184365614" Modes="linux x64 gtk3" Type="IDEMacro" MacroName="LCLWidgetType" Value="gtk3"/>
-        <Item3 ID="619430612971" Modes="linux x64 qt5,haiku x32 qt5,haiku x64 qt5,linux aarch64 qt5,linux arm qt5,linux riscv64 qt5" Type="IDEMacro" MacroName="LCLWidgetType" Value="qt5"/>
+        <Item3 ID="619430612971" Modes="linux x64 qt5,haiku x32 qt5,haiku x64 qt5,linux aarch64 qt5,linux arm qt5" Type="IDEMacro" MacroName="LCLWidgetType" Value="qt5"/>
         <Item4 ID="128333415096" Modes="linux x64 qt6" Type="IDEMacro" MacroName="LCLWidgetType" Value="qt6"/>
         <Item5 ID="308953563203" Modes="macos x64,macos aarch64" Type="IDEMacro" MacroName="LCLWidgetType" Value="cocoa"/>
       </SharedMatrixOptions>
