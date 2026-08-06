@@ -9297,7 +9297,7 @@ begin
       //MsgLogConsole('Tree-helper data:');
       //MsgLogConsole(Data.ToString);
 
-      Ed.Fold.BackupPersistentRanges; //if uncommented: fold-states +- are not kept during editing
+      Ed.Fold.BackupPersistentRanges; //if uncommented: fold-states +- are not kept during editing //2026.08: ignore prev comment
       Ed.Fold.BackupFoldedStates;
       Ed.Fold.Clear;
 
@@ -9370,7 +9370,7 @@ begin
               Node.Expand(false);
         end;
 
-      Ed.Fold.RestorePersistentRanges; //if uncommented: fold-states +- are not kept during editing
+      Ed.Fold.RestorePersistentRanges; //if uncommented: fold-states +- are not kept during editing //2026.08: ignore prev comment
       Ed.Fold.ClearLineIndexer(Ed.Strings.Count);
       Ed.Fold.UpdateLineIndexer;
       Ed.Fold.RestoreFoldedStates;
