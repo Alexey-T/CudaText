@@ -239,7 +239,7 @@ type
     FCaptionFind: string;
     FCaptionReplace: string;
     FLexerRegexThemed: boolean;
-    FHiAllEnableFindNext: boolean;
+    //FHiAllEnableFindNext: boolean;
     FInitialCaretPos: TPoint;
     Adapter: TATAdapterEControl;
     AdapterActive: boolean;
@@ -1999,7 +1999,7 @@ begin
     exit;
   end;
 
-  FHiAllEnableFindNext:= AEnableFindNext;
+  //FHiAllEnableFindNext:= AEnableFindNext;
   if Assigned(Ed) and (Ed.Strings.Count>UiOps.FindHiAll_TimerLines) then
   begin
     FTimerHiAll.Interval:= UiOps.FindHiAll_TimerInterval;
@@ -2029,7 +2029,6 @@ begin
 
   OnGetMainEditor(Ed);
   if Ed=nil then exit;
-
 
   //2026.08: commented block to avoid caret jump during HiAll work, issue #6388
   (*
