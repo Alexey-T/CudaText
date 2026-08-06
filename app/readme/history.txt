@@ -20,6 +20,7 @@
 - fix: encodings/bookmarks menu-dialogs should not close by click on empty space
 - fix: flickering of gutter-folding-column on editing, when lexer has tree-helper (thanks @mix-7)
 - fix: flickering of scrollbar when user types with auto-completion listbox (thanks @katwalk, @hycmos, @badrelmers)
+- fix: fold-blocks from command "fold selected lines" didn't work ok with Pascal-tree-helpers
 
 1.235.1 (2026/07)
 
