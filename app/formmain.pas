@@ -9337,16 +9337,10 @@ begin
 
         if NY2>NY1 then
         begin
-          {
-          2026.08: below comment is not valid anymore, we add fold range with tag=0.
-
-          must mark fold ranges with tag=cTagPersistentFoldRange, so lexer adapter
-          won't clear ranges immediately on parsing start.
-          so user is able to do many editings and fold ranges are kept, until next tree-helper run.
-          }
-          Ed.Fold.Add(NX1+1, NY1, NX2+1, NY2, false, STitle, 0{cTagPersistentFoldRange});
+          //before 2026.08, code added ranges with Tag=cTagPersistentFoldRange: that is not needed anymore
+          Ed.Fold.Add(NX1+1, NY1, NX2+1, NY2, false, STitle, 0);
           if Assigned(EdPair) then
-            EdPair.Fold.Add(NX1+1, NY1, NX2+1, NY2, false, STitle, 0{cTagPersistentFoldRange});
+            EdPair.Fold.Add(NX1+1, NY1, NX2+1, NY2, false, STitle, 0);
         end;
 
         if Assigned(ATree) and (GetTickCount64-NStartTick>UiOps.TreeFillMaxTime) then
