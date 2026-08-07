@@ -1039,7 +1039,7 @@
   //History: Max items in "recent files" menu (0..50).
   "ui_max_history_menu": 10,
 
-  //History: Max items in "settings/history files.json" (0..400).
+  //History: Max items in "settings/files(OS_SUFFIX).json" (0..400).
   "ui_max_history_files": 25,
 
   //History: Max saved clipboard items for the command "Edit / Paste from history".
