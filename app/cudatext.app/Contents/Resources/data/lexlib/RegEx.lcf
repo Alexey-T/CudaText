@@ -264,6 +264,7 @@ object SyntAnal20: TLibSyntAnalyzer
     '- 1: set by range start "["'
     '- 2: set by any char in range, reset by range start'
     'So "]" closes range only if state=1+2.')
+  Internal = True
   RestartFromLineStart = True
   Charset = DEFAULT_CHARSET
 end
