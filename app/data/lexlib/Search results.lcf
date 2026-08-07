@@ -171,6 +171,5 @@ object SyntAnal20: TLibSyntAnalyzer
   Notes.Strings = (
     'Lexer shows indentation-based folding'
     'For search results in "Find in Files" plugin for CudaText')
-  Internal = True
   Charset = DEFAULT_CHARSET
 end
