@@ -7571,7 +7571,7 @@ begin
             Canvas:= PyHelper_CanvasId_to_CanvasObject(Num64);
             if Canvas=nil then
             begin
-              MsgLogConsole('ERROR: imagelist_proc() gets bad canvas handle');
+              MsgLogConsole('ERROR: imagelist_proc(...IMAGELIST_PAINT...) gets bad canvas handle');
               exit(ReturnNone);
             end;
             Sep.GetItemInt(NX, 0);
@@ -7932,7 +7932,7 @@ begin
             Obj:= TObject(PtrInt(IdImgList));
             if Assigned(Obj) and not (Obj is TImageList) then
             begin
-              MsgLogConsole('ERROR: tree_proc() gets bad handle of image-list, of type '+Obj.ClassName);
+              MsgLogConsole('ERROR: tree_proc(...TREE_SET_IMAGELIST...) gets bad handle of image-list, of type '+Obj.ClassName);
               exit(ReturnNone);
             end;
             if bStandardCodeTree then
@@ -8401,7 +8401,7 @@ begin
           Obj2:= TObject(PtrInt(Num64));
           if not (Obj2 is TComponent) then
           begin
-            MsgLogConsole('ERROR: image_proc(IMAGE_CREATE) gets bad owner handle, of type '+Obj2.ClassName);
+            MsgLogConsole('ERROR: image_proc(...IMAGE_CREATE...) gets bad owner handle, of type '+Obj2.ClassName);
             exit(ReturnNone);
           end;
           Obj:= TComponent(Obj2);
@@ -8455,7 +8455,7 @@ begin
             Canvas:= PyHelper_CanvasId_to_CanvasObject(Num64);
             if Canvas=nil then
             begin
-              MsgLogConsole('ERROR: image_proc() gets bad canvas handle');
+              MsgLogConsole('ERROR: image_proc(...IMAGE_PAINT...) gets bad canvas handle');
               exit(ReturnNone);
             end;
             Sep.GetItemInt(NX, 0);
@@ -8471,7 +8471,7 @@ begin
             Canvas:= PyHelper_CanvasId_to_CanvasObject(Num64);
             if Canvas=nil then
             begin
-              MsgLogConsole('ERROR: image_proc() gets bad canvas handle');
+              MsgLogConsole('ERROR: image_proc(...IMAGE_PAINT_SIZED...) gets bad canvas handle');
               exit(ReturnNone);
             end;
             Sep.GetItemInt(NX, 0);
@@ -10167,7 +10167,7 @@ begin
               Form.ShowInTaskBar:= Form.ShowInTaskbar_Pending; //after xxShow, for #4456
             end
             else
-              MsgLogConsole('ERROR: DLG_SHOW_MODAL was called for docked form');
+              MsgLogConsole('ERROR: dlg_proc(...DLG_SHOW_MODAL...) was called for docked form');
             Result:= ReturnNone;
           end;
 
@@ -10301,7 +10301,7 @@ begin
               Obj:= TObject(PtrInt(NIndex));
               if not (Obj is TForm) then
               begin
-                MsgLogConsole('ERROR: dlg_proc(DLG_DOCK) gets bad form handle, of type '+Obj.ClassName);
+                MsgLogConsole('ERROR: dlg_proc(...DLG_DOCK...) gets bad form handle, of type '+Obj.ClassName);
                 exit(ReturnNone);
               end;
               Form.Parent:= TForm(Obj);
