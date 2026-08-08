@@ -334,6 +334,7 @@ Actions work with props of Find/Replace dialog, and props of low-level search en
 
 ====app_proc - System====
 
+* PROC_IDLE: Performs application's message-processing. If param "text" is True, also waits for new UI event.
 * PROC_ENUM_FONTS: Returns list of font names, currently installed in OS. There are no font names common in all OS'es.
 * PROC_ENUM_ENCODINGS: Returns list of supported encoding names.
 * PROC_GET_SYSTEM_PPI: Returns int value of screen pixels-per-inch. Usual value is 96. When OS UI is scaled, it's bigger, e.g. for scale 150% it is round(96*1.5).
@@ -720,6 +721,8 @@ For line "line 10 column 20: text message here" the following regex and indexes 
 * zero-base flag "0" (off).
 
 ===app_idle===
+
+(deprecated, use app_proc(PROC_IDLE, wait_bool_flag) instead)
 
  app_idle(wait=False)
 
@@ -5389,7 +5392,9 @@ It provides:
 * add: Editor.get_prop: PROP_TAB_ID is now much more unique, and it is persistent (it is saved/restored to session)
 * add: Editor.get_prop: PROP_HANDLE_IMAGE
 * add: image_proc: IMAGE_GET_SIZE_UI
+* add: app_proc: PROC_IDLE
 * change: Editor.get_filename: for Editor not in ui-tab, returns now empty str (before it was None)
 * delete: PROP_PICTURE (none public plugins did use it; use PROP_HANDLE_IMAGE instead)
+* deprecate: app_idle()
 
 [[Category:CudaText]]
