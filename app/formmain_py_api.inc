@@ -546,6 +546,11 @@ end;
 
 
 function api_app_idle(Self, Args: PPyObject): PPyObject; cdecl;
+{
+plan:
+2026.09 or .10 - add here Console message "ERROR: app_idle is deprecated, avoid it"
+2026.12 - update all plugins and delete app_idle
+}
 var
   Flag: LongBool;
 begin
