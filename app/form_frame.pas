@@ -374,7 +374,7 @@ type
     ImageBox: TATImageBox;
     Viewer: TATBinHex;
     MacroStrings: TStringList;
-    VersionInSession: Int64;
+    //VersionInSession: Int64;
     UniqueCounter: Int64;
     FileProps: array[0..1] of TAppFileProps;
     InitialOptions: array[0..1] of TEditorTempOptions;
