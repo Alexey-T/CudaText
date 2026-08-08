@@ -5385,6 +5385,6 @@ It provides:
 * add: dlg_proc: controls "memo"/"edit"/"edit_pwd"/"spinedit"/"combo" support new event "on_key_press"
 * add: Editor.get_prop: PROP_TAB_ID is now more unique, and it is persistent (it is saved/restored to session)
 * add: file_open: function supports empty filename1 and non-empty filename2
-* change: file_open: for Editor not in ui-tab, returns now empty str (before it was None)
+* change: Editor.get_filename: for Editor not in ui-tab, returns now empty str (before it was None)
 
 [[Category:CudaText]]
