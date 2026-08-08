@@ -2633,7 +2633,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_MARKED_RANGE: 2-tuple with line indexes of "marked range"; (-1, -1) if range not set.
 * PROP_VISIBLE_LINES: int: max count of lines that fit to window (doesn't consider word wrap).
 * PROP_VISIBLE_COLUMNS: int: max count of columns that fit to window.
-* PROP_PICTURE: for ui-tab containing picture viewer with a loaded picture, returns 3-tuple: (picture_filename, size_x, size_y). Returns None if no picture is loaded.
+* PROP_HANDLE_IMAGE: for ui-tab containing picture viewer, returns int handle if the image-object, this handle is compatible with image_proc(). Otherwise, returns None.
 * PROP_MINIMAP: bool: minimap is visible.
 * PROP_MINIMAP_CHAR_WIDTH: int: minimap width, in average chars.
 * PROP_MINIMAP_SCALE: int: minimap custom scale, in percents; if value<=100: auto-detect.
@@ -5383,8 +5383,10 @@ It provides:
 1.0.483 (app 1.236.0)
 * add: on_state: APPSTATE_SESSION_SET
 * add: dlg_proc: controls "memo"/"edit"/"edit_pwd"/"spinedit"/"combo" support new event "on_key_press"
-* add: Editor.get_prop: PROP_TAB_ID is now more unique, and it is persistent (it is saved/restored to session)
 * add: file_open: function supports empty filename1 and non-empty filename2
+* add: Editor.get_prop: PROP_TAB_ID is now much more unique, and it is persistent (it is saved/restored to session)
+* add: Editor.get_prop: PROP_HANDLE_IMAGE
 * change: Editor.get_filename: for Editor not in ui-tab, returns now empty str (before it was None)
+* delete: PROP_PICTURE (none public plugins did use it; use PROP_HANDLE_IMAGE instead)
 
 [[Category:CudaText]]
