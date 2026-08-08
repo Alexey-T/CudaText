@@ -3822,15 +3822,12 @@ begin
             Result:= PyUnicodeFromString(Str);
           end;
 
-        PROP_PICTURE:
+        PROP_HANDLE_IMAGE:
           begin
-            if (Frame=nil) or (Frame.FrameKind<>TAppFrameKind.ImageViewer) then
-              Result:= ReturnNone
+            if Assigned(Frame) and Assigned(Frame.FImageBox) then
+              Result:= PyHelper_ObjectHandle(Frame.FImageBox.Image)
             else
-            begin
-              Pnt:= Frame.PictureSizes;
-              Result:= Py_BuildValue('(sii)', PChar(Frame.FileName), Pnt.X, Pnt.Y);
-            end;
+              Result:= ReturnNone;
           end;
 
         PROP_COORDS:

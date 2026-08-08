@@ -185,8 +185,6 @@ type
     FTabKeyCollectMarkers: boolean;
     FIsLoadedFromSession: boolean;
     FMacroRecord: boolean;
-    FImageBox: TATImageBox;
-    FViewer: TATBinHex;
     FViewerStream: TFileStream;
     FViewerSelectionChanged: boolean;
     FCheckFilenameOpened: TAppStringFunction;
@@ -373,6 +371,8 @@ type
     Ed2: TATSynEdit;
     Splitter: TSplitter;
     Groups: TATGroups;
+    FImageBox: TATImageBox;
+    FViewer: TATBinHex;
     MacroStrings: TStringList;
     VersionInSession: Int64;
     UniqueCounter: Int64;
