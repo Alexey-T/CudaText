@@ -2169,7 +2169,8 @@ Possible values of "id_action":
 ** If it is form handle from dlg_proc, object will be deleted after deletion of this form.
 ** If it is 0, main application form is used as owner, and object will be persistent.
 
-* IMAGE_GET_SIZE: Returns current image size as 2-tuple (width, height).
+* IMAGE_GET_SIZE: Returns original picture size as 2-tuple (width, height).
+* IMAGE_GET_SIZE_UI: Returns current GUI-control size as 2-tuple (width, height). For example, if GUI control is scaled to 50%, IMAGE_GET_SIZE_UI returns half of the IMAGE_GET_SIZE.
 * IMAGE_LOAD: Reads picture file into image object. Param "value" must be full file path. Supported formats: PNG, JPEG (extensions: jpg/jpeg/jfif), BMP, GIF, ICO, WEBP.
 * IMAGE_PAINT: Paints image object on given canvas, at given coords. Param "value" must be tuple (canvas_id, x, y). Value canvas_id can be 0, for testing paintbox in CudaText.
 * IMAGE_PAINT_SIZED: Paints image object on given canvas, resized to given rectangle. Param "value" must be tuple (canvas_id, x1, y1, x2, y2).
@@ -5387,6 +5388,7 @@ It provides:
 * add: file_open: function supports empty filename1 and non-empty filename2
 * add: Editor.get_prop: PROP_TAB_ID is now much more unique, and it is persistent (it is saved/restored to session)
 * add: Editor.get_prop: PROP_HANDLE_IMAGE
+* add: image_proc: IMAGE_GET_SIZE_UI
 * change: Editor.get_filename: for Editor not in ui-tab, returns now empty str (before it was None)
 * delete: PROP_PICTURE (none public plugins did use it; use PROP_HANDLE_IMAGE instead)
 
