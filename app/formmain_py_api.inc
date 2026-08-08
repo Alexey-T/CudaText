@@ -8430,6 +8430,13 @@ begin
               Image.Picture.Height);
           end;
 
+        APP_IMAGE_GET_SIZE_UI:
+          begin
+            Result:= Py_BuildValue('(ii)',
+              Image.Width,
+              Image.Height);
+          end;
+
         APP_IMAGE_LOAD:
           begin
             Gr:= AppLoadPictureFromFile(StrValue);

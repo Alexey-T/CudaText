@@ -823,6 +823,7 @@ _live = {}
 IMAGE_CREATE      = 0
 IMAGE_GET_SIZE    = 1
 IMAGE_LOAD        = 2
+IMAGE_GET_SIZE_UI = 3
 IMAGE_PAINT       = 5
 IMAGE_PAINT_SIZED = 6
 

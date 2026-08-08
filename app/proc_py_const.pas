@@ -755,6 +755,7 @@ const
   APP_IMAGE_CREATE      = 0;
   APP_IMAGE_GET_SIZE    = 1;
   APP_IMAGE_LOAD        = 2;
+  APP_IMAGE_GET_SIZE_UI = 3;
   APP_IMAGE_PAINT       = 5;
   APP_IMAGE_PAINT_SIZED = 6;
 
