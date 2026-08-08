@@ -5357,6 +5357,13 @@ begin
             Result:= PyHelper_CommandList;
           end;
 
+        APP_PROC_IDLE:
+          begin
+            Application.ProcessMessages;
+            Application.Idle(ParamBool);
+            Result:= ReturnNone;
+          end;
+
         APP_PROC_GET_COMPILER_INFO:
           begin
             Result:= Py_BuildValue('{ssssssss}',

@@ -344,6 +344,7 @@ PROC_SET_SESSION         = 5
 PROC_GET_CLIP_EX         = 6
 PROC_SET_FOLDER          = 7
 PROC_GET_COMMANDS        = 8
+PROC_IDLE                = 9
 PROC_GET_LAST_PLUGIN     = 11
 PROC_GET_GROUPING        = 12
 PROC_SET_GROUPING        = 13
