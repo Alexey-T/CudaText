@@ -372,7 +372,7 @@ type
     Splitter: TSplitter;
     Groups: TATGroups;
     FImageBox: TATImageBox;
-    FViewer: TATBinHex;
+    Viewer: TATBinHex;
     MacroStrings: TStringList;
     VersionInSession: Int64;
     UniqueCounter: Int64;
@@ -459,7 +459,6 @@ type
     procedure LexerReparse;
     function PictureSizes: TPoint;
     property PictureScale: integer read GetPictureScale write SetPictureScale;
-    property Viewer: TATBinHex read FViewer;
     function ViewerFind(AFinder: TATEditorFinder; AShowAll, AFindNextOrPrev, AFindPrev: boolean): boolean;
     //
     property BracketHilite: boolean read FBracketHilite write SetBracketHilite;
@@ -2017,8 +2016,8 @@ begin
         AHandled:= false;
         if FrameKind=TAppFrameKind.BinaryViewer then
         begin
-          if Assigned(FViewer) then
-            FViewer.TextWrap:= not FViewer.TextWrap;
+          if Assigned(Viewer) then
+            Viewer.TextWrap:= not Viewer.TextWrap;
           AHandled:= true;
         end
         else
@@ -2485,10 +2484,10 @@ var
 begin
   CloseFormAutoCompletion;
 
-  if Assigned(FViewer) then
+  if Assigned(Viewer) then
   begin
-    FViewer.OpenStream(nil, False); //ARedraw=False to not paint on Win desktop with DC=0
-    FreeAndNil(FViewer);
+    Viewer.OpenStream(nil, False); //ARedraw=False to not paint on Win desktop with DC=0
+    FreeAndNil(Viewer);
   end;
 
   if Assigned(FMicromapBmp) then
@@ -2641,10 +2640,10 @@ begin
   EditorApplyTheme(Ed1);
   EditorApplyTheme(Ed2);
 
-  if Assigned(FViewer) then
+  if Assigned(Viewer) then
   begin
-    AppApplyThemeToViewer(FViewer);
-    FViewer.Invalidate;
+    AppApplyThemeToViewer(Viewer);
+    Viewer.Invalidate;
   end;
 
   ApplyThemeToImageBox(FImageBox);
@@ -2667,7 +2666,7 @@ end;
 
 function TEditorFrame.FrameKind: TAppFrameKind;
 begin
-  if Assigned(FViewer) and FViewer.Visible then
+  if Assigned(Viewer) and Viewer.Visible then
     Result:= TAppFrameKind.BinaryViewer
   else
   if Assigned(FImageBox) and FImageBox.Visible then
@@ -2834,37 +2833,37 @@ begin
   if Assigned(FImageBox) then
     FImageBox.Hide;
 
-  if Assigned(FViewer) then
-    FViewer.OpenStream(nil)
+  if Assigned(Viewer) then
+    Viewer.OpenStream(nil)
   else
   begin
-    FViewer:= TATBinHex.Create(FFormDummy);
-    FViewer.Hide; //reduce flicker with initial size
-    FViewer.OnKeyDown:= @ViewerOnKeyDown;
-    FViewer.OnScroll:= @ViewerOnScroll;
-    FViewer.OnEnter:= @ViewerOnEnter;
-    FViewer.OnOptionsChange:= @ViewerOnScroll;
-    FViewer.OnSelectionChange:= @ViewerOnSelectionChange;
-    FViewer.OnSearchProgress:= @ViewerOnProgress;
-    FViewer.Parent:= FFormDummy;
-    FViewer.Align:= alClient;
-    FViewer.BorderStyle:= bsNone;
-    FViewer.ResizeFollowTail:= false; //fixes scrolling to the end on file loading
-    FViewer.TextGutter:= true;
-    FViewer.TextPopupCommands:= [vpCmdCopy, vpCmdCopyHex, vpCmdSelectAll];
-    FViewer.TextPopupCaption[vpCmdCopy]:= ATEditorOptions.TextMenuitemCopy;
-    FViewer.TextPopupCaption[vpCmdCopyHex]:= ATEditorOptions.TextMenuitemCopy+' (hex)';
-    FViewer.TextPopupCaption[vpCmdSelectAll]:= ATEditorOptions.TextMenuitemSelectAll;
-    FViewer.Show;
+    Viewer:= TATBinHex.Create(FFormDummy);
+    Viewer.Hide; //reduce flicker with initial size
+    Viewer.OnKeyDown:= @ViewerOnKeyDown;
+    Viewer.OnScroll:= @ViewerOnScroll;
+    Viewer.OnEnter:= @ViewerOnEnter;
+    Viewer.OnOptionsChange:= @ViewerOnScroll;
+    Viewer.OnSelectionChange:= @ViewerOnSelectionChange;
+    Viewer.OnSearchProgress:= @ViewerOnProgress;
+    Viewer.Parent:= FFormDummy;
+    Viewer.Align:= alClient;
+    Viewer.BorderStyle:= bsNone;
+    Viewer.ResizeFollowTail:= false; //fixes scrolling to the end on file loading
+    Viewer.TextGutter:= true;
+    Viewer.TextPopupCommands:= [vpCmdCopy, vpCmdCopyHex, vpCmdSelectAll];
+    Viewer.TextPopupCaption[vpCmdCopy]:= ATEditorOptions.TextMenuitemCopy;
+    Viewer.TextPopupCaption[vpCmdCopyHex]:= ATEditorOptions.TextMenuitemCopy+' (hex)';
+    Viewer.TextPopupCaption[vpCmdSelectAll]:= ATEditorOptions.TextMenuitemSelectAll;
+    Viewer.Show;
   end;
 
-  FViewer.DoubleBuffered:= UiOps.DoubleBuffered;
-  FViewer.TextWidth:= UiOps.ViewerBinaryWidth;
-  FViewer.TextNonPrintable:= UiOps.ViewerNonPrintable;
-  FViewer.TextWrap:= Ed1.OptWrapMode<>TATEditorWrapMode.ModeOff;
+  Viewer.DoubleBuffered:= UiOps.DoubleBuffered;
+  Viewer.TextWidth:= UiOps.ViewerBinaryWidth;
+  Viewer.TextNonPrintable:= UiOps.ViewerNonPrintable;
+  Viewer.TextWrap:= Ed1.OptWrapMode<>TATEditorWrapMode.ModeOff;
   //don't sync spacing yet! value>0 shows the ATBinHex bug during mouse selection: mouse coord in spacing makes selection flicker
-  //FViewer.TextLineSpacing:= EditorOps.OpSpacingBottom;
-  FViewer.Mode:= AMode;
+  //Viewer.TextLineSpacing:= EditorOps.OpSpacingBottom;
+  Viewer.Mode:= AMode;
 
   if Assigned(FViewerStream) then
     FreeAndNil(FViewerStream);
@@ -2879,15 +2878,15 @@ begin
     end;
   end;
 
-  AppApplyThemeToViewer(FViewer);
-  FViewer.Show;
-  FViewer.OpenStream(FViewerStream);
+  AppApplyThemeToViewer(Viewer);
+  Viewer.Show;
+  Viewer.OpenStream(FViewerStream);
   if DetectStreamUtf8NoBom(FViewerStream, UiOps.NonTextFilesBufferKb)=TATBufferUTF8State.Yes then
-    FViewer.TextEncoding:= eidUTF8;
-  FViewer.PosBegin;
+    Viewer.TextEncoding:= eidUTF8;
+  Viewer.PosBegin;
 
-  if Visible and FViewer.Visible and FViewer.CanFocus then
-    FViewer.SetFocus;
+  if Visible and Viewer.Visible and Viewer.CanFocus then
+    Viewer.SetFocus;
 
   DoOnUpdateStatusbar(TAppStatusbarUpdateReason.FileOpen);
 end;
@@ -2952,10 +2951,10 @@ end;
 
 procedure TEditorFrame.DoDeactivateViewerMode;
 begin
-  if Assigned(FViewer) then
+  if Assigned(Viewer) then
   begin
-    FViewer.OpenStream(nil, false);
-    FreeAndNil(FViewer);
+    Viewer.OpenStream(nil, false);
+    FreeAndNil(Viewer);
 
     if Assigned(FViewerStream) then
       FreeAndNil(FViewerStream);
@@ -2975,8 +2974,8 @@ begin
   FileProps[0].Inited:= false; //loading of new filename must not trigger notif-thread
   FileProps[1].Inited:= false;
 
-  if Assigned(FViewer) then
-    FViewer.Hide;
+  if Assigned(Viewer) then
+    Viewer.Hide;
   if Assigned(FImageBox) then
     FImageBox.Hide;
 
@@ -3536,7 +3535,7 @@ begin
 
   Mode:= TAppOpenMode.Editor;
   if FrameKind=TAppFrameKind.BinaryViewer then
-    case FViewer.Mode of
+    case Viewer.Mode of
       vbmodeText:
         Mode:= TAppOpenMode.ViewText;
       vbmodeBinary:
@@ -3778,7 +3777,7 @@ begin
       Result:= Editor.OptWrapMode;
     TAppFrameKind.BinaryViewer:
       begin
-        if Assigned(FViewer) and FViewer.TextWrap then
+        if Assigned(Viewer) and Viewer.TextWrap then
           Result:= TATEditorWrapMode.ModeOn
         else
           Result:= TATEditorWrapMode.ModeOff;
@@ -5089,8 +5088,8 @@ begin
 
       TAppFrameKind.BinaryViewer:
         begin
-          if Assigned(FViewer) and FViewer.Visible and FViewer.CanFocus then
-            EditorFocus(FViewer);
+          if Assigned(Viewer) and Viewer.Visible and Viewer.CanFocus then
+            EditorFocus(Viewer);
         end;
 
       TAppFrameKind.ImageViewer:
@@ -5148,7 +5147,7 @@ var
   Ops: TATStreamSearchOptions;
   bForward: boolean;
 begin
-  Assert(Assigned(FViewer), 'Viewer not inited for search');
+  Assert(Assigned(Viewer), 'Viewer not inited for search');
   Result:= false;
   if FViewerStream=nil then exit;
 
@@ -5159,15 +5158,15 @@ begin
   else
     NStartPos:= High(Int64);
 
-  if AFinder.OptInSelection and (FViewer.SelLength=0) then
+  if AFinder.OptInSelection and (Viewer.SelLength=0) then
     exit;
 
-  if AFindNextOrPrev and (FViewer.FoundLength>0) and not (AFinder.OptInSelection and FViewerSelectionChanged) then
+  if AFindNextOrPrev and (Viewer.FoundLength>0) and not (AFinder.OptInSelection and FViewerSelectionChanged) then
   begin
     if bForward then
-      NStartPos:= FViewer.FoundStart+FViewer.FoundLength
+      NStartPos:= Viewer.FoundStart+Viewer.FoundLength
     else
-      NStartPos:= FViewer.FoundStart-FViewer.CharSize;
+      NStartPos:= Viewer.FoundStart-Viewer.CharSize;
   end;
 
   Ops:= [];
@@ -5183,7 +5182,7 @@ begin
     Include(Ops, asoShowAll);
 
   FViewerSelectionChanged:= false;
-  Result:= FViewer.Find(
+  Result:= Viewer.Find(
     UTF8Encode(AFinder.StrFind),
     Ops,
     NStartPos);
