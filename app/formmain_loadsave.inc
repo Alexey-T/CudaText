@@ -480,7 +480,6 @@ begin
           cfg.SetValue(sJsonPath+'/ends', Ord(Frame.Ed1.Strings.Endings));
           if (not bUntitled) and FileExists(sTabFilename) then
             cfg.SetValue(sJsonPath+'/file_date', ConvertFileDateToNiceString(sTabFilename));
-          //Frame.VersionInSession:= Frame.Ed1.Strings.ModifiedVersion;
 
           if UiOps.HistoryItems[TAppHistoryElement.UndoRedo] then
           begin

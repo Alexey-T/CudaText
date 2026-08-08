@@ -374,7 +374,6 @@ type
     ImageBox: TATImageBox;
     Viewer: TATBinHex;
     MacroStrings: TStringList;
-    //VersionInSession: Int64;
     UniqueCounter: Int64;
     FileProps: array[0..1] of TAppFileProps;
     InitialOptions: array[0..1] of TEditorTempOptions;
@@ -384,7 +383,7 @@ type
     destructor Destroy; override;
     function Editor: TATSynEdit;
     function EditorBrother: TATSynEdit;
-    function Modified{(ACheckOnSessionClosing: boolean=false)}: boolean;
+    function Modified: boolean;
     property Adapter[Ed: TATSynEdit]: TATAdapterEControl read GetAdapter;
     procedure EditorOnKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure DoShow;
@@ -5404,30 +5403,12 @@ begin
   end;
 end;
 
-function TEditorFrame.Modified{(ACheckOnSessionClosing: boolean=false)}: boolean;
+function TEditorFrame.Modified: boolean;
 begin
   if FEditorsLinked then
     Result:= EditorIsModifiedEx(Ed1)
   else
     Result:= EditorIsModifiedEx(Ed1) or EditorIsModifiedEx(Ed2);
-
-  {
-  //asked in issue #3891 - close modified untitled tabs w/o confirmation
-  // it is to use in 2 places:
-  // 1. TfmMain.DoFileCloseAll
-  // 2. TfmMain.DoOnTabClose
-
-  if Result and ACheckOnSessionClosing then
-  begin
-    //don't ask to save tab, if we are closing session with untitled tab,
-    //and this tab was just saved (to session file) by Auto Save plugin
-    if AppSessionIsClosing and
-      EditorsLinked and
-      (FileName='') and
-      (VersionInSession=Ed1.Strings.ModifiedVersion) then
-     Result:= false;
-  end;
-  }
 end;
 
 procedure TEditorFrame.PanelInfoClick(Sender: TObject);
