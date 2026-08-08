@@ -3824,8 +3824,8 @@ begin
 
         PROP_HANDLE_IMAGE:
           begin
-            if Assigned(Frame) and Assigned(Frame.FImageBox) then
-              Result:= PyHelper_ObjectHandle(Frame.FImageBox.Image)
+            if Assigned(Frame) and Assigned(Frame.ImageBox) then
+              Result:= PyHelper_ObjectHandle(Frame.ImageBox.Image)
             else
               Result:= ReturnNone;
           end;

@@ -371,7 +371,7 @@ type
     Ed2: TATSynEdit;
     Splitter: TSplitter;
     Groups: TATGroups;
-    FImageBox: TATImageBox;
+    ImageBox: TATImageBox;
     Viewer: TATBinHex;
     MacroStrings: TStringList;
     VersionInSession: Int64;
@@ -1312,8 +1312,8 @@ end;
 
 function TEditorFrame.GetPictureScale: integer;
 begin
-  if Assigned(FImageBox) then
-    Result:= FImageBox.ImageZoom
+  if Assigned(ImageBox) then
+    Result:= ImageBox.ImageZoom
   else
     Result:= 100;
 end;
@@ -1490,13 +1490,13 @@ end;
 
 procedure TEditorFrame.SetPictureScale(AValue: integer);
 begin
-  if Assigned(FImageBox) then
+  if Assigned(ImageBox) then
   begin
     if AValue>0 then
-      FImageBox.ImageZoom:= AValue
+      ImageBox.ImageZoom:= AValue
     else
     if AValue=-1 then
-      FImageBox.OptFitToWindow:= true;
+      ImageBox.OptFitToWindow:= true;
   end;
 end;
 
@@ -2496,8 +2496,8 @@ begin
   if Assigned(FViewerStream) then
     FreeAndNil(FViewerStream);
 
-  if Assigned(FImageBox) then
-    FreeAndNil(FImageBox);
+  if Assigned(ImageBox) then
+    FreeAndNil(ImageBox);
 
   Ed1.AdapterForHilite:= nil;
   Ed2.AdapterForHilite:= nil;
@@ -2646,7 +2646,7 @@ begin
     Viewer.Invalidate;
   end;
 
-  ApplyThemeToImageBox(FImageBox);
+  ApplyThemeToImageBox(ImageBox);
 
   Splitter.Color:= GetAppColor(TAppThemeColor.SplitMain);
 
@@ -2669,7 +2669,7 @@ begin
   if Assigned(Viewer) and Viewer.Visible then
     Result:= TAppFrameKind.BinaryViewer
   else
-  if Assigned(FImageBox) and FImageBox.Visible then
+  if Assigned(ImageBox) and ImageBox.Visible then
     Result:= TAppFrameKind.ImageViewer
   else
     Result:= TAppFrameKind.Editor;
@@ -2830,8 +2830,8 @@ begin
   Splitter.Hide;
   ReadOnly[Ed1]:= true;
 
-  if Assigned(FImageBox) then
-    FImageBox.Hide;
+  if Assigned(ImageBox) then
+    ImageBox.Hide;
 
   if Assigned(Viewer) then
     Viewer.OpenStream(nil)
@@ -2903,22 +2903,22 @@ begin
   Splitter.Hide;
   ReadOnly[Ed1]:= true;
 
-  if not Assigned(FImageBox) then
+  if not Assigned(ImageBox) then
   begin
-    FImageBox:= TATImageBox.Create(FFormDummy);
-    FImageBox.Parent:= FFormDummy;
-    FImageBox.Align:= alClient;
-    FImageBox.BorderStyle:= bsNone;
-    FImageBox.OptFitToWindow:= true;
-    FImageBox.OnKeyDown:= @ViewerOnKeyDown;
-    FImageBox.OnImageResize:= @DoImageboxImageResize;
-    FImageBox.OnEnter:= @DoImageboxOnEnter;
+    ImageBox:= TATImageBox.Create(FFormDummy);
+    ImageBox.Parent:= FFormDummy;
+    ImageBox.Align:= alClient;
+    ImageBox.BorderStyle:= bsNone;
+    ImageBox.OptFitToWindow:= true;
+    ImageBox.OnKeyDown:= @ViewerOnKeyDown;
+    ImageBox.OnImageResize:= @DoImageboxImageResize;
+    ImageBox.OnEnter:= @DoImageboxOnEnter;
   end;
 
   try
-    ApplyThemeToImageBox(FImageBox);
-    FImageBox.Show;
-    FImageBox.LoadFromFile(AFileName);
+    ApplyThemeToImageBox(ImageBox);
+    ImageBox.Show;
+    ImageBox.LoadFromFile(AFileName);
   except
   end;
 
@@ -2941,9 +2941,9 @@ end;
 
 procedure TEditorFrame.DoDeactivatePictureMode;
 begin
-  if Assigned(FImageBox) then
+  if Assigned(ImageBox) then
   begin
-    FreeAndNil(FImageBox);
+    FreeAndNil(ImageBox);
     Ed1.Show;
     ReadOnly[Ed1]:= false;
   end;
@@ -2976,8 +2976,8 @@ begin
 
   if Assigned(Viewer) then
     Viewer.Hide;
-  if Assigned(FImageBox) then
-    FImageBox.Hide;
+  if Assigned(ImageBox) then
+    ImageBox.Hide;
 
   if not AAllowDeleted then
   begin
@@ -5029,8 +5029,8 @@ end;
 
 function TEditorFrame.PictureSizes: TPoint;
 begin
-  if Assigned(FImageBox) then
-    Result:= Point(FImageBox.ImageWidth, FImageBox.ImageHeight)
+  if Assigned(ImageBox) then
+    Result:= Point(ImageBox.ImageWidth, ImageBox.ImageHeight)
   else
     Result:= Point(0, 0);
 end;
@@ -5094,8 +5094,8 @@ begin
 
       TAppFrameKind.ImageViewer:
         begin
-          if Assigned(FImageBox) and FImageBox.Visible and FImageBox.CanFocus then
-            FImageBox.SetFocus;
+          if Assigned(ImageBox) and ImageBox.Visible and ImageBox.CanFocus then
+            ImageBox.SetFocus;
         end;
     end;
   end;
