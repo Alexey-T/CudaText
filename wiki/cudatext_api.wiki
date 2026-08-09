@@ -732,11 +732,15 @@ Performs application's message-processing. If wait=True, also waits for new UI e
 
  emmet(id, text, p1="", p2="")
 
-Performs action with embedded Emmet engine. Possible values of "id":
+Performs action with built-in Emmet engine (written in Pascal).
+
+Possible values of Emmet syntax (for actions which need the syntax): "html", "xml", "xsl", "css", "svg", "sass", "less".
+
+Possible values of "id":
 
 * EMMET_EXPAND: Expand abbreviation. Returns 2-tuple (str_result, bool_multi_caret) or None.
 ** Param "text": Emmet abbreviation.
-** Param "p1": Emmet syntax. Possible values: "html", "xml", "xsl", "css", "svg", "sass", "less".
+** Param "p1": Emmet syntax.
 
 * EMMET_WRAP: Wrap text with abbreviation. Returns str result or None.
 ** Param "text": Emmet abbreviation.
@@ -745,7 +749,7 @@ Performs action with embedded Emmet engine. Possible values of "id":
 
 * EMMET_GET_POS: Find beginning of abbreviation in given string. Returns offset in string (0-based), or None.
 ** Param "text": Text string (can include unneeded text after caret position, can include HTML tags before abbreviation).
-** Param "p1": Caret offset (0-based) to search abbreviation to the left of it.
+** Param "p1": Initial offset in the given text (0-based). Abbreviation search will start from this offset and go to the text begin.
 
 ===msg_box===
 
