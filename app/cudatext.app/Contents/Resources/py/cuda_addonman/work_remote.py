@@ -11,12 +11,21 @@ from .work_tempdir import get_temp_dir
 from cudax_lib import get_translation
 _   = get_translation(__file__)  # i18n
 
+_get_url_busy = False
+
 def get_url(url, fn, del_first=False):
     '''
     Returns True if downloaded OK.
     Returns False if cannot download and Abort pressed.
     Returns None if cannot download and Ignore pressed.
     '''
+
+    global _get_url_busy
+    if _get_url_busy:
+        print('ERROR: Python downloader is busy, but another plugin called it')
+        return
+    _get_url_busy = True
+
     if opt.sf_mirror:
         if url.startswith('https://sourceforge.net/projects/'):
             url += '/download?use_mirror='+opt.sf_mirror
@@ -66,6 +75,8 @@ def get_url(url, fn, del_first=False):
                 if os.path.isfile(fn):
                     os.remove(fn)
                 os.rename(fn_temp, fn)
+
+            _get_url_busy = False
             return True
 
         except Exception as e:
@@ -74,8 +85,10 @@ def get_url(url, fn, del_first=False):
             if res != app.ID_RETRY:
                 app.app_proc(app.PROC_PROGRESSBAR, -1)
             if res == app.ID_IGNORE:
+                _get_url_busy = False
                 return
             if res in (app.ID_ABORT, app.ID_CANCEL):
+                _get_url_busy = False
                 return False
 
 
