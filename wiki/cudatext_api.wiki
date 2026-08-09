@@ -722,7 +722,7 @@ For line "line 10 column 20: text message here" the following regex and indexes 
 
 ===app_idle===
 
-(deprecated, use app_proc(PROC_IDLE, wait_bool_flag) instead)
+DEPRECATED. Use <code>app_proc(PROC_IDLE, wait_bool_flag)</code> instead.
 
  app_idle(wait=False)
 
