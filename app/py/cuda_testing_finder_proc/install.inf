@@ -1,5 +1,5 @@
 [info]
-title=Testing finder_proc
+title=Testing of finder_proc API
 desc=(Fill the description)
 type=cudatext-plugin
 subdir=cuda_testing_finder_proc
