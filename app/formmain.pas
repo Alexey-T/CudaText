@@ -3307,7 +3307,6 @@ begin
     AppFile_History,
     UiOps.SaveModifiedTabsOnClose,
     UiOps.SessionSaveOnExit
-    //UiOps.ReopenSession //2025.04: change it to UiOps.SessionSaveOnExit ?
     );
 
   {$ifndef windows}
