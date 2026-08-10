@@ -22,7 +22,7 @@
 - fix: flickering of gutter-folding-column on editing, when lexer has tree-helper (thanks @mix-7)
 - fix: flickering of scrollbar when user types with auto-completion listbox (thanks @katwalk, @hycmos, @badrelmers)
 - fix: fold-blocks from command "fold selected lines" didn't work ok with Pascal-tree-helpers
-- fix: regression in last months: dialog "Save tabs?" button "Don't save / Keep in session" did not save the session
+- fix: regression in 1.235.0: dialog "Save tabs?" button "Don't save / Keep in session" did not save the session (thanks @mix-7)
 
 1.235.1 (2026/07)
 
