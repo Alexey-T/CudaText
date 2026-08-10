@@ -4472,9 +4472,8 @@ begin
       Form.List.Checked[Form.List.Count-1]:= true;
     end;
 
-    case Form.ShowModal of
-      //"Don't save/ Keep in session"
-      mrClose:
+    case Form.ShowModalGetEnum of
+      TAppSaveTabsChoice.KeepInSession:
         begin
           Result:= true;
           UiOps.SessionSaveOnExit:= true;
@@ -4482,19 +4481,19 @@ begin
           //where he can choose "Don't save" before
           UiOps.SaveModifiedTabsOnClose:= true;
         end;
-      //"Cancel"
-      mrCancel:
+
+      TAppSaveTabsChoice.Cancel:
         begin
           Result:= false;
         end;
-      //"Don't save"
-      mrNoToAll:
+
+      TAppSaveTabsChoice.DontSave:
         begin
           Result:= true; //like for mrClose
           UiOps.SaveModifiedTabsOnClose:= false;
         end;
-      //"Save"
-      mrOk:
+
+      TAppSaveTabsChoice.Save:
         begin
           Result:= true;
           for i:= 0 to Form.List.Count-1 do
@@ -4505,6 +4504,9 @@ begin
                 exit(false);
             end;
         end;
+
+      else
+        raise Exception.Create('Unknown enum member in DoDialogSaveTabs');
     end;
   finally
     Form.Free

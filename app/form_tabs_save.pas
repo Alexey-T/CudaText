@@ -8,6 +8,7 @@ Copyright (c) Alexey Torgashin
 unit form_tabs_save;
 
 {$mode objfpc}{$H+}
+{$ScopedEnums on}
 
 interface
 
@@ -19,6 +20,14 @@ uses
   proc_globdata,
   proc_miscutils,
   proc_msg;
+
+type
+  TAppSaveTabsChoice = (
+    Cancel,
+    Save,
+    DontSave,
+    KeepInSession
+    );
 
 type
   { TfmSaveTabs }
@@ -43,6 +52,7 @@ type
     procedure Localize;
   public
     { public declarations }
+    function ShowModalGetEnum: TAppSaveTabsChoice;
   end;
 
 
@@ -71,6 +81,20 @@ begin
     with btnCancel do Caption:= msgButtonCancel;
   finally
     FreeAndNil(ini);
+  end;
+end;
+
+function TfmSaveTabs.ShowModalGetEnum: TAppSaveTabsChoice;
+begin
+  case ShowModal of
+    mrClose:
+      Result:= TAppSaveTabsChoice.KeepInSession;
+    mrNoToAll:
+      Result:= TAppSaveTabsChoice.DontSave;
+    mrOk:
+      Result:= TAppSaveTabsChoice.Save;
+    else
+      Result:= TAppSaveTabsChoice.Cancel;
   end;
 end;
 
