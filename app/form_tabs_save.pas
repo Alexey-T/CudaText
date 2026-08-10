@@ -25,8 +25,8 @@ type
   TAppSaveTabsChoice = (
     Cancel,
     Save,
-    DontSave,
-    KeepInSession
+    DontSaveAtAll,
+    DontSaveKeepInSession
     );
 
 type
@@ -88,9 +88,9 @@ function TfmSaveTabs.ShowModalGetEnum: TAppSaveTabsChoice;
 begin
   case ShowModal of
     mrClose:
-      Result:= TAppSaveTabsChoice.KeepInSession;
+      Result:= TAppSaveTabsChoice.DontSaveKeepInSession;
     mrNoToAll:
-      Result:= TAppSaveTabsChoice.DontSave;
+      Result:= TAppSaveTabsChoice.DontSaveAtAll;
     mrOk:
       Result:= TAppSaveTabsChoice.Save;
     else

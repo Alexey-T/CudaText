@@ -4478,7 +4478,13 @@ begin
           Result:= false;
         end;
 
-      TAppSaveTabsChoice.KeepInSession:
+      TAppSaveTabsChoice.DontSaveAtAll:
+        begin
+          Result:= true;
+          UiOps.SaveModifiedTabsOnClose:= false;
+        end;
+
+      TAppSaveTabsChoice.DontSaveKeepInSession:
         begin
           Result:= true;
           //allow to save session in FormClose
@@ -4486,12 +4492,6 @@ begin
           //set true, because user can call this dialog via CmdPalette,
           //where he can choose "Don't save" before
           UiOps.SaveModifiedTabsOnClose:= true;
-        end;
-
-      TAppSaveTabsChoice.DontSave:
-        begin
-          Result:= true;
-          UiOps.SaveModifiedTabsOnClose:= false;
         end;
 
       TAppSaveTabsChoice.Save:
