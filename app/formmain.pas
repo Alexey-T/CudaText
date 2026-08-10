@@ -4478,6 +4478,7 @@ begin
       mrClose:
         begin
           Result:= true;
+          UiOps.SessionSaveOnExit:= true;
           //set true, because user can call this dialog via CmdPalette,
           //where he can choose "Don't save" before
           UiOps.SaveModifiedTabsOnClose:= true;
