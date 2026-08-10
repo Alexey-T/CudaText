@@ -4473,23 +4473,24 @@ begin
     end;
 
     case Form.ShowModalGetEnum of
+      TAppSaveTabsChoice.Cancel:
+        begin
+          Result:= false;
+        end;
+
       TAppSaveTabsChoice.KeepInSession:
         begin
           Result:= true;
+          //allow to save session in FormClose
           UiOps.SessionSaveOnExit:= true;
           //set true, because user can call this dialog via CmdPalette,
           //where he can choose "Don't save" before
           UiOps.SaveModifiedTabsOnClose:= true;
         end;
 
-      TAppSaveTabsChoice.Cancel:
-        begin
-          Result:= false;
-        end;
-
       TAppSaveTabsChoice.DontSave:
         begin
-          Result:= true; //like for mrClose
+          Result:= true;
           UiOps.SaveModifiedTabsOnClose:= false;
         end;
 
