@@ -3406,8 +3406,6 @@ begin
       Str:= string(Ptr);
       Frame:= TGroupsHelper.GetEditorFrame(Ed);
 
-      //Application.MainForm.Caption:= 'get_prop '+IntToStr(id)+', filename: '+Ed.FileName;
-
       case Id of
         PROP_FN:
           begin
