@@ -3409,6 +3409,22 @@ begin
       //Application.MainForm.Caption:= 'get_prop '+IntToStr(id)+', filename: '+Ed.FileName;
 
       case Id of
+        PROP_FN:
+          begin
+            if Assigned(Frame) then
+            begin
+              if Frame.FrameKind=TAppFrameKind.Editor then
+                Result:= PyUnicodeFromString(Ed.FileName)
+              else
+              if Str='*' then
+                Result:= PyUnicodeFromString(Frame.GetFileName(Ed))
+              else
+                Result:= PyUnicodeFromString(string('?'));
+            end
+            else
+              Result:= PyUnicodeFromString(Ed.FileName);
+          end;
+
         PROP_GUTTER_ALL:
           Result:= PyBool_FromLong(Ord(Ed.OptGutterVisible));
 
