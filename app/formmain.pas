@@ -4497,6 +4497,9 @@ begin
       TAppSaveTabsChoice.Save:
         begin
           Result:= true;
+          //@mix-7 from forum asked to save session when pressing 'Save'
+          UiOps.SessionSaveOnExit:= true;
+          //save checked frames
           for i:= 0 to Form.List.Count-1 do
             if Form.List.Checked[i] then
             begin
