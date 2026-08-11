@@ -2560,6 +2560,7 @@ Param "value" can be: str, number, bool (for bool it can be also "0"/"1"). Possi
 * PROP_GUTTER_EMPTY: bool: show gutter column "empty padding".
 * PROP_GUTTER_EMPTY_WIDTH: int: width of gutter column "empty padding".
 
+* PROP_FN: str: full filename. If editor is in the ui-tab and ui-tab kind is binary viewer / picture viewer, it returns "?". But if param "value" is "*", full filename (of the text editor / binary viewer / picture viewer) is always returned.
 * PROP_NEWLINE: str: kind of line endings. One of values "lf", "crlf", "cr".
 * PROP_WRAP: int: word-wrap mode. One of WRAP_nnn values.
 * PROP_RO: bool: read-only mode.
@@ -5395,6 +5396,7 @@ It provides:
 * add: file_open: function supports empty filename1 and non-empty filename2
 * add: Editor.get_prop: PROP_TAB_ID is now much more unique, and it is persistent (it is saved/restored to session)
 * add: Editor.get_prop: PROP_HANDLE_IMAGE
+* add: Editor.get_prop: PROP_FN
 * add: image_proc: IMAGE_GET_SIZE_UI
 * add: app_proc: PROC_IDLE
 * change: Editor.get_filename: for Editor not in ui-tab, returns now empty str (before it was None)
