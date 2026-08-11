@@ -4277,7 +4277,8 @@ begin
               Frame.DoLexerFromFilename(Ed, Str);
               Frame.FileProps[Frame.EditorObjToIndex(Ed)].Init(Str);
               Frame.NotifEnabled:= Str<>'';
-              fmMain.UpdateStatusbar;
+              if Frame.Visible then
+                fmMain.UpdateStatusbar;
             end
             else
               Ed.FileName:= Str;
