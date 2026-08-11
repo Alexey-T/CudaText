@@ -4266,24 +4266,6 @@ begin
       ValueInt:= StrToInt64Def(Str, 0);
 
       case Id of
-        PROP_FN:
-          begin
-            if Assigned(Frame) then
-            begin
-              Frame.NotifEnabled:= false;
-              Frame.SetFileName(Ed, Str);
-              Frame.TabCaptionReason:= TAppTabCaptionReason.FromFilename;
-              Frame.UpdateCaptionFromFilename;
-              Frame.DoLexerFromFilename(Ed, Str);
-              Frame.FileProps[Frame.EditorObjToIndex(Ed)].Init(Str);
-              Frame.NotifEnabled:= Str<>'';
-              if Frame.Visible then
-                fmMain.UpdateStatusbar;
-            end
-            else
-              Ed.FileName:= Str;
-          end;
-
         PROP_GUTTER_ALL:
           Ed.OptGutterVisible:= ValueBool;
 
@@ -4721,6 +4703,24 @@ begin
 
         PROP_ONE_LINE:
           Ed.ModeOneLine:= ValueBool;
+
+        PROP_FN:
+          begin
+            if Assigned(Frame) then
+            begin
+              Frame.NotifEnabled:= false;
+              Frame.SetFileName(Ed, Str);
+              Frame.TabCaptionReason:= TAppTabCaptionReason.FromFilename;
+              Frame.UpdateCaptionFromFilename;
+              Frame.DoLexerFromFilename(Ed, Str);
+              Frame.FileProps[Frame.EditorObjToIndex(Ed)].Init(Str);
+              Frame.NotifEnabled:= Str<>'';
+              if Frame.Visible then
+                fmMain.UpdateStatusbar;
+            end
+            else
+              Ed.FileName:= Str;
+          end;
 
         PROP_INDENT_SIZE:
           Ed.OptIndentSize:= ValueInt;
