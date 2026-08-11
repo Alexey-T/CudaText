@@ -147,7 +147,6 @@ const
   EDSTATE_EXT_APPEARED = 21;
   EDSTATE_EXT_MODIFIED = 22;
 
-  PROP_FN             = -4;
   PROP_GUTTER_ALL     = -1;
   PROP_GUTTER_STATES  = 0;
   PROP_GUTTER_NUM     = 1;
@@ -201,6 +200,7 @@ const
   PROP_IN_SESSION = 49;
   PROP_COORDS = 50;
   PROP_ONE_LINE = 51;
+  PROP_FN       = 52;
   PROP_CODETREE = 54;
   PROP_EDITORS_LINKED = 55;
   PROP_KIND        = 59;
