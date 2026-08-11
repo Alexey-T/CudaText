@@ -547,7 +547,7 @@ var
 begin
   fname:= AppRemoveWindowsStreamSuffix(FileName);
   Inited:= true;
-  Exists:= FileExists(fname);
+  Exists:= (fname<>'') and FileExists(fname);
   Size:= 0;
   Age:= 0;
   if Exists then
@@ -578,7 +578,8 @@ var
   Rec: TSearchRec;
 begin
   Inited:= true;
-  Exists:= FindFirst(AppRemoveWindowsStreamSuffix(FileName), faAnyFile, Rec)=0;
+  Exists:= (FileName<>'') and
+    (FindFirst(AppRemoveWindowsStreamSuffix(FileName), faAnyFile, Rec)=0);
   Size:= 0;
   Age:= 0;
   if Exists then
