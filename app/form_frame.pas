@@ -492,7 +492,7 @@ type
       AOpenMode: TAppOpenMode);
     procedure DoFileOpen_AsBinary(const AFileName: string; AMode: TATBinHexMode);
     procedure DoFileOpen_AsPicture(const AFileName: string; AIsReload: boolean);
-    function DoFileSave(ASaveAs, AAllEditors: boolean): boolean;
+    function DoFileSave(ASaveAs, ABothPairedEditors: boolean): boolean;
     function DoFileSave_Ex(Ed: TATSynEdit; ASaveAs: boolean): boolean;
     procedure DoFileReload_DisableDetectEncoding(Ed: TATSynEdit);
     function DoFileReload(Ed: TATSynEdit): boolean;
@@ -3266,10 +3266,10 @@ begin
     FFileName2:= AFileName;
 end;
 
-function TEditorFrame.DoFileSave(ASaveAs, AAllEditors: boolean): boolean;
+function TEditorFrame.DoFileSave(ASaveAs, ABothPairedEditors: boolean): boolean;
 begin
   Result:= true;
-  if not EditorsLinked and AAllEditors then
+  if not EditorsLinked and ABothPairedEditors then
   begin
     Result:=
       DoFileSave_Ex(Ed1, ASaveAs) and
