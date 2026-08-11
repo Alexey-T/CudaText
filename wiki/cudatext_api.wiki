@@ -5401,9 +5401,8 @@ It provides:
 * add: Editor.get_prop: PROP_FN
 * add: image_proc: IMAGE_GET_SIZE_UI
 * add: app_proc: PROC_IDLE
-* change: Editor.get_filename: for Editor not in ui-tab, returns now empty str (before it was None)
-* delete: PROP_PICTURE (none public plugins did use it; use PROP_HANDLE_IMAGE instead)
 * deprecate: app_idle()
 * deprecate: Editor.get_filename()
+* delete: PROP_PICTURE (none public plugins did use it; use PROP_HANDLE_IMAGE instead)
 
 [[Category:CudaText]]
