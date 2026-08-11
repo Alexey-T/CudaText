@@ -2533,6 +2533,8 @@ Line-break is counted as 1, even for CR LF endings.
 
 ===Editor.get_filename===
 
+DEPRECATED. Use Editor.get_prop(PROP_FN, '') instead.
+
  get_filename(options="")
 
 Returns filename of the editor.
@@ -5402,5 +5404,6 @@ It provides:
 * change: Editor.get_filename: for Editor not in ui-tab, returns now empty str (before it was None)
 * delete: PROP_PICTURE (none public plugins did use it; use PROP_HANDLE_IMAGE instead)
 * deprecate: app_idle()
+* deprecate: Editor.get_filename()
 
 [[Category:CudaText]]
