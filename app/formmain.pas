@@ -3306,7 +3306,7 @@ begin
   DoOps_SaveHistory(
     AppFile_History,
     UiOps.SaveModifiedTabsOnClose,
-    UiOps.SessionSaveOnExit
+    true //param ASaveSession=True, because dlg "Save tabs?" always wants to save session on exit
     );
 
   {$ifndef windows}
@@ -4481,15 +4481,12 @@ begin
       TAppSaveTabsChoice.DontSaveAtAll:
         begin
           Result:= true;
-          UiOps.SessionSaveOnExit:= true;
           UiOps.SaveModifiedTabsOnClose:= false;
         end;
 
       TAppSaveTabsChoice.DontSaveKeepInSession:
         begin
           Result:= true;
-          //allow to save session in FormClose
-          UiOps.SessionSaveOnExit:= true;
           //set true, because user can call this dialog via CmdPalette,
           //where he can choose "Don't save" before
           UiOps.SaveModifiedTabsOnClose:= true;
@@ -4498,8 +4495,6 @@ begin
       TAppSaveTabsChoice.Save:
         begin
           Result:= true;
-          //@mix-7 from forum asked to save session when pressing 'Save'
-          UiOps.SessionSaveOnExit:= true;
           //save checked frames
           for i:= 0 to Form.List.Count-1 do
             if Form.List.Checked[i] then
