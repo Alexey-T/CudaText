@@ -118,9 +118,10 @@ var
   XColor, XColorBkmk, XColorSelected, XColorOccur, XColorOccurAtCaret, XColorSpell: TBGRAPixel;
   NColor: TColor;
   RectMark: TRect;
-  NLine1, NIndex, NIndex1, NIndex2, NColumnIndex, NMaxLineIndex, NColumnCount, NCaretLine: integer;
+  NLine1, NIndex, NIndex1, NIndex2, NMaxLineIndex, NCaretLine: integer;
+  NColumnCount, NColumnIndex, NColumnIndexForPlugins: integer;
   CaretX1, CaretY1, CaretX2, CaretY2: integer;
-  bSel: boolean;
+  bSel, bColumnForPluginsValid: boolean;
   bPaintBottomLine: boolean = false;
   i: integer;
 begin
@@ -255,6 +256,8 @@ begin
   end;
 
   //paint marks for plugins
+  NColumnIndexForPlugins:= Ed.Micromap.ColumnFromTag(cTagColumnBookmarks);
+  bColumnForPluginsValid:= Ed.Micromap.IsIndexValid(NColumnIndexForPlugins);
   PropArray:= nil;
   SetLength(PropArray, St.Count);
   for i:= 0 to Ed.Attribs.Count-1 do
@@ -273,15 +276,15 @@ begin
     case Marker.Tag of
       TUiOps.PluginSpellChecker_TagValue:
         begin
-          PropArray[NLine1].Inited:= true;
-          PropArray[NLine1].Column:= 1;
+          PropArray[NLine1].Inited:= bColumnForPluginsValid;
+          PropArray[NLine1].Column:= NColumnIndexForPlugins;
           PropArray[NLine1].MarkPos:= TMicromapMark.Column;
           PropArray[NLine1].XColor:= XColorSpell;
         end;
       TUiOps.PluginHiOccur_TagValue:
         begin
-          PropArray[NLine1].Inited:= true;
-          PropArray[NLine1].Column:= 1;
+          PropArray[NLine1].Inited:= bColumnForPluginsValid;
+          PropArray[NLine1].Column:= NColumnIndexForPlugins;
           PropArray[NLine1].MarkPos:= TMicromapMark.Column;
           if NLine1=NCaretLine then
             PropArray[NLine1].XColor:= XColorOccurAtCaret
@@ -310,7 +313,7 @@ begin
         else
         if Marker.TagEx=cTagColumnFullsized then
         begin
-          PropArray[NLine1].Inited:= true;
+          PropArray[NLine1].Inited:= NColumnCount>0;
           PropArray[NLine1].Column:= 0;
           PropArray[NLine1].MarkPos:= TMicromapMark.Full;
           PropArray[NLine1].XColor.FromColor(Marker.LinePart.ColorBG);
