@@ -128,7 +128,7 @@ begin
 
   NMaxLineIndex:= St.Count-1;
   NColumnCount:= Length(Ed.Micromap.Columns);
-  if NColumnCount<2 then exit;
+  if NColumnCount=0 then exit;
 
   NScaleDiv:= Max(1, Wr.Count);
   if Ed.OptLastLineOnTop then
@@ -157,8 +157,6 @@ begin
   ABitmap.Fill(XColor);
 
   //paint full-width area of current visible area
-  if Length(Ed.Micromap.Columns)>0 then
- begin
   NIndex1:= Ed.ScrollVert.NPos;
   NIndex2:= NIndex1+Ed.GetVisibleLines; //note: limiting this by Ed.WrapInfo.Count-1 causes issue #4718
   RectMark:= GetWrapItemRect(0, NIndex1, NIndex2, TMicromapMark.Full);
@@ -171,7 +169,6 @@ begin
   XColorOccur.FromColor(GetAppColor(TAppThemeColor.EdMicromapOccur));
   XColorOccurAtCaret.FromColor(Ed.Colors.StateChanged);
   XColorSpell.FromColor(GetAppColor(TAppThemeColor.EdMicromapSpell));
- end;
 
   //paint line states
   //but only if column with tag=0 exists
