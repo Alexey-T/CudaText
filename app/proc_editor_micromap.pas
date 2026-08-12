@@ -73,6 +73,9 @@ now it paints all WrapInfo items, so e.g. long wrapped line gives several cells 
 type
   TMicromapMark = (Column, Full);
 const
+  cTagColumnStates = 0;
+  cTagColumnBookmarks = 1;
+  cTagColumnSelections = 2;
   cTagColumnFullsized = -2;
 var
   //NWidthSmall: integer;
@@ -172,7 +175,7 @@ begin
 
   //paint line states
   //but only if column with tag=0 exists
-  NColumnIndex:= Ed.Micromap.ColumnFromTag(0);
+  NColumnIndex:= Ed.Micromap.ColumnFromTag(cTagColumnStates);
   if NColumnIndex>=0 then
   if Ed.OptMicromapLineStates and (Wr.Count>=Ed.OptMicromapShowForMinCount) then
     for i:= 0 to Wr.Count-1 do
@@ -193,7 +196,7 @@ begin
 
   //paint selections
   //but only if column with tag=2 exists
-  NColumnIndex:= Ed.Micromap.ColumnFromTag(2);
+  NColumnIndex:= Ed.Micromap.ColumnFromTag(cTagColumnSelections);
   if (NColumnIndex>=0) and Ed.OptMicromapSelections then
     for i:= 0 to Ed.Carets.Count-1 do
     begin
@@ -226,7 +229,7 @@ begin
   //paint bookmarks
   //only if column with tag=1 exists
   //it can be done w/o BoolArray but it will be 2x slower, with 50k bookmarks
-  NColumnIndex:= Ed.Micromap.ColumnFromTag(1);
+  NColumnIndex:= Ed.Micromap.ColumnFromTag(cTagColumnBookmarks);
   if (NColumnIndex>=0) and Ed.OptMicromapBookmarks then
   begin
     BoolArray:= nil;
