@@ -4710,10 +4710,8 @@ begin
             begin
               Frame.NotifEnabled:= false;
               Frame.SetFileName(Ed, Str);
-              Frame.TabCaptionReason:= TAppTabCaptionReason.FromFilename;
               Frame.UpdateCaptionFromFilename;
               Frame.DoLexerFromFilename(Ed, Str);
-              Frame.FileProps[Frame.EditorObjToIndex(Ed)].Init(Str);
               Frame.NotifEnabled:= Str<>'';
               if Frame.Visible then
                 fmMain.UpdateStatusbar;
