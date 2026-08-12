@@ -3286,10 +3286,9 @@ end;
 function TEditorFrame.DoFileSave_Ex(Ed: TATSynEdit; ASaveAs: boolean): boolean;
 var
   An: TecSyntAnalyzer;
-  EdIndex: integer;
+  SNewFileName, SNameTemp, SNameInitial: string;
+  EdIndex, NameCounter: integer;
   bNameChanged, bNotifWasEnabled: boolean;
-  NameCounter: integer;
-  SFileName, NameTemp, NameInitial: string;
   EventRes: TAppPyEventResult;
 begin
   Result:= true;
@@ -3304,8 +3303,8 @@ begin
   DoHideNotificationPanel(NotifReloadControls[EdIndex]);
   DoHideNotificationPanel(NotifDeletedControls[EdIndex]);
 
-  SFileName:= Ed.FileName;
-  bNameChanged:= ASaveAs or (SFileName='');
+  SNewFileName:= Ed.FileName;
+  bNameChanged:= ASaveAs or (SNewFileName='');
 
   if bNameChanged then
   begin
@@ -3321,24 +3320,24 @@ begin
       SaveDialog.Filter:= '';
     end;
 
-    if SFileName='' then
+    if SNewFileName='' then
     begin
-      NameInitial:= '';
+      SNameInitial:= '';
       EventRes:= DoPyEvent(Ed, TAppPyEvent.OnSaveNaming, []);
       if EventRes.Val=TAppPyEventValue.Str then
-        NameInitial:= EventRes.Str;
-      if NameInitial='' then
-        NameInitial:= 'new';
+        SNameInitial:= EventRes.Str;
+      if SNameInitial='' then
+        SNameInitial:= 'new';
 
       //get first free filename: new.txt, new1.txt, new2.txt, ...
       NameCounter:= 0;
       repeat
-        NameTemp:= SaveDialog.InitialDir+DirectorySeparator+
-                   NameInitial+IfThen(NameCounter>0, IntToStr(NameCounter))+
+        SNameTemp:= SaveDialog.InitialDir+DirectorySeparator+
+                   SNameInitial+IfThen(NameCounter>0, IntToStr(NameCounter))+
                    SaveDialog.DefaultExt; //DefaultExt with dot
-        if not FileExists(NameTemp) then
+        if not FileExists(SNameTemp) then
         begin
-          SaveDialog.FileName:= ExtractFileName(NameTemp);
+          SaveDialog.FileName:= ExtractFileName(SNameTemp);
           Break
         end;
         Inc(NameCounter);
@@ -3346,8 +3345,8 @@ begin
     end
     else
     begin
-      SaveDialog.FileName:= ExtractFileName(SFileName);
-      SaveDialog.InitialDir:= ExtractFileDir(SFileName);
+      SaveDialog.FileName:= ExtractFileName(SNewFileName);
+      SaveDialog.InitialDir:= ExtractFileDir(SNewFileName);
     end;
 
     if not SaveDialog.Execute then
@@ -3366,7 +3365,7 @@ begin
     if Assigned(FOnAddRecent) then
       FOnAddRecent(Self, EdIndex);
 
-    SFileName:= SaveDialog.FileName;
+    SNewFileName:= SaveDialog.FileName;
 
     //remove read-only (it may be set for original file)
     ReadOnly[Ed]:= false;
@@ -3377,11 +3376,11 @@ begin
 
   //don't save incorrect user.json
   //don't save incorrect 'lexer NNN.json'
-  if SameFileName(SFileName, AppFile_OptionsUser) or
+  if SameFileName(SNewFileName, AppFile_OptionsUser) or
      (
-     SameFileName(ExtractFileDir(SFileName), AppDir_Settings) and
-     SBeginsWith(ExtractFileName(SFileName), 'lexer ') and
-     SEndsWith(SFileName, '.json')
+     SameFileName(ExtractFileDir(SNewFileName), AppDir_Settings) and
+     SBeginsWith(ExtractFileName(SNewFileName), 'lexer ') and
+     SEndsWith(SNewFileName, '.json')
      ) then
     if not AppValidateJson(Ed.Text) then
     begin
@@ -3392,16 +3391,16 @@ begin
   //EditorSaveFileAs is big:
   //handles save errors,
   //handles exception from encoding conversion (saves in UTF8 if exception)
-  Result:= EditorSaveFileAs(Ed, SFileName);
+  Result:= EditorSaveFileAs(Ed, SNewFileName);
   if Result then
-    SFileName:= Ed.FileName; //filename maybe changed during save on exFAT disk
+    SNewFileName:= Ed.FileName; //filename maybe changed during save on exFAT disk
 
   if bNameChanged then
-    DoLexerFromFilename(Ed, SFileName);
+    DoLexerFromFilename(Ed, SNewFileName);
 
   if Result then
   begin
-    SetFileName(Ed, SFileName);
+    SetFileName(Ed, SNewFileName);
     TabFontColor:= clNone;
     TabExtModified[EdIndex]:= false;
     TabExtDeleted[EdIndex]:= false;
@@ -3419,16 +3418,16 @@ begin
     DoSaveUndo(Ed);
     DoPyEvent(Ed, TAppPyEvent.OnSaveAfter, []);
     if Assigned(FOnSaveFile) then
-      FOnSaveFile(Ed, SFileName);
+      FOnSaveFile(Ed, SNewFileName);
   end;
 
   if EditorsLinked then
   begin
-    FileProps[0].Init(SFileName);
+    FileProps[0].Init(SNewFileName);
     FileProps[1]:= FileProps[0];
   end
   else
-    FileProps[EdIndex].Init(SFileName);
+    FileProps[EdIndex].Init(SNewFileName);
 
   {
   fixes issue:
