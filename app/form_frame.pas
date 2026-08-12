@@ -319,8 +319,8 @@ type
     procedure SetBracketHilite(AValue: boolean);
     procedure SetEnabledCodeTree(Ed: TATSynEdit; AValue: boolean);
     procedure SetEnabledFolding(AValue: boolean);
-    procedure SetFileName(const AValue: string);
-    procedure SetFileName2(const AValue: string);
+    procedure SetFileName_Ed1(const AValue: string);
+    procedure SetFileName_Ed2(const AValue: string);
     procedure SetFileWasBig(Ed: TATSynEdit; AValue: boolean);
     procedure SetInitialLexer(Ed: TATSynEdit; AValue: TecSyntAnalyzer);
     procedure SetPictureScale(AValue: integer);
@@ -418,8 +418,8 @@ type
     property NotifDeletedEnabled: boolean read FNotifDeletedEnabled write FNotifDeletedEnabled;
     procedure NotifyAboutChange(Ed: TATSynEdit);
 
-    property FileName: string read FFileName write SetFileName;
-    property FileName2: string read FFileName2 write SetFileName2;
+    property FileName: string read FFileName write SetFileName_Ed1;
+    property FileName2: string read FFileName2 write SetFileName_Ed2;
     property LexerChooseFunc: TecLexerChooseFunc read FLexerChooseFunc write FLexerChooseFunc;
     function GetFileName(Ed: TATSynEdit): string;
     procedure SetFileName(Ed: TATSynEdit; const AFileName: string);
@@ -1355,15 +1355,6 @@ begin
   Result:= Ed1.OptUnprintedSpaces;
 end;
 
-procedure TEditorFrame.SetFileName(const AValue: string);
-begin
-  if SameFileName(FFileName, AValue) then Exit;
-  FFileName:= AValue;
-  FileProps[0].Init(FFileName);
-  if AValue<>'' then
-    TabCaptionReason:= TAppTabCaptionReason.FromFilename;
-end;
-
 procedure TEditorFrame.UpdateTabTooltip;
 var
   Gr: TATGroups;
@@ -1392,15 +1383,6 @@ begin
     D.TabHint:= SHint;
     Pages.Tabs.UpdateTabTooltip;
   end;
-end;
-
-procedure TEditorFrame.SetFileName2(const AValue: string);
-begin
-  if SameFileName(FFileName2, AValue) then Exit;
-  FFileName2:= AValue;
-  FileProps[1].Init(FFileName2);
-  if AValue<>'' then
-    TabCaptionReason:= TAppTabCaptionReason.FromFilename;
 end;
 
 procedure TEditorFrame.SetFileWasBig(Ed: TATSynEdit; AValue: boolean);
@@ -3250,20 +3232,37 @@ begin
     Result:= FFileName2;
 end;
 
+procedure TEditorFrame.SetFileName_Ed1(const AValue: string);
+begin
+  SetFileName(Ed1, AValue);
+end;
+
+procedure TEditorFrame.SetFileName_Ed2(const AValue: string);
+begin
+  SetFileName(Ed2, AValue);
+end;
+
 procedure TEditorFrame.SetFileName(Ed: TATSynEdit; const AFileName: string);
 begin
   if EditorsLinked then
   begin
     Ed1.FileName:= AFileName;
     Ed2.FileName:= AFileName;
+    FileProps[0].Init(AFileName);
   end
   else
+  begin
     Ed.FileName:= AFileName;
+    FileProps[EditorObjToIndex(Ed)].Init(AFileName);
+  end;
 
   if EditorsLinked or (Ed=Ed1) then
     FFileName:= AFileName
   else
     FFileName2:= AFileName;
+
+  if AFileName<>'' then
+    TabCaptionReason:= TAppTabCaptionReason.FromFilename;
 end;
 
 function TEditorFrame.DoFileSave(ASaveAs, ABothPairedEditors: boolean): boolean;
