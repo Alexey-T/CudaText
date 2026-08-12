@@ -171,6 +171,9 @@ begin
   XColorSpell.FromColor(GetAppColor(TAppThemeColor.EdMicromapSpell));
 
   //paint line states
+  //but only if column with tag=0 exists (plugins can delete tag=0, e.g. Differ)
+  NColumnIndex:= Ed.Micromap.ColumnFromTag(0);
+  if NColumnIndex>=0 then
   if Ed.OptMicromapLineStates and (Wr.Count>=Ed.OptMicromapShowForMinCount) then
     for i:= 0 to Wr.Count-1 do
     begin
@@ -184,7 +187,7 @@ begin
         TATLineState.Saved: XColor.FromColor(Ed.Colors.StateSaved);
         else Continue;
       end;
-      RectMark:= GetWrapItemRect(0{column_0}, i, i, TMicromapMark.Column);
+      RectMark:= GetWrapItemRect(NColumnIndex, i, i, TMicromapMark.Column);
       ABitmap.FillRect(RectMark, XColor);
     end;
 
