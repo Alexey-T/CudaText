@@ -1919,7 +1919,7 @@ begin
     Caret:= Ed.Carets[0];
     Application.ProcessMessages; //must have
     Ed.DoShowPos(
-      Point(Caret.PosX, Caret.PosY),
+      Caret.AsPoint,
       UiOps.FindIndentHorz,
       UiOps.FindIndentVert,
       false, //Unfold

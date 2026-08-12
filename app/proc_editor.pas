@@ -1406,7 +1406,7 @@ begin
   begin
     Caret:= Ed.Carets[0];
     Ed.DoGotoPos(
-      Point(Caret.PosX, Caret.PosY),
+      Caret.AsPoint,
       Point(-1, -1),
       AIndentHorz,
       AIndentVert,
@@ -1503,7 +1503,7 @@ begin
     if Ed.Carets.Count=0 then exit;
     Caret:= Ed.Carets[0];
     //set end of selection to previous caret pos
-    Pnt:= Point(Caret.PosX, Caret.PosY);
+    Pnt:= Caret.AsPoint;
     //make it like SynWrite: jump extends previous selection (below and above)
     if Caret.EndY>=0 then
       if IsPosSorted(Caret.PosX, Caret.PosY, NumCol, NumLine, true) then
@@ -2894,7 +2894,7 @@ begin
   //avoid double firing on_complete API event, when user types chars with listbox visible; issue #4323
   if Assigned(FormAutoCompletion) and FormAutoCompletion.Visible then exit;
 
-  //SLexerName:= EditorLexerNameAtPos(Ed, Point(Caret.PosX, Caret.PosY));
+  //SLexerName:= EditorLexerNameAtPos(Ed, Caret.AsPoint);
   //bLexerHTML:= Pos('HTML', SLexerName)>0;
 
   //autoshow by trigger chars
@@ -3360,7 +3360,7 @@ begin
   if Ed.Carets.Count>0 then
   begin
     Caret:= Ed.Carets[0];
-    AOffsetCaret:= Buffer.CaretToStr(Point(Caret.PosX, Caret.PosY));
+    AOffsetCaret:= Buffer.CaretToStr(Caret.AsPoint);
   end;
 end;
 

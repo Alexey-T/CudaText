@@ -4535,8 +4535,8 @@ begin
         Application.ProcessMessages;
 
     Ed.DoGotoPos(
-      Point(Caret.PosX, Caret.PosY),
-      Point(Caret.EndX, Caret.EndY),
+      Caret.AsPoint,
+      Caret.AsPointEnd,
       UiOps.FindIndentHorz,
       UiOps.FindIndentVert,
       false,

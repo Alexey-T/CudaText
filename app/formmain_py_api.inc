@@ -2600,7 +2600,7 @@ begin
       fmMain.FPyCompletionProps.Text:= Str;
       fmMain.FPyCompletionProps.CharsLeft:= NChars1;
       fmMain.FPyCompletionProps.CharsRight:= NChars2;
-      fmMain.FPyCompletionProps.CaretPos:= Point(Caret.PosX, Caret.PosY);
+      fmMain.FPyCompletionProps.CaretPos:= Caret.AsPoint;
 
       DoApplyCompletionListboxStyle(Bool(NAltOrder));
       EditorShowCompletionListbox(Ed,
@@ -2641,7 +2641,7 @@ begin
       fmMain.FPyCompletionProps.Text:= StrText;
       fmMain.FPyCompletionProps.CharsLeft:= NChars;
       fmMain.FPyCompletionProps.CharsRight:= 0;
-      fmMain.FPyCompletionProps.CaretPos:= Point(Caret.PosX, Caret.PosY);
+      fmMain.FPyCompletionProps.CaretPos:= Caret.AsPoint;
 
       DoApplyCompletionListboxStyle(false);
       EditorShowCompletionListbox(Ed,
