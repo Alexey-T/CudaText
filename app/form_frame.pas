@@ -3516,15 +3516,9 @@ begin
   FileProps[EdIndex].Inited:= false;
 
   //remember props
-  PrevCaret.X:= 0;
-  PrevCaret.Y:= 0;
-
+  PrevCaret:= Point(0, 0);
   if Ed.Carets.Count>0 then
-    with Ed.Carets[0] do
-      begin
-        PrevCaret.X:= PosX;
-        PrevCaret.Y:= PosY;
-      end;
+    PrevCaret:= Ed.Carets[0].AsPoint;
 
   bPrevTail:= UiOps.ReloadFollowTail and
     (Ed.Strings.Count>0) and
