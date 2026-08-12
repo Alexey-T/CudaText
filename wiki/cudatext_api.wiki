@@ -3194,12 +3194,15 @@ Controls additional color attributes. Possible values of "id":
 ** "font_*": Font attributes: 0 - off, 1 - on.
 ** "border_*": Border types for edges, int value 0..6: none, solid, dash, solid 2pixel, dotted, rounded, wave.
 ** "show_on_map": How to show this fragment on micromap:
-*** int value>=0: Show on micromap column with given tag. Don't pass value=0, because micromap column with tag=0 is reserved.
+*** int value from 1 to 128: Show on micromap column with given tag.
 *** int value=-1: Don't show on micromap.
 *** int value=-2: Show on micromap as full-width fragment (over full micromap width). Fragment color will be XOR'ed with colors of all micromap columns.
 *** True: Show on micromap column 1.
 *** False: Don't show on micromap.
-** "map_only": int: 0: Show on text area only; 1: Show on micromap only; 2: Show both on text area and micromap.
+** "map_only": int:
+*** 0: Show on text area only.
+*** 1: Show on micromap only.
+*** 2: Show both on text area and micromap.
 
 * MARKERS_ADD_MANY: Adds one or multiple fragments at once. Also returns number of fragments. Parameters:
 ** "x", "y", "len": The same as for MARKERS_ADD, but can be also list/tuple of int. Lists/tuples must contain the equal number of elements (otherwise the minimal number of elements will be used).
