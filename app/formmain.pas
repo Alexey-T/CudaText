@@ -3312,13 +3312,13 @@ begin
   {$ifndef windows}
   {
   WriteLn('UiOps.ReopenSession: ', UiOps.ReopenSession);
-  WriteLn('UiOps.SessionSaveOnExit: ', UiOps.SessionSaveOnExit);
+  WriteLn('UiOps.SessionSaveOnExit: ', UiOps.AutoSaveSession);
   }
   {$endif}
 
   {
   //seems doing DoCloseAllTabs in FormClose is bad idea:
-  //app asks to save modified tabs, even with UiOps.SessionSaveOnExit.
+  //app asks to save modified tabs, even with UiOps.AutoSaveSession.
   AppSessionIsClosing:= true; //to avoid asking "Close pinned tab?"
   DoCloseAllTabs;
   }
@@ -3504,12 +3504,14 @@ begin
   end;
 
   if GetModifiedCount>0 then
+  begin
     ACanClose:= (
       UiOps.ReopenSession and
-      UiOps.SessionSaveOnExit and
+      UiOps.AutoSaveSession and
       UiOps.HistoryItems[TAppHistoryElement.Text]
       )
-      or DoDialogSaveTabs
+      or DoDialogSaveTabs;
+  end
   else
     ACanClose:= true;
 end;
