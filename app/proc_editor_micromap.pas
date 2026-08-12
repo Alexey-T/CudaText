@@ -264,13 +264,6 @@ begin
   begin
     Marker:= Ed.Attribs[i];
     NLine1:= Marker.PosY;
-    {
-    NLine2:= NLine1;
-    //negative LenX means we need multiline Marker, its height is abs(LenX)
-    if Marker.SelX<0 then
-      Inc(NLine2, -Marker.SelX-1);
-    }
-
     if (NLine1<0) or (NLine1>High(PropArray)) then Continue; //fix issue #4821
 
     case Marker.Tag of
@@ -293,16 +286,17 @@ begin
         end;
     else
       begin
+        if Marker.SelX<0 then
+          NMultiLineCount:= Abs(Marker.SelX)
+        else
+          NMultiLineCount:= 1;
+
+        //TagEx in range 1..127 ?
         if Marker.TagEx>0 then
         begin
           NColumnIndex:= Ed.Micromap.ColumnFromTag(Marker.TagEx);
           if NColumnIndex>=0 then
           begin
-            if Marker.SelX<0 then
-              NMultiLineCount:= Abs(Marker.SelX)
-            else
-              NMultiLineCount:= 1;
-
             //if ColorBG=clNone, it may be find-all-matches with custom border color
             //(default light green), so use border color
             if Marker.LinePart.ColorBG<>clNone then
@@ -320,13 +314,9 @@ begin
           end;
         end
         else
+        //negative TagEx; -2 means "full width mark"
         if Marker.TagEx=cTagColumnFullsized then
         begin
-          if Marker.SelX<0 then
-            NMultiLineCount:= Abs(Marker.SelX)
-          else
-            NMultiLineCount:= 1;
-
           XColor.FromColor(Marker.LinePart.ColorBG);
 
           for NIndex:= NLine1 to Min(NLine1+NMultiLineCount-1, High(PropArray)) do
