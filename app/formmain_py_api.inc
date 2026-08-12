@@ -1407,7 +1407,7 @@ begin
                   'border_up',
                   Ord(Mark.LinePart.BorderUp),
                   'show_on_map',
-                  Mark.TagEx,
+                  Longint(Mark.TagEx),
                   'map_only',
                   Ord(Mark.MicromapMode)
                   ));
