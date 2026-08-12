@@ -10515,7 +10515,7 @@ begin
 
         FINDER_SET_FINDTEXT:
           begin
-            Finder.StrFind:= StrValue;
+            Finder.StrFind:= UTF8Decode(StrValue);
             Result:= ReturnNone;
           end;
 
@@ -10526,7 +10526,7 @@ begin
 
         FINDER_SET_REPTEXT:
           begin
-            Finder.StrReplace:= StrValue;
+            Finder.StrReplace:= UTF8Decode(StrValue);
             Result:= ReturnNone;
           end;
 
