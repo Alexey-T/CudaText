@@ -3194,7 +3194,7 @@ Controls additional color attributes. Possible values of "id":
 ** "font_*": Font attributes: 0 - off, 1 - on.
 ** "border_*": Border types for edges, int value 0..6: none, solid, dash, solid 2pixel, dotted, rounded, wave.
 ** "show_on_map": How to show this fragment on micromap:
-*** int value from 1 to 128: Show on micromap column with given tag.
+*** int value from 1 to 127: Show on micromap column with given tag.
 *** int value=-1: Don't show on micromap.
 *** int value=-2: Show on micromap as full-width fragment (over full micromap width). Fragment color will be XOR'ed with colors of all micromap columns.
 *** True: Show on micromap column 1.
