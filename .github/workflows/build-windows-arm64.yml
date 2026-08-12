@@ -45,40 +45,93 @@ jobs:
           echo "cudatext_version=$VER" >> "$GITHUB_OUTPUT"
           echo "CudaText version: $VER"
 
-      # -- 4. Download latest fpcupdeluxe (v2.4.0k) ---------------------
+      # -- 4. Install dependencies (git, make, etc.) ---------------------
+      - name: Install dependencies
+        shell: powershell
+        run: |
+          Write-Host "Checking for required tools..."
+          git --version
+          if ($LASTEXITCODE -ne 0) {
+            Write-Host "Installing git..."
+            choco install git -y --no-progress
+          }
+          # fpcupdeluxe needs these for building from source
+          Write-Host "Dependencies check complete"
+
+      # -- 5. Download latest fpcupdeluxe (v2.4.0k) ---------------------
       - name: Download fpcupdeluxe
         shell: powershell
         run: |
           $installer = "$env:RUNNER_TEMP\fpcupdeluxe.exe"
+          Write-Host "Downloading fpcupdeluxe v2.4.0k..."
           curl.exe -L -o $installer "https://github.com/LongDirtyAnimAlf/fpcupdeluxe/releases/download/v2.4.0k/fpcupdeluxe-x86_64-win64.exe"
-          if ($LASTEXITCODE -ne 0) { throw "Failed to download fpcupdeluxe" }
+          if ($LASTEXITCODE -ne 0) { 
+            throw "Failed to download fpcupdeluxe" 
+          }
+          Write-Host "fpcupdeluxe downloaded to: $installer"
+          Get-Item $installer | Select-Object Name, Length
           echo "FPCUPDELUXE_PATH=$installer" >> $env:GITHUB_ENV
 
-      # -- 5. Install FPC and Lazarus trunk using fpcupdeluxe ------------
+      # -- 6. Install FPC and Lazarus trunk using fpcupdeluxe ------------
       - name: Install FPC and Lazarus trunk
         shell: powershell
         run: |
           $installer = $env:FPCUPDELUXE_PATH
           $installDir = "C:\fpcupdeluxe"
+          $logFile = "$env:RUNNER_TEMP\fpcupdeluxe_install.log"
+          
           Write-Host "Installing FPC trunk and Lazarus trunk..."
-          & $installer --fpcURL=trunk --lazURL=trunk --installdir="$installDir" --noconfirm --verbose
-          if ($LASTEXITCODE -ne 0) {
-             throw "Failed to install FPC and Lazarus trunk"
+          Write-Host "Log file: $logFile"
+          
+          # Run fpcupdeluxe with verbose output to log file
+          $process = Start-Process -FilePath $installer `
+            -ArgumentList "--fpcURL=trunk", "--lazURL=trunk", "--installdir=$installDir", "--noconfirm", "--verbose" `
+            -Wait -PassThru -RedirectStandardOutput "$logFile" -RedirectStandardError "$logFile.error" -NoNewWindow
+          
+          Write-Host "Exit code: $($process.ExitCode)"
+          
+          if ($process.ExitCode -ne 0) {
+            Write-Host "=== Last 100 lines of log ==="
+            Get-Content $logFile -Tail 100
+            Write-Host "=== Last 50 lines of error log ==="
+            if (Test-Path "$logFile.error") {
+              Get-Content "$logFile.error" -Tail 50
+            }
+            throw "Failed to install FPC and Lazarus trunk (exit code: $($process.ExitCode))"
           }
+          
+          Write-Host "Installation completed successfully"
 
-      # -- 6. Install aarch64-win64 cross compiler -----------------------
+      # -- 7. Install aarch64-win64 cross compiler -----------------------
       - name: Install aarch64-win64 cross compiler
         shell: powershell
         run: |
           $installer = $env:FPCUPDELUXE_PATH
           $installDir = "C:\fpcupdeluxe"
+          $logFile = "$env:RUNNER_TEMP\fpcupdeluxe_cross.log"
+          
           Write-Host "Installing aarch64-win64 cross compiler..."
-          & $installer --installdir="$installDir" --ostarget=win64 --cputarget=aarch64 --only="FPCCleanOnly,FPCBuildOnly" --autotools --noconfirm --verbose
-          if ($LASTEXITCODE -ne 0) {
-             throw "Failed to install aarch64-win64 cross compiler"
+          Write-Host "Log file: $logFile"
+          
+          $process = Start-Process -FilePath $installer `
+            -ArgumentList "--installdir=$installDir", "--ostarget=win64", "--cputarget=aarch64", "--only=FPCCleanOnly,FPCBuildOnly", "--autotools", "--noconfirm", "--verbose" `
+            -Wait -PassThru -RedirectStandardOutput "$logFile" -RedirectStandardError "$logFile.error" -NoNewWindow
+          
+          Write-Host "Exit code: $($process.ExitCode)"
+          
+          if ($process.ExitCode -ne 0) {
+            Write-Host "=== Last 100 lines of log ==="
+            Get-Content $logFile -Tail 100
+            Write-Host "=== Last 50 lines of error log ==="
+            if (Test-Path "$logFile.error") {
+              Get-Content "$logFile.error" -Tail 50
+            }
+            throw "Failed to install aarch64-win64 cross compiler (exit code: $($process.ExitCode))"
           }
+          
+          Write-Host "Cross compiler installation completed successfully"
 
-      # -- 7. Configure PATH and verify cross-compiler --------------------
+      # -- 8. Configure PATH and verify cross-compiler --------------------
       - name: Configure PATH and verify cross-compiler
         shell: pwsh
         run: |
@@ -87,15 +140,24 @@ jobs:
           $fpcDir = "$installDir\fpc\bin\x86_64-win64"
           
           if (-not (Test-Path "$lazDir\lazbuild.exe")) {
-             throw "lazbuild.exe not found at: $lazDir\lazbuild.exe"
+            Write-Host "::error::lazbuild.exe not found at: $lazDir\lazbuild.exe"
+            Write-Host "Contents of $installDir:"
+            Get-ChildItem $installDir -Recurse -Depth 2 | Select-Object FullName
+            throw "lazbuild.exe not found"
           }
           
           $crossCompiler = "$fpcDir\ppcrossa64.exe"
           if (-not (Test-Path $crossCompiler)) {
-             Write-Host "::error::ARM64 cross-compiler not found at: $crossCompiler"
-             Write-Host "Available compilers:"
-             Get-ChildItem $fpcDir -Filter "ppc*.exe" | Select-Object Name
-             exit 1
+            Write-Host "::error::ARM64 cross-compiler not found at: $crossCompiler"
+            Write-Host "Available compilers in $fpcDir:"
+            if (Test-Path $fpcDir) {
+              Get-ChildItem $fpcDir -Filter "ppc*.exe" | Select-Object Name
+            } else {
+              Write-Host "Directory $fpcDir does not exist"
+              Write-Host "Contents of $installDir\fpc:"
+              Get-ChildItem "$installDir\fpc" -Recurse -Depth 2 -ErrorAction SilentlyContinue | Select-Object FullName
+            }
+            exit 1
           }
           
           Add-Content -Path $env:GITHUB_PATH -Value $lazDir
@@ -112,27 +174,29 @@ jobs:
           Write-Host "ppcrossa64.exe targets: $targetCPU / $targetOS"
           
           if ($targetCPU -ne "aarch64" -or $targetOS -ne "win64") {
-             throw "Cross-compiler does not target aarch64/win64 as expected"
+            throw "Cross-compiler does not target aarch64/win64 as expected"
           }
+          
+          Write-Host "Cross-compiler verification successful"
 
-      # -- 8. Clone CudaText build environment --------------------------
+      # -- 9. Clone CudaText build environment --------------------------
       - name: Clone CudaText_up
         run: git clone --depth 1 https://github.com/Alexey-T/CudaText_up
 
-      # -- 9. Download all CudaText sources and dependencies ------------
+      # -- 10. Download all CudaText sources and dependencies ------------
       - name: Download CudaText sources and dependencies
         working-directory: CudaText_up
         shell: bash
         run: ./cudaup.sh -g
 
-      # -- 10. Replace downloaded source with the release checkout -------
+      # -- 11. Replace downloaded source with the release checkout -------
       - name: Swap source with release checkout
         shell: bash
         run: |
           rm -rf CudaText_up/src/CudaText
           mv upstream_src CudaText_up/src/CudaText
 
-      # -- 11. Build packages for ARM64 target ----------------------------
+      # -- 12. Build packages for ARM64 target ----------------------------
       - name: Build Lazarus packages for ARM64
         shell: powershell
         run: |
@@ -140,43 +204,43 @@ jobs:
           $lazbuild = "$lazDir\lazbuild.exe"
           
           $flags = @(
-             "--os=win64",
-             "--cpu=aarch64",
-             "--ws=win32",
-             "--lazarusdir=$lazDir"
+            "--os=win64",
+            "--cpu=aarch64",
+            "--ws=win32",
+            "--lazarusdir=$lazDir"
           )
           
           $packages = @(
-             "src/bgrabitmap/bgrabitmap/bgrabitmappack.lpk",
-             "src/EncConv/encconv/encconv_package.lpk",
-             "src/ATBinHex-Lazarus/atbinhex/atbinhex_package.lpk",
-             "src/ATFlatControls/atflatcontrols/atflatcontrols_package.lpk",
-             "src/ATSynEdit/atsynedit/atsynedit_package.lpk",
-             "src/ATSynEdit_Cmp/atsynedit_cmp/atsynedit_cmp_package.lpk",
-             "src/EControl/econtrol/econtrol_package.lpk",
-             "src/ATSynEdit_Ex/atsynedit_ex/atsynedit_ex_package.lpk",
-             "src/Python-for-Lazarus/python4lazarus/python4lazarus_package.lpk",
-             "src/Emmet-Pascal/emmet/emmet_package.lpk"
+            "src/bgrabitmap/bgrabitmap/bgrabitmappack.lpk",
+            "src/EncConv/encconv/encconv_package.lpk",
+            "src/ATBinHex-Lazarus/atbinhex/atbinhex_package.lpk",
+            "src/ATFlatControls/atflatcontrols/atflatcontrols_package.lpk",
+            "src/ATSynEdit/atsynedit/atsynedit_package.lpk",
+            "src/ATSynEdit_Cmp/atsynedit_cmp/atsynedit_cmp_package.lpk",
+            "src/EControl/econtrol/econtrol_package.lpk",
+            "src/ATSynEdit_Ex/atsynedit_ex/atsynedit_ex_package.lpk",
+            "src/Python-for-Lazarus/python4lazarus/python4lazarus_package.lpk",
+            "src/Emmet-Pascal/emmet/emmet_package.lpk"
           )
           
           Set-Location CudaText_up
           
           foreach ($pkg in $packages) {
-             if (Test-Path $pkg) {
-                Write-Host "Building package: $pkg"
-                $allArgs = $flags + @($pkg)
-                & $lazbuild @allArgs
-                if ($LASTEXITCODE -ne 0) {
-                   throw "Failed to build package: $pkg"
-                }
-             } else {
-                Write-Host "::warning::Package not found: $pkg"
-             }
+            if (Test-Path $pkg) {
+              Write-Host "Building package: $pkg"
+              $allArgs = $flags + @($pkg)
+              & $lazbuild @allArgs
+              if ($LASTEXITCODE -ne 0) {
+                throw "Failed to build package: $pkg"
+              }
+            } else {
+              Write-Host "::warning::Package not found: $pkg"
+            }
           }
           
           Write-Host "All packages built successfully."
 
-      # -- 12. Compile CudaText for Windows ARM64 -------------------------
+      # -- 13. Compile CudaText for Windows ARM64 -------------------------
       - name: Compile CudaText for ARM64
         shell: powershell
         run: |
@@ -184,9 +248,9 @@ jobs:
           $lazbuild = "$lazDir\lazbuild.exe"
           
           $flags = @(
-             "--build-mode=windows aarch64",
-             "--lazarusdir=$lazDir",
-             "src/CudaText/app/cudatext.lpi"
+            "--build-mode=windows aarch64",
+            "--lazarusdir=$lazDir",
+            "src/CudaText/app/cudatext.lpi"
           )
           
           Set-Location CudaText_up
@@ -195,12 +259,12 @@ jobs:
           & $lazbuild @flags
           
           if ($LASTEXITCODE -ne 0) {
-             throw "CudaText compilation failed"
+            throw "CudaText compilation failed"
           }
           
           Write-Host "CudaText compiled successfully."
 
-      # -- 13. Locate and verify compiled binary -------------------------
+      # -- 14. Locate and verify compiled binary -------------------------
       - name: Locate and verify compiled binary
         id: binary
         shell: bash
@@ -212,25 +276,25 @@ jobs:
           COMPILED=$(find CudaText_up -name "cudatext.exe" -type f 2>/dev/null | head -1 || true)
           
           if [ -z "$COMPILED" ] || [ ! -f "$COMPILED" ]; then
-             echo "::error::cudatext.exe not found anywhere under CudaText_up/"
-             echo "Listing all .exe files:"
-             find CudaText_up -name "*.exe" 2>/dev/null || true
-             exit 1
+            echo "::error::cudatext.exe not found anywhere under CudaText_up/"
+            echo "Listing all .exe files:"
+            find CudaText_up -name "*.exe" 2>/dev/null || true
+            exit 1
           fi
           
           COMPILED_SIZE=$(wc -c < "$COMPILED")
           echo "Compiled binary: $COMPILED ($COMPILED_SIZE bytes)"
           
           if [ "$COMPILED_SIZE" -lt 1000000 ]; then
-             echo "::error::Binary is suspiciously small ($COMPILED_SIZE bytes)"
-             exit 1
+            echo "::error::Binary is suspiciously small ($COMPILED_SIZE bytes)"
+            exit 1
           fi
           
           echo "Verifying binary architecture..."
           file "$COMPILED" || true
           echo "compiled_path=$COMPILED" >> "$GITHUB_OUTPUT"
 
-      # -- 14. Stage files for artifact upload ----------------------------
+      # -- 15. Stage files for artifact upload ----------------------------
       - name: Stage files for artifact
         id: stage
         shell: bash
@@ -246,13 +310,13 @@ jobs:
           [ -d "$SRC/py" ] && cp -r "$SRC/py" "$STAGE/"
           
           printf "CudaText %s\nhttps://cudatext.github.io\n\nINSTRUCTIONS:\n\n- Extract this folder anywhere and run cudatext.exe.\n\nDocumentation: https://wiki.freepascal.org/CudaText\n" \
-             "$VER" > "$STAGE/readme.txt"
+            "$VER" > "$STAGE/readme.txt"
           
           echo "-- Staging directory contents --"
           ls -lh "$STAGE/"
           echo "stage_dir=$STAGE" >> "$GITHUB_OUTPUT"
 
-      # -- 15. Upload artifact --------------------------------------------
+      # -- 16. Upload artifact --------------------------------------------
       - name: Upload Windows ARM64 artifact
         uses: actions/upload-artifact@v4
         with:
