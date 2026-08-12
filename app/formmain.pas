@@ -4481,6 +4481,7 @@ begin
       TAppSaveTabsChoice.DontSaveAtAll:
         begin
           Result:= true;
+          UiOps.SessionSaveOnExit:= true;
           UiOps.SaveModifiedTabsOnClose:= false;
         end;
 
