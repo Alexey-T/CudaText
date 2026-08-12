@@ -157,6 +157,8 @@ begin
   ABitmap.Fill(XColor);
 
   //paint full-width area of current visible area
+  if Length(Ed.Micromap.Columns)>0 then
+ begin
   NIndex1:= Ed.ScrollVert.NPos;
   NIndex2:= NIndex1+Ed.GetVisibleLines; //note: limiting this by Ed.WrapInfo.Count-1 causes issue #4718
   RectMark:= GetWrapItemRect(0, NIndex1, NIndex2, TMicromapMark.Full);
@@ -169,9 +171,10 @@ begin
   XColorOccur.FromColor(GetAppColor(TAppThemeColor.EdMicromapOccur));
   XColorOccurAtCaret.FromColor(Ed.Colors.StateChanged);
   XColorSpell.FromColor(GetAppColor(TAppThemeColor.EdMicromapSpell));
+ end;
 
   //paint line states
-  //but only if column with tag=0 exists (plugins can delete tag=0, e.g. Differ)
+  //but only if column with tag=0 exists
   NColumnIndex:= Ed.Micromap.ColumnFromTag(0);
   if NColumnIndex>=0 then
   if Ed.OptMicromapLineStates and (Wr.Count>=Ed.OptMicromapShowForMinCount) then
@@ -192,7 +195,9 @@ begin
     end;
 
   //paint selections
-  if Ed.OptMicromapSelections then
+  //but only if column with tag=2 exists
+  NColumnIndex:= Ed.Micromap.ColumnFromTag(2);
+  if (NColumnIndex>=0) and Ed.OptMicromapSelections then
     for i:= 0 to Ed.Carets.Count-1 do
     begin
       Caret:= Ed.Carets[i];
@@ -205,7 +210,7 @@ begin
       else
         NIndex2:= Wr.FindIndexOfCaretPos(Point(CaretX2, CaretY2));
 
-      RectMark:= GetWrapItemRect(2{column_2}, NIndex1, NIndex2, TMicromapMark.Column);
+      RectMark:= GetWrapItemRect(NColumnIndex, NIndex1, NIndex2, TMicromapMark.Column);
       ABitmap.FillRect(RectMark, XColorSelected);
     end;
 
@@ -222,8 +227,10 @@ begin
   end;
 
   //paint bookmarks
+  //only if column with tag=1 exists
   //it can be done w/o BoolArray but it will be 2x slower, with 50k bookmarks
-  if Ed.OptMicromapBookmarks then
+  NColumnIndex:= Ed.Micromap.ColumnFromTag(1);
+  if (NColumnIndex>=0) and Ed.OptMicromapBookmarks then
   begin
     BoolArray:= nil;
     SetLength(BoolArray, St.Count);
@@ -240,7 +247,7 @@ begin
       if (NIndex>=0) and (NIndex<=High(BoolArray)) then
         if BoolArray[NIndex] then
         begin
-          RectMark:= EditorRectMicromapMark(Ed, 1{column}, i, i, NRectHeight, NScaleDiv);
+          RectMark:= EditorRectMicromapMark(Ed, NColumnIndex, i, i, NRectHeight, NScaleDiv);
           ABitmap.FillRect(RectMark, XColorBkmk);
         end;
     end;
