@@ -7,7 +7,7 @@ jobs:
   build:
     name: Build for Windows ARM64 (cross-compile)
     runs-on: windows-latest
-    timeout-minutes: 120
+    timeout-minutes: 90
 
     steps:
       # -- 1. Resolve latest CudaText release tag from upstream ----------
@@ -45,93 +45,53 @@ jobs:
           echo "cudatext_version=$VER" >> "$GITHUB_OUTPUT"
           echo "CudaText version: $VER"
 
-      # -- 4. Install dependencies (git, make, etc.) ---------------------
-      - name: Install dependencies
-        shell: powershell
-        run: |
-          Write-Host "Checking for required tools..."
-          git --version
-          if ($LASTEXITCODE -ne 0) {
-            Write-Host "Installing git..."
-            choco install git -y --no-progress
-          }
-          # fpcupdeluxe needs these for building from source
-          Write-Host "Dependencies check complete"
-
-      # -- 5. Download latest fpcupdeluxe (v2.4.0k) ---------------------
+      # -- 4. Download latest fpcupdeluxe (v2.4.0k) ---------------------
       - name: Download fpcupdeluxe
         shell: powershell
         run: |
-          $installer = "$env:RUNNER_TEMP\fpcupdeluxe.exe"
+          $installer = "C:\fpcupdeluxe-installer.exe"
           Write-Host "Downloading fpcupdeluxe v2.4.0k..."
           curl.exe -L -o $installer "https://github.com/LongDirtyAnimAlf/fpcupdeluxe/releases/download/v2.4.0k/fpcupdeluxe-x86_64-win64.exe"
-          if ($LASTEXITCODE -ne 0) { 
-            throw "Failed to download fpcupdeluxe" 
-          }
-          Write-Host "fpcupdeluxe downloaded to: $installer"
-          Get-Item $installer | Select-Object Name, Length
+          if ($LASTEXITCODE -ne 0) { throw "Failed to download fpcupdeluxe" }
+          $size = [Math]::Round((Get-Item $installer).Length / 1MB, 1)
+          Write-Host "Downloaded: $size MB"
           echo "FPCUPDELUXE_PATH=$installer" >> $env:GITHUB_ENV
 
-      # -- 6. Install FPC and Lazarus trunk using fpcupdeluxe ------------
+      # -- 5. Install FPC and Lazarus trunk using fpcupdeluxe ------------
+      # ВАЖНО: не используем -RedirectStandardOutput, так как fpcupdeluxe - это GUI-приложение.
+      # Используем простой вызов через & (call operator) — PowerShell корректно дождётся завершения.
       - name: Install FPC and Lazarus trunk
-        shell: powershell
+        shell: cmd
+        env:
+          FPCUP_DELUXE_NO_GUI: "1"
         run: |
-          $installer = $env:FPCUPDELUXE_PATH
-          $installDir = "C:\fpcupdeluxe"
-          $logFile = "$env:RUNNER_TEMP\fpcupdeluxe_install.log"
-          
-          Write-Host "Installing FPC trunk and Lazarus trunk..."
-          Write-Host "Log file: $logFile"
-          
-          # Run fpcupdeluxe with verbose output to log file
-          $process = Start-Process -FilePath $installer `
-            -ArgumentList "--fpcURL=trunk", "--lazURL=trunk", "--installdir=$installDir", "--noconfirm", "--verbose" `
-            -Wait -PassThru -RedirectStandardOutput "$logFile" -RedirectStandardError "$logFile.error" -NoNewWindow
-          
-          Write-Host "Exit code: $($process.ExitCode)"
-          
-          if ($process.ExitCode -ne 0) {
-            Write-Host "=== Last 100 lines of log ==="
-            Get-Content $logFile -Tail 100
-            Write-Host "=== Last 50 lines of error log ==="
-            if (Test-Path "$logFile.error") {
-              Get-Content "$logFile.error" -Tail 50
-            }
-            throw "Failed to install FPC and Lazarus trunk (exit code: $($process.ExitCode))"
-          }
-          
-          Write-Host "Installation completed successfully"
+          echo Installing FPC trunk and Lazarus trunk (this may take 20-30 min)...
+          "%FPCUPDELUXE_PATH%" --fpcURL=trunk --lazURL=trunk --installdir=C:\fpcupdeluxe --noconfirm --verbose
+          if %ERRORLEVEL% NEQ 0 (
+            echo ::error::fpcupdeluxe failed with exit code %ERRORLEVEL%
+            echo === fpcupdeluxe log ===
+            if exist C:\fpcupdeluxe\log.txt type C:\fpcupdeluxe\log.txt
+            exit /b 1
+          )
+          echo Installation completed successfully.
 
-      # -- 7. Install aarch64-win64 cross compiler -----------------------
+      # -- 6. Install aarch64-win64 cross compiler -----------------------
       - name: Install aarch64-win64 cross compiler
-        shell: powershell
+        shell: cmd
+        env:
+          FPCUP_DELUXE_NO_GUI: "1"
         run: |
-          $installer = $env:FPCUPDELUXE_PATH
-          $installDir = "C:\fpcupdeluxe"
-          $logFile = "$env:RUNNER_TEMP\fpcupdeluxe_cross.log"
-          
-          Write-Host "Installing aarch64-win64 cross compiler..."
-          Write-Host "Log file: $logFile"
-          
-          $process = Start-Process -FilePath $installer `
-            -ArgumentList "--installdir=$installDir", "--ostarget=win64", "--cputarget=aarch64", "--only=FPCCleanOnly,FPCBuildOnly", "--autotools", "--noconfirm", "--verbose" `
-            -Wait -PassThru -RedirectStandardOutput "$logFile" -RedirectStandardError "$logFile.error" -NoNewWindow
-          
-          Write-Host "Exit code: $($process.ExitCode)"
-          
-          if ($process.ExitCode -ne 0) {
-            Write-Host "=== Last 100 lines of log ==="
-            Get-Content $logFile -Tail 100
-            Write-Host "=== Last 50 lines of error log ==="
-            if (Test-Path "$logFile.error") {
-              Get-Content "$logFile.error" -Tail 50
-            }
-            throw "Failed to install aarch64-win64 cross compiler (exit code: $($process.ExitCode))"
-          }
-          
-          Write-Host "Cross compiler installation completed successfully"
+          echo Installing aarch64-win64 cross compiler (this may take 10-15 min)...
+          "%FPCUPDELUXE_PATH%" --installdir=C:\fpcupdeluxe --ostarget=win64 --cputarget=aarch64 --only=FPCCleanOnly,FPCBuildOnly --autotools --noconfirm --verbose
+          if %ERRORLEVEL% NEQ 0 (
+            echo ::error::fpcupdeluxe cross-compiler failed with exit code %ERRORLEVEL%
+            echo === fpcupdeluxe log ===
+            if exist C:\fpcupdeluxe\log.txt type C:\fpcupdeluxe\log.txt
+            exit /b 1
+          )
+          echo Cross compiler installation completed successfully.
 
-      # -- 8. Configure PATH and verify cross-compiler --------------------
+      # -- 7. Configure PATH and verify cross-compiler --------------------
       - name: Configure PATH and verify cross-compiler
         shell: pwsh
         run: |
@@ -142,19 +102,18 @@ jobs:
           if (-not (Test-Path "$lazDir\lazbuild.exe")) {
             Write-Host "::error::lazbuild.exe not found at: $lazDir\lazbuild.exe"
             Write-Host "Contents of $installDir:"
-            Get-ChildItem $installDir -Recurse -Depth 2 | Select-Object FullName
+            Get-ChildItem $installDir -Recurse -Depth 2 -ErrorAction SilentlyContinue | Select-Object FullName
             throw "lazbuild.exe not found"
           }
           
           $crossCompiler = "$fpcDir\ppcrossa64.exe"
           if (-not (Test-Path $crossCompiler)) {
             Write-Host "::error::ARM64 cross-compiler not found at: $crossCompiler"
-            Write-Host "Available compilers in $fpcDir:"
             if (Test-Path $fpcDir) {
+              Write-Host "Available compilers in $fpcDir:"
               Get-ChildItem $fpcDir -Filter "ppc*.exe" | Select-Object Name
             } else {
-              Write-Host "Directory $fpcDir does not exist"
-              Write-Host "Contents of $installDir\fpc:"
+              Write-Host "Directory $fpcDir does not exist. Contents of $installDir\fpc:"
               Get-ChildItem "$installDir\fpc" -Recurse -Depth 2 -ErrorAction SilentlyContinue | Select-Object FullName
             }
             exit 1
@@ -179,24 +138,24 @@ jobs:
           
           Write-Host "Cross-compiler verification successful"
 
-      # -- 9. Clone CudaText build environment --------------------------
+      # -- 8. Clone CudaText build environment --------------------------
       - name: Clone CudaText_up
         run: git clone --depth 1 https://github.com/Alexey-T/CudaText_up
 
-      # -- 10. Download all CudaText sources and dependencies ------------
+      # -- 9. Download all CudaText sources and dependencies ------------
       - name: Download CudaText sources and dependencies
         working-directory: CudaText_up
         shell: bash
         run: ./cudaup.sh -g
 
-      # -- 11. Replace downloaded source with the release checkout -------
+      # -- 10. Replace downloaded source with the release checkout -------
       - name: Swap source with release checkout
         shell: bash
         run: |
           rm -rf CudaText_up/src/CudaText
           mv upstream_src CudaText_up/src/CudaText
 
-      # -- 12. Build packages for ARM64 target ----------------------------
+      # -- 11. Build packages for ARM64 target ----------------------------
       - name: Build Lazarus packages for ARM64
         shell: powershell
         run: |
@@ -240,7 +199,7 @@ jobs:
           
           Write-Host "All packages built successfully."
 
-      # -- 13. Compile CudaText for Windows ARM64 -------------------------
+      # -- 12. Compile CudaText for Windows ARM64 -------------------------
       - name: Compile CudaText for ARM64
         shell: powershell
         run: |
@@ -264,7 +223,7 @@ jobs:
           
           Write-Host "CudaText compiled successfully."
 
-      # -- 14. Locate and verify compiled binary -------------------------
+      # -- 13. Locate and verify compiled binary -------------------------
       - name: Locate and verify compiled binary
         id: binary
         shell: bash
@@ -294,7 +253,7 @@ jobs:
           file "$COMPILED" || true
           echo "compiled_path=$COMPILED" >> "$GITHUB_OUTPUT"
 
-      # -- 15. Stage files for artifact upload ----------------------------
+      # -- 14. Stage files for artifact upload ----------------------------
       - name: Stage files for artifact
         id: stage
         shell: bash
@@ -316,7 +275,7 @@ jobs:
           ls -lh "$STAGE/"
           echo "stage_dir=$STAGE" >> "$GITHUB_OUTPUT"
 
-      # -- 16. Upload artifact --------------------------------------------
+      # -- 15. Upload artifact --------------------------------------------
       - name: Upload Windows ARM64 artifact
         uses: actions/upload-artifact@v4
         with:
