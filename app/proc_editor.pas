@@ -1510,13 +1510,13 @@ begin
       begin
         //jump below
         if Caret.IsForwardSelection then
-          Pnt:= Point(Caret.EndX, Caret.EndY);
+          Pnt:= Caret.AsPointEnd;
       end
       else
       begin
         //jump above
         if not Caret.IsForwardSelection then
-          Pnt:= Point(Caret.EndX, Caret.EndY);
+          Pnt:= Caret.AsPointEnd;
       end;
   end;
 
