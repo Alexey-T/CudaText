@@ -3531,7 +3531,7 @@ Notes:
 
 * CudaText has 3 default micromap columns:
 ** tag=0: line states.
-** tag=1: marks of plugins.
+** tag=1: bookmarks (if app option "micromap_bookmarks" is on) and marks of plugins.
 ** tag=2: selections.
 * On column adding, column width will be:
 ** Auto-sized to the current editor font, if "micromap_on_scrollbar":false.
@@ -5398,6 +5398,7 @@ It provides:
 * add: Editor.get_prop/set_prop: PROP_FN
 * add: Editor.get_prop: PROP_TAB_ID is now much more unique, and it is persistent (it is saved/restored to session)
 * add: Editor.get_prop: PROP_HANDLE_IMAGE
+* add: Editor.micromap: allow to delete column with tag=0
 * add: file_open: function supports empty filename1 and non-empty filename2
 * add: dlg_proc: controls "memo"/"edit"/"edit_pwd"/"spinedit"/"combo" support new event "on_key_press"
 * add: image_proc: IMAGE_GET_SIZE_UI
