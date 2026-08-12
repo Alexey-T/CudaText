@@ -45,42 +45,44 @@ jobs:
           echo "cudatext_version=$VER" >> "$GITHUB_OUTPUT"
           echo "CudaText version: $VER"
 
-      # -- 4. Get latest FPC and Lazarus commits (LAST FPC git version) --
-      - name: Get latest FPC and Lazarus commits
-        id: get_commits
-        shell: bash
+      # -- 4. Download latest fpcupdeluxe (v2.4.0k) ---------------------
+      - name: Download fpcupdeluxe
+        shell: powershell
         run: |
-          FPC_COMMIT=$(curl -sL "https://gitlab.com/api/v4/projects/freepascal.org%2Ffpc%2Fsource/repository/commits?ref_name=main" | python3 -c "import sys, json; print(json.load(sys.stdin)[0]['id'])")
-          LAZ_COMMIT=$(curl -sL "https://gitlab.com/api/v4/projects/freepascal.org%2Flazarus%2Flazarus/repository/commits?ref_name=main" | python3 -c "import sys, json; print(json.load(sys.stdin)[0]['id'])")
-          echo "FPC_COMMIT=$FPC_COMMIT" >> $GITHUB_OUTPUT
-          echo "LAZ_COMMIT=$LAZ_COMMIT" >> $GITHUB_OUTPUT
+          $installer = "$env:RUNNER_TEMP\fpcupdeluxe.exe"
+          curl.exe -L -o $installer "https://github.com/LongDirtyAnimAlf/fpcupdeluxe/releases/download/v2.4.0k/fpcupdeluxe-x86_64-win64.exe"
+          if ($LASTEXITCODE -ne 0) { throw "Failed to download fpcupdeluxe" }
+          echo "FPCUPDELUXE_PATH=$installer" >> $env:GITHUB_ENV
 
-      # -- 5. Install FPC and Lazarus trunk --------------------------------
+      # -- 5. Install FPC and Lazarus trunk using fpcupdeluxe ------------
       - name: Install FPC and Lazarus trunk
-        id: setup-lazarus
-        uses: ollydev/setup-lazarus@v4
-        with:
-          fpclazup-url: https://github.com/LongDirtyAnimAlf/Reiniero-fpcup/releases/download/v2.4.0g/fpclazup-x86_64-win64.exe
-          fpclazup-lazcommit: ${{ steps.get_commits.outputs.LAZ_COMMIT }}
-          fpclazup-fpccommit: ${{ steps.get_commits.outputs.FPC_COMMIT }}
-
-      # -- 6. Build aarch64-win64 cross compiler ---------------------------
-      - name: Build aarch64-win64 cross compiler
-        shell: pwsh
+        shell: powershell
         run: |
-          $installDir = "${{ steps.setup-lazarus.outputs.install-dir }}"
-          $fpclazup = "$env:RUNNER_TEMP/fpclazupbin.exe"
-          Write-Host "Building aarch64-win64 cross compiler..."
-          & $fpclazup --only=FPCCleanOnly,FPCBuildOnly --ostarget=win64 --cputarget=aarch64 --autotools --noconfirm --verbose --installdir="$installDir"
+          $installer = $env:FPCUPDELUXE_PATH
+          $installDir = "C:\fpcupdeluxe"
+          Write-Host "Installing FPC trunk and Lazarus trunk..."
+          & $installer --fpcURL=trunk --lazURL=trunk --installdir="$installDir" --noconfirm --verbose
           if ($LASTEXITCODE -ne 0) {
-             throw "Failed to build aarch64-win64 cross compiler"
+             throw "Failed to install FPC and Lazarus trunk"
+          }
+
+      # -- 6. Install aarch64-win64 cross compiler -----------------------
+      - name: Install aarch64-win64 cross compiler
+        shell: powershell
+        run: |
+          $installer = $env:FPCUPDELUXE_PATH
+          $installDir = "C:\fpcupdeluxe"
+          Write-Host "Installing aarch64-win64 cross compiler..."
+          & $installer --installdir="$installDir" --ostarget=win64 --cputarget=aarch64 --only="FPCCleanOnly,FPCBuildOnly" --autotools --noconfirm --verbose
+          if ($LASTEXITCODE -ne 0) {
+             throw "Failed to install aarch64-win64 cross compiler"
           }
 
       # -- 7. Configure PATH and verify cross-compiler --------------------
       - name: Configure PATH and verify cross-compiler
         shell: pwsh
         run: |
-          $installDir = "${{ steps.setup-lazarus.outputs.install-dir }}"
+          $installDir = "C:\fpcupdeluxe"
           $lazDir = "$installDir\lazarus"
           $fpcDir = "$installDir\fpc\bin\x86_64-win64"
           
