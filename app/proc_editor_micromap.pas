@@ -118,7 +118,7 @@ var
   XColor, XColorBkmk, XColorSelected, XColorOccur, XColorOccurAtCaret, XColorSpell: TBGRAPixel;
   NColor: TColor;
   RectMark: TRect;
-  NLine1, NIndex, NIndex1, NIndex2, NMaxLineIndex, NCaretLine: integer;
+  NLine1, NIndex, NIndex1, NIndex2, NMaxLineIndex, NCaretLine, NMultiLineCount: integer;
   NColumnCount, NColumnIndex, NColumnIndexForPlugins: integer;
   CaretX1, CaretY1, CaretX2, CaretY2: integer;
   bSel, bColumnForPluginsValid: boolean;
@@ -298,25 +298,44 @@ begin
           NColumnIndex:= Ed.Micromap.ColumnFromTag(Marker.TagEx);
           if NColumnIndex>=0 then
           begin
+            if Marker.SelX<0 then
+              NMultiLineCount:= Abs(Marker.SelX)
+            else
+              NMultiLineCount:= 1;
+
             //if ColorBG=clNone, it may be find-all-matches with custom border color
             //(default light green), so use border color
             if Marker.LinePart.ColorBG<>clNone then
               XColor.FromColor(Marker.LinePart.ColorBG)
             else
               XColor.FromColor(Marker.LinePart.ColorBorder);
-            PropArray[NLine1].Inited:= true;
-            PropArray[NLine1].Column:= NColumnIndex;
-            PropArray[NLine1].MarkPos:= TMicromapMark.Column;
-            PropArray[NLine1].XColor:= XColor;
+
+            for NIndex:= NLine1 to Min(NLine1+NMultiLineCount-1, High(PropArray)) do
+            begin
+              PropArray[NIndex].Inited:= true;
+              PropArray[NIndex].Column:= NColumnIndex;
+              PropArray[NIndex].MarkPos:= TMicromapMark.Column;
+              PropArray[NIndex].XColor:= XColor;
+            end;
           end;
         end
         else
         if Marker.TagEx=cTagColumnFullsized then
         begin
-          PropArray[NLine1].Inited:= NColumnCount>0;
-          PropArray[NLine1].Column:= 0;
-          PropArray[NLine1].MarkPos:= TMicromapMark.Full;
-          PropArray[NLine1].XColor.FromColor(Marker.LinePart.ColorBG);
+          if Marker.SelX<0 then
+            NMultiLineCount:= Abs(Marker.SelX)
+          else
+            NMultiLineCount:= 1;
+
+          XColor.FromColor(Marker.LinePart.ColorBG);
+
+          for NIndex:= NLine1 to Min(NLine1+NMultiLineCount-1, High(PropArray)) do
+          begin
+            PropArray[NIndex].Inited:= true;
+            PropArray[NIndex].Column:= 0;
+            PropArray[NIndex].MarkPos:= TMicromapMark.Full;
+            PropArray[NIndex].XColor:= XColor;
+          end;
         end;
       end;
     end; //case Marker.Tag of
